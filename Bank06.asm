@@ -6819,6 +6819,30 @@
         
         RTL
     }
+; ==============================================================================
+    ; $37A5C-$37A71
+    ; This is using a mask system, 00 = 8/8 chances, 01 = 7/8 chances, 03 would be 6/8 etc...
+    PrizePack_Chance: ; $06FA5C
+        db $01, $01, $01, $00, $01, $01, $01
+    
+    ; $37A72-$37AAA
+    PrizePack_Prizes: ; $06FA72
+        ; wiki link for the prize pack as image : https://alttp-wiki.net/index.php/Enemy_prize_packs
+        ;.group00 Empty group no data for it this label is just here for reference
+        .group01 ; heart, heart, heart, heart, 1rupee, heart, heart, 1rupee
+        db $D8, $D8, $D8, $D8, $D9, $D8, $D8, $D9
+        .group02 ; 5rupee, 1rupee, 5rupee, 20rupee, 5rupee, 1rupee, 5rupee, 5rupee
+        db $DA, $D9, $DA, $DB, $DA, $D9, $DA, $DA
+        .group03 ; B.magic, magic, magic, 5rupee, B.magic, magic, heart, magic
+        db $E0, $DF, $DF, $DA, $E0, $DF, $D8, $DF
+        .group04 ; 1bomb, 1bomb, 1bomb, 4bomb, 1bomb, 1bomb, 8bomb, 1bomb
+        db $DC, $DC, $DC, $DD, $DC, $DC, $DE, $DC
+        .group05 ; 5arrow, heart, 5arrow, 10arrow, 5arrow, heart, 5arrow, 10arrow
+        db $E1, $D8, $E1, $E2, $E1, $D8, $E1, $E2
+        .group06 ; magic, 1rupee, heart, 5arrow, magic, 1bomb, 5rupee, heart
+        db $DF, $D9, $D8, $E1, $DF, $DC, $D9, $D8
+        .group07 ; heart, fairy, B.magic, 20rupee, 8bomb, heart, 20rupee, 10arrow
+        db $D8, $E3, $E0, $DB, $DE, $D8, $DB, $E2
 
 ; ==============================================================================
 
