@@ -1,12 +1,14 @@
 
+; $685CF-$???? char and property data?
 
+; $685D1-$???? more char and property data?
 
-    ; $68CF0-$???? data relating to shield
+; $68CF0-$???? data relating to shield
     
-    ; $68AF1-$???? data relating to sword
+; $68AF1-$???? data relating to sword
     
-    ; $698F3-$69AF1
-    {
+; $698F3-$69AF1
+{
         db $80, $80, $80, $80, $80, $80, $80, $80
         db $80, $80, $80, $80, $80, $80, $80, $80
         
@@ -422,11 +424,12 @@
     ; $6A108-$6A11F DATA
     {
         dw $A078, $A0C0
+    }
         
     ; $6A10C
-    
+    {
         dw $A084, $A0CC
-    
+    }
     ; $6A110 DATA
     {
         dw $A090, $A0D8
@@ -2250,28 +2253,42 @@ BRANCH_FROG:
     
     BRANCH_ZETA:
     
-        REP #$30
+    ; This is where the actual draw starts, it draws both tiles at the same time but in 2 
+    ; completly different ways. Wtf Nintendo.
+    REP #$30
         
-        TYA : AND.w #$00FF : TAY
+    ; Get the starting address for the frame of either the water or grass animation we are on.
+    TYA : AND.w #$00FF : TAY
+    
+    ; Get the offset of where to put the OAM.
+    TXA : AND.w #$00FF : ADD $0352 : TAX
         
-        TXA : AND.w #$00FF : ADD $0352 : TAX
+    ; Char and property bytes for the left half of the grass/splash.
+    LDA $85CF, Y : AND.w #$CFFF : ORA $035D : STA $0802, X
         
-        LDA $85CF, Y : AND.w #$CFFF : ORA $035D : STA $0802, X
+    ; Char and property bytes for the right half of the grass/splash.
+    ; Because this is separate from the other half this leads to a stupid bug in vanilla 
+    ; where if you have water under a bridge in a dungeon, the right half will appear
+    ; incorrectly on top of the bridge.
+    LDA $85D1, Y : ORA $035D : STA $0806, X
         
-        LDA $85D1, Y : ORA $035D : STA $0806, X
+    ; X and Y pos for left half.
+    LDA $06 : STA $0800, X
         
-        LDA $06 : STA $0800, X
+    ; X and Y pos for right half by just adding 8 to the x pos.
+    ; Why tf are you switching bytes and then adding #$0800? why not just add #$0080 and
+    ; skip flipping A and B??
+    XBA : ADD.w #$0800 : XBA : STA $0804, X
         
-        XBA : ADD.w #$0800 : XBA : STA $0804, X
+    TXA : LSR #2 : TAX
         
-        TXA : LSR #2 : TAX
+    ; Write the size and extra x bytes.
+    STZ $0A20, X
         
-        STZ $0A20, X
+    SEP #$30
         
-        SEP #$30
-        
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 

@@ -652,19 +652,18 @@ PreOverworld_LoadProperties:
     JSL HUD.RefillLogicLong
         
     ; ZS starts writing here.
-    ; $0103EE
+    ; $0103EE - ZS Custom Overworld
     ; This is for later on when we load the animated tiles. Loads the clouds.
     LDY.b #$58
         
     ; not sure what theme this is. might be the beginning song
     LDX.b #$02
         
-    LDA $8A ; JARE
+    LDA $8A
         
     CMP.b #$03 : BEQ .setCustomSong
     CMP.b #$05 : BEQ .setCustomSong
     CMP.b #$07 : BEQ .setCustomSong
-        
         ; death mountain theme
         LDX.b #$09
         
@@ -742,16 +741,15 @@ PreOverworld_LoadProperties:
         LDX.b #$0D
         
         ; But only in certain OW areas
-        LDA $8A : CMP.b #$40 : BEQ .checkMoonPearl ; JARE
+        LDA $8A : CMP.b #$40 : BEQ .checkMoonPearl
+            ; Check a certain list of overworld locations
+            ; That have the dark forest theme
+            CMP.b #$43 : BEQ .checkMoonPearl
+            CMP.b #$45 : BEQ .checkMoonPearl
+            CMP.b #$47 : BEQ .checkMoonPearl
+                ; Otherwise play the normal dark world overworld music
+                LDX.b #$09
         
-        ; Check a certain list of overworld locations
-        ; That have the dark forest theme
-        CMP.b #$43 : BEQ .checkMoonPearl
-        CMP.b #$45 : BEQ .checkMoonPearl
-        CMP.b #$47 : BEQ .checkMoonPearl
-            ; Otherwise play the normal dark world overworld music
-            LDX.b #$09
-    
         .checkMoonPearl
     
         ; Does Link have a moon pearl?
@@ -1065,11 +1063,11 @@ PreOverworld_LoadProperties:
     STZ $012D   ; No change of sound effects
         
     ; ZS starts writing here.
-    ; $010632
+    ; $010632 - ZS Custom Overworld
     LDY.b #$58
         
     ; 0x03, 0x05, and 0x07 are all mountain areas.
-    LDA $8A : AND.b #$BF ; JARE
+    LDA $8A : AND.b #$BF
         
     CMP.b #$03 : BEQ .deathMountain
     CMP.b #$05 : BEQ .deathMountain
@@ -4554,70 +4552,67 @@ PreOverworld_LoadProperties:
         RTS
     }
 
-    ; *$11A19-$11AD2 JUMP LOCATION
-    ; ZS rewrites part of this function.
-    {
-        JSL ConfigureSpotlightTable
+; *$11A19-$11AD2 JUMP LOCATION
+; ZS rewrites part of this function.
+{
+    JSL ConfigureSpotlightTable
         
-        ; Disable IRQ logic
-        STZ $012A
-        STZ $1F0C
+    ; Disable IRQ logic
+    STZ $012A
+    STZ $1F0C
         
-        LDA $11 : BNE BRANCH_$11A18 ; (RTS)
+    LDA $11 : BNE BRANCH_$11A18 ; (RTS)
         
-        LDA $10 : CMP.b #$06 : BNE BRANCH_ALPHA
-        
+    LDA $10 : CMP.b #$06 : BNE .BRANCH_ALPHA
         REP #$20
-        
+            
         LDA $7EC148 : STA $20
-        
+            
         SEP #$20
     
     ; *$11A37 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $10 : CMP.b #$09 : BEQ BRANCH_BETA
-        
+    LDA $10 : CMP.b #$09 : BEQ .BRANCH_BETA
         ; Force V-blank in preperation for Dungeon mode
         JSL EnableForceBlank ; $93D IN ROM
         
         JSL $07B107 ; $3B107 IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $10 : CMP.b #$09 : BNE BRANCH_GAMMA
+    LDA $10 : CMP.b #$09 : BNE .BRANCH_GAMMA
+        LDA $A1 : BNE .BRANCH_DELTA
         
-        LDA $A1 : BNE BRANCH_DELTA
-        
-        LDA $A0 : CMP.b #$20 : BEQ BRANCH_EPSILON
+        LDA $A0 : CMP.b #$20 : BEQ .BRANCH_EPSILON
     
-    BRANCH_DELTA:
+        .BRANCH_DELTA
     
         LDA.b #$0A
         
-        LDX $2F : BNE BRANCH_ZETA
+        LDX $2F : BNE .BRANCH_ZETA
         
         LDA.b #$0B
     
-    BRANCH_ZETA:
+        .BRANCH_ZETA
     
         STA $11
     
-    BRANCH_EPSILON:
+        BRANCH_EPSILON.
     
         LDA.b #$10 : STA $069A
         
-        LDA $0696 : ORA $0698 : BEQ BRANCH_GAMMA ; not an extended door type (palace or sanctuary)
+        LDA $0696 : ORA $0698 : BEQ .BRANCH_GAMMA ; not an extended door type (palace or sanctuary)
         
-        LDA $0699 : BEQ BRANCH_GAMMA
+        LDA $0699 : BEQ .BRANCH_GAMMA
         
         LDX.b #$00
         
-        ASL A : BCC BRANCH_THETA
+        ASL A : BCC .BRANCH_THETA
         
         LDX.b #$18
     
-    BRANCH_THETA:
+        .BRANCH_THETA
     
         LDA $0699 : AND.b #$7F : STA $0699
         
@@ -4631,41 +4626,42 @@ PreOverworld_LoadProperties:
         
         LDA.b #$15 : STA $012F
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        STZ $96 : STZ $97 : STZ $98
-        STZ $1E : STZ $1F : STZ $03EF
+    STZ $96 : STZ $97 : STZ $98
+    STZ $1E : STZ $1F : STZ $03EF
         
-        REP #$30
+    REP #$30
         
-        ; ZS starts writing here.
-        ; $011AA6
-        ; Setup fixed color values based on area number
-        LDX.w #$4C26
-        LDY.w #$8C4C
+    ; ZS starts writing here.
+    ; $011AA6 - ZS Custom Overworld
+    ; Setup fixed color values based on area number.
+    LDX.w #$4C26
+    LDY.w #$8C4C
         
-        LDA $8A ; JARE
+    ; When exiting a dungeon, the code reaches this point twice.
+    ; The first time $8A has not been set yet and thus loads the incorrect values?
+    ; TODO: Needs more investigation.
+    LDA $8A
         
-        CMP.w #$0003 : BEQ .mountain
-        CMP.w #$0005 : BEQ .mountain
-        CMP.w #$0007 : BEQ .mountain
-        
+    CMP.w #$0003 : BEQ .mountain
+    CMP.w #$0005 : BEQ .mountain
+    CMP.w #$0007 : BEQ .mountain
         LDX.w #$4A26 : LDY.w #$874A
         
         CMP.w #$0043 : BEQ .mountain
         CMP.w #$0045 : BEQ .mountain
         CMP.w #$0047 : BNE .other
+            .mountain
     
-    .mountain
-    
-        STX $9C : STY $9D
+            STX $9C : STY $9D
     
     .other
     
-        SEP #$30
+    SEP #$30
         
-        RTS
-    }
+    RTS
+}
 
 ; =============================================
 
@@ -5549,6 +5545,7 @@ PreOverworld_LoadProperties:
     }
 
     ; *$12065-$12088 LOCAL
+    ; ZS overwrites part of this function.
     TriforceRoom_Step3:
     {
         ; Module 0x19.0x03
@@ -5561,6 +5558,8 @@ PreOverworld_LoadProperties:
         
         LDX.b #$04
         
+        ; ZS writes here.
+        ; $01207A
         JSR $C6AD   ; $146AD IN ROM
         
         LDA.b #$0E
@@ -6473,19 +6472,18 @@ PreOverworld_LoadProperties:
 
 ; =============================================
 
-    ; *$129C4-$12B07 LOCAL
-    {
-        ; Tells us which direction we're scrolling in
-        LDA $0416 : BEQ .noScroll
-        
+; *$129C4-$12B07 LOCAL
+; ZS modifies part of this function.
+{
+    ; Tells us which direction we're scrolling in
+    LDA $0416 : BEQ .noScroll
         JSR Overworld_ScrollMap     ; $17273 IN ROM
     
     .noScroll
     
-        REP #$20
+    REP #$20
         
-        LDA $30 : AND.w #$00FF : BEQ .noDeltaY
-        
+    LDA $30 : AND.w #$00FF : BEQ .noDeltaY
         ; check if link is moving up/down
         LDA $67 : AND.w #$000C : STA $00
         
@@ -6493,137 +6491,133 @@ PreOverworld_LoadProperties:
         
         LDY.b #$06 : LDX.b #$08
         
-        CMP.w #$0004 : BCC BRANCH_GAMMA
-        
-        LDY.b #$04 : LDX.b #$04
-        
-        CMP $0716 : BCS BRANCH_GAMMA
+        CMP.w #$0004 : BCC .BRANCH_GAMMA
+            LDY.b #$04 : LDX.b #$04
+            
+            CMP $0716 : BCS .BRANCH_GAMMA
     
     .noDeltaY
     
-        LDA $31 : AND.w #$00FF : BEQ .noDeltaX
-        
+    LDA $31 : AND.w #$00FF : BEQ .noDeltaX
         LDA $0716 : CLC : ADC.w #$0004 : STA $02
         
         LDA $67 : AND.w #$0003 : STA $00
         
         LDX $0700 : LDA $22 : SEC : SBC .overworldTransitionPositionX, X ;$02A944
         
-        LDY.b #$02 : LDX.b #$02 : CMP.w #$0006 : BCC BRANCH_GAMMA
+        LDY.b #$02 : LDX.b #$02 : CMP.w #$0006 : BCC .BRANCH_GAMMA
         
-        LDY.b #$00 : LDX.b #$01 : CMP $02 : BCC BRANCH_DELTA
+            LDY.b #$00 : LDX.b #$01 : CMP $02 : BCC .BRANCH_DELTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CPX $00 : BEQ BRANCH_EPSILON
-    
-    BRANCH_DELTA:
-    .noDeltaX
-    
+    CPX $00 : BEQ .BRANCH_EPSILON
+        .BRANCH_DELTA
+        .noDeltaX
+        
         JSL $0EDE49 ; $75E49 IN ROM
 
         RTS
 
     ; $12A33
-    BRANCH_EPSILON: ; triggers when Link finally reaches the edge of the screen.
+    .BRANCH_EPSILON ; triggers when Link finally reaches the edge of the screen.
 
-        SEP #$20
+    SEP #$20
         
-        ; just makes sure we're not using a medallion or input is disabled
-        JSL Player_IsScreenTransitionPermitted : BCS BRANCH_DELTA
+    ; just makes sure we're not using a medallion or input is disabled
+    JSL Player_IsScreenTransitionPermitted : BCS .BRANCH_DELTA
         
-        STY $02 : STZ $03
+    STY $02 : STZ $03
         
-        JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $10B0C IN ROM
         
-        REP #$31
+    REP #$31
         
-        ;remove potential large world offest
-        LDX $02 : LDA $84 : AND $02A62C, X : STA $84 ; $1262C IN ROM
+    ;remove potential large world offest
+    LDX $02 : LDA $84 : AND $02A62C, X : STA $84 ; $1262C IN ROM
         
-        LDA $0700 : CLC : ADC $02A834, X : PHA : STA $04 ; $12834 IN ROM
+    LDA $0700 : CLC : ADC $02A834, X : PHA : STA $04 ; $12834 IN ROM
         
-        TXA : ASL #6 : ORA $04 : TAX
+    TXA : ASL #6 : ORA $04 : TAX
         
-        LDA $84 : CLC : ADC $02A634, X : STA $84 ; $12634 IN ROM
+    LDA $84 : CLC : ADC $02A634, X : STA $84 ; $12634 IN ROM
         
-        PLA : LSR A : TAX
+    PLA : LSR A : TAX
         
-        SEP #$30
+    SEP #$30
         
-        LDA $8A : PHA : CMP.b #$2A : BNE .notFluteBoyGrove
-        
+    LDA $8A : PHA : CMP.b #$2A : BNE .notFluteBoyGrove
         LDA.b #$80 : STA $012D    ; Flute boy area has special flute sound effect (surprise?)
     
     .notFluteBoyGrove
     
-        ; sets the OW area number ;125EC in rom
-        LDA $02A5EC, X : ORA $7EF3CA : STA $8A : STA $040A : TAX
+    ; sets the OW area number ;125EC in rom
+    LDA $02A5EC, X : ORA $7EF3CA : STA $8A : STA $040A : TAX
         
-        LDA $7EF3CA : BEQ .lightWorld
-        
+    LDA $7EF3CA : BEQ .lightWorld
         ; Check for moon pearl
-        LDA $7EF357 : BEQ BRANCH_IOTA
+        LDA $7EF357 : BEQ .BRANCH_IOTA
     
     .lightWorld
     
-        ; Extract the ambient sound from this array
-        LDA $7F5B00, X : LSR #4 : BNE .ambientSound
-        
+    ; Extract the ambient sound from this array
+    LDA $7F5B00, X : LSR #4 : BNE .ambientSound
         LDA.b #$05 : STA $012D ; No ambient sound
     
     .ambientSound
     
-        LDA $7F5B00, X : AND.b #$0F : CMP $0130 : BEQ .noMusicChange
-        
+    LDA $7F5B00, X : AND.b #$0F : CMP $0130 : BEQ .noMusicChange
         LDA.b #$F1 : STA $012C
     
     .noMusicChange ;BANCH_IOTA
     
-        JSR Overworld_LoadMapProperties
+    JSR Overworld_LoadMapProperties
         
-        LDA.b #$01 : STA $11
+    LDA.b #$01 : STA $11
         
-        LDA $00 : STA $0410 : STA $0416
+    LDA $00 : STA $0410 : STA $0416
         
-        LDX.b #$04
+    LDX.b #$04
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
-        DEX : LSR A : BCC BRANCH_LAMBDA
+    DEX : LSR A : BCC .BRANCH_LAMBDA
         
-        STX $0418 : STX $069C : STZ $0696 : STZ $0698 : STZ $0126
+    STX $0418 : STX $069C : STZ $0696 : STZ $0698 : STZ $0126
         
-        PLA : AND.b #$3F : BEQ BRANCH_MU ; um... ;Area it was
-        
+    PLA 
+    
+    ; ZS writes a jump here.
+    ; $012ADB
+    AND.b #$3F : BEQ .BRANCH_MU ; um... ;Area it was
         ; um...
-        LDA $8A : AND.b #$BF : BNE BRANCH_NU     ;Area it is
+        LDA $8A : AND.b #$BF : BNE .BRANCH_NU     ;Area it is
     
-    BRANCH_MU:
+    .BRANCH_MU
     
-        ; probably only for areas 0x00 and 0x40
+    ; probably only for areas 0x00 and 0x40
         
-        STZ $B0
+    STZ $B0
         
-        ; Send us to a submodule that will handle going into a forest
-        LDA.b #$0D : STA $11
+    ; Send us to a submodule that will handle going into a forest
+    LDA.b #$0D : STA $11
         
-        ; Reset mosaic settings
-        LDA.b #$00 : STA $95 : STA $7EC011
+    ; Reset mosaic settings
+    LDA.b #$00 : STA $95 : STA $7EC011
         
-        RTS
+    RTS
     
-    BRANCH_NU:
+    .BRANCH_NU
     
-        LDX $8A : LDA $7EFD40, X : STA $00
+    LDX $8A : LDA $7EFD40, X : STA $00
         
-        LDA $00FD1C, X
+    LDA $00FD1C, X
         
-        JSL Overworld_LoadPalettes      ; $755A8 IN ROM
-        JSR Overworld_CgramAuxToMain
+    JSL Overworld_LoadPalettes      ; $755A8 IN ROM
+    JSR Overworld_CgramAuxToMain
         
-        RTS
-    }
+    RTS
+}
     
 ; =============================================
 
@@ -6710,59 +6704,62 @@ PreOverworld_LoadProperties:
 
 ; ==============================================================================
 
-    ; $12B88-$12BC5 JUMP LOCATION
-    Overworld_LoadTransGfx:
-    {
-        ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
-        ; Also referenced one other place
+; $12B88-$12BC5 JUMP LOCATION
+; ZS overwrites part of this function.
+Overworld_LoadTransGfx:
+{
+    ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
+    ; Also referenced one other place
         
-        ; Reset the water outside the watergate.
-        LDA $7EF2BB : AND.b #$DF : STA $7EF2BB
+    ; Reset the water outside the watergate.
+    LDA $7EF2BB : AND.b #$DF : STA $7EF2BB
         
-        ; Reset the water outside the swamp palace.        
-        LDA $7EF2FB : AND.b #$DF : STA $7EF2FB
+    ; Reset the water outside the swamp palace.        
+    LDA $7EF2FB : AND.b #$DF : STA $7EF2FB
         
-        ; Reset the water inside the watergate.
-        LDA $7EF216 : AND.b #$7F : STA $7EF216
+    ; Reset the water inside the watergate.
+    LDA $7EF216 : AND.b #$7F : STA $7EF216
         
-        ; Reset the water inside the swamp palace.
-        LDA $7EF051 : AND.b #$FE : STA $7EF051
+    ; Reset the water inside the swamp palace.
+    LDA $7EF051 : AND.b #$FE : STA $7EF051
         
-        ; $566E IN ROM. Load the graphics that have changed during the screen transition.
-        JSL LoadTransAuxGfx
+    ; $566E IN ROM. Load the graphics that have changed during the screen transition.
+    JSL LoadTransAuxGfx
         
-        ; $5F1A IN ROM. Convert those graphics to 4bpp while copying them into the buffer starting at $7F0000
-        ; It's necessary to do it this way because we can't blank the screen (no screen fade / darkness)
-        JSL PrepTransAuxGfx
+    ; $5F1A IN ROM. Convert those graphics to 4bpp while copying them into the buffer starting at $7F0000
+    ; It's necessary to do it this way because we can't blank the screen (no screen fade / darkness)
+    JSL PrepTransAuxGfx
         
-        LDA.b #$09
+    ; ZS starts writing here.
+    ; $012BB8
+    LDA.b #$09
         
-        BRA Overworld_FinishTransGfx_firstHalf
-    }
+    BRA Overworld_FinishTransGfx_firstHalf
+}
 
 ; ==============================================================================
 
-    ; $12BBC ALTERNATE ENTRY POINT
-    Overworld_FinishTransGfx:
-    {
-        ; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
-        ; Also referenced one other place
+; $12BBC ALTERNATE ENTRY POINT
+Overworld_FinishTransGfx:
+{
+    ; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
+    ; Also referenced one other place
         
-        ; The purpose of this submodule is to finish blitting the rest of the graphics
-        ; That were decompressed in the previous module to vram (from the $7F0000 buffer)
+    ; The purpose of this submodule is to finish blitting the rest of the graphics
+    ; That were decompressed in the previous module to vram (from the $7F0000 buffer)
         
-        LDA.b #$0A
+    LDA.b #$0A
     
     .firstHalf
     
-        ; Signal for a graphics transfer in the NMI routine later        
-        STA $17 : STA $0710
+    ; Signal for a graphics transfer in the NMI routine later        
+    STA $17 : STA $0710
         
-        ; Move on to next submodule
-        INC $11
+    ; Move on to next submodule
+    INC $11
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
@@ -7156,16 +7153,15 @@ PreOverworld_LoadProperties:
 
 ; =========================================
     
-    ; *$12E86-$12ECD JUMP LOCATION
-    {
-        ; forceblank the screen
-        LDA.b #$80 : STA $13                ;JML written here
+; *$12E86-$12ECD JUMP LOCATION
+{
+    ; forceblank the screen
+    LDA.b #$80 : STA $13                ;JML written here
         
-        STZ $B0
+    STZ $B0
         
-        ; forest areas are 0x00 and 0x40
-        LDA $8A : AND.b #$3F : BNE .notForestArea ; JARED? - Loads some sort on animated tile, need more investigation.
-        
+    ; forest areas are 0x00 and 0x40
+    LDA $8A : AND.b #$3F : BNE .notForestArea ; - ZS Custom Overworld? - Loads some sort on animated tile, need more investigation.
         LDA.b #$1E
         
         ; load animated graphics into WRAM
@@ -7173,8 +7169,7 @@ PreOverworld_LoadProperties:
     
     .notForestArea
     
-        LDA $040A : BEQ .lostWoods
-        
+    LDA $040A : BEQ .lostWoods
         ; check for special overworld areas
         LDA $10 : CMP.b #$0B : BEQ .lostWoods
         
@@ -7196,23 +7191,21 @@ PreOverworld_LoadProperties:
     
     .lostWoods
     
-        LDA $11 : CMP.b #$24 : BNE BRANCH_GAMMA
-        
+    LDA $11 : CMP.b #$24 : BNE .BRANCH_GAMMA
         JSR $E9BC ; $169BC IN ROM
-        
-        LDA $8A : AND.b #$3F : BNE BRANCH_GAMMA ; JARED? - loads some sort of animated tile, needs more investigation.
-        
-        LDA.b #$1E
-        
-        ; load a certain sprite into the animated tiles buffer
-        JSL GetAnimatedSpriteTile.variable
+            
+        LDA $8A : AND.b #$3F : BNE .BRANCH_GAMMA ; - ZS Custom Overworld? - loads some sort of animated tile, needs more investigation.
+            LDA.b #$1E
+            
+            ; load a certain sprite into the animated tiles buffer
+            JSL GetAnimatedSpriteTile.variable
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        INC $11
+    INC $11
         
-        RTS
-    }
+    RTS
+}
 
     ; $12ECE-$12EDC JUMP LOCATION
     {
@@ -7302,7 +7295,7 @@ OverworldLoadSubScreenOverlay:
     LDY.w #$0390
         
     ; ZS starts writing here.
-    ; $012F58
+    ; $012F58 - ZS Custom Overworld
     ; Check to see if we are in a SW overworld area.
     LDA $8A : CMP.w #$0080 : BCC .notExtendedArea
         ; The first fog overlay
@@ -7363,7 +7356,7 @@ OverworldLoadSubScreenOverlay:
     
     AND.w #$003F : BNE .notForest
         ; Check to see if we are in the skull woods.
-        LDA $8A : AND.w #$0040 : BNE .skullWoods ; JARE
+        LDA $8A : AND.w #$0040 : BNE .skullWoods
             ; Check if we have the master sword.
             LDX.w #$0080 : LDA $7EF280, X
             
@@ -7384,8 +7377,8 @@ OverworldLoadSubScreenOverlay:
     ; The LW death mountain sky background
     LDX.w #$0095
         
-    LDA $8A ; JARE
-        
+    LDA $8A
+
     CMP.w #$0003 : BEQ .loadSubScreenOverlay
     CMP.w #$0005 : BEQ .loadSubScreenOverlay
     CMP.w #$0007 : BEQ .loadSubScreenOverlay
@@ -7849,11 +7842,11 @@ OverworldLoadSubScreenOverlay:
 ; ==============================================================================
 
 ; *$132D4-$132E5 LONG
-; ZS replaces this whole function.
+; ZS replaces this whole function. - ZS Custom Overworld
 {
     JSR $AF19 ; $012F19 IN ROM
         
-    LDA $8A ; JARE
+    LDA $8A
         
     CMP.b #$1B : BEQ .isPyramidOrCastle
         CMP.b #$5B : BNE .notPyramidOrCastle
@@ -7963,8 +7956,8 @@ OverworldLoadSubScreenOverlay:
     JSL $0BFE70 ; $5FE70 IN ROM
     
     ; ZS starts writing here.
-    ; $0104DA
-    LDA $8A ; JARE
+    ; $0133A1 - ZS Custom Overworld
+    LDA $8A
     CMP.b #$1B : BEQ .activateSubscreenBg0
         CMP.b #$5B : BNE .ignoreBg0
             .activateSubscreenBg0
@@ -9397,8 +9390,8 @@ OverworldLoadSubScreenOverlay:
             LDA $E6 : ADC $06 : STA $E6
         
             ; ZS writes here.
-            ; $013C44
-            LDA $8A : AND.w #$003F : CMP.w #$001B : BNE .BRANCH_IOTA ; JARE
+            ; $013C44 - ZS Custom Overworld
+            LDA $8A : AND.w #$003F : CMP.w #$001B : BNE .BRANCH_IOTA
                 LDA.w #$0600 : CMP $E6 : BCC .BRANCH_NU
                     STA $E6
     
@@ -9488,7 +9481,7 @@ OverworldLoadSubScreenOverlay:
     ; *$13CFB ALTERNATE ENTRY POINT
     .BRANCH_UPSILON
     
-    LDX $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA ; JARED? - This one seems to control some sort of subscreen movement but only for turtle rock. This will need to be investigated further as to why.
+    LDX $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA ; - ZS Custom Overworld? - This one seems to control some sort of subscreen movement but only for turtle rock. This will need to be investigated further as to why.
         LDX $8C
         
         CPX.b #$9C : BEQ .BRANCH_ALTIMA
@@ -9850,10 +9843,10 @@ OverworldLoadSubScreenOverlay:
     LDA $E2, X : CLC : ADC $BEBA, Y : STA $E2, X ; $13EBA in ROM
         
     ; ZS writes here.
-    ; $01402D
+    ; $01402D - ZS Custom Overworld
     ; Hyrule Castle and Pyramid of Power have special BG1 overlays 
     ; that must remain in fixed scroll position
-    LDY $8A ; JARE
+    LDY $8A
         
     CPY.b #$1B : BEQ .dontMoveBg1
     CPY.b #$5B : BEQ .dontMoveBg1  
@@ -10345,72 +10338,130 @@ OverworldLoadSubScreenOverlay:
 ; =========================================
 
 ; $14303-$14462 DATA
+; Overworld music map
+Overworld_SetSongList_Pool:
+{
+    ; $14303
+    .LWMap
+    db $05, $05, $03, $03, $03, $03, $03, $03
+    db $05, $05, $03, $03, $03, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $03, $03, $03, $03, $03, $03
+    db $03, $03, $03, $03, $03, $03, $03, $03
 
+    ; $14343
+    db $55, $55, $02, $52, $52, $52, $52, $52
+    db $55, $55, $02, $52, $52, $52, $52, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $07, $07, $07, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+
+    ; $14383
+    db $52, $52, $02, $52, $52, $52, $52, $52
+    db $52, $52, $02, $52, $52, $52, $52, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $07, $07, $07, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+
+    ; $143C3
+    db $52, $52, $02, $52, $52, $52, $52, $52
+    db $52, $52, $02, $52, $52, $52, $52, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $52, $52, $02, $02, $02, $02, $02, $02
+    db $52, $52, $02, $02, $02, $02, $02, $02
+
+    ; $14403
+    .DWMap
+    db $9D, $9D, $09, $9D, $9D, $9D, $9D, $9D
+    db $9D, $9D, $09, $9D, $9D, $9D, $9D, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $05, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $12
+}
 ; =========================================
 
-    ; *$14463-$144BF LONG
-    Overworld_SetSongList:
-    {
-        ; Interesting note on this routine:
-        ; There's actually four sets of song / sound effect data
-        ; 1st - before getting Fighter Sword
-        ; 2nd - after escaping with Zelda
-        ; 3rd - after obtaining Master Sword
-        ; 4th - after beating Agahnim
+; *$14463-$144BF LONG
+Overworld_SetSongList:
+{
+    ; Interesting note on this routine:
+    ; There's actually four sets of song / sound effect data
+    ; 1st - before getting Fighter Sword
+    ; 2nd - after escaping with Zelda
+    ; 3rd - after obtaining Master Sword
+    ; 4th - after beating Agahnim
         
-        PHB : PHK : PLB
+    PHB : PHK : PLB
         
-        REP #$10
+    REP #$10
         
-        LDA.b #$02 : STA $00
+    LDA.b #$02 : STA $00
         
-        LDX.w #$0000
-        LDY.w #$00C0
+    LDX.w #$0000
+    LDY.w #$00C0
         
-        ; See if we've already beaten agahnim
-        LDA $7EF3C5 : CMP.b #$03 : BCS .writeLightWorldSongs
-        
+    ; See if we've already beaten agahnim.
+    LDA $7EF3C5 : CMP.b #$03 : BCS .writeLightWorldSongs
         LDY.b #$0080
         
+        ; See if we have the mastersword.
         LDA $7EF359 : CMP.b #$02 : BCS .writeLightWorldSongs
-        
-        LDA.b #$05 : STA $00
-        
-        LDY.w #$0040
-        
-        LDA $7EF3C5 : CMP.b #$02 : BCS .writeLightWorldSongs
-        
-        LDY.w #$0000
+            LDA.b #$05 : STA $00
+            
+            LDY.w #$0040
+            
+            ; See if we have gotten out of the rain phase.
+            LDA $7EF3C5 : CMP.b #$02 : BCS .writeLightWorldSongs
+                LDY.w #$0000
     
     .writeLightWorldSongs
+
+    ; Load the LW music based on the state of the game.
     .lightWorldLoop
-    
-        LDA $C303, Y : STA $7F5B00, X
+        LDA Overworld_SetSongList_Pool_LWMap, Y : STA $7F5B00, X ; $C303
         
         INY
         
-        INX : CPX.w #$0040 : BNE .lightWorldLoop
+    INX : CPX.w #$0040 : BNE .lightWorldLoop
         
-        LDY.w #$0000
+    LDY.w #$0000
     
+    ; Load the DW and SW music.
     .darkWorldLoop
-    
-        LDA $C403, Y : STA $7F5B00, X
+        LDA Overworld_SetSongList_Pool_DWMap, Y : STA $7F5B00, X ; $C403
         
         INX
         
-        INY : CPY.w #$0060 : BNE .darkWorldLoop
+    INY : CPY.w #$0060 : BNE .darkWorldLoop
         
-        ; The song for the master sword grove depends on $7EF3C5 in the same
-        ; way the other light world songs do.
-        LDA $00 : STA $7F5B80
+    ; The song for the master sword grove depends on $7EF3C5 in the same
+    ; way the other light world songs do.
+    LDA $00 : STA $7F5B80
         
-        SEP #$10
+    SEP #$10
         
-        PLB
+    PLB
         
-        RTL
-    }
+    RTL
+}
 
 ; ==============================================================================
 
@@ -10658,14 +10709,14 @@ OverworldLoadSubScreenOverlay:
 ; ==============================================================================
 
 ; *$14692-$146EA LOCAL
-; ZS rewrites this whole function.
+; ZS rewrites this whole function. - ZS Custom Overworld
 Overworld_LoadAreaPalettes:
 {
     ; Loads overworld palettes (based upon area and world, mainly)
     LDX.b #$02
         
     ; Checks for 6 specific areas in the light world (death mountain LW & DW)
-    LDA $8A : AND.b #$3F ; JARE
+    LDA $8A : AND.b #$3F
         
     CMP.b #$03 : BEQ .deathMountain
     CMP.b #$05 : BEQ .deathMountain
