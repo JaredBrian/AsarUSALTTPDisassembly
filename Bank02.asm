@@ -3360,7 +3360,7 @@ pool
     
     LDX.w #$FFFE
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     INX #2
     
@@ -3370,7 +3370,7 @@ pool
     
     LDY.w #$0004
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     LDA $7E2000, X : ORA.w #$2000 : STA $7E2000, X
     LDA $7E2080, X : ORA.w #$2000 : STA $7E2080, X
@@ -3383,7 +3383,7 @@ pool
     
     SEP #$30
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -3439,7 +3439,7 @@ pool
     
     STA $012C
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -3453,13 +3453,13 @@ Dungeon_StraightStairs:
     
     JSL Dungeon_LoadAttrSelectable
 
-.doneWithAttrLoads
+    .doneWithAttrLoads
 
     LDA $B0 : CMP.b #$0D : BCC .waitForVramConfig
     
     JSL Graphics_IncrementalVramUpload
 
-.waitForVramConfig
+    .waitForVramConfig
 
     LDA $0464 : BEQ .counterElapsed
     
@@ -3470,7 +3470,7 @@ Dungeon_StraightStairs:
     ; When the counter is down to 0x10, slow the player sprite down.
     LDA.b #$02 : STA $57
 
-.noSlow
+    .noSlow
 
     LDX.b #$08
     
@@ -3478,13 +3478,13 @@ Dungeon_StraightStairs:
     
     LDX.b #$04
 
-.downfacingStaircase
+    .downfacingStaircase
 
     STX $67
     
     JSL Link_HandleVelocity ; $3E245 IN ROM
 
-.counterElapsed
+    .counterElapsed
 
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
     
@@ -3524,7 +3524,7 @@ StraightStairs_0:
     
     LDA.b #$02 : STA $5E
 
-.notDashing
+    .notDashing
 
     LDX.b #$16
     
@@ -3533,7 +3533,7 @@ StraightStairs_0:
     
     LDX.b #$18
 
-.upStaircase
+    .upStaircase
 
     STX $012E
     
@@ -3547,11 +3547,11 @@ StraightStairs_0:
     CMP.w #$0030 : BEQ .fadeMusicOut
     CMP.w #$0040 : BNE .dontFade
 
-.fadeMusicOut
+    .fadeMusicOut
 
     LDX.b #$F1 : STX $012C
 
-.dontFade
+    .dontFade
 
     SEP #$20
     
@@ -3571,7 +3571,7 @@ StraightStairs_1:
     
     INC $B0
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -3634,7 +3634,7 @@ StraightStairs_11:
     LDY.b #$17
     LDA.b #$00
 
-.subscreenEnabled
+    .subscreenEnabled
 
     STY $1C
     STA $1D
@@ -3657,7 +3657,7 @@ StraightStairs_11:
     
     LDX.b #$32
 
-.upStaircase
+    .upStaircase
 
     STX $0464
     STY $012E
@@ -3676,7 +3676,7 @@ StraightStairs_11:
     
     LDA.w #$FFE0
 
-.walkingDownStaircase
+    .walkingDownStaircase
 
     CLC : ADC $20 : STA $20
     
@@ -3684,7 +3684,7 @@ StraightStairs_11:
     
     SEP #$20
 
-.onBg2
+    .onBg2
 
     LDX $048A
     
@@ -3700,7 +3700,7 @@ StraightStairs_11:
     
     LDA.w #$FFE0
 
-.BRANCH_ZETA
+    .BRANCH_ZETA
 
     CLC : ADC $20 : STA $20
     
@@ -3708,7 +3708,7 @@ StraightStairs_11:
     
     SEP #$20
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     LDA $00 : BNE .BRANCH_THETA
     
@@ -3726,17 +3726,17 @@ StraightStairs_11:
     
     LDX.w #$FFF8
 
-.BRANCH_KAPPA:
+    .BRANCH_KAPPA:
 
     TXA
 
-.BRANCH_IOTA
+    .BRANCH_IOTA
 
     CLC : ADC $20 : STA $20
     
     SEP #$30
 
-.BRANCH_THETA:
+    .BRANCH_THETA:
 
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
     JSL RestoreTorchBackground
@@ -3777,16 +3777,16 @@ StraightStairs_9:
     
     LDX.b #$10
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     STX $012C
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     SEP #$20
 
 ; *$11513 ALTERNATE ENTRY POINT
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     JSL Dungeon_ApproachFixedColor
     
@@ -3831,14 +3831,14 @@ StraightStairs_9:
     
     BRA .BRANCH_ALPHA
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     ; Increment so we can back to the origin.
     INC A : CMP $7EC180 : BEQ .BRANCH_ALPHA
     
     INC A
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STA $E2
     
@@ -3850,13 +3850,13 @@ StraightStairs_9:
     
     BRA .BRANCH_GAMMA
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     INC A : CMP $7EC182 : BEQ .BRANCH_GAMMA
     
     INC A
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     STA $E8 : CMP $7EC182 : BNE .BRANCH_EPSILON
     
@@ -3864,13 +3864,13 @@ StraightStairs_9:
     
     INC $B0
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     LDA $0458 : BNE .BRANCH_ZETA
     
     JSR Dungeon_SyncBG1and2Scroll; $13B7B IN ROM
 
-.BRANCH_ZETA
+    .BRANCH_ZETA
 
     SEP #$20
     
@@ -3904,7 +3904,7 @@ StraightStairs_9:
     
     INC #2 : STA $061E
 
-.outdoors
+    .outdoors
 
     LDA $7EC19C : STA $A6
     LDA $7EC19E : STA $A9
@@ -3914,7 +3914,7 @@ StraightStairs_9:
     LDA $0618 : DEC #2 : STA $061A
     LDA $061C : DEC #2 : STA $061E
 
-.indoors
+    .indoors
 
     SEP #$20
     
@@ -3961,7 +3961,7 @@ StraightStairs_9:
     
     STZ $031F
 
-.notDead
+    .notDead
 
     RTS
 }
@@ -4022,7 +4022,7 @@ Dungeon_Teleport:
     ; Set floor to "F5"?
     LDX.b #$04 : STX $A4
 
-.notRoomRightBeforeMuldorm
+    .notRoomRightBeforeMuldorm
 
     JSR Dungeon_SyncBG1and2Scroll  ; $13B7B IN ROM
     JSL Dungeon_AdjustForRoomLayout ; $135DC IN ROM
@@ -4036,7 +4036,7 @@ Dungeon_Teleport:
     LDY.b #$17
     LDA.b #$00
 
-.subscreenEnabled
+    .subscreenEnabled
 
     STY $1C
     STA $1D
@@ -4247,7 +4247,7 @@ Dungeon_PressurePlate:
     
     LDA $010C : STA $11
 
-.stillCountingDown
+    .stillCountingDown
 
     RTS
 }
@@ -4300,7 +4300,7 @@ Dungeon_Crystal:
     LDX.w #$0000
     LDA.w #$01EC
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     STA $7E2000, X : STA $7E2800, X : STA $7E3000, X : STA $7E3800, X
     STA $7E4000, X : STA $7E4800, X : STA $7E5000, X : STA $7E5800, X
@@ -4320,7 +4320,7 @@ Dungeon_Crystal:
     
     INC $B0
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -4339,7 +4339,7 @@ Dungeon_Crystal:
     
     LDA $A0
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     DEX #2
     
@@ -4352,13 +4352,13 @@ Dungeon_Crystal:
     LDA.w #$0004 : STA $0C
     STZ $0E
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     LDY.w #$0007
     
     LDX $08
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDA $0E : ORA.w #$1F80 : STA $7E4000, X
               ORA.w #$1F88 : STA $7E4200, X
@@ -4415,8 +4415,8 @@ Dungeon_MirrorFade:
     
     JSL Palette_RevertTranslucencySwap
 
-.noPaletteSwap
-.notFullyDarkened
+    .noPaletteSwap
+    .notFullyDarkened
 
     RTS
 }
@@ -4474,7 +4474,7 @@ Module0D_Unused:
     
     LDA $7EC011 : SEC : SBC.b #$10 : STA $7EC011
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     JSR $C2F6 ; $142F6 IN ROM
     JSR $9951 ; $11951 IN ROM
@@ -4507,7 +4507,7 @@ Module0C_RestoreModule:
     
     LDA.b #$10 : STA $069A
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -4540,7 +4540,7 @@ Module_CloseSpotlight:
     
     LDA.b #$01 : STA $0351
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDA.b #$06 : STA $5E
     
@@ -4549,7 +4549,7 @@ Module_CloseSpotlight:
     STZ $31
     STZ $30
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     LDA $2F : LSR A : TAX
     
@@ -4561,7 +4561,7 @@ Module_CloseSpotlight:
     
     INX
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     LDA $02997A, X : STA $26 : STA $67
     
@@ -4587,7 +4587,7 @@ Dungeon_PrepExitWithSpotlight:
     
     SEP #$20
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     LDX $010E
     
@@ -4595,7 +4595,7 @@ Dungeon_PrepExitWithSpotlight:
     
     LDA $7EF3C5 : CMP.b #$02 : BCC .BRANCH_GAMMA
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     CMP.b #$F2 : BNE .BRANCH_DELTA
     
@@ -4605,15 +4605,15 @@ Dungeon_PrepExitWithSpotlight:
     
     BRA .BRANCH_EPSILON
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     LDA.b #$F1
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     STA $012C
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     STZ $04A0
     
@@ -4822,11 +4822,11 @@ HoleToDungeon_FadeMusic:
     
     LDA $7EF3C5 : CMP.b #$02 : BCC .dont_fade
 
-.not_legend_theme
+    .not_legend_theme
 
     LDA.b #$F1 : STA $012C
 
-.dont_fade
+    .dont_fade
 
     JMP $8CA9 ; $10CA9 IN ROM
 }
@@ -4849,13 +4849,13 @@ HoleToDungeon_LoadDungeon:
     
     LDA.b #$00
 
-.not_sewer
+    .not_sewer
 
     LSR A : TAX
     
     LDA $7EF37C, X
 
-.not_palace
+    .not_palace
 
     JSL HUD.RebuildIndoor.palace
     
@@ -4923,7 +4923,7 @@ HoleToDungeon_LoadDungeon:
     
     JSL LoadGearPalettes.bunny 
 
-.using_normal_player_gfx
+    .using_normal_player_gfx
 
     LDA.b #$80 : STA $9B
     
@@ -4959,11 +4959,11 @@ shared Dungeon_LoadSongBankIfNeeded:
     
     LDA.b #$81 : STA $4200
 
-.dontLoadMusic
+    .dontLoadMusic
 
     RTS
 
-.song_is_in_outdoor_bank
+    .song_is_in_outdoor_bank
 
     JMP Overworld_LoadMusicIfNeeded
 }
@@ -4979,7 +4979,7 @@ shared Dungeon_LoadSongBankIfNeeded:
     INC $B0
 
 ; *$11C1C ALTERNATE ENTRY POINT
-.notFullyBright
+    .notFullyBright
 
     JSL $079520 ; $39520 IN ROM
     
@@ -4997,7 +4997,7 @@ shared Dungeon_LoadSongBankIfNeeded:
     
     LDA $0130 : STA $0133
 
-.notDefaultSubmodule
+    .notDefaultSubmodule
 
     RTS
 }
@@ -5183,12 +5183,12 @@ Module_Mirror:
     CMP.b #$02 : BCC .runCoreTasks
     CMP.b #$05 : BCC .ignoreCoreTasks
 
-.runCoreTasks
+    .runCoreTasks
 
     JSL Sprite_Main
     JSL PlayerOam_Main
 
-.ignoreCoreTasks
+    .ignoreCoreTasks
 
     RTL
 }
@@ -5294,7 +5294,7 @@ Mirror_Init:
     
     LDA.b #$09 : STA $012D
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -5329,11 +5329,11 @@ Mirror_Init:
     
     DEX
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     STX $11
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -5347,7 +5347,7 @@ Mirror_Init:
     LDA.b #$20 : STA $B0
     LDX.b #$0C : STX $11
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -5373,7 +5373,7 @@ Mirror_Init:
 
     JSL $00FF2F ; $7F2F IN ROM
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     LDA $B0 : BEQ .BRANCH_BETA
     
@@ -5381,7 +5381,7 @@ Mirror_Init:
     
     INC $11
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     RTS
 }
@@ -5412,13 +5412,13 @@ Mirror_Init:
     ; Set the music differently if Link has no moon pearl
     LDX.b #$04
 
-.hasMoonPearl
+    .hasMoonPearl
 
     STX $012C
     
     LDA.b #$06 : STA $7EF3C7
 
-.stillCountingDown
+    .stillCountingDown
 
     RTS
 }
@@ -5449,7 +5449,7 @@ Mirror_Init:
     
     STZ $03EF : STZ $02E4
 
-.not_in_mirror_module
+    .not_in_mirror_module
 
     RTL
 }
@@ -5460,7 +5460,7 @@ Mirror_Init:
 pool Module_Victory:
 {
 
-.states
+    .states
     dw $9C59 ; = $11C59*
     dw $9C93 ; = $11C93*
     dw $9CAD ; = $11CAD*
@@ -5770,12 +5770,12 @@ Module_TriforceRoom:
     LDA $B0 : CMP.b #$07 : BCC .BRANCH_ALPHA
               CMP.b #$0B : BCC .BRANCH_BETA
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     JSL Link_HandleVelocity ; $3E245 IN ROM
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     JML PlayerOam_Main
 }
@@ -5913,7 +5913,7 @@ TriforceRoom_Step5:
     
     INC $B0
 
-.alpha
+    .alpha
 
     RTS
 }
@@ -5991,7 +5991,7 @@ TriforceRoom_Step9:
     
     INC $11
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -6009,7 +6009,7 @@ TriforceRoom_Step11:
     STZ $67
     STZ $26
 
-.alpha
+  .alpha
 
     RTS
 }
@@ -6029,7 +6029,7 @@ TriforceRoom_Step12:
     
     INC $11
 
-.alpha
+    .alpha
 
     RTS
 }
@@ -6047,10 +6047,10 @@ TriforceRoom_Step13:
     
     INC $B0
 
-.alpha
+    .alpha
 
     RTS
-}
+}   
 
 ; ==============================================================================
 
@@ -6072,7 +6072,7 @@ TriforceRoom_Step14:
     
     LDA.b #$00 : STA $7EF3CA
 
-.continue_darkening
+.continue_darkening   
 
     RTS
 }
@@ -6103,7 +6103,7 @@ Dungeon_SaveRoomData:
     JSL Dungeon_SaveRoomQuadrantData
 
 ; *$121C7 ALTERNATE ENTRY POINT
-.justKeys
+    .justKeys
 
     ; branch if in a non palace interior.
     LDA $040C : CMP.b #$FF : BEQ .return
@@ -6114,7 +6114,7 @@ Dungeon_SaveRoomData:
     ; If it's the sewer, put them in the same slot as Hyrule Castles's. annoying :p
     LDA.b #$00
 
-.notSewer
+    .notSewer
 
     LSR A : TAX
     
@@ -6122,11 +6122,11 @@ Dungeon_SaveRoomData:
     ; Save it to an appropriate slot.
     LDA $7EF36F : STA $7EF37C, X
 
-.return
+    .return
 
     RTL
 
-.notInPalace
+    .notInPalace   
 
     ; Play the error sound effect
     LDA.b #$3C : STA $012E
@@ -6150,7 +6150,7 @@ Dungeon_SaveRoomData:
     
     JSL Palette_RevertTranslucencySwap
 
-.no_swap
+    .no_swap
 
     LDA.b #$02 : STA $99
     LDA.b #$B3 : STA $9A
@@ -6195,15 +6195,15 @@ Dungeon_SaveRoomData:
     
     JSL Palette_AgahnimClones
 
-.notAgahnim2
+    .notAgahnim2
 
     LDA.b #$70
 
-.setColorMath
+    .setColorMath
 
     STA $9A
 
-.darkTransition
+    .darkTransition
 
     LDA $02A1E5, X : STA $7EC017
     
@@ -9092,7 +9092,7 @@ Dungeon_AdjustForRoomLayout:
     
     JMP $B7AE ; $137AE IN ROM
 
-.notGoingToOverworld
+    .notGoingToOverworld
 
     LDA $A0 : ORA $A1 : BNE .notInGanonsRoom
     
@@ -9108,7 +9108,7 @@ Dungeon_AdjustForRoomLayout:
     
     RTL
 
-.notInGanonsRoom
+    .notInGanonsRoom
 
     LDA $048E : CMP $A0 : BEQ .BRANCH_DELTA
     
@@ -9116,7 +9116,7 @@ Dungeon_AdjustForRoomLayout:
     
     JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     ; Set the room number to the room "north" of the current one.
     LDA $A0 : SEC : SBC.b #$10 : STA $A0
@@ -9128,7 +9128,7 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $EE : EOR.b #$01 : STA $EE : STA $0476
 
-.noFloorToggle
+    .noFloorToggle
 
     ; Do we need to do a transition between sewer / HC
     LDA $EF : AND.b #$02 : BEQ .noPalaceToggle
@@ -9136,8 +9136,8 @@ Dungeon_AdjustForRoomLayout:
     ; Toggle between sewer / HC
     LDA $040C : EOR.b #$02 : STA $040C
 
-.noPalaceToggle
-.inRoomUpperHalf
+    .noPalaceToggle
+    .inRoomUpperHalf
 
     STZ $EF
     STZ $A6
@@ -9148,7 +9148,7 @@ Dungeon_AdjustForRoomLayout:
     
     LDY.b #$01
 
-.inRoomRightHalf
+    .inRoomRightHalf
 
     STY $00
     
@@ -9158,11 +9158,11 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $B5AC, X : AND $00 : BNE .kappa
 
-.iota
+    .iota
 
     LDA.b #$02 : STA $A6
 
-.kappa
+    .kappa
 
     PLB
     
@@ -9361,13 +9361,13 @@ shared Dungeon_SaveRoomQuadrantData:
     
     LDX.b #$00
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDY $A9 : BEQ .BRANCH_GAMMA
     
     INX #2
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     LDA $B9D4, X : STA $061C
     
@@ -9377,7 +9377,7 @@ shared Dungeon_SaveRoomQuadrantData:
     
     RTS
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     REP #$20
     
@@ -9387,13 +9387,13 @@ shared Dungeon_SaveRoomQuadrantData:
     
     LDX.b #$00
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     LDY $AA : BEQ .BRANCH_EPSILON
     
     INX #2
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     LDA $B9CC, X : STA $0618
     
@@ -9425,7 +9425,7 @@ shared Dungeon_SaveRoomQuadrantData:
     
     LDA.w #$0000
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STA $0E
     
@@ -9441,11 +9441,11 @@ shared Dungeon_SaveRoomQuadrantData:
     
     DEC $00 : DEC $00
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     TAY
 
-.BRANCH_IOTA
+    .BRANCH_IOTA
 
     LDX $A7
     
@@ -9453,13 +9453,13 @@ shared Dungeon_SaveRoomQuadrantData:
     
     LDA $0618 : CMP $0E : BCS .BRANCH_EPSILON : BCC .BRANCH_ZETA
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     LDA $0E : CMP $061A : BCC .BRANCH_ZETA
     
     INX #4
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     ; comapare against y coordinate limits
     LDA $E8 : CMP $0600, X : BEQ .BRANCH_ZETA
@@ -9476,7 +9476,7 @@ shared Dungeon_SaveRoomQuadrantData:
     
     ORA.w #$F000
 
-.BRANCH_THETA:
+    .BRANCH_THETA:
 
     STA $06
     
@@ -9488,11 +9488,11 @@ shared Dungeon_SaveRoomQuadrantData:
     
     INC #2 : STA $061A
 
-.BRANCH_ZETA
+    .BRANCH_ZETA
 
     DEY : BNE .BRANCH_IOTA
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDA.w #$0001 : STA $00
     
@@ -9508,11 +9508,11 @@ shared Dungeon_SaveRoomQuadrantData:
     
     DEC $00 : DEC $00
 
-.BRANCH_LAMBDA:
+    .BRANCH_LAMBDA:
 
     TAY
 
-.BRANCH_PI:
+    .BRANCH_PI:
 
     LDX $A6
     
@@ -9520,13 +9520,13 @@ shared Dungeon_SaveRoomQuadrantData:
     
     LDA $061C : CMP $0E : BCS .BRANCH_NU : BCC .BRANCH_XI
 
-.BRANCH_MU:
+    .BRANCH_MU:
 
     LDA $0E : CMP $061E : BCC .BRANCH_XI
     
     INX #4
 
-.BRANCH_NU:
+    .BRANCH_NU:
 
     ; compare with screen coordinate limits...? (x coordinate)
     LDA $E2 : CMP $0608, X : BEQ .BRANCH_XI
@@ -9539,7 +9539,7 @@ shared Dungeon_SaveRoomQuadrantData:
     
     ORA.w #$F000
 
-.BRANCH_OMICRON:
+    .BRANCH_OMICRON:
 
     STA $06
     
@@ -9551,11 +9551,11 @@ shared Dungeon_SaveRoomQuadrantData:
     
     INC #2 : STA $061E
 
-.BRANCH_XI:
+    .BRANCH_XI:
 
     DEY : BNE .BRANCH_PI
 
-.BRANCH_KAPPA:
+    .BRANCH_KAPPA:
 
     LDA $A0 : CMP.w #$FFFF : BEQ .BRANCH_RHO
     
@@ -9567,7 +9567,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
 ; *$13B7B ALTERNATE ENTRY POINT
 Dungeon_SyncBG1and2Scroll:
-.BRANCH_SIGMA:
+    .BRANCH_SIGMA:
 
     REP #$20
     
@@ -9575,7 +9575,7 @@ Dungeon_SyncBG1and2Scroll:
     LDA $E2 : STA $E0
     LDA $E8 : STA $E6
 
-.BRANCH_RHO:
+    .BRANCH_RHO:
 
     SEP #$20
     
@@ -9835,7 +9835,7 @@ Dungeon_SyncBG1and2Scroll:
     
     RTS
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     ; updating a number of coordinates, including the scroll register mirror.
     CLC : ADC $00 : STA $E2, X
@@ -9855,7 +9855,7 @@ Dungeon_SyncBG1and2Scroll:
     
     LDA $BB88, Y : ORA $0416 : STA $0416
 
-.notGrid
+    .notGrid
 
     ; $0624,X = -($0624,Y)
     LDA.w #$0000 : SEC : SBC $0624, Y : STA $0624, X
@@ -9876,7 +9876,7 @@ Dungeon_SyncBG1and2Scroll:
     
     LDX.b #$00
 
-.nextDirection
+    .nextDirection
 
     LDA $BDC0, Y : STA $0614, X
     
@@ -10502,7 +10502,7 @@ IntraroomTransitionCalculateLanding:
     
     LDY.b #$FE
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STY $00
     
@@ -10512,7 +10512,7 @@ IntraroomTransitionCalculateLanding:
     
     LDX.b #$00
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDY.b #$FF
     
@@ -10520,7 +10520,7 @@ IntraroomTransitionCalculateLanding:
     
     INY
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     CLC : ADC $20, X : STA $20, X
     
@@ -10544,7 +10544,7 @@ IntraroomTransitionCalculateLanding:
     
     LDA $7F5B00, X : AND.b #$0F : STA $012C
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     JSR $BB90 ; $13B90 IN ROM
     
@@ -10552,7 +10552,7 @@ IntraroomTransitionCalculateLanding:
     
     JSR Overworld_ScrollMap ; $17273 IN ROM
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     RTS
 }
@@ -10567,7 +10567,7 @@ IntraroomTransitionCalculateLanding:
     
     LDY.b #$FF
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STY $00
     
@@ -10577,7 +10577,7 @@ IntraroomTransitionCalculateLanding:
     
     LDX.b #$00
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDY.b #$FF
     
@@ -10585,7 +10585,7 @@ IntraroomTransitionCalculateLanding:
     
     INY
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
           CLC : ADC $20, X : STA $20, X
     TYA : ADC $21, X : STA $21, X
@@ -10601,7 +10601,7 @@ IntraroomTransitionCalculateLanding:
     STZ $11
     STZ $B0
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     JSR $BB90 ; $13B90 IN ROM
     
@@ -10617,12 +10617,12 @@ Overworld_ResetMosaic:
     LDA $7EC007 : LSR A : BCC .init
 
 ; *$142EB ALTERNATE ENTRY POINT
-.alwaysIncrease
+    .alwaysIncrease
 
     LDA $7EC011 : CLC : ADC.b #$10 : STA $7EC011
 
 ; *$142F6 ALTERNATE ENTRY POINT
-.init
+    .init
 
     ; The purpose of this is ensure that the priority bit is set
     LDA.b #$09 : STA $94
@@ -10640,7 +10640,7 @@ Overworld_ResetMosaic:
 Overworld_SetSongList_Pool:
 {
 ; $14303
-.LWMap
+    .LWMap
   db $05, $05, $03, $03, $03, $03, $03, $03
   db $05, $05, $03, $03, $03, $03, $03, $03
   db $03, $03, $13, $13, $13, $03, $03, $03
@@ -10681,7 +10681,7 @@ Overworld_SetSongList_Pool:
   db $52, $52, $02, $02, $02, $02, $02, $02
 
 ; $14403
-.DWMap
+    .DWMap
   db $9D, $9D, $09, $9D, $9D, $9D, $9D, $9D
   db $9D, $9D, $09, $9D, $9D, $9D, $9D, $09
   db $09, $09, $09, $09, $09, $09, $09, $09
@@ -10842,7 +10842,7 @@ Attract_LoadDungeonGfxAndTiles:
     JSL Palette_BgAndFixedColor ; $755F4 in Rom
 
 ; *$1455E ALTERNATE ENTRY POINT
-.justPalettes
+    .justPalettes
 
     JSL Palette_SpriteAux3
     JSL Palette_MainSpr
@@ -10875,7 +10875,7 @@ Dungeon_LoadAndDrawRoom:
     STZ $045C
     STZ $0200
 
-.next_quadrant
+    .next_quadrant
 
     JSL $0091D3 ; $11D3 IN ROM ; Draws the dungeons.
     JSL $0090E3 ; $10E3 IN ROM ; Since we are in forced v-blank
@@ -10906,7 +10906,7 @@ Intro_LoadPalettes:
     
     LDA.w #$0000
 
-.zeroOutPalettes
+    .zeroOutPalettes
 
     ; Zeroes out $7EC480-$7EC6FF
     STA $7EC480, X : STA $7EC500, X
@@ -10942,7 +10942,7 @@ Intro_LoadPalettes:
     
     LDX.b #$00
 
-.copyHalfPalette
+    .copyHalfPalette
 
     ; Copies $7EC4D0-8 -> $7EC6B0-8
     LDA $7EC4D0, X : STA $7EC6B0, X
@@ -10976,7 +10976,7 @@ Dungeon_LoadPalettes:
     JSL Palette_DungBgMain
 
 ; *$1465F ALTERNATE ENTRY POINT
-.cacheSettings
+    .cacheSettings
 
     ; this alternate entry point can be used for the pre-overworld module    
     
@@ -11069,7 +11069,7 @@ Overworld_LoadAreaPalettes:
     LDX.b #$00
     LDA.w #$0000
 
-.zero4bppPalettes
+    .zero4bppPalettes
 
     STA $7EC540, X : STA $7EC580, X : STA $7EC5C0, X : STA $7EC600, X 
     STA $7EC640, X : STA $7EC680, X : STA $7EC6C0, X
@@ -11078,7 +11078,7 @@ Overworld_LoadAreaPalettes:
     
     LDX.b #$00
 
-.copyFromAuxPalette
+    .copyFromAuxPalette
 
     ; looks like it copies all the hud palettes (2bpp) and two sprite palettes (4bpp)
     LDA $7EC300, X : STA $7EC500, X
@@ -11114,7 +11114,7 @@ Overworld_CgramAuxToMain:
     
     LDX.b #$00
 
-.loop
+    .loop
 
     LDA $7EC300, X : STA $7EC500, X
     LDA $7EC340, X : STA $7EC540, X
@@ -11146,7 +11146,7 @@ Overworld_CgramAuxToMain:
     ; Set up this channel we'll be using for hdma (spotlight?)
     LDX.b #$04
 
-.configure_dma_channel
+    .configure_dma_channel
 
     LDA $C807, X : STA $4370, X
     
@@ -11168,7 +11168,7 @@ Overworld_CgramAuxToMain:
     
     LDX.w #$01DF
 
-.zeroing_spotlight_buffer
+    .zeroing_spotlight_buffer
 
     STZ $1B00, X
     
@@ -11234,7 +11234,7 @@ Dungeon_LoadEntrance:
     ; anyway
     JMP .skipCaching
 
-.notDeathReload
+    .notDeathReload
 
     REP #$20
     
@@ -11283,7 +11283,7 @@ Dungeon_LoadEntrance:
     
     REP #$30
 
-.skipCaching
+    .skipCaching
 
     STZ $011A : STZ $011C : STZ $010A
     
@@ -11293,12 +11293,12 @@ Dungeon_LoadEntrance:
     
     LDA $04AA : BEQ .notSaveAndContinue
 
-.useStartingPointEntrance
+    .useStartingPointEntrance
 
     ; Load using an starting point entrance index instead.
     JMP Dungeon_LoadStartingPoint
 
-.notSaveAndContinue
+    .notSaveAndContinue
 
     ; Use a normal entrance instead
     LDA $010E : AND.w #$00FF : ASL A : TAX : ASL #2 : TAY
@@ -11316,7 +11316,7 @@ Dungeon_LoadEntrance:
     LDA $CF59, X : STA $20
     LDA $D063, X : STA $22
 
-.beforeUncleGear
+    .beforeUncleGear
 
     LDA $D16D, X : STA $0618 : INC #2 : STA $061A
     LDA $D277, X : STA $061C : INC #2 : STA $061E
@@ -11358,7 +11358,7 @@ Dungeon_LoadEntrance:
     
     LDA.b #$00 ; Make it so Link faces north
 
-.linkFacesSouth
+    .linkFacesSouth
 
     STA $2F
     
@@ -11375,11 +11375,11 @@ Dungeon_LoadEntrance:
     ; Play the cave music if it's first or second part.
     LDA.b #$12
 
-.haventSavedZelda
+    .haventSavedZelda
 
     STA $0132
 
-.notBeginningMusic
+    .notBeginningMusic
 
     LDA $D406, X : STA $A4
     
@@ -11407,7 +11407,7 @@ Dungeon_LoadEntrance:
     STZ $A4
 
 ; *$15ADB ALTERNATE ENTRY POINT
-.notExtendedRoom
+    .notExtendedRoom
 
     LDA.b #$80 : STA $45 : STA $44
     
@@ -11426,7 +11426,7 @@ Dungeon_LoadEntrance:
     
     LDX.b #$00
 
-.loadPushBlocks
+    .loadPushBlocks
 
     ; Note that we are now storing data in bank $7E.
     ; Hence this goes to $7EF940, X
@@ -11443,7 +11443,7 @@ Dungeon_LoadEntrance:
     LDX.b #$3E
     LDA.w #$0000
 
-.resetSecretsObtained
+    .resetSecretsObtained
 
     ; $7EF580[0x280] is an array that stores which "secret" items have been obtained
     ; while you're in a dungeon. This is resetting those (either via mirror or reentry to the dungeon world)
@@ -11582,7 +11582,7 @@ Dungeon_LoadStartingPoint:
     LDA $DBD0, X : STA $20
     LDA $DBDE, X : STA $22
 
-.veryBeginning
+    .veryBeginning
 
     ; Set camera scroll boundaries
     LDA $DBEC, X : STA $0618 : INC #2 : STA $061A
@@ -11655,7 +11655,7 @@ Dungeon_LoadStartingPoint:
     ; set music variable as to... initiate a load of music data?
     LDA.b #$FF : STA $0132
 
-.notVeryStart
+    .notVeryStart
 
     ; disable starting point now (upon save and continue you'll use the associated entrance value)
     STZ $04AA
@@ -11715,12 +11715,12 @@ Overworld_LoadExitData:
     
     JMP .skipComplexExit
 
-.hasExitData
+    .hasExitData
 
     ; search for an exit from this overworld area
     LDX.b #$9E
 
-.findRoomExit
+    .findRoomExit
 
     DEX #2
     
@@ -11777,20 +11777,20 @@ Overworld_LoadExitData:
     
     DEC $0625 ; sign extends to 16-bit
 
-.positive1
+    .positive1
 
     LDA $E318, X : STA $0628 : STZ $0629 : ASL A : BCC .positive2
     
     DEC $0629 ; sign extend to 16-bit
 
-.positive2
+    .positive2
 
     REP #$20
     
     LDA.w #$0000 : SEC : SBC $0624 : STA $0626
     LDA.w #$0000 : SEC : SBC $0628 : STA $062A
 
-.skipComplexExit
+    .skipComplexExit
 
     PLB
 
@@ -11821,7 +11821,7 @@ Overworld_LoadExitData:
     
     INX #2
 
-.largeOwMap
+    .largeOwMap
 
     ; Sets up numerous boundaries ($06xx vars) but I don't know their exact function
     JSR $C0C3 ; $140C3 IN ROM
@@ -11873,7 +11873,7 @@ Overworld_SimpleExit:
     
     LDA $20 : SEC : SBC.w #$0010 : STA $20
 
-.dontOffsetY
+    .dontOffsetY
 
     ; default is to face downwards on exit
     LDA.w #$0002 : STA $2F
@@ -11886,7 +11886,7 @@ Overworld_SimpleExit:
     
     STZ $2F
 
-.notFacingUp
+    .notFacingUp
 
     ; Restore various settings that were cahced when we entered the dungeon room
     LDA $7EC14C : STA $8A
@@ -12268,7 +12268,7 @@ Whirlpool_LookUpAndLoadTargetArea:
     
     LDA $8A
 
-.locate_target_area
+    .locate_target_area
 
     ; Appears to be a routine dealing with whirlpool warps.
     DEX #2 : CMP $02ECF8, X : BNE .locate_target_area
@@ -12323,7 +12323,7 @@ shared Overworld_LoadAmbientOverlayAndMapData:
     
     LDA $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA $86
 
-.large_area_2
+    .large_area_2
 
     SEP #$20
     
@@ -12331,7 +12331,7 @@ shared Overworld_LoadAmbientOverlayAndMapData:
     
     REP #$20
 
-.load_overlay
+    .load_overlay
 
     LDA.w #-1 : STA $C8
     
@@ -12342,7 +12342,7 @@ shared Overworld_LoadAmbientOverlayAndMapData:
     
     JSR Map16ToMap8.normalArea
 
-.large_area
+    .large_area
 
     REP #$20
     
@@ -12398,7 +12398,7 @@ Overworld_LoadMapData:
     
     LDA.w #$0DC4
 
-.blankBuffer
+    .blankBuffer
 
     STA $7E4000, X
     
@@ -12431,7 +12431,7 @@ Overworld_LoadMapData:
     
     BRA .finishDoor
 
-.drawBombableDoor
+    .drawBombableDoor
 
     TXA : AND.w #$1FFF : TAX
     
@@ -12445,7 +12445,7 @@ Overworld_LoadMapData:
     ; Bombable door tile (right)
     LDA.w #$0DB5
 
-.finishDoor
+    .finishDoor
 
     STA $7E2002, X : INX #2
     
@@ -12458,7 +12458,7 @@ Overworld_LoadMapData:
 ; this alternate entry point is for scrolling OW area loads
 ; b/c drawing a door only applies to when you transition from a dungeon to the OW
 ; the exceptioon is OW areas 0x80 and above which are handled similar to entrances
-.justOverlays
+    .justOverlays
 
     ; Area that contains the warp near the watergate in the LW
     LDA.w #$020F : LDX $8A : CPX.w #$0033 : BNE .noRock
@@ -12469,14 +12469,14 @@ Overworld_LoadMapData:
     ; all that unused overlay flag space and they didn't use it for this.
     STA $7E22A8 ;16F33 EA EA EA EA
 
-.noRock
+    .noRock
 
     ; Same for this other area. 
     CPX.w #$002F : BNE .noRock2
     
     STA $7E2BB2 ;16F3C EA EA EA EA
 
-.noRock2
+    .noRock2
 
     SEP #$30
     
@@ -12488,7 +12488,7 @@ Overworld_LoadMapData:
     ; $77652 IN ROM; The routine that makes the overlay show up
     JSL Overworld_LoadEventOverlay
 
-.dontDrawOverlay
+    .dontDrawOverlay
 
     LDX $8A
     
@@ -12510,7 +12510,7 @@ Overworld_LoadMapData:
     
     SEP #$30
 
-.noBombedDoor
+    .noBombedDoor
 
     RTS
 }
@@ -12532,7 +12532,7 @@ Overworld_TransVertical:
     
     INY #2 : STY $0E
 
-.alpha
+    .alpha
 
     JSR Overworld_DrawVerticalStrip
     
@@ -12564,7 +12564,7 @@ Overworld_TransHorizontal:
     
     INY #2 : STY $0E
 
-.alpha
+    .alpha
 
     JSR Overworld_DrawHorizontalStrip
     
@@ -12592,7 +12592,7 @@ Overworld_LoadTransMapData:
     
     LDA.w #$0DC4
 
-.default
+    .default
 
     ; Fills $7E4000-$7E407F with the map16 value 0x0DC4, which is a blank transparent tile.
     STA $7E4000, X : STA $7E4020, X : STA $7E4040, X : STA $7E4060, X
@@ -12658,7 +12658,7 @@ Overworld_StartTransMapUpdate:
     
     JMP (Overworld_LargeTransTable, X) ; $1700D IN ROM
 
-.smallArea
+    .smallArea
 
     LDA $0416 : ASL A : TAX
     
@@ -12694,7 +12694,7 @@ Overworld_LargeTransDown:
     
     LDA $84
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     CMP.w #$0080 : BCC .BRANCH_ALPHA
     
@@ -12702,7 +12702,7 @@ Overworld_LargeTransDown:
     
     BRA .BRANCH_BETA
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     CLC : ADC.w #$0780 : STA $84
     
@@ -12944,7 +12944,7 @@ Overworld_SmallTranRight:
     
     LDA.b #$03 : STA $17
 
-.noUpdate
+    .noUpdate
 
     SEP #$30
     
@@ -13029,7 +13029,7 @@ Overworld_ScrollMap:
     
     LDA.b #$03 : STA $17
 
-.noTilemapUpdate
+    .noTilemapUpdate
 
     SEP #$30
     
@@ -13138,13 +13138,13 @@ Overworld_ScrollDown:
     
     JSR Overworld_DrawVerticalStrip
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDA $84 : SEC : SBC.w #$0080 : STA $84
     
     LDA $88 : DEC A : AND.w #$001F : STA $88
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -13170,13 +13170,13 @@ Overworld_ScrollDown:
     
     JSR Overworld_DrawVerticalStrip
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDA $84 : CLC : ADC.w #$0080 : STA $84
     
     LDA $88 : INC A : AND.w #$001F : STA $88
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -13187,7 +13187,7 @@ Overworld_ScrollDown:
     
     LDA $84
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     CMP.w #$0080 : BCC .BRANCH_ALPHA
     
@@ -13195,7 +13195,7 @@ Overworld_ScrollDown:
     
     BRA .BRANCH_BETA
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     CMP.w #$0000 : BEQ .BRANCH_GAMMA
     
@@ -13211,13 +13211,13 @@ Overworld_ScrollDown:
     
     JSR Overworld_DrawHorizontalStrip
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     DEC $84 : DEC $84
     
     LDA $86 : DEC A : AND.w #$001F : STA $86
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     RTS
 }
@@ -13230,7 +13230,7 @@ Overworld_ScrollDown:
     
     LDA $84
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     CMP.w #$0080 : BCC .BRANCH_ALPHA
     
@@ -13238,7 +13238,7 @@ Overworld_ScrollDown:
     
     BRA .BRANCH_BETA
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     CMP.w #$0060 : BCS .BRANCH_GAMMA
     
@@ -13255,13 +13255,13 @@ Overworld_ScrollDown:
     
     JSR Overworld_DrawHorizontalStrip
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     INC $84 : INC $84
     
     LDA $86 : INC A : AND.w #$001F : STA $86
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     RTS
 }
@@ -13292,7 +13292,7 @@ Overworld_DrawHorizontalStrip:
     ; Move down one map16 tile
     TYA : CLC : ADC.w #$0080 : TAY
 
-.fillBuffer
+    .fillBuffer
 
     ; Populate the buffer ( $0500[0x40] ) with 0x10 map16 entries (256 pixels)
     LDA [$00], Y : STA $0500, X : INX #2
@@ -13313,7 +13313,7 @@ Overworld_DrawHorizontalStrip:
     
     LDA.w #$0400 : STA $00
 
-.inBounds
+    .inBounds
 
     LDA $02 : ASL A : CLC : ADC $00 : STA $00 : CLC : ADC.w #$0800 : STA $0C
     
@@ -13333,7 +13333,7 @@ Overworld_DrawHorizontalStrip:
     
     LDA.w #$0010 : STA $06
 
-.copyToNmiBuf
+    .copyToNmiBuf
 
     LDX $02 : LDA $0500, X : INX #2 : STX $02
     
@@ -13377,7 +13377,7 @@ Overworld_DrawVerticalStrip:
     ; $03[2] = 0x0010    
     LDA.w #$0010 : STA $03
 
-.fillBuffer
+    .fillBuffer
 
     ; writes 0x40 bytes to $0500[0x40]
     LDA [$00], Y : STA $0500, X
@@ -13400,7 +13400,7 @@ Overworld_DrawVerticalStrip:
     
     LDA.w #$0800 : STA $00
 
-.inBounds
+    .inBounds
 
     LDA $02 : ASL #6 : CLC : ADC $00 : STA $00
     
@@ -13426,7 +13426,7 @@ Overworld_DrawVerticalStrip:
     
     LDA.w #$0010 : STA $06
 
-.nextMap16Tile
+    .nextMap16Tile
 
     LDX $02
     
@@ -13501,7 +13501,7 @@ Overworld_LoadMap32:
     ; This should be written as just "LDA.w #$0304"
     LDA.w #$3000 : CLC : ADC.w #$0040
 
-.loadQuadrant
+    .loadQuadrant
 
     STA $00 : CLC : ADC.w #$0080 : STA $03
     
@@ -13568,11 +13568,11 @@ Overworld_LoadMap32:
     
     STZ $06 : STZ $0B
 
-.yLoop
+    .yLoop
     
     LDA.w #$0010 : STA $0D
 
-.xLoop
+    .xLoop
 
     LDY $0B
     
@@ -13601,7 +13601,7 @@ Overworld_LoadMap32:
 InterlaceMap32:
 {
 
-.highBytes
+    .highBytes
 
     ; Copies decompressed map32 data into the odd bytes in $7F4000[0x200]
     
@@ -13623,7 +13623,7 @@ InterlaceMap32:
     
     SEP #$20
 
-.doInterlace
+    .doInterlace
 
     ; Copy $7F4400, X to $7F4000, Y
     LDA $4400, X : STA [$00], Y : INY #2 : INX
@@ -13640,7 +13640,7 @@ InterlaceMap32:
     RTS
 
 ; *$17679 ALTERNATE ENTRY POINT
-.lowBytes
+    .lowBytes
 
     ; Copies decompressed map32 data into the even bytes in $7F4000[0x200]
     
@@ -13677,7 +13677,7 @@ Map32ToMap16:
     ; the previous one
     JMP .same
 
-.different
+    .different
 
       ; $4440 = input
     STA $4440
@@ -13740,7 +13740,7 @@ Map32ToMap16:
     REP #$30
 
 ; *$177AD ALTERNATE ENTRY POINT
-.same
+    .same
 
     PLA : AND.w #$0007 : TAX
     
@@ -13833,14 +13833,14 @@ LoadSubOverlayMap32:
     
     STZ $06 : STZ $0B
 
-.nextLine
+    .nextLine
 
     ; By line, we mean a 32 x 512 pixel swath. 0x10 map32 tiles consists of exactly this
     
     ; Set up a loop of 0x10 iterations
     LDA.w #$0010 : STA $0D
     
-.nextTile
+    .nextTile
 
     ; X = ($7F4000 + Y) << 1, the map32 value
     LDY $0B : LDA [$08], Y : ASL A : TAX
@@ -13926,7 +13926,7 @@ pool Overworld_LoadMap32:
 parallel pool LoadSubOverlayMap32:
 {
 
-.high_byte_packs
+    .high_byte_packs
     dl $0B8000, $0B80D6, $0B81C2, $0B8316
     dl $0B83EA, $0B850E, $0B8671, $0B880F ;0E850B ;31 89 0B
     dl $0B89D3, $0B8B90, $0BD709, $0B8D24
@@ -13978,7 +13978,7 @@ parallel pool LoadSubOverlayMap32:
     dl $0CC0AC, $0CB67B, $0CB5C8, $0CB6BE
 
 ; $17B2D
-.lower_byte_packs
+    .lower_byte_packs
     dl $0B8004, $0B80DA, $0B8238, $0B8340
     dl $0B8460, $0B85A3, $0B8724, $0B88E0
     dl $0B8A91, $0B8C35, $0BD7F0, $0B8DF6
@@ -14067,7 +14067,7 @@ Map16ToMap8:
     
     ; -------------------------------
 
-.subscreenOverlay
+    .subscreenOverlay
 
     ; data bank = 0x0F
     PHB : LDA.b #$0F : PHA : PLB
@@ -14081,7 +14081,7 @@ Map16ToMap8:
     BRA .ready
 
 ; *$17D37 ALTERNATE ENTRY POINT
-.normalArea
+    .normalArea
 
     ; data bank = 0x0F
     PHB : LDA.b #$0F : PHA : PLB
@@ -14092,7 +14092,7 @@ Map16ToMap8:
     LDA.w #$2000 : STA !srcAddr
     LDA.w #$007E
 
-.ready
+    .ready
 
     STA !srcBank
     
@@ -14103,7 +14103,7 @@ Map16ToMap8:
     
     LDA.w #$0010 : STA !counter
     
-.conversionLoop
+    .conversionLoop
 
     JSR Map16ChunkToMap8
     
@@ -14146,7 +14146,7 @@ Map16ChunkToMap8:
     LDA $86      : ASL A : TAX
     LDA.w #$0010 : STA $00
 
-.getMap16Chunk
+    .getMap16Chunk
 
     ; grab 0x20 map16 tiles (which is a 16 X 512 pixel swath) and populate the buffer with these tiles
     
@@ -14171,7 +14171,7 @@ Map16ChunkToMap8:
     
     LDA.w #$0800 : STA $00
 
-.inRange
+    .inRange
 
     ; $00 += ($02 * 0x40)
     LDA $02 : ASL #6 : CLC : ADC $00 : STA $00
@@ -14187,7 +14187,7 @@ Map16ChunkToMap8:
     ; why they needed to use a long address for this, I don't know. LDA.w #$0020 would have sufficed.
     LDA $02F88B ; $1788B IN ROM
 
-.prepForUpload
+    .prepForUpload
 
     ; $02 = either 0x0000 or 0x0020
     STA $02
@@ -14201,7 +14201,7 @@ Map16ChunkToMap8:
     ; Going to loop #$10 times and write #$80 bytes overall.
     LDA.w #$0010 : STA $0C
 
-.nextMap16Tile
+    .nextMap16Tile
 
     ; Load a map16 value from the buffer at $7E0500
     LDY $02 : LDA !map16Buf, Y
@@ -14248,7 +14248,7 @@ Overworld_RestoreFailedWarpMap16:
     
     LDX.w #$0000 : STX $00
 
-.loop
+    .loop
 
     ; Supply the address of the modification to the tilemap
     LDX $00 : LDA $7EF800, X : TAY
@@ -14258,7 +14258,7 @@ Overworld_RestoreFailedWarpMap16:
     
     LDA $00 : CMP $04AC : BNE .loop
 
-.return
+    .return
 
     SEP #$30
     
@@ -14295,7 +14295,7 @@ Intro_LoadSpriteStats:
     
     LDX.w #$0000 : TXY
 
-.loadLoop
+    .loadLoop
 
     ; Addresses accessed will be $7F4000-$7F47FF
     ; Divide by 16
@@ -14327,7 +14327,7 @@ Overworld_Decomp:
     LDY.w #$0000
 
 ; *$17EC0 JUMP LOCATION    
-.BRANCH_GETNEXTCODE: 
+    .BRANCH_GETNEXTCODE: 
 
     JSR OverworldDecomp_GetNextSourceOctet
     
@@ -14338,7 +14338,7 @@ Overworld_Decomp:
         
     RTS
 
-.BRANCH_ITERATE:
+    .BRANCH_ITERATE:
 
     STA $CD : AND.b #$E0 : CMP.b #$E0 : BEQ .BRANCH_EXPANDED ; [111]
     
@@ -14352,7 +14352,7 @@ Overworld_Decomp:
     
     BRA .BRANCH_NORMAL
 
-.BRANCH_EXPANDED: EXPANDED MODE APPEARS TO ALLOW US TO INTERFACE WITH VALUES LARGER THAN #$32, MAYBE AS LARGE AS $132?
+    .BRANCH_EXPANDED: ; EXPANDED MODE APPEARS TO ALLOW US TO INTERFACE WITH VALUES LARGER THAN #$32, MAYBE AS LARGE AS $132?
 
     ; Get $CD, and shift it left three times.
     ; Again we're interested in the top three bits.
@@ -14364,7 +14364,7 @@ Overworld_Decomp:
     
     REP #$20
     
-.BRANCH_NORMAL:
+    .BRANCH_NORMAL:
 
     ; Increment the value and save it to $CB
     INC A : STA $CB
@@ -14386,7 +14386,7 @@ Overworld_Decomp:
     
     LDX $CB
 
-.BRANCH_INCREMENTWRITE:
+    .BRANCH_INCREMENTWRITE:
 
     STA [$00], Y
     
@@ -14398,7 +14398,7 @@ Overworld_Decomp:
     
     BRA .BRANCH_GETNEXTCODE
 
-.BRANCH_NONREPEATING:
+    .BRANCH_NONREPEATING:
 
     JSR $FF5F ; Get the next value.
     
@@ -14413,13 +14413,13 @@ Overworld_Decomp:
     
     BRA .BRANCH_GETNEXTCODE
 
-.BRANCH_REPEATING:
+    .BRANCH_REPEATING:
 
     JSR $FF5F ; Get the next value.
     
     LDX $CB ; Get the 5 LSB plus one.
 
-.BRANCH_LOOPBACK:
+    .BRANCH_LOOPBACK:
 
     STA [$00], Y; Store to TargetAddress, Y
     
@@ -14430,7 +14430,7 @@ Overworld_Decomp:
     
     BRA .BRANCH_GETNEXTCODE
 
-.BRANCH_REPEATINGWORD:
+    .BRANCH_REPEATINGWORD:
 
     JSR OverworldDecomp_GetNextSourceOctet
     
@@ -14440,7 +14440,7 @@ Overworld_Decomp:
     
     LDX $CB
 
-.BRANCH_MOREBYTES:
+    .BRANCH_MOREBYTES:
 
     ; Two byte were read, this is the first one
     XBA : STA [$00], Y
@@ -14455,11 +14455,11 @@ Overworld_Decomp:
     
     DEX : BNE .BRANCH_MOREBYTES
 
-.BRANCH_OUTOFBYTES:
+    .BRANCH_OUTOFBYTES:
 
     JMP $FEC0 ; $17EC0 IN ROM.
 
-.BRANCH_COPY
+    .BRANCH_COPY
 
     ; // If the topmost bit was set, retrieve the next value.
     
@@ -14471,7 +14471,7 @@ Overworld_Decomp:
     
     TAX ; Put that sucker in X (full 16-bit)
 
-.BRANCH_LOOPBACK2:
+    .BRANCH_LOOPBACK2:
 
     ; And push the current Y index, Then shove X into Y
     ; (The newest byte value)
@@ -14511,7 +14511,7 @@ OverworldDecomp_GetNextSourceOctet:
     
     INC $CA
 
-.didnt_cross_bank_boundary
+    .didnt_cross_bank_boundary
 
     ; X might be one more than it was, or 0x8000, depending.
     STX $C8
