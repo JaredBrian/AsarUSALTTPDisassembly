@@ -566,7 +566,7 @@ org $0E8000
         
         BEQ BRANCH_DELTA
         
-        ADD $9918, X : STA $E8
+        CLC : ADC $9918, X : STA $E8
     
     BRANCH_DELTA:
     
@@ -574,7 +574,7 @@ org $0E8000
         
         BEQ BRANCH_GAMMA
         
-        ADD $9938, Y : STA $E2
+        CLC : ADC $9938, Y : STA $E2
     
     BRANCH_GAMMA:
     
@@ -774,9 +774,9 @@ org $0E8000
         LDA.w #$FFFF : STA $0FBA
                        STA $0FB8
         
-        LDA $040A : ASL A : XBA : AND.w #$0F00 : ADD ($04), Y : STA $00
+        LDA $040A : ASL A : XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA $00
         
-        LDA $040A : LSR A : LSR A : XBA : AND.w #$0E00 : ADD ($06), Y : STA $02
+        LDA $040A : LSR A : LSR A : XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA $02
         
         SEP #$20
         
@@ -841,7 +841,7 @@ org $0E8000
         
         REP #$20
         
-        ADD ($06), Y : STA $02
+        CLC : ADC ($06), Y : STA $02
         
         SEP #$20
         
@@ -851,7 +851,7 @@ org $0E8000
         
         REP #$20
         
-        ADD ($04), Y : STA $00
+        CLC : ADC ($04), Y : STA $00
         
         SEP #$20
         
@@ -1073,7 +1073,7 @@ BRANCH_ALPHA:
         
         LDA $0D50, X : ROL A : ROR A : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD $A0E0, X : LSR A : AND.b #$40
+        LDA $0D50, X : CLC : ADC $A0E0, X : LSR A : AND.b #$40
                                               ORA.b #$32 : STA $0F50, X
         
         LDA.b #$02
@@ -1161,7 +1161,7 @@ BRANCH_ALPHA:
     
     BRANCH_GAMMA:
     
-        SUB.w #$0208 : CMP.w #$0030 : SEP #$20 : BCS BRANCH_DELTA
+        SEC : SBC.w #$0208 : CMP.w #$0030 : SEP #$20 : BCS BRANCH_DELTA
         
         LDY.b #$02
         
@@ -1301,11 +1301,11 @@ BRANCH_ALPHA:
         
         JSL GetRandomInt : AND.b #$07 : TAX
         
-        LDA $06C309, X : ADD $0FD8 : PHA
+        LDA $06C309, X : CLC : ADC $0FD8 : PHA
         
         JSL GetRandomInt : AND.b #$07 : TAX
         
-        LDA $06C311, X : ADD $0FDA
+        LDA $06C311, X : CLC : ADC $0FDA
         
         PLX
         
@@ -1363,7 +1363,7 @@ BRANCH_ALPHA:
     
     BRANCH_BETA:
     
-        ADD $0D50, X : STA $0D50, X
+        CLC : ADC $0D50, X : STA $0D50, X
         
         LDA.b #$01
         
@@ -1373,7 +1373,7 @@ BRANCH_ALPHA:
     
     BRANCH_GAMMA:
     
-        ADD $0D40, X : STA $0D40, X
+        CLC : ADC $0D40, X : STA $0D40, X
         
         JSL Sprite_MoveLong
     
@@ -1663,7 +1663,7 @@ BRANCH_ALPHA:
         
         PLY
         
-        LDA $A6C3, Y : ADD $4216, Y : STA $08
+        LDA $A6C3, Y : CLC : ADC $4216, Y : STA $08
         
         SEP #$20
         
@@ -1868,7 +1868,7 @@ BRANCH_ALPHA:
         
         LDA.b #$30 : STA $0F70, X
         
-        LDA $1A : ADD $A95F, X : LSR #2 : AND.b #$03 : TAY
+        LDA $1A : CLC : ADC $A95F, X : LSR #2 : AND.b #$03 : TAY
         
         LDA $A93D, Y : STA $0DC0, X
         
@@ -2001,7 +2001,7 @@ BRANCH_ALPHA:
         
         LDA $C9 : LSR A : AND.b #$01 : TAY
         
-        LDA $0DC0, X : ADD .animation_step_amounts, Y
+        LDA $0DC0, X : CLC : ADC .animation_step_amounts, Y
                        AND.b #$07
                        STA $0DC0, X
     
@@ -2075,7 +2075,7 @@ BRANCH_ALPHA:
         
         LDA $1A : LSR #5 : EOR $00 : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD.b #$7B : TAX : STA $0D50, X
+        LDA $0D50, X : CLC : ADC.b #$7B : TAX : STA $0D50, X
     
     BRANCH_GAMMA:
     
@@ -2203,7 +2203,7 @@ BRANCH_ALPHA:
         
         JSR $ACA2 ; $72CA2 IN ROM
         
-        LDA $1A : ADD $AC09, X : AND.b #$08 : LSR #3 : STA $0DC0, X
+        LDA $1A : CLC : ADC $AC09, X : AND.b #$08 : LSR #3 : STA $0DC0, X
         
         LDA.b #$20 : STA $0F70, X
         
@@ -2255,7 +2255,7 @@ BRANCH_ALPHA:
         
         DEC A : STA $0D40, X
         
-        ADD.b #$FC
+        CLC : ADC.b #$FC
         
         CPX.b #$03 : BCS BRANCH_ZETA
         
@@ -2539,7 +2539,7 @@ BRANCH_ALPHA:
     {
         LDA $0DE0, X : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD .acceleration, X : STA $0D50, X
+        LDA $0D50, X : CLC : ADC .acceleration, X : STA $0D50, X
         
         CMP .x_speed_limits, Y : BNE .anotoggle_x_acceleration
         
@@ -2551,7 +2551,7 @@ BRANCH_ALPHA:
         
         LDA $0EB0, X : AND.b #$01 : TAY
         
-        LDA $0D40, X : ADD .acceleration, X : STA $0D40, X
+        LDA $0D40, X : CLC : ADC .acceleration, X : STA $0D40, X
         
         CMP y_speed_limits, Y : BNE .anotoggle_y_acceleration
         
@@ -2576,22 +2576,20 @@ BRANCH_ALPHA:
 
 ; ==============================================================================
 
-    ; *$72EA6-$72FF1 LONG
-    {
-        PHB : PHK : PLB
+; *$72EA6-$72FF1 LONG
+{
+    PHB : PHK : PLB
         
-        REP #$20
+    REP #$20
         
-        LDA.w #$0001 : STA $00
+    LDA.w #$0001 : STA $00
         
-        LDA $30 : AND.w #$00FF : BNE BRANCH_ALPHA
-        
+    LDA $30 : AND.w #$00FF : BNE .BRANCH_ALPHA
         JMP $AF1E   ; $72F1E IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.w #$0080 : BCC BRANCH_BETA
-        
+    CMP.w #$0080 : BCC .BRANCH_BETA
         EOR.w #$00FF : INC A
         
         DEC $00 : DEC $00
@@ -2600,27 +2598,24 @@ BRANCH_ALPHA:
         
         LDY.b #$00
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
-    BRANCH_BETA:
-    
+    .BRANCH_BETA
         STA $02
         
         LDY.b #$02
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDX.b #$06
+    LDX.b #$06
         
-        JSR $AFF2   ; $72FF2 IN ROM
+    JSR $AFF2   ; $72FF2 IN ROM
         
-        LDA $04 : STA $069E
+    LDA $04 : STA $069E
         
-        LDX $8C : CPX.b #$97 : BEQ BRANCH_DELTA
-        
-        CPX.b #$9D : BEQ BRANCH_DELTA
-        
-        LDA $04 : BEQ BRANCH_DELTA
+    LDX $8C : CPX.b #$97 : BEQ .BRANCH_DELTA
+              CPX.b #$9D : BEQ .BRANCH_DELTA
+        LDA $04 : BEQ .BRANCH_DELTA
         
         STZ $00
         
@@ -2628,46 +2623,41 @@ BRANCH_ALPHA:
         
         LDX $8C
         
-        CPX.b #$B5 : BEQ BRANCH_EPSILON
-        CPX.b #$BE : BNE BRANCH_ZETA
-    
-    BRANCH_EPSILON:
-    
-        LSR A : ROR $00
+        CPX.b #$B5 : BEQ .BRANCH_EPSILON
+            CPX.b #$BE : BNE .BRANCH_ZETA
         
-        CMP.w #$3000 : BCC BRANCH_IOTA
-        
-        ORA.w #$F000
-        
-        BRA BRANCH_IOTA
+        .BRANCH_EPSILON
+            LSR A : ROR $00
+            
+            CMP.w #$3000 : BCC .BRANCH_IOTA
+                ORA.w #$F000
+                
+                BRA .BRANCH_IOTA
     
-    BRANCH_ZETA:
+        .BRANCH_ZETA
     
-        CMP.w #$7000 : BCC BRANCH_IOTA
+        CMP.w #$7000 : BCC .BRANCH_IOTA
+            ORA.w #$F000
         
-        ORA.w #$F000
-    
-    BRANCH_IOTA:
+        .BRANCH_IOTA
     
         STA $06
         
-        LDA $0622 : ADD $00 : STA $0622
+        LDA $0622 : CLC : ADC $00 : STA $0622
         
         LDA $E6 : ADC $06 : STA $E6
     
     ; *$72F1E ALTERNATE ENTRY POINT
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        LDA.w #$0001 : STA $00
+    LDA.w #$0001 : STA $00
         
-        LDA $31 : AND.w #$00FF : BNE BRANCH_THETA
-        
+    LDA $31 : AND.w #$00FF : BNE .BRANCH_THETA
         JMP $AF91   ; $72F91 IN ROM
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        CMP.w #$0080 : BCC BRANCH_KAPPA
-        
+    CMP.w #$0080 : BCC .BRANCH_KAPPA
         EOR.w #$00FF : INC A
         
         DEC $00 : DEC $00
@@ -2676,28 +2666,26 @@ BRANCH_ALPHA:
         
         LDY.b #$04
         
-        BRA BRANCH_LAMBDA
+        BRA .BRANCH_LAMBDA
     
-    BRANCH_KAPPA:
-    
+    .BRANCH_KAPPA
         STA $02
         
         LDY.b #$06
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
-        LDX.b #$00
+    LDX.b #$00
         
-        JSR $AFF2   ; $72FF2 IN ROM
+    JSR $AFF2   ; $72FF2 IN ROM
         
-        LDA $04 : STA $069F
+    LDA $04 : STA $069F
         
-        LDX $8C
+    LDX $8C
         
-        CPX.b #$97 : BEQ BRANCH_MUNU
-        CPX.b #$9D : BEQ BRANCH_MUNU
-        
-        LDA $04 : BEQ BRANCH_MUNU
+    CPX.b #$97 : BEQ .BRANCH_MUNU
+    CPX.b #$9D : BEQ .BRANCH_MUNU
+        LDA $04 : BEQ .BRANCH_MUNU
         
         STZ $00
         
@@ -2705,72 +2693,68 @@ BRANCH_ALPHA:
         
         LDX $8C
         
-        CPX.b #$95 : BEQ BRANCH_XI
-        CPX.b #$9E : BNE BRANCH_OMICRON
+        CPX.b #$95 : BEQ .BRANCH_XI
+            CPX.b #$9E : BNE .BRANCH_OMICRON
+                .BRANCH_XI
     
-    BRANCH_XI:
-    
-        LSR A : ROR $00
+                LSR A : ROR $00
+                
+                CMP.w #$3000 : BCC .BRANCH_PI
+                
+                ORA.w #$F000
+                
+                BRA .BRANCH_PI
         
-        CMP.w #$3000 : BCC BRANCH_PI
-        
-        ORA.w #$F000
-        
-        BRA BRANCH_PI
+        .BRANCH_OMICRON
     
-    BRANCH_OMICRON:
+        CMP.w #$7000 : BCC .BRANCH_PI
+            ORA.w #$F000
     
-        CMP.w #$7000 : BCC BRANCH_PI
-        
-        ORA.w #$F000
-    
-    BRANCH_PI:
+        .BRANCH_PI
     
         STA $06
         
-        LDA $0620 : ADD $00 : STA $0620
-        LDA $E0   : ADC $06 : STA $E0
+        LDA $0620 : CLC : ADC $00 : STA $0620
+        LDA $E0         : ADC $06 : STA $E0
     
     ; *$72F91 ALTERNATE ENTRY POINT
-    BRANCH_MUNU:
+    .BRANCH_MUNU
     
-        LDX $8C
+    LDX $8C
         
-        CPX.b #$9C : BEQ BRANCH_RHO
+    CPX.b #$9C : BEQ BRANCH_RHO
         CPX.b #$97 : BEQ BRANCH_SIGMA
-        CPX.b #$9D : BNE BRANCH_TAU
+            CPX.b #$9D : BNE BRANCH_TAU
+                .BRANCH_SIGMA
+            
+                LDA $0622 : CLC : ADC.w #$2000 : STA $0622
+                LDA $E6         : ADC.w #$0000 : STA $E6
+                LDA $0620 : CLC : ADC.w #$2000 : STA $0620
+                LDA $E0         : ADC.w #$0000 : STA $E0
+                
+                BRA .BRANCH_TAU
     
-    BRANCH_SIGMA:
+    .BRANCH_RHO
     
-        LDA $0622 : ADD.w #$2000 : STA $0622
-        LDA $E6   : ADC.w #$0000 : STA $E6
-        LDA $0620 : ADD.w #$2000 : STA $0620
-        LDA $E0   : ADC.w #$0000 : STA $E0
+    LDA $0622 : SEC : SBC.w #$2000 : STA $0622
         
-        BRA BRANCH_TAU
+    LDA $E6 : SEC : SBC.w #$0000 : CLC : ADC $069E : STA $E6
+    LDA $E2                                  : STA $E0
     
-    BRANCH_RHO:
+    .BRANCH_TAU
     
-        LDA $0622 : SUB.w #$2000 : STA $0622
-        
-        LDA $E6 : SUB.w #$0000 : ADD $069E : STA $E6
-        LDA $E2                              : STA $E0
-    
-    BRANCH_TAU:
-    
-        LDA $A0 : CMP.w #$0181 : BNE BRANCH_UPSILON
-        
+    LDA $A0 : CMP.w #$0181 : BNE .BRANCH_UPSILON
         LDA $E8 : ORA.w #$0100 : STA $E6
         LDA $E2                : STA $E0
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
-        SEP #$20
+    SEP #$20
         
-        PLB
+    PLB
         
-        RTL
-    }
+    RTL
+}
 
     ; *$72FF2-$73037 LOCAL
     {
@@ -2779,27 +2763,27 @@ BRANCH_ALPHA:
     
     BRANCH_ALPHA:
     
-        LDA $E2, X : ADD $00 : STA $E2, X
+        LDA $E2, X : CLC : ADC $00 : STA $E2, X
         
         INC $06
         
-        LDA $04 : ADD $00 : STA $04
+        LDA $04 : CLC : ADC $00 : STA $04
         
         DEC $02 : BNE BRANCH_ALPHA
         
         TYA : ORA.w #$0002 : TAX
         
-        LDA $0624, Y : ADD $06 : STA $0624, Y
+        LDA $0624, Y : CLC : ADC $06 : STA $0624, Y
         
         CMP.w #$0010 : BMI BRANCH_BETA
         
-        SUB.w #$0010 : STA $0624, Y
+        SEC : SBC.w #$0010 : STA $0624, Y
         
         LDA .flags, Y : ORA $0416 : STA $0416
     
     BRANCH_BETA:
     
-        LDA.w #$0000 : SUB $0624, Y : STA $0624, X
+        LDA.w #$0000 : SEC : SBC $0624, Y : STA $0624, X
         
         RTS
     }
@@ -3556,7 +3540,7 @@ BRANCH_ALPHA:
         LDA.w #$0000 : STA $7EF3EF
         
         ; The counter for the number of times you�ve saved/died.
-        LDA $7EF403 : ADD $7EF401 : STA $7EF401
+        LDA $7EF403 : CLC : ADC $7EF401 : STA $7EF401
         
         LDX.b #$18
 
@@ -3564,7 +3548,7 @@ BRANCH_ALPHA:
 
         ; Read values up to $7EF3FF (WORD)
         ; Cycle through all the dungeons
-        ADD $7EF3E7, X : STA $7EF405
+        CLC : ADC $7EF3E7, X : STA $7EF405
         
         DEX #2 : BPL BRANCH_ALPHA
         
@@ -3729,7 +3713,7 @@ BRANCH_ALPHA:
     .noTilemapAdjust
     
         ; $0604 = BG2HOFS / 2, $0600 = BG2HOFS * 3 / 2, $0602 = BG2HOFS * 3 / 4
-        LSR A : STA $0604 : ADD $E2 : STA $0600 : LSR A : STA $0602
+        LSR A : STA $0604 : CLC : ADC $E2 : STA $0600 : LSR A : STA $0602
         
         ; $0606 = BG2HOFS / 4
         LDA $0604 : LSR A : STA $0606
@@ -3745,7 +3729,7 @@ BRANCH_ALPHA:
     .notDoneWithSubmodule
     
         ; Scroll the credit list up one pixel
-        ADD.w #$0001 : STA $EA : TAY : AND.w #$0007
+        CLC : ADC.w #$0001 : STA $EA : TAY : AND.w #$0007
         
         BNE .return
         
@@ -3797,7 +3781,7 @@ BRANCH_ALPHA:
         ; load the value for a transparent tile on BG3
         LDA $B176 : STA $1006, X
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
         
         LDA $CA : ASL A : TAY
         
@@ -3815,7 +3799,7 @@ BRANCH_ALPHA:
         ; If it's ...1, that means it's a blank line.
         LDA $B178, Y : AND.w #$00FF : CMP.w #$00FF : BEQ BRANCH_BETA
         
-        ADD $C8 : XBA : STA $1002, X
+        CLC : ADC $C8 : XBA : STA $1002, X
         
         INY : LDA $B178, Y : AND.w #$00FF : XBA : STA $1004, X
         
@@ -3859,7 +3843,7 @@ BRANCH_ALPHA:
         
         LDA .uknown_0, Y : STA $CE
         
-        LDA $C8 : ADD.w #$0019 : XBA : STA $1002, X
+        LDA $C8 : CLC : ADC.w #$0019 : XBA : STA $1002, X
         
         LDA.w #$0500 : STA $1004, X
         
@@ -3875,7 +3859,7 @@ BRANCH_ALPHA:
         
         CMP.w #$03E8 : BCC .lessThanThousand
         
-        LDA.w #$0009 : ADD $CE : STA $1006, X : STA $1008, X : STA $100A, X
+        LDA.w #$0009 : CLC : ADC $CE : STA $1006, X : STA $1008, X : STA $100A, X
         
         BRA BRANCH_THETA
     
@@ -3887,7 +3871,7 @@ BRANCH_ALPHA:
     
         CMP.w #$000A : BMI BRANCH_IOTA
         
-        SUB.w #$000A
+        SEC : SBC.w #$000A
         
         INY
         
@@ -3895,7 +3879,7 @@ BRANCH_ALPHA:
     
     BRANCH_IOTA:
     
-        ADD $CE : STA $100A, X
+        CLC : ADC $CE : STA $100A, X
         
         TYA
         
@@ -3905,7 +3889,7 @@ BRANCH_ALPHA:
     
         CMP.w #$000A : BMI BRANCH_LAMBDA
         
-        SUB.w #$000A
+        SEC : SBC.w #$000A
         
         INY
         
@@ -3913,21 +3897,21 @@ BRANCH_ALPHA:
     
     BRANCH_LAMBDA:
     
-        ADD $CE : STA $1008, X
+        CLC : ADC $CE : STA $1008, X
         
-        TYA : ADD $CE : STA $1006, X
+        TYA : CLC : ADC $CE : STA $1006, X
     
     BRANCH_THETA:
     
         INC $CC
         
-        TXA : ADD.w #$000A : TAX
+        TXA : CLC : ADC.w #$000A : TAX
     
     BRANCH_EPSILON:
     
         STX $1000
         
-        LDA $C8 : ADD.w #$0020 : TAY : AND.w #$03FF : BNE BRANCH_NU
+        LDA $C8 : CLC : ADC.w #$0020 : TAY : AND.w #$03FF : BNE BRANCH_NU
         
         LDA $C8 : AND.w #$6800 : EOR.w #$0800 : TAY
     
@@ -4083,7 +4067,7 @@ BRANCH_ALPHA:
         
         BNE BRANCH_BETA
         
-        TXA : ADD.w #$0006 : STA $1000
+        TXA : CLC : ADC.w #$0006 : STA $1000
         
         SEP #$30
         
@@ -4348,9 +4332,9 @@ Palette_GetOwBgColor:
     LDX.w #$2669
         
     ; ZS writes here.
-    ; $075627
+    ; $075627 - ZS Custom Overworld
     ; If area number < 0x80
-    LDA $8A : CMP.w #$0080 : BCC .notSpecialArea ; JARE
+    LDA $8A : CMP.w #$0080 : BCC .notSpecialArea
         ; Check for special areas
         LDA $A0
         
@@ -4370,7 +4354,7 @@ Palette_GetOwBgColor:
     ; default green color
     LDX.w #$2669
         
-    LDA $8A : AND.w #$0040 : BEQ .finished ; JARE
+    LDA $8A : AND.w #$0040 : BEQ .finished
         ; Default tan color for the dark world
         LDX.w #$2A32                            
     
@@ -4527,7 +4511,7 @@ Palette_GetOwBgColor:
         LDX $0C
         
         ; A = #$0, #$0, #$6, #$C, or #$12
-        LDA $1BEBB4, X : AND.w #$00FF : ADD.w #$D630
+        LDA $1BEBB4, X : AND.w #$00FF : CLC : ADC.w #$D630
         
         REP #$10
         
@@ -4542,7 +4526,7 @@ Palette_GetOwBgColor:
         LDX $0D
         
         ; A = #$0, #$0, #$8, or #$10
-        LDA $1BEBC1, X : AND.w #$00FF : ADD.w #$D648
+        LDA $1BEBC1, X : AND.w #$00FF : CLC : ADC.w #$D648
         
         REP #$10
         
@@ -4556,7 +4540,7 @@ Palette_GetOwBgColor:
         ; Armor value
         LDX $0E
         
-        LDA $1BEC06, X : AND.w #$00FF : ASL A : ADD.w #$D308
+        LDA $1BEC06, X : AND.w #$00FF : ASL A : CLC : ADC.w #$D308
         
         REP #$10
         
@@ -4651,7 +4635,7 @@ Palette_GetOwBgColor:
     {
         STA $00
         
-        AND.w #$001F : ADD.w #$000E
+        AND.w #$001F : CLC : ADC.w #$000E
         
         CMP.w #$001F : BCC .red_not_maxed
         
@@ -4661,7 +4645,7 @@ Palette_GetOwBgColor:
     
         STA $02
         
-        LDA $00 : AND.w #$03E0 : ADD.w #$01C0
+        LDA $00 : AND.w #$03E0 : CLC : ADC.w #$01C0
         
         CMP.w #$03E0 : BCC .green_not_maxed
         
@@ -4671,7 +4655,7 @@ Palette_GetOwBgColor:
     
         STA $04
         
-        LDA $00 : AND.w #$7C00 : ADD.w #$3800
+        LDA $00 : AND.w #$7C00 : CLC : ADC.w #$3800
         
         CMP.w #$7C00 : BCC .blue_not_maxed
         
@@ -4715,7 +4699,7 @@ Palette_Restore_BG_From_Flash:
     SEP #$30
     
     ; ZS starts replacing from here.
-    ; $0758AE ALTERNATE ENTRY POINT
+    ; $0758AE ALTERNATE ENTRY POINT - ZS Custom Overworld
     LDA $1B : BNE .noSpecialColor
         REP #$10
         
@@ -4725,7 +4709,7 @@ Palette_Restore_BG_From_Flash:
         LDX.w #$4F33
         LDY.w #$894F
         
-        LDA $8A    : BEQ .noSpecialColor ; JARE
+        LDA $8A    : BEQ .noSpecialColor
         CMP.b #$40 : BEQ .noSpecialColor
             CMP.b #$5B : BEQ .specialColor
                 LDX.w #$4C26
@@ -5209,11 +5193,11 @@ Palette_Restore_BG_From_Flash:
 
     ; *$75E9A-$75ECD LOCAL
     {
-        LDA $20 : ADD.w #$000C : STA $00
-        SUB $0708 : AND $070A : ASL #3 : STA $06
+        LDA $20 : CLC : ADC.w #$000C : STA $00
+        SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $22 : ADD.w #$0008 : LSR #3 : STA $02
-        SUB $070C : AND $070E : ADD $06 : TAY : TAX
+        LDA $22 : CLC : ADC.w #$0008 : LSR #3 : STA $02
+        SEC : SBC $070C : AND $070E : CLC : ADC $06 : TAY : TAX
         
         LDA $7E2000, X : ASL #3 : TAX
         
@@ -5459,104 +5443,101 @@ Overworld_DwDeathMountainPaletteAnimation_easyOut:
     RTL
 }
 
-; *$77582-$77651 LONG
+; $77582-$77651 LONG
 ; This function controls the lighting flashing int he background of DW death mountain as well as the Ganon's tower palette cycling.
 Overworld_DwDeathMountainPaletteAnimation:
 {
     LDA $04C6 : BNE .easyOut
+        LDA $8A
+        CMP.b #$43 : BEQ .dwDeathMountain
+        CMP.b #$45 : BEQ .dwDeathMountain
+        CMP.b #$47 : BNE .easyOut
+            .dwDeathMountain
+            
+            PHB : PHK : PLB
+                
+            LDA $1A
+            CMP.b #$03 : BEQ .alter_palettes
+            CMP.b #$05 : BEQ .restore_palettes
+            CMP.b #$24 : BEQ .play_sound
+            CMP.b #$2C : BEQ .restore_palettes
+            CMP.b #$58 : BEQ .alter_palettes
+            CMP.b #$5A : BNE .abstain        
+                .restore_palettes
+                    
+                REP #$20
+                        
+                LDX.b #$02
+                    
+                .loop_1
+                    LDA $7EC360, X : STA $7EC560, X
+                    LDA $7EC370, X : STA $7EC570, X
+                    LDA $7EC390, X : STA $7EC590, X
+                    LDA $7EC3E0, X : STA $7EC5E0, X
+                    LDA $7EC3F0, X : STA $7EC5F0, X
+                        
+                INX #2 : CPX.b #$10 : BNE .loop_1
+                        
+                BRA .abstain
+                    
+            .play_sound
+                
+            LDX.b #$36 : STX $012E
+            
+            .alter_palettes
 
-    LDA $8A ; JARE
-    CMP.b #$43 : BEQ .dwDeathMountain
-    CMP.b #$45 : BEQ .dwDeathMountain
-    CMP.b #$47 : BNE .easyOut
-    
-    .dwDeathMountain
-    
-    PHB : PHK : PLB
-        
-    LDA $1A
-    CMP.b #$03 : BEQ .alter_palettes
-    CMP.b #$05 : BEQ .restore_palettes
-    CMP.b #$24 : BEQ .play_sound
-    CMP.b #$2C : BEQ .restore_palettes
-    CMP.b #$58 : BEQ .alter_palettes
-    CMP.b #$5A : BNE .abstain
-            
-        .restore_palettes
-            
-        REP #$20
-                
-        LDX.b #$02
-            
-        .loop_1
-            LDA $7EC360, X : STA $7EC560, X
-            LDA $7EC370, X : STA $7EC570, X
-            LDA $7EC390, X : STA $7EC590, X
-            LDA $7EC3E0, X : STA $7EC5E0, X
-            LDA $7EC3F0, X : STA $7EC5F0, X
-                
-        INX #2 : CPX.b #$10 : BNE .loop_1
-                
-        BRA .abstain
-            
-    .play_sound
-        
-    LDX.b #$36 : STX $012E
-    
-    .alter_palettes
-
-    REP #$20
-        
-    LDX.b #$02
-    LDY.b #$00
-    
-    .loop_2
-        LDA $F4EB, Y : STA $7EC560, X
-        LDA $F4F9, Y : STA $7EC570, X
-        LDA $F507, Y : STA $7EC590, X
-        LDA $F515, Y : STA $7EC5E0, X
-        LDA $F523, Y : STA $7EC5F0, X
-        
-        INY #2
-        
-    INX #2 : CPX.b #$10 : BNE .loop_2
-    
-    .abstain
-    
-    SEP #$20
-        
-    LDX.b #$00
-    LDY.b #$40
-        
-    LDA $8A ; JARE
-        
-    CMP.b #$43 : BEQ .check_flag
-        CMP.b #$45 : BNE .do_palette_animation
-    
-    .check_flag
-    
-    LDA $7EF2C3 : AND.b #$20 : BNE .ganons_tower_opened
-        LDA $1A : AND.b #$0C : ASL #2 : TAY
-    
-        .do_palette_animation
-        .palette_write_loop
             REP #$20
+                
+            LDX.b #$02
+            LDY.b #$00
             
-            LDA $F531, Y : STA $7EC5D0, X
+            .loop_2
+                LDA $F4EB, Y : STA $7EC560, X
+                LDA $F4F9, Y : STA $7EC570, X
+                LDA $F507, Y : STA $7EC590, X
+                LDA $F515, Y : STA $7EC5E0, X
+                LDA $F523, Y : STA $7EC5F0, X
+                
+                INY #2
+                
+            INX #2 : CPX.b #$10 : BNE .loop_2
             
-            INY #2
-        
-        INX #2 : CPX.b #$10 : BNE .palette_write_loop
-    
-    .ganons_tower_opened
-    
-    SEP #$20
-        
-    PLB
-        
-    INC $15
-        
-    RTL
+            .abstain
+            
+            SEP #$20
+                
+            LDX.b #$00
+            LDY.b #$40
+                
+            LDA $8A
+                
+            CMP.b #$43 : BEQ .check_flag
+                CMP.b #$45 : BNE .do_palette_animation
+            
+            .check_flag
+            
+            LDA $7EF2C3 : AND.b #$20 : BNE .ganons_tower_opened
+                LDA $1A : AND.b #$0C : ASL #2 : TAY
+            
+                .do_palette_animation
+                .palette_write_loop
+                    REP #$20
+                    
+                    LDA $F531, Y : STA $7EC5D0, X
+                    
+                    INY #2
+                
+                INX #2 : CPX.b #$10 : BNE .palette_write_loop
+            
+            .ganons_tower_opened
+            
+            SEP #$20
+                
+            PLB
+                
+            INC $15
+                
+            RTL
 }
 
 ; ==============================================================================
