@@ -1910,7 +1910,7 @@ Dungeon_02_09:
     ; *$10AC8 ALTERNATE ENTRY POINT
     .notDarkRoom
 
-    JSL $00913F ; $113F IN ROM
+    JSL Underworld_PrepareNextRoomQuadrantUpload ; $113F IN ROM
     
     INC $B0
     
@@ -2529,7 +2529,7 @@ Dungeon_FallingTransition:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     dw $8E63 ; = $10E63*
-    dw $A2A0 ; = $122A0*
+    dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $8CE2 ; = $10CE2*
     dw $8E0F ; = $10E0F*
     dw $8E1D ; = $10E1D*
@@ -4023,7 +4023,7 @@ Dungeon_Teleport:
     
     LDA $7EC011 : ORA.b #$03 : STA $95
     
-    JMP $A2A0 ; $122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce ; $122A0 IN ROM
 }
 
 ; *$116BA-$116EB JUMP LOCATION
@@ -4077,7 +4077,7 @@ Dungeon_Teleport:
     
     LDA $7EC011 : ORA.b #$03 : STA $95
     
-    JMP $A2A0 ; $122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce ; $122A0 IN ROM
 }
 
 ; ==============================================================================
@@ -4465,7 +4465,7 @@ Module0C_RunSubmodule:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     dw $8CA9 ; = $10CA9*
-    dw $A2A0 ; = $122A0*
+    dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $992E ; = $1192E*
 }
 
@@ -4504,7 +4504,7 @@ Module0D_RunSubmodule:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $A2A0 ; = $122A0*
+    dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $995B ; = $1195B*
 }
 
@@ -5814,7 +5814,7 @@ TriforceRoom_Step0:
 TriforceRoom_Step1:
 {
     JSR Overworld_ResetMosaic
-    JMP $A2A0 ; $122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce ; $122A0 IN ROM
 }
 
 ; *$12035-$12064 LOCAL
@@ -6271,6 +6271,7 @@ HoleToDungeon_PaletteFilter:
 ; ==============================================================================
 
 ; $122A0-$122A4 JUMP LOCATION
+ApplyPaletteFilter_bounce:
 {
     JSL PaletteFilter.doFiltering
     
@@ -6662,13 +6663,13 @@ Overworld_PlayerControl:
 
     JSL Overworld_Entrance
     JSL Overworld_DwDeathMountainPaletteAnimation
-    JSR $A9C4   ; $129C4 IN ROM
+    JSR OverworldHandleTransitions  ; $129C4 IN ROM
     
     BRA .return
 
     .specialOverworld
 
-    JSR $AB7B   ; $12B7B IN ROM
+    JSR ScrollAndCheckForSOWExit   ; $12B7B IN ROM
 
     .return
 
@@ -6679,11 +6680,21 @@ Overworld_PlayerControl:
 
 ; =============================================
 
-;data $125EC-$12632 LOCAL ; has something to do with how the lightworld moving from one area to another works
+; DATA $125EC-$12632 LOCAL 
+; has something to do with how the lightworld moving from one area to another works
 
-;followed by other data?
+Overworld_ActualScreenID:
+  db $00, $00, $02, $03, $03, $05, $05, $07
+  db $00, $00, $0A, $03, $03, $05, $05, $0F
+  db $10, $11, $12, $13, $14, $15, $16, $17
+  db $18, $18, $1A, $1B, $1B, $1D, $1E, $1E
+  db $18, $18, $22, $1B, $1B, $25, $1E, $1E
+  db $28, $29, $2A, $2B, $2C, $2D, $2E, $2F
+  db $30, $30, $32, $33, $34, $35, $35, $37
+  db $30, $30, $3A, $3B, $3C, $35, $35, $3F
 
 ; data $1262C
+OverworldScreenTilemapChange:
 dw $0F80, $0F80, $003F, $003F 
 
 ;data $12634 ; transitioning right
@@ -6784,6 +6795,7 @@ dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
 
 ; *$129C4-$12B07 LOCAL
 ; ZS modifies part of this function.
+OverworldHandleTransitions:
 {
     ; Tells us which direction we're scrolling in
     LDA $0416 : BEQ .noScroll
@@ -6999,6 +7011,7 @@ Overworld_LoadMapProperties:
 ; ==============================================================================
 
 ; *$12B7B-$12B87 LOCAL
+ScrollAndCheckForSOWExit:
 {
     LDA $0416 : BEQ .alpha
     
@@ -7097,11 +7110,11 @@ Overworld_TransMapData:
 }
 
 ; *$12BDA - $12BEC LOCAL JUMPED
+Overworld_RunScrollTransition:
 {
-    
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
     JSL Graphics_IncrementalVramUpload
-    JSR $C001   ; $14001 IN ROM
+    JSR OverworldScrollTransition   ; $14001 IN ROM
     
     AND.b #$0F : BEQ .alpha
     
@@ -7109,7 +7122,7 @@ Overworld_TransMapData:
 
     .alpha
 
-    JMP $AC30 ; $12C30
+    JMP OverworldTranScrollSet ; $12C30
 }
 
 ; =============================================
@@ -7160,6 +7173,7 @@ Overworld_TransMapData2:
     LDX $0410 : CPX.b #$04 : BCC .notVerticalTrans
 
 ; *$12C30 ALTERNATE ENTRY POINT
+OverworldTranScrollSet:
     .alwaysScroll
     
     STX $0416
@@ -7176,6 +7190,7 @@ Overworld_TransMapData2:
 ; =============================================
 
 ; *$12C3A - $12C8E LOCAL JUMPED
+Overworld_EaseOffScrollTransition:
 {
 
     LDX $8A
@@ -7284,8 +7299,24 @@ Overworld_TransMapData2:
 }
 
 ; $12CDA-$12D49 DATA
+Map32UpdateTiles:
+  dw $0DA2, $0DA3, $0DA4, $0DA5 ; sanc doors half open
+  dw $0DA6, $0DA7, $0DA8, $0DA9 ; sanc doors 2/3 open
+  dw $0DAA, $0DAB, $0DAC, $0DAD ; sanc doors fully open
+  dw $0DB0, $0DB1, $0DB2, $0DB3 ; castle doors 2/3 open
+  dw $0DB4, $0DB5, $0DB6, $0DB7 ; castle doors fully open
+  dw $0DC7, $0DC8, $0DC9, $0DCA ; big rock imprint
+  dw $0DCD, $0DCE, $0DCF, $0DD0 ; open grave with corpse bottom half
+  dw $0DD1, $0DD2, $0DD3, $0DD4 ; open grave with stairs bottom half
+  dw $0DCB, $0DCC, $0DCD, $0DCE ; open grave with corpse top half
+  dw $0DCB, $0DCC, $0DD1, $0DD2 ; open grave with stairs top half
+  dw $0912, $0913, $0914, $0915 ; stairs to cave
+  dw $0DD5, $0DD6, $0DD7, $0DD8 ; open grave with pit bottom half
+  dw $0DCB, $0DCC, $0DD5, $0DD6 ; open grave with pit top half
+  dw $0E1B, $0E1C, $0E1D, $0E1E ; broken weather vane
 
 ; *$12D4A-$12D5B JUMP LOCATION
+Module09_09_OpenBigDoorFromExiting:
 {
     LDA $0690 : CMP.b #$03 : BNE .BRANCH_12D7B
     
@@ -7324,6 +7355,7 @@ Overworld_DoMapUpdate32x32_Long:
 }
 
 ; *$12D6C-$12E5D LOCAL
+Module09_0C_OpenBigDoor:
 {
     LDA $0690 : CMP.b #$03 : BNE .BRANCH_ALPHA
     
@@ -7336,7 +7368,7 @@ Overworld_DoMapUpdate32x32_Long:
 
     LDA $0692 : AND.b #$07 : BEQ .BRANCH_BETA
     
-    JMP $AE5A   ; $12E5A IN ROM
+    JMP NoMap32Update   ; $12E5A IN ROM
 
 ; *$12D85 ALTERNATE ENTRY POINT
 shared Overworld_DoMapUpdate32x32:
@@ -7346,6 +7378,7 @@ shared Overworld_DoMapUpdate32x32:
     REP #$30
 
 ; *$12D87 ALTERNATE ENTRY POINT
+Overworld_DoMapUpdate32x32_16bit_already:
     ; This appears to happen if you pick up a large rock
     ; (Or other map16 modifications like a place sanctuary door opening)
     
@@ -7418,6 +7451,7 @@ shared Overworld_DoMapUpdate32x32:
     LDA.b #$01 : STA $14
 
 ; *$12E5A ALTERNATE ENTRY POINT
+NoMap32Update:
 
     INC $0692
     
@@ -7425,6 +7459,7 @@ shared Overworld_DoMapUpdate32x32:
 }
 
 ; *$12E5E-$12E6C JUMP LOCATION
+Overworld_StartMosaicTransition:
 {
     ; Modules 0x09.0x0D, 0x09.0x17, 0x09.0x24
     
@@ -7435,14 +7470,15 @@ shared Overworld_DoMapUpdate32x32:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $AE6D ; = $12E6D*
-    dw $A2A0 ; perform color filtering ( darken the screen ) = 0122A0
-    dw $AE86 ; = $12E86*
+    dw OverworldMosaicTransition_HandleSong ; = $12E6D*
+    dw ApplyPaletteFilter_bounce ; perform color filtering ( darken the screen ) = 0122A0
+    dw OverworldMosaicTransition_HandleScreensAndLoadShroom ; = $12E86*
 }
 
 ; =========================================
 
 ; $12E6D-$12E85 JUMP LOCATION
+OverworldMosaicTransition_HandleSong:
 {
     ; module 0x0B.0x24/0x17/0x0D.0x00
     
@@ -7464,6 +7500,7 @@ shared Overworld_DoMapUpdate32x32:
 ; =========================================
 
 ; *$12E86-$12ECD JUMP LOCATION
+OverworldMosaicTransition_HandleScreensAndLoadShroom:
 {
     ; forceblank the screen
     LDA.b #$80 : STA $13                ;JML written here
@@ -7518,6 +7555,7 @@ shared Overworld_DoMapUpdate32x32:
 }
 
 ; $12ECE-$12EDC JUMP LOCATION
+Module09_1D:
 {
     JSR Overworld_ResetMosaic
     
@@ -7526,11 +7564,12 @@ shared Overworld_DoMapUpdate32x32:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     dw $8CA9 ; = $10CA9*
-    dw $A2A0 ; = $122A0*
+    dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $AEDD ; = $12EDD*
 }
 
 ; *$12EDD-$12EE9 JUMP LOCATION 
+Module09_1D_02_FBlankAndEnterModule0A:
 {
     LDA.b #$80 : STA $13 : STZ $B0
     
@@ -7540,6 +7579,7 @@ shared Overworld_DoMapUpdate32x32:
 }
 
 ; *$12EEA-$12EF8 JUMP LOCATION
+Module09_1E:
 {
     JSR Overworld_ResetMosaic
     
@@ -7548,11 +7588,12 @@ shared Overworld_DoMapUpdate32x32:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     dw $8CA9 ; = $10CA9*
-    dw $A2A0 ; = $122A0*
+    dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $AEF9 ; = $12EF9*
 }
 
 ; *$12EF9-$12F0A JUMP LOCATION
+Module09_1E_02_FBlankAndLoadSPOW:
 {
     LDA.b #$80 : STA $13
     
@@ -7818,6 +7859,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 ; ==============================================================================
 
 ; *$130D2-$130F2 JUMP LOCATION
+Module09_FadeBackInFromMosaic:
 {
     LDA $7EC007 : LSR A : BCC .BRANCH_ALPHA
     
@@ -7837,6 +7879,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$130F3-$1314F JUMP LOCATION
+OverworldMosaicTransition_RecoverDestinationPalettes:
 {
     LDX $8A
     
@@ -7849,6 +7892,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
     BRA .BRANCH_$13171
 
 ; *$13105 ALTERNATE ENTRY POINT
+OverworldMosaicTransition_RecoverSongAndSetMoving:
 
     LDA $0130 : STA $0133
     
@@ -7894,6 +7938,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$13150-$13170 JUMP LOCATION
+Module09_1C:
 {
     ; if(!($7EC007 % 2)) goto .BRANCH_ALPHA
     LDA $7EC007 : LSR A : BCC .BRANCH_ALPHA
@@ -7909,12 +7954,13 @@ Overworld_LoadSubscreenAndSilenceSFX1:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $B171 ; = $13171*
-    dw $B195 ; = $13195*
+    dw OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic ; = $13171*
+    dw OverworldMosaicTransition_FilterAndLoadGraphics ; = $13195*
     dw $B19E ; = $1319E*
 }
 
 ; *$13171-$13194 JUMP LOCATION
+OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
 {
     JSL LoadNewSpriteGFXSet ; $6031 IN ROM
     
@@ -7932,6 +7978,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$13195-$1319D JUMP LOCATION
+OverworldMosaicTransition_FilterAndLoadGraphics:
 {
     JSL Graphics_IncrementalVramUpload
     JSL PaletteFilter.doFiltering
@@ -7940,6 +7987,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$1319E-$131BA JUMP LOCATION
+Module09_1C_02_HandleMusic:
 {
     LDA $8A : CMP.b #$80 : BCS .BRANCH_ALPHA
     
@@ -7959,6 +8007,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$131BB-$131C7 JUMP LOCATION
+Module09_22:
 {
     INC $13
     
@@ -7973,6 +8022,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$131C8-$131DE JUMP LOCATION
+Module09_18:
 {
     ; Module 0x09.0x18 (overworld loading an area submodule)
     
@@ -7991,6 +8041,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 }
 
 ; *$131DF-$131EF JUMP LOCATION
+Module09_19:
 {
     ; Goes on to load a bunch of OW data like Map16 / Map32
     
@@ -8008,6 +8059,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 ; ==============================================================================
 
 ; *$131F0-$131F3 LONG
+Overworld_LoadAndBuildScreen_long:
 {
     JSR Overworld_LoadAmbientOverlayAndMapData
     
@@ -8017,6 +8069,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 ; ==============================================================================
 
 ; *$131F4-$131F9 LONG
+Overworld_ReloadSubscreenOverlayAndAdvance_long:
 {
     JSR $AF1E; $12F1E IN ROM
     
@@ -8154,6 +8207,7 @@ Overworld_FinishMirrorWarp:
 
 ; *$132D4-$132E5 LONG
 ; ZS replaces this whole function. - ZS Custom Overworld
+MirrorWarp_HandleCastlePyramidSubscreen:
 {
     JSR Overworld_LoadSubscreenAndSilenceSFX1 ; $012F19 IN ROM
         
@@ -8173,6 +8227,7 @@ Overworld_FinishMirrorWarp:
 ; ==============================================================================
 
 ; *$132E6-$13333 LONG
+Overworld_DrawScreenAtCurrentMirrorPosition:
 {
     REP #$20
     
@@ -8218,6 +8273,7 @@ Overworld_FinishMirrorWarp:
 
 ; *$13334-$13409 LONG
 ; ZS rewrites part of this function.
+MirrorWarp_LoadSpritesAndColors:
 {
     LDA.b #$90 : STA $031F
         
@@ -8326,6 +8382,7 @@ Overworld_FinishMirrorWarp:
 }
 
 ; *$1340F-$13431 JUMP LOCATION
+Module09_2E_Whirlpool:
 {
     INC $0710
         
@@ -8333,19 +8390,19 @@ Overworld_FinishMirrorWarp:
         
     JSL UseImplicitRegIndexedLocalJumpTable
         
-    dw $B432 ; = $13432*
-    dw $B44C ; = $1344C*
-    dw $B451 ; = $13451*
-    dw $B46E ; = $1346E*
+    dw Whirlpool_InitWhirlpool ; = $13432*
+    dw Whirlpool_FilterBlue ; = $1344C*
+    dw Whirlpool_MoreBlue ; = $13451*
+    dw Whirlpool_FindDestination ; = $1346E*
     dw $B48A ; = $1348A*
-    dw $B490 ; = $13490*
+    dw Whirlpool_LoadDestinationMap ; = $13490*
     dw $B48A ; = $1348A*
-    dw $B49A ; = $1349A*
-    dw $B49F ; = $1349F*
-    dw $B4AE ; = $134AE*
+    dw Whirlpool_LoadAuxGraphics ; = $1349A*
+    dw Whirlpool_TriggerTilemapUpdate ; = $1349F*
+    dw Whirlpool_LoadPalettes ; = $134AE*
     dw $B45F ; = $1345F*
     dw $B456 ; = $13456*
-    dw $B4EF ; = $134EF*
+    dw Whirlpool_FinalizeWarp  ; = $134EF*
     }
 
     ; *$13432-$1344B JUMP LOCATION
@@ -8668,7 +8725,7 @@ Dungeon_AdjustForRoomLayout:
     ; value for left half of screen
     LDY.b #$01
 
-.inRightHalf
+    .inRightHalf
 
     STY $00
     
@@ -8680,11 +8737,11 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $B5AC, X : AND $00 : BNE .gamma
 
-.blastWallOpenHoriz
+    .blastWallOpenHoriz
 
     LDA.b #$02 : STA $A6
 
-.gamma
+    .gamma
 
     STZ $A7
     
@@ -8695,7 +8752,7 @@ Dungeon_AdjustForRoomLayout:
     ; Value for upper half
     LDY.b #$04
 
-.inLowerHalf
+    .inLowerHalf
 
     STY $00
     
@@ -8707,23 +8764,23 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $B5AC, X : AND $00 : BNE .zeta
 
-.blastWallOpenVert
+    .blastWallOpenVert
 
     LDA.b #$02 : STA $A7
 
-.zeta
+    .zeta
 
     LDA $FC : BEQ .blastWallHorizOverride
     
     STA $A6
 
-.blastWallHorizOverride
+    .blastWallHorizOverride
 
     LDA $FD : BEQ .blastWallVertOverride
     
     STA $A7
 
-.blastWallVertOverride
+    .blastWallVertOverride
 
     PLB
     
@@ -8785,7 +8842,7 @@ Dungeon_AdjustForRoomLayout:
     
     BRA .BRANCH_GAMMA
 
-.notRoomLinkDoor
+    .notRoomLinkDoor
 
     ; Load the room number
     ; compare it to the... um, room number?
@@ -8795,11 +8852,11 @@ Dungeon_AdjustForRoomLayout:
     
     JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     INC $A0
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     INC $11
     
@@ -8807,13 +8864,13 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $EE : EOR.b #$01 : STA $EE : STA $0476
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     LDA $EF : AND.b #$02 : BEQ .BRANCH_ALPHA
     
     LDA $040C : EOR.b #$02 : STA $040C
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STZ $EF
     STZ $A7
@@ -8824,7 +8881,7 @@ Dungeon_AdjustForRoomLayout:
     
     LDY.b #$04
 
-.BRANCH_THETA:
+    .BRANCH_THETA:
 
     STY $00
     
@@ -8834,11 +8891,11 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
 
-.BRANCH_IOTA
+    .BRANCH_IOTA
 
     LDA.b #$02 : STA $A7
 
-.BRANCH_KAPPA:
+    .BRANCH_KAPPA:
 
     PLB
     
@@ -8898,7 +8955,7 @@ Dungeon_AdjustForRoomLayout:
     
     BRA .BRANCH_GAMMA
 
-.notRoomLinkDoor
+    .notRoomLinkDoor
 
     LDA $048E : CMP $A0 : BEQ .BRANCH_DELTA
     
@@ -8906,11 +8963,11 @@ Dungeon_AdjustForRoomLayout:
     
     JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     DEC $A0
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     INC $11
     
@@ -8918,13 +8975,13 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $EE : EOR.b #$01 : STA $EE : STA $0476
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     LDA $EF : AND.b #$02 : BEQ .BRANCH_ALPHA
     
     LDA $040C : EOR.b #$02 : STA $040C
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STZ $EF
     STZ $A7
@@ -8935,7 +8992,7 @@ Dungeon_AdjustForRoomLayout:
     
     LDY.b #$04
 
-.BRANCH_THETA:
+    .BRANCH_THETA:
 
     STY $00
     
@@ -8945,11 +9002,11 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
 
-.BRANCH_IOTA
+    .BRANCH_IOTA
 
     LDA.b #$02 : STA $A7
 
-.BRANCH_KAPPA:
+    .BRANCH_KAPPA:
 
     PLB
     
@@ -9019,7 +9076,7 @@ Dungeon_AdjustForRoomLayout:
     
     RTL
 
-.notGoingToOverworld
+    .notGoingToOverworld
 
     LDA $048E : CMP $A0 : BEQ .gamma
     
@@ -9027,7 +9084,7 @@ Dungeon_AdjustForRoomLayout:
     
     JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
 
-.gamma
+    .gamma
 
     ; Move down to the next room.
     LDA $A0 : CLC : ADC.b #$10 : STA $A0
@@ -9038,13 +9095,13 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $EE : EOR.b #$01 : STA $EE : STA $0476
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     LDA $EF : AND.b #$0 : BEQ .BRANCH_ALPHA
     
     LDA $040C : EOR.b #$02 : STA $040C
 
-.inRoomLowerHalf
+    .inRoomLowerHalf
 
     STZ $EF
     STZ $A6
@@ -9055,7 +9112,7 @@ Dungeon_AdjustForRoomLayout:
     
     LDY.b #$01
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     STY $00
     
@@ -9065,11 +9122,11 @@ Dungeon_AdjustForRoomLayout:
     
     LDA $B5AC, X : AND $00 : BNE .BRANCH_THETA
 
-.BRANCH_ZETA
+    .BRANCH_ZETA
 
     LDA.b #$02 : STA $A6
 
-.BRANCH_THETA:
+    .BRANCH_THETA:
 
     PLB
     
@@ -9966,7 +10023,7 @@ Overworld_OperateCameraScroll:
     ; operate on the vertical scroll registers
     LDX.b #$06
 
-.horizontalScrolling
+    .horizontalScrolling
     ; $13DF3 IN ROM
     LDA $E2, X : CLC : ADC $BDF3, Y : AND.w #$FFFE : STA $E2, X : STA $E0, X : STA $00
     
@@ -9976,14 +10033,14 @@ Overworld_OperateCameraScroll:
     
     LDX.b #$02
 
-.verticalScrolling ; ???? is this name correct?
+    .verticalScrolling ; ???? is this name correct?
 
     LDA $0126 : AND.w #$00FF : CMP $BDFB, Y : BCC .BRANCH_GAMMA
     
     ; $13DF3 IN ROM
     LDA $20, X : CLC : ADC $BDF3, Y : STA $20, X
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     ; check the scroll register mirror against the target scroll value
     LDA $00 : AND.w #$01FC : CMP $0610, Y : BNE .BRANCH_DELTA
@@ -10004,13 +10061,13 @@ Overworld_OperateCameraScroll:
     
     RTS
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     PLB
     
     SEP #$20
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     RTS
 }
@@ -10039,7 +10096,7 @@ StraightStairs_10:
     
     INX #4
 
-.beta
+    .beta
 
     LDA $20 : CLC : ADC $BE6D, X : STA $20
     
@@ -10050,7 +10107,7 @@ StraightStairs_10:
     
     INC $B0
 
-.alpha
+    .alpha
 
     SEP #$20
     
@@ -10133,6 +10190,7 @@ dw $FF90, $0070, $FE00, $0200
 
 ; *$14001-$140C2 LOCAL
 ; ZS rewrites part of this function.
+OverworldScrollTransition:
 {
     PHB : PHK : PLB
         
@@ -10324,13 +10382,13 @@ IntraroomTransitionCalculateLanding:
     
     LDA.b #$01
 
-.notDefault
+    .notDefault
 
     CMP.b #$04 : BNE .beta
     
     LDA.b #$02
 
-.beta
+    .beta
 
     CLC : ADC $02C0F8, X : TAX
     
@@ -10340,7 +10398,7 @@ IntraroomTransitionCalculateLanding:
     
     LDY.b #$F8
 
-.positive
+    .positive
 
     ; Y = 8 or -8, depending
     STY $00
@@ -10365,7 +10423,7 @@ IntraroomTransitionCalculateLanding:
     JSL PaletteFilter.doFiltering
 
 ; *$14170 ALTERNATE ENTRY POINT
-.noDarkTransition
+    .noDarkTransition
 
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
     
@@ -10377,11 +10435,11 @@ IntraroomTransitionCalculateLanding:
     CPX.b #$02 : BEQ .BRANCH_GAMMA
     CPX.b #$04 : BNE .BRANCH_DELTA
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     STZ $6C
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     STZ $6F
     STZ $49
@@ -10390,7 +10448,7 @@ IntraroomTransitionCalculateLanding:
     
     INC $B0
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     RTS
 }
@@ -10410,7 +10468,7 @@ IntraroomTransitionCalculateLanding:
     
     LDY.b #$FE
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STY $00
     
@@ -10422,7 +10480,7 @@ IntraroomTransitionCalculateLanding:
     
     INX
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     CLC : ADC $20 : STA $20
     
@@ -10430,13 +10488,13 @@ IntraroomTransitionCalculateLanding:
     
     LDA $20 : AND.b #$FE : CMP $02C0FC, X : BEQ .BRANCH_DELTA
 
-.BRANCH_ZETA
+    .BRANCH_ZETA
 
     CLC
     
     RTS
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDY.b #$FF
     
@@ -10444,14 +10502,14 @@ IntraroomTransitionCalculateLanding:
     
     INX
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
           CLC : ADC $22 : STA $22
     TYA : ADC $23 : STA $23
     
     LDA $22 : AND.b #$FE : CMP $02C0FC, X : BNE .BRANCH_ZETA
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     SEC
     
@@ -10469,7 +10527,7 @@ IntraroomTransitionCalculateLanding:
     
     CLC : ADC.w #$1000
 
-.onBg2
+    .onBg2
 
     REP #$10
     
@@ -10504,7 +10562,7 @@ IntraroomTransitionCalculateLanding:
     
     DEY #2 ; Y = 2
 
-.beta
+    .beta
 
     STY $4E
     
@@ -10581,6 +10639,7 @@ IntraroomTransitionCalculateLanding:
 }
 
 ; *$142A4-$142E3 JUMP LOCATION
+Module09_1F:
 {
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
     
@@ -10640,11 +10699,13 @@ Overworld_ResetMosaic:
     LDA $7EC007 : LSR A : BCC .init
 
 ; *$142EB ALTERNATE ENTRY POINT
+MosaicControlIncrease:
     .alwaysIncrease
 
     LDA $7EC011 : CLC : ADC.b #$10 : STA $7EC011
 
 ; *$142F6 ALTERNATE ENTRY POINT
+CopyMosaicControl:
     .init
 
     ; The purpose of this is ensure that the priority bit is set
@@ -10900,10 +10961,10 @@ Dungeon_LoadAndDrawRoom:
 
     .next_quadrant
 
-    JSL $0091D3 ; $11D3 IN ROM ; Draws the dungeons.
-    JSL $0090E3 ; $10E3 IN ROM ; Since we are in forced v-blank
-    JSL $00913F ; $113F IN ROM ; We can do these DMA transfers
-    JSL $0090E3 ; $10E3 IN ROM
+    JSL TilemapPrep_NotWaterOnTag ; $11D3 IN ROM ; Draws the dungeons.
+    JSL NMI_UploadTilemap_long ; $10E3 IN ROM ; Since we are in forced v-blank
+    JSL Underworld_PrepareNextRoomQuadrantUpload ; $113F IN ROM ; We can do these DMA transfers
+    JSL NMI_UploadTilemap_long ; $10E3 IN ROM
     
     ; Each iteration draws a quadrant on BG1 and BG2
     ; i.e. it draws the tilemaps, which are taken from WRAM.
@@ -11490,25 +11551,30 @@ Dungeon_LoadEntrance:
 }
 
 ; *$15B6E-$15C54 DATA - mapped
+SpawnPointData:
 {
-.rooms
-
-    dw $0104, $0012, $0080, $0055, $0051, $00F0, $00E4
+.rooms ; writes to $A0, $048E
+  dw $0104 ; 0x00 - Link's house   - ROOM 0104
+  dw $0012 ; 0x01 - Sanctuary      - ROOM 0012
+  dw $0080 ; 0x02 - Prison         - ROOM 0080
+  dw $0055 ; 0x03 - Uncle          - ROOM 0055
+  dw $0051 ; 0x04 - Throne         - ROOM 0051
+  dw $00F0 ; 0x05 - Old man cave   - ROOM 00F0
+  dw $00E4 ; 0x06 - Old man home   - ROOM 00E4
 
 ; $15B7C
-.relativeCoords
-
-    db $21, $20, $21, $21, $09, $09, $09, $0A
-    db $02, $02, $02, $03, $04, $04, $04, $05
-    db $10, $10, $10, $11, $01, $00, $01, $01
-    db $0A, $0A, $0A, $0B, $0B, $0A, $0B, $0B
-    db $0A, $0A, $0A, $0B, $02, $02, $02, $03
-    db $1E, $1E, $1E, $1F, $01, $00, $01, $01
-    db $1D, $1C, $1D, $1D, $08, $08, $08, $09
+.relativeCoords ; to $0600 
+    ; +$1, +$3, +$5, +$7, +$9, +$B, +$D, +$F
+    db $21, $20, $21, $21, $09, $09, $09, $0A ; 0x00 - Link's house
+    db $02, $02, $02, $03, $04, $04, $04, $05 ; 0x01 - Sanctuary
+    db $10, $10, $10, $11, $01, $00, $01, $01 ; 0x02 - Prison
+    db $0A, $0A, $0A, $0B, $0B, $0A, $0B, $0B ; 0x03 - Uncle
+    db $0A, $0A, $0A, $0B, $02, $02, $02, $03 ; 0x04 - Throne
+    db $1E, $1E, $1E, $1F, $01, $00, $01, $01 ; 0x05 - Old man cave
+    db $1D, $1C, $1D, $1D, $08, $08, $08, $09 ; 0x06 - Old man hom
 
 ; $15BB4
 .scrollX
-
     dw $0900, $0480, $00DB, $0A8E, $0280, $0100, $0800
 
 ; $15BC2
@@ -11589,33 +11655,36 @@ Dungeon_LoadStartingPoint:
     LDA $7EF3C8 : AND.w #$00FF : ASL A : TAX : ASL #2 : TAY
     
     ; Set the entrance
-    LDA $DC40, X : STA $010E
+    LDA SpawnPointData_entrance_id, X : STA $010E
     
     ; Load the dungeon room index
-    LDA $DB6E, X : STA $A0 : STA $048E
+    LDA SpawnPointData_room_id, X : STA $A0 : STA $048E
     
     ; Load Camera Y and X coordinates
-    LDA $DBC2, X : STA $E8 : STA $E6 : STA $0122 : STA $0124
-    LDA $DBB4, X : STA $E2 : STA $E0 : STA $011E : STA $0120
+    LDA SpawnPointData_vertical_scroll, X 
+    STA $E8 : STA $E6 : STA $0122 : STA $0124
+
+    LDA SpawnPointData_horizontal_scroll, X 
+    STA $E2 : STA $E0 : STA $011E : STA $0120
     
     ; You goin' to bed!
     LDA $7EF3C5 : BEQ .veryBeginning
     
     ; Set Link's Y and X coordinates
-    LDA $DBD0, X : STA $20
-    LDA $DBDE, X : STA $22
+    LDA SpawnPointData_y_coordinate, X : STA $20
+    LDA SpawnPointData_x_coordinate, X : STA $22
 
     .veryBeginning
 
     ; Set camera scroll boundaries
-    LDA $DBEC, X : STA $0618 : INC #2 : STA $061A
-    LDA $DBFA, X : STA $061C : INC #2 : STA $061E
+    LDA SpawnPointData_camera_trigger_y, X : STA $0618 : INC #2 : STA $061A
+    LDA SpawnPointData_camera_trigger_x, X : STA $061C : INC #2 : STA $061E
     
     ; Set coordinate mask
     LDA.w #$01F8 : STA $EC
     
     ; Load the door settings (for use when exiting)
-    LDA $DC32, X : STA $0696
+    LDA SpawnPointData_overworld_door_tilemap, X : STA $0696
     
     ; scroll boundaries for intraroom and interroom transitions
     LDA.w #$0000 : STA $0610
@@ -11627,7 +11696,8 @@ Dungeon_LoadStartingPoint:
     
     SEP #$20
     
-    ; set a bunch of quadrant boundaries?
+    ; set a bunch of quadrant boundaries
+    ; SpawnPointData_camera_scroll_boundaries, Y
     LDA $DB7C, Y : STA $0601
     LDA $DB7D, Y : STA $0603
     LDA $DB7E, Y : STA $0605
@@ -11645,31 +11715,31 @@ Dungeon_LoadStartingPoint:
     LDA.b #$02 : STA $2F
     
     ; set main bg graphics 
-    LDA $DC08, X : STA $0AA1
+    LDA SpawnPointData_main_GFX, X : STA $0AA1
     
     ; set starting floor
-    LDA $DC0F, X : STA $A4
+    LDA SpawnPointData_floor, X : STA $A4
     
     ; set palace Link is in, if any
-    LDA $DC16, X : STA $040C
+    LDA SpawnPointData_dungeon_id, X : STA $040C
     
     ; start off by not being in a doorway
     STZ $6C
     
     ; set starting floor level for Link (BG2 or BG1)
-    LDA $DC1D, X : LSR #4 : STA $EE
+    LDA SpawnPointData_layer, X : LSR #4 : STA $EE
     
     ; set starting speudo bg level
     LDA $DC1D, X : AND.w #$0F : STA $0476
     
     ; set quadrant information
-    LDA $DC24, X : LSR #4     : STA $A6
-    LDA $DC24, X : AND.b #$0F : STA $A7
-    LDA $DC2B, X : LSR #4     : STA $A9
-    LDA $DC2B, X : AND.b #$0F : STA $AA
+    LDA SpawnPointData_camera_scroll_controller, X : LSR #4     : STA $A6
+    LDA SpawnPointData_camera_scroll_controller, X : AND.b #$0F : STA $A7
+    LDA SpawnPointData_quadrant, X : LSR #4     : STA $A9
+    LDA SpawnPointData_quadrant, X : AND.b #$0F : STA $AA
     
     ; set musicical number to play
-    LDA $DC4E, X : STA $0132
+    LDA SpawnPointData_song, X : STA $0132
     
     CPX.w #$0000 : BNE .notVeryStart
     
@@ -11951,6 +12021,7 @@ Overworld_SimpleExit:
 ; =============================================
 
 ; *$16851-$169BB Local
+LoadSpecialOverworld:
 {
     ; caches a bunch of values and...?
     
@@ -12002,7 +12073,7 @@ Overworld_SimpleExit:
     
     LDA.w #$0182 : STA $A0
 
-.notZoraFalls
+    .notZoraFalls
 
     SEP #$20
     
@@ -12010,14 +12081,19 @@ Overworld_SimpleExit:
     
     LDA $A0 : PHA : SEC : SBC.b #$80 : STA $A0 : TAX
     
+    ; direction 
     LDA $02E801, X : STA $2F : STZ $0412
     
+    ; gfx AA3
     LDA $02E811, X : STA $0AA3
     
+    ; gfx AA2 
     LDA $02E821, X : STA $0AA2 : PHX
     
+    ; palette property b 
     LDA $02E841, X : STA $00
     
+    ; property property a 
     LDA $02E831, X
     
     JSL Overworld_LoadPalettes ; $755A8 IN ROM
@@ -12063,6 +12139,7 @@ Overworld_SimpleExit:
 }
 
 ; *$169BC-$16AE4 LOCAL
+LoadOverworldFromSpecialOverworld:
 {
     ; returns from a special area to a normal overworld area
     
@@ -12140,55 +12217,70 @@ Overworld_SimpleExit:
 ; $16AE5 - $16C38 DATA
 pool BirdTravel_LoadTargetAreaData:
 {
+    ; OW 03 - Flute 1
+    ; OW 16 - Flute 2
+    ; OW 18 - Flute 3
+    ; OW 2C - Flute 4
+    ; OW 2F - Flute 5
+    ; OW 30 - Flute 6
+    ; OW 3B - Flute 7
+    ; OW 3F - Flute 8
+    ; OW 5B - Pyramid
+    ; OW 35 - Lake Hylia whirlpool
+    ; OW 0F - Waterfall of Wishing whirlpool
+    ; OW 15 - Witch whirlpool
+    ; OW 33 - South of Link's house whirlpool
+    ; OW 12 - Death Mountain whirlpool
+    ; OW 3F - Lake Hylia falls whirlpool
+    ; OW 55 - Dark witch whirlpool
+    ; OW 7F - Dark Lake Hylia falls whirlpool
 
-    ; \task Figure out and apply labels to these arrays.
-
-; $eae5
+    ; $eae5
     dw $0003, $0016, $0018, $002C, $002F, $0030, $003B, $003F
     dw $005B, $0035, $000F, $0015, $0033, $0012, $003F, $0055
     dw $007F
 
-; $eb07
+    ; $eb07
     dw $1600, $0888, $0B30, $0588, $0798, $1880, $069E, $0810
     dw $002E, $1242, $0680, $0112, $059E, $048E, $0280, $0112
     dw $0280
 
-; $eb29
+    ; $eb29
     dw $02CA, $0516, $0759, $0AB9, $0AFA, $0F1E, $0EDF, $0F05
     dw $0600, $0E46, $02C6, $042A, $0CBA, $049A, $0E56, $042A
     dw $0E56
 
-; $eb4b
+    ; $eb4b
     dw $060E, $0C4E, $017E, $0840, $0EB2, $0000, $06F2, $0E75
     dw $0778, $0C0A, $0E06, $0A8A, $06EA, $0462, $0E00, $0A8A
     dw $0E00
 
-; $eb6d
+    ; $eb6d
     dw $0328, $0578, $07B7, $0B17, $0B58, $0FA8, $0F3D, $0F67
     dw $065C, $0EA8, $0328, $0488, $0D18, $04F8, $0EB8, $0488
     dw $0EB8
 
-; $eb8f
+    ; $eb8f
     dw $0678, $0CC8, $0200, $08B8, $0F30, $0078, $0778, $0EF3
     dw $07F0, $0C90, $0E80, $0B10, $0770, $04E8, $0E68, $0B10
     dw $0E68
 
-; $ebb1
+    ; $ebb1
     dw $0337, $0583, $07C6, $0B26, $0B67, $0F8D, $0F4C, $0F72
     dw $066D, $0EB3, $0333, $0497, $0D27, $0507, $0EC3, $0497
     dw $0EC3
 
-; $ebd3
+    ; $ebd3
     dw $0683, $0CD3, $020B, $08BF, $0F37, $008D, $077F, $0EFA
     dw $07F7, $0C97, $0E8B, $0B17, $0777, $04EF, $0E85, $0B17
     dw $0E85
 
-; $ebf5
+    ; $ebf5
     dw -10, -6, 7, -9, -10, 0, -15, -5
     dw 0, -6, 10, -10, -10, -10, -6, -10
     dw -6
 
-; $ec17
+    ; $ec17
     dw -14, -14, 2, 0, 14, 0, -2, 11
     dw -8, 6, -6, -6, 6, 14, 0, -6
     dw 0
@@ -12275,7 +12367,14 @@ BirdTravel_LoadTargetAreaPalettes:
 ; $16CF8 - $16D07 DATA
 pool Whirlpool_LookUpAndLoadTargetArea:
 {
-    ; \task Fill in data.
+    dw $000F ; OW 0F - Lake Hylia whirlpool
+    dw $0035 ; OW 35 - Waterfall of Wishing whirlpool
+    dw $0033 ; OW 33 - Witch whirlpool
+    dw $0015 ; OW 15 - South of Link's house whirlpool
+    dw $003F ; OW 3F - Death Mountain whirlpool
+    dw $0012 ; OW 12 - Lake Hylia falls whirlpool
+    dw $007F ; OW 7F - Dark witch whirlpool
+    dw $0055 ; OW 55 - Dark Lake Hylia falls whirlpool
 }
 
 ; ==============================================================================
@@ -12929,17 +13028,18 @@ Overworld_SmallTranRight:
 ; $171FC-$1720D Jump Table
 {
     dw Overworld_TransError
-    dw $F24A                ; = $1724A*      
-    dw $F241                ; = $17241*
+    dw BuildFullStripeDuringTransition_East                ; = $1724A*      
+    dw BuildFullStripeDuringTransition_West                ; = $17241*
     dw Overworld_TransError
-    dw $F238                ; = $17238*
+    dw BuildFullStripeDuringTransition_South                ; = $17238*
     dw Overworld_TransError
     dw Overworld_TransError
     dw Overworld_TransError
-    dw $F218                ; = $17218*
+    dw BuildFullStripeDuringTransition_North                ; = $17218*
 }
 
 ; *$1720E-$17217 LOCAL
+OverworldTransitionScrollAndLoadMap:
 {
     SEP #$30
 
@@ -12949,6 +13049,7 @@ Overworld_SmallTranRight:
 }
 
 ; *$17218-$17237 JUMP LOCATION
+BuildFullStripeDuringTransition_North:
 {
     REP #$30
     
@@ -12976,6 +13077,7 @@ Overworld_SmallTranRight:
 }
 
 ; *$17238-$17240 JUMP LOCATION
+BuildFullStripeDuringTransition_South:
 {
     REP #$30
     
@@ -12987,6 +13089,7 @@ Overworld_SmallTranRight:
 }
 
 ; *$17241-$17249 JUMP LOCATION
+BuildFullStripeDuringTransition_West:
 {
     REP #$30
     
@@ -12998,6 +13101,7 @@ Overworld_SmallTranRight:
 }
 
 ; *$1724A-$17252 JUMP LOCATION
+BuildFullStripeDuringTransition_East:
 {
     REP #$30
     
