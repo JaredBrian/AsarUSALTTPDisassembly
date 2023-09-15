@@ -109,14 +109,14 @@ lorom
             dl Module_Overworld      ; 0x09 - Overworld Mode
             dl Module_PreOverworld   ; 0x0A - Pre Overworld Mode (special overworld)
             dl Module_Overworld      ; 0x0B - Overworld Mode (special overworld)
-            dl Module_Unknown0       ; 0x0C - ???? I think we can declare this one unused, almost with complete certainty.
-            dl Module_Unknown1       ; 0x0D - Blank Screen
+            dl Module0C_Unused       ; 0x0C - ???? I think we can declare this one unused, almost with complete certainty.
+            dl Module0D_Unused       ; 0x0D - Blank Screen
             dl Module_Messaging      ; 0x0E - Text Mode/Item Screen/Map
             dl Module_CloseSpotlight ; 0x0F - Closing Spotlight
             dl Module_OpenSpotlight  ; 0x10 - Opening Spotlight
             dl Module_HoleToDungeon  ; 0x11 - Happens when you fall into a hole from the OW.
             dl Module_Death          ; 0x12 - Death Mode
-            dl Module_GanonVictory   ; 0x13 - Boss Victory Mode (refills stats)
+            dl Module_BossVictory    ; 0x13 - Boss Victory Mode (refills stats)
             dl Module_Attract        ; 0x14 - Attract Mode
             dl Module_Mirror         ; 0x15 - Module for Magic Mirror
             dl Module_Victory        ; 0x16 - Module for refilling stats after boss.
@@ -2657,6 +2657,7 @@ Main_PrepSpritesForNmi:
 ; ==============================================================================
 
     ; *$0011C4-$0012A0 LONG
+    WaterFlood_BuildOneQuadrantForVRAM:
     {
         ; Seems to be used to update the tiles of an room (indoors)
         ; One known use is for the watergate
@@ -4807,6 +4808,7 @@ Main_PrepSpritesForNmi:
 ; ==============================================================================
     
     ; *$006031-$006072 LONG
+    LoadNewSpriteGFXSet:
     {
         LDA.b #$7E : STA $02 : STA $05
         
