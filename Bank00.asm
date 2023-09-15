@@ -750,126 +750,126 @@ ClearOamBuffer:
 ; $0005FC-$000780 LOCAL
 Main_PrepSpritesForNmi:
 {
-; Writes some extra data for the OAM memory
-; The data is written to $0A00 to $0A1F,
-; And the data that is written is formed from
-; The addresses $0A20 through $0A9F
-    
-LDY.b #$1C
-
-.buildHighOamTable
-    ; Y = 0x1C, X = 0x70
-    TYA : ASL #2 : TAX
-    
-    ; Start at $0A93?
-    LDA $0A23, X : ASL #2
-    ORA $0A22, X : ASL #2
-    ORA $0A21, X : ASL #2
-    ORA $0A20, X : STA $0A00, Y
-    
-    LDA $0A27, X : ASL #2
-    ORA $0A26, X : ASL #2
-    ORA $0A25, X : ASL #2
-    ORA $0A24, X : STA $0A01, Y
-    
-    LDA $0A2B, X : ASL #2
-    ORA $0A2A, X : ASL #2
-    ORA $0A29, X : ASL #2
-    ORA $0A28, X : STA $0A02, Y
-    
-    LDA $0A2F, X : ASL #2
-    ORA $0A2E, X : ASL #2
-    ORA $0A2D, X : ASL #2
-    ORA $0A2C, X : STA $0A03, Y
-    
-DEY #4 : BPL .buildHighOamTable
-    
-REP #$31
-    
-LDX $0100
-    
-LDA $9396, X : STA $0ACC : ADC.w #$0200 : STA $0ACE
-LDA $95F4, X : STA $0AD0 : ADD.w #$0200 : STA $0AD2
-    
-LDX $0102 : LDA $9852, X : STA $0AD4
-    
-LDX $0104 : LDA $9852, X : STA $0AD6
-    
-SEP #$10
-    
-LDX $0107 : LDA $849C, X : STA $0AC0 : ADD.w #$0180 : STA $0AC2
-LDX $0108 : LDA $84AC, X : STA $0AC4 : ADD.w #$00C0 : STA $0AC6
-    
-LDA $0109 : AND.w #$00F8 : LSR #2 : TAY
-    
-LDA $0109 : ASL A : TAX
-    
-LDA $84B2, X : STA $0AC8
-    
-CLC : TYX : ADC $85B2, X : STA $0ACA
-    
-LDA $02C3 : AND.w #$0003 : ASL A : TAX
-    
-LDA $8494, X : STA $0AD8 : ADD.w #$0100 : STA $0ADA
-    
-LDA $7EC00D : DEC A : STA $7EC00D : BNE .ignoreTileAnimation
-    ; Reset the counter for tile animation
-    LDA.w #$0009
-    
-    LDX $8C : CPX.b #$B5 : BEQ .BRANCH_1A
-        CPX.b #$BC : BNE .BRANCH_1B
-    
-    .BRANCH_1A
-        LDA.w #$0017
-
-    .BRANCH_1B
-
-    STA $7EC00D
-    
-    LDA $7EC00F : ADD.w #$0400 : CMP.w #$0C00 : BNE .BRANCH_1C
-        LDA.w #$0000
-    
-    .BRANCH_1C
-
-    STA $7EC00F : ADD.w #$A680 : STA $0ADC
-
-.ignoreTileAnimation
-
-LDA $7EC013 : DEC A : STA $7EC013 : BNE .ignoreSpriteAnimation
-    LDA $7EC015 : TAX
-    
-    INX #2 : CPX.b #$0C : BNE .spriteAnimationLoopIncomplete
-        LDX.b #$00
-    
-    .spriteAnimationLoopIncomplete
-    
-    TXA : STA $7EC015
+    ; Writes some extra data for the OAM memory
+    ; The data is written to $0A00 to $0A1F,
+    ; And the data that is written is formed from
+    ; The addresses $0A20 through $0A9F
         
-    LDA $85D2, X : STA $7EC013
+    LDY.b #$1C
+
+    .buildHighOamTable
+        ; Y = 0x1C, X = 0x70
+        TYA : ASL #2 : TAX
         
-    LDA.w #$B280 : CLC : ADC $85DE, X : STA $0AE0
-    CLC : ADC.w #$0060 : STA $0AE2
+        ; Start at $0A93?
+        LDA $0A23, X : ASL #2
+        ORA $0A22, X : ASL #2
+        ORA $0A21, X : ASL #2
+        ORA $0A20, X : STA $0A00, Y
+        
+        LDA $0A27, X : ASL #2
+        ORA $0A26, X : ASL #2
+        ORA $0A25, X : ASL #2
+        ORA $0A24, X : STA $0A01, Y
+        
+        LDA $0A2B, X : ASL #2
+        ORA $0A2A, X : ASL #2
+        ORA $0A29, X : ASL #2
+        ORA $0A28, X : STA $0A02, Y
+        
+        LDA $0A2F, X : ASL #2
+        ORA $0A2E, X : ASL #2
+        ORA $0A2D, X : ASL #2
+        ORA $0A2C, X : STA $0A03, Y
+        
+    DEY #4 : BPL .buildHighOamTable
+        
+    REP #$31
+        
+    LDX $0100
+        
+    LDA $9396, X : STA $0ACC : ADC.w #$0200 : STA $0ACE
+    LDA $95F4, X : STA $0AD0 : ADD.w #$0200 : STA $0AD2
+        
+    LDX $0102 : LDA $9852, X : STA $0AD4
+        
+    LDX $0104 : LDA $9852, X : STA $0AD6
+        
+    SEP #$10
+        
+    LDX $0107 : LDA $849C, X : STA $0AC0 : ADD.w #$0180 : STA $0AC2
+    LDX $0108 : LDA $84AC, X : STA $0AC4 : ADD.w #$00C0 : STA $0AC6
+        
+    LDA $0109 : AND.w #$00F8 : LSR #2 : TAY
+        
+    LDA $0109 : ASL A : TAX
+        
+    LDA $84B2, X : STA $0AC8
+        
+    CLC : TYX : ADC $85B2, X : STA $0ACA
+        
+    LDA $02C3 : AND.w #$0003 : ASL A : TAX
+        
+    LDA $8494, X : STA $0AD8 : ADD.w #$0100 : STA $0ADA
+        
+    LDA $7EC00D : DEC A : STA $7EC00D : BNE .ignoreTileAnimation
+        ; Reset the counter for tile animation
+        LDA.w #$0009
+        
+        LDX $8C : CPX.b #$B5 : BEQ .BRANCH_1A
+            CPX.b #$BC : BNE .BRANCH_1B
+        
+        .BRANCH_1A
+            LDA.w #$0017
 
-.ignoreSpriteAnimation
+        .BRANCH_1B
 
-; setup tagalong sprite for dma transfer
-LDA $0AE8    : ASL A
-ADC.w #$B940 : STA $0AEC
-ADC.w #$0200 : STA $0AEE
-    
-; setup tagalong sprite's other component for dma transfer?
-LDA $0AEA    : ASL A
-ADC.w #$B940 : STA $0AF0
-ADC.w #$0200 : STA $0AF2
-    
-; setup dma transfer for bird's sprite slot
-LDA $0AF4    : ASL A
-ADC.w #$B540 : STA $0AF6
-ADC.w #$0200 : STA $0AF8
-    
-SEP #$20
-    
-RTS
+        STA $7EC00D
+        
+        LDA $7EC00F : ADD.w #$0400 : CMP.w #$0C00 : BNE .BRANCH_1C
+            LDA.w #$0000
+        
+        .BRANCH_1C
+
+        STA $7EC00F : ADD.w #$A680 : STA $0ADC
+
+    .ignoreTileAnimation
+
+    LDA $7EC013 : DEC A : STA $7EC013 : BNE .ignoreSpriteAnimation
+        LDA $7EC015 : TAX
+        
+        INX #2 : CPX.b #$0C : BNE .spriteAnimationLoopIncomplete
+            LDX.b #$00
+        
+        .spriteAnimationLoopIncomplete
+        
+        TXA : STA $7EC015
+            
+        LDA $85D2, X : STA $7EC013
+            
+        LDA.w #$B280 : CLC : ADC $85DE, X : STA $0AE0
+        CLC : ADC.w #$0060 : STA $0AE2
+
+    .ignoreSpriteAnimation
+
+    ; setup tagalong sprite for dma transfer
+    LDA $0AE8    : ASL A
+    ADC.w #$B940 : STA $0AEC
+    ADC.w #$0200 : STA $0AEE
+        
+    ; setup tagalong sprite's other component for dma transfer?
+    LDA $0AEA    : ASL A
+    ADC.w #$B940 : STA $0AF0
+    ADC.w #$0200 : STA $0AF2
+        
+    ; setup dma transfer for bird's sprite slot
+    LDA $0AF4    : ASL A
+    ADC.w #$B540 : STA $0AF6
+    ADC.w #$0200 : STA $0AF8
+        
+    SEP #$20
+        
+    RTS
 }
 
 ; ==============================================================================
