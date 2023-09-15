@@ -199,6 +199,7 @@ Intro_LoadTextPointersAndPalettes:
 ; ==============================================================================
 
 ; $1011E-$10135 DATA TABLE
+AnimatedTileSheets:
 {
     ; 0x18 entries used for animated tiles
     db $5D, $5D, $5D, $5D, $5D, $5D, $5D, $5F
@@ -338,8 +339,9 @@ Module_LoadFile:
     
     RTL
 
-  ; *$10208 ALTERNATE ENTRY POINT
-  .indoors
+; *$10208 ALTERNATE ENTRY POINT
+LoadUnderworldRoomRebuildHUD:
+    .indoors
 
     LDA.b #$00 : STA $7EC011
     
@@ -350,8 +352,8 @@ Module_LoadFile:
     JSL HUD.RebuildLong2
     JSL Equipment_UpdateEquippedItemLong
 
-    ; *$1021E JUMP LOCATION
-    shared Module_PreDungeon:
+; *$1021E JUMP LOCATION
+shared Module_PreDungeon:
 
     ; Beginning of Module 6: Predungeon Mode
     
@@ -499,7 +501,7 @@ Module_LoadFile:
     
     JSR Dungeon_ResetTorchBackgroundAndPlayer
     JSL Link_CheckBunnyStatus ; $7FD22 IN ROM
-    JSR $8D71   ; $10D71 IN ROM ; performs initialization and cacheing of some variables
+    JSR ResetThenCacheRoomEntryProperties   ; $10D71 IN ROM
     
     LDA $7EF3CC : CMP.b #$0D : BNE .notSuperBombTagalong
     
@@ -579,8 +581,9 @@ Module_LoadFile:
 ; ==============================================================================
 
 ; $103B5-$103B8 LONG
+CacheRoomEntryProperties_long:
 {
-    JSR $8D81   ; $10D81 IN ROM
+    JSR CacheRoomEntryProperties   ; $10D81 IN ROM
     
     RTL
 }
@@ -590,9 +593,9 @@ Module_LoadFile:
 ; $103B9-$103BE Jump Table
 PreOverworld_JumpTable:
 {
-    dw PreOverworld_LoadProperties  ; $103C7* Pre-Overworld submodule 0: Loads palettes
-    dw $AF19 ; = $12F19* Pre-Overworld submodule 1: Loads overlays
-    dw $EDB9 ; = $16DB9* Pre-Overworld submodule 2: Loads level data
+    dw PreOverworld_LoadProperties           ; *$103C7* Loads palettes
+    dw Overworld_LoadSubscreenAndSilenceSFX1 ; *$12F19*  Loads overlays
+    dw PreOverworld_LoadAndAdvance           ; *$16DB9* Loads level data
 }
 
 ; ==============================================================================
@@ -1477,7 +1480,9 @@ Dungeon_TryScreenEdgeTransition:
 ; ==============================================================================
 
 ; $108C1-$108C4 DATA
+pool Underworld_HandleEdgeTransitionMovement:
 {
+    .masks
     db $03, $03, $0C, $0C
 }
 
@@ -1733,7 +1738,7 @@ Dungeon_IntraRoomTransOpenDoors:
 {
     ; make any applicable trap doors shut.
     
-    JSR $8D71 ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
     
     LDA $0468 : BNE .alpha
     
@@ -2085,7 +2090,7 @@ Dungeon_02_0F:
   ; Module 0x07.0x02.0x0F
 
     ; Reset variables and return to normal dungeon mode next frame.
-    JSR $8D71 ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
     
     LDA $0468 : BNE .doorDown
     
@@ -2218,7 +2223,7 @@ Dungeon_FatInterRoomStairs:
     JSL Link_HandleVelocity ; $3E245 IN ROM
     JSR Dungeon_HandleCamera   ; $13A31 IN ROM
 
-    ..BRANCH_BETA
+    .BRANCH_BETA
 
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
 
@@ -2240,7 +2245,7 @@ Dungeon_FatInterRoomStairs:
     dw $8AC4 ; = $10AC4*
     dw $8AAF ; = $10AAF*
     dw $8AC4 ; = $10AC4*
-    dw $9094 ; = $11094*
+    dw Dungeon_DoubleApplyAndIncrementGrayscale ; = $11094*
     dw $8AED ; = $10AED*
     dw $8D5F ; = $10D5F*
 }
@@ -2428,7 +2433,8 @@ DungeonTransition_FatStairsEntryCache:
 
     LDA $0200 : CMP.b #$05 : BNE .BRANCH_BETA
 
-  ; $10D71 ALTERNATE ENTRY POINT
+; $10D71 ALTERNATE ENTRY POINT
+ResetThenCacheRoomEntryProperties:
   .reset
 
     STZ $0200
@@ -2438,7 +2444,8 @@ DungeonTransition_FatStairsEntryCache:
     STZ $0642
     STZ $0641
 
-  ; $10D81 ALTERNATE ENTRY POINT
+; $10D81 ALTERNATE ENTRY POINT
+CacheRoomEntryProperties:
   .justCache
 
     REP #$20
@@ -2671,7 +2678,7 @@ Dungeon_FallingTransition_CacheRoomAndSetMusic:
 {
     LDA $0200 : CMP.b #$05 : BNE .BRANCH_ALPHA
     
-    JSR $8D71   ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties   ; $10D71 IN ROM
     JSR $8BD7   ; $10BD7 IN ROM
     JSL Graphics_LoadChrHalfSlot
 
@@ -2947,6 +2954,8 @@ Dungeon_Watergate:
 ; *$11054-$11093 JUMP LOCATION
 Dungeon_SpiralStaircase:
 {
+    ; Module 0x07.0x0E
+
     LDA $B0 : CMP.b #$07 : BCC .BRANCH_ALPHA
     
     JSL Graphics_IncrementalVramUpload
@@ -2962,12 +2971,12 @@ Dungeon_SpiralStaircase:
     
     dw $91C4 ; = $111C4*
     dw $8C78 ; = $10C78*
-    dw $90A1 ; = $110A1*
+    dw Dungeon_ApplyFilterIf ; = $110A1*
     dw $8CE2 ; = $10CE2*
     dw $8E0F ; = $10E0F*
     dw $8E1D ; = $10E1D*
     dw $8D10 ; = $10D10*
-    dw $90C7 ; = $110C7*
+    dw Dungeon_SyncBackgroundsFromSpiralStairs ; = $110C7*
     
     dw $8AC8 ; = $10AC8*
     dw $8AB3 ; = $10AB3*
@@ -2976,9 +2985,9 @@ Dungeon_SpiralStaircase:
     dw $8AC4 ; = $10AC4*
     dw $8AAF ; = $10AAF*
     dw $8AC4 ; = $10AC4*
-    dw $9094 ; = $11094*
-    
-    dw $915B ; = $1115B*
+    dw Dungeon_DoubleApplyAndIncrementGrayscale ; = $11094*
+
+    dw Dungeon_AdvanceThenSetBossMusicUnorthodox ; = $1115B*
     dw $919B ; = $1119B*
     dw $91B5 ; = $111B5*
     dw $91DD ; = $111DD*
@@ -2987,6 +2996,7 @@ Dungeon_SpiralStaircase:
 ; ==============================================================================
 
 ; *$11094-$110A0 JUMP LOCATION
+Dungeon_DoubleApplyAndIncrementGrayscale:
 {
     JSL PaletteFilter.doFiltering
     JSL PaletteFilter.doFiltering
@@ -2998,6 +3008,7 @@ Dungeon_SpiralStaircase:
 ; ==============================================================================
 
 ; *$110A1-$110C6 JUMP LOCATION
+Dungeon_ApplyFilterIf:
 {
     LDA $0464 : CMP.b #$09 : BCS .BRANCH_ALPHA
     
@@ -3025,6 +3036,7 @@ Dungeon_SpiralStaircase:
 ; ==============================================================================
 
 ; *$110C7-$1115A JUMP LOCATION
+Dungeon_SyncBackgroundsFromSpiralStairs:
 {
     LDA $7EF3CC : CMP.b #$06 : BNE .BRANCH_ALPHA
     
@@ -3119,6 +3131,7 @@ Dungeon_SpiralStaircase:
 ; ==============================================================================
 
 ; *$1115B-$1119A LOCAL
+Dungeon_AdvanceThenSetBossMusicUnorthodox:
 {
     JSR $8B0C ; $10B0C IN ROM
     
@@ -3164,8 +3177,9 @@ Dungeon_SpiralStaircase:
 ; ==============================================================================
 
 ; *$1119B-$111B4 JUMP LOCATION
+Module07_0E_12:
 {
-    JSL $07F391 ; $3F391 IN ROM
+    JSL SpiralStairs_FindLandingSpot ; $3F391 IN ROM
     
     DEC $0464 : BNE .BRANCH_ALPHA
     
@@ -3189,8 +3203,9 @@ Dungeon_SpiralStaircase:
 ; ==============================================================================
 
 ; *$111B5-$111C3 JUMP LOCATION
+Module07_0E_00_InitPriorityAndScreens:
 {
-    JSL $07F391 ; $3F391 IN ROM
+    JSL SpiralStairs_FindLandingSpot ; $3F391 IN ROM
     
     DEC $0464 : BNE .BRANCH_ALPHA
     
@@ -3245,7 +3260,7 @@ Dungeon_SpiralStaircase:
 
     LDA $A0 : STA $048E
     
-    JMP $8D71 ; $10D71 IN ROM
+    JMP ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
 }
 
 ; ==============================================================================
@@ -3507,10 +3522,10 @@ Dungeon_StraightStairs:
     dw $8AC8 ; = $10AC8* ; Loading tilemaps for the target room...
     dw $8AB3 ; = $10AB3* ; ""
     dw $8AC8 ; = $10AC8* ; ""
-    dw $9094 ; = $11094* ; Initiate some palette filtering crap we will likely continue in the subsequent submodules.
+    dw Dungeon_DoubleApplyAndIncrementGrayscale ; = $11094* ; Initiate some palette filtering crap we will likely continue in the subsequent submodules.
     dw $94ED ; = $114ED*
     dw $9518 ; = $11518*
-    dw $8D71 ; = $10D71* ; Reset a lot of state variables
+    dw ResetThenCacheRoomEntryProperties ; = $10D71* ; Reset a lot of state variables
 }
 
 ; ==============================================================================
@@ -4075,7 +4090,7 @@ Dungeon_Teleport:
     
     STZ $11
     
-    JSR $8D71 ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
 
     .alpha
 
@@ -4661,7 +4676,7 @@ Spotlight_ConfigureTableAndControl:
     LDA $10 : CMP.b #$09 : BNE .BRANCH_GAMMA
         LDA $A1 : BNE .BRANCH_DELTA
         
-        LDA $A0 : CMP.b #$20 : BEQ ..BRANCH_EPSILON
+        LDA $A0 : CMP.b #$20 : BEQ .BRANCH_EPSILON
 
         .BRANCH_DELTA
 
@@ -4991,7 +5006,7 @@ shared Dungeon_LoadSongBankIfNeeded:
     INC $04C7
     
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $10EC9 IN ROM
-    JSR $8D71 ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
     
     LDA $0132 : STA $012C
     
@@ -6396,7 +6411,7 @@ pool Module_Overworld:
     dw $ACC2 ; = $12CC2*                    ; B:     
     dw $AC6C ; = $12D6C*                    ; C:     submodule for opening fancy doors
     dw $AE5E ; = $12E5E*                    ; D:     getting into a forest submodule (areas 0x40 or 0x00)
-    dw $AF19 ; = $12F19*                    ; E:     
+    dw Overworld_LoadSubscreenAndSilenceSFX1 ; = $12F19*                    ; E:     
     dw Overworld_LoadTransGfx               ; 0x0F - AB88 = $12B88*
     
     dw Overworld_FinishTransGfx             ; 0x10 - referenced in relation to bombs
@@ -6640,7 +6655,7 @@ Overworld_PlayerControl:
     SEP #$20
     
     JSL Graphics_LoadChrHalfSlot
-    JSR $BB90   ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll   ; $13B90 IN ROM
     
     ; If special outdoors mode skip this part
     LDA $10 : CMP.b #$0B : BEQ .specialOverworld
@@ -6806,7 +6821,7 @@ dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
 
     .BRANCH_GAMMA
 
-    CPX $00 : BEQ ..BRANCH_EPSILON
+    CPX $00 : BEQ .BRANCH_EPSILON
         .BRANCH_DELTA
         .noDeltaX
         
@@ -6815,7 +6830,7 @@ dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
         RTS
 
     ; $12A33
-    ..BRANCH_EPSILON ; triggers when Link finally reaches the edge of the screen.
+    .BRANCH_EPSILON ; triggers when Link finally reaches the edge of the screen.
 
     SEP #$20
         
@@ -7237,7 +7252,7 @@ Overworld_TransMapData2:
     
     LDA.b #$03 : STA $30
     
-    JSR $BB90 ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
     
     LDA $0416 : BEQ .noScroll
     
@@ -7563,7 +7578,8 @@ OverworldLoadSubScreenOverlay:
     STZ $0308
     STZ $0309
 
-    ; *$12F19 ALTERNATE ENTRY POINT
+; *$12F19 ALTERNATE ENTRY POINT
+Overworld_LoadSubscreenAndSilenceSFX1:
 
     ; Module 0x08.0x01, 0x09.0x0E, 0x0A.0x01
         
@@ -7807,7 +7823,7 @@ OverworldLoadSubScreenOverlay:
     
     LDA $7EC011 : SEC : SBC.b #$10 : STA $7EC011
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     JSR $C2F6 ; $142F6 IN ROM
     
@@ -7951,7 +7967,7 @@ OverworldLoadSubScreenOverlay:
     STZ $11
     STZ $B0
 
-.notBrightEnough
+    .notBrightEnough
 
     RTS
 }
@@ -8053,7 +8069,7 @@ Overworld_InitMirrorWarp:
     
     RTL
 
-.not_extended_area
+    .not_extended_area
 
     LDA.b #$08 : STA $012C : STA $0ABF
     
@@ -8092,7 +8108,7 @@ Overworld_FinishMirrorWarp:
     
     LDA.w #$FF00
 
-.clear_hdma_table
+    .clear_hdma_table
 
     STA $1B00, X : STA $1B40, X
     STA $1B80, X : STA $1BC0, X
@@ -8122,7 +8138,7 @@ Overworld_FinishMirrorWarp:
     
     LDA.b #$04 : STA $012C
 
-.not_bunny_music
+    .not_bunny_music
 
     LDA $11 : STA $010C
     
@@ -8139,7 +8155,7 @@ Overworld_FinishMirrorWarp:
 ; *$132D4-$132E5 LONG
 ; ZS replaces this whole function. - ZS Custom Overworld
 {
-    JSR $AF19 ; $012F19 IN ROM
+    JSR Overworld_LoadSubscreenAndSilenceSFX1 ; $012F19 IN ROM
         
     LDA $8A
         
@@ -8174,7 +8190,7 @@ Overworld_FinishMirrorWarp:
     
     LDA $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA $86
 
-.large_area
+    .large_area
 
     SEP #$20
     
@@ -8185,7 +8201,7 @@ Overworld_FinishMirrorWarp:
     
     JSR Overworld_RestoreFailedWarpMap16
 
-.notFailedWarp
+    .notFailedWarp
 
     REP #$20
     
@@ -8427,7 +8443,7 @@ Overworld_FinishMirrorWarp:
     
     INC $0710
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     DEC $11
     INC $B0
@@ -8455,15 +8471,15 @@ Overworld_FinishMirrorWarp:
     JSL $0BFE70                     ; $5FE70 IN ROM
     JSL LoadNewSpriteGFXSet                     ; $6031 IN ROM
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     LDA.b #$80 : STA $9E
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     LDA.b #$0F : STA $13
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     INC $0710
     INC $B0
@@ -8489,7 +8505,7 @@ Overworld_FinishMirrorWarp:
     
     LDX.b #$09
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STX $012C
     
@@ -8504,6 +8520,7 @@ Overworld_FinishMirrorWarp:
 ; ==============================================================================
 
 ; $13521-$13527 JUMP LOCATION
+Module09_2F:
 {
     JSL Overworld_DrawWarpTile
     
@@ -8515,6 +8532,7 @@ Overworld_FinishMirrorWarp:
 ; ==============================================================================
 
 ; *$13528-$13531 JUMP LOCATION
+Module09_2A_RecoverFromDrowning:
 {
     LDA $B0
     
@@ -8525,6 +8543,7 @@ Overworld_FinishMirrorWarp:
 }
 
 ; *$13532-$135AB JUMP LOCATION
+Module09_2A_00_ScrollToLand:
 {
     REP #$20
     
@@ -8543,7 +8562,7 @@ Overworld_FinishMirrorWarp:
     
     BRA .BRANCH_ALPHA
 
-.BRANCH_BETA
+    .BRANCH_BETA
 
     INC $02
     
@@ -8553,7 +8572,7 @@ Overworld_FinishMirrorWarp:
     
     INC A
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     STA $22
     
@@ -8569,7 +8588,7 @@ Overworld_FinishMirrorWarp:
     
     BRA .BRANCH_GAMMA
 
-.BRANCH_DELTA
+    .BRANCH_DELTA
 
     INC $00
     
@@ -8579,7 +8598,7 @@ Overworld_FinishMirrorWarp:
     
     INC A
 
-.BRANCH_GAMMA
+    .BRANCH_GAMMA
 
     STA $20
     
@@ -8591,25 +8610,26 @@ Overworld_FinishMirrorWarp:
     
     STZ $46
 
-.BRANCH_EPSILON
+    .BRANCH_EPSILON
 
     SEP #$20
     
     LDA $00 : STA $30
     LDA $02 : STA $31
     
-    JSR $BB90 ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
     
     LDA $0416 : BEQ .BRANCH_ZETA
     
     JSR Overworld_ScrollMap     ; $17273 IN ROM
 
-.BRANCH_ZETA
+    .BRANCH_ZETA
 
     RTS
 }
 
 ; $135AC-$135CB DATA
+RoomQuadrantLayoutValues:
 {
     db $0F, $0F, $0F, $0F ; layout 0
     db $0B, $0B, $07, $07 ; layout 1
@@ -8622,6 +8642,7 @@ Overworld_FinishMirrorWarp:
 }
 
 ; $135CC-$135DB
+QuadrantLayoutFlagBitfield:
 {
     db $08, $04, $02, $01, $0C, $0C, $03, $03
     db $0A, $05, $0A, $05, $0F, $0F, $0F, $0F
@@ -9585,6 +9606,7 @@ Dungeon_SyncBG1and2Scroll:
 ; ==============================================================================
 
 ; $13B88-$13B8F DATA - bit masks describing which direction(s) to update the OW tilemap in
+OverworldTransitionDirections:
 {
     dw $0008, $0004, $0002, $0001
 }
@@ -9593,6 +9615,7 @@ Dungeon_SyncBG1and2Scroll:
 
 ; *$13B90-$13D61 LOCAL
 ; ZS rewrites part of this function.
+Overworld_OperateCameraScroll:
 {
     PHB : PHK : PLB
         
@@ -9630,14 +9653,14 @@ Dungeon_SyncBG1and2Scroll:
 
     .BRANCH_THETA
         LDA $30 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_DELTA
-            LDA $0618 : CMP $0E : BCC ..BRANCH_EPSILON
+            LDA $0618 : CMP $0E : BCC .BRANCH_EPSILON
                 LDY.b #$00
                 
                 BRA .BRANCH_ZETA
         
                 .BRANCH_DELTA
             
-                LDA $0E : CMP $061A : BCC ..BRANCH_EPSILON
+                LDA $0E : CMP $061A : BCC .BRANCH_EPSILON
                     LDY.b #$02
                 
                     .BRANCH_ZETA
@@ -9646,7 +9669,7 @@ Dungeon_SyncBG1and2Scroll:
                     
                     JSR $BD62 ; $13D62 IN ROM
 
-        ..BRANCH_EPSILON
+        .BRANCH_EPSILON
 
     DEC $02 : BNE .BRANCH_THETA
         
@@ -10546,7 +10569,7 @@ IntraroomTransitionCalculateLanding:
 
     .BRANCH_DELTA
 
-    JSR $BB90 ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
     
     LDA $0416 : BEQ .BRANCH_EPSILON
     
@@ -10603,7 +10626,7 @@ IntraroomTransitionCalculateLanding:
 
     .BRANCH_DELTA
 
-    JSR $BB90 ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
     
     RTS
 }
@@ -12368,6 +12391,7 @@ shared Overworld_LoadAmbientOverlayAndMapData:
 ; ==============================================================================
 
 ; *$16DB9-$16DC4 LOCAL
+PreOverworld_LoadAndAdvance:
 {
     ; Module 0x08.0x02, 0x0A.0x02
     
