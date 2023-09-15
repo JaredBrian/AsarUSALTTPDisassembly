@@ -748,18 +748,17 @@ lorom
 
 ; ==============================================================================
 
-    ; *$0005FC-$000780 LOCAL
-    Main_PrepSpritesForNmi:
-    {
-        ; Writes some extra data for the OAM memory
-        ; The data is written to $0A00 to $0A1F,
-        ; And the data that is written is formed from
-        ; The addresses $0A20 through $0A9F
+; $0005FC-$000780 LOCAL
+Main_PrepSpritesForNmi:
+{
+    ; Writes some extra data for the OAM memory
+    ; The data is written to $0A00 to $0A1F,
+    ; And the data that is written is formed from
+    ; The addresses $0A20 through $0A9F
         
-        LDY.b #$1C
+    LDY.b #$1C
     
     .buildHighOamTable
-    
         ; Y = 0x1C, X = 0x70
         TYA : ASL #2 : TAX
         
@@ -784,101 +783,95 @@ lorom
         ORA $0A2D, X : ASL #2
         ORA $0A2C, X : STA $0A03, Y
         
-        DEY #4 : BPL .buildHighOamTable
+    DEY #4 : BPL .buildHighOamTable
         
-        REP #$31
+    REP #$31
         
-        LDX $0100
+    LDX $0100
         
-        LDA $9396, X : STA $0ACC : ADC.w #$0200 : STA $0ACE
-        LDA $95F4, X : STA $0AD0 : ADD.w #$0200 : STA $0AD2
+    LDA $9396, X : STA $0ACC : ADC.w #$0200 : STA $0ACE
+    LDA $95F4, X : STA $0AD0 : ADD.w #$0200 : STA $0AD2
         
-        LDX $0102 : LDA $9852, X : STA $0AD4
+    LDX $0102 : LDA $9852, X : STA $0AD4
         
-        LDX $0104 : LDA $9852, X : STA $0AD6
+    LDX $0104 : LDA $9852, X : STA $0AD6
         
-        SEP #$10
+    SEP #$10
         
-        LDX $0107 : LDA $849C, X : STA $0AC0 : ADD.w #$0180 : STA $0AC2
-        LDX $0108 : LDA $84AC, X : STA $0AC4 : ADD.w #$00C0 : STA $0AC6
+    LDX $0107 : LDA $849C, X : STA $0AC0 : ADD.w #$0180 : STA $0AC2
+    LDX $0108 : LDA $84AC, X : STA $0AC4 : ADD.w #$00C0 : STA $0AC6
         
-        LDA $0109 : AND.w #$00F8 : LSR #2 : TAY
+    LDA $0109 : AND.w #$00F8 : LSR #2 : TAY
         
-        LDA $0109 : ASL A : TAX
+    LDA $0109 : ASL A : TAX
         
-        LDA $84B2, X : STA $0AC8
+    LDA $84B2, X : STA $0AC8
         
-        CLC : TYX : ADC $85B2, X : STA $0ACA
+    CLC : TYX : ADC $85B2, X : STA $0ACA
         
-        LDA $02C3 : AND.w #$0003 : ASL A : TAX
+    LDA $02C3 : AND.w #$0003 : ASL A : TAX
         
-        LDA $8494, X : STA $0AD8 : ADD.w #$0100 : STA $0ADA
+    LDA $8494, X : STA $0AD8 : ADD.w #$0100 : STA $0ADA
         
-        LDA $7EC00D : DEC A : STA $7EC00D : BNE .ignoreTileAnimation
-        
+    LDA $7EC00D : DEC A : STA $7EC00D : BNE .ignoreTileAnimation
         ; Reset the counter for tile animation
         LDA.w #$0009
         
-        LDX $8C : CPX.b #$B5 : BEQ BRANCH_1A
+        LDX $8C : CPX.b #$B5 : BEQ .BRANCH_1A
+            CPX.b #$BC : BNE .BRANCH_1B
         
-        CPX.b #$BC : BNE BRANCH_1B
+        .BRANCH_1A
+            LDA.w #$0017
     
-    BRANCH_1A:
-    
-        LDA.w #$0017
-    
-    BRANCH_1B:
+        .BRANCH_1B
     
         STA $7EC00D
         
-        LDA $7EC00F : ADD.w #$0400 : CMP.w #$0C00 : BNE BRANCH_1C
+        LDA $7EC00F : ADD.w #$0400 : CMP.w #$0C00 : BNE .BRANCH_1C
+            LDA.w #$0000
         
-        LDA.w #$0000
-    
-    BRANCH_1C:
+        .BRANCH_1C
     
         STA $7EC00F : ADD.w #$A680 : STA $0ADC
     
     .ignoreTileAnimation
     
-        LDA $7EC013 : DEC A : STA $7EC013 : BNE .ignoreSpriteAnimation
-        
+    LDA $7EC013 : DEC A : STA $7EC013 : BNE .ignoreSpriteAnimation
         LDA $7EC015 : TAX
         
         INX #2 : CPX.b #$0C : BNE .spriteAnimationLoopIncomplete
+            LDX.b #$00
         
-        LDX.b #$00
-    
-    .spriteAnimationLoopIncomplete
-    
+        .spriteAnimationLoopIncomplete
+        
         TXA : STA $7EC015
-        
+            
         LDA $85D2, X : STA $7EC013
-        
-        LDA.w #$B280  : ADD $85DE, X : STA $0AE0
-        ADD.w #$0060                 : STA $0AE2
+            
+        LDA.w #$B280 : CLC : ADC $85DE, X : STA $0AE0
+        CLC : ADC.w #$0060 : STA $0AE2
     
     .ignoreSpriteAnimation
     
-        ; setup tagalong sprite for dma transfer
-        LDA $0AE8    : ASL A
-        ADC.w #$B940 : STA $0AEC
-        ADC.w #$0200 : STA $0AEE
+    ; setup tagalong sprite for dma transfer
+    LDA $0AE8    : ASL A
+    ADC.w #$B940 : STA $0AEC
+    ADC.w #$0200 : STA $0AEE
         
-        ; setup tagalong sprite's other component for dma transfer?
-        LDA $0AEA    : ASL A
-        ADC.w #$B940 : STA $0AF0
-        ADC.w #$0200 : STA $0AF2
+    ; setup tagalong sprite's other component for dma transfer?
+    LDA $0AEA    : ASL A
+    ADC.w #$B940 : STA $0AF0
+    ADC.w #$0200 : STA $0AF2
         
-        ; setup dma transfer for bird's sprite slot
-        LDA $0AF4    : ASL A
-        ADC.w #$B540 : STA $0AF6
-        ADC.w #$0200 : STA $0AF8
+    ; setup dma transfer for bird's sprite slot
+    LDA $0AF4    : ASL A
+    ADC.w #$B540 : STA $0AF6
+    ADC.w #$0200 : STA $0AF8
         
-        SEP #$20
+    SEP #$20
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
@@ -4158,13 +4151,13 @@ lorom
 
 ; $0058D5-$58ED JUMP LOCATION (LONG)
 ; Updates animated tiles durring mirror warp. May have other uses.
-; ZS replaces this whole function.
+; ZS replaces this whole function. - ZS Custom Overworld
 {
     LDY.b #$58
         
     ; Death mountain here denotes either the light world or the dark world version
     ; bitwise AND with 0xBF masks out the 0x40 bit.
-    LDA $8A : AND.b #$BF ; JARE
+    LDA $8A : AND.b #$BF
         
     CMP.b #$03 : BEQ .deathMountain
     CMP.b #$05 : BEQ .deathMountain
@@ -4421,12 +4414,12 @@ lorom
 
 ; $005A63-$005ABA JUMP LOCATION (LONG)
 ; no name for this yet
-; ZS replaces this whole function.
+; ZS replaces this whole function. - ZS Custom Overworld
 {
     STZ $1D
         
     ; For areas with special overlays (fog, clouds, etc.) turn on BG1.
-    LDA $8A    : BEQ .subscreen ; JARE
+    LDA $8A    : BEQ .subscreen
     CMP.b #$70 : BEQ .subscreen
     CMP.b #$40 : BEQ .subscreen
     CMP.b #$5B : BEQ .subscreen
@@ -7076,9 +7069,9 @@ Palette_InitWhiteFilter:
     LDA.w #$0002 : STA $7EC009
         
     ; ZS writes here.
-    ; $006EBC
+    ; $006EBC - ZS Custom Overworld
     ; If we are going to the pyramid area set the BG color to transparent so the background can appear there.
-    LDA $8A : CMP.w #$001B : BNE .notHyruleCastle ; JARE
+    LDA $8A : CMP.w #$001B : BNE .notHyruleCastle
         LDA.w #$0000 : STA $7EC300 : STA $7EC340 : STA $7EC500 : STA $7EC540
     
     .notHyruleCastle
@@ -9162,7 +9155,7 @@ SavePalaceDeaths:
     }
 
 ; *$007F2F-$007FB6 JUMP LOCATION (LONG)
-; ZS rewrites part of this function.
+; ZS rewrites part of this function. - ZS Custom Overworld
 {
     JSL $00EEE7 ; $006EE7 IN ROM
         
@@ -9197,7 +9190,7 @@ SavePalaceDeaths:
     CPY.w #$0000 : BNE .BRANCH_GAMMA
         
     ; ZS starts writing here.
-    ; $007F7D
+    ; $007F7C - ZS Custom Overworld
     LDA $1C80 : ORA $1C90 : ORA $1CA0 : ORA $1CB0 : CMP $E2 : BNE .BRANCH_DELTA
         SEP #$20
         
@@ -9208,7 +9201,7 @@ SavePalaceDeaths:
         JSL $0BFE70 ; $05FE70 IN ROM
         
         ; Check if area is the Hyrule Castle screen or pyramid of power screen.
-        LDA $8A : AND.b #$3F : CMP.b #$1B : BEQ .dont_align_bgs ; JARE
+        LDA $8A : AND.b #$3F : CMP.b #$1B : BEQ .dont_align_bgs
             REP #$20
         
             LDA $E2 : STA $E0 : STA $0120 : STA $011E
