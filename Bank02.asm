@@ -353,7 +353,7 @@ Module_LoadFile:
     RTL
 
 ; *$10208 ALTERNATE ENTRY POINT
-LoadUnderworldRoomRebuildHUD:
+LoadDungeonRoomRebuildHUD:
     .indoors
 
     LDA.b #$00 : STA $7EC011
@@ -1237,7 +1237,7 @@ Credits_LoadCoolBackground:
 ; ==============================================================================
 
 ; *$106FD-$1076B LONG
-Credits_LoadScene_Underworld:
+Credits_LoadScene_Dungeon:
 {
     ; This is only called from the ending module (1A)
     ; It's an initializer for the cinema sequences that are indoors.
@@ -1370,7 +1370,7 @@ Module_Dungeon:
   
   JSL Door_BlastWallExploding
 
-    .blastWallNotOpening
+  .blastWallNotOpening
 
   ; Is Link standing in a door way?
   LDA $6C : BNE .standingInDoorway
@@ -1492,7 +1492,7 @@ Dungeon_TryScreenEdgeTransition:
 ; ==============================================================================
 
 ; $108C1-$108C4 DATA
-pool Underworld_HandleEdgeTransitionMovement:
+pool Dungeon_HandleEdgeTransitionMovement:
 {
     .masks
     db $03, $03, $0C, $0C
@@ -1611,7 +1611,7 @@ Dungeon_Normal:
 ; ==============================================================================
 
 ; $1094C-$1096B DATA
-Underworld_SubscreenEnable:
+Dungeon_SubscreenEnable:
   db $00, $01, $01, $FF, $01, $01, $01, $01
 
 ; $10954
@@ -1775,9 +1775,9 @@ Dungeon_InterRoomTransTable:
   dw Dungeon_InterRoomTrans_LoadNextRoom ; = $10A5B* ; load dungeon room objects
   dw Dungeon_FadedFilter ; = $10B92* ; palette filtering for dark rooms
   dw Dungeon_02_03 ; = $10A87* ; transitiony actions...
-  dw $8AC8 ; = $10AC8* ; updates BG2 tilemap
+  dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; updates BG2 tilemap
   dw Dungeon_PrepTilemapAndAdvance ; = $10AB3* ; updates BG1 tilemap
-  dw $8AC8 ; = $10AC8* ; updates BG2 tilemap
+  dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; updates BG2 tilemap
   dw $8B2E ; = $10B2E* ; updates BG1 tilemap
   dw $BE03 ; = $13E03* ; more scrolling transitionary shit...
   dw $8ABA ; = $10ABA* ; do more palette filtering and tilemap updating
@@ -1893,7 +1893,7 @@ Dungeon_02_0A:
   LDA $7EC005 : ORA $7EC006 : BEQ .noDarkTransition
 
   ; *$10AAF ALTERNATE ENTRY POINT
-  Dungeon_FilterPrepTilemapAndAdvance:
+  Dungeon_Dungeon_FilterPrepTilemapAndAdvance:
 
   JSL PaletteFilter.doFiltering
 
@@ -1916,13 +1916,15 @@ Dungeon_02_09:
     LDA $7EC005 : ORA $7EC006 : BEQ .notDarkRoom
 
     ; *$10AC4 ALTERNATE ENTRY POINT
+    Dungeon_FilterUploadAndAdvance:
 
     JSL PaletteFilter.doFiltering
 
     ; *$10AC8 ALTERNATE ENTRY POINT
+    Dungeon_PrepNextQuadrantUploadAndAdvance:
     .notDarkRoom
 
-    JSL Underworld_PrepareNextRoomQuadrantUpload ; $113F IN ROM
+    JSL Dungeon_PrepareNextRoomQuadrantUpload ; $113F IN ROM
     
     INC $B0
     
@@ -1959,7 +1961,7 @@ Dungeon_02_0C:
     LDY.b #$16
     
     ; Load BG1 properties setting
-    LDX $0414 : LDA Underworld_SubscreenEnable, X : BPL .bg1OnSubscreen
+    LDX $0414 : LDA Dungeon_SubscreenEnable, X : BPL .bg1OnSubscreen
     
     ; This setting corresponds to the "on top" setting for BG1
     LDY.b #$17
@@ -2024,7 +2026,7 @@ Dungeon_02_07:
     
     LDY.w #$0016
     
-    LDA Underworld_SubscreenEnable, X : BEQ .BRANCH_BETA
+    LDA Dungeon_SubscreenEnable, X : BEQ .BRANCH_BETA
     
     LDY.w #$0116
 
@@ -2250,13 +2252,13 @@ Dungeon_FatInterRoomStairs:
     dw $8E1D ; = $10E1D*
     dw $8D10 ; = $10D10*
     dw $8D1B ; = $10D1B*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AAF ; = $10AAF*
-    dw $8AC4 ; = $10AC4*
-    dw $8AAF ; = $10AAF*
-    dw $8AC4 ; = $10AC4*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_FilterPrepTilemapAndAdvance ; = $10AAF*
+    dw Dungeon_FilterUploadAndAdvance ; = $10AC4*
+    dw Dungeon_FilterPrepTilemapAndAdvance ; = $10AAF*
+    dw Dungeon_FilterUploadAndAdvance ; = $10AC4*
     dw Dungeon_DoubleApplyAndIncrementGrayscale ; = $11094*
     dw $8AED ; = $10AED*
     dw $8D5F ; = $10D5F*
@@ -2395,7 +2397,7 @@ DungeonTransition_AdjustForFatStairScroll:
     
     LDX $0414
     
-    LDA Underworld_SubscreenEnable, X : BPL .BRANCH_ALPHA
+    LDA Dungeon_SubscreenEnable, X : BPL .BRANCH_ALPHA
     
     LDY.b #$17
     LDA.b #$00
@@ -2428,7 +2430,7 @@ DungeonTransition_AdjustForFatStairScroll:
     LDA.b #$24 : STA $012F
     
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $10EC9 IN ROM
-    JMP $8AB3 ; $10AB3 IN ROM
+    JMP Dungeon_PrepTilemapAndAdvance ; $10AB3 IN ROM
 }
 
 ; ==============================================================================
@@ -2548,13 +2550,13 @@ Dungeon_FallingTransition:
     dw $8E1D ; = $10E1D*
     dw $8D10 ; = $10D10*
     dw $8E80 ; = $10E80*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
     dw $8AED ; = $10AED*
     dw $8EA1 ; = $10EA1*
     dw $8EE0 ; = $10EE0*
@@ -2597,7 +2599,7 @@ Dungeon_FallingTransition_SyncBG1andBG2:
     
     LDX $0414
     
-    LDA Underworld_SubscreenEnable, X : BPL .BRANCH_ALPHA
+    LDA Dungeon_SubscreenEnable, X : BPL .BRANCH_ALPHA
     
     LDY.b #$17
     LDA.b #$00
@@ -2991,13 +2993,13 @@ Dungeon_SpiralStaircase:
     dw $8D10 ; = $10D10*
     dw Dungeon_SyncBackgroundsFromSpiralStairs ; = $110C7*
     
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AAF ; = $10AAF*
-    dw $8AC4 ; = $10AC4*
-    dw $8AAF ; = $10AAF*
-    dw $8AC4 ; = $10AC4*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_FilterPrepTilemapAndAdvance ; = $10AAF*
+    dw Dungeon_FilterUploadAndAdvance ; = $10AC4*
+    dw Dungeon_FilterPrepTilemapAndAdvance ; = $10AAF*
+    dw Dungeon_FilterUploadAndAdvance ; = $10AC4*
     dw Dungeon_DoubleApplyAndIncrementGrayscale ; = $11094*
 
     dw Dungeon_AdvanceThenSetBossMusicUnorthodox ; = $1115B*
@@ -3109,7 +3111,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
     
     LDX $0414
     
-    LDA Underworld_SubscreenEnable, X : BPL .BRANCH_DELTA
+    LDA Dungeon_SubscreenEnable, X : BPL .BRANCH_DELTA
     
     LDY.b #$17
     LDA.b #$00
@@ -3138,7 +3140,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
     
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
     JSL RestoreTorchBackground
-    JMP $8AB3   ; $10AB3 IN ROM
+    JMP Dungeon_PrepTilemapAndAdvance   ; $10AB3 IN ROM
 }
 
 ; ==============================================================================
@@ -3216,7 +3218,7 @@ Module07_0E_12:
 ; ==============================================================================
 
 ; *$111B5-$111C3 JUMP LOCATION
-Module07_0E_00_InitPriorityAndScreens:
+Module07_0E_12:
 {
     JSL SpiralStairs_FindLandingSpot ; $3F391 IN ROM
     
@@ -3234,6 +3236,7 @@ Module07_0E_00_InitPriorityAndScreens:
 ; ==============================================================================
 
 ; *$111C4-$111DC JUMP LOCATION
+Module07_0E_00_InitPriorityAndScreens
 {
     JSL Dungeon_ElevateStaircasePriority
     
@@ -3254,6 +3257,7 @@ Module07_0E_00_InitPriorityAndScreens:
 ; ==============================================================================
 
 ; *$111DD-$11209 JUMP LOCATION
+Module07_0E_13_SetRoomAndLayerAndCache:
 {
     LDX $048A
     
@@ -3279,9 +3283,8 @@ Module07_0E_00_InitPriorityAndScreens:
 ; ==============================================================================
 
 ; $1120A-$11219 DATA
-pool 
+pool RepositionLinkAfterSpiralStairs:
 {
-
     .x_offsets
     dw -28, -28,  24,  24
 
@@ -3292,6 +3295,7 @@ pool
 ; ==============================================================================
 
 ; *$1121A-$112B0 LONG
+RepositionLinkAfterSpiralStairs:
 {
     SEP #$30
     
@@ -3379,6 +3383,7 @@ pool
 ; ==============================================================================
 
 ; *$112B1-$11318 LOCAL
+SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
 {
     LDA $0462 : AND.b #$04 : BNE .BRANCH_ALPHA
     
@@ -3419,12 +3424,14 @@ pool
 ; ==============================================================================
 
 ; $11319-$1131C Jump Table
+pool Dungeon_LandingWipe:
 {
-    dw $932D ; = $1132D*
+    dw Module07_0F_00_InitSpotlight ; = $1132D*
     dw $9334 ; = $11334*
 }
 
 ; *$1131D-$1132C JUMP LOCATION
+Dungeon_LandingWipe:
 {
     LDA $B0 : ASL A : TAX
     
@@ -3439,6 +3446,7 @@ pool
 ; ==============================================================================
 
 ; *$1132D-$11333 JUMP LOCATION
+Module07_0F_00_InitSpotlight:
 {
     JSL Spotlight_open
     
@@ -3450,6 +3458,7 @@ pool
 ; ==============================================================================
 
 ; *$11334-$11356 JUMP LOCATION
+Module07_0F_01_OperateSpotlight
 {
     JSL Sprite_Main
     JSL ConfigureSpotlightTable
@@ -3520,21 +3529,21 @@ Dungeon_StraightStairs:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw StraightStairs_0
-    dw StraightStairs_1
-    dw StraightStairs_2
-    dw StraightStairs_3  ;
-    dw StraightStairs_4  ;
-    dw $8AAF ; = $10AAF* ; Loading tilemaps for the target room loading...
-    dw $8AC4 ; = $10AC4*
-    dw $8AAF ; = $10AAF*
-    dw $8AC4 ; = $10AC4*
-    dw StraightStairs_9  ;
-    dw StraightStairs_10 ;
-    dw StraightStairs_11 ;
-    dw $8AC8 ; = $10AC8* ; Loading tilemaps for the target room...
-    dw $8AB3 ; = $10AB3* ; ""
-    dw $8AC8 ; = $10AC8* ; ""
+    dw Dungeon_StraightStairs_PrepAndReset      ; 0x00: PrepAndReset
+    dw Dungeon_StraightStairs_FadeOut           ; 0x01: FadeOut
+    dw Dungeon_StraightStairs_LoadAndPrepRoom   ; 0x02: LoadAndPrepRoom
+    dw StraightStairs_3                         ; 0x03: FilterAndLoadBGChars
+    dw StraightStairs_4                         ; 0x04: FilterDoBgAndResetSprites
+    dw Dungeon_FilterPrepTilemapAndAdvance      ; 0x05: Target room load tilemaps
+    dw Dungeon_FilterUploadAndAdvance           ; 0x06:
+    dw Dungeon_FilterPrepTilemapAndAdvance      ; 0x07: 
+    dw Dungeon_FilterUploadAndAdvance           ; 0x08:
+    dw StraightStairs_9                         ; 0x09
+    dw StraightStairs_10                        ; 0x0A
+    dw StraightStairs_11                        ; 0x0B
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; 0x0C: Target quadrant load tilemaps
+    dw Dungeon_PrepTilemapAndAdvance            ; 0x0D
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; ""
     dw Dungeon_DoubleApplyAndIncrementGrayscale ; = $11094* ; Initiate some palette filtering crap we will likely continue in the subsequent submodules.
     dw $94ED ; = $114ED*
     dw $9518 ; = $11518*
@@ -3544,7 +3553,7 @@ Dungeon_StraightStairs:
 ; ==============================================================================
 
 ; *$113BB-$113EC JUMP LOCATION
-StraightStairs_0:
+Dungeon_StraightStairs_PrepAndReset:
 {
     LDA $0372 : BEQ .notDashing
     
@@ -3589,7 +3598,7 @@ StraightStairs_0:
 ; ==============================================================================
 
 ; *$113ED-$11402 JUMP LOCATION
-StraightStairs_1:
+Dungeon_StraightStairs_FadeOut:
 {
     LDA $0464 : CMP.b #$09 : BCS .BRANCH_ALPHA
     
@@ -3607,7 +3616,7 @@ StraightStairs_1:
 ; ==============================================================================
 
 ; *$11403-$11421 JUMP LOCATION
-StraightStairs_2:
+Dungeon_StraightStairs_LoadAndPrepRoom:
 {
     JSL PaletteFilter.doFiltering
     JSL Dungeon_LoadRoom
@@ -3657,7 +3666,7 @@ StraightStairs_11:
     
     LDX $0414
     
-    LDA Underworld_SubscreenEnable, X : BPL .subscreenEnabled
+    LDA Dungeon_SubscreenEnable, X : BPL .subscreenEnabled
     
     LDY.b #$17
     LDA.b #$00
@@ -3768,7 +3777,7 @@ StraightStairs_11:
 
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
     JSL RestoreTorchBackground
-    JMP $8AB3   ; $10AB3 IN ROM
+    JMP Dungeon_PrepTilemapAndAdvance   ; $10AB3 IN ROM
 }
 
 ; ==============================================================================
@@ -4018,13 +4027,13 @@ Dungeon_Teleport:
     dw $8CE2 ; = $10CE2*
     dw $8D10 ; = $10D10*
     dw $96BA ; = $116BA*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
     dw $8AED ; = $10AED*
     dw $96EC ; = $116EC*
     dw $970F ; = $1170F*
@@ -4059,7 +4068,7 @@ Dungeon_Teleport:
     
     LDX $0414
     
-    LDA Underworld_SubscreenEnable, X : BPL .subscreenEnabled
+    LDA Dungeon_SubscreenEnable, X : BPL .subscreenEnabled
     
     LDY.b #$17
     LDA.b #$00
@@ -4301,14 +4310,14 @@ Dungeon_Crystal:
     
     dw $9826 ; = $11826*
     dw $9888 ; = $11888* ; Figure out which quadrant the crystal is in.
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8* ; 
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
-    dw $8AB3 ; = $10AB3*
-    dw $8AC8 ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; 
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3*
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8*
     dw $98E7 ; = $118E7*
 }
 
@@ -10976,7 +10985,7 @@ Dungeon_LoadAndDrawRoom:
 
     JSL TilemapPrep_NotWaterOnTag ; $11D3 IN ROM ; Draws the dungeons.
     JSL NMI_UploadTilemap_long ; $10E3 IN ROM ; Since we are in forced v-blank
-    JSL Underworld_PrepareNextRoomQuadrantUpload ; $113F IN ROM ; We can do these DMA transfers
+    JSL Dungeon_PrepareNextRoomQuadrantUpload ; $113F IN ROM ; We can do these DMA transfers
     JSL NMI_UploadTilemap_long ; $10E3 IN ROM
     
     ; Each iteration draws a quadrant on BG1 and BG2
