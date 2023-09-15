@@ -4,6 +4,19 @@ org $028000
 ; ==============================================================================
 
 ; Bank 0x02 - not for the faint of heart
+; 
+; MainRouting Modules: (defined in Bank00)
+;   - LoadFile        0x05
+;   - PreDungeon      0x06
+;   - Dungeon         0x07
+;   - PreOverworld    0x08
+;   - Overworld       0x09
+;   - CloseSpotlight  0x0F
+;   - Victory
+;   - BossVictory
+;   - LoadMusic     
+;   - TriforceRoom    0x19
+;   - LocationMenu    0x1B
 
 ; ==============================================================================
 
@@ -929,10 +942,10 @@ ForceNonBunnyStatus:
 ; $10583-$10585 DATA
 pool Module_LocationMenu:
 {
-  .starting_points
-  db $00 ; Link's House
-  db $01 ; Sanctuary 
-  db $06 ; Mountain Cave
+    .starting_points
+    db $00 ; Link's House
+    db $01 ; Sanctuary 
+    db $06 ; Mountain Cave
 }
 
 ; ==============================================================================
@@ -974,9 +987,9 @@ Module_LocationMenu:
 ; $105B4-$105B9 JUMP TABLE
 Credits_LoadScene_OverworldJumpTable
 {
-  dw Credits_LoadScene_Overworld_PrepGFX ; $8604 ; = $10604
-  dw Credits_LoadScene_Overworld_Overlay ; $8697 ; = $10697
-  dw Credits_LoadScene_Overworld_LoadMap ; $86A5 ; = $106A5
+    dw Credits_LoadScene_Overworld_PrepGFX ; $8604 ; = $10604
+    dw Credits_LoadScene_Overworld_Overlay ; $8697 ; = $10697
+    dw Credits_LoadScene_Overworld_LoadMap ; $86A5 ; = $106A5
 }
 
 ; ==============================================================================
@@ -1138,7 +1151,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 ; *$10697-$106A4 LOCAL
 Credits_LoadScene_Overworld_Overlay:
 {
-    JSR $AF1E ; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay ; $12F1E IN ROM
     
     STZ $012C
     STZ $012D
@@ -1153,7 +1166,7 @@ Credits_LoadScene_Overworld_Overlay:
 ; *$106A5-$106B2 LOCAL
 Credits_LoadScene_Overworld_LoadMap:
 {
-    JSR Overworld_LoadAmbientOverlayAndMapData
+    JSR Overworld_LoadAndBuildScreen
     JSL $0E98B9 ; $718B9 IN ROM
     
     STZ $C8
@@ -1209,7 +1222,7 @@ Credits_LoadCoolBackground:
     
     JSR Overworld_CgramAuxToMain
     
-    JSR $AF1E ; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay ; $12F1E IN ROM
     
     STZ $E6
     STZ $E7
@@ -1288,11 +1301,10 @@ Credits_LoadScene_Underworld:
 ; ==============================================================================
 
 ; $1076C-$107A1 JUMP TABLE FOR MODULE 0x07
-pool Module_Dungeon:
+Module_DungeonTable:
 {
     ; PARAMETER: X
 
-    .submodules
     dw Dungeon_Normal               ; 0x00: Default behavior
     dw Dungeon_IntraRoomTrans       ; 0x01: Intra-room transition
     dw Dungeon_InterRoomTrans       ; 0x02: Inter-room transition
@@ -1335,7 +1347,7 @@ Module_Dungeon:
   
   LDA $11 : ASL A : TAX
   
-  JSR (.submodules, X)
+  JSR (Module_DungeonTable, X)
   
   STZ $042C
   
@@ -2231,7 +2243,7 @@ Dungeon_FatInterRoomStairs:
 
     LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $8CA9 ; = $10CA9*
+    dw ResetTransitionPropsAndAdvance_ResetInterface ; = $10CA9*
     dw $8D01 ; = $10D01*
     dw $8CE2 ; = $10CE2*
     dw $8E0F ; = $10E0F*
@@ -2285,6 +2297,7 @@ Dungeon_0E_01_HandleMusicAndResetProps:
     STX $0464
 
     ; $10CA9 ALTERNATE ENTRY POINT
+    ResetTransitionPropsAndAdvance_ResetInterface:
 
     STZ $0200
 
@@ -2569,7 +2582,7 @@ Dungeon_FallingTransition_HandleMusicAndResetRoom:
 
     SEP #$20
     
-    JMP $8CA9 ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
 }
 
 ; ==============================================================================
@@ -3570,7 +3583,7 @@ StraightStairs_0:
 
     SEP #$20
     
-    JMP $8CA9 ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
 }
 
 ; ==============================================================================
@@ -4000,7 +4013,7 @@ Dungeon_Teleport:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $8CA9 ; = $10CA9*
+    dw ResetTransitionPropsAndAdvance_ResetInterface ; = $10CA9*
     dw $96AC ; = $116AC*
     dw $8CE2 ; = $10CE2*
     dw $8D10 ; = $10D10*
@@ -4464,7 +4477,7 @@ Module0C_RunSubmodule:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $8CA9 ; = $10CA9*
+    dw ResetTransitionPropsAndAdvance_ResetInterface ; = $10CA9*
     dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $992E ; = $1192E*
 }
@@ -4843,7 +4856,7 @@ HoleToDungeon_FadeMusic:
 
     .dont_fade
 
-    JMP $8CA9 ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
 }
 
 ; ==============================================================================
@@ -5807,7 +5820,7 @@ TriforceRoom_Step0:
     ; Make music fade out.
     LDA.b #$F1 : STA $012C
     
-    JMP $8CA9 ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
 }
 
 ; *$1202F-$12034 LOCAL
@@ -5841,7 +5854,7 @@ TriforceRoom_Step2:
     JSL Vram_EraseTilemaps.normal
     JSL Palette_RevertTranslucencySwap
     JSR $E851   ; $16851 IN ROM
-    JSR $AF1E   ; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay   ; $12F1E IN ROM
     
     INC $B0
     
@@ -6152,6 +6165,7 @@ Dungeon_SaveRoomData:
 ; ==============================================================================
 
 ; $121E5-$121E8 DATA
+RoomEffectFixedColors:
 {
     ; \task Name this pool / apply to routines that use it.
     db 31,  8,  4,  0
@@ -6160,6 +6174,7 @@ Dungeon_SaveRoomData:
 ; ==============================================================================
 
 ; *$121E9-$12280 LOCAL
+Dungeon_HandleTranslucencyAndPalettes:
 {
     LDA $0ABD : BEQ .no_swap
     
@@ -6281,8 +6296,9 @@ ApplyPaletteFilter_bounce:
 ; ==============================================================================
 
 ; *$122A5-$122A8 JUMP LOCATION LONG
+ResetTransitionPropsAndAdvance_ResetInterface_long:
 {
-    JSR $8CA9 ; $10CA9 IN ROM
+    JSR ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
 
     RTL
 }
@@ -6392,63 +6408,56 @@ Dungeon_AdjustCoordsForLinkedRoom:
 ; ==============================================================================
 
 ; $1240D-$1246C JUMP TABLE FOR MODULE 0x09
-pool Module_Overworld:
+Module_OverworldTable:
 {
     ; (Indexed by $11)
-
-    .submodules
-    dw Overworld_PlayerControl              ; 0:
-    dw Overworld_LoadTransGfx               ; 1: AB88 = $12B88* ; 1 through 8 seem to be screen transitioning.
-    dw Overworld_FinishTransGfx             ; ; 0x02 - Blits the remainder of the bg / spr graphics to vram
-    dw Overworld_TransMapData               ; 3: ABC6 = $12BC6* ; Loads map32 data, converts it to map16 and map8, along with event overlay
-    dw Overworld_TransMapData2              ; 4: ABED = $12BED* ; 
-    dw Overworld_TransMapData2_justScroll   ; 5: AC27 = $12C27*
-    dw $ABDA ; = $12BDA*                    ; 6:     
-    dw $AC3A ; = $12C3A*                    ; 7:     ????
-    
-    dw $C242 ; = $14242*                    ; 8:     referenced in relation to bombs
-    dw $AD4A ; = $12D4A*                    ; 9:     exiting a fancy door mode?
-    dw $AC8F ; = $12C8F*                    ; A:     Positioning Link after coming out a door.
-    dw $ACC2 ; = $12CC2*                    ; B:     
-    dw $AC6C ; = $12D6C*                    ; C:     submodule for opening fancy doors
-    dw $AE5E ; = $12E5E*                    ; D:     getting into a forest submodule (areas 0x40 or 0x00)
-    dw Overworld_LoadSubscreenAndSilenceSFX1 ; = $12F19*                    ; E:     
-    dw Overworld_LoadTransGfx               ; 0x0F - AB88 = $12B88*
-    
-    dw Overworld_FinishTransGfx             ; 0x10 - referenced in relation to bombs
-    dw Overworld_TransMapData               ; 0x11 - ABC6 = $12BC6*
-    dw Overworld_TransMapData2              ; 0x12 - ABED = $12BED* ; ???
-    dw Overworld_TransMapData2.justScroll   ; 0x13 - AC27 = $12C27*
-    dw $ABDA ; = $12BDA*                    ; 0x14 - 
-    dw $AC3A ; = $12C3A*                    ; 0x15 - 
-    dw $B0D2 ; = $130D2*                    ; 0x16 - 
-    dw $AE5E ; = $12E5E*                    ; 0x17 - #$17 - #$1C occurs entering Master Sword area.
-    
-    dw $B1C8 ; = $131C8*                    ; 0x18 - Load exit data and palettes for special areas?
-    dw $B1DF ; = $131DF*                    ; 0x19 - Loads map data for module B?
-    dw Overworld_LoadTransGfx               ; 0x1A - AB88 = $12B88* ; Starts loading new graphics on a module B scrolling transition
-    dw Overworld_FinishTransGfx             ; 0x1B - Finishes loading new graphics
-    dw $B150 ; = $13150*                    ; 0x1C -   
-    dw $AECE ; = $12ECE*                    ; 0x1D - 
-    dw $AEEA ; = $12EEA*                    ; 0x1E - 
-    dw $C2A4 ; = $142A4*                    ; 0x1F - Coming out of Lost woods
-    
-    dw $AF1E ; = $12F1E*                    ; 0x20 - Coming back from Overworld Map.... reloads subscreen overlay to wram?
+    dw Overworld_PlayerControl              ; 0x00: Default mode 
+    dw Overworld_LoadTransGfx               ; 0x01: 1 through 8 seem to be screen transitioning.
+    dw Overworld_FinishTransGfx             ; 0x02: Blits the remainder of the bg / spr graphics to vram
+    dw Overworld_LoadNewMapAndGfx           ; 0x03: Loads map32 data, event overlay, converts to map16 and map8
+    dw Overworld_LoadNewSprites             ; 0x04: Loads new sprites
+    dw Overworld_LoadNewSprites_justScroll  ; 0x05: Start Scroll Transition 
+    dw Overworld_RunScrollTransition        ; 0x06: Run scroll transition 
+    dw Overworld_EaseOffScrollTransition    ; 0x07: Ease off scroll transition 
+    dw Overworld_FinalizeEntryOntoScreen    ; 0x08: Referenced in relation to bombs
+    dw Overworld_OpenBigDoorFromExiting     ; 0x09: Exiting a big door mode
+    dw Overworld_WalkFromExiting_FaceDown   ; 0x0A: Positioning Link after coming out a door.
+    dw Overworld_WalkFromExiting_FaceUp     ; 0x0B: 
+    dw Overworld_OpenBigFancyDoor           ; 0x0C: Submodule for opening fancy doors
+    dw Overworld_StartMosaicTransition      ; 0x0D: Entering forest submodule (areas 0x40 or 0x00)
+    dw Overworld_LoadSubscreenAndSilenceSFX1; 0x0E: ; = $12F19*
+    dw Overworld_LoadTransGfx               ; 0x0F: AB88 = $12B88*
+    dw Overworld_FinishTransGfx             ; 0x10: referenced in relation to bombs
+    dw Overworld_TransMapData               ; 0x11: ABC6 = $12BC6*
+    dw Overworld_LoadNewSprites             ; 0x12: ABED = $12BED* ; ???
+    dw Overworld_LoadNewSprites_justScroll  ; 0x13: AC27 = $12C27*
+    dw Overworld_RunScrollTransition        ; 0x14: 
+    dw Overworld_EaseOffScrollTransition    ; 0x15:
+    dw Overworld_FadeBackInFromMosaic       ; 0x16: $130D2*                    
+    dw Overworld_StartMosaicTransition      ; 0x17: #$17 - #$1C occurs entering Master Sword area
+    dw Module09_18                          ; 0x18: Load exit data and palettes for special areas?
+    dw Module09_19                          ; 0x19: Loads map data for module B?
+    dw Overworld_LoadTransGfx               ; 0x1A: Starts loading new gfx on a module B scrolling transition
+    dw Overworld_FinishTransGfx             ; 0x1B: Finishes loading new gfx
+    dw Module09_1C                          ; 0x1C: *$13150* 
+    dw Module09_1D                          ; 0x1D: *$12ECE*    
+    dw Module09_1E                          ; 0x1E: *$12EEA*
+    dw Module09_1F                          ; 0x1F - Coming out of Lost woods = $142A4*
+    dw Overworld_ReloadSubscreenOverlay     ; 0x20 - Coming back from Overworld Map.... reloads subscreen overlay to wram?
     dw Overworld_LoadAmbientOverlay         ; 0x21 - Coming back from Overworld Map.... sends command to reupload subscreen overlay to vram?
-    dw $B1BB ; = $131BB*                    ; 0x22 - Brightens screen
+    dw Overworld_BrightenScreen             ; 0x22 - Brightens screen  ; = $131BB*
     dw Overworld_MirrorWarp                 ; 0x23 - Magic Mirror routine (normal warp between worlds)
-    dw $AE5E ; = $12E5E*                    ; 0x24 � Also part of magic mirror stuff?
-    dw OverworldLoadSubScreenOverlay        ; 0x25 � Occurs leaving Master Sword area
+    dw Overworld_StartMosaicTransition      ; 0x24 - Also part of magic mirror stuff?
+    dw OverworldLoadSubScreenOverlay        ; 0x25 - Occurs leaving Master Sword area
     dw Overworld_LoadTransGfx               ; 0x26 - AB88 = $12B88*
     dw Overworld_FinishTransGfx             ; 0x27 - 
-    dw Overworld_LoadAmbientOverlayAndMapData ; 0x28 -    
-    
-    dw $B0D2 ; = $130D2*                    ; 0x29 -
-    dw $B528 ; = $13528*                    ; 0x2A -
+    dw Overworld_LoadAndBuildScreen         ; 0x28 - Alt entry for LoadAmbientOverlay
+    dw Overworld_FadeBackInFromMosaic       ; 0x29 -
+    dw Overworld_RecoverFromDrowning        ; 0x2A - Recover Link from drowning without flippers
     dw $B40A ; = $1340A*                    ; 0x2B - Retrieving the master sword from its pedestal
     dw Overworld_MirrorWarp                 ; 0x2C - Magic Mirror routine (warping back from a failed warp)
     dw Overworld_WeathervaneExplosion       ; 0x2D - Used for breaking open the weather vane. (RTS!)
-    dw $B40F ; = $1340F*                    ; 0x2E - 0x2E and 0x2F are used for the whirlpool teleporters
+    dw Overworld_Whirlpool                  ; 0x2E - 0x2E and 0x2F are used for the whirlpool teleporters
     dw $B521 ; = $13521*                    ; 0x2F - Is jumped to from the previous submodule 
 }
 
@@ -6471,7 +6480,7 @@ Module_Overworld:
     ; Submodule index
     LDA $11 : ASL A : TAX
     
-    JSR (.submodules, X)
+    JSR (Module_OverworldTable, X)
     
     REP #$21
     
@@ -7087,7 +7096,7 @@ Overworld_FinishTransGfx:
 ; ==============================================================================
 
 ; *$12BC6-$12BD9 LOCAL
-Overworld_TransMapData:
+Overworld_LoadNewMapAndGfx:
 {
     ; Module 0x09.0x03, 0x09.0x11
     
@@ -7128,7 +7137,7 @@ Overworld_RunScrollTransition:
 ; =============================================
 
 ; *$12BED - $12C39 JUMP LOCATION
-Overworld_TransMapData2:
+Overworld_LoadNewSprites:
 {
     ; Module 0x09.0x04, 0x09.0x12
     
@@ -7245,6 +7254,7 @@ Overworld_EaseOffScrollTransition:
 }
 
 ; *$12C8F-$12CC1 JUMP LOCATION
+Overworld_WalkFromExiting_FaceDown:
 {
     JSL $07E69D ; $3E69D IN ROM
     
@@ -7280,6 +7290,7 @@ Overworld_EaseOffScrollTransition:
 }
 
 ; *$12CC2-$12CD9 JUMP LOCATION
+Overworld_WalkFromExiting_FaceUp:
 {
     JSL Link_HandleMovingAnimation_FullLongEntry    ; $3E6A6 IN ROM
     
@@ -7355,7 +7366,7 @@ Overworld_DoMapUpdate32x32_Long:
 }
 
 ; *$12D6C-$12E5D LOCAL
-Module09_0C_OpenBigDoor:
+Overworld_OpenBigFancyDoor:
 {
     LDA $0690 : CMP.b #$03 : BNE .BRANCH_ALPHA
     
@@ -7494,7 +7505,7 @@ OverworldMosaicTransition_HandleSong:
     .noFadeout
 
     ; do more basic common initialization of OW variables
-    JMP $8CA9   ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface   ; $10CA9 IN ROM
 }
 
 ; =========================================
@@ -7563,7 +7574,7 @@ Module09_1D:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $8CA9 ; = $10CA9*
+    dw ResetTransitionPropsAndAdvance_ResetInterface ; = $10CA9*
     dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $AEDD ; = $12EDD*
 }
@@ -7587,7 +7598,7 @@ Module09_1E:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $8CA9 ; = $10CA9*
+    dw ResetTransitionPropsAndAdvance_ResetInterface ; = $10CA9*
     dw ApplyPaletteFilter_bounce ; = $122A0*
     dw $AEF9 ; = $12EF9*
 }
@@ -7627,6 +7638,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
     LDA.b #$05 : STA $012D ; play silence. yes, literally play silence.
 
     ; *$12F1E ALTERNATE ENTRY POINT
+  Overworld_ReloadSubscreenOverlay:
 
     REP #$30
         
@@ -8007,7 +8019,7 @@ Module09_1C_02_HandleMusic:
 }
 
 ; *$131BB-$131C7 JUMP LOCATION
-Module09_22:
+Overworld_BrightenScreen:
 {
     INC $13
     
@@ -8061,7 +8073,7 @@ Module09_19:
 ; *$131F0-$131F3 LONG
 Overworld_LoadAndBuildScreen_long:
 {
-    JSR Overworld_LoadAmbientOverlayAndMapData
+    JSR Overworld_LoadAndBuildScreen
     
     RTL
 }
@@ -8071,7 +8083,7 @@ Overworld_LoadAndBuildScreen_long:
 ; *$131F4-$131F9 LONG
 Overworld_ReloadSubscreenOverlayAndAdvance_long:
 {
-    JSR $AF1E; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay; $12F1E IN ROM
     
     DEC $11
     
@@ -8382,7 +8394,7 @@ MirrorWarp_LoadSpritesAndColors:
 }
 
 ; *$1340F-$13431 JUMP LOCATION
-Module09_2E_Whirlpool:
+Overworld_Whirlpool:
 {
     INC $0710
         
@@ -8589,7 +8601,7 @@ Module09_2F:
 ; ==============================================================================
 
 ; *$13528-$13531 JUMP LOCATION
-Module09_2A_RecoverFromDrowning:
+Overworld_RecoverFromDrowning:
 {
     LDA $B0
     
@@ -10574,6 +10586,7 @@ IntraroomTransitionCalculateLanding:
 ; $1423E-$14241 DATA
 
 ; *$14242-$142A3 JUMP LOCATION
+Overworld_FinalizeEntryOntoScreen:
 {
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
     
@@ -12427,7 +12440,7 @@ Overworld_LoadAmbientOverlay:
     BRA .load_overlay
 
 ; *$16D59 ALTERNATE ENTRY POINT
-shared Overworld_LoadAmbientOverlayAndMapData:
+shared Overworld_LoadAndBuildScreen:
 
     REP #$20
     
@@ -12494,7 +12507,7 @@ PreOverworld_LoadAndAdvance:
 {
     ; Module 0x08.0x02, 0x0A.0x02
     
-    JSR Overworld_LoadAmbientOverlayAndMapData
+    JSR Overworld_LoadAndBuildScreen
     
     ; Put us in the Opening Spotlight module
     
