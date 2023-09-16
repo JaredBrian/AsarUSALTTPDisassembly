@@ -238,11 +238,11 @@ BirdTravel_LoadTargetArea:
     JSL BirdTravel_LoadTargetAreaPalettes
     
     ; ZS starts writing here.
-    ; $0538F5
+    ; $0538F5 - ZS Custom Overworld
     ; Load differnt animated tiles for certain areas.
     LDY.b #$58
         
-    LDA $8A : AND.b #$BF ; JARE
+    LDA $8A : AND.b #$BF
         
     CMP.b #$03 : BEQ .death_mountain
     CMP.b #$05 : BEQ .death_mountain
@@ -789,51 +789,54 @@ BirdTravel_LoadTargetArea:
 
 ; ==============================================================================
 
-    ; *$53C54-$53C95 JUMP LOCATION LONG
-    OverworldMap_RestoreGfx:
-    {
-        ; 0x0E.0x07.0x07 (restoring graphics?)
+; *$53C54-$53C95 JUMP LOCATION LONG
+; ZS makes a jump in this function.
+OverworldMap_RestoreGfx:
+{
+    ; 0x0E.0x07.0x07 (restoring graphics?)
         
-        ; Indicate that special palette values are no longer in use
-        STZ $0AA9
-        STZ $0AB2
+    ; Indicate that special palette values are no longer in use
+    STZ $0AA9
+    STZ $0AB2
         
-        ; $619B IN ROM. Decompression routine
-        JSL InitTilesets
+    ; ZS writes here.
+    ; $053C5A
+    ; $619B IN ROM. Decompression routine
+    JSL InitTilesets
         
-        ; Update CGRAM this frame
-        INC $15
+    ; Update CGRAM this frame
+    INC $15
         
-        ; Set things back to the way they were, submodule-wise
-        STZ $B2
-        STZ $0200
-        STZ $B0
+    ; Set things back to the way they were, submodule-wise
+    STZ $B2
+    STZ $0200
+    STZ $B0
         
-        ; Restore module we came from
-        LDA $010C : STA $10
+    ; Restore module we came from
+    LDA $010C : STA $10
         
-        ; Put us in submodule 0x20
-        LDA.b #$20 : STA $11
+    ; Put us in submodule 0x20
+    LDA.b #$20 : STA $11
         
-        ; Indicate there's no special tile or tilemap transfers this frame
-        STZ $1000 : STZ $1001
+    ; Indicate there's no special tile or tilemap transfers this frame
+    STZ $1000 : STZ $1001
         
-        ; Restore CGADSUB
-        LDA $7EC229 : STA $9B
+    ; Restore CGADSUB
+    LDA $7EC229 : STA $9B
         
-        SEP #$20
+    SEP #$20
         
-        ; restore ambient sound effect (rain, etc)
-        LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
+    ; restore ambient sound effect (rain, etc)
+    LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
         
-        ; Play sound effect indicating we're coming out of map mode
-        LDA.b #$10 : STA $012F
+    ; Play sound effect indicating we're coming out of map mode
+    LDA.b #$10 : STA $012F
         
-        ; Signal music to go back to full volume
-        LDA.b #$F3 : STA $012C
+    ; Signal music to go back to full volume
+    LDA.b #$F3 : STA $012C
         
-        RTL
-    }
+    RTL
+}
 
 ; ==============================================================================
 

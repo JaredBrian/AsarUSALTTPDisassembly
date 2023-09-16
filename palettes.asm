@@ -561,7 +561,7 @@ Palette_MainSpr:
     ; X = 0x00 for light world
     LDX.b #$00
         
-    LDA $8A : AND.w #$0040 : BEQ .lightWorld ; JARED? not sure, needs investigation.
+    LDA $8A : AND.w #$0040 : BEQ .lightWorld ; - ZS Custom Overworld? not sure, needs investigation.
         ; X = 0x02 for dark world
         INX #2
     
@@ -751,7 +751,7 @@ Palette_MiscSpr:
     LDX.w #$07
         
     ; See if we're in the dark world.
-    LDA $8A : AND.w #$0040 : BEQ .lightWorld ; JARED? not sure, needs investigation.
+    LDA $8A : AND.w #$0040 : BEQ .lightWorld ; - ZS Custom Overworld? not sure, needs investigation.
         INX #2
     
     .lightWorld

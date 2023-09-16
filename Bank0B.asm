@@ -31,7 +31,7 @@
     
         LDX.w #$2669
         
-        LDA $8A : AND.w #$0040 : BEQ .setBgColor ; JARE
+        LDA $8A : AND.w #$0040 : BEQ .setBgColor
         
         ; Default tan color for the dark world
         LDX.w #$2A32     ;#$9205 for fairy world
@@ -43,7 +43,7 @@
     STA $7EC540 : STA $7EC340
     
     ; ZS starts replacing from here.
-    ; $05FEC6
+    ; $05FEC6 - ZS Custom Overworld
     ; set fixed color to neutral
     LDA.w #$4020 : STA $9C
     LDA.w #$8040 : STA $9D
@@ -88,7 +88,7 @@
         LDA $E8 : STA $E6
         LDA $E2 : STA $E0
             
-        LDA $8A : AND.w #$003F ; JARE
+        LDA $8A : AND.w #$003F
             
         ; Are we at Hyrule Castle or Pyramid of Power?
         CMP.w #$001B : BNE .subscreenOnAndReturn
@@ -126,7 +126,7 @@
     
     .BRANCH_11
     
-    LDA $8A : AND.w #$003F : CMP.w #$001B : BNE .subscreenOnAndReturn ; JARE
+    LDA $8A : AND.w #$003F : CMP.w #$001B : BNE .subscreenOnAndReturn
         ; Synchronize Y scrolls on BG0 and BG1. Same for X scrolls
         LDA $E8 : STA $E6
         LDA $E2 : STA $E0
