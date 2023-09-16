@@ -5075,13 +5075,13 @@ Module_BossVictory_Heal:
 
     INC $0200
 
-  .still_restoring_magic:
+    .still_restoring_magic:
 
     JSL HUD.RefillHealth : BCS .still_healing_hp
 
     INC $0200
 
-  .still_healing_hp:
+    .still_healing_hp:
 
     LDA $0200 : BNE .reset_module
 
@@ -5100,7 +5100,7 @@ Module_BossVictory_Heal:
     ; Make it so Link can't move.
     INC $02E4
 
-  .reset_module
+    .reset_module
 
     STZ $0200
 
@@ -5126,7 +5126,7 @@ Module_BossVictory_StartSpinAnimation:
 
     INC $11
 
-  .countingDown
+    .countingDown
 
     RTS
 }
@@ -5148,7 +5148,7 @@ Module_BossVictory_RunSpinAnimation:
     ; Play "pulling master sword out" sound
     LDA.b #$2C : STA $012E
 
-  .noSound
+    .noSound
 
     LDA.b #$01 : STA $03EF
 
@@ -5156,7 +5156,7 @@ Module_BossVictory_RunSpinAnimation:
 
     INC $11
 
-  .return
+    .return
 
     RTS
 }
@@ -5175,7 +5175,7 @@ Module_BossVictory_EndSpinAnimation
 
     LDA.b #$00 : STA $7EC017
 
-  .exit
+    .exit
 
     RTS
 }
@@ -6006,7 +6006,7 @@ TriforceRoom_Step9:
 
     INC $B0
 
-.waitForTextToEnd
+    .waitForTextToEnd
 
     RTS
 }
@@ -6107,7 +6107,7 @@ TriforceRoom_Step14:
 
     LDA.b #$00 : STA $7EF3CA
 
-.continue_darkening
+    .continue_darkening
 
     RTS
 }
@@ -6275,7 +6275,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 
     STZ $B0 : STZ $11
 
-.stillFiltering
+    .stillFiltering
 
     RTS
 }
@@ -6401,7 +6401,7 @@ Dungeon_AdjustCoordsForLinkedRoom:
 
     LDY.b #$00
 
-.updateTagalong_y_coord
+    .updateTagalong_y_coord
 
     LDA $21 : STA $1A14, Y
 
