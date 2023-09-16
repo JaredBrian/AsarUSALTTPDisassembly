@@ -20,17 +20,17 @@
     
     Sidenexx:
     
-        LDA $0E20, X : SUB.b #$CC : TAY
+        LDA $0E20, X : SEC : SBC.b #$CC : TAY
         
-        LDA $0D90 : ADD $B88A, Y : STA $0D90, X
+        LDA $0D90 : CLC : ADC $B88A, Y : STA $0D90, X
         LDA $0DA0 : ADC $B88C, Y : STA $0DA0, X
         
-        LDA $0DB0 : SUB.b #$20 : STA $0DB0, X
+        LDA $0DB0 : SEC : SBC.b #$20 : STA $0DB0, X
         LDA $0ED0 : SBC.b #$00 : STA $0ED0, X
         
         LDA $0B89, X : ORA.b #$30 : STA $0B89, X
         
-        JSR $BB70                 ; $EBB70 IN ROM
+        JSR $BB70 ; $EBB70 IN ROM
         JSR Sprite4_CheckIfActive
         
         LDA $0D80, X : BPL BRANCH_BETA
@@ -305,7 +305,7 @@
         CMP.b #$08              : BCC .continue
         CMP.b #$79 : LDA.b #$08 : BCC .continue
         
-        LDA $0DF0, X : ADD.b #$80 : EOR.b #$FF
+        LDA $0DF0, X : CLC : ADC.b #$80 : EOR.b #$FF
     
     .continue
     
@@ -313,11 +313,11 @@
         
         LDA $0DF0, X : CMP.b #$40 : BCC BRANCH_DELTA
         
-        SUB.b #$40 : LSR #3 : TAY
+        SEC : SBC.b #$40 : LSR #3 : TAY
         
         LDA $1A : AND $BA68, Y : BNE .exit
         
-        JSL GetRandomInt : AND.b #$0F : LDY.b #$00 : SUB.b #$03
+        JSL GetRandomInt : AND.b #$0F : LDY.b #$00 : SEC : SBC.b #$03
                                                       STA $00 : BPL .positive
         
         DEY
@@ -326,7 +326,7 @@
     
         STY $01
         
-        JSL GetRandomInt : AND.b #$0F : ADD.b #$0C : STA $02 : STZ $03
+        JSL GetRandomInt : AND.b #$0F : CLC : ADC.b #$0C : STA $02 : STZ $03
         
         JSL Sprite_SpawnSimpleSparkleGarnish
         
@@ -428,9 +428,9 @@
     
         DEC $0E80, X
         
-        LDA $0FD8 : ADD $E2 : STA $0FD8
+        LDA $0FD8 : CLC : ADC $E2 : STA $0FD8
         
-        LDA $0FDA : ADD $E8 : STA $0FDA
+        LDA $0FDA : CLC : ADC $E8 : STA $0FDA
         
         JSL Sprite_MakeBossDeathExplosion
     
@@ -471,7 +471,7 @@
     
         LDY $0FB5
         
-        TYA : ADD $BB6D, X : TAY
+        TYA : CLC : ADC $BB6D, X : TAY
         
         CPX.b #$02 : BEQ BRANCH_ALPHA
         
@@ -496,7 +496,7 @@
         
         LDA $04E800, X : STA $0A
         
-        LDA $06 : ADD.w #$0080 : STA $08
+        LDA $06 : CLC : ADC.w #$0080 : STA $08
         
         AND.w #$00FF : ASL A : TAX
         
@@ -562,10 +562,10 @@
     
     BRANCH_THETA:
     
-        LDA   $00 : ADD $0FA8 : LDY $0FB6       : STA ($90), Y : STA $0FD8
-        LDA   $0FA9 : ADD $02 : LDY $0FB6 : INY : STA ($90), Y : STA $0FDA
-        LDA.b #$08                      : INY : STA ($90),   Y
-        LDA   $05                         : INY : STA ($90), Y
+        LDA   $00 : CLC : ADC $0FA8 : LDY $0FB6 : STA ($90), Y : STA $0FD8
+        LDA   $0FA9 : CLC : ADC $02 : LDY $0FB6 : INY : STA ($90), Y : STA $0FDA
+        LDA.b #$08 : INY : STA ($90),   Y
+        LDA   $05 : INY : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
         
@@ -593,6 +593,18 @@
         RTS
     }
 
+    ; $EBC8C-$EBC9F DATA
+    {
+        db $F8, $08, $F8, $08, $00, $F8, $F8, $08, $08, $02, $04, $04, $24, $24, $0A 
+        
+        ; $EBC9B
+        .headHFlip
+        db $40, $00, $40, $00
+        
+        .unused? ; Pretty sure its an extra byte.
+        db $00
+    }
+
     ; *$EBCA0-$EBD25 LOCAL
     {
         LDA $0E30, X : STA $08
@@ -605,17 +617,17 @@
     
     BRANCH_BETA:
     
-        LDA $0FA8 : ADD $00 : STA $0FD8
+        LDA $0FA8 : CLC : ADC $00 : STA $0FD8
         
-        ADD $BC8C, X : STA ($90), Y
+        CLC : ADC $BC8C, X : STA ($90), Y
         
-        LDA $0FA9 : ADD $02 : STA $0FDA
+        LDA $0FA9 : CLC : ADC $02 : STA $0FDA
         
-        ADD $BC91, X
+        CLC : ADC $BC91, X
         
         CPX.b #$04 : BNE BRANCH_ALPHA
         
-        ADD $08
+        CLC : ADC $08
     
     BRANCH_ALPHA:
     
@@ -633,7 +645,7 @@
         
         PLX
         
-        LDA $0FB6 : ADD.b #$14 : STA $0FB6
+        LDA $0FB6 : CLC : ADC.b #$14 : STA $0FB6
         
         LDY.b #$00
         
@@ -643,7 +655,7 @@
     
     BRANCH_GAMMA:
     
-              ADD $0D90, X : STA $0D10, X
+              CLC : ADC $0D90, X : STA $0D10, X
         TYA : ADC $0DA0, X : STA $0D30, X
         
         LDY.b #$00
@@ -654,7 +666,7 @@
     
     BRANCH_DELTA:
     
-              ADD $0DB0, X : STA $0D00, X
+              CLC : ADC $0DB0, X : STA $0D00, X
         TYA : ADC $0ED0, X : STA $0D20, X
         
         RTS
@@ -678,7 +690,7 @@
         JSL Sprite_PrepOamCoordLong
         JSR Sprite4_CheckIfActive
         
-        LDA $0D50, X : PHA : ADD $0DB0, X : STA $0D50, X
+        LDA $0D50, X : PHA : CLC : ADC $0DB0, X : STA $0D50, X
         
         JSR Sprite4_Move
         
@@ -742,7 +754,7 @@
         
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$7F : STA $7FF90E, X
@@ -800,7 +812,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$7F : STA $7FF90E, X
