@@ -1338,87 +1338,87 @@ Module_DungeonTable:
 ; *$107A2-$1085D JUMP LOCATION
 Module_Dungeon:
 {
-  ; Module 0x07, Dungeon Mode.
+    ; Module 0x07, Dungeon Mode.
 
-  SEP #$30
+    SEP #$30
 
-  JSL Effect_Handler
+    JSL Effect_Handler
 
-  LDA $11 : ASL A : TAX
+    LDA $11 : ASL A : TAX
 
-  JSR (Module_DungeonTable, X)
+    JSR (Module_DungeonTable, X)
 
-  STZ $042C
+    STZ $042C
 
-  JSL PushBlock_Handler
+    JSL PushBlock_Handler
 
-  LDA $11 : BNE .enteredNonDefaultSubmodule
+    LDA $11 : BNE .enteredNonDefaultSubmodule
 
-  JSL Graphics_LoadChrHalfSlot
-  JSR Dungeon_HandleCamera   ; $13A31 IN ROM
+    JSL Graphics_LoadChrHalfSlot
+    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
 
-  LDA $11 : BNE .enteredNonDefaultSubmodule
+    LDA $11 : BNE .enteredNonDefaultSubmodule
 
-  JSL Dungeon_CheckStairsAndRunScripts
+    JSL Dungeon_CheckStairsAndRunScripts
 
-  LDA $11 : BNE .enteredNonDefaultSubmodule
+    LDA $11 : BNE .enteredNonDefaultSubmodule
 
-  JSL Dungeon_ProcessTorchAndDoorInteractives
+    JSL Dungeon_ProcessTorchAndDoorInteractives
 
-  LDA $0454 : BEQ .blastWallNotOpening
+    LDA $0454 : BEQ .blastWallNotOpening
 
-  JSL Door_BlastWallExploding
+    JSL Door_BlastWallExploding
 
-  .blastWallNotOpening
+    .blastWallNotOpening
 
-  ; Is Link standing in a door way?
-  LDA $6C : BNE .standingInDoorway
+    ; Is Link standing in a door way?
+    LDA $6C : BNE .standingInDoorway
 
-  ; Check if the player triggered an inter-room transition this frame.
-  JSR $885E ; $1085E IN ROM
+    ; Check if the player triggered an inter-room transition this frame.
+    JSR $885E ; $1085E IN ROM
 
-  .enteredNonDefaultSubmodule
-  .standingInDoorway
+    .enteredNonDefaultSubmodule
+    .standingInDoorway
 
-  JSL OrientLampBg
+    JSL OrientLampBg
 
-  REP $21
+    REP $21
 
-  LDA $E2 : PHA : ADC $011A : STA $E2 : STA $011E
+    LDA $E2 : PHA : ADC $011A : STA $E2 : STA $011E
 
-  LDA $E8 : PHA : CLC : ADC $011C : STA $E8 : STA $0122
+    LDA $E8 : PHA : CLC : ADC $011C : STA $E8 : STA $0122
 
-  LDA $E0 :       CLC : ADC $011A : STA $E0 : STA $0120
+    LDA $E0 :       CLC : ADC $011A : STA $E0 : STA $0120
 
-  LDA $E6 : PHA : CLC : ADC $011C : STA $E6 : STA $0124
+    LDA $E6 : PHA : CLC : ADC $011C : STA $E6 : STA $0124
 
-  LDA $0428 : AND.w #$00FF : BEQ .noMovingFloor
+    LDA $0428 : AND.w #$00FF : BEQ .noMovingFloor
 
-  ; Adjusts BG0 by the offset of the moving floor.
-  PLA : PLA
+    ; Adjusts BG0 by the offset of the moving floor.
+    PLA : PLA
 
-  LDA $0422 : CLC : ADC $E2 : STA $0120 : STA $E0 : PHA
-  LDA $0424 : CLC : ADC $E8 : STA $0124 : STA $E6 : PHA
+    LDA $0422 : CLC : ADC $E2 : STA $0120 : STA $E0 : PHA
+    LDA $0424 : CLC : ADC $E8 : STA $0124 : STA $E6 : PHA
 
-  .noMovingFloor
+    .noMovingFloor
 
-  SEP #$20
+    SEP #$20
 
-  JSL $07F0AC ; $3F0AC IN ROM. Handle the sprites of pushed blocks.
-  JSL Sprite_Main
+    JSL $07F0AC ; $3F0AC IN ROM. Handle the sprites of pushed blocks.
+    JSL Sprite_Main
 
-  REP #$20
+    REP #$20
 
-  PLA : STA $E6
-  PLA : STA $E0
-  PLA : STA $E8
-  PLA : STA $E2
+    PLA : STA $E6
+    PLA : STA $E0
+    PLA : STA $E8
+    PLA : STA $E2
 
-  SEP #$20
+    SEP #$20
 
-  JSL PlayerOam_Main
-  JSL HUD.RefillLogicLong
-  JML FloorIndicator ; $57D0C IN ROM. Handles HUD floor indicator
+    JSL PlayerOam_Main
+    JSL HUD.RefillLogicLong
+    JML FloorIndicator ; $57D0C IN ROM. Handles HUD floor indicator
 }
 
 ; =====================================================
@@ -1611,25 +1611,25 @@ Dungeon_Normal:
 
 ; $1094C-$1096B DATA
 Dungeon_SubscreenEnable:
-  db $00, $01, $01, $FF, $01, $01, $01, $01
+    db $00, $01, $01, $FF, $01, $01, $01, $01
 
 ; $10954
 PendantBossRooms:
-  dw $00C8 ; ROOM 00C8 - Armos
-  dw $0033 ; ROOM 0033 - Lanmolas
-  dw $0007 ; ROOM 0007 - Moldorm
-  dw $0020 ; ROOM 0020 - Agahnim 1
+    dw $00C8 ; ROOM 00C8 - Armos
+    dw $0033 ; ROOM 0033 - Lanmolas
+    dw $0007 ; ROOM 0007 - Moldorm
+    dw $0020 ; ROOM 0020 - Agahnim 1
 
 ; $1095C
 CrystalBossRooms:
-  dw $0006 ; ROOM 0006 - Arrghus
-  dw $005A ; ROOM 005A - Helmasaur
-  dw $0029 ; ROOM 0029 - Mothula
-  dw $0090 ; ROOM 0090 - Vitreous
-  dw $00DE ; ROOM 00DE - Kholdstare
-  dw $00A4 ; ROOM 00A4 - Trinexx
-  dw $00AC ; ROOM 00AC - Blind
-  dw $000D ; ROOM 000D - Agahnim 2
+    dw $0006 ; ROOM 0006 - Arrghus
+    dw $005A ; ROOM 005A - Helmasaur
+    dw $0029 ; ROOM 0029 - Mothula
+    dw $0090 ; ROOM 0090 - Vitreous
+    dw $00DE ; ROOM 00DE - Kholdstare
+    dw $00A4 ; ROOM 00A4 - Trinexx
+    dw $00AC ; ROOM 00AC - Blind
+    dw $000D ; ROOM 000D - Agahnim 2
 
 ; ==============================================================================
 
@@ -2706,29 +2706,29 @@ Dungeon_FallingTransition_CacheRoomAndSetMusic:
 ; *$10F0C-$10F34 JUMP LOCATION
 Dungeon_NorthIntraRoomStairs:
 {
-  ; Module 0x07.0x08
+    ; Module 0x07.0x08
 
-  LDA $0464 : BEQ .BRANCH_ALPHA
+    LDA $0464 : BEQ .BRANCH_ALPHA
 
-  DEC $0464
+    DEC $0464
 
-  CMP.b #$14 : BNE .BRANCH_BETA
+    CMP.b #$14 : BNE .BRANCH_BETA
 
-  LDA.b #$02 : STA $57
+    LDA.b #$02 : STA $57
 
-  .BRANCH_BETA
+    .BRANCH_BETA
 
-  JSL Link_HandleVelocity ; $3E245 IN ROM
-  JSL ApplyLinksMovementToCamera ; $3E9D3 IN ROM
-  JSR Dungeon_HandleCamera   ; $13A31 IN ROM
-  JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleVelocity ; $3E245 IN ROM
+    JSL ApplyLinksMovementToCamera ; $3E9D3 IN ROM
+    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
 
-  .BRANCH_ALPHA:
+    .BRANCH_ALPHA:
 
-  LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
+    LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
 
-  dw Dungeon_NorthIntraRoomStairs_InitStairs ; = $10F35*
-  dw Dungeon_NorthIntraRoomStairs_ClimbStairs ; = $10F5F*
+    dw Dungeon_NorthIntraRoomStairs_InitStairs ; = $10F35*
+    dw Dungeon_NorthIntraRoomStairs_ClimbStairs ; = $10F5F*
 }
 
 ; ==============================================================================
