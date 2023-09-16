@@ -5076,13 +5076,11 @@ Module_BossVictory_Heal:
     INC $0200
 
     .still_restoring_magic:
-    .still_restoring_magic:
 
     JSL HUD.RefillHealth : BCS .still_healing_hp
 
     INC $0200
 
-    .still_healing_hp:
     .still_healing_hp:
 
     LDA $0200 : BNE .reset_module
@@ -6009,8 +6007,7 @@ TriforceRoom_Step9:
     INC $B0
 
     .waitForTextToEnd
-    .waitForTextToEnd
-
+    
     RTS
 }
 

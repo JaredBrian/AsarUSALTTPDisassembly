@@ -26,6 +26,7 @@
         LDA $0DA0 : ADC $B88C, Y : STA $0DA0, X
         
         LDA $0DB0 : SEC : SBC.b #$20 : STA $0DB0, X
+        
         LDA $0ED0 : SBC.b #$00 : STA $0ED0, X
         
         LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -308,11 +309,11 @@
         LDA $0DF0, X : CLC : ADC.b #$80 : EOR.b #$FF
     
     .continue
-    
         STA $0E30, X
         
         LDA $0DF0, X : CMP.b #$40 : BCC BRANCH_DELTA
         
+
         SEC : SBC.b #$40 : LSR #3 : TAY
         
         LDA $1A : AND $BA68, Y : BNE .exit
@@ -341,7 +342,6 @@
         PLX
     
     .exit
-    
         RTS
     }
 
@@ -497,7 +497,6 @@
         LDA $04E800, X : STA $0A
         
         LDA $06 : CLC : ADC.w #$0080 : STA $08
-        
         AND.w #$00FF : ASL A : TAX
         
         LDA $04E800, X : STA $0C
@@ -578,7 +577,7 @@
         INC $0FB5 : LDA $0FB5 : CMP $0E80, X : BEQ BRANCH_KAPPA
         
         JMP $BB95 ; $EBB95 IN ROM
-    
+
     BRANCH_KAPPA:
     
         LDA $11 : BEQ BRANCH_LAMBDA
@@ -655,7 +654,7 @@
     
     BRANCH_GAMMA:
     
-              CLC : ADC $0D90, X : STA $0D10, X
+        CLC : ADC $0D90, X : STA $0D10, X
         TYA : ADC $0DA0, X : STA $0D30, X
         
         LDY.b #$00
@@ -666,7 +665,7 @@
     
     BRANCH_DELTA:
     
-              CLC : ADC $0DB0, X : STA $0D00, X
+        CLC : ADC $0DB0, X : STA $0D00, X
         TYA : ADC $0ED0, X : STA $0D20, X
         
         RTS
