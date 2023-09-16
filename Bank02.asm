@@ -6007,7 +6007,7 @@ TriforceRoom_Step9:
     INC $B0
 
     .waitForTextToEnd
-
+    
     RTS
 }
 
