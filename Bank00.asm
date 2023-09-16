@@ -128,7 +128,7 @@ pool Module_MainRouting:
     { modules long i } => { lowers  byte i       },
                           { middles byte i >> 8  },
                           { banks   byte i >> 16 }
-  }
+    }
 }
 
 ; ==============================================================================
@@ -3509,643 +3509,639 @@ GetAnimatedSpriteTile:
 
 ; ==============================================================================
 
-  ; $005537-$005584 LOCAL
-  {
-      ; Parameters: A
-      
-      STA $0A
-      
-      ; Will always load a pointer to sprite graphics pack 0
-      LDY.b #$00
-      
-      LDA $CFF3, Y : STA $02 : STA $05
-      LDA $D0D2, Y : STA $01
-      LDA $D1B1, Y : STA $00
-      
-      BRA .expandTo4bpp
-  
+; $005537-$005584 LOCAL
+{
+    ; Parameters: A
+    
+    STA $0A
+    
+    ; Will always load a pointer to sprite graphics pack 0
+    LDY.b #$00
+    
+    LDA $CFF3, Y : STA $02 : STA $05
+    LDA $D0D2, Y : STA $01
+    LDA $D1B1, Y : STA $00
+    
+    BRA .expandTo4bpp
+
   ; *$00554E Alternate Entry Point
-  
-      PHA
-      
-      JSR Decomp_spr_low
-      
-      PLA
-  
+
+    PHA
+    
+    JSR Decomp_spr_low
+    
+    PLA
+
   ; *$005553 Alternate Entry Point
-  
-      STA $0A
-      
-      ; $00[3] = $7F4000
-      STZ $00
-      LDA.b #$40 : STA $01
-      LDA.b #$7F : STA $02 : STA $05
-  
+
+    STA $0A
+    
+    ; $00[3] = $7F4000
+    STZ $00
+    LDA.b #$40 : STA $01
+    LDA.b #$7F : STA $02 : STA $05
+
   .expandTo4bpp
-  
-      REP #$31
-      
-      LDY $0C
-      
-      LDA $00 : ADC $D21D, Y
-      
-      LDX $06
-      LDY $0A
-      
-      PHA
-      
-      JSR Do3To4HighAnimated_variable
-      
-      PLA : ADD.w #$0180
-      
-      LDY $0A
-      
-      JSR Do3To4HighAnimated_variable
-      
-      INC $0C : INC $0C
-      
-      STX $06
-      
-      SEP #$30
-      
-      RTS
-  }
+
+    REP #$31
+    
+    LDY $0C
+    
+    LDA $00 : ADC $D21D, Y
+    
+    LDX $06
+    LDY $0A
+    
+    PHA
+    
+    JSR Do3To4HighAnimated_variable
+    
+    PLA : ADD.w #$0180
+    
+    LDY $0A
+    
+    JSR Do3To4HighAnimated_variable
+    
+    INC $0C : INC $0C
+    
+    STX $06
+    
+    SEP #$30
+    
+    RTS
+}
 
 ; ==============================================================================
 
-  ; $005585-$0055CA LOCAL
-  ; This "unpacks" animated tiles
-  {
-      LDY.w #$0008 : STY $0E
-  
-  .nextTile
-  
-      STA $00 : ADD.w #$0010 : STA $03
-      
-      LDY.w #$0007
-  
-  .writeTile
-  
-      LDA [$00] : STA $7E9000, X : INC $00 : INC $00
-      
-      LDA [$03] : AND.w #$00FF : STA $7E9010, X : INC $03 : INX #2
-      
-      DEY : BPL .writeTile
-      
-      TXA : ADD.w #$0010 : TAX
-      
-      ; not sure what the point of this is.
-      LDA $03 : AND.w #$0078 : BNE .mystery
-      
-      LDA $03 : ADD.w #$0180 : STA $03
-  
-  .mystery
-  
-      LDA $03
-      
-      DEC $0E : BNE .nextTile
-      
-      RTS
-  }
+; $005585-$0055CA LOCAL
+; This "unpacks" animated tiles
+; Unused 3BPP to WRAM 4BPP routine
+{
+    LDY.w #$0008 : STY $0E
+
+    .nextTile
+
+    STA $00 : ADD.w #$0010 : STA $03
+    
+    LDY.w #$0007
+
+    .writeTile
+
+    LDA [$00] : STA $7E9000, X : INC $00 : INC $00
+    
+    LDA [$03] : AND.w #$00FF : STA $7E9010, X : INC $03 : INX #2
+    
+    DEY : BPL .writeTile
+    
+    TXA : ADD.w #$0010 : TAX
+    
+    ; not sure what the point of this is.
+    LDA $03 : AND.w #$0078 : BNE .mystery
+    
+    LDA $03 : ADD.w #$0180 : STA $03
+
+    .mystery
+
+    LDA $03
+    
+    DEC $0E : BNE .nextTile
+    
+    RTS
+}
 
 ; ==============================================================================
 
-  ; *$0055CB-$005618 LOCAL
-  ; Isn't this just another 3bpp to 4bpp converter?
-  ; Swear to God, they have like 8 different routines for this
-  ; (update: they have at least 3)
-  ; The main difference among them is the target address base
-  ; ($7E9000 instead of $7F0000, for example)
-  Do3To4LowAnimated:
-  {
-      LDY.w #$0008
-      
-  ; *$0055CE ALTERNATE ENTRY POINT
-  .variable
-      ; "variable" because the number of tiles it processes is variable.
-      
-      STY $0E
-  
-  .nextTile
-  
-      STA $00 : ADD.w #$0010 : STA $03
-      
-      LDY.w #$0003
-  
-  .writeTile
-      
-      LDA [$00] : STA $7E9000, X : INC $00 : INC $00
-      LDA [$03] : AND.w #$00FF : STA $7E9010, X : INC $03 : INX #2
-      
-      LDA [$00] : STA $7E9000, X : INC $00 : INC $00
-      LDA [$03] : AND.w #$00FF : STA $7E9010, X : INC $03 : INX #2
-      
-      DEY : BPL .writeTile
-      
-      TXA : ADD.w #$0010 : TAX
-      
-      LDA $03
-      
-      DEC $0E : BNE .nextTile
-      
-      RTS
-  }
+; *$0055CB-$005618 LOCAL
+; Isn't this just another 3bpp to 4bpp converter?
+; Swear to God, they have like 8 different routines for this
+; (update: they have at least 3)
+; The main difference among them is the target address base
+; ($7E9000 instead of $7F0000, for example)
+Do3To4LowAnimated:
+{
+    LDY.w #$0008
+    
+    ; *$0055CE ALTERNATE ENTRY POINT
+    .variable
+    ; "variable" because the number of tiles it processes is variable.
+    
+    STY $0E
+
+    .nextTile
+
+    STA $00 : ADD.w #$0010 : STA $03
+    
+    LDY.w #$0003
+
+    .writeTile
+    
+    LDA [$00] : STA $7E9000, X : INC $00 : INC $00
+    LDA [$03] : AND.w #$00FF : STA $7E9010, X : INC $03 : INX #2
+    
+    LDA [$00] : STA $7E9000, X : INC $00 : INC $00
+    LDA [$03] : AND.w #$00FF : STA $7E9010, X : INC $03 : INX #2
+    
+    DEY : BPL .writeTile
+    
+    TXA : ADD.w #$0010 : TAX
+    
+    LDA $03
+    
+    DEC $0E : BNE .nextTile
+    
+    RTS
+}
 
 ; ==============================================================================
 
-  ; *$005619-$00566D LOCAL
-  Do3To4HighAnimated:
-  {
-      ; Inputs:
-      ; A - local portion of the pointer to the data to be converted
-      ; X - offset into the animated tile buffer of WRAM (0x7E9000)
-      ; Y - Number of tiles to convert
-      
-      LDY.w #$0006
-  
-  ; *$00561C Alternate Entry Point
-  .variable
-  
-      STY $0E
-  
-  .nextTile
-  
-      STA $00
-      
-      ; Addresses will be #$10 apart
-      ADD.w #$0010 : STA $03
-      
-      LDY.w #$0007
-  
-  .writeTile
-  
-      LDA [$00] : STA $7E9000, X : XBA : ORA [$00] : AND.w #$00FF : STA $08 
-      INC $00 : INC $00
-      
-      LDA [$03] : AND.w #$00FF : STA $BD : ORA $08 : XBA : ORA $BD : STA $7E9010, X
-      INC $03 : INX #2 
-      
-      DEY : BPL .writeTile
-      
-      TXA : ADD.w #$0010 : TAX
-      
-      LDA $03 : AND.w #$0078 : BNE .noAdjust
-      
-      ; Since we're most likely working with sprite gfx we have to adjust
-      ; by 0x10 tiles to get to the next line
-      LDA $03 : ADD.w #$0180 : STA $03
-  
-  .noAdjust
-  
-      LDA $03
-      
-      DEC $0E : BNE .nextTile
-      
-      RTS
-  }
+; *$005619-$00566D LOCAL
+Do3To4HighAnimated:
+{
+    ; Inputs:
+    ; A - local portion of the pointer to the data to be converted
+    ; X - offset into the animated tile buffer of WRAM (0x7E9000)
+    ; Y - Number of tiles to convert
+    
+    LDY.w #$0006
 
-; ==============================================================================
-  
-  ; $00566E-$005787 LONG
-  LoadTransAuxGfx:
-  {
-      PHB : PHK : PLB
-      
-      ; $00[3] = $7E6000
-      STZ $00
-      LDA.b #$60 : STA $01
-      LDA.b #$7E : STA $02
-      
-      REP #$30
-      
-      ; $0E = $0AA2 * 4
-      LDA $0AA2 : AND.w #$00FF : ASL #2 : STA $0E
-      
-      SEP #$20
-      
-      LDX $0E
-      
-      LDA $DD97, X : BEQ .noBgGfxChange0
-      
-      STA $7EC2F8
-      
-      SEP #$10
-      
-      TAY
-      
-      JSR Decomp_bg_variable
-  
-  .noBgGfxChange0
-  
-      SEP #$10
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      REP #$10
-      
-      LDX $0E
-      
-      LDA $DD98, X : BEQ .noBgGfxChange1
-      
-      STA $7EC2F9
-      
-      SEP #$10
-      
-      TAY
-      
-      JSR Decomp_bg_variable
-  
-  .noBgGfxChange1
-  
-      SEP #$10
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      REP #$10
-      
-      LDX $0E
-      
-      LDA $DD99, X : BEQ .noBgGfxChange2
-      
-      STA $7EC2FA
-      
-      SEP #$10
-      
-      TAY
-      
-      JSR Decomp_bg_variable
-  
-  .noBgGfxChange2
-  
-      SEP #$10
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      REP #$10
-      
-      LDX $0E
-      
-      LDA $DD9A, X : BEQ .noBgGfxChange3
-      
-      STA $7EC2FB
-      
-      SEP #$10
-      
-      TAY
-      
-      JSR Decomp_bg_variable
-  
-  .noBgGfxChange3
-  
-      SEP #$10
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      BRA .continue
-  
-  ; *$0056F9 ALTERNATE ENTRY POINT
-  
-      PHB : PHK : PLB
-      
-      STZ $00
-      LDA.b #$78 : STA $01
-      LDA.b #$7E : STA $02
-  
-  .continue
-  
-      REP #$30
-      
-      ; $0E = $0AA3 * 4
-      LDA $0AA3 : AND.b #$00FF : ASL #2 : STA $0E
-      
-      SEP #$20
-      
-      LDX $0E
-      
-      LDA $DB57, X : BEQ .noSprGfxChange0
-      
-      STA $7EC2FC
-  
-  .noSprGfxChange0
-  
-      SEP #$10
-      
-      LDA $7EC2FC : TAY
-      
-      JSR Decomp_spr_variable
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      REP #$10
-      
-      LDX $0E
-      
-      LDA $DB58, X : BEQ .noSprGfxChange1
-      
-      STA $7EC2FD
-  
-  .noSprGfxChange1
-  
-      SEP #$10
-      
-      LDA $7EC2FD : TAY
-      
-      JSR Decomp_spr_variable
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      REP #$10
-      
-      LDX $0E
-      
-      LDA $DB59, X : BEQ .noSprGfxChange2
-      
-      STA $7EC2FE
-  
-  .noSprGfxChange2
-  
-      SEP #$10
-      
-      LDA $7EC2FE : TAY
-      
-      JSR Decomp_spr_variable
-      
-      ; Increment buffer address by 0x0600.
-      LDA $01 : ADD.b #$06 : STA $01
-      
-      REP #$10
-      
-      LDX $0E
-      
-      LDA $DB5A, X : BEQ .noSprGfxChange3
-      
-      STA $7EC2FF
-  
-  .noSprGfxChange3
-  
-      SEP #$10
-      
-      LDA $7EC2FF : TAY
-      
-      JSR Decomp_spr_variable
-      
-      STZ $0412
-      
-      PLB
-      
-      RTL
-  }
+    ; *$00561C Alternate Entry Point
+    .variable
+
+    STY $0E
+
+    .nextTile
+
+    STA $00
+    
+    ; Addresses will be #$10 apart
+    ADD.w #$0010 : STA $03
+    
+    LDY.w #$0007
+
+    .writeTile
+
+    LDA [$00] : STA $7E9000, X : XBA : ORA [$00] : AND.w #$00FF : STA $08 
+    INC $00 : INC $00
+    
+    LDA [$03] : AND.w #$00FF : STA $BD : ORA $08 : XBA : ORA $BD : STA $7E9010, X
+    INC $03 : INX #2 
+    
+    DEY : BPL .writeTile
+    
+    TXA : ADD.w #$0010 : TAX
+    
+    LDA $03 : AND.w #$0078 : BNE .noAdjust
+    
+    ; Since we're most likely working with sprite gfx we have to adjust
+    ; by 0x10 tiles to get to the next line
+    LDA $03 : ADD.w #$0180 : STA $03
+
+    .noAdjust
+
+    LDA $03
+    
+    DEC $0E : BNE .nextTile
+    
+    RTS
+}
 
 ; ==============================================================================
 
-  ; *$005788-$00580D LONG
-  {
-      PHB : PHK : PLB
-      
-      ; target decompression address = $7E6000
-      ; Y = graphics pack to decompress
-      STZ   $00
-      LDA.b #$60 : STA $01
-      LDA.b #$7E : STA $02
-      LDA   $7EC2F8 : TAY
-      
-      JSR $E78F ; $00678F in Rom.
-      
-      ; target decompression address = $7E6600
-      LDA $01 : ADD.b #$06 : STA $01
-      LDA $7EC2F9 : TAY
-      
-      JSR $E78F ; $00678F in Rom.
-      
-      ; target decompression address = $7E6C00
-      LDA $01 : ADD.b #$06 : STA $01
-      LDA $7EC2FA : TAY
-      
-      JSR $E78F ; $00678F in Rom.
-      
-      ; target decompression address = $7E7200
-      LDA $01 : ADD.b #$06 : STA $01
-      LDA $7EC2FB : TAY
-      
-      JSR $E78F ; $00678F in Rom.
-      
-      ; target decompression address = $7E7800
-      STZ $00
-      LDA.b #$78 : STA $01
-      LDA.b #$7E : STA $02
-      LDA $7EC2FC : TAY
-      
-      JSR Decomp_spr_variable
-      
-      ; target decompression address = $7E7E00
-      LDA $01 : ADD.b #$06 : STA $01
-      LDA $7EC2FD : TAY
-      
-      JSR Decomp_spr_variable
-      
-      ; target decompression address = $7E8400
-      LDA $01 : ADD.b #$06 : STA $01
-      LDA $7EC2FE : TAY
-      
-      JSR Decomp_spr_variable
-      
-      ; target decompression address = $7E8A00
-      LDA $01 : ADD.b #$06 : STA $01
-      LDA $7EC2FF : TAY
-      
-      JSR Decomp_spr_variable
-      
-      STZ $0412
-      
-      PLB
-      
-      RTL
-  }
+; $00566E-$005787 LONG
+LoadTransAuxGfx:
+{
+    PHB : PHK : PLB
+    
+    ; $00[3] = $7E6000
+    STZ $00
+    LDA.b #$60 : STA $01
+    LDA.b #$7E : STA $02
+    
+    REP #$30
+    
+    ; $0E = $0AA2 * 4
+    LDA $0AA2 : AND.w #$00FF : ASL #2 : STA $0E
+    
+    SEP #$20
+    
+    LDX $0E
+    
+    LDA $DD97, X : BEQ .noBgGfxChange0
+    
+    STA $7EC2F8
+    
+    SEP #$10
+    
+    TAY
+    
+    JSR Decomp_bg_variable
+
+    .noBgGfxChange0
+
+    SEP #$10
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    REP #$10
+    
+    LDX $0E
+    
+    LDA $DD98, X : BEQ .noBgGfxChange1
+    
+    STA $7EC2F9
+    
+    SEP #$10
+    
+    TAY
+    
+    JSR Decomp_bg_variable
+
+    .noBgGfxChange1
+
+    SEP #$10
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    REP #$10
+    
+    LDX $0E
+    
+    LDA $DD99, X : BEQ .noBgGfxChange2
+    
+    STA $7EC2FA
+    
+    SEP #$10
+    
+    TAY
+    
+    JSR Decomp_bg_variable
+
+    .noBgGfxChange2
+
+    SEP #$10
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    REP #$10
+    
+    LDX $0E
+    
+    LDA $DD9A, X : BEQ .noBgGfxChange3
+    
+    STA $7EC2FB
+    
+    SEP #$10
+    
+    TAY
+    
+    JSR Decomp_bg_variable
+
+    .noBgGfxChange3
+
+    SEP #$10
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    BRA .continue
+
+    ; *$0056F9 ALTERNATE ENTRY POINT
+
+    PHB : PHK : PLB
+    
+    STZ $00
+    LDA.b #$78 : STA $01
+    LDA.b #$7E : STA $02
+
+    .continue
+
+    REP #$30
+    
+    ; $0E = $0AA3 * 4
+    LDA $0AA3 : AND.b #$00FF : ASL #2 : STA $0E
+    
+    SEP #$20
+    
+    LDX $0E
+    
+    LDA $DB57, X : BEQ .noSprGfxChange0
+    
+    STA $7EC2FC
+
+    .noSprGfxChange0
+
+    SEP #$10
+    
+    LDA $7EC2FC : TAY
+    
+    JSR Decomp_spr_variable
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    REP #$10
+    
+    LDX $0E
+    
+    LDA $DB58, X : BEQ .noSprGfxChange1
+    
+    STA $7EC2FD
+
+    .noSprGfxChange1
+
+    SEP #$10
+    
+    LDA $7EC2FD : TAY
+    
+    JSR Decomp_spr_variable
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    REP #$10
+    
+    LDX $0E
+    
+    LDA $DB59, X : BEQ .noSprGfxChange2
+    
+    STA $7EC2FE
+
+    .noSprGfxChange2
+
+    SEP #$10
+    
+    LDA $7EC2FE : TAY
+    
+    JSR Decomp_spr_variable
+    
+    ; Increment buffer address by 0x0600.
+    LDA $01 : ADD.b #$06 : STA $01
+    
+    REP #$10
+    
+    LDX $0E
+    
+    LDA $DB5A, X : BEQ .noSprGfxChange3
+    
+    STA $7EC2FF
+
+    .noSprGfxChange3
+
+    SEP #$10
+    
+    LDA $7EC2FF : TAY
+    
+    JSR Decomp_spr_variable
+    
+    STZ $0412
+    
+    PLB
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; *$00580E-$005836 LON
-  Attract_DecompressStoryGfx:
-  {
-      ; This routine decompresses graphics packs 0x67 and 0x68
-      ; Now the funny thing is that these are picture graphics for the intro
-      ; (module 0x14)
-      ; I at first thought they were the game's text.
-      ; graphics pack 0x68 is EMPTY, by the way.
-      
-      PHB : PHK : PLB
-      
-      STZ $00
-      
-      LDA.b #$40 : STA $01
-      
-      ; $00[3] = 0x7F4000
-      LDA.b #$7F : STA $02 : STA $05
-      
-      LDA.b #$67 : STA $0E
-      
-      ; This loop decompresses sprite graphics packs 0x67 and 0x68
-  
-  .loop
-  
-      LDY $0E
-      
-      JSR Decomp_spr_variable
-      
-      ; $00[3] = 0x7F4800; set up the next transfer
-      LDA $01 : ADD.b #$08 : STA $01
-      
-      INC $0E
-      
-      LDA $0E : CMP.b #$69 : BNE .loop
-      
-      PLB
-      
-      RTL
-  }
+; *$005788-$00580D LONG
+{
+    PHB : PHK : PLB
+    
+    ; target decompression address = $7E6000
+    ; Y = graphics pack to decompress
+    STZ   $00
+    LDA.b #$60 : STA $01
+    LDA.b #$7E : STA $02
+    LDA   $7EC2F8 : TAY
+    
+    JSR $E78F ; $00678F in Rom.
+    
+    ; target decompression address = $7E6600
+    LDA $01 : ADD.b #$06 : STA $01
+    LDA $7EC2F9 : TAY
+    
+    JSR $E78F ; $00678F in Rom.
+    
+    ; target decompression address = $7E6C00
+    LDA $01 : ADD.b #$06 : STA $01
+    LDA $7EC2FA : TAY
+    
+    JSR $E78F ; $00678F in Rom.
+    
+    ; target decompression address = $7E7200
+    LDA $01 : ADD.b #$06 : STA $01
+    LDA $7EC2FB : TAY
+    
+    JSR $E78F ; $00678F in Rom.
+    
+    ; target decompression address = $7E7800
+    STZ $00
+    LDA.b #$78 : STA $01
+    LDA.b #$7E : STA $02
+    LDA $7EC2FC : TAY
+    
+    JSR Decomp_spr_variable
+    
+    ; target decompression address = $7E7E00
+    LDA $01 : ADD.b #$06 : STA $01
+    LDA $7EC2FD : TAY
+    
+    JSR Decomp_spr_variable
+    
+    ; target decompression address = $7E8400
+    LDA $01 : ADD.b #$06 : STA $01
+    LDA $7EC2FE : TAY
+    
+    JSR Decomp_spr_variable
+    
+    ; target decompression address = $7E8A00
+    LDA $01 : ADD.b #$06 : STA $01
+    LDA $7EC2FF : TAY
+    
+    JSR Decomp_spr_variable
+    
+    STZ $0412
+    
+    PLB
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; $005837-$005854 Jump Table ;overworld mirror warp gfx decompression
-  {
-      ; \task interleaved!
-  
-  meta .states
-      dw $D892 ; = $005892*
-      dw $D8FE ; = $0058FE* ; gets ready to decompress typical graphics...
-      dw $D9B9 ; = $0059B9* ; more decompression...
-      dw $D9F8 ; = $0059F8* ; ""
-      dw $DA2C ; = $005A2C* ; ""
-      dw $D8A5 ; = $0058A5* ; load overlays and ... silence music? what?
-      dw $D8C7 ; = $0058C7*
-      dw $D8B3 ; = $0058B3*
-      dw $D8BB ; = $0058BB*
-      dw $D8C7 ; = $0058C7*
-      dw $D8D5 ; = $0058D5*
-      dw $DA63 ; = $005A63* 
-      dw $DABB ; = $005ABB*
-      dw $DB1B ; = $005B1B*
-      dw $D8CF ; = $0058CF*
-      
-      ; TODO: Figure out wtf this is.
-      interleave
-      {
-          {states word i} => {lowers byte i},
-                              uppers byte i >> 8}
-      }
-  }
+; *$00580E-$005836 LON
+Attract_DecompressStoryGfx:
+{
+    ; This routine decompresses graphics packs 0x67 and 0x68
+    ; Now the funny thing is that these are picture graphics for the intro
+    ; (module 0x14)
+    ; I at first thought they were the game's text.
+    ; graphics pack 0x68 is EMPTY, by the way.
+    
+    PHB : PHK : PLB
+    
+    STZ $00
+    
+    LDA.b #$40 : STA $01
+    
+    ; $00[3] = 0x7F4000
+    LDA.b #$7F : STA $02 : STA $05
+    
+    LDA.b #$67 : STA $0E
+    
+    ; This loop decompresses sprite graphics packs 0x67 and 0x68
 
-  ; $005855-$005863 DATA
-  {
-      db $00, $0E, $0F, $10, $11, $00, $00, $00
-      db $00, $00, $00, $12, $13, $14, $00
-  }
+    .loop
 
-  ; *$005864-$005891 LONG
-  {
-      ; Sets up the two low bytes of the decompression target address (0x4000)
-      ; The bank is determined in the subroutine that's called below
-                    STZ $00
-      LDA.b #$40 : STA $01
-      
-      LDX $0200
-      
-      LDA $00D855, X : STA $17 : STA $0710 ;5855
-      
-      ; Determine which subroutine in the jump table to call.
-      LDA $00D837, X : STA $0E ;5837
-      LDA $00D846, X : STA $0F ;5846
-      
-      LDX.b #$00
-      
-      ; Loads the different cliffs and trees and such for the DW? needs to be confirmed.
-      LDA $8A : AND.b #$40 : BEQ .lightWorld
-      
-      LDX.b #$08
-  
+    LDY $0E
+    
+    JSR Decomp_spr_variable
+    
+    ; $00[3] = 0x7F4800; set up the next transfer
+    LDA $01 : ADD.b #$08 : STA $01
+    
+    INC $0E
+    
+    LDA $0E : CMP.b #$69 : BNE .loop
+    
+    PLB
+    
+    RTL
+}
+
+; ==============================================================================
+
+; $005837-$005854 Jump Table ;overworld mirror warp gfx decompression
+pool_AnimateMirrorWarp:
+{
+    ; \task interleaved!
+
+    meta .states
+    dw $D892 ; = $005892*
+    dw $D8FE ; = $0058FE* ; gets ready to decompress typical graphics...
+    dw $D9B9 ; = $0059B9* ; more decompression...
+    dw $D9F8 ; = $0059F8* ; ""
+    dw $DA2C ; = $005A2C* ; ""
+    dw $D8A5 ; = $0058A5* ; load overlays and ... silence music? what?
+    dw $D8C7 ; = $0058C7*
+    dw $D8B3 ; = $0058B3*
+    dw $D8BB ; = $0058BB*
+    dw $D8C7 ; = $0058C7*
+    dw $D8D5 ; = $0058D5*
+    dw $DA63 ; = $005A63* 
+    dw $DABB ; = $005ABB*
+    dw $DB1B ; = $005B1B*
+    dw $D8CF ; = $0058CF*
+
+; $005855-$005863 DATA
+
+    .next_tilemap
+    db $00, $0E, $0F, $10, $11, $00, $00, $00
+    db $00, $00, $00, $12, $13, $14, $00
+}
+
+; *$005864-$005891 LONG
+AnimateMirrorWarp:
+{
+    ; Sets up the two low bytes of the decompression target address (0x4000)
+    ; The bank is determined in the subroutine that's called below
+                  STZ $00
+    LDA.b #$40 : STA $01
+    
+    LDX $0200
+    
+    LDA $00D855, X : STA $17 : STA $0710 ;5855
+    
+    ; Determine which subroutine in the jump table to call.
+    LDA $00D837, X : STA $0E ;5837
+    LDA $00D846, X : STA $0F ;5846
+    
+    LDX.b #$00
+    
+    ; Loads the different cliffs and trees and such for the DW? needs to be confirmed.
+    LDA $8A : AND.b #$40 : BEQ .lightWorld
+    
+    LDX.b #$08
+
   .lightWorld
-  
-      INC $0200
-      
-      JMP ($000E) ; Use jump table at $5837
-  }
+
+    INC $0200
+    
+    JMP ($000E) ; Use jump table at $5837
+}
 
 ; ==============================================================================
 
-  ; *$005892-$0058A4 JUMP LOCATION (LONG)
-  {
-      INC $06BA : LDA $06BA : CMP.b #$20 : BEQ .ready
-      
-      STZ $0200
-      
-      RTL
-  
-  .ready
-  
-      ; Loads overworld exit data and animated tiles. Initialization, mostly.
-      JSL $029E5F ; $011E5F IN ROM
-      
-      RTL
-  }
+; *$005892-$0058A4 JUMP LOCATION (LONG)
+{
+    INC $06BA : LDA $06BA : CMP.b #$20 : BEQ .ready
+    
+    STZ $0200
+    
+    RTL
+
+    .ready
+
+    ; Loads overworld exit data and animated tiles. Initialization, mostly.
+    JSL $029E5F ; $011E5F IN ROM
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; *$0058A5-$0058B2 JUMP LOCATION (LONG)
-  {
-      JSL $02B2D4 ; $0132D4 IN ROM
-      
-      DEC $11
-      
-      LDA.b #$0C : STA $17 : STA $0710
-      
-      RTL
-  }
+; *$0058A5-$0058B2 JUMP LOCATION (LONG)
+{
+    JSL $02B2D4 ; $0132D4 IN ROM
+    
+    DEC $11
+    
+    LDA.b #$0C : STA $17 : STA $0710
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; *$0058B3-$0058BA JUMP LOCATION (LONG)
-  {
-      JSL $02B2E6 ; $0132E6 IN ROM
-      
-      INC $0710
-      
-      RTL
-  }
+; *$0058B3-$0058BA JUMP LOCATION (LONG)
+{
+    JSL $02B2E6 ; $0132E6 IN ROM
+    
+    INC $0710
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; *$0058BB-$0058C6 JUMP LOCATION (LONG)
-  {
-      JSL $02B334 ; $013334 IN ROM
-      
-      LDA.b #$0C : STA $17 : STA $0710
-      
-      RTL
-  }
+; *$0058BB-$0058C6 JUMP LOCATION (LONG)
+{
+    JSL $02B334 ; $013334 IN ROM
+    
+    LDA.b #$0C : STA $17 : STA $0710
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; *$0058C7-$0058CE JUMP LOCATION (LONG)
-  {
-      LDA.b #$0D : STA $17 : STA $0710
-      
-      RTL
-  }
+; *$0058C7-$0058CE JUMP LOCATION (LONG)
+{
+    LDA.b #$0D : STA $17 : STA $0710
+    
+    RTL
+}
 
 ; ==============================================================================
 
-  ; *$0058CF-$0058D4 JUMP LOCATION (LONG)
-  {
-      LDA.b #$0E : STA $0200
-      
-      RTL
-  }
+; *$0058CF-$0058D4 JUMP LOCATION (LONG)
+{
+    LDA.b #$0E : STA $0200
+    
+    RTL
+}
 
 ; ==============================================================================
 
@@ -7051,39 +7047,39 @@ RestorePaletteSubtractive:
 ; ZS intercepts this function.
 Palette_InitWhiteFilter:
 {
-REP #$20
-    
-LDX.b #$00
-    
-LDA.w #$7FFF
+    REP #$20
+        
+    LDX.b #$00
+        
+    LDA.w #$7FFF
 
-.whiteFill
-    STA $7EC300, X : STA $7EC340, X : STA $7EC380, X : STA $7EC3C0, X
-    STA $7EC400, X : STA $7EC440, X : STA $7EC480, X : STA $7EC4C0, X
-    
-INX #2 : CPX.b #$40 : BNE .whiteFill
-    
-LDA $7EC500 : STA $7EC540
-    
-; start the filtering process, we're going to be lightening the screen too
-LDA.w #$0000 : STA $7EC007
-LDA.w #$0002 : STA $7EC009
-    
-; ZS writes here.
-; $006EBC - ZS Custom Overworld
-; If we are going to the pyramid area set the BG color to transparent so the background can appear there.
-LDA $8A : CMP.w #$001B : BNE .notHyruleCastle
-    LDA.w #$0000 : STA $7EC300 : STA $7EC340 : STA $7EC500 : STA $7EC540
+    .whiteFill
+        STA $7EC300, X : STA $7EC340, X : STA $7EC380, X : STA $7EC3C0, X
+        STA $7EC400, X : STA $7EC440, X : STA $7EC480, X : STA $7EC4C0, X
+        
+    INX #2 : CPX.b #$40 : BNE .whiteFill
+        
+    LDA $7EC500 : STA $7EC540
+        
+    ; start the filtering process, we're going to be lightening the screen too
+    LDA.w #$0000 : STA $7EC007
+    LDA.w #$0002 : STA $7EC009
+        
+    ; ZS writes here.
+    ; $006EBC - ZS Custom Overworld
+    ; If we are going to the pyramid area set the BG color to transparent so the background can appear there.
+    LDA $8A : CMP.w #$001B : BNE .notHyruleCastle
+        LDA.w #$0000 : STA $7EC300 : STA $7EC340 : STA $7EC500 : STA $7EC540
 
-.notHyruleCastle
+    .notHyruleCastle
 
-SEP #$20
-    
-LDA.b #$08 : STA $06BB
-    
-STZ $06BA
-    
-RTL
+    SEP #$20
+        
+    LDA.b #$08 : STA $06BB
+        
+    STZ $06BA
+        
+    RTL
 }
 
 ; ==============================================================================
