@@ -633,279 +633,279 @@ Module_PreOverworld:
 ; ZS overwrites most of this function.
 PreOverworld_LoadProperties:
 {
-  ; Module 0x08.0x00, 0x0A.0x00
-      
-  ; Clip colors to black before color math inside the color window
-  ; (this logic may be inverted by another register, though)
-  ; Also enables subscreen addition rather than fixed color addition
-  LDA.b #$82 : STA $99
-      
-  ; Cane of Somaria variable?
-  STZ $03F4
-      
-  ; $1056A IN ROM; If Link has moon pearl
-  ; Load his default graphic states and otherwise
-  JSL $02856A
-      
-  ; special branch for if you are outside the normal
-  ; overworld area e.g. Master Sword woods
-  LDA $10 : CMP.b #$08 : BNE .specialArea
-      JSR Overworld_LoadExitData
-      
-      BRA .normalArea
+    ; Module 0x08.0x00, 0x0A.0x00
+        
+    ; Clip colors to black before color math inside the color window
+    ; (this logic may be inverted by another register, though)
+    ; Also enables subscreen addition rather than fixed color addition
+    LDA.b #$82 : STA $99
+        
+    ; Cane of Somaria variable?
+    STZ $03F4
+        
+    ; $1056A IN ROM; If Link has moon pearl
+    ; Load his default graphic states and otherwise
+    JSL $02856A
+        
+    ; special branch for if you are outside the normal
+    ; overworld area e.g. Master Sword woods
+    LDA $10 : CMP.b #$08 : BNE .specialArea
+        JSR Overworld_LoadExitData
+        
+        BRA .normalArea
 
-  .specialArea
+    .specialArea
 
-  JSR $E9BC ; $169BC IN ROM
+    JSR $E9BC ; $169BC IN ROM
 
-  .normalArea
+    .normalArea
 
-  JSL Overworld_SetSongList
-      
-  ; We have no keys on the overworld
-  LDA.b #$FF : STA $7EF36F
-      
-  JSL HUD.RefillLogicLong
-      
-  ; ZS starts writing here.
-  ; $0103EE - ZS Custom Overworld
-  ; This is for later on when we load the animated tiles. Loads the clouds.
-  LDY.b #$58
-      
-  ; not sure what theme this is. might be the beginning song
-  LDX.b #$02
-      
-  LDA $8A
-      
-  CMP.b #$03 : BEQ .setCustomSong
-  CMP.b #$05 : BEQ .setCustomSong
-  CMP.b #$07 : BEQ .setCustomSong
-      ; death mountain theme
-      LDX.b #$09
-      
-      LDA $8A
-      
-      CMP.b #$43 : BEQ .setCustomSong
-      CMP.b #$45 : BEQ .setCustomSong
-      CMP.b #$47 : BEQ .setCustomSong
-      
-          ; This is for later on when we load the animated tiles. Loads the water.
-          LDY.b #$5A
-      
-          ; If we're in the dark world
-          LDA $8A : CMP.b #$40 : BCS .darkWorld
-      
-              ; Default village theme
-              LDX.b #$07
-          
-              ; Check what phase we're in (If less than phase 3)
-              LDA $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
-                  ; Default light world theme
-                  LDX.b #$02
-      
-              .beforeAgahnim
-      
-              ; Were we just in the smithy's well?
-              LDA $A0 : CMP.b #$E3 : BEQ .setCustomSong
-              
-              ; Or were we just near a hole with a big fairy?
-              CMP.b #$18 : BEQ .setCustomSong
-              
-              ; Or were we just in the village hole?
-              CMP.b #$2F : BEQ .setCustomSong
-              
-              LDA $A0 : CMP.b #$1F : BNE .notWeirdoShopInVillage
-                  ; Check if we're entering the village
-                  LDA $8A : CMP.b #$18 : BEQ .setCustomSong
-          
-              .notWeirdoShopInVillage
-          
-              LDX.b #$05
-              
-              ; check if we've received the master sword yet or not
-              LDA $7EF300 : AND.b #$40 : BEQ .noMasterSword
-              
-              ; Set music to default Light World theme
-              LDX.b #$02
-          
-              .noMasterSword
-          
-              LDA $A0    : BEQ .setCustomSong
-              CMP.b #$E1 : BEQ .setCustomSong
-      
-          .darkWorld
+    JSL Overworld_SetSongList
+        
+    ; We have no keys on the overworld
+    LDA.b #$FF : STA $7EF36F
+        
+    JSL HUD.RefillLogicLong
+        
+    ; ZS starts writing here.
+    ; $0103EE - ZS Custom Overworld
+    ; This is for later on when we load the animated tiles. Loads the clouds.
+    LDY.b #$58
+        
+    ; not sure what theme this is. might be the beginning song
+    LDX.b #$02
+        
+    LDA $8A
+        
+    CMP.b #$03 : BEQ .setCustomSong
+    CMP.b #$05 : BEQ .setCustomSong
+    CMP.b #$07 : BEQ .setCustomSong
+        ; death mountain theme
+        LDX.b #$09
+        
+        LDA $8A
+        
+        CMP.b #$43 : BEQ .setCustomSong
+        CMP.b #$45 : BEQ .setCustomSong
+        CMP.b #$47 : BEQ .setCustomSong
+        
+            ; This is for later on when we load the animated tiles. Loads the water.
+            LDY.b #$5A
+        
+            ; If we're in the dark world
+            LDA $8A : CMP.b #$40 : BCS .darkWorld
+        
+                ; Default village theme
+                LDX.b #$07
+            
+                ; Check what phase we're in (If less than phase 3)
+                LDA $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
+                    ; Default light world theme
+                    LDX.b #$02
+        
+                .beforeAgahnim
+        
+                ; Were we just in the smithy's well?
+                LDA $A0 : CMP.b #$E3 : BEQ .setCustomSong
+                
+                ; Or were we just near a hole with a big fairy?
+                CMP.b #$18 : BEQ .setCustomSong
+                
+                ; Or were we just in the village hole?
+                CMP.b #$2F : BEQ .setCustomSong
+                
+                LDA $A0 : CMP.b #$1F : BNE .notWeirdoShopInVillage
+                    ; Check if we're entering the village
+                    LDA $8A : CMP.b #$18 : BEQ .setCustomSong
+            
+                .notWeirdoShopInVillage
+            
+                LDX.b #$05
+                
+                ; check if we've received the master sword yet or not
+                LDA $7EF300 : AND.b #$40 : BEQ .noMasterSword
+                
+                ; Set music to default Light World theme
+                LDX.b #$02
+            
+                .noMasterSword
+            
+                LDA $A0    : BEQ .setCustomSong
+                CMP.b #$E1 : BEQ .setCustomSong
+        
+            .darkWorld
 
-          LDX.b #$F3
-          
-          ; If the volume was set to half, set it back to full
-          LDA $0132 : CMP.b #$F2 : BEQ .setSong
-          
-          ; Use the normal overworld (light world) music
-          LDX.b #$02
-          
-          ; Check phase        ; In phase >= 2
-          LDA $7EF3C5 : CMP.b #$02 : BCS .setCustomSong
-          
-          ; If phase < 2, play the legend music
-          LDX.b #$03
+            LDX.b #$F3
+            
+            ; If the volume was set to half, set it back to full
+            LDA $0132 : CMP.b #$F2 : BEQ .setSong
+            
+            ; Use the normal overworld (light world) music
+            LDX.b #$02
+            
+            ; Check phase        ; In phase >= 2
+            LDA $7EF3C5 : CMP.b #$02 : BCS .setCustomSong
+            
+            ; If phase < 2, play the legend music
+            LDX.b #$03
 
-  .setCustomSong
+    .setCustomSong
 
-  ; Check world status
-  LDA $7EF3CA : BEQ .setSong
-      ; Not in the lightworld, so play the dark woods theme
-      LDX.b #$0D
-      
-      ; But only in certain OW areas
-      LDA $8A : CMP.b #$40 : BEQ .checkMoonPearl
-          ; Check a certain list of overworld locations
-          ; That have the dark forest theme
-          CMP.b #$43 : BEQ .checkMoonPearl
-          CMP.b #$45 : BEQ .checkMoonPearl
-          CMP.b #$47 : BEQ .checkMoonPearl
-              ; Otherwise play the normal dark world overworld music
-              LDX.b #$09
-      
-      .checkMoonPearl
+    ; Check world status
+    LDA $7EF3CA : BEQ .setSong
+        ; Not in the lightworld, so play the dark woods theme
+        LDX.b #$0D
+        
+        ; But only in certain OW areas
+        LDA $8A : CMP.b #$40 : BEQ .checkMoonPearl
+            ; Check a certain list of overworld locations
+            ; That have the dark forest theme
+            CMP.b #$43 : BEQ .checkMoonPearl
+            CMP.b #$45 : BEQ .checkMoonPearl
+            CMP.b #$47 : BEQ .checkMoonPearl
+                ; Otherwise play the normal dark world overworld music
+                LDX.b #$09
+        
+        .checkMoonPearl
 
-      ; Does Link have a moon pearl?
-      LDA $7EF357 : BNE .setSong
-          ; If not, play that stupid music that plays when you're a bunny in the Dark World.
-          LDX.b #$04
+        ; Does Link have a moon pearl?
+        LDA $7EF357 : BNE .setSong
+            ; If not, play that stupid music that plays when you're a bunny in the Dark World.
+            LDX.b #$04
 
-  .setSong
+    .setSong
 
-  ; The value written here will take effect during NMI
-  STX $0132
-      
-  JSL DecompOwAnimatedTiles       ; $5394 IN ROM
-  JSL InitTilesets                ; $619B IN ROM; Decompress all other graphics
-  JSR Overworld_LoadAreaPalettes  ; $14692 IN ROM; Load palettes for overworld
-      
-  LDX $8A
-      
-  LDA $7EFD40, X : STA $00
-      
-  LDA $00FD1C, X
-      
-  JSL Overworld_LoadPalettes      ; $755A8 IN ROM; Load some other palettes
-  JSL Palette_SetOwBgColor_Long   ; $75618 IN ROM; Sets the background color (changes depending on area)
-      
-  LDA $10 : CMP.b #$08 : BNE .specialArea2
-      ; $1465F IN ROM; Copies $7EC300[0x200] to $7EC500[0x200]
-      JSR $C65F
-      
-      BRA .normalArea2
+    ; The value written here will take effect during NMI
+    STX $0132
+        
+    JSL DecompOwAnimatedTiles       ; $5394 IN ROM
+    JSL InitTilesets                ; $619B IN ROM; Decompress all other graphics
+    JSR Overworld_LoadAreaPalettes  ; $14692 IN ROM; Load palettes for overworld
+        
+    LDX $8A
+        
+    LDA $7EFD40, X : STA $00
+        
+    LDA $00FD1C, X
+        
+    JSL Overworld_LoadPalettes      ; $755A8 IN ROM; Load some other palettes
+    JSL Palette_SetOwBgColor_Long   ; $75618 IN ROM; Sets the background color (changes depending on area)
+        
+    LDA $10 : CMP.b #$08 : BNE .specialArea2
+        ; $1465F IN ROM; Copies $7EC300[0x200] to $7EC500[0x200]
+        JSR $C65F
+        
+        BRA .normalArea2
 
-  .specialArea2
+    .specialArea2
 
-  ; apparently special overworld handles palettes a bit differently?
-  JSR $C6EB ; $146EB IN ROM
+    ; apparently special overworld handles palettes a bit differently?
+    JSR $C6EB ; $146EB IN ROM
 
-  .normalArea2
+    .normalArea2
 
-  JSL $0BFE70 ; $5FE70 IN ROM; Sets fixed colors and scroll values
-      
-  ; Something fixed color related
-  LDA.b #$00 : STA $7EC017
-      
-  ; Sets up properties in the event a tagalong shows up
-  JSL Tagalong_Init
-      
-  LDA $8A : AND.b #$3F : BNE .notForestArea
-      LDA.b #$1E
-      
-      JSL GetAnimatedSpriteTile.variable
+    JSL $0BFE70 ; $5FE70 IN ROM; Sets fixed colors and scroll values
+        
+    ; Something fixed color related
+    LDA.b #$00 : STA $7EC017
+        
+    ; Sets up properties in the event a tagalong shows up
+    JSL Tagalong_Init
+        
+    LDA $8A : AND.b #$3F : BNE .notForestArea
+        LDA.b #$1E
+        
+        JSL GetAnimatedSpriteTile.variable
 
-  .notForestArea
+    .notForestArea
 
-  LDA.b #$09 : STA $010C
-      
-  JSL Sprite_OverworldReloadAll
-      
-  ; Are we in the dark world? If so, there's no warp vortex there.
-  LDA $8A : AND.b #$40 : BNE .noWarpVortex
-      JSL Sprite_ReinitWarpVortex ; $4AF89 IN ROM
+    LDA.b #$09 : STA $010C
+        
+    JSL Sprite_OverworldReloadAll
+        
+    ; Are we in the dark world? If so, there's no warp vortex there.
+    LDA $8A : AND.b #$40 : BNE .noWarpVortex
+        JSL Sprite_ReinitWarpVortex ; $4AF89 IN ROM
 
-  .noWarpVortex
+    .noWarpVortex
 
-  ; The sound of silence (as in, no ambient sound effect)
-  LDX.b #$05
-      
-  LDA $7EF3C5 : CMP.b #$02 : BCS .dontMakeRainSound
-      ; Ambient rain noise
-      LDX.b #$01
+    ; The sound of silence (as in, no ambient sound effect)
+    LDX.b #$05
+        
+    LDA $7EF3C5 : CMP.b #$02 : BCS .dontMakeRainSound
+        ; Ambient rain noise
+        LDX.b #$01
 
-  .dontMakeRainSound
+    .dontMakeRainSound
 
-  STX $012D
-      
-  ; Check if Blind disguised as a crystal maiden was following us when
-  ; we left the dungeon area
-  LDA $7EF3CC : CMP.b #$06 : BNE .notBlindGirl
-      ; If it is Blind, kill her!
-      LDA.b #$00 : STA $7EF3CC
+    STX $012D
+        
+    ; Check if Blind disguised as a crystal maiden was following us when
+    ; we left the dungeon area
+    LDA $7EF3CC : CMP.b #$06 : BNE .notBlindGirl
+        ; If it is Blind, kill her!
+        LDA.b #$00 : STA $7EF3CC
 
-  .notBlindGirl
+    .notBlindGirl
 
-  STZ $6C
-  STZ $3A
-  STZ $3C
-  STZ $50
-  STZ $5E
-  STZ $0351
-      
-  ; Reinitialize many of Link's gameplay variables
-  JSR $8B0C ; $10B0C IN ROM
-      
-  LDA $7EF357 : BNE .notBunny
-  LDA $7EF3CA : BEQ .notBunny
-      LDA.b #$01 : STA $02E0 : STA $56
-      
-      LDA.b #$17 : STA $5D
-      
-      JSL LoadGearPalettes.bunny
+    STZ $6C
+    STZ $3A
+    STZ $3C
+    STZ $50
+    STZ $5E
+    STZ $0351
+        
+    ; Reinitialize many of Link's gameplay variables
+    JSR $8B0C ; $10B0C IN ROM
+        
+    LDA $7EF357 : BNE .notBunny
+    LDA $7EF3CA : BEQ .notBunny
+        LDA.b #$01 : STA $02E0 : STA $56
+        
+        LDA.b #$17 : STA $5D
+        
+        JSL LoadGearPalettes.bunny
 
-  .notBunny
+    .notBunny
 
-  ; Set screen to mode 1 with BG3 priority.
-  LDA.b #$09 : STA $94
-      
-  LDA.b #$00 : STA $7EC005
-      
-  STZ $046C
-  STZ $EE
-  STZ $0476
-      
-  INC $11
-  INC $16
-      
-  STZ $0402 : STZ $0403
+    ; Set screen to mode 1 with BG3 priority.
+    LDA.b #$09 : STA $94
+        
+    LDA.b #$00 : STA $7EC005
+        
+    STZ $046C
+    STZ $EE
+    STZ $0476
+        
+    INC $11
+    INC $16
+        
+    STZ $0402 : STZ $0403
 
-  ; *$1054C ALTERNATE ENTRY POINT
-  shared Overworld_LoadMusicIfNeeded:
+    ; *$1054C ALTERNATE ENTRY POINT
+    shared Overworld_LoadMusicIfNeeded:
 
-  LDA $0136 : BEQ .no_music_load_needed
-      SEI
-      
-      ; Shut down NMI until music loads
-      STZ $4200
-      
-      ; Stop all HDMA
-      STZ $420C
-      
-      STZ $0136
-      
-      LDA.b #$FF : STA $2140
-      
-      JSL Sound_LoadLightWorldSongBank
-      
-      ; Re-enable NMI and joypad
-      LDA.b #$81 : STA $4200
+    LDA $0136 : BEQ .no_music_load_needed
+        SEI
+        
+        ; Shut down NMI until music loads
+        STZ $4200
+        
+        ; Stop all HDMA
+        STZ $420C
+        
+        STZ $0136
+        
+        LDA.b #$FF : STA $2140
+        
+        JSL Sound_LoadLightWorldSongBank
+        
+        ; Re-enable NMI and joypad
+        LDA.b #$81 : STA $4200
 
-  .no_music_load_needed
+    .no_music_load_needed
 
-  RTS
+    RTS
 }
 
 ; ==============================================================================
@@ -1012,42 +1012,42 @@ Credits_LoadScene_Overworld:
 ; $105C2-$10603 DATA TABLE
 Credits_LoadScene_Overworld_PrepGFX:
 {
-		.screen
-		dw $1000 ; overworld
-		dw $0002 ; dungeon
-		dw $1002 ; overworld
-		dw $1012 ; overworld
-		dw $1004 ; Tower of Hera
-		dw $1006 ; Link's House 
-		dw $1010 ; Zora's Domain
-		dw $1014 ; Potion Shop
-		dw $100A ; Lumberjacks
-		dw $1016 ; Haunted Grove 
-		dw $005D ; Wishing Well
-		dw $0064 ; Smithery
-		dw $100E ; Kakariko (bug net)
-		dw $1008 ; Death Mountain
-		dw $1018 ; Lost Woods
-		dw $0180 ; Master Sword 
-		.sprite_gfx 
-		dw $4628
-		dw $2E27
-		dw $2B2B
-		dw $2C0E
-		dw $291A
-		dw $2847
-		dw $2827
-		dw $282A
-		dw $012D
-		.sprite_palette
-		dw $0140
-		dw $0104
-		dw $0101
-		dw $0111
-		dw $4701
-		dw $0140
-		dw $0101
-		dw $0101
+    .screen
+    dw $1000 ; overworld
+    dw $0002 ; dungeon
+    dw $1002 ; overworld
+    dw $1012 ; overworld
+    dw $1004 ; Tower of Hera
+    dw $1006 ; Link's House 
+    dw $1010 ; Zora's Domain
+    dw $1014 ; Potion Shop
+    dw $100A ; Lumberjacks
+    dw $1016 ; Haunted Grove 
+    dw $005D ; Wishing Well
+    dw $0064 ; Smithery
+    dw $100E ; Kakariko (bug net)
+    dw $1008 ; Death Mountain
+    dw $1018 ; Lost Woods
+    dw $0180 ; Master Sword 
+    .sprite_gfx 
+    dw $4628
+    dw $2E27
+    dw $2B2B
+    dw $2C0E
+    dw $291A
+    dw $2847
+    dw $2827
+    dw $282A
+    dw $012D
+    .sprite_palette
+    dw $0140
+    dw $0104
+    dw $0101
+    dw $0111
+    dw $4701
+    dw $0140
+    dw $0101
+    dw $0101
 }
 
 ; ==============================================================================
@@ -1056,94 +1056,94 @@ Credits_LoadScene_Overworld_PrepGFX:
 ; ZS rewrites the latter half of this function.
 Credits_LoadScene_Overworld_PrepGFX:
 {
-  JSL EnableForceBlank          ; $93D IN ROM; Sets the screen mode.
-  JSL Vram_EraseTilemaps.normal
-      
-  ; Activates subscreen color add/subtract mode.
-  LDA.b #$82 : STA $99
-      
-  REP #$20
-      
-  ; Load the level 1 submodule index.
-  LDX $11
-      
-  ; $105C2, X THAT IS; See the data table at $105C2. Since this is called every other submodule,
-  LDA $0285C2, X : STA $A0
-      
-  SEP #$20
-      
-  CPX.b #$0C : BEQ .specialArea ; if this is the seventh sequence in the ending
-  CPX.b #$1E : BEQ .specialArea
-      JSR Overworld_LoadExitData
-      
-      BRA .normalArea
+    JSL EnableForceBlank          ; $93D IN ROM; Sets the screen mode.
+    JSL Vram_EraseTilemaps.normal
+        
+    ; Activates subscreen color add/subtract mode.
+    LDA.b #$82 : STA $99
+        
+    REP #$20
+        
+    ; Load the level 1 submodule index.
+    LDX $11
+        
+    ; $105C2, X THAT IS; See the data table at $105C2. Since this is called every other submodule,
+    LDA $0285C2, X : STA $A0
+        
+    SEP #$20
+        
+    CPX.b #$0C : BEQ .specialArea ; if this is the seventh sequence in the ending
+    CPX.b #$1E : BEQ .specialArea
+        JSR Overworld_LoadExitData
+        
+        BRA .normalArea
 
-  .specialArea
+    .specialArea
 
-  JSR $E851 ; $16851 IN ROM; Needed for running sequence 0xC or 0x1E
-  ; This is because they are special outdoor areas (zora's domain and master sword)
+    JSR $E851 ; $16851 IN ROM; Needed for running sequence 0xC or 0x1E
+    ; This is because they are special outdoor areas (zora's domain and master sword)
 
-  .normalArea
+    .normalArea
 
-  STZ $012C   ; No change of music
-  STZ $012D   ; No change of sound effects
-      
-  ; ZS starts writing here.
-  ; $010632 - ZS Custom Overworld
-  LDY.b #$58
-      
-  ; 0x03, 0x05, and 0x07 are all mountain areas.
-  LDA $8A : AND.b #$BF
-      
-  CMP.b #$03 : BEQ .deathMountain
-  CMP.b #$05 : BEQ .deathMountain
-  CMP.b #$07 : BEQ .deathMountain
-      ; Just load a different overlay in that case.
-      LDY.b #$5A
+    STZ $012C   ; No change of music
+    STZ $012D   ; No change of sound effects
+        
+    ; ZS starts writing here.
+    ; $010632 - ZS Custom Overworld
+    LDY.b #$58
+        
+    ; 0x03, 0x05, and 0x07 are all mountain areas.
+    LDA $8A : AND.b #$BF
+        
+    CMP.b #$03 : BEQ .deathMountain
+    CMP.b #$05 : BEQ .deathMountain
+    CMP.b #$07 : BEQ .deathMountain
+        ; Just load a different overlay in that case.
+        LDY.b #$5A
 
-  .deathMountain
+    .deathMountain
 
-  JSL DecompOwAnimatedTiles ; $5394 IN ROM
-      
-  LDA $11 : LSR A : TAX
-      
-  LDA $0285E2, X : STA $0AA3
-      
-  LDA $0285F3, X : PHA
-      
-  JSL InitTilesets                ; $619B IN ROM
-  JSR Overworld_LoadAreaPalettes  ; $14692 IN ROM ; Load Palettes
-      
-  PLA : STA $00
-      
-  LDX $8A
-      
-  LDA $00FD1C, X
-      
-  JSL Overworld_LoadPalettes ; $755A8 IN ROM
-      
-  LDA.b #$01 : STA $0AB2
-      
-  JSL Palette_Hud ; $DEE52 IN ROM
-      
-  LDA $11 : BNE .BRANCH_4
-      JSL CopyFontToVram  ; $6556 IN ROM
+    JSL DecompOwAnimatedTiles ; $5394 IN ROM
+        
+    LDA $11 : LSR A : TAX
+        
+    LDA $0285E2, X : STA $0AA3
+        
+    LDA $0285F3, X : PHA
+        
+    JSL InitTilesets                ; $619B IN ROM
+    JSR Overworld_LoadAreaPalettes  ; $14692 IN ROM ; Load Palettes
+        
+    PLA : STA $00
+        
+    LDX $8A
+        
+    LDA $00FD1C, X
+        
+    JSL Overworld_LoadPalettes ; $755A8 IN ROM
+        
+    LDA.b #$01 : STA $0AB2
+        
+    JSL Palette_Hud ; $DEE52 IN ROM
+        
+    LDA $11 : BNE .BRANCH_4
+        JSL CopyFontToVram  ; $6556 IN ROM
 
-  .BRANCH_4
+    .BRANCH_4
 
-  JSR $C65F   ; $1465F IN ROM
-  JSL $0BFE70 ; $5FE70 IN ROM
-      
-  LDA $8A : CMP.b #$80 : BCC .BRANCH_5
-      JSL Palette_SetOwBgColor_Long ; $75618 IN ROM
+    JSR $C65F   ; $1465F IN ROM
+    JSL $0BFE70 ; $5FE70 IN ROM
+        
+    LDA $8A : CMP.b #$80 : BCC .BRANCH_5
+        JSL Palette_SetOwBgColor_Long ; $75618 IN ROM
 
-  .BRANCH_5
+    .BRANCH_5
 
-  LDA.b #$09 : STA $94
-      
-  INC $B0
-      
-  RTS
+    LDA.b #$09 : STA $94
+        
+    INC $B0
+        
+    RTS
 }
 
 ; ==============================================================================
@@ -1304,7 +1304,6 @@ Credits_LoadScene_Dungeon:
 Module_DungeonTable:
 {
     ; PARAMETER: X
-
     dw Dungeon_Normal               ; 0x00: Default behavior
     dw Dungeon_IntraRoomTrans       ; 0x01: Intra-room transition
     dw Dungeon_InterRoomTrans       ; 0x02: Inter-room transition
@@ -1771,22 +1770,22 @@ Dungeon_IntraRoomTransOpenDoors:
 ; $10A06-$10A25 Jump Table
 Dungeon_InterRoomTransTable:
 {
-  dw Dungeon_InterRoomTrans_Init ; = $10A4F* ; configure graphics settings
-  dw Dungeon_InterRoomTrans_LoadNextRoom ; = $10A5B* ; load dungeon room objects
-  dw Dungeon_FadedFilter ; = $10B92* ; palette filtering for dark rooms
-  dw Dungeon_02_03 ; = $10A87* ; transitiony actions...
-  dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; updates BG2 tilemap
-  dw Dungeon_PrepTilemapAndAdvance ; = $10AB3* ; updates BG1 tilemap
-  dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; updates BG2 tilemap
-  dw $8B2E ; = $10B2E* ; updates BG1 tilemap
-  dw $BE03 ; = $13E03* ; more scrolling transitionary shit...
-  dw $8ABA ; = $10ABA* ; do more palette filtering and tilemap updating
-  dw $8AA5 ; = $10AA5* ; even more palette filtering + tilemap updating
-  dw $8ABA ; = $10ABA* ; do more palette filtering and tilemap updating
-  dw $8ACF ; = $10ACF* ; transitioning...
-  dw $C162 ; = $14162* ; transitioning.....ughhghh
-  dw $8B92 ; = $10B92* ; filtering.......
-  dw Dungeon_02_0F ; = $10BAE* ; 
+    dw Dungeon_InterRoomTrans_Init ; = $10A4F* ; configure graphics settings
+    dw Dungeon_InterRoomTrans_LoadNextRoom ; = $10A5B* ; load dungeon room objects
+    dw Dungeon_FadedFilter ; = $10B92* ; palette filtering for dark rooms
+    dw Dungeon_02_03 ; = $10A87* ; transitiony actions...
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; updates BG2 tilemap
+    dw Dungeon_PrepTilemapAndAdvance ; = $10AB3* ; updates BG1 tilemap
+    dw Dungeon_PrepNextQuadrantUploadAndAdvance ; = $10AC8* ; updates BG2 tilemap
+    dw $8B2E ; = $10B2E* ; updates BG1 tilemap
+    dw $BE03 ; = $13E03* ; more scrolling transitionary shit...
+    dw $8ABA ; = $10ABA* ; do more palette filtering and tilemap updating
+    dw $8AA5 ; = $10AA5* ; even more palette filtering + tilemap updating
+    dw $8ABA ; = $10ABA* ; do more palette filtering and tilemap updating
+    dw $8ACF ; = $10ACF* ; transitioning...
+    dw $C162 ; = $14162* ; transitioning.....ughhghh
+    dw $8B92 ; = $10B92* ; filtering.......
+    dw Dungeon_02_0F ; = $10BAE* ; 
 }
 
 ; ==============================================================================
@@ -1890,22 +1889,22 @@ Dungeon_02_03:
 ; *$10AA5-$10AB9 JUMP LOCATION
 Dungeon_02_0A:
 {
-  LDA $7EC005 : ORA $7EC006 : BEQ .noDarkTransition
+    LDA $7EC005 : ORA $7EC006 : BEQ .noDarkTransition
 
-  ; *$10AAF ALTERNATE ENTRY POINT
-  Dungeon_Dungeon_FilterPrepTilemapAndAdvance:
+    ; *$10AAF ALTERNATE ENTRY POINT
+    Dungeon_Dungeon_FilterPrepTilemapAndAdvance:
 
-  JSL PaletteFilter.doFiltering
+    JSL PaletteFilter.doFiltering
 
-  ; *$10AB3 ALTERNATE ENTRY POINT
-  Dungeon_PrepTilemapAndAdvance:
-  .noDarkTransition
+    ; *$10AB3 ALTERNATE ENTRY POINT
+    Dungeon_PrepTilemapAndAdvance:
+    .noDarkTransition
 
-  JSL WaterFlood_BuildOneQuadrantForVRAM ; $11C4 IN ROM
-  
-  INC $B0
-  
-  RTS
+    JSL WaterFlood_BuildOneQuadrantForVRAM ; $11C4 IN ROM
+    
+    INC $B0
+    
+    RTS
 }
 
 ; ==============================================================================
@@ -4782,8 +4781,8 @@ Spotlight_ConfigureTableAndControl:
 ; $11AD3-$11AD6 Jump Table
 Module_OpenSpotlightTable:
 {
-  dw Module_OpenSpotlight_Iris ; = $11AE6*
-  dw Spotlight_ConfigureTableAndControl ; = $11A19*
+    dw Module_OpenSpotlight_Iris          ; = $11AE6*
+    dw Spotlight_ConfigureTableAndControl ; = $11A19*
 }
 
 ; =============================================
@@ -5044,12 +5043,12 @@ shared Dungeon_LoadSongBankIfNeeded:
 ; $11C3E-$11C49 Jump Table
 Module_BossVictoryTable:
 {
-  dw Module_BossVictory_Heal ; = $11C59*
-  dw Module_BossVictory_StartSpinAnimation ; = $11C93*
-  dw Module_BossVictory_RunSpinAnimation ; = $11CAD*
-  dw 1 ; = $11CD1*
-  dw Dungeon_PrepExitWithSpotlight ; = $119CA*
-  dw $9A19 ; = $11A19*
+    dw Module_BossVictory_Heal ; = $11C59*
+    dw Module_BossVictory_StartSpinAnimation ; = $11C93*
+    dw Module_BossVictory_RunSpinAnimation ; = $11CAD*
+    dw Module_BossVictory_EndSpinAnimation ; = $11CD1*
+    dw Dungeon_PrepExitWithSpotlight ; = $119CA*
+    dw $9A19 ; = $11A19*
 }
 
 ; ==============================================================================
@@ -5185,10 +5184,9 @@ Module_BossVictory_EndSpinAnimation
 ; ==============================================================================
 
 ; $11CE2-$11CFB Jump Table
-pool Module_Mirror:
+Module_MirrorTable:
 {
-
-.states
+    .states
     dw Mirror_LoadMusic  ; 0x00
     dw Mirror_Init       ; 0x01
     dw $9E06 ; = $11E06* ; 0x02
@@ -5293,7 +5291,7 @@ Mirror_Init:
     LDX.w #$003E
     LDA.w #$FF00
 
-.alpha
+    .alpha
 
     STA $1B00, X : STA $1B40, X : STA $1B80, X : STA $1BC0, X
     STA $1C00, X : STA $1C40, X : STA $1C80, X
@@ -5964,7 +5962,7 @@ TriforceRoom_Step6:
     
     SEC : SBC.b #$10 : STA $7EC011
 
-.BRANCH_ALPHA
+    .BRANCH_ALPHA
 
     JSR $C2F6                       ; $142F6 IN ROM
     JSL PaletteFilter.doFiltering
@@ -6046,7 +6044,7 @@ TriforceRoom_Step11:
     STZ $67
     STZ $26
 
-  .alpha
+    .alpha
 
     RTS
 }
@@ -6463,7 +6461,7 @@ Module_OverworldTable:
     dw Overworld_LoadAndBuildScreen         ; 0x28 - Alt entry for LoadAmbientOverlay
     dw Overworld_FadeBackInFromMosaic       ; 0x29 -
     dw Overworld_RecoverFromDrowning        ; 0x2A - Recover Link from drowning without flippers
-    dw $B40A ; = $1340A*                    ; 0x2B - Retrieving the master sword from its pedestal
+    dw Overworld_MasterSword                ; 0x2B - Retrieving the master sword from its pedestal
     dw Overworld_MirrorWarp                 ; 0x2C - Magic Mirror routine (warping back from a failed warp)
     dw Overworld_WeathervaneExplosion       ; 0x2D - Used for breaking open the weather vane. (RTS!)
     dw Overworld_Whirlpool                  ; 0x2E - 0x2E and 0x2F are used for the whirlpool teleporters
@@ -6702,112 +6700,112 @@ Overworld_PlayerControl:
 ; has something to do with how the lightworld moving from one area to another works
 
 Overworld_ActualScreenID:
-  db $00, $00, $02, $03, $03, $05, $05, $07
-  db $00, $00, $0A, $03, $03, $05, $05, $0F
-  db $10, $11, $12, $13, $14, $15, $16, $17
-  db $18, $18, $1A, $1B, $1B, $1D, $1E, $1E
-  db $18, $18, $22, $1B, $1B, $25, $1E, $1E
-  db $28, $29, $2A, $2B, $2C, $2D, $2E, $2F
-  db $30, $30, $32, $33, $34, $35, $35, $37
-  db $30, $30, $3A, $3B, $3C, $35, $35, $3F
+    db $00, $00, $02, $03, $03, $05, $05, $07
+    db $00, $00, $0A, $03, $03, $05, $05, $0F
+    db $10, $11, $12, $13, $14, $15, $16, $17
+    db $18, $18, $1A, $1B, $1B, $1D, $1E, $1E
+    db $18, $18, $22, $1B, $1B, $25, $1E, $1E
+    db $28, $29, $2A, $2B, $2C, $2D, $2E, $2F
+    db $30, $30, $32, $33, $34, $35, $35, $37
+    db $30, $30, $3A, $3B, $3C, $35, $35, $3F
 
 ; data $1262C
 OverworldScreenTilemapChange:
-dw $0F80, $0F80, $003F, $003F 
+    dw $0F80, $0F80, $003F, $003F 
 
 ;data $12634 ; transitioning right
 .OverworldScreenTileMapChangeByScreen1
-dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
-dw $0060, $0060, $0060, $1060, $1060, $1060, $1060, $0060 
-dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
-dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
-dw $0060, $0060, $0060, $1060, $1060, $0060, $1060, $1060 
-dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
-dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
-dw $0060, $0060, $0060, $0060, $0060, $1060, $1060, $0060
+    dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
+    dw $0060, $0060, $0060, $1060, $1060, $1060, $1060, $0060 
+    dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
+    dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
+    dw $0060, $0060, $0060, $1060, $1060, $0060, $1060, $1060 
+    dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
+    dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060 
+    dw $0060, $0060, $0060, $0060, $0060, $1060, $1060, $0060
 
 ;data $126B4 ; transitioning left
 .OverworldScreenTileMapChangeByScreen2
-dw $0080, $0080, $0040, $0080, $0080, $0080, $0080, $0040
-dw $1080, $1080, $0040, $1080, $1080, $1080, $1080, $0040
-dw $0040, $0040, $0040, $0040, $0040, $0040, $0040, $0040 
-dw $0080, $0080, $0040, $0080, $0080, $0040, $0080, $0080
-dw $1080, $1080, $0040, $1080, $1080, $0040, $1080, $1080
-dw $0040, $0040, $0040, $0040, $0040, $0040, $0040, $0040
-dw $0080, $0080, $0040, $0040, $0040, $0080, $0080, $0040
-dw $1080, $1080, $0040, $0040, $0040, $1080, $1080, $0040
+    dw $0080, $0080, $0040, $0080, $0080, $0080, $0080, $0040
+    dw $1080, $1080, $0040, $1080, $1080, $1080, $1080, $0040
+    dw $0040, $0040, $0040, $0040, $0040, $0040, $0040, $0040
+    dw $0080, $0080, $0040, $0080, $0080, $0040, $0080, $0080
+    dw $1080, $1080, $0040, $1080, $1080, $0040, $1080, $1080
+    dw $0040, $0040, $0040, $0040, $0040, $0040, $0040, $0040
+    dw $0080, $0080, $0040, $0040, $0040, $0080, $0080, $0040
+    dw $1080, $1080, $0040, $0040, $0040, $1080, $1080, $0040
 
 ;data $12734 ; transitioning down
 .OverworldScreenTileMapChangeByScreen3
-dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
-dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
-dw $1800, $1800, $1800, $1800, $1800, $1800, $1800, $1800
-dw $1800, $1840, $1800, $1800, $1840, $1800, $1800, $1840
-dw $1800, $1840, $1800, $1800, $1840, $1800, $1800, $1840
-dw $1800, $1800, $1800, $1800, $1800, $1800, $1800, $1800
-dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
-dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
+    dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
+    dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
+    dw $1800, $1800, $1800, $1800, $1800, $1800, $1800, $1800
+    dw $1800, $1840, $1800, $1800, $1840, $1800, $1800, $1840
+    dw $1800, $1840, $1800, $1800, $1840, $1800, $1800, $1840
+    dw $1800, $1800, $1800, $1800, $1800, $1800, $1800, $1800
+    dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
+    dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
 
 ;data $127B4 ; transitioning up
 .OverworldScreenTileMapChangeByScreen4
-dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
-dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
-dw $1000, $1000, $1000, $1000, $1000, $1000, $1000, $1000
-dw $2000, $2040, $1000, $2000, $2040, $1000, $2000, $2040
-dw $2000, $2040, $1000, $2000, $2040, $1000, $2000, $2040
-dw $1000, $1000, $1000, $1000, $1000, $1000, $1000, $1000
-dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
-dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
+    dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
+    dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
+    dw $1000, $1000, $1000, $1000, $1000, $1000, $1000, $1000
+    dw $2000, $2040, $1000, $2000, $2040, $1000, $2000, $2040
+    dw $2000, $2040, $1000, $2000, $2040, $1000, $2000, $2040
+    dw $1000, $1000, $1000, $1000, $1000, $1000, $1000, $1000
+    dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
+    dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
 
 ;data $12834
-dw $0002, $FFFE, $0010, $FFF0 
+    dw $0002, $FFFE, $0010, $FFF0 
 
 ;data $1283C
-dw $FFF0, $0010, $FFFE, $0002
+    dw $FFF0, $0010, $FFFE, $0002
 
 ;data $12844
 .overworldMapSize
-db $20, $20, $00, $20, $20, $20, $20, $00
-db $20, $20, $00, $20, $20, $20, $20, $00
-db $00, $00, $00, $00, $00, $00, $00, $00
-db $20, $20, $00, $20, $20, $00, $20, $20
-db $20, $20, $00, $20, $20, $00, $20, $20
-db $00, $00, $00, $00, $00, $00, $00, $00
-db $20, $20, $00, $00, $00, $20, $20, $00
-db $20, $20, $00, $00, $00, $20, $20, $00
+    db $20, $20, $00, $20, $20, $20, $20, $00
+    db $20, $20, $00, $20, $20, $20, $20, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $20, $20, $00, $20, $20, $00, $20, $20
+    db $20, $20, $00, $20, $20, $00, $20, $20
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $20, $20, $00, $00, $00, $20, $20, $00
+    db $20, $20, $00, $00, $00, $20, $20, $00
 
 ;data $12884
 .overworldMapSizeHighByte
-db $03, $03, $01, $03, $03, $03, $03, $01
-db $03, $03, $01, $03, $03, $03, $03, $01
-db $01, $01, $01, $01, $01, $01, $01, $01
-db $03, $03, $01, $03, $03, $01, $03, $03
-db $03, $03, $01, $03, $03, $01, $03, $03
-db $01, $01, $01, $01, $01, $01, $01, $01
-db $03, $03, $01, $01, $01, $03, $03, $01
-db $03, $03, $01, $01, $01, $03, $03, $01
+    db $03, $03, $01, $03, $03, $03, $03, $01
+    db $03, $03, $01, $03, $03, $03, $03, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $03, $03, $01, $03, $03, $01, $03, $03
+    db $03, $03, $01, $03, $03, $01, $03, $03
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $03, $03, $01, $01, $01, $03, $03, $01
+    db $03, $03, $01, $01, $01, $03, $03, $01
 
 ;data $128C4
 .overworldTransitionPositionY
-dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000 
-dw $0000, $0000, $0200, $0000, $0000, $0000, $0000, $0200 
-dw $0400, $0400, $0400, $0400, $0400, $0400, $0400, $0400 
-dw $0600, $0600, $0600, $0600, $0600, $0600, $0600, $0600 
-dw $0600, $0600, $0800, $0600, $0600, $0800, $0600, $0600 
-dw $0A00, $0A00, $0A00, $0A00, $0A00, $0A00, $0A00, $0A00 
-dw $0C00, $0C00, $0C00, $0C00, $0C00, $0C00, $0C00, $0C00 
-dw $0C00, $0C00, $0E00, $0E00, $0E00, $0C00, $0C00, $0E00 
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000 
+    dw $0000, $0000, $0200, $0000, $0000, $0000, $0000, $0200 
+    dw $0400, $0400, $0400, $0400, $0400, $0400, $0400, $0400 
+    dw $0600, $0600, $0600, $0600, $0600, $0600, $0600, $0600 
+    dw $0600, $0600, $0800, $0600, $0600, $0800, $0600, $0600 
+    dw $0A00, $0A00, $0A00, $0A00, $0A00, $0A00, $0A00, $0A00 
+    dw $0C00, $0C00, $0C00, $0C00, $0C00, $0C00, $0C00, $0C00 
+    dw $0C00, $0C00, $0E00, $0E00, $0E00, $0C00, $0C00, $0E00 
 
 ;data $12944 
 .overworldTransitionPositionX
-dw $0000, $0000, $0400, $0600, $0600, $0A00, $0A00, $0E00
-dw $0000, $0000, $0400, $0600, $0600, $0A00, $0A00, $0E00
-dw $0000, $0200, $0400, $0600, $0800, $0A00, $0C00, $0E00  
-dw $0000, 00000, $0400, $0600, $0600, $0A00, $0C00, $0C00
-dw $0000, $0000, $0400, $0600, $0600, $0A00, $0C00, $0C00
-dw $0000, $0200, $0400, $0600, $0800, $0A00, $0C00, $0E00
-dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
-dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
+    dw $0000, $0000, $0400, $0600, $0600, $0A00, $0A00, $0E00
+    dw $0000, $0000, $0400, $0600, $0600, $0A00, $0A00, $0E00
+    dw $0000, $0200, $0400, $0600, $0800, $0A00, $0C00, $0E00  
+    dw $0000, 00000, $0400, $0600, $0600, $0A00, $0C00, $0C00
+    dw $0000, $0000, $0400, $0600, $0600, $0A00, $0C00, $0C00
+    dw $0000, $0200, $0400, $0600, $0800, $0A00, $0C00, $0E00
+    dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
+    dw $0000, $0000, $0400, $0600, $0800, $0A00, $0A00, $0E00
 
 ; =============================================
 
@@ -7320,20 +7318,20 @@ Overworld_WalkFromExiting_FaceUp:
 
 ; $12CDA-$12D49 DATA
 Map32UpdateTiles:
-  dw $0DA2, $0DA3, $0DA4, $0DA5 ; sanc doors half open
-  dw $0DA6, $0DA7, $0DA8, $0DA9 ; sanc doors 2/3 open
-  dw $0DAA, $0DAB, $0DAC, $0DAD ; sanc doors fully open
-  dw $0DB0, $0DB1, $0DB2, $0DB3 ; castle doors 2/3 open
-  dw $0DB4, $0DB5, $0DB6, $0DB7 ; castle doors fully open
-  dw $0DC7, $0DC8, $0DC9, $0DCA ; big rock imprint
-  dw $0DCD, $0DCE, $0DCF, $0DD0 ; open grave with corpse bottom half
-  dw $0DD1, $0DD2, $0DD3, $0DD4 ; open grave with stairs bottom half
-  dw $0DCB, $0DCC, $0DCD, $0DCE ; open grave with corpse top half
-  dw $0DCB, $0DCC, $0DD1, $0DD2 ; open grave with stairs top half
-  dw $0912, $0913, $0914, $0915 ; stairs to cave
-  dw $0DD5, $0DD6, $0DD7, $0DD8 ; open grave with pit bottom half
-  dw $0DCB, $0DCC, $0DD5, $0DD6 ; open grave with pit top half
-  dw $0E1B, $0E1C, $0E1D, $0E1E ; broken weather vane
+    dw $0DA2, $0DA3, $0DA4, $0DA5 ; sanc doors half open
+    dw $0DA6, $0DA7, $0DA8, $0DA9 ; sanc doors 2/3 open
+    dw $0DAA, $0DAB, $0DAC, $0DAD ; sanc doors fully open
+    dw $0DB0, $0DB1, $0DB2, $0DB3 ; castle doors 2/3 open
+    dw $0DB4, $0DB5, $0DB6, $0DB7 ; castle doors fully open
+    dw $0DC7, $0DC8, $0DC9, $0DCA ; big rock imprint
+    dw $0DCD, $0DCE, $0DCF, $0DD0 ; open grave with corpse bottom half
+    dw $0DD1, $0DD2, $0DD3, $0DD4 ; open grave with stairs bottom half
+    dw $0DCB, $0DCC, $0DCD, $0DCE ; open grave with corpse top half
+    dw $0DCB, $0DCC, $0DD1, $0DD2 ; open grave with stairs top half
+    dw $0912, $0913, $0914, $0915 ; stairs to cave
+    dw $0DD5, $0DD6, $0DD7, $0DD8 ; open grave with pit bottom half
+    dw $0DCB, $0DCC, $0DD5, $0DD6 ; open grave with pit top half
+    dw $0E1B, $0E1C, $0E1D, $0E1E ; broken weather vane
 
 ; *$12D4A-$12D5B JUMP LOCATION
 Module09_09_OpenBigDoorFromExiting:
@@ -8391,8 +8389,9 @@ MirrorWarp_LoadSpritesAndColors:
     RTL
     }
 
-    ; *$1340A-$1340E JUMP LOCATION
-    {
+; *$1340A-$1340E JUMP LOCATION
+Overworld_MasterSword:
+{
     ; module 0x09.0x2B - making the screen flash white during the master sword retrieval
         
     JSL $0EF400 ; $77400 IN ROM
@@ -10143,60 +10142,60 @@ StraightStairs_10:
 
 ; $13EBA
 .horizontalBG2ScrollOffset ;unsure of description
-db $F8, $FF, $08, $00, $F8, $FF, $08, $00
+    db $F8, $FF, $08, $00, $F8, $FF, $08, $00
 
 ; $13EC2
-E8 FF 18 00 D8 FF 18 00 90 FF 70 00 
+    db $E8, $FF, $18, $00, $D8, $FF, $18, $00, $90, $FF, $70, $00 
 
 ; $13ECA
-dw $FF90, $0070, $FE00, $0200
+    dw $FF90, $0070, $FE00, $0200
 
 ; $13ED2
-00 FE 00 02 18 00 E8 00 08 00 E8 00
+    db $00, $FE, $00, $02, $18, $00, $E8, $00, $08, $00, $E8, $00
 
 ; $13EE2
 .transition_target_north
-  dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
-  dw $FF20, $FF20, $0120, $FF20, $FF20, $FF20, $FF20, $0120
-  dw $0320, $0320, $0320, $0320, $0320, $0320, $0320, $0320
-  dw $0520, $0520, $0520, $0520, $0520, $0520, $0520, $0520
-  dw $0520, $0520, $0720, $0520, $0520, $0720, $0520, $0520
-  dw $0920, $0920, $0920, $0920, $0920, $0920, $0920, $0920
-  dw $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20 
-  dw $0B20, $0B20, $0D20, $0D20, $0D20, $0B20, $0B20, $0D20 
+    dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
+    dw $FF20, $FF20, $0120, $FF20, $FF20, $FF20, $FF20, $0120
+    dw $0320, $0320, $0320, $0320, $0320, $0320, $0320, $0320
+    dw $0520, $0520, $0520, $0520, $0520, $0520, $0520, $0520
+    dw $0520, $0520, $0720, $0520, $0520, $0720, $0520, $0520
+    dw $0920, $0920, $0920, $0920, $0920, $0920, $0920, $0920
+    dw $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20 
+    dw $0B20, $0B20, $0D20, $0D20, $0D20, $0B20, $0B20, $0D20 
 
 ; $13F62
 .transition_target_west
-  dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
-  dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
-  dw $FF00, $0100, $0300, $0500, $0700, $0900, $0B00, $0D00
-  dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0B00, $0B00
-  dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0B00, $0B00
-  dw $FF00, $0100, $0300, $0500, $0700, $0900, $0B00, $0D00
-  dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
-  dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
+    dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
+    dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
+    dw $FF00, $0100, $0300, $0500, $0700, $0900, $0B00, $0D00
+    dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0B00, $0B00
+    dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0B00, $0B00
+    dw $FF00, $0100, $0300, $0500, $0700, $0900, $0B00, $0D00
+    dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
+    dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
 
 ;$13FE2
 .boundary_y_size
-  dw $011E, $031E
+      dw $011E, $031E
 
 ;$13FE6
 .boundary_x_size
-  dw $0100, $0300
+      dw $0100, $0300
 
 ;$13FEA
 .transition_target_south_offset
-  dw $02E0, $04E0
+      dw $02E0, $04E0
 
 ;$13FEE
 .transition_target_east_offset
-  dw $0300, $0500
+      dw $0300, $0500
 
 ;$13FEE
-  dw $0300, $0500 
+      dw $0300, $0500 
 
 ;$13FF2
-1B 00 1B 00 1E 00 1E 00
+      db $1B, $00, $1B, $00, $1E, $00, $1E, $00
 
 ; *$13FFA-$14000 BRANCH LOCATION
 {
@@ -10745,61 +10744,61 @@ CopyMosaicControl:
 ; Overworld music map
 Overworld_SetSongList_Pool:
 {
-; $14303
+    ; $14303
     .LWMap
-  db $05, $05, $03, $03, $03, $03, $03, $03
-  db $05, $05, $03, $03, $03, $03, $03, $03
-  db $03, $03, $13, $13, $13, $03, $03, $03
-  db $03, $03, $13, $13, $13, $03, $03, $03
-  db $03, $03, $13, $13, $13, $03, $03, $03
-  db $03, $03, $13, $13, $13, $03, $03, $03
-  db $03, $03, $03, $03, $03, $03, $03, $03
-  db $03, $03, $03, $03, $03, $03, $03, $03
+    db $05, $05, $03, $03, $03, $03, $03, $03
+    db $05, $05, $03, $03, $03, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $13, $13, $13, $03, $03, $03
+    db $03, $03, $03, $03, $03, $03, $03, $03
+    db $03, $03, $03, $03, $03, $03, $03, $03
 
-; $14343
-  db $55, $55, $02, $52, $52, $52, $52, $52
-  db $55, $55, $02, $52, $52, $52, $52, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $07, $07, $02, $02, $02, $02, $02, $02
-  db $07, $07, $07, $02, $02, $02, $02, $02
-  db $07, $07, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
+    ; $14343
+    db $55, $55, $02, $52, $52, $52, $52, $52
+    db $55, $55, $02, $52, $52, $52, $52, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $07, $07, $07, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
 
-; $14383
-  db $52, $52, $02, $52, $52, $52, $52, $52
-  db $52, $52, $02, $52, $52, $52, $52, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $07, $07, $02, $02, $02, $02, $02, $02
-  db $07, $07, $07, $02, $02, $02, $02, $02
-  db $07, $07, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
+    ; $14383
+    db $52, $52, $02, $52, $52, $52, $52, $52
+    db $52, $52, $02, $52, $52, $52, $52, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $07, $07, $07, $02, $02, $02, $02, $02
+    db $07, $07, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
 
-; $143C3
-  db $52, $52, $02, $52, $52, $52, $52, $52
-  db $52, $52, $02, $52, $52, $52, $52, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $52, $52, $02, $02, $02, $02, $02, $02
-  db $52, $52, $02, $02, $02, $02, $02, $02
+    ; $143C3
+    db $52, $52, $02, $52, $52, $52, $52, $52
+    db $52, $52, $02, $52, $52, $52, $52, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $52, $52, $02, $02, $02, $02, $02, $02
+    db $52, $52, $02, $02, $02, $02, $02, $02
 
-; $14403
+    ; $14403
     .DWMap
-  db $9D, $9D, $09, $9D, $9D, $9D, $9D, $9D
-  db $9D, $9D, $09, $9D, $9D, $9D, $9D, $09
-  db $09, $09, $09, $09, $09, $09, $09, $09
-  db $09, $09, $09, $09, $09, $09, $09, $09
-  db $09, $09, $09, $09, $09, $09, $09, $09
-  db $09, $09, $09, $09, $09, $09, $09, $09
-  db $09, $09, $09, $09, $09, $09, $09, $09
-  db $09, $09, $09, $09, $09, $09, $09, $09
-  db $05, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $02
-  db $02, $02, $02, $02, $02, $02, $02, $12
+    db $9D, $9D, $09, $9D, $9D, $9D, $9D, $9D
+    db $9D, $9D, $09, $9D, $9D, $9D, $9D, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $05, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $12
 }
 ; =========================================
 
@@ -11116,54 +11115,54 @@ Overworld_LoadAreaPalettesLong:
 ; ZS rewrites this whole function. - ZS Custom Overworld
 Overworld_LoadAreaPalettes:
 {
-  ; Loads overworld palettes (based upon area and world, mainly)
-  LDX.b #$02
-      
-  ; Checks for 6 specific areas in the light world (death mountain LW & DW)
-  LDA $8A : AND.b #$3F
-      
-  CMP.b #$03 : BEQ .deathMountain
-  CMP.b #$05 : BEQ .deathMountain
-  CMP.b #$07 : BEQ .deathMountain
-      ; Use a different index if we're not on death mountain
-      LDX.b #$00
+    ; Loads overworld palettes (based upon area and world, mainly)
+    LDX.b #$02
+        
+    ; Checks for 6 specific areas in the light world (death mountain LW & DW)
+    LDA $8A : AND.b #$3F
+        
+    CMP.b #$03 : BEQ .deathMountain
+    CMP.b #$05 : BEQ .deathMountain
+    CMP.b #$07 : BEQ .deathMountain
+        ; Use a different index if we're not on death mountain
+        LDX.b #$00
 
-  .deathMountain
+    .deathMountain
 
-  LDA $8A : AND.b #$40 : BEQ .lightWorld
-      ; Adjust for the dark world / light world difference
-      INX
+    LDA $8A : AND.b #$40 : BEQ .lightWorld
+        ; Adjust for the dark world / light world difference
+        INX
 
-  ; *$146AD ALTERNATE ENTRY POINT
-  .lightWorld
+    ; *$146AD ALTERNATE ENTRY POINT
+    .lightWorld
 
-  ; $0AB3 = 0 - LW 1 - DW, 2 - LW death mountain, 3 - DW death mountain, 4 - triforce room
-  STX $0AB3
-      
-  STZ $0AA9
-      
-  JSL Palette_MainSpr         ; $DEC9E IN ROM; load SP1 through SP4
-  JSL Palette_MiscSpr         ; $DED6E IN ROM; load SP0 (2nd half) and SP6 (2nd half)
-  JSL Palette_SpriteAux1      ; $DECC5 IN ROM; load SP5 (1st half)
-  JSL Palette_SpriteAux2      ; $DECE4 IN ROM; load SP6 (1st half)
-  JSL Palette_Sword           ; $DED03 IN ROM; load SP5 (2nd half, 1st 3 colors), which is the sword palette
-  JSL Palette_Shield          ; $DED29 IN ROM; load SP5 (2nd half, next 4 colors), which is the shield
-  JSL Palette_ArmorAndGloves  ; $DEDF9 IN ROM; load SP7 (full) Link's whole palette, including Armor
-      
-  LDX.b #$01
-      
-  LDA $7EF3CA : AND.b #$40 : BEQ .lightWorld2
-      LDX.b #$03
+    ; $0AB3 = 0 - LW 1 - DW, 2 - LW death mountain, 3 - DW death mountain, 4 - triforce room
+    STX $0AB3
+        
+    STZ $0AA9
+        
+    JSL Palette_MainSpr         ; $DEC9E IN ROM; load SP1 through SP4
+    JSL Palette_MiscSpr         ; $DED6E IN ROM; load SP0 (2nd half) and SP6 (2nd half)
+    JSL Palette_SpriteAux1      ; $DECC5 IN ROM; load SP5 (1st half)
+    JSL Palette_SpriteAux2      ; $DECE4 IN ROM; load SP6 (1st half)
+    JSL Palette_Sword           ; $DED03 IN ROM; load SP5 (2nd half, 1st 3 colors), which is the sword palette
+    JSL Palette_Shield          ; $DED29 IN ROM; load SP5 (2nd half, next 4 colors), which is the shield
+    JSL Palette_ArmorAndGloves  ; $DEDF9 IN ROM; load SP7 (full) Link's whole palette, including Armor
+        
+    LDX.b #$01
+        
+    LDA $7EF3CA : AND.b #$40 : BEQ .lightWorld2
+        LDX.b #$03
 
-  .lightWorld2
+    .lightWorld2
 
-  STX $0AAC
-      
-  JSL Palette_SpriteAux3      ; $DEC77 IN ROM; load SP0 (first half) (or SP7 (first half))
-  JSL Palette_Hud             ; $DEE52 IN ROM; load BP0 and BP1 (first halves)
-  JSL Palette_OverworldBgMain ; $DEEC7 IN ROM; load BP2 through BP5 (first halves)
-      
-  RTS
+    STX $0AAC
+        
+    JSL Palette_SpriteAux3      ; $DEC77 IN ROM; load SP0 (first half) (or SP7 (first half))
+    JSL Palette_Hud             ; $DEE52 IN ROM; load BP0 and BP1 (first halves)
+    JSL Palette_OverworldBgMain ; $DEEC7 IN ROM; load BP2 through BP5 (first halves)
+        
+    RTS
 }
 
 ; =============================================
@@ -11575,17 +11574,17 @@ Dungeon_LoadEntrance:
 ; *$15B6E-$15C54 DATA - mapped
 SpawnPointData:
 {
-.rooms ; writes to $A0, $048E
-  dw $0104 ; 0x00 - Link's house   - ROOM 0104
-  dw $0012 ; 0x01 - Sanctuary      - ROOM 0012
-  dw $0080 ; 0x02 - Prison         - ROOM 0080
-  dw $0055 ; 0x03 - Uncle          - ROOM 0055
-  dw $0051 ; 0x04 - Throne         - ROOM 0051
-  dw $00F0 ; 0x05 - Old man cave   - ROOM 00F0
-  dw $00E4 ; 0x06 - Old man home   - ROOM 00E4
+    .rooms ; writes to $A0, $048E
+    dw $0104 ; 0x00 - Link's house   - ROOM 0104
+    dw $0012 ; 0x01 - Sanctuary      - ROOM 0012
+    dw $0080 ; 0x02 - Prison         - ROOM 0080
+    dw $0055 ; 0x03 - Uncle          - ROOM 0055
+    dw $0051 ; 0x04 - Throne         - ROOM 0051
+    dw $00F0 ; 0x05 - Old man cave   - ROOM 00F0
+    dw $00E4 ; 0x06 - Old man home   - ROOM 00E4
 
-; $15B7C
-.relativeCoords ; to $0600 
+    ; $15B7C
+    .relativeCoords ; to $0600 
     ; +$1, +$3, +$5, +$7, +$9, +$B, +$D, +$F
     db $21, $20, $21, $21, $09, $09, $09, $0A ; 0x00 - Link's house
     db $02, $02, $02, $03, $04, $04, $04, $05 ; 0x01 - Sanctuary
@@ -11595,77 +11594,77 @@ SpawnPointData:
     db $1E, $1E, $1E, $1F, $01, $00, $01, $01 ; 0x05 - Old man cave
     db $1D, $1C, $1D, $1D, $08, $08, $08, $09 ; 0x06 - Old man hom
 
-; $15BB4
-.scrollX
+    ; $15BB4
+    .scrollX
     dw $0900, $0480, $00DB, $0A8E, $0280, $0100, $0800
 
-; $15BC2
-.scrollY
+    ; $15BC2
+    .scrollY
 
     dw $2110, $0231, $1000, $0A03, $0A22, $1E8C, $1D10        
 
-; $15BD0
-.linkY
+    ; $15BD0
+    .linkY
 
     dw $0978, $04F8, $0160, $0B06, $02F8, $01A8, $0878        
 
-; $15BDE
-.linkX
+    ; $15BDE
+    .linkX
 
-    dw $2178, $029C, $1041, $0A70, $0A8F, $1EF8, $1D98
+      dw $2178, $029C, $1041, $0A70, $0A8F, $1EF8, $1D98
 
-; $15BEC
-.cameraY
+    ; $15BEC
+    .cameraY
 
-    dw $017F, $00FF, $0167, $010D, $00FF, $017F, $007F        
+      dw $017F, $00FF, $0167, $010D, $00FF, $017F, $007F        
 
-; $15BFA
-.cameraX
+    ; $15BFA
+    .cameraX
 
     dw $017F, $00A7, $0083, $007B, $009A, $0103, $0187
 
-; $15C08
-.mainGraphics
+    ; $15C08
+    .mainGraphics
 
     db $03, $04, $04, $01, $04, $06, $14
 
-; $15C0F
-.startingFloor
+    ; $15C0F
+    .startingFloor
 
     db $00, $00, $FD, $FF, $01, $00, $00
 
-; $15C16
-.palace
+    ; $15C16
+    .palace
 
     db $FF, $00, $02, $FF, $02, $FF, $FF
 
-; $15C1D
-.startingBg
+    ; $15C1D
+    .startingBg
 
     db $00, $00, $00, $01, $00, $00, $01
 
-; $15C24
-.quadrant1
+    ; $15C24
+    .quadrant1
 
     db $00, $22, $20, $20, $22, $22, $02
 
-; $15C2B
-.quadrant2
+    ; $15C2B
+    .quadrant2
 
     db $02, $00, $10, $10, $00, $10, $02        
 
-; $15C32
-.doorSettings
+    ; $15C32
+    .doorSettings
 
     dw $0816, $0000, $0000, $0000, $0000, $0000, $0000
 
-; $15C40
-.associatedEntrance
+    ; $15C40
+    .associatedEntrance
 
     dw $0000, $0002, $0002, $0032, $0004, $0006, $0030
 
-; $15C4E
-.song
+    ; $15C4E
+    .song
 
     db $07, $14, $10, $03, $10, $12, $12
 }
@@ -13849,10 +13848,10 @@ Map32ToMap16:
     LDA $038003, X : STA $4406
     
     LDA $038004, X : PHA : LSR #4     : STA $4401
-                      PLA : AND.b #$0F : STA $4403
+                     PLA : AND.b #$0F : STA $4403
     
     LDA $038005, X : PHA : LSR #4     : STA $4405
-                      PLA : AND.b #$0F : STA $4407
+                     PLA : AND.b #$0F : STA $4407
     
     LDA $03B400, X : STA $4410
     LDA $03B401, X : STA $4412
@@ -13860,10 +13859,10 @@ Map32ToMap16:
     LDA $03B403, X : STA $4416
     
     LDA $03B404, X : PHA : LSR #4     : STA $4411
-                      PLA : AND.b #$0F : STA $4413
+                     PLA : AND.b #$0F : STA $4413
     
     LDA $03B405, X : PHA : LSR #4     : STA $4415
-                      PLA : AND.b #$0F : STA $4417
+                     PLA : AND.b #$0F : STA $4417
     
     LDA $048000, X : STA $4420
     LDA $048001, X : STA $4422
@@ -13871,10 +13870,10 @@ Map32ToMap16:
     LDA $048003, X : STA $4426
     
     LDA $048004, X : PHA : LSR #4     : STA $4421
-                      PLA : AND.b #$0F : STA $4423
+                     PLA : AND.b #$0F : STA $4423
     
     LDA $048005, X : PHA : LSR #4     : STA $4425
-                      PLA : AND.b #$0F : STA $4427
+                     PLA : AND.b #$0F : STA $4427
     
     LDA $04B400, X : STA $4430
     LDA $04B401, X : STA $4432
@@ -13882,10 +13881,10 @@ Map32ToMap16:
     LDA $04B403, X : STA $4436
     
     LDA $04B404, X : PHA : LSR #4     : STA $4431
-                      PLA : AND.b #$0F : STA $4433
+                     PLA : AND.b #$0F : STA $4433
     
     LDA $04B405, X : PHA : LSR #4     : STA $4435
-                      PLA : AND.b #$0F : STA $4437
+                     PLA : AND.b #$0F : STA $4437
     
     REP #$30
 
