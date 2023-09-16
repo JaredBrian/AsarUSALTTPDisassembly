@@ -1338,87 +1338,87 @@ Module_DungeonTable:
 ; *$107A2-$1085D JUMP LOCATION
 Module_Dungeon:
 {
-  ; Module 0x07, Dungeon Mode.
-  
-  SEP #$30
-  
-  JSL Effect_Handler
-  
-  LDA $11 : ASL A : TAX
-  
-  JSR (Module_DungeonTable, X)
-  
-  STZ $042C
-  
-  JSL PushBlock_Handler
-  
-  LDA $11 : BNE .enteredNonDefaultSubmodule
-  
-  JSL Graphics_LoadChrHalfSlot
-  JSR Dungeon_HandleCamera   ; $13A31 IN ROM
-  
-  LDA $11 : BNE .enteredNonDefaultSubmodule
-  
-  JSL Dungeon_CheckStairsAndRunScripts
-  
-  LDA $11 : BNE .enteredNonDefaultSubmodule
-  
-  JSL Dungeon_ProcessTorchAndDoorInteractives
-  
-  LDA $0454 : BEQ .blastWallNotOpening
-  
-  JSL Door_BlastWallExploding
+    ; Module 0x07, Dungeon Mode.
+
+    SEP #$30
+
+    JSL Effect_Handler
+
+    LDA $11 : ASL A : TAX
+
+    JSR (Module_DungeonTable, X)
+
+    STZ $042C
+
+    JSL PushBlock_Handler
+
+    LDA $11 : BNE .enteredNonDefaultSubmodule
+
+    JSL Graphics_LoadChrHalfSlot
+    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
+
+    LDA $11 : BNE .enteredNonDefaultSubmodule
+
+    JSL Dungeon_CheckStairsAndRunScripts
+
+    LDA $11 : BNE .enteredNonDefaultSubmodule
+
+    JSL Dungeon_ProcessTorchAndDoorInteractives
+
+    LDA $0454 : BEQ .blastWallNotOpening
+
+    JSL Door_BlastWallExploding
 
     .blastWallNotOpening
 
-  ; Is Link standing in a door way?
-  LDA $6C : BNE .standingInDoorway
-  
-  ; Check if the player triggered an inter-room transition this frame.
-  JSR $885E ; $1085E IN ROM
+    ; Is Link standing in a door way?
+    LDA $6C : BNE .standingInDoorway
+
+    ; Check if the player triggered an inter-room transition this frame.
+    JSR $885E ; $1085E IN ROM
 
     .enteredNonDefaultSubmodule
     .standingInDoorway
 
-  JSL OrientLampBg
-  
-  REP $21
-  
-  LDA $E2 : PHA : ADC $011A : STA $E2 : STA $011E
-  
-  LDA $E8 : PHA : CLC : ADC $011C : STA $E8 : STA $0122
-  
-  LDA $E0 :       CLC : ADC $011A : STA $E0 : STA $0120
-  
-  LDA $E6 : PHA : CLC : ADC $011C : STA $E6 : STA $0124
-  
-  LDA $0428 : AND.w #$00FF : BEQ .noMovingFloor
-  
-  ; Adjusts BG0 by the offset of the moving floor.
-  PLA : PLA
-  
-  LDA $0422 : CLC : ADC $E2 : STA $0120 : STA $E0 : PHA
-  LDA $0424 : CLC : ADC $E8 : STA $0124 : STA $E6 : PHA
+    JSL OrientLampBg
+
+    REP $21
+
+    LDA $E2 : PHA : ADC $011A : STA $E2 : STA $011E
+
+    LDA $E8 : PHA : CLC : ADC $011C : STA $E8 : STA $0122
+
+    LDA $E0 :       CLC : ADC $011A : STA $E0 : STA $0120
+
+    LDA $E6 : PHA : CLC : ADC $011C : STA $E6 : STA $0124
+
+    LDA $0428 : AND.w #$00FF : BEQ .noMovingFloor
+
+    ; Adjusts BG0 by the offset of the moving floor.
+    PLA : PLA
+
+    LDA $0422 : CLC : ADC $E2 : STA $0120 : STA $E0 : PHA
+    LDA $0424 : CLC : ADC $E8 : STA $0124 : STA $E6 : PHA
 
     .noMovingFloor
 
-  SEP #$20
-  
-  JSL $07F0AC ; $3F0AC IN ROM. Handle the sprites of pushed blocks.
-  JSL Sprite_Main
-  
-  REP #$20
-  
-  PLA : STA $E6
-  PLA : STA $E0
-  PLA : STA $E8
-  PLA : STA $E2
-  
-  SEP #$20
-  
-  JSL PlayerOam_Main
-  JSL HUD.RefillLogicLong
-  JML FloorIndicator ; $57D0C IN ROM. Handles HUD floor indicator
+    SEP #$20
+
+    JSL $07F0AC ; $3F0AC IN ROM. Handle the sprites of pushed blocks.
+    JSL Sprite_Main
+
+    REP #$20
+
+    PLA : STA $E6
+    PLA : STA $E0
+    PLA : STA $E8
+    PLA : STA $E2
+
+    SEP #$20
+
+    JSL PlayerOam_Main
+    JSL HUD.RefillLogicLong
+    JML FloorIndicator ; $57D0C IN ROM. Handles HUD floor indicator
 }
 
 ; =====================================================
@@ -2708,13 +2708,13 @@ Dungeon_NorthIntraRoomStairs:
 {
     ; Module 0x07.0x08
 
-  LDA $0464 : BEQ .BRANCH_ALPHA
-  
-  DEC $0464
-  
-  CMP.b #$14 : BNE .BRANCH_BETA
-  
-  LDA.b #$02 : STA $57
+    LDA $0464 : BEQ .BRANCH_ALPHA
+
+    DEC $0464
+
+    CMP.b #$14 : BNE .BRANCH_BETA
+
+    LDA.b #$02 : STA $57
 
     .BRANCH_BETA
 
@@ -2725,10 +2725,10 @@ Dungeon_NorthIntraRoomStairs:
 
     .BRANCH_ALPHA:
 
-  LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
-  
-  dw Dungeon_NorthIntraRoomStairs_InitStairs ; = $10F35*
-  dw Dungeon_NorthIntraRoomStairs_ClimbStairs ; = $10F5F*
+    LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
+
+    dw Dungeon_NorthIntraRoomStairs_InitStairs ; = $10F35*
+    dw Dungeon_NorthIntraRoomStairs_ClimbStairs ; = $10F5F*
 }
 
 ; ==============================================================================
