@@ -911,24 +911,24 @@
 
 ; ==============================================================================
 
-    ; *$2DEF8-$2DF18 JUMP LOCATION
-    Uncle_AttachZeldaTelepathTagalong:
-    {
-        ; Sets up Zelda to bitch at you to get into the castle.
-        LDA.b #$05 : STA $7EF3CC
+; $2DEF8-$2DF18 JUMP LOCATION
+Uncle_AttachZeldaTelepathTagalong:
+{
+    ; Sets up Zelda to bitch at you to get into the castle.
+    LDA.b #$05 : STA $7EF3CC
         
-        LDA.b #$F3 : STA $02CD
-        LDA.b #$0D : STA $02CE
+    LDA.b #$F3 : STA $02CD
+    LDA.b #$0D : STA $02CE
         
-        ; Make it so Link's uncle never respawns in the house again.
-        LDA $7EF3C6 : ORA.b #$10 : STA $7EF3C6
+    ; Make it so Link's uncle never respawns in the house again.
+    LDA $7EF3C6 : ORA.b #$10 : STA $7EF3C6
         
-        STZ $0DD0, X
+    STZ $0DD0, X
         
-        STZ $02E4
+    STZ $02E4
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
@@ -961,7 +961,7 @@
         ; "Unnh... [Name], I didn't want you involved in this..."
         JSL Sprite_ShowMessageFromPlayerContact : BCC .player_not_close_2
         
-        ; Your Uncle frees you from Zelda�s bitching >_<.
+        ; Your Uncle frees you from Zelda's bitching >_<.
         LDA.b #$00 : STA $7EF3CC
         
         INC $0D80, X

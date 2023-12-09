@@ -19,35 +19,32 @@
 
 ; ==============================================================================
 
-    ; *$33962-$33990 JUMP LOCATION
-    BugNetKid_Resting:
-    {
-        JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_awaken
-        
+; $33962-$33990 JUMP LOCATION
+BugNetKid_Resting:
+{
+    JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_awaken
         JSR Sprite_CheckDamageToPlayer_same_layer : BCC .dont_awaken
-        
-        LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
-        
-        CMP.b #$02 : BCC .gotsNoBottles
-        
-        INC $0D80, X
-        
-        INC $02E4
+            LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
+            CMP.b #$02 : BCC .gotsNoBottles
+            
+                INC $0D80, X
+                
+                INC $02E4
     
     .dont_awaken
     
-        RTS
+    RTS
     
     .gotsNoBottles
     
-        ; "... Do you have a bottle to keep a bug in? ... I see. You don't..."
-        LDA.b #$04
-        LDY.b #$01
+    ; "... Do you have a bottle to keep a bug in? ... I see. You don't..."
+    LDA.b #$04
+    LDY.b #$01
         
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 

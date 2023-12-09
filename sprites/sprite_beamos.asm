@@ -6,7 +6,7 @@
     {
         ; Code for handling a statue sentry.
         
-        ; Usually/always zero? Can�t tell
+        ; Usually/always zero? Can't tell
         LDA $0DB0, X : BEQ .is_beamos_station
         CMP.b #$01   : BNE .is_collided_laser_sprite
         
@@ -30,7 +30,7 @@
         ; Is the statue sentry in fire mode?
         CMP.b #$03 : BNE .delta ; Nope, either in mode 1,2, or 4
         
-        ; Load the inactivity timer, has it expired? (We�re in firing mode btw)
+        ; Load the inactivity timer, has it expired? (We're in firing mode btw)
         LDA $0DF0, X : BNE .epsilon ; No, the timer is still going.
         
         INC $0D80, X ; basically, go to mode 4.
@@ -41,7 +41,7 @@
         
         RTS
     
-    .epsilon ; Timer is still going, and we�re in firing mode.
+    .epsilon ; Timer is still going, and we're in firing mode.
     
         CMP.b #$0F : BNE .dont_fire_beam
         
@@ -85,7 +85,7 @@
         
         JSR Sprite_SpawnProbeAlways
         
-        INC $0DE0, X ; Increment the Statue sentry�s rotation.
+        INC $0DE0, X ; Increment the Statue sentry's rotation.
     
     .no_rotation_this_frame
     
@@ -195,9 +195,9 @@
         
         LDY.b #$00
         
-        ; The step for the Statue Sentry�s eyeball (rotation state thereof)
+        ; The step for the Statue Sentry's eyeball (rotation state thereof)
         ; Is it at the far right? (rotation ranges from 0x00 to 0x3F)
-        ; Nope, it�s farther around (counter clockwise)
+        ; Nope, it's farther around (counter clockwise)
         LDA $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
         
         ; In this case the eyeball appears on top of the statue.
@@ -296,7 +296,7 @@
     {
         LDY.b #$08
         
-        ; What part of the sentry�s rotation are we in?
+        ; What part of the sentry's rotation are we in?
         ; Is is >= 0x20?
         LDA $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
         
@@ -305,7 +305,7 @@
     
     .in_upper_quadrants
     
-        ; Store the sprite�s index at $0e
+        ; Store the sprite's index at $0e
         STX $0E : STZ $0F
         
         ; Divide the rotation counter in half store it at $06
@@ -315,12 +315,12 @@
         
         TAX
         
-        ; Load the eyeball�s relative x position
+        ; Load the eyeball's relative x position
         LDA .x_offsets, X : SUB.b #$03 : STA $0FA8
         
         ADD $00 : STA ($90), Y
         
-        ; Load the eyeball�s relative y position
+        ; Load the eyeball's relative y position
         ; $29111, X THAT IS. Tells us which eyeball graphic to use.
         ; $29131, X THAT IS. Tells us which way to flip the eyeball.
         LDA .y_offsets, X : SUB.b #$12 : STA $0FA9

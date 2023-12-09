@@ -1,133 +1,129 @@
 
 ; ==============================================================================
 
-    ; *$EFC38-$EFC5A JUMP LOCATION
-    Sprite_DiggingGameGuy:
-    {
-        ; Diggging game guy' code
+; $EFC38-$EFC5A JUMP LOCATION
+Sprite_DiggingGameGuy:
+{
+    ; Diggging game guy' code
         
-        JSR DiggingGameGuy_Draw
-        JSR Sprite4_CheckIfActive
-        JSL Sprite_PlayerCantPassThrough
-        JSR Sprite4_Move
+    JSR DiggingGameGuy_Draw
+    JSR Sprite4_CheckIfActive
+    JSL Sprite_PlayerCantPassThrough
+    JSR Sprite4_Move
         
-        STZ $0D50, X
+    STZ $0D50, X
         
-        LDA $0D80, X
+    LDA $0D80, X
         
-        JSL UseImplicitRegIndexedLocalJumpTable
+    JSL UseImplicitRegIndexedLocalJumpTable
         
-        dw DiggingGameGuy_Introduction
-        dw DiggingGameGuy_DoYouWantToPlay
-        dw DiggingGameGuy_MoveOuttaTheWay
-        dw DiggingGameGuy_StartMinigameTimer
-        dw DiggingGameGuy_TerminateMinigame
-        dw DiggingGameGuy_ComeBackLater
-    }
+    dw DiggingGameGuy_Introduction
+    dw DiggingGameGuy_DoYouWantToPlay
+    dw DiggingGameGuy_MoveOuttaTheWay
+    dw DiggingGameGuy_StartMinigameTimer
+    dw DiggingGameGuy_TerminateMinigame
+    dw DiggingGameGuy_ComeBackLater
+}
 
 ; ==============================================================================
 
-    ; *$EFC5B-$EFC88 JUMP LOCATION
-    DiggingGameGuy_Introduction:
-    {
-        ; If player is more than 7 pixels away...
-        LDA $0D00, X : ADD.b #$07 : CMP $20 : BCS .return 
-        
+; $EFC5B-$EFC88 JUMP LOCATION
+DiggingGameGuy_Introduction:
+{
+    ; If player is more than 7 pixels away...
+    LDA $0D00, X : ADD.b #$07 : CMP $20 : BCS .return 
         ; If Link is not below this sprite.
         JSR Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
+            ; Do we have a follower?
+            LDA $7EF3CC : BNE .freak_out_over_tagalong
         
-        ; Do we have a follower?
-        LDA $7EF3CC : BNE .freak_out_over_tagalong
+            ; "Welcome to the treasure field. The object is to dig as many..."
+            LDA.b #$87
+            LDY.b #$01
         
-        ; "Welcome to the treasure field. The object is to dig as many..."
-        LDA.b #$87
-        LDY.b #$01
-        
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
-        
-        INC $0D80, X
+            JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
+                INC $0D80, X
     
     .return
     
-        RTS
+    RTS
     
     .freak_out_over_tagalong
     
-        ; Not really sure why tagalongs are a big deal to this sprite. I can't
-        ; imagine any situations where they'd interfere direction...
+    ; Not really sure why tagalongs are a big deal to this sprite. I can't
+    ; imagine any situations where they'd interfere direction...
         
-        ; "I can't tell you details, but it's not a convenient time..."
-        LDA.b #$8C
-        LDY.b #$01
+    ; "I can't tell you details, but it's not a convenient time..."
+    LDA.b #$8C
+    LDY.b #$01
         
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing
+    JSL Sprite_ShowSolicitedMessageIfPlayerFacing
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
-    ; *$EFC89-$EFCDF JUMP LOCATION
-    DiggingGameGuy_DoYouWantToPlay:
-    {
-        LDA $1CE8 : BNE .player_has_no_selected
-        
+; $EFC89-$EFCDF JUMP LOCATION
+DiggingGameGuy_DoYouWantToPlay:
+{
+    LDA $1CE8 : BNE .player_has_no_selected
         REP #$20
         
         ; Do you have eighty rupees?
         LDA $7EF360 : CMP.w #$0050 : BCC .player_cant_afford
+            ; Subtract the eighty rupees
+            SBC.w #$0050 : STA $7EF360
+            
+            SEP #$30
+            
+            ; "Then I will lend you a shovel. When you have it in your hand..."
+            LDA.b #$88
+            LDY.b #$01
+            
+            JSL Sprite_ShowMessageUnconditional
+            
+            ; Increase the AI pointer
+            INC $0D80, X
+            
+            LDA.b #$01 : STA $0DC0, X
+            
+            LDA.b #$50 : STA $0DF0, X
+            
+            LDA.b #$00 : STA $7FFE00 : STA $7FFE01
+            
+            LDA.b #$05 : STA $0E00, X
+            
+            LDA.b #$01
+            
+            JSL Sprite_InitializeSecondaryItemMinigame
+            
+            ; Play the game time music.
+            LDA.b #$0E : STA $012C
+            
+            RTS
         
-        ; Subtract the eighty rupees
-        SBC.w #$0050 : STA $7EF360
-        
-        SEP #$30
-        
-        ; "Then I will lend you a shovel. When you have it in your hand..."
-        LDA.b #$88
-        LDY.b #$01
-        
-        JSL Sprite_ShowMessageUnconditional
-        
-        ; Increase the AI pointer
-        INC $0D80, X
-        
-        LDA.b #$01 : STA $0DC0, X
-        
-        LDA.b #$50 : STA $0DF0, X
-        
-        LDA.b #$00 : STA $7FFE00 : STA $7FFE01
-        
-        LDA.b #$05 : STA $0E00, X
-        
-        LDA.b #$01
-        
-        JSL Sprite_InitializeSecondaryItemMinigame
-        
-        ; Play the game time music.
-        LDA.b #$0E : STA $012C
-        
-        RTS
+        .player_cant_afford
+    .player_has_no_selected
     
-    .plaer_has_no_selected
-    .player_cant_afford
 
-        SEP #$30
+    SEP #$30
         
-        ; "You suck for not having enough rupees" msg
-        LDA.b #$89
-        LDY.b #$01
+    ; "You suck for not having enough rupees" msg
+    LDA.b #$89
+    LDY.b #$01
         
-        JSL Sprite_ShowMessageUnconditional
+    JSL Sprite_ShowMessageUnconditional
         
-        ; Reset the sprite back to it's original state.
-        STZ $0D80, X
+    ; Reset the sprite back to it's original state.
+    STZ $0D80, X
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
-    ; *$EFCE0-$EFD09 JUMP LOCATION
+    ; $EFCE0-$EFD09 JUMP LOCATION
     DiggingGameGuy_MoveOuttaTheWay:
     {
         LDA $0DF0, X : BNE .wait_for_next_state

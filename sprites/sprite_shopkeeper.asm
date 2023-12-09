@@ -28,7 +28,7 @@
     {
         LDA $0FFF : BEQ .in_light_world
         
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Sprite_PrepAndDrawSingleLargeLong
         JSR Sprite3_CheckIfActive
         
@@ -93,7 +93,7 @@
 
     ; *$F6F90-$F6FBE JUMP LOCATION
     {
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Sprite_PrepAndDrawSingleLargeLong
         JSR Sprite3_CheckIfActive
         JSL Sprite_PlayerCantPassThrough
@@ -198,7 +198,7 @@
     
     BRANCH_ALPHA:
     
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Thief_Draw
         
         RTS

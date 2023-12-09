@@ -264,7 +264,7 @@
               ADD $0D00, X : STA $0D00, X
         TYA : ADC $0D00, X : STA $0D20, X
         
-        ; Usually 0. Otherwise the soldier�s invisible.
+        ; Usually 0. Otherwise the soldier's invisible.
         LDY $0DB0, X
         
         ; Is this soldier (Link locator) belonging to Blind?
@@ -925,7 +925,7 @@
     shared Sprite_SpawnProbeAlways:
     
         LDA.b #$41  ; If any of our sprites are dead, change it to a soldier
-        LDY.b #$0A  ; We�ll be checking sprites in slots 0x00 through 0x0A
+        LDY.b #$0A  ; We'll be checking sprites in slots 0x00 through 0x0A
         
         JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
         
@@ -1019,6 +1019,31 @@
     
     .shadow_types
         db $0C, $0C, $0A, $0A
+    }
+
+    ; $02C6A2-$2C6DD LOCAL
+    ; TODO: Data found accidentally by letterbomb. Is used for the soldier recruit draw but may have other uses as well.
+    {
+        ; $02C6A2
+        .headChar
+        db $42, $42, $40, $44
+
+        ; $02C6A6
+        .headProperties
+        db $40, $00, $00, $00
+        
+        ; $02C6AA
+        .headYOffset ; TODO: Confirm this.
+        db $07, $00, $08, $00
+        
+        ; $02C6AE
+        ; TODO: Undoccumented data.
+        db $07, $00, $08, $00, $08, $00, $07, $00
+        db $08, $00, $07, $00, $08, $00, $07, $00
+        db $08, $00, $08, $00, $07, $00, $08, $00
+        db $08, $00, $08, $00, $08, $00, $08, $00
+        db $08, $00, $08, $00, $08, $00, $08, $00
+        db $08, $00, $08, $00, $08, $00, $08, $00
     }
 
     ; *$2C6DE-$2C72C LOCAL
@@ -2542,7 +2567,7 @@
         ; Has two return values (CLC and SEC)
         
         ; Optinally alter OAM allocation region.
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
     
     ; *$2DFE9 ALTERNATE ENTRY POINT
     

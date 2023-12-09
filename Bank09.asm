@@ -485,7 +485,7 @@
     
         PHX
         
-        ; We�re going to cycle through all the sprites in the room.
+        ; We're going to cycle through all the sprites in the room.
         LDX.b #$0F
     
     .next_sprite_2
@@ -493,14 +493,14 @@
         ; Is the sprite alive?
         LDA $0DD0, X : BEQ .dead_2
         
-        ; It�s alive, but not in this room... i.e. good as dead.
+        ; It's alive, but not in this room... i.e. good as dead.
         LDA $0F60, X : AND.b #$40 : BNE .dead_2
     
     .failure
     
         PLX
         
-        CLC ; Not all the enemies are dead, it�s a failure
+        CLC ; Not all the enemies are dead, it's a failure
         
         RTL
     
@@ -525,7 +525,7 @@
         
         PLX
         
-        ; We�ve succeeded (so do something?)
+        ; We've succeeded (so do something?)
         SEC
         
         RTL
@@ -828,7 +828,7 @@
         ; $4C176 IN ROM; Transfer a lot of sprite data to other places.
         JSR Dungeon_CacheTransSprites
         
-        ; Make Link drop whatever he�s carrying.
+        ; Make Link drop whatever he's carrying.
         STZ $0309 : STZ $0308
         
         ; $4C22F IN ROM; Zeroes out and disables a number of memory locations.
@@ -889,13 +889,13 @@
     ; *$4C176 ENTRY POINT
     Dungeon_CacheTransSprites:
     {
-        ; Don't do this routine if we�re outside.
+        ; Don't do this routine if we're outside.
         LDA $1B : BEQ .easy_out
         
         ; Use $0FFA as a place holder.
         STA $0FFA
         
-        ; We�re going to cycle through all 16 sprites.
+        ; We're going to cycle through all 16 sprites.
         LDX.b #$0F
     
     .nextSprite
@@ -1040,7 +1040,7 @@
         ; $4D62E is the pointer table for the sprite data in each room.
         LDA $D62E, Y : STA !dataPtr
         
-        ; Load the room index again. Divide by 8. why... I�m not sure.
+        ; Load the room index again. Divide by 8. why... I'm not sure.
         LDA $048E : LSR #3
         
         SEP #$30
@@ -1070,7 +1070,7 @@
         
         JSR Dungeon_LoadSprite ; $4C327 IN ROM
         
-        ; Increment the slot we�re saving to. ($0E20, $0E21, ...)
+        ; Increment the slot we're saving to. ($0E20, $0E21, ...)
         INC !spriteSlot
         
         INC !dataOffset
@@ -1138,7 +1138,7 @@
     ; *$4C327-$4C3E7 LOCAL
     Dungeon_LoadSprite:
     {
-        ; LOAD�S SPRITE TYPES AND INFO INTO ROOM�S MEMORY
+        ; LOAD'S SPRITE TYPES AND INFO INTO ROOM'S MEMORY
         ; ALSO DOES OVERLORDS ($0B00, X)
 
         INY #2
@@ -1177,9 +1177,9 @@
         ; Examine its X coordinate, and go back to the sprite type position.
         LDA (!dataPtr), Y : INY : CMP.b #$E0 : BCC .notOverlord ; If X coord < 0xE0
         
-        JSR Dungeon_LoadOverlord ; $4C3E8 IN ROM ; Load the overlord�s information into memory.
+        JSR Dungeon_LoadOverlord ; $4C3E8 IN ROM ; Load the overlord's information into memory.
         
-        ; Since this isn�t a normal sprite, we don�t want to throw off their loading mechanism, 
+        ; Since this isn't a normal sprite, we don't want to throw off their loading mechanism, 
         ; b/c the normal sprites are loaded in a linear order into $0E20, X, while these overlords go to $0B00, X.
         DEC !spriteSlot
         
@@ -1216,7 +1216,7 @@
         
         BEQ .notSpawnedYet
         
-        ; It spawned, we�re done, genius.
+        ; It spawned, we're done, genius.
         RTS
 
     .notSpawnedYet
@@ -1234,7 +1234,7 @@
         ; Use the MSB of the Y coordinate to determine the floor the sprite is on.
         AND.b #$80 : ASL A : ROL A : STA $0F20, X
         
-        ; Load the sprite�s Y coordinate, multiply by 16 to give it�s in-game Y coordinate. (In terms of pixels)
+        ; Load the sprite's Y coordinate, multiply by 16 to give it's in-game Y coordinate. (In terms of pixels)
         LDA ($00), Y : ASL #4 : STA $0D00, X
         
         LDA $0FB1 : ADC.b #$00 : STA $0D20, X
@@ -1280,9 +1280,9 @@
     ; *$4C3E8-$4C44D LOCAL
     Dungeon_LoadOverlord:
     {
-        ; LOADS OVERLORD INFORMATION INTO A ROOM�S MEMORY
+        ; LOADS OVERLORD INFORMATION INTO A ROOM'S MEMORY
         
-        LDX.b #$07 ; We�re going to cycle through the 8 overlord slots.
+        LDX.b #$07 ; We're going to cycle through the 8 overlord slots.
     
     .nextSlot
     
@@ -1301,7 +1301,7 @@
         DEY #2
         
         ; Now examine the Y coordinate.
-        ; Store it�s floor status here.
+        ; Store it's floor status here.
         LDA (!dataPtr), Y : AND.b #$80 : ASL A : ROL A : STA $0B40, X
         
         ; Convert the Y coordinate to a pixel address, and store it here.
@@ -1480,7 +1480,7 @@
         
         INY #2
         
-        ; Is this a �Falling Rocks� sprite?
+        ; Is this a Falling Rocks sprite?
         LDA ($00), Y : DEY #2 : CMP.b #$F4 : BNE .notFallingRocks
         
         ; Set a "falling rocks" flag for the area and skip past this sprite
@@ -1501,7 +1501,7 @@
         ; All this is to tell us where to put the sprite in the sprite map.
         LDA ($00), Y : AND.b #$0F : ORA $07 : STA $05
         
-        ; The sprite / overlord index as stored as one plus it�s normal index. Don�t ask me why yet.
+        ; The sprite / overlord index as stored as one plus it's normal index. Don't ask me why yet.
         INY : LDA ($00), Y : LDX $05 : INC A : STA $7FDF80, X ; Load them into what I guess you might call a sprite map.
         
         ; Move on to the next sprite / overlord.
@@ -1809,7 +1809,7 @@
     Overworld_LoadSprite:
     {
         ; For some reason, sprite indices loaded from here are one less than
-        ; what is loaded. Here, we�re really referring to $F3 sprites, not a
+        ; what is loaded. Here, we're really referring to $F3 sprites, not a
         ; $F4 limit.
         LDA [$05] : CMP.b #$F4 : BCC .normalSprite
         
@@ -1891,7 +1891,7 @@
     Overworld_LoadOverlord:
     {
         ; APPEARS TO BE THE METHOD OF LOADING OVERLORDS ON THE OVERWORLD.
-        ; We�re going to cycle through the 8 Overlord positions
+        ; We're going to cycle through the 8 Overlord positions
         LDX.b #$07
     
     .nextSlot

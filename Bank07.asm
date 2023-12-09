@@ -4042,15 +4042,14 @@ BRANCH_GAMMA:
 
 ; ==============================================================================
 
-    ; *$399AD-$39A2B LONG
-    Link_ReceiveItem:
-    {
-        ; Grant link the item he earned, if possible
-        PHB : PHK : PLB
+; *$399AD-$39A2B LONG
+Link_ReceiveItem:
+{
+    ; Grant link the item he earned, if possible
+    PHB : PHK : PLB
         
-        ; Is Link in another type of mode besides ground state?
-        LDA $4D : BEQ .groundState
-        
+    ; Is Link in another type of mode besides ground state?
+    LDA $4D : BEQ .groundState
         ; If not, bring him back to normal so he can get this item.
         STZ $4D : STZ $46
         
@@ -4058,85 +4057,81 @@ BRANCH_GAMMA:
     
     .groundState
     
-        ; The index of the item we're going to give to Link.
-        ; Did Link receive a heart container?
-        STY $02D8 : CPY.b #$3E : BNE .notHeartContainer
-        
+    ; The index of the item we're going to give to Link.
+    ; Did Link receive a heart container?
+    STY $02D8 : CPY.b #$3E : BNE .notHeartContainer
         ; Link received a heart container.. handle it.
         LDA.b #$2E : JSR Player_DoSfx3
     
     .notHeartContainer
     
-        LDA.b #$60 : STA $02D9
+    LDA.b #$60 : STA $02D9
         
-        LDA $02E9 : BEQ .fromTextOrObject
-        
+    LDA $02E9 : BEQ .fromTextOrObject
         ; 0x03 = grabbed an item off the floor (from an ancillary object).
         CMP.b #$03 : BNE .fromChestOrSprite
+            .fromTextOrObject
     
-    .fromTextOrObject
+            STZ $0308
+            
+            ; Zero out player input.
+            STZ $3A : STZ $3B : STZ $3C
+            
+            STZ $5E : STZ $50
+            
+            STZ $0301 : STZ $037A : STZ $0300
+            
+            ; Put Link in a position looking up at his item.
+            LDA.b #$15 : STA $5D
+            
+            LDA.b #$01 : STA $02DA : STA $037B
+            
+            ; Is the item a crystal?
+            CPY.b #$20 : BNE .notCrystal
+                ; up the ante or whatever >_>
+                ; (Puts Link in a different pose holding the item up with two hands)
+                INC A : STA $02DA
     
-        STZ $0308
-        
-        STZ $3A : STZ $3B : STZ $3C
-        
-        STZ $5E : STZ $50
-        
-        STZ $0301 : STZ $037A : STZ $0300
-        
-        ; Put Link in a position looking up at his item.
-        LDA.b #$15 : STA $5D
-        
-        LDA.b #$01 : STA $02DA : STA $037B
-        
-        ; Is the item a crystal?
-        CPY.b #$20 : BNE .notCrystal
-        
-        ; up the ante or whatever >_>
-        ; (Puts Link in a different pose holding the item up with two hands)
-        INC A : STA $02DA
-    
-    .notCrystal
+            .notCrystal
+
     .fromChestOrSprite
     
-        PHX
+    PHX
         
-        LDY.b #$04
-        LDA.b #$22
+    LDY.b #$04
+    LDA.b #$22
         
-        JSL AddReceivedItem
+    JSL AddReceivedItem
         
-        ; Is it a crystal?
-        LDA $02D8
-        
-        CMP.b #$20 : BEQ .noHudRefresh
-        CMP.b #$37 : BEQ .noHudRefresh
-        CMP.b #$38 : BEQ .noHudRefresh
-        CMP.b #$39 : BEQ .noHudRefresh
-        
+    ; Is it a crystal?
+    LDA $02D8
+    CMP.b #$20 : BEQ .noHudRefresh
+    CMP.b #$37 : BEQ .noHudRefresh
+    CMP.b #$38 : BEQ .noHudRefresh
+    CMP.b #$39 : BEQ .noHudRefresh
         JSL HUD.RefreshIconLong
     
     .noHudRefresh
     
-        JSR Player_HaltDashAttack
+    JSR Player_HaltDashAttack
         
-        PLX
+    PLX
         
-        CLC
+    CLC
         
-        PLB
+    PLB
         
-        RTL
+    RTL
     
     ; are we missing a label during disassembly? or is this just unused code?
     ; .failure?
     
-        SEC
+    SEC
         
-        PLB
+    PLB
         
-        RTL
-    }
+    RTL
+}
 
 ; ==============================================================================
 

@@ -457,7 +457,7 @@ $51[0x01] - ????
 $51[0x02] - (Dungeon, Overworld)
     
     ????
-    Used as a buffer to store the Y postion where link is supposed to land to when falling in a hole.
+    Used as a buffer to store the Y position where link is supposed to land to when falling in a hole.
 
 $52[0x01] - (Attract)
     
@@ -467,7 +467,7 @@ $52[0x01] - (Attract)
 $53[0x02] - (Dungeon, Overworld)
     
     ????
-    Used as a buffer to store the X postion where link is supposed to land to when falling in a hole.
+    Used as a buffer to store the X position where link is supposed to land to when falling in a hole.
             
 $55[0x01] - Cape flag, when set, makes you invisible and invincible.
             You can also go through objects, such as bungies.
@@ -1341,7 +1341,7 @@ $0223[0x01] -   (????)
     There's a few STZ $0223's that pop up in the rom but other than that it's
     not clear if it was ever intended to be used for anything.
 
-$0224[0x0C] -   free ram?
+$0224[0x0C] -   free ram? -  Nope! causes some funky faded effects and a lack of an overworld.
                     
 $0230[0x50] -   Tentatively considered to be free ram at this time
 
@@ -1442,7 +1442,7 @@ $02D8[0x01] -   (ReceiveItem)
 
 $02D9[0x01] -   
     
-    Related to $02D8, haven't worked out the details b/c it wasn�t necessary yet.
+    Related to $02D8, haven't worked out the details b/c it wasn't necessary yet.
 
 $02DA[0x01] -   (Player)
     
@@ -1608,6 +1608,7 @@ $0300[0x01] -
     
     Link's state changes? Happens when using boomerang.
     Also related to electrocution maybe?
+    Also related to recieving an item.
 
 $0301[0x01] -   (Player)
     
@@ -2262,7 +2263,7 @@ $0400[0x02] -   Tops four bits: In a given room, each bit corresponds to a
                 door being opened. If set, it has been opened by some means
                 (bomb, key, etc.)
 
-$0402[0x01] -   Certainly related to $0403, but contains other information I haven�t looked at yet.
+$0402[0x01] -   Certainly related to $0403, but contains other information I haven't looked at yet.
 
 $0403[0x01] -   Contains room information, such as whether the boss in this room
                 has been defeated. Loaded on every room load according to map
@@ -2300,7 +2301,7 @@ $040B[0x01] -   free ram
 
 $040C[0x02] -   (Dungeon)
     
-    Map index for dungeons. If it's equal to 0xFF, that means there is no map
+    Dungeon ID / Dungeon index. If it's equal to 0xFF, that means there is no map
     for that area.
     
     There is a data table of values, probably depends on the
@@ -2951,7 +2952,8 @@ $069B[0x01] -   free ram
 
 $069C[0x02] -   ???? Seems to be sometimes used as 16-bit, others as 8-bit.
 
-$069E[0x01] -   ????
+$069E[0x01] -   ???? 
+                Overworld horizontal scroll related?
 
 $069F[0x01] -   
     

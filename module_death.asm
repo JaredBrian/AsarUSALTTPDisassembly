@@ -701,21 +701,19 @@
 
 ; ==============================================================================
 
-    ; *$4F742-$4F79A LOCAL
-    Death_RestoreScreenPostRevival:
-    {
-        JSL PaletteFilter_Restore_Strictly_Bg_Additive
+; *$4F742-$4F79A LOCAL
+Death_RestoreScreenPostRevival:
+{
+    JSL PaletteFilter_Restore_Strictly_Bg_Additive
         
-        LDA $7EC540 : STA $7EC500
-        LDA $7EC541 : STA $7EC501
+    LDA $7EC540 : STA $7EC500
+    LDA $7EC541 : STA $7EC501
         
-        LDA $7EC007 : CMP.b #$20 : BNE .not_done
-        
+    LDA $7EC007 : CMP.b #$20 : BNE .not_done
         LDA $1B : BNE .indoors
+            JSL $0BFE70 ; $5FE70 IN ROM
         
-        JSL $0BFE70 ; $5FE70 IN ROM
-    
-    .indoors
+        .indoors
     
         LDA $7EC212 : STA $1D
         
@@ -739,8 +737,8 @@
     .return
     .not_done
     
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 

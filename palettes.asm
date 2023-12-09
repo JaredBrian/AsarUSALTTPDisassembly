@@ -780,7 +780,7 @@ Palette_MiscSpr:
         
     PLX : DEX
         
-    LDA $1BEBC6, X : AND.w #$00FF : ADD.w #$D446 : STA $00
+    LDA $1BEBC6, X : AND.w #$00FF : CLC : ADC.w #$D446 : STA $00
         
     REP #$10
         
@@ -1022,71 +1022,70 @@ Palette_OverworldBgMain:
 
 ; =============================================
 
-    ; $DEEE8-$DEF0B LONG
-    Palette_OverworldBgAux1:
-    {
-        REP #$21
+; $DEEE8-$DEF0B LONG
+Palette_OverworldBgAux1:
+{
+    REP #$21
         
-        LDA $0AB4 : AND.w #$00FF : ASL A : TAX
+    LDA $0AB4 : AND.w #$00FF : ASL A : TAX
         
-        LDA $1BEC13, X : ADC.w #$E86C : STA $00
+    LDA $1BEC13, X : ADC.w #$E86C : STA $00
         
-        REP #$10
+    REP #$10
         
-        LDA.w #$0052  ; Target BP-2 through BP-4 (second halves)
-        LDX.w #$0006  ; each one has 7 colors
-        LDY.w #$0002  ; Load 3 palettes
+    LDA.w #$0052  ; Target BP-2 through BP-4 (second halves)
+    LDX.w #$0006  ; each one has 7 colors
+    LDY.w #$0002  ; Load 3 palettes
         
-        JSR Palette_MultiLoad
+    JSR Palette_MultiLoad
         
-        REP #$30
+    REP #$30
         
-        RTL
-    }
+    RTL
+}
 
 ; =============================================
 
-    ; *$DEF0C-$DEF2F LONG
-    Palette_OverworldBgAux2:
-    {
-        REP #$21
+; *$DEF0C-$DEF2F LONG
+Palette_OverworldBgAux2:
+{
+    REP #$21
         
-        LDA $0AB5 : AND.w #$00FF : ASL A : TAX
+    LDA $0AB5 : AND.w #$00FF : ASL A : TAX
         
-        LDA $1BEC13, X : ADC.w #$E86C : STA $00
+    LDA $1BEC13, X : ADC.w #$E86C : STA $00
         
-        REP #$10
+    REP #$10
         
-        LDA.w #$00B2  ; Target BP-5 through BP-7 (second halves)
-        LDX.w #$0006  ; each one has 7 colors
-        LDY.w #$0002  ; load 3 palettes
+    LDA.w #$00B2  ; Target BP-5 through BP-7 (second halves)
+    LDX.w #$0006  ; each one has 7 colors
+    LDY.w #$0002  ; load 3 palettes
         
-        JSR Palette_MultiLoad
+    JSR Palette_MultiLoad
         
-        SEP #$30
+    SEP #$30
         
-        RTL
-    }
+    RTL
+}
 
 ; ==================================================
 
-    ; *$DEF30-$DEF4A LOCAL
-    Palette_SingleLoad:
-    {
-        ; Unlike like the Subroutine after this one, it only loads one palette to memory.
-        ; Parameters: X = number of colors (i.e. number of words/16-bit values to write)
-        ;             A = offset for placing palette in memory.
-        ; Name = Palette_SingleLoad(X, A)
+; *$DEF30-$DEF4A LOCAL
+Palette_SingleLoad:
+{
+    ; Unlike like the Subroutine after this one, it only loads one palette to memory.
+    ; Parameters: X = number of colors (i.e. number of words/16-bit values to write)
+    ;             A = offset for placing palette in memory.
+    ; Name = Palette_SingleLoad(X, A)
         
-        ; Ensures the counter is saved
-        ; Generally the place to look for this value is $0AA9 (high byte)
-        TXY : ADD $0AA8 : TAX
+    ; Ensures the counter is saved
+    ; Generally the place to look for this value is $0AA9 (high byte)
+    TXY : CLC : ADC $0AA8 : TAX
         
-        ; Ensure the data bank being drawn from is 1B = #$D in Rom
-        LDA.w #$001B : STA $02
+    ; Ensure the data bank being drawn from is 1B = #$D in Rom
+    LDA.w #$001B : STA $02
 
     .copyPalette
-    
         ; Since this is a long indirect, that's why #$1B was put in $02.
         LDA [$00] : STA $7EC300, X
         
@@ -1094,93 +1093,90 @@ Palette_OverworldBgMain:
         
         INX #2
         
-        DEY : BPL .copyPalette
+    DEY : BPL .copyPalette
         
-        RTS
-    }
+    RTS
+}
 
 ; ==================================================
 
-    ; *$DEF4B-$DEF7A LOCAL
-    Palette_MultiLoad:
-    {
-        ; Description: Generally used to load multiple palettes for BGs.
-        ; Upon close inspection, one sees that this algorithm is almost the same as the
-        ; last subroutine.
-        ; Name = Palette_MultiLoad(A, X, Y)
+; *$DEF4B-$DEF7A LOCAL
+Palette_MultiLoad:
+{
+    ; Description: Generally used to load multiple palettes for BGs.
+    ; Upon close inspection, one sees that this algorithm is almost the same as the
+    ; last subroutine.
+    ; Name = Palette_MultiLoad(A, X, Y)
         
-        ; Parameters: X = (number of colors in the palette - 1)
-        ;             A = offset to add to $7EC300, in other words, where to write in palette
-        ;             memory
-        ;             Y = (number of palettes to load - 1)
-        ; 
+    ; Parameters: X = (number of colors in the palette - 1)
+    ;             A = offset to add to $7EC300, in other words, where to write in palette
+    ;             memory
+    ;             Y = (number of palettes to load - 1)
+    ; 
         
-        STA $04 ; Save the values for future reference.
-        STX $06
-        STY $08
+    STA $04 ; Save the values for future reference.
+    STX $06
+    STY $08
         
-        LDA.w #$001B    ; The absolute address at $00 was planted in the calling function. This value 
-                        ; is the bank #$1B ( => D in Rom) The address is found from $0AB6
-        STA $02         ; And of course, store it at $02
+    LDA.w #$001B    ; The absolute address at $00 was planted in the calling function. This value 
+                    ; is the bank #$1B ( => D in Rom) The address is found from $0AB6
+    STA $02         ; And of course, store it at $02
     
     .nextPalette
-    
         ; $0AA8 + A parameter will be the X value.
-        LDA $0AA8 : ADD $04 : TAX
+        LDA $0AA8 : CLC : ADC $04 : TAX
         
         LDY $06 ; Tell me how long the palette is.
     
-    .copyColors
-    
-        ; We're loading A from the address set up in the calling function.
-        LDA [$00] : STA $7EC300, X 
-        
-        ; Increment the absolute portion of the address by two, and decrease the color count by one
-        INC $00 : INC $00
-        
-        INX #2
+        .copyColors
+            ; We're loading A from the address set up in the calling function.
+            LDA [$00] : STA $7EC300, X 
+            
+            ; Increment the absolute portion of the address by two, and decrease the color count by one
+            INC $00 : INC $00
+            
+            INX #2
         
         ; So basically loop (Y+1) times, taking (Y * 2 bytes) to $7EC300, X        
         DEY : BPL .copyColors
         
         ; This technique bumps us up to the next 4bpp (16 color) palette.
-        LDA $04 : ADD.w #$0020 : STA $04
+        LDA $04 : CLC : ADC.w #$0020 : STA $04
         
         ; Decrease the number of palettes we have to load.
         DEC $08
         
-        BPL .nextPalette
+    BPL .nextPalette
         
-        ; We're done loading palettes.
+    ; We're done loading palettes.
         
-        RTS
-    }
+    RTS
+}
 
 ; =============================================
 
-    ; *$DEF7B-$DEF95 LOCAL
-    Palette_ArbitraryLoad:
-    {
-        ; This routine accepts a 2 byte pointer local to bank 0x1B
-        ; A = starting offset into the palette buffer to copy to
-        ; X = the number of colors in the palette
+; *$DEF7B-$DEF95 LOCAL
+Palette_ArbitraryLoad:
+{
+    ; This routine accepts a 2 byte pointer local to bank 0x1B
+    ; A = starting offset into the palette buffer to copy to
+    ; X = the number of colors in the palette
         
-        TXY : TAX
+    TXY : TAX
         
-        LDA.w #$001B : STA $02
+    LDA.w #$001B : STA $02
     
     .loop
-    
         LDA [$00] : STA $7EC300, X : STA $7EC500, X
         
         INC $00 : INC $00
         
         INX #2
         
-        DEY : BPL .loop
+    DEY : BPL .loop
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
@@ -1304,7 +1300,7 @@ Palette_OverworldBgMain:
         AND.w #$00FF : ASL A : TAY
         
         ; $DEC06 IN ROM, will be 0, 30, or 60
-        LDA $EC06, Y : AND.w #$00FF : ADD.w #$00F0 : TAY
+        LDA $EC06, Y : AND.w #$00FF : CLC : ADC.w #$00F0 : TAY
         
         ; Length of the palette in Words
         LDA.w #$000F : STA $0E
@@ -1347,7 +1343,7 @@ Palette_OverworldBgMain:
         
         ; $DEBB4 IN ROM. A will be #$00, #$06, #$0C, #$12...
         ; Generally A will be #$418, #$41E, #$424, #$42A
-        LDA $EBB4, Y : AND.w #$00FF : ADD.w #$0418 : TAY
+        LDA $EBB4, Y : AND.w #$00FF : CLC : ADC.w #$0418 : TAY
         
         ; The length of the palette in Word Length
         LDA.w #$0003 : STA $0E
@@ -1378,7 +1374,7 @@ Palette_OverworldBgMain:
         
         ; #$00, #$08, #$10
         ; A will be #$430, #$438, #$440
-        LDA $EBC1, Y : AND.w #$00FF : ADD.w #$0430 : TAY
+        LDA $EBC1, Y : AND.w #$00FF : CLC : ADC.w #$0430 : TAY
         
         ; Length of the palette in Word Length. (8 bytes)
         LDA.w #$0004 : STA $0E
@@ -1438,7 +1434,7 @@ Palette_OverworldBgMain:
         
         JSR Palette_ArbitraryLoad
         
-        LDA $1BEC00 : ADD.w #$D4E0 : STA $00
+        LDA $1BEC00 : CLC : ADC.w #$D4E0 : STA $00
         
         LDA.w #$01C2
         LDX.w #$0006

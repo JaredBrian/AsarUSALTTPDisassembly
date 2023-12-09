@@ -284,7 +284,7 @@
         ; Yeah.... what????
         LDA $11 : CMP.b #$07 : BEQ .in_downward_floor_transition
         
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         
         LDY.b #$00
     

@@ -130,22 +130,21 @@
 
 ; ==============================================================================
 
-    ; *$6BB0A-$6BB5A LOCAL
-    OAM_GetBufferPosition:
-    {
-        ; Inputs:
-        ; A : Number of bytes requested for use in the OAM table. (number of subsprites * 4)
-        ; Y : Even value taken from { 0x00, ..., 0x0A }. Represents the region in the table to allocate from.
-        ; Hidden argument? (Not sure?) It is either 0 or 1, based on input from $0FB3 (sort sprites variable)
+; $6BB0A-$6BB5A LOCAL
+OAM_GetBufferPosition:
+{
+    ; Inputs:
+    ; A : Number of bytes requested for use in the OAM table. (number of subsprites * 4)
+    ; Y : Even value taken from { 0x00, ..., 0x0A }. Represents the region in the table to allocate from.
+    ; Hidden argument? (Not sure?) It is either 0 or 1, based on input from $0FB3 (sort sprites variable)
         
-        STA $0E
-        STZ $000F
+    STA $0E
+    STZ $000F
         
-        REP #$20
+    REP #$20
         
-        ; ($0FE0[0x10] is some kind of OAM allocator table)
-        LDA $0FE0, Y : STA $90 : ADD $0E : CMP .limits, Y : BCC .within_limit
-        
+    ; ($0FE0[0x10] is some kind of OAM allocator table)
+    LDA $0FE0, Y : STA $90 : CLC : ADC $0E : CMP .limits, Y : BCC .within_limit
         ; (Sprite overflow, doesn't happen very often)
         ; (I think what happens is it resets the OAM buffer)
         STY $0C
@@ -171,19 +170,19 @@
     
     .within_limit
     
-        STA $0FE0, Y ; Store the new position in the OAM region
+    STA $0FE0, Y ; Store the new position in the OAM region
     
     .moving_on
     
-        LDA $90 : PHA : LSR #2 : ADD.w #$0A20 : STA $92
+    LDA $90 : PHA : LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
-        PLA : ADD.w #$0800 : STA $90
+    PLA : CLC : ADC.w #$0800 : STA $90
         
-        SEP #$20
+    SEP #$20
         
-        LDY $90
+    LDY $90
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================

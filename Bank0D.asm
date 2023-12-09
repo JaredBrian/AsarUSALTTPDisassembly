@@ -493,11 +493,10 @@
 
 ; ==============================================================================
 
-    ; *$6C21C-$6C26D LONG
-    Stalfos_Draw:
-    {
-        LDA $0E10, X : BNE .easy_out
-        
+; *$6C21C-$6C26D LONG
+Stalfos_Draw:
+{
+    LDA $0E10, X : BNE .easy_out
         PHB : PHK : PLB
         
         LDA.b #$00   : XBA
@@ -510,33 +509,30 @@
         LDA.b #$03 : JSL Sprite_DrawMultiple
         
         LDA $0DC0, X : CMP.b #$08 : BCS .no_head_override
-        
-        LDA $0F00, X : BNE .no_head_override
-        
-        PHX
-        
-        LDA $0EB0, X : TAX
-        
-        LDA .head_chr, X : LDY.b #$02 : STA ($90), Y
-        
-        INY
-        
-        LDA ($90), Y : AND.b #$8F : ORA .head_properties, X : STA ($90), Y
-        
-        PLX
+            LDA $0F00, X : BNE .no_head_override
+                PHX
+                
+                LDA $0EB0, X : TAX
+                
+                LDA .head_chr, X : LDY.b #$02 : STA ($90), Y
+                
+                INY
+                
+                LDA ($90), Y : AND.b #$8F : ORA .head_properties, X : STA ($90), Y
+                
+                PLX
     
-    .no_head_override
-    
+        .no_head_override
+        
         JSL Sprite_DrawShadowLong
-        
+            
         PLB
-        
+            
         RTL
     
     .head_properties
-    
-        db $70, $30, $30, $30
-    }
+    db $70, $30, $30, $30
+}
 
 ; ==============================================================================
 
@@ -1800,7 +1796,7 @@
     {
         PHB : PHK : PLB
         
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Sprite_PrepOamCoordLong
         
         LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $06

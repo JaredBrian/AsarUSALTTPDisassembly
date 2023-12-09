@@ -2384,7 +2384,7 @@ org $018000
         
         STY $04B0
         
-        ; Check to see which BG we�re on.
+        ; Check to see which BG we're on.
         LDA $BF : CMP.w #$4000 : BNE .onBG2
         
         ; Using BG1 so use an address that indexes into its wram tilemap
@@ -8959,12 +8959,12 @@ org $018000
         
         AND.w #$7FFF : LSR A : TAX
         
-        ; Write the tile type to memory. (In my case, chests); So it would look like 0x5858, 0x5959, etc�
+        ; Write the tile type to memory. (In my case, chests); So it would look like 0x5858, 0x5959, etc.
         LDA $00 : STA $7F2000, X : STA $7F2040, X
         
         LDA $06E0, Y : ASL A : BCC .getNextChestAttr
         
-        ; It�s a big chest, handle it appropriately.
+        ; It's a big chest, handle it appropriately.
         LSR A : STA $06E0, Y
         
         ; Must apply this property over a larger area.
@@ -8972,7 +8972,7 @@ org $018000
     
     .getNextChestAttr
     
-        ; Add #$0101, makes sense b/c the next chest is 0x5959� etc.
+        ; Add #$0101, makes sense b/c the next chest is 0x5959 etc.
         LDA $00 : ADD.w #$0101 : STA $00
         
         INY #2 : CPY $0496 : BNE .nextChest
@@ -10021,27 +10021,25 @@ org $018000
         RTS
     }
 
-    ; *$C508-$C540 JUMP LOCATION
-    {
-        ; Tag routine 0x16 "clear level to open doors"
+; $C508-$C540 JUMP LOCATION
+{
+    ; Tag routine 0x16 "clear level to open doors" "Clear_Level_to_Open"
         
-        ; Load the dungeon index.
-        LDA $040C : LSR A : TAX
+    ; Load the dungeon index.
+    LDA $040C : LSR A : TAX
         
-        ; Which world are we in?
-        LDA $7EF3CA : BNE .inDarkWorld
+    ; Which world are we in?
+    LDA $7EF3CA : BNE .inDarkWorld
         
-        ; See which pendants we have.
-        LDA $7EF374 : AND.l MilestoneItem_Flags, X : BEQ .dontHaveGoalItem
-        
+    ; See which pendants we have.
+    LDA $7EF374 : AND.l MilestoneItem_Flags, X : BEQ .dontHaveGoalItem
         BRA .openDoors
     
     .inDarkWorld
     
-        ; How many crystals do we have?
-        LDA $7EF37A : AND.l MilestoneItem_Flags, X : BEQ .dontHaveGoalItem
-    
-    .openDoors
+    ; How many crystals do we have?
+    LDA $7EF37A : AND.l MilestoneItem_Flags, X : BEQ .dontHaveGoalItem
+        .openDoors
     
         REP #$30
         
@@ -10059,10 +10057,10 @@ org $018000
     
     .dontHaveGoalItem
     
-        SEP #$30
+    SEP #$30
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 
@@ -10344,41 +10342,37 @@ org $018000
         db $00, $00, $01, $02, $00, $06, $06, $06, $06, $06, $03, $06, $06
     }
 
-    ; *$C709-$C74D JUMP LOCATION
-    {
-        ; name: Kill enemy to clear level in hyrule magic
+; $C709-$C74D JUMP LOCATION
+{
+    ; name: Kill enemy to clear level in hyrule magic
         
-        ; Has this boss room already been done with? (i.e. has a heart piece been picked up in this room?)
-        LDA $0403 : AND.b #$80 : BEQ .heartPieceStillExists
-        
+    ; Has this boss room already been done with? (i.e. has a heart piece been picked up in this room?)
+    LDA $0403 : AND.b #$80 : BEQ .heartPieceStillExists
         ; Load the dungeon index, divide by 2.
         LDA $040C : LSR A : TAX
         
         ; Are we in the dark world?
         LDA $7EF3CA : BNE .inDarkWorld
+            ; We're in the Light World.
+            LDA $7EF374 : AND.l MilestoneItem_Flags, X : BNE .criticalItemAlreadyObtained
+                BRA .giveCriticalItem
         
-        ; We're in the Light World.
-        LDA $7EF374 : AND.l MilestoneItem_Flags, X : BNE .criticalItemAlreadyObtained
-        
-        BRA .giveCriticalItem
-    
-    .inDarkWorld
+        .inDarkWorld
      
         LDA $7EF37A : AND.l MilestoneItem_Flags, X : BNE .criticalItemAlreadyObtained
+            .giveCriticalItem
     
-    .giveCriticalItem
+            LDA.b #$80 : STA $04C2
+            
+            LDA $0E : PHA
+            
+            LDA $040C : LSR A : TAX
+            
+            LDA $01C6FC, X : JSL Sprite_SpawnFallingItem
+            
+            PLA : STA $0E
     
-        LDA.b #$80 : STA $04C2
-        
-        LDA $0E : PHA
-        
-        LDA $040C : LSR A : TAX
-        
-        LDA $01C6FC, X : JSL Sprite_SpawnFallingItem
-        
-        PLA : STA $0E
-    
-    .criticalItemAlreadyObtained
+        .criticalItemAlreadyObtained
     
         LDX $0E
         
@@ -10386,8 +10380,8 @@ org $018000
     
     .heartPieceStillExists
     
-        RTS
-    }
+    RTS
+}
 
     ; *$C74E-$C766 JUMP LOCATION
     {
@@ -11586,7 +11580,7 @@ org $018000
         ; Branch if we find a matching key.
         LDA $7EF366 : AND $98C0, Y : BNE .haveKeyToOpenDoor
         
-        ; Means the "eh..." message has activated, and we haven�t moved away 
+        ; Means the "eh..." message has activated, and we haven't moved away 
         ; from the door
         LDA $04B8 : BNE .skipDoorProcessing
         
@@ -12723,7 +12717,7 @@ org $018000
     
         LDX $06
         
-        ; um... I'm guessing it�s checking to see if it's a pot or bush.
+        ; um... I'm guessing it's checking to see if it's a pot or bush.
         LDA $7F2000, X : AND.w #$00F0 : CMP.w #$0070 : BNE .not_liftable
         
         LDA $7F2000, X : AND.w #$000F : ASL A : TAX
@@ -13274,31 +13268,30 @@ org $018000
 
 ; ==============================================================================
 
-    ; *$E6B2-$E794 LOCAL
-    Dungeon_LoadSecret:
-    {
-        ; Seems to load "secrets" data from ROM when a secret is exposed
-        ; by various means
+; *$E6B2-$E794 LOCAL
+Dungeon_LoadSecret:
+{
+    ; Seems to load "secrets" data from ROM when a secret is exposed
+    ; by various means
         
-        STA $04
+    STA $04
         
-        ; ???? unknown variable
-        LDA $0B9C : AND.w #$FF00 : STA $0B9C
+    ; ???? unknown variable
+    LDA $0B9C : AND.w #$FF00 : STA $0B9C
         
-        ; Load the room, multiply by 2, send to X register
-        LDA $A0 : ASL A : TAX
+    ; Load the room, multiply by 2, send to X register
+    LDA $A0 : ASL A : TAX
         
-        ; Secrets pointer array (16-bit local pointer for each of the 0x140 rooms).
-        LDA $01DB69, X : STA $00
+    ; Secrets pointer array (16-bit local pointer for each of the 0x140 rooms).
+    LDA $01DB69, X : STA $00
         
-        ; When moving the secrets data, this will make it cake ;)
-        LDA.w #$0001 : STA $02
+    ; When moving the secrets data, this will make it cake ;)
+    LDA.w #$0001 : STA $02
         
-        LDY.w #$FFFD
-        LDX.w #$FFFF
+    LDY.w #$FFFD
+    LDX.w #$FFFF
     
     .nextSecret
-    
         INY #3
         
         ; Load up the first word of data. Terminate if it matches this value
@@ -13316,42 +13309,40 @@ org $018000
         ; Load the next word (but only need a byte)
         ; Terminate if it is nothing... (why would you put nothing?)
         LDA [$00], Y : AND.w #$00FF : BEQ .return
+            ; If item >= 0x80, handle them specially
+            CMP.w #$0080 : BCS .specialSecret
+                ; Check to see if it's a key.
+                STA $0E : CMP.w #$0008 : BEQ .isKey
+                
+                ; Y corresponds to the bit in the secrets data that will be set after being revealed.
+                ; It will be used to set a flag that will not be set until Link leaves the dungeon
+                ; or uses the magic mirror in the dungeon.
+                TXY
+                
+                ; X = room index * 2
+                LDA $A0 : ASL A : TAX
+                
+                STZ $00
+                
+                SEC
+            
+            .findBit
+            
+                ROL $00
+                
+                DEY : BPL .findBit
+                
+                LDA $7EF580, X : AND $00 : BNE .return
+                
+                LDA $7EF580, X : ORA $00 : STA $7EF580, X
+                
+                LDA $0E
+            
+            .isKey
         
-        ; If item >= 0x80, handle them specially
-        CMP.w #$0080 : BCS .specialSecret
-        
-        ; Check to see if it's a key.
-        STA $0E : CMP.w #$0008 : BEQ .isKey
-        
-        ; Y corresponds to the bit in the secrets data that will be set after being revealed.
-        ; It will be used to set a flag that will not be set until Link leaves the dungeon
-        ; or uses the magic mirror in the dungeon.
-        TXY
-        
-        ; X = room index * 2
-        LDA $A0 : ASL A : TAX
-        
-        STZ $00
-        
-        SEC
+            TSB $0B9C
     
-    .findBit
-    
-        ROL $00
-        
-        DEY : BPL .findBit
-        
-        LDA $7EF580, X : AND $00 : BNE .return
-        
-        LDA $7EF580, X : ORA $00 : STA $7EF580, X
-        
-        LDA $0E
-    
-    .isKey
-    
-        TSB $0B9C
-    
-    .return
+        .return
     
         RTS
     
@@ -13699,14 +13690,14 @@ org $018000
         ; if it's not a big key lock
         LDA $06E0, Y : CMP.w #$8000 : BCC .notBigKeyLock
         
-        ; It�s a big key lock. We have to examine the Big Key data.
+        ; It's a big key lock. We have to examine the Big Key data.
         LDX $040C
         
         ; (this is the Big Key data)
         ; Branch if we have the Big Key.
         LDA $7EF366 : AND $0098C0, X : BNE .openBigKeyLock
         
-        ; It�s the "Eh? You don�t have the big key" crap text message.
+        ; It's the "Eh? You don't have the big key" crap text message.
         LDA.w #$007A : STA $1CF0
         
         SEP #$30
@@ -13779,7 +13770,7 @@ org $018000
         ; Load the room index for the chest.
         LDA Dungeon_ChestData, X : ASL A : BCC .smallChest
         
-        ; otherwise it�s a (you guessed it...) Big Chest.
+        ; otherwise it's a (you guessed it...) Big Chest.
         LDX $040C
         
         ; Make sure we have the key to it.
@@ -13793,7 +13784,7 @@ org $018000
     
         PLX : PLY : PLA
         
-        ; Again the "eh, you don�t have the big key" message...
+        ; Again the "eh, you don't have the big key" message...
         LDA.w #$007A : STA $1CF0
         
         SEP #$30

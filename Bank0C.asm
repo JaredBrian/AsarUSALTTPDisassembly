@@ -530,8 +530,8 @@
     
     .countingUp
     
-        LDA $1F05 : ADD.b #$05 : STA $1F05
-        LDA $1F04 : ADD.b #$03 : STA $1F04
+        LDA $1F05 : CLC : ADC.b #$05 : STA $1F05
+        LDA $1F04 : CLC : ADC.b #$03 : STA $1F04
         
         RTS
     }
@@ -552,8 +552,8 @@
     
         SBC.b #$02 : STA $1F02
         
-        LDA $1F05 : ADD.b #$05 : STA $1F05
-        LDA $1F04 : ADD.b #$03 : STA $1F04
+        LDA $1F05 : CLC : ADC.b #$05 : STA $1F05
+        LDA $1F04 : CLC : ADC.b #$03 : STA $1F04
         
         LDA $1F02 : CMP.b #$E1 : BCS .beta
         
@@ -581,8 +581,8 @@
     
     .countingDown
     
-        LDA $1F05 : ADD.b #$05 : STA $1F05
-        LDA $1F04 : ADD.b #$03 : STA $1F04
+        LDA $1F05 : CLC : ADC.b #$05 : STA $1F05
+        LDA $1F04 : CLC : ADC.b #$03 : STA $1F04
         
         RTS
     }
@@ -601,8 +601,8 @@
     
     .alpha
     
-        LDA $1F05 : ADD.b #$05 : STA $1F05
-        LDA $1F04 : ADD.b #$03 : STA $1F04
+        LDA $1F05 : CLC : ADC.b #$05 : STA $1F05
+        LDA $1F04 : CLC : ADC.b #$03 : STA $1F04
         
         RTS
     }
@@ -718,8 +718,8 @@
         LDA $C578, Y : STA $1E48, X
         LDA $C579, Y : STA $1E50, X
         
-        LDA $C5CA, X : ADD $1E58, X : STA $1E58, X
-        LDA $C5CD, X : ADD $1E60, X : STA $1E60, X
+        LDA $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
+        LDA $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
         
         INC $1E10, X
         
@@ -754,8 +754,8 @@
     {
         LDA $1E0A : AND.b #$1F : BNE BRANCH_1
         
-        LDA $C5CA, X : ADD $1E58, X : STA $1E58, X
-        LDA $C5CD, X : ADD $1E60, X : STA $1E60, X
+        LDA $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
+        LDA $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
     
     BRANCH_1:
     
@@ -937,15 +937,15 @@
     
     .nextSprite
     
-        LDA ($08), Y : ADD $00 : STA $0000, X
+        LDA ($08), Y : CLC : ADC $00 : STA $0000, X
         
         AND.w #$0100 : STA $0C
         
         INY #2
         
-        LDA ($08), Y : ADD $02 : STA $0001, X
+        LDA ($08), Y : CLC : ADC $02 : STA $0001, X
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .y_in_range
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .y_in_range
         
         LDA.w #$00F0 : STA $0001, X
     
@@ -988,7 +988,7 @@
     {
         LDA $1E58, X : BEQ BRANCH_2
         
-        ASL #4 : ADD $1E28, X : STA $1E28, X
+        ASL #4 : CLC : ADC $1E28, X : STA $1E28, X
         
         LDA $1E58, X : PHP : LSR #4
         
@@ -1010,7 +1010,7 @@
     
         LDA $1E60, X : BEQ BRANCH_4
         
-        ASL #4 : ADD $1E40, X : STA $1E40, X
+        ASL #4 : CLC : ADC $1E40, X : STA $1E40, X
         
         LDA $1E60, X : PHP : LSR #4
         
@@ -1169,9 +1169,9 @@
     
     .beta
     
-        LDA $1F05 : ADD.b #$02 : STA $1F05
+        LDA $1F05 : CLC : ADC.b #$02 : STA $1F05
         
-        LDA $1F04 : ADD.b #$01 : STA $1F04
+        LDA $1F04 : CLC : ADC.b #$01 : STA $1F04
         
         RTS
     }
@@ -1218,9 +1218,9 @@
     
     .beta
     
-        LDA $1F05 : ADD.b #$05 : STA $1F05
+        LDA $1F05 : CLC : ADC.b #$05 : STA $1F05
         
-        LDA $1F04 : ADD.b #$03 : STA $1F04
+        LDA $1F04 : CLC : ADC.b #$03 : STA $1F04
         
         RTS
     }
@@ -1284,8 +1284,8 @@
 
     ; *$64BC3-$64BD5 LOCAL
     {
-        LDA $1F05 : ADD.b #$03 : STA $1F05
-        LDA $1F04 : ADD.b #$01 : STA $1F04
+        LDA $1F05 : CLC : ADC.b #$03 : STA $1F05
+        LDA $1F04 : CLC : ADC.b #$01 : STA $1F04
         
         RTS
     }
@@ -1339,13 +1339,13 @@
     {
         LDA $1E0A : AND.b #$07 : BNE BRANCH_1
         
-        LDA $CC2D, X : ADD $1E58, X : STA $1E58, X
+        LDA $CC2D, X : CLC : ADC $1E58, X : STA $1E58, X
     
     BRANCH_1:
     
         LDA $1E0A : AND.b #$03 : BNE BRANCH_2
         
-        LDA $CC30, X : ADD $1E60, X : STA $1E60, X
+        LDA $CC30, X : CLC : ADC $1E60, X : STA $1E60, X
     
     BRANCH_2:
     
@@ -1438,7 +1438,7 @@
     
     BRANCH_2:
     
-        ADD $1E58, X : STA $1E58, X : CMP $CC63 : BNE BRANCH_3
+        CLC : ADC $1E58, X : STA $1E58, X : CMP $CC63 : BNE BRANCH_3
         
         LDA $CC63 : INC A
         
@@ -1468,7 +1468,7 @@
     
     BRANCH_7:
     
-        ADD $1E60, X : STA $1E60, X : CMP $CC63 : BNE BRANCH_8
+        CLC : ADC $1E60, X : STA $1E60, X : CMP $CC63 : BNE BRANCH_8
         
         LDA $CC63 : INC A
         
@@ -1542,8 +1542,8 @@
         
         INC $1E20, X
         
-        LDA $CD38, X : ADD $1E58, X : STA $1E58, X
-        LDA $CD3B, X : ADD $1E60, X : STA $1E60, X
+        LDA $CD38, X : CLC : ADC $1E58, X : STA $1E58, X
+        LDA $CD3B, X : CLC : ADC $1E60, X : STA $1E60, X
     
     BRANCH_1:
     
@@ -1662,7 +1662,7 @@
 
     ; *$64E1B-$64E52 LOCAL
     {
-        ; vram target is 0x1000 (0x2000 in bytes) aka BG0�s tilemap
+        ; vram target is 0x1000 (0x2000 in bytes) aka BG0's tilemap
         LDA.w #$0010 : STA $1002
         
         ; blitting 0x800 bytes
@@ -1687,7 +1687,7 @@
         
         ; Notice in this function that $00 ranges over 0x0 - 0x3FF
         ; Addresses written range from $1006 to $1805
-        ; Sets up a complex data table�.
+        ; Sets up a complex data table.
         LDA ($02), Y : STA $1006, X
         
         INX #2 
@@ -1734,7 +1734,7 @@
         LDA $00 : XBA : STA $1006, X
         
         ; Write from $18E6-$194D
-        XBA : ADD.w #$0020 : STA $00
+        XBA : CLC : ADC.w #$0020 : STA $00
         
         INX #2
         
@@ -1846,7 +1846,7 @@
         STX $00
         
         ; $048C, X; it holds the SRAM offsets. 
-        ; X = #$0, #$500, #$A00�
+        ; X = #$0, #$500, #$A00
         LDA $00848C, X : TAX
         
         ; isValid variable
@@ -1864,7 +1864,7 @@
         
         PHX ; Save the SRAM offset
         
-        ; set OAM for Link�s shield and sword (mainly)
+        ; set OAM for Link's shield and sword (mainly)
         JSR $D6AF ; $656AF IN ROM
         
         ; set number of deaths OAM
@@ -1872,7 +1872,7 @@
         
         PLX ; Restore the SRAM offset
         
-        ; draw hearts and player�s name for this file.
+        ; draw hearts and player's name for this file.
         JSR $D63C ; $6563C IN ROM
     
     .invalidSaveFile
@@ -2230,8 +2230,8 @@
     
     BRANCH_3:
     
-        LDA $7003D9, X : ADD.w #$1800 : STA $1002, Y
-                         ADD.w #$0010 : STA $1016, Y
+        LDA $7003D9, X : CLC : ADC.w #$1800 : STA $1002, Y
+                         CLC : ADC.w #$0010 : STA $1016, Y
         
         INX #2
         
@@ -2339,7 +2339,7 @@
         
         LDA.b #$6C : STA $1036, X : STA $103C, X
         
-        LDA.b #$27 : STA $1037, X : ADD.b #$20 : STA $103D, X
+        LDA.b #$27 : STA $1037, X : CLC : ADC.b #$20 : STA $103D, X
     
     BRANCH_14:
     
@@ -2357,7 +2357,7 @@
     
     BRANCH_16:
     
-        STZ $C8 ; Reset the menu marker too�
+        STZ $C8 ; Reset the menu marker too
     
     BRANCH_17:
     
@@ -2404,7 +2404,7 @@
         INC $04 : INC $04
         
         LDA $D275, X  : STA $1002, Y
-        ADD.w #$0010 : STA $1016, Y
+        CLC : ADC.w #$0010 : STA $1016, Y
         
         LDA $BF, X : BEQ BRANCH_6
         
@@ -2414,9 +2414,9 @@
     
     BRANCH_5:
     
-        LDA $7003D9, X : ADD.w #$1800 : STA $1006, Y
+        LDA $7003D9, X : CLC : ADC.w #$1800 : STA $1006, Y
         
-        ADD.w #$0010 : STA $101A, Y
+        CLC : ADC.w #$0010 : STA $101A, Y
         
         INX #2
         
@@ -2484,7 +2484,7 @@
         LDA.b #$62 : STA $1036 : STA $103C
         
         LDA.b #$14  : STA $1037
-        ADD.b #$20 : STA $103D
+        CLC : ADC.b #$20 : STA $103D
     
     BRANCH_11:
     
@@ -2787,7 +2787,7 @@
         LDA.b #$62 : STA $1002, X : STA $1008, X
         
         LDA.b #$67  : STA $1003, X
-        ADD.b #$20 : STA $1009, X
+        CLC : ADC.b #$20 : STA $1009, X
     
     BRANCH_11:
     
@@ -2904,7 +2904,7 @@
 
     ; *$6563C-$65694 LOCAL
     {
-        ; Draws both the Player�s name and the hearts of that player to screen.
+        ; Draws both the Player's name and the hearts of that player to screen.
         
         PHX
         
@@ -2915,9 +2915,9 @@
     
     .nextLetter
     
-        LDA $7003D9, X : ADD.w #$1800 : STA $1002, Y
+        LDA $7003D9, X : CLC : ADC.w #$1800 : STA $1002, Y
         
-        ADD.w #$0010 : STA $102C, Y
+        CLC : ADC.w #$0010 : STA $102C, Y
         
         INX #2
         
@@ -2941,7 +2941,7 @@
         
         PHA
         
-        LDA $04 : ADD.w #$002A : TAY
+        LDA $04 : CLC : ADC.w #$002A : TAY
         
         PLA
     
@@ -2991,15 +2991,15 @@
         ; $D698 -> $65698 in rom: #$34 = 52
         ; A -> #$40 = 64
         ; Mirror to this location.
-        LDA ($04) : ADD.b #$0C : STA $0800, X : STA $0804, X
+        LDA ($04) : CLC : ADC.b #$0C : STA $0800, X : STA $0804, X
         
         ; i.e. from $D699, Y; A = 0x43, 0x63, or 0x83
         ; A = 0x3E, 0x5E, or 0x7E
-        LDA ($02), Y : ADD.b #$FB : STA $0801, X
+        LDA ($02), Y : CLC : ADC.b #$FB : STA $0801, X
         
         ; The last add obviously overflowed, so clc
         ; A -> 0x46, 0x66, or 0x86
-        ADD.b #$08 : STA $0805, X
+        CLC : ADC.b #$08 : STA $0805, X
         
         ; A -> #$72, #$76, #$7A
         LDA $D6A6, Y : STA $0803, X : STA $0807, X
@@ -3036,7 +3036,7 @@
         
         ; Adding 0x10 gives you the lower part of the sword. (0x95 or 0xB1)
         ; So this is also tile data apparently.
-        ADD.b #$10 : STA $0806, X
+        CLC : ADC.b #$10 : STA $0806, X
         
         ; Y -> #$0, #$1, #$2, #$3
         PLY
@@ -3050,15 +3050,15 @@
         
         ; A -> 0x28, 0x3C, or 0x50
         ; A -> 0x30, 0x44, or 0x58
-        PLA : ADD.b #$08 : TAX
+        PLA : CLC : ADC.b #$08 : TAX
         
         ; $65698; A -> #$34
         ; A -> 0x2F
         ; Controls the position of the shield on the select screen.
-        LDA ($04) : ADD.b #$FB : STA $0800, X
+        LDA ($04) : CLC : ADC.b #$FB : STA $0800, X
         
         ; Controls the display of the shield on the select screen.
-        LDA ($02), Y : ADD.b #$0A : STA $0801, X
+        LDA ($02), Y : CLC : ADC.b #$0A : STA $0801, X
         
         ; A -> #$32, #$36, #$3A
         LDA $D6A9, Y : STA $0803, X
@@ -3099,7 +3099,7 @@
         
         LDA.b #$02 : STA $0A20, X
         
-        PLA : ADD.b #$04 : TAX
+        PLA : CLC : ADC.b #$04 : TAX
         
         LDA ($04) : STA $0800, X : STA $0804, X
         
@@ -3110,7 +3110,7 @@
         ORA.b #$40   : STA $0807, X
         
         LDA ($02), Y : STA $0801, X
-        ADD.b #$08  : STA $0805, X
+        CLC : ADC.b #$08  : STA $0805, X
         
         TXA : LSR #2 : TAX
         
@@ -3184,7 +3184,7 @@
     
     .gameBeaten
     
-        CMP.w #$03E8 : BCC .lessThan1000 ; less than a thousand�
+        CMP.w #$03E8 : BCC .lessThan1000 ; less than a thousand
         
         ; the number of deaths maxes out at 999, so we just set the digits to all 9s.
         LDA.w #$0009 : STA !onesDigit : STA !tensDigit : STA !hundredsDigit
@@ -3258,11 +3258,11 @@
         
         LDA $00 : LSR A : TAY
         
-        LDA ($08), Y : ADD.w #$7A10 : STA $0801, Y
+        LDA ($08), Y : CLC : ADC.w #$7A10 : STA $0801, Y
         
         PLA : PHA : LSR A : TAX
         
-        LDA ($0A) : ADD $D7D8, X : STA $0800, Y
+        LDA ($0A) : CLC : ADC $D7D8, X : STA $0800, Y
         LDA.b #$3C                : STA $0803, Y
         
         PHY : TYA : LSR #2 : TAY
@@ -3397,18 +3397,15 @@
         RTL
     }
 
-    ; *$65A4D-$65C8B JUMP LOCATION
-    {
-    
+; $65A4D-$65C8B JUMP LOCATION
+{
     BRANCH_1:
     
-        LDY $0B13 : BEQ BRANCH_6
-        
+    LDY $0B13 : BEQ BRANCH_6
         TYA : CMP.b #$31 : BEQ BRANCH_2
-        
-        ADD.b #$04 : STA $0B13
+            CLC : ADC.b #$04 : STA $0B13
     
-    BRANCH_2:
+        BRANCH_2:
     
         LDA $0B10 : ASL A : TAX
         
@@ -3417,36 +3414,33 @@
         DEY
         
         LDA $0630 : CMP $0CD9B5, X : BNE BRANCH_4
+            SEP #$20
+            
+            LDA.b #$30 : STA $0B13
+            
+            LDA $F0 : AND.b #$03 : BNE BRANCH_3
+                STZ $0B13
         
-        SEP #$20
+            BRANCH_3:
         
-        LDA.b #$30 : STA $0B13
+            JSR $DC8C ; $65C8C IN ROM
+            
+            BRA BRANCH_1
         
-        LDA $F0 : AND.b #$03 : BNE BRANCH_3
-        
-        STZ $0B13
-    
-    BRANCH_3:
-    
-        JSR $DC8C ; $65C8C IN ROM
-        
-        BRA BRANCH_1
-    
-    BRANCH_4:
+        BRANCH_4:
     
         REP #$20
         
         LDX $0B16 : BNE BRANCH_5
+            INY #2
         
-        INY #2
-    
-    BRANCH_5:
+        BRANCH_5:
     
         LDA $0630
         
         TYX
         
-        ADD $0CDA19, X : AND.w #$01FF : STA $0630
+        CLC : ADC $0CDA19, X : AND.w #$01FF : STA $0630
         
         SEP #$20
         
@@ -3454,51 +3448,48 @@
     
     BRANCH_6:
     
-        JSR $DC8C ; $65C8C IN ROM
+    JSR $DC8C ; $65C8C IN ROM
     
     BRANCH_7:
     
-        LDA $0B14 : BEQ BRANCH_10
-        
+    LDA $0B14 : BEQ BRANCH_10
         LDX $0B15
         
         LDY.b #$02
         
         LDA $0B11 : CMP $0CDA01, X : BNE BRANCH_8
+            STZ $0B14
+            
+            JSR $DCBF ; $65CBF IN ROM
+            
+            BRA BRANCH_7
         
-        STZ $0B14
-        
-        JSR $DCBF ; $65CBF IN ROM
-        
-        BRA BRANCH_7
-    
-    BRANCH_8:
+        BRANCH_8:
     
         BMI BRANCH_9
+            LDY.b #$FE
         
-        LDY.b #$FE
+        BRANCH_9:
     
-    BRANCH_9:
-    
-        TYA : ADD $0B11 : STA $0B11
+        TYA : CLC : ADC $0B11 : STA $0B11
         
         BRA BRANCH_11
     
     BRANCH_10:
     
-        JSR $DCBF ; $65CBF IN ROM.
+    JSR $DCBF ; $65CBF IN ROM.
     
     BRANCH_11:
     
-        LDX.b #$00 : TXY
+    LDX.b #$00 : TXY
         
-        LDA.b #$18 : STA $00
+    LDA.b #$18 : STA $00
     
     BRANCH_12:
     
         LDA $00 : STA $0800, Y
         
-        ADD.b #$08 : STA $00
+        CLC : ADC.b #$08 : STA $00
         
         LDA $0B11 : STA $0801, Y
         
@@ -3509,136 +3500,127 @@
         STZ $0A20, X
         
         INY #4
+    INX : CPX.b #$1A : BNE BRANCH_12
         
-        INX : CPX.b #$1A : BNE BRANCH_12
+    PHX
         
-        PHX
+    LDX $0B12
         
-        LDX $0B12
+    LDA $0CDA13, X : STA $0800, Y
         
-        LDA $0CDA13, X : STA $0800, Y
+    LDA.b #$58 : STA $0801, Y
         
-        LDA.b #$58 : STA $0801, Y
+    PLX
         
-        PLX
+    LDA.b #$29 : STA $0802, Y
+    LDA.b #$0C : STA $0803, Y
         
-        LDA.b #$29 : STA $0802, Y
-        LDA.b #$0C : STA $0803, Y
+    STZ $0A20, X
         
-        STZ $0A20, X
-        
-        LDA $0B13 : ORA $0B14 : BNE BRANCH_14
-        
+    LDA $0B13 : ORA $0B14 : BNE BRANCH_14
         LDA $F4 : AND.b #$10 : BEQ BRANCH_13
+            JMP $DBB1 ; $65BB1 IN ROM
         
-        JMP $DBB1 ; $65BB1 IN ROM
-    
-    BRANCH_13:
+        BRANCH_13:
     
         LDA $F4 : AND.b #$C0 : BNE BRANCH_15
-        
-        LDA $F6 : AND.b #$C0 : BNE BRANCH_15
+            LDA $F6 : AND.b #$C0 : BNE BRANCH_15
     
     BRANCH_14:
     
-        JMP $DBD9 ; $65BB9 IN ROM
+    JMP $DBD9 ; $65BB9 IN ROM
     
     BRANCH_15:
     
-        ; play low life warning beep sound?
-        LDA.b #$2B : STA $012E
+    ; play low life warning beep sound?
+    LDA.b #$2B : STA $012E
         
-        REP #$30
+    REP #$30
         
-        LDA $0B15 : AND.w #$00FF : ASL A : TAX
+    LDA $0B15 : AND.w #$00FF : ASL A : TAX
         
-        LDA $0CDA0B, X : ADD $0B10 : AND.w #$00FF : TAX
+    LDA $0CDA0B, X : CLC : ADC $0B10 : AND.w #$00FF : TAX
         
-        SEP #$20
+    SEP #$20
         
-        LDA $0CD935, X
+    LDA $0CD935, X
         
-        CMP.b #$5A : BEQ BRANCH_16
+    CMP.b #$5A : BEQ BRANCH_16
         CMP.b #$44 : BEQ BRANCH_18
-        CMP.b #$6F : BEQ BRANCH_21
+            CMP.b #$6F : BEQ BRANCH_21
+                STA $00
+                STZ $01
         
-        STA $00
-        STZ $01
-        
-        BRA BRANCH_20
+                BRA BRANCH_20
     
     BRANCH_16:
     
-        LDA $0B12 : BNE BRANCH_17
-        
+    LDA $0B12 : BNE BRANCH_17
         LDA.b #$05 : STA $0B12
         
         BRA BRANCH_24
     
     BRANCH_17:
     
-        DEC $0B12
+    DEC $0B12
         
-        BRA BRANCH_24
+    BRA BRANCH_24
     
     BRANCH_18:
     
-        INC $0B12
+    INC $0B12
         
-        LDA $0B12 : CMP.b #$06 : BNE BRANCH_19
-        
+    LDA $0B12 : CMP.b #$06 : BNE BRANCH_19
         STZ $0B12
     
     BRANCH_19:
     
-        BRA BRANCH_24
+    BRA BRANCH_24
     
     BRANCH_20:
     
-        REP #$30
+    REP #$30
         
-        AND.w #$000F : STA $02
+    AND.w #$000F : STA $02
         
-        LDA $0B12 : AND.w #$00FF : ASL A : TAY
+    LDA $0B12 : AND.w #$00FF : ASL A : TAY
         
-        ADD $0200 : TAX
+    CLC : ADC $0200 : TAX
         
-        LDA $00 : AND.w #$FFF0 : ASL A : ORA $02 : STA $7003D9, X
+    LDA $00 : AND.w #$FFF0 : ASL A : ORA $02 : STA $7003D9, X
         
-        JSR $DD30 ; $65D30 IN ROM
+    JSR $DD30 ; $65D30 IN ROM
         
-        BRA BRANCH_18
+    BRA BRANCH_18
     
-    BRANCH_21: $65BB1 ALTERNATE ENTRY POINT
+    BRANCH_21: ; $65BB1 ALTERNATE ENTRY POINT
     
-        REP #$30
+    REP #$30
         
-        STZ $02
+    STZ $02
     
     BRANCH_22:
     
-        LDA $0200 : CLC
+    LDA $0200 : CLC
     
     ; $65BB9 ALTERNATE ENTRY POINT
     
-        ADC $02 : TAX
+    ADC $02 : TAX
         
-        ; Checking if the spot is blank�
-        LDA $7003D9, X : CMP.w #$00A9 : BNE BRANCH_25
-        
+    ; Checking if the spot is blank
+    LDA $7003D9, X : CMP.w #$00A9 : BNE BRANCH_25
         LDA $02 : CMP.w #$000A : BEQ BRANCH_23
+            INC #2 : STA $02
+            
+            BRA BRANCH_22
         
-        INC #2 : STA $02
-        
-        BRA BRANCH_22
-    
-    BRANCH_23:
+        BRANCH_23:
     
         SEP #$20
         
         LDA.b #$3C : STA $012E
     
-    BRANCH_24:
+        BRANCH_24:
     
         SEP #$30
         
@@ -3646,99 +3628,92 @@
     
     BRANCH_25:
     
-        SEP #$30
+    SEP #$30
         
-        ; Make the data bank 0x04
-        PHB : LDA.b #$04 : PHA : PLB
+    ; Make the data bank 0x04
+    PHB : LDA.b #$04 : PHA : PLB
         
-        REP #$30
+    REP #$30
         
-        LDA $C8 : ASL A : INC #2 : STA $701FFE : TAX
+    LDA $C8 : ASL A : INC #2 : STA $701FFE : TAX
         
-        LDA $00848A, X : STA $00 : TAX
+    LDA $00848A, X : STA $00 : TAX
         
-        LDA.w #$55AA : STA $7003E5, X
+    LDA.w #$55AA : STA $7003E5, X
         
-        LDA.w #$F000 : STA $70020C, X : STA $70020E, X
+    LDA.w #$F000 : STA $70020C, X : STA $70020E, X
         
-        LDA.w #$FFFF : STA $700405, X
+    LDA.w #$FFFF : STA $700405, X
         
-        LDA.w #$001D : STA $02
+    LDA.w #$001D : STA $02
         
-        LDY.w #$003C
-        
-        ; branch if it's not the first save game slot
-        CPX.w #$0000 : BNE .loadInitialEquipment
-        
+    ; branch if it's not the first save game slot
+    LDY.w #$003C : CPX.w #$0000 : BNE .loadInitialEquipment
         ; lol.... wow, this is checking if the end of the "get joypad input"
         ; routine ends with an RTS instruction or not. In otherwords, it's checking
         ; the game's own code to determine if the player 2 joypad is enabled
         ; interesting manuever, I must say
         LDA $0083F8 : AND.w #$00FF : CMP.w #$0060 : BEQ .loadInitialEquipment
-        
-        ; if the first letter of the player's name is not an uppercase 'B', no cheat code for you!
-        LDA $7003D9 : CMP.w #$0001 : BNE .loadInitialEquipment
-        
-        ; If you've reached this section of code, it's a cheat code designed to help playtest the game
-        ; by giving you a headstart on certain things in the game.
-        ; The conditions for reaching here are
-        ; 1. only works in first save game slot
-        ; 2. the seoncd controller must be enabled in the code
-        ; 3. player name must start with letter 'B' (or perhaps a certain Japanese character)
-        
-        ; presumably this is to... keep Link from getting magic powder again
-        LDA.w #$00F0 : STA $700212, X
-        
-        ; Set the game mode to after saving Zelda
-        LDA.w #$1502 : STA $7003C5, X
-        
-        ; set map indicators on overworld and put Link starting in his house.
-        LDA.w #$0100 : STA $7003C7, X
-        
-        LDY.w #$0000
+            ; if the first letter of the player's name is not an uppercase 'B', no cheat code for you!
+            LDA $7003D9 : CMP.w #$0001 : BNE .loadInitialEquipment
+                ; If you've reached this section of code, it's a cheat code designed to help playtest the game
+                ; by giving you a headstart on certain things in the game.
+                ; The conditions for reaching here are
+                ; 1. only works in first save game slot
+                ; 2. the seoncd controller must be enabled in the code
+                ; 3. player name must start with letter 'B' (or perhaps a certain Japanese character)
+                
+                ; presumably this is to... keep Link from getting magic powder again
+                LDA.w #$00F0 : STA $700212, X
+                
+                ; Set the game mode to after saving Zelda
+                LDA.w #$1502 : STA $7003C5, X
+                
+                ; set map indicators on overworld and put Link starting in his house.
+                LDA.w #$0100 : STA $7003C7, X
+                
+                LDY.w #$0000
     
     .loadInitialEquipment
-    
+
         ; Setup initial equipment and flags values
         LDA $F48A, Y : STA $700340, X
-        
+            
         INX #2
         INY #2
+    DEC $02 : BPL .loadInitialEquipment
         
-        DEC $02 : BPL .loadInitialEquipment
+    LDX $00
         
-        LDX $00
-        
-        LDY.w #$0000 : TYA
+    LDY.w #$0000 : TYA
     
     .computeChecksum
     
-        ADD $700000, X
+        CLC : ADC $700000, X
         
-        INX #2
+        INX #2 
+    INY : CPY.w #$027F : BNE .computeChecksum
         
-        INY : CPY.w #$027F : BNE .computeChecksum
+    STA $02
         
-        STA $02
+    LDX $00
         
-        LDX $00
+    LDA.w #$5A5A : SUB $02 : STA $7004FE, X
         
-        LDA.w #$5A5A : SUB $02 : STA $7004FE, X
+    SEP #$30
         
-        SEP #$30
+    PLB
         
-        PLB
+    JSR $D22D ; $6522D IN ROM
         
-        JSR $D22D ; $6522D IN ROM
+    LDA.b #$FF : STA $0128
         
-        LDA.b #$FF : STA $0128
+    LDA.b #$2C : STA $012E
         
-        LDA.b #$2C : STA $012E
+    SEP #$30
         
-        SEP #$30
-        
-        RTL
-    }
+    RTL
+}
 
 ; ==============================================================================
 
@@ -3757,7 +3732,7 @@
         
         AND.w #$00FF : ASL A : TAX
         
-        LDA $0B10 : AND.w #$00FF : ADD $0CD9F5, X : CMP $0CD9F9, X : BNE BRANCH_1
+        LDA $0B10 : AND.w #$00FF : CLC : ADC $0CD9F5, X : CMP $0CD9F9, X : BNE BRANCH_1
         
         LDA $0CD9FD, X
     
@@ -3796,7 +3771,7 @@
     
         TAX
         
-        LDA $0B15 : ADD $0CDA04, X : CMP $0CDA06, X : BNE BRANCH_2
+        LDA $0B15 : CLC : ADC $0CDA04, X : CMP $0CDA06, X : BNE BRANCH_2
         
         LDA $0CDA08, X
     
@@ -3810,7 +3785,7 @@
         
         LDX $0B15
         
-        LDA $0CDA0B, X : ADD $0B10 : AND.b #$FF : TAX
+        LDA $0CDA0B, X : CLC : ADC $0B10 : AND.b #$FF : TAX
         
         LDA $0CD935, X
     
@@ -3847,13 +3822,13 @@
         
         LDA.w #$6100 : ORA $DD24, Y : XBA : STA $1002
         
-        XBA : ADD.w #$0020 : XBA : STA $1008
+        XBA : CLC : ADC.w #$0020 : XBA : STA $1008
         
         LDA.w #$0100 : STA $1004 : STA $100A
         
         LDA $7003D9, X : ORA.w #$1800 : STA $1006
         
-        ADD.w #$0010 : STA $100C
+        CLC : ADC.w #$0010 : STA $100C
         
         SEP #$30
         
@@ -4814,7 +4789,7 @@
         
         LDA $31 : STA $40
         
-        LDA $30 : ADD $0CF26A, X : STA $28 : BCC BRANCH_DELTA
+        LDA $30 : CLC : ADC $0CF26A, X : STA $28 : BCC BRANCH_DELTA
         
         INC $40
     
@@ -4830,7 +4805,7 @@
         
         LDA $33 : STA $06
         
-        LDA $29 : ADD $0CF264, X : STA $02
+        LDA $29 : CLC : ADC $0CF264, X : STA $02
         
         LDA $0CF266, X : STA $04
         LDA $0CF268, X : STA $05
@@ -4841,7 +4816,7 @@
         
         TXA : ASL A : TAX
         
-        LDA $30 : ADD.w #$0100 : ADD $0CF260, X : STA $00 : TAY : STY $34
+        LDA $30 : CLC : ADC.w #$0100 : CLC : ADC $0CF260, X : STA $00 : TAY : STY $34
         
         SEP #$20
         
@@ -5170,7 +5145,7 @@
         
         TXA : LSR A : TAX
         
-        LDA.b #$74 : ADD $0CF55F, X : STA $28
+        LDA.b #$74 : CLC : ADC $0CF55F, X : STA $28
         
         LDA.b #$76 : STA $29
         
@@ -5285,12 +5260,12 @@
         
         REP #$20
         
-        LDA.w #$F945 : ADD $F603, Y : STA $2D
-        LDA.w #$F953 : ADD $F603, Y : STA $02
-        LDA.w #$F961 : ADD $F603, Y : STA $04
+        LDA.w #$F945 : CLC : ADC $F603, Y : STA $2D
+        LDA.w #$F953 : CLC : ADC $F603, Y : STA $02
+        LDA.w #$F961 : CLC : ADC $F603, Y : STA $04
         
-        LDA $F582, X : ADD $F603, Y : STA $06
-        LDA $F586, X : ADD $F603, Y : STA $08
+        LDA $F582, X : CLC : ADC $F603, Y : STA $06
+        LDA $F586, X : CLC : ADC $F603, Y : STA $08
         
         SEP #$20
         
@@ -5535,7 +5510,7 @@
         
         ; This is effectively the top 16-bits of the 24-bit result of
         ; multiplying $0637 (byte) by the current word from the table.
-        LDA $00   : ADD $4216  : STA $1B00, X
+        LDA $00   : CLC : ADC $4216  : STA $1B00, X
         LDA $4217 : ADC.b #$00 : STA $1B01, X
         
         DEX #2 : BPL .adjustHdmaTableLoop
@@ -5582,7 +5557,7 @@
         
         TXA : AND.w #$003F : BNE BRANCH_BETA
         
-        LDA $30 : ADD.w #$0008 : STA $30
+        LDA $30 : CLC : ADC.w #$0008 : STA $30
         
         CPX.w #$0100 : BNE BRANCH_BETA
         
@@ -5612,7 +5587,7 @@
         
         TXA : AND.w #$003F : BNE BRANCH_DELTA
         
-        TXA : AND.w #$0040 : LSR #4 : ADD.w #$F7DE : STA $30
+        TXA : AND.w #$0040 : LSR #4 : CLC : ADC.w #$F7DE : STA $30
         
         CPX.w #$0100 : BNE BRANCH_DELTA
         
@@ -5684,8 +5659,8 @@
         
         TXA : ASL #2 : TAX
         
-        LDA ($02), Y : ADD $28 : STA $0900, X
-        LDA ($04), Y : ADD $29 : STA $0901, X
+        LDA ($02), Y : CLC : ADC $28 : STA $0900, X
+        LDA ($04), Y : CLC : ADC $29 : STA $0901, X
         LDA ($06), Y            : STA $0902, X
         LDA ($08), Y            : STA $0903, X
         
@@ -5740,7 +5715,7 @@
         ; Set Y coordinate of first sprite by input variable, and the second
         ; sprite is 10 pixels below it.
         LDA $28    : STA $0901, X
-        ADD.b #$0A : STA $0905, X
+        CLC : ADC.b #$0A : STA $0905, X
         
         ; Set chr
         LDA.l .head_chr : STA $0902, X
@@ -5781,8 +5756,8 @@
         
         LDA $32 : LSR #3 : AND.b #$01 : TAY
         
-        LDA $29 : ADD $FA2A, Y : STA $0901, X
-                  ADD $FA2C, Y : STA $0905, X
+        LDA $29 : CLC : ADC $FA2A, Y : STA $0901, X
+                  CLC : ADC $FA2C, Y : STA $0905, X
         
         LDA $FA27    : STA $0902, X
         LDA $FA28, Y : STA $0906, X
@@ -5990,7 +5965,7 @@
         
         REP #$20
         
-        LDA $C8 : ADD $FE30, Y
+        LDA $C8 : CLC : ADC $FE30, Y
         
         SEP #$20
         
@@ -6026,7 +6001,7 @@
     
     BRANCH_7:
     
-        ADD.w #$0010 : STA $C8
+        CLC : ADC.w #$0010 : STA $C8
     
     BRANCH_8:
     
@@ -6142,9 +6117,9 @@
     
     BRANCH_1:
     
-        ADD.b #$C8 : ADD.b #$31 : STA $0941
+        CLC : ADC.b #$C8 : CLC : ADC.b #$31 : STA $0941
         
-        ADD.b #$08 : STA $0945
+        CLC : ADC.b #$08 : STA $0945
         
         LDA.b #$23 : STA $0943 : STA $0947
         
@@ -6153,7 +6128,7 @@
         
         LDA $CA : BNE BRANCH_3
         
-        LDA $CD : ADD.b #$04 : STA $CD
+        LDA $CD : CLC : ADC.b #$04 : STA $CD
         
         CMP.b #$04 : BEQ BRANCH_2
         CMP.b #$48 : BEQ BRANCH_2

@@ -1501,19 +1501,18 @@
 
 ; ==============================================================================
 
-    ; *$30D7F-$30D8D JUMP LOCATION
-    SpritePrep_BugNetKid:
-    {
-        LDA $7EF34D : BEQ .dont_have_net
-        
+; *$30D7F-$30D8D JUMP LOCATION
+SpritePrep_BugNetKid:
+{
+    LDA $7EF34D : BEQ .dont_have_net
         LDA.b #$03 : STA $0D80, X
     
     .dont_have_net
     
-        INC $0BA0, X
+    INC $0BA0, X
         
-        RTS
-    }
+    RTS
+}
 
 ; ==============================================================================
 

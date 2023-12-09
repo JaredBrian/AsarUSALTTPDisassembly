@@ -18,7 +18,7 @@
     ; *$F6B40-$F6C30 JUMP LOCATION
     Sprite_BallGuy:
     {
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Sprite_PrepAndDrawSingleLargeLong
         JSR Sprite3_CheckIfActive
         JSR BallGuy_Dialogue

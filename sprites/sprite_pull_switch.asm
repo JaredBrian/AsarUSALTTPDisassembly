@@ -188,7 +188,7 @@
     BadPullDownSwitch_Draw:
     {
         JSR Sprite2_PrepOamCoord
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         
         LDY $0DC0, X
         
@@ -252,7 +252,7 @@
     BadPullUpSwitch_Draw:
     {
         JSR Sprite2_PrepOamCoord
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         
         LDY $0DC0, X
         
@@ -396,7 +396,7 @@
     GoodPUllSwitch_Draw:
     {
         JSR Sprite2_PrepOamCoord
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         
         LDY $0DC0, X
         

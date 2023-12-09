@@ -3437,8 +3437,8 @@ GetAnimatedSpriteTile:
     
     BRA .copyToBuffer
 
-; *$0054ED ALTERNATE ENTRY POINT
-.variable
+    ; *$0054ED ALTERNATE ENTRY POINT
+    .variable
 
     ; Input for this is the same as the main entry point
     
@@ -4425,9 +4425,8 @@ AnimateMirrorWarp:
     CMP.b #$43 : BEQ .subscreen
     CMP.b #$45 : BEQ .subscreen
     CMP.b #$47 : BNE .normal
-    
-    .subscreen
-        LDA.b #$01 : STA $1D
+        .subscreen
+            LDA.b #$01 : STA $1D
     
     .normal
     

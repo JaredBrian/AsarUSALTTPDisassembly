@@ -74,7 +74,7 @@
     
         LDA.b #$0F : STA $0F50, X
         
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Thief_Draw
         JSR Sprite5_CheckIfActive
         JSL Sprite_PlayerCantPassThrough

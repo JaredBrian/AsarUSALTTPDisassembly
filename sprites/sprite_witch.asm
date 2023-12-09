@@ -295,7 +295,7 @@
     Witch_Draw:
     {
         JSR Sprite2_PrepOamCoord
-        JSL OAM_AllocateDeferToPlayerLong
+        JSL Sprite_OAM_AllocateDeferToPlayerLong
         
         LDA $0DC0, X : STA $00
                        STZ $01
