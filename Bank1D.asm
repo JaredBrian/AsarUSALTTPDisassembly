@@ -177,7 +177,7 @@
     SpriteActive4_Main:
     {
         ; Ranges from 0 to 0x1A (since highest pointer is 0xD7)
-        LDA $0E20, X : SUB.b #$BD : REP #$30 : AND.w #$00FF : ASL A : TAY
+        LDA $0E20, X : SEC : SBC.b #$BD : REP #$30 : AND.w #$00FF : ASL A : TAY
         
         ; Again, we have a subtle jump table by means of stack manipulation.
         LDA .handlers, Y : DEC A : PHA
@@ -1298,11 +1298,11 @@
         
         REP #$20
         
-        LDA $00 : SUB $E2 : CLC : ADC $F7D6, X : STA ($90), Y
+        LDA $00 : SEC : SBC $E2 : CLC : ADC $F7D6, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : SUB $E8 : CLC : ADC $F7D6, X : INY : STA ($90), Y
+        LDA $02 : SEC : SBC $E8 : CLC : ADC $F7D6, X : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
         

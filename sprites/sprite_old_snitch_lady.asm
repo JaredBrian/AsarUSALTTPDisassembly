@@ -247,9 +247,9 @@
         
         REP #$30
         
-        LDA $00 : SUB $0708 : AND $070A : ASL #3 : STA $04
+        LDA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $04
         
-        LDA $02 : LSR #3 : SUB $070C : AND $070E : CLC : ADC $04 : TAX
+        LDA $02 : LSR #3 : SEC : SBC $070C : AND $070E : CLC : ADC $04 : TAX
         
         CLC
         
@@ -302,9 +302,9 @@
         
         REP #$30
         
-        LDA $00          : SUB $0708 : AND $070A : ASL #3  : STA $04
+        LDA $00          : SEC : SBC $0708 : AND $070A : ASL #3  : STA $04
         
-        LDA $02 : LSR #3 : SUB $070C : AND $070E : CLC : ADC $04 : TAX
+        LDA $02 : LSR #3 : SEC : SBC $070C : AND $070E : CLC : ADC $04 : TAX
         
         SEC
         

@@ -1271,11 +1271,11 @@ Stalfos_Draw:
         
         REP #$20
         
-        LDA $0FD8 : SUB $00 : CLC : ADC.w #$0010
+        LDA $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0010
         
         CMP.w #$0018 : BCS .sprite_not_close
         
-        LDA $0FDA : SUB $02 : CLC : ADC.w #$FFF8
+        LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$FFF8
         
         CMP.w #$0018 : BCS .sprite_not_close
         
@@ -1361,7 +1361,7 @@ Stalfos_Draw:
         
         LDA.b #$02 : JSL Sprite_DrawMultiple
         
-        LDA $0E40, X : PHA : SUB.b #$06 : STA $0E40, X
+        LDA $0E40, X : PHA : SEC : SBC.b #$06 : STA $0E40, X
         
         JSL Sprite_DrawShadowLong
         
@@ -1708,7 +1708,7 @@ Stalfos_Draw:
         LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : CLC : ADC.b #$04 : PHP : SUB $04    : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : PHP : SEC : SBC $04    : STA $0D00, Y
         LDA $03 : SBC.b #$00 : PLP : ADC.b #$00 : STA $0D20, Y
         
         LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y

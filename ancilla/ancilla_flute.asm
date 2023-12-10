@@ -18,7 +18,7 @@
         
         LDA $0C54, X : CMP.b #$03 : BEQ .check_player_collision
         
-        LDA $0294, X : SUB.b #$02 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
         
         JSR Ancilla_MoveHoriz
         JSR Ancilla_MoveAltitude

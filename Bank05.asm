@@ -144,7 +144,7 @@
     {
         ; This routine is meant to handle sprites with IDs 0x41 to 0x70.
         
-        LDA $0E20, X : SUB.b #$41 : REP #$30 : AND.w #$00FF : ASL A : TAY
+        LDA $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL A : TAY
         
         LDA .sprite_routines, Y : DEC A : PHA
         
@@ -272,13 +272,13 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0010
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010
         
         CMP.w #$0020 : SEP #$20 : BCS .player_not_close
         
         REP #$20
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0018
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0018
         
         CMP.w #$0020 : SEP #$20 : BCS .player_not_close
         
@@ -302,11 +302,11 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CMP.w #$0010 : SEP #$20 : BCS .iota
+        LDA $0FD8 : SEC : SBC $22 : CMP.w #$0010 : SEP #$20 : BCS .iota
         
         REP #$20
         
-        LDA $0FDA : SUB $20 : CMP.w #$0010 : SEP #$20 : BCS .iota
+        LDA $0FDA : SEC : SBC $20 : CMP.w #$0010 : SEP #$20 : BCS .iota
         
         ; Are Link and the soldier on the same floor?
         LDA $0F20, X : CMP $EE : BNE .iota
@@ -1201,7 +1201,7 @@
     {
         LDA $0DC0, X : ASL A : STA $06
         
-        LDA $0E20, X : SUB.b #$41 : STA $08
+        LDA $0E20, X : SEC : SBC.b #$41 : STA $08
         
         LDY $0DE0, X
         
@@ -2399,7 +2399,7 @@
 
     ; *$2D4D4-$2D53A LOCAL
     {
-        LDA $0DC0, X : SUB.b #$0E : BCS .alpha
+        LDA $0DC0, X : SEC : SBC.b #$0E : BCS .alpha
         
         PHY
         
@@ -2533,7 +2533,7 @@
         
         PHX
         
-        TXA : SUB.w #$0800 : LSR #2 : TAX
+        TXA : SEC : SBC.w #$0800 : LSR #2 : TAX
         
         SEP #$20
         
@@ -3105,9 +3105,9 @@
         ; seems more like a map16 attr reader than a map8 reader. Fixme!
         REP #$30
         
-        LDA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
+        LDA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $02 : SUB $070C : AND $070E : ORA $06 : TAX
+        LDA $02 : SEC : SBC $070C : AND $070E : ORA $06 : TAX
         
         LDA $7E2000, X : TAX
         

@@ -531,7 +531,7 @@
         LDA.b #$E9                                          : STA ($90), Y : INY
         LDA .properties, X : AND.b #$CF : ORA $72 : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         ; \wtf(unconfirmed) .... compile time constant?
         LDA.b #$00 : ORA $75 : STA ($92), Y
@@ -898,7 +898,7 @@
     .bounce_logic
     
         ; Simulate gravity.
-        LDA $0294, X : SUB.b #$02 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
         
         JSR Ancilla_MoveVert
         JSR Ancilla_MoveHoriz

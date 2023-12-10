@@ -126,8 +126,8 @@
         ; $5439F IN ROM
         JSR $C39F : BCC BRANCH_ZETA
         
-        LDA $0E : SUB.b #$04 : STA $0E
-        LDA $0F : SUB.b #$04 : STA $0F
+        LDA $0E : SEC : SBC.b #$04 : STA $0E
+        LDA $0F : SEC : SBC.b #$04 : STA $0F
         
         LDA.b #$00 : STA $0D
         LDA.b #$3E : STA $0C
@@ -641,11 +641,11 @@ BirdTravel_LoadTargetArea:
         
         REP #$20
         
-        LDA $7EC108 : LSR #4 : SUB.w #$0048 : AND.w #$FFFE : STA $E6
+        LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : STA $E6
         
         CLC : ADC.w #$0100 : STA $063A
         
-        LDA $7EC10A : LSR #4 : SUB.w #$0080 : STA $02 : BPL BRANCH_ZETA
+        LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL BRANCH_ZETA
         
         EOR.w #$FFFF : INC A
 
@@ -879,10 +879,10 @@ OverworldMap_RestoreGfx:
         
         REP #$21
         
-        LDA $7EC108 : LSR #4 : SUB.w #$0048 : AND.w #$FFFE : CLC : ADC $0ABAC6 : STA $E6
+        LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC $0ABAC6 : STA $E6
         CLC : ADC.w #$0100 : STA $063A
         
-        LDA $7EC10A : LSR #4 : SUB.w #$0080 : STA $02 : BPL BRANCH_GAMMA
+        LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL BRANCH_GAMMA
         
         EOR.w #$FFFF : INC A
     
@@ -989,8 +989,8 @@ OverworldMap_RestoreGfx:
         ; $5439F IN ROM
         JSR $C39F : BCC BRANCH_ALPHA
         
-        LDA $0E : SUB.b #$04 : STA $0E
-        LDA $0F : SUB.b #$04 : STA $0F
+        LDA $0E : SEC : SBC.b #$04 : STA $0E
+        LDA $0F : SEC : SBC.b #$04 : STA $0F
         
         LDA #$00 : STA $0D
         LDA #$3E : STA $0C
@@ -1522,7 +1522,7 @@ OverworldMap_RestoreGfx:
     
     REP #$30
     
-    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC $063A : SUB.w #$00C0 : TAX
+    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC $063A : SEC : SBC.w #$00C0 : TAX
     
     SEP #$20
     
@@ -1545,7 +1545,7 @@ OverworldMap_RestoreGfx:
     
     SEP #$30
     
-    SUB.b #$80
+    SEC : SBC.b #$80
     
     PHP : BPL BRANCH_BETA
     
@@ -1579,7 +1579,7 @@ BRANCH_GAMMA:
     
     STA $00
     
-    LDA #$80 : SUB.b $00
+    LDA #$80 : SEC : SBC.b $00
     
     BRA BRANCH_EPSILON
 
@@ -1589,7 +1589,7 @@ BRANCH_DELTA:
 
 BRANCH_EPSILON:
 
-    SUB $E0 : STA $0E
+    SEC : SBC $E0 : STA $0E
     
     LDA $0E : CLC : ADC.b #$80 : STA $0E
     LDA $0F : CLC : ADC.b #$0C : STA $0F
@@ -1600,7 +1600,7 @@ BRANCH_ALPHA:
 
     REP #$30
     
-    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : CLC : ADC $063A : SUB.w #$0080 : CMP.w #$0100 : BCC BRANCH_ZETA
+    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : CLC : ADC $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC BRANCH_ZETA
     
     JMP $C511 ; $54511 IN ROM
 
@@ -1627,7 +1627,7 @@ BRANCH_THETA:
     
     REP #$20
     
-    LDA $7EC10A : SUB.w #$07F8
+    LDA $7EC10A : SEC : SBC.w #$07F8
     
     ; supposed to be PLP? (check rom)
     PHP
@@ -1674,7 +1674,7 @@ BRANCH_KAPPA:
     
     STA $00
 
-    LDA #$0800 : SUB $00
+    LDA #$0800 : SEC : SBC $00
 
     BRA BRANCH_MU
 
@@ -1684,7 +1684,7 @@ BRANCH_LAMBDA:
 
 BRANCH_MU:
 
-    SUB.w #$0800 : BCS BRANCH_NU
+    SEC : SBC.w #$0800 : BCS BRANCH_NU
 
     EOR #$FFFF : INC A
 
@@ -1716,7 +1716,7 @@ BRANCH_NU:
 
     STA $00
 
-    LDA.b #$80 : SUB $00 : XBA : STA $00
+    LDA.b #$80 : SEC : SBC $00 : XBA : STA $00
     LDA.b #$00 : SBC $00 : XBA
     
     BRA BRANCH_OMICRON
@@ -1727,13 +1727,13 @@ BRANCH_XI:
 
 BRANCH_OMICRON:
 
-    PHA : SUB $E0 : STA $0E
+    PHA : SEC : SBC $E0 : STA $0E
     
     PLA
     
     REP #$30
     
-    SUB.w #$FF80 : SUB $E0
+    SEC : SBC.w #$FF80 : SEC : SBC $E0
     
     SEP #$30
     
@@ -1793,8 +1793,8 @@ BRANCH_PI:
         TXA : ASL #2 : TAX
         
         ; Offset the coordinates of the sprite by -4, vertically and horizontally
-        LDA $0E : SUB.b #$04 : STA $0800, X
-        LDA $0F : SUB.b #$04 : STA $0801, X
+        LDA $0E : SEC : SBC.b #$04 : STA $0800, X
+        LDA $0F : SEC : SBC.b #$04 : STA $0801, X
     
     .finishedWithCoords
     
@@ -1839,8 +1839,8 @@ BRANCH_PI:
     {
         REP #$20
         
-        LDA $7EC10A : SUB.w #$0004 : STA $7EC10A
-        LDA $7EC108 : SUB.w #$0004 : STA $7EC108
+        LDA $7EC10A : SEC : SBC.w #$0004 : STA $7EC10A
+        LDA $7EC108 : SEC : SBC.w #$0004 : STA $7EC108
         
         SEP #$20
         
@@ -2122,7 +2122,7 @@ BRANCH_PI:
         LDX $040C : LDA $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
         
         ; Seems to be looking for tower style levels (tower of hera, hyrule castl 2, ganon's tower)
-        LSR #4 : SUB.w #$0004 : ASL A : STA $00
+        LSR #4 : SEC : SBC.w #$0004 : ASL A : STA $00
         
         BRA .setupVramTarget
     
@@ -2222,7 +2222,7 @@ BRANCH_PI:
         
         STZ $0A
         
-        LDA $0E : SUB.w #$0040 : CLC : ADC.w #$0002 : STA $0E
+        LDA $0E : SEC : SBC.w #$0040 : CLC : ADC.w #$0002 : STA $0E
         
         LDX $00 : BEQ BRANCH_ALPHA
         
@@ -2278,7 +2278,7 @@ BRANCH_PI:
     
     BRANCH_EPSILON:
     
-        LDA $0E : SUB.w #$0040 : STA $0E
+        LDA $0E : SEC : SBC.w #$0040 : STA $0E
         
         INC $0A : LDA $0A : CMP $02 : BMI BRANCH_ZETA
         
@@ -3048,11 +3048,11 @@ BRANCH_PI:
     
     BRANCH_THETA:
     
-        LDA $0FA8 : SUB.b #$10 : STA $0FA8 : BPL BRANCH_KAPPA
+        LDA $0FA8 : SEC : SBC.b #$10 : STA $0FA8 : BPL BRANCH_KAPPA
         
         LDA.b #$40 : STA $0FA8
         
-        LDA $0FAA : SUB.b #$10 : STA $0FAA
+        LDA $0FAA : SEC : SBC.b #$10 : STA $0FAA
     
     BRANCH_KAPPA:
     
@@ -3063,7 +3063,7 @@ BRANCH_PI:
         STZ $02
         STZ $0F
         
-        LDA $020E : SUB $EE79, X : STA $0E : BPL BRANCH_MU
+        LDA $020E : SEC : SBC $EE79, X : STA $0E : BPL BRANCH_MU
         
         EOR.b #$FF : INC A : STA $0E
         
@@ -3197,7 +3197,7 @@ BRANCH_PI:
     
         INC $020E
         
-        LDA $06 : SUB.w #$0300 : AND.w #$0FFF : STA $06
+        LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
         
         BRA BRANCH_EPSILON
     
@@ -3265,7 +3265,7 @@ BRANCH_PI:
         
         LDA $0A : AND.w #$0008 : BNE BRANCH_LAMBDA
         
-        LDA $06 : SUB.w #$0300 : AND.w #$0FFF : STA $06
+        LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
         
         INC $020E
     
@@ -3389,13 +3389,13 @@ BRANCH_PI:
     {
         REP #$10
         
-        LDA.b #$04 : SUB $02 : BMI BRANCH_ALPHA
+        LDA.b #$04 : SEC : SBC $02 : BMI BRANCH_ALPHA
         
         CLC : ADC $03 : STA $03
         
-        LDA $F5D9, X : LSR #4 : SUB.b #$04 : BMI BRANCH_ALPHA
+        LDA $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI BRANCH_ALPHA
         
-        SUB $03 : EOR.b #$FF : INC A : STA $03
+        SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
     
     BRANCH_ALPHA:
     
@@ -3411,7 +3411,7 @@ BRANCH_PI:
         
         LDY $03
         
-        LDA $ECBE, Y : SUB.b #$04 : STA $0801, X
+        LDA $ECBE, Y : SEC : SBC.b #$04 : STA $0801, X
         STZ $0802, X
         
         LDA.b #$3E
@@ -3445,7 +3445,7 @@ BRANCH_PI:
         
         TXA : ASL #2 : TAX
         
-        LDA $0215 : SUB.b #$03 : STA $0800, X
+        LDA $0215 : SEC : SBC.b #$03 : STA $0800, X
         
         LDA $0218 : BEQ BRANCH_ALPHA
         
@@ -3457,7 +3457,7 @@ BRANCH_PI:
     
     BRANCH_BETA:
     
-        SUB.b #$03 : STA $0801, X
+        SEC : SBC.b #$03 : STA $0801, X
         
         LDA $1A : AND.b #$0C : LSR #2 : TAY
         
@@ -3654,13 +3654,13 @@ BRANCH_PI:
         LDX $040C : LDA $F5D9, X : AND.b #$0F : STA $01
         CLC : ADC $03 : STA $00
         
-        LDA.b #$04 : SUB $01 : BMI BRANCH_BETA
+        LDA.b #$04 : SEC : SBC $01 : BMI BRANCH_BETA
         
         CLC : ADC $00 : STA $00
         
-        LDA $F5D9, X : LSR #4 : SUB.b #$04 : BMI BRANCH_BETA
+        LDA $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI BRANCH_BETA
         
-        SUB $00 : EOR.b #$FF : INC A : STA $00
+        SEC : SBC $00 : EOR.b #$FF : INC A : STA $00
 
     BRANCH_BETA:
 
@@ -3685,7 +3685,7 @@ BRANCH_PI:
 
     ; *$56D54-$56DE3 BRANCH LOCATION
     {
-        LDY $00 : LDA $ECBE, Y : SUB.b #$04 : STA $02
+        LDY $00 : LDA $ECBE, Y : SEC : SBC.b #$04 : STA $02
         CLC : ADC.b #$10 : STA $03
         
         LDY.b #$00
@@ -3884,13 +3884,13 @@ BRANCH_PI:
     {
         LDA $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03
         
-        LDA.b #$04 : SUB $02 : BMI BRANCH_ALPHA
+        LDA.b #$04 : SEC : SBC $02 : BMI BRANCH_ALPHA
         
         CLC : ADC $03 : STA $03
         
-        LDA $F5D9, X : LSR #4 : SUB.b #$04 : BMI BRANCH_ALPHA
+        LDA $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI BRANCH_ALPHA
         
-        SUB $03 : EOR.b #$FF : INC A : STA $03
+        SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
     
     BRANCH_ALPHA:
     
@@ -4857,7 +4857,7 @@ BRANCH_PI:
         ; Set the horizontal floor movement speed
         STA $0312
         
-        LDA $0422 : SUB $0312 : STA $0422
+        LDA $0422 : SEC : SBC $0312 : STA $0422
         
         CLC : ADC $E2 : STA $E0
         
@@ -4871,7 +4871,7 @@ BRANCH_PI:
         ; Set the vertical floor movement speed.
         STA $0310
         
-        LDA $0424 : SUB $0310 : STA $0424
+        LDA $0424 : SEC : SBC $0310 : STA $0424
         
         CLC : ADC $E8 : STA $E6
     
@@ -5081,7 +5081,7 @@ BRANCH_PI:
         
         ; Adjust the horizontal position of the water background by either 0 or
         ; -1
-        LDA.w #$0000 : SUB $00 : STA $0312
+        LDA.w #$0000 : SEC : SBC $00 : STA $0312
         
         SEP #$20
         

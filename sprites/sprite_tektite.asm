@@ -57,7 +57,7 @@
         JSR Sprite4_BounceFromTileCollision
         
         ; Simulates gravity for the sprite.
-        LDA $0F80, X : SUB.b #$01 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$01 : STA $0F80, X
         
         LDA $0F70, X : BPL .aloft
         

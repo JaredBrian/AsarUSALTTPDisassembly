@@ -100,9 +100,9 @@
         
         LDA $01 : STA $0D50, X
         
-        LDA $0D10, X : SUB $0B0F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS BRANCH_EPSILON
+        LDA $0D10, X : SEC : SBC $0B0F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS BRANCH_EPSILON
         
-        LDA $0D00, X : SUB $0B2F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS BRANCH_EPSILON
+        LDA $0D00, X : SEC : SBC $0B2F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS BRANCH_EPSILON
         
         STZ $0D80, X
         

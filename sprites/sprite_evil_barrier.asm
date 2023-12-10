@@ -44,11 +44,11 @@
     
         REP #$20
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0008
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0008
         
         CMP.w #$0018 : BCS .anozap_from_player_contact
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0020
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0020
         
         CMP.w #$0040 : BCS .anozap_from_player_contact
         

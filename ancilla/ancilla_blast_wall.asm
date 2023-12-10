@@ -121,7 +121,7 @@
         LDA $7F0020, X : CLC : ADC $00 : STA $7F0020, X
         LDA $7F0030, X : CLC : ADC $02 : STA $7F0030, X
         
-        SUB $E2 : STA $72
+        SEC : SBC $E2 : STA $72
         
         SEP #$20
         
@@ -250,8 +250,8 @@
     
         REP #$20
         
-        LDA $00 : SUB $E8 : STA $0C
-        LDA $02 : SUB $E2 : STA $0E
+        LDA $00 : SEC : SBC $E8 : STA $0C
+        LDA $02 : SEC : SBC $E2 : STA $0E
         
         SEP #$20
         
@@ -301,7 +301,7 @@
         STY $72
         STX $73
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         TXA : LSR A : TAX
         

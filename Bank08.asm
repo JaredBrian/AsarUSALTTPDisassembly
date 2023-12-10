@@ -299,7 +299,7 @@
         LDA $0C04, X : STA $00
         LDA $0C18, X : STA $01
         
-        LDA $0BFA, X : SUB $05    : STA $02
+        LDA $0BFA, X : SEC : SBC $05    : STA $02
         LDA $0C0E, X : SBC.b #$00 : STA $03
         
         ; Attempt to spawn four somarian blasts all moving in directions
@@ -425,14 +425,14 @@
         
         ; setting up variables for use with collision detection
         
-        LDA $0C04, X : SUB.b #$18 : STA $00
+        LDA $0C04, X : SEC : SBC.b #$18 : STA $00
         LDA $0C18, X : SBC.b #$00 : STA $08
         
-        LDA $0BFA, X : SUB.b #$18
+        LDA $0BFA, X : SEC : SBC.b #$18
         
         PHP
         
-        SUB $029E, X : STA $01
+        SEC : SBC $029E, X : STA $01
         
         LDA $0C0E, X : SBC.b #$00
         
@@ -739,8 +739,8 @@
     
     .difference_between_bg_scrolls
     
-        LDA $E0 : SUB $E2 : STA $00
-        LDA $E6 : SUB $E8 : STA $02
+        LDA $E0 : SEC : SBC $E2 : STA $00
+        LDA $E6 : SEC : SBC $E8 : STA $02
     
     .two_bg_collision_detection
     
@@ -802,11 +802,11 @@
     ; *$40A26 ALTERNATE ENTRY POINT
     shared Ancilla_CheckTargetedTileCollision:
     
-        REP #$20 : LDA $00 : SUB $E8
+        REP #$20 : LDA $00 : SEC : SBC $E8
         
         CMP.w #$00E0 : SEP #$20 : BCS .ignore_off_screen_collision_y
         
-        REP #$20 : LDA $02 : SUB $E2
+        REP #$20 : LDA $02 : SEC : SBC $E2
         
         ; This one is also due to ignoring off screen collision, but in the
         ; x coordinate.
@@ -978,10 +978,10 @@
         ; This is for rooms that have a hidden wall (there's only like 3 of them in the original)
         
         ; $00 = BG1HOFS - BG0HOFS
-        LDA $E0 : SUB $E2 : STA $00
+        LDA $E0 : SEC : SBC $E2 : STA $00
         
         ; $02 = BG1VOFS - BG0VOFS
-        LDA $E6 : SUB $E8 : STA $02
+        LDA $E6 : SEC : SBC $E8 : STA $02
     
     .two_bg_collision_detection
     
@@ -1041,13 +1041,13 @@
         
         REP #$20
         
-        LDA $00 : SUB $E8
+        LDA $00 : SEC : SBC $E8
         
         CMP.w #$00E0 : SEP #$20 : BCS .ignore_off_screen_collision
         
         REP #$20
         
-        LDA $02 : SUB $E2
+        LDA $02 : SEC : SBC $E2
         
         CMP.w #$0100 : SEP #$20 : BCS .ignore_off_screen_collision
         
@@ -1520,7 +1520,7 @@
     {
         LDY.b #$00
         
-        LDA $22 : SUB $0C04, X : STA $0F
+        LDA $22 : SEC : SBC $0C04, X : STA $0F
         LDA $23 : SBC $0C18, X : BPL .object_leftward_of_player
         
         ; Object is rightward of player
@@ -1538,7 +1538,7 @@
     {
         LDY.b #$00
         
-        LDA $20 : SUB $0BFA, X : STA $0E
+        LDA $20 : SEC : SBC $0BFA, X : STA $0E
         LDA $21 : SBC $0C0E, X : BPL .object_upward_of_player
         
         ; Object is downward of player
@@ -1798,10 +1798,10 @@
     
         LDA $0BA0, Y : BNE .no_collision
         
-        LDA $0C04, X : SUB.b #$08 : STA $04
+        LDA $0C04, X : SEC : SBC.b #$08 : STA $04
         LDA $0C18, X : SBC.b #$00 : STA $05
         
-        LDA $0BFA, X : SUB.b #$08 : PHP : SUB $029E, X : STA $06
+        LDA $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC $029E, X : STA $06
         LDA $0C0E, X : SBC.b #$00 : PLP : SBC.b #$00   : STA $07
         
         LDA.b #$50
@@ -1853,10 +1853,10 @@
     ; *$462CA-$462F8 LOCAL
     Ancilla_SetupBasicHitBox:
     {
-        LDA $0C04, X : SUB.b #$08 : STA $00
+        LDA $0C04, X : SEC : SBC.b #$08 : STA $00
         LDA $0C18, X : SBC.b #$00 : STA $08
         
-        LDA $0BFA, X : SUB.b #$08 : PHP : SUB $029E, X : STA $01
+        LDA $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC $029E, X : STA $01
         LDA $0C0E, X : SBC.b #$00 : PLP : SBC.b #$00   : STA $09
         
         LDA.b #$0F : STA $02
@@ -1989,8 +1989,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $E8 : STA $00
-        LDA $02 : SUB $E2 : STA $02 : STA $04
+        LDA $00 : SEC : SBC $E8 : STA $00
+        LDA $02 : SEC : SBC $E2 : STA $02 : STA $04
         
         SEP #$20
         
@@ -2019,9 +2019,9 @@
         
         REP #$20
         
-        LDA $00 : SUB $0122 : STA $00
+        LDA $00 : SEC : SBC $0122 : STA $00
         
-        LDA $02 : SUB $011E : STA $02 : STA $04
+        LDA $02 : SEC : SBC $011E : STA $02 : STA $04
         
         SEP #$20
         
@@ -2187,7 +2187,7 @@
         LDA $00 : CLC : ADC $0A : CLC : ADC .y_offsets, Y : STA $00
         LDA $02           : CLC : ADC .x_offsets, Y : STA $02
         
-        LDA $20 : CLC : ADC .player_y_offsets, Y : SUB $00
+        LDA $20 : CLC : ADC .player_y_offsets, Y : SEC : SBC $00
         
         STA $04 : BPL .positive_delta_y
         
@@ -2197,7 +2197,7 @@
     
         STA $08 : CMP .y_windows, Y : BCC .not_collision
         
-        LDA $22 : CLC : ADC .player_x_offsets, Y : SUB $02
+        LDA $22 : CLC : ADC .player_x_offsets, Y : SEC : SBC $02
         
         STA $06 : BPL .positive_delta_x
         
@@ -2232,7 +2232,7 @@
         LDA $00 : CLC : ADC.w #$0004 : STA $72
         LDA $02 : CLC : ADC.w #$0004 : STA $74
         
-        LDA $20 : SUB $E8 : CLC : ADC.w #$000C : SUB $72 : BPL .positive_delta_y
+        LDA $20 : SEC : SBC $E8 : CLC : ADC.w #$000C : SEC : SBC $72 : BPL .positive_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -2240,7 +2240,7 @@
     
         CMP.w #$000C : BCS .out_of_range
         
-        LDA $22 : SUB $E2 : CLC : ADC.w #$0008 : SUB $74 : BPL .positive_delta_x
+        LDA $22 : SEC : SBC $E2 : CLC : ADC.w #$0008 : SEC : SBC $74 : BPL .positive_delta_x
         
         EOR.w #$FFFF : INC A
     
@@ -2293,7 +2293,7 @@
         REP #$20
         
         ; Centers player's Y coordinate.
-        LDA $20 : CLC : ADC.w #$000C : SUB .trigger_coord_y, Y : BPL .positive_delta_y
+        LDA $20 : CLC : ADC.w #$000C : SEC : SBC .trigger_coord_y, Y : BPL .positive_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -2303,7 +2303,7 @@
         CMP .trigger_window_y, Y : BCS .failure
         
         ; Centers player's X coordinate.
-        LDA $22 : CLC : ADC.w #$0008 : SUB .trigger_coord_x, Y : BPL .positive_delta_x
+        LDA $22 : CLC : ADC.w #$0008 : SEC : SBC .trigger_coord_x, Y : BPL .positive_delta_x
         
         ; abs(x_coord)
         EOR.w #$FFFF : INC A
@@ -2378,7 +2378,7 @@
         LDA .chr, X                               : STA ($90), Y : INY
         LDA .properties, X : AND.b #$CF : ORA $04 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : ORA $75 : STA ($92), Y
         
@@ -2400,7 +2400,7 @@
         LDA .chr+1, X                               : STA ($90), Y : INY
         LDA .properties+1, X : AND.b #$CF : ORA $04 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$03 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$03 : LSR #2 : TAY
         
         LDA.b #$00 : ORA $75 : STA ($92), Y
         
@@ -2472,7 +2472,7 @@
         
         REP #$20
         
-        LDA $00 : SUB $20 : BPL .object_below_player
+        LDA $00 : SEC : SBC $20 : BPL .object_below_player
         
         EOR.w #$FFFF : INC A
     
@@ -2480,7 +2480,7 @@
     
         CMP.w #$0002 : BCS .too_far_away_from_player
         
-        LDA $02 : SUB $22 : BPL .object_right_of_player
+        LDA $02 : SEC : SBC $22 : BPL .object_right_of_player
         
         EOR.w #$FFFF : INC A
     
@@ -2559,7 +2559,7 @@
     
         STA $90
         
-        SUB.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA $92
+        SEC : SBC.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
         LDY.b #$00
     
@@ -2589,7 +2589,7 @@
         
         LDA.w #$0820 : STA $90
         
-        SUB.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA $92
+        SEC : SBC.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
         LDY.b #$00
     
@@ -2623,7 +2623,7 @@
         
         LDA $0C72, X : AND.w #$0002 : BNE .moving_horizontally
         
-        LDX $0700 : LDA $00 : SUB $02A8C4, X : CMP.w #$0004 : BCC .off_screen
+        LDX $0700 : LDA $00 : SEC : SBC $02A8C4, X : CMP.w #$0004 : BCC .off_screen
         
         CMP $0716 : BCS .off_screen
         
@@ -2631,7 +2631,7 @@
     
     .moving_horizontally
     
-        LDX $0700 : LDA $02 : SUB $02A944, X : CMP.w #$0006 : BCC .off_screen
+        LDX $0700 : LDA $02 : SEC : SBC $02A944, X : CMP.w #$0006 : BCC .off_screen
         
         CMP $0716 : BCC .not_at_screen_edge
     
@@ -2813,7 +2813,7 @@
         
         LDX.b #$00
         
-        LDA ($90), Y : SUB $07 : BPL .positive_x
+        LDA ($90), Y : SEC : SBC $07 : BPL .positive_x
         
         DEX
     
@@ -2837,7 +2837,7 @@
         LDX.b #$00
         INY
         
-        LDA ($90), Y : SUB $06 : BPL .positive_y
+        LDA ($90), Y : SEC : SBC $06 : BPL .positive_y
         
         DEX
     
@@ -2868,9 +2868,9 @@
         STY $0B
         STA $08
         
-        LDA $0BFA, X : STA $00 : SUB $E8 : STA $06
+        LDA $0BFA, X : STA $00 : SEC : SBC $E8 : STA $06
         LDA $0C0E, X : STA $01
-        LDA $0C04, X : STA $02 : SUB $E2 : STA $07
+        LDA $0C04, X : STA $02 : SEC : SBC $E2 : STA $07
         LDA $0C18, X : STA $03
         
         RTS
@@ -2883,7 +2883,7 @@
     {
         REP #$20
         
-        LDA $04 : SUB $E2 : CMP.w #$0100
+        LDA $04 : SEC : SBC $E2 : CMP.w #$0100
         
         SEP #$20
         
@@ -2898,7 +2898,7 @@
         REP #$20
         
         LDA $09 : PHA : CLC : ADC.w #$0010 : STA $09
-        SUB $E8 : CMP.w #$0100
+        SEC : SBC $E8 : CMP.w #$0100
         
         PLA : STA $09
         

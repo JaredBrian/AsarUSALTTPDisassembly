@@ -392,7 +392,7 @@
         
         LDA $AE41, X : INY : STA ($90), Y
         
-        SUB.b #$24 : CMP.b #$05
+        SEC : SBC.b #$24 : CMP.b #$05
         
         LDA $AE7D, X : ORA $05
         

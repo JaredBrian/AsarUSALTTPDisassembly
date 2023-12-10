@@ -67,12 +67,12 @@
         LDY.b #$00
         
         ; Check if off screen (X)
-        LDA $7FF83C, X : SUB $E2 : CMP.b #$F8 : BCS .self_terminate
+        LDA $7FF83C, X : SEC : SBC $E2 : CMP.b #$F8 : BCS .self_terminate
         
         STA ($90), Y
         
         ; Check if off screen (Y)
-        LDA $7FF81E, X : SUB $E8 : CMP.b #$F0 : BCS .self_terminate
+        LDA $7FF81E, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
         
                      INY : STA ($90), Y
         LDA.b #$5C : INY : STA ($90), Y

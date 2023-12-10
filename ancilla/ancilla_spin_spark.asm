@@ -33,7 +33,7 @@
         ; By default, only draw the lead spark.
         LDY.b #$00
         
-        LDA $0C5E, X : SUB.b #$03 : STA $0C5E, X
+        LDA $0C5E, X : SEC : SBC.b #$03 : STA $0C5E, X
         
         CMP.b #$0D : BCS .dont_transition_to_closing_spark
         
@@ -115,7 +115,7 @@
         LDA .spark_chr, X           : STA ($90), Y : INY
         LDA $73           : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         
@@ -160,7 +160,7 @@
         LDA .extra_spark_chr, X           : STA ($90), Y : INY
         LDA.b #$04              : ORA $65 : STA ($90), Y : INY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
     
@@ -200,7 +200,7 @@
     
     .positive_y_projection
     
-        CLC : ADC $7F5810 : CLC : ADC.w #$FFFC : SUB $E8 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFFC : SEC : SBC $E8 : STA $00
         
         LDA $04
         
@@ -210,7 +210,7 @@
     
     .positive_x_projection
     
-        CLC : ADC $7F580E : CLC : ADC.w #$FFFC : SUB $E2 : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFFC : SEC : SBC $E2 : STA $02
         
         SEP #$20
         

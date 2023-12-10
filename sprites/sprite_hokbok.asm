@@ -77,7 +77,7 @@
     
         LDA $0D50, X : BPL .positive_x_speed
         
-        SUB.b #$08
+        SEC : SBC.b #$08
     
     .positive_x_speed
     
@@ -85,7 +85,7 @@
         
         LDA $0D40, X : BPL .positive_y_speed
         
-        SUB.b #$08
+        SEC : SBC.b #$08
     
     .positive_y_speed
     
@@ -232,7 +232,7 @@
         
         INY
         
-        LDA $02 : PHA : SUB $06 : STA $02
+        LDA $02 : PHA : SEC : SBC $06 : STA $02
                   PLA           : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
@@ -253,7 +253,7 @@
         
         LDX $06 : CPX.b #$07 : BCS .dont_use_squished_alternate
         
-        SUB.b #$20
+        SEC : SBC.b #$20
     
     .dont_use_squished_alternate
     
@@ -266,7 +266,7 @@
         
         LDA.b #$02 : ORA $0F : STA ($92), Y
         
-        PLA : SUB.b #$07 : TAY
+        PLA : SEC : SBC.b #$07 : TAY
         
         DEX : BPL .next_subsprite
         

@@ -190,7 +190,7 @@ Ancilla_ReceiveItem:
             CLC : ADC.b #$08 : STA $7EF36C
             
             ; Put Link's actual health at maximum
-            SUB $00 : STA $00
+            SEC : SBC $00 : STA $00
             
             LDA $7EF372 : CLC : ADC $00 : STA $7EF372
         
@@ -320,7 +320,7 @@ Ancilla_ReceiveItem:
             ; Determine which text message to play
             ; I assume this has something to do with the fact that if you haven't
             ; collected all 3 pendants, it tells you to go for the last one, or whatever.
-            TYA : SUB.b #$38 : ASL A : TAY
+            TYA : SEC : SBC.b #$38 : ASL A : TAY
             
             REP #$20
             
@@ -494,7 +494,7 @@ Ancilla_ReceiveItem:
         
     PHY
         
-    TYA : SUB.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
     LDA .wide_item_flag, X : STA ($92), Y
         
@@ -524,7 +524,7 @@ Ancilla_ReceiveItem:
         
         INY : PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

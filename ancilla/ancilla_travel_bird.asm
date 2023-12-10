@@ -55,7 +55,7 @@
         
         REP #$20
         
-        LDA $20 : SUB.w #8 : STA $00
+        LDA $20 : SEC : SBC.w #8 : STA $00
         
         LDA.w #-16 : CLC : ADC $E2 : STA $02
         
@@ -249,7 +249,7 @@
     
     .drop_off_player_delay
     
-        LDA $22 : SUB $00 : CMP.w #$0030 : BCS .draw_logic
+        LDA $22 : SEC : SBC $00 : CMP.w #$0030 : BCS .draw_logic
         
         ; Use the pulling up tiles for the bird since it's trying to
         ; not crash as it lands the player.
@@ -346,7 +346,7 @@
         
         PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         

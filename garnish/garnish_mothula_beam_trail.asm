@@ -6,8 +6,8 @@
     {
         LDY.b #$00
         
-        LDA $7FF83C, X : SUB $E2                    : STA ($90), Y
-        LDA $7FF81E, X : SUB $E8 : INY              : STA ($90), Y
+        LDA $7FF83C, X : SEC : SBC $E2                    : STA ($90), Y
+        LDA $7FF81E, X : SEC : SBC $E8 : INY              : STA ($90), Y
                                    INY : LDA.b #$AA : STA ($90), Y
         
         LDA $7FF92C, X

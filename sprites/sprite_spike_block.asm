@@ -255,9 +255,9 @@
         
         REP #$20
         
-        LDA $00 : SUB $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .no_collision
+        LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .no_collision
         
-        LDA $02 : SUB $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .no_collision
+        LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .no_collision
         
         SEP #$20
         

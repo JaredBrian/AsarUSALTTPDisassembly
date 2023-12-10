@@ -78,8 +78,8 @@
         
         REP #$20
         
-        LDA $00 : CLC : ADC .y_offsets, Y : SUB $E8 : STA $00
-        LDA $02 : CLC : ADC .x_offsets, Y : SUB $E2 : STA $02
+        LDA $00 : CLC : ADC .y_offsets, Y : SEC : SBC $E8 : STA $00
+        LDA $02 : CLC : ADC .x_offsets, Y : SEC : SBC $E2 : STA $02
         
         SEP #$20
         

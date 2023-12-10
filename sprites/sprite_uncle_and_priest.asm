@@ -878,7 +878,7 @@
         
         ; Do a one time y coord adjustment that basically is your uncle
         ; standing up to leave.
-        LDA $0D00, X : SUB #$02 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC #$02 : STA $0D00, X
     
     .already_stood_up
     

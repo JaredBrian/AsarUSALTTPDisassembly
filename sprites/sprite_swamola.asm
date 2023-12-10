@@ -242,9 +242,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
         
-        LDA $0FDA : SUB $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
         
         SEP #$20
         
@@ -497,7 +497,7 @@
         
         PHX
         
-        LDA $0E80, X : SUB .unknown_0, Y : AND.b #$1F : CLC : ADC $9C7A, X : TAX
+        LDA $0E80, X : SEC : SBC .unknown_0, Y : AND.b #$1F : CLC : ADC $9C7A, X : TAX
         
         LDA $7FFA5C, X : STA $0FD8
         LDA $7FFB1C, X : STA $0FD9
@@ -512,7 +512,7 @@
         REP #$20
         
         ; \task Subtraction? What the hell is going on here?
-        LDA $90 : SUB.w #$0004 : STA $90
+        LDA $90 : SEC : SBC.w #$0004 : STA $90
         
         DEC $92
         

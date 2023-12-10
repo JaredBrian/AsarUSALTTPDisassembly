@@ -161,9 +161,9 @@ Sprite_Agahnim:
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
         
-        LDA $0FDA : SUB $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
         
         SEP #$20
         
@@ -658,8 +658,8 @@ ShadowSneak:
         
     REP #$20
         
-    LDA $00 : SUB $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
-        LDA $02 : SUB $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
+    LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
+        LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
             SEP #$20
         
             LDA $0DB0, X : STA $0D10, X

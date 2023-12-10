@@ -198,7 +198,7 @@
         LDA .chr, X  : STA ($90), Y : INY
         LDA.b #$74   : STA ($90), Y
         
-        TYA : SUB.b #$03 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$03 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         

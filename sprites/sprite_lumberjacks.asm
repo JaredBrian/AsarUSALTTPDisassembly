@@ -108,11 +108,11 @@
     {
         REP #$20
         
-        LDA $0FD8 : SUB $22
+        LDA $0FD8 : SEC : SBC $22
         
         CLC : ADC .x_lower_ranges, Y : CMP .x_upper_ranges, Y : BCS .not_close_enough
         
-        LDA $0FDA : SUB $20
+        LDA $0FDA : SEC : SBC $20
         
         CLC : ADC .y_lower_ranges, Y : CMP .y_upper_ranges, Y : BCS .not_close_enough
     

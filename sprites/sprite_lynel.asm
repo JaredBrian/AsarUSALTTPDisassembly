@@ -90,9 +90,9 @@
         
         REP #$20
         
-        LDA $04 : SUB $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
+        LDA $04 : SEC : SBC $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
         
-        LDA $06 : SUB $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
+        LDA $06 : SEC : SBC $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
     
     .prepare_attack
     

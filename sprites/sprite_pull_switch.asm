@@ -41,7 +41,7 @@
         
         LDA $D738, Y : STA $0377
         
-        LDA $0D00, X : SUB.b #$13 : STA $20
+        LDA $0D00, X : SEC : SBC.b #$13 : STA $20
         LDA $0D20, X : SBC.b #$00 : STA $21
         
         LDA $0D10, X : STA $22
@@ -98,13 +98,13 @@
         
         STZ $48
         
-        LDA $0020 : SUB $0D00, X : CMP.b #$02 : BPL .beta
+        LDA $0020 : SEC : SBC $0D00, X : CMP.b #$02 : BPL .beta
         
         CMP.b #$F4 : BMI .gamma
         
         LDA $0022 : CMP $0D10, X : BPL .delta
         
-        LDA $0D10, X : SUB.b #$10 : STA $22
+        LDA $0D10, X : SEC : SBC.b #$10 : STA $22
         LDA $0D30, X : SBC.b #$00 : STA $23
 
         RTS
@@ -136,7 +136,7 @@
     
     .epsilon
     
-        LDA $0D00, X : SUB.b #$15 : STA $20
+        LDA $0D00, X : SEC : SBC.b #$15 : STA $20
         LDA $0D20, X : SBC.b #$00 : STA $21
         
         RTS
@@ -214,7 +214,7 @@
         
         DEY #2
         
-        LDA ($90), Y : SUB $06 : STA ($90), Y
+        LDA ($90), Y : SEC : SBC $06 : STA ($90), Y
     
     .alpha
     
@@ -278,7 +278,7 @@
         
         CPX.b #$00 : BNE .alpha
         
-        SUB $06
+        SEC : SBC $06
     
     .alpha
     
@@ -434,13 +434,13 @@
         
         STZ $48
         
-        LDA $0020 : SUB $0D00, X : CMP.b #$02 : BPL .beta
+        LDA $0020 : SEC : SBC $0D00, X : CMP.b #$02 : BPL .beta
         
         CMP.b #$F4 : BMI .A_button_held
         
         LDA $0022 : CMP $0D10, X : BPL .delta
         
-        LDA $0D10, X : SUB.b #$10 : STA $22
+        LDA $0D10, X : SEC : SBC.b #$10 : STA $22
         LDA $0D30, X : SBC.b #$00 : STA $23
     
     .no_player_collision
@@ -456,7 +456,7 @@
     
     .A_button_held
     
-        LDA $0D00, X : SUB.b #$15 : STA $20
+        LDA $0D00, X : SEC : SBC.b #$15 : STA $20
         LDA $0D20, X : SBC.b #$00 : STA $21
         
         RTS

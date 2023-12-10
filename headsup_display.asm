@@ -279,7 +279,7 @@
     .healthDidntOverflow
 
         ; subtract a heart from the refill variable
-        LDA $7EF372 : SUB.b #$08 : STA $7EF372
+        LDA $7EF372 : SEC : SBC.b #$08 : STA $7EF372
         
         ; activate heart refill animation
         ; (which will cause a small delay for the next heart if we still need to fill some up.)
@@ -356,7 +356,7 @@
         
         ; Otherwise take off another 100 objects from the total and increment $03
         ; $6F9F9, Y THAT IS, 100, 10
-        SUB $F9F9, Y
+        SEC : SBC $F9F9, Y
         INC $03, X
         
         BRA .nextDigit
@@ -935,7 +935,7 @@
         LDA $7EF36C : CMP $7EF36D : BEQ .healthUpdated
         
         ; Seems absurd to have a branch of zero bytes, right?
-        SUB.b #$04 : CMP $7EF36D : BCS .healthUpdated
+        SEC : SBC.b #$04 : CMP $7EF36D : BCS .healthUpdated
     
     .healthUpdated
     

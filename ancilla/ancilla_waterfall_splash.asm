@@ -64,7 +64,7 @@
         LDA.b #$01 : STA $0351
         
         ; \wtf .... why would this be necessary?
-        LDA $2E : SUB.b #$06 : BMI .dont_reset_player_animation
+        LDA $2E : SEC : SBC.b #$06 : BMI .dont_reset_player_animation
         
         STA $2E
     
@@ -130,7 +130,7 @@
         LDA .chr, X                     : STA ($90), Y : INY
         LDA .properties, X : ORA.b #$30 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA .oam_sizes, X : STA ($92), Y
         

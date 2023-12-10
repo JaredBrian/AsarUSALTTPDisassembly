@@ -202,9 +202,9 @@
         
         REP #$20
         
-        LDA $0FD8 : CLC : ADC $04 : SUB $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
+        LDA $0FD8 : CLC : ADC $04 : SEC : SBC $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
         
-        LDA $0FDA : CLC : ADC $06 : SUB $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
+        LDA $0FDA : CLC : ADC $06 : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
         
         SEP #$20
         

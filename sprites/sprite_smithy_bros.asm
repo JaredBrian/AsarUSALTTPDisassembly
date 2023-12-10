@@ -545,7 +545,7 @@
         REP #$20
         
         ; Take my 10 rupees you dirty bastard dwarves
-        LDA $7EF360 : SUB.w #$000A : STA $7EF360
+        LDA $7EF360 : SEC : SBC.w #$000A : STA $7EF360
         
         SEP #$30
         

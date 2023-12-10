@@ -28,7 +28,7 @@
         
         LDA $02 : CLC : ADC.w #$0008 : STA $02
         
-        LDA.w #$1568 : SUB $00 : BPL .non_negative_delta_x
+        LDA.w #$1568 : SEC : SBC $00 : BPL .non_negative_delta_x
         
         EOR.w #$FFFF : INC A
     
@@ -36,7 +36,7 @@
     
         CMP.w #$0018 : BCS .out_of_range
         
-        LDA.w #$1980 : SUB $02 : BPL .non_negative_delta_y
+        LDA.w #$1980 : SEC : SBC $02 : BPL .non_negative_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -424,7 +424,7 @@
         
         REP #$20
         
-        LDA $20 : SUB $00 : STA $00
+        LDA $20 : SEC : SBC $00 : STA $00
         
         SEP #$20
         
@@ -608,7 +608,7 @@
     
     BRANCH_KAPPA:
     
-        LDA $02D3 : SUB.b #$0F : BPL BRANCH_XI
+        LDA $02D3 : SEC : SBC.b #$0F : BPL BRANCH_XI
         
         CLC : ADC.b #$14
     
@@ -806,7 +806,7 @@
         
         LDA $02D3 : CMP $02CF : BEQ BRANCH_NU
         
-        SUB.b #$09 : BPL BRANCH_XI
+        SEC : SBC.b #$09 : BPL BRANCH_XI
         
         CLC : ADC.b #$14
     
@@ -818,7 +818,7 @@
     
     BRANCH_MU:
     
-        LDA $02D3 : SUB.b #$14 : BPL BRANCH_PI
+        LDA $02D3 : SEC : SBC.b #$14 : BPL BRANCH_PI
         
         CLC : ADC.b #$14
     
@@ -927,10 +927,10 @@
         
         REP #$20
         
-        LDA $7EF3CD : SUB.w #$0001 : CMP $20 : BCS .not_in_range
+        LDA $7EF3CD : SEC : SBC.w #$0001 : CMP $20 : BCS .not_in_range
                       CLC : ADC.w #$0014 : CMP $20 : BCC .not_in_range
         
-        LDA $7EF3CF : SUB.w #$0001 : CMP $22 : BCS .not_in_range
+        LDA $7EF3CF : SEC : SBC.w #$0001 : CMP $22 : BCS .not_in_range
                       CLC : ADC.w #$0014 : CMP $22 : BCC .not_in_range
         
         SEP #$20
@@ -1394,9 +1394,9 @@ BRANCH_PHI:
     
     PLA : CLC : ADC.w #$0800 : STA $90
     
-    LDA $00 : SUB $E8 : STA $06
+    LDA $00 : SEC : SBC $E8 : STA $06
     
-    LDA $02 : SUB $E2 : STA $08
+    LDA $02 : SEC : SBC $E2 : STA $08
     
     SEP #$20
     
@@ -1465,7 +1465,7 @@ BRANCH_ULTIMA:
     
     PHY
     
-    TYA : SUB.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$00 : ORA $75 : STA ($92), Y
     
@@ -1486,7 +1486,7 @@ BRANCH_ULTIMA:
     
     PHY
     
-    TYA : SUB.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$00 : ORA $75 : STA ($92), Y
     
@@ -1556,7 +1556,7 @@ BRANCH_BET:
     
     INY : PHY
     
-    TYA : SUB.b #$04 : LSR #2 : TAY
+    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA #$02 : ORA $75 : STA ($92), Y
     
@@ -1594,7 +1594,7 @@ BRANCH_DEL:
     
     LDA $A6CF, X : AND.b #$0F : ASL #4 : ORA $72 : ORA $65 : STA ($90), Y
     
-    INY : TYA : SUB.b #$04 : LSR #2 : TAY
+    INY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
     LDA.b #$02 : ORA $75 : STA ($92), Y
     
@@ -1646,7 +1646,7 @@ BRANCH_DEL:
         
         LDA $02 : CLC : ADC.w #$0008 : STA $02
         
-        LDA $20 : CLC : ADC.w #$000C : SUB $00 : BPL .positive_delta_y
+        LDA $20 : CLC : ADC.w #$000C : SEC : SBC $00 : BPL .positive_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -1654,7 +1654,7 @@ BRANCH_DEL:
     
         CMP.w #$001C : BCS .not_in_trigger
         
-        LDA $22 : CLC : ADC.w #$000C : SUB $02 : BPL .positive_delta_x
+        LDA $22 : CLC : ADC.w #$000C : SEC : SBC $02 : BPL .positive_delta_x
         
         EOR.w #$FFFF : INC A
     

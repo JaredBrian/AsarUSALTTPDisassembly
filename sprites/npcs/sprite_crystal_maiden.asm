@@ -128,11 +128,11 @@
         ; the normal way to get the negative of a number in 2's complement
         ; is to xor all the bits (0xffff) and then add 1. This is just doing it
         ; by way of the addition. So it is in fact a pure add of 0x0079, really.
-        LDA $22 : SUB $E2 : EOR.w #$FFFF : SEC : ADC.w #$0079 : STA $0422
+        LDA $22 : SEC : SBC $E2 : EOR.w #$FFFF : SEC : ADC.w #$0079 : STA $0422
         
         LDA $E6 : AND.w #$00FF : STA $00
         
-        LDA.w #$0030 : SUB $00 : STA $0424
+        LDA.w #$0030 : SEC : SBC $00 : STA $0424
         
         SEP #$30
         
@@ -176,8 +176,8 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $0422 : STA $0FD8
-        LDA $0FDA : SUB $0424 : STA $0FDA
+        LDA $0FD8 : SEC : SBC $0422 : STA $0FD8
+        LDA $0FDA : SEC : SBC $0424 : STA $0FDA
         
         SEP #$30
         
@@ -337,7 +337,7 @@
     CrystalMaiden_ShowMessage:
     {
         ; Load the dungeon index. Is it the Dark Palace?
-        LDA $040C : SUB.b #$0A : TAY : CPY.b #$02 : BNE .not_dark_palace
+        LDA $040C : SEC : SBC.b #$0A : TAY : CPY.b #$02 : BNE .not_dark_palace
         
         LDA $7EF3C7 : CMP.b #$07 : BCS .dont_update_map_icons
         

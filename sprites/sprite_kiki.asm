@@ -39,9 +39,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB.w #$0C98 : CMP.w #$00D0 : BCS .too_far_away
+        LDA $0FD8 : SEC : SBC.w #$0C98 : CMP.w #$00D0 : BCS .too_far_away
         
-        LDA $0FDA : SUB.w #$06A5 : CMP.w #$00D0 : BCS .too_far_away
+        LDA $0FDA : SEC : SBC.w #$06A5 : CMP.w #$00D0 : BCS .too_far_away
         
         LDA.w #$FFFF : STA $01
     
@@ -434,11 +434,11 @@
     {
         LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
         
-        LDA $0D80, X : SUB.b #$02 : TAY
+        LDA $0D80, X : SEC : SBC.b #$02 : TAY
         
-        LDA $E57C, Y : SUB $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ALPHA
+        LDA $E57C, Y : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ALPHA
         
-        LDA $E576, Y : SUB $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ALPHA
+        LDA $E576, Y : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ALPHA
         
         INC $0D80, X
         

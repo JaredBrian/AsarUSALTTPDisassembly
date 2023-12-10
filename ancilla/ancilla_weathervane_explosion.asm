@@ -108,7 +108,7 @@
         LDA $7F5800, X : STA $0C22, Y
         LDA $7F580C, X : STA $0C2C, Y
         
-        LDA $7F5818, X : SUB.b #$01 : STA $7F5818, X : STA $0294, Y
+        LDA $7F5818, X : SEC : SBC.b #$01 : STA $7F5818, X : STA $0294, Y
         
         TYX
         
@@ -217,7 +217,7 @@
         
         TYA : STA $7F5879
         
-        SUB.b #$04 : LSR #2 : TAY
+        SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

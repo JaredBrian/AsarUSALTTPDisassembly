@@ -227,14 +227,14 @@
     
     .mediumSize
     
-        SUB.b #$40 : CLC : ADC.b #$03 : TAY
+        SEC : SBC.b #$40 : CLC : ADC.b #$03 : TAY
         
         BRA .setGiftIndex
     
     .lowSize
     
         ; Give 1, 5, or 20 rupees
-        SUB.b #$34 : TAY
+        SEC : SBC.b #$34 : TAY
     
     .setGiftIndex
     
@@ -408,7 +408,7 @@
         LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : CLC : ADC.b #$0C : PHP : SUB $0F70, X : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$0C : PHP : SEC : SBC $0F70, X : STA $0D00, Y
         LDA $03 : SBC.b #$00 : PLP : ADC.b #$00   : STA $0D20, Y
         
         LDA.b #$00 : STA $0F70, Y
@@ -1325,7 +1325,7 @@
         
         LDA.b #$FF : STA $0B30, X
         
-        LDA $0B08, X : SUB.b #$08 : STA $0B08, X
+        LDA $0B08, X : SEC : SBC.b #$08 : STA $0B08, X
     
     .noAdjustment
     
@@ -1618,7 +1618,7 @@
         LDA $E3 : ADC $C5B9, Y : STA $0F
         
         ; $0C[0x2] = BG2VOFS - 0x30
-        LDA $E8 : SUB.b #$30 : STA $0C
+        LDA $E8 : SEC : SBC.b #$30 : STA $0C
         LDA $E9 : SBC.b #$00 : STA $0D
         
         LDX.b #$15
@@ -1668,7 +1668,7 @@
         LDA $E8 : CLC : ADC $C5F6, Y : STA $0C
         LDA $E9 : ADC $C5F8, Y : STA $0D
         
-        LDA $E2 : SUB.b #$30 : STA $0E
+        LDA $E2 : SEC : SBC.b #$30 : STA $0E
         LDA $E3 : SBC.b #$00 : STA $0F
         
         LDX.b #$15
@@ -1731,11 +1731,11 @@
     {
         REP #$20
         
-        LDA $0E : SUB $0FBC : CMP $0FB8 : BCS .outOfRange
+        LDA $0E : SEC : SBC $0FBC : CMP $0FB8 : BCS .outOfRange
         
         XBA : STA $00
         
-        LDA $0C : SUB $0FBE : CMP $0FBA : BCS .outOfRange
+        LDA $0C : SEC : SBC $0FBE : CMP $0FBA : BCS .outOfRange
         
         SEP #$20
         
@@ -1921,7 +1921,7 @@
         PLX
         
         ; Overlord's type number = the original data value - 0xF3
-        LDA [$05] : SUB.b #$F3 : STA $0B00, X : PHA
+        LDA [$05] : SEC : SBC.b #$F3 : STA $0B00, X : PHA
         
         LDA $00 : ASL #4
         
@@ -2264,7 +2264,7 @@
         
         PHP
         
-        SUB $04 : STA $0D00, Y
+        SEC : SBC $04 : STA $0D00, Y
         
         LDA $03 : SBC.b #$00
         

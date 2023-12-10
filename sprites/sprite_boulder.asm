@@ -48,11 +48,11 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0004
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0004
         
         CMP.w #$0010 : BCS .player_not_close
         
-        LDA $0FDA : SUB $20 : CLC : ADC.w #$FFFC
+        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$FFFC
         
         CMP.w #$000C : BCS .player_not_close
         
@@ -87,7 +87,7 @@
         JSR Boulder_Draw
         JSR Sprite4_CheckIfActive
         
-        LDA $0E80, X : SUB !animation_step_polarity, X : STA $0E80, X
+        LDA $0E80, X : SEC : SBC !animation_step_polarity, X : STA $0E80, X
         
         JSR Sprite4_CheckDamage
         JSR Sprite4_MoveXyz

@@ -267,9 +267,9 @@
         
         LDA $0F70, Y : BNE .cant_kick
         
-        LDA $0D10, X : SUB $0D10, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
+        LDA $0D10, X : SEC : SBC $0D10, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
         
-        LDA $0D00, X : SUB $0D00, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
+        LDA $0D00, X : SEC : SBC $0D00, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
         
         INC $0D80, X
         

@@ -33,9 +33,9 @@
     {
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
         
         SEP #$20
         
@@ -242,7 +242,7 @@
         REP #$20
         
         ; check if the player has 500 or more rupees (for flippers)
-        LDA $7EF360 : SUB.w #$01F4 : BCC .cant_afford
+        LDA $7EF360 : SEC : SBC.w #$01F4 : BCC .cant_afford
         
         STA $7EF360
         
@@ -403,10 +403,10 @@
         
         LDX $0D
         
-        LDA .x_offsets_low, X : SUB.b #$04 : CLC : ADC $00   : STA $0D10, Y
+        LDA .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $00   : STA $0D10, Y
         LDA $01               : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA .y_offsets_low, X : SUB.b #$04 : CLC : ADC $02   : STA $0D00, Y
+        LDA .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $02   : STA $0D00, Y
         LDA $03               : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y

@@ -56,11 +56,11 @@
     
     .check_if_on_screen
     
-        LDA $0FAD : SUB $00E2 : CMP.b #$F8 : BCS .off_screen
+        LDA $0FAD : SEC : SBC $00E2 : CMP.b #$F8 : BCS .off_screen
         
         STA $00
         
-        LDA $0FAE : SUB $00E8 : CMP.b #$F0 : BCS .off_screen
+        LDA $0FAE : SEC : SBC $00E8 : CMP.b #$F0 : BCS .off_screen
         
         STA $01
         
@@ -103,11 +103,11 @@
         ; The last three states of this object use more oam entries than the
         ; earlier ones.
         
-        LDA $00 : SUB.b #$04 : LDY.b #$00 : STA ($90), Y
+        LDA $00 : SEC : SBC.b #$04 : LDY.b #$00 : STA ($90), Y
                                LDY.b #$08 : STA ($90), Y
         CLC : ADC.b #$08           : LDY.b #$04 : STA ($90), Y
                                LDY.b #$0C : STA ($90), Y
-        LDA $01 : SUB.b #$04 : LDY.b #$01 : STA ($90), Y
+        LDA $01 : SEC : SBC.b #$04 : LDY.b #$01 : STA ($90), Y
                                LDY.b #$05 : STA ($90), Y
         CLC : ADC.b #$08           : LDY.b #$09 : STA ($90), Y
                                LDY.b #$0D : STA ($90), Y

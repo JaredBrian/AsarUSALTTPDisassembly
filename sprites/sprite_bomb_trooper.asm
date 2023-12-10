@@ -52,12 +52,12 @@
     ; *$2BE49-$2BED2 LOCAL
     EnemyBomb_CheckDamageToSprite:
     {
-        LDA $0D10, X : SUB.b #$10 : STA $00
+        LDA $0D10, X : SEC : SBC.b #$10 : STA $00
         LDA $0D30, X : SBC.b #$00 : STA $08
         
         LDA.b #$30 : STA $02 : STA $03
         
-        LDA $0D00, X : SUB.b #$10 : STA $01
+        LDA $0D00, X : SEC : SBC.b #$10 : STA $01
         LDA $0D20, X : SBC.b #$00 : STA $09
         
         PHX
@@ -83,13 +83,13 @@
         LDA $0D10, X : STA $00
         LDA $0D30, X : STA $01
         
-        LDA $0D00, X : SUB $0F70, X : STA $02
+        LDA $0D00, X : SEC : SBC $0F70, X : STA $02
         LDA $0D20, X : SBC.b #$00 : STA $03
         
         LDA $0D10, Y : STA $04
         LDA $0D30, Y : STA $05
         
-        LDA $0D00, Y : SUB $0F70, Y : STA $06
+        LDA $0D00, Y : SEC : SBC $0F70, Y : STA $06
         LDA $0D20, Y : SBC.b #$00 : STA $07
         
         PHY

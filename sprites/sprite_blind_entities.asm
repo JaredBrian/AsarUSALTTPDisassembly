@@ -86,7 +86,7 @@
         LDA $00 : STA $0D10, X
         LDA $01 : STA $0D30, X
         
-        LDA $02 : SUB.b #$10 : STA $0D00, X
+        LDA $02 : SEC : SBC.b #$10 : STA $0D00, X
         LDA $03              : STA $0D20, X
         
         JSL Sprite_LoadProperties
@@ -1066,7 +1066,7 @@
         
         INC !blind_ai_state, X
         
-        LDA !blind_direction, X : SUB.b #$01 : STA !y_accel_polarity, X
+        LDA !blind_direction, X : SEC : SBC.b #$01 : STA !y_accel_polarity, X
     
     .delay_whirl_around
     
@@ -1082,7 +1082,7 @@
     
     .positive_speed_x
     
-        SUB.b #$02 : STA $0D50, X
+        SEC : SBC.b #$02 : STA $0D50, X
     
     .fully_decelerated_x
     
@@ -1150,7 +1150,7 @@
     
     .positive_y_speed
     
-        SUB.b #$04 : STA $0D40, X
+        SEC : SBC.b #$04 : STA $0D40, X
     
     .fully_decelerated_y
     
@@ -1375,7 +1375,7 @@
         
         ASL #3 : STA $00
         
-        ASL #3 : SUB $00 : CLC : ADC.w #BlindPoof_Draw.body_oam_groups : STA $08
+        ASL #3 : SEC : SBC $00 : CLC : ADC.w #BlindPoof_Draw.body_oam_groups : STA $08
         
         SEP #$20
         
@@ -1426,9 +1426,9 @@
     {
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
         
         SEP #$20
         

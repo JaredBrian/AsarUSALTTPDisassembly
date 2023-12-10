@@ -71,7 +71,7 @@
         LDA $A9A7, X : CLC : ADC $72 : STA ($90), Y : INY
         LDA.b #$04   : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

@@ -66,11 +66,11 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0010
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0010
         
         CMP.w #$0020 : BCS .no_sprite_collision
         
-        LDA $0FDA : SUB $06 : CLC : ADC.w #$0010
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0010
         
         CMP.w #$0020 : BCS .no_sprite_collision
         

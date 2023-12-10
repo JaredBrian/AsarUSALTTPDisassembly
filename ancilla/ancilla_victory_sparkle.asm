@@ -67,8 +67,8 @@
         
         PHX : TXA : ASL A : TAX
         
-        LDA $20 : CLC : ADC .y_offsets, X : SUB $E8 : STA $00
-        LDA $22 : CLC : ADC .x_offsets, X : SUB $E2 : STA $02
+        LDA $20 : CLC : ADC .y_offsets, X : SEC : SBC $E8 : STA $00
+        LDA $22 : CLC : ADC .x_offsets, X : SEC : SBC $E2 : STA $02
         
         PLX
         
@@ -79,7 +79,7 @@
         LDA .chr, X                               : STA ($90), Y : INY
         LDA .properties, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

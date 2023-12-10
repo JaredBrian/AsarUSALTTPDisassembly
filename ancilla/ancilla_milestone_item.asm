@@ -153,7 +153,7 @@ Ancilla_MilestoneItem:
         CMP #$02 : BEQ .draw
         
         ; Simulate gravity.
-        LDA $0294, X : SUB.b #$01 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$01 : STA $0294, X
     
     .hasnt_touched_ground
     
@@ -175,7 +175,7 @@ Ancilla_MilestoneItem:
         
     LDA $029E, X : AND.w #$00FF : STA $72
         
-    LDA $00 : STA $06 : SUB $72 : STA $00
+    LDA $00 : STA $06 : SEC : SBC $72 : STA $00
         
     SEP #$20
         

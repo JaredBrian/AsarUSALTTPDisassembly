@@ -173,7 +173,7 @@
         ; This is the base OAM Y coordinate
         ; Since this is the head sprite, lift it up a bit.
         ; Store to the OAM buffer (Y position)
-        LDA $02 : SUB.w #$000B : INY : STA ($90), Y
+        LDA $02 : SEC : SBC.w #$000B : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
         

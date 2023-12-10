@@ -141,7 +141,7 @@
         
         JSR Sprite_MoveAltitude
         
-        LDA $0F80, X : SUB.b #$04 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$04 : STA $0F80, X
         
         LDA $0F70, X : BPL .not_grounded
         

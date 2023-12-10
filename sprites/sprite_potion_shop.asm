@@ -60,10 +60,10 @@
         
         LDA.b #$01 : STA $0E80, Y
         
-        LDA $0D00, X : SUB.b #$00 : STA $0D00, Y
+        LDA $0D00, X : SEC : SBC.b #$00 : STA $0D00, Y
         LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
         
-        LDA $0D10, X : SUB.b #$10 : STA $0D10, Y
+        LDA $0D10, X : SEC : SBC.b #$10 : STA $0D10, Y
         LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
         
         JMP PotionShop_SetPlayerInteractivity
@@ -84,10 +84,10 @@
         
         LDA.b #$02 : STA $0E80, Y
         
-        LDA $0D00, X : SUB.b #$48 : STA $0D00, Y
+        LDA $0D00, X : SEC : SBC.b #$48 : STA $0D00, Y
         LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
         
-        LDA $0D10, X : SUB.b #$28 : STA $0D10, Y
+        LDA $0D10, X : SEC : SBC.b #$28 : STA $0D10, Y
         LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
         
         JMP PotionShop_SetPlayerInteractivity
@@ -106,7 +106,7 @@
         
         LDA.b #$03 : STA $0E80, Y
         
-        LDA $0D00, X : SUB.b #$48 : STA $0D00, Y
+        LDA $0D00, X : SEC : SBC.b #$48 : STA $0D00, Y
         LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
         
         LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, Y
@@ -130,10 +130,10 @@
         
         LDA.b #$04 : STA $0E80, Y
         
-        LDA $0D00, X : SUB.b #$48 : STA $0D00, Y
+        LDA $0D00, X : SEC : SBC.b #$48 : STA $0D00, Y
         LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
         
-        LDA $0D10, X : SUB.b #$58 : STA $0D10, Y
+        LDA $0D10, X : SEC : SBC.b #$58 : STA $0D10, Y
         LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
     
     ; *$2F61D ALTERNATE ENTRY POINT
@@ -283,7 +283,7 @@
         
         REP #$20
         
-        LDA $7EF360 : SUB.w #$003C : STA $7EF360
+        LDA $7EF360 : SEC : SBC.w #$003C : STA $7EF360
         
         SEP #$30
         
@@ -381,7 +381,7 @@
         
         REP #$20
         
-        LDA $7EF360 : SUB.w #$00A0 : STA $7EF360
+        LDA $7EF360 : SEC : SBC.w #$00A0 : STA $7EF360
         
         SEP #$30
         
@@ -480,7 +480,7 @@
         
         REP #$20
         
-        LDA $7EF360 : SUB.w #$0078 : STA $7EF360
+        LDA $7EF360 : SEC : SBC.w #$0078 : STA $7EF360
         
         SEP #$30
         

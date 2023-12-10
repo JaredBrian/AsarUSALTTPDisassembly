@@ -234,7 +234,7 @@
         LDA $00                       : STA ($90), Y
                                         AND.w #$0100 : STA $0E
         
-        LDA $02 : SUB.w #$0009 : INY : STA ($90), Y
+        LDA $02 : SEC : SBC.w #$0009 : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         
@@ -546,11 +546,11 @@
         
         LDY.b #$00
         
-        LDA $04 : SUB.b #$04 : CLC : ADC $0C : STA $0FAB
+        LDA $04 : SEC : SBC.b #$04 : CLC : ADC $0C : STA $0FAB
         
         CLC : ADC $0FA8 : STA ($90), Y
         
-        LDA $06 : SUB.b #$04 : CLC : ADC $0D : STA $0FAA
+        LDA $06 : SEC : SBC.b #$04 : CLC : ADC $0D : STA $0FAA
         
         CLC : ADC $0FA9  : INY : STA ($90), Y
         LDA.b #$2A : INY : STA ($90), Y

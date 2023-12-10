@@ -84,9 +84,9 @@
         ; If the player gets close enough while the screen is shaking (from
         ; a dash attack), make the sprite drop.
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
         
-        LDA $0FDA : SUB $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
+        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
         
         LDA $011A : ORA $011C : BEQ .screen_not_shaking
         
@@ -180,9 +180,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
         
-        LDA $0FDA : SUB $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
+        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
         
         LDA $011A : ORA $011C : BEQ .screen_not_shaking
         
@@ -308,9 +308,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
         
-        LDA $0FDA : SUB $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
+        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
         
         SEP #$30
         
@@ -390,8 +390,8 @@
     {
         JSR Sprite2_PrepOamCoord
         
-        LDA $0FA8 : SUB.b #$20 : STA $0FA8
-        LDA $0FA9 : SUB.b #$20 : STA $0FA9
+        LDA $0FA8 : SEC : SBC.b #$20 : STA $0FA8
+        LDA $0FA9 : SEC : SBC.b #$20 : STA $0FA9
         
         PHX
         

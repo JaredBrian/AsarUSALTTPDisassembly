@@ -140,8 +140,8 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .dont_dodge
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .dont_dodge
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
         
         SEP #$20
         
@@ -221,7 +221,7 @@
     
         JSR Sprite3_MoveXyz
         
-        LDA $0F80, X : SUB.b #$02 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
         LDA $0F70, X : DEC A : BPL .in_air
         

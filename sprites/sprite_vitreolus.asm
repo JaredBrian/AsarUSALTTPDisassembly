@@ -99,10 +99,10 @@
     
         JSR Sprite4_Move
         
-        LDA $0ED0, X : SUB $0D10, X
+        LDA $0ED0, X : SEC : SBC $0D10, X
                        CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
-        LDA $0EC0, X : SUB $0D00, X
+        LDA $0EC0, X : SEC : SBC $0D00, X
                        CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
         INC $0D80, X
@@ -137,10 +137,10 @@
     
         JSR Sprite4_Move
         
-        LDA $0D90, X : SUB $0D10, X
+        LDA $0D90, X : SEC : SBC $0D10, X
                        CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
-        LDA $0DB0, X : SUB $0D00, X
+        LDA $0DB0, X : SEC : SBC $0D00, X
                        CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
         LDA $0D90, X : STA $0D10, X

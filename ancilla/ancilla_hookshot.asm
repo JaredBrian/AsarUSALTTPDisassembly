@@ -312,7 +312,7 @@
         LDA .chr, X                               : STA ($90), Y : INY
         LDA .properties, X : ORA.b #$02 : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         
@@ -348,7 +348,7 @@
         ; At extension state >= 7, use this as the base displacement between
         ; chain links. Otherwise, the distance between them is fixed per
         ; the data tables provided by the pool.
-        SUB.b #$07 : STA $0A : STA $0C
+        SEC : SBC.b #$07 : STA $0A : STA $0C
         
         LDA.b #$06
     
@@ -442,7 +442,7 @@
         
         PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

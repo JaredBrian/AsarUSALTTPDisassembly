@@ -123,7 +123,7 @@
         LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         
         ; Sets the direction to 2 or 3.
-        LDA $0E20, X : SUB.b #$95 : STA !laser_eye_direction, X : TAY
+        LDA $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
         
         LDA $0D10, X : AND.b #$10 : EOR.b #$10 : STA !requires_facing, X
         
@@ -137,7 +137,7 @@
     
     .horizontal
     
-        LDA $0E20, X : SUB.b #$95 : STA !laser_eye_direction, X : TAY
+        LDA $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
         
         LDA $0D00, X : AND.b #$10 : STA !requires_facing, X
         
@@ -189,9 +189,9 @@
     {
         REP #$20
         
-        LDA $20 : SUB $0FDA : STA $0C
+        LDA $20 : SEC : SBC $0FDA : STA $0C
         
-        LDA $22 : SUB $0FD8 : STA $0E
+        LDA $22 : SEC : SBC $0FD8 : STA $0E
         
         SEP #$20
         

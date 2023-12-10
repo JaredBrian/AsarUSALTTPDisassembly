@@ -67,9 +67,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADC.w #$0050 : CMP.w #$00A0 : BCS .player_too_far
+        LDA $22 : SEC : SBC $0FD8 : ADC.w #$0050 : CMP.w #$00A0 : BCS .player_too_far
         
-        LDA $20 : SUB $0FDA : ADC.w #$0058 : CMP.w #$00A0 : BCS .player_too_far
+        LDA $20 : SEC : SBC $0FDA : ADC.w #$0058 : CMP.w #$00A0 : BCS .player_too_far
         
         SEP #$20
         

@@ -275,12 +275,12 @@
     ; $4B5DE-$4B612 LOCAL
     Garnish_PrepOamCoord:
     {
-        LDA $7FF83C, X : SUB $E2 : STA $00
+        LDA $7FF83C, X : SEC : SBC $E2 : STA $00
         LDA $7FF878, X : SBC $E3 : STA $01
         
         BNE .off_screen
         
-        LDA $7FF81E, X : SUB $E8 : PHA
+        LDA $7FF81E, X : SEC : SBC $E8 : PHA
         LDA $7FF85A, X : SBC $E9
         
         BEQ .on_screen

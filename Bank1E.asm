@@ -44,7 +44,7 @@
     ; *$F0B19-$F0B2D LOCAL
     SpriteActive3_Main:
     {
-        LDA $0E20, X : SUB.b #$79 : REP #$30 : AND.w #$00FF : ASL A : TAY
+        LDA $0E20, X : SEC : SBC.b #$79 : REP #$30 : AND.w #$00FF : ASL A : TAY
         
         ; Sets up a clever little jump table
         LDA SpriteActive3_Table, Y : DEC A : PHA
@@ -524,13 +524,13 @@
     
         LDA $0E60, X : AND.b #$20 : BEQ .dontAdjustX
         
-        LDA $0FD8 : SUB.b #$04 : STA $0FD8
+        LDA $0FD8 : SEC : SBC.b #$04 : STA $0FD8
         LDA $0FD9 : SBC.b #$00 : STA $0FD9
         
         ; Is it a small magic refill?
         LDA $0E20, X : CMP.b #$DF : BNE .dontAdjustY
         
-        LDA $0FDA : SUB.b #$07 : STA $0FDA
+        LDA $0FDA : SEC : SBC.b #$07 : STA $0FDA
         LDA $0FDB : SBC.b #$00 : STA $0FDB
     
     .dontAdjustX

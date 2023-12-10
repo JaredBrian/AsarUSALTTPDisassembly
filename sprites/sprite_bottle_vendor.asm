@@ -166,7 +166,7 @@
         
         REP #$20
         
-        LDA $7EF360 : SUB.w #$0064 : STA $7EF360
+        LDA $7EF360 : SEC : SBC.w #$0064 : STA $7EF360
         
         SEP #$30
         

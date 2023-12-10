@@ -573,8 +573,8 @@ PlayerOam_Main:
 
     ; Assumes this is not submodule 0x12 or 0x13
     
-    LDA $20 : SUB $E8 : STA $01
-    LDA $22 : SUB $E2 : STA $00
+    LDA $20 : SEC : SBC $E8 : STA $01
+    LDA $22 : SEC : SBC $E2 : STA $00
     
     LDA.b #$80 : STA $45 : STA $44
     
@@ -975,7 +975,7 @@ BRANCH_VIRGO:
     ; B button has been pressed less than 9 frames
     LDA $3C : STA $02 : CMP.b #$09 : BCC BRANCH_THETA
     
-    LDA $02 : SUB.b #$0A : STA $02
+    LDA $02 : SEC : SBC.b #$0A : STA $02
     
     LDY.b #$03
 
@@ -1073,7 +1073,7 @@ BRANCH_AQUARIUS:
 
     STA $0F : STZ $0E
     
-    LDA $92ED, Y : CLC : ADC $01 : SUB $0F : STA $0801, X
+    LDA $92ED, Y : CLC : ADC $01 : SEC : SBC $0F : STA $0801, X
     LDA $9369, Y : CLC : ADC $00 :            STA $0800, X
     
     REP #$20
@@ -1136,7 +1136,7 @@ BRANCH_CLOUD:
 
     STA $0F : STZ $0E
     
-    LDA $93E5, Y : CLC : ADC $01 : SUB $0F : STA $0801, X
+    LDA $93E5, Y : CLC : ADC $01 : SEC : SBC $0F : STA $0801, X
     
     LDA $9461, Y : CLC : ADC $00 : STA $0800, X
     
@@ -1226,7 +1226,7 @@ BRANCH_MARS:
 
     STA $0B
     
-    LDA $01 : CLC : ADC $8EEF, Y : SUB $0B : STA $0B
+    LDA $01 : CLC : ADC $8EEF, Y : SEC : SBC $0B : STA $0B
     
     LDA $00 : CLC : ADC $90EE, Y : STA $0A : STA $08
     
@@ -1318,7 +1318,7 @@ BRANCH_DONALD:
     
     AND.w #$00FF : STA $74
     
-    LDA $00 : AND.w #$00FF : SUB $74 : BPL BRANCH_GOOFY
+    LDA $00 : AND.w #$00FF : SEC : SBC $74 : BPL BRANCH_GOOFY
     
     EOR.w #$FFFF : INC A
 
@@ -1409,7 +1409,7 @@ BRANCH_TERRA:
 
     STA $0B
     
-    LDA $01 : CLC : ADC $94DD, Y : DEC A : SUB $0B : STA $0B
+    LDA $01 : CLC : ADC $94DD, Y : DEC A : SEC : SBC $0B : STA $0B
     
     LDA $00 : CLC : ADC $96DC, Y : STA $0A : STA $08
     
@@ -1551,7 +1551,7 @@ BRANCH_ADLAI:
     
     REP #$20
     
-    LDA $20 : SUB $E8 : STA $06
+    LDA $20 : SEC : SBC $E8 : STA $06
     
     LDA $98DB, Y : AND.w #$00FF : CMP.w #$0080 : BCC BRANCH_CYAN
     
@@ -1648,7 +1648,7 @@ BRANCH_MEGAMAN:
     STA $0F
     STZ $0E
     
-    LDA $01 : CLC : ADC $8000, Y : SUB $0F : STA $0B
+    LDA $01 : CLC : ADC $8000, Y : SEC : SBC $0F : STA $0B
     LDA $00 : CLC : ADC $8001, Y            : STA $0A
     
     REP #$20
@@ -1683,7 +1683,7 @@ BRANCH_CRONO:
     
     ASL #4 : ORA $64 : ORA $0346 : ORA.w #$0002 : STA $0806, X
     
-    LDA $00 : SUB $0E : CLC : ADC.w #$0800 : STA $0804, X
+    LDA $00 : SEC : SBC $0E : CLC : ADC.w #$0800 : STA $0804, X
     
     TXA : LSR #2 : TAX
     
@@ -1699,12 +1699,12 @@ BRANCH_STRAGO:
     
     REP #$20
     
-    LDA $22 : SUB $E2
+    LDA $22 : SEC : SBC $E2
     
     CMP.w #$0004 : BCC BRANCH_LUCCA
     CMP.w #$00FC : BCS BRANCH_LUCCA
     
-    LDA $20 : SUB $E8
+    LDA $20 : SEC : SBC $E8
     
     CMP.w #$0004 : BCC BRANCH_LUCCA
     CMP.w #$00E0 : BCS BRANCH_LUCCA
@@ -1828,7 +1828,7 @@ BRANCH_FROG:
         
         LDA $0301 : AND.w #$0005 : BEQ BRANCH_GAMMA
         
-        TXA : SUB #$001D : TAX
+        TXA : SEC : SBC #$001D : TAX
         
         LDY $AB18, X
     
@@ -1882,7 +1882,7 @@ BRANCH_FROG:
         
         LDA $0301 : AND.w #$0005 : BEQ BRANCH_GAMMA
         
-        TXA : SUB.w #$0008 : TAX
+        TXA : SEC : SBC.w #$0008 : TAX
         
         LDY $ABDC, X
     
@@ -1978,7 +1978,7 @@ BRANCH_FROG:
         
         PHX
         
-        TXA : SUB.w #$0004 : LSR #2 : TAX
+        TXA : SEC : SBC.w #$0004 : LSR #2 : TAX
         
         ; Or in the 9th bit of the X coordinate
         LDA.w #$0000 : ORA $03FA : STA $0A20, X
@@ -2080,7 +2080,7 @@ BRANCH_FROG:
     {
         LDY.b #$00
         
-        LDA $51 : SUB.b #$0C : SUB $20
+        LDA $51 : SEC : SBC.b #$0C : SEC : SBC $20
         
         CMP.b #$F0 : BCS BRANCH_ALPHA
         CMP.b #$30 : BCC BRANCH_BETA
@@ -2099,7 +2099,7 @@ BRANCH_FROG:
         
         LDA .unknown_0, X : STA $06
         
-        LDA $51 : SUB.b #$0C : SUB $E8 : CLC : ADC.b #$1D : STA $07
+        LDA $51 : SEC : SBC.b #$0C : SEC : SBC $E8 : CLC : ADC.b #$1D : STA $07
         
         LDA $00 : CLC : ADC $06 : STA $06
         
@@ -2237,7 +2237,7 @@ BRANCH_FROG:
     
         LDA $2E : CMP.b #$03 : BCC BRANCH_EPSILON
         
-        SUB.b #$03
+        SEC : SBC.b #$03
     
     BRANCH_EPSILON:
     
@@ -2343,7 +2343,7 @@ BRANCH_FROG:
     
     .positive
     
-        CLC : ADC $22 : SUB $E2 : XBA : AND.w #$0001 : STA $03FA
+        CLC : ADC $22 : SEC : SBC $E2 : XBA : AND.w #$0001 : STA $03FA
         
         SEP #$20
         

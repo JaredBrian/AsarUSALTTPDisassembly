@@ -142,9 +142,9 @@
         REP #$20
         
         ; Check proximity of drowning sprite to the catfish.
-        LDA $0FD8 : SUB $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+        LDA $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
         
-        LDA $0FDA : SUB $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+        LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
         
         SEP #$20
     
@@ -234,7 +234,7 @@
         
         JSR Sprite4_MoveXyz
         
-        LDA $0F80, X : SUB.b #$02 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
         ; Spawn a small splash (drowning sprite, technically) when the catfish's
         ; z velocity becomes this negative.

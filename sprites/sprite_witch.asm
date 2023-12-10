@@ -338,7 +338,7 @@
         
         DEC $0E : BPL .draw_body_and_cauldron
         
-        LDA $00 : SUB.w #$0003 : CMP.w #$0003 : BCC .other_cloak_frame
+        LDA $00 : SEC : SBC.w #$0003 : CMP.w #$0003 : BCC .other_cloak_frame
         
         LDX.w #$0000
         

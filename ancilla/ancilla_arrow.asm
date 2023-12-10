@@ -77,9 +77,9 @@
     
     .sprite_collision
     
-        LDA $0C04, X : SUB $0D10, Y : STA $0C2C, X
+        LDA $0C04, X : SEC : SBC $0D10, Y : STA $0C2C, X
         
-        LDA $0BFA, X : SUB $0D00, Y : CLC : ADC $0F70, Y : STA $0C22, X
+        LDA $0BFA, X : SEC : SBC $0D00, Y : CLC : ADC $0F70, Y : STA $0C22, X
         
         TYA : STA $03A9, X
         
@@ -133,8 +133,8 @@
         
         REP #$20
         
-        LDA $E0 : SUB $E2 : CLC : ADC $0C04, X : STA $00
-        LDA $E6 : SUB $E8 : CLC : ADC $0BFA, X : STA $02
+        LDA $E0 : SEC : SBC $E2 : CLC : ADC $0C04, X : STA $00
+        LDA $E6 : SEC : SBC $E8 : CLC : ADC $0BFA, X : STA $02
         
         SEP #$20
         
@@ -281,8 +281,8 @@
         
         ; Seems like this does special handling for more complex collision
         ; modes.
-        LDA $E8 : SUB $E6 : CLC : ADC $0C : STA $0C
-        LDA $E2 : SUB $E0 : CLC : ADC $0E : STA $0E : STA $04
+        LDA $E8 : SEC : SBC $E6 : CLC : ADC $0C : STA $0C
+        LDA $E2 : SEC : SBC $E0 : CLC : ADC $0E : STA $0E : STA $04
     
     .basic_collision
     
@@ -367,7 +367,7 @@
         
         ORA $74 : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

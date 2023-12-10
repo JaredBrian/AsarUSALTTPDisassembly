@@ -37,7 +37,7 @@
         
         REP #$20
         
-        LDA $00 : SUB $0122 : CMP.w #$0049 : BCS .below_target_y_position
+        LDA $00 : SEC : SBC $0122 : CMP.w #$0049 : BCS .below_target_y_position
         
         ; Keep position fixed at 0x0049
         LDA.w #$0049 : CLC : ADC $0122 : STA $00

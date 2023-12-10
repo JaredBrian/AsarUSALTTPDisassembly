@@ -154,7 +154,7 @@
         ; \note Seems that the actual z speed determined is actually affected
         ; by the current x speed. Perhaps that's where this ellipsoid behavior
         ; originates from.
-        LDA .swirl_speeds, Y : SUB $00 : LSR A : STA $00
+        LDA .swirl_speeds, Y : SEC : SBC $00 : LSR A : STA $00
         
         LDA $0C54, X : AND.b #$02 : BEQ .lowering
         
@@ -193,7 +193,7 @@
         EOR.w #$FFFF : INC A : STA $04
         
         LDA $00 : STA $0A
-        SUB $04 : STA $04
+        SEC : SBC $04 : STA $04
         
         LDA $02 : STA $06
         
@@ -216,7 +216,7 @@
         LDA $DDD8                        : STA ($90), Y : INY
         LDA $DDDB : ORA.b #$30 : ORA $08 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         

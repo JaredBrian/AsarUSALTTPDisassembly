@@ -61,9 +61,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
         
         ; Add 20 hearts to the heart refill variable. This should fully heal
         ; the player no matter how many heart containers they have.
@@ -212,7 +212,7 @@
         
         LDA.b #$01 : STA !is_fairy_cloud, Y
         
-        LDA $0D00, Y : SUB $0F70, X : STA $0D00, Y
+        LDA $0D00, Y : SEC : SBC $0F70, X : STA $0D00, Y
         
         LDA.b #$00 : STA $0F70, Y
     

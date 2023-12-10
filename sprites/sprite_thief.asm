@@ -53,11 +53,11 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0050
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0050
         
         CMP.w #$00A0 : BCS .player_not_close
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0050
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0050
         
         CMP.w #$00A0 : BCS .player_not_close
         
@@ -135,11 +135,11 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0050
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0050
         
         CMP.w #$00A0 : BCS .player_not_close
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0050
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0050
         
         CMP.w #$00A0 : BCC .player_still_close
     
@@ -315,9 +315,9 @@
         
         REP #$20
         
-        LDA $04 : SUB $0FD8 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .out_of_reach
+        LDA $04 : SEC : SBC $0FD8 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .out_of_reach
         
-        LDA $06 : SUB $0FDA : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .out_of_reach
+        LDA $06 : SEC : SBC $0FDA : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .out_of_reach
         
         SEP #$20
         
@@ -325,7 +325,7 @@
         
         PHX
         
-        LDA $0E20, Y : SUB.b #$D8 : TAX
+        LDA $0E20, Y : SEC : SBC.b #$D8 : TAX
         
         LDA $06D12D, X : JSL Sound_SetSfx3PanLong
         

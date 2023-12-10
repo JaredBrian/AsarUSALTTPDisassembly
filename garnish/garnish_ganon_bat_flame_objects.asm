@@ -29,7 +29,7 @@
         
         LDA $11 : ORA $0FC1 : BNE .pause_movement
         
-        LDA $7FF81E, X : SUB.b #$01 : STA $7FF81E, X
+        LDA $7FF81E, X : SEC : SBC.b #$01 : STA $7FF81E, X
         LDA $7FF85A, X : SBC.b #$00 : STA $7FF85A, X
     
     .pause_movement

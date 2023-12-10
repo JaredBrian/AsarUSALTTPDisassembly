@@ -140,7 +140,7 @@
         
         PLX
         
-        LDA $72 : SUB.b #$10 : STA $72
+        LDA $72 : SEC : SBC.b #$10 : STA $72
         
         DEX #2 : BPL .never
         
@@ -344,11 +344,11 @@
         ; spell that employed more sprites. Or it was differently implemented
         ; maybe. With a limit of 10 blasts, we're certainly never going to
         ; branch here.
-        LDA $74 : SUB.b #$10 : STA $74 : BPL .never
+        LDA $74 : SEC : SBC.b #$10 : STA $74 : BPL .never
         
         REP #$20
         
-        LDA $04 : SUB $E2 : CLC : ADC.w #$0008 : STA $04
+        LDA $04 : SEC : SBC $E2 : CLC : ADC.w #$0008 : STA $04
         
         SEP #$20
         
@@ -504,8 +504,8 @@
         
         REP #$20
         
-        LDA $00 : CLC : ADC $B2D7, X : SUB $E8 : STA $00
-        LDA $02 : CLC : ADC $B325, X : SUB $E2 : STA $02
+        LDA $00 : CLC : ADC $B2D7, X : SEC : SBC $E8 : STA $00
+        LDA $02 : CLC : ADC $B325, X : SEC : SBC $E2 : STA $02
         
         SEP #$20
         
@@ -516,7 +516,7 @@
         LDA $B289, X : STA ($90), Y : INY
         LDA $B2B0, X : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         
@@ -537,7 +537,7 @@
         ; \wtf When would this ever evalute to >= 0?
         ; Debugger testing points to the game always branching here, thus
         ; backing me up on this.
-        LDA $75 : SUB.b #$10 : STA $75 : BMI .always
+        LDA $75 : SEC : SBC.b #$10 : STA $75 : BMI .always
         
         BRL .never
     
@@ -799,8 +799,8 @@
         
         REP #$20
         
-        LDA .y_offsets, X : CLC : ADC $08 : SUB $E8 : STA $00
-        LDA .x_offsets, X : CLC : ADC $0A : SUB $E2 : STA $02
+        LDA .y_offsets, X : CLC : ADC $08 : SEC : SBC $E8 : STA $00
+        LDA .x_offsets, X : CLC : ADC $0A : SEC : SBC $E2 : STA $02
         
         SEP #$20
         
@@ -811,7 +811,7 @@
         LDA $B521, X : STA ($90), Y : INY
         LDA $B541, X : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         

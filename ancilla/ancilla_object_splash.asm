@@ -88,7 +88,7 @@
         LDA $C987, X              : STA ($90), Y : INY
         LDA $C991, X : ORA.b #$24 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA $C9C3, X : STA ($92), Y
         

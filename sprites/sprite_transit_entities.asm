@@ -7,7 +7,7 @@
         ; Not really certain whether this is necessary <___<.
         LDA.b #$FF : STA $1DE0
         
-        LDA $0E20, X : SUB.b #$AE : STA $0DE0, X
+        LDA $0E20, X : SEC : SBC.b #$AE : STA $0DE0, X
     
     ; *$F7640 ALTERNATE ENTRY POINT
     shared SomariaPlatform_LocateTransitTile:
@@ -17,7 +17,7 @@
         ; $F77C2 IN ROM ; Get the tile type the sprite interacted with.
         JSR $F7C2 : STA $0E90, X
         
-        SUB.b #$B0 : BCS .is_upper_tile
+        SEC : SBC.b #$B0 : BCS .is_upper_tile
     
     .not_pipe_tile
     
@@ -128,11 +128,11 @@
         JSL Sprite_SpawnSuperficialBombBlast
         
         ; x coordinate -= 0x08
-        LDA $0D10, Y : SUB.b #$08 : STA $0D10, Y
+        LDA $0D10, Y : SEC : SBC.b #$08 : STA $0D10, Y
         LDA $0D30, Y : SBC.b #$00 : STA $0D30, Y
         
         ; y coordinate -= 0x08
-        LDA $0D00, Y : SUB.b #$08 : STA $0D00, Y
+        LDA $0D00, Y : SEC : SBC.b #$08 : STA $0D00, Y
         LDA $0D20, Y : SBC.b #$00 : STA $0D20, Y
         
         RTS
@@ -294,7 +294,7 @@
 
     ; *$F787D-$F78AC LOCAL
     {
-        LDA $0E90, X : SUB.b #$B0 : BCS .is_upper_tile
+        LDA $0E90, X : SEC : SBC.b #$B0 : BCS .is_upper_tile
         
         RTS
     
@@ -331,7 +331,7 @@
         
         LDA $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
         
-        SUB $0D10, X : BEQ BRANCH_ALPHA
+        SEC : SBC $0D10, X : BEQ BRANCH_ALPHA
         
         STA $0B7C : BPL BRANCH_BETA
         
@@ -352,7 +352,7 @@
         
         LDA $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
         
-        SUB $0D00, X : BEQ BRANCH_ALPHA
+        SEC : SBC $0D00, X : BEQ BRANCH_ALPHA
         
         STA $0B7E : BPL BRANCH_BETA
         
@@ -806,7 +806,7 @@
     {
         REP #$20
         
-        LDA $0FD8 : SUB.w #$0008 : CMP $22 : BEQ BRANCH_ALPHA
+        LDA $0FD8 : SEC : SBC.w #$0008 : CMP $22 : BEQ BRANCH_ALPHA
                                              BPL BRANCH_BETA
         
         DEC $0B7C
@@ -819,7 +819,7 @@
     
     BRANCH_ALPHA:
     
-        LDA $0FDA : SUB.w #$0010 : CMP $20 : BEQ BRANCH_GAMMA
+        LDA $0FDA : SEC : SBC.w #$0010 : CMP $20 : BEQ BRANCH_GAMMA
                                              BPL BRANCH_DELTA
         
         DEC $0B7E
@@ -1031,10 +1031,10 @@
     
         JSR Sprite3_Move
         
-        LDA $0D10, X : SUB.b #$08 : STA $00
+        LDA $0D10, X : SEC : SBC.b #$08 : STA $00
         LDA $0D30, X : SBC.b #$00 : STA $01
         
-        LDA $0D00, X : SUB.b #$0E : STA $02
+        LDA $0D00, X : SEC : SBC.b #$0E : STA $02
         LDA $0D20, X : SBC.b #$00 : STA $03
         
         REP #$20
@@ -1071,8 +1071,8 @@
     
     BRANCH_IOTA:
     
-        LDA $22 : SUB $3F : STA $31
-        LDA $20 : SUB $3E : STA $30
+        LDA $22 : SEC : SBC $3F : STA $31
+        LDA $20 : SEC : SBC $3E : STA $30
 
         LDY $0DE0, X
         

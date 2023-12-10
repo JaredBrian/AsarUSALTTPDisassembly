@@ -101,7 +101,7 @@
         
         LDA $0F80, X : CMP.b #$C0 : BMI .fall_speed_maxed
         
-        SUB.b #$03 : STA $0F80, X
+        SEC : SBC.b #$03 : STA $0F80, X
     
     .fall_speed_maxed
     
@@ -416,7 +416,7 @@
         
         REP #$20
         
-        LDA $90 : SUB.w #$0004 : STA $90
+        LDA $90 : SEC : SBC.w #$0004 : STA $90
         
         DEC $92
         
@@ -476,7 +476,7 @@
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : SUB $0A : INY : STA ($90), Y
+        LDA $02 : SEC : SBC $0A : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         

@@ -95,11 +95,11 @@
         
         REP #$20
         
-        LDA $00 : SUB $0FD8 : CLC : ADC.w #$0010
+        LDA $00 : SEC : SBC $0FD8 : CLC : ADC.w #$0010
         
         CMP.w #$0020 : BCS .not_close_enough_to_player
         
-        LDA $02 : SUB $0FDA : CLC : ADC.w #$0010
+        LDA $02 : SEC : SBC $0FDA : CLC : ADC.w #$0010
         
         CMP.w #$0020 : BCS .not_close_enough_to_player
         

@@ -217,9 +217,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
         
-        LDA $0FDA : SUB $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
         
         SEP #$20
         

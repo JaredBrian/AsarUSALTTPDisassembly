@@ -93,7 +93,7 @@
         
         LDA $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
         
-        SUB.b #$03 : STA $0F80, X
+        SEC : SBC.b #$03 : STA $0F80, X
     
     .at_terminal_falling_speed
     
@@ -250,7 +250,7 @@
         
         LDA $0F80, X : CMP.b #$C0 : BMI BRANCH_GAMMA
         
-        SUB.b #$02 : STA $0F80, X
+        SEC : SBC.b #$02 : STA $0F80, X
     
     BRANCH_GAMMA:
     
@@ -303,7 +303,7 @@
         
         LDA $0F80, X : CMP.b #$C0 : BMI BRANCH_ALPHA
         
-        SUB.b #$02 : STA $0F80, X
+        SEC : SBC.b #$02 : STA $0F80, X
     
     BRANCH_ALPHA:
     
@@ -452,7 +452,7 @@
         
         REP #$20
         
-        LDA $90 : SUB.w #$0004 : STA $90
+        LDA $90 : SEC : SBC.w #$0004 : STA $90
         
         DEC $92
         
@@ -498,7 +498,7 @@
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : CLC : ADC $06 : SUB.w #$000C : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $06 : SEC : SBC.w #$000C : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         

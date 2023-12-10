@@ -118,7 +118,7 @@
         LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y
         INY : PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

@@ -239,7 +239,7 @@
         
         LDA $7EF360 : CMP.w #$0014 : BCC .notEnoughRupees
         
-        LDA $7EF360 : SUB.w #$0014 : STA $7EF360
+        LDA $7EF360 : SEC : SBC.w #$0014 : STA $7EF360
         
         SEP #$30
         

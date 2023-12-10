@@ -2715,7 +2715,7 @@ GiveBottledItem:
         
         LDA $22 : STA $02 : STA $7F5815 : CLC : ADC.w #$0008 : STA $7F580E
         
-        LDA $20 : SUB.w #$0010 : STA $7F580A : CLC : ADC.w #$0024 : STA $7F5810
+        LDA $20 : SEC : SBC.w #$0010 : STA $7F580A : CLC : ADC.w #$0024 : STA $7F5810
         
         SEP #$20
         
@@ -2964,8 +2964,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : SUB $E8 : STA $02
-        LDA $22 : SUB $E2 : STA $00
+        LDA $20 : SEC : SBC $E8 : STA $02
+        LDA $22 : SEC : SBC $E2 : STA $00
         
         SEP #$20
         
@@ -3178,7 +3178,7 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : SUB.w #8 : STA $00
+        LDA $20 : SEC : SBC.w #8 : STA $00
         
         LDA.w #-16 : CLC : ADC $E2 : STA $02
         
@@ -3410,7 +3410,7 @@ GiveBottledItem:
         LDA .xy_offsets+0, Y : CLC : ADC $7F0018 : STA $7F0020, X
         LDA .xy_offsets+2, Y : CLC : ADC $7F001A : STA $7F0030, X
         
-        SUB $E2 : STA $00
+        SEC : SBC $E2 : STA $00
         
         SEP #$20
         
@@ -3662,11 +3662,11 @@ GiveBottledItem:
         
         LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
-        SUB $E8 : STA $04
+        SEC : SBC $E8 : STA $04
         
         LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
-        SUB $E2 : STA $06
+        SEC : SBC $E2 : STA $06
         
         SEP #$20
         
@@ -3905,7 +3905,7 @@ pool AddGravestone:
     
         LDA $99A4, Y  : STA $0698
         
-        SUB.w #$0080 : STA $72
+        SEC : SBC.w #$0080 : STA $72
         
         LDA $99C2, Y : STA $0692 : CMP.w #$0058 : BEQ .holeUnderGrave
         

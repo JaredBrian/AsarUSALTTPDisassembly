@@ -420,7 +420,7 @@
         
         REP #$20
         
-        LDA $7EF360 : SUB FortuneTeller_Prices, Y : STA $7EF360
+        LDA $7EF360 : SEC : SBC FortuneTeller_Prices, Y : STA $7EF360
         
         SEP #$30
         
@@ -641,7 +641,7 @@
         
         REP #$20
         
-        LDA $7EF360 : SUB FortuneTeller_Prices, Y : STA $7EF360
+        LDA $7EF360 : SEC : SBC FortuneTeller_Prices, Y : STA $7EF360
         
         SEP #$30
         

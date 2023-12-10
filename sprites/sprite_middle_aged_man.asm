@@ -35,7 +35,7 @@
         
         LDA $0D10, X : PHA
         
-        SUB.b #$10 : STA $0D10, X
+        SEC : SBC.b #$10 : STA $0D10, X
         
         JSR Sprite_Get_16_bit_Coords
         

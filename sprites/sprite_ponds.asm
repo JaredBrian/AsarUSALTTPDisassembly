@@ -400,7 +400,7 @@ FairyPondTriggerMain:
         
         REP #$20
         
-        LDA $7EF360 : SUB $00 : STA $7EF360
+        LDA $7EF360 : SEC : SBC $00 : STA $7EF360
         
         SEP #$30
         
@@ -475,10 +475,10 @@ FairyPondTriggerMain:
         
         STZ $0133
         
-        LDA $00 : SUB $C83A  : STA $0D10, Y
+        LDA $00 : SEC : SBC $C83A  : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : SUB $C83B  : STA $0D00, Y
+        LDA $02 : SEC : SBC $C83B  : STA $0D00, Y
         LDA $03 : SBC.b #$00 : STA $0D20, Y
         
         LDA.b #$01 : STA $0DA0, Y
@@ -876,10 +876,10 @@ WaitToSpawnGreatFairy:
         
         STZ $0133
         
-        LDA $00 : SUB $C83A  : STA $0D10, Y
+        LDA $00 : SEC : SBC $C83A  : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : SUB $C83B  : STA $0D00, Y
+        LDA $02 : SEC : SBC $C83B  : STA $0D00, Y
         LDA $03 : SBC.b #$00 : STA $0D20, Y
         
         LDA.b #$01 : STA $0DA0, Y

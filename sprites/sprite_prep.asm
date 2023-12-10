@@ -545,7 +545,7 @@
     
         JSR SpritePrep_MoveDownOneRightTwoTiles
         
-        LDA $0D00, X : SUB.b #$0C : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$0C : STA $0D00, X
         
         JMP SpritePrep_IgnoresProjectiles
     }
@@ -575,7 +575,7 @@
         JSR SpritePrep_Bosses
         JSR SpritePrep_MoveDownOneRightTwoTiles
         
-        LDA $0D00, X : SUB.b #$10 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$10 : STA $0D00, X
         
         JSL Vitreous_SpawnSmallerEyesLong
         JMP SpritePrep_IgnoresProjectiles
@@ -699,10 +699,10 @@
         ; spawn a normal set of bombs for sale
         LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
-        LDA $00 : SUB.b #$18 : STA $0D10, Y
+        LDA $00 : SEC : SBC.b #$18 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : SUB.b #$18 : STA $0D00, Y
+        LDA $02 : SEC : SBC.b #$18 : STA $0D00, Y
         LDA $03 : SBC.b #$00 : STA $0D20, Y
         
         LDA.b #$01 : STA $0E80, Y : STA $0BA0, Y
@@ -718,10 +718,10 @@
         ; spawn the super bomb
         LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
         
-        LDA $00 : SUB.b #$38 : STA $0D10, Y
+        LDA $00 : SEC : SBC.b #$38 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : SUB.b #$18 : STA $0D00, Y
+        LDA $02 : SEC : SBC.b #$18 : STA $0D00, Y
         LDA $03 : SBC.b #$00 : STA $0D20, Y
         
         LDA.b #$02 : STA $0E80, Y : STA $0BA0, Y
@@ -805,14 +805,14 @@
         LDA $7EF3C9 : AND.b #$20 : BNE .partner_has_been_saved
         
         LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
-        LDA $0D00, X : SUB.b #$03 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$03 : STA $0D00, X
         
         RTS
     
     .partner_has_been_saved
     
         LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
-        LDA $0D00, X : SUB.b #$03 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$03 : STA $0D00, X
         
         JSR Smithy_SpawnOtherSmithy
         
@@ -844,7 +844,7 @@
     ; *$30AF3 ALTERNATE ENTRY POINT
     shared SpritePrep_Zoro:
     
-        LDA $0E20, X : SUB.b #$9C : ASL A : STA $0DE0, X
+        LDA $0E20, X : SEC : SBC.b #$9C : ASL A : STA $0DE0, X
         
         DEC $0DC0, X
         
@@ -1023,7 +1023,7 @@
     ; *$30B93-$30BA1 JUMP LOCATION
     SpritePrep_WallCannon:
     {
-        LDA $0E20, X : SUB.b #$66 : STA $0DE0, X
+        LDA $0E20, X : SEC : SBC.b #$66 : STA $0DE0, X
         
         AND.b #$02 : STA $0D90, X
         
@@ -1100,7 +1100,7 @@
     
         INC $0BA0, X
         
-        LDA $0D10, X : SUB.b #$08 : STA $0D10, X
+        LDA $0D10, X : SEC : SBC.b #$08 : STA $0D10, X
         LDA $0D30, X : SBC.b #$00 : STA $0D30, X
         
         RTS
@@ -1729,7 +1729,7 @@ SpritePrep_BugNetKid:
     {
         LDA $0D10, X : CLC : ADC.b #$04 : STA $0D10, X
         
-        LDA $0D00, X : SUB.b #$05 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$05 : STA $0D00, X
         LDA $0D20, X : SBC.b #$00 : STA $0D20, X
     
     ; *$30E85 ALTERNATE ENTRY POINT
@@ -1772,7 +1772,7 @@ SpritePrep_BugNetKid:
     ; *$30EC1-$30EEF JUMP LOCATION
     SpritePrep_LostWoodsBird:
     {
-        JSL GetRandomInt : AND.b #$1F : SUB.b #$10 : STA $0F80, X
+        JSL GetRandomInt : AND.b #$1F : SEC : SBC.b #$10 : STA $0F80, X
         
         LDA.b #$40 : STA $0F70, X
     
@@ -2138,7 +2138,7 @@ SpritePrep_BugNetKid:
     {
         INC $0BA0, X
         
-        LDA $0D10, X : SUB.b #$08 : STA $0D10, X
+        LDA $0D10, X : SEC : SBC.b #$08 : STA $0D10, X
         LDA $0D30, X : SBC.b #$00 : STA $0D30, X
         
         LDA.b #$00 : JSL TalkingTree_SpawnEyes
@@ -2192,7 +2192,7 @@ SpritePrep_BugNetKid:
     
         JSR SpritePrep_MoveRightOneTile
         
-        LDA $0D00, X : SUB.b #$08 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$08 : STA $0D00, X
         
         RTS
     

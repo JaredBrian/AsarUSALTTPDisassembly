@@ -47,7 +47,7 @@
         LDA $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
         
         ; terminal altitude velocity?
-        SUB.b #$02 : STA $0F80, X
+        SEC : SBC.b #$02 : STA $0F80, X
     
     .at_terminal_falling_speed
     

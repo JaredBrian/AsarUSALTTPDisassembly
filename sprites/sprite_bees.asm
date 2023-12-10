@@ -206,7 +206,7 @@
         
         LDA $0D90, X : CMP.b #$10 : BEQ .dont_adjust_timer_supplement
         
-        SUB.b #$08 : STA $0D90, X
+        SEC : SBC.b #$08 : STA $0D90, X
     
     .dont_adjust_timer_supplement
     

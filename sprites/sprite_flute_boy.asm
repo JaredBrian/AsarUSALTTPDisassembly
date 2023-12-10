@@ -433,7 +433,7 @@
         
         REP #$30
         
-        LDA $02 : SUB.w #$0010 : STA $02
+        LDA $02 : SEC : SBC.w #$0010 : STA $02
         
         LDA $22 : SBC $00 : BPL .positive_dx
         
@@ -509,7 +509,7 @@
         LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : SUB.b #$04 : STA $0D00, Y
+        LDA $02 : SEC : SBC.b #$04 : STA $0D00, Y
         LDA $03 : SBC.b #$00 : STA $0D20, Y
         
         LDA.b #$01 : STA $0EB0, Y

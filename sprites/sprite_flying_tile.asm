@@ -62,7 +62,7 @@
         
         JSR Sprite3_Move
         
-        LDA $0FDA : SUB $0F70, X : STA $0FDA
+        LDA $0FDA : SEC : SBC $0F70, X : STA $0FDA
         LDA $0FDB : SBC.b #$00   : STA $0FDB
         
         JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision

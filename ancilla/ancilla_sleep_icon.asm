@@ -49,7 +49,7 @@
         
         REP #$20
         
-        LDA $20 : SUB.w #$0018 : CMP $00 : BCC .still_close_enough_to_player
+        LDA $20 : SEC : SBC.w #$0018 : CMP $00 : BCC .still_close_enough_to_player
         
         SEP #$20
         

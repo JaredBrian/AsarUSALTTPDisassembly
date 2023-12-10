@@ -6,9 +6,9 @@
     {
         REP #$20
         
-        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
         
-        LDA $0FDA : SUB $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
     
     BRANCH_ALPHA:
     
@@ -60,7 +60,7 @@
         
         LDA $0D81, X : CMP.b #$02 : BEQ BRANCH_ALPHA
         
-        TYA : SUB.b #$04 : AND.b #$0F : TAY
+        TYA : SEC : SBC.b #$04 : AND.b #$0F : TAY
         
         LDA $8D50, Y : STA $0D51, X
         
@@ -1015,7 +1015,7 @@
         
         LDA.b #$1F : JSL Sprite_ApplySpeedTowardsPlayerLong
         
-        JSL Sprite_ConvertVelocityToAngle : PLY : SUB.b #$02 : AND.b #$0F : TAX
+        JSL Sprite_ConvertVelocityToAngle : PLY : SEC : SBC.b #$02 : AND.b #$0F : TAX
         
         LDA $931F, X : STA $0D50, Y
         
@@ -1457,7 +1457,7 @@
     
     BRANCH_THETA:
     
-        LDA $0F70, X : SUB.b #$01 : STA $0E
+        LDA $0F70, X : SEC : SBC.b #$01 : STA $0E
         LDA.b #$00   : SBC.b #$00 : STA $0F
         
         LSR #3 : TAY : CPY.b #$04 : BCC BRANCH_IOTA

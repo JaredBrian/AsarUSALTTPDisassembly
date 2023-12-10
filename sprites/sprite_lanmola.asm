@@ -166,7 +166,7 @@
         ; Slowly decrease the Y speed when first coming out of the ground
         LDA $0EC0, X : BNE .alpha
         
-        LDA $0F80, X : SUB.b #$01 : STA $0F80, X : BNE .beta
+        LDA $0F80, X : SEC : SBC.b #$01 : STA $0F80, X : BNE .beta
         
         INC $0EC0, X
     
@@ -199,8 +199,8 @@
         REP #$20
         
         ; If our position is 0x0002 away from the random X and Y pos we chose earlier go to the next stage.
-        LDA $00 : SUB $04 : CLC : ADC.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
-        LDA $02 : SUB $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
+        LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
+        LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
         
         INC $0D80, X
     
@@ -229,7 +229,7 @@
         
         LDA $0F80, X : CMP.b #$EC : BMI .alpha
         
-        SUB.b #$01 : STA $0F80, X
+        SEC : SBC.b #$01 : STA $0F80, X
     
     .alpha
     
@@ -329,10 +329,10 @@
         
         LDA $7FF81E, X : TAY
         
-        LDA $0E80, X : SUB $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ;$A5DA
+        LDA $0E80, X : SEC : SBC $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ;$A5DA
         
-        LDA $7FFC00, X : SUB $E2                  : STA $0A
-        LDA $7FFD00, X : SUB $7FFE00, X : SUB $E8 : STA $0B
+        LDA $7FFC00, X : SEC : SBC $E2                  : STA $0A
+        LDA $7FFD00, X : SEC : SBC $7FFE00, X : SEC : SBC $E8 : STA $0B
         
         PLX
         
@@ -444,7 +444,7 @@
         
         SEP #$20
         
-        LDA $0D40, X : SUB $0F80, X : STA $00
+        LDA $0D40, X : SEC : SBC $0F80, X : STA $00
         LDA $0D50, X                : STA $01
         
         JSL Sprite_ConvertVelocityToAngle : STA $0DC0, X
@@ -505,13 +505,13 @@
         
         LDA $02 : CLC : ADC $04 : TAX
         
-        LDA $02 : SUB.b #$08 : AND.b #$3F : STA $02
+        LDA $02 : SEC : SBC.b #$08 : AND.b #$3F : STA $02
         
-        LDA $7FFC00, X : SUB $E2 : STA ($90), Y : INY
+        LDA $7FFC00, X : SEC : SBC $E2 : STA ($90), Y : INY
         
         LDA $7FFE00, X : BMI .gamma
         
-        LDA $7FFD00, X : SUB $7FFE00, X : SUB $E8 : STA ($90), Y
+        LDA $7FFD00, X : SEC : SBC $7FFE00, X : SEC : SBC $E8 : STA ($90), Y
     
     .gamma
     
@@ -562,15 +562,15 @@
         
         LDA $05 : CLC : ADC $04 : TAX
         
-        LDA $05 : SUB.b #$08 : AND.b #$3F : STA $05
+        LDA $05 : SEC : SBC.b #$08 : AND.b #$3F : STA $05
         
-        LDA $7FFC00, X : SUB $E2 : STA ($90), Y
+        LDA $7FFC00, X : SEC : SBC $E2 : STA ($90), Y
         
         INY
         
         LDA $7FFE00, X : BMI .iota
         
-        LDA $7FFD00, X : CLC : ADC.b #$0A : SUB $E8 : STA ($90), Y
+        LDA $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC $E8 : STA ($90), Y
     
     .iota
     
@@ -615,8 +615,8 @@
         
         PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL A : STA $06
         
-        LDA $0DE0, X : SUB $E2 : STA $00
-        LDA $0E70, X : SUB $E8 : STA $02
+        LDA $0DE0, X : SEC : SBC $E2 : STA $00
+        LDA $0E70, X : SEC : SBC $E8 : STA $02
         
         PHX
         
@@ -654,8 +654,8 @@
     
         LDA.b #$04 : JSL OAM_AllocateFromRegionB
         
-        LDA $0D10, X : SUB $E2 : STA $00
-        LDA $0D00, X : SUB $E8 : STA $02
+        LDA $0D10, X : SEC : SBC $E2 : STA $00
+        LDA $0D00, X : SEC : SBC $E8 : STA $02
         
         LDA $0DF0, X : LSR #3 : TAY
         

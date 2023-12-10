@@ -120,7 +120,7 @@
         
         PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         
@@ -169,7 +169,7 @@
         LDA $22 : CLC : ADC.w #$0008 : CMP $02 : BCC .player_not_close
                                  CMP $06 : BCC .player_not_close
         
-        LDA $08 : SUB $04 : BPL .player_below_object
+        LDA $08 : SEC : SBC $04 : BPL .player_below_object
         
         EOR.w #$FFFF : INC A
     

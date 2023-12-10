@@ -15,7 +15,7 @@
         
         ; \item
         ; Subtract off 8 points of mp.
-        LDA $7EF36E : SUB.b #$08 : BCS .player_has_at_least_eight_mp
+        LDA $7EF36E : SEC : SBC.b #$08 : BCS .player_has_at_least_eight_mp
         
         LDA.b #$00
         

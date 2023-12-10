@@ -430,7 +430,7 @@
         ; This routine is triggered if a bomb is on a conveyor belt or
         ; otherwise moving surface
         
-        LDA $03E4, X : SUB.b #$68 : TAY
+        LDA $03E4, X : SEC : SBC.b #$68 : TAY
         
         LDA .y_speeds, Y : STA $0C22, X
         LDA .x_speeds, Y : STA $0C2C, X
@@ -869,7 +869,7 @@
     .airborn_in_ground_state
     
         ; Simulate gravity.
-        LDA $0294, X : SUB.b #$02 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
         
         JSR Ancilla_MoveVert
         JSR Ancilla_MoveHoriz
@@ -888,7 +888,7 @@
         
         LDA $029E, X : BMI .dont_add_altitude_back_to_y_coord
         
-        SUB $00 : STA $0E
+        SEC : SBC $00 : STA $0E
         
         REP #$20
         
@@ -924,7 +924,7 @@
         
         INC $0385, X : LDA $0385, X : CMP.b #$03 : BEQ .bounces_maxed_out
         
-        SUB.b #$02 : ASL #2 : CLC : ADC $0C72, X : TAY
+        SEC : SBC.b #$02 : ASL #2 : CLC : ADC $0C72, X : TAY
         
         LDY.b #$00
         
@@ -1071,7 +1071,7 @@
         LDA $0380, X : CMP.b #$03 : BNE .restore_liftability
         
         ; Simulate gravity.
-        LDA $0294, X : SUB.b #$02 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
         
         JSR Ancilla_MoveAltitude
         
@@ -1178,7 +1178,7 @@
         REP #$20
         
         ; A = Link's X pos. + 8 - effect's X pos.
-        LDA $22 : CLC : ADC.w #$0008 : SUB $06 : BPL .abs_delta_x
+        LDA $22 : CLC : ADC.w #$0008 : SEC : SBC $06 : BPL .abs_delta_x
         
         ; A = abs(A) [absolute value]
         EOR.w #$FFFF : INC A
@@ -1187,7 +1187,7 @@
     
         STA $0A
         
-        LDA $20 : CLC : ADC.w #$000C : SUB $04 : BPL .abs_delta_y
+        LDA $20 : CLC : ADC.w #$000C : SEC : SBC $04 : BPL .abs_delta_y
         
         ; A = abs(Link's Y pos. + 0x0C - effect's Y pos.)
         EOR.w #$FFFF : INC A

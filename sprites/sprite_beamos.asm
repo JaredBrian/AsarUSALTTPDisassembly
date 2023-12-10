@@ -316,14 +316,14 @@
         TAX
         
         ; Load the eyeball's relative x position
-        LDA .x_offsets, X : SUB.b #$03 : STA $0FA8
+        LDA .x_offsets, X : SEC : SBC.b #$03 : STA $0FA8
         
         CLC : ADC $00 : STA ($90), Y
         
         ; Load the eyeball's relative y position
         ; $29111, X THAT IS. Tells us which eyeball graphic to use.
         ; $29131, X THAT IS. Tells us which way to flip the eyeball.
-        LDA .y_offsets, X : SUB.b #$12 : STA $0FA9
+        LDA .y_offsets, X : SEC : SBC.b #$12 : STA $0FA9
         CLC : ADC $02                                          : INY : STA ($90), Y
         LDA .chr, X                                       : INY : STA ($90), Y
         LDA $05 : AND.b #$31 : ORA .hflip, X : ORA.b #$0A : INY : STA ($90), Y
@@ -497,8 +497,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $E2       : STA ($90), Y : AND.w #$0100 : STA $0E
-        LDA $02 : SUB $E8 : INY : STA ($90), Y
+        LDA $00 : SEC : SBC $E2       : STA ($90), Y : AND.w #$0100 : STA $0E
+        LDA $02 : SEC : SBC $E8 : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen    ;added missing #
         

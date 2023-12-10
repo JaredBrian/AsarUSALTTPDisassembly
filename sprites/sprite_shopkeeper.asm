@@ -433,7 +433,7 @@
         JSR Sprite3_CheckIfActive
         JSL Sprite_PlayerCantPassThrough
         
-        LDA $0E80, X : SUB.b #$05 : TAY
+        LDA $0E80, X : SEC : SBC.b #$05 : TAY
         
         LDA $F14B, Y : XBA
         LDA $F14D, Y : TAY : XBA
@@ -800,7 +800,7 @@
         
         PLX
         
-        LDA $0E80, X : SUB.b #$07 : BMI BRANCH_ALPHA
+        LDA $0E80, X : SEC : SBC.b #$07 : BMI BRANCH_ALPHA
         
         TAY
         
@@ -921,7 +921,7 @@
     ; *$F74CE-$F74F2 LOCAL
     ShopKeeper_DrawItemWithPrice:
     {
-        LDA $0E80, X : SUB.b #$07 : REP #$20 : AND.w #$00FF : STA $00
+        LDA $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA $00
                                                ASL #2       : ADC $00 : ASL #3
         
         ADC.w #.oam_groups : STA $08

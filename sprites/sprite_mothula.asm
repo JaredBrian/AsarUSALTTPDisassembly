@@ -305,7 +305,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $02 : SUB $04 : CLC : ADC.b #$03 : STA $0D00, Y
+        LDA $02 : SEC : SBC $04 : CLC : ADC.b #$03 : STA $0D00, Y
         
         LDA.b #$10 : STA $0DF0, Y
                      STA $0BA0, Y

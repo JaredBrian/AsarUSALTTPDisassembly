@@ -180,8 +180,8 @@
         
         REP #$20
         
-        LDA $20 : CLC : ADC.w #$0010 : SUB $E8 : STA $00
-        LDA $22 : CLC : ADC.w #$0007 : SUB $E2 : STA $02
+        LDA $20 : CLC : ADC.w #$0010 : SEC : SBC $E8 : STA $00
+        LDA $22 : CLC : ADC.w #$0007 : SEC : SBC $E2 : STA $02
         
         SEP #$20
         
@@ -440,7 +440,7 @@
         
         PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         
@@ -482,7 +482,7 @@
         LDA .extra_spark_chr, X : STA ($90), Y : INY
         LDA.b #$04 : ORA $65    : STA ($90), Y : INY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
     
@@ -558,8 +558,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $E8 : STA $00
-        LDA $02 : SUB $E2 : STA $02
+        LDA $00 : SEC : SBC $E8 : STA $00
+        LDA $02 : SEC : SBC $E2 : STA $02
         
         SEP #$20
         
@@ -1071,9 +1071,9 @@
         
         REP #$20
         
-        LDA $0C : SUB $E8 : CMP.w #$00F0 : BCS .self_terminate
+        LDA $0C : SEC : SBC $E8 : CMP.w #$00F0 : BCS .self_terminate
         
-        LDA $0E : SUB $E2 : CMP.w #$00F4 : BCC .on_screen
+        LDA $0E : SEC : SBC $E2 : CMP.w #$00F4 : BCC .on_screen
     
     .self_terminate
     

@@ -66,7 +66,7 @@
     .skip_tile_collision_logic
     
         ; Simulates gravity for the sprite.
-        LDA $0F80, X : SUB.b #$02 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
         LDA $0F70, X : BPL .aloft
         
@@ -215,7 +215,7 @@
     {
         STZ $0DD0, X
         
-        LDA $0E20, X : SUB.b #$D8 : TAY
+        LDA $0E20, X : SEC : SBC.b #$D8 : TAY
         
         LDA .sfx, Y : JSL Sound_SetSfx3PanLong
         

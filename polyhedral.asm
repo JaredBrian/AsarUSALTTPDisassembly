@@ -203,7 +203,7 @@
         LDY $55 : STY $211B
         LDY $47 : STY $211C
         
-        SUB $2134
+        SEC : SBC $2134
         
         CLI
         
@@ -249,7 +249,7 @@
         LDY $51 : STY $211B
         LDY $46 : STY $211C
         
-        SUB $2135
+        SEC : SBC $2135
         
         LDY $5E : STY $211B
         LDY $5F : STY $211B
@@ -769,7 +769,7 @@
         
         LDA $E6 : AND.b #$38 : STA $BC
         
-        LDA $EF : AND.b #$38 : SUB $BC : BNE .alpha
+        LDA $EF : AND.b #$38 : SEC : SBC $BC : BNE .alpha
         
         REP #$30
         
@@ -905,7 +905,7 @@
     
     .zeta
     
-        SUB $004214
+        SEC : SBC $004214
     
     .theta
     
@@ -965,7 +965,7 @@
         
         LDX.b #$00
         
-        SUB $EA : BCS .zeta
+        SEC : SBC $EA : BCS .zeta
         
         DEX
         
@@ -994,7 +994,7 @@
     
     .theta
     
-        SUB $004214
+        SEC : SBC $004214
     
     .iota
     

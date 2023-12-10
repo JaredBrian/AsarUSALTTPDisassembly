@@ -117,7 +117,7 @@
         LDA .chr_and_properties,   X                        : STA ($90), Y : INY
         LDA .chr_and_properties+1, X : AND.b #$CF : ORA $65 : STA ($90), Y
         
-        INY : PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        INY : PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         ; Use small sprites always.
         LDA.b #$00 : STA ($92), Y

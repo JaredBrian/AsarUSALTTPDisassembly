@@ -127,7 +127,7 @@
         
         ; A = Sprites X position minus the X coordinate of the scroll register for Layer 2.
         ; If A (unsigned) is less than #$50. A will be #$0.
-        SUB $E2 : SUB.w #$0050 : CMP.w #$0050 : BCC .panSelected
+        SEC : SBC $E2 : SEC : SBC.w #$0050 : CMP.w #$0050 : BCC .panSelected
         
         INX
         
@@ -161,7 +161,7 @@
     ; *$6BBD0-$6BBDF LONG
     Sound_GetFineSfxPan:
     {
-        SUB $E2 : LSR #5 : PHX : TAX
+        SEC : SBC $E2 : LSR #5 : PHX : TAX
         
         LDA .settings, X
         

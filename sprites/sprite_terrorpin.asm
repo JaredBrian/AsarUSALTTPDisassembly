@@ -234,10 +234,10 @@
     ; *$F3405-$F3429 LOCAL
     Terrorpin_FormHammerHitBox:
     {
-        LDA $0D10, X : SUB.b #$10 : STA $04
+        LDA $0D10, X : SEC : SBC.b #$10 : STA $04
         LDA $0D30, X : SBC.b #$00 : STA $0A
         
-        LDA $0D00, X : SUB.b #$10 : STA $05
+        LDA $0D00, X : SEC : SBC.b #$10 : STA $05
         LDA $0D20, X : SBC.b #$00 : STA $0B
         
         LDA.b #$30 : STA $06

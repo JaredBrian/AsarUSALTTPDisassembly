@@ -176,7 +176,7 @@
         ; This is damage from enemies/ weapons. Not falls.
         ; Subtract however much damage from Link.
         ; If Link's health drops to zero, then he dies
-        SUB $00 : CMP.b #$00 : BEQ .linkIsDead
+        SEC : SBC $00 : CMP.b #$00 : BEQ .linkIsDead
         
         ; The equivalent of (A * 2 * 8) + 8 => 168 life points => 20 hearts plus another heart.
         ; If health is >= 21 hearts, Link dies. Wonderful.
@@ -1599,7 +1599,7 @@ BRANCH_OMICRON:
     ; *$38946 ALTERNATE ENTRY POINT
     BRANCH_BETA:
     
-        LDA $29 : SUB $00 : STA $29
+        LDA $29 : SEC : SBC $00 : STA $29
     
     BRANCH_GAMMA:
     
@@ -1702,7 +1702,7 @@ BRANCH_OMICRON:
     
         SEP #$20
         
-        LDA $0364 : SUB $24 : STA $30
+        LDA $0364 : SEC : SBC $24 : STA $30
         
         LDA $29   : STA $0362
         LDA $02C7 : STA $0363
@@ -1820,7 +1820,7 @@ BRANCH_OMICRON:
     
     .beta
     
-        LDA $0364 : SUB $24 : STA $30
+        LDA $0364 : SEC : SBC $24 : STA $30
     
     .mu
     
@@ -1848,7 +1848,7 @@ BRANCH_OMICRON:
         LDA $21 : STA $33
         LDA $20 : STA $32
         
-        SUB $3E : STA $30
+        SEC : SBC $3E : STA $30
     
     BRANCH_ALPHA:
     
@@ -1919,7 +1919,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $20 : SUB $32 : CLC : ADC $00 : STA $0364 : STA $24
+        LDA $20 : SEC : SBC $32 : CLC : ADC $00 : STA $0364 : STA $24
         
         SEP #$20
         
@@ -1951,7 +1951,7 @@ BRANCH_OMICRON:
         LDA $21 : STA $33
         LDA $20 : STA $32
         
-        SUB $3E : STA $30
+        SEC : SBC $3E : STA $30
         
         LDA $66 : ASL A : TAY
         
@@ -2024,7 +2024,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $20 : SUB $32 : CLC : ADC $00 : STA $0364 : STA $24
+        LDA $20 : SEC : SBC $32 : CLC : ADC $00 : STA $0364 : STA $24
         
         SEP #$20
     
@@ -2072,7 +2072,7 @@ BRANCH_ALPHA:
     
     LDA $0362 : BNE BRANCH_BETA
     
-    LDA $5D : SUB.b #$0F : ASL #2 : STA $00
+    LDA $5D : SEC : SBC.b #$0F : ASL #2 : STA $00
     
     TYA : AND.b #$FD : ASL A : CLC : ADC $00 : TAX
     
@@ -2189,7 +2189,7 @@ BRANCH_BETA:
     
     LDA $8CF7, Y : CLC : ADC $22 : STA $22
     
-    LDA $32 : SUB $22 : BPL BRANCH_DELTA
+    LDA $32 : SEC : SBC $22 : BPL BRANCH_DELTA
     
     EOR.w #$FFFF : INC A
 
@@ -2288,7 +2288,7 @@ BRANCH_ALPHA:
     
     REP #$20
     
-    LDA $20 : SUB $32 : LSR #3 : TAY
+    LDA $20 : SEC : SBC $32 : LSR #3 : TAY
     
     SEP #$20
     
@@ -2318,7 +2318,7 @@ BRANCH_BETA:
     LDA $21 : STA $33
     LDA $20 : STA $32
     
-    SUB $3E : STA $30
+    SEC : SBC $3E : STA $30
 
 BRANCH_BETA:
 
@@ -2388,7 +2388,7 @@ BRANCH_GAMMA:
     
     REP #$20
     
-    LDA $20 : SUB $32 : CLC : ADC $00 : STA $0364 : STA $24
+    LDA $20 : SEC : SBC $32 : CLC : ADC $00 : STA $0364 : STA $24
     
     SEP #$20
     
@@ -2646,8 +2646,8 @@ BRANCH_GAMMA:
     
     BRANCH_RHO:
     
-        LDA $20 : SUB $3E : STA $30
-        LDA $22 : SUB $3F : STA $31
+        LDA $20 : SEC : SBC $3E : STA $30
+        LDA $22 : SEC : SBC $3F : STA $31
         
         JSR $B7C7 ; $3B7C7 IN ROM
         JSR $E8F0 ; $3E8F0 IN ROM
@@ -3246,7 +3246,7 @@ BRANCH_GAMMA:
         LDA.b #$0C : STA $4B
         LDA.b #$10 : STA $57
         
-        LDA $20 : SUB $E8 : STA $00
+        LDA $20 : SEC : SBC $E8 : STA $00
         
         STZ $01
         STZ $0308
@@ -3292,7 +3292,7 @@ BRANCH_GAMMA:
         
         LDA.w #$0010 : CLC : ADC $00 : STA $00
         
-        LDA $20 : STA $51 : SUB $00 : STA $20
+        LDA $20 : STA $51 : SEC : SBC $00 : STA $20
         
         SEP #$30
         
@@ -3336,7 +3336,7 @@ BRANCH_GAMMA:
         LDA.b #$14 : STA $11
         
         ; Subtract one heart from Link's HP. Could replace this with a BPL... maybe.
-        LDA $7EF36D : SUB.b #$08 : STA $7EF36D : CMP.b #$A8 : BCC .notDead
+        LDA $7EF36D : SEC : SBC.b #$08 : STA $7EF36D : CMP.b #$A8 : BCC .notDead
         
         ; Instakill if Link's HP is >= 0xA8. Kinda counter intuitive, but whatever.
         LDA.b #$00 : STA $7EF36D
@@ -4361,7 +4361,7 @@ Link_ReceiveItem:
     BRANCH_KAPPA:
     
         ; Only gets triggered if the previous item was one of the rods.
-        LDA $0304 : SUB.b #$05 : INC A : STA $0307
+        LDA $0304 : SEC : SBC.b #$05 : INC A : STA $0307
     
     BRANCH_LAMBDA:
     
@@ -4553,7 +4553,7 @@ Link_ReceiveItem:
         
         ; Checks if we need to fire a sword beam
         ; if(actual health >= (goal health - 4))
-        LDA $7EF36C : SUB.b #$04 : CMP $7EF36D : BCS .cantShootBeam
+        LDA $7EF36C : SEC : SBC.b #$04 : CMP $7EF36D : BCS .cantShootBeam
         
         ; Check if we have a sword that can shoot teh beamz
         LDA $7EF359 : INC A : AND.b #$FE : BEQ .cantShootBeam
@@ -4876,7 +4876,7 @@ BRANCH_GAMMA:
     
     CMP.b #$09 : BEQ BRANCH_39D84_BRANCH_ALPHA : bCC BRANCH_BETA
     
-    LDA $02 : SUB.b #$0A : STA $02
+    LDA $02 : SEC : SBC.b #$0A : STA $02
     
     LDY.b #$03
 
@@ -6993,7 +6993,7 @@ BRANCH_IOTA:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $04 : SUB $20 : BPL BRANCH_KAPPA
+    LDA $00 : CLC : ADC $04 : SEC : SBC $20 : BPL BRANCH_KAPPA
     
     EOR.w #$FFFF : INC A
 
@@ -7005,7 +7005,7 @@ BRANCH_KAPPA:
 
 BRANCH_LAMBDA:
 
-    LDA $02 : CLC : ADC $06 : SUB $22 : BPL BRANCH_MU
+    LDA $02 : CLC : ADC $06 : SEC : SBC $22 : BPL BRANCH_MU
     
     EOR.w #$FFFF : INC A
 
@@ -7732,7 +7732,7 @@ BRANCH_THEL:
         
         ; Subtract the amount off of the magic meter.
         ; Check to see if the amount is negative.
-        SUB $00 : CMP.b #$80 : BCS .notEnoughMagicPoints
+        SEC : SBC $00 : CMP.b #$80 : BCS .notEnoughMagicPoints
         
         ; Otherwise just take it like a man.
         STA $7EF36E
@@ -9029,7 +9029,7 @@ BRANCH_OMEGA:
         
         LDY.b #$08
         
-        LDA $20 : SUB $3E : STA $30 : BEQ BRANCH_PI : BMI BRANCH_RHO
+        LDA $20 : SEC : SBC $3E : STA $30 : BEQ BRANCH_PI : BMI BRANCH_RHO
         
         LDY.b #$04
     
@@ -9044,7 +9044,7 @@ BRANCH_OMEGA:
         ; Two LDA's in a row?
         LDA.b #$02
         
-        LDA $22 : SUB $3F : STA $31 : BEQ BRANCH_SIGMA : BMI BRANCH_TAU
+        LDA $22 : SEC : SBC $3F : STA $31 : BEQ BRANCH_SIGMA : BMI BRANCH_TAU
         
         LDY.b #$01
     
@@ -9141,8 +9141,8 @@ BRANCH_OMEGA:
     
         REP #$20
         
-        LDA $E6 : SUB $E8 : CLC : ADC $20 : STA $20 : STA $0318
-        LDA $E0 : SUB $E2 : CLC : ADC $22 : STA $22 : STA $031A
+        LDA $E6 : SEC : SBC $E8 : CLC : ADC $20 : STA $20 : STA $0318
+        LDA $E0 : SEC : SBC $E2 : CLC : ADC $22 : STA $22 : STA $031A
         
         SEP #$20
     
@@ -9167,11 +9167,11 @@ BRANCH_OMEGA:
         
         REP #$20
         
-        LDA $20 : SUB $0318 : STA $00
-        LDA $22 : SUB $031A : STA $02
+        LDA $20 : SEC : SBC $0318 : STA $00
+        LDA $22 : SEC : SBC $031A : STA $02
         
-        LDA $E8 : SUB $E6 : CLC : ADC $20 : STA $20
-        LDA $E2 : SUB $E0 : CLC : ADC $22 : STA $22
+        LDA $E8 : SEC : SBC $E6 : CLC : ADC $20 : STA $20
+        LDA $E2 : SEC : SBC $E0 : CLC : ADC $22 : STA $22
         
         SEP #$20
         
@@ -9427,7 +9427,7 @@ BRANCH_OMEGA:
     LDA $7EF360 : CLC : ADC.w #$0005 : STA $7EF360
     
     ; This is intended to help calculate where to do the clearing update.
-    LDA $20 : CLC : ADC $B9F7, Y : SUB $00 : STA $00
+    LDA $20 : CLC : ADC $B9F7, Y : SEC : SBC $00 : STA $00
     
     LDA $22 : CLC : ADC $B9FF, Y : STA $02
     
@@ -10486,7 +10486,7 @@ BRANCH_ZOD:
         
         LDY $30 : BPL BRANCH_ALPHA
 
-        SUB.w #$0008
+        SEC : SBC.w #$0008
 
     BRANCH_ALPHA:
 
@@ -10720,7 +10720,7 @@ BRANCH_ZOD:
     
         REP #$20
         
-        LDA $20 : SUB.w #$0010 : STA $20
+        LDA $20 : SEC : SBC.w #$0010 : STA $20
         
         SEP #$20
         
@@ -10749,9 +10749,9 @@ BRANCH_ZOD:
     
         REP #$20
         
-        LDA $20 : SUB.w #$0010 : STA $20
+        LDA $20 : SEC : SBC.w #$0010 : STA $20
         
-        LDA $32 : SUB $20      : STA $32
+        LDA $32 : SEC : SBC $20      : STA $32
         
         SEP #$20
         
@@ -10818,7 +10818,7 @@ BRANCH_ALPHA:
     
     REP #$20
     
-    LDA $32 : SUB $20 : LSR #3 : TAY
+    LDA $32 : SEC : SBC $20 : LSR #3 : TAY
     
     LDA $32 : STA $20
     
@@ -11058,7 +11058,7 @@ BRANCH_PSI:
     LDA $7EF360 : CLC : ADC.w #$0005 : STA $7EF360
     
     ; Configure the address where the clearing of the rupee tile will occur.
-    LDA $20 : CLC : ADC $B9F7, Y : SUB $00 : STA $00
+    LDA $20 : CLC : ADC $B9F7, Y : SEC : SBC $00 : STA $00
     LDA $22 : CLC : ADC $B9FF, Y           : STA $02
     
     SEP #$20
@@ -11893,7 +11893,7 @@ BRANCH_ALIF:
         
         LDY $31 : BPL BRANCH_ALPHA
         
-        SUB.w #$0008
+        SEC : SBC.w #$0008
     
     BRANCH_ALPHA:
     
@@ -12127,7 +12127,7 @@ BRANCH_ALIF:
     
         REP #$20
         
-        LDA $22 : SUB $02DC : STA $00
+        LDA $22 : SEC : SBC $02DC : STA $00
         
         LDA $02DC : STA $22
         
@@ -12156,7 +12156,7 @@ BRANCH_ALIF:
         
         REP #$20
         
-        LDA $20 : SUB $02DE : STA $00
+        LDA $20 : SEC : SBC $02DE : STA $00
         
         SEP #$20
         
@@ -13005,7 +13005,7 @@ BRANCH_ALIF:
     .check_lift_strength
     
         ; Subtract glove strength.
-        LDA $D375, Y : SUB $7EF354 : BEQ .strongEnough : BPL .checkIfOpeningChest
+        LDA $D375, Y : SEC : SBC $7EF354 : BEQ .strongEnough : BPL .checkIfOpeningChest
     
     .strongEnough
     
@@ -13213,8 +13213,8 @@ BRANCH_ALIF:
         
         REP #$20
         
-        LDA $E6 : SUB $E8 : CLC : ADC $04 : STA $04
-        LDA $E0 : SUB $E2 : CLC : ADC $08 : STA $08
+        LDA $E6 : SEC : SBC $E8 : CLC : ADC $04 : STA $04
+        LDA $E0 : SEC : SBC $E2 : CLC : ADC $08 : STA $08
         
         SEP #$20
         
@@ -14373,7 +14373,7 @@ BRANCH_ALIF:
         LDA $06 : STA $76
         
         ; Chest tile values range from 0x58 - 0x5D, so tell me which chest in the room it is.
-        SUB.w #$0058 : ASL A : TAX
+        SEC : SBC.w #$0058 : ASL A : TAX
         
         ; Load from a listing of in room chest addresses.
         ; If top bit not set, then branch.
@@ -14766,7 +14766,7 @@ BRANCH_ALPHA:
     
     LDA $6E : AND.b #$02 : BNE BRANCH_GAMMA
     
-    LDA.b #$08 : SUB $02
+    LDA.b #$08 : SEC : SBC $02
     
     BRA BRANCH_DELTA
 
@@ -14778,7 +14778,7 @@ BRANCH_DELTA:
 
     STA $02
     
-    LDA $E052, X : SUB $02
+    LDA $E052, X : SEC : SBC $02
     
     LDY $30 : BEQ BRANCH_EPSILON : BPL BRANCH_ZETA
     
@@ -14792,7 +14792,7 @@ BRANCH_ZETA:
 
 BRANCH_BETA:
 
-    LDA $E052, X : SUB $00 : STA $00
+    LDA $E052, X : SEC : SBC $00 : STA $00
 
 BRANCH_THETA:
 
@@ -14887,9 +14887,9 @@ BRANCH_BETA:
 
 BRANCH_DELTA:
 
-    SUB.b #$08 : EOR.b #$FF : INC A : STA $02
+    SEC : SBC.b #$08 : EOR.b #$FF : INC A : STA $02
     
-    LDA $E052, X : SUB $02
+    LDA $E052, X : SEC : SBC $02
 
 BRANCH_EPSILON:
 
@@ -14905,7 +14905,7 @@ BRANCH_THETA:
 
 BRANCH_GAMMA:
 
-    LDA $E052, X : SUB $00 : STA $00
+    LDA $E052, X : SEC : SBC $00 : STA $00
 
 BRANCH_IOTA:
 
@@ -15355,9 +15355,9 @@ BRANCH_THETA:
         ; This is bounds checking, to keep Link from advancing past a wall.
         ; Otherwise, Link and/or the camera will shake as he alternates between
         ; Getting through the wall and getting pushed back.
-        LDA $20 : SUB $00 : STA $30
+        LDA $20 : SEC : SBC $00 : STA $30
         
-        LDA $22 : SUB $01 : STA $22
+        LDA $22 : SEC : SBC $01 : STA $22
     
     BRANCH_DIALPHA:
     
@@ -15445,7 +15445,7 @@ BRANCH_THETA:
         
         LSR #2 : STA $00
         
-        LDA $08, X : SUB $00 : STA $08, X
+        LDA $08, X : SEC : SBC $00 : STA $08, X
     
     BRANCH_THETA:
     
@@ -16159,7 +16159,7 @@ BRANCH_THETA:
         
         SEP #$20
         
-        LDA $01 : SUB $40 : STA $68
+        LDA $01 : SEC : SBC $40 : STA $68
         
         BRA BRANCH_ALPHA
     
@@ -16167,11 +16167,11 @@ BRANCH_THETA:
     
         REP #$20
         
-        LDA $20 : SUB.w #$0012 : STA $00
+        LDA $20 : SEC : SBC.w #$0012 : STA $00
         
         SEP #$20
         
-        LDA $01 : SUB $40 : STA $68
+        LDA $01 : SEC : SBC $40 : STA $68
     
     BRANCH_ALPHA:
     
@@ -16190,7 +16190,7 @@ BRANCH_THETA:
         
         SEP #$20
         
-        LDA $01 : SUB $41 : STA $69
+        LDA $01 : SEC : SBC $41 : STA $69
         
         BRA BRANCH_GAMMA
     
@@ -16198,11 +16198,11 @@ BRANCH_THETA:
     
         REP #$20
         
-        LDA $22 : SUB.w #$0008 : STA $00
+        LDA $22 : SEC : SBC.w #$0008 : STA $00
         
         SEP #$20
         
-        LDA $01 : SUB $41 : STA $69
+        LDA $01 : SEC : SBC $41 : STA $69
     
     BRANCH_GAMMA:
     
@@ -16265,8 +16265,8 @@ BRANCH_THETA:
     {
         PHB : PHK : PLB
         
-        LDA $21 : SUB $40 : STA $68
-        LDA $23 : SUB $41 : STA $69
+        LDA $21 : SEC : SBC $40 : STA $68
+        LDA $23 : SEC : SBC $41 : STA $69
         
         LDA $69 : BEQ .noHorizontalMovement
                   BMI .movedLeft
@@ -16356,9 +16356,9 @@ BRANCH_THETA:
         
         STZ $04
         
-        LDA $20 : SUB $E8 : CLC : ADC.w #$000C : STA $0E
+        LDA $20 : SEC : SBC $E8 : CLC : ADC.w #$000C : STA $0E
         
-        SUB $067C : STA $0674 : BPL BRANCH_ALPHA
+        SEC : SBC $067C : STA $0674 : BPL BRANCH_ALPHA
         
         STA $04
     
@@ -16366,7 +16366,7 @@ BRANCH_THETA:
     
         CLC : ADC $067C : CLC : ADC $067C : STA $0676
         
-        LDA $22 : SUB $E2 : CLC : ADC.w #$0008 : STA $0670
+        LDA $22 : SEC : SBC $E2 : CLC : ADC.w #$0008 : STA $0670
         
         LDA.w #$0001 : STA $067A
     
@@ -16407,13 +16407,13 @@ BRANCH_THETA:
     
         LDA $08 : CLC : ADC $0670 : STA $02
         
-        LDA $0670 : SUB $08 : STA $00
+        LDA $0670 : SEC : SBC $08 : STA $00
     
     BRANCH_THETA:
     
         LDA $067A : AND.w #$00FF : STA $0A
         
-        LDA $0E : SUB $0A : DEC A : ASL A : TAX
+        LDA $0E : SEC : SBC $0A : DEC A : ASL A : TAX
         
         BRA BRANCH_IOTA
     
@@ -16997,9 +16997,9 @@ BRANCH_THETA:
         
         REP #$20
         
-        LDA $00 : SUB $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
+        LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
         
-        LDA $02 : SUB $06 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
+        LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
         
         SEP #$20
         
@@ -17122,7 +17122,7 @@ BRANCH_THETA:
         
         LDA $08
         
-        SUB $0A     : BCC BRANCH_GAMMA
+        SEC : SBC $0A     : BCC BRANCH_GAMMA
         CMP.w #$0008 : BCS BRANCH_GAMMA
         
         EOR.w #$FFFF : INC A : STA $00
@@ -17133,7 +17133,7 @@ BRANCH_THETA:
 
     BRANCH_IOTA:
 
-        LDA $08 : SUB $0A : CMP.w #$FFF8 : BCC BRANCH_GAMMA
+        LDA $08 : SEC : SBC $0A : CMP.w #$FFF8 : BCC BRANCH_GAMMA
         
         EOR.w #$FFFF : INC A : STA $00
         
@@ -17233,9 +17233,9 @@ BRANCH_THETA:
         
         REP #$20
         
-        LDA $00 : SUB $E8 : DEC A : STA $00
+        LDA $00 : SEC : SBC $E8 : DEC A : STA $00
         
-        LDA $02 : SUB $E2 : STA $02
+        LDA $02 : SEC : SBC $E2 : STA $02
         
         SEP #$20
         
@@ -17268,7 +17268,7 @@ BRANCH_THETA:
         ; Write sprite's properties.
         LDA.b #$20 : STA ($90), Y : INY
         
-        TYA : SUB $04 : LSR #2 : TAY
+        TYA : SEC : SBC $04 : LSR #2 : TAY
         
         ; Write data to extended OAM portion.
         LDA.b #$02 : STA ($92), Y
@@ -17581,7 +17581,7 @@ BRANCH_THETA:
     
     BRANCH_ZETA:
     
-        LDA $22 : SUB $53 : BPL BRANCH_THETA
+        LDA $22 : SEC : SBC $53 : BPL BRANCH_THETA
         
         EOR.b #$FF : INC A
     

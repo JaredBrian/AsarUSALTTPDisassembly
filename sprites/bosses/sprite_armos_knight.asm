@@ -74,7 +74,7 @@
         JSR Sprite2_Move
         JSR Sprite2_MoveAltitude
         
-        LDA $0F80, X : SUB.b #$04 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$04 : STA $0F80, X
         
         LDA $0F70, X : BPL .zeta
         
@@ -163,9 +163,9 @@
         
         REP #$20
         
-        LDA $04 : SUB $0FD8 : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
+        LDA $04 : SEC : SBC $0FD8 : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
         
-        LDA $06 : SUB $0FDA : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
+        LDA $06 : SEC : SBC $0FDA : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
         
         SEP #$20
         
@@ -361,15 +361,15 @@
     
         LSR #3 : STA $07
         
-        LDA $0D00, X : SUB $E8 : STA $02
+        LDA $0D00, X : SEC : SBC $E8 : STA $02
         LDA $0D20, X : SBC $E9 : STA $03
         
         LDY.b #$10
         
-        LDA $00 : SUB.b #$08
+        LDA $00 : SEC : SBC.b #$08
         
         PHA              : CLC : ADC $07               : STA ($90), Y
-        PLA : CLC : ADC.b #$10 : SUB $07 : LDY.b #$14 : STA ($90), Y
+        PLA : CLC : ADC.b #$10 : SEC : SBC $07 : LDY.b #$14 : STA ($90), Y
         
         REP #$20
         

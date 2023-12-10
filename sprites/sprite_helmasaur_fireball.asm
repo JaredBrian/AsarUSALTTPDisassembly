@@ -39,7 +39,7 @@
         
         LDY.b #$00
         
-        LDA $0D10, X : SUB $E2 : STA ($90), Y
+        LDA $0D10, X : SEC : SBC $E2 : STA ($90), Y
         
         ; \note These two branches check if the fireball is with in 32 pixels
         ; of the edge of the screen horizontally, and 16 pixels of the top of
@@ -49,7 +49,7 @@
         ; screen.
         CLC : ADC.b #$20 : CMP.b #$40 : BCC .too_close_to_screen_edge
         
-        LDA $0D00, X : SUB $E8 : INY : STA ($90), Y
+        LDA $0D00, X : SEC : SBC $E8 : INY : STA ($90), Y
         
         CLC : ADC.b #$10 : CMP.b #$20 : BCS .in_range
     
@@ -79,10 +79,10 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8
+        LDA $22 : SEC : SBC $0FD8
                   CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .anodamage_player
         
-        LDA $20 : SUB $0FDA
+        LDA $20 : SEC : SBC $0FDA
                   CLC : ADC.w #$0010 : CMP.w #$0010 : BCS .anodamage_player
         
         SEP #$20

@@ -35,7 +35,7 @@
     ; *$F4B0C-$F4B8A LONG
     SpritePrep_BubbleGroup:
     {
-        LDA $0D10, X : SUB.b #$0A : STA $0D10, X
+        LDA $0D10, X : SEC : SBC.b #$0A : STA $0D10, X
         LDA $0D30, X : SBC.b #$00 : STA $0D30, X
         
         LDA.b #$EE : STA $0D40, X

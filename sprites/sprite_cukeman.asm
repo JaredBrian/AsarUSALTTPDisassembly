@@ -40,9 +40,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
         
         SEP #$20
         

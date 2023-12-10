@@ -425,7 +425,7 @@
     
         STA $08
         
-        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SUB $E8 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
         
         LDA $04
         
@@ -437,7 +437,7 @@
     
         STA $0A
         
-        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SUB $E2 : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
         
         PLY
         
@@ -450,7 +450,7 @@
         LDA .chr, X  : STA ($90), Y : INY
         LDA.b #$3C   : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         
@@ -562,7 +562,7 @@
     
         STA $08
         
-        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SUB $E8 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
         
         LDA $04
         
@@ -574,7 +574,7 @@
     
         STA $0A
         
-        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SUB $E2 : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
         
         PLY
         
@@ -589,7 +589,7 @@
         LDA .chr, X        : STA ($90), Y : INY
         LDA .properties, X : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         
@@ -597,8 +597,8 @@
         
         REP #$20
         
-        LDA $08 : CLC : ADC $7F5810 : CLC : ADC .y_offsets, X : SUB $E8 : STA $00
-        LDA $0A : CLC : ADC $7F580E : CLC : ADC .x_offsets, X : SUB $E2 : STA $02
+        LDA $08 : CLC : ADC $7F5810 : CLC : ADC .y_offsets, X : SEC : SBC $E8 : STA $00
+        LDA $0A : CLC : ADC $7F580E : CLC : ADC .x_offsets, X : SEC : SBC $E2 : STA $02
         
         SEP #$20
         
@@ -611,7 +611,7 @@
         LDA .chr+1, X        : STA ($90), Y : INY
         LDA .properties+1, X : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         
@@ -678,7 +678,7 @@
         
         PHY
         
-        SUB.b #$04 : LSR #2 : TAY
+        SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         
@@ -686,7 +686,7 @@
         
         REP #$20
         
-        LDA $00 : SUB.w #$0010 : STA $00
+        LDA $00 : SEC : SBC.w #$0010 : STA $00
         
         SEP #$20
         
@@ -708,8 +708,8 @@
     {
         REP #$20
         
-        LDA $7F5813 : CLC : ADC.w #$FFFF : SUB $E8 : STA $00
-        LDA $7F5815 : CLC : ADC.w #$FFF8 : SUB $E2 : STA $02 : STA $04
+        LDA $7F5813 : CLC : ADC.w #$FFFF : SEC : SBC $E8 : STA $00
+        LDA $7F5815 : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02 : STA $04
         
         STZ $08
         
@@ -728,7 +728,7 @@
         LDA .orb_chr, X    : STA ($90), Y : INY
         LDA .properties, X : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : STA ($92), Y
         

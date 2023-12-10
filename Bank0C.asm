@@ -115,7 +115,7 @@
         STX $C8
         
         ; Reindex $CA 0x400 bytes lower for the next time this gets called
-        TXA : SUB.w #$0400 : STA $CA
+        TXA : SEC : SBC.w #$0400 : STA $CA
         
         SEP #$30
         
@@ -957,7 +957,7 @@
         
         PHX
         
-        TXA : SUB.w #$0800 : LSR #2 : TAX
+        TXA : SEC : SBC.w #$0800 : LSR #2 : TAX
         
         SEP #$20
         
@@ -1147,7 +1147,7 @@
 
     ; $64AE9-$64B1E JUMP LOCATION
     {
-        LDA $1F02 : SUB.b #$02 : STA $1F02
+        LDA $1F02 : SEC : SBC.b #$02 : STA $1F02
         
         CMP.b #$02 : BCS .alpha
         
@@ -1192,9 +1192,9 @@
     
     .alpha
     
-        LDA $1F05 : SUB.b #$0A : AND.b #$7F : CMP.b #$5C : BCC .beta
+        LDA $1F05 : SEC : SBC.b #$0A : AND.b #$7F : CMP.b #$5C : BCC .beta
         
-        LDA $1F04 : SUB.b #$0B : CMP.b #$DC : BCC .beta
+        LDA $1F04 : SEC : SBC.b #$0B : CMP.b #$DC : BCC .beta
         
         STZ $1F04
         
@@ -1416,7 +1416,7 @@
     
     BRANCH_1:
     
-        LDA $1E0C : SUB.b #$01 : STA $1E0C
+        LDA $1E0C : SEC : SBC.b #$01 : STA $1E0C
         LDA $1E0D : SBC.b #$00 : STA $1E0D
         
         RTS
@@ -3199,7 +3199,7 @@
     
         CMP.w #$000A : BCC .breakOnesLoop
         
-        SUB.w #$000A
+        SEC : SBC.w #$000A
         
         INY
         
@@ -3216,7 +3216,7 @@
     
         CMP.w #$000A : .breakTensLoop
         
-        SUB.w #$000A
+        SEC : SBC.w #$000A
         
         INY
         
@@ -3698,7 +3698,7 @@
         
     LDX $00
         
-    LDA.w #$5A5A : SUB $02 : STA $7004FE, X
+    LDA.w #$5A5A : SEC : SBC $02 : STA $7004FE, X
         
     SEP #$30
         
@@ -4575,7 +4575,7 @@
         STY $25
         
         ; Decrement the timer by one.
-        LDA $0637 : SUB.b #$01 : STA $0637
+        LDA $0637 : SEC : SBC.b #$01 : STA $0637
         
         JSR Attract_AdjustMapZoom
     
@@ -4709,7 +4709,7 @@
         
         TXA : AND.w #$00FF : LSR A : TAX
         
-        LDA $0CF1C4, X : AND.w #$00FF : SUB $0122 : STA $00
+        LDA $0CF1C4, X : AND.w #$00FF : SEC : SBC $0122 : STA $00
         
         CMP.w #$FFE0 : SEP #$20 : BMI .spriteSetOffscreen
         
@@ -5127,7 +5127,7 @@
         
         LDA $30 : CMP,.b #$68 : BCS BRANCH_LAMBDA
         
-        SUB.b #$68 : ASL A : AND.b #$0E : TAX
+        SEC : SBC.b #$68 : ASL A : AND.b #$0E : TAX
     
     BRANCH_LAMBDA:
     
@@ -5975,7 +5975,7 @@
     
     BRANCH_5:
     
-        XBA : SUB.b #$08 : STA $0949, X
+        XBA : SEC : SBC.b #$08 : STA $0949, X
         
         PHY : DEY : BPL BRANCH_4
         

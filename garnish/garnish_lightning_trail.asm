@@ -32,7 +32,7 @@
         
         ; \wtf Is this a kludge having to do with the tileset being loaded into
         ; a different slot in Agahnim's room?
-        SUB.b #$80
+        SEC : SBC.b #$80
     
     .not_agahnim_1_room
     

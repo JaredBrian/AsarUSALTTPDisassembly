@@ -24,7 +24,7 @@
         
         INC $0E80, X
         
-        LDA $0E20, X : SUB.b #$7E : TAY
+        LDA $0E20, X : SEC : SBC.b #$7E : TAY
         
         ; \hardcoded
         LDA $040C : CMP.b #$12 : BNE .not_in_ice_palace
@@ -206,7 +206,7 @@
         ; Check if offscreen per x coordinate.
         LDA ($92), Y : PLY : AND.b #$01 : BNE .no_player_collision
         
-        LDA ($90), Y : CLC : ADC $E2 : SUB $22
+        LDA ($90), Y : CLC : ADC $E2 : SEC : SBC $22
         
         CLC : ADC.b #$0C : CMP.b #$18 : BCS .no_player_collision
         
@@ -215,7 +215,7 @@
         ; Check if offscreen per y coordinate.
         LDA ($90), Y : DEY : CMP.b #$F0 : BCS .no_player_collision
         
-        CLC : ADC $E8 : SUB $20 : CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision
+        CLC : ADC $E8 : SEC : SBC $20 : CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision
         
         PHY
         

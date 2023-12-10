@@ -190,7 +190,7 @@
     .dictionarySequence
     
         ; Dictionary compression for partial words
-        SUB.b #$88
+        SEC : SBC.b #$88
         
         JSR Text_DictionarySequence
         
@@ -1209,7 +1209,7 @@
         
         ; Load a character (or maybe a command) from the text buffer
         ; (Dictionary doesn't matter here so AND with 0x7F)
-        LDA $7F1200, X : AND.w #$007F : SUB.w #$0066 : BPL .commandByte
+        LDA $7F1200, X : AND.w #$007F : SEC : SBC.w #$0066 : BPL .commandByte
         
         ; In this case it's a character
         LDA.w #$0000
@@ -2636,7 +2636,7 @@
         STZ $0000, X : STZ $0002, X : STZ $0004, X : STZ $0006, X
         STZ $0008, X : STZ $000A, X : STZ $000C, X : STZ $000E, X
         
-        SUB.w #$0010 : TAX : BPL .zeroLoop
+        SEC : SBC.w #$0010 : TAX : BPL .zeroLoop
         
         PLB
         
@@ -2733,7 +2733,7 @@
         
         ; Get Link's Y coordinate, Subtract Y coordinate of scroll register
         ; This is a nifty trick, an alternative to branching to load one of two values
-        LDA $20 : SUB $E8 : CMP.w #$0078 : ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
+        LDA $20 : SEC : SBC $E8 : CMP.w #$0078 : ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
         
         ; Ultimately, a vram address gets stored here, so the system knows where to draw the tiles
         LDA Text_Positions, X : STA $1CD2

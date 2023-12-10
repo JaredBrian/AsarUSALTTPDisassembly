@@ -12,7 +12,7 @@
         
         INC $0FFE : LDA $0FFE : AND.b #$3F : BNE .cant_spawn
         
-        LDA $E9 : SUB $0FBF : CMP.b #$02 : BMI .cant_spawn
+        LDA $E9 : SEC : SBC $0FBF : CMP.b #$02 : BMI .cant_spawn
         
         LDA.b #$C2
         LDY.b #$0D
@@ -22,7 +22,7 @@
         JSL GetRandomInt : AND.b #$7F : CLC : ADC.b #$40 : CLC : ADC $E2 : STA $0D10, Y
                            LDA $E3    : ADC.b #$00           : STA $0D30, Y
         
-        LDA $E8 : SUB.b #$30 : STA $0D00, Y
+        LDA $E8 : SEC : SBC.b #$30 : STA $0D00, Y
         LDA $E9 : SBC.b #$00 : STA $0D20, Y
         
         LDA.b #$00 : STA $0F20, Y : STA $0DE0, Y : STA $0F70, Y
@@ -167,8 +167,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
-        LDA $02 : SUB $20 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
+        LDA $00 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
+        LDA $02 : SEC : SBC $20 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
         
         SEP #$20
         
@@ -229,8 +229,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $22 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
-        LDA $02 : SUB $20 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+        LDA $00 : SEC : SBC $22 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+        LDA $02 : SEC : SBC $20 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
         
         SEP #$20
         
@@ -477,7 +477,7 @@
         ; overlord.
         LDA .x_coords_low, X : STA $0D10, Y
         
-        LDA .y_coords_low, X : SUB.b #$08 : STA $0D00, Y
+        LDA .y_coords_low, X : SEC : SBC.b #$08 : STA $0D00, Y
         
         PLX
         
@@ -506,7 +506,7 @@
     ; *$4BAAC-$4BABF JUMP LOCATION
     Overlord_PirogusuFactory:
     {
-        LDA $0B00, X : SUB.b #$10 : STA $0FB5
+        LDA $0B00, X : SEC : SBC.b #$10 : STA $0FB5
         
         LDA $0B30, X : CMP.b #$80 : BEQ PirogusuFactory_Main
         
@@ -704,7 +704,7 @@
         
         INC $0B28, X
         
-        LDA $0B00, X : SUB.b #$0A : TAY
+        LDA $0B00, X : SEC : SBC.b #$0A : TAY
         
         LDA .pointers_low, Y  : STA $00
         LDA .pointers_high, Y : STA $01
@@ -1301,7 +1301,7 @@
         LDA $05 : CLC : ADC $0E    : STA $0D10, Y
         LDA $06 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $07 : SUB.b #$01 : STA $0D00, Y
+        LDA $07 : SEC : SBC.b #$01 : STA $0D00, Y
         LDA $08 : SBC.b #$00 : STA $0D20, Y
         
         LDX $0FB5

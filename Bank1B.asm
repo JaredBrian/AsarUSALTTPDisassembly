@@ -52,9 +52,9 @@
         
         REP #$31
         
-        LDA $20 : AND.w #$FFF8 : STA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
+        LDA $20 : AND.w #$FFF8 : STA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $22 : AND.w #$FFF8 : LSR #3 : STA $02 : SUB $070C : AND $070E : CLC : ADC $06 : STA $00
+        LDA $22 : AND.w #$FFF8 : LSR #3 : STA $02 : SEC : SBC $070C : AND $070E : CLC : ADC $06 : STA $00
         
         LDX.w #$0024
 
@@ -133,9 +133,9 @@
     {
         REP #$31
         
-        LDA $20 : CLC : ADC.w #$0007 : STA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
+        LDA $20 : CLC : ADC.w #$0007 : STA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $22 : LSR #3 : STA $02 : SUB $070C : AND $070E : CLC : ADC $06 : TAY : TAX
+        LDA $22 : LSR #3 : STA $02 : SEC : SBC $070C : AND $070E : CLC : ADC $06 : TAY : TAX
         
         LDA $7E2000, X : ASL #3 : TAX
         
@@ -204,7 +204,7 @@
     
     BRANCH_IOTA:
     
-        TYA : SUB.w #$0080 : STA $0698
+        TYA : SEC : SBC.w #$0080 : STA $0698
         
         SEP #$20
         
@@ -332,9 +332,9 @@
         ; Zero out ??? affected when dashing apparently, Zero out tile interaction
         STZ $04B2 : STZ $76
         
-        LDA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
+        LDA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $02 : SUB $070C : AND $070E : CLC : ADC $06 : TAX
+        LDA $02 : SEC : SBC $070C : AND $070E : CLC : ADC $06 : TAX
         
         ; Is Link using the hammer?
         LDA $0301 : AND.w #$0002 : BNE .usingHammer
@@ -447,8 +447,8 @@
     
     .notShoveling2
     
-        LDA $02 : ASL #3        : SUB.w #$0008 : PHA
-        LDA $00 : SUB.w #$0008 : AND.w #$FFF8  : STA $74
+        LDA $02 : ASL #3        : SEC : SBC.w #$0008 : PHA
+        LDA $00 : SEC : SBC.w #$0008 : AND.w #$FFF8  : STA $74
         
         ; why was it pushed in the first place? -____-
         PLA : STA $72
@@ -620,10 +620,10 @@
         LDA $2F : AND.w #$00FF : TAX
 
         LDA $20    : CLC : ADC $07D365, X : AND.w #$FFF0  : STA $00
-        SUB $0708 : AND $070A       : ASL #3        : STA $06
+        SEC : SBC $0708 : AND $070A       : ASL #3        : STA $06
 
         LDA $22 : CLC : ADC $07D36D, X : AND.w #$FFF0 : STA $02
-        LSR #3  : SUB $070C      : AND $070E    : CLC : ADC $06 : TAX
+        LSR #3  : SEC : SBC $070C      : AND $070E    : CLC : ADC $06 : TAX
         
         RTS
     }
@@ -893,12 +893,12 @@
         
     	LDA.w #$0003 : STA $C8
         
-    	LDA $00 : SUB.w #$0014 : AND.w #$FFF8 : STA $0488
-    	LDA $02 : SUB.w #$0017 : AND.w #$FFF8 : STA $0486
+    	LDA $00 : SEC : SBC.w #$0014 : AND.w #$FFF8 : STA $0488
+    	LDA $02 : SEC : SBC.w #$0017 : AND.w #$FFF8 : STA $0486
     
     .downOneRow
     
-    	LDA $0488 : SUB $0708 : AND $070A : ASL #3 : STA $CA
+    	LDA $0488 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $CA
         
     	LDA $0486
         
@@ -930,7 +930,7 @@
     {
         PHA
         
-        LSR #3 : SUB $070C : AND $070E : CLC : ADC $CA : TAX : STX $04
+        LSR #3 : SEC : SBC $070C : AND $070E : CLC : ADC $CA : TAX : STX $04
         
         ; Check to see if Link has a super bomb.
         LDA $7EF3CC : AND.w #$00FF : CMP.w #$000D
@@ -1989,7 +1989,7 @@
         LDA $C8 : CMP.b #$20 : BCC .delay
         
         ; ($C8 - 0x20) != 0xCF
-        SUB.b #$20 : CMP.b #$CF : BNE .not_next_step_yet
+        SEC : SBC.b #$20 : CMP.b #$CF : BNE .not_next_step_yet
         
         ; After 0xEF frames have counted down, go on to the next step
         ; And reset the substep index.

@@ -62,9 +62,9 @@
         
         REP #$20
         
-        LDA $72 : SUB $06 : STA $08
+        LDA $72 : SEC : SBC $06 : STA $08
         
-        LDA $72 : CLC : ADC $08 : SUB.w #$0008 : SUB $E2 : STA $08
+        LDA $72 : CLC : ADC $08 : SEC : SBC.w #$0008 : SEC : SBC $E2 : STA $08
         
         SEP #$20
         
@@ -92,7 +92,7 @@
         
         PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

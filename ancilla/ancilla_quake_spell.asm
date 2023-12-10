@@ -231,7 +231,7 @@
         
         REP #$20
         
-        LDA $74 : SUB $72 : STA $74
+        LDA $74 : SEC : SBC $72 : STA $74
         
         SEP #$20
         
@@ -251,7 +251,7 @@
     
         STA $02
         
-        LDA $7F580D : CLC : ADC $02 : SUB $E2 : STA $02
+        LDA $7F580D : CLC : ADC $02 : SEC : SBC $E2 : STA $02
         
         INX : TXY
         
@@ -263,7 +263,7 @@
     
         STA $00
         
-        LDA $7F580B : CLC : ADC $00 : SUB $E8 : STA $00
+        LDA $7F580B : CLC : ADC $00 : SEC : SBC $E8 : STA $00
         
         INX
         
@@ -385,7 +385,7 @@
         REP #$20
         
         ; Calculates the number of oam entries to commit.
-        LDA $74 : SUB $72 : STA $74
+        LDA $74 : SEC : SBC $72 : STA $74
         
         SEP #$20
         

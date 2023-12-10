@@ -156,7 +156,7 @@
     
         LDY.b #$00
         
-        SUB.b #$20 : CMP.b #$30 : BCS .cant_spawn
+        SEC : SBC.b #$20 : CMP.b #$30 : BCS .cant_spawn
         
         LDY.b #$04
     

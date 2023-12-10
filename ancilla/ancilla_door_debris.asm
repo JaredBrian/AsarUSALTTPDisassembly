@@ -62,8 +62,8 @@
         
         REP #$20
         
-        LDA $03BA, Y : SUB $E8 : STA $0C
-        LDA $03B6, Y : SUB $E2 : STA $0E
+        LDA $03BA, Y : SEC : SBC $E8 : STA $0C
+        LDA $03B6, Y : SEC : SBC $E2 : STA $0E
         
         SEP #$20
         
@@ -107,7 +107,7 @@
         LDA .chr_and_properties + 0, X                        : STA ($90), Y : INY
         LDA .chr_and_properties + 2, X : AND.b #$C0 : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

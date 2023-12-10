@@ -104,7 +104,7 @@
         JSR Sprite2_CheckDamage
         JSR Sprite2_MoveAltitude
         
-        LDA $0F80, X : SUB.b #$02 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
         LDA $0F70, X : DEC A : BPL .in_air
         
@@ -288,7 +288,7 @@
         
         LDA $00 : STA ($90), Y : AND.w #$0100 : STA $0E
         
-        LDA $02 : SUB.w #$0006 : INY : STA ($90), Y
+        LDA $02 : SEC : SBC.w #$0006 : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .head_on_screen_y
         

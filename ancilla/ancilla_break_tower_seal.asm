@@ -25,7 +25,7 @@
         
         REP #$20
         
-        LDA $00 : SUB $0122 : CMP.w #$0038 : BCS .crystal_not_at_rendezvous
+        LDA $00 : SEC : SBC $0122 : CMP.w #$0038 : BCS .crystal_not_at_rendezvous
         
         ; If the crystal somehow ends up higher than we wanted it to, snap
         ; it at Y coordinate 0x38 (that's what this code is for)
@@ -205,7 +205,7 @@
     
     .positive_y_projection
     
-        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SUB $0122 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $0122 : STA $00
         
         LDA $04
         
@@ -215,7 +215,7 @@
     
     .positive_x_projection
     
-        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SUB $011E : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $011E : STA $02
         
         PLY
         
@@ -284,7 +284,7 @@
         
         INY : PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$02 : ORA $75 : STA ($92), Y
         
@@ -401,7 +401,7 @@
         LDA $C1E4, X              : STA ($90), Y : INY
         LDA $C1E7, X : ORA.b #$30 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

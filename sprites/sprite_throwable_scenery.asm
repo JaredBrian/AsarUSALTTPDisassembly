@@ -172,7 +172,7 @@
         
         LDY.b #$00
         
-        LDA $0D00, X : SUB $E8 : STA $02
+        LDA $0D00, X : SEC : SBC $E8 : STA $02
         LDA $0D20, X : SBC $E9 : STA $03
         
         PHX
@@ -314,7 +314,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : SUB $0F70, Y
+        LDA $0D00, Y : SEC : SBC $0F70, Y
         
         PHP
         

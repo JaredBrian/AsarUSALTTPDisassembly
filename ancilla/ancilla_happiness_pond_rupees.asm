@@ -94,7 +94,7 @@
         
         LDA $0C68, X : BNE .just_draw_item
         
-        LDA $0294, X : SUB.b #$02 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
         
         JSR Ancilla_MoveVert
         JSR Ancilla_MoveHoriz

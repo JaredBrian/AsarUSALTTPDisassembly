@@ -127,7 +127,7 @@
         
         PHA
         
-        LDA $0D00, X : SUB.b #$1D : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$1D : STA $0D00, X
         LDA $0D20, X : SBC.b #$00 : STA $0D20, X
         
         PLA
@@ -199,11 +199,11 @@
         
         TXA : EOR $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
         
-        JSL GetRandomInt : REP #$20 : AND.w #$000F : SUB.w #$0004 : STA $00
+        JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA $00
         
         SEP #$20
         
-        JSL GetRandomInt : REP #$20 : AND.w #$000F : SUB.w #$0004 : STA $02
+        JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA $02
         
         SEP #$20
         
@@ -288,7 +288,7 @@
         LDA $0D30, Y : ADC $01 : STA $7FF878, X
         
         ; WTF is this math here? Will take some sorting out with the PHP / PLPs...
-        LDA $0D00, Y : SUB $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA $7FF81E, X
+        LDA $0D00, Y : SEC : SBC $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA $7FF81E, X
         LDA $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA $7FF85A, X
         
         LDA.b #$1F : STA $7FF90E, X
@@ -370,7 +370,7 @@
     
     .dispersing
     
-        SUB.b #$0C : TAY
+        SEC : SBC.b #$0C : TAY
         
         LDA.b #$00 : XBA
         

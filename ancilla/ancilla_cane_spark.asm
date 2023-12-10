@@ -164,7 +164,7 @@
         LDA .chr, X                               : STA ($90), Y : INY
         LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         ; all oam entries are small for this guy.
         LDA.b #$00 : STA ($92), Y
@@ -272,7 +272,7 @@
         LDA $7EF36E : BEQ .self_terminate
         
         ; Would consuming that much magic would leave us in the red?
-        SUB $00 : CMP.b #$80 : BCS .self_terminate
+        SEC : SBC $00 : CMP.b #$80 : BCS .self_terminate
         
         STA $00
         
@@ -406,7 +406,7 @@
         LDA $D8F6, X      : STA ($90), Y : INY
         LDA $73 : ORA $65 : STA ($90), Y : INY
         
-        PHY : TYA : SUB.b #$04 : LSR #2 : TAY
+        PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA.b #$00 : STA ($92), Y
         

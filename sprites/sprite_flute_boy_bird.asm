@@ -101,7 +101,7 @@
     {
         LDA.b #$01 : STA $0DC0, X
         
-        LDA $0F80, X : SUB.b #$01 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$01 : STA $0F80, X
         
         CMP.b #$F1 : BPL .above_fall_speed_limit
         

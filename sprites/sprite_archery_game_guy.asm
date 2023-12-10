@@ -32,7 +32,7 @@
         
         STZ $0B88
         
-        LDA $0D00, X : SUB.b #$08 : STA $0D00, X
+        LDA $0D00, X : SEC : SBC.b #$08 : STA $0D00, X
         
         PHX
         
@@ -259,7 +259,7 @@
         REP #$20
         
         ; Take 20 rupees as payment for the game.
-        LDA $7EF360 : SUB.b #$0014 : STA $7EF360
+        LDA $7EF360 : SEC : SBC.b #$0014 : STA $7EF360
         
         SEP #$20
         
@@ -399,7 +399,7 @@
         
         LDA $0F50, X : AND.b #$BF : ORA $00 : STA $0F50, X
         
-        LDA $0FDA : SUB.b #$03 : STA $0FDA
+        LDA $0FDA : SEC : SBC.b #$03 : STA $0FDA
         
         JSL Sprite_PrepAndDrawSingleLargeLong
         

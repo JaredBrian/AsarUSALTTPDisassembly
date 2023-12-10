@@ -125,7 +125,7 @@
         
         JSL GetRandomInt : REP #$20 : AND.w #$000F
         
-        SUB.w #$0008 : CLC : ADC $00 : STA $00
+        SEC : SBC.w #$0008 : CLC : ADC $00 : STA $00
         
         LDA $0F : AND.w #$000F : CLC : ADC $02 : STA $02
         

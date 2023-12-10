@@ -148,12 +148,12 @@
         
         ; If the object is close to the edge of the screen, make it
         ; self-terminate.
-        LDA $0C04, X : SUB $E2 : CMP.b #$F4 : BCS .self_terminate
+        LDA $0C04, X : SEC : SBC $E2 : CMP.b #$F4 : BCS .self_terminate
         
         ; Get the x coordinate for OAM
         STA $00
         
-        LDA $0BFA, X : SUB $E8 : CMP.b #$F0 : BCS .self_terminate
+        LDA $0BFA, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
         
         ; Get the y coordinate for OAM
         STA $01

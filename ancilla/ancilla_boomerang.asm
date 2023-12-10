@@ -274,7 +274,7 @@
     
     .leftward_throw
     
-        TYA : CLC : ADC $02 : SUB $E2 : STA $02
+        TYA : CLC : ADC $02 : SEC : SBC $E2 : STA $02
         
         CMP.w #$0100 : BCS .reverse_direction
     
@@ -289,7 +289,7 @@
     
     .upward_throw
     
-        TYA : CLC : ADC $00 : SUB $E8 : STA $00 : CMP.w #$00E2 : BCC .dont_reverse
+        TYA : CLC : ADC $00 : SEC : SBC $E8 : STA $00 : CMP.w #$00E2 : BCC .dont_reverse
     
     .reverse_direction
     

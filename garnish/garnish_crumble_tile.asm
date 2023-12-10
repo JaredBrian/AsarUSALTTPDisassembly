@@ -39,8 +39,8 @@
         LDA $7FF83C, X : STA $00
         LDA $7FF878, X : STA $01
         
-        LDA $7FF81E, X : SUB.b #$10 : STA $02
-        LDA $7FF85A, X : SUB.b #$00 : STA $03
+        LDA $7FF81E, X : SEC : SBC.b #$10 : STA $02
+        LDA $7FF85A, X : SEC : SBC.b #$00 : STA $03
         
         PHX
         
@@ -58,12 +58,12 @@
         LDA .properties, Y : STA $05
         LDA .oam_sizes, Y  : STA $06
         
-        LDA $7FF83C, X : SUB $E2    : PHP : CLC : ADC .xy_offsets, Y : STA $00
+        LDA $7FF83C, X : SEC : SBC $E2    : PHP : CLC : ADC .xy_offsets, Y : STA $00
         LDA $7FF878, X : ADC.b #$00 : PLP : SBC $E3
         
         BNE .off_screen
         
-        LDA $7FF81E, X : SUB $E8    : PHP : CLC : ADC .xy_offsets, Y : STA $02
+        LDA $7FF81E, X : SEC : SBC $E8    : PHP : CLC : ADC .xy_offsets, Y : STA $02
         LDA $7FF85A, X : ADC.b #$00 : PLP : SBC $E9
         
         BEQ .on_screen
@@ -77,7 +77,7 @@
         LDY.b #$00
         
               LDA $00                    : STA ($90), Y
-              LDA $02 : SUB.b #$10 : INY : STA ($90), Y
+              LDA $02 : SEC : SBC.b #$10 : INY : STA ($90), Y
         INY : LDA $03                    : STA ($90), Y
         INY : LDA $05                    : STA ($90), Y
         

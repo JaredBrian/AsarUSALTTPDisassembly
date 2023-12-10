@@ -73,9 +73,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
         
         SEP #$20
         

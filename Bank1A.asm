@@ -495,7 +495,7 @@
         ; dark world).
         LDA.b #$05 : STA $0D80, X
         
-        LDA $0D10, X : SUB.b #$09 : STA $0D10, X
+        LDA $0D10, X : SEC : SBC.b #$09 : STA $0D10, X
         
         LDA.b #$01 : STA $0DC0, X
     
@@ -582,10 +582,10 @@
         
         LDY $2F
         
-        LDA $20 : CLC : ADC.l .y_offsets, X : PHP : SUB.b #$10              : STA $0D00, Y
+        LDA $20 : CLC : ADC.l .y_offsets, X : PHP : SEC : SBC.b #$10              : STA $0D00, Y
         LDA $21 : SBC.b #$00          : PLP : ADC.l .y_offsets + 1, X : STA $0D20, Y
         
-        LDA $22 : CLC : ADC.l .x_offsets, X : PHP : SUB.b #$08              : STA $0D10, Y
+        LDA $22 : CLC : ADC.l .x_offsets, X : PHP : SEC : SBC.b #$08              : STA $0D10, Y
         LDA $23 : SBC.b #$00          : PLP : ADC.l .x_offsets + 1, X : STA $0D30, Y
         
         LDA $EE : STA $0F20, Y

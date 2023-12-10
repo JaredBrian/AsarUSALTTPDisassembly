@@ -34,7 +34,7 @@
         LDA $0D00, X : CLC : ADC.b #$10 : STA $0D00, X : PHA
         LDA $0D20, X : ADC.b #$00 : STA $0D20, X
         
-        PLA : SUB $E8 : CMP.b #$D0 : BCC BRANCH_GAMMA
+        PLA : SEC : SBC $E8 : CMP.b #$D0 : BCC BRANCH_GAMMA
         
         STZ $0DD0, X
         

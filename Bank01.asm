@@ -1212,7 +1212,7 @@ org $018000
         DEC $04 : BNE .nextRow
         
         ; Places the next 4 x 4 tile block directly to the right of the previous one. 
-        TYA : SUB.w #$01F8 : TAY
+        TYA : SEC : SBC.w #$01F8 : TAY
         
         DEC $0A : BNE .next_block
         
@@ -1393,7 +1393,7 @@ org $018000
         STA [$CB], Y : STA [$CE], Y
         STA [$D1], Y : STA [$D4], Y
         
-        TYA : SUB.w #$00F8 : TAY
+        TYA : SEC : SBC.w #$00F8 : TAY
         
         DEC $0A : BNE .nextColumnBlock
         
@@ -1473,7 +1473,7 @@ org $018000
     
         JSR $B2CE ; $B2CE IN ROM
         
-        SUB.w #$007E : STA $08 : TAY
+        SEC : SBC.w #$007E : STA $08 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -1633,7 +1633,7 @@ org $018000
     
     .locateVerticalMidpoint
     
-        SUB.w #$0080
+        SEC : SBC.w #$0080
         
         DEC $B4 : BNE .locateVerticalMidpoint
         
@@ -1658,7 +1658,7 @@ org $018000
         
         JSR Object_Draw3xN
         
-        TXA : SUB.w #$000C : TAX
+        TXA : SEC : SBC.w #$000C : TAX
         
         DEC $0A : BNE .next_block
         
@@ -1676,7 +1676,7 @@ org $018000
     
     .next_two_columns
     
-        TXA : SUB.w #$0006 : TAX
+        TXA : SEC : SBC.w #$0006 : TAX
         
         LDA.w #$0001
         
@@ -1730,7 +1730,7 @@ org $018000
         
         LDA $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
         
-        TYA : SUB.w #$00FA : TAY
+        TYA : SEC : SBC.w #$00FA : TAY
         
         DEC $0A : BNE .next_block_to_the_right
         
@@ -1909,7 +1909,7 @@ org $018000
     
         JSR $B2CE ; $B2CE IN ROM
         
-        SUB.w #$007E : STA $08 : TAY
+        SEC : SBC.w #$007E : STA $08 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -3136,7 +3136,7 @@ org $018000
         
         JSR Object_Draw4xN
         
-        TXA : SUB.w #$0010 : TAX
+        TXA : SEC : SBC.w #$0010 : TAX
         
         DEC $B2 : BNE .alpha
         
@@ -3163,7 +3163,7 @@ org $018000
         ; Looks like all these $06xx addreses are calculated for hdma of the 
         ; water (for rooms that have a script for that)
         LDA $9B42, X  : STA $0684
-        SUB.w #$0018 : STA $0688
+        SEC : SBC.w #$0018 : STA $0688
         
         TYA : AND.w #$007E : ASL #2 : STA $0680
         
@@ -3252,15 +3252,15 @@ org $018000
         ; Use the initial height to index into a table to get the actual height.
         LDA $9B3A, X : STA $B2
         
-        LDA $9B42, X : SUB.w #$0018 : STA $0686
+        LDA $9B42, X : SEC : SBC.w #$0018 : STA $0686
         
         LDA $B4 : ASL A : TAX
         
         LDA $9B3A, X : STA $B4
         
-        LDA $9B42, X : SUB.w #$0008 : STA $0688
+        LDA $9B42, X : SEC : SBC.w #$0008 : STA $0688
         
-        SUB.w #$0018 : STA $0684
+        SEC : SBC.w #$0018 : STA $0684
         
         STZ $068A
         
@@ -3270,7 +3270,7 @@ org $018000
         
         TYA : CLC : ADC.w #$1F80 : LSR #4 : STA $0682
         
-        LDA $B4 : ASL #4 : CLC : ADC $062E : CLC : ADC $0682 : SUB.w #$0008 : STA $0682
+        LDA $B4 : ASL #4 : CLC : ADC $062E : CLC : ADC $0682 : SEC : SBC.w #$0008 : STA $0682
         
         SEP #$30
         
@@ -5228,11 +5228,11 @@ org $018000
         
         LDX $047E
         
-        TYA : SUB.w #$0080 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : LSR A : STA $06B0, X
         
         LDA $BF : CMP.w #$4000 : BNE .onBG2
         
-        TYA : SUB.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
     
     .onBG2
     
@@ -5260,11 +5260,11 @@ org $018000
         
         LDX $0482
         
-        TYA : SUB.w #$0080 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : LSR A : STA $06B0, X
         
         LDA $BF : CMP.w #$4000 : BNE .onBG2_2
         
-        TYA : SUB.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
     
     .onBG2_2
     
@@ -5291,14 +5291,14 @@ org $018000
         
         ; Take the tilemap address and load it into A
         ; $06B0, X = tilemap addr of the object - 1 line (which is 0x80 bytes)
-        TYA : SUB.w #$0080 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : LSR A : STA $06B0, X
         
         ; Check which BG we're drawing to.
         LDA $BF : CMP.w #$4000 : BNE .onBG2_3
         
         ; We're on BG1 and we need to indicate that to whatever tracks this object
         ; This is the same as the previous write except it would modify it to be on BG0
-        TYA : SUB.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
     
     .onBG2_3
     
@@ -5331,11 +5331,11 @@ org $018000
         
         LDX $0484
         
-        TYA : SUB.w #$0080 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : LSR A : STA $06B0, X
         
         LDA $BF : CMP.w #$4000 : BNE .onBg2_4
         
-        TYA : SUB.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
+        TYA : SEC : SBC.w #$0080 : ORA.w #$2000 : LSR A : STA $06B0, X
     
     .onBg2_4
     
@@ -5532,7 +5532,7 @@ org $018000
         
         DEC $0E : BNE .nextColumn
         
-        LDA $08 : SUB.w #$0200
+        LDA $08 : SEC : SBC.w #$0200
     
     ; *$A6EE ALTERNATE ENTRY POINT
     .increasePriority
@@ -5737,7 +5737,7 @@ org $018000
         ; Invisible door...
         CMP.w #$0016 : BNE .notFloorToggleProperty
         
-        TYA : SUB.w #$00FE
+        TYA : SEC : SBC.w #$00FE
         
         JMP Door_AddFloorToggleProperty
     
@@ -5757,7 +5757,7 @@ org $018000
     
         CMP.w #$0014 : BNE .notPalaceToggleProperty
         
-        TYA : SUB.w #$00FE
+        TYA : SEC : SBC.w #$00FE
         
         JMP Door_AddPalaceToggleProperty
     
@@ -6002,7 +6002,7 @@ org $018000
         
         JSR Door_Register
         
-        LDA $08 : SUB.w #$0206 : STA $08
+        LDA $08 : SEC : SBC.w #$0206 : STA $08
         
         LDY.w #$2656
         LDA.w #$000A
@@ -6021,14 +6021,14 @@ org $018000
         
         JSR Door_Register
         
-        LDA $08 : SUB.w #$0206 : STA $08
+        LDA $08 : SEC : SBC.w #$0206 : STA $08
         
         LDY.w #$2656
         LDA.w #$000A
         
         JSR Object_Draw8xN.draw
         
-        LDA $08 : SUB.w #$2080 : TAX
+        LDA $08 : SEC : SBC.w #$2080 : TAX
         
         LDY.w #$000A
     
@@ -7329,7 +7329,7 @@ org $018000
         
         JSR Object_Draw4xN
         
-        TXA : SUB.w #$0010 : TAX
+        TXA : SEC : SBC.w #$0010 : TAX
         
         DEC $B2 : BNE .loop
     
@@ -7373,7 +7373,7 @@ org $018000
     
         JSR Object_Draw5x1
         
-        TYA : SUB.w #$007E : TAY
+        TYA : SEC : SBC.w #$007E : TAY
     
     ; *$B2AA ALTERNATE ENTRY POINT
     
@@ -8095,7 +8095,7 @@ org $018000
     .endsInF
     
         ; Checks to see if it's one of the first $F rooms
-        LDA $A0 : SUB.w #$0010 : TAX : BMI .first_F_rooms
+        LDA $A0 : SEC : SBC.w #$0010 : TAX : BMI .first_F_rooms
         
         LDA.w #$000C
         
@@ -10657,7 +10657,7 @@ org $018000
     
         STA $0312
         
-        LDA $0422 : SUB $0312 : STA $0422
+        LDA $0422 : SEC : SBC $0312 : STA $0422
         
         CLC : ADC $E2 : STA $E0
         
@@ -10690,11 +10690,11 @@ org $018000
     
         LDX.b #$05 : STX $17
         
-        LDA.w #$0000 : SUB $0422 : STA $00
+        LDA.w #$0000 : SEC : SBC $0422 : STA $00
         
         AND.w #$01F8 : LSR #3 : STA $00
         
-        LDA $042A : SUB $00 : AND.w #$141F : STA $0116
+        LDA $042A : SEC : SBC $00 : AND.w #$141F : STA $0116
     
     .zeroHorizontalSpeed
     
@@ -10929,8 +10929,8 @@ org $018000
         
         REP #$30
         
-        LDA $0682 : AND.w #$01FF : SUB.w #$0010 : ASL #4 : STA $08
-        LDA $0680 : AND.w #$01FF : SUB.w #$0010 : LSR #2 : TSB $08
+        LDA $0682 : AND.w #$01FF : SEC : SBC.w #$0010 : ASL #4 : STA $08
+        LDA $0680 : AND.w #$01FF : SEC : SBC.w #$0010 : LSR #2 : TSB $08
         
         LDX $08
         
@@ -11291,7 +11291,7 @@ org $018000
         
         DEC !num2x4s : BNE .next2x4
         
-        TXA : SUB.w #$01F8 : TAX
+        TXA : SEC : SBC.w #$01F8 : TAX
         
         DEC !numColumns : BNE .moveRightFornext_block
         
@@ -11822,7 +11822,7 @@ org $018000
         
         TYA : AND.w #$000F : STA $0E
         
-        TXA : SUB.w #$0040 : TAX
+        TXA : SEC : SBC.w #$0040 : TAX
         
         LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_OMEGA
         
@@ -11840,7 +11840,7 @@ org $018000
     
     BRANCH_ALTIMA:
     
-        TXA : SUB.w #$0041 : ASL A : STA $08
+        TXA : SEC : SBC.w #$0041 : ASL A : STA $08
         
         LDA $7F2000, X : PHA
         
@@ -11953,7 +11953,7 @@ org $018000
         LDA $02 : AND.w #$01F8 : LSR #3 : ORA $04
         
         ; after computing result move up two tiles and one to the left
-        SUB.w #$0082 : TAX
+        SEC : SBC.w #$0082 : TAX
         
         LDY.w #$0002
     
@@ -13109,7 +13109,7 @@ org $018000
         
         LDA $0500, Y : AND.w #$000F : ASL A : STA $00
         
-        TYA : SUB $00
+        TYA : SEC : SBC $00
     
     ; $DA71 ALTERNATE ENTRY POINT
     shared Dungeon_CustomIndexedRevealCoveredTiles:
@@ -13359,7 +13359,7 @@ Dungeon_LoadSecret:
         
         LDA $0500, Y : AND.w #$000F : ASL A : STA $00
         
-        TYA : SUB $00 : STA $042C : TAY
+        TYA : SEC : SBC $00 : STA $042C : TAY
         
         LDA.w #$0004 : STA $00
         
@@ -13683,7 +13683,7 @@ Dungeon_LoadSecret:
         REP #$30
         
         ; Obtain the tile type of the object and put it in the {0..5} range
-        AND.w #$00FF : SUB.w #$0058 : STA $0E
+        AND.w #$00FF : SEC : SBC.w #$0058 : STA $0E
         
         ASL A : PHA : TAY : PHY
         
@@ -14030,7 +14030,7 @@ Dungeon_LoadSecret:
         
         REP #$30
         
-        LDA $20 : SUB.w #$0004 : STA $00 : AND.w #$01F8 : ASL #3 : STA $06
+        LDA $20 : SEC : SBC.w #$0004 : STA $00 : AND.w #$01F8 : ASL #3 : STA $06
         LDA $22 : CLC : ADC.w #$0007 : STA $02 : AND.w #$01F8 : LSR #3 : ORA $06 : TAX
         
         ; make sure the tiles we're touching are actually minigame chest tiles
@@ -14420,7 +14420,7 @@ Dungeon_LoadSecret:
         
         LDA.b #$04 : STA $0424
         
-        INC $B0 : LDA $B0 : SUB.b #$04 : STA $0E : STZ $0F
+        INC $B0 : LDA $B0 : SEC : SBC.b #$04 : STA $0E : STZ $0F
         
         REP #$30
         
@@ -14508,7 +14508,7 @@ Dungeon_LoadSecret:
         
         REP #$20
         
-        LDA.w #$0688 : SUB $E8 : SUB.w #$0024 : STA $00
+        LDA.w #$0688 : SEC : SBC $E8 : SEC : SBC.w #$0024 : STA $00
         
         LDA $0686 : CLC : ADC.l $01F073, X : STA $0686
         LDA $068A : CLC : ADC.l $01F06B, X : STA $068A
@@ -14527,7 +14527,7 @@ Dungeon_LoadSecret:
         
         INC $0424
         
-        LDA.w #$0688 : SUB $E8 : SUB $0684 : STA $0674 : CLC : ADC $068A : STA $0A
+        LDA.w #$0688 : SEC : SBC $E8 : SEC : SBC $0684 : STA $0674 : CLC : ADC $068A : STA $0A
         
         JSL $00F660 ; $7660 IN ROM
         
@@ -14554,7 +14554,7 @@ Dungeon_LoadSecret:
         
         LDY.w #$16B4
         
-        LDA $0688 : SUB $0684 : BEQ BRANCH_GAMMA
+        LDA $0688 : SEC : SBC $0684 : BEQ BRANCH_GAMMA
         
         CMP.w #$0008 : BNE BRANCH_DELTA
         
@@ -14693,7 +14693,7 @@ Dungeon_LoadSecret:
         
         LDA $0470 : LSR A : STA $0686
         
-        SUB.b #$08 : STA $00
+        SEC : SBC.b #$08 : STA $00
         
         LDA $0678 : STA $0676
         
@@ -15015,7 +15015,7 @@ Dungeon_LoadSecret:
         ; Limits us to 4... staircases?
         LDA $0462 : AND.w #$0003 : ASL A : TAY
         
-        LDA $06B0, Y : ASL A : SUB.w #$0008 : TAX : STX $048C : STX $08 : PHX
+        LDA $06B0, Y : ASL A : SEC : SBC.w #$0008 : TAX : STX $048C : STX $08 : PHX
         
         LDY.w #$0004
     
@@ -15117,7 +15117,7 @@ Dungeon_LoadSecret:
         
         REP #$30
         
-        LDA $B0 : SUB.w #$0004 : LSR A : TAX
+        LDA $B0 : SEC : SBC.w #$0004 : LSR A : TAX
         
         LDA $01F5D1, X : TAY
         
@@ -15350,7 +15350,7 @@ Dungeon_LoadSecret:
         
         LDA $0454 : CLC : ADC.w #$0003 : STA $0A
         
-        SUB.w #$0006 : CMP.w #$0002 : BMI .alpha
+        SEC : SBC.w #$0006 : CMP.w #$0002 : BMI .alpha
         
         STA $02
         
@@ -15586,7 +15586,7 @@ Dungeon_LoadSecret:
         
         TXA : AND.w #$1FFF : CMP $998A : BCC BRANCH_BETA
         
-        TXA : SUB.w #$0500 : STA $08
+        TXA : SEC : SBC.w #$0500 : STA $08
         
         PHX
         
@@ -15594,7 +15594,7 @@ Dungeon_LoadSecret:
         
         LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
         
-        LDA $08 : SUB.w #$0300 : STA $08
+        LDA $08 : SEC : SBC.w #$0300 : STA $08
     
     BRANCH_GAMMA:
     
@@ -15794,7 +15794,7 @@ Dungeon_LoadSecret:
         
         TXA : AND.w #$07FF : CMP $99BA : BCC BRANCH_BETA
         
-        TXA : SUB.w #$0010 : STA $08
+        TXA : SEC : SBC.w #$0010 : STA $08
         
         PHX
         
@@ -15802,7 +15802,7 @@ Dungeon_LoadSecret:
         
         LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
         
-        LDA $08 : SUB.w #$000C : STA $08
+        LDA $08 : SEC : SBC.w #$000C : STA $08
     
     BRANCH_GAMMA:
     
@@ -16208,7 +16208,7 @@ Dungeon_LoadSecret:
     
     .mosaic_decreasing
     
-        LDA $7EC011 : SUB.b #$10 : BNE .set_mosaic_level
+        LDA $7EC011 : SEC : SBC.b #$10 : BNE .set_mosaic_level
     
     ; *$FEF0 ALTERNATE ENTRY POINT
     shared Player_SetCustomMosaicLevel:
@@ -16362,7 +16362,7 @@ Dungeon_LoadSecret:
     
         STA $11
         
-        LDA $7EF36D : SUB.w #$08 : STA $7EF36D : CMP.b #$A8 : BCC .notDead
+        LDA $7EF36D : SEC : SBC.w #$08 : STA $7EF36D : CMP.b #$A8 : BCC .notDead
         
         LDA.b #$00 : STA $7EF36D
     

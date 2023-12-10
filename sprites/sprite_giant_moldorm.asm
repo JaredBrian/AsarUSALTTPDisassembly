@@ -409,7 +409,7 @@
         
         PHX
         
-        LDA $0E80, X : SUB.b #$10
+        LDA $0E80, X : SEC : SBC.b #$10
     
     ; *$EDA00 ALTERNATE ENTRY POINT
     shared GiantMoldorm_DrawLargeSegment:
@@ -456,7 +456,7 @@
         
         PHX
         
-        LDA $0E80, X : SUB.b #$1C
+        LDA $0E80, X : SEC : SBC.b #$1C
         
         JMP GiantMoldorm_DrawLargeSegment
     }
@@ -490,7 +490,7 @@
         
         PHX
         
-        LDA $0E80, X : SUB.b #$28
+        LDA $0E80, X : SEC : SBC.b #$28
     
     ; *$EDA7E ALTERNATE ENTRY POINT
     shared GiantMoldorm_PrepAndDrawSingleLargeLong:
@@ -582,7 +582,7 @@
         TXY
         PHX
         
-        LDA $0E80, X : SUB.b #$30
+        LDA $0E80, X : SEC : SBC.b #$30
         
         JMP GiantMoldorm_PrepAndDrawSingleLargeLong
     }

@@ -138,7 +138,7 @@
     
     .wait_2
     
-        LDA !type, X : SUB.b #$08 : REP #$30 : AND.w #$00FF : ASL A : TAY
+        LDA !type, X : SEC : SBC.b #$08 : REP #$30 : AND.w #$00FF : ASL A : TAY
         
         ; Hidden Jump table, Argghghh!
         LDA Octorock_AI_Table, Y : DEC A : PHA

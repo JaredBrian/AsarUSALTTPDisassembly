@@ -24,7 +24,7 @@
         LDA $0D10, X : STA $22
         LDA $0D30, X : STA $23
         
-        LDA $0D00, X : SUB $0F70, X
+        LDA $0D00, X : SEC : SBC $0F70, X
         
         PHP
         
@@ -47,7 +47,7 @@
         
         REP #$20
         
-        LDA $20 : SUB $E8 : SUB.w #$0010
+        LDA $20 : SEC : SBC $E8 : SEC : SBC.w #$0010
         
         CMP.w #$0100 : SEP #$20 : BCC .delay_sending_player_to_entrance
         
@@ -89,7 +89,7 @@
         
         LDA $0F80, X : CMP.b #$C0 : BMI .descend_speed_maxed
         
-        SUB.b #$03 : STA $0F80, X
+        SEC : SBC.b #$03 : STA $0F80, X
     
     .descend_speed_maxed
     

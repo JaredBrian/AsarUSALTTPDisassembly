@@ -541,7 +541,7 @@
         
         LDA $0F80, X : CMP.b #$C0 : BMI .at_terminal_fall_speed
         
-        SUB.b #$03 : STA $0F80, X
+        SEC : SBC.b #$03 : STA $0F80, X
     
     .at_terminal_fall_speed
     

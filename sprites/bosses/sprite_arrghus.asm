@@ -568,7 +568,7 @@
     
     .y_adjustment_positive
     
-        CLC : ADC $0D00, X : PHP : SUB.b #$10 : LDY $0FB5     : STA $0B30, Y
+        CLC : ADC $0D00, X : PHP : SEC : SBC.b #$10 : LDY $0FB5     : STA $0B30, Y
         LDA $0D20, X       : SBC.b #$00 : PLP : ADC $0A : STA $0B40, Y
         
         ; \task More of a note, but if our new assembler can handle meta branch

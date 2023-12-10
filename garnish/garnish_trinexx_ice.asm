@@ -29,7 +29,7 @@
         LDA $7FF83C, X : STA $00
         LDA $7FF878, X : STA $01
         
-        LDA $7FF81E, X : SUB.b #$10 : STA $02
+        LDA $7FF81E, X : SEC : SBC.b #$10 : STA $02
         LDA $7FF85A, X : SBC.b #$00 : STA $03
         
         LDY.b #$12 : JSL Dungeon_SpriteInducedTilemapUpdate

@@ -40,7 +40,7 @@
         
         JSR Blind_SpawnPoof
         
-        LDA $0D00, Y : SUB.b #$14 : STA $0D00, Y
+        LDA $0D00, Y : SEC : SBC.b #$14 : STA $0D00, Y
         LDA $0D20, Y : SBC.b #$00 : STA $0D20, Y
         
         PLA

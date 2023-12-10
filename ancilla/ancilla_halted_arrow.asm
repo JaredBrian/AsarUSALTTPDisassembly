@@ -37,7 +37,7 @@
     
     .positive_y_speed
     
-        CLC : ADC $0D00, Y : PHP : SUB $0F70, Y                 : STA $0BFA, X
+        CLC : ADC $0D00, Y : PHP : SEC : SBC $0F70, Y                 : STA $0BFA, X
         LDA $0D20, Y       : SBC.b #$00   : PLP : ADC $00 : STA $0C0E, X
     
     .didnt_collide_with_sprite

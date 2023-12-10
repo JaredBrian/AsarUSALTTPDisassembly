@@ -21,7 +21,7 @@
         STZ $0308
         
         ; Begin z-deceleation (i.e. simulating gravity).
-        LDA $0294, X : SUB.b #$02 : STA $0294, X
+        LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
         
         JSR Ancilla_MoveAltitude
         JSR Ancilla_MoveVert

@@ -128,7 +128,7 @@
         JSR Sprite2_MoveAltitude
         
         ; Simulate gravity.
-        LDA $0F80, X : SUB.b #$02 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
         LDA $0F70, X : BPL .delay
         
@@ -214,8 +214,8 @@
     {
         JSR Sprite2_PrepOamCoord
         
-        LDA $0D00, X : SUB $E8 : STA $06
-        LDA $0D20, X : SUB $E9 : STA $07
+        LDA $0D00, X : SEC : SBC $E8 : STA $06
+        LDA $0D20, X : SEC : SBC $E9 : STA $07
         
         LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $08
         

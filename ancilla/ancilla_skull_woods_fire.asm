@@ -98,11 +98,11 @@
     
         REP #$20
         
-        LDA $7F0018 : SUB.w #$0008 : STA $7F0018
+        LDA $7F0018 : SEC : SBC.w #$0008 : STA $7F0018
         
         CMP.w #$00C8 : BCS .dont_play_thud_sfx
         
-        LDA.w #$0098 : SUB $E2 : STA $00
+        LDA.w #$0098 : SEC : SBC $E2 : STA $00
         
         SEP #$20
         
@@ -134,7 +134,7 @@
         
         LDA $012E : BNE .sfx2_already_set
         
-        LDA $7F001A : SUB $E2
+        LDA $7F001A : SEC : SBC $E2
         
         JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA $012E
     
@@ -164,9 +164,9 @@
         
         REP #$20
         
-        LDA $7F0020, X : SUB $E8 : CLC : ADC $04 : STA $00
+        LDA $7F0020, X : SEC : SBC $E8 : CLC : ADC $04 : STA $00
         
-        LDA $7F0030, X : SUB $E2 : STA $02
+        LDA $7F0030, X : SEC : SBC $E2 : STA $02
         
         CLC : ADC.w #$0008 : STA $08
         
@@ -181,7 +181,7 @@
         
         PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA $07 : STA ($92), Y
         
@@ -205,7 +205,7 @@
         
         INY : PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA $07 : STA ($92), Y
         
@@ -258,8 +258,8 @@
         
         REP #$20
         
-        LDA.w #$00C8 : SUB $E8 : CLC : ADC .blast_y_offsets, X : STA $00
-        LDA.w #$00A8 : SUB $E2 : CLC : ADC .blast_x_offsets, X : STA $02
+        LDA.w #$00C8 : SEC : SBC $E8 : CLC : ADC .blast_y_offsets, X : STA $00
+        LDA.w #$00A8 : SEC : SBC $E2 : CLC : ADC .blast_x_offsets, X : STA $02
         
         SEP #$20
         
@@ -273,7 +273,7 @@
         
         INY : PHY
         
-        TYA : SUB.b #$04 : LSR #2 : TAY
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
         LDA .blast_oam_sizes, X : STA ($92), Y
         

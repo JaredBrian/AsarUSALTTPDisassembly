@@ -653,7 +653,7 @@ ClearOamBuffer:
         STA $0981, X : STA $0985, X : STA $0989, X : STA $098D, X
         STA $0991, X : STA $0995, X : STA $0999, X : STA $099D, X
     ; X -= 0x20
-    TXA : SUB.b #$20 : TAX : BPL .loop
+    TXA : SEC : SBC.b #$20 : TAX : BPL .loop
     
     RTS
 }
@@ -1008,8 +1008,8 @@ Overworld_GetTileAttrAtLocation:
     
     REP #$30
     
-    LDA $00 : SUB $0708 : AND $070A : ASL #3  : STA $06
-    LDA $02 : SUB $070C : AND $070E : ORA $06 : TAX
+    LDA $00 : SEC : SBC $0708 : AND $070A : ASL #3  : STA $06
+    LDA $02 : SEC : SBC $070C : AND $070E : ORA $06 : TAX
     
     LDA $7E2000, X : ASL #2 : STA $06
     LDA $00 : AND.w #$0008 : LSR #2 : TSB $06
@@ -1279,7 +1279,7 @@ Main_SaveGameFile:
     
     ; Subtract the checksum from 0x5A5A, and store the result at a corresponding location in RAM
     ; Because the result is subtracted from 0x5A5A, I'm inclined to call it an "inverse" checksum
-    LDA.w #$5A5A : SUB $00 : STA $7EF4FE
+    LDA.w #$5A5A : SEC : SBC $00 : STA $7EF4FE
     
     TYX
     
@@ -6993,19 +6993,19 @@ RestorePaletteSubtractive:
     
     LDA $7EC300, X : AND.w #$001F : CMP $08 : BEQ .redMatch
     
-    TYA : SUB.w #$0001 : TAY
+    TYA : SEC : SBC.w #$0001 : TAY
 
 .redMatch
 
     LDA $7EC300, X : AND.w #$03E0 : CMP $0A : BEQ .greenMatch
     
-    TYA : SUB.w #$0020 : TAY
+    TYA : SEC : SBC.w #$0020 : TAY
 
 .greenMatch
 
     LDA $7EC300, X : AND.w #$7C00 : CMP $0C : BEQ .blueMatch
 
-    TYA : SUB.w #$0400 : TAY
+    TYA : SEC : SBC.w #$0400 : TAY
 
 .blueMatch
 
@@ -7259,13 +7259,13 @@ WhirlpoolIsolateBlue:
 
     LDA $7EC500, X : TAY : AND.w #$03E0 : BEQ .noGreen
     
-    TYA : SUB.w #$0020 : TAY
+    TYA : SEC : SBC.w #$0020 : TAY
 
 .noGreen
 
     TYA : AND.w #$001F : BEQ .noRed
     
-    TYA : SUB.w #$0001 : TAY
+    TYA : SEC : SBC.w #$0001 : TAY
 
 .noRed
 
@@ -7303,7 +7303,7 @@ WhirlpoolRestoreBlue:
     
     LDA $7EC500, X : TAY : AND.w #$7C00 : CMP $00 : EQ .blueMatch
     
-    TYA : SUB.w #$0400 : TAY
+    TYA : SEC : SBC.w #$0400 : TAY
 
 .blueMatch
 
@@ -7321,7 +7321,7 @@ WhirlpoolRestoreBlue:
     
     LDA $7EC011 : BEQ .noMosaicDecrease
     
-    SUB.b #$10 : STA $7EC011
+    SEC : SBC.b #$10 : STA $7EC011
 
 .noMosaicDecrease
 
@@ -7540,7 +7540,7 @@ PaletteFilter_RestoreTrinexxRed:
     
     LDA $7EC582, X : AND.w #$001F : CMP $0C : BEQ .redMatch
     
-    SUB.w #$0001
+    SEC : SBC.w #$0001
 
 .redMatch
 
@@ -7624,7 +7624,7 @@ PaletteFilter_RestoreTrinexxBlue:
     
     LDA $7EC582, X : AND.w #$7C00 : CMP $0C : BEQ .blueMatch
     
-    SUB.w #$0400
+    SEC : SBC.w #$0400
 
 .blueMatch
 
@@ -7740,12 +7740,12 @@ ConfigureSpotlightTable:
     
     ; $0E = (Link's Y coordinate - BG2VOFS mirror + 0x0C)
     ; $0674 = $0E - $067C
-    LDA $20 : SUB $E8 : CLC : ADC.w #$000C : STA $0E : SUB $067C : STA $0674
+    LDA $20 : SEC : SBC $E8 : CLC : ADC.w #$000C : STA $0E : SEC : SBC $067C : STA $0674
     
     LDA $0E : CLC : ADC $067C : STA $0676
     
     ; $0670 = (Link's X coordinate - BG2HOFS mirror + 0x08)
-    LDA $22 : SUB $E2 : CLC : ADC.w #$0008 : STA $0670
+    LDA $22 : SEC : SBC $E2 : CLC : ADC.w #$0008 : STA $0670
     
     ; temporary caching of this value?
     LDA $067C : STA $067A
@@ -7759,8 +7759,8 @@ ConfigureSpotlightTable:
 .largeEnough
 
     ; $0A = $06 - $0E, $04 = $0E - $0A = ( (2 * $0E) - $06 )
-    LDA $06 : SUB $0E : STA $0A
-    LDA $0E : SUB $0A : STA $04
+    LDA $06 : SEC : SBC $0E : STA $0A
+    LDA $0E : SEC : SBC $0A : STA $04
 
 ; $007361 ALTERNATE ENTRY POINT
 
@@ -7945,7 +7945,7 @@ ResetSpotlightTable:
     
     LDA $00 : CLC : ADC $0670 : STA $02
     
-    LDA $0670 : SUB $00 : STZ $00 : BMI BRANCH_BETA
+    LDA $0670 : SEC : SBC $00 : STZ $00 : BMI BRANCH_BETA
     
     BIT.w #$FF00 : BEQ BRANCH_GAMMA
     
@@ -8050,15 +8050,15 @@ BRANCH_DELTA:
 
     CPX.w #$0004 : BCS .facingLeftOrRight2
     
-    LDA $22 : SUB.w #$0077 : STA $00
+    LDA $22 : SEC : SBC.w #$0077 : STA $00
     
     ; BG1HOFS mirror = BG2HOFS mirror - Link's X coordinate + 0x77 + $00F43E, X
-    LDA $E2 : SUB $00 : CLC : ADC.l OrientLampData_horizontal, X : STA $E0
+    LDA $E2 : SEC : SBC $00 : CLC : ADC.l OrientLampData_horizontal, X : STA $E0
     
-    LDA $20 : SUB.w #$0058 : STA $00
+    LDA $20 : SEC : SBC.w #$0058 : STA $00
     
     ; A = BG2VOFS mirror - Link's Y coordinate + 0x58 + bunch of stuff
-    LDA $E8 : SUB $00                  : CLC : ADC.l OrientLampData_vertical, X 
+    LDA $E8 : SEC : SBC $00                  : CLC : ADC.l OrientLampData_vertical, X 
     CLC : ADC.l OrientLampData_adjustment, X : CLC : ADC.l OrientLampData_margin, X
     
     BPL .positive
@@ -8075,7 +8075,7 @@ BRANCH_DELTA:
 .inBounds
 
     ; BG1VOFS mirror = the bounds-checked result of the eaarlier operations
-    SUB.l OrientLampData_margin, X : STA $E6
+    SEC : SBC.l OrientLampData_margin, X : STA $E6
     
     SEP #$30
     
@@ -8083,15 +8083,15 @@ BRANCH_DELTA:
 
 .facingLeftOrRight2
 
-    LDA $20 : SUB.w #$0072 : STA $00
+    LDA $20 : SEC : SBC.w #$0072 : STA $00
     
     ; BG1VOFS mirror = BG2VOFS mirror - Link's Y coordinate + 0x72 + $00F546, X
-    LDA $E8 : SUB $00 : CLC : ADC.l OrientLampData_vertical, X : STA $E6
+    LDA $E8 : SEC : SBC $00 : CLC : ADC.l OrientLampData_vertical, X : STA $E6
     
-    LDA $22 : SUB.w #$0058 : STA $00
+    LDA $22 : SEC : SBC.w #$0058 : STA $00
     
     ; A = BG2HOFS mirror - Link's X coordinate + 0x58 + bunch of stuff...
-    LDA $E2 : SUB $00                  : CLC : ADC.l OrientLampData_horizontal, X 
+    LDA $E2 : SEC : SBC $00                  : CLC : ADC.l OrientLampData_horizontal, X 
     CLC : ADC.l OrientLampData_adjustment, X : CLC : ADC.l OrientLampData_margin, X
     
     BPL .positive2
@@ -8106,7 +8106,7 @@ BRANCH_DELTA:
 
 .inBounds2
 
-    SUB OrientLampData_margin, X : STA $E0
+    SEC : SBC OrientLampData_margin, X : STA $E0
     
     SEP #$30
     
@@ -8122,7 +8122,7 @@ Hdma_ConfigureWaterTable:
     
     ; $0A = $0682 - $E8
     ; $0674 = $0A - $0684
-    LDA $0682 : SUB $E8 : STA $0A : SUB $0684 : STA $0674
+    LDA $0682 : SEC : SBC $E8 : STA $0A : SEC : SBC $0684 : STA $0674
     
     LDA $0A : CLC : ADC $0684
 
@@ -8132,7 +8132,7 @@ Hdma_ConfigureWaterTable:
     STA $0676
     
     ; Subtract off the current BG2 scroll position.
-    LDA $0680 : SUB $E2 : STA $0670
+    LDA $0680 : SEC : SBC $E2 : STA $0670
     
     LDA $0686 : BEQ .alpha
     
@@ -8144,7 +8144,7 @@ Hdma_ConfigureWaterTable:
     STA $0C : CLC : ADC $0670 : STA $02
     
     ; $00 = $0670 - $0C
-    LDA $0670 : SUB $0C : STA $00
+    LDA $0670 : SEC : SBC $0C : STA $00
     
     ; this appears to be a compile time thing, given that it loads a
     ; constant value then immediately tests for negativity
@@ -8172,8 +8172,8 @@ Hdma_ConfigureWaterTable:
 
 .delta
 
-    LDA $06 : SUB $0A : STA $08
-    LDA $0A : SUB $08 : STA $04
+    LDA $06 : SEC : SBC $0A : STA $08
+    LDA $0A : SEC : SBC $08 : STA $04
     
     BRA .epsilon
 
@@ -8279,8 +8279,8 @@ Hdma_ConfigureWaterTable:
     
     ; $0674 = $0682 - BG2VOFS mirror
     ; $0670 = $0680 - BG2HOFS mirror
-    LDA $0682 : SUB $E8 : STA $0674
-    LDA $0680 : SUB $E2 : STA !leftBase
+    LDA $0682 : SEC : SBC $E8 : STA $0674
+    LDA $0680 : SEC : SBC $E2 : STA !leftBase
     
     ; $0E = $0686 ^ 0x0001
     LDA !lineOffset : EOR.w #$0001 : STA $0E
@@ -8288,7 +8288,7 @@ Hdma_ConfigureWaterTable:
     ; $02 = $0E + $0670
     CLC : ADC !leftBase : STA $02
     
-    LDA !leftBase : SUB $0E : AND.w #$00FF : STA !leftFinal
+    LDA !leftBase : SEC : SBC $0E : AND.w #$00FF : STA !leftFinal
     
     LDA $02 : AND.w #$00FF : XBA : ORA !leftFinal : STA !lineBounds
 
@@ -8301,11 +8301,11 @@ Hdma_ConfigureWaterTable:
     ; $0676 was determined when the watergate barrier was placed
     INC !scanline : LDA !scanline : CMP !startLine : BNE .disableLoop
     
-    LDA $0E : SUB.w #$0007 : CLC : ADC.w #$0008 : STA !lineBounds
+    LDA $0E : SEC : SBC.w #$0007 : CLC : ADC.w #$0008 : STA !lineBounds
     
     CLC : ADC !leftBase : STA $02
     
-    LDA !leftBase : SUB !lineBounds : AND.w #$00FF : STA !leftFinal
+    LDA !leftBase : SEC : SBC !lineBounds : AND.w #$00FF : STA !leftFinal
     
     LDA $02 : AND.w #$00FF : XBA : ORA !leftFinal : STA !lineBounds
     
@@ -9051,7 +9051,7 @@ Mirror_InitHdmaSettings:
     STA $1B00, Y : STA $1B04, Y
     STA $1B08, Y : STA $1B0C, Y
     
-    TXA : SUB.w #$0010 : TAX
+    TXA : SEC : SBC.w #$0010 : TAX
     
     DEC $00 : BNE .alpha
     
@@ -9059,7 +9059,7 @@ Mirror_InitHdmaSettings:
 
 .alpha
 
-    TYA : SUB.w #$0010 : TAY
+    TYA : SEC : SBC.w #$0010 : TAY
     
     DEC $02 : BNE .beta
     
@@ -9072,7 +9072,7 @@ Mirror_InitHdmaSettings:
     LDX $06A0
     
     ; Is it just me, or is this a really weird set of formulas?
-    LDA $06AC : CLC : ADC $06A6, X : PHA : SUB $06A2, X : EOR $06A2, X : BMI .delta
+    LDA $06AC : CLC : ADC $06A6, X : PHA : SEC : SBC $06A2, X : EOR $06A2, X : BMI .delta
     
     STZ $06AA
     STZ $06AE
@@ -9145,14 +9145,14 @@ BRANCH_THETA:
     
         LDA $1B00, X : STA $1B00, Y : STA $1B04, Y : STA $1B08, Y : STA $1B0C, Y
         
-        TXA : SUB.w #$0010 : TAX
+        TXA : SEC : SBC.w #$0010 : TAX
         
         DEC $00 : BNE .BRANCH_ALPHA
             LDA.w #$0008 : STA $00
     
         .BRANCH_ALPHA
     
-        TYA : SUB.w #$0010 : TAY
+        TYA : SEC : SBC.w #$0010 : TAY
         
         DEC $02 : BNE .BRANCH_BETA
             LDA.w #$0008 : STA $02

@@ -67,8 +67,8 @@
         
         INC $0D80, X
         
-        LDA $0D10, X : SUB.b #$05 : STA $00
-        LDA $0D30, X : SUB.b #$00 : STA $01
+        LDA $0D10, X : SEC : SBC.b #$05 : STA $00
+        LDA $0D30, X : SEC : SBC.b #$00 : STA $01
         
         LDA $0D00, X : STA $02
         LDA $0D20, X : STA $03

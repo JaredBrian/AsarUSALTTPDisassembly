@@ -498,7 +498,7 @@
     
     BRANCH_ALPHA:
     
-        LDA $0B2F : SUB.b #$03 : STA $0B2F
+        LDA $0B2F : SEC : SBC.b #$03 : STA $0B2F
         
         RTS
     }
@@ -568,9 +568,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0024 : CMP.w #$0048 : BCS BRANCH_ALPHA
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0024 : CMP.w #$0048 : BCS BRANCH_ALPHA
         
-        LDA $20 : SUB $0FDA : CLC : ADC.w #$0028 : CMP.w #$0040 : BCS BRANCH_ALPHA
+        LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0028 : CMP.w #$0040 : BCS BRANCH_ALPHA
         
         SEP #$20
         
@@ -828,7 +828,7 @@
         LDA $0C04, Y : CLC : ADC.b #$06 : STA $00
         LDA $0C18, Y : ADC.b #$00 : STA $08
         
-        LDA $0BFA, Y : SUB $029E, Y : STA $01
+        LDA $0BFA, Y : SEC : SBC $029E, Y : STA $01
         LDA $0C0E, Y : SBC.b #$00   : STA $09
         
         LDA.b #$02 : STA $02
@@ -847,7 +847,7 @@
         
         LDA $0C04, Y : STA $0FAD
         
-        LDA $0BFA, Y : SUB $029E, Y : STA $0FAE
+        LDA $0BFA, Y : SEC : SBC $029E, Y : STA $0FAE
         
         ; Make "clink against wall" noise
         LDA.b #$05 : STA $012E
@@ -1096,7 +1096,7 @@
     
         LDY $0FB5
         
-        SUB.b #$28 : STA $0B1D, Y
+        SEC : SBC.b #$28 : STA $0B1D, Y
         
         INC $0FB5 : LDA $0FB5 : CMP.b #$10 : BEQ BRANCH_IOTA
         

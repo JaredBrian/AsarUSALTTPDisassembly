@@ -112,8 +112,8 @@
     
         REP #$20
         
-        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS BRANCH_KAPPA
-        LDA $0FDA : SUB $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_KAPPA
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS BRANCH_KAPPA
+        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_KAPPA
         
         SEP #$30
         
@@ -276,9 +276,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS BRANCH_ALPHA
         
-        LDA $0FDA : SUB $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_ALPHA
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_ALPHA
         
         SEP #$20
         

@@ -151,7 +151,7 @@
         
         LSR $01
         
-        LDA $0FA9 : SUB $01 : TAX
+        LDA $0FA9 : SEC : SBC $01 : TAX
         
               CLC : ADC $0001, Y : STA $0001, Y
         TXA : CLC : ADC $0005, Y : STA $0005, Y

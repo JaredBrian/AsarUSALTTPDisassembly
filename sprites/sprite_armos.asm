@@ -15,7 +15,7 @@
         JSR Sprite2_CheckIfActive
         JSR Sprite2_MoveAltitude
         
-        LDA $0F80, X : SUB.b #$02 : STA $0F80, X
+        LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
         LDA $0F70, X : BPL .beta
         
@@ -54,9 +54,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
+        LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
         
-        LDA $20 : CLC : ADC.w #$0008 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
+        LDA $20 : CLC : ADC.w #$0008 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
         
         SEP #$20
         

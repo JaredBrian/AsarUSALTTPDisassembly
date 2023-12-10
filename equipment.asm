@@ -246,7 +246,7 @@
     {
         REP #$20
         
-        LDA $EA : SUB.w #$0008 : STA $EA : CMP.w #$FF18
+        LDA $EA : SEC : SBC.w #$0008 : STA $EA : CMP.w #$FF18
         
         SEP #$20
         

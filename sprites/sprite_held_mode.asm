@@ -75,7 +75,7 @@
         LDA $24 : CLC : ADC.b #$01 : PHP : CLC : ADC $DE7D, Y : STA $00
         LDA $25 : ADC.b #$00 : PLP : ADC.b #$00   : STA $0E
         
-        LDA $20 : SUB $00    : PHP : CLC : ADC.b #$08 : STA $0D00, X
+        LDA $20 : SEC : SBC $00    : PHP : CLC : ADC.b #$08 : STA $0D00, X
         LDA $21 : ADC.b #$00 : PLP : SBC $0E    : STA $0D20, X
         
         LDA $EE : AND.b #$01 : STA $0F20, X

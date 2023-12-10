@@ -617,13 +617,13 @@
         LDA .xy_offsets, Y : STA $07
         
         ; Get 16-bit Y coordinate.
-        LDA $0D00, X : SUB $E8 : STA $02
+        LDA $0D00, X : SEC : SBC $E8 : STA $02
         LDA $0D20, X : SBC $E9 : STA $03
         
         LDY.b #$00
         
         LDA $00 : PHA : CLC : ADC $07              : STA ($90), Y
-                  PLA : SUB $07 : LDY.b #$04 : STA ($90), Y
+                  PLA : SEC : SBC $07 : LDY.b #$04 : STA ($90), Y
         
         REP #$20
         

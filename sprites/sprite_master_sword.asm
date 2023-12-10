@@ -479,7 +479,7 @@
     
     .success_1
     
-        LDA $00 : SUB.b #$04 : STA $0D10, Y
+        LDA $00 : SEC : SBC.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
         LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
@@ -521,7 +521,7 @@
     
     .success_2
     
-        LDA $00 : SUB.b #$04 : STA $0D10, Y
+        LDA $00 : SEC : SBC.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
         LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
@@ -563,7 +563,7 @@
     
     .success_3
     
-        LDA $00 : SUB.b #$04 : STA $0D10, Y
+        LDA $00 : SEC : SBC.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
         LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
@@ -603,7 +603,7 @@
         
         JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
-        LDA $00 : SUB.b #$04 : STA $0D10, Y
+        LDA $00 : SEC : SBC.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
         LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
