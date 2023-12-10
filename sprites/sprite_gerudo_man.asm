@@ -73,9 +73,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$0030 : CMP.w #$0060 : BCS .not_close
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
         
-        LDA $20 : SUB $0FDA : ADD.w #$0030 : CMP.w #$0060 : BCS .not_close
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
         
         SEP #$20
         
@@ -247,19 +247,19 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

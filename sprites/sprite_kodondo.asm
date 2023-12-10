@@ -224,10 +224,10 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD .x_offsets_low, X  : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low, X  : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y

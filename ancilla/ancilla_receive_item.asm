@@ -174,10 +174,10 @@ Ancilla_ReceiveItem:
                 ; Check if capatity health is at max.
                 LDA $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
                     ; Give Link additional extra heart
-                    ADD.b #$08 : STA $7EF36C
+                    CLC : ADC.b #$08 : STA $7EF36C
                     
                     ; Fill in that one heart
-                    LDA $7EF372 : ADD.b #$08 : STA $7EF372
+                    LDA $7EF372 : CLC : ADC.b #$08 : STA $7EF372
                     
                     BRA .playHeartContainerSfx
     
@@ -187,12 +187,12 @@ Ancilla_ReceiveItem:
         
         LDA $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
             ; Give Link an additional heart
-            ADD.b #$08 : STA $7EF36C
+            CLC : ADC.b #$08 : STA $7EF36C
             
             ; Put Link's actual health at maximum
             SUB $00 : STA $00
             
-            LDA $7EF372 : ADD $00 : STA $7EF372
+            LDA $7EF372 : CLC : ADC $00 : STA $7EF372
         
             .playHeartContainerSfx
         
@@ -206,7 +206,7 @@ Ancilla_ReceiveItem:
     
         CMP.b #$42 : BNE .notSingleHeartRefill
             ; Fill in one heart of actual health (using the heart refiller)
-            LDA $7EF372 : ADD.b #$08 : STA $7EF372
+            LDA $7EF372 : CLC : ADC.b #$08 : STA $7EF372
             
             BRA .objectFinished
     
@@ -214,7 +214,7 @@ Ancilla_ReceiveItem:
     
         CMP.b #$45 : BNE .notSmallMagicRefill
             ; Refill 1/8 of our magic power
-            LDA $7EF373 : ADD.b #$10 : STA $7EF373
+            LDA $7EF373 : CLC : ADC.b #$10 : STA $7EF373
             
             BRA .objectFinished
     
@@ -373,7 +373,7 @@ Ancilla_ReceiveItem:
         
     LDA $03B1, X : CMP.b #$18 : BCC .handleGraphics
         ; A = ($0C22, X) - 1
-        LDA $0C22, X : ADD.b #$FF : CMP.b #$F8
+        LDA $0C22, X : CLC : ADC.b #$FF : CMP.b #$F8
                 
         ; if(A < 0xF8)
         BCC .stopAccelerating
@@ -464,7 +464,7 @@ Ancilla_ReceiveItem:
     REP #$20
         
     ; $08 = $00 + 0x08
-    LDA $00 : ADD.b #$0008 : STA $08
+    LDA $00 : CLC : ADC.b #$0008 : STA $08
         
     SEP #$20
     

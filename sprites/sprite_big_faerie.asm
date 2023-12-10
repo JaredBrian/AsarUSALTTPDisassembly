@@ -61,13 +61,13 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$0003 : CMP.w #$0006 : BCS .player_too_far
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
         
-        LDA $20 : SUB $0FDA : ADD.w #$000B : CMP.w #$0006 : BCS .player_too_far
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
         
         ; Add 20 hearts to the heart refill variable. This should fully heal
         ; the player no matter how many heart containers they have.
-        LDA.w #$00A0 : ADD $7EF372 : STA $7EF372
+        LDA.w #$00A0 : CLC : ADC $7EF372 : STA $7EF372
         
         SEP #$20
         
@@ -188,9 +188,9 @@
         
         JSR Sprite4_DirectionToFacePlayer
         
-        LDA $0F : ADD.b #$30 : CMP.b #$60 : BCS .player_too_far
+        LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
         
-        LDA $0E : ADD.b #$30 : CMP.b #$60 : BCS .player_too_far
+        LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
         
         JSL Player_HaltDashAttackLong
         

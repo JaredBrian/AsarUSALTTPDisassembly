@@ -98,7 +98,7 @@
     {
         LDA $0DF0, X : BNE .delay
         
-        JSL GetRandomInt : AND.b #$1F : ADD.b #$40 : STA $0DF0, X
+        JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$40 : STA $0DF0, X
         
         ; Picks a sort of new random direction that will be different from
         ; the previous direction.
@@ -134,7 +134,7 @@
     {
         LDA $0DF0, X : BNE .delay
         
-        JSL GetRandomInt : AND.b #$1F : ADD.b #$60 : STA $0DF0, X
+        JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA $0DF0, X
         
         STZ $0D80, X
         

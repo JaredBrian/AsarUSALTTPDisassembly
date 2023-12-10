@@ -5577,9 +5577,9 @@ Module_GanonEmerges:
     REP #$21
 
     LDA $E2 : PHA : ADC $011A : STA $E2 : STA $011E
-    LDA $E8 : PHA : ADD $011C : STA $E8 : STA $0122
-    LDA $E0 : PHA : ADD $011A : STA $E0 : STA $0120
-    LDA $E6 : PHA : ADD $011C : STA $E6 : STA $0124
+    LDA $E8 : PHA : CLC : ADC $011C : STA $E8 : STA $0122
+    LDA $E0 : PHA : CLC : ADC $011A : STA $E0 : STA $0120
+    LDA $E6 : PHA : CLC : ADC $011C : STA $E6 : STA $0124
 
     SEP #$20
 
@@ -10340,10 +10340,17 @@ OverworldScrollTransition:
 
     ;ADDs are from $13FE2 - $13FF1
 
-    LDA .overworldTransitionPositionY, Y : STA $0600 : CLC : ADC .boundary_y_size, X                : STA $0602 ; $A8C4, $BFE2
-    LDA .overworldTransitionPositionX, Y : STA $0604 : CLC : ADC .boundary_x_size, X                : STA $0606 ; $A944, $BFE6
-    LDA .transition_target_north, Y      : STA $0610 : CLC : ADC .transition_target_south_offset, X : STA $0612 ; $BEE2, $BFEA
-    LDA .transition_target_west, Y       : STA $0614 : CLC : ADC .transition_target_east_offset, X  : STA $0616 ; $BF62, $BFEE
+    LDA .overworldTransitionPositionY, Y : STA $0600
+    CLC : ADC .boundary_y_size, X : STA $0602 ; $A8C4, $BFE2
+    
+    LDA .overworldTransitionPositionX, Y : STA $0604
+    CLC : ADC .boundary_x_size, X : STA $0606 ; $A944, $BFE6
+
+    LDA .transition_target_north, Y : STA $0610
+    CLC : ADC .transition_target_south_offset, X : STA $0612 ; $BEE2, $BFEA
+
+    LDA .transition_target_west, Y : STA $0614
+    CLC : ADC .transition_target_east_offset, X  : STA $0616 ; $BF62, $BFEE
 
     RTS
 }

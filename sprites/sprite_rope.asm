@@ -90,9 +90,9 @@
         
         JSR Sprite2_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$10 : CMP.b #$20 : BCC .player_on_sightline
+        LDA $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .player_on_sightline
         
-        LDA $0F : ADD.b #$18 : CMP.b #$20 : BCS .player_not_on_sightline
+        LDA $0F : CLC : ADC.b #$18 : CMP.b #$20 : BCS .player_not_on_sightline
     
     .player_on_sightline
     
@@ -149,7 +149,7 @@
     
     .no_tile_collision
     
-        TYA : ADD $0ED0, X : TAY
+        TYA : CLC : ADC $0ED0, X : TAY
         
         LDA .x_speeds, Y : STA $0D50, X
         

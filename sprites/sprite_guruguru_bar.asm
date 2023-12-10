@@ -33,7 +33,7 @@
     
     .not_in_ice_palace
     
-        LDA $0D90, X : ADD .offsets_low, Y               : STA $0D90, X
+        LDA $0D90, X : CLC : ADC .offsets_low, Y               : STA $0D90, X
         
         LDA $0DA0, X : ADC .offsets_high, Y : AND.b #$01 : STA $0DA0, X
         
@@ -65,7 +65,7 @@
         
         LDA $00 : AND.w #$01FF : LSR #6 : STA $0A
         
-        LDA $00 : ADD.w #$0080 : AND.w #$01FF : STA $02
+        LDA $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA $02
         
         LDA $00 : AND.w #$00FF : ASL A : TAX
         
@@ -136,8 +136,8 @@
         LDY.b #$00
         
         ; Draw base segment.
-        LDA $04    : ADD $0FA8       : STA ($90), Y
-        LDA $06    : ADD $0FA9 : INY : STA ($90), Y
+        LDA $04    : CLC : ADC $0FA8       : STA ($90), Y
+        LDA $06    : CLC : ADC $0FA9 : INY : STA ($90), Y
         LDA.b #$28             : INY : STA ($90), Y
         LDA $0D                : INY : STA ($90), Y
         
@@ -162,7 +162,7 @@
     
     BRANCH_EPSILON:
     
-        ADD $0FA8 : STA ($90), Y
+        CLC : ADC $0FA8 : STA ($90), Y
         
         LDA $0F             : STA $4202
         LDA .multipliers, X : STA $4203
@@ -175,7 +175,7 @@
     
     BRANCH_ZETA:
     
-        ADD $0FA9  : INY : STA ($90), Y
+        CLC : ADC $0FA9  : INY : STA ($90), Y
         LDA.b #$28 : INY : STA ($90), Y
         LDA $0D    : INY : STA ($90), Y
         
@@ -206,16 +206,16 @@
         ; Check if offscreen per x coordinate.
         LDA ($92), Y : PLY : AND.b #$01 : BNE .no_player_collision
         
-        LDA ($90), Y : ADD $E2 : SUB $22
+        LDA ($90), Y : CLC : ADC $E2 : SUB $22
         
-        ADD.b #$0C : CMP.b #$18 : BCS .no_player_collision
+        CLC : ADC.b #$0C : CMP.b #$18 : BCS .no_player_collision
         
         INY
         
         ; Check if offscreen per y coordinate.
         LDA ($90), Y : DEY : CMP.b #$F0 : BCS .no_player_collision
         
-        ADD $E8 : SUB $20 : ADD.b #$04 : CMP.b #$10 : BCS .no_player_collision
+        CLC : ADC $E8 : SUB $20 : CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision
         
         PHY
         

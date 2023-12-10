@@ -195,8 +195,8 @@
         ; X = (direction * 6) + state_index
         LDA $0C72, X : ASL #2 : ADC $0C72, X : ADC $0C72, X : ADC $0C54, X : TAX
         
-        LDA .x_offsets_a, X : ADD $00              : STA ($90), Y
-        LDA .x_offsets_b, X : ADD $00 : LDY.b #$04 : STA ($90), Y
+        LDA .x_offsets_a, X : CLC : ADC $00              : STA ($90), Y
+        LDA .x_offsets_b, X : CLC : ADC $00 : LDY.b #$04 : STA ($90), Y
         
         ; The sprite consists of two oam entries, and we're calling them
         ; "part a" and "part b" here. Since this object encompasses both the
@@ -205,18 +205,18 @@
         ; oam entries.
         LDA .y_offsets_a, X : BMI .hide_part_a
         
-        ADD $01 : LDY.b #$01 : STA ($90), Y
+        CLC : ADC $01 : LDY.b #$01 : STA ($90), Y
     
     .hide_part_a
     
         LDA .y_offsets_b, X : BMI .hide_part_b
         
-        ADD $01 : LDY.b #$05 : STA ($90), Y
+        CLC : ADC $01 : LDY.b #$05 : STA ($90), Y
     
     .hide_part_b
     
-        LDA .chr_a, X        : ADD.b #$82 : LDY.b #$02 : STA ($90), Y
-        LDA .chr_b, X        : ADD.b #$82 : LDY.b #$06 : STA ($90), Y
+        LDA .chr_a, X        : CLC : ADC.b #$82 : LDY.b #$02 : STA ($90), Y
+        LDA .chr_b, X        : CLC : ADC.b #$82 : LDY.b #$06 : STA ($90), Y
         LDA .properties_a, X : ORA $04    : LDY.b #$03 : STA ($90), Y
         LDA .properties_b, X : ORA $04    : LDY.b #$07 : STA ($90), Y
         

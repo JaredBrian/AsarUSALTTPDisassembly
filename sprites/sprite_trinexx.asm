@@ -32,8 +32,8 @@
     ; *$EAD26-$EAD66 JUMP LOCATION
     TrinexxHead_Initialize:
     {
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
-        LDA $0D00, X : ADD.b #$10 : STA $0D00, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
+        LDA $0D00, X : CLC : ADC.b #$10 : STA $0D00, X
         
         JSR $AD8C   ; $EAD8C IN ROM
         
@@ -49,7 +49,7 @@
     
         LDA $0D90, X : STA $0D10, X
         
-        LDA $0DB0, X : ADD.b #$0C : STA $0D00, X
+        LDA $0DB0, X : CLC : ADC.b #$0C : STA $0D00, X
         LDA $0ED0, X : ADC.b #$00 : STA $0D20, X
         
         RTS
@@ -236,19 +236,19 @@
         
         LDA $01 : EOR.b #$FF : INC A : STA $0D40, X
         
-        LDA $0E : ADD.b #$28 : CMP.b #$50 : BCS .beta
+        LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
         
-        LDA $0F : ADD.b #$28 : CMP.b #$50 : BCS .beta
+        LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
         
         RTS
     
     .beta
     
         LDA $00 : ASL $00 : PHP : ROR A
-                            PLP : ROR A : ADD $0D40, X : STA $0D40, X
+                            PLP : ROR A : CLC : ADC $0D40, X : STA $0D40, X
         
         LDA $01 : ASL $01 : PHP : ROR A
-                            PLP : ROR A : ADD $0D50, X : STA $0D50, X
+                            PLP : ROR A : CLC : ADC $0D50, X : STA $0D50, X
         
         RTS
     }
@@ -323,10 +323,10 @@ BRANCH_ALPHA:
     
     REP #$20
     
-    LDA $22                 : SUB $0FD8 : ADD.w #$0008
+    LDA $22                 : SUB $0FD8 : CLC : ADC.w #$0008
                                             CMP.w #$0010 : BCS BRANCH_BETA
     
-    LDA $20 : ADD.w #$0008 : SUB $0FDA : ADD.w #$0008
+    LDA $20 : CLC : ADC.w #$0008 : SUB $0FDA : CLC : ADC.w #$0008
                                             CMP.w #$0010 : BCS BRANCH_BETA
     
     SEP #$20
@@ -348,9 +348,9 @@ BRANCH_ALPHA:
 
 BRANCH_BETA:
 
-    LDA $90 : ADD $AF54, Y : STA $90
+    LDA $90 : CLC : ADC $AF54, Y : STA $90
     
-    LDA $AF54, Y : LSR #2 : ADD $92 : STA $92
+    LDA $AF54, Y : LSR #2 : CLC : ADC $92 : STA $92
     
     SEP #$20
     
@@ -529,12 +529,12 @@ BRANCH_ZETA:
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
-        LDA $0D10, X : ADD $B1B1, Y : STA $0FD8
+        LDA $0D10, X : CLC : ADC $B1B1, Y : STA $0FD8
         LDA $0D30, X : ADC $B1B9, Y : STA $0FD9
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
-        LDA $0D00, X : ADD $B1C1, Y : PHP : SUB.b #$08   : STA $0FDA
+        LDA $0D00, X : CLC : ADC $B1C1, Y : PHP : SUB.b #$08   : STA $0FDA
         LDA $0D20, X : SBC.b #$00   : PLP : ADC $B1C9, Y : STA $0FDB
         
         JSL Sprite_MakeBossDeathExplosion.silent
@@ -571,7 +571,7 @@ BRANCH_ZETA:
         
         JSR Sprite4_IsToRightOfPlayer
         
-        LDA $0F : ADD.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC BRANCH_GAMMA
+        LDA $0F : CLC : ADC.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC BRANCH_GAMMA
         
         LDA $B0C8, Y
     
@@ -742,9 +742,9 @@ BRANCH_ZETA:
         
         LDA $0D00, X : SUB.b #$0C : STA $0DB0, X
         
-        LDA $0B08 : SUB $0D10, X : ADD.b #$02 : CMP.b #$04 : BCS BRANCH_ZETA
+        LDA $0B08 : SUB $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ZETA
         
-        LDA $0B09 : SUB $0D00, X : ADD.b #$02 : CMP.b #$04 : BCS BRANCH_ZETA
+        LDA $0B09 : SUB $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ZETA
     
     ; *$EB33D ALTERNATE ENTRY POINT
     
@@ -769,7 +769,7 @@ BRANCH_ZETA:
     
     BRANCH_IOTA:
     
-        ADD.b #$01 : STA $0E80, X : AND.b #$0F : BNE BRANCH_KAPPA
+        CLC : ADC.b #$01 : STA $0E80, X : AND.b #$0F : BNE BRANCH_KAPPA
         
         LDA.b #$21 : JSL Sound_SetSfx2PanLong
     
@@ -847,7 +847,7 @@ BRANCH_ZETA:
         
         LDA $0B0B : AND.b #$01 : TAY
         
-        LDA $0B0A : ADD $8000, Y : STA $0B0A
+        LDA $0B0A : CLC : ADC $8000, Y : STA $0B0A
         
         CMP .unknown_0, Y : BNE BRANCH_BETA
         
@@ -875,9 +875,9 @@ BRANCH_ZETA:
         
         REP #$20
         
-        LDA $04 : SUB $22 : ADD.w #$0028 : CMP.w #$0050 : BCS BRANCH_ALPHA
+        LDA $04 : SUB $22 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS BRANCH_ALPHA
         
-        LDA $06 : SUB $20 : ADD.w #$0010 : CMP.w #$0040 : BCS BRANCH_ALPHA
+        LDA $06 : SUB $20 : CLC : ADC.w #$0010 : CMP.w #$0040 : BCS BRANCH_ALPHA
         
         SEP #$20
         
@@ -1003,7 +1003,7 @@ BRANCH_ZETA:
 
     BRANCH_DELTA:
 
-        ADD $00
+        CLC : ADC $00
         
         LDY $0FB6
         
@@ -1029,7 +1029,7 @@ BRANCH_ZETA:
 
     BRANCH_EPSILON:
 
-        ADD $02   : LDY $0FB6 : INY : STA ($90), Y
+        CLC : ADC $02   : LDY $0FB6 : INY : STA ($90), Y
         LDA.b #$28 :             INY : STA ($90), Y
         LDA $05    :             INY : STA ($90), Y
         
@@ -1058,7 +1058,7 @@ BRANCH_ZETA:
         
         LDA.b #$01 : STA $0FB5
         
-        LDA $0D50, X : ADD.b #$03 : CMP.b #$07 : LDA.b #$00 : BCC BRANCH_THETA
+        LDA $0D50, X : CLC : ADC.b #$03 : CMP.b #$07 : LDA.b #$00 : BCC BRANCH_THETA
         
         LDA $0E80, X : LSR #2 : AND.b #$0F
 
@@ -1066,10 +1066,10 @@ BRANCH_ZETA:
 
         STA $06
         
-        ADD.b #$08 : AND.b #$0F : STA $07
+        CLC : ADC.b #$08 : AND.b #$0F : STA $07
         
         LDA $0E80, X : LSR #2 : AND.b #$0F : STA $08
-        ADD.b #$08           : AND.b #$0F : STA $09
+        CLC : ADC.b #$08           : AND.b #$0F : STA $09
         
         LDY.b #$00
         
@@ -1077,26 +1077,26 @@ BRANCH_ZETA:
 
     BRANCH_IOTA:
 
-        LDA $00 : ADD $B80C, X : PHA
+        LDA $00 : CLC : ADC $B80C, X : PHA
         
         LDA $06, X : TAX
         
-        PLA : ADD $B810, X          : STA ($90), Y
+        PLA : CLC : ADC $B810, X          : STA ($90), Y
                               INY #4 : STA ($90), Y
         
-        LDA $02 : ADD.b #$F8 : PHA
+        LDA $02 : CLC : ADC.b #$F8 : PHA
         
         LDX $0FB5
         
         LDA $08, X : TAX
         
-        PLA : ADD $B820, X
+        PLA : CLC : ADC $B820, X
         
         DEY #3
         
         STA ($90), Y
         
-        ADD.b #$10 : INY #4 : STA ($90), Y
+        CLC : ADC.b #$10 : INY #4 : STA ($90), Y
         
         LDA.b #$0C : DEY #3 : STA ($90), Y
         
@@ -1130,15 +1130,15 @@ BRANCH_ZETA:
 
         PHX
         
-        TXA : ADD $06 : ASL A : TAX
+        TXA : CLC : ADC $06 : ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD $B773, X : STA $096C, Y
+        LDA $00 : CLC : ADC $B773, X : STA $096C, Y
         
-        LDA $02 : SUB $B7B9, X : SBC.w #$0020 : ADD $0B0F : INY : STA $096C, Y
+        LDA $02 : SUB $B7B9, X : SBC.w #$0020 : CLC : ADC $0B0F : INY : STA $096C, Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC BRANCH_KAPPA
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC BRANCH_KAPPA
         
         LDA.b #$F0 : STA $096C, Y
 

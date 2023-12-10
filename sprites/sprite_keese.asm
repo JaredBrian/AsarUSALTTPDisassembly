@@ -27,9 +27,9 @@
         
         JSR Sprite2_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$28 : CMP.b #$50 : BCS .player_not_close
+        LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
         
-        LDA $0F : ADD.b #$28 : CMP.b #$50 : BCS .player_not_close
+        LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
         
         LDA.b #$1E : JSL Sound_SetSfx3PanLong
         
@@ -91,7 +91,7 @@
         
         LDA $0DA0, X : AND.b #$01 : TAY
         
-        LDA $0D90, X : ADD .index_step, Y : STA $0D90, X
+        LDA $0D90, X : CLC : ADC .index_step, Y : STA $0D90, X
         
         JSL GetRandomInt : AND.b #$03 : BNE .beta
         

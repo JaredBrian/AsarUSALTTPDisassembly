@@ -67,7 +67,7 @@
     .never_branch
     .delay
     
-        LDA $0DE0, X : ADD $0ED0, X : TAY
+        LDA $0DE0, X : CLC : ADC $0ED0, X : TAY
         
         LDA .x_speeds, Y : STA $0D50, X
         

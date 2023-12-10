@@ -27,7 +27,7 @@
     
     .next_whatever
     
-        LDA $00 : ADD $829C, Y : AND.b #$1F : TAX
+        LDA $00 : CLC : ADC $829C, Y : AND.b #$1F : TAX
         
         LDA $827C, X : STA $0B08, Y
         
@@ -130,7 +130,7 @@
     
     BRANCH_KAPPA:
     
-        ADD $0D10, X : STA $0FD8
+        CLC : ADC $0D10, X : STA $0FD8
         
         LDA $0D30, X : ADC $00 : STA $0FD9
         
@@ -142,7 +142,7 @@
     
     BRANCH_LAMBDA:
     
-        ADD $0D00, X : STA $0FDA
+        CLC : ADC $0D00, X : STA $0FDA
         
         LDA $0D20, X : ADC $00 : STA $0FDB
         
@@ -415,7 +415,7 @@
         
         LDA $0DE0, X : AND.b #$01 : TAY
         
-        LDA $0B30 : ADD $8383, Y : STA $0B30
+        LDA $0B30 : CLC : ADC $8383, Y : STA $0B30
         
         CMP Sprite3_Shake.x_speeds, Y : BNE BRANCH_GAMMA
         
@@ -431,7 +431,7 @@
     
     BRANCH_DELTA:
     
-        ADD $0B2D : STA $0B2D
+        CLC : ADC $0B2D : STA $0B2D
         
         TYA : ADC $0B2E : AND.b #$FF : STA $0B2E
     
@@ -471,7 +471,7 @@
     {
         LDY $0EB0, X
         
-        LDA $0B31 : ADD $8327, Y : STA $0B31 : PHA
+        LDA $0B31 : CLC : ADC $8327, Y : STA $0B31 : PHA
         LDA $0B32 : ADC $8329, Y  : STA $0B32
         
         PLA : CMP $832B, Y : BNE BRANCH_ALPHA
@@ -480,7 +480,7 @@
     
     BRANCH_ALPHA:
     
-        LDA $0B2F : ADD.b #$03 : STA $0B2F
+        LDA $0B2F : CLC : ADC.b #$03 : STA $0B2F
         
         RTS
     }
@@ -489,7 +489,7 @@
     {
         LDA $0EB0, X : EOR.b #$01 : TAY
         
-        LDA $0B31 : ADD $8327, Y : STA $0B31 : PHA
+        LDA $0B31 : CLC : ADC $8327, Y : STA $0B31 : PHA
         LDA $0B32 : ADC $8329, Y : STA $0B32
         
         PLA : CMP.b #$00 : BNE BRANCH_ALPHA
@@ -525,7 +525,7 @@
         
         JSL Player_SetupActionHitBoxLong
         
-        LDA $0D00, X : PHA : ADD.b #$08 : STA $0D00, X
+        LDA $0D00, X : PHA : CLC : ADC.b #$08 : STA $0D00, X
         
         JSL Sprite_SetupHitBoxLong
         
@@ -568,9 +568,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$0024 : CMP.w #$0048 : BCS BRANCH_ALPHA
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0024 : CMP.w #$0048 : BCS BRANCH_ALPHA
         
-        LDA $20 : SUB $0FDA : ADD.w #$0028 : CMP.w #$0040 : BCS BRANCH_ALPHA
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0028 : CMP.w #$0040 : BCS BRANCH_ALPHA
         
         SEP #$20
         
@@ -585,7 +585,7 @@
 
     ; *$F047E-$F04A9 LOCAL
     {
-        LDA $0DB0, X : ADD.b #$07 : STA $0FB5
+        LDA $0DB0, X : CLC : ADC.b #$07 : STA $0FB5
         
         JSR $84AA ; $F04AA IN ROM
         
@@ -627,10 +627,10 @@
         
         LDX $0FB5
         
-        LDA $00 : ADD $842E, X : STA $0D10, Y
+        LDA $00 : CLC : ADC $842E, X : STA $0D10, Y
         LDA $01 : ADC $8438, X : STA $0D30, Y
         
-        LDA $02 : ADD $841A, X : STA $0D00, Y
+        LDA $02 : CLC : ADC $841A, X : STA $0D00, Y
         LDA $03 : ADC $8424, X : STA $0D20, Y
         
         LDA $8442, X : STA $0F70, Y
@@ -663,7 +663,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $02 : ADD.b #$1C : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$1C : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$20 : STA $0DF0, Y : STA $0BA0, Y
@@ -715,8 +715,8 @@
     {
         REP #$20
         
-        LDA $90 : ADD.w #$0040 : STA $90
-        LDA $92 : ADD.w #$0010 : STA $92
+        LDA $90 : CLC : ADC.w #$0040 : STA $90
+        LDA $92 : CLC : ADC.w #$0010 : STA $92
         
         SEP #$20
         
@@ -729,8 +729,8 @@
     
         PHX
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
-        LDA $02 : ADD.b #$14        : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC.b #$14        : INY : STA ($90), Y
         
         LDA $0B0C : LSR #2 : AND.b #$07 : TAX
         
@@ -774,7 +774,7 @@
         
         ASL #6 : ADC.w #$85C6 : STA $08
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         
@@ -788,8 +788,8 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0020 : STA $90
-        LDA $92 : ADD.w #$0008 : STA $92
+        LDA $90 : CLC : ADC.w #$0020 : STA $90
+        LDA $92 : CLC : ADC.w #$0008 : STA $92
         
         SEP #$20
         
@@ -825,7 +825,7 @@
         
         JSL Sprite_SetupHitBoxLong
         
-        LDA $0C04, Y : ADD.b #$06 : STA $00
+        LDA $0C04, Y : CLC : ADC.b #$06 : STA $00
         LDA $0C18, Y : ADC.b #$00 : STA $08
         
         LDA $0BFA, Y : SUB $029E, Y : STA $01
@@ -879,9 +879,9 @@
     {
         REP #$20
         
-        LDA $90 : ADD.w #$004C : STA $90
+        LDA $90 : CLC : ADC.w #$004C : STA $90
         
-        LDA $92 : ADD.w #$0013 : STA $92
+        LDA $92 : CLC : ADC.w #$0013 : STA $92
         
         SEP #$20
         
@@ -895,9 +895,9 @@
     
         LDX $0FB5
         
-        LDA $00 : ADD $87F5, X : STA ($90), Y
+        LDA $00 : CLC : ADC $87F5, X : STA ($90), Y
         
-        LDA $02 : ADD $87F9, X : ADD $0B08, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $87F9, X : CLC : ADC $0B08, X : INY : STA ($90), Y
         LDA $87FD, X                          : INY : STA ($90), Y
         LDA $8801, X : EOR $05                : INY : STA ($90), Y
         
@@ -909,10 +909,10 @@
         
         PLY : INY
         
-        LDA $00 : ADD $87F5, X : STA ($90), Y
+        LDA $00 : CLC : ADC $87F5, X : STA ($90), Y
         
-        LDA $02 : ADD $87F9, X : ADD.b #$10 : ADD $0B08, X : INY : STA ($90), Y
-        LDA $87FD, X : ADD.b #$02                          : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $87F9, X : CLC : ADC.b #$10 : CLC : ADC $0B08, X : INY : STA ($90), Y
+        LDA $87FD, X : CLC : ADC.b #$02                          : INY : STA ($90), Y
         LDA $8801, X : EOR $05                             : INY : STA ($90), Y
         
         PHY
@@ -953,7 +953,7 @@
         LDY.b #$00
         
         LDA $00                                 : STA ($90), Y
-        LDA $02    : ADD.b #$13 : ADC $06 : INY : STA ($90), Y
+        LDA $02    : CLC : ADC.b #$13 : ADC $06 : INY : STA ($90), Y
         LDA.b #$AA                        : INY : STA ($90), Y
         LDA $05    : EOR.b #$0B           : INY : STA ($90), Y
         
@@ -983,13 +983,13 @@
         
         LDA $0EC0, X : BEQ BRANCH_ALPHA
         
-        TYA : ADD.b #$10 : TAY
+        TYA : CLC : ADC.b #$10 : TAY
     
     BRANCH_ALPHA:
     
         REP #$20
         
-        LDA $0B2D : ADD $0B31 : STA $0D
+        LDA $0B2D : CLC : ADC $0B31 : STA $0D
         
         SEP #$20
         
@@ -1036,7 +1036,7 @@
         
         LDA $04E800, X : STA $0A
         
-        LDA $06 : ADD.w #$0080 : STA $08
+        LDA $06 : CLC : ADC.w #$0080 : STA $08
         
         AND.w #$00FF : ASL A : TAX
         
@@ -1116,8 +1116,8 @@
     
     BRANCH_NU:
     
-        LDA $00 : ADD $0B0D, X       : STA ($90), Y : STA $08
-        LDA $02 : ADD $0B1D, X : INY : STA ($90), Y : STA $09
+        LDA $00 : CLC : ADC $0B0D, X       : STA ($90), Y : STA $08
+        LDA $02 : CLC : ADC $0B1D, X : INY : STA ($90), Y : STA $09
         
         LDA.b #$AC
         

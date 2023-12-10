@@ -28,7 +28,7 @@
         
         PHP
         
-        ADD.b #$03 : STA $20
+        CLC : ADC.b #$03 : STA $20
         
         LDA $0D20, X : ADC.b #$00
         

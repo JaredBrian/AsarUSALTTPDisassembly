@@ -75,7 +75,7 @@
         
         LDA.b #$05 : STA $0E80, X
         
-        INC $0DC0, X : LDA $0DC0, X : AND.b #$03 : ADD.b #$08 : STA $0DC0, X
+        INC $0DC0, X : LDA $0DC0, X : AND.b #$03 : CLC : ADC.b #$08 : STA $0DC0, X
     
     .animation_delay
     
@@ -236,7 +236,7 @@
     
         LSR #2 : TAY
         
-        ADD.b #$0F : STA $0DC0, X
+        CLC : ADC.b #$0F : STA $0DC0, X
         
         RTS
     }
@@ -284,11 +284,11 @@
         
         LDA.b #$05 : STA $7FF800, X : STA $0FB4
         
-        LDA $0D10, Y : ADD $00 : STA $7FF83C, X
+        LDA $0D10, Y : CLC : ADC $00 : STA $7FF83C, X
         LDA $0D30, Y : ADC $01 : STA $7FF878, X
         
         ; WTF is this math here? Will take some sorting out with the PHP / PLPs...
-        LDA $0D00, Y : SUB $0F70, Y : PHP : ADD.b #$10 : PHP : ADD $02    : STA $7FF81E, X
+        LDA $0D00, Y : SUB $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA $7FF81E, X
         LDA $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA $7FF85A, X
         
         LDA.b #$1F : STA $7FF90E, X

@@ -67,8 +67,8 @@
         
         PHX : TXA : ASL A : TAX
         
-        LDA $20 : ADD .y_offsets, X : SUB $E8 : STA $00
-        LDA $22 : ADD .x_offsets, X : SUB $E2 : STA $02
+        LDA $20 : CLC : ADC .y_offsets, X : SUB $E8 : STA $00
+        LDA $22 : CLC : ADC .x_offsets, X : SUB $E2 : STA $02
         
         PLX
         

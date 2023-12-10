@@ -237,10 +237,10 @@
         
         LDA.b #$03 : STA $0E80, Y : STA $0BA0, Y
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01              : STA $0D30, Y
         
-        LDA $02 : ADD.b #$10 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$10 : STA $0D00, Y
         LDA $03              : STA $0D20, Y
         
         LDA.b #$04 : STA $0F70, Y

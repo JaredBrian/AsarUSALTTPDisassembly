@@ -71,7 +71,7 @@
     
     .sign_ext_z_coord
     
-        EOR.w #$FFFF : INC A : ADD $00 : STA $00
+        EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00
         
         SEP #$20
         

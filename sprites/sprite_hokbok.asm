@@ -64,7 +64,7 @@
         
         LDA.b #$06 : STA $0EA0, X
         
-        LDA $0F70, X : ADD $0DA0, X : STA $0F70, X
+        LDA $0F70, X : CLC : ADC $0DA0, X : STA $0F70, X
         
         DEC $0D90, X : BNE .dont_reset_head_hp
         
@@ -81,7 +81,7 @@
     
     .positive_x_speed
     
-        ADD.b #$04 : STA $0D50, X
+        CLC : ADC.b #$04 : STA $0D50, X
         
         LDA $0D40, X : BPL .positive_y_speed
         
@@ -89,7 +89,7 @@
     
     .positive_y_speed
     
-        ADD.b #$04 : STA $0D40, X
+        CLC : ADC.b #$04 : STA $0D40, X
         
         ; Spawn a Ricochet sprite since a segment was knocked off of the Hokbok.
         LDA.b #$C7 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -220,7 +220,7 @@
         
         LDA $0D90, X : TAX
         
-        TYA : ADD.b #$0C : TAY
+        TYA : CLC : ADC.b #$0C : TAY
     
     .next_subsprite
     
@@ -235,7 +235,7 @@
         LDA $02 : PHA : SUB $06 : STA $02
                   PLA           : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

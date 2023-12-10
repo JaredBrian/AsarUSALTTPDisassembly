@@ -142,9 +142,9 @@
         REP #$20
         
         ; Check proximity of drowning sprite to the catfish.
-        LDA $0FD8 : SUB $00 : ADD.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+        LDA $0FD8 : SUB $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
         
-        LDA $0FDA : SUB $02 : ADD.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+        LDA $0FDA : SUB $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
         
         SEP #$20
     

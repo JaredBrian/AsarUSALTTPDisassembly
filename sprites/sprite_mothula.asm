@@ -159,7 +159,7 @@
         
         LDA $0D90, X : AND.b #$01 : TAY
         
-        LDA $0F80, X : ADD .z_accelerations, Y : STA $0F80, X
+        LDA $0F80, X : CLC : ADC .z_accelerations, Y : STA $0F80, X
         
         CMP Sprite3_Shake.x_speeds, Y : BNE .anotoggle_z_acceleration_polarity
         
@@ -305,7 +305,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $02 : SUB $04 : ADD.b #$03 : STA $0D00, Y
+        LDA $02 : SUB $04 : CLC : ADC.b #$03 : STA $0D00, Y
         
         LDA.b #$10 : STA $0DF0, Y
                      STA $0BA0, Y
@@ -314,7 +314,7 @@
         
         LDX $0FB5
         
-        LDA $00 : ADD .x_offsets, X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
         
         LDA .x_speeds, X : STA $0D50, Y
         
@@ -390,8 +390,8 @@
         ; melt back into the scenery when it collides with tiles.
         LDA.b #$01 : STA $0E90, Y
         
-                     ADD $0FB0 : STA $0D30, Y
-        LDA.b #$01 : ADD $0FB1 : STA $0D20, Y
+                     CLC : ADC $0FB0 : STA $0D30, Y
+        LDA.b #$01 : CLC : ADC $0FB1 : STA $0D20, Y
         
         TYX
         

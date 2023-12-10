@@ -57,7 +57,7 @@
         
         LDA $20 : SUB.w #8 : STA $00
         
-        LDA.w #-16 : ADD $E2 : STA $02
+        LDA.w #-16 : CLC : ADC $E2 : STA $02
         
         SEP #$20
         
@@ -88,7 +88,7 @@
     
     .dropping_off_so_swoop_down
     
-        LDA $0294, X : ADD.b #-1 : STA $0294, X
+        LDA $0294, X : CLC : ADC.b #-1 : STA $0294, X
         
         JSR Ancilla_MoveAltitude
     
@@ -300,7 +300,7 @@
         STA $72
         
         LDA $00 : STA $0A
-        ADD $04 : STA $04
+        CLC : ADC $04 : STA $04
         
         LDA $02 : STA $06
         
@@ -324,7 +324,7 @@
     
     .sign_ext_y_offset
     
-        ADD $04 : STA $00
+        CLC : ADC $04 : STA $00
         
         LDA .x_offsets, X : AND.w #$00FF
         
@@ -334,7 +334,7 @@
     
     .sign_ext_x_offset
     
-        ADD $06 : STA $02
+        CLC : ADC $06 : STA $02
         
         SEP #$20
         
@@ -358,7 +358,7 @@
         
         REP #$20
         
-        LDA $0A : ADD.w #$001C : STA $00
+        LDA $0A : CLC : ADC.w #$001C : STA $00
         
         LDA $06 : STA $02
         
@@ -374,9 +374,9 @@
         
         REP #$20
         
-        LDA $0A : ADD.w #28 : STA $00
+        LDA $0A : CLC : ADC.w #28 : STA $00
         
-        LDA $06 : ADD.w #-7 : STA $02
+        LDA $06 : CLC : ADC.w #-7 : STA $02
         
         SEP #$20
         

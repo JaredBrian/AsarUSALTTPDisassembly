@@ -54,10 +54,10 @@
     
     .been_brought_to_sanctuary_already
     
-        LDA $0D00, X : ADD.b #$0F : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$0F : STA $0D00, X
         LDA $0D20, X : ADC.b #$00 : STA $0D20, X
         
-        LDA $0D10, X : ADD.b #$06 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$06 : STA $0D10, X
         
         LDA.b #$03 : STA $0F60, X
         

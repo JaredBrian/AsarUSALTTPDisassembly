@@ -807,7 +807,7 @@ org $018000
         LDA [$B7], Y : AND.w #$00FF : STA $040E
         
         ; X = 3 * $00
-        LSR #2 : STA $00 : ASL A : ADD $00 : TAX
+        LSR #2 : STA $00 : ASL A : CLC : ADC $00 : TAX
         
         ; The offset to the pointers for each layout.
         LDA .layout_ptrs + 1, X : STA $B8
@@ -874,7 +874,7 @@ org $018000
     .notInThisRoom
     
         ; Move to the next block entry
-        LDA $BA : ADD.w #$0004 : STA $BA
+        LDA $BA : CLC : ADC.w #$0004 : STA $BA
         
         ; There are 99 (decimal) blocks in the game
         CMP.w #$018C : BNE .next_block
@@ -1205,7 +1205,7 @@ org $018000
         LDA $9B60, X : STA [$D4], Y
         
         ; Add enough to draw another 16 x 32 directly below the first.
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         ; Loops once, which produces a 32 x 32 pixel region in the tilemap.
         ; So this whole loop in effect makes a 4 x 4 tile block.
@@ -1276,7 +1276,7 @@ org $018000
         LDA $9B5E, Y : STA $7E4084, X : STA $7E2084, X
         LDA $9B60, Y : STA $7E4086, X : STA $7E2086, X
         
-        TXA : ADD.w #$0100 : TAX
+        TXA : CLC : ADC.w #$0100 : TAX
         
         DEC $B2 : BNE .nextRow
         
@@ -1385,7 +1385,7 @@ org $018000
         STA [$CB], Y : STA [$CE], Y
         STA [$D1], Y : STA [$D4], Y
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         LDA $9B52, X
         STA [$BF], Y : STA [$C2], Y
@@ -1397,7 +1397,7 @@ org $018000
         
         DEC $0A : BNE .nextColumnBlock
         
-        LDA $08 : ADD.w #$0200 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
         
         DEC $B4 : BNE .nextRowOfBlocks
         
@@ -1492,7 +1492,7 @@ org $018000
         
         JSR Object_Draw4xN
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         LDX $0A
         
@@ -1557,7 +1557,7 @@ org $018000
         LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
         LDA $9B5A, Y : STA $7E4200, X : STA $7E2200, X
         
-        TXA : ADD $0E : TAX
+        TXA : CLC : ADC $0E : TAX
         
         DEC $B2 : BNE BRANCH_ALPHA
         
@@ -1580,7 +1580,7 @@ org $018000
 
     ; *$8CC7-$8D46 JUMP LOCATION
     {
-        LDA $B2 : ADD.w #$0004 : STA $B2 : STA $0A
+        LDA $B2 : CLC : ADC.w #$0004 : STA $B2 : STA $0A
         
         INC $B4
         
@@ -1590,7 +1590,7 @@ org $018000
         
         LDA $08 : STA $04
         
-        ADD.w #$0180 : STA $08
+        CLC : ADC.w #$0180 : STA $08
         
         LDA $B4 : STA $0E
     
@@ -1603,9 +1603,9 @@ org $018000
         
         JSR Object_Draw2x3
         
-        TXA : ADD.w #$000C : TAX
+        TXA : CLC : ADC.w #$000C : TAX
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
     
     .nextMiddleBlock
     
@@ -1613,15 +1613,15 @@ org $018000
         
         DEC $0A : BNE .nextMiddleBlock
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         JSR Object_Draw2x3
         
-        LDA $08 : ADD.w #$0100 : STA $08
+        LDA $08 : CLC : ADC.w #$0100 : STA $08
         
         DEC $0E : BNE .nextMiddleBlockRow
         
-        TXA : ADD.w #$000C : TAX
+        TXA : CLC : ADC.w #$000C : TAX
         
         LDY $08
         
@@ -1637,11 +1637,11 @@ org $018000
         
         DEC $B4 : BNE .locateVerticalMidpoint
         
-        ADD $08
+        CLC : ADC $08
         
         INC $B2 : INC $B2
         
-        ASL $B2 : ADD $B2 : TAY
+        ASL $B2 : CLC : ADC $B2 : TAY
         
         LDX.w #$0590
         
@@ -1700,7 +1700,7 @@ org $018000
         LDA $9B54, X : STA [$CB], Y
         LDA $9B56, X : STA [$D7], Y
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
         
         INY #2
         
@@ -1726,7 +1726,7 @@ org $018000
         STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
         STA [$CB], Y : STA [$CE], Y : STA [$D1], Y
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         LDA $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
         
@@ -1734,7 +1734,7 @@ org $018000
         
         DEC $0A : BNE .next_block_to_the_right
         
-        LDA $08 : ADD.w #$0180 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0180 : STA $08 : TAY
         
         DEC $B4 : BNE .next_row_of_blocks
         
@@ -1793,13 +1793,13 @@ org $018000
         
         LDA $9B56, X : STA [$C2], Y
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
         
         LDY $0C
         
         DEC $0E : BNE .repeatOnBottomRow
         
-        LDA $08 : ADD.w #$0080
+        LDA $08 : CLC : ADC.w #$0080
         
         LDY $B2 : DEY : STY $B4
         
@@ -1815,7 +1815,7 @@ org $018000
         
         LDA.w #$0002 : STA $0E
         
-        LDA $08 : ADD.w #$0080 : TAY
+        LDA $08 : CLC : ADC.w #$0080 : TAY
         
         LDX.w #$0648
     
@@ -1827,7 +1827,7 @@ org $018000
     
         LDA $9B52, X : STA [$BF], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0A : BNE .nextRow2
         
@@ -1940,7 +1940,7 @@ org $018000
     .dontOverwrite
     .nextTile
     
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         LDA $9B54, X : STA [$BF], Y
         
@@ -1993,14 +1993,14 @@ org $018000
         
         JSR Object_Draw2x2_AdvanceDown
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
     
     .nextRow
     
         LDA $9B52, X : STA [$BF], Y
         LDA $9B54, X : STA [$C2], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -2074,7 +2074,7 @@ org $018000
     
         LDA $9B52, X : STA [$BF], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -2103,7 +2103,7 @@ org $018000
         
         JSR $8A44   ; $8A44 IN ROM
         
-        LDA $08 : ADD.w #$0200 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
         
         DEC $B4 : BNE .next_block
         
@@ -2221,7 +2221,7 @@ org $018000
         LDA $9B52, X : STA [$BF], Y
         LDA $0E      : STA [$C2], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -2235,7 +2235,7 @@ org $018000
         LDA $0E : STA [$C2], Y
                   STA [$CE], Y
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         RTS
     }
@@ -2263,7 +2263,7 @@ org $018000
         LDA $0E      : STA [$BF], Y
         LDA $9B52, X : STA [$C2], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -2276,7 +2276,7 @@ org $018000
         LDA $9B52, X : STA [$C2], Y
         LDA $9B54, X : STA [$CE], Y
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         RTS
     }
@@ -2300,7 +2300,7 @@ org $018000
     
         LDA $9B52, X : STA [$BF], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -2324,7 +2324,7 @@ org $018000
         
         JSR Object_Draw4x4
         
-        LDA $08 : ADD.w #$0200 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -2358,7 +2358,7 @@ org $018000
     
         LDA $9B52, X : STA [$BF], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .loop
         
@@ -2414,11 +2414,11 @@ org $018000
         ; This load of Y is also ignored
         LDY.w #$0052
         
-        LDA $08 : ADD.w #$000A
+        LDA $08 : CLC : ADC.w #$000A
         
         LDY $BF : CPY.w #$4000 : BNE .onBG2_2
         
-        ADD.w #$0004
+        CLC : ADC.w #$0004
     
     .onBG2_2
     
@@ -2497,7 +2497,7 @@ org $018000
 
         LDA $9B54, X : STA [$CB], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0A : BNE BRANCH_GAMMA
         
@@ -2519,13 +2519,13 @@ org $018000
         
         PLA : STA $0E
         
-        LDA $08 : ADD.w #$0180 : TAY
+        LDA $08 : CLC : ADC.w #$0180 : TAY
     
     BRANCH_EPSILON:
     
         JSR Object_Draw2x3
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         DEC $0E : BNE BRANCH_EPSILON
     
@@ -2535,7 +2535,7 @@ org $018000
     
     ; *$9211 ALTERNATE ENTRY POINT
     
-        ADD.w #$000C : TAX
+        CLC : ADC.w #$000C : TAX
     
     ; *$9216 ALTERNATE ENTRY POINT
     
@@ -2568,13 +2568,13 @@ org $018000
         
         LDA $9B0A, Y : STA $0E : PHA
         
-        LDA $08 : ADD.w #$0180 : TAY
+        LDA $08 : CLC : ADC.w #$0180 : TAY
     
     BRANCH_BETA:
     
         JSR Object_Draw2x3
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         DEC $0E : BNE BRANCH_BETA
         
@@ -2586,7 +2586,7 @@ org $018000
         
         LDA $9B12, Y : STA $0C
         
-        LDA $08 : ADD.w #$0006 : STA $06
+        LDA $08 : CLC : ADC.w #$0006 : STA $06
         
         LDX.w #$03D8
     
@@ -2602,7 +2602,7 @@ org $018000
     
         LDA $9B54, X : STA [$CB], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0A : BNE BRANCH_GAMMA
         
@@ -2731,7 +2731,7 @@ org $018000
         
         JSR Object_Draw4x4
         
-        TYA : ADD.w #$02F8 : TAY
+        TYA : CLC : ADC.w #$02F8 : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -2786,7 +2786,7 @@ org $018000
     
         JSR Object_Draw2x2_AdvanceDown
         
-        ADD.w #$0100 : TAY
+        CLC : ADC.w #$0100 : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -2809,7 +2809,7 @@ org $018000
         
         JSR Object_Draw4xN
         
-        TYA : ADD.w #$02FC : TAY
+        TYA : CLC : ADC.w #$02FC : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -2833,7 +2833,7 @@ org $018000
         
         JSR Object_Draw4xN
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         DEC $B2 : BNE .loop
         
@@ -2856,7 +2856,7 @@ org $018000
         
         JSR Object_Draw3xN
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         DEC $B2 : BNE .nextFourColumns
         
@@ -2879,7 +2879,7 @@ org $018000
         
         JSR Object_Draw4xN
         
-        TYA : ADD.w #$03FA : TAY
+        TYA : CLC : ADC.w #$03FA : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -2898,14 +2898,14 @@ org $018000
         
         JSR Object_Draw2x2_AdvanceDown
         
-        ADD.w #$0200 : TAY
+        CLC : ADC.w #$0200 : TAY
         
         ; since this is a known quantity, why calculate it? (Hint: it's 0x08D2)
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         JSR Object_Draw2x2_AdvanceDown
         
-        LDA $08 : ADD.w #$0008 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0008 : STA $08 : TAY
         
         DEC $B2 : BNE BRANCH_ALPHA
         
@@ -2955,7 +2955,7 @@ org $018000
         
         LDA $9B58, X : STA [$C2], Y
         
-        LDA $08 : ADD.w #$0080 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0080 : STA $08 : TAY
         
         RTS
     }
@@ -2980,7 +2980,7 @@ org $018000
         
         DEC $0E : BNE .next_block_right
         
-        LDA $08 : ADD.w #$0100 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0100 : STA $08 : TAY
         
         DEC $B4 : BNE .next_row
         
@@ -2997,7 +2997,7 @@ org $018000
     
         JSR Object_Draw2x2_AdvanceDown
         
-        ADD.w #$0600 : TAY
+        CLC : ADC.w #$0600 : TAY
         
         DEC $B2 : BNE .next_piece
         
@@ -3014,7 +3014,7 @@ org $018000
     
         JSR Object_Draw2x2_AdvanceDown
         
-        ADD.w #$FF1C : TAY
+        CLC : ADC.w #$FF1C : TAY
         
         DEC $B2 : BNE .loop
         
@@ -3036,7 +3036,7 @@ org $018000
         
         JSR Object_Draw5x1
         
-        TXA : ADD.w #$000A : TAX
+        TXA : CLC : ADC.w #$000A : TAX
         
         INY #2
     
@@ -3048,7 +3048,7 @@ org $018000
         
         DEC $B2 : BNE .nextColumn
         
-        TXA : ADD.w #$000A : TAX
+        TXA : CLC : ADC.w #$000A : TAX
         
         JMP Object_Draw5x1
     }
@@ -3105,7 +3105,7 @@ org $018000
         
         INY #2
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
     
     .loop
     
@@ -3115,7 +3115,7 @@ org $018000
         
         DEC $B2 : BNE .loop
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
         
         JMP Object_Draw3x1
     }
@@ -3140,7 +3140,7 @@ org $018000
         
         DEC $B2 : BNE .alpha
         
-        TXA : ADD.w #$0010 : TAX
+        TXA : CLC : ADC.w #$0010 : TAX
         
         JMP Object_Draw4x1
     }
@@ -3167,11 +3167,11 @@ org $018000
         
         TYA : AND.w #$007E : ASL #2 : STA $0680
         
-        LDA $B2 : ASL #4 : ADD $062C : ADD $0680 : STA $0680
+        LDA $B2 : ASL #4 : CLC : ADC $062C : CLC : ADC $0680 : STA $0680
         
         TYA : AND.w #$1F80 : LSR #4 : STA $0682
         
-        LDA $B4 : ASL #4 : ADD $062E : ADD $0682 : STA $0682
+        LDA $B4 : ASL #4 : CLC : ADC $062E : CLC : ADC $0682 : STA $0682
         
         SEP #$30
         
@@ -3214,9 +3214,9 @@ org $018000
         LDA $9B56, Y : STA $7E2004, X
         LDA $9B58, Y : STA $7E2006, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .loop
         
@@ -3236,7 +3236,7 @@ org $018000
         
         JSR $8A44 ; $8A44 IN ROM
         
-        LDA $08 : ADD.w #$0200 : STA $08 : TAY
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
         
         DEC $B4 : BNE .loop2
         
@@ -3266,11 +3266,11 @@ org $018000
         
         TYA : AND.w #$007E : ASL #2 : STA $0680
         
-        LDA $B2 : ASL #4 : ADD $062C : ADD $0680 : STA $0680
+        LDA $B2 : ASL #4 : CLC : ADC $062C : CLC : ADC $0680 : STA $0680
         
-        TYA : ADD.w #$1F80 : LSR #4 : STA $0682
+        TYA : CLC : ADC.w #$1F80 : LSR #4 : STA $0682
         
-        LDA $B4 : ASL #4 : ADD $062E : ADD $0682 : SUB.w #$0008 : STA $0682
+        LDA $B4 : ASL #4 : CLC : ADC $062E : CLC : ADC $0682 : SUB.w #$0008 : STA $0682
         
         SEP #$30
         
@@ -3326,7 +3326,7 @@ org $018000
         
         DEC $0A : BNE BRANCH_GAMMA
         
-        LDA $08 : ADD.w #$0100 : STA $08
+        LDA $08 : CLC : ADC.w #$0100 : STA $08
         
         DEC $04 : BNE BRANCH_DELTA
         
@@ -3356,7 +3356,7 @@ org $018000
     
         LDA $95B2, X : STA [$BF], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -3391,7 +3391,7 @@ org $018000
         JSR Object_Draw4xN
         
         ; make next block 10 tiles down?
-        TYA : ADD.w #$05FC : TAY
+        TYA : CLC : ADC.w #$05FC : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -3422,7 +3422,7 @@ org $018000
         JSR Object_Draw4xN
         
         ; make next block 5 tiles down?
-        TYA : ADD.w #$02FA : TAY
+        TYA : CLC : ADC.w #$02FA : TAY
         
         DEC $B2 : BNE .next_block
         
@@ -3446,7 +3446,7 @@ org $018000
         INC $B2
         
         ; $B4 = ($B4 * 2) + 5
-        LDA $B4 : ASL A : ADD.w #$0005 : STA $B4
+        LDA $B4 : ASL A : CLC : ADC.w #$0005 : STA $B4
     
     BRANCH_DELTA
     
@@ -3498,7 +3498,7 @@ org $018000
         
         LDA $9B76, Y : STA $7E200E, X
         
-        PLA : ADD.w #$0080 : TAX
+        PLA : CLC : ADC.w #$0080 : TAX
         
         RTS
     }
@@ -3521,7 +3521,7 @@ org $018000
         LDA $9B56, X : STA [$CB], Y
         LDA $9B58, X : STA [$CE], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $B2 : BNE .nextRow
         
@@ -3566,7 +3566,7 @@ org $018000
         LDA $9B56, X : STA [$D7], Y
         LDA $9B58, X : STA [$DA], Y
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         INY #2
         
@@ -3595,7 +3595,7 @@ org $018000
         LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
         LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -3630,7 +3630,7 @@ org $018000
         LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
         LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
         
         INX #2
         
@@ -3931,7 +3931,7 @@ org $018000
         LDA $9B5C, Y : STA $7E2280, X
         LDA $9B5E, Y : STA $7E2300, X
         
-        TYA : ADD.w #$000E : TAY
+        TYA : CLC : ADC.w #$000E : TAY
         
         INX #2
         
@@ -3991,7 +3991,7 @@ org $018000
         
         JSR Object_Draw3xN
         
-        LDA $08 : ADD.w #$0180 : TAY
+        LDA $08 : CLC : ADC.w #$0180 : TAY
         
         LDA.w #$0004
         
@@ -4055,9 +4055,9 @@ org $018000
         LDA $9B56, X : STA [$C5], Y
         LDA $9B58, X : STA [$C8], Y
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0E : BNE .nextRow
         
@@ -4159,13 +4159,13 @@ org $018000
         
         INY #2
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .nextRow
         
-        TYA : ADD.w #$000C : TAX
+        TYA : CLC : ADC.w #$000C : TAX
         
-        LDA $08 : ADD.w #$0014 : TAY
+        LDA $08 : CLC : ADC.w #$0014 : TAY
         
         LDA.w #$0004
         
@@ -4308,7 +4308,7 @@ org $018000
     
     .alpha
     
-        TXA : ADD.w #$000C : TAX
+        TXA : CLC : ADC.w #$000C : TAX
         
         LDA.w #$0002
         
@@ -4335,7 +4335,7 @@ org $018000
     
     .alpha
     
-        TXA : ADD.w #$000C : TAX
+        TXA : CLC : ADC.w #$000C : TAX
     
     ; *$9D04 ALTERNATE ENTRY POINT
     
@@ -4349,7 +4349,7 @@ org $018000
         
         INX #6
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0A : BNE .nextRow
         
@@ -4419,9 +4419,9 @@ org $018000
         LDA $9B56, X : STA [$C5], Y
         LDA $9B58, X : STA [$C8], Y
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0E : BNE .nextRow
         
@@ -4469,7 +4469,7 @@ org $018000
         
         DEC $0E : BNE .nextColumn
         
-        LDA $08 : ADD.w #$0080 : STA $08
+        LDA $08 : CLC : ADC.w #$0080 : STA $08
         
         DEC $0C : BNE .nextRow
     
@@ -4535,7 +4535,7 @@ org $018000
         
         DEC $0C : BNE .nextColumn
         
-        LDA $00 : ADD.w #$0080 : STA $00
+        LDA $00 : CLC : ADC.w #$0080 : STA $00
         
         DEC $02 : BNE .nextRow
         
@@ -4573,7 +4573,7 @@ org $018000
         LDA $9BDE, Y : STA $7E200C, X
         EOR.w #$4000 : STA $7E200E, X
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         INY #2
         
@@ -4621,7 +4621,7 @@ org $018000
         
         INY #2
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .diagonalsLoop
         
@@ -4647,7 +4647,7 @@ org $018000
         
         INY #8
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BEQ .sidesLoopDone
         
@@ -4684,7 +4684,7 @@ org $018000
         
         INY #4
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .vertLightLoop
         
@@ -4702,7 +4702,7 @@ org $018000
         LDA $9B58, Y : STA $7E260E, X
         LDA $9B5A, Y : STA $7E268E, X
         
-        TYA : ADD.w #$000A : TAY
+        TYA : CLC : ADC.w #$000A : TAY
         
         INX #2
         
@@ -4760,7 +4760,7 @@ org $018000
         
         INY #2
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .nextRow
         
@@ -4794,7 +4794,7 @@ org $018000
         
         INY #2
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .nextRow2
         
@@ -4817,7 +4817,7 @@ org $018000
         LDA $9B5A, X : STA [$CE], Y
         LDA $9B5C, X : STA [$D1], Y
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0E : BNE .nextRow
         
@@ -4853,7 +4853,7 @@ org $018000
         LDA $9B64, Y : STA $7E4480, X
         LDA $9B66, Y : STA $7E4500, X
         
-        TYA : ADD.w #$0016 : TAY
+        TYA : CLC : ADC.w #$0016 : TAY
         
         INX #2
         
@@ -4936,7 +4936,7 @@ org $018000
         LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
         LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -5042,7 +5042,7 @@ org $018000
         LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
         LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -5452,7 +5452,7 @@ org $018000
         LDA $9B56, Y : STA $7E2100, X
         LDA $9B58, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2]
         
@@ -5526,7 +5526,7 @@ org $018000
         LDA $9B56, Y : STA $7E4100, X
         LDA $9B58, Y : STA $7E4180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -5607,13 +5607,13 @@ org $018000
         LDA $9B56, Y : STA $7E4100, X
         LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
         DEC $0E : BNE .nextColumn
         
-        LDA $08 : ADD.w #$0200
+        LDA $08 : CLC : ADC.w #$0200
         
         JMP $A6EE ; $A6EE IN ROM
     }
@@ -5625,7 +5625,7 @@ org $018000
         
         JSR Object_Draw3xN
         
-        LDA $08 : ADD.w #$0180 : TAY
+        LDA $08 : CLC : ADC.w #$0180 : TAY
         
         LDA.w #$0003
         
@@ -5639,13 +5639,13 @@ org $018000
     {
         JSR Object_Draw4x4
         
-        LDA $08 : ADD.w #$0100 : TAY
+        LDA $08 : CLC : ADC.w #$0100 : TAY
         
         LDX.w #$2376
         
         JSR Object_Draw4x4
         
-        LDA $08 : ADD.w #$0300 : TAY
+        LDA $08 : CLC : ADC.w #$0300 : TAY
         
         LDX.w #$2396
         
@@ -5671,7 +5671,7 @@ org $018000
         JSR Object_Draw4x4
         JSR Object_Draw4x4
         
-        LDA $08 : ADD.w #$0200 : TAY
+        LDA $08 : CLC : ADC.w #$0200 : TAY
         
         JSR Object_Draw4x4
         JSR Object_Draw4x4
@@ -5688,7 +5688,7 @@ org $018000
     {
         JSR Object_Draw4x4
         
-        LDA $08 : ADD.w #$01FC : TAY
+        LDA $08 : CLC : ADC.w #$01FC : TAY
         
         PHX
         
@@ -5696,7 +5696,7 @@ org $018000
         
         PLX
         
-        LDA $08 : ADD.w #$0204 : TAY
+        LDA $08 : CLC : ADC.w #$0204 : TAY
         
         JMP Object_Draw4x4
     }
@@ -5710,7 +5710,7 @@ org $018000
         
         JSR $8A44 ; $8A44 IN ROM
         
-        LDA $08 : ADD.w #$0200 : TAY
+        LDA $08 : CLC : ADC.w #$0200 : TAY
         
         LDA.w #$0005
         
@@ -5849,7 +5849,7 @@ org $018000
         LDA $9B54, Y : STA $7E4080, X
         LDA $9B56, Y : STA $7E4100, X
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
         
         INX #2
         
@@ -5935,7 +5935,7 @@ org $018000
         LDA $9B54, X : STA [$CB], Y
         LDA $9B56, X : STA [$D7], Y
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
         
         INY #2
         
@@ -5956,7 +5956,7 @@ org $018000
         
         CMP.w #$0016 : BNE .notFloorToggleProperty
         
-        TYA : ADD.w #$0202
+        TYA : CLC : ADC.w #$0202
         
         JMP Door_AddFloorToggleProperty
     
@@ -5970,7 +5970,7 @@ org $018000
     
         CMP.w #$0014 : BNE .notPalaceToggleProperty
         
-        TYA : ADD.w #$0202
+        TYA : CLC : ADC.w #$0202
         
         JMP Door_AddPalaceToggleProperty
     
@@ -6049,7 +6049,7 @@ org $018000
     
     ; *$AA2F ALTERNATE ENTRY POINT
         
-        TYA : ADD.w #$0200
+        TYA : CLC : ADC.w #$0200
         
         JSR Door_Prioritize7x4
     
@@ -6081,7 +6081,7 @@ org $018000
         
         PHA
         
-        ADD.w #$0180 : TAX
+        CLC : ADC.w #$0180 : TAX
         
         LDY.w #$0004
         
@@ -6092,7 +6092,7 @@ org $018000
     
         CMP.w #$0002 : BNE BRANCH_XI
         
-        TYA : ADD.w #$0200
+        TYA : CLC : ADC.w #$0200
         
         JSR Door_Prioritize7x4
         
@@ -6147,7 +6147,7 @@ org $018000
         LDA $9B54, X : STA [$D7], Y
         LDA $9B56, X : STA [$DA], Y
         
-        TXA : ADD.w #$0006 : TAX
+        TXA : CLC : ADC.w #$0006 : TAX
         
         INY #2
         
@@ -6168,7 +6168,7 @@ org $018000
         
         CMP.w #$0016 : BNE .notFloorToggleProperty
         
-        TYA : ADD.w #$007C
+        TYA : CLC : ADC.w #$007C
         
         JMP Door_AddFloorToggleProperty
     
@@ -6182,7 +6182,7 @@ org $018000
     
         CMP.w #$0014 : BNE .notPalaceToggleProperty
         
-        TYA : ADD.w #$007C
+        TYA : CLC : ADC.w #$007C
         
         JMP Door_AddPalaceToggleProperty
     
@@ -6275,7 +6275,7 @@ org $018000
         LDA $9B56, X : STA [$D7], Y
         LDA $9B58, X : STA [$DA], Y
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         INY #2
         
@@ -6299,7 +6299,7 @@ org $018000
         
         CMP.w #$0016 : BNE .notFloorToggleProperty
         
-        TYA : ADD.w #$0088
+        TYA : CLC : ADC.w #$0088
         
         JMP Door_AddFloorToggleProperty
     
@@ -6313,7 +6313,7 @@ org $018000
     
         CMP.w #$0014 : BNE .notPalaceToggleProperty
         
-        TYA : ADD.w #$0088
+        TYA : CLC : ADC.w #$0088
         
         JMP Door_AddPalaceToggleProperty
     
@@ -6329,7 +6329,7 @@ org $018000
     
         CMP.w #$0002 : BNE BRANCH_ALPHA
         
-        TYA : ADD.w #$0008
+        TYA : CLC : ADC.w #$0008
         
         JSR Door_Prioritize4x5
         
@@ -6386,7 +6386,7 @@ org $018000
         LDA $9B56, X : STA [$D7], Y
         LDA $9B58, X : STA [$DA], Y
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         INY #2
         
@@ -6456,7 +6456,7 @@ org $018000
         
         LDX $0460
         
-        LDA $08 : ADD.w #$0014 : STA $19A0, X
+        LDA $08 : CLC : ADC.w #$0014 : STA $19A0, X
         
         TXA : LSR A : XBA : ORA.w #$0030 : STA $1980, X
         
@@ -6498,7 +6498,7 @@ org $018000
         
         JSR $ACE4 ; $ACE4 IN ROM
         
-        PLA : ADD.w #$0300 : STA $08
+        PLA : CLC : ADC.w #$0300 : STA $08
         
         INC $0460 : INC $0460
         
@@ -6516,9 +6516,9 @@ org $018000
         
         JSR $AD25 ; $AD25 IN ROM
         
-        LDA $08 : ADD.w #$0004 : STA $08
+        LDA $08 : CLC : ADC.w #$0004 : STA $08
         
-        TXA : ADD.w #$000C : TAX
+        TXA : CLC : ADC.w #$000C : TAX
         
         PHX
         
@@ -6555,7 +6555,7 @@ org $018000
         
         INX #2
         
-        TYA : ADD.w #$0080 : TAY
+        TYA : CLC : ADC.w #$0080 : TAY
         
         DEC $0A : BNE .nextRow
         
@@ -6622,7 +6622,7 @@ org $018000
         LDA $9B54, Y : STA $7E4080, X
         LDA $9B56, Y : STA $7E4100, X
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
         
         INX #2
         
@@ -6687,13 +6687,13 @@ org $018000
         LDA $9B54, X : STA $7E4100, X
         LDA $9B56, X : STA $7E2180, X
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
         
         INX #2
         
         DEC $0E : BNE .nextColumn
         
-        LDA.b #$08 : ADD.w #$0200
+        LDA.b #$08 : CLC : ADC.w #$0200
         
         JSR Door_PrioritizeDownToQuadBoundary_variable
         
@@ -6762,7 +6762,7 @@ org $018000
         LDA $9B56, Y : STA $7E2100, X
         LDA $9B58, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -6775,7 +6775,7 @@ org $018000
         LDA $9B52, Y : STA $7E4100, X
         LDA $9B52, Y : STA $7E4180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -6837,7 +6837,7 @@ org $018000
         LDA $9B56, Y : STA $7E4102, X
         LDA $9B58, Y : STA $7E4182, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -6848,7 +6848,7 @@ org $018000
         LDA $9B56, Y : STA $7E2102, X
         LDA $9B58, Y : STA $7E2182, X
         
-        LDA $08 : ADD.w #$0008
+        LDA $08 : CLC : ADC.w #$0008
         
         JSR $B05C ; $B05C IN ROM
         
@@ -6867,7 +6867,7 @@ org $018000
         
         JSR Door_Register
         
-        LDA $08 : ADD.w #$0080
+        LDA $08 : CLC : ADC.w #$0080
     
     ; *$AF8B ALTERNATE ENTRY POINT
     
@@ -6882,7 +6882,7 @@ org $018000
         LDA $7E2004, X : ORA.w #$2000 : STA $7E2004, X
         LDA $7E2006, X : ORA.w #$2000 : STA $7E2006, X
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         CPX $02 : BNE .nextRow
         
@@ -6898,7 +6898,7 @@ org $018000
         
         JSR Door_Register
         
-        LDA $08 : ADD.w #$0100
+        LDA $08 : CLC : ADC.w #$0100
     
     ; *$AFD4 ALTERNATE ENTRY POINT
     .varaible
@@ -6912,7 +6912,7 @@ org $018000
         LDA $7E2004, X : ORA.w #$2000 : STA $7E2004, X
         LDA $7E2006, X : ORA.w #$2000 : STA $7E2006, X
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         AND.w #$0F80 : BNE .nextRow
         
@@ -6956,7 +6956,7 @@ org $018000
         
         JSR Door_Register
         
-        LDA $08 : ADD.w #$0004
+        LDA $08 : CLC : ADC.w #$0004
     
     ; *$B05C ALTERNATE ENTRY POINT
     
@@ -7225,7 +7225,7 @@ org $018000
         LDA $7E2004, X : ORA.w #$2000 : STA $7E2004, X
         LDA $7E2006, X : ORA.w #$2000 : STA $7E2006, X
         
-        TXA : ADD.w #$0080 : TAX
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE .nextRow
         
@@ -7291,7 +7291,7 @@ org $018000
         LDA $9B5E, X : STA [$D1], Y
         LDA $9B60, X : STA [$D4], Y
         
-        TYA : ADD.w $0E : TAY
+        TYA : CLC : ADC.w $0E : TAY
         
         DEC $B2 : BNE .alpha
         
@@ -7309,7 +7309,7 @@ org $018000
     
         JSR Object_Draw2x2_AdvanceDown
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         DEC $0E : BNE .next_block
         
@@ -7361,7 +7361,7 @@ org $018000
     
         JSR Object_Draw5x1
         
-        TYA : ADD.w #$0082 : TAY
+        TYA : CLC : ADC.w #$0082 : TAY
     
     ; *$B29C ALTERNATE ENTRY POINT
     
@@ -7392,7 +7392,7 @@ org $018000
         LDA $9B56, X : STA [$C2], Y
         LDA $9B58, X : STA [$CE], Y
         
-        TYA : ADD.w #$0100 : TAY
+        TYA : CLC : ADC.w #$0100 : TAY
         
         RTS
     }
@@ -7499,7 +7499,7 @@ org $018000
         
         JSR .drawQuadrant
         
-        LDA $08 : ADD.w #$0100 : TAY
+        LDA $08 : CLC : ADC.w #$0100 : TAY
         
         LDX.w #$0E72
         LDA.w #$2222
@@ -7568,7 +7568,7 @@ org $018000
     
         JSR Object_Pot
         
-        LDA $08 : ADD.w #$0100 : STA $08
+        LDA $08 : CLC : ADC.w #$0100 : STA $08
         
         TAY
         
@@ -7658,7 +7658,7 @@ org $018000
         
         JSR .draw2x2
         
-        LDA $08 : ADD.w #$0100 : TAY
+        LDA $08 : CLC : ADC.w #$0100 : TAY
         
         LDX.w #$0230
         LDA.w #$3232
@@ -7702,7 +7702,7 @@ org $018000
         LDA $9B56, Y : STA $05A0, X
         LDA $9B58, Y : STA $05C0, X
         
-        TYA : ADD.w #$0008 : STA $0E
+        TYA : CLC : ADC.w #$0008 : STA $0E
         
         PLY
         PLX
@@ -7738,7 +7738,7 @@ org $018000
     
         JSR Object_Mole
         
-        LDA $08 : ADD.w #$0100 : STA $08
+        LDA $08 : CLC : ADC.w #$0100 : STA $08
         
         TAY
         
@@ -7898,7 +7898,7 @@ org $018000
     .specialAdjustX
     
         ; Submodules 0x06 - 0x11 and 0x15 have this adjustment.
-        LDA $E2 : ADD.w #$0020
+        LDA $E2 : CLC : ADC.w #$0020
         
         BRA .setLowerBoundX
     
@@ -7908,13 +7908,13 @@ org $018000
         
         ASL A : TAX
         
-        LDA $E2 : ADD.l DungeonHeader_SpecialAdjustment, X
+        LDA $E2 : CLC : ADC.l DungeonHeader_SpecialAdjustment, X
     
     .setLowerBoundX
     
         AND.w #$FE00 : STA $062C
         
-        LDA $E8 : ADD.w #$0020
+        LDA $E8 : CLC : ADC.w #$0020
         
         BRA .setLowerBoundY
     
@@ -7922,9 +7922,9 @@ org $018000
     
         LSR #3 : TAX
         
-        LDA $E2 : ADD.w #$0020 : AND.w #$FE00 : STA $062C
+        LDA $E2 : CLC : ADC.w #$0020 : AND.w #$FE00 : STA $062C
         
-        LDA $E8 : ADD.l DungeonHeader_SpecialAdjustment, X
+        LDA $E8 : CLC : ADC.l DungeonHeader_SpecialAdjustment, X
     
     .setLowerBoundY
     
@@ -7977,7 +7977,7 @@ org $018000
         INY : LDA [$0D], Y : STA $0AA2
         
         ; Move to byte 3. (BG graphics index)
-        INY : LDA [$0D], Y : ADD.b #$40 : STA $0AA3
+        INY : LDA [$0D], Y : CLC : ADC.b #$40 : STA $0AA3
         
         ; Move to byte 4. Basically sets uh.... moving floor settings.
         INY : LDA [$0D], Y : STA $AD
@@ -8032,7 +8032,7 @@ org $018000
         STZ $04BA
         
         ; X = $0110 = ($A0 * 3)
-        LDA $A0 : ASL A : ADD $A0 : STA $0110 : TAX
+        LDA $A0 : ASL A : CLC : ADC $A0 : STA $0110 : TAX
         
         LDA $1F83C1, X : STA $B8
         LDA $1F83C0, X : STA $B7
@@ -8103,7 +8103,7 @@ org $018000
     
     .first_F_rooms
     
-        LDA $A0 : ADD.w #$0010 : TAX
+        LDA $A0 : CLC : ADC.w #$0010 : TAX
         
         ; If room is one of the last $F rooms
         CMP.w #$0140 : BCS .last_F_rooms
@@ -8210,7 +8210,7 @@ org $018000
         STX $0E
         
         ; X = the other room's index multiplied by 3.
-        TXA : ASL A : ADD $0E : TAX
+        TXA : ASL A : CLC : ADC $0E : TAX
         
         LDA $1F83C1, X : STA $B8
         LDA $1F83C0, X : STA $B7
@@ -8260,7 +8260,7 @@ org $018000
         STZ $045E
         
         ; X = $04BA * 3
-        LDA $04BA : ASL A : ADD $04BA : TAX
+        LDA $04BA : ASL A : CLC : ADC $04BA : TAX
         
         ; Dungeon overlay data
         LDA.l .ptr_table + 1, X : STA $B8
@@ -8529,7 +8529,7 @@ org $018000
         LDA.w #$2626 : STA $7F2001, X
         
         LDA $00 : STA $7F2041, X
-        ADD.w #$0101 : STA $00
+        CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $0438 : BNE .nextInRoomUpStaircase
     
@@ -8546,7 +8546,7 @@ org $018000
         
         LDA $00 : STA $7F2041, X
         
-        ADD.w #$0101 : STA $00
+        CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $047E : BNE .nextSpiralUpStaircases
     
@@ -8561,7 +8561,7 @@ org $018000
         
         LDA.w #$5F5F : STA $7F2001, X : STA $7F2081, X : STA $7F20C1, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $0482 : BNE .nextSpiralUpStaircase2
     
@@ -8577,7 +8577,7 @@ org $018000
         LDA.w #$0000 : STA $7F2081, X : STA $7F20C1, X
         LDA.w #$3838 : STA $7F2001, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $04A2 : BNE .nextStraightUpStaircase
     
@@ -8594,7 +8594,7 @@ org $018000
         
         LDA.w #$3939 : STA $7F20C1, X
         
-        LDA $00 : STA $7F2081, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2081, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $04A4 : BNE .nextStraightUpSouthStaircase
     
@@ -8611,7 +8611,7 @@ org $018000
         
         LDA.w #$2626 : STA $7F20C1, X
         
-        LDA $00 : STA $7F2081, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2081, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $043A : BNE .nextInRoomDownSouthStaircase
     
@@ -8626,7 +8626,7 @@ org $018000
         
         LDA.w #$5E5E : STA $7F2001, X : STA $7F2081, X : STA $7F20C1, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $0480 : BNE .nextSpiralDownNorthStaircase
     
@@ -8641,7 +8641,7 @@ org $018000
         
         LDA.w #$5F5F : STA $7F2001, X : STA $7F2081, X : STA $7F20C1, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $0484 : BNE .nextSpiralDownNorthStaircase2
     
@@ -8658,7 +8658,7 @@ org $018000
         
         LDA.w #$3838 : STA $7F2001, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $04A6 : BNE .nextStraightDownNorthStaircase
     
@@ -8675,7 +8675,7 @@ org $018000
         
         LDA.w #$3939 : STA $7F20C1, X
         
-        LDA $00 : STA $7F2081, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2081, X : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $04A8 : BNE .nextStraightDownSouthStaircase
     
@@ -8802,7 +8802,7 @@ org $018000
     
     .skipMiscObject
     
-        LDA $00 : ADD.w #$0101 : STA $00
+        LDA $00 : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $042C : BNE .nextMiscObject
     
@@ -8821,7 +8821,7 @@ org $018000
         LDA $00 : STA $7F2000, X : STA $7F2040, X
         
         ; first torch uses 0xC0C0, second uses 0xC1C1, etc...
-        AND.w #$EFEF : ADD.w #$0101 : STA $00
+        AND.w #$EFEF : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $042E : BNE .nextTorch
         
@@ -8873,7 +8873,7 @@ org $018000
         
         LDA $00 : STA $7F2000, X : STA $7F2040, X
         
-        ADD.w #$0101 : STA $00
+        CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $0498 : BNE .nextBigKeyLock
     
@@ -8973,7 +8973,7 @@ org $018000
     .getNextChestAttr
     
         ; Add #$0101, makes sense b/c the next chest is 0x5959 etc.
-        LDA $00 : ADD.w #$0101 : STA $00
+        LDA $00 : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $0496 : BNE .nextChest
         
@@ -9156,7 +9156,7 @@ org $018000
         
         LDA $19A0, Y : LSR A : AND.w #$FFE0 : TAX
         
-        LDA $00 : ADD.w #$0101
+        LDA $00 : CLC : ADC.w #$0101
         
         STA $7F2040, X : STA $7F2042, X
         STA $7F2080, X : STA $7F2082, X
@@ -9169,7 +9169,7 @@ org $018000
     
         LDA $19A0, Y : LSR A : TAX
         
-        LDA $00 : ADD.w #$0101
+        LDA $00 : CLC : ADC.w #$0101
         
         STA $7F2042, X : STA $7F2044, X
         STA $7F2082, X : STA $7F2084, X
@@ -9228,7 +9228,7 @@ org $018000
         
         LDA.w #$0201 : STA $7F2014, X
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         DEC $00 : BNE .nextRow
         
@@ -9335,7 +9335,7 @@ org $018000
     
     .notExitDoor
     
-        LDA $19A0, Y : LSR A : ADD.w #$0040 : TAX
+        LDA $19A0, Y : LSR A : CLC : ADC.w #$0040 : TAX
         
         LDA $00
         
@@ -9352,7 +9352,7 @@ org $018000
         
         LDA $19A0, Y : LSR A : AND.w #$FFE0 : TAX
         
-        LDA $00 : ADD.w #$0101
+        LDA $00 : CLC : ADC.w #$0101
         
         STA $7F2040, X : STA $7F2042, X : STA $7F2044, X : STA $7F2046, X
         STA $7F2080, X : STA $7F2082, X : STA $7F2084, X : STA $7F2086, X
@@ -9363,7 +9363,7 @@ org $018000
     
         LDA $19A0, Y : LSR A : INC A : TAX
         
-        LDA $00 : ADD.w #$0101
+        LDA $00 : CLC : ADC.w #$0101
         
         STA $7F2040, X : STA $7F2042, X : STA $7F2044, X : STA $7F2046, X
         STA $7F2080, X : STA $7F2082, X : STA $7F2084, X : STA $7F2086, X
@@ -9661,7 +9661,7 @@ org $018000
         
         TAY
         
-        LDA $20 : ADD $99EA, Y : AND.w #$01F8 : ASL #3 : STA $00
+        LDA $20 : CLC : ADC $99EA, Y : AND.w #$01F8 : ASL #3 : STA $00
         LDA $22                 : AND.w #$01F8 : LSR #3 : ORA $00
         
         LDX $EE : BEQ .onBg2
@@ -9680,7 +9680,7 @@ org $018000
         LDY $02 : CPY.w #$0004 : BNE .movingUp
         
         ; If Link is moving down, look two tiles down for the trigger tile
-        ADD.w #$0080 : TAX
+        CLC : ADC.w #$0080 : TAX
     
     .movingUp
     
@@ -10184,7 +10184,7 @@ org $018000
         
         REP #$30
         
-        LDA $20 : ADD.w #$0002 : STA $20
+        LDA $20 : CLC : ADC.w #$0002 : STA $20
         
         LDX $04B6
         
@@ -10311,11 +10311,11 @@ org $018000
     
         LDA $01C666, X : STA $7F001C
         
-        LDA $19A0, Y : ADD $01C670, X : TAY
+        LDA $19A0, Y : CLC : ADC $01C670, X : TAY
         
-        AND.w #$007E : ASL #2 : ADD $062C : STA $7F001A
+        AND.w #$007E : ASL #2 : CLC : ADC $062C : STA $7F001A
         
-        TYA : AND.w #$1F80 : LSR #4 : ADD $062E : STA $7F0018
+        TYA : AND.w #$1F80 : LSR #4 : CLC : ADC $062E : STA $7F0018
         
         SEP #$30
         
@@ -10544,7 +10544,7 @@ org $018000
         
         LDA $0C : STA $7F2000, X : STA $7F2040, X
 
-        ADD.w #$0101 : STA $0C
+        CLC : ADC.w #$0101 : STA $0C
         
         LDX $1000
         
@@ -10581,7 +10581,7 @@ org $018000
         
         LDA.w #$FFFF : STA $101A, X
         
-        TXA : ADD.w #$0018 : STA $1000
+        TXA : CLC : ADC.w #$0018 : STA $1000
         
         LDA $0200 : INC #2 : STA $0200 : CMP $0496 : BEQ .lastChest
         
@@ -10659,7 +10659,7 @@ org $018000
         
         LDA $0422 : SUB $0312 : STA $0422
         
-        ADD $E2 : STA $E0
+        CLC : ADC $E2 : STA $E0
         
         LDA $0312 : BEQ .zeroHorizontalSpeed
         
@@ -10755,8 +10755,8 @@ org $018000
     
         STA $0312
         
-        ADD $0422 : STA $0422
-        ADD $E2   : STA $E0
+        CLC : ADC $0422 : STA $0422
+        CLC : ADC $E2   : STA $E0
         
         LDA $0312 : BEQ BRANCH_GAMMA
         
@@ -10789,7 +10789,7 @@ org $018000
         
         LDA $0422 : AND.w #$01F8 : LSR #3 : STA $00
         
-        LDA $042A : ADD $00 : STA $0116
+        LDA $042A : CLC : ADC $00 : STA $0116
         
         AND.w #$1020 : BEQ BRANCH_GAMMA
         
@@ -10855,7 +10855,7 @@ org $018000
 
     ; *$CA66-$CA74 LOCAL
     {
-        LDA.w #$2200 : ADD $041C : STA $041C
+        LDA.w #$2200 : CLC : ADC $041C : STA $041C
         
         ROL A : AND.w #$0001
         
@@ -10882,7 +10882,7 @@ org $018000
         
         CPY.b #$20 : BCS .beta
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
     
     .beta
     
@@ -11047,13 +11047,13 @@ org $018000
         
         ; Make the X position grid adjusted and move it 5 tiles to the right
         ; (the watergate is 10 tiles wide, so this puts it at the midpoint).
-        LDA $B2 : ASL #4 : ADD $062C : ADD $0680 : ADD.w #$0028 : STA $0680
+        LDA $B2 : ASL #4 : CLC : ADC $062C : CLC : ADC $0680 : CLC : ADC.w #$0028 : STA $0680
         
         ; Get the Y position of the watergate barrier.
         LDA $0472 : AND.w #$1F80 : LSR #4 : STA $0676 : STA $0678
         
         ; Make it grid adjusted.
-        ADD $062E : STA $0682
+        CLC : ADC $062E : STA $0682
         
         STZ $0686
         
@@ -11130,7 +11130,7 @@ org $018000
         
         SEP #$30
         
-        TYA : ADD $0A : CMP $04BA : BEQ BRANCH_GAMMA
+        TYA : CLC : ADC $0A : CMP $04BA : BEQ BRANCH_GAMMA
         
         STA $04BA
         
@@ -11287,7 +11287,7 @@ org $018000
         LDA $9B5E, Y : STA $7E4084, X
         LDA $9B60, Y : STA $7E4086, X
         
-        TXA : ADD.w #$0100 : TAX
+        TXA : CLC : ADC.w #$0100 : TAX
         
         DEC !num2x4s : BNE .next2x4
         
@@ -11295,7 +11295,7 @@ org $018000
         
         DEC !numColumns : BNE .moveRightFornext_block
         
-        LDA !startPos : ADD.w #$0200 : STA !startPos : TAX
+        LDA !startPos : CLC : ADC.w #$0200 : STA !startPos : TAX
         
         DEC !numRows : BNE .nextRow
         
@@ -11318,7 +11318,7 @@ org $018000
         CMP.w #$2424 : BEQ .partialMatch
         
         ; Try looking on the next line
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         LDA $7F2000, X
         
@@ -11334,7 +11334,7 @@ org $018000
         CMP.w #$2323 : BEQ .partialMatch
         CMP.w #$2424 : BEQ .partialMatch
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         LDA $7F2000, X
         
@@ -11367,8 +11367,8 @@ org $018000
 
     ; *$CDA5-$CDCB LOCAL
     {
-        LDA $22 : ADD.w #$FFFF : AND.w #$01F8 : LSR #3 : STA $00
-        LDA $20 : ADD.w #$000E : AND.w #$01F8 : ASL #3 : ORA $00
+        LDA $22 : CLC : ADC.w #$FFFF : AND.w #$01F8 : LSR #3 : STA $00
+        LDA $20 : CLC : ADC.w #$000E : AND.w #$01F8 : ASL #3 : ORA $00
         
         LDX $EE : BEQ .onBG2
         
@@ -11406,7 +11406,7 @@ org $018000
         CMP.w #!star_tiles : BEQ .partialMatch
         
         ; Check the two tiles below
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         LDY.w #$0000
         
@@ -11434,7 +11434,7 @@ org $018000
         
         CMP.w #!star_tiles : BEQ .partialMatch
         
-        TXA : ADD #$0040 : TAX
+        TXA : CLC : ADC #$0040 : TAX
         
         LDY.w #$0000
         
@@ -11534,7 +11534,7 @@ org $018000
         
         ; Note, data bank here is apparently $00, not $01
         LDA $20 : ADC $99EA, Y : AND.w #$01F8 : ASL #3 : STA $00
-        LDA $22 : ADD $99F2, Y : AND.w #$01F8 : LSR #3 : ORA $00
+        LDA $22 : CLC : ADC $99F2, Y : AND.w #$01F8 : LSR #3 : ORA $00
         
         ; Based on what floor Link is on, we look at a specific tile.
         LDX $EE : BEQ .player_on_bg2
@@ -11552,7 +11552,7 @@ org $018000
         LDA $7F2000, X : AND.w #$00F0 : CMP.w #$00F0 : BEQ .is_openable_door
         
         ; Is the one to the right of it a locked big key door tile?
-        TXA : ADD $99FA, Y : TAX
+        TXA : CLC : ADC $99FA, Y : TAX
         
         ; no...
         LDA $7F2000, X : AND.w #$00F0 : CMP.w #$00F0 : BNE .not_openable_door
@@ -11663,8 +11663,8 @@ org $018000
         
         REP #$20
         
-        LDA $19A0, Y : AND.w #$007E : ASL #2 : ADD $062C : STA $03B6, X
-        LDA $19A0, Y : AND.w #$1F80 : LSR #4 : ADD $062E : STA $03BA, X
+        LDA $19A0, Y : AND.w #$007E : ASL #2 : CLC : ADC $062C : STA $03B6, X
+        LDA $19A0, Y : AND.w #$1F80 : LSR #4 : CLC : ADC $062E : STA $03BA, X
     
     BRANCH_OMICRON:
     
@@ -11762,7 +11762,7 @@ org $018000
     
     BRANCH_UPSILON:
     
-        ADD $20 : AND.w #$01F8 : ASL #3 : STA $00
+        CLC : ADC $20 : AND.w #$01F8 : ASL #3 : STA $00
         
         LDA $45 : AND.w #$00FF : CMP.w #$0080 : BCC BRANCH_PHI
         
@@ -11770,7 +11770,7 @@ org $018000
     
     BRANCH_PHI:
     
-        ADD $22 : AND.w #$01F8 : LSR #3 : ORA $00 : TAX
+        CLC : ADC $22 : AND.w #$01F8 : LSR #3 : ORA $00 : TAX
         
         LDY.w #$0041
         
@@ -11788,7 +11788,7 @@ org $018000
         
         AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_CHI
         
-        TXA : ADD.w #$003F : TAX
+        TXA : CLC : ADC.w #$003F : TAX
         
         LDY.w #$0001
         
@@ -11826,7 +11826,7 @@ org $018000
         
         LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_OMEGA
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
     
     BRANCH_OMEGA:
     
@@ -11861,7 +11861,7 @@ org $018000
         LDA $9B56, Y : STA $7E2100, X
         LDA $9B58, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -11979,7 +11979,7 @@ org $018000
         
         AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_GAMMA
         
-        TXA : ADD.w #$007C : TAX
+        TXA : CLC : ADC.w #$007C : TAX
         
         DEY : BPL BRANCH_DELTA
               BMI BRANCH_EPSILON
@@ -12006,8 +12006,8 @@ org $018000
         
         LDA $0E : ASL A : TAX
         
-        LDA $19A0, Y : AND.w #$007E : ASL #2 : ADD $062C : STA $03B6, X
-        LDA $19A0, Y : AND.w #$1F80 : LSR #4 : ADD $062E : STA $03BA, X
+        LDA $19A0, Y : AND.w #$007E : ASL #2 : CLC : ADC $062C : STA $03B6, X
+        LDA $19A0, Y : AND.w #$1F80 : LSR #4 : CLC : ADC $062E : STA $03BA, X
 
         SEP #$20
 
@@ -12517,7 +12517,7 @@ org $018000
     
     .nextStaircase
     
-        LDA $00 : ADD.w #$0101 : STA $00
+        LDA $00 : CLC : ADC.w #$0101 : STA $00
         
         INY #2
         
@@ -12533,7 +12533,7 @@ org $018000
         
         LDA.w #$5E5E : STA $7F2001, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         LDA.w #$0000 : STA $7F2081, X : STA $7F20C1, X
         
@@ -12549,7 +12549,7 @@ org $018000
         
         LDA.w #$5F5F : STA $7F2001, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         LDA.w #$0000 : STA $7F2081, X : STA $7F20C1, X
         
@@ -12561,7 +12561,7 @@ org $018000
     
     .nextStaircase4
     
-        LDA $00 : ADD #$0101 : STA $00
+        LDA $00 : CLC : ADC #$0101 : STA $00
         
         INY #2 : CPY $04A2 : BNE .nextStaircase4
     
@@ -12571,7 +12571,7 @@ org $018000
     
     .nextStaircase5
     
-        LDA $00 : ADD #$0101 : STA $00
+        LDA $00 : CLC : ADC #$0101 : STA $00
         
         INY #2 : CPY $04A4 : BNE .nextStaircase5
     
@@ -12583,7 +12583,7 @@ org $018000
     
     .nextStaircase6
     
-        LDA $00 : ADD.w #$0101 : STA $00
+        LDA $00 : CLC : ADC.w #$0101 : STA $00
         
         INY #2 : CPY $043A : BNE .nextStaircase6
     
@@ -12597,7 +12597,7 @@ org $018000
         
         LDA.w #$5E5E : STA $7F2001, X
         
-        LDA $00 : STA $7F2041, X : ADD.w #$0101 : STA $00
+        LDA $00 : STA $7F2041, X : CLC : ADC.w #$0101 : STA $00
         
         LDA.w #$0000 : STA $7F2081, X : STA $7F20C1, X
         
@@ -12614,7 +12614,7 @@ org $018000
         LDA.w #$5F5F : STA $7F2001, X
         
         LDA $00 : STA $7F2041, X
-        ADD.w #$0101 : STA $00
+        CLC : ADC.w #$0101 : STA $00
         
         LDA.w #$0000 : STA $7F2081, X : STA $7F20C1, X
         
@@ -12702,11 +12702,11 @@ org $018000
         ; What direction is player facing?
         LDA $2F : AND.w #$00FF : TAX
         
-        LDA $20 : ADD $01D9BA, X : AND.w #$01F8 : ASL #3 : STA $06
+        LDA $20 : CLC : ADC $01D9BA, X : AND.w #$01F8 : ASL #3 : STA $06
         
         ; All this rigamarole is to find the position of this tile's data in
         ; memory.
-        LDA $22 : ADD $01D9C2, X : AND.w #$01F8 : LSR #3 : ORA $06 : STA $06
+        LDA $22 : CLC : ADC $01D9C2, X : AND.w #$01F8 : LSR #3 : ORA $06 : STA $06
         
         LDA $EE : AND.w #$00FF : BEQ .on_bg2
         
@@ -12776,7 +12776,7 @@ org $018000
         
         ; Move the block's tilemap position 2 tiles in the
         ; appropriate direction.
-        LDA $0540, Y : ADD .move_distances, X : STA $0540, Y
+        LDA $0540, Y : CLC : ADC .move_distances, X : STA $0540, Y
         
         BRA .increment_object_state
     
@@ -12890,7 +12890,7 @@ org $018000
         
         LDA.w #$FFFF : STA $101A, X
         
-        TXA : ADD.w #$0018 : STA $1000
+        TXA : CLC : ADC.w #$0018 : STA $1000
         
         SEP #$20
         
@@ -13006,7 +13006,7 @@ org $018000
         
         STA !tile_offset
         
-        LDA $0540, Y : AND.w #$3FFF : ADD !tile_offset : STA !tile_offset
+        LDA $0540, Y : AND.w #$3FFF : CLC : ADC !tile_offset : STA !tile_offset
         
                            AND.w #$0040 : LSR #4 : XBA     : STA $00
         LDA !tile_offset : AND.w #$303F : LSR A  : ORA $00 : STA $00
@@ -13055,13 +13055,13 @@ org $018000
         
         ; tells us how far to look from Link's sprite in the Y direction
         ; (either positive or negative depending on the direciton he's currently facing
-        LDA $20 : ADD.l .y_offsets, X : STA $00 : STA $C8
+        LDA $20 : CLC : ADC.l .y_offsets, X : STA $00 : STA $C8
         
         ; mask to increments of 8 in coordinate (one tile)
         AND.w #$01F8 : ASL #3 : STA $06
         
         ; Do the same thing for the X direction.
-        LDA $22 : ADD.l .x_offsets, X : STA $02 : STA $CA
+        LDA $22 : CLC : ADC.l .x_offsets, X : STA $02 : STA $CA
         
         ; mask to increments of 8 in coordinate (one tile)
         ; $06 = 0000yyyy yyxxxxxx
@@ -13379,7 +13379,7 @@ Dungeon_LoadSecret:
         LDA $009B56, X : STA $05A0, Y
         LDA $009B58, X : STA $05C0, Y
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         INY #2
         
@@ -13454,7 +13454,7 @@ Dungeon_LoadSecret:
         
         LDA $00 : PHA
         
-        ADD.w #$0010 : STA $00
+        CLC : ADC.w #$0010 : STA $00
         
         JSR Dungeon_PrepSpriteInducedDma
         
@@ -13542,7 +13542,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$FFFF : STA $101A, X
         
-        TXA : ADD.w #$0018 : STA $1000
+        TXA : CLC : ADC.w #$0018 : STA $1000
         
         RTS
     }
@@ -13552,7 +13552,7 @@ Dungeon_LoadSecret:
     ; *$E899-$E8BC LOCAL
     Dungeon_GetRelativeVramAddr_2:
     {
-        ADD $06 : STA $0E
+        CLC : ADC $06 : STA $0E
         
                   AND.w #$0040 : LSR #4 : XBA     : STA $08
         LDA $0E : AND.w #$303F : LSR A  : ORA $08 : STA $08
@@ -13607,7 +13607,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$FFFF : STA $100E, X
         
-        TXA : ADD.w #$0018 : STA $1000
+        TXA : CLC : ADC.w #$0018 : STA $1000
         
         SEP #$30
         
@@ -13625,7 +13625,7 @@ Dungeon_LoadSecret:
     ; *$E94A-$E96D LOCAL
     Dungeon_GetRelativeVramAddr:
     {
-        ADD $06 : STA $0C
+        CLC : ADC $06 : STA $0C
         
                   AND.w #$0040 : LSR #4 : XBA     : STA $08
         LDA $0C : AND.w #$303F : LSR A  : ORA $08 : STA $08
@@ -13871,7 +13871,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$FFFF : STA $101A, X
         
-        TXA : ADD.w #$0018 : STA $1000
+        TXA : CLC : ADC.w #$0018 : STA $1000
         
         SEP #$30
         
@@ -14031,7 +14031,7 @@ Dungeon_LoadSecret:
         REP #$30
         
         LDA $20 : SUB.w #$0004 : STA $00 : AND.w #$01F8 : ASL #3 : STA $06
-        LDA $22 : ADD.w #$0007 : STA $02 : AND.w #$01F8 : LSR #3 : ORA $06 : TAX
+        LDA $22 : CLC : ADC.w #$0007 : STA $02 : AND.w #$01F8 : LSR #3 : ORA $06 : TAX
         
         ; make sure the tiles we're touching are actually minigame chest tiles
         LDA $7F2000, X : CMP.w #$6363 : BEQ .match
@@ -14049,7 +14049,7 @@ Dungeon_LoadSecret:
         
         TXA : ASL A : STA $72
         
-        ADD.w #$0100 : TAX : STA $0C
+        CLC : ADC.w #$0100 : TAX : STA $0C
         
         ; set replacement tiles to be drawn
         LDY.w #$14A4
@@ -14067,19 +14067,19 @@ Dungeon_LoadSecret:
         
         STA $1002, X
         
-        LDA $0C : ADD.w #$0080
+        LDA $0C : CLC : ADC.w #$0080
         
         JSR Dungeon_GetKeyedObjectRelativeVramAddr
         
         STA $1008, X
         
-        LDA $0C : ADD.w #$0002
+        LDA $0C : CLC : ADC.w #$0002
         
         JSR Dungeon_GetKeyedObjectRelativeVramAddr
         
         STA $100E, X
         
-        LDA $0C : ADD.w #$0082
+        LDA $0C : CLC : ADC.w #$0082
         
         JSR Dungeon_GetKeyedObjectRelativeVramAddr
         
@@ -14097,7 +14097,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$FFFF : STA $101A, X
         
-        TXA : ADD.w #$0018 : STA $1000
+        TXA : CLC : ADC.w #$0018 : STA $1000
         
         SEP #$31
         
@@ -14184,7 +14184,7 @@ Dungeon_LoadSecret:
     ; *$EEFF ALTERNATE ENTRY POINT
     .lowStakes
     
-        JSL GetRandomInt : AND.b #$0F : ADD.w #$10
+        JSL GetRandomInt : AND.b #$0F : CLC : ADC.w #$10
     
     BRANCH_ALPHA:
     
@@ -14217,7 +14217,7 @@ Dungeon_LoadSecret:
         
         ; Note: Whole routine takes 62 cycles. Could use some optimization?
         
-        ADD $06E0, Y : STA $0E
+        CLC : ADC $06E0, Y : STA $0E
         
                   AND.w #$0040 : LSR #4 : XBA     : STA $0A
         LDA $0E : AND.w #$303F : LSR A  : ORA $0A : STA $0A
@@ -14248,9 +14248,9 @@ Dungeon_LoadSecret:
         
         LDA $0684 : CMP $0688 : BEQ BRANCH_BETA
         
-        ADD $01EF34, X : STA $0684
+        CLC : ADC $01EF34, X : STA $0684
         
-        LDA $0686 : ADD $01EF34, X : STA $0686
+        LDA $0686 : CLC : ADC $01EF34, X : STA $0686
         
         SEP #$30
         
@@ -14357,7 +14357,7 @@ Dungeon_LoadSecret:
     {
         JSL $0091C4 ; $11C4 IN ROM
         
-        LDA $045C : ADD.b #$04 : STA $045C
+        LDA $045C : CLC : ADC.b #$04 : STA $045C
         
         INC $B0 : LDA $B0 : CMP.b #$06 : BNE .notFinished
         
@@ -14430,11 +14430,11 @@ Dungeon_LoadSecret:
         
         LDA.w #$0030 : STA $0684
         
-        LDA.w #$1654 : ADD.w #$0010 : TAY
+        LDA.w #$1654 : CLC : ADC.w #$0010 : TAY
     
     ; *$F0C9 ALTERNATE ENTRY POINT
     
-        LDA $047C : ADD.w #$0100 : STA $08 : TAX
+        LDA $047C : CLC : ADC.w #$0100 : STA $08 : TAX
     
     BRANCH_ALPHA:
     
@@ -14443,8 +14443,8 @@ Dungeon_LoadSecret:
         LDA $9B56, Y : STA $7E2004, X
         LDA $9B58, Y : STA $7E2006, X
         
-        TYA : ADD.w #$0008 : TAY
-        TXA : ADD.w #$0080 : TAX
+        TYA : CLC : ADC.w #$0008 : TAY
+        TXA : CLC : ADC.w #$0080 : TAX
         
         DEC $0E : BNE BRANCH_ALPHA
         
@@ -14470,7 +14470,7 @@ Dungeon_LoadSecret:
         
         INC $08 : INC $08
         
-        TYA : ADD.w #$000E : TAY
+        TYA : CLC : ADC.w #$000E : TAY
         
         DEC $0A : BNE BRANCH_BETA
         
@@ -14510,8 +14510,8 @@ Dungeon_LoadSecret:
         
         LDA.w #$0688 : SUB $E8 : SUB.w #$0024 : STA $00
         
-        LDA $0686 : ADD.l $01F073, X : STA $0686
-        LDA $068A : ADD.l $01F06B, X : STA $068A
+        LDA $0686 : CLC : ADC.l $01F073, X : STA $0686
+        LDA $068A : CLC : ADC.l $01F06B, X : STA $068A
         
         CMP $00 : BCC .alpha
         
@@ -14527,7 +14527,7 @@ Dungeon_LoadSecret:
         
         INC $0424
         
-        LDA.w #$0688 : SUB $E8 : SUB $0684 : STA $0674 : ADD $068A : STA $0A
+        LDA.w #$0688 : SUB $E8 : SUB $0684 : STA $0674 : CLC : ADC $068A : STA $0A
         
         JSL $00F660 ; $7660 IN ROM
         
@@ -14546,9 +14546,9 @@ Dungeon_LoadSecret:
         
         LDA $0684 : CMP $0688 : BEQ BRANCH_BETA
         
-        ADD $01F063, X : STA $0684
+        CLC : ADC $01F063, X : STA $0684
         
-        LDA $0686 : ADD $01F063, X : STA $0686
+        LDA $0686 : CLC : ADC $01F063, X : STA $0686
         
         REP #$10
         
@@ -14697,9 +14697,9 @@ Dungeon_LoadSecret:
         
         LDA $0678 : STA $0676
         
-        LDA $067A : ADD.b #$01 : STA $067A
+        LDA $067A : CLC : ADC.b #$01 : STA $067A
         
-        ADD $00 : STA $0684
+        CLC : ADC $00 : STA $0684
         
         LDA $0470 : AND.b #$0F : BNE _F309_easyOut ; (SEP #$30, RTL;)
         
@@ -14728,7 +14728,7 @@ Dungeon_LoadSecret:
         LDA $9B56, Y : STA $7E2100, X
         LDA $9B58, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -14750,7 +14750,7 @@ Dungeon_LoadSecret:
         
         JSR $F77C ; $F77C IN ROM
         
-        PLA : ADD.w #$0006 : STA $08
+        PLA : CLC : ADC.w #$0006 : STA $08
         
         DEC $0E : BNE BRANCH_GAMMA
         
@@ -14769,7 +14769,7 @@ Dungeon_LoadSecret:
         
         JSL $0091C4 ; $11C4 IN ROM
         
-        LDA $045C : ADD.b #$04 : STA $045C
+        LDA $045C : CLC : ADC.b #$04 : STA $045C
         
         INC $B0
         
@@ -14782,7 +14782,7 @@ Dungeon_LoadSecret:
     {
         INC $0684
         
-        LDA $0684 : ADD $0676 : CMP.b #$E1 : BCC .alpha
+        LDA $0684 : CLC : ADC $0676 : CMP.b #$E1 : BCC .alpha
         
         STZ $045C
         STZ $11
@@ -14847,7 +14847,7 @@ Dungeon_LoadSecret:
         
         REP #$30
         
-        LDA $0333 : AND.w #$000F : ASL A : ADD $0478 : TAY
+        LDA $0333 : AND.w #$000F : ASL A : CLC : ADC $0478 : TAY
         
         LDA $0520, Y : AND.w #$00FF : TAX
         
@@ -14951,7 +14951,7 @@ Dungeon_LoadSecret:
         
         REP #$30
         
-        LDA $0333 : AND.w #$000F : ASL A : ADD $0478 : TAY
+        LDA $0333 : AND.w #$000F : ASL A : CLC : ADC $0478 : TAY
         
         LDA $0520, Y : AND.w #$00FF : TAX
         
@@ -15036,7 +15036,7 @@ Dungeon_LoadSecret:
         
         ; \task Investigate exactly what tiles are being reblitted to vram,
         ; because something about this just seems off.
-        PLA : ADD.w #$0008 : STA $08
+        PLA : CLC : ADC.w #$0008 : STA $08
         
         JSR Dungeon_PrepOverlayDma.nextPrep
         
@@ -15068,7 +15068,7 @@ Dungeon_LoadSecret:
         
         JSR Dungeon_PrepOverlayDma.tilemapAlreadyUpdated
         
-        PLA : ADD.w #$0008 : STA $08
+        PLA : CLC : ADC.w #$0008 : STA $08
         
         JSR Dungeon_PrepOverlayDma.nextPrep
         JMP $D1E3 ; $D1E3 IN ROM
@@ -15131,7 +15131,7 @@ Dungeon_LoadSecret:
         LDA $9B56, Y : STA $7E22D8, X
         LDA $9B58, Y : STA $7E2358, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2 : CPX.w #$0010 : BNE .nextColumn
         
@@ -15222,9 +15222,9 @@ Dungeon_LoadSecret:
         LDA $1604, X : STA $1108, Y
         LDA $1606, X : STA $110A, Y
         
-        LDA $08 : ADD.w #$0080 : STA $08
+        LDA $08 : CLC : ADC.w #$0080 : STA $08
         
-        TXA : ADD.w #$0008 : TAX
+        TXA : CLC : ADC.w #$0008 : TAX
         
         BRA BRANCH_GAMMA
 
@@ -15242,7 +15242,7 @@ Dungeon_LoadSecret:
 
         STX $045E
         
-        TYA : ADD.w #$000C : TAY
+        TYA : CLC : ADC.w #$000C : TAY
         
         DEC $0A : BNE BRANCH_ALPHA
         
@@ -15306,7 +15306,7 @@ Dungeon_LoadSecret:
         LDA $7E2004, X : STA $1108, Y
         LDA $7E2006, X : STA $110A, Y
         
-        LDA $08 : ADD.w #$0080 : STA $08
+        LDA $08 : CLC : ADC.w #$0080 : STA $08
         
         BRA .advanceVramBufferPosition
     
@@ -15320,7 +15320,7 @@ Dungeon_LoadSecret:
     
     .advanceVramBufferPosition
     
-        TYA : ADD.w #$000C : TAY
+        TYA : CLC : ADC.w #$000C : TAY
         
         DEC $0A : BNE .nextTileGroup
         
@@ -15348,7 +15348,7 @@ Dungeon_LoadSecret:
         
         STZ $0E
         
-        LDA $0454 : ADD.w #$0003 : STA $0A
+        LDA $0454 : CLC : ADC.w #$0003 : STA $0A
         
         SUB.w #$0006 : CMP.w #$0002 : BMI .alpha
         
@@ -15381,7 +15381,7 @@ Dungeon_LoadSecret:
         LDA $06 : ORA.w #$0A00 : STA $1102, Y
         LDA $06 : ORA.w #$0E00 : STA $1110, Y
         
-        PLA : ADD.w #$04A0 : STA $110E, Y
+        PLA : CLC : ADC.w #$04A0 : STA $110E, Y
         
         LDA $7E2080, X : STA $1106, Y
         LDA $7E2100, X : STA $1108, Y
@@ -15397,7 +15397,7 @@ Dungeon_LoadSecret:
         
         INC $08 : INC $08
         
-        TYA : ADD.w #$0020 : TAY
+        TYA : CLC : ADC.w #$0020 : TAY
         
         DEC $0A : BEQ .gamma
         
@@ -15413,11 +15413,11 @@ Dungeon_LoadSecret:
         
         LDA $06 : LSR A : BCS .epsilon
         
-        TXA : ADD.w #$0010 : TAX
+        TXA : CLC : ADC.w #$0010 : TAX
     
     .epsilon
     
-        LDA $01F7EF, X : ADD $08 : STA $08
+        LDA $01F7EF, X : CLC : ADC $08 : STA $08
         
         LDA.w #$0003 : STA $0A
         
@@ -15464,7 +15464,7 @@ Dungeon_LoadSecret:
         
         LDA $0A : STA $0E
         
-        TXA : ADD.w #$0070 : TAX
+        TXA : CLC : ADC.w #$0070 : TAX
         
         DEC $0C : BNE BRANCH_ALPHA
         
@@ -15667,7 +15667,7 @@ Dungeon_LoadSecret:
         LDA $9B54, Y : STA $7E2080, X
         LDA $9B56, Y : STA $7E2100, X
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
         
         INX #2
         
@@ -15692,7 +15692,7 @@ Dungeon_LoadSecret:
         
         TXA : AND.w #$1FFF : CMP $99A8 : BCS BRANCH_BETA
         
-        TXA : ADD.w #$0500 : STA $08
+        TXA : CLC : ADC.w #$0500 : STA $08
         
         PHX
         
@@ -15700,7 +15700,7 @@ Dungeon_LoadSecret:
         
         LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
         
-        LDA $08 : ADD.w #$0300 : STA $08
+        LDA $08 : CLC : ADC.w #$0300 : STA $08
     
     BRANCH_GAMMA:
     
@@ -15769,7 +15769,7 @@ Dungeon_LoadSecret:
         LDA $9B54, Y : STA $7E2100, X
         LDA $9B56, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0006 : TAY
+        TYA : CLC : ADC.w #$0006 : TAY
         
         INX #2
         
@@ -15872,7 +15872,7 @@ Dungeon_LoadSecret:
         LDA $9B56, Y : STA $7E2100, X
         LDA $9B58, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -15895,7 +15895,7 @@ Dungeon_LoadSecret:
         
         TXA : AND.w #$07FF : CMP $99D2 : BCS BRANCH_BETA
         
-        TXA : ADD.w #$0010 : STA $08
+        TXA : CLC : ADC.w #$0010 : STA $08
         
         PHX
         
@@ -15903,7 +15903,7 @@ Dungeon_LoadSecret:
         
         LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
         
-        LDA $08 : ADD.w #$000C : STA $08
+        LDA $08 : CLC : ADC.w #$000C : STA $08
     
     BRANCH_GAMMA:
     
@@ -15973,7 +15973,7 @@ Dungeon_LoadSecret:
         LDA $9B56, Y : STA $7E2102, X
         LDA $9B58, Y : STA $7E2182, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -16006,7 +16006,7 @@ Dungeon_LoadSecret:
         LDA $9B56, Y : STA $7E2100, X
         LDA $9B58, Y : STA $7E2180, X
         
-        TYA : ADD.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
         
@@ -16089,7 +16089,7 @@ Dungeon_LoadSecret:
         
         INX #2
         
-        TYA : ADD.w #$0018 : TAY
+        TYA : CLC : ADC.w #$0018 : TAY
         
         DEC $0E : BNE .nextColumn2
         
@@ -16145,7 +16145,7 @@ Dungeon_LoadSecret:
         
         REP #$20
         
-        LDA $08 : ADD.w #$0080 : STA $08
+        LDA $08 : CLC : ADC.w #$0080 : STA $08
         
         DEC $0A : BNE .nextRow
         
@@ -16200,7 +16200,7 @@ Dungeon_LoadSecret:
         LDA $0647 : BNE .mosaic_decreasing
         
         ; add to mosaic? seems related to electrocution (it almost certainly is)
-        LDA $7EC011 : ADD.b #$10 : CMP.b #$C0 : BNE .mosaic_not_at_target
+        LDA $7EC011 : CLC : ADC.b #$10 : CMP.b #$C0 : BNE .mosaic_not_at_target
         
         INC $0647
         
@@ -16243,7 +16243,7 @@ Dungeon_LoadSecret:
         ; \unused or \tcrf or \bug I have no idea. It's odd.
         ; I think it's pretty certain this is an unused feature since it would change
         ; the current room we're in without any of the other legwork necessary.
-        LDA $A0 : ADD.b #$10 : STA $A0
+        LDA $A0 : CLC : ADC.b #$10 : STA $A0
     
     .no_room_change
     

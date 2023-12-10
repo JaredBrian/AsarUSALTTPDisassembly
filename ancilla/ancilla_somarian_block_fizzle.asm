@@ -84,7 +84,7 @@
         
         REP #$20
         
-        LDA $04 : EOR.w #$FFFF : INC A : ADD $00 : STA $04
+        LDA $04 : EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $04
         
         LDA $02 : STA $06
         
@@ -104,8 +104,8 @@
         
         PHX : TXA : ASL A : TAX
         
-        LDA $04 : ADD .y_offsets, X : STA $00
-        LDA $06 : ADD .x_offsets, X : STA $02
+        LDA $04 : CLC : ADC .y_offsets, X : STA $00
+        LDA $06 : CLC : ADC .x_offsets, X : STA $02
         
         PLX
         

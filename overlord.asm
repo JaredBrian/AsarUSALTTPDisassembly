@@ -19,7 +19,7 @@
         
         JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
-        JSL GetRandomInt : AND.b #$7F : ADD.b #$40 : ADD $E2 : STA $0D10, Y
+        JSL GetRandomInt : AND.b #$7F : CLC : ADC.b #$40 : CLC : ADC $E2 : STA $0D10, Y
                            LDA $E3    : ADC.b #$00           : STA $0D30, Y
         
         LDA $E8 : SUB.b #$30 : STA $0D00, Y
@@ -167,8 +167,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $22 : ADD.w #$0018 : CMP.w #$0030 : BCS .not_triggered
-        LDA $02 : SUB $20 : ADD.w #$0018 : CMP.w #$0030 : BCS .not_triggered
+        LDA $00 : SUB $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
+        LDA $02 : SUB $20 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
         
         SEP #$20
         
@@ -187,10 +187,10 @@
         
         LDX $0FB5
         
-        LDA $22 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $22 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $23 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $20 : ADD .y_offsets_low , X : STA $0D00, Y
+        LDA $20 : CLC : ADC .y_offsets_low , X : STA $0D00, Y
         LDA $21 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .stalfos_delay_timers, X : STA $0DF0, Y
@@ -229,8 +229,8 @@
         
         REP #$20
         
-        LDA $00 : SUB $22 : ADD.w #$0020 : CMP.w #$0040 : BCS .outOfRange
-        LDA $02 : SUB $20 : ADD.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+        LDA $00 : SUB $22 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+        LDA $02 : SUB $20 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
         
         SEP #$20
         
@@ -265,10 +265,10 @@
     {
         DEC $0B30, X
         
-        LDA $0B18, X : ADD.b #$08 : STA $00
+        LDA $0B18, X : CLC : ADC.b #$08 : STA $00
         LDA $0B20, X : ADC.b #$00 : STA $01
         
-        LDA $0B08, X : ADD.b #$08 : STA $02
+        LDA $0B08, X : CLC : ADC.b #$08 : STA $02
         LDA $0B10, X : ADC.b #$00 : STA $03
         
         LDA $0B40, X
@@ -293,12 +293,12 @@
         
         ; \task Just out of curiosity, figure out if this paradigm of PHP
         ; PLP is really required in these scenarios...
-        LDA $05 : ADD .x_offsets_low, X  : PHP
-                  ADD.b #$08             : STA $0D10, Y
+        LDA $05 : CLC : ADC .x_offsets_low, X  : PHP
+                  CLC : ADC.b #$08             : STA $0D10, Y
         LDA $06 : ADC.b #$00             : PLP
                   ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $07 : ADD.b #$08 : STA $0D00, Y
+        LDA $07 : CLC : ADC.b #$08 : STA $0D00, Y
         LDA $08              : STA $0D20, Y
         
         PLX
@@ -378,10 +378,10 @@
         
         LDX $0FB5
         
-        LDA $22 : ADD $B972, X : STA $0D10, Y
+        LDA $22 : CLC : ADC $B972, X : STA $0D10, Y
         LDA $23 : ADC $B976, X : STA $0D30, Y
         
-        LDA $20 : ADD $B97A, X : STA $0D00, Y
+        LDA $20 : CLC : ADC $B97A, X : STA $0D00, Y
         LDA $21 : ADC $B97E, X : STA $0D20, Y
         
         ; \task Figure out what this really does and if there's a better
@@ -532,7 +532,7 @@
     PirogusuFactory_Main:
     {
         JSL GetRandomInt : AND.b #$1F
-                           ADD.b #$60 : STA $0B30, X
+                           CLC : ADC.b #$60 : STA $0B30, X
         
         STZ $00
         
@@ -719,10 +719,10 @@
         
         LDA ($00), Y : TAY
         
-        LDA $0B08, X : ADD .x_adjustments_low,  Y : STA $0B08, X
+        LDA $0B08, X : CLC : ADC .x_adjustments_low,  Y : STA $0B08, X
         LDA $0B10, X : ADC .x_adjustments_high, Y : STA $0B10, X
         
-        LDA $0B18, X : ADD .y_adjustments_low,  Y : STA $0B18, X
+        LDA $0B18, X : CLC : ADC .y_adjustments_low,  Y : STA $0B18, X
         LDA $0B20, X : ADC .y_adjustments_high, Y : STA $0B20, X
         
         RTS
@@ -751,7 +751,7 @@
         
         LDA $0B10, Y : STA $7FF878, X
         
-        LDA $0B18, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0B18, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0B20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$1F : STA $7FF90E, X
@@ -861,10 +861,10 @@
         
         LDA $2F : LSR A : TAX
         
-        LDA $22 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $22 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $23 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $20 : ADD .y_offsets_low,  X : STA $0D00, Y
+        LDA $20 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
         LDA $21 : ADC .y_offsets_high, X : STA $0D20, Y
         
         PLX
@@ -1010,10 +1010,10 @@
         
         LDA $2F : LSR A : TAX
         
-        LDA $22 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $22 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $23 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $20 : ADD .y_offsets_low,  X : STA $0D00, Y
+        LDA $20 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
         LDA $21 : ADC .y_offsets_high, X : STA $0D20, Y
         
         PLX
@@ -1217,10 +1217,10 @@
         
         ; \hardcoded The quadrant of the room where the balls generate.
         LDA .x_coords, Y             : STA $0B08, X
-        LDA.b #$00       : ADD $0FB0 : STA $0B10, X
+        LDA.b #$00       : CLC : ADC $0FB0 : STA $0B10, X
         
         LDA .y_coords, Y             : STA $0B18, X
-        LDA.b #$01       : ADD $0FB1 : STA $0B20, X
+        LDA.b #$01       : CLC : ADC $0FB1 : STA $0B20, X
         
         JSR Overlord_SpawnMetalBall
     
@@ -1298,7 +1298,7 @@
         
         PHX
         
-        LDA $05 : ADD $0E    : STA $0D10, Y
+        LDA $05 : CLC : ADC $0E    : STA $0D10, Y
         LDA $06 : ADC.b #$00 : STA $0D30, Y
         
         LDA $07 : SUB.b #$01 : STA $0D00, Y
@@ -1317,7 +1317,7 @@
         
         STA $0D80, Y
         
-        LDA $0D00, Y : ADD.b #$08 : STA $0D00, Y
+        LDA $0D00, Y : CLC : ADC.b #$08 : STA $0D00, Y
         
         LDA.b #$03 : STA $0E40, Y
         LDA.b #$09 : STA $0F60, Y

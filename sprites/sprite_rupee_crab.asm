@@ -48,8 +48,8 @@
         
         LDA $0DF0, X : BNE BRANCH_BETA
         
-        LDA $0E : ADD.b #$30 : CMP.b #$60 : BCS BRANCH_GAMMA
-        LDA $0F : ADD.b #$20 : CMP.b #$40 : BCS BRANCH_GAMMA
+        LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS BRANCH_GAMMA
+        LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS BRANCH_GAMMA
         
         LDA.b #$20 : STA $0DF0, X
     
@@ -208,7 +208,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : ADD.b #$08 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$08 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
         LDA.b #$20 : STA $0F80, Y
@@ -311,7 +311,7 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
@@ -321,9 +321,9 @@
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
 
         LDA.b #$F0 : STA ($90), Y
     
@@ -333,7 +333,7 @@
         
         LDA .chr, X : CMP.b #$44 : BNE .chr_mismatch
         
-        ADD $07
+        CLC : ADC $07
     
     .chr_mismatch
     

@@ -125,8 +125,8 @@
         
         TXA : ORA $02 : TAX
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
-        LDA $01 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+        LDA $01 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
         LDX $03
         
@@ -214,8 +214,8 @@
         INY : STA ($92), Y : DEY
         
         LDA $00                            : STA ($90), Y
-        ADD.b #$08            : LDY.b #$04 : STA ($90), Y
-        LDA $01 : ADD.b #$FD  : LDY.b #$01 : STA ($90), Y
+        CLC : ADC.b #$08            : LDY.b #$04 : STA ($90), Y
+        LDA $01 : CLC : ADC.b #$FD  : LDY.b #$01 : STA ($90), Y
                                 LDY.b #$05 : STA ($90), Y
         LDA.b #$A4            : LDY.b #$02 : STA ($90), Y
         INC A                 : LDY.b #$06 : STA ($90), Y

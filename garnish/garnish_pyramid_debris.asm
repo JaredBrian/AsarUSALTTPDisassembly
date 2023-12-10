@@ -27,8 +27,8 @@
     
         LDA.b #$13 : STA $7FF800, X : STA $0FB4
         
-        LDA.b #$E8 : ADD $00 : STA $7FF83C, X
-        LDA.b #$60 : ADD $01 : STA $7FF81E, X
+        LDA.b #$E8 : CLC : ADC $00 : STA $7FF83C, X
+        LDA.b #$60 : CLC : ADC $01 : STA $7FF81E, X
         
         LDA $02 : STA $7FF8B4, X
         LDA $03 : STA $7FF896, X
@@ -62,7 +62,7 @@
         
         JSR Garnish_Move_XY
         
-        LDA $7FF896, X : ADD.b #$03 : STA $7FF896, X
+        LDA $7FF896, X : CLC : ADC.b #$03 : STA $7FF896, X
         
         LDY.b #$00
         

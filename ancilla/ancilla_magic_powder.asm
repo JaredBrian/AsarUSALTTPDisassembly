@@ -114,7 +114,7 @@
     
         STA $0C5E, X
         
-        ADD $00 : TAY
+        CLC : ADC $00 : TAY
         
         LDA .animation_groups, Y : STA $03C2, X
     
@@ -153,8 +153,8 @@
         
         REP #$20
         
-        LDA $06 : ADD .y_offsets, X : STA $00
-        LDA $08 : ADD .x_offsets, X : STA $02
+        LDA $06 : CLC : ADC .y_offsets, X : STA $00
+        LDA $08 : CLC : ADC .x_offsets, X : STA $02
         
         SEP #$20
         

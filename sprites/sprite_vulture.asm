@@ -81,7 +81,7 @@
     
         TXA : EOR $1A : AND.b #$01 : BNE .dont_adjust_xy_speeds
         
-        TXA : AND.b #$0F : ADD.b #$18
+        TXA : AND.b #$0F : CLC : ADC.b #$18
         
         JSL Sprite_ProjectSpeedTowardsPlayerLong
         
@@ -89,9 +89,9 @@
         
         LDA $01 : STA $0D40, X
         
-        LDA $0E : ADD.b #$28 : CMP.b #$50 : BCS .too_far_from_player
+        LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
         
-        LDA $0F : ADD.b #$28 : CMP.b #$50 : BCS .too_far_from_player
+        LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
     
     .dont_adjust_xy_speeds
     
@@ -101,9 +101,9 @@
     
         ; This mess o' logic keep the vulture from going too far from the
         ; player by apparently reversing somewhat...
-        LDA $00 : ASL $00 : PHP : ROR A : PLP : ROR A : ADD $0D40, X : STA $0D40, X
+        LDA $00 : ASL $00 : PHP : ROR A : PLP : ROR A : CLC : ADC $0D40, X : STA $0D40, X
         
-        LDA $01 : ASL $01 : PHP : ROR A : PLP : ROR A : ADD $0D50, X : STA $0D50, X
+        LDA $01 : ASL $01 : PHP : ROR A : PLP : ROR A : CLC : ADC $0D50, X : STA $0D50, X
         
         RTS
     }

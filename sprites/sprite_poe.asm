@@ -31,7 +31,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         
@@ -72,7 +72,7 @@
         
         LDA $0ED0, X : AND.b #$01 : TAY
         
-        LDA $0F80, X : ADD .acceleration, Y : STA $0F80, X
+        LDA $0F80, X : CLC : ADC .acceleration, Y : STA $0F80, X
         
         CMP .z_speed_limits, Y : BNE .z_speed_not_at_max
         
@@ -159,9 +159,9 @@
         LDA $001A : LSR A : BCS .adjust_speed_delay
         
         ; Why are we adding the light world / dark world distinctifier?
-        LDA $0EC0, X : AND.b #$01 : ADD $0FFF : ADC $0FFF : TAY
+        LDA $0EC0, X : AND.b #$01 : CLC : ADC $0FFF : ADC $0FFF : TAY
         
-        LDA $0D50, X : ADD .acceleration, Y : STA $0D50, X
+        LDA $0D50, X : CLC : ADC .acceleration, Y : STA $0D50, X
         
         CMP .x_speed_limits, Y : BNE .x_speed_maxed_out
         
@@ -208,13 +208,13 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
-        ADD.w #$0100 : STA $0E
+        CLC : ADC.w #$0100 : STA $0E
         
-        LDA $02 : ADD.w #$0009 : INY : STA ($90), Y
+        LDA $02 : CLC : ADC.w #$0009 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

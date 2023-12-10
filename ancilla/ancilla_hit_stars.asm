@@ -37,7 +37,7 @@
     
         LDA $0C5E, X : BEQ .just_draw
         
-        LDA $0C22, X : ADD.b #$FC : STA $0C22, X : STA $0C2C, X
+        LDA $0C22, X : CLC : ADC.b #$FC : STA $0C22, X : STA $0C2C, X
         
         CMP.b #$E8 : BCS .dont_self_terminate
         
@@ -64,7 +64,7 @@
         
         LDA $72 : SUB $06 : STA $08
         
-        LDA $72 : ADD $08 : SUB.w #$0008 : SUB $E2 : STA $08
+        LDA $72 : CLC : ADC $08 : SUB.w #$0008 : SUB $E2 : STA $08
         
         SEP #$20
         

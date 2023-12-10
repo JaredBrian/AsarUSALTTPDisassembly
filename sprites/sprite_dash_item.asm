@@ -84,9 +84,9 @@
         ; If the player gets close enough while the screen is shaking (from
         ; a dash attack), make the sprite drop.
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0010 : CMP.w #$0021 : BCS .not_close
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
         
-        LDA $0FDA : SUB $20 : ADD.w #$0018 : CMP.w #$0029 : BCS .not_close
+        LDA $0FDA : SUB $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
         
         LDA $011A : ORA $011C : BEQ .screen_not_shaking
         
@@ -180,9 +180,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0027 : CMP.w #$002F : BCS .not_close
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
         
-        LDA $0FDA : SUB $20 : ADD.w #$0028 : CMP.w #$002E : BCS .not_close
+        LDA $0FDA : SUB $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
         
         LDA $011A : ORA $011C : BEQ .screen_not_shaking
         
@@ -308,9 +308,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0018 : CMP.w #$0041 : BCS .not_close
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
         
-        LDA $0FDA : SUB $20 : ADD.w #$0020 : CMP.w #$0051 : BCS .not_close
+        LDA $0FDA : SUB $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
         
         SEP #$30
         
@@ -409,7 +409,7 @@
     
         STA $00, X : STA $10, X : STA $20, X : STA $30, X
         
-        ADD.b #$10
+        CLC : ADC.b #$10
         
         INX #4
         
@@ -418,9 +418,9 @@
         LDX $90
         
         LDA $0FA9  : STA $01, X : STA $05, X : STA $09, X : STA $0D, X
-        ADD.b #$10 : STA $11, X : STA $15, X : STA $19, X : STA $1D, X
-        ADD.b #$10 : STA $21, X : STA $25, X : STA $29, X : STA $2D, X
-        ADD.b #$10 : STA $31, X : STA $35, X : STA $39, X : STA $3D, X
+        CLC : ADC.b #$10 : STA $11, X : STA $15, X : STA $19, X : STA $1D, X
+        CLC : ADC.b #$10 : STA $21, X : STA $25, X : STA $29, X : STA $2D, X
+        CLC : ADC.b #$10 : STA $31, X : STA $35, X : STA $39, X : STA $3D, X
         
         REP #$30
         
@@ -457,11 +457,11 @@
     
     .delta
     
-        LDA $0FA8 : ADD $FE43, Y : STA $00, X
+        LDA $0FA8 : CLC : ADC $FE43, Y : STA $00, X
         
         INX
         
-        LDA $0FA9 : ADD $FE53, Y : STA $00, X
+        LDA $0FA9 : CLC : ADC $FE53, Y : STA $00, X
         
         INX
         

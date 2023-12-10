@@ -89,7 +89,7 @@
         
         ; Otherwise, the fireball might get blocked by the shield
         ; Are Link and the sprite on the same level?
-        ; No... so don’t hurt him.
+        ; No... so donï¿½t hurt him.
         LDA $EE : CMP $0F20, X : BNE .ignore_shield_collision
         
         JSL Sprite_SetupHitBoxLong
@@ -109,12 +109,12 @@
     
     .shield_not_to_the_side
     
-        LDA $22 : ADD .shield_x_offsets_low, Y  : STA $00
-        LDA $23 : ADD .shield_x_offsets_high, Y : STA $08
+        LDA $22 : CLC : ADC .shield_x_offsets_low, Y  : STA $00
+        LDA $23 : CLC : ADC .shield_x_offsets_high, Y : STA $08
         
         LDA .shield_hit_box_size_x, Y : STA $02
         
-        LDA $20 : ADD .shield_y_offsets_low, Y : STA $01
+        LDA $20 : CLC : ADC .shield_y_offsets_low, Y : STA $01
         LDA $21 : ADC.b #$00    : STA $09
         
         LDA .shield_hit_box_size_y, Y : STA $03
@@ -195,12 +195,12 @@
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
-        LDA $0D90, X : ADD .offsets_low, Y  : STA $0D10, X
+        LDA $0D90, X : CLC : ADC .offsets_low, Y  : STA $0D10, X
         LDA $0DA0, X : ADC .offsets_high, Y : STA $0D30, X
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
-        LDA $0DB0, X : ADD .offsets_low, Y  : STA $0D00, X
+        LDA $0DB0, X : CLC : ADC .offsets_low, Y  : STA $0D00, X
         LDA $0EB0, X : ADC .offsets_high, Y : STA $0D20, X
         
         JSL Sprite_Get_16_bit_CoordsLong
@@ -388,19 +388,19 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

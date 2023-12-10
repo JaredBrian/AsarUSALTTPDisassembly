@@ -77,10 +77,10 @@
         LDA $1A64, X : AND.b #$03 : STA $0EB0, Y
                                     STA $0DE0, Y
         
-        LDA $1A00, X : ADD.b #$02 : STA $0D00, Y
+        LDA $1A00, X : CLC : ADC.b #$02 : STA $0D00, Y
         LDA $1A14, X : ADC.b #$00 : STA $0D20, Y
         
-        LDA $1A28, X : ADD.b #$02 : STA $0D10, Y
+        LDA $1A28, X : CLC : ADC.b #$02 : STA $0D10, Y
         LDA $1A3C, X : ADC.b #$00 : STA $0D30, Y
         
         LDA $EE : STA $0F20, Y

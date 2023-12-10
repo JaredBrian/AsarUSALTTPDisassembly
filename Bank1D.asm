@@ -40,10 +40,10 @@
         ; I think it is perhaps possible that the low byte offset is an
         ; incorrectly calculated address. It overlaps with that of the Y
         ; coordinate's adjustment.
-        LDA $0D10, X : ADD .x_speeds_low       , Y : STA $0D10, X
+        LDA $0D10, X : CLC : ADC .x_speeds_low       , Y : STA $0D10, X
         LDA $0D30, X : ADC .x_speeds_high - $68, Y : STA $0D30, X
         
-        LDA $0D00, X : ADD .y_speeds_low  - $68, Y : STA $0D00, X
+        LDA $0D00, X : CLC : ADC .y_speeds_low  - $68, Y : STA $0D00, X
         LDA $0D20, X : ADC .y_speeds_high - $68, Y : STA $0D20, X
         
         PLB
@@ -289,13 +289,13 @@
         
         LDA.b #$00 : STA $0F21, Y
         
-        LDA $00 : ADD $DE8A, Y : STA $0D11, Y
+        LDA $00 : CLC : ADC $DE8A, Y : STA $0D11, Y
                                  STA $0D91, Y
         
         LDA $01 : ADC $DE97, Y : STA $0D31, Y
                                  STA $0DA1, Y
         
-        LDA $02 : ADD $DEA4, Y : PHP : ADD.b #$20 : STA $0D01, Y
+        LDA $02 : CLC : ADC $DEA4, Y : PHP : CLC : ADC.b #$20 : STA $0D01, Y
                                                     STA $0DB1, Y
         
         LDA $03 : ADC.b #$00   : PLP : ADC $DEB1, Y : STA $0D21, Y
@@ -386,9 +386,9 @@
         
         DEC $0EA0, X : BNE .not_halted_yet
         
-        LDA $0F40, X : ADD.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
+        LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
         
-        LDA $0F30, X : ADD.b #$20 : CMP.b #$40 : BCC .slow_enough
+        LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
     
     .too_fast_so_halt
     
@@ -474,7 +474,7 @@
     ; *$EE952-$EE95C LOCAL
     Sprite4_MoveHoriz:
     {
-        PHX : TXA : ADD.b #$10 : TAX
+        PHX : TXA : CLC : ADC.b #$10 : TAX
         
         JSR Sprite4_MoveVert
         
@@ -490,7 +490,7 @@
     {
         LDA $0D40, X : BEQ .no_velocity
         
-        ASL #4 : ADD $0D60, X : STA $0D60, X
+        ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
         
         LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
         
@@ -513,7 +513,7 @@
     ; *$EE98B-$EE9AC LOCAL
     Sprite4_MoveAltitude:
     {
-        LDA $0F80, X : ASL #4 : ADD $0F90, X : STA $0F90, X
+        LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
         
         ; Sign extend the difference from 4 bits to 8.
         LDA $0F80, X : PHP : LSR #4 : PLP : BPL .sign_extend
@@ -753,7 +753,7 @@
         
         LDA $04 : STA $0DE0, X : STA $0EB0, X : TAY
         
-        LDA $EB68, Y : ADD $06 : STA $0DC0, X
+        LDA $EB68, Y : CLC : ADC $06 : STA $0DC0, X
         
         LDA.b #$10 : STA $0E60, X
         
@@ -903,7 +903,7 @@
         
         LDA.b #$0F : STA $0DF0, X
         
-        LDA $0E40, X : ADD.b #$04 : STA $0E40, X
+        LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
         
         LDA.b #$15 : JSL Sound_SetSfx2PanLong
         
@@ -985,7 +985,7 @@
         
         LDA $F56B, Y : STA $08
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         
@@ -1068,7 +1068,7 @@
         
         LDA !x_magnitude : CMP !y_magnitude : BCC .y_speed_magnitude_larger
         
-        LDA !y_magnitude : LSR #2 : ADD !sign_bits : TAY
+        LDA !y_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
         
         ; I don't think these tables are large enough (do we have a verified
         ; \bug on our hands?) for all possible combinations of velocities.
@@ -1076,7 +1076,7 @@
     
     .y_speed_magnitude_larger
     
-        LDA !x_magnitude : LSR #2 : ADD !sign_bits : TAY
+        LDA !x_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
         
         LDA .y_angles, Y
     
@@ -1205,7 +1205,7 @@
     
         PHB : PHK : PLB
         
-        LDA $0DE0, X : ADD.b #$FF : STA $06
+        LDA $0DE0, X : CLC : ADC.b #$FF : STA $06
         
         PHX
         
@@ -1221,11 +1221,11 @@
         
         REP #$20
         
-        LDA $00 : ADD $F7E2, X : STA ($90), Y
+        LDA $00 : CLC : ADC $F7E2, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $F802, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $F802, X : INY : STA ($90), Y
         
         ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
@@ -1242,7 +1242,7 @@
         
         LDA $0F : STA ($92), Y
         
-        LDA $06 : ADD.b #$02 : STA $06
+        LDA $06 : CLC : ADC.b #$02 : STA $06
         
         PLY : INY
         
@@ -1252,7 +1252,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         
@@ -1260,7 +1260,7 @@
         
         TXY
         
-        LDA $0E80, X : AND.b #$1F : ADD $F7CF, X : TAX
+        LDA $0E80, X : AND.b #$1F : CLC : ADC $F7CF, X : TAX
         
         LDA $0D10, Y : STA $7FFC00, X
         LDA $0D30, Y : STA $7FFC80, X
@@ -1280,7 +1280,7 @@
         
         LDX $0FA0
         
-        LDA $0E80, X : ADD $F7DF, Y : AND.b #$1F : ADD $F7CF, X : TAX
+        LDA $0E80, X : CLC : ADC $F7DF, Y : AND.b #$1F : CLC : ADC $F7CF, X : TAX
         
         LDA $7FFC00, X : STA $00
         LDA $7FFC80, X : STA $01
@@ -1298,13 +1298,13 @@
         
         REP #$20
         
-        LDA $00 : SUB $E2 : ADD $F7D6, X : STA ($90), Y
+        LDA $00 : SUB $E2 : CLC : ADC $F7D6, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : SUB $E8 : ADD $F7D6, X : INY : STA ($90), Y
+        LDA $02 : SUB $E8 : CLC : ADC $F7D6, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -1550,7 +1550,7 @@
         REP #$20
         
         ; Flame sprite took up 2 oam entries.
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         
@@ -1592,8 +1592,8 @@
     {
         PHB : PHK : PLB
         
-        LDA $00 : ADD.b #$04       : STA ($90), Y
-        LDA $02 : ADD.b #$04 : INY : STA ($90), Y
+        LDA $00 : CLC : ADC.b #$04       : STA ($90), Y
+        LDA $02 : CLC : ADC.b #$04 : INY : STA ($90), Y
         
         LDA $0DF0, X : LSR #2
         

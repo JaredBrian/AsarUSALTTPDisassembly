@@ -97,7 +97,7 @@
     PhantomGanon_Draw:
     {
         LDA.b #$00   : XBA
-        LDA $0DC0, X : REP #$20 : ASL #6 : ADD.w #(.oam_groups) : STA $08
+        LDA $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA $08
         
         LDA.w #$0950 : STA $90
         

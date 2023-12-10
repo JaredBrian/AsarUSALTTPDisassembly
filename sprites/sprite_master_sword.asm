@@ -443,10 +443,10 @@
         
         JSL Sprite_SpawnDynamically : BMI .alpha
         
-        LDA $00 : ADD.b #$00 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$00 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$00 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$00 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$02 : STA $0E80, Y
@@ -482,7 +482,7 @@
         LDA $00 : SUB.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$02 : STA $0E80, Y : STA $0D90, Y
@@ -524,7 +524,7 @@
         LDA $00 : SUB.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$02 : STA $0E80, Y : STA $0D90, Y
@@ -566,7 +566,7 @@
         LDA $00 : SUB.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$02 : STA $0E80, Y : STA $0D90, Y
@@ -606,7 +606,7 @@
         LDA $00 : SUB.b #$04 : STA $0D10, Y
         LDA $01 : SBC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$02 : STA $0E80, Y : STA $0D90, Y
@@ -659,7 +659,7 @@
         LDA $22 : STA $0D10, Y
         LDA $23 : STA $0D30, Y
         
-        LDA $20 : ADD.b #$08 : STA $0D00, Y
+        LDA $20 : CLC : ADC.b #$08 : STA $0D00, Y
         LDA $21 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$04 : STA $0DC0, Y
@@ -810,8 +810,8 @@
     
     .alpha
     
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         LDA .chr, X                  : INY : STA ($90), Y
         
         INY

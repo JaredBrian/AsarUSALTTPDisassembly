@@ -75,7 +75,7 @@
         
         LDA $03BE, X : ASL #4 : STA $0A
         
-        ADD $04 : TAX
+        CLC : ADC $04 : TAX
         
         LDY.b #$00
     
@@ -85,16 +85,16 @@
         
         LDA $0A : ASL A : STA $04
         
-        LDA $08 : ASL A : ADD $04 : STA $04
+        LDA $08 : ASL A : CLC : ADC $04 : STA $04
         
-        LDA $06 : ASL #2 : ADD $04 : TAX
+        LDA $06 : ASL #2 : CLC : ADC $04 : TAX
         
         REP #$20
         
         ; The first entry in each interleaved pair is the y offset and the
         ; second is the x offset.
-        LDA .xy_offsets + 0, X : ADD $0C : STA $00
-        LDA .xy_offsets + 2, X : ADD $0E : STA $02
+        LDA .xy_offsets + 0, X : CLC : ADC $0C : STA $00
+        LDA .xy_offsets + 2, X : CLC : ADC $0E : STA $02
         
         SEP #$20
         

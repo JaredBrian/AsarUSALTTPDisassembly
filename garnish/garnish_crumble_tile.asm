@@ -58,12 +58,12 @@
         LDA .properties, Y : STA $05
         LDA .oam_sizes, Y  : STA $06
         
-        LDA $7FF83C, X : SUB $E2    : PHP : ADD .xy_offsets, Y : STA $00
+        LDA $7FF83C, X : SUB $E2    : PHP : CLC : ADC .xy_offsets, Y : STA $00
         LDA $7FF878, X : ADC.b #$00 : PLP : SBC $E3
         
         BNE .off_screen
         
-        LDA $7FF81E, X : SUB $E8    : PHP : ADD .xy_offsets, Y : STA $02
+        LDA $7FF81E, X : SUB $E8    : PHP : CLC : ADC .xy_offsets, Y : STA $02
         LDA $7FF85A, X : ADC.b #$00 : PLP : SBC $E9
         
         BEQ .on_screen

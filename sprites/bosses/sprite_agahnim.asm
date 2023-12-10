@@ -97,11 +97,11 @@ Sprite_Agahnim:
         
         LDA $0F80, X : CMP.b #$FF : BEQ BRANCH_GAMMA
         
-        ADD.b #$01 : STA $0F80, X
+        CLC : ADC.b #$01 : STA $0F80, X
     
     BRANCH_GAMMA:
     
-        LDA $0F90, X : ADD $0F80, X : STA $0F90, X : BCC BRANCH_DELTA
+        LDA $0F90, X : CLC : ADC $0F80, X : STA $0F90, X : BCC BRANCH_DELTA
         
         INC $0E80, X : LDA $0E80, X : CMP.b #$07 : BNE BRANCH_DELTA
         
@@ -161,9 +161,9 @@ Sprite_Agahnim:
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : ADD.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
         
-        LDA $0FDA : SUB $06 : ADD.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FDA : SUB $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
         
         SEP #$20
         
@@ -235,7 +235,7 @@ Sprite_Agahnim:
         LDA $D479, X : STA $0D50, X
         
         ; And speed up the y velocity.
-        LDA $0D40, X : ADD.b #$02 : STA $0D40, X
+        LDA $0D40, X : CLC : ADC.b #$02 : STA $0D40, X
         
         JSR Sprite3_Move
         
@@ -459,9 +459,9 @@ AttachThenFadeToBlack:
             
         LDY $01
             
-        LDA $00 : ADD.b #$02 : STA $02
+        LDA $00 : CLC : ADC.b #$02 : STA $02
             
-        ASL #2 : ADC $02 : ADC.b #$02 : ADD $01 : TAY
+        ASL #2 : ADC $02 : ADC.b #$02 : CLC : ADC $01 : TAY
             
         LDA $D310, Y : STA $0DE0, X
             
@@ -502,7 +502,7 @@ AttachThenFadeToBlack:
         
     LDY $0DE0, X
         
-    LDA $D329, Y : ADD $0D90, X : STA $0DC0, X
+    LDA $D329, Y : CLC : ADC $0D90, X : STA $0DC0, X
         
     RTS
 }
@@ -615,10 +615,10 @@ SetTargetPos:
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low, X : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low, X : STA $0D00, Y
         LDA $03 : ADC.b #$FF   : STA $0D20, Y
                                  STA $0BA0, Y
         
@@ -658,8 +658,8 @@ ShadowSneak:
         
     REP #$20
         
-    LDA $00 : SUB $04 : ADD.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
-        LDA $02 : SUB $06 : ADD.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
+    LDA $00 : SUB $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
+        LDA $02 : SUB $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
             SEP #$20
         
             LDA $0DB0, X : STA $0D10, X
@@ -714,10 +714,10 @@ ShadowSneak:
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
         
-        LDA $00      : ADD $D77F, X       : STA ($90), Y
-        LDA $02      : ADD $D7C7, X : INY : STA ($90), Y
+        LDA $00      : CLC : ADC $D77F, X       : STA ($90), Y
+        LDA $02      : CLC : ADC $D7C7, X : INY : STA ($90), Y
         LDA $D80F, X                : INY : STA ($90), Y
         LDA $D857, X : ORA $05      : INY : STA ($90), Y
         
@@ -791,10 +791,10 @@ ShadowSneak:
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
         
-        LDA $00 : ADD $D89F, X       : STA ($90), Y
-        LDA $02 : ADD $D8E7, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC $D89F, X       : STA ($90), Y
+        LDA $02 : CLC : ADC $D8E7, X : INY : STA ($90), Y
         
         LDX $0C
         

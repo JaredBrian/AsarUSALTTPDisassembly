@@ -72,7 +72,7 @@ Zol_HidingUnseen:
         LDA $22 : STA $0D10, X
         LDA $23 : STA $0D30, X
         
-        LDA $20 : ADD.b #$08 : STA $0D00, X
+        LDA $20 : CLC : ADC.b #$08 : STA $0D00, X
         LDA $21 : ADC.b #$00 : STA $0D20, X
         
         LDA.b #$30 : STA $0F10, X
@@ -287,7 +287,7 @@ Zol_Draw:
         EOR .hflip_states, Y : STA $0F50, X
         
         ; \wtf With all the use of $0F50, X?
-        AND.b #$01 : EOR.b #$01 : ASL #2 : ADD $0DC0, X : STA $0DC0, X
+        AND.b #$01 : EOR.b #$01 : ASL #2 : CLC : ADC $0DC0, X : STA $0DC0, X
         
         JSL Sprite_PrepAndDrawSingleLargeLong
         

@@ -47,14 +47,14 @@
     
     .player_facing_left
     
-        TYA : ADD $08 : TAY
+        TYA : CLC : ADC $08 : TAY
         
         REP #$20
         
-        LDA .xy_offsets+0, Y : ADD $00 : STA $00
+        LDA .xy_offsets+0, Y : CLC : ADC $00 : STA $00
         
-        LDA .xy_offsets+2, Y : ADD $02 : STA $02
-        ADD.w #$0008         : STA $04
+        LDA .xy_offsets+2, Y : CLC : ADC $02 : STA $02
+        CLC : ADC.w #$0008         : STA $04
         
         SEP #$20
         
@@ -68,7 +68,7 @@
         
         LDX $0A
         
-        LDA $A9A7, X : ADD $72 : STA ($90), Y : INY
+        LDA $A9A7, X : CLC : ADC $72 : STA ($90), Y : INY
         LDA.b #$04   : ORA $65 : STA ($90), Y : INY
         
         PHY : TYA : SUB.b #$04 : LSR #2 : TAY

@@ -69,12 +69,12 @@ MadBatterBolt_Active:
     
     PLA : LSR #2 : PHA : AND.b #$07 : TAY
         
-    LDA $22 : ADD .x_offsets, Y : STA $0D10, X
+    LDA $22 : CLC : ADC .x_offsets, Y : STA $0D10, X
     LDA $23 : ADC.b #$00        : STA $0D30, X
         
     PLA : LSR #2 : AND.b #$07 : TAY
         
-    LDA $20 : ADD .y_offsets, Y : STA $0D00, X
+    LDA $20 : CLC : ADC .y_offsets, Y : STA $0D00, X
     LDA $21 : ADC.b #$00        : STA $0D20, X
         
     RTS

@@ -141,13 +141,13 @@
     
     .no_sound_effect
     
-        LSR A : AND.b #$01 : ADD $0FD8 : STA $0FD8
+        LSR A : AND.b #$01 : CLC : ADC $0FD8 : STA $0FD8
         
         JSR Sprite2_DirectionToFacePlayer
         
-        LDA $0F : ADD.b #$20 : CMP.b #$40 : BCS .beta
+        LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
         
-        LDA $0E : ADD.b #$20 : CMP.b #$40 : BCS .beta
+        LDA $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
         
         LDA.b #$10 : JSL OAM_AllocateFromRegionB
     

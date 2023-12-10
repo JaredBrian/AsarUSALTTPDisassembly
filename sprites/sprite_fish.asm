@@ -124,7 +124,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
         LDA.b #$FF : STA $0B58, Y
@@ -247,14 +247,14 @@
         ; \note The index for the animation fluctates between 0 and 2 inclusive.
         LDA $0D90, X : CMP .boundary_limits, Y : BEQ .at_boundary_already
         
-        ADD Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA $0D90, X
+        CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA $0D90, X
     
     .at_boundary_already
     .delay_animation_base_adjustment
     
         LDA $1A : LSR #3 : AND.b #$01 : LDY $0D90, X
         
-        ADD .animation_state_bases, Y : STA $0DC0, X
+        CLC : ADC .animation_state_bases, Y : STA $0DC0, X
         
         RTS
     }
@@ -324,13 +324,13 @@
         
         ASL #4 : ADC.w #(.oam_groups) : STA $08
         
-        LDA $0FD8 : ADD.w #$0004 : STA $0FD8
+        LDA $0FD8 : CLC : ADC.w #$0004 : STA $0FD8
         
         SEP #$20
         
         LDA.b #$02 : JSL Sprite_DrawMultiple
         
-        LDA $0FDA : ADD $0F70, X : STA $0FDA
+        LDA $0FDA : CLC : ADC $0F70, X : STA $0FDA
         LDA $0FDB : ADC.b #$00   : STA $0FDB
         
         LDA.b #$00 : XBA
@@ -346,7 +346,7 @@
         
         ADC.w #(.unknown) : STA $08
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         

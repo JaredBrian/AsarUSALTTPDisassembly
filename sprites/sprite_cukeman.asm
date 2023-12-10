@@ -13,7 +13,7 @@
     
     .sign_extend
     
-              ADD $0FDA : STA $0FDA
+              CLC : ADC $0FDA : STA $0FDA
         TYA : ADC $0FDB : STA $0FDB
         
         LDA $0F50, X : PHA
@@ -40,9 +40,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0018 : CMP.w #$0030 : BCS .dont_speak
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
         
-        LDA $20 : SUB $0FDA : ADD.w #$0020 : CMP.w #$0030 : BCS .dont_speak
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
         
         SEP #$20
         
@@ -50,7 +50,7 @@
         
         LDA $0E30, X : INC $0E30, X : AND.b #$01
         
-        ADD.b #$7A : STA $1CF0
+        CLC : ADC.b #$7A : STA $1CF0
         LDA.b #$01 : STA $1CF1
         
         JSL Sprite_ShowMessageMinimal

@@ -52,10 +52,10 @@
         
         LDY $0DE0, X
         
-        LDA .x_offsets_low,  Y : ADD $22 : STA $0D90, X
+        LDA .x_offsets_low,  Y : CLC : ADC $22 : STA $0D90, X
         LDA .x_offsets_high, Y : ADC $23 : STA $0DA0, X
         
-        LDA .y_offsets_low,  Y : ADD $20 : STA $0DB0, X
+        LDA .y_offsets_low,  Y : CLC : ADC $20 : STA $0DB0, X
         LDA .y_offsets_high, Y : ADC $21 : STA $0E90, X
         
         INC $0D80, X
@@ -90,9 +90,9 @@
         
         REP #$20
         
-        LDA $04 : SUB $0FD8 : ADD.w #$0005 : CMP.w #$000A : BCS .not_in_range
+        LDA $04 : SUB $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
         
-        LDA $06 : SUB $0FDA : ADD.w #$0005 : CMP.w #$000A : BCS .not_in_range
+        LDA $06 : SUB $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
     
     .prepare_attack
     

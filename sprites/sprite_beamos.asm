@@ -119,7 +119,7 @@
     
     .positive_x
     
-              ADD $00 : STA $0D10, Y
+              CLC : ADC $00 : STA $0D10, Y
         TXA : ADC $01 : STA $0D30, Y
         
         LDX.b #$00
@@ -130,7 +130,7 @@
     
     .positive_y
     
-              ADD $02 : STA $0D00, Y
+              CLC : ADC $02 : STA $0D00, Y
         TXA : ADC $03 : STA $0D20, Y
         
         TYX
@@ -154,7 +154,7 @@
         INC $0B6A
         
         LDA.b #$1F : STA $00
-                     LDX $0DC0, Y : ADD Sprite_BeamosLaser.slots, X : TAX
+                     LDX $0DC0, Y : CLC : ADC Sprite_BeamosLaser.slots, X : TAX
     
     .init_subsprite_positions
     
@@ -230,9 +230,9 @@
         ; (X = 0 OR 2), hence A = -16 OR 0
         LDA $00                            : STA ($90), Y
         AND.w #$0100 : STA $0E
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -318,13 +318,13 @@
         ; Load the eyeball's relative x position
         LDA .x_offsets, X : SUB.b #$03 : STA $0FA8
         
-        ADD $00 : STA ($90), Y
+        CLC : ADC $00 : STA ($90), Y
         
         ; Load the eyeball's relative y position
         ; $29111, X THAT IS. Tells us which eyeball graphic to use.
         ; $29131, X THAT IS. Tells us which way to flip the eyeball.
         LDA .y_offsets, X : SUB.b #$12 : STA $0FA9
-        ADD $02                                          : INY : STA ($90), Y
+        CLC : ADC $02                                          : INY : STA ($90), Y
         LDA .chr, X                                       : INY : STA ($90), Y
         LDA $05 : AND.b #$31 : ORA .hflip, X : ORA.b #$0A : INY : STA ($90), Y
         
@@ -332,9 +332,9 @@
         
         REP #$20
         
-        LDA $0E : ADD $90 : STA $90
+        LDA $0E : CLC : ADC $90 : STA $90
         
-        LDA $0E : LSR #2 : ADD $92 : STA $92
+        LDA $0E : LSR #2 : CLC : ADC $92 : STA $92
         
         SEP #$20
         
@@ -390,7 +390,7 @@
         LDA $0D00, X : PHA
         LDA $0D20, X : PHA
         
-        LDA $0E80, X : AND.b #$1F : LDY $0DC0, X : ADD .slots, Y : TAX
+        LDA $0E80, X : AND.b #$1F : LDY $0DC0, X : CLC : ADC .slots, Y : TAX
         
         ; Essentially, all this is to transfer the sprite's current coordinates
         ; to each subsprite's coordinates.
@@ -484,7 +484,7 @@
         PHX
         
         LDA.b #$1F : STA $0D
-                     LDY $0DC0, X : ADD Sprite_BeamosLaser_slots, Y : TAX
+                     LDY $0DC0, X : CLC : ADC Sprite_BeamosLaser_slots, Y : TAX
         
         LDY.b #$00
     
@@ -500,7 +500,7 @@
         LDA $00 : SUB $E2       : STA ($90), Y : AND.w #$0100 : STA $0E
         LDA $02 : SUB $E8 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen    ;added missing #
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen    ;added missing #
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -568,11 +568,11 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
                                            : AND.w #$0100 : STA $0E
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen
         
         LDA.b #$F0 : STA ($90), Y
     

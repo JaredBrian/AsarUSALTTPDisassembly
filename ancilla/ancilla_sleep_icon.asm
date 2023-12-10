@@ -29,7 +29,7 @@
     
     .delay
     
-        LDA $0C2C, X : ADD $0C54, X : STA $0C2C, X : BPL .positive_x_speed
+        LDA $0C2C, X : CLC : ADC $0C54, X : STA $0C2C, X : BPL .positive_x_speed
         
         EOR.b #$FF : INC A
     

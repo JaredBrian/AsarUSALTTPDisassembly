@@ -198,7 +198,7 @@
     
         LDA $0F70, X : CMP.b #$04 : ROL A : AND.b #$01 : TAY
         
-        LDA $0F80, X : ADD $A213, Y : STA $0F80, X
+        LDA $0F80, X : CLC : ADC $A213, Y : STA $0F80, X
         
         LDA $0D80, X
         

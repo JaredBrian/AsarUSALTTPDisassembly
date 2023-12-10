@@ -43,7 +43,7 @@
         
         LDA $1A : BNE .dont_change_stir_speed
         
-        JSL GetRandomInt : AND.b #$01 : ADD.b #$02 : STA $0D90, X
+        JSL GetRandomInt : AND.b #$01 : CLC : ADC.b #$02 : STA $0D90, X
     
     .dont_change_stir_speed
     
@@ -308,15 +308,15 @@
         
         LDY $90
         
-        LDA .stirring_oam_groups+0, X : ADD $0FA8 : STA $0000, Y
+        LDA .stirring_oam_groups+0, X : CLC : ADC $0FA8 : STA $0000, Y
         
-        LDA .stirring_oam_groups+1, X : ADD $0FA9 : STA $0001, Y
+        LDA .stirring_oam_groups+1, X : CLC : ADC $0FA9 : STA $0001, Y
         
         LDA .stirring_oam_groups+2, X : ORA $04 : STA $0002, Y
         
-        LDA .stirring_oam_groups+4, X : ADD $0FA8 : STA $0004, Y
+        LDA .stirring_oam_groups+4, X : CLC : ADC $0FA8 : STA $0004, Y
         
-        LDA .stirring_oam_groups+5, X : ADD $0FA9 : STA $0005, Y
+        LDA .stirring_oam_groups+5, X : CLC : ADC $0FA9 : STA $0005, Y
         
         LDA .stirring_oam_groups+6, X : ORA $04 : STA $0006, Y
         
@@ -326,7 +326,7 @@
     
     .draw_body_and_cauldron
     
-        LDA .body_and_cauldron_oam_groups+0, X : ADD $0FA8 : STA $0008, Y
+        LDA .body_and_cauldron_oam_groups+0, X : CLC : ADC $0FA8 : STA $0008, Y
         
         LDA .body_and_cauldron_oam_groups+1, X : ADC $0FA9 : STA $0009, Y
         
@@ -350,9 +350,9 @@
     
     .draw_cloak
     
-        LDA .cloak_oam_groups+0, X : ADD $0FA8 : STA $0008, Y
+        LDA .cloak_oam_groups+0, X : CLC : ADC $0FA8 : STA $0008, Y
         
-        LDA .cloak_oam_groups+1, X : ADD $0FA9 : STA $0009, Y
+        LDA .cloak_oam_groups+1, X : CLC : ADC $0FA9 : STA $0009, Y
         
         LDA .cloak_oam_groups+2, X : ORA $04 : STA $000A, Y
         

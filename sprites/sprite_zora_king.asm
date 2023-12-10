@@ -33,9 +33,9 @@
     {
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$0010 : CMP.w #$0020 : BCS .out_of_range
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
         
-        LDA $20 : SUB $0FDA : ADD.w #$0030 : CMP.w #$0060 : BCS .out_of_range
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
         
         SEP #$20
         
@@ -403,10 +403,10 @@
         
         LDX $0D
         
-        LDA .x_offsets_low, X : SUB.b #$04 : ADD $00   : STA $0D10, Y
+        LDA .x_offsets_low, X : SUB.b #$04 : CLC : ADC $00   : STA $0D10, Y
         LDA $01               : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA .y_offsets_low, X : SUB.b #$04 : ADD $02   : STA $0D00, Y
+        LDA .y_offsets_low, X : SUB.b #$04 : CLC : ADC $02   : STA $0D00, Y
         LDA $03               : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y
@@ -515,13 +515,13 @@
     
     .next_subsprite
     
-        PHX : TXA : ADD $06 : TAX
+        PHX : TXA : CLC : ADC $06 : TAX
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         INY
         
-        LDA .y_offsets, X : ADD $02        : STA ($90), Y
+        LDA .y_offsets, X : CLC : ADC $02        : STA ($90), Y
         LDA .chr, X                  : INY : STA ($90), Y
         
         LDA.b #$0F : STA $0F
@@ -564,10 +564,10 @@
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
         
-        LDA $00 : ADD .whirlpool_x_offsets, X           : STA ($90), Y
-        LDA $02 : ADD .whirlpool_y_offsets, X     : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .whirlpool_x_offsets, X           : STA ($90), Y
+        LDA $02 : CLC : ADC .whirlpool_y_offsets, X     : INY : STA ($90), Y
         LDA .whirlpool_chr, X                     : INY : STA ($90), Y
         LDA .whirlpool_properties, X : ORA.b #$24 : INY : STA ($90), Y
         

@@ -55,10 +55,10 @@
         LDA.b #$12 : STA $7FF800, X
                      STA $0FB4
         
-        LDA $0D10, Y : ADD $00 : STA $7FF83C, X
+        LDA $0D10, Y : CLC : ADC $00 : STA $7FF83C, X
         LDA $0D30, Y : ADC $01 : STA $7FF878, X
         
-        LDA $0D00, Y : ADD $02 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC $02 : STA $7FF81E, X
         LDA $0D20, Y : ADC $03 : STA $7FF85A, X
         
         ; Set the associated sprite index for the garnish sprite?
@@ -249,7 +249,7 @@
     .moving_right
     
         ; This code moves the soldier left or right, depending on $0D50, X
-              ADD $0D10, X : STA $0D10, X
+              CLC : ADC $0D10, X : STA $0D10, X
         TYA : ADC $0D30, X : STA $0D30, X
         
         LDY.b #$00
@@ -261,7 +261,7 @@
     
     .moving_down
     
-              ADD $0D00, X : STA $0D00, X
+              CLC : ADC $0D00, X : STA $0D00, X
         TYA : ADC $0D00, X : STA $0D20, X
         
         ; Usually 0. Otherwise the soldier's invisible.
@@ -272,13 +272,13 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0010
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0010
         
         CMP.w #$0020 : SEP #$20 : BCS .player_not_close
         
         REP #$20
         
-        LDA $20 : SUB $0FDA : ADD.w #$0018
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0018
         
         CMP.w #$0020 : SEP #$20 : BCS .player_not_close
         
@@ -911,7 +911,7 @@
         
         ; Is there some point to this store that I'm not seeing? It's
         ; overwritten later before even being used.
-        TXA : ADD $1A : STA $0F
+        TXA : CLC : ADC $1A : STA $0F
         
         AND.b #$03 : ORA $0F00, X : BNE .spawn_failed
         
@@ -929,10 +929,10 @@
         
         JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
         
-        LDA $00 : ADD.b #$08 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$08 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         PHX
@@ -1075,7 +1075,7 @@
         
         STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .alpha
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -1114,7 +1114,7 @@
     
         PHX
         
-        TXA : ADD $07 : TAX : STX $06
+        TXA : CLC : ADC $07 : TAX : STX $06
         
         LDA $08 : CMP.b #$46 : BCC .alpha
         
@@ -1134,13 +1134,13 @@
         
         REP #$20
         
-        LDA $00 : ADD $C72D, X : STA ($90), Y
+        LDA $00 : CLC : ADC $C72D, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $C7FD, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $C7FD, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .gamma
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .gamma
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -1215,19 +1215,19 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $CAB8, X : ADD $00 : STA ($90), Y
+        LDA $CAB8, X : CLC : ADC $00 : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $CAF0, X : ADD $02 : INY : STA ($90), Y
+        LDA $CAF0, X : CLC : ADC $02 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .alpha
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -1439,17 +1439,17 @@
     
         PHX
         
-        TXA : ADD $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC $06 : PHA : ASL A : TAX
         
         REP #$20
         
-        LDA $CCE8, X : ADD $00 : STA ($90), Y
+        LDA $CCE8, X : CLC : ADC $00 : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $CD08, X : ADD $02 : INY : STA ($90), Y
+        LDA $CD08, X : CLC : ADC $02 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .beta
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -1674,7 +1674,7 @@
         
         LDY $0E20, X : CPY.b #$48 : BNE .is_archer
         
-        ADD.b #$10
+        CLC : ADC.b #$10
     
     .is_archer
     
@@ -1798,10 +1798,10 @@
     
     .is_archer
     
-        LDA $22 : ADD .x_offsets_low, Y  : STA $04
+        LDA $22 : CLC : ADC .x_offsets_low, Y  : STA $04
         LDA $23 : ADC .x_offsets_high, Y : STA $05
         
-        LDA $20 : ADD .y_offsets_low, Y  : STA $06
+        LDA $20 : CLC : ADC .y_offsets_low, Y  : STA $06
         LDA $21 : ADC .y_offsets_high, Y : STA $07
         
         LDA.b #$18
@@ -1812,9 +1812,9 @@
         
         LDA $01 : STA $0D50, X
         
-        LDA $0E : ADD.b #$06 : CMP.b #$0C : BCS .delay_facing_player
+        LDA $0E : CLC : ADC.b #$06 : CMP.b #$0C : BCS .delay_facing_player
         
-        LDA $0F : ADD.b #$06 : CMP.b #$0C : BCC .collided
+        LDA $0F : CLC : ADC.b #$06 : CMP.b #$0C : BCC .collided
     
     .delay_facing_player
     
@@ -1894,7 +1894,7 @@
         
         LDY $0E20, X : CPY.b #$48 : BNE .is_archer
         
-        ADD.b #$20
+        CLC : ADC.b #$20
     
     .is_archer
     
@@ -1962,16 +1962,16 @@
         
         LDA $0E20, X : CMP.b #$48 : LDA $0DE0, X : BCC .is_archer
         
-        ADD.b #$04
+        CLC : ADC.b #$04
     
     .is_archer
     
         TAX
         
-        LDA $00 : ADD .x_offsets_low, X  : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low, X  : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y
@@ -2020,7 +2020,7 @@
         
         REP #$20
         
-        LDA $0FDA : PHA : ADD.w #$0008 : STA $0FDA
+        LDA $0FDA : PHA : CLC : ADC.w #$0008 : STA $0FDA
         
         SEP #$20
         
@@ -2213,7 +2213,7 @@
         
         LDA.b #$20 : STA $0DF0, Y
         
-        LDA $0E40, Y : ADD.b #$03 : STA $0E40, Y
+        LDA $0E40, Y : CLC : ADC.b #$03 : STA $0E40, Y
         
         LDA.b #$02 : STA $0DB0, Y
     
@@ -2262,7 +2262,7 @@
         
         LDY $0E20, X : CPY.b #$49 : BNE BRANCH_DELTA
         
-        ADD.b #$20
+        CLC : ADC.b #$20
 
     BRANCH_DELTA
 
@@ -2308,7 +2308,7 @@
     
         PHX
         
-        TXA : ADD $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC $06 : PHA : ASL A : TAX
         
         REP #$20
         
@@ -2316,9 +2316,9 @@
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $D2E9, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $D2E9, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .alpha
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -2421,19 +2421,19 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD $D3B0, X : STA ($90), Y
+        LDA $00 : CLC : ADC $D3B0, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $D410, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $D410, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .beta
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -2512,7 +2512,7 @@
         
         LDA ($08), Y : CLC : ADC $02 : STA $0001, X
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         
         LDA.w #$00F0 : STA $0001, X
     
@@ -2896,9 +2896,9 @@
         
         DEC $0EA0, X : BNE .not_halted_yet
         
-        LDA $0F40, X : ADD.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
+        LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
         
-        LDA $0F30, X : ADD.b #$20 : CMP.b #$40 : BCC .slow_enough
+        LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
     
     .too_fast_so_halt
     
@@ -2975,7 +2975,7 @@
     ; *$2F9F4-$2F9FF LOCAL
     Sprite2_MoveHoriz:
     {
-        TXA : ADD.b #$10 : TAX
+        TXA : CLC : ADC.b #$10 : TAX
         
         JSR Sprite2_MoveVert
         
@@ -2991,7 +2991,7 @@
     {
         LDA $0D40, X : BEQ .no_velocity
         
-        ASL #4 : ADD $0D60, X : STA $0D60, X
+        ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
         
         LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
         
@@ -3014,7 +3014,7 @@
     ; *$2FA2E-$2FA4F LOCAL
     Sprite2_MoveAltitude:
     {
-        LDA $0F80, X : ASL #4 : ADD $0F90, X : STA $0F90, X
+        LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
         
         LDA $0F80, X : PHP : LSR #4 : PLP : BPL .positive
         

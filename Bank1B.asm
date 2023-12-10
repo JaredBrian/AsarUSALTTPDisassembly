@@ -54,7 +54,7 @@
         
         LDA $20 : AND.w #$FFF8 : STA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $22 : AND.w #$FFF8 : LSR #3 : STA $02 : SUB $070C : AND $070E : ADD $06 : STA $00
+        LDA $22 : AND.w #$FFF8 : LSR #3 : STA $02 : SUB $070C : AND $070E : CLC : ADC $06 : STA $00
         
         LDX.w #$0024
 
@@ -133,9 +133,9 @@
     {
         REP #$31
         
-        LDA $20 : ADD.w #$0007 : STA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
+        LDA $20 : CLC : ADC.w #$0007 : STA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $22 : LSR #3 : STA $02 : SUB $070C : AND $070E : ADD $06 : TAY : TAX
+        LDA $22 : LSR #3 : STA $02 : SUB $070C : AND $070E : CLC : ADC $06 : TAY : TAX
         
         LDA $7E2000, X : ASL #3 : TAX
         
@@ -334,7 +334,7 @@
         
         LDA $00 : SUB $0708 : AND $070A : ASL #3 : STA $06
         
-        LDA $02 : SUB $070C : AND $070E : ADD $06 : TAX
+        LDA $02 : SUB $070C : AND $070E : CLC : ADC $06 : TAX
         
         ; Is Link using the hammer?
         LDA $0301 : AND.w #$0002 : BNE .usingHammer
@@ -619,11 +619,11 @@
     {
         LDA $2F : AND.w #$00FF : TAX
 
-        LDA $20    : ADD $07D365, X : AND.w #$FFF0  : STA $00
+        LDA $20    : CLC : ADC $07D365, X : AND.w #$FFF0  : STA $00
         SUB $0708 : AND $070A       : ASL #3        : STA $06
 
-        LDA $22 : ADD $07D36D, X : AND.w #$FFF0 : STA $02
-        LSR #3  : SUB $070C      : AND $070E    : ADD $06 : TAX
+        LDA $22 : CLC : ADC $07D36D, X : AND.w #$FFF0 : STA $02
+        LSR #3  : SUB $070C      : AND $070E    : CLC : ADC $06 : TAX
         
         RTS
     }
@@ -793,7 +793,7 @@
         
         LDA $20 : PHA
         
-        ADD.w #$0008 : STA $20
+        CLC : ADC.w #$0008 : STA $20
         
         JSR Overworld_GetLinkMap16Coords
         
@@ -874,8 +874,8 @@
     
         LDX $0C
         
-        LDA $00 : ADD $1BBF54, X : STA $00
-        LDA $02 : ADD $1BBF5C, X : STA $02
+        LDA $00 : CLC : ADC $1BBF54, X : STA $00
+        LDA $02 : CLC : ADC $1BBF5C, X : STA $02
         
         JSL Overworld_DoMapUpdate32x32_Long
         JMP Overworld_LiftableTile_getTileAttribute
@@ -904,15 +904,15 @@
         
     	JSR Overworld_ApplyBombToTile
         
-    	LDA $0486 : ADD.w #$0010
+    	LDA $0486 : CLC : ADC.w #$0010
         
     	JSR Overworld_ApplyBombToTile
         
-    	LDA $0486 : ADD.w #$0020
+    	LDA $0486 : CLC : ADC.w #$0020
         
     	JSR Overworld_ApplyBombToTile
         
-    	LDA $0488 : ADD.w #$0010 : STA $0488
+    	LDA $0488 : CLC : ADC.w #$0010 : STA $0488
         
     	DEC $C8
         
@@ -930,7 +930,7 @@
     {
         PHA
         
-        LSR #3 : SUB $070C : AND $070E : ADD $CA : TAX : STX $04
+        LSR #3 : SUB $070C : AND $070E : CLC : ADC $CA : TAX : STX $04
         
         ; Check to see if Link has a super bomb.
         LDA $7EF3CC : AND.w #$00FF : CMP.w #$000D
@@ -1371,7 +1371,7 @@
         
         STY $00
         
-        TXA : ADD $00 : STA $00
+        TXA : CLC : ADC $00 : STA $00
         
         JSR $CA69 ; $DCA69 IN ROM
         
@@ -1381,7 +1381,7 @@
         LDA $02 : XBA : STA $1002, Y
         
         ; write the base vram address of the second two tiles
-        LDA $02 : ADD.w #$0020 : XBA : STA $100A, Y
+        LDA $02 : CLC : ADC.w #$0020 : XBA : STA $100A, Y
         
         ; probably indicates the number of tiles and some other information
         LDA.w #$0300 : STA $1004, Y : STA $100C, Y
@@ -1395,7 +1395,7 @@
         
         LDA.w #$FFFF : STA $1012, Y
         
-        TYA : ADD.w #$0010 : STA $1000
+        TYA : CLC : ADC.w #$0010 : STA $1000
         
         PLX
         
@@ -1414,7 +1414,7 @@
         ; Multiply by 8. Will be an index into a set of tiles
         ASL #3 : STA $0C
         
-        TXA : ADD.w #$0000 : STA $00
+        TXA : CLC : ADC.w #$0000 : STA $00
         
         STZ $02
         
@@ -1444,7 +1444,7 @@
         
         STA $1002, Y
         
-        LDA $02 : ADD.w #$0020 : XBA : STA $100A, Y
+        LDA $02 : CLC : ADC.w #$0020 : XBA : STA $100A, Y
         
         LDA.w #$0300 : STA $1004, Y : STA $100C, Y
         
@@ -1456,7 +1456,7 @@
         LDA $0F8004, X : STA $100E, Y   ; The bottom left corner.
         LDA $0F8006, X : STA $1010, Y   ; The bottom right corner
         
-        TYA : ADD.w #$0010 : STA $1000
+        TYA : CLC : ADC.w #$0010 : STA $1000
         
         PLX
         
@@ -1556,11 +1556,11 @@
     {
     
     .handlers
-        dW $CAE5
-        dW $CB2B
-        dW $CB47
-        dW $CB6C
-        dW $CB91
+        dw $CAE5
+        dw $CB2B
+        dw $CB47
+        dw $CB6C
+        dw $CB91
     }
 
 ; ==============================================================================
@@ -2446,7 +2446,7 @@
         
         LDA.w #$FFFF : STA $1012, Y
         
-        TYA : ADD.w #$0010 : STA $00
+        TYA : CLC : ADC.w #$0010 : STA $00
         
         SEP #$30
         

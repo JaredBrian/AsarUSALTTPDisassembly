@@ -71,7 +71,7 @@
         
         JSR Sprite4_CheckDamage
         
-        LDA $0D40, X : PHA : ADD $0F80, X : STA $0D40, X
+        LDA $0D40, X : PHA : CLC : ADC $0F80, X : STA $0D40, X
         
         JSR Sprite4_Move
         
@@ -128,10 +128,10 @@
         
         TAY
         
-        LDA $0D90, X : ADD .x_offsets_low,  Y : STA $7FFD5C, X
+        LDA $0D90, X : CLC : ADC .x_offsets_low,  Y : STA $7FFD5C, X
         LDA $0DA0, X : ADC .x_offsets_high, Y : STA $7FFD62, X
         
-        LDA $0DB0, X : ADD .y_offsets_low,  Y : STA $7FFD68, X
+        LDA $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA $7FFD68, X
         LDA $0EB0, X : ADC .y_offsets_high, Y : STA $7FFD6E, X
         
         INC $0D80, X
@@ -225,7 +225,7 @@
         
         LDA $0ED0, X : AND.b #$01 : TAY
         
-        LDA $0F80, X : ADD .z_offsets, Y : STA $0F80, X
+        LDA $0F80, X : CLC : ADC .z_offsets, Y : STA $0F80, X
         
         CMP .z_offset_limits, Y : BNE .anotoggle_wiggle_direction
         
@@ -242,9 +242,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : ADD.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
         
-        LDA $0FDA : SUB $06 : ADD.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+        LDA $0FDA : SUB $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
         
         SEP #$20
         
@@ -323,10 +323,10 @@
         
         LDA Swamola_Emerge.directions, Y : STA $0DE0, X : TAY
         
-        LDA $0D90, X : ADD Swamola_Emerge.x_offsets_low,  Y : STA $0D10, X
+        LDA $0D90, X : CLC : ADC Swamola_Emerge.x_offsets_low,  Y : STA $0D10, X
         LDA $0DA0, X : ADC Swamola_Emerge.x_offsets_high, Y : STA $0D30, X
         
-        LDA $0DB0, X : ADD Swamola_Emerge.y_offsets_low,  Y : STA $0D00, X
+        LDA $0DB0, X : CLC : ADC Swamola_Emerge.y_offsets_low,  Y : STA $0D00, X
         LDA $0EB0, X : ADC Swamola_Emerge.y_offsets_high, Y : STA $0D20, X
         
         STZ $0D80, X
@@ -412,7 +412,7 @@
         LDA.b #$00   : XBA
         LDA $0DF0, X : AND.b #$0C : REP #$20 : ASL #2
         
-        ADD.w #.oam_groups : STA $08
+        CLC : ADC.w #.oam_groups : STA $08
         
         SEP #$20
         
@@ -448,7 +448,7 @@
     {
         LDA $0D50, X : STA $01
         
-        LDA $0D40, X : ADD $0F80, X : STA $00
+        LDA $0D40, X : CLC : ADC $0F80, X : STA $00
         
         JSL Sprite_ConvertVelocityToAngle : TAY
         
@@ -461,7 +461,7 @@
         
         PHX : TXY
         
-        LDA $0E80, X : AND.b #$1F : ADD $9C7A, X : TAX
+        LDA $0E80, X : AND.b #$1F : CLC : ADC $9C7A, X : TAX
         
         LDA $0D10, Y : STA $7FFA5C, X
         LDA $0D30, Y : STA $7FFB1C, X
@@ -481,9 +481,9 @@
     
     .moving_downward
     
-        PHA : ADD $90 : STA $90
+        PHA : CLC : ADC $90 : STA $90
         
-        PLA : LSR #2 : ADD $92 : STA $92
+        PLA : LSR #2 : CLC : ADC $92 : STA $92
         
         SEP #$20
         
@@ -497,7 +497,7 @@
         
         PHX
         
-        LDA $0E80, X : SUB .unknown_0, Y : AND.b #$1F : ADD $9C7A, X : TAX
+        LDA $0E80, X : SUB .unknown_0, Y : AND.b #$1F : CLC : ADC $9C7A, X : TAX
         
         LDA $7FFA5C, X : STA $0FD8
         LDA $7FFB1C, X : STA $0FD9
@@ -522,7 +522,7 @@
     
         REP #$20
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
     

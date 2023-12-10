@@ -109,7 +109,7 @@
         LDA $0D00, X : SUB.b #$48 : STA $0D00, Y
         LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
         
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, Y
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, Y
         LDA $0D30, X : ADC.b #$00 : STA $0D30, Y
         
         JMP PotionShop_SetPlayerInteractivity

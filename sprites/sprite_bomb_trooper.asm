@@ -232,7 +232,7 @@
 
         LSR #4 : STA $00
         
-        LDA $0DE0, X : ASL #3 : ORA $00 : ADD.b #$20 : TAY
+        LDA $0DE0, X : ASL #3 : ORA $00 : CLC : ADC.b #$20 : TAY
         
         LDA $D001, Y : STA $0DC0, X
         
@@ -271,10 +271,10 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD .x_offsets_low, X  : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low, X  : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         TYX
@@ -366,12 +366,12 @@
         
         REP #$20
         
-        LDA $00      : ADD $C069, X : LDY.b #$00 : STA ($90), Y
+        LDA $00      : CLC : ADC $C069, X : LDY.b #$00 : STA ($90), Y
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $C079, X      : INY        : STA ($90), Y
+        LDA $02 : CLC : ADC $C079, X      : INY        : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -433,10 +433,10 @@
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
     
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         LDA .chr, X                 : INY : STA ($90), Y
         LDA .vh_flip, X : ORA $05   : INY : STA ($90), Y
         

@@ -21,10 +21,10 @@
     
     .not_pipe_tile
     
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         LDA $0D30, X : ADC.b #$00 : STA $0D30, X
         
-        LDA $0D00, X : ADD.b #$08 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$08 : STA $0D00, X
         LDA $0D20, X : ADC.b #$00 : STA $0D20, X
         
         ; \bug This seems to have the potential to crash the game if the pipe
@@ -37,9 +37,9 @@
         
         ; Reaching this address means that we were able to find a special tile
         ; (0xB0 to 0xBE) to bind to, somewhere in the map.
-        LDA $0D10, X : AND.b #$F8 : ADD.b #$04 : STA $0D10, X
+        LDA $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $0D10, X
         
-        LDA $0D00, X : AND.b #$F8 : ADD.b #$04 : STA $0D00, X
+        LDA $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $0D00, X
         
         LDA $0DE0, X : STA $0EB0, X
         
@@ -191,10 +191,10 @@
         
         LDY $0DE0, X
         
-        LDA $F6BD, Y : ADD $0B7C : STA $0B7C
+        LDA $F6BD, Y : CLC : ADC $0B7C : STA $0B7C
         LDA $F6B8, Y : ADC $0B7D : STA $0B7D
         
-        LDA $F6C4, Y : ADD $0B7E : STA $0B7E
+        LDA $F6C4, Y : CLC : ADC $0B7E : STA $0B7E
         LDA $F6CC, Y : ADC $0B7F : STA $0B7F
         
         JSR Sprite3_Move
@@ -329,7 +329,7 @@
     {
         LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ BRANCH_ALPHA
         
-        LDA $0D10, X : AND.b #$F8 : ADD.b #$04 : STA $00
+        LDA $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
         
         SUB $0D10, X : BEQ BRANCH_ALPHA
         
@@ -350,7 +350,7 @@
     {
         LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ BRANCH_ALPHA
         
-        LDA $0D00, X : AND.b #$F8 : ADD.b #$04 : STA $00
+        LDA $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
         
         SUB $0D00, X : BEQ BRANCH_ALPHA
         

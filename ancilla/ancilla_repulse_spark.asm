@@ -105,11 +105,11 @@
         
         LDA $00 : SUB.b #$04 : LDY.b #$00 : STA ($90), Y
                                LDY.b #$08 : STA ($90), Y
-        ADD.b #$08           : LDY.b #$04 : STA ($90), Y
+        CLC : ADC.b #$08           : LDY.b #$04 : STA ($90), Y
                                LDY.b #$0C : STA ($90), Y
         LDA $01 : SUB.b #$04 : LDY.b #$01 : STA ($90), Y
                                LDY.b #$05 : STA ($90), Y
-        ADD.b #$08           : LDY.b #$09 : STA ($90), Y
+        CLC : ADC.b #$08           : LDY.b #$09 : STA ($90), Y
                                LDY.b #$0D : STA ($90), Y
         
         LDX $0B68

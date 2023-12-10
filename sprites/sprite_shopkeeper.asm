@@ -75,7 +75,7 @@
     {
         REP #$20
         
-        LDA $0FDA : ADD.w #$0060 : CMP $20 : SEP #$30 : BCC BRANCH_ALPHA
+        LDA $0FDA : CLC : ADC.w #$0060 : CMP $20 : SEP #$30 : BCC BRANCH_ALPHA
         
         LDY $0FFF
         
@@ -515,10 +515,10 @@
         
         PLA : PHX : ASL A : TAX
         
-        LDA $00 : ADD.l .x_offsets + 0, X : STA $0D10, Y
+        LDA $00 : CLC : ADC.l .x_offsets + 0, X : STA $0D10, Y
         LDA $01 : ADC.l .x_offsets + 1, X : STA $0D30, Y
         
-        LDA $02 : ADD.b #$27 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$27 : STA $0D00, Y
         LDA $03              : STA $0D20, Y
         
         LDA $0E40, Y : ORA.b #$04 : STA $0E40, Y

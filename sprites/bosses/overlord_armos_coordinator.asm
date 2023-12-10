@@ -248,7 +248,7 @@
     
     .sign_extend_angle_step
     
-              ADD !coordinator_angle   : STA !coordinator_angle
+              CLC : ADC !coordinator_angle   : STA !coordinator_angle
         TYA : ADC !coordinator_angle+1 : STA !coordinator_angle+1
         
         STZ $0FB5
@@ -259,7 +259,7 @@
         
         REP #$20
         
-        LDA !coordinator_angle : ADD $ECC0, Y : STA $00
+        LDA !coordinator_angle : CLC : ADC $ECC0, Y : STA $00
         
         SEP #$20
         
@@ -275,7 +275,7 @@
         
         LDA $04E800, X : STA $04
         
-        LDA $00 : ADD.w #$0080 : STA $02
+        LDA $00 : CLC : ADC.w #$0080 : STA $02
         
         AND.w #$00FF : ASL A : TAX
         
@@ -318,7 +318,7 @@
     
     BRANCH_EPSILON:
     
-        ADD !overlord_x_low,  X : LDY $0FB5 : STA !puppet_x_low,  Y
+        CLC : ADC !overlord_x_low,  X : LDY $0FB5 : STA !puppet_x_low,  Y
         LDA !overlord_x_high, X : ADC $0A   : STA !pupper_x_high, Y
         
         LDA $06 : STA $4202
@@ -352,7 +352,7 @@
     
     BRANCH_IOTA:
     
-        ADD !overlord_y_low, X  : LDY $0FB5 : STA !puppet_y_low,  Y
+        CLC : ADC !overlord_y_low, X  : LDY $0FB5 : STA !puppet_y_low,  Y
         LDA !overlord_y_high, X : ADC $0A   : STA !puppet_y_high, Y
         
         INC $0FB5

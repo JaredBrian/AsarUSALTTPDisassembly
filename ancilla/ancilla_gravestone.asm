@@ -128,12 +128,12 @@
         
         REP #$20
         
-        LDA $02 : ADD.w #$0010 : STA $02
+        LDA $02 : CLC : ADC.w #$0010 : STA $02
         
         CPX.b #$02 : BNE .still_drawing_left_half
         
         ; The last two are further to the right.
-        LDA $00 : ADD.w #$0008 : STA $00
+        LDA $00 : CLC : ADC.w #$0008 : STA $00
         LDA $06                : STA $02
     
     .still_drawing_left_half
@@ -160,13 +160,13 @@
         
         REP #$20
         
-        LDA $00 : ADD.w #$0018 : STA $04
-        LDA $02 : ADD.w #$0020 : STA $06
+        LDA $00 : CLC : ADC.w #$0018 : STA $04
+        LDA $02 : CLC : ADC.w #$0020 : STA $06
         
-        LDA $20 : ADD.w #$0008 : STA $08 : CMP $00 : BCC .player_not_close
+        LDA $20 : CLC : ADC.w #$0008 : STA $08 : CMP $00 : BCC .player_not_close
                                            CMP $04 : BCS .player_not_close
         
-        LDA $22 : ADD.w #$0008 : CMP $02 : BCC .player_not_close
+        LDA $22 : CLC : ADC.w #$0008 : CMP $02 : BCC .player_not_close
                                  CMP $06 : BCC .player_not_close
         
         LDA $08 : SUB $04 : BPL .player_below_object
@@ -177,7 +177,7 @@
     
         STA $0A
         
-        ADD $20 : STA $20
+        CLC : ADC $20 : STA $20
         
         LDA $30 : CMP.w #$0080 : BCC .sign_already_proper
         
@@ -187,7 +187,7 @@
     
         STA $08
         
-        LDA $0A : ADD $08 : AND.w #$00FF : STA $08
+        LDA $0A : CLC : ADC $08 : AND.w #$00FF : STA $08
         
         LDA $30 : AND.w #$FF00 : ORA $08 : STA $30
         

@@ -111,7 +111,7 @@
     
         STY $00
         
-        LDA $0294, X : ADD $00 : STA $0294, X : BPL .positive_z_velocity
+        LDA $0294, X : CLC : ADC $00 : STA $0294, X : BPL .positive_z_velocity
         
         ; Basically, don't allow the velocity to become negative?
         ; \wtf Does this logic actually work properly in the game?
@@ -135,13 +135,13 @@
         
         LDA $0294, X : CMP.b #$18 : BCS .z_velocity_maxed
         
-        ADD.b #$01 : STA $0294, X
+        CLC : ADC.b #$01 : STA $0294, X
     
     .z_velocity_maxed
     
         LDA $0C2C, X : CMP.b #$10 : BCS .x_velocity_maxed
         
-        ADD.b #$01 : STA $0C2C, X
+        CLC : ADC.b #$01 : STA $0C2C, X
     
     .x_velocity_maxed
     
@@ -176,7 +176,7 @@
     
     .positive_altitude
     
-        EOR.w #$FFFF : INC A : ADD $00 : STA $00
+        EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00
         
         SEP #$20
         
@@ -184,7 +184,7 @@
         
         LDA $0A : BEQ .faerie_just_flapping
         
-        DEC A : ADD.b #$02 : TAX
+        DEC A : CLC : ADC.b #$02 : TAX
         
         BRA .faerie_just_flapping
     
@@ -282,7 +282,7 @@
     
         STA $0C5E, X
         
-        ADD $00 : TAY
+        CLC : ADC $00 : TAY
         
         ; oam group? or something else...
         LDA $B8F4, Y : STA $03C2, X

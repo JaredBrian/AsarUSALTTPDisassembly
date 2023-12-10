@@ -76,7 +76,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$0A : STA $7FF90E, X
@@ -188,7 +188,7 @@
         SBC.b #$20 : LSR #2 : TAY
         
                        LDA .animation_states, Y      
-        LDY $0DE0, X : ADD .animation_adjustments, Y : STA $0DC0, X
+        LDY $0DE0, X : CLC : ADC .animation_adjustments, Y : STA $0DC0, X
         
         RTS
     
@@ -221,7 +221,7 @@
         
         LDY $0DE0, X
         
-        ADD .animation_states, Y : STA $0DC0, X
+        CLC : ADC .animation_states, Y : STA $0DC0, X
         
         LDA $0DF0, X : BNE .cant_collide
         

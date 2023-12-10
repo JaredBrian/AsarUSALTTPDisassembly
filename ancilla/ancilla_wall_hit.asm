@@ -103,8 +103,8 @@
         
         REP #$20
         
-        LDA .y_offsets, X : ADD $04 : STA $00
-        LDA .x_offsets, X : ADD $06 : STA $02
+        LDA .y_offsets, X : CLC : ADC $04 : STA $00
+        LDA .x_offsets, X : CLC : ADC $06 : STA $02
         
         SEP #$20
         

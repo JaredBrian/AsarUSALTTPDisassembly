@@ -55,9 +55,9 @@
         
         LDA $02 : ASL #2 : ADC $03 : TAX
         
-        LDA $00     : ADD .x_offsets, X                 : STA ($90), Y
-        LDA $01     : ADD .y_offsets, X           : INY : STA ($90), Y
-        LDA .chr, X : ADD.b #$82                  : INY : STA ($90), Y
+        LDA $00     : CLC : ADC .x_offsets, X                 : STA ($90), Y
+        LDA $01     : CLC : ADC .y_offsets, X           : INY : STA ($90), Y
+        LDA .chr, X : CLC : ADC.b #$82                  : INY : STA ($90), Y
         LDA .properties, X : ORA.b #$02 : ORA $04 : INY : STA ($90), Y
         
         INY

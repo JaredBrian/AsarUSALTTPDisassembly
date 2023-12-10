@@ -91,8 +91,8 @@
     
         LDA !numSprites : ORA $06 : TAX
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y : INY
-        LDA $01 : ADD .y_offsets, X : STA ($90), Y : INY
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y : INY
+        LDA $01 : CLC : ADC .y_offsets, X : STA ($90), Y : INY
         LDA .chr, X                 : STA ($90), Y : INY
         LDA $04 : ORA.b #$04        : STA ($90), Y : INY
         

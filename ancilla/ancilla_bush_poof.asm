@@ -73,10 +73,10 @@
     
     .next_oam_entry
     
-        LDA $06 : ADD .y_offsets_low,  X : STA $00
+        LDA $06 : CLC : ADC .y_offsets_low,  X : STA $00
         LDA $07 : ADC .y_offsets_high, X : STA $01
         
-        LDA $04 : ADD .x_offsets_low,  X : STA $02
+        LDA $04 : CLC : ADC .x_offsets_low,  X : STA $02
         LDA $05 : ADC .x_offsets_high, X : STA $03
         
         JSR Ancilla_SetOam_XY

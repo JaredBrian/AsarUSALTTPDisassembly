@@ -173,7 +173,7 @@
         
         PHA : ASL A : ROL A : AND.b #$01 : TAY
         
-        PLA : ADD .rates, Y : STA $0D50, X
+        PLA : CLC : ADC .rates, Y : STA $0D50, X
     
     .zero_x_velocity
     
@@ -181,7 +181,7 @@
         
         PHA : ASL A : ROL A : AND.b #$01 : TAY
         
-        PLA : ADD .rates, Y : STA $0D40, X
+        PLA : CLC : ADC .rates, Y : STA $0D40, X
     
     .zero_y_velocity
     
@@ -267,9 +267,9 @@
         
         LDA $0F70, Y : BNE .cant_kick
         
-        LDA $0D10, X : SUB $0D10, Y : ADD.b #$08 : CMP.b #$10 : BCS .cant_kick
+        LDA $0D10, X : SUB $0D10, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
         
-        LDA $0D00, X : SUB $0D00, Y : ADD.b #$08 : CMP.b #$10 : BCS .cant_kick
+        LDA $0D00, X : SUB $0D00, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
         
         INC $0D80, X
         

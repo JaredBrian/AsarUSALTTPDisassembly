@@ -39,8 +39,8 @@
     
         LDA $06 : ORA $07 : TAX
         
-        LDA $00 : ADD .y_offsets, X       : STA ($90), Y
-        LDA $02 : ADD .x_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .y_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
         
         LDA .chr, X        : INY : STA ($90), Y
         LDA .properties, X : INY : STA ($90), Y

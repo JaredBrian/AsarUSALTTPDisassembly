@@ -121,10 +121,10 @@
     
     .find_transit_node_nearby
     
-        LDA $0BFA, X : ADD .node_check_y_offsets+0, Y : STA $00 : STA $72
+        LDA $0BFA, X : CLC : ADC .node_check_y_offsets+0, Y : STA $00 : STA $72
         LDA $0C0E, X : ADC .node_check_y_offsets+1, Y : STA $01 : STA $73
         
-        LDA $0C04, X : ADD .node_check_x_offsets+0, Y : STA $02 : STA $74
+        LDA $0C04, X : CLC : ADC .node_check_x_offsets+0, Y : STA $02 : STA $74
         LDA $0C18, X : ADC .node_check_x_offsets+1, Y : STA $03 : STA $75
         
         PHY
@@ -141,7 +141,7 @@
         LDA $03E4, X : CMP.b #$B6 : BEQ .attempt_platform_spawn
                        CMP.b #$BC : BEQ .attempt_platform_spawn
         
-        TYA : ADD.b #$08 : TAY : CPY.b #$18 : BCS .tile_collision_logic
+        TYA : CLC : ADC.b #$08 : TAY : CPY.b #$18 : BCS .tile_collision_logic
         
         BRA .find_transit_node_nearby
     
@@ -344,7 +344,7 @@
     
         LDA $0C68, X : BNE .delay_reckoning
         
-        LDA $0BFA, X : ADD.b #$E8 : STA $0BFA, X
+        LDA $0BFA, X : CLC : ADC.b #$E8 : STA $0BFA, X
         LDA $0C0E, X : ADC.b #$FF : STA $0C0E, X
         
         BRL Ancilla_TransmuteToObjectSplash
@@ -365,10 +365,10 @@
     .moving_floor_collision
     
         ; Handle bomb on a moving floor
-        LDA $0BFA, X : ADD $0310 : STA $72
+        LDA $0BFA, X : CLC : ADC $0310 : STA $72
         LDA $0C0E, X : ADC $0311 : STA $73
         
-        LDA $0C04, X : ADD $0312 : STA $0C04, X
+        LDA $0C04, X : CLC : ADC $0312 : STA $0C04, X
         LDA $0C18, X : ADC $0313 : STA $0C18, X
         
         BRA .damage_logic
@@ -461,8 +461,8 @@
     
         REP #$20
         
-        LDA.w #$00D0 : ADD.w #$0800 : STA $90
-        LDA.w #$0034 : ADD.w #$0A20 : STA $92
+        LDA.w #$00D0 : CLC : ADC.w #$0800 : STA $90
+        LDA.w #$0034 : CLC : ADC.w #$0A20 : STA $92
         
         SEP #$20
     
@@ -492,7 +492,7 @@
     
     .anoset_max_priority
     
-        LDA.w #$0000 : ADD $04 : EOR.w #$FFFF : INC A : ADD $00 : STA $04
+        LDA.w #$0000 : CLC : ADC $04 : EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $04
         
         LDA $02 : STA $06
         
@@ -516,8 +516,8 @@
         
         PHX : TXA : ASL A : TAX
         
-        LDA $04 : ADD .y_offsets, X : STA $00
-        LDA $06 : ADD .x_offsets, X : STA $02
+        LDA $04 : CLC : ADC .y_offsets, X : STA $00
+        LDA $06 : CLC : ADC .x_offsets, X : STA $02
         
         PLX
         
@@ -614,10 +614,10 @@
     
     .next_offset
     
-        LDA $0BFA, X : ADD .y_offsets+0, Y : STA $00 : STA $72
+        LDA $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
         LDA $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
         
-        LDA $0C04, X : ADD .x_offsets+0, Y : STA $02 : STA $74
+        LDA $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
         LDA $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
         
         PHY
@@ -935,7 +935,7 @@
         
         LDA $2F : LSR A : STA $00
         
-        TYA : ASL #2 : ADD $00 : TAY
+        TYA : ASL #2 : CLC : ADC $00 : TAY
         
         LDY.b #$00
         

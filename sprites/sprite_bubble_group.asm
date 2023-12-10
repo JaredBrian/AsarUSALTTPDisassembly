@@ -58,10 +58,10 @@
         
         LDX $0FB5
         
-        LDA $00 : ADD.l .x_offsets_low, X  : STA $0D10, Y
+        LDA $00 : CLC : ADC.l .x_offsets_low, X  : STA $0D10, Y
         LDA $01 : ADC.l .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD.l .y_offsets_low, X  : STA $0D00, Y
+        LDA $02 : CLC : ADC.l .y_offsets_low, X  : STA $0D00, Y
         LDA $03 : ADC.l .y_offsets_high, X : STA $0D20, Y
         
         LDA.l .x_speeds, X : STA $0D50, Y
@@ -116,7 +116,7 @@
         ; the bubble group's members.
         LDA $0D90, X : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD .speed_step, Y : STA $0D50, X
+        LDA $0D50, X : CLC : ADC .speed_step, Y : STA $0D50, X
         
         CMP .speed_limit, Y : BNE .dont_flip_x_speed_polarity
         
@@ -126,7 +126,7 @@
     
         LDA $0DA0, X : AND.b #$01 : TAY
         
-        LDA $0D40, X : ADD .speed_step, Y : STA $0D40, X
+        LDA $0D40, X : CLC : ADC .speed_step, Y : STA $0D40, X
         
         CMP .speed_step, Y : BNE .dont_flip_y_speed_polarity
         

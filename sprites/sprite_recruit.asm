@@ -59,8 +59,8 @@
         
         LDY $0DE0, X : CMP $0DE0, X : BNE .not_facing_player
         
-        LDA $0E : ADD.b #$10 : CMP.b #$20 : BCC .close_to_player
-        LDA $0F : ADD.b #$10 : CMP.b #$20 : BCS .not_close_to_player
+        LDA $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .close_to_player
+        LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_to_player
     
     .close_to_player
     
@@ -175,7 +175,7 @@
         ; Store to the OAM buffer (Y position)
         LDA $02 : SUB.w #$000B : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
         
         ; Turn the sprite off entirely if it's too far down
         LDA.w #$00F0 : STA ($90), Y
@@ -195,13 +195,13 @@
         REP #$20
         
         ; Now start setting up the sprites for the body portion
-        LDA $00 : ADD .x_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
         LDA $02 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen_2
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_2
         
         LDA.w #$00F0 : STA ($90), Y
     

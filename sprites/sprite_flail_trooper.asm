@@ -27,7 +27,7 @@
         
         LDY $0D80, X
         
-        LDA .spin_speeds - 2, Y : ADD $0D90, X              : STA $0D90, X
+        LDA .spin_speeds - 2, Y : CLC : ADC $0D90, X              : STA $0D90, X
         LDA $0DA0, X            : ADC.b #$00   : AND.b #$01 : STA $0DA0, X
         
         JSR Sprite2_CheckIfRecoiling
@@ -67,9 +67,9 @@
         ; Make body match head direction
         LDA $0EB0, X : STA $0DE0, X
         
-        LDA $0E : ADD.b #$40 : CMP.b #$68 : BCS .player_not_close
+        LDA $0E : CLC : ADC.b #$40 : CMP.b #$68 : BCS .player_not_close
         
-        LDA $0F : ADD.b #$30 : CMP.b #$60 : BCS .player_not_close
+        LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
         
         ; Start swinging the ball and chain.
         INC $0D80, X
@@ -236,7 +236,7 @@
         
         LDA $02 : SUB.w #$0009 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -379,7 +379,7 @@
         
         LDA $0DC0, X : TAX
         
-        TYA : ADD .oam_offset_adjustment, X : TAY
+        TYA : CLC : ADC .oam_offset_adjustment, X : TAY
         
         LDA .num_subsprites, X : TAX
     
@@ -387,17 +387,17 @@
     
         PHX
         
-        TXA : ADD $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC $06 : PHA : ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .alpha
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -478,7 +478,7 @@
         
         LDA $00 : AND.w #$01FF : LSR #6 : STA $0A
         
-        LDA $00 : ADD.w #$0080 : AND.w #$01FF : STA $02
+        LDA $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA $02
         
         LDA $00 : AND.w #$00FF : ASL A : TAX
         
@@ -546,13 +546,13 @@
         
         LDY.b #$00
         
-        LDA $04 : SUB.b #$04 : ADD $0C : STA $0FAB
+        LDA $04 : SUB.b #$04 : CLC : ADC $0C : STA $0FAB
         
-        ADD $0FA8 : STA ($90), Y
+        CLC : ADC $0FA8 : STA ($90), Y
         
-        LDA $06 : SUB.b #$04 : ADD $0D : STA $0FAA
+        LDA $06 : SUB.b #$04 : CLC : ADC $0D : STA $0FAA
         
-        ADD $0FA9  : INY : STA ($90), Y
+        CLC : ADC $0FA9  : INY : STA ($90), Y
         LDA.b #$2A : INY : STA ($90), Y
         LDA.b #$2D : INY : STA ($90), Y
         
@@ -579,7 +579,7 @@
     
     .zeta
     
-        ADD $0FA8 : ADD $0C : STA ($90), Y
+        CLC : ADC $0FA8 : CLC : ADC $0C : STA ($90), Y
         
         LDA $0F : STA $4202
         
@@ -595,7 +595,7 @@
     
     .theta
     
-        ADD $0FA9 : ADD $0D : INY : STA ($90), Y
+        CLC : ADC $0FA9 : CLC : ADC $0D : INY : STA ($90), Y
         LDA.b #$3F          : INY : STA ($90), Y
         LDA.b #$2D          : INY : STA ($90), Y
         

@@ -47,11 +47,11 @@
         ; (though the snes can be configured for 240 called overscan mode), this
         ; has no impact on fireballs traveling towards the bottom edge of the
         ; screen.
-        ADD.b #$20 : CMP.b #$40 : BCC .too_close_to_screen_edge
+        CLC : ADC.b #$20 : CMP.b #$40 : BCC .too_close_to_screen_edge
         
         LDA $0D00, X : SUB $E8 : INY : STA ($90), Y
         
-        ADD.b #$10 : CMP.b #$20 : BCS .in_range
+        CLC : ADC.b #$10 : CMP.b #$20 : BCS .in_range
     
     .too_close_to_screen_edge
     
@@ -80,10 +80,10 @@
         REP #$20
         
         LDA $22 : SUB $0FD8
-                  ADD.w #$0008 : CMP.w #$0010 : BCS .anodamage_player
+                  CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .anodamage_player
         
         LDA $20 : SUB $0FDA
-                  ADD.w #$0010 : CMP.w #$0010 : BCS .anodamage_player
+                  CLC : ADC.w #$0010 : CMP.w #$0010 : BCS .anodamage_player
         
         SEP #$20
         
@@ -254,7 +254,7 @@
         LDA.b #$03 : STA $0D80, Y
                      STA $0BA0, Y
         
-        LDA $0FB6 : AND.b #$03 : ADD $0FB5 : TAX
+        LDA $0FB6 : AND.b #$03 : CLC : ADC $0FB5 : TAX
         
         LDA .timers, X : STA !timer_0, Y
         

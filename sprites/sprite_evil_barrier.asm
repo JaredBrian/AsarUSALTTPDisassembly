@@ -44,11 +44,11 @@
     
         REP #$20
         
-        LDA $20 : SUB $0FDA : ADD.w #$0008
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0008
         
         CMP.w #$0018 : BCS .anozap_from_player_contact
         
-        LDA $22 : SUB $0FD8 : ADD.w #$0020
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0020
         
         CMP.w #$0040 : BCS .anozap_from_player_contact
         
@@ -142,9 +142,9 @@
         LDA.b #$00   : XBA
         LDA $0DC0, X : REP #$20 : ASL #3 : STA $00
         
-        ASL #3 : ADD $00 : ADC.w #.oam_groups : STA $08
+        ASL #3 : CLC : ADC $00 : ADC.w #.oam_groups : STA $08
         
-        LDA $0FDA : ADD.w #$0008 : STA $0FDA
+        LDA $0FDA : CLC : ADC.w #$0008 : STA $0FDA
         
         SEP #$20
         

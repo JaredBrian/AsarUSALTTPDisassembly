@@ -6,9 +6,9 @@
     ; *$ED1FD-$ED233 LONG
     ChattyAgahnim_SpawnZeldaOnAltar:
     {
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         
-        LDA $0D00, X : ADD.b #$06 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$06 : STA $0D00, X
         
         ; Spawn the Zelda companion sprite so Agahnim has something to teleport.
         LDA.b #$C1 : JSL Sprite_SpawnDynamically
@@ -18,7 +18,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $02 : ADD.b #$28 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$28 : STA $0D00, Y
         
         LDA.b #$00 : STA $0E40, Y
         
@@ -186,7 +186,7 @@
         
         LDA $0E80, X : CMP.b #$0E : BEQ .anoplay_spell_sfx
         
-        ADD.b #$04 : STA $0E80, X
+        CLC : ADC.b #$04 : STA $0E80, X
     
     .anoplay_spell_sfx
     
@@ -217,7 +217,7 @@
         
         LDA $0E30, X : CMP.b #$09 : BEQ .return
         
-        ADD.b #$02 : STA $0E30, X
+        CLC : ADC.b #$02 : STA $0E30, X
         
         RTS
     
@@ -489,9 +489,9 @@
     
     .next_oam_entry
     
-        LDA $00 : ADD ($08), Y : STA ($90), Y
+        LDA $00 : CLC : ADC ($08), Y : STA ($90), Y
         
-        LDA $02 : ADD.b #$F8   : CLC
+        LDA $02 : CLC : ADC.b #$F8   : CLC
         INY     : ADC ($08), Y              : STA ($90), Y
         INY     : LDA ($08), Y              : STA ($90), Y
         INY     : LDA ($08), Y : ORA.b #$31 : STA ($90), Y
@@ -622,15 +622,15 @@
         
         LDY.b #$00
         
-        LDA $00 : PHA : ADD $07              : STA ($90), Y
+        LDA $00 : PHA : CLC : ADC $07              : STA ($90), Y
                   PLA : SUB $07 : LDY.b #$04 : STA ($90), Y
         
         REP #$20
         
-        LDA $02 : ADD.w #$0007 : LDY.b #$01 : STA ($90), Y
+        LDA $02 : CLC : ADC.w #$0007 : LDY.b #$01 : STA ($90), Y
                                  LDY.b #$05 : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0             : STA ($90), Y
                     LDY.b #$01 : STA ($90), Y

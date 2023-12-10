@@ -92,12 +92,12 @@
     
     .not_final_cast_pose
     
-        ASL A : ADD $00 : TAY
+        ASL A : CLC : ADC $00 : TAY
         
         REP #$20
         
-        LDA .player_relative_y_offsets, Y : ADD $20 : STA $00
-        LDA .player_relative_x_offsets, Y : ADD $22 : STA $02
+        LDA .player_relative_y_offsets, Y : CLC : ADC $20 : STA $00
+        LDA .player_relative_x_offsets, Y : CLC : ADC $22 : STA $02
         
         SEP #$20
         
@@ -152,8 +152,8 @@
         
         TXA : ASL A : TAX
         
-        LDA $06 : ADD .y_offsets, X : STA $00
-        LDA $08 : ADD .x_offsets, X : STA $02
+        LDA $06 : CLC : ADC .y_offsets, X : STA $00
+        LDA $08 : CLC : ADC .x_offsets, X : STA $02
         
         PLX
         
@@ -359,8 +359,8 @@
     
         EOR.w #$FFFF : INC A
         
-        ADD $20 : ADD.w #$000C : STA $7F5810
-        LDA $22 : ADD.w #$0008 : STA $7F580E
+        CLC : ADC $20 : CLC : ADC.w #$000C : STA $7F5810
+        LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
         
         SEP #$20
         
@@ -384,7 +384,7 @@
         
         LDA $11 : BNE .dont_increment_sparkle_rotation
         
-        LDA $7F5800, X : ADD.b #$03 : AND.b #$3F : STA $7F5800, X
+        LDA $7F5800, X : CLC : ADC.b #$03 : AND.b #$3F : STA $7F5800, X
     
     .dont_increment_sparkle_rotation
     
@@ -412,8 +412,8 @@
         
         REP #$20
         
-        LDA $00 : ADD $E8 : STA $04
-        LDA $02 : ADD $E2 : STA $06
+        LDA $00 : CLC : ADC $E8 : STA $04
+        LDA $02 : CLC : ADC $E2 : STA $06
         
         SEP #$20
         

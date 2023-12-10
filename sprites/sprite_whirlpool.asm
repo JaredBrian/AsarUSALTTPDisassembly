@@ -24,10 +24,10 @@ Sprite_Whirlpool:
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0040
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0040
         
         CMP.w #$0051 : BCS .player_not_close_enough
-            LDA $0FDA : SUB $20 : ADD.w #$000F
+            LDA $0FDA : SUB $20 : CLC : ADC.w #$000F
         
             CMP.w #$0012 : BCS .player_not_close_enough
                 SEP #$30

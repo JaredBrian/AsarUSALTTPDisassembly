@@ -74,7 +74,7 @@
         
         REP #$20
         
-        LDA $06 : ADD.w #$0010 : STA $02
+        LDA $06 : CLC : ADC.w #$0010 : STA $02
         
         SEP #$20
         
@@ -86,7 +86,7 @@
         
         LDA $06 : STA $02
         
-        LDA $04 : ADD.w #$0008 : STA $00
+        LDA $04 : CLC : ADC.w #$0008 : STA $00
         
         SEP #$20
         

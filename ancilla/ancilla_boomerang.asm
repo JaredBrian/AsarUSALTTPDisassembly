@@ -62,9 +62,9 @@
         
         REP #$20
         
-        LDA $20 : ADD.w #$0008 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC.w #$0008 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $22 : ADD .y_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .y_offsets, Y : STA $02
         
         SEP #$20
         
@@ -108,7 +108,7 @@
         ; Cache the player's Y coordinate in a temporary variable.
         LDA $20 : STA $038A, X
         
-        ADD.w #$0008 : STA $20
+        CLC : ADC.w #$0008 : STA $20
         
         SEP #$20
         
@@ -131,7 +131,7 @@
         ; at rest in y axis
         LDA $0C22, X : BEQ .y_speed_at_rest
         
-        ADD $0380, X : STA $0C22, X
+        CLC : ADC $0380, X : STA $0C22, X
     
     .y_speed_at_rest
     
@@ -140,7 +140,7 @@
         ; at rest in x axis
         LDA $0C2C, X : BEQ .x_speed_at_rest
         
-        ADD $0380, X : STA $0C2C, X
+        CLC : ADC $0380, X : STA $0C2C, X
     
     .y_speed_at_rest
     
@@ -274,7 +274,7 @@
     
     .leftward_throw
     
-        TYA : ADD $02 : SUB $E2 : STA $02
+        TYA : CLC : ADC $02 : SUB $E2 : STA $02
         
         CMP.w #$0100 : BCS .reverse_direction
     
@@ -289,7 +289,7 @@
     
     .upward_throw
     
-        TYA : ADD $00 : SUB $E8 : STA $00 : CMP.w #$00E2 : BCC .dont_reverse
+        TYA : CLC : ADC $00 : SUB $E8 : STA $00 : CMP.w #$00E2 : BCC .dont_reverse
     
     .reverse_direction
     
@@ -321,12 +321,12 @@
         
         REP #$20
         
-        LDA $20 : ADD.w #$0018 : STA $00
-        LDA $22 : ADD.w #$0010 : STA $02
+        LDA $20 : CLC : ADC.w #$0018 : STA $00
+        LDA $22 : CLC : ADC.w #$0010 : STA $02
         
-        LDA $04 : ADD.w #$0008 : STA $04
+        LDA $04 : CLC : ADC.w #$0008 : STA $04
         
-        LDA $06 : ADD.w #$0008 : STA $06
+        LDA $06 : CLC : ADC.w #$0008 : STA $06
         
         ; Self terminate if the boomerang is close enough to the player.
         LDA $04 : CMP $20 : BCC .dont_self_terminate
@@ -449,8 +449,8 @@
         
         ; The first entry in each interleaved pair is the y offset, the second
         ; being the x offset.
-        LDA .xy_offsets+0, Y : ADD $00           : STA $00
-        LDA .xy_offsets+2, Y : ADD $02 : STA $02 : STA $04
+        LDA .xy_offsets+0, Y : CLC : ADC $00           : STA $00
+        LDA .xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
         
         LDA $03B1, X : AND.w #$00FF : BNE .use_general_oam_base
         
@@ -458,15 +458,15 @@
         
         LDA .oam_base, X : PHA
         
-        LSR #2 : ADD.w #$0A20 : STA $92
+        LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
-        PLA : ADD.w #$0800 : STA $90
+        PLA : CLC : ADC.w #$0800 : STA $90
     
     .use_general_oam_base
     
         SEP #$20
         
-        TYA : LSR #2 : ADD $72 : TAX
+        TYA : LSR #2 : CLC : ADC $72 : TAX
         
         LDY.b #$00
         

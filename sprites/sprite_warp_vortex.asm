@@ -82,7 +82,7 @@
         LDA $1ABF : STA $0D10, X
         LDA $1ACF : STA $0D30, X
         
-        LDA $1ADF : ADD.b #$08 : STA $0D00, X
+        LDA $1ADF : CLC : ADC.b #$08 : STA $0D00, X
         LDA $1AEF : ADC.b #$00 : STA $0D20, X
     
     .delta

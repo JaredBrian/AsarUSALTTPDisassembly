@@ -442,7 +442,7 @@
         
         ADC.w #.oam_groups : STA $08
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         
@@ -498,9 +498,9 @@
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $06 : SUB.w #$000C : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $06 : SUB.w #$000C : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         
         LDA.w #$00F0 : STA ($90), Y
     

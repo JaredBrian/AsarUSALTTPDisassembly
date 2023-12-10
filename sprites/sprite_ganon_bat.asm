@@ -41,7 +41,7 @@
         LDA $0EB0, X : AND.b #$01 : TAY
         
         ; Is this the kind of ganon bat that spirals out?
-        LDA $0D40, X : ADD $8000, Y : STA $0D40, X
+        LDA $0D40, X : CLC : ADC $8000, Y : STA $0D40, X
         
         CMP .y_speed_limits, Y : BNE BRANCH_DELTA
         
@@ -51,7 +51,7 @@
     
         LDA $0DE0, X : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD $8000, Y : STA $0D50, X : BNE BRANCH_EPSILON
+        LDA $0D50, X : CLC : ADC $8000, Y : STA $0D50, X : BNE BRANCH_EPSILON
         
         PHA
         
@@ -77,9 +77,9 @@
         
         LDA.b #$05 : JSL Sprite_ProjectSpeedTowardsEntityLong
         
-        LDA $0D50, X : PHA : ADD $01 : STA $0D50, X
+        LDA $0D50, X : PHA : CLC : ADC $01 : STA $0D50, X
         
-        LDA $0D40, X : PHA : ADD $00 : STA $0D40, X
+        LDA $0D40, X : PHA : CLC : ADC $00 : STA $0D40, X
         
         JSR Sprite4_Move
         
@@ -128,7 +128,7 @@
     {
         LDA.b #$00 : XBA
         
-        LDA $0DC0, X : REP #$20 : ASL #4 : ADD.w #.oam_groups : STA $08
+        LDA $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.oam_groups : STA $08
         
         SEP #$20
         

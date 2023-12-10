@@ -101,8 +101,8 @@
         ; player actually is to be safe.
         REP #$20
         
-        LDA $20 : ADD.w #$0010 : STA $00
-        LDA $22 : ADD.w #$0008 : STA $02
+        LDA $20 : CLC : ADC.w #$0010 : STA $00
+        LDA $22 : CLC : ADC.w #$0008 : STA $02
         
         SEP #$20
         
@@ -118,10 +118,10 @@
     
         LDY $2F
         
-        LDA $20 : ADD .initial_collision_y_offsets+0, Y : STA $0BFA, X
+        LDA $20 : CLC : ADC .initial_collision_y_offsets+0, Y : STA $0BFA, X
         LDA $21 : ADC .initial_collision_y_offsets+1, Y : STA $0C0E, X
         
-        LDA $22 : ADD .initial_collision_x_offsets+0, Y : STA $0C04, X
+        LDA $22 : CLC : ADC .initial_collision_x_offsets+0, Y : STA $0C04, X
         LDA $23 : ADC .initial_collision_y_offsets+1, Y : STA $0C18, X
         
         JSR SomarianBlock_CheckForTransitLine
@@ -166,10 +166,10 @@
     
     .next_offset
     
-        LDA $0BFA, X : ADD .y_offsets+0, Y : STA $00 : STA $72
+        LDA $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
         LDA $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
         
-        LDA $0C04, X : ADD .x_offsets+0, Y : STA $02 : STA $74
+        LDA $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
         LDA $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
         
         PHY

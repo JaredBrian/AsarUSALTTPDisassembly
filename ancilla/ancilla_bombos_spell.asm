@@ -87,8 +87,8 @@
     
         REP #$20
         
-        LDA $20 : ADD .y_offsets, X : STA $7F5924, X
-        LDA $22 : ADD .x_offsets, X : STA $7F592C, X
+        LDA $20 : CLC : ADC .y_offsets, X : STA $7F5924, X
+        LDA $22 : CLC : ADC .x_offsets, X : STA $7F592C, X
         
         SEP #$20
         
@@ -114,7 +114,7 @@
     
     .positive_x_projection
     
-        ADD $7F5924, X : STA $00
+        CLC : ADC $7F5924, X : STA $00
         
         LDA $04
         
@@ -124,7 +124,7 @@
     
     .positive_y_projection
     
-        ADD $7F592C, X : STA $04
+        CLC : ADC $7F592C, X : STA $04
         
         SEP #$20
         
@@ -282,14 +282,14 @@
     
     .set_radial_distance_and_angle
     
-        TXA : ADD.b #$00 : STA $74
+        TXA : CLC : ADC.b #$00 : STA $74
     
     .never
     
         LDA $74 : LSR #4 : TAX
         
         ; (proj = projection)
-        LDA $7F5A57 : ADD.b #$03 : CMP.b #$D0 : BCC .proj_distance_not_maxed
+        LDA $7F5A57 : CLC : ADC.b #$03 : CMP.b #$D0 : BCC .proj_distance_not_maxed
         
         LDA.b #$CF
     
@@ -297,7 +297,7 @@
     
         STA $7F5A57 : STA $08
         
-        LDA $7F5820, X : ADD.b #$06 : STA $7F5820, X : AND.b #$3F
+        LDA $7F5820, X : CLC : ADC.b #$06 : STA $7F5820, X : AND.b #$3F
         
         JSR Ancilla_GetRadialProjection
         
@@ -315,7 +315,7 @@
     
     .positive_y_projection
     
-        ADD $7F5924, X : STA $00
+        CLC : ADC $7F5924, X : STA $00
         
         LDA $04
         
@@ -325,7 +325,7 @@
     
     .positive_x_projection
     
-        ADD $7F592C, X : STA $04
+        CLC : ADC $7F592C, X : STA $04
         
         PLY
         
@@ -348,7 +348,7 @@
         
         REP #$20
         
-        LDA $04 : SUB $E2 : ADD.w #$0008 : STA $04
+        LDA $04 : SUB $E2 : CLC : ADC.w #$0008 : STA $04
         
         SEP #$20
         
@@ -468,7 +468,7 @@
     {
         ; \note Why add 0? Seems like some testing code here wasn't completely
         ; weeded out. See note near the end of this subroutine.
-        TXA : ADD.b #$00 : STA $75
+        TXA : CLC : ADC.b #$00 : STA $75
         
         LDA.b #$10 : JSR Ancilla_AllocateOam
         
@@ -480,7 +480,7 @@
         
         LDA $7F5810, X : CMP.b #$0D : BEQ .inactive_flame_column
         
-        ASL A : ADD $7F5810, X : ADD.b #$02 : TAX
+        ASL A : CLC : ADC $7F5810, X : CLC : ADC.b #$02 : TAX
         
         STZ $08
     
@@ -504,8 +504,8 @@
         
         REP #$20
         
-        LDA $00 : ADD $B2D7, X : SUB $E8 : STA $00
-        LDA $02 : ADD $B325, X : SUB $E2 : STA $02
+        LDA $00 : CLC : ADC $B2D7, X : SUB $E8 : STA $00
+        LDA $02 : CLC : ADC $B325, X : SUB $E2 : STA $02
         
         SEP #$20
         
@@ -627,8 +627,8 @@
         
         REP #$20
         
-        LDA $00 : ADD $E8 : STA $7F5955, X
-        LDA $02 : ADD $E2 : STA $7F59D5, X
+        LDA $00 : CLC : ADC $E8 : STA $7F5955, X
+        LDA $02 : CLC : ADC $E2 : STA $7F59D5, X
         
         SEP #$20
         
@@ -789,7 +789,7 @@
         
         LDY.b #$00
         
-        LDA $7F5935, X : ASL #2 : ADD.b #$03 : STA $73 : TAX
+        LDA $7F5935, X : ASL #2 : CLC : ADC.b #$03 : STA $73 : TAX
     
     .next_oam_entry
     
@@ -799,8 +799,8 @@
         
         REP #$20
         
-        LDA .y_offsets, X : ADD $08 : SUB $E8 : STA $00
-        LDA .x_offsets, X : ADD $0A : SUB $E2 : STA $02
+        LDA .y_offsets, X : CLC : ADC $08 : SUB $E8 : STA $00
+        LDA .x_offsets, X : CLC : ADC $0A : SUB $E2 : STA $02
         
         SEP #$20
         

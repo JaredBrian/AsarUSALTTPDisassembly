@@ -105,10 +105,10 @@
         
         LDA.b #$E4 : STA $029E, X
         
-        LDA $0BFA, X : ADD.b #$1E : STA $0BFA, X
+        LDA $0BFA, X : CLC : ADC.b #$1E : STA $0BFA, X
         LDA $0C0E, X : ADC.b #$00 : STA $0C0E, X
         
-        LDA $0C04, X : ADD.b #$FC : STA $0C04, X
+        LDA $0C04, X : CLC : ADC.b #$FC : STA $0C04, X
         LDA $0C18, X : ADC.b #$FF : STA $0C18, X
         
         STZ $0C5E, X

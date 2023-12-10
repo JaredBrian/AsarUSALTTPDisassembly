@@ -21,9 +21,9 @@
         
         JSR Sprite2_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$20 : CMP.b #$40 : BCS .ignore_player
+        LDA $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
         
-        LDA $0F : ADD.b #$20 : CMP.b #$40 : BCS .ignore_player
+        LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
         
         LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
@@ -40,7 +40,7 @@
         
         LDA $0DF0, Y : STA $0DF0, X
         
-        LDA $0E40, X : ADD.b #$04 : STA $0E40, X
+        LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
         
         RTS
     
@@ -77,7 +77,7 @@
     
     .epsilon
     
-        ADD $0D90, X : STA $0D90, X : BCC .zeta
+        CLC : ADC $0D90, X : STA $0D90, X : BCC .zeta
         
         LDA $852D, Y : STA $0B7E
         LDA $852F, Y : STA $0B7F
@@ -94,7 +94,7 @@
     
     .theta
     
-        ADD $0DA0, X : STA $0DA0, X : BCC .gamma
+        CLC : ADC $0DA0, X : STA $0DA0, X : BCC .gamma
         
         LDA $852D, Y : STA $0B7C
         LDA $852F, Y : STA $0B7D
@@ -274,19 +274,19 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

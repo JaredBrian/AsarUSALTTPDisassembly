@@ -44,7 +44,7 @@
                     STA $7EF375
                     STA $7EF376
         
-        ADD $7EF360 : STA $7EF360
+        CLC : ADC $7EF360 : STA $7EF360
         
         LDA $7EF361 : ADC.b #$00 : STA $7EF361
         

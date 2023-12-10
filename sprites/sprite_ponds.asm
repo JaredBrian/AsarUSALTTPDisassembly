@@ -40,12 +40,12 @@
         
         JSL GetRandomInt : AND.b #$07 : TAX
         
-        LDA $00 : ADD .x_offsets, X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
         LDA $01 : ADC.b #$00        : STA $0D30, Y
         
         JSL GetRandomInt : AND.b #$07 : TAX
         
-        LDA $02 : ADD .y_offsets, X : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets, X : STA $0D00, Y
         LDA $03 : ADC.b #$00        : STA $0D20, Y
         
         LDA.b #$1F : STA $0DB0, Y
@@ -371,7 +371,7 @@ FairyPondTriggerMain:
 
     ; *$34570-$3459E JUMP LOCATION
     {
-        LDA $1CE8 : ADD $0DC0, X : TAY
+        LDA $1CE8 : CLC : ADC $0DC0, X : TAY
         
         LDA $C527, Y : STA $1CF3
         
@@ -404,7 +404,7 @@ FairyPondTriggerMain:
         
         SEP #$30
         
-        LDA $7EF36A : ADD $00 : STA $7EF36A
+        LDA $7EF36A : CLC : ADC $00 : STA $7EF36A
         
         PHX
         
@@ -682,7 +682,7 @@ FairyPondTriggerMain:
     
         REP #$20
         
-        LDA $7EF360 : ADD.w #$0064 : STA $7EF360
+        LDA $7EF360 : CLC : ADC.w #$0064 : STA $7EF360
         
         SEP #$30
         
@@ -1328,10 +1328,10 @@ StillNotMine:
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
         
-        LDA $00 : ADD $CA0E, X       : STA ($90), Y
-        LDA $02 : ADD $CA26, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC $CA0E, X       : STA ($90), Y
+        LDA $02 : CLC : ADC $CA26, X : INY : STA ($90), Y
         
         LDA $CA3E, X            : INY : STA ($90), Y
         LDA $CA56, X : ORA $05  : INY : STA ($90), Y

@@ -68,7 +68,7 @@
         
         LDA !timer_0, Y : STA !timer_0, X
         
-        LDA $0E40, X : ADD.b #$04 : STA $0E40, X
+        LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
         
         RTS
     
@@ -217,9 +217,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : ADD.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
         
-        LDA $0FDA : SUB $06 : ADD.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+        LDA $0FDA : SUB $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
         
         SEP #$20
         
@@ -337,7 +337,7 @@
     
         LDA.b #$00 : XBA
         
-        LDA $0E80, X : ADD $0DE0, X
+        LDA $0E80, X : CLC : ADC $0DE0, X
         
         REP #$20
         
@@ -345,7 +345,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         

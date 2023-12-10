@@ -30,7 +30,7 @@
         LDA $0D10, X : STA $00
         LDA $0D30, X : STA $01
         
-        LDA $0D00, X : ADD.b #$08 : STA $02
+        LDA $0D00, X : CLC : ADC.b #$08 : STA $02
         LDA $0D20, X              : STA $03
         
         LDY.b #$06 : JSL Dungeon_SpriteInducedTilemapUpdate

@@ -143,7 +143,7 @@
         
         LDA $0DA0, X : AND.b #$01 : TAY
         
-        LDA $0D90, X : ADD .rotation_speeds, Y : STA $0D90, X
+        LDA $0D90, X : CLC : ADC .rotation_speeds, Y : STA $0D90, X
         
         JSL GetRandomInt : AND.b #$03 : BNE .dont_toggle_rotation_polarity
         
@@ -178,7 +178,7 @@
         
         LDA $1A : LSR #3 : AND.b #$01
         
-        ADD .animation_state_bases, Y : STA $0DC0, X
+        CLC : ADC .animation_state_bases, Y : STA $0DC0, X
         
         LDA $0D80, X : BEQ .not_electrified
         
@@ -192,7 +192,7 @@
     
         LDA $1A : LSR A : AND.b #$02
         
-        ADD .animation_state_bases, Y : STA $0DC0, X
+        CLC : ADC .animation_state_bases, Y : STA $0DC0, X
         
         RTS
     
@@ -242,7 +242,7 @@
         
         LDX $0FB5
         
-        LDA $00 : ADD .x_offsets, X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
         LDA $01 : ADC.b #$00        : STA $0D30, Y
         
         LDA .x_speeds, X : STA $0D50, Y

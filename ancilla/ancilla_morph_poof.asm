@@ -82,9 +82,9 @@ Ancilla_MorphPoof:
     
         REP #$20
         
-        LDA.w #$00D0 : PHA : ADD.w #$0800 : STA $90
+        LDA.w #$00D0 : PHA : CLC : ADC.w #$0800 : STA $90
         
-        PLA : LSR #2 : ADD.w #$0A20 : STA $92
+        PLA : LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
         SEP #$20
     
@@ -113,12 +113,12 @@ Ancilla_MorphPoof:
     
     .next_oam_entry
     
-        LDA $0E : ADD $0A : ASL A : TAX
+        LDA $0E : CLC : ADC $0A : ASL A : TAX
         
         REP #$20
         
-        LDA $04 : ADD .y_offsets, X : STA $00
-        LDA $06 : ADD .x_offsets, X : STA $02
+        LDA $04 : CLC : ADC .y_offsets, X : STA $00
+        LDA $06 : CLC : ADC .x_offsets, X : STA $02
         
         SEP #$20
         

@@ -114,12 +114,12 @@
     
         LDA $04 : ASL #3 : STA $08
         
-        LDA $06 : ASL A : ADD $08 : TAX
+        LDA $06 : ASL A : CLC : ADC $08 : TAX
         
         REP #$20
         
-        LDA $7F0020, X : ADD $00 : STA $7F0020, X
-        LDA $7F0030, X : ADD $02 : STA $7F0030, X
+        LDA $7F0020, X : CLC : ADC $00 : STA $7F0020, X
+        LDA $7F0030, X : CLC : ADC $02 : STA $7F0030, X
         
         SUB $E2 : STA $72
         
@@ -281,10 +281,10 @@
         
         STZ $74
         
-        LDA $06 : ASL #2 : ADD $04 : TAX
+        LDA $06 : ASL #2 : CLC : ADC $04 : TAX
         
-        LDA .y_offsets, X : ADD $0C : STA $00
-        LDA .x_offsets, X : ADD $0E : STA $02
+        LDA .y_offsets, X : CLC : ADC $0C : STA $00
+        LDA .x_offsets, X : CLC : ADC $0E : STA $02
         
         SEP #$20
         

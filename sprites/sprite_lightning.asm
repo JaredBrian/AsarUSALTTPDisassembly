@@ -16,7 +16,7 @@
         
         LDY $048E : CPY.b #$20 : BNE BRANCH_ALPHA
         
-        ADD.b #$04
+        CLC : ADC.b #$04
     
     BRANCH_ALPHA:
     
@@ -31,7 +31,7 @@
         
         LDA.b #$02 : STA $0DF0, X
         
-        LDA $0D00, X : ADD.b #$10 : STA $0D00, X : PHA
+        LDA $0D00, X : CLC : ADC.b #$10 : STA $0D00, X : PHA
         LDA $0D20, X : ADC.b #$00 : STA $0D20, X
         
         PLA : SUB $E8 : CMP.b #$D0 : BCC BRANCH_GAMMA
@@ -54,7 +54,7 @@
     
     BRANCH_DELTA:
     
-        ADD $0D10, X           : STA $0D10, X
+        CLC : ADC $0D10, X           : STA $0D10, X
         LDA $0D30, X : ADC $01 : STA $0D30, X
         
         LDA $00 : STA $0D90, X
@@ -93,7 +93,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$20 : STA $7FF90E, X

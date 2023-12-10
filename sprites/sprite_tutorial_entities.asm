@@ -83,7 +83,7 @@
     
     .use_default_tutorial_messages
     
-        LDA $0B69 : PHA : ADD.b #$0F
+        LDA $0B69 : PHA : CLC : ADC.b #$0F
         LDY.b #$00
         
         JSL Sprite_ShowMessageIfPlayerTouching
@@ -162,18 +162,18 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $D5BF, X : ADD $00       : STA ($90), Y
+        LDA $D5BF, X : CLC : ADC $00       : STA ($90), Y
                                        AND.w #$0100 : STA $0E
         
-        LDA $D5E7, X : ADD $02 : INY : STA ($90), Y
+        LDA $D5E7, X : CLC : ADC $02 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
         
         ; hide the sprite
         LDA.w #$00F0 : STA ($90), Y

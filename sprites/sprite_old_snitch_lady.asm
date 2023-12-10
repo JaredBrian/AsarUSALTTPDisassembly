@@ -174,9 +174,9 @@
         
         LDY $0DB0, X
         
-        LDA $0D90, X : ADD $E716, Y : CMP $0D10, X : BNE .alpha
+        LDA $0D90, X : CLC : ADC $E716, Y : CMP $0D10, X : BNE .alpha
         
-        LDA $0D90, X : ADD $E716, Y
+        LDA $0D90, X : CLC : ADC $E716, Y
         
         LDA $0DA0, X : ADC $E718, Y : CMP $0D30, X : BNE .alpha
         
@@ -249,7 +249,7 @@
         
         LDA $00 : SUB $0708 : AND $070A : ASL #3 : STA $04
         
-        LDA $02 : LSR #3 : SUB $070C : AND $070E : ADD $04 : TAX
+        LDA $02 : LSR #3 : SUB $070C : AND $070E : CLC : ADC $04 : TAX
         
         CLC
         
@@ -304,7 +304,7 @@
         
         LDA $00          : SUB $0708 : AND $070A : ASL #3  : STA $04
         
-        LDA $02 : LSR #3 : SUB $070C : AND $070E : ADD $04 : TAX
+        LDA $02 : LSR #3 : SUB $070C : AND $070E : CLC : ADC $04 : TAX
         
         SEC
         

@@ -59,9 +59,9 @@
     
     .dont_x_wobble
     
-        LDA $2F : ASL A : ADD $7FFA1C, X : TAY
+        LDA $2F : ASL A : CLC : ADC $7FFA1C, X : TAY
         
-        LDA $22 : ADD $DE4D, Y : PHP : ADC $00      : STA $0D10, X
+        LDA $22 : CLC : ADC $DE4D, Y : PHP : ADC $00      : STA $0D10, X
         LDA $23 : ADC.b #$00   : PLP : ADC $DE5D, Y : STA $0D30, X
         
         LDA $DE6D, Y : STA $0F70, X
@@ -72,10 +72,10 @@
     
     .not_last_animation_step
     
-        LDA $24 : ADD.b #$01 : PHP : ADD $DE7D, Y : STA $00
+        LDA $24 : CLC : ADC.b #$01 : PHP : CLC : ADC $DE7D, Y : STA $00
         LDA $25 : ADC.b #$00 : PLP : ADC.b #$00   : STA $0E
         
-        LDA $20 : SUB $00    : PHP : ADD.b #$08 : STA $0D00, X
+        LDA $20 : SUB $00    : PHP : CLC : ADC.b #$08 : STA $0D00, X
         LDA $21 : ADC.b #$00 : PLP : SBC $0E    : STA $0D20, X
         
         LDA $EE : AND.b #$01 : STA $0F20, X

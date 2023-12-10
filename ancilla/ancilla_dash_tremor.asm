@@ -26,7 +26,7 @@
         
         TYA : LSR A : EOR.b #$01 : TAY
         
-        LDA $0030, Y : ADD $00 : STA $0030, Y
+        LDA $0030, Y : CLC : ADC $00 : STA $0030, Y
     
     .just_alert_sprites
     

@@ -283,7 +283,7 @@
     
         PHX
         
-        LDA $0D : ASL A : ADD.b #$07 : TAX
+        LDA $0D : ASL A : CLC : ADC.b #$07 : TAX
         
         ; This loop draws the boundary of the arrows on the counter and the
         ; arrows themselves. If you cheat and 
@@ -292,8 +292,8 @@
     
     .next_subsprite
     
-        LDA $00 : ADD.b #$EC : ADC .x_offsets, X       : STA ($90), Y
-        LDA $02 : ADD.b #$D0 : ADC .y_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA ($90), Y
         
         LDA .chr, X        : INY : STA ($90), Y
         LDA .properties, X : INY : STA ($90), Y
@@ -421,7 +421,7 @@
         
         LDA.b #$00 : XBA
         
-        LDA (.prizes-1), Y : REP #$20 : ADD $7EF360 : STA $7EF360
+        LDA (.prizes-1), Y : REP #$20 : CLC : ADC $7EF360 : STA $7EF360
         
         SEP #$20
     
@@ -438,7 +438,7 @@
     
         LDA $0E40, X : AND.b #$E0 : STA $0E40, X
         
-        LDA $0FDA : ADD.b #$03 : STA $0FDA
+        LDA $0FDA : CLC : ADC.b #$03 : STA $0FDA
         
         JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -542,8 +542,8 @@
     
     .next_subsprite
     
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
         CPX.b #$04 : BNE .not_second_digit
         

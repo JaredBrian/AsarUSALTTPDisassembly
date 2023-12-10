@@ -93,17 +93,17 @@
     
         PHX
         
-        TXA : ADD $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC $06 : PHA : ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
         LDA $02 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .alpha
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .alpha
         
         LDA.b #$F0 : STA ($90), Y
     

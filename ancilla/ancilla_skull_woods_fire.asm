@@ -164,11 +164,11 @@
         
         REP #$20
         
-        LDA $7F0020, X : SUB $E8 : ADD $04 : STA $00
+        LDA $7F0020, X : SUB $E8 : CLC : ADC $04 : STA $00
         
         LDA $7F0030, X : SUB $E2 : STA $02
         
-        ADD.w #$0008 : STA $08
+        CLC : ADC.w #$0008 : STA $08
         
         SEP #$20
         
@@ -258,8 +258,8 @@
         
         REP #$20
         
-        LDA.w #$00C8 : SUB $E8 : ADD .blast_y_offsets, X : STA $00
-        LDA.w #$00A8 : SUB $E2 : ADD .blast_x_offsets, X : STA $02
+        LDA.w #$00C8 : SUB $E8 : CLC : ADC .blast_y_offsets, X : STA $00
+        LDA.w #$00A8 : SUB $E2 : CLC : ADC .blast_x_offsets, X : STA $02
         
         SEP #$20
         

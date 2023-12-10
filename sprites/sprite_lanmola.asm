@@ -181,7 +181,7 @@
         
         LDA $0ED0, X : AND.b #$01 : TAY
         
-        LDA $0F80, X : ADD .y_speed_slope, Y : STA $0F80, X : CMP $95FC, Y : BNE .dontSwitchDirections
+        LDA $0F80, X : CLC : ADC .y_speed_slope, Y : STA $0F80, X : CMP $95FC, Y : BNE .dontSwitchDirections
         
         INC $0ED0, X ; Switch direction
     
@@ -199,8 +199,8 @@
         REP #$20
         
         ; If our position is 0x0002 away from the random X and Y pos we chose earlier go to the next stage.
-        LDA $00 : SUB $04 : ADD.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
-        LDA $02 : SUB $06 : ADD.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
+        LDA $00 : SUB $04 : CLC : ADC.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
+        LDA $02 : SUB $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
         
         INC $0D80, X
     
@@ -329,7 +329,7 @@
         
         LDA $7FF81E, X : TAY
         
-        LDA $0E80, X : SUB $A515, Y : AND.b #$3F : ADD .sprite_regions, X : PHX : TAX ;$A5DA
+        LDA $0E80, X : SUB $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ;$A5DA
         
         LDA $7FFC00, X : SUB $E2                  : STA $0A
         LDA $7FFD00, X : SUB $7FFE00, X : SUB $E8 : STA $0B
@@ -345,9 +345,9 @@
         
         LDA.b #$1F : STA $0DF0, Y : STA $0D90, Y
         
-        LDA $0A : ADD $E2    : STA $0D10, Y
+        LDA $0A : CLC : ADC $E2    : STA $0D10, Y
         LDA $E3 : ADC.b #$00 : STA $0D30, Y
-        LDA $0B : ADD $E8    : STA $0D00, Y
+        LDA $0B : CLC : ADC $E8    : STA $0D00, Y
         LDA $E9 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$03 : STA $0E40, Y
@@ -460,7 +460,7 @@
         
         LDA $0E80, X : STA $02 : STA $05
         
-        ADD $04 : TAX
+        CLC : ADC $04 : TAX
         
         PLA : STA $7FFF00, X
         PLA : STA $7FFE00, X
@@ -503,7 +503,7 @@
     
         PHX : STX $0D
         
-        LDA $02 : ADD $04 : TAX
+        LDA $02 : CLC : ADC $04 : TAX
         
         LDA $02 : SUB.b #$08 : AND.b #$3F : STA $02
         
@@ -548,7 +548,7 @@
         
         LDA.b #$02 : STA ($92), Y
         
-        PLA : ADD $0C : TAY
+        PLA : CLC : ADC $0C : TAY
         
         PLX : DEX : BPL .theta
         
@@ -560,7 +560,7 @@
     
         PHX
         
-        LDA $05 : ADD $04 : TAX
+        LDA $05 : CLC : ADC $04 : TAX
         
         LDA $05 : SUB.b #$08 : AND.b #$3F : STA $05
         
@@ -570,7 +570,7 @@
         
         LDA $7FFE00, X : BMI .iota
         
-        LDA $7FFD00, X : ADD.b #$0A : SUB $E8 : STA ($90), Y
+        LDA $7FFD00, X : CLC : ADC.b #$0A : SUB $E8 : STA ($90), Y
     
     .iota
     
@@ -626,10 +626,10 @@
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
         
-        LDA $00 : ADD .xDirt, X                    : STA ($90), Y ;$A612
-        LDA $02 : ADD .yDirt, X              : INY : STA ($90), Y ;$A61A
+        LDA $00 : CLC : ADC .xDirt, X                    : STA ($90), Y ;$A612
+        LDA $02 : CLC : ADC .yDirt, X              : INY : STA ($90), Y ;$A61A
         LDA .chrDirt, X                      : INY : STA ($90), Y ;$A622
         LDA .propertiesDirt,  X : ORA.b #$31 : INY : STA ($90), Y ;$A62A
         

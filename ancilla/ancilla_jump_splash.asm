@@ -32,7 +32,7 @@
     
         LDA $0C5E, X : BEQ .draw
         
-        LDA $0C22, X : ADD.b #$FC : STA $0C22, X : STA $0C2C, X
+        LDA $0C22, X : CLC : ADC.b #$FC : STA $0C22, X : STA $0C2C, X
         
         CMP.b #$E8 : BCS .speed_not_maxed
         
@@ -73,9 +73,9 @@
         REP #$20
         
         LDA $22 : SUB $06           : STA $08
-        LDA $22 : ADD $08 : SUB $E2 : STA $08
+        LDA $22 : CLC : ADC $08 : SUB $E2 : STA $08
         
-        LDA $06 : ADD.w #$000C : SUB $E2 : STA $06
+        LDA $06 : CLC : ADC.w #$000C : SUB $E2 : STA $06
         
         SEP #$20
         

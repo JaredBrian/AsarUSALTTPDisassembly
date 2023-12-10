@@ -26,7 +26,7 @@
     
     .positive_x_speed
     
-                       ADD $0D10, Y : STA $0C04, X
+                       CLC : ADC $0D10, Y : STA $0C04, X
         LDA $0D30, Y : ADC $00      : STA $0C18, X
         
         STZ $00
@@ -37,7 +37,7 @@
     
     .positive_y_speed
     
-        ADD $0D00, Y : PHP : SUB $0F70, Y                 : STA $0BFA, X
+        CLC : ADC $0D00, Y : PHP : SUB $0F70, Y                 : STA $0BFA, X
         LDA $0D20, Y       : SBC.b #$00   : PLP : ADC $00 : STA $0C0E, X
     
     .didnt_collide_with_sprite

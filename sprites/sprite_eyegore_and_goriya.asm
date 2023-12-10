@@ -107,8 +107,8 @@
         
         JSR Sprite3_DirectionToFacePlayer
         
-        LDA $0F : ADD.b #$08 : CMP.b #$10 : BCC .in_firing_line
-        LDA $0E : ADD.b #$08 : CMP.b #$10 : BCS .not_in_firing_line
+        LDA $0F : CLC : ADC.b #$08 : CMP.b #$10 : BCC .in_firing_line
+        LDA $0E : CLC : ADC.b #$08 : CMP.b #$10 : BCS .not_in_firing_line
     
     .in_firing_line
     
@@ -175,9 +175,9 @@
         
         JSR Sprite3_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$30 : CMP.b #$60 : BCS .player_not_close
+        LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
         
-        LDA $0F : ADD.b #$30 : CMP.b #$60 : BCS .player_not_close
+        LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
         
         INC $0D80, X
         

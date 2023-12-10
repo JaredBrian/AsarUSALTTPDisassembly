@@ -140,8 +140,8 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$0028 : CMP.w #$0050 : BCS .dont_dodge
-        LDA $20 : SUB $0FDA : ADD.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .dont_dodge
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
         
         SEP #$20
         
@@ -480,10 +480,10 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low,  X : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y
@@ -617,7 +617,7 @@
     FirePhlegm_Draw:
     {
         LDA.b #$00   : XBA
-        LDA $0DE0, X : ASL A : ADD $0DC0, X : REP #$20 : ASL #4
+        LDA $0DE0, X : ASL A : CLC : ADC $0DC0, X : REP #$20 : ASL #4
         
         ADC.w #.oam_entries : STA $08
         

@@ -59,7 +59,7 @@
         PHX
         
         ; (checks to see if you're indoors in the dark world)
-        LDA $1B : ADD $0FFF : CMP.b #$02
+        LDA $1B : CLC : ADC $0FFF : CMP.b #$02
         
         LDA $0DB0, X : PHA : BCC .not_indoors_in_dark_world
         
@@ -139,13 +139,13 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -187,13 +187,13 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD.w #$000C : INY : STA ($90), Y
+        LDA $02 : CLC : ADC.w #$000C : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .shadow_on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .shadow_on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -258,10 +258,10 @@
         
         LDX $0D
         
-        LDA $00 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low,  X : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA.b #$01 : STA $0DB0, Y
@@ -318,7 +318,7 @@
         
         PHP
         
-        ADD.b #$10 : STA $7FF81E, X
+        CLC : ADC.b #$10 : STA $7FF81E, X
         
         LDA $0D20, Y : ADC.b #$00
         

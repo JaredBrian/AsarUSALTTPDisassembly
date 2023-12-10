@@ -68,7 +68,7 @@
     
     .player_doesnt_have_master_sword
     
-        LDA $01 : ADD $00 : TAY
+        LDA $01 : CLC : ADC $00 : TAY
         
         LDA .messages_low, Y        : XBA
         LDA .messages_high, Y : TAY : XBA
@@ -110,11 +110,11 @@
         
         LDA $0FD8 : SUB $22
         
-        ADD .x_lower_ranges, Y : CMP .x_upper_ranges, Y : BCS .not_close_enough
+        CLC : ADC .x_lower_ranges, Y : CMP .x_upper_ranges, Y : BCS .not_close_enough
         
         LDA $0FDA : SUB $20
         
-        ADD .y_lower_ranges, Y : CMP .y_upper_ranges, Y : BCS .not_close_enough
+        CLC : ADC .y_lower_ranges, Y : CMP .y_upper_ranges, Y : BCS .not_close_enough
     
     .not_close_enough
     

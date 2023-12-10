@@ -47,7 +47,7 @@
         
         JSR Sprite3_IsToRightOfPlayer
         
-        LDA $0F : ADD.b #$10 : CMP.b #$20 : BCS .player_not_in_horiz_range
+        LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .player_not_in_horiz_range
         
         INC $0D80, X
         

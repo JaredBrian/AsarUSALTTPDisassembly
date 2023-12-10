@@ -49,10 +49,10 @@
         
         LDA .y_speeds, Y : STA $0D40, X
         
-        LDA $0D10, X : ADD .x_offsets_low, Y  : STA $0D10, X
+        LDA $0D10, X : CLC : ADC .x_offsets_low, Y  : STA $0D10, X
         LDA $0D30, X : ADC .x_offsets_high, Y : STA $0D30, X
         
-        LDA $0D00, X : ADD .y_offsets_low, Y  : STA $0D00, X
+        LDA $0D00, X : CLC : ADC .y_offsets_low, Y  : STA $0D00, X
         LDA $0D20, X : ADC .y_offsets_high, Y : STA $0D20, X
         
         PLX

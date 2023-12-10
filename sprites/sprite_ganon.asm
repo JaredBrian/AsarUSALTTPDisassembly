@@ -6,9 +6,9 @@
     {
         REP #$20
         
-        LDA $0FD8 : SUB $04 : ADD.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SUB $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
         
-        LDA $0FDA : SUB $06 : ADD.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FDA : SUB $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
     
     BRANCH_ALPHA:
     
@@ -41,7 +41,7 @@
 
     ; *$E8D70-$E8E74 LOCAL
     {
-        LDA.b #$FC : ADD $0B08 : STA $0B08
+        LDA.b #$FC : CLC : ADC $0B08 : STA $0B08
         LDA.b #$FF : ADC $0B09 : STA $0B09
         
         STZ $0FB5
@@ -54,7 +54,7 @@
         
         REP #$20
         
-        LDA $0B08 : ADD $8D40, Y : AND.w #$01FF : STA $00 : LSR #5 : TAY
+        LDA $0B08 : CLC : ADC $8D40, Y : AND.w #$01FF : STA $00 : LSR #5 : TAY
         
         SEP #$20
         
@@ -82,7 +82,7 @@
         
         LDA $04E800, X : STA $04
         
-        LDA $00 : ADD.w #$0080 : STA $02
+        LDA $00 : CLC : ADC.w #$0080 : STA $02
         
         AND.w #$00FF : ASL A : TAX
         
@@ -122,8 +122,8 @@
     
     BRANCH_DELTA:
     
-        ADD $0D10 : STA $0B11, X
-         LDA $0D30 : ADC $0A : STA $0B21, X
+        CLC : ADC $0D10 : STA $0B11, X
+        LDA $0D30 : ADC $0A : STA $0B21, X
         
         LDA $06 : STA $4202
         
@@ -155,7 +155,7 @@
     
     BRANCH_THETA:
     
-        ADD $0D00           : STA $0B31, X
+        CLC : ADC $0D00           : STA $0B31, X
          LDA $0D20 : ADC $0A : STA $0B41, X
         
         INC $0FB5 : LDA $0FB5 : CMP.b #$08 : BEQ BRANCH_IOTA
@@ -745,7 +745,7 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $02 : ADD $9158, X : STA $0D00, Y
+        LDA $02 : CLC : ADC $9158, X : STA $0D00, Y
         
         LDA $03 : ADC $915A, X : STA $0D20, Y
         
@@ -866,7 +866,7 @@
     
         LSR #4 : AND.b #$0F : TAY
         
-        LDA $0B0A : ADD $9231, Y : STA $0B0A
+        LDA $0B0A : CLC : ADC $9231, Y : STA $0B0A
     
     ; *$E9288 ALTERNATE ENTRY POINT
     
@@ -1003,10 +1003,10 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD $9317, X : STA $0D10, Y
+        LDA $00 : CLC : ADC $9317, X : STA $0D10, Y
         LDA $01 : ADC $9319, X : STA $0D30, Y
         
-        LDA $02 : ADD $931B, X : STA $0D00, Y
+        LDA $02 : CLC : ADC $931B, X : STA $0D00, Y
         LDA $03 : ADC $931D, X : STA $0D20, Y
         
         PLX
@@ -1044,7 +1044,7 @@
         
         LDY $0DE0, X : BEQ BRANCH_GAMMA
         
-        ADD.b #$08
+        CLC : ADC.b #$08
     
     BRANCH_GAMMA:
     
@@ -1370,10 +1370,10 @@
     
         PHX
         
-        TXA : ADD $06 : TAX
+        TXA : CLC : ADC $06 : TAX
         
-        LDA $00      : ADD $95CE, X       : STA ($90), Y
-        LDA $02      : ADD $969A, X : INY : STA ($90), Y
+        LDA $00      : CLC : ADC $95CE, X       : STA ($90), Y
+        LDA $02      : CLC : ADC $969A, X : INY : STA ($90), Y
         LDA $9766, X                 : INY : STA ($90), Y
         
         LDA $05 : AND.b #$0F : CMP.b #$05 : LDA $9843, X : BCC BRANCH_BETA
@@ -1398,7 +1398,7 @@
         
         LDA $9832, Y : CMP.b #$0F : BEQ BRANCH_DELTA
         
-        ASL #2 : ADD.b #$14 : TAY : INY #2
+        ASL #2 : CLC : ADC.b #$14 : TAY : INY #2
         
         PHX : PHY
         
@@ -1406,7 +1406,7 @@
         
         LDY $0DE0, X : BEQ BRANCH_EPSILON
         
-        ADD.b #$06
+        CLC : ADC.b #$06
     
     BRANCH_EPSILON:
     
@@ -1470,13 +1470,13 @@
         
         REP #$20
         
-        LDA $0FDA : ADD $0E : STA $0FDA
+        LDA $0FDA : CLC : ADC $0E : STA $0FDA
         
         LDA.w #$09F4 : STA $90
         
         LDA.w #$0A9D : STA $92
         
-        LDA.w #$D108 : ADD $00 : STA $08
+        LDA.w #$D108 : CLC : ADC $00 : STA $08
         
         SEP #$20
         
@@ -1508,7 +1508,7 @@
         
         DEC A : REP #$20 : ASL #3 : STA $00
         
-        ASL #2 : ADD $00 : ADD.w #$990F : STA $08
+        ASL #2 : CLC : ADC $00 : CLC : ADC.w #$990F : STA $08
         
         SEP #$20
         
@@ -1521,9 +1521,9 @@
     
         REP #$20
         
-        LDA $0FD8 : ADD $9A9F, Y : STA $0FD8
+        LDA $0FD8 : CLC : ADC $9A9F, Y : STA $0FD8
         
-        LDA $0FDA : ADD $9AA9, Y : STA $0FDA
+        LDA $0FDA : CLC : ADC $9AA9, Y : STA $0FDA
         
         SEP #$20
         

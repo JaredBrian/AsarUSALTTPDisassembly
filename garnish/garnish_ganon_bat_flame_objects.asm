@@ -41,7 +41,7 @@
         LDY $90
         
         LDA $00     : STA $0000, Y
-        ADD.b #$08  : STA $0004, Y
+        CLC : ADC.b #$08  : STA $0004, Y
         LDA $02     : STA $0001, Y : STA $0005, Y
         LDA.b #$A4  : STA $0002, Y
         INC A       : STA $0006, Y

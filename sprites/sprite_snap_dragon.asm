@@ -16,7 +16,7 @@
     {
         LDY $0DE0, X
         
-        LDA $0DA0, X : ADD .animation_state_bases, Y : STA $0DC0, X
+        LDA $0DA0, X : CLC : ADC .animation_state_bases, Y : STA $0DC0, X
         
         JSR SnapDragon_Draw
         JSR Sprite_CheckIfActive

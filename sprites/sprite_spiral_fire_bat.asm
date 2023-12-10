@@ -19,11 +19,11 @@
         
         JSL Sprite_ProjectSpeedTowardsEntityLong
         
-        LDA $0D50, X : EOR.b #$FF : INC A : ADD $00 : STA $0D50, X
+        LDA $0D50, X : EOR.b #$FF : INC A : CLC : ADC $00 : STA $0D50, X
         
         LDA $0D40, X : EOR.b #$FF : INC A : STA $00
         
-        LDA $01 : EOR.b #$FF : INC A : ADD $00 : STA $0D40, X
+        LDA $01 : EOR.b #$FF : INC A : CLC : ADC $00 : STA $0D40, X
     
     ; *$E8B90 ALTERNATE ENTRY POINT
     

@@ -31,7 +31,7 @@ Sprite_DiggingGameGuy:
 DiggingGameGuy_Introduction:
 {
     ; If player is more than 7 pixels away...
-    LDA $0D00, X : ADD.b #$07 : CMP $20 : BCS .return 
+    LDA $0D00, X : CLC : ADC.b #$07 : CMP $20 : BCS .return 
         ; If Link is not below this sprite.
         JSR Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
             ; Do we have a follower?
@@ -323,11 +323,11 @@ DiggingGameGuy_DoYouWantToPlay:
         LDA.b #$FF : STA $0B58, Y
         LDA.b #$30 : STA $0F10, Y
         
-        LDA $22 : ADD .x_offsets, X
+        LDA $22 : CLC : ADC .x_offsets, X
                                   AND.b #$F0 : STA $0D10, Y
         LDA $23 : ADC.b #$00                : STA $0D30, Y
         
-        LDA $20 : ADD.b #$16 : AND.b #$F0 : STA $0D00, Y
+        LDA $20 : CLC : ADC.b #$16 : AND.b #$F0 : STA $0D00, Y
         LDA $21 : ADC.b #$00              : STA $0D20, Y
         
         LDA.b #$00 : STA $0F20, Y

@@ -33,10 +33,10 @@
     {
         LDY $0DE0
         
-        LDA $0B10, X : ADD $8BD1, Y : STA $0D10, X
+        LDA $0B10, X : CLC : ADC $8BD1, Y : STA $0D10, X
         LDA $0B20, X : ADC $8BD3, Y : STA $0D30, X
         
-        LDA $0B30, X : ADD $8BD5, Y : STA $0D00, X
+        LDA $0B30, X : CLC : ADC $8BD5, Y : STA $0D00, X
         LDA $0B40, X : ADC.b #$FF   : STA $0D20, X
         
         RTS
@@ -185,13 +185,13 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
         LDA $02 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

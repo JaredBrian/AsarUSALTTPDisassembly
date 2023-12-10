@@ -705,7 +705,7 @@
         
         JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
-        LDA $00 : ADD.b #$2C : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$2C : STA $0D10, Y
         LDA $01              : STA $0D30, Y
         
         LDA $02 : STA $0D00, Y
@@ -843,10 +843,10 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD .x_offsets, X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
         LDA $01                    : STA $0D30, Y
         
-        LDA $02 : ADD.b #$02 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$02 : STA $0D00, Y
         LDA $03              : STA $0D20, Y
         
         LDA.b #$01 : STA $0E80, Y

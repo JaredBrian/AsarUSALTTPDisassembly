@@ -66,10 +66,10 @@
         
         JSL GetRandomInt : AND.b #$03 : TAY
         
-        LDA $0D90, X : ADD .x_offsets_low,  Y : STA $0D10, X
+        LDA $0D90, X : CLC : ADC .x_offsets_low,  Y : STA $0D10, X
         LDA $0DA0, X : ADC .x_offsets_high, Y : STA $0D30, X
         
-        LDA $0DB0, X : ADD .y_offsets_low,  Y : STA $0D00, X
+        LDA $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA $0D00, X
         LDA $0EB0, X : ADC .y_offsets_high, Y : STA $0D20, X
     
     .delay
@@ -225,7 +225,7 @@
     
     .next_oam_entry
     
-        PHX : TXA : ADD $08 : PHA : TAX
+        PHX : TXA : CLC : ADC $08 : PHA : TAX
         
         LDA $BBF0, X : STA $0C
         
@@ -233,7 +233,7 @@
         
         REP #$20
         
-        LDA $00 : ADD $BB96, X : STA ($90), Y
+        LDA $00 : CLC : ADC $BB96, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
@@ -249,9 +249,9 @@
     
     .alpha
     
-        ADD $BBB4, X : INY : STA ($90), Y
+        CLC : ADC $BBB4, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .beta
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .beta
         
         LDA.b #$F0 : STA ($90), Y
     

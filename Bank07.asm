@@ -1856,7 +1856,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $8AC9, Y : ADD $20 : STA $20
+        LDA $8AC9, Y : CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -1899,7 +1899,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $8ACD, Y : ADD $20 : STA $20
+        LDA $8ACD, Y : CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -1919,7 +1919,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $20 : SUB $32 : ADD $00 : STA $0364 : STA $24
+        LDA $20 : SUB $32 : CLC : ADC $00 : STA $0364 : STA $24
         
         SEP #$20
         
@@ -1957,7 +1957,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $8AC9, Y : ADD $20 : STA $20
+        LDA $8AC9, Y : CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -2004,7 +2004,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $8ACD, X : ADD $20 : STA $20
+        LDA $8ACD, X : CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -2024,7 +2024,7 @@ BRANCH_OMICRON:
         
         REP #$20
         
-        LDA $20 : SUB $32 : ADD $00 : STA $0364 : STA $24
+        LDA $20 : SUB $32 : CLC : ADC $00 : STA $0364 : STA $24
         
         SEP #$20
     
@@ -2074,14 +2074,14 @@ BRANCH_ALPHA:
     
     LDA $5D : SUB.b #$0F : ASL #2 : STA $00
     
-    TYA : AND.b #$FD : ASL A : ADD $00 : TAX
+    TYA : AND.b #$FD : ASL A : CLC : ADC $00 : TAX
     
     LDA $22 : PHA
     LDA $23 : PHA
     
     REP #$20
     
-    LDA $22 : ADD $8C59, X : STA $22
+    LDA $22 : CLC : ADC $8C59, X : STA $22
     
     SEP #$20
     
@@ -2103,13 +2103,13 @@ BRANCH_GAMMA:
 
 BRANCH_DELTA:
 
-    ADD $8C67, X : STA $0364 : STA $24
+    CLC : ADC $8C67, X : STA $0364 : STA $24
     
     TXA : ASL A : TAX
     
     REP #$20
     
-    LDA $8C61, X : ADD $20 : STA $20
+    LDA $8C61, X : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2142,7 +2142,7 @@ BRANCH_GAMMA:
     
     REP #$20
     
-    LDA $8CEF, Y : ADD $22 : STA $22
+    LDA $8CEF, Y : CLC : ADC $22 : STA $22
     
     SEP #$20
     
@@ -2177,7 +2177,7 @@ BRANCH_ALPHA:
     
     REP #$20
     
-    LDA $8CF3, Y : ADD $32 : STA $22
+    LDA $8CF3, Y : CLC : ADC $32 : STA $22
     
     SEP #$20
 
@@ -2187,7 +2187,7 @@ BRANCH_BETA:
     
     REP #$20
     
-    LDA $8CF7, Y : ADD $22 : STA $22
+    LDA $8CF7, Y : CLC : ADC $22 : STA $22
     
     LDA $32 : SUB $22 : BPL BRANCH_DELTA
     
@@ -2336,11 +2336,11 @@ BRANCH_ALPHA:
     
     REP #$20
     
-    LDA $8E6D, Y : ADD $22 : STA $22
+    LDA $8E6D, Y : CLC : ADC $22 : STA $22
     
     LDA $66 : AND.w #$00FF : ASL A : TAY
     
-    LDA $8E71, Y : ADD $20 : STA $20
+    LDA $8E71, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2373,7 +2373,7 @@ BRANCH_GAMMA:
     
     REP #$20
     
-    LDA $8E75, Y : ADD $20 : STA $20
+    LDA $8E75, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2388,7 +2388,7 @@ BRANCH_GAMMA:
     
     REP #$20
     
-    LDA $20 : SUB $32 : ADD $00 : STA $0364 : STA $24
+    LDA $20 : SUB $32 : CLC : ADC $00 : STA $0364 : STA $24
     
     SEP #$20
     
@@ -2762,7 +2762,7 @@ BRANCH_GAMMA:
     
     BRANCH_BETA2:
     
-        LDA $0374 : ADD.b #$01 : STA $0374
+        LDA $0374 : CLC : ADC.b #$01 : STA $0374
     
     BRANCH_GAMMA2:
     
@@ -2891,7 +2891,7 @@ BRANCH_GAMMA:
         
         LDA $034A : DEC A : ASL #3 : STA $08
         
-        TXA : ASL A : ADD $08 : TAX
+        TXA : ASL A : CLC : ADC $08 : TAX
         
         REP #$20
         
@@ -3151,7 +3151,7 @@ BRANCH_GAMMA:
     
         LDA $59 : AND.b #$0F : CMP $92CF, X : BNE BRANCH_SIGMA
         
-        TXA : ADD.b #$04 : TAX
+        TXA : CLC : ADC.b #$04 : TAX
         
         BRA BRANCH_TAU
     
@@ -3290,7 +3290,7 @@ BRANCH_GAMMA:
         
         REP #$20
         
-        LDA.w #$0010 : ADD $00 : STA $00
+        LDA.w #$0010 : CLC : ADC $00 : STA $00
         
         LDA $20 : STA $51 : SUB $00 : STA $20
         
@@ -3396,7 +3396,7 @@ BRANCH_GAMMA:
         
         LDA $51 : BMI BRANCH_GAMMA
         
-        LDA $20 : EOR.w #-1 : INC A : ADD $51 : BMI BRANCH_DELTA
+        LDA $20 : EOR.w #-1 : INC A : CLC : ADC $51 : BMI BRANCH_DELTA
         
         BRL BRANCH_EPSILON
     
@@ -3907,7 +3907,7 @@ BRANCH_GAMMA:
     
         LDA $0334, X : BEQ BRANCH_EPSILON
         
-        ADD.w #$00A0 : CMP.w #$0180 : BCC BRANCH_GAMMA
+        CLC : ADC.w #$00A0 : CMP.w #$0180 : BCC BRANCH_GAMMA
         
         LDA.w #$0180
         
@@ -4888,9 +4888,9 @@ BRANCH_BETA:
     
     LDA $0DA030, X : STA $04
     
-    TYA : AND.w #$00FF : ASL A : ADD $04 : TAX
+    TYA : AND.w #$00FF : ASL A : CLC : ADC $04 : TAX
     
-    LDA $0D9EF0, X : ADD $02 : TAX
+    LDA $0D9EF0, X : CLC : ADC $02 : TAX
     
     SEP #$20
     
@@ -4909,7 +4909,7 @@ BRANCH_ALPHA:
     
     LDA $2F : LSR A : STA $0E
     
-    ASL #3 : ADD $0E : ASL A : ADD $04 : TAX
+    ASL #3 : CLC : ADC $0E : ASL A : CLC : ADC $04 : TAX
     
     LDA $0DAC45, X : CMP.b #$FF : BEQ BRANCH_DELTA
     
@@ -6458,7 +6458,7 @@ BRANCH_DELTA:
     BRANCH_NU:
     
         ; $031E IS TYPICALLY 12, I.E. #$C
-        LDA $031D : ADD $031E : TAX
+        LDA $031D : CLC : ADC $031E : TAX
         
         ; Determine which graphic to display while spinning.
         LDA $A7B8, X : STA $031C
@@ -6993,7 +6993,7 @@ BRANCH_IOTA:
     
     REP #$20
     
-    LDA $00 : ADD $04 : SUB $20 : BPL BRANCH_KAPPA
+    LDA $00 : CLC : ADC $04 : SUB $20 : BPL BRANCH_KAPPA
     
     EOR.w #$FFFF : INC A
 
@@ -7005,7 +7005,7 @@ BRANCH_KAPPA:
 
 BRANCH_LAMBDA:
 
-    LDA $02 : ADD $06 : SUB $22 : BPL BRANCH_MU
+    LDA $02 : CLC : ADC $06 : SUB $22 : BPL BRANCH_MU
     
     EOR.w #$FFFF : INC A
 
@@ -7056,7 +7056,7 @@ BRANCH_XI:
     
     LDA $A0 : STA $048E
     
-    ADD.b #$10 : STA $A0
+    CLC : ADC.b #$10 : STA $A0
 
 BRANCH_PI:
 
@@ -7625,7 +7625,7 @@ BRANCH_THEL:
         
         LDA $2F : LSR A : TAY
         
-        LDA $AFF4, Y : ADD $030D : TAY
+        LDA $AFF4, Y : CLC : ADC $030D : TAY
         
         LDA $AFCC, Y : STA $0300
         
@@ -7723,7 +7723,7 @@ BRANCH_THEL:
         STX $02
         
         ; Load an index into the table below
-        LDA LinkItem_MagicCostBaseIndices, X : ADD $7EF37B : TAX
+        LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC $7EF37B : TAX
         
         ; This tells us how much magic to deplete.
         LDA LinkItem_MagicCosts, X : STA $00
@@ -7775,11 +7775,11 @@ BRANCH_THEL:
     {
         PHB : PHK : PLB
         
-        LDA LinkItem_MagicCostBaseIndices, X : ADD $7EF37B : TAX
+        LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC $7EF37B : TAX
         
         LDA LinkItem_MagicCosts, X : STA $00
         
-        LDA $7EF36E : ADD $00 : STA $7EF36E
+        LDA $7EF36E : CLC : ADC $00 : STA $7EF36E
         
         PLB
         
@@ -8905,7 +8905,7 @@ BRANCH_OMEGA:
         
         LDA $31 : STA $01
         
-        ADD $0312 : STA $31
+        CLC : ADC $0312 : STA $31
         
         LDA $0E
         
@@ -9070,7 +9070,7 @@ BRANCH_OMEGA:
     
     BRANCH_CHI:
     
-        EOR.b #$FF : INC A : ADD $30 : BNE BRANCH_PHI
+        EOR.b #$FF : INC A : CLC : ADC $30 : BNE BRANCH_PHI
         
         TYA : AND $67 : STA $67
     
@@ -9084,7 +9084,7 @@ BRANCH_OMEGA:
     
     BRANCH_PSI:
     
-        EOR.b #$FF : INC A : ADD $31 : BNE BRANCH_UPSILON
+        EOR.b #$FF : INC A : CLC : ADC $31 : BNE BRANCH_UPSILON
         
         TYA : AND $67 : STA $67
     
@@ -9141,8 +9141,8 @@ BRANCH_OMEGA:
     
         REP #$20
         
-        LDA $E6 : SUB $E8 : ADD $20 : STA $20 : STA $0318
-        LDA $E0 : SUB $E2 : ADD $22 : STA $22 : STA $031A
+        LDA $E6 : SUB $E8 : CLC : ADC $20 : STA $20 : STA $0318
+        LDA $E0 : SUB $E2 : CLC : ADC $22 : STA $22 : STA $031A
         
         SEP #$20
     
@@ -9170,15 +9170,15 @@ BRANCH_OMEGA:
         LDA $20 : SUB $0318 : STA $00
         LDA $22 : SUB $031A : STA $02
         
-        LDA $E8 : SUB $E6 : ADD $20 : STA $20
-        LDA $E2 : SUB $E0 : ADD $22 : STA $22
+        LDA $E8 : SUB $E6 : CLC : ADC $20 : STA $20
+        LDA $E2 : SUB $E0 : CLC : ADC $22 : STA $22
         
         SEP #$20
         
         LDA $67 : BEQ BRANCH_ALPHA
         
-        LDA $30 : ADD $00 : STA $30
-        LDA $31 : ADD $02 : STA $31
+        LDA $30 : CLC : ADC $00 : STA $30
+        LDA $31 : CLC : ADC $02 : STA $31
     
     BRANCH_ALPHA:
     
@@ -9424,12 +9424,12 @@ BRANCH_OMEGA:
     REP #$20
     
     ; Link gets 5 rupees... probably from rupee tiles in special rooms.
-    LDA $7EF360 : ADD.w #$0005 : STA $7EF360
+    LDA $7EF360 : CLC : ADC.w #$0005 : STA $7EF360
     
     ; This is intended to help calculate where to do the clearing update.
-    LDA $20 : ADD $B9F7, Y : SUB $00 : STA $00
+    LDA $20 : CLC : ADC $B9F7, Y : SUB $00 : STA $00
     
-    LDA $22 : ADD $B9FF, Y : STA $02
+    LDA $22 : CLC : ADC $B9FF, Y : STA $02
     
     SEP #$20
     
@@ -10490,7 +10490,7 @@ BRANCH_ZOD:
 
     BRANCH_ALPHA:
 
-        EOR.w #$FFFF : INC A : ADD $20 : STA $20
+        EOR.w #$FFFF : INC A : CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -10550,7 +10550,7 @@ BRANCH_ZOD:
     
     BRANCH_THETA:
     
-        ADD $22 : STA $22
+        CLC : ADC $22 : STA $22
         
         SEP #$20
         
@@ -10631,7 +10631,7 @@ BRANCH_ZOD:
 
     BRANCH_LAMBDA:
 
-        ADD $22 : STA $22
+        CLC : ADC $22 : STA $22
         
         SEP #$20
 
@@ -10650,7 +10650,7 @@ BRANCH_ZOD:
     
     BRANCH_ALPHA:
     
-        EOR.w #$FFFF : INC A : ADD $20 : STA $20
+        EOR.w #$FFFF : INC A : CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -11055,11 +11055,11 @@ BRANCH_PSI:
     
     REP #$20
     
-    LDA $7EF360 : ADD.w #$0005 : STA $7EF360
+    LDA $7EF360 : CLC : ADC.w #$0005 : STA $7EF360
     
     ; Configure the address where the clearing of the rupee tile will occur.
-    LDA $20 : ADD $B9F7, Y : SUB $00 : STA $00
-    LDA $22 : ADD $B9FF, Y           : STA $02
+    LDA $20 : CLC : ADC $B9F7, Y : SUB $00 : STA $00
+    LDA $22 : CLC : ADC $B9FF, Y           : STA $02
     
     SEP #$20
     
@@ -11897,7 +11897,7 @@ BRANCH_ALIF:
     
     BRANCH_ALPHA:
     
-        EOR.w #$FFFF : INC A : ADD $22 : STA $22
+        EOR.w #$FFFF : INC A : CLC : ADC $22 : STA $22
         
         SEP #$20
         
@@ -11956,7 +11956,7 @@ BRANCH_ALIF:
     
     BRANCH_THETA:
     
-        ADD $20 : STA $20
+        CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -12017,7 +12017,7 @@ BRANCH_ALIF:
 
     BRANCH_IOTA:
 
-        ADD $20 : STA $20
+        CLC : ADC $20 : STA $20
         
         SEP #$20
 
@@ -12184,7 +12184,7 @@ BRANCH_ALIF:
     
     BRANCH_LAMBDA:
     
-        ADD $22 : STA $22
+        CLC : ADC $22 : STA $22
         
         SEP #$20
         
@@ -12210,7 +12210,7 @@ BRANCH_ALIF:
     
     BRANCH_XI:
     
-        ADD $20 : STA $20
+        CLC : ADC $20 : STA $20
         
         SEP #$20
         
@@ -12236,10 +12236,10 @@ BRANCH_ALIF:
         
         STZ $59
         
-        LDA $20 : ADD $CB7B, Y : STA $51 : AND $EC : STA $00
-        LDA $22 : ADD $CD89, Y : AND $EC : LSR #3  : STA $02
-        LDA $22 : ADD $CD8B, Y : AND $EC : LSR #3  : STA $04
-        LDA $22 : ADD $CD93, Y : AND $EC : LSR #3  : STA $74
+        LDA $20 : CLC : ADC $CB7B, Y : STA $51 : AND $EC : STA $00
+        LDA $22 : CLC : ADC $CD89, Y : AND $EC : LSR #3  : STA $02
+        LDA $22 : CLC : ADC $CD8B, Y : AND $EC : LSR #3  : STA $04
+        LDA $22 : CLC : ADC $CD93, Y : AND $EC : LSR #3  : STA $74
         
         REP #$10
         
@@ -12275,13 +12275,13 @@ BRANCH_ALIF:
         
         STZ $59
         
-        LDA $22 : ADD $CD7B, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $CD7B, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $20 : ADD $CD83, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $CD83, Y : AND $EC : STA $00
         
-        LDA $20 : ADD $CD8B, Y : STA $51 : AND $EC : STA $04
+        LDA $20 : CLC : ADC $CD8B, Y : STA $51 : AND $EC : STA $04
         
-        LDA $20 : ADD $CD93, Y : STA $53 : AND $EC : STA $08
+        LDA $20 : CLC : ADC $CD93, Y : STA $53 : AND $EC : STA $08
         
         REP #$10
         
@@ -12314,10 +12314,10 @@ BRANCH_ALIF:
         
         STZ $59
         
-        LDA $20 : ADD $CDA3, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $CDA3, Y : AND $EC : STA $00
         
-        LDA $22 : ADD $CDAB, Y : AND $EC : LSR #3 : STA $02
-        LDA $22 : ADD $CDB3, Y : AND $EC : LSR #3 : STA $04
+        LDA $22 : CLC : ADC $CDAB, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $CDB3, Y : AND $EC : LSR #3 : STA $04
         
         REP #$10
         
@@ -12344,11 +12344,11 @@ BRANCH_ALIF:
         
         STZ $59
         
-        LDA $22 : ADD $CDA3, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $CDA3, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $20 : ADD $CDAB, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $CDAB, Y : AND $EC : STA $00
         
-        LDA $20 : ADD $CDB3, Y : AND $EC : STA $04
+        LDA $20 : CLC : ADC $CDB3, Y : AND $EC : STA $04
         
         REP #$10
         
@@ -12392,13 +12392,13 @@ BRANCH_ALIF:
         
         JSR TileDetect_ResetState
         
-        LDA $22 : ADD $CD83 : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $CD83 : AND $EC : LSR #3 : STA $02
         
-        LDA $22 : ADD $CD93 : AND $EC : LSR #3 : STA $04
+        LDA $22 : CLC : ADC $CD93 : AND $EC : LSR #3 : STA $04
         
-        LDA $20 : ADD $CD87 : AND $EC : STA $00 : STA $74
+        LDA $20 : CLC : ADC $CD87 : AND $EC : STA $00 : STA $74
         
-        LDA $20 : ADD $CD97 : AND $EC : STA $08
+        LDA $20 : CLC : ADC $CD97 : AND $EC : STA $08
     
     ; *$3CF49 ALTERNATE ENTRY POINT
     
@@ -12443,8 +12443,8 @@ BRANCH_ALIF:
         
         JSR TileDetect_ResetState
         
-        LDA $22 : ADD.w #$0000 : AND $EC : LSR #3 : STA $02
-        LDA $22 : ADD.w #$0008 : AND $EC : LSR #3 : STA $04
+        LDA $22 : CLC : ADC.w #$0000 : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC.w #$0008 : AND $EC : LSR #3 : STA $04
         
         LDA $24 : AND.w #$00FF : CMP.w #$00FF : BNE BRANCH_ALPHA
         
@@ -12452,7 +12452,7 @@ BRANCH_ALIF:
     
     BRANCH_ALPHA:
     
-        ADD $20 : AND $EC : STA $00
+        CLC : ADC $20 : AND $EC : STA $00
         
         REP #$10
         
@@ -12493,7 +12493,7 @@ BRANCH_ALIF:
         
         TAY
         
-        LDA $D06F, Y : AND.w #$00FF : ADD.w #$0040 : TAY
+        LDA $D06F, Y : AND.w #$00FF : CLC : ADC.w #$0040 : TAY
         
         BRA .delta
     
@@ -12502,14 +12502,14 @@ BRANCH_ALIF:
         PHY
         
         ; Use the direction link is facing and the action in question to form an index
-        LDA $00 : AND.w #$00FF : ASL #3 : ADD $2F : TAY
+        LDA $00 : AND.w #$00FF : ASL #3 : CLC : ADC $2F : TAY
     
     .delta
     
         ; Find some coordinates relative to Link, but depending on
-        LDA $22 : ADD $D01C, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $D01C, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $20 : ADD $CFCC, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $CFCC, Y : AND $EC : STA $00
         
         LDA.w #$0001 : STA $0A
         
@@ -12558,7 +12558,7 @@ BRANCH_ALIF:
         
         LDA $0357 : AND.b #$10 : BEQ BRANCH_OMICRON
         
-        LDA $20 : ADD.b #$08 : AND.b #$0F
+        LDA $20 : CLC : ADC.b #$08 : AND.b #$0F
         
         CMP.b #$04 : BCC BRANCH_PI
         CMP.b #$0B : BCC BRANCH_RHO
@@ -12854,14 +12854,14 @@ BRANCH_ALIF:
         
         TYA : ASL #3 : STA $0A
         
-        LDA $66 : ASL A : ADD $0A : TAY
+        LDA $66 : ASL A : CLC : ADC $0A : TAY
         
         LDA $00 : STA $08
         LDA $02 : STA $04
         
-        LDA $08 : ADD $D2F4, Y : AND $EC : LSR #3 : STA $02
+        LDA $08 : CLC : ADC $D2F4, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $04 : ADD $D2E4, Y : AND $EC : STA $00
+        LDA $04 : CLC : ADC $D2E4, Y : AND $EC : STA $00
         
         ; $3E026 IN ROM
         JSR $E026 : BEQ BRANCH_ALPHA
@@ -12870,9 +12870,9 @@ BRANCH_ALIF:
     
     BRANCH_ALPHA:
     
-        LDA $08 : ADD $D2FC, Y : AND $EC : LSR #3 : STA $02
+        LDA $08 : CLC : ADC $D2FC, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $04 : ADD $D2EC, Y : AND $EC : STA $00
+        LDA $04 : CLC : ADC $D2EC, Y : AND $EC : STA $00
         
         ; $3E026 IN ROM
         JSR $E026 : BEQ BRANCH_GAMMA
@@ -12910,13 +12910,13 @@ BRANCH_ALIF:
         LDA $2F : TAY
         
         ; We're going to form a box based on which to detect a tile type we can interact with.
-        LDA $20 : ADD $D365, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $D365, Y : AND $EC : STA $00
         
-        LDA $20 : ADD.w #$0014 : AND $EC : STA $04
+        LDA $20 : CLC : ADC.w #$0014 : AND $EC : STA $04
         
-        LDA $22 : ADD $D36D, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $D36D, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $22 : ADD.w #$0008 : AND $EC : LSR #3 : STA $08
+        LDA $22 : CLC : ADC.w #$0008 : AND $EC : LSR #3 : STA $08
         
         ; The basic idea is that we have a RECT structure with corners $00, $04, and 
         ; corners sort of defined by using offsets at $02, $08
@@ -13075,7 +13075,7 @@ BRANCH_ALIF:
     
     BRANCH_DELTA:
     
-        TXA : ADD $00 : TAY
+        TXA : CLC : ADC $00 : TAY
         
         STZ $59
         
@@ -13083,11 +13083,11 @@ BRANCH_ALIF:
         
         JSR TileDetect_ResetState
         
-        LDA $20 : ADD $D445, Y : AND $EC :          STA $00
-        LDA $22 : ADD $D455, Y : AND $EC : LSR #3 : STA $02
+        LDA $20 : CLC : ADC $D445, Y : AND $EC :          STA $00
+        LDA $22 : CLC : ADC $D455, Y : AND $EC : LSR #3 : STA $02
         
-        LDA $20 : ADD $D465, Y : AND $EC :          STA $04
-        LDA $22 : ADD $D475, Y : AND $EC : LSR #3 : STA $08
+        LDA $20 : CLC : ADC $D465, Y : AND $EC :          STA $04
+        LDA $22 : CLC : ADC $D475, Y : AND $EC : LSR #3 : STA $08
         
         LDA.w #$0001 : STA $0A
         
@@ -13126,7 +13126,7 @@ BRANCH_ALIF:
         
         REP #$20
         
-        LDA $00 : ADD $20 : STA $20
+        LDA $00 : CLC : ADC $20 : STA $20
         
         BRA BRANCH_IOTA
     
@@ -13134,7 +13134,7 @@ BRANCH_ALIF:
     
         REP #$20
         
-        LDA $00 : ADD $22 : STA $22
+        LDA $00 : CLC : ADC $22 : STA $22
     
     BRANCH_IOTA:
     
@@ -13175,7 +13175,7 @@ BRANCH_ALIF:
         
         LDA $044A : BNE BRANCH_BETA
         
-        LDA $A0 : ADD.b #$10 : STA $A0
+        LDA $A0 : CLC : ADC.b #$10 : STA $A0
     
     BRANCH_BETA:
     
@@ -13213,8 +13213,8 @@ BRANCH_ALIF:
         
         REP #$20
         
-        LDA $E6 : SUB $E8 : ADD $04 : STA $04
-        LDA $E0 : SUB $E2 : ADD $08 : STA $08
+        LDA $E6 : SUB $E8 : CLC : ADC $04 : STA $04
+        LDA $E0 : SUB $E2 : CLC : ADC $08 : STA $08
         
         SEP #$20
         
@@ -13250,8 +13250,8 @@ BRANCH_ALIF:
         
         LDA $73 : TAY
         
-        LDA $04 : ADD .xy_offsets_first+0, Y : AND $EC : STA $00
-        LDA $04 : ADD .xy_offsets_first+2, Y : AND $EC : STA $04
+        LDA $04 : CLC : ADC .xy_offsets_first+0, Y : AND $EC : STA $00
+        LDA $04 : CLC : ADC .xy_offsets_first+2, Y : AND $EC : STA $04
         
         LDA $08 : .xy_offsets_second+0, Y : AND $EC : LSR #3 : STA $02
         LDA $08 : .xy_offsets_second+2, Y : AND $EC : LSR #3 : STA $08
@@ -13314,9 +13314,9 @@ BRANCH_ALIF:
         
         JSR TileDetect_ResetState
         
-        LDA $20 : ADD $D657, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $D657, Y : AND $EC : STA $00
         
-        LDA $22 : ADD $D65F, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $D65F, Y : AND $EC : LSR #3 : STA $02
         
         LDA.w #$0001 : STA $0A
         
@@ -13348,7 +13348,7 @@ BRANCH_ALIF:
         
         REP #$20
         
-        LDA $00 : ADD $20 : STA $20
+        LDA $00 : CLC : ADC $20 : STA $20
         
         BRA BRANCH_DELTA
     
@@ -13356,7 +13356,7 @@ BRANCH_ALIF:
     
         REP #$20
         
-        LDA $00 : ADD $22 : STA $22
+        LDA $00 : CLC : ADC $22 : STA $22
     
     BRANCH_DELTA:
     
@@ -13373,11 +13373,11 @@ BRANCH_ALIF:
         
         JSR TileDetect_ResetState
         
-        LDA $22 : ADD.w #$0002 : AND $EC : LSR #3 : STA $02
-        LDA $22 : ADD.w #$000D : AND $EC : LSR #3 : STA $04
+        LDA $22 : CLC : ADC.w #$0002 : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC.w #$000D : AND $EC : LSR #3 : STA $04
         
-        LDA $20 : ADD.w #$000A : AND $EC : STA $00 : STA $74
-        LDA $20 : ADD.w #$0015 : AND $EC : STA $08
+        LDA $20 : CLC : ADC.w #$000A : AND $EC : STA $00 : STA $74
+        LDA $20 : CLC : ADC.w #$0015 : AND $EC : STA $08
         
         BRL BRANCH_$3CF49
     }
@@ -13392,11 +13392,11 @@ BRANCH_ALIF:
         
         TXA : AND.w #$00FF : DEC A : ASL #2 : TAY
         
-        LDA $22 : ADD $D736, Y : AND $EC : LSR #3 : STA $02
-        LDA $22 : ADD $D738, Y : AND $EC : LSR #3 : STA $04
+        LDA $22 : CLC : ADC $D736, Y : AND $EC : LSR #3 : STA $02
+        LDA $22 : CLC : ADC $D738, Y : AND $EC : LSR #3 : STA $04
         
-        LDA $20 : ADD $D72E, Y : AND $EC : STA $00
-        LDA $20 : ADD $D730, Y : AND $EC : STA $08
+        LDA $20 : CLC : ADC $D72E, Y : AND $EC : STA $00
+        LDA $20 : CLC : ADC $D730, Y : AND $EC : STA $08
         
         REP #$10
         
@@ -13779,14 +13779,14 @@ BRANCH_ALIF:
         
         LDA $00 : AND.w #$FFF8 : ASL #3 : STA $06
         
-        LDA $02 : AND.w #$003F : ADD $06
+        LDA $02 : AND.w #$003F : CLC : ADC $06
         
         ; Which part of a two level room is Link on
         LDX $EE : BEQ .lowerFloor
         
         ; He's on the upper floor then.
         ; Add this offset in b/c BG0's tile attributes start at $7F3000
-        ADD.w #$1000
+        CLC : ADC.w #$1000
     
     .lowerFloor
     
@@ -14724,11 +14724,11 @@ BRANCH_ALIF:
     {
         LDA $00 : AND.w #$FFF8 : ASL #3 : STA $06
         
-        LDA $02 : AND.w #$003F : ADD $06
+        LDA $02 : AND.w #$003F : CLC : ADC $06
         
         LDX $EE : BEQ .onBg2
         
-        ADD.w #$1000
+        CLC : ADC.w #$1000
     
     .onBg2
     
@@ -14757,7 +14757,7 @@ BRANCH_ALPHA:
 
     LDA $6E : ASL #2 : STA $01
     
-    TYA : AND.b #$07 : ADD $01 : TAX
+    TYA : AND.b #$07 : CLC : ADC $01 : TAX
     
     ; Check if we've hit one of those diagonal walls... (not really the diagonal ones but before them)
     LDA $38 : AND.b #$05 : BEQ BRANCH_BETA
@@ -14772,7 +14772,7 @@ BRANCH_ALPHA:
 
 BRANCH_GAMMA:
 
-    LDA $02 : ADD.b #$08
+    LDA $02 : CLC : ADC.b #$08
 
 BRANCH_DELTA:
 
@@ -14802,7 +14802,7 @@ BRANCH_THETA:
     
     REP #$20
     
-    AND.w #$00FF : ADD $20 : STA $20
+    AND.w #$00FF : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -14816,7 +14816,7 @@ BRANCH_IOTA:
     
     REP #$20
     
-    AND.w #$00FF : ORA.w #$FF00 : ADD $20 : STA $20
+    AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -14867,7 +14867,7 @@ BRANCH_BETA:
 
     LDA $6E : ASL #2 : STA $01
     
-    LDA $51, X : AND.b #$07 : ADD $01 : TAX
+    LDA $51, X : AND.b #$07 : CLC : ADC $01 : TAX
     
     LDA $38 : AND.b #$05 : BEQ BRANCH_GAMMA
     
@@ -14915,7 +14915,7 @@ BRANCH_IOTA:
     
     REP #$20
     
-    AND.w #$00FF : ADD $22 : STA $22
+    AND.w #$00FF : CLC : ADC $22 : STA $22
     
     SEP #$20
     
@@ -14929,7 +14929,7 @@ BRANCH_EPSILON:
     
     REP #$20
     
-    AND.w #$00FF : ORA.w #$FF00 : ADD $22 : STA $22
+    AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $22 : STA $22
     
     SEP #$20
     
@@ -15173,7 +15173,7 @@ BRANCH_THETA:
     
     BRANCH_NU:
     
-        TXA : ADD $00 : TAX
+        TXA : CLC : ADC $00 : TAX
         
         LDA $5B    : BEQ BRANCH_XI
         CMP.b #$03 : BNE BRANCH_OMICRON    ; Is Link not in a falling state?
@@ -15235,7 +15235,7 @@ BRANCH_THETA:
     
     BRANCH_UPSILON:
     
-        ADD $57 : STA $0A
+        CLC : ADC $57 : STA $0A
                   STA $0B
         
         LDA.b #$03 : STA $0C
@@ -15308,7 +15308,7 @@ BRANCH_THETA:
         ; ($27 is horizontal, $28 is vertical, so Y is 0 or 1)
         LDA $0027, Y : ASL #4
         
-        ADD $002A, Y : STA $002A, Y
+        CLC : ADC $002A, Y : STA $002A, Y
         
         PHY : PHP
         
@@ -15346,9 +15346,9 @@ BRANCH_THETA:
     
         REP #$20
         
-        LDA $20 : ADD $0B7E : STA $20
+        LDA $20 : CLC : ADC $0B7E : STA $20
         
-        LDA $22 : ADD $0B7C : STA $22
+        LDA $22 : CLC : ADC $0B7C : STA $22
         
         SEP #$20
         
@@ -15395,11 +15395,11 @@ BRANCH_THETA:
         
         ASL #3 : STA $00
         
-        TYA : ADD $00 : TAY
+        TYA : CLC : ADC $00 : TAY
     
     BRANCH_BETA:
     
-        LDA $E406, Y : ADD $033C, X : BEQ BRANCH_GAMMA : BPL BRANCH_DELTA
+        LDA $E406, Y : CLC : ADC $033C, X : BEQ BRANCH_GAMMA : BPL BRANCH_DELTA
     
     BRANCH_GAMMA:
     
@@ -15425,7 +15425,7 @@ BRANCH_THETA:
     
         PHA
         
-        TXA : ADD $0338, X : ASL A : TAY
+        TXA : CLC : ADC $0338, X : ASL A : TAY
         
         LDA $E422, Y : ORA $67 : STA $67
         
@@ -15650,8 +15650,8 @@ BRANCH_THETA:
     
         REP #$20
         
-        LDA $20 : ADD $0310 : STA $20
-        LDA $22 : ADD $0312 : STA $22
+        LDA $20 : CLC : ADC $0310 : STA $20
+        LDA $22 : CLC : ADC $0312 : STA $22
         
         SEP #$20
     
@@ -15721,7 +15721,7 @@ BRANCH_THETA:
     
         PHX
         
-        LDA $72, X : ASL #4 : ADD $041C, X : STA $041C, X
+        LDA $72, X : ASL #4 : CLC : ADC $041C, X : STA $041C, X
         
         LDA $72, X
         
@@ -15858,7 +15858,7 @@ BRANCH_THETA:
         
         LDA $5E : CMP.b #$06 : BNE BRANCH_NU
         
-        TXA : ADD.b #$04 : TAX
+        TXA : CLC : ADC.b #$04 : TAX
         
         BRA BRANCH_XI
     
@@ -15869,7 +15869,7 @@ BRANCH_THETA:
         ; branch if no direction buttons are held down
         LDA $F0 : AND.b #$0F : BEQ BRANCH_PI
         
-        TXA : ADD.b #$04 : TAX
+        TXA : CLC : ADC.b #$04 : TAX
     
     BRANCH_XI:
     
@@ -15915,7 +15915,7 @@ BRANCH_THETA:
         
         LDA $E675, X : STA $00
         
-        LDA $2D : ADD.b #$01 : STA $2D : CMP $00 : BCC BRANCH_PSI
+        LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC BRANCH_PSI
         
         STZ $2D
         
@@ -15941,13 +15941,13 @@ BRANCH_THETA:
         
         LDA $5E : CMP.b #$06 : BNE BRANCH_ALIF
         
-        TXA : ADD.b #$08 : TAX
+        TXA : CLC : ADC.b #$08 : TAX
     
     BRANCH_ALIF:
     
         LDA $034A : BEQ BRANCH_BET
         
-        TXA : ADD.b #$08 : TAX
+        TXA : CLC : ADC.b #$08 : TAX
     
     BRANCH_BET:
     
@@ -15955,7 +15955,7 @@ BRANCH_THETA:
         
         LDA $E685, X : STA $00
         
-        LDA $2D : ADD.b #$01 : STA $2D : CMP $00 : BCC BRANCH_THEL
+        LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC BRANCH_THEL
         
         STZ $2D
         
@@ -15981,7 +15981,7 @@ BRANCH_THETA:
         
         LDA $E675, X : STA $00
         
-        LDA $2D : ADD.b #$01 : STA $2D : CMP $00 : BCC BRANCH_DEL
+        LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC BRANCH_DEL
         
         STZ $2D
         
@@ -16081,7 +16081,7 @@ BRANCH_THETA:
         
         LDA $E842, X : STA $00
         
-        LDA $2D : ADD.b #$01 : STA $2D : CMP $00 : BCC BRANCH_DELTA
+        LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC BRANCH_DELTA
         
         STZ $2D
         
@@ -16101,7 +16101,7 @@ BRANCH_THETA:
     
         LDA $E87A, X : STA $00
         
-        LDA $2D : ADD.b #$01 : STA $2D : CMP $00 : BCC BRANCH_THETA
+        LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC BRANCH_THETA
         
         STZ $2D
         
@@ -16155,7 +16155,7 @@ BRANCH_THETA:
         
         REP #$20
         
-        LDA $20 : ADD.w #$001C : STA $00 : AND.w #$00FC : BNE BRANCH_ALPHA
+        LDA $20 : CLC : ADC.w #$001C : STA $00 : AND.w #$00FC : BNE BRANCH_ALPHA
         
         SEP #$20
         
@@ -16186,7 +16186,7 @@ BRANCH_THETA:
         
         REP #$20
         
-        LDA $22 : ADD.w #$0015 : STA $00 : AND.w #$00FC : BNE BRANCH_GAMMA
+        LDA $22 : CLC : ADC.w #$0015 : STA $00 : AND.w #$00FC : BNE BRANCH_GAMMA
         
         SEP #$20
         
@@ -16356,7 +16356,7 @@ BRANCH_THETA:
         
         STZ $04
         
-        LDA $20 : SUB $E8 : ADD.w #$000C : STA $0E
+        LDA $20 : SUB $E8 : CLC : ADC.w #$000C : STA $0E
         
         SUB $067C : STA $0674 : BPL BRANCH_ALPHA
         
@@ -16364,9 +16364,9 @@ BRANCH_THETA:
     
     BRANCH_ALPHA:
     
-        ADD $067C : ADD $067C : STA $0676
+        CLC : ADC $067C : CLC : ADC $067C : STA $0676
         
-        LDA $22 : SUB $E2 : ADD.w #$0008 : STA $0670
+        LDA $22 : SUB $E2 : CLC : ADC.w #$0008 : STA $0670
         
         LDA.w #$0001 : STA $067A
     
@@ -16405,7 +16405,7 @@ BRANCH_THETA:
     
     BRANCH_ZETA:
     
-        LDA $08 : ADD $0670 : STA $02
+        LDA $08 : CLC : ADC $0670 : STA $02
         
         LDA $0670 : SUB $08 : STA $00
     
@@ -16479,7 +16479,7 @@ BRANCH_THETA:
     
     BRANCH_PI:
     
-        LDA $067A : AND.w #$00FF : DEC A : ADD $0E : TAX
+        LDA $067A : AND.w #$00FF : DEC A : CLC : ADC $0E : TAX
         
         DEC A : ASL A : CMP.w #$01C0 : BCS BRANCH_SIGMA
         
@@ -16527,7 +16527,7 @@ BRANCH_THETA:
     
         LDA $067E : BEQ .dont_expand_spotlight
         
-        LDA $067C : ADD.b #$08 : STA $067C : CMP.b #$C0 : BCC .dont_open_barrier
+        LDA $067C : CLC : ADC.b #$08 : STA $067C : CMP.b #$C0 : BCC .dont_open_barrier
         
         LDA $02F0 : EOR.b #$01 : STA $02F0
         
@@ -16720,11 +16720,11 @@ BRANCH_THETA:
         
         LDA $00 : STA $05E4, X
         
-        LDA $01 : ADD $062D : STA $05E0, X : STA $01
+        LDA $01 : CLC : ADC $062D : STA $05E0, X : STA $01
         
         LDA $02 : STA $05F0, X
         
-        LDA $03 : ADD $062F : STA $05EC, X : STA $03
+        LDA $03 : CLC : ADC $062F : STA $05EC, X : STA $03
         
         STZ $05E8, X
         STZ $05F4, X
@@ -16912,7 +16912,7 @@ BRANCH_THETA:
     
     BRANCH_GAMMA:
     
-        LDA $27, X : ASL #4 : ADD $05F4, Y : STA $05F4, Y
+        LDA $27, X : ASL #4 : CLC : ADC $05F4, Y : STA $05F4, Y
         
         PHP
         
@@ -16997,9 +16997,9 @@ BRANCH_THETA:
         
         REP #$20
         
-        LDA $00 : SUB $04 : ADD.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
+        LDA $00 : SUB $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
         
-        LDA $02 : SUB $06 : ADD.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
+        LDA $02 : SUB $06 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS BRANCH_IOTA
         
         SEP #$20
         
@@ -17067,16 +17067,16 @@ BRANCH_THETA:
         LDA $EFA1, Y : STA $0C
         LDA $EFB1, Y : STA $0E
         
-        LDA ($0C) : ADD $EF71, Y : STA $00
-        LDA ($0C) : ADD $EF79, Y : STA $02
-        LDA ($0E) : ADD $EF89, Y : STA $04
-        LDA ($0E) : ADD $EF91, Y : STA $06
+        LDA ($0C) : CLC : ADC $EF71, Y : STA $00
+        LDA ($0C) : CLC : ADC $EF79, Y : STA $02
+        LDA ($0E) : CLC : ADC $EF89, Y : STA $04
+        LDA ($0E) : CLC : ADC $EF91, Y : STA $06
         
         LDA $EF99, Y : STA $0C
         LDA $EFA9, Y : STA $0E
         
-        LDA ($0C) : ADD $EF69, Y : STA $08
-        LDA ($0E) : ADD $EF81, Y : STA $0A
+        LDA ($0C) : CLC : ADC $EF69, Y : STA $08
+        LDA ($0E) : CLC : ADC $EF81, Y : STA $0A
         
         LDA $48 : AND.w #$FFFB : STA $48
         
@@ -17127,7 +17127,7 @@ BRANCH_THETA:
         
         EOR.w #$FFFF : INC A : STA $00
         
-        ADD ($0C) : STA ($0C)
+        CLC : ADC ($0C) : STA ($0C)
         
         BRA BRANCH_KAPPA
 
@@ -17137,7 +17137,7 @@ BRANCH_THETA:
         
         EOR.w #$FFFF : INC A : STA $00
         
-        ADD ($0C) : STA ($0C)
+        CLC : ADC ($0C) : STA ($0C)
     
     BRANCH_KAPPA:
     
@@ -17151,7 +17151,7 @@ BRANCH_THETA:
     
     BRANCH_LAMBDA:
     
-        LDA $30, X : ADD $00 : STA $30, X
+        LDA $30, X : CLC : ADC $00 : STA $30, X
     
     BRANCH_GAMMA:
     
@@ -17494,7 +17494,7 @@ BRANCH_THETA:
         REP #$20
         
         ; Adjust X coordinate.... what?
-        LDA $22 : ADD $00 : STA $53
+        LDA $22 : CLC : ADC $00 : STA $53
         
         LDA $20 : STA $51
         
@@ -17613,7 +17613,7 @@ BRANCH_THETA:
     
         REP #$20
         
-        LDA $22 : ADD $00 : STA $53
+        LDA $22 : CLC : ADC $00 : STA $53
         
         SEP #$20
         

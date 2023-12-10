@@ -131,7 +131,7 @@
         
         JSR Sprite4_IsToRightOfPlayer
         
-        LDA $0F : ADD.b #$10 : CMP.b #$20 : BCC .set_animation_state
+        LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCC .set_animation_state
         
         LDA .animation_states, Y : STA $0DC0, X
     
@@ -258,7 +258,7 @@
         
         TAX
         
-        LDA $00 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
         LDA $02 : ADC.b #$0C : STA $0D00, Y

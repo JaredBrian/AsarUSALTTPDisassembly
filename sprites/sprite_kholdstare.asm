@@ -7,9 +7,9 @@
         JSR Sprite3_CheckIfActive.permissive
         JSR Sprite3_DirectionToFacePlayer
         
-        LDA $0F : ADD.b #$20 : CMP.b #$40 : BCS .player_not_close
+        LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .player_not_close
         
-        LDA $0E : ADD.b #$20 : CMP.b #$40 : BCS .player_not_close
+        LDA $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .player_not_close
         
         JSL Sprite_NullifyHookshotDrag
         JSL Sprite_RepelDashAttackLong
@@ -452,13 +452,13 @@
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
-        LDA $0FD8 : ADD .offsets_low, Y  : STA $7FF83C, X
+        LDA $0FD8 : CLC : ADC .offsets_low, Y  : STA $7FF83C, X
         LDA $0FD9 : ADC .offsets_high, Y : STA $7FF878, X
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
-        LDA $0FDA : ADD .offsets_low, Y : PHP
-                    ADD.b #$10          : STA $7FF81E, X
+        LDA $0FDA : CLC : ADC .offsets_low, Y : PHP
+                    CLC : ADC.b #$10          : STA $7FF81E, X
         LDA $0FDB : ADC.b #$00          : PLP
                     ADC .offset_high, Y : STA $7FF85A, X
         

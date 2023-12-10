@@ -52,10 +52,10 @@
     
         LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
         
-        LDA .y_offsets_low, X : ADD $06                : STA $00
+        LDA .y_offsets_low, X : CLC : ADC $06                : STA $00
         LDA $07               : ADC .y_offsets_high, X : STA $01
         
-        LDA .x_offsets_low, X : ADD $04    : STA $02
+        LDA .x_offsets_low, X : CLC : ADC $04    : STA $02
         LDA $05               : ADC.b #$00 : STA $03
         
         JSR Ancilla_SetOam_XY

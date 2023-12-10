@@ -596,7 +596,7 @@
         REP #$20
         
         ; Scroll the menu back up so it's off screen (8 pixels at a time)
-        LDA $EA : ADD.w #$0008 : STA $EA : SEP #$20 : BNE .notDoneScrolling
+        LDA $EA : CLC : ADC.w #$0008 : STA $EA : SEP #$20 : BNE .notDoneScrolling
         
         JSR HUD.Rebuild
         
@@ -1186,7 +1186,7 @@
         LDA.w #$3CFC : AND $00 : STA $1182, X
         ORA.w #$4000 : STA $11A6, X
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         DEY : BPL .drawVerticalEdges
         
@@ -1407,7 +1407,7 @@
         LDA.w #$3CFC : AND $00 : STA $11AA, X
         ORA.w #$4000 : STA $11BC, X
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         DEY : BPL .drawBoxVerticalSides
         
@@ -1492,12 +1492,12 @@
     
     .lacksAbility
     
-        TXA : ADD.w #$0014 : TAX
-        TYA : ADD.w #$000A : TAY
+        TXA : CLC : ADC.w #$0014 : TAX
+        TYA : CLC : ADC.w #$000A : TAY
         
         DEC $06 : BNE .nextAbility
         
-        TYA : ADD.w #$0058 : TAY
+        TYA : CLC : ADC.w #$0058 : TAY
         
         DEC $04 : BNE .nextLine
         
@@ -1515,7 +1515,7 @@
         LDA.w #$24FC : AND $00 : STA $1582, X
         ORA.w #$4000 : STA $15A6, X
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         DEY : BPL .drawVerticalEdges
         
@@ -2189,7 +2189,7 @@ DrawEquipment:
         
         ; Draw the big key (or big key with chest if we've gotten the treasure) icon
         LDA.w #$16F8           : STA $00
-        LDA.w #$0001 : ADD $02 : STA $02
+        LDA.w #$0001 : CLC : ADC $02 : STA $02
         LDA.w #$F8A9           : STA $04
         
         JSR DrawItem
@@ -2381,7 +2381,7 @@ DrawEquipment:
         LDA.w #$28FC : AND $00 : STA $132A, X
         ORA.w #$4000           : STA $133C, X
         
-        TXA : ADD.w #$0040 : TAX
+        TXA : CLC : ADC.w #$0040 : TAX
         
         DEY : BPL .drawVerticalEdges
         

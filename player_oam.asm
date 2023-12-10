@@ -549,7 +549,7 @@ PlayerOam_Main:
 
 .is_straight_up_staircase
 
-    TYA : ADD $00 : STA $00
+    TYA : CLC : ADC $00 : STA $00
     
     ; Link's frame index shouldn't be more than 5 on this kind of staircase.
     LDA $2E : CMP.b #$06 : BCC .frame_index_in_range
@@ -558,14 +558,14 @@ PlayerOam_Main:
 
 .frame_index_in_range
 
-    ASL A : ADD $00 : TAY
+    ASL A : CLC : ADC $00 : TAY
     
     REP #$20
     
     ; Ultimately, we have determined an offset to be applied to the player's
     ; Y coordinate, just for the sake of sprite display. The value of the Y
     ; coordinate will be restored near the end of this routine.
-    LDA $A15E, Y : ADD $20 : STA $20
+    LDA $A15E, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
 
@@ -1000,10 +1000,10 @@ BRANCH_KESRA:
     LDA $A030, X : STA $04 ; Multiples of 0x50...
     
     ; I think Y is the "pose" for the particular direction we're facing.
-    TYA : AND.w #$00FF : ASL A : ADD $04 : TAY
+    TYA : AND.w #$00FF : ASL A : CLC : ADC $04 : TAY
     
     ; $02 is probably a subpose index...
-    LDA $9EF0, Y : ADD $02 : STA $02 : TAY
+    LDA $9EF0, Y : CLC : ADC $02 : STA $02 : TAY
     
     LDA $9CF1, Y : AND.w #$00FF : STA $04
     
@@ -1031,9 +1031,9 @@ BRANCH_GHEIN:
 
 BRANCH_EIN:
 
-    TXA : AND.w #$00FF : ADD $74 : TAX
+    TXA : AND.w #$00FF : CLC : ADC $74 : TAX
     
-    LDA $76 : AND.w #$00FF : ADD $A038, X : STA $74
+    LDA $76 : AND.w #$00FF : CLC : ADC $A038, X : STA $74
     
     LDY $74
     
@@ -1051,7 +1051,7 @@ BRANCH_CAPRICORN:
     
     LDY $04
     
-    LDA ($0A), Y : AND.w #$00FF : ADD $0352 : TAX
+    LDA ($0A), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
     
     LDY $74
     
@@ -1073,8 +1073,8 @@ BRANCH_AQUARIUS:
 
     STA $0F : STZ $0E
     
-    LDA $92ED, Y : ADD $01 : SUB $0F : STA $0801, X
-    LDA $9369, Y : ADD $00 :            STA $0800, X
+    LDA $92ED, Y : CLC : ADC $01 : SUB $0F : STA $0801, X
+    LDA $9369, Y : CLC : ADC $00 :            STA $0800, X
     
     REP #$20
     
@@ -1114,7 +1114,7 @@ BRANCH_SCOPRIO:
     
     LDY $04
     
-    LDA ($0A), Y : AND.w #$00FF : ADD $0352 : TAX
+    LDA ($0A), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
     
     LDY $74
     
@@ -1136,9 +1136,9 @@ BRANCH_CLOUD:
 
     STA $0F : STZ $0E
     
-    LDA $93E5, Y : ADD $01 : SUB $0F : STA $0801, X
+    LDA $93E5, Y : CLC : ADC $01 : SUB $0F : STA $0801, X
     
-    LDA $9461, Y : ADD $00 : STA $0800, X
+    LDA $9461, Y : CLC : ADC $00 : STA $0800, X
     
     REP #$20
     
@@ -1226,9 +1226,9 @@ BRANCH_MARS:
 
     STA $0B
     
-    LDA $01 : ADD $8EEF, Y : SUB $0B : STA $0B
+    LDA $01 : CLC : ADC $8EEF, Y : SUB $0B : STA $0B
     
-    LDA $00 : ADD $90EE, Y : STA $0A : STA $08
+    LDA $00 : CLC : ADC $90EE, Y : STA $0A : STA $08
     
     LDA $0301 : AND.b #$02 : BEQ BRANCH_JUPITER
     
@@ -1270,7 +1270,7 @@ BRANCH_PLUTO:
 
     REP #$20
     
-    LDA $06 : ASL A : ADD $06 : ASL A : TAY
+    LDA $06 : ASL A : CLC : ADC $06 : ASL A : TAY
     
     STZ $06
     
@@ -1282,7 +1282,7 @@ BRANCH_PLUTO:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : ADD $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
     
     PLY
     
@@ -1348,13 +1348,13 @@ BRANCH_MICKEY:
 
     SEP #$20
     
-    LDA $0A : ADD.b #$08 : STA $0A
+    LDA $0A : CLC : ADC.b #$08 : STA $0A
     
     INY #2
     
     LDA $06 : INC A : STA $06 : AND.b #$01 : BNE BRANCH_DALE
     
-    LDA $0B : ADD.b #$08 : STA $0B
+    LDA $0B : CLC : ADC.b #$08 : STA $0B
     
     LDA $08 : STA $0A
 
@@ -1409,9 +1409,9 @@ BRANCH_TERRA:
 
     STA $0B
     
-    LDA $01 : ADD $94DD, Y : DEC A : SUB $0B : STA $0B
+    LDA $01 : CLC : ADC $94DD, Y : DEC A : SUB $0B : STA $0B
     
-    LDA $00 : ADD $96DC, Y : STA $0A : STA $08
+    LDA $00 : CLC : ADC $96DC, Y : STA $0A : STA $08
     
     LDA $96DC, Y
     
@@ -1430,7 +1430,7 @@ BRANCH_TERRA:
 
     REP #$30
     
-    LDA $06 : ASL A : ADD $06 : ASL A : TAY
+    LDA $06 : ASL A : CLC : ADC $06 : ASL A : TAY
     
     STZ $06
     
@@ -1442,7 +1442,7 @@ BRANCH_TERRA:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : ADD $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
     
     PLY
 
@@ -1473,7 +1473,7 @@ BRANCH_SABIN:
 
     SEP #$20
     
-    LDA $0A : ADD.b #$08 : STA $0A
+    LDA $0A : CLC : ADC.b #$08 : STA $0A
     
     INY #2
     
@@ -1481,7 +1481,7 @@ BRANCH_SABIN:
     
     LDA $06 : AND.b #$01 : BNE BRANCH_EDGAR
     
-    LDA $0B : ADD.b #$08 : STA $0B
+    LDA $0B : CLC : ADC.b #$08 : STA $0B
     
     LDA $08 : STA $0A
 
@@ -1559,14 +1559,14 @@ BRANCH_ADLAI:
 
 BRANCH_CYAN:
 
-    ADD $06 : STA $06
+    CLC : ADC $06 : STA $06
     
     SEP #$20
     
     LDA $07 : BNE BRANCH_UMARO
     
-    LDA $01 : ADD $98DB, Y : STA $07
-    LDA $00 : ADD $98E7, Y : STA $06
+    LDA $01 : CLC : ADC $98DB, Y : STA $07
+    LDA $00 : CLC : ADC $98E7, Y : STA $06
     
     REP #$30
     
@@ -1576,7 +1576,7 @@ BRANCH_CYAN:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : ADD $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
     
     LDA $0A : ASL #2 : TAY
     
@@ -1586,7 +1586,7 @@ BRANCH_CYAN:
     
     LDA $06 : STA $0800, X
     
-    XBA : ADD.w #$0800 : XBA : STA $0804, X
+    XBA : CLC : ADC.w #$0800 : XBA : STA $0804, X
     
     LDA $0346 : BNE BRANCH_MAGENTA
     
@@ -1613,7 +1613,7 @@ BRANCH_MOG:
     LDY $04
     
     ; Determine the finalized offset into the OAM buffer?
-    LDA ($74), Y : AND.w #$00FF : ADD $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
     
     LDA $02 : ASL A : TAY
     
@@ -1621,7 +1621,7 @@ BRANCH_MOG:
     
     ASL A : STA $0100
     
-    ADD $0E : TAY
+    CLC : ADC $0E : TAY
     
     SEP #$20
     
@@ -1648,8 +1648,8 @@ BRANCH_MEGAMAN:
     STA $0F
     STZ $0E
     
-    LDA $01 : ADD $8000, Y : SUB $0F : STA $0B
-    LDA $00 : ADD $8001, Y            : STA $0A
+    LDA $01 : CLC : ADC $8000, Y : SUB $0F : STA $0B
+    LDA $00 : CLC : ADC $8001, Y            : STA $0A
     
     REP #$20
     
@@ -1683,7 +1683,7 @@ BRANCH_CRONO:
     
     ASL #4 : ORA $64 : ORA $0346 : ORA.w #$0002 : STA $0806, X
     
-    LDA $00 : SUB $0E : ADD.w #$0800 : STA $0804, X
+    LDA $00 : SUB $0E : CLC : ADC.w #$0800 : STA $0804, X
     
     TXA : LSR #2 : TAX
     
@@ -1749,7 +1749,7 @@ BRANCH_LUCCA:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : ADD $0352 : LSR #2 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : LSR #2 : TAX
     
     STZ $0A20, X
 
@@ -1946,7 +1946,7 @@ BRANCH_FROG:
         
         LDA $2F : AND.w #$00FF : LSR A : STA $0E
         
-        ASL #3 : ADD $0E : ASL A : ADD $0A : TAY
+        ASL #3 : CLC : ADC $0E : ASL A : CLC : ADC $0A : TAY
         
         LDA $AC45, Y : CMP.w #$FFFF : BEQ BRANCH_BETA
         
@@ -1962,8 +1962,8 @@ BRANCH_FROG:
         
         SEP #$20
         
-        LDA $AC8D, Y : ADD $01 : STA $0B
-        LDA $ACB1, Y : ADD $00 : STA $0A
+        LDA $AC8D, Y : CLC : ADC $01 : STA $0B
+        LDA $ACB1, Y : CLC : ADC $00 : STA $0A
         
         LDA $AC8D, Y : STA $44
         LDA $ACB1, Y : STA $45
@@ -2004,7 +2004,7 @@ BRANCH_FROG:
         
         JSR PlayerOam_GetHighestSetBit
         
-        LDA $ADB4, X : ADD $030E : ASL #2 : STA $06 : STZ $07
+        LDA $ADB4, X : CLC : ADC $030E : ASL #2 : STA $06 : STZ $07
         
         LDA.b #$42 : STA $0109
         
@@ -2016,7 +2016,7 @@ BRANCH_FROG:
         
         LDA $04 : AND.w #$00FF : TAY
         
-        LDA ($74), Y : AND.w #$00FF : ADD $0352 : TAX
+        LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
         
         LDY $06
         
@@ -2026,8 +2026,8 @@ BRANCH_FROG:
     
         SEP #$20
         
-        LDA $01 : ADD $AD94, Y : STA $0B
-        LDA $00 : ADD $ADA4, Y : STA $0A
+        LDA $01 : CLC : ADC $AD94, Y : STA $0B
+        LDA $00 : CLC : ADC $ADA4, Y : STA $0A
         
         PHY
         
@@ -2099,9 +2099,9 @@ BRANCH_FROG:
         
         LDA .unknown_0, X : STA $06
         
-        LDA $51 : SUB.b #$0C : SUB $E8 : ADD.b #$1D : STA $07
+        LDA $51 : SUB.b #$0C : SUB $E8 : CLC : ADC.b #$1D : STA $07
         
-        LDA $00 : ADD $06 : STA $06
+        LDA $00 : CLC : ADC $06 : STA $06
         
         STZ $04
         
@@ -2115,7 +2115,7 @@ BRANCH_FROG:
         
         LDA $03 : AND.w #$00FF : TAY
         
-        LDA ($74), Y : AND.w #$00FF : ADD $0352 : TAX
+        LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
         
         PLY
     
@@ -2141,7 +2141,7 @@ BRANCH_FROG:
         
         PLX
         
-        LDA $06 : ADD.b #$08 : STA $06
+        LDA $06 : CLC : ADC.b #$08 : STA $06
         
         INY #2
         
@@ -2193,10 +2193,10 @@ BRANCH_FROG:
         
         ; See which direction Link is facing
         ; Probably positions the water/grass sprite appropriately
-        LDA $0323 : LSR A : ADD $AECD, Y : TAY
+        LDA $0323 : LSR A : CLC : ADC $AECD, Y : TAY
         
-        LDA $01 : ADD $98DB, Y : STA $07
-        LDA $00 : ADD $98E7, Y : STA $06
+        LDA $01 : CLC : ADC $98DB, Y : STA $07
+        LDA $00 : CLC : ADC $98E7, Y : STA $06
         
         ; $8D = secondary timer * 4
         LDA $0355 : ASL #2 : STA $8D
@@ -2243,13 +2243,13 @@ BRANCH_FROG:
     
         ASL #2 : STA $8D
         
-        LDA.b #$08 : ASL #2 : ADD $8D : TAY
+        LDA.b #$08 : ASL #2 : CLC : ADC $8D : TAY
         
         BRA BRANCH_ZETA
     
     BRANCH_BETA:
     
-        LDA.b #$05 : ASL #2 : ADD $8D : TAY
+        LDA.b #$05 : ASL #2 : CLC : ADC $8D : TAY
     
     BRANCH_ZETA:
     
@@ -2261,7 +2261,7 @@ BRANCH_FROG:
     TYA : AND.w #$00FF : TAY
     
     ; Get the offset of where to put the OAM.
-    TXA : AND.w #$00FF : ADD $0352 : TAX
+    TXA : AND.w #$00FF : CLC : ADC $0352 : TAX
         
     ; Char and property bytes for the left half of the grass/splash.
     LDA $85CF, Y : AND.w #$CFFF : ORA $035D : STA $0802, X
@@ -2278,7 +2278,7 @@ BRANCH_FROG:
     ; X and Y pos for right half by just adding 8 to the x pos.
     ; Why tf are you switching bytes and then adding #$0800? why not just add #$0080 and
     ; skip flipping A and B??
-    XBA : ADD.w #$0800 : XBA : STA $0804, X
+    XBA : CLC : ADC.w #$0800 : XBA : STA $0804, X
         
     TXA : LSR #2 : TAX
         
@@ -2318,7 +2318,7 @@ BRANCH_FROG:
     
     .alpha
     
-        LDA .offsets, X : ADD $01 : STA $01
+        LDA .offsets, X : CLC : ADC $01 : STA $01
         
         REP #$30
         
@@ -2343,7 +2343,7 @@ BRANCH_FROG:
     
     .positive
     
-        ADD $22 : SUB $E2 : XBA : AND.w #$0001 : STA $03FA
+        CLC : ADC $22 : SUB $E2 : XBA : AND.w #$0001 : STA $03FA
         
         SEP #$20
         

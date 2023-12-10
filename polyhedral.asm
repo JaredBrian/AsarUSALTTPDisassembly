@@ -223,13 +223,13 @@
         LDY $53 : STY $211B
         LDY $46 : STY $211C
         
-        ADD $2134
+        CLC : ADC $2134
         
         LDY $5A : STY $211B
         LDY $5B : STY $211B
         LDY $47 : STY $211C
         
-        ADD $2134
+        CLC : ADC $2134
         
         CLI
         
@@ -255,7 +255,7 @@
         LDY $5F : STY $211B
         LDY $47 : STY $211C
         
-        ADD $2135
+        CLC : ADC $2135
         
         ; Note that this combines a CLC with a CLI
         REP #$05

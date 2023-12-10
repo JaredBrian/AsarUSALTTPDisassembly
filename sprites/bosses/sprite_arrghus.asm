@@ -219,7 +219,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$18 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$18 : STA $7FF81E, X
         LDA $0D20, Y              : STA $7FF85A, X
         
         LDA.b #$0F : STA $7FF90E, X
@@ -441,7 +441,7 @@
 
     ; *$F36E9-$F3817 LOCAL
     {
-        LDA $0B08 : ADD $0B0C  : STA $0B08
+        LDA $0B08 : CLC : ADC $0B0C  : STA $0B08
         LDA $0B09 : ADC.b #$00 : STA $0B09
         
         LDA $1A : AND.b #$03 : BNE .increment_delay
@@ -470,24 +470,24 @@
         
         REP #$20
         
-        LDA $0B08 : ADD $B674, Y : EOR $B68E, Y : STA $00
+        LDA $0B08 : CLC : ADC $B674, Y : EOR $B68E, Y : STA $00
         
         SEP #$20
         
         PLY
         
-        LDA $0B0A : ADD $B6A8, Y : STA $0E
+        LDA $0B0A : CLC : ADC $B6A8, Y : STA $0E
                                    STA $0F
         
         LDA $0FB5 : STA $02
         
-        LDA $0D90, X : ADD $02 : TAY
+        LDA $0D90, X : CLC : ADC $02 : TAY
         
-        LDA $0F : ADD $B6B5, Y : STA $0F
+        LDA $0F : CLC : ADC $B6B5, Y : STA $0F
         
-        LDA $0DA0, X : ADD $02 : TAY
+        LDA $0DA0, X : CLC : ADC $02 : TAY
         
-        LDA $0E : ADD $B6B5, Y : STA $0E
+        LDA $0E : CLC : ADC $B6B5, Y : STA $0E
         
         PHX
         
@@ -497,7 +497,7 @@
         
         LDA $04E800, X : STA $04
         
-        LDA $00 : ADD.w #$0080 : STA $02 : AND.w #$00FF : ASL A : TAX
+        LDA $00 : CLC : ADC.w #$0080 : STA $02 : AND.w #$00FF : ASL A : TAX
         
         LDA $04E800, X : STA $06
         
@@ -535,7 +535,7 @@
     
     .x_adjustment_positive
     
-        ADD $0D10, X : LDY $0FB5 : STA $0B10, Y
+        CLC : ADC $0D10, X : LDY $0FB5 : STA $0B10, Y
         LDA $0D30, X : ADC $0A   : STA $0B20, Y
         
         LDA $06 : STA $4202
@@ -568,7 +568,7 @@
     
     .y_adjustment_positive
     
-        ADD $0D00, X : PHP : SUB.b #$10 : LDY $0FB5     : STA $0B30, Y
+        CLC : ADC $0D00, X : PHP : SUB.b #$10 : LDY $0FB5     : STA $0B30, Y
         LDA $0D20, X       : SBC.b #$00 : PLP : ADC $0A : STA $0B40, Y
         
         ; \task More of a note, but if our new assembler can handle meta branch
@@ -616,7 +616,7 @@
     
     .adjust_upper_chr
     
-        LDA ($90), Y : ADD $00 : STA ($90), Y
+        LDA ($90), Y : CLC : ADC $00 : STA ($90), Y
         
         INY #4 : CPY.b #$12 : BCC .adjust_upper_chr
         
@@ -637,7 +637,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         

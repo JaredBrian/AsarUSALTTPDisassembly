@@ -77,7 +77,7 @@
     
     .no_x_sign_extend
     
-        ADD $00 : STA $08
+        CLC : ADC $00 : STA $08
         
         ; The y offsets
         LDA .offsets_xy+1, X
@@ -88,7 +88,7 @@
     
     .no_y_sign_extend
     
-        ADD $02 : STA $0A
+        CLC : ADC $02 : STA $0A
         
         SEP #$20
         

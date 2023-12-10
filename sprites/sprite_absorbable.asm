@@ -306,7 +306,7 @@
     
     .apply_refill_amount
     
-        ADD $7EF372 : STA $7EF372
+        CLC : ADC $7EF372 : STA $7EF372
         
         RTS
     }
@@ -334,7 +334,7 @@
         
         ; (actual useful values start at $351BB)
         ; Give us this many more rupees
-        LDA .rupee_quantities-$D9, Y : REP #$20 : ADD $7EF360 : STA $7EF360
+        LDA .rupee_quantities-$D9, Y : REP #$20 : CLC : ADC $7EF360 : STA $7EF360
         
         SEP #$20
         
@@ -361,7 +361,7 @@
         LDY $0E20, X
         
         ; (actual useful values start at $351D5)
-        LDA $D0F9, Y : ADD $7EF375 : STA $7EF375
+        LDA $D0F9, Y : CLC : ADC $7EF375 : STA $7EF375
         
         RTS
     }
@@ -372,7 +372,7 @@
     SmallMagicRefill_AbsorptionByPlayer:
     {
         ; small magic decanter
-        LDA $7EF373 : ADD.b #$10
+        LDA $7EF373 : CLC : ADC.b #$10
         
         BRA .apply_refill_amount
     
@@ -407,7 +407,7 @@
     
     .apply_refill_amount
     
-        ADD $7EF376 : STA $7EF376
+        CLC : ADC $7EF376 : STA $7EF376
         
         RTS
     }
@@ -572,19 +572,19 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

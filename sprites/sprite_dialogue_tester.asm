@@ -64,7 +64,7 @@
     DialogueTester_IncrementMessageIndex:
     {
         ; Move to the next message
-        LDA $0D90, X : ADD.b #$01 : STA $0D90, X
+        LDA $0D90, X : CLC : ADC.b #$01 : STA $0D90, X
         
         LDA $0DA0, X : ADC.b #$00 : STA $0DA0, X
         

@@ -247,7 +247,7 @@
     
         LDA $0C68, X : BNE .delay_reckoning
         
-        LDA $0BFA, X : ADD.b #-24                : STA $0BFA, X
+        LDA $0BFA, X : CLC : ADC.b #-24                : STA $0BFA, X
                        LDA.b #-1  : ADC $0C0E, X : STA $0C0E, X
         
         BRL Ancilla_TransmuteToObjectSplash
@@ -287,10 +287,10 @@
     
     .moving_floor_collision
     
-        LDA $0310 : ADD $0BFA, X : STA $72
+        LDA $0310 : CLC : ADC $0BFA, X : STA $72
         LDA $0311 : ADC $0C0E, X : STA $73
         
-        LDA $0312 : ADD $0C04, X : STA $0C04, X
+        LDA $0312 : CLC : ADC $0C04, X : STA $0C04, X
         LDA $0313 : ADC $0C18, X : STA $0C18, X
         
         BRA .state_logic
@@ -517,8 +517,8 @@
         
         REP #$20
         
-        LDA $04 : ADD.w #-16 : STA $04
-        LDA $06 : ADD.w #-16 : STA $06
+        LDA $04 : CLC : ADC.w #-16 : STA $04
+        LDA $06 : CLC : ADC.w #-16 : STA $06
         
         SEP #$20
         
@@ -531,10 +531,10 @@
         
         JSL Utility_CheckIfHitBoxesOverlapLong : BCC .dont_damage_player
         
-        LDA $0C04, X : ADD.b #$-8 : STA $00
+        LDA $0C04, X : CLC : ADC.b #$-8 : STA $00
         LDA $0C18, X : ADC.b #$-1 : STA $01
         
-        LDA $0BFA, X : ADD.b #$-12 : STA $02
+        LDA $0BFA, X : CLC : ADC.b #$-12 : STA $02
         LDA $0C0E, X : ADC.b #$-1  : STA $03
         
         PHX
@@ -795,7 +795,7 @@
         LDA.b #$11 : STA $029E, X
         
         ; y_coord += 0x11;
-        LDA $0BFA, X : ADD.b #$11 : STA $0BFA, X
+        LDA $0BFA, X : CLC : ADC.b #$11 : STA $0BFA, X
         LDA $0C0E, X : ADC.b #$00 : STA $0C0E, X
         
         STZ $0280, X
@@ -805,12 +805,12 @@
     ; *$41A6A ALTERNATE ENTRY POINT
     shared Ancilla_PegCoordsToPlayer:
     
-        TYA : ASL #3 : ADD $2F : TAY
+        TYA : ASL #3 : CLC : ADC $2F : TAY
         
-        LDA $20 : ADD .player_relative_y_offsets+0, Y : STA $0BFA, X
+        LDA $20 : CLC : ADC .player_relative_y_offsets+0, Y : STA $0BFA, X
         LDA $21 : ADC .player_relative_y_offsets+1, Y : STA $0C0E, X
         
-        LDA $22 : ADD .player_relative_x_offsets+0, Y : STA $0C04, X
+        LDA $22 : CLC : ADC .player_relative_x_offsets+0, Y : STA $0C04, X
         LDA $23 : ADC .player_relative_x_offsets+1, Y : STA $0C18, X
     
     .cant_throw
@@ -898,7 +898,7 @@
     
     .sign_ext_y_coord
     
-        ADD $0C : STA $0C
+        CLC : ADC $0C : STA $0C
         
         SEP #$20
         
@@ -924,7 +924,7 @@
         
         INC $0385, X : LDA $0385, X : CMP.b #$03 : BEQ .bounces_maxed_out
         
-        SUB.b #$02 : ASL #2 : ADD $0C72, X : TAY
+        SUB.b #$02 : ASL #2 : CLC : ADC $0C72, X : TAY
         
         LDY.b #$00
         
@@ -1048,8 +1048,8 @@
     
         EOR.w #$FFFF : INC A
         
-        ADD $20 : ADD .z_offset_player_moving, Y : ADD.w #$0012 : STA $00
-        LDA $22                                  : ADD.w #$0008 : STA $02
+        CLC : ADC $20 : CLC : ADC .z_offset_player_moving, Y : CLC : ADC.w #$0012 : STA $00
+        LDA $22                                  : CLC : ADC.w #$0008 : STA $02
         
         SEP #$20
         
@@ -1139,7 +1139,7 @@
     
     .not_hitting_ground
     
-        EOR.w #$FFFF : INC A : ADD $72 : STA $0E
+        EOR.w #$FFFF : INC A : CLC : ADC $72 : STA $0E
         
         SEP #$20
         
@@ -1178,7 +1178,7 @@
         REP #$20
         
         ; A = Link's X pos. + 8 - effect's X pos.
-        LDA $22 : ADD.w #$0008 : SUB $06 : BPL .abs_delta_x
+        LDA $22 : CLC : ADC.w #$0008 : SUB $06 : BPL .abs_delta_x
         
         ; A = abs(A) [absolute value]
         EOR.w #$FFFF : INC A
@@ -1187,7 +1187,7 @@
     
         STA $0A
         
-        LDA $20 : ADD.w #$000C : SUB $04 : BPL .abs_delta_y
+        LDA $20 : CLC : ADC.w #$000C : SUB $04 : BPL .abs_delta_y
         
         ; A = abs(Link's Y pos. + 0x0C - effect's Y pos.)
         EOR.w #$FFFF : INC A
@@ -1196,7 +1196,7 @@
     
         ; add the X and Y absolute distances together, and snap to a 
         ; 4 by 4 pixel grid
-        ADD $0A : AND.w #$00FC : LSR #2 : TAY
+        CLC : ADC $0A : AND.w #$00FC : LSR #2 : TAY
         
         SEP #$20
         
@@ -1414,7 +1414,7 @@
     
     .not_max_oam_priority
     
-        LDA.w #$0000 : ADD $04 : EOR.w #$FFFF : INC A : ADD $00 : STA $00
+        LDA.w #$0000 : CLC : ADC $04 : EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00
         
         SEP #$20
         
@@ -1491,8 +1491,8 @@
         REP #$20
         
         ; \optimize Use constant folding to reduce by two instructions.
-        LDA.w #$00D0 : ADD.w #$0800 : STA $90
-        LDA.w #$0034 : ADD.w #$0A20 : STA $92
+        LDA.w #$00D0 : CLC : ADC.w #$0800 : STA $90
+        LDA.w #$0034 : CLC : ADC.w #$0A20 : STA $92
         
         SEP #$20
     

@@ -73,7 +73,7 @@
     .delay
     
         ; Increment the (speed counter?)
-        LDA $0C2C, X : ADD.b #$01 : STA $0C2C, X
+        LDA $0C2C, X : CLC : ADC.b #$01 : STA $0C2C, X
         
         BRL EtherSpell_RadialStates
     
@@ -93,7 +93,7 @@
         CMP.b #$03   : BEQ .radial_states
         CMP.b #$04   : BEQ .calm_before_ball_scatter
         
-        LDA $0C2C, X : ADD.b #$10 : BPL .radial_speed_not_maxed
+        LDA $0C2C, X : CLC : ADC.b #$10 : BPL .radial_speed_not_maxed
         
         LDA.b #$7F
     
@@ -425,7 +425,7 @@
     
         STA $08
         
-        ADD $7F5810 : ADD.w #$FFF8 : SUB $E8 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SUB $E8 : STA $00
         
         LDA $04
         
@@ -437,7 +437,7 @@
     
         STA $0A
         
-        ADD $7F580E : ADD.w #$FFF8 : SUB $E2 : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SUB $E2 : STA $02
         
         PLY
         
@@ -562,7 +562,7 @@
     
         STA $08
         
-        ADD $7F5810 : ADD.w #$FFF8 : SUB $E8 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SUB $E8 : STA $00
         
         LDA $04
         
@@ -574,7 +574,7 @@
     
         STA $0A
         
-        ADD $7F580E : ADD.w #$FFF8 : SUB $E2 : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SUB $E2 : STA $02
         
         PLY
         
@@ -584,7 +584,7 @@
         
         LDA $73 : ASL #4 : STA $0E
         
-        TXA : ASL A : ADD $0E : TAX
+        TXA : ASL A : CLC : ADC $0E : TAX
         
         LDA .chr, X        : STA ($90), Y : INY
         LDA .properties, X : STA ($90), Y : INY
@@ -597,8 +597,8 @@
         
         REP #$20
         
-        LDA $08 : ADD $7F5810 : ADD .y_offsets, X : SUB $E8 : STA $00
-        LDA $0A : ADD $7F580E : ADD .x_offsets, X : SUB $E2 : STA $02
+        LDA $08 : CLC : ADC $7F5810 : CLC : ADC .y_offsets, X : SUB $E8 : STA $00
+        LDA $0A : CLC : ADC $7F580E : CLC : ADC .x_offsets, X : SUB $E2 : STA $02
         
         SEP #$20
         
@@ -663,7 +663,7 @@
         
         PHX
         
-        LDA $06 : ASL A : ADD $08 : TAX
+        LDA $06 : ASL A : CLC : ADC $08 : TAX
         
         LDA .chr, X : STA ($90), Y
         
@@ -708,8 +708,8 @@
     {
         REP #$20
         
-        LDA $7F5813 : ADD.w #$FFFF : SUB $E8 : STA $00
-        LDA $7F5815 : ADD.w #$FFF8 : SUB $E2 : STA $02 : STA $04
+        LDA $7F5813 : CLC : ADC.w #$FFFF : SUB $E8 : STA $00
+        LDA $7F5815 : CLC : ADC.w #$FFF8 : SUB $E2 : STA $02 : STA $04
         
         STZ $08
         
@@ -736,14 +736,14 @@
         
         REP #$20
         
-        LDA $02 : ADD.w #$0010 : STA $02
+        LDA $02 : CLC : ADC.w #$0010 : STA $02
         
         INC $06
         
         INC $08 : LDA $08 : CMP.w #$0004 : BEQ .done_drawing
                             CMP.w #$0002 : BNE .dont_prep_right_half
         
-        LDA $00 : ADD.w #$0010 : STA $00
+        LDA $00 : CLC : ADC.w #$0010 : STA $00
         
         LDA $04 : STA $02
     

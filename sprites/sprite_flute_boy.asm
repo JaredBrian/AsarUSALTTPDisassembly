@@ -492,7 +492,7 @@
         
         LDA $1A : LSR #5 : EOR $0FA0 : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD .directions, Y : STA $0D50, X
+        LDA $0D50, X : CLC : ADC .directions, Y : STA $0D50, X
     
     .odd_frame
     
@@ -506,7 +506,7 @@
     {
         LDA.b #$2E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
         LDA $02 : SUB.b #$04 : STA $0D00, Y

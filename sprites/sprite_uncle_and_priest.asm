@@ -100,10 +100,10 @@
         
         ASL A : TAY
         
-        LDA .x_offsets + 0, Y : ADD $0D10, X : STA $0D10, X
+        LDA .x_offsets + 0, Y : CLC : ADC $0D10, X : STA $0D10, X
         LDA .x_offsets + 1, Y : ADC $0D30, X : STA $0D30, X
         
-        LDA .y_offsets + 0, Y : ADD $0D00, X : STA $0D00, X
+        LDA .y_offsets + 0, Y : CLC : ADC $0D00, X : STA $0D00, X
         LDA .y_offsets + 1, Y : ADC $0D20, X : STA $0D20, X
         
         INC $0BA0, X
@@ -120,7 +120,7 @@
         ; soldiers?
         LDA $7EF3C6 : AND.b #$10 : BNE .self_terminate
         
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         
         RTS
     
@@ -325,7 +325,7 @@
 
     ; *$2DC00-$2DC38 JUMP LOCATION
     {
-        LDA $0D10, X : PHA : ADD.b #$13 : STA $0D10, X
+        LDA $0D10, X : PHA : CLC : ADC.b #$13 : STA $0D10, X
         LDA $0D30, X : PHA : ADC.b #$00 : STA $0D30, X
         
         JSR Sprite2_DirectionToFacePlayer

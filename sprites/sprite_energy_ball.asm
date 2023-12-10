@@ -236,10 +236,10 @@
     
         LDA.b #$55 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y

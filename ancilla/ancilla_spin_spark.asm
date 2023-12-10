@@ -93,7 +93,7 @@
         
         LDA $11 : BNE .dont_advance_spark_rotation
         
-        LDA $7F5800, X : ADD.b #$04 : AND.b #$3F : STA $7F5800, X
+        LDA $7F5800, X : CLC : ADC.b #$04 : AND.b #$3F : STA $7F5800, X
     
     .dont_advance_spark_rotation
     
@@ -135,7 +135,7 @@
         
         CMP.b #$03 : BNE .extra_spark_rotation_delay
         
-        LDA $7F5804 : ADD.b #$09 : AND.b #$3F : STA $7F5804
+        LDA $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA $7F5804
     
     .skip_extra_spark_logic
     .extra_spark_rotation_delay
@@ -200,7 +200,7 @@
     
     .positive_y_projection
     
-        ADD $7F5810 : ADD.w #$FFFC : SUB $E8 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFFC : SUB $E8 : STA $00
         
         LDA $04
         
@@ -210,7 +210,7 @@
     
     .positive_x_projection
     
-        ADD $7F580E : ADD.w #$FFFC : SUB $E2 : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFFC : SUB $E2 : STA $02
         
         SEP #$20
         
@@ -248,7 +248,7 @@
         
         LDY.b #$00 : STY $04
         
-        LDA $0C5E, X : ADD.b #$04 : ASL #2 : TAX
+        LDA $0C5E, X : CLC : ADC.b #$04 : ASL #2 : TAX
         
         BRL Ancilla_InitialSpinSpark.oam_commit_loop
     }

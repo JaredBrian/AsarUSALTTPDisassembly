@@ -23,8 +23,8 @@
         
         STZ $0DD0, X
         
-        LDA $0D10, X : ADD.b #$04 : STA $0D10, X
-        LDA $0D00, X : ADD.b #$04 : STA $0D00, X
+        LDA $0D10, X : CLC : ADC.b #$04 : STA $0D10, X
+        LDA $0D00, X : CLC : ADC.b #$04 : STA $0D00, X
         
         JSL Sprite_PlaceRupulseSpark.coerce
         
@@ -73,7 +73,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA $0F20, Y : STA $7FF92C, X
@@ -228,10 +228,10 @@
         
         LDA $0DE0, X : PHX : TAX
         
-        LDA $00 : ADD .x_offsets_low, X  : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low, X  : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y
@@ -357,7 +357,7 @@
         
         LDY $0DE0, X
         
-        LDA $AEF5, Y : ADD $0D90, X : STA $06
+        LDA $AEF5, Y : CLC : ADC $0D90, X : STA $06
         
         ASL #2 : ADC $06 : STA $06
         
@@ -370,17 +370,17 @@
     
         PHX
         
-        TXA : ADD $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC $06 : PHA : ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD $AD51, X : STA ($90), Y
+        LDA $00 : CLC : ADC $AD51, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $ADC9, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $ADC9, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .alpha
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
         
         LDA.w #$00F0 : STA ($90), Y
     

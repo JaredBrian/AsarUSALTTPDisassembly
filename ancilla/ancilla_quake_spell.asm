@@ -111,7 +111,7 @@
         SEP #$20
         
         ; Make this move the player too, slightly?
-        LDA $30 : ADD $011C : STA $30
+        LDA $30 : CLC : ADC $011C : STA $30
         
         RTS
     }
@@ -219,7 +219,7 @@
     {
         PHX
         
-        LDA $7F5805, X : ADD .pointer_offsets, X : ASL A : TAY
+        LDA $7F5805, X : CLC : ADC .pointer_offsets, X : ASL A : TAY
         
         ; Start pointer.
         LDA .pointers+0, Y : STA $72
@@ -251,7 +251,7 @@
     
         STA $02
         
-        LDA $7F580D : ADD $02 : SUB $E2 : STA $02
+        LDA $7F580D : CLC : ADC $02 : SUB $E2 : STA $02
         
         INX : TXY
         
@@ -263,7 +263,7 @@
     
         STA $00
         
-        LDA $7F580B : ADD $00 : SUB $E8 : STA $00
+        LDA $7F580B : CLC : ADC $00 : SUB $E8 : STA $00
         
         INX
         

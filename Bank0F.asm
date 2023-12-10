@@ -180,8 +180,8 @@
         
         REP #$20
         
-        LDA $20 : ADD.w #$0010 : SUB $E8 : STA $00
-        LDA $22 : ADD.w #$0007 : SUB $E2 : STA $02
+        LDA $20 : CLC : ADC.w #$0010 : SUB $E8 : STA $00
+        LDA $22 : CLC : ADC.w #$0007 : SUB $E2 : STA $02
         
         SEP #$20
         
@@ -273,8 +273,8 @@
         
         REP #$20
         
-        LDA $20 : ADD.w #$000C : STA $7F5810
-        LDA $22 : ADD.w #$0008 : STA $7F580E
+        LDA $20 : CLC : ADC.w #$000C : STA $7F5810
+        LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
         
         SEP #$20
         
@@ -288,10 +288,10 @@
     
         LDY $0C72, X
         
-        LDA $7F5810 : ADD .y_offsets_low,  Y : STA $0BFA, X
+        LDA $7F5810 : CLC : ADC .y_offsets_low,  Y : STA $0BFA, X
         LDA $7F5811 : ADC .y_offsets_high, Y : STA $0C0E, X
         
-        LDA $7F580E : ADD .x_offsets_low,  Y : STA $0C04, X
+        LDA $7F580E : CLC : ADC .x_offsets_low,  Y : STA $0C04, X
         LDA $7F580F : ADC .x_offsets_high, Y : STA $0C18, X
         
         JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA $012F
@@ -379,10 +379,10 @@
     
         LDY $0C72, X
         
-        LDA $0BFA, X : ADD .y_offsets_low,  Y : STA $0BFA, X
+        LDA $0BFA, X : CLC : ADC .y_offsets_low,  Y : STA $0BFA, X
         LDA $0C0E, X : ADC .y_offsets_high, Y : STA $0C0E, X
         
-        LDA $0C04, X : ADD .x_offsets_low,  Y : STA $0C04, X
+        LDA $0C04, X : CLC : ADC .x_offsets_low,  Y : STA $0C04, X
         LDA $0C18, X : ADC .x_offsets_high, Y : STA $0C18, X
         
         ; Transmute into a beam hit object.
@@ -415,7 +415,7 @@
         
         LDA $11 : BNE .dont_rotate_component
         
-        LDA $7F5800, X : ADD $76 : AND.b #$3F : STA $7F5800, X
+        LDA $7F5800, X : CLC : ADC $76 : AND.b #$3F : STA $7F5800, X
     
     .dont_rotate_component
     
@@ -458,7 +458,7 @@
         
         LDA $03A4, X : INC A : AND.b #$03 : STA $03A4, X : CMP.b #$03 : BNE .dont_rotate_extra_spark
         
-        LDA $7F5804 : ADD $76 : AND.b #$3F : STA $7F5804
+        LDA $7F5804 : CLC : ADC $76 : AND.b #$3F : STA $7F5804
     
     .dont_rotate_extra_spark
     
@@ -550,10 +550,10 @@
     
         LDA $2F : LSR A : TAY
         
-        LDA $20 : ADD .y_offsets_low,  Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets_low,  Y : STA $00
         LDA $21 : ADC .y_offsets_high, Y : STA $01
         
-        LDA $22 : ADD .x_offsets_low,  Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets_low,  Y : STA $02
         LDA $23 : ADC .x_offsets_high, Y : STA $03
         
         REP #$20
@@ -688,7 +688,7 @@
     
     .sign_ext_y_offset
     
-        ADD $20 : ADD .y_offsets, Y : ADD $04 : STA $00
+        CLC : ADC $20 : CLC : ADC .y_offsets, Y : CLC : ADC $04 : STA $00
         
         LDA $75 : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_x_offset
         
@@ -696,7 +696,7 @@
     
     .sign_ext_x_offset
     
-        ADD $22 : ADD .x_offsets, Y : ADD $06 : STA $02
+        CLC : ADC $22 : CLC : ADC .x_offsets, Y : CLC : ADC $06 : STA $02
         
         SEP #$20
         
@@ -718,7 +718,7 @@
     ; *$7FA37-$7FA42 LOCAL
     SwordBeam_MoveHoriz:
     {
-    	TXA : ADD.b #$0A : TAX
+    	TXA : CLC : ADC.b #$0A : TAX
 
     	JSR SwordBeam_MoveVert
 
@@ -732,7 +732,7 @@
     ; *$7FA43-$7FA6E LOCAL
     SwordBeam_MoveVert:
     {
-        LDA $0C22, X : ASL #4 : ADD $0C36, X : STA $0C36, X
+        LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X
         
         LDY.b #$00
         
@@ -862,10 +862,10 @@
     	REP #$20
         
         ; \note It appears that these are screen boundaries of some sort.
-    	LDA $0600 : ADD.w #$0001 : STA $02
-    	LDA $0602 : ADD.w #$FFFF : STA $04
+    	LDA $0600 : CLC : ADC.w #$0001 : STA $02
+    	LDA $0602 : CLC : ADC.w #$FFFF : STA $04
         
-    	LDA $00 : ADD $E8 : CMP $02 : BEQ .zero_shake_vert
+    	LDA $00 : CLC : ADC $E8 : CMP $02 : BEQ .zero_shake_vert
                                       BCC .zero_shake_vert
                             CMP $04 : BEQ .zero_shake_vert
                                       BCC .return
@@ -879,10 +879,10 @@
     	REP #$20
         
         ; \note It appears that these are screen boundaries of some sort.
-    	LDA $0604 : ADD.w #$0001 : STA $02
-    	LDA $0606 : ADD.w #$FFFF : STA $04
+    	LDA $0604 : CLC : ADC.w #$0001 : STA $02
+    	LDA $0606 : CLC : ADC.w #$FFFF : STA $04
         
-    	LDA $00 : ADD $E2 : CMP $02 : BEQ .zero_shake_horiz
+    	LDA $00 : CLC : ADC $E2 : CMP $02 : BEQ .zero_shake_horiz
                                       BCC .zero_shake_horiz
                             CMP $04 : BEQ .zero_shake_horiz
                                       BCC .return
@@ -1207,7 +1207,7 @@
     .anoreset_ripple_animation_index
     
         ; Puts a water ripple around the bomb
-        LDA $03D2, X : ADD.b #$04 : STA $0A
+        LDA $03D2, X : CLC : ADC.b #$04 : STA $0A
         
         LDA $012E : AND.b #$3F
         
@@ -1268,9 +1268,9 @@
     
     .sign_ext_z_coord
     
-        ADD $0C : ADD.w #$0002 : STA $00
+        CLC : ADC $0C : CLC : ADC.w #$0002 : STA $00
         
-        LDA $0E : ADD.w #$FFF8 : STA $02
+        LDA $0E : CLC : ADC.w #$FFF8 : STA $02
         
         SEP #$20
         

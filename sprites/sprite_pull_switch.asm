@@ -111,7 +111,7 @@
     
     .delta
     
-        LDA $0D10, X : ADD.b #$0E : STA $22
+        LDA $0D10, X : CLC : ADC.b #$0E : STA $22
         LDA $0D30, X : ADC.b #$00 : STA $23
     
     .alpha
@@ -143,7 +143,7 @@
     
     .beta
     
-        LDA $0D00, X : ADD.b #$09 : STA $20
+        LDA $0D00, X : CLC : ADC.b #$09 : STA $20
         LDA $0D20, X : ADC.b #$00 : STA $21
         
         RTS
@@ -203,8 +203,8 @@
     
     .next_oam_entry
     
-        LDA $00 : ADD $D7CA, X          : STA ($90), Y
-        LDA $02 : ADD $D7D0, X    : INY : STA ($90), Y
+        LDA $00 : CLC : ADC $D7CA, X          : STA ($90), Y
+        LDA $02 : CLC : ADC $D7D0, X    : INY : STA ($90), Y
         LDA .chr, X                 : INY : STA ($90), Y
         LDA .h_flip, X : ORA.b #$21 : INY : STA ($90), Y
         
@@ -284,7 +284,7 @@
     
         INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -318,7 +318,7 @@
         
         LDA .player_pull_poses-1, Y : STA $0377
         
-        LDA $0D00, X : ADD .player_y_offsets-1, Y : STA $20
+        LDA $0D00, X : CLC : ADC .player_y_offsets-1, Y : STA $20
         LDA $0D20, X : ADC.b #$00                 : STA $21
         
         LDA $0D10, X : STA $22
@@ -407,7 +407,7 @@
         LDA $00                      : STA ($90), Y
                           LDY.b #$00 : STA ($90), Y
         LDA $02 : DEC A : LDY.b #$01 : STA ($90), Y
-        ADD $06         : LDY.b #$05 : STA ($90), Y
+        CLC : ADC $06         : LDY.b #$05 : STA ($90), Y
         LDA.b #$CE      : LDY.b #$06 : STA ($90), Y
         LDA.b #$EE      : LDY.b #$02 : STA ($90), Y
         LDA $05         : LDY.b #$03 : STA ($90), Y
@@ -449,7 +449,7 @@
     
     .delta
     
-        LDA $0D10, X : ADD.b #$0E : STA $22
+        LDA $0D10, X : CLC : ADC.b #$0E : STA $22
         LDA $0D30, X : ADC.b #$00 : STA $23
         
         RTS
@@ -483,7 +483,7 @@
     
     .epsilon
     
-        LDA $0D00, X : ADD.b #$09 : STA $20
+        LDA $0D00, X : CLC : ADC.b #$09 : STA $20
         LDA $0D20, X : ADC.b #$00 : STA $21
         
         RTS

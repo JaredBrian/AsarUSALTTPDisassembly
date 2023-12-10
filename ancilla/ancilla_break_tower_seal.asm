@@ -7,7 +7,7 @@
         LDA $0C54, X : BNE .not_first_state
         
         ; The first state is just a single crystal and no fancypants stuff.
-        LDA $0C22, X : ADD.b #$FF : CMP.b #$F0 : BCS .crystal_not_full_speed
+        LDA $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .crystal_not_full_speed
         
         LDA.b #$F0
     
@@ -29,11 +29,11 @@
         
         ; If the crystal somehow ends up higher than we wanted it to, snap
         ; it at Y coordinate 0x38 (that's what this code is for)
-        LDA #$0038 : ADD $0122 : STA $00
+        LDA #$0038 : CLC : ADC $0122 : STA $00
         
-        ADD.w #$0008 : STA $7F5810
+        CLC : ADC.w #$0008 : STA $7F5810
         
-        LDA $02 : ADD.w #$0008 : STA $7F580E
+        LDA $02 : CLC : ADC.w #$0008 : STA $7F580E
         
         SEP #$20
         
@@ -205,7 +205,7 @@
     
     .positive_y_projection
     
-        ADD $7F5810 : ADD.w #$FFF8 : SUB $0122 : STA $00
+        CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SUB $0122 : STA $00
         
         LDA $04
         
@@ -215,7 +215,7 @@
     
     .positive_x_projection
     
-        ADD $7F580E : ADD.w #$FFF8 : SUB $011E : STA $02
+        CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SUB $011E : STA $02
         
         PLY
         
@@ -335,10 +335,10 @@
         ; \bug Is the aforementioned a bug? Could be fun to test in debugger.
         TXA : AND.b #$07 : TAX
         
-        LDA $7F5817, X : ADD $08    : STA $00
+        LDA $7F5817, X : CLC : ADC $08    : STA $00
         LDA $7F581F, X : ADC.b #$00 : STA $01
         
-        LDA $7F5827, X : ADD $09    : STA $02
+        LDA $7F5827, X : CLC : ADC $09    : STA $02
         LDA $7F582F, X : ADC.b #$00 : STA $03
         
         PLX

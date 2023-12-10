@@ -142,7 +142,7 @@
         
         LDA $0E30, X : BNE .delta
         
-        LDA $0E40, X : ADD.b #$02 : STA $0E40, X
+        LDA $0E40, X : CLC : ADC.b #$02 : STA $0E40, X
         
         INC $0E30, X
         

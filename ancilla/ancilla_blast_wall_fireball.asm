@@ -16,8 +16,8 @@
     {
         LDA $11 : BNE .just_draw
         
-        LDA $0C5E, X : ADD.b #$02   : STA $0C5E, X
-                       ADD $0C22, X : STA $0C22, X
+        LDA $0C5E, X : CLC : ADC.b #$02   : STA $0C5E, X
+                       CLC : ADC $0C22, X : STA $0C22, X
         
         JSR Ancilla_MoveVert
         JSR Ancilla_MoveHoriz

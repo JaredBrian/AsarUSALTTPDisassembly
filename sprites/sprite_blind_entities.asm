@@ -176,7 +176,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$0A : STA $7FF90E, X
@@ -293,7 +293,7 @@
         
         LDA $0D50, X : CMP .x_speed_limits, Y : BEQ .anoalter_x_speed
         
-        ADD $8000, Y : STA $0D50, X
+        CLC : ADC $8000, Y : STA $0D50, X
     
     .anoalter_x_speed
     .never
@@ -313,7 +313,7 @@
         
         LDA $0D40, X : CMP .y_speeds, Y : BEQ .anoalter_y_speed
         
-        ADD $8000, Y : STA $0D40, X
+        CLC : ADC $8000, Y : STA $0D40, X
     
     .anoalter_y_speed
     .never_2
@@ -361,7 +361,7 @@
         
         LDA.b #$17 : STA $0F70, Y
         
-        ADD $02 : STA $0D00, Y
+        CLC : ADC $02 : STA $0D00, Y
         
         LDA $00 : ASL A : ROL A : AND.b #$01 : STA !head_x_accel_polarity, Y
         LDA $02 : ASL A : ROL A : AND.b #$01 : STA !head_y_accel_polarity, Y
@@ -442,7 +442,7 @@
     .sign_extend_x_speed
     
         ; Effectively this is Sprite_MoveHoriz but not in 16ths of a pixel.
-              ADD $0D10, X : STA $0D10, X
+              CLC : ADC $0D10, X : STA $0D10, X
         TYA : ADC $0D30, X : STA $0D30, X
         
         LDY.b #$00
@@ -454,7 +454,7 @@
     .sign_extend_y_speed
     
         ; Same goes for the y speed (Sprite_MoveVert).
-              ADD $0D00, X : STA $0D00, X
+              CLC : ADC $0D00, X : STA $0D00, X
         TYA : ADC $0D20, X : STA $0D20, X
         
         JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision
@@ -866,10 +866,10 @@
         
         LDA.b #$CE : JSL Sprite_SpawnDynamically
         
-        LDA $00 : ADD.b #$10 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$10 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$28 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$28 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$0F : STA $0DC0, Y
@@ -973,7 +973,7 @@
     
         LDA !y_accel_polarity, X : AND.b #$01 : TAY
         
-        LDA $0D40, X : ADD $8000, Y : STA $0D40, X
+        LDA $0D40, X : CLC : ADC $8000, Y : STA $0D40, X
         
         CMP $A567, Y : BNE .anoinvert_y_acceleration
         
@@ -985,7 +985,7 @@
         
         LDA $0D50, X : CMP .x_speed_limits, Y : BEQ .x_speed_maxed
         
-        ADD $8000, Y : STA $0D50, X
+        CLC : ADC $8000, Y : STA $0D50, X
     
     .x_speed_maxed
     
@@ -1056,7 +1056,7 @@
         
         LDA $0D40, X : CMP .y_speed_limits, Y : BEQ .y_speed_maxed
         
-        ADD .y_accelerations, Y : STA $0D40, X
+        CLC : ADC .y_accelerations, Y : STA $0D40, X
     
     .y_speed_maxed
     
@@ -1078,7 +1078,7 @@
         LDA $0D50, X : BEQ .fully_decelerated_x
                        BPL .positive_speed_x
         
-        ADD.b #$04
+        CLC : ADC.b #$04
     
     .positive_speed_x
     
@@ -1135,7 +1135,7 @@
     
     .not_yet_in_position
     
-        ADD .animation_step_directions, Y : STA $0DC0, X
+        CLC : ADC .animation_step_directions, Y : STA $0DC0, X
     
     .animation_logic_done
     .delay_animation_adjustment
@@ -1146,7 +1146,7 @@
         LDA $0D40, X : BEQ .fully_decelerated_y
                        BPL .positive_y_speed
         
-        ADD.b #$08
+        CLC : ADC.b #$08
     
     .positive_y_speed
     
@@ -1231,7 +1231,7 @@
         
         ; Now offset it by another small amount we calculated earlier and...
         ; fire the laser?
-        LDA $A6D7, Y : ADD $01 : AND.b #$0F : STA !head_angle, X
+        LDA $A6D7, Y : CLC : ADC $01 : AND.b #$0F : STA !head_angle, X
     
     .counterattacking
     
@@ -1242,7 +1242,7 @@
     
         LDA !blind_direction, X : DEC #2 : ASL #4 : STA $00
         
-        LDA !forward_timer, X : LSR #3 : AND.b #$03 : ADD $00 : TAY
+        LDA !forward_timer, X : LSR #3 : AND.b #$03 : CLC : ADC $00 : TAY
         
         LDA .animation_states, Y : STA $0DC0, X
         
@@ -1275,7 +1275,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         
         LDA !head_angle, X : STA !head_angle, Y
         
@@ -1375,7 +1375,7 @@
         
         ASL #3 : STA $00
         
-        ASL #3 : SUB $00 : ADD.w #BlindPoof_Draw.body_oam_groups : STA $08
+        ASL #3 : SUB $00 : CLC : ADC.w #BlindPoof_Draw.body_oam_groups : STA $08
         
         SEP #$20
         
@@ -1426,9 +1426,9 @@
     {
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$000E : CMP.w #$001C : BCS .dont_damage
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
         
-        LDA $20 : SUB $0FDA : ADD.w #$0000 : CMP.w #$001C : BCS .dont_damage
+        LDA $20 : SUB $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
         
         SEP #$20
         

@@ -130,7 +130,7 @@
     
         AND.b #$03 : BNE .anostep_angle
         
-        LDA $0DE0, X : ADD !rotarity, X : AND.b #$0F : STA $0DE0, X
+        LDA $0DE0, X : CLC : ADC !rotarity, X : AND.b #$0F : STA $0DE0, X
     
     .anostep_angle
     

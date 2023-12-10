@@ -26,9 +26,9 @@
         
         REP #$20
         
-        LDA $0FD8 : ADD .x_offsets, Y : STA $0FD8
+        LDA $0FD8 : CLC : ADC .x_offsets, Y : STA $0FD8
         
-        LDA $0FDA : ADD .y_offsets, Y : STA $0FDA
+        LDA $0FDA : CLC : ADC .y_offsets, Y : STA $0FDA
         
         SEP #$20
         
@@ -100,10 +100,10 @@
         JSR Sprite4_Move
         
         LDA $0ED0, X : SUB $0D10, X
-                       ADD.b #$04 : CMP.b #$08 : BCS .not_at_target_position
+                       CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
         LDA $0EC0, X : SUB $0D00, X
-                       ADD.b #$04 : CMP.b #$08 : BCS .not_at_target_position
+                       CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
         INC $0D80, X
     
@@ -138,10 +138,10 @@
         JSR Sprite4_Move
         
         LDA $0D90, X : SUB $0D10, X
-                       ADD.b #$04 : CMP.b #$08 : BCS .not_at_target_position
+                       CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
         LDA $0DB0, X : SUB $0D00, X
-                       ADD.b #$04 : CMP.b #$08 : BCS .not_at_target_position
+                       CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
         
         LDA $0D90, X : STA $0D10, X
         LDA $0DA0, X : STA $0D30, X

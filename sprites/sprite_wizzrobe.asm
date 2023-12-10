@@ -196,7 +196,7 @@
         
         LDY $0DE0, X
         
-        ADD .animation_state_offsets, Y : STA $0DC0, X
+        CLC : ADC .animation_state_offsets, Y : STA $0DC0, X
         
         RTS
     }
@@ -251,10 +251,10 @@
         LDA.b #$01 : STA $0DB0, Y
                      STA $0BA0, Y
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$00 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$00 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         PHX

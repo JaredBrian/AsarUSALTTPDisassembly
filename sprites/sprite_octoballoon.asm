@@ -145,7 +145,7 @@
     
     .dont_spawn_babies
     
-        LDA $0DF0, X : LSR A : AND.b #$04 : ADD.b #$04 : STA $0A
+        LDA $0DF0, X : LSR A : AND.b #$04 : CLC : ADC.b #$04 : STA $0A
     
     .not_dying
     
@@ -155,7 +155,7 @@
         
         LDA.b #$03 : STA $0B
         
-        ADD $0A : TAX
+        CLC : ADC $0A : TAX
     
     .next_oam_entry
     
@@ -165,13 +165,13 @@
         
         REP #$20
         
-        LDA $00 : ADD $D73C, X : STA ($90), Y
+        LDA $00 : CLC : ADC $D73C, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD $D754, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $D754, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

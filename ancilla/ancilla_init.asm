@@ -40,7 +40,7 @@
         
         LDA $0301 : BEQ .nothing_in_hand
         
-        LDA $2F : LSR A : ADD.b #$02 : TAY
+        LDA $2F : LSR A : CLC : ADC.b #$02 : TAY
         
         BRA .continue
     
@@ -62,12 +62,12 @@
         
         REP #$20
         
-        LDA .xy_offsets+0, Y : ADD $20 : STA $00
-        LDA .xy_offsets+2, Y : ADD $22 : STA $02
+        LDA .xy_offsets+0, Y : CLC : ADC $20 : STA $00
+        LDA .xy_offsets+2, Y : CLC : ADC $22 : STA $02
         
         TYA : LSR A : TAY
         
-        LDA $22 : ADD .unknown_offsets, Y : STA $04
+        LDA $22 : CLC : ADC .unknown_offsets, Y : STA $04
         
         SEP #$20
         
@@ -152,8 +152,8 @@
         
         REP #$20
         
-        LDA $20 : ADD.w #$0004 : STA $00
-        LDA $22 : ADD.w #$0010 : STA $02
+        LDA $20 : CLC : ADC.w #$0004 : STA $00
+        LDA $22 : CLC : ADC.w #$0010 : STA $02
         
         SEP #$20
         
@@ -247,8 +247,8 @@
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -260,8 +260,8 @@
         
         REP #$20
         
-        LDA $20 : ADD .closer_y_offsets, Y : STA $00
-        LDA $22 : ADD .closer_x_offsets, Y : STA $02
+        LDA $20 : CLC : ADC .closer_y_offsets, Y : STA $00
+        LDA $22 : CLC : ADC .closer_x_offsets, Y : STA $02
         
         SEP #$20
     
@@ -364,7 +364,7 @@
         STY $00
         
         ; Add additional offset to the index if it's the magic boomerang.
-        LDA $0394, X : ASL A : ADD $00 : TAY
+        LDA $0394, X : ASL A : CLC : ADC $00 : TAY
         
         LDA .speeds, Y : STA $00 : STA $03C5, X
         
@@ -501,8 +501,8 @@
         ; throwing animation will not be done.
         REP #$20
         
-        LDA $20 : ADD.w #8 : ADD .sword_held_y_offsets, Y : STA $00
-        LDA $22            : ADD .sword_held_x_offsets, Y : STA $02
+        LDA $20 : CLC : ADC.w #8 : CLC : ADC .sword_held_y_offsets, Y : STA $00
+        LDA $22            : CLC : ADC .sword_held_x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -512,8 +512,8 @@
     
         REP #$20
         
-        LDA $20 : ADD.w #8 : ADD .typical_y_offsets, Y : STA $00
-        LDA $22            : ADD .typical_x_offsets, Y : STA $02
+        LDA $20 : CLC : ADC.w #8 : CLC : ADC .typical_y_offsets, Y : STA $00
+        LDA $22            : CLC : ADC .typical_x_offsets, Y : STA $02
         
         SEP #$20
     
@@ -926,7 +926,7 @@ AddReceivedItem:
     
     .addToStock
     
-    TXA : ADD [$00] : STA [$00]
+    TXA : CLC : ADC [$00] : STA [$00]
         
     CMP.b #99 : BCC .noKeyOverflow
         LDA.b #99 : STA [$00]
@@ -1085,14 +1085,14 @@ AddReceivedItem:
         SEP #$20
         
         ; Since we're indoors (chests only occur indoors), add the base coordinates for the room we're in
-        LDA $01 : ADD $062F : STA $01
-        LDA $03 : ADD $062D : STA $03
+        LDA $01 : CLC : ADC $062F : STA $01
+        LDA $03 : CLC : ADC $062D : STA $03
         
         REP #$20
         
-        LDA $836C, Y : AND.w #$00FF : ORA.w #$FF00 : ADD $00 : STA $00
+        LDA $836C, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
         
-        LDA .x_offsets, X : AND.w #$00FF : ADD $02
+        LDA .x_offsets, X : AND.w #$00FF : CLC : ADC $02
         
         BRL .finishedWithCoords
     
@@ -1200,7 +1200,7 @@ AddReceivedItem:
     .noYAdjustForText
     
     ; Add to Link's coordinate and adjust altitude with $08
-    LDA $00 : ADD $20 : ADD $08 : STA $00
+    LDA $00 : CLC : ADC $20 : CLC : ADC $08 : STA $00
         
     LDA $04 : BEQ .noXAdjustForText
         ; Sign extend the byte to a 2-byte position offset for the X coordinate
@@ -1209,7 +1209,7 @@ AddReceivedItem:
     .noXAdjustForText
     
     ; Add to Link's X coordinate
-    LDA $02 : ADD $22
+    LDA $02 : CLC : ADC $22
     
     .finishedWithCoords
     
@@ -1260,7 +1260,7 @@ GiveBottledItem:
     BRA .notBottle
         .foundBottle
     
-        TXA : ADD.b #$02 : STA $0C
+        TXA : CLC : ADC.b #$02 : STA $0C
         
         LDX.b #$00
     
@@ -1292,7 +1292,7 @@ GiveBottledItem:
     BRA .finished
         .potionMatch
     
-        TXA : ADD.b #$03 : STA $0C
+        TXA : CLC : ADC.b #$03 : STA $0C
         
         LDX.b #$00
     
@@ -1420,9 +1420,9 @@ GiveBottledItem:
         REP #$20
         
         ; Set up initial coordinates for the item sprite
-        LDA .y_offsets, Y : AND.w #$00FF : ORA.w #$FF00 : ADD $20 : STA $00
+        LDA .y_offsets, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $20 : STA $00
         
-        LDA .x_offsets, Y : AND.w #$00FF : ADD $22 : STA $02
+        LDA .x_offsets, Y : AND.w #$00FF : CLC : ADC $22 : STA $02
         
         SEP #$20
         
@@ -1532,9 +1532,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD.w #-12 : STA $00
+        LDA $20 : CLC : ADC.w #-12 : STA $00
         
-        LDA $22 : ADD.w #4 : STA $02
+        LDA $22 : CLC : ADC.w #4 : STA $02
         
         SEP #$20
         
@@ -1669,8 +1669,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA .y_offsets, Y : ADD $E8 : STA $00
-        LDA .x_offsets, Y : ADD $E2 : STA $02
+        LDA .y_offsets, Y : CLC : ADC $E8 : STA $00
+        LDA .x_offsets, Y : CLC : ADC $E2 : STA $02
         
         SEP #$20
         
@@ -1683,9 +1683,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA .y_offsets, Y : ADD $E8 : STA $00
+        LDA .y_offsets, Y : CLC : ADC $E8 : STA $00
         
-        LDA $22 : ADD.w #$0000 : STA $02
+        LDA $22 : CLC : ADC.w #$0000 : STA $02
         
         SEP #$20
         
@@ -1990,8 +1990,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $00 : ADD.w #$0010 : STA $00
-        LDA $02 : ADD.w #$0008 : STA $02
+        LDA $00 : CLC : ADC.w #$0010 : STA $00
+        LDA $02 : CLC : ADC.w #$0008 : STA $02
         
         SEP #$20
          
@@ -2063,7 +2063,7 @@ GiveBottledItem:
 
     	LDA.b #$03 : STA $0C72, X : TAX
 
-    	LDA.l Ancilla_MagicPowder.animation_group_offsets, X : ADD $00 : TAX
+    	LDA.l Ancilla_MagicPowder.animation_group_offsets, X : CLC : ADC $00 : TAX
 
     	LDA $08B8F4, X
         
@@ -2076,9 +2076,9 @@ GiveBottledItem:
     	REP #$20
         
         ; Position of fairy?
-    	LDA $20 : ADD $92D0, Y : ADD.w #$FFEC : STA $00
+    	LDA $20 : CLC : ADC $92D0, Y : CLC : ADC.w #$FFEC : STA $00
 
-    	LDA $22 : ADD.w #$FFF8 : ADD $92D8, Y : STA $02
+    	LDA $22 : CLC : ADC.w #$FFF8 : CLC : ADC $92D8, Y : STA $02
 
     	SEP #$20
 
@@ -2163,9 +2163,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -2234,8 +2234,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD.w #$FFF8 : STA $00
-        LDA $22 : ADD.w #$0008 : STA $02
+        LDA $20 : CLC : ADC.w #$FFF8 : STA $00
+        LDA $22 : CLC : ADC.w #$0008 : STA $02
         
         SEP #$20
         
@@ -2300,7 +2300,7 @@ GiveBottledItem:
         REP #$20
         
         ; Set Y and X coordinates relative to Link's position
-        LDA $20 : ADD.w #$0014 : STA $00
+        LDA $20 : CLC : ADC.w #$0014 : STA $00
         LDA $22 : STA $02
         
         SEP #$20
@@ -2312,9 +2312,9 @@ GiveBottledItem:
         REP #$20
         
         ; Set Y and X coordinates relative to Link's direction (b/c he's moving)
-        LDA $20 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -2384,8 +2384,8 @@ GiveBottledItem:
         
         LDX $04
         
-        LDA $7F0020, X : ADD.w #$0008 : STA $00
-        LDA $7F0030, X : ADD.w #$0010 : STA $02
+        LDA $7F0020, X : CLC : ADC.w #$0008 : STA $00
+        LDA $7F0030, X : CLC : ADC.w #$0010 : STA $02
         
         PLX
         
@@ -2466,9 +2466,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $72 : ADD.w #$0008 : ADD .y_offsets, Y : STA $00
+        LDA $72 : CLC : ADC.w #$0008 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $74 : ADD .x_offsets, Y : STA $02
+        LDA $74 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -2557,7 +2557,7 @@ GiveBottledItem:
         REP #$20
         
         ; Setup coordinates for the poof
-        LDA $20 : ADD.w #$0004 : STA $00
+        LDA $20 : CLC : ADC.w #$0004 : STA $00
         LDA $22 : STA $02
         
         SEP #$20
@@ -2612,8 +2612,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $00 : ADD.w #$0004 : STA $00
-        LDA $02 : ADD.w #$0000 : STA $02
+        LDA $00 : CLC : ADC.w #$0004 : STA $00
+        LDA $02 : CLC : ADC.w #$0000 : STA $02
         
         SEP #$20
         
@@ -2650,7 +2650,7 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $74 : ADD.w #$FFFE : STA $00
+        LDA $74 : CLC : ADC.w #$FFFE : STA $00
         
         LDA $72 : STA $02
         
@@ -2711,11 +2711,11 @@ GiveBottledItem:
         
         LDA $20 : STA $7F5813
         
-        LDA.w #$FFF0 : ADD $E8 : STA $00 : AND.w #$00F0 : STA $7F580C
+        LDA.w #$FFF0 : CLC : ADC $E8 : STA $00 : AND.w #$00F0 : STA $7F580C
         
-        LDA $22 : STA $02 : STA $7F5815 : ADD.w #$0008 : STA $7F580E
+        LDA $22 : STA $02 : STA $7F5815 : CLC : ADC.w #$0008 : STA $7F580E
         
-        LDA $20 : SUB.w #$0010 : STA $7F580A : ADD.w #$0024 : STA $7F5810
+        LDA $20 : SUB.w #$0010 : STA $7F580A : CLC : ADC.w #$0024 : STA $7F5810
         
         SEP #$20
         
@@ -2802,8 +2802,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD $92E0, Y : STA $04
-        LDA $22 : ADD $92E8, Y : STA $06
+        LDA $20 : CLC : ADC $92E0, Y : STA $04
+        LDA $22 : CLC : ADC $92E8, Y : STA $06
         
         SEP #$20
         
@@ -2831,9 +2831,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -2881,9 +2881,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -3054,8 +3054,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $0399 : ADD .y_offsets, Y : STA $00
-        LDA $039B : ADD .x_offsets, Y : STA $02
+        LDA $0399 : CLC : ADC .y_offsets, Y : STA $00
+        LDA $039B : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -3094,8 +3094,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $00 : ADD $9448, Y : STA $00
-        LDA $02 : ADD $9458, Y : STA $02
+        LDA $00 : CLC : ADC $9448, Y : STA $00
+        LDA $02 : CLC : ADC $9458, Y : STA $02
         
         SEP #$20
         
@@ -3180,7 +3180,7 @@ GiveBottledItem:
         
         LDA $20 : SUB.w #8 : STA $00
         
-        LDA.w #-16 : ADD $E2 : STA $02
+        LDA.w #-16 : CLC : ADC $E2 : STA $02
         
         SEP #$20
         
@@ -3232,8 +3232,8 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD.w #$001A : STA $7F580B
-        LDA $22 : ADD.w #$0008 : STA $7F580D
+        LDA $20 : CLC : ADC.w #$001A : STA $7F580B
+        LDA $22 : CLC : ADC.w #$0008 : STA $7F580D
         
         LDA.w #$0003 : STA $7F581E
         
@@ -3304,9 +3304,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -3387,8 +3387,8 @@ GiveBottledItem:
     
         REP #$20
         
-        LDA $967A, Y : ADD $7F0018 : STA $7F0018
-        LDA $9682, Y : ADD $7F001A : STA $7F001A
+        LDA $967A, Y : CLC : ADC $7F0018 : STA $7F0018
+        LDA $9682, Y : CLC : ADC $7F001A : STA $7F001A
         
         SEP #$20
         
@@ -3407,8 +3407,8 @@ GiveBottledItem:
     
         REP #$20
         
-        LDA .xy_offsets+0, Y : ADD $7F0018 : STA $7F0020, X
-        LDA .xy_offsets+2, Y : ADD $7F001A : STA $7F0030, X
+        LDA .xy_offsets+0, Y : CLC : ADC $7F0018 : STA $7F0020, X
+        LDA .xy_offsets+2, Y : CLC : ADC $7F001A : STA $7F0030, X
         
         SUB $E2 : STA $00
         
@@ -3496,12 +3496,12 @@ GiveBottledItem:
         REP #$20
         
         LDA $0A : EOR.w #$FFFF : INC A
-                                 ADD $00
-                                 ADD.w #-2
-                                 ADD $04 : STA $00
+                                 CLC : ADC $00
+                                 CLC : ADC.w #-2
+                                 CLC : ADC $04 : STA $00
         
-        LDA $02 : ADD $06
-                  ADD.w #2 : STA $02
+        LDA $02 : CLC : ADC $06
+                  CLC : ADC.w #2 : STA $02
         
         SEP #$20
         
@@ -3579,9 +3579,9 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $00 : ADD .y_offsets, Y : ADD $04 : STA $00
+        LDA $00 : CLC : ADC .y_offsets, Y : CLC : ADC $04 : STA $00
         
-        LDA $02 : ADD .x_offsets, Y : ADD $06 : STA $02
+        LDA $02 : CLC : ADC .x_offsets, Y : CLC : ADC $06 : STA $02
         
         SEP #$20
         
@@ -3660,11 +3660,11 @@ GiveBottledItem:
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
         
         SUB $E8 : STA $04
         
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SUB $E2 : STA $06
         
@@ -3738,8 +3738,8 @@ GiveBottledItem:
     
         REP #$20
         
-        LDA $20 : ADD.w #$0008 : STA $00
-        LDA $22 : ADD.w #$FFF5 : STA $02
+        LDA $20 : CLC : ADC.w #$0008 : STA $00
+        LDA $22 : CLC : ADC.w #$FFF5 : STA $02
         
         SEP #$20
         
@@ -3841,7 +3841,7 @@ pool AddGravestone:
     
     .round_to_next_tile
     
-        TYA : ADD.w #$0010
+        TYA : CLC : ADC.w #$0010
     
     .clipTo16Pixels
     
@@ -3870,7 +3870,7 @@ pool AddGravestone:
     
         LDA $994A, Y : CMP $22 : BCS .xCoordNonMatch
         
-        ADD.w #$000F : CMP $22 : BCC .xCoordNonMatch
+        CLC : ADC.w #$000F : CMP $22 : BCC .xCoordNonMatch
         
         ; X coord was a match, but only one of the graves is dashable in the 
         ; game (this is hardcoded here)
@@ -3951,9 +3951,9 @@ pool AddGravestone:
         TYA : AND.w #$00FF : TAY
         
         ; Load the tilemap locations of the graves.
-        LDA $9968, Y : ADD.w #$FFFE : STA $00
+        LDA $9968, Y : CLC : ADC.w #$FFFE : STA $00
         
-        ADD.w #$FFF0 : STA $04
+        CLC : ADC.w #$FFF0 : STA $04
         
         LDA $9986, Y : STA $02
         
@@ -4038,8 +4038,8 @@ pool AddGravestone:
         
         REP #$20
         
-        LDA $20 : ADD .y_offsets, Y : STA $00
-        LDA $22 : ADD .x_offsets, Y : STA $02
+        LDA $20 : CLC : ADC .y_offsets, Y : STA $00
+        LDA $22 : CLC : ADC .x_offsets, Y : STA $02
         
         SEP #$20
         
@@ -4167,7 +4167,7 @@ pool AddGravestone:
         
         REP #$20
         
-        LDA $20 : ADD.w #$FFF0 : STA $00
+        LDA $20 : CLC : ADC.w #$FFF0 : STA $00
         
         LDA $22 : STA $02
         
@@ -4538,14 +4538,14 @@ pool AddGravestone:
         
         ; Y = directional value of object * 6
         LDA $0C72, X : ASL A : STA $02
-                       ASL A : ADD $02 : TAY
+                       ASL A : CLC : ADC $02 : TAY
     
     .next_entry
     
         REP #$20
         
-        LDA .y_offsets, Y : ADD $20 : STA $02
-        LDA .x_offsets, Y : ADD $22 : STA $04
+        LDA .y_offsets, Y : CLC : ADC $20 : STA $02
+        LDA .x_offsets, Y : CLC : ADC $22 : STA $04
         
         SEP #$20
         
@@ -4625,8 +4625,8 @@ pool AddGravestone:
     
         REP #$20
         
-        LDA $9E24, Y : ADD $20 : STA $02
-        LDA $9E34, Y : ADD $22 : STA $04
+        LDA $9E24, Y : CLC : ADC $20 : STA $02
+        LDA $9E34, Y : CLC : ADC $22 : STA $04
         
         SEP #$20
         

@@ -135,7 +135,7 @@
         
         LDY $0C72, X
         
-        LDA $0C5E, X : ASL A : ADD $0C5E, X : ADD .directed_oam_group, Y : TAX
+        LDA $0C5E, X : ASL A : CLC : ADC $0C5E, X : CLC : ADC .directed_oam_group, Y : TAX
         
         LDY.b #$00
     
@@ -151,7 +151,7 @@
     
     .positive_y_offset
     
-        ADD $04 : STA $00
+        CLC : ADC $04 : STA $00
         
         LDA .x_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_x_offset
         
@@ -159,7 +159,7 @@
     
     .positive_x_offset
     
-        ADD $06 : STA $02
+        CLC : ADC $06 : STA $02
         
         SEP #$20
         

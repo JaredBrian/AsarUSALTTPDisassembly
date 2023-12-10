@@ -17,7 +17,7 @@
         STZ $0DD0, X
         
         ; Spawn 2 to 5 apples.
-        JSL GetRandomInt : AND.b #$03 : ADD.b #$02 : TAY
+        JSL GetRandomInt : AND.b #$03 : CLC : ADC.b #$02 : TAY
     
     .next_spawn_attempt
     
@@ -103,7 +103,7 @@
         JSL Sound_SetSfx3PanLong
         
         ; Fill in the player's life meter by 8 points (1 heart)
-        LDA $7EF372 : ADD.b #$08 : STA $7EF372
+        LDA $7EF372 : CLC : ADC.b #$08 : STA $7EF372
     
     .expired_so_self_terminate
     
@@ -137,7 +137,7 @@
         
         ASL A : LDA.b #$00 : ROL A : TAY
         
-        PLA : ADD .speeds, Y : STA $0D50, X
+        PLA : CLC : ADC .speeds, Y : STA $0D50, X
     
     .x_speed_at_rest
     
@@ -147,7 +147,7 @@
         
         ASL A : LDA.b #$00 : ROL A : TAY
         
-        PLA : ADD .speeds, Y : STA $0D40, X
+        PLA : CLC : ADC .speeds, Y : STA $0D40, X
     
     .y_speed_at_rest
     

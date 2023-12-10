@@ -227,7 +227,7 @@
     
     .mediumSize
     
-        SUB.b #$40 : ADD.b #$03 : TAY
+        SUB.b #$40 : CLC : ADC.b #$03 : TAY
         
         BRA .setGiftIndex
     
@@ -245,7 +245,7 @@
         REP #$20
         
         ; Add this amount to my rupee collection.
-        LDA $7EF360 : ADD $00 : STA $7EF360
+        LDA $7EF360 : CLC : ADC $00 : STA $7EF360
         
         SEP #$20
         
@@ -405,10 +405,10 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$0C : PHP : SUB $0F70, X : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$0C : PHP : SUB $0F70, X : STA $0D00, Y
         LDA $03 : SBC.b #$00 : PLP : ADC.b #$00   : STA $0D20, Y
         
         LDA.b #$00 : STA $0F70, Y
@@ -566,7 +566,7 @@
         LDA $001ABF : STA $0D10, Y
         LDA $001ACF : STA $0D30, Y
         
-        LDA $001ADF : ADD.b #$08 : STA $0D00, Y
+        LDA $001ADF : CLC : ADC.b #$08 : STA $0D00, Y
         LDA $001AEF : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$00 : STA $0F20, Y : INC A : STA $0BA0, Y
@@ -706,10 +706,10 @@
     .place_soldier
     
         LDA .x_offsets_low,  X :             STA $0D10, Y
-        LDA .x_offsets_high, X : ADD $0FBD : STA $0D30, Y
+        LDA .x_offsets_high, X : CLC : ADC $0FBD : STA $0D30, Y
         
         LDA .y_offsets_low,  X :             STA $0D00, Y
-        LDA .y_offsets_high, X : ADD $0FBF : STA $0D20, Y
+        LDA .y_offsets_high, X : CLC : ADC $0FBF : STA $0D20, Y
         
         PLX
         
@@ -762,7 +762,7 @@
         
         ; \optimize This would be so much faster in 16-bit code, even if
         ; this code isn't used very often, if at all.
-        LDA $E2 : ADD .offsets_low, Y : ROL $00 : CMP $0B08, X         : PHP
+        LDA $E2 : CLC : ADC .offsets_low, Y : ROL $00 : CMP $0B08, X         : PHP
         LDA $E3                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC $0B10, X : STA $00
         
         ; We want the upper byte of the absolute difference between the
@@ -776,7 +776,7 @@
     
         LDA $00 : BMI .terminate
         
-        LDA $E8 : ADD .offsets_low, Y : ROL $00 : CMP $0B18, X         : PHP
+        LDA $E8 : CLC : ADC .offsets_low, Y : ROL $00 : CMP $0B18, X         : PHP
         LDA $E9                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC $0B20, X : STA $00
         
         ; See previous comment regarding sign normalization.
@@ -799,7 +799,7 @@
         
         LDA $0B48, Y : STA $00 : CMP.w #$FFFF : PHP
         
-        LSR #3 : ADD.w #$EF80 : STA $01
+        LSR #3 : CLC : ADC.w #$EF80 : STA $01
         
         ; Why it wouldn't participate, I don't really know.
         PLP : SEP #$20 : BCS .not_participating_in_death_buffer
@@ -1494,7 +1494,7 @@
     
         LDA ($00), Y : PHA : LSR #4 : ASL #2 : STA $02 : INY
         
-        LDA ($00), Y : LSR #4 : ADD $02 : STA $06
+        LDA ($00), Y : LSR #4 : CLC : ADC $02 : STA $06
         
         PLA : ASL #4 : STA $07
         
@@ -1538,7 +1538,7 @@
         PLY
         
         ; Move the scanning location right by 16 pixels each loop
-        LDA $E2 : ADD.b #$10 : STA $E2
+        LDA $E2 : CLC : ADC.b #$10 : STA $E2
         LDA $E3 : ADC.b #$00 : STA $E3
         
         DEY : BPL .loop
@@ -1614,7 +1614,7 @@
     .beta
     
         ; If $069F is negative, this subtracts 0x0010, otherwise it adds 0x0110
-        LDA $E2 : ADD $C5B7, Y : STA $0E
+        LDA $E2 : CLC : ADC $C5B7, Y : STA $0E
         LDA $E3 : ADC $C5B9, Y : STA $0F
         
         ; $0C[0x2] = BG2VOFS - 0x30
@@ -1630,7 +1630,7 @@
         REP #$20
         
         ; Each loop, move 16 pixels down on the map
-        LDA $0C : ADD.w #$0010 : STA $0C
+        LDA $0C : CLC : ADC.w #$0010 : STA $0C
         
         SEP #$20
         
@@ -1665,7 +1665,7 @@
     
     .beta
     
-        LDA $E8 : ADD $C5F6, Y : STA $0C
+        LDA $E8 : CLC : ADC $C5F6, Y : STA $0C
         LDA $E9 : ADC $C5F8, Y : STA $0D
         
         LDA $E2 : SUB.b #$30 : STA $0E
@@ -1680,7 +1680,7 @@
         REP #$20
         
         ; Each loop, move 16 pixels to the right on the map
-        LDA $0E : ADD.w #$0010 : STA $0E
+        LDA $0E : CLC : ADC.w #$0010 : STA $0E
         
         SEP #$20
         
@@ -1775,7 +1775,7 @@
     {
         REP #$20
         
-        LDA $00 : ADD.w #$DF80 : STA $05
+        LDA $00 : CLC : ADC.w #$DF80 : STA $05
         
         SEP #$20
         
@@ -1786,7 +1786,7 @@
         
         REP #$20
         
-        LDA $00 : LSR #3 : ADD.w #$EF80 : STA $02
+        LDA $00 : LSR #3 : CLC : ADC.w #$EF80 : STA $02
         
         SEP #$20
         
@@ -1877,8 +1877,8 @@
         
         LDA $01 : LSR #2 : STA $0D20, X
         
-        LDA $0D30, X : ADD $0FBD : STA $0D30, X
-        LDA $0D20, X : ADD $0FBF : STA $0D20, X
+        LDA $0D30, X : CLC : ADC $0FBD : STA $0D30, X
+        LDA $0D20, X : CLC : ADC $0FBF : STA $0D20, X
         
         STZ $0F20, X : STZ $0E30, X : STZ $0CBA, X
         
@@ -1927,7 +1927,7 @@
         
         PLY : CPY.b #$01 : BNE .gamma
         
-        ADD.b #$08
+        CLC : ADC.b #$08
     
     .gamma
     
@@ -1938,8 +1938,8 @@
         
         LDA $01 : LSR #2 : STA $0B20, X
         
-        LDA $0B10, X : ADD $0FBD : STA $0B10, X
-        LDA $0B20, X : ADD $0FBF : STA $0B20, X
+        LDA $0B10, X : CLC : ADC $0FBD : STA $0B10, X
+        LDA $0B20, X : CLC : ADC $0FBF : STA $0B20, X
         STZ $0B40, X
     
     ; *$4C871 ALTERNATE ENTRY POINT
@@ -2162,12 +2162,12 @@
     
         STA $0D90, Y
         
-        LDA $02 : ADD.b #$03 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$03 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         LDA $0FB5 : CMP.b #$CE : BNE .wasnt_blind_the_thief
         
-        LDA $02 : ADD.b #$10 : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$10 : STA $0D00, Y
         LDA $03 : ADC.b #$00 : STA $0D20, Y
         
         RTS
@@ -2249,7 +2249,7 @@
     
     .use_normal_x_offsets
     
-        LDA $00 : ADD $EDEF, X : STA $0D10, Y
+        LDA $00 : CLC : ADC $EDEF, X : STA $0D10, Y
         LDA $01 : ADC $EDFF, X : STA $0D30, Y
         
         JSL GetRandomInt : AND.b #$07 : TAX
@@ -2260,7 +2260,7 @@
     
     .use_normal_y_offsets
     
-        LDA $02 : ADD $EDEF, X
+        LDA $02 : CLC : ADC $EDEF, X
         
         PHP
         
@@ -2400,7 +2400,7 @@
     
     BRANCH_GAMMA:
     
-        ADD.b #$20
+        CLC : ADC.b #$20
     
     BRANCH_DELTA:
     
@@ -2416,13 +2416,13 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD $EF8B, X : STA ($90), Y
+        LDA $00 : CLC : ADC $EF8B, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
@@ -2430,7 +2430,7 @@
         
         PLX
         
-        LDA $02 : ADD $F00B, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC $F00B, X : INY : STA ($90), Y
         
         LDA $0FB5 : BNE BRANCH_EPSILON
         
@@ -2513,13 +2513,13 @@
     
         PHX
         
-        TXA : ADD $06 : PHA
+        TXA : CLC : ADC $06 : PHA
         
         ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
@@ -2527,7 +2527,7 @@
         
         PLX
         
-        LDA $02      : ADD .y_offsets, X : INY              : STA ($90), Y
+        LDA $02      : CLC : ADC .y_offsets, X : INY              : STA ($90), Y
         LDA .chr, X                      : INY              : STA ($90), Y
         LDA .properties, X               : INY : ORA.b #$22 : STA ($90), Y
         
@@ -2570,7 +2570,7 @@
         
         PHP
         
-        LSR #3 : ADD.w #$EF80 : STA $01
+        LSR #3 : CLC : ADC.w #$EF80 : STA $01
         
         PLP
         

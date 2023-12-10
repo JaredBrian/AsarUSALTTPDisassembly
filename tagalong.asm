@@ -24,9 +24,9 @@
     
         REP #$20
         
-        LDA $00 : ADD $0A : ADD.w #$000C : STA $00
+        LDA $00 : CLC : ADC $0A : CLC : ADC.w #$000C : STA $00
         
-        LDA $02 : ADD.w #$0008 : STA $02
+        LDA $02 : CLC : ADC.w #$0008 : STA $02
         
         LDA.w #$1568 : SUB $00 : BPL .non_negative_delta_x
         
@@ -118,10 +118,10 @@
         
         STZ $02F9
         
-        LDA $0D00, X : ADD.b #$FA : STA $1A00
+        LDA $0D00, X : CLC : ADC.b #$FA : STA $1A00
         LDA $0D20, X : ADC.b #$FF : STA $1A14
         
-        LDA $0D10, X : ADD.b #$01 : STA $1A28
+        LDA $0D10, X : CLC : ADC.b #$01 : STA $1A28
         LDA $0D30, X : ADC.b #$00 : STA $1A3C
         
         LDY $EE
@@ -610,7 +610,7 @@
     
         LDA $02D3 : SUB.b #$0F : BPL BRANCH_XI
         
-        ADD.b #$14
+        CLC : ADC.b #$14
     
     BRANCH_XI:
     
@@ -808,7 +808,7 @@
         
         SUB.b #$09 : BPL BRANCH_XI
         
-        ADD.b #$14
+        CLC : ADC.b #$14
     
     BRANCH_XI:
     
@@ -820,7 +820,7 @@
     
         LDA $02D3 : SUB.b #$14 : BPL BRANCH_PI
         
-        ADD.b #$14
+        CLC : ADC.b #$14
     
     BRANCH_PI:
     
@@ -928,10 +928,10 @@
         REP #$20
         
         LDA $7EF3CD : SUB.w #$0001 : CMP $20 : BCS .not_in_range
-                      ADD.w #$0014 : CMP $20 : BCC .not_in_range
+                      CLC : ADC.w #$0014 : CMP $20 : BCC .not_in_range
         
         LDA $7EF3CF : SUB.w #$0001 : CMP $22 : BCS .not_in_range
-                      ADD.w #$0014 : CMP $22 : BCC .not_in_range
+                      CLC : ADC.w #$0014 : CMP $22 : BCC .not_in_range
         
         SEP #$20
         
@@ -1078,7 +1078,7 @@
     
     .not_room_data_match
     
-        LDA $0C : ADD.w #$000A : TAX
+        LDA $0C : CLC : ADC.w #$000A : TAX
         
         CPX $08 : BNE .next_room_data_block
         
@@ -1109,7 +1109,7 @@
     
     .not_area_data_match
     
-        LDA $0C : ADD.w #$000A : TAX
+        LDA $0C : CLC : ADC.w #$000A : TAX
         
         CPX $08 : BNE .next_area_data_block
         
@@ -1360,9 +1360,9 @@ BRANCH_NU:
 
 BRANCH_LAMBDA:
 
-    ADD $04 : STA $04
+    CLC : ADC $04 : STA $04
     
-    TYA : ADD $04 : STA $04
+    TYA : CLC : ADC $04 : STA $04
     
     REP #$20
     
@@ -1390,9 +1390,9 @@ BRANCH_PHI:
 
     PHA
     
-    LSR #2 : ADD.w #$0A20 : STA $92
+    LSR #2 : CLC : ADC.w #$0A20 : STA $92
     
-    PLA : ADD.w #$0800 : STA $90
+    PLA : CLC : ADC.w #$0800 : STA $90
     
     LDA $00 : SUB $E8 : STA $06
     
@@ -1446,11 +1446,11 @@ BRANCH_ULTIMA:
 
     LDA $02D7 : ASL #2 : STA $05
     
-    TXA : ADD $05 : TAX
+    TXA : CLC : ADC $05 : TAX
     
     REP #$20
     
-    LDA $06 : ADD.w #$0010 : STA $00
+    LDA $06 : CLC : ADC.w #$0010 : STA $00
     
     LDA $08 : STA $02
     
@@ -1473,7 +1473,7 @@ BRANCH_ULTIMA:
     
     REP #$20
     
-    LDA $02 : ADD.w #$0008 : STA $02
+    LDA $02 : CLC : ADC.w #$0008 : STA $02
     
     STZ $74
     
@@ -1533,10 +1533,10 @@ BRANCH_BET:
     
     LDA $7EF3CC : AND.w #$00FF : ASL A : TAX
     
-    TYA : ADD $A8BD, X : TAX
+    TYA : CLC : ADC $A8BD, X : TAX
     
-    LDA $A6FD, X : ADD $06 : STA $00
-    LDA $A6FF, X : ADD $08 : STA $02
+    LDA $A6FD, X : CLC : ADC $06 : STA $00
+    LDA $A6FF, X : CLC : ADC $08 : STA $02
     
     PLY
     
@@ -1548,7 +1548,7 @@ BRANCH_BET:
     
     INY
     
-    LDA $04 : ASL A : ADD $04 : TAX
+    LDA $04 : ASL A : CLC : ADC $04 : TAX
     
     LDA $A6CD, X : STA $0AE8
     
@@ -1572,11 +1572,11 @@ BRANCH_DEL:
     
     LDA $7EF3CC : AND.w #$00FF : ASL A : TAX
     
-    TYA : ADD $A8BD, X : TAX
+    TYA : CLC : ADC $A8BD, X : TAX
     
-    LDA $A701, X : ADD $06 : ADD.w #$0008 : STA $00
+    LDA $A701, X : CLC : ADC $06 : CLC : ADC.w #$0008 : STA $00
     
-    LDA $A703, X : ADD $08 : STA $02
+    LDA $A703, X : CLC : ADC $08 : STA $02
     
     PLY
     
@@ -1588,7 +1588,7 @@ BRANCH_DEL:
     
     INY
     
-    LDA $04 : ASL A : ADD $04 : TAX
+    LDA $04 : ASL A : CLC : ADC $04 : TAX
     
     LDA $A6CE, X : STA $0AEA
     
@@ -1614,13 +1614,13 @@ BRANCH_DEL:
         
         INY
         
-        ADD.w #$0080 : CMP.w #$0180 : BCS .off_screen_x
+        CLC : ADC.w #$0080 : CMP.w #$0180 : BCS .off_screen_x
         
         LDA $02 : AND.w #$0100 : STA $74
         
         LDA $00 : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
     .off_screen_x
     
@@ -1642,11 +1642,11 @@ BRANCH_DEL:
     {
         REP #$20
         
-        LDA $00 : ADD $0A : ADD.w #$0008 : STA $00
+        LDA $00 : CLC : ADC $0A : CLC : ADC.w #$0008 : STA $00
         
-        LDA $02 : ADD.w #$0008 : STA $02
+        LDA $02 : CLC : ADC.w #$0008 : STA $02
         
-        LDA $20 : ADD.w #$000C : SUB $00 : BPL .positive_delta_y
+        LDA $20 : CLC : ADC.w #$000C : SUB $00 : BPL .positive_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -1654,7 +1654,7 @@ BRANCH_DEL:
     
         CMP.w #$001C : BCS .not_in_trigger
         
-        LDA $22 : ADD.w #$000C : SUB $02 : BPL .positive_delta_x
+        LDA $22 : CLC : ADC.w #$000C : SUB $02 : BPL .positive_delta_x
         
         EOR.w #$FFFF : INC A
     

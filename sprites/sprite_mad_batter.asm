@@ -106,7 +106,7 @@ MadBatter_RisingUp:
             
             LDA $0D90, X : AND.b #$01 : TAY
             
-            LDA .x_speeds, Y : ADD $0D50, X : STA $0D50, X
+            LDA .x_speeds, Y : CLC : ADC $0D50, X : STA $0D50, X
             
             LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
     

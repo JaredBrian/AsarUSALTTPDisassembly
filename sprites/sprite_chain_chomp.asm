@@ -88,11 +88,11 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $00 : ADD.w #$0030
+        LDA $0FD8 : SUB $00 : CLC : ADC.w #$0030
         
         CMP.w #$0060 : BCS .too_far_from_origin
         
-        LDA $0FDA : SUB $02 : ADD.w #$0030
+        LDA $0FDA : SUB $02 : CLC : ADC.w #$0030
         
         CMP.w #$0060 : BCS .too_far_from_origin
         
@@ -310,7 +310,7 @@
 
     BRANCH_BETA:
 
-              ADD $00 : STA $08
+              CLC : ADC $00 : STA $08
         TYA : ADC $01 : STA $09
         
         LDA $05
@@ -347,7 +347,7 @@
 
     BRANCH_DELTA:
 
-              ADD $02 : STA $0A
+              CLC : ADC $02 : STA $0A
         TYA : ADC $03 : STA $0B
         
         REP #$20
@@ -407,7 +407,7 @@
         CMP.w #$0008 : BPL BRANCH_ALPHA
         CMP.w #$FFF8 : BPL BRANCH_BETA
         
-        LDA $7FFC00, X : ADD.w #$0008 : STA $7FFC02, X
+        LDA $7FFC00, X : CLC : ADC.w #$0008 : STA $7FFC02, X
         
         BRA BRANCH_BETA
     
@@ -422,7 +422,7 @@
         CMP.w #$0008 : BPL BRANCH_GAMMA
         CMP.w #$FFF8 : BPL BRANCH_DELTA
         
-        LDA $7FFD00, X : ADD.w #$0008 : STA $7FFD02, X
+        LDA $7FFD00, X : CLC : ADC.w #$0008 : STA $7FFD02, X
         
         BRA BRANCH_DELTA
     
@@ -469,7 +469,7 @@
         
         JSL Sprite_PrepAndDrawSingleLargeLong
         
-        LDA $0E00, X : AND.b #$01 : ADD.b #$04 : STA $08 : STZ $09
+        LDA $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA $08 : STZ $09
         
         LDA.b #$05 : STA $0D
         
@@ -483,13 +483,13 @@
     
         REP #$20
         
-        LDA $7FFC00, X : ADD $08 : SUB $E2 : STA ($90), Y
+        LDA $7FFC00, X : CLC : ADC $08 : SUB $E2 : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $7FFD00, X : ADD $08 : SUB $E8 : INY : STA ($90), Y
+        LDA $7FFD00, X : CLC : ADC $08 : SUB $E8 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC BRANCH_ALPHA
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC BRANCH_ALPHA
         
         LDA.b #$F0 : STA ($90), Y
     

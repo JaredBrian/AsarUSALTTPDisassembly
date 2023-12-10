@@ -70,7 +70,7 @@
         
         LDA.b #$03 : STA $06
         
-        LDA $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : ADD $06 : TAX
+        LDA $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : CLC : ADC $06 : TAX
     
     .next_oam_entry
     
@@ -80,13 +80,13 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     

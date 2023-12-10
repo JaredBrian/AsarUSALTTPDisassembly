@@ -71,7 +71,7 @@
         LDA $0D10, Y : STA $7FF83C, X
         LDA $0D30, Y : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$10 : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$10 : STA $7FF90E, X
@@ -120,7 +120,7 @@
     {
         LDA $0E20, X : CMP.b #$97 : BCC .horizontal
         
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         
         ; Sets the direction to 2 or 3.
         LDA $0E20, X : SUB.b #$95 : STA !laser_eye_direction, X : TAY
@@ -129,7 +129,7 @@
         
         BNE .dont_adjust_y
         
-        LDA $0D00, X : ADD .offsets-2, Y : STA $0D00, X
+        LDA $0D00, X : CLC : ADC .offsets-2, Y : STA $0D00, X
     
     .dont_adjust_y
     
@@ -143,7 +143,7 @@
         
         BNE .dont_adjust_x
         
-        LDA $0D10, X : ADD .offsets, Y : STA $0D10, X
+        LDA $0D10, X : CLC : ADC .offsets, Y : STA $0D10, X
     
     .dont_adjust_x
     
@@ -215,7 +215,7 @@
     
     .is_player_in_firing_zone
     
-        ADD.w #$0010 : CMP.w #$0020 : SEP #$20 : BCS .not_in_zone
+        CLC : ADC.w #$0010 : CMP.w #$0020 : SEP #$20 : BCS .not_in_zone
         
         LDA.b #$20
         
@@ -297,10 +297,10 @@
         
         AND.b #$02 : LSR A : STA $0DC0, Y
         
-        LDA $00 : ADD .x_offsets_low,  X : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low,  X : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
         LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
         
         LDA .x_speeds, X : STA $0D50, Y

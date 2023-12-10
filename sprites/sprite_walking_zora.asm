@@ -195,7 +195,7 @@
         LDA $1A : LSR A : AND.b #$01 : TAY
         
         ; Kind of a bit incestual data referencing there, amirite? >8^/
-        LDA ZoraKing_RumblingGround.offsets_low, Y : ADD $0D10, X : STA $0D10, X
+        LDA ZoraKing_RumblingGround.offsets_low, Y : CLC : ADC $0D10, X : STA $0D10, X
         LDA .offsets_x_high, Y                     : ADC $0D30, X : STA $0D30, X
     
     .beta
@@ -290,7 +290,7 @@
         
         LDA $02 : SUB.w #$0006 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .head_on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .head_on_screen_y
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -315,7 +315,7 @@
         
         LDA $02 : INC #2 : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : BCC .body_on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .body_on_screen_y
         
         LDA.w #$00F0 : STA ($90), Y
     
@@ -380,7 +380,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         
@@ -402,7 +402,7 @@
         
         LDA .animatiom_states, Y
         
-        ADD.b ((.oam_groups >> 0) & $FF)              : STA $08
+        CLC : ADC.b ((.oam_groups >> 0) & $FF)              : STA $08
         LDA.b ((.oam_groups >> 8) & $FF) : ADC.b #$00 : STA $09
         
         LDA.b #$02

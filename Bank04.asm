@@ -124,7 +124,7 @@
         LDA.b #$FF : STA $7EF372 : STA $7EF373 : STA $7EF375 : STA $7EF376
         
         ; add 255 rupees to the player's stash
-                      ADD $7EF360 : STA $7EF360
+                      CLC : ADC $7EF360 : STA $7EF360
         LDA $7EF361 : ADC.b #$00  : STA $7EF361
         
         ; give the player 9 keys

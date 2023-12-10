@@ -21,10 +21,10 @@
         
         LDA.b #$06 : STA $0C68, X
         
-        LDA $0BFA, X : ADD.b #$0C : STA $0BFA, X
+        LDA $0BFA, X : CLC : ADC.b #$0C : STA $0BFA, X
         LDA $0C0E, X : ADC.b #$00 : STA $0C0E, X
         
-        LDA $0C04, X : ADD.b #$F8 : STA $0C04, X
+        LDA $0C04, X : CLC : ADC.b #$F8 : STA $0C04, X
         LDA $0C18, X : ADC.b #$FF : STA $0C18, X
         
         LDA.b #$28 : JSR Ancilla_DoSfx2
@@ -76,8 +76,8 @@
         
         REP #$20
         
-        LDA $C99B, X : ADD $04 : STA $00
-        LDA $C9AF, X : ADD $06 : STA $02
+        LDA $C99B, X : CLC : ADC $04 : STA $00
+        LDA $C9AF, X : CLC : ADC $06 : STA $02
         
         SEP #$20
         

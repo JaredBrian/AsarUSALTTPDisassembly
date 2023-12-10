@@ -107,7 +107,7 @@
     
         REP #$20
         
-        AND.w #$00FF : EOR.w #$FFFF : INC A : ADD $00 : STA $00 : STA $06
+        AND.w #$00FF : EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00 : STA $06
         
         SEP #$20
         
@@ -119,10 +119,10 @@
     
         LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
         
-        LDA .y_offsets_low,  X : ADD $06 : STA $00
+        LDA .y_offsets_low,  X : CLC : ADC $06 : STA $00
         LDA .y_offsets_high, X : ADC $07 : STA $01
         
-        LDA .x_offsets_low,  X : ADD $04 : STA $02
+        LDA .x_offsets_low,  X : CLC : ADC $04 : STA $02
         LDA .x_offsets_high, X : ADC $05 : STA $03
         
         JSR Ancilla_SetOam_XY

@@ -143,7 +143,7 @@
         
         JSL GetRandomInt : AND.b #$01 : TAY
         
-        LDA .z_speeds, Y : ADD $0F80, X : STA $0F80, X
+        LDA .z_speeds, Y : CLC : ADC $0F80, X : STA $0F80, X
         
         LDA $0F70, X
         
@@ -181,10 +181,10 @@
         
         LDA $EE : STA $0F20, Y
         
-        LDA $22 : ADD.b #$08 : STA $0D10, Y
+        LDA $22 : CLC : ADC.b #$08 : STA $0D10, Y
         LDA $23 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $20 : ADD.b #$10 : STA $0D00, Y
+        LDA $20 : CLC : ADC.b #$10 : STA $0D00, Y
         LDA $21 : ADC.b #$00 : STA $0D20, Y
         
         LDA.b #$00 : STA $0DE0, Y

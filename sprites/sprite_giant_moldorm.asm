@@ -134,7 +134,7 @@
         
         LDA $0E50, X : CMP.b #$03 : BCS .not_desperate_2
         
-        TYA : ADD.b #$10 : TAY
+        TYA : CLC : ADC.b #$10 : TAY
     
     .not_desperate_2
     
@@ -210,7 +210,7 @@
     
         AND.b #$03 : BNE .dont_adjust_direction
         
-        LDA $0DE0, X : ADD $0EB0, X : AND.b #$0F : STA $0DE0, X
+        LDA $0DE0, X : CLC : ADC $0EB0, X : AND.b #$0F : STA $0DE0, X
     
     .dont_adjust_direction
     
@@ -266,7 +266,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         
@@ -434,9 +434,9 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0010 : STA $90
+        LDA $90 : CLC : ADC.w #$0010 : STA $90
         
-        LDA $92 : ADD.w #$0004 : STA $92
+        LDA $92 : CLC : ADC.w #$0004 : STA $92
         
         SEP #$20
         
@@ -480,9 +480,9 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0010 : STA $90
+        LDA $90 : CLC : ADC.w #$0010 : STA $90
         
-        LDA $92 : ADD.w #$0004 : STA $92
+        LDA $92 : CLC : ADC.w #$0004 : STA $92
         
         SEP #$20
         
@@ -569,9 +569,9 @@
     {
         REP #$20
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
-        LDA $92 : ADD.w #$0001 : STA $92
+        LDA $92 : CLC : ADC.w #$0001 : STA $92
         
         SEP #$20
         
@@ -623,7 +623,7 @@
     
     .dont_accelerate_eyerolling
     
-        LDA $0DE0, X : ADD.b #$FF : STA $06
+        LDA $0DE0, X : CLC : ADC.b #$FF : STA $06
         
         PHX
         
@@ -635,11 +635,11 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
         ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
@@ -647,7 +647,7 @@
     
     .on_screen_y
     
-        LDA $06 : ADD $07 : AND.b #$0F : TAX
+        LDA $06 : CLC : ADC $07 : AND.b #$0F : TAX
         
         LDA .chr, X : INY : STA ($90), Y
         
@@ -657,7 +657,7 @@
         
         LDA $0F : ORA.b #$02 : STA ($92), Y
         
-        LDA $06 : ADD.b #$02 : STA $06
+        LDA $06 : CLC : ADC.b #$02 : STA $06
         
         PLY : INY
         

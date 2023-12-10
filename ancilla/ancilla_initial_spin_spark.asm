@@ -105,8 +105,8 @@
         
         PHX : TXA : ASL A : TAX
         
-        LDA $06 : ADD $D742, X : STA $00
-        LDA $08 : ADD $D77A, X : STA $02
+        LDA $06 : CLC : ADC $D742, X : STA $00
+        LDA $08 : CLC : ADC $D77A, X : STA $02
         
         PLX
         
@@ -184,11 +184,11 @@
         
         REP #$20
         
-        LDA $20 : ADD.w #$000C : STA $7F5810
-        LDA $22 : ADD.w #$0008 : STA $7F580E
+        LDA $20 : CLC : ADC.w #$000C : STA $7F5810
+        LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
         
-        LDA $20 : ADD $D85D, Y : STA $00
-        LDA $22 : ADD $D865, Y : STA $02
+        LDA $20 : CLC : ADC $D85D, Y : STA $00
+        LDA $22 : CLC : ADC $D865, Y : STA $02
         
         SEP #$20
         

@@ -57,7 +57,7 @@
     
     .accelerate_descent
     
-        TYA : ADD $0294, X : STA $0294, X : BPL .abs_z_speed
+        TYA : CLC : ADC $0294, X : STA $0294, X : BPL .abs_z_speed
         
         ; Get abs(z speed) so we can check whether to reverse the float
         ; polarity.
@@ -101,7 +101,7 @@
     
     .accelerate_left
     
-        TYA : ADD $0C2C, X : STA $0C2C, X : BPL .abs_x_speed
+        TYA : CLC : ADC $0C2C, X : STA $0C2C, X : BPL .abs_x_speed
         
         EOR.b #$FF : INC A
     
@@ -206,8 +206,8 @@
         REP #$20
         
         ; Check up on this to work on the bird (Paul)
-        LDA $DDDE : AND.w #$00FF : ADD $04 : STA $00
-        LDA $DDE1 : AND.w #$00FF : ADD $06 : STA $02
+        LDA $DDDE : AND.w #$00FF : CLC : ADC $04 : STA $00
+        LDA $DDE1 : AND.w #$00FF : CLC : ADC $06 : STA $02
         
         SEP #$20
         
@@ -224,7 +224,7 @@
         
         REP #$20
         
-        LDA $0A : ADD.w #$0030 : STA $00
+        LDA $0A : CLC : ADC.w #$0030 : STA $00
         
         LDA $06 : STA $02
         

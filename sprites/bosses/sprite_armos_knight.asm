@@ -163,9 +163,9 @@
         
         REP #$20
         
-        LDA $04 : SUB $0FD8 : ADD.w #2 : CMP.w #4 : BCS .pi
+        LDA $04 : SUB $0FD8 : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
         
-        LDA $06 : SUB $0FDA : ADD.w #2 : CMP.w #4 : BCS .pi
+        LDA $06 : SUB $0FDA : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
         
         SEP #$20
         
@@ -301,17 +301,17 @@
     
         PHX
         
-        TXA : ADD $06 : PHA : ASL A : TAX
+        TXA : CLC : ADC $06 : PHA : ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X       : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -368,15 +368,15 @@
         
         LDA $00 : SUB.b #$08
         
-        PHA              : ADD $07               : STA ($90), Y
-        PLA : ADD.b #$10 : SUB $07 : LDY.b #$14 : STA ($90), Y
+        PHA              : CLC : ADC $07               : STA ($90), Y
+        PLA : CLC : ADC.b #$10 : SUB $07 : LDY.b #$14 : STA ($90), Y
         
         REP #$20
         
-        LDA $02 : ADD.w #$000C : LDY.b #$11 : STA ($90), Y
+        LDA $02 : CLC : ADC.w #$000C : LDY.b #$11 : STA ($90), Y
                                  LDY.b #$15 : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
         
         LDA.b #$F0              : STA ($90), Y
                      LDY.b #$11 : STA ($90), Y

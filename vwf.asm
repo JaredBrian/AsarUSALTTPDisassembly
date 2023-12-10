@@ -342,7 +342,7 @@
         REP #$30
         
         ; Target Buffer position ($1CD9), 
-        LDA $1CD9 : ADD.w #$0006 : TAX
+        LDA $1CD9 : CLC : ADC.w #$0006 : TAX
         
         ; Source Buffer position ($1CDD)
         INC $1CDD
@@ -471,7 +471,7 @@
     
     .useLowerNybble
     
-        AND.w #$000F : ADD.w #$0004 : ORA.w #$0030 : STA $7F1200, X
+        AND.w #$000F : CLC : ADC.w #$0004 : ORA.w #$0030 : STA $7F1200, X
         
         INX : STX $1CD9
         
@@ -1484,7 +1484,7 @@
         
         ; Take our current (H) position in the tile; add the width of the last character; store it as the our h pixel position on the line as a whole
         ; and then moves on to the next character's cumulative position index
-        LDX !cumulativePosIndex : ADD $7EC230, X : STA $7EC231, X
+        LDX !cumulativePosIndex : CLC : ADC $7EC230, X : STA $7EC231, X
         
         INX : STX !cumulativePosIndex
         
@@ -1521,10 +1521,10 @@
         STX !charLinePos
         
         ; $00[2] is the width we have remaining for this particular CHR?
-        LDA $00 : ADD !renderBase : TAY
+        LDA $00 : CLC : ADC !renderBase : TAY
         
         ; This AND operation tells us which tile in the vwfBuffer to draw to
-        AND.w #$0FF0 : ADD !charLinePos : TAX
+        AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
         
         ; A = pixel position in the vwfBuffer (mod 8 b/c we're only concerned about the current tile)
         TYA : LSR A : AND.w #$0007 : TAY
@@ -1576,7 +1576,7 @@
         
         ; Moves us to the next tile to the right in the target buffer
         ; (possibly to the next line in some cases)
-        TXA : ADD.w #$0010 : TAX
+        TXA : CLC : ADC.w #$0010 : TAX
         
         LDA !rowOfPixels : BEQ .topHalf_noRemainingSetPixels
         
@@ -1589,12 +1589,12 @@
         LDX !charLinePos : INX #2 : CPX.w #$0010 : BNE .topHalf_nextSourceRow
         
         ; Positions us on the lower half of the text line
-        LDA !renderBase : ADD.w #$0150 : STA $08
+        LDA !renderBase : CLC : ADC.w #$0150 : STA $08
         
         LDX.w #$0000
         
         ; Increment the row, then shift left 4 times (this grabs the next tile down)
-        LDA !fontTileOffset : ADD.w #$0010 : ASL #4 : TAY
+        LDA !fontTileOffset : CLC : ADC.w #$0010 : ASL #4 : TAY
     
     .bottomHalf_NextSourceRow
     
@@ -1606,9 +1606,9 @@
         
         STX !charLinePos
         
-        LDX !cumulativePosIndex : LDA $7EC22F, X : AND.w #$00FF : ASL A : ADD $08 : TAY
+        LDX !cumulativePosIndex : LDA $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC $08 : TAY
         
-        AND.w #$0FF0 : ADD !charLinePos : TAX
+        AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
         
         TYA : LSR A : AND.w #$0007 : TAY
         
@@ -1661,7 +1661,7 @@
         REP #$20
         
         ; Moves on to the next tile
-        TXA : ADD.w #$0010 : TAX
+        TXA : CLC : ADC.w #$0010 : TAX
         
         ; See if there is any pixel data left in the current line
         ; if there's only transparent pixels left, there's no need to keep drawing
@@ -2290,7 +2290,7 @@
         
         ; hence the scrolling effect
         
-        LDA $00 : ADD.w #$0010 : STA $00
+        LDA $00 : CLC : ADC.w #$0010 : STA $00
         
         CMP.w #$07E0 : BCC .moveTileUpOnePixel
         
@@ -2318,7 +2318,7 @@
         
         SEP #$30
         
-        LDA $001CDF : ADD.b #$01 : STA $001CDF
+        LDA $001CDF : CLC : ADC.b #$01 : STA $001CDF
         
         AND.b #$0F : BNE .lineFinished
         
@@ -2327,7 +2327,7 @@
         REP #$30
         
         ; Move on to the next byte in the character stream
-        LDA $001CD9 : ADD.w #$0001 : STA $001CD9
+        LDA $001CD9 : CLC : ADC.w #$0001 : STA $001CD9
         
         ; Signify that we are on row 3 (figure head)
         LDA.w #$0050 : STA $001CDD
@@ -2772,7 +2772,7 @@
         INX #2
         
         ; Our vram address will be moving "down", so increment by 32 words
-        XBA : ADD.w #$0020 : STA $1CD0
+        XBA : CLC : ADC.w #$0020 : STA $1CD0
         
         ; Write 0x30 bytes, use incrementing dma mode, increment on writes to $2119
         LDA.w #$2F00 : STA $1002, X : INX #2
@@ -2855,7 +2855,7 @@
         
         ; Move vram target address down one tile and to the right one tile from the upper left
         ; corner of the message box's border address in vram.
-        LDA $1CD0 : ADD.w #$0021 : STA $1CD0
+        LDA $1CD0 : CLC : ADC.w #$0021 : STA $1CD0
     
     .nextRow
     
@@ -2864,7 +2864,7 @@
         
         ; Make it so the dma will start one row down from this one (adding 0x20 to a vram address
         ; typically accopmlishes this if you can be sure that you'll remain in the same tilemap)
-        XBA : ADD.w #$0020 : STA $1CD0
+        XBA : CLC : ADC.w #$0020 : STA $1CD0
         
         ; dma will transfer 0x2a bytes (which is twice 0x15 or 21). Each row is 21 tiles,
         ; so this makes sense.
@@ -3069,7 +3069,7 @@
     .isCommand
     
         ; Increment our position in the pointer table by one.
-        ADD $00 : STA $00
+        CLC : ADC $00 : STA $00
         
         ; Is it the terminator byte? If so, load the next pointer
         CPY.w #$007F : BEQ .nextPointer

@@ -239,7 +239,7 @@
         JSL Sprite_TransmuteToEnemyBomb
         JSL Sprite_SetSpawnedCoords
         
-        LDA $02 : ADD.b #$28 : STA $08
+        LDA $02 : CLC : ADC.b #$28 : STA $08
         LDA $03 : ADC.b #$00 : STA $03
         
         LDA.b #$40 : STA $0E00, Y
@@ -294,7 +294,7 @@
         
         LDY $0EB0, X
         
-        LDA $0D90, X : ADD $FAFB, Y : STA $0D10, X
+        LDA $0D90, X : CLC : ADC $FAFB, Y : STA $0D10, X
         LDA $0DA0, X : ADC $FAFD, Y : STA $0D30, X
         
         LDA $0DB0, X : STA $0D00, X
@@ -306,7 +306,7 @@
         
         LDA $00 : BMI BRANCH_ALPHA
         
-        LDA $01 : ADD.b #$02 : STA $0DE0, X
+        LDA $01 : CLC : ADC.b #$02 : STA $0DE0, X
         
         BRA BRANCH_BETA
     
@@ -316,16 +316,16 @@
         
         ROL A : AND.b #$01 : TAY
         
-        LDA $0DE0, X : ADD $8000, Y : STA $0DE0, X
+        LDA $0DE0, X : CLC : ADC $8000, Y : STA $0DE0, X
     
     BRANCH_BETA:
     
         LDY $0DE0, X
         
-        LDA $0D90, X : ADD $FAFF, Y : STA $0D10, X
+        LDA $0D90, X : CLC : ADC $FAFF, Y : STA $0D10, X
         LDA $0DA0, X : ADC $FB04, Y : STA $0D30, X
         
-        LDA $0DB0, X : ADD $FB05, Y : STA $0D00, X
+        LDA $0DB0, X : CLC : ADC $FB05, Y : STA $0D00, X
         LDA $0E90, X : ADC $FB05, Y : STA $0D20, X
         
         RTS
@@ -357,10 +357,10 @@
         
         PLA : STA $0EB0, Y : TAX
         
-        LDA $00 : ADD.l .x_offsets_low, X  : STA $0D10, Y : STA $0D90, Y
+        LDA $00 : CLC : ADC.l .x_offsets_low, X  : STA $0D10, Y : STA $0D90, Y
         LDA $01 : ADC.l .x_offsets_high, X : STA $0D30, Y : STA $0DA0, Y
         
-        LDA $02 : ADD.b #$F5 : STA $0D00, Y : STA $0DB0, Y
+        LDA $02 : CLC : ADC.b #$F5 : STA $0D00, Y : STA $0DB0, Y
         LDA $03 : ADC.b #$FF : STA $0D20, Y : STA $0E90, Y
         
         LDA.b #$01 : STA $0E80, Y

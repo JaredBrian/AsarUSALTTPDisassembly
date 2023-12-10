@@ -102,11 +102,11 @@
         
         LDA $EE : STA $0F20, Y
         
-        LDA $22 : ADD.b #$08 : STA $0D10, X
-        LDA $23 : ADD.b #$00 : STA $0D30, X
+        LDA $22 : CLC : ADC.b #$08 : STA $0D10, X
+        LDA $23 : CLC : ADC.b #$00 : STA $0D30, X
         
-        LDA $20 : ADD.b #$10 : STA $0D00, X
-        LDA $21 : ADD.b #$00 : STA $0D20, X
+        LDA $20 : CLC : ADC.b #$10 : STA $0D00, X
+        LDA $21 : CLC : ADC.b #$00 : STA $0D20, X
         
         PHX
         
@@ -214,12 +214,12 @@
         
         JSL GetRandomInt : AND.b #$03 : TAY
         
-        LDA $22 : ADD .box_sizes, Y : STA $04
+        LDA $22 : CLC : ADC .box_sizes, Y : STA $04
         LDA $23 : ADC.b #$00        : STA $05
         
         JSL GetRandomInt : AND.b #$03 : TAY
         
-        LDA $20 : ADD .box_sizes, Y : STA $06
+        LDA $20 : CLC : ADC .box_sizes, Y : STA $06
         LDA $21 : ADC.b #$00        : STA $07
         
         LDA.b #$14 : JSL Sprite_ProjectSpeedTowardsEntityLong
@@ -240,7 +240,7 @@
     
         STA $0F50, X
         
-        TXA : ADD $0D90, X : STA $0DF0, X
+        TXA : CLC : ADC $0D90, X : STA $0DF0, X
     
     .delay_direction_change
     
@@ -265,7 +265,7 @@
         
         TYX
         
-        LDA.b #$07 : ADD $00 : STA $7EF35C, X
+        LDA.b #$07 : CLC : ADC $00 : STA $7EF35C, X
         
         JSL HUD.RefreshIconLong
         
@@ -492,12 +492,12 @@
         
         JSL GetRandomInt : AND.b #$03 : TAY
         
-        LDA $22 : ADD .box_sizes, Y : STA $04
+        LDA $22 : CLC : ADC .box_sizes, Y : STA $04
         LDA $23 : ADC.b #$00        : STA $05
         
         JSL GetRandomInt : AND.b #$03 : TAY
         
-        LDA $20 : ADD .box_sizes, Y : STA $06
+        LDA $20 : CLC : ADC .box_sizes, Y : STA $06
         LDA $21 : ADC.b #$00        : STA $07
     
     .pursuing_sprite
@@ -602,12 +602,12 @@
         
         JSL GetRandomInt : AND.b #$03 : TAX
         
-        LDA $0D10, Y : ADD .box_sizes, X : STA $04
+        LDA $0D10, Y : CLC : ADC .box_sizes, X : STA $04
         LDA $0D30, Y : ADC.b #$00        : STA $05
         
         JSL GetRandomInt : AND.b #$03 : TAX
         
-        LDA $0D00, Y : ADD .box_sizes, X : STA $06
+        LDA $0D00, Y : CLC : ADC .box_sizes, X : STA $06
         LDA $0D20, Y : ADC.b #$00        : STA $07
         
         PLX

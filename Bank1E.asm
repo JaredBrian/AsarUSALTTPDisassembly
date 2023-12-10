@@ -357,9 +357,9 @@
         
         DEC $0EA0, X : BNE .not_halted_yet
         
-        LDA $0F40, X : ADD.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
+        LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
         
-        LDA $0F30, X : ADD.b #$20 : CMP.b #$40 : BCC .slow_enough
+        LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
     
     .too_fast_so_halt
     
@@ -444,7 +444,7 @@
     ; $F7F28-$F7F33 LOCAL
     Sprite3_MoveHoriz:
     {
-        TXA : ADD.b #$10 : TAX
+        TXA : CLC : ADC.b #$10 : TAX
         
         JSR Sprite3_MoveVert
         
@@ -460,7 +460,7 @@
     {
         LDA $0D40, X : BEQ .no_velocity
         
-        ASL #4 : ADD $0D60, X : STA $0D60, X
+        ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
         
         LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
         
@@ -483,7 +483,7 @@
     ; *$F7F62-$F7F83 LOCAL
     Sprite3_MoveAltitude:
     {
-        LDA $0F80, X : ASL #4 : ADD $0F90, X : STA $0F90, X
+        LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
         
         LDA $0F80, X : PHP : LSR #4 : PLP : BPL .positive
         

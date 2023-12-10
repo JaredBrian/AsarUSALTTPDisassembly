@@ -551,7 +551,7 @@ Stalfos_Draw:
         
         LDA $0FD8 : AND.w #$01FF : LSR #3 : STA $04
         
-        LDA $0FDA : AND.w #$01F8 : ASL #3 : ADD $04 : ADD $05
+        LDA $0FDA : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $05
         
         PHX
         
@@ -1271,11 +1271,11 @@ Stalfos_Draw:
         
         REP #$20
         
-        LDA $0FD8 : SUB $00 : ADD.w #$0010
+        LDA $0FD8 : SUB $00 : CLC : ADC.w #$0010
         
         CMP.w #$0018 : BCS .sprite_not_close
         
-        LDA $0FDA : SUB $02 : ADD.w #$FFF8
+        LDA $0FDA : SUB $02 : CLC : ADC.w #$FFF8
         
         CMP.w #$0018 : BCS .sprite_not_close
         
@@ -1353,9 +1353,9 @@ Stalfos_Draw:
         LDA.b #$00   : XBA
         LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA $08
         
-        LDA $90 : ADD.w #$0018 : STA $90
+        LDA $90 : CLC : ADC.w #$0018 : STA $90
         
-        LDA $92 : ADD.w #$0006 : STA $92
+        LDA $92 : CLC : ADC.w #$0006 : STA $92
         
         SEP #$20
         
@@ -1399,15 +1399,15 @@ Stalfos_Draw:
         
         LDA $0F00, X : BNE .easy_out
         
-        LDA $00 : ADD.b #$04 : STA $00
+        LDA $00 : CLC : ADC.b #$04 : STA $00
         
         LDY.b #$14                : STA ($90), Y
-        ADD $0D90, X : LDY.b #$00 : STA ($90), Y
+        CLC : ADC $0D90, X : LDY.b #$00 : STA ($90), Y
         
-        LDA $02      : ADD.b #$03 : STA $02
+        LDA $02      : CLC : ADC.b #$03 : STA $02
         
                        LDY.b #$15 : STA ($90), Y
-        ADD $0DA0, X : LDY.b #$01 : STA ($90), Y
+        CLC : ADC $0DA0, X : LDY.b #$01 : STA ($90), Y
         LDA.b #$FE   : LDY.b #$16 : STA ($90), Y
                        LDY.b #$02 : STA ($90), Y
         LDA $05      : LDY.b #$17 : STA ($90), Y
@@ -1453,7 +1453,7 @@ Stalfos_Draw:
     
     BRANCH_GAMMA:
     
-        ADD $00 : STA ($90), Y
+        CLC : ADC $00 : STA ($90), Y
         
         LDA $0D      : STA $4202
         LDA .multipliers, X : STA $4203
@@ -1466,7 +1466,7 @@ Stalfos_Draw:
     
     BRANCH_DELTA:
     
-        ADD $02
+        CLC : ADC $02
         
         INY
         
@@ -1550,7 +1550,7 @@ Stalfos_Draw:
         
         ; Indicates the shield level, which should be 1 or 2, resulting in
         ; a final value here of 3 or 4.
-        LDA $0E30, X : ADD.b #$02
+        LDA $0E30, X : CLC : ADC.b #$02
     
     .not_shield
     
@@ -1570,8 +1570,8 @@ Stalfos_Draw:
         
         LDA $02 : ASL #2 : ORA $03 : TAX
         
-                  LDA $0FB5    : ADD .x_offsets, X        : STA ($90), Y
-                  LDA $0FB6    : ADD .y_offsets, X  : INY : STA ($90), Y
+                  LDA $0FB5    : CLC : ADC .x_offsets, X        : STA ($90), Y
+                  LDA $0FB6    : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
                   LDA .chr, X                       : INY : STA ($90), Y
         LDX $02 : LDA .properties, X                : INY : STA ($90), Y
         
@@ -1650,12 +1650,12 @@ Stalfos_Draw:
         
         REP #$20
         
-        LDA $00      : ADD .x_offsets, X : STA ($90), Y
+        LDA $00      : CLC : ADC .x_offsets, X : STA ($90), Y
         AND.w #$0100 : STA $0E
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -1676,7 +1676,7 @@ Stalfos_Draw:
         
         LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         
@@ -1705,10 +1705,10 @@ Stalfos_Draw:
         
         JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         LDA $01 : ADC.b #$00 : STA $0D30, Y
         
-        LDA $02 : ADD.b #$04 : PHP : SUB $04    : STA $0D00, Y
+        LDA $02 : CLC : ADC.b #$04 : PHP : SUB $04    : STA $0D00, Y
         LDA $03 : SBC.b #$00 : PLP : ADC.b #$00 : STA $0D20, Y
         
         LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y
@@ -1807,10 +1807,10 @@ Stalfos_Draw:
     
     .next_subsprite
     
-        PHX : TXA : ADD $06 : TAX
+        PHX : TXA : CLC : ADC $06 : TAX
         
-        LDA $00 : ADD .x_offsets, X         : STA ($90), Y
-        LDA $02 : ADD .y_offsets, X   : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X         : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X   : INY : STA ($90), Y
         LDA .chr, X                   : INY : STA ($90), Y
         LDA $05  : ORA .properties, X : INY : STA ($90), Y
         

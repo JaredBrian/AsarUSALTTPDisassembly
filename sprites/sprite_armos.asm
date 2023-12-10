@@ -54,9 +54,9 @@
         
         REP #$20
         
-        LDA $22 : SUB $0FD8 : ADD.w #$001F : CMP.w #$003E : BCS .epsilon
+        LDA $22 : SUB $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
         
-        LDA $20 : ADD.w #$0008 : SUB $0FDA : ADD.w #$0030 : CMP.w #$0058 : BCS .epsilon
+        LDA $20 : CLC : ADC.w #$0008 : SUB $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
         
         SEP #$20
         

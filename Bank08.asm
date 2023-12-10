@@ -196,10 +196,10 @@
         
         BCS .initialize_in_spread_state
         
-        LDA $0022 : ADD $8040, X : STA $0C04, Y
+        LDA $0022 : CLC : ADC $8040, X : STA $0C04, Y
         LDA $0023 : ADC $8044, X : STA $0C18, Y
         
-        LDA $0020 : ADD $8048, X : STA $0BFA, Y
+        LDA $0020 : CLC : ADC $8048, X : STA $0BFA, Y
         LDA $0021 : ADC $804C, X : STA $0C0E, Y
         
         LDA $0C4A, Y : CMP.b #$01 : BEQ .sword_determines_speed
@@ -216,7 +216,7 @@
         ; on which sword we have. But it seems unused for some reason?
         LDA $7EF359 : DEC #2 : ASL #2 : STA $0F
         
-        TXA : ADD $0F : TAX
+        TXA : CLC : ADC $0F : TAX
         
         LDA $8050, X : STA $0C2C, Y
         
@@ -324,10 +324,10 @@
         
         LDX $0FB5 : TXA : STA $0C72, Y
         
-        LDA $00 : ADD .x_offsets, X : STA $0C04, Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA $0C04, Y
         LDA $01 : ADC.b #$FF   : STA $0C18, Y
         
-        LDA $02 : ADD .y_offsets, X : STA $0BFA, Y
+        LDA $02 : CLC : ADC .y_offsets, X : STA $0BFA, Y
         LDA $03 : ADC.b #$FF   : STA $0C0E, Y
         
         JSL Ancilla_TerminateIfOffscreen
@@ -746,10 +746,10 @@
     
         SEP #$20
         
-        LDA $0C04, X : PHA : ADD $00 : STA $0C04, X
+        LDA $0C04, X : PHA : CLC : ADC $00 : STA $0C04, X
         LDA $0C18, X : PHA : ADC $01 : STA $0C18, X
         
-        LDA $0BFA, X : PHA : ADD $02 : STA $0BFA, X
+        LDA $0BFA, X : PHA : CLC : ADC $02 : STA $0BFA, X
         LDA $0C0E, X : PHA : ADC $03 : STA $0C0E, X
         
         LDA.b #$01 : STA $0C7C, X
@@ -793,10 +793,10 @@
         
         LDY $0C72, X
         
-        LDA $0BFA, X : ADD .y_offsets, Y : STA $00
+        LDA $0BFA, X : CLC : ADC .y_offsets, Y : STA $00
         LDA $0C0E, X : ADC.b #$00        : STA $01
         
-        LDA $0C04, X : ADD .x_offsets, Y : STA $02
+        LDA $0C04, X : CLC : ADC .x_offsets, Y : STA $02
         LDA $0C18, X : ADC.b #$00        : STA $03
     
     ; *$40A26 ALTERNATE ENTRY POINT
@@ -987,10 +987,10 @@
     
         SEP #$20
         
-        LDA $0C04, X : PHA : ADD $00 : STA $0C04, X
+        LDA $0C04, X : PHA : CLC : ADC $00 : STA $0C04, X
         LDA $0C18, X : PHA : ADC $01 : STA $0C18, X
         
-        LDA $0BFA, X : PHA : ADD $02 : STA $0BFA, X
+        LDA $0BFA, X : PHA : CLC : ADC $02 : STA $0BFA, X
         LDA $0C0E, X : PHA : ADC $03 : STA $0C0E, X
         
         LDA.b #$01 : STA $0C7C, X
@@ -1032,11 +1032,11 @@
         LDY $0C72, X
         
         ; $00.w = Ycoord + directionValue
-        LDA $0BFA, X : ADD .y_offsets_low,  Y : STA $00
+        LDA $0BFA, X : CLC : ADC .y_offsets_low,  Y : STA $00
         LDA $0C0E, X : ADC .y_offsets_high, Y : STA $01
         
         ; $02.w = Xcoord + directionValue
-        LDA $0C04, X : ADD .x_offsets_low,  Y : STA $02
+        LDA $0C04, X : CLC : ADC .x_offsets_low,  Y : STA $02
         LDA $0C18, X : ADC .x_offsets_high, Y : STA $03
         
         REP #$20
@@ -1397,10 +1397,10 @@
     
     .not_sword_beam
     
-        LDA $0C04, X : ADD $8E7D, Y : STA $00
+        LDA $0C04, X : CLC : ADC $8E7D, Y : STA $00
         LDA $0C18, X : ADC $09      : STA $08
         
-        LDA $0BFA, X : ADD $8E95, Y : STA $01
+        LDA $0BFA, X : CLC : ADC $8E95, Y : STA $01
         LDA $0C0E, X : ADC $09      : STA $09
         
         LDA $8E89, Y : STA $02
@@ -1469,7 +1469,7 @@
     .still_have_velocity_to_apply
     
         ; If ($0B + $0C) <= ($0D)
-        LDA $0B : ADD $0C : CMP $0D : BCC .not_accumulated_yet
+        LDA $0B : CLC : ADC $0C : CMP $0D : BCC .not_accumulated_yet
         
         ; Otherwise, just subtract the larger value and increment $00.
         SBC $0D
@@ -1560,7 +1560,7 @@
     Ancilla_MoveHoriz:
     {
         ; Increments X_reg by 0x0A so that X coordinates will be handled next
-        TXA : ADD.b #$0A : TAX
+        TXA : CLC : ADC.b #$0A : TAX
         
         JSR Ancilla_MoveVert
         
@@ -1573,7 +1573,7 @@
     ; *$4108B-$410B6 LOCAL
     Ancilla_MoveVert:
     {
-        LDA $0C22, X : ASL #4 : ADD $0C36, X : STA $0C36, X
+        LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X
         
         LDY.b #$00
         
@@ -1601,7 +1601,7 @@
     ; *$410B7-$410DB LOCAL
     Ancilla_MoveAltitude:
     {
-        LDA $0294, X : ASL #4 : ADD $02A8, X : STA $02A8, X
+        LDA $0294, X : ASL #4 : CLC : ADC $02A8, X : STA $02A8, X
         
         LDY.b #$00
         
@@ -2107,7 +2107,7 @@
         LDA $02 : STA ($90), Y : INY
         
         ; Is the sprite's X coordinate > 0x100?
-        ADD.w #$0080 : CMP.w #$0180 : BCS .off_screen
+        CLC : ADC.w #$0080 : CMP.w #$0180 : BCS .off_screen
         
         ; If the sprite's X coordinate exceeds 0x100
         LDA $02 : AND.w #$0100 : STA $74
@@ -2115,7 +2115,7 @@
         LDA $00 : STA ($90), Y
         
         ; Same as CMP #$00F0... I don't get it
-        ADD.w #$0010 : CMP.w #$0100 : BCC .on_screen
+        CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
     .off_screen
     
@@ -2184,10 +2184,10 @@
     
         REP #$20
         
-        LDA $00 : ADD $0A : ADD .y_offsets, Y : STA $00
-        LDA $02           : ADD .x_offsets, Y : STA $02
+        LDA $00 : CLC : ADC $0A : CLC : ADC .y_offsets, Y : STA $00
+        LDA $02           : CLC : ADC .x_offsets, Y : STA $02
         
-        LDA $20 : ADD .player_y_offsets, Y : SUB $00
+        LDA $20 : CLC : ADC .player_y_offsets, Y : SUB $00
         
         STA $04 : BPL .positive_delta_y
         
@@ -2197,7 +2197,7 @@
     
         STA $08 : CMP .y_windows, Y : BCC .not_collision
         
-        LDA $22 : ADD .player_x_offsets, Y : SUB $02
+        LDA $22 : CLC : ADC .player_x_offsets, Y : SUB $02
         
         STA $06 : BPL .positive_delta_x
         
@@ -2229,10 +2229,10 @@
     {
         REP #$20
         
-        LDA $00 : ADD.w #$0004 : STA $72
-        LDA $02 : ADD.w #$0004 : STA $74
+        LDA $00 : CLC : ADC.w #$0004 : STA $72
+        LDA $02 : CLC : ADC.w #$0004 : STA $74
         
-        LDA $20 : SUB $E8 : ADD.w #$000C : SUB $72 : BPL .positive_delta_y
+        LDA $20 : SUB $E8 : CLC : ADC.w #$000C : SUB $72 : BPL .positive_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -2240,7 +2240,7 @@
     
         CMP.w #$000C : BCS .out_of_range
         
-        LDA $22 : SUB $E2 : ADD.w #$0008 : SUB $74 : BPL .positive_delta_x
+        LDA $22 : SUB $E2 : CLC : ADC.w #$0008 : SUB $74 : BPL .positive_delta_x
         
         EOR.w #$FFFF : INC A
     
@@ -2293,7 +2293,7 @@
         REP #$20
         
         ; Centers player's Y coordinate.
-        LDA $20 : ADD.w #$000C : SUB .trigger_coord_y, Y : BPL .positive_delta_y
+        LDA $20 : CLC : ADC.w #$000C : SUB .trigger_coord_y, Y : BPL .positive_delta_y
         
         EOR.w #$FFFF : INC A
     
@@ -2303,7 +2303,7 @@
         CMP .trigger_window_y, Y : BCS .failure
         
         ; Centers player's X coordinate.
-        LDA $22 : ADD.w #$0008 : SUB .trigger_coord_x, Y : BPL .positive_delta_x
+        LDA $22 : CLC : ADC.w #$0008 : SUB .trigger_coord_x, Y : BPL .positive_delta_x
         
         ; abs(x_coord)
         EOR.w #$FFFF : INC A
@@ -2362,7 +2362,7 @@
         
         REP #$20
         
-        LDA $02 : ADD.w #$0004 : STA $02
+        LDA $02 : CLC : ADC.w #$0004 : STA $02
         
         SEP #$20
     
@@ -2386,7 +2386,7 @@
         
         REP #$20
         
-        LDA $02 : ADD.w #$0008 : STA $02
+        LDA $02 : CLC : ADC.w #$0008 : STA $02
         
         SEP #$20
         
@@ -2529,7 +2529,7 @@
         
         REP #$20
         
-        TYA : AND.w #$00FF : ADD $90
+        TYA : AND.w #$00FF : CLC : ADC $90
         
         LDX $0FB3 : BEQ .unsorted_sprites
         
@@ -2559,7 +2559,7 @@
     
         STA $90
         
-        SUB.w #$0800 : LSR #2 : ADD.w #$0A20 : STA $92
+        SUB.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
         LDY.b #$00
     
@@ -2581,7 +2581,7 @@
         
         REP #$20
         
-        TYA : AND.w #$00FF : ADD $90
+        TYA : AND.w #$00FF : CLC : ADC $90
         
         LDX $0FB3 : BNE .sort_sprites
         
@@ -2589,7 +2589,7 @@
         
         LDA.w #$0820 : STA $90
         
-        SUB.w #$0800 : LSR #2 : ADD.w #$0A20 : STA $92
+        SUB.w #$0800 : LSR #2 : CLC : ADC.w #$0A20 : STA $92
         
         LDY.b #$00
     
@@ -2819,7 +2819,7 @@
     
     .positive_x
     
-              ADD $02 : STA $04
+              CLC : ADC $02 : STA $04
         TXA : ADC $03 : STA $05
         
         JSR BeamHit_Get_Top_X_Bit : BCC .no_x_adjustment_needed
@@ -2843,7 +2843,7 @@
     
     .positive_y
     
-        ADD $00 : STA $09
+        CLC : ADC $00 : STA $09
         
         TXA : ADC $01 : STA $0A
         
@@ -2897,7 +2897,7 @@
     {
         REP #$20
         
-        LDA $09 : PHA : ADD.w #$0010 : STA $09
+        LDA $09 : PHA : CLC : ADC.w #$0010 : STA $09
         SUB $E8 : CMP.w #$0100
         
         PLA : STA $09

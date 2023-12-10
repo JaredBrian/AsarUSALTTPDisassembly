@@ -69,7 +69,7 @@
         
         LDA $0D50, X
         
-        ADD Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA $0D50, X
+        CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA $0D50, X
         
         CMP .x_speed_targets, Y : BNE .anoswitch_direction
         
@@ -109,7 +109,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : ADD.b #$08 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$08 : STA $0D10, Y
         
         LDA $02 : ADC.b #$04 : STA $0D00, Y
         

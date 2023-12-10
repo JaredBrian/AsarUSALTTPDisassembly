@@ -643,7 +643,7 @@ BirdTravel_LoadTargetArea:
         
         LDA $7EC108 : LSR #4 : SUB.w #$0048 : AND.w #$FFFE : STA $E6
         
-        ADD.w #$0100 : STA $063A
+        CLC : ADC.w #$0100 : STA $063A
         
         LDA $7EC10A : LSR #4 : SUB.w #$0080 : STA $02 : BPL BRANCH_ZETA
         
@@ -654,7 +654,7 @@ BirdTravel_LoadTargetArea:
         STA $00
         
         ; A = ($00 * 5) / 2
-        ASL #2 : ADD $00 : LSR A
+        ASL #2 : CLC : ADC $00 : LSR A
         
         LDX $03 : BPL BRANCH_THETA
         
@@ -662,7 +662,7 @@ BirdTravel_LoadTargetArea:
     
     BRANCH_THETA:
     
-        ADD.w #$0080
+        CLC : ADC.w #$0080
         
         BRA BRANCH_IOTA
     
@@ -692,8 +692,8 @@ BirdTravel_LoadTargetArea:
         
         LDA $E6 : CMP $0ABAD6, X : BEQ BRANCH_LAMBDA
         
-        ADD $0ABAC6, X : STA $E6
-        ADD.w #$0100 : STA $063A
+        CLC : ADC $0ABAC6, X : STA $E6
+        CLC : ADC.w #$0100 : STA $063A
     
     BRANCH_LAMBDA:
     
@@ -707,7 +707,7 @@ BirdTravel_LoadTargetArea:
         
         LDA $E0 : CMP $0ABAD6, X : BEQ BRANCH_MU
         
-        ADD $0ABAC6, X : STA $E0
+        CLC : ADC $0ABAC6, X : STA $E0
     
     BRANCH_MU:
     
@@ -879,8 +879,8 @@ OverworldMap_RestoreGfx:
         
         REP #$21
         
-        LDA $7EC108 : LSR #4 : SUB.w #$0048 : AND.w #$FFFE : ADD $0ABAC6 : STA $E6
-        ADD.w #$0100 : STA $063A
+        LDA $7EC108 : LSR #4 : SUB.w #$0048 : AND.w #$FFFE : CLC : ADC $0ABAC6 : STA $E6
+        CLC : ADC.w #$0100 : STA $063A
         
         LDA $7EC10A : LSR #4 : SUB.w #$0080 : STA $02 : BPL BRANCH_GAMMA
         
@@ -889,7 +889,7 @@ OverworldMap_RestoreGfx:
     BRANCH_GAMMA:
     
         STA $00
-        ASL #2 : ADD $00 : LSR A
+        ASL #2 : CLC : ADC $00 : LSR A
         
         LDX $03 : BPL BRANCH_DELTA
         
@@ -897,7 +897,7 @@ OverworldMap_RestoreGfx:
     
     BRANCH_DELTA:
     
-        ADD.w #$0080 : AND.w #$FFFE : STA $E0
+        CLC : ADC.w #$0080 : AND.w #$FFFE : STA $E0
         
         LDA.w #$BDD6 : STA $4362 : STA $4372
         LDX.b #$0A   : STX $4364 : STX $4374
@@ -1567,7 +1567,7 @@ BRANCH_GAMMA:
     
     JSR $C56D ; $5456D
     
-    XBA : ADD.b #$B2 : XBA
+    XBA : CLC : ADC.b #$B2 : XBA
     
     PLA
     
@@ -1585,14 +1585,14 @@ BRANCH_GAMMA:
 
 BRANCH_DELTA:
 
-    ADD.b #$80
+    CLC : ADC.b #$80
 
 BRANCH_EPSILON:
 
     SUB $E0 : STA $0E
     
-    LDA $0E : ADD.b #$80 : STA $0E
-    LDA $0F : ADD.b #$0C : STA $0F
+    LDA $0E : CLC : ADC.b #$80 : STA $0E
+    LDA $0F : CLC : ADC.b #$0C : STA $0F
     
     JMP $C50D ; $5450D IN ROM
 
@@ -1600,7 +1600,7 @@ BRANCH_ALPHA:
 
     REP #$30
     
-    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADD $063A : SUB.w #$0080 : CMP.w #$0100 : BCC BRANCH_ZETA
+    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : CLC : ADC $063A : SUB.w #$0080 : CMP.w #$0100 : BCC BRANCH_ZETA
     
     JMP $C511 ; $54511 IN ROM
 
@@ -1654,7 +1654,7 @@ BRANCH_KAPPA:
     
     JSR $C56D ; $5456D IN ROM
     
-    XBA : ADD.b #$B2 : STA $00 : XBA
+    XBA : CLC : ADC.b #$B2 : STA $00 : XBA
     
     PLA
     
@@ -1668,7 +1668,7 @@ BRANCH_KAPPA:
     
     JSR $C56D ; $5456D IN ROM
     
-    ADD $01 : XBA : ADC.b #$00 : XBA
+    CLC : ADC $01 : XBA : ADC.b #$00 : XBA
     
     PLP : BCS BRANCH_LAMBDA
     
@@ -1680,7 +1680,7 @@ BRANCH_KAPPA:
 
 BRANCH_LAMBDA:
 
-    ADD.w #$0800
+    CLC : ADC.w #$0800
 
 BRANCH_MU:
 
@@ -1708,7 +1708,7 @@ BRANCH_NU:
 
     JSR $C56D ; $5456D IN ROM
 
-    ADD $00 : XBA : ADC.b #$00 : XBA
+    CLC : ADC $00 : XBA : ADC.b #$00 : XBA
 
     PLP
 
@@ -1723,7 +1723,7 @@ BRANCH_NU:
 
 BRANCH_XI:
 
-    ADD.b #$80 : XBA : ADC.b #$00 : XBA
+    CLC : ADC.b #$80 : XBA : ADC.b #$00 : XBA
 
 BRANCH_OMICRON:
 
@@ -1739,8 +1739,8 @@ BRANCH_OMICRON:
     
     XBA : BNE BRANCH_PI
     
-    LDA $0E : ADD.b #$81 : STA $0E
-    LDA $0F : ADD.b #$10 : STA $0F
+    LDA $0E : CLC : ADC.b #$81 : STA $0E
+    LDA $0F : CLC : ADC.b #$10 : STA $0F
 
 ; *$5450D ALTERNATE ENTRY POINT
 
@@ -2103,7 +2103,7 @@ BRANCH_PI:
     .copyTiles2
     
         LDA $00 : XBA : STA $1002, X
-        XBA : ADD.w #$0020 : STA $00
+        XBA : CLC : ADC.w #$0020 : STA $00
         
         LDA.w #$0E40 : STA $1004, X
         LDA.w #$1B2E : STA $1006, X
@@ -2159,7 +2159,7 @@ BRANCH_PI:
         ; check bit 13 in palace properties word
         LDX $040C : LDA $F5D9, X : AND.w #$0200 : BEQ .noOffset
         
-        LDA $04 : ADD.w #$0400 : STA $04
+        LDA $04 : CLC : ADC.w #$0400 : STA $04
     
     .noOffset
     
@@ -2174,7 +2174,7 @@ BRANCH_PI:
     
     .stopIncrementing
     
-        LDA $00 : ADD.w #$0020 : STA $00 : CMP.w #$1360 : BCC .limitNotReached
+        LDA $00 : CLC : ADC.w #$0020 : STA $00 : CMP.w #$1360 : BCC .limitNotReached
         
         ; Tell NMI how large the buffer is as of now
         STY $1000
@@ -2216,13 +2216,13 @@ BRANCH_PI:
         LDA $F5D9, X : AND.w #$00FF : STA $02
         AND.w #$000F : STA $00
         
-        LDA $02 : LSR #4 : ADD $00 : STA $02
+        LDA $02 : LSR #4 : CLC : ADC $00 : STA $02
         
-        LDA $A4 : ADD $00 : AND.w #$00FF : STA $0C
+        LDA $A4 : CLC : ADC $00 : AND.w #$00FF : STA $0C
         
         STZ $0A
         
-        LDA $0E : SUB.w #$0040 : ADD.w #$0002 : STA $0E
+        LDA $0E : SUB.w #$0040 : CLC : ADC.w #$0002 : STA $0E
         
         LDX $00 : BEQ BRANCH_ALPHA
         
@@ -2230,7 +2230,7 @@ BRANCH_PI:
     
     BRANCH_BETA:
     
-        ADD.w #$0040
+        CLC : ADC.w #$0040
         
         DEX : BNE BRANCH_BETA
         
@@ -2272,7 +2272,7 @@ BRANCH_PI:
     
     BRANCH_DELTA:
     
-        LDA $0E : ADD.w #$0020
+        LDA $0E : CLC : ADC.w #$0020
         
         BRA BRANCH_THETA
     
@@ -2404,7 +2404,7 @@ BRANCH_PI:
     
     BRANCH_ALPHA:
     
-        LDY $02 : LDA $E431, Y : ADD $06 : AND.w #$0FFF : TAX
+        LDY $02 : LDA $E431, Y : CLC : ADC $06 : AND.w #$0FFF : TAX
         
         LDA.w #$0F00 : STA $7F0000, X
         
@@ -2420,11 +2420,11 @@ BRANCH_PI:
     
         STZ $02
         
-        LDA $E43D, Y : ADD $06 : STA $04
+        LDA $E43D, Y : CLC : ADC $06 : STA $04
     
     BRANCH_BETA:
     
-        LDA $04 : ADD $02 : AND.w #$0FFF : TAX
+        LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
         
         LDA.w #$0F00 : STA $7F0000, X
         
@@ -2440,17 +2440,17 @@ BRANCH_PI:
     
         STZ $02
         
-        LDA $E445, Y : ADD $06 : STA $04
+        LDA $E445, Y : CLC : ADC $06 : STA $04
     
     BRANCH_DELTA:
     
-        LDA $04 : ADD $02 : AND.w #$0FFF : TAX
+        LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
         
         LDA.w #$0F00 : STA $7F0000, X
         
         LDA $E441, Y : AND $08 : STA $7F0000, X
         
-        LDA $02 : ADD.w #$0040 : STA $02 : CMP.w #$0280 : BNE BRANCH_DELTA
+        LDA $02 : CLC : ADC.w #$0040 : STA $02 : CMP.w #$0280 : BNE BRANCH_DELTA
         
         INY #2 : CPY.w #$0004 : BNE BRANCH_EPSILON
         
@@ -2471,11 +2471,11 @@ BRANCH_PI:
     
     BRANCH_ALPHA:
     
-        LDA $00 : ADD $06 : AND.w #$0FFF : TAX
+        LDA $00 : CLC : ADC $06 : AND.w #$0FFF : TAX
         
         LDA.w #$0F00 : STA $7F0000, X : STA $7F0002, X
         
-        LDA $00 : ADD.w #$0040 : STA $00 : CMP.w #$039E : BNE BRANCH_ALPHA
+        LDA $00 : CLC : ADC.w #$0040 : STA $00 : CMP.w #$039E : BNE BRANCH_ALPHA
         
         LDA $020E : AND.w #$0080 : BEQ BRANCH_BETA
         
@@ -2493,7 +2493,7 @@ BRANCH_PI:
     
         PHA
         
-        LDA.w #$035E : ADD $06 : AND.w #$0FFF : TAX
+        LDA.w #$035E : CLC : ADC $06 : AND.w #$0FFF : TAX
         
         PLA : AND $08 : STA $7F0000, X
         
@@ -2535,7 +2535,7 @@ BRANCH_PI:
     
         LDA $00 : ASL A : TAX
         
-        LDA $E56F, X : ADD $06 : AND.w #$0FFF : TAX
+        LDA $E56F, X : CLC : ADC $06 : AND.w #$0FFF : TAX
         
         JSR $E5BC ; $565BC IN ROM
         
@@ -2586,7 +2586,7 @@ BRANCH_PI:
         
         ; I think this is trying to figure out the current floor against
         ; the deepest depth of the current palace.
-        LDA $F5D9, X : AND.b #$0F : ADD $020E : ASL A : STA $0E : TAY
+        LDA $F5D9, X : AND.b #$0F : CLC : ADC $020E : ASL A : STA $0E : TAY
         
         REP #$20
         
@@ -2594,7 +2594,7 @@ BRANCH_PI:
         LDA $F605, X : STA $0C
         
         ; Y = (???? * 0x19) + $04;
-        LDA $F5F5, Y : ADD $04 : TAY
+        LDA $F5F5, Y : CLC : ADC $04 : TAY
         
         SEP #$20
         
@@ -2714,7 +2714,7 @@ BRANCH_PI:
     
     BRANCH_ZETA:
     
-        PLA : ADD $0C : PHX : STA $0C
+        PLA : CLC : ADC $0C : PHX : STA $0C
         
         LDX $040C
         
@@ -2776,7 +2776,7 @@ BRANCH_PI:
     BRANCH_MU:
     
         ; damn PHX in the middle... whatever. But it's an eyesore.
-        PLA : ADD $0C : PHX : STA $0C
+        PLA : CLC : ADC $0C : PHX : STA $0C
         
         LDX $040C
         
@@ -2836,7 +2836,7 @@ BRANCH_PI:
     
     BRANCH_RHO:
     
-        PLA : ADD $0C : PHX : STA $0C
+        PLA : CLC : ADC $0C : PHX : STA $0C
         
         LDX $040C
         
@@ -2895,7 +2895,7 @@ BRANCH_PI:
     
     BRANCH_CHI:
     
-        PLA : ADD $0C : PHX : STA $0C
+        PLA : CLC : ADC $0C : PHX : STA $0C
     
         LDX $040C
         
@@ -2945,7 +2945,7 @@ BRANCH_PI:
         
         LDA.b #$00 : XBA
         
-        LDX $040C : LDA $F5D9, X : AND.b #$0F : ADD $A4 : ASL A : TAY : STY $0C
+        LDX $040C : LDA $F5D9, X : AND.b #$0F : CLC : ADC $A4 : ASL A : TAY : STY $0C
         
         REP #$20
         
@@ -2996,13 +2996,13 @@ BRANCH_PI:
         
         STZ $00
         
-        LDA $02 : ADD.b #$10 : STA $02
+        LDA $02 : CLC : ADC.b #$10 : STA $02
         
         BRA BRANCH_ZETA
     
     BRANCH_EPSILON:
     
-        ADD.b #$10 : STA $00
+        CLC : ADC.b #$10 : STA $00
         
         BRA BRANCH_ZETA
     
@@ -3010,28 +3010,28 @@ BRANCH_PI:
     
         REP #$20
         
-        LDA $00 : ADD $E7F7 : STA $0215
+        LDA $00 : CLC : ADC $E7F7 : STA $0215
         
-        LDA $22 : AND.w #$01E0 : ASL #3 : XBA : ADD $0215 : STA $0215
+        LDA $22 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC $0215 : STA $0215
         
         LDY $0211
         
         LDA $02       : STA $0CF5
-        ADD $E7F3, Y : STA $0217
+        CLC : ADC $E7F3, Y : STA $0217
         
-        LDA $20 : AND.w #$01E0 : ASL #3 : XBA : ADD $0217 : STA $0217
+        LDA $20 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC $0217 : STA $0217
         
         SEP #$20
         
         LDA.b #$00 : XBA
         
-        LDA $F5D9, X : AND.b #$0F : ADD $EE79, X
+        LDA $F5D9, X : AND.b #$0F : CLC : ADC $EE79, X
         
         REP #$20
         
         ASL A : TAY
         
-        LDA $F605, X : ADD $F5F5, Y : STA $0E
+        LDA $F605, X : CLC : ADC $F5F5, Y : STA $0E
         
         SEP #$20
         
@@ -3081,13 +3081,13 @@ BRANCH_PI:
     
         DEC $0E : BMI BRANCH_NU
         
-        LDA $0FAA : ADD $E975, Y : STA $0FAA
+        LDA $0FAA : CLC : ADC $E975, Y : STA $0FAA
         
         BRA BRANCH_XI
     
     BRANCH_NU:
     
-        LDA $0FAA : ADD $E7F3 : STA $0FAA
+        LDA $0FAA : CLC : ADC $E7F3 : STA $0FAA
         
         SEP #$20
         
@@ -3166,7 +3166,7 @@ BRANCH_PI:
         
         LDX $040C : LDA $F5D9, X : AND.w #$00F0 : LSR #4 : STA $00
         
-        LDA $F5D9, X : AND.w #$000F : ADD $00 : CMP.w #$0003 : BMI BRANCH_ALPHA
+        LDA $F5D9, X : AND.w #$000F : CLC : ADC $00 : CMP.w #$0003 : BMI BRANCH_ALPHA
         
         SEP #$30
         
@@ -3209,7 +3209,7 @@ BRANCH_PI:
         
         DEC $020E : DEC $020E
         
-        LDA $06 : ADD.w #$0600 : AND.w #$0FFF : STA $06
+        LDA $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA $06
     
     BRANCH_EPSILON:
     
@@ -3261,7 +3261,7 @@ BRANCH_PI:
         
         REP #$30
         
-        LDA $E8 : ADD $E975, X : STA $0213
+        LDA $E8 : CLC : ADC $E975, X : STA $0213
         
         LDA $0A : AND.w #$0008 : BNE BRANCH_LAMBDA
         
@@ -3302,10 +3302,10 @@ BRANCH_PI:
         ; $0A is direction?
         LDA $0A : AND.w #$0008 : LSR #2 : TAX
         
-        LDA $0217 : ADD $EA7B, X : STA $0217
-        LDA $0FAA : ADD $EA7B, X : STA $0FAA
+        LDA $0217 : CLC : ADC $EA7B, X : STA $0217
+        LDA $0FAA : CLC : ADC $EA7B, X : STA $0FAA
         
-        LDA $E8 : ADD $EA77, X : STA $E8 : CMP $0213 : BNE .notDoneScrolling
+        LDA $E8 : CLC : ADC $EA77, X : STA $E8 : CMP $0213 : BNE .notDoneScrolling
         
         SEP #$20
         
@@ -3330,7 +3330,7 @@ BRANCH_PI:
         
         LDX $040C : LDA $F5D9, X : AND.b #$0F : STA $02
         
-        ADD $A4 : STA $01 : STA $03
+        CLC : ADC $A4 : STA $01 : STA $03
         
         SEP #$10
         
@@ -3391,7 +3391,7 @@ BRANCH_PI:
         
         LDA.b #$04 : SUB $02 : BMI BRANCH_ALPHA
         
-        ADD $03 : STA $03
+        CLC : ADC $03 : STA $03
         
         LDA $F5D9, X : LSR #4 : SUB.b #$04 : BMI BRANCH_ALPHA
         
@@ -3481,17 +3481,17 @@ BRANCH_PI:
         
         TXA : ASL #2 : TAX
         
-        LDA $0215 : AND.b #$F0 : ADD $EB8A, Y : STA $0800, X
+        LDA $0215 : AND.b #$F0 : CLC : ADC $EB8A, Y : STA $0800, X
         
         PHY
         
         LDA $0E : ASL A : TAY
         
-        LDA $0CF5 : ADD $E7F3, Y : STA $0F
+        LDA $0CF5 : CLC : ADC $E7F3, Y : STA $0F
         
         PLY
         
-        ADD $EB8E, Y : STA $0801, X
+        CLC : ADC $EB8E, Y : STA $0801, X
         
         STZ $0802, X
         
@@ -3534,7 +3534,7 @@ BRANCH_PI:
         
         LDY.b #$07
         
-        LDA $02 : ADD $03 : CMP.b #$08 : BEQ BRANCH_ALPHA
+        LDA $02 : CLC : ADC $03 : CMP.b #$08 : BEQ BRANCH_ALPHA
         
         LDA $02 : CMP.b #$04 : BPL BRANCH_ALPHA
         
@@ -3587,7 +3587,7 @@ BRANCH_PI:
         
         LDA $04 : STA $0801, X : STA $0805, X
         
-        ADD.b #$10 : STA $04
+        CLC : ADC.b #$10 : STA $04
         
         LDA.b #$3D : STA $0803, X : STA $0807, X
         LDA.b #$1C : STA $0802, X
@@ -3634,7 +3634,7 @@ BRANCH_PI:
         
         SEP #$10
         
-        ADD $02 : CMP.b #$01 : BEQ BRANCH_ALPHA
+        CLC : ADC $02 : CMP.b #$01 : BEQ BRANCH_ALPHA
         
         INC $05 : INC $05
         DEC $03
@@ -3652,11 +3652,11 @@ BRANCH_PI:
         REP #$10
         
         LDX $040C : LDA $F5D9, X : AND.b #$0F : STA $01
-        ADD $03 : STA $00
+        CLC : ADC $03 : STA $00
         
         LDA.b #$04 : SUB $01 : BMI BRANCH_BETA
         
-        ADD $00 : STA $00
+        CLC : ADC $00 : STA $00
         
         LDA $F5D9, X : LSR #4 : SUB.b #$04 : BMI BRANCH_BETA
         
@@ -3686,7 +3686,7 @@ BRANCH_PI:
     ; *$56D54-$56DE3 BRANCH LOCATION
     {
         LDY $00 : LDA $ECBE, Y : SUB.b #$04 : STA $02
-        ADD.b #$10 : STA $03
+        CLC : ADC.b #$10 : STA $03
         
         LDY.b #$00
         
@@ -3698,7 +3698,7 @@ BRANCH_PI:
         
         SEP #$10
         
-        ADD $0D : CMP.b #$01 : BEQ BRANCH_ALPHA
+        CLC : ADC $0D : CMP.b #$01 : BEQ BRANCH_ALPHA
         
         LDY.b #$01
     
@@ -3722,7 +3722,7 @@ BRANCH_PI:
         TYA : ASL #2 : TAY
         
         LDA $01 : STA $0900, Y : STA $0910, Y
-        LDA $02, X : STA $0901, Y : ADD.b #$08 : STA $0911, Y
+        LDA $02, X : STA $0901, Y : CLC : ADC.b #$08 : STA $0911, Y
         
         PHX
         
@@ -3746,7 +3746,7 @@ BRANCH_PI:
         
         PLY : INY
         
-        LDA $01 : ADD.b #$08 : STA $01
+        LDA $01 : CLC : ADC.b #$08 : STA $01
         
         DEC $0C : BPL BRANCH_GAMMA
         
@@ -3805,7 +3805,7 @@ BRANCH_PI:
         
         TYA : ASL #2 : TAY
         
-        LDA $EE5E, X : ADD $0FA8 : ADD.b #$90 : STA $0800, Y
+        LDA $EE5E, X : CLC : ADC $0FA8 : CLC : ADC.b #$90 : STA $0800, Y
         
         LDA $0FAB : BEQ BRANCH_DELTA
         
@@ -3815,7 +3815,7 @@ BRANCH_PI:
     
     BRANCH_DELTA:
     
-        LDA $EE5D, X : ADD $0FAA
+        LDA $EE5D, X : CLC : ADC $0FAA
     
     BRANCH_EPSILON:
     
@@ -3882,11 +3882,11 @@ BRANCH_PI:
     ; *$56E95-$56EF5 LOCAL
     PalaceMap_DrawBossFloorIndicator:
     {
-        LDA $F5D9, X : AND.b #$0F : STA $02 : ADD $EE79, X : STA $03
+        LDA $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03
         
         LDA.b #$04 : SUB $02 : BMI BRANCH_ALPHA
         
-        ADD $03 : STA $03
+        CLC : ADC $03 : STA $03
         
         LDA $F5D9, X : LSR #4 : SUB.b #$04 : BMI BRANCH_ALPHA
         
@@ -3929,9 +3929,9 @@ BRANCH_PI:
         
         REP #$30
         
-        LDA $0213 : ADD $E8 : STA $E8
+        LDA $0213 : CLC : ADC $E8 : STA $E8
         
-        LDA $0213 : EOR.w #$FFFF : INC A : ADD $0217 : STA $0217
+        LDA $0213 : EOR.w #$FFFF : INC A : CLC : ADC $0217 : STA $0217
         
         SEP #$30
         
@@ -4840,7 +4840,7 @@ BRANCH_PI:
         ASL A : AND.w #$0002 : TAX
         
         ; $041C[2] += 0x8000
-        LDA $041C : ADD.w #$8000 : STA $041C
+        LDA $041C : CLC : ADC.w #$8000 : STA $041C
         
         ; if $041C[2] was negative before the addition, then A = 1, otherwise A = 0
         ROL A : AND.w #$0001
@@ -4859,7 +4859,7 @@ BRANCH_PI:
         
         LDA $0422 : SUB $0312 : STA $0422
         
-        ADD $E2 : STA $E0
+        CLC : ADC $E2 : STA $E0
         
         SEP #$30
         
@@ -4873,7 +4873,7 @@ BRANCH_PI:
         
         LDA $0424 : SUB $0310 : STA $0424
         
-        ADD $E8 : STA $E6
+        CLC : ADC $E8 : STA $E6
     
     .return
     
@@ -4890,8 +4890,8 @@ BRANCH_PI:
         REP #$20
         
         ; Causes the background to move by the amounts specified by the variables below
-        LDA $0422 : ADD $0312 : STA $0422
-        LDA $0424 : ADD $0310 : STA $0424
+        LDA $0422 : CLC : ADC $0312 : STA $0422
+        LDA $0424 : CLC : ADC $0310 : STA $0424
         
         ; Sets the velocities of the background to zero, meaning they must be set again for the bg to continue moving.
         STZ $0312 : STZ $0310

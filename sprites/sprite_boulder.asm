@@ -48,11 +48,11 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0004
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0004
         
         CMP.w #$0010 : BCS .player_not_close
         
-        LDA $0FDA : SUB $20 : ADD.w #$FFFC
+        LDA $0FDA : SUB $20 : CLC : ADC.w #$FFFC
         
         CMP.w #$000C : BCS .player_not_close
         
@@ -244,13 +244,13 @@
         
         REP #$20
         
-        LDA $0FDA : ADD $0E : STA $0FDA
+        LDA $0FDA : CLC : ADC $0E : STA $0FDA
         
-        LDA $90 : ADD.w #$0010 : STA $90
+        LDA $90 : CLC : ADC.w #$0010 : STA $90
         
-        LDA $92 : ADD.w #$0004 : STA $92
+        LDA $92 : CLC : ADC.w #$0004 : STA $92
         
-        LDA.w #(.oam_groups) : ADD.w $00 : STA $08
+        LDA.w #(.oam_groups) : CLC : ADC.w $00 : STA $08
         
         SEP #$20
         

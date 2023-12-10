@@ -207,7 +207,7 @@
     {
         INC $0E90, X
         
-        LDA $1F05 : ADD.b #$06 : STA $1F05
+        LDA $1F05 : CLC : ADC.b #$06 : STA $1F05
         
         LDA $11 : BEQ .basic_submodule
         

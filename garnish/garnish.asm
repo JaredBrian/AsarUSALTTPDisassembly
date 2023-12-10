@@ -30,7 +30,7 @@
         LDA $0FD8 : STA $7FF83C, X
         LDA $0FD9 : STA $7FF878, X
         
-        LDA $0FDA : ADD.b #$10 : STA $7FF81E, X
+        LDA $0FDA : CLC : ADC.b #$10 : STA $7FF81E, X
         LDA $0FDB : ADC.b #$00 : STA $7FF85A, X
         
         LDA $0FA0 : STA $7FF92C, X
@@ -231,7 +231,7 @@
     {
         PHX
         
-        TXA : ADD.b #$1E : TAX
+        TXA : CLC : ADC.b #$1E : TAX
         
         JSR Garnish_MoveVert
         
@@ -242,7 +242,7 @@
     ; 4B25C ALTERNATE ENTRY POINT 
     shared Garnish_MoveVert:
     
-        LDA $7FF896, X : ASL #4 : ADD $7FF8D2, X : STA $7FF8D2, X
+        LDA $7FF896, X : ASL #4 : CLC : ADC $7FF8D2, X : STA $7FF8D2, X
         
         LDA $7FF896, X : PHP : LSR #4 : PLP : BPL .alpha
         

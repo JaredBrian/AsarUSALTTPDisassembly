@@ -140,25 +140,25 @@
         
         LDY $90
         
-        LDA $01 : EOR.b #$FF : INC A : ADD $0FA8 : TAX
+        LDA $01 : EOR.b #$FF : INC A : CLC : ADC $0FA8 : TAX
         
-              ADD $0000, Y : STA $0000, Y
-        TXA : ADD $0004, Y : STA $0004, Y
-        TXA : ADD $0008, Y : STA $0008, Y
-        TXA : ADD $000C, Y : STA $000C, Y
+              CLC : ADC $0000, Y : STA $0000, Y
+        TXA : CLC : ADC $0004, Y : STA $0004, Y
+        TXA : CLC : ADC $0008, Y : STA $0008, Y
+        TXA : CLC : ADC $000C, Y : STA $000C, Y
         
-        LDA $0FA8 : ADD $0010, Y : STA $0010, Y
+        LDA $0FA8 : CLC : ADC $0010, Y : STA $0010, Y
         
         LSR $01
         
         LDA $0FA9 : SUB $01 : TAX
         
-              ADD $0001, Y : STA $0001, Y
-        TXA : ADD $0005, Y : STA $0005, Y
-        TXA : ADD $0009, Y : STA $0009, Y
-        TXA : ADD $000D, Y : STA $000D, Y
+              CLC : ADC $0001, Y : STA $0001, Y
+        TXA : CLC : ADC $0005, Y : STA $0005, Y
+        TXA : CLC : ADC $0009, Y : STA $0009, Y
+        TXA : CLC : ADC $000D, Y : STA $000D, Y
         
-        LDA $0FA9 : ADD $0011, Y : STA $0011, Y
+        LDA $0FA9 : CLC : ADC $0011, Y : STA $0011, Y
         
         LDA $02 : ORA $0003, Y : STA $0003, Y
         LDA $02 : ORA $0007, Y : STA $0007, Y
@@ -195,7 +195,7 @@
         
         LDA $0DE0, X : ASL #4 : TAY
         
-        LDA $BA62, Y : ADD $0D10, X : STA $04
+        LDA $BA62, Y : CLC : ADC $0D10, X : STA $04
         
         STZ $0A
         
@@ -207,7 +207,7 @@
     
         LDA $0A : ADC $0D30, X : STA $0A
         
-        LDA $BA63, Y : ADD $0D00, X : STA $05
+        LDA $BA63, Y : CLC : ADC $0D00, X : STA $05
         
         STZ $0B
         
@@ -228,7 +228,7 @@
         
         JSR Utility_CheckIfHitBoxesOverlap : BCC BRANCH_ZETA
         
-        LDA $0D00, X : PHA : ADD.b #$13 : STA $0D00, X
+        LDA $0D00, X : PHA : CLC : ADC.b #$13 : STA $0D00, X
         LDA $0D20, X : PHA : ADC.b #$00 : STA $0D20, X
         
         JSR Sprite_DirectionToFacePlayer

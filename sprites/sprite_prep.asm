@@ -266,12 +266,12 @@
     ; *$30841-$30853 JUMP LOCATION
     SpritePrep_MovableMantle:
     {
-        LDA $0D00, X : ADD.b #$03 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$03 : STA $0D00, X
     
     ; *$3084A ALTERNATE ENTRY POINT
     shared SpritePrep_MoveRightOneTile:
     
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         
         RTS
     }
@@ -804,14 +804,14 @@
         ; in light world he can either be one or two dwarves?
         LDA $7EF3C9 : AND.b #$20 : BNE .partner_has_been_saved
         
-        LDA $0D10, X : ADD.b #$02 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
         LDA $0D00, X : SUB.b #$03 : STA $0D00, X
         
         RTS
     
     .partner_has_been_saved
     
-        LDA $0D10, X : ADD.b #$02 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
         LDA $0D00, X : SUB.b #$03 : STA $0D00, X
         
         JSR Smithy_SpawnOtherSmithy
@@ -900,7 +900,7 @@
     ; *$30B12-$30B1B JUMP LOCATION
     SpritePrep_MovableStatue:
     {
-        LDA $0D00, X : ADD.b #$07 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$07 : STA $0D00, X
         
         RTS
     }
@@ -939,7 +939,7 @@
     ; *$30B34-$30B3D JUMP LOCATION
     SpritePrep_PushSwitch:
     {
-        LDA $0D00, X : ADD.b #$05 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$05 : STA $0D00, X
         
         RTS
     }
@@ -1578,7 +1578,7 @@ SpritePrep_BugNetKid:
     ; *$30DD1-$30DDF JUMP LOCATION
     SpritePrep_ElderWife:
     {
-        LDA $0D00, X : ADD.b #$08 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$08 : STA $0D00, X
     
     ; *$30DDA ALTERNATE ENTRY POINT
     shared SpritePrep_Lumberjacks:
@@ -1673,7 +1673,7 @@ SpritePrep_BugNetKid:
     ; *$30E30-$30E41 JUMP LOCATION
     SpritePrep_MasterSword:
     {
-        LDA $0D10, X : ADD.b #$06 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$06 : STA $0D10, X
         LDA $0D00, X : ADC.b #$06 : STA $0D00, X
         
         RTS
@@ -1727,7 +1727,7 @@ SpritePrep_BugNetKid:
     ; *$30E6B-$30E88 JUMP LOCATION
     SpritePrep_Kodondo:
     {
-        LDA $0D10, X : ADD.b #$04 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$04 : STA $0D10, X
         
         LDA $0D00, X : SUB.b #$05 : STA $0D00, X
         LDA $0D20, X : SBC.b #$00 : STA $0D20, X
@@ -2015,7 +2015,7 @@ SpritePrep_BugNetKid:
     ; *$30FA7 ALTERNATE ENTRY POINT
     shared SpritePrep_GerudoMan:
     
-        LDA.b #$08 : ADD $0D10, X : STA $0D10, X
+        LDA.b #$08 : CLC : ADC $0D10, X : STA $0D10, X
     
     ; *$30FB0 ALTERNATE ENTRY POINT
     shared SpritePrep_Toppo:
@@ -2209,7 +2209,7 @@ SpritePrep_BugNetKid:
     ; *$310C2 ALTERNATE ENTRY POINT
     shared SpritePrep_MoveRightSevenPixels:
     
-        LDA $0D10, X : ADD.b #$07 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$07 : STA $0D10, X
         
         RTS
     }
@@ -2219,7 +2219,7 @@ SpritePrep_BugNetKid:
     ; *$310CC-$310D5 JUMP LOCATION
     SpritePrep_MoveDownOneTile:
     {
-        LDA $0D00, X : ADD.b #$08 : STA $0D00, X
+        LDA $0D00, X : CLC : ADC.b #$08 : STA $0D00, X
     
     ; $310D5 ALTERNATE ENTRY POINT
     shared SpritePrep_Zazakku:
@@ -2285,7 +2285,7 @@ SpritePrep_BugNetKid:
     
     .down_one_right_two_tiles
     
-        PHX : TXA : ADD.b #$10 : TAX
+        PHX : TXA : CLC : ADC.b #$10 : TAX
         
         JSR SpritePrep_MoveDownOneTile
         

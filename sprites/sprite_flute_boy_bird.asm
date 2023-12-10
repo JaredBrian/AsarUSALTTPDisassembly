@@ -16,7 +16,7 @@
         
         REP #$20
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         
@@ -80,7 +80,7 @@
     {
         LDA $0DF0, X : BNE .delay
         
-        LDA $0F80, X : ADD.b #$02 : STA $0F80, X
+        LDA $0F80, X : CLC : ADC.b #$02 : STA $0F80, X
         
         CMP.b #$10 : BMI .below_rise_speed_limit
         
@@ -133,7 +133,7 @@
         
         LDA $0DE0, X : TAX
         
-        LDA $00 : ADD .x_offsets, X                    : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X                    : STA ($90), Y
         LDA $02                                  : INY : STA ($90), Y
         LDA.b #$AE                               : INY : STA ($90), Y
         LDA $05 : ORA FluteBoyAnimal.vh_flip, X  : INY : STA ($90), Y

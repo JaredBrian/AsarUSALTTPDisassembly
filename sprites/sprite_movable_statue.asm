@@ -112,8 +112,8 @@
     
         REP #$20
         
-        LDA $0FD8 : SUB $22 : ADD.w #$0010 : CMP.w #$0023 : BCS BRANCH_KAPPA
-        LDA $0FDA : SUB $20 : ADD.w #$000C : CMP.w #$0024 : BCS BRANCH_KAPPA
+        LDA $0FD8 : SUB $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS BRANCH_KAPPA
+        LDA $0FDA : SUB $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_KAPPA
         
         SEP #$30
         
@@ -186,10 +186,10 @@
     
     .next_tile
     
-        LDA $0D00, X : ADD $C1FB, Y : STA $00
+        LDA $0D00, X : CLC : ADC $C1FB, Y : STA $00
         LDA $0D20, X : ADC.b #$00   : STA $01
        
-        LDA $0D10, X : ADD $C1F7, Y : STA $02
+        LDA $0D10, X : CLC : ADC $C1F7, Y : STA $02
         LDA $0D30, X : ADC.b #$00   : STA $03
         
         LDA $0F20, X
@@ -276,9 +276,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SUB $04 : ADD.w #$000C : CMP.w #$0018 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SUB $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS BRANCH_ALPHA
         
-        LDA $0FDA : SUB $06 : ADD.w #$000C : CMP.w #$0024 : BCS BRANCH_ALPHA
+        LDA $0FDA : SUB $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_ALPHA
         
         SEP #$20
         

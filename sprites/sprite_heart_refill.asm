@@ -103,7 +103,7 @@
         
         LDA $0DE0, X : AND.b #$01 : TAY
         
-        LDA $0D50, X : ADD $A213, Y : STA $0D50, X
+        LDA $0D50, X : CLC : ADC $A213, Y : STA $0D50, X
         
         CMP $CF35, Y : BNE .anoswitch_direction
         

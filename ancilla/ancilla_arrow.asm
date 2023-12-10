@@ -65,10 +65,10 @@
         
         LDA $0C72, X : AND.b #$03 : ASL A : TAY
         
-        LDA .y_offsets+0, Y : ADD $0BFA, X : STA $0BFA, X
+        LDA .y_offsets+0, Y : CLC : ADC $0BFA, X : STA $0BFA, X
         LDA .y_offsets+1, Y : ADC $0C0E, X : STA $0C0E, X
         
-        LDA .x_offsets+0, Y : ADD $0C04, X : STA $0C04, X
+        LDA .x_offsets+0, Y : CLC : ADC $0C04, X : STA $0C04, X
         LDA .x_offsets+1, Y : ADC $0C18, X : STA $0C18, X
         
         STZ $0B88
@@ -79,7 +79,7 @@
     
         LDA $0C04, X : SUB $0D10, Y : STA $0C2C, X
         
-        LDA $0BFA, X : SUB $0D00, Y : ADD $0F70, Y : STA $0C22, X
+        LDA $0BFA, X : SUB $0D00, Y : CLC : ADC $0F70, Y : STA $0C22, X
         
         TYA : STA $03A9, X
         
@@ -133,8 +133,8 @@
         
         REP #$20
         
-        LDA $E0 : SUB $E2 : ADD $0C04, X : STA $00
-        LDA $E6 : SUB $E8 : ADD $0BFA, X : STA $02
+        LDA $E0 : SUB $E2 : CLC : ADC $0C04, X : STA $00
+        LDA $E6 : SUB $E8 : CLC : ADC $0BFA, X : STA $02
         
         SEP #$20
         
@@ -281,8 +281,8 @@
         
         ; Seems like this does special handling for more complex collision
         ; modes.
-        LDA $E8 : SUB $E6 : ADD $0C : STA $0C
-        LDA $E2 : SUB $E0 : ADD $0E : STA $0E : STA $04
+        LDA $E8 : SUB $E6 : CLC : ADC $0C : STA $0C
+        LDA $E2 : SUB $E0 : CLC : ADC $0E : STA $0E : STA $04
     
     .basic_collision
     
@@ -309,7 +309,7 @@
     
         STA $0A
         
-        TYA : ASL #2 : ADD.b #$08 : ADD $0A : TAY
+        TYA : ASL #2 : CLC : ADC.b #$08 : CLC : ADC $0A : TAY
         
         BRA .determine_palette
     
@@ -352,8 +352,8 @@
         
         ; First of each interleaved pair is the y offset, and the second
         ; is the x offset.
-        LDA .xy_offsets+0, X : ADD $0C : STA $00
-        LDA .xy_offsets+2, X : ADD $0E : STA $02
+        LDA .xy_offsets+0, X : CLC : ADC $0C : STA $00
+        LDA .xy_offsets+2, X : CLC : ADC $0E : STA $02
         
         SEP #$20
         

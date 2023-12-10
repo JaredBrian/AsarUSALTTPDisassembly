@@ -106,9 +106,9 @@
         LDY $0DE0, X
         
         ; Accelerate until timer elapses.
-        LDA $0D50, X : ADD $CC79, Y : STA $0D50, X
+        LDA $0D50, X : CLC : ADC $CC79, Y : STA $0D50, X
         
-        LDA $0D40, X : ADD $CC7D, Y : STA $0D40, X
+        LDA $0D40, X : CLC : ADC $CC7D, Y : STA $0D40, X
         
         LDA $0E80, X : LSR #3 : AND.b #$01 : STA $0DC0, X
         
@@ -119,9 +119,9 @@
         LDY $0DE0, X
         
         ; Decelerate until stopped.
-        LDA $0D50, X : ADD $CC81, Y : STA $0D50, X
+        LDA $0D50, X : CLC : ADC $CC81, Y : STA $0D50, X
         
-        LDA $0D40, X : ADD $CC85, Y : STA $0D40, X : BNE .still_decelerating
+        LDA $0D40, X : CLC : ADC $CC85, Y : STA $0D40, X : BNE .still_decelerating
         
         STZ $0D80, X
         

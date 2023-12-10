@@ -92,8 +92,8 @@
     
     .next_subsprite
     
-        LDA $00      : ADD $FC9B, X       : STA ($90), Y
-        LDA $02      : ADD $FCA1, X : INY : STA ($90), Y
+        LDA $00      : CLC : ADC $FC9B, X       : STA ($90), Y
+        LDA $02      : CLC : ADC $FCA1, X : INY : STA ($90), Y
         LDA $FCA7, X                : INY : STA ($90), Y
         LDA $FCAD, X                : INY : STA ($90), Y : INY
         

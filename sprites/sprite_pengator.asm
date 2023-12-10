@@ -16,7 +16,7 @@
     {
         LDY $0DE0, X
         
-        LDA $0D90, X : ADD .animation_states, Y : STA $0DC0, X
+        LDA $0D90, X : CLC : ADC .animation_states, Y : STA $0DC0, X
         
         JSR Pengator_Draw
         
@@ -101,7 +101,7 @@
         
         LDA $0D50, X : CMP Sprite3_Shake.x_speeds, Y : BEQ .x_speed_at_target
         
-        ADD .x_speeds, Y : STA $0D50, X
+        CLC : ADC .x_speeds, Y : STA $0D50, X
         
         INC $00
     
@@ -109,7 +109,7 @@
     
         LDA $0D40, X : CMP Sprite3_Shake.y_speeds, Y : BEQ .y_speed_at_target
         
-        ADD .y_speeds, Y : STA $0D40, X
+        CLC : ADC .y_speeds, Y : STA $0D40, X
         
         INC $00
     
@@ -305,7 +305,7 @@
         
         ASL #4 : ADC.w #.oam_groups_2 : STA $08
         
-        LDA $90 : ADD.w #$0008 : STA $90
+        LDA $90 : CLC : ADC.w #$0008 : STA $90
         
         INC $92 : INC $92
         

@@ -257,7 +257,7 @@
     .notAtFullHealth
 
         ; refill health by one heart
-        LDA $7EF36D : ADD.b #$08 : STA $7EF36D
+        LDA $7EF36D : CLC : ADC.b #$08 : STA $7EF36D
         
         LDA $012F
         
@@ -453,7 +453,7 @@
         SBC.w #$0014 : TAY
         
         ; $00[3] = $7EC7A8 (wram address of second row of hearts)
-        LDA $00 : ADD.w #$0040 : STA $00
+        LDA $00 : CLC : ADC.w #$0040 : STA $00
 
     .halfHealthOrless
 
@@ -940,7 +940,7 @@
     .healthUpdated
     
         ; A = actual health + 0x03;
-        LDA $7EF36D : ADD.b #$03
+        LDA $7EF36D : CLC : ADC.b #$03
         
         REP #$30
         
@@ -969,7 +969,7 @@
     
         ; check how much magic power the player has at the moment (ranges from 0 to 0x7F)
         ; X = ((MP & 0xFF)) + 7) & 0xFFF8)
-        LDA $7EF36E : AND.w #$00FF : ADD.w #$0007 : AND.w #$FFF8 : TAX
+        LDA $7EF36E : AND.w #$00FF : CLC : ADC.w #$0007 : AND.w #$FFF8 : TAX
         
         ; these four writes draw the magic power bar based on how much MP you have    
         LDA .mp_tilemap+0, X : STA $7EC746
@@ -1101,7 +1101,7 @@
         ; if not, we have to move down one tile in the tilemap
         LDX.w #$0000
         
-        LDA $07 : ADD.w #$0040 : STA $07
+        LDA $07 : CLC : ADC.w #$0040 : STA $07
     
     .noLineChange
     

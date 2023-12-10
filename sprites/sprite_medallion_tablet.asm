@@ -24,7 +24,7 @@
         
         LDA $8A : CMP.b #$03 : BEQ .ether_location
         
-        LDA $0D10, X : ADD.b #$08 : STA $0D10, X
+        LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
         
         LDA $7EF347 : BEQ .dont_have_item
         
@@ -125,9 +125,9 @@
         
         JSL GetRandomInt : REP #$20 : AND.w #$000F
         
-        SUB.w #$0008 : ADD $00 : STA $00
+        SUB.w #$0008 : CLC : ADC $00 : STA $00
         
-        LDA $0F : AND.w #$000F : ADD $02 : STA $02
+        LDA $0F : AND.w #$000F : CLC : ADC $02 : STA $02
         
         SEP #$30
         
@@ -194,7 +194,7 @@
         
         REP #$20
         
-        LDA $0FDA : ADD.w #$0010 : CMP $20 : SEP #$30 : BCC .beta
+        LDA $0FDA : CLC : ADC.w #$0010 : CMP $20 : SEP #$30 : BCC .beta
         
         LDA $F4 : BPL .gamma
         
@@ -267,7 +267,7 @@
         
         JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .return
         
-        LDA $0D00, X : ADD.b #$10 : CMP $20 : BCC .return
+        LDA $0D00, X : CLC : ADC.b #$10 : CMP $20 : BCC .return
         
         LDA $F4 : BPL .b_button_not_pressed
         

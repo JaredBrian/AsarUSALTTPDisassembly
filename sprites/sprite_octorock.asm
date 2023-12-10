@@ -287,10 +287,10 @@
         ; direction that the Octorok is currently facing.
         LDA !direction, X : TAX
         
-        LDA $00 : ADD $D4B5, X : STA $0D10, Y
+        LDA $00 : CLC : ADC $D4B5, X : STA $0D10, Y
         LDA $01 : ADC $D4B9, X : STA $0D30, Y
         
-        LDA $02 : ADD $D4BD, X : STA $0D00, Y
+        LDA $02 : CLC : ADC $D4BD, X : STA $0D00, Y
         LDA $03 : ADC $D4C1, X : STA $0D20, Y
         
         LDA !direction, Y : TAX
@@ -346,13 +346,13 @@
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA !top_x_bit_low
         
-        LDA $02 : ADD .y_offsets, X : INY : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .not_off_screen
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .not_off_screen
         
         LDA.b #$F0 : STA ($90), Y
     
@@ -372,7 +372,7 @@
     
         REP #$20
         
-        LDA $90 : ADD.w #$0004 : STA $90
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
         
         INC $92
         

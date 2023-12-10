@@ -133,13 +133,13 @@
         
         LDA $0D50, X : CMP .target_x_speeds, Y : BEQ .at_target_x_speed
         
-        ADD .x_acceleration, Y : STA $0D50, X
+        CLC : ADC .x_acceleration, Y : STA $0D50, X
     
     .at_target_x_speed
     
         LDA $0D40, X : CMP .target_y_speeds, Y : BEQ .at_target_y_speed
         
-        ADD .y_acceleration, Y : STA $0D40, X
+        CLC : ADC .y_acceleration, Y : STA $0D40, X
     
     .at_target_y_speed
     .acceleration_delay
@@ -255,9 +255,9 @@
         
         REP #$20
         
-        LDA $00 : SUB $04 : ADD.w #$0010 : CMP.w #$0020 : BCS .no_collision
+        LDA $00 : SUB $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .no_collision
         
-        LDA $02 : SUB $06 : ADD.w #$0008 : CMP.w #$0010 : BCS .no_collision
+        LDA $02 : SUB $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .no_collision
         
         SEP #$20
         

@@ -66,10 +66,10 @@
     {
         LDY $0DE0
         
-        LDA $0D10 : ADD $8B07, Y : STA $04
+        LDA $0D10 : CLC : ADC $8B07, Y : STA $04
         LDA $0D30 : ADC $8B09, Y : STA $05
         
-        LDA $0D00 : ADD.b #$F0 : STA $06
+        LDA $0D00 : CLC : ADC.b #$F0 : STA $06
         LDA $0D20 : ADC.b #$FF : STA $07
         
         JSR Ganon_CheckEntityProximity : BCS BRANCH_ALPHA

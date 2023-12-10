@@ -22,7 +22,7 @@
         
         JSR Ancilla_AddSwordChargeSpark
         
-        LDA $0C22, X : ADD.b #$FF : CMP.b #$F0 : BCS .ascent_speed_maxed
+        LDA $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .ascent_speed_maxed
         
         LDA.b #$F0
     
@@ -40,7 +40,7 @@
         LDA $00 : SUB $0122 : CMP.w #$0049 : BCS .below_target_y_position
         
         ; Keep position fixed at 0x0049
-        LDA.w #$0049 : ADD $0122 : STA $00
+        LDA.w #$0049 : CLC : ADC $0122 : STA $00
         
         SEP #$20
         

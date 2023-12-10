@@ -25,8 +25,8 @@
         
         LDA $7FF90E, X : LSR #2 : TAX
         
-        LDA $00 : ADD .xy_offsets, X       : STA ($90), Y
-        LDA $02 : ADD .xy_offsets, X : INY : STA ($90), Y
+        LDA $00 : CLC : ADC .xy_offsets, X       : STA ($90), Y
+        LDA $02 : CLC : ADC .xy_offsets, X : INY : STA ($90), Y
         
         LDA .chr, X : INY : STA ($90), Y
         

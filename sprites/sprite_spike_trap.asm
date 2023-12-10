@@ -14,13 +14,13 @@
         
         TYA : STA $0DE0, X
         
-        LDA $0F : ADD.b #$10 : CMP.b #$20 : BCS .not_close_enough
+        LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_enough
         
         BRA .move_towards_player
     
     .not_close_enough:
     
-        LDA $0E : ADD.b #$10 : CMP.b #$20 : BCS .not_close_enough
+        LDA $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_enough
     
     .move_towards_player
     

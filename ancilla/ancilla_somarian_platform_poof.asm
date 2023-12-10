@@ -57,7 +57,7 @@
     
         LDA $74 : AND.w #$01FF : LSR #3 : STA $04
         
-        LDA $72 : AND.w #$01F8 : ASL #3 : ADD $04 : ADD $06 : TAX
+        LDA $72 : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $06 : TAX
         
         STZ $06
         

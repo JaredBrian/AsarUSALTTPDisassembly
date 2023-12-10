@@ -81,7 +81,7 @@
     ; *$EEFE0-$EF038 JUMP LOCATION
     ArmosCrusher_ApproachTargetCoords:
     {
-        LDA $0F80, X : ADD.b #$03 : STA $0F80, X
+        LDA $0F80, X : CLC : ADC.b #$03 : STA $0F80, X
         
         JSR Sprite4_CheckTileCollision : BNE .collided_with_tile
         
@@ -95,11 +95,11 @@
         
         REP #$20
         
-        LDA $00 : SUB $0FD8 : ADD.w #$0010
+        LDA $00 : SUB $0FD8 : CLC : ADC.w #$0010
         
         CMP.w #$0020 : BCS .not_close_enough_to_player
         
-        LDA $02 : SUB $0FDA : ADD.w #$0010
+        LDA $02 : SUB $0FDA : CLC : ADC.w #$0010
         
         CMP.w #$0020 : BCS .not_close_enough_to_player
         

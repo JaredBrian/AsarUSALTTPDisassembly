@@ -92,9 +92,9 @@
     {
         JSR Sprite4_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$28 : CMP.b #$50 : BCS .dont_dodge
+        LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
         
-        LDA $0F : ADD.b #$28 : CMP.b #$50 : BCS .dont_dodge
+        LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
         
         ; Is this checking for a sword attack? Maybe.
         LDA $44 : CMP.b #$80 : BEQ .dont_dodge

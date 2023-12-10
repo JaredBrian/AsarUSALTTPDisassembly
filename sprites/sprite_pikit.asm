@@ -89,9 +89,9 @@
         
         JSR Sprite3_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
+        LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
         
-        LDA $0F : ADD.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
+        LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
         
         INC $0D80, X
         
@@ -172,7 +172,7 @@
         
         LDY $0DE0, X : PHY
         
-        ADD $8CD2, Y : TAY
+        CLC : ADC $8CD2, Y : TAY
         
         LDA $8C8A, Y : STA $0D90, X : STA $04
                                       STZ $05
@@ -185,7 +185,7 @@
     
         PLY
         
-        PLA : ADD $8CDA, Y : TAY
+        PLA : CLC : ADC $8CDA, Y : TAY
         
         ; Two STZs in a row?
         LDA $8C8A, Y : STA $0DA0, X : STA $06
@@ -202,9 +202,9 @@
         
         REP #$20
         
-        LDA $0FD8 : ADD $04 : SUB $22 : ADD.w #$000C : CMP.w #$0018 : BCS .return
+        LDA $0FD8 : CLC : ADC $04 : SUB $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
         
-        LDA $0FDA : ADD $06 : SUB $20 : ADD.w #$000C : CMP.w #$0020 : BCS .return
+        LDA $0FDA : CLC : ADC $06 : SUB $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
         
         SEP #$20
         

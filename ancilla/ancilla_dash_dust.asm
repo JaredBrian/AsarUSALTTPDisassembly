@@ -100,9 +100,9 @@
     
         STY $04
         
-        LDA $0C5E, X : ADD $04 : STA $04
+        LDA $0C5E, X : CLC : ADC $04 : STA $04
         
-        ASL A : ADD $04 : STA $04
+        ASL A : CLC : ADC $04 : STA $04
         
         LDA.b #$02 : STA $72
         
@@ -118,8 +118,8 @@
         
         REP #$20
         
-        LDA $06 : ADD .y_offsets, X           : STA $00
-        LDA $08 : ADD .x_offsets, X : ADD $0C : STA $02
+        LDA $06 : CLC : ADC .y_offsets, X           : STA $00
+        LDA $08 : CLC : ADC .x_offsets, X : CLC : ADC $0C : STA $02
         
         SEP #$20
         

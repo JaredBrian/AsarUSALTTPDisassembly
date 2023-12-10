@@ -199,7 +199,7 @@ Ancilla_MilestoneItem:
         
         LDA $A0 : CMP.b #$06 : BNE .not_water_room
             LDA $A1 : CMP.b #$00 : BNE .not_water_room
-                LDA $72 : ADD.b #$04 : TAX
+                LDA $72 : CLC : ADC.b #$04 : TAX
     
                 BRA .draw_underside_sprite
     
@@ -217,7 +217,7 @@ Ancilla_MilestoneItem:
     
     REP #$20
         
-    LDA $06 : ADD.w #$000C : STA $00
+    LDA $06 : CLC : ADC.w #$000C : STA $00
         
     SEP #$20
         

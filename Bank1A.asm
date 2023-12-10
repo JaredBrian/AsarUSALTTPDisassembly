@@ -110,7 +110,7 @@
         ; Spawns Lanmolas' rocks when they pop out of the ground.
         LDY.b #$03
         
-        LDA $0DD0 : ADD $0DD1 : ADC $0DD2 : CMP.b #$0A : BCS BRANCH_ALPHA
+        LDA $0DD0 : CLC : ADC $0DD1 : ADC $0DD2 : CMP.b #$0A : BCS BRANCH_ALPHA
         
         LDY.b #$07
     
@@ -180,10 +180,10 @@
     
         LDA.b #$14 : STA $7FF800, X : STA $0FB4
         
-        LDA $0D10, Y : ADD.b #$04 : STA $7FF83C, X
+        LDA $0D10, Y : CLC : ADC.b #$04 : STA $7FF83C, X
         LDA $0D30, Y : ADC.b #$00 : STA $7FF878, X
         
-        LDA $0D00, Y : ADD.b #$1C : STA $7FF81E, X
+        LDA $0D00, Y : CLC : ADC.b #$1C : STA $7FF81E, X
         LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
         
         LDA.b #$0A : STA $7FF90E, X
@@ -328,7 +328,7 @@
         
         LDA $0DC0, X : ASL #3 : ADC $0DC0, X : STA $06
         
-        LDA $02 : ADD $0F70, X : STA $02
+        LDA $02 : CLC : ADC $0F70, X : STA $02
         LDA $03 : ADC.b #$00   : STA $03
         
         LDY.b #$28
@@ -338,19 +338,19 @@
 
         PHX
         
-        TXA : ADD $06 : ASL A : TAX
+        TXA : CLC : ADC $06 : ASL A : TAX
         
         REP #$20
         
-        LDA $00 : ADD .x_offsets, X : STA ($90), Y
+        LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
         
         AND.w #$0100 : STA $0E
         
         INY
         
-        LDA $02 : ADD.w #$0010 : STA ($90), Y
+        LDA $02 : CLC : ADC.w #$0010 : STA ($90), Y
         
-        ADD.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
         
         LDA.b #$F0 : STA ($90), Y
 
@@ -417,7 +417,7 @@
         
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : ADD.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
         
         LDA.b #$FF : STA $0B58, Y
         
@@ -535,8 +535,8 @@
         
         REP #$20
         
-        LDA $22 : ADD.l .x_offsets, X : STA $00
-        LDA $20 : ADD.l .y_offsets, X : STA $02
+        LDA $22 : CLC : ADC.l .x_offsets, X : STA $00
+        LDA $20 : CLC : ADC.l .y_offsets, X : STA $02
         
         SEP #$20
         
@@ -551,7 +551,7 @@
         LDA $1B : REP #$20 : BEQ .outdoors
         
         LDA $00 : AND.w #$01FF : LSR #3 : STA $04
-        LDA $02 : AND.w #$01F8 : ASL #3 : ADD $04 : ADD $05 : TAX
+        LDA $02 : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $05 : TAX
         
         LDA $7F2000, X
         
@@ -582,10 +582,10 @@
         
         LDY $2F
         
-        LDA $20 : ADD.l .y_offsets, X : PHP : SUB.b #$10              : STA $0D00, Y
+        LDA $20 : CLC : ADC.l .y_offsets, X : PHP : SUB.b #$10              : STA $0D00, Y
         LDA $21 : SBC.b #$00          : PLP : ADC.l .y_offsets + 1, X : STA $0D20, Y
         
-        LDA $22 : ADD.l .x_offsets, X : PHP : SUB.b #$08              : STA $0D10, Y
+        LDA $22 : CLC : ADC.l .x_offsets, X : PHP : SUB.b #$08              : STA $0D10, Y
         LDA $23 : SBC.b #$00          : PLP : ADC.l .x_offsets + 1, X : STA $0D30, Y
         
         LDA $EE : STA $0F20, Y

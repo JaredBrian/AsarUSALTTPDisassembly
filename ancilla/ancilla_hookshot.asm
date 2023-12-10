@@ -293,7 +293,7 @@
         LDA $0C72, X : STA $08
         
         ; X and $0A = $0C72, X * 6
-        ASL A : ADD $08 : STA $0A : TAX
+        ASL A : CLC : ADC $08 : STA $0A : TAX
         
         LDA.b #$02 : STA $08
         
@@ -322,13 +322,13 @@
     
         INC $0A
         
-        LDA $02 : ADD.b #$08 : STA $02
+        LDA $02 : CLC : ADC.b #$08 : STA $02
         
         DEC $08 : BMI .draw_chain_links
         
         LDA $08 : BNE .next_oam_entry
         
-        LDA $00 : ADD.b #$08 : STA $00
+        LDA $00 : CLC : ADC.b #$08 : STA $00
         
         LDA $06 : STA $02
         
@@ -386,14 +386,14 @@
         LDA .chain_y_speeds, X : BNE .use_actual_y_displacement
         
         ; Otherwise move the base y offset for the links down 4 pixels.
-        LDA $04 : ADD.w #$0004 : STA $04
+        LDA $04 : CLC : ADC.w #$0004 : STA $04
     
     .use_actual_y_displacement
     
         LDA .chain_x_speeds, X : BNE .use_actual_x_displacement
         
         ; Otherwise move the base x offset for the links right 4 pixels.
-        LDA $06 : ADD.w #$0004 : STA $06
+        LDA $06 : CLC : ADC.w #$0004 : STA $06
         
         SEP #$20
     
@@ -405,21 +405,21 @@
         LDA .chain_y_speeds, X : BEQ .dont_accumulate_y_offset
         
         ; accumulate y offset.
-        ADD $0A
+        CLC : ADC $0A
     
     .dont_accumulate_y_offset
     
-        ADD $04 : STA $04
+        CLC : ADC $04 : STA $04
                   STA $00
         
         LDA .chain_x_speeds, X : BEQ .dont_accumulate_x_offset
         
         ; accumulate x offset.
-        ADD $0C
+        CLC : ADC $0C
     
     .dont_accumulate_x_offset
     
-        ADD $06 : STA $06
+        CLC : ADC $06 : STA $06
                   STA $02
         
         SEP #$20

@@ -111,7 +111,7 @@
         
         LDA $0ED0, X : AND.b #$01 : TAY
         
-        LDA $0F80, X : ADD .z_speed_step, Y : STA $0F80, X
+        LDA $0F80, X : CLC : ADC .z_speed_step, Y : STA $0F80, X
         
         CMP .z_speed_limit, Y : BNE .not_at_speed_limit
         
@@ -124,9 +124,9 @@
         JSR Sprite3_MoveAltitude
         JSR Sprite3_DirectionToFacePlayer
         
-        LDA $0E : ADD.b #$28 : CMP.b #$50 : BCS .player_not_close
+        LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
         
-        LDA $0F : ADD.b #$28 : CMP.b #$50 : BCS .player_not_close
+        LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
         
         LDA $44 : CMP.b #$80 : BEQ .player_not_attacking
         
@@ -307,10 +307,10 @@
         
         LDX $0DE0, Y
         
-        LDA $00 : ADD .x_offsets_low, X  : STA $0D10, Y
+        LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
         LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
         
-        LDA $02 : ADD .y_offsets_low, X  : STA $0D00, Y
+        LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
         LDA $03 : ADC .y_offsets_hiwh, X : STA $0D20, Y
         
         LDA Sprite3_Shake.x_speeds, X : STA $0D50, Y
