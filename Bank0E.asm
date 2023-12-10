@@ -450,10 +450,10 @@ Module_EndSequence:
     
     .loop
     
-        LDA $0DF0, X : BEQ BRANCH_ALPHA
+        LDA $0DF0, X : BEQ .BRANCH_ALPHA
             DEC $0DF0, X
         
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
     DEX : BPL .loop
         
     LDA $11 : AND.b #$FE : TAX
@@ -465,21 +465,21 @@ Module_EndSequence:
         
     LDA $C8
         
-    CMP.w #$0040 : BCC BRANCH_GAMMA
-    AND.w #$0001 : BNE BRANCH_GAMMA
+    CMP.w #$0040 : BCC .BRANCH_GAMMA
+    AND.w #$0001 : BNE .BRANCH_GAMMA
         ; $0718D8, X THAT IS
-        LDA $E8 : CMP $98D8, X : BEQ BRANCH_DELTA
+        LDA $E8 : CMP $98D8, X : BEQ .BRANCH_DELTA
             ; // $071918, X THAT IS
             LDY $9918, X : STY $30
         
-        BRANCH_DELTA:
+        .BRANCH_DELTA
     
         ; $0718F8, X THAT IS
-        LDA $E2 : CMP $98F8, X : BEQ BRANCH_GAMMA
+        LDA $E2 : CMP $98F8, X : BEQ .BRANCH_GAMMA
             ; $071938, X THAT IS
             LDY $9938, X : STY $31
         
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
     REP #$20
         
@@ -524,34 +524,34 @@ Module_EndSequence:
         
     LDX.b #$0F
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $0DF0, X
         
-        BEQ BRANCH_ALPHA
+        BEQ .BRANCH_ALPHA
             ; Countdown sprite timer
             DEC $0DF0, X
         
-        BRANCH_ALPHA:
-    DEX : BPL BRANCH_BETA
+        .BRANCH_ALPHA
+    DEX : BPL .BRANCH_BETA
         
     LDA $11 : AND.b #$FE : TAX
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0040 : BCC BRANCH_GAMMA
-              AND.w #$0001 : BNE BRANCH_GAMMA
-        LDA $E8 : CMP $98D8, X : BEQ BRANCH_DELTA
+    LDA $C8 : CMP.w #$0040 : BCC .BRANCH_GAMMA
+              AND.w #$0001 : BNE .BRANCH_GAMMA
+        LDA $E8 : CMP $98D8, X : BEQ .BRANCH_DELTA
             CLC : ADC $9918, X : STA $E8
         
-        BRANCH_DELTA:
+        .BRANCH_DELTA
     
         LDA $E2 : CMP $98F8, X
         
-        BEQ BRANCH_GAMMA
+        BEQ .BRANCH_GAMMA
             CLC : ADC $9938, Y : STA $E2
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
     SEP #$20
         
@@ -565,21 +565,21 @@ Module_EndSequence:
         
     REP #$20
         
-    LDA $C8 : CMP $9A0A, X : SEP #$20 : BCC BRANCH_ALPHA
-        LDA $C8 : AND.b #$01 : BNE BRANCH_BETA
-            DEC $13 : BNE BRANCH_BETA
+    LDA $C8 : CMP $9A0A, X : SEP #$20 : BCC .BRANCH_ALPHA
+        LDA $C8 : AND.b #$01 : BNE .BRANCH_BETA
+            DEC $13 : BNE .BRANCH_BETA
         
             INC $11
         
-            BRA BRANCH_GAMMA
+            BRA .BRANCH_GAMMA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-    LDA $C8 : AND.b #$01 : BNE BRANCH_BETA
-        LDA $13 : CMP.b #$0F : BEQ BRANCH_BETA
+    LDA $C8 : AND.b #$01 : BNE .BRANCH_BETA
+        LDA $13 : CMP.b #$0F : BEQ .BRANCH_BETA
             INC $13
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     REP #$20
         
@@ -587,7 +587,7 @@ Module_EndSequence:
         
     SEP #$20
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
     REP #$20
         
@@ -647,29 +647,29 @@ Module_EndSequence:
 {
     LDY.b #$04
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA $9C56, Y : STA $0DF0, Y
         
         LDA.b #$00 : STA $0DD0, Y
-    DEY : BPL BRANCH_1
+    DEY : BPL .BRANCH_1
         
     LDA.b #$2E : STA $0E25
         
     LDY.b #$01
     
-    BRANCH_2:
+    .BRANCH_2
     
         LDA.b #$9F : STA $0E27, Y
         LDA.b #$A0 : STA $0E29, Y
         
         LDA.b #$01 : STA $0E47, Y : INC A : STA $0E49, Y
         LDA.b #$10 : STA $0E67, Y :         STA $0E69, Y
-    DEY : BPL BRANCH_2
+    DEY : BPL .BRANCH_2
     
     ; $071690 EXTERNAL BRANCH POINT
     
-    BRA BRANCH_5
+    BRA .BRANCH_5
     
     ; $071C92 ALTERNATIVE ENTRY POINT
     
@@ -681,12 +681,12 @@ Module_EndSequence:
         
     LDY.b #$03
     
-    BRANCH_3:
+    .BRANCH_3
     
         LDA.b #$04 : STA $0D41, Y
-    DEY : BPL BRANCH_3
+    DEY : BPL .BRANCH_3
         
-    BRA BRANCH_5
+    BRA .BRANCH_5
     
     ; 71CB4 ALTERNATIVE ENTRY POINT
     
@@ -696,25 +696,25 @@ Module_EndSequence:
         
     LDA.b #$40 : STA $0DF4
         
-    BRA BRANCH_5
+    BRA .BRANCH_5
     
     ; $071CCA ALTERNATIVE ENTRY POINT
     
     LDA.b #$FF : STA $0DF1
         
-    BRA BRANCH_5
+    BRA .BRANCH_5
     
     ; $071CD1 ALTERNATIVE ENTRY POINT
     
     LDY.b #$01
     
-    BRANCH_4:
+    .BRANCH_4
     
         LDA.b #$39 : STA $0F53, Y
         LDA.b #$0B : STA $0E23, Y
         LDA.b #$10 : STA $0E63, Y
         LDA.b #$01 : STA $0E43, Y
-    DEY : BPL BRANCH_4
+    DEY : BPL .BRANCH_4
         
     LDA.b #$2A : STA $0E25
         
@@ -723,7 +723,7 @@ Module_EndSequence:
     LDA.b #$05 : STA $0F76
     
     ; $071CFE ALTERNATIVE ENTRY POINT
-    BRANCH_5:
+    .BRANCH_5
     
     LDA $9BCA, X : STA $04
     LDA $9BCB, X : STA $05
@@ -734,7 +734,7 @@ Module_EndSequence:
         
     LDA $9C0A, X : TAX
     
-    BRANCH_6:
+    .BRANCH_6
     
         TXA : ASL A : TAY
         
@@ -753,7 +753,7 @@ Module_EndSequence:
         LDA $01 : STA $0D30
         LDA $02 : STA $0D00
         LDA $03 : STA $0D20 
-    DEX : BPL BRANCH_6
+    DEX : BPL .BRANCH_6
         
     RTS
 }
@@ -765,7 +765,7 @@ Module_EndSequence:
         
     LDA.b #$08 : STA $0F53 : STA $0F54
         
-    BRA BRANCH_1
+    BRA .BRANCH_1
     
     ; $071D70 ALTERNATE ENTRY POINT
     
@@ -775,7 +775,7 @@ Module_EndSequence:
     LDA.b #$01 : STA $0DE1
     LDA.b #$04 : STA $0D91
     
-    BRANCH_1:
+    .BRANCH_1
     ; $071D84 ALTERNATE ENTRY POINT
     
     REP #$20
@@ -799,7 +799,7 @@ Module_EndSequence:
     ; $071C0A in Rom. Number of sprites in ending sequence
     LDA $9C0A, X : TAX
     
-    BRANCH_2:
+    .BRANCH_2
     
         TXA : ASL A : TAY
         
@@ -828,7 +828,7 @@ Module_EndSequence:
         LDA $02 : STA $0D00, X
         LDA $03 : STA $0D20, X
         
-    DEX : BPL BRANCH_2
+    DEX : BPL .BRANCH_2
         
     RTS
 }
@@ -888,7 +888,7 @@ Module_EndSequence:
     
     JSR $A703 ; $072703 IN ROM
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
         DEX
         
@@ -905,7 +905,7 @@ Module_EndSequence:
         SEP #$20
         
         BCC BRANCH_ALPHA
-            LDA $0DF0, X : BNE BRANCH_ALPHA
+            LDA $0DF0, X : BNE .BRANCH_ALPHA
                 LDY $0D90, X
                 
                 LDA $9F3B, Y : PHA : AND.b #$F8 : STA $0DF0, X
@@ -917,7 +917,7 @@ Module_EndSequence:
                 
                 INC $0D90, X
             
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
 
         LDA $9F2B, Y
         LDY $9F29, X
@@ -925,7 +925,7 @@ Module_EndSequence:
         JSR $A703   ; $072703 IN ROM
         JSR $A5FD   ; $0725FD IN ROM
         JSL Sprite_MoveLong
-	DEX : BPL BRANCH_BETA
+	DEX : BPL .BRANCH_BETA
     
 	PLX
     
@@ -1040,7 +1040,7 @@ Module_EndSequence:
         
     LDA.b #$31 : STA $0F50, X
         
-    LDA $0DF0, X : BNE BRANCH_ALPHA
+    LDA $0DF0, X : BNE .BRANCH_ALPHA
         LDA $0D90, X : TAY
         
         EOR.b #$01 : STA $0D90, X
@@ -1049,7 +1049,7 @@ Module_EndSequence:
         
         LDA $0DC0, X : INC A : AND.b #$03 : STA $0DC0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     LDY.b #$26
     LDA.b #$02
@@ -1058,12 +1058,12 @@ Module_EndSequence:
         
     DEX
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $1A : AND.b #$0F : BNE BRANCH_BETA
+        LDA $1A : AND.b #$0F : BNE .BRANCH_BETA
             LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
         
-        BRANCH_BETA:
+        .BRANCH_BETA
     
         LDA.b #$31 : STA $0F50, X
         
@@ -1072,7 +1072,7 @@ Module_EndSequence:
         
         JSR $A703 ; $072703 IN ROM
         JSR $A5FD ; $0725FD IN ROM
-    DEX : BPL BRANCH_GAMMA
+    DEX : BPL .BRANCH_GAMMA
         
     PLX
         
@@ -1112,37 +1112,37 @@ Module_EndSequence:
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0200 : BNE BRANCH_ALPHA
+    LDA $C8 : CMP.w #$0200 : BNE .BRANCH_ALPHA
         LDY.b #$01
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-    CMP.w #$0208 : BNE BRANCH_GAMMA
+    CMP.w #$0208 : BNE .BRANCH_GAMMA
         LDY.b #$2C
     
-        BRANCH_BETA:
+        .BRANCH_BETA
         
         STY $012E
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-    SEC : SBC.w #$0208 : CMP.w #$0030 : SEP #$20 : BCS BRANCH_DELTA
+    SEC : SBC.w #$0208 : CMP.w #$0030 : SEP #$20 : BCS .BRANCH_DELTA
         LDY.b #$02
         
         JSR $ACE5 ; $072CE5 IN ROM
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
     LDX.b #$03
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0200 : SEP #$20 : BCS BRANCH_EPSILON
+    LDA $C8 : CMP.w #$0200 : SEP #$20 : BCS .BRANCH_EPSILON
         LDA.b #$01 : STA $0DC0, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
     LDA.b #$31 : STA $0F50, X
         
@@ -1192,19 +1192,19 @@ Module_EndSequence:
         
     LDA $C8 : CMP.w #$0200
         
-    SEP #$20 : BNE BRANCH_ALPHA
+    SEP #$20 : BNE .BRANCH_ALPHA
         LDA.b #$FC : STA $0D50, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     LDA $1A : AND.b #$10 : LSR #4 : STA $0DC0, X
         
-    LDA $0D10, X : CMP.b #$38 : BNE BRANCH_BETA
+    LDA $0D10, X : CMP.b #$38 : BNE .BRANCH_BETA
         STZ $0D50, X
         
         INC $0DC0, X : INC $0DC0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     LDA.b #$03
     LDY.b #$34
@@ -1235,12 +1235,12 @@ Module_EndSequence:
         
     REP #$10
         
-    LDY $C8 : CPY.w #$01C0 : SEP #$10 : BCS BRANCH_ALPHA
+    LDY $C8 : CPY.w #$01C0 : SEP #$10 : BCS .BRANCH_ALPHA
         TYA : AND.b #$20
         
         ASL #3 : ROL A
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     STA $0DC0, X
         
@@ -1259,7 +1259,7 @@ Module_EndSequence:
         
     JSL Sprite_Get_16_bit_CoordsLong
         
-    LDA $0F00, X : BNE BRANCH_ALPHA 
+    LDA $0F00, X : BNE .BRANCH_ALPHA 
         JSL GetRandomInt : AND.b #$07 : TAX
             
         LDA $06C309, X : CLC : ADC $0FD8 : PHA
@@ -1274,16 +1274,16 @@ Module_EndSequence:
         
         JSR $ACE5   ; $072CE5 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     LDX.b #$03
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $0E00, X : BEQ BRANCH_BETA
+        LDA $0E00, X : BEQ .BRANCH_BETA
             DEC $0E00, X
         
-        BRANCH_BETA:
+        .BRANCH_BETA
     
         LDA.b #$E3 : STA $0E20, X
         
@@ -1291,7 +1291,7 @@ Module_EndSequence:
         
         JSR $ACA2 ; $072CA2 IN ROM
         JSR $A692 ; $072692 IN ROM
-    INX : CPX.b #$05 : BNE BRANCH_GAMMA
+    INX : CPX.b #$05 : BNE .BRANCH_GAMMA
         
     LDA.b #$72 : STA $0E20, X
     LDA.b #$3B : STA $0F50, X
@@ -1312,28 +1312,28 @@ Module_EndSequence:
         
     LDX.b #$06
         
-    LDA $1A : AND.b #$01 : STA $0DC0, X : BNE BRANCH_ALPHA
+    LDA $1A : AND.b #$01 : STA $0DC0, X : BNE .BRANCH_ALPHA
         LDA.b #$01
             
-        LDY $D010, X : CPY.b #$80 : BMI BRANCH_BETA
+        LDY $D010, X : CPY.b #$80 : BMI .BRANCH_BETA
             LDA.b #$FF
         
-        BRANCH_BETA:
+        .BRANCH_BETA
     
         CLC : ADC $0D50, X : STA $0D50, X
         
         LDA.b #$01
         
-        LDY $0D00, X : CPY.b #$B0 : BMI BRANCH_GAMMA
+        LDY $0D00, X : CPY.b #$B0 : BMI .BRANCH_GAMMA
             LDA.b #$FF
         
-        BRANCH_GAMMA:
+        .BRANCH_GAMMA
     
         CLC : ADC $0D40, X : STA $0D40, X
         
         JSL Sprite_MoveLong
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     LDA $0D50, X : LSR A : AND.b #$40 : EOR.b #$7E : STA $0F50, X
         
@@ -1365,7 +1365,7 @@ Module_EndSequence:
         
     DEX
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         TXA : ASL A : TAY
         
@@ -1373,37 +1373,37 @@ Module_EndSequence:
         
         JSR $A703 ; $072703 IN ROM
         
-        TXA : BNE BRANCH_DELTA
+        TXA : BNE .BRANCH_DELTA
             JSR $A643 ; $072643 IN ROM
             
-            BRA BRANCH_EPSILON
+            BRA .BRANCH_EPSILON
     
-        BRANCH_DELTA:
+        .BRANCH_DELTA
     
-        LSR A : BEQ BRANCH_ZETA
+        LSR A : BEQ .BRANCH_ZETA
             LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
             
-            BRA BRANCH_THETA
+            BRA .BRANCH_THETA
     
-        BRANCH_ZETA:
+        .BRANCH_ZETA
     
         LDY.b #$00
         
-        LDA $1A : AND.b #$1F : CMP.b #$0F : BCS BRANCH_IOTA
+        LDA $1A : AND.b #$1F : CMP.b #$0F : BCS .BRANCH_IOTA
             TAY
             
             LDA $A540, Y : STA $0F70, X
             
             LDY.b #$01
     
-        BRANCH_IOTA:
+        .BRANCH_IOTA
     
         TYA : STA $0DC0, X
         
         JSR $A5F8 ; $0725F8 IN ROM
     
-        BRANCH_THETA:
-    DEX : BPL BRANCH_KAPPA
+        .BRANCH_THETA
+    DEX : BPL .BRANCH_KAPPA
         
     PLX
         
@@ -1457,44 +1457,44 @@ Module_EndSequence:
         
     LDY $0D90, X
         
-    LDA $0DF0, X : BNE BRANCH_ALPHA
-        INY : CPY.b #$08 : BNE BRANCH_BETA
+    LDA $0DF0, X : BNE .BRANCH_ALPHA
+        INY : CPY.b #$08 : BNE .BRANCH_BETA
             LDY.b #$06
     
-        BRANCH_BETA:
+        .BRANCH_BETA
     
-        CPY.b #$16 : BNE BRANCH_GAMMA
+        CPY.b #$16 : BNE .BRANCH_GAMMA
             LDY.b #$15
     
-        BRANCH_GAMMA:
+        .BRANCH_GAMMA
     
-        CPY.b #$1C : BNE BRANCH_DELTA
+        CPY.b #$1C : BNE .BRANCH_DELTA
             LDY.b #$1B
     
-        BRANCH_DELTA:
+        .BRANCH_DELTA
     
         TYA : STA $0D90, X
         
         LDA $A60C, X : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-    LDA $A627, X : BPL BRANCH_EPSILON
+    LDA $A627, X : BPL .BRANCH_EPSILON
         LDA $1A : AND.b #$08 : LSR #3
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
     STA $0DC0, X
         
-    CPY.b #$05 : BCC BRANCH_ZETA
-    CPY.b #$0A : BCC BRANCH_THETA
-    CPY.b #$0F : BCS BRANCH_THETA
-        BRANCH_ZETA:
+    CPY.b #$05 : BCC .BRANCH_ZETA
+    CPY.b #$0A : BCC .BRANCH_THETA
+    CPY.b #$0F : BCS .BRANCH_THETA
+        .BRANCH_ZETA
     
-        LDA $1A : AND.b #$01 : BNE BRANCH_THETA
+        LDA $1A : AND.b #$01 : BNE .BRANCH_THETA
             INC $0D00, X
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
     RTS
 }
@@ -1636,7 +1636,7 @@ Module_EndSequence:
     
     LDA $9C0A, X : TAX
 
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
 
         STX $0FA0
         
@@ -1650,19 +1650,19 @@ Module_EndSequence:
         
         REP #$20
         
-        LDA $C8 : CMP.w #$026F : BNE BRANCH_ALPHA
+        LDA $C8 : CMP.w #$026F : BNE .BRANCH_ALPHA
             PHY
             
             LDY.b #$21 : STY $012F ; SOUND EFFECT BEING PLAYED
             
             PLY
 
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
 
-        SEP #$20 : BCC BRANCH_BETA
+        SEP #$20 : BCC .BRANCH_BETA
             INY #3
 
-        BRANCH_BETA:
+        .BRANCH_BETA
 
         LDA $A746, Y : STA $0DC0, X
         
@@ -1670,7 +1670,7 @@ Module_EndSequence:
         
         JSL Sprite_Get_16_bit_CoordsLong
         JSL SpriteActive_MainLong
-    DEX : BPL BRANCH_GAMMA
+    DEX : BPL .BRANCH_GAMMA
     
     PLX
     
@@ -1685,16 +1685,16 @@ Module_EndSequence:
     
     REP #$20
     
-    LDA $C8 : CMP.w #$0170 : SEP #$20 : BCC BRANCH_ALPHA
+    LDA $C8 : CMP.w #$0170 : SEP #$20 : BCC .BRANCH_ALPHA
         LDX.b #$04
 
-        BRANCH_BETA:
+        .BRANCH_BETA
 
             LDA.b #$01
             LDY.b #$3E
             
             JSR $A703 ; $072703 IN ROM
-        INX : CPX.b #$06 : BNE BRANCH_BETA
+        INX : CPX.b #$06 : BNE .BRANCH_BETA
         
         LDX.b #$00
         
@@ -1702,23 +1702,23 @@ Module_EndSequence:
         
         REP #$20
         
-        LDA $C8 : CMP.w #$01C0 : SEP #$20 : BCS BRANCH_GAMMA
+        LDA $C8 : CMP.w #$01C0 : SEP #$20 : BCS .BRANCH_GAMMA
             LDA.b #$02
             
-            BRA BRANCH_DELTA
+            BRA .BRANCH_DELTA
 
-        BRANCH_GAMMA:
+        .BRANCH_GAMMA
 
-        LDA $0DF0, X : BNE BRANCH_EPSILON
+        LDA $0DF0, X : BNE .BRANCH_EPSILON
             LDA.b #$20 : STA $0DF0, X
             
             LDA $0DC0, X : EOR.b #$01 : AND.b #$01
 
-            BRANCH_DELTA:
+            .BRANCH_DELTA
 
             STA $0DC0, X
 
-        BRANCH_EPSILON:
+        .BRANCH_EPSILON
 
         LDA.b #$04
         LDY.b #$06
@@ -1729,7 +1729,7 @@ Module_EndSequence:
         
         RTS
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
     .loop
 
@@ -1749,11 +1749,11 @@ Module_EndSequence:
         
         PLA : STA $10
         
-        LDA $0DA0, X : CMP.b #$0F : BNE BRANCH_ZETA
-            LDA $0D90, X : CMP.b #$04 : BNE BRANCH_ZETA
+        LDA $0DA0, X : CMP.b #$0F : BNE .BRANCH_ZETA
+            LDA $0D90, X : CMP.b #$04 : BNE .BRANCH_ZETA
                 LDA.b #$0F : STA $0DF2, X
 
-        BRANCH_ZETA:
+        .BRANCH_ZETA
 
         JSR $A8C8 ; $0728C8 IN ROM
     INX : CPX.b #$02 : BNE .loop
@@ -1771,7 +1771,7 @@ Module_EndSequence:
         
     LDA $0DF0, X
         
-    BEQ BRANCH_ALPHA
+    BEQ .BRANCH_ALPHA
         TAY
         
         LDA.b #$02 : STA $0F50, X
@@ -1783,7 +1783,7 @@ Module_EndSequence:
         
         JSR $A703 ; $072703 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     PLX
         
@@ -1796,9 +1796,9 @@ Module_EndSequence:
         
     LDX.b #$00
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CPX.b #$02 : BCS BRANCH_ALPHA
+        CPX.b #$02 : BCS .BRANCH_ALPHA
             LDA.b #$01 : STA $0E20, X
             LDA.b #$0B : STA $0F50, X
             
@@ -1818,17 +1818,17 @@ Module_EndSequence:
             
             JSR $A6B3 ; $0726B3 IN ROM
             
-            BRA BRANCH_BETA
+            BRA .BRANCH_BETA
     
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
     
         LDA.b #$10
         
         JSR $A6B3 ; $0726B3 IN ROM
     
-        BRANCH_BETA:
+        .BRANCH_BETA
     
-    INX : CPX.b #$05 : BCC BRANCH_GAMMA
+    INX : CPX.b #$05 : BCC .BRANCH_GAMMA
         
     LDA.b #$02
     LDY.b #$38
@@ -1902,22 +1902,22 @@ Module_EndSequence:
         
     JSL Sprite_Get_16_bit_CoordsLong
         
-    LDA $1A : AND.b #$0F : BNE BRANCH_ALPHA
+    LDA $1A : AND.b #$0F : BNE .BRANCH_ALPHA
         LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     JSL SpriteActive_MainLong
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0180 : SEP #$20 : BCC BRANCH_BETA
+    LDA $C8 : CMP.w #$0180 : SEP #$20 : BCC .BRANCH_BETA
         LDA.b #$04 : STA $0D40, X
         
-        LDA $0D00, X : CMP.b #$7C : BEQ BRANCH_BETA
+        LDA $0D00, X : CMP.b #$7C : BEQ .BRANCH_BETA
             JSL Sprite_MoveLong
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     DEX
         
@@ -1929,14 +1929,14 @@ Module_EndSequence:
         
     JSL Sprite_Get_16_bit_CoordsLong
         
-    LDA $0DF0, X : BNE BRANCH_GAMMA
+    LDA $0DF0, X : BNE .BRANCH_GAMMA
         LDA.b #$04 : STA $0DF0, X
         
         LDA $C9 : LSR A : AND.b #$01 : TAY
         
         LDA $0DC0, X : CLC : ADC .animation_step_amounts, Y : AND.b #$07 : STA $0DC0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
     JSL SpriteActive_MainLong
         
@@ -1977,7 +1977,7 @@ Module_EndSequence:
         
     LDX.b #$00
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0DF0, X : BNE .delay
             ; \bug
@@ -1996,37 +1996,37 @@ Module_EndSequence:
     
         .delay
     
-        LDA $0DD0, X : BEQ BRANCH_BETA
+        LDA $0DD0, X : BEQ .BRANCH_BETA
             LDA.b #$F8 : STA $0D40, X
             
             JSL Sprite_MoveLong
             
-            LDA $1A : LSR A : BCS BRANCH_GAMMA
+            LDA $1A : LSR A : BCS .BRANCH_GAMMA
                 STX $00
                 
                 LDA $1A : LSR #5 : EOR $00 : AND.b #$01 : TAY
                 
                 LDA $0D50, X : CLC : ADC.b #$7B : TAX : STA $0D50, X
         
-            BRANCH_GAMMA:
+            .BRANCH_GAMMA
         
             LDY.b #$10
             LDA.b #$01
             
             JSR $A703 ; $072703 IN ROM
     
-        BRANCH_BETA:
-    INX : CPX.b #$05 : BCC BRANCH_DELTA
+        .BRANCH_BETA
+    INX : CPX.b #$05 : BCC .BRANCH_DELTA
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDY $0D90, X
         
-        LDA $0DF0, X : BNE BRANCH_EPSILON
-            LDA $AA7D, Y : CPX.b #$05 : BEQ BRANCH_ZETA
+        LDA $0DF0, X : BNE .BRANCH_EPSILON
+            LDA $AA7D, Y : CPX.b #$05 : BEQ .BRANCH_ZETA
                 LDA $AA81, Y
         
-            BRANCH_ZETA:
+            .BRANCH_ZETA
         
             STA $0DF0, X
             
@@ -2034,9 +2034,9 @@ Module_EndSequence:
             
             LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
     
-        BRANCH_EPSILON:
+        .BRANCH_EPSILON
     
-        CPX.b #$05 : BNE BRANCH_THETA
+        CPX.b #$05 : BNE .BRANCH_THETA
             LDA.b #$31 : STA $0F50, X
             
             LDA.b #$10
@@ -2045,9 +2045,9 @@ Module_EndSequence:
             
             INX
         
-    BRA BRANCH_IOTA
+    BRA .BRANCH_IOTA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
     LDX.b #$12
     LDA.b #$02
@@ -2056,7 +2056,7 @@ Module_EndSequence:
         
     INX
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA $AA82, X : STA $0F50, X
         LDA $AA86, X : STA $0DE0, X
@@ -2064,7 +2064,7 @@ Module_EndSequence:
         LDA $AA7E, X
         
         JSR $A694   ; $072694 IN ROM
-    INX : CPX.b #$0B : BCC BRANCH_KAPPA
+    INX : CPX.b #$0B : BCC .BRANCH_KAPPA
         
     PLX
         
@@ -2120,7 +2120,7 @@ Module_EndSequence:
     
     ; $072BF8 ALTERNATE ENTRY POINT
     
-    CPX.b #$05 : BCC BRANCH_ALPHA
+    CPX.b #$05 : BCC .BRANCH_ALPHA
         LDA.b #$00 : STA $0E20, X
         
         LDA.b #$01
@@ -2139,16 +2139,16 @@ Module_EndSequence:
         
         JSR $A6B3 ; $0726B3 IN ROM
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     LDA.b #$0D : STA $0E20, X
         
-    CPX.b #$01 : BNE BRANCH_GAMMA
+    CPX.b #$01 : BNE .BRANCH_GAMMA
         STA $0EB0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
     LDA.b #$03
         
@@ -2156,33 +2156,33 @@ Module_EndSequence:
         
     LDA.b #$2B : STA $0F50, X
         
-    LDA $0DF0, X : BNE BRANCH_DELTA
+    LDA $0DF0, X : BNE .BRANCH_DELTA
         LDA.b #$C0 : STA $0DF0, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-    LSR A : BNE BRANCH_EPSILON
+    LSR A : BNE .BRANCH_EPSILON
         STA $0D40, X
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-    CMP $ABF0, X : BCS BRANCH_THETA
-        LDA $1A : AND.b #$03 : BNE BRANCH_THETA
-            LDA $0D40, X : BEQ BRANCH_THETA
+    CMP $ABF0, X : BCS .BRANCH_THETA
+        LDA $1A : AND.b #$03 : BNE .BRANCH_THETA
+            LDA $0D40, X : BEQ .BRANCH_THETA
                 DEC A : STA $0D40, X
                 
                 CLC : ADC.b #$FC
                 
-                CPX.b #$03 : BCS BRANCH_ZETA
+                CPX.b #$03 : BCS .BRANCH_ZETA
                     EOR.b #$FF : INC A
                 
-                BRANCH_ZETA:
+                .BRANCH_ZETA
             
                 STA $0D50, X
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
     JSL Sprite_MoveLong
         
@@ -2194,12 +2194,12 @@ Module_EndSequence:
         
     JSR $A6B3   ; $0726B3 IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-    DEX : BEQ BRANCH_IOTA
+    DEX : BEQ .BRANCH_IOTA
         JMP $ABF8   ; $072BF8 IN ROM
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
     LDY.b #$18
     LDA.b #$03
@@ -2232,33 +2232,33 @@ Module_EndSequence:
         
     LDX.b #$00
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDY $0DC0, X
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
-            INY : CPY.b #$06 : BCC BRANCH_BETA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
+            INY : CPY.b #$06 : BCC .BRANCH_BETA
                 LDA $00 : STA $0D10, X
                 LDA $02 : STA $0D00, X
                 
                 LDY.b #$00
             
-            BRANCH_BETA:
+            .BRANCH_BETA
         
             TYA : STA $0DC0, X
             
             LDA $ACD7, Y : STA $0DF0, X
         
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
     
-        TYA : BEQ BRANCH_GAMMA
+        TYA : BEQ .BRANCH_GAMMA
             LDY.b #$1C
             LDA.b #$01
             
             JSR $A703   ; $072703 IN ROM
         
-        BRANCH_GAMMA:
-    INX : CPX $0DB0 : BCC BRANCH_DELTA
+        .BRANCH_GAMMA
+    INX : CPX $0DB0 : BCC .BRANCH_DELTA
         
     RTS
 }
@@ -2288,25 +2288,25 @@ Module_EndSequence:
         
     LDY.b #$01
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         INX
         
-        LDA $0E00, X : 	BEQ BRANCH_ALPHA
+        LDA $0E00, X : 	BEQ .BRANCH_ALPHA
             DEC $0E00, X
     
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
     
         LDA $0D50, X : LSR A : AND.b #$40 : EOR $ACCB, Y : STA $0F50, X
         
-        LDA $0DF0, X : BNE BRANCH_BETA
+        LDA $0DF0, X : BNE .BRANCH_BETA
             LDA.b #$80 : STA $0DF0, X
             
             STZ $0D90, X
     
-        BRANCH_BETA:
+        .BRANCH_BETA
     
-        LDA $0D90, X : BNE BRANCH_GAMMA
+        LDA $0D90, X : BNE .BRANCH_GAMMA
             LDA $1A : LSR #2 : AND.b #$01 : INC #2 : STA $0DC0, X
             
             PHY
@@ -2315,15 +2315,15 @@ Module_EndSequence:
             
             PLY
             
-            BRA BRANCH_DELTA
+            BRA .BRANCH_DELTA
     
-        BRANCH_GAMMA:
+        .BRANCH_GAMMA
     
-        LDA $0E00, X : BNE BRANCH_DELTA
-            LDA $0DA0, X : CMP.b #$08 : BNE BRANCH_EPSILON
+        LDA $0E00, X : BNE .BRANCH_DELTA
+            LDA $0DA0, X : CMP.b #$08 : BNE .BRANCH_EPSILON
                 STZ $0DA0, X
         
-            BRANCH_EPSILON:
+            .BRANCH_EPSILON
         
             PHY
             
@@ -2337,7 +2337,7 @@ Module_EndSequence:
             
             INC $0DA0, X
     
-        BRANCH_DELTA:
+        .BRANCH_DELTA
     
         PHY
         
@@ -2346,7 +2346,7 @@ Module_EndSequence:
         
         JSR $A703   ; $072703 IN ROM
         JSR $A5FD   ; $0725FD IN ROM
-    PLY : DEY : BPL BRANCH_ZETA
+    PLY : DEY : BPL .BRANCH_ZETA
         
     INX
         
@@ -2359,12 +2359,12 @@ Module_EndSequence:
 
 ; $072DF7-$072E2C LOCAL
 {
-    LDA $0DF0, X : BNE BRANCH_ALPHA
+    LDA $0DF0, X : BNE .BRANCH_ALPHA
         LDA $0DC0, X : INC A : AND.b #$07 : STA $0DC0, X
         
         LDA.b #$04 : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     LDA $0DC0, X : ASL A : TAY
         
@@ -2621,9 +2621,9 @@ Module_EndSequence:
     
     LDX $8C
         
-    CPX.b #$9C : BEQ BRANCH_RHO
-        CPX.b #$97 : BEQ BRANCH_SIGMA
-            CPX.b #$9D : BNE BRANCH_TAU
+    CPX.b #$9C : BEQ .BRANCH_RHO
+        CPX.b #$97 : BEQ .BRANCH_SIGMA
+            CPX.b #$9D : BNE .BRANCH_TAU
                 .BRANCH_SIGMA
             
                 LDA $0622 : CLC : ADC.w #$2000 : STA $0622
@@ -2660,25 +2660,25 @@ Module_EndSequence:
     STZ $04
     STZ $06
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $E2, X : CLC : ADC $00 : STA $E2, X
         
         INC $06
         
         LDA $04 : CLC : ADC $00 : STA $04
-    DEC $02 : BNE BRANCH_ALPHA
+    DEC $02 : BNE .BRANCH_ALPHA
         
     TYA : ORA.w #$0002 : TAX
         
     LDA $0624, Y : CLC : ADC $06 : STA $0624, Y
         
-    CMP.w #$0010 : BMI BRANCH_BETA 
+    CMP.w #$0010 : BMI .BRANCH_BETA 
         SEC : SBC.w #$0010 : STA $0624, Y
             
         LDA .flags, Y : ORA $0416 : STA $0416
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     LDA.w #$0000 : SEC : SBC $0624, Y : STA $0624, X
         
@@ -3504,10 +3504,10 @@ Module_EndSequence:
         
     LDX.b #$04
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $0EBD4E, X : STA $4370, X
-    DEX : BPL BRANCH_BETA
+    DEX : BPL .BRANCH_BETA
         
     STZ $4377
         
@@ -3548,27 +3548,27 @@ Module_EndSequence:
 {
     ; Gradually neutralizes color addition / subtraction to neutral
         
-    DEC $B0 : BNE BRANCH_ALPHA
+    DEC $B0 : BNE .BRANCH_ALPHA
         LDA.b #$10 : STA $B0
         
-        LDA $9C : CMP.b #$20 : BEQ BRANCH_BETA
+        LDA $9C : CMP.b #$20 : BEQ .BRANCH_BETA
             DEC $9C
             
-            BRA BRANCH_ALPHA
+            BRA .BRANCH_ALPHA
     
     BRANCH_BETA:
     
-    LDA $9D : CMP.b #$40 : BEQ BRANCH_GAMMA
+    LDA $9D : CMP.b #$40 : BEQ .BRANCH_GAMMA
         DEC $9D
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-    LDA $9E : CMP.b #$80 : BEQ BRANCH_ALPHA
+    LDA $9E : CMP.b #$80 : BEQ .BRANCH_ALPHA
         DEC $9E
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     RTS
 }
@@ -3682,7 +3682,7 @@ Module_EndSequence:
         
     ; basically a tab in terms of tiles
     ; If it's ...1, that means it's a blank line.
-    LDA $B178, Y : AND.w #$00FF : CMP.w #$00FF : BEQ BRANCH_BETA
+    LDA $B178, Y : AND.w #$00FF : CMP.w #$00FF : BEQ .BRANCH_BETA
         CLC : ADC $C8 : XBA : STA $1002, X
         
         INY : LDA $B178, Y : AND.w #$00FF : XBA : STA $1004, X
@@ -3710,16 +3710,16 @@ Module_EndSequence:
         
         INX #4
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-    LDA $CC : AND.w #$0001 : TAY : BNE BRANCH_DELTA
+    LDA $CC : AND.w #$0001 : TAY : BNE .BRANCH_DELTA
         LDA $CC : AND.w #$00FE : TAY
         
         ; Check if we are on one of the line we need to draw a death count on
         ; $CA c
-        LDA $CA : ASL A : CMP $BC51, Y : BNE BRANCH_EPSILON
+        LDA $CA : ASL A : CMP $BC51, Y : BNE .BRANCH_EPSILON
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
     TYA : AND.w #$0001 : ASL A : TAY
         
@@ -3742,21 +3742,21 @@ Module_EndSequence:
     CMP.w #$03E8 : BCC .lessThanThousand
         LDA.w #$0009 : CLC : ADC $CE : STA $1006, X : STA $1008, X : STA $100A, X
         
-        BRA BRANCH_THETA
+        BRA .BRANCH_THETA
     
     .lessThanThousand
     
     LDY.w #$0000
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
-        CMP.w #$000A : BMI BRANCH_IOTA
+        CMP.w #$000A : BMI .BRANCH_IOTA
             SEC : SBC.w #$000A
             
             INY
-    BRA BRANCH_KAPPA
+    BRA .BRANCH_KAPPA
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
     CLC : ADC $CE : STA $100A, X
         
@@ -3766,32 +3766,32 @@ Module_EndSequence:
     
     BRANCH_MU:
     
-        CMP.w #$000A : BMI BRANCH_LAMBDA
+        CMP.w #$000A : BMI .BRANCH_LAMBDA
             SEC : SBC.w #$000A
             
             INY
     BRA BRANCH_MU
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
     CLC : ADC $CE : STA $1008, X
         
     TYA : CLC : ADC $CE : STA $1006, X
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
     INC $CC
         
     TXA : CLC : ADC.w #$000A : TAX
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
     STX $1000
         
-    LDA $C8 : CLC : ADC.w #$0020 : TAY : AND.w #$03FF : BNE BRANCH_NU
+    LDA $C8 : CLC : ADC.w #$0020 : TAY : AND.w #$03FF : BNE .BRANCH_NU
         LDA $C8 : AND.w #$6800 : EOR.w #$0800 : TAY
     
-    BRANCH_NU:
+    .BRANCH_NU
     
     STY $C8
         
@@ -3905,7 +3905,7 @@ Module_EndSequence:
         
     LDX.w #$0000
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ; $073F4C, Y THAT IS
         LDA $BF4C, Y : STA $1008, X
@@ -3923,7 +3923,7 @@ Module_EndSequence:
         
         STY $02
     
-        BRANCH_ALPHA:
+        .BRANCH_ALPHA
     
             LDY $02
             
@@ -3934,8 +3934,8 @@ Module_EndSequence:
             INC $02
             
             INX #2
-        DEC $00 : BPL BRANCH_ALPHA
-    LDY $02 : CPY $04 : BNE BRANCH_BETA
+        DEC $00 : BPL .BRANCH_ALPHA
+    LDY $02 : CPY $04 : BNE .BRANCH_BETA
         
     TXA : CLC : ADC.w #$0006 : STA $1000
         
@@ -3952,15 +3952,15 @@ Module_EndSequence:
 
 ; $07437C-$0743D4 LOCAL
 {
-    LDA $1A : AND.b #$0F : BNE BRANCH_ALPHA
+    LDA $1A : AND.b #$0F : BNE .BRANCH_ALPHA
         INC $13
         
         LDA $13 : CMP.b #$0F
         
-        BNE BRANCH_ALPHA
+        BNE .BRANCH_ALPHA
             INC $11
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     JSL $0CCBA2 ; $064BA2 IN ROM
         
@@ -3970,7 +3970,7 @@ Module_EndSequence:
     
     DEC $C8
             
-    BNE BRANCH_BETA 
+    BNE .BRANCH_BETA 
         REP #$20
             
         STZ $0AA6
@@ -3987,23 +3987,23 @@ Module_EndSequence:
             
         STZ $CA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
 
     .loop
     
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; $0743B8 ALTERNATE ENTRY POINT
     
         DEC $C8
         
-        LDA $CA : BNE BRANCH_GAMMA
+        LDA $CA : BNE .BRANCH_GAMMA
             JSL PaletteFilter.doFiltering
             
             LDA $7EC007 : BNE .loop
                 INC $CA
         
-        BRANCH_GAMMA:
+        .BRANCH_GAMMA
     LDA $C8 : BNE .loop
         
     INC $11
@@ -4454,7 +4454,6 @@ Palette_ElectroThemedGear:
 ; $0756DD-$075740 LONG
 LoadGearPalettes:
 {
-    
     .bunny
     
     REP #$20
@@ -5187,18 +5186,18 @@ HandlePegPuzzles:
 
 ; $075DFC-$075E28 LONG
 {
-    LDA $B0 : BNE BRANCH_ALPHA
+    LDA $B0 : BNE .BRANCH_ALPHA
         LDA.b #$29 : STA $012E
             
         JML $0EF404 ; $077404 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     JSL $00EEF1 ; $006EF1 IN ROM
         
     REP #$30
         
-    LDA $7EC009 : CMP.w #$00FF : BNE BRANCH_BETA
+    LDA $7EC009 : CMP.w #$00FF : BNE .BRANCH_BETA
         STA $7EC007
         STA $7EC009
         
@@ -5208,7 +5207,7 @@ HandlePegPuzzles:
         
         RTL
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     JML $0EF48C ; $07748C IN ROM
 }
@@ -6801,7 +6800,7 @@ WeirdAssPlaceForAnExit:
     ; ganon's tower opening)
         
     ; don't do the following section if it's not the 0th part of a sub-submodule
-    LDA $B0 : BNE BRANCH_ALPHA
+    LDA $B0 : BNE .BRANCH_ALPHA
     
     ; $077404 ALTERNATE ENTRY POINT
     
@@ -6839,19 +6838,19 @@ WeirdAssPlaceForAnExit:
         
         RTL
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     JSL $00EEF1 ; $006EF1 IN ROM
         
     REP #$30
         
-    LDA $7EC009 : CMP.w #$00FF : BNE BRANCH_GAMMA
+    LDA $7EC009 : CMP.w #$00FF : BNE .BRANCH_GAMMA
         LDX.w #$000E : LDA.w #$0000
     
-        BRANCH_DELTA:
+        .BRANCH_DELTA
     
             STA $7EC3B0, X : STA $7EC5B0, X
-        DEX #2 : BPL BRANCH_DELTA
+        DEX #2 : BPL .BRANCH_DELTA
         
         STA $7EC007
         STA $7EC009
@@ -6864,10 +6863,10 @@ WeirdAssPlaceForAnExit:
         
         RTL
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-    CMP.w #$0000 : BNE BRANCH_EPSILON
-        LDA $7EC007 : CMP.w #$001F : BNE BRANCH_EPSILON
+    CMP.w #$0000 : BNE .BRANCH_EPSILON
+        LDA $7EC007 : CMP.w #$001F : BNE .BRANCH_EPSILON
         
         LDX.w #$0000
     
@@ -6886,7 +6885,7 @@ WeirdAssPlaceForAnExit:
         
         STZ $1D
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
     SEP #$30
         

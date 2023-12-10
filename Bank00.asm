@@ -400,27 +400,27 @@ Vector_IRQ:
     
     SEP #$30
     
-    LDA $012A : BNE BRANCH_3
+    LDA $012A : BNE .BRANCH_3
         ; Only d7 is significant in this register. If set, h/v counter has latched.
-        LDA $4211 : BPL BRANCH_2 ; So in other words, branch if the timer has NOT counted down.
+        LDA $4211 : BPL .BRANCH_2 ; So in other words, branch if the timer has NOT counted down.
             ; Not sure what this does...
-            LDA $0128 : BEQ BRANCH_2
+            LDA $0128 : BEQ .BRANCH_2
 
-            BRANCH_1:
+            .BRANCH_1
 
-            BIT $4212 : BVC BRANCH_1 ; Wait for hBlank
+            BIT $4212 : BVC .BRANCH_1 ; Wait for hBlank
             
             LDA $0630 : STA $2111
             LDA $0631 : STA $2111
             
             STZ $2112 : STZ $2112
             
-            LDA $0128 : BPL BRANCH_2
+            LDA $0128 : BPL .BRANCH_2
                 STZ $0128
                 
                 LDA.b #$81 : STA $4200
 
-            BRANCH_2:
+            .BRANCH_2
 
         ; h/v timer didn't count down yet, so we do NOTHING :).
         
@@ -430,7 +430,7 @@ Vector_IRQ:
         
         RTI
 
-    BRANCH_3:
+    .BRANCH_3
 
     LDA $4211
     
@@ -936,7 +936,7 @@ UseImplicitRegIndexedLongJumpTable:
 ; $0007C0-$00082D LOCAL
 Startup_InitializeMemory:
 {
-    ; Zeroes out $7e0000-$7e1FFF, and checks some values in SRAM
+    ; Zeroes out $7E0000-$7E1FFF, and checks some values in SRAM
     
     REP #$30
     
@@ -1023,13 +1023,13 @@ Overworld_GetTileAttrAtLocation:
     
     SEP #$30
     
-    CMP.b #$10 : BCC BRANCH_1
-    CMP.b #$1C : BCS BRANCH_1
+    CMP.b #$10 : BCC .BRANCH_1
+    CMP.b #$1C : BCS .BRANCH_1
         STA $06
         
         LDA $07 : AND.b #$40 : ASL A : ROL #2 : ORA $06
 
-    BRANCH_1:
+    .BRANCH_1
 
     RTL
 }
@@ -1048,16 +1048,16 @@ Sound_LoadSongBank:
     LDY.w #$0000
     LDA.w #$AABB
 
-    BRANCH_INIT_WAIT:
+    .BRANCH_INIT_WAIT
 
         ; // Wait for the SPC to initialize to #$AABB
-    CMP $2140 : BNE BRANCH_INIT_WAIT
+    CMP $2140 : BNE .BRANCH_INIT_WAIT
     
     SEP #$20
     
     LDA.b #$CC
     
-    BRA BRANCH_SETUP_TRANSFER
+    BRA .BRANCH_SETUP_TRANSFER
 
     .BRANCH_BEGIN_TRANSFER
         LDA [$00], Y
@@ -1068,7 +1068,7 @@ Sound_LoadSongBank:
         
         LDA.b #$00
         
-        BRA BRANCH_WRITE_ZERO_BYTE
+        BRA .BRANCH_WRITE_ZERO_BYTE
 
         .BRANCH_CONTINUE_TRANSFER
 
@@ -1079,23 +1079,23 @@ Sound_LoadSongBank:
             INY
             
             ; Are we at the end of a bank?
-            CPY.w #$8000 : BNE BRANCH_NOT_BANK_END ; If not, then branch forward.
+            CPY.w #$8000 : BNE .BRANCH_NOT_BANK_END ; If not, then branch forward.
             
                 LDY.w #$0000 ; Otherwise, increment the bank of the address at [$00]
                 
                 INC $02
-            BRANCH_NOT_BANK_END:
+            .BRANCH_NOT_BANK_END
 
             XBA
 
-            BRANCH_WAIT_FOR_ZERO:
+            .BRANCH_WAIT_FOR_ZERO
 
                 ; Wait for $2140 to be #$00 (we're in 8bit mode)
-            CMP $2140 : BNE BRANCH_WAIT_FOR_ZERO
+            CMP $2140 : BNE .BRANCH_WAIT_FOR_ZERO
             
             INC A ; Increment the byte count
 
-            BRANCH_WRITE_ZERO_BYTE:
+            .BRANCH_WRITE_ZERO_BYTE
 
             REP #$20
             
@@ -1105,17 +1105,17 @@ Sound_LoadSongBank:
             SEP #$20 ; data byte to $2141. (Data byte represented as **)
         DEX : BNE .BRANCH_CONTINUE_TRANSFER
 
-    BRANCH_SYNCHRONIZE: ; We ran out of bytes to transfer.
+    .BRANCH_SYNCHRONIZE ; We ran out of bytes to transfer.
 
         ; But we still need to synchronize.
-    CMP $2140 : BNE BRANCH_SYNCHRONIZE
+    CMP $2140 : BNE .BRANCH_SYNCHRONIZE
 
-    BRANCH_NO_ZERO: ; At this point $2140 = #$01
+    .BRANCH_NO_ZERO ; At this point $2140 = #$01
 
         ; Add four to the byte count
-    ADC.b #$03 : BEQ BRANCH_NO_ZERO ; (But Don't let A be zero!)
+    ADC.b #$03 : BEQ .BRANCH_NO_ZERO ; (But Don't let A be zero!)
 
-    BRANCH_SETUP_TRANSFER:
+    .BRANCH_SETUP_TRANSFER
 
         PHA
         
@@ -1138,12 +1138,12 @@ Sound_LoadSongBank:
         ; Hopefully no one was confused.
         PLA : STA $2140
 
-        BRANCH_TRANSFER_INIT_WAIT:
+        .BRANCH_TRANSFER_INIT_WAIT
 
             ; Initially, a 0xCC byte will be sent to initialize
             ; The transfer.
             ; If A was #$01 earlier...
-        CMP $2140 : BNE BRANCH_TRANSFER_INIT_WAIT
+        CMP $2140 : BNE .BRANCH_TRANSFER_INIT_WAIT
     BVS .BRANCH_BEGIN_TRANSFER
     
     STZ $2140 : STZ $2141 : STZ $2142 : STZ $2143
