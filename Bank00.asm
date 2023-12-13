@@ -87,7 +87,7 @@ Vector_Reset:
 ; $000061-$0000B4 JUMP TABLE FOR SR$0085
 pool Module_MainRouting: 
 {
-    ; \task Reference jpdisasm for interleaved long pointers
+    ; TODO: Reference jpdisasm for interleaved long pointers
     interleave
     {
     ; Note: there are 28 distinct modes here (0x1C)
@@ -1080,10 +1080,10 @@ Sound_LoadSongBank:
             
             ; Are we at the end of a bank?
             CPY.w #$8000 : BNE .BRANCH_NOT_BANK_END ; If not, then branch forward.
-            
                 LDY.w #$0000 ; Otherwise, increment the bank of the address at [$00]
                 
                 INC $02
+
             .BRANCH_NOT_BANK_END
 
             XBA
@@ -2867,19 +2867,96 @@ NMI_UpdateIrqGfx:
 ; $001396-$004FF2 DATA
 LinkOAM_HeadAddresses:
 {
-    80 80 80 80 80 80 80 80 80 80 40 80 40 80 40 80 40 80 40 80 00 80 00 80 00 80 00 80 00 80 00 80 40 94 80 80 80 80 80 80 00 94 40 80 C0 80 C0 80 00 80 00 80 00 80 00 80 00 80 00 80 00 80 00 80 80 80 80 80 80 80 80 80 80 80 40 80 40 80 40 80 40 80 40 80 00 80 C0 A8 00 A9 00 80 C0 A8 00 A9 00 91 80 80 80 80 C0 90 40 80 00 80 00 80 00 80 00 80 00 80 00 80 00 9A 40 91 80 91 00 80 00 95 80 94 C0 94 C0 94 E0 9A 80 80 80 80 60 9A C0 80 C0 80 A0 9A 00 80 00 80 A0 9A 00 80 00 80 80 80 80 80 00 81 00 81 C0 85 00 80 00 80 C0 85 00 80 00 80 C0 AD C0 AD C0 AD C0 AD C0 AD 40 AD 40 AD 40 AD 40 AD 40 AD 80 AD 80 AD 80 AD 80 AD 80 AD 80 AD 40 80 00 94 40 80 00 80 80 80 80 80 40 94 00 80 00 80 00 80 00 80 80 80 40 80 40 80 00 80 00 80 00 80 00 80 00 80 00 80 40 C4 40 81 40 81 40 CA 00 80 00 80 00 80 00 80 00 80 00 80 40 80 C0 85 40 80 C0 85 00 81 C0 80 C0 91 80 80 80 80 40 80 40 80 00 80 00 80 00 80 00 80 80 80 80 80 00 91 C0 A0 00 A1 00 A1 C0 A1 00 A4 40 A4 C0 A1 00 A4 40 A4 80 80 80 C4 80 80 40 80 40 80 80 CA 80 CA 00 CA 00 C4 00 CA 00 C4 C0 81 80 80 80 80 80 80 80 80 80 80 80 80 80 80 80 80 40 80 40 80 40 80 40 80 40 80 40 80 40 80 00 80 C0 A8 00 A9 00 80 00 80 C0 A8 00 A9 00 80 C0 A8 00 A9 00 80 00 80 C0 A8 00 A9 40 80 40 80 40 80 80 80 80 80 40 80 40 80 40 80 40 80 00 80 00 80 00 80 00 80 80 D0 80 80 C0 90 00 D0 80 90 40 D0 80 90 40 D0 80 D0 80 D0 80 D0 80 D0 80 D0 00 D0 00 D0 00 D0 00 D0 00 D0 40 D0 40 D0 40 D0 40 D0 40 D0 40 D0 40 80 00 D0 C0 85 C0 85 C0 85 40 DC 40 DC 40 DC C0 85 C0 85 C0 85 40 DC 40 DC 40 DC C0 E1 00 D0 00 80 00 E4 00 E4 40 E4 C0 90 C0 90 00 D0 00 80 00 80 40 D0 00 80 00 80 40 D0 00 E4 00 E4 00 E4 80 90 C0 A5 40 AC 80 E4 80 81 C0 90 C0 80 80 E1 00 D0 C0 E4 C0 E4 40 E8 40 E8 40 E8 40 E5 40 E5 40 E5 00 E9 00 E9 00 E9 00 E9 80 80 80 80 00 80 C0 A9 80 80 40 81 C0 91 40 80 00 A8 40 A8
+    dw $8080, $8080, $8080, $8080, $8080, $8040, $8040, $8040
+    dw $8040, $8040, $8000, $8000, $8000, $8000, $8000, $8000
+    dw $9440, $8080, $8080, $8080, $9400, $8040, $80C0, $80C0
+    dw $8000, $8000, $8000, $8000, $8000, $8000, $8000, $8000
+    dw $8080, $8080, $8080, $8080, $8080, $8040, $8040, $8040
+    dw $8040, $8040, $8000, $A8C0, $A900, $8000, $A8C0, $A900
+    dw $9100, $8080, $8080, $90C0, $8040, $8000, $8000, $8000
+    dw $8000, $8000, $8000, $9A00, $9140, $9180, $8000, $9500
+    dw $9480, $94C0, $94C0, $9AE0, $8080, $8080, $9A60, $80C0
+    dw $80C0, $9AA0, $8000, $8000, $9AA0, $8000, $8000, $8080
+    dw $8080, $8100, $8100, $85C0, $8000, $8000, $85C0, $8000
+    dw $8000, $ADC0, $ADC0, $ADC0, $ADC0, $ADC0, $AD40, $AD40
+    dw $AD40, $AD40, $AD40, $AD80, $AD80, $AD80, $AD80, $AD80
+    dw $AD80, $8040, $9400, $8040, $8000, $8080, $8080, $9440
+    dw $8000, $8000, $8000, $8000, $8080, $8040, $8040, $8000
+    dw $8000, $8000, $8000, $8000, $8000, $C440, $8140, $8140
+    dw $CA40, $8000, $8000, $8000, $8000, $8000, $8000, $8040
+    dw $85C0, $8040, $85C0, $8100, $80C0, $91C0, $8080, $8080
+    dw $8040, $8040, $8000, $8000, $8000, $8000, $8080, $8080
+    dw $9100, $A0C0, $A100, $A100, $A1C0, $A400, $A440, $A1C0
+    dw $A400, $A440, $8080, $C480, $8080, $8040, $8040, $CA80
+    dw $CA80, $CA00, $C400, $CA00, $C400, $81C0, $8080, $8080
+    dw $8080, $8080, $8080, $8080, $8080, $8080, $8040, $8040
+    dw $8040, $8040, $8040, $8040, $8040, $8000, $A8C0, $A900
+    dw $8000, $8000, $A8C0, $A900, $8000, $A8C0, $A900, $8000
+    dw $8000, $A8C0, $A900, $8040, $8040, $8040, $8080, $8080
+    dw $8040, $8040, $8040, $8040, $8000, $8000, $8000, $8000
+    dw $D080, $8080, $90C0, $D000, $9080, $D040, $9080, $D040
+    dw $D080, $D080, $D080, $D080, $D080, $D000, $D000, $D000
+    dw $D000, $D000, $D040, $D040, $D040, $D040, $D040, $D040
+    dw $8040, $D000, $85C0, $85C0, $85C0, $DC40, $DC40, $DC40
+    dw $85C0, $85C0, $85C0, $DC40, $DC40, $DC40, $E1C0, $D000
+    dw $8000, $E400, $E400, $E440, $90C0, $90C0, $D000, $8000
+    dw $8000, $D040, $8000, $8000, $D040, $E400, $E400, $E400
+    dw $9080, $A5C0, $AC40, $E480, $8180, $90C0, $80C0, $E180
+    dw $D000, $E4C0, $E4C0, $E840, $E840, $E840, $E540, $E540
+    dw $E540, $E900, $E900, $E900, $E900, $8080, $8080, $8000
+    dw $A9C0, $8080, $8140, $91C0, $8040, $A800, $A840
 }
 
 ; $0015F4-$001851
 LinkOAM_BodyAddresses:
 {
-    40 88 00 88 80 85 00 88 80 85 C0 84 00 85 40 85 00 85 40 85 00 84 40 84 80 84 00 84 40 84 80 84 40 96 40 8C 80 8C 00 AD 00 96 80 89 00 8C C0 AC 80 88 C0 88 00 89 40 89 80 88 C0 88 00 89 40 89 C0 B0 00 B1 40 B1 00 B1 40 B1 00 B0 40 B0 80 B0 80 EC C0 EC 80 B1 40 D4 C0 B1 80 B1 40 D4 C0 B1 80 8C 00 AD C0 95 C0 99 40 B4 80 95 80 B4 C0 B4 80 95 80 B4 C0 B4 20 9C 00 80 00 80 00 80 00 97 80 96 C0 96 C0 96 E0 9C 80 8C 40 B5 60 9C 80 B5 00 8C A0 9C 00 89 00 B5 A0 9C 00 89 00 B5 40 8C 40 EC 00 8C 00 EC C0 8D 40 95 C0 89 C0 8D 40 95 C0 89 40 B9 80 B9 C0 B9 80 B9 C0 B9 C0 B5 00 B8 40 B8 00 B8 40 B8 80 B8 C0 B8 00 B9 80 B8 C0 B8 00 B9 80 89 00 96 C0 BC 00 84 80 BC 40 8C 40 96 40 A0 80 A0 00 A0 40 BC 40 BD 00 85 00 BD 80 BD 80 BD C0 88 00 89 C0 E9 00 89 40 C6 40 C0 00 C0 40 CC 40 89 C0 88 00 89 C0 E9 00 89 40 89 40 8D 80 8D 40 8D 80 8D 00 BD 00 B0 00 B0 80 A4 80 A4 80 A4 80 A4 00 AC 00 AC 00 AC 00 AC 40 A1 80 A1 80 A1 C0 A4 C0 A4 00 A5 40 9D 80 9D C0 9D 40 9D 80 9D C0 9D 00 8D 80 C6 80 C1 40 C1 00 8C 80 CC 80 CC 00 CC 00 C6 00 CC 00 C6 00 BD 80 85 00 88 C0 C9 C0 CC C0 CD 00 CD 40 CD 80 CD 00 85 40 85 40 C9 80 C9 40 85 40 C9 80 C9 40 84 80 84 C0 C1 00 C9 80 C5 C0 C5 C0 C8 40 84 80 84 C0 C1 00 C9 80 C5 C0 C5 C0 C8 00 BD C0 AC 40 C0 40 D5 80 D5 C0 D4 00 D5 C0 D4 00 D5 40 D4 80 D4 40 D4 80 D4 C0 D1 00 D4 00 D1 00 D1 40 D1 80 D1 40 D1 80 D1 C0 B0 00 B1 40 B1 00 B1 40 B1 40 DD 80 DD C0 DD 80 DD C0 DD 80 DC C0 DC 00 DD 80 DC C0 DC 00 DD 00 D1 00 D1 00 E0 40 E0 80 E0 C0 E0 00 E1 40 E1 00 E0 40 E0 80 E0 C0 E0 00 E1 40 E1 00 80 C0 D0 00 80 40 B9 80 B9 40 B9 40 DD 80 DD 40 DD 80 DC C0 DC C0 C0 80 DC C0 DC C0 C0 C0 B9 80 B9 C0 B9 60 A5 A0 A5 80 AC 00 ED 00 80 C0 8C 00 BD 80 E3 C0 BD 00 E5 00 E5 80 E8 C0 E8 C0 E8 00 E8 C0 E5 C0 E5 40 E9 80 E9 40 E9 80 E9 40 BD 80 8C 80 A0 00 80 80 A9 00 BD C0 BD 00 B4 80 A8 C0 ED
+    dw $8840, $8800, $8580, $8800, $8580, $84C0, $8500, $8540
+    dw $8500, $8540, $8400, $8440, $8480, $8400, $8440, $8480
+    dw $9640, $8C40, $8C80, $AD00, $9600, $8980, $8C00, $ACC0
+    dw $8880, $88C0, $8900, $8940, $8880, $88C0, $8900, $8940
+    dw $B0C0, $B100, $B140, $B100, $B140, $B000, $B040, $B080
+    dw $EC80, $ECC0, $B180, $D440, $B1C0, $B180, $D440, $B1C0
+    dw $8C80, $AD00, $95C0, $99C0, $B440, $9580, $B480, $B4C0
+    dw $9580, $B480, $B4C0, $9C20, $8000, $8000, $8000, $9700
+    dw $9680, $96C0, $96C0, $9CE0, $8C80, $B540, $9C60, $B580
+    dw $8C00, $9CA0, $8900, $B500, $9CA0, $8900, $B500, $8C40
+    dw $EC40, $8C00, $EC00, $8DC0, $9540, $89C0, $8DC0, $9540
+    dw $89C0, $B940, $B980, $B9C0, $B980, $B9C0, $B5C0, $B800
+    dw $B840, $B800, $B840, $B880, $B8C0, $B900, $B880, $B8C0
+    dw $B900, $8980, $9600, $BCC0, $8400, $BC80, $8C40, $9640
+    dw $A040, $A080, $A000, $BC40, $BD40, $8500, $BD00, $BD80
+    dw $BD80, $88C0, $8900, $E9C0, $8900, $C640, $C040, $C000
+    dw $CC40, $8940, $88C0, $8900, $E9C0, $8900, $8940, $8D40
+    dw $8D80, $8D40, $8D80, $BD00, $B000, $B000, $A480, $A480
+    dw $A480, $A480, $AC00, $AC00, $AC00, $AC00, $A140, $A180
+    dw $A180, $A4C0, $A4C0, $A500, $9D40, $9D80, $9DC0, $9D40
+    dw $9D80, $9DC0, $8D00, $C680, $C180, $C140, $8C00, $CC80
+    dw $CC80, $CC00, $C600, $CC00, $C600, $BD00, $8580, $8800
+    dw $C9C0, $CCC0, $CDC0, $CD00, $CD40, $CD80, $8500, $8540
+    dw $C940, $C980, $8540, $C940, $C980, $8440, $8480, $C1C0
+    dw $C900, $C580, $C5C0, $C8C0, $8440, $8480, $C1C0, $C900
+    dw $C580, $C5C0, $C8C0, $BD00, $ACC0, $C040, $D540, $D580
+    dw $D4C0, $D500, $D4C0, $D500, $D440, $D480, $D440, $D480
+    dw $D1C0, $D400, $D100, $D100, $D140, $D180, $D140, $D180
+    dw $B0C0, $B100, $B140, $B100, $B140, $DD40, $DD80, $DDC0
+    dw $DD80, $DDC0, $DC80, $DCC0, $DD00, $DC80, $DCC0, $DD00
+    dw $D100, $D100, $E000, $E040, $E080, $E0C0, $E100, $E140
+    dw $E000, $E040, $E080, $E0C0, $E100, $E140, $8000, $D0C0
+    dw $8000, $B940, $B980, $B940, $DD40, $DD80, $DD40, $DC80
+    dw $DCC0, $C0C0, $DC80, $DCC0, $C0C0, $B9C0, $B980, $B9C0
+    dw $A560, $A5A0, $AC80, $ED00, $8000, $8CC0, $BD00, $E380
+    dw $BDC0, $E500, $E500, $E880, $E8C0, $E8C0, $E800, $E5C0
+    dw $E5C0, $E940, $E980, $E940, $E980, $BD40, $8C80, $A080
+    dw $8000, $A980, $BD00, $BDC0, $B400, $A880, $EDC0
 }
 
 ; $001852-$001887
 LinkOAM_AuxAddresses:
 {
-    40 9A 00 9E 20 9D 20 9F 20 9B 20 BC 20 BC 20 BE 20 BE 00 BE 00 BE 00 BE 00 BE 40 A5 40 A5 40 A5 40 A5 00 BC 00 BC 00 BC 00 BC 40 A7 40 A7 40 A7 40 A7 80 E7 80 E7
+    dw $9A40, $9E00, $9D20, $9F20, $9B20, $BC20, $BC20, $BE20
+    dw $BE20, $BE00, $BE00, $BE00, $BE00, $A540, $A540, $A540
+    dw $A540, $BC00, $BC00, $BC00, $BC00, $A740, $A740, $A740
+    dw $A740, $E780, $E780
 }
 
 ; $001888-$0018AA DATA
@@ -3188,6 +3265,7 @@ Dungeon_QuadrantOffsets:
 
 ; $004FF3-$005230
 {
+    ; TODO: Add .bin here.
     ; One set of locations for compressed 2bpp graphics.
     
     ; $004FF3 DATA LENGTH #$DF
@@ -4226,7 +4304,7 @@ Attract_DecompressStoryGfx:
 ; $005837-$005854 Jump Table ;overworld mirror warp gfx decompression
 pool_AnimateMirrorWarp:
 {
-    ; \task interleaved!
+    ; TODO: interleaved!
 
     meta .states
     dw $D892 ; = $005892*
@@ -5485,7 +5563,7 @@ CopyMode7Chr: ; decent name?
 ; 0x4400 or 0x4600. Generally I guess you could say that it's designed
 ; to load "half slots" or half graphics packs.
 
-; \task Verify the naming of this, but pretty confident that it's good
+; TODO: Verify the naming of this, but pretty confident that it's good
 ; these days.
 
 ; $0063FA-$0064E8 LONG
@@ -6537,7 +6615,7 @@ PaletteFilterUnused:
 
     .lightening
 
-    LDA $7EC007 : CMP $7EC00B : BEQ $BRANCH_6A9B
+    LDA $7EC007 : CMP $7EC00B : BEQ .switchDirection
     
     LDA $7EC007 : DEC A : STA $7EC007
     
@@ -6678,7 +6756,7 @@ PaletteFilterHistory:
             ; Tell attract mode to move on to the next 2bpp graphic.
             INC $27
 
-        .stillFiltering
+    .stillFiltering
 
     SEP #$30
     
@@ -6689,7 +6767,7 @@ PaletteFilterHistory:
 
 ; ==============================================================================
 
-; \task This probably needs a better name.
+; TODO: This probably needs a better name.
 ; $006BC5-$006BF1 LONG
 PaletteFilter_WishPonds:
 {
@@ -6708,7 +6786,7 @@ PaletteFilter_WishPonds:
 
     .continue
 
-    ; \task Best guess, rename if turns out incorrect.
+    ; TODO: Best guess, rename if turns out incorrect.
     ; $006BD3 ALTERNATE ENTRY POINT
     PaletteFilter_InitTheEndSprite:
 
@@ -6773,7 +6851,7 @@ Palette_Filter_SP5F:
     JSR .filter
     
     ; Now filter again!
-    LDA $7EC007 : BEQ BRANCH_$6C0C
+    LDA $7EC007 : BEQ Palette_Restore_SP5F_return
         .filter
 
         REP #$30
@@ -6877,7 +6955,7 @@ KholdstareShell_PaletteFiltering:
         LDA $E880, X : STA $06
         LDA $E884, X : STA $08
         LDA $E888, X : STA $0A
-        W
+        
         LDX.w #$0080
         LDA.w #$0090
         
@@ -7012,7 +7090,7 @@ PaletteFilter_Agahnim:
     LDX.w #$00C0
     LDA.w #$0100
     
-    BRA BRANCH_1
+    BRA .BRANCH_1
 
     ; $006D8F ALTERNATE ENTRY POINT
     REP #$30
@@ -7025,7 +7103,7 @@ PaletteFilter_Agahnim:
     LDX.w #$0040
     LDA.w #$00C0
 
-    BRANCH_1:
+    .BRANCH_1
 
     JSR RestorePaletteAdditive
     
@@ -7183,6 +7261,7 @@ Palette_InitWhiteFilter:
 ; ==============================================================================
 
 ; $006EE0-$006EE6 BRANCH LOCATION (LONG)
+MirrorGFXDecompress:
 {
     ; Seems to be used exclusively during the mirror sequence to gradually
     ; decompress graphics.
@@ -7190,6 +7269,7 @@ Palette_InitWhiteFilter:
     JSL $00D864 ; $005864 IN ROM
 
     ; $006EE4 ALTERNATE ENTRY POINT
+    .return
 
     SEP #$30
     
@@ -7200,7 +7280,7 @@ Palette_InitWhiteFilter:
 
 ; $006EE7-$006F89 LONG
 {
-    DEC $06BB : BNE BRANCH_6EE0
+    DEC $06BB : BNE MirrorGFXDecompress_return
         LDA.b #$02 : STA $06BB
 
         ; $006EF1 ALTERNATE ENTRY POINT
@@ -7209,7 +7289,7 @@ Palette_InitWhiteFilter:
         
         LDA $7EC009
         
-        CMP.w #$00FF : BEQ BRANCH_6EE4
+        CMP.w #$00FF : BEQ MirrorGFXDecompress_return
             CMP.w #$0002 : BNE .alpha
             
                 LDX.w #$0040 : LDA.w #$01B0
@@ -7506,20 +7586,21 @@ WhirlpoolRestoreRedGreen:
 ; ==============================================================================
 
 ; $007132-$007168 BRANCH LOCATION
-pool PaletteFilter_Restore_Strictly_Bg_Subtractive:
+PaletteFilter_EasyOut:
 {
     .easy_out
 
     SEP #$30
 
     RTL
+}
 
-    ; $007135 ENTRY POINT LONG
-    PaletteFilter_Restore_Strictly_Bg_Subtractive:
-
+; $007135 ENTRY POINT LONG
+PaletteFilter_Restore_Strictly_Bg_Subtractive:
+{
     REP #$30
     
-    LDA $7EC009 : CMP.w #$00FF : BEQ .easy_out
+    LDA $7EC009 : CMP.w #$00FF : BEQ PaletteFilter_EasyOut_easy_out
         PHB : PHK : PLB
         
         LDX.w #$0040
@@ -7847,42 +7928,42 @@ ConfigureSpotlightTable:
 
     LDA.w #$00FF : STA $08
     
-    LDA $06 : CMP $0676 : BCS BRANCH_BETA
+    LDA $06 : CMP $0676 : BCS .BRANCH_BETA
     
-        LDA $067A : BEQ BRANCH_GAMMA
+        LDA $067A : BEQ .BRANCH_GAMMA
             DEC $067A
 
-        BRANCH_GAMMA:
+        .BRANCH_GAMMA
 
         JSR $F4CC ; $0074CC IN ROM
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
-    LDA $04 : ASL A : CMP.w #$01C0 : BCS BRANCH_DELTA
+    LDA $04 : ASL A : CMP.w #$01C0 : BCS .BRANCH_DELTA
         TAX
         
         LDA $08 : STA $7F7000, X
 
-    BRANCH_DELTA:
+    .BRANCH_DELTA
 
-    LDA $06 : ASL A : CMP.w #$01C0 : BCS BRANCH_EPSILON
+    LDA $06 : ASL A : CMP.w #$01C0 : BCS .BRANCH_EPSILON
         TAX
         
         LDA $08 : STA $7F7000, X
 
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
 
-    LDA $0E : CMP $04 : BEQ BRANCH_ZETA
+    LDA $0E : CMP $04 : BEQ .BRANCH_ZETA
         INC $04
         DEC $06
         
         JMP $F361 ; $007361 IN ROM
 
-    BRANCH_ZETA:
+    .BRANCH_ZETA
 
         LDA $2137 
         LDA $213F
-    LDA $213D : AND.w #$00FF : CMP.w #$00C0 : BCC BRANCH_ZETA
+    LDA $213D : AND.w #$00FF : CMP.w #$00C0 : BCC .BRANCH_ZETA
     
     LDX.w #$0000
 
@@ -7903,13 +7984,13 @@ ConfigureSpotlightTable:
             ; Enable forceblank
             LDA.b #$80 : STA $13 : STA $2100
             
-            BRA BRANCH_LAMBDA
+            BRA .BRANCH_LAMBDA
 
         .resetTable
 
         JSL ResetSpotLightTable
 
-        BRANCH_LAMBDA:
+        .BRANCH_LAMBDA
 
         SEP #$30
         
@@ -7917,21 +7998,21 @@ ConfigureSpotlightTable:
         
         LDA $10
         
-        CMP.b #$07 : BEQ BRANCH_MU
-        CMP.b #$10 : BNE BRANCH_NU
-            BRANCH_MU:
+        CMP.b #$07 : BEQ .BRANCH_MU
+        CMP.b #$10 : BNE .BRANCH_NU
+            .BRANCH_MU
 
-            LDA $1B : BNE BRANCH_XI
+            LDA $1B : BNE .BRANCH_XI
                 LDX $8A
                 
                 LDA $7F5B00, X : LSR #4 : STA $012D
 
-            BRANCH_XI:
+            .BRANCH_XI
 
-            LDA $0132 : CMP.b #$FF : BEQ BRANCH_NU
+            LDA $0132 : CMP.b #$FF : BEQ .BRANCH_NU
                 STA $012C
 
-        BRANCH_NU:
+        .BRANCH_NU
 
         ; restore the current module
         LDA $010C : STA $10 : CMP.b #$06 : BNE .notPreDungeon
@@ -8009,32 +8090,32 @@ ResetSpotlightTable:
     
     ASL $00
     
-    LDA $0A : BEQ BRANCH_ALPHA
+    LDA $0A : BEQ .BRANCH_ALPHA
         LDA $00 : CLC : ADC $0670 : STA $02
         
-        LDA $0670 : SEC : SBC $00 : STZ $00 : BMI BRANCH_BETA
-            BIT.w #$FF00 : BEQ BRANCH_GAMMA
+        LDA $0670 : SEC : SBC $00 : STZ $00 : BMI .BRANCH_BETA
+            BIT.w #$FF00 : BEQ .BRANCH_GAMMA
                 LDA.w #$00FF
 
-            BRANCH_GAMMA:
+            .BRANCH_GAMMA
 
             STA $00
 
-        BRANCH_BETA:
+        .BRANCH_BETA
 
-        LDA $02 : BIT.w #$FF00 : BEQ BRANCH_DELTA
+        LDA $02 : BIT.w #$FF00 : BEQ .BRANCH_DELTA
             LDA.w #$00FF
 
-        BRANCH_DELTA:
+        .BRANCH_DELTA
 
-        XBA : ORA $00 : CMP.w #$FFFF : BNE BRANCH_EPSILON
+        XBA : ORA $00 : CMP.w #$FFFF : BNE .BRANCH_EPSILON
             LDA.w #$00FF
 
-        BRANCH_EPSILON:
+        .BRANCH_EPSILON
 
         STA $08
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
     RTS
 }
@@ -8086,7 +8167,7 @@ OrientLampBg:
             LDA $00 : CMP.w #$0004 : BCS .facingLeftOrRight
                 LDA $22 : CLC : ADC.w #$0008 : AND.w #$00FF
                 
-                BRA BRANCH_DELTA
+                BRA .BRANCH_DELTA
 
             .facingLeftOrRight
 
@@ -8099,7 +8180,7 @@ OrientLampBg:
         
             LDA $20 : AND.w #$00FF
 
-        BRANCH_DELTA:
+        .BRANCH_DELTA
 
         CMP.w #$0080 : BCC .notInDoorway
             INX #2
@@ -8453,21 +8534,21 @@ Module_Messaging:
 ; $007876-$007899 JUMP TABLE
 Messaging_MainJumpTable:
 {
-    ; \task figure out interleaving syntax for tables like this.
+    ; TODO: figure out interleaving syntax for tables like this.
     ; Parameterized by X:
     
-    dl $00F875 ; = $007875*  ; X=0: ; RTL (do nothing)
-    dl $0DDD2A ; = $06DD2A*  ; X=1: ; Link's item submenu (press start)
-    dl $0EC440 ; = $074440*  ; X=2: ; Dialogue Mode
-    dl $0AE0B0 ; = $0560B0*  ; X=3: ; Dungeon Map Mode
-    dl $00F8FB ; = $0078FB*  ; X=4: ; Fills life (red potion)
+    dl $00F875 ; = $007875*    ; X=0: ; RTL (do nothing)
+    dl $0DDD2A ; = $06DD2A*    ; X=1: ; Link's item submenu (press start)
+    dl $0EC440 ; = $074440*    ; X=2: ; Dialogue Mode
+    dl $0AE0B0 ; = $0560B0*    ; X=3: ; Dungeon Map Mode
+    dl $00F8FB ; = $0078FB*    ; X=4: ; Fills life (red potion)
     dl Messaging_PrayingPlayer ; X=5: ; Link praying in front of desert palace before it opens.
-    dl $00F8E9 ; = $0078E9*  ; X=6: ; unused? Agahnim 2 related code?
-    dl $0AB98B ; = $05398B*  ; X=7: ; Overworld Map Mode
-    dl $00F911 ; = $007911*  ; X=8: ; Fill up all magic (green potion)
-    dl $00F918 ; = $007918*  ; X=9: ; Fill up magic and life (blue potion)
-    dl $0AB730 ; = $053730*  ; X=A: ; The bird (duck?) that flies you around.
-    dl $00F9FA ; = $0079FA*  ; X=B: ; Continue/Save & Quit Mode
+    dl $00F8E9 ; = $0078E9*    ; X=6: ; unused? Agahnim 2 related code?
+    dl $0AB98B ; = $05398B*    ; X=7: ; Overworld Map Mode
+    dl $00F911 ; = $007911*    ; X=8: ; Fill up all magic (green potion)
+    dl $00F918 ; = $007918*    ; X=9: ; Fill up magic and life (blue potion)
+    dl $0AB730 ; = $053730*    ; X=A: ; The bird (duck?) that flies you around.
+    dl $00F9FA ; = $0079FA*    ; X=B: ; Continue/Save & Quit Mode
 }
 
 ; ==============================================================================
@@ -8551,9 +8632,11 @@ PrayingPlayer_FadeInScene:
 ; =============================================
 
 ; $0078FB-$7910 JUMP LOCATION LONG
+RefillHeathFromRedPotion:
 {
-    JSL HUD.RefillHealth : BCC BRANCH_ALPHA
+    JSL HUD.RefillHealth : BCC .BRANCH_ALPHA
         ; $007901 ALTERNATE ENTRY POINT
+        .MoveOn
         LDA $3A : AND.b #$BF : STA $3A
         
         INC $16
@@ -8562,7 +8645,7 @@ PrayingPlayer_FadeInScene:
         
         LDA $010C : STA $10
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
     RTL
 }
@@ -8571,7 +8654,7 @@ PrayingPlayer_FadeInScene:
 
 ; $007911-$007917 JUMP LOCATION LONG
 {
-    JSL HUD.RefillMagicPower : BCS BRANCH_$7901
+    JSL HUD.RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
         RTL
 }
 
@@ -8744,16 +8827,16 @@ SavePalaceDeaths:
 
     STZ $16 : STZ $0710
 
-    LDA $B0 : CMP.b #$03 : BCS BRANCH_BETA
+    LDA $B0 : CMP.b #$03 : BCS .BRANCH_BETA
         INC $B0
 
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
     STZ $14
 
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
 
     LDA $11 : BNE .notBaseSubmodule
         STZ $B0
@@ -9033,6 +9116,7 @@ Mirror_InitHdmaSettings:
 ; ==============================================================================
 
 ; $007E5E-$007F2E LONG
+MirrorHDMA:
 {
     INC $B0
     
@@ -9109,8 +9193,8 @@ Mirror_InitHdmaSettings:
 
     XBA : CLC : ADC $06AA : STA $06AA : TAX
     
-    LDA $7EC007 : CMP.w #$0030 : BCC BRANCH_THETA
-        TXA : AND.w #$FFF8 : BNE BRANCH_THETA
+    LDA $7EC007 : CMP.w #$0030 : BCC .BRANCH_THETA
+        TXA : AND.w #$FFF8 : BNE .BRANCH_THETA
             LDA.w #$FF00 : STA $06A2
             
             LDA.w #$0100 : STA $06A4
@@ -9119,12 +9203,13 @@ Mirror_InitHdmaSettings:
             
             INC $B0
 
-    BRANCH_THETA:
+    .BRANCH_THETA
 
     TXA : CLC : ADC $E2 : STA $1B00 : STA $1B04 : STA $1B08 : STA $1B0C
     
     SEP #$30
 
+    ; $007F2E ALTERNATE ENTRY POINT
     .return
 
     RTL
@@ -9135,7 +9220,7 @@ Mirror_InitHdmaSettings:
 {
     JSL $00EEE7 ; $006EE7 IN ROM
         
-    LDA $1A : LSR A : BCS BRANCH_$7E5E_return
+    LDA $1A : LSR A : BCS MirrorHDMA_return
         REP #$30
             
         LDX.w #$01A0
