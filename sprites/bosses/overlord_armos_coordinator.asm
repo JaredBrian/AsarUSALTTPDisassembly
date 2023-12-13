@@ -289,7 +289,7 @@
         
         LDA $0F
         
-        LDY $05 : BNE BRANCH_GAMMA
+        LDY $05 : BNE .BRANCH_GAMMA
         
         STA $4203
         
@@ -302,21 +302,21 @@
         
         LDA $4217 : ADC.b #$00
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LSR $01 : BCC BRANCH_DELTA
+        LSR $01 : BCC .BRANCH_DELTA
         
         EOR.b #$FF : INC A
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STZ $0A
         
-        CMP.b #$00 : BPL BRANCH_EPSILON
+        CMP.b #$00 : BPL .BRANCH_EPSILON
         
         DEC $0A
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         CLC : ADC !overlord_x_low,  X : LDY $0FB5 : STA !puppet_x_low,  Y
         LDA !overlord_x_high, X : ADC $0A   : STA !pupper_x_high, Y
@@ -325,7 +325,7 @@
         
         LDA $0F
         
-        LDY $07 : BNE BRANCH_ZETA
+        LDY $07 : BNE .BRANCH_ZETA
         
         STA $4203
         
@@ -336,21 +336,21 @@
         
         LDA $4217 : ADC.b #$00
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LSR $03 : BCC BRANCH_THETA
+        LSR $03 : BCC .BRANCH_THETA
         
         EOR.b #$FF : INC A
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         STZ $0A
         
-        CMP.b #$00 : BPL BRANCH_IOTA
+        CMP.b #$00 : BPL .BRANCH_IOTA
         
         DEC $0A
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         CLC : ADC !overlord_y_low, X  : LDY $0FB5 : STA !puppet_y_low,  Y
         LDA !overlord_y_high, X : ADC $0A   : STA !puppet_y_high, Y

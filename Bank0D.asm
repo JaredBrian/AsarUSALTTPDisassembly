@@ -1415,19 +1415,19 @@ Stalfos_Draw:
         
         LDA $0DE0, X : STA $0B
         
-        LDA $0D90, X : STA $0E : BPL BRANCH_ALPHA
+        LDA $0D90, X : STA $0E : BPL .BRANCH_ALPHA
         
         EOR.b #$FF : INC A
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0C
         
-        LDA $0DA0, X : STA $0F : BPL BRANCH_BETA
+        LDA $0DA0, X : STA $0F : BPL .BRANCH_BETA
         
         EOR.b #$FF : INC A
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0D
         
@@ -1447,11 +1447,11 @@ Stalfos_Draw:
         
         LDA $0E : ASL A
         
-        LDA $4217 : BCC BRANCH_GAMMA
+        LDA $4217 : BCC .BRANCH_GAMMA
         
         EOR.b #$FF : INC A
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         CLC : ADC $00 : STA ($90), Y
         
@@ -1460,11 +1460,11 @@ Stalfos_Draw:
         
         JSR Pikit_MultiplicationDelay
         
-        LDA $0F : ASL A : LDA $4217 : BCC BRANCH_DELTA
+        LDA $0F : ASL A : LDA $4217 : BCC .BRANCH_DELTA
         
         EOR.b #$FF : INC A
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         CLC : ADC $02
         

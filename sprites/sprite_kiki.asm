@@ -118,23 +118,23 @@
 
     ; *$F63AF-$F63E7 JUMP LOCATION
     {
-        LDA $0D80, X : DEC #2 : BMI BRANCH_ALPHA
+        LDA $0D80, X : DEC #2 : BMI .BRANCH_ALPHA
         
         JSR Kiki_Draw
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Sprite3_CheckIfActive
         JSR Sprite3_MoveXyz
         
         DEC $0F80, X
         
-        LDA $0F70, X : BPL BRANCH_BETA
+        LDA $0F70, X : BPL .BRANCH_BETA
         
         STZ $0F80, X
         STZ $0F70, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
         
@@ -228,29 +228,29 @@
 
     ; *$F6465-$F6475 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         LDA.b #$10 : STA $0F80, X
                      STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$F6476-$F6486 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
-        LDA $0F70, X : BNE BRANCH_ALPHA
+        LDA $0F70, X : BNE .BRANCH_ALPHA
         
         STZ $0DD0, X
         
         STZ $02E4
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -308,12 +308,12 @@
         
         DEC $0F80, X
         
-        LDA $0F70, X : BPL BRANCH_ALPHA
+        LDA $0F70, X : BPL .BRANCH_ALPHA
         
         STZ $0F80, X
         STZ $0F70, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $0D80, X
         
@@ -395,7 +395,7 @@
 
     ; *$F6539-$F6575 JUMP LOCATION
     {
-        LDA $0E00, X : BNE BRANCH_ALPHA
+        LDA $0E00, X : BNE .BRANCH_ALPHA
         
         LDA $0D80, X : INC $0D80, X : LSR A : AND.b #$01 : TAY
         
@@ -407,7 +407,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $0D80, X : LSR A : AND.b #$01 : ORA.b #$06 : STA $0DE0, X
         
@@ -436,9 +436,9 @@
         
         LDA $0D80, X : SEC : SBC.b #$02 : TAY
         
-        LDA $E57C, Y : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ALPHA
+        LDA $E57C, Y : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
         
-        LDA $E576, Y : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ALPHA
+        LDA $E576, Y : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
         
         INC $0D80, X
         
@@ -451,7 +451,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $E57C, Y : STA $04
         LDA $E57D, Y : STA $05
@@ -487,15 +487,15 @@
     {
         LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
         
-        LDA $0F70, X : BNE BRANCH_ALPHA
+        LDA $0F70, X : BNE .BRANCH_ALPHA
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         LDA $0D90, X : TAY
         
         INC $0D90, X
         
-        LDA .directions, Y : BMI BRANCH_BETA
+        LDA .directions, Y : BMI .BRANCH_BETA
         
         PHA : STA $0DE0, X
         
@@ -507,11 +507,11 @@
         
         LDA .y_speeds, Y : STA $0D40, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         INC $0D80, X
         
@@ -545,15 +545,15 @@
 
     ; *$F6657-$F666A JUMP LOCATION
     {
-        LDA $0F80, X : BPL BRANCH_ALPHA
+        LDA $0F80, X : BPL .BRANCH_ALPHA
         
-        LDA $0F70, X : BNE BRANCH_ALPHA
+        LDA $0F70, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         LDA.b #$25 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     } 

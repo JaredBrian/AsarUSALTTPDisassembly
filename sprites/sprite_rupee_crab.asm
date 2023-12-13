@@ -46,14 +46,14 @@
         
         JSR Sprite_DirectionToFacePlayer
         
-        LDA $0DF0, X : BNE BRANCH_BETA
+        LDA $0DF0, X : BNE .BRANCH_BETA
         
-        LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS BRANCH_GAMMA
-        LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS BRANCH_GAMMA
+        LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .BRANCH_GAMMA
+        LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .BRANCH_GAMMA
         
         LDA.b #$20 : STA $0DF0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA .x_speeds, Y : STA $0D50, X
         
@@ -72,7 +72,7 @@
         
         LDA .animation_states, Y : STA $0DC0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         ; The only real alternative is probably a bush covered crab.
         LDA $0E20, X : CMP.b #$3E : BNE .not_rock_covered_crab
@@ -90,11 +90,11 @@
         
         LDA.b #$01
         
-        LDY $0E20, X : CPY.b #$17 : BNE BRANCH_IOTA
+        LDY $0E20, X : CPY.b #$17 : BNE .BRANCH_IOTA
         
         INC A
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         STA $0DB0, X
         
@@ -130,11 +130,11 @@
         JSR Sprite_CheckIfRecoiling
         JSR Sprite_CheckDamageFromPlayer
         
-        LDA $0E10, X : BNE BRANCH_ALPHA
+        LDA $0E10, X : BNE .BRANCH_ALPHA
         
         JSR Sprite_CheckDamageToPlayer
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         INC $0E80, X : LDA $0E80, X : LSR A : AND.b #$03 : TAY
         
@@ -162,9 +162,9 @@
     
         JSR Sprite_CheckTileCollision
         
-        LDA $0F10, X : BNE BRANCH_DELTA
+        LDA $0F10, X : BNE .BRANCH_DELTA
         
-        TXA : EOR $1A : AND.b #$1F : BNE BRANCH_DELTA
+        TXA : EOR $1A : AND.b #$1F : BNE .BRANCH_DELTA
         
         LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
         
@@ -172,13 +172,13 @@
         
         LDA $01 : EOR.b #$FF : INC A : STA $0D50, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        LDA $1A : AND.b #$01 : BNE BRANCH_EPSILON
+        LDA $1A : AND.b #$01 : BNE .BRANCH_EPSILON
         
         INC $0ED0, X
         
-        LDA $0ED0, X : CMP.b #$C0 : BNE BRANCH_ZETA
+        LDA $0ED0, X : CMP.b #$C0 : BNE .BRANCH_ZETA
         
         LDA.b #$0F : JSR Sprite_CustomTimedScheduleForBreakage
         
@@ -186,9 +186,9 @@
         
         BRA .spawn_green_rupee
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $0ED0, X : AND.b #$0F : BNE BRANCH_EPSILON
+        LDA $0ED0, X : AND.b #$0F : BNE .BRANCH_EPSILON
         
         LDY.b #$00
         
@@ -230,7 +230,7 @@
         LDA.b #$30 : JSL Sound_SetSfx3PanLong
     
     .spawn_failed
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         RTS
     

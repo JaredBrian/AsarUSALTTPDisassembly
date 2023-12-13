@@ -213,7 +213,7 @@
         LDA $7EC540 : STA $7EC500
         LDA $7EC541 : STA $7EC501
         
-        LDA $7EC009 : CMP.b #$FF : BNE BRANCH_BETA
+        LDA $7EC009 : CMP.b #$FF : BNE .BRANCH_BETA
         
         LDA.b #$00 : STA $7EC011
                      STA $0647
@@ -243,7 +243,7 @@
         
         INC $11
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     
@@ -353,38 +353,38 @@
     
         LDA $F4 : AND.b #$20 : BNE .selectButtonPressed
         
-        DEC $C8 : BNE BRANCH_GAMMA
+        DEC $C8 : BNE .BRANCH_GAMMA
         
         INC $C8
         
         LDA $F0
         
-        AND.b #$0C : BEQ BRANCH_GAMMA
-        AND.b #$04 : BEQ BRANCH_DELTA
+        AND.b #$0C : BEQ .BRANCH_GAMMA
+        AND.b #$04 : BEQ .BRANCH_DELTA
     
     .selectButtonPressed
     
-        INC $B0 : LDA $B0 : CMP.b #$03 : BMI BRANCH_EPSILON
+        INC $B0 : LDA $B0 : CMP.b #$03 : BMI .BRANCH_EPSILON
         
         STZ $B0
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        DEC $B0 : BPL BRANCH_EPSILON
+        DEC $B0 : BPL .BRANCH_EPSILON
         
         LDA.b #$02 : STA $B0
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA.b #$0C : STA $C8
         
         LDA.b #$20 : STA $012F
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ BRANCH_$4F4AB ; (RTS)
+        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ .BRANCH_$4F4AB ; (RTS)
         
         LDA.b #$2C : STA $012E
     
@@ -392,44 +392,44 @@
     
         LDA.b #$F1 : STA $012C
         
-        LDA $1B : BEQ BRANCH_ZETA
+        LDA $1B : BEQ .BRANCH_ZETA
         
         JSL Dungeon_SaveRoomQuadrantData
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSL $02856A ; $1056A IN ROM
         
-        LDA $7EF3C5 : CMP.b #$03 : BCS BRANCH_THETA
+        LDA $7EF3C5 : CMP.b #$03 : BCS .BRANCH_THETA
         
         LDA.b #$00 : STA $7EF3CA
         
-        LDA $7EF357 : BNE BRANCH_THETA
+        LDA $7EF357 : BNE .BRANCH_THETA
         
         JSL $028570 ; $10570 IN ROM
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        LDA $A0 : ORA $A1 : BNE BRANCH_IOTA
+        LDA $A0 : ORA $A1 : BNE .BRANCH_IOTA
         
         STZ $1B
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         JSL $0BFFBF ; $5FFBF IN ROM
         
         LDA $7EF3CC
         
-        CMP.b #$06 : BEQ BRANCH_KAPPA
-        CMP.b #$0D : BEQ BRANCH_KAPPA
-        CMP.b #$0A : BEQ BRANCH_KAPPA
-        CMP.b #$09 : BNE BRANCH_LAMBDA
+        CMP.b #$06 : BEQ .BRANCH_KAPPA
+        CMP.b #$0D : BEQ .BRANCH_KAPPA
+        CMP.b #$0A : BEQ .BRANCH_KAPPA
+        CMP.b #$09 : BNE .BRANCH_LAMBDA
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA.b #$00 : STA $7EF3CC
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
 
         LDA $7EF36C : LSR #3 : TAX
         
@@ -437,18 +437,18 @@
         
         LDA $040C
         
-        CMP.b #$FF : BEQ BRANCH_MU
-        CMP.b #$02 : BNE BRANCH_NU
+        CMP.b #$FF : BEQ .BRANCH_MU
+        CMP.b #$02 : BNE .BRANCH_NU
         
         LDA.b #$00
     
-    BRANCH_NU:
+    .BRANCH_NU
     
         LSR A : TAX
         
         LDA $7EF36F : STA $7EF37C, X
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         JSL Sprite_ResetAll
         
@@ -466,38 +466,38 @@
         
         LDA $B0 : CMP.b #$01 : BEQ .handleSram
         
-        LDA $1B : BEQ BRANCH_PI
+        LDA $1B : BEQ .BRANCH_PI
         
-        LDA $7EF3CC : CMP.b #$01 : BEQ BRANCH_RHO
+        LDA $7EF3CC : CMP.b #$01 : BEQ .BRANCH_RHO
         
-        LDA $040C : CMP.b #$FF : BEQ BRANCH_SIGMA
+        LDA $040C : CMP.b #$FF : BEQ .BRANCH_SIGMA
         
         STZ $04AA
         
-        BRA BRANCH_RHO
+        BRA .BRANCH_RHO
     
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
         STZ $0132
         STZ $1B
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         ; Are we in the Dark World?
-        LDA $7EF3CA : BEQ BRANCH_RHO
+        LDA $7EF3CA : BEQ .BRANCH_RHO
         
         ; Otherwise, make it so the dungeon room we were last in was Agahnim's first room.
         LDA.b #$20 : STA $A0 : STZ $A1
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
-        LDA $7EF3C5 : BEQ BRANCH_TAU
+        LDA $7EF3C5 : BEQ .BRANCH_TAU
         
-        LDA $B0 : BNE BRANCH_UPSILON
+        LDA $B0 : BNE .BRANCH_UPSILON
         
         JSL Main_SaveGameFile
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
         LDA #$05 : STA $10
         
@@ -505,7 +505,7 @@
         
         RTS
     
-    BRANCH_TAU:
+    .BRANCH_TAU
     
         REP #$20
         
@@ -675,7 +675,7 @@
 
     ; *$4F71D-$4F734 LOCAL
     {
-        LDA $020A : BNE BRANCH_$4F714
+        LDA $020A : BNE .BRANCH_$4F714
         
         LDA #$01 : STA $0AAA
         
@@ -685,7 +685,7 @@
         
         JSL Dungeon_ApproachFixedColor.variable ; $FEC1 IN ROM
         
-        BRA BRANCH_$4F712
+        BRA .BRANCH_$4F712
     }
 
     ; *$4F735-$4F741 LOCAL

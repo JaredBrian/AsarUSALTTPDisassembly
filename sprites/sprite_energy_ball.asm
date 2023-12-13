@@ -24,23 +24,23 @@
     
         STA $0F50, X
         
-        LDA $0D80, X : BEQ BRANCH_DELTA ;--
+        LDA $0D80, X : BEQ .BRANCH_DELTA ;--
         
         JMP EnergyBall_DrawTrail
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0DA0, X : BEQ .not_seeker_2 ;--
         
         JSR SeekerEnergyBall_Draw
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
     .not_seeker_2
     
         JSL Sprite_PrepAndDrawSingleLargeLong
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSR Sprite3_CheckIfActive
         
@@ -56,9 +56,9 @@
     
     .no_tile_collision
     
-        LDA $0D90, X : BEQ BRANCH_KAPPA  ;--
+        LDA $0D90, X : BEQ .BRANCH_KAPPA  ;--
         
-        LDA $0BA0 : BNE BRANCH_KAPPA
+        LDA $0BA0 : BNE .BRANCH_KAPPA
         
         LDA $0D10, X : STA $00
         LDA $0D30, X : STA $08
@@ -99,7 +99,7 @@
     
         BRA .no_player_damage
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         JSR Sprite3_CheckDamageToPlayer
         
@@ -135,7 +135,7 @@
     
     .no_player_damage
     
-        TXA : EOR $1A : AND.b #$03 : ORA $0DA0, X : BNE BRANCH_NU ;--
+        TXA : EOR $1A : AND.b #$03 : ORA $0DA0, X : BNE .BRANCH_NU ;--
         
         LDA.b #$7B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
         
@@ -147,7 +147,7 @@
         LDA $0DA0, X : STA $0DA0, Y
     
     .spawn_failed
-    BRANCH_NU:
+    .BRANCH_NU
     
         RTS
     }

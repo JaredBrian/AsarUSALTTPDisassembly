@@ -19,14 +19,14 @@ Sprite_Agahnim:
 {
     JSR AgahDraw ;$D978 ; $F5978 IN ROM
         
-    LDA $0F00, X : BEQ BRANCH_ALPHA
+    LDA $0F00, X : BEQ .BRANCH_ALPHA
         LDA.b #$20 : STA $0DF0, X
         
         LDA.b #$00 : STA $0DC0, X
         
         LDA.b #$03 : STA $0DE0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
@@ -64,7 +64,7 @@ Sprite_Agahnim:
 
     ; *$F5376-$F53D9 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA ; Is the timer still going?
+        LDA $0DF0, X : BNE .BRANCH_ALPHA ; Is the timer still going?
         
         ; Time is done. Kill Agahnim.
         PHX
@@ -75,10 +75,10 @@ Sprite_Agahnim:
         
         PLX
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         ; If Timer > #$10, branch
-        LDA $0DF0, X : CMP.b #$10 : BCS BRANCH_BETA
+        LDA $0DF0, X : CMP.b #$10 : BCS .BRANCH_BETA
         
         LDA.b #$7F : STA $9A
         
@@ -91,25 +91,25 @@ Sprite_Agahnim:
         
         PLX
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $0DF0, X : AND.b #$00 : BNE BRANCH_GAMMA
+        LDA $0DF0, X : AND.b #$00 : BNE .BRANCH_GAMMA
         
-        LDA $0F80, X : CMP.b #$FF : BEQ BRANCH_GAMMA
+        LDA $0F80, X : CMP.b #$FF : BEQ .BRANCH_GAMMA
         
         CLC : ADC.b #$01 : STA $0F80, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $0F90, X : CLC : ADC $0F80, X : STA $0F90, X : BCC BRANCH_DELTA
+        LDA $0F90, X : CLC : ADC $0F80, X : STA $0F90, X : BCC .BRANCH_DELTA
         
-        INC $0E80, X : LDA $0E80, X : CMP.b #$07 : BNE BRANCH_DELTA
+        INC $0E80, X : LDA $0E80, X : CMP.b #$07 : BNE .BRANCH_DELTA
         
         STZ $0E80, X
         
         LDA.b #$04 : JSL Sound_SetSfx2PanLong
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDY $0E80, X
         
@@ -126,21 +126,21 @@ Sprite_Agahnim:
         
         STZ $0EB0, X
         
-        LDA $0DF0, X : CMP.b #$40 : BCC BRANCH_ALPHA
+        LDA $0DF0, X : CMP.b #$40 : BCC .BRANCH_ALPHA
         
         LDA $0EF0, X : ORA.b #$E0 : STA $0EF0, X
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.b #$01 : BNE BRANCH_BETA
+        CMP.b #$01 : BNE .BRANCH_BETA
         
         JSL Sprite_SpawnPhantomGanon
         
         LDA.b #$1D : STA $012C
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STZ $0EF0, X
         
@@ -161,15 +161,15 @@ Sprite_Agahnim:
         
         REP #$20
         
-        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
         
-        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS BRANCH_ALPHA
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
         
         SEP #$20
         
         STZ $0DD0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         SEP #$20
         
@@ -222,13 +222,13 @@ Sprite_Agahnim:
 
     ; *$F547C-$F54A6 JUMP LOCATION
     {
-        LDA $0EC0, X : BEQ BRANCH_$F54A9
+        LDA $0EC0, X : BEQ .BRANCH_$F54A9
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         JMP $D509 ; $F5509 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         ; Each of the clones has its own x speed at the start... I guess
         ; that's what is going on here.
@@ -239,11 +239,11 @@ Sprite_Agahnim:
         
         JSR Sprite3_Move
         
-        JSL Sprite_SpawnAgahnimAfterImage : BMI BRANCH_BETA
+        JSL Sprite_SpawnAgahnimAfterImage : BMI .BRANCH_BETA
         
         LDA.b #$04 : STA $0F50, Y
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
@@ -404,19 +404,19 @@ WaitToAttack:
 ; *$F5566-$F560A JUMP LOCATION
 AttachThenFadeToBlack:
 {
-    LDA $0DF0, X : CMP.b #$C0 : BNE BRANCH_ALPHA
+    LDA $0DF0, X : CMP.b #$C0 : BNE .BRANCH_ALPHA
         PHA
         
         LDA.b #$27 : JSL Sound_SetSfx3PanLong
         
         PLA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-    CMP.b #$EF : BCS BRANCH_BETA
-        CMP.b #$10 : BCS BRANCH_GAMMA
+    CMP.b #$EF : BCS .BRANCH_BETA
+        CMP.b #$10 : BCS .BRANCH_GAMMA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     PHX
         
@@ -431,26 +431,26 @@ AttachThenFadeToBlack:
         
     PLX
         
-    BRA BRANCH_EPSILON
+    BRA .BRANCH_EPSILON
     
-    BRANCH_GAMMA:
-        TXA : BNE BRANCH_EPSILON
+    .BRANCH_GAMMA
+        TXA : BNE .BRANCH_EPSILON
             JSR Sprite3_CheckDamage
         
             STZ $0BA0, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-    LDA $0DF0, X : BNE BRANCH_ZETA
+    LDA $0DF0, X : BNE .BRANCH_ZETA
         INC $0D80, X
         
         LDA.b #$27 : STA $0DF0, X
         
         RTS
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-    CMP.b #$80 : BCC BRANCH_THETA  
+    CMP.b #$80 : BCC .BRANCH_THETA  
         PHA
             
         LDA.b #$02
@@ -467,36 +467,36 @@ AttachThenFadeToBlack:
             
         LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
             
-        LDA $0E30, X : CMP.b #$04 : BNE BRANCH_IOTA
+        LDA $0E30, X : CMP.b #$04 : BNE .BRANCH_IOTA
             LDA.b #$03 : STA $0DE0, X
         
-        BRANCH_IOTA:
+        .BRANCH_IOTA
         
         PLA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-    CMP.b #$70 : BNE BRANCH_KAPPA
+    CMP.b #$70 : BNE .BRANCH_KAPPA
         PHA
         
         JSR DoLightningAttack ; $D67A = $F567A IN ROM
         
         PLA
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
     LSR #4 : TAY
         
     LDA $D540, Y : STA $0D90, X
         
-    LDA $D550, Y : BEQ BRANCH_LAMBDA
+    LDA $D550, Y : BEQ .BRANCH_LAMBDA
         CLC
         
         LDY $0DE0, X
         
         ADC $D560, Y
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
     STA $0EB0, X
         
@@ -536,10 +536,10 @@ SetTargetPos:
             
         LDY.b #$04
             
-        LDA $0E30, X : CMP.b #$04 : BEQ BRANCH_BETA
+        LDA $0E30, X : CMP.b #$04 : BEQ .BRANCH_BETA
             JSL GetRandomInt : AND.b #$0F : TAY
         
-        BRANCH_BETA:
+        .BRANCH_BETA
         
         LDA .targetXPos, Y : STA $0DB0, X
         LDA .targetYPos, Y : STA $0E90, X
@@ -578,17 +578,17 @@ SetTargetPos:
     ; *$F567A-$F5707 LOCAL
     DoLightningAttack:
     {
-        CPX.b #$00 : BNE BRANCH_ALPHA
+        CPX.b #$00 : BNE .BRANCH_ALPHA
         
         INC $0E30, X
         
-        LDA $0FFF : BEQ BRANCH_ALPHA
+        LDA $0FFF : BEQ .BRANCH_ALPHA
         
         LDA $0E30, X : AND.b #$03 : STA $0E30, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0E30, X : CMP.b #$05 : BNE BRANCH_BETA
+        LDA $0E30, X : CMP.b #$05 : BNE .BRANCH_BETA
         
         STZ $0E30, X
         
@@ -603,7 +603,7 @@ SetTargetPos:
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$7B
         
@@ -627,14 +627,14 @@ SetTargetPos:
         LDA $0D50, X : STA $0D50, Y
         LDA $0D40, X : STA $0D40, Y
         
-        LDA $0E30, X : CMP.b #$02 : BCC BRANCH_GAMMA
+        LDA $0E30, X : CMP.b #$02 : BCC .BRANCH_GAMMA
         
-        JSL GetRandomInt : AND.b #$01 : BNE BRANCH_GAMMA
+        JSL GetRandomInt : AND.b #$01 : BNE .BRANCH_GAMMA
         
         LDA.b #$01 : STA $0DA0, Y
         LDA.b #$20 : STA $0DF0, Y
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     .spawn_failed
     
         RTS
@@ -658,8 +658,8 @@ ShadowSneak:
         
     REP #$20
         
-    LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
-        LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS BRANCH_ALPHA
+    LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
+        LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
             SEP #$20
         
             LDA $0DB0, X : STA $0D10, X
@@ -667,7 +667,7 @@ ShadowSneak:
         
             JMP $D514 ; $F5514 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     SEP #$20
         
@@ -679,10 +679,10 @@ ShadowSneak:
         
     LDA $01 : STA $0D50, X
         
-    LDA $0ED0, X : CMP.b #$40 : BCS BRANCH_BETA
+    LDA $0ED0, X : CMP.b #$40 : BCS .BRANCH_BETA
         INC $0ED0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     JSR Sprite3_Move
         
@@ -710,7 +710,7 @@ ShadowSneak:
         
         LDX.b #$03
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         PHX
         
@@ -725,57 +725,57 @@ ShadowSneak:
         
         LDA.b #$02
         
-        CPX.b #$44 : BCS BRANCH_ALPHA
-        CPX.b #$40 : BCC BRANCH_ALPHA
+        CPX.b #$44 : BCS .BRANCH_ALPHA
+        CPX.b #$40 : BCC .BRANCH_ALPHA
         
         LDA.b #$00
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA ($92), Y
         
         PLY : INY
         
-        PLX : DEX : BPL BRANCH_BETA
+        PLX : DEX : BPL .BRANCH_BETA
         
         PLX
         
-        LDA $0DC0, X : CMP.b #$0C : BCS BRANCH_GAMMA
+        LDA $0DC0, X : CMP.b #$0C : BCS .BRANCH_GAMMA
         
         LDA.b #$12
         
         JSL Sprite_DrawShadowLong.variable
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $11 : BEQ BRANCH_DELTA
+        LDA $11 : BEQ .BRANCH_DELTA
         
         LDY.b #$FF
         LDA.b #$03
         
         JSL Sprite_CorrectOamEntriesLong
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR Sprite3_PrepOamCoord
         
         LDA.b #$08
         
-        LDY $0DE0, X : BEQ BRANCH_EPSILON
+        LDY $0DE0, X : BEQ .BRANCH_EPSILON
         
         JSL OAM_AllocateFromRegionC
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JSL OAM_AllocateFromRegionB
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDY.b #$00
         
-        LDA $0EB0, X : BEQ BRANCH_THETA
+        LDA $0EB0, X : BEQ .BRANCH_THETA
         
         DEC A : STA $0C
         
@@ -787,7 +787,7 @@ ShadowSneak:
         
         LDX.b #$01
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         PHX
         
@@ -810,11 +810,11 @@ ShadowSneak:
         
         PLY : INY
         
-        PLX : DEX : BPL BRANCH_IOTA
+        PLX : DEX : BPL .BRANCH_IOTA
         
         PLX
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         RTS
     }

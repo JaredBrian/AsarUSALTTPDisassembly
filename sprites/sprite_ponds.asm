@@ -19,22 +19,22 @@
     {
         ; Pond of Wishing AI
         
-        LDA $0D90, X : BNE BRANCH_ALPHA
+        LDA $0D90, X : BNE .BRANCH_ALPHA
         
-        LDA $0DA0, X : BNE BRANCH_BETA
+        LDA $0DA0, X : BNE .BRANCH_BETA
         
         JSR Sprite_PrepOamCoordSafeWrapper
         JMP $C41D ; $3441D IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR FairyQueen_Draw
         
         LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
         
-        LDA $1A : AND.b #$0F : BNE BRANCH_GAMMA
+        LDA $1A : AND.b #$0F : BNE .BRANCH_GAMMA
         
-        LDA.b #$72 : JSL Sprite_SpawnDynamically : BMI BRANCH_GAMMA
+        LDA.b #$72 : JSL Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
         
         PHX
         
@@ -61,17 +61,17 @@
         
         PLX
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        DEC $0DB0, X : BNE BRANCH_DELTA
+        DEC $0DB0, X : BNE .BRANCH_DELTA
         
         STZ $0DD0, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0DB0, X : LSR #3 : STA $0DC0, X
         
@@ -286,14 +286,14 @@ FairyPondTriggerMain:
     {
         STZ $02E4
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
-        JSL Sprite_CheckIfPlayerPreoccupied : BCS BRANCH_ALPHA
+        JSL Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
         
         LDA.b #$89
         LDY.b #$00
         
-        JSL Sprite_ShowMessageFromPlayerContact : BCC BRANCH_ALPHA
+        JSL Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
         
         INC $0D80, X
         
@@ -302,7 +302,7 @@ FairyPondTriggerMain:
         
         STZ $2F
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
         RTS
     }
@@ -324,7 +324,7 @@ FairyPondTriggerMain:
 
     ; *$3452B-$3455C JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_3455F
+        LDA $1CE8 : BNE .BRANCH_3455F
         
         LDA $7EF370 : ORA $7EF371 : BEQ .no_bomb_or_arrow_upgrades_yet
         
@@ -379,7 +379,7 @@ FairyPondTriggerMain:
         
         LDA $C523, Y : AND.w #$00FF : STA $00
         
-        LDA $7EF360 : CMP $00 : BCC BRANCH_$3455D
+        LDA $7EF360 : CMP $00 : BCC .BRANCH_$3455D
         
         SEP #$30
         
@@ -414,7 +414,7 @@ FairyPondTriggerMain:
         
         PLX
         
-        LDA $7EF36A : CMP.b #$64 : BCC BRANCH_ALPHA
+        LDA $7EF36A : CMP.b #$64 : BCC .BRANCH_ALPHA
         
         SBC.b #$64 : STA $7EF36A
         
@@ -422,23 +422,23 @@ FairyPondTriggerMain:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $7EF36A
         
         STZ $02
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CMP.b #$0A : BCC BRANCH_BETA
+        CMP.b #$0A : BCC .BRANCH_BETA
         
         SBC.b #$0A
         
         INC $02
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ASL $02 : ASL $02 : ASL $02 : ASL $02
         
@@ -449,7 +449,7 @@ FairyPondTriggerMain:
 
     ; *$34603-$34615 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         LDA.b #$94
         LDY.b #$00
@@ -458,7 +458,7 @@ FairyPondTriggerMain:
         
         LDA.b #$0D : STA $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -503,7 +503,7 @@ FairyPondTriggerMain:
 
     ; *$34665-$34690 JUMP LOCATION
     {
-        LDA $1A : AND.b #$07 : BNE BRANCH_ALPHA
+        LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
         
         PHX
         
@@ -511,7 +511,7 @@ FairyPondTriggerMain:
         
         PLX
         
-        LDA $7EC007 : BNE BRANCH_ALPHA
+        LDA $7EC007 : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
@@ -532,20 +532,20 @@ FairyPondTriggerMain:
         
         PLX
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$34691-$3469F JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$0C : STA $0D80, X
         
@@ -556,7 +556,7 @@ FairyPondTriggerMain:
     {
         INC $0D80, X
         
-        LDA $7EF370 : CMP.b #$07 : BEQ BRANCH_ALPHA
+        LDA $7EF370 : CMP.b #$07 : BEQ .BRANCH_ALPHA
         
         INC A : STA $7EF370
         
@@ -575,7 +575,7 @@ FairyPondTriggerMain:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$98
         LDY.b #$00
@@ -605,7 +605,7 @@ FairyPondTriggerMain:
 
     ; *$346E7-$3470D JUMP LOCATION
     {
-        LDA $1A : AND.b #$07 : BNE BRANCH_ALPHA
+        LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
         
         PHX
         
@@ -613,21 +613,21 @@ FairyPondTriggerMain:
         
         PLX
         
-        LDA $7EC007 : CMP.b #$1E : BNE BRANCH_BETA
+        LDA $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
         
         LDA $0E90, X : TAY
         
         LDA.b #$00 : STA $0DD0, Y
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CMP.b #$00 : BNE BRANCH_ALPHA
+        CMP.b #$00 : BNE .BRANCH_ALPHA
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -652,7 +652,7 @@ FairyPondTriggerMain:
     {
         LDA.b #$09 : STA $0D80, X
         
-        LDA $7EF371 : CMP.b #$07 : BEQ BRANCH_ALPHA
+        LDA $7EF371 : CMP.b #$07 : BEQ .BRANCH_ALPHA
         
         INC A : STA $7EF371
         
@@ -671,7 +671,7 @@ FairyPondTriggerMain:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$98
         LDY.b #$00
@@ -748,14 +748,14 @@ WaitingForPlayerContact:
 {
     STZ $02E4
         
-    LDA $0DF0, X : BNE BRANCH_ALPHA
+    LDA $0DF0, X : BNE .BRANCH_ALPHA
         
-    JSL Sprite_CheckIfPlayerPreoccupied : BCS BRANCH_ALPHA
+    JSL Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
         ; -Mysterious Pond- Won't you throw something in?
         LDA.b #$4A
         LDY.b #$01
         
-        JSL Sprite_ShowMessageFromPlayerContact : BCC BRANCH_ALPHA
+        JSL Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
             INC $0D80, X
             
             JSL Player_ResetState
@@ -763,7 +763,7 @@ WaitingForPlayerContact:
             STZ $2F
             STZ $0EB0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     RTS
 }
@@ -816,13 +816,13 @@ SpawnThrownItem:
     ; Save the state of the selected item.
     LDA $7EF340, X : PHA
     
-    CPX.b #$20 : BEQ BRANCH_ALPHA
-        CPX.b #$03 : BNE BRANCH_BETA
-            BRANCH_ALPHA:
+    CPX.b #$20 : BEQ .BRANCH_ALPHA
+        CPX.b #$03 : BNE .BRANCH_BETA
+            .BRANCH_ALPHA
     
             LDA.b #$01
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     TAY
     
@@ -906,7 +906,7 @@ WaitToSpawnGreatFairy:
 FairyFadeIn:
 {
     ; Every 8th frame fade in.
-    LDA $1A : AND.b #$07 : BNE BRANCH_ALPHA
+    LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
         PHX
         
         JSL Palette_Filter_SP5F
@@ -914,7 +914,7 @@ FairyFadeIn:
         PLX
         
         ; If completely faded in:
-        LDA $7EC007 : BNE BRANCH_ALPHA
+        LDA $7EC007 : BNE .BRANCH_ALPHA
             INC $0D80, X
             
             ; Hello there.  Did you drop this?
@@ -935,7 +935,7 @@ FairyFadeIn:
         
         PLX
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     RTS
 }
@@ -1085,10 +1085,10 @@ SetupFadeOut:
     
     ; If its bombs don't give it back?
     ; Probably because we wouldn't want to replace the amount you have?
-    CPX.b #$03 : BNE BRANCH_ALPHA
+    CPX.b #$03 : BNE .BRANCH_ALPHA
         STA $7EF340, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     PLX
         
@@ -1112,27 +1112,27 @@ SetupFadeOut:
     ; *$3497A-$349A0 JUMP LOCATION
 FairyFadeOut:
 {
-    LDA $1A : AND.b #$07 : BNE BRANCH_ALPHA
+    LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
         PHX
         
         JSL Palette_Filter_SP5F
         
         PLX
         
-        LDA $7EC007 : CMP.b #$1E : BNE BRANCH_BETA
+        LDA $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
             LDA $0E90, X : TAY
         
             LDA.b #$00 : STA $0DD0, Y
         
-            BRA BRANCH_ALPHA
+            BRA .BRANCH_ALPHA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-    CMP.b #$00 : BNE BRANCH_ALPHA
+    CMP.b #$00 : BNE .BRANCH_ALPHA
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
     RTS
 }

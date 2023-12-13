@@ -196,7 +196,7 @@
         
         JSL $00ED7C ; $6D7C IN ROM
         
-        LDA $7EC007 : BNE BRANCH_2
+        LDA $7EC007 : BNE .BRANCH_2
         
         LDA.b #$2A : STA $B0
         
@@ -208,7 +208,7 @@
     
         RTL
     
-    BRANCH_2:
+    .BRANCH_2
     
         CMP.b #$0D : BNE .dontEnableBGs
         
@@ -262,7 +262,7 @@
         
         JSR $FE56 ; $67E56 IN ROM
         
-        DEC $B0 : BNE BRANCH_1
+        DEC $B0 : BNE .BRANCH_1
         
         INC $11
         
@@ -273,7 +273,7 @@
         
         LDA.b #$02 : STA $1D
     
-    BRANCH_1:
+    .BRANCH_1
     
         RTL
     }
@@ -289,7 +289,7 @@
         
         JSR $FE56 ; $67E56 IN ROM
         
-        DEC $B0 : BNE BRANCH_1
+        DEC $B0 : BNE .BRANCH_1
         
         ; note that this instruction does nothing since
         ; $11 is zeroed out a few lines down. programmers aren't perfect!
@@ -304,7 +304,7 @@
         ; Reset the attract mode sequencing index.
         STZ $22
     
-    BRANCH_1:
+    .BRANCH_1
     
         RTL
     }
@@ -331,12 +331,12 @@
         
         LDX.w #$006E
     
-    BRANCH_1:
+    .BRANCH_1
     
         ; Zeroes out $20-$8E
         STZ $20, X
         
-        DEX #2 : BPL BRANCH_1
+        DEX #2 : BPL .BRANCH_1
         
         LDX.w #$0000
         
@@ -752,24 +752,24 @@
 
     ; *$645D6-$64607 JUMP LOCATION
     {
-        LDA $1E0A : AND.b #$1F : BNE BRANCH_1
+        LDA $1E0A : AND.b #$1F : BNE .BRANCH_1
         
         LDA $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
         LDA $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
     
-    BRANCH_1:
+    .BRANCH_1
     
-        LDA $C5D0, X : CMP $1E30, X : BNE BRANCH_2
+        LDA $C5D0, X : CMP $1E30, X : BNE .BRANCH_2
         
         STZ $1E58, X
     
-    BRANCH_2:
+    .BRANCH_2
     
-        LDA $C5D3, X : CMP $1E48, X : BNE BRANCH_3
+        LDA $C5D3, X : CMP $1E48, X : BNE .BRANCH_3
         
         STZ $1E60, X
     
-    BRANCH_3:
+    .BRANCH_3
     
         RTS
     }
@@ -790,19 +790,19 @@
         LDA.b #$10 : STA $06
                      STZ $07
         
-        CPX.b #$02 : BEQ BRANCH_1
+        CPX.b #$02 : BEQ .BRANCH_1
         
         LDA.b #$0F : STA $08
         LDA.b #$C6 : STA $09
         
-        BRA BRANCH_2
+        BRA .BRANCH_2
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA.b #$8F : STA $08
         LDA $C6    : STA $09
     
-    BRANCH_2:
+    .BRANCH_2
     
         JSR $C972 ; $64972
         
@@ -814,19 +814,19 @@
         LDA.b #$10 : STA $06
                      STZ $07
         
-        CPX.b #$02 : BEQ BRANCH_1
+        CPX.b #$02 : BEQ .BRANCH_1
         
         LDA.b #$2F : STA $08
         LDA $C7    : STA $09
         
-        BRA BRANCH_2
+        BRA .BRANCH_2
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA.b #$AF : STA $08
         LDA.b #$C7 : STA $09
     
-    BRANCH_2:
+    .BRANCH_2
     
         JSR $C972 ; $64972
         
@@ -900,7 +900,7 @@
     {
         LDA.b #$01 : STA $06 : STZ $07
         
-        LDA $1E20, X : BMI BRANCH_1
+        LDA $1E20, X : BMI .BRANCH_1
         
         ASL #3 : ADC.b #$36 : STA $08
         
@@ -908,7 +908,7 @@
         
         JSR $C972 ; $64972 in Rom
     
-    BRANCH_1:
+    .BRANCH_1
     
         RTS
     }
@@ -986,7 +986,7 @@
 
     ; *$649F1-$64A4B LOCAL
     {
-        LDA $1E58, X : BEQ BRANCH_2
+        LDA $1E58, X : BEQ .BRANCH_2
         
         ASL #4 : CLC : ADC $1E28, X : STA $1E28, X
         
@@ -994,21 +994,21 @@
         
         LDY.b #$00
         
-        PLP : BPL BRANCH_1
+        PLP : BPL .BRANCH_1
         
         ORA.b #$F0
         
         DEY
     
-    BRANCH_1:
+    .BRANCH_1
     
         ADC $1E30, X : STA $1E30, X
         
         TYA : ADC $1E38, X : STA $1E38, X
     
-    BRANCH_2:
+    .BRANCH_2
     
-        LDA $1E60, X : BEQ BRANCH_4
+        LDA $1E60, X : BEQ .BRANCH_4
         
         ASL #4 : CLC : ADC $1E40, X : STA $1E40, X
         
@@ -1016,19 +1016,19 @@
         
         LDY.b #$00
         
-        PLP : BPL BRANCH_3
+        PLP : BPL .BRANCH_3
         
         ORA.b #$F0
         
         DEY
     
-    BRANCH_3:
+    .BRANCH_3
     
         ADC $1E48, X : STA $1E48, X
         
         TYA : ADC $1E50, X : STA $1E50, X
     
-    BRANCH_4:
+    .BRANCH_4
     
         RTS
     }
@@ -1037,13 +1037,13 @@
 
     ; *$64A4C-$64A53 LOCAL
     {
-        LDA $1E02 : BEQ BRANCH_1
+        LDA $1E02 : BEQ .BRANCH_1
         
         ; Note that this maneuver will pull the return address from this Sub off the stack
         ; And we will end up at the sub that called this Sub's caller.
         PLA : PLA
     
-    BRANCH_1
+    .BRANCH_1
     
         RTS
     }
@@ -1269,13 +1269,13 @@
     {
         LDA.b #$01 : STA $012A
         
-        LDA $1F00 : BNE BRANCH_ALPHA
+        LDA $1F00 : BNE .BRANCH_ALPHA
         
         JSR $CBC3 ; $4CBC3 IN ROM
         
         LDA.b #$01 : STA $1F00
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -1337,17 +1337,17 @@
 
     ; *$64C33-$64C55 JUMP LOCATION
     {
-        LDA $1E0A : AND.b #$07 : BNE BRANCH_1
+        LDA $1E0A : AND.b #$07 : BNE .BRANCH_1
         
         LDA $CC2D, X : CLC : ADC $1E58, X : STA $1E58, X
     
-    BRANCH_1:
+    .BRANCH_1
     
-        LDA $1E0A : AND.b #$03 : BNE BRANCH_2
+        LDA $1E0A : AND.b #$03 : BNE .BRANCH_2
         
         LDA $CC30, X : CLC : ADC $1E60, X : STA $1E60, X
     
-    BRANCH_2:
+    .BRANCH_2
     
         RTS
     }
@@ -1376,23 +1376,23 @@
 
     ; *$64C6B-$64C8B JUMP LOCATION
     {
-        LDA $1E0A : AND.b #$03 : BNE BRANCH_1
+        LDA $1E0A : AND.b #$03 : BNE .BRANCH_1
         
         JSR $CCB0 ; $64CB0 IN ROM
     
-    BRANCH_1:
+    .BRANCH_1
     
-        LDA $CC65, X : CMP $1E30, X : BNE BRANCH_2
+        LDA $CC65, X : CMP $1E30, X : BNE .BRANCH_2
         
         STZ $1E58, X
     
-    BRANCH_2:
+    .BRANCH_2
     
-        LDA $CC68, X : CMP $1E48, X : BNE BRANCH_3
+        LDA $CC68, X : CMP $1E48, X : BNE .BRANCH_3
         
         STZ $1E60, X
     
-    BRANCH_3:
+    .BRANCH_3
     
         RTS
     }
@@ -1408,13 +1408,13 @@
 
     ; *$64C8F-$64CAF JUMP LOCATION
     {
-        LDA $1E0C : ORA $1E0D : BNE BRANCH_1
+        LDA $1E0C : ORA $1E0D : BNE .BRANCH_1
         
         LDA $CC8C, X : STA $1E48, X
         
         RTS
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA $1E0C : SEC : SBC.b #$01 : STA $1E0C
         LDA $1E0D : SBC.b #$00 : STA $1E0D
@@ -1426,65 +1426,65 @@
 
     ; *$64CB0-$64D0C LOCAL
     {
-        LDA $CC65, X : CMP $1E30, X : BCC BRANCH_1
+        LDA $CC65, X : CMP $1E30, X : BCC .BRANCH_1
         
         LDA $CC60, X
         
-        BRA BRANCH_2
+        BRA .BRANCH_2
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA $CC5D, X
     
-    BRANCH_2:
+    .BRANCH_2
     
-        CLC : ADC $1E58, X : STA $1E58, X : CMP $CC63 : BNE BRANCH_3
+        CLC : ADC $1E58, X : STA $1E58, X : CMP $CC63 : BNE .BRANCH_3
         
         LDA $CC63 : INC A
         
-        BRA BRANCH_4
+        BRA .BRANCH_4
     
-    BRANCH_3:
+    .BRANCH_3
     
-        CMP $CC64 : BNE BRANCH_5
+        CMP $CC64 : BNE .BRANCH_5
         
         LDA $CC64 : INC A
     
-    BRANCH_4:
+    .BRANCH_4
     
         STA $1E58, X
     
-    BRANCH_5:
+    .BRANCH_5
     
-        LDA $CC68, X : CMP $1E48, X : BCC BRANCH_6
+        LDA $CC68, X : CMP $1E48, X : BCC .BRANCH_6
         
         LDA $CC60, X
         
-        BRA BRANCH_7
+        BRA .BRANCH_7
     
-    BRANCH_6:
+    .BRANCH_6
     
         LDA $CC5D, X
     
-    BRANCH_7:
+    .BRANCH_7
     
-        CLC : ADC $1E60, X : STA $1E60, X : CMP $CC63 : BNE BRANCH_8
+        CLC : ADC $1E60, X : STA $1E60, X : CMP $CC63 : BNE .BRANCH_8
         
         LDA $CC63 : INC A
         
-        BRA BRANCH_9
+        BRA .BRANCH_9
     
-    BRANCH_8:
+    .BRANCH_8
     
-        CMP $CC64 : BNE BRANCH_10
+        CMP $CC64 : BNE .BRANCH_10
         
         LDA $CC64 : DEC A
     
-    BRANCH_9:
+    .BRANCH_9
     
         STA $1E60, X
     
-    BRANCH_10:
+    .BRANCH_10
     
         RTS
     }
@@ -1536,20 +1536,20 @@
         JSR $C82F ; $6482F IN ROM
         JSR $C9F1 ; $649F1 IN ROM
         
-        LDA $11 : CMP.b #$24 : BNE BRANCH_2
+        LDA $11 : CMP.b #$24 : BNE .BRANCH_2
         
-        LDA $1E20, X : CMP.b #$50 : BEQ BRANCH_1
+        LDA $1E20, X : CMP.b #$50 : BEQ .BRANCH_1
         
         INC $1E20, X
         
         LDA $CD38, X : CLC : ADC $1E58, X : STA $1E58, X
         LDA $CD3B, X : CLC : ADC $1E60, X : STA $1E60, X
     
-    BRANCH_1:
+    .BRANCH_1
     
         RTS
     
-    BRANCH_2:
+    .BRANCH_2
     
         STZ $1E20, X
         
@@ -1811,10 +1811,10 @@
         
         LDX.w #$00FD
     
-    BRANCH_1:
+    .BRANCH_1
     
         ; Write from $1001 to $10FE
-        LDA $E358, X : STA $1001, X : DEX : BNE BRANCH_1
+        LDA $E358, X : STA $1001, X : DEX : BNE .BRANCH_1
         
         SEP #$10
         
@@ -1877,7 +1877,7 @@
     
     .invalidSaveFile
     
-        ; If there's more files to look at, go back to BRAnch_2
+        ; If there's more files to look at, go back to .BRANCH_2
         LDX $00 : INX #2 : CPX.w #$0006 : BCC .nextFile
         
         SEP #$30
@@ -2110,13 +2110,13 @@
         
         JSR $D13F ; $6513F IN ROM
         
-        LDA $11 : CMP.b #$03 : BNE BRANCH_1
+        LDA $11 : CMP.b #$03 : BNE .BRANCH_1
         
-        LDA $1A : AND.b #$30 : BNE BRANCH_1
+        LDA $1A : AND.b #$30 : BNE .BRANCH_1
         
         JSR $D0C6 ; $650C6 IN ROM
     
-    BRANCH_1:
+    .BRANCH_1
     ; *$6509C ALTERNATE ENTRY POINT
     
         ; Indicates to the NMI routine that the tilemap needs updating.
@@ -2132,15 +2132,15 @@
         
         JSR $D27B ; $6527B IN ROM
         
-        LDA $11 : CMP.b #$04 : BNE BRANCH_2
+        LDA $11 : CMP.b #$04 : BNE .BRANCH_2
         
-        LDA $1A : AND.b #$30 : BNE BRANCH_1
+        LDA $1A : AND.b #$30 : BNE .BRANCH_1
         
         JSR $D0C6 ; $650C6 IN ROM
     
-    BRANCH_2:
+    .BRANCH_2
     
-        BRA BRANCH_1
+        BRA .BRANCH_1
     }
 
 ; ==============================================================================
@@ -2173,21 +2173,21 @@
         LDX.w #$0002
         LDA.w #$00A9
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDY.w #$000B : STY $00
         
         LDY $D0C2, X
     
-    BRANCH_2:
+    .BRANCH_2
     
         STA $1002, Y
         
         INY #2
         
-        DEC $00 : BNE BRANCH_2
+        DEC $00 : BNE .BRANCH_2
         
-        DEX #2 : BPL BRANCH_1
+        DEX #2 : BPL .BRANCH_1
         
         SEP #$30
         
@@ -2202,21 +2202,21 @@
         
         LDX.w #$00AC : STX $1000
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA $E68D, X : STA $1002, X
         
-        DEX : BPL BRANCH_1
+        DEX : BPL .BRANCH_1
         
         REP #$20
         
         LDX.w #$0000
     
-    BRANCH_2:
+    .BRANCH_2
     
         STX $00
         
-        LDA $BF, X : AND.w #$0001 : BEQ BRANCH_4
+        LDA $BF, X : AND.w #$0001 : BEQ .BRANCH_4
         
         LDA $00848C, X
         
@@ -2228,7 +2228,7 @@
         
         LDA.w #$0006 : STA $02
     
-    BRANCH_3:
+    .BRANCH_3
     
         LDA $7003D9, X : CLC : ADC.w #$1800 : STA $1002, Y
                          CLC : ADC.w #$0010 : STA $1016, Y
@@ -2237,11 +2237,11 @@
         
         INY #2
         
-        DEC $02 : BNE BRANCH_3
+        DEC $02 : BNE .BRANCH_3
     
-    BRANCH_4:
+    .BRANCH_4
     
-        LDX $00 : INX #2 : CPX.w #$0006 : BCC BRANCH_2
+        LDX $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_2
         
         SEP #$30
         
@@ -2252,69 +2252,69 @@
         
         JSR SelectFile_DrawFairy
         
-        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$FC : BNE BRANCH_5
+        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$FC : BNE .BRANCH_5
         
-        BRL BRANCH_17
+        BRL .BRANCH_17
     
-    BRANCH_5:
+    .BRANCH_5
     
-        AND.b #$2C : BEQ BRANCH_12
-        AND.b #$08 : BEQ BRANCH_8
+        AND.b #$2C : BEQ .BRANCH_12
+        AND.b #$08 : BEQ .BRANCH_8
         
-        LDX $C8 : DEX : BPL BRANCH_7
+        LDX $C8 : DEX : BPL .BRANCH_7
     
-    BRANCH_6:
+    .BRANCH_6
     
         TXA : ASL A : TAY
         
-        LDA $00BF, Y : BNE BRANCH_11
+        LDA $00BF, Y : BNE .BRANCH_11
         
-        DEX : BPL BRANCH_6
+        DEX : BPL .BRANCH_6
     
-    BRANCH_7:
+    .BRANCH_7
     
         LDX.b #$03
         
-        BRA BRANCH_11
+        BRA .BRANCH_11
     
-    BRANCH_8:
+    .BRANCH_8
     
-        LDX $C8 : INX : CPX.b #$03 : BCS BRANCH_10
+        LDX $C8 : INX : CPX.b #$03 : BCS .BRANCH_10
     
-    BRANCH_9:
+    .BRANCH_9
     
         TXA : ASL A : TAY
         
-        LDA $00BF, Y : BNE BRANCH_11
+        LDA $00BF, Y : BNE .BRANCH_11
         
-        INX : CPX.b #$03 : BNE BRANCH_9
+        INX : CPX.b #$03 : BNE .BRANCH_9
         
-        BRA BRANCH_11
+        BRA .BRANCH_11
     
-    BRANCH_10:
+    .BRANCH_10
     
-        CPX.b #$04 : BNE BRANCH_11
+        CPX.b #$04 : BNE .BRANCH_11
         
         LDX.b #$00
         
-        BRA BRANCH_9
+        BRA .BRANCH_9
     
-    BRANCH_11:
+    .BRANCH_11
     
         LDA.b #$20 : STA $012F
         
         STX $C8
         
-        BRA BRANCH_17
+        BRA .BRANCH_17
     
-    BRANCH_12:
+    .BRANCH_12
     
         ; Presumably record that the result was 0x2C.
         LDA.b #$2C : STA $012E
         
         ; $C8 Indexes your selection so far.
         ; i.e. They chose the quit option. #$0-2 are the save games.
-        LDA $C8 : CPX.b #$03 : BEQ BRANCH_15
+        LDA $C8 : CPX.b #$03 : BEQ .BRANCH_15
         
         ; So if they didn't choose to quit... they must have chosen a game to copy
         ASL A : STA $CC
@@ -2324,15 +2324,15 @@
         
         LDX.b #$49
     
-    BRANCH_13:
+    .BRANCH_13
     
         ; $650ED IN ROM.
         LDA $D0ED, X : STA $1035, X
         
-        DEX : BNE BRANCH_13
+        DEX : BNE .BRANCH_13
         
         ; Tell me what menu item they really picked...
-        LDX $C8 : CPX.b #$02 : BEQ BRANCH_14
+        LDX $C8 : CPX.b #$02 : BEQ .BRANCH_14
         
         ; If not, then look up a value...
         LDA $D137, X : TAX
@@ -2341,25 +2341,25 @@
         
         LDA.b #$27 : STA $1037, X : CLC : ADC.b #$20 : STA $103D, X
     
-    BRANCH_14:
+    .BRANCH_14
     
         INC $11
         
-        BRA BRANCH_16
+        BRA .BRANCH_16
     
     ; *$6522D ALTERNATE ENTRY POINT
-    BRANCH_15:
+    .BRANCH_15
     
         LDA.b #$01 : STA $10 ; This means the mode will change to select screen mode.
         LDA.b #$01 : STA $11 ; And the submodule will be the second (#$01) one.
         
         STZ $B0 ; Reset the sub-index of the submodule as well.
     
-    BRANCH_16:
+    .BRANCH_16
     
         STZ $C8 ; Reset the menu marker too
     
-    BRANCH_17:
+    .BRANCH_17
     
         RTS
     }
@@ -2371,33 +2371,33 @@
         LDA.b #$04
         LDX.b #$01
     
-    BRANCH_1:
+    .BRANCH_1
     
-        CMP $CC : BNE BRANCH_2
+        CMP $CC : BNE .BRANCH_2
         
         STA $CA, X : DEX
     
-    BRANCH_2:
+    .BRANCH_2
     
-        DEC A : DEC A : BPL BRANCH_1
+        DEC A : DEC A : BPL .BRANCH_1
         
         REP #$10
         
         LDX.w #$0084 : STX $0E
     
-    BRANCH_3:
+    .BRANCH_3
     
         LDA $E73A, X : STA $1002, X
         
-        DEX : BPL BRANCH_3
+        DEX : BPL .BRANCH_3
         
         REP #$20
         
         LDX.w #$0000 : STX $04
     
-    BRANCH_4:
+    .BRANCH_4
     
-        STX $00 : CPX $CC : BEQ BRANCH_6
+        STX $00 : CPX $CC : BEQ .BRANCH_6
         
         LDY $04 : LDA $D271, Y : TAY
         
@@ -2406,13 +2406,13 @@
         LDA $D275, X  : STA $1002, Y
         CLC : ADC.w #$0010 : STA $1016, Y
         
-        LDA $BF, X : BEQ BRANCH_6
+        LDA $BF, X : BEQ .BRANCH_6
         
         LDA.w #$0006 : STA $02
         
         LDA $00848C, X : TAX
     
-    BRANCH_5:
+    .BRANCH_5
     
         LDA $7003D9, X : CLC : ADC.w #$1800 : STA $1006, Y
         
@@ -2422,11 +2422,11 @@
         
         INY #2
         
-        DEC $02 : BNE BRANCH_5
+        DEC $02 : BNE .BRANCH_5
     
-    BRANCH_6:
+    .BRANCH_6
     
-        LDX $00 : INX #2 : CPX.w #$0006 : BCC BRANCH_4
+        LDX $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_4
         
         LDX $0E : STX $1000
         
@@ -2440,67 +2440,67 @@
         
         LDA $F6 : AND.b #$C0 : ORA $F4
         
-        AND.b #$FC : BEQ BRANCH_14
-        AND.b #$2C : BEQ BRANCH_9
-        AND.b #$08 : BEQ BRANCH_7
+        AND.b #$FC : BEQ .BRANCH_14
+        AND.b #$2C : BEQ .BRANCH_9
+        AND.b #$08 : BEQ .BRANCH_7
         
-        LDX $C8 : DEX : BPL BRANCH_8
+        LDX $C8 : DEX : BPL .BRANCH_8
         
         LDX.b #$02
         
-        BRA BRANCH_8
+        BRA .BRANCH_8
     
-    BRANCH_7:
+    .BRANCH_7
     
-        LDX $C8 : INX : CPX.b #$03 : BCC BRANCH_8
+        LDX $C8 : INX : CPX.b #$03 : BCC .BRANCH_8
         
         LDX.b #$00
     
-    BRANCH_8:
+    .BRANCH_8
     
         LDA.b #$20 : STA $012F : STX $C8
         
-        BRA BRANCH_14
+        BRA .BRANCH_14
     
-    BRANCH_9:
+    .BRANCH_9
     
         LDA.b #$2C : STA $012E
         
-        LDX $C8 : CPX.b #$02 : BEQ BRANCH_12
+        LDX $C8 : CPX.b #$02 : BEQ .BRANCH_12
         
         LDA $CA, X : STA $CA : STZ $CB
         
         LDX.b #$30
     
-    BRANCH_10:
+    .BRANCH_10
     
         ; write out "copy ok?"
         LDA $D23A, X : STA $1036, X
         
-        DEX : BPL BRANCH_10
+        DEX : BPL .BRANCH_10
         
-        LDA $C8 : BNE BRANCH_11
+        LDA $C8 : BNE .BRANCH_11
         
         LDA.b #$62 : STA $1036 : STA $103C
         
         LDA.b #$14  : STA $1037
         CLC : ADC.b #$20 : STA $103D
     
-    BRANCH_11:
+    .BRANCH_11
     
         INC $11
         
-        BRA BRANCH_13
+        BRA .BRANCH_13
     
-    BRANCH_12:
+    .BRANCH_12
     
         JSR $D22D ; $6522D IN ROM
     
-    BRANCH_13:
+    .BRANCH_13
     
         STZ $C8
     
-    BRANCH_14:
+    .BRANCH_14
     
         RTS
     }
@@ -2527,35 +2527,35 @@
         
         LDA $F6 : AND.b #$C0 : ORA $F4
         
-        AND.b #$FC : BEQ BRANCH_4
-        AND.b #$2C : BEQ BRANCH_2
-        AND.b #$24 : BEQ BRANCH_1
+        AND.b #$FC : BEQ .BRANCH_4
+        AND.b #$2C : BEQ .BRANCH_2
+        AND.b #$24 : BEQ .BRANCH_1
         
         LDA.b #$20 : STA $012F
         
         INC $C8
         
-        LDA $C8 : CMP.b #$02 : BCC BRANCH_4
+        LDA $C8 : CMP.b #$02 : BCC .BRANCH_4
         
         STZ $C8
         
-        BRA BRANCH_4
+        BRA .BRANCH_4
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA.b #$20 : STA $012F
         
-        DEC $C8 : BPL BRANCH_4
+        DEC $C8 : BPL .BRANCH_4
         
         LDA.b #$01 : STA $C8
         
-        BRA BRANCH_4
+        BRA .BRANCH_4
     
-    BRANCH_2:
+    .BRANCH_2
     
         LDA.b #$2C : STA $012E
         
-        LDA $C8 : BNE BRANCH_3
+        LDA $C8 : BNE .BRANCH_3
         
         REP #$30
         
@@ -2570,13 +2570,13 @@
         
         SEP #$30
     
-    BRANCH_3:
+    .BRANCH_3
     
         JSR $D22D ; $6522D in Rom.
         
         STZ $C8
     
-    BRANCH_4:
+    .BRANCH_4
     
         RTS
     }
@@ -2594,7 +2594,7 @@
         
         LDA.w #$0080 : STA $00
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA $0000, X : STA $0000, Y
         LDA $0001, X : STA $0001, Y
@@ -2606,7 +2606,7 @@
         
         INY #2
         
-        DEC $00 : BNE BRANCH_1
+        DEC $00 : BNE .BRANCH_1
         
         SEP #$20
         
@@ -2674,29 +2674,29 @@
         
         LDX.w #$00FD
     
-    BRANCH_1:
+    .BRANCH_1
     
         LDA $E53E, X : STA $1001, X
         
-        DEX : BNE BRANCH_1
+        DEX : BNE .BRANCH_1
         
         REP #$20
         
         LDX.w #$0000
     
-    BRANCH_2:
+    .BRANCH_2
     
         STX $00
         
-        LDA $BF, X : AND.w #$0001 : BEQ BRANCH_3
+        LDA $BF, X : AND.w #$0001 : BEQ .BRANCH_3
         
         LDA $00848C, X : TAX
         
         JSR $D63C ; $6563C
     
-    BRANCH_3:
+    .BRANCH_3
     
-        LDX $00 : INX #2 : CPX.w #$0006 : BCC BRANCH_2
+        LDX $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_2
         
         SEP #$30
         
@@ -2709,78 +2709,78 @@
         
         LDY.b #$02
         
-        LDA $F4 : AND.b #$20 : BNE BRANCH_6
+        LDA $F4 : AND.b #$20 : BNE .BRANCH_6
         
         LDA $F4
         
-        AND.b #$0C : BEQ BRANCH_9
-        AND.b #$04 : BNE BRANCH_6
+        AND.b #$0C : BEQ .BRANCH_9
+        AND.b #$04 : BNE .BRANCH_6
         
         LDA.b #$20 : STA $012F
         
         LDY.b #$FE
         
-        LDX $C8 : DEX : BMI BRANCH_5
+        LDX $C8 : DEX : BMI .BRANCH_5
     
-    BRANCH_4:
+    .BRANCH_4
     
         TXA : ASL A : TAY
         
-        LDA $00BF, Y : BNE BRANCH_9
+        LDA $00BF, Y : BNE .BRANCH_9
         
-        DEX : BPL BRANCH_4
+        DEX : BPL .BRANCH_4
     
-    BRANCH_5:
+    .BRANCH_5
     
         LDX.b #$03
         
-        BRA BRANCH_9
+        BRA .BRANCH_9
     
-    BRANCH_6:
+    .BRANCH_6
     
         LDA.b #$20 : STA $012F
         
-        LDX $C8 : INX : CPX.b #$03 : BCS BRANCH_8
+        LDX $C8 : INX : CPX.b #$03 : BCS .BRANCH_8
     
-    BRANCH_7:
+    .BRANCH_7
     
         TXA : ASL A : TAY
         
-        LDA $00BF, Y : BNE BRANCH_9
+        LDA $00BF, Y : BNE .BRANCH_9
         
-        INX : CPX.b #$03 : BNE BRANCH_7
+        INX : CPX.b #$03 : BNE .BRANCH_7
         
-        BRA BRANCH_9
+        BRA .BRANCH_9
     
-    BRANCH_8:
+    .BRANCH_8
     
-        CPX.b #$04 : BNE BRANCH_9
+        CPX.b #$04 : BNE .BRANCH_9
         
         LDX.b #$00
         
-        BRA BRANCH_7
+        BRA .BRANCH_7
     
-    BRANCH_9:
+    .BRANCH_9
     
         STX $C8
         
-        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ BRANCH_13
+        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ .BRANCH_13
         
         LDA.b #$2C : STA $012E
         
-        LDA $C8 : CMP.b #$03 : BEQ BRANCH_12
+        LDA $C8 : CMP.b #$03 : BEQ .BRANCH_12
         
         LDX.b #$64
     
-    BRANCH_10:
+    .BRANCH_10
     
         LDA $D41E, X : STA $1002, X
         
-        DEX : BPL BRANCH_10
+        DEX : BPL .BRANCH_10
         
         INC $11
         
-        LDX $C8 : CPX.b #$02 : BEQ BRANCH_11
+        LDX $C8 : CPX.b #$02 : BEQ .BRANCH_11
         
         LDA $D483, X : TAX
         
@@ -2789,21 +2789,21 @@
         LDA.b #$67  : STA $1003, X
         CLC : ADC.b #$20 : STA $1009, X
     
-    BRANCH_11:
+    .BRANCH_11
     
         LDA $C8 : STA $B0
         
         STZ $C8
         
-        BRA BRANCH_13
+        BRA .BRANCH_13
     
-    BRANCH_12:
+    .BRANCH_12
     
         SEP #$30
         
         JSR $D22D ; $6522D IN ROM
     
-    BRANCH_13:
+    .BRANCH_13
     
         RTS
     }
@@ -2837,31 +2837,31 @@
         
         LDY.b #$02
         
-        LDA $F4 : AND.b #$2C : BEQ BRANCH_3
+        LDA $F4 : AND.b #$2C : BEQ .BRANCH_3
         
-        AND.b #$24 : BNE BRANCH_1
+        AND.b #$24 : BNE .BRANCH_1
         
         DEX
         
-        BRA BRANCH_2
+        BRA .BRANCH_2
     
-    BRANCH_1:
+    .BRANCH_1
     
         INX
     
-    BRANCH_2:
+    .BRANCH_2
     
         TXA : AND.b #$01 : STA $C8
         
         LDA.b #$20 : STA $012F
     
-    BRANCH_3:
+    .BRANCH_3
     
-        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ BRANCH_6
+        LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ .BRANCH_6
         
         AND.b #$2C : STA $012E
         
-        LDA $C8 : BNE BRANCH_5
+        LDA $C8 : BNE .BRANCH_5
         
         LDA.b #$22 : STA $012F
         
@@ -2877,7 +2877,7 @@
         
         LDY.w #$0000 : TYA
     
-    BRANCH_4:
+    .BRANCH_4
     
         STA $700000, X : STA $700100, X : STA $700200, X : STA $700300, X
         STA $700400, X : STA $700F00, X : STA $701000, X : STA $701100, X
@@ -2885,17 +2885,17 @@
         
         INX #2
         
-        INY #2 : CPY.w #$0100 : BNE BRANCH_4
+        INY #2 : CPY.w #$0100 : BNE .BRANCH_4
         
         SEP #$30
     
-    BRANCH_5:
+    .BRANCH_5
     
         JSR $D22D ; $6522D in Rom.
         
         STZ $B0
     
-    BRANCH_6:
+    .BRANCH_6
     
         RTS
     }
@@ -2937,7 +2937,7 @@
     
         STA $1002, Y
         
-        INY #2 : DEX : BNE BRANCH_3
+        INY #2 : DEX : BNE .BRANCH_3
         
         PHA
         
@@ -2945,7 +2945,7 @@
         
         PLA
     
-    BRANCH_3:
+    .BRANCH_3
     
         DEC $02 : BNE .nextHeart
         
@@ -3189,7 +3189,7 @@
         ; the number of deaths maxes out at 999, so we just set the digits to all 9s.
         LDA.w #$0009 : STA !onesDigit : STA !tensDigit : STA !hundredsDigit
         
-        BRA BRANCH_7
+        BRA .BRANCH_7
     
     .lessThan1000
     
@@ -3225,7 +3225,7 @@
     
         STA !tensDigit : STY !hundredsDigit
     
-    BRANCH_7:
+    .BRANCH_7
     
         LDX.w #$0004
         
@@ -3399,13 +3399,13 @@
 
 ; $65A4D-$65C8B JUMP LOCATION
 {
-    BRANCH_1:
+    .BRANCH_1
     
-    LDY $0B13 : BEQ BRANCH_6
-        TYA : CMP.b #$31 : BEQ BRANCH_2
+    LDY $0B13 : BEQ .BRANCH_6
+        TYA : CMP.b #$31 : BEQ .BRANCH_2
             CLC : ADC.b #$04 : STA $0B13
     
-        BRANCH_2:
+        .BRANCH_2
     
         LDA $0B10 : ASL A : TAX
         
@@ -3413,28 +3413,28 @@
         
         DEY
         
-        LDA $0630 : CMP $0CD9B5, X : BNE BRANCH_4
+        LDA $0630 : CMP $0CD9B5, X : BNE .BRANCH_4
             SEP #$20
             
             LDA.b #$30 : STA $0B13
             
-            LDA $F0 : AND.b #$03 : BNE BRANCH_3
+            LDA $F0 : AND.b #$03 : BNE .BRANCH_3
                 STZ $0B13
         
-            BRANCH_3:
+            .BRANCH_3
         
             JSR $DC8C ; $65C8C IN ROM
             
-            BRA BRANCH_1
+            BRA .BRANCH_1
         
-        BRANCH_4:
+        .BRANCH_4
     
         REP #$20
         
-        LDX $0B16 : BNE BRANCH_5
+        LDX $0B16 : BNE .BRANCH_5
             INY #2
         
-        BRANCH_5:
+        .BRANCH_5
     
         LDA $0630
         
@@ -3444,48 +3444,48 @@
         
         SEP #$20
         
-        BRA BRANCH_7
+        BRA .BRANCH_7
     
-    BRANCH_6:
+    .BRANCH_6
     
     JSR $DC8C ; $65C8C IN ROM
     
-    BRANCH_7:
+    .BRANCH_7
     
-    LDA $0B14 : BEQ BRANCH_10
+    LDA $0B14 : BEQ .BRANCH_10
         LDX $0B15
         
         LDY.b #$02
         
-        LDA $0B11 : CMP $0CDA01, X : BNE BRANCH_8
+        LDA $0B11 : CMP $0CDA01, X : BNE .BRANCH_8
             STZ $0B14
             
             JSR $DCBF ; $65CBF IN ROM
             
-            BRA BRANCH_7
+            BRA .BRANCH_7
         
-        BRANCH_8:
+        .BRANCH_8
     
-        BMI BRANCH_9
+        BMI .BRANCH_9
             LDY.b #$FE
         
-        BRANCH_9:
+        .BRANCH_9
     
         TYA : CLC : ADC $0B11 : STA $0B11
         
-        BRA BRANCH_11
+        BRA .BRANCH_11
     
-    BRANCH_10:
+    .BRANCH_10
     
     JSR $DCBF ; $65CBF IN ROM.
     
-    BRANCH_11:
+    .BRANCH_11
     
     LDX.b #$00 : TXY
         
     LDA.b #$18 : STA $00
     
-    BRANCH_12:
+    .BRANCH_12
     
         LDA $00 : STA $0800, Y
         
@@ -3500,7 +3500,7 @@
         STZ $0A20, X
         
         INY #4
-    INX : CPX.b #$1A : BNE BRANCH_12
+    INX : CPX.b #$1A : BNE .BRANCH_12
         
     PHX
         
@@ -3517,20 +3517,20 @@
         
     STZ $0A20, X
         
-    LDA $0B13 : ORA $0B14 : BNE BRANCH_14
-        LDA $F4 : AND.b #$10 : BEQ BRANCH_13
+    LDA $0B13 : ORA $0B14 : BNE .BRANCH_14
+        LDA $F4 : AND.b #$10 : BEQ .BRANCH_13
             JMP $DBB1 ; $65BB1 IN ROM
         
-        BRANCH_13:
+        .BRANCH_13
     
-        LDA $F4 : AND.b #$C0 : BNE BRANCH_15
-            LDA $F6 : AND.b #$C0 : BNE BRANCH_15
+        LDA $F4 : AND.b #$C0 : BNE .BRANCH_15
+            LDA $F6 : AND.b #$C0 : BNE .BRANCH_15
     
-    BRANCH_14:
+    .BRANCH_14
     
     JMP $DBD9 ; $65BB9 IN ROM
     
-    BRANCH_15:
+    .BRANCH_15
     
     ; play low life warning beep sound?
     LDA.b #$2B : STA $012E
@@ -3545,39 +3545,39 @@
         
     LDA $0CD935, X
         
-    CMP.b #$5A : BEQ BRANCH_16
-        CMP.b #$44 : BEQ BRANCH_18
-            CMP.b #$6F : BEQ BRANCH_21
+    CMP.b #$5A : BEQ .BRANCH_16
+        CMP.b #$44 : BEQ .BRANCH_18
+            CMP.b #$6F : BEQ .BRANCH_21
                 STA $00
                 STZ $01
         
-                BRA BRANCH_20
+                BRA .BRANCH_20
     
-    BRANCH_16:
+    .BRANCH_16
     
-    LDA $0B12 : BNE BRANCH_17
+    LDA $0B12 : BNE .BRANCH_17
         LDA.b #$05 : STA $0B12
         
-        BRA BRANCH_24
+        BRA .BRANCH_24
     
-    BRANCH_17:
+    .BRANCH_17
     
     DEC $0B12
         
-    BRA BRANCH_24
+    BRA .BRANCH_24
     
-    BRANCH_18:
+    .BRANCH_18
     
     INC $0B12
         
-    LDA $0B12 : CMP.b #$06 : BNE BRANCH_19
+    LDA $0B12 : CMP.b #$06 : BNE .BRANCH_19
         STZ $0B12
     
-    BRANCH_19:
+    .BRANCH_19
     
-    BRA BRANCH_24
+    BRA .BRANCH_24
     
-    BRANCH_20:
+    .BRANCH_20
     
     REP #$30
         
@@ -3591,15 +3591,15 @@
         
     JSR $DD30 ; $65D30 IN ROM
         
-    BRA BRANCH_18
+    BRA .BRANCH_18
     
-    BRANCH_21: ; $65BB1 ALTERNATE ENTRY POINT
+    .BRANCH_21 ; $65BB1 ALTERNATE ENTRY POINT
     
     REP #$30
         
     STZ $02
     
-    BRANCH_22:
+    .BRANCH_22
     
     LDA $0200 : CLC
     
@@ -3608,25 +3608,25 @@
     ADC $02 : TAX
         
     ; Checking if the spot is blank
-    LDA $7003D9, X : CMP.w #$00A9 : BNE BRANCH_25
-        LDA $02 : CMP.w #$000A : BEQ BRANCH_23
+    LDA $7003D9, X : CMP.w #$00A9 : BNE .BRANCH_25
+        LDA $02 : CMP.w #$000A : BEQ .BRANCH_23
             INC #2 : STA $02
             
-            BRA BRANCH_22
+            BRA .BRANCH_22
         
-        BRANCH_23:
+        .BRANCH_23
     
         SEP #$20
         
         LDA.b #$3C : STA $012E
     
-        BRANCH_24:
+        .BRANCH_24
     
         SEP #$30
         
         RTL
     
-    BRANCH_25:
+    .BRANCH_25
     
     SEP #$30
         
@@ -3722,7 +3722,7 @@
         REP #$30
         
         ; Check if left or right directions are being held.
-        LDA $F0 : AND.b #$03 : BEQ BRANCH_2
+        LDA $F0 : AND.b #$03 : BEQ .BRANCH_2
         
         INC $0B13
         
@@ -3732,17 +3732,17 @@
         
         AND.w #$00FF : ASL A : TAX
         
-        LDA $0B10 : AND.w #$00FF : CLC : ADC $0CD9F5, X : CMP $0CD9F9, X : BNE BRANCH_1
+        LDA $0B10 : AND.w #$00FF : CLC : ADC $0CD9F5, X : CMP $0CD9F9, X : BNE .BRANCH_1
         
         LDA $0CD9FD, X
     
-    BRANCH_1:
+    .BRANCH_1
     
         SEP #$30
         
         STA $0B10
     
-    BRANCH_2:
+    .BRANCH_2
     
         SEP #$30
         
@@ -3753,33 +3753,33 @@
 
     ; *$65CBF-$65D23 LOCAL
     {
-        LDA $F0 : AND.b #$C0 : BEQ BRANCH_5
+        LDA $F0 : AND.b #$C0 : BEQ .BRANCH_5
         
         STA $02
         
-        ASL A : ORA $0B15 : CMP.b #$10 : BEQ BRANCH_6
+        ASL A : ORA $0B15 : CMP.b #$10 : BEQ .BRANCH_6
         
         LDA $02 : ASL #2 : ORA $0B15
         
         LDX $0B10
         
-        CMP.b #$13 : BEQ BRANCH_6
+        CMP.b #$13 : BEQ .BRANCH_6
         
         LDA $02 : LSR #2
     
-    BRANCH_1:
+    .BRANCH_1
     
         TAX
         
-        LDA $0B15 : CLC : ADC $0CDA04, X : CMP $0CDA06, X : BNE BRANCH_2
+        LDA $0B15 : CLC : ADC $0CDA04, X : CMP $0CDA06, X : BNE .BRANCH_2
         
         LDA $0CDA08, X
     
-    BRANCH_2:
+    .BRANCH_2
     
         STA $0B15
         
-        BRA BRANCH_3
+        BRA .BRANCH_3
         
         STA $01
         
@@ -3789,25 +3789,25 @@
         
         LDA $0CD935, X
     
-    BRANCH_3:
+    .BRANCH_3
     
-        CMP.b #$59 : BNE BRANCH_4
+        CMP.b #$59 : BNE .BRANCH_4
         
         LDA $01
         
-        BRA BRANCH_1
+        BRA .BRANCH_1
     
-    BRANCH_4:
+    .BRANCH_4
     
         INC $0B14
         
-        BRA BRANCH_6
+        BRA .BRANCH_6
     
-    BRANCH_5:
+    .BRANCH_5
     
         STZ $00CA
     
-    BRANCH_6:
+    .BRANCH_6
     
         LDA $0002 : STA $00CB
         
@@ -4771,29 +4771,29 @@
         
         JSR Atract_DrawZelda
         
-        LDA $25 : CMP.b #$C0 : BCS BRANCH_BETA
+        LDA $25 : CMP.b #$C0 : BCS .BRANCH_BETA
         
         JMP $F319 ; $67319 IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$70 : STA $29
         
-        DEC $50 : BPL BRANCH_GAMMA
+        DEC $50 : BPL .BRANCH_GAMMA
         
         LDA.b #$0F : STA $50
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDX $50
         
         LDA $31 : STA $40
         
-        LDA $30 : CLC : ADC $0CF26A, X : STA $28 : BCC BRANCH_DELTA
+        LDA $30 : CLC : ADC $0CF26A, X : STA $28 : BCC .BRANCH_DELTA
         
         INC $40
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR $FA30 ; $67A30 IN ROM
         
@@ -4832,26 +4832,26 @@
         
         INC $32
         
-        LDA $32 : AND.b #$07 : BNE BRANCH_ZETA
+        LDA $32 : AND.b #$07 : BNE .BRANCH_ZETA
         
         LDY.b #$FF
         
-        LDA $33 : CMP.b #$02 : BNE BRANCH_THETA
+        LDA $33 : CMP.b #$02 : BNE .BRANCH_THETA
         
         STY $33
         
-        LDA $31 : BNE BRANCH_THETA
+        LDA $31 : BNE .BRANCH_THETA
         
-        LDA $32 : AND.b #$08 : BEQ BRANCH_THETA
+        LDA $32 : AND.b #$08 : BEQ .BRANCH_THETA
         
         LDA.b #$04 : STA $012F
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         INC $33
     
     ; *$67319 ALTERNATE ENTRY POINT
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDA $60 : ASL A : TAX
         
@@ -4882,19 +4882,19 @@
 
     ; *$6732B-$67364 JUMP LOCATION LONG
     {
-        LDA $34 : BNE BRANCH_ALPHA
+        LDA $34 : BNE .BRANCH_ALPHA
         
         INC $60
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         REP #$20
         
-        LDA $1A : AND.w #$0001 : BEQ BRANCH_BETA
+        LDA $1A : AND.w #$0001 : BEQ .BRANCH_BETA
         
         DEC $30
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.w #$F8D9 : STA $2D
         LDA.w #$F8DF : STA $02
@@ -4919,70 +4919,70 @@
 
     ; *$67379-$67400 JUMP LOCATION LONG
     {
-        LDA $25 : CMP.b #$80 : BCS BRANCH_ALPHA
+        LDA $25 : CMP.b #$80 : BCS .BRANCH_ALPHA
         
         JSR Attract_ShowTimedTextMessage
         
         REP #$20
         
-        LDA $64 : SEP #$20 : BEQ BRANCH_ALPHA
+        LDA $64 : SEP #$20 : BEQ .BRANCH_ALPHA
         
         LDX.b #$08
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX.b #$00
         
-        LDA $2B : CMP.b #$6E : BEQ BRANCH_DELTA
+        LDA $2B : CMP.b #$6E : BEQ .BRANCH_DELTA
         
-        DEC $2B : BRA BRANCH_BETA
+        DEC $2B : BRA .BRANCH_BETA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $25
         
-        CMP.b #$1F : BCS BRANCH_EPSILON
-        AND.b #$01 : BNE BRANCH_EPSILON
+        CMP.b #$1F : BCS .BRANCH_EPSILON
+        AND.b #$01 : BNE .BRANCH_EPSILON
         
         DEC $13
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        DEC $25 : BNE BRANCH_ZETA
+        DEC $25 : BNE .BRANCH_ZETA
         
         JMP Attract_AdvanceToNextSequence
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $25 : CMP.b #$C0 : BCS BRANCH_BETA
+        LDA $25 : CMP.b #$C0 : BCS .BRANCH_BETA
         
         INX #2
         
-        CMP.b #$B8 : BCS BRANCH_BETA
+        CMP.b #$B8 : BCS .BRANCH_BETA
         
         INX #2
         
-        CMP.b #$B0 : BCS BRANCH_BETA
+        CMP.b #$B0 : BCS .BRANCH_BETA
         
         INX #2
         
-        CMP.b #$A0 : BCS BRANCH_BETA
+        CMP.b #$A0 : BCS .BRANCH_BETA
         
         INX #2
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
         LDA.b #$A8 : STA $28
         
         REP #$20
         
-        LDA $1A : AND.w #$0001 : BEQ BRANCH_GAMMA
+        LDA $1A : AND.w #$0001 : BEQ .BRANCH_GAMMA
         
         DEC $30
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA.w #$F8D9 : STA $2D
         LDA.w #$F8DF : STA $02
@@ -5042,14 +5042,14 @@
     
     .counterAtMax
     
-        LDA $0FF9 : BEQ BRANCH_DELTA
+        LDA $0FF9 : BEQ .BRANCH_DELTA
         
-        AND.b #$04 : BEQ BRANCH_DELTA
+        AND.b #$04 : BEQ .BRANCH_DELTA
         
         ; Sound effect.
         LDX.b #$2B : STX $012F
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $60 : ASL A : TAX
         
@@ -5075,25 +5075,25 @@
         
         PLX : DEX : BPL .nextSoldier
         
-        LDX $50 : CPX.b #$A0 : BCC BRANCH_ZETA
+        LDX $50 : CPX.b #$A0 : BCC .BRANCH_ZETA
         
-        LDA $30 : CMP.b #$60 : BEQ BRANCH_THETA
+        LDA $30 : CMP.b #$60 : BEQ .BRANCH_THETA
         
-        DEC $32 : BNE BRANCH_ZETA
+        DEC $32 : BNE .BRANCH_ZETA
         
         DEC $30
         
         LDA.b #$08 : STA $32
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         INC $61
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $52 : BNE BRANCH_IOTA
+        LDA $52 : BNE .BRANCH_IOTA
         
         REP #$20
         
@@ -5103,11 +5103,11 @@
         
         LDX.b #$00
         
-        LDA $30 : AND.w #$00FF : CMP.w #$0070 : BEQ BRANCH_KAPPA
+        LDA $30 : AND.w #$00FF : CMP.w #$0070 : BEQ .BRANCH_KAPPA
         
         INX #2
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA $0CF567, X : STA $06
         
@@ -5125,11 +5125,11 @@
         
         LDX.b #$0E
         
-        LDA $30 : CMP,.b #$68 : BCS BRANCH_LAMBDA
+        LDA $30 : CMP,.b #$68 : BCS .BRANCH_LAMBDA
         
         SEC : SBC.b #$68 : ASL A : AND.b #$0E : TAX
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         REP #$20
         
@@ -5153,7 +5153,7 @@
         
         JSR Attract_DrawSpriteSet
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDA $50 : LSR #4 : AND.b #$0E : TAX
         
@@ -5179,11 +5179,11 @@
 
     ; *$6757B-$67581 LOCAL
     {
-        LDA $61 : BEQ BRANCH_ALPHA
+        LDA $61 : BEQ .BRANCH_ALPHA
         
         INC $60
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -5212,36 +5212,36 @@
         
         JSR Attract_DrawSpriteSet
         
-        LDA $51 : BNE BRANCH_ALPHA
+        LDA $51 : BNE .BRANCH_ALPHA
         
-        LDY $63 : CPY.b #$70 : BNE BRANCH_ALPHA
+        LDY $63 : CPY.b #$70 : BNE .BRANCH_ALPHA
         
         LDX.b #$27 : STX $012F
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.b #$0F : BEQ BRANCH_BETA
-        CMP.b #$06 : BNE BRANCH_GAMMA
+        CMP.b #$0F : BEQ .BRANCH_BETA
+        CMP.b #$06 : BNE .BRANCH_GAMMA
         
         LDX.b #$90 : STX $0FF9
         LDX.b #$2B : STX $012F
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $63 : BEQ BRANCH_DELTA
+        LDA $63 : BEQ .BRANCH_DELTA
         
         DEC $63
         
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         INC $51
         
         RTS
     
     ; *$675F8 ALTERNATE ENTRY POINT
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         INC $60
         
@@ -5280,40 +5280,40 @@
         
         PLB
         
-        LDA $51 : BNE BRANCH_ALPHA
+        LDA $51 : BNE .BRANCH_ALPHA
         
-        DEC $62 : BEQ BRANCH_$675F8
+        DEC $62 : BEQ .BRANCH_$675F8
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         DEC $51
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
 
     ; *$67689-$676E1 LOCAL
     {
-        LDA $51 : CMP.b #$06 : BNE BRANCH_ALPHA
+        LDA $51 : CMP.b #$06 : BNE .BRANCH_ALPHA
         
         INC $52
         
         LDA.b #$33 : STA $012E
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.b #$40 : BNE BRANCH_BETA
+        CMP.b #$40 : BNE .BRANCH_BETA
         
         LDA.b #$E0 : STA $51
         
         INC $60
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CMP.b #$0F : BCS BRANCH_GAMMA
+        CMP.b #$0F : BCS .BRANCH_GAMMA
         
         LSR #2 : AND.b #$02 : TAX
         
@@ -5338,7 +5338,7 @@
         
         JSR Attract_DrawSpriteSet
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         INC $51
         
@@ -5351,21 +5351,21 @@
         
         REP #$20
         
-        LDA $64 : SEP #$20 : BNE BRANCH_ALPHA
+        LDA $64 : SEP #$20 : BNE .BRANCH_ALPHA
         
-        LDA $51 : CMP.b #$1F : BCS BRANCH_BETA
+        LDA $51 : CMP.b #$1F : BCS .BRANCH_BETA
         
-        AND.b #$01 : BNE BRANCH_BETA
+        AND.b #$01 : BNE .BRANCH_BETA
         
         DEC $13
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        DEC $51 : BNE BRANCH_ALPHA
+        DEC $51 : BNE .BRANCH_ALPHA
         
         INC $5D
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -5541,11 +5541,11 @@
         
         LDA.w #$F7BE : STA $30
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         TXA : AND.w #$0007 : TAY
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA ($30), Y : STA $1006, X
         
@@ -5553,13 +5553,13 @@
         
         INX #2
         
-        TYA : AND.w #$0007 : BNE BRANCH_ALPHA
+        TYA : AND.w #$0007 : BNE .BRANCH_ALPHA
         
-        TXA : AND.w #$003F : BNE BRANCH_BETA
+        TXA : AND.w #$003F : BNE .BRANCH_BETA
         
         LDA $30 : CLC : ADC.w #$0008 : STA $30
         
-        CPX.w #$0100 : BNE BRANCH_BETA
+        CPX.w #$0100 : BNE .BRANCH_BETA
         
         LDA.w #$1000 : STA $30
         
@@ -5571,11 +5571,11 @@
         
         LDA.w #$F7DE : STA $30
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         TXA : AND.w #$0003 : TAY
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA ($30), Y : STA $1006, X
         
@@ -5583,13 +5583,13 @@
         
         INX #2
         
-        TYA : AND.w #$0003 : BNE BRANCH_GAMMA
+        TYA : AND.w #$0003 : BNE .BRANCH_GAMMA
         
-        TXA : AND.w #$003F : BNE BRANCH_DELTA
+        TXA : AND.w #$003F : BNE .BRANCH_DELTA
         
         TXA : AND.w #$0040 : LSR #4 : CLC : ADC.w #$F7DE : STA $30
         
-        CPX.w #$0100 : BNE BRANCH_DELTA
+        CPX.w #$0100 : BNE .BRANCH_DELTA
         
         LDA.w #$0000 : STA $30
         
@@ -5742,11 +5742,11 @@
         
         LDA.b #$02
         
-        LDY $40 : BEQ BRANCH_ALPHA
+        LDY $40 : BEQ .BRANCH_ALPHA
         
         ORA.b #$01
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0A60, X : STA $0A61, X
         
@@ -5923,35 +5923,35 @@
         
         PHB : PHK : PLB
         
-        LDA $CA : BEQ BRANCH_1
+        LDA $CA : BEQ .BRANCH_1
         
         DEC $CA
     
-    BRANCH_1:
+    .BRANCH_1
     
         JSL Palette_BgAndFixedColor_justFixedColor
         
-        LDA $0FF9 : BEQ BRANCH_4
+        LDA $0FF9 : BEQ .BRANCH_4
         
-        AND.b #$03 : BEQ BRANCH_3
+        AND.b #$03 : BEQ .BRANCH_3
         
         LDX $D0
         
         LDA $1F : ORA $9C, X : STA $9C, X
         
-        DEX : CPX.b #$03 : BNE BRANCH_2
+        DEX : CPX.b #$03 : BNE .BRANCH_2
         
         LDX.b #$00
     
-    BRANCH_2:
+    .BRANCH_2
     
         STX $D0
     
-    BRANCH_3:
+    .BRANCH_3
     
         DEC $0FF9
     
-    BRANCH_4:
+    .BRANCH_4
     
         LDY.b #$09 : TYA : ASL #2 : TAX
         
@@ -5969,25 +5969,25 @@
         
         SEP #$20
         
-        XBA : BEQ BRANCH_5
+        XBA : BEQ .BRANCH_5
         
         LDA.b #$F8 : XBA
     
-    BRANCH_5:
+    .BRANCH_5
     
         XBA : SEC : SBC.b #$08 : STA $0949, X
         
-        PHY : DEY : BPL BRANCH_4
+        PHY : DEY : BPL .BRANCH_4
         
         REP #$20
         
-        LDA $C8 : CMP $001E : BEQ BRANCH_8
+        LDA $C8 : CMP $001E : BEQ .BRANCH_8
         
         LDY.b #$01
         
-        CMP $FFBE : BEQ BRANCH_6
+        CMP $FFBE : BEQ .BRANCH_6
         
-        CMP $000E : BNE BRANCH_7
+        CMP $000E : BNE .BRANCH_7
         
         STZ $D0
         
@@ -5995,15 +5995,15 @@
         
         LDY.b #$2C
     
-    BRANCH_6:
+    .BRANCH_6
     
         STY $012E
     
-    BRANCH_7:
+    .BRANCH_7
     
         CLC : ADC.w #$0010 : STA $C8
     
-    BRANCH_8:
+    .BRANCH_8
     
         SEP #$20
         
@@ -6027,15 +6027,15 @@
 
     ; *$67EEF-$67F04 JUMP LOCATION
     {
-        LDA $0FF9 : BNE BRANCH_1
+        LDA $0FF9 : BNE .BRANCH_1
         
         REP #$20
         
-        LDA $C8 : CMP $001E : SEP #$20 : BNE BRANCH_1
+        LDA $C8 : CMP $001E : SEP #$20 : BNE .BRANCH_1
         
         INC $CC : INC $CC
     
-    BRANCH_1:
+    .BRANCH_1
     
         PLB ; RESTORES THE OLD DATA BANK
         
@@ -6057,9 +6057,9 @@
     {
         LDX $CB
         
-        LDA $CA : BNE BRANCH_2
+        LDA $CA : BNE .BRANCH_2
         
-        DEX : STX $CB : BPL BRANCH_1
+        DEX : STX $CB : BPL .BRANCH_1
         
         STZ $CB
         
@@ -6067,14 +6067,14 @@
         
         INC $CC : INC $CC
         
-        BRA BRANCH_3
+        BRA .BRANCH_3
     
-    BRANCH_1:
+    .BRANCH_1
     
         ; $67F05. SEE DATA TABLE ABOVE.
         LDA $FF05, X : STA $CA
     
-    BRANCH_2:
+    .BRANCH_2
     
         STZ $0A70
         
@@ -6085,7 +6085,7 @@
         
         LDA $FF0C, X : STA $0942
     
-    BRANCH_3:
+    .BRANCH_3
     
         PLB ; RESTORES THE OLD DATA BANK
         
@@ -6104,18 +6104,18 @@
 
     ; *$67F51-$67FB0 JUMP LOCATION
     {
-        LDX $CB : CPX.b #$07 : BCS BRANCH_3
+        LDX $CB : CPX.b #$07 : BCS .BRANCH_3
         
         STZ $0A70
         STZ $0A71
         
         LDA.b #$42 : STA $0940 : STA $0944
         
-        LDA $CD : CMP.b #$50 : BCC BRANCH_1
+        LDA $CD : CMP.b #$50 : BCC .BRANCH_1
         
         LDA.b #$4F
     
-    BRANCH_1:
+    .BRANCH_1
     
         CLC : ADC.b #$C8 : CLC : ADC.b #$31 : STA $0941
         
@@ -6126,20 +6126,20 @@
         LDA $FF49, X : STA $0942
         LDA $FF4A, X : STA $0946
         
-        LDA $CA : BNE BRANCH_3
+        LDA $CA : BNE .BRANCH_3
         
         LDA $CD : CLC : ADC.b #$04 : STA $CD
         
-        CMP.b #$04 : BEQ BRANCH_2
-        CMP.b #$48 : BEQ BRANCH_2
-        CMP.b #$4C : BEQ BRANCH_2
-        CMP.b #$58 : BNE BRANCH_3
+        CMP.b #$04 : BEQ .BRANCH_2
+        CMP.b #$48 : BEQ .BRANCH_2
+        CMP.b #$4C : BEQ .BRANCH_2
+        CMP.b #$58 : BNE .BRANCH_3
     
-    BRANCH_2:
+    .BRANCH_2
     
         INC $CB : INC $CB
     
-    BRANCH_3:
+    .BRANCH_3
     
         PLB
         

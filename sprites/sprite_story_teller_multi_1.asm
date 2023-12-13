@@ -41,11 +41,11 @@
         LDA.b #$FE
         LDY.b #$00
         
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC BRANCH_ALPHA
+        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -62,10 +62,10 @@
 
     ; *$32DBF-$32DE0 JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         ; $32EAB IN ROM
-        JSR $AEAB : BCC BRANCH_ALPHA
+        JSR $AEAB : BCC .BRANCH_ALPHA
         
         LDA.b #$FF
         LDY.b #$00
@@ -78,7 +78,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$00
         LDY.b #$01
@@ -103,17 +103,17 @@
 
     ; *$32DEE-$32E09 JUMP TABLE
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         ; $32EAB IN ROM
-        JSR $AEAB : BCC BRANCH_ALPHA
+        JSR $AEAB : BCC .BRANCH_ALPHA
         
         LDA.b #$01
         LDY.b #$01
         
-        BRA BRANCH_$32DCD
+        BRA .BRANCH_$32DCD
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$00
         LDY.b #$01
@@ -138,17 +138,17 @@
 
     ; *$32E17-$32E33 JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         ; $32EAB IN ROM
-        JSR $AEAB : BCC BRANCH_ALPHA
+        JSR $AEAB : BCC .BRANCH_ALPHA
         
         LDA.b #$02
         LDY.b #$01
         
         JMP $ADCD ; $32DCD IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$00
         LDY.b #$01
@@ -162,19 +162,19 @@
 
     ; *$32E34-$32E5A JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
-        LDA $1A : AND.b #$3F : BNE BRANCH_BETA
+        LDA $1A : AND.b #$3F : BNE .BRANCH_BETA
         
         LDA $0F50, X : EOR.b #$40 : STA $0F50, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        JSL GetRandomInt : BNE BRANCH_ALPHA
+        JSL GetRandomInt : BNE .BRANCH_ALPHA
         
         LDA.b #$20 : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$49
         LDY.b #$01
@@ -190,11 +190,11 @@
         
         JSR Sprite_MoveAltitude
         
-        LDA $0F70, X : BPL BRANCH_ALPHA
+        LDA $0F70, X : BPL .BRANCH_ALPHA
         
         STZ $0F70, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $0F70, X : CMP.b #$04 : ROL A : AND.b #$01 : TAY
         
@@ -211,17 +211,17 @@
 
     ; *$32E8E-$32EAA JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         ; $32EAB IN ROM
-        JSR $AEAB : BCC BRANCH_ALPHA
+        JSR $AEAB : BCC .BRANCH_ALPHA
         
         LDA.b #$03
         LDY.b #$01
         
         JMP $ADCD   ; $32DCD IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$00
         LDY.b #$01

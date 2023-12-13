@@ -25,7 +25,7 @@
     {
         ; Movable Statue
         
-        LDA $0DE0, X : BEQ BRANCH_ALPHA
+        LDA $0DE0, X : BEQ .BRANCH_ALPHA
         
         STZ $0DE0, X
         
@@ -33,9 +33,9 @@
         
         STZ $48
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0DF0, X : BEQ BRANCH_BETA
+        LDA $0DF0, X : BEQ .BRANCH_BETA
         
         LDA.b #$01 : STA $0DE0, X
         
@@ -43,7 +43,7 @@
         
         LDA.b #$08 : STA $5E
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR MovableStatue_Draw
         JSR Sprite_CheckIfActive
@@ -51,24 +51,24 @@
         
         STZ $0642
         
-        JSR MovableStatue_CheckFullSwitchCovering : BCC BRANCH_GAMMA
+        JSR MovableStatue_CheckFullSwitchCovering : BCC .BRANCH_GAMMA
         
         LDA.b #$01 : STA $0642
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR Sprite_Move
         JSR Sprite_Get_16_bit_Coords
         JSR Sprite_CheckTileCollision
         JSR Sprite_Zero_XY_Velocity
         
-        JSR Sprite_CheckDamageToPlayer_same_layer : BCC BRANCH_DELTA
+        JSR Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_DELTA
         
         LDA.b #$07 : STA $0DF0, X
         
         JSL Sprite_RepelDashAttackLong
         
-        LDA $0E00, X : BNE BRANCH_EPSILON
+        LDA $0E00, X : BNE .BRANCH_EPSILON
         
         JSR Sprite_DirectionToFacePlayer
         
@@ -78,61 +78,61 @@
     
     ; *$3414A ALTERNATE ENTRY POINT
     
-        LDA $0376 : AND.b #$02 : BNE BRANCH_ZETA
+        LDA $0376 : AND.b #$02 : BNE .BRANCH_ZETA
         
         JSL Sprite_NullifyHookshotDrag
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $0E70, X : AND.b #$0F : BNE BRANCH_THETA
+        LDA $0E70, X : AND.b #$0F : BNE .BRANCH_THETA
         
-        LDA $0F10, X : BNE BRANCH_THETA
+        LDA $0F10, X : BNE .BRANCH_THETA
         
         LDA.b #$22 : JSL Sound_SetSfx2PanLong
         
         LDA.b #$08 : STA $0F10, X
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         RTS
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JSL Sprite_NullifyHookshotDrag
         
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        LDA $0DF0, X : BNE BRANCH_IOTA
+        LDA $0DF0, X : BNE .BRANCH_IOTA
         
         LDA.b #$0D : STA $0E00, X
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         REP #$20
         
-        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS BRANCH_KAPPA
-        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_KAPPA
+        LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS .BRANCH_KAPPA
+        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_KAPPA
         
         SEP #$30
         
         JSR Sprite_DirectionToFacePlayer
         
-        LDA $2F : CMP .directions, Y : BNE BRANCH_KAPPA
+        LDA $2F : CMP .directions, Y : BNE .BRANCH_KAPPA
         
-        LDA $0372 : BNE BRANCH_KAPPA
+        LDA $0372 : BNE .BRANCH_KAPPA
         
         ; Seems to be the key to action 6...
         LDA.b #$01 : STA $02FA
         
         LDA.b #$01 : STA $0D90, X
         
-        LDA $0376 : AND.b #$02 : BEQ BRANCH_LAMBDA
+        LDA $0376 : AND.b #$02 : BEQ .BRANCH_LAMBDA
         
-        LDA $F0 : AND .button_masks, Y : BEQ BRANCH_LAMBDA
+        LDA $F0 : AND .button_masks, Y : BEQ .BRANCH_LAMBDA
         
-        LDA $30 : ORA $31 : BEQ BRANCH_LAMBDA
+        LDA $30 : ORA $31 : BEQ .BRANCH_LAMBDA
         
         TYA : EOR.b #$01 : TAY
         
@@ -142,11 +142,11 @@
         
         JMP $C14A ; $3414A IN ROM
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         SEP #$30
         
-        LDA $0D90, X : BEQ BRANCH_LAMBDA
+        LDA $0D90, X : BEQ .BRANCH_LAMBDA
         
         STZ $0D90, X
         STZ $5E
@@ -155,7 +155,7 @@
         
         LDA $50 : AND.b #$FE : STA $50
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         RTS
     }
@@ -258,15 +258,15 @@
     {
         LDY.b #$0F
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $0E20, Y : CMP.b #$1C : BEQ BRANCH_ALPHA
+        LDA $0E20, Y : CMP.b #$1C : BEQ .BRANCH_ALPHA
           
-        CPY $0FA0 : BEQ BRANCH_ALPHA
+        CPY $0FA0 : BEQ .BRANCH_ALPHA
         
-        TYA : EOR $1A : AND.b #$01 : BNE BRANCH_ALPHA
+        TYA : EOR $1A : AND.b #$01 : BNE .BRANCH_ALPHA
         
-        LDA $0DD0, Y : CMP.b #$09 : BCC BRANCH_ALPHA
+        LDA $0DD0, Y : CMP.b #$09 : BCC .BRANCH_ALPHA
         
         LDA $0D10, Y : STA $04
         LDA $0D30, Y : STA $05
@@ -276,9 +276,9 @@
         
         REP #$20
         
-        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS BRANCH_ALPHA
+        LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .BRANCH_ALPHA
         
-        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS BRANCH_ALPHA
+        LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_ALPHA
         
         SEP #$20
         
@@ -295,11 +295,11 @@
         LDA $00 : STA $0F30, Y
         LDA $01 : STA $0F40, Y
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         SEP #$20
         
-        DEY : BPL BRANCH_BETA
+        DEY : BPL .BRANCH_BETA
         
         RTS
     }

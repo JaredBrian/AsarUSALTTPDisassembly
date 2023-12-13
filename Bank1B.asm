@@ -142,21 +142,21 @@
         ; If player is facing a different direction than up, branch
         LDA $2F : AND.w #$00FF : BNE .notFacingUp
         
-        LDA $0F8002, X : AND.w #$41FF : CMP.w #$00E9 : BEQ BRANCH_BETA
-                                        CMP.w #$0149 : BEQ BRANCH_GAMMA
-                                        CMP.w #$0169 : BEQ BRANCH_GAMMA
+        LDA $0F8002, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
+                                        CMP.w #$0149 : BEQ .BRANCH_GAMMA
+                                        CMP.w #$0169 : BEQ .BRANCH_GAMMA
         
         TYX
         
         LDA $7E2002, X : ASL #3 : TAX
         
-        LDA $0F8000, X : AND.w #$41FF : CMP.w #$4149 : BEQ BRANCH_DELTA
-                                        CMP.w #$4169 : BEQ BRANCH_DELTA
-                                        CMP.w #$40E9 : BNE BRANCH_EPSILON
+        LDA $0F8000, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
+                                        CMP.w #$4169 : BEQ .BRANCH_DELTA
+                                        CMP.w #$40E9 : BNE .BRANCH_EPSILON
         
         DEY #2
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ; This section opens a normal door on the overworld
         ; It replaces the existing tiles with an open door set of tiles
@@ -185,24 +185,24 @@
     
     .notFacingUp
     
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         DEY #2
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STZ $0692
         
-        AND.w #$03FF : CMP.w #$0169 : BNE BRANCH_IOTA
+        AND.w #$03FF : CMP.w #$0169 : BNE .BRANCH_IOTA
         
         ; Check if we've beaten agahnim, and if so, don't open the door.
-        LDA $7EF3C5 : AND.w #$000F : CMP.w #$0003 : BCS BRANCH_EPSILON
+        LDA $7EF3C5 : AND.w #$000F : CMP.w #$0003 : BCS .BRANCH_EPSILON
         
         LDA.w #$0018 : STA $0692
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         TYA : SEC : SBC.w #$0080 : STA $0698
         
@@ -218,34 +218,34 @@
         
         RTL
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA $0F8004, X : AND.w #$01FF : STA $00
         LDA $0F8006, X : AND.w #$01FF : STA $02
         
         LDX.w #$0056
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        LDA $00 : CMP $1BB8BF, X : BNE BRANCH_ZETA
+        LDA $00 : CMP $1BB8BF, X : BNE .BRANCH_ZETA
         
-        LDA $02 : CMP $1BB917, X : BEQ BRANCH_KAPPA
+        LDA $02 : CMP $1BB917, X : BEQ .BRANCH_KAPPA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        DEX #2 : BPL BRANCH_THETA
+        DEX #2 : BPL .BRANCH_THETA
         
         STZ $04B8
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         SEP #$30
         
         RTL
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
-        LDA $04B8 : BNE BRANCH_MU
+        LDA $04B8 : BNE .BRANCH_MU
         
         INC $04B8
         
@@ -256,40 +256,40 @@
         
         JML Main_ShowTextMessage
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         TYA : STA $00
         
         ; Number of entrance entries * 2
         LDX.w #$0102
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         LDA $00
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
-        DEX #2 : BMI BRANCH_XI
+        DEX #2 : BMI .BRANCH_XI
         
-        CMP $1BBA71, X : BNE BRANCH_OMICRON
+        CMP $1BBA71, X : BNE .BRANCH_OMICRON
         
-        LDA $040A : CMP $1BB96F, X : BNE BRANCH_PI
+        LDA $040A : CMP $1BB96F, X : BNE .BRANCH_PI
         
-        LDA $7EF3D3 : AND.w #$00FF : BNE BRANCH_RHO
+        LDA $7EF3D3 : AND.w #$00FF : BNE .BRANCH_RHO
         
-        LDA $02DA : AND.w #$00FF : CMP.w #$0001 : BEQ BRANCH_LAMBDA
+        LDA $02DA : AND.w #$00FF : CMP.w #$0001 : BEQ .BRANCH_LAMBDA
         
-        LDA $7EF3CC : AND.w #$00FF : BEQ BRANCH_RHO
+        LDA $7EF3CC : AND.w #$00FF : BEQ .BRANCH_RHO
         
-        CMP.w #$0005 : BEQ BRANCH_RHO
-        CMP.w #$000E : BEQ BRANCH_RHO
-        CMP.w #$0001 : BEQ BRANCH_RHO
-        CMP.w #$0007 : BEQ BRANCH_SIGMA
-        CMP.w #$0008 : BNE BRANCH_LAMBDA
+        CMP.w #$0005 : BEQ .BRANCH_RHO
+        CMP.w #$000E : BEQ .BRANCH_RHO
+        CMP.w #$0001 : BEQ .BRANCH_RHO
+        CMP.w #$0007 : BEQ .BRANCH_SIGMA
+        CMP.w #$0008 : BNE .BRANCH_LAMBDA
         
-        CPX.w #$0076 : BCC BRANCH_LAMBDA
+        CPX.w #$0076 : BCC .BRANCH_LAMBDA
         
-    BRANCH_RHO:
+    .BRANCH_RHO
 
         TXA : LSR A : TAX
         
@@ -307,7 +307,7 @@
         STZ $11
         STZ $B0
         
-    BRANCH_XI:   
+    .BRANCH_XI   
 
         SEP #$30
         
@@ -1420,19 +1420,19 @@
         
         AND.w #$003F : CMP.w #$0020
         
-        BCC BRANCH_ALPHA    ; $If A < #$20, then...
+        BCC .BRANCH_ALPHA    ; $If A < #$20, then...
         
         LDA.w #$0400 : STA $02
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $00 : AND.w #$0FFF : CMP.w #$0800
         
-        BCC BRANCH_BETA     ; If A < #$800 then...
+        BCC .BRANCH_BETA     ; If A < #$800 then...
         
         LDA $02 : ADC.w #$07FF : STA $02
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $00 : AND.w #$001F : ADC $02 : STA $02
         
@@ -1476,17 +1476,17 @@
         
         STZ $02
         
-        LDA $00 : AND.w #$003F : CMP.w #$0020 : BCC BRANCH_ALPHA
+        LDA $00 : AND.w #$003F : CMP.w #$0020 : BCC .BRANCH_ALPHA
         
         LDA.w #$0400 : STA $02
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $00 : AND.w #$0FFF : CMP.w #$0800 : BCC BRANCH_BETA
+        LDA $00 : AND.w #$0FFF : CMP.w #$0800 : BCC .BRANCH_BETA
         
         LDA $02 : ADC.w #$07FF : STA $02
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $00 : AND.w #$001F : ADC $02 : STA $02
         
@@ -1628,7 +1628,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$20 : BNE BRANCH_DCB2A
+        LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
         
         JSR $D00E ; $DD00E IN ROM
         
@@ -1641,7 +1641,7 @@
         
         LDA.w #$0E29
         
-        BRA BRANCH_DCB18
+        BRA .BRANCH_DCB18
     }
 
 ; ==============================================================================
@@ -1650,7 +1650,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$20 : BNE BRANCH_DCB2A
+        LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
         
         JSR $D00E ; $DD00E IN ROM
         
@@ -1668,7 +1668,7 @@
         
         LDX.w #$036A
         
-        BRA BRANCH_DCB1B
+        BRA .BRANCH_DCB1B
     }
 
 ; ==============================================================================
@@ -1677,7 +1677,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$20 : BNE BRANCH_DCB2B
+        LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2B
         
         JSR $D00E ; $DD00E IN ROM
         
@@ -1695,7 +1695,7 @@
         
         LDX.w #$036A
         
-        BRA BRANCH_DCB1B
+        BRA .BRANCH_DCB1B
     }
 
 ; ==============================================================================
@@ -1704,7 +1704,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$20 : BNE BRANCH_DCB2A
+        LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
         
         JMP $CF40 ; $DCF40 IN ROM
     }
@@ -1779,7 +1779,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$0C : BNE BRANCH_DCBED
+        LDA $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
         
         INC $B0
         
@@ -1819,7 +1819,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$0C : BNE BRANCH_DCBED
+        LDA $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
         
         INC $B0
         
@@ -1838,7 +1838,7 @@
         JSR $C9DE ; $DC9DE IN ROM
         JSR $C9DE ; $DC9DE IN ROM
         
-        BRA BRANCH_DCC12
+        BRA .BRANCH_DCC12
     }
 
 ; ==============================================================================
@@ -1847,7 +1847,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$0C : BNE BRANCH_DCBED
+        LDA $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
         
         INC $B0
         
@@ -1887,7 +1887,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$0C : BNE BRANCH_DCBED
+        LDA $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
         
         INC $B0
         
@@ -2093,7 +2093,7 @@
         
         LDA $C8 : CMP.b #$48
         
-        BNE BRANCH_$DCDA8
+        BNE .BRANCH_$DCDA8
         
         JSR $D00E   ; $DD00E IN ROM
         
@@ -2117,12 +2117,12 @@
         
         JSR $C9DE   ; $DC9DE IN ROM
         
-        BRA BRANCH_$DCD75
+        BRA .BRANCH_$DCD75
     }
 
     ; *$DCDD7-$DCE04 JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$50 : BNE BRANCH_$DCDA8
+        INC $C8 : LDA $C8 : CMP.b #$50 : BNE .BRANCH_$DCDA8
         
         JSR $D00E   ; $DD00E IN ROM
         
@@ -2144,18 +2144,18 @@
         
         JSR $C9DE   ; $DC9DE IN ROM
         
-        BRA BRANCH_$DCDC6
+        BRA .BRANCH_$DCDC6
     }
 
     ; *$DCE05-$DCE15 JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$80 : BNE BRANCH_ALPHA
+        INC $C8 : LDA $C8 : CMP.b #$80 : BNE .BRANCH_ALPHA
         
         JSR $CF40 ; $DCF40 IN ROM; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY
         
         LDA.b #$05 : STA $012D
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -2212,19 +2212,19 @@
         
         LDA.b #$10
         
-        BRA BRANCH_DCE68
+        BRA .BRANCH_DCE68
     
     ; $DCE5E ALTERNATE ENTRY POINT
     
         LDA.b #$14
         
-        BRA BRANCH_DCE68
+        BRA .BRANCH_DCE68
     
     ; $DCE62 ALTERNATE ENTRY POINT
     
         LDA.b #$18
         
-        BRA BRANCH_DCE68
+        BRA .BRANCH_DCE68
     
     ; $DCE66 ALTERNATE ENTRY POINT
     
@@ -2364,7 +2364,7 @@
         
     .alpha
     
-        DEC $C8 : BNE BRANCH_DCF16
+        DEC $C8 : BNE .BRANCH_DCF16
         
         JSR $CF60 ; $DCF60 IN ROM
         
@@ -2498,11 +2498,11 @@
     {
         JSL $0EDDFC ; $75DFC IN ROM
         
-        LDA $1D : BNE BRANCH_BETA
+        LDA $1D : BNE .BRANCH_BETA
         
         INC $1D
         
-        INC $C8 : LDA $C8 : CMP.b #$03 : BNE BRANCH_ALPHA
+        INC $C8 : LDA $C8 : CMP.b #$03 : BNE .BRANCH_ALPHA
         
         STZ $C8
         
@@ -2510,11 +2510,11 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STZ $B0
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
@@ -2537,7 +2537,7 @@
         
         LDA $C8 : CMP.b #$30
         
-        BNE BRANCH_ALPHA
+        BNE .BRANCH_ALPHA
         
         JSR $D00E ; $DD00E IN ROM
         
@@ -2580,7 +2580,7 @@
         LDA.b #$01 : STA $14
     
     ; *$DD061 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -2589,7 +2589,7 @@
     {
         INC $C8
         
-        LDA $C8 : CMP.b #$30 : BNE BRANCH_$DD061; (RTS)
+        LDA $C8 : CMP.b #$30 : BNE .BRANCH_$DD061; (RTS)
         
         JSR $D00E ; $DD00E in Rom.
         
@@ -2613,7 +2613,7 @@
         
         LDA.w #$0E90
         
-        BRA BRANCH_$DD04C
+        BRA .BRANCH_$DD04C
     }
 
     ; *$DD093-$DD0DD JUMP LOCATION
@@ -2622,7 +2622,7 @@
     	
     	LDA $C8 : CMP.b #$34
     	
-    	BNE BRANCH_$DD0DD; (RTS)
+    	BNE .BRANCH_$DD0DD; (RTS)
         
     	JSR $D00E ; $DD00E IN ROM
         
@@ -2669,7 +2669,7 @@
 
     ; *$DD0DE-$DD106 JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$20 : BNE BRANCH_$DD0DD ; (RTS)
+        INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD ; (RTS)
         
         JSR $D00E ; $DD00E
         
@@ -2693,7 +2693,7 @@
 
     ; *$DD107-$DD126 JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$20 : BNE BRANCH_$DD0DD; (RTS)
+        INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD; (RTS)
         
         JSR $D00E   ; $DD00E IN ROM
         
@@ -2712,7 +2712,7 @@
 
     ; *$DD127-$DD14C JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$20 : BNE BRANCH_$DD0DD
+        INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD
         
         JSR $D00E   ; $DD00E IN ROM
         
@@ -2735,7 +2735,7 @@
 
     ; *$DD14D-$DD16C JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$20 : BNE BRANCH_DD0DD ; (RTS)
+        INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_DD0DD ; (RTS)
         
         JSR $D00E ; $DD00E IN ROM
         
@@ -2754,7 +2754,7 @@
 
     ; *$DD16D-$DD19E JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$20  BNE BRANCH_DD1D7; (RTS)
+        INC $C8 : LDA $C8 : CMP.b #$20  BNE .BRANCH_DD1D7; (RTS)
         
         JSR $D00E ; $DD00E in Rom.
         
@@ -2783,7 +2783,7 @@
 
     ; $DD19F-$DD1BF JUMP LOCATION
     {
-        INC $C8 : LDA $C8 : CMP.b #$20 : BNE BRANCH_DD1D7 ; (RTS)
+        INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_DD1D7 ; (RTS)
         
         LDA.b #$05 : STA $012D 
         
@@ -2798,7 +2798,7 @@
         
         LDA.w #$0E9B
         
-        BRA BRANCH_$DD199
+        BRA .BRANCH_$DD199
     }
 
     ; *$DD1C0-$DD1D7 JUMP LOCATION

@@ -15,7 +15,7 @@
         LDA $92F7, Y : STA $0ED0, X
         
         LDA $0DF0, X : BEQ Trident_AimForParentPosition
-        LSR A        : BCS BRANCH_ALPHA
+        LSR A        : BCS .BRANCH_ALPHA
         
         LDA.b #$20
         
@@ -23,29 +23,29 @@
     
     ; *$E8AE4 ALTERNATE ENTRY POINT
     
-        LDA $00 : CMP $0D40, X : BEQ BRANCH_BETA : BPL BRANCH_GAMMA
+        LDA $00 : CMP $0D40, X : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
         
         DEC $0D40, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         INC $0D40, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $01 : CMP $0D50, X : BEQ BRANCH_ALPHA : BPL BRANCH_DELTA
+        LDA $01 : CMP $0D50, X : BEQ .BRANCH_ALPHA  BPL .BRANCH_DELTA
         
         DEC $0D50, X
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         INC $0D50, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -72,7 +72,7 @@
         LDA $0D00 : CLC : ADC.b #$F0 : STA $06
         LDA $0D20 : ADC.b #$FF : STA $07
         
-        JSR Ganon_CheckEntityProximity : BCS BRANCH_ALPHA
+        JSR Ganon_CheckEntityProximity : BCS .BRANCH_ALPHA
         
         STZ $0DD0, X
         
@@ -80,7 +80,7 @@
         
         LDA.b #$10 : STA $0DF0
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$20
         

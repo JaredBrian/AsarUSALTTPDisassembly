@@ -36,7 +36,7 @@
         
         LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA $0F50, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSL Sprite_PlayerCantPassThrough
         
@@ -47,9 +47,9 @@
         
         JSL Sprite_ShowSolicitedMessageIfPlayerFacing
         
-        LDA $0D80, X : BEQ BRANCH_F6F6D
+        LDA $0D80, X : BEQ .BRANCH_F6F6D
         
-        BRA BRANCH_F6F8F ; (RTS)
+        BRA .BRANCH_F6F8F ; (RTS)
     
     .in_light_world
     
@@ -60,7 +60,7 @@
         
         LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
     .messages_low
         ; "May I help you? Select the thing you like (...). Prices as marked!"
@@ -75,7 +75,7 @@
     {
         REP #$20
         
-        LDA $0FDA : CLC : ADC.w #$0060 : CMP $20 : SEP #$30 : BCC BRANCH_ALPHA
+        LDA $0FDA : CLC : ADC.w #$0060 : CMP $20 : SEP #$30 : BCC .BRANCH_ALPHA
         
         LDY $0FFF
         
@@ -86,7 +86,7 @@
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -113,28 +113,28 @@
 
     ; $F6FBF-$F6FD4 JUMP LOCATION
     {
-        LDA $04C4 : DEC A : CMP.b #$02 : BCC BRANCH_ALPHA
+        LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
         
         LDA.b #$60
         LDY.b #$01
         
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC BRANCH_ALPHA
+        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$F6FD5-$F6FFF JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         LDA.b #$1E
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_ALPHA
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_ALPHA
         
         LDA.b #$02 : STA $04C4
         
@@ -147,7 +147,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$61
         LDY.b #$01
@@ -161,7 +161,7 @@
 
     ; *$F7000-$F7016 JUMP LOCATION
     {
-        LDA $04C4 : BNE BRANCH_ALPHA
+        LDA $04C4 : BNE .BRANCH_ALPHA
         
         LDA.b #$63
         LDY.b #$01
@@ -170,7 +170,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$7F
         LDY.b #$01
@@ -182,21 +182,21 @@
 
     ; *$F7017-$F7037 LOCAL
     {
-        LDA $1A : AND.b #$03 : BNE BRANCH_ALPHA
+        LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
         
         LDA.b #$02 : STA $0DC0, X
         
         JSR Sprite3_DirectionToFacePlayer
         
-        CPY.b #$03 : BNE BRANCH_BETA
+        CPY.b #$03 : BNE .BRANCH_BETA
         
         LDY.b #$02
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         TYA : STA $0EB0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSL Sprite_OAM_AllocateDeferToPlayerLong
         JSL Thief_Draw
@@ -224,18 +224,18 @@
         LDA.b #$76
         LDY.b #$01
         
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC BRANCH_ALPHA
+        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$F705D-$F7077 JUMP LOCATION
     {
-        LDA $0403 : AND.b #$40 : BNE BRANCH_ALPHA
+        LDA $0403 : AND.b #$40 : BNE .BRANCH_ALPHA
         
         LDA $0403 : ORA.b #$40 : STA $0403
         
@@ -244,7 +244,7 @@
         LDY.b #$46 : JMP $F366 ; $F7366 IN ROM
     
     ; *$F7074 ALTERNATE ENTRY PONT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STZ $0D80, X
         
@@ -274,29 +274,29 @@
 
     ; *$F709C-$F70B1 JUMP LOCATION
     {
-        LDA $04C4 : DEC A : CMP.b #$02 : BCC BRANCH_ALPHA
+        LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
         
         ; "Pay me 20 Rupees and I'll let you open one chest. ...
         LDA.b #$7E
         LDY.b #$01
         
-        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC BRANCH_ALPHA
+        JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$F70B2-$F70DC JUMP LOCATION
     {
-        LDA $1CE8 : BNE BRANCH_ALPHA
+        LDA $1CE8 : BNE .BRANCH_ALPHA
         
         LDA.b #$14
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_ALPHA
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_ALPHA
         
         LDA.b #$01 : STA $04C4
         
@@ -309,7 +309,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$80
         LDY.b #$01
@@ -365,7 +365,7 @@
     ; *$F710A-$F711F JUMP LOCATION
     {
         ; \bug Maybe? More like unnecessary given the structure of the minigame?
-        LDA $04C4 : DEC A : CMP.b #$02 : BCC BRANCH_$F70B1 ; (RTS)
+        LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_$F70B1 ; (RTS)
         
         ; "For 100 Rupees, I'll let you open one chest and keep the treasure..."
         LDA.b #$81
@@ -450,9 +450,9 @@
         JSR Sprite3_CheckIfActive
         JSL Sprite_PlayerCantPassThrough
         
-        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC BRANCH_ALPHA
+        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
         
-        JSL Sprite_GetEmptyBottleIndex : BMI BRANCH_BETA
+        JSL Sprite_GetEmptyBottleIndex : BMI .BRANCH_BETA
         
         LDA.b #$96
         LDY.b #$00
@@ -463,11 +463,11 @@
         
         LDY.b #$2E : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$6D
         LDY.b #$01
@@ -537,26 +537,26 @@
         JSL Sprite_PlayerCantPassThrough
         JSR $F261 ; $F7261 IN ROM
         
-        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC BRANCH_ALPHA
+        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
         
-        LDA $7EF35A : BNE BRANCH_BETA
+        LDA $7EF35A : BNE .BRANCH_BETA
         
         LDA.b #$32
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_GAMMA
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
         
         STZ $0DD0, X
         
         LDY.b #$04 : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$1C : STA $0F60, X
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$66
     
@@ -570,7 +570,7 @@
         RTS
     
     ; *$F722D ALTERNATE ENTRY POINT
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JMP $F1A1 ; $F71A1 IN ROM
     }
@@ -582,20 +582,20 @@
         JSL Sprite_PlayerCantPassThrough
         JSR $F261   ; $F7261 IN ROM
         
-        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC BRANCH_ALPHA
+        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
         
-        LDA $7EF35A : CMP.b #$02 : BCS BRANCH_$F7221
+        LDA $7EF35A : CMP.b #$02 : BCS .BRANCH_$F7221
         
         LDA.b #$F4
         LDY.b #$01
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_$F722D
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_$F722D
         
         STZ $0DD0, X
         
         LDY.b #$05 : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$1C : STA $0F60, X
         
@@ -629,30 +629,30 @@
         JSR Sprite3_CheckIfActive
         JSL Sprite_PlayerCantPassThrough
         
-        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC BRANCH_ALPHA
+        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
         
-        LDA $7EF36C : CMP $7EF36D : BEQ BRANCH_BETA
+        LDA $7EF36C : CMP $7EF36D : BEQ .BRANCH_BETA
         
         LDA.b #$0A
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_GAMMA
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
         
         STZ $0DD0, X
         
         LDY.b #$42 : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR $F38A ; $F738A IN ROM
         
         RTS
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JMP $F1A1 ; $F71A1 IN ROM
     }
@@ -664,7 +664,7 @@
         JSL Sprite_PlayerCantPassThrough
         JSR ShopKeeper_CheckPlayerSolicitedDamage
         
-        BCC BRANCH_ALPHA
+        BCC .BRANCH_ALPHA
         
         LDA $7EF371
         
@@ -672,23 +672,23 @@
         
         TAX
         
-        LDA $0DDB58, X : PLX : CMP $7EF377 : BEQ BRANCH_BETA
+        LDA $0DDB58, X : PLX : CMP $7EF377 : BEQ .BRANCH_BETA
         
         LDA.b #$1E
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_GAMMA
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
         
         STZ $0DD0, X
         
         LDY.b #$44 : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
     ; *$F72E1 ALTERNATE ENTRY POINT
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$6E
         LDY.b #$01
@@ -699,7 +699,7 @@
         RTS
     
     ; *$F72ED ALTERNATE ENTRY POINT
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JMP $F1A1 ; $F71A1 IN ROM
     }
@@ -710,7 +710,7 @@
         JSR Sprite3_CheckIfActive
         JSL Sprite_PlayerCantPassThrough
         
-        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC BRANCH_ALPHA
+        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
         
         LDA $7EF370 : PHX
         
@@ -720,18 +720,18 @@
         
         PLX
         
-        CMP $7EF343 : BEQ BRANCH_F72E1
+        CMP $7EF343 : BEQ .BRANCH_F72E1
         
         LDA.b #$32
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_$F72ED
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_$F72ED
         
         STZ $0DD0, X
         
         LDY.b #$31 : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -742,24 +742,24 @@
         JSR Sprite3_CheckIfActive
         JSL Sprite_PlayerCantPassThrough
         
-        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC BRANCH_ALPHA
+        JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
         
-        JSL Sprite_GetEmptyBottleIndex : BMI BRANCH_BETA
+        JSL Sprite_GetEmptyBottleIndex : BMI .BRANCH_BETA
         
         LDA.b #$0A
         LDY.b #$00
         
-        JSR ShopKeeper_TryToGetPaid : BCC BRANCH_GAMMA
+        JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
         
         STZ $0DD0, X
         
         LDY.b #$0E : JSR $F366 ; $F7366 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$6D
         LDY.b #$01
@@ -769,7 +769,7 @@
         
         RTS
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JMP $F1A1 ; $F71A1 IN ROM
     }
@@ -800,7 +800,7 @@
         
         PLX
         
-        LDA $0E80, X : SEC : SBC.b #$07 : BMI BRANCH_ALPHA
+        LDA $0E80, X : SEC : SBC.b #$07 : BMI .BRANCH_ALPHA
         
         TAY
         
@@ -810,7 +810,7 @@
         JSL Sprite_ShowMessageUnconditional
         JSL ShopKeeper_RapidTerminateReceiveItem
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }

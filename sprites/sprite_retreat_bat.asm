@@ -25,36 +25,36 @@
         STZ $011C
         STZ $011D
         
-        LDA $0EE0, X : BEQ BRANCH_ALPHA 
+        LDA $0EE0, X : BEQ .BRANCH_ALPHA 
         
-        DEC A : BNE BRANCH_BETA
+        DEC A : BNE .BRANCH_BETA
         
         LDY.b #$05 : STY $012D
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         AND.b #$01 : TAY
         
         LDA $F5D5, Y : STA $011C
         LDA $F5D7, Y : STA $011D
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0DF0, X : BNE BRANCH_GAMMA
+        LDA $0DF0, X : BNE .BRANCH_GAMMA
         
-        LDA $0DC0, X : INC A : AND.b #$03 : STA $0DC0, X : BNE BRANCH_DELTA
+        LDA $0DC0, X : INC A : AND.b #$03 : STA $0DC0, X : BNE .BRANCH_DELTA
         
-        LDA $0D80, X : CMP.b #$02 : BCS BRANCH_DELTA
+        LDA $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
         
         LDA.b #$03 : JSL Sound_SetSfx2PanLong
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDY $0DE0, X
         
         LDA $F5A0, Y : STA $0DF0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $0D80, X
         
@@ -74,50 +74,50 @@
         
         LDA $F590, Y : CMP $0FD8
         
-        SEP #$30 : BCS BRANCH_ALPHA
+        SEP #$30 : BCS .BRANCH_ALPHA
         
-        CPY.b #$04 : BCC BRANCH_BETA
+        CPY.b #$04 : BCC .BRANCH_BETA
         
         INC $0D80, X
         
         LDA.b #$D0 : STA $0E00, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         INC $0D90, X
         INC $0DE0, X
     
     ; *$D7660 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $1A : AND.b #$07 : BNE BRANCH_GAMMA
+        LDA $1A : AND.b #$07 : BNE .BRANCH_GAMMA
         
         REP #$20
         
-        LDA $F598, Y : CMP $0FDA : SEP #$30 : BCC BRANCH_DELTA
+        LDA $F598, Y : CMP $0FDA : SEP #$30 : BCC .BRANCH_DELTA
         
         INC $0D40, X
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         DEC $0D40, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $1A : AND.b #$0F : BNE BRANCH_EPSILON
+        LDA $1A : AND.b #$0F : BNE .BRANCH_EPSILON
         
         INC $0D50, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         RTS
     }
 
     ; *$D7684-$D76C7 JUMP LOCATION
     {
-        LDA $0E00, X : BNE BRANCH_ALPHA
+        LDA $0E00, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
@@ -137,13 +137,13 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $1A : AND.b #$03 : BNE BRANCH_BETA
+        LDA $1A : AND.b #$03 : BNE .BRANCH_BETA
         
         DEC $0D50, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $0D90, X : ASL A : TAY
         

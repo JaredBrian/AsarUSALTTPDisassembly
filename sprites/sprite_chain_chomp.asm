@@ -55,15 +55,15 @@
         JSR Sprite4_CheckDamage
         JSR $C0F2 ; $EC0F2 IN ROM
         
-        TXA : EOR $1A : AND.b #$03 : BNE BRANCH_ALPHA
+        TXA : EOR $1A : AND.b #$03 : BNE .BRANCH_ALPHA
         
         LDA $0D50, X : STA $01
         
-        LDA $0D40, X : STA $00 : ORA $01 : BEQ BRANCH_ALPHA
+        LDA $0D40, X : STA $00 : ORA $01 : BEQ .BRANCH_ALPHA
         
         JSL Sprite_ConvertVelocityToAngle : AND.b #$0F : STA $0DE0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Sprite4_MoveXyz
         
@@ -117,9 +117,9 @@
 
     ; *$EBF2C-$EBF94 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
-        INC $0E80, X : LDA $0E80, X : CMP.b #$04 : BNE BRANCH_BETA
+        INC $0E80, X : LDA $0E80, X : CMP.b #$04 : BNE .BRANCH_BETA
         
         STZ $0E80, X
         
@@ -131,7 +131,7 @@
         
         LDA $BF1C, Y : ASL #2 : STA $0D40, X
         
-        JSL GetRandomInt : AND.b #$00 : BNE BRANCH_GAMMA
+        JSL GetRandomInt : AND.b #$00 : BNE .BRANCH_GAMMA
         
         LDA #$40
         
@@ -139,11 +139,11 @@
         
         LDA.b #$04 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA $0DF0, X
         
@@ -157,7 +157,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Sprite4_Zero_XY_Velocity
         
@@ -166,27 +166,27 @@
 
     ; *$EBF95-$EBFE4 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         LDA.b #$20 : STA $0DF0, X
         
         STZ $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        AND.b #$0F : BNE BRANCH_BETA
+        AND.b #$0F : BNE .BRANCH_BETA
         
         JSR $C02A   ; $EC02A IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $0F70, X : BNE BRANCH_GAMMA
+        LDA $0F70, X : BNE .BRANCH_GAMMA
         
         LDA.b #$10 : STA $0F80, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $0EC0, X : BNE BRANCH_DELTA
+        LDA $0EC0, X : BNE .BRANCH_DELTA
         
         LDA $0D90, X : STA $04
         LDA $0DA0, X : STA $05
@@ -205,14 +205,14 @@
         
         LDA.b #$0C : STA $0DF0, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         RTS
     }
 
     ; *$EBFE5-$EC01F JUMP LOCATION
     {
-        LDA $0EC0, X : BNE BRANCH_ALPHA
+        LDA $0EC0, X : BNE .BRANCH_ALPHA
         
         LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
         
@@ -225,19 +225,19 @@
         
         LDA.b #$30 : STA $0E00, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
     ; *$EC00C ALTERNATE ENTRY POINT
     
-        LDA $0E00, X : BNE BRANCH_BETA
+        LDA $0E00, X : BNE .BRANCH_BETA
         
         STZ $0D80, X
         
         LDA.b #$30 : STA $0DF0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR $C02A   ; $EC02A IN ROM
         JSR $C02A   ; $EC02A IN ROM
@@ -282,11 +282,11 @@
         ; .... okay...?
         PHP
         
-        BPL BRANCH_ALPHA
+        BPL .BRANCH_ALPHA
         
         EOR.b #$FF : INC A
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
         STA $4202
         
@@ -302,13 +302,13 @@
         
         LDY.b #$00
         
-        PLP : BPL BRANCH_BETA
+        PLP : BPL .BRANCH_BETA
         
         EOR.b #$FF
         
         DEY
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
               CLC : ADC $00 : STA $08
         TYA : ADC $01 : STA $09
@@ -317,11 +317,11 @@
         
         PHP
         
-        BPL BRANCH_GAMMA
+        BPL .BRANCH_GAMMA
         
         EOR.b #$FF : INC A
 
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
 
         STA $4202
         
@@ -339,48 +339,48 @@
         
         LDY.b #$00
         
-        PLP : BPL BRANCH_DELTA
+        PLP : BPL .BRANCH_DELTA
         
         EOR.b #$FF
         
         DEY
 
-    BRANCH_DELTA:
+    .BRANCH_DELTA
 
               CLC : ADC $02 : STA $0A
         TYA : ADC $03 : STA $0B
         
         REP #$20
         
-        LDA $7FFC00, X : CMP $08 : BEQ BRANCH_EPSILON : BPL BRANCH_ZETA
+        LDA $7FFC00, X : CMP $08 : BEQ .BRANCH_EPSILON  BPL .BRANCH_ZETA
         
         INC #2
 
-    BRANCH_ZETA:
+    .BRANCH_ZETA
 
         DEC A : STA $7FFC00, X
 
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
 
-        LDA $7FFD00, X : CMP $0A : BEQ BRANCH_THETA : BPL BRANCH_IOTA
+        LDA $7FFD00, X : CMP $0A : BEQ .BRANCH_THETA  BPL .BRANCH_IOTA
         
         INC #2
 
-    BRANCH_IOTA:
+    .BRANCH_IOTA
 
         DEC A : STA $7FFD00, X
 
-    BRANCH_THETA:
+    .BRANCH_THETA
 
         SEP #$20
         
         INX #2
         
-        DEC $0D : BMI BRANCH_KAPPA
+        DEC $0D : BMI .BRANCH_KAPPA
         
         JMP $C05B ; $EC05B IN ROM
 
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
 
         PLX
         
@@ -400,41 +400,41 @@
         LDA $0FD8 : STA $7FFC00, X
         LDA $0FDA : STA $7FFD00, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA $7FFC00, X : SEC : SBC $7FFC02, X
         
-        CMP.w #$0008 : BPL BRANCH_ALPHA
-        CMP.w #$FFF8 : BPL BRANCH_BETA
+        CMP.w #$0008 : BPL .BRANCH_ALPHA
+        CMP.w #$FFF8 : BPL .BRANCH_BETA
         
         LDA $7FFC00, X : CLC : ADC.w #$0008 : STA $7FFC02, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $7FFC00, X : SEC : SBC.w #$0008 : STA $7FFC02, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $7FFD00, X : SEC : SBC $7FFD02, X
         
-        CMP.w #$0008 : BPL BRANCH_GAMMA
-        CMP.w #$FFF8 : BPL BRANCH_DELTA
+        CMP.w #$0008 : BPL .BRANCH_GAMMA
+        CMP.w #$FFF8 : BPL .BRANCH_DELTA
         
         LDA $7FFD00, X : CLC : ADC.w #$0008 : STA $7FFD02, X
         
-        BRA BRANCH_DELTA
+        BRA .BRANCH_DELTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $7FFD00, X : SEC : SBC.w #$0008 : STA $7FFD02, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         INX #2
         
-        INC $00 : LDA $00 : CMP.w #$0006 : BCC BRANCH_EPSILON
+        INC $00 : LDA $00 : CMP.w #$0006 : BCC .BRANCH_EPSILON
         
         PLX
         
@@ -479,7 +479,7 @@
         
         LDY.b #$04
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         REP #$20
         
@@ -489,11 +489,11 @@
         
         LDA $7FFD00, X : CLC : ADC $08 : SEC : SBC $E8 : INY : STA ($90), Y
         
-        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC BRANCH_ALPHA
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_ALPHA
         
         LDA.b #$F0 : STA ($90), Y
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$8B : INY : STA ($90), Y
         
@@ -507,7 +507,7 @@
         
         INX #2
         
-        DEC $0D : BPL BRANCH_BETA
+        DEC $0D : BPL .BRANCH_BETA
         
         PLX
         

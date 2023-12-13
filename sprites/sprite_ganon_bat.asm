@@ -21,13 +21,13 @@
     {
         JSR GanonBat_Draw
         
-        LDA $0F00, X : BEQ BRANCH_ALPHA
+        LDA $0F00, X : BEQ .BRANCH_ALPHA
         
         STZ $0DD0, X
         
         LDA $0403 : ORA.b #$80 : STA $0403
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Sprite4_CheckIfActive
         
@@ -35,23 +35,23 @@
         
         LDA .animation_states, Y : STA $0DC0, X
         
-        LDA $0DF0, X : BEQ BRANCH_BETA
-        CMP #$D0     : BCS BRANCH_GAMMA
+        LDA $0DF0, X : BEQ .BRANCH_BETA
+        CMP #$D0     : BCS .BRANCH_GAMMA
         
         LDA $0EB0, X : AND.b #$01 : TAY
         
         ; Is this the kind of ganon bat that spirals out?
         LDA $0D40, X : CLC : ADC $8000, Y : STA $0D40, X
         
-        CMP .y_speed_limits, Y : BNE BRANCH_DELTA
+        CMP .y_speed_limits, Y : BNE .BRANCH_DELTA
         
         INC $0EB0, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0DE0, X : AND.b #$01 : TAY
         
-        LDA $0D50, X : CLC : ADC $8000, Y : STA $0D50, X : BNE BRANCH_EPSILON
+        LDA $0D50, X : CLC : ADC $8000, Y : STA $0D50, X : BNE .BRANCH_EPSILON
         
         PHA
         
@@ -59,13 +59,13 @@
         
         PLA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        CMP .x_speed_limits, Y : BNE BRANCH_GAMMA
+        CMP .x_speed_limits, Y : BNE .BRANCH_GAMMA
         
         INC $0DE0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA.b #$78 : STA $04
         
@@ -88,17 +88,17 @@
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR Sprite4_Move
         
-        LDA $0D50, X : CMP.b #$40 : BEQ BRANCH_ZETA
+        LDA $0D50, X : CMP.b #$40 : BEQ .BRANCH_ZETA
         
         INC $0D50, X
         
         DEC $0D40, X
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         RTS
     }

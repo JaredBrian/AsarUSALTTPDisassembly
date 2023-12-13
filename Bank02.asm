@@ -2723,7 +2723,7 @@ Dungeon_NorthIntraRoomStairs:
     JSR Dungeon_HandleCamera   ; $13A31 IN ROM
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
 
-    .BRANCH_ALPHA:
+    ..BRANCH_ALPHA
 
     LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
 
@@ -3762,7 +3762,7 @@ StraightStairs_11:
 
     LDX.w #$FFF8
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     TXA
 
@@ -3772,7 +3772,7 @@ StraightStairs_11:
 
     SEP #$30
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
     JSL RestoreTorchBackground
@@ -3859,7 +3859,7 @@ StraightStairs_9:
     REP #$20
 
     ; Compare the stored BG1 H value with current one.
-    LDA $E2 : CMP $7EC180 : BEQ .BRANCH_ALPHA : BCC .BRANCH_BETA ; If the current value is < stored value
+    LDA $E2 : CMP $7EC180 : BEQ ..BRANCH_ALPHA  BCC .BRANCH_BETA ; If the current value is < stored value
 
     DEC A : CMP $7EC180 : BEQ .BRANCH_ALPHA
 
@@ -3878,7 +3878,7 @@ StraightStairs_9:
 
     STA $E2
 
-    LDA $E8 : CMP $7EC182 : BEQ .BRANCH_GAMMA : BCC .BRANCH_DELTA
+    LDA $E8 : CMP $7EC182 : BEQ ..BRANCH_GAMMA  BCC .BRANCH_DELTA
 
     DEC A : CMP $7EC182 : BEQ .BRANCH_GAMMA
 
@@ -8627,7 +8627,7 @@ Module09_2A_00_ScrollToLand:
     STZ $00
     STZ $02
 
-    LDA $22 : CMP $7EC186 : BEQ .BRANCH_ALPHA : BCC .BRANCH_BETA
+    LDA $22 : CMP $7EC186 : BEQ ..BRANCH_ALPHA  BCC .BRANCH_BETA
 
     DEC $02
 
@@ -8653,7 +8653,7 @@ Module09_2A_00_ScrollToLand:
 
     STA $22
 
-    LDA $20 : CMP $7EC184 : BEQ .BRANCH_GAMMA : BCC .BRANCH_DELTA
+    LDA $20 : CMP $7EC184 : BEQ ..BRANCH_GAMMA  BCC .BRANCH_DELTA
 
     DEC $00
 
@@ -8901,7 +8901,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDY.b #$04
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     STY $00
 
@@ -8915,7 +8915,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA.b #$02 : STA $A7
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     PLB
 
@@ -9012,7 +9012,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDY.b #$04
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     STY $00
 
@@ -9026,7 +9026,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA.b #$02 : STA $A7
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     PLB
 
@@ -9146,7 +9146,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA.b #$02 : STA $A6
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     PLB
 
@@ -9549,7 +9549,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     LDA $30 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_DELTA
 
-    LDA $0618 : CMP $0E : BCS .BRANCH_EPSILON : BCC .BRANCH_ZETA
+    LDA $0618 : CMP $0E : BCS ..BRANCH_EPSILON  BCC .BRANCH_ZETA
 
     .BRANCH_DELTA
 
@@ -9574,7 +9574,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     ORA.w #$F000
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     STA $06
 
@@ -9606,25 +9606,25 @@ shared Dungeon_SaveRoomQuadrantData:
 
     DEC $00 : DEC $00
 
-    .BRANCH_LAMBDA:
+    ..BRANCH_LAMBDA
 
     TAY
 
-    .BRANCH_PI:
+    ..BRANCH_PI
 
     LDX $A6
 
     LDA $31 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_MU
 
-    LDA $061C : CMP $0E : BCS .BRANCH_NU : BCC .BRANCH_XI
+    LDA $061C : CMP $0E : BCS ..BRANCH_NU  BCC .BRANCH_XI
 
-    .BRANCH_MU:
+    ..BRANCH_MU
 
     LDA $0E : CMP $061E : BCC .BRANCH_XI
 
     INX #4
 
-    .BRANCH_NU:
+    ..BRANCH_NU
 
     ; compare with screen coordinate limits...? (x coordinate)
     LDA $E2 : CMP $0608, X : BEQ .BRANCH_XI
@@ -9637,7 +9637,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     ORA.w #$F000
 
-    .BRANCH_OMICRON:
+    ..BRANCH_OMICRON
 
     STA $06
 
@@ -9649,11 +9649,11 @@ shared Dungeon_SaveRoomQuadrantData:
 
     INC #2 : STA $061E
 
-    .BRANCH_XI:
+    ..BRANCH_XI
 
     DEY : BNE .BRANCH_PI
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     LDA $A0 : CMP.w #$FFFF : BEQ .BRANCH_RHO
 
@@ -9665,7 +9665,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
 ; *$13B7B ALTERNATE ENTRY POINT
 Dungeon_SyncBG1and2Scroll:
-    .BRANCH_SIGMA:
+    ..BRANCH_SIGMA
 
     REP #$20
 
@@ -9673,7 +9673,7 @@ Dungeon_SyncBG1and2Scroll:
     LDA $E2 : STA $E0
     LDA $E8 : STA $E6
 
-    .BRANCH_RHO:
+    ..BRANCH_RHO
 
     SEP #$20
 
@@ -14477,7 +14477,7 @@ Overworld_Decomp:
     LDY.w #$0000
 
 ; *$17EC0 JUMP LOCATION
-    .BRANCH_GETNEXTCODE:
+    ..BRANCH_GETNEXTCODE
 
     JSR OverworldDecomp_GetNextSourceOctet
 
@@ -14488,7 +14488,7 @@ Overworld_Decomp:
 
     RTS
 
-    .BRANCH_ITERATE:
+    ..BRANCH_ITERATE
 
     STA $CD : AND.b #$E0 : CMP.b #$E0 : BEQ .BRANCH_EXPANDED ; [111]
 
@@ -14502,7 +14502,7 @@ Overworld_Decomp:
 
     BRA .BRANCH_NORMAL
 
-    .BRANCH_EXPANDED: ; EXPANDED MODE APPEARS TO ALLOW US TO INTERFACE WITH VALUES LARGER THAN #$32, MAYBE AS LARGE AS $132?
+    ..BRANCH_EXPANDED ; EXPANDED MODE APPEARS TO ALLOW US TO INTERFACE WITH VALUES LARGER THAN #$32, MAYBE AS LARGE AS $132?
 
     ; Get $CD, and shift it left three times.
     ; Again we're interested in the top three bits.
@@ -14514,7 +14514,7 @@ Overworld_Decomp:
 
     REP #$20
 
-    .BRANCH_NORMAL:
+    ..BRANCH_NORMAL
 
     ; Increment the value and save it to $CB
     INC A : STA $CB
@@ -14525,9 +14525,9 @@ Overworld_Decomp:
     ; If none of the top three bits were set: [000]
     PLA : BEQ .BRANCH_NONREPEATING
 
-    BMI .BRANCH_COPY ; If the top most bit was set: [101], [110], [100]
+    BMI ..BRANCH_COPY ; If the top most bit was set [101], [110], [100]
 
-    ASL A : BPL .BRANCH_REPEATING ; Provided nothing shifted into the MSB: [001]
+    ASL A : BPL ..BRANCH_REPEATING ; Provided nothing shifted into the MSB [001]
 
     ; If it was negative, shift again.
     ASL A : BPL .BRANCH_REPEATINGWORD ; [010]
@@ -14536,7 +14536,7 @@ Overworld_Decomp:
 
     LDX $CB
 
-    .BRANCH_INCREMENTWRITE:
+    ..BRANCH_INCREMENTWRITE
 
     STA [$00], Y
 
@@ -14548,7 +14548,7 @@ Overworld_Decomp:
 
     BRA .BRANCH_GETNEXTCODE
 
-    .BRANCH_NONREPEATING:
+    ..BRANCH_NONREPEATING
 
     JSR $FF5F ; Get the next value.
 
@@ -14563,13 +14563,13 @@ Overworld_Decomp:
 
     BRA .BRANCH_GETNEXTCODE
 
-    .BRANCH_REPEATING:
+    ..BRANCH_REPEATING
 
     JSR $FF5F ; Get the next value.
 
     LDX $CB ; Get the 5 LSB plus one.
 
-    .BRANCH_LOOPBACK:
+    ..BRANCH_LOOPBACK
 
     STA [$00], Y; Store to TargetAddress, Y
 
@@ -14580,7 +14580,7 @@ Overworld_Decomp:
 
     BRA .BRANCH_GETNEXTCODE
 
-    .BRANCH_REPEATINGWORD:
+    ..BRANCH_REPEATINGWORD
 
     JSR OverworldDecomp_GetNextSourceOctet
 
@@ -14590,7 +14590,7 @@ Overworld_Decomp:
 
     LDX $CB
 
-    .BRANCH_MOREBYTES:
+    ..BRANCH_MOREBYTES
 
     ; Two byte were read, this is the first one
     XBA : STA [$00], Y
@@ -14605,7 +14605,7 @@ Overworld_Decomp:
 
     DEX : BNE .BRANCH_MOREBYTES
 
-    .BRANCH_OUTOFBYTES:
+    ..BRANCH_OUTOFBYTES
 
     JMP $FEC0 ; $17EC0 IN ROM.
 
@@ -14621,7 +14621,7 @@ Overworld_Decomp:
 
     TAX ; Put that sucker in X (full 16-bit)
 
-    .BRANCH_LOOPBACK2:
+    ..BRANCH_LOOPBACK2
 
     ; And push the current Y index, Then shove X into Y
     ; (The newest byte value)

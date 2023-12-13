@@ -1545,11 +1545,11 @@ org $018000
         
         LDA.w #$FF82
     
-    BRANCH_$8C76:
+    .BRANCH_$8C76
     
         STA $0E
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
         LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
@@ -1559,7 +1559,7 @@ org $018000
         
         TXA : CLC : ADC $0E : TAX
         
-        DEC $B2 : BNE BRANCH_ALPHA
+        DEC $B2 : BNE .BRANCH_ALPHA
         
         RTS
     }
@@ -1575,7 +1575,7 @@ org $018000
         
         LDA.w #$0082
         
-        BRA BRANCH_$8C76
+        BRA .BRANCH_$8C76
     }
 
     ; *$8CC7-$8D46 JUMP LOCATION
@@ -2049,15 +2049,15 @@ org $018000
         
         ; $B191 IN ROM
         ; if(grabbed byte == 0x01DB)
-        JSR $B191 : BCC BRANCH_ALPHA
+        JSR $B191 : BCC .BRANCH_ALPHA
         
-        CMP.w #$01A6 : BEQ BRANCH_ALPHA
-        CMP.w #$01DD : BEQ BRANCH_ALPHA
-        CMP.w #$01FC : BEQ BRANCH_ALPHA
+        CMP.w #$01A6 : BEQ .BRANCH_ALPHA
+        CMP.w #$01DD : BEQ .BRANCH_ALPHA
+        CMP.w #$01FC : BEQ .BRANCH_ALPHA
         
         LDA $9B52, X : STA [$BF], Y
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR $B2CA ; $B2CA IN ROM
         
@@ -2085,7 +2085,7 @@ org $018000
     {
         LDX $0490
         
-        BRA BRANCH_$8FA5
+        BRA .BRANCH_$8FA5
     }
 
     ; *$8FA2-$8FBB JUMP LOCATION
@@ -2208,11 +2208,11 @@ org $018000
         
         INX #2
         
-        LDA [$BF], Y : AND.w #$03FF : CMP.w #$00E3 : BEQ BRANCH_ALPHA
+        LDA [$BF], Y : AND.w #$03FF : CMP.w #$00E3 : BEQ .BRANCH_ALPHA
         
         JSR .draw_2x2_at_endpoint
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         INX #4
     
@@ -2475,17 +2475,17 @@ org $018000
         
         LDA $08
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         DEC #2
         
-        DEY : BNE BRANCH_BETA
+        DEY : BNE .BRANCH_BETA
         
         PHA : STA $06
         
         LDX.w #$03D8
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0E : STA $0A
         
@@ -2493,19 +2493,19 @@ org $018000
         
         LDA $9B52, X : STA [$BF], Y
 
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
 
         LDA $9B54, X : STA [$CB], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
         
-        DEC $0A : BNE BRANCH_GAMMA
+        DEC $0A : BNE .BRANCH_GAMMA
         
         LDA $9B56, X : STA [$CB], Y
         
         INC $06 : INC $06
         
-        DEC $0C : BNE BRANCH_DELTA
+        DEC $0C : BNE .BRANCH_DELTA
         
         PLA : DEC #2 : STA $06 : TAY
         
@@ -2521,13 +2521,13 @@ org $018000
         
         LDA $08 : CLC : ADC.w #$0180 : TAY
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JSR Object_Draw2x3
         
         TYA : CLC : ADC.w #$0100 : TAY
         
-        DEC $0E : BNE BRANCH_EPSILON
+        DEC $0E : BNE .BRANCH_EPSILON
     
     ; *$9210 ALTERNATE ENTRY POINT
     
@@ -2570,13 +2570,13 @@ org $018000
         
         LDA $08 : CLC : ADC.w #$0180 : TAY
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR Object_Draw2x3
         
         TYA : CLC : ADC.w #$0100 : TAY
         
-        DEC $0E : BNE BRANCH_BETA
+        DEC $0E : BNE .BRANCH_BETA
         
         JSR $9210 ; $9210 IN ROM
         
@@ -2590,7 +2590,7 @@ org $018000
         
         LDX.w #$03D8
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0E : STA $0A
         
@@ -2598,19 +2598,19 @@ org $018000
         
         LDA $9B52, X : STA [$BF], Y
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $9B54, X : STA [$CB], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
         
-        DEC $0A : BNE BRANCH_GAMMA
+        DEC $0A : BNE .BRANCH_GAMMA
         
         LDA $9B56, X : STA [$CB], Y
         
         INC $06 : INC $06
         
-        DEC $0C : BNE BRANCH_DELTA
+        DEC $0C : BNE .BRANCH_DELTA
         
         LDY $06
         
@@ -2685,11 +2685,11 @@ org $018000
         
         LDA $06 : AND.w #$003F : LSR A : STA $0A
         
-        TYA : AND.w #$0040 : BEQ BRANCH_BETA
+        TYA : AND.w #$0040 : BEQ .BRANCH_BETA
         
         LDA.w #$0400 : TSB $0A
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $0A : ORA #$1000 : STA $042A
         
@@ -2765,13 +2765,13 @@ org $018000
     {
         JSR Object_Size1to16
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Object_Draw2x2
         
         INY #4
         
-        DEC $B2 : BNE BRANCH_ALPHA
+        DEC $B2 : BNE .BRANCH_ALPHA
         
         RTS
     }
@@ -2892,7 +2892,7 @@ org $018000
     {
         JSR Object_Size1to16
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX.w #$08CA
         
@@ -2907,7 +2907,7 @@ org $018000
         
         LDA $08 : CLC : ADC.w #$0008 : STA $08 : TAY
         
-        DEC $B2 : BNE BRANCH_ALPHA
+        DEC $B2 : BNE .BRANCH_ALPHA
         
         RTS
     }
@@ -2926,11 +2926,11 @@ org $018000
         
         INX #8
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR $93FF ; $93FF IN ROM
         
-        DEC $B4 : BNE BRANCH_ALPHA
+        DEC $B4 : BNE .BRANCH_ALPHA
         
         JSR $93F7 ; $93F7 IN ROM
     
@@ -2944,14 +2944,14 @@ org $018000
         
         LDA $9B52, X : STA [$BF], Y
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $9B54, X : STA [$C2], Y
         LDA $9B56, X : STA [$C5], Y
         
         INY #4
         
-        DEC $0E : BNE BRANCH_BETA
+        DEC $0E : BNE .BRANCH_BETA
         
         LDA $9B58, X : STA [$C2], Y
         
@@ -3278,7 +3278,7 @@ org $018000
         
         STZ $AF
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
     .alpha
     
@@ -3295,7 +3295,7 @@ org $018000
         
         STZ $0414
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         REP #$30
         
@@ -3305,13 +3305,13 @@ org $018000
         
         LDX.w #$0110
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDY $08
         
         LDA $B2 : STA $0A
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $9B52, X : STA [$BF], Y
         LDA $9B54, X : STA [$C2], Y
@@ -3324,11 +3324,11 @@ org $018000
         
         INY #8
         
-        DEC $0A : BNE BRANCH_GAMMA
+        DEC $0A : BNE .BRANCH_GAMMA
         
         LDA $08 : CLC : ADC.w #$0100 : STA $08
         
-        DEC $04 : BNE BRANCH_DELTA
+        DEC $04 : BNE .BRANCH_DELTA
         
         RTS
     }
@@ -3448,11 +3448,11 @@ org $018000
         ; $B4 = ($B4 * 2) + 5
         LDA $B4 : ASL A : CLC : ADC.w #$0005 : STA $B4
     
-    BRANCH_DELTA
+    .BRANCH_DELTA
     
         JSR $975C ; $975C IN ROM
         
-        DEC $B4 : BNE BRANCH_DELTA
+        DEC $B4 : BNE .BRANCH_DELTA
         
         INY #2
         
@@ -3470,13 +3470,13 @@ org $018000
         
         LDA $9B58, Y
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $7E2002, X
         
         INX #2
         
-        DEC $0A : BNE BRANCH_BETA
+        DEC $0A : BNE .BRANCH_BETA
         
         LDA $9B5E, Y : STA $7E2002, X
         
@@ -3488,13 +3488,13 @@ org $018000
         
         LDA $9B70, Y
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STA $7E200E, X
         
         INX #2
         
-        DEC $0A : BNE BRANCH_GAMMA
+        DEC $0A : BNE .BRANCH_GAMMA
         
         LDA $9B76, Y : STA $7E200E, X
         
@@ -4364,7 +4364,7 @@ org $018000
         LDA $A0 : ASL A : TAX
         
         ; Directly compare with the save data
-        LDA $7EF000, X : AND.w #$0100 : BNE BRANCH_BETA
+        LDA $7EF000, X : AND.w #$0100 : BNE .BRANCH_BETA
         
         LDX.w #$1614
     
@@ -4376,7 +4376,7 @@ org $018000
         LDA.w #$19 : CMP $AF : BNE .notTurnOnWaterTag
         
         ; AND with 0x0008
-        LDA $0403 : AND $98C9 : BNE BRANCH_BETA
+        LDA $0403 : AND $98C9 : BNE .BRANCH_BETA
     
     .notTurnOnWaterTag
     
@@ -4386,29 +4386,29 @@ org $018000
         
         LDA.w #$0003
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
     ; *$9D5D ALTERNATE ENTRY POINT
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         REP #$20
         
         LDX.w #$162C
         LDA.w #$0005
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
     ; *$9D67 ALTERNATE ENTRY POINT
     
         LDA.w #$0007
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
     ; *$9D6C ALTERNATE ENTRY POINT
     
         LDA.w #$0002
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         STA $0E
     
@@ -5084,7 +5084,7 @@ org $018000
         
         LDA $A0 : ASL A : TAX
         
-        LDA $7EF000, X : AND.w #$0100 : BEQ BRANCH_$A36A
+        LDA $7EF000, X : AND.w #$0100 : BEQ .BRANCH_$A36A
         
         LDA.w #$6202 : STA $99
     
@@ -5743,17 +5743,17 @@ org $018000
     
     .notFloorToggleProperty
     
-        CMP.w #$0032 : BNE BRANCH_GAMMA
+        CMP.w #$0032 : BNE .BRANCH_GAMMA
         
         JMP Door_SwordActivated
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CMP.w #$0006 : BNE BRANCH_DELTA
+        CMP.w #$0006 : BNE .BRANCH_DELTA
         
         JMP $AF7F ; $AF7F IN ROM
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         CMP.w #$0014 : BNE .notPalaceToggleProperty
         
@@ -5763,7 +5763,7 @@ org $018000
     
     .notPalaceToggleProperty
     
-        CMP.w #$0002 : BNE BRANCH_ZETA
+        CMP.w #$0002 : BNE .BRANCH_ZETA
         
         ; Preserve the layer and column the door is on, but snap the
         ; Y coordinate upwards to the nearest quadrant boundary.
@@ -5772,7 +5772,7 @@ org $018000
         JSR Door_Prioritize7x4
         JMP $A90F ; $A90F IN ROM
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         CMP.w #$0012 : BNE .notExitDoor
         
@@ -5786,20 +5786,20 @@ org $018000
     
     .notExitDoor
     
-        CMP.w #$0008 : BNE BRANCH_IOTA
+        CMP.w #$0008 : BNE .BRANCH_IOTA
         
         JSR $A90F ; $A90F IN ROM
         
-        BRA BRANCH_KAPPA
+        BRA .BRANCH_KAPPA
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
-        CMP.w #$0020 : BEQ BRANCH_LAMBDA
-        CMP.w #$0022 : BEQ BRANCH_LAMBDA
-        CMP.w #$0024 : BEQ BRANCH_LAMBDA
-        CMP.w #$0026 : BNE BRANCH_MU
+        CMP.w #$0020 : BEQ .BRANCH_LAMBDA
+        CMP.w #$0022 : BEQ .BRANCH_LAMBDA
+        CMP.w #$0024 : BEQ .BRANCH_LAMBDA
+        CMP.w #$0026 : BNE .BRANCH_MU
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         LDX $0460
         
@@ -5816,17 +5816,17 @@ org $018000
         
         LDY !tilemap_pos
         
-        AND $068C : BEQ BRANCH_NU
+        AND $068C : BEQ .BRANCH_NU
         
         INX #2 : STX $0460
         
         RTS
     
-    BRANCH_NU:
+    .BRANCH_NU
     
         ; Branch here if it's a locked door and hasn't been unlocked.
         
-        LDA $04 : CMP.w #$0024 : BCC BRANCH_RHO
+        LDA $04 : CMP.w #$0024 : BCC .BRANCH_RHO
         
         STX !tilemap_pos
         
@@ -5856,7 +5856,7 @@ org $018000
         DEC $0E : BNE .nextColumn
     
     ; *$A8FA ALTERNATE ENTRY POINT
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDX $0460
         
@@ -5864,18 +5864,18 @@ org $018000
         
         RTS
     
-    BRANCH_MU:
+    .BRANCH_MU
     
-        CMP.w #$0040 : BCC BRANCH_PI ; Branch on default and type < 0x40
+        CMP.w #$0040 : BCC .BRANCH_PI ; Branch on default and type < 0x40
         
         JMP $AD41 ; $AD41 IN ROM
     
     ; *$A90F ALTERNATE ENTRY POINT
-    BRANCH_PI:
+    .BRANCH_PI
     
         ; Check the door's "Pos" or "location"
         ; If pos < 0x0C (6 in HM)
-        LDX !door_position : CPX.w #$000C : BCC BRANCH_RHO
+        LDX !door_position : CPX.w #$000C : BCC .BRANCH_RHO
         
         PHY
         
@@ -5895,7 +5895,7 @@ org $018000
         
         LDA $04 : STA $0A
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         STY !tilemap_pos
         
@@ -6090,15 +6090,15 @@ org $018000
     ; *$AA66 ALTERNATE ENTRY POINT
     .notOtherCaveExitDoor
     
-        CMP.w #$0002 : BNE BRANCH_XI
+        CMP.w #$0002 : BNE .BRANCH_XI
         
         TYA : CLC : ADC.w #$0200
         
         JSR Door_Prioritize7x4
         
-        BRA BRANCH_OMICRON
+        BRA .BRANCH_OMICRON
     
-    BRANCH_XI:
+    .BRANCH_XI
     
         CMP.w #$0008 : BNE .notWaterfallDoor
         
@@ -6107,25 +6107,25 @@ org $018000
     
     ; *$AA80 ALTERNATE ENTRY POINT
     .notWaterfallDoor
-    BRANCH_OMICRON:; Default behavior
+    .BRANCH_OMICRON; Default behavior
     
         STY $08
         
         LDX $0460
         LDA.w #$0001
         
-        JSR Door_Register : BCC BRANCH_PI
+        JSR Door_Register : BCC .BRANCH_PI
         
         LDA.w #$0000
         
-        CPY.w #$001E : BEQ BRANCH_RHO ; Not big key -> normal door
-        CPY.w #$0036 : BEQ BRANCH_RHO ; Right side only trap door
+        CPY.w #$001E : BEQ .BRANCH_RHO ; Not big key -> normal door
+        CPY.w #$0036 : BEQ .BRANCH_RHO ; Right side only trap door
         
         LDA.w #$0018
         
-        CPY.w #$0038 : BNE BRANCH_SIGMA ; Left side only trap door
+        CPY.w #$0038 : BNE .BRANCH_SIGMA ; Left side only trap door
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         STA $0E
         
@@ -6133,7 +6133,7 @@ org $018000
         
         LDY $0E
     
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
         LDX $CE06, Y
         
@@ -6153,7 +6153,7 @@ org $018000
         
         DEC $0E : BNE .nextColumn
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         RTS
     }
@@ -6188,32 +6188,32 @@ org $018000
     
     .notPalaceToggleProperty
     
-        CMP.w #$0002 : BNE BRANCH_DELTA
+        CMP.w #$0002 : BNE .BRANCH_DELTA
         
         TYA : AND.w #$FFC0
         
         JSR Door_Prioritize4x5
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        CMP.w #$0008 : BNE BRANCH_ZETA
+        CMP.w #$0008 : BNE .BRANCH_ZETA
         
         JSR $AB1F ; $AB1F IN ROM
         JMP $A8FA ; $A8FA IN ROM
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        CMP.w #$0040 : BCC BRANCH_EPSILON
+        CMP.w #$0040 : BCC .BRANCH_EPSILON
         
         JMP $AE40 ; $AE40 IN ROM
     
     ; *$AB1F ALTERNATE ENTRY POINT
-    BRANCH_EPSILON: 
+    .BRANCH_EPSILON 
     ;Default behavior
     
-        LDX !door_position : CPX.w #$000C : BCC BRANCH_THETA
+        LDX !door_position : CPX.w #$000C : BCC .BRANCH_THETA
         
         PHY
         
@@ -6233,7 +6233,7 @@ org $018000
         
         LDA $04 : STA $0A
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         STY $08
         
@@ -6241,17 +6241,17 @@ org $018000
         
         LDA.w #$0002
         
-        JSR Door_Register : BCC BRANCH_KAPPA
+        JSR Door_Register : BCC .BRANCH_KAPPA
         
         LDA.w #$0018
         
-        CPY.w #$0036 : BEQ BRANCH_LAMBDA
+        CPY.w #$0036 : BEQ .BRANCH_LAMBDA
         
         LDA.w #$0000
         
-        CPY.w #$0038 : BNE BRANCH_MU
+        CPY.w #$0038 : BNE .BRANCH_MU
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         STA $0E
         
@@ -6259,7 +6259,7 @@ org $018000
         
         LDY $0E
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         LDX $CE66, Y
         
@@ -6281,7 +6281,7 @@ org $018000
         
         DEC $0E : BNE .nextRow
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         RTS
     }
@@ -6305,11 +6305,11 @@ org $018000
     
     .notFloorToggleProperty
     
-        CMP.w #$0006 : BNE BRANCH_KAPPA
+        CMP.w #$0006 : BNE .BRANCH_KAPPA
         
         JMP $B050 ; $B050 IN ROM
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         CMP.w #$0014 : BNE .notPalaceToggleProperty
         
@@ -6320,31 +6320,31 @@ org $018000
     .notPalaceToggleProperty
     
         ; If less than #$0040, branch.
-        CMP.w #$0040 : BCC BRANCH_THETA
+        CMP.w #$0040 : BCC .BRANCH_THETA
         
         JMP $AEF0 ; $AEF0 IN ROM
     
     ; *$ABC8 ALTERNATE ENTRY POINT
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        CMP.w #$0002 : BNE BRANCH_ALPHA
+        CMP.w #$0002 : BNE .BRANCH_ALPHA
         
         TYA : CLC : ADC.w #$0008
         
         JSR Door_Prioritize4x5
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.w #$0008 : BNE BRANCH_BETA
+        CMP.w #$0008 : BNE .BRANCH_BETA
         
         JSR $ABE2 ; $ABE2 IN ROM
         JMP $A8FA ; $A8FA IN ROM
     
     ; *$ABE2 ALTERNATE ENTRY POINT
     ; Default behavior
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STY $08
         
@@ -6352,17 +6352,17 @@ org $018000
         
         LDA.w #$0003
         
-        JSR Door_Register : BCC BRANCH_GAMMA
+        JSR Door_Register : BCC .BRANCH_GAMMA
         
         LDA.w #$0000
         
-        CPY.w #$0036 : BEQ BRANCH_DELTA
+        CPY.w #$0036 : BEQ .BRANCH_DELTA
         
         LDA.w #$0018
         
-        CPY.w #$0038 : BNE BRANCH_EPSILON
+        CPY.w #$0038 : BNE .BRANCH_EPSILON
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STA $0E
         
@@ -6370,7 +6370,7 @@ org $018000
         
         LDY $0E
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDX $CEC6, Y
         
@@ -6392,7 +6392,7 @@ org $018000
         
         DEC $0E : BNE .nextColumn
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     }
@@ -6566,9 +6566,9 @@ org $018000
 
     ; *$AD41-$ADD3 JUMP LOCATION
     {
-        LDX $02 : CPX.w #$000C : BCC BRANCH_ALPHA
+        LDX $02 : CPX.w #$000C : BCC .BRANCH_ALPHA
         
-        LDA $04 : CMP.w #$0046 : BEQ BRANCH_ALPHA
+        LDA $04 : CMP.w #$0046 : BEQ .BRANCH_ALPHA
         
         PHY
         
@@ -6582,7 +6582,7 @@ org $018000
         
         PLA : STA $0460
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         PLY : STY $08
         
@@ -6594,13 +6594,13 @@ org $018000
         
         LDA.w #$0044
         
-        CPY.w #$0048 : BEQ BRANCH_BETA
+        CPY.w #$0048 : BEQ .BRANCH_BETA
         
         LDA.w #$0040
         
-        CPY.w #$004A : BNE BRANCH_GAMMA
+        CPY.w #$004A : BNE .BRANCH_GAMMA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
         
         STA $0E
         
@@ -6608,7 +6608,7 @@ org $018000
         
         LDY $0E
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $CD9E, Y : TAY
         
@@ -6616,7 +6616,7 @@ org $018000
         
         LDA.w #$0004 : STA $0E
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
         
         LDA $9B52, Y : STA $7E2000, X
         LDA $9B54, Y : STA $7E4080, X
@@ -6626,15 +6626,15 @@ org $018000
         
         INX #2
         
-        DEC $0E : BNE BRANCH_DELTA
+        DEC $0E : BNE .BRANCH_DELTA
         
-        LDA $04 : CMP.w #$0046 : BEQ BRANCH_EPSILON
+        LDA $04 : CMP.w #$0046 : BEQ .BRANCH_EPSILON
         
         LDA $08
         
         JSR $AF8B ; $AF8B IN ROM
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDX $0460
         
@@ -6710,7 +6710,7 @@ org $018000
     ; *$AE40-$AEEF JUMP LOCATION
     {
         ; If position < 0x0C
-        LDX $02 : CPX.w #$000C : BCC BRANCH_ALPHA
+        LDX $02 : CPX.w #$000C : BCC .BRANCH_ALPHA
         
         PHX
         
@@ -6726,7 +6726,7 @@ org $018000
         
         PLY
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STY $08
         
@@ -6737,13 +6737,13 @@ org $018000
         
         LDA.w #$0044
         
-        CPY.w #$0048 : BEQ BRANCH_BETA
+        CPY.w #$0048 : BEQ .BRANCH_BETA
         
         LDA.w #$0040
         
-        CPY.w #$004A : BNE BRANCH_GAMMA
+        CPY.w #$004A : BNE .BRANCH_GAMMA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0E
         
@@ -6751,7 +6751,7 @@ org $018000
         
         LDY $0E
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $CE66, Y : TAY
         
@@ -6807,13 +6807,13 @@ org $018000
         
         LDA.w #$0040
         
-        CPY.w #$0048 : BEQ BRANCH_ALPHA
+        CPY.w #$0048 : BEQ .BRANCH_ALPHA
         
         LDA.w #$0044
         
-        CPY.w #$004A : BNE BRANCH_BETA
+        CPY.w #$004A : BNE .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0E
         
@@ -6821,7 +6821,7 @@ org $018000
         
         LDY $0E
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ; Offset of the start of the tiles, we're going to be writing to the buffer.
         LDA $CEC6, Y : TAY
@@ -6830,7 +6830,7 @@ org $018000
         
         LDA.w #$0002 : STA $0E
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $9B52, Y : STA $7E4002, X
         LDA $9B54, Y : STA $7E4082, X
@@ -6841,7 +6841,7 @@ org $018000
         
         INX #2
         
-        DEC $0E : BNE BRANCH_GAMMA
+        DEC $0E : BNE .BRANCH_GAMMA
         
         LDA $9B52, Y : STA $7E2002, X
         LDA $9B54, Y : STA $7E2082, X
@@ -7089,10 +7089,10 @@ org $018000
         TXA : LSR A : XBA : ORA $04 : STA $1980, X
         
         ; If index >= 0x04
-        TXA : AND.w #$000F : TAY : CPY.w #$0008 : BCS BRANCH_ALPHA
+        TXA : AND.w #$000F : TAY : CPY.w #$0008 : BCS .BRANCH_ALPHA
         
         ; Check if door hasn't been opened?
-        LDA $068C : AND $98C0, Y : BEQ BRANCH_ALPHA
+        LDA $068C : AND $98C0, Y : BEQ .BRANCH_ALPHA
         
         LDA $1980, X : AND.w #$00FF : CMP.w #$0018 : BEQ .triggeredTrapDoor
         
@@ -7102,7 +7102,7 @@ org $018000
     .triggeredTrapDoor
     
         ; Flag set when trap doors are down.
-        LDA $0468 : BNE BRANCH_ALPHA
+        LDA $0468 : BNE .BRANCH_ALPHA
     
     .notTrapDoor
     
@@ -7116,26 +7116,26 @@ org $018000
         
         LDA $1980, X : AND.w #$00FF
         
-        CMP.w #$0018 : BEQ BRANCH_ALPHA
-        CMP.w #$0044 : BEQ BRANCH_ALPHA
-        CMP.w #$001A : BCC BRANCH_ALPHA ; Invisible door    
-        CMP.w #$0040 : BEQ BRANCH_ALPHA
-        CMP.w #$0046 : BEQ BRANCH_ALPHA
+        CMP.w #$0018 : BEQ .BRANCH_ALPHA
+        CMP.w #$0044 : BEQ .BRANCH_ALPHA
+        CMP.w #$001A : BCC .BRANCH_ALPHA ; Invisible door    
+        CMP.w #$0040 : BEQ .BRANCH_ALPHA
+        CMP.w #$0046 : BEQ .BRANCH_ALPHA
         
         LDA $0400 : ORA $98C0, X : STA $0400
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         ; Load the door type
         LDY $0A
         
         INX #2 : STX $0460
         
-        CPY.w #$0032 : BEQ BRANCH_DELTA ; Sword slash door
-        CPY.w #$0008 : BEQ BRANCH_DELTA ; Waterfall door
+        CPY.w #$0032 : BEQ .BRANCH_DELTA ; Sword slash door
+        CPY.w #$0008 : BEQ .BRANCH_DELTA ; Waterfall door
         
         ; Branch away if not a trap door
-        LDA $04 : CMP.w #$001A : BNE BRANCH_EPSILON ; Invisible door
+        LDA $04 : CMP.w #$001A : BNE .BRANCH_EPSILON ; Invisible door
         
         ; \task If this is truly for invisible doors, we should be able
         ; to set a breakpoint here and have this never really... fire?
@@ -7151,23 +7151,23 @@ org $018000
         ; Load the direction of the door
         LDA $00 : AND.w #$0003 : ASL A : ORA $0436 : STA $0436
         
-        AND.w #$00FF : CMP $0A : BNE BRANCH_ZETA
+        AND.w #$00FF : CMP $0A : BNE .BRANCH_ZETA
         
-        EOR.w #$0002 : CMP $0A : BEQ BRANCH_DELTA
+        EOR.w #$0002 : CMP $0A : BEQ .BRANCH_DELTA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDA $068C : ORA $98C0, X : STA $068C
         
         LDY.w #$0000
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         SEC
         
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         CLC
         
@@ -7357,7 +7357,7 @@ org $018000
     ; *$B293-$B2AE BLOCK
     {
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Object_Draw5x1
         
@@ -7365,11 +7365,11 @@ org $018000
     
     ; *$B29C ALTERNATE ENTRY POINT
     
-        DEC $B2 : BNE BRANCH_ALPHA
+        DEC $B2 : BNE .BRANCH_ALPHA
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR Object_Draw5x1
         
@@ -7377,7 +7377,7 @@ org $018000
     
     ; *$B2AA ALTERNATE ENTRY POINT
     
-        DEC $B2 : BNE BRANCH_BETA
+        DEC $B2 : BNE .BRANCH_BETA
         
         RTS
     }
@@ -9018,22 +9018,22 @@ org $018000
         ; Dat is sum long list o' doors
         LDA $1980, Y : AND.w #$00FE : STA $02
         
-                       BEQ BRANCH_ALPHA
-        CMP.w #$0006 : BEQ BRANCH_ALPHA
-        CMP.w #$0012 : BEQ BRANCH_ALPHA
-        CMP.w #$000A : BEQ BRANCH_ALPHA
-        CMP.w #$000C : BEQ BRANCH_BETA
-        CMP.w #$000E : BEQ BRANCH_ALPHA
-        CMP.w #$0010 : BEQ BRANCH_BETA ; Other special doors report to branch_beta
-        CMP.w #$0004 : BEQ BRANCH_BETA
-        CMP.w #$0002 : BEQ BRANCH_BETA
-        CMP.w #$0008 : BNE BRANCH_GAMMA ; everything else...
+                       BEQ .BRANCH_ALPHA
+        CMP.w #$0006 : BEQ .BRANCH_ALPHA
+        CMP.w #$0012 : BEQ .BRANCH_ALPHA
+        CMP.w #$000A : BEQ .BRANCH_ALPHA
+        CMP.w #$000C : BEQ .BRANCH_BETA
+        CMP.w #$000E : BEQ .BRANCH_ALPHA
+        CMP.w #$0010 : BEQ .BRANCH_BETA ; Other special doors report to branch_beta
+        CMP.w #$0004 : BEQ .BRANCH_BETA
+        CMP.w #$0002 : BEQ .BRANCH_BETA
+        CMP.w #$0008 : BNE .BRANCH_GAMMA ; everything else...
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JMP $C0B8 ; $C0B8 IN ROM
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         CMP.w #$0030 : BNE .notBlastWall
         
@@ -9041,31 +9041,31 @@ org $018000
     
     .notBlastWall
     
-        CMP.w #$0040 : BCC BRANCH_EPSILON
+        CMP.w #$0040 : BCC .BRANCH_EPSILON
         
         JMP $C085 ; $C085 IN ROM
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        CMP.w #$0018 : BEQ BRANCH_ZETA
+        CMP.w #$0018 : BEQ .BRANCH_ZETA
         
         ; wondering how this point would ever be reached...
         ; (see the if(type < 0x0040) earlier)
-        CMP.w #$0044 : BEQ BRANCH_ZETA
+        CMP.w #$0044 : BEQ .BRANCH_ZETA
         
         TYA : AND.w #$000F
         
-        BRA BRANCH_THETA
+        BRA .BRANCH_THETA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         TYA : AND.w #$00FF
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         TAX
         
-        LDA $068C : AND $98C0, X : BNE BRANCH_ALPHA
+        LDA $068C : AND $98C0, X : BNE .BRANCH_ALPHA
         
         SEP #$20
         
@@ -9081,7 +9081,7 @@ org $018000
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX $02
         
@@ -9736,10 +9736,10 @@ org $018000
         
         LDA $0E
         
-        CMP.b #$38 : BEQ BRANCH_EPSILON
-        CMP.b #$39 : BNE BRANCH_ZETA
+        CMP.b #$38 : BEQ .BRANCH_EPSILON
+        CMP.b #$39 : BNE .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDX.b #$20 : STX $0464
         
@@ -9748,13 +9748,13 @@ org $018000
         ; Gets called when travelling up a straight inter-room staircase
         JSL $02B81C ; $1381C IN ROM
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
     .mystery
     
         JSL $02B77A ; $1377A IN ROM
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDA $0462 : AND.b #$03 : TAX
         
@@ -9765,15 +9765,15 @@ org $018000
         
         LDX.b #$02
         
-        LDA $EE : BNE BRANCH_THETA
+        LDA $EE : BNE .BRANCH_THETA
         
         LDX.b #$00
         
-        LDA $0476 : BEQ BRANCH_THETA
+        LDA $0476 : BEQ .BRANCH_THETA
         
         LDX.b #$02
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         STX $0492
         
@@ -9788,15 +9788,15 @@ org $018000
         ; Do an upward floor transition
         LDX.b #$06
         
-        PLA : CMP.b #$26 : BEQ BRANCH_IOTA
+        PLA : CMP.b #$26 : BEQ .BRANCH_IOTA
         
         LDX.b #$12
         
-        CMP.b #$38 : BEQ BRANCH_KAPPA
+        CMP.b #$38 : BEQ .BRANCH_KAPPA
         
         LDX.b #$13
         
-        CMP.b #$39 : BEQ BRANCH_KAPPA
+        CMP.b #$39 : BEQ .BRANCH_KAPPA
         
         JSL $07F25A ; $3F25A IN ROM
         
@@ -9805,7 +9805,7 @@ org $018000
         
         RTS
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         STX $11
         
@@ -9813,17 +9813,17 @@ org $018000
         
         RTS
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         STX $11
         
         LDY.b #$16
         
-        LDA $048A : CMP.b #$34 : BCC BRANCH_LAMBDA
+        LDA $048A : CMP.b #$34 : BCC .BRANCH_LAMBDA
         
         LDY.b #$18
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         STY $012E ; Play one of the stairs sound effects.
         
@@ -10172,9 +10172,9 @@ org $018000
     {
         STA $11
         
-        LDX $0C : CPX.b #$23 : BEQ BRANCH_ALPHA
+        LDX $0C : CPX.b #$23 : BEQ .BRANCH_ALPHA
         
-        LDA $04B6 : ORA $04B7 : BEQ BRANCH_ALPHA
+        LDA $04B6 : ORA $04B7 : BEQ .BRANCH_ALPHA
         
         LDA $11 : STA $010C
         
@@ -10208,7 +10208,7 @@ org $018000
         
         JSL Dungeon_SpriteInducedTilemapUpdate
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         SEP #$30
         
@@ -10221,25 +10221,25 @@ org $018000
         
         LDX.w #$0000 : STX $00
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $0540, X : ASL A : BCC BRANCH_ALPHA
+        LDA $0540, X : ASL A : BCC .BRANCH_ALPHA
         
         INC $00
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        INX #2 : CPX.w #$0020 : BNE BRANCH_BETA
+        INX #2 : CPX.w #$0020 : BNE .BRANCH_BETA
         
         LDX.w #$0001
         
-        LDA $00 : CMP.w #$0004 : BCC BRANCH_GAMMA
+        LDA $00 : CMP.w #$0004 : BCC .BRANCH_GAMMA
         
         DEX
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CPX $0468 : BEQ BRANCH_DELTA
+        CPX $0468 : BEQ .BRANCH_DELTA
         
         STX $0468
         
@@ -10252,7 +10252,7 @@ org $018000
         
         LDA.b #$05 : STA $11
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         SEP #$30
         
@@ -10291,11 +10291,11 @@ org $018000
     
         LDY.w #$FFFE
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         INY #2
         
-        LDA $1980, Y : AND.w #$00FE : CMP.w #$0030 : BNE BRANCH_GAMMA
+        LDA $1980, Y : AND.w #$00FE : CMP.w #$0030 : BNE .BRANCH_GAMMA
         
         STY $0456
         
@@ -10303,11 +10303,11 @@ org $018000
         ; tables below?
         LDA $21 : AND.w #$0001 : INC A : ASL #2 : TAX
         
-        LDA $19C0, Y : AND.w #$0002 : BEQ BRANCH_DELTA
+        LDA $19C0, Y : AND.w #$0002 : BEQ .BRANCH_DELTA
         
         LDA $23 : AND.w #$0001 : ASL A : TAX
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $01C666, X : STA $7F001C
         
@@ -10501,12 +10501,12 @@ org $018000
     
         ; Tag routine 0x27 "trigger activated chest"
         ; Link is flashing, so he can't do shit, son
-        LDA $031F : BNE BRANCH_$C7C1 ; (RTS)
+        LDA $031F : BNE .BRANCH_$C7C1 ; (RTS)
         
         REP #$30
         
         ; $CD39 IN ROM
-        JSR $CD39 : BCC BRANCH_C7BE
+        JSR $CD39 : BCC .BRANCH_C7BE
     
     ; *$C7D8 ALTERNATE ENTRY POINT
     .showChests
@@ -10665,11 +10665,11 @@ org $018000
         
         LDX $041E
         
-        LDA $0422 : CMP $9B1A, X : BCS BRANCH_DELTA
+        LDA $0422 : CMP $9B1A, X : BCS .BRANCH_DELTA
         
         JSR $CA75 ; $CA75 IN ROM
         
-        LDA $0422 : CMP $9B1A, X : BCS BRANCH_DELTA
+        LDA $0422 : CMP $9B1A, X : BCS .BRANCH_DELTA
         
         ; play the puzzle solved sound.
         LDX.b #$1B : STX $012F
@@ -10686,7 +10686,7 @@ org $018000
         STZ $011C
         STZ $011D
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDX.b #$05 : STX $17
         
@@ -10721,12 +10721,12 @@ org $018000
         
         LDX $0E
         
-        LDY $AE, X : BNE BRANCH_ALPHA
+        LDY $AE, X : BNE .BRANCH_ALPHA
         
         STZ $011A
         STZ $011C
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -10739,7 +10739,7 @@ org $018000
         
         JSR $CA17 ; $CA17 IN ROM
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
     .wallIsMoving
     
@@ -10751,22 +10751,22 @@ org $018000
         
         JSR $CA66 ; $CA66 IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0312
         
         CLC : ADC $0422 : STA $0422
         CLC : ADC $E2   : STA $E0
         
-        LDA $0312 : BEQ BRANCH_GAMMA
+        LDA $0312 : BEQ .BRANCH_GAMMA
         
         LDX $041E
         
-        LDA $0422 : CMP $9B2A, X : BCC BRANCH_DELTA
+        LDA $0422 : CMP $9B2A, X : BCC .BRANCH_DELTA
         
         JSR $CA75 ; $CA75 IN ROM
         
-        LDA $0422 : CMP $9B2A, X : BCC BRANCH_DELTA
+        LDA $0422 : CMP $9B2A, X : BCC .BRANCH_DELTA
         
         ; play the puzzle solved sound
         LDX.b #$1B : STX $012F
@@ -10783,7 +10783,7 @@ org $018000
         STZ $011C
         STZ $011D
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDX.b #$05 : STX $17
         
@@ -10791,11 +10791,11 @@ org $018000
         
         LDA $042A : CLC : ADC $00 : STA $0116
         
-        AND.w #$1020 : BEQ BRANCH_GAMMA
+        AND.w #$1020 : BEQ .BRANCH_GAMMA
         
         EOR.w #$0420 : STA $0116
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         SEP #$20
         
@@ -10895,7 +10895,7 @@ org $018000
     {
         ; routine 0x18 - turn off water
         
-        LDA $0642 : BEQ BRANCH_$CA75.beta
+        LDA $0642 : BEQ .BRANCH_$CA75.beta
         
         ; Change window mask settings...
         LDA.b #$03 : STA $96
@@ -10956,7 +10956,7 @@ org $018000
     {
         ; routine 0x19 - turn on water
         
-        LDA $0642 : BEQ BRANCH_$CB19 ; (RTS)
+        LDA $0642 : BEQ .BRANCH_$CB19 ; (RTS)
         
         ; Play two sound effects together (some sound effects sound good together)
         LDA.b #$1B : STA $012F
@@ -11071,66 +11071,66 @@ org $018000
     {
         LDA.b #$01
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC04 ALTERNATE ENTRY POINT
     
         LDA.b #$03
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC08 ALTERNATE ENTRY POINT
     
         LDA.b #$06
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC0C ALTERNATE ENTRY POINT
     
         LDA.b #$08
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC10 ALTERNATE ENTRY POINT
     
         LDA.b #$0A
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC14 ALTERNATE ENTRY POINT
     
         LDA.b #$0C
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC18 ALTERNATE ENTRY POINT
     
         LDA.b #$0E
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$CC1C ALTERNATE ENTRY POINT
     
         LDA.b #$10
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0A
         
-        LDY $04BA : BNE BRANCH_BETA
+        LDY $04BA : BNE .BRANCH_BETA
         
         STA $04BA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         REP #$30
         
         ; $CDCC IN ROM
-        JSR $CDCC : BCC BRANCH_GAMMA
+        JSR $CDCC : BCC .BRANCH_GAMMA
         
         SEP #$30
         
-        TYA : CLC : ADC $0A : CMP $04BA : BEQ BRANCH_GAMMA
+        TYA : CLC : ADC $0A : CMP $04BA : BEQ .BRANCH_GAMMA
         
         STA $04BA
         
@@ -11148,7 +11148,7 @@ org $018000
         
         JSL Dungeon_RestoreStarTileChr
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         SEP #$30
         
@@ -11210,11 +11210,11 @@ org $018000
         REP #$30
         
         ; $CDCC IN ROM
-        JSR $CDCC : BCC BRANCH_$CC86 ; (SEP #$30, RTS)
+        JSR $CDCC : BCC .BRANCH_$CC86 ; (SEP #$30, RTS)
         
         LDY.w #$0005
         
-        BRA BRANCH_$CC6E
+        BRA .BRANCH_$CC6E
     }
 
 ; ==============================================================================
@@ -11653,7 +11653,7 @@ org $018000
         
         STY $00
         
-        JSL AddDoorDebris : BCS BRANCH_OMICRON
+        JSL AddDoorDebris : BCS .BRANCH_OMICRON
         
         LDY $00
         
@@ -11666,7 +11666,7 @@ org $018000
         LDA $19A0, Y : AND.w #$007E : ASL #2 : CLC : ADC $062C : STA $03B6, X
         LDA $19A0, Y : AND.w #$1F80 : LSR #4 : CLC : ADC $062E : STA $03BA, X
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         SEP #$30
         
@@ -11676,7 +11676,7 @@ org $018000
         
         JSL Sprite_RepelDashAttackLong
     
-    BRANCH_TAU:
+    .BRANCH_TAU
     
         RTL
     
@@ -11688,34 +11688,34 @@ org $018000
         ; No... invisible door? Trap door? What? \task Part of another task
         ; Once $0436 is documented, we should know what logic would be
         ; skipped. Eye doors? wtf is this?
-        LDA $0436 : BMI BRANCH_PI
+        LDA $0436 : BMI .BRANCH_PI
         
-        LDA $6C : BNE BRANCH_PI
+        LDA $6C : BNE .BRANCH_PI
         
         ; \hardcoded Checking by room? wtf man.
-        LDA $23 : CMP.b #$0C : BNE BRANCH_PI
+        LDA $23 : CMP.b #$0C : BNE .BRANCH_PI
         
         LDY $0437
         
-        LDX $0436 : CPX $2F : BEQ BRANCH_RHO
+        LDX $0436 : CPX $2F : BEQ .BRANCH_RHO
         
-        LDA $2F : CMP $01CE5C, X : BNE BRANCH_RHO
+        LDA $2F : CMP $01CE5C, X : BNE .BRANCH_RHO
         
         REP #$20
         
         LDA $068C : ORA $98C0, Y
         
-        BRA BRANCH_SIGMA
+        BRA .BRANCH_SIGMA
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         REP #$20
         
         LDA $068C : AND $98E0, Y
     
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
-        CMP $068C : BEQ BRANCH_PI
+        CMP $068C : BEQ .BRANCH_PI
         
         STA $068C
         
@@ -11744,31 +11744,31 @@ org $018000
         
         RTL
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         SEP #$30
         
-        LDA $3A : ASL A : BCC BRANCH_TAU
+        LDA $3A : ASL A : BCC .BRANCH_TAU
         
-        LDA $3C : CMP.b #$04 : BNE BRANCH_TAU
+        LDA $3C : CMP.b #$04 : BNE .BRANCH_TAU
         
         ; I think.... this is checking for a sword slashable door?
         ; \task Find out how we get in here.
         REP #$31
         
-        LDA $44 : AND.w #$00FF : CMP.w #$0080 : BCC BRANCH_UPSILON
+        LDA $44 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_UPSILON
         
         ORA.w #$FF00
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
         CLC : ADC $20 : AND.w #$01F8 : ASL #3 : STA $00
         
-        LDA $45 : AND.w #$00FF : CMP.w #$0080 : BCC BRANCH_PHI
+        LDA $45 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_PHI
         
         ORA.w #$FF00
     
-    BRANCH_PHI:
+    .BRANCH_PHI
     
         CLC : ADC $22 : AND.w #$01F8 : LSR #3 : ORA $00 : TAX
         
@@ -11776,69 +11776,69 @@ org $018000
         
         ; checking for dash breakable wall? Not sure that I buy that, but it's
         ; a possibility.
-        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_CHI
+        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ .BRANCH_CHI
         
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_CHI
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_CHI
         
         INX
         
         DEY
         
-        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_CHI
+        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ .BRANCH_CHI
         
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_CHI
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_CHI
         
         TXA : CLC : ADC.w #$003F : TAX
         
         LDY.w #$0001
         
-        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_CHI
+        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ .BRANCH_CHI
         
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_CHI
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_CHI
         
         INX
         
         DEY
         
-        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_CHI
+        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ .BRANCH_CHI
         
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_CHI
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_CHI
         
         SEP #$30
         
         RTL
     
-    BRANCH_CHI:
+    .BRANCH_CHI
     
         STZ $0C
         
-        CMP.w #$006C : BEQ BRANCH_PSI
+        CMP.w #$006C : BEQ .BRANCH_PSI
     
         JMP $D18A ; $D18A IN ROM
     
-    BRANCH_PSI:
+    .BRANCH_PSI
     
-        STY $0E : CPY.w #$0040 : BCC BRANCH_OMEGA
+        STY $0E : CPY.w #$0040 : BCC .BRANCH_OMEGA
         
         TYA : AND.w #$000F : STA $0E
         
         TXA : SEC : SBC.w #$0040 : TAX
         
-        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_OMEGA
+        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ .BRANCH_OMEGA
         
         TXA : CLC : ADC.w #$0040 : TAX
     
-    BRANCH_OMEGA:
+    .BRANCH_OMEGA
     
-        LDY $0E : BEQ BRANCH_ALTIMA
+        LDY $0E : BEQ .BRANCH_ALTIMA
         
         DEX
         
-        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ BRANCH_ALTIMA
+        LDA $7F2000, X : AND.w #$00FC : CMP.w #$006C : BEQ .BRANCH_ALTIMA
         
         INX
     
-    BRANCH_ALTIMA:
+    .BRANCH_ALTIMA
     
         TXA : SEC : SBC.w #$0041 : ASL A : STA $08
         
@@ -11867,7 +11867,7 @@ org $018000
         
         DEC $0E : BNE .next_column
         
-        BRA BRANCH_OPTIMUS
+        BRA .BRANCH_OPTIMUS
     
     ; *$D18A ALTERNATE ENTRY POINT
     
@@ -11875,7 +11875,7 @@ org $018000
         
         STX $068E
         
-        LDA $1980, Y : AND.w #$00FE : CMP.w #$0032 : BNE BRANCH_ALIF
+        LDA $1980, Y : AND.w #$00FE : CMP.w #$0032 : BNE .BRANCH_ALIF
         
         SEP #$20
         
@@ -11899,7 +11899,7 @@ org $018000
         
         JSR $D51C ; $D51C IN ROM
     
-    BRANCH_OPTIMUS:
+    .BRANCH_OPTIMUS
     
         JSR Dungeon_PrepOverlayDma.nextPrep
         
@@ -11925,7 +11925,7 @@ org $018000
         ; Sets it up so that during NMI, the screen will update.
         LDA.b #$01 : STA $18
     
-    BRANCH_ALIF:
+    .BRANCH_ALIF
     
         SEP #$30
         
@@ -11957,50 +11957,50 @@ org $018000
         
         LDY.w #$0002
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         ; Look for cracked floors
-        LDA $7F2000, X : AND.w #$00FF : CMP.w #$0062 : BEQ BRANCH_BETA
+        LDA $7F2000, X : AND.w #$00FF : CMP.w #$0062 : BEQ .BRANCH_BETA
         
         ; bombable walls
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_GAMMA
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_GAMMA
         
         INX #2
         
         ; cracked floor again
-        LDA $7F2000, X : AND.w #$00FF : CMP.w #$0062 : BEQ BRANCH_BETA
+        LDA $7F2000, X : AND.w #$00FF : CMP.w #$0062 : BEQ .BRANCH_BETA
         
         ; bombable walls
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_GAMMA
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_GAMMA
         
         INX #2
         
-        LDA $7F2000, X : AND.w #$00FF : CMP.w #$0062 : BEQ BRANCH_BETA
+        LDA $7F2000, X : AND.w #$00FF : CMP.w #$0062 : BEQ .BRANCH_BETA
         
-        AND.w #$00F0 : CMP.w #$00F0 : BEQ BRANCH_GAMMA
+        AND.w #$00F0 : CMP.w #$00F0 : BEQ .BRANCH_GAMMA
         
         TXA : CLC : ADC.w #$007C : TAX
         
-        DEY : BPL BRANCH_DELTA
-              BMI BRANCH_EPSILON
+        DEY : BPL .BRANCH_DELTA
+              BMI .BRANCH_EPSILON
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JMP $D2C9 ; $D2C9 IN ROM
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $7F2000, X : AND.w #$000F : ASL A : TAY
         
         ; This whole section is about bombable doors, so it needs to draw a door
         ; This handles the various kinds of tiles that will get replaced in a bombing
-        LDA $1980, Y : AND.w #$00FE : CMP.w #$0028 : BEQ BRANCH_ZETA
+        LDA $1980, Y : AND.w #$00FE : CMP.w #$0028 : BEQ .BRANCH_ZETA
         
-        CMP.w #$002A : BEQ BRANCH_ZETA
+        CMP.w #$002A : BEQ .BRANCH_ZETA
         
-        CMP.w #$002E : BNE BRANCH_EPSILON
+        CMP.w #$002E : BNE .BRANCH_EPSILON
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         STX $068E
         
@@ -12021,7 +12021,7 @@ org $018000
         ; Put us in bombing open a door submodule
         LDA.b #$09 : STA $11
 
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
 
         SEP #$30
 
@@ -12245,9 +12245,9 @@ org $018000
         ; \task I think the name of this branch has it backwards... find out.
         LDA $0468 : BNE .rising_trap_doors
         
-        LDA $068C : AND $98C0, Y : BNE BRANCH_EPSILON
+        LDA $068C : AND $98C0, Y : BNE .BRANCH_EPSILON
         
-        LDA $0690 : CMP.w #$0008 : BNE BRANCH_THETA
+        LDA $0690 : CMP.w #$0008 : BNE .BRANCH_THETA
         
         PHY
         
@@ -12261,13 +12261,13 @@ org $018000
         
         LDA $068C : ORA $98C0, Y
         
-        BRA BRANCH_IOTA
+        BRA .BRANCH_IOTA
     
     .rising_trap_doors
     
-        LDA $068C : AND $98C0, Y : BEQ BRANCH_EPSILON
+        LDA $068C : AND $98C0, Y : BEQ .BRANCH_EPSILON
         
-        LDA $0690 : CMP.w #$0008 : BNE BRANCH_THETA
+        LDA $0690 : CMP.w #$0008 : BNE .BRANCH_THETA
         
         PHY
         
@@ -12281,22 +12281,22 @@ org $018000
         
         LDA $068C : AND $98E0, Y
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         STA $068C
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         JSR $D311 ; $D311 IN ROM; Called in opening and closing doors
         JSR Dungeon_PrepOverlayDma.nextPrep
         
-        LDA $0690 : CMP.w #$0008 : BNE BRANCH_EPSILON
+        LDA $0690 : CMP.w #$0008 : BNE .BRANCH_EPSILON
         
         LDY $068E
         
         JSR $D51C ; $D51C IN ROM
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     .aint_trap_door
     
         LDY $068E : INY #2 : CPY.w #$0018 : BEQ .done_checking_for_trap_doors
@@ -12305,7 +12305,7 @@ org $018000
     
     .done_checking_for_trap_doors
     
-        LDY $0C : BEQ BRANCH_LAMBDA
+        LDY $0C : BEQ .BRANCH_LAMBDA
         
         LDA.w #$FFFF : STA $1100, Y
         
@@ -12320,7 +12320,7 @@ org $018000
         ; Check if we're finished opening / closing trap doors.
         LDA $0690 : CMP.b #$10 : BNE .not_finished_animating
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         SEP #$20
         
@@ -12631,7 +12631,7 @@ org $018000
     Door_BlastWallExploding:
     {
         ; compare with $7F0000? .... well that's confusing
-        LDA.b #$06 : STA $02E4 : STA $0FC1 : CMP $7F0000 : BNE BRANCH_ALPHA
+        LDA.b #$06 : STA $02E4 : STA $0FC1 : CMP $7F0000 : BNE .BRANCH_ALPHA
         
         REP #$30
         
@@ -12653,13 +12653,13 @@ org $018000
         
         LDX.w #$0001
         
-        LDA $19C0, Y : LDY.w #$0100 : AND.w #$0002 : BEQ BRANCH_GAMMA
+        LDA $19C0, Y : LDY.w #$0100 : AND.w #$0002 : BEQ .BRANCH_GAMMA
         
         LDY.w #$0001
         
         DEX
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         TYA : ORA $0452 : STA $0452
         
@@ -12687,7 +12687,7 @@ org $018000
         
         LDA.b #$03 : STA $18
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTL
     }
@@ -13101,7 +13101,7 @@ org $018000
         
         LDA $01D9E2, X : STA $06
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
     .not_pot_tiles
     
@@ -13142,7 +13142,7 @@ org $018000
         
         PLA : STA $042C
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR Dungeon_GetUprootedTerrainSpawnCoords
         
@@ -14111,30 +14111,30 @@ Dungeon_LoadSecret:
         ; must be the village of outcasts chest game room
         JSL GetRandomInt : AND.b #$07 : TAX
         
-        CPX.b #$02 : BCC BRANCH_BETA
+        CPX.b #$02 : BCC .BRANCH_BETA
         
         ; make sure it's not the same thing we got last time?
-        CPX $C8 : BNE BRANCH_BETA
+        CPX $C8 : BNE .BRANCH_BETA
         
         TXA : INC A : AND.b #$07 : TAX
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CPX.b #$07 : BNE BRANCH_GAMMA
+        CPX.b #$07 : BNE .BRANCH_GAMMA
         
         ; checking to see if you already got that heart piece
-        LDA $0403 : AND.b #$40 : BNE BRANCH_DELTA
+        LDA $0403 : AND.b #$40 : BNE .BRANCH_DELTA
         
         ; set the flag indicating you've gotten that heart piece
         LDA $0403 : ORA.b #$40 : STA $0403
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDX.b #$00
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA.l Dungeon_MinigameChestPrizes, X
     
@@ -14179,14 +14179,14 @@ Dungeon_LoadSecret:
     
         JSL GetRandomInt : AND.b #$0F
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$EEFF ALTERNATE ENTRY POINT
     .lowStakes
     
         JSL GetRandomInt : AND.b #$0F : CLC : ADC.w #$10
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         TAX
         
@@ -14240,13 +14240,13 @@ Dungeon_LoadSecret:
 
     ; *$EF54-$EFEB LONG
     {
-        LDA $0424 : AND.b #$07 : BNE BRANCH_ALPHA
+        LDA $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
         
         LDA $0424 : AND.b #$0C : LSR A : TAX
         
         REP #$20
         
-        LDA $0684 : CMP $0688 : BEQ BRANCH_BETA
+        LDA $0684 : CMP $0688 : BEQ .BRANCH_BETA
         
         CLC : ADC $01EF34, X : STA $0684
         
@@ -14260,7 +14260,7 @@ Dungeon_LoadSecret:
         
         RTL
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         SEP #$30
         
@@ -14270,7 +14270,7 @@ Dungeon_LoadSecret:
         
         RTL
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         SEP #$30
         
@@ -14286,33 +14286,33 @@ Dungeon_LoadSecret:
         
         STZ $1E
         
-        LDX $0442 : BEQ BRANCH_GAMMA
+        LDX $0442 : BEQ .BRANCH_GAMMA
         
         LDY.w #$0000
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDX $06B8, Y
         
         LDA.w #$1D1D : STA $7F2041, X : STA $7F2081, X
         
-        INY #2 : CPY $0442 : BNE BRANCH_DELTA
+        INY #2 : CPY $0442 : BNE .BRANCH_DELTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDX $04AE : BEQ BRANCH_EPSILON
+        LDX $04AE : BEQ .BRANCH_EPSILON
         
         LDY.w #$0000
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDX $06EC, Y
         
         LDA.w #$1D1D : STA $7F2041, X : STA $7F2081, X
         
-        INY #2 : CPY $04AE : BNE BRANCH_ZETA
+        INY #2 : CPY $04AE : BNE .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         SEP #$30
         
@@ -14333,14 +14333,14 @@ Dungeon_LoadSecret:
 
         LDA $9B52, Y
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
         STA $7E4000, X : STA $7E4200, X : STA $7E4400, X : STA $7E4600, X
         STA $7E4800, X : STA $7E4A00, X : STA $7E4C00, X : STA $7E4E00, X
         STA $7E5000, X : STA $7E5200, X : STA $7E5400, X : STA $7E5600, X
         STA $7E5800, X : STA $7E5A00, X : STA $7E5C00, X : STA $7E5E00, X
 
-        INX #2 : CPX.w #$0200 : BNE BRANCH_ALPHA
+        INX #2 : CPX.w #$0200 : BNE .BRANCH_ALPHA
 
         SEP #$30
 
@@ -14416,7 +14416,7 @@ Dungeon_LoadSecret:
 
     ; *$F09B-$F16C JUMP LOCATION
     {
-        DEC $0424 : BNE BRANCH_$F09A ; (RTL)
+        DEC $0424 : BNE .BRANCH_$F09A ; (RTL)
         
         LDA.b #$04 : STA $0424
         
@@ -14436,7 +14436,7 @@ Dungeon_LoadSecret:
     
         LDA $047C : CLC : ADC.w #$0100 : STA $08 : TAX
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $9B52, Y : STA $7E2000, X
         LDA $9B54, Y : STA $7E2002, X
@@ -14446,13 +14446,13 @@ Dungeon_LoadSecret:
         TYA : CLC : ADC.w #$0008 : TAY
         TXA : CLC : ADC.w #$0080 : TAX
         
-        DEC $0E : BNE BRANCH_ALPHA
+        DEC $0E : BNE .BRANCH_ALPHA
         
         LDA.w #$0004 : STA $0A
         
         LDY.w #$0000
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDX $08
         
@@ -14472,7 +14472,7 @@ Dungeon_LoadSecret:
         
         TYA : CLC : ADC.w #$000E : TAY
         
-        DEC $0A : BNE BRANCH_BETA
+        DEC $0A : BNE .BRANCH_BETA
         
         LDA.w #$FFFF : STA $1002, Y
         
@@ -14538,13 +14538,13 @@ Dungeon_LoadSecret:
 
     ; *$F1E1-$F2D9 JUMP LOCATION
     {
-        LDA $0424 : AND.b #$07 : BNE BRANCH_ALPHA
+        LDA $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
         
         LDA $0424 : AND.b #$0C : LSR A : TAX
         
         REP #$20
         
-        LDA $0684 : CMP $0688 : BEQ BRANCH_BETA
+        LDA $0684 : CMP $0688 : BEQ .BRANCH_BETA
         
         CLC : ADC $01F063, X : STA $0684
         
@@ -14554,23 +14554,23 @@ Dungeon_LoadSecret:
         
         LDY.w #$16B4
         
-        LDA $0688 : SEC : SBC $0684 : BEQ BRANCH_GAMMA
+        LDA $0688 : SEC : SBC $0684 : BEQ .BRANCH_GAMMA
         
-        CMP.w #$0008 : BNE BRANCH_DELTA
+        CMP.w #$0008 : BNE .BRANCH_DELTA
         
         LDY.w #$168C
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA.w #$0005 : STA $0E
         
         JSL $01F0C9 ; $F0C9 IN ROM
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         SEP #$30
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         SEP #$30
         
@@ -14580,17 +14580,17 @@ Dungeon_LoadSecret:
         
         RTL
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         REP #$30
         
         STZ $1E
         
-        LDX $0440 : BEQ BRANCH_EPSILON
+        LDX $0440 : BEQ .BRANCH_EPSILON
         
         LDY.w #$0000
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDX $06B8, Y
         
@@ -14607,15 +14607,15 @@ Dungeon_LoadSecret:
         STA $7F3080, X : STA $7F3082, X
         STA $7F30C0, X : STA $7F30C2, X
         
-        INY #2 : CPY $0440 : BNE BRANCH_ZETA
+        INY #2 : CPY $0440 : BNE .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        LDX $049E : BEQ BRANCH_THETA
+        LDX $049E : BEQ .BRANCH_THETA
         
         LDY.w #$0000
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDX $06EC, Y
         
@@ -14632,9 +14632,9 @@ Dungeon_LoadSecret:
         STA $7F3040, X : STA $7F3042, X
         STA $7F3080, X : STA $7F3082, X
         
-        INY #2 : CPY $049E : BNE BRANCH_IOTA
+        INY #2 : CPY $049E : BNE .BRANCH_IOTA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         STZ $11
         STZ $B0
@@ -14703,11 +14703,11 @@ Dungeon_LoadSecret:
         
         LDA $0470 : AND.b #$0F : BNE _F309_easyOut ; (SEP #$30, RTL;)
         
-        LDA $0470 : CMP.b #$40 : BNE BRANCH_ALPHA
+        LDA $0470 : CMP.b #$40 : BNE .BRANCH_ALPHA
         
         INC $B0
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         REP #$30
         
@@ -14721,7 +14721,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$000A : STA $0E
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $9B52, Y : STA $7E2000, X
         LDA $9B54, Y : STA $7E2080, X
@@ -14732,13 +14732,13 @@ Dungeon_LoadSecret:
         
         INX #2
         
-        DEC $0E : BNE BRANCH_BETA
+        DEC $0E : BNE .BRANCH_BETA
 
         STZ $0C
 
         LDA.w #$0003 : STA $0E
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $08 : PHA
         
@@ -14752,7 +14752,7 @@ Dungeon_LoadSecret:
         
         PLA : CLC : ADC.w #$0006 : STA $08
         
-        DEC $0E : BNE BRANCH_GAMMA
+        DEC $0E : BNE .BRANCH_GAMMA
         
         JMP $D1E3 ; $D1E3 IN ROM
     }
@@ -15198,11 +15198,11 @@ Dungeon_LoadSecret:
         
         LDA.w #$0080 : STA $06
         
-        LDA $08 : AND.w #$003F : CMP.w #$003A : BCC BRANCH_ALPHA
+        LDA $08 : AND.w #$003F : CMP.w #$003A : BCC .BRANCH_ALPHA
         
         INC $06
     
-    BRANCH_ALPHA
+    .BRANCH_ALPHA
     
         LDX $08
         
@@ -15216,7 +15216,7 @@ Dungeon_LoadSecret:
         
         LDA $06 : STA $1102, Y
         
-        LSR A : BCS BRANCH_BETA
+        LSR A : BCS .BRANCH_BETA
         
         LDA $1602, X : STA $1106, Y
         LDA $1604, X : STA $1108, Y
@@ -15226,9 +15226,9 @@ Dungeon_LoadSecret:
         
         TXA : CLC : ADC.w #$0008 : TAX
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
 
-    BRANCH_BETA
+    .BRANCH_BETA
 
         LDA $1608, X : STA $1106, Y
         LDA $1610, X : STA $1108, Y
@@ -15238,13 +15238,13 @@ Dungeon_LoadSecret:
         
         INX #2
 
-    BRANCH_GAMMA
+    .BRANCH_GAMMA
 
         STX $045E
         
         TYA : CLC : ADC.w #$000C : TAY
         
-        DEC $0A : BNE BRANCH_ALPHA
+        DEC $0A : BNE .BRANCH_ALPHA
         
         RTS
     }
@@ -15446,7 +15446,7 @@ Dungeon_LoadSecret:
         
         LDY.w #$0000
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         TXA : AND.w #$0040 : LSR #4 : XBA : STA $00
         TXA : AND.w #$303F : LSR A  : STA $02
@@ -15460,13 +15460,13 @@ Dungeon_LoadSecret:
         
         INX #2
         
-        DEC $0E : BNE BRANCH_ALPHA
+        DEC $0E : BNE .BRANCH_ALPHA
         
         LDA $0A : STA $0E
         
         TXA : CLC : ADC.w #$0070 : TAX
         
-        DEC $0C : BNE BRANCH_ALPHA
+        DEC $0C : BNE .BRANCH_ALPHA
         
         LDA.W #$FFFF : STA $1002, Y
         
@@ -15576,7 +15576,7 @@ Dungeon_LoadSecret:
     {
         LDA $0460 : AND.w #$00FF : STA $04
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$FA54 ALTERNATE ENTRY POINT
     
@@ -15584,7 +15584,7 @@ Dungeon_LoadSecret:
         
         AND.w #$000F : STA $04
         
-        TXA : AND.w #$1FFF : CMP $998A : BCC BRANCH_BETA
+        TXA : AND.w #$1FFF : CMP $998A : BCC .BRANCH_BETA
         
         TXA : SEC : SBC.w #$0500 : STA $08
         
@@ -15592,11 +15592,11 @@ Dungeon_LoadSecret:
         
         LDX $0460
         
-        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
+        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
         
         LDA $08 : SEC : SBC.w #$0300 : STA $08
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $0460 : EOR.w #$0010 : STA $0460
         
@@ -15609,51 +15609,51 @@ Dungeon_LoadSecret:
         
         PLX : STX $08
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         PLA : STA $0460
     
     ; *$FAA0 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX $0460
         
         LDA $1980, X : AND.w #$00FE
         
-        LDX $0692    : BEQ BRANCH_DELTA
-        CPX.w #$0004 : BEQ BRANCH_DELTA
+        LDX $0692    : BEQ .BRANCH_DELTA
+        CPX.w #$0004 : BEQ .BRANCH_DELTA
         
-        CMP.w #$0024 : BEQ BRANCH_EPSILON
-        CMP.w #$0026 : BEQ BRANCH_EPSILON
-        CMP.w #$0042 : BCC BRANCH_ZETA
+        CMP.w #$0024 : BEQ .BRANCH_EPSILON
+        CMP.w #$0026 : BEQ .BRANCH_EPSILON
+        CMP.w #$0042 : BCC .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         INX #4
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        CMP.w #$0018 : BEQ BRANCH_THETA
-        CMP.w #$0044 : BNE BRANCH_IOTA
+        CMP.w #$0018 : BEQ .BRANCH_THETA
+        CMP.w #$0044 : BNE .BRANCH_IOTA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         INX #2
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDY $CF24, X
         
-        BRA BRANCH_KAPPA
+        BRA .BRANCH_KAPPA
     
     ; *$FAD7 ALTERNATE ENTRY POINT
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR $FD79 ; $FD79 IN ROM
         
         LDY $CD9E, X
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDX $0460
         
@@ -15661,7 +15661,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$0004 : STA $0E
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         LDA $9B52, Y : STA $7E2000, X
         LDA $9B54, Y : STA $7E2080, X
@@ -15671,7 +15671,7 @@ Dungeon_LoadSecret:
         
         INX #2
         
-        DEC $0E : BNE BRANCH_LAMBDA
+        DEC $0E : BNE .BRANCH_LAMBDA
         
         RTS
     }
@@ -15682,7 +15682,7 @@ Dungeon_LoadSecret:
     {
         LDA $0460 : AND.w #$00FF : STA $04
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$FB15 ALTERNATE ENTRY POINT
     
@@ -15690,7 +15690,7 @@ Dungeon_LoadSecret:
         
         AND.w #$000F : STA $04
         
-        TXA : AND.w #$1FFF : CMP $99A8 : BCS BRANCH_BETA
+        TXA : AND.w #$1FFF : CMP $99A8 : BCS .BRANCH_BETA
         
         TXA : CLC : ADC.w #$0500 : STA $08
         
@@ -15698,11 +15698,11 @@ Dungeon_LoadSecret:
         
         LDX $0460
         
-        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
+        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
         
         LDA $08 : CLC : ADC.w #$0300 : STA $08
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $0460 : EOR.w #$0010 : STA $0460
         
@@ -15715,47 +15715,47 @@ Dungeon_LoadSecret:
         
         PLX : STX $08
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         PLA : STA $0460
     
     ; *$FB61 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX $0460
         
         LDA $1980, X : AND.w #$00FE
         
-        LDX $0692    : BEQ BRANCH_DELTA
-        CPX.w #$0004 : BEQ BRANCH_DELTA
+        LDX $0692    : BEQ .BRANCH_DELTA
+        CPX.w #$0004 : BEQ .BRANCH_DELTA
         
-        CMP.w #$0042 : BCC BRANCH_EPSILON
+        CMP.w #$0042 : BCC .BRANCH_EPSILON
         
         INX #4
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        CMP.w #$0018 : BEQ BRANCH_ZETA
-        CMP.w #$0044 : BNE BRANCH_THETA
+        CMP.w #$0018 : BEQ .BRANCH_ZETA
+        CMP.w #$0044 : BNE .BRANCH_THETA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         INX #2
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         LDY $CF2C, X
         
-        BRA BRANCH_IOTA
+        BRA .BRANCH_IOTA
     
     ; *$FB8E ALTERNATE ENTRY POINT
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR $FD79 ; $FD79 IN ROM
         
         LDY $CE06, X
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDX $0460
         
@@ -15763,7 +15763,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$0004 : STA $0E
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA $9B52, Y : STA $7E2080, X
         LDA $9B54, Y : STA $7E2100, X
@@ -15773,7 +15773,7 @@ Dungeon_LoadSecret:
         
         INX #2
         
-        DEC $0E : BNE BRANCH_IOTA
+        DEC $0E : BNE .BRANCH_IOTA
         
         RTS
     }
@@ -15784,7 +15784,7 @@ Dungeon_LoadSecret:
     {
         LDA $0460 : AND.w #$00FF : STA $04
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$FBCC ALTERNATE ENTRY POINT
     
@@ -15792,7 +15792,7 @@ Dungeon_LoadSecret:
         
         AND.w #$000F : STA $04
         
-        TXA : AND.w #$07FF : CMP $99BA : BCC BRANCH_BETA
+        TXA : AND.w #$07FF : CMP $99BA : BCC .BRANCH_BETA
         
         TXA : SEC : SBC.w #$0010 : STA $08
         
@@ -15800,11 +15800,11 @@ Dungeon_LoadSecret:
         
         LDX $0460
         
-        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
+        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
         
         LDA $08 : SEC : SBC.w #$000C : STA $08
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $0460 : EOR.w #$0010 : STA $0460
         
@@ -15817,47 +15817,47 @@ Dungeon_LoadSecret:
         
         PLX : STX $08
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         PLA : STA $0460
     
     ; *$FC18 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX $0460
         
         LDA $1980, X : AND.w #$00FE
         
-        LDX $0692    : BEQ BRANCH_DELTA
-        CPX.w #$0004 : BEQ BRANCH_DELTA
+        LDX $0692    : BEQ .BRANCH_DELTA
+        CPX.w #$0004 : BEQ .BRANCH_DELTA
         
-        CMP.w #$0042 : BCC BRANCH_EPSILON
+        CMP.w #$0042 : BCC .BRANCH_EPSILON
         
         INX #4
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        CMP.w #$0018 : BEQ BRANCH_ZETA
-        CMP.w #$0044 : BNE BRANCH_THETA
+        CMP.w #$0018 : BEQ .BRANCH_ZETA
+        CMP.w #$0044 : BNE .BRANCH_THETA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         INX #2
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         LDY $CF34, X
         
-        BRA BRANCH_IOTA
+        BRA .BRANCH_IOTA
     
     ; *$FC45 ALTERNATE ENTRY POINT
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR $FD79 ; $FD79 IN ROM
         
         LDY $CE66, X
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDX $0460
         
@@ -15865,7 +15865,7 @@ Dungeon_LoadSecret:
         
         LDA.w #$0003 : STA $0E
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA $9B52, Y : STA $7E2000, X
         LDA $9B54, Y : STA $7E2080, X
@@ -15876,7 +15876,7 @@ Dungeon_LoadSecret:
         
         INX #2
         
-        DEC $0E : BNE BRANCH_KAPPA
+        DEC $0E : BNE .BRANCH_KAPPA
         
         RTS
     }
@@ -15887,13 +15887,13 @@ Dungeon_LoadSecret:
     {
         LDA $0460 : AND.w #$00FF : STA $04
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$FC8A ALTERNATE ENTRY POINT
     
         LDA $0460 : PHA : AND.w #$000F : STA $04
         
-        TXA : AND.w #$07FF : CMP $99D2 : BCS BRANCH_BETA
+        TXA : AND.w #$07FF : CMP $99D2 : BCS .BRANCH_BETA
         
         TXA : CLC : ADC.w #$0010 : STA $08
         
@@ -15901,11 +15901,11 @@ Dungeon_LoadSecret:
         
         LDX $0460
         
-        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC BRANCH_GAMMA
+        LDA $1980, X : AND.w #$00FE : CMP.w #$0042 : BCC .BRANCH_GAMMA
         
         LDA $08 : CLC : ADC.w #$000C : STA $08
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $0460 : EOR.w #$0010 : STA $0460
         
@@ -15918,25 +15918,25 @@ Dungeon_LoadSecret:
         
         PLX : STX $08
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         PLA : STA $0460
     
     ; *$FCD6 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDX $0460
         
         LDA $1980, X : AND.w #$00FE
         
-        LDX $0692    : BEQ BRANCH_DELTA
-        CPX.w #$0004 : BEQ BRANCH_DELTA
+        LDX $0692    : BEQ .BRANCH_DELTA
+        CPX.w #$0004 : BEQ .BRANCH_DELTA
         
-        CMP.w #$0042 : BCC BRANCH_EPSILON
+        CMP.w #$0042 : BCC .BRANCH_EPSILON
         
         INX #4
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         CMP.w #$0018 : BEQ .isTrapDoor
         CMP.w #$0044 : BNE .notTrapDoor
@@ -15952,7 +15952,7 @@ Dungeon_LoadSecret:
         BRA .drawDoor
     
     ; *$FD03 ALTERNATE ENTRY POINT
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR $FD79 ; $FD79 IN ROM
         

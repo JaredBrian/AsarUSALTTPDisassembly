@@ -2034,7 +2034,7 @@
     SpriteExplode_Execute:
     {
         ; 0 = explodes. > 0 = doesn't explode. :p
-        LDA $0D90, X : BEQ BRANCH_$4EE0F
+        LDA $0D90, X : BEQ .BRANCH_$4EE0F
         
         LDA $0DF0, X : BNE .draw
         
@@ -2375,17 +2375,17 @@
         
         LDA $7FF9FE, X : STA $05
         
-        LDA $0FC6 : CMP.b #$03 : BCS BRANCH_ALPHA
+        LDA $0FC6 : CMP.b #$03 : BCS .BRANCH_ALPHA
         
-        LDA $7FF92C, X : CMP.b #$03 : BNE BRANCH_BETA
+        LDA $7FF92C, X : CMP.b #$03 : BNE .BRANCH_BETA
         
         JSR ScatterDebris_Draw
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0FB5
         
@@ -2393,16 +2393,16 @@
         
         LDA $7FF90E, X : LSR #2 : EOR.b #$07 : ASL #2
         
-        CPY.b #$04 : BEQ BRANCH_GAMMA
-        CPY.b #$02 : BNE BRANCH_DELTA
+        CPY.b #$04 : BEQ .BRANCH_GAMMA
+        CPY.b #$02 : BNE .BRANCH_DELTA
         
-        LDY $1B : BNE BRANCH_DELTA
+        LDY $1B : BNE .BRANCH_DELTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         CLC : ADC.b #$20
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STA $06
         
@@ -2412,7 +2412,7 @@
         
         LDX.b #$03
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         PHX
         
@@ -2432,21 +2432,21 @@
         
         LDA $02 : CLC : ADC $F00B, X : INY : STA ($90), Y
         
-        LDA $0FB5 : BNE BRANCH_EPSILON
+        LDA $0FB5 : BNE .BRANCH_EPSILON
         
         LDA.b #$4E
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
-    BRANCH_EPSILON
+    .BRANCH_EPSILON
     
         ; Feel I should leave a comment here because of this unusual sequence
         ; of instructions.
-        CMP.b #$80 : LDA $F04B, X : BCC BRANCH_ZETA
+        CMP.b #$80 : LDA $F04B, X : BCC .BRANCH_ZETA
         
         LDA.b #$F2
     
-    BRANCH_ZETA
+    .BRANCH_ZETA
     
                        INY           : STA ($90), Y
         LDA $F08B, X : INY : ORA $05 : STA ($90), Y
@@ -2457,7 +2457,7 @@
         
         PLY : INY
         
-        PLX : DEX : BPL BRANCH_THETA
+        PLX : DEX : BPL .BRANCH_THETA
         
         PLX
         

@@ -18,7 +18,7 @@
     
         JSR Sprite3_CheckIfActive
         
-        LDA $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE BRANCH_GAMMA
+        LDA $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE .BRANCH_GAMMA
         
         STZ $0EF0, X
         
@@ -31,7 +31,7 @@
         
         LDA.b #$02 : STA $7F6918
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR Sprite3_CheckIfRecoiling
         
@@ -175,7 +175,7 @@
     {
         JSR Sprite3_CheckDamage
         
-        LDA $0DF0, X : CMP $0DA0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : CMP $0DA0, X : BNE .BRANCH_ALPHA
         
         JSR Sprite3_IsToRightOfPlayer
         
@@ -187,7 +187,7 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LSR #3 : TAY
         
@@ -204,7 +204,7 @@
     {
         JSR Sprite3_CheckDamage
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
@@ -213,7 +213,7 @@
         LDA.b #$20 : STA $0E00, X
     
     ; *$F2BEB ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$01 : STA $0DB0, X
         LDA.b #$01 : STA $0DC0, X
@@ -225,8 +225,8 @@
     {
         JSR Sprite3_CheckDamage
         
-        LDA $0E00, X : BEQ BRANCH_ALPHA
-        DEC A        : BNE BRANCH_BETA
+        LDA $0E00, X : BEQ .BRANCH_ALPHA
+        DEC A        : BNE .BRANCH_BETA
         
         LDA.b #$30 : STA $0F80, X
         
@@ -239,43 +239,43 @@
         
         LDA.b #$13 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        BRA BRANCH_$F2BEB
+        BRA .BRANCH_$F2BEB
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Sprite3_MoveXyz
         JSR Sprite3_CheckTileCollision
         
-        LDA $0F80, X : CMP.b #$C0 : BMI BRANCH_GAMMA
+        LDA $0F80, X : CMP.b #$C0 : BMI .BRANCH_GAMMA
         
         SEC : SBC.b #$02 : STA $0F80, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $0F70, X : DEC A : BPL BRANCH_DELTA
+        LDA $0F70, X : DEC A : BPL .BRANCH_DELTA
         
         STZ $0F70, X
         STZ $0F80, X
         
-        LDA $0DF0, X : BNE BRANCH_EPSILON
+        LDA $0DF0, X : BNE .BRANCH_EPSILON
         
         JMP $AB46 ; $F2B46 IN ROM
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA.b #$10 : STA $0E00, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDY.b #$02
         
-        LDA $0F80, X : CMP.b #$18 : BMI BRANCH_ZETA
+        LDA $0F80, X : CMP.b #$18 : BMI .BRANCH_ZETA
         
         LDY.b #$00
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         TYA : STA $0DC0, X
         
@@ -301,45 +301,45 @@
         JSR Sprite3_MoveXyz
         JSR Sprite3_CheckTileCollision
         
-        LDA $0F80, X : CMP.b #$C0 : BMI BRANCH_ALPHA
+        LDA $0F80, X : CMP.b #$C0 : BMI .BRANCH_ALPHA
         
         SEC : SBC.b #$02 : STA $0F80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0F70, X : DEC A : BPL BRANCH_BETA
+        LDA $0F70, X : DEC A : BPL .BRANCH_BETA
         
         STZ $0F70, X
         STZ $0F80, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $0DF0, X : BNE BRANCH_GAMMA
+        LDA $0DF0, X : BNE .BRANCH_GAMMA
         
-        JSL GetRandomInt : AND.b #$01 : BNE BRANCH_DELTA
+        JSL GetRandomInt : AND.b #$01 : BNE .BRANCH_DELTA
         
         LDA.b #$07 : STA $0D80, X
         LDA.b #$50 : STA $0DF0, X
         
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JMP $AB46 ; $F2B46 IN ROM
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CMP.b #$E0 : BCC BRANCH_EPSILON
+        CMP.b #$E0 : BCC .BRANCH_EPSILON
         
-        PHA : AND.b #$03 : BNE BRANCH_ZETA
+        PHA : AND.b #$03 : BNE .BRANCH_ZETA
         
         LDA.b #$14 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         PLA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LSR #3 : TAY
         

@@ -55,31 +55,31 @@
         
         LDA.b #$01 : STA $0B0C
         
-        LDA $0EF0, X : AND.b #$7F : CMP.b #$02 : BNE BRANCH_GAMMA
+        LDA $0EF0, X : AND.b #$7F : CMP.b #$02 : BNE .BRANCH_GAMMA
         
         JSR Arrghus_InitiateJumpWayUp
         
         ; Make it impervious temporarily...
         LDA.b #$40 : STA $0E60, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR Sprite3_CheckIfRecoiling
         JSR Sprite3_CheckDamageToPlayer
         
-        LDA $0E80, X : INC $0E80, X : AND.b #$03 : BNE BRANCH_DELTA
+        LDA $0E80, X : INC $0E80, X : AND.b #$03 : BNE .BRANCH_DELTA
         
-        INC $0ED0, X : LDA $0ED0, X : CMP.b #$09 : BNE BRANCH_EPSILON
+        INC $0ED0, X : LDA $0ED0, X : CMP.b #$09 : BNE .BRANCH_EPSILON
         
         STZ $0ED0, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDY $0ED0, X
         
         LDA .animation_states, Y : STA $0DC0, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
         
@@ -390,12 +390,12 @@
     
     .dont_adjust_radius
     
-        BNE BRANCH_DELTA
+        BNE .BRANCH_DELTA
         
         ; \task Figure out if this code is ever reached, and if so, how???!!!
         LDA.b #$26 : BRA .play_sound_effect
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         AND.b #$0F : BNE .sound_effect_delay
         
@@ -509,7 +509,7 @@
         
         LDA $0F
         
-        LDY $05 : BNE BRANCH_GAMMA
+        LDY $05 : BNE .BRANCH_GAMMA
         
         STA $4203
         
@@ -519,13 +519,13 @@
         
         LDA $4217 : ADC.b #$00
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LSR $01 : BCC BRANCH_DELTA
+        LSR $01 : BCC .BRANCH_DELTA
         
         EOR.b #$FF : INC A
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STZ $0A
         
@@ -542,7 +542,7 @@
         
         LDA $0E
         
-        LDY $07 : BNE BRANCH_ZETA
+        LDY $07 : BNE .BRANCH_ZETA
         
         STA $4203
         
@@ -552,13 +552,13 @@
         
         LDA $4217 : ADC.b #$00
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LSR $03 : BCC BRANCH_THETA
+        LSR $03 : BCC .BRANCH_THETA
         
         EOR.b #$FF : INC A
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         STZ $0A
         

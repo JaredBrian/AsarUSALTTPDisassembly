@@ -7370,7 +7370,7 @@ MirrorGFXDecompress:
     
     JSR RestorePaletteAdditive
     
-    BRA BRANCH_$6F27
+    BRA .BRANCH_$6F27
 }
 
 ; =============================================

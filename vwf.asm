@@ -1338,16 +1338,16 @@
         LDA $1CDD
         
         ; basically, branch if $1CDD = 19, 59, or 99 (why?)
-        CMP.w #$0013 : BEQ BRANCH_ALPHA
-        CMP.w #$003B : BEQ BRANCH_ALPHA
-        CMP.w #$0063 : BEQ BRANCH_ALPHA
+        CMP.w #$0013 : BEQ .BRANCH_ALPHA
+        CMP.w #$003B : BEQ .BRANCH_ALPHA
+        CMP.w #$0063 : BEQ .BRANCH_ALPHA
         
         SEP #$30
         
         ; This is recursion, son. Fear it (stack overflows are possible)
         JMP $C984 ; $74984 IN ROM
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
         SEP #$30
         
@@ -1841,7 +1841,7 @@
         
         INC $1CE8
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
     .noDownOrLeftInput
     
@@ -1854,7 +1854,7 @@
         
         BRA .return
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     .noDownOrRightInput
     
         JSR VWF_SelectNextItem

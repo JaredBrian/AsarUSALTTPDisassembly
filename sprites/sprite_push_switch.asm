@@ -1,11 +1,8 @@
-
 ; ==============================================================================
 
     ; $339E6-$339F9 DATA
     pool 
     {
-    
-    
         db 40,  6,  3,  3,  3,  5,  1,  1,  3, 12
     
         db  0,  1,  2,  3,  4,  5,  5,  6,  7,  6
@@ -39,23 +36,23 @@
 
     ; *$33A10-$33A32 JUMP LOCATION
     {
-        LDA $0DB0, X : BEQ BRANCH_ALPHA
+        LDA $0DB0, X : BEQ .BRANCH_ALPHA
         
-        DEC $0DA0, X : LDA $0DA0, X : BNE BRANCH_BETA
+        DEC $0DA0, X : LDA $0DA0, X : BNE .BRANCH_BETA
         
         INC $0D80, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $1A : AND.b #$03 : BNE BRANCH_GAMMA
+        LDA $1A : AND.b #$03 : BNE .BRANCH_GAMMA
         
         LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$30 : STA $0DA0, X
         
@@ -64,9 +61,9 @@
 
     ; *$33A33-$33A61 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
-        INC $0D90, X : LDY $0D90, X : CPY.b #$0A : BNE BRANCH_BETA
+        INC $0D90, X : LDY $0D90, X : CPY.b #$0A : BNE .BRANCH_BETA
         
         INC $0D80, X
         
@@ -76,7 +73,7 @@
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $B9E6, Y : STA $0DF0, X
         
@@ -84,7 +81,7 @@
         
         LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -96,17 +93,17 @@
         
         LDA $0F50, X
         
-        LDY $0ABD : BEQ BRANCH_ALPHA
+        LDY $0ABD : BEQ .BRANCH_ALPHA
         
         ORA.b #$0E
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         AND.b #$F1
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0F50, X : STA $02
         
@@ -185,11 +182,11 @@
         
         JSR Sprite_CorrectOamEntries
         
-        LDA $0F20, X : CMP $EE : BEQ BRANCH_GAMMA
+        LDA $0F20, X : CMP $EE : BEQ .BRANCH_GAMMA
         
         JMP $BCAB   ; $33CAB IN ROM
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STZ $0DB0, X
         
@@ -199,11 +196,11 @@
         
         STZ $0A
         
-        LDA $BA62, Y : BPL BRANCH_DELTA
+        LDA $BA62, Y : BPL .BRANCH_DELTA
         
         DEC $0A
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0A : ADC $0D30, X : STA $0A
         
@@ -211,11 +208,11 @@
         
         STZ $0B
         
-        LDA $BA63, Y : BPL BRANCH_EPSILON
+        LDA $BA63, Y : BPL .BRANCH_EPSILON
         
         DEC $0B
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA $0B : ADC $0D20, X : STA $0B
         
@@ -226,7 +223,7 @@
         
         JSR $F70A   ; $3770A IN ROM
         
-        JSR Utility_CheckIfHitBoxesOverlap : BCC BRANCH_ZETA
+        JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_ZETA
         
         LDA $0D00, X : PHA : CLC : ADC.b #$13 : STA $0D00, X
         LDA $0D20, X : PHA : ADC.b #$00 : STA $0D20, X
@@ -236,19 +233,19 @@
         PLA : STA $0D20, X
         PLA : STA $0D00, X
         
-        CPY.b #$00 : BNE BRANCH_THETA
+        CPY.b #$00 : BNE .BRANCH_THETA
         
-        LDA $2F : CMP.b #$04 : BNE BRANCH_THETA
+        LDA $2F : CMP.b #$04 : BNE .BRANCH_THETA
         
         INC $0DB0, X
         
-        BRA BRANCH_THETA
+        BRA .BRANCH_THETA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        JSR Sprite_CheckDamageToPlayer_same_layer : BCC BRANCH_IOTA
+        JSR Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_IOTA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         JSL Sprite_NullifyHookshotDrag
         
@@ -257,7 +254,7 @@
         JSL Sprite_RepelDashAttackLong
     
     ; *$33CAB ALTERNATE ENTRY POINT
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         RTS
     }

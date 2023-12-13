@@ -904,7 +904,7 @@ Module_EndSequence:
         
         SEP #$20
         
-        BCC BRANCH_ALPHA
+        BCC .BRANCH_ALPHA
             LDA $0DF0, X : BNE .BRANCH_ALPHA
                 LDY $0D90, X
                 
@@ -3513,7 +3513,7 @@ Module_EndSequence:
         
     LDA.b #$80 : STA $9B
         
-    BRL BRANCH_$73DEB
+    BRL .BRANCH_$73DEB
 }
 
 ; $073D4E-$073D65 DATA
@@ -3556,7 +3556,7 @@ Module_EndSequence:
             
             BRA .BRANCH_ALPHA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
     LDA $9D : CMP.b #$40 : BEQ .BRANCH_GAMMA
         DEC $9D
@@ -3673,7 +3673,7 @@ Module_EndSequence:
         
     ; 0x0314 is the overall height of the credit screen in groups of 16 pixels
     LDA $CA : ASL A : TAY : CPY.w #$0314 : BCC .notAtEnd
-        BRL BRANCH_EPSILON
+        BRL .BRANCH_EPSILON
     
     .notAtEnd
     
@@ -3764,13 +3764,13 @@ Module_EndSequence:
         
     LDY.w #$0000
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         CMP.w #$000A : BMI .BRANCH_LAMBDA
             SEC : SBC.w #$000A
             
             INY
-    BRA BRANCH_MU
+    BRA .BRANCH_MU
     
     .BRANCH_LAMBDA
     
@@ -4285,7 +4285,7 @@ Palette_SetOwBgColor_Long:
 {
     JSR Palette_GetOwBgColor
         
-    BRA BRANCH_$07560B
+    BRA .BRANCH_$07560B
 }
 
 ; $075622-$075652 LOCAL

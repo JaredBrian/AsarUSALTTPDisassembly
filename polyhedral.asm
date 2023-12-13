@@ -475,7 +475,7 @@
 
     ; $4FACA-$4FAD6 LOCAL
     {
-        LDA $01 : BNE BRANCH_4FAD7_external_1
+        LDA $01 : BNE .BRANCH_4FAD7_external_1
         
         LDA $4F : AND.b #$07
         

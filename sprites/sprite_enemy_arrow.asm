@@ -22,19 +22,19 @@
         JSR EnemyArrow_Draw
         JSR Sprite_CheckIfActive.permissive
         
-        LDA $0DD0, X : CMP.b #$09 : BNE BRANCH_337C7
+        LDA $0DD0, X : CMP.b #$09 : BNE .BRANCH_337C7
         
-        LDA $0DF0, X : BEQ BRANCH_ALPHA
-        DEC A        : BNE BRANCH_BETA
+        LDA $0DF0, X : BEQ .BRANCH_ALPHA
+        DEC A        : BNE .BRANCH_BETA
         
         STZ $0DD0, X
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CMP.b #$20 : BCC BRANCH_GAMMA
-        AND.b #$01 : BNE BRANCH_GAMMA
+        CMP.b #$20 : BCC .BRANCH_GAMMA
+        AND.b #$01 : BNE .BRANCH_GAMMA
         
         LDA $1A : ASL A : AND.b #$04 : ORA $0DE0, X : TAY
         
@@ -44,26 +44,26 @@
         
         JSR Sprite_Move
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR Sprite_CheckDamageToPlayer_same_layer
         
-        LDA $0E90, X : BNE BRANCH_DELTA
+        LDA $0E90, X : BNE .BRANCH_DELTA
         
         JSR Sprite_CheckTileCollision
         
-        LDA $0E70, X : BEQ BRANCH_DELTA
-        LDY $0D90, X : BEQ BRANCH_EPSILON
+        LDA $0E70, X : BEQ .BRANCH_DELTA
+        LDY $0D90, X : BEQ .BRANCH_EPSILON
         
         JSL $06EE60 ; $36E60 IN ROM
         
         RTS
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA.b #$30 : STA $0DF0, X
         
@@ -79,7 +79,7 @@
         
         JSL Sprite_PlaceRupulseSpark
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JMP Sprite_Move
     }

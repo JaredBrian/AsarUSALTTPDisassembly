@@ -34,7 +34,7 @@
         
         DEC $0D40, X
         
-        LDA $0D40, X : CMP.b #$FC : BNE BRANCH_BETA
+        LDA $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
         
         PHA
         
@@ -45,7 +45,7 @@
         
         PLA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         CMP.b #$FB : BNE .dont_transform
         

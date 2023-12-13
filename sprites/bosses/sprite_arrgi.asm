@@ -38,11 +38,11 @@
         
         LDA .animation_states, Y : STA $0DC0, X
         
-        LDA $0DA0, X : BEQ BRANCH_ALPHA
+        LDA $0DA0, X : BEQ .BRANCH_ALPHA
         
         TAY : DEY
         
-        LDA $0C4A, Y : BEQ BRANCH_BETA
+        LDA $0C4A, Y : BEQ .BRANCH_BETA
         
         LDA $0C04, Y : STA $0D10, X
         LDA $0C18, Y : STA $0D30, X
@@ -55,7 +55,7 @@
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$01 : STA $0D80, X
         
@@ -63,15 +63,15 @@
         
         LDA.b #$20 : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0DF0, X : BNE BRANCH_GAMMA
+        LDA $0DF0, X : BNE .BRANCH_GAMMA
         
         JSR Sprite3_CheckDamageToPlayer
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $0D80, X : BNE BRANCH_DELTA
+        LDA $0D80, X : BNE .BRANCH_DELTA
         
         LDA $0B0F, X : STA $0D10, X
         LDA $0B1F, X : STA $0D30, X
@@ -81,11 +81,11 @@
         
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSL Sprite_CheckDamageFromPlayerLong
         
-        TXA : EOR $1A : AND.b #$03 : BNE BRANCH_EPSILON
+        TXA : EOR $1A : AND.b #$03 : BNE .BRANCH_EPSILON
         
         LDA $0B0F, X : STA $04
         LDA $0B1F, X : STA $05
@@ -100,9 +100,9 @@
         
         LDA $01 : STA $0D50, X
         
-        LDA $0D10, X : SEC : SBC $0B0F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS BRANCH_EPSILON
+        LDA $0D10, X : SEC : SBC $0B0F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS .BRANCH_EPSILON
         
-        LDA $0D00, X : SEC : SBC $0B2F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS BRANCH_EPSILON
+        LDA $0D00, X : SEC : SBC $0B2F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS .BRANCH_EPSILON
         
         STZ $0D80, X
         
@@ -110,7 +110,7 @@
         
         LDA $0E60, X : ORA.b #$40 : STA $0E60, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JSR Sprite3_Move
         

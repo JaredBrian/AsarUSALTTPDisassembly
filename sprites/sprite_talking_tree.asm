@@ -51,7 +51,7 @@
     {
         STZ $0DC0, X
         
-        JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC BRANCH_ALPHA
+        JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .BRANCH_ALPHA
         
         JSL Player_HaltDashAttackLong
         
@@ -70,20 +70,20 @@
         
         LDA.b #$30 : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$EF99C-$EF9AF JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         LDA.b #$08 : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LSR A : AND.b #$03 : STA $0DC0, X
 
@@ -108,17 +108,17 @@
         
         LDA .animation_states, X : STA $0DC0, X
         
-        LDA $0DF0, X : CMP.b #$07 : BNE BRANCH_ALPHA
+        LDA $0DF0, X : CMP.b #$07 : BNE .BRANCH_ALPHA
         
         JSR $FA4E ; $EFA4E IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0DF0, X : BNE BRANCH_BETA
+        LDA $0DF0, X : BNE .BRANCH_BETA
         
         INC $0D80, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     } 
@@ -172,7 +172,7 @@
     {
         LDA.b #$07 : STA $0F60, X
         
-        LDA $0D90, X : BNE BRANCH_EFA33
+        LDA $0D90, X : BNE .BRANCH_EFA33
         
         LDA $0D10, X : LSR #4 : AND.b #$01 : EOR.b #$01 : STA $0D90, X : TAY
         
@@ -209,15 +209,15 @@
         
         LDA $8A
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CMP .areas, Y : BEQ BRANCH_ALPHA
+        CMP .areas, Y : BEQ .BRANCH_ALPHA
         
-        INY : BEQ BRANCH_ALPHA
+        INY : BEQ .BRANCH_ALPHA
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA .message_ids, Y
         
@@ -257,7 +257,7 @@
 
     ; *$EFADB-$EFAFA LOCAL
     {
-        LDA $0DC0, X : DEC A : BMI BRANCH_ALPHA
+        LDA $0DC0, X : DEC A : BMI .BRANCH_ALPHA
         
         ASL #5     : ADC.b #$7B : STA $08
         LDA.b #$FA : ADC.b #$00 : STA $09
@@ -267,7 +267,7 @@
         
         JSL Sprite_DrawMultiple.player_deferred
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     } 
@@ -304,21 +304,21 @@
         
         JSL Sprite_ProjectSpeedTowardsPlayerLong
         
-        LDA $00 : BMI BRANCH_ALPHA
+        LDA $00 : BMI .BRANCH_ALPHA
         
         LDA $01 : CLC : ADC.b #$02 : STA $0DE0, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0DE0, X : CMP.b #$02 : BEQ BRANCH_BETA
+        LDA $0DE0, X : CMP.b #$02 : BEQ .BRANCH_BETA
         
         ROL A : AND.b #$01 : TAY
         
         LDA $0DE0, X : CLC : ADC $8000, Y : STA $0DE0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDY $0DE0, X
         

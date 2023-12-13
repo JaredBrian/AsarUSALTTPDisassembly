@@ -48,14 +48,14 @@
     {
         JSR $8BEE   ; $E8BEE IN ROM
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         RTS
     
     ; *$E8C23 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         AND.b #$04 : LSR #2 : STA $0DC0, X
         
@@ -80,7 +80,7 @@
         
         INC $0E80, X : LDA $0E80, X
         
-        BRA BRANCH_$E8C23
+        BRA .BRANCH_$E8C23
     }
 
     ; *$E8C43-$E8C54 LOCAL
@@ -98,8 +98,8 @@
         
         LDA.b #$40 : STA $0CAA, X
         
-        LDA $0E00, X : BEQ BRANCH_ALPHA
-        CMP.b #$01   : BEQ BRANCH_BETA
+        LDA $0E00, X : BEQ .BRANCH_ALPHA
+        CMP.b #$01   : BEQ .BRANCH_BETA
         
         LSR #2 : TAY
         
@@ -107,16 +107,16 @@
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0DF0, X : BEQ BRANCH_GAMMA
-        DEC A        : BNE BRANCH_$E8C23
+        LDA $0DF0, X : BEQ .BRANCH_GAMMA
+        DEC A        : BNE .BRANCH_$E8C23
         
         LDA.b #$23 : STA $0E00, X
         
-        BRA BRANCH_E8C23
+        BRA .BRANCH_E8C23
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$30
         
@@ -124,11 +124,11 @@
         
         LDA.b #$1E : JSL Sound_SetSfx3PanLong
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR $8C43   ; $E8C43 IN ROM
         
-        BRA BRANCH_E8C43
+        BRA .BRANCH_E8C43
     }
 
 ; ==============================================================================

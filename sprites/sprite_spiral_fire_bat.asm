@@ -30,7 +30,7 @@
         JSR $8C43 ; $E8C43 IN ROM
         JSR Sprite4_Move
         
-        LDA $0E80, X : AND.b #$07 : BNE BRANCH_ALPHA
+        LDA $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
         
         LDA.b #$0E
         
@@ -46,17 +46,17 @@
         
         LDA.b #$4F
         
-        CPY.b #$05 : BNE BRANCH_BETA
+        CPY.b #$05 : BNE .BRANCH_BETA
         
         LDA.b #$2F
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $7FF90E, X
         
         PLX
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }

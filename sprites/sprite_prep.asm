@@ -295,17 +295,17 @@
         
         ; Are there only three rooms where these switches work? 0_o.
         
-        CMP.b #$CE : BEQ BRANCH_ALPHA
-        CMP.b #$04 : BEQ BRANCH_ALPHA
-        CMP.b #$3F : BNE BRANCH_BETA
+        CMP.b #$CE : BEQ .BRANCH_ALPHA
+        CMP.b #$04 : BEQ .BRANCH_ALPHA
+        CMP.b #$3F : BNE .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$0D : STA $0F50, X
     
     ; $3086D ALTERNATE ENTRY POINT
     shared SpritePrep_SwitchFacingUp:
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
@@ -1172,7 +1172,7 @@
         
         LDY.b #$08
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$30C43 ALTERNATE ENTRY POINT
     
@@ -1197,19 +1197,19 @@
     
         LDA.b #$04
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
     ; *$30C60 ALTERNATE ENTRY POINT
     
         LDA.b #$01 : STA $0DC0, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
 
     ; *$30C67 ALTERNATE ENTRY POINT
 
         LDA.b #$03
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
         STA $0E80, X
         
@@ -1226,7 +1226,7 @@
         
         LDY.b #$0A
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$01
         
@@ -1243,7 +1243,7 @@
     
         LDA.b #$02
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STA $0E80, X
         
@@ -1253,13 +1253,13 @@
 
         LDA.b #$05
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
 
     ; *$30C95 ALTERNATE ENTRY POINT
 
         LDA.b #$06
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     }
 
 ; ==============================================================================
@@ -1783,21 +1783,21 @@ SpritePrep_BugNetKid:
         
         LDA.b #$10
         
-        CPY.b #$00 : BEQ BRANCH_ALPHA
+        CPY.b #$00 : BEQ .BRANCH_ALPHA
         
         LDA.b #$F0
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0D50, X
         
         LDA.b #$FC
         
-        LDY $069E : BPL BRANCH_BETA
+        LDY $069E : BPL .BRANCH_BETA
         
         LDA.b #$04
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0D40, X
         STA $0BA0, X
@@ -2058,17 +2058,17 @@ SpritePrep_BugNetKid:
     ; *$30FD6-$3103A JUMP LOCATION
     SpritePrep_Soldier:
     {
-        LDA $0E30, X : BEQ BRANCH_ALPHA
+        LDA $0E30, X : BEQ .BRANCH_ALPHA
         
         LDY.b #$00
         
-        AND.b #$07 : CMP.b #$05 : BCS BRANCH_BETA
+        AND.b #$07 : CMP.b #$05 : BCS .BRANCH_BETA
         
         DEC A : EOR.b #$01 : STA $0DE0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $1B : BNE BRANCH_30FCF
+        LDA $1B : BNE .BRANCH_30FCF
         
         LDA.b #$01 : STA $0D80, X
         
@@ -2081,15 +2081,15 @@ SpritePrep_BugNetKid:
     ; *$31001 ALTERNATE ENTRY POINT
     shared SpritePrep_TrooperAndArcherSoldier:
     
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        BEQ BRANCH_DELTA
+        BEQ .BRANCH_DELTA
         
         LDY.b #$04
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA $0E30, X : LSR #3 : AND.b #$03 : STA $00
         
@@ -2099,7 +2099,7 @@ SpritePrep_BugNetKid:
         
         LDA $0B6B, X : AND.b #$0F : ORA #$50 : STA $0B6B, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA $11 : PHA
         
@@ -2173,8 +2173,8 @@ SpritePrep_BugNetKid:
         ; See if the dark world flute boy has been arborated.
         LDA $7EF3C9 : AND.b #$08 : BNE .already_arborated
         
-        LDA $7EF34C : CMP.b #$02 : BCC BRANCH_GAMMA
-                                   BEQ BRANCH_DELTA
+        LDA $7EF34C : CMP.b #$02 : BCC .BRANCH_GAMMA
+                                   BEQ .BRANCH_DELTA
     
     .already_arborated
     
@@ -2182,13 +2182,13 @@ SpritePrep_BugNetKid:
         
         LDA.b #$05 : STA $0D80, X; Set his AI pointer to do nothing?
         
-        BRA BRANCH_GAMMA
+        BRA .BRANCH_GAMMA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA.b #$01 : STA $0DC0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR SpritePrep_MoveRightOneTile
         
@@ -2198,13 +2198,13 @@ SpritePrep_BugNetKid:
     
     .in_light_world
     
-        LDA $7EF34C : CMP.b #$02 : BCC BRANCH_EPSILON
+        LDA $7EF34C : CMP.b #$02 : BCC .BRANCH_EPSILON
         
         STZ $0DD0, X ; Kill the sprite if we already have the flute.
         
         RTS
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
     ; *$310C2 ALTERNATE ENTRY POINT
     shared SpritePrep_MoveRightSevenPixels:
@@ -2330,11 +2330,11 @@ SpritePrep_BugNetKid:
         
         ; Depending on whether the X coordinate is odd or even (in multiples
         ; of 16 pixels), configure it as a red or a blue hardhat beetle.
-        LDA $0D10, X : AND.b #$10 : BEQ BRANCH_ALPHA
+        LDA $0D10, X : AND.b #$10 : BEQ .BRANCH_ALPHA
         
         INY
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA .palette, Y : STA $0F50, X
         
@@ -2566,7 +2566,7 @@ SpritePrep_BugNetKid:
         
         JSL GetRandomInt : STA $0E80, X
         
-        CPX.b #$0D : BNE BRANCH_ALPHA
+        CPX.b #$0D : BNE .BRANCH_ALPHA
         
         STZ $0B0A
         STZ $0B0B
@@ -2579,7 +2579,7 @@ SpritePrep_BugNetKid:
         
         PLX
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $0B0F, X : STA $0D10, X
         LDA $0B1F, X : STA $0D30, X

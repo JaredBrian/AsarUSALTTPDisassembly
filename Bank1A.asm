@@ -110,15 +110,15 @@
         ; Spawns Lanmolas' rocks when they pop out of the ground.
         LDY.b #$03
         
-        LDA $0DD0 : CLC : ADC $0DD1 : ADC $0DD2 : CMP.b #$0A : BCS BRANCH_ALPHA
+        LDA $0DD0 : CLC : ADC $0DD1 : ADC $0DD2 : CMP.b #$0A : BCS .BRANCH_ALPHA
         
         LDY.b #$07
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STY $0FB5
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDA.b #$C2
         
@@ -148,7 +148,7 @@
     
     .spawn_failed
     
-        DEC $0FB5 : BPL BRANCH_GAMMA
+        DEC $0FB5 : BPL .BRANCH_GAMMA
         
         RTL
     }
@@ -263,11 +263,11 @@
         
         LDA $040A : AND.b #$3F : TAX
         
-        LDA .AreaIndex, X : AND .AreaMask, Y : BNE BRANCH_EPSILON ; $FB7B $FBBB
+        LDA .AreaIndex, X : AND .AreaMask, Y : BNE .BRANCH_EPSILON ; $FB7B $FBBB
         
         LDA .ItemPool, Y : STA $0B9C ; $FBCB
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         PLX
     

@@ -449,11 +449,11 @@
         ; Make a chicken noise
         LDA #$30 : STA $012E
         
-        LDA $048E : CMP.b #$01 : BNE BRANCH_DELTA
+        LDA $048E : CMP.b #$01 : BNE .BRANCH_DELTA
         
         STA $0E30, Y
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     .not_chicken
     
         CPX.b #$42 : BEQ .is_soldier
@@ -740,7 +740,7 @@
         LDY $0DD0, X : CPY.b #$09 : BCC .sprite_inactive
         
         ; on the 0x1F tick of the damage timer we...
-        CMP.b #$1F : BNE BRANCH_MU
+        CMP.b #$1F : BNE .BRANCH_MU
         
         PHA
         
@@ -766,31 +766,31 @@
     
         PLA
     
-    BRANCH_MU:
+    .BRANCH_MU
     
-        CMP.b #$18 : BNE BRANCH_LAMBDA
+        CMP.b #$18 : BNE .BRANCH_LAMBDA
         
         JSR $EEC8 ; $36EC8 IN ROM
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     .sprite_inactive
     
-        LDA $0CE2, X : CMP.b #$FB : BCS BRANCH_XI
+        LDA $0CE2, X : CMP.b #$FB : BCS .BRANCH_XI
         
         LDA $0EF0, X : ASL A : AND.b #$0E : STA $0B89, X
     
-    BRANCH_XI:
+    .BRANCH_XI
     
         DEC $0EF0, X
         
-        BRA BRANCH_OMICRON
+        BRA .BRANCH_OMICRON
     
     .death_timer_inactive
     
         STZ $0EF0, X
         STZ $0B89, X
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         LDA $0F10, X : BEQ .aux_timer_4_expired
         
@@ -1008,11 +1008,11 @@
         
         LDA $0D80, X : BEQ .alpha
         
-        LDA $0D90, X : CMP.b #$06 : BNE BRANCH_BETA
+        LDA $0D90, X : CMP.b #$06 : BNE .BRANCH_BETA
         
         LDA.b #$08 : JSL OAM_AllocateFromRegionC
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $0E60, X : EOR.b #$10 : STA $0E60, X
         
@@ -1047,7 +1047,7 @@
         
         PLX
         
-        LDA $0DF0, X : BNE BRANCH_EPSILON
+        LDA $0DF0, X : BNE .BRANCH_EPSILON
         
         JSR Sprite_CheckIfActive.permissive
         
@@ -1058,7 +1058,7 @@
         
         LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
         
-        LDA $0F70, X : BPL BRANCH_EPSILON
+        LDA $0F70, X : BPL .BRANCH_EPSILON
         
         STZ $0F70, X
         
@@ -1068,7 +1068,7 @@
     
         LDA $0E60, X : AND.b #$EF : STA $0E60, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         RTS
     
@@ -1076,11 +1076,11 @@
     
         JSR Sprite_CheckIfActive.permissive
         
-        LDA $1A : AND.b #$01 : BNE BRANCH_ZETA
+        LDA $1A : AND.b #$01 : BNE .BRANCH_ZETA
         
         INC $0DF0, X
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         STZ $0F50, X
         
@@ -1088,11 +1088,11 @@
         
         LDA.b #$00 : XBA
         
-        LDA $0DF0, X : BNE BRANCH_THETA
+        LDA $0DF0, X : BNE .BRANCH_THETA
         
         STZ $0DD0, X
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         REP #$20
         
@@ -2409,7 +2409,7 @@ Sprite_DrawShadow:
         
         LDA $02 : INY
         
-        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS BRANCH_ALPHA
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .BRANCH_ALPHA
         
         SBC.b #$0F : STA ($90), Y
         
@@ -2422,15 +2422,15 @@ Sprite_DrawShadow:
         LDA $DA09, Y : PLY : INY : STA ($90), Y
         LDA $05            : INY : STA ($90), Y
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0E60, X : AND.b #$10 : BEQ BRANCH_BETA
+        LDA $0E60, X : AND.b #$10 : BEQ .BRANCH_BETA
         
         LDA.b #$02
         
         JMP Sprite_DrawShadow.variable
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
@@ -2554,7 +2554,7 @@ Sprite_DrawShadow:
         
         JSR Sprite_CheckTileCollision
         
-        LDA $0DD0, X : BEQ BRANCH_EPSILON
+        LDA $0DD0, X : BEQ .BRANCH_EPSILON
     
     ; *$3602A ALTERNATE ENTRY POINT
     shared ThrownSprite_TileAndPeerInteraction:
@@ -2580,33 +2580,33 @@ Sprite_DrawShadow:
         
         LDA $0E20, X : TAX
         
-        LDA $0DB359, X : PLX : AND.b #$10 : BEQ BRANCH_ZETA
+        LDA $0DB359, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
         
         LDA $0E60, X : ORA.b #$10 : STA $0E60, X
         
-        LDA $0FA5 : CMP.b #$20 : BNE BRANCH_ZETA
+        LDA $0FA5 : CMP.b #$20 : BNE .BRANCH_ZETA
         
         ; Just unsets draw shadow flag (no reason to when over a pit)
         JSR $8612 ; $30612 IN ROM
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSR Sprite_MoveAltitude
         
         ; Applies gravity to the sprite
         DEC $0F80, X : DEC $0F80, X
         
-        LDA $0F70, X : DEC A : CMP.b #$F0 : BCS BRANCH_THETA
+        LDA $0F70, X : DEC A : CMP.b #$F0 : BCS .BRANCH_THETA
         
         JMP $E149 ; $36149 IN ROM
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         STZ $0F70, X
         
         LDA $0E20, X : CMP.b #$E8 : BNE .not_fake_master_sword
         
-        LDA $0F80, X : CMP.b #$E8 : BPL BRANCH_IOTA
+        LDA $0F80, X : CMP.b #$E8 : BPL .BRANCH_IOTA
         
         ; Fake master sword has a special death animation where it sort of...
         ; poofs.
@@ -2618,19 +2618,19 @@ Sprite_DrawShadow:
     
         LDA.b #$03 : STA $0E40, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         RTS
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     .not_fake_master_sword
     
         ; Only applies to throwable scenery.
         JSR $E22F ; $3622F IN ROM
         
-        LDA $0FA5 : CMP.b #$20 : BNE BRANCH_KAPPA
+        LDA $0FA5 : CMP.b #$20 : BNE .BRANCH_KAPPA
         
-        LDA $0B6B, X : LSR A : BCS BRANCH_KAPPA
+        LDA $0B6B, X : LSR A : BCS .BRANCH_KAPPA
     
     ; *$360AB ALTERNATE ENTRY POINT
     
@@ -2647,15 +2647,15 @@ Sprite_DrawShadow:
         
         RTS
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
-        CMP.b #$09 : BNE BRANCH_LAMBDA
+        CMP.b #$09 : BNE .BRANCH_LAMBDA
         
-        LDA $0F80, X : STZ $0F80, X : CMP.b #$F0 : BPL BRANCH_MU
+        LDA $0F80, X : STZ $0F80, X : CMP.b #$F0 : BPL .BRANCH_MU
         
         LDA.b #$EC
         
-        JSL Sprite_SpawnDynamically : BMI BRANCH_MU
+        JSL Sprite_SpawnDynamically : BMI .BRANCH_MU
         
         JSL Sprite_SetSpawnedCoords
         
@@ -2667,11 +2667,11 @@ Sprite_DrawShadow:
         
         PLX
         
-        BRA BRANCH_MU
+        BRA .BRANCH_MU
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
-        CMP.b #$08 : BNE BRANCH_MU
+        CMP.b #$08 : BNE .BRANCH_MU
         
         LDA $0E20, X : CMP.b #$D2 : BEQ .is_flopping_fish
         
@@ -2697,51 +2697,51 @@ Sprite_DrawShadow:
         
         JMP $E095 ; $36095 IN ROM
     
-    BRANCH_MU:
+    .BRANCH_MU
     
-        LDA $0F80, X : BPL BRANCH_OMICRON
+        LDA $0F80, X : BPL .BRANCH_OMICRON
         
-        EOR.b #$FF : INC A : LSR A : CMP.b #$09 : BCS BRANCH_PI
+        EOR.b #$FF : INC A : LSR A : CMP.b #$09 : BCS .BRANCH_PI
         
         LDA.b #$00
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         STA $0F80, X
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         ; Is this arithmetic shift right? Clever, if so.
         LDA $0D50, X : ASL A : ROR $0D50, X
         
-        LDA $0D50, X : CMP.b #$FF : BNE BRANCH_RHO
+        LDA $0D50, X : CMP.b #$FF : BNE .BRANCH_RHO
         
         STZ $0D50, X
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         LDA $0D40, X : ASL A : ROR $0D40, X
         
-        LDA $0D40, X : CMP.b #$FF : BNE BRANCH_SIGMA
+        LDA $0D40, X : CMP.b #$FF : BNE .BRANCH_SIGMA
         
         STZ $0D40, X
     
     ; *$36149 ALTERNATE ENTRY POINT
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
-        LDA $0DD0, X : CMP.b #$0B : BNE BRANCH_TAU
+        LDA $0DD0, X : CMP.b #$0B : BNE .BRANCH_TAU
         
-        LDA $7FFA3C, X : BEQ BRANCH_UPSILON
+        LDA $7FFA3C, X : BEQ .BRANCH_UPSILON
     
-    BRANCH_TAU:
+    .BRANCH_TAU
     
         JSR Sprite_CheckIfLifted
         
-        LDA $0E20, X : CMP.b #$4A : BEQ BRANCH_UPSILON
+        LDA $0E20, X : CMP.b #$4A : BEQ .BRANCH_UPSILON
         
         JSR ThrownSprite_CheckDamageToPeers
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
         RTS
     }
@@ -2826,29 +2826,29 @@ Sprite_DrawShadow:
         
         PLX
         
-        JSR Utility_CheckIfHitBoxesOverlap : BCC BRANCH_361B1 ; (RTS)
+        JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_361B1 ; (RTS)
         
         LDA $0E20, Y : CMP.b #$3F : BNE .notTutorialSoldier
         
         JSL Sprite_PlaceRupulseSpark
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
     .notTutorialSoldier
     
         LDA.b #$03 : PHA
         
-        LDA $0E20, X : CMP.b #$EC : BNE BRANCH_GAMMA
+        LDA $0E20, X : CMP.b #$EC : BNE .BRANCH_GAMMA
         
-        LDA $0DB0, X : CMP.b #$02 : BNE BRANCH_GAMMA
+        LDA $0DB0, X : CMP.b #$02 : BNE .BRANCH_GAMMA
         
-        LDA $1B : BNE BRANCH_GAMMA
+        LDA $1B : BNE .BRANCH_GAMMA
         
         PLA
         
         LDA.b #$01 : PHA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         PLA : PHX
         
@@ -2866,7 +2866,7 @@ Sprite_DrawShadow:
         LDA.b #$10 : STA $0F10, X
     
     ; *$36229 ALTERNATE ENTRY POINT
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         JSR Sprite_Invert_XY_Speeds
         JSR Sprite_Halve_XY_Speeds
@@ -2874,13 +2874,13 @@ Sprite_DrawShadow:
     ; *$3622F ALTERNATE ENTRY POINT
     
         ; Not a bush...
-        LDA $0E20, X : CMP.b #$EC : BNE BRANCH_DELTA
+        LDA $0E20, X : CMP.b #$EC : BNE .BRANCH_DELTA
         
         STZ $0FAC
     
     ; *$36239 ALTERNATE ENTRY POINT
     
-        LDA $0DC0, X : BEQ BRANCH_EPSILON
+        LDA $0DC0, X : BEQ .BRANCH_EPSILON
         
         STA $0B9C
         
@@ -2888,15 +2888,15 @@ Sprite_DrawShadow:
         
         STZ $0B9C
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDY $0DB0, X
         
-        LDA $1B : BEQ BRANCH_ZETA
+        LDA $1B : BEQ .BRANCH_ZETA
         
         LDY.b #$00
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         STZ $012E
         
@@ -2917,7 +2917,7 @@ Sprite_DrawShadow:
         
         LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         RTS
     }
@@ -2978,18 +2978,18 @@ Sprite_DrawShadow:
     
         JSR SpriteActive_Main
         
-        LDA $7FFA3C, X : BEQ BRANCH_ALPHA
+        LDA $7FFA3C, X : BEQ .BRANCH_ALPHA
         
-        LDA $0DF0, X : CMP.b #$20 : BCS BRANCH_BETA
+        LDA $0DF0, X : CMP.b #$20 : BCS .BRANCH_BETA
         
         ; \note Think this sets a blue palette?
         LDA $0F50, X : AND.b #$F1 : ORA.b #$04 : STA $0F50, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $0DF0, X : LSR #4 : TAY
         
-        TXA : ASL #4 : EOR $1A : ORA $11 : AND $E2AF, Y : BNE BRANCH_GAMMA
+        TXA : ASL #4 : EOR $1A : ORA $11 : AND $E2AF, Y : BNE .BRANCH_GAMMA
         
         JSL GetRandomInt : AND.b #$03 : TAY
         
@@ -3003,16 +3003,16 @@ Sprite_DrawShadow:
         
         JSL Sprite_SpawnSimpleSparkleGarnish
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $1A : AND.b #$01 : ORA $11 : ORA $0FC1 : BNE BRANCH_DELTA
+        LDA $1A : AND.b #$01 : ORA $11 : ORA $0FC1 : BNE .BRANCH_DELTA
         
-        LDA $0B58, X              : BEQ BRANCH_EPSILON
-        DEC $0B58, X : CMP.b #$38 : BCS BRANCH_DELTA
+        LDA $0B58, X              : BEQ .BRANCH_EPSILON
+        DEC $0B58, X : CMP.b #$38 : BCS .BRANCH_DELTA
         
         AND.b #$01 : TAY
         
@@ -3020,11 +3020,11 @@ Sprite_DrawShadow:
         
         JSR Sprite_MoveHoriz
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         RTS
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA.b #$09 : STA $0DD0, X
         
@@ -3324,136 +3324,136 @@ Sprite_PrepOamCoord:
     ; *$364DB-$365B7 LOCAL
     Sprite_CheckTileCollisionSingleLayer:
     {
-        LDA $0E40, X : AND.b #$20 : BEQ BRANCH_ALPHA
+        LDA $0E40, X : AND.b #$20 : BEQ .BRANCH_ALPHA
         
         LDY.b #$6A
         
         ; $3673C IN ROM
-        JSR $E73C : BCC BRANCH_BETA
+        JSR $E73C : BCC .BRANCH_BETA
         
         INC $0E70, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0F60, X : BMI BRANCH_GAMMA
+        LDA $0F60, X : BMI .BRANCH_GAMMA
         
-        LDA $046C : BNE BRANCH_DELTA
+        LDA $046C : BNE .BRANCH_DELTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         LDY.b #$00
         
-        LDA $0D40, X : BEQ BRANCH_EPSILON : BMI BRANCH_ZETA
+        LDA $0D40, X : BEQ .BRANCH_EPSILON  BMI .BRANCH_ZETA
         
         INY
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSR $E5EE   ; $365EE IN ROM
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDY.b #$02
         
-        LDA $0D50, X : BEQ BRANCH_THETA : BMI BRANCH_IOTA
+        LDA $0D50, X : BEQ .BRANCH_THETA  BMI .BRANCH_IOTA
         
         INY
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         JSR $E5B8   ; $365B8 IN ROM
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        BRA BRANCH_KAPPA
+        BRA .BRANCH_KAPPA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDY.b #$01
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         JSR $E5EE   ; $365EE IN ROM
         
-        DEY : BPL BRANCH_LAMBDA
+        DEY : BPL .BRANCH_LAMBDA
         
         LDY.b #$03
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         JSR $E5B8   ; $365B8 IN ROM
         
-        DEY : CPY.b #$01 : BNE BRANCH_MU
+        DEY : CPY.b #$01 : BNE .BRANCH_MU
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
-        LDA $0BE0, X : BMI BRANCH_NU
+        LDA $0BE0, X : BMI .BRANCH_NU
         
-        LDA $0F70, X : BEQ BRANCH_XI
+        LDA $0F70, X : BEQ .BRANCH_XI
     
-    BRANCH_NU:
+    .BRANCH_NU
     
         RTS
     
-    BRANCH_XI:
+    .BRANCH_XI
     
         LDY.b #$68
         
         JSR $E73C ; $3673C IN ROM
         
-        LDA $0FA5 : STA $7FF9C2, X : CMP.b #$1C : BNE BRANCH_OMICRON
+        LDA $0FA5 : STA $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
         
-        LDY $0FB3 : BEQ BRANCH_OMICRON
+        LDY $0FB3 : BEQ .BRANCH_OMICRON
         
         ; Is the enemy frozen?
         ; Nope
-        LDY $0DD0, X : CPY.b #$0B : BNE BRANCH_OMICRON
+        LDY $0DD0, X : CPY.b #$0B : BNE .BRANCH_OMICRON
         
         LDA.b #$01 : STA $0F20, X
         
         RTS
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
-        CMP.b #$20 : BNE BRANCH_PI
+        CMP.b #$20 : BNE .BRANCH_PI
         
-        LDA $0B6B, X : AND.b #$01 : BEQ BRANCH_RHO
+        LDA $0B6B, X : AND.b #$01 : BEQ .BRANCH_RHO
         
-        LDA $1B : BNE BRANCH_SIGMA
+        LDA $1B : BNE .BRANCH_SIGMA
         
         JMP $E0AB ; $360AB IN ROM
     
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
         LDA.b #$05 : STA $0DD0, X
         
         LDA.b #$5F
         
         ; is it a helmasaur?
-        LDY $0E20, X : CPY.b #$13 : BEQ BRANCH_TAU
-                       CPY.b #$26 : BNE BRANCH_UPSILON
+        LDY $0E20, X : CPY.b #$13 : BEQ .BRANCH_TAU
+                       CPY.b #$26 : BNE .BRANCH_UPSILON
     
-    BRANCH_TAU:
+    .BRANCH_TAU
     
         LSR $0F50, X : ASL $0F50, X
         
         LDA.b #$3F
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
         STA $0DF0, X
         
         RTS
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         CMP.b #$0C : BNE .not_mothula_moving_floor
         
-        LDA $7FFABC, X : CMP.b #$1C : BNE BRANCH_PHI
+        LDA $7FFABC, X : CMP.b #$1C : BNE .BRANCH_PHI
         
         JSR $E624 ; $36624 IN ROM
         
@@ -3462,12 +3462,12 @@ Sprite_PrepOamCoord:
         RTS
     
     .not_mothula_moving_floor
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         CMP.b #$68 : BCC .not_conveyor_belt
         CMP.b #$6C : BCS .not_conveyor_belt
     
-    BRANCH_PSI:
+    .BRANCH_PSI
     
         TAY
         
@@ -3477,17 +3477,17 @@ Sprite_PrepOamCoord:
     
     .not_conveyor_belt
     
-        CMP.b #$08 : BNE BRANCH_PHI
+        CMP.b #$08 : BNE .BRANCH_PHI
         
-        LDA $046C : CMP.b #$04 : BNE BRANCH_PHI
+        LDA $046C : CMP.b #$04 : BNE .BRANCH_PHI
         
         ; I think this indicates that flowing water makes sprites move to the
         ; left in the same way a conveyor belt would.
         LDA.b #$6A
         
-        BRA BRANCH_PSI
+        BRA .BRANCH_PSI
     
-    BRANCH_PHI:
+    .BRANCH_PHI
     
         RTS
     }
@@ -3495,13 +3495,13 @@ Sprite_PrepOamCoord:
     ; *$365B8-$365ED LOCAL
     {
         ; $3672F IN ROM
-        JSR $E72F : BCC BRANCH_ALPHA
+        JSR $E72F : BCC .BRANCH_ALPHA
         
         LDA $E723, Y : ORA $0E70, X : STA $0E70, X
         
-        LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS BRANCH_ALPHA
+        LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .BRANCH_ALPHA
         
-        LDA $0EA0, X : BEQ BRANCH_BETA
+        LDA $0EA0, X : BEQ .BRANCH_BETA
         
         ; \optimize If this code is reached, it's bound to be pretty damn slow.
         ; Mainly, it's calling the same code 3 times to do 3 additions, so
@@ -3514,7 +3514,7 @@ Sprite_PrepOamCoord:
         LDA $0D10, X : CLC : ADC $E727, Y : STA $0D10, X
         LDA $0D30, X : ADC $E72B, Y : STA $0D30, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -3657,8 +3657,8 @@ Sprite_PrepOamCoord:
         
         PLX
         
-        CMP.b #$04 : BEQ BRANCH_EPSILON
-        CMP.b #$01 : BCC BRANCH_ZETA
+        CMP.b #$04 : BEQ .BRANCH_EPSILON
+        CMP.b #$01 : BCC .BRANCH_ZETA
         
         LDA $0FA5
         
@@ -3672,19 +3672,19 @@ Sprite_PrepOamCoord:
     
         JMP $E872 ; $36872 IN ROM
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        LDY $1B : BNE BRANCH_ZETA
+        LDY $1B : BNE .BRANCH_ZETA
         
         STA $0E90, X
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JMP $E877 ; $36877 IN ROM
     
     .dont_use_simplified_tile_collision
     
-        LDA $0BE0, X : ASL A : BPL BRANCH_IOTA
+        LDA $0BE0, X : ASL A : BPL .BRANCH_IOTA
         
         LDA $0E20, X : CMP.b #$D2 : BEQ .flopping_fish
                        CMP.b #$8A : BNE .not_moving_spike_block
@@ -3697,29 +3697,29 @@ Sprite_PrepOamCoord:
     
         CMP.b #$94 : BNE .not_pirogusu
         
-        LDA $0E90, X : BEQ BRANCH_XI
+        LDA $0E90, X : BEQ .BRANCH_XI
         
-        BRA BRANCH_IOTA
+        BRA .BRANCH_IOTA
     
     .not_pirogusu
     
-        CMP.b #$E3 : BEQ BRANCH_XI
-        CMP.b #$8C : BEQ BRANCH_XI
-        CMP.b #$9A : BEQ BRANCH_XI
-        CMP.b #$81 : BNE BRANCH_IOTA
+        CMP.b #$E3 : BEQ .BRANCH_XI
+        CMP.b #$8C : BEQ .BRANCH_XI
+        CMP.b #$9A : BEQ .BRANCH_XI
+        CMP.b #$81 : BNE .BRANCH_IOTA
     
-    BRANCH_XI:
+    .BRANCH_XI
     
         CPY.b #$08 : BEQ .deep_water_tile
         CPY.b #$09
     
     .shallow_water_tile
     
-        BEQ BRANCH_OMICRON
+        BEQ .BRANCH_OMICRON
         
-        BRA BRANCH_PI
+        BRA .BRANCH_PI
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         PHX
         
@@ -3731,42 +3731,42 @@ Sprite_PrepOamCoord:
         
         LDY $08
         
-        CMP.b #$00 : BEQ BRANCH_OMICRON
+        CMP.b #$00 : BEQ .BRANCH_OMICRON
         
         LDA $0FA5
         
-        CMP.b #$10 : BCC BRANCH_RHO
-        CMP.b #$14 : BCS BRANCH_RHO
+        CMP.b #$10 : BCC .BRANCH_RHO
+        CMP.b #$14 : BCS .BRANCH_RHO
         
         JSR Entity_CheckSlopedTileCollision
         
-        BRA BRANCH_SIGMA
+        BRA .BRANCH_SIGMA
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         CMP.b #$44 : BNE .not_spike_tile
         
-        LDA $0EA0, X : BEQ BRANCH_PI
+        LDA $0EA0, X : BEQ .BRANCH_PI
         
-        LDA $0CE2, X : BMI BRANCH_UPSILON
+        LDA $0CE2, X : BMI .BRANCH_UPSILON
         
         LDA.b #$04 : JSL Ancilla_CheckSpriteDamage.preset_class
         
-        LDA $0EF0, X : BEQ BRANCH_UPSILON
+        LDA $0EF0, X : BEQ .BRANCH_UPSILON
         
         LDA.b #$99 : STA $0EF0, X
         
         STZ $0EA0, X
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
-        BRA BRANCH_PI
+        BRA .BRANCH_PI
     
     ; *$36852 ALTERNATE ENTRY POINT
     
         JSR $E872 ; $36872 IN ROM
         
-        LDA $0E40, X : ASL A : BPL BRANCH_PHI
+        LDA $0E40, X : ASL A : BPL .BRANCH_PHI
         
         STZ $0DD0, X
         
@@ -3774,7 +3774,7 @@ Sprite_PrepOamCoord:
         
         RTS
     
-    BRANCH_PHI:
+    .BRANCH_PHI
     
         SEC
         
@@ -3784,28 +3784,28 @@ Sprite_PrepOamCoord:
     
         CMP.b #$20 : BNE .not_pit_tile
         
-        LDA $0B6B, X : AND.b #$01 : BEQ BRANCH_PI
+        LDA $0B6B, X : AND.b #$01 : BEQ .BRANCH_PI
         
-        LDA $0EA0, X : BNE BRANCH_OMICRON
+        LDA $0EA0, X : BNE .BRANCH_OMICRON
     
     ; *$36872 ALTERNATE ENTRY POINT
     .not_pit_tile
-    BRANCH_PI:
+    .BRANCH_PI
     
         SEC
         
         SEP #$21
         
-        BRA BRANCH_SIGMA
+        BRA .BRANCH_SIGMA
     
     ; *$36877 ALTERNATE ENTRY POINT
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     .deep_water_tile
     
         CLC
     
     ; *$36878 ALTERNATE ENTRY POINT
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
         LDY $08
         
@@ -4526,24 +4526,24 @@ Sprite_PrepOamCoord:
         
         JSR $F645 ; $37645 IN ROM
         
-        LDA $037A : AND.b #$10 : BNE BRANCH_GAMMA
+        LDA $037A : AND.b #$10 : BNE .BRANCH_GAMMA
         
-        LDA $44 : CMP.b #$80 : BEQ BRANCH_GAMMA
+        LDA $44 : CMP.b #$80 : BEQ .BRANCH_GAMMA
         
         JSR Player_SetupActionHitBox
         
-        LDA $3C : BMI BRANCH_DELTA
+        LDA $3C : BMI .BRANCH_DELTA
         
-        JSR Utility_CheckIfHitBoxesOverlap : BCC BRANCH_DELTA
+        JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_DELTA
         
-        LDA $0E20, X : CMP.b #$6A : BEQ BRANCH_EPSILON
+        LDA $0E20, X : CMP.b #$6A : BEQ .BRANCH_EPSILON
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
         ;36B66 IN ROM
         LDA .recoilTimes, Y : STA $0EA0, X ;$EB66
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JSL GetRandomInt : AND.b #$07 : TAY
         
@@ -4551,11 +4551,11 @@ Sprite_PrepOamCoord:
         
         LDA.b #$18
         
-        LDY $3C : CPY.b #$09 : BPL BRANCH_ZETA
+        LDY $3C : CPY.b #$09 : BPL .BRANCH_ZETA
         
         LDA.b #$20
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSR Sprite_ProjectSpeedTowardsPlayer
         
@@ -4564,11 +4564,11 @@ Sprite_PrepOamCoord:
         
         LDA.b #$10
         
-        LDY $3C : CPY.b #$09 : BPL BRANCH_THETA
+        LDY $3C : CPY.b #$09 : BPL .BRANCH_THETA
         
         LDA.b #$08
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         JSR Sprite_ApplyRecoilToPlayer
         JSR Player_PlaceRepulseSpark
@@ -4579,18 +4579,18 @@ Sprite_PrepOamCoord:
     
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR Sprite_SetupHitBox
         
-        JSR Utility_CheckIfHitBoxesOverlap : BCS BRANCH_IOTA
+        JSR Utility_CheckIfHitBoxesOverlap : BCS .BRANCH_IOTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JML Sprite_StaggeredCheckDamageToPlayerPlusRecoil
     
     ; *$36C02 ALTERNATE ENTRY POINT
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDA $0E20, X
         
@@ -4631,11 +4631,11 @@ Sprite_PrepOamCoord:
     
         LDA.b #$50
         
-        LDY $3C : CPY.b #$09 : BMI BRANCH_OMICRON ;;not spin attack
+        LDY $3C : CPY.b #$09 : BMI .BRANCH_OMICRON ;;not spin attack
         
         LDA.b #$40
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         JSR Sprite_ProjectSpeedTowardsPlayer
         
@@ -4788,7 +4788,7 @@ Sprite_PrepOamCoord:
 
     .not_bomb_class
 
-        BRA BRANCH_$36D89
+        BRA .BRANCH_$36D89
     }
 
 ; ==============================================================================
@@ -4945,30 +4945,30 @@ Sprite_PrepOamCoord:
     
         CMP.b #$00 : BNE .notZeroDamageType
         
-        LDA $0CF2 : CMP.b #$0A : BEQ BRANCH_THETA
+        LDA $0CF2 : CMP.b #$0A : BEQ .BRANCH_THETA
         
-        LDA $0B6B, X : AND.b #$04 : BNE BRANCH_IOTA
+        LDA $0B6B, X : AND.b #$04 : BNE .BRANCH_IOTA
         
         STZ $02E3
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         JMP $EEC1 ; $36EC1 IN ROM; dont deal damage/dont kill sprite?
     
     .notZeroDamageType
     
         ; Freeze damage type
-        CMP.b #$FE : BCC BRANCH_KAPPA
+        CMP.b #$FE : BCC .BRANCH_KAPPA
         
         ; Is sprite frozen? if so, do nothing
-        LDA $0DD0, X : CMP.b #$0B : BEQ BRANCH_THETA
+        LDA $0DD0, X : CMP.b #$0B : BEQ .BRANCH_THETA
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         ; Is it a water bubble (in swamp palace)
         LDA $0E20, X : CMP.b #$9A : BNE .not_water_bubble
         
-        LDY $0CE2, X : CPY.b #$F0 : BCS BRANCH_LAMBDA
+        LDY $0CE2, X : CPY.b #$F0 : BCS .BRANCH_LAMBDA
         
         LDA.b #$09 : STA $0DD0, X
         
@@ -4981,7 +4981,7 @@ Sprite_PrepOamCoord:
         RTL
     
     .not_water_bubble
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         CMP.b #$1B : BNE .not_arrow_in_wall
     
@@ -5075,29 +5075,29 @@ Sprite_PrepOamCoord:
         STZ $0CE2, X
     
     .not_fully_active_sprite
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     
     .not_burn_damage
     
-        CMP.b #$FB : BCC BRANCH_36F61 ; damage routine
+        CMP.b #$FB : BCC .BRANCH_36F61 ; damage routine
         
         STZ $0CE2, X
         
         STA $00
         
-        LDY $0DD0, X : CPY.b #$0B : BEQ BRANCH_ALPHA
+        LDY $0DD0, X : CPY.b #$0B : BEQ .BRANCH_ALPHA
         
         LDY.b #$00
         
-        CMP.b #$FE : BNE BRANCH_GAMMA
+        CMP.b #$FE : BNE .BRANCH_GAMMA
         
         INY
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        TYA : STA $7FFA3C, X : BEQ BRANCH_DELTA
+        TYA : STA $7FFA3C, X : BEQ .BRANCH_DELTA
         
         LDA $0CAA, X : ORA.b #$08 : STA $0CAA, X
         
@@ -5111,7 +5111,7 @@ Sprite_PrepOamCoord:
         
         JSR Sprite_Zero_XY_Velocity
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LDA.b #$0B : STA $0DD0, X
         LDA.b #$40 : STA $0DF0, X
@@ -5122,13 +5122,13 @@ Sprite_PrepOamCoord:
         ; something.
         LDA .stun_timer_amounts, Y : STA $0B58, X
         
-        LDA $0E20, X : CMP.b #$23 : BNE BRANCH_EPSILON
+        LDA $0E20, X : CMP.b #$23 : BNE .BRANCH_EPSILON
         
         ; \task Figure out what the hell this means? Stunning a blue onoff makes
         ; them turn into a red one? What?
         INC A : STA $0E20, X
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JMP $EFE7 ; $36FE7 IN ROM (RTS)
     
@@ -5147,33 +5147,33 @@ Sprite_PrepOamCoord:
         
         STZ $0CE2, X
         
-        BEQ BRANCH_ALPHA : BCS BRANCH_BETA
+        BEQ .BRANCH_ALPHA  BCS .BRANCH_BETA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $0CBA, X : BNE BRANCH_GAMMA
+        LDA $0CBA, X : BNE .BRANCH_GAMMA
         
-        LDA $0DD0, X : CMP.b #$0B : BNE BRANCH_DELTA
+        LDA $0DD0, X : CMP.b #$0B : BNE .BRANCH_DELTA
         
         LDA.b #$03 : STA $0CBA, X
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        LDA $7FFA4C, X : BEQ BRANCH_GAMMA
+        LDA $7FFA4C, X : BEQ .BRANCH_GAMMA
         
         LDA.b #$00 : STA $7FFA4C, X
         
         STZ $0BE0, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDY $0E20, X : CPY.b #$1B : BEQ BRANCH_EPSILON
+        LDY $0E20, X : CPY.b #$1B : BEQ .BRANCH_EPSILON
         
         LDA.b #$09 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        CPY.b #$40 : BNE BRANCH_ZETA
+        CPY.b #$40 : BNE .BRANCH_ZETA
         
         PHX
         
@@ -5183,28 +5183,28 @@ Sprite_PrepOamCoord:
         
         PLX
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        TYA : CMP.b #$EC : BNE BRANCH_THETA
+        TYA : CMP.b #$EC : BNE .BRANCH_THETA
         
-        LDY $0DB0, X : CPY.b #$02 : BNE BRANCH_BETA
+        LDY $0DB0, X : CPY.b #$02 : BNE .BRANCH_BETA
         
         JMP $E239 ; $36239 IN ROM
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         PHA
         
-        LDA $0DD0, X : CMP.b #$0A : BNE BRANCH_IOTA
+        LDA $0DD0, X : CMP.b #$0A : BNE .BRANCH_IOTA
         
         STZ $0308
         STZ $0309
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDA.b #$06 : STA $0DD0, X
         
-        PLA : CMP.b #$0C : BNE BRANCH_KAPPA
+        PLA : CMP.b #$0C : BNE .BRANCH_KAPPA
     
     ; *$36FDA ALTERNATE ENTRY POINT
     shared Sprite_ScheduleForDeath:
@@ -5214,13 +5214,13 @@ Sprite_PrepOamCoord:
         
         JSR $E095 ; $36095 IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
-        CMP.b #$92 : BNE BRANCH_LAMBDA
+        CMP.b #$92 : BNE .BRANCH_LAMBDA
         
         JSL Sprite_SchedulePeersForDeath
         
@@ -5228,7 +5228,7 @@ Sprite_PrepOamCoord:
         
         JMP $F087 ; $37087 IN ROM
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         CMP.b #$CB : BNE .not_main_trinexx_head
         
@@ -5245,9 +5245,9 @@ Sprite_PrepOamCoord:
     
     .not_trinexx_side_head
     
-        CMP.b #$53 : BEQ BRANCH_OMICRON
-        CMP.b #$54 : BEQ BRANCH_PI
-        CMP.b #$09 : BEQ BRANCH_RHO
+        CMP.b #$53 : BEQ .BRANCH_OMICRON
+        CMP.b #$54 : BEQ .BRANCH_PI
+        CMP.b #$09 : BEQ .BRANCH_RHO
         CMP.b #$7A : BNE .not_agahnim_death
         
         JMP Agahnim_ScheduleForDeath
@@ -5255,7 +5255,7 @@ Sprite_PrepOamCoord:
     .not_agahnim_death
     
         CMP #$23 : BEQ .red_bari
-        CMP #$0F : BNE BRANCH_UPSILON
+        CMP #$0F : BNE .BRANCH_UPSILON
     
     ; *$37025 ALTERNATE ENTRY POINT
     shared Octoballoon_ScheduleForDeath:
@@ -5266,17 +5266,17 @@ Sprite_PrepOamCoord:
         
         RTS
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
-        LDA $0B6B, X : AND.b #$02 : BNE BRANCH_PHI
+        LDA $0B6B, X : AND.b #$02 : BNE .BRANCH_PHI
         
         LDA $0EF0, X : ASL A
         
-        LDA.b #$0F : BCC BRANCH_CHI
+        LDA.b #$0F : BCC .BRANCH_CHI
         
         LDA.b #$1F
     
-    BRANCH_CHI:
+    .BRANCH_CHI
     
         STA $0DF0, X
         
@@ -5284,7 +5284,7 @@ Sprite_PrepOamCoord:
         
         RTS
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         LDA.b #$03 : STA $0D80, X
         
@@ -5292,16 +5292,16 @@ Sprite_PrepOamCoord:
         
         LDA.b #$09 : STA $0DD0, X
         
-        BRA BRANCH_PSI
+        BRA .BRANCH_PSI
     
-    BRANCH_PHI:
+    .BRANCH_PHI
     
         ; Check if it's Kholdstare
-        LDA $0E20, X : CMP.b #$A2 : BEQ BRANCH_OMEGA
+        LDA $0E20, X : CMP.b #$A2 : BEQ .BRANCH_OMEGA
         
         JSL Sprite_SchedulePeersForDeath
     
-    BRANCH_OMEGA:
+    .BRANCH_OMEGA
     
         LDA.b #$04 : STA $0DD0, X
         
@@ -5309,34 +5309,34 @@ Sprite_PrepOamCoord:
         
         LDA.b #$FF
     
-    BRANCH_ALTIMA:
+    .BRANCH_ALTIMA
     
         STA $0DF0, X : STA $0EF0, X
         
-        BRA BRANCH_PSI
+        BRA .BRANCH_PSI
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         LDA.b #$05 : STA $0D80, X
         
         LDA.b #$C0
         
-        BRA BRANCH_ALTIMA
+        BRA .BRANCH_ALTIMA
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         LDA.b #$23 : STA $0DF0, X
         
         STZ $0EF0, X
         
-        BRA BRANCH_ULTIMA
+        BRA .BRANCH_ULTIMA
     
     ; *$37087 ALTERNATE ENTRY POINT
-    BRANCH_PSI:
+    .BRANCH_PSI
     
         INC $0FFC
     
-    BRANCH_ULTIMA:
+    .BRANCH_ULTIMA
     
         STZ $012F
         
@@ -5347,7 +5347,7 @@ Sprite_PrepOamCoord:
     .red_bari
     
         ; If nonzero, can't split again because it's a small red bari.
-        LDA $0DB0, X : BNE BRANCH_UPSILON
+        LDA $0DB0, X : BNE .BRANCH_UPSILON
         
         ; Initiate splitting process.
         LDA.b #$02 : STA $0D80, X
@@ -5377,7 +5377,7 @@ Sprite_PrepOamCoord:
         
         ; consider merging this routine with the previous one, or splitting
         ; the one above into smaller parts.
-        BRA BRANCH_$37087
+        BRA .BRANCH_$37087
     
     ; *$370BD ALTERNATE ENTRY POINT
     shared Trinexx_ScheduleMainHeadForDeath:
@@ -5388,7 +5388,7 @@ Sprite_PrepOamCoord:
         
         LDA.b #$09 : STA $0DD0, X
         
-        BRA BRANCH_$37087
+        BRA .BRANCH_$37087
     
     ; *$370CE ALTERNATE ENTRY POINT
     shared Agahnim_ScheduleForDeath:
@@ -5426,11 +5426,11 @@ Sprite_PrepOamCoord:
     
         LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
         
-        LDA $0FB5 : CMP.b #$0B : BNE BRANCH_BETA
+        LDA $0FB5 : CMP.b #$0B : BNE .BRANCH_BETA
         
         LDA.b #$01 : STA $0BE0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
@@ -5515,46 +5515,46 @@ Sprite_PrepOamCoord:
     
         ; Is the sprite on the same floor as Link?
         ; Nope, he doesn't get hit.
-        LDA $00EE : CMP $0F20, X : BNE BRANCH_BETA
+        LDA $00EE : CMP $0F20, X : BNE .BRANCH_BETA
     
     ; *$3715C ALTERNATE ENTRY POINT
     .ignore_layer
     
         ; Is the sprite deactivated?
-        LDA $0F60, X : BEQ BRANCH_GAMMA
+        LDA $0F60, X : BEQ .BRANCH_GAMMA
         
         JSR Player_SetupHitBox_ignoreImmunity ;$F70A ; $3770A IN ROM; Puts Link's X / Y coords into memory
         JSR Sprite_SetupHitBox
         JSR Utility_CheckIfHitBoxesOverlap
         
-        BRA BRANCH_DELTA
+        BRA .BRANCH_DELTA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR $F1F6 ; $371F6 IN ROM
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         ; If the 0x80 bit is set, it's a harmless sprite
-        LDA $0E40, X : BMI BRANCH_EPSILON
-                       BCC BRANCH_BETA
+        LDA $0E40, X : BMI .BRANCH_EPSILON
+                       BCC .BRANCH_BETA
         
-        LDA $4D : BNE BRANCH_BETA
+        LDA $4D : BNE .BRANCH_BETA
         
-        LDA $02E0 : BNE BRANCH_ZETA
+        LDA $02E0 : BNE .BRANCH_ZETA
         
-        LDA $0308 : BMI BRANCH_ZETA
+        LDA $0308 : BMI .BRANCH_ZETA
         
         LDA $0BE0, X : AND.b #$20 : BEQ .cant_be_blocked_by_shield
         
         ; LINK'S SHIELD LEVEL
-        LDA $7EF35A : BEQ BRANCH_ZETA
+        LDA $7EF35A : BEQ .BRANCH_ZETA
         
         STZ $0DD0, X
         
         LDA $2F
         
-        LDY $3C : BEQ BRANCH_THETA
+        LDY $3C : BEQ .BRANCH_THETA
         
         LSR A : TAY
         
@@ -5562,11 +5562,11 @@ Sprite_PrepOamCoord:
         ; side (when holding the B button down).
         LDA $F13D, Y
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         LDY $0DE0, X
         
-        CMP $F141, Y : BNE BRANCH_ZETA
+        CMP $F141, Y : BNE .BRANCH_ZETA
         
         LDA.b #$06 : JSL Sound_SetSfx2PanLong
         
@@ -5581,7 +5581,7 @@ Sprite_PrepOamCoord:
     
         CLC
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         RTS ; End the routine
     
@@ -5597,7 +5597,7 @@ Sprite_PrepOamCoord:
         
         LDA.b #$09 : STA $0DD0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         CLC
         
@@ -5611,7 +5611,7 @@ Sprite_PrepOamCoord:
         RTS
     
     .cant_be_blocked_by_shield
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSR $F3DB ; $373DB IN ROM
         
@@ -5896,18 +5896,18 @@ Sprite_CheckIfLifted:
         
         SEC
         
-        BRA BRANCH_PI
+        BRA .BRANCH_PI
     
     .no_collision_part_deux
     
         CLC
         
-        BRA BRANCH_PI
+        BRA .BRANCH_PI
     
     ; *$373B2 ALTERNATE ENTRY POINT
     .okay_maybe_you_are
     
-        LDA $47 : BNE BRANCH_RHO
+        LDA $47 : BNE .BRANCH_RHO
         
         LDA.b #$04 : JSR Sprite_ApplyRecoilToPlayer
         
@@ -5915,14 +5915,14 @@ Sprite_CheckIfLifted:
         LDA.b #$10 : STA $47
     
     ; *$373C2 ALTERNATE ENTRY POINT
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         JSR Player_PlaceRepulseSpark
         
         SEC
     
     ; *$373C7 ALTERNATE ENTRY POINT
-    BRANCH_PI:
+    .BRANCH_PI
     
         LDA.b #$00
         
@@ -6158,40 +6158,40 @@ Sprite_CheckIfLifted:
     {
         LDY.b #$00
         
-        LDA $0FAB : CMP.b #$80 : BEQ BRANCH_ALPHA
-        CMP.b #$00             : BPL BRANCH_BETA
+        LDA $0FAB : CMP.b #$80 : BEQ .BRANCH_ALPHA
+        CMP.b #$00             : BPL .BRANCH_BETA
         
         DEY
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
               CLC : ADC $0D10, X : STA $04
         TYA : ADC $0D30, X : STA $0A
         
         LDY.b #$00
         
-        LDA $0FAA : BPL BRANCH_GAMMA
+        LDA $0FAA : BPL .BRANCH_GAMMA
         
         DEY
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
               CLC : ADC $0D00, X : STA $05
         TYA : ADC $0D20, X : STA $0B
         
         LDA.b #$03
         
-        LDY $0E20, X : CPY.b #$6A : BNE BRANCH_DELTA
+        LDY $0E20, X : CPY.b #$6A : BNE .BRANCH_DELTA
         
         LDA.b #$10
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STA $06 : STA $07
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$80 : STA $0A
         
@@ -6524,7 +6524,7 @@ OAM_AllocateDeferToPlayer:
     
     .notBombSoldier
     
-        LDA $0DF0, X : BEQ BRANCH_37923
+        LDA $0DF0, X : BEQ .BRANCH_37923
     
     ; $378C9 ALTERNATE ENTRY POINT
     
@@ -6610,7 +6610,7 @@ OAM_AllocateDeferToPlayer:
         ; Is it a Pikit
         CMP #$AA : BNE .not_a_pikit
         
-        LDY $0E90, X : BEQ BRANCH_BETA
+        LDY $0E90, X : BEQ .BRANCH_BETA
         
         LDA .pikit_drop_items-1, Y
         
@@ -6618,35 +6618,35 @@ OAM_AllocateDeferToPlayer:
         
         JSR $F9D1 ; $379D1 IN ROM
         
-        PLA : STA $0E30, X : DEC A : BNE BRANCH_GAMMA
+        PLA : STA $0E30, X : DEC A : BNE .BRANCH_GAMMA
         
         LDA.b #$09 : STA $0F50, X
         LDA.b #$F0 : STA $0E60, X
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         INC $0EB0, X
         
         RTS
     
     .not_a_pikit
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ; Is it a crazy red spear soldier?
-        LDA $0E20, X : CMP.b #$45 : BNE BRANCH_DELTA
+        LDA $0E20, X : CMP.b #$45 : BNE .BRANCH_DELTA
         
         ; If so, are we in the "first part" (on OW)
-        LDA $7EF3C5 : CMP.b #$02 : BNE BRANCH_DELTA
+        LDA $7EF3C5 : CMP.b #$02 : BNE .BRANCH_DELTA
         
-        LDA $040A : CMP.b #$18 : BNE BRANCH_DELTA
+        LDA $040A : CMP.b #$18 : BNE .BRANCH_DELTA
         
         ; Resets the music in the village when the crazy green guards are killed.
         LDA.b #$07 : STA $012C
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         ; Does it have a drop item?
-        LDY $0CBA, X : BEQ BRANCH_EPSILON
+        LDY $0CBA, X : BEQ .BRANCH_EPSILON
         
         LDA $0BC0, X : STA $0E30, X
         
@@ -6655,56 +6655,56 @@ OAM_AllocateDeferToPlayer:
         ; Small key
         LDA.b #$E4
         
-        CPY.b #$01 : BEQ BRANCH_ZETA
+        CPY.b #$01 : BEQ .BRANCH_ZETA
         
         ; Big key
         LDA.b #$E5
         
-        CPY.b #$03 : BNE BRANCH_ZETA
+        CPY.b #$03 : BNE .BRANCH_ZETA
         
         ; Green rupee
         LDA.b #$D9
         
-        BRA BRANCH_ZETA
+        BRA .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         ; Determine prize packs...
-        LDA $0BE0, X : AND.b #$0F : BEQ BRANCH_THETA
+        LDA $0BE0, X : AND.b #$0F : BEQ .BRANCH_THETA
         
         DEC A : PHA
         
         ; Check luck status
         ; If no special luck, proceed as normal
-        LDY $0CF9 : BEQ BRANCH_IOTA
+        LDY $0CF9 : BEQ .BRANCH_IOTA
         
         ; Increase lucky (or unlucky) drop counter
         ; Once we reach 10 drops of a type we reset luck.
-        INC $0CFA : LDA $0CFA : CMP.b #$0A : BCC BRANCH_KAPPA
+        INC $0CFA : LDA $0CFA : CMP.b #$0A : BCC .BRANCH_KAPPA
         
         STZ $0CF9 ; Reset luck. (per above)
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         PLA
         
         ; Is it great luck? If so, guarantee a prize drop
-        CPY.b #$01 : BEQ BRANCH_LAMBDA
+        CPY.b #$01 : BEQ .BRANCH_LAMBDA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        BRA BRANCH_MU ; Otherwise Luck is 2 and failure is guaranteed.
+        BRA .BRANCH_MU ; Otherwise Luck is 2 and failure is guaranteed.
     
-    BRANCH_IOTA: ; how prize packs normally drop
+    .BRANCH_IOTA ; how prize packs normally drop
     
         ; Reload the prize pack #
-        JSL GetRandomInt : PLY  : AND $FA5C, Y : BNE BRANCH_MU
+        JSL GetRandomInt : PLY  : AND $FA5C, Y : BNE .BRANCH_MU
     
     ; *$379BC ALTERNATE ENTRY POINT
     
         TYA ; Transfer prize number to A register
     
-    BRANCH_LAMBDA: ; if this is branched to, the prize is guaranteed.
+    .BRANCH_LAMBDA ; if this is branched to, the prize is guaranteed.
     
         ASL #3 : ORA $0FC7, Y : PHA
         
@@ -6715,23 +6715,23 @@ OAM_AllocateDeferToPlayer:
         LDA $FA72, Y
     
     ; *$379D1 ALTERNATE ENTRY POINT
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         ; Is the sprite we've dropped a big key?
-        STA $0E20, X : CMP.b #$E5 : BNE BRANCH_NU
+        STA $0E20, X : CMP.b #$E5 : BNE .BRANCH_NU
         
         JSR SpritePrep_LoadBigKeyGfx
         
-        BRA BRANCH_XI
+        BRA .BRANCH_XI
     
-    BRANCH_NU:
+    .BRANCH_NU
     
         ; Is it a normal key?
-        CMP.b #$E4 : BNE BRANCH_XI
+        CMP.b #$E4 : BNE .BRANCH_XI
         
         JSR SpritePrep_Key.set_item_drop
     
-    BRANCH_XI:
+    .BRANCH_XI
     
         LDA.b #$09 : STA $0DD0, X
         
@@ -6755,13 +6755,13 @@ OAM_AllocateDeferToPlayer:
         LDA.b #$15 : STA $0F10, X
         LDA.b #$FF : STA $0B58, X
         
-        BRA BRANCH_OMICRON
+        BRA .BRANCH_OMICRON
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         STZ $0DD0, X
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         LDA $0E20, X : CMP.b #$A2 : BNE .not_kholdstare
         
@@ -6881,7 +6881,7 @@ OAM_AllocateDeferToPlayer:
     ; *$37BEA-$37CB6 JUMP LOCATION
     SpriteCustomFall_Main:
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         STZ $0DD0, X
         
@@ -6889,23 +6889,23 @@ OAM_AllocateDeferToPlayer:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.b #$40 : BCC BRANCH_BETA
+        CMP.b #$40 : BCC .BRANCH_BETA
         
-        LDA $0F50, X : CMP.b #$05 : BNE BRANCH_GAMMA
+        LDA $0F50, X : CMP.b #$05 : BNE .BRANCH_GAMMA
         
         LDA.b #$3F : STA $0DF0, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        LDA $0DF0, X : AND.b #$07 : ORA $11 : ORA $0FC1 : BNE BRANCH_LAMBDA
+        LDA $0DF0, X : AND.b #$07 : ORA $11 : ORA $0FC1 : BNE .BRANCH_LAMBDA
         
         LDA.b #$31 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
         JSR SpriteActive_Main
         JSR Sprite_PrepOamCoord
@@ -6919,9 +6919,9 @@ OAM_AllocateDeferToPlayer:
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CMP.b #$3D : BNE BRANCH_DELTA
+        CMP.b #$3D : BNE .BRANCH_DELTA
         
         PHA
         
@@ -6929,53 +6929,53 @@ OAM_AllocateDeferToPlayer:
         
         PLA
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         LSR A : TAY
         
         LDA $0E20, X
         
-        CMP.b #$26 : BEQ BRANCH_EPSILON
-        CMP.b #$13 : BNE BRANCH_ZETA
+        CMP.b #$26 : BEQ .BRANCH_EPSILON
+        CMP.b #$13 : BNE .BRANCH_ZETA
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         LDA $FBB6, Y : STA $0DC0, X
         
         JSR $FD17   ; $37D17 IN ROM
         
-        BRA BRANCH_THETA
+        BRA .BRANCH_THETA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $FB96, Y : CMP.b #$0C : BCS BRANCH_MU
+        LDA $FB96, Y : CMP.b #$0C : BCS .BRANCH_MU
         
         LDY $0DE0, X
         
         CLC : ADC $FBE6, Y
     
-    BRANCH_MU:
+    .BRANCH_MU
     
         STA $0DC0, X
         
         JSR $FE5B   ; $37E5B IN ROM
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         LDA $0DF0, X : LSR #3 : TAY
         
-        LDA $1A : AND $FBD6, Y : ORA $11 : BNE BRANCH_IOTA
+        LDA $1A : AND $FBD6, Y : ORA $11 : BNE .BRANCH_IOTA
         
         LDY.b #$68
         
         JSR $E73C   ; $3673C IN ROM
         
-        LDA $0FA5 : CMP.b #$20 : BEQ BRANCH_KAPPA
+        LDA $0FA5 : CMP.b #$20 : BEQ .BRANCH_KAPPA
         
         STZ $0F30, X
         STZ $0F40, X
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA $0F30, X : STA $0D40, X
         
@@ -6987,20 +6987,20 @@ OAM_AllocateDeferToPlayer:
         
         JSR Sprite_Move
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         RTS
     }
 
     ; *$37D17-$37D42 LOCAL
     {
-        LDA $0E20, X : CMP.b #$13 : BEQ BRANCH_ALPHA
+        LDA $0E20, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
         
         LDA $0DC0, X : ASL #3 : ADC.b #$B7 : STA $08
         
         LDA.b #$FC
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ADC.b #$00 : STA $09
         
@@ -7008,13 +7008,13 @@ OAM_AllocateDeferToPlayer:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $0DC0, X : ASL #3 : ADC.b #$E7 : STA $08
         
         LDA.b #$FC
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
     }
 
 ; ==============================================================================
@@ -7040,16 +7040,16 @@ OAM_AllocateDeferToPlayer:
         
         LDX.b #$00
         
-        CMP.b #$0C : BCS BRANCH_ALPHA
-        AND.b #$03 : BNE BRANCH_ALPHA
+        CMP.b #$0C : BCS .BRANCH_ALPHA
+        AND.b #$03 : BNE .BRANCH_ALPHA
         
         LDX.b #$03
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STX $07
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         PHX
         
@@ -7066,7 +7066,7 @@ OAM_AllocateDeferToPlayer:
         
         PLY : INY
         
-        PLX : DEX : BPL BRANCH_BETA
+        PLX : DEX : BPL .BRANCH_BETA
         
         PLX
         

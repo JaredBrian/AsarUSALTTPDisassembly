@@ -83,7 +83,7 @@
         
         LDA $0F
         
-        LDY $05 : BNE BRANCH_ALPHA
+        LDY $05 : BNE .BRANCH_ALPHA
         
         STA $4203
         
@@ -93,15 +93,15 @@
         
         LDA $4217 : ADC.b #$00
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0E
         
-        LSR $01 : BCC BRANCH_BETA
+        LSR $01 : BCC .BRANCH_BETA
         
         EOR.b #$FF : INC A
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $04
         
@@ -109,7 +109,7 @@
         
         LDA $0F
         
-        LDY $07 : BNE BRANCH_GAMMA
+        LDY $07 : BNE .BRANCH_GAMMA
         
         STA $4203
         
@@ -119,15 +119,15 @@
         
         LDA $4217 : ADC.b #$00
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STA $0F
         
-        LSR $03 : BCC BRANCH_DELTA
+        LSR $03 : BCC .BRANCH_DELTA
         
         EOR.b #$FF : INC A
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STA $06
         
@@ -156,11 +156,11 @@
         
         JSR Sprite3_DivisionDelay
         
-        LDA $04 : ASL A : LDA $4217 : BCC BRANCH_EPSILON
+        LDA $04 : ASL A : LDA $4217 : BCC .BRANCH_EPSILON
         
         EOR.b #$FF : INC A
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         CLC : ADC $0FA8 : STA ($90), Y
         
@@ -169,11 +169,11 @@
         
         JSR Sprite3_DivisionDelay
         
-        LDA $06 : ASL A : LDA $4217 : BCC BRANCH_ZETA
+        LDA $06 : ASL A : LDA $4217 : BCC .BRANCH_ZETA
         
         EOR.b #$FF : INC A
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         CLC : ADC $0FA9  : INY : STA ($90), Y
         LDA.b #$28 : INY : STA ($90), Y

@@ -14,18 +14,18 @@
         
         LDA $E39D, Y
         
-        LDY $048E : CPY.b #$20 : BNE BRANCH_ALPHA
+        LDY $048E : CPY.b #$20 : BNE .BRANCH_ALPHA
         
         CLC : ADC.b #$04
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0DC0, X
         
         JSL Sprite_PrepAndDrawSingleLargeLong
         JSR Sprite4_CheckIfActive
         
-        LDA $0DF0, X : BNE BRANCH_BETA
+        LDA $0DF0, X : BNE .BRANCH_BETA
         
         JSR Lightning_SpawnFulgurGarnish
         
@@ -34,13 +34,13 @@
         LDA $0D00, X : CLC : ADC.b #$10 : STA $0D00, X : PHA
         LDA $0D20, X : ADC.b #$00 : STA $0D20, X
         
-        PLA : SEC : SBC $E8 : CMP.b #$D0 : BCC BRANCH_GAMMA
+        PLA : SEC : SBC $E8 : CMP.b #$D0 : BCC .BRANCH_GAMMA
         
         STZ $0DD0, X
         
         RTS
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSL GetRandomInt : AND.b #$07 : STA $00
         
@@ -48,18 +48,18 @@
         
         STZ $01
         
-        LDA $E3AD, Y : BPL BRANCH_DELTA
+        LDA $E3AD, Y : BPL .BRANCH_DELTA
         
         DEC $01
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         CLC : ADC $0D10, X           : STA $0D10, X
         LDA $0D30, X : ADC $01 : STA $0D30, X
         
         LDA $00 : STA $0D90, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     

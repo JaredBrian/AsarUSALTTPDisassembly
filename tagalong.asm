@@ -218,7 +218,7 @@
     
         CMP.b #$0E : BNE .not_boss_victory
         
-        BRL BRANCH_4A59E
+        BRL .BRANCH_4A59E
     
     .not_boss_victory
     
@@ -230,24 +230,24 @@
         
         DEY : BPL .next_tagalong
         
-        BRL BRANCH_IOTA
+        BRL .BRANCH_IOTA
     
     .tagalongWithTimer
     
         ; Check if not in the default standard submodule
-        LDA $11 : BNE BRANCH_EPSILON
+        LDA $11 : BNE .BRANCH_EPSILON
         
         ; Special case for kiki
         CPY.b #$02 : BNE .not_kiki
         
-        LDA $8A : AND.b #$40 : BNE BRANCH_EPSILON
+        LDA $8A : AND.b #$40 : BNE .BRANCH_EPSILON
     
     .not_kiki
     
         REP #$20
         
         ; Tick down the timer until Zelda bitches at you again.
-        DEC $02CD : BPL BRANCH_EPSILON
+        DEC $02CD : BPL .BRANCH_EPSILON
         
         SEP #$20
         
@@ -255,7 +255,7 @@
         
         STZ $02CD : STZ $02CE
         
-        BRA BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
     
     .can_display
     
@@ -276,82 +276,82 @@
         PLY
     
     ; *$4A024 ALTERNATE ENTRY POINT
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         SEP #$20
         
-        CPY.b #$00 : BNE BRANCH_IOTA
+        CPY.b #$00 : BNE .BRANCH_IOTA
         
         RTS
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         SEP #$20
         
         LDA $7EF3D3 : BEQ .super_bomb_not_going_off
         
-        BRL BRANCH_ALIF
+        BRL .BRANCH_ALIF
     
     .super_bomb_not_going_off
     
         ; Is if the thief's chest tagalong?
         LDA $7EF3CC : CMP.b #$0C : BNE .not_thief_chest
         
-        LDA $4D : BNE BRANCH_MU
+        LDA $4D : BNE .BRANCH_MU
         
-        BRA BRANCH_NU
+        BRA .BRANCH_NU
     
     .not_thief_chest
     
-        LDA $7EF3CC : CMP.b #$0D : BEQ BRANCH_XI
+        LDA $7EF3CC : CMP.b #$0D : BEQ .BRANCH_XI
     
-    BRANCH_MU:
+    .BRANCH_MU
     
-        BRL BRANCH_PI
+        BRL .BRANCH_PI
     
-    BRANCH_XI:
+    .BRANCH_XI
     
-        LDA $4D : CMP.b #$02 : BEQ BRANCH_OMICRON
+        LDA $4D : CMP.b #$02 : BEQ .BRANCH_OMICRON
         
-        LDA $5B : CMP.b #$02 : BEQ BRANCH_OMICRON
+        LDA $5B : CMP.b #$02 : BEQ .BRANCH_OMICRON
     
-    BRANCH_NU:
+    .BRANCH_NU
     
-        LDA $11 : BNE BRANCH_MU
+        LDA $11 : BNE .BRANCH_MU
         
-        LDA $4D : CMP.b #$01 : BEQ BRANCH_PI
+        LDA $4D : CMP.b #$01 : BEQ .BRANCH_PI
         
-        BIT $0308 : BMI BRANCH_PI
+        BIT $0308 : BMI .BRANCH_PI
         
-        LDA $02F9 : BNE BRANCH_PI
+        LDA $02F9 : BNE .BRANCH_PI
         
-        LDA $02D0 : BNE BRANCH_PI
+        LDA $02D0 : BNE .BRANCH_PI
         
         LDX $02CF
         
-        LDA $1A50, X : BEQ BRANCH_RHO
-                       BPL BRANCH_PI
+        LDA $1A50, X : BEQ .BRANCH_RHO
+                       BPL .BRANCH_PI
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
-        LDA $F6 : AND.b #$80 : BEQ BRANCH_PI
+        LDA $F6 : AND.b #$80 : BEQ .BRANCH_PI
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
-        LDA $7EF3CC : CMP.b #$0D : BNE BRANCH_SIGMA
+        LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_SIGMA
         
-        LDA $1B : BNE BRANCH_SIGMA
+        LDA $1B : BNE .BRANCH_SIGMA
         
         LDA $5D
         
-        CMP.b #$08 : BEQ BRANCH_PI
-        CMP.b #$09 : BEQ BRANCH_PI
-        CMP.b #$0A : BEQ BRANCH_PI
+        CMP.b #$08 : BEQ .BRANCH_PI
+        CMP.b #$09 : BEQ .BRANCH_PI
+        CMP.b #$0A : BEQ .BRANCH_PI
         
         LDA.b #$03 : STA $04B4
         LDA.b #$BB : STA $04B5
     
-    BRANCH_SIGMA:
+    .BRANCH_SIGMA
     
         ; This occurs when the bomb is set to trigger by Link
         LDA.b #$80 : STA $7EF3D3
@@ -370,52 +370,52 @@
         
         LDA $1B : STA $7EF3D1
     
-    BRANCH_ALIF:
+    .BRANCH_ALIF
     
-        BRL BRANCH_4A2B2
+        BRL .BRANCH_4A2B2
     
-    BRANCH_PI:
+    .BRANCH_PI
     
         SEP #$20
         
-        LDA $02E4 : BNE BRANCH_TAU
+        LDA $02E4 : BNE .BRANCH_TAU
         
         LDX $10
         
-        LDY $11 : CPY.b #$0A : BEQ BRANCH_TAU
+        LDY $11 : CPY.b #$0A : BEQ .BRANCH_TAU
         
-        CPX.b #$09 : BNE BRANCH_UPSILON
+        CPX.b #$09 : BNE .BRANCH_UPSILON
         
-        CPY.b #$23 : BEQ BRANCH_TAU
+        CPY.b #$23 : BEQ .BRANCH_TAU
     
-    BRANCH_UPSILON:
+    .BRANCH_UPSILON
     
-        CPX.b #$0E : BNE BRANCH_PHI
+        CPX.b #$0E : BNE .BRANCH_PHI
         
-        CPY.b #$01 : BEQ BRANCH_TAU
-        CPY.b #$02 : BNE BRANCH_PHI
+        CPY.b #$01 : BEQ .BRANCH_TAU
+        CPY.b #$02 : BNE .BRANCH_PHI
     
-    BRANCH_TAU:
+    .BRANCH_TAU
     
-        BRL BRANCH_CHI
+        BRL .BRANCH_CHI
     
-    BRANCH_PHI:
+    .BRANCH_PHI
     
-        LDA $30 : ORA $31 : BEQ BRANCH_CHI
+        LDA $30 : ORA $31 : BEQ .BRANCH_CHI
         
-        LDX $02D3 : INX : CPX.b #$14 : BNE BRANCH_PSI
+        LDX $02D3 : INX : CPX.b #$14 : BNE .BRANCH_PSI
         
         LDX.b #$00
     
-    BRANCH_PSI:
+    .BRANCH_PSI
     
         STX $02D3
         
-        LDA $24 : CMP.b #$F0 : BCC BRANCH_OMEGA
+        LDA $24 : CMP.b #$F0 : BCC .BRANCH_OMEGA
         
         LDA.b #$00
     
-    BRANCH_OMEGA:
+    .BRANCH_OMEGA
     
         STA $00
         STZ $01
@@ -439,34 +439,34 @@
         
         LDA Tagalong_Init.priorities, Y : LSR #2 : ORA $1A64, X : STA $1A64, X
         
-        LDA $5D : CMP.b #$04 : BNE BRANCH_ALTIMA
+        LDA $5D : CMP.b #$04 : BNE .BRANCH_ALTIMA
         
         LDY.b #$20
         
-        BRA BRANCH_ULTIMA
+        BRA .BRANCH_ULTIMA
     
-    BRANCH_ALTIMA:
+    .BRANCH_ALTIMA
     
-        CMP.b #$13 : BNE BRANCH_OPTIMUS
+        CMP.b #$13 : BNE .BRANCH_OPTIMUS
         
-        LDA $037E : BEQ BRANCH_OPTIMUS
+        LDA $037E : BEQ .BRANCH_OPTIMUS
         
         LDA.b #$10 : ORA $1A64, X : STA $1A64, X
     
-    BRANCH_OPTIMUS:
+    .BRANCH_OPTIMUS
     
         LDY.b #$80
         
-        LDA $0351  : BEQ BRANCH_CHI
-        CMP.b #$01 : BEQ BRANCH_ULTIMA
+        LDA $0351  : BEQ .BRANCH_CHI
+        CMP.b #$01 : BEQ .BRANCH_ULTIMA
         
         LDY.b #$40
     
-    BRANCH_ULTIMA:
+    .BRANCH_ULTIMA
     
         TYA : ORA $1A64, X : STA $1A64, X
     
-    BRANCH_CHI:
+    .BRANCH_CHI
     
         LDA $7EF3CC : DEC A : ASL A : TAX
         
@@ -479,42 +479,42 @@
 
     ; *$4A197-$4A2B0 JUMP LOCATION
     {
-        LDA $02E4 : BNE BRANCH_ALPHA
+        LDA $02E4 : BNE .BRANCH_ALPHA
         
         LDX $10
         
-        LDY $11 : CPY.b #$0A : BEQ BRANCH_ALPHA
+        LDY $11 : CPY.b #$0A : BEQ .BRANCH_ALPHA
         
-        CPX.b #$09 : BNE BRANCH_BETA
+        CPX.b #$09 : BNE .BRANCH_BETA
         
-        CPY.b #$23 : BEQ BRANCH_ALPHA
+        CPY.b #$23 : BEQ .BRANCH_ALPHA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        CPX.b #$0E : BNE BRANCH_GAMMA
+        CPX.b #$0E : BNE .BRANCH_GAMMA
         
-        CPY.b #$01 : BEQ BRANCH_ALPHA
-        CPY.b #$02 : BNE BRANCH_GAMMA
+        CPY.b #$01 : BEQ .BRANCH_ALPHA
+        CPY.b #$02 : BNE .BRANCH_GAMMA
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        BRL BRANCH_NU
+        BRL .BRANCH_NU
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSR $A59E ; $4A59E IN ROM
         
-        LDA $7EF3CC : CMP.b #$0A : BNE BRANCH_DELTA
+        LDA $7EF3CC : CMP.b #$0A : BNE .BRANCH_DELTA
         
-        LDA $4D : BEQ BRANCH_DELTA
+        LDA $4D : BEQ .BRANCH_DELTA
         
-        LDA $031F : BEQ BRANCH_DELTA
+        LDA $031F : BEQ .BRANCH_DELTA
         
-        LDA $02CF : INC A : CMP.b #$14 : BNE BRANCH_EPSILON
+        LDA $02CF : INC A : CMP.b #$14 : BNE .BRANCH_EPSILON
         
         LDA.b #$00
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         JSL Kiki_AbandonDamagedPlayer
         
@@ -522,7 +522,7 @@
         
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         ; Check if tagalong == Blind in disguise as maiden.
         LDA $7EF3CC : CMP.b #$06 : BNE .blind_not_triggered
@@ -563,37 +563,37 @@
         
         RTS
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         SEP #$20
         
         LDY $5D
         
-        LDA $02D0 : BNE BRANCH_THETA
+        LDA $02D0 : BNE .BRANCH_THETA
         
-        CPY.b #$13 : BNE BRANCH_IOTA
+        CPY.b #$13 : BNE .BRANCH_IOTA
         
-        LDA $037E : BEQ BRANCH_IOTA
+        LDA $037E : BEQ .BRANCH_IOTA
         
         LDA.b #$01 : STA $02D0
         
-        BRA BRANCH_KAPPA
+        BRA .BRANCH_KAPPA
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        CPY.b #$13 : BEQ BRANCH_KAPPA
+        CPY.b #$13 : BEQ .BRANCH_KAPPA
         
-        LDA $02D1 : CMP $02CF : BNE BRANCH_LAMBDA
+        LDA $02D1 : CMP $02CF : BNE .BRANCH_LAMBDA
         
         STZ $02D0
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDX $02CF
         
-        LDA $1A50, X : BEQ BRANCH_MU : BMI BRANCH_MU
+        LDA $1A50, X : BEQ .BRANCH_MU  BMI .BRANCH_MU
         
-        LDA $02D3 : CMP $02CF : BNE BRANCH_LAMBDA
+        LDA $02D3 : CMP $02CF : BNE .BRANCH_LAMBDA
         
         STZ $1A50, X
         
@@ -602,33 +602,33 @@
         LDA $22 : STA $1A28, X
         LDA $23 : STA $1A3C, X
     
-    BRANCH_MU:
+    .BRANCH_MU
 
-        LDA $30 : ORA $31 : BEQ BRANCH_NU
+        LDA $30 : ORA $31 : BEQ .BRANCH_NU
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
-        LDA $02D3 : SEC : SBC.b #$0F : BPL BRANCH_XI
+        LDA $02D3 : SEC : SBC.b #$0F : BPL .BRANCH_XI
         
         CLC : ADC.b #$14
     
-    BRANCH_XI:
+    .BRANCH_XI
     
-        CMP $02CF : BNE BRANCH_NU
+        CMP $02CF : BNE .BRANCH_NU
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
-        LDX $02CF : INX : CPX.b #$14 : BNE BRANCH_OMICRON
+        LDX $02CF : INX : CPX.b #$14 : BNE .BRANCH_OMICRON
         
         LDX.b #$00
     
-    BRANCH_OMICRON:
+    .BRANCH_OMICRON
     
         STX $02CF
     
-    BRANCH_NU:
+    .BRANCH_NU
     
-        BRL BRANCH_$4A907
+        BRL .BRANCH_$4A907
     }
 
     ; $4A2B1-$4A2B1 BRANCH LOCATION
@@ -638,38 +638,38 @@
     
     ; *$4A2B2-$4A308 JUMP LOCATION
     {
-        LDA $7EF3D1 : CMP $1B : BNE BRANCH_$4A2B1 ; (RTS) ; if indoors, don't branch
+        LDA $7EF3D1 : CMP $1B : BNE .BRANCH_$4A2B1 ; (RTS) ; if indoors, don't branch
         
         ; Is Link dashing?
-        LDA $0372 : BNE BRANCH_ALPHA; Yes... branch to alpha
+        LDA $0372 : BNE .BRANCH_ALPHA; Yes... branch to alpha
         
-        JSR Tagalong_CheckPlayerProximity : BCS BRANCH_ALPHA
+        JSR Tagalong_CheckPlayerProximity : BCS .BRANCH_ALPHA
         
         JSL Tagalong_Init
         
         LDA $1B : STA $7EF3D1
         
-        LDA $7EF3CC : CMP.b #$0D : BNE BRANCH_BETA
+        LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_BETA
         
         LDA.b #$FE : STA $04B4
         
         STZ $04B5
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$00 : STA $7EF3D3
         
-        BRL BRANCH_$4A907
+        BRL .BRANCH_$4A907
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         ; Is it a super bomb?
-        LDA $7EF3CC : CMP.b #$0D : BNE BRANCH_GAMMA ; no, get out of here
+        LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA ; no, get out of here
         
         ; Are we indoors?
-        LDA $1B : BNE BRANCH_GAMMA; yes, get out of here >:(
+        LDA $1B : BNE .BRANCH_GAMMA; yes, get out of here >(
         
-        LDA $04B4 : BNE BRANCH_GAMMA
+        LDA $04B4 : BNE .BRANCH_GAMMA
         
         LDY.b #$00
         LDA.b #$3A
@@ -678,9 +678,9 @@
         
         LDA.b #$00 : STA $7EF3D3
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        BRL BRANCH_$4A450
+        BRL .BRANCH_$4A450
     }
 
 ; ==============================================================================
@@ -701,84 +701,84 @@
         ; Old Man on the Mountain tagalong routine
         
         ; Can Link move?
-        LDA $02E4 : BNE BRANCH_ALPHA
+        LDA $02E4 : BNE .BRANCH_ALPHA
         
         ; Is Link coming out of a door into the overworld?
         LDX $10
         
-        LDY $11 : CPY.b #$0A : BEQ BRANCH_ALPHA
+        LDY $11 : CPY.b #$0A : BEQ .BRANCH_ALPHA
         
-        CPX.b #$09 : BNE BRANCH_BETA
+        CPX.b #$09 : BNE .BRANCH_BETA
         
         ; Is the magic mirror being used?
-        CPY.b #$23 : BEQ BRANCH_ALPHA
+        CPY.b #$23 : BEQ .BRANCH_ALPHA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         ; Are we in text mode?
-        CPX.b #$0E : BNE BRANCH_GAMMA
+        CPX.b #$0E : BNE .BRANCH_GAMMA
         
-        CPY.b #$01 : BEQ BRANCH_ALPHA
-        CPY.b #$02 : BNE BRANCH_GAMMA ; Text message mode
+        CPY.b #$01 : BEQ .BRANCH_ALPHA
+        CPY.b #$02 : BNE .BRANCH_GAMMA ; Text message mode
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        BRL BRANCH_NU
+        BRL .BRANCH_NU
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         ; Make an exception for movement speeds. It's not dashing speed, so
         ; I'm not sure what speed type this is.
-        LDA $5E : CMP.b #$04 : BEQ BRANCH_DELTA
+        LDA $5E : CMP.b #$04 : BEQ .BRANCH_DELTA
         
         LDA.b #$0C : STA $5E
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         JSR $A59E ; $4A59E IN ROM
         
         SEP #$30
         
-        LDA $7EF3CC : BNE BRANCH_EPSILON
+        LDA $7EF3CC : BNE .BRANCH_EPSILON
         
         RTS
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         CMP.b #$04
     
-    BRANCH_ZETA
+    .BRANCH_ZETA
     
         LDX $02CF
         
-        LDA $1A50, X : BEQ BRANCH_THETA : BMI BRANCH_THETA
+        LDA $1A50, X : BEQ .BRANCH_THETA  BMI .BRANCH_THETA
         
-        LDA $02CF : CMP $02D3 : BEQ BRANCH_THETA
+        LDA $02CF : CMP $02D3 : BEQ .BRANCH_THETA
         
-        BRL BRANCH_OMICRON
+        BRL .BRANCH_OMICRON
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        BRL BRANCH_LAMBDA
+        BRL .BRANCH_LAMBDA
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $4D : AND.b #$01 : BEQ BRANCH_IOTA
+        LDA $4D : AND.b #$01 : BEQ .BRANCH_IOTA
         
         ; Is Link in a recoil state?
-        LDA $5D : CMP.b #$06 : BNE BRANCH_IOTA ; if not, then branch away
+        LDA $5D : CMP.b #$06 : BNE .BRANCH_IOTA ; if not, then branch away
         
-        LDA $02D3 : CMP $02CF : BNE BRANCH_KAPPA
+        LDA $02D3 : CMP $02CF : BNE .BRANCH_KAPPA
         
-        DEX : STX $02CF : BPL BRANCH_KAPPA
+        DEX : STX $02CF : BPL .BRANCH_KAPPA
         
         LDA.b #$13 : STA $02CF
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
-        LDA $4D : AND.b #$02 : BEQ BRANCH_LAMBDA
+        LDA $4D : AND.b #$02 : BEQ .BRANCH_LAMBDA
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         LDA $7EF3CC : TAX
         
@@ -796,49 +796,49 @@
         
         LDA $EE : STA $7EF3D2
         
-        BRA BRANCH_$4A41F
+        BRA .BRANCH_$4A41F
     
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
     
-        LDA $30 : ORA $31 : BNE BRANCH_MU
+        LDA $30 : ORA $31 : BNE .BRANCH_MU
         
-        LDA $1A : AND.b #$03 : BNE BRANCH_NU
+        LDA $1A : AND.b #$03 : BNE .BRANCH_NU
         
-        LDA $02D3 : CMP $02CF : BEQ BRANCH_NU
+        LDA $02D3 : CMP $02CF : BEQ .BRANCH_NU
         
-        SEC : SBC.b #$09 : BPL BRANCH_XI
-        
-        CLC : ADC.b #$14
-    
-    BRANCH_XI:
-    
-        CMP $02CF : BNE BRANCH_OMICRON
-        
-        BRL BRANCH_NU
-    
-    BRANCH_MU:
-    
-        LDA $02D3 : SEC : SBC.b #$14 : BPL BRANCH_PI
+        SEC : SBC.b #$09 : BPL .BRANCH_XI
         
         CLC : ADC.b #$14
     
-    BRANCH_PI:
+    .BRANCH_XI
     
-        CMP $02CF : BNE BRANCH_NU
+        CMP $02CF : BNE .BRANCH_OMICRON
+        
+        BRL .BRANCH_NU
     
-    BRANCH_OMICRON:
+    .BRANCH_MU
     
-        LDX $02CF : INX : CPX.b #$14 : BCC BRANCH_RHO
+        LDA $02D3 : SEC : SBC.b #$14 : BPL .BRANCH_PI
+        
+        CLC : ADC.b #$14
+    
+    .BRANCH_PI
+    
+        CMP $02CF : BNE .BRANCH_NU
+    
+    .BRANCH_OMICRON
+    
+        LDX $02CF : INX : CPX.b #$14 : BCC .BRANCH_RHO
         
         LDX.b #$00
     
-    BRANCH_RHO:
+    .BRANCH_RHO
     
         STX $02CF
     
-    BRANCH_NU:
+    .BRANCH_NU
     
-        BRL BRANCH_4A907
+        BRL .BRANCH_4A907
         
         RTS
     }
@@ -862,19 +862,19 @@
         LDA.b #$10 : STA $5E
         
         ; Is Link dashing?
-        LDA $0372 : BNE BRANCH_ALPHA
+        LDA $0372 : BNE .BRANCH_ALPHA
         
-        LDA $4D : BNE BRANCH_ALPHA
+        LDA $4D : BNE .BRANCH_ALPHA
         
         ; Is player swimming?
-        LDA $5D : CMP.b #$04 : BEQ BRANCH_ALPHA
+        LDA $5D : CMP.b #$04 : BEQ .BRANCH_ALPHA
         
         STZ $5E
         
         ; Is player in hookshot mode?
-        LDA $5D : CMP.b #$13 : BEQ BRANCH_ALPHA
+        LDA $5D : CMP.b #$13 : BEQ .BRANCH_ALPHA
         
-        JSR Tagalong_CheckPlayerProximity : BCS BRANCH_ALPHA
+        JSR Tagalong_CheckPlayerProximity : BCS .BRANCH_ALPHA
         
         JSL Tagalong_Init
         
@@ -885,13 +885,13 @@
         RTS
     
     ; *$4A450 ALTERNATE ENTRY POINT
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        LDA $7EF3D2 : TAX : CPX $EE : BNE BRANCH_BETA
+        LDA $7EF3D2 : TAX : CPX $EE : BNE .BRANCH_BETA
         
         LDX $EE
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA Tagalong_Init.priorities, X : STA $65
                                           STZ $64
@@ -904,16 +904,16 @@
         
         LDX.b #$02
         
-        LDA $7EF3CC : CMP.b #$0D : BEQ BRANCH_GAMMA
-                      CMP.b #$0C : BEQ BRANCH_GAMMA
+        LDA $7EF3CC : CMP.b #$0D : BEQ .BRANCH_GAMMA
+                      CMP.b #$0C : BEQ .BRANCH_GAMMA
         
         LDX.b #$01
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         TXA
         
-        BRL BRANCH_$4A957
+        BRL .BRANCH_$4A957
     }
 
 ; ==============================================================================
@@ -1222,35 +1222,35 @@
     
     LDX $02CF
     
-    LDA $1A50, X : BEQ BRANCH_BETA
+    LDA $1A50, X : BEQ .BRANCH_BETA
     
-    LDA $1B : BNE BRANCH_BETA
+    LDA $1B : BNE .BRANCH_BETA
     
     LDA.b #$20
     
-    BRA BRANCH_GAMMA
+    BRA .BRANCH_GAMMA
 
-BRANCH_BETA:
+.BRANCH_BETA
 
-    LDA $11 : CMP.b #$0E : BNE BRANCH_DELTA
+    LDA $11 : CMP.b #$0E : BNE .BRANCH_DELTA
     
     LDY $EE : LDA Tagalong_Init.priorities, Y
     
-    BRA BRANCH_GAMMA
+    BRA .BRANCH_GAMMA
 
-BRANCH_DELTA:
+.BRANCH_DELTA
 
     LDA $1A64, X : AND.b #$0C : ASL #2
 
-BRANCH_GAMMA:
+.BRANCH_GAMMA
 
     STA $65 : STZ $64
     
-    LDX $02CF : BPL BRANCH_EPSILON
+    LDX $02CF : BPL .BRANCH_EPSILON
     
     LDX.b #$00
 
-BRANCH_EPSILON:
+.BRANCH_EPSILON
 
     LDA $1A00, X : STA $00
     LDA $1A14, X : STA $01
@@ -1260,13 +1260,13 @@ BRANCH_EPSILON:
     
     LDA $1A64, X
     
-    BRA BRANCH_ZETA
+    BRA .BRANCH_ZETA
 
 ; *$4A957 ALTERNATE ENTRY POINT
 
     PHX : PHY
 
-BRANCH_ZETA:
+.BRANCH_ZETA
 
     STA $05 : AND.b #$20 : LSR #2 : TAY
     
@@ -1274,91 +1274,91 @@ BRANCH_ZETA:
     
     STZ $72
     
-    CPY.b #$08 : BNE BRANCH_THETA
+    CPY.b #$08 : BNE .BRANCH_THETA
     
     LDY.b #$00
     
     LDA $7EF3CC
     
-    CMP.b #$06 : BEQ BRANCH_IOTA
-    CMP.b #$01 : BNE BRANCH_THETA
+    CMP.b #$06 : BEQ .BRANCH_IOTA
+    CMP.b #$01 : BNE .BRANCH_THETA
 
-BRANCH_IOTA:
+.BRANCH_IOTA
 
     LDY.b #$08
     
-    LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ BRANCH_KAPPA
+    LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ .BRANCH_KAPPA
     
     LDA $1A : AND.b #$08 : LSR A
     
-    BRA BRANCH_LAMBDA
+    BRA .BRANCH_LAMBDA
 
-BRANCH_KAPPA:
+.BRANCH_KAPPA
 
     LDA $1A : AND.b #$10 : LSR #2
     
-    BRA BRANCH_LAMBDA
+    BRA .BRANCH_LAMBDA
 
-BRANCH_THETA:
+.BRANCH_THETA
 
     LDA $11
     
-    CMP.b #$0E : BEQ BRANCH_MU
-    CMP.b #$08 : BEQ BRANCH_MU
-    CMP.b #$10 : BEQ BRANCH_MU
+    CMP.b #$0E : BEQ .BRANCH_MU
+    CMP.b #$08 : BEQ .BRANCH_MU
+    CMP.b #$10 : BEQ .BRANCH_MU
     
     LDA $7EF3CC
     
-    CMP.b #$0B : BEQ BRANCH_NU
-    CMP.b #$0D : BEQ BRANCH_XI
-    CMP.b #$0C : BNE BRANCH_OMICRON
+    CMP.b #$0B : BEQ .BRANCH_NU
+    CMP.b #$0D : BEQ .BRANCH_XI
+    CMP.b #$0C : BNE .BRANCH_OMICRON
 
-BRANCH_XI:
+.BRANCH_XI
 
-    LDA $7EF3D3 : BNE BRANCH_PI
+    LDA $7EF3D3 : BNE .BRANCH_PI
 
-BRANCH_OMICRON:
+.BRANCH_OMICRON
 
-    LDA $02E4 : BNE BRANCH_OMICRON
+    LDA $02E4 : BNE .BRANCH_OMICRON
     
-    LDA $11 : CMP.b #$0A : BEQ BRANCH_OMICRON
+    LDA $11 : CMP.b #$0A : BEQ .BRANCH_OMICRON
     
-    LDA $10 : CMP.b #$09 : BNE BRANCH_RHO
+    LDA $10 : CMP.b #$09 : BNE .BRANCH_RHO
     
-    LDA $11 : CMP.b #$23 : BEQ BRANCH_PI
+    LDA $11 : CMP.b #$23 : BEQ .BRANCH_PI
 
-BRANCH_RHO:
+.BRANCH_RHO
 
-    LDA $10 : CMP.b #$0E : BNE BRANCH_SIGMA
+    LDA $10 : CMP.b #$0E : BNE .BRANCH_SIGMA
     
     LDA $11
     
-    CMP.b #$01 : BEQ BRANCH_PI
-    CMP.b #$02 : BEQ BRANCH_PI
+    CMP.b #$01 : BEQ .BRANCH_PI
+    CMP.b #$02 : BEQ .BRANCH_PI
 
-BRANCH_SIGMA:
+.BRANCH_SIGMA
 
-    LDA $30 : ORA $31 : BNE BRANCH_MU
+    LDA $30 : ORA $31 : BNE .BRANCH_MU
 
-BRANCH_PI:
+.BRANCH_PI
 
     LDA.b #$04 : STA $72
     
-    BRA BRANCH_LAMBDA
+    BRA .BRANCH_LAMBDA
 
-BRANCH_MU:
+.BRANCH_MU
 
-    LDA $0372 : BEQ BRANCH_NU
+    LDA $0372 : BEQ .BRANCH_NU
     
     LDA $1A : AND.b #$04
     
-    BRA BRANCH_LAMBDA
+    BRA .BRANCH_LAMBDA
 
-BRANCH_NU:
+.BRANCH_NU
 
     LDA $1A : AND.b #$08 : LSR A
 
-BRANCH_LAMBDA:
+.BRANCH_LAMBDA
 
     CLC : ADC $04 : STA $04
     
@@ -1368,25 +1368,25 @@ BRANCH_LAMBDA:
     
     LDA $0FB3 : AND.w #$00FF : ASL A : TAY
     
-    LDA $20 : CMP $00 : BEQ BRANCH_TAU
+    LDA $20 : CMP $00 : BEQ .BRANCH_TAU
     
     BCS #$0E
     
     BRA #$07
 
-BRANCH_TAU:
+.BRANCH_TAU
 
-    LDA $05 : AND.w #$0003 : BNE BRANCH_UPSILON
+    LDA $05 : AND.w #$0003 : BNE .BRANCH_UPSILON
     
     LDA $A8F1, Y
     
-    BRA BRANCH_PHI
+    BRA .BRANCH_PHI
 
-BRANCH_UPSILON:
+.BRANCH_UPSILON
 
     LDA $A8F5, Y
 
-BRANCH_PHI:
+.BRANCH_PHI
 
     PHA
     
@@ -1405,44 +1405,44 @@ BRANCH_PHI:
     
     LDA $7EF3CC
     
-    CMP.b #$01 : BEQ BRANCH_PSI
-    CMP.b #$06 : BEQ BRANCH_PSI
+    CMP.b #$01 : BEQ .BRANCH_PSI
+    CMP.b #$06 : BEQ .BRANCH_PSI
     
-    LDA $05 : AND.b #$20 : BEQ BRANCH_PSI
+    LDA $05 : AND.b #$20 : BEQ .BRANCH_PSI
     
-    BRA BRANCH_CHI
+    BRA .BRANCH_CHI
 
-BRANCH_PSI:
+.BRANCH_PSI
 
-    LDA $05 : AND.b #$C0 : BNE BRANCH_OMEGA
+    LDA $05 : AND.b #$C0 : BNE .BRANCH_OMEGA
     
-    BRL BRANCH_THEL
+    BRL .BRANCH_THEL
 
-BRANCH_OMEGA:
+.BRANCH_OMEGA
 
-    LDA $05 : AND.b #$80 : BNE BRANCH_CHI
+    LDA $05 : AND.b #$80 : BNE .BRANCH_CHI
     
     LDX.b #$0C
     
-    LDA $72 : BEQ BRANCH_CHI
+    LDA $72 : BEQ .BRANCH_CHI
     
     LDA.b #$00
     
-    BRA BRANCH_ALTIMA
+    BRA .BRANCH_ALTIMA
 
-BRANCH_CHI:
+.BRANCH_CHI
 
-    LDA $1A : AND.b #$07 : BNE BRANCH_ULTIMA
+    LDA $1A : AND.b #$07 : BNE .BRANCH_ULTIMA
     
-    LDA $02D7 : INC A : CMP.b #$03 : BNE BRANCH_ALTIMA
+    LDA $02D7 : INC A : CMP.b #$03 : BNE .BRANCH_ALTIMA
     
     LDA.b #$00
 
-BRANCH_ALTIMA:
+.BRANCH_ALTIMA
 
     STA $02D7
 
-BRANCH_ULTIMA:
+.BRANCH_ULTIMA
 
     LDA $02D7 : ASL #2 : STA $05
     
@@ -1492,38 +1492,38 @@ BRANCH_ULTIMA:
     
     PLY
 
-BRANCH_THEL:
+.BRANCH_THEL
 
     LDA $7EF3CC : TAX
     
-    LDA $A8F9, X : CMP.b #$07 : BNE BRANCH_OPTIMUS
+    LDA $A8F9, X : CMP.b #$07 : BNE .BRANCH_OPTIMUS
     
     TAX
     
-    LDA $0ABD : BEQ BRANCH_ALIF
+    LDA $0ABD : BEQ .BRANCH_ALIF
     
     LDX.b #$00
 
-BRANCH_ALIF:
+.BRANCH_ALIF
 
     TXA
 
-BRANCH_OPTIMUS:
+.BRANCH_OPTIMUS
 
     ASL A : STA $72
     
-    LDA $7EF3CC : CMP.b #$0D : BNE BRANCH_BET
+    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_BET
     
-    LDA $04B4 : CMP.b #$01 : BNE BRANCH_BET
+    LDA $04B4 : CMP.b #$01 : BNE .BRANCH_BET
     
     LDA $1A : AND.b #$07 : ASL A : STA $72
 
-BRANCH_BET:
+.BRANCH_BET
 
     LDA $7EF3CC
     
-    CMP.b #$0D : BEQ BRANCH_DEL
-    CMP.b #$0C : BEQ BRANCH_DEL
+    CMP.b #$0D : BEQ .BRANCH_DEL
+    CMP.b #$0C : BEQ .BRANCH_DEL
     
     REP #$30
     
@@ -1562,7 +1562,7 @@ BRANCH_BET:
     
     PLY
 
-BRANCH_DEL:
+.BRANCH_DEL
 
     REP #$30
     

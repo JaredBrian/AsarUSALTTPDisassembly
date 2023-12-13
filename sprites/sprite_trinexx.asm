@@ -63,26 +63,26 @@
         
         LDA.b #$80
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
     
     ; *$EAD70 ALTERNATE ENTRY POINT
     
         LDA.b #$FF
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         STA $0DF0, X
         
         LDY.b #$1A
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA.b #$40 : STA $1D10, Y
         
         LDA.b #$00 : STA $1D30, Y
                      STA $1D50, Y
         
-        DEY : BPL BRANCH_BETA
+        DEY : BPL .BRANCH_BETA
         
         LDA.b #$01 : STA $0E80, X
     
@@ -109,48 +109,48 @@
         
         LDA $ADA5, Y : STA $0DC0, X
         
-        LDY $0E00, X : BEQ BRANCH_ALPHA
+        LDY $0E00, X : BEQ .BRANCH_ALPHA
         
         TAY
         
         LDA $ADAD, Y : STA $0DC0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR $AF84   ; $EAF84 IN ROM
         JSR Sprite4_CheckIfActive
         
-        LDA $0D80, X : BPL BRANCH_BETA
+        LDA $0D80, X : BPL .BRANCH_BETA
         
         LDA $0DF0, X : PHA : ORA.b #$E0 : STA $0EF0, X
         
-        PLA : BNE BRANCH_GAMMA
+        PLA : BNE .BRANCH_GAMMA
         
         LDA.b #$0C : STA $0DF0, X
         
-        LDA $0EC0, X : BNE BRANCH_DELTA
+        LDA $0EC0, X : BNE .BRANCH_DELTA
         
         LDA.b #$FF : STA $0EF0, X
         
         JMP Sprite_ScheduleBossForDeath
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         DEC $0EC0, X
         
         JSL Sprite_MakeBossDeathExplosion
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $1A : AND.b #$07 : BNE BRANCH_EPSILON
+        LDA $1A : AND.b #$07 : BNE .BRANCH_EPSILON
         
         LDA.b #$31 : JSL Sound_SetSfx3PanLong
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         PHX : TXY
         
@@ -163,15 +163,15 @@
         
         PLX
         
-        LDA $0EA0, X : CMP.b #$0E : BNE BRANCH_ZETA
+        LDA $0EA0, X : CMP.b #$0E : BNE .BRANCH_ZETA
         
         LDA.b #$08 : STA $0EA0, X
         
-        LDA $0D80, X : CMP.b #$00 : BNE BRANCH_ZETA
+        LDA $0D80, X : CMP.b #$00 : BNE .BRANCH_ZETA
         
         LDA.b #$02 : STA $0D80, X
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         JSR Sprite4_Move
         JSR Sprite4_CheckDamage
@@ -188,25 +188,25 @@
 
     ; *$EAE6D-$EAEA7 JUMP LOCATION
     {
-        LDA $0E80, X : AND.b #$00 : BNE BRANCH_ALPHA
+        LDA $0E80, X : AND.b #$00 : BNE .BRANCH_ALPHA
         
-        DEC $0D90, X : BNE BRANCH_ALPHA
+        DEC $0D90, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         LDA.b #$C0 : STA $0DF0, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSL Sprite_Get_16_bit_CoordsLong
         
-        JSR Sprite4_CheckTileCollision : BEQ BRANCH_BETA
+        JSR Sprite4_CheckTileCollision : BEQ .BRANCH_BETA
         
         LDA $0DE0, X : INC A : AND.b #$03 : STA $0DE0, X
         
         LDA.b #$08 : STA $0E00, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDY $0DE0, X
         
@@ -257,35 +257,35 @@
 
     ; *$EAEF5-$EAF23 JUMP LOCATION
     {
-        LDA $1A : AND.b #$01 : BNE BRANCH_ALPHA
+        LDA $1A : AND.b #$01 : BNE .BRANCH_ALPHA
         
         LDA.b #$1F
         
         JSL Sprite_ProjectSpeedTowardsPlayerLong
         
-        LDA $0D50, X : CMP $01 : BEQ BRANCH_BETA : BPL BRANCH_GAMMA
+        LDA $0D50, X : CMP $01 : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
         
         INC $0D50, X
         
-        BRA BRANCH_BETA
+        BRA .BRANCH_BETA
 
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
 
         DEC $0D50, X
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
-        LDA $0D40, X : CMP $00 : BEQ BRANCH_ALPHA : BPL BRANCH_DELTA
+        LDA $0D40, X : CMP $00 : BEQ .BRANCH_ALPHA  BPL .BRANCH_DELTA
         
         INC $0D40, X
         
-        BRA BRANCH_ALPHA
+        BRA .BRANCH_ALPHA
 
-    BRANCH_DELTA:
+    .BRANCH_DELTA
 
         DEC $0D40, X
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
         RTS
     }
@@ -302,11 +302,11 @@
 
     LDY $0FB6
     
-    TYA : CMP $0EC0, X : BNE BRANCH_ALPHA
+    TYA : CMP $0EC0, X : BNE .BRANCH_ALPHA
     
     RTS
 
-BRANCH_ALPHA:
+.BRANCH_ALPHA
 
     PHX
     
@@ -324,16 +324,16 @@ BRANCH_ALPHA:
     REP #$20
     
     LDA $22                 : SEC : SBC $0FD8 : CLC : ADC.w #$0008
-                                            CMP.w #$0010 : BCS BRANCH_BETA
+                                            CMP.w #$0010 : BCS .BRANCH_BETA
     
     LDA $20 : CLC : ADC.w #$0008 : SEC : SBC $0FDA : CLC : ADC.w #$0008
-                                            CMP.w #$0010 : BCS BRANCH_BETA
+                                            CMP.w #$0010 : BCS .BRANCH_BETA
     
     SEP #$20
     
-    LDA $0D80, X : BMI BRANCH_BETA
+    LDA $0D80, X : BMI .BRANCH_BETA
     
-    LDA $031F : ORA $037B : ORA $11 : ORA $0FC1 : BNE BRANCH_BETA
+    LDA $031F : ORA $037B : ORA $11 : ORA $0FC1 : BNE .BRANCH_BETA
 
     LDA.b #$01 : STA $4D
     
@@ -346,7 +346,7 @@ BRANCH_ALPHA:
     
     REP #$20
 
-BRANCH_BETA:
+.BRANCH_BETA
 
     LDA $90 : CLC : ADC $AF54, Y : STA $90
     
@@ -358,9 +358,9 @@ BRANCH_BETA:
     
     LDA.b #$01 : STA $0F50, X
     
-    CPY.b #$04 : BNE BRANCH_GAMMA
+    CPY.b #$04 : BNE .BRANCH_GAMMA
     
-    LDA $0D80, X : CMP.b #$01 : BCC BRANCH_GAMMA
+    LDA $0D80, X : CMP.b #$01 : BCC .BRANCH_GAMMA
     
     PHY
     
@@ -370,27 +370,27 @@ BRANCH_BETA:
     
     PLY
 
-BRANCH_GAMMA:
+.BRANCH_GAMMA
 
-    LDA $AF3C, Y : STA $0DC0, X : CMP.b #$03 : BEQ BRANCH_DELTA
+    LDA $AF3C, Y : STA $0DC0, X : CMP.b #$03 : BEQ .BRANCH_DELTA
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    BRA BRANCH_EPSILON
+    BRA .BRANCH_EPSILON
 
-BRANCH_DELTA:
+.BRANCH_DELTA
 
     LDA.b #$08 : STA $0DC0, X
     
     JSR TrinexxHeadAndSnakeDraw ; $B560 ; $EB560 IN ROM
 
-BRANCH_EPSILON:
+.BRANCH_EPSILON
 
-    INC $0FB6 : LDA $0FB6 : CMP $0EC0, X : BEQ BRANCH_ZETA
+    INC $0FB6 : LDA $0FB6 : CMP $0EC0, X : BEQ .BRANCH_ZETA
     
     JMP $AF94   ; $EAF94 IN ROM
 
-BRANCH_ZETA:
+.BRANCH_ZETA
 
     RTS
 }
@@ -441,11 +441,11 @@ BRANCH_ZETA:
     ; *$EB0CA-$EB1B0 JUMP LOCATION
     Sprite_Trinexx:
     {
-        LDA $0B10 : BEQ BRANCH_ALPHA
+        LDA $0B10 : BEQ .BRANCH_ALPHA
         
         JMP $ADB5   ; $EADB5 IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$17 : STA $1C
                      STZ $1D
@@ -453,15 +453,15 @@ BRANCH_ZETA:
         JSR $B587   ; $EB587 IN ROM
         JSR Sprite4_CheckIfActive
         
-        LDA $0D80, X : BMI BRANCH_BETA
+        LDA $0D80, X : BMI .BRANCH_BETA
         
         JMP $B1D1   ; $EB1D1 IN ROM
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STA $0FFC
         
-        LDA $0DF0, X : BNE BRANCH_GAMMA
+        LDA $0DF0, X : BNE .BRANCH_GAMMA
         
         INC $0B10
         
@@ -490,11 +490,11 @@ BRANCH_ZETA:
         
         RTS
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
-        CMP.b #$FF : BCS BRANCH_DELTA
-        CMP.b #$E0 : BCC BRANCH_EPSILON
-        AND.b #$03 : BNE BRANCH_ZETA
+        CMP.b #$FF : BCS .BRANCH_DELTA
+        CMP.b #$E0 : BCC .BRANCH_EPSILON
+        AND.b #$03 : BNE .BRANCH_ZETA
         
         LDA.b #$FF : STA $0311
         
@@ -502,7 +502,7 @@ BRANCH_ZETA:
         
         LDA.b #$01 : STA $0428
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
         LDA.b #$F8 : STA $0D40, X
         
@@ -513,19 +513,19 @@ BRANCH_ZETA:
         
         INC $0B0F : INC $0B0F
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         RTS
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
-        PHA : AND.b #$03 : BNE BRANCH_THETA
+        PHA : AND.b #$03 : BNE .BRANCH_THETA
         
         LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
-        PLA : AND.b #$01 : BNE BRANCH_IOTA
+        PLA : AND.b #$01 : BNE .BRANCH_IOTA
         
         JSL GetRandomInt : AND.b #$07 : TAY
         
@@ -539,7 +539,7 @@ BRANCH_ZETA:
         
         JSL Sprite_MakeBossDeathExplosion.silent
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
         LDA.b #$FF : STA $0EB0, X
         
@@ -548,9 +548,9 @@ BRANCH_ZETA:
 
     ; *$EB1D1-$EB249 LOCAL
     {
-        LDA $0DD1 : ORA $0DD2 : BNE BRANCH_ALPHA
+        LDA $0DD1 : ORA $0DD2 : BNE .BRANCH_ALPHA
         
-        LDA $0D80, X : CMP.b #$02 : BCS BRANCH_ALPHA
+        LDA $0D80, X : CMP.b #$02 : BCS .BRANCH_ALPHA
         
         LDA.b #$FF : STA $0DF0, X
         
@@ -561,49 +561,49 @@ BRANCH_ZETA:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         JSR $B3B5 ; $EB3B5 IN ROM
         JSR $B3E6 ; $EB3E6 IN ROM
         JSR Sprite4_CheckDamage
         
-        LDA $1A : AND.b #$3F : BNE BRANCH_BETA
+        LDA $1A : AND.b #$3F : BNE .BRANCH_BETA
         
         JSR Sprite4_IsToRightOfPlayer
         
-        LDA $0F : CLC : ADC.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC BRANCH_GAMMA
+        LDA $0F : CLC : ADC.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC .BRANCH_GAMMA
         
         LDA $B0C8, Y
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STA $0DC0, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
-        LDA $0B0E : BEQ BRANCH_DELTA
+        LDA $0B0E : BEQ .BRANCH_DELTA
         
-        LDA $1A : AND.b #$01 : BNE BRANCH_EPSILON
+        LDA $1A : AND.b #$01 : BNE .BRANCH_EPSILON
         
         DEC $0B0E
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         RTS
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
-        LDA $0DD1 : BEQ BRANCH_ZETA
+        LDA $0DD1 : BEQ .BRANCH_ZETA
         
         LDA $0D81 : CMP.b #$03 : BEQ .return
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $0DD2 : BEQ BRANCH_THETA
+        LDA $0DD2 : BEQ .BRANCH_THETA
         
         LDA $0D82 : CMP.b #$03 : BEQ .return
     
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         LDA $0D80, X
         
@@ -636,13 +636,13 @@ BRANCH_ZETA:
 
     ; *$EB252-$EB2A0 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         LDA $0E30, X : AND.b #$7F : STA $00
         
-        JSL GetRandomInt : AND.b #$03 : TAY : CMP $00 : BEQ BRANCH_ALPHA
+        JSL GetRandomInt : AND.b #$03 : TAY : CMP $00 : BEQ .BRANCH_ALPHA
         
-        INC $0EC0, X : LDA $0EC0, X : CMP.b #$02 : BNE BRANCH_BETA
+        INC $0EC0, X : LDA $0EC0, X : CMP.b #$02 : BNE .BRANCH_BETA
         
         STZ $0EC0, X
         
@@ -652,44 +652,44 @@ BRANCH_ZETA:
         
         RTS
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         LDA $B24A, Y : STA $0B08
         
         LDA $B24E, Y : STA $0B09
         
-        JSL GetRandomInt : AND.b #$03 : CMP.b #$01 : TYA : BCS BRANCH_GAMMA
+        JSL GetRandomInt : AND.b #$03 : CMP.b #$01 : TYA : BCS .BRANCH_GAMMA
         
         ORA.b #$80
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         STA $0E30, X
         
         INC $0D80, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
 
     ; *$EB2A1-$EB368 JUMP LOCATION
     {
-        LDA $0E30, X : CMP.b #$FF : BNE BRANCH_ALPHA
+        LDA $0E30, X : CMP.b #$FF : BNE .BRANCH_ALPHA
         
-        LDA $0DF0, X : BEQ BRANCH_BETA
+        LDA $0DF0, X : BEQ .BRANCH_BETA
         
         JSR Sprite4_IsBelowPlayer
         
-        CPY.b #$00 : BNE BRANCH_ALPHA
+        CPY.b #$00 : BNE .BRANCH_ALPHA
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         STZ $0E30, X
         
         JMP $B33D   ; $EB33D IN ROM
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA $0B08    : STA $04
         LDA $0D30, X : STA $05
@@ -699,11 +699,11 @@ BRANCH_ZETA:
         
         LDA.b #$08
         
-        LDY $0E30, X : BPL BRANCH_GAMMA
+        LDY $0E30, X : BPL .BRANCH_GAMMA
         
         LDA.b #$10
     
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
     
         JSL Sprite_ProjectSpeedTowardsEntityLong
         
@@ -716,11 +716,11 @@ BRANCH_ZETA:
         
         JSR Sprite4_Move
         
-        PLA : LDY.b #$00 : SEC : SBC $0D00, X : STA $0310 : BPL BRANCH_DELTA
+        PLA : LDY.b #$00 : SEC : SBC $0D00, X : STA $0310 : BPL .BRANCH_DELTA
         
         DEY
     
-    BRANCH_DELTA:
+    .BRANCH_DELTA
     
         STY $0311
         
@@ -728,11 +728,11 @@ BRANCH_ZETA:
         
         LDY.b #$00
         
-        SEC : SBC $0D10, X : STA $0312 : BPL BRANCH_EPSILON
+        SEC : SBC $0D10, X : STA $0312 : BPL .BRANCH_EPSILON
         
         DEY
     
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
     
         STY $0313
         
@@ -742,9 +742,9 @@ BRANCH_ZETA:
         
         LDA $0D00, X : SEC : SBC.b #$0C : STA $0DB0, X
         
-        LDA $0B08 : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ZETA
+        LDA $0B08 : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ZETA
         
-        LDA $0B09 : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS BRANCH_ZETA
+        LDA $0B09 : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ZETA
     
     ; *$EB33D ALTERNATE ENTRY POINT
     
@@ -752,28 +752,28 @@ BRANCH_ZETA:
         
         LDA.b #$30 : STA $0DF0, X
     
-    BRANCH_ZETA:
+    .BRANCH_ZETA
     
-        LDA $0E30, X : BPL BRANCH_THETA
+        LDA $0E30, X : BPL .BRANCH_THETA
         
         JSR $B34D ; $EB34D IN ROM
     
     ; *$EB34D ALTERNATE ENTRY POINT
-    BRANCH_THETA:
+    .BRANCH_THETA
     
         LDA $0E80, X
         
-        LDY $0D50, X : BMI BRANCH_IOTA
+        LDY $0D50, X : BMI .BRANCH_IOTA
         
         SEC : SBC.b #$02
     
-    BRANCH_IOTA:
+    .BRANCH_IOTA
     
-        CLC : ADC.b #$01 : STA $0E80, X : AND.b #$0F : BNE BRANCH_KAPPA
+        CLC : ADC.b #$01 : STA $0E80, X : AND.b #$0F : BNE .BRANCH_KAPPA
         
         LDA.b #$21 : JSL Sound_SetSfx2PanLong
     
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
     
         RTS
     }
@@ -783,7 +783,7 @@ BRANCH_ZETA:
         JSR $B3B5   ; $EB3B5 IN ROM
         JSR $B3B5   ; $EB3B5 IN ROM
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
@@ -795,7 +795,7 @@ BRANCH_ZETA:
         
         LDA.b #$26 : STA $012F
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         RTS
     }
@@ -804,7 +804,7 @@ BRANCH_ZETA:
     {
         JSR Sprite4_Move
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         JSR $AD4F   ; $EAD4F IN ROM
         
@@ -814,15 +814,15 @@ BRANCH_ZETA:
         
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
-        CMP.b #$20 : BNE BRANCH_BETA
+        CMP.b #$20 : BNE .BRANCH_BETA
         
         LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
         
         LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     }
@@ -841,25 +841,25 @@ BRANCH_ZETA:
 
     ; *$EB3B5-$EB3E5 LOCAL
     {
-        LDA $0B0D : BNE BRANCH_ALPHA
+        LDA $0B0D : BNE .BRANCH_ALPHA
         
-        INC $0B0C : LDA $0B0C : AND.b #$03 : BNE BRANCH_BETA
+        INC $0B0C : LDA $0B0C : AND.b #$03 : BNE .BRANCH_BETA
         
         LDA $0B0B : AND.b #$01 : TAY
         
         LDA $0B0A : CLC : ADC $8000, Y : STA $0B0A
         
-        CMP .unknown_0, Y : BNE BRANCH_BETA
+        CMP .unknown_0, Y : BNE .BRANCH_BETA
         
         INC $0B0B
         
         LDA.b #$08 : STA $0B0D
     
-    BRANCH_BETA:
+    .BRANCH_BETA
     
         RTS
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         DEC $0B0D
         
@@ -875,13 +875,13 @@ BRANCH_ZETA:
         
         REP #$20
         
-        LDA $04 : SEC : SBC $22 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS BRANCH_ALPHA
+        LDA $04 : SEC : SBC $22 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .BRANCH_ALPHA
         
-        LDA $06 : SEC : SBC $20 : CLC : ADC.w #$0010 : CMP.w #$0040 : BCS BRANCH_ALPHA
+        LDA $06 : SEC : SBC $20 : CLC : ADC.w #$0010 : CMP.w #$0040 : BCS .BRANCH_ALPHA
         
         SEP #$20
         
-        LDA $031F : ORA $037B : BNE BRANCH_ALPHA
+        LDA $031F : ORA $037B : BNE .BRANCH_ALPHA
         
         LDA.b #$01 : STA $4D
         
@@ -896,7 +896,7 @@ BRANCH_ZETA:
         LDA $00 : STA $27
         LDA $01 : STA $28
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         SEP #$20
         
@@ -936,11 +936,11 @@ BRANCH_ZETA:
         
         SEP #$20
         
-        LDA $0D80, X : BMI BRANCH_ALPHA
+        LDA $0D80, X : BMI .BRANCH_ALPHA
         
         LDA $0B89, X : ORA.b #$30 : STA $0B89, X
     
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
     
         LDA.b #$04
         
@@ -951,31 +951,31 @@ BRANCH_ZETA:
 
     ; *$EB587-$EB772 LOCAL
     {
-        LDA $0EB0, X : BMI BRANCH_$EB586 ; (RTS)
+        LDA $0EB0, X : BMI .BRANCH_$EB586 ; (RTS)
         
         JSR TrinexxHeadAndSnakeDraw ; $B560 ; $EB560 IN ROM
         
         LDA $05 : AND.b #$EF : STA $05
         
-        LDA $0D80, X : CMP.b #$03 : BEQ BRANCH_ALPHA
+        LDA $0D80, X : CMP.b #$03 : BEQ .BRANCH_ALPHA
         
         JMP $B641   ; $EB641 IN ROM
 
-    BRANCH_ALPHA:
+    .BRANCH_ALPHA
 
-        LDA $0D90, X : SEC : SBC $0D10, X : STA $08 : BPL BRANCH_BETA
+        LDA $0D90, X : SEC : SBC $0D10, X : STA $08 : BPL .BRANCH_BETA
         
         EOR.b #$FF : INC A
 
-    BRANCH_BETA:
+    .BRANCH_BETA
 
         STA $0A
         
-        LDA $0DB0, X : SEC : SBC $0D00, X : STA $09 : BPL BRANCH_GAMMA
+        LDA $0DB0, X : SEC : SBC $0D00, X : STA $09 : BPL .BRANCH_GAMMA
         
         EOR.b #$FF : INC A
 
-    BRANCH_GAMMA:
+    .BRANCH_GAMMA
 
         STA $0B
         
@@ -983,7 +983,7 @@ BRANCH_ZETA:
         
         LDA.b #$10 : STA $0FB6
 
-    BRANCH_ZETA:
+    .BRANCH_ZETA
 
         LDY $0FB5
         
@@ -997,11 +997,11 @@ BRANCH_ZETA:
         
         LDA $4217 : ADC.b #$00
         
-        LDY $08 : BPL BRANCH_DELTA
+        LDY $08 : BPL .BRANCH_DELTA
         
         EOR.b #$FF : INC A
 
-    BRANCH_DELTA:
+    .BRANCH_DELTA
 
         CLC : ADC $00
         
@@ -1023,11 +1023,11 @@ BRANCH_ZETA:
         
         ADC.b #$00
         
-        LDY $09 : BPL BRANCH_EPSILON
+        LDY $09 : BPL .BRANCH_EPSILON
         
         EOR.b #$FF : INC A
 
-    BRANCH_EPSILON:
+    .BRANCH_EPSILON
 
         CLC : ADC $02   : LDY $0FB6 : INY : STA ($90), Y
         LDA.b #$28 :             INY : STA ($90), Y
@@ -1039,7 +1039,7 @@ BRANCH_ZETA:
         
         PLY : INY : STY $0FB6
         
-        DEC $0FB5 : BPL BRANCH_ZETA
+        DEC $0FB5 : BPL .BRANCH_ZETA
 
     ; *$EB641 ALTERNATE ENTRY POINT
 
@@ -1058,11 +1058,11 @@ BRANCH_ZETA:
         
         LDA.b #$01 : STA $0FB5
         
-        LDA $0D50, X : CLC : ADC.b #$03 : CMP.b #$07 : LDA.b #$00 : BCC BRANCH_THETA
+        LDA $0D50, X : CLC : ADC.b #$03 : CMP.b #$07 : LDA.b #$00 : BCC .BRANCH_THETA
         
         LDA $0E80, X : LSR #2 : AND.b #$0F
 
-    BRANCH_THETA:
+    .BRANCH_THETA
 
         STA $06
         
@@ -1075,7 +1075,7 @@ BRANCH_ZETA:
         
         PHX
 
-    BRANCH_IOTA:
+    .BRANCH_IOTA
 
         LDA $00 : CLC : ADC $B80C, X : PHA
         
@@ -1119,14 +1119,14 @@ BRANCH_ZETA:
         
         PLY : INY
         
-        DEC $0FB5 : BPL BRANCH_IOTA
+        DEC $0FB5 : BPL .BRANCH_IOTA
         
         LDA $0B0A : ASL #2 : ADC $0B0A : STA $06
         
         LDY.b #$00
         LDX.b #$00
 
-    BRANCH_LAMBDA:
+    .BRANCH_LAMBDA
 
         PHX
         
@@ -1138,11 +1138,11 @@ BRANCH_ZETA:
         
         LDA $02 : SEC : SBC $B7B9, X : SBC.w #$0020 : CLC : ADC $0B0F : INY : STA $096C, Y
         
-        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC BRANCH_KAPPA
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_KAPPA
         
         LDA.b #$F0 : STA $096C, Y
 
-    BRANCH_KAPPA:
+    .BRANCH_KAPPA
 
         PLX
         
@@ -1155,18 +1155,18 @@ BRANCH_ZETA:
         
         PLY : INY
         
-        INX : CPX.b #$05 : BNE BRANCH_LAMBDA
+        INX : CPX.b #$05 : BNE .BRANCH_LAMBDA
         
         PLX
         
-        LDA $11 : BEQ BRANCH_MU
+        LDA $11 : BEQ .BRANCH_MU
         
         LDY.b #$02
         LDA.b #$03
         
         JSL Sprite_CorrectOamEntriesLong
 
-    BRANCH_MU:
+    .BRANCH_MU
 
         RTS
     }

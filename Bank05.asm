@@ -760,13 +760,13 @@
 
     ; $2C4E8-$2C4F8 JUMP LOCATION
     {
-        LDA $0DF0, X : BNE BRANCH_$2C500
+        LDA $0DF0, X : BNE .BRANCH_$2C500
         
         LDY $0DE0, X
         
         LDA JavelinTrooper_Attack.scan_anbles, X : STA $0EC0, X
         
-        BRL BRANCH_2C417
+        BRL .BRANCH_2C417
     }
 
 ; ==============================================================================
@@ -2228,25 +2228,25 @@
         
         JSR Sprite2_CheckDamage
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         INC $0D80, X
         
         LDA.b #$30 : STA $0DF0, X
         
-        BRA BRANCH_$2D2CE
+        BRA .BRANCH_$2D2CE
 
-    BRANCH_ALPHA
+    .BRANCH_ALPHA
 
         STZ $0D90, X
         
-        CMP.b #$28 : BCS BRANCH_BETA
+        CMP.b #$28 : BCS .BRANCH_BETA
         
         DEC $0D90, X
 
-    BRANCH_BETA
+    .BRANCH_BETA
 
-        CMP.b #$10 : BNE BRANCH_GAMMA
+        CMP.b #$10 : BNE .BRANCH_GAMMA
         
         PHA
         
@@ -2254,17 +2254,17 @@
         
         PLA
 
-    BRANCH_GAMMA
+    .BRANCH_GAMMA
 
         LSR #3 : STA $00
         
         LDA $0DE0, X : ASL #3 : ORA $00
         
-        LDY $0E20, X : CPY.b #$49 : BNE BRANCH_DELTA
+        LDY $0E20, X : CPY.b #$49 : BNE .BRANCH_DELTA
         
         CLC : ADC.b #$20
 
-    BRANCH_DELTA
+    .BRANCH_DELTA
 
         TAY
         
@@ -2277,7 +2277,7 @@
     {
         JSR Sprite2_CheckDamage
         
-        LDA $0DF0, X : BNE BRANCH_ALPHA
+        LDA $0DF0, X : BNE .BRANCH_ALPHA
         
         STZ $0D80, X
         
@@ -2285,7 +2285,7 @@
         
         RTS
     
-    BRANCH_ALPHA
+    .BRANCH_ALPHA
     
         LSR #2 : TAY
         
