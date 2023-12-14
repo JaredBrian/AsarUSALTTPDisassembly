@@ -1,9 +1,4 @@
-; The Legend of Zelda: A Link to the Past Source Code
-; Courtesy of MathOnNapkins
-; Completed and adjusted for use with ASAR by Jared_Brian_.
 
-lorom
-    
 ; ==============================================================================
 
 ; $000000-$000060
