@@ -168,7 +168,7 @@ I believe they wanted more overworld areas, and planned to use this area.
 
 --- Item Information ---
 
-Bow:              $340. 0 - nothing. 1 - bow w/ no arrows. 2 - bow w/ arrows. 3 - silver arrows
+Bow:              $340. 0 - nothing. 1 - bow w/ no arrows. 2 - bow w/ arrows. 3 - silver arrows w/ no arrows. 4 - Silver arrows
 
 Boomerang:        $341. 0 - nothing. 1 - blue boomerang. 2 - red boomerang. 
 
@@ -563,20 +563,20 @@ $3E5-$3E6:  There is a subroutine in the ROM that checks to make sure this value
             out.
 
 $3E7-$402 (?) Deaths totals for each dungeon. Each number is 16 bit. Thanks to Euclid for helping verify this!
-      $3E7: Sewers
-      $3E9: Hyrule Castle
-      $3EB: Eastern Palace
-      $3ED: Desert Palace
-      $3EF: Hyrule Castle 2
-      $3F1: Swamp Palace
-      $3F3: Dark Palace
-      $3F5: Misery Mire
-      $3F7: Skull Woods
-      $3F9: Ice Palace
-      $3FB: Tower of Hera
-      $3FD: Gargoyle's Domain
-      $3FF: Turtle Rock
-      $401: Ganon's Tower
+    $3E7: Sewers
+    $3E9: Hyrule Castle
+    $3EB: Eastern Palace
+    $3ED: Desert Palace
+    $3EF: Hyrule Castle 2
+    $3F1: Swamp Palace
+    $3F3: Dark Palace
+    $3F5: Misery Mire
+    $3F7: Skull Woods
+    $3F9: Ice Palace
+    $3FB: Tower of Hera
+    $3FD: Gargoyle's Domain
+    $3FF: Turtle Rock
+    $401: Ganon's Tower
 
 Life/Save Counter: 
 $403-4. Counts the number of times your saved or died in the game, before you beat it.

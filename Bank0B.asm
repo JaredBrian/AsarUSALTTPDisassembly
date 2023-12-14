@@ -156,55 +156,55 @@
 
 ; ==============================================================================
 
-    ; *$5FFA8-$5FFF5 LONG
-    WallMaster_SendPlayerToLastEntrance:
-    {
-        JSL Dungeon_SaveRoomData.justKeys
-        JSL Dungeon_SaveRoomQuadrantData
-        JSL Sprite_ResetAll
-        
-        ; Don't use a starting point entrance.
-        STZ $04AA
-        
-        ; Falling into an overworld hole mode.
-        LDA.b #$11 : STA $10
-        
-        STZ $11
-        STZ $14
+; *$5FFA8-$5FFF5 LONG
+WallMaster_SendPlayerToLastEntrance:
+{
+    JSL Dungeon_SaveRoomData.justKeys
+    JSL Dungeon_SaveRoomQuadrantData
+    JSL Sprite_ResetAll
     
+    ; Don't use a starting point entrance.
+    STZ $04AA
+    
+    ; Falling into an overworld hole mode.
+    LDA.b #$11 : STA $10
+    
+    STZ $11
+    STZ $14
+
     ; *$5FFBF ALTERNATE ENTRY POINT
+
+    STZ $0345
     
-        STZ $0345
-        
-        ; \wtf 0x11? Written here? I thought these were all even.
-        STA $005E
-        
-        STZ $03F3
-        STZ $0322
-        STZ $02E4
-        STZ $0ABD
-        STZ $036B
-        STZ $0373
-        
-        STZ $27
-        STZ $28
-        
-        STZ $29
-        
-        STZ $24
-        
-        STZ $0351
-        STZ $0316
-        STZ $031F
-        
-        LDA.b #$00 : STA $5D
-        
-        STZ $4B
+    ; \wtf 0x11? Written here? I thought these were all even.
+    STA $005E
     
+    STZ $03F3
+    STZ $0322
+    STZ $02E4
+    STZ $0ABD
+    STZ $036B
+    STZ $0373
+    
+    STZ $27
+    STZ $28
+    
+    STZ $29
+    
+    STZ $24
+    
+    STZ $0351
+    STZ $0316
+    STZ $031F
+    
+    LDA.b #$00 : STA $5D
+    
+    STZ $4B
+
     ; *$5FFEE ALTERNATE ENTRY POINT
-    
-        JSL Ancilla_TerminateSelectInteractives
-        JML Player_ResetState
-    }
+
+    JSL Ancilla_TerminateSelectInteractives
+    JML Player_ResetState
+}
 
 ; ==============================================================================

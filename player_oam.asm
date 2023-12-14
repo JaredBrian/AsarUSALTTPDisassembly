@@ -2722,14 +2722,14 @@ PlayerOam_Main:
 
 .not_in_water_or_grass_2
 
-    LDA $11 : CMP.b #$0E : BNE BRANCH_MU
+    LDA $11 : CMP.b #$0E : BNE .BRANCH_MU
     
     ; Is the player dead / dying?
-    LDA $10 : CMP.b #$12 : BEQ BRANCH_MU
+    LDA $10 : CMP.b #$12 : BEQ .BRANCH_MU
     
     LDY.b #$0A
     
-    LDA $28 : BEQ BRANCH_MU
+    LDA $28 : BEQ .BRANCH_MU
     
     LDX $2F
     
@@ -2746,9 +2746,9 @@ PlayerOam_Main:
     
     LDY.b #$1A
     
-    BRA BRANCH_XI
+    BRA .BRANCH_XI
 
-BRANCH_MU:
+.BRANCH_MU
 
     LDA $0376 : AND.b #$03 : BEQ .notGrabbingWall
     
@@ -2756,7 +2756,7 @@ BRANCH_MU:
     
     LDA $030A : STA $02
     
-    BRA BRANCH_XI
+    BRA .BRANCH_XI
 
 .notGrabbingWall
 
@@ -2774,7 +2774,7 @@ BRANCH_MU:
     LDA $2E : STA $02
 
 .is_up_spiral_staircase
-BRANCH_XI:
+.BRANCH_XI
 
     LDA $2F : STA $0323
     
@@ -3806,7 +3806,7 @@ PlayerOam_RunFinalAdjustments:
     LDA $0352 : LSR #2 : TAX
     
     LDA.w #$0101 : STA $0A20, X : STA $0A22, X : STA $0A24, X
-                   STA $0A26, X : STA $0A28, X : STA $0A2A, X
+               STA $0A26, X : STA $0A28, X : STA $0A2A, X
     
     LDA $4B : AND.w #$00FF : CMP.w #$000C : BEQ .check_position_restoration
     
@@ -4646,7 +4646,7 @@ PlayerOam_DrawFootObject:
     ; This is where the actual draw starts, it draws both tiles at the same time but in 2 
     ; completly different ways. Wtf Nintendo.
     REP #$30
-        
+    
     ; Get the starting address for the frame of either the water or grass animation we are on.
     TYA : AND.w #$00FF : TAY
 
@@ -4664,19 +4664,19 @@ PlayerOam_DrawFootObject:
         
     ; X and Y pos for left half.
     LDA $06 : STA $0800, X
-        
+    
     ; X and Y pos for right half by just adding 8 to the x pos.
     ; Why tf are you switching bytes and then adding #$0800? why not just add #$0080 and
     ; skip flipping A and B??
     XBA : CLC : ADC.w #$0800 : XBA : STA $0804, X
         
     TXA : LSR #2 : TAX
-        
+    
     ; Write the size and extra x bytes.
     STZ $0A20, X
-        
+    
     SEP #$30
-        
+    
     RTS
 }
 
@@ -4703,10 +4703,9 @@ PlayerOam_Unused_0:
     LDX $2E
     
     LDA $0354 : CMP.b #$19 : BNE .alpha
-    
-    LDA $A131, X : TAX
+        LDA $A131, X : TAX
 
-.alpha
+    .alpha
 
     LDA .offsets, X : CLC : ADC $01 : STA $01
     
@@ -4728,10 +4727,9 @@ PlayerOam_GetRelativeHighBit:
     
     ; sign extend the value in the accumulator to 16-bits
     AND.w #$00FF : CMP.w #$0080 : BCC .positive
-    
-    ORA.w #$FF00
+        ORA.w #$FF00
 
-.positive
+    .positive
 
     CLC : ADC $22 : SEC : SBC $E2 : XBA : AND.w #$0001 : STA $03FA
     
@@ -4740,3 +4738,4 @@ PlayerOam_GetRelativeHighBit:
     RTS
 }
 
+; =========================================================

@@ -267,10 +267,10 @@ Module_LoadFile:
     ; V-IRQ triggers at scanline 0x30
     LDA.b #$30 : STA $FF
 
-    ; Check if we�re in the dark world
+    ; Check if we're in the dark world
     LDA $7EF3CA : BEQ .inLightWorld
 
-    ; We�re in the dark world, but are we in a dungeon?
+    ; We're in the dark world, but are we in a dungeon?
     LDA $1B : BNE .indoors
 
     JSL Equipment_DrawItem
@@ -284,7 +284,7 @@ Module_LoadFile:
     ; It's done this way because the PreOverworld module operates via exits
     ; rather than area numbers.
     LDA.b #$20 : STA $A0
-                  STZ $A1
+                 STZ $A1
 
     ; Go to pre-overworld mode
     LDA.b #$08 : STA $10
@@ -311,7 +311,7 @@ Module_LoadFile:
     ; If we're not in game state 2 yet, $7EF3C8 alone decides the starting location
     LDA $7EF3C5 : CMP.b #$02 : BCC .indoors
 
-    ; If we got here, it means we�re in game state 2 or above
+    ; If we got here, it means we're in game state 2 or above
 
     ; Only starting location 5 is enforced when the game state is >= 0x02
     ; I didn't even realize this until recently (9/19/2007)
@@ -391,8 +391,8 @@ shared Module_PreDungeon:
 
     JSR Dungeon_LoadEntrance
 
-    ; Tell me what level I�m in. (swamp palace, misery mire, etc.)
-    ; 0xff means it�s not a true dungeon. Don�t need keys. Etc..
+    ; Tell me what level I'm in. (swamp palace, misery mire, etc.)
+    ; 0xff means it's not a true dungeon. Don't need keys. Etc..
     LDA $040C : CMP.b #$FF : BEQ .notPalace
 
     ; Is it Hyrule Castle 1?
@@ -1518,7 +1518,7 @@ Dungeon_StartInterRoomTrans:
 
 ; ==============================================================================
 
-; *$108DE-$1094B LOCAL
+; $108DE-$1094B LOCAL
 Dungeon_Normal:
 {
     LDA $0112 : ORA $02E4 : ORA $0FFC : BEQ .allowJoypadInput
@@ -1573,7 +1573,7 @@ Dungeon_Normal:
     LDA $F0 : AND.b #$20 : BEQ .ignoreInput
 
     ; Select was pressed. But has Link woken up and gotten out of bed?
-    ; No, so don�t bring up the start menu.
+    ; No, so don't bring up the start menu.
     LDA $7EF3C5 : BEQ .ignoreInput
 
     ; Here select was pressed and Link has gotten out of his house.
@@ -2723,7 +2723,7 @@ Dungeon_NorthIntraRoomStairs:
     JSR Dungeon_HandleCamera   ; $13A31 IN ROM
     JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
 
-    .BRANCH_ALPHA:
+    ..BRANCH_ALPHA
 
     LDA $B0 : JSL UseImplicitRegIndexedLocalJumpTable
 
@@ -3762,7 +3762,7 @@ StraightStairs_11:
 
     LDX.w #$FFF8
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     TXA
 
@@ -3772,7 +3772,7 @@ StraightStairs_11:
 
     SEP #$30
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
     JSL RestoreTorchBackground
@@ -3859,7 +3859,7 @@ StraightStairs_9:
     REP #$20
 
     ; Compare the stored BG1 H value with current one.
-    LDA $E2 : CMP $7EC180 : BEQ .BRANCH_ALPHA : BCC .BRANCH_BETA ; If the current value is < stored value
+    LDA $E2 : CMP $7EC180 : BEQ ..BRANCH_ALPHA  BCC .BRANCH_BETA ; If the current value is < stored value
 
     DEC A : CMP $7EC180 : BEQ .BRANCH_ALPHA
 
@@ -3878,7 +3878,7 @@ StraightStairs_9:
 
     STA $E2
 
-    LDA $E8 : CMP $7EC182 : BEQ .BRANCH_GAMMA : BCC .BRANCH_DELTA
+    LDA $E8 : CMP $7EC182 : BEQ ..BRANCH_GAMMA  BCC .BRANCH_DELTA
 
     DEC A : CMP $7EC182 : BEQ .BRANCH_GAMMA
 
@@ -5577,9 +5577,9 @@ Module_GanonEmerges:
     REP #$21
 
     LDA $E2 : PHA : ADC $011A : STA $E2 : STA $011E
-    LDA $E8 : PHA : ADD $011C : STA $E8 : STA $0122
-    LDA $E0 : PHA : ADD $011A : STA $E0 : STA $0120
-    LDA $E6 : PHA : ADD $011C : STA $E6 : STA $0124
+    LDA $E8 : PHA : CLC : ADC $011C : STA $E8 : STA $0122
+    LDA $E0 : PHA : CLC : ADC $011A : STA $E0 : STA $0120
+    LDA $E6 : PHA : CLC : ADC $011C : STA $E6 : STA $0124
 
     SEP #$20
 
@@ -6477,6 +6477,7 @@ Module_OverworldTable:
 }
 
 ; *$12475-$1252C Jump Location
+; ZS overwrites the latter half of this function.
 Module_Overworld:
 {
     ; Module 0x09
@@ -6512,58 +6513,55 @@ Module_Overworld:
     JSL PlayerOam_Main
     JSL HUD.RefillLogicLong
 
-; *$124CD ALTERNATE ENTRY POINT
-
+    ; $0124CD ALTERNATE ENTRY POINT - ZS Custom Overworld
+    ; ZS only overwrites the rest of this function.
+    .rainAnimation
     LDA $8A : CMP.b #$70 : BEQ .evilSwamp
+        ; Check the progress indicator
+        LDA $7EF3C5 : CMP.b #$02 : BCS .skipMovement
+            .evilSwamp
 
-    ; Check the progress indicator
-    LDA $7EF3C5 : CMP.b #$02 : BCS .skipMovement
+            ; If misery mire has been opened already, we're done.
+            LDA $7EF2F0 : AND.b #$20 : BNE .skipMovement
+                ; Check the frame counter.
+                ; On the third frame do a flash of lightning.
+                LDA $1A
 
-    .evilSwamp
+                CMP.b #$03 : BEQ .lightning ; On the 0x03rd frame, cue the lightning.
+                    CMP.b #$05 : BEQ .normalLight ; On the 0x05th frame, normal light level.
+                        CMP.b #$24 : BEQ .thunder ; On the 0x24th frame, cue the thunder.
+                            CMP.b #$2C : BEQ .normalLight ; On the 0x2Cth frame, normal light level.
+                                CMP.b #$58 : BEQ .lightning ; On the 0x58th frame, cue the lightning.
+                                    CMP.b #$5A : BNE .moveOverlay ; On the 0x5Ath frame, normal light level.
 
-    ; If misery mire has been opened already, we�re done
-    LDA $7EF2F0 : AND.b #$20 : BNE .skipMovement
+                .normalLight
 
-    ; Check the frame counter.
-    ; On the third frame do a flash of lightning.
-    LDA $1A
+                ; Keep the screen semi-dark.
+                LDA.b #$72
 
-    CMP.b #$03 : BEQ .lightning
-    CMP.b #$05 : BEQ .normalLight
-    CMP.b #$24 : BEQ .thunder     ; On the 0x24th frame, cue the thunder.
-    CMP.b #$2C : BEQ .normalLight ; On the 0x2Cth frame, normal light level.
-    CMP.b #$58 : BEQ .lightning   ; On the 0x58th frame, cue the lightning
-    CMP.b #$5A : BNE .moveOverlay ; On the 0x5Ath frame, normal light level.
+                BRA .setBrightness
 
-    .normalLight
+                .thunder
 
-    ; Keep the screen semi-dark.
-    LDA.b #$72
+                ; Play the thunder sound when outdoors.
+                LDX.b #$36 : STX $012E
 
-    BRA .setBrightness
+                .lightning
 
-    .thunder
+                LDA.b #$32 ; Make the screen flash with lightning.
 
-    ; Play the thunder sound when outdoors.
-    LDX.b #$36 : STX $012E
+                .setBrightness
 
-    .lightning
+                STA $9A
 
-    LDA.b #$32 ; Make the screen flash with lightning.
+                .moveOverlay
 
-    .setBrightness
+                ; Overlay is only moved every 4th frame.
+                LDA $1A : AND.b #$03 : BNE .skipMovement
+                    LDA $0494 : INC A : AND.b #$03 : STA $0494 : TAX
 
-    STA $9A
-
-    .moveOverlay
-
-    ; Overlay is only moved every 4th frame.
-    LDA $1A : AND.b #$03 : BNE .skipMovement
-
-    LDA $0494 : INC A : AND.b #$03 : STA $0494 : TAX
-
-    LDA $E1 : CLC : ADC.l $02A46D, X : STA $E1
-    LDA $E7 : CLC : ADC.l $02A471, X : STA $E7
+                    LDA $E1 : CLC : ADC.l $02A46D, X : STA $E1
+                    LDA $E7 : CLC : ADC.l $02A471, X : STA $E7
 
     .skipMovement
 
@@ -7089,6 +7087,7 @@ Overworld_FinishTransGfx:
 
     LDA.b #$0A
 
+    ; ALTERNATE ENTRY POINT
     .firstHalf
 
     ; Signal for a graphics transfer in the NMI routine later
@@ -7502,12 +7501,10 @@ OverworldMosaicTransition_HandleSong:
 
     ; check if it's the master sword area / area under bridge
     LDX $8A : CPX.b #$80 : BEQ .noFadeout
-
-    ; Check if the currently playing music is the same as the target area
-    LDA $7F5B00, X : AND.b #$0F : CMP $0130 : BEQ .noFadeout
-
-    ; fade the music out if they differ
-    LDA.b #$F1 : STA $012C
+        ; Check if the currently playing music is the same as the target area
+        LDA $7F5B00, X : AND.b #$0F : CMP $0130 : BEQ .noFadeout
+            ; fade the music out if they differ
+            LDA.b #$F1 : STA $012C
 
     .noFadeout
 
@@ -7807,7 +7804,10 @@ Overworld_LoadSubscreenAndSilenceSFX1:
     ; Save X for uno momento.
     PHX
 
-    ; Set the ambient sound effect
+    ; TODO: Verify this.
+    ; Set the ambient sound effect. Why? $8A is the current overlay right now,
+    ; we shouldn't load the ambient sound fromt here. Plus the sound gets loaded
+    ; in another spot later on again so this shouldn't be necessary.
     LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
 
     PLX
@@ -8627,7 +8627,7 @@ Module09_2A_00_ScrollToLand:
     STZ $00
     STZ $02
 
-    LDA $22 : CMP $7EC186 : BEQ .BRANCH_ALPHA : BCC .BRANCH_BETA
+    LDA $22 : CMP $7EC186 : BEQ ..BRANCH_ALPHA  BCC .BRANCH_BETA
 
     DEC $02
 
@@ -8653,7 +8653,7 @@ Module09_2A_00_ScrollToLand:
 
     STA $22
 
-    LDA $20 : CMP $7EC184 : BEQ .BRANCH_GAMMA : BCC .BRANCH_DELTA
+    LDA $20 : CMP $7EC184 : BEQ ..BRANCH_GAMMA  BCC .BRANCH_DELTA
 
     DEC $00
 
@@ -8901,7 +8901,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDY.b #$04
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     STY $00
 
@@ -8915,7 +8915,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA.b #$02 : STA $A7
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     PLB
 
@@ -9012,7 +9012,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDY.b #$04
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     STY $00
 
@@ -9026,7 +9026,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA.b #$02 : STA $A7
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     PLB
 
@@ -9146,7 +9146,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA.b #$02 : STA $A6
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     PLB
 
@@ -9549,7 +9549,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     LDA $30 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_DELTA
 
-    LDA $0618 : CMP $0E : BCS .BRANCH_EPSILON : BCC .BRANCH_ZETA
+    LDA $0618 : CMP $0E : BCS ..BRANCH_EPSILON  BCC .BRANCH_ZETA
 
     .BRANCH_DELTA
 
@@ -9574,7 +9574,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     ORA.w #$F000
 
-    .BRANCH_THETA:
+    ..BRANCH_THETA
 
     STA $06
 
@@ -9606,25 +9606,25 @@ shared Dungeon_SaveRoomQuadrantData:
 
     DEC $00 : DEC $00
 
-    .BRANCH_LAMBDA:
+    ..BRANCH_LAMBDA
 
     TAY
 
-    .BRANCH_PI:
+    ..BRANCH_PI
 
     LDX $A6
 
     LDA $31 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_MU
 
-    LDA $061C : CMP $0E : BCS .BRANCH_NU : BCC .BRANCH_XI
+    LDA $061C : CMP $0E : BCS ..BRANCH_NU  BCC .BRANCH_XI
 
-    .BRANCH_MU:
+    ..BRANCH_MU
 
     LDA $0E : CMP $061E : BCC .BRANCH_XI
 
     INX #4
 
-    .BRANCH_NU:
+    ..BRANCH_NU
 
     ; compare with screen coordinate limits...? (x coordinate)
     LDA $E2 : CMP $0608, X : BEQ .BRANCH_XI
@@ -9637,7 +9637,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     ORA.w #$F000
 
-    .BRANCH_OMICRON:
+    ..BRANCH_OMICRON
 
     STA $06
 
@@ -9649,11 +9649,11 @@ shared Dungeon_SaveRoomQuadrantData:
 
     INC #2 : STA $061E
 
-    .BRANCH_XI:
+    ..BRANCH_XI
 
     DEY : BNE .BRANCH_PI
 
-    .BRANCH_KAPPA:
+    ..BRANCH_KAPPA
 
     LDA $A0 : CMP.w #$FFFF : BEQ .BRANCH_RHO
 
@@ -9665,7 +9665,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
 ; *$13B7B ALTERNATE ENTRY POINT
 Dungeon_SyncBG1and2Scroll:
-    .BRANCH_SIGMA:
+    ..BRANCH_SIGMA
 
     REP #$20
 
@@ -9673,7 +9673,7 @@ Dungeon_SyncBG1and2Scroll:
     LDA $E2 : STA $E0
     LDA $E8 : STA $E6
 
-    .BRANCH_RHO:
+    ..BRANCH_RHO
 
     SEP #$20
 
@@ -9690,7 +9690,7 @@ OverworldTransitionDirections:
 
 ; ==============================================================================
 
-; *$13B90-$13D61 LOCAL
+; $13B90-$13D61 LOCAL
 ; ZS rewrites part of this function.
 Overworld_OperateCameraScroll:
 {
@@ -9729,6 +9729,7 @@ Overworld_OperateCameraScroll:
     STZ $08
 
     .BRANCH_THETA
+
         LDA $30 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_DELTA
             LDA $0618 : CMP $0E : BCC .BRANCH_EPSILON
                 LDY.b #$00
@@ -9747,7 +9748,6 @@ Overworld_OperateCameraScroll:
                     JSR $BD62 ; $13D62 IN ROM
 
         .BRANCH_EPSILON
-
     DEC $02 : BNE .BRANCH_THETA
 
     LDA $04 : STA $069E
@@ -9797,7 +9797,7 @@ Overworld_OperateCameraScroll:
             LDA.w #$06C0 : CMP $E6 : BCS .BRANCH_IOTA
                 STA $E6
 
-    ; *$13C60 ALTERNATE ENTRY POINT
+    ; $13C60 ALTERNATE ENTRY POINT
     .BRANCH_IOTA
 
     LDA $22 : CLC : ADC.w #$0008 : STA $0E
@@ -9922,18 +9922,17 @@ Overworld_OperateCameraScroll:
 
 ; ==============================================================================
 
-; *$13D62-$13DBF LOCAL
+; $13D62-$13DBF LOCAL
 {
     ; Compare X or Y scroll coordinate to the current position coordinate
     LDA $E2, X : CMP $0600, Y : BNE .BRANCH_ALPHA
+        TYA : EOR.w #$0002 : TAX
 
-    TYA : EOR.w #$0002 : TAX
+        ; clears out both $0624 and $0626 (this is a silly trick, they could
+        ; have just done STZ $0624 : STZ $0626)
+        LDA.w #$0000 : STA $0624, Y : STA $0624, X
 
-    ; clears out both $0624 and $0626 (this is a silly trick, they could
-    ; have just done STZ $0624 : STZ $0626)
-    LDA.w #$0000 : STA $0624, Y : STA $0624, X
-
-    RTS
+        RTS
 
     .BRANCH_ALPHA
 
@@ -9948,12 +9947,11 @@ Overworld_OperateCameraScroll:
 
     ; a coordinate that is not on the 16 pixel grid
     LDA $0624, Y : INC A : STA $0624, Y : CMP.w #$0010 : BMI .notGrid
+        SEC : SBC.w #$0010 : STA $0624, Y
 
-    SEC : SBC.w #$0010 : STA $0624, Y
+        ; Sets the side (east , north, etc) the tilemap needs to be updated on.
 
-    ; Sets the side (east , north, etc) the tilemap needs to be updated on.
-
-    LDA $BB88, Y : ORA $0416 : STA $0416
+        LDA $BB88, Y : ORA $0416 : STA $0416
 
     .notGrid
 
@@ -10342,10 +10340,17 @@ OverworldScrollTransition:
 
     ;ADDs are from $13FE2 - $13FF1
 
-    LDA .overworldTransitionPositionY, Y : STA $0600 : CLC : ADC .boundary_y_size, X                : STA $0602 ; $A8C4, $BFE2
-    LDA .overworldTransitionPositionX, Y : STA $0604 : CLC : ADC .boundary_x_size, X                : STA $0606 ; $A944, $BFE6
-    LDA .transition_target_north, Y      : STA $0610 : CLC : ADC .transition_target_south_offset, X : STA $0612 ; $BEE2, $BFEA
-    LDA .transition_target_west, Y       : STA $0614 : CLC : ADC .transition_target_east_offset, X  : STA $0616 ; $BF62, $BFEE
+    LDA .overworldTransitionPositionY, Y : STA $0600
+    CLC : ADC .boundary_y_size, X : STA $0602 ; $A8C4, $BFE2
+    
+    LDA .overworldTransitionPositionX, Y : STA $0604
+    CLC : ADC .boundary_x_size, X : STA $0606 ; $A944, $BFE6
+
+    LDA .transition_target_north, Y : STA $0610
+    CLC : ADC .transition_target_south_offset, X : STA $0612 ; $BEE2, $BFEA
+
+    LDA .transition_target_west, Y : STA $0614
+    CLC : ADC .transition_target_east_offset, X  : STA $0616 ; $BF62, $BFEE
 
     RTS
 }
@@ -10876,7 +10881,7 @@ Intro_InitBgSettings:
     ; Setini variable. No interlacing and such.
     STZ $2133
 
-    ; Give BG1 priority, and we�re in mode 1.
+    ; Give BG1 priority, and we're in mode 1.
     LDA.b #$09 : STA $94
 
     ; No mosaic effect.
@@ -11392,7 +11397,7 @@ Dungeon_LoadEntrance:
 
     STZ $011A : STZ $011C : STZ $010A
 
-    ; Check which character is following Link. Check if it�s the old man
+    ; Check which character is following Link. Check if it's the old man
     ; Yep, must use an entrance
     LDA $7EF3CC : CMP.w #$0004 : BEQ .useStartingPointEntrance
 
@@ -12626,7 +12631,7 @@ Overworld_LoadMapData:
 
     LDX $8A : CPX.b #$80 : BCS .dontDrawOverlay
 
-    ; If some flag has already been triggered� do something appropriate, such as changing tiles to reflect this.
+    ; If some flag has already been triggered, do something appropriate, such as changing tiles to reflect this.
     LDA $7EF280, X : AND.b #$20 : BEQ .dontDrawOverlay
 
     ; $77652 IN ROM; The routine that makes the overlay show up
@@ -13903,7 +13908,7 @@ Map32ToMap16:
 
 ; ==============================================================================
 
-; *$177CB-$1787E LOCAL
+; $177CB-$1787E LOCAL
 LoadSubOverlayMap32:
 {
     ; X = (3 * $8A)
@@ -13917,7 +13922,7 @@ LoadSubOverlayMap32:
     LDA.l .high_byte_packs+0, X : STA $C8
     LDA.l .high_byte_packs+1, X : STA $C9
 
-    ; We�re going to save those two long addresses for later.
+    ; We're going to save those two long addresses for later.
     LDA $00 : PHA
     LDA $02 : PHA
     LDA $04 : PHA
@@ -13983,27 +13988,25 @@ LoadSubOverlayMap32:
     STZ $06 : STZ $0B
 
     .nextLine
+        ; By line, we mean a 32 x 512 pixel swath. 0x10 map32 tiles consists of exactly this
 
-    ; By line, we mean a 32 x 512 pixel swath. 0x10 map32 tiles consists of exactly this
+        ; Set up a loop of 0x10 iterations
+        LDA.w #$0010 : STA $0D
 
-    ; Set up a loop of 0x10 iterations
-    LDA.w #$0010 : STA $0D
+        .nextTile
+            ; X = ($7F4000 + Y) << 1, the map32 value
+            LDY $0B : LDA [$08], Y : ASL A : TAX
 
-    .nextTile
+            LDY $06
 
-    ; X = ($7F4000 + Y) << 1, the map32 value
-    LDY $0B : LDA [$08], Y : ASL A : TAX
+            JSR Map32ToMap16
 
-    LDY $06
+            STY $06
 
-    JSR Map32ToMap16
+            ; increment by two to obtain the next map32 value
+            INC $0B : INC $0B
 
-    STY $06
-
-    ; increment by two to obtain the next map32 value
-    INC $0B : INC $0B
-
-    DEC $0D : BNE .nextTile
+        DEC $0D : BNE .nextTile
 
     ; $06 += 0xC0
     ; if($06 < 0x100)
@@ -14074,7 +14077,6 @@ LoadSubOverlayMap32:
 pool Overworld_LoadMap32:
 parallel pool LoadSubOverlayMap32:
 {
-
     .high_byte_packs
     dl $0B8000, $0B80D6, $0B81C2, $0B8316
     dl $0B83EA, $0B850E, $0B8671, $0B880F ;0E850B ;31 89 0B
@@ -14181,7 +14183,7 @@ parallel pool LoadSubOverlayMap32:
 
 ; ==============================================================================
 
-; *$17D0D-$17D25 LOCAL
+; $17D0D-$17D25 LOCAL
 LoadSubscreenOverlay:
 {
     REP #$30
@@ -14209,7 +14211,6 @@ LoadSubscreenOverlay:
 ; *$17D26-$17D86 LOCAL
 Map16ToMap8:
 {
-
     !srcAddr    = $04
     !srcBank    = $06
     !counter    = $08
@@ -14229,7 +14230,7 @@ Map16ToMap8:
 
     BRA .ready
 
-; *$17D37 ALTERNATE ENTRY POINT
+    ; $17D37 ALTERNATE ENTRY POINT
     .normalArea
 
     ; data bank = 0x0F
@@ -14370,7 +14371,7 @@ Map16ChunkToMap8:
 
     DEC $0C : BNE .nextMap16Tile
 
-    ; Increment the index for the target array by #$40 (since we weren�t doing it during
+    ; Increment the index for the target array by #$40 (since we weren't doing it during
     ; the loop)
     TXA : CLC : ADC.w #$0040 : STA $0E
 
@@ -14476,7 +14477,7 @@ Overworld_Decomp:
     LDY.w #$0000
 
 ; *$17EC0 JUMP LOCATION
-    .BRANCH_GETNEXTCODE:
+    ..BRANCH_GETNEXTCODE
 
     JSR OverworldDecomp_GetNextSourceOctet
 
@@ -14487,7 +14488,7 @@ Overworld_Decomp:
 
     RTS
 
-    .BRANCH_ITERATE:
+    ..BRANCH_ITERATE
 
     STA $CD : AND.b #$E0 : CMP.b #$E0 : BEQ .BRANCH_EXPANDED ; [111]
 
@@ -14501,7 +14502,7 @@ Overworld_Decomp:
 
     BRA .BRANCH_NORMAL
 
-    .BRANCH_EXPANDED: ; EXPANDED MODE APPEARS TO ALLOW US TO INTERFACE WITH VALUES LARGER THAN #$32, MAYBE AS LARGE AS $132?
+    ..BRANCH_EXPANDED ; EXPANDED MODE APPEARS TO ALLOW US TO INTERFACE WITH VALUES LARGER THAN #$32, MAYBE AS LARGE AS $132?
 
     ; Get $CD, and shift it left three times.
     ; Again we're interested in the top three bits.
@@ -14513,7 +14514,7 @@ Overworld_Decomp:
 
     REP #$20
 
-    .BRANCH_NORMAL:
+    ..BRANCH_NORMAL
 
     ; Increment the value and save it to $CB
     INC A : STA $CB
@@ -14521,12 +14522,12 @@ Overworld_Decomp:
     SEP #$20; Return to 8-bit accumulator.
 
     ; Get the top three bits that were set in $CD.
-    ; If none of the top three bits were set�[000]
+    ; If none of the top three bits were set: [000]
     PLA : BEQ .BRANCH_NONREPEATING
 
-    BMI .BRANCH_COPY ; If the top most bit was set�[101], [110], [100]
+    BMI ..BRANCH_COPY ; If the top most bit was set [101], [110], [100]
 
-    ASL A : BPL .BRANCH_REPEATING ; Provided nothing shifted into the MSB� [001]
+    ASL A : BPL ..BRANCH_REPEATING ; Provided nothing shifted into the MSB [001]
 
     ; If it was negative, shift again.
     ASL A : BPL .BRANCH_REPEATINGWORD ; [010]
@@ -14535,7 +14536,7 @@ Overworld_Decomp:
 
     LDX $CB
 
-    .BRANCH_INCREMENTWRITE:
+    ..BRANCH_INCREMENTWRITE
 
     STA [$00], Y
 
@@ -14547,7 +14548,7 @@ Overworld_Decomp:
 
     BRA .BRANCH_GETNEXTCODE
 
-    .BRANCH_NONREPEATING:
+    ..BRANCH_NONREPEATING
 
     JSR $FF5F ; Get the next value.
 
@@ -14562,13 +14563,13 @@ Overworld_Decomp:
 
     BRA .BRANCH_GETNEXTCODE
 
-    .BRANCH_REPEATING:
+    ..BRANCH_REPEATING
 
     JSR $FF5F ; Get the next value.
 
     LDX $CB ; Get the 5 LSB plus one.
 
-    .BRANCH_LOOPBACK:
+    ..BRANCH_LOOPBACK
 
     STA [$00], Y; Store to TargetAddress, Y
 
@@ -14579,7 +14580,7 @@ Overworld_Decomp:
 
     BRA .BRANCH_GETNEXTCODE
 
-    .BRANCH_REPEATINGWORD:
+    ..BRANCH_REPEATINGWORD
 
     JSR OverworldDecomp_GetNextSourceOctet
 
@@ -14589,7 +14590,7 @@ Overworld_Decomp:
 
     LDX $CB
 
-    .BRANCH_MOREBYTES:
+    ..BRANCH_MOREBYTES
 
     ; Two byte were read, this is the first one
     XBA : STA [$00], Y
@@ -14604,7 +14605,7 @@ Overworld_Decomp:
 
     DEX : BNE .BRANCH_MOREBYTES
 
-    .BRANCH_OUTOFBYTES:
+    ..BRANCH_OUTOFBYTES
 
     JMP $FEC0 ; $17EC0 IN ROM.
 
@@ -14620,7 +14621,7 @@ Overworld_Decomp:
 
     TAX ; Put that sucker in X (full 16-bit)
 
-    .BRANCH_LOOPBACK2:
+    ..BRANCH_LOOPBACK2
 
     ; And push the current Y index, Then shove X into Y
     ; (The newest byte value)
