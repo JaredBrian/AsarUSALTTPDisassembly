@@ -1,5 +1,5 @@
 
-; $1EA1D-$1EAE0 LONG
+; $01EA1D-$01EAE0 LONG
 {
     LDA $F2 : AND.b #$10 : BNE .r_button_held
     

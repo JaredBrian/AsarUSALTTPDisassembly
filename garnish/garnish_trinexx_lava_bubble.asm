@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $4B559-$4B55C DATA
+; $04B559-$04B55C DATA
 pool Garnish_TrinexxLavaBubble:
 {
-    
     .chr
     db $83, $C7, $80, $9D
 }
 
 ; ==============================================================================
 
-; $4B55D-$4B58C JUMP LOCATION
+; $04B55D-$04B58C JUMP LOCATION
 Garnish_TrinexxLavaBubble:
 {
     JSR Garnish_PrepOamCoord

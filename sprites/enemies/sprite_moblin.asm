@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $318E0-$318E3 DATA
+; $0318E0-$0318E3 DATA
 pool Moblin_Walk:
 {
     db 6, 4, 0, 2
@@ -9,7 +9,7 @@ pool Moblin_Walk:
 
 ; ==============================================================================
 
-; *$318E4-$31902 JUMP LOCATION
+; $0318E4-$031902 JUMP LOCATION
 Sprite_Moblin:
 {
     JSR Moblin_Draw
@@ -30,17 +30,16 @@ Sprite_Moblin:
 
 ; ==============================================================================
 
-; $31903-$31906 DATA
+; $031903-$031906 DATA
 pool Moblin_SelectDirection:
 {
-    
     .timers
     db 16, 32, 48, 64
 }
 
 ; ==============================================================================
 
-; *$31907-$3192F JUMP LOCATION
+; $031907-$03192F JUMP LOCATION
 Moblin_SelectDirection:
 {
     LDA $0DF0, X : BNE .direction_change_delay
@@ -64,7 +63,7 @@ Moblin_SelectDirection:
 
 ; ==============================================================================
 
-; $31930-$31937 DATA
+; $031930-$031937 DATA
 pool Moblin_Walk:
 {
     db 2, 3, 2, 3, 0, 1, 0, 1
@@ -72,7 +71,7 @@ pool Moblin_Walk:
 
 ; ==============================================================================
 
-; *$31938-$319A8 JUMP LOCATION
+; $031938-$0319A8 JUMP LOCATION
 Moblin_Walk:
 {
     LDA $0E80, X : AND.b #$01
@@ -146,10 +145,9 @@ Moblin_Walk:
 
 ; ==============================================================================
 
-; $319A9-$319B0 DATA
+; $0319A9-$0319B0 DATA
 pool Moblin_ThrowSpear:
 {
-    
     .animation_states
     db 11, 10,  8,  9
     db  7,  5,  0,  2
@@ -157,7 +155,7 @@ pool Moblin_ThrowSpear:
 
 ; ==============================================================================
 
-; *$319B1-$319D8 JUMP LOCATION
+; $0319B1-$0319D8 JUMP LOCATION
 Moblin_ThrowSpear:
 {
     LDY $0DE0, X
@@ -192,10 +190,9 @@ Moblin_ThrowSpear:
 
 ; ==============================================================================
 
-; $319D9-$319EA DATA
+; $0319D9-$0319EA DATA
 pool Moblin_SpawnThrownSpear:
 {
-    
     .x_offsets_low
     db 11,  -2,  -3,  11
     
@@ -214,7 +211,7 @@ pool Moblin_SpawnThrownSpear:
 
 ; ==============================================================================
 
-; *$319EB-$31A2F JUMP LOCATION
+; $0319EB-$031A2F JUMP LOCATION
 Moblin_SpawnThrownSpear:
 {
     LDA.b #$1B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -247,10 +244,9 @@ Moblin_SpawnThrownSpear:
 
 ; ==============================================================================
 
-; $31A30-$31BC3 DATA
+; $031A30-$031BC3 DATA
 pool Moblin_Draw:
 {
-    
     .oam_groups
     dw -2,   3 : db $91, $80, $00, $00
     dw -2,  11 : db $90, $80, $00, $00
@@ -325,7 +321,7 @@ pool Moblin_Draw:
 
 ; ==============================================================================
 
-; *$31BC4-$31C1F LOCAL
+; $031BC4-$031C1F LOCAL
 Moblin_Draw:
 {
     LDA.b #$00 : XBA

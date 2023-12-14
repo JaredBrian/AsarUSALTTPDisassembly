@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2874D-$28761 JUMP LOCATION
+; $02874D-$028761 JUMP LOCATION
 Sprite_Debirando:
 {
     JSR Debirando_Draw
@@ -19,7 +19,7 @@ Sprite_Debirando:
 
 ; ==============================================================================
 
-; *$28762-$28772 JUMP LOCATION
+; $028762-$028772 JUMP LOCATION
 Debirando_UnderSand:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .wait
@@ -35,17 +35,16 @@ Debirando_UnderSand:
 
 ; ==============================================================================
 
-; $28773-$28774 DATA
+; $028773-$028774 DATA
 pool Debirando_Emerge:
 {
-    
     .animation_states
     db $01, $00
 }
 
 ; ==============================================================================
 
-; *$28775-$28791 JUMP LOCATION
+; $028775-$028791 JUMP LOCATION
 Debirando_Emerge:
 {
     JSR Sprite2_CheckDamage
@@ -69,7 +68,7 @@ Debirando_Emerge:
 
 ; ==============================================================================
 
-; *$28792-$287C7 JUMP LOCATION
+; $028792-$0287C7 JUMP LOCATION
 Debirando_ShootFireball:
 {
     JSR Sprite2_CheckDamage
@@ -106,17 +105,16 @@ Debirando_ShootFireball:
 
 ; ==============================================================================
 
-; $287C8-$287C9 DATA
+; $0287C8-$0287C9 DATA
 pool Debirando_Submerge:
 {
-    
     .animation_states
     db $00, $01
 }
 
 ; ==============================================================================
 
-; *$287CA-$287E6 JUMP LOCATION
+; $0287CA-$0287E6 JUMP LOCATION
 Debirando_Submerge:
 {
     JSR Sprite2_CheckDamage
@@ -140,10 +138,9 @@ Debirando_Submerge:
 
 ; ==============================================================================
 
-; $287E7-$28856 DATA
+; $0287E7-$028856 DATA
 pool Debirando_Draw:
 {
-    
     .x_offsets
     dw $0000, $0008, $0000, $0008, $0000, $0000, $0000, $0008
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
@@ -167,7 +164,7 @@ pool Debirando_Draw:
 
 ; ==============================================================================
 
-; *$28857-$288C4 LOCAL
+; $028857-$0288C4 LOCAL
 Debirando_Draw:
 {
     ; Don't draw if the sprite's hidden.

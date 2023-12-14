@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2B8B3-$2B8DF JUMP LOCATION
+; $02B8B3-$02B8DF JUMP LOCATION
 Sprite_GerudoMan:
 {
     LDA $0D80, X : CMP.b #$02 : BCS .draw
@@ -46,7 +46,7 @@ Sprite_GerudoMan:
 
 ; ==============================================================================
 
-; $2B8EA-$2B90A JUMP LOCATION
+; $02B8EA-$02B90A JUMP LOCATION
 GerudoMan_ReturnToOrigin:
 {
     LDA $0DF0, X : BNE .delay
@@ -66,7 +66,7 @@ GerudoMan_ReturnToOrigin:
 
 ; ==============================================================================
 
-; $2B90B-$2B93E JUMP LOCATION
+; $02B90B-$02B93E JUMP LOCATION
 GerudoMan_AwaitPlayer:
 {
     TXA : EOR $1A : AND.b #$07 : BNE .delay
@@ -93,7 +93,7 @@ GerudoMan_AwaitPlayer:
 
 ; ==============================================================================
 
-; $2B93F-$2B964 JUMP LOCATION
+; $02B93F-$02B964 JUMP LOCATION
 GerudoMan_Emerge:
 {
     LDA $0DF0, X : BNE .delay
@@ -120,7 +120,7 @@ GerudoMan_Emerge:
     
 ; ==============================================================================
 
-; $2B965-$2B966 DATA
+; $02B965-$02B966 DATA
 pool GerudoMan_PursuePlayer:
 {
     db $04, $05
@@ -128,7 +128,7 @@ pool GerudoMan_PursuePlayer:
     
 ; ==============================================================================
 
-; $2B967-$2B96B DATA
+; $02B967-$02B96B DATA
 pool GerudoMan_Submerge:
 {
     db $00, $01, $02, $03, $03
@@ -136,7 +136,7 @@ pool GerudoMan_Submerge:
 
 ; ==============================================================================
 
-; $2B96C-$2B98E JUMP LOCATION
+; $02B96C-$02B98E JUMP LOCATION
 GerudoMan_PursuePlayer:
 {
     STZ $0BA0, X
@@ -163,7 +163,7 @@ GerudoMan_PursuePlayer:
 
 ; ==============================================================================
 
-; $2B98F-$2B9A5 JUMP LOCATION
+; $02B98F-$02B9A5 JUMP LOCATION
 GerudoMan_Submerge:
 {
     LDA $0DF0, X : BNE .delay
@@ -185,10 +185,9 @@ GerudoMan_Submerge:
 
 ; ==============================================================================
 
-; $2B9A6-$2BA23 DATA
+; $02B9A6-$02BA23 DATA
 pool GerudoMan_Draw:
 {
-    
     .x_offsets
     dw   4,  4,  4
     dw   4,  4,  4
@@ -232,7 +231,7 @@ pool GerudoMan_Draw:
 
 ; ==============================================================================
 
-; *$2BA24-$2BA84 LOCAL
+; $02BA24-$02BA84 LOCAL
 GerudoMan_Draw:
 {
     JSR Sprite2_PrepOamCoord

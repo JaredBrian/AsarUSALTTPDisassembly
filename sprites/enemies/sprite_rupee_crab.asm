@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $32858-$32863 DATA
+; $032858-$032863 DATA
 pool Sprite_CoveredRupeeCrab:
 {
-    
     .animation_states
     db 3, 4, 5, 4
     
@@ -17,10 +16,9 @@ pool Sprite_CoveredRupeeCrab:
     
 ; ==============================================================================
 
-; $32864-$3286B
+; $032864-$03286B
 pool Sprite_RupeeCrab:
 {
-    
     .x_speeds
     db -16,  16, -16,  16
     
@@ -30,7 +28,7 @@ pool Sprite_RupeeCrab:
 
 ; ==============================================================================
 
-; *$3286C-$3291C JUMP LOCATION
+; $03286C-$03291C JUMP LOCATION
 Sprite_CoveredRupeeCrab:
 {
     LDA $0D80, X : BEQ .still_covered
@@ -122,7 +120,7 @@ Sprite_CoveredRupeeCrab:
 
 ; ==============================================================================
 
-; *$3291D-$32A0B LOCAL
+; $03291D-$032A0B LOCAL
 Sprite_RupeeCrab:
 {
     JSR Sprite_PrepAndDrawSingleLarge
@@ -240,7 +238,7 @@ Sprite_RupeeCrab:
 
 ; ==============================================================================
 
-; *$32A0C-$32A13 LONG
+; $032A0C-$032A13 LONG
 Sprite_CheckIfLiftedPermissiveLong:
 {
     PHB : PHK : PLB
@@ -257,7 +255,7 @@ Sprite_CheckIfLiftedPermissiveLong:
     ; \wtf Don't ask me why this is needed rather than just calling the routine
     ; directly.
     ; \optimize See the wtf above.
-; *$32A14-$32A17 LOCAL
+; $032A14-$032A17 LOCAL
 Sprite_CheckIfLiftedPermissiveWrapper:
 {
     JSR Sprite_CheckIfLiftedPermissive
@@ -267,10 +265,9 @@ Sprite_CheckIfLiftedPermissiveWrapper:
 
 ; ==============================================================================
 
-; $32A18-$32A47 DATA
+; $032A18-$032A47 DATA
 pool CoveredRupeeCrab_Draw:
 {
-    
     .y_offsets
     dw  0,  0,  0, -3,  0, -5,  0, -6
     dw  0, -6,  0, -6
@@ -286,7 +283,7 @@ pool CoveredRupeeCrab_Draw:
 
 ; ==============================================================================
 
-; *$32A48-$32ABD LOCAL
+; $032A48-$032ABD LOCAL
 CoveredRupeeCrab_Draw:
 {
     JSR Sprite_PrepOamCoord

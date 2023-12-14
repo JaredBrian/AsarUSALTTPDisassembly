@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $46A7F-$46A82 DATA
+; $046A7F-$046A82 DATA
 pool Ancilla_SomarianPlatformPoof:
 {
-    
     .directions
     db $01, $00, $03, $02
 }
 
 ; ==============================================================================
 
-; *$46A83-$46B3D JUMP LOCATION
+; $046A83-$046B3D JUMP LOCATION
 Ancilla_SomarianPlatformPoof:
 {
     ; Special Object 0x39 - Cane of Somaria platform creating poof

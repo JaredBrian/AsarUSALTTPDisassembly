@@ -1,15 +1,14 @@
 
 ; ==============================================================================
 
-; *$F273F-$F2763 BRANCH LOCATION
+; $0F273F-$0F2763 BRANCH LOCATION
 pool Sprite_Pirogusu:
 {
-    
     .is_flying_tile
     
     JMP Sprite_FlyingTile
     
-    ; $F2742 MAIN ENTRY POINT
+    ; $0F2742 MAIN ENTRY POINT
 Sprite_Pirogusu:
     
     LDA $0E90, X : BNE .is_flying_tile
@@ -31,17 +30,16 @@ Sprite_Pirogusu:
 
 ; ==============================================================================
 
-; $F2764-$F2767 DATA
+; $0F2764-$0F2767 DATA
 pool Pirogusu_WriggleInHole:
 {
-    
     .animation_states
     db $02, $03, $00, $01
 }
 
 ; ==============================================================================
 
-; *$F2768-$F2781 JUMP LOCATION
+; $0F2768-$0F2781 JUMP LOCATION
 Pirogusu_WriggleInHole:
 {
     LDA $0DF0, X : BNE .delay
@@ -63,10 +61,9 @@ Pirogusu_WriggleInHole:
 
 ; ==============================================================================
 
-; $F2782-$F278F DATA
+; $0F2782-$0F278F DATA
 pool Pirogusu_Emerge:
 {
-    
     .animation_states
     db $09, $0B, $05, $07, $05, $0B, $07, $09
     
@@ -79,7 +76,7 @@ pool Pirogusu_Emerge:
 
 ; ==============================================================================
 
-; *$F2790-$F27CD JUMP LOCATION
+; $0F2790-$0F27CD JUMP LOCATION
 Pirogusu_Emerge:
 {
     LDA $0DF0, X : BNE .delay
@@ -115,10 +112,9 @@ Pirogusu_Emerge:
 
 ; ==============================================================================
 
-; $F27CE-$F27DB DATA
+; $0F27CE-$0F27DB DATA
 pool Pirogusu_SplashIntoPlay:
 {
-    
     .animation_states
     db $10, $11, $12, $13, $0C, $0D, $0E, $0F
     
@@ -131,7 +127,7 @@ pool Pirogusu_SplashIntoPlay:
 
 ; ==============================================================================
 
-; *$F27DC-$F281F JUMP LOCATION
+; $0F27DC-$0F281F JUMP LOCATION
 Pirogusu_SplashIntoPlay:
 {
     JSR Sprite3_CheckDamage
@@ -153,7 +149,7 @@ Pirogusu_SplashIntoPlay:
     
     .splash_delay
     
-    ; *$F280A ALTERNATE ENTRY POINT
+    ; $0F280A ALTERNATE ENTRY POINT
     shared Pirogusu_Animate:
     
     LDA $0DE0, X : ASL A : STA $00
@@ -167,7 +163,7 @@ Pirogusu_SplashIntoPlay:
 
 ; ==============================================================================
 
-; *$F2820-$F284B LONG
+; $0F2820-$0F284B LONG
 Sprite_SpawnSmallWaterSplash:
 {
     ; Spawn a bush sprite... but for what...
@@ -195,10 +191,9 @@ Sprite_SpawnSmallWaterSplash:
 
 ; ==============================================================================
 
-; $F284C-$F2851 DATA
+; $0F284C-$0F2851 DATA
 pool Pirogusu_Swim:
 {
-    
     .x_speeds length 4
     db 24, -24
     
@@ -208,7 +203,7 @@ pool Pirogusu_Swim:
 
 ; ==============================================================================
 
-; *$F2852-$F2892 JUMP LOCATION
+; $0F2852-$0F2892 JUMP LOCATION
 Pirogusu_Swim:
 {
     JSR Sprite3_CheckIfRecoiling
@@ -244,10 +239,9 @@ Pirogusu_Swim:
 
 ; ==============================================================================
 
-; $F2893-$F2896 DATA
+; $0F2893-$0F2896 DATA
 pool Pirogusu_SpawnSplashGarnish:
 {
-    
     ; \task Name this routine / pool.
     .displacements
     db 3, 4, 5, 4
@@ -255,7 +249,7 @@ pool Pirogusu_SpawnSplashGarnish:
 
 ; ==============================================================================
 
-; *$F2897-$F2902 LOCAL
+; $0F2897-$0F2902 LOCAL
 Pirogusu_SpawnSplashGarnish:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .garnish_delay
@@ -304,10 +298,9 @@ Pirogusu_SpawnSplashGarnish:
 
 ; ==============================================================================
 
-; $F2903-$F293A DATA
+; $0F2903-$0F293A DATA
 pool Pirogusu_Draw:
 {
-    
     .vh_flip
     db $00, $80, $40, $00, $00, $00, $00, $80
     db $80, $C0, $40, $40, $00, $40, $80, $C0
@@ -323,7 +316,7 @@ pool Pirogusu_Draw:
 
 ; ==============================================================================
 
-; *$F293B-$F297E LOCAL
+; $0F293B-$0F297E LOCAL
 Pirogusu_Draw:
 {
     LDY $0D90, X

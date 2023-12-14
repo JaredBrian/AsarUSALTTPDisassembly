@@ -15,10 +15,9 @@
 
 ; ==============================================================================
 
-; $45DD8-$45DE7 DATA
+; $045DD8-$045DE7 DATA
 pool Ancilla_TravelBird:
 {
-    
     .chr
     db $0E, $00, $02
     
@@ -37,7 +36,7 @@ pool Ancilla_TravelBird:
 
 ; ==============================================================================
 
-; *$45DE8-$46067 JUMP LOCATION
+; $045DE8-$046067 JUMP LOCATION
 Ancilla_TravelBird:
 {
     LDA $11 : BEQ .execute

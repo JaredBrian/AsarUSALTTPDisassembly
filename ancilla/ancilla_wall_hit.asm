@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$413E8-$4141E JUMP LOCATION
+; $0413E8-$04141E JUMP LOCATION
 Ancilla_WallHit:
 {
     DEC $039F, X : BPL .delay
@@ -15,7 +15,7 @@ Ancilla_WallHit:
     
     BRA .delay
     
-    ; *$413FF ALTERNATE ENTRY POINT
+    ; $0413FF ALTERNATE ENTRY POINT
     shared Ancilla_SwordWallHit:
     
     JSR Ancilla_AlertSprites
@@ -42,10 +42,9 @@ Ancilla_WallHit:
 
 ; ==============================================================================
 
-; $4141F-$414DE DATA
+; $04141F-$0414DE DATA
 pool WallHit_Draw:
 {
-    
     .chr
     db $80, $00, $00, $00, $92, $00, $00, $00
     db $81, $81, $81, $81, $82, $82, $82, $82
@@ -73,7 +72,7 @@ pool WallHit_Draw:
 
 ; ==============================================================================
 
-; *$414DF-$41542 LONG BRANCH LOCATION
+; $0414DF-$041542 LONG BRANCH LOCATION
 WallHit_Draw:
 {
     JSR Ancilla_PrepOamCoord

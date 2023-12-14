@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E675-$2E67C LONG
+; $02E675-$02E67C LONG
 SpritePrep_SnitchesLong:
 {
     ; Sprite Prep for Scared Lady, Scared Ladies, and Inn Keeper? (0x3D, 0x34, 0x35 ?)
@@ -17,7 +17,7 @@ SpritePrep_SnitchesLong:
 
 ; ==============================================================================
 
-; *$2E67D-$2E699 LOCAL
+; $02E67D-$02E699 LOCAL
 SpritePrep_Snitches:
 {
     LDA.b #$02 : STA $0DE0, X : STA $0EB0, X
@@ -34,7 +34,7 @@ SpritePrep_Snitches:
 
 ; ==============================================================================
 
-; *$2E69A-$2E6A1 LONG
+; $02E69A-$02E6A1 LONG
 Sprite_OldSnitchLadyLong:
 {
     ; Scared Ladies / Chicken Lady (0x3D)
@@ -50,7 +50,7 @@ Sprite_OldSnitchLadyLong:
 
 ; ==============================================================================
 
-; $2E6A2-$2E6A9 DATA
+; $02E6A2-$02E6A9 DATA
     
 {
     ; \task Name these sublabels and the routines that use them.
@@ -63,7 +63,7 @@ Sprite_OldSnitchLadyLong:
 
 ; ==============================================================================
 
-; *$2E6AA-$2E705 LOCAL
+; $02E6AA-$02E705 LOCAL
 Sprite_OldSnitchLady:
 {
     LDA $0E30, X : BEQ .not_indoor_chicken_lady
@@ -81,7 +81,7 @@ Sprite_OldSnitchLady:
     
     .not_visible
     
-    ; *$2E6BF ALTERNATE ENTRY POINT
+    ; $02E6BF ALTERNATE ENTRY POINT
     shared Sprite_Snitch:
     
     JSR Sprite2_CheckIfActive
@@ -126,7 +126,7 @@ Sprite_OldSnitchLady:
     
     .gamma
     
-    ; *$2E6F7 ALTERNATE ENTRY POINT
+    ; $02E6F7 ALTERNATE ENTRY POINT
     shared Snitch_RunStateHandler:
     
     LDA $0D80, X
@@ -141,12 +141,12 @@ Sprite_OldSnitchLady:
 
 ; ==============================================================================
 
-; *$2E706-$2E715 BRANCH LOCATION
+; $02E706-$02E715 BRANCH LOCATION
 Snitch_FacePlayer:
 {
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0DE0, X
     
-    ; $2E70F ALTERNATE ENTRY POINT
+    ; $02E70F ALTERNATE ENTRY POINT
     shared Snitch_SetShortTimer:
     
     LDA.b #$01 : STA $0DF0, X
@@ -156,9 +156,8 @@ Snitch_FacePlayer:
 
 ; ==============================================================================
 
-; $2E716-$2E719 DATA
+; $02E716-$02E719 DATA
 {
-    
     ; \task Name these sublabels and the routines that use them.
     db -32, 32
     
@@ -168,7 +167,7 @@ Snitch_FacePlayer:
 
 ; ==============================================================================
 
-; *$2E71A-$2E78C JUMP LOCATION
+; $02E71A-$02E78C JUMP LOCATION
 {
     LDA $0DF0, X : BNE .alpha
     
@@ -217,7 +216,7 @@ Snitch_FacePlayer:
     RTS
 }
 
-; *$2E78D-$2E830 JUMP LOCATION
+; $02E78D-$02E830 JUMP LOCATION
 {
     STZ $0EB0, X
     
@@ -286,7 +285,7 @@ Snitch_FacePlayer:
     RTS
 }
 
-; *$2E831-$2E886 JUMP LOCATION
+; $02E831-$02E886 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .alpha
     
@@ -321,7 +320,7 @@ Snitch_FacePlayer:
     RTS
 }
 
-; *$2E887-$2E88D JUMP LOCATION
+; $02E887-$02E88D JUMP LOCATION
 {
     STZ $0DD0, X
     STZ $02E4

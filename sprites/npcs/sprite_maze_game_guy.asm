@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$6CBEA-$6CBF1 LONG
+; $06CBEA-$06CBF1 LONG
 Sprite_MazeGameGuyLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_MazeGameGuyLong:
 
 ; ==============================================================================
 
-; *$6CBF2-$6CC2C LOCAL
+; $06CBF2-$06CC2C LOCAL
 Sprite_MazeGameGuy:
 {
     JSL MazeGameGuy_Draw
@@ -54,7 +54,7 @@ Sprite_MazeGameGuy:
 
 ; ==============================================================================
 
-; *$6CC2D-$6CCA6 JUMP LOCATION
+; $06CC2D-$06CCA6 JUMP LOCATION
 MazeGameGuy_ParseElapsedTime:
 {
     REP #$20
@@ -145,7 +145,7 @@ MazeGameGuy_ParseElapsedTime:
 
 ; ==============================================================================
 
-; *$6CCA7-$6CCF3 JUMP LOCATION
+; $06CCA7-$06CCF3 JUMP LOCATION
 MazeGameGuy_CheckPlayerQualification:
 {
     INC $0D80, X
@@ -198,7 +198,7 @@ MazeGameGuy_CheckPlayerQualification:
 
 ; ==============================================================================
 
-; *$6CCF4-$6CD04 JUMP LOCATION
+; $06CCF4-$06CD04 JUMP LOCATION
 MazeGameGuy_SorryCantHaveIt:
 {
     ; "You're not qualified. Too bad! Why don't you try again?"
@@ -216,7 +216,7 @@ MazeGameGuy_SorryCantHaveIt:
 
 ; ==============================================================================
 
-; *$6CD05-$6CD15 JUMP LOCATION
+; $06CD05-$06CD15 JUMP LOCATION
 MazeGameGuy_YouCanHaveIt:
 {
     ; "... Congratulations! I present you with a piece of Heart!"
@@ -234,7 +234,7 @@ MazeGameGuy_YouCanHaveIt:
 
 ; ==============================================================================
 
-; *$6CD16-$6CD26 JUMP LOCATION
+; $06CD16-$06CD26 JUMP LOCATION
 MazeGameGuy_NothingMoreToGive:
 {
     ; "I don't have anything more to give you. I'm sorry!"
@@ -252,10 +252,9 @@ MazeGameGuy_NothingMoreToGive:
 
 ; ==============================================================================
 
-; $6CD27-$6CDA6 DATA
+; $06CD27-$06CDA6 DATA
 pool MazeGameGuy_Draw:
 {
-    
     .oam_groups
     dw 0, -10 : db $00, $00, $00, $02
     dw 0,   0 : db $20, $00, $00, $02
@@ -284,7 +283,7 @@ pool MazeGameGuy_Draw:
 
 ; ==============================================================================
 
-; *$6CDA7-$6CDCE LONG
+; $06CDA7-$06CDCE LONG
 MazeGameGuy_Draw:
 {
     PHB : PHK : PLB

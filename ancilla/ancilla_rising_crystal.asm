@@ -5,7 +5,7 @@
     
 ; ==============================================================================
 
-; *$44BE4-$44C92 LOCAL
+; $044BE4-$044C92 LOCAL
 Ancilla_TransmuteToRisingCrystal:
 {
     ; Start up 3D crystal effect
@@ -15,7 +15,7 @@ Ancilla_TransmuteToRisingCrystal:
     STZ $0C2C, X
     STZ $0C36, X
     
-    ; *$44BF2 ALTERNATE ENTRY POINT
+    ; $044BF2 ALTERNATE ENTRY POINT
     shared Ancilla_RisingCrystal:
     
     STZ $029E, X

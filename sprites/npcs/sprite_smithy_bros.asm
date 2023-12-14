@@ -1,9 +1,8 @@
 ; ==============================================================================
 
-; $331DE-$331ED DATA
+; $0331DE-$0331ED DATA
 pool Smithy_Main:
 {
-    
     .animation_states
     db  0,  1,  2,  3,  3,  2,  1,  0
     
@@ -13,7 +12,7 @@ pool Smithy_Main:
 
 ; ==============================================================================
 
-; *$331EE-$331FC JUMP LOCATION
+; $0331EE-$0331FC JUMP LOCATION
 Sprite_SmithyBros:
 {
     LDA $0E80, X
@@ -28,7 +27,7 @@ Sprite_SmithyBros:
 
 ; ==============================================================================
 
-; *$331FD-$3320D JUMP LOCATION
+; $0331FD-$03320D JUMP LOCATION
 ReturningSmithy_Main:
 {
     JSR ReturningSmithy_Draw
@@ -44,10 +43,9 @@ ReturningSmithy_Main:
 
 ; ==============================================================================
 
-; $3320E-$3321A DATA
+; $03320E-$03321A DATA
 pool ReturningSmithy_ApproachTheBench:
 {
-    
     .timers
     db $68, $0C
     
@@ -63,7 +61,7 @@ pool ReturningSmithy_ApproachTheBench:
 
 ; ==============================================================================
 
-; *$3321B-$33254 JUMP LOCATION
+; $03321B-$033254 JUMP LOCATION
 ReturningSmithy_ApproachTheBench:
 {
     JSR Sprite_Move
@@ -99,7 +97,7 @@ ReturningSmithy_ApproachTheBench:
 
 ; ==============================================================================
 
-; *$33255-$33273 JUMP LOCATION
+; $033255-$033273 JUMP LOCATION
 ReturningSmithy_CopiouslyThankful:
 {
     JSL Sprite_PlayerCantPassThrough
@@ -122,7 +120,7 @@ ReturningSmithy_CopiouslyThankful:
 
 ; ==============================================================================
 
-; *$33274-$332BF JUMP LOCATION
+; $033274-$0332BF JUMP LOCATION
 SmithyFrog_Main:
 {
     JSR SmithyFrog_Draw
@@ -178,10 +176,9 @@ SmithyFrog_Main:
 
 ; ==============================================================================
 
-; $332C0-$33307 DATA
+; $0332C0-$033307 DATA
 pool ReturningSmithy_Draw:
 {
-    
     .oam_groups
     dw 0, 0 : db $22, $41, $00, $02
     
@@ -205,7 +202,7 @@ pool ReturningSmithy_Draw:
 
 ; ==============================================================================
 
-; *$33308-$33330 JUMP LOCATION
+; $033308-$033330 JUMP LOCATION
 ReturningSmithy_Draw:
 {
     LDA.b #$01 : STA $06
@@ -228,17 +225,16 @@ ReturningSmithy_Draw:
 
 ; ==============================================================================
 
-; $33331-$33338 DATA
+; $033331-$033338 DATA
 pool SmithyFrog_Draw:
 {
-    
     .oam_groups
     dw 0, 0 : db $C8, $00, $00, $02
 }
 
 ; ==============================================================================
 
-; *$33339-$3334D LOCAL
+; $033339-$03334D LOCAL
 SmithyFrog_Draw:
 {
     LDA.b #$01 : STA $06
@@ -253,7 +249,7 @@ SmithyFrog_Draw:
 
 ; ==============================================================================
 
-; *$3334E-$333E2 JUMP LOCATION
+; $03334E-$0333E2 JUMP LOCATION
 Smithy_Main:
 {
     JSR Smithy_Draw
@@ -339,7 +335,7 @@ Smithy_Main:
 
 ; ==============================================================================
 
-; $333E3-$3343C JUMP LOCATION
+; $0333E3-$03343C JUMP LOCATION
 Smithy_ConversationStart:
 {
     STZ $0DB0, X
@@ -409,7 +405,7 @@ Smithy_ConversationStart:
 
 ; ==============================================================================
 
-; *$3343D-$3345E LOCAL
+; $03343D-$03345E LOCAL
 Smithy_NearbyHammerUseListener:
 {
     LDA $0E00, X : BNE .delay
@@ -435,7 +431,7 @@ Smithy_NearbyHammerUseListener:
 
 ; ==============================================================================
 
-; *$3345F-$3347B JUMP LOCATION
+; $03345F-$03347B JUMP LOCATION
 Smithy_ProvideTemperingChoice:
 {
     LDA $1CE8 : BNE .player_said_no
@@ -465,7 +461,7 @@ Smithy_ProvideTemperingChoice:
 
 ; ==============================================================================
 
-; *$3347C-$334AC JUMP LOCATION
+; $03347C-$0334AC JUMP LOCATION
 Smithy_HandleTemperingChoice:
 {
     LDA $1CE8 : BNE .player_said_no
@@ -509,7 +505,7 @@ Smithy_HandleTemperingChoice:
 
 ; ==============================================================================
 
-; *$334AD-$3350D JUMP LOCATION
+; $0334AD-$03350D JUMP LOCATION
 Smithy_HandleTemperingCost:
 {
     LDA $1CE8 : BEQ .player_asks_for_tempering
@@ -572,7 +568,7 @@ Smithy_HandleTemperingCost:
 
 ; ==============================================================================
 
-; *$3350E-$33547 JUMP LOCATION
+; $03350E-$033547 JUMP LOCATION
 Smithy_TemperingSword:
 {
     STZ $0DB0, X
@@ -622,7 +618,7 @@ Smithy_TemperingSword:
 
 ; ==============================================================================
 
-; *$33548-$33568 JUMP LOCATION
+; $033548-$033568 JUMP LOCATION
 Smithy_GrantTemperedSword:
 {
     LDY $0E90, X
@@ -648,7 +644,7 @@ Smithy_GrantTemperedSword:
 
 ; ==============================================================================
 
-; $33569-$33569 JUMP LOCATION
+; $033569-$033569 JUMP LOCATION
 Smithy_DoNothing:
 {
     RTS
@@ -656,7 +652,7 @@ Smithy_DoNothing:
 
 ; ==============================================================================
 
-; *$3356A-$3359C JUMP LOCATION
+; $03356A-$03359C JUMP LOCATION
 Smithy_SpawnReturningSmithy:
 {
     LDA.b #$1A
@@ -684,7 +680,7 @@ Smithy_SpawnReturningSmithy:
 
 ; ==============================================================================
 
-; *$3359D-$335A5 JUMP LOCATION
+; $03359D-$0335A5 JUMP LOCATION
 Smithy_CopiouslyThankful:
 {
     ; "Thank you! Thank you!"
@@ -698,7 +694,7 @@ Smithy_CopiouslyThankful:
 
 ; ==============================================================================
 
-; *$335A6-$335D2 LOCAL
+; $0335A6-$0335D2 LOCAL
 Smithy_SpawnOtherSmithy:
 {
     LDA.b #$1A
@@ -723,7 +719,7 @@ Smithy_SpawnOtherSmithy:
 
 ; ==============================================================================
 
-; $335D3-$33672 DATA
+; $0335D3-$033672 DATA
 pool Smithy_Draw:
 {
     dw   1,   0 : db $40, $40, $00, $02
@@ -759,7 +755,7 @@ pool Smithy_Draw:
 
 ; ==============================================================================
 
-; *$33673-$33695 LOCAL
+; $033673-$033695 LOCAL
 Smithy_Draw:
 {
     LDA.b #$02 : STA $06
@@ -778,10 +774,9 @@ Smithy_Draw:
 
 ; ==============================================================================
 
-; $33696-$336A2 DATA
+; $033696-$0336A2 DATA
 pool SmithySpark_Main:
 {
-    
     .animation_states
     db 0, 1, 2, 1, 2, 1, -1
     
@@ -791,7 +786,7 @@ pool SmithySpark_Main:
 
 ; ==============================================================================
 
-; *$336A3-$336CA JUMP LOCATION
+; $0336A3-$0336CA JUMP LOCATION
 SmithySpark_Main:
 {
     JSR SmithySpark_Draw
@@ -822,17 +817,16 @@ SmithySpark_Main:
 
 ; ==============================================================================
 
-; $336CB-$336CC DATA
+; $0336CB-$0336CC DATA
 pool SmithyBros_SpawnSmithySpark:
 {
-    
     .x_offsets
     db 15, -15
 }
 
 ; ==============================================================================
 
-; *$336CD-$336FB LOCAL
+; $0336CD-$0336FB LOCAL
 SmithyBros_SpawnSmithySpark:
 {
     LDA.b #$1A
@@ -860,10 +854,9 @@ SmithyBros_SpawnSmithySpark:
 
 ; ==============================================================================
 
-; $336FC-$3372B DATA
+; $0336FC-$03372B DATA
 pool SmithySpark_Draw:
 {
-    
     .oam_groups
     dw  0,  3 : db $AA, $41, $00, $02
     dw  0, -1 : db $AA, $41, $00, $02
@@ -877,7 +870,7 @@ pool SmithySpark_Draw:
 
 ; ==============================================================================
 
-; *$3372C-$33749 LOCAL
+; $03372C-$033749 LOCAL
 SmithySpark_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB

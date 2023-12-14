@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $31478-$31489 DATA
+; $031478-$031489 DATA
 pool Sprite_DeadRock:
 {
-    
     .animation_states
     db 0, 1, 0, 1, 2, 2, 3, 3
     db 4
@@ -16,7 +15,7 @@ pool Sprite_DeadRock:
 
 ; ==============================================================================
 
-; *$3148A-$314FF JUMP LOCATION
+; $03148A-$0314FF JUMP LOCATION
 Sprite_DeadRock:
 {
     ; Deadrock code (Sprite 0x27)
@@ -87,14 +86,14 @@ Sprite_DeadRock:
 
 ; ==============================================================================
 
-; $31500-$31505 DATA
+; $031500-$031505 DATA
 {
     db $20, $E0, $00, $00, $20, $E0
 }
 
 ; ==============================================================================
 
-; *$31506-$31558 JUMP LOCATION
+; $031506-$031558 JUMP LOCATION
 DeadRock_PickDirection:
 {
     LDA $0DF0, X : BNE .wait
@@ -125,7 +124,7 @@ DeadRock_PickDirection:
     
     .set_velocity
     
-    ; *$31548 ALTERNATE ENTRY POINT
+    ; $031548 ALTERNATE ENTRY POINT
     shared DeadRock_SetDirectionAndSpeed:
     
     STA $0DE0, X : TAY
@@ -140,7 +139,7 @@ DeadRock_PickDirection:
 
 ; ==============================================================================
 
-; *$31559-$3158E JUMP LOCATION
+; $031559-$03158E JUMP LOCATION
 DeadRock_Walk:
 {
     LDA $0DF0, X : BNE .try_to_move
@@ -173,7 +172,7 @@ DeadRock_Walk:
 
 ; ==============================================================================
 
-; *$3158F-$315C8 JUMP LOCATION
+; $03158F-$0315C8 JUMP LOCATION
 DeadRock_Petrified:
 {
     LDA $0E40, X : ORA.b #$80 : STA $0E40, X

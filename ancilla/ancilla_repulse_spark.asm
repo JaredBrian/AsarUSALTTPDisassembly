@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $40F82-$40F88 DATA
+; $040F82-$040F88 DATA
 pool Ancilla_RepulseSpark:
 {
-    
     .chr
     db $93, $82, $81
     
@@ -18,7 +17,7 @@ pool Ancilla_RepulseSpark:
     ; don't fit anywhere else, but $0FAC is quite unfamiliar still. It never
     ; seems to receive a value higher than 5, but there are checks for
     ; it as high as 9 and beyond.
-; *$40F89-$4107F LOCAL
+; $040F89-$04107F LOCAL
 Ancilla_RepulseSpark:
 {
     LDA $0FAC : BEQ Ancilla_IsBelowPlayer.return

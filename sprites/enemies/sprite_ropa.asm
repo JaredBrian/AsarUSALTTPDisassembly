@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$31E1F-$31E43 JUMP LOCATION
+; $031E1F-$031E43 JUMP LOCATION
 Sprite_Ropa:
 {
     JSR Ropa_Draw
@@ -21,7 +21,7 @@ Sprite_Ropa:
 
 ; ==============================================================================
 
-; *$31E44-$31E5C JUMP LOCATION
+; $031E44-$031E5C JUMP LOCATION
 Ropa_Stationary:
 {
     LDA $0DF0, X : BNE .delay
@@ -41,7 +41,7 @@ Ropa_Stationary:
 
 ; ==============================================================================
 
-; *$31E5D-$31E84 JUMP LOCATION
+; $031E5D-$031E84 JUMP LOCATION
 Ropa_Pounce:
 {
     JSR Sprite_Move
@@ -72,10 +72,9 @@ Ropa_Pounce:
 
 ; ==============================================================================
 
-; $31E85-$31EE4 DATA
+; $031E85-$031EE4 DATA
 pool Ropa_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $26, $00, $00, $00
     dw 8, -8 : db $27, $00, $00, $00
@@ -96,7 +95,7 @@ pool Ropa_Draw:
 
 ; ==============================================================================
 
-; *$31EE5-$31F04 JUMP LOCATION
+; $031EE5-$031F04 JUMP LOCATION
 Ropa_Draw:
 {
     LDA.b #$00 : XBA

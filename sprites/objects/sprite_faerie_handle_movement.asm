@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $F7D12-$F7D13 DATA
+; $0F7D12-$0F7D13 DATA
 pool Fairy_HandleMovement:
 {
-    
     .z_speeds
     db 1, -1
 }
 
 ; ==============================================================================
 
-; *$F7D14-$F7D1B LONG
+; $0F7D14-$0F7D1B LONG
 Fairy_HandleMovementLong:
 {
     ; Some subroutine of a Fairy...
@@ -27,7 +26,7 @@ Fairy_HandleMovementLong:
 
 ; ==============================================================================
 
-; *$F7D1C-$F7E32 LOCAL
+; $0F7D1C-$0F7E32 LOCAL
 Fairy_HandleMovement:
 {
     LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
@@ -174,7 +173,7 @@ Fairy_HandleMovement:
 
 ; ==============================================================================
 
-; *$F7E33-$F7E68 LONG
+; $0F7E33-$0F7E68 LONG
 PlayerItem_SpawnFairy:
 {
     LDA.b #$E3 : JSL Sprite_SpawnDynamically : BMI .spawn_failed

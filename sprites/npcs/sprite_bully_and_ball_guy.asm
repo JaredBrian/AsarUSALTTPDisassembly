@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F6B33-$F6B3F JUMP LOCATION
+; $0F6B33-$0F6B3F JUMP LOCATION
 Sprite_BullyAndBallGuy:
 {
     LDA $0E80, X
@@ -15,7 +15,7 @@ Sprite_BullyAndBallGuy:
 
 ; ==============================================================================
 
-; *$F6B40-$F6C30 JUMP LOCATION
+; $0F6B40-$0F6C30 JUMP LOCATION
 Sprite_BallGuy:
 {
     JSL Sprite_OAM_AllocateDeferToPlayerLong
@@ -133,7 +133,7 @@ Sprite_BallGuy:
     
 ; ==============================================================================
 
-; *$F6C31-$F6C4A ALTERNATE ENTRY POINT
+; $0F6C31-$0F6C4A ALTERNATE ENTRY POINT
 BallGuy_UpsideDown:
 {
     JSR BallGuy_DrawDistressMarker
@@ -156,17 +156,16 @@ BallGuy_UpsideDown:
 
 ; ==============================================================================
 
-; $F6C4B-$F6C4C DATA
+; $0F6C4B-$0F6C4C DATA
 pool BallGuy_Friction:
 {
-    
     .rates
     db $FE, $02
 }
 
 ; ==============================================================================
 
-; *$F6C4D-$F6C73 LOCAL
+; $0F6C4D-$0F6C73 LOCAL
 BallGuy_Friction:
 {
     LDA $0D50, X : BEQ .zero_x_velocity
@@ -190,7 +189,7 @@ BallGuy_Friction:
 
 ; ==============================================================================
 
-; *$F6C74-$F6C7B JUMP LOCATION
+; $0F6C74-$0F6C7B JUMP LOCATION
 BallGuy_DrawDistressMarker:
 {
     JSR Sprite3_PrepOamCoord
@@ -201,7 +200,7 @@ BallGuy_DrawDistressMarker:
 
 ; ==============================================================================
 
-; *$F6C7C-$F6CB1 JUMP LOCATION
+; $0F6C7C-$0F6CB1 JUMP LOCATION
 Sprite_Bully:
 {
     JSR Bully_Draw
@@ -234,7 +233,7 @@ Sprite_Bully:
 
 ; ==============================================================================
 
-; *$F6CB2-$F6D22 JUMP LOCATION
+; $0F6CB2-$0F6D22 JUMP LOCATION
 Bully_ChaseBallGuy:
 {
     ; Bully State 0
@@ -282,7 +281,7 @@ Bully_ChaseBallGuy:
 
 ; ==============================================================================
 
-; *$F6D23-$F6D54 JUMP LOCATION
+; $0F6D23-$0F6D54 JUMP LOCATION
 Bully_KickBallGuy:
 {
     INC $0D80, X
@@ -309,7 +308,7 @@ Bully_KickBallGuy:
 
 ; ==============================================================================
 
-; *$F6D55-$F6D5D JUMP LOCATION
+; $0F6D55-$0F6D5D JUMP LOCATION
 Bully_Waiting:
 {
     LDA $0DF0, X : BNE .delay
@@ -323,10 +322,9 @@ Bully_Waiting:
 
 ; ==============================================================================
 
-; $F6D5E-$F6D9D DATA
+; $0F6D5E-$0F6D9D DATA
 pool Bully_Draw:
 {
-    
     .oam_groups
     dw 0, -7 : db $E0, $46, $00, $02
     dw 0,  0 : db $E2, $46, $00, $02
@@ -343,7 +341,7 @@ pool Bully_Draw:
 
 ; ==============================================================================
 
-; *$F6D9E-$F6DC1 LOCAL
+; $0F6D9E-$0F6DC1 LOCAL
 Bully_Draw:
 {
     LDA.b #$02 : STA $06
@@ -362,7 +360,7 @@ Bully_Draw:
 
 ; ==============================================================================
 
-; *$F6DC2-$F6DC8 LOCAL
+; $0F6DC2-$0F6DC8 LOCAL
 BallGuy_PlayBounceNoise:
 {
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
@@ -372,7 +370,7 @@ BallGuy_PlayBounceNoise:
 
 ; ==============================================================================
 
-; *$F6DC9-$F6DE3 LONG
+; $0F6DC9-$0F6DE3 LONG
 BullyAndBallGuy_SpawnBully:
 {
     LDA.b #$B9 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -393,10 +391,9 @@ BullyAndBallGuy_SpawnBully:
 
 ; ==============================================================================
 
-; $F6DE4-$F6DE7 DATA
+; $0F6DE4-$0F6DE7 DATA
 pool BallGuy_Dialogue:
 {
-    
     .messages_low
     db $5B, $5C
     
@@ -406,7 +403,7 @@ pool BallGuy_Dialogue:
 
 ; ==============================================================================
 
-; *$F6DE8-$F6E20 JUMP LOCATION
+; $0F6DE8-$0F6E20 JUMP LOCATION
 BallGuy_Dialogue:
 {
     LDA $0F10, X : BNE .delay
@@ -440,10 +437,9 @@ BallGuy_Dialogue:
 
 ; ==============================================================================
 
-; $F6E21-$F6E24 DATA
+; $0F6E21-$0F6E24 DATA
 pool Bully_Dialogue:
 {
-    
     .messages_low
     db $5D, $5E
     
@@ -453,7 +449,7 @@ pool Bully_Dialogue:
 
 ; ==============================================================================
 
-; *$F6E25-$F6E55 LOCAL
+; $0F6E25-$0F6E55 LOCAL
 Bully_Dialogue:
 {
     LDA $0F10, X : BNE .delay

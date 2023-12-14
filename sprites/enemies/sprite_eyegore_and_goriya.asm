@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F4700-$F4720 LONG
+; $0F4700-$0F4720 LONG
 SpritePrep_Eyegore:
 {
     LDA $048E
@@ -28,14 +28,13 @@ SpritePrep_Eyegore:
 
 ; ==============================================================================
 
-; $F4721-$F4790 DATA
+; $0F4721-$0F4790 DATA
 {
-    
 }
 
 ; ==============================================================================
 
-; *$F4791-$F479A BRANCH LOCATION
+; $0F4791-$0F479A BRANCH LOCATION
 Goriya_StayStill:
 {
     STZ $0D90, X
@@ -48,7 +47,7 @@ Goriya_StayStill:
 
 ; ==============================================================================
 
-; *$F479B-$F4838 JUMP LOCATION
+; $0F479B-$0F4838 JUMP LOCATION
 Sprite_Eyegore:
 {
     LDA $0DA0, X : BNE Sprite_Goriya
@@ -135,7 +134,7 @@ Sprite_Goriya:
     
 ; ==============================================================================
 
-; *$F4839-$F4863 ALTERNATE ENTRY POINT
+; $0F4839-$0F4863 ALTERNATE ENTRY POINT
 Eyegore_Main:
 {
     JSR Eyegore_Draw
@@ -158,17 +157,16 @@ Eyegore_Main:
 
 ; ==============================================================================
 
-; $F4864-$F4867 DATA
+; $0F4864-$0F4867 DATA
 pool Eyegore:
 {
-    
     .timers
     db $60, $80, $A0, $80
 }
 
 ; ==============================================================================
 
-; *$F4868-$F488A JUMP LOCATION
+; $0F4868-$0F488A JUMP LOCATION
 Eyegore_WaitUntilPlayerNearby:
 {
     LDA $0DF0, X : BNE .delay
@@ -191,7 +189,7 @@ Eyegore_WaitUntilPlayerNearby:
 
 ; ==============================================================================
 
-; $F488B-$F4892 DATA
+; $0F488B-$0F4892 DATA
 pool Eyegore_OpeningEye:
 {
     db $02, $02, $02, $02, $01, $01, $00, $00
@@ -199,7 +197,7 @@ pool Eyegore_OpeningEye:
 
 ; ==============================================================================
 
-; *$F4893-$F48BA JUMP LOCATION
+; $0F4893-$0F48BA JUMP LOCATION
 Eyegore_OpeningEye:
 {
     LDA $0DF0, X : BNE .delay
@@ -226,10 +224,9 @@ Eyegore_OpeningEye:
 
 ; ==============================================================================
 
-; $F48BB-$F48CA DATA
+; $0F48BB-$0F48CA DATA
 pool Eyegore_ChasePlayer:
 {
-    
     .animation_states
     db $07, $05, $02, $09, $08, $06, $03, $0A
     db $07, $05, $02, $09, $08, $06, $04, $0B
@@ -237,7 +234,7 @@ pool Eyegore_ChasePlayer:
 
 ; ==============================================================================
 
-; *$F48CB-$F492D JUMP LOCATION
+; $0F48CB-$0F492D JUMP LOCATION
 Eyegore_ChasePlayer:
 {
     LDA $0E60, X : AND.b #$BF : STA $0E60, X
@@ -291,17 +288,16 @@ Eyegore_ChasePlayer:
 
 ; ==============================================================================
 
-; $F492E-$F4935 DATA
+; $0F492E-$0F4935 DATA
 pool Eyegore_ClosingEye:
 {
-    
     .animation_states
     db $00, $00, $01, $01, $02, $02, $02, $02
 }
 
 ; ==============================================================================
 
-; *$F4936-$F494E JUMP LOCATION
+; $0F4936-$0F494E JUMP LOCATION
 Eyegore_ClosingEye:
 {
     LDA $0DF0, X : BNE .delay
@@ -323,10 +319,9 @@ Eyegore_ClosingEye:
 
 ; ==============================================================================
 
-; $F494F-$F4ACE DATA
+; $0F494F-$0F4ACE DATA
 pool Eyegore_Draw:
 {
-    
     .oam_groups
     dw -4, -4 : db $A2, $00, $00, $02
     dw  4, -4 : db $A2, $40, $00, $02
@@ -391,7 +386,7 @@ pool Eyegore_Draw:
 
 ; ==============================================================================
 
-; *$F4ACF-$F4AF3 LOCAL
+; $0F4ACF-$0F4AF3 LOCAL
 Eyegore_Draw:
 {
     LDA.b #$00   : XBA

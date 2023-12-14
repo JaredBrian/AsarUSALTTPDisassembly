@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$33DC1-$33DCF JUMP LOCATION
+; $033DC1-$033DCF JUMP LOCATION
 Sprite_HoboEntities:
 {
     LDA $0E80, X
@@ -16,7 +16,7 @@ Sprite_HoboEntities:
 
 ; ==============================================================================
 
-; *$33DD0-$33DF9 JUMP LOCATION
+; $033DD0-$033DF9 JUMP LOCATION
 Sprite_Hobo:
 {
     JSL Hobo_Draw
@@ -46,7 +46,7 @@ Sprite_Hobo:
 
 ; ==============================================================================
 
-; *$33DFA-$33E29 JUMP LOCATION
+; $033DFA-$033E29 JUMP LOCATION
 Hobo_Sleeping:
 {
     LDA.b #$07 : STA $0F60, X
@@ -80,10 +80,9 @@ Hobo_Sleeping:
 
 ; ==============================================================================
 
-; $33E2A-$33E38 DATA
+; $033E2A-$033E38 DATA
 pool Hobo_WakeUp:
 {
-    
     .animation_states
     db 0, 1, 0, 1, 0, 1, 2, -1
     
@@ -93,7 +92,7 @@ pool Hobo_WakeUp:
 
 ; ==============================================================================
 
-; *$33E39-$33E5E JUMP LOCATION
+; $033E39-$033E5E JUMP LOCATION
 Hobo_WakeUp:
 {
     LDA $0DF0, X : BNE .delay
@@ -127,7 +126,7 @@ Hobo_WakeUp:
 
 ; ==============================================================================
 
-; *$33E5F-$33E88 JUMP LOCATION
+; $033E5F-$033E88 JUMP LOCATION
 Hobo_GrantBottle:
 {
     INC $0D80, X
@@ -159,7 +158,7 @@ Hobo_GrantBottle:
 
 ; ==============================================================================
 
-; *$33E89-$33E9C JUMP LOCATION
+; $033E89-$033E9C JUMP LOCATION
 Hobo_BackToSleep:
 {
     STZ $02E4
@@ -180,7 +179,7 @@ Hobo_BackToSleep:
 ; ==============================================================================
 
     ; \note I know, why would this guy spawn himself? Makes no sense.
-; *$33E9D-$33EB1 LOCAL
+; $033E9D-$033EB1 LOCAL
 Hobo_SpawnHobo:
 {
     LDA.b #$2B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -199,17 +198,16 @@ Hobo_SpawnHobo:
 
     ; \unused Probably speeds. Maybe at one point the bubble bobbed up and down
     ; above the hobo's mouth?
-; $33EB2-$33EB3 DATA
+; $033EB2-$033EB3 DATA
 pool Sprite_HoboBubble:
 {
-    
     .unused
     db 1, -1
 }
 
 ; ==============================================================================
 
-; *$33EB4-$33EEC JUMP LOCATION
+; $033EB4-$033EEC JUMP LOCATION
 Sprite_HoboBubble:
 {
     LDA.b #$04 : JSL OAM_AllocateFromRegionC
@@ -243,7 +241,7 @@ Sprite_HoboBubble:
 
 ; ==============================================================================
 
-; *$33EED-$33F14 LOCAL
+; $033EED-$033F14 LOCAL
 Hobo_SpawnBubble:
 {
     ; Spawn the sleep bubble hanging out of the hobo's nose?
@@ -261,7 +259,7 @@ Hobo_SpawnBubble:
     
     LSR A : STA $0E00, Y : STA $0BA0, Y
     
-    ; *$33F0F ALTERNATE ENTRY POINT
+    ; $033F0F ALTERNATE ENTRY POINT
     shared Sprite_ZeroOamAllocation:
     
     ; Zeroes out the sprite's oam slot allocation making it impossible to
@@ -277,7 +275,7 @@ Hobo_SpawnBubble:
 
 ; ==============================================================================
 
-; *$33F15-$33F4A JUMP LOCATION
+; $033F15-$033F4A JUMP LOCATION
 Sprite_HoboFire:
 {
     JSR Sprite_PrepAndDrawSingleSmall
@@ -305,7 +303,7 @@ Sprite_HoboFire:
 
 ; ==============================================================================
 
-; *$33F4B-$33F7C LOCAL
+; $033F4B-$033F7C LOCAL
 Hobo_SpawnCampfire:
 {
     LDA.b #$2B
@@ -333,17 +331,16 @@ Hobo_SpawnCampfire:
 
 ; ==============================================================================
 
-; $33F7D-$33F80 DATA
+; $033F7D-$033F80 DATA
 pool Sprite_HoboSmoke:
 {
-    
     .vh_flip
     db $00, $40, $80, $C0
 }
 
 ; ==============================================================================
 
-; *$33F81-$33FAE JUMP LOCATION
+; $033F81-$033FAE JUMP LOCATION
 Sprite_HoboSmoke:
 {
     LDA.b #$06 : STA $0DC0, X
@@ -368,7 +365,7 @@ Sprite_HoboSmoke:
 
 ; ==============================================================================
 
-; *$33FAF-$33FDF LOCAL
+; $033FAF-$033FDF LOCAL
 HoboFire_SpawnSmoke:
 {
     LDA.b #$2B

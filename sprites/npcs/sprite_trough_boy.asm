@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2FF5E-$2FF65 LONG
+; $02FF5E-$02FF65 LONG
 Sprite_TroughBoyLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_TroughBoyLong:
 
 ; ==============================================================================
 
-; *$2FF66-$2FF9E LOCAL
+; $02FF66-$02FF9E LOCAL
 Sprite_TroughBoy:
 {
     JSR TroughBoy_Draw
@@ -52,10 +52,9 @@ Sprite_TroughBoy:
 
 ; ==============================================================================
 
-; $2FF9F-$2FFDE LOCAL
+; $02FF9F-$02FFDE LOCAL
 pool TroughBoy_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $82, $08, $00, $02
     dw 0,  0 : db $AA, $0A, $00, $02
@@ -72,7 +71,7 @@ pool TroughBoy_Draw:
 
 ; ==============================================================================
 
-; *$2FFDF-$2FFFE LOCAL
+; $02FFDF-$02FFFE LOCAL
 TroughBoy_Draw:
 {
     LDA.b #$02 : STA $06
@@ -91,7 +90,7 @@ TroughBoy_Draw:
 
 ; ==============================================================================
 
-; $2FFFF-$2FFFF NULL
+; $02FFFF-$02FFFF NULL
 {
     fillbyte $FF
     

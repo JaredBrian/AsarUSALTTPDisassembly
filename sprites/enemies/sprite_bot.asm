@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2B80A-$2B891 JUMP LOCATION
+; $02B80A-$02B891 JUMP LOCATION
 Sprite_Bot:
     shared Sprite_Popo:
 {
@@ -70,7 +70,7 @@ Sprite_Bot:
     
     LDA $0E70, X : BNE .theta
     
-    ; *$2B88D ALTERNATE ENTRY POINT
+    ; $02B88D ALTERNATE ENTRY POINT
     .zeta
     shared Sprite2_CheckTileCollision:
     
@@ -81,10 +81,9 @@ Sprite_Bot:
 
 ; ==============================================================================
 
-; $2B892-$2B899 DATA
+; $02B892-$02B899 DATA
     pool Bot_Draw
 {
-    
     .animation_states
     db $00, $01, $00, $01
     
@@ -94,7 +93,7 @@ Sprite_Bot:
 
 ; ==============================================================================
 
-; *$2B89A-$2B8B2 LOCAL
+; $02B89A-$02B8B2 LOCAL
 Bot_Draw:
 {
     LDY $0D90, X

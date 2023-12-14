@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $E9C7A-$E9C7F DATA
+; $0E9C7A-$0E9C7F DATA
 pool Swamola_InitSegments:
 {
-    
     .ram_offsets
     db $00, $20, $40, $60, $80, $A0
 }
 
 ; ==============================================================================
 
-; *$E9C80-$E9CAC LONG
+; $0E9C80-$0E9CAC LONG
 Swamola_InitSegments:
 {
     PHX : TXY
@@ -42,7 +41,7 @@ Swamola_InitSegments:
 ; ==============================================================================
 
     ; \unused This pool seems to be completely unused.
-; $E9CAD-$E9CAF DATA
+; $0E9CAD-$0E9CAF DATA
 pool Sprite_Swamola:
 {
     db $00, $10, $F0
@@ -50,7 +49,7 @@ pool Sprite_Swamola:
 
 ; ==============================================================================
 
-; *$E9CB0-$E9CEC JUMP LOCATION
+; $0E9CB0-$0E9CEC JUMP LOCATION
 Sprite_Swamola:
 {
     LDA $0D80, X : BEQ .dont_draw
@@ -90,10 +89,9 @@ Sprite_Swamola:
 
 ; ==============================================================================
 
-; $E9CED-$E9D18 DATA
+; $0E9CED-$0E9D18 DATA
 pool Swamola_Submerged:
 {
-    
     .x_offsets_low
     db   0,   0,  32,  32,  32,   0, -32, -32
     db -32
@@ -116,7 +114,7 @@ pool Swamola_Submerged:
 
 ; ==============================================================================
 
-; *$E9D19-$E9D66 JUMP LOCATION
+; $0E9D19-$0E9D66 JUMP LOCATION
 Swamola_Emerge:
 {
     LDA $0DF0, X : BNE .delay
@@ -150,7 +148,7 @@ Swamola_Emerge:
 
 ; ==============================================================================
 
-; *$E9D67-$E9DA2 JUMP LOCATION
+; $0E9D67-$0E9DA2 JUMP LOCATION
 Swamola_Ascending:
 {
     LDA $0E80, X : AND.b #$03 : BNE .delay_upward_acceleration
@@ -166,7 +164,7 @@ Swamola_Ascending:
     
     JSR Swamola_PursueTargetCoord
     
-    ; *$E9D80 ALTERNATE ENTRY POINT
+    ; $0E9D80 ALTERNATE ENTRY POINT
     shared Swamola_ApproachPursuitSpeed:
     
     LDA $0D40, X : CMP $00 : BEQ .at_target_y_speed
@@ -203,10 +201,9 @@ Swamola_Ascending:
 
 ; ==============================================================================
 
-; $E9DA3-$E9DA6 DATA
+; $0E9DA3-$0E9DA6 DATA
 pool Swamola_WiggleTowardsTarget:
 {
-    
     .z_offsets
     db  2,  -2
     
@@ -216,7 +213,7 @@ pool Swamola_WiggleTowardsTarget:
 
 ; ==============================================================================
 
-; *$E9DA7-$E9E12 JUMP LOCATION
+; $0E9DA7-$0E9E12 JUMP LOCATION
 Swamola_WiggleTowardsTarget:
 {
     ; \unused The branch can never be taken (though we will end up there
@@ -265,7 +262,7 @@ Swamola_WiggleTowardsTarget:
 
 ; ==============================================================================
 
-; *$E9E13-$E9E31 LOCAL
+; $0E9E13-$0E9E31 LOCAL
 Swamola_PursueTargetCoord:
 {
     LDA $7FFD5C, X : STA $04
@@ -281,7 +278,7 @@ Swamola_PursueTargetCoord:
 
 ; ==============================================================================
 
-; *$E9E32-$E9E61 JUMP LOCATION
+; $0E9E32-$0E9E61 JUMP LOCATION
 Swamola_Descending:
 {
     LDA $0E80, X : AND.b #$03 : BNE .delay_altitude_check
@@ -314,7 +311,7 @@ Swamola_Descending:
 
 ; ==============================================================================
 
-; *$E9E62-$E9EA9 JUMP LOCATION
+; $0E9E62-$0E9EA9 JUMP LOCATION
 Swamola_Submerge:
 {
     LDA $0DF0, X : BNE .delay
@@ -344,7 +341,7 @@ Swamola_Submerge:
 
 ; ==============================================================================
 
-; *$E9EAA-$E9ECD LOCAL
+; $0E9EAA-$0E9ECD LOCAL
 Swamola_SpawnRipples:
 {
     LDA.b #$CF : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -367,7 +364,7 @@ Swamola_SpawnRipples:
 
 ; ==============================================================================
 
-; *$E9ECE-$E9EDC LOCAL
+; $0E9ECE-$0E9EDC LOCAL
 Sprite_SwamolaRipples:
 {
     JSR SwamolaRipples_Draw
@@ -384,10 +381,9 @@ Sprite_SwamolaRipples:
 
 ; ==============================================================================
 
-; $E9EDD-$E9F1C DATA
+; $0E9EDD-$0E9F1C DATA
 pool SwamolaRipples_Draw:
 {
-    
     .oam_groups
     dw 0, 4 : db $D8, $00, $00, $00
     dw 8, 4 : db $D8, $40, $00, $00
@@ -404,7 +400,7 @@ pool SwamolaRipples_Draw:
 
 ; ==============================================================================
 
-; *$E9F1D-$E9F3B LOCAL
+; $0E9F1D-$0E9F3B LOCAL
 SwamolaRipples_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB
@@ -421,10 +417,9 @@ SwamolaRipples_Draw:
 
 ; ==============================================================================
 
-; $E9F3C-$E9F63 DATA
+; $0E9F3C-$0E9F63 DATA
 pool Swamola_Draw:
 {
-    
     .unknown_0
     db $08, $10, $16, $1A
     
@@ -443,7 +438,7 @@ pool Swamola_Draw:
 
 ; ==============================================================================
 
-; *$E9F64-$EA03B LOCAL
+; $0E9F64-$0EA03B LOCAL
 Swamola_Draw:
 {
     LDA $0D50, X : STA $01

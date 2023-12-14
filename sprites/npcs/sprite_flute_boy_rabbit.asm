@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $F1A6B-$F1A6C DATA
+; $0F1A6B-$0F1A6C DATA
 pool FluteBoyAnimal:
 {
-    
     .vh_flip
     db $40, $00
 }
 
 ; ==============================================================================
 
-; *$F1A6D-$F1A89 JUMP LOCATION
+; $0F1A6D-$0F1A89 JUMP LOCATION
 Sprite_FluteBoyRabbit:
 {
     LDY $0DE0, X
@@ -30,7 +29,7 @@ Sprite_FluteBoyRabbit:
 
 ; ==============================================================================
 
-; *$F1A8A-$F1AAB JUMP LOCATION
+; $0F1A8A-$0F1AAB JUMP LOCATION
 FluteBoyRabbit_Chillin:
 {
     LDA.b #$03 : STA $0DC0, X
@@ -52,17 +51,16 @@ FluteBoyRabbit_Chillin:
 
 ; ==============================================================================
 
-; $F1AAC-$F1AAE DATA
+; $0F1AAC-$0F1AAE DATA
 pool FluteBoyRabbit_RunAway:
 {
-    
     .animation_states
     db 0, 1, 2
 }
 
 ; ==============================================================================
 
-; *$F1AAF-$F1AEB JUMP LOCATION
+; $0F1AAF-$0F1AEB JUMP LOCATION
 FluteBoyRabbit_RunAway:
 {
     JSR Sprite3_MoveXyz

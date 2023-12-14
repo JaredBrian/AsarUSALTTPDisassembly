@@ -3,7 +3,7 @@
 
 ; ==============================================================================
 
-; $6DB40-$6DB74 DATA
+; $06DB40-$06DB74 DATA
 {
     .bcd_for_display_bombs_maybe_arrows
     db $10, $15, $20, $25, $30, $35, $40, $50
@@ -14,7 +14,7 @@
 
 ; ==============================================================================
     
-; *$6DB75-$6DB7E LONG
+; $06DB75-$06DB7E LONG
 RefillLogicLong:
 {
     PHB : PHK : PLB
@@ -30,7 +30,7 @@ RefillLogicLong:
     
 ; =============================================
 
-; *$6DB7F-$6DB91 LONG
+; $06DB7F-$06DB91 LONG
 RefreshIconLong:
 {
     ; Similar to RebuildLong but it checks to see if
@@ -53,7 +53,7 @@ RefreshIconLong:
 
 ; =============================================
 
-; *$6DB92-$6DD29 BRANCH LOCATION
+; $06DB92-$06DD29 BRANCH LOCATION
     RefillLogic:    
 {
     ; check the refill magic indicator
@@ -335,7 +335,7 @@ incsrc "equipment.asm"
 
 ; =============================================
 
-; *$6F0F7-$6F127 LOCAL
+; $06F0F7-$06F127 LOCAL
 HexToDecimal:
 {
     ; This apparently is a hex to decimal converter for use with displaying numbers
@@ -399,7 +399,7 @@ HexToDecimal:
 
 ; =============================================
 
-; *$6F128-$6F14E LONG
+; $06F128-$06F14E LONG
 RefillHealth:
 {
     ; Check goal health versus actual health.
@@ -431,7 +431,7 @@ RefillHealth:
 
 ; =============================================
 
-; *$6F14F-$6F1B2 LOCAL
+; $06F14F-$06F1B2 LOCAL
 AnimateHeartRefill:
 {
     SEP #$30
@@ -486,7 +486,7 @@ AnimateHeartRefill:
 
 ; =============================================
 
-; *$6F1B3-$6F1C8 LONG
+; $06F1B3-$06F1C8 LONG
 RefillMagicPower:
 {
     SEP #$30
@@ -517,7 +517,7 @@ RefillMagicPower:
 
 ; ==============================================================================
 
-; $6F1C9 DATA
+; $06F1C9 DATA
 {
     ; ??? how long? ; The values for the HUD y box item are here, but there may be more stuff as well idk.
 
@@ -678,7 +678,7 @@ RefillMagicPower:
 
 ; ==============================================================================
 
-; *$6FA33-$6FA57 LONG
+; $06FA33-$06FA57 LONG
 RestoreTorchBackground:
 {
     ; See if we have the torch...
@@ -710,7 +710,7 @@ RestoreTorchBackground:
 
 ; ==============================================================================
 
-; *$6FA58-$6FA5F LONG
+; $06FA58-$06FA5F LONG
 RebuildLong:
 {
     PHB : PHK : PLB
@@ -724,14 +724,14 @@ RebuildLong:
 
 ; ==============================================================================
 
-; *$6FA60-$6FA6F LONG
+; $06FA60-$06FA6F LONG
 RebuildIndoor:
 {
     LDA.b #$00 : STA $7EC017
     
     LDA.b #$FF
     
-    ; *$6FA68 ALTERNATE ENTRY POINT
+    ; $06FA68 ALTERNATE ENTRY POINT
     .palace
     
     ; When the dungeon loads, tells us how many keys we have.
@@ -746,7 +746,7 @@ RebuildIndoor:
 
 ; ==============================================================================
 
-; *$6FA70-$6FA92 LOCAL
+; $06FA70-$06FA92 LOCAL
 Rebuild:
 {
     ; When the screen finishes transitioning from the menu to the main game screen
@@ -768,7 +768,7 @@ Rebuild:
     
     BRA .alpha
     
-    ; *$6FA85 ALTERNATE ENTRY POINT
+    ; $06FA85 ALTERNATE ENTRY POINT
     .updateOnly
     
     REP #$30
@@ -790,7 +790,7 @@ Rebuild:
 
 ; ==============================================================================
 
-; $6FA93-$6FAFC DATA
+; $06FA93-$06FAFC DATA
 {
     ; Item box draw?
     dw $F629, $F651, $F669, $F679, $F689, $F6A1, $F6B1, $F6C1
@@ -807,7 +807,7 @@ Rebuild:
 
 ; ==============================================================================
 
-; *$6FAFD-$6FB90 LOCAL
+; $06FAFD-$06FB90 LOCAL
 UpdateItemBox:
 {
     SEP #$30
@@ -893,12 +893,12 @@ UpdateItemBox:
 
 ; =============================================
 
-; *$6FB91-$6FCF9 LOCAL
+; $06FB91-$06FCF9 LOCAL
 Update:
 {
     JSR UpdateItemBox
     
-    ; *$6FB94 ALTERNATE ENTRY POINT
+    ; $06FB94 ALTERNATE ENTRY POINT
     .ignoreItemBox
     
     SEP #$30
@@ -951,7 +951,7 @@ Update:
     ; this time we're filling in the full and partially filled hearts (actual health)
     JSR UpdateHearts
     
-    ; *$6FC09 ALTERNATE ENTRY POINT ; reentry hook
+    ; $06FC09 ALTERNATE ENTRY POINT ; reentry hook
     .ignoreHealth
     
     REP #$30
@@ -1049,7 +1049,7 @@ Update:
 
 ; ==============================================================================
 
-; *$6FDAB-$6FDEE LOCAL
+; $06FDAB-$06FDEE LOCAL
 UpdateHearts:
 {
     ; Draws hearts in a painfully slow loop
@@ -1112,10 +1112,9 @@ UpdateHearts:
 
 ; ==============================================================================
 
-; $6FDEF-$6FE76 DATA
+; $06FDEF-$06FE76 DATA
 pool Update:
 {
-    
     .mp_tilemap
     dw $3CF5, $3CF5, $3CF5, $3CF5
     dw $3CF5, $3CF5, $3CF5, $3C5F
@@ -1138,10 +1137,9 @@ pool Update:
 
 ; ==============================================================================
 
-; $6FE77-$6FFC0
+; $06FE77-$06FFC0
 pool Rebuild:
 {
-    
     .hud_tilemap
     dw $207F, $207F, $2850, $A856
     dw $2852, $285B, $285B, $285C
@@ -1189,7 +1187,7 @@ pool Rebuild:
 
 ; ==============================================================================
 
-; $6FFC1-$6FFFF NULL
+; $06FFC1-$06FFFF NULL
 {
     padbyte $FF
     

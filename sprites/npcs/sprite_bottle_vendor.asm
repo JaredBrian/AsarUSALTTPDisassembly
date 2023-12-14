@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2EA71-$2EA78 LONG
+; $02EA71-$02EA78 LONG
 Sprite_BottleVendorLong:
 {
     ; Bottle vendor (0x75)
@@ -17,7 +17,7 @@ Sprite_BottleVendorLong:
 
 ; ==============================================================================
 
-; *$2EA79-$2EABD LOCAL
+; $02EA79-$02EABD LOCAL
 Sprite_BottleVendor:
 {
     ; Note: $0E90 is 0 - normal, 1 - good bee is present, 0x80 - fish
@@ -65,7 +65,7 @@ Sprite_BottleVendor:
 
 ; ==============================================================================
 
-; *$2EABE-$2EAC6 BRANCH LOCATION
+; $02EABE-$02EAC6 BRANCH LOCATION
 BottleVendor_SoldOut:
 {
     ; "I'm sold out of bottles, come back later."
@@ -79,7 +79,7 @@ BottleVendor_SoldOut:
 
 ; ==============================================================================
 
-; *$2EAC7-$2EAEC JUMP LOCATION
+; $02EAC7-$02EAEC JUMP LOCATION
 BottleVendor_Base:
 {
     ; \task Find out why it would check this... What is $0D90 really, for
@@ -112,7 +112,7 @@ BottleVendor_Base:
 
 ; ==============================================================================
 
-; *$2EAED-$2EB16 JUMP LOCATION
+; $02EAED-$02EB16 JUMP LOCATION
 BottleVendor_SellingBottle:
 {
     LDA $1CE8 : BNE .no_selected
@@ -148,7 +148,7 @@ BottleVendor_SellingBottle:
 
 ; ==============================================================================
 
-; *$2EB17-$2EB3F JUMP LOCATION
+; $02EB17-$02EB3F JUMP LOCATION
 BottleVendor_GiveBottle:
 {
     ; \item(Bottle)
@@ -177,7 +177,7 @@ BottleVendor_GiveBottle:
 
 ; ==============================================================================
 
-; *$2EB40-$2EB5C JUMP LOCATION
+; $02EB40-$02EB5C JUMP LOCATION
 BottleVendor_BuyingFromPlayer:
 {
     LDA $0E90, X : BMI .player_has_fish
@@ -207,7 +207,7 @@ BottleVendor_BuyingFromPlayer:
 
 ; ==============================================================================
 
-; *$2EB5D-$2EB86 JUMP LOCATION
+; $02EB5D-$02EB86 JUMP LOCATION
 BottleVendor_DispenseRewardToPlayer:
 {
     LDY $0E90, X : BMI .player_has_fish
@@ -239,10 +239,9 @@ BottleVendor_DispenseRewardToPlayer:
 
 ; ==============================================================================
 
-; $2EB87-$2EBA6 DATA
+; $02EB87-$02EBA6 DATA
 pool BottleVendor_Draw:
 {
-    
     .animation_states
     dw 0, -7 : db $AC, $00, $00, $02
     dw 0,  0 : db $88, $00, $00, $02
@@ -253,7 +252,7 @@ pool BottleVendor_Draw:
 
 ; ==============================================================================
 
-; *$2EBA7-$2EBC6 LOCAL
+; $02EBA7-$02EBC6 LOCAL
 BottleVendor_Draw:
 {
     LDA.b #$02 : STA $06
@@ -261,7 +260,7 @@ BottleVendor_Draw:
     
     LDA $0DC0, X : ASL #4
     
-    ; $2EB87 = .animation_states
+    ; $02EB87 = .animation_states
     ADC.b #$87              : STA $08
     LDA.b #$EB : ADC.b #$00 : STA $09
     

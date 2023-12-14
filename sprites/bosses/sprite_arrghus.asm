@@ -23,10 +23,9 @@
 
 ; =============================================================================
 
-; $F342A-$F3432 DATA
+; $0F342A-$0F3432 DATA
 pool Sprite_Arrghus:
 {
-    
     .animation_states
     db $01, $01, $01, $02, $02, $01, $01, $00
     db $00
@@ -34,7 +33,7 @@ pool Sprite_Arrghus:
 
 ; ==============================================================================
 
-; *$F3433-$F34C9 JUMP LOCATION
+; $0F3433-$0F34C9 JUMP LOCATION
 Sprite_Arrghus:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -51,7 +50,7 @@ Sprite_Arrghus:
     
     .ignore_activity_check
     
-    JSR $B6E9 ; $F36E9 IN ROM
+    JSR $B6E9 ; $0F36E9 IN ROM
     
     LDA.b #$01 : STA $0B0C
     
@@ -118,7 +117,7 @@ Sprite_Arrghus:
 
 ; ==============================================================================
 
-; *$F34CA-$F34EE JUMP LOCATION
+; $0F34CA-$0F34EE JUMP LOCATION
 Arrghus_JumpWayUp:
 {
     LDA.b #$78 : STA $0F80, X
@@ -145,7 +144,7 @@ Arrghus_JumpWayUp:
 
 ; ==============================================================================
 
-; *$F34EF-$F3531 JUMP LOCATION
+; $0F34EF-$0F3531 JUMP LOCATION
 Arrghus_SmooshFromAbove:
 {
     LDA $0DF0, X : BNE .delay
@@ -186,7 +185,7 @@ Arrghus_SmooshFromAbove:
 
 ; ==============================================================================
 
-; *$F3532-$F3592 JUMP LOCATION
+; $0F3532-$0F3592 JUMP LOCATION
 Arrghus_SwimFrantically:
 {
     LDA $0DF0, X : BNE .delay
@@ -242,7 +241,7 @@ Arrghus_SwimFrantically:
 
 ; ==============================================================================
 
-; *$F3593-$F35C7 JUMP LOCATION
+; $0F3593-$0F35C7 JUMP LOCATION
 Arrghus_ApproachTargetSpeed:
 {
     LDA $0DF0, X : BNE .delay
@@ -288,7 +287,7 @@ Arrghus_ApproachTargetSpeed:
 
 ; ==============================================================================
 
-; *$F35C8-$F363C JUMP LOCATION
+; $0F35C8-$0F363C JUMP LOCATION
 Arrghus_Decelerate:
 {
     LDA $0DF0, X : BNE .decelerate
@@ -312,7 +311,7 @@ Arrghus_Decelerate:
     
     .arrgi_all_dead
     
-    ; *$F35EE ALTERNATE ENTRY POINT
+    ; $0F35EE ALTERNATE ENTRY POINT
     shared Arrghus_InitiateJumpWayUp:
     
     LDA.b #$03 : STA $0D80, X
@@ -371,7 +370,7 @@ Arrghus_Decelerate:
 
 ; ==============================================================================
 
-; *$F363D-$F3673 JUMP LOCATION
+; $0F363D-$0F3673 JUMP LOCATION
 {
     LDA.b #$08 : STA $0B0C
     
@@ -422,7 +421,7 @@ Arrghus_Decelerate:
 
 ; ==============================================================================
 
-; $F3674-$F36E8 DATA
+; $0F3674-$0F36E8 DATA
 {
     dw $0000, $0040, $0080, $00C0, $0100, $0140, $0180, $01C0
     dw $0000, $0066, $00CC, $0132, $0198
@@ -439,7 +438,7 @@ Arrghus_Decelerate:
 
 ; ==============================================================================
 
-; *$F36E9-$F3817 LOCAL
+; $0F36E9-$0F3817 LOCAL
 {
     LDA $0B08 : CLC : ADC $0B0C  : STA $0B08
     LDA $0B09 : ADC.b #$00 : STA $0B09
@@ -585,10 +584,9 @@ Arrghus_Decelerate:
 
 ; ==============================================================================
 
-; $F3818-$F383F DATA
+; $0F3818-$0F383F DATA
 pool Arrghus_Draw:
 {
-    
     .oam_groups
     dw -8, -4 : db $80, $00, $00, $02
     dw  8, -4 : db $80, $40, $00, $02
@@ -599,7 +597,7 @@ pool Arrghus_Draw:
 
 ; ==============================================================================
 
-; *$F3840-$F38B3 LOCAL
+; $0F3840-$0F38B3 LOCAL
 Arrghus_Draw:
 {
     REP #$20

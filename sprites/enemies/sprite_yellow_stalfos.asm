@@ -4,17 +4,16 @@
 
 ; ==============================================================================
 
-; $F4379-$F437E DATA
+; $0F4379-$0F437E DATA
 pool Sprite_YellowStalfos:
 {
-    
     .priority
     db $30, $00, $00, $00, $30, $00
 }
 
 ; ==============================================================================
 
-; *$F437F-$F43FA JUMP LOCATION
+; $0F437F-$0F43FA JUMP LOCATION
 Sprite_YellowStalfos:
 {
     ; Yellow Stalfos
@@ -89,7 +88,7 @@ Sprite_YellowStalfos:
 
 ; ==============================================================================
 
-; *$F43FB-$F4430 JUMP LOCATION
+; $0F43FB-$0F4430 JUMP LOCATION
 YellowStalfos_Descend:
 {
     ; Head always faces down during this step.
@@ -125,7 +124,7 @@ YellowStalfos_Descend:
 
 ; ==============================================================================
 
-; *$F4431-$F4456 JUMP LOCATION
+; $0F4431-$0F4456 JUMP LOCATION
 YellowStalfos_FacePlayer:
 {
     STZ $0BA0, X
@@ -144,7 +143,7 @@ YellowStalfos_FacePlayer:
     
     .delay
     
-    ; *$F444E ALTERNATE ENTRY POINT
+    ; $0F444E ALTERNATE ENTRY POINT
     shared YellowStalfos_LowerShields:
     
     ; Disable invulnerability.
@@ -155,10 +154,9 @@ YellowStalfos_FacePlayer:
 
 ; ==============================================================================
 
-; $F4457-$F44B6 DATA
+; $0F4457-$0F44B6 DATA
 pool YellowStalfos_PauseThenDetachHead:
 {
-    
     .animation_states
     db 8, 5, 1, 1, 8, 5, 1, 1
     db 8, 5, 1, 1, 7, 4, 2, 2
@@ -180,7 +178,7 @@ pool YellowStalfos_PauseThenDetachHead:
 
 ; ==============================================================================
 
-; *$F44B7-$F44F6 JUMP LOCATION
+; $0F44B7-$0F44F6 JUMP LOCATION
 YellowStalfos_PauseThenDetachHead:
 {
     STZ $0BA0, X
@@ -222,17 +220,16 @@ YellowStalfos_PauseThenDetachHead:
 
 ; ==============================================================================
 
-; $F44F7-$F44FA DATA
+; $0F44F7-$0F44FA DATA
 pool YellowStalfos_DelayBeforeAscending:
 {
-    
     .animation_states
     db 6, 3, 1, 1
 }
 
 ; ==============================================================================
 
-; *$F44FB-$F4514 JUMP LOCATION
+; $0F44FB-$0F4514 JUMP LOCATION
 YellowStalfos_DelayBeforeAscending:
 {
     STZ $0BA0, X
@@ -245,7 +242,7 @@ YellowStalfos_DelayBeforeAscending:
     
     .delay
     
-    ; *$F4509 ALTERNATE ENTRY POINT
+    ; $0F4509 ALTERNATE ENTRY POINT
     shared YellowStalfos_Animate:
     
     LDY $0DE0, X
@@ -257,7 +254,7 @@ YellowStalfos_DelayBeforeAscending:
 
 ; ==============================================================================
 
-; *$F4515-$F453E JUMP LOCATION
+; $0F4515-$0F453E JUMP LOCATION
 YellowStalfos_Ascend:
 {
     STZ $0DC0, X
@@ -288,10 +285,9 @@ YellowStalfos_Ascend:
 
 ; ==============================================================================
 
-; $F453F-$F455E DATA
+; $0F453F-$0F455E DATA
 YellowStalfos_Neutralized:
 {
-    
     .animation_states
     db  1,  1,  1,  9, 10, 10, 10, 10
     db 10, 10, 10, 10, 10, 10, 10,  9
@@ -303,7 +299,7 @@ YellowStalfos_Neutralized:
 
 ; ==============================================================================
 
-; *$F455F-$F457F JUMP LOCATION
+; $0F455F-$0F457F JUMP LOCATION
 	YellowStalfos_Neutralized:
 {
     STZ $0BA0, X
@@ -327,7 +323,7 @@ YellowStalfos_Neutralized:
 
 ; ==============================================================================
 
-; *$F4580-$F45A4 LOCAL
+; $0F4580-$0F45A4 LOCAL
 YellowStalfos_DetachHead:
 {
     ; \note One of those rare occasions where the sprite id of the spawned
@@ -359,10 +355,9 @@ YellowStalfos_DetachHead:
 
 ; ==============================================================================
 
-; $F45A5-$F4654 DATA
+; $0F45A5-$0F4654 DATA
 pool YellowStalfos_Draw:
 {
-    
     .oam_groups
     dw 0, 0 : db $0A, $00, $00, $02
     dw 0, 0 : db $0A, $00, $00, $02
@@ -400,7 +395,7 @@ pool YellowStalfos_Draw:
 
 ; ==============================================================================
 
-; *$F4655-$F4691 LOCAL
+; $0F4655-$0F4691 LOCAL
 YellowStalfos_Draw:
 {
     LDA.b #$00   : XBA
@@ -434,10 +429,9 @@ YellowStalfos_Draw:
 
 ; ==============================================================================
 
-; $F4692-$F4699 DATA
+; $0F4692-$0F4699 DATA
 pool YellowStalfos_DrawHead:
 {
-    
     .chr
     db $02, $02, $00, $04
     
@@ -447,7 +441,7 @@ pool YellowStalfos_DrawHead:
 
 ; ==============================================================================
 
-; *$F469A-$F46FF LOCAL
+; $0F469A-$0F46FF LOCAL
 YellowStalfos_DrawHead:
 {
     LDA $0DC0, X : CMP.b #$0A : BEQ .return

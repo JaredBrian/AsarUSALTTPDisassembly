@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $458F6-$458FC DATA
+; $0458F6-$0458FC DATA
 pool Ancilla_SpinSpark:
 {
-    
     .spark_chr
     db $D7, $B7, $80, $83
     
@@ -14,7 +13,7 @@ pool Ancilla_SpinSpark:
 
 ; ==============================================================================
 
-; *$458FD-$45A16 JUMP LOCATION
+; $0458FD-$045A16 JUMP LOCATION
 Ancilla_SpinSpark:
 {
     LDA $0385, X : BEQ .multi_spark_in_progress
@@ -187,7 +186,7 @@ Ancilla_SpinSpark:
 
     ; \note Takes the calculated radial projection and converts the values
     ; to screen relative coordinates (oam coordinates)
-; *$45A17-$45A4B LONG
+; $045A17-$045A4B LONG
 Sparkle_PrepOamCoordsFromRadialProjection:
 {
     REP #$20
@@ -219,7 +218,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
 
 ; ==============================================================================
 
-; *$45A4C-$45A83 LONG BRANCH LOCATION
+; $045A4C-$045A83 LONG BRANCH LOCATION
 SpinSpark_ExecuteClosingSpark:
 {
     DEC $03B1, X : BPL .animation_delay

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2EBC7-$2EBCE LONG
+; $02EBC7-$02EBCE LONG
 SpritePrep_ZeldaLong:
 {
     ; Sprite Prep for Princess Zelda (0x76)
@@ -17,7 +17,7 @@ SpritePrep_ZeldaLong:
 
 ; ==============================================================================
 
-; *$2EBCF-$2EC4B LOCAL
+; $02EBCF-$02EC4B LOCAL
 SpritePrep_Zelda:
 {
     LDA $7EF359 : CMP.b #$02 : BCS .hasMasterSword
@@ -82,7 +82,7 @@ SpritePrep_Zelda:
 
 ; ==============================================================================
 
-; *$2EC4C-$2EC8D LOCAL
+; $02EC4C-$02EC8D LOCAL
 Zelda_TransitionFromTagalong:
 {
     ; Transition princess Zelda back into a sprite from the tagalong
@@ -117,10 +117,9 @@ Zelda_TransitionFromTagalong:
 
 ; ==============================================================================
 
-; $2EC8E-$2EC95 DATA
+; $02EC8E-$02EC95 DATA
 pool Sprite_Zelda:
 {
-    
     .x_speeds
     db $00, $00, $F7, $09
     
@@ -131,7 +130,7 @@ pool Sprite_Zelda:
 
 ; ==============================================================================
 
-; *$2EC96-$2EC9D LONG
+; $02EC96-$02EC9D LONG
 Sprite_ZeldaLong:
 {
     PHB : PHK : PLB
@@ -145,7 +144,7 @@ Sprite_ZeldaLong:
 
 ; ==============================================================================
 
-; *$2EC9E-$2ECBE LOCAL
+; $02EC9E-$02ECBE LOCAL
 Sprite_Zelda:
 {
     JSL CrystalMaiden_Draw
@@ -169,7 +168,7 @@ Sprite_Zelda:
 
 ; ==============================================================================
 
-; $2ECBF-$2ECD8 JUMP LOCATION
+; $02ECBF-$02ECD8 JUMP LOCATION
 Zelda_InPrison:
 {
     ; Wonder if she made a shank?
@@ -189,7 +188,7 @@ Zelda_InPrison:
 
 ; ==============================================================================
 
-; *$2ECD9-$2ECF9 JUMP LOCATION
+; $02ECD9-$02ECF9 JUMP LOCATION
 Zelda_AwaitingRescue:
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
@@ -213,7 +212,7 @@ Zelda_AwaitingRescue:
 
 ; ==============================================================================
 
-; *$2ECFA-$2ED1F JUMP LOCATION
+; $02ECFA-$02ED1F JUMP LOCATION
 Zelda_ApproachingPlayer:
 {
     LDA $0DF0, X : BNE .still_approaching
@@ -241,7 +240,7 @@ Zelda_ApproachingPlayer:
 
 ; ==============================================================================
 
-; *$2ED20-$2ED2B JUMP LOCATION
+; $02ED20-$02ED2B JUMP LOCATION
 Zelda_TheWizardIsBadMkay:
 {
     INC $0D80, X
@@ -260,7 +259,7 @@ Zelda_TheWizardIsBadMkay:
 
 ; ==============================================================================
 
-; *$2ED2C-$2ED42 JUMP LOCATION
+; $02ED2C-$02ED42 JUMP LOCATION
 Zelda_WaitUntilPlayerPaysAttention:
 {
     LDA $1CE8 : BNE .sorry_zelda_wasnt_listening
@@ -284,7 +283,7 @@ Zelda_WaitUntilPlayerPaysAttention:
 
 ; ==============================================================================
 
-; *$2ED43-$2ED68 JUMP LOCATION
+; $02ED43-$02ED68 JUMP LOCATION
 Zelda_TransitionToTagalong:
 {
     STZ $02E4
@@ -311,7 +310,7 @@ Zelda_TransitionToTagalong:
 
 ; ==============================================================================
 
-; *$2ED69-$2ED75 JUMP LOCATION
+; $02ED69-$02ED75 JUMP LOCATION
 Zelda_EnteringSanctuary:
 {
     LDA $0D80, X
@@ -325,10 +324,9 @@ Zelda_EnteringSanctuary:
 
 ; ==============================================================================
 
-; $2ED76-$2ED7D DATA
+; $02ED76-$02ED7D DATA
 pool Zelda_WalkTowardsPriest:
 {
-    
     .timers
     db $26, $1A, $2C, $01
     
@@ -338,7 +336,7 @@ pool Zelda_WalkTowardsPriest:
 
 ; ==============================================================================
 
-; *$2ED7E-$2EDC3 JUMP LOCATION
+; $02ED7E-$02EDC3 JUMP LOCATION
 Zelda_WalkTowardsPriest:
 {
     LDA $0DF0, X : BNE .walking
@@ -376,7 +374,7 @@ Zelda_WalkTowardsPriest:
 
 ; ==============================================================================
 
-; *$2EDC4-$2EDEB JUMP LOCATION
+; $02EDC4-$02EDEB JUMP LOCATION
 Zelda_RespondToPriest:
 {
     ; "Yes, it was [Name] who helped me escape from the dungeon! ..."
@@ -406,7 +404,7 @@ Zelda_RespondToPriest:
 
 ; ==============================================================================
 
-; *$2EDEC-$2EE05 JUMP LOCATION
+; $02EDEC-$02EE05 JUMP LOCATION
 Zelda_BeCarefulOutThere:
 {
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
@@ -427,10 +425,9 @@ Zelda_BeCarefulOutThere:
 
 ; ==============================================================================
 
-; $2EE06-$2EE0B DATA
+; $02EE06-$02EE0B DATA
 pool Zelda_AtSanctuary:
 {
-    
     .messages_lower
     
     ; "[Name], be careful out there! I know you can save Hyrule!"
@@ -445,7 +442,7 @@ pool Zelda_AtSanctuary:
 
 ; ==============================================================================
 
-; *$2EE0C-$2EE4A JUMP LOCATION
+; $02EE0C-$02EE4A JUMP LOCATION
 Zelda_AtSanctuary:
 {
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X

@@ -10,23 +10,23 @@
 
 ; ==================================================
 
-; $DD218-$DD307 DATA
+; $0DD218-$0DD307 DATA
 ; Main Sprite Palettes (divided by world, naturally)
 {
-    ; $DD218 - light world sprite palettes **************
+    ; $0DD218 - light world sprite palettes **************
     dw $7FFF, $08D9, $1E07, $4ACA, $14A5, $133F, $19DF, $0000, $7FFF, $1979, $14B6, $39DC, $14A5, $66F7, $45EF
     dw $7FFF, $6949, $62EC, $6FF4, $14A5, $7F51, $7E4F, $0000, $7FFF, $5A1F, $55AA, $76B2, $14A5, $2ADF, $1597
     dw $7FFF, $1AF6, $1596, $369E, $14A5, $41FE, $2517, $0000, $14A5, $14A5, $14A5, $14A5, $14A5, $14A5, $14A5
     dw $7FFF, $319B, $1596, $369E, $14A5, $7E56, $65CA, $0000, $7FFF, $0CD9, $1A49, $3B53, $14A5, $1F5F, $1237
     
-    ; $DD290 - dark world sprite palettes **********
+    ; $0DD290 - dark world sprite palettes **********
     dw $7FFF, $08D9, $1A2F, $32F5, $14A5, $133F, $19DF, $0000, $7FFF, $1979, $14B6, $39DC, $14A5, $66F7, $45EF
     dw $7FFF, $2DC4, $66CF, $7FD5, $14A5, $5F50, $468A, $0000, $7FFF, $5A1F, $55AA, $76B2, $14A5, $2ADF, $1597
     dw $7FFF, $0EFB, $1596, $369E, $14A5, $41FE, $2517, $0000, $14A5, $14A5, $14A5, $14A5, $14A5, $14A5, $14A5
     dw $7FFF, $319B, $1596, $369E, $14A5, $7E56, $65CA, $0000, $7FFF, $0CD9, $1A49, $3B53, $14A5, $1F5F, $1237
 }
     
-; $DD308-$DD39D DATA ***********
+; $0DD308-$0DD39D DATA ***********
     ; Armor Palettes
 {
     dw $7FFF, $237E, $11B7, $369E, $14A5, $01FF, $1078, $599D, $3647, $3B68, $0A4A, $12EF, $2A5C, $1571, $7A18
@@ -36,7 +36,7 @@
     dw $0000, $0EFA, $7DD1, $0000, $7F1A, $0000, $7F1A, $716E, $7DD1, $40A7, $7DD1, $40A7, $48E9, $50CF, $7FFF
 }
     
-; $DD39E-$DD445 DATA **********
+; $0DD39E-$0DD445 DATA **********
     ; Spr Aux 3 palettes
 {
     dw $10C6, $1214, $3B3D, $66DE, $5219, $42ED, $2629
@@ -53,7 +53,7 @@
     dw $377F, $54E9, $165F, $1016, $2C43, $6B18, $61EF
 }
     
-; $DD446-$DD4DF DATA ***********
+; $0DD446-$0DD4DF DATA ***********
 {
     dw $14C4, $2D6B, $612E, $5DB4, $7AD9, $77BD, $5294
     dw $14C4, $2D6B, $4DE8, $66AE, $7F74, $77BD, $5294
@@ -68,7 +68,7 @@
     dw $18C6, $2D6B, $29F5, $1ABA, $252F, $77BD, $5294
 }
     
-; $DD4E0-$DD62F **************
+; $0DD4E0-$0DD62F **************
 {
     dw $7FFF, $7B14, $5C92, $791A, $14A5, $02BF, $11BD
     dw $7FFF, $32DB, $00B6, $263E, $14A5, $5694, $39AD
@@ -96,7 +96,7 @@
     dw $294A, $77BD, $6318, $4631, $77BD, $4631, $6318
 }
     
-; $DD630-$DD647 ***********
+; $0DD630-$0DD647 ***********
     ; Sword Palettes
 {
     dw $7FFF, $27FF, $5E2D ; no sword and fighter sword
@@ -105,7 +105,7 @@
     dw $033F, $67FF, $2640 ; golden sword
 }
     
-; $DD648-$DD65F ***********
+; $0DD648-$0DD65F ***********
     ; Shield Palettes
 {
     dw $7FFF, $1CE7, $7A10, $64A5
@@ -113,7 +113,7 @@
     dw $7399, $1CE7, $02F9, $0233
 }
     
-; $DD660-$DD6DF *********
+; $0DD660-$0DD6DF *********
     ; HUD Palettes
 {
     dw $0000, $0198, $56B5, $0000
@@ -135,7 +135,7 @@
     dw $0000, $0000, $7FFF, $0000
 }
     
-; $DD6E0-$DD709 DATA
+; $0DD6E0-$0DD709 DATA
     ; (unused palettes? (each one being 7 colors long -> 3bpp graphics) )
 {
     dw $033F, $67FF, $2640, $7599, $7599, $7599, $7599
@@ -145,7 +145,7 @@
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000
 }
     
-; $DD70A-$DD733 DATA *********
+; $0DD70A-$0DD733 DATA *********
     ; Palace Map Sprite Palettes
 {
     dw $7FFF, $0019, $7FFF, $7FFF, $14A5, $0000, $0000
@@ -153,7 +153,7 @@
     dw $7DD3, $7F8E, $66AD, $2CF7, $14A5, $7ED8, $0000
 }
     
-; $DD734-$DE543 DATA **********
+; $0DD734-$0DE543 DATA **********
     ; DungeonMain BG palettes (6 in each group)
 {
     dw $0CC6, $152B, $19D0, $3675, $535D, $1CEE, $1089, $7FFF, $0CC6, $152B, $19D0, $3675, $535D, $1CEE, $1089
@@ -297,7 +297,7 @@
     dw $0000, $380E, $6018, $7C1F, $7DBF, $7E7F, $7F3F, $0000, $0000, $380E, $6018, $7C1F, $7DBF, $7E7F, $7F3F
 }
 
-; $DE544-$DE603 DATA ************
+; $0DE544-$0DE603 DATA ************
     ; Palace Map BG palettes
 {
     dw $0000, $71E7, $71E7, $71E7, $71E7, $71E7, $7EB5, $1CE7, $0000, $7FFF, $02BD, $4E2D, $66F3, $7F99, $4E2D, $7F99
@@ -308,7 +308,7 @@
     dw $0000, $38C0, $4102, $4944, $5186, $59C8, $620A, $6A4C, $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
 }
     
-; $DE604-$DE6C7 DATA *************
+; $0DE604-$0DE6C7 DATA *************
     ; Overworld Auxiliary 3 palettes
 {
     dw $190A, $3549, $45EC, $6E50, $258D, $3A32, $5F3A
@@ -327,7 +327,7 @@
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000
 }
     
-; $DE6C8-$DE86B DATA *********************
+; $0DE6C8-$0DE86B DATA *********************
     ; main overworld area palettes (theme, sort of)
 {
     dw $14A5, $14E9, $152C, $1D8F, $19C6, $2669, $25F1
@@ -367,7 +367,7 @@
     dw $1084, $1908, $258C, $4273, $52F7, $188B, $1532
 }
     
-; $DE86C-$DEBB3 *******************
+; $0DE86C-$0DEBB3 *******************
     ; overworld auxiliary palettes (pool of palettes for aux 1 and aux 2)
 {
     dw $14C5, $216E, $29F3, $3677, $1CED, $2952, $46D7
@@ -451,73 +451,73 @@
     dw $0884, $1508, $196C, $21AF, $41F5, $1D4C, $569A
 }
     
-; $DEBB4-$DEBC0 DATA
+; $0DEBB4-$0DEBC0 DATA
 {
     db $00, $00, $06, $0C, $12, $18, $1E, $24
     db $2A, $30, $36, $3C, $42
 }
     
-; $DEBC1-$DEBC5 DATA
+; $0DEBC1-$0DEBC5 DATA
 {
     db $00, $00, $08, $10, $18
 }
     
-; $DEBC6-$DEBD5 DATA
+; $0DEBC6-$0DEBD5 DATA
 {
     db $00, $0E, $1C, $2A, $38, $46, $54, $62
     db $70, $7E, $8C, $9A, $A8, $B6, $C4, $D2
 }
     
-; $DEBD6-$DEC05 DATA
+; $0DEBD6-$0DEC05 DATA
 {
     dw $0000, $000E, $001C, $002A, $0038, $0046, $0054, $0062
     dw $0070, $007E, $008C, $009A, $00A8, $00B6, $00C4, $00D2
     dw $00E0, $00EE, $00FC, $010A, $0118, $0126, $0134, $0142
 }
     
-; $DEC06-$DEC0A DATA
+; $0DEC06-$0DEC0A DATA
 {
     db $00, $0F, $1E, $2D, $3C
 }
     
     ; \unused maybe
-; $DEC0B - $DEC12 DATA
+; $0DEC0B - $DEC12 DATA
 {
     db $00, $1C, $38, $54, $70, $8C, $A8, $C4
 }
     
-; $DEC13-$DEC3A DATA
+; $0DEC13-$0DEC3A DATA
 {
     dw $0000, $002A, $0054, $007E, $00A8, $00D2, $00FC, $0126
     dw $0150, $017A, $01A4, $01CE, $01F8, $0222, $024C, $0276
     dw $02A0, $02CA, $02F4, $031E
 }
     
-; $DEC3B-$DEC46 DATA
+; $0DEC3B-$0DEC46 DATA
 {
     dw $0000, $0046, $008C, $00D2, $0118, $015E
 }
     
-; $DEC47-$DEC4A DATA
+; $0DEC47-$0DEC4A DATA
 {
     db $00, $40, $00, $30
 }
     
-; $DEC4B-$DEC72 DATA
+; $0DEC4B-$0DEC72 DATA
 {
     dw $0000, $00B4, $0168, $021C, $02D0, $0384, $0438, $04EC
     dw $05A0, $0654, $0708, $07BC, $0870, $0924, $09D8, $0A8C
     dw $0B40, $0BF4, $0CA8, $0D5C
 }
     
-; $DEC73-$DEC76 DATA
+; $0DEC73-$0DEC76 DATA
 {
     dw $0000, $0078
 }
 
 ; ==================================================
 
-; *$DEC77-$DEC9D LONG
+; $0DEC77-$0DEC9D LONG
 Palette_SpriteAux3:
 {
     REP #$21
@@ -551,7 +551,7 @@ Palette_SpriteAux3:
 
 ; ==================================================
 
-; *$DEC9E-$DECC4 LONG
+; $0DEC9E-$0DECC4 LONG
 Palette_MainSpr:
 {
      ; Loads palettes for the commonly used sprites like fairys, blue / red creatures,
@@ -585,7 +585,7 @@ Palette_MainSpr:
 
 ; ==================================================
 
-; *$DECC5-$DECE3 LONG
+; $0DECC5-$0DECE3 LONG
 Palette_SpriteAux1:
 {
     REP #$31
@@ -608,7 +608,7 @@ Palette_SpriteAux1:
 
 ; ==================================================
 
-; *$DECE4-$DED02 LONG
+; $0DECE4-$0DED02 LONG
 Palette_SpriteAux2:
 {
     REP #$31
@@ -631,7 +631,7 @@ Palette_SpriteAux2:
 
 ; ==================================================
 
-; *$DED03-$DED28 LONG
+; $0DED03-$0DED28 LONG
 Palette_Sword:
 {
     ; Load sword palette
@@ -660,7 +660,7 @@ Palette_Sword:
 
 ; ==================================================
 
-; *$DED29-$DED4E LONG
+; $0DED29-$0DED4E LONG
 Palette_Shield:
 {
     ; Load shield palette
@@ -690,7 +690,7 @@ Palette_Shield:
 
 ; ==================================================
 
-; $DED4F-$DED6D
+; $0DED4F-$0DED6D
 Palette_Unused:
 {
     ; This routine isn't referenced anywhere in the game... that i can tell...
@@ -716,12 +716,12 @@ Palette_Unused:
 
 ; ==================================================
 
-; *$DED6E-$DEDDC LONG
+; $0DED6E-$0DEDDC LONG
 Palette_MiscSpr:
 {
      ; If we're outdoors do something else...
     LDA $1B : BEQ .outdoors
-    ; *$DED72 ALTERNATE ENTRY POINT 
+    ; $0DED72 ALTERNATE ENTRY POINT 
     .justSP6
     
     REP #$21
@@ -796,7 +796,7 @@ Palette_MiscSpr:
 
 ; ==================================================
 
-; *$DEDDD-$DEDF4 LONG
+; $0DEDDD-$0DEDF4 LONG
 Palette_PalaceMapSpr:
 {
     ; Load palettes for Palace Map sprite graphics.
@@ -822,10 +822,10 @@ Palette_PalaceMapSpr:
 
 ; ==================================================
 
-; $DEDF5-$DEDF8 DATA - glove colors (other than skin colored)
+; $0DEDF5-$0DEDF8 DATA - glove colors (other than skin colored)
 dw $52F6, $0376
     
-; *$DEDF9-$DEE39 LONG
+; $0DEDF9-$0DEE39 LONG
 ; Palette_ChangeGloveColor:
 Palette_ArmorAndGloves:
 {
@@ -846,7 +846,7 @@ Palette_ArmorAndGloves:
     
     JSR Palette_ArbitraryLoad
     
-    ; *$DEE1B ALTERNATE ENTRY POINT
+    ; $0DEE1B ALTERNATE ENTRY POINT
     .justGloves
 
     REP #$30
@@ -870,7 +870,7 @@ Palette_ArmorAndGloves:
 
 ; ==================================================
 
-; *$DEE3A-$DEE51 LONG
+; $0DEE3A-$0DEE51 LONG
 Palette_PalaceMapBg:
 {
     ; Much like the name implies, loads the palettes for
@@ -897,7 +897,7 @@ Palette_PalaceMapBg:
 
 ; =============================================
 
-; *$DEE52-$DEE73 LONG
+; $0DEE52-$0DEE73 LONG
 Palette_Hud:
 {
     REP #$21
@@ -925,7 +925,7 @@ Palette_Hud:
 
 ; =============================================
 
-; *$DEE74-$DEEA7 LONG
+; $0DEE74-$0DEEA7 LONG
 Palette_DungBgMain:
 {
     ; Note this resets the carry. (For the ADC below.)
@@ -972,7 +972,7 @@ Palette_DungBgMain:
 
 ; =============================================
 
-; *$DEEA8-$DEEC6 LONG
+; $0DEEA8-$0DEEC6 LONG
 Palette_OverworldBgAux3:
 {
     REP #$21
@@ -995,7 +995,7 @@ Palette_OverworldBgAux3:
 
 ; =============================================
 
-; *$DEEC7-$DEEE7 LONG
+; $0DEEC7-$0DEEE7 LONG
 Palette_OverworldBgMain:
 {
     REP #$21
@@ -1022,7 +1022,7 @@ Palette_OverworldBgMain:
 
 ; =============================================
 
-; $DEEE8-$DEF0B LONG
+; $0DEEE8-$0DEF0B LONG
 Palette_OverworldBgAux1:
 {
     REP #$21
@@ -1046,7 +1046,7 @@ Palette_OverworldBgAux1:
 
 ; =============================================
 
-; *$DEF0C-$DEF2F LONG
+; $0DEF0C-$0DEF2F LONG
 Palette_OverworldBgAux2:
 {
     REP #$21
@@ -1070,7 +1070,7 @@ Palette_OverworldBgAux2:
 
 ; ==================================================
 
-; *$DEF30-$DEF4A LOCAL
+; $0DEF30-$0DEF4A LOCAL
 Palette_SingleLoad:
 {
     ; Unlike like the Subroutine after this one, it only loads one palette to memory.
@@ -1100,7 +1100,7 @@ Palette_SingleLoad:
 
 ; ==================================================
 
-; *$DEF4B-$DEF7A LOCAL
+; $0DEF4B-$0DEF7A LOCAL
 Palette_MultiLoad:
 {
     ; Description: Generally used to load multiple palettes for BGs.
@@ -1155,7 +1155,7 @@ Palette_MultiLoad:
 
 ; =============================================
 
-; *$DEF7B-$DEF95 LOCAL
+; $0DEF7B-$0DEF95 LOCAL
 Palette_ArbitraryLoad:
 {
     ; This routine accepts a 2 byte pointer local to bank 0x1B
@@ -1180,7 +1180,7 @@ Palette_ArbitraryLoad:
 
 ; ==============================================================================
 
-; *$DEF96-$DF031 LONG
+; $0DEF96-$0DF031 LONG
 Palette_SelectScreen:
 {
     ; This routine sets up the palettes for each of the three Links on the
@@ -1289,7 +1289,7 @@ Palette_SelectScreen:
 
 ; ==============================================================================
 
-; *$DF032-$DF071 LOCAL
+; $0DF032-$0DF071 LOCAL
 Palette_SelectScreenArmor:
 {
     ; And gloves!
@@ -1299,7 +1299,7 @@ Palette_SelectScreenArmor:
     ;  Varies among #$00, #$40, #$80
     AND.w #$00FF : ASL A : TAY
     
-    ; $DEC06 IN ROM, will be 0, 30, or 60
+    ; $0DEC06 IN ROM, will be 0, 30, or 60
     LDA $EC06, Y : AND.w #$00FF : CLC : ADC.w #$00F0 : TAY
     
     ; Length of the palette in Words
@@ -1335,13 +1335,13 @@ Palette_SelectScreenArmor:
 
 ; =============================================
 
-; *$DF072-$DF099 LOCAL
+; $0DF072-$0DF099 LOCAL
 Palette_SelectScreenSword:
 {
     ; Expects A to be the sword's value.
     AND.w #$00FF : TAY ; Will be 0-4.
     
-    ; $DEBB4 IN ROM. A will be #$00, #$06, #$0C, #$12...
+    ; $0DEBB4 IN ROM. A will be #$00, #$06, #$0C, #$12...
     ; Generally A will be #$418, #$41E, #$424, #$42A
     LDA $EBB4, Y : AND.w #$00FF : CLC : ADC.w #$0418 : TAY
     
@@ -1350,7 +1350,7 @@ Palette_SelectScreenSword:
     
     .copyPalette
     
-    ; $DD218 IN ROM
+    ; $0DD218 IN ROM
     LDA $D218, Y : STA $7EC432, X : STA $7EC632, X
     
     INY #2
@@ -1365,7 +1365,7 @@ Palette_SelectScreenSword:
     
 ; =============================================
 
-; *$DF09A-$DF0C1 LOCAL
+; $0DF09A-$0DF0C1 LOCAL
 Palette_SelectScreenShield:
 {
     ; This routine is generally the same as the two above.
@@ -1398,7 +1398,7 @@ Palette_SelectScreenShield:
     ; \task Perhaps rename this routine when we have a better idea of what its
     ; exact use is. As it stands, it's named so due to the circumstances under
     ; which it is called.
-; *$DF0C2-$DF107 LONG
+; $0DF0C2-$0DF107 LONG
 Palette_AgahnimClones:
 {
     ; The only place this routine is referenced from is the
@@ -1450,7 +1450,7 @@ Palette_AgahnimClones:
 
 ; ==============================================================================
 
-; $DF108-$DF10F NULL
+; $0DF108-$0DF10F NULL
 {
     fillbyte $FF
     
@@ -1461,14 +1461,13 @@ Palette_AgahnimClones:
 
     ; \note some kind of tile properties data for bank $05... Seems to be
     ; indexed by map16 values.
-; $DF110-$DFFBF DATA
+; $0DF110-$0DFFBF DATA
 {
-
 }
 
 ; ==============================================================================
 
-; $DFFC0-$DFFFF NULL
+; $0DFFC0-$0DFFFF NULL
 pool Null:
 {
     fillbyte $FF

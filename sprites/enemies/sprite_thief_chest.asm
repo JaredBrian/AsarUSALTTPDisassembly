@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F60DD-$F6110 JUMP LOCATION
+; $0F60DD-$0F6110 JUMP LOCATION
 Sprite_ThiefChest:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong

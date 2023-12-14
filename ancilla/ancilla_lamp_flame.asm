@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $46BE3-$46C12 DATA
+; $046BE3-$046C12 DATA
 pool Ancilla_LampFlame:
 {
-    
     .chr
     db $9C, $9C, $FF, $FF
     db $A4, $A5, $B2, $B3
@@ -28,7 +27,7 @@ pool Ancilla_LampFlame:
 
 ; ==============================================================================
 
-; *$46C13-$46C76 JUMP LOCATION
+; $046C13-$046C76 JUMP LOCATION
 Ancilla_LampFlame:
 {
     JSR Ancilla_PrepAdjustedOamCoord

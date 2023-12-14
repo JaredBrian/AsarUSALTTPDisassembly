@@ -1300,7 +1300,7 @@ Main_SaveGameFile:
 
 ; ==============================================================================
 
-; $009E0-$000D12 LOCAL
+; $0009E0-$0000D12 LOCAL
 NMI_DoUpdates:
 {
     REP #$10
@@ -5885,31 +5885,29 @@ LoadSprGfx:
 ; Write graphics to VRAM using the 3bpp to 4bpp high technique (latter 8 entries of the palette)
 Do3To4High:
 {
+    .nextTile
 
-.nextTile
+        LDX.b #$0E
 
-    LDX.b #$0E
+        .writeLowBitplanEs
 
-    .writeLowBitplanEs
-
-        LDA [$00] : STA $2118 : XBA : ORA [$00] : AND.w #$00FF : STA $BF, X
-        INC $00   : INC $00   : DEX #2
+            LDA [$00] : STA $2118 : XBA : ORA [$00] : AND.w #$00FF : STA $BF, X
+            INC $00   : INC $00   : DEX #2
+            
+            LDA [$00] : STA $2118 : XBA : ORA [$00] : AND.w #$00FF : STA $BF, X
+            INC $00   : INC $00
+        DEX #2 : BPL .writeLowBitplanes
         
-        LDA [$00] : STA $2118 : XBA : ORA [$00] : AND.w #$00FF : STA $BF, X
-        INC $00   : INC $00
-    DEX #2 : BPL .writeLowBitplanes
-    
-    LDX.b #$0E
+        LDX.b #$0E
 
-    .writeHighBitplanes
-        
-        LDA [$00] : AND.w #$00FF : STA $BD : ORA $BF, X : XBA : ORA $BD : STA $2118
-        INC $00   : DEX #2
-        
-        LDA [$00] : AND.w #$00FF : STA $BD : ORA $BF, X : XBA : ORA $BD : STA $2118
-        INC $00
-    DEX #2 : BPL .writeHighBitplanes
-    
+        .writeHighBitplanes
+            
+            LDA [$00] : AND.w #$00FF : STA $BD : ORA $BF, X : XBA : ORA $BD : STA $2118
+            INC $00   : DEX #2
+            
+            LDA [$00] : AND.w #$00FF : STA $BD : ORA $BF, X : XBA : ORA $BD : STA $2118
+            INC $00
+        DEX #2 : BPL .writeHighBitplanes
     DEY : BPL .nextTile
     
     SEP #$20

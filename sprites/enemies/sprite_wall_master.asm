@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F2EA4-$F2F2A JUMP LOCATION
+; $0F2EA4-$0F2F2A JUMP LOCATION
 Sprite_WallMaster:
 {
     ; Floor master sprite (0x90)
@@ -80,7 +80,7 @@ Sprite_WallMaster:
 
 ; ==============================================================================
 
-; *$F2F2B-$F2F58 JUMP LOCATION
+; $0F2F2B-$0F2F58 JUMP LOCATION
 WallMaster_Descend:
 {
     LDA $0F70, X : PHA
@@ -112,7 +112,7 @@ WallMaster_Descend:
 
 ; ==============================================================================
 
-; *$F2F59-$F2F81 JUMP LOCATION
+; $0F2F59-$0F2F81 JUMP LOCATION
 WallMaster_GrabAttempt:
 {
     LDA $0DF0, X : BNE .delay
@@ -147,7 +147,7 @@ WallMaster_GrabAttempt:
 
 ; ==============================================================================
 
-; *$F2F82-$F2FA3 JUMP LOCATION
+; $0F2F82-$0F2FA3 JUMP LOCATION
 {
     LDA $0F70, X : PHA
     
@@ -173,17 +173,16 @@ WallMaster_GrabAttempt:
 
 ; ==============================================================================
 
-; $F2FA4-$F2FE3 DATA
+; $0F2FA4-$0F2FE3 DATA
 pool WallMaster_Draw:
 {
-    
     .oam_groups
     
 }
 
 ; ==============================================================================
 
-; *$F2FE4-$F3001 LOCAL
+; $0F2FE4-$0F3001 LOCAL
 WallMaster_Draw:
 {
     LDA.b #$00 : XBA

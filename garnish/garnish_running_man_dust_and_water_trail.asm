@@ -1,24 +1,23 @@
 
 ; ==============================================================================
 
-; $4B3B9-$4B3BB DATA
+; $04B3B9-$04B3BB DATA
 pool Garnish_RunningManDashDust:
 {
-    
     .chr.
     db $DF, $CF, $A9
 }
 
 ; ==============================================================================
 
-; $4B3BC-$4B3E7 JUMP LOCATION
+; $04B3BC-$04B3E7 JUMP LOCATION
 Garnish_RunningManDashDust:
 {
     LDA $7FF90E, X
     
     BRA .set_chr_index
     
-    ; $4B3C2 ALTERNATE ENTRY POINT
+    ; $04B3C2 ALTERNATE ENTRY POINT
     shared Garnish_WaterTrail:
     
     LDA $7FF90E, X

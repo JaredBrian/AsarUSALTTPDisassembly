@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F195B-$F196B JUMP LOCATION
+; $0F195B-$0F196B JUMP LOCATION
 Sprite_FluteBoyOstrich:
 {
     JSR FluteBoyOstrich_Draw
@@ -17,7 +17,7 @@ Sprite_FluteBoyOstrich:
 
 ; ==============================================================================
 
-; *$F196C-$F198C JUMP LOCATION
+; $0F196C-$0F198C JUMP LOCATION
 FluteBoyOstrich_Chillin:
 {
     LDY.b #$00
@@ -45,17 +45,16 @@ FluteBoyOstrich_Chillin:
 
 ; ==============================================================================
 
-; $F198D-$F1990 DATA
+; $0F198D-$0F1990 DATA
 pool FluteBoyOstrich_RunAway:
 {
-    
     .animation_states
      db $00, $01, $00, $02
 }
 
 ; ==============================================================================
 
-; *$F1991-$F19CA JUMP LOCATION
+; $0F1991-$0F19CA JUMP LOCATION
 FluteBoyOstrich_RunAway:
 {
     JSR Sprite3_MoveXyz
@@ -92,10 +91,9 @@ FluteBoyOstrich_RunAway:
 
 ; ==============================================================================
 
-; $F19CB-$F1A4A DATA
+; $0F19CB-$0F1A4A DATA
 pool FluteBoyOstrich_Draw:
 {
-    
     .oam_groups
     dw -4, -8 : db $80, $00, $00, $02
     dw  4, -8 : db $81, $00, $00, $02
@@ -121,7 +119,7 @@ pool FluteBoyOstrich_Draw:
 
 ; ==============================================================================
 
-; *$F1A4B-$F1A6A LOCAL
+; $0F1A4B-$0F1A6A LOCAL
 FluteBoyOstrich_Draw:
 {
     LDA.b #$00   : XBA

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $46068-$46077 DATA
+; $046068-$046077 DATA
 pool AddSomarianBlock:
 {
-    
     .initial_collision_y_offsets
     dw -8, 31, 17, 17
     
@@ -14,7 +13,7 @@ pool AddSomarianBlock:
 
 ; ==============================================================================
 
-; *$46078-$46160 LONG
+; $046078-$046160 LONG
 AddSomarianBlock:
 {
     PHB : PHK : PLB
@@ -141,10 +140,9 @@ AddSomarianBlock:
 
 ; ==============================================================================
 
-; $46161-$46190 DATA
+; $046161-$046190 DATA
 pool SomarianBlock_CheckForTransitLine:
 {
-    
     .y_offsets
     dw -16, -16, -16,  16,  16,  16
     dw  -8,   0,   8,  -8,   0,   8
@@ -156,7 +154,7 @@ pool SomarianBlock_CheckForTransitLine:
 
 ; ==============================================================================
 
-; *$46191-$461F8 LOCAL
+; $046191-$0461F8 LOCAL
 SomarianBlock_CheckForTransitLine:
 {
     ; If there are no transit lines, we need not even worry about this.

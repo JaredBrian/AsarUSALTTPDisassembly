@@ -5,7 +5,7 @@ incsrc "player_oam.asm"
 
 ; ==============================================================================
 
-; $6AFDD-$6B07F EMPTY
+; $06AFDD-$06B07F EMPTY
 pool Empty:
 {
     fillbyte $FF
@@ -19,7 +19,7 @@ incsrc "sprite_properties.asm"
 
 ; ==============================================================================
 
-; *$6BA71-$6BA7F LONG
+; $06BA71-$06BA7F LONG
 GetRandomInt:
 {
     ; Interesting to note two consecutive reads from differing locations.
@@ -48,10 +48,9 @@ incsrc "sound_sfx.asm"
 
 ; ==============================================================================
 
-; $6BBE0-$6BD1F DATA
+; $06BBE0-$06BD1F DATA
 pool Babusu_Draw:
 {
-    
     .oam_groups
     dw  0,  4 : db $80, $43, $00, $00
     dw  0,  4 : db $80, $43, $00, $00
@@ -116,7 +115,7 @@ pool Babusu_Draw:
 
 ; ==============================================================================
 
-; *$6BD20-$6BD45 LONG
+; $06BD20-$06BD45 LONG
 Babusu_Draw:
 {
     PHB : PHK : PLB
@@ -148,10 +147,9 @@ Babusu_Draw:
 
 ; ==============================================================================
 
-; $6BD46-$6BE05 DATA
+; $06BD46-$06BE05 DATA
 pool Wizzrobe_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $B2, $00, $00, $00
     dw 8, -8 : db $B3, $00, $00, $00
@@ -189,7 +187,7 @@ pool Wizzrobe_Draw:
 
 ; ==============================================================================
 
-; *$6BE06-$6BE27 LONG
+; $06BE06-$06BE27 LONG
 Wizzrobe_Draw:
 {
     PHB : PHK : PLB
@@ -210,10 +208,9 @@ Wizzrobe_Draw:
 
 ; ==============================================================================
 
-; $6BE28-$6BE67 DATA
+; $06BE28-$06BE67 DATA
 pool Wizzbeam_Draw:
 {
-    
     .oam_groups
     dw  0, -4 : db $C5, $00, $00, $00
     dw  0,  4 : db $C5, $80, $00, $00
@@ -230,7 +227,7 @@ pool Wizzbeam_Draw:
 
 ; ==============================================================================
 
-; *$6BE68-$6BE85 LONG
+; $06BE68-$06BE85 LONG
 Wizzbeam_Draw:
 {
     PHB : PHK : PLB
@@ -250,10 +247,9 @@ Wizzbeam_Draw:
 
 ; ==============================================================================
 
-; $6BE86-$6BFA5 DATA
+; $06BE86-$06BFA5 DATA
 pool Freezor_Draw:
 {
-    
     .death_oam_groups
     dw -8,  0 : db $A6, $00, $00, $02
     dw  8,  0 : db $A6, $40, $00, $02
@@ -304,7 +300,7 @@ pool Freezor_Draw:
 
 ; ==============================================================================
 
-; *$6BFA6-$6BFD5 LONG
+; $06BFA6-$06BFD5 LONG
 Freezor_Draw:
 {
     PHB : PHK : PLB
@@ -341,10 +337,9 @@ Freezor_Draw:
 
 ; ==============================================================================
 
-; $6BFD6-$6C0A5 DATA
+; $06BFD6-$06C0A5 DATA
 pool Zazak_Draw:
 {
-    
     .oam_groups
     dw  0, -8 : db $08, $00, $00, $02
     dw -4,  0 : db $A0, $00, $00, $02
@@ -387,7 +382,7 @@ pool Zazak_Draw:
 
 ; ==============================================================================
 
-; *$6C0A6-$6C0F2 LONG
+; $06C0A6-$06C0F2 LONG
 Zazak_Draw:
 {
     PHB : PHK : PLB
@@ -428,10 +423,9 @@ Zazak_Draw:
 
 ; ==============================================================================
 
-; $6C0F3-$6C21B MIXED
+; $06C0F3-$06C21B MIXED
 pool Stalfos_Draw:
 {
-    
     .oam_groups
     dw  0, -10 : db $00, $00, $00, $02
     dw  0,   0 : db $06, $00, $00, $02
@@ -493,7 +487,7 @@ pool Stalfos_Draw:
 
 ; ==============================================================================
 
-; *$6C21C-$6C26D LONG
+; $06C21C-$06C26D LONG
 Stalfos_Draw:
 {
     LDA $0E10, X : BNE .easy_out
@@ -536,7 +530,7 @@ Stalfos_Draw:
 
 ; ==============================================================================
 
-; *$6C26E-$6C2D0 LONG
+; $06C26E-$06C2D0 LONG
 Probe_CheckTileSolidity:
 {
     LDA $0F20, X : CMP.b #$01 : REP #$30 : STZ $05 : BCC .on_bg2
@@ -606,10 +600,9 @@ incsrc "sprite_maze_game_guy.asm"
 
 ; ==============================================================================
 
-; $6CDCF-$6CE5E DATA
+; $06CDCF-$06CE5E DATA
 pool CrystalMaiden_Draw:
 {
-    
     .oam_groups
     dw 1, -7 : db $20, $01, $00, $02
     dw 1,  3 : db $22, $01, $00, $02
@@ -648,7 +641,7 @@ pool CrystalMaiden_Draw:
 
 ; ==============================================================================
 
-; *$6CE5F-$6CE90 LONG
+; $06CE5F-$06CE90 LONG
 CrystalMaiden_Draw:
 {
     PHB : PHK : PLB
@@ -676,10 +669,9 @@ CrystalMaiden_Draw:
 
 ; ==============================================================================
 
-; $6CE91-$6CF30 DATA
+; $06CE91-$06CF30 DATA
 pool Priest_Draw:
 {
-    
     .oam_groups
     dw  0, -8 : db $20, $0E, $00, $02
     dw  0,  0 : db $26, $0E, $00, $02
@@ -714,7 +706,7 @@ pool Priest_Draw:
 
 ; ==============================================================================
 
-; *$6CF31-$6CF58 LONG
+; $06CF31-$06CF58 LONG
 Priest_Draw:
 {
     ; called by two routines
@@ -739,10 +731,9 @@ Priest_Draw:
 
 ; ==============================================================================
 
-; $6CF59-$6CFD8 DATA
+; $06CF59-$06CFD8 DATA
 pool FluteBoy_Draw:
 {
-    
     .oam_groups
     dw -1,  -1 : db $BE, $0A, $00, $00
     dw  0,   0 : db $AA, $0A, $00, $02
@@ -767,7 +758,7 @@ pool FluteBoy_Draw:
 
 ; ==============================================================================
 
-; *$6CFD9-$6CFFF LONG
+; $06CFD9-$06CFFF LONG
 FluteBoy_Draw:
 {
     PHB : PHK : PLB
@@ -788,7 +779,7 @@ FluteBoy_Draw:
 
 ; ==============================================================================
 
-; $6D000-$6D03F DATA
+; $06D000-$06D03F DATA
 pool FluteAardvark_Draw:
 {
     db 0, -10, $E6, $06, $00, $02
@@ -806,7 +797,7 @@ pool FluteAardvark_Draw:
 
 ; ==============================================================================
 
-; *$6D040-$6D05F LONG
+; $06D040-$06D05F LONG
 FluteAardvark_Draw:
 {
     PHB : PHK : PLB
@@ -828,10 +819,9 @@ FluteAardvark_Draw:
 
 ; ==============================================================================
 
-; $6D060-$6D11F DATA
+; $06D060-$06D11F DATA
 pool DustCloud_Draw:
 {
-    
     .oam_groups
     db  0, -3 : db $8B, $00, $00, $00
     db  3,  0 : db $9B, $00, $00, $00
@@ -866,7 +856,7 @@ pool DustCloud_Draw:
 
 ; ==============================================================================
 
-; *$6D120-$6D141 LONG
+; $06D120-$06D141 LONG
 DustCloud_Draw:
 {
     ; Part of medallion tablet code...
@@ -889,10 +879,9 @@ DustCloud_Draw:
 
 ; ==============================================================================
 
-; $6D142-$6D1E1 DATA
+; $06D142-$06D1E1 DATA
 pool MedallionTablet_Draw:
 {
-    
     .oam_groups
     dw -8, -16 : $8C, $00, $00, $02
     dw  8, -16 : $8C, $40, $00, $02
@@ -922,7 +911,7 @@ pool MedallionTablet_Draw:
 
 ; ==============================================================================
 
-; *$6D1E2-$6D202 LONG
+; $06D1E2-$06D202 LONG
 MedallionTablet_Draw:
 {
     PHB : PHK : PLB
@@ -945,10 +934,9 @@ MedallionTablet_Draw:
 
 ; ==============================================================================
 
-; $6D203-$6D390 DATA
+; $06D203-$06D390 DATA
 pool Uncle_Draw:
 {
-    
     .oam_groups
     dw   0, -10 : db $00, $0E, $00, $02
     dw   0,   0 : db $06, $0C, $00, $02
@@ -1008,7 +996,7 @@ pool Uncle_Draw:
 
 ; ==============================================================================
 
-; *$6D391-$6D3EA LONG
+; $06D391-$06D3EA LONG
 Uncle_Draw:
 {
     PHB : PHK : PLB
@@ -1056,10 +1044,9 @@ Uncle_Draw:
 
 ; ==============================================================================
 
-; $6D3EB-$6D47A DATA
+; $06D3EB-$06D47A DATA
 pool BugKidNet_Draw:
 {
-    
     .oam_groups
     dw  4,  0 : db $27, $00, $00, $00
     dw  0, -5 : db $0E, $00, $00, $02
@@ -1085,7 +1072,7 @@ pool BugKidNet_Draw:
 
 ; ==============================================================================
 
-; *$6D47B-$6D49E LONG
+; $06D47B-$06D49E LONG
 BugNetKid_Draw:
 {
     PHB : PHK : PLB
@@ -1109,7 +1096,7 @@ BugNetKid_Draw:
 
 ; ==============================================================================
 
-; *$6D49F-$6D4BB LOCAL
+; $06D49F-$06D4BB LOCAL
 Sprite5_CheckIfActive:
 {
     ; Deactivates the sprite in certain situations
@@ -1135,10 +1122,9 @@ Sprite5_CheckIfActive:
 
 ; ==============================================================================
 
-; $6D4BC-$6D56B DATA
+; $06D4BC-$06D56B DATA
 pool Bomber_Draw:
 {
-    
     .oam_groups
     dw  0, 0 : db $C6, $40, $00, $02
     dw  0, 0 : db $C6, $40, $00, $02
@@ -1176,7 +1162,7 @@ pool Bomber_Draw:
 
 ; ==============================================================================
 
-; $6D56C-$6D58D LONG
+; $06D56C-$06D58D LONG
 Bomber_Draw:
 {
     PHB : PHK : PLB
@@ -1198,10 +1184,9 @@ Bomber_Draw:
 
 ; ==============================================================================
 
-; $6D58E-$6D605 DATA
+; $06D58E-$06D605 DATA
 pool BomberPellet_DrawExplosion:
 {
-    
     .oam_groups
     dw -11,   0 : db $9B, $01, $00, $00
     dw   0,  -8 : db $9B, $C1, $00, $00
@@ -1226,7 +1211,7 @@ pool BomberPellet_DrawExplosion:
 
 ; ==============================================================================
 
-; *$6D606-$6D630 LONG
+; $06D606-$06D630 LONG
 BomberPellet_DrawExplosion:
 {
     PHB : PHK : PLB
@@ -1253,7 +1238,7 @@ BomberPellet_DrawExplosion:
 
 ; ==============================================================================
 
-; *$6D631-$6D6A5 LONG
+; $06D631-$06D6A5 LONG
 GoodBee_AttackOtherSprite:
 {
     ; Good bee can't attack any bosses except mothula, apparently.
@@ -1318,10 +1303,9 @@ GoodBee_AttackOtherSprite:
 
 ; ==============================================================================
 
-; $6D6A6-$6D6E5 DATA
+; $06D6A6-$06D6E5 DATA
 pool Pikit_Draw:
 {
-    
     .oam_groups
     dw  0, 0 : db $C8, $00, $00, $02
     dw  0, 0 : db $C8, $00, $00, $02
@@ -1338,7 +1322,7 @@ pool Pikit_Draw:
 
 ; ==============================================================================
 
-; *$6D6E6-$6D738 LONG
+; $06D6E6-$06D738 LONG
 Pikit_Draw:
 {
     PHB : PHK : PLB
@@ -1376,10 +1360,9 @@ Pikit_Draw:
 
 ; ==============================================================================
 
-; $6D739-$6D749 BRANCH LOCATION
+; $06D739-$06D749 BRANCH LOCATION
 pool Pikit_DrawTongue:
 {
-    
     .easy_out
     RTS
     
@@ -1392,7 +1375,7 @@ pool Pikit_DrawTongue:
 
 ; ==============================================================================
 
-; *$6D74A-$6D812 LOCAL
+; $06D74A-$06D812 LOCAL
 Pikit_DrawTongue:
 {
     LDA $0D80, X : CMP.b #$02 : BNE .easy_out
@@ -1506,7 +1489,7 @@ Pikit_DrawTongue:
 
 ; ==============================================================================
 
-; *$6D813-$6D816 LOCAL
+; $06D813-$06D816 LOCAL
 Pikit_MultiplicationDelay:
 {
     ; delay for multiplication
@@ -1517,10 +1500,9 @@ Pikit_MultiplicationDelay:
 
 ; ==============================================================================
 
-; $6D817-$6D857 DATA
+; $06D817-$06D857 DATA
 pool Pikit_DrawGrabbedItem:
 {
-    
     .x_offsets
     db -4,  4, -4,  4,  0,  8,  0,  8
     db  0,  8,  0,  8,  0,  8,  0,  8
@@ -1542,7 +1524,7 @@ pool Pikit_DrawGrabbedItem:
 
 ; ==============================================================================
 
-; *$6D858-$6D8AE LOCAL
+; $06D858-$06D8AE LOCAL
 Pikit_DrawGrabbedItem:
 {
     LDA $0ED0, X       : BEQ .return
@@ -1593,10 +1575,9 @@ Pikit_DrawGrabbedItem:
 
 ; ==============================================================================
 
-; $6D8AF-$6D98E DATA
+; $06D8AF-$06D98E DATA
 pool Kholdstare_Draw:
 {
-    
     .oam_groups
     dw -8, -8 : db $80, $00, $00, $02
     dw  8, -8 : db $82, $00, $00, $02
@@ -1637,7 +1618,7 @@ pool Kholdstare_Draw:
 
 ; ==============================================================================
 
-; *$6D98F-$6DA05 LONG
+; $06D98F-$06DA05 LONG
 Kholdstare_Draw:
 {
     PHB : PHK : PLB
@@ -1693,7 +1674,7 @@ Kholdstare_Draw:
 
 ; ==============================================================================
 
-; *$6DA06-$6DA78 LONG
+; $06DA06-$06DA78 LONG
 Sprite_SpawnFireball:
 {
     PHB : PHK : PLB
@@ -1749,10 +1730,9 @@ Sprite_SpawnFireball:
 
 ; ==============================================================================
 
-; $6DA79-$6DAC3 DATA
+; $06DA79-$06DAC3 DATA
 pool ArcheryGameGuy_Draw:
 {
-    
     .x_offsets
     db $00, $00, $00
     db $00, $00, $FB
@@ -1791,7 +1771,7 @@ pool ArcheryGameGuy_Draw:
 
 ; ==============================================================================
 
-; *$6DAC4-$6DB16 LONG
+; $06DAC4-$06DB16 LONG
 ArcheryGameGuy_Draw:
 {
     PHB : PHK : PLB
@@ -1833,7 +1813,7 @@ ArcheryGameGuy_Draw:
 
 ; ==============================================================================
 
-; $6DB17-$6DB3F NULL
+; $06DB17-$06DB3F NULL
 pool Unused:
 {
     fillbyte $FF

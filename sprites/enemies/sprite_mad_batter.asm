@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $2FACA-$2FAD1 LONG
+; $02FACA-$02FAD1 LONG
 Sprite_MadBatterLong:
 {
     ; Magic powder bat / lightning bolt he throws AI
@@ -17,7 +17,7 @@ Sprite_MadBatterLong:
 
 ; ==============================================================================
 
-; $2FAD2-$2FAFE LOCAL
+; $02FAD2-$02FAFE LOCAL
 Sprite_MadBatter:
 {
     LDA $0EB0, X : BEQ .not_thunderbolt
@@ -49,7 +49,7 @@ Sprite_MadBatter:
 
 ; ==============================================================================
 
-; $2FAFF-$2FB39 JUMP LOCATION
+; $02FAFF-$02FB39 JUMP LOCATION
 MadBatter_WaitForSummoning:
 {
     LDA $7EF37B : CMP.b #$01 : BCS .magic_already_doubled
@@ -88,7 +88,7 @@ MadBatter_WaitForSummoning:
 
 ; ==============================================================================
 
-; $2FB3A-$2FB3B DATA
+; $02FB3A-$02FB3B DATA
 pool MadBatter_RisingUp:
 {
     .x_speeds
@@ -97,7 +97,7 @@ pool MadBatter_RisingUp:
 
 ; ==============================================================================
 
-; $2FB3C-$2FB85 JUMP LOCATION
+; $02FB3C-$02FB85 JUMP LOCATION
 MadBatter_RisingUp:
 {
     LDA $0DF0, X : BNE .delay
@@ -137,7 +137,7 @@ MadBatter_RisingUp:
 
 ; ==============================================================================
 
-; $2FB86-$2FB8D DATA
+; $02FB86-$02FB8D DATA
 pool MadBatter_PseudoAttackPlayer:
 {
     .palettes
@@ -146,7 +146,7 @@ pool MadBatter_PseudoAttackPlayer:
 
 ; ==============================================================================
 
-; $2FB8E-$2FBB8 JUMP LOCATION
+; $02FB8E-$02FBB8 JUMP LOCATION
 MadBatter_PseudoAttackPlayer:
 {
     LDA $0DF0, X : BNE .delay
@@ -172,7 +172,7 @@ MadBatter_PseudoAttackPlayer:
 
 ; ==============================================================================
 
-; $2FBB9-$2FBE3 JUMP LOCATION
+; $02FBB9-$02FBE3 JUMP LOCATION
 MadBatter_DoublePlayerMagicPower:
 {
     LDA $0E00, X : BNE .delay
@@ -212,7 +212,7 @@ MadBatter_DoublePlayerMagicPower:
 
 ; ==============================================================================
 
-; *$2FBE4-$2FBEE JUMP LOCATION
+; $02FBE4-$02FBEE JUMP LOCATION
 MadBatter_LaterBitches:
 {
     JSL Sprite_SpawnDummyDeathAnimation

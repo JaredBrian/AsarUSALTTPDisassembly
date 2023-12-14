@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2EEA6-$2EEA6 JUMP LOCATION
+; $02EEA6-$02EEA6 JUMP LOCATION
 SpritePrep_FakeSword:
 {
     RTL
@@ -9,7 +9,7 @@ SpritePrep_FakeSword:
 
 ; ==============================================================================
 
-; *$2EEA7-$2EEAE LONG
+; $02EEA7-$02EEAE LONG
 Sprite_FakeSwordLong:
 {
     ; Fake Master Sword (0xE8)
@@ -25,7 +25,7 @@ Sprite_FakeSwordLong:
 
 ; ==============================================================================
 
-; *$2EEAF-$2EED5 LOCAL
+; $02EEAF-$02EED5 LOCAL
 Sprite_FakeSword:
 {
     JSR FakeSword_Draw
@@ -57,10 +57,9 @@ Sprite_FakeSword:
 
 ; ==============================================================================
 
-; $2EED6-$2EEE5 DATA
+; $02EED6-$02EEE5 DATA
 pool FakeSword_Draw:
 {
-    
     .animation_states
     db $04, $00, $00, $00, $F4, $00, $00, $00
     db $04, $00, $08, $00, $F5, $00, $00, $00    
@@ -68,7 +67,7 @@ pool FakeSword_Draw:
 
 ; ==============================================================================
 
-; *$2EEE6-$2EEF8 LOCAL
+; $02EEE6-$02EEF8 LOCAL
 FakeSword_Draw:
 {
     LDA.b #$02 : STA $06

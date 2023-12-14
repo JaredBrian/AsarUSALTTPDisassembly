@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$6C75A-$6C761 LONG
+; $06C75A-$06C761 LONG
 Sprite_FortuneTellerLong:
 {
     ; Fortune teller / Dwarf Swordsmith.
@@ -17,7 +17,7 @@ Sprite_FortuneTellerLong:
 
 ; ==============================================================================
 
-; *$6C762-$6C76C LOCAL
+; $06C762-$06C76C LOCAL
 Sprite_FortuneTeller:
 {
     LDA $0E80, X
@@ -30,7 +30,7 @@ Sprite_FortuneTeller:
 
 ; ==============================================================================
 
-; *$6C76D-$6C782 JUMP LOCATION
+; $06C76D-$06C782 JUMP LOCATION
 Sprite_DwarfSolidity:
 {
     ; \note The sole purpose of this sprite is to add solidity to the Dwarf
@@ -58,7 +58,7 @@ Sprite_DwarfSolidity:
 
 ; ==============================================================================
 
-; *$6C783-$6C799 JUMP LOCATION
+; $06C783-$06C799 JUMP LOCATION
 FortuneTeller_Main:
 {
     JSR FortuneTeller_Draw
@@ -74,7 +74,7 @@ FortuneTeller_Main:
 
 ; ==============================================================================
 
-; *$6C79A-$6C7B0 JUMP LOCATION
+; $06C79A-$06C7B0 JUMP LOCATION
 FortuneTeller_LightWorld:
 {
     LDA $0D80, X
@@ -93,7 +93,7 @@ FortuneTeller_LightWorld:
 
 ; ==============================================================================
 
-; $6C7B1-$6C7B8 DATA
+; $06C7B1-$06C7B8 DATA
 FortuneTeller_Prices:
 {
     dw 10, 15, 20, 30
@@ -101,7 +101,7 @@ FortuneTeller_Prices:
 
 ; ==============================================================================
 
-; *$6C7B9-$6C7DD JUMP LOCATION
+; $06C7B9-$06C7DD JUMP LOCATION
 LW_FortuneTeller_WaitForInquiry:
 {
     STZ $0DC0, X
@@ -125,7 +125,7 @@ LW_FortuneTeller_WaitForInquiry:
 
 ; ==============================================================================
 
-; *$6C7DE-$6C7E6 JUMP LOCATION
+; $06C7DE-$06C7E6 JUMP LOCATION
 LW_FortuneTeller_NotEnoughRupees:
 {
     "... my condition isn't very good today. But I want you to come back..."
@@ -139,7 +139,7 @@ LW_FortuneTeller_NotEnoughRupees:
 
 ; ==============================================================================
 
-; *$6C7E7-$6C7FE JUMP LOCATION
+; $06C7E7-$06C7FE JUMP LOCATION
 LW_FortuneTeller_AskIfPlayerWantsReading:
 {
     "...you might have an interesting destiny... May I tell your fortune?"
@@ -161,7 +161,7 @@ LW_FortuneTeller_AskIfPlayerWantsReading:
 
 ; ==============================================================================
 
-; *$6C7FF-$6C828 JUMP LOCATION
+; $06C7FF-$06C828 JUMP LOCATION
 LW_FortuneTeller_ReactToPlayerResponse:
 {
     LDA $1CE8 : BNE .player_said_no
@@ -193,10 +193,9 @@ LW_FortuneTeller_ReactToPlayerResponse:
 
 ; ==============================================================================
 
-; $6C829-$6C848 DATA
+; $06C829-$06C848 DATA
 pool FortuneTeller_GiveReading:
 {
-    
     .messages_low
     db $EA, $EB, $EC, $ED, $EE, $EF, $F0, $F1
     db $F6, $F7, $F8, $F9, $FA, $FB, $FC, $FD
@@ -208,7 +207,7 @@ pool FortuneTeller_GiveReading:
 
 ; ==============================================================================
 
-; *$6C849-$6C952 JUMP LOCATION
+; $06C849-$06C952 JUMP LOCATION
 FortuneTeller_GiveReading:
 {
     STZ $0DC0, X
@@ -370,7 +369,7 @@ FortuneTeller_GiveReading:
 
 ; ==============================================================================
 
-; *$6C953-$6C95F LOCAL
+; $06C953-$06C95F LOCAL
 FortuneTeller_PopulateNextMessageSlot:
 {
     LDY $03
@@ -392,7 +391,7 @@ FortuneTeller_PopulateNextMessageSlot:
 
 ; ==============================================================================
 
-; $6C960-$6C975 LOCAL
+; $06C960-$06C975 LOCAL
 LW_FortuneTeller_ShowCostMessage:
 {
     STZ $0DC0, X
@@ -413,7 +412,7 @@ LW_FortuneTeller_ShowCostMessage:
 
 ; ==============================================================================
 
-; *$6C976-$6C995 LOCAL
+; $06C976-$06C995 LOCAL
 LW_FortuneTeller_DeductPayment:
 {
     LDY $0D90, X
@@ -430,7 +429,7 @@ LW_FortuneTeller_DeductPayment:
     
     STZ $02E4
     
-    ; $6C995 ALTERNATE ENTRY POINT
+    ; $06C995 ALTERNATE ENTRY POINT
     shared LW_FortuneTeller_DoNothing:
     
     RTS
@@ -438,7 +437,7 @@ LW_FortuneTeller_DeductPayment:
 
 ; ==============================================================================
 
-; *$6C996-$6C9AC JUMP LOCATION
+; $06C996-$06C9AC JUMP LOCATION
 FortuneTeller_DarkWorld:
 {
     LDA $0D80, X
@@ -457,7 +456,7 @@ FortuneTeller_DarkWorld:
 
 ; ==============================================================================
 
-; *$6C9AD-$6C9D1 JUMP LOCATION
+; $06C9AD-$06C9D1 JUMP LOCATION
 DW_FortuneTeller_WaitForInquiry:
 {
     STZ $0DC0, X
@@ -481,7 +480,7 @@ DW_FortuneTeller_WaitForInquiry:
 
 ; ==============================================================================
 
-; *$6C9D2-$6C9DA JUMP LOCATION
+; $06C9D2-$06C9DA JUMP LOCATION
 DW_FortuneTeller_NotEnoughRupees:
 {
     "... my condition isn't very good today. But I want you to come back..."
@@ -495,7 +494,7 @@ DW_FortuneTeller_NotEnoughRupees:
 
 ; ==============================================================================
 
-; *$6C9DB-$6C9F2 JUMP LOCATION
+; $06C9DB-$06C9F2 JUMP LOCATION
 DW_FortuneTeller_AskIfPlayerWantsReading:
 {
     "...you might have an interesting destiny... May I tell your fortune?"
@@ -517,7 +516,7 @@ DW_FortuneTeller_AskIfPlayerWantsReading:
 
 ; ==============================================================================
 
-; *$6C9F3-$6CA1C JUMP LOCATION
+; $06C9F3-$06CA1C JUMP LOCATION
 DW_FortuneTeller_ReactToPlayerResponse:
 {
     LDA $1CE8 : BNE .player_said_no
@@ -549,7 +548,7 @@ DW_FortuneTeller_ReactToPlayerResponse:
 
 ; ==============================================================================
 
-; *$6CA1D-$6CA80 JUMP LOCATION
+; $06CA1D-$06CA80 JUMP LOCATION
 DW_FortuneTeller_ShowCostMessage:
 {
     REP #$20
@@ -563,7 +562,7 @@ DW_FortuneTeller_ShowCostMessage:
     
     LDA FortuneTeller_Prices, Y
     
-    ; $6CA2D ALTERNATE ENTRY POINT
+    ; $06CA2D ALTERNATE ENTRY POINT
     .known_amount
     
     .modulus_10000
@@ -634,7 +633,7 @@ DW_FortuneTeller_ShowCostMessage:
 
 ; ==============================================================================
 
-; *$6CA81-$6CAA0 JUMP LOCATION
+; $06CA81-$06CAA0 JUMP LOCATION
 DW_FortuneTeller_DeductPayment:
 {
     LDY $0D90, X
@@ -659,10 +658,9 @@ DW_FortuneTeller_DeductPayment:
 
 ; ==============================================================================
 
-; $6CAA1-$6CB00 DATA
+; $06CAA1-$06CB00 DATA
 pool FortuneTeller_Draw:
 {
-    
     .oam_groups
     dw  0, -48 : db $0C, $00, $00, $02
     dw  0, -32 : db $2C, $00, $00, $00
@@ -683,7 +681,7 @@ pool FortuneTeller_Draw:
 
 ; ==============================================================================
 
-; *$6CB01-$6CB29 LOCAL
+; $06CB01-$06CB29 LOCAL
 FortuneTeller_Draw:
 {
     LDA $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA $00
@@ -701,7 +699,7 @@ FortuneTeller_Draw:
 
 ; ==============================================================================
 
-; *$6CB2A-$6CB53 LONG
+; $06CB2A-$06CB53 LONG
 Dwarf_SpawnDwarfSolidity:
 {
     LDA.b #$31 : JSL Sprite_SpawnDynamically

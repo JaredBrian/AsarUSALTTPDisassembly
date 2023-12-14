@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $2966A-$2967A DATA
+; $02966A-$02967A DATA
 pool Sprite_ZoraAndFireball:
 {
-    
     .shield_x_offsets_low
     db $04, $04, $FC, $10
     
@@ -30,7 +29,7 @@ pool Sprite_ZoraAndFireball:
 
 ; ==============================================================================
 
-; *$2967B-$29724 JUMP LOCATION
+; $02967B-$029724 JUMP LOCATION
 Sprite_ZoraAndFireball:
 {
     ; Fireball sprite (from Zora or similar)
@@ -136,7 +135,7 @@ Sprite_ZoraAndFireball:
 
 ; ==============================================================================
 
-; *$29725-$29749 BRANCH LOCATION
+; $029725-$029749 BRANCH LOCATION
 Sprite_Zora:
 {
     LDA $0D80, X : BNE .draw_sprite
@@ -170,10 +169,9 @@ Sprite_Zora:
 
 ; ==============================================================================
 
-; $2974A-$29759 DATA
+; $02974A-$029759 DATA
 pool Zora_ChooseSurfacingLocation:
 {
-    
     .offsets_low
     db $E0, $E8, $F0, $F8, $08, $10, $18, $20
     
@@ -183,7 +181,7 @@ pool Zora_ChooseSurfacingLocation:
 
 ; ==============================================================================
 
-; *$2975A-$297B4 BRANCH LOCATION
+; $02975A-$0297B4 BRANCH LOCATION
 Zora_ChooseSurfacingLocation:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay
@@ -222,10 +220,9 @@ Zora_ChooseSurfacingLocation:
 
 ; ==============================================================================
 
-; $297B5-$297C4 DATA
+; $0297B5-$0297C4 DATA
 pool Zora_Surfacing:
 {
-    
     .animation_states
     db $04, $03, $02, $01, $02, $01, $02, $01
     db $02, $01, $02, $01, $02, $01, $00, $00
@@ -233,7 +230,7 @@ pool Zora_Surfacing:
 
 ; ==============================================================================
 
-; *$297C5-$297E8 LOCAL
+; $0297C5-$0297E8 LOCAL
 Zora_Surfacing:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay
@@ -258,17 +255,16 @@ Zora_Surfacing:
 
 ; ==============================================================================
 
-; $297E9-$297F0 DATA
+; $0297E9-$0297F0 DATA
 pool Zora_Attack:
 {
-    
     .animation_states
     db $05, $05, $06, $0A, $06, $05, $05, $05
 }
 
 ; ==============================================================================
 
-; *$297F1-$29817 LOCAL
+; $0297F1-$029817 LOCAL
 Zora_Attack:
 {
     JSR Sprite2_CheckDamage
@@ -302,10 +298,9 @@ Zora_Attack:
 
 ; ==============================================================================
 
-; $29818-$29823 DATA
+; $029818-$029823 DATA
 pool Zora_Submerging:
 {
-    
     .animation_states
     db $0C, $0B, $09, $08, $07, $00, $00, $00
     db $00, $00, $00, $00
@@ -313,7 +308,7 @@ pool Zora_Submerging:
 
 ; ==============================================================================
 
-; *$29824-$2983E LOCAL
+; $029824-$02983E LOCAL
 Zora_Submerging:
 {
     LDA $0DF0, X : BNE .delay
@@ -336,10 +331,9 @@ Zora_Submerging:
 
 ; ==============================================================================
 
-; $2983F-$298F4 DATA
+; $02983F-$0298F4 DATA
 pool Zora_Draw:
 {
-    
     .x_offsets
     dw   4,   4,   0,   0,   0,   0,   0,   0
     dw   0,   0,   0,   0,   0,   0,   0,   0
@@ -373,7 +367,7 @@ pool Zora_Draw:
 
 ; ==============================================================================
 
-; *$298F5-$2995A LOCAL
+; $0298F5-$02995A LOCAL
 Zora_Draw:
 {
     JSR Sprite2_PrepOamCoord

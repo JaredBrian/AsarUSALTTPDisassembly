@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E2EA-$2E2F1 LONG
+; $02E2EA-$02E2F1 LONG
 Sprite_YoungSnitchLadyLong:
 {
     ; Scared Girl 2 (HM Name) (0x34)
@@ -16,7 +16,7 @@ Sprite_YoungSnitchLadyLong:
 
 ; ==============================================================================
 
-; *$2E2F2-$2E2FE LOCAL
+; $02E2F2-$02E2FE LOCAL
 Sprite_YoungSnitchLady:
 {
     LDA $0D80, X : CMP.b #$02 : BCS .not_visible
@@ -30,10 +30,9 @@ Sprite_YoungSnitchLady:
 
 ; ==============================================================================
 
-; $2E2FF-$2E37E DATA
+; $02E2FF-$02E37E DATA
 pool YoungSnitchLady_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $26, $00, $00, $02
     dw 0,  0 : db $E8, $00, $00, $02
@@ -55,7 +54,7 @@ pool YoungSnitchLady_Draw:
 
 ; ==============================================================================
 
-; *$2E37F-$2E3A2 LOCAL
+; $02E37F-$02E3A2 LOCAL
 YoungSnitchLady_Draw:
 {
     LDA.b #$02 : STA $06

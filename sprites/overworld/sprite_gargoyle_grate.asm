@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; *$2E28C-$2E293 LONG
+; $02E28C-$02E293 LONG
 Sprite_GargoyleGrateLong:
 {
     ; Gargoyle's Domain Entrance (0x14)
@@ -16,7 +16,7 @@ Sprite_GargoyleGrateLong:
 
 ; ==============================================================================
 
-; *$2E294-$2E2E9 LOCAL
+; $02E294-$02E2E9 LOCAL
 Sprite_GargoyleGrate:
 {
     JSL Sprite_PrepOamCoordLong

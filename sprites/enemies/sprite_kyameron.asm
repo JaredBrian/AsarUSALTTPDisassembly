@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F1E7B-$F1EA4 JUMP LOCATION
+; $0F1E7B-$0F1EA4 JUMP LOCATION
 Sprite_Kyameron:
 {
     LDA $0D80, X : BNE .visible
@@ -34,7 +34,7 @@ Sprite_Kyameron:
 
 ; ==============================================================================
 
-; *$F1EA5-$F1EDA JUMP LOCATION
+; $0F1EA5-$0F1EDA JUMP LOCATION
 Kyameron_Reset:
 {
     LDA $0DF0, X : BNE .delay
@@ -60,7 +60,7 @@ Kyameron_Reset:
 
 ; ==============================================================================
 
-; *$F1EDB-$F1F00 JUMP LOCATION
+; $0F1EDB-$0F1F00 JUMP LOCATION
 Kyameron_PuddleUp:
 {
     LDA $0DF0, X : BNE .delay
@@ -84,10 +84,9 @@ Kyameron_PuddleUp:
 
 ; ==============================================================================
 
-; $F1F01-$F1F10 DATA
+; $0F1F01-$0F1F10 DATA
 pool Kyameron_Coagulate:
 {
-    
     .animation_states
     db $04, $07, $0E, $0D, $0C, $06, $06, $05
     
@@ -100,7 +99,7 @@ pool Kyameron_Coagulate:
 
 ; ==============================================================================
 
-; *$F1F11-$F1F54 JUMP LOCATION
+; $0F1F11-$0F1F54 JUMP LOCATION
 Kyameron_Coagulate:
 {
     LDA $0DF0, X : BNE .delay
@@ -143,17 +142,16 @@ Kyameron_Coagulate:
 
 ; ==============================================================================
 
-; $F1F55-$F1F58 DATA
+; $0F1F55-$0F1F58 DATA
 pool Kyameron_Moving:
 {
-    
     .animation_states
     db $03, $02, $01, $00
 }
 
 ; ==============================================================================
 
-; *$F1F59-$F1FE2 JUMP LOCATION
+; $0F1F59-$0F1FE2 JUMP LOCATION
 Kyameron_Moving:
 {
     STZ $0BA0, X
@@ -216,7 +214,7 @@ Kyameron_Moving:
 
 ; ==============================================================================
 
-; *$F1FE3-$F2000 JUMP LOCATION
+; $0F1FE3-$0F2000 JUMP LOCATION
 Kyameron_Disperse:
 {
     LDA $0DF0, X : BNE .delay
@@ -243,7 +241,7 @@ Kyameron_Disperse:
 
 ; ==============================================================================
 
-; *$F2001-$F206B LONG
+; $0F2001-$0F206B LONG
 Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
 {
     PHX
@@ -254,7 +252,7 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
     
     BRA .search_for_slot
     
-    ; *$F2007 ALTERNATE ENTRY POINT
+    ; $0F2007 ALTERNATE ENTRY POINT
     shared Sprite_SpawnSimpleSparkleGarnish:
     
     ; This routine makes sparklies! ^_^
@@ -304,10 +302,9 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
 
 ; ==============================================================================
 
-; $F206C-$F2157 DATA
+; $0F206C-$0F2157 DATA
 pool Kyameron_Draw:
 {
-    
     .oam_groups
     dw  1,   8 : db $B4, $00, $00, $00
     dw  7,   8 : db $B5, $00, $00, $00
@@ -351,7 +348,7 @@ pool Kyameron_Draw:
 
 ; ==============================================================================
 
-; *$F2158-$F2191 LOCAL
+; $0F2158-$0F2191 LOCAL
 Kyameron_Draw:
 {
     LDA $0DC0, X : CMP.b #$0C : BCS .dispersing

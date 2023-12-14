@@ -4,7 +4,7 @@
 
 ; ==============================================================================
 
-; *$F3E7E-$F3E87 JUMP LOCATION
+; $0F3E7E-$0F3E87 JUMP LOCATION
 Sprite_Mothula:
 {
     JSR Mothula_Main
@@ -16,7 +16,7 @@ Sprite_Mothula:
 
 ; ==============================================================================
 
-; *$F3E88-$F3ED7 LOCAL
+; $0F3E88-$0F3ED7 LOCAL
 Mothula_Main:
 {
     JSL Mothula_DrawLong
@@ -81,7 +81,7 @@ Mothula_Main:
 
 ; ==============================================================================
 
-; *$F3ED8-$F3EE0 JUMP LOCATION
+; $0F3ED8-$0F3EE0 JUMP LOCATION
 Mothula_Delay:
 {
     LDA $0DF0, X : BNE .delay
@@ -95,7 +95,7 @@ Mothula_Delay:
 
 ; ==============================================================================
 
-; *$F3EE1-$F3F06 JUMP LOCATION
+; $0F3EE1-$0F3F06 JUMP LOCATION
 Mothula_Ascend:
 {
     LDA.b #$08 : STA $0F80, X
@@ -124,10 +124,9 @@ Mothula_Ascend:
 
 ; ==============================================================================
 
-; $F3F07-$F3F12 DATA
+; $0F3F07-$0F3F12 DATA
 pool Mothula_FlyAbout:
 {
-    
     .z_accelerations
     db 1, -1
     
@@ -140,7 +139,7 @@ pool Mothula_FlyAbout:
 
 ; ==============================================================================
 
-; *$F3F13-$F3F9A JUMP LOCATION
+; $0F3F13-$0F3F9A JUMP LOCATION
 Mothula_FlyAbout:
 {
     LDA !beam_timer, X : BNE .delay_beam_firing_mode
@@ -221,17 +220,16 @@ Mothula_FlyAbout:
 
 ; ==============================================================================
 
-; $F3F9B-$F3F9E DATA
+; $0F3F9B-$0F3F9E DATA
 pool Mothula_FlapWings:
 {
-    
     .animation_states
     db 0, 1, 2, 1
 }
 
 ; ==============================================================================
 
-; *$F3F9F-$F3FB8 LOCAL
+; $0F3F9F-$0F3FB8 LOCAL
 Mothula_FlapWings:
 {
     INC $0E80, X
@@ -249,7 +247,7 @@ Mothula_FlapWings:
 
 ; ==============================================================================
 
-; *$F3FB9-$F3FD8 JUMP LOCATION
+; $0F3FB9-$0F3FD8 JUMP LOCATION
 Mothula_FireBeams:
 {
     JSR Sprite3_CheckDamage
@@ -275,10 +273,9 @@ Mothula_FireBeams:
 
 ; ==============================================================================
 
-; $F3FD9-$F3FDE DATA
+; $0F3FD9-$0F3FDE DATA
 Mothula_SpawnBeams:
 {
-    
     ; \note Yes, they are combined for this routine.
     .x_offsets
     .x_speeds
@@ -290,7 +287,7 @@ Mothula_SpawnBeams:
 
 ; ==============================================================================
 
-; *$F3FDF-$F402D BRANCH LOCATION
+; $0F3FDF-$0F402D BRANCH LOCATION
 Mothula_SpawnBeams:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
@@ -333,10 +330,9 @@ Mothula_SpawnBeams:
 
 ; ==============================================================================
 
-; $F402E-$F4087 DATA
+; $0F402E-$0F4087 DATA
 pool Mothula_ActivateMovingSpikeBlock:
 {
-    
     .x_coords_low
     db $38, $48, $58, $68, $88, $98, $A8, $B8
     db $C8, $C8, $C8, $C8, $C8, $C8, $C8, $B8
@@ -358,7 +354,7 @@ pool Mothula_ActivateMovingSpikeBlock:
 
 ; ==============================================================================
 
-; *$F4088-$F4102 LOCAL
+; $0F4088-$0F4102 LOCAL
 Mothula_ActivateMovingSpikeBlock:
 {
     DEC !spike_activation_timer, X : BNE .activation_delay

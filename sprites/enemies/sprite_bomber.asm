@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F0DD2-$F0DE6 JUMP LOCATION
+; $0F0DD2-$0F0DE6 JUMP LOCATION
 Sprite_Bomber:
 {
     LDA.b #$30 : STA $0B89, X
@@ -18,7 +18,7 @@ Sprite_Bomber:
 
 ; ==============================================================================
 
-; *$F0DE7-$F0E13 JUMP LOCATION
+; $0F0DE7-$0F0E13 JUMP LOCATION
 BomberPellet_Falling:
 {
     JSL Sprite_PrepAndDrawSingleSmallLong
@@ -47,7 +47,7 @@ BomberPellet_Falling:
 
 ; ==============================================================================
 
-; *$F0E14-$F0E28 JUMP LOCATION
+; $0F0E14-$0F0E28 JUMP LOCATION
 BomberPellet_Exploding:
 {
     JSL BomberPellet_DrawExplosion
@@ -66,10 +66,9 @@ BomberPellet_Exploding:
 
 ; ==============================================================================
 
-; $F0E29-$F0E30 DATA
+; $0F0E29-$0F0E30 DATA
 pool Bomber_Main:
 {
-    
     .z_speed_step
     db $01, $FF
     
@@ -82,7 +81,7 @@ pool Bomber_Main:
 
 ; ==============================================================================
 
-; $F0E31-$F0ED1 BRANCH LOCATION
+; $0F0E31-$0F0ED1 BRANCH LOCATION
 Bomber_Main:
 {
     LDA $0E00, X : BEQ .direction_lock_inactive
@@ -160,7 +159,7 @@ Bomber_Main:
 
 ; ==============================================================================
 
-; $F0ED2-$F0EE3 JUMP LOCATION
+; $0F0ED2-$0F0EE3 JUMP LOCATION
 Bomber_Dodge:
 {
     LDA $0DF0, X : BNE .delay
@@ -178,10 +177,9 @@ Bomber_Dodge:
 
 ; ==============================================================================
 
-; $F0EE4-$F0EF7 DATA
+; $0F0EE4-$0F0EF7 DATA
 pool Bomber_Hovering:
 {
-    
     .x_speeds
     db $10, $0C
     db $00, $F4
@@ -200,7 +198,7 @@ pool Bomber_Hovering:
 
 ; ==============================================================================
 
-; $F0EF8-$F0F70 JUMP LOCATION
+; $0F0EF8-$0F0F70 JUMP LOCATION
 Bomber_Hovering:
 {
     LDA $0DF0, X : BNE .delay
@@ -237,7 +235,7 @@ Bomber_Hovering:
     
     BRA .just_face_and_animate
     
-    ; $F0F36 ALTERNATE ENTRY POINT
+    ; $0F0F36 ALTERNATE ENTRY POINT
     shared Bomber_Moving:
     
     LDA $0DF0, X : BNE .delay_2
@@ -257,7 +255,7 @@ Bomber_Hovering:
     
     .delay_2
     
-    ; $F0F50 ALTERNATE ENTRY POINT
+    ; $0F0F50 ALTERNATE ENTRY POINT
     shared Bomber_MoveAndAnimate:
     
     JSR Sprite3_Move
@@ -275,10 +273,9 @@ Bomber_Hovering:
 
 ; ==============================================================================
 
-; $F0F71-$F0F80 DATA
+; $0F0F71-$0F0F80 DATA
 pool Bomber_SpawnPellet:
 {
-    
     .x_offsets_low
     db $0E, $FA, $04, $04
     
@@ -294,7 +291,7 @@ pool Bomber_SpawnPellet:
 
 ; ==============================================================================
 
-; $F0F81-$F0FDE LOCAL
+; $0F0F81-$0F0FDE LOCAL
 Bomber_SpawnPellet:
 {
     LDA.b #$A8 : JSL Sprite_SpawnDynamically : BMI .spawn_failed

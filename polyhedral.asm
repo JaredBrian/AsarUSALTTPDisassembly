@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4F7DE-$4F81C LONG
+; $04F7DE-$04F81C LONG
 Polyhedral_InitThread:
 {
     PHP : PHB
@@ -45,7 +45,7 @@ Polyhedral_InitThread:
     
 ; ==============================================================================
 
-; $4F81D-$4F83C
+; $04F81D-$04F83C
 {
     ; Polyhedral thread entry point
     
@@ -54,12 +54,12 @@ Polyhedral_InitThread:
     LDA $00 : BEQ .wait
     LDA $0C : BNE .wait
     
-    JSL $09FD04 ; $4FD04 in ROM
+    JSL $09FD04 ; $04FD04 in ROM
     
-    JSR $F83D ; $4F83D in Rom.
-    JSR $F864 ; $4F864 in Rom.
-    JSR $F8FB ; $4F8FB in Rom.
-    JSR $FA4F ; $4FA4F in Rom.
+    JSR $F83D ; $04F83D in Rom.
+    JSR $F864 ; $04F864 in Rom.
+    JSR $F8FB ; $04F8FB in Rom.
+    JSR $FA4F ; $04FA4F in Rom.
     
     STZ $00
     
@@ -68,7 +68,7 @@ Polyhedral_InitThread:
     BRA .wait
 }
 
-; $4F83D-$4F863 LOCAL
+; $04F83D-$04F863 LOCAL
 {
     REP #$30
     
@@ -88,7 +88,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4F864-$4F8FA LOCAL
+; $04F864-$04F8FA LOCAL
 {
     SEP #$30
     
@@ -145,7 +145,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4F8FB-$4F930
+; $04F8FB-$04F930
 {
     SEP #$30
     
@@ -174,8 +174,8 @@ Polyhedral_InitThread:
     
     REP #$20
     
-    JSR $F931 ; $4F931 in rom.
-    JSR $F9D6 ; $4F9D6 in Rom.
+    JSR $F931 ; $04F931 in rom.
+    JSR $F9D6 ; $04F9D6 in Rom.
     
     SEP #$20
     
@@ -187,7 +187,7 @@ Polyhedral_InitThread:
     RTS
 }
     
-; $4F931-$4F9D5
+; $04F931-$04F9D5
 {
     LDY $56
     
@@ -265,7 +265,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4F9D6-$4FA4E
+; $04F9D6-$04FA4E
 {
     LDA $48 : BPL .alpha
     
@@ -376,7 +376,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4FA4F-$4FAC9
+; $04FA4F-$04FAC9
 {
     SEP #$30
     
@@ -424,8 +424,8 @@ Polyhedral_InitThread:
     
     JSR $FB24 : BMI .gamma : BEQ .beta
     
-    JSR $FACA   ; $4FACA in Rom.
-    JSL $09FD1E ; $4FD1E in Rom.
+    JSR $FACA   ; $04FACA in Rom.
+    JSL $09FD1E ; $04FD1E in Rom.
     
     .beta
     
@@ -467,30 +467,30 @@ Polyhedral_InitThread:
     
     SEP #$20
     
-    JSR $FAD7   ; $4FAD7 in rom.
-    JSL $09FD1E ; $4FD1E in Rom.
+    JSR $FAD7   ; $04FAD7 in rom.
+    JSL $09FD1E ; $04FD1E in Rom.
     
     JMP .beta
 }
 
-; $4FACA-$4FAD6 LOCAL
+; $04FACA-$04FAD6 LOCAL
 {
     LDA $01 : BNE .BRANCH_4FAD7_external_1
     
     LDA $4F : AND.b #$07
     
-    JSL $09FCAE ; $4FCAE in ROM.
+    JSL $09FCAE ; $04FCAE in ROM.
     
     RTS
 }
 
-; $4FAD7-$4FB23
+; $04FAD7-$04FB23
 {
     LDA $01 : BNE .alpha
     
     LDA $4F : LSR #4 : AND.b #$07
     
-    JSL $09FCAE ; $4FCAE in ROM.
+    JSL $09FCAE ; $04FCAE in ROM.
     
     RTS
     
@@ -544,12 +544,12 @@ Polyhedral_InitThread:
     
     .epsilon
     
-    JSL $09FCAE ; $4FCAE in ROM.
+    JSL $09FCAE ; $04FCAE in ROM.
     
     RTS
 }
 
-; $4FB24-$4FB6C
+; $04FB24-$04FB6C
 {
     ; (set I and C flags)
     SEP #$05
@@ -582,13 +582,12 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4FB6D-$4FCAD DATA
+; $04FB6D-$04FCAD DATA
 {
-    
     ; $4FBAD
 }
 
-; $4FCAE-$4FCC3 LONG
+; $04FCAE-$04FCC3 LONG
 {
     PHP
     
@@ -606,7 +605,7 @@ Polyhedral_InitThread:
     RTL
 }
 
-; $4FCC4-$4FD03 DATA
+; $04FCC4-$04FD03 DATA
 {
     ; Masks for different bitplanes (0 - 3)?
     dd $00000000
@@ -627,7 +626,7 @@ Polyhedral_InitThread:
     dd $FFFFFFFF
 }
 
-; $4FD04-$4FD1D LONG
+; $04FD04-$04FD1D LONG
 {
     PHP : PHB
     
@@ -646,7 +645,7 @@ Polyhedral_InitThread:
     RTL
 }
 
-; $4FD1E-$4FDCE LONG
+; $04FD1E-$04FDCE LONG
 {
     PHP : PHB
     
@@ -701,7 +700,7 @@ Polyhedral_InitThread:
     
     .epsilon
     
-    JSR $FDCF ; $4FDCF in Rom.
+    JSR $FDCF ; $04FDCF in Rom.
     
     LDA $B9 : INC #2 : CMP.b #$10 : BEQ .zeta
     
@@ -761,7 +760,7 @@ Polyhedral_InitThread:
     RTL
 }
 
-; $4FDCF-$4FE93 LOCAL
+; $04FDCF-$04FE93 LOCAL
 {
     LDA $E6 : AND.b #$07 : ASL A : TAY
     
@@ -828,7 +827,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4FE94-$4FEB3 DATA
+; $04FE94-$04FEB3 DATA
 {
     dw $FFFF, $7F7F, $3F3F, $1F1F, $0F0F, $0707, $0303, $0101
     
@@ -837,9 +836,8 @@ Polyhedral_InitThread:
     dw $8080, $C0C0, $E0E0, $F0F0, $F8F8, $FCFC, $FEFE, $FFFF
 }
 
-; $4FEB4-$4FF1D LOCAL
+; $04FEB4-$04FF1D LOCAL
 {
-    
     .loop
     
     DEC $E0 : BPL .alpha
@@ -920,9 +918,8 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4FF1E-$4FF8B LOCAL
+; $04FF1E-$04FF8B LOCAL
 {
-    
     .loop
     
     DEC $E0 : BPL .alpha
@@ -1009,7 +1006,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $4FF8C-$4FF97 DATA (rest is not mapped)
+; $04FF8C-$04FF97 DATA (rest is not mapped)
 {
     ; \task Figure out where this array really ends. Does it cross
     ; bank boundaries?

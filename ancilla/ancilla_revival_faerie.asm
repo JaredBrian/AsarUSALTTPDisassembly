@@ -11,10 +11,9 @@
 
 ; ==============================================================================
 
-; $4727C-$47282 DATA
+; $04727C-$047282 DATA
 pool Ancilla_RevivalFaerie:
 {
-    
     ; \note The first one probably isn't even used as it's the start state
     .timers
     db $00, $90
@@ -26,7 +25,7 @@ pool Ancilla_RevivalFaerie:
 ; ==============================================================================
 
     ; \note Looks like this animated the faeries during death mode.
-; *$47283-$473CE LONG
+; $047283-$0473CE LONG
 Ancilla_RevivalFaerie:
 {
     PHB : PHK : PLB
@@ -227,7 +226,7 @@ Ancilla_RevivalFaerie:
 
 ; ==============================================================================
 
-; *$473CF-$4742F LOCAL
+; $0473CF-$04742F LOCAL
 RevivalFaerie_Dust:
 {
     LDA $0C54, X : BNE .possible_faerie_dust
@@ -298,7 +297,7 @@ RevivalFaerie_Dust:
 
 ; ==============================================================================
 
-; *$47430-$474C9 LOCAL
+; $047430-$0474C9 LOCAL
 RevivalFaerie_MonitorPlayerRecovery:
 {
     LDA $7EF36C : STA $00

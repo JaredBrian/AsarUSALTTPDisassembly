@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E8D06-$E8D28 LOCAL
+; $0E8D06-$0E8D28 LOCAL
 Ganon_CheckEntityProximity:
 {
     REP #$20
@@ -19,12 +19,12 @@ Ganon_CheckEntityProximity:
 
 ; ==============================================================================
 
-; *$E8D29-$E8D3F LONG
+; $0E8D29-$0E8D3F LONG
 Ganon_Initialize:
 {
     PHB : PHK : PLB
     
-    JSR $9443   ; $E9443 IN ROM
+    JSR $9443   ; $0E9443 IN ROM
     
     LDA.b #$80 : STA $0DF0, X
     
@@ -39,7 +39,7 @@ Ganon_Initialize:
 
 ; ==============================================================================
 
-; *$E8D70-$E8E74 LOCAL
+; $0E8D70-$0E8E74 LOCAL
 {
     LDA.b #$FC : CLC : ADC $0B08 : STA $0B08
     LDA.b #$FF : ADC $0B09 : STA $0B09
@@ -48,7 +48,7 @@ Ganon_Initialize:
     
     PHX
     
-    ; *$E8D85 ALTERNATE ENTRY POINT
+    ; $0E8D85 ALTERNATE ENTRY POINT
     
     LDA $0FB5 : TAX : ASL A : TAY
     
@@ -100,7 +100,7 @@ Ganon_Initialize:
     
     STA $4203
     
-    JSR $8E75   ; $E8E75 IN ROM
+    JSR $8E75   ; $0E8E75 IN ROM
     
     ASL $4216
     
@@ -133,7 +133,7 @@ Ganon_Initialize:
     
     STA $4203
     
-    JSR $8E75   ; $E8E75 IN ROM
+    JSR $8E75   ; $0E8E75 IN ROM
     
     ASL $4216
     
@@ -160,7 +160,7 @@ Ganon_Initialize:
     
     INC $0FB5 : LDA $0FB5 : CMP.b #$08 : BEQ .BRANCH_IOTA
     
-    JMP $8D85   ; $E8D85 IN ROM
+    JMP $8D85   ; $0E8D85 IN ROM
     
     .BRANCH_IOTA
     
@@ -169,14 +169,14 @@ Ganon_Initialize:
     RTS
 }
 
-; *$E8E75-$E8E7B LOCAL
+; $0E8E75-$0E8E7B LOCAL
 {
     NOP #6
     
     RTS
 }
 
-; *$E8E7C-$E8EB3 LOCAL
+; $0E8E7C-$0E8EB3 LOCAL
 {
     LDA.b #$C9
     LDY.b #$08
@@ -192,7 +192,7 @@ Ganon_Initialize:
     LDA.b #$80 : STA $0CAA, Y : STA $0D20, Y
     LDA.b #$30 : STA $0DF0, Y
     
-    ; *$E8EAB ALTERNATE ENTRY POINT
+    ; $0E8EAB ALTERNATE ENTRY POINT
     
     LDA.b #$07 : STA $0CD2, Y : STA $0BA0, Y
     
@@ -201,7 +201,7 @@ Ganon_Initialize:
     RTS
 }
 
-; *$E8EB4-$E8ECA JUMP LOCATION LOCAL
+; $0E8EB4-$0E8ECA JUMP LOCATION LOCAL
 Sprite_Ganon:
 {
     ; CODE FOR GANON
@@ -221,19 +221,19 @@ Sprite_Ganon:
     
     LSR A : BCS .BRANCH_BETA
     
-    JSR $9ADF ; $E9ADF IN ROM; Routine that draws Ganon to screen.
+    JSR $9ADF ; $0E9ADF IN ROM; Routine that draws Ganon to screen.
     
     .BRANCH_BETA
     
     RTS
 }
 
-; $E8ECB-$E8ECE DATA TABLE
+; $0E8ECB-$0E8ECE DATA TABLE
 {
     db $02, $00, $10, $0A
 }
 
-; *$E8ECF-$E8F89 BRANCH LOCATION
+; $0E8ECF-$0E8F89 BRANCH LOCATION
 {
     LDA $0F10, X : BEQ .BRANCH_ALPHA
     
@@ -262,13 +262,13 @@ Sprite_Ganon:
     
     STA $0C9A, X
     
-    JSR $9ADF ; $E9ADF IN ROM; Routine that draws Ganon to screen.
+    JSR $9ADF ; $0E9ADF IN ROM; Routine that draws Ganon to screen.
     
     LDA $0E00, X : BEQ .BRANCH_GAMMA
     
     LDA.b #$0F : STA $0DC0, X
     
-    JSR $8FFA ; $E8FFA IN ROM; Causes Gannon to be vulnerable to silver arrows.
+    JSR $8FFA ; $0E8FFA IN ROM; Causes Gannon to be vulnerable to silver arrows.
     
     JMP Sprite4_CheckDamage
     
@@ -365,9 +365,8 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E8F8A-$E8F8B DATA
+; $0E8F8A-$0E8F8B DATA
 {
-    
     ; \task Name this routine / pool.
     .animation_states
     db 5, 13
@@ -375,7 +374,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E8F8C-$E8FB7 JUMP LOCATION LOCAL ; 0x13
+; $0E8F8C-$0E8FB7 JUMP LOCATION LOCAL ; 0x13
 {
     LDA.b #$05 : STA $0F50, X
     LDA.b #$02 : STA $0B6B, X
@@ -386,7 +385,7 @@ Sprite_Ganon:
     
     LDA.b #$12
     
-    JSR $947F ; $E947F IN ROM
+    JSR $947F ; $0E947F IN ROM
     
     LDA.b #$D6 : STA $0E20, X
     
@@ -405,9 +404,8 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E8FB8-$E8FBD DATA
+; $0E8FB8-$0E8FBD DATA
 {
-    
     ; \task Name this pool / routine.
     .animation_states
     db 6, 14, 7, 10
@@ -415,7 +413,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E8FBC-$E9015 JUMP LOCATION ; 0x11
+; $0E8FBC-$0E9015 JUMP LOCATION ; 0x11
 {
     LDY $0DE0, X
     
@@ -425,7 +423,7 @@ Sprite_Ganon:
     
     LDA.b #$12
     
-    JSR $947F   ; $E947F IN ROM
+    JSR $947F   ; $0E947F IN ROM
     
     RTS
     
@@ -433,7 +431,7 @@ Sprite_Ganon:
     
     CMP.b #$34 : PHP : BNE .BRANCH_BETA
     
-    JSR $915C   ; $E915C IN ROM
+    JSR $915C   ; $0E915C IN ROM
     
     .BRANCH_BETA
     
@@ -478,16 +476,15 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E9016-$E9017 DATA
+; $0E9016-$0E9017 DATA
 {
-    
     .animation_states
     db 6, 14
 }
 
 ; ==============================================================================
 
-; *$E9018-$E9041 JUMP LOCATION ; 0x0F
+; $0E9018-$0E9041 JUMP LOCATION ; 0x0F
 {
     LDA $0DF0, X : BEQ .BRANCH_ALPHA
     DEC A        : BNE .BRANCH_BETA
@@ -517,9 +514,8 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E9042-$E9043 DATA
+; $0E9042-$0E9043 DATA
 {
-    
     ; \task Name this routine / pool.
     .animation_states
     db 2, 10
@@ -527,7 +523,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E9044-$E90C3 JUMP LOCATION ; 0x10
+; $0E9044-$0E90C3 JUMP LOCATION ; 0x10
 {
     STZ $011C
     STZ $011D
@@ -539,17 +535,17 @@ Sprite_Ganon:
     
     LDA.b #$0D
     
-    JSR $947F   ; $E947F IN ROM
+    JSR $947F   ; $0E947F IN ROM
     
     STZ $02E4
     
-    JSR $90D0   ; $E90D0 IN ROM
+    JSR $90D0   ; $0E90D0 IN ROM
     
     LDA $0EC0, X : CMP.b #$04 : BCC .BRANCH_GAMMA
     
     LDA.b #$0A
     
-    JSR $947F   ; $E947F IN ROM
+    JSR $947F   ; $0E947F IN ROM
     
     LDA.b #$60 : STA $0E50, X
     
@@ -558,7 +554,7 @@ Sprite_Ganon:
     LDA.b #$70 : STA $1CF0 ; You are doing well, lad. But can you break through 
     LDA.b #$01             ; this secret technique of Darkness? En Garde!
     
-    ; *$E907F ALTERNATE ENTRY POINT ; Is it alternate entry point? i don't see it referenced anywhere else..
+    ; $0E907F ALTERNATE ENTRY POINT ; Is it alternate entry point? i don't see it referenced anywhere else..
     shared Sprite4_ShowMessageMinimal:
     
                  STA $1CF1
@@ -604,7 +600,7 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E90D0-$E910C LOCAL
+; $0E90D0-$0E910C LOCAL
 {
     LDY.b #$07
     
@@ -642,15 +638,15 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E9113-$E9157 JUMP LOCATION ; 0x0C
+; $0E9113-$0E9157 JUMP LOCATION ; 0x0C
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
-    ; *$E9118 ALTERNATE ENTRY POINT
+    ; $0E9118 ALTERNATE ENTRY POINT
     
     LDA.b #$0D
     
-    JSR $947F   ; $E947F IN ROM
+    JSR $947F   ; $0E947F IN ROM
     
     RTS
     
@@ -667,7 +663,7 @@ Sprite_Ganon:
     
     PHY
     
-    JSR $9160   ; $E9160 IN ROM
+    JSR $9160   ; $0E9160 IN ROM
     
     PLY
     
@@ -700,7 +696,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E9158-$E915B DATA
+; $0E9158-$0E915B DATA
 {
     ; \task name this pool routine.
     db  0, -16
@@ -709,7 +705,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E915C-$E91D4 LOCAL
+; $0E915C-$0E91D4 LOCAL
 {
     ; Seems to spawn some Ganon helpers. Not sure which ones yet.
     
@@ -717,7 +713,7 @@ Sprite_Ganon:
     
     BRA .BRANCH_ALPHA
     
-    ; *$E9160 ALTERNATE ENTRY POINT
+    ; $0E9160 ALTERNATE ENTRY POINT
     
     LDA.b #$03
     
@@ -764,18 +760,18 @@ Sprite_Ganon:
     LDA $0D00 : STA $0DB0, Y
     LDA $0D20 : STA $0E90, Y
     
-    JMP $8EAB ; $E8EAB IN ROM
+    JMP $8EAB ; $0E8EAB IN ROM
     
     .spawn_failed
     
     RTS
 }
 
-; *$E91D5-$E9202 JUMP LOCATION ; 0x0E
+; $0E91D5-$0E9202 JUMP LOCATION ; 0x0E
 {
     INC $0BA0, X
     
-    JSR $9443   ; $E9443 IN ROM
+    JSR $9443   ; $0E9443 IN ROM
     
     STZ $0ED0, X
     
@@ -783,7 +779,7 @@ Sprite_Ganon:
     
     JSL GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
     
-    JMP $9118   ; $E9118 IN ROM
+    JMP $9118   ; $0E9118 IN ROM
     
     .BRANCH_BETA
     
@@ -804,7 +800,7 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E9203-$E9230 JUMP LOCATION ; 0x07
+; $0E9203-$0E9230 JUMP LOCATION ; 0x07
 {
     LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
     
@@ -827,14 +823,14 @@ Sprite_Ganon:
     CMP.b #$C0 : BCS .BRANCH_GAMMA
     AND.b #$0F : BNE .BRANCH_GAMMA
     
-    JSR $8E7C   ; $E8E7C IN ROM
+    JSR $8E7C   ; $0E8E7C IN ROM
     
     .BRANCH_GAMMA
     
     BRA .BRANCH_$E9288
 }
 
-; *$E9248-$E928E JUMP LOCATION ; 0x08
+; $0E9248-$0E928E JUMP LOCATION ; 0x08
 {
     LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
     
@@ -848,7 +844,7 @@ Sprite_Ganon:
     
     LDA.b #$7F : STA $0DF0, X
     
-    JSR $9443   ; $E9443 IN ROM
+    JSR $9443   ; $0E9443 IN ROM
     
     LDY.b #$08
     
@@ -868,15 +864,15 @@ Sprite_Ganon:
     
     LDA $0B0A : CLC : ADC $9231, Y : STA $0B0A
     
-    ; *$E9288 ALTERNATE ENTRY POINT
+    ; $0E9288 ALTERNATE ENTRY POINT
     
-    JSR $93DB   ; $E93DB IN ROM
-    JSR $8D70   ; $E8D70 IN ROM
+    JSR $93DB   ; $0E93DB IN ROM
+    JSR $8D70   ; $0E8D70 IN ROM
     
     RTS
 }
 
-; *$E928F-$E92A9 JUMP LOCATION ; 0x09
+; $0E928F-$0E92A9 JUMP LOCATION ; 0x09
 {
     LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
     
@@ -888,26 +884,26 @@ Sprite_Ganon:
     
     LDA.b #$0A
     
-    JSR $947F   ; $E947F IN ROM
+    JSR $947F   ; $0E947F IN ROM
     
     RTS
     
     .BRANCH_BETA
     
-    JSR $94BA   ; $E94BA IN ROM
+    JSR $94BA   ; $0E94BA IN ROM
     
     RTS
 }
 
-; *$E92AA-$E92C9 JUMP LOCATION ; 0x0B
+; $0E92AA-$0E92C9 JUMP LOCATION ; 0x0B
 {
     INC $0BA0, X
     
-    JSR $9443   ; $E9443 IN ROM
+    JSR $9443   ; $0E9443 IN ROM
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
-    ; *$E92B5 ALTERNATE ENTRY POINT
+    ; $0E92B5 ALTERNATE ENTRY POINT
     
     LDA.b #$FF : STA $0DF0, X
     
@@ -926,12 +922,12 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E92CA-$E92F6 JUMP LOCATION LOCAL ; 0x00
+; $0E92CA-$0E92F6 JUMP LOCATION LOCAL ; 0x00
 {
     ; Is the timer still going?
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
-    ; *$E92CF ALTERNATE ENTRY POINT
+    ; $0E92CF ALTERNATE ENTRY POINT
     
     ; Otherwise jump to the next step in the AI table.
     LDA.b #$01 : STA $0D80, X
@@ -964,13 +960,13 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E9341-$E9353 BRANCH LOCATION
+; $0E9341-$0E9353 BRANCH LOCATION
 {
     CMP.b #$00 : BNE .BRANCH_ALPHA
     
     LDA.b #$05
     
-    JMP $947F   ; $E947F IN ROM
+    JMP $947F   ; $0E947F IN ROM
     
     .BRANCH_ALPHA
     
@@ -981,7 +977,7 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E9354-$E93FA JUMP LOCATION ; 0x01
+; $0E9354-$0E93FA JUMP LOCATION ; 0x01
 {
     LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
@@ -1035,9 +1031,9 @@ Sprite_Ganon:
     
     LDA.b #$02 : STA $0DE0, Y
     
-    JMP $8EAB   ; $E8EAB IN ROM
+    JMP $8EAB   ; $0E8EAB IN ROM
     
-    ; *$E93DB ALTERNATE ENTRY POINT
+    ; $0E93DB ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     LDA $0DF0, X : LSR #2 : AND.b #$07
@@ -1061,9 +1057,8 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E93FB-$E93FC DATA
+; $0E93FB-$0E93FC DATA
 {
-    
     ; \task Name this routine / pool.
     .animation_states
     db 0, 8
@@ -1071,7 +1066,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E93FD-$E9423 JUMP LOCATION ; 0x02
+; $0E93FD-$0E9423 JUMP LOCATION ; 0x02
 {
     LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
@@ -1098,7 +1093,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $E9424-$E9427 DATA
+; $0E9424-$0E9427 DATA
 {
     ; \task name this routine / pool.
     db 9, 10,  2, 10
@@ -1106,7 +1101,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E9428-$E9459 JUMP LOCATION ; 0x03
+; $0E9428-$0E9459 JUMP LOCATION ; 0x03
 {
     LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
@@ -1120,13 +1115,13 @@ Sprite_Ganon:
     
     LDA.b #$7F : STA $0DF0, X
     
-    ; *$E9443 ALTERNATE ENTRY POINT
+    ; $0E9443 ALTERNATE ENTRY POINT
     
     LDY $0DE0, X
     
     LDA $9424, Y : STA $0ED0, X
     
-    ; *$E944C ALTERNATE ENTRY POINT
+    ; $0E944C ALTERNATE ENTRY POINT
     
     LDY $0DE0, X
     
@@ -1136,12 +1131,12 @@ Sprite_Ganon:
     
     .BRANCH_BETA
     
-    JSR $93DB   ; $E93DB IN ROM
+    JSR $93DB   ; $0E93DB IN ROM
     
     RTS
 }
 
-; *$E946C-$E94C4 JUMP LOCATION ; 0x04
+; $0E946C-$0E94C4 JUMP LOCATION ; 0x04
 {
     LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
@@ -1153,7 +1148,7 @@ Sprite_Ganon:
     
     LDA.b #$05
     
-    ; *$E947F ALTERNATE ENTRY POINT ; spawn firebat?
+    ; $0E947F ALTERNATE ENTRY POINT ; spawn firebat?
     
     STA $00
     
@@ -1179,7 +1174,7 @@ Sprite_Ganon:
     
     RTS
     
-    ; *$E94BA ALTERNATE ENTRY POINT
+    ; $0E94BA ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     LSR #3 : TAY
@@ -1191,12 +1186,12 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E94F5-$E955E JUMP LOCATION ; 0x0D
+; $0E94F5-$0E955E JUMP LOCATION ; 0x0D
 {
     ; Reset health for lights out phase
     LDA.b #$64 : STA $0E50, X
     
-    ; *$E94FA ALTERNATE ENTRY POINT  ; 0x05, 0x0A, 0x12
+    ; $0E94FA ALTERNATE ENTRY POINT  ; 0x05, 0x0A, 0x12
     
     INC $0BA0, X
     
@@ -1253,19 +1248,19 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E955F-$E95AC BRANCH LOCATION
+; $0E955F-$0E95AC BRANCH LOCATION
 {
     LDA.b #$20
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
-    JSR $8AE4   ; $E8AE4 IN ROM
+    JSR $8AE4   ; $0E8AE4 IN ROM
     JSR Sprite4_Move
     
     LDA $0DF0, X : BEQ .BRANCH_ALPHA
     
     LDA $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
-    JSR $944C   ; $E944C IN ROM
+    JSR $944C   ; $0E944C IN ROM
     
     BRA .BRANCH_BETA
     
@@ -1298,7 +1293,7 @@ Sprite_Ganon:
     RTS
 }
 
-; *$E95AD-$E95CD JUMP LOCATION ; 0x06
+; $0E95AD-$0E95CD JUMP LOCATION ; 0x06
 {
     LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
@@ -1310,20 +1305,20 @@ Sprite_Ganon:
     
     LDA $0E50, X : CMP.b #$D1 : BCC .BRANCH_GAMMA
     
-    JMP $92CF  ; $E92CF IN ROM
+    JMP $92CF  ; $0E92CF IN ROM
     
     .BRANCH_GAMMA
     
-    JMP $92B5   ; $E92B5 IN ROM
+    JMP $92B5   ; $0E92B5 IN ROM
     
     .BRANCH_BETA
     
-    JMP $94BA   ; $E94BA IN ROM
+    JMP $94BA   ; $0E94BA IN ROM
 }
 
 ; ==============================================================================
 
-; $E95CE-$E9ADA DATA
+; $0E95CE-$0E9ADA DATA
 {
     ; \task Fill in this data.
     ; \note Also has data for drawing the trident, so separate that out.
@@ -1331,7 +1326,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E9ADB-$E9ADE BRANCH LOCATION
+; $0E9ADB-$0E9ADE BRANCH LOCATION
 {
     JSR Sprite4_PrepOamCoord
     
@@ -1340,7 +1335,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E9ADF-$E9C1B LOCAL
+; $0E9ADF-$0E9C1B LOCAL
 {
     LDA $0DC0, X : BMI .BRANCH_$E9ADB
     
@@ -1499,7 +1494,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; *$E9C1C-$E9C79 LOCAL
+; $0E9C1C-$0E9C79 LOCAL
 Trident_Draw:
 {
     LDA.b #$00 : XBA

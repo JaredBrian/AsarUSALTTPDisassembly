@@ -2,9 +2,8 @@
 ; ==============================================================================
 
     ; \unused Appears to be true.
-; $EC412-$EC413 DATA
+; $0EC412-$0EC413 DATA
 {
-    
     .unknown_0
     db 8, -8
 }
@@ -13,7 +12,7 @@
 
     !is_fairy_cloud = $0EB0
 
-; *$EC414-$EC442 JUMP LOCATION
+; $0EC414-$0EC442 JUMP LOCATION
 Sprite_BigFairy:
 {
     ; Big Fairy / Fairy Dust cloud
@@ -49,7 +48,7 @@ Sprite_BigFairy:
 
 ; ==============================================================================
 
-; *$EC443-$EC488 JUMP LOCATION
+; $0EC443-$0EC488 JUMP LOCATION
 FairyCloud_SeekPlayer:
 {
     LDA.b #$00 : STA $0D90, X
@@ -82,7 +81,7 @@ FairyCloud_SeekPlayer:
 
 ; ==============================================================================
 
-; *$EC489-$EC49B JUMP LOCATION
+; $0EC489-$0EC49B JUMP LOCATION
 FairyCloud_AwaitFullPlayerHealth:
 {
     LDA $7EF36D : CMP $7EF36C : BNE .player_hp_not_full_yet
@@ -100,7 +99,7 @@ FairyCloud_AwaitFullPlayerHealth:
 
 ; ==============================================================================
 
-; *$EC49C-$EC4BE JUMP LOCATION
+; $0EC49C-$0EC4BE JUMP LOCATION
 FairyCloud_FadeOut:
 {
     LDA $0E80, X : AND.b #$0F : BNE .delay_self_termination
@@ -132,7 +131,7 @@ FairyCloud_FadeOut:
 
     !animation_timer = $0ED0
 
-; *$EC4BF-$EC4F8 LOCAL
+; $0EC4BF-$0EC4F8 LOCAL
 BigFairy_Main:
 {
     LDA !timer_2, X : BEQ .draw
@@ -179,7 +178,7 @@ BigFairy_Main:
 
 ; ==============================================================================
 
-; *$EC4F9-$EC54E JUMP LOCATION
+; $0EC4F9-$0EC54E JUMP LOCATION
 BigFairy_AwaitClosePlayer:
 {
     JSR FairyCloud_Draw
@@ -223,7 +222,7 @@ BigFairy_AwaitClosePlayer:
 
 ; ==============================================================================
 
-; $EC54F-$EC54F JUMP LOCATION
+; $0EC54F-$0EC54F JUMP LOCATION
 BigFairy_Dormant:
 {
     RTS
@@ -231,10 +230,9 @@ BigFairy_Dormant:
 
 ; ==============================================================================
 
-; $EC550-$EC5CF DATA
+; $0EC550-$0EC5CF DATA
 pool BigFairy_Draw:
 {
-    
     .oam_groups
     dw -4, -8 : db $8E, $00, $00, $02
     dw  4, -8 : db $8E, $40, $00, $02
@@ -259,7 +257,7 @@ pool BigFairy_Draw:
 
 ; ==============================================================================
 
-; *$EC5D0-$EC5ED LOCAL
+; $0EC5D0-$0EC5ED LOCAL
 BigFairy_Draw:
 {
     LDA.b #$00   : XBA
@@ -277,10 +275,9 @@ BigFairy_Draw:
 
 ; ==============================================================================
 
-; $EC5EE-$EC615 DATA
+; $0EC5EE-$0EC615 DATA
 pool FairyCloud_Draw:
 {
-    
     .xy_offsets_low
     db -12,  -6,   0,   6,  12,  18,  -9,  -3
     db   3,   9,  15,  21
@@ -303,7 +300,7 @@ pool FairyCloud_Draw:
 
 ; ==============================================================================
 
-; *$EC616-$EC64E LOCAL
+; $0EC616-$0EC64E LOCAL
 FairyCloud_Draw:
 {
     ; This apparently randomly generates the fairy cloud sparkles.

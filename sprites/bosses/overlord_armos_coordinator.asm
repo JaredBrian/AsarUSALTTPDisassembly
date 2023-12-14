@@ -25,7 +25,7 @@
 
 ; ==============================================================================
 
-; *$EEBEB-$EEBF2 LONG
+; $0EEBEB-$0EEBF2 LONG
 ArmosCoordinatorLong:
 {
     PHB : PHK : PLB
@@ -39,7 +39,7 @@ ArmosCoordinatorLong:
 
 ; ==============================================================================
 
-; *$EEBF3-$EEC11 LOCAL
+; $0EEBF3-$0EEC11 LOCAL
 ArmosCoordinator_Main:
 {
     LDA !state_timer, X : BEQ .timer_expired
@@ -65,7 +65,7 @@ ArmosCoordinator_Main:
 
 ; ==============================================================================
 
-; *$EEC12-$EEC33 JUMP LOCATION
+; $0EEC12-$0EEC33 JUMP LOCATION
 ArmosCoordinator_AwaitKnightActivation:
 {
     ; Or rather, wait for the first one to ativate, but I think they all
@@ -93,7 +93,7 @@ ArmosCoordinator_AwaitKnightActivation:
 
 ; ==============================================================================
 
-; *$EEC34-$EEC41 JUMP LOCATION
+; $0EEC34-$0EEC41 JUMP LOCATION
 ArmosCoordinator_AwaitKnightsUnderCoercion:
 {
     ; Check for alive knights of a certain state?
@@ -112,17 +112,16 @@ ArmosCoordinator_AwaitKnightsUnderCoercion:
 
 ; ==============================================================================
 
-; $EEC42-$EEC47 DATA
+; $0EEC42-$0EEC47 DATA
 pool ArmosCoordinator_OrderKnightsToBackWall:
 {
-    
     .x_positions
     db $31, $4D, $69, $83, $9F, $BB
 }
 
 ; ==============================================================================
 
-; *$EEC48-$EEC68 JUMP LOCATION
+; $0EEC48-$0EEC68 JUMP LOCATION
 ArmosCoordinator_OrderKnightsToBackWall:
 {
     LDA !state_timer, X : BNE .delay_movement
@@ -150,7 +149,7 @@ ArmosCoordinator_OrderKnightsToBackWall:
 
 ; ==============================================================================
 
-; *$EEC69-$EEC95 JUMP LOCATION
+; $0EEC69-$0EEC95 JUMP LOCATION
 ArmosCoordinator_CascadeKnightsToFrontWall:
 {
     LDA !state_timer, X : BNE .delay_cascade
@@ -186,7 +185,7 @@ ArmosCoordinator_CascadeKnightsToFrontWall:
 
 ; ==============================================================================
 
-; *$EEC96-$EECAA JUMP LOCATION
+; $0EEC96-$0EECAA JUMP LOCATION
 ArmosCoordinator_RadialContraction:
 {
     LDA !radius : DEC A : STA !radius : CMP.b #$20 : BNE .await_contraction
@@ -202,7 +201,7 @@ ArmosCoordinator_RadialContraction:
 
 ; ==============================================================================
 
-; $EECAB-$EECBF JUMP LOCATION
+; $0EECAB-$0EECBF JUMP LOCATION
 ArmosCoordinator_RadialDilation:
 {
     LDA !radius : INC A : STA !radius : CMP.b #$40 : BNE .await_dilation
@@ -218,7 +217,7 @@ ArmosCoordinator_RadialDilation:
 
 ; ==============================================================================
 
-; $EECC0-$EECCB DATA
+; $0EECC0-$0EECCB DATA
 pool ArmosCoordinator_Rotate:
 {
     ; \note Multiples of 0x0055, but not strictly in order.
@@ -228,7 +227,7 @@ pool ArmosCoordinator_Rotate:
 ; ==============================================================================
 
     ; \task Maybe rename to soemthing like *..._SetRadialPositions?
-; *$EECCC-$EEDB7 JUMP LOCATION
+; $0EECCC-$0EEDB7 JUMP LOCATION
 ArmosCoordinator_TimedRotateThenTransition:
 {
     LDA !state_timer, X : BNE .delay_transition
@@ -237,7 +236,7 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     .delay_transition
     
-    ; *$EECD4 ALTERNATE ENTRY POINT
+    ; $0EECD4 ALTERNATE ENTRY POINT
     shared ArmosCoordinator_Rotate:
     
     LDY.b #$00
@@ -368,7 +367,7 @@ ArmosCoordinator_TimedRotateThenTransition:
 
 ; ==============================================================================
 
-; *$EEDB8-$EEDCA LOCAL
+; $0EEDB8-$0EEDCA LOCAL
 ArmosCoordinator_AreAllActiveKnightsSubmissive:
 {
     LDY.b #$05
@@ -399,7 +398,7 @@ ArmosCoordinator_AreAllActiveKnightsSubmissive:
 
     ; Instead of being forced to specific coordinates by the coordinator,
     ; configure the knights to be guided to specific coordinates.
-; *$EEDCB-$EEDD5 LOCAL
+; $0EEDCB-$0EEDD5 LOCAL
 ArmosCoordinator_DisableKnights_XY_Coercion:
 {
     LDY.b #$05

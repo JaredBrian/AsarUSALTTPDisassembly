@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4366A-$436F6 JUMP LOCATION
+; $04366A-$0436F6 JUMP LOCATION
 Ancilla_QuakeSpell:
 {
     LDA $11 : BNE .just_draw
@@ -98,7 +98,7 @@ Ancilla_QuakeSpell:
 
 ; ==============================================================================
 
-; *$436F7-$43712 LOCAL
+; $0436F7-$043712 LOCAL
 QuakeSpell_ShakeScreen:
 {
     REP #$20
@@ -118,10 +118,9 @@ QuakeSpell_ShakeScreen:
 
 ; ==============================================================================
 
-; $43713-$43717 DATA
+; $043713-$043717 DATA
 pool QuakeSpell_ExecuteBolts:
 {
-    
     .limits
     db 23, 22, 23, 22, 16
 }
@@ -129,7 +128,7 @@ pool QuakeSpell_ExecuteBolts:
 ; ==============================================================================
 
     ; \task A bit iffy on the labels in this routine too.
-; *$43718-$4378D LOCAL
+; $043718-$04378D LOCAL
 QuakeSpell_ExecuteBolts:
 {
     PHX
@@ -202,10 +201,9 @@ QuakeSpell_ExecuteBolts:
 
 ; ==============================================================================
 
-; $4378E-$43792 DATA
+; $04378E-$043792 DATA
 pool QuakeSpell_DrawFirstGroundBolts:
 {
-    
     .pointer_offsets
     db $00, $18, $00, $18, $2F
 }
@@ -214,7 +212,7 @@ pool QuakeSpell_DrawFirstGroundBolts:
 
     ; \task Get deeper into the logic of this ancilla to get a better name
     ; for this, as we're still somewhat confused on how this spell progresses.
-; *$43793-$4384E LOCAL
+; $043793-$04384E LOCAL
 pool QuakeSpell_DrawFirstGroundBolts:
 {
     PHX
@@ -325,7 +323,7 @@ pool QuakeSpell_DrawFirstGroundBolts:
 
 ; ==============================================================================
 
-; *$4384F-$43872 LONG BRANCH LOCATION
+; $04384F-$043872 LONG BRANCH LOCATION
 QuakeSpell_SpreadGroundBolts:
 {
     LDA $0C54, X : CMP.b #$01 : BNE .not_second_state
@@ -351,10 +349,9 @@ QuakeSpell_SpreadGroundBolts:
 
 ; ==============================================================================
 
-; $43873-$43881 DATA
+; $043873-$043881 DATA
 pool QuakeSpell_DrawGroundBolts:
 {
-    
     .chr
     db $40, $42, $44, $46, $48, $4A, $4C, $4E
     db $60, $62, $64, $66, $68, $6A, $63
@@ -362,7 +359,7 @@ pool QuakeSpell_DrawGroundBolts:
 
 ; ==============================================================================
 
-; *$43882-$438F3 BRANCH LOCATION
+; $043882-$0438F3 BRANCH LOCATION
 QuakeSpell_DrawGroundBolts:
 {
     PHX

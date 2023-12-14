@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EE4C8-$EE4EA JUMP LOCATION
+; $0EE4C8-$0EE4EA JUMP LOCATION
 Sprite_Vitreous:
 {
     ; VITREOUS' CODE
@@ -29,7 +29,7 @@ Sprite_Vitreous:
 
 ; ==============================================================================
 
-; *$EE4EB-$EE53C JUMP LOCATION
+; $0EE4EB-$0EE53C JUMP LOCATION
 Vitreous_Dormant:
 {
     STZ $0FF8
@@ -81,9 +81,8 @@ Vitreous_Dormant:
 
 ; ==============================================================================
 
-; $EE53D-$EE548 DATA
+; $0EE53D-$0EE548 DATA
 {
-    
     .animation_states
     db 2, 1
     
@@ -93,7 +92,7 @@ Vitreous_Dormant:
 
 ; ==============================================================================
 
-; *$EE549-$EE588 JUMP LOCATION
+; $0EE549-$0EE588 JUMP LOCATION
 Vitreous_SpewLightning:
 {
     STZ $0EA0, X
@@ -112,7 +111,7 @@ Vitreous_SpewLightning:
 
     RTS
     
-    ; *$EE563 ALTERNATE ENTRY POINT
+    ; $0EE563 ALTERNATE ENTRY POINT
     shared Vitreous_Animate:
     
     .check_lightning
@@ -142,17 +141,16 @@ Vitreous_SpewLightning:
 
 ; ==============================================================================
 
-; $EE589-$EE58A DATA
+; $0EE589-$0EE58A DATA
 pool Vitreous_PursuePlayer:
 {
-    
     .x_shake_speeds
     db 8, -8
 }
 
 ; ==============================================================================
 
-; *$EE58B-$EE5C9 JUMP LOCATION
+; $0EE58B-$0EE5C9 JUMP LOCATION
 Vitreous_PursuePlayer:
 {
     ; \wtf This is nonsensical in that I don't know why it jumps to this
@@ -199,7 +197,7 @@ Vitreous_PursuePlayer:
 
 ; ==============================================================================
 
-; *$EE5DA-$EE601 LOCAL
+; $0EE5DA-$0EE601 LOCAL
 Vitreous_SelectVitreolusToActivate:
 {
     INC $0E80, X : LDA $0E80, X : AND.b #$3F : BNE .delay
@@ -228,10 +226,9 @@ Vitreous_SelectVitreolusToActivate:
 
 ; ==============================================================================
 
-; $EE602-$EE611 DATA
+; $0EE602-$0EE611 DATA
 pool Sprite_SpawnLightning:
 {
-    
     .x_offsets_low
     db -8,  8,  8, -8,  8, -8, -8,  8
     
@@ -241,7 +238,7 @@ pool Sprite_SpawnLightning:
 
 ; ==============================================================================
 
-; *$EE612-$EE655 LONG
+; $0EE612-$0EE655 LONG
 Sprite_SpawnLightning:
 {
     PHB : PHK : PLB
@@ -278,7 +275,7 @@ Sprite_SpawnLightning:
 
 ; ==============================================================================
 
-; $EE656-$EE715 DATA
+; $0EE656-$0EE715 DATA
 pool Vitreous_Draw:
 {
     ; \task Fill in data.
@@ -286,7 +283,7 @@ pool Vitreous_Draw:
 
 ; ==============================================================================
 
-; *$EE716-$EE762 LOCAL
+; $0EE716-$0EE762 LOCAL
 Vitreous_Draw:
 {
     LDA.b #$00 : XBA

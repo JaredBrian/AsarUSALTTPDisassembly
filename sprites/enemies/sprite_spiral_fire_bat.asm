@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E8B52-$E8BBB JUMP LOCATION
+; $0E8B52-$0E8BBB JUMP LOCATION
 Sprite_SpiralFireBat:
 {
     JSR FireBat_Draw
@@ -25,16 +25,16 @@ Sprite_SpiralFireBat:
     
     LDA $01 : EOR.b #$FF : INC A : CLC : ADC $00 : STA $0D40, X
     
-    ; *$E8B90 ALTERNATE ENTRY POINT
+    ; $0E8B90 ALTERNATE ENTRY POINT
     
-    JSR $8C43 ; $E8C43 IN ROM
+    JSR $8C43 ; $0E8C43 IN ROM
     JSR Sprite4_Move
     
     LDA $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
     LDA.b #$0E
     
-    JSR $BDE8 ; $EBDE8 IN ROM
+    JSR $BDE8 ; $0EBDE8 IN ROM
     
     LDY $0EC0, X
     
@@ -66,7 +66,7 @@ Sprite_SpiralFireBat:
     ; \task Investigate the usage of this routine. I suspect that it more
     ; correctly would be called Sprite4_LoadOriginCoord, but it's not clear
     ; if the Lynel uses it differently.
-; *$E8BBC-$E8BD0 LOCAL
+; $0E8BBC-$0E8BD0 LOCAL
 Sprite4_Load_16bit_AuxCoord:
 {
     LDA $0D90, X : STA $04

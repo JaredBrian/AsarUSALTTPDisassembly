@@ -7,10 +7,9 @@
 
 ; ==============================================================================
 
-; $26A00-$26A5F DATA
+; $026A00-$026A5F DATA
 pool Hobo_Draw:
 {
-    
     .oam_groups
     dw -5,   3 : db $A6, $00, $00, $02
     dw  3,   3 : db $A7, $00, $00, $02
@@ -30,7 +29,7 @@ pool Hobo_Draw:
 
 ; ==============================================================================
 
-; $26A60-$26A80 LONG
+; $026A60-$026A80 LONG
 Hobo_Draw:
 {
     PHB : PHK : PLB
@@ -52,7 +51,7 @@ Hobo_Draw:
 
 ; ==============================================================================
 
-; *$26A81-$26A9C LONG
+; $026A81-$026A9C LONG
 Landmine_CheckDetonationFromHammer:
 {
     LDA $0301 : AND.b #$0A : BEQ .player_not_using_hammer
@@ -180,7 +179,7 @@ EasterEgg_BageCode:
 
 ; ==============================================================================
 
-; $26B63-$26BA9 LONG
+; $026B63-$026BA9 LONG
 Bomb_ProjectSpeedTowardsPlayer:
 {
     LDX.b #$00
@@ -223,7 +222,7 @@ Bomb_ProjectSpeedTowardsPlayer:
     ; same thing regardless. However, the only caller of this subroutine
     ; replaced the player's coordinates with an ancillary object's coordinates
     ; (specifically, only bombs call this routine's caller).
-; $26BAA-$26BB2 LONG
+; $026BAA-$026BB2 LONG
 Bomb_ProjectReflexiveSpeedOntoSpriteLong:
 {
     PHB : PHK : PLB
@@ -237,10 +236,9 @@ Bomb_ProjectReflexiveSpeedOntoSpriteLong:
 
 ; ==============================================================================
 
-; $26BB3-$26BE4 DATA
+; $026BB3-$026BE4 DATA
 pool Sprite_DrawLargeWaterTurbulence:
 {
-    
     .oam_groups
     dw -10, 14 : db $C0, $00, $00, $02
     dw  -5, 16 : db $C0, $40, $00, $02
@@ -255,7 +253,7 @@ pool Sprite_DrawLargeWaterTurbulence:
 
 ; ==============================================================================
 
-; *$26BE5-$26C1B LONG
+; $026BE5-$026C1B LONG
 Sprite_DrawLargeWaterTurbulence:
 {
     PHB : PHK : PLB
@@ -290,7 +288,7 @@ Sprite_DrawLargeWaterTurbulence:
     
 ; ==============================================================================
 
-; $26C1C-$26CBF EMPTY
+; $026C1C-$026CBF EMPTY
 pool Empty:
 {
     ; \note Could use this for expansion.
@@ -301,10 +299,9 @@ pool Empty:
 
 ; ==============================================================================
 
-; $26CC0-$27FFF DATA
+; $026CC0-$027FFF DATA
 pool Dungeon_ApplyOverlay:
 {
-    
     .ptr_table 1BA1C9
     dl .overlay_0
     dl .overlay_1
@@ -580,11 +577,10 @@ pool Dungeon_ApplyOverlay:
 
 ; ==============================================================================
 
-; $26F2F-$26F46 DATA (more unmapped)
+; $026F2F-$026F46 DATA (more unmapped)
 {
 pool Dungeon_LoadRoom:
 {
-    
     .layout_ptrs
     dl $04EF47
     dl $04EFAF

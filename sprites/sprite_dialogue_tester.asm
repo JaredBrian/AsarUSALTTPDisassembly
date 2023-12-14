@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F6AE7-$F6B02 JUMP LOCATION
+; $0F6AE7-$0F6B02 JUMP LOCATION
 Sprite_DialogueTester:
 {
     ; Monologue Testing sprite (appears to be a debug artifact)
@@ -34,7 +34,7 @@ Sprite_DialogueTester:
 
 ; ==============================================================================
 
-; *$F6B03-$F6B1B JUMP LOCATION
+; $0F6B03-$0F6B1B JUMP LOCATION
 DialogueTester_Initialize:
 {
     ; Set it to the 0th text message
@@ -43,7 +43,7 @@ DialogueTester_Initialize:
     
     INC $0D80, X
     
-    ; *$F6B0C ALTERNATE ENTRY POINT
+    ; $0F6B0C ALTERNATE ENTRY POINT
     shared DialogueTester_ShowMessage:
     
     LDA $0D90, X
@@ -60,7 +60,7 @@ DialogueTester_Initialize:
 
 ; ==============================================================================
 
-; *$F6B1C-$F6B32 JUMP LOCATION
+; $0F6B1C-$0F6B32 JUMP LOCATION
 DialogueTester_IncrementMessageIndex:
 {
     ; Move to the next message

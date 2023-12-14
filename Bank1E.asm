@@ -9,7 +9,7 @@ incsrc "sprite_helmasaur_king.asm"
     
 ; ==============================================================================
 
-; *$F0A85-$F0A8D
+; $0F0A85-$0F0A8D
 Sprite3_DivisionDelay:
 {
     ; \bug I think this is actual overkill. Probably only need NOP #4 or
@@ -27,7 +27,7 @@ incsrc "sprite_mad_batter_bolt.asm"
 
 ; ==============================================================================
 
-; *$F0B11-$F0B18 LONG
+; $0F0B11-$0F0B18 LONG
 SpriteActive3_MainLong:
 {
     PHB : PHK : PLB
@@ -41,7 +41,7 @@ SpriteActive3_MainLong:
 
 ; ==============================================================================
 
-; *$F0B19-$F0B2D LOCAL
+; $0F0B19-$0F0B2D LOCAL
 SpriteActive3_Main:
 {
     LDA $0E20, X : SEC : SBC.b #$79 : REP #$30 : AND.w #$00FF : ASL A : TAY
@@ -56,7 +56,7 @@ SpriteActive3_Main:
 
 ; ==============================================================================
 
-; *$F0B2E-$F0B32 LOCAL
+; $0F0B2E-$0F0B32 LOCAL
 Sprite3_CheckTileCollision:
 {
     JSL Sprite_CheckTileCollisionLong
@@ -66,7 +66,7 @@ Sprite3_CheckTileCollision:
 
 ; ==============================================================================
 
-; $F0B33-$F0BBA Jump Table
+; $0F0B33-$0F0BBA Jump Table
 SpriteActive3_Table:
 {
     ; SPRITE ROUTINES 3
@@ -146,7 +146,7 @@ SpriteActive3_Table:
 
 ; ==============================================================================
 
-; $F0BBB-$F0BBE DATA
+; $0F0BBB-$0F0BBE DATA
 pool Unused:
 {
     db $00, $00, $00, $00
@@ -186,12 +186,12 @@ incsrc "sprite_kodondo.asm"
 
 ; ==============================================================================
 
-; *$F4267-$F426F LOCAL
+; $0F4267-$0F426F LOCAL
 Sprite3_CheckDamage:
 {
     JSL Sprite_CheckDamageFromPlayerLong
     
-    ; *$F426B ALTERNATE ENTRY POINT
+    ; $0F426B ALTERNATE ENTRY POINT
     shared Sprite3_CheckDamageToPlayer:
     
     JSL Sprite_CheckDamageToPlayerLong
@@ -230,7 +230,7 @@ incsrc "sprite_shopkeeper.asm"
 
 ; ==============================================================================
 
-; *$F74F3-$F7507 LONG
+; $0F74F3-$0F7507 LONG
 Sprite_PlayerCantPassThrough:
 {
     LDA $0F60, X : PHA
@@ -251,7 +251,7 @@ Sprite_PlayerCantPassThrough:
 
 ; ==============================================================================
 
-; *$F7508-$F7514 LOCAL
+; $0F7508-$0F7514 LOCAL
 Sprite_HaltSpecialPlayerMovement:
 {
     PHX
@@ -279,7 +279,7 @@ incsrc "sprite_fairy_handle_movement.asm"
 
 ; ==============================================================================
 
-; *$F7E69-$F7E6D LOCAL
+; $0F7E69-$0F7E6D LOCAL
 Sprite3_DirectionToFacePlayer:
 {
     JSL Sprite_DirectionToFacePlayerLong
@@ -289,7 +289,7 @@ Sprite3_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; *$F7E6E-$F7E72 LOCAL
+; $0F7E6E-$0F7E72 LOCAL
 Sprite3_IsToRightOfPlayer:
 {
     JSL Sprite_IsToRightOfPlayerLong
@@ -299,7 +299,7 @@ Sprite3_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; *$F7E73-$F7E77 LOCAL
+; $0F7E73-$0F7E77 LOCAL
 Sprite3_IsBelowPlayer:
 {
     JSL Sprite_IsBelowPlayerLong
@@ -309,12 +309,12 @@ Sprite3_IsBelowPlayer:
 
 ; ==============================================================================
 
-; *$F7E78-$F7E94 LOCAL
+; $0F7E78-$0F7E94 LOCAL
 Sprite3_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
     
-    ; $F7E7F ALTERNATE ENTRY POINT
+    ; $0F7E7F ALTERNATE ENTRY POINT
     .permissive
     
     LDA $0FC1 : BNE .inactive
@@ -336,17 +336,16 @@ Sprite3_CheckIfActive:
 
 ; ==============================================================================
 
-; $F7E95-$F7E9A DATA
+; $0F7E95-$0F7E9A DATA
 pool Sprite3_CheckIfRecoiling:
 {
-    
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
 }
 
 ; ==============================================================================
 
-; *$F7E9B-$F7F1D LOCAL
+; $0F7E9B-$0F7F1D LOCAL
 Sprite3_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -425,12 +424,12 @@ Sprite3_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; *$F7F1E-$F7F27 LOCAL
+; $0F7F1E-$0F7F27 LOCAL
 Sprite3_MoveXyz:
 {
     JSR Sprite3_MoveAltitude
     
-    ; *$F7F21 ALTERNATE ENTRY POINT
+    ; $0F7F21 ALTERNATE ENTRY POINT
     shared Sprite3_Move:
     
     JSR Sprite3_MoveHoriz
@@ -441,7 +440,7 @@ Sprite3_MoveXyz:
 
 ; ==============================================================================
 
-; $F7F28-$F7F33 LOCAL
+; $0F7F28-$0F7F33 LOCAL
 Sprite3_MoveHoriz:
 {
     TXA : CLC : ADC.b #$10 : TAX
@@ -455,7 +454,7 @@ Sprite3_MoveHoriz:
 
 ; ==============================================================================
 
-; *$F7F34-$F7F61 LOCAL
+; $0F7F34-$0F7F61 LOCAL
 Sprite3_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
@@ -480,7 +479,7 @@ Sprite3_MoveVert:
 
 ; ==============================================================================
 
-; *$F7F62-$F7F83 LOCAL
+; $0F7F62-$0F7F83 LOCAL
 Sprite3_MoveAltitude:
 {
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
@@ -498,7 +497,7 @@ Sprite3_MoveAltitude:
 
 ; ==============================================================================
 
-; *$F7F84-$F7F8C LOCAL
+; $0F7F84-$0F7F8C LOCAL
 Sprite3_PrepOamCoord:
 {
     JSL Sprite_PrepOamCoordLong : BCC .renderable
@@ -512,7 +511,7 @@ Sprite3_PrepOamCoord:
 
 ; ==============================================================================
 
-; *$F7F8D-$F7FDD LONG
+; $0F7F8D-$0F7FDD LONG
 Sprite_DrawRippleIfInWater:
 {
     LDA $7FF9C2, X
@@ -550,7 +549,7 @@ Sprite_DrawRippleIfInWater:
 
 ; ==============================================================================
 
-; $F7FDE-$F7FFF NULL
+; $0F7FDE-$0F7FFF NULL
 pool Empty:
 {
     fillbyte $FF

@@ -8,7 +8,6 @@ org $018000
 ; $8000-$81FF DATA
 pool Dungeon_LoadType1Object: 
 {
-    
     .subtype_1_params
     dw $03D8, $02E8, $02F8, $0328, $0338, $0400, $0410, $0388
     dw $0390, $0420, $042A, $0434, $043E, $0448, $0452, $045C
@@ -56,7 +55,6 @@ pool Dungeon_LoadType1Object:
 ; $8200-$83EF JUMP TABLE
 pool Dungeon_LoadType1Object:
 {
-    
     .subtype_1_params
     ; Subtype 1 objects (0xF8 distinct object types)
     
@@ -1350,7 +1348,6 @@ Object_Draw2x2sDownVariableOrFull:
 ; *$8B89-$8B93 JUMP LOCATIONs
 Object_Draw2x2s_AdvanceRight:
 {
-    
     .from_1_to_15_or_32
     
     ; 1 to 0x0F or 0x20 tiles wide
@@ -1954,7 +1951,6 @@ Object_Hole:
 ; *$8EEB-$8F0B JUMP LOCATION
 Object_HorizontalRail:
 {
-    
     .long
     
     LDA.w #$0015
@@ -4432,7 +4428,6 @@ Object_PrisonBars:
 Object_Draw8xN:
     shared Object_KholdstareShell:
 {
-    
     ; Kholdstare's Shell object (1.3.0x15)
     ; Check the 0x8000 bit
     ; if it was set, don't draw at all
@@ -7356,7 +7351,6 @@ Object_Draw5x1:
 
 ; *$B293-$B2AE BLOCK
 {
-    
     .BRANCH_ALPHA
     
     JSR Object_Draw5x1
@@ -7483,7 +7477,6 @@ Object_Draw3x1:
 ; *$B310-$B375 ALTERNATE ENTRY POINT
 Object_LargeLiftableBlock:
 {
-    
     ; Large liftable blocks in dungeons (requires powerglove)
     
     STY $08
@@ -9746,13 +9739,13 @@ Dungeon_DetectStaircase:
     CMP.b #$38 : BNE .mystery
     
     ; Gets called when travelling up a straight inter-room staircase
-    JSL $02B81C ; $1381C IN ROM
+    JSL $02B81C ; $01381C IN ROM
     
     BRA .BRANCH_ZETA
     
     .mystery
     
-    JSL $02B77A ; $1377A IN ROM
+    JSL $02B77A ; $01377A IN ROM
     
     .BRANCH_ZETA
     
@@ -9798,7 +9791,7 @@ Dungeon_DetectStaircase:
     
     CMP.b #$39 : BEQ .BRANCH_KAPPA
     
-    JSL $07F25A ; $3F25A IN ROM
+    JSL $07F25A ; $03F25A IN ROM
     
     ; Going up or down stairs mode.
     LDX.b #$0E : STX $11
@@ -9809,7 +9802,7 @@ Dungeon_DetectStaircase:
     
     STX $11
     
-    JSL $07F3F3 ; $3F3F3 IN ROM
+    JSL $07F3F3 ; $03F3F3 IN ROM
     
     RTS
     
@@ -12761,7 +12754,6 @@ Dungeon_QueryIfTileLiftable:
 ; *$D7C0-$D827 BRANCH LOCATION
 pool PushBlock_Handler:
 {
-    
     .move_distances
     dw -256, 256, -4, 4
     
@@ -12786,7 +12778,7 @@ pool PushBlock_Handler:
     
     SEP #$30
     
-    JSL $07EDB5 ; $3EDB5 IN ROM
+    JSL $07EDB5 ; $03EDB5 IN ROM
     
     REP #$30
     
@@ -12804,7 +12796,7 @@ pool PushBlock_Handler:
     
     SEP #$20
     
-    JSL $07EDF9 ; $3EDF9 IN ROM
+    JSL $07EDF9 ; $03EDF9 IN ROM
     
     BRA .next_block
     
@@ -13021,7 +13013,6 @@ Dungeon_GetInteractiveVramAddr:
 pool Dungeon_RevealCoveredTiles:
     ; \task Name this pool / routine.
 {
-    
     ; $D9BA
     .y_offsets
     dw 3, 24, 14, 14
@@ -13408,7 +13399,6 @@ Dungeon_LoadSecret:
 ; $E795-$E7A8 DATA
 pool Dungeon_PrepSpriteInducedDma:
 {
-    
     .replacement_tiles
     dw $00E0 ; 0x00 - pit (floor, rather?) (empty space?)
     dw $0ADE ; 0x02 - spike block
@@ -13968,7 +13958,6 @@ Dungeon_OpenBigChest:
 ; *$ED89-$EDA2 BRANCH LOCATION
 Dungeon_ShowMinigameChestMessage:
 {
-    
     .didnt_pay
     
     STA $C8
@@ -14174,7 +14163,6 @@ Dungeon_RupeeChestMinigamePrizes:
 ; *$EEF7-$EF0E BRANCH LOCATION
 Dungeon_GetRupeeChestMinigamePrize:
 {
-    
     .highStakes
     
     JSL GetRandomInt : AND.b #$0F
@@ -14382,7 +14370,6 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 ; $F07B-$F092 JUMP TABLE
 pool Dungeon_TurnOnWaterLong:
 {
-    
     .handlers
     dw $F046 ; = $F046*
     dw $F046 ; = $F046*
@@ -15484,7 +15471,6 @@ Dungeon_PrepOverlayDma:
 ; *$F967-$F97F LOCAL
 Dungeon_DrawOverlay:
 {
-    
     .nextObject
     
     REP #$30
@@ -16261,7 +16247,7 @@ Player_LedgeJumpInducedLayerChange:
     
     STZ $047A
     
-    JML $02B8CB ; $138CB IN ROM
+    JML $02B8CB ; $0138CB IN ROM
 }
 
 ; ==============================================================================

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$38000-$38020 LONG
+; $038000-$038020 LONG
 Player_Main:
 {
     PHB : PHK : PLB
@@ -20,11 +20,11 @@ Player_Main:
     ; cinema scene or something similar
     LDA $02E4 : BNE .linkFrozen
     
-    JSR $807F ; $3807F IN ROM
+    JSR $807F ; $03807F IN ROM
     
     .linkFrozen
     
-    JSR $8689 ; $38689 IN ROM
+    JSR $8689 ; $038689 IN ROM
     
     PLB
     
@@ -35,7 +35,7 @@ Player_Main:
 
     ; \unused Much like the Ancilla version of this routine, seems like
     ; ambient sfx gets no love.
-; *$38021-$38027 LOCAL
+; $038021-$038027 LOCAL
 Player_DoSfx1:
 {
     JSR Player_SetSfxPan : STA $012D
@@ -45,7 +45,7 @@ Player_DoSfx1:
 
 ; ==============================================================================
 
-; *$38028-$3802E LOCAL
+; $038028-$03802E LOCAL
 Player_DoSfx2:
 {
     JSR Player_SetSfxPan : STA $012E
@@ -55,7 +55,7 @@ Player_DoSfx2:
 
 ; ==============================================================================
 
-; *$3802F-$38035 LOCAL
+; $03802F-$038035 LOCAL
 Player_DoSfx3:
 {
     JSR Player_SetSfxPan : STA $012F
@@ -65,7 +65,7 @@ Player_DoSfx3:
 
 ; ==============================================================================
 
-; *$38036-$38040 LOCAL
+; $038036-$038040 LOCAL
 Player_SetSfxPan:
 {
     STA $0CF8
@@ -78,7 +78,7 @@ Player_SetSfxPan:
 
 ; ==============================================================================
 
-; $38041-$3807E JUMP TABLE
+; $038041-$03807E JUMP TABLE
 {
     ; Indexed by $5D.
     
@@ -118,7 +118,7 @@ Player_SetSfxPan:
     dw $A804 ; = $3A804* 0x1E - Spin attack mode 2
 }
 
-; *$3807F-$38108 LOCAL
+; $03807F-$038108 LOCAL
 {
     ; Is Link being damaged?
     LDA $0373 : BEQ .linkNotDamaged
@@ -209,7 +209,7 @@ Player_SetSfxPan:
     ; Is Link in the ground state?
     LDA $5D : BEQ .inGroundState
     
-    JSR $AE8F ; $3AE8F IN ROM
+    JSR $AE8F ; $03AE8F IN ROM
     
     .inGroundState
     
@@ -219,9 +219,9 @@ Player_SetSfxPan:
     JMP ($8041, X) ; (38041, X) THAT IS
 }
 
-; *$38109-$38364 JUMP LOCATION
+; $038109-$038364 JUMP LOCATION
 {
-    JSR $F514 ; $3F514 IN ROM
+    JSR $F514 ; $03F514 IN ROM
     
     LDA $F5 : AND.b #$80 : BEQ .notDebugWallWalk
     
@@ -231,7 +231,7 @@ Player_SetSfxPan:
 
 .notDebugWallWalk
 
-    ; $382DA IN ROM; Checks whether Link can move.
+    ; $0382DA IN ROM; Checks whether Link can move.
     ; C clear = Link can move. C set = opposite.
     JSR $82DA : BCC .linkCanMove
     
@@ -253,7 +253,7 @@ Player_SetSfxPan:
     ; Is Link in a ground state? Yes...
     LDA $4D : BEQ .BRANCH_DELTA
 
-; *$38130 ALTERNATE ENTRY POINT
+; $038130 ALTERNATE ENTRY POINT
 
     STZ $0301 ; Link is in some other submode.
     STZ $037A
@@ -285,11 +285,11 @@ Player_SetSfxPan:
     ; Is Link in cape mode?
     LDA $55 : BEQ .BRANCH_ZETA
     
-    JSR $AE54 ; $3AE54 IN ROM; Link's in cape mode.
+    JSR $AE54 ; $03AE54 IN ROM; Link's in cape mode.
 
 .BRANCH_ZETA
 
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     LDA.b #$01 : STA $037B
     
@@ -334,10 +334,10 @@ Player_SetSfxPan:
     
     STZ $02C6
     
-    ; $3B5D6 IN ROM ; If Carry is set on Return, don't read the buttons.
+    ; $03B5D6 IN ROM ; If Carry is set on Return, don't read the buttons.
     JSR $B5D6 : BCS .BRANCH_IOTA
     
-    JSR $9BAA ; $39BAA IN ROM
+    JSR $9BAA ; $039BAA IN ROM
     
     LDA $0308 : ORA $0376 : BNE .BRANCH_IOTA
     
@@ -346,7 +346,7 @@ Player_SetSfxPan:
     ; Is Link falling off of a ledge?    ; Yes...
     LDA $5D : CMP.b #$11 : BEQ .BRANCH_IOTA
     
-    JSR $9B0E ; $39B0E IN ROM ; Handle Y button items?
+    JSR $9B0E ; $039B0E IN ROM ; Handle Y button items?
     
     ; \hardcoded This is pretty unfair.
     ; \item Relates to ability to use the sword if you have one.
@@ -365,7 +365,7 @@ Player_SetSfxPan:
 .cant_use_sword
 .BRANCH_IOTA
 
-    JSR $AE88 ; $3AE88 IN ROM
+    JSR $AE88 ; $03AE88 IN ROM
     
     LDA $46 : BEQ .BRANCH_KAPPA
     
@@ -484,22 +484,22 @@ Player_SetSfxPan:
 
 .BRANCH_PHI
 
-    JSR $B64F   ; $3B64F IN ROM
-    JSL $07E245 ; $3E245 IN ROM
-    JSR $B7C7   ; $3B7C7 IN ROM; Has to do with opening chests.
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSR $B64F   ; $03B64F IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM; Has to do with opening chests.
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     LDA $0377 : BEQ .BRANCH_PSI
     
     STZ $30
     STZ $31
 
-; *$382D2 LONG BRANCH LOCATION
+; $0382D2 LONG BRANCH LOCATION
 .BRANCH_PSI
 
     STZ $0302
     
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
 
 .BRANCH_OMEGA
 
@@ -508,7 +508,7 @@ Player_SetSfxPan:
     RTS
 }
 
-    ; *$382DA ALTERNATE ENTRY POINT
+    ; $0382DA ALTERNATE ENTRY POINT
 {
     ; Has the tempbunny timer counted down yet?
     LDA $03F5 : ORA $03F6 : BEQ routineabove_return
@@ -556,7 +556,7 @@ Player_SetSfxPan:
     LDY.b #$04
     LDA.b #$23
     
-    ; $4912C IN ROM
+    ; $04912C IN ROM
     JSL AddTransformationCloud
     
     LDA.b #$14 : JSR Player_DoSfx2
@@ -610,7 +610,7 @@ Player_SetSfxPan:
     RTS
 }
 
-; *$38365-$38480 JUMP LOCATION
+; $038365-$038480 JUMP LOCATION
 {
     ; This is the tempbunny submodule.
     
@@ -628,7 +628,7 @@ Player_SetSfxPan:
     
     LDA.b #$00 : STA $5D
     
-    JSL $07F1FA ; $3F1FA IN ROM. Reinstates your abilities.
+    JSL $07F1FA ; $03F1FA IN ROM. Reinstates your abilities.
     
     STZ $03F7
     STZ $56
@@ -650,9 +650,9 @@ Player_SetSfxPan:
     
     SEP #$20
     
-    ; *$383A1 LONG BRANCH LOCATION. Jump here directly to handle a permabunny.
+    ; $0383A1 LONG BRANCH LOCATION. Jump here directly to handle a permabunny.
     
-    JSR $F514 ; $3F514 IN ROM
+    JSR $F514 ; $03F514 IN ROM
     
     LDA $F5 : AND.b #$80 : BEQ .BRANCH_BETA
     
@@ -671,7 +671,7 @@ Player_SetSfxPan:
     
     STZ $02E0
     
-    ; *$383C7 LONG BRANCH LOCATION
+    ; $0383C7 LONG BRANCH LOCATION
     .BRANCH_GAMMA
     
     STZ $03F7
@@ -727,7 +727,7 @@ Player_SetSfxPan:
     .BRANCH_IOTA
     
     JSR Player_ResetSwimCollision
-    JSR $9B0E ; $39B0E IN ROM
+    JSR $9B0E ; $039B0E IN ROM
     
     LDA $49 : AND.b #$0F : BNE .BRANCH_KAPPA
     
@@ -766,21 +766,21 @@ Player_SetSfxPan:
     
     .BRANCH_LAMBDA
     
-    JSR $B64F   ; $3B64F IN ROM
-    JSL $07E245 ; $3E245 IN ROM
-    JSR $B7C7   ; $3B7C7 IN ROM
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSR $B64F   ; $03B64F IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
-    JSR $E8F0   ; $3E8F0 IN ROM
+    JSR $E8F0   ; $03E8F0 IN ROM
     
     .BRANCH_NU
     
     RTS
 }
 
-; *$38481-$38559 JUMP LOCATION
+; $038481-$038559 JUMP LOCATION
 {
     ; Mode 0x18 - stuck under heavy lifted object
     
@@ -805,7 +805,7 @@ Player_SetSfxPan:
     
     LDA $0360 : BEQ .BRANCH_BETA
     
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     LDA.b #$01 : STA $037B
     
@@ -891,11 +891,11 @@ Player_SetSfxPan:
     
     .BRANCH_ZETA
     
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     RTS
 }
@@ -920,7 +920,7 @@ Player_InitiateFirstEtherSpell:
 
 ; ==============================================================================
 
-; *$38570-$3858D JUMP LOCATION
+; $038570-$03858D JUMP LOCATION
 Player_EtherSpell:
 {
     STZ $4D
@@ -999,7 +999,7 @@ Player_EtherSpell:
 
 ; ==============================================================================
 
-; *$385E5-$385FA LONG
+; $0385E5-$0385FA LONG
 Player_InitiateFirstBombosSpell:
 {
     REP #$20
@@ -1018,7 +1018,7 @@ Player_InitiateFirstBombosSpell:
 
 ; ==============================================================================
 
-; *$385FB-$3866C JUMP LOCATION
+; $0385FB-$03866C JUMP LOCATION
 Player_BombosSpell:
 {
     STZ $4D
@@ -1094,7 +1094,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$3866D-$3867A LONG
+; $03866D-$03867A LONG
 {
     ; Enters the desert palace opening mode
     REP #$20
@@ -1108,20 +1108,20 @@ Player_BombosSpell:
     RTL
 }
 
-; *$3867B-$38688 JUMP LOCATION
+; $03867B-$038688 JUMP LOCATION
 {
     DEC $3C : LDA $3C : BNE .waitForSpinAttack
     
     LDA.b #$00 : STA $5D
     
-    JSR $AA6C ; $3AA6C IN ROM
+    JSR $AA6C ; $03AA6C IN ROM
     
     .waitForSpinAttack
     
     RTS
 }
 
-; *$38689-$386B4 LOCAL
+; $038689-$0386B4 LOCAL
 {
     ; Are we in a dungeon?
     LDA $1B : BNE .indoors
@@ -1162,19 +1162,19 @@ Player_BombosSpell:
     RTS
 }
 
-; *$386B5-$38871 LONG BRANCH LOCATION
+; $0386B5-$038871 LONG BRANCH LOCATION
 {
     ; RECOIL MODE (2 and 6 are both recoil mode)
 
     LDA $20 : STA $3E
     LDA $21 : STA $40
 
-; *$386BD ALTERNATE ENTRY POINT
+; $0386BD ALTERNATE ENTRY POINT
 
     LDA $22 : STA $3F
     LDA $23 : STA $41
     
-    JSR $8926 ; $38926 IN ROM
+    JSR $8926 ; $038926 IN ROM
     
     STZ $50
     STZ $0351
@@ -1185,20 +1185,20 @@ Player_BombosSpell:
     
     LDY.b #$05
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     LDA $0341 : AND.b #$01 : BEQ .BRANCH_BETA
     
     ; Put Link into Swimming mode
     LDA.b #$04 : STA $5D
     
-    JSR $8C44 ; $38C44 IN ROM
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $8C44 ; $038C44 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash ; $498FC IN ROM
+    JSL AddTransitionSplash ; $0498FC IN ROM
     
     BRL .BRANCH_BETA
 
@@ -1222,14 +1222,14 @@ Player_BombosSpell:
 
     LDA.b #$03 : STA $02C6
 
-; *$38711 ALTERNATIVE ENTRY POINT
+; $038711 ALTERNATIVE ENTRY POINT
 .BRANCH_ALPHA
 
     STZ $68
     STZ $69
     STZ $6A
     
-    JSR $E1BE ; $3E1BE IN ROM
+    JSR $E1BE ; $03E1BE IN ROM
     
     DEC $46 : LDA $46 : BEQ .BRANCH_EPSILON
 
@@ -1266,7 +1266,7 @@ Player_BombosSpell:
 
 .BRANCH_MU
 
-    JSR $8F1D   ; $38F1D IN ROM
+    JSR $8F1D   ; $038F1D IN ROM
     
     LDA $02E0 : BEQ .BRANCH_NU
     
@@ -1296,7 +1296,7 @@ Player_BombosSpell:
 
     LDY $5D : CPY.b #$04 : BNE .BRANCH_SIGMA
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     LDA $1B : BEQ .BRANCH_TAU
     
@@ -1311,13 +1311,13 @@ Player_BombosSpell:
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash ; $498FC IN ROM
+    JSL AddTransitionSplash ; $0498FC IN ROM
 
 .BRANCH_SIGMA
 
     LDY.b #$00
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     LDA $0357 : AND.b #$01 : BEQ .BRANCH_UPSILON
     
@@ -1338,8 +1338,8 @@ Player_BombosSpell:
     
     LDA.b #$04 : STA $5D
     
-    JSR $8C44 ; $38C44 IN ROM
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $8C44 ; $038C44 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     LDA.b #$15
     LDY.b #$00
@@ -1390,11 +1390,11 @@ Player_BombosSpell:
 
 .BRANCH_PSI
 
-    JSR $92A0 ; $392A0 IN ROM
+    JSR $92A0 ; $0392A0 IN ROM
     
     LDA $5D : CMP.b #$06 : BEQ .BRANCH_DIALPHA
     
-    JSR $B64F ; $3B64F IN ROM
+    JSR $B64F ; $03B64F IN ROM
     
     LDA $67 : AND.b #$03 : BNE .BRANCH_DIBETA
     
@@ -1408,19 +1408,19 @@ Player_BombosSpell:
 
 .BRANCH_DIALPHA
 
-    JSL $07E370 ; $3E370 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
 
 .BRANCH_OMEGA
 
     LDA $5D : CMP.b #$06 : BEQ .BRANCH_DIGAMMA
     
-    JSR $B7C7 ; $3B7C7 IN ROM
+    JSR $B7C7 ; $03B7C7 IN ROM
     
     STZ $0302
 
 .BRANCH_DIGAMMA
 
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     LDA $24    : BEQ .BRANCH_DIDELTA
     CMP.b #$E0 : BCC .BRANCH_DIEPSILON
@@ -1441,7 +1441,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38872-$38925 JUMP LOCATION
+; $038872-$038925 JUMP LOCATION
 {
     ; MODE 5 TURTLE ROCK PLATFORMS
     
@@ -1457,7 +1457,7 @@ Player_BombosSpell:
     
     STZ $EE
     
-    JSR $CF7E ; $3CF7E IN ROM
+    JSR $CF7E ; $03CF7E IN ROM
     
     LDX.b #$00
     
@@ -1546,7 +1546,7 @@ Player_BombosSpell:
 
 .BRANCH_THETA
 
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     BRL .BRANCH_$386B5 ; GO TO RECOIL MODE (Revision really recoil mode or just jumping?)
     
@@ -1554,7 +1554,7 @@ Player_BombosSpell:
 
 .BRANCH_NU
 
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     LDA $035B : AND.b #$01 : BEQ .BRANCH_XI
     
@@ -1573,7 +1573,7 @@ Player_BombosSpell:
     BRL .BRANCH_PI
 }
 
-; *$38926-$3894D LOCAL
+; $038926-$03894D LOCAL
 {
     LDX.b #$02
     
@@ -1586,7 +1586,7 @@ Player_BombosSpell:
     
     STX $00
     
-    ; *$38932 ALTERNATE ETNRY POINT
+    ; $038932 ALTERNATE ETNRY POINT
     
     LDA $29 : BPL .BRANCH_BETA
     
@@ -1596,7 +1596,7 @@ Player_BombosSpell:
     
     BRA .BRANCH_GAMMA
     
-    ; *$38946 ALTERNATE ENTRY POINT
+    ; $038946 ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     LDA $29 : SEC : SBC $00 : STA $29
@@ -1606,7 +1606,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$3894E-$38A04 JUMP LOCATION LOCAL
+; $03894E-$038A04 JUMP LOCATION LOCAL
 {
     ; Link mode 0x0B - falling down ledge to water or a hole? (Is that it?)
     
@@ -1625,7 +1625,7 @@ Player_BombosSpell:
     ; Play the "something's falling" sound effect
     LDA.b #$20 : JSR Player_DoSfx2
     
-    JSR $8AD1 ; $38AD1 IN ROM ;20 D1 8A
+    JSR $8AD1 ; $038AD1 IN ROM ;20 D1 8A
     
     LDA $1B : BNE .indoors
     
@@ -1643,8 +1643,8 @@ Player_BombosSpell:
     
     LDA.b #$02 : STA $00
     
-    JSR $8946   ; $38946 IN ROM
-    JSL $07E370 ; $3E370 IN ROM
+    JSR $8946   ; $038946 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
     
     LDA $29 : BPL .BRANCH_BETA
     
@@ -1662,7 +1662,7 @@ Player_BombosSpell:
     
     SEP #$20
     
-    JSR $8F1D ; $38F1D IN ROM
+    JSR $8F1D ; $038F1D IN ROM
     
     LDA $5B : BEQ .BRANCH_DELTA
     
@@ -1712,7 +1712,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $38A05-$38AC8 LOCAL
+; $038A05-$038AC8 LOCAL
 {
     LDA $0362 : STA $29
     LDA $0362 : STA $02C7
@@ -1720,9 +1720,9 @@ Player_BombosSpell:
     
     LDA.b #$02 : STA $00
     
-    JSR $8946 ; $38946 IN ROM
+    JSR $8946 ; $038946 IN ROM
     
-    JSL $07E370 ; $3E370 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
     
     LDA $29 : BMI .alpha
     
@@ -1756,14 +1756,14 @@ Player_BombosSpell:
     
     LDA.b #$04 : STA $5D
     
-    JSR $8C44 ; $38C44 in Rom.
-    JSR $9D84 ; $39D84 in Rom.
+    JSR $8C44 ; $038C44 in Rom.
+    JSR $9D84 ; $039D84 in Rom.
     
     ; Add transition splash
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash ; $498FC IN ROM
+    JSL AddTransitionSplash ; $0498FC IN ROM
     
     BRA .epsilon
     
@@ -1783,7 +1783,7 @@ Player_BombosSpell:
     
     .epsilon
     
-    JSR $8F1D ; $38F1D in Rom.
+    JSR $8F1D ; $038F1D in Rom.
     
     LDA $5D : CMP.b #$04 : BEQ .theta
     
@@ -1833,7 +1833,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $38AC9-$38AD0 DATA
+; $038AC9-$038AD0 DATA
 {
     db -8, -1, 8, 0
     
@@ -1843,7 +1843,7 @@ Player_BombosSpell:
     db -16, -1, 16, 0
 }
 
-; *$38AD1-$38B73 LOCAL
+; $038AD1-$038B73 LOCAL
 {
     LDA $21 : STA $33
     LDA $20 : STA $32
@@ -1860,7 +1860,7 @@ Player_BombosSpell:
     
     SEP #$20
     
-    JSR $CDCB ; $3CDCB IN ROM
+    JSR $CDCB ; $03CDCB IN ROM
     
     LDA $0343 : ORA $59 : ORA $035B : ORA $0357 : ORA $0341
     
@@ -1926,7 +1926,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38B74-$38B8A JUMP LOCATION
+; $038B74-$038B8A JUMP LOCATION
 {
     ; Link mode 0x0C - ????
     LDX.b #$01
@@ -1946,7 +1946,7 @@ Player_BombosSpell:
     BRL .BRANCH_$38A05 ; (RTS)
 }
 
-; *$38B9B-$38C58 LOCAL
+; $038B9B-$038C58 LOCAL
 {
     LDA $21 : STA $33
     LDA $20 : STA $32
@@ -1961,7 +1961,7 @@ Player_BombosSpell:
     
     SEP #$20
     
-    JSR $CDCB ; $3CDCB IN ROM
+    JSR $CDCB ; $03CDCB IN ROM
     
     LDA $0343 : ORA $035B : ORA $0357 : ORA $0341
     
@@ -2034,7 +2034,7 @@ Player_BombosSpell:
     
     LDA.b #$02 : STA $4D
     
-    ; *$38C44 ALTERNATE ENTRY POINT
+    ; $038C44 ALTERNATE ENTRY POINT
     
     LDA.b #$01 : STA $0345
     
@@ -2050,7 +2050,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38C69-$38CEE JUMP LOCATION
+; $038C69-$038CEE JUMP LOCATION
 {
     ; Link modes 0x0F and 0x10 - ????
     
@@ -2128,7 +2128,7 @@ Player_BombosSpell:
     BRL .BRANCH_$38A05 ; (RTS)
 }
 
-; *$38D2B-$38DC5 LOCAL
+; $038D2B-$038DC5 LOCAL
 {
     LDA $23 : STA $33
     LDA $22 : STA $32
@@ -2148,7 +2148,7 @@ Player_BombosSpell:
     
     LDA $66 : ASL A : TAY
     
-    JSR $CE2A ; $3CE2A IN ROM
+    JSR $CE2A ; $03CE2A IN ROM
     
     PLY
     PLX
@@ -2214,7 +2214,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38DC6-$38DFC JUMP LOCATION
+; $038DC6-$038DFC JUMP LOCATION
 {
     ; Link mode 0x0D - ????
     
@@ -2222,12 +2222,12 @@ Player_BombosSpell:
     
     LDA.b #$02 : STA $00
     
-    JSR $8932   ; $38932 IN ROM
-    JSL $07E370 ; $3E370 IN ROM
+    JSR $8932   ; $038932 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
     
     LDA $24 : BPL .BRANCH_ALPHA
     
-    JSR $8F1D ; $38F1D IN ROM
+    JSR $8F1D ; $038F1D IN ROM
     
     LDA $5D : CMP.b #$04 : BEQ .swimming
     
@@ -2248,7 +2248,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38E15-$38E6C JUMP LOCATION
+; $038E15-$038E6C JUMP LOCATION
 {
     ; Link Submode 0x0E
     
@@ -2279,7 +2279,7 @@ Player_BombosSpell:
     
     LDA.b #$20 : JSR Player_DoSfx2
     
-    JSR $8E7B ; $38E7B IN ROM
+    JSR $8E7B ; $038E7B IN ROM
     
     PLA : STA $23
     PLA : STA $22
@@ -2313,7 +2313,7 @@ Player_BombosSpell:
     BRL .BRANCH_$38A05 ; (RTS)
 }
 
-; *$38E7B-$38F1C LOCAL
+; $038E7B-$038F1C LOCAL
 {
     LDA $21 : STA $33
     LDA $20 : STA $32
@@ -2344,7 +2344,7 @@ Player_BombosSpell:
     
     SEP #$20
     
-    JSR $CDCB ; $3CDCB IN ROM
+    JSR $CDCB ; $03CDCB IN ROM
     
     PLY : TYA : LSR A : TAY
     
@@ -2395,7 +2395,7 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38F1D-$38F60 LOCAL
+; $038F1D-$038F60 LOCAL
 {
     PHX : PHY
     
@@ -2406,7 +2406,7 @@ Player_BombosSpell:
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash  ; $498FC IN ROM
+    JSL AddTransitionSplash  ; $0498FC IN ROM
     
     PLY : PLX
     
@@ -2437,11 +2437,11 @@ Player_BombosSpell:
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash  ; $498FC IN ROM
+    JSL AddTransitionSplash  ; $0498FC IN ROM
     
     .notRecoiling
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     LDX.b #$04
     
@@ -2455,12 +2455,12 @@ Player_BombosSpell:
     RTS
 }
 
-; *$38F86-$39194 LONG BRANCH LOCATION
+; $038F86-$039194 LONG BRANCH LOCATION
 {
     ; MODE 0x11 FALLING OFF A LEDGE / Dashing
     
-    JSR $F514 ; $3F514 IN ROM ; Buffers a number of important variables
-    JSR $82DA ; $382DA IN ROM ; 
+    JSR $F514 ; $03F514 IN ROM ; Buffers a number of important variables
+    JSR $82DA ; $0382DA IN ROM ; 
     
     BCC .BRANCH_ALPHA
     
@@ -2513,11 +2513,11 @@ Player_BombosSpell:
     
     LDA $55 : BEQ .BRANCH_THETA
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     .BRANCH_THETA
     
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     LDA.b #$01 : STA $037B
     
@@ -2630,27 +2630,27 @@ Player_BombosSpell:
     
     STZ $6B
     
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     LDA $20 : STA $00 : STA $3E
     LDA $22 : STA $01 : STA $3F
     LDA $21 : STA $02 : STA $40
     LDA $23 : STA $03 : STA $41
     
-    JSR $E595 ; $3E595 IN ROM
-    JSR $E5F0 ; $3E5F0 IN ROM
+    JSR $E595 ; $03E595 IN ROM
+    JSR $E5F0 ; $03E5F0 IN ROM
     
     LDA $02F5 : BEQ .BRANCH_RHO
     
-    JSL $07E3DD ; $3E3DD IN ROM
+    JSL $07E3DD ; $03E3DD IN ROM
     
     .BRANCH_RHO
     
     LDA $20 : SEC : SBC $3E : STA $30
     LDA $22 : SEC : SBC $3F : STA $31
     
-    JSR $B7C7 ; $3B7C7 IN ROM
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $B7C7 ; $03B7C7 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     BRL .BRANCH_ULTIMA
     
@@ -2680,7 +2680,7 @@ Player_BombosSpell:
     
     LDY.b #$07
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     .BRANCH_PHI
     
@@ -2722,23 +2722,23 @@ Player_BombosSpell:
     
     STA $67 : STA $26
     
-    JSR $B64F   ; $3B64F IN ROM
-    JSL $07E245 ; $3E245 IN ROM
-    JSR $B7C7   ; $3B7C7 IN ROM
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSR $B64F   ; $03B64F IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
-    JSR $E8F0   ; $3E8F0 IN ROM
+    JSR $E8F0   ; $03E8F0 IN ROM
     
     .BRANCH_ULTIMA
     
     RTS
     
-    ; *$3915E ALTERNATE ENTRY POINT
+    ; $03915E ALTERNATE ENTRY POINT
     .BRANCH_ALTIMA
     
-    JSR $F514 ; $3F514 IN ROM
+    JSR $F514 ; $03F514 IN ROM
     
     LDA $F0 : AND.b #$0F : BNE .BRANCH_ALPHA2
     
@@ -2766,14 +2766,14 @@ Player_BombosSpell:
     
     .BRANCH_GAMMA2
     
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$39195-$391B8 LOCAL
+; $039195-$0391B8 LOCAL
 Player_HaltDashAttack:
 {
     ; Routine essentially stops all dashing activities, usually due to some\
@@ -2812,7 +2812,7 @@ Player_HaltDashAttack:
 
 ; ==============================================================================
 
-; *$391B9-$391BC LONG
+; $0391B9-$0391BC LONG
 Player_HaltDashAttackLong:
 {
     JSR Player_HaltDashAttack
@@ -2822,9 +2822,8 @@ Player_HaltDashAttackLong:
 
 ; ==============================================================================
 
-; $391BD-$391F0
+; $0391BD-$0391F0
 {
-    
     .y_recoil
     db $18, $E8, $00, $00
     
@@ -2839,7 +2838,7 @@ Player_HaltDashAttackLong:
     
 }
     
-; *$391F1-$39290 LOCAL
+; $0391F1-$039290 LOCAL
 {
     LDA $0372 : BEQ .no_dash_bounce
     
@@ -2866,7 +2865,7 @@ Player_HaltDashAttackLong:
     
     LDA.b #$03 : JSR Player_DoSfx3
     
-    ; *$39222 LONG BRANCH LOCATION
+    ; $039222 LONG BRANCH LOCATION
     .BRANCH_GAMMA
     
     LDX $66
@@ -2929,7 +2928,7 @@ Player_HaltDashAttackLong:
 
 ; ==============================================================================
 
-; *$39291-$3929F LONG
+; $039291-$03929F LONG
 Sprite_RepelDashAttackLong:
 {
     PHB : PHK : PLB
@@ -2939,7 +2938,7 @@ Sprite_RepelDashAttackLong:
     ; Update the last direction the player moved in.
     LDA $2F : LSR A : STA $66
     
-    JSR $91F1 ; $391F1 IN ROM
+    JSR $91F1 ; $0391F1 IN ROM
     
     PLX : PLB
     
@@ -2948,7 +2947,7 @@ Sprite_RepelDashAttackLong:
 
 ; ==============================================================================
 
-; *$392A0-$392BE LOCAL
+; $0392A0-$0392BE LOCAL
 {
     STZ $67
     
@@ -2960,7 +2959,7 @@ Sprite_RepelDashAttackLong:
     
     .BRANCH_BETA
     
-    JSR $92B9 ; $392B9 IN ROM
+    JSR $92B9 ; $0392B9 IN ROM
     
     .BRANCH_ALPHA
     
@@ -2970,7 +2969,7 @@ Sprite_RepelDashAttackLong:
     
     LDY.b #$03
     
-    ; *$392B9 ALTERNATE ENTRY POINT
+    ; $0392B9 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     LDA $91ED, Y : TSB $67
@@ -2980,7 +2979,7 @@ Sprite_RepelDashAttackLong:
     RTS
 }
 
-; *$392D3-$3951D JUMP LOCATION
+; $0392D3-$03951D JUMP LOCATION
 {
     ; Link mode 0x01 - Link falling into a hole
     
@@ -3022,7 +3021,7 @@ Sprite_RepelDashAttackLong:
     
     LDY.b #$04
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     LDA $59 : AND.b #$01 : BNE .BRANCH_DELTA
     
@@ -3193,14 +3192,14 @@ Sprite_RepelDashAttackLong:
     
     .BRANCH_PSI
     
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     .BRANCH_OMEGA
     
-    JSR $B64F   ; $3B64F IN ROM
-    JSL $07E245 ; $3E245 IN ROM
-    JSR $B7C7   ; $3B7C7 IN ROM
-    JSL $07E9D3 ; $3E9D3 IN ROM
+    JSR $B64F   ; $03B64F IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM
+    JSL $07E9D3 ; $03E9D3 IN ROM
     
     .BRANCH_ALTIMA
     
@@ -3217,7 +3216,7 @@ Sprite_RepelDashAttackLong:
     STZ $0373
     STZ $02E1
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     INC $037B
     
@@ -3317,7 +3316,7 @@ Sprite_RepelDashAttackLong:
     
     .BRANCH_GAMMA2
     
-    ; *$394F1 ALTERNATE ENTRY POINT
+    ; $0394F1 ALTERNATE ENTRY POINT
     
     ; Hole / teleporter plane
     LDX $063C
@@ -3349,16 +3348,15 @@ Sprite_RepelDashAttackLong:
 ; ==============================================================================
 
     ; \unused Can't seem to find any reference to it.
-; $3951E-$3951F DATA
+; $03951E-$03951F DATA
 {
-    
     .unknown_0
     db $21, $24
 }
 
 ; ==============================================================================
 
-; *$39520-$39634 LONG
+; $039520-$039634 LONG
 {
     PHB : PHK : PLB
     
@@ -3388,7 +3386,7 @@ Sprite_RepelDashAttackLong:
     
     LDA.b #$04 : STA $67
     
-    JSL $07E245 ; $3E245 IN ROM
+    JSL $07E245 ; $03E245 IN ROM
     
     REP #$20
     
@@ -3440,7 +3438,7 @@ Sprite_RepelDashAttackLong:
     
     LDY.b #$00
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     LDA $0359 : AND.b #$01 : BEQ .BRANCH_IOTA
     
@@ -3477,11 +3475,11 @@ Sprite_RepelDashAttackLong:
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash     ; $498FC IN ROM
+    JSL AddTransitionSplash     ; $0498FC IN ROM
     
     LDA.b #$04 : STA $5D
     
-    JSR $AE54; $3AE54 IN ROM
+    JSR $AE54; $03AE54 IN ROM
     
     STZ $0308
     STZ $0309
@@ -3512,7 +3510,7 @@ Sprite_RepelDashAttackLong:
     RTL
 }
 
-; *$3963B-$39784 JUMP LOCATION
+; $03963B-$039784 JUMP LOCATION
 {
     ; MODE 4 SWIMMING
     
@@ -3596,7 +3594,7 @@ Sprite_RepelDashAttackLong:
     LDA.b #$01 : STA $032A
     LDA.b #$07 : STA $02CB
     
-    JSR $98A8   ; $398A8 IN ROM
+    JSR $98A8   ; $0398A8 IN ROM
     
     .BRANCH_ZETA
     
@@ -3612,7 +3610,7 @@ Sprite_RepelDashAttackLong:
     
     STA $034F
     
-    ; *$39715 LONG BRANCH LOCATION
+    ; $039715 LONG BRANCH LOCATION
     .BRANCH_THETA
     
     LDA $49 : AND.b #$0F : BNE .BRANCH_IOTA
@@ -3622,7 +3620,7 @@ Sprite_RepelDashAttackLong:
     STZ $30
     STZ $31
     
-    JSR $9785 ; $39785 IN ROM
+    JSR $9785 ; $039785 IN ROM
     
     LDA $034A : BEQ .BRANCH_KAPPA
     
@@ -3663,25 +3661,25 @@ Sprite_RepelDashAttackLong:
     
     STA $0340
     
-    JSR $97A6 ; $397A6 IN ROM
-    JSR $97C7 ; $397C7 IN ROM
-    JSR $9903 ; $39903 IN ROM
+    JSR $97A6 ; $0397A6 IN ROM
+    JSR $97C7 ; $0397C7 IN ROM
+    JSR $9903 ; $039903 IN ROM
     
     .BRANCH_MU
     
-    JSR $B64F   ; $3B64F IN ROM
-    JSL $07E245 ; $3E245 IN ROM
-    JSR $B7C7   ; $3B7C7 IN ROM
-    JSL $07E6A6 ; $3E6A6 IN ROM
+    JSR $B64F   ; $03B64F IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     RTS
 }
 
-; *$39785-$397A5 LOCAL
+; $039785-$0397A5 LOCAL
 {
     REP #$20
     
@@ -3708,7 +3706,7 @@ Sprite_RepelDashAttackLong:
     RTS
 }
 
-; *$397A6-$397BE LOCAL
+; $0397A6-$0397BE LOCAL
 {
     REP #$20
     
@@ -3729,7 +3727,7 @@ Sprite_RepelDashAttackLong:
     RTS
 }
 
-; *$397C7-$39839 BLOCK
+; $0397C7-$039839 BLOCK
 {
     SEP #$20
     
@@ -3803,7 +3801,7 @@ Sprite_RepelDashAttackLong:
 
 ; ==============================================================================
 
-; *$3983A-$3984A LONG
+; $03983A-$03984A LONG
 Player_ResetSwimState:
 {
     PHB : PHK : PLB
@@ -3821,7 +3819,7 @@ Player_ResetSwimState:
 
 ; ==============================================================================
 
-; $3984B-$39872 LONG
+; $03984B-$039872 LONG
 {
     PHB : PHK : PLB
     
@@ -3854,7 +3852,7 @@ Player_ResetSwimState:
 
 ; ==============================================================================
 
-; *$39873-$39895 LOCAL
+; $039873-$039895 LOCAL
 Player_ResetSwimCollision:
 {
     REP #$20
@@ -3877,7 +3875,7 @@ Player_ResetSwimCollision:
 
 ; ==============================================================================
 
-; *$398A8-$39902 LOCAL
+; $0398A8-$039902 LOCAL
 {
     REP #$30
     
@@ -3934,7 +3932,7 @@ Player_ResetSwimCollision:
     RTS
 }
 
-; *$39903-$3996B LOCAL
+; $039903-$03996B LOCAL
 {
     REP #$30
     
@@ -3991,10 +3989,10 @@ Player_ResetSwimCollision:
 
 ; ==============================================================================
 
-; *$3996C-$399AC LONG BRANCH POINT
+; $03996C-$0399AC LONG BRANCH POINT
 Player_Electrocution:
 {
-    JSR $F514 ; $3F514 in Rom.
+    JSR $F514 ; $03F514 in Rom.
     JSL Player_SetElectrocutionMosaicLevel
     
     ; Decrease the delay counter
@@ -4035,14 +4033,14 @@ Player_Electrocution:
     
     .return
     
-    ; *$399AC ALTERNATE ENTRY POINT
+    ; $0399AC ALTERNATE ENTRY POINT
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$399AD-$39A2B LONG
+; $0399AD-$039A2B LONG
 Link_ReceiveItem:
 {
     ; Grant link the item he earned, if possible
@@ -4135,7 +4133,7 @@ Link_ReceiveItem:
 
 ; ==============================================================================
 
-; *$39A2C-$39A53 LONG
+; $039A2C-$039A53 LONG
 {
     ; Puts link in bed asleep
     
@@ -4166,14 +4164,14 @@ Link_ReceiveItem:
     RTL
 }
 
-; $39A54-$39A59 JUMP TABLE
+; $039A54-$039A59 JUMP TABLE
 {
     dw $9A62 ; = $39A62*
     dw $9A71 ; = $39A71*
     dw $9AA1 ; = $39AA1*
 }
 
-; *$39A5A-$39A61 JUMP LOCATION
+; $039A5A-$039A61 JUMP LOCATION
 {
     ; Link mode 0x16 (asleep in bed)
     
@@ -4182,7 +4180,7 @@ Link_ReceiveItem:
     JMP ($9A54, X)
 }
 
-; *$39A62-$39A70 JUMP LOCATION
+; $039A62-$039A70 JUMP LOCATION
 {
     LDA $1A : AND.b #$1F : BNE .noZzzz
     
@@ -4197,7 +4195,7 @@ Link_ReceiveItem:
     RTS
 }
 
-; *$39A71-$39AA0 JUMP LOCATION
+; $039A71-$039AA0 JUMP LOCATION
 {
     LDA $11 : BNE .BRANCH_ALPHA
     
@@ -4222,7 +4220,7 @@ Link_ReceiveItem:
     RTS
 }
 
-; *$39AA1-$39AC1
+; $039AA1-$039AC1
 {
     DEC $0374 : BPL .countingDown
     
@@ -4242,7 +4240,7 @@ Link_ReceiveItem:
     RTS
 }
 
-; *$39AC2-$39AE5 LOCAL
+; $039AC2-$039AE5 LOCAL
 Player_Sword:
 {
     DEC $02E3 : BPL .BRANCH_ALPHA
@@ -4255,21 +4253,21 @@ Player_Sword:
     
     LDA $0372 : BNE .BRANCH_ALPHA
     
-    JSR $9CD9 ; $39CD9 IN ROM
+    JSR $9CD9 ; $039CD9 IN ROM
     
     BRA .BRANCH_ALPHA
     
     .spin_attack_jerks
     
-    JSR $9D72 ; $39D72 IN ROM
+    JSR $9D72 ; $039D72 IN ROM
     
-    ; *$39AE5 ALTERNATE ENTRY POINT
+    ; $039AE5 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     RTS
 }
 
-; $39AE6-$39B0D JUMP TABLE
+; $039AE6-$039B0D JUMP TABLE
 {
     ; Subprograms that handle the Y button weapons.
     
@@ -4297,7 +4295,7 @@ Player_Sword:
     dw LinkItem_Mirror
 }
 
-; *$39B0E-$39B91 LOCAL
+; $039B0E-$039B91 LOCAL
 {
     LDA $3C    : BEQ .BRANCH_ALPHA
     CMP.b #$09 : BCC .BRANCH_39AE5
@@ -4344,7 +4342,7 @@ Player_Sword:
     
     LDA $55 : BEQ .BRANCH_EPSILON
     
-    JSR $AE47 ; $3AE47 IN ROM
+    JSR $AE47 ; $03AE47 IN ROM
     
     .BRANCH_EPSILON
     
@@ -4376,7 +4374,7 @@ Player_Sword:
     RTS
 }
 
-; $39B92-$39BA1 JUMP TABLE
+; $039B92-$039BA1 JUMP TABLE
 {
     dw $AAA1 ; = $3AAA1*; RTS, basically
     dw $B1CA ; = $3B1CA* ; pick up a pot / bush / bomb / etc
@@ -4388,7 +4386,7 @@ Player_Sword:
     dw $B40C ; = $3B40C*
 }
 
-; *$39BAA-$39C4E LOCAL
+; $039BAA-$039C4E LOCAL
 {
     STZ $02F4
     
@@ -4418,7 +4416,7 @@ Player_Sword:
     ; Is link Holding a pot? Is he holding a wall?
     LDA $0308 : ORA $0376 : BNE .handsAreOccupied
     
-    ; $3B5C0 IN ROM
+    ; $03B5C0 IN ROM
     ; If the A button was down, then continue. If not, branch.
     JSR $B5C0 : BCC .cantDoAction
     
@@ -4456,7 +4454,7 @@ Player_Sword:
     
     LDA $3C : BEQ .nu
     
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     .nu
     
@@ -4465,7 +4463,7 @@ Player_Sword:
     STZ $0301
     STZ $037A
     
-    JSR $A11F ; $3A11F IN ROM
+    JSR $A11F ; $03A11F IN ROM
     
     STZ $035F
     
@@ -4481,7 +4479,7 @@ Player_Sword:
     
     .checkOtherActions
     
-    JSR $D383 ; $3D383 IN ROM; Determines what type of action you desire to complete. Eg. Opening a chest, dashing, etc. Returns X as the index of that action.
+    JSR $D383 ; $03D383 IN ROM; Determines what type of action you desire to complete. Eg. Opening a chest, dashing, etc. Returns X as the index of that action.
     
     .attemptAction
     
@@ -4493,7 +4491,7 @@ Player_Sword:
     
     TXA : ASL A : TAX
     
-    JSR $9C5F ; $39C5F IN ROM; Do the action.
+    JSR $9C5F ; $039C5F IN ROM; Do the action.
     
     .handsAreOccupied
     
@@ -4509,7 +4507,7 @@ Player_Sword:
     RTS
 }
 
-; $39C4F-$39C5E JUMP TABLE
+; $039C4F-$039C5E JUMP TABLE
 {
     ; Parameter: $036C
     
@@ -4525,7 +4523,7 @@ Player_Sword:
     dw $B3E5 ; = $3B3E5* ; Pull For Rupees / DW Dungeon 4 entrance
 }
 
-; $39C5F-$39C62 LOCAL
+; $039C5F-$039C62 LOCAL
 {
     JMP ($9C4F, X) ; SEE JUMP TABLE $39C4F
     
@@ -4536,7 +4534,7 @@ Player_Sword:
 
 ; ==============================================================================
 
-; $39C63-$39C65 DATA
+; $039C63-$039C65 DATA
 {
     ; \unused Afaik.
     db 0, 1, 1
@@ -4544,7 +4542,7 @@ Player_Sword:
 
 ; ==============================================================================
 
-; *$39C66-$39CBE LOCAL
+; $039C66-$039CBE LOCAL
 {
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -4602,7 +4600,7 @@ Player_Sword:
 
 ; ==============================================================================
 
-; *$39CD9-$39D83 LOCAL
+; $039CD9-$039D83 LOCAL
 {
     ; (RTS)
     LDA $3B : AND.b #$10 : BNE .BRANCH_39C66_easy_out
@@ -4617,7 +4615,7 @@ Player_Sword:
     
     ; Seems like this checks the types of tiles in front of the player
     ; to see if we can bring the sword out.
-    JSR $D73E   ; $3D73E IN ROM
+    JSR $D73E   ; $03D73E IN ROM
     
     LDA $0E : AND.b #$30 : EOR.b #$30 : BEQ .BRANCH_39C66_easy_out
     
@@ -4627,7 +4625,7 @@ Player_Sword:
     LDA.b #$80 : TSB $3A
     
     ; Reinitialize spin attack variables and shoot a sword beam, if applicable
-    JSR $9C66   ; $39C66 IN ROM
+    JSR $9C66   ; $039C66 IN ROM
     
     ; Link can no longer change direction
     LDA.b #$01 : TSB $50
@@ -4643,7 +4641,7 @@ Player_Sword:
     .b_button_wasnt_released
     
     ; Does something more related to how Link's standing / collision with the floor
-    JSR $AE65   ; $3AE65 IN ROM
+    JSR $AE65   ; $03AE65 IN ROM
     
     ; Stop any motion Link may have had
     LDA $67 : AND.b #$F0 : STA $67
@@ -4683,7 +4681,7 @@ Player_Sword:
     
     .BRANCH_IOTA
     
-    JSR $D077   ; $3D077 IN ROM
+    JSR $D077   ; $03D077 IN ROM
     
     BRA .BRANCH_DELTA
     
@@ -4699,11 +4697,11 @@ Player_Sword:
     
     .BRANCH_DELTA
     
-    JSR $9E63   ; $39E63 IN ROM
+    JSR $9E63   ; $039E63 IN ROM
     
     RTS
     
-    ; *$39D72 ALTERNATE ENTRY POINT
+    ; $039D72 ALTERNATE ENTRY POINT
     .maybeDoSpinAttack
     
     ; B Button is still being held
@@ -4711,16 +4709,15 @@ Player_Sword:
     
     LDA $79 : CMP.b #$30 : BCC .BRANCH_$39D84
     
-    JSR $9D84   ; $39D84 IN ROM
+    JSR $9D84   ; $039D84 IN ROM
     
     STZ $79
     
     BRL .BRANCH_$3A77A
 }
 
-; *$39D84-$39E62 LOCAL
+; $039D84-$039E62 LOCAL
 {
-
 .BRANCH_EPSILON
 
     ; Bring Link to stop
@@ -4740,7 +4737,7 @@ Player_Sword:
     
     BRL .BRANCH_ALPHA
 
-; *$39D9F ALTERNATE ENTRY POINT
+; $039D9F ALTERNATE ENTRY POINT
 
     BIT $48 : BNE .BRANCH_BETA
     
@@ -4772,7 +4769,7 @@ Player_Sword:
     LDY.b #$01
     LDA.b #$1B
     
-    JSL AddWallTapSpark ; $49395 IN ROM
+    JSL AddWallTapSpark ; $049395 IN ROM
     
     LDA $48 : AND.b #$08 : BNE .BRANCH_MUNU
     
@@ -4789,7 +4786,7 @@ Player_Sword:
     ; Do sword interaction with tiles
     LDY.b #$01
     
-    JSR $D077   ; $3D077 IN ROM
+    JSR $D077   ; $03D077 IN ROM
     
 .BRANCH_LAMBDA
 
@@ -4853,14 +4850,14 @@ Player_Sword:
 
 .BRANCH_RHO
 
-    JSR $9E63 ; $39E63 IN ROM
+    JSR $9E63 ; $039E63 IN ROM
 
 .BRANCH_ALPHA
     
     RTS
 }
 
-; *$39E63-$39EEB LOCAL
+; $039E63-$039EEB LOCAL
 {
     ; sword
     LDA $7EF359 : BEQ .BRANCH_39D84_BRANCH_ALPHA ; RTS
@@ -4931,14 +4928,14 @@ parallel pool LinkItem_Rod:
 
 ; ==============================================================================
 
-; $39EEC-$39EEE DATA
+; $039EEC-$039EEE DATA
 {
     db 3, 3, 5
 }
 
 ; ==============================================================================
 
-; *$39EEF-$39F58 LOCAL
+; $039EEF-$039F58 LOCAL
 LinkItem_Rod:
 {
     ; Called when the fire rod or ice rod is invoked.
@@ -4974,7 +4971,7 @@ LinkItem_Rod:
     
     .y_button_held
     
-    JSR $AE65 ; $3AE65 IN ROM
+    JSR $AE65 ; $03AE65 IN ROM
     
     ; What's the point of this?
     LDA $67 : AND.b #$F0 : STA $67
@@ -5005,10 +5002,9 @@ LinkItem_Rod:
 
 ; ==============================================================================
 
-; $39F59-$39F5C JUMP TABLE
+; $039F59-$039F5C JUMP TABLE
 pool LinkItem_RodDiscriminator:
 {
-    
     .rods
     dw LinkItem_FireRod
     dw LinkItem_IceRod
@@ -5016,7 +5012,7 @@ pool LinkItem_RodDiscriminator:
 
 ; ==============================================================================
 
-; *$39F5D-$39F65 LOCAL
+; $039F5D-$039F65 LOCAL
 LinkItem_RodDiscriminator:
 {
     LDA $0307 : DEC A : ASL A : TAX
@@ -5026,7 +5022,7 @@ LinkItem_RodDiscriminator:
 
 ; ==============================================================================
 
-; *$39F66-$39F6E JUMP LOCATION
+; $039F66-$039F6E JUMP LOCATION
 LinkItem_IceRod:
 {
     LDA.b #$0B
@@ -5039,7 +5035,7 @@ LinkItem_IceRod:
 
 ; ==============================================================================
 
-; *$39F6F-$39F77 LOCAL
+; $039F6F-$039F77 LOCAL
 LinkItem_FireRod:
 {
     LDA.b #$02
@@ -5052,14 +5048,13 @@ LinkItem_FireRod:
 
 ; ==============================================================================
 
-; $39F78-$39F7A DATA
+; $039F78-$039F7A DATA
 {
-    
 }
 
 ; ==============================================================================
 
-; *$39F7B-$3A002 BRANCH LOCATION
+; $039F7B-$03A002 BRANCH LOCATION
 LinkItem_Hammer:
 {
     ; Hammer item code
@@ -5090,7 +5085,7 @@ LinkItem_Hammer:
 
     .BRANCH_BETA
 
-    JSR $AE65   ; $3AE65 IN ROM
+    JSR $AE65   ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -5106,7 +5101,7 @@ LinkItem_Hammer:
     
     LDY.b #$03
     
-    JSR $D077   ; $3D077 IN ROM
+    JSR $D077   ; $03D077 IN ROM
     
     LDY.b #$00
     LDA.b #$16
@@ -5140,7 +5135,7 @@ LinkItem_Hammer:
 
 ; ==============================================================================
 
-; $3A003-$3A005
+; $03A003-$03A005
 pool LinkItem_Bow:
 {
     ; \task Rename the LinkItem "namespace" to PlayerItem
@@ -5150,7 +5145,7 @@ pool LinkItem_Bow:
 
 ; ==============================================================================
 
-; *$3A006-$3A0BA LONG BRANCH LOCATION
+; $03A006-$03A0BA LONG BRANCH LOCATION
 LinkItem_Bow:
 {
     ; Box and Arrow use code
@@ -5172,7 +5167,7 @@ LinkItem_Bow:
     
     .BRANCH_ALPHA
     
-    JSR $AE65 ; $3AE65 IN ROM
+    JSR $AE65 ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -5235,13 +5230,13 @@ LinkItem_Bow:
     
     LDA.b #$09 : STA $3C
     
-    ; *$3A0BA ALTERNATE ENTRY POINT
+    ; $03A0BA ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     RTS
 }
 
-; *$3A0BB-$3A137 JUMP LOCATION
+; $03A0BB-$03A137 JUMP LOCATION
 LinkItem_Boomerang:
 {
     ; Boomerang item use code
@@ -5282,7 +5277,7 @@ LinkItem_Boomerang:
     
     LDA $0301 : BEQ .BRANCH_GAMMA
     
-    JSR $AE65   ; $3AE65 IN ROM
+    JSR $AE65   ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -5292,7 +5287,7 @@ LinkItem_Boomerang:
     
     LDA $0300 : INC A : STA $0300 : CMP.b #$02 : BNE .BRANCH_BETA
     
-    ; *$3A11F ALTERNATE ENTRY POINT
+    ; $03A11F ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
     STZ $0301
@@ -5310,7 +5305,7 @@ LinkItem_Boomerang:
 
 ; ==============================================================================
 
-; *$3A138-$3A15A JUMP LOCATION
+; $03A138-$03A15A JUMP LOCATION
 {
     ; Code for laying a bomb
     
@@ -5336,7 +5331,7 @@ LinkItem_Boomerang:
 
 ; ==============================================================================
 
-; *$3A15B-$3A249 JUMP LOCATION
+; $03A15B-$03A249 JUMP LOCATION
 {
     ; Executes when we use a bottle
     
@@ -5476,7 +5471,7 @@ LinkItem_Boomerang:
 ; ==============================================================================
 
     ; \unused Until proven otherwise...
-; $3A24A-$3A24C DATA
+; $03A24A-$03A24C DATA
 pool LinkItem_Lamp:
 {
     db $18, $10, $00
@@ -5484,7 +5479,7 @@ pool LinkItem_Lamp:
 
 ; ==============================================================================
 
-; *$3A24D-$3A288 LOCAL
+; $03A24D-$03A288 LOCAL
 LinkItem_Lamp:
 {
     LDA $6C : BNE .no_input
@@ -5527,7 +5522,7 @@ LinkItem_Lamp:
 
 ; ==============================================================================
 
-; *$3A293-$3A312 JUMP LOCATION
+; $03A293-$03A312 JUMP LOCATION
 LinkItem_Mushroom:
 LinkItem_MagicPowder:
 {
@@ -5590,7 +5585,7 @@ LinkItem_MagicPowder:
     
     LDY.b #$01
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     BRA .BRANCH_DELTA
     
@@ -5608,7 +5603,7 @@ LinkItem_MagicPowder:
 
 ; ==============================================================================
 
-; *$3A313-$3A31F LOCAL
+; $03A313-$03A31F LOCAL
 LinkItem_ShovelAndFlute:
 {
     ; Play flute or use the shovel
@@ -5621,7 +5616,7 @@ LinkItem_ShovelAndFlute:
 
 ; ==============================================================================
 
-; *$3A32C-$3A3DA LONG BRANCH LOCATION
+; $03A32C-$03A3DA LONG BRANCH LOCATION
 LinkItem_Shovel:
 {
     ; Shovel item code
@@ -5645,7 +5640,7 @@ LinkItem_Shovel:
     
     .BRANCH_ALPHA
     
-    JSR $AE65 ; $3AE65 IN ROM
+    JSR $AE65 ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -5665,7 +5660,7 @@ LinkItem_Shovel:
     
     PHX
     
-    JSR $D077   ; $3D077 IN ROM
+    JSR $D077   ; $03D077 IN ROM
     
     PLX
     
@@ -5740,7 +5735,7 @@ LinkItem_Shovel:
 
 ; ==============================================================================
 
-; *$3A3DB-$3A45E LONG BRANCH LOCATION
+; $03A3DB-$03A45E LONG BRANCH LOCATION
 LinkItem_Flute:
 {
     ; Code for the flute item (with or without the bird activated)
@@ -5833,7 +5828,7 @@ LinkItem_Flute:
 
 ; ==============================================================================
 
-; *$3A45F-$3A470 LONG
+; $03A45F-$03A470 LONG
 GanonEmerges_SpawnTravelBird:
 {
     PHB : PHK : PLB
@@ -5853,7 +5848,7 @@ GanonEmerges_SpawnTravelBird:
 
 ; ==============================================================================
 
-; *$3A471-$3A493 JUMP LOCATION
+; $03A471-$03A493 JUMP LOCATION
 {
     ; Book of Mudora (0x0B)
     
@@ -5882,7 +5877,7 @@ GanonEmerges_SpawnTravelBird:
 
 ; ==============================================================================
 
-; *$3A494-$3A4F6 JUMP LOCATION
+; $03A494-$03A4F6 JUMP LOCATION
 LinkItem_EtherMedallion:
 {
     JSR Link_CheckNewY_ButtonPress : BCC .cant_cast_no_sound
@@ -5928,21 +5923,21 @@ LinkItem_EtherMedallion:
     RTS
 }
 
-; $3A4F7-$03A502 DATA TABLE
+; $03A4F7-$003A502 DATA TABLE
 {
     db $00, $01, $02, $03
     db $00, $01, $02, $03
     db $04, $05, $06, $07
 }
 
-; $3A503-$3A50E DATA TABLE
+; $03A503-$03A50E DATA TABLE
 {
     db $05, $05, $05, $05
     db $05, $05, $05, $05
     db $07, $07, $03, $03
 }
 
-; *$3A50F-$3A568 JUMP LOCATION
+; $03A50F-$03A568 JUMP LOCATION
 {
     ; ETHER MEDALLION MODE
     
@@ -6003,7 +5998,7 @@ LinkItem_EtherMedallion:
     RTS
 }
 
-; *$3A569-$3A5CE JUMP LOCATION
+; $03A569-$03A5CE JUMP LOCATION
 {
     ; Bombos medallion (0x0E)
     
@@ -6053,7 +6048,7 @@ LinkItem_EtherMedallion:
     RTS
 }
 
-; *$3A5F7-$3A64A JUMP LOCATION
+; $03A5F7-$03A64A JUMP LOCATION
 {
     ; BOMBOS MEDALLION MODE
     
@@ -6112,7 +6107,7 @@ LinkItem_EtherMedallion:
 
 ; ==============================================================================
 
-; *$3A64B-$3A6BD JUMP LOCATION
+; $03A64B-$03A6BD JUMP LOCATION
 LinkItem_Quake:
 {
     JSR Link_CheckNewY_ButtonPress : BCC .BRANCH_ALPHA
@@ -6168,7 +6163,7 @@ LinkItem_Quake:
 
 ; ==============================================================================
 
-; *$3A6D6-$3A779 JUMP LOCATION
+; $03A6D6-$03A779 JUMP LOCATION
 {
     ; QUAKE MEDALLION CODE
     
@@ -6187,8 +6182,8 @@ LinkItem_Quake:
     
     LDA.b #$02 : STA $00 : STA $4D
     
-    JSR $8932   ; $38932 IN ROM
-    JSL $07E370 ; $3E370 IN ROM
+    JSR $8932   ; $038932 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
     
     LDA $29 : STA $0362
     
@@ -6272,7 +6267,7 @@ LinkItem_Quake:
     RTS
 }
 
-; *$3A77A-$3A7AF LONG BRANCH LOCATION
+; $03A77A-$03A7AF LONG BRANCH LOCATION
 {
     LDY.b #$00 : TYX
     
@@ -6280,7 +6275,7 @@ LinkItem_Quake:
     
     JSL AddSpinAttackStartSparkle
     
-    ; *$3A7B3 ALTERNATE ENTRY POINT
+    ; $03A7B3 ALTERNATE ENTRY POINT
     
     ; Enter spin attack mode.
     LDA.b #$03 : STA $5D
@@ -6307,22 +6302,22 @@ LinkItem_Quake:
     RTS
 }
 
-; *$3A7B0-$3A7B7 LONG
+; $03A7B0-$03A7B7 LONG
 {
     PHB : PHK : PLB
     
-    JSR $A783 ; $3A783 IN ROM
+    JSR $A783 ; $03A783 IN ROM
     
     PLB
     
     RTL
 }
 
-; *$3A804-$3A8EB JUMP LOCATION
+; $03A804-$03A8EB JUMP LOCATION
 {
     ; Link mode 0x03 - Spin Attack Mode
     
-    JSR $F514 ; $3F514 IN ROM
+    JSR $F514 ; $03F514 IN ROM
     
     ; Check to see if Link is in a ground state.
     LDA $4D : BEQ .BRANCH_ALPHA
@@ -6365,11 +6360,11 @@ LinkItem_Quake:
     
     LDA $55 : BEQ .BRANCH_THETA
     
-    JSR $AE54   ; $3AE54 IN ROM
+    JSR $AE54   ; $03AE54 IN ROM
     
     .BRANCH_THETA
     
-    JSR $9D84   ; $39D84 IN ROM
+    JSR $9D84   ; $039D84 IN ROM
     
     LDA.b #$01 : STA $037B
     
@@ -6397,7 +6392,7 @@ LinkItem_Quake:
     
     LDA $46 : BEQ .BRANCH_IOTA ; Link's movement data is being taken in.
     
-    JSR $8711   ; $38711 IN ROM Link Can't move, do some other stuff.
+    JSR $8711   ; $038711 IN ROM Link Can't move, do some other stuff.
     
     BRA .BRANCH_KAPPA
     
@@ -6405,14 +6400,14 @@ LinkItem_Quake:
     
     STZ $67 ; Not sure...
     
-    JSL $07E245 ; $3E245 IN ROM
-    JSR $B7C7   ; $3B7C7 IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM
     
     LDA.b #$03 : STA $5D
     
     STZ $0302
     
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     .BRANCH_KAPPA
     
@@ -6470,14 +6465,14 @@ LinkItem_Quake:
     
     LDY.b #$08
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     .BRANCH_LAMBDA
     
     RTS
 }
 
-; $3A8EC-$3A919 BLOCK
+; $03A8EC-$03A919 BLOCK
 {
     LDY.b #$00
     LDX.b #$01
@@ -6502,7 +6497,7 @@ LinkItem_Quake:
     BRL .BRANCH_$3A804 ; GO TO SPIN ATTACK MODE
 }
 
-; *$3A91A-$3A9B0 JUMP LOCATION
+; $03A91A-$03A9B0 JUMP LOCATION
 LinkItem_Mirror:
 {
     ; Magic Mirror routine
@@ -6542,7 +6537,7 @@ LinkItem_Mirror:
     ; Check if we're in the dark world.
     LDA $8A : AND.b #$40 : BNE .BRANCH_GAMMA
     
-    ; *$3A955 ALTERNATE ENTRY POINT
+    ; $03A955 ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     ; Play the "you can't do that" sound.
@@ -6550,14 +6545,14 @@ LinkItem_Mirror:
     
     BRA .cantWarp
     
-    ; *$3A95C ALTERNATE ENTRY POINT
+    ; $03A95C ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
     LDA $1B : BEQ .outdoors
     
     LDA $0FFC : BNE .cantWarp
     
-    JSL Dungeon_SaveRoomData ; $121B1 IN ROM
+    JSL Dungeon_SaveRoomData ; $0121B1 IN ROM
     
     LDA $012E : CMP.b #$3C : BEQ .cantWarp
     
@@ -6584,7 +6579,7 @@ LinkItem_Mirror:
     
     LDA.b #$23
     
-    ; *$3A99C ALTERNATE ENTRY POINT
+    ; $03A99C ALTERNATE ENTRY POINT
     
     STA $11
     
@@ -6607,12 +6602,12 @@ LinkItem_Mirror:
 
 ; ==============================================================================
 
-; *$3A9B1-$3AA6B JUMP LOCATION
+; $03A9B1-$03AA6B JUMP LOCATION
 {
     ; Link Mode 0x14 MAGIC MIRROR (And / or Whirpool warping?)
     
-    JSL $07F1E6 ; $3F1E6 IN ROM
-    JSR $D6F4   ; $3D6F4 IN ROM
+    JSL $07F1E6 ; $03F1E6 IN ROM
+    JSR $D6F4   ; $03D6F4 IN ROM
     
     LDA $8A : AND.b #$40 : CMP $7B : BNE .BRANCH_ALPHA
     
@@ -6685,7 +6680,7 @@ LinkItem_Mirror:
     
     LDA.b #$04 : STA $5D
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     STZ $5E
     
@@ -6737,7 +6732,7 @@ LinkItem_Mirror:
 
 ; ==============================================================================
 
-; *$3AA6C-$3AAA1 JUMP LOCATION LOCAL
+; $03AA6C-$03AAA1 JUMP LOCATION LOCAL
 {
     ; Begin moving the Desert Palace barricades
     ; Put us in submodule 5 of text mode.
@@ -6771,13 +6766,13 @@ LinkItem_Mirror:
     RTS
 }
 
-; *$3AAA2-$3AB24 LONG
+; $03AAA2-$03AB24 LONG
 {
     PHB : PHK : PLB
     
     LDY.b #$00
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     STZ $2E
     
@@ -6833,7 +6828,7 @@ LinkItem_Mirror:
     LDA.b #$23
     
     JSL AddWarpTransformationCloud
-    JSR $AE54   ; $3AE54 IN ROM
+    JSR $AE54   ; $03AE54 IN ROM
     
     STZ $02E2
     
@@ -6843,7 +6838,7 @@ LinkItem_Mirror:
     
     LDA $55 : BEQ .return
     
-    JSR $AE47 ; $3AE47 IN ROM
+    JSR $AE47 ; $03AE47 IN ROM
     
     STZ $02E2
     
@@ -6854,7 +6849,7 @@ LinkItem_Mirror:
     RTL
 }
 
-; *$3AB25-$3AB6B JUMP LOCATION
+; $03AB25-$03AB6B JUMP LOCATION
 {
     LDA $3A : AND.b #$40 : BNE .BRANCH_ALPHA
     
@@ -6893,7 +6888,7 @@ LinkItem_Mirror:
     RTS
 }
 
-; *$3AB7C-$3ADBD JUMP LOCATION
+; $03AB7C-$03ADBD JUMP LOCATION
 {
     ; Link mode 0x13 - Hookshot
     
@@ -7085,11 +7080,11 @@ LinkItem_Mirror:
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash ; $498FC IN ROM
+    JSL AddTransitionSplash ; $0498FC IN ROM
     
     LDA.b #$04 : STA $5D
     
-    JSR $AE54   ; $3AE54 IN ROM
+    JSR $AE54   ; $03AE54 IN ROM
     
     STZ $0308
     STZ $0309
@@ -7124,7 +7119,7 @@ LinkItem_Mirror:
     LDA $21 : STA $40
     LDA $23 : STA $41
     
-    JSR $B7C7   ; $3B7C7 IN ROM
+    JSR $B7C7   ; $03B7C7 IN ROM
     
     BRL .BRANCH_ALIF
 
@@ -7140,11 +7135,11 @@ LinkItem_Mirror:
 
 .BRANCH_PSI
 
-    JSL $07E370 ; $3E370 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
     
     LDY.b #$05
     
-    JSR $D077   ; $3D077 IN ROM
+    JSR $D077   ; $03D077 IN ROM
     
     LDA $1B : BEQ .BRANCH_OMEGA
     
@@ -7166,7 +7161,7 @@ LinkItem_Mirror:
     
     LDA.b #$02 : STA $0351
     
-    ; $3D2C6 IN ROM
+    ; $03D2C6 IN ROM
     JSR $D2C6 : BCS .BRANCH_ALIF
     
     LDA.b #$1A : JSR Player_DoSfx2
@@ -7191,7 +7186,7 @@ LinkItem_Mirror:
 
 .BRANCH_ALIF
 
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
 .BRANCH_THEL
 
@@ -7200,10 +7195,9 @@ LinkItem_Mirror:
 
 ; ==============================================================================
 
-; $3ADBE-$3ADC0 DATA
+; $03ADBE-$03ADC0 DATA
 pool LinkItem_Cape:
 {
-    
     .mp_depletion_timers
     ; \note Higher timers mean it takes longer for a point of magic power
     ; to be consumed by the cape. Also note that the 1/4th magic consumption
@@ -7213,7 +7207,7 @@ pool LinkItem_Cape:
 
 ; ==============================================================================
 
-; *$3ADC1-$3AE61 JUMP LOCATION
+; $03ADC1-$03AE61 JUMP LOCATION
 LinkItem_Cape:
 {
     ; Magic Cape routine
@@ -7263,7 +7257,7 @@ LinkItem_Cape:
     ; Make Link invincible this frame.
     LDA.b #$01 : STA $037B
     
-    JSR $AE65 ; $3AE65 IN ROM
+    JSR $AE65 ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67 : DEC $4C
     
@@ -7288,7 +7282,7 @@ LinkItem_Cape:
     ; Check the Y button.
     LDA $F4 : AND.b #$40 : BEQ .BRANCH_EPSILON
     
-    ; *$3AE47 ALTERNATE ENTRY POINT
+    ; $03AE47 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     LDY.b #$04
@@ -7298,7 +7292,7 @@ LinkItem_Cape:
     
     LDA.b #$15 : JSR Player_DoSfx2
     
-    ; *$3AE54 ALTERNATE ENTRY POINT
+    ; $03AE54 ALTERNATE ENTRY POINT
     
     LDA.b #$20 : STA $02E2
     
@@ -7313,14 +7307,14 @@ LinkItem_Cape:
 
 ; ==============================================================================
 
-; *$3AE62-$3AE64 BRANCH LOCATION
+; $03AE62-$03AE64 BRANCH LOCATION
 {
     BRL .BRANCH_$3B0D4
 }
 
 ; ==============================================================================
 
-; *$3AE65-$3AE87 LOCAL
+; $03AE65-$03AE87 LOCAL
 {
     LDA $AD : CMP.b #$02 : BNE .BRANCH_ALPHA
     
@@ -7347,11 +7341,11 @@ LinkItem_Cape:
     
 ; ==============================================================================
 
-; *$3AE88-$3AEBF LOCAL
+; $03AE88-$03AEBF LOCAL
 {
     LDA $0308 : AND.b #$80 : BEQ .BRANCH_BETA
     
-    ; *$3AE8F ALTERNATE ENTRY POINT
+    ; $03AE8F ALTERNATE ENTRY POINT
 
     ; Check Link's invincibility status.
     ; He's not in the cape form..
@@ -7378,7 +7372,7 @@ LinkItem_Cape:
     
     .BRANCH_GAMMA
     
-    JSR $AE47 ; $3AE47 IN ROM
+    JSR $AE47 ; $03AE47 IN ROM
     
     .BRANCH_DELTA
     
@@ -7387,7 +7381,7 @@ LinkItem_Cape:
 
 ; ==============================================================================
 
-; *$3AEC0-$3AF3A JUMP LOCATION
+; $03AEC0-$03AF3A JUMP LOCATION
 LinkItem_CaneOfSomaria:
 {
     BIT $3A : BVS .y_button_held
@@ -7429,7 +7423,7 @@ LinkItem_CaneOfSomaria:
     
     .y_button_held
     
-    JSR $AE65   ; $3AE65 IN ROM
+    JSR $AE65   ; $03AE65 IN ROM
 
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -7457,10 +7451,9 @@ LinkItem_CaneOfSomaria:
 
 ; ==============================================================================
 
-; $3AF3B-$3AF3D DATA
+; $03AF3B-$03AF3D DATA
 pool PlayerItem_CaneOfByrna:
 {
-    
     ; \task Confirm this is an accurate label.
     .animation_delays
     db 19, 7, 13
@@ -7468,12 +7461,12 @@ pool PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; *$3AF3E-$3AFB4 JUMP LOCATION
+; $03AF3E-$03AFB4 JUMP LOCATION
 PlayerItem_CaneOfByrna:
 {
     ; Cane of Byrna
     
-    ; $3AFB5 IN ROM; Check to see if it's okay to do
+    ; $03AFB5 IN ROM; Check to see if it's okay to do
     JSR $AFB5 : BCS .BRANCH_$3AF3A
     
     ; Check to see if the Y button is down.
@@ -7507,7 +7500,7 @@ PlayerItem_CaneOfByrna:
     
     .BRANCH_ALPHA
     
-    JSR $AE65 ; $3AE65 IN ROM
+    JSR $AE65 ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -7551,7 +7544,7 @@ PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; *$3AFB5-$3AFCB LOCAL
+; $03AFB5-$03AFCB LOCAL
 {
     ; The labels are probably not correct yet, need some in game debugging
     ; to verify assumptions...
@@ -7585,7 +7578,7 @@ PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; *$3AFF8-$3B072 LOCAL
+; $03AFF8-$03B072 LOCAL
 {
     BIT $3A : BVS .BRANCH_ALPHA
     
@@ -7613,7 +7606,7 @@ PlayerItem_CaneOfByrna:
     
     .BRANCH_ALPHA
     
-    JSR $AE65 ; $3AE65 IN ROM
+    JSR $AE65 ; $03AE65 IN ROM
     
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -7650,7 +7643,7 @@ PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; *$3B073-$3B086 LOCAL
+; $03B073-$03B086 LOCAL
 Link_CheckNewY_ButtonPress:
 {
     ; Check if the Y button is already down.
@@ -7678,7 +7671,7 @@ Link_CheckNewY_ButtonPress:
 
 ; ==============================================================================
 
-; $3B087-$3B0AA DATA
+; $03B087-$03B0AA DATA
 LinkItem_MagicCosts:
 {
     ; Magic costs for various items.
@@ -7709,7 +7702,7 @@ LinkItem_MagicCosts:
     db $10, $08, $04
 }
     
-; $3B0A2-$3B0AA DATA
+; $03B0A2-$03B0AA DATA
 LinkItem_MagicCostBaseIndices:
 {
     db $00, $03, $06, $09, $0c, $0f, $12, $15, $18
@@ -7717,7 +7710,7 @@ LinkItem_MagicCostBaseIndices:
 
 ; ==============================================================================
 
-; *$3B0AB-$3B0E8 LOCAL
+; $03B0AB-$03B0E8 LOCAL
 LinkItem_EvaluateMagicCost:
 {
     STX $02
@@ -7747,7 +7740,7 @@ LinkItem_EvaluateMagicCost:
     ; Load the item index.
     LDA $02 : CMP.b #$03 : BEQ .BRANCH_BETA
     
-    ; *$3B0D4 ALTERNATE ENTRY POINT
+    ; $03B0D4 ALTERNATE ENTRY POINT
     
     ; You naughty boy you have no magic pwr!
     LDA.b #$3C : JSR Player_DoSfx2
@@ -7770,7 +7763,7 @@ LinkItem_EvaluateMagicCost:
 
 ; ==============================================================================
 
-; *$3B0E9-$3B106 LONG
+; $03B0E9-$03B106 LONG
 LinkItem_ReturnUnusedMagic:
 {
     PHB : PHK : PLB
@@ -7788,7 +7781,7 @@ LinkItem_ReturnUnusedMagic:
 
 ; ==============================================================================
 
-; *$3B107-$3B11B LONG
+; $03B107-$03B11B LONG
 {
     STZ $030A
     STZ $3B
@@ -7803,7 +7796,7 @@ LinkItem_ReturnUnusedMagic:
 
 ; ==============================================================================
 
-; *$3B11C-$3B198 JUMP LOCATION LOCAL
+; $03B11C-$03B198 JUMP LOCATION LOCAL
 Link_Lift:
 {
     ; Code for picking things up
@@ -7812,7 +7805,7 @@ Link_Lift:
     
     BNE .BRANCH_ALPHA
     
-    JSR $9D84 ; $39D84 IN ROM; Prep Link for picking things up
+    JSR $9D84 ; $039D84 IN ROM; Prep Link for picking things up
     
     STZ $3B
     
@@ -7902,14 +7895,14 @@ Link_Lift:
     
     LDA.b #$01 : TSB $50
     
-    ; *$3B198 ALTERNATE ENTRY POINT
+    ; $03B198 ALTERNATE ENTRY POINT
     
     RTS
 }
 
 ; ==============================================================================
 
-; $3B199-$3B1C9 DATA
+; $03B199-$03B1C9 DATA
 {
     db  6,  7,  7,  5, 10,  0, 23,  0
     db 18, ...
@@ -7931,7 +7924,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; *$3B1CA-$3B280 JUMP LOCATION LOCAL
+; $03B1CA-$03B280 JUMP LOCATION LOCAL
 {
     LDA $0308 : BEQ .BRANCH_$3B198
     
@@ -7948,7 +7941,7 @@ Link_Lift:
     ; No...
     LDA $0309 : BEQ .notPickingSomethingUp
     
-    JSR $AE65 ; $3AE65 IN ROM; Link is picking up an item, handle it.
+    JSR $AE65 ; $03AE65 IN ROM; Link is picking up an item, handle it.
     
     .notPickingSomethingUp
     
@@ -8042,7 +8035,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; *$3B281-$3B2ED JUMP LOCATION LOCAL ; Commented by zarby
+; $03B281-$03B2ED JUMP LOCATION LOCAL ; Commented by zarby
 {
     LDA $02F5 : BNE .BRANCH_$3B1CA_THETA ; on somaria platform?
     
@@ -8101,7 +8094,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; *$3B2EE-$3B30F JUMP LOCATION
+; $03B2EE-$03B30F JUMP LOCATION
 {
     ; Link grabs a wall action
     LDA $3A : AND.b #$80 : BEQ .noCurrentAction
@@ -8124,7 +8117,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; *$3B322-$3B372 JUMP LOCATION
+; $03B322-$03B372 JUMP LOCATION
 {
     ; Pre grabbing a wall?
     
@@ -8177,7 +8170,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; *$3B373-$3B388 JUMP LOCATION
+; $03B373-$03B388 JUMP LOCATION
 Link_MovableStatue:
 {
     LDA.b #$02 : STA $0376
@@ -8196,7 +8189,7 @@ Link_MovableStatue:
 
 ; ==============================================================================
 
-; *$3B389-$3B3E4 JUMP LOCATION
+; $03B389-$03B3E4 JUMP LOCATION
 {
     LDA.b #$14 : STA $5E
     
@@ -8255,7 +8248,7 @@ Link_MovableStatue:
 
 ; ==============================================================================
 
-; *$3B3E5-$3B40C JUMP LOCATION
+; $03B3E5-$03B40C JUMP LOCATION
 {
     ; must be facing in the up direction in order to go rolling backwards
     LDA $2F : BNE .notFacingUp
@@ -8278,7 +8271,7 @@ Link_MovableStatue:
     STZ $28
     STZ $3A
     
-    ; *$3B40C ALTERNATE ENTRY POINT
+    ; $03B40C ALTERNATE ENTRY POINT
     .notFacingUp
     
     RTS
@@ -8286,9 +8279,9 @@ Link_MovableStatue:
 
 ; ==============================================================================
 
-; *$3B416-$3B4F1 JUMP LOCATION
+; $03B416-$03B4F1 JUMP LOCATION
 {
-    JSR $F514 ; $3F514 IN ROM
+    JSR $F514 ; $03F514 IN ROM
     
     LDA $4D : BEQ .durp
     
@@ -8392,7 +8385,7 @@ Link_MovableStatue:
     
     .BRANCH_LAMBDA
     
-    JSR $92A0 ; $392A0 IN ROM
+    JSR $92A0 ; $0392A0 IN ROM
     
     LDA $67 : AND.b #$03 : BNE .BRANCH_NU
     
@@ -8406,12 +8399,12 @@ Link_MovableStatue:
     
     .BRANCH_ZETA
     
-    JSL $07E370 ; $3E370 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
     
     .BRANCH_KAPPA
     
-    JSR $B7C7 ; $3B7C7 IN ROM
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $B7C7 ; $03B7C7 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     .BRANCH_MU
     
@@ -8420,7 +8413,7 @@ Link_MovableStatue:
 
 ; ==============================================================================
 
-; *$3B4F2-$3B527 JUMP LOCATION
+; $03B4F2-$03B527 JUMP LOCATION
 Link_Read:
 {
     REP #$30
@@ -8466,7 +8459,7 @@ Link_Read:
 
 ; ==============================================================================
 
-; $3B528-$3B573 DATA
+; $03B528-$03B573 DATA
 Link_ReceiveItemAlternates:
 {
     db -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
@@ -8487,7 +8480,7 @@ Link_ReceiveItemAlternates:
 
 ; ==============================================================================
 
-; *$3B574-$3B5BF JUMP LOCATION
+; $03B574-$03B5BF JUMP LOCATION
 Link_Chest:
 {
     ; Checks if we can open the chest, and sets up the transfer of the item to link's inventory.
@@ -8557,7 +8550,7 @@ Link_Chest:
 
 ; ==============================================================================
 
-; *$3B5C0-$3B5D5 LOCAL
+; $03B5C0-$03B5D5 LOCAL
 {
     ; Is the A button already down?
     LDA $3B : AND.b #$80 : BNE .failure
@@ -8584,7 +8577,7 @@ Link_Chest:
     RTS
 }
 
-; *$3B5D6-$3B608 LONG
+; $03B5D6-$03B608 LONG
 {
     LDA $3B : AND.b #$80 : BEQ .aButtonNotDown
     
@@ -8620,19 +8613,19 @@ Link_Chest:
     RTS
 }
 
-; *$3B64F-$3B7C2 LOCAL
+; $03B64F-$03B7C2 LOCAL
 {
-    ; $3B97C IN ROM
+    ; $03B97C IN ROM
     JSR $B97C : BCC .onlyOneBg
 
-    JSR $B660 ; $3B660 IN ROM
-    JSR $B9B3 ; $3B9B3 IN ROM
+    JSR $B660 ; $03B660 IN ROM
+    JSR $B9B3 ; $03B9B3 IN ROM
 
 .onlyOneBg
 
     LDA $67 : AND.b #$0F : STA $67
 
-; *$3B660 ALTERNATE ENTRY POINT
+; $03B660 ALTERNATE ENTRY POINT
 
     LDA.b #$0F : STA $42 : STA $43
     
@@ -8662,7 +8655,7 @@ Link_Chest:
     ; $66 = #$0 or #$1. #$1 if the down button, #$0 if the up button was pushed.
     TYA : LSR A : STA $66
     
-    JSR $CE85 ; $3CE85 IN ROM
+    JSR $CE85 ; $03CE85 IN ROM
     
     LDA $0E : AND.b #$30 : BEQ .BRANCH_DELTA
     
@@ -8749,7 +8742,7 @@ Link_Chest:
 
     TYA : LSR A : STA $66
     
-    JSR $CEC9 ; $3CEC9 IN ROM
+    JSR $CEC9 ; $03CEC9 IN ROM
     
     LDA $0E : AND.b #$30 : BEQ .BRANCH_XI
     
@@ -8851,7 +8844,7 @@ Link_Chest:
 
 ; ==============================================================================
 
-; $3B7C3-$3B7C6 DATA
+; $03B7C3-$03B7C6 DATA
 {
     ; \task Label this pool / routine.
     db 8, 4, 2, 1
@@ -8859,7 +8852,7 @@ Link_Chest:
 
 ; ==============================================================================
 
-; *$3B7C7-$3B955 LOCAL
+; $03B7C7-$03B955 LOCAL
 {
     ; Initialize the diagonal wall state
     STZ $6E
@@ -8871,7 +8864,7 @@ Link_Chest:
     ; Branch if there is [forced] diagonal movement
     LDA $6B : AND.b #$30 : BNE .BRANCH_ALPHA
     
-    ; $3CCAB IN ROM; Handles left/right tiles and maybe up/down too
+    ; $03CCAB IN ROM; Handles left/right tiles and maybe up/down too
     JSR $CCAB
     
     LDA $6D : BEQ .BRANCH_ALPHA
@@ -8880,7 +8873,7 @@ Link_Chest:
     
     .BRANCH_ALPHA
     
-    ; $3B97C IN ROM
+    ; $03B97C IN ROM
     JSR $B97C : BCC .BRANCH_BETA
     
     ; "Check collision" as named in Hyrule Magic
@@ -8929,17 +8922,17 @@ Link_Chest:
     
     .BRANCH_GAMMA
     
-    JSR $B956 ; $3B956 IN ROM
+    JSR $B956 ; $03B956 IN ROM
     
     BRA .BRANCH_ZETA
     
     .BRANCH_DELTA
     
-    JSR $B969   ; $3B969 IN ROM
+    JSR $B969   ; $03B969 IN ROM
     
     .BRANCH_ZETA
     
-    JSR $B9B3 ; $3B9B3 IN ROM
+    JSR $B9B3 ; $03B9B3 IN ROM
     
     .BRANCH_BETA
     
@@ -9003,7 +8996,7 @@ Link_Chest:
     
     LDA.b #$01 : STA $0315
     
-    JSR $B956 ; $3B956 IN ROM
+    JSR $B956 ; $03B956 IN ROM
     
     BRA .BRANCH_XI
     
@@ -9011,13 +9004,13 @@ Link_Chest:
     
     LDA.b #$01 : STA $0315
     
-    JSR $B969 ; $3B969 IN ROM
+    JSR $B969 ; $03B969 IN ROM
     
     .BRANCH_XI
     
     LDY.b #$00
     
-    JSR $D077 ; $3D077 IN ROM
+    JSR $D077 ; $03D077 IN ROM
     
     LDA $6A : BEQ .BRANCH_OMICRON
     
@@ -9093,41 +9086,41 @@ Link_Chest:
     RTS
 }
 
-; *$3B956-$3B968 LOCAL
+; $03B956-$03B968 LOCAL
 {
     LDA $6B : AND.b #$20 : BNE .BRANCH_ALPHA
     
-    JSR $BA0A ; $3BA0A IN ROM
+    JSR $BA0A ; $03BA0A IN ROM
     
     .BRANCH_ALPHA
     
     LDA $6B : AND.b #$10 : BNE .BRANCH_BETA
     
-    JSR $C4D4 ; $3C4D4 IN ROM
+    JSR $C4D4 ; $03C4D4 IN ROM
     
     .BRANCH_BETA
     
     RTS
 }
 
-; *$3B969-$3B97B LOCAL
+; $03B969-$03B97B LOCAL
 {
     LDA $6B : AND.b #$10 : BNE .BRANCH_ALPHA
     
-    JSR $C4D4   ; $3C4D4 IN ROM
+    JSR $C4D4   ; $03C4D4 IN ROM
     
     .BRANCH_ALPHA
     
     LDA $6B : AND.b #$20 : BNE .BRANCH_BETA
     
-    JSR $BA0A   ; $3BA0A IN ROM
+    JSR $BA0A   ; $03BA0A IN ROM
     
     .BRANCH_BETA
     
     RTS
 }
 
-; *$3B97C-$3B9B2 LOCAL
+; $03B97C-$03B9B2 LOCAL
 {
     ; Collision settings
     LDA $046C  : BEQ .oneBg
@@ -9161,7 +9154,7 @@ Link_Chest:
     RTS
 }
 
-; *$3B9B3-$3B9F6 LOCAL
+; $03B9B3-$03B9F6 LOCAL
 {
     LDA $046C : CMP.b #$01 : BEQ .BRANCH_ALPHA
     
@@ -9187,7 +9180,7 @@ Link_Chest:
     RTS
 }
 
-; *$3BA0A-$3BEAE LOCAL
+; $03BA0A-$03BEAE LOCAL
 {
     LDA $30 : BNE .changeInYCoord
     
@@ -9220,7 +9213,7 @@ Link_Chest:
 
     TYA : LSR A : STA $66
     
-    JSR $CDCB ; $3CDCB IN ROM
+    JSR $CDCB ; $03CDCB IN ROM
     
     LDA $1B : BNE .indoors
     
@@ -9252,7 +9245,7 @@ Link_Chest:
 
 .BRANCH_LAMBDA
 
-    JSR $C29F ; $3C29F IN ROM
+    JSR $C29F ; $03C29F IN ROM
     
     BRL .BRANCH_$3C23D
 
@@ -9260,7 +9253,7 @@ Link_Chest:
 
     LDA $62 : BEQ .BRANCH_IOTA
     
-    JSR $C29F ; $3C29F IN ROM
+    JSR $C29F ; $03C29F IN ROM
     
     BRA .BRANCH_MU
 
@@ -9300,8 +9293,8 @@ Link_Chest:
 
     STZ $6B
     
-    JSR $C1E4 ; $3C1E4 IN ROM
-    JSR $C1FF ; $3C1FF IN ROM
+    JSR $C1E4 ; $03C1E4 IN ROM
+    JSR $C1FF ; $03C1FF IN ROM
     
     STZ $6C
     
@@ -9346,7 +9339,7 @@ Link_Chest:
     
     STZ $03F3
     
-    JSR $E076 ; $3E076 IN ROM
+    JSR $E076 ; $03E076 IN ROM
     
     LDA $6B : AND.b #$0F : BEQ .BRANCH_UPSILON
     
@@ -9483,7 +9476,7 @@ BRANCH_ULTIMA
 
     LDA $036D : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_THETA2
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_THETA2
     
     JSR Player_HaltDashAttack
@@ -9531,7 +9524,7 @@ BRANCH_ULTIMA
 
     LDA.b #$01 : STA $037B
     
-    JSR $C2C3; $3C2C3 IN ROM
+    JSR $C2C3; $03C2C3 IN ROM
     
     BRA .BRANCH_MU2
 
@@ -9558,7 +9551,7 @@ BRANCH_ULTIMA
     LDA.b #$15
     LDY.b #$00
     
-    ; $498FC IN ROM
+    ; $0498FC IN ROM
     JSL AddTransitionSplash : BCC .BRANCH_XI2
     
     LDA.b #$01 : STA $0345
@@ -9573,7 +9566,7 @@ BRANCH_ULTIMA
 
 .BRANCH_MU2
 
-    JSR $C2C3 ; $3C2C3 IN ROM
+    JSR $C2C3 ; $03C2C3 IN ROM
     
     LDA $58 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_OMICRON2
     
@@ -9687,7 +9680,7 @@ BRANCH_ULTIMA
     LDA $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
-    JSR $AE54   ; $3AE54 IN ROM
+    JSR $AE54   ; $03AE54 IN ROM
     
     BRL .BRANCH_$39222
 
@@ -9726,19 +9719,19 @@ BRANCH_ULTIMA
     
     SEP #$20
     
-    ; $3ED2C IN ROM
+    ; $03ED2C IN ROM
     JSR $ED2C : BCS .BRANCH_TOD
     
     STX $0E
     
     TYA : ASL A : TAX
     
-    ; $3ED3F IN ROM
+    ; $03ED3F IN ROM
     JSR $ED3F : BCS .BRANCH_TOD
     
     LDA $0E : ASL A : TAY
     
-    JSR $F0D9   ; $3F0D9 IN ROM
+    JSR $F0D9   ; $03F0D9 IN ROM
     
     TYX
     
@@ -9772,7 +9765,7 @@ BRANCH_ULTIMA
 
     LDA.b #$15 : STA $61
 
-; *$3BDB1 LONG BRANCH LOCATION
+; $03BDB1 LONG BRANCH LOCATION
 .BRANCH_THEL
 
     LDA $0E : AND.b #$07 : BNE .BRANCH_RHA
@@ -9791,7 +9784,7 @@ BRANCH_ULTIMA
 
     LDA $6A : BEQ .BRANCH_ZHA
     
-    JSR $C1E4   ; $3C1E4 IN ROM
+    JSR $C1E4   ; $03C1E4 IN ROM
     
     BRA .BRANCH_FATHA
 
@@ -9805,8 +9798,8 @@ BRANCH_ULTIMA
 
     LDA $0E : PHA
     
-    JSR $C1A1 ; $3C1A1 IN ROM
-    JSR $91F1 ; $391F1 IN ROM
+    JSR $C1A1 ; $03C1A1 IN ROM
+    JSR $91F1 ; $0391F1 IN ROM
     
     PLA : STA $0E
     
@@ -9814,7 +9807,7 @@ BRANCH_ULTIMA
     
     LDA $0E : AND.b #$02 : CMP.b #$02 : BNE .BRANCH_YEH
     
-    JSR $C1E4   ; $3C1E4 IN ROM
+    JSR $C1E4   ; $03C1E4 IN ROM
     
     BRA .BRANCH_FATHA
 
@@ -9828,7 +9821,7 @@ BRANCH_ULTIMA
 
 .BRANCH_EIN
 
-    JSR $C1E4   ; $3C1E4 IN ROM
+    JSR $C1E4   ; $03C1E4 IN ROM
     
     LDA $6A : CMP.b #$02 : BEQ .BRANCH_GHEIN
 
@@ -9858,8 +9851,8 @@ BRANCH_ULTIMA
     
     LDA $22 : AND.b #$07 : BNE .BRANCH_EPSILON3
     
-    JSR $C1A1   ; $3C1A1 IN ROM
-    JSR $91F1   ; $391F1 IN ROM
+    JSR $C1A1   ; $03C1A1 IN ROM
+    JSR $91F1   ; $0391F1 IN ROM
     
     BRA .BRANCH_DELTA3
 
@@ -9889,15 +9882,15 @@ BRANCH_ULTIMA
 
 .BRANCH_JIIM
 
-    JSR $C1A1 ; $3C1A1 IN ROM
-    JSR $91F1 ; $391F1 IN ROM
+    JSR $C1A1 ; $03C1A1 IN ROM
+    JSR $91F1 ; $0391F1 IN ROM
     
     BRA .BRANCH_DELTA3
 
 .BRANCH_EPSILON3
 
-    JSR $C229 ; $3C229 IN ROM
-    JMP $D485 ; $3D485 IN ROM
+    JSR $C229 ; $03C229 IN ROM
+    JMP $D485 ; $03D485 IN ROM
 
 .BRANCH_DELTA3
 
@@ -9940,7 +9933,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3BEAF-$3C16C LONG BRANCH LOCATION
+; $03BEAF-$03C16C LONG BRANCH LOCATION
 {
     ; This routine seems to occur whenever Link moves up or down one pixel
     
@@ -10011,7 +10004,7 @@ BRANCH_ULTIMA
     
     LDA $4D : BNE .BRANCH_THETA
     
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     JSR Player_HaltDashAttack
     
     LDA.b #$01 : STA $0345
@@ -10025,7 +10018,7 @@ BRANCH_ULTIMA
     
     LDA $0351 : CMP.b #$01 : BNE .BRANCH_KAPPA
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     ; Do we have the flippers?
     LDA $7EF356 : BEQ .BRANCH_KAPPA
@@ -10047,7 +10040,7 @@ BRANCH_ULTIMA
     
     LDA.b #$01 : STA $037B
     
-    JSR $C2C3 ; $3C2C3 IN ROM
+    JSR $C2C3 ; $03C2C3 IN ROM
 
 .theta
 .notTouchingWater
@@ -10084,7 +10077,7 @@ BRANCH_ULTIMA
     LDY.b #$00
     
     ; Jump out of the water onto a docking area
-    JSL AddTransitionSplash     ; $498FC IN ROM
+    JSL AddTransitionSplash     ; $0498FC IN ROM
     
     BRL .BRANCH_$3C2C3
 
@@ -10104,7 +10097,7 @@ BRANCH_ULTIMA
 
     LDA $036D : AND.b #$70 : BEQ .BRANCH_PI
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_PI
     
     JSR Player_HaltDashAttack
@@ -10140,7 +10133,7 @@ BRANCH_ULTIMA
 
     LDA $036D : AND.b #$07 : BEQ .BRANCH_SIGMA
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_SIGMA
     
     LDA.b #$20 : JSR Player_DoSfx2
@@ -10176,7 +10169,7 @@ BRANCH_ULTIMA
 
     TXA : AND $036F : BEQ .BRANCH_UPSILON
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_UPSILON
     
     JSR Player_HaltDashAttack
@@ -10216,7 +10209,7 @@ BRANCH_ULTIMA
     
     LDA $036D : AND.b #$77 : BNE .BRANCH_PSI
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_PSI
     
     JSR Player_HaltDashAttack
@@ -10289,7 +10282,7 @@ BRANCH_ULTIMA
     
     LDA $0E : AND.b #$07 : BNE .BRANCH_SHIN
     
-    JSR $E076 ; $3E076 IN ROM
+    JSR $E076 ; $03E076 IN ROM
     
     LDA $6B : AND.b #$0F : BEQ .BRANCH_SHIN
     
@@ -10350,7 +10343,7 @@ BRANCH_ULTIMA
     LDA $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     BRL .BRANCH_$39222
 
@@ -10365,7 +10358,7 @@ BRANCH_ULTIMA
 
 ; ==============================================================================
 
-; *$3C16D-$3C1A0 LOCAL 
+; $03C16D-$03C1A0 LOCAL 
 {
     ; Check the sub sub mode we're in.
     LDA $4D : CMP.b #$01 : BEQ .BRANCH_ALPHA ;3C171 Change from F0 to 80 to stop players from jumping off ledges all together
@@ -10381,7 +10374,7 @@ BRANCH_ULTIMA
     
     .BRANCH_BETA
     
-    JSR $C189 ; $3C189 IN ROM
+    JSR $C189 ; $03C189 IN ROM
     
     .BRANCH_GAMMA
     
@@ -10389,7 +10382,7 @@ BRANCH_ULTIMA
     
     RTS
     
-    ; *$3C189 ALTERNATE ENTRY POINT
+    ; $03C189 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     REP #$20
@@ -10411,7 +10404,7 @@ BRANCH_ULTIMA
     
     .indoors
     
-    ; *$3C19F ALTERNATE ENTRY POINT
+    ; $03C19F ALTERNATE ENTRY POINT
     
     CLC
     
@@ -10420,7 +10413,7 @@ BRANCH_ULTIMA
 
 ; ==============================================================================
 
-; *$3C1A1-$3C1E3 LOCAL
+; $03C1A1-$03C1E3 LOCAL
 {
     ; Dashing?
     LDA $0372 : BEQ .BRANCH_$3C19F
@@ -10431,18 +10424,18 @@ BRANCH_ULTIMA
     ; presumably this checks collision with rock piles?
     LDA $02EF : AND.b #$70 : BEQ .BRANCH_3C19F
     
-    JSL Overworld_SmashRockPile_normalCoords    ; $DC076 IN ROM
+    JSL Overworld_SmashRockPile_normalCoords    ; $0DC076 IN ROM
     
     BCC .BRANCH_ALPHA
     
-    JSR $C1C3 ; $3C1C3 IN ROM
+    JSR $C1C3 ; $03C1C3 IN ROM
     
     .BRANCH_ALPHA
     
-    ; $DC063 IN ROM
+    ; $0DC063 IN ROM
     JSL Overworld_SmashRockPile_downOneTile : BCC .BRANCH_BETA
     
-    ; *$3C1C3 ALTERNATE ENTRY POINT
+    ; $03C1C3 ALTERNATE ENTRY POINT
     
     LDX.b #$08
     
@@ -10478,7 +10471,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C1E4-$3C1FE LOCAL
+; $03C1E4-$03C1FE LOCAL
 {
     REP #$20
     
@@ -10497,7 +10490,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C1FF-$3C23C LOCAL
+; $03C1FF-$03C23C LOCAL
 {
     LDA $0E : AND.b #$04 : BEQ .BRANCH_ALPHA
     
@@ -10539,7 +10532,7 @@ BRANCH_ULTIMA
     STY $00
     STZ $01
     
-    ; *$3C229 ALTERNATE ENTRY POINT
+    ; $03C229 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     REP #$20
@@ -10557,7 +10550,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C23D-$3C29E LONG BRANCH LOCATION
+; $03C23D-$03C29E LONG BRANCH LOCATION
 {
     LDA.b #$02 : TSB $50
     
@@ -10640,7 +10633,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C29F-$3C2B9 LOCAL
+; $03C29F-$03C2B9 LOCAL
 {
     REP #$20
     
@@ -10657,7 +10650,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C2C3-$3C30B LOCAL
+; $03C2C3-$03C30B LOCAL
 {
     LDA $1B : BNE .BRANCH_ALPHA
     
@@ -10711,7 +10704,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C36C-$3C408 LONG BRANCH LOCATION
+; $03C36C-$03C408 LONG BRANCH LOCATION
 {
     LDA $20 : STA $32 : PHA
     LDA $21 : STA $33 : PHA
@@ -10726,7 +10719,7 @@ BRANCH_ULTIMA
     
     LDA $66 : ASL A : TAY
     
-    JSR $CDCB ; $3CDCB IN ROM
+    JSR $CDCB ; $03CDCB IN ROM
     
     LDA $0343 : ORA $035B : ORA $0357 : ORA $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALPHA
     
@@ -10786,7 +10779,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C46D-$3C4D3 LOCAL
+; $03C46D-$03C4D3 LOCAL
 {
     LDA $3E : PHA
     LDA $22 : PHA
@@ -10808,7 +10801,7 @@ BRANCH_ULTIMA
     
     LDA.b #$00 : STA $66
     
-    JSR $8E7B ; $38E7B IN ROM
+    JSR $8E7B ; $038E7B IN ROM
     
     PLX
     
@@ -10853,7 +10846,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C4D4-$3C8E8 LOCAL
+; $03C4D4-$03C8E8 LOCAL
 {
     LDA $31 : BNE .BRANCH_ALPHA
     
@@ -10883,7 +10876,7 @@ BRANCH_ULTIMA
 
     TYA : LSR A : STA $66
     
-    JSR $CE2A ; $3CE2A IN ROM; Has to do with detecting areas around chests.
+    JSR $CE2A ; $03CE2A IN ROM; Has to do with detecting areas around chests.
     
     LDA $1B : BNE .BRANCH_EPSILON
     
@@ -10921,8 +10914,8 @@ BRANCH_ULTIMA
 
 .BRANCH_LAMBDA
 
-    JSR $CB84   ; $3CB84 IN ROM
-    JSR $CBDD   ; $3CBDD IN ROM
+    JSR $CB84   ; $03CB84 IN ROM
+    JSR $CBDD   ; $03CBDD IN ROM
     
     BRL .BRANCH_$3D667
 
@@ -10963,8 +10956,8 @@ BRANCH_ULTIMA
     STZ $6B
     STZ $6C
     
-    JSR $CB84   ; $3CB84 IN ROM
-    JML $07CB9F ; $3CB9F IN ROM
+    JSR $CB84   ; $03CB84 IN ROM
+    JML $07CB9F ; $03CB9F IN ROM
 
 .BRANCH_OMICRON
 
@@ -10994,7 +10987,7 @@ BRANCH_ULTIMA
     
     STZ $03F3
     
-    JSR $E112 ; $3E112 IN ROM
+    JSR $E112 ; $03E112 IN ROM
     
     LDA $6B : AND.b #$0F : BEQ .BRANCH_UPSILON
     
@@ -11082,7 +11075,7 @@ BRANCH_ULTIMA
 
     STY $03F3
 
-; *$3C64D LONG BRANCH LOCATION
+; $03C64D LONG BRANCH LOCATION
 
     BRA .BRANCH_SIN
 
@@ -11115,7 +11108,7 @@ BRANCH_ULTIMA
 
     LDA $036E : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_DOD
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_DOD
     
     JSR Player_HaltDashAttack
@@ -11164,7 +11157,7 @@ BRANCH_ULTIMA
 
     LDA.b #$01 : STA $037B
     
-    JSR $CC3C ; $3CC3C IN ROM
+    JSR $CC3C ; $03CC3C IN ROM
     
     LDA.b #$20 : JSR Player_DoSfx2
     
@@ -11195,11 +11188,11 @@ BRANCH_ULTIMA
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash ; $498FC IN ROM
+    JSL AddTransitionSplash ; $0498FC IN ROM
     
     LDA.b #$01 : STA $037B
     
-    JSR $CC3C ; $3CC3C IN ROM
+    JSR $CC3C ; $03CC3C IN ROM
 
 .BRANCH_JIIM
 
@@ -11252,7 +11245,7 @@ BRANCH_ULTIMA
     LDA $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     BRL .BRANCH_$39222
 
@@ -11291,19 +11284,19 @@ BRANCH_ULTIMA
     
     SEP #$20
     
-    ; $3ED2C IN ROM
+    ; $03ED2C IN ROM
     JSR $ED2C : BCS .BRANCH_EPSILON2
     
     STX $0E
     
     TYA : ASL A : TAX
     
-    ; $3ED3F IN ROM
+    ; $03ED3F IN ROM
     JSR $ED3F : BCS .BRANCH_EPSILON2
     
     LDA $0E : ASL A : TAY
     
-    JSR $F0D9 ; $3F0D9 IN ROM
+    JSR $F0D9 ; $03F0D9 IN ROM
     
     TYX
     
@@ -11345,7 +11338,7 @@ BRANCH_ULTIMA
     
     STZ $5E
 
-; *$3C7FC LONG BRANCH LOCATION
+; $03C7FC LONG BRANCH LOCATION
 .BRANCH_IOTA2
 
     LDA $0E : AND.b #$07 : BNE .BRANCH_KAPPA2
@@ -11366,8 +11359,8 @@ BRANCH_ULTIMA
     
     LDA $0E : PHA
     
-    JSR $C1A1 ; $3C1A1 IN ROM
-    JSR $91F1 ; $391F1 IN ROM
+    JSR $C1A1 ; $03C1A1 IN ROM
+    JSR $91F1 ; $0391F1 IN ROM
     
     PLA : STA $0E
 
@@ -11377,7 +11370,7 @@ BRANCH_ULTIMA
     
     LDA $0E : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_NU2
     
-    JSR $CB84 ; $3CB84 IN ROM
+    JSR $CB84 ; $03CB84 IN ROM
     
     BRA .BRANCH_XI2
 
@@ -11391,7 +11384,7 @@ BRANCH_ULTIMA
 
 .BRANCH_OMICRON2
 
-    JSR $CB84 ; $3CB84 IN ROM
+    JSR $CB84 ; $03CB84 IN ROM
     
     LDA $6A : CMP.b #$01 : BEQ .BRANCH_PI2
 
@@ -11421,8 +11414,8 @@ BRANCH_ULTIMA
     
     LDA $20 : AND.b #$07 : BNE .BRANCH_CHI2
     
-    JSR $C1A1 ; $3C1A1 IN ROM
-    JSR $91F1 ; $391F1 IN ROM
+    JSR $C1A1 ; $03C1A1 IN ROM
+    JSR $91F1 ; $0391F1 IN ROM
     
     BRA .BRANCH_PHI2
 
@@ -11450,15 +11443,15 @@ BRANCH_ULTIMA
 
 .BRANCH_RHO2
 
-    JSR $C1A1 ; $3C1A1 IN ROM
-    JSR $91F1 ; $391F1 IN ROM
+    JSR $C1A1 ; $03C1A1 IN ROM
+    JSR $91F1 ; $0391F1 IN ROM
     
     BRA .BRANCH_PHI2
 
 .BRANCH_CHI2
 
-    JSR $CBC9 ; $3CBC9 IN ROM
-    JMP $D485 ; $3D485 IN ROM
+    JSR $CBC9 ; $03CBC9 IN ROM
+    JMP $D485 ; $03D485 IN ROM
 
 .BRANCH_PHI2
 
@@ -11499,7 +11492,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3C8E9-$3CB83 LONG BRANCH LOCATION
+; $03C8E9-$03CB83 LONG BRANCH LOCATION
 {
     LDA $6A : BNE .BRANCH_ALPHA
     
@@ -11559,7 +11552,7 @@ BRANCH_ULTIMA
     LDA $4D : BNE .BRANCH_ZETA
     
     JSR Player_HaltDashAttack
-    JSR $9D84 ; $39D84 IN ROM
+    JSR $9D84 ; $039D84 IN ROM
     
     LDA.b #$01 : STA $0345
     
@@ -11572,7 +11565,7 @@ BRANCH_ULTIMA
     
     LDA $0351 : CMP.b #$01 : BNE .BRANCH_IOTA
     
-    JSR $AE54 ; $3AE54 IN ROM
+    JSR $AE54 ; $03AE54 IN ROM
     
     LDA $7EF356 : BEQ .BRANCH_IOTA
     
@@ -11592,7 +11585,7 @@ BRANCH_ULTIMA
     
     LDA.b #$01 : STA $037B
     
-    JSR $CC3C ; $3CC3C IN ROM
+    JSR $CC3C ; $03CC3C IN ROM
     
     LDA.b #$20 : JSR Player_DoSfx2
 
@@ -11631,7 +11624,7 @@ BRANCH_ULTIMA
     LDA.b #$15
     LDY.b #$00
     
-    JSL AddTransitionSplash  ; $498FC IN ROM
+    JSL AddTransitionSplash  ; $0498FC IN ROM
     
     LDA.b #$01 : STA $037B
     
@@ -11641,7 +11634,7 @@ BRANCH_ULTIMA
 
     LDA $036E : AND.b #$07 : BEQ .BRANCH_XI
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_XI
     
     LDA.b #$20 : JSR Player_DoSfx2
@@ -11684,7 +11677,7 @@ BRANCH_ULTIMA
     LDA $22 : PHA
     LDA $23 : PHA
     
-    JSR $8D2B   ; $38D2B IN ROM
+    JSR $8D2B   ; $038D2B IN ROM
     
     LDA.b #$01 : STA $66
     
@@ -11692,13 +11685,13 @@ BRANCH_ULTIMA
     
     BEQ .BRANCH_RHO
     
-    JSR $8B9B ; $38B9B IN ROM
+    JSR $8B9B ; $038B9B IN ROM
     
     BRL .BRANCH_SIGMA
 
 .BRANCH_RHO
 
-    JSR $8AD1; $38AD1 IN ROM ;20 D1 8A
+    JSR $8AD1; $038AD1 IN ROM ;20 D1 8A
 
 .BRANCH_SIGMA
 
@@ -11713,7 +11706,7 @@ BRANCH_ULTIMA
     
     BEQ .BRANCH_TAU
     
-    JSR $C16D ; $3C16D IN ROM
+    JSR $C16D ; $03C16D IN ROM
     
     BCC .BRANCH_TAU
     
@@ -11770,7 +11763,7 @@ BRANCH_ULTIMA
     
     LDA $5D : CMP.b #$0D : BEQ .BRANCH_CHI
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_CHI
     
     LDA.b #$20 : JSR Player_DoSfx2
@@ -11792,7 +11785,7 @@ BRANCH_ULTIMA
     
     LDA $0370 : AND.b #$77 : BNE .BRANCH_PSI
     
-    ; $3C16D IN ROM
+    ; $03C16D IN ROM
     JSR $C16D : BCC .BRANCH_PSI
     
     LDX.b #$10
@@ -11836,7 +11829,7 @@ BRANCH_ULTIMA
 
 .BRANCH_BET
 
-    JSR $E112   ; $3E112 IN ROM
+    JSR $E112   ; $03E112 IN ROM
     
     LDA $6B : AND.b #$0F : BEQ .BRANCH_ALIF
     
@@ -11885,7 +11878,7 @@ BRANCH_ULTIMA
     BRL .BRANCH_$3C7FC
 }
 
-; *$3CB84-$3CB9E LOCAL
+; $03CB84-$03CB9E LOCAL
 {
     REP #$20
     
@@ -11904,7 +11897,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $3CB9F-$3CBDC JUMP LOCATION
+; $03CB9F-$03CBDC JUMP LOCATION
 {
     LDA $0E : AND.b #$04 : BEQ .BRANCH_ALPHA
     
@@ -11946,7 +11939,7 @@ BRANCH_ULTIMA
     
     .BRANCH_DELTA
     
-    ; *$3CBC9 ALTERNATE ENTRY POINT
+    ; $03CBC9 ALTERNATE ENTRY POINT
     
     REP #$20
     
@@ -11963,7 +11956,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CBDD-$3CC32 LOCAL
+; $03CBDD-$03CC32 LOCAL
 {
     LDA.b #$02 : TSB $50
     
@@ -12026,7 +12019,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CC3C-$3CC82 LOCAL
+; $03CC3C-$03CC82 LOCAL
 {
     LDA $1B : BNE .BRANCH_ALPHA
     
@@ -12076,7 +12069,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CCAB-$3CD7A LOCAL
+; $03CCAB-$03CD7A LOCAL
 {
     ; Denotes how much Link will move during the frame in a vertical direction (signed)
     LDA $30 : BEQ .BRANCH_ALPHA
@@ -12111,11 +12104,11 @@ BRANCH_ULTIMA
     
     .BRANCH_GAMMA
     
-    JSR $CE2A ; $3CE2A IN ROM
+    JSR $CE2A ; $03CE2A IN ROM
     
     LDA $0C : AND.b #$05 : BEQ .BRANCH_DELTA
     
-    JSR $E112 ; $3E112 IN ROM
+    JSR $E112 ; $03E112 IN ROM
     
     LDA $6B : AND.b #$0F : BNE .BRANCH_EPSILON
     
@@ -12143,11 +12136,11 @@ BRANCH_ULTIMA
     
     .BRANCH_ZETA
     
-    JSR $CDCB ; $3CDCB IN ROM
+    JSR $CDCB ; $03CDCB IN ROM
     
     LDA $0C : AND.b #$05 : BEQ .BRANCH_THETA
     
-    JSR $E076 ; $3E076 IN ROM
+    JSR $E076 ; $03E076 IN ROM
     
     LDA $6B : AND.b #$0F : BEQ .BRANCH_THETA
     
@@ -12227,7 +12220,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CDCB-$3CE29 LOCAL
+; $03CDCB-$03CE29 LOCAL
 {
     ; This probably the up/down movement handler analagous to $3CE2A below
     REP #$20
@@ -12264,7 +12257,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CE2A-$3CE84 LOCAL
+; $03CE2A-$03CE84 LOCAL
 {
     ; Note, this routine only execute when Link is moving horizontally
     ; (Yes, it will execute if he's moving in a diagonal direction since that includes horizontal)
@@ -12306,7 +12299,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CE85-$3CEC8 LOCAL
+; $03CE85-$03CEC8 LOCAL
 {
     REP #$20
     
@@ -12336,7 +12329,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; *$3CEC9-$3CF09 LOCAL
+; $03CEC9-$03CF09 LOCAL
 {
     REP #$20
     
@@ -12369,7 +12362,7 @@ BRANCH_ULTIMA
 
 ; ==============================================================================
 
-; *$3CF0A-$3CF11 LONG
+; $03CF0A-$03CF11 LONG
 Player_TileDetectNearbyLong:
 {
     PHB : PHK : PLB
@@ -12383,7 +12376,7 @@ Player_TileDetectNearbyLong:
 
 ; ==============================================================================
 
-; *$3CF12-$3CF7D LOCAL
+; $03CF12-$03CF7D LOCAL
 Player_TileDetectNearby:
 {
     STZ $59
@@ -12400,7 +12393,7 @@ Player_TileDetectNearby:
     
     LDA $20 : CLC : ADC $CD97 : AND $EC : STA $08
     
-    ; *$3CF49 ALTERNATE ENTRY POINT
+    ; $03CF49 ALTERNATE ENTRY POINT
     
     REP #$10
     
@@ -12435,7 +12428,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; *$3CF7E-$3CFCB LOCAL
+; $03CF7E-$03CFCB LOCAL
 {
     STZ $59
     
@@ -12471,7 +12464,7 @@ Player_TileDetectNearby:
     RTS
 }
 
-; *$3D077-$3D2C5 LOCAL
+; $03D077-$03D2C5 LOCAL
 {
     ; Takes Y as an input ranging from 0x00 to 0x08
     ; The different behaviors with each has not been figured out yet
@@ -12540,7 +12533,7 @@ Player_TileDetectNearby:
     
     SEP #$30
     
-    JSR $DC4A ; $3DC4A IN ROM
+    JSR $DC4A ; $03DC4A IN ROM
     
     .stillSpinAttacking
     
@@ -12590,7 +12583,7 @@ Player_TileDetectNearby:
     
     LDA $7EC000 : STA $A0
     
-    JSR $94F1 ; $394F1 IN ROM
+    JSR $94F1 ; $0394F1 IN ROM
     
     BRA .BRANCH_RHO
     
@@ -12598,7 +12591,7 @@ Player_TileDetectNearby:
     
     LDA $02DB : BNE .BRANCH_RHO
     
-    JSR $A95C ; $3A95C IN ROM
+    JSR $A95C ; $03A95C IN ROM
     
     .BRANCH_RHO
     
@@ -12612,7 +12605,7 @@ Player_TileDetectNearby:
     
     LDA.b #$02 : STA $0351
     
-    JSR $D2C6 ; $3D2C6 IN ROM
+    JSR $D2C6 ; $03D2C6 IN ROM
     
     BCS .BRANCH_THETA
     
@@ -12648,7 +12641,7 @@ Player_TileDetectNearby:
     
     .BRANCH_IOTA
     
-    ; $3D2C6 IN ROM
+    ; $03D2C6 IN ROM
     JSR $D2C6 : BCS .BRANCH_TAU
     
     LDA $8A : CMP.b #$70 : BNE .notEvilSwamp
@@ -12677,7 +12670,7 @@ Player_TileDetectNearby:
     
     LDA.b #$01 : STA $0351
     
-    ; $3D2C6 IN ROM
+    ; $03D2C6 IN ROM
     JSR $D2C6 : BCS .BRANCH_BET
     
     ; Dat be sum swamp o' evil
@@ -12721,7 +12714,7 @@ Player_TileDetectNearby:
     
     LDA $55 : BNE .noSpikeFloorDamage
     
-    ; $3AFB5 IN ROM
+    ; $03AFB5 IN ROM
     JSR $AFB5 : BCS .noSpikeFloorDamage
     
     ; Did Link just get damaged and is still flashing?
@@ -12821,7 +12814,7 @@ Player_TileDetectNearby:
     RTS
 }
 
-; *$3D2C6-$3D2E3 LOCAL
+; $03D2C6-$03D2E3 LOCAL
 {
     LDA $67 : AND.b #$0F : BEQ .BRANCH_ALPHA
     
@@ -12848,7 +12841,7 @@ Player_TileDetectNearby:
     RTS
 }
 
-; *$3D304-$3D364 LOCAL
+; $03D304-$03D364 LOCAL
 {
     REP #$20
     
@@ -12863,7 +12856,7 @@ Player_TileDetectNearby:
     
     LDA $04 : CLC : ADC $D2E4, Y : AND $EC : STA $00
     
-    ; $3E026 IN ROM
+    ; $03E026 IN ROM
     JSR $E026 : BEQ .BRANCH_ALPHA
     
     CPX.w #$0009 : BNE .BRANCH_BETA
@@ -12874,7 +12867,7 @@ Player_TileDetectNearby:
     
     LDA $04 : CLC : ADC $D2EC, Y : AND $EC : STA $00
     
-    ; $3E026 IN ROM
+    ; $03E026 IN ROM
     JSR $E026 : BEQ .BRANCH_GAMMA
     
     CPX.w #$0009 : BNE .BRANCH_BETA
@@ -12898,7 +12891,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; *$3D383-$3D444 LOCAL
+; $03D383-$03D444 LOCAL
 {
     STZ $59
     
@@ -13027,7 +13020,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; *$3D485-$3D555 LOCAL
+; $03D485-$03D555 LOCAL
 {
     LDA $00 : PHA
     
@@ -13145,9 +13138,8 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; $3D556-$3D575 DATA
+; $03D556-$03D575 DATA
 {
-    
     .xy_offsets_first
     dw 0, 0
     dw 7, 7
@@ -13163,7 +13155,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; *$3D576-$3D606 LONG
+; $03D576-$03D606 LONG
 Hookshot_CheckTileCollison:
 {
     PHB : PHK : PLB
@@ -13243,7 +13235,7 @@ Hookshot_CheckTileCollison:
 
 ; ==============================================================================
 
-; *$3D607-$3D656 LOCAL
+; $03D607-$03D656 LOCAL
 Hookshot_CheckSingleLayerTileCollision:
 {
     REP #$20
@@ -13277,14 +13269,13 @@ Hookshot_CheckSingleLayerTileCollision:
 
 ; ==============================================================================
 
-; $3D657-$3D666 DATA
+; $03D657-$03D666 DATA
 {
-    
 }
 
 ; ==============================================================================
 
-    ;*$3D667-$3D6F3 LONG BRANCH LOCATION
+    ; $03D667-$03D6F3 LONG BRANCH LOCATION
 {
     LDA $00 : PHA
     
@@ -13365,7 +13356,7 @@ Hookshot_CheckSingleLayerTileCollision:
     RTS
 }
 
-; *$3D6F4-$3D72D JUMP LOCAL
+; $03D6F4-$03D72D JUMP LOCAL
 {
     STZ $59
     
@@ -13382,7 +13373,7 @@ Hookshot_CheckSingleLayerTileCollision:
     BRL .BRANCH_$3CF49
 }
 
-; *$3D73E-$3D797 LOCAL
+; $03D73E-$03D797 LOCAL
 {
     STZ $59
     
@@ -13418,7 +13409,7 @@ Hookshot_CheckSingleLayerTileCollision:
 
 ; ==============================================================================
 
-; *$3D798-$3D7D7 LOCAL
+; $03D798-$03D7D7 LOCAL
 TileDetect_ResetState:
 {
     STZ $0C
@@ -13453,7 +13444,7 @@ TileDetect_ResetState:
 
 ; ==============================================================================
 
-; $3D7D8-$3D9D7 JUMP TABLE
+; $03D7D8-$03D9D7 JUMP TABLE
 {
     ; Dungeon tile attribute handlers
     
@@ -13750,7 +13741,7 @@ TileDetect_ResetState:
 
 ; ==============================================================================
 
-; *$3D9D8-$3DA29 LOCAL
+; $03D9D8-$03DA29 LOCAL
 TileDetect_Execute:
 {
     ; Tile attribute handler
@@ -13829,7 +13820,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $3DA2A-$3DC29 JUMP TABLE
+; $03DA2A-$03DC29 JUMP TABLE
 {
     ; Overworld Tile Attribute Jump Table
     
@@ -14122,7 +14113,7 @@ TileDetect_Execute:
     dw $DDEB ; = $3DDEB*
 }
 
-    ; *$3DC2A LONG BRANCH LOCATION
+    ; $03DC2A LONG BRANCH LOCATION
 {
     JSL Overworld_GetTileAttrAtLocation
     
@@ -14148,28 +14139,28 @@ TileDetect_Execute:
     
     JMP ($DA2A, X) ; ($3DA2A, X) THAT IS
     
-; *$3DC4A-$3DC4F ALTERNATE ENTRY POINT
+; $03DC4A-$03DC4F ALTERNATE ENTRY POINT
     
     JSL Overworld_Map16_ToolInteraction
     
     BRA .do8x8TileInteraction
 }
 
-; *$3DC50-$3DC54 JUMP LOCATION
+; $03DC50-$03DC54 JUMP LOCATION
 {
     ; $0E is the collision bitfield
     LDA $0A : TSB $0E
     
-    ; *$3DC54 ALTERNATE ENTRY POINT
+    ; $03DC54 ALTERNATE ENTRY POINT
     
     RTS
 }
 
-; *$3DC5D-$3DC71 JUMP LOCATION
+; $03DC5D-$03DC71 JUMP LOCATION
 {
     LDA $0A : TSB $38
     
-    ; *$3DC61 ALTERNATE ENTRY POINT
+    ; $03DC61 ALTERNATE ENTRY POINT
     
     LDA $0A : TSB $0C
     
@@ -14180,7 +14171,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DC72-$3DC7C JUMP LOCATION
+; $03DC72-$03DC7C JUMP LOCATION
 {
     ; Notice how in actuality this routine is identical to the following one.
     LDA $06 : STA $76
@@ -14190,20 +14181,20 @@ TileDetect_Execute:
     *BRA .BRANCH_$3DC86
 }
 
-; *$3DC7D-$3DC8A JUMP LOCATION
+; $03DC7D-$03DC8A JUMP LOCATION
 {
     LDA $06 : STA $76
     
     LDA $0A : TSB $02C0
     
-    ; *$3DC86 ALTERNATE ENTRY POINT / BRANCH LOCATION
+    ; $03DC86 ALTERNATE ENTRY POINT / BRANCH LOCATION
     
     LDA $0A : TSB $58
     
     RTS
 }
 
-; *$3DC8B-$3DC97 JUMP LOCATION
+; $03DC8B-$03DC97 JUMP LOCATION
 {
     ; Hole tile or Somaria platform transit line tile
     
@@ -14218,28 +14209,28 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DC98-$3DC9D JUMP LOCATION
+; $03DC98-$03DC9D JUMP LOCATION
 {
     LDA $0A : TSB $0320
     
     RTS
 }
 
-; *$3DC9E-$3DCA3 JUMP LOCATION
+; $03DC9E-$03DCA3 JUMP LOCATION
 {
     LDA $0A : TSB $0348
     
     RTS
 }
 
-; *$3DCA4-$3DCAD JUMP LOCATION
+; $03DCA4-$03DCAD JUMP LOCATION
 {
     LDA $0A : ASL #4 : TSB $0348
     
     RTS
 }
 
-; *$3DCAE-$3DCB5 JUMP LOCATION
+; $03DCAE-$03DCB5 JUMP LOCATION
 {
     ; Torch tiles
     
@@ -14248,21 +14239,21 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DCB6-$3DCBB JUMP LOCATION
+; $03DCB6-$03DCBB JUMP LOCATION
 {
     LDA $0A : TSB $0341
     
     RTS
 }
 
-; *$3DCBC-$3DCC1 JUMP LOCATION
+; $03DCBC-$03DCC1 JUMP LOCATION
 {
     LDA $0A : TSB $0343
     
     RTS
 }
 
-; *$3DCC2-$3DCC7 JUMP LOCATION
+; $03DCC2-$03DCC7 JUMP LOCATION
 {
     ; Water staircase tile
     LDA $0A : TSB $034C
@@ -14270,26 +14261,26 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DCC8-$3DCFF JUMP LOCATION
+; $03DCC8-$03DCFF JUMP LOCATION
 {
     ; BG change
     LDA $EF : AND.w #$FF00 : ORA.w #$0001 : STA $EF
     
     BRA .BRANCH_ALPHA
     
-    ; *$3DCD4 ALTERNATE ENTRY POINT
+    ; $03DCD4 ALTERNATE ENTRY POINT
     
     ; BG change and dungeon change (sewer/Hyrule Castle)
     LDA $EF : AND.w #$FF00 : ORA #$0003 : STA $EF
     
     BRA .BRANCH_ALPHA
     
-    ; *$3DCE0 ALTERNATE ENTRY POINT
+    ; $03DCE0 ALTERNATE ENTRY POINT
     
     ; dungeon change
     LDA $EF : AND.w #$FF00 : ORA.w #$0002 : STA $EF
     
-    ; *$3DCEA ALTERNATE ENTRY POINT
+    ; $03DCEA ALTERNATE ENTRY POINT
     
     .BRANCH_ALPHA
     
@@ -14302,11 +14293,11 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DD00-$3DD1A JUMP LOCATION
+; $03DD00-$03DD1A JUMP LOCATION
 {
     LDA $EF : AND.w #$FF00 : ORA.w #$0002 : STA $EF
     
-    ; *$3DD0A ALTERNATE ENTRY POINT
+    ; $03DD0A ALTERNATE ENTRY POINT
     
     LDA $0A : ASL #4 : TSB $0E
     
@@ -14315,7 +14306,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DD1B-$3DD20 JUMP LOCATION
+; $03DD1B-$03DD20 JUMP LOCATION
 {
     ; Shallow water tile
     LDA $0A : TSB $0359
@@ -14325,7 +14316,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $3DD21-$3DD40 DATA
+; $03DD21-$03DD40 DATA
 {
     dw $0001, $0002, $0004, $0008, $0010, $0020, $0040, $0080
     dw $0100, $0200, $0400, $0800, $1000, $2000, $4000, $8000
@@ -14333,7 +14324,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3DD41-$3DD5B JUMP LOCATION
+; $03DD41-$03DD5B JUMP LOCATION
 {
     LDA $0A : AND.w #$0002 : BEQ .BRANCH_ALPHA
     
@@ -14345,14 +14336,14 @@ TileDetect_Execute:
     
     LDA $0A : TSB $0E
     
-    JSR $DDE5 ; $3DDE5 IN ROM
+    JSR $DDE5 ; $03DDE5 IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$3DD5C-$3DD69 JUMP LOCATION
+; $03DD5C-$03DD69 JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14363,11 +14354,11 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3DD6A-$3DD9C JUMP LOCATION
+; $03DD6A-$03DD9C JUMP LOCATION
 {
     ; Handler for chest tiles
     
-    JSR $DDE5 ; $3DDE5 IN ROM; TSB to $02F6
+    JSR $DDE5 ; $03DDE5 IN ROM; TSB to $02F6
     
     ; Store the tile type we're handling to $76.
     LDA $06 : STA $76
@@ -14400,13 +14391,13 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DD9D-$3DDA0 JUMP LOCATION
+; $03DD9D-$03DDA0 JUMP LOCATION
 {
     LDA $06
     
     BRA .alpha
     
-    ; *$3DDA1 ALTERNATE ENTRY POINT
+    ; $03DDA1 ALTERNATE ENTRY POINT
     
     LDA $06
     
@@ -14421,7 +14412,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DDB1-$3DDC9 JUMP LOCATION
+; $03DDB1-$03DDC9 JUMP LOCATION
 {
     ; spike / cactus tile handler
     ; (invincible b/c he just beat a boss)
@@ -14442,7 +14433,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DDCA-$3DDE0 JUMP LOCATION
+; $03DDCA-$03DDE0 JUMP LOCATION
 {
     ; The invincibility mentioned in this routine occurs after beating a boss fight,
     ; not by using some item or anything like that.
@@ -14458,18 +14449,18 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DDE1-$3DDEA JUMP LOCATION
+; $03DDE1-$03DDEA JUMP LOCATION
 {
     LDA $0A : TSB $0E
     
-    ; *$3DDE5 ALTERNATE ENTRY POINT
+    ; $03DDE5 ALTERNATE ENTRY POINT
     
     LDA $0A : TSB $02F6
     
     RTS
 }
 
-; *$3DDEB-$3DDF6 JUMP LOCATION
+; $03DDEB-$03DDF6 JUMP LOCATION
 {
     ; Key door, and maybe other types of tiles...
     LDA $0A : TSB $0E
@@ -14479,7 +14470,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DDF7-$3DE16 JUMP LOCATION
+; $03DDF7-$03DE16 JUMP LOCATION
 {
     ; Blue Rupee tile
     
@@ -14501,7 +14492,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DE17-$3DE28 JUMP LOCATION
+; $03DE17-$03DE28 JUMP LOCATION
 {
     ; tile attribute 0x67 handler.... (orange / blue barrier tiles)
     LDA $0A : TSB $0E : TSB $02F6
@@ -14511,25 +14502,25 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DE29-$3DE44 JUMP LOCATION
+; $03DE29-$03DE44 JUMP LOCATION
 {
     LDA $0A
     
     BRA .BRANCH_ALPHA
     
-    ; *$3DE2D ALTERNATE ENTRY POINT
+    ; $03DE2D ALTERNATE ENTRY POINT
     
     LDA $0A : ASL #4
     
     BRA .BRANCH_ALPHA
     
-    ; *$3DE35 ALTERNATE ENTRY POINT
+    ; $03DE35 ALTERNATE ENTRY POINT
     
     LDA $0A : XBA
     
     BRA .BRANCH_ALPHA
     
-    ; *$3DE3A ALTERNATE ENTRY POINT
+    ; $03DE3A ALTERNATE ENTRY POINT
     
     LDA $0A : XBA : ASL #4
     
@@ -14540,18 +14531,18 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DE45-$3DE4E JUMP LOCATION
+; $03DE45-$03DE4E JUMP LOCATION
 {
-    JSR $DDE5 ; $3DDE5 IN ROM
+    JSR $DDE5 ; $03DDE5 IN ROM
     
     LDA $06 : STA $76
     
     BRL $3DD6A_notBigKeyLock
 }
 
-; *$3DE4F-$3DE5A JUMP LOCATION
+; $03DE4F-$03DE5A JUMP LOCATION
 {
-    JSR $DD0A ; $3DD0A IN ROM
+    JSR $DD0A ; $03DD0A IN ROM
     
     LDA $0A : XBA : TSB $02EE
     
@@ -14560,21 +14551,21 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DE5B-$3DE60 JUMP LOCATION
+; $03DE5B-$03DE60 JUMP LOCATION
 {
     LDA $0A : TSB $0343
     
     RTS
 }
 
-; *$3DE61-$3DE66 JUMP LOCATION
+; $03DE61-$03DE66 JUMP LOCATION
 {
     LDA $0A : TSB $0357
     
     RTS
 }
 
-; *$3DE67-$3DE6F JUMP LOCATION
+; $03DE67-$03DE6F JUMP LOCATION
 {
     ; Aftermath tiles from destroying / picking things up?
     LDA $0A : TSB $035B : TSB $0343
@@ -14582,12 +14573,12 @@ TileDetect_Execute:
     RTS
 }
 
-; $3DE70-$3DE7D
+; $03DE70-$03DE7D
 {
     dw $0054, $0052, $0050, $0051, $0053, $0055, $0056
 }
 
-; *$3DE7E-$3DEAC JUMP LOCATION
+; $03DE7E-$03DEAC JUMP LOCATION
 {
     LDX.w #$000C
     
@@ -14612,7 +14603,7 @@ TileDetect_Execute:
     
     STX $036A
     
-    JSR $DDE1 ; $3DDE1 IN ROM
+    JSR $DDE1 ; $03DDE1 IN ROM
     
     RTS
     
@@ -14623,7 +14614,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEAD-$3DEBA JUMP LOCATION
+; $03DEAD-$03DEBA JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14632,7 +14623,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEBB-$3DEC4 JUMP LOCATION
+; $03DEBB-$03DEC4 JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14641,7 +14632,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEC5-$3DECE JUMP LOCATION
+; $03DEC5-$03DECE JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14650,7 +14641,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DECF-$3DEDC JUMP LOCATION
+; $03DECF-$03DEDC JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14659,7 +14650,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEDD-$3DEE6 JUMP LOCATION
+; $03DEDD-$03DEE6 JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14668,7 +14659,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEE7-$3DEF0 JUMP LOCATION
+; $03DEE7-$03DEF0 JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14677,7 +14668,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEF1-$3DFFE JUMP LOCATION
+; $03DEF1-$03DFFE JUMP LOCATION
 {
     LDA $06 : STA $76
     
@@ -14686,14 +14677,14 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DEFF-$3DF08 JUMP LOCATION
+; $03DEFF-$03DF08 JUMP LOCATION
 {
     LDA $0A : ASL #4 : TSB $0357
     
     RTS
 }
 
-; *$3DF09-$3DF10 JUMP LOCATION
+; $03DF09-$03DF10 JUMP LOCATION
 {
     ; apparently a gravestone tile?
     
@@ -14702,7 +14693,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DF11-$3DF18 JUMP LOCATION
+; $03DF11-$03DF18 JUMP LOCATION
 {
     ; Desert palace trigger tile? (Book o' mudora inscription?)
     LDA $0A : TSB $02EE : TSB $0E
@@ -14710,7 +14701,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3DF19-$3DF25 JUMP LOCATION
+; $03DF19-$03DF25 JUMP LOCATION
 {
     ; Rock pile tile
     LDA $0A : TSB $0E
@@ -14720,7 +14711,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3E026-$3E051 LOCAL
+; $03E026-$03E051 LOCAL
 {
     LDA $00 : AND.w #$FFF8 : ASL #3 : STA $06
     
@@ -14743,7 +14734,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3E076-$3E111 LOCAL
+; $03E076-$03E111 LOCAL
 {
     LDA $51 : AND.b #$07 : STA $00
     
@@ -14845,7 +14836,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3E112-$3E1BD LOCAL/LONG SWITCHABLE
+; $03E112-$03E1BD LOCAL/LONG SWITCHABLE
 {
     LDA $22
     
@@ -14956,7 +14947,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3E1BE-$3E226 LOCAL
+; $03E1BE-$03E226 LOCAL
 {
     STZ $67
     
@@ -14968,7 +14959,7 @@ TileDetect_Execute:
 
 .BRANCH_BETA
 
-    JSR $E1D7 ; $3E1D7 IN ROM
+    JSR $E1D7 ; $03E1D7 IN ROM
 
 .BRANCH_ALPHA
 
@@ -14978,7 +14969,7 @@ TileDetect_Execute:
     
     LDY.b #$01
 
-; *$3E1D7 ALTERNATE ENTRY POINT
+; $03E1D7 ALTERNATE ENTRY POINT
 .BRANCH_DELTA
 
     TYA : ORA $67 : STA $67
@@ -15024,10 +15015,9 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $3E227-$3E244 DATA
+; $03E227-$03E244 DATA
     pool 
 {
-    
     .speed_table
     db $18
     db $10
@@ -15063,7 +15053,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3E245-$3E405 LONG
+; $03E245-$03E405 LONG
 {
     PHB : PHK : PLB
     
@@ -15272,7 +15262,7 @@ TileDetect_Execute:
     
     BRA .BRANCH_OMEGA
     
-    ; *$3E370 ALTERNATE ENTRY POINT
+    ; $03E370 ALTERNATE ENTRY POINT
     
     PHB : PHK : PLB
     
@@ -15333,12 +15323,12 @@ TileDetect_Execute:
     ; Check next direction's recoil / impulse setting.
     DEX #2 : BPL .BRANCH_KESRA
     
-    JSR $E595 ; $3E595 IN ROM
-    JSR $E5F0 ; $3E5F0 IN ROM
+    JSR $E595 ; $03E595 IN ROM
+    JSR $E5F0 ; $03E5F0 IN ROM
     
     BRA .BRANCH_ALIF
     
-    ; *$3E3DD ALTERNATE ENTRY POINT
+    ; $03E3DD ALTERNATE ENTRY POINT
     
     PHB : PHK : PLB
     
@@ -15368,7 +15358,7 @@ TileDetect_Execute:
     RTL
 }
 
-; *$3E42A-$3E540 LONG BRANCH LOCATION
+; $03E42A-$03E540 LONG BRANCH LOCATION
 {
     STZ $27
     STZ $28
@@ -15515,7 +15505,7 @@ TileDetect_Execute:
     
     LDA $046C : CMP.b #$04 : BNE .BRANCH_OMICRON
     
-    JSR $E5CD ; $3E5CD IN ROM
+    JSR $E5CD ; $03E5CD IN ROM
     
     .BRANCH_OMICRON
     
@@ -15527,7 +15517,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $3E541-$3E544 DATA
+; $03E541-$03E544 DATA
 {
     ; \unused Afaik
     db $40, $00, $10, $00
@@ -15535,7 +15525,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3E545-$3E594 LONG BRANCH LOCATION
+; $03E545-$03E594 LONG BRANCH LOCATION
 {
     STZ $00
     STZ $01
@@ -15607,7 +15597,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3E595-$3E5E3 LOCAL
+; $03E595-$03E5E3 LOCAL
 {
     LDA $046C : BEQ .BRANCH_ALPHA
     
@@ -15642,7 +15632,7 @@ TileDetect_Execute:
     
     TYA : TSB $67
     
-    ; *$3E5CD ALTERNATIVE ENTRY POINT
+    ; $03E5CD ALTERNATIVE ENTRY POINT
     
     STZ $6A
     
@@ -15662,9 +15652,8 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $3E5E4-$3E5EF DATA
+; $03E5E4-$03E5EF DATA
 {
-    
     ; \task Name this pool / routine.
     .walking_direction_flags
     db $08, $04, $02, $01
@@ -15678,7 +15667,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3E5F0-$3E670 LOCAL
+; $03E5F0-$03E670 LOCAL
 {
     LDA $03F3 : BEQ .BRANCH_$3E595_ALPHA
     
@@ -15754,7 +15743,7 @@ TileDetect_Execute:
     RTS
 }
 
-; *$3E69D-$3E7CD LONG
+; $03E69D-$03E7CD LONG
 {
     PHB : PHK : PLB
     
@@ -15762,7 +15751,7 @@ TileDetect_Execute:
     
     BRA .BRANCH_STUPID
     
-    ; *$3E6A6 ALTERNATE ENTRY POINT
+    ; $03E6A6 ALTERNATE ENTRY POINT
     
     PHB : PHK : PLB
     
@@ -15842,7 +15831,7 @@ TileDetect_Execute:
     
     BRA .BRANCH_DELTA
     
-    ; *$3E704 ALTERNATE ENTRY POINT
+    ; $03E704 ALTERNATE ENTRY POINT
     
     PHB : PHK : PLB
     
@@ -15973,7 +15962,7 @@ TileDetect_Execute:
     
     RTL
     
-    ; *$3E7CE LONG BRANCH LOCATION
+    ; $03E7CE LONG BRANCH LOCATION
     
     LDA $2E : CMP.b #$04 : BCS .BRANCH_ZAH
     
@@ -16002,7 +15991,7 @@ TileDetect_Execute:
     RTL
 }
 
-; *$3E7FA-$3E841 LONG BRANCH LOCATION
+; $03E7FA-$03E841 LONG BRANCH LOCATION
 {
     LDA $0340 : BEQ .BRANCH_ALPHA
     
@@ -16057,7 +16046,7 @@ TileDetect_Execute:
     RTL
 }
 
-; *$3E88F-$3E8EF LONG BRANCH LOCATION
+; $03E88F-$03E8EF LONG BRANCH LOCATION
 {
     LDX.b #$06
     
@@ -16120,7 +16109,7 @@ TileDetect_Execute:
     RTL
 }
 
-; *$3E8F0-$3E900 LOCAL
+; $03E8F0-$03E900 LOCAL
 {
     ; If outdoors, ignore
     LDA $1B : BEQ .return
@@ -16128,18 +16117,18 @@ TileDetect_Execute:
     ; I'll deal with this routine later >:(
     LDA $6C : BEQ .notInDoorway
     
-    JML $07E901 ; $3E901 IN ROM
+    JML $07E901 ; $03E901 IN ROM
     
     .notInDoorway
     
-    JSL $07E9D3 ; $3E9D3 IN ROM
+    JSL $07E9D3 ; $03E9D3 IN ROM
     
     .return
     
     RTS
 }
 
-; *$3E901-$3E9D2 JUMP LOCATION (LOCAL)
+; $03E901-$03E9D2 JUMP LOCATION (LOCAL)
 {
     STZ $68
     STZ $69
@@ -16217,7 +16206,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B62E ; $1362E IN ROM ; Transition right
+    JSL $02B62E ; $01362E IN ROM ; Transition right
     
     RTS
     
@@ -16228,7 +16217,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B6CD ; $136CD IN ROM ; Transition left
+    JSL $02B6CD ; $0136CD IN ROM ; Transition left
     
     RTS
     
@@ -16241,7 +16230,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B81C ; $1381C IN ROM
+    JSL $02B81C ; $01381C IN ROM
     
     RTS
     
@@ -16252,7 +16241,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B76E ; $1376E IN ROM
+    JSL $02B76E ; $01376E IN ROM
     
     .noVerticalMovement
     
@@ -16261,7 +16250,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3E9D3-$3EA05 LONG
+; $03E9D3-$03EA05 LONG
 {
     PHB : PHK : PLB
     
@@ -16271,20 +16260,20 @@ TileDetect_Execute:
     LDA $69 : BEQ .noHorizontalMovement
               BMI .movedLeft
     
-    JSL $02B8BD ; $138BD IN ROM
+    JSL $02B8BD ; $0138BD IN ROM
     
     BRA .noHorizontalMovement
     
     .movedLeft
     
-    JSL $02B8F9 ; $138F9 IN ROM
+    JSL $02B8F9 ; $0138F9 IN ROM
     
     .noHorizontalMovement
     
     LDA $68 : BEQ .noVerticalMovement
               BPL .movedDown
     
-    JSL $02B919 ; $13919 IN ROM
+    JSL $02B919 ; $013919 IN ROM
     
     PLB
     
@@ -16292,7 +16281,7 @@ TileDetect_Execute:
     
     .movedDown
     
-    JSL $02B909 ; $13909 IN ROM
+    JSL $02B909 ; $013909 IN ROM
     
     .noVerticalMovement
     
@@ -16303,7 +16292,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; *$3EA06-$3EA21 LONG
+; $03EA06-$03EA21 LONG
 Player_InitPrayingScene_HDMA:
 {
     ; This routine initializes the hdma table for Link praying to open
@@ -16311,7 +16300,7 @@ Player_InitPrayingScene_HDMA:
     ; the spotlight effects of entering or leaving a dungeon. That can
     ; be found in bank 0x00.
     
-    JSL $02C7B8 ; $147B8 IN ROM
+    JSL $02C7B8 ; $0147B8 IN ROM
     
     PHB : PHK : PLB
     
@@ -16323,7 +16312,7 @@ Player_InitPrayingScene_HDMA:
     
     STZ $067E
     
-    JSL $07EA27 ; $3EA27 IN ROM
+    JSL $07EA27 ; $03EA27 IN ROM
     
     INC $B0
     
@@ -16334,9 +16323,8 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $3EA22-$3EA26 DATA
+; $03EA22-$03EA26 DATA
 {
-    
     ; \task Name this pool / routine.
     .timers
     db 22, 22, 22, 64, 1
@@ -16344,7 +16332,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3EA27-$3EBD9 LONG
+; $03EA27-$03EBD9 LONG
 {
     ; This routine seems to construct the hdma table that zeroes in or out
     ; on the player's position (e.g. when leaving a dungeon or entering
@@ -16395,7 +16383,7 @@ Player_InitPrayingScene_HDMA:
     
     .BRANCH_DELTA
     
-    JSR $ECDC ; $3ECDC IN ROM
+    JSR $ECDC ; $03ECDC IN ROM
     
     LDA $06 : BNE .BRANCH_ZETA
     
@@ -16583,10 +16571,8 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $3EBDA-$3ECDB DATA
+; $03EBDA-$03ECDB DATA
 {
-    
-    
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FE, $FE, $FE, $FE
     db $FD, $FD, $FD, $FD, $FC, $FC, $FC, $FB
@@ -16627,7 +16613,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3ECDC-$3ED2B LOCAL
+; $03ECDC-$03ED2B LOCAL
 {
     ; ( table[ ( (A / B) / 2) ] * B) >> 8
     
@@ -16678,7 +16664,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3ED2C-$3ED3E LOCAL
+; $03ED2C-$03ED3E LOCAL
 {
     LDX.b #$01
     
@@ -16703,7 +16689,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3ED3F-$3EDB4 LOCAL
+; $03ED3F-$03EDB4 LOCAL
 {
     PHX : STX $72
     
@@ -16737,7 +16723,7 @@ Player_InitPrayingScene_HDMA:
     
     LDY.b #$00
     
-    ; $3D304 IN ROM
+    ; $03D304 IN ROM
     JSR $D304 : BCC .BRANCH_BETA
     
     .BRANCH_ALPHA
@@ -16770,7 +16756,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3EDB5-$3EDF3 LONG
+; $03EDB5-$03EDF3 LONG
 {
     ; Input parameters: Y
     
@@ -16795,7 +16781,7 @@ Player_InitPrayingScene_HDMA:
     
     LDA.b #$09 : STA $02C4 : STZ $02C3
     
-    JSR $EE35 ; $3EE35 IN ROM
+    JSR $EE35 ; $03EE35 IN ROM
     
     LDA $05F0, Y : STA $72
     LDA $05EC, Y : STA $73
@@ -16803,7 +16789,7 @@ Player_InitPrayingScene_HDMA:
     LDA $05E4, Y : STA $74
     LDA $05E0, Y : STA $75
     
-    JSR $EFB9 ; $3EFB9 IN ROM
+    JSR $EFB9 ; $03EFB9 IN ROM
     
     .return
     
@@ -16814,14 +16800,14 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $3EDF4-$3EDF8
+; $03EDF4-$03EDF8
 {
     db $09, $09, $09, $09, $09
 }
 
 ; ==============================================================================
 
-; *$3EDF9-$3EE2F LONG
+; $03EDF9-$03EE2F LONG
 {
     ; Appears to be involved with push blocks or falling push blocks.
     
@@ -16863,7 +16849,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $3EE30-$3EE34 DATA
+; $03EE30-$03EE34 DATA
 {
     db $0C
     
@@ -16872,7 +16858,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3EE35-$3EF60 LOCAL
+; $03EE35-$03EF60 LOCAL
 {
     STZ $27
     STZ $28
@@ -17028,14 +17014,14 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $3EF61-$3EFB8 DATA
+; $03EF61-$03EFB8 DATA
 {
     ; \task Fill in this data and label it.
 }
 
 ; ==============================================================================
 
-; *$3EFB9-$3F0AB LOCAL
+; $03EFB9-$03F0AB LOCAL
 {
     PHY
     
@@ -17157,7 +17143,7 @@ Player_InitPrayingScene_HDMA:
     
     SEP #$20
     
-    JSR $E8F0 ; $3E8F0 IN ROM
+    JSR $E8F0 ; $03E8F0 IN ROM
     
     PLY
     
@@ -17166,7 +17152,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3F0AC-$3F0CA LONG
+; $03F0AC-$03F0CA LONG
 {
     ; Handles animation of moveable blocks and such?
     
@@ -17184,7 +17170,7 @@ Player_InitPrayingScene_HDMA:
     
     PHX
     
-    JSR $F0D9 ; $3F0D9 IN ROM
+    JSR $F0D9 ; $03F0D9 IN ROM
     
     PLX
     
@@ -17201,7 +17187,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $3F0CB-$3F0D8
+; $03F0CB-$03F0D8
     pool 
 {
     ; Unused data?
@@ -17214,7 +17200,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3F0D9-$3F13B LOCAL
+; $03F0D9-$03F13B LOCAL
 {
     ; Appears to draw moving blocks or falling moving blocks or both.
     ; \task Name this routine.
@@ -17282,7 +17268,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; *$3F13C-$3F1A2 LONG
+; $03F13C-$03F1A2 LONG
 Init_Player:
 {
     PHB : PHK : PLB
@@ -17321,8 +17307,8 @@ Init_Player:
     STZ $02DA
     STZ $55
     
-    JSR $AE54   ; $3AE54 IN ROM; more init...
-    JSR $9D84   ; $39D84 IN ROM
+    JSR $AE54   ; $03AE54 IN ROM; more init...
+    JSR $9D84   ; $039D84 IN ROM
     
     STZ $037B
     STZ $0300
@@ -17339,7 +17325,7 @@ Init_Player:
 
 ; ==============================================================================
 
-; *$3F1A3-$3F259 LONG
+; $03F1A3-$03F259 LONG
 Player_ResetState:
 {
     STZ $26
@@ -17368,7 +17354,7 @@ Player_ResetState:
     STZ $02E9
     STZ $02DB
     
-    ; *$3F1E6 ALTERNATE ENTRY POINT
+    ; $03F1E6 ALTERNATE ENTRY POINT
     ; called by mirror warping.
     
     STZ $02F5
@@ -17383,7 +17369,7 @@ Player_ResetState:
     ; Or maybe it was aliased to two different names...
     STZ $5B
     
-    ; *$3F1FA ALTERNATE ENTRY POINT
+    ; $03F1FA ALTERNATE ENTRY POINT
     ; called by some odd balls.
     
     STZ $036C
@@ -17413,7 +17399,7 @@ Player_ResetState:
     STZ $02DA
     STZ $55
     
-    JSR $9D84  ; $39D84 IN ROM
+    JSR $9D84  ; $039D84 IN ROM
     
     STZ $037B
     STZ $0300
@@ -17428,7 +17414,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; *$3F25A-$3F2C0 LONG
+; $03F25A-$03F2C0 LONG
 {
     ; \task Name this routine. Seems to be important to straight inter room
     ; staircases.
@@ -17507,7 +17493,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; *$3F2C1-$3F390 LONG
+; $03F2C1-$03F390 LONG
 {
     ; \task Name this routine. Seems pretty important to spiral staircases.
     
@@ -17560,8 +17546,8 @@ Player_ResetState:
     
     .BRANCH_DELTA
     
-    JSL $07E370 ; $3E370 IN ROM
-    JSL $07E704 ; $3E704 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
+    JSL $07E704 ; $03E704 IN ROM
     
     LDA $0371 : BNE .BRANCH_ZETA
     
@@ -17591,7 +17577,7 @@ Player_ResetState:
     
     REP #$20
     
-    JSL $02921A ; $1121A IN ROM
+    JSL $02921A ; $01121A IN ROM
     
     SEP #$20
     
@@ -17648,7 +17634,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; *$3F391-$3F3F2 LONG
+; $03F391-$03F3F2 LONG
 {
     ; \task Name this routine. Used by spiral staircases.
     
@@ -17695,8 +17681,8 @@ Player_ResetState:
     
     .BRANCH_GAMMA
     
-    JSL $07E370 ; $3E370 IN ROM
-    JSL $07E704 ; $3E704 IN ROM
+    JSL $07E370 ; $03E370 IN ROM
+    JSL $07E704 ; $03E704 IN ROM
     
     LDA $22 : CMP $53 : BNE .BRANCH_DELTA
     
@@ -17713,7 +17699,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; *$3F3F3-$3F3FC LONG
+; $03F3F3-$03F3FC LONG
 {
     ; \task Name this routine. It apparently has something to do with
     ; staircases, possibly spiral staircases in particular.
@@ -17732,7 +17718,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $3F3FD-$3F42E LONG
+; $03F3FD-$03F42E LONG
 {
     ; \unused Pretty certain this is unused
     ; \task What would it be for, though? Looks like staircases. Hard to say
@@ -17763,8 +17749,8 @@ Player_ResetState:
     
     STY $27
     
-    JSL $07E370 ; $3E370 in rom.
-    JSL $07E704 ; $3E704 in rom.
+    JSL $07E370 ; $03E370 in rom.
+    JSL $07E704 ; $03E704 in rom.
     
     PLB
     
@@ -17773,7 +17759,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; *$3F42F-$3F438 LONG
+; $03F42F-$03F438 LONG
 {
     PHB : PHK : PLB
     
@@ -17788,7 +17774,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; *$3F439-$3F46E LONG
+; $03F439-$03F46E LONG
 Player_IsScreenTransitionPermitted:
 {
     PHB : PHK : PLB
@@ -17834,7 +17820,7 @@ Player_IsScreenTransitionPermitted:
 
 ; ==============================================================================
 
-; *$3F46F-$3F49B LONG
+; $03F46F-$03F49B LONG
 Tagalong_CanWeDisplayMessage:
 {
     ; Is link in his basic game state?
@@ -17872,7 +17858,7 @@ Tagalong_CanWeDisplayMessage:
 
 ; ==============================================================================
 
-; *$3F49C-$3F4CF LONG
+; $03F49C-$03F4CF LONG
 Player_ApproachTriforce:
 {
     ; \optimize No local data is used, so we don't have to do this.
@@ -17922,7 +17908,7 @@ Player_ApproachTriforce:
 
 ; ==============================================================================
 
-; *$3F4D0-$3F4F0 LONG
+; $03F4D0-$03F4F0 LONG
 Sprite_CheckIfPlayerPreoccupied:
 {
     PHX
@@ -17959,7 +17945,7 @@ Sprite_CheckIfPlayerPreoccupied:
 
 ; ==============================================================================
 
-; *$3F4F1-$3F513 LONG
+; $03F4F1-$03F513 LONG
 Player_IsPipeEnterable:
 {
     LDX.b #$04
@@ -17995,7 +17981,7 @@ Player_IsPipeEnterable:
 
 ; ==============================================================================
 
-; *$3F514-$3F51C LOCAL
+; $03F514-$03F51C LOCAL
 {
     LDA $1B : BNE .indoors
     
@@ -18013,7 +17999,7 @@ Player_IsPipeEnterable:
    
 ; ==============================================================================
 
-; $3F51D-$3F61C
+; $03F51D-$03F61C
 Overworld_SignText:
 {
     dw $00A7, $00A7, $0048, $0040, $0040, $00A7, $00A7, $00A7
@@ -18036,7 +18022,7 @@ Overworld_SignText:
 
 ; ==============================================================================
 
-; $3F61D-$3F89C
+; $03F61D-$03F89C
 Dungeon_SignText:
 {
     dw $00B4, $00B4, $00B4, $00C7, $00B4, $00B4, $00B4, $00B4
@@ -18083,7 +18069,7 @@ Dungeon_SignText:
 
 ; ==============================================================================
 
-; $3F89D-$3FFFF NULL (Can be used for expansion)
+; $03F89D-$03FFFF NULL (Can be used for expansion)
 {
     fillbyte $FF
     

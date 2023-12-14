@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B4C0-$4B4C5 DATA
+; $04B4C0-$04B4C5 DATA
 pool Garnish_Nebule:
 {
-    
     .xy_offsets
     db -1, -1, 0
     
@@ -14,7 +13,7 @@ pool Garnish_Nebule:
 
 ; ==============================================================================
 
-; $4B4C6-$4B4FA JUMP LOCATION
+; $04B4C6-$04B4FA JUMP LOCATION
 Garnish_Nebule:
 {
     ; Special animation 0x07

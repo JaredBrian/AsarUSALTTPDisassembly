@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $E8BD1-$E8BD6 DATA
+; $0E8BD1-$0E8BD6 DATA
 {
     ; \task Name this routine / pool
     db  20, -18
@@ -11,7 +11,7 @@
 
 ; ==============================================================================
 
-; *$E8BD7-$E8BED JUMP LOCATION
+; $0E8BD7-$0E8BED JUMP LOCATION
 Sprite_FireBat:
 {
     JSR FireBat_Draw
@@ -29,7 +29,7 @@ Sprite_FireBat:
 
 ; ==============================================================================
 
-; *$E8BEE-$E8C16 LOCAL
+; $0E8BEE-$0E8C16 LOCAL
 {
     LDY $0DE0
     
@@ -44,9 +44,9 @@ Sprite_FireBat:
 
 ; ==============================================================================
 
-; *$E8C17-$E8C2A JUMP LOCATION
+; $0E8C17-$0E8C2A JUMP LOCATION
 {
-    JSR $8BEE   ; $E8BEE IN ROM
+    JSR $8BEE   ; $0E8BEE IN ROM
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -54,7 +54,7 @@ Sprite_FireBat:
     
     RTS
     
-    ; *$E8C23 ALTERNATE ENTRY POINT
+    ; $0E8C23 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     AND.b #$04 : LSR #2 : STA $0DC0, X
@@ -64,9 +64,8 @@ Sprite_FireBat:
 
 ; ==============================================================================
 
-; $E8C2B-$E8C37 DATA
+; $0E8C2B-$0E8C37 DATA
 {
-    
     .animation_states
     db 4, 4, 4, 3, 3, 3, 2, 2
     db 2, 4, 5, 6, 5
@@ -74,16 +73,16 @@ Sprite_FireBat:
 
 ; ==============================================================================
 
-; *$E8C38-$E8C42 JUMP LOCATION
+; $0E8C38-$0E8C42 JUMP LOCATION
 {
-    JSR $8BEE   ; $E8BEE IN ROM
+    JSR $8BEE   ; $0E8BEE IN ROM
     
     INC $0E80, X : LDA $0E80, X
     
     BRA .BRANCH_$E8C23
 }
 
-; *$E8C43-$E8C54 LOCAL
+; $0E8C43-$0E8C54 LOCAL
 {
     INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
     
@@ -92,7 +91,7 @@ Sprite_FireBat:
     RTS
 }
 
-; *$E8C55-$E8C8F JUMP LOCATION
+; $0E8C55-$0E8C8F JUMP LOCATION
 {
     JSR Sprite4_Move
     
@@ -126,17 +125,16 @@ Sprite_FireBat:
     
     .BRANCH_GAMMA
     
-    JSR $8C43   ; $E8C43 IN ROM
+    JSR $8C43   ; $0E8C43 IN ROM
     
     BRA .BRANCH_E8C43
 }
 
 ; ==============================================================================
 
-; $E8C90-$E8CA8 DATA
+; $0E8C90-$0E8CA8 DATA
 pool FireBat_Draw:
 {
-    
     .x_offsets
     db -8, 8
     
@@ -164,7 +162,7 @@ pool FireBat_Draw:
 
 ; ==============================================================================
 
-; *$E8CA9-$E8D05 LOCAL
+; $0E8CA9-$0E8D05 LOCAL
 FireBat_Draw:
 {
     JSR Sprite4_PrepOamCoord

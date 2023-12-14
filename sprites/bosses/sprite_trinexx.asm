@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EAD0E-$EAD15 LONG
+; $0EAD0E-$0EAD15 LONG
 TrinexxComponents_InitializeLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ TrinexxComponents_InitializeLong:
 
 ; ==============================================================================
 
-; *$EAD16-$EAD25 LOCAL
+; $0EAD16-$0EAD25 LOCAL
 TrinexxComponents_Initialize:
 {
     LDA $0E20, X : SEC : SBC.b #$CB
@@ -29,13 +29,13 @@ TrinexxComponents_Initialize:
 
 ; ==============================================================================
 
-; *$EAD26-$EAD66 JUMP LOCATION
+; $0EAD26-$0EAD66 JUMP LOCATION
 TrinexxHead_Initialize:
 {
     LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
     LDA $0D00, X : CLC : ADC.b #$10 : STA $0D00, X
     
-    JSR $AD8C   ; $EAD8C IN ROM
+    JSR $AD8C   ; $0EAD8C IN ROM
     
     STZ $0B0A
     STZ $0B0B
@@ -45,7 +45,7 @@ TrinexxHead_Initialize:
     
     LDA.b #$FF : STA $0B0E
     
-    ; *$EAD4F ALTERNATE ENTRY POINT
+    ; $0EAD4F ALTERNATE ENTRY POINT
     
     LDA $0D90, X : STA $0D10, X
     
@@ -57,7 +57,7 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; *$EAD67-$EADA4 JUMP LOCATION
+; $0EAD67-$0EADA4 JUMP LOCATION
 {
     LDA.b #$03 : STA $0DC0, X
     
@@ -65,7 +65,7 @@ TrinexxHead_Initialize:
     
     BRA .BRANCH_ALPHA
     
-    ; *$EAD70 ALTERNATE ENTRY POINT
+    ; $0EAD70 ALTERNATE ENTRY POINT
     
     LDA.b #$FF
     
@@ -86,7 +86,7 @@ TrinexxHead_Initialize:
     
     LDA.b #$01 : STA $0E80, X
     
-    ; *$EAD8C ALTERNATE ENTRY POINT
+    ; $0EAD8C ALTERNATE ENTRY POINT
     
     LDA $0D10, X : STA $0D90, X
     LDA $0D30, X : STA $0DA0, X
@@ -99,7 +99,7 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; *$EADB5-$EAE64 LOCAL
+; $0EADB5-$0EAE64 LOCAL
 {
     LDA $0D40, X : STA $00
     
@@ -117,7 +117,7 @@ TrinexxHead_Initialize:
     
     .BRANCH_ALPHA
     
-    JSR $AF84   ; $EAF84 IN ROM
+    JSR $AF84   ; $0EAF84 IN ROM
     JSR Sprite4_CheckIfActive
     
     LDA $0D80, X : BPL .BRANCH_BETA
@@ -186,7 +186,7 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; *$EAE6D-$EAEA7 JUMP LOCATION
+; $0EAE6D-$0EAEA7 JUMP LOCATION
 {
     LDA $0E80, X : AND.b #$00 : BNE .BRANCH_ALPHA
     
@@ -220,7 +220,7 @@ TrinexxHead_Initialize:
 ; ==============================================================================
 
     ; \unused Try to confirm this. \task try to confirm this.
-; $EAEA8-$EAEF4 UNUSED?
+; $0EAEA8-$0EAEF4 UNUSED?
 {
     LDA $0DF0, X : BNE .alpha
     
@@ -255,7 +255,7 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; *$EAEF5-$EAF23 JUMP LOCATION
+; $0EAEF5-$0EAF23 JUMP LOCATION
 {
     LDA $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
@@ -290,15 +290,15 @@ TrinexxHead_Initialize:
     RTS
 }
 
-; *$EAF84-$EB078 LOCAL
+; $0EAF84-$0EB078 LOCAL
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
 
-    JSR TrinexxHeadAndSnakeDraw ; $B560 ; $EB560 IN ROM
+    JSR TrinexxHeadAndSnakeDraw ; $B560 ; $0EB560 IN ROM
     
     LDA.b #$00 : STA $0FB6
 
-; *$EAF94 ALTERNATE ENTRY POINT
+; $0EAF94 ALTERNATE ENTRY POINT
 
     LDY $0FB6
     
@@ -364,7 +364,7 @@ TrinexxHead_Initialize:
     
     PHY
     
-    JSR $B079 ; $EB079 IN ROM
+    JSR $B079 ; $0EB079 IN ROM
     
     LDA $0E80, X : AND.b #$06 : EOR $0F50, X : STA $0F50, X
     
@@ -382,20 +382,20 @@ TrinexxHead_Initialize:
 
     LDA.b #$08 : STA $0DC0, X
     
-    JSR TrinexxHeadAndSnakeDraw ; $B560 ; $EB560 IN ROM
+    JSR TrinexxHeadAndSnakeDraw ; $B560 ; $0EB560 IN ROM
 
 .BRANCH_EPSILON
 
     INC $0FB6 : LDA $0FB6 : CMP $0EC0, X : BEQ .BRANCH_ZETA
     
-    JMP $AF94   ; $EAF94 IN ROM
+    JMP $AF94   ; $0EAF94 IN ROM
 
 .BRANCH_ZETA
 
     RTS
 }
 
-; *$EB079-$EB0C7 LOCAL
+; $0EB079-$0EB0C7 LOCAL
 {
     LDA $0D10, X : PHA
     LDA $0D30, X : PHA
@@ -428,9 +428,8 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; *$EB0C8-$EB0C9 JUMP LOCATION
+; $0EB0C8-$0EB0C9 JUMP LOCATION
 {
-    
     ; \task this routine / pool.
     .animation_states
     db 7, 1
@@ -438,24 +437,24 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; *$EB0CA-$EB1B0 JUMP LOCATION
+; $0EB0CA-$0EB1B0 JUMP LOCATION
 Sprite_Trinexx:
 {
     LDA $0B10 : BEQ .BRANCH_ALPHA
     
-    JMP $ADB5   ; $EADB5 IN ROM
+    JMP $ADB5   ; $0EADB5 IN ROM
     
     .BRANCH_ALPHA
     
     LDA.b #$17 : STA $1C
                  STZ $1D
     
-    JSR $B587   ; $EB587 IN ROM
+    JSR $B587   ; $0EB587 IN ROM
     JSR Sprite4_CheckIfActive
     
     LDA $0D80, X : BMI .BRANCH_BETA
     
-    JMP $B1D1   ; $EB1D1 IN ROM
+    JMP $B1D1   ; $0EB1D1 IN ROM
     
     .BRANCH_BETA
     
@@ -507,7 +506,7 @@ Sprite_Trinexx:
     LDA.b #$F8 : STA $0D40, X
     
     JSR Sprite4_MoveVert
-    JSR $AD8C ; $EAD8C IN ROM
+    JSR $AD8C ; $0EAD8C IN ROM
     
     LDA $0D00, X : SEC : SBC.b #$0C : STA $0DB0, X
     
@@ -546,7 +545,7 @@ Sprite_Trinexx:
     RTS
 }
 
-; *$EB1D1-$EB249 LOCAL
+; $0EB1D1-$0EB249 LOCAL
 {
     LDA $0DD1 : ORA $0DD2 : BNE .BRANCH_ALPHA
     
@@ -563,8 +562,8 @@ Sprite_Trinexx:
     
     .BRANCH_ALPHA
     
-    JSR $B3B5 ; $EB3B5 IN ROM
-    JSR $B3E6 ; $EB3E6 IN ROM
+    JSR $B3B5 ; $0EB3B5 IN ROM
+    JSR $B3E6 ; $0EB3E6 IN ROM
     JSR Sprite4_CheckDamage
     
     LDA $1A : AND.b #$3F : BNE .BRANCH_BETA
@@ -621,9 +620,8 @@ Sprite_Trinexx:
 
 ; ==============================================================================
 
-; $EB24A-$EB251 DATA
+; $0EB24A-$0EB251 DATA
 {
-    
     ; \task Name this routine / pool.
     .unknown_0
     db $60, $78, $78, $90
@@ -634,7 +632,7 @@ Sprite_Trinexx:
 
 ; ==============================================================================
 
-; *$EB252-$EB2A0 JUMP LOCATION
+; $0EB252-$0EB2A0 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -673,7 +671,7 @@ Sprite_Trinexx:
     RTS
 }
 
-; *$EB2A1-$EB368 JUMP LOCATION
+; $0EB2A1-$0EB368 JUMP LOCATION
 {
     LDA $0E30, X : CMP.b #$FF : BNE .BRANCH_ALPHA
     
@@ -687,7 +685,7 @@ Sprite_Trinexx:
     
     STZ $0E30, X
     
-    JMP $B33D   ; $EB33D IN ROM
+    JMP $B33D   ; $0EB33D IN ROM
     
     .BRANCH_ALPHA
     
@@ -738,7 +736,7 @@ Sprite_Trinexx:
     
     LDA.b #$01 : STA $0428
     
-    JSR $AD8C ; $EAD8C IN ROM
+    JSR $AD8C ; $0EAD8C IN ROM
     
     LDA $0D00, X : SEC : SBC.b #$0C : STA $0DB0, X
     
@@ -746,7 +744,7 @@ Sprite_Trinexx:
     
     LDA $0B09 : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ZETA
     
-    ; *$EB33D ALTERNATE ENTRY POINT
+    ; $0EB33D ALTERNATE ENTRY POINT
     
     STZ $0D80, X
     
@@ -756,9 +754,9 @@ Sprite_Trinexx:
     
     LDA $0E30, X : BPL .BRANCH_THETA
     
-    JSR $B34D ; $EB34D IN ROM
+    JSR $B34D ; $0EB34D IN ROM
     
-    ; *$EB34D ALTERNATE ENTRY POINT
+    ; $0EB34D ALTERNATE ENTRY POINT
     .BRANCH_THETA
     
     LDA $0E80, X
@@ -778,10 +776,10 @@ Sprite_Trinexx:
     RTS
 }
 
-; *$EB369-$EB387 JUMP LOCATION
+; $0EB369-$0EB387 JUMP LOCATION
 {
-    JSR $B3B5   ; $EB3B5 IN ROM
-    JSR $B3B5   ; $EB3B5 IN ROM
+    JSR $B3B5   ; $0EB3B5 IN ROM
+    JSR $B3B5   ; $0EB3B5 IN ROM
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -800,13 +798,13 @@ Sprite_Trinexx:
     RTS
 }
 
-; *$EB388-$EB3B2 JUMP LOCATION
+; $0EB388-$0EB3B2 JUMP LOCATION
 {
     JSR Sprite4_Move
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
-    JSR $AD4F   ; $EAD4F IN ROM
+    JSR $AD4F   ; $0EAD4F IN ROM
     
     STZ $0D80, X
     
@@ -829,9 +827,8 @@ Sprite_Trinexx:
 
 ; ==============================================================================
 
-; *$EB3B3-$EB3B4 DATA
+; $0EB3B3-$0EB3B4 DATA
 {
-    
     ; \task Name this routine / pool.
     .unknown_0
     db 6, 0
@@ -839,7 +836,7 @@ Sprite_Trinexx:
 
 ; ==============================================================================
 
-; *$EB3B5-$EB3E5 LOCAL
+; $0EB3B5-$0EB3E5 LOCAL
 {
     LDA $0B0D : BNE .BRANCH_ALPHA
     
@@ -866,7 +863,7 @@ Sprite_Trinexx:
     RTS
 }
 
-; *$EB3E6-$EB43F LOCAL
+; $0EB3E6-$0EB43F LOCAL
 {
     LDA $0D90, X : STA $04
     LDA $0DA0, X : STA $05
@@ -903,7 +900,7 @@ Sprite_Trinexx:
     RTS
 }
 
-; $EB440-$EB55F DATA
+; $0EB440-$0EB55F DATA
 DrawData:
 {
     .pool
@@ -927,7 +924,7 @@ DrawData:
     dw $FFF8, $0008, $8026, $0200, $0008, $0008, $C026, $0200
 }
 
-; *$EB560-$EB586 LOCAL
+; $0EB560-$0EB586 LOCAL
 TrinexxHeadAndSnakeDraw:
 {
     LDA.b #$00 : XBA
@@ -949,17 +946,17 @@ TrinexxHeadAndSnakeDraw:
     RTS
 }
 
-; *$EB587-$EB772 LOCAL
+; $0EB587-$0EB772 LOCAL
 {
     LDA $0EB0, X : BMI .BRANCH_$EB586 ; (RTS)
     
-    JSR TrinexxHeadAndSnakeDraw ; $B560 ; $EB560 IN ROM
+    JSR TrinexxHeadAndSnakeDraw ; $B560 ; $0EB560 IN ROM
     
     LDA $05 : AND.b #$EF : STA $05
     
     LDA $0D80, X : CMP.b #$03 : BEQ .BRANCH_ALPHA
     
-    JMP $B641   ; $EB641 IN ROM
+    JMP $B641   ; $0EB641 IN ROM
 
     .BRANCH_ALPHA
 
@@ -1041,7 +1038,7 @@ TrinexxHeadAndSnakeDraw:
     
     DEC $0FB5 : BPL .BRANCH_ZETA
 
-    ; *$EB641 ALTERNATE ENTRY POINT
+    ; $0EB641 ALTERNATE ENTRY POINT
 
     REP #$20
     

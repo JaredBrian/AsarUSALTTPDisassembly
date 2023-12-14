@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$41FB6-$41FD0 JUMP LOCATION
+; $041FB6-$041FD0 JUMP LOCATION
 Ancilla_DoorDebris:
 {
     ; Special Effect 0x08 - Debris from bombing a cave / wall open.
@@ -26,10 +26,9 @@ Ancilla_DoorDebris:
 
 ; ==============================================================================
 
-; $41FD1-$42090 DATA
+; $041FD1-$042090 DATA
 pool DoorDebris_Draw:
 {
-    
     .xy_offsets
     dw  4,  7,  3, 17,  8,  8,  7, 17
     dw 11,  7, 10, 16, 16,  7, 17, 17
@@ -53,7 +52,7 @@ pool DoorDebris_Draw:
 
 ; ==============================================================================
 
-; *$42091-$42120 LOCAL
+; $042091-$042120 LOCAL
 DoorDebris_Draw:
 {
     JSR Ancilla_PrepAdjustedOamCoord

@@ -1,7 +1,7 @@
     
 ; ==============================================================================
 
-; *$EC64F-$EC699 JUMP LOCATION
+; $0EC64F-$0EC699 JUMP LOCATION
 Sprite_Hokbok:
 {
     LDA $0DB0, X : BEQ Hokbok_Main
@@ -50,7 +50,7 @@ Sprite_Hokbok:
     ; \note $0D90, X is the number of segments in addition to the head.
     ; \note $0DA0, X is the spacing between segments. (Fairly certain of this).
 
-; $EC69A-$EC718 BRANCH LOCATION
+; $0EC69A-$0EC718 BRANCH LOCATION
 Hokbok_Main:
 {
     JSR Hokbok_Draw
@@ -121,17 +121,16 @@ Hokbok_Main:
 
 ; ==============================================================================
 
-; *$EC719-$EC720 DATA
+; $0EC719-$0EC720 DATA
 pool Hokbok_ResetBounceVelocity:
 {
-    
     .spacing_amounts
     db $08, $07, $06, $05, $04, $05, $06, $07
 }
 
 ; ==============================================================================
 
-; *$EC721-$EC737 JUMP LOCATION
+; $0EC721-$0EC737 JUMP LOCATION
 Hokbok_ResetBounceVelocity:
 {
     LDA $0DF0, X : BNE .delay
@@ -153,7 +152,7 @@ Hokbok_ResetBounceVelocity:
 
 ; ==============================================================================
 
-; *$EC738-$EC777 JUMP LOCATION
+; $0EC738-$0EC777 JUMP LOCATION
 Hokbok_Moving:
 {
     JSR Sprite4_MoveXyz
@@ -170,7 +169,7 @@ Hokbok_Moving:
     
     .no_ground_bounce
     
-    ; *$EC751 ALTERNATE ENTRY POINT
+    ; $0EC751 ALTERNATE ENTRY POINT
     shared Sprite4_BounceFromTileCollision:
     
     JSR Sprite4_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
@@ -194,7 +193,7 @@ Hokbok_Moving:
 
 ; ==============================================================================
 
-; *$EC778-$EC77C LONG
+; $0EC778-$0EC77C LONG
 Sprite_BounceFromTileCollisionLong:
 {
     JSR Sprite4_BounceFromTileCollision
@@ -208,7 +207,7 @@ Sprite_BounceFromTileCollisionLong:
 
 ; ==============================================================================
 
-; *$EC77D-$EC7EA LOCAL
+; $0EC77D-$0EC7EA LOCAL
 Hokbok_Draw:
 {
     JSR Sprite4_PrepOamCoord

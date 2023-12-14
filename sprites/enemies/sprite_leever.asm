@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$34BA2-$34BD7 JUMP LOCATION
+; $034BA2-$034BD7 JUMP LOCATION
 Sprite_Leever:
 {
     LDA $0D80, X : BEQ .dont_draw
@@ -47,7 +47,7 @@ Sprite_Leever:
 
 ; ==============================================================================
 
-; $34BD8-$34BF4 JUMP LOCATION
+; $034BD8-$034BF4 JUMP LOCATION
 Leever_UnderSand:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay
@@ -74,7 +74,7 @@ Leever_UnderSand:
     ; where the Leever didn't go towards the player while it was submerged.
     ; I say this due to the large simlarity with the previous routine
     ; (Leever_UnderSand).
-; $34BF5-$34C02 LOCAL
+; $034BF5-$034C02 LOCAL
 {
     LDA $0DF0, X : BNE .delay
     
@@ -89,10 +89,9 @@ Leever_UnderSand:
 
 ; ==============================================================================
 
-; $34C03-$34C12 DATA
+; $034C03-$034C12 DATA
 pool Leever_Emerge:
 {
-    
     .animation_states
     db 10,  9,  8,  7,  6,  5,  4,  3
     db  2,  1,  2,  1,  2,  1,  0,  0
@@ -100,7 +99,7 @@ pool Leever_Emerge:
 
 ; ==============================================================================
 
-; $34C13-$34C36 JUMP LOCATION
+; $034C13-$034C36 JUMP LOCATION
 Leever_Emerge:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay
@@ -122,10 +121,9 @@ Leever_Emerge:
 
 ; ==============================================================================
 
-; $34C37-$34C3B DATA
+; $034C37-$034C3B DATA
 pool Leever_AttackPlayer:
 {
-    
     .animation_states length 4
     db 9, 10, 11
     
@@ -135,7 +133,7 @@ pool Leever_AttackPlayer:
 
 ; ==============================================================================
 
-; $34C3C-$34C79 JUMP LOCATION
+; $034C3C-$034C79 JUMP LOCATION
 Leever_AttackPlayer:
 {
     JSR Sprite_CheckDamage
@@ -174,10 +172,9 @@ Leever_AttackPlayer:
 
 ; ==============================================================================
 
-; $34C7A-$34C89 DATA
+; $034C7A-$034C89 DATA
 pool Leever_Submerge:
 {
-    
     .animation_states
     db 10,  9,  8,  7,  6,  5,  4,  3
     db  2,  1,  2,  1,  2,  1,  0,  0
@@ -185,7 +182,7 @@ pool Leever_Submerge:
 
 ; ==============================================================================
 
-; $34C8A-$34CAE JUMP LOCATION
+; $034C8A-$034CAE JUMP LOCATION
 Leever_Submerge:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay
@@ -211,7 +208,7 @@ Leever_Submerge:
 
 ; ==============================================================================
 
-; $34CAF-$34E44 DATA
+; $034CAF-$034E44 DATA
 pool Leever_Draw:
 {
     ; \task fill in later.
@@ -279,7 +276,7 @@ pool Leever_Draw:
 
 ; ==============================================================================
 
-; *$34E45-$34EBF LOCAL
+; $034E45-$034EBF LOCAL
 Leever_Draw:
 {
     JSR Sprite_PrepOamCoord

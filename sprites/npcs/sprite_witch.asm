@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E3F3-$2E3FA LONG
+; $02E3F3-$02E3FA LONG
 Sprite_WitchLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_WitchLong:
 
 ; ==============================================================================
 
-; *$2E3FB-$2E452 LOCAL
+; $02E3FB-$02E452 LOCAL
 Sprite_Witch:
 {
     JSR Witch_Draw
@@ -76,7 +76,7 @@ Sprite_Witch:
 
 ; ==============================================================================
 
-; *$2E453-$2E45F JUMP LOCATION
+; $02E453-$02E45F JUMP LOCATION
 Witch_GrantCaneOfByrna:
 {
     ; \tcrf (verified)
@@ -99,7 +99,7 @@ Witch_GrantCaneOfByrna:
 
 ; ==============================================================================
 
-; *$2E460-$2E47B JUMP LOCATION
+; $02E460-$02E47B JUMP LOCATION
 Witch_Main:
 {
     STZ $00
@@ -128,7 +128,7 @@ Witch_Main:
 ; ==============================================================================
 
     ; \task Label this location.
-; *$2E47C-$2E4A6 JUMP LOCATION
+; $02E47C-$02E4A6 JUMP LOCATION
 {
     LDA $7EF344 : CMP.b #$02 : BNE .dont_have_magic_powder
     
@@ -169,7 +169,7 @@ Witch_Main:
 
 ; ==============================================================================
 
-; *$2E4A7-$2E4CE JUMP LOCATION
+; $02E4A7-$02E4CE JUMP LOCATION
 Witch_PlayerHasMushroom:
 {
     LDA $F0 : AND.b #$40 : BEQ .y_button_not_down
@@ -200,7 +200,7 @@ Witch_PlayerHasMushroom:
 
 ; ==============================================================================
 
-; *$2E4CF-$2E508 LOCAL
+; $02E4CF-$02E508 LOCAL
 Witch_PlayerHandsMushroomOver:
 {
     ; Witch
@@ -246,10 +246,9 @@ Witch_PlayerHandsMushroomOver:
 
 ; ==============================================================================
 
-; $2E509-$2E55C DATA
+; $02E509-$02E55C DATA
 pool Witch_Draw:
 {
-    
     .stirring_oam_groups
     db  -3,  8 : db $AE, $00
     db  -3, 16 : db $BE, $00
@@ -291,7 +290,7 @@ pool Witch_Draw:
 
 ; ==============================================================================
 
-; *$2E55D-$2E62A LOCAL
+; $02E55D-$02E62A LOCAL
 Witch_Draw:
 {
     JSR Sprite2_PrepOamCoord

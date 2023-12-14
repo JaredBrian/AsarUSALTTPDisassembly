@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$32D6F-$32D99 JUMP LOCATION
+; $032D6F-$032D99 JUMP LOCATION
 Sprite_StoryTeller_1:
 {
     JSR StoryTeller_1_Draw
@@ -25,7 +25,7 @@ Sprite_StoryTeller_1:
     dw $AE5B ; = $32E5B*
 }
 
-; $32D9A-$32DA6 JUMP LOCATION
+; $032D9A-$032DA6 JUMP LOCATION
 {
     LDA $0D80, X
     
@@ -36,7 +36,7 @@ Sprite_StoryTeller_1:
     dw $ADB5 ; = $32DB5*
 }
 
-; *$32DA7-$32DB4 JUMP LOCATION
+; $032DA7-$032DB4 JUMP LOCATION
 {
     LDA.b #$FE
     LDY.b #$00
@@ -50,7 +50,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32DB5-$32DBE JUMP LOCATION
+; $032DB5-$032DBE JUMP LOCATION
 {
     ; Refill all hearts
     LDA.b #$A0 : STA $7EF372
@@ -60,17 +60,17 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32DBF-$32DE0 JUMP LOCATION
+; $032DBF-$032DE0 JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
-    ; $32EAB IN ROM
+    ; $032EAB IN ROM
     JSR $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$FF
     LDY.b #$00
     
-    ; *$32DCD ALTERNATE ENTRY POINT
+    ; $032DCD ALTERNATE ENTRY POINT
     
     JSL Sprite_ShowMessageUnconditional
     
@@ -90,7 +90,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32DE1-$32DED JUMP LOCATION
+; $032DE1-$032DED JUMP LOCATION
 {
     LDA $0D80, X
     
@@ -101,11 +101,11 @@ Sprite_StoryTeller_1:
     dw $ADB5 ; = $32DB5*
 }
 
-; *$32DEE-$32E09 JUMP TABLE
+; $032DEE-$032E09 JUMP TABLE
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
-    ; $32EAB IN ROM
+    ; $032EAB IN ROM
     JSR $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$01
@@ -125,7 +125,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32E0A-$32E16 JUMP LOCATION
+; $032E0A-$032E16 JUMP LOCATION
 {
     LDA $0D80, X
     
@@ -136,17 +136,17 @@ Sprite_StoryTeller_1:
     dw $ADB5 ; = $32DB5*
 }
 
-; *$32E17-$32E33 JUMP LOCATION
+; $032E17-$032E33 JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
-    ; $32EAB IN ROM
+    ; $032EAB IN ROM
     JSR $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$02
     LDY.b #$01
     
-    JMP $ADCD ; $32DCD IN ROM
+    JMP $ADCD ; $032DCD IN ROM
     
     .BRANCH_ALPHA
     
@@ -160,7 +160,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32E34-$32E5A JUMP LOCATION
+; $032E34-$032E5A JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -184,7 +184,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32E5B-$32E8D JUMP LOCATION
+; $032E5B-$032E8D JUMP LOCATION
 {
     LDA $1A : LSR A : AND.b #$01 : STA $0DC0, X
     
@@ -209,17 +209,17 @@ Sprite_StoryTeller_1:
     dw $ADB5 ; = $32DB5*
 }
 
-; *$32E8E-$32EAA JUMP LOCATION
+; $032E8E-$032EAA JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
-    ; $32EAB IN ROM
+    ; $032EAB IN ROM
     JSR $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$03
     LDY.b #$01
     
-    JMP $ADCD   ; $32DCD IN ROM
+    JMP $ADCD   ; $032DCD IN ROM
     
     .BRANCH_ALPHA
     
@@ -233,7 +233,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; *$32EAB-$32EC9 LOCAL
+; $032EAB-$032EC9 LOCAL
 {
     REP #$20
     
@@ -258,7 +258,7 @@ Sprite_StoryTeller_1:
 
 ; ==============================================================================
 
-; $32ECA-$32F19 DATA
+; $032ECA-$032F19 DATA
 pool StoryTeller_1_Draw:
 {
     dw 0, 0 : db $4A, $0A, $00, $02
@@ -275,7 +275,7 @@ pool StoryTeller_1_Draw:
 
 ; ==============================================================================
 
-; *$32F1A-$32F3A LOCAL
+; $032F1A-$032F3A LOCAL
 StoryTeller_1_Draw:
 {
     LDA $0E80, X : ASL A : ADC $0DC0, X : ASL #3

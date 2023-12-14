@@ -15,10 +15,9 @@
 
 ; ==============================================================================
 
-; $462F9-$46364 DATA
+; $0462F9-$046364 DATA
 pool Ancilla_SomarianBlock:
 {
-    
     .properties
     db $00, $40, $00, $C0
     
@@ -49,7 +48,7 @@ pool Ancilla_SomarianBlock:
 
 ; ==============================================================================
 
-; *$46365-$4674B JUMP LOCATION
+; $046365-$04674B JUMP LOCATION
 Ancilla_SomarianBlock:
 {
     DEC $0394, X : BPL Ancilla_SetupBasicHitBox.return
@@ -396,7 +395,7 @@ Ancilla_SomarianBlock:
     STZ $5E
     STZ $48
     
-    ; *$465D8 ALTERNATE ENTRY POINT
+    ; $0465D8 ALTERNATE ENTRY POINT
     shared Ancilla_SelfTerminate:
     
     STZ $0C4A, X
@@ -430,7 +429,7 @@ Ancilla_SomarianBlock:
     
     JSR Ancilla_Set_Y_Coord
     
-    ; *$4661B ALTERNATE ENTRY POINT
+    ; $04661B ALTERNATE ENTRY POINT
     shared SomarianBlock_Draw:
     
     TXY : INY : CPY $02EC : BNE .no_special_oam_allocation
@@ -590,10 +589,9 @@ Ancilla_SomarianBlock:
 
 ; ==============================================================================
 
-; $4674C-$4675B DATA
+; $04674C-$04675B DATA
     pool SomarianBlock_CheckCoveredTileTrigger
 {
-    
     .y_offsets
     dw -4,  4,  0,  0
     
@@ -603,7 +601,7 @@ Ancilla_SomarianBlock:
 
 ; ==============================================================================
 
-; *$4675C-$467BF LOCAL
+; $04675C-$0467BF LOCAL
 SomarianBlock_CheckCoveredTileTrigger:
 {
     STZ $0646
@@ -660,11 +658,10 @@ SomarianBlock_CheckCoveredTileTrigger:
 
 ; ==============================================================================
 
-; $467C0-$467E5 DATA
+; $0467C0-$0467E5 DATA
 pool SomarianBlock_PlayerInteraction:
     parallel pool SomarianBlock_InitDashBounce:
 {
-    
     .positive_push_speed
     db 16
     
@@ -674,7 +671,7 @@ pool SomarianBlock_PlayerInteraction:
     .launch_y_speeds
     db -40,  40,   0,   0
     
-    ; $467c6 to $467d1 \unused
+    ; $0467c6 to $467d1 \unused
     .unused_y_speeds
     db -32,  32,   0,   0
     db -16,  16,   0,   0
@@ -683,7 +680,7 @@ pool SomarianBlock_PlayerInteraction:
     .launch_x_speeds
     db  0,   0, -40,  40
     
-    ; $467d6 to $467e1 \unused
+    ; $0467d6 to $467e1 \unused
     .unused_y_speeds
     db  0,   0, -32,  32
     db  0,   0, -16,  16
@@ -695,7 +692,7 @@ pool SomarianBlock_PlayerInteraction:
 
 ; ==============================================================================
 
-; *$467E6-$468F2 LONG
+; $0467E6-$0468F2 LONG
 SomarianBlock_PlayerInteraction:
 {
     PHB : PHK : PLB
@@ -874,10 +871,9 @@ SomarianBlock_PlayerInteraction:
     
 ; ==============================================================================
 
-; $468F3-$4698D BRANCH LOCATION
+; $0468F3-$04698D BRANCH LOCATION
 SomarianBlock_InitDashBounce:
 {
-    
     ; \note Send the Somarian block flying from the impact of the dash
     ; attack.
     

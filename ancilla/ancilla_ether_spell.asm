@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$42AA0-$42B5A LOCAL JUMP LOCATION
+; $042AA0-$042B5A LOCAL JUMP LOCATION
 Ancilla_EtherSpell:
 {
     ; Special object 0x18 (Ether effect)
@@ -131,7 +131,7 @@ Ancilla_EtherSpell:
 ; ==============================================================================
 
     ; \unused Doesn't seem referenced in the rom...
-; $42B5B-$42B62 DATA
+; $042B5B-$042B62 DATA
 pool EtherSpell_LightningDescends:
 {
     db $E0, $00, $E8, $E8, $00, $20, $18, $18
@@ -140,7 +140,7 @@ pool EtherSpell_LightningDescends:
 ; ==============================================================================
 
     ; 0th state of the ether spell.
-; $42B63-$42BA6 BRANCH LOCATION
+; $042B63-$042BA6 BRANCH LOCATION
 EtherSpell_LightningDescends:
 {
     JSR Ancilla_MoveVert
@@ -185,7 +185,7 @@ EtherSpell_LightningDescends:
 
 ; ==============================================================================
 
-; $42BA7-$42BEE BRANCH LOCATION
+; $042BA7-$042BEE BRANCH LOCATION
 EtherSpell_PulsingBlitzOrb:
     
     LDA $03C2, X : BMI .segments_all_terminated
@@ -239,7 +239,7 @@ EtherSpell_PulsingBlitzOrb:
 
 ; ==============================================================================
 
-; $42BEF-$42CEA BRANCH LOCATION
+; $042BEF-$042CEA BRANCH LOCATION
 EtherSpell_RadialStates:
 {
     LDA $0C54, X : CMP.b #$04 : BNE .no_sound_effect
@@ -397,10 +397,9 @@ EtherSpell_RadialStates:
 
 ; ==============================================================================
 
-; $42CEB-$42CEC DATA
+; $042CEB-$042CEC DATA
 pool EtherSpell_DrawBlitzBall:
 {
-    
     .chr
     db $68, $6A
 }
@@ -408,7 +407,7 @@ pool EtherSpell_DrawBlitzBall:
 ; ==============================================================================
 
     ; \note Draws the circular 
-; *$42CED-$42D48 LOCAL
+; $042CED-$042D48 LOCAL
 EtherSpell_DrawBlitzBall:
 {
     REP #$20
@@ -463,10 +462,9 @@ EtherSpell_DrawBlitzBall:
 
 ; ==============================================================================
 
-; $42D49-$42DC8 DATA
+; $042D49-$042DC8 DATA
 pool EtherSpell_DrawSplittingBlitzSegment:
 {
-    
     .chr
     db $40, $42
     db $66, $64
@@ -545,7 +543,7 @@ pool EtherSpell_DrawSplittingBlitzSegment:
     ; Commits two 16x16 sprites.
     ; Draws the blitz segments still in lightning form as they split away
     ; from the center. Shortly they will become blitz balls.
-; *$42DC9-$42E72 LOCAL
+; $042DC9-$042E72 LOCAL
 EtherSpell_DrawSplittingBlitzSegment:
 {
     REP #$20
@@ -622,11 +620,10 @@ EtherSpell_DrawSplittingBlitzSegment:
 
 ; ==============================================================================
 
-; $42E73-$42E86 DATA
+; $042E73-$042E86 DATA
 pool EtherSpell_DrawBlitzSegments:
     parallel pool EtherSpell_DrawBlitzOrb:
 {
-    
     .chr
     db $40, $42, $44, $46
     
@@ -642,7 +639,7 @@ pool EtherSpell_DrawBlitzSegments:
 
     ; \note 'Blitz' is German for lightning, and its shorter in characters,
     ; and I thought it sounded semi-cool to use as a name for the component.
-; *$42E87-$42EDC LONG BRANCH LOCATION
+; $042E87-$042EDC LONG BRANCH LOCATION
 EtherSpell_DrawBlitzSegments:
 {
     JSR Ancilla_PrepOamCoord
@@ -703,7 +700,7 @@ EtherSpell_DrawBlitzSegments:
 
 ; ==============================================================================
 
-; *$42EDD-$42F55 LONG BRANCH LOCATION
+; $042EDD-$042F55 LONG BRANCH LOCATION
 EtherSpell_DrawBlitzOrb:
 {
     REP #$20

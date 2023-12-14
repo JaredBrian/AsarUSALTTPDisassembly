@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$64120 - $6415C JUMP LOCATION
+; $064120 - $6415C JUMP LOCATION
 Module_Intro:
 {
     ; Beginning of Module 0x00, Startup Screen:
@@ -37,7 +37,7 @@ Module_Intro:
 
 ; ==============================================================================
 
-; *$6415D-$6419F JUMP LOCATION
+; $06415D-$06419F JUMP LOCATION
 Intro_Init:
 {
     JSL Intro_SetupScreen
@@ -57,10 +57,10 @@ Intro_Init:
     ; Plays the twinkle as the 'Nintendo' logo pops up.
     LDA.b #$0A : STA $012F
     
-    ; *$64170 ALTERNATE ENTRY POINT
+    ; $064170 ALTERNATE ENTRY POINT
     .justLogo
     
-    ; $66D82 in Rom, sets up sprite information for the N-logo.
+    ; $066D82 in Rom, sets up sprite information for the N-logo.
     ; (OAM buffer is refreshed every frame, so this must be repeatedly called)
     JSR Intro_DisplayNintendoLogo
     
@@ -84,7 +84,7 @@ Intro_Init:
 
 ; ==============================================================================
 
-; *$641A0-$641F4 JUMP LOCATION
+; $0641A0-$0641F4 JUMP LOCATION
     Intro_InitWram
 {
     ; Zerores out a 0x400 byte chunk of wram
@@ -124,12 +124,12 @@ Intro_Init:
 
 ; ==============================================================================
 
-; *$641F5-$6425B BRANCH LOCATION
+; $0641F5-$06425B BRANCH LOCATION
 Intro_LoadTitleGraphics:
 {
     DEC $13 : BNE .waitTillForceBlank
     
-    ; *$641F9 ALTERNATE ENTRY POINT
+    ; $0641F9 ALTERNATE ENTRY POINT
     .noWait
     
     ; $93D IN ROM
@@ -188,7 +188,7 @@ Intro_LoadTitleGraphics:
 
 ; ==============================================================================
 
-; *$6425C-$64283 JUMP LOCATION
+; $06425C-$064283 JUMP LOCATION
 {
     JSL $0CC404 ; $64404*
     
@@ -202,7 +202,7 @@ Intro_LoadTitleGraphics:
     
     INC $11
     
-    JSR $FE45 ; $67E45 IN ROM
+    JSR $FE45 ; $067E45 IN ROM
     
     .evenFrame
     
@@ -223,9 +223,9 @@ Intro_LoadTitleGraphics:
 
 ; ==============================================================================
 
-; *$64284-$642AD JUMP LOCATION
+; $064284-$0642AD JUMP LOCATION
 {
-    JSR $FE56   ; $67E56 in Rom
+    JSR $FE56   ; $067E56 in Rom
     JSL $0CC404 ; $64404
     
     LDA $7EC007 : BEQ .alpha
@@ -238,7 +238,7 @@ Intro_LoadTitleGraphics:
     
     LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ .waitForButtonPress
     
-    JMP $C2F0 ; $642F0 IN ROM
+    JMP $C2F0 ; $0642F0 IN ROM
     
     .waitForButtonPress
     
@@ -253,14 +253,14 @@ Intro_LoadTitleGraphics:
 
 ; ==============================================================================
 
-; *$642AE-$642D3 JUMP LOCATION
+; $0642AE-$0642D3 JUMP LOCATION
 {
-    JSL $0CC404 ; $64404 IN ROM
+    JSL $0CC404 ; $064404 IN ROM
     
     STZ $1F00
     STZ $012A
     
-    JSR $FE56 ; $67E56 IN ROM
+    JSR $FE56 ; $067E56 IN ROM
     
     DEC $B0 : BNE .BRANCH_1
     
@@ -280,14 +280,14 @@ Intro_LoadTitleGraphics:
 
 ; ==============================================================================
 
-; *$642D4-$642EF JUMP LOCATION 
+; $0642D4-$0642EF JUMP LOCATION 
 {
-    JSL $0CC404 ; $64404 IN ROM
+    JSL $0CC404 ; $064404 IN ROM
     
     STZ $1F00
     STZ $012A
     
-    JSR $FE56 ; $67E56 IN ROM
+    JSR $FE56 ; $067E56 IN ROM
     
     DEC $B0 : BNE .BRANCH_1
     
@@ -311,7 +311,7 @@ Intro_LoadTitleGraphics:
 
 ; ==============================================================================
 
-; *$642F0-$6433B JUMP LOCATION
+; $0642F0-$06433B JUMP LOCATION
 {
     LDA.b #$FF : STA $0128
     
@@ -361,7 +361,7 @@ Intro_LoadTitleGraphics:
 
 ; ==============================================================================
 
-; *$6433C-$6436E JUMP LOCATION
+; $06433C-$06436E JUMP LOCATION
 Intro_InitGfx:
 {
     ; Module 0x00.0x02, 0x00.0x0A
@@ -370,7 +370,7 @@ Intro_InitGfx:
     LDA.b #$08 : STA $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $6384 IN ROM
-    JSR $C36F   ; $6436F IN ROM
+    JSR $C36F   ; $06436F IN ROM
     
     LDA.b #$01 : STA $1E10 : STA $1E11 : STA $1E12
     LDA.b #$00 : STA $1E18 : STA $1E19 : STA $1E1A
@@ -388,10 +388,10 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$6436F-$643BC LOCAL
+; $06436F-$0643BC LOCAL
 {
     JSL Polyhedral_InitThread
-    JSR $C3BD   ; $643BD in Rom
+    JSR $C3BD   ; $0643BD in Rom
     
     ; Set vertical IRQ trigger scanline
     LDA.b #$90 : STA $FF
@@ -418,7 +418,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$643BD-$64403 LOCAL 
+; $0643BD-$064403 LOCAL 
 {
     ; The guy who wrote this routine had never heard of MVN or MVP apparently
     ; or DMA, for that matter.
@@ -445,14 +445,14 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64404-$64411 LONG JUMP LOCATION
+; $064404-$064411 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
     INC $1E0A
     
-    JSR $C435 ; $64435 IN ROM
-    JSR $C412 ; $64412 IN ROM
+    JSR $C435 ; $064435 IN ROM
+    JSR $C412 ; $064412 IN ROM
     
     PLB
     
@@ -461,7 +461,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64412-$64424 LOCAL
+; $064412-$064424 LOCAL
 {
     LDA.b #$00 : STA $1E08
     LDA.b #$09 : STA $1E09
@@ -470,7 +470,7 @@ Intro_InitGfx:
     
     .loop
     
-    JSR $C534 ; $64534 in Rom
+    JSR $C534 ; $064534 in Rom
     
     DEX : BPL .loop
     
@@ -479,7 +479,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64425-$64434 DATA
+; $064425-$064434 DATA
 {
     ; FOR USE WITH $643BD
     
@@ -488,14 +488,14 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64435-$64447 LOCAL
+; $064435-$064447 LOCAL
 {
     LDA.b #$01 : STA $012A
     
     ; Is this some sort of "IRQ busy" flag?
     LDA $1F00 : BNE .waitForTriforceThread
     
-    JSR $C448 ; $64448 in Rom
+    JSR $C448 ; $064448 in Rom
     
     LDA.b #$01 : STA $1F00
     
@@ -506,7 +506,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64448-$6445A LOCAL
+; $064448-$06445A LOCAL
 {
     LDA $1E00
     
@@ -520,7 +520,7 @@ Intro_InitGfx:
     dw $C533 ; = $64533* (Empty unimplemented step - RTS)
 }
 
-; *$6445B-$6447A JUMP LOCATION
+; $06445B-$06447A JUMP LOCATION
 {
     INC $1E01
     
@@ -536,7 +536,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$6447B - $644B9 JUMP LOCATION
+; $06447B - $644B9 JUMP LOCATION
 {
     LDA $1F02 : CMP.b #$02 : BCS .alpha
     
@@ -571,7 +571,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$644BA - $644D5 JUMP LOCATION
+; $0644BA - $644D5 JUMP LOCATION
 {
     DEC $1E01 : BNE .countingDown
     
@@ -587,7 +587,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$644D6-$644FF JUMP LOCATION
+; $0644D6-$0644FF JUMP LOCATION
 {
     LDA $1F05 : CMP.b #$FA : BCC .alpha
     
@@ -607,7 +607,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64500-$64532 JUMP LOCATION
+; $064500-$064532 JUMP LOCATION
 {
     STZ $1F05
     STZ $1F04
@@ -631,7 +631,7 @@ Intro_InitGfx:
     
     LDA.b #$03
     
-    ; *$6452E ALTERNATE ENTRY POINT
+    ; $06452E ALTERNATE ENTRY POINT
     .doTilemapUpdate
     
     STA $14
@@ -643,7 +643,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64533-$64533 JUMP LOCATION
+; $064533-$064533 JUMP LOCATION
 {
     ; Empty step ... put here for a purpose probably though
     ; from what I can tell. I think this does get executed,
@@ -651,7 +651,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64534 - $64542 LOCAL
+; $064534 - $64542 LOCAL
 {
     LDA $1E10, X : BEQ .alpha
     
@@ -667,12 +667,12 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64543-$64543 JUMP LOCATION 
+; $064543-$064543 JUMP LOCATION 
 {
     RTS
 }
 
-; *$64544-$6455A JUMP LOCATION
+; $064544-$06455A JUMP LOCATION
 {
     LDA $1E18, X
     
@@ -688,7 +688,7 @@ Intro_InitGfx:
     dw $CD19 ; = $64D19*
 }
 
-; *$6455B-$64571 JUMP LOCATION
+; $06455B-$064571 JUMP LOCATION
 {
     LDA $1E18, X
     
@@ -704,12 +704,12 @@ Intro_InitGfx:
     dw $CD3E ; = $64D3E*
 }
 
-; $64572-$6457D DATA
+; $064572-$06457D DATA
 {
     db $DA, $FF, $5F, $00, $E6, $00, $C8, $00, $BD, $FF, $C8, $00
 }
 
-; *$6457E-$645B0 JUMP LOCATION
+; $06457E-$0645B0 JUMP LOCATION
 {
     TXA : ASL : TAY
     
@@ -726,10 +726,10 @@ Intro_InitGfx:
     RTS
 }
 
-; *$645B1-$645C9 JUMP LOCATION
+; $0645B1-$0645C9 JUMP LOCATION
 {
-    JSR $C70F ; $6470F IN ROM
-    JSR $C9F1 ; $649F1 IN ROM
+    JSR $C70F ; $06470F IN ROM
+    JSR $C9F1 ; $0649F1 IN ROM
     
     LDA $1E00
     
@@ -743,14 +743,14 @@ Intro_InitGfx:
     dw $C608 ; $64608*
 }
 
-; $645CA-$645D5 DATA
+; $0645CA-$0645D5 DATA
 {
     ; USED WITH $645D6
     
     dw $0001, $FFFF, $FF01, $5F4B, $5875, $5830
 }
 
-; *$645D6-$64607 JUMP LOCATION
+; $0645D6-$064607 JUMP LOCATION
 {
     LDA $1E0A : AND.b #$1F : BNE .BRANCH_1
     
@@ -774,7 +774,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64608-$6460E JUMP LOCATION 
+; $064608-$06460E JUMP LOCATION 
 {
     STZ $1E58, X
     STZ $1E60, X
@@ -785,7 +785,7 @@ Intro_InitGfx:
     ; $6460F
     ; What the hell is here????
 
-; *$6470F-$6472E LOCAL
+; $06470F-$06472E LOCAL
 {
     LDA.b #$10 : STA $06
                  STZ $07
@@ -809,7 +809,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$6482F-$6484E LOCAL
+; $06482F-$06484E LOCAL
 {
     LDA.b #$10 : STA $06
                  STZ $07
@@ -833,12 +833,12 @@ Intro_InitGfx:
     RTS
 }
 
-; *$6484F-$6484F JUMP LOCATION
+; $06484F-$06484F JUMP LOCATION
 {
     RTS
 }
 
-; *$64850-$64863 JUMP LOCATION
+; $064850-$064863 JUMP LOCATION
 {
     LDA.b #$4C : STA $1E30, X
     
@@ -853,26 +853,26 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64864-$64867 JUMP LOCATION
+; $064864-$064867 JUMP LOCATION
 {
-    JSR $C8D0 ; $648D0 IN ROM
+    JSR $C8D0 ; $0648D0 IN ROM
     
     RTS
 }
 
-; *$648D0-$648E1 LOCAL
+; $0648D0-$0648E1 LOCAL
 {
     LDA.b #$0D : STA $06
                  STZ $07
     LDA.b #$68 : STA $08
     LDA.b #$C8 : STA $09
     
-    JSR $C972 ; $64972 in Rom
+    JSR $C972 ; $064972 in Rom
     
     RTS
 }
 
-; *$648E2-$648FC JUMP LOCATION
+; $0648E2-$0648FC JUMP LOCATION
 {
     LDA $1E0A : LSR #5 : AND.b #$03 : TAY
     
@@ -884,9 +884,9 @@ Intro_InitGfx:
     RTS
 }
 
-; *$6490D-$64935 JUMP LOCATION
+; $06490D-$064935 JUMP LOCATION
 {
-    JSR $C956 ; $64956 in Rom
+    JSR $C956 ; $064956 in Rom
     
     LDA $1E0A : LSR #2 : AND.b #$03 : TAY
     
@@ -896,7 +896,7 @@ Intro_InitGfx:
     RTS
 }
 
-; *$64956 - $64971 LOCAL
+; $064956 - $64971 LOCAL
 {
     LDA.b #$01 : STA $06 : STZ $07
     
@@ -906,7 +906,7 @@ Intro_InitGfx:
     
     LDA.b #$C9 : ADC.b #$00 : STA $09
     
-    JSR $C972 ; $64972 in Rom
+    JSR $C972 ; $064972 in Rom
     
     .BRANCH_1
     
@@ -915,7 +915,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64972-$649F0 LOCAL
+; $064972-$0649F0 LOCAL
 {
     ; Puts triforce sprites in OAM buffer.
     LDA $1E30, X : STA $00
@@ -984,7 +984,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$649F1-$64A4B LOCAL
+; $0649F1-$064A4B LOCAL
 {
     LDA $1E58, X : BEQ .BRANCH_2
     
@@ -1035,7 +1035,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64A4C-$64A53 LOCAL
+; $064A4C-$064A53 LOCAL
 {
     LDA $1E02 : BEQ .BRANCH_1
     
@@ -1050,12 +1050,12 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64A54-$64A80 LONG ;coming from Module_TriforceRoom
+; $064A54-$064A80 LONG ;coming from Module_TriforceRoom
 {
     LDA.b #$08 : STA $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $6384 IN ROM
-    JSR $C36F   ; $6436F IN ROM
+    JSR $C36F   ; $06436F IN ROM
     
     LDA.b #$01 : STA $1E10 : STA $1E11 : STA $1E12
     LDA.b #$04 : STA $1E18
@@ -1071,12 +1071,12 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64A81-$64AB0 LONG
+; $064A81-$064AB0 LONG
 {
     LDA.b #$08 : STA $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $6384 IN ROM;
-    JSR $C36F   ; $6436F IN ROM; MAKES SURE THE TRIFORCES ARE SET UP.
+    JSR $C36F   ; $06436F IN ROM; MAKES SURE THE TRIFORCES ARE SET UP.
     
     STZ $1F02
     
@@ -1094,12 +1094,12 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64AB1-$64ABB LONG
+; $064AB1-$064ABB LONG
 {
     PHB : PHK : PLB
     
-    JSR $CABC ; $64ABC IN ROM
-    JSR $C412 ; $64412 IN ROM
+    JSR $CABC ; $064ABC IN ROM
+    JSR $C412 ; $064412 IN ROM
     
     PLB
     
@@ -1108,14 +1108,14 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64ABC-$64AD7 LOCAL
+; $064ABC-$064AD7 LOCAL
 {
     LDA.b #$01 : STA $012A
                  STA $1E02
     
     LDA $1F00 : BNE .alpha
     
-    JSR $CAD8 ; $64AD8 IN ROM
+    JSR $CAD8 ; $064AD8 IN ROM
     
     LDA.b #$01 : STA $1F00
     
@@ -1130,7 +1130,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64AD8-$64AE8 LOCAL
+; $064AD8-$064AE8 LOCAL
 {
     LDA $1E00
     
@@ -1145,7 +1145,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64AE9-$64B1E JUMP LOCATION
+; $064AE9-$064B1E JUMP LOCATION
 {
     LDA $1F02 : SEC : SBC.b #$02 : STA $1F02
     
@@ -1159,7 +1159,7 @@ Intro_InitGfx:
     
     .alpha
     
-    ; $64AFE ALTERNATE ENTRY POINT
+    ; $064AFE ALTERNATE ENTRY POINT
     
     LDA $B0 : CMP.b #$0A : BCC .beta
     
@@ -1178,7 +1178,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64B1F-$64B83 JUMP LOCATION
+; $064B1F-$064B83 JUMP LOCATION
 {
     LDA.b #$C0 : STA $1E0C
     
@@ -1227,7 +1227,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64B84-$64BA1 JUMP LOCATION
+; $064B84-$064BA1 JUMP LOCATION
 {
     DEC $1E01
     
@@ -1242,21 +1242,21 @@ Intro_InitGfx:
     
     .alpha
     
-    ; $64BA1 ALTERNATE ENTRY POINT
+    ; $064BA1 ALTERNATE ENTRY POINT
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$64BA2-$64BAF LONG
+; $064BA2-$064BAF LONG
 {
     PHB : PHK : PLB
     
     INC $1E0A
     
-    JSR $CBB0 ; $64BB0 IN ROM
-    JSR $C412 ; $64412 IN ROM
+    JSR $CBB0 ; $064BB0 IN ROM
+    JSR $C412 ; $064412 IN ROM
     
     PLB
     
@@ -1265,13 +1265,13 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64BB0-$64BC2 LOCAL
+; $064BB0-$064BC2 LOCAL
 {
     LDA.b #$01 : STA $012A
     
     LDA $1F00 : BNE .BRANCH_ALPHA
     
-    JSR $CBC3 ; $4CBC3 IN ROM
+    JSR $CBC3 ; $04CBC3 IN ROM
     
     LDA.b #$01 : STA $1F00
     
@@ -1282,7 +1282,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64BC3-$64BD5 LOCAL
+; $064BC3-$064BD5 LOCAL
 {
     LDA $1F05 : CLC : ADC.b #$03 : STA $1F05
     LDA $1F04 : CLC : ADC.b #$01 : STA $1F04
@@ -1292,7 +1292,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64BE8-$64C12 JUMP LOCATION
+; $064BE8-$064C12 JUMP LOCATION
 {
     TXA : ASL A : TAY
     
@@ -1310,11 +1310,11 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64C13-$64C22 JUMP LOCATION
+; $064C13-$064C22 JUMP LOCATION
 {
-    JSR $C82F ; $6482F IN ROM
-    JSR $CA4C ; $64A4C IN ROM
-    JSR $C9F1 ; $649F1 IN ROM
+    JSR $C82F ; $06482F IN ROM
+    JSR $CA4C ; $064A4C IN ROM
+    JSR $C9F1 ; $0649F1 IN ROM
     
     LDA $1E00
     
@@ -1329,13 +1329,13 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64C2D-$64C32 DATA
+; $064C2D-$064C32 DATA
 {
     db $FF, $00, $01
     db $FF, $FF, $FF
 }
 
-; *$64C33-$64C55 JUMP LOCATION
+; $064C33-$064C55 JUMP LOCATION
 {
     LDA $1E0A : AND.b #$07 : BNE .BRANCH_1
     
@@ -1354,7 +1354,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64C56-$64C5C JUMP LOCATION
+; $064C56-$064C5C JUMP LOCATION
 {
     STZ $1E58, X
     STZ $1E60, X
@@ -1364,7 +1364,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64C5D-$64C6A DATA
+; $064C5D-$064C6A DATA
 {
     db $FF, $FF, $FF
     db $01, $01, $01, $EF, $11
@@ -1374,11 +1374,11 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64C6B-$64C8B JUMP LOCATION
+; $064C6B-$064C8B JUMP LOCATION
 {
     LDA $1E0A : AND.b #$03 : BNE .BRANCH_1
     
-    JSR $CCB0 ; $64CB0 IN ROM
+    JSR $CCB0 ; $064CB0 IN ROM
     
     .BRANCH_1
     
@@ -1399,14 +1399,14 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64C8C-$64C8E DATA
+; $064C8C-$064C8E DATA
 {
     db $72, $66, $72
 }
 
 ; ==============================================================================
 
-; *$64C8F-$64CAF JUMP LOCATION
+; $064C8F-$064CAF JUMP LOCATION
 {
     LDA $1E0C : ORA $1E0D : BNE .BRANCH_1
     
@@ -1424,7 +1424,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64CB0-$64D0C LOCAL
+; $064CB0-$064D0C LOCAL
 {
     LDA $CC65, X : CMP $1E30, X : BCC .BRANCH_1
     
@@ -1491,7 +1491,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64D0D-$64D18 DATA
+; $064D0D-$064D18 DATA
 {
     db $29, $00
     db $5F, $00
@@ -1506,7 +1506,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64D19-$64D37 JUMP LOCATION
+; $064D19-$064D37 JUMP LOCATION
 {
     TXA : ASL A : TAY
     
@@ -1522,7 +1522,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64D38 - $64D3D DATA
+; $064D38 - $64D3D DATA
 {
     db $FF, $00, $01
     db $01, $F0, $01
@@ -1530,11 +1530,11 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64D3E-$64D6F JUMP LOCATION
+; $064D3E-$064D6F JUMP LOCATION
 {
-    JSR $C3BD ; $643BD IN ROM
-    JSR $C82F ; $6482F IN ROM
-    JSR $C9F1 ; $649F1 IN ROM
+    JSR $C3BD ; $0643BD IN ROM
+    JSR $C82F ; $06482F IN ROM
+    JSR $C9F1 ; $0649F1 IN ROM
     
     LDA $11 : CMP.b #$24 : BNE .BRANCH_2
     
@@ -1558,7 +1558,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $64D70-$64D7C NONINDEXED DATA
+; $064D70-$064D7C NONINDEXED DATA
 {
     ; Unused?
     dw 0, 84, 168, -113
@@ -1570,7 +1570,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; *$64D7D-$064D9C JUMP LOCATION
+; $064D7D-$0064D9C JUMP LOCATION
 Module_SelectFile:
 {
     ; Beginning of Module 1, Game Select Screen:
@@ -1594,7 +1594,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64D9D - $64DF1 JUMP LOCATION
+; $064D9D - $64DF1 JUMP LOCATION
 {
     JSL EnableForceBlank ; $093D in ROM.
     
@@ -1632,7 +1632,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64DF2-$64E0E JUMP LOCATION
+; $064DF2-$064E0E JUMP LOCATION
 {
     LDX.b #$05
     
@@ -1642,7 +1642,7 @@ Module_SelectFile:
     
     DEX : BPL .zeroLoop
     
-    ; *$64DF9 ALTERNATE ENTRY POINT
+    ; $064DF9 ALTERNATE ENTRY POINT
     
     LDA.b #$80 : STA $0710
     
@@ -1660,7 +1660,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64E1B-$64E52 LOCAL
+; $064E1B-$064E52 LOCAL
 {
     ; vram target is 0x1000 (0x2000 in bytes) aka BG0's tilemap
     LDA.w #$0010 : STA $1002
@@ -1678,7 +1678,7 @@ Module_SelectFile:
     ; Y can end up as 0x00 or 0x02
     LDA $00 : PHA : AND.w #$0020 : LSR #4; TAY; 
     
-    ; $64E17 IN ROM, A = 0xCE0F OR 0xCE13
+    ; $064E17 IN ROM, A = 0xCE0F OR 0xCE13
     LDA $CE17, Y : STA $02
     
     ; A is Odd or Even?
@@ -1702,13 +1702,13 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64E53-$64EA4 JUMP LOCATION
+; $064E53-$064EA4 JUMP LOCATION
 {
     PHB : PHK : PLB
     
     REP #$30
     
-    JSR $CE1B ; $64E1B IN ROM
+    JSR $CE1B ; $064E1B IN ROM
     
     LDY.w #$00DE ; Y's usage is an index in what follows (for a loop)
     
@@ -1761,12 +1761,12 @@ Module_SelectFile:
     
     INC $11 ; Increment the submodule index.
     
-    JMP $D09C ; $6509C IN ROM
+    JMP $D09C ; $06509C IN ROM
 }
 
 ; ==============================================================================
 
-; *$64EA5-$64EB0 JUMP LOCATION
+; $064EA5-$064EB0 JUMP LOCATION
 {
     LDA $0B9D : STA $CB
     
@@ -1778,9 +1778,9 @@ Module_SelectFile:
     
     RTL
     
-; *$64EB1-$64EBC ALTERNATE ENTRY POINT
+; $064EB1-$064EBC ALTERNATE ENTRY POINT
     
-    JSR $CEC7 ; $64EC7 IN ROM
+    JSR $CEC7 ; $064EC7 IN ROM
     
     LDA.b #$0F : STA $13
     
@@ -1791,7 +1791,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64EBD-$64EC6 JUMP LOCATION
+; $064EBD-$064EC6 JUMP LOCATION
 {
     ; Module 0x01.0x05
     
@@ -1803,7 +1803,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64EC7-$64EDB LOCAL
+; $064EC7-$064EDB LOCAL
 {
     PHB : PHK : PLB
     
@@ -1825,7 +1825,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$64EDC-$65052 JUMP LOCATION
+; $064EDC-$065052 JUMP LOCATION
 {
     ; This routine handles input on the select screen, changing it appropriately
     
@@ -1865,15 +1865,15 @@ Module_SelectFile:
     PHX ; Save the SRAM offset
     
     ; set OAM for Link's shield and sword (mainly)
-    JSR $D6AF ; $656AF IN ROM
+    JSR $D6AF ; $0656AF IN ROM
     
     ; set number of deaths OAM
-    JSR $D7DB ; $657DB IN ROM
+    JSR $D7DB ; $0657DB IN ROM
     
     PLX ; Restore the SRAM offset
     
     ; draw hearts and player's name for this file.
-    JSR $D63C ; $6563C IN ROM
+    JSR $D63C ; $06563C IN ROM
     
     .invalidSaveFile
     
@@ -2003,7 +2003,7 @@ Module_SelectFile:
     
     RTL
     
-    ; *$64FBB ALTERNATE ENTRY POINT
+    ; $064FBB ALTERNATE ENTRY POINT
     .loadSram
     
     ; We end up here if we've selected a game that has data in it already.
@@ -2056,7 +2056,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; *$65053-$6506D JUMP LOCATION
+; $065053-$06506D JUMP LOCATION
 Module_CopyFile:
 {
     ; Beginning of Module 0x02, Copy Game
@@ -2077,13 +2077,13 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$6506E-$65086 JUMP LOCATION
+; $06506E-$065086 JUMP LOCATION
 {
     LDA.b #$07
     
-    ; *$65070 ALTERNATE ENTRY POINT
+    ; $065070 ALTERNATE ENTRY POINT
     
-    JSR $C52E ; $6452E IN ROM
+    JSR $C52E ; $06452E IN ROM
     
     LDA.b #$0F : STA $13
     
@@ -2104,20 +2104,20 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$65087-$650B8 JUMP LOCATION
+; $065087-$0650B8 JUMP LOCATION
 {
     PHB : PHK : PLB
     
-    JSR $D13F ; $6513F IN ROM
+    JSR $D13F ; $06513F IN ROM
     
     LDA $11 : CMP.b #$03 : BNE .BRANCH_1
     
     LDA $1A : AND.b #$30 : BNE .BRANCH_1
     
-    JSR $D0C6 ; $650C6 IN ROM
+    JSR $D0C6 ; $0650C6 IN ROM
     
     .BRANCH_1
-    ; *$6509C ALTERNATE ENTRY POINT
+    ; $06509C ALTERNATE ENTRY POINT
     
     ; Indicates to the NMI routine that the tilemap needs updating.
     LDA.b #$01 : STA $14
@@ -2126,17 +2126,17 @@ Module_CopyFile:
     
     RTL
     
-    ; *$650A2 ALTERNATE ENTRY POINT
+    ; $0650A2 ALTERNATE ENTRY POINT
     
     PHB : PHK : PLB
     
-    JSR $D27B ; $6527B IN ROM
+    JSR $D27B ; $06527B IN ROM
     
     LDA $11 : CMP.b #$04 : BNE .BRANCH_2
     
     LDA $1A : AND.b #$30 : BNE .BRANCH_1
     
-    JSR $D0C6 ; $650C6 IN ROM
+    JSR $D0C6 ; $0650C6 IN ROM
     
     .BRANCH_2
     
@@ -2145,17 +2145,17 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$650B9-$650C1 JUMP LOCATION
+; $0650B9-$0650C1 JUMP LOCATION
 {
     PHB : PHK : PLB
     
-    JSR $D371 ; $65371 IN ROM
-    JMP $D09C ; $6509C IN ROM
+    JSR $D371 ; $065371 IN ROM
+    JMP $D09C ; $06509C IN ROM
 }
 
 ; ==============================================================================
 
-; $650C2-$650C5 DATA
+; $0650C2-$0650C5 DATA
 {
     ; \task Name this pool / routine.
     
@@ -2166,7 +2166,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$650C6-$650E5 LOCAL
+; $0650C6-$0650E5 LOCAL
 {
     REP #$30
     
@@ -2196,7 +2196,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$6513F-$65239 LOCAL
+; $06513F-$065239 LOCAL
 {
     REP #$10
     
@@ -2326,7 +2326,7 @@ Module_CopyFile:
     
     .BRANCH_13
     
-    ; $650ED IN ROM.
+    ; $0650ED IN ROM.
     LDA $D0ED, X : STA $1035, X
     
     DEX : BNE .BRANCH_13
@@ -2347,7 +2347,7 @@ Module_CopyFile:
     
     BRA .BRANCH_16
     
-    ; *$6522D ALTERNATE ENTRY POINT
+    ; $06522D ALTERNATE ENTRY POINT
     .BRANCH_15
     
     LDA.b #$01 : STA $10 ; This means the mode will change to select screen mode.
@@ -2366,7 +2366,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$6527B-$6536E LOCAL
+; $06527B-$06536E LOCAL
 {
     LDA.b #$04
     LDX.b #$01
@@ -2494,7 +2494,7 @@ Module_CopyFile:
     
     .BRANCH_12
     
-    JSR $D22D ; $6522D IN ROM
+    JSR $D22D ; $06522D IN ROM
     
     .BRANCH_13
     
@@ -2507,16 +2507,15 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; $6536F-$65370 DATA
+; $06536F-$065370 DATA
 {
-    
     .unknown_
     db $AF, $BF
 }
 
 ; ==============================================================================
 
-; *$65371-$653DB LOCAL
+; $065371-$0653DB LOCAL
 {
     LDX $C8
     
@@ -2562,7 +2561,7 @@ Module_CopyFile:
     LDX $CA : LDA $00848C, X : TAY
     LDX $CC : LDA $00848C, X : TAX
      
-    JSR $D3DC ; $653DC IN ROM
+    JSR $D3DC ; $0653DC IN ROM
     
     LDX $CA
     
@@ -2572,7 +2571,7 @@ Module_CopyFile:
     
     .BRANCH_3
     
-    JSR $D22D ; $6522D in Rom.
+    JSR $D22D ; $06522D in Rom.
     
     STZ $C8
     
@@ -2583,7 +2582,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$653DC-$65415 LOCAL
+; $0653DC-$065415 LOCAL
 {
     SEP #$20
     
@@ -2619,7 +2618,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; *$65485-$65499 JUMP LOCATION
+; $065485-$065499 JUMP LOCATION
 Module_EraseFile:
 {
     ; Beginning of Module 3, Erase Mode:
@@ -2635,14 +2634,14 @@ Module_EraseFile:
     dl $0CD4B1 ; = $654B1*
 }
 
-; *$6549A-$6549E JUMP LOCATION
+; $06549A-$06549E JUMP LOCATION
 {
     LDA.b #$08
     
     JMP $D070 ; $65070
 }
 
-; *$6549F-$654B0 JUMP LOCATION
+; $06549F-$0654B0 JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -2652,23 +2651,23 @@ Module_EraseFile:
     
     .alpha
     
-    JSR $D4BA ; $654BA IN ROM
+    JSR $D4BA ; $0654BA IN ROM
     JMP $D09C ; $6509C
 }
 
 ; ==============================================================================
 
-; *$654B1-$654B9 JUMP LOCATION
+; $0654B1-$0654B9 JUMP LOCATION
 {
     PHB : PHK : PLB
     
-    JSR $D599 ; $65599 IN ROM
-    JMP $D09C ; $6509C IN ROM
+    JSR $D599 ; $065599 IN ROM
+    JMP $D09C ; $06509C IN ROM
 }
 
 ; ==============================================================================
 
-; *$654BA-$65596 LOCAL
+; $0654BA-$065596 LOCAL
 {
     REP #$10
     
@@ -2801,7 +2800,7 @@ Module_EraseFile:
     
     SEP #$30
     
-    JSR $D22D ; $6522D IN ROM
+    JSR $D22D ; $06522D IN ROM
     
     .BRANCH_13
     
@@ -2810,9 +2809,8 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; $65597-$65598 DATA
+; $065597-$065598 DATA
 {
-    
     ; \task Name this pool / routine.
     
     .y_offsets
@@ -2821,7 +2819,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; *$65599-$6562F LOCAL
+; $065599-$06562F LOCAL
 {
     LDA $B0 : ASL A : STA $00
     
@@ -2891,7 +2889,7 @@ Module_EraseFile:
     
     .BRANCH_5
     
-    JSR $D22D ; $6522D in Rom.
+    JSR $D22D ; $06522D in Rom.
     
     STZ $B0
     
@@ -2902,7 +2900,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; *$6563C-$65694 LOCAL
+; $06563C-$065694 LOCAL
 {
     ; Draws both the Player's name and the hearts of that player to screen.
     
@@ -2952,7 +2950,7 @@ Module_EraseFile:
     RTS
 }
 
-; $65695 - $656AE DATA TABLE
+; $065695 - $656AE DATA TABLE
 {
     db $01, $06, $0B
     db $34
@@ -2967,7 +2965,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; *$656AF-$657A2 LOCAL
+; $0656AF-$0657A2 LOCAL
 {
     REP #$30
     
@@ -2984,7 +2982,7 @@ Module_EraseFile:
     ; A = 0, 1, 2, or 3
     LDA $00 : LSR A : TAY
     
-    ; $6569C that is. A -> #$28, #$3C, #$50
+    ; $06569C that is. A -> #$28, #$3C, #$50
     ; in Decimal 40, 60, 80
     LDA $D69C, Y : TAX
     
@@ -3123,17 +3121,16 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; $657A3-$657A4 DATA
+; $0657A3-$0657A4 DATA
 pool SelectFile_DrawFairy:
 {
-    
     .chr
     db $A8, $AA
 }
 
 ; ==============================================================================
 
-; *$657A5-$657CA LOCAL
+; $0657A5-$0657CA LOCAL
 SelectFile_DrawFairy:
 {
     ; This routine animates the fairy on the select screen.
@@ -3165,7 +3162,7 @@ SelectFile_DrawFairy:
 
 ; ==============================================================================
 
-; *$657DB-$65889 LOCAL
+; $0657DB-$065889 LOCAL
 {
     !onesDigit     = $02
     !tensDigit     = $04
@@ -3180,7 +3177,7 @@ SelectFile_DrawFairy:
     ; (which is set to 0xFFFF until you beat the game.)
     LDX $0E : LDA $700405, X : CMP.w #$FFFF : BNE .gameBeaten
     
-    JMP .return ; $65883 IN ROM
+    JMP .return ; $065883 IN ROM
     
     .gameBeaten
     
@@ -3285,7 +3282,7 @@ SelectFile_DrawFairy:
 
 ; ==============================================================================
 
-; *$6588A-$6589B JUMP LOCATION
+; $06588A-$06589B JUMP LOCATION
 Module_NamePlayer:
 {
     ; Beginning of Module 0x04 - Name Player
@@ -3302,9 +3299,9 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; *$6589C-$65910 JUMP LOCATION
+; $06589C-$065910 JUMP LOCATION
 {
-    JSL $0CCDF9 ; $64DF9 IN ROM
+    JSL $0CCDF9 ; $064DF9 IN ROM
     
     LDA.b #$01 : STA $0128
     
@@ -3363,13 +3360,13 @@ Module_NamePlayer:
     RTL
 }
 
-; *$65911-$65927 JUMP LOCATION
+; $065911-$065927 JUMP LOCATION
 {
     PHB : PHK : PLB
     
     REP #$30
     
-    JSR $CE1B ; $64E1B IN ROM
+    JSR $CE1B ; $064E1B IN ROM
     
     LDA.w #$FFFF : STA $1006, X
     
@@ -3379,12 +3376,12 @@ Module_NamePlayer:
     
     LDA.b #$01
     
-    JSR $C52E ; $6452E IN ROM
+    JSR $C52E ; $06452E IN ROM
     
     RTL
 }
 
-; *$65928-$65934 JUMP LOCATION
+; $065928-$065934 JUMP LOCATION
 {
     LDA.b #$05
     
@@ -3397,7 +3394,7 @@ Module_NamePlayer:
     RTL
 }
 
-; $65A4D-$65C8B JUMP LOCATION
+; $065A4D-$065C8B JUMP LOCATION
 {
     .BRANCH_1
     
@@ -3423,7 +3420,7 @@ Module_NamePlayer:
     
         .BRANCH_3
     
-        JSR $DC8C ; $65C8C IN ROM
+        JSR $DC8C ; $065C8C IN ROM
         
         BRA .BRANCH_1
     
@@ -3448,7 +3445,7 @@ Module_NamePlayer:
     
     .BRANCH_6
     
-    JSR $DC8C ; $65C8C IN ROM
+    JSR $DC8C ; $065C8C IN ROM
     
     .BRANCH_7
     
@@ -3460,7 +3457,7 @@ Module_NamePlayer:
     LDA $0B11 : CMP $0CDA01, X : BNE .BRANCH_8
         STZ $0B14
         
-        JSR $DCBF ; $65CBF IN ROM
+        JSR $DCBF ; $065CBF IN ROM
         
         BRA .BRANCH_7
     
@@ -3477,7 +3474,7 @@ Module_NamePlayer:
     
     .BRANCH_10
     
-    JSR $DCBF ; $65CBF IN ROM.
+    JSR $DCBF ; $065CBF IN ROM.
     
     .BRANCH_11
     
@@ -3519,7 +3516,7 @@ Module_NamePlayer:
     
     LDA $0B13 : ORA $0B14 : BNE .BRANCH_14
     LDA $F4 : AND.b #$10 : BEQ .BRANCH_13
-        JMP $DBB1 ; $65BB1 IN ROM
+        JMP $DBB1 ; $065BB1 IN ROM
     
     .BRANCH_13
     
@@ -3528,7 +3525,7 @@ Module_NamePlayer:
     
     .BRANCH_14
     
-    JMP $DBD9 ; $65BB9 IN ROM
+    JMP $DBD9 ; $065BB9 IN ROM
     
     .BRANCH_15
     
@@ -3589,11 +3586,11 @@ Module_NamePlayer:
     
     LDA $00 : AND.w #$FFF0 : ASL A : ORA $02 : STA $7003D9, X
     
-    JSR $DD30 ; $65D30 IN ROM
+    JSR $DD30 ; $065D30 IN ROM
     
     BRA .BRANCH_18
     
-    .BRANCH_21 ; $65BB1 ALTERNATE ENTRY POINT
+    .BRANCH_21 ; $065BB1 ALTERNATE ENTRY POINT
     
     REP #$30
     
@@ -3603,7 +3600,7 @@ Module_NamePlayer:
     
     LDA $0200 : CLC
     
-    ; $65BB9 ALTERNATE ENTRY POINT
+    ; $065BB9 ALTERNATE ENTRY POINT
     
     ADC $02 : TAX
     
@@ -3704,7 +3701,7 @@ Module_NamePlayer:
     
     PLB
     
-    JSR $D22D ; $6522D IN ROM
+    JSR $D22D ; $06522D IN ROM
     
     LDA.b #$FF : STA $0128
     
@@ -3717,7 +3714,7 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; *$65C8C-$65CBE LOCAL
+; $065C8C-$065CBE LOCAL
 {
     REP #$30
     
@@ -3751,7 +3748,7 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; *$65CBF-$65D23 LOCAL
+; $065CBF-$065D23 LOCAL
 {
     LDA $F0 : AND.b #$C0 : BEQ .BRANCH_5
     
@@ -3816,7 +3813,7 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; *$65D30-$65D6C LOCAL
+; $065D30-$065D6C LOCAL
 {
     PHB : PHK : PLB
     
@@ -3841,7 +3838,7 @@ Module_NamePlayer:
     RTS
 }
 
-; *$66D82-$66DAC LOCAL
+; $066D82-$066DAC LOCAL
 Intro_DisplayNintendoLogo:
 {
     PHB : PHK : PLB
@@ -3876,7 +3873,7 @@ Intro_DisplayNintendoLogo:
 
 ; ==============================================================================
 
-; *$66DAD-$66DD1 JUMP LOCATION LONG
+; $066DAD-$066DD1 JUMP LOCATION LONG
 Module_Attract:
 {
     ; Beginning of Module 0x14, History Mode
@@ -3908,7 +3905,7 @@ Module_Attract:
 
 ; ==============================================================================
 
-; $66DD2-$66DE5 Jump Table
+; $066DD2-$066DE5 Jump Table
 Attract_Submodules:
 {
     dw Attract_Fade
@@ -3925,18 +3922,18 @@ Attract_Submodules:
 
 ; ==============================================================================
 
-; *$66DE6-$66E0B JUMP LOCATION LONG
+; $066DE6-$066E0B JUMP LOCATION LONG
 Attract_Fade:
 {
     ; Module 0x14.0x00
     ; Keeps the title screen status quo running while we darken the screen
     
-    JSL $0CC404 ; $64404 IN ROM
+    JSL $0CC404 ; $064404 IN ROM
     
     STZ $1F00
     STZ $012A
     
-    JSR $FE56 ; $67E56 IN ROM
+    JSR $FE56 ; $067E56 IN ROM
     
     LDA $13 : BEQ .fullyDark
     
@@ -3963,7 +3960,7 @@ Attract_Fade:
 
 ; ==============================================================================
 
-; *$66E0C-$66EA5 JUMP LOCATION LONG
+; $066E0C-$066EA5 JUMP LOCATION LONG
 Attract_InitGraphics:
 {
     LDX.b #$50
@@ -3982,7 +3979,7 @@ Attract_InitGraphics:
     
     STZ $0AA9
     
-    JSL Palette_Hud ; $DEE52 IN ROM
+    JSL Palette_Hud ; $0DEE52 IN ROM
     
     LDA.b #$02 : STA $0AA9
     
@@ -3997,7 +3994,7 @@ Attract_InitGraphics:
     
     LDA.b #$14 : STA $EA
     
-    JSR $F7E6 ; $677E6 IN ROM
+    JSR $F7E6 ; $0677E6 IN ROM
     
     REP #$10
     
@@ -4048,7 +4045,7 @@ Attract_InitGraphics:
 
 ; ==============================================================================
 
-; *$66EA6-$66EB9 LOCAL
+; $066EA6-$066EB9 LOCAL
 Attract_SlowBrigthenSetFlag:
 {
     ; Wait until screen brightness is at max.
@@ -4073,7 +4070,7 @@ Attract_SlowBrigthenSetFlag:
 
 ; ==============================================================================
 
-; *$66EBA-$66ECA JUMP LOCATION LONG
+; $066EBA-$066ECA JUMP LOCATION LONG
 Attract_SlowBrighten:
 {
     LDA $13 : CMP.b #$0F : BEQ Attract_SlowFadeToBlank_nextSubmodule
@@ -4091,7 +4088,7 @@ Attract_SlowBrighten:
 
 ; ==============================================================================
 
-; *$66ECB-$66EE4 JUMP LOCATION LONG
+; $066ECB-$066EE4 JUMP LOCATION LONG
 Attract_SlowFadeToBlank:
 {
     LDA $13 : BEQ .fullyDarkened
@@ -4120,7 +4117,7 @@ Attract_SlowFadeToBlank:
 
 ; ==============================================================================
 
-; *$66EE5-$66EEB JUMP LOCATION LONG
+; $066EE5-$066EEB JUMP LOCATION LONG
 Attract_PrepNextSequence:
 {
     LDA $23 : ASL A : TAX
@@ -4130,7 +4127,7 @@ Attract_PrepNextSequence:
 
 ; ==============================================================================
 
-; $66EEC-$66EF7 Jump Table
+; $066EEC-$066EF7 Jump Table
 Attract_PrepRoutines:
 {
     dw Attract_PrepLegend
@@ -4143,7 +4140,7 @@ Attract_PrepRoutines:
 
 ; ==============================================================================
 
-; *$66EF8-$66EFE JUMP LOCATION LONG
+; $066EF8-$066EFE JUMP LOCATION LONG
 Attract_PrepLegend:
 {
     STZ $26
@@ -4157,7 +4154,7 @@ Attract_PrepLegend:
 
 ; ==============================================================================
 
-; *$66EFF-$66F4D JUMP LOCATION
+; $066EFF-$066F4D JUMP LOCATION
 Attract_PrepMapZoom:
 {
     LDA.b #$13 : STA $2107
@@ -4197,7 +4194,7 @@ Attract_PrepMapZoom:
 
 ; ==============================================================================
 
-; *$66F4E-$66FE2 JUMP LOCATION LONG
+; $066F4E-$066FE2 JUMP LOCATION LONG
 Attract_PrepThroneRoom:
 {
     STZ $420C
@@ -4265,7 +4262,7 @@ Attract_PrepThroneRoom:
     
     SEP #$20
     
-    ; *$66FC0 ALTERNATE ENTRY POINT
+    ; $066FC0 ALTERNATE ENTRY POINT
     
     INC $22
     
@@ -4290,7 +4287,7 @@ Attract_PrepThroneRoom:
 
 ; ==============================================================================
 
-; *$66FE3-$67057 JUMP LOCATION LONG
+; $066FE3-$067057 JUMP LOCATION LONG
 Attract_PrepZeldaPrison:
 {
     STZ $99
@@ -4352,12 +4349,12 @@ Attract_PrepZeldaPrison:
     
     SEP #$20
     
-    JMP $EFC0 ; $66FC0 IN ROM
+    JMP $EFC0 ; $066FC0 IN ROM
 }
 
 ; ==============================================================================
 
-; *$67058-$670DB JUMP LOCATION LONG
+; $067058-$0670DB JUMP LOCATION LONG
 Attract_PrepMaidenWarp:
 {
     REP #$20
@@ -4424,18 +4421,18 @@ Attract_PrepMaidenWarp:
     
     SEP #$20
     
-    JMP $EFC0 ; $66FC0 IN ROM
+    JMP $EFC0 ; $066FC0 IN ROM
 }
 
 ; ==============================================================================
 
-; *$670DC-$67114 LONG
+; $0670DC-$067114 LONG
 {
     REP #$20
     
     JSL OverworldMap_PrepExit.restoreHdmaSettings
     
-    ; *$670E2 ALTERNATE ENTRY POINT
+    ; $0670E2 ALTERNATE ENTRY POINT
     
     INC $0710
     
@@ -4467,7 +4464,7 @@ Attract_PrepMaidenWarp:
 
 ; ==============================================================================
 
-; *$67115-$6711B JUMP LOCATION LONG
+; $067115-$06711B JUMP LOCATION LONG
 Attract_RunSequence:
 {
     LDA $23 : ASL A : TAX
@@ -4477,7 +4474,7 @@ Attract_RunSequence:
 
 ; ==============================================================================
 
-; $6711C-$67125 Jump Table
+; $06711C-$067125 Jump Table
 Attract_SequenceRoutines:
 {
     dw Attract_Legend
@@ -4489,7 +4486,7 @@ Attract_SequenceRoutines:
 
 ; ==============================================================================
 
-; *$67126-$67175 JUMP LOCATION LONG
+; $067126-$067175 JUMP LOCATION LONG
 Attract_Legend:
 {
     ; Move the BGs every fourth frame.
@@ -4554,7 +4551,7 @@ Attract_Legend:
 
 ; ==============================================================================
 
-; *$67176-$671AD JUMP LOCATION LONG
+; $067176-$0671AD JUMP LOCATION LONG
 Attract_MapZoom:
 {
     ; Zoom into hyrule castle on the mode 7 overworld map.
@@ -4601,7 +4598,7 @@ Attract_MapZoom:
 
 ; ==============================================================================
 
-; $671AE-$671C7 DATA
+; $0671AE-$0671C7 DATA
 {
     dw $F8A7, $F8BB
     
@@ -4636,7 +4633,7 @@ Attract_MapZoom:
 
 ; ==============================================================================
 
-; *$671C8-$6725F JUMP LOCATION LONG
+; $0671C8-$06725F JUMP LOCATION LONG
 Attract_ThroneRoom:
 {
     STZ $2A
@@ -4756,7 +4753,7 @@ Attract_ThroneRoom:
 
 ; ==============================================================================
 
-; *$6727A-$6731F JUMP LOCATION LONG
+; $06727A-$06731F JUMP LOCATION LONG
 Attract_ZeldaPrison:
 {
     STZ $2A
@@ -4773,7 +4770,7 @@ Attract_ZeldaPrison:
     
     LDA $25 : CMP.b #$C0 : BCS .BRANCH_BETA
     
-    JMP $F319 ; $67319 IN ROM
+    JMP $F319 ; $067319 IN ROM
     
     .BRANCH_BETA
     
@@ -4795,7 +4792,7 @@ Attract_ZeldaPrison:
     
     .BRANCH_DELTA
     
-    JSR $FA30 ; $67A30 IN ROM
+    JSR $FA30 ; $067A30 IN ROM
     
     LDX.b #$01
     
@@ -4850,17 +4847,17 @@ Attract_ZeldaPrison:
     
     INC $33
     
-    ; *$67319 ALTERNATE ENTRY POINT
+    ; $067319 ALTERNATE ENTRY POINT
     .BRANCH_ZETA
     
     LDA $60 : ASL A : TAX
     
-    JMP ($F320, X) ; $67320 IN ROM
+    JMP ($F320, X) ; $067320 IN ROM
 }
 
 ; ==============================================================================
 
-; $67320-$67323 Jump Table
+; $067320-$067323 Jump Table
 {
     dw $F32B ; = $6732B*
     dw $F379 ; = $67379*
@@ -4868,7 +4865,7 @@ Attract_ZeldaPrison:
 
 ; ==============================================================================
 
-; *$67324-$6732A JUMP LOCATION LONG
+; $067324-$06732A JUMP LOCATION LONG
 Attract_AdvanceToNextSequence:
 {
     INC $23
@@ -4880,7 +4877,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; *$6732B-$67364 JUMP LOCATION LONG
+; $06732B-$067364 JUMP LOCATION LONG
 {
     LDA $34 : BNE .BRANCH_ALPHA
     
@@ -4917,7 +4914,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; *$67379-$67400 JUMP LOCATION LONG
+; $067379-$067400 JUMP LOCATION LONG
 {
     LDA $25 : CMP.b #$80 : BCS .BRANCH_ALPHA
     
@@ -5006,7 +5003,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; $67419-$67422 Jump Table
+; $067419-$067422 Jump Table
 {
     dw $F57B ; = $6757B*
     dw $F592 ; = $67592*
@@ -5017,7 +5014,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; *$67423-$6754E JUMP LOCATION LONG
+; $067423-$06754E JUMP LOCATION LONG
 Attract_MaidenWarp:
 {
     LDA $5D : BEQ .sequenceNotFinished
@@ -5053,7 +5050,7 @@ Attract_MaidenWarp:
     
     LDA $60 : ASL A : TAX
     
-    JSR ($F419, X) ; $67419 IN ROM
+    JSR ($F419, X) ; $067419 IN ROM
     
     LDX.b #$05
     
@@ -5177,7 +5174,7 @@ Attract_MaidenWarp:
     RTL
 }
 
-; *$6757B-$67581 LOCAL
+; $06757B-$067581 LOCAL
 {
     LDA $61 : BEQ .BRANCH_ALPHA
     
@@ -5188,7 +5185,7 @@ Attract_MaidenWarp:
     RTS
 }
 
-; *$67592-$675FA LOCAL
+; $067592-$0675FA LOCAL
 {
     LDA $1A : LSR A : AND.b #$02 : TAX
     
@@ -5240,7 +5237,7 @@ Attract_MaidenWarp:
     
     RTS
     
-    ; *$675F8 ALTERNATE ENTRY POINT
+    ; $0675F8 ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     INC $60
@@ -5248,7 +5245,7 @@ Attract_MaidenWarp:
     RTS
 }
 
-; *$67613-$67674 LOCAL
+; $067613-$067674 LOCAL
 {
     PHB : PHK : PLB
     
@@ -5295,7 +5292,7 @@ Attract_MaidenWarp:
     RTS
 }
 
-; *$67689-$676E1 LOCAL
+; $067689-$0676E1 LOCAL
 {
     LDA $51 : CMP.b #$06 : BNE .BRANCH_ALPHA
     
@@ -5345,7 +5342,7 @@ Attract_MaidenWarp:
     RTS
 }
 
-; *$676E2-$676FF LOCAL
+; $0676E2-$0676FF LOCAL
 {
     JSR Attract_ShowTimedTextMessage
     
@@ -5370,7 +5367,7 @@ Attract_MaidenWarp:
     RTS
 }
 
-; *$67700-$6772D JUMP LOCATION LONG
+; $067700-$06772D JUMP LOCATION LONG
 Attract_Exit:
 {
     DEC $13 : BNE .stillDarkening
@@ -5401,7 +5398,7 @@ Attract_Exit:
     
     SEP #$20
     
-    JMP $C2F0 ; $642F0 IN ROM
+    JMP $C2F0 ; $0642F0 IN ROM
     
     .stillDarkening
     
@@ -5410,10 +5407,9 @@ Attract_Exit:
     
 ; ==============================================================================
 
-; $6772E DATA
+; $06772E DATA
 Attract_LegendGraphics:
 {
-    
     .pointers
     
     dw $FAC2, $FB5F, $FC4C, $FD13
@@ -5425,7 +5421,7 @@ Attract_LegendGraphics:
 
 ; ==============================================================================
 
-; *$6773E-$67765 LOCAL
+; $06773E-$067765 LOCAL
 Attract_LoadNextLegendGraphic:
 {
     !picSize = $00
@@ -5460,7 +5456,7 @@ Attract_LoadNextLegendGraphic:
 
 ; ==============================================================================
 
-; *$67766-$67782 LOCAL
+; $067766-$067782 LOCAL
 Attract_ShowTimedTextMessage:
 {
     LDA $E8 : STA $20
@@ -5487,7 +5483,7 @@ Attract_ShowTimedTextMessage:
 
 ; ==============================================================================
 
-; *$67783-$677BD LOCAL
+; $067783-$0677BD LOCAL
 Attract_AdjustMapZoom:
 {
     REP #$10
@@ -5522,7 +5518,7 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
-; *$677E6-$67878 LOCAL
+; $0677E6-$067878 LOCAL
 {
     LDA.b #$09 : STA $94
     
@@ -5563,7 +5559,7 @@ Attract_AdjustMapZoom:
     
     LDA.w #$1000 : STA $30
     
-    JSR $F879 ; $67879 IN ROM
+    JSR $F879 ; $067879 IN ROM
 
     REP #$30
 
@@ -5593,7 +5589,7 @@ Attract_AdjustMapZoom:
     
     LDA.w #$0000 : STA $30
     
-    JSR $F879 ; $67879 IN ROM
+    JSR $F879 ; $067879 IN ROM
     
     SEP #$30
     
@@ -5604,7 +5600,7 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
-; *$67879-$678A6 LOCAL
+; $067879-$0678A6 LOCAL
 {
     SEP #$10
     
@@ -5632,7 +5628,7 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
-; *$679B5-$679E3 LOCAL
+; $0679B5-$0679E3 LOCAL
 Attract_DrawSpriteSet:
 {
     ; Y - One less than the number of sprites to draw to OAM buffer
@@ -5675,10 +5671,9 @@ Attract_DrawSpriteSet:
 
 ; ==============================================================================
 
-; $679E4-$679E7 DATA
+; $0679E4-$0679E7 DATA
 pool Attract_DrawZelda:
 {
-    
     .head_chr
     db $28
     
@@ -5694,7 +5689,7 @@ pool Attract_DrawZelda:
     
 ; ==============================================================================
 
-; *$679E8-$67A26 LOCAL
+; $0679E8-$067A26 LOCAL
 Atract_DrawZelda:
 {
     ; Pardon me for saying so, but this routine is pretty damn silly.
@@ -5732,7 +5727,7 @@ Atract_DrawZelda:
 
 ; ==============================================================================
 
-; *$67A30-$67A86 LOCAL
+; $067A30-$067A86 LOCAL
 {
     PHB : PHK : PLB
     
@@ -5792,7 +5787,7 @@ Atract_DrawZelda:
     dl $0CFA87
 }
 
-; *$67AA3-$67AC1 LOCAL
+; $067AA3-$067AC1 LOCAL
 Attract_SetupHdma:
 {
     ; Note: This sets up the windowing via hdma for the legend sequence.
@@ -5822,7 +5817,7 @@ Attract_SetupHdma:
 
 ; ==============================================================================
 
-; $67AC2 DATA
+; $067AC2 DATA
 {
     dw $6561, $2840, $3500, $8561, $2840, $3510, $A561, $2900
     dw $3501, $3502, $3501, $3502, $3501, $3502, $3501, $3502
@@ -5897,14 +5892,14 @@ Attract_SetupHdma:
     
     db $FF
     
-    ; $67E1C    
+    ; $067E1C    
     
     
 }
 
 ; ==============================================================================
     
-; *$67E45-$67EE8 LOCAL
+; $067E45-$067EE8 LOCAL
 {
     LDA.b #$07 : STA $CB
     
@@ -5917,7 +5912,7 @@ Attract_SetupHdma:
     
     SEP #$20
     
-    ; *$67E56 ALTERNATE ENTRY POINT
+    ; $067E56 ALTERNATE ENTRY POINT
     
     ; Draws sword and does screen flashing in intro.
     
@@ -6009,12 +6004,12 @@ Attract_SetupHdma:
     
     LDX $CC
     
-    JMP ($FEE9, X) ; $67EE9 IN ROM
+    JMP ($FEE9, X) ; $067EE9 IN ROM
 }
 
 ; ==============================================================================
 
-; $67EE9-$67EEE JUMP TABLE for SR$67E56
+; $067EE9-$067EEE JUMP TABLE for SR$67E56
 {
     ; Parameter: $CC
     
@@ -6025,7 +6020,7 @@ Attract_SetupHdma:
 
 ; ==============================================================================
 
-; *$67EEF-$67F04 JUMP LOCATION
+; $067EEF-$067F04 JUMP LOCATION
 {
     LDA $0FF9 : BNE .BRANCH_1
     
@@ -6042,7 +6037,7 @@ Attract_SetupHdma:
     RTS
 }
 
-; $67F05-$67F12 DATA TABLE
+; $067F05-$067F12 DATA TABLE
 {
     db $04, $04
     db $06, $06
@@ -6053,7 +6048,7 @@ Attract_SetupHdma:
     db $37, $28
 }
 
-; *$67F13-$67F48 JUMP LOCATION
+; $067F13-$067F48 JUMP LOCATION
 {
     LDX $CB
     
@@ -6094,7 +6089,7 @@ Attract_SetupHdma:
 
 ; ==============================================================================
 
-; $67F49 DATA
+; $067F49 DATA
 {
     db $26, $20
     db $24, $34
@@ -6102,7 +6097,7 @@ Attract_SetupHdma:
     db $35, $20
 }
 
-; *$67F51-$67FB0 JUMP LOCATION
+; $067F51-$067FB0 JUMP LOCATION
 {
     LDX $CB : CPX.b #$07 : BCS .BRANCH_3
     
@@ -6148,7 +6143,7 @@ Attract_SetupHdma:
 
 ; ==============================================================================
 
-; $67FB1 NULL
+; $067FB1 NULL
 {
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF

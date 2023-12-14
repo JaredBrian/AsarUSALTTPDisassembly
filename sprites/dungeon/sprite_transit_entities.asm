@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F7632-$F76A0 JUMP LOCATION
+; $0F7632-$0F76A0 JUMP LOCATION
 Pipe_LocateTransitTile:
 {
     ; Not really certain whether this is necessary <___<.
@@ -9,12 +9,12 @@ Pipe_LocateTransitTile:
     
     LDA $0E20, X : SEC : SBC.b #$AE : STA $0DE0, X
     
-    ; *$F7640 ALTERNATE ENTRY POINT
+    ; $0F7640 ALTERNATE ENTRY POINT
     shared SomariaPlatform_LocateTransitTile:
     
     .try_another_tile
     
-    ; $F77C2 IN ROM ; Get the tile type the sprite interacted with.
+    ; $0F77C2 IN ROM ; Get the tile type the sprite interacted with.
     JSR $F7C2 : STA $0E90, X
     
     SEC : SBC.b #$B0 : BCS .is_upper_tile
@@ -43,7 +43,7 @@ Pipe_LocateTransitTile:
     
     LDA $0DE0, X : STA $0EB0, X
     
-    JSR $F7AF ; $F77AF IN ROM
+    JSR $F7AF ; $0F77AF IN ROM
     
     INC $0BA0, X
     
@@ -58,7 +58,7 @@ Pipe_LocateTransitTile:
 
 ; ==============================================================================
 
-; *$F76A1-$F76A8 LONG
+; $0F76A1-$0F76A8 LONG
 Sprite_SomariaPlatformLong:
 {
     PHB : PHK : PLB
@@ -72,9 +72,8 @@ Sprite_SomariaPlatformLong:
 
 ; ==============================================================================
 
-; $F76A9-$F76D3 DATA
+; $0F76A9-$0F76D3 DATA
 {
-    
     .x_speeds
     db $00, $00, $F0, $10
     
@@ -107,7 +106,7 @@ Sprite_SomariaPlatformLong:
 
 ; ==============================================================================
 
-; *$F76D4-$F76DE LOCAL
+; $0F76D4-$0F76DE LOCAL
 Sprite_SomariaPlatform:
 {
     ; sprite types 0xED, 0xEF, $F0, and $F1 (cane of somaria platform)
@@ -122,7 +121,7 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; *$F76DF-$F7708 JUMP LOCATION
+; $0F76DF-$0F7708 JUMP LOCATION
 {
     JSR SomariaPlatform_LocateTransitTile
     JSL Sprite_SpawnSuperficialBombBlast
@@ -140,16 +139,16 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; *$F7709-$F77C1 JUMP LOCATION
+; $0F7709-$0F77C1 JUMP LOCATION
 {
-    JSR $F860 ; $F7860 IN ROM
+    JSR $F860 ; $0F7860 IN ROM
     JSR Sprite3_CheckIfActive
     
     LDA $0B7C : ORA $0B7D : ORA $0B7E : ORA $0B7F : BEQ .BRANCH_ALPHA
     
     .BRANCH_BETA
     
-    JMP $F7A3 ; $F77A3 IN ROM
+    JMP $F7A3 ; $0F77A3 IN ROM
     
     .BRANCH_ALPHA
     
@@ -174,7 +173,7 @@ Sprite_SomariaPlatform:
     
     LDA $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
     
-    JSR $F7C2 ; $F77C2 IN ROM
+    JSR $F7C2 ; $0F77C2 IN ROM
     
     CMP $0E90, X : BEQ .BRANCH_EPSILON
     
@@ -182,8 +181,8 @@ Sprite_SomariaPlatform:
     
     LDA $0DE0, X : STA $0EB0, X
     
-    JSR $F7AF ; $F77AF IN ROM
-    JSR $F901 ; $F7901 IN ROM
+    JSR $F7AF ; $0F77AF IN ROM
+    JSR $F901 ; $0F7901 IN ROM
     
     .BRANCH_EPSILON
     
@@ -198,15 +197,15 @@ Sprite_SomariaPlatform:
     LDA $F6CC, Y : ADC $0B7F : STA $0B7F
     
     JSR Sprite3_Move
-    JSR $FB49 ; $F7B49 IN ROM
+    JSR $FB49 ; $0F7B49 IN ROM
     
     RTS
     
     .BRANCH_ZETA
     
-    JMP $FB34 ; $F7B34 IN ROM
+    JMP $FB34 ; $0F7B34 IN ROM
     
-    ; *$F77A3 ALTERNATE ENTRY POINT
+    ; $0F77A3 ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
     LDA $0DB0, X : BEQ .BRANCH_THETA
@@ -218,10 +217,10 @@ Sprite_SomariaPlatform:
     
     RTS
     
-    ; *$F77AF ALTERNATE ENTRY POINT
+    ; $0F77AF ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
-    JSR $F87D ; $F787D IN ROM
+    JSR $F87D ; $0F787D IN ROM
     
     LDY $0DE0, X
     
@@ -232,7 +231,7 @@ Sprite_SomariaPlatform:
     RTS
 }
 
-; *$F77C2-$F77DF LOCAL
+; $0F77C2-$0F77DF LOCAL
 {
     LDA $0D00, X : STA $00
     LDA $0D20, X : STA $01
@@ -250,9 +249,8 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $F77E0-$F785F DATA
+; $0F77E0-$0F785F DATA
 {
-    
     ; \task Name this pool / routine.
     .oam_groups
     dw -16, -16 : db $AC, $00, $00, $02
@@ -278,7 +276,7 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; *$F7860-$F787C LOCAL
+; $0F7860-$0F787C LOCAL
 {
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
@@ -292,7 +290,7 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; *$F787D-$F78AC LOCAL
+; $0F787D-$0F78AC LOCAL
 {
     LDA $0E90, X : SEC : SBC.b #$B0 : BCS .is_upper_tile
     
@@ -325,7 +323,7 @@ Sprite_SomariaPlatform:
     dw $FB3A ; = $F7B3A* ; 0xBE - Endpoint node transit tile
 }
 
-; *$F78AD-$F78D6 LOCAL
+; $0F78AD-$0F78D6 LOCAL
 {
     LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
@@ -346,7 +344,7 @@ Sprite_SomariaPlatform:
     RTS
 }
 
-; *$F78D7-$F7900 LOCAL
+; $0F78D7-$0F7900 LOCAL
 {
     LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
@@ -367,20 +365,20 @@ Sprite_SomariaPlatform:
     RTS
 } 
 
-; *$F7901-$F7907 LOCAL
+; $0F7901-$0F7907 LOCAL
 {
-    JSR $F8AD ; $F78AD IN ROM
-    JSR $F8D7 ; $F78D7 IN ROM
+    JSR $F8AD ; $0F78AD IN ROM
+    JSR $F8D7 ; $0F78D7 IN ROM
     
     RTS
 }
 
-; $F7908-$F7908 JUMP LOCATION
+; $0F7908-$0F7908 JUMP LOCATION
 {
     RTS
 }
 
-; *$F7909-$F7911 JUMP LOCATION
+; $0F7909-$0F7911 JUMP LOCATION
 {
     ; zig zag along y = x line. Zig zag rising slope?
     LDA $0DE0, X : EOR.b #$03 : STA $0DE0, X
@@ -388,7 +386,7 @@ Sprite_SomariaPlatform:
     RTS
 }
 
-; *$F7912-$F791A JUMP LOCATION
+; $0F7912-$0F791A JUMP LOCATION
 {
     ; zig zag along y = -x line. zig zag falling slope?
     LDA $0DE0, X : EOR.b #$02 : STA $0DE0, X
@@ -396,12 +394,12 @@ Sprite_SomariaPlatform:
     RTS
 }
 
-; $F791B-$F791E DATA
+; $0F791B-$0F791E DATA
 {
     db $04, $08, $01, $02
 }
 
-; *$F791F-$F7941 JUMP LOCATION
+; $0F791F-$0F7941 JUMP LOCATION
 {
     ; Transit tile that allows you to invert your direction?
     
@@ -421,19 +419,19 @@ Sprite_SomariaPlatform:
     
     STZ $4B
     
-    JMP $FB34 ; $F7B34 IN ROM
+    JMP $FB34 ; $0F7B34 IN ROM
 }
 
 ; ==============================================================================
 
-; $F7942-$F7945 DATA
+; $0F7942-$0F7945 DATA
 {
     db $03, $07, $06, $05    
 }
 
 ; ==============================================================================
 
-; *$F7946-$F799E JUMP LOCATION
+; $0F7946-$0F799E JUMP LOCATION
 {
     LDA.b #$01 : STA $0D80, X
     
@@ -494,14 +492,14 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $F799F-$F79A2 DATA
+; $0F799F-$0F79A2 DATA
 {
     db $0B, $03, $0A, $09
 }
 
 ; ==============================================================================
 
-; *$F79A3-$F79FD JUMP LOCATION
+; $0F79A3-$0F79FD JUMP LOCATION
 {
     LDA.b #$01 : STA $0D80, X
     
@@ -561,14 +559,14 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $F79FE-$F7A01 DATA
+; $0F79FE-$0F7A01 DATA
 {
     db $09, $05, $0C, $0D
 }
 
 ; ==============================================================================
 
-; *$F7A02-$F7A5C JUMP LOCATION
+; $0F7A02-$0F7A5C JUMP LOCATION
 {
     LDA.b #$01 : STA $0D80, X
     
@@ -628,14 +626,14 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $F7A5D-$F7A60 DATA
+; $0F7A5D-$0F7A60 DATA
 {
     db $0A, $06, $0E, $0C
 }
 
 ; ==============================================================================
 
-; *$F7A61-$F7ABB JUMP LOCATION
+; $0F7A61-$0F7ABB JUMP LOCATION
 {
     LDA.b #$01 : STA $0D80, X
     
@@ -695,14 +693,14 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $F7ABC-$F7ABF DATA
+; $0F7ABC-$0F7ABF DATA
 {
     db $0B, $07, $0E, $0D
 }
 
 ; ==============================================================================
 
-; *$F7AC0-$F7AFA JUMP LOCATION
+; $0F7AC0-$0F7AFA JUMP LOCATION
 {
     LDY $0DE0, X
     
@@ -741,14 +739,14 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $F7AFB-$F7AFE DATA
+; $0F7AFB-$0F7AFE DATA
 {
     db $0C, $0C, $03, $03
 }
 
 ; ==============================================================================
 
-; *$F7AFF-$F7B39 JUMP LOCATION
+; $0F7AFF-$0F7B39 JUMP LOCATION
 {
     LDA.b #$01 : STA $0D80, X
     
@@ -784,14 +782,14 @@ Sprite_SomariaPlatform:
     
     .not_pressing_any_directions
     
-    ; *$F7B34 ALTERNATE ENTRY POINT
+    ; $0F7B34 ALTERNATE ENTRY POINT
     
     LDA.b #$01 : STA $02F5
     
     RTS
 }
 
-; *$F7B3A-$F7B48 JUMP LOCATION
+; $0F7B3A-$0F7B48 JUMP LOCATION
 {
     STZ $0D80, X
     
@@ -802,7 +800,7 @@ Sprite_SomariaPlatform:
     BRA .BRANCH_$F7B34
 }
 
-; *$F7B49-$F7B77 LOCAL
+; $0F7B49-$0F7B77 LOCAL
 {
     REP #$20
     
@@ -840,7 +838,7 @@ Sprite_SomariaPlatform:
 ; ==============================================================================
 
     ; \unused
-; $F7B78-$F7B7D DATA
+; $0F7B78-$0F7B7D DATA
 pool Unused:
 {
     ; \note Perhaps these wwere speeds to be used for the player moving
@@ -852,7 +850,7 @@ pool Unused:
 
     ; \note The Pipe sprite doesn't use $0D80, X
 
-; *$F7B7E-$F7B93 JUMP LOCATION
+; $0F7B7E-$0F7B93 JUMP LOCATION
 Sprite_Pipe:
 {
     JSR Sprite3_CheckIfActive
@@ -871,10 +869,10 @@ Sprite_Pipe:
 
 ; ==============================================================================
 
-; *$F7B94-$F7BBD JUMP LOCATION
+; $0F7B94-$0F7BBD JUMP LOCATION
 Pipe_LocateTransitEndpoint:
 {
-    ; $F77C2 IN ROM ; Get tile attribute at sprite's current location.
+    ; $0F77C2 IN ROM ; Get tile attribute at sprite's current location.
     ; I'm thinking this is the starting tile for the pipe? Or perhaps
     ; represents an endpoint...
     JSR $F7C2 : CMP.b #$BE : BNE .not_the_tile_youre_looking_for
@@ -896,7 +894,7 @@ Pipe_LocateTransitEndpoint:
     
     LDA $0DE0, X : STA $0EB0, X
     
-    JSR $F7AF ; $F77AF IN ROM
+    JSR $F7AF ; $0F77AF IN ROM
     JSR Sprite3_Move
     
     RTS
@@ -904,7 +902,7 @@ Pipe_LocateTransitEndpoint:
 
 ; ==============================================================================
 
-; *$F7BBE-$F7BEF JUMP LOCATION
+; $0F7BBE-$0F7BEF JUMP LOCATION
 Pipe_WaitForPlayer:
 {
     ; \note The sprite travels along with you (or ahead of you?).
@@ -941,24 +939,23 @@ Pipe_WaitForPlayer:
     
     .cant_pass_through
     
-    JSR $F508 ; $F7508 IN ROM
+    JSR $F508 ; $0F7508 IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; $F7BF0-$F7BF3 DATA
+; $0F7BF0-$0F7BF3 DATA
 pool Pipe:
 {
-    
     .player_direction
     db $08, $04, $02, $01
 }
 
 ; ==============================================================================
 
-; *$F7BF4-$F7C12 JUMP LOCATION
+; $0F7BF4-$0F7C12 JUMP LOCATION
 Pipe_DrawPlayerInward:
 {
     LDA $0E00, X : BNE .delay
@@ -979,14 +976,14 @@ Pipe_DrawPlayerInward:
     
     LDA Pipe.player_direction, Y
     
-    JSR $FCFF ; $F7CFF IN ROM
+    JSR $FCFF ; $0F7CFF IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$F7C13-$F7CD2 JUMP LOCATION
+; $0F7C13-$0F7CD2 JUMP LOCATION
 Pipe_DragPlayerAlong:
 {
     LDA.b #$03 : STA $0E80, X
@@ -1003,7 +1000,7 @@ Pipe_DragPlayerAlong:
     
     LDA $0D90, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
-    JSR $F7C2 ; $F77C2 IN ROM
+    JSR $F7C2 ; $0F77C2 IN ROM
     
     PHA : CMP.b #$B2 : BCC .BRANCH_BETA
           CMP.b #$B6 : BCS .BRANCH_BETA
@@ -1024,8 +1021,8 @@ Pipe_DragPlayerAlong:
     
     LDA $0DE0, X : STA $0EB0, X
     
-    JSR $F7AF ; $F77AF IN ROM
-    JSR $F901 ; $F7901 IN ROM
+    JSR $F7AF ; $0F77AF IN ROM
+    JSR $F901 ; $0F7901 IN ROM
     
     .BRANCH_ALPHA
     
@@ -1080,8 +1077,8 @@ Pipe_DragPlayerAlong:
     
     PHX
     
-    JSL $07E6A6 ; $3E6A6 IN ROM
-    JSL $07F42F ; $3F42F IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL $07F42F ; $03F42F IN ROM
     JSL Player_HaltDashAttackLong
     
     PLX
@@ -1089,7 +1086,7 @@ Pipe_DragPlayerAlong:
     RTS
 }
 
-; *$F7CD3-$F7CFE JUMP LOCATION
+; $0F7CD3-$0F7CFE JUMP LOCATION
 {
     LDA $0E00, X : BNE .delay
     
@@ -1112,12 +1109,12 @@ Pipe_DragPlayerAlong:
     
     LDA Pipe.player_direction, Y
     
-    JSR $FCFF ; $F7CFF IN ROM
+    JSR $FCFF ; $0F7CFF IN ROM
     
     RTS
 }
 
-; *$F7CFF-$F7D11 LOCAL
+; $0F7CFF-$0F7D11 LOCAL
 {
     ; Induces player movement, I do believe (in spite of the fact that
     ; we made the player invisible and 'froze' them. So... this sprite
@@ -1126,9 +1123,9 @@ Pipe_DragPlayerAlong:
     
     STA $67 : STA $26
     
-    JSL $07E245 ; $3E245 IN ROM
-    JSL $07E6A6 ; $3E6A6 IN ROM
-    JSL $07F42F ; $3F42F IN ROM
+    JSL $07E245 ; $03E245 IN ROM
+    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL $07F42F ; $03F42F IN ROM
     
     PLX
     

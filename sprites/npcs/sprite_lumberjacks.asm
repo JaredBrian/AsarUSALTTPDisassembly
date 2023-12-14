@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$6C50B-$6C512 LONG
+; $06C50B-$06C512 LONG
 Sprite_LumberjacksLong:
 {
     PHB : PHK : PLB
@@ -15,10 +15,9 @@ Sprite_LumberjacksLong:
 
 ; ==============================================================================
 
-; $6C513-$6C51A DATA
+; $06C513-$06C51A DATA
 pool Sprite_Lumberjacks:
 {
-    
     .messages_low
     db $2C, $2D, $2E, $2D
     
@@ -28,7 +27,7 @@ pool Sprite_Lumberjacks:
 
 ; ==============================================================================
 
-; *$6C51B-$6C57E LOCAL
+; $06C51B-$06C57E LOCAL
 Sprite_Lumberjacks:
 {
     JSR LumberJacks_Draw
@@ -84,10 +83,9 @@ Sprite_Lumberjacks:
 
 ; ==============================================================================
 
-; $6C57F-$6C58E DATA
+; $06C57F-$06C58E DATA
 pool Lumberjacks_CheckProximity:
 {
-    
     .x_lower_ranges
     dw 48, 52
     
@@ -103,7 +101,7 @@ pool Lumberjacks_CheckProximity:
 
 ; ==============================================================================
 
-; *$6C58F-$6C5B1 LOCAL
+; $06C58F-$06C5B1 LOCAL
 Lumberjacks_CheckProximity:
 {
     REP #$20
@@ -128,10 +126,9 @@ Lumberjacks_CheckProximity:
 
 ; ==============================================================================
 
-; $6C5B2-$6C6B9 DATA
+; $06C5B2-$06C6B9 DATA
 pool Lumberjacks_Draw:
 {
-    
     .oam_groups
     dw -23,  5 : db $BE, $02, $00, $00
     dw -15,  5 : db $BF, $02, $00, $00
@@ -172,7 +169,7 @@ pool Lumberjacks_Draw:
 
 ; ==============================================================================
 
-; *$6C6BA-$6C6DD LOCAL
+; $06C6BA-$06C6DD LOCAL
 Lumberjacks_Draw:
 {
     LDA.b #$0B : STA $06

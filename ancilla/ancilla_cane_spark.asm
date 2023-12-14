@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $45A84-$45B23 DATA
+; $045A84-$045B23 DATA
 pool Ancilla_InitialCaneSpark:
 {
-    
     .chr
     db $92, $FF, $FF, $FF
     db $8C, $8C, $8C, $8C
@@ -45,7 +44,7 @@ pool Ancilla_InitialCaneSpark:
 
 ; ==============================================================================
 
-; *$45B24-$45C0D JUMP LOCATION
+; $045B24-$045C0D JUMP LOCATION
 Ancilla_InitialCaneSpark:
 {
     LDA $11 : BNE .transmute_delay
@@ -186,10 +185,9 @@ Ancilla_InitialCaneSpark:
 
 ; ==============================================================================
 
-; $45C0E-$45C20 DATA
+; $045C0E-$045C20 DATA
 pool CaneSpark_TransmuteInitialToNormal:
 {
-    
     .initial_rotation_states
     db $34, $33, $32, $31
     db $16, $15, $14, $13
@@ -202,7 +200,7 @@ pool CaneSpark_TransmuteInitialToNormal:
 
 ; ==============================================================================
 
-; *$45C21-$45DC4 LONG BRANCH LOCATION
+; $045C21-$045DC4 LONG BRANCH LOCATION
 CaneSpark_TransmuteInitialToNormal:
 {
     LDA.b #$31 : STA $0C4A, X
@@ -232,7 +230,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA.b #$30 : JSR Ancilla_DoSfx3_NearPlayer
     
-    ; *$45C70 ALTERNATE ENTRY POINT
+    ; $045C70 ALTERNATE ENTRY POINT
     shared Ancilla_CaneSpark:
     
     ; Cane of Byrna's spinning light.

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$33CAC-$33CC8 JUMP LOCATION
+; $033CAC-$033CC8 JUMP LOCATION
 Sprite_MiddleAgedMan:
 {
     ; Middle aged guy in the desert
@@ -24,7 +24,7 @@ Sprite_MiddleAgedMan:
 
 ; ==============================================================================
 
-; *$33CC9-$33D00 JUMP LOCATION
+; $033CC9-$033D00 JUMP LOCATION
 MiddleAgedMan_Chillin:
 {
     ; "... .... ..... ......"
@@ -59,7 +59,7 @@ MiddleAgedMan_Chillin:
 
 ; ==============================================================================
 
-; *$33D01-$33D1F JUMP LOCATION
+; $033D01-$033D1F JUMP LOCATION
 MiddleAgedMan_TransitionToTagalong:
 {
     LDA.b #$09 : STA $7EF3CC
@@ -83,7 +83,7 @@ MiddleAgedMan_TransitionToTagalong:
 
 ; ==============================================================================
 
-; *$33D20-$33D45 JUMP LOCATION
+; $033D20-$033D45 JUMP LOCATION
 MiddleAgedMan_OfferChestOpening:
 {
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .return
@@ -117,7 +117,7 @@ MiddleAgedMan_OfferChestOpening:
 
 ; ==============================================================================
 
-; *$33D46-$33D89 JUMP LOCATION
+; $033D46-$033D89 JUMP LOCATION
 MiddleAgedMan_ReactToSecretKeepingResponse:
 {
     LDA $1CE8 : BNE .angry_reply
@@ -165,7 +165,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
 
 ; ==============================================================================
 
-; *$33D8A-$33D92 JUMP LOCATION
+; $033D8A-$033D92 JUMP LOCATION
 MiddleAgedMan_PromiseReminder:
 {
     ; "Remember, you promised... Don't tell anyone."
@@ -179,7 +179,7 @@ MiddleAgedMan_PromiseReminder:
 
 ; ==============================================================================
 
-; *$33D93-$33D9B JUMP LOCATION
+; $033D93-$033D9B JUMP LOCATION
 MiddleAgedMan_SilenceDueToOtherTagalong:
 {
     ; "... .... ..... ......"
@@ -193,10 +193,9 @@ MiddleAgedMan_SilenceDueToOtherTagalong:
 
 ; ==============================================================================
 
-; $33D9C-$33DAB DATA
+; $033D9C-$033DAB DATA
 pool MiddleAgedMan_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $EA, $00, $00, $02
     dw 0,  0 : db $EC, $00, $00, $02
@@ -204,7 +203,7 @@ pool MiddleAgedMan_Draw:
 
 ; ==============================================================================
 
-; *$33DAC-$33DC0 LOCAL
+; $033DAC-$033DC0 LOCAL
 MiddleAgedMan_Draw:
 {
     LDA.b #$02 : STA $06

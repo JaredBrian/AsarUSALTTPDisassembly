@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $34309-$34318 DATA
+; $034309-$034318 DATA
 pool Sprite_WishPond:
 {
-    
     .x_offsets
     db 0,  4,  8, 12, 16, 20, 24, 00
     
@@ -14,7 +13,7 @@ pool Sprite_WishPond:
 
 ; ==============================================================================
 
-; *$34319-$343AA JUMP LOCATION
+; $034319-$0343AA JUMP LOCATION
 Sprite_WishPond:
 {
     ; Pond of Wishing AI
@@ -24,7 +23,7 @@ Sprite_WishPond:
     LDA $0DA0, X : BNE .BRANCH_BETA
     
     JSR Sprite_PrepOamCoordSafeWrapper
-    JMP $C41D ; $3441D IN ROM
+    JMP $C41D ; $03441D IN ROM
     
     .BRANCH_BETA
     
@@ -84,7 +83,7 @@ Sprite_WishPond:
 
 ; ==============================================================================
 
-; $343AB-$3441D DATA
+; $0343AB-$03441D DATA
 {
     ; Gets stored into $0DC0
     .Items
@@ -154,10 +153,10 @@ Sprite_WishPond:
 
 ; ==============================================================================
 
-; *$3441D-$3444B LOCAL
+; $03441D-$03444B LOCAL
 FairyPondTriggerMain:
 {
-    JSR $C4B5 ; $344B5 IN ROM
+    JSR $C4B5 ; $0344B5 IN ROM
     JSR Sprite_CheckIfActive
     
     LDA $A0 : CMP.b #$15 : BEQ Sprite_HappinessPond
@@ -184,7 +183,7 @@ FairyPondTriggerMain:
 ; ==============================================================================
 
     ; \note The happiness pond, 
-; *$3444C-$34470 BRANCH LOCATION
+; $03444C-$034470 BRANCH LOCATION
 Sprite_HappinessPond:
 {
     LDA $0D80, X
@@ -210,9 +209,8 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; $34471-$344B4 DATA
+; $034471-$0344B4 DATA
 {
-    
     ; $C471
     dw 32, -64 : db $24, $00, $00, $00
     dw 32, -56 : db $34, $00, $00, $00
@@ -231,7 +229,7 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; *$344B5-$344FC LOCAL
+; $0344B5-$0344FC LOCAL
 {
     ; No items returned at happiness pond.
     LDA $A0 : CMP.b #$15 : BEQ .return
@@ -282,7 +280,7 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; *$344FD-$34522 JUMP LOCATION
+; $0344FD-$034522 JUMP LOCATION
 {
     STZ $02E4
     
@@ -309,9 +307,8 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; $34523-$3452A DATA
+; $034523-$03452A DATA
 {
-    
     .prices
     db 5, 20, 25, 50
     
@@ -322,7 +319,7 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; *$3452B-$3455C JUMP LOCATION
+; $03452B-$03455C JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_3455F
     
@@ -351,11 +348,11 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; *$3455D-$3456F BRANCH LOCATION
+; $03455D-$03456F BRANCH LOCATION
 {
     SEP #$30
     
-    ; *$3455F ALTERNATE ENTRY POINT
+    ; $03455F ALTERNATE ENTRY POINT
     
     LDA.b #$4C
     LDY.b #$01
@@ -369,7 +366,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$34570-$3459E JUMP LOCATION
+; $034570-$03459E JUMP LOCATION
 {
     LDA $1CE8 : CLC : ADC $0DC0, X : TAY
     
@@ -392,7 +389,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$3459F-$34602 JUMP LOCATION
+; $03459F-$034602 JUMP LOCATION
 {
     LDA.b #$50 : STA $0DF0, X
     
@@ -447,7 +444,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$34603-$34615 JUMP LOCATION
+; $034603-$034615 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -463,7 +460,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$34616-$34664 JUMP LOCATION
+; $034616-$034664 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
@@ -501,7 +498,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$34665-$34690 JUMP LOCATION
+; $034665-$034690 JUMP LOCATION
 {
     LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -537,7 +534,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$34691-$3469F JUMP LOCATION
+; $034691-$03469F JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
@@ -552,7 +549,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$346A0-$346D1 JUMP LOCATION
+; $0346A0-$0346D1 JUMP LOCATION
 {
     INC $0D80, X
     
@@ -581,10 +578,10 @@ Sprite_HappinessPond:
     LDY.b #$00
     
     JSL Sprite_ShowMessageUnconditional
-    JMP $C752   ; $34752 IN ROM
+    JMP $C752   ; $034752 IN ROM
 }
 
-; *$346D2-$346E6 JUMP LOCATION
+; $0346D2-$0346E6 JUMP LOCATION
 {
     INC $0D80, X
     
@@ -603,7 +600,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$346E7-$3470D JUMP LOCATION
+; $0346E7-$03470D JUMP LOCATION
 {
     LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -632,7 +629,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$3470E-$34720 JUMP LOCATION
+; $03470E-$034720 JUMP LOCATION
 {
     PHX
     
@@ -648,7 +645,7 @@ Sprite_HappinessPond:
     RTS
 }
 
-; *$34721-$34762 JUMP LOCATION
+; $034721-$034762 JUMP LOCATION
 {
     LDA.b #$09 : STA $0D80, X
     
@@ -678,7 +675,7 @@ Sprite_HappinessPond:
     
     JSL Sprite_ShowMessageUnconditional
     
-    ; *$34752 ALTERNATE ENTRY POINT
+    ; $034752 ALTERNATE ENTRY POINT
     
     REP #$20
     
@@ -691,7 +688,7 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; *$34763-$3476E JUMP LOCATION
+; $034763-$03476E JUMP LOCATION
 {
     LDA.b #$54
     LDY.b #$01
@@ -705,10 +702,9 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; $3476F-$3477A DATA
+; $03476F-$03477A DATA
 pool HappinessPond_GrantLuckStatus:
 {
-    
     .message_ids_lower
     db $50, $51, $52, $53
     
@@ -721,7 +717,7 @@ pool HappinessPond_GrantLuckStatus:
 
 ; ==============================================================================
 
-; *$3477B-$347A0 JUMP LOCATION
+; $03477B-$0347A0 JUMP LOCATION
 HappinessPond_GrantLuckStatus:
 {
     JSL GetRandomInt : AND.b #$03 : TAY
@@ -743,7 +739,7 @@ HappinessPond_GrantLuckStatus:
 
 ; ==============================================================================
 
-; *$347A1-$347C5 JUMP LOCATION
+; $0347A1-$0347C5 JUMP LOCATION
 WaitingForPlayerContact:
 {
     STZ $02E4
@@ -768,7 +764,7 @@ WaitingForPlayerContact:
     RTS
 }
 
-; *$347C6-$347EC JUMP LOCATION
+; $0347C6-$0347EC JUMP LOCATION
 DecideToThrowItemOrNot:
 {
     ; If the player selected
@@ -801,7 +797,7 @@ DecideToThrowItemOrNot:
     RTS
 }
 
-; *$347ED-$34839 JUMP LOCATION
+; $0347ED-$034839 JUMP LOCATION
 SpawnThrownItem:
 {
     INC $0D80, X : PHX
@@ -851,9 +847,8 @@ SpawnThrownItem:
 
 ; ==============================================================================
 
-; $3483A-$3483B DATA
+; $03483A-$03483B DATA
 {
-    
     ; \task Name the routines that use these locations.
     ; \wtf Why not just use immediates for this instead of a data pool? It's
     ; not indexed.
@@ -866,7 +861,7 @@ SpawnThrownItem:
 
 ; ==============================================================================
 
-; *$3483C-$3488A JUMP LOCATION
+; $03483C-$03488A JUMP LOCATION
 WaitToSpawnGreatFairy:
 {
     LDA $0DF0, X : BNE .delay
@@ -902,7 +897,7 @@ WaitToSpawnGreatFairy:
     RTS
 }
 
-; *$3488B-$348B6 JUMP LOCATION
+; $03488B-$0348B6 JUMP LOCATION
 FairyFadeIn:
 {
     ; Every 8th frame fade in.
@@ -940,7 +935,7 @@ FairyFadeIn:
     RTS
 }
 
-; *$348B7-$348C5 JUMP LOCATION
+; $0348B7-$0348C5 JUMP LOCATION
 DecideToDrop:
 {
     ; If player selected "Yes"
@@ -956,7 +951,7 @@ DecideToDrop:
     RTS
 }
 
-; *$348C6-$34951 JUMP LOCATION
+; $0348C6-$034951 JUMP LOCATION
 YesIThrewIt:
 {
     INC $0D80, X
@@ -1070,7 +1065,7 @@ YesIThrewIt:
     RTS
 }
 
-; *$34952-$34979 JUMP LOCATION
+; $034952-$034979 JUMP LOCATION
 SetupFadeOut:
 {
     LDA $0DE0, X : TAY
@@ -1109,7 +1104,7 @@ SetupFadeOut:
     RTS
 }
 
-; *$3497A-$349A0 JUMP LOCATION
+; $03497A-$0349A0 JUMP LOCATION
 FairyFadeOut:
 {
     LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
@@ -1137,7 +1132,7 @@ FairyFadeOut:
     RTS
 }
 
-; *$349A1-$349BD JUMP LOCATION
+; $0349A1-$0349BD JUMP LOCATION
 GiveItemBack:
 {
     INC $0D80, X
@@ -1163,7 +1158,7 @@ GiveItemBack:
 
 ; ==============================================================================
 
-; $349BE-$349C7 DATA
+; $0349BE-$0349C7 DATA
 pool ShowNewItemMessage:
 {
     ; \task Name the routines that use these locations.
@@ -1182,7 +1177,7 @@ pool ShowNewItemMessage:
 
 ; ==============================================================================
 
-; *$349C8-$349E4 JUMP LOCATION
+; $0349C8-$0349E4 JUMP LOCATION
 ShowNewItemMessage:
 {
     ; Check if we need to show a new item message:
@@ -1206,7 +1201,7 @@ ShowNewItemMessage:
 
 ; ==============================================================================
 
-; *$349E5-$349F0 JUMP LOCATION
+; $0349E5-$0349F0 JUMP LOCATION
 NopeNotMine:
 {
     INC $0D80, X
@@ -1222,7 +1217,7 @@ NopeNotMine:
 
 ; ==============================================================================
 
-; *$349F1-$349FF JUMP LOCATION
+; $0349F1-$0349FF JUMP LOCATION
 OkayYeahItIsMine:
 {
     LDA $1CE8 : BNE .StillNotMine
@@ -1238,7 +1233,7 @@ OkayYeahItIsMine:
     RTS
 }
 
-; *$34A00-$34A0D JUMP LOCATION
+; $034A00-$034A0D JUMP LOCATION
 StillNotMine:
 {
     ; Now,  now, don't tell me a lie. Please take it back.
@@ -1254,10 +1249,9 @@ StillNotMine:
 
 ; ==============================================================================
 
-; $34A0E-$34B25 DATA
+; $034A0E-$034B25 DATA
 pool FairyQueen_Draw:
 {
-    
     .x_offsets
     db  0, 16,  0,  8, 16, 24,  0,  8
     db 16, 24,  0, 16,  0, 16,  0,  8
@@ -1309,7 +1303,7 @@ pool FairyQueen_Draw:
 
 ; ==============================================================================
 
-; *$34B26-$34BA1 LOCAL
+; $034B26-$034BA1 LOCAL
 FairyQueen_Draw:
 {
     LDA $7EF3CA : BNE .in_dark_world

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $451D4-$451D7 DATA
+; $0451D4-$0451D7 DATA
 pool Ancilla_TravelBirdIntro:
 {
-    
     .hflip_settings
     db $40, $00
     
@@ -16,7 +15,7 @@ pool Ancilla_TravelBirdIntro:
 
 ; ==============================================================================
 
-; *$451D8-$45379 JUMP LOCATION
+; $0451D8-$045379 JUMP LOCATION
 Ancilla_TravelBirdIntro:
 {
     ; Check the frame index.

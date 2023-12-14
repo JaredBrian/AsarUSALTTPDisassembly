@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2D6BC-$2D6D3 LONG
+; $02D6BC-$02D6D3 LONG
 Sprite_PullSwitch:
 {
     ; Switch / Lever (0x04, 0x05, 0x06, 0x07) That can be pulled in puzzles.
@@ -31,10 +31,10 @@ Sprite_PullSwitch:
 
 ; ==============================================================================
 
-; *$2D6D4-$2D72E LOCAL
+; $02D6D4-$02D72E LOCAL
 Sprite_BadPullSwitch:
 {
-    JSR $D743 ; $2D743 IN ROM
+    JSR $D743 ; $02D743 IN ROM
     
     LDY $0DC0, X : BEQ .alpha
     CPY.b #$0B   : BEQ .alpha
@@ -78,16 +78,14 @@ Sprite_BadPullSwitch:
 
 ; ==============================================================================
 
-; $2D72F-$2D742 DATA
+; $02D72F-$02D742 DATA
 {
-    
-    
     db 8, 24, 
 }
 
 ; ==============================================================================
 
-; *$2D743-$2D7C9 LOCAL
+; $02D743-$02D7C9 LOCAL
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
@@ -153,9 +151,8 @@ Sprite_BadPullSwitch:
 
     ; \wtf This sprite is an over optimized mess in terms of table space
     ; usage.
-; $2D7CA-$2D7F8 DATA
+; $02D7CA-$02D7F8 DATA
 {
-    
     .x_offsets
     db -4, 12,  0, -4,  4,  4
     
@@ -184,7 +181,7 @@ Sprite_BadPullSwitch:
 
 ; ==============================================================================
 
-; *$2D7F9-$2D855 LOCAL
+; $02D7F9-$02D855 LOCAL
 BadPullDownSwitch_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -238,17 +235,16 @@ BadPullDownSwitch_Draw:
 
 ; ==============================================================================
 
-; $2D856-$2D857 DATA
+; $02D856-$02D857 DATA
 pool BadPullUpSwitch_Draw:
 {
-    
     .chr
     db $A2, $A4
 }
 
 ; ==============================================================================
 
-; *$2D858-$2D8B4 LOCAL
+; $02D858-$02D8B4 LOCAL
 BadPullUpSwitch_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -308,10 +304,10 @@ BadPullUpSwitch_Draw:
 
 ; ==============================================================================
 
-; *$2D8B5-$2D944 LOCAL
+; $02D8B5-$02D944 LOCAL
 Sprite_GoodPullSwitch:
 {
-    JSR $D999 ; $2D999 IN ROM
+    JSR $D999 ; $02D999 IN ROM
     
     LDY $0DC0, X : BEQ .alpha
     CPY.b #$0D   : BEQ .alpha
@@ -381,10 +377,9 @@ Sprite_GoodPullSwitch:
 
 ; ==============================================================================
 
-; $2D945-$2D952 DATA
+; $02D945-$02D952 DATA
 pool GoodPullSwitch_Draw:
 {
-    
     .y_offsets
     db 1, 1, 2, 3, 2, 3, 4, 5
     db 6, 7, 6, 7, 7, 7
@@ -392,7 +387,7 @@ pool GoodPullSwitch_Draw:
 
 ; ==============================================================================
 
-; *$2D953-$2D998 LOCAL
+; $02D953-$02D998 LOCAL
 GoodPUllSwitch_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -423,7 +418,7 @@ GoodPUllSwitch_Draw:
 
 ; ==============================================================================
 
-; *$2D999-$2DA28 LOCAL
+; $02D999-$02DA28 LOCAL
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     

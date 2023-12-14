@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EE3ED-$EE4C7 JUMP LOCATION
+; $0EE3ED-$0EE4C7 JUMP LOCATION
 Sprite_Lightning:
 {
     ; VITREOUS EYEBALL? (Sprite 0xBF)
@@ -63,7 +63,7 @@ Sprite_Lightning:
     
     RTS
     
-    ; *$EE475 ALTERNATE ENTRY POINT
+    ; $0EE475 ALTERNATE ENTRY POINT
     shared Lightning_SpawnFulgurGarnish:
     
     PHX : TXY

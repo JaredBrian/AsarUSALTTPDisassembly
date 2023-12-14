@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$31F05-$31F2F JUMP LOCATION
+; $031F05-$031F2F JUMP LOCATION
 Sprite_Hinox:
 {
     JSR Hinox_Draw
@@ -31,10 +31,9 @@ Sprite_Hinox:
 
 ; ==============================================================================
 
-; $31F30-$31F49 DATA
+; $031F30-$031F49 DATA
 pool Hinox_ThrowBomb:
 {
-    
     .animation_states
     db 11, 10,  8,  9
     db  7,  5,  1,  3
@@ -57,7 +56,7 @@ pool Hinox_ThrowBomb:
 
 ; ==============================================================================
 
-; *$31F4A-$31FB5 JUMP LOCATION
+; $031F4A-$031FB5 JUMP LOCATION
 Hinox_ThrowBomb:
 {
     LDA $0DF0, X : BNE .delay_ai_state_reset
@@ -117,10 +116,9 @@ Hinox_ThrowBomb:
 
 ; ==============================================================================
 
-; $31FB6-$31FBB DATA
+; $031FB6-$031FBB DATA
 pool Hinox_SetRandomDirection:
 {
-    
     .x_speeds length 4
     db 8, -8
     
@@ -130,7 +128,7 @@ pool Hinox_SetRandomDirection:
 
 ; ==============================================================================
 
-; *$31FBC-$31FEE JUMP LOCATION
+; $031FBC-$031FEE JUMP LOCATION
 Hinox_SelectNextDirection:
 {
     LDA $0DF0, X : BNE Hinox_Delay
@@ -153,7 +151,7 @@ Hinox_SelectNextDirection:
     
     STZ $0DB0, X
     
-    ; *$31FE1 ALTERNATE ENTRY POINT
+    ; $031FE1 ALTERNATE ENTRY POINT
     shared Hinox_FacePlayer:
     
     JSR Sprite_DirectionToFacePlayer
@@ -172,24 +170,23 @@ Hinox_SelectNextDirection:
 
 ; ==============================================================================
 
-; $31FEF-$31FF6 DATA
+; $031FEF-$031FF6 DATA
 pool Hinox_SetRandomDirection:
 {
-    
     .directions
     db 2, 3, 3, 2, 0, 1, 1, 0
 }
 
 ; ==============================================================================
 
-; *$31FF7-$32024 BRANCH LOCATION
+; $031FF7-$032024 BRANCH LOCATION
 Hinox_SetRandomDirection:
 {
     JSL GetRandomInt : LSR A : LDA $0DE0, X : ROL A : TAY
     
     LDA .directions, Y
     
-    ; $32004 ALTERNATE ENTRY POINT
+    ; $032004 ALTERNATE ENTRY POINT
     shared Hinox_SetExplicitDirection:
     
     STA $0DE0, X
@@ -204,7 +201,7 @@ Hinox_SetRandomDirection:
     
     LDA .y_speeds, Y : STA $0D40, X
 
-    ; *$32024 ALTERNATE ENTRY POINT
+    ; $032024 ALTERNATE ENTRY POINT
     shared Hinox_Delay:
 
     RTS
@@ -212,17 +209,16 @@ Hinox_SetRandomDirection:
 
 ; ==============================================================================
 
-; $32025-$32028 DATA
+; $032025-$032028 DATA
 pool Hinox_Walk:
 {
-    
     .animation_state_bases
     db 6, 4, 0, 2
 }
 
 ; ==============================================================================
 
-; *$32029-$32064 JUMP LOCATION
+; $032029-$032064 JUMP LOCATION
 Hinox_Walk:
 {
     LDA $0DF0, X : BNE .delay_ai_state_reset
@@ -265,10 +261,9 @@ Hinox_Walk:
 
 ; ==============================================================================
 
-; $32065-$321F8 DATA
+; $032065-$0321F8 DATA
 pool Hinox_Draw:
 {
-    
     .oam_groups
     dw   0, -13 : db $00, $06, $00, $02
     dw  -8,  -5 : db $24, $06, $00, $02
@@ -339,7 +334,7 @@ pool Hinox_Draw:
 
 ; ==============================================================================
 
-; *$321F9-$32212 LOCAL
+; $0321F9-$032212 LOCAL
 Hinox_Draw:
 {
     LDA $0DC0, X : PHA

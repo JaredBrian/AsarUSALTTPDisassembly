@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$42536-$42550 JUMP LOCATION
+; $042536-$042550 JUMP LOCATION
 Ancilla_IceShotSpread:
     
     DEC $03B1, X : BPL .delay
@@ -22,10 +22,9 @@ Ancilla_IceShotSpread:
 
 ; ==============================================================================
 
-; $42551-$42570 DATA
+; $042551-$042570 DATA
 pool IceShotSpread_Draw:
 {
-    
     .chr_and_properties
     db $CF, $24
     db $CF, $24
@@ -46,7 +45,7 @@ pool IceShotSpread_Draw:
 
 ; ==============================================================================
 
-; *$42571-$4260D LONG BRANCH LOCATION
+; $042571-$04260D LONG BRANCH LOCATION
 IceShotSpread_Draw:
 {
     JSR Ancilla_PrepOamCoord

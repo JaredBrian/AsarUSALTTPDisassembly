@@ -1,18 +1,17 @@
 
 ; ==============================================================================
 
-; *$428E3-$428E4 JUMP LOCATION
+; $0428E3-$0428E4 JUMP LOCATION
 Ancilla_Unused_25:
 pool Ancilla_HitStars:
 {
-    
     .chr
     db $90, $91
 }
     
 ; ==============================================================================
 
-; *$428E5-$42996 ALTERNATE ENTRY POINT
+; $0428E5-$042996 ALTERNATE ENTRY POINT
 Ancilla_HitStars:
     
     ; Special object 0x16 - hammer stars

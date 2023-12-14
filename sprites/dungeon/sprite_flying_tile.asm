@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F3BB9-$F3BDA JUMP LOCATION
+; $0F3BB9-$0F3BDA JUMP LOCATION
 Sprite_FlyingTile:
 {
     LDA.b #$30 : STA $0B89, X
@@ -24,7 +24,7 @@ Sprite_FlyingTile:
 
 ; ==============================================================================
 
-; *$F3BDB-$F3C00 JUMP LOCATION
+; $0F3BDB-$0F3C00 JUMP LOCATION
 FlyingTile_EraseTilemapEntries:
 {
     LDA $0D10, X : STA $00
@@ -44,7 +44,7 @@ FlyingTile_EraseTilemapEntries:
 
 ; ==============================================================================
 
-; *$F3C01-$F3C4E JUMP LOCATION
+; $0F3C01-$0F3C4E JUMP LOCATION
 FlyingTile_CareenTowardsPlayer:
 {
     STZ $0BA0, X
@@ -69,7 +69,7 @@ FlyingTile_CareenTowardsPlayer:
     
     .shatter
     
-    ; $F3C2F ALTERNATE ENTRY POINT
+    ; $0F3C2F ALTERNATE ENTRY POINT
     shared FlyingTile_Shatter:
     
     LDA.b #$1F : JSL Sound_SetSfx2PanLong
@@ -93,7 +93,7 @@ FlyingTile_CareenTowardsPlayer:
 
 ; ==============================================================================
 
-; *$F3C4F-$F3C89 JUMP LOCATION
+; $0F3C4F-$0F3C89 JUMP LOCATION
 FlyingTile_RiseUp:
 {
     LDA $0DF0, X : BNE .delay
@@ -102,7 +102,7 @@ FlyingTile_RiseUp:
     
     LDA.b #$10 : STA $0DF0, X
     
-    ; *$F3C5C ALTERNATE ENTRY POINT
+    ; $0F3C5C ALTERNATE ENTRY POINT
     shared FlyingTile_TrackPlayer:
     
     LDA.b #$20
@@ -121,7 +121,7 @@ FlyingTile_RiseUp:
     
     .stop_rising
     
-    ; *$F3C6F ALTERNATE ENTRY POINT
+    ; $0F3C6F ALTERNATE ENTRY POINT
     shared FlyingTile_NoisilyAnimate:
     
     INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$01 : STA $0DC0, X
@@ -137,10 +137,9 @@ FlyingTile_RiseUp:
 
 ; ==============================================================================
 
-; $F3C8A-$F3CC9 DATA
+; $0F3C8A-$0F3CC9 DATA
 pool FlyingTile_Draw:
 {
-    
     .oam_groups
     dw 0, 0 : db $D3, $00, $00, $00
     dw 8, 0 : db $D3, $40, $00, $00
@@ -155,7 +154,7 @@ pool FlyingTile_Draw:
 
 ; ==============================================================================
 
-; *$F3CCA-$F3CE7 LOCAL
+; $0F3CCA-$0F3CE7 LOCAL
 FlyingTile_Draw:
 {
     LDA.b #$00   : XBA

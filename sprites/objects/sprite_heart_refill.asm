@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$34EC0-$34F09 JUMP LOCATION
+; $034EC0-$034F09 JUMP LOCATION
 Sprite_HeartRefill:
 {
     JSR Sprite_DrawTransientAbsorbable
@@ -48,7 +48,7 @@ Sprite_HeartRefill:
 
 ; ==============================================================================
 
-; *$34F0A-$34F1F JUMP LOCATION
+; $034F0A-$034F1F JUMP LOCATION
 HeartRefill_InitializeAscent:
 {
     INC $0D80, X
@@ -66,7 +66,7 @@ HeartRefill_InitializeAscent:
 
 ; ==============================================================================
 
-; *$34F20-$34F34 JUMP LOCATION
+; $034F20-$034F34 JUMP LOCATION
 HeartRefill_BeginDescending:
 {
     LDA $0DF0, X : BNE .delay
@@ -88,7 +88,7 @@ HeartRefill_BeginDescending:
 
 ; ==============================================================================
 
-; $34F35-$34F36 DATA
+; $034F35-$034F36 DATA
 pool HeartRefill_GlideGroundward:
 {
     db 10, -10
@@ -96,7 +96,7 @@ pool HeartRefill_GlideGroundward:
 
 ; ==============================================================================
 
-; *$34F37-$34F59 JUMP LOCATION
+; $034F37-$034F59 JUMP LOCATION
 HeartRefill_GlideGroundward:
 {
     LDA $0DF0, X : BNE .delay
@@ -119,13 +119,13 @@ HeartRefill_GlideGroundward:
 
 ; ==============================================================================
 
-; *$34F5A-$34F63 JUMP LOCATION
+; $034F5A-$034F63 JUMP LOCATION
 HeartRefill_Grounded:
     shared Sprite_Zero_XYZ_Velocity:
 {
     STZ $0F80, X
     
-    ; *$34F5D ALTERNATE ENTRY POINT
+    ; $034F5D ALTERNATE ENTRY POINT
     shared Sprite_Zero_XY_Velocity:
     
     STZ $0D50, X

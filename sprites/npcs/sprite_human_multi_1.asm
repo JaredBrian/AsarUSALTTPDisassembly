@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$6C2D1-$6C2D8 LONG
+; $06C2D1-$06C2D8 LONG
 Sprite_HumanMulti_1_Long:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_HumanMulti_1_Long:
 
 ; ==============================================================================
 
-; *$6C2D9-$6C2E5 LOCAL
+; $06C2D9-$06C2E5 LOCAL
 Sprite_HumanMulti_1:
 {
     LDA $0E80, X
@@ -29,7 +29,7 @@ Sprite_HumanMulti_1:
 
 ; ==============================================================================
 
-; $6C2E6-$6C307 JUMP LOCATION
+; $06C2E6-$06C307 JUMP LOCATION
 Sprite_BlindHideoutGuy:
 {
     JSR BlindHideoutGuy_Draw
@@ -55,7 +55,7 @@ Sprite_BlindHideoutGuy:
 
 ; ==============================================================================
 
-; *$6C308-$6C342 JUMP LOCATION
+; $06C308-$06C342 JUMP LOCATION
 Sprite_ThiefHideoutGuy:
 {
     LDA $1A : AND.b #$03 : BNE .delay_head_direction_change
@@ -92,7 +92,7 @@ Sprite_ThiefHideoutGuy:
 
 ; ==============================================================================
 
-; *$6C343-$6C3B0 JUMP LOCATION
+; $06C343-$06C3B0 JUMP LOCATION
 Sprite_FluteBoyFather:
 {
     JSR FluteBoyFather_Draw
@@ -176,10 +176,9 @@ Sprite_FluteBoyFather:
 
 ; ==============================================================================
 
-; $6C3B1-$6C3E0 DATA
+; $06C3B1-$06C3E0 DATA
 pool FluteBoyFather_Draw:
 {
-    
     .oam_groups
     dw 0, -7 : db $86, $00, $00, $02
     dw 0,  0 : db $88, $00, $00, $02
@@ -193,7 +192,7 @@ pool FluteBoyFather_Draw:
 
 ; ==============================================================================
 
-; *$6C3E1-$6C400 LOCAL
+; $06C3E1-$06C400 LOCAL
 FluteBoyFather_Draw:
 {
     LDA.b #$02 : STA $06
@@ -212,10 +211,9 @@ FluteBoyFather_Draw:
 
 ; ==============================================================================
 
-; $6C401-$6C480 DATA
+; $06C401-$06C480 DATA
 pool BlindHideoutGuy_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $0C, $00, $00, $02
     dw 0,  0 : db $CA, $00, $00, $02
@@ -244,7 +242,7 @@ pool BlindHideoutGuy_Draw:
 
 ; ==============================================================================
 
-; *$6C481-$6C4A4 LOCAL
+; $06C481-$06C4A4 LOCAL
 BlindHideoutGuy_Draw:
 {
     LDA.b #$02 : STA $06

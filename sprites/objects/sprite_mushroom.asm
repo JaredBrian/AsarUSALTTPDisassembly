@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2EE4B-$2EE52 LONG
+; $02EE4B-$02EE52 LONG
 SpritePrep_MushroomLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ SpritePrep_MushroomLong:
 
 ; ==============================================================================
 
-; *$2EE53-$2EE6F LOCAL
+; $02EE53-$02EE6F LOCAL
 SpritePrep_Mushroom:
 {
     ; \item(Magic powder)
@@ -38,7 +38,7 @@ SpritePrep_Mushroom:
 
 ; ==============================================================================
 
-; *$2EE70-$2EE77 LONG
+; $02EE70-$02EE77 LONG
 Sprite_MushroomLong:
 {
     PHB : PHK : PLB
@@ -52,7 +52,7 @@ Sprite_MushroomLong:
 
 ; ==============================================================================
 
-; *$2EE78-$2EEA5 LOCAL
+; $02EE78-$02EEA5 LOCAL
 Sprite_Mushroom:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong

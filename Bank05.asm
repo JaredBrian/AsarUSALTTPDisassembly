@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $28000-$28007 DATA
+; $028000-$028007 DATA
 pool Sprite_SpawnSparkleGarnish:
 {
     .low_offset
@@ -13,7 +13,7 @@ pool Sprite_SpawnSparkleGarnish:
 
 ; ==============================================================================
 
-; *$28008-$2807E LONG
+; $028008-$02807E LONG
 Sprite_SpawnSparkleGarnish:
 {
     ; Check if the frame counter is a multiple of 4
@@ -76,7 +76,7 @@ Sprite_SpawnSparkleGarnish:
 
 ; ==============================================================================
 
-; *$2807F-$28083 JUMP LOCATION
+; $02807F-$028083 JUMP LOCATION
 Sprite_HelmasaurFireballTrampoline:
 {
     JSL Sprite_HelmasaurFireballLong
@@ -111,7 +111,7 @@ incsrc "sprite_flail_trooper.asm"
 
 ; ==============================================================================
 
-; *$2B5C3-$2B5CA LONG
+; $02B5C3-$02B5CA LONG
 SpriteActive2_MainLong:
 {
     PHB : PHK : PLB
@@ -125,10 +125,9 @@ SpriteActive2_MainLong:
 
 ; ==============================================================================
 
-; $2B5CB-$2B5D2 DATA
+; $02B5CB-$02B5D2 DATA
 Soldier_DirectionLockSettings:
 {
-    
     .directions
     db $03, $02, $00, $01
     
@@ -138,7 +137,7 @@ Soldier_DirectionLockSettings:
 
 ; ==============================================================================
 
-; *$2B5D3-$2B647 LOCAL
+; $02B5D3-$02B647 LOCAL
 SpriteActive2_Main:
 {
     ; This routine is meant to handle sprites with IDs 0x41 to 0x70.
@@ -225,7 +224,7 @@ incsrc "sprite_recruit.asm"
 
 ; ==============================================================================
 
-; *$2C155-$2C226 JUMP LOCATION LOCAL
+; $02C155-$02C226 JUMP LOCATION LOCAL
 Sprite_Soldier:
 {
     LDA $0DB0, X : BNE .is_probe
@@ -281,11 +280,11 @@ Sprite_Soldier:
     
     CMP.w #$0020 : SEP #$20 : BCS .player_not_close
     
-    JMP $C1F6 ; $2C1F6 IN ROM
+    JMP $C1F6 ; $02C1F6 IN ROM
     
     .player_not_close
     
-    JMP $C21A       ; $2C21A IN ROM
+    JMP $C21A       ; $02C21A IN ROM
     
     .parent_not_blind_the_thief
     
@@ -310,7 +309,7 @@ Sprite_Soldier:
     ; Are Link and the soldier on the same floor?
     LDA $0F20, X : CMP $EE : BNE .iota
     
-    ; *$2C1F6 ALTERNATE ENTRY POINT
+    ; $02C1F6 ALTERNATE ENTRY POINT
     
     LDA $0DB0, X : DEC A
     
@@ -335,7 +334,7 @@ Sprite_Soldier:
     
     BRA .theta
     
-    ; *$2C21A ALTERNATE ENTRY POINT
+    ; $02C21A ALTERNATE ENTRY POINT
     .iota
     
     JSR Sprite2_PrepOamCoord
@@ -353,7 +352,7 @@ Sprite_Soldier:
 
 ; ==============================================================================
 
-; *$2C227-$2C2CF JUMP LOCATION
+; $02C227-$02C2CF JUMP LOCATION
 Soldier_Main:
 {
     LDA $0DC0, X : PHA
@@ -370,7 +369,7 @@ Soldier_Main:
     .direction_lock_inactive
     
     ; Looks like a "draw soldier" function...
-    JSR $C680 ; $2C680 IN ROM
+    JSR $C680 ; $02C680 IN ROM
     
     PLA : STA $0DE0, X
     PLA : STA $0DC0, X
@@ -380,13 +379,13 @@ Soldier_Main:
     LDA $11 : BNE Sprite_Soldier.return
     
     ; ticking animation clock and state...
-    JSR $C535 ; $2C535 IN ROM
-    JMP $C535 ; $2C535 IN ROM
+    JSR $C535 ; $02C535 IN ROM
+    JMP $C535 ; $02C535 IN ROM
     
     .not_falling_in_hole
     
     JSR Sprite2_CheckIfActive
-    JSL $06EB5E ; $36B5E IN ROM ; push sprite back from sword hit?
+    JSL $06EB5E ; $036B5E IN ROM ; push sprite back from sword hit?
     
     JSL Sprite_CheckDamageToPlayerLong : BCS .gamma
     
@@ -414,7 +413,7 @@ Soldier_Main:
     
     .epsilon
     
-    JSR $C4D7 ; $2C4D7 IN ROM
+    JSR $C4D7 ; $02C4D7 IN ROM
     
     .zeta
     
@@ -424,7 +423,7 @@ Soldier_Main:
     
     LDA $0E70, X : BNE .iota
     
-    JSR $F9EB ; $2F9EB IN ROM
+    JSR $F9EB ; $02F9EB IN ROM
     
     .iota
     
@@ -464,14 +463,14 @@ Soldier_Main:
 
 ; ==============================================================================
 
-; $2C2D0-$2C2D3 DATA
+; $02C2D0-$02C2D3 DATA
 {
     db $60, $C0, $FF, $40
 }
 
 ; ==============================================================================
 
-; $2C2D4-$2C330 JUMP LOCATION
+; $02C2D4-$02C330 JUMP LOCATION
 {
     JSR Sprite2_ZeroVelocity
     
@@ -505,7 +504,7 @@ Soldier_Main:
     
     EOR $0DE0, X : AND.b #$02 : BNE .alpha
     
-    ; *$2C32B ALTERNATE ENTRY POINT
+    ; $02C32B ALTERNATE ENTRY POINT
     shared Soldier_EnableDirectionLock:
     
     .gamma
@@ -518,11 +517,10 @@ Soldier_Main:
     RTS
 }
 
-; $2C331-$2C3A0 DATA
+; $02C331-$02C3A0 DATA
 pool Probe:
     parallel pool Soldier:
 {
-    
     .x_speeds
     db $08, $F8, $00, $00
     
@@ -578,7 +576,7 @@ pool Probe:
     db  7,  4,  5,  6
 }
 
-; *$2C3A1-$2C402 JUMP LOCATION
+; $02C3A1-$02C402 JUMP LOCATION
 {
     LDY $0DA0, X
     
@@ -623,22 +621,22 @@ pool Probe:
     
     LDA $C379, Y : STA $0DE0, X : STA $0EB0, X
     
-    JMP $C454 ; $2C454 IN ROM
+    JMP $C454 ; $02C454 IN ROM
 }
 
-; *$2C403-$2C46F JUMP LOCATION
+; $02C403-$02C46F JUMP LOCATION
 {
     JSR Sprite_SpawnProbeStaggered
     
     LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCC .alpha
     
-    JMP $C3A1 ; $2C3A1 IN ROM
+    JMP $C3A1 ; $02C3A1 IN ROM
     
     .alpha
     
     LDA $0DF0, X : BNE .beta
     
-    ; *$2C417 ALTERNATE ENTRY POINT
+    ; $02C417 ALTERNATE ENTRY POINT
     
     JSR Sprite2_ZeroVelocity
     
@@ -674,7 +672,7 @@ pool Probe:
     
     INC $0E80, X
 
-; *$2C454-$2C46F ALTERNATE ENTRY POINT
+; $02C454-$02C46F ALTERNATE ENTRY POINT
 
     INC $0E80, X
     
@@ -689,10 +687,9 @@ pool Probe:
 
 ; ==============================================================================
 
-; $2C470-$2C48F DATA
+; $02C470-$02C48F DATA
 pool Soldier:
 {
-    
     .head_looking_states
     db $00, $02, $02, $02, $00, $03, $03, $03
     db $01, $03, $03, $03, $01, $02, $02, $02
@@ -702,7 +699,7 @@ pool Soldier:
 
 ; ==============================================================================
 
-; $2C490-$2C4C0 JUMP LOCATION
+; $02C490-$02C4C0 JUMP LOCATION
 {
     JSR Sprite2_ZeroVelocity
     JSR Sprite_SpawnProbeStaggered
@@ -730,7 +727,7 @@ pool Soldier:
     RTS
 }
 
-; *$2C4C1-$2C4E7 JUMP LOCATION
+; $02C4C1-$02C4E7 JUMP LOCATION
 {
     ; Green soldier submode 3
     
@@ -744,7 +741,7 @@ pool Soldier:
     
     LDA.b #$FF
     
-    ; *$2C4D7 ALTERNATE ENTRY POINT
+    ; $02C4D7 ALTERNATE ENTRY POINT
     
     STA $0DF0, X
     
@@ -757,7 +754,7 @@ pool Soldier:
     RTS
 }
 
-; $2C4E8-$2C4F8 JUMP LOCATION
+; $02C4E8-$02C4F8 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_$2C500
     
@@ -770,7 +767,7 @@ pool Soldier:
 
 ; ==============================================================================
 
-; *$2C4F9-$2C4FF LOCAL
+; $02C4F9-$02C4FF LOCAL
 Sprite2_ZeroVelocity:
 {
     ; Stop horizontal and vertical velocities
@@ -782,7 +779,7 @@ Sprite2_ZeroVelocity:
 
 ; ==============================================================================
 
-; $2C500-$2C53B LOCAL
+; $02C500-$02C53B LOCAL
 {
     TYA : EOR $1A : AND.b #$1F : BNE .alpha
     
@@ -808,23 +805,22 @@ Sprite2_ZeroVelocity:
     
     JSL Probe_SetDirectionTowardsPlayer
     
-    ; *$2C535 ALTERNATE ENTRY POINT
+    ; $02C535 ALTERNATE ENTRY POINT
     
     INC $0E80, X
     
-    JSR $C454 ; $2C454 IN ROM
+    JSR $C454 ; $02C454 IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; $2C53C-$2C541 DATA
+; $02C53C-$02C541 DATA
 pool Probe_SetDirectionTowardsPlayer:
     parallel pool Sprite_PsychoSpearSoldier:
     parallel pool Sprite_PsychoTrooper:
 {
-    
     .x_speeds length 4
     db $0E, $F2
     
@@ -834,7 +830,7 @@ pool Probe_SetDirectionTowardsPlayer:
 
 ; ==============================================================================
 
-; $2C542-$2C565 LONG
+; $02C542-$02C565 LONG
 Probe_SetDirectionTowardsPlayer:
 {
     PHB : PHK : PLB
@@ -863,7 +859,7 @@ Probe_SetDirectionTowardsPlayer:
 
 ; ==============================================================================
 
-; $2C566-$2C5F1 DATA
+; $02C566-$02C5F1 DATA
 {
     db $10, $10, $10, $10
     
@@ -902,7 +898,7 @@ Probe_SetDirectionTowardsPlayer:
 
 ; ==============================================================================
 
-; *$2C5F2-$2C66D LOCAL
+; $02C5F2-$02C66D LOCAL
 Sprite_SpawnProbeStaggered:
 {
     ; Soldiers and Archers seem to be the only two types that call this.
@@ -920,7 +916,7 @@ Sprite_SpawnProbeStaggered:
     
     CLC : AND.b #$1F : ADC $C5EE, Y : AND.b #$3F : STA $0F
     
-    ; *$2C612 ALTERNATIVE ENTRY POINT
+    ; $02C612 ALTERNATIVE ENTRY POINT
     shared Sprite_SpawnProbeAlways:
     
     LDA.b #$41  ; If any of our sprites are dead, change it to a soldier
@@ -965,7 +961,7 @@ Sprite_SpawnProbeStaggered:
 
 ; ==============================================================================
 
-; *$2C66E-$2C675 LONG
+; $02C66E-$02C675 LONG
 Sprite_SpawnProbeAlwaysLong:
 {
     PHB : PHK : PLB
@@ -979,14 +975,14 @@ Sprite_SpawnProbeAlwaysLong:
 
 ; ==============================================================================
 
-; *$2C676-$2C67F LONG
+; $02C676-$02C67F LONG
 Soldier_AnimateMarionetteTempLong:
 {
     PHB : PHK : PLB
     
     PHX
     
-    JSR $C680 ; $2C680 IN ROM
+    JSR $C680 ; $02C680 IN ROM
     
     PLX
     
@@ -995,14 +991,14 @@ Soldier_AnimateMarionetteTempLong:
     RTL
 }
 
-; *$2C680-$2C6A2 LOCAL
+; $02C680-$02C6A2 LOCAL
 {
     JSR Sprite2_PrepOamCoord
-    JSR $C6DE ; $2C6DE IN ROM
-    JSR $CA09 ; $2CA09 IN ROM
-    JSR $CB64 ; $2CB64 IN ROM
+    JSR $C6DE ; $02C6DE IN ROM
+    JSR $CA09 ; $02CA09 IN ROM
+    JSR $CB64 ; $02CB64 IN ROM
     
-    ; *$2C68C ALTERNATE ENTRY POINT
+    ; $02C68C ALTERNATE ENTRY POINT
     
     LDA $0E60, X : AND.b #$10 : BEQ .alpha
     
@@ -1045,11 +1041,11 @@ Soldier_AnimateMarionetteTempLong:
     db $08, $00, $08, $00, $08, $00, $08, $00
 }
 
-; *$2C6DE-$2C72C LOCAL
+; $02C6DE-$02C72C LOCAL
 {
     LDY.b #$00
     
-    ; *$2C6E0 ALTERNATE ENTRY POINT
+    ; $02C6E0 ALTERNATE ENTRY POINT
     
     PHX
     
@@ -1094,13 +1090,13 @@ Soldier_AnimateMarionetteTempLong:
     RTS
 }
 
-; *$2CA09-$2CAB7 LOCAL
+; $02CA09-$02CAB7 LOCAL
 {
     LDY $0DE0, X
     
     LDA $CA05, Y : TAY
     
-    ; *$2CA10 ALTERNATE ENTRY POINT
+    ; $02CA10 ALTERNATE ENTRY POINT
     
     LDA $0DC0, X : ASL #2 : STA $07
     LDA $0E20, X          : STA $08
@@ -1109,7 +1105,7 @@ Soldier_AnimateMarionetteTempLong:
     
     LDX.b #$03
     
-    ; *$2CA1F ALTERNATE ENTRY POINT
+    ; $02CA1F ALTERNATE ENTRY POINT
     
     PHX
     
@@ -1187,7 +1183,7 @@ Soldier_AnimateMarionetteTempLong:
     
     PLX : DEX : BMI .theta
     
-    JMP $CA1F ; $2CA1F IN ROM
+    JMP $CA1F ; $02CA1F IN ROM
     
     .theta
     
@@ -1196,7 +1192,7 @@ Soldier_AnimateMarionetteTempLong:
     RTS
 }
 
-; *$2CB64-$2CBDF LOCAL
+; $02CB64-$02CBDF LOCAL
 {
     LDA $0DC0, X : ASL A : STA $06
     
@@ -1266,13 +1262,13 @@ Soldier_AnimateMarionetteTempLong:
 
 ; ==============================================================================
 
-; *$2CBE0-$2CC3B JUMP LOCATION
+; $02CBE0-$02CC3B JUMP LOCATION
 Sprite_PsychoSpearSoldier:
 {
-    JSR $C680   ; $2C680 IN ROM
+    JSR $C680   ; $02C680 IN ROM
     JSR Sprite2_CheckIfActive
     JSR PsychoSpearSoldier_PlayChaseMusic
-    JSL $06EB5E ; $36B5E IN ROM
+    JSL $06EB5E ; $036B5E IN ROM
     JSR Sprite2_CheckIfRecoiling
     JSR Sprite2_MoveIfNotTouchingWall
     JSR Sprite2_CheckTileCollision
@@ -1311,14 +1307,14 @@ Sprite_PsychoSpearSoldier:
     
     INC $0E80, X
     
-    JSR $C454 ; $2C454 IN ROM
+    JSR $C454 ; $02C454 IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$2CC3C-$2CC64 LOCAL
+; $02CC3C-$02CC64 LOCAL
 PsychoSpearSoldier_PlayChaseMusic:
 {
     LDA $0ED0, X : CMP.b #$10 : BEQ .no_change
@@ -1340,13 +1336,13 @@ PsychoSpearSoldier_PlayChaseMusic:
 
 ; ==============================================================================
 
-; *$2CC65-$2CCD4 JUMP LOCATION
+; $02CC65-$02CCD4 JUMP LOCATION
 Sprite_PsychoTrooper:
 {
-    JSR $CCD5   ; $2CCD5 IN ROM
+    JSR $CCD5   ; $02CCD5 IN ROM
     JSR Sprite2_CheckIfActive
-    JSR $CC3C   ; $2CC3C IN ROM
-    JSL $06EB5E ; $36B5E IN ROM
+    JSR $CC3C   ; $02CC3C IN ROM
+    JSL $06EB5E ; $036B5E IN ROM
     JSR Sprite2_CheckIfRecoiling
     JSR Sprite2_MoveIfNotTouchingWall
     JSR Sprite2_CheckTileCollision
@@ -1394,29 +1390,29 @@ Sprite_PsychoTrooper:
 
 ; ==============================================================================
 
-; *$2CCD5-$2CCE7 LOCAL
+; $02CCD5-$02CCE7 LOCAL
 {
     JSR Sprite2_PrepOamCoord
     
-    LDY.b #$0C : JSR $B160 ; $2B160 IN ROM
+    LDY.b #$0C : JSR $B160 ; $02B160 IN ROM
     
-    LDY.b #$08 : JSR $B3CD  ; $2B3CD IN ROM
+    LDY.b #$08 : JSR $B3CD  ; $02B3CD IN ROM
     
-    JSR $CD4F  ; $2CD4F IN ROM
-    JMP $C68C ; $2C68C IN ROM
+    JSR $CD4F  ; $02CD4F IN ROM
+    JMP $C68C ; $02C68C IN ROM
 }
 
-; *$2CD48-$2CDD3 LOCAL
+; $02CD48-$02CDD3 LOCAL
 {
     LDY.b #$00
     
-    ; *$2CD4A ALTERNATE ENTRY POINT
+    ; $02CD4A ALTERNATE ENTRY POINT
     
     LDA $0D90, X
     
     BRA .alpha
     
-    ; *$2CD4F ALTERNATE ENTRY POINT
+    ; $02CD4F ALTERNATE ENTRY POINT
     
     LDA $0D90, X
     
@@ -1487,7 +1483,7 @@ Sprite_PsychoTrooper:
 
 ; ==============================================================================
 
-; *$2CDD4-$2CDDC LOCAL
+; $02CDD4-$02CDDC LOCAL
 Sprite2_MoveIfNotTouchingWall:
 {
     LDA $0E70, X : BNE .alpha
@@ -1501,17 +1497,16 @@ Sprite2_MoveIfNotTouchingWall:
 
 ; ==============================================================================
 
-; $2CDDD-$2CDE0 DATA
+; $02CDDD-$02CDE0 DATA
 pool Sprite_JavelinTrooper:
 {
-    
     .animation_states
     db $0C, $00, $12, $08
 }
 
 ; ==============================================================================
 
-; *$2CDE1-$2CE73 JUMP LOCATION
+; $02CDE1-$02CE73 JUMP LOCATION
 Sprite_JavelinTrooper:
 {
     LDA $0DC0, X : PHA
@@ -1529,7 +1524,7 @@ Sprite_JavelinTrooper:
     
     BRA .beta
     
-    ; *$2CDFF ALTERNATE ENTRY POINT
+    ; $02CDFF ALTERNATE ENTRY POINT
     shared Sprite_ArcherSoldier:
     
     LDA $0DC0, X : PHA
@@ -1597,7 +1592,7 @@ Sprite_JavelinTrooper:
 
 ; ==============================================================================
 
-; $2CE74-$2CEA9 LOCAL
+; $02CE74-$02CEA9 LOCAL
 JavelinTrooper_Resting:
 {
     JSR Sprite2_ZeroVelocity
@@ -1627,7 +1622,7 @@ JavelinTrooper_Resting:
 
 ; ==============================================================================
 
-; $2CEAA-$2CF12 LOCAL
+; $02CEAA-$02CF12 LOCAL
 JavelinTrooper_WalkingAround:
 {
     LDA $0DF0, X : BNE .delay
@@ -1658,7 +1653,7 @@ JavelinTrooper_WalkingAround:
     
     TYA : STA $0EB0, X
     
-    ; $2CEE2 ALTERNATE ENTRY POINT
+    ; $02CEE2 ALTERNATE ENTRY POINT
     shared JavelinTrooper_Animate:
     
     INC $0E80, X : LDA $0E80, X : AND.b #$0F : BNE .gamma
@@ -1686,7 +1681,7 @@ JavelinTrooper_WalkingAround:
 
 ; ==============================================================================
 
-; $2CF13-$2CF43 LOCAL
+; $02CF13-$02CF43 LOCAL
 JavelinTrooper_LookingAround:
 {
     JSR Sprite2_ZeroVelocity
@@ -1717,7 +1712,7 @@ JavelinTrooper_LookingAround:
 
 ; ==============================================================================
 
-; $2CF44-$2CF60 LOCAL
+; $02CF44-$02CF60 LOCAL
 JavelinTrooper_NoticedPlayer:
 {
     JSR Sprite2_ZeroVelocity
@@ -1726,7 +1721,7 @@ JavelinTrooper_NoticedPlayer:
     
     LDA $0DF0, X : BNE .delay
     
-    ; $2CF53 ALTERNATE ENTRY POINT
+    ; $02CF53 ALTERNATE ENTRY POINT
     .no_delay
     
     LDA.b #$04 : STA $0D80, X
@@ -1742,10 +1737,9 @@ JavelinTrooper_NoticedPlayer:
 
 ; ==============================================================================
 
-; $2CF61-$2CF84 DATA
+; $02CF61-$02CF84 DATA
 pool JavelinTrooper_Agitated:
 {
-    
     .x_offsets_low
     db $B0, $50, $00, $F8
     db $B0, $50, $F8, $08
@@ -1768,7 +1762,7 @@ pool JavelinTrooper_Agitated:
 
 ; ==============================================================================
 
-; $2CF85-$2D000 LOCAL
+; $02CF85-$02D000 LOCAL
 JavelinTrooper_Agitated:
 {
     LDY $0DE0, X
@@ -1826,10 +1820,9 @@ JavelinTrooper_Agitated:
 
 ; ==============================================================================
 
-; $2D001-$2D044 DATA
+; $02D001-$02D044 DATA
 pool JavelinTrooper_Attack:
 {
-    
     .animation_states
     
     ; Archer Soldier's states
@@ -1854,7 +1847,7 @@ pool JavelinTrooper_Attack:
 
 ; ==============================================================================
 
-; $2D045-$2D08A LOCAL
+; $02D045-$02D08A LOCAL
 JavelinTrooper_Attack:
 {
     LDY $0DE0, X
@@ -1865,7 +1858,7 @@ JavelinTrooper_Attack:
     
     LDA $0DF0, X : BNE .delay
     
-    JMP $C417 ; $2C417 IN ROM
+    JMP $C417 ; $02C417 IN ROM
     
     .delay
     
@@ -1906,10 +1899,9 @@ JavelinTrooper_Attack:
 
 ; ==============================================================================
 
-; $2D08B-$2D0C4 DATA
+; $02D08B-$02D0C4 DATA
     pool JavelinTrooper_SpawnProjectile
 {
-    
     .x_offsets_low
     db $10, $F8, $03, $0B
     db $0C, $FC, $0C, $FC
@@ -1950,7 +1942,7 @@ JavelinTrooper_Attack:
 
 ; ==============================================================================
 
-; $2D0C5-$2D140 LOCAL
+; $02D0C5-$02D140 LOCAL
 JavelinTrooper_SpawnProjectile:
 {
     LDA.b #$1B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -2008,7 +2000,7 @@ JavelinTrooper_SpawnProjectile:
 
 ; ==============================================================================
 
-; *$2D141-$2D191 LOCAL
+; $02D141-$02D191 LOCAL
 BushJavelinSoldier_Draw:
 {
     LDA $0DC0, X : PHA
@@ -2038,50 +2030,50 @@ BushJavelinSoldier_Draw:
     
     LDY.b #$10
     
-    JSR $C6E0 ; $2C6E0 IN ROM
+    JSR $C6E0 ; $02C6E0 IN ROM
     
     LDY.b #$0C
     
-    JSR $B3CD ; $2B3CD IN ROM
+    JSR $B3CD ; $02B3CD IN ROM
     
     LDA $0DC0, X : CMP.b #$14 : BCS .alpha
     
     LDY.b #$04
     
-    JSR $CD4A ; $2CD4A IN ROM
+    JSR $CD4A ; $02CD4A IN ROM
 
     .alpha
 
-    JMP $C68C ; $2C68C IN ROM
+    JMP $C68C ; $02C68C IN ROM
 }
 
 ; ==============================================================================
 
-; *$2D192-$2D1AB LOCAL
+; $02D192-$02D1AB LOCAL
 JavelinTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
     LDY.b #$0C
     
-    JSR $B160 ; $2B160 IN ROM
+    JSR $B160 ; $02B160 IN ROM
     
     LDY.b #$08
     
-    JSR $B3CD ; $2B3CD IN ROM
+    JSR $B3CD ; $02B3CD IN ROM
     
     LDA $0DC0, X : CMP.b #$14 : BCS .alpha
     
-    JSR $CD48 ; $2CD48 IN ROM
+    JSR $CD48 ; $02CD48 IN ROM
 
     .alpha
 
-    JMP $C68C ; $2C68C IN ROM
+    JMP $C68C ; $02C68C IN ROM
 }
 
 ; ==============================================================================
 
-; *$2D1AC-$2D1F4 JUMP LOCATION
+; $02D1AC-$02D1F4 JUMP LOCATION
 Sprite_BushJavelinSoldier:
 {
     LDA $0D80, X : BEQ .alpha
@@ -2093,13 +2085,13 @@ Sprite_BushJavelinSoldier:
     
     .beta
     
-    JSR $D321 ; $2D321 IN ROM
+    JSR $D321 ; $02D321 IN ROM
     
     .alpha
     
     BRA .gamma
     
-    ; *$2D1BF ALTERNATE ENTRY POINT
+    ; $02D1BF ALTERNATE ENTRY POINT
     shared Sprite_BushArcherSoldier:
     
     LDA $0D80, X : BEQ .gamma
@@ -2112,7 +2104,7 @@ Sprite_BushJavelinSoldier:
     
     .delta
     
-    JSR $D321 ; $2D321 IN ROM
+    JSR $D321 ; $02D321 IN ROM
     
     .gamma
     
@@ -2141,7 +2133,7 @@ Sprite_BushJavelinSoldier:
     dw $D2CE ; $2D2CE
 }
 
-; $2D1F5-$2D202 JUMP LOCATION
+; $02D1F5-$02D202 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
@@ -2156,9 +2148,8 @@ Sprite_BushJavelinSoldier:
 
 ; ==============================================================================
 
-; $2D203-$2D222 DATA
+; $02D203-$02D222 DATA
 {
-    
     .animation_states
     db 4, 4, 4, 4, 4, 4, 4, 4
     db 0, 1, 0, 1, 0, 1, 0, 1
@@ -2168,9 +2159,9 @@ Sprite_BushJavelinSoldier:
 
 ; ==============================================================================
 
-; $2D223-$2D251 JUMP LOCATION
+; $02D223-$02D251 JUMP LOCATION
 {
-    JSL $06F2AA ; $372AA IN ROM
+    JSL $06F2AA ; $0372AA IN ROM
     
     LDA $0DF0, X : BNE .delay
     
@@ -2178,7 +2169,7 @@ Sprite_BushJavelinSoldier:
     
     LDA.b #$30 : STA $0DF0, X
     
-    JSR $F93F ; $2F93F IN ROM
+    JSR $F93F ; $02F93F IN ROM
     
     TYA : STA $0DE0, X : STA $0EB0, X
     
@@ -2190,7 +2181,7 @@ Sprite_BushJavelinSoldier:
     
     PHA
     
-    JSR $D252 ; $2D252 IN ROM
+    JSR $D252 ; $02D252 IN ROM
     
     PLA : LSR #2 : TAY
     
@@ -2202,7 +2193,7 @@ Sprite_BushJavelinSoldier:
     
 }
 
-; $2D252-$2D276 LOCAL
+; $02D252-$02D276 LOCAL
 {
     LDA.b #$EC : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
@@ -2221,7 +2212,7 @@ Sprite_BushJavelinSoldier:
     RTS
 }
 
-; $2D277-$2D2BD JUMP LOCATION
+; $02D277-$02D2BD JUMP LOCATION
 {
     STZ $0BA0, X
     
@@ -2272,7 +2263,7 @@ Sprite_BushJavelinSoldier:
     RTS
 }
 
-; $2D2CE-$2D2E8 JUMP LOCATION
+; $02D2CE-$02D2E8 JUMP LOCATION
 {
     JSR Sprite2_CheckDamage
     
@@ -2293,7 +2284,7 @@ Sprite_BushJavelinSoldier:
     RTS
 }
 
-; *$2D321-$2D380 LOCAL
+; $02D321-$02D380 LOCAL
 {
     JSR Sprite2_PrepOamCoord
     
@@ -2352,10 +2343,9 @@ Sprite_BushJavelinSoldier:
 
 ; ==============================================================================
 
-; $2D381-$2D38B DATA
+; $02D381-$02D38B DATA
 pool ArcherSoldier_Draw:
 {
-    
     ; \task come up with better names for these
     .oam_indices_0 length 4
     db 0, 0, 0
@@ -2369,7 +2359,7 @@ pool ArcherSoldier_Draw:
 
 ; ==============================================================================
 
-; *$2D38C-$2D3AF LOCAL
+; $02D38C-$02D3AF LOCAL
 ArcherSoldier_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -2378,25 +2368,25 @@ ArcherSoldier_Draw:
     
     LDA .oam_indices_1, Y : TAY
     
-    JSR $C6E0   ; $2C6E0 IN ROM
+    JSR $C6E0   ; $02C6E0 IN ROM
     
     LDY $0DE0, X
     
     LDA .oam_indices_2, Y : TAY
     
-    JSR $CA10   ; $2CA10 IN ROM
+    JSR $CA10   ; $02CA10 IN ROM
     
     LDY $0DE0, X
     
     LDA .oam_indices_0, Y : TAY
     
-    JSR $D4D4   ; $2D4D4 IN ROM
-    JMP $C68C   ; $2C68C IN ROM
+    JSR $D4D4   ; $02D4D4 IN ROM
+    JMP $C68C   ; $02C68C IN ROM
 }
 
 ; ==============================================================================
 
-; *$2D4D4-$2D53A LOCAL
+; $02D4D4-$02D53A LOCAL
 {
     LDA $0DC0, X : SEC : SBC.b #$0E : BCS .alpha
     
@@ -2466,7 +2456,7 @@ incsrc "sprite_uncle_and_priest.asm"
 
 ; ==============================================================================
 
-; *$2DF6C-$2DFE4 LONG
+; $02DF6C-$02DFE4 LONG
 Sprite_DrawMultiple:
 {
     ; Widely called, seems to do with placing sprite graphics
@@ -2475,17 +2465,17 @@ Sprite_DrawMultiple:
     STA $06
     STZ $07
     
-    ; *$2DF70 ALTERNATE ENTRY POINT
+    ; $02DF70 ALTERNATE ENTRY POINT
     .quantity_preset
     
-    JSR $DFE9 ; $2DFE9 IN ROM
+    JSR $DFE9 ; $02DFE9 IN ROM
     
     BRA .moving_on
     
-    ; *$2DF75 ALTERNATE ENTRY POINT
+    ; $02DF75 ALTERNATE ENTRY POINT
     .player_deferred
     
-    JSR $DFE5 ; $2DFE5 IN ROM
+    JSR $DFE5 ; $02DFE5 IN ROM
     
     .moving_on
     
@@ -2561,14 +2551,14 @@ Sprite_DrawMultiple:
 
 ; ==============================================================================
 
-; *$2DFE5-$2E00A LOCAL
+; $02DFE5-$02E00A LOCAL
 {
     ; Has two return values (CLC and SEC)
     
     ; Optinally alter OAM allocation region.
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
-    ; *$2DFE9 ALTERNATE ENTRY POINT
+    ; $02DFE9 ALTERNATE ENTRY POINT
     
     ; Note: it is possible for this callee to abort the caller (namely, the
     ; routine we are in right now).
@@ -2603,17 +2593,16 @@ incsrc "sprite_quarrel_bros.asm"
 
 ; ==============================================================================
 
-; $2E1A3-$2E1A6 DATA
+; $02E1A3-$02E1A6 DATA
 pool Sprite_ShowSolicitedMessageIfPlayerFacing:
 {
-    
     .facing_direction
     db $04, $06, $00, $02
 }
 
 ; ==============================================================================
 
-; *$2E1A7-$2E1EF LONG
+; $02E1A7-$02E1EF LONG
 Sprite_ShowSolicitedMessageIfPlayerFacing:
 {
     ; Handles text messages
@@ -2664,7 +2653,7 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
 
 ; ==============================================================================
 
-; *$2E1F0-$2E218 LONG
+; $02E1F0-$02E218 LONG
 Sprite_ShowMessageFromPlayerContact:
 {
     ; You might be wondering how this differs from the similarly named
@@ -2702,7 +2691,7 @@ Sprite_ShowMessageFromPlayerContact:
 
 ; ==============================================================================
 
-; *$2E219-$2E24C LONG
+; $02E219-$02E24C LONG
 Sprite_ShowMessageUnconditional:
 {
     ; Routine is used to display a text message with
@@ -2755,7 +2744,7 @@ incsrc "sprite_arrow_target.asm"
 
 ; ==============================================================================
 
-; *$2E657-$2E665 LONG UNUSED
+; $02E657-$02E665 LONG UNUSED
 Sprite2_TrendHorizSpeedToZero:
 {
     ; Appears to be unsued, or orphaned code for now...
@@ -2780,7 +2769,7 @@ Sprite2_TrendHorizSpeedToZero:
 
 ; ==============================================================================
 
-; $2E666-$2E674 LONG UNUSED
+; $02E666-$02E674 LONG UNUSED
 Sprite2_TrendVertSpeedToZero:
 {
     LDA $0D40, X : BEQ .at_rest : BPL .positive_velocity
@@ -2817,7 +2806,7 @@ incsrc "sprite_potion_shop.asm"
     
 ; ==============================================================================
 
-; *$2F93F-$2F943 LOCAL
+; $02F93F-$02F943 LOCAL
 Sprite2_DirectionToFacePlayer:
 {
     JSL Sprite_DirectionToFacePlayerLong
@@ -2827,7 +2816,7 @@ Sprite2_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; *$2F944-$2F948 LOCAL
+; $02F944-$02F948 LOCAL
 Sprite2_IsToRightOfPlayer:
 {
     JSL Sprite_IsToRightOfPlayerLong
@@ -2837,7 +2826,7 @@ Sprite2_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; *$2F949-$2F94D LOCAL
+; $02F949-$02F94D LOCAL
 Sprite2_IsBelowPlayer:
 {
     JSL Sprite_IsBelowPlayerLong
@@ -2847,12 +2836,12 @@ Sprite2_IsBelowPlayer:
 
 ; ==============================================================================
 
-; *$2F94E-$2F96A LOCAL
+; $02F94E-$02F96A LOCAL
 Sprite2_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
     
-    ; *$2F955 ALTERNATE ENTRY POINT
+    ; $02F955 ALTERNATE ENTRY POINT
     .permissive
     
     LDA $0FC1 : BNE .inactive
@@ -2874,17 +2863,16 @@ Sprite2_CheckIfActive:
 
 ; ==============================================================================
 
-; $2F96B-$2F970 DATA
+; $02F96B-$02F970 DATA
 pool Sprite2_CheckIfRecoiling:
 {
-    
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
     ]
 
 ; ==============================================================================
 
-; *$2F971-$2F9EC LOCAL
+; $02F971-$02F9EC LOCAL
 Sprite2_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -2960,7 +2948,7 @@ Sprite2_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; *$2F9ED-$2F9F3 LOCAL
+; $02F9ED-$02F9F3 LOCAL
 Sprite2_Move:
 {
     JSR Sprite2_MoveHoriz
@@ -2971,7 +2959,7 @@ Sprite2_Move:
 
 ; ==============================================================================
 
-; *$2F9F4-$2F9FF LOCAL
+; $02F9F4-$02F9FF LOCAL
 Sprite2_MoveHoriz:
 {
     TXA : CLC : ADC.b #$10 : TAX
@@ -2985,7 +2973,7 @@ Sprite2_MoveHoriz:
 
 ; ==============================================================================
 
-; *$2FA00-$2FA2D LOCAL
+; $02FA00-$02FA2D LOCAL
 Sprite2_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
@@ -3010,7 +2998,7 @@ Sprite2_MoveVert:
 
 ; ==============================================================================
 
-; *$2FA2E-$2FA4F LOCAL
+; $02FA2E-$02FA4F LOCAL
 Sprite2_MoveAltitude:
 {
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
@@ -3028,7 +3016,7 @@ Sprite2_MoveAltitude:
 
 ; ==============================================================================
 
-; *$2FA50-$2FA58 LOCAL
+; $02FA50-$02FA58 LOCAL
 Sprite2_PrepOamCoord:
 {
     ; Collision detecting function (at least it calls one in bank $06)
@@ -3044,7 +3032,7 @@ Sprite2_PrepOamCoord:
 
 ; ==============================================================================
 
-; *$2FA59-$2FAA1 LONG
+; $02FA59-$02FAA1 LONG
 Sprite_ShowMessageIfPlayerTouching:
 {
     STA $1CF0
@@ -3078,7 +3066,7 @@ Sprite_ShowMessageIfPlayerTouching:
     
     LDA $4D : BNE .dontShowDialogue
     
-    ; *$2FA8E ALTERNATE ENTRY POINT
+    ; $02FA8E ALTERNATE ENTRY POINT
     shared Sprite_ShowMessageMinimal:
     
     STZ $0223
@@ -3097,7 +3085,7 @@ Sprite_ShowMessageIfPlayerTouching:
 
 ; ==============================================================================
 
-; $2FAA2-$2FAC9 LONG
+; $02FAA2-$02FAC9 LONG
 Overworld_ReadTileAttr:
 {
     ; \task (rather a bug in the way I named this routine...

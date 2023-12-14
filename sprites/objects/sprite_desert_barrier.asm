@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2956D-$295FB JUMP LOCATION
+; $02956D-$0295FB JUMP LOCATION
 Sprite_DesertBarrier:
 {
     JSR DesertBarrier_Draw
@@ -90,12 +90,11 @@ Sprite_DesertBarrier:
 
 ; ==============================================================================
 
-; $295FC-$29605 DATA
+; $0295FC-$029605 DATA
 pool Sprite_DesertBarrier:
     shared Sprite_ArmosKnight:
     shared Sprite_Lanmolas:
 {
-    
     ; Note the overlap - they optimized it for space reasons. It's correct.
     .x_speeds length 4
     db $10, $F0
@@ -109,10 +108,9 @@ pool Sprite_DesertBarrier:
 
 ; ==============================================================================
 
-; $29606-$29625 DATA
+; $029606-$029625 DATA
 pool DesertBarrier_Draw:
 {
-    
     .subsprites
     dw -8, -8
     db $8E, $00, $00, $02
@@ -129,7 +127,7 @@ pool DesertBarrier_Draw:
 
 ; ==============================================================================
 
-; *$29626-$29669 LOCAL
+; $029626-$029669 LOCAL
 DesertBarrier_Draw:
 {
     LDA $0DF0, X : CMP.b #$01 : BNE .no_sound_effect

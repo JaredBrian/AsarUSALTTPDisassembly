@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2BA85-$2BAB5 JUMP LOCATION
+; $02BA85-$02BAB5 JUMP LOCATION
 Sprite_Toppo:
 {
     ; Asshole bunny
@@ -36,10 +36,9 @@ Sprite_Toppo:
 
 ; ==============================================================================
 
-; $2BAB6-$2BAC5 DATA
+; $02BAB6-$02BAC5 DATA
 pool Toppo_PickNextGrassPlot:
 {
-    
     .x_offsets_low
     db $E0, $20, $00, $00
     
@@ -55,7 +54,7 @@ pool Toppo_PickNextGrassPlot:
 
 ; ==============================================================================
 
-; $2BAC6-$2BB00 JUMP LOCATION
+; $02BAC6-$02BB00 JUMP LOCATION
 Toppo_PickNextGrassPlot:
 {
     LDA $0DF0, X : BNE .delay
@@ -79,7 +78,7 @@ Toppo_PickNextGrassPlot:
 
 ; ==============================================================================
 
-; $2BB01-$2BB19 JUMP LOCATION
+; $02BB01-$02BB19 JUMP LOCATION
 Toppo_ChillBeforeJump:
 {
     LDA $0DF0, X : BNE .delay
@@ -101,7 +100,7 @@ Toppo_ChillBeforeJump:
 
 ; ==============================================================================
 
-; $2BB1A-$2BB2F JUMP LOCATION
+; $02BB1A-$02BB2F JUMP LOCATION
 Toppo_WaitThenJump:
 {
     LDA $0DF0, X : BNE .delay
@@ -121,7 +120,7 @@ Toppo_WaitThenJump:
 
 ; ==============================================================================
 
-; $2BB30-$2BB52 JUMP LOCATION
+; $02BB30-$02BB52 JUMP LOCATION
 Toppo_RiseAndFall:
 {
     JSR Sprite2_CheckDamage
@@ -147,7 +146,7 @@ Toppo_RiseAndFall:
 
 ; ==============================================================================
 
-; $2BB53-$2BB6C JUMP LOCATION
+; $02BB53-$02BB6C JUMP LOCATION
 Toppo_ChillAfterJump:
 {
     LDA $0DF0, X : BNE .delay
@@ -171,7 +170,7 @@ Toppo_ChillAfterJump:
 
 ; ==============================================================================
 
-; $2BB6D-$2BB71
+; $02BB6D-$02BB71
 Toppo_FlusteredTrampoline:
 {
     JSL Toppo_Flustered
@@ -181,7 +180,7 @@ Toppo_FlusteredTrampoline:
 
 ; ==============================================================================
 
-; $2BB72-$2BB95 LOCAL
+; $02BB72-$02BB95 LOCAL
 Toppo_CheckLandingSiteForGrass:
 {
     LDA $0D00, X : STA $00
@@ -201,7 +200,7 @@ Toppo_CheckLandingSiteForGrass:
 
 ; ==============================================================================
 
-; $2BB96-$2BBFE DATA
+; $02BB96-$02BBFE DATA
 pool Toppo_Draw:
 {
     ; \task Fill in data.
@@ -209,7 +208,7 @@ pool Toppo_Draw:
 
 ; ==============================================================================
 
-; *$2BBFF-$2BC89 LOCAL
+; $02BBFF-$02BC89 LOCAL
 Toppo_Draw:
 {
     JSR Sprite2_PrepOamCoord

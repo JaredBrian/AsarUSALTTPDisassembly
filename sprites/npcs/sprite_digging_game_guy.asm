@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $EFC38-$EFC5A JUMP LOCATION
+; $0EFC38-$0EFC5A JUMP LOCATION
 Sprite_DiggingGameGuy:
 {
     ; Diggging game guy' code
@@ -27,7 +27,7 @@ Sprite_DiggingGameGuy:
 
 ; ==============================================================================
 
-; $EFC5B-$EFC88 JUMP LOCATION
+; $0EFC5B-$0EFC88 JUMP LOCATION
 DiggingGameGuy_Introduction:
 {
     ; If player is more than 7 pixels away...
@@ -64,7 +64,7 @@ DiggingGameGuy_Introduction:
 
 ; ==============================================================================
 
-; $EFC89-$EFCDF JUMP LOCATION
+; $0EFC89-$0EFCDF JUMP LOCATION
 DiggingGameGuy_DoYouWantToPlay:
 {
     LDA $1CE8 : BNE .player_has_no_selected
@@ -123,7 +123,7 @@ DiggingGameGuy_DoYouWantToPlay:
 
 ; ==============================================================================
 
-; $EFCE0-$EFD09 JUMP LOCATION
+; $0EFCE0-$0EFD09 JUMP LOCATION
 DiggingGameGuy_MoveOuttaTheWay:
 {
     LDA $0DF0, X : BNE .wait_for_next_state
@@ -153,7 +153,7 @@ DiggingGameGuy_MoveOuttaTheWay:
 
 ; ==============================================================================
 
-; *$EFD0A-$EFD17 JUMP LOCATION
+; $0EFD0A-$0EFD17 JUMP LOCATION
 DiggingGameGuy_StartMinigameTimer:
 {
     INC $0D80, X
@@ -167,7 +167,7 @@ DiggingGameGuy_StartMinigameTimer:
 
 ; ==============================================================================
 
-; *$EFD18-$EFD41 JUMP LOCATION
+; $0EFD18-$0EFD41 JUMP LOCATION
 DiggingGameGuy_TerminateMinigame:
 {
     LDA $04B4 : BEQ .timer_elapsed
@@ -198,7 +198,7 @@ DiggingGameGuy_TerminateMinigame:
 
 ; ==============================================================================
 
-; *$EFD42-$EFD4A JUMP LOCATION
+; $0EFD42-$0EFD4A JUMP LOCATION
 DiggingGameGuy_ComeBackLater:
 {
     ; "Come back again! I will be waiting for you."
@@ -212,7 +212,7 @@ DiggingGameGuy_ComeBackLater:
 
 ; ==============================================================================
 
-; *$EFD4B-$EFD5B LONG
+; $0EFD4B-$0EFD5B LONG
 DiggingGameGuy_AttemptPrizeSpawnLong:
 {
     PHB : PHK : PLB
@@ -228,7 +228,7 @@ DiggingGameGuy_AttemptPrizeSpawnLong:
 
 ; ==============================================================================
 
-; *$EFD5C-$EFD81 LOCAL
+; $0EFD5C-$0EFD81 LOCAL
 DiggingGameGuy_AttemptPrizeSpawn:
 {
     REP #$20
@@ -251,10 +251,9 @@ DiggingGameGuy_AttemptPrizeSpawn:
 
 ; ==============================================================================
 
-; $EFD82-$EFD89 DATA
+; $0EFD82-$0EFD89 DATA
 pool DiggingGameGuy_GiveItem:
 {
-    
     .x_speeds
     db $F0
     db $10
@@ -273,10 +272,9 @@ pool DiggingGameGuy_GiveItem:
     
 ; ==============================================================================
 
-; *$EFD8A-$EFE02 JUMP LOCATION
+; $0EFD8A-$0EFE02 JUMP LOCATION
 DiggingGameGuy_GiveItem:
 {
-    
     .basic
     
     LDA .basic_types, Y : BRA .spawn_item
@@ -341,10 +339,9 @@ DiggingGameGuy_GiveItem:
 
 ; ==============================================================================
 
-; $EFE03-$EFE4A DATA
+; $0EFE03-$0EFE4A DATA
 pool DiggingGameGuy_Draw:
 {
-    
     .oam_groups
     dw  0, -8 : db $40, $0A, $00, $02
     dw  4,  9 : db $56, $0C, $00, $00
@@ -361,7 +358,7 @@ pool DiggingGameGuy_Draw:
 
 ; ==============================================================================
 
-; *$EFE4B-$EFE6D LOCAL
+; $0EFE4B-$0EFE6D LOCAL
 DiggingGameGuy_Draw:
 {
     LDA.b #$03 : STA $06

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2940E-$29467 JUMP LOCATION
+; $02940E-$029467 JUMP LOCATION
 Sprite_LostWoodsBird:
 {
     LDA $0E00, X : BNE .delay

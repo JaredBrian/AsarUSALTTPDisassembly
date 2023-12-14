@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $F4AF4-$F4B0B DATA
+; $0F4AF4-$0F4B0B DATA
 pool SpritePrep_BubbleGroup:
 {
-    
     .x_offets_low
     db $0A, $14, $0A
     
@@ -32,7 +31,7 @@ pool SpritePrep_BubbleGroup:
 
 ; ==============================================================================
 
-; *$F4B0C-$F4B8A LONG
+; $0F4B0C-$0F4B8A LONG
 SpritePrep_BubbleGroup:
 {
     LDA $0D10, X : SEC : SBC.b #$0A : STA $0D10, X
@@ -83,10 +82,9 @@ SpritePrep_BubbleGroup:
 
 ; ==============================================================================
 
-; $F4B8B-$F4B96 DATA
+; $0F4B8B-$0F4B96 DATA
 pool Sprite_BubbleGroup:
 {
-    
     .unused
     
     ; not really sure what this would be fore. perhaps earlier draft
@@ -105,7 +103,7 @@ pool Sprite_BubbleGroup:
 
 ; ==============================================================================
 
-; *$F4B97-$F4C01 JUMP LOCATION
+; $0F4B97-$0F4C01 JUMP LOCATION
 Sprite_BubbleGroup:
 {
     JSL Sprite_DrawFourAroundOne

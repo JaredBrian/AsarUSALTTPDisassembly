@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $35363-$35376 DATA
+; $035363-$035376 DATA
 pool Sprite_Octorock:
 {
     .next_direction
@@ -30,7 +30,7 @@ pool Sprite_Octorock:
     !type      = $0E20
     !oam_4     = $0F50
     
-; *$35377-$35450 JUMP LOCATION
+; $035377-$035450 JUMP LOCATION
 Sprite_Octorock:
 {
     !force_hflip = $00
@@ -158,10 +158,9 @@ Sprite_Octorock:
 
 ; ==============================================================================
 
-; $35451-$3546E DATA
+; $035451-$03546E DATA
 pool Octorock_Normal:
 {
-    
     .unknown
     db 0, 2, 2, 2, 1, 1, 1, 0
     db 0, 0, 0, 0, 2, 2, 2, 2
@@ -170,17 +169,16 @@ pool Octorock_Normal:
     
 ; ==============================================================================
 
-; $35465-$3546E DATA
+; $035465-$03546E DATA
 pool Octorock_FourShooter:
 {
-    
     .unknown
     db 2, 2, 2, 2 2, 2, 2, 2, 1, 0
 }
 
 ; ==============================================================================
 
-; $3546F-$35485 JUMP LOCATION (LOCAL)
+; $03546F-$035485 JUMP LOCATION (LOCAL)
 Octorock_Normal:
 {
     LDA !timer_0, X : CMP.b #$1C : BNE .dont_spit_rock
@@ -202,17 +200,16 @@ Octorock_Normal:
 
 ; ==============================================================================
 
-; $35486-$35489 DATA
+; $035486-$035489 DATA
 pool Octorock_FourShooter:
 {
-    
     .next_direction
     db 2, 3, 1, 0
 }
 
 ; ==============================================================================
 
-; $3548A-$354B4 JUMP LOCATION (LOCAL)
+; $03548A-$0354B4 JUMP LOCATION (LOCAL)
 Octorock_FourShooter:
 {
     LDA !timer_0, X : PHA
@@ -246,10 +243,9 @@ Octorock_FourShooter:
 
 ; ==============================================================================
 
-; $354B5-$354CC DATA
+; $0354B5-$0354CC DATA
 pool Octorock_SpitOutRock:
 {
-    
     ; \task Label these sublabels.
     
     db  12, -12,   0,   0
@@ -272,7 +268,7 @@ pool Octorock_SpitOutRock:
 
 ; ==============================================================================
 
-; $354CD-$35513 LOCAL
+; $0354CD-$035513 LOCAL
 Octorock_SpitOutRock:
 {
     LDA.b #$07 : JSL Sound_SetSfx2PanLong
@@ -307,10 +303,9 @@ Octorock_SpitOutRock:
 
 ; ==============================================================================
 
-; $35514-$35549 DATA
+; $035514-$035549 DATA
 pool Octorock_Draw:
 {
-    
     .x_offsets
     dw  8,  0,  4,  8,  0,  4,  9, -1,  4
     
@@ -326,7 +321,7 @@ pool Octorock_Draw:
 
 ; ==============================================================================
 
-; *$3554A-$355B8 LOCAL
+; $03554A-$0355B8 LOCAL
 Octorock_Draw:
 {
     !top_x_bit_low  = $0E

@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $F4CD3-$F4CE2 DATA
+; $0F4CD3-$0F4CE2 DATA
 pool CrystalMaiden_Configure:
 {
-    
     .palette
     dw $0000, $3821, $4463, $54A5, $5CE7, $6D29, $79AD, $7E10
 }
 
 ; ==============================================================================
 
-; *$F4CE3-$F4D47 LONG
+; $0F4CE3-$0F4D47 LONG
 CrystalMaiden_Configure:
 {
     ; USED DURING THE CRYSTAL SEQUENCE
@@ -52,7 +51,7 @@ CrystalMaiden_Configure:
 
 ; ==============================================================================
 
-; *$F4D48-$F4DD8 LOCAL
+; $0F4D48-$0F4DD8 LOCAL
 CrystalMaiden_SpawnAndConfigMaiden:
 {
     LDY.b #$0F
@@ -143,7 +142,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
 
 ; ==============================================================================
 
-; *$F4DD9-$F4E02 LOCAL
+; $0F4DD9-$0F4E02 LOCAL
 CrystalMaiden_InitPolyhedral:
 {
     LDA.b #$9C : STA $1F02
@@ -169,7 +168,7 @@ CrystalMaiden_InitPolyhedral:
 
 ; ==============================================================================
 
-; *$F4E03-$F4E38 JUMP LOCATION
+; $0F4E03-$0F4E38 JUMP LOCATION
 Sprite_CrystalMaiden:
 {
     ; Crystal Maiden sprite (after beating Dark World Palace)
@@ -202,7 +201,7 @@ Sprite_CrystalMaiden:
 
 ; ==============================================================================
 
-; *$F4E39-$F4E62 LOCAL
+; $0F4E39-$0F4E62 LOCAL
 CrystalMaiden_Main:
 {
     INC $0E90, X
@@ -232,7 +231,7 @@ CrystalMaiden_Main:
 
 ; ==============================================================================
 
-; *$F4E63-$F4E68 JUMP LOCATION
+; $0F4E63-$0F4E68 JUMP LOCATION
 CrystalMaiden_DisableSubscreen:
 {
     STZ $1D
@@ -244,7 +243,7 @@ CrystalMaiden_DisableSubscreen:
 
 ; ==============================================================================
 
-; *$F4E69-$F4E70 JUMP LOCATION
+; $0F4E69-$0F4E70 JUMP LOCATION
 CrystalMaiden_EnableSubscreen:
 {
     LDA.b #$01 : STA $1D
@@ -256,7 +255,7 @@ CrystalMaiden_EnableSubscreen:
 
 ; ==============================================================================
 
-; *$F4E71-$F4E92 JUMP LOCATION
+; $0F4E71-$0F4E92 JUMP LOCATION
 CrystalMaiden_GenerateSparkles:
 {
     LDA $1F02 : CMP.b #$06 : BCS .delay
@@ -286,12 +285,12 @@ CrystalMaiden_GenerateSparkles:
 
 ; ==============================================================================
 
-; *$F4E93-$F4EBB JUMP LOCATION
+; $0F4E93-$0F4EBB JUMP LOCATION
 CrystalMaiden_FilterPalette:
 {
     INC $0D80, X
     
-    ; *$F4E96 ALTERNATE ENTRY POINT
+    ; $0F4E96 ALTERNATE ENTRY POINT
     .finish
     
     LDA $0E90, X : AND.b #$01 : BNE .delay
@@ -322,10 +321,9 @@ CrystalMaiden_FilterPalette:
 
 ; ==============================================================================
 
-; $F4EBC-$F4ECD DATA
+; $0F4EBC-$0F4ECD DATA
 pool CrystalMaiden_ShowMessage:
 {
-    
     .message_ids
     dw $0133, $0132, $0137, $0134, $0136, $0132, $0135, $0138
     dw $013c
@@ -333,7 +331,7 @@ pool CrystalMaiden_ShowMessage:
 
 ; ==============================================================================
 
-; *$F4ECE-$F4F17 JUMP LOCATION
+; $0F4ECE-$0F4F17 JUMP LOCATION
 CrystalMaiden_ShowMessage:
 {
     ; Load the dungeon index. Is it the Dark Palace?
@@ -378,7 +376,7 @@ CrystalMaiden_ShowMessage:
 
 ; ==============================================================================
 
-; *$F4F18-$F4F23 JUMP LOCATION
+; $0F4F18-$0F4F23 JUMP LOCATION
 CrystalMaiden_ReadingComprehensionExam:
 {
     ; "Do you understand?"
@@ -396,7 +394,7 @@ CrystalMaiden_ReadingComprehensionExam:
 
 ; ==============================================================================
 
-; *$F4F24-$F4F3A JUMP LOCATION
+; $0F4F24-$0F4F3A JUMP LOCATION
 CrystalMaiden_MayTheWayOfTheHero:
 {
     LDA $1CE8 : BEQ .player_said_yes
@@ -420,7 +418,7 @@ CrystalMaiden_MayTheWayOfTheHero:
 
 ; ==============================================================================
 
-; *$F4F3B-$F4F46 JUMP LOCATION
+; $0F4F3B-$0F4F46 JUMP LOCATION
 CrystalMaiden_InitiateDungeonExit:
 {
     STZ $1D

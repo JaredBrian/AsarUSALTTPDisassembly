@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; *$7F540-$7F576 LONG
+; $07F540-$07F576 LONG
 Sprite_NullifyHookshotDrag:
 {
     PHB : PHK : PLB
@@ -41,7 +41,7 @@ Sprite_NullifyHookshotDrag:
     
     ; This is what stops Link dead in his tracks when he collides with a
     ; sprite :/
-    JSL $07F42F ; $3F42F IN ROM; Does some stuff only relevant to indoors
+    JSL $07F42F ; $03F42F IN ROM; Does some stuff only relevant to indoors
     
     PLX
     
@@ -52,7 +52,7 @@ Sprite_NullifyHookshotDrag:
 
 ; ==============================================================================
     
-; *$7F577-$7F5C2 LONG
+; $07F577-$07F5C2 LONG
 Ancilla_CheckForAvailableSlot:
 {
     ; sees if the effect in question is already in play
@@ -134,10 +134,9 @@ Ancilla_CheckForAvailableSlot:
 
 ; ==============================================================================
 
-; $7F5C3-$7F5E2 DATA
+; $07F5C3-$07F5E2 DATA
 pool Death_PlayerSwoon:
 {
-    
     .player_oam_states
     db 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 4, 5, 5
     
@@ -150,7 +149,7 @@ pool Death_PlayerSwoon:
 
 ; ==============================================================================
 
-; *$7F5E3-$7F64E LONG
+; $07F5E3-$07F64E LONG
 Death_PlayerSwoon:
 {
     PHB : PHK : PLB
@@ -204,10 +203,9 @@ Death_PlayerSwoon:
 
 ; ==============================================================================
 
-; $7F64F-$7F67A DATA
+; $07F64F-$07F67A DATA
 pool AddSwordBeam:
 {
-    
     .initial_angles
     db $21, $1D, $19, $15
     db $03, $3E, $3A, $36
@@ -238,7 +236,7 @@ pool AddSwordBeam:
 
 ; ==============================================================================
 
-; *$7F67B-$7F74C LONG
+; $07F67B-$07F74C LONG
 AddSwordBeam:
 {
     ; \note SHOOT TEH BEAMZ
@@ -308,10 +306,9 @@ AddSwordBeam:
 
 ; ==============================================================================
 
-; $7F74D-$7F763 DATA
+; $07F74D-$07F763 DATA
 pool SwordBeam:
 {
-    
     .chr
     db $D7, $B7, $80, $83
     
@@ -333,7 +330,7 @@ pool SwordBeam:
 
 ; ==============================================================================
 
-; *$7F764-$7F8EA LONG
+; $07F764-$07F8EA LONG
 SwordBeam:
 {
     PHB : PHK : PLB
@@ -513,10 +510,9 @@ SwordBeam:
 
 ; ==============================================================================
 
-; $7F8EB-$7F8FE
+; $07F8EB-$07F8FE
 pool SwordFullChargeSpark:
 {
-    
     .y_offsets_low
     db -8,  27,  12,  12
     
@@ -535,7 +531,7 @@ pool SwordFullChargeSpark:
 
 ; ==============================================================================
 
-; *$7F8FF-$7F960 LONG
+; $07F8FF-$07F960 LONG
 SwordFullChargeSpark:
 {
     PHB : PHK : PLB
@@ -586,10 +582,9 @@ SwordFullChargeSpark:
 
 ; ==============================================================================
 
-; $7F961-$7F978 DATA
+; $07F961-$07F978 DATA
 pool AncillaSpawn_SwordChargeSparkle:
 {
-    
     .y_offsets
     dw  5, 12,  8,  8
     
@@ -605,7 +600,7 @@ pool AncillaSpawn_SwordChargeSparkle:
 
 ; ==============================================================================
 
-; *$7F979-$7FA36 LONG
+; $07F979-$07FA36 LONG
 AncillaSpawn_SwordChargeSparkle:
 {
     PHB : PHK : PLB
@@ -715,7 +710,7 @@ AncillaSpawn_SwordChargeSparkle:
 
 ; ==============================================================================
 
-; *$7FA37-$7FA42 LOCAL
+; $07FA37-$07FA42 LOCAL
 SwordBeam_MoveHoriz:
 {
 	TXA : CLC : ADC.b #$0A : TAX
@@ -729,7 +724,7 @@ SwordBeam_MoveHoriz:
 
 ; ==============================================================================
 
-; *$7FA43-$7FA6E LOCAL
+; $07FA43-$07FA6E LOCAL
 SwordBeam_MoveVert:
 {
     LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X
@@ -757,7 +752,7 @@ SwordBeam_MoveVert:
 
 ; ==============================================================================
 
-; *$7FA6F-$7FAE9 LONG
+; $07FA6F-$07FAE9 LONG
 Death_PrepFaint:
 {
     ; Something related to death mode and the spot light closing in...
@@ -776,7 +771,7 @@ Death_PrepFaint:
     LDA.b #$00 : STA $7EF372
                  STA $7EF36D
     
-    JSL $07F1FA ; $3F1FA IN ROM
+    JSL $07F1FA ; $03F1FA IN ROM
     
     STZ $02F5 : STZ $0351 : STZ $02E0 : STZ $48
     STZ $02EC : STZ $4D   : STZ $46   : STZ $0373
@@ -811,7 +806,7 @@ Death_PrepFaint:
 
 ; ==============================================================================
 
-; *$7FAEA-$7FAFD LONG
+; $07FAEA-$07FAFD LONG
 ShopKeeper_RapidTerminateReceiveItem:
 {
     ; Causes receive item ancilla to hurry up and finish executing.
@@ -837,7 +832,7 @@ ShopKeeper_RapidTerminateReceiveItem:
 
 ; ==============================================================================
 
-; *$7FAFE-$7FB79 LONG
+; $07FAFE-$07FB79 LONG
 DashTremor_TwiddleOffset:
 {
 	LDY $0C72, X
@@ -902,10 +897,9 @@ DashTremor_TwiddleOffset:
 
 ; ==============================================================================
 
-; $7FB7A-$7FBC1 DATA
+; $07FB7A-$07FBC1 DATA
 pool BombosSpell_ExecuteBlasts:
 {
-    
     .y_offsets length 64
     db $B6, $5D, $A1
     
@@ -926,7 +920,7 @@ pool BombosSpell_ExecuteBlasts:
 
 ; ==============================================================================
 
-; $7FBC2-$7FCC1 DATA
+; $07FBC2-$07FCC1 DATA
 pool Ancilla_GetRadialProjection:
 {
     ; 0x100 bytes worth of data used to project a distance circularly or
@@ -982,10 +976,9 @@ pool Ancilla_GetRadialProjection:
 
 ; ==============================================================================
 
-; $7FCC2-$7FD21 DATA
+; $07FCC2-$07FD21 DATA
 pool Ancilla_SomarianBlockDivide:
 {
-    
     .y_offsets
     dw -10, -10,   2,   2,  -8,   0,  -8,   0
     dw -12, -12,   4,   4,  -8,   0,  -8,   0
@@ -1005,7 +998,7 @@ pool Ancilla_SomarianBlockDivide:
 
 ; ==============================================================================
 
-; *$7FD22-$7FD3B LONG
+; $07FD22-$07FD3B LONG
 Link_CheckBunnyStatus:
 {
     LDA $5D : CMP.b #$02 : BNE .linkNotRecoiling
@@ -1032,7 +1025,7 @@ Link_CheckBunnyStatus:
 
 ; ==============================================================================
 
-; *$7FD3C-$7FD51 LONG
+; $07FD3C-$07FD51 LONG
 Ancilla_TerminateWaterfallSplashes:
 {
     ; \hardcoded
@@ -1060,7 +1053,7 @@ Ancilla_TerminateWaterfallSplashes:
 
     ; \note I think this routine is redundant, there are probably routines
     ; in bank 0x08 that can already handle this.
-; *$7FD52-$7FD85 LONG
+; $07FD52-$07FD85 LONG
 Ancilla_TerminateIfOffscreen:
 {
     LDA $0BFA, Y : STA $0C
@@ -1090,7 +1083,7 @@ Ancilla_TerminateIfOffscreen:
 
 ; ==============================================================================
 
-; *$7FD86-$7FDA9 LONG
+; $07FD86-$07FDA9 LONG
 Sprite_InitializeSecondaryItemMinigame:
 {
     PHX
@@ -1099,7 +1092,7 @@ Sprite_InitializeSecondaryItemMinigame:
     ; two known instances of this).
     STA $03FC
     
-    JSL $07F1FA ; $3F1FA IN ROM
+    JSL $07F1FA ; $03F1FA IN ROM
     
     LDX.b #$04
     
@@ -1129,7 +1122,7 @@ Sprite_InitializeSecondaryItemMinigame:
 ; ==============================================================================
 
     ; Uses $1CF0 as the index for which message it shows.
-; *$7FDAA-$7FDC3 LONG
+; $07FDAA-$07FDC3 LONG
 Main_ShowTextMessage:
 {
     ; Are we in text mode? If so then end the routine.
@@ -1154,7 +1147,7 @@ Main_ShowTextMessage:
 
 ; ==============================================================================
 
-; *$7FDC4-$7FDCE LONG
+; $07FDC4-$07FDCE LONG
 Sprite_SpawnSparkleAncilla:
 {
 	PHB : PHK : PLB
@@ -1177,7 +1170,7 @@ Sprite_SpawnSparkleAncilla:
     ; are necessary or appropriate, and returns a carry flag state of clear
     ; to indicate that no 'underside' sprite should be drawn.
     
-; *$7FDCF-$7FE71 LONG
+; $07FDCF-$07FE71 LONG
 Bomb_CheckUndersideSpriteStatus:
 {
     ; this routine is a bomb exclusive

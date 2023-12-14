@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$32F3B-$32F45 JUMP LOCATION
+; $032F3B-$032F45 JUMP LOCATION
 Sprite_FluteBoy:
 {
     ; Flute Boy's Code
@@ -16,7 +16,7 @@ Sprite_FluteBoy:
 
 ; ==============================================================================
 
-; $32F46-$32F50 JUMP LOCATION
+; $032F46-$032F50 JUMP LOCATION
 FluteBoy_Humanoid:
 {
     ; In this situation, determines light world / darkworld behavior
@@ -30,7 +30,7 @@ FluteBoy_Humanoid:
 
 ; ==============================================================================
 
-; *$32F51-$32F92 JUMP LOCATION
+; $032F51-$032F92 JUMP LOCATION
 FluteBoy_HumanForm:
 {
     LDA $0D80, X : CMP.b #$03 : BEQ .invisible
@@ -67,7 +67,7 @@ FluteBoy_HumanForm:
 
 ; ==============================================================================
 
-; *$32F93-$32FC0 JUMP LOCATION
+; $032F93-$032FC0 JUMP LOCATION
 FluteBoy_Chillin:
 {
     LDA $7EF34C : CMP.b #$02 : BCS .player_has_flute
@@ -103,7 +103,7 @@ FluteBoy_Chillin:
 
 ; ==============================================================================
 
-; *$32FC1-$32FF1 JUMP LOCATION
+; $032FC1-$032FF1 JUMP LOCATION
 FltueBoy_PrepPhaseOut:
 {
     LDA.b #$01 : STA $02E4
@@ -136,7 +136,7 @@ FltueBoy_PrepPhaseOut:
 
 ; ==============================================================================
 
-; *$32FF2-$33007 JUMP LOCATION
+; $032FF2-$033007 JUMP LOCATION
 FluteBoy_PhaseOut:
 {
     LDA $1A : AND.b #$0F : BNE .onlyEvery16Frames
@@ -159,7 +159,7 @@ FluteBoy_PhaseOut:
 
 ; ==============================================================================
 
-; *$33008-$33018 JUMP LOCATION
+; $033008-$033018 JUMP LOCATION
 FluteBoy_FullyPhasedOut:
 {
     PHX
@@ -180,10 +180,9 @@ FluteBoy_FullyPhasedOut:
 
     ; \covered($33019-$331DD)
 
-; $33019-$3303F DATA
+; $033019-$03303F DATA
 pool FluteAardvark_Arborating:
 {
-    
     .animation_states
     db $01, $01, $01, $01, $02, $01, $02, $01
     db $02, $01, $02, $03, $02, $03, $02, $03
@@ -198,7 +197,7 @@ pool FluteAardvark_Arborating:
 
 ; ==============================================================================
 
-; *$33040-$33059 JUMP LOCATION
+; $033040-$033059 JUMP LOCATION
 Sprite_FluteAardvark:
 {
     JSL FluteAardvark_Draw
@@ -218,7 +217,7 @@ Sprite_FluteAardvark:
 
 ; ==============================================================================
 
-; *$3305A-$3306B JUMP LOCATION
+; $03305A-$03306B JUMP LOCATION
 FluteAardvark_InitialStateFromFluteState:
 {
     ; Flute
@@ -234,7 +233,7 @@ FluteAardvark_InitialStateFromFluteState:
 
 ; ==============================================================================
 
-; *$3306C-$33079 JUMP LOCATION
+; $03306C-$033079 JUMP LOCATION
 FluteAardvark_Supplicate:
 {
     ; "... I enjoyed playing the flute in the original world..."
@@ -252,7 +251,7 @@ FluteAardvark_Supplicate:
 
 ; ==============================================================================
 
-; *$3307A-$33082 JUMP LOCATION
+; $03307A-$033082 JUMP LOCATION
 FluteAardvark_GetMeMyDamnFlute:
 {
     ; "Did you find my flute? Please keep looking for it!"
@@ -266,7 +265,7 @@ FluteAardvark_GetMeMyDamnFlute:
 
 ; ==============================================================================
 
-; *$33083-$33097 JUMP LOCATION
+; $033083-$033097 JUMP LOCATION
 FluteAardvark_ThanksButYouKeepIt:
 {
     LDA.b #$01 : STA $0DC0, X
@@ -286,7 +285,7 @@ FluteAardvark_ThanksButYouKeepIt:
 
 ; ==============================================================================
 
-; *$33098-$3309D JUMP LOCATION
+; $033098-$03309D JUMP LOCATION
 FluteAardvark_AlreadyArborated:
 {
     LDA.b #$03 : STA $0DC0, X
@@ -296,7 +295,7 @@ FluteAardvark_AlreadyArborated:
 
 ; ==============================================================================
 
-; *$3309E-$330BA JUMP LOCATION
+; $03309E-$0330BA JUMP LOCATION
 FluteAardvark_ReactToSupplicationResponse:
 {
     LDA $1CE8 : BNE .player_declined
@@ -326,7 +325,7 @@ FluteAardvark_ReactToSupplicationResponse:
 
 ; ==============================================================================
 
-; *$330BB-$330C9 JUMP LOCATION
+; $0330BB-$0330C9 JUMP LOCATION
 FluteAardvark_GrantShovel:
 {
     STZ $02E9
@@ -347,7 +346,7 @@ FluteAardvark_GrantShovel:
 
 ; ==============================================================================
 
-; *$330CA-$330E8 JUMP LOCATION
+; $0330CA-$0330E8 JUMP LOCATION
 FluteAardvark_WaitForPlayerMusic:
 {
     LDA $0202 : CMP.b #$0D : BNE .flute_not_equipped
@@ -372,7 +371,7 @@ FluteAardvark_WaitForPlayerMusic:
 
 ; ==============================================================================
 
-; *$330E9-$3311D JUMP LOCATION
+; $0330E9-$03311D JUMP LOCATION
 FluteAardvark_Arborating:
 {
     LDA $0DF0, X : BNE .delay
@@ -409,7 +408,7 @@ FluteAardvark_Arborating:
 
 ; ==============================================================================
 
-; *$3311E-$3312D JUMP LOCATION
+; $03311E-$03312D JUMP LOCATION
 FluteAardvark_FullyArborated:
 {
     LDA.b #$03 : STA $0DC0, X
@@ -422,7 +421,7 @@ FluteAardvark_FullyArborated:
 
 ; ==============================================================================
 
-; *$3312E-$33170 LOCAL
+; $03312E-$033170 LOCAL
 FluteBoy_CheckIfPlayerTooClose:
 {
     LDA $0D10, X : STA $00
@@ -464,17 +463,16 @@ FluteBoy_CheckIfPlayerTooClose:
 
 ; ==============================================================================
 
-; $33171-$33172 DATA
+; $033171-$033172 DATA
 pool Sprite_FluteNote:
 {
-    
     .directions
     db 1, -1
 }
 
 ; ==============================================================================
 
-; *$33173-$331A4 JUMP LOCATION
+; $033173-$0331A4 JUMP LOCATION
 Sprite_FluteNote:
 {
     JSR Sprite_PrepAndDrawSingleSmall
@@ -501,7 +499,7 @@ Sprite_FluteNote:
 
 ; ==============================================================================
 
-; *$331A5-$331DD LOCAL
+; $0331A5-$0331DD LOCAL
 FluteBoy_SpawnFluteNote:
 {
     LDA.b #$2E : JSL Sprite_SpawnDynamically : BMI .spawn_failed

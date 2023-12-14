@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F4F47-$F4F99 JUMP LOCATION
+; $0F4F47-$0F4F99 JUMP LOCATION
 Sprite_SpikeTrap:
 {
     JSR SpikeTrap_Draw
@@ -56,7 +56,7 @@ Sprite_SpikeTrap:
     
 ; ==============================================================================
 
-; $F4F9A-$F4FDE BRANCH LOCATION
+; $0F4F9A-$0F4FDE BRANCH LOCATION
 SpikeTrap_InMotion:
 {
     CMP.b #$01 : BNE .retracting
@@ -102,10 +102,9 @@ SpikeTrap_InMotion:
 
 ; ==============================================================================
 
-; $F4FDF-$F4FFE DATA
+; $0F4FDF-$0F4FFE DATA
 pool SpikeTrap_Draw:
 {
-    
     .oam_groups
     dw -8, -8 : db $C4, $00, $00, $02
     dw  8, -8 : db $C4, $40, $00, $02
@@ -115,7 +114,7 @@ pool SpikeTrap_Draw:
 
 ; ==============================================================================
 
-; *$F4FFF-$F5011 LOCAL
+; $0F4FFF-$0F5011 LOCAL
 SpikeTrap_Draw:
 {
     REP #$20

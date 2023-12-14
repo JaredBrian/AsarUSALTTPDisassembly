@@ -2,7 +2,7 @@
 ; ==============================================================================
 
     ; \unused Not certain yet, but seems to be the case.
-; $F1D17-$F1D1A DATA
+; $0F1D17-$0F1D1A DATA
 pool Sprite_WizzrobeAndBeam:
 {
     db $03, $43, $C3, $83
@@ -10,7 +10,7 @@ pool Sprite_WizzrobeAndBeam:
 
 ; ==============================================================================
 
-; *$F1D1B-$F1D45 JUMP LOCATION
+; $0F1D1B-$0F1D45 JUMP LOCATION
 Sprite_WizzrobeAndBeam:
 {
     LDA $0DB0, X : BEQ Sprite_Wizzrobe
@@ -46,7 +46,7 @@ Sprite_WizzrobeAndBeam:
     
 ; ==============================================================================
 
-; $F1D46-$F1D79 BRANCH LOCATION
+; $0F1D46-$0F1D79 BRANCH LOCATION
 Sprize_Wizzrobe:
 {
     LDA $0D80, X : BEQ .invisible
@@ -87,10 +87,9 @@ Sprize_Wizzrobe:
 
 ; ==============================================================================
 
-; $F1D7A-$F1D7D DATA
+; $0F1D7A-$0F1D7D DATA
 pool Wizzrobe_Cloaked:
 {
-    
     ; \task Name this routine / pool.
     .animation_states
     db 4, 2, 0, 6
@@ -98,7 +97,7 @@ pool Wizzrobe_Cloaked:
 
 ; ==============================================================================
 
-; *$F1D7E-$F1DA9 JUMP LOCATION
+; $0F1D7E-$0F1DA9 JUMP LOCATION
 Wizzrobe_Cloaked:
 {
     ; \note Worth mentioning that it's also invincible in this state.
@@ -134,7 +133,7 @@ Wizzrobe_Cloaked:
 
 ; ==============================================================================
 
-; *$F1DAA-$F1DB7 JUMP LOCATION
+; $0F1DAA-$0F1DB7 JUMP LOCATION
 Wizzrobe_PhasingIn:
 {
     LDA $0DF0, X : BNE .delay
@@ -150,10 +149,9 @@ Wizzrobe_PhasingIn:
 
 ; ==============================================================================
 
-; $F1DB8-$F1DC3 DATA
+; $0F1DB8-$0F1DC3 DATA
 pool Wizzrobe_Attack:
 {
-    
     .animation_states
     db 0, 1, 1, 1, 1, 1, 1, 0
     
@@ -163,7 +161,7 @@ pool Wizzrobe_Attack:
 
 ; ==============================================================================
 
-; *$F1DC4-$F1DF2 JUMP LOCATION
+; $0F1DC4-$0F1DF2 JUMP LOCATION
 Wizzrobe_Attack:
 {
     STZ $0BA0, X
@@ -203,7 +201,7 @@ Wizzrobe_Attack:
 
 ; ==============================================================================
 
-; *$F1DF3-$F1E0E JUMP LOCATION
+; $0F1DF3-$0F1E0E JUMP LOCATION
 Wizzrobe_PhasingOut:
 {
     LDA $0DF0, X : BNE .delay
@@ -228,10 +226,9 @@ Wizzrobe_PhasingOut:
 
 ; ==============================================================================
 
-; $F1E0F-$F1E14 DATA
+; $0F1E0F-$0F1E14 DATA
 pool Wizzrobe_SpawnBeam:
 {
-    
     .x_speeds length 4
     db $20, $E0
     
@@ -241,7 +238,7 @@ pool Wizzrobe_SpawnBeam:
 
 ; ==============================================================================
 
-; *$F1E15-$F1E7A LOCAL
+; $0F1E15-$0F1E7A LOCAL
 Wizzrobe_SpawnBeam:
 {
     LDA.b #$9B : JSL Sprite_SpawnDynamically : BMI .spawn_failed

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; \unused Presumably
-; $32540-$325BF DATA
+; $032540-$0325BF DATA
 {
     dw -24,  -8,   8,  24, -24,  -8,   8,  24
     dw -24,  -8,   8,  24, -24,  -8,   8,  24
@@ -14,7 +14,7 @@
     dw   7,   7,   7,   7,  22,  22,  22,  22
 }
 
-; $325C0-$325C1 DATA
+; $0325C0-$0325C1 DATA
 {
     .h_flip
     db $40, $00
@@ -22,7 +22,7 @@
 
 ; ==============================================================================
 
-; $325C2-$326B0 JUMP LOCATION
+; $0325C2-$0326B0 JUMP LOCATION
 Sprite_Chicken:
 {
     LDA $0D50, X : BEQ .x_speed_at_rest
@@ -141,7 +141,7 @@ Sprite_Chicken:
     
     STZ $0DC0, X
     
-    ; $326AD ALTERNATE ENTRY POINT
+    ; $0326AD ALTERNATE ENTRY POINT
 Chicken_CheckIfLifted:
     
     JSR Sprite_CheckIfLifted
@@ -151,7 +151,7 @@ Chicken_CheckIfLifted:
 
 ; ==============================================================================
 
-; $326B1-$326FB BRANCH LOCATION
+; $0326B1-$0326FB BRANCH LOCATION
 Chicken_Hopping:
 {
     TXA : EOR $1A : LSR A : BCC .skip_tile_collision_logic
@@ -179,12 +179,12 @@ Chicken_Hopping:
     
     .tick_animation_counter
     
-    ; $326E2 ALTERNATE ENTRY POINT
+    ; $0326E2 ALTERNATE ENTRY POINT
 Chicken_FastAnimate:
     
     INC $0E80, X
     
-    ; $326E5 ALTERNATE ENTRY POINT
+    ; $0326E5 ALTERNATE ENTRY POINT
 Chicken_SlowAnimate:
     
     INC $0E80, X : INC $0E80, X : INC $0E80, X
@@ -196,7 +196,7 @@ Chicken_SlowAnimate:
 
 ; ==============================================================================
 
-; $326FC-$3272E JUMP LOCATION
+; $0326FC-$03272E JUMP LOCATION
 Chicken_FleeingPlayer:
 {
     JSR Chicken_CheckIfLifted
@@ -205,7 +205,7 @@ Chicken_FleeingPlayer:
     STZ $0F70, X
     
     TXA : EOR $1A : AND.b #$1F : BNE .flee_delay
-    ; $3270C ALTERNATE ENTRY POINT
+    ; $03270C ALTERNATE ENTRY POINT
     Chicken_SetFleePlayerSpeeds:
     
     LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
@@ -219,7 +219,7 @@ Chicken_FleeingPlayer:
     
     JSR Chicken_FastAnimate
     
-    ; $32727 ALTERNATE ENTRY POINT
+    ; $032727 ALTERNATE ENTRY POINT
 Chicken_DrawDistressMarker:
     
     JSR Sprite_PrepOamCoord
@@ -230,14 +230,14 @@ Chicken_DrawDistressMarker:
 
 ; ==============================================================================
 
-; $3272F-$3278D LONG
+; $03272F-$03278D LONG
 ; Draws the 4 little dots that appear above the cucco when you hit them.
 ; Each dot is 1 8x8 oam tile for a total of 4.
 Sprite_DrawDistressMarker:
 {
     LDA $1A : STA $06
     
-    ; $32733 ALTERNATE ENTRY POINT
+    ; $032733 ALTERNATE ENTRY POINT
 Sprite_CustomTimedDrawDistressMarker:
     
     ; Allocate some oam space...
@@ -289,7 +289,7 @@ Sprite_CustomTimedDrawDistressMarker:
 
 ; ==============================================================================
 
-; $3278E-$327B7 LOCAL
+; $03278E-$0327B7 LOCAL
 Chicken_Aloft:
 {
     JSR Chicken_Move_XYZ_AndCheckTileCollision : BEQ .no_tile_collision
@@ -318,12 +318,12 @@ Chicken_Aloft:
     
 ; ==============================================================================
 
-; $327B8-$327C2 ALTERNATE ENTRY POINT
+; $0327B8-$0327C2 ALTERNATE ENTRY POINT
 Chicken_Move_XYZ_AndCheckTileCollision:
 {
     JSR Sprite_MoveAltitude
     
-    ; $327BB ALTERNATE ENTRY POINT
+    ; $0327BB ALTERNATE ENTRY POINT
 Chicken_Move_XY_AndCheckTileCollision:
     
     JSR Sprite_Move
@@ -334,7 +334,7 @@ Chicken_Move_XY_AndCheckTileCollision:
 
 ; ==============================================================================
 
-; $327C3-$327D2 DATA
+; $0327C3-$0327D2 DATA
 pool Sprite_DrawDistressMarker:
 {
     ; \task Name this pool / routine.
@@ -347,7 +347,7 @@ pool Sprite_DrawDistressMarker:
 
 ; ==============================================================================
 
-; $327D3-$32852 LOCAL
+; $0327D3-$032852 LOCAL
 Chicken_SpawnAvengerChicken:
 {
     TXA : EOR $1A : AND.b #$0F : ORA $1B : BNE .spawn_delay
@@ -396,7 +396,7 @@ Chicken_SpawnAvengerChicken:
         
         PLX
     
-        ; $3284C ALTERNATE ENTRY POINT
+        ; $03284C ALTERNATE ENTRY POINT
         Chicken_BawkBawk:
     
         LDA.b #$30 : JSL Sound_SetSfx2PanLong

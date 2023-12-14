@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$D7C31-$D7C38 LONG
+; $0D7C31-$0D7C38 LONG
 Sprite_MovableMantleLong:
 {
     ; Sprite Logic for sprite 0xEE - pushable mantle
@@ -16,7 +16,7 @@ Sprite_MovableMantleLong:
 
 ; ==============================================================================
 
-; *$D7C39-$D7C9A LOCAL
+; $0D7C39-$0D7C9A LOCAL
 Sprite_MovableMantle:
 {
     JSR MovableMantle_Draw
@@ -71,7 +71,7 @@ Sprite_MovableMantle:
 
 ; ==============================================================================
 
-; $D7C9B-$D7CB2 DATA
+; $0D7C9B-$0D7CB2 DATA
 pool MovableMantle_Draw:
 {
     ; \task Fill in data.
@@ -79,7 +79,7 @@ pool MovableMantle_Draw:
 
 ; ==============================================================================
 
-; *$D7CB3-$D7CEC LOCAL
+; $0D7CB3-$0D7CEC LOCAL
 MovableMantle_Draw:
 {
     LDA.b #$20 : JSL OAM_AllocateFromRegionB

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F5C5B-$F5C67 JUMP LOCATION
+; $0F5C5B-$0F5C67 JUMP LOCATION
 Sprite_DashBeeHive:
 {
     LDA $0D80, X
@@ -15,7 +15,7 @@ Sprite_DashBeeHive:
 
 ; ==============================================================================
 
-; *$F5C68-$F5C7A JUMP LOCATION
+; $0F5C68-$0F5C7A JUMP LOCATION
 DashBeeHive_WaitForDash:
 {
     LDA $0E90, X : BNE .not_dashed_into_yet
@@ -39,10 +39,9 @@ DashBeeHive_WaitForDash:
 
 ; ==============================================================================
 
-; $F5C7B-$F5C8E DATA
+; $0F5C7B-$0F5C8E DATA
 pool Bee:
 {
-    
     .speeds
     db $0F, $05, $FB, $F1, $14, $0A, $F6, $EC
     
@@ -55,14 +54,14 @@ pool Bee:
 
 ; ==============================================================================
 
-; *$F5C8F-$F5CCE LOCAL
+; $0F5C8F-$0F5CCE LOCAL
 DashBeeHive_SpawnBee:
 {
     LDA.b #$79 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     JSL Sprite_SetSpawnedCoords
     
-    ; $F5C9B ALTERNATE ENTRY POINT
+    ; $0F5C9B ALTERNATE ENTRY POINT
     shared DashBeeHive_InitBee:
     
     PHX
@@ -93,7 +92,7 @@ DashBeeHive_SpawnBee:
 
 ; ==============================================================================
 
-; $F5CCF-$F5D40 LONG
+; $0F5CCF-$0F5D40 LONG
 PlayerItem_ReleaseBee:
 {
     PHB : PHK : PLB
@@ -152,17 +151,16 @@ PlayerItem_ReleaseBee:
 
 ; ==============================================================================
 
-; $F5D41-$F5D44 DATA
+; $0F5D41-$0F5D44 DATA
 pool Bee_Normal:
 {
-    
     .box_sizes
     db 0, 5, 10, 15
 }
 
 ; ==============================================================================
 
-; *$F5D45-$F5DF0 JUMP LOCATION
+; $0F5D45-$0F5DF0 JUMP LOCATION
 Bee_Normal:
 {
     JSR Bee_SetAltitude
@@ -249,7 +247,7 @@ Bee_Normal:
 
 ; ==============================================================================
 
-; *$F5DF1-$F5E2D JUMP LOCATION
+; $0F5DF1-$0F5E2D JUMP LOCATION
 Bee_PutInbottle:
 {
     JSR Bee_DetermineInteractionStatus
@@ -293,7 +291,7 @@ Bee_PutInbottle:
 
 ; ==============================================================================
 
-; *$F5E2E-$F5E43 LONG
+; $0F5E2E-$0F5E43 LONG
 Sprite_GetEmptyBottleIndex:
 {
     PHX
@@ -321,7 +319,7 @@ Sprite_GetEmptyBottleIndex:
 
 ; ==============================================================================
 
-; *$F5E44-$F5E62 LOCAL
+; $0F5E44-$0F5E62 LOCAL
 Bee_DetermineInteractionStatus:
 {
     LDA $11 : CMP.b #$02 : BNE .not_in_text_mode
@@ -351,7 +349,7 @@ Bee_DetermineInteractionStatus:
 
     ; \note This version of the good bee is not general purpose, it's just the
     ; one that appears in the ice cave that can be collected via bug net.
-; *$F5E63-$F5E6F JUMP LOCATION
+; $0F5E63-$0F5E6F JUMP LOCATION
 Sprite_GoodBee:
 {
     LDA $0D80, X
@@ -365,7 +363,7 @@ Sprite_GoodBee:
 
 ; ==============================================================================
 
-; *$F5E70-$F5E8F JUMP LOCATION
+; $0F5E70-$0F5E8F JUMP LOCATION
 GoodBee_WaitingForDash:
 {
     LDA $0E90, X : BNE .not_dashed_into_yet
@@ -389,7 +387,7 @@ GoodBee_WaitingForDash:
 
 ; ==============================================================================
 
-; *$F5E90-$F5ECF LOCAL
+; $0F5E90-$0F5ECF LOCAL
 GoodBee_SpawnTangibleVersion:
 {
     LDA.b #$79 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -423,10 +421,9 @@ GoodBee_SpawnTangibleVersion:
 
 ; ==============================================================================
 
-; $F5ED0-$F5ED1 DATA
+; $0F5ED0-$0F5ED1 DATA
 pool GoodBee_Activated:
 {
-    
     .unknown_1
     db $0A, $14
 }
@@ -435,7 +432,7 @@ pool GoodBee_Activated:
 
     ; \note This version of the good bee is not general purpose, it's just the
     ; one that appears in the ice cave that can be collective via bug net.
-; *$F5ED2-$F5F89 JUMP LOCATION
+; $0F5ED2-$0F5F89 JUMP LOCATION
 GoodBee_Activated:
 {
     LDA.b #$01 : STA $0BA0, X
@@ -531,7 +528,7 @@ GoodBee_Activated:
 
 ; ==============================================================================
 
-; *$F5F8A-$F5FAA LOCAL
+; $0F5F8A-$0F5FAA LOCAL
 Bee_SetAltitude:
 {
     LDA.b #$10 : STA $0F70, X
@@ -551,7 +548,7 @@ Bee_SetAltitude:
 
 ; ==============================================================================
 
-; *$F5FAB-$F602D LOCAL
+; $0F5FAB-$0F602D LOCAL
 GoodBee_ScanForTargetableSprites:
 {
     LDA.b #$0F : STA $00
@@ -619,7 +616,7 @@ GoodBee_ScanForTargetableSprites:
 
 ; ==============================================================================
 
-; *$F602E-$F603B LOCAL
+; $0F602E-$0F603B LOCAL
 Bee_Buzz:
 {
     TXA : EOR $1A : AND.b #$1F : BNE .delay

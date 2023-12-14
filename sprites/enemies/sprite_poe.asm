@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $31686-$31687 DATA
+; $031686-$031687 DATA
 pool Sprite_Poe:
 {
-    
     .h_flip
     db $40, $00
 }
 
 ; ==============================================================================
 
-; *$31688-$3171E JUMP LOCATION
+; $031688-$03171E JUMP LOCATION
 Sprite_Poe:
 {
     ; Derive orientation (for h_flip) from the sign of the x velocity.
@@ -110,7 +109,7 @@ Sprite_Poe:
 
 ; ==============================================================================
 
-; *$3171F-$3173E JUMP LOCATION
+; $03171F-$03173E JUMP LOCATION
 Poe_SelectVerticalDirection:
 {
     LDA $0DF0, X : BNE .delay
@@ -143,17 +142,16 @@ Poe_SelectVerticalDirection:
 
 ; ==============================================================================
 
-; $3173F-$31740 DATA
+; $03173F-$031740 DATA
 pool Poe_Roaming:
 {
-    
     .y_speeds
     db 8, -8
 }
 
 ; ==============================================================================
 
-; *$31741-$3177D JUMP LOCATION
+; $031741-$03177D JUMP LOCATION
 Poe_Roaming:
 {
     LDA $001A : LSR A : BCS .adjust_speed_delay
@@ -184,10 +182,9 @@ Poe_Roaming:
 
 ; ==============================================================================
 
-; $3177E-$31785 DATA
+; $03177E-$031785 DATA
 pool Poe_Draw:
 {
-    
     .x_offsets
     db 9, 0, -1, -1
     
@@ -197,7 +194,7 @@ pool Poe_Draw:
 
 ; ==============================================================================
 
-; *$31786-$317D7 LOCAL
+; $031786-$0317D7 LOCAL
 Poe_Draw:
 {
     JSR Sprite_PrepOamCoord

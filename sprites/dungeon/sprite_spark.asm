@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $29333-$2933E DATA
+; $029333-$02933E DATA
 pool Sprite_Spark:
 {
-    
     .vh_flip
     db $00, $40, $80, $C0
     
@@ -15,7 +14,7 @@ pool Sprite_Spark:
 
 ; ==============================================================================
 
-; *$2933F-$2940D JUMP LOCATION
+; $02933F-$02940D JUMP LOCATION
 Sprite_Spark:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong

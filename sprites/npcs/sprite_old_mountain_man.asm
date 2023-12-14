@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F68F1-$F68F8 LONG
+; $0F68F1-$0F68F8 LONG
 SpritePrep_OldMountainManLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ SpritePrep_OldMountainManLong:
 
 ; ==============================================================================
 
-; *$F68F9-$F6937 LOCAL
+; $0F68F9-$0F6937 LOCAL
 SpritePrep_OldMountainMan:
 {
     INC $0BA0, X
@@ -65,7 +65,7 @@ SpritePrep_OldMountainMan:
 
 ; ==============================================================================
 
-; *$F6938-$F6988 LONG
+; $0F6938-$0F6988 LONG
 OldMountainMan_TransitionFromTagalong:
 {
     PHA
@@ -101,7 +101,7 @@ OldMountainMan_TransitionFromTagalong:
 
 ; ==============================================================================
 
-; *$F6989-$F6991 LOCAL
+; $0F6989-$0F6991 LOCAL
 OldMountainMan_FreezePlayer:
 {
     LDA.b #$01 : STA $02E4
@@ -112,7 +112,7 @@ OldMountainMan_FreezePlayer:
 
 ; ==============================================================================
 
-; *$F6992-$F69A5 JUMP LOCATION
+; $0F6992-$0F69A5 JUMP LOCATION
 Sprite_OldMountainMan:
 {
     JSL OldMountainMan_Draw
@@ -129,7 +129,7 @@ Sprite_OldMountainMan:
 
 ; ==============================================================================
 
-; *$F69A6-$F69B0 JUMP LOCATION
+; $0F69A6-$0F69B0 JUMP LOCATION
 OldMountainMan_Lost:
 {
     LDA $0D80, X
@@ -142,7 +142,7 @@ OldMountainMan_Lost:
 
 ; ==============================================================================
 
-; *$F69B1-$F69D1 JUMP LOCATION
+; $0F69B1-$0F69D1 JUMP LOCATION
 OldMountainMan_Supplicate:
 {
     JSL Sprite_MakeBodyTrackHeadDirection
@@ -168,7 +168,7 @@ OldMountainMan_Supplicate:
 
 ; ==============================================================================
 
-; *$F69D2-$F69E9 JUMP LOCATION
+; $0F69D2-$0F69E9 JUMP LOCATION
 OldMountainMan_SwitchToTagalong:
 {
     ; Set up the old man on the mountain as the tagalong
@@ -183,14 +183,14 @@ OldMountainMan_SwitchToTagalong:
     ; caches some dungeon values. Not sure if this is really necessary,
     ; but it might be ancitipating that you suck at this game and will
     ; die while the old man is with you?
-    JSL $0283B5 ; $103B5 IN ROM
+    JSL $0283B5 ; $0103B5 IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$F69EA-$F69FB JUMP LOCATION
+; $0F69EA-$0F69FB JUMP LOCATION
 OldMountainMan_EnteringDomicile:
 {
     JSR Sprite3_Move
@@ -207,7 +207,7 @@ OldMountainMan_EnteringDomicile:
 
 ; ==============================================================================
 
-; *$F69FC-$F6A27 JUMP LOCATION
+; $0F69FC-$0F6A27 JUMP LOCATION
 OldMountainMan_GrantMagicMirror:
 {
     INC $0D80, X
@@ -236,7 +236,7 @@ OldMountainMan_GrantMagicMirror:
 
 ; ==============================================================================
 
-; *$F6A28-$F6A3E JUMP LOCATION
+; $0F6A28-$0F6A3E JUMP LOCATION
 OldMountainMan_ShuffleAway:
 {
     JSR OldMountainMan_FreezePlayer
@@ -254,7 +254,7 @@ OldMountainMan_ShuffleAway:
 
 ; ==============================================================================
 
-; *$F6A3F-$F6AA2 JUMP LOCATION
+; $0F6A3F-$0F6AA2 JUMP LOCATION
 OldMountainMan_ApproachDoor:
 {
     STZ $0EB0, X
@@ -302,7 +302,7 @@ OldMountainMan_ApproachDoor:
 
 ; ==============================================================================
 
-; *$F6AA3-$F6AAC JUMP LOCATION
+; $0F6AA3-$0F6AAC JUMP LOCATION
 OldMountainMan_MadeItInside:
 {
     STZ $0DD0, X
@@ -315,10 +315,9 @@ OldMountainMan_MadeItInside:
 
 ; ==============================================================================
 
-; $F6AAD-$F6AB2 DATA
+; $0F6AAD-$0F6AB2 DATA
 pool OldMountainMan_SittingAtHome:
 {
-    
     .messages_low
     db $9E, $9F, $A0
     
@@ -328,7 +327,7 @@ pool OldMountainMan_SittingAtHome:
 
 ; ==============================================================================
 
-; *$F6AB3-$F6AE6 JUMP LOCATION
+; $0F6AB3-$0F6AE6 JUMP LOCATION
 OldMountainMan_SittingAtHome:
 {
     JSL Sprite_PlayerCantPassThrough

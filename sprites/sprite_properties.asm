@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $6B080-$6B817 DATA
+; $06B080-$06B817 DATA
 pool Sprite_LoadProperties:
 {
     db $01, $02, $01, $82, $81, $84, $84, $84
@@ -36,7 +36,7 @@ pool Sprite_LoadProperties:
     db $A1, $A3, $A1, $A1, $A1, $83, $85, $83
     db $83, $83, $83
     
-    ; $6B173 ; health
+    ; $06B173 ; health
     db $0C, $06, $FF, $03, $03, $03, $03, $03
     db $02, $0C, $04, $FF, $00, $03, $0C, $02
     db $00, $14, $04, $04, $00, $FF, $00, $02
@@ -69,7 +69,7 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00
     
-    ; $6B266 ; Bump damage
+    ; $06B266 ; Bump damage
     db $83, $83, $81, $02, $02, $02, $02, $02
     db $01, $13, $01, $01, $01, $01, $08, $01
     db $01, $08, $05, $03, $40, $04, $00, $02
@@ -102,7 +102,7 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00
     
-    ; $6B359 ; $0E60 and $0F50 byte 4 $90 properties (palette, priority, H and V flip)
+    ; $06B359 ; $0E60 and $0F50 byte 4 $90 properties (palette, priority, H and V flip)
     db $19, $0B, $1B, $4B, $41, $41, $41, $4D
     db $1D, $01, $1D, $19, $8D, $1B, $09, $9D
     db $3D, $01, $09, $11, $40, $01, $4D, $19
@@ -135,7 +135,7 @@ pool Sprite_LoadProperties:
     db $69, $C1, $D2, $D2, $DC, $C7, $C1, $C7
     db $C7, $C7, $C1
     
-    ; $6B44C $0F60 Alive / hit box property
+    ; $06B44C $0F60 Alive / hit box property
     db $00, $00, $00, $43, $43, $43, $43, $43
     db $00, $00, $00, $00, $1C, $00, $00, $02
     
@@ -249,7 +249,7 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $80, $00, $00, $00
     db $00, $00, $00
     
-    ; $6B725 ; What goes into $0CAA 
+    ; $06B725 ; What goes into $0CAA 
     db $00, $00, $44, $20, $20, $20, $20, $20
     db $00, $81, $00, $00, $48, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $04, $00
@@ -285,7 +285,7 @@ pool Sprite_LoadProperties:
 
 ; ==============================================================================
 
-; *$6B818-$6B870 LONG
+; $06B818-$06B870 LONG
 Sprite_LoadProperties:
 {
     ; Load's sprite characteristics, such as HP
@@ -324,7 +324,7 @@ Sprite_LoadProperties:
     
     PLY
     
-    ; *$6B85C ALTERNATE ENTRY POINT
+    ; $06B85C ALTERNATE ENTRY POINT
     shared Sprite_LoadPalette:
     
     PHY
@@ -345,7 +345,7 @@ Sprite_LoadProperties:
 
 ; ==============================================================================
 
-; *$6B871-$6B8F0 LONG
+; $06B871-$06B8F0 LONG
 Sprite_ResetProperties:
 {
     STZ $0F00, X
@@ -395,7 +395,7 @@ Sprite_ResetProperties:
 
 ; ==============================================================================
 
-; $6B8F1-$6B970 (This data is used in bank 0x06, so look there)
+; $06B8F1-$06B970 (This data is used in bank 0x06, so look there)
 {
     db $00, $01, $20, $FF, $FC, $FB, $00, $00
     db $00, $02, $40, $04, $00, $00, $00, $00
@@ -425,7 +425,7 @@ Sprite_ResetProperties:
 
 ; ==============================================================================
 
-; $6B971-$6BA70 DATA
+; $06B971-$06BA70 DATA
 Sprite_SimplifiedTileAttr:
 {
     db 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0

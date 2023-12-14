@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $F5012-$F5019 DATA
+; $0F5012-$0F5019 DATA
 pool Sprite_GuruguruBar:
 {
-    
     .offsets_low
     db -2, 2
     db -1, 1
@@ -16,7 +15,7 @@ pool Sprite_GuruguruBar:
 
 ; ==============================================================================
 
-; *$F501A-$F5048 JUMP LOCATION
+; $0F501A-$0F5048 JUMP LOCATION
 Sprite_GuruguruBar:
 {
     JSR GuruguruBar_Main
@@ -42,7 +41,7 @@ Sprite_GuruguruBar:
 
 ; ==============================================================================
 
-; *$F5049-$F51CC LOCAL
+; $0F5049-$0F51CC LOCAL
 GuruguruBar_Main:
 {
     JSR Sprite3_PrepOamCoord

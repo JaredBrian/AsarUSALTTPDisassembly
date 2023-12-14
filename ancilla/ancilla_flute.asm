@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $44FA6-$44FA9 DATA
+; $044FA6-$044FA9 DATA
 pool Ancilla_Flute:
 {
-    
     .bounce_z_speeds
     db 24, 16, 10, 0
 }
 
 ; ==============================================================================
 
-; *$44FAA-$4503C JUMP LOCATION
+; $044FAA-$04503C JUMP LOCATION
 Ancilla_Flute:
 {
     LDA $11 : BNE .dont_check_player_collision

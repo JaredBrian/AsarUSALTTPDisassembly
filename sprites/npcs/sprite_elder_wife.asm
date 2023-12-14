@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2F469-$2F470 LONG
+; $02F469-$02F470 LONG
 Sprite_ElderWifeLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_ElderWifeLong:
 
 ; ==============================================================================
 
-; *$2F471-$2F489 LOCAL
+; $02F471-$02F489 LOCAL
 Sprite_ElderWife:
 {
     ; Namely, I think it seems implied that this is Sahasralah's wife.
@@ -36,7 +36,7 @@ Sprite_ElderWife:
 
 ; ==============================================================================
 
-; *$2F48A-$2F4B4 JUMP LOCATION
+; $02F48A-$02F4B4 JUMP LOCATION
 ElderWife_Initial:
 {
     LDA $7EF359 : CMP.b #$02 : BCS .player_has_master_sword
@@ -51,7 +51,7 @@ ElderWife_Initial:
     
     .animate
     
-    ; *$2F49F ALTERNATE ENTRY POINT
+    ; $02F49F ALTERNATE ENTRY POINT
     shared ElderWife_UpdateAnimationState:
     
     LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
@@ -71,7 +71,7 @@ ElderWife_Initial:
 
 ; ==============================================================================
 
-; *$2F4B5-$2F4C0 JUMP LOCATION
+; $02F4B5-$02F4C0 JUMP LOCATION
 ElderWife_TellLegend:
 {
     ; Long ago, a prosperous people known as the Hylia inhabited this..."
@@ -87,7 +87,7 @@ ElderWife_TellLegend:
 
 ; ==============================================================================
 
-; *$2F4C1-$2F4DA JUMP LOCATION
+; $02F4C1-$02F4DA JUMP LOCATION
 ElderWife_LoopUntilPlayerNotDumb:
 {
     LDA $1CE8 : BNE .player_requested_repeat
@@ -116,7 +116,7 @@ ElderWife_LoopUntilPlayerNotDumb:
 
 ; ==============================================================================
 
-; *$2F4DB-$2F4E4 JUMP LOCATION
+; $02F4DB-$02F4E4 JUMP LOCATION
 ElderWife_GoAwayFindTheOldMan:
 {
     ; Anyway, look for the elder. There must be someone in the village..."
@@ -130,10 +130,9 @@ ElderWife_GoAwayFindTheOldMan:
 
 ; ==============================================================================
 
-; $2F4E5-$2F504 DATA
+; $02F4E5-$02F504 DATA
 pool ElderWife_Draw:
 {
-    
     .oam_groups
     dw 0, -5 : db $8E, $00, $00, $02
     dw 0,  5 : db $28, $00, $00, $02
@@ -144,7 +143,7 @@ pool ElderWife_Draw:
     
 ; ==============================================================================
 
-; *$2F505-$2F520 LOCAL
+; $02F505-$02F520 LOCAL
 ElderWife_Draw:
 {
     LDA.b #$02 : STA $06

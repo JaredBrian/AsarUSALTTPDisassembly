@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2FBEF-$2FBF6 LONG
+; $02FBEF-$02FBF6 LONG
 Sprite_DashItemLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_DashItemLong:
 
 ; ==============================================================================
 
-; *$2FBF7-$2FC03 LOCAL
+; $02FBF7-$02FC03 LOCAL
 Sprite_DashItem:
 {
     ; Based on the item's appearance, different code is
@@ -32,7 +32,7 @@ Sprite_DashItem:
 
 ; ==============================================================================
 
-; $2FC04-$2FC4D JUMP LOCATION
+; $02FC04-$02FC4D JUMP LOCATION
 Sprite_DashKey:
 {
     JSL DashKey_Draw
@@ -76,7 +76,7 @@ Sprite_DashKey:
 
 ; ==============================================================================
 
-; $2FC4E-$2FC7B JUMP LOCATION
+; $02FC4E-$02FC7B JUMP LOCATION
 DashKey_WaitForDashAttack:
 {
     REP #$20
@@ -102,7 +102,7 @@ DashKey_WaitForDashAttack:
 
 ; ==============================================================================
 
-; $2FC7C-$2FC7D DATA
+; $02FC7C-$02FC7D DATA
 pool DashKey_GiveToPlayer:
 {
     db $40, $20
@@ -110,7 +110,7 @@ pool DashKey_GiveToPlayer:
 
 ; ==============================================================================
 
-; *$2FC7E-$2FC9D JUMP LOCATION
+; $02FC7E-$02FC9D JUMP LOCATION
 DashKey_GiveToPlayer:
 {
     ; Increase the number of Keys Link has.
@@ -130,7 +130,7 @@ DashKey_GiveToPlayer:
 
 ; ==============================================================================
 
-; *$2FC9E-$2FCE7 JUMP LOCATION
+; $02FC9E-$02FCE7 JUMP LOCATION
 Sprite_DashBookOfMudora:
 {
     ; Dash Item - Book of Mudora
@@ -173,7 +173,7 @@ Sprite_DashBookOfMudora:
 
 ; ==============================================================================
 
-; *$2FCE8-$2FD1A JUMP LOCATION
+; $02FCE8-$02FD1A JUMP LOCATION
 DashBookOfMudora_WaitForDashAttack:
 {
     LDA $002F : BNE .must_be_facing_north
@@ -199,7 +199,7 @@ DashBookOfMudora_WaitForDashAttack:
 
 ; ==============================================================================
 
-; *$2FD1B-$2FD2D JUMP LOCATION
+; $02FD1B-$02FD2D JUMP LOCATION
 DashItem_BeginFalling:
 {
     LDA.b #$20 : STA $0F80, X
@@ -215,7 +215,7 @@ DashItem_BeginFalling:
 
 ; ==============================================================================
 
-; *$2FD2E-$2FD39 JUMP LOCATION
+; $02FD2E-$02FD39 JUMP LOCATION
 DashItem_WaitTillTouchingGround:
 {
     LDA $0F70, X : BNE .not_on_ground
@@ -230,7 +230,7 @@ DashItem_WaitTillTouchingGround:
 
 ; ==============================================================================
 
-; *$2FD3A-$2FD4C JUMP LOCATION
+; $02FD3A-$02FD4C JUMP LOCATION
 DashBookOfMudora_GiveToPlayer:
 {
     PHX
@@ -252,7 +252,7 @@ DashBookOfMudora_GiveToPlayer:
 
 ; ==============================================================================
 
-; *$2FD4D-$2FD97 JUMP LOCATION
+; $02FD4D-$02FD97 JUMP LOCATION
 Sprite_DashTreetop:
 {
     ; Dashable treetop (dashable after beating Agahnim)
@@ -301,7 +301,7 @@ Sprite_DashTreetop:
 
 ; ==============================================================================
 
-; *$2FD98-$2FDCF JUMP LOCATION
+; $02FD98-$02FDCF JUMP LOCATION
 DashTreeTop_WaitForDashAttack:
 {
     STZ $0E80, X
@@ -330,7 +330,7 @@ DashTreeTop_WaitForDashAttack:
 
 ; ==============================================================================
 
-; *$2FDD0-$2FE0A JUMP LOCATION
+; $02FDD0-$02FE0A JUMP LOCATION
 DashTreeTop_SpawnLeaves:
 {
     ; Is this a useful ... test?
@@ -363,7 +363,7 @@ DashTreeTop_SpawnLeaves:
 
 ; ==============================================================================
 
-; *$2FE0B-$2FE22 JUMP LOCATION
+; $02FE0B-$02FE22 JUMP LOCATION
 DashTreeTop_DancingLeaves:
 {
     LDA $0DF0, X : BNE .delay
@@ -385,7 +385,7 @@ DashTreeTop_DancingLeaves:
 
 ; ==============================================================================
 
-; *$2FE6F-$2FF38 LOCAL
+; $02FE6F-$02FF38 LOCAL
 DashTreeTop_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -493,7 +493,7 @@ DashTreeTop_Draw:
 
 ; ==============================================================================
 
-; *$2FF39-$2FF5D JUMP LOCATION
+; $02FF39-$02FF5D JUMP LOCATION
 DashTreeTop_SpawnLeafCluster:
 {
     LDA.b #$3B : JSL Sprite_SpawnDynamically

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F3CE8-$F3D22 JUMP LOCATION
+; $0F3CE8-$0F3D22 JUMP LOCATION
 Sprite_SpikeBlock:
 {
     LDA $0E90, X : BNE Sprite_TransientSpikeBlock
@@ -34,7 +34,7 @@ Sprite_SpikeBlock:
 
 ; ==============================================================================
 
-; $F3D23-$F3D4A BRANCH LOCATION
+; $0F3D23-$0F3D4A BRANCH LOCATION
 Sprite_TransientSpikeBlock:
 {
     ; \note Spike blocks created by Mothula end up here.
@@ -62,17 +62,16 @@ Sprite_TransientSpikeBlock:
 
 ; ==============================================================================
 
-; $F3D4B-$F3D4C DATA
+; $0F3D4B-$0F3D4C DATA
 pool TransientSpikeBlock_Activated:
 {
-    
     .wiggle_x_speeds
     db 8, -8
 }
 
 ; ==============================================================================
 
-; *$F3D4D-$F3D73 BRANCH LOCATION
+; $0F3D4D-$0F3D73 BRANCH LOCATION
 TransientSpikeBlock_Activated:
 {
     LDA $0DF0, X : BEQ TransientSpikeBlock_InMotion
@@ -101,10 +100,9 @@ TransientSpikeBlock_Activated:
 
 ; ==============================================================================
 
-; $F3D74-$F3D7F DATA
+; $0F3D74-$0F3D7F DATA
 pool TransientSpikeBlock_InMotion:
 {
-    
     .target_x_speeds
     db 32, -32
     
@@ -120,7 +118,7 @@ pool TransientSpikeBlock_InMotion:
 
 ; ==============================================================================
 
-; *$F3D80-$F3DC7 BRANCH LOCATION
+; $0F3D80-$0F3DC7 BRANCH LOCATION
 TransientSpikeBlock_InMotion:
 {
     LDA $0D80, X : CMP.b #$01 : BNE TransientSpikeBlock_Retract
@@ -164,10 +162,9 @@ TransientSpikeBlock_InMotion:
 
 ; ==============================================================================
 
-; $F3DC8-$F3DCF DATA
+; $0F3DC8-$0F3DCF DATA
 pool TransientSpikeBlock_Retract:
 {
-    
     .x_speeds
     db -16,  16,   0,   0
     
@@ -177,7 +174,7 @@ pool TransientSpikeBlock_Retract:
 
 ; ==============================================================================
 
-; *$F3DD0-$F3DFF BRANCH LOCATION
+; $0F3DD0-$0F3DFF BRANCH LOCATION
 TransientSpikeBlock_Retract:
 {
     ; \note The spike block waits at its current position and then
@@ -209,7 +206,7 @@ TransientSpikeBlock_Retract:
 
 ; ==============================================================================
 
-; *$F3E00-$F3E18 LOCAL
+; $0F3E00-$0F3E18 LOCAL
 SpikeBlock_InduceTilemapUpdate:
 {
     LDA $0D10, X : STA $00
@@ -225,7 +222,7 @@ SpikeBlock_InduceTilemapUpdate:
 
 ; ==============================================================================
 
-; *$F3E19-$F3E7D LOCAL
+; $0F3E19-$0F3E7D LOCAL
 SpikeBlock_CheckStatueSpriteCollision:
 {
     ; This subroutine checks collisions between the sprite block and

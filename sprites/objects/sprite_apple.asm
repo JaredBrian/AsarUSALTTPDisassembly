@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F7515-$F7534 JUMP LOCATION
+; $0F7515-$0F7534 JUMP LOCATION
 Sprite_DashApple:
 {
     ; This is the apple sprite embedded in trees. Afaik, it starts off
@@ -34,7 +34,7 @@ Sprite_DashApple:
 
 ; ==============================================================================
 
-; *$F7535-$F7579 LOCAL
+; $0F7535-$0F7579 LOCAL
 Apple_SpawnTangibleApple:
 {
     LDA.b #$AC : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -67,17 +67,16 @@ Apple_SpawnTangibleApple:
 
 ; ==============================================================================
 
-; $F757A-$F757B DATA
+; $0F757A-$0F757B DATA
 pool Sprite_Apple:
 {
-    
     .speeds
     db $FF, $01
 }
 
 ; ==============================================================================
 
-; *$F757C-$F7602 BRANCH LOCATION
+; $0F757C-$0F7602 BRANCH LOCATION
 Sprite_Apple:
 {
     LDA $0D90, X : CMP.b #$10 : BCS .dont_blink

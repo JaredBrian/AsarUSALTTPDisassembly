@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $F0A8E-$F0A95 LONG
+; $0F0A8E-$0F0A95 LONG
 Sprite_MadBatterBoltLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_MadBatterBoltLong:
 
 ; ==============================================================================
 
-; $F0A96-$F0ABA LOCAL
+; $0F0A96-$0F0ABA LOCAL
 Sprite_MadBatterBolt:
 {
     LDA $0E80, X : AND.b #$10 : BEQ .in_front_of_player
@@ -42,7 +42,7 @@ Sprite_MadBatterBolt:
 
 ; ==============================================================================
 
-; $F0ABB-$F0ACA DATA
+; $0F0ABB-$0F0ACA DATA
 pool MadBatterBolt_Active:
 {
     .x_offsets
@@ -54,7 +54,7 @@ pool MadBatterBolt_Active:
     
 ; ==============================================================================
 
-; $F0ACB-$F0B10 BRANCH LOCATION
+; $0F0ACB-$0F0B10 BRANCH LOCATION
 MadBatterBolt_Active:
 {
     INC $0D80, X : BNE .dont_self_terminate

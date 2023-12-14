@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $410DC-$410FB DATA
+; $0410DC-$0410FB DATA
 pool Ancilla_Boomerang:
 {
-    
     .y_offsets
     dw -16,   6,   0,   0,  -8,   8,  -8,   8
     
@@ -14,7 +13,7 @@ pool Ancilla_Boomerang:
 
 ; ==============================================================================
 
-; *$410FC-$4123A JUMP LOCATION
+; $0410FC-$04123A JUMP LOCATION
 Ancilla_Boomerang:
 {
     LDY.b #$04
@@ -226,7 +225,7 @@ Ancilla_Boomerang:
 
 ; ==============================================================================
 
-; *$4123B-$41242 LONG
+; $04123B-$041242 LONG
 Ancilla_CheckTileCollisionLong:
 {
     PHB : PHK : PLB
@@ -240,7 +239,7 @@ Ancilla_CheckTileCollisionLong:
 
 ; ==============================================================================
 
-; *$41243-$4124A LONG
+; $041243-$04124A LONG
 Ancilla_CheckTileCollision_Class2_Long:
 {
     PHB : PHK : PLB
@@ -254,7 +253,7 @@ Ancilla_CheckTileCollision_Class2_Long:
 
 ; ==============================================================================
 
-; *$4124B-$412AA LOCAL
+; $04124B-$0412AA LOCAL
 Boomerang_CheckForScreenEdgeReversal:
 {
     LDA $0BFA, X : STA $00
@@ -310,7 +309,7 @@ Boomerang_CheckForScreenEdgeReversal:
 
 ; ==============================================================================
 
-; *$412AB-$41319 LOCAL
+; $0412AB-$041319 LOCAL
 Boomerang_SelfTerminateIfOffscreen:
 {
     LDA $0BFA, X : STA $04
@@ -335,7 +334,7 @@ Boomerang_SelfTerminateIfOffscreen:
     LDA $06 : CMP $22 : BCC .dont_self_terminate
               CMP $02 : BCS .dont_self_terminate
     
-    ; *$412F5 ALTERNATE ENTRY POINT
+    ; $0412F5 ALTERNATE ENTRY POINT
     shared Boomerang_SelfTerminate:
     
     SEP #$20
@@ -365,10 +364,9 @@ Boomerang_SelfTerminateIfOffscreen:
 
 ; ==============================================================================
 
-; $4131A-$41337 DATA
+; $04131A-$041337 DATA
 pool Boomerang_Draw:
 {
-    
     .properties
     db $A4, $E4, $64, $24, $A2, $E2, $62, $22
     
@@ -387,7 +385,7 @@ pool Boomerang_Draw:
 
 ; ==============================================================================
 
-; *$41338-$413E7 LONG BRANCH LOCATION
+; $041338-$0413E7 LONG BRANCH LOCATION
 Boomerang_Draw:
 {
     JSR Ancilla_PrepOamCoord

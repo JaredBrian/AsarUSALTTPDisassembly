@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F5A42-$F5B43 JUMP LOCATION
+; $0F5A42-$0F5B43 JUMP LOCATION
 Sprite_EnergyBall:
 {
     LDA $0DA0, X : BEQ .repulsable_energy_ball ;--
@@ -85,7 +85,7 @@ Sprite_EnergyBall:
     LDA.b #$10
     LDX.b #$00
     
-    JSL $06EDC5 ; $36DC5 IN ROM
+    JSL $06EDC5 ; $036DC5 IN ROM
     
     PLX
     
@@ -154,10 +154,9 @@ Sprite_EnergyBall:
 
 ; ==============================================================================
 
-; $F5B44-$F5B53 DATA
+; $0F5B44-$0F5B53 DATA
 pool EnergyBall_DrawTrail:
 {
-    
     .animation_states
     db 2, 2, 2, 2, 2, 2, 2, 1
     db 1, 1, 1, 1, 0, 0, 0, 0
@@ -165,7 +164,7 @@ pool EnergyBall_DrawTrail:
 
 ; ==============================================================================
 
-; *$F5B54-$F5B89 LOCAL
+; $0F5B54-$0F5B89 LOCAL
 EnergyBall_DrawTrail:
 {
     LDA $0DC0, X : CMP.b #$02 : BEQ .is_small
@@ -206,10 +205,9 @@ EnergyBall_DrawTrail:
 
 ; ==============================================================================
 
-; $F5B8A-$F5B95 DATA
+; $0F5B8A-$0F5B95 DATA
 pool SeekerEnergyBall_SplitIntoSixSmaller:
 {
-    
     .x_speeds
     db   0,  24,  24,   0, -24, -24
     
@@ -219,7 +217,7 @@ pool SeekerEnergyBall_SplitIntoSixSmaller:
 
 ; ==============================================================================
 
-; *$F5B96-$F5BFD LOCAL
+; $0F5B96-$0F5BFD LOCAL
 SeekerEnergyBall_SplitIntoSixSmaller:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
@@ -265,10 +263,9 @@ SeekerEnergyBall_SplitIntoSixSmaller:
 
 ; ==============================================================================
 
-; $F5BFE-$F5C3D DATA
+; $0F5BFE-$0F5C3D DATA
 pool SeekerEnergyBall_Draw:
 {
-    
     .oam_groups
     dw  4, -3 : db $CE, $00, $00, $00
     dw 11,  4 : db $CE, $00, $00, $00
@@ -283,7 +280,7 @@ pool SeekerEnergyBall_Draw:
 
 ; ==============================================================================
 
-; *$F5C3E-$F5C5A LOCAL
+; $0F5C3E-$0F5C5A LOCAL
 SeekerEnergyBall_Draw:
 {
     LDA.b #$00   : XBA

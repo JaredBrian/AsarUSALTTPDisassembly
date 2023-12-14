@@ -242,7 +242,7 @@ BirdTravel_LoadTargetArea:
     
     .death_mountain
     
-    JSL DecompOwAnimatedTiles ; $05394 IN ROM
+    JSL DecompOwAnimatedTiles ; $005394 IN ROM
     JSL $0BFE70 ; $05FE70 IN ROM
         
     STZ $0AA9
@@ -567,7 +567,6 @@ OverworldMap_BrightenScreen:
 ; $053AB6-$053AE5 DATA
 pool OverworldMap_Main:
 {
-
     ; TODO: Assign labels to these locations.
     db $1E, $00, $1E, $02, $FE, $02, $00, $80
     db $02, $80, $00, $01, $FF, $01, $21, $0C
@@ -1755,7 +1754,6 @@ ClearMode7Tilemap:
 
 ; $054515-$05451B DATA?
 {
-
 }
 
 ; $05451C-$05456C LOCAL
@@ -2013,7 +2011,6 @@ PalaceMap_SetupGraphics:
 
 ; $05615A-$0561A3 DATA
 {
-
 }
 
 ; =============================================
@@ -2464,7 +2461,6 @@ PalaceMap_OptionalGraphic:
 
 ; $0564E9-$0564F8 DATA
 {
-
 }
 
 ; $0564F9-$05656E LOCAL
@@ -2939,7 +2935,6 @@ PalaceMap_OptionalGraphic:
 
 ; $0567F3-$056822 DATA
 {
-
 }
 
 ; $056823-$056953 JUMP LOCATION (LONG)
@@ -3471,7 +3466,6 @@ PalaceMap_DrawPlayerFloorIndicator:
 
 ; $056B8A-$056BA7 DATA
 {
-
 }
 
 ; $056BA8-$056C09 LOCAL
@@ -3623,7 +3617,6 @@ PalaceMap_DrawPlayerFloorIndicator:
 
 ; $056CBE-$056CCE DATA
 {
-
 }
 
 ; $056CCF-$056D4D LOCAL
@@ -4051,7 +4044,6 @@ PalaceMap_RestoreStarTileState:
     
 ; $056FD1-$057D0B DATA
 {
-
 }
 
 ; ==============================================================================

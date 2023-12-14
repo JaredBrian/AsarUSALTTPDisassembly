@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F2AA7-$F2AF3 JUMP LOCATION
+; $0F2AA7-$0F2AF3 JUMP LOCATION
 Sprite_StalfosKnight:
 {
     LDA $0D80, X : BNE .visible
@@ -51,7 +51,7 @@ Sprite_StalfosKnight:
 
 ; ==============================================================================
 
-; *$F2AF4-$F2B26 JUMP LOCATION
+; $0F2AF4-$0F2B26 JUMP LOCATION
 StalfosKnight_WaitingForPlayer:
 {
     LDA.b #$09 : STA $0F60, X : STA $0BA0, X
@@ -84,7 +84,7 @@ StalfosKnight_WaitingForPlayer:
 
 ; ==============================================================================
 
-; *$F2B27-$F2B59 JUMP LOCATION
+; $0F2B27-$0F2B59 JUMP LOCATION
 StalfosKnight_Falling:
 {
     LDA $0F70, X : PHA
@@ -101,7 +101,7 @@ StalfosKnight_Falling:
     
     LDA $0F70, X : BPL .in_air
     
-    ; *$F2B46 ALTERNATE ENTRY POINT
+    ; $0F2B46 ALTERNATE ENTRY POINT
     
     LDA.b #$02 : STA $0D80, X
     
@@ -121,16 +121,15 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; $F2B5A-$F2B5B DATA
+; $0F2B5A-$0F2B5B DATA
 {
-    
     .animation_states
     db 0, 1
 }
 
 ; ==============================================================================
 
-; *$F2B5C-$F2B95 JUMP LOCATION
+; $0F2B5C-$0F2B95 JUMP LOCATION
 {
     LDA.b #$00 : STA $7F6918
     
@@ -161,9 +160,8 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; $F2B96-$F2BA5 DATA
+; $0F2B96-$0F2BA5 DATA
 {
-    
     ; \task Label this data.
     db  0,  0,  0,  2,  1,  1,  1,  2
     db  0,  0,  0,  2,  1,  1,  1,  2
@@ -171,7 +169,7 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; *$F2BA6-$F2BD5 JUMP LOCATION
+; $0F2BA6-$0F2BD5 JUMP LOCATION
 {
     JSR Sprite3_CheckDamage
     
@@ -200,7 +198,7 @@ StalfosKnight_Falling:
     RTS
 }
 
-; *$F2BD6-$F2BF5 JUMP LOCATION
+; $0F2BD6-$0F2BF5 JUMP LOCATION
 {
     JSR Sprite3_CheckDamage
     
@@ -212,7 +210,7 @@ StalfosKnight_Falling:
     
     LDA.b #$20 : STA $0E00, X
     
-    ; *$F2BEB ALTERNATE ENTRY POINT
+    ; $0F2BEB ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDA.b #$01 : STA $0DB0, X
@@ -221,7 +219,7 @@ StalfosKnight_Falling:
     RTS
 }
 
-; *$F2BF6-$F2C56 JUMP LOCATION
+; $0F2BF6-$0F2C56 JUMP LOCATION
 {
     JSR Sprite3_CheckDamage
     
@@ -261,7 +259,7 @@ StalfosKnight_Falling:
     
     LDA $0DF0, X : BNE .BRANCH_EPSILON
     
-    JMP $AB46 ; $F2B46 IN ROM
+    JMP $AB46 ; $0F2B46 IN ROM
     
     .BRANCH_EPSILON
     
@@ -284,9 +282,8 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; $F2C57-$F2C76 DATA
+; $0F2C57-$0F2C76 DATA
 {
-    
     ; \task Label this data
     db  0,  4,  8, 12, 14, 14, 14, 14
     db 14, 14, 14, 14, 14, 14, 14, 14
@@ -296,7 +293,7 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; *$F2C77-$F2CD5 JUMP LOCATION
+; $0F2C77-$0F2CD5 JUMP LOCATION
 {
     JSR Sprite3_MoveXyz
     JSR Sprite3_CheckTileCollision
@@ -325,7 +322,7 @@ StalfosKnight_Falling:
     
     .BRANCH_DELTA
     
-    JMP $AB46 ; $F2B46 IN ROM
+    JMP $AB46 ; $0F2B46 IN ROM
     
     .BRANCH_GAMMA
     
@@ -354,9 +351,8 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; $F2CD6-$F2CD7 DATA
+; $0F2CD6-$0F2CD7 DATA
 {
-    
     ; \task Name this routine / pool.
     .animation_states
     db 1, 4
@@ -364,11 +360,11 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; *$F2CD8-$F2CEB JUMP LOCATION
+; $0F2CD8-$0F2CEB JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
-    JMP $AB46 ; $F2B46 IN ROM
+    JMP $AB46 ; $0F2B46 IN ROM
     
     .delay
     
@@ -381,10 +377,9 @@ StalfosKnight_Falling:
 
 ; ==============================================================================
 
-; $F2CEC-$F2E03 DATA
+; $0F2CEC-$0F2E03 DATA
 pool StalfosKnight_Draw:
 {
-    
     .oam_groups
     dw -4, -8 : db $64, $00, $00, $00
     dw -4,  0 : db $61, $00, $00, $02
@@ -431,11 +426,11 @@ pool StalfosKnight_Draw:
 
 ; ==============================================================================
 
-; *$F2E04-$F2E45 LOCAL
+; $0F2E04-$0F2E45 LOCAL
 StalfosKnight_Draw:
 {
     JSR Sprite3_PrepOamCoord
-    JSR $AE4E ; $F2E4E IN ROM
+    JSR $AE4E ; $0F2E4E IN ROM
     
     LDA.b #$00   : XBA
     LDA $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL #2 : ADC $00
@@ -465,9 +460,8 @@ StalfosKnight_Draw:
 
 ; ==============================================================================
 
-; $F2E46-$F2E4D DATA
+; $0F2E46-$0F2E4D DATA
 {
-    
     ; \task Name this pool / routine. Hint: Perhaps it's for the Stalfos knight
     ; head?
     .chr
@@ -479,7 +473,7 @@ StalfosKnight_Draw:
 
 ; ==============================================================================
 
-; *$F2E4E-$F2EA3 LOCAL
+; $0F2E4E-$0F2EA3 LOCAL
 {
     LDA $0DC0, X : CMP.b #$02 : BEQ .dont_draw
     

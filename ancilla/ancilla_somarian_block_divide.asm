@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$46B3E-$46BE2 JUMP LOCATION
+; $046B3E-$046BE2 JUMP LOCATION
 Ancilla_SomarianBlockDivide:
 {
     DEC $03B1, X : BPL .full_divide_delay

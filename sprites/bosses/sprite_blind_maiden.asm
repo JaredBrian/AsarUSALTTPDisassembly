@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F68B6-$F68F1 JUMP LOCATION
+; $0F68B6-$0F68F1 JUMP LOCATION
 Sprite_BlindMaiden:
 {
     JSL CrystalMaiden_Draw

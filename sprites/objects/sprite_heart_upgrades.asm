@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $2EEF9-$2EF00 DATA
+; $02EEF9-$02EF00 DATA
 pool Sprite_HeartPiece:
 {
-    
     .messages_low
     db $58, $55, $56, $57
     
@@ -14,7 +13,7 @@ pool Sprite_HeartPiece:
 
 ; ==============================================================================
 
-; *$2EF01-$2EF08 LONG
+; $02EF01-$02EF08 LONG
 SpritePrep_HeartContainerLong:
     shared SpritePrep_HeartPieceLong:
 {
@@ -30,7 +29,7 @@ SpritePrep_HeartContainerLong:
 
 ; ==============================================================================
 
-; *$2EF09-$2EF3E LOCAL
+; $02EF09-$02EF3E LOCAL
 HeartUpdgrade_CheckIfAlreadyObtained:
 {
     LDA $1B : BNE .indoors
@@ -76,7 +75,7 @@ HeartUpdgrade_CheckIfAlreadyObtained:
 
 ; ==============================================================================
 
-; *$2EF3F-$2EF46 LONG
+; $02EF3F-$02EF46 LONG
 Sprite_HeartContainerLong:
 {
     PHB : PHK : PLB
@@ -90,7 +89,7 @@ Sprite_HeartContainerLong:
 
 ; ==============================================================================
 
-; *$2EF47-$2EFC5 LOCAL
+; $02EF47-$02EFC5 LOCAL
 Sprite_HeartContainer:
 {
     LDA $040C : CMP.b #$1A : BNE .not_in_ganons_tower
@@ -163,7 +162,7 @@ Sprite_HeartContainer:
 
 ; ==============================================================================
 
-; *$2EFC6-$2EFDB BRANCH LOCATION
+; $02EFC6-$02EFDB BRANCH LOCATION
 HeartContainer_GrantFromSprite:
 {
     PHX
@@ -184,7 +183,7 @@ HeartContainer_GrantFromSprite:
 
 ; ==============================================================================
 
-; *$2EFDC-$2F005 BRANCH LOCATION
+; $02EFDC-$02F005 BRANCH LOCATION
 HeartContainer_Grant:
 {
     STZ $0DD0, X
@@ -206,7 +205,7 @@ HeartContainer_Grant:
     ; \item
     LDA $1B : BNE HeartUpgrade_SetIndoorAcquiredFlag
     
-    ; *$2EFF7 ALTERNATE ENTRY POINT
+    ; $02EFF7 ALTERNATE ENTRY POINT
     shared HeartUpgrade_SetOutdoorAcquiredFlag:
     
     PHX
@@ -223,7 +222,7 @@ HeartContainer_Grant:
 
 ; ==============================================================================
 
-; $2F006-$2F007 DATA
+; $02F006-$02F007 DATA
 HeartUpgrade_IndoorAcquiredMasks:
 {
     db $40, $20
@@ -231,7 +230,7 @@ HeartUpgrade_IndoorAcquiredMasks:
 
 ; ==============================================================================
 
-; *$2F008-$2F017 BRANCH LOCATION
+; $02F008-$02F017 BRANCH LOCATION
 HeartUpgrade_SetIndoorAcquiredFlag:
 {
     LDA $0D30, X : AND.b #$01 : TAY
@@ -243,7 +242,7 @@ HeartUpgrade_SetIndoorAcquiredFlag:
 
 ; ==============================================================================
 
-; *$2F018-$2F01F LONG
+; $02F018-$02F01F LONG
 Sprite_HeartPieceLong:
 {
     PHB : PHK : PLB
@@ -257,7 +256,7 @@ Sprite_HeartPieceLong:
 
 ; ==============================================================================
 
-; *$2F020-$2F0CC LOCAL
+; $02F020-$02F0CC LOCAL
 Sprite_HeartPiece:
 {
     LDA $0D80, X : BNE .skip_acquisition_check

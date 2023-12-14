@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $F6E56-$F6E59 DATA
+; $0F6E56-$0F6E59 DATA
 pool Sprite_Whirlpool:
 {
     .vh_flip
@@ -10,7 +10,7 @@ pool Sprite_Whirlpool:
 
 ; ==============================================================================
 
-; *$F6E5A-$F6EEE JUMP LOCATION
+; $0F6E5A-$0F6EEE JUMP LOCATION
 Sprite_Whirlpool:
 {
     LDA $8A : CMP.b #$1B : BNE .not_world_warp_gate

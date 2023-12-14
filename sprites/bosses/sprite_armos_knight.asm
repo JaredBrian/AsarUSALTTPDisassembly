@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $2A031-$2A035 DATA
+; $02A031-$02A035 DATA
 pool Sprite_ArmosKnight:
 {
-    
     .death_animation_states
     db $05, $04, $03, $02, $01
 }
 
 ; ==============================================================================
 
-; *$2A036-$2A18E JUMP LOCATION
+; $02A036-$02A18E JUMP LOCATION
 Sprite_ArmosKnight:
 {
     ; Graphic clip array. Determines how it is displayed relative to other
@@ -196,7 +195,7 @@ Sprite_ArmosKnight:
 
 ; ==============================================================================
     
-; *$2A18F-$2A1B3 LOCAL
+; $02A18F-$02A1B3 LOCAL
 ArmosKnight_ProjectSpeedTowardsTarget:
 {
     LDA $0B10, X : STA $04
@@ -217,10 +216,9 @@ ArmosKnight_ProjectSpeedTowardsTarget:
 
 ; ==============================================================================
 
-; $2A1B4-$2A273 DATA
+; $02A1B4-$02A273 DATA
 pool ArmosKnight_Draw:
 {
-    
     .x_offsets
     dw  -8,  8,  -8,  8
     dw -10, 10, -10, 10
@@ -274,7 +272,7 @@ pool ArmosKnight_Draw:
 
 ; ==============================================================================
 
-; *$2A274-$2A376 LOCAL
+; $02A274-$02A376 LOCAL
 ArmosKnight_Draw:
 {
     JSR Sprite2_PrepOamCoord

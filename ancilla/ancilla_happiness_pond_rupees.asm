@@ -3,7 +3,7 @@
 
     ; Ancilla 0x42 (rupees thrown into pond of wishing)
     
-; *$447DE-$44818 JUMP LOCATION
+; $0447DE-$044818 JUMP LOCATION
 Ancilla_HappinessPondRupees:
 {
     LDA.b #$02 : STA $0309
@@ -54,7 +54,7 @@ Ancilla_HappinessPondRupees:
 
 ; ==============================================================================
 
-; *$44819-$448BD LOCAL
+; $044819-$0448BD LOCAL
 HappinessPondRupees_ExecuteRupee:
 {
     ; \wtf Wait, why does this need 4 oam slots exactly?
@@ -141,7 +141,7 @@ HappinessPondRupees_ExecuteRupee:
 
 ; ==============================================================================
 
-; *$448BE-$44923 LOCAL
+; $0448BE-$044923 LOCAL
 HappinessPondRupees_LoadRupeeeState:
 {
     ; \wtf All of these arrays appear to have been allocated 0x0C bytes
@@ -185,7 +185,7 @@ HappinessPondRupees_LoadRupeeeState:
 
 ; ==============================================================================
 
-; *$44924-$44986 LOCAL
+; $044924-$044986 LOCAL
 HappinessPondRupees_StoreRupeeState:
 {
     LDA $0BFA, Y : STA $7F5824, X

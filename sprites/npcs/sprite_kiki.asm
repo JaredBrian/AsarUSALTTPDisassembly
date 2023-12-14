@@ -1,9 +1,8 @@
 
 ; ==============================================================================
 
-; $F62E9-$F62EE DATA
+; $0F62E9-$0F62EE DATA
 {
-    
     ; \task name this routine / pool.
     .x_speeds length 4
     db  0,  0
@@ -14,7 +13,7 @@
 
 ; ==============================================================================
 
-; *$F62EF-$F62FD JUMP LOCATION
+; $0F62EF-$0F62FD JUMP LOCATION
 Sprite_Kiki:
 {
     LDA $0E80, X
@@ -29,7 +28,7 @@ Sprite_Kiki:
 
 ; ==============================================================================
 
-; *$F62FE-$F63AE JUMP LOCATION
+; $0F62FE-$0F63AE JUMP LOCATION
 Kiki_Fleeing:
 {
     JSR Kiki_Draw
@@ -116,7 +115,7 @@ Kiki_Fleeing:
 
 ; ==============================================================================
 
-; *$F63AF-$F63E7 JUMP LOCATION
+; $0F63AF-$0F63E7 JUMP LOCATION
 {
     LDA $0D80, X : DEC #2 : BMI .BRANCH_ALPHA
     
@@ -149,7 +148,7 @@ Kiki_Fleeing:
     dw $E476 ; = $F6476*
 }
 
-; *$F63E8-$F63F3 JUMP LOCATION
+; $0F63E8-$0F63F3 JUMP LOCATION
 {
     LDA.b #$1E
     LDY.b #$01
@@ -161,14 +160,14 @@ Kiki_Fleeing:
     RTS
 }
 
-; *$F63F4-$F6432 JUMP LOCATION
+; $0F63F4-$0F6432 JUMP LOCATION
 {
     LDA $1CE8 : BNE .player_declined
     
     LDA.b #$0A
     LDY.b #$00
     
-    ; $F739E IN ROM
+    ; $0F739E IN ROM
     JSR $F39E : BCC .cant_afford
     
     ; "Ki ki ki ki! Good choice! I will accompany you for a while..."
@@ -203,7 +202,7 @@ Kiki_Fleeing:
     RTS
 }
 
-; *$F6433-$F6464 JUMP LOCATION
+; $0F6433-$0F6464 JUMP LOCATION
 {
     INC $0D80, X
     
@@ -226,7 +225,7 @@ Kiki_Fleeing:
     RTS
 }
 
-; *$F6465-$F6475 JUMP LOCATION
+; $0F6465-$0F6475 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -240,7 +239,7 @@ Kiki_Fleeing:
     RTS
 }
 
-; *$F6476-$F6486 JUMP LOCATION
+; $0F6476-$0F6486 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -257,7 +256,7 @@ Kiki_Fleeing:
 
 ; ==============================================================================
 
-; *$F6487-$F64C8 JUMP LOCATION
+; $0F6487-$0F64C8 JUMP LOCATION
 Kiki_LyingInWait:
 {
     JSL Sprite_PrepOamCoordLong
@@ -300,7 +299,7 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; *$F64C9-$F64FC JUMP LOCATION
+; $0F64C9-$0F64FC JUMP LOCATION
 {
     JSR Kiki_Draw
     JSR Sprite3_CheckIfActive
@@ -332,7 +331,7 @@ Kiki_LyingInWait:
     dw $E66A ; = $F666A* (RTS)
 }
 
-; *$F64FD-$F6508 JUMP LOCATION
+; $0F64FD-$0F6508 JUMP LOCATION
 {
     LDA.b #$1B
     LDY.b #$01
@@ -344,7 +343,7 @@ Kiki_LyingInWait:
     RTS
 }
 
-; *$F6509-$F6536 JUMP LOCATION
+; $0F6509-$0F6536 JUMP LOCATION
 {
     LDA $1CE8 : BEQ .player_agreed
     
@@ -364,7 +363,7 @@ Kiki_LyingInWait:
     LDA.b #$64
     LDY.b #$00
     
-    ; $F739E IN ROM
+    ; $0F739E IN ROM
     JSR $F39E : BCC .cant_afford
     
     LDA.b #$1D
@@ -383,9 +382,8 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; $F6537-$F6538 DATA
+; $0F6537-$0F6538 DATA
 {
-    
     ; \task Name this routine / pool.
     .jump_heights
     db 32, 28
@@ -393,7 +391,7 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; *$F6539-$F6575 JUMP LOCATION
+; $0F6539-$0F6575 JUMP LOCATION
 {
     LDA $0E00, X : BNE .BRANCH_ALPHA
     
@@ -418,9 +416,8 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; $F6576-$F6581 DATA
+; $0F6576-$0F6581 DATA
 {
-    
     .y_targets
     db $61, $06, $4C, $06, $24, $06
     
@@ -430,7 +427,7 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; *$F6582-$F65E8 JUMP LOCATION
+; $0F6582-$0F65E8 JUMP LOCATION
 {
     LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
     
@@ -470,9 +467,8 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; $F65E9-$F65ED DATA
+; $0F65E9-$0F65ED DATA
 {
-    
     ; \task Name this routine / pool.
     .directions
     db 2, 1, -1
@@ -483,7 +479,7 @@ Kiki_LyingInWait:
 
 ; ==============================================================================
 
-; *$F65EE-$F663F JUMP LOCATION
+; $0F65EE-$0F663F JUMP LOCATION
 {
     LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
     
@@ -530,7 +526,7 @@ Kiki_LyingInWait:
     RTS
 }
 
-; *$F6640-$F6656 JUMP LOCATION
+; $0F6640-$0F6656 JUMP LOCATION
 {
     LDA.b #$08 : STA $0DE0, X
     
@@ -543,7 +539,7 @@ Kiki_LyingInWait:
     RTS
 }
 
-; *$F6657-$F666A JUMP LOCATION
+; $0F6657-$0F666A JUMP LOCATION
 {
     LDA $0F80, X : BPL .BRANCH_ALPHA
     
@@ -562,7 +558,7 @@ Kiki_LyingInWait:
 
     ; \covered($F666B-$F6EEE)
     
-; *$F666B-$F6679 LONG
+; $0F666B-$0F6679 LONG
 Kiki_InitiatePalaceOpeningProposal:
 {
     JSR Kiki_TransitionFromTagalong
@@ -576,7 +572,7 @@ Kiki_InitiatePalaceOpeningProposal:
 
 ; ==============================================================================
 
-; *$F667A-$F66C6 LOCAL
+; $0F667A-$0F66C6 LOCAL
 Kiki_TransitionFromTagalong:
 {
     PHA
@@ -615,7 +611,7 @@ Kiki_TransitionFromTagalong:
 
 ; ==============================================================================
 
-; *$F66C7-$F66CF LONG
+; $0F66C7-$0F66CF LONG
 Kiki_InitiateFirstBeggingSequence:
 {
     JSR Kiki_TransitionFromTagalong
@@ -627,7 +623,7 @@ Kiki_InitiateFirstBeggingSequence:
 
 ; ==============================================================================
 
-; *$F66D0-$F66E8 LONG
+; $0F66D0-$0F66E8 LONG
 Kiki_AbandonDamagedPlayer:
 {
     JSR Kiki_TransitionFromTagalong
@@ -645,10 +641,9 @@ Kiki_AbandonDamagedPlayer:
 
 ; ==============================================================================
 
-; $F66E9-$F6858 DATA
+; $0F66E9-$0F6858 DATA
 pool Kiki_Draw:
 {
-    
     .source_offsets
     dw $C020, $C020, $A000, $A000, $8040, $6040, $8040, $6040
     
@@ -703,7 +698,7 @@ pool Kiki_Draw:
 
 ; ==============================================================================
 
-; *$F6859-$F68B5 LOCAL
+; $0F6859-$0F68B5 LOCAL
 Kiki_Draw:
 {
     ; \task Figure out the symantics of $0DE0 for this sprite.

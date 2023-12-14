@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$446F2-$447DD JUMP LOCATION
+; $0446F2-$0447DD JUMP LOCATION
 Ancilla_WishPondItem:
 {
     ; Special Object 0x28 (item sprite thrown into ponds)
@@ -55,7 +55,7 @@ Ancilla_WishPondItem:
     
     BRL Ancilla_TransmuteToObjectSplash
     
-    ; *$44760 ALTERNATE ENTRY POINT
+    ; $044760 ALTERNATE ENTRY POINT
     .draw
     
     JSR Ancilla_PrepAdjustedOamCoord

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$3250C-$3253F JUMP LOCATION
+; $03250C-$03253F JUMP LOCATION
 Sprite_Bubble:
 {
     JSL Sprite_DrawFourAroundOne

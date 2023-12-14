@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $48000-$48023 DATA
+; $048000-$048023 DATA
 pool AddHitStars:
 {
-    
     .xy_offsets
     dw 21, -11
     dw 21,  11
@@ -21,7 +20,7 @@ pool AddHitStars:
 
 ; ==============================================================================
 
-; *$48024-$48090 LONG
+; $048024-$048090 LONG
 AddHitStars:
 {
     ; special effect 0x16 initializer
@@ -85,7 +84,7 @@ AddHitStars:
 
 ; ==============================================================================
 
-; *$48091-$480C7 LONG
+; $048091-$0480C7 LONG
 AddLinksBedSpread:
 {
     ; special effect 0x20 initializer
@@ -115,7 +114,7 @@ AddLinksBedSpread:
     LDA.w #$2162 : STA $00
     LDA.w #$0938 : STA $02
     
-    ; *$480C1 ALTERNATE ENTRY POINT
+    ; $0480C1 ALTERNATE ENTRY POINT
     shared Shortcut:
     
     .set_8Bit
@@ -133,7 +132,7 @@ AddLinksBedSpread:
 
 ; ==============================================================================
 
-; *$480C8-$480FE LONG
+; $0480C8-$0480FE LONG
 AddLinksSleepZs:
 {
     ; special effect 0x21 initializer
@@ -159,7 +158,7 @@ AddLinksSleepZs:
     
     BRL Shortcut.just_coords
     
-    ; *$480FD ALTERNATE ENTRY POINT
+    ; $0480FD ALTERNATE ENTRY POINT
     .no_open_slots
     
     PLB
@@ -169,10 +168,9 @@ AddLinksSleepZs:
 
 ; ==============================================================================
 
-; $480FF-$4811E DATA
+; $0480FF-$04811E DATA
 pool AddBlueBomb:
 {
-    
     .closer_y_offsets
     dw 4, 28, 12, 12
     
@@ -189,7 +187,7 @@ pool AddBlueBomb:
 ; ==============================================================================
     
     ; \note Special Effect 0x07 (Link's blue bombs) Initializer
-; *$4811F-$481B2 LONG
+; $04811F-$0481B2 LONG
 AddBlueBomb:
 {
     PHB : PHK : PLB	
@@ -283,10 +281,9 @@ AddBlueBomb:
 
 ; ==============================================================================
 
-; $481B3-$4820E DATA
+; $0481B3-$04820E DATA
 pool AddBoomerang:
 {
-    
     .speeds
     db $20, $18
     db $30, $28
@@ -321,7 +318,7 @@ pool AddBoomerang:
 
 ; ==============================================================================
     
-; *$4820F-$4836B LONG
+; $04820F-$04836B LONG
 AddBoomerang:
 {
     ; special effect 0x5 (boomerang) initializer
@@ -553,10 +550,9 @@ AddBoomerang:
 
 ; ==============================================================================
 
-; $4836C-$485E7 DATA
+; $04836C-$0485E7 DATA
 pool AddReceiveItem:
 {
-    
     .y_offsets
     db -5, -5, -5, -5, -5, -4, -4, -5
     db -5, -4, -4, -4, -2, -4, -4, -4
@@ -678,7 +674,7 @@ pool AddReceiveItem:
 
 ; ==============================================================================
     
-; *$485E8-$48931 LONG
+; $0485E8-$048931 LONG
 AddReceivedItem:
 {
     ; special effect 0x22 initializer (falling prize objects from boss fights)
@@ -978,7 +974,7 @@ AddReceivedItem:
     
             ; decompresses graphics to show off the new item
             JSL DecompShieldGfx             ; $5308 IN ROM
-            JSL Palette_Shield              ; $DED29 IN ROM
+            JSL Palette_Shield              ; $0DED29 IN ROM
             
             LDA $72
             
@@ -1000,7 +996,7 @@ AddReceivedItem:
     
     LDA $02D8 : BEQ .notSword
         JSL DecompSwordGfx              ; $52C8 IN ROM
-        JSL Palette_Sword               ; $DED03 IN ROM
+        JSL Palette_Sword               ; $0DED03 IN ROM
     
     .notSword
     
@@ -1228,13 +1224,13 @@ AddReceivedItem:
 
 ; ==============================================================================
     
-; $48932-$48938 DATA
+; $048932-$048938 DATA
 BottleList:
 {
     db $16, $2B, $2C, $2D, $3D, $3C, $48
 }
     
-; $48939-$4893D DATA
+; $048939-$04893D DATA
 PotionList:
 {
     db $2E, $2F, $30, $FF, $0E
@@ -1242,7 +1238,7 @@ PotionList:
     
 ; ==============================================================================
 
-; $4893E-$48999 LOCAL
+; $04893E-$048999 LOCAL
 GiveBottledItem:
 {
     ; cache the value of the item to give.
@@ -1313,10 +1309,9 @@ GiveBottledItem:
 
 ; ==============================================================================
 
-; $4899A-$48A31 DATA
+; $04899A-$048A31 DATA
 pool AddWishPondItem:
 {
-    
     .y_offsets
     db -13, -13, -13, -13, -13, -12, -12, -13
     db -13, -12, -12, -12, -10, -12, -12, -12
@@ -1331,14 +1326,14 @@ pool AddWishPondItem:
     db -12, -12, -12, -12, -12, -12, -12, -12
     db -12, -12, -12, -13, -12, -12
     
-    ; $489E6 \unused
+    ; $0489E6 \unused
     db  4,  4,  4,  4,  4,  0,  0,  4
     db  4,  4,  4,  4,  5,  0,  0,  0
     db  0,  0,  0,  4,  0,  4,  0,  0
     db  4,  0,  0,  0,  0,  0,  0,  0
     db  0,  0,  0,  0, 11,  0
     
-    ; $48A0C \unused
+    ; $048A0C \unused
     db  0,  0,  2,  0,  5,  0,  0,  0
     db  0,  0,  0,  0,  0,  0,  4,  4
     db  4,  0,  0,  0,  0,  0,  0,  0
@@ -1348,7 +1343,7 @@ pool AddWishPondItem:
 
 ; ==============================================================================
     
-; *$48A32-$48AB9 LONG
+; $048A32-$048AB9 LONG
 AddWishPondItem:
 {
     ; special effect 0x28 initializer
@@ -1437,10 +1432,9 @@ AddWishPondItem:
 
 ; ==============================================================================
 
-; $48ABA-$48ADF DATA
+; $048ABA-$048ADF DATA
 pool AddHappinessPondRupees:
 {
-    
     .z_speeds
     db  20,  20,  20,  20,  20,  16,  16,  16,  16,  16
     
@@ -1459,7 +1453,7 @@ pool AddHappinessPondRupees:
 
 ; ==============================================================================
     
-; *$48AE0-$48B8F LONG
+; $048AE0-$048B8F LONG
 AddHappinessPondRupees:
 {
     PHB : PHK : PLB
@@ -1559,10 +1553,9 @@ AddHappinessPondRupees:
 
 ; ==============================================================================
 
-; $48B90-$48BC0 DATA
+; $048B90-$048BC0 DATA
 pool AddPendantOrCrystal:
 {
-    
     .item_values
     .ether_medallion
     db $10
@@ -1594,7 +1587,7 @@ pool AddPendantOrCrystal:
 
 ; ==============================================================================
 
-; *$48BC1-$48C72 LONG
+; $048BC1-$048C72 LONG
 AddPendantOrCrystal:
 {
     ; A = 0x29 (pendants/crystals, etc)
@@ -1698,7 +1691,7 @@ AddPendantOrCrystal:
 
 ; ==============================================================================
 
-; *$48C73-$48CB0 LONG
+; $048C73-$048CB0 LONG
 AddRecoveredFlute:
 {
     PHB : PHK : PLB
@@ -1747,7 +1740,7 @@ AddRecoveredFlute:
 
 ; ==============================================================================
 
-; *$48CB1-$48CD4 LONG
+; $048CB1-$048CD4 LONG
 AddChargedSpinAttackSparkle:
 {
     PHB : PHK : PLB
@@ -1783,10 +1776,9 @@ AddChargedSpinAttackSparkle:
 
 ; ==============================================================================
 
-; $48CD5-$48D10 DATA
+; $048CD5-$048D10 DATA
 pool AddWeathervaneExplosion:
 {
-    
     .x_speeds
     db   8,  10,   9,   4,  11,  12, -10,  -8,   4,  -6, -10,  -4
     
@@ -1805,7 +1797,7 @@ pool AddWeathervaneExplosion:
 
 ; ==============================================================================
 
-; *$48D11-$48D8F LONG
+; $048D11-$048D8F LONG
 AddWeathervaneExplosion:
 {
     ; A = 0x37
@@ -1879,7 +1871,7 @@ AddWeathervaneExplosion:
 
 ; ==============================================================================
 
-; *$48D90-$48DD1 LONG
+; $048D90-$048DD1 LONG
 AddTravelBirdIntro:
 {
     ; Sets up some initial values for the bird to use. 
@@ -1923,7 +1915,7 @@ AddTravelBirdIntro:
 
 ; ==============================================================================
 
-; *$48DD2-$48DF8 LONG
+; $048DD2-$048DF8 LONG
 AddSomarianPlatformPoof:
 {
     ; special effect 0x39 initializer
@@ -1957,7 +1949,7 @@ AddSomarianPlatformPoof:
 
 ; ==============================================================================
 
-; *$48DF9-$48E4D LONG
+; $048DF9-$048E4D LONG
 AddSuperBombExplosion:
 {
     ; Special effect 0x3A initializer
@@ -2006,7 +1998,7 @@ AddSuperBombExplosion:
 
 ; ==============================================================================
 
-; *$48E4E-$48EDF LONG
+; $048E4E-$048EDF LONG
 Ancilla_ConfigureRevivalObjects:
 {
 	; 
@@ -2087,7 +2079,7 @@ Ancilla_ConfigureRevivalObjects:
 
 ; ==============================================================================
 
-; *$48EE0-$48F0B LONG
+; $048EE0-$048F0B LONG
 AddCaneOfByrnaStart:
 { 
     ; A = 0x30
@@ -2132,10 +2124,9 @@ AddCaneOfByrnaStart:
 
 ; ==============================================================================
 
-; $48F0C-$48F1B DATA
+; $048F0C-$048F1B DATA
 pool AddLampFlame:
 {
-    
     .y_offsets
     dw -16, 24,   4,  4
     
@@ -2145,7 +2136,7 @@ pool AddLampFlame:
 
 ; ==============================================================================
 
-; *$48F1C-$48F5A LONG
+; $048F1C-$048F5A LONG
 AddLampFlame:
 { 
     ; A = $2F
@@ -2186,7 +2177,7 @@ AddLampFlame:
 
 ; ==============================================================================
 
-; *$48F5B-$48F7B LONG
+; $048F5B-$048F7B LONG
 AddShovelDirt:
 {
     PHB : PHK : PLB
@@ -2216,7 +2207,7 @@ AddShovelDirt:
 
 ; ==============================================================================
     
-; *$48F7C-$48FA9 LONG
+; $048F7C-$048FA9 LONG
 AddSwordCeremony:
 {
     ; The graphical suckfest that is the granting of the master sword
@@ -2250,10 +2241,9 @@ AddSwordCeremony:
 
 ; ==============================================================================
 
-; $48FAA-$48FB9 DATA
+; $048FAA-$048FB9 DATA
 pool AddDashingDust:
 {
-    
     .y_offsets
     dw 20, 4, 16, 16
     
@@ -2263,7 +2253,7 @@ pool AddDashingDust:
 
 ; ==============================================================================
 
-; *$48FBA-$49010 LONG
+; $048FBA-$049010 LONG
 AddDashingDust:
 {
     ; A = #$1E
@@ -2273,7 +2263,7 @@ AddDashingDust:
     
     BRA .instantiate
     
-    ; *$48FC1 ALTERNATE ENTRY POINT
+    ; $048FC1 ALTERNATE ENTRY POINT
     .notYetMoving
     
     ; A = #$1E
@@ -2329,10 +2319,9 @@ AddDashingDust:
 
 ; ==============================================================================
 
-; $49011-$49030 DATA
+; $049011-$049030 DATA
 pool AddBlastWallFireball:
 {
-    
     .xy_speeds
     db -64,  0
     db -22, 42
@@ -2346,7 +2335,7 @@ pool AddBlastWallFireball:
 
 ; ==============================================================================
 
-; *$49031-$49087 LONG
+; $049031-$049087 LONG
 AddBlastWallFireball:
 {
     PHB : PHK : PLB
@@ -2402,17 +2391,16 @@ AddBlastWallFireball:
     
 ; ==============================================================================
 
-; $49088-$490A3 DATA
+; $049088-$0490A3 DATA
 pool AddArrow:
 {
-    
     .y_speeds
     db -30,  30,   0,   0
     
     .x_speeds
     db   0,   0, -30,  30
     
-    ; $49090 \unused Afaik.
+    ; $049090 \unused Afaik.
     .unknown_0 
     db 8, 4, 2, 1
     
@@ -2425,7 +2413,7 @@ pool AddArrow:
 
 ; ==============================================================================
 
-; *$490A4-$49101 LONG
+; $0490A4-$049101 LONG
 AddArrow:
 {
     PHB : PHK : PLB
@@ -2491,7 +2479,7 @@ AddArrow:
     
 ; ==============================================================================
 
-; *$49102-$4912B LONG
+; $049102-$04912B LONG
 AddWarpTransformationCloud:
 { 
     ; This cloud triggers only when warping between worlds (and you don't have a moon pearl)
@@ -2528,7 +2516,7 @@ AddWarpTransformationCloud:
 
 ; ==============================================================================
 
-; *$4912C-$4915E LONG
+; $04912C-$04915E LONG
 AddTransformationCloud:
 {
     ; The transformation cloud is the poof that occurs
@@ -2547,7 +2535,7 @@ AddTransformationCloud:
     
     STZ $67 : STZ $26
     
-    ; *$49142 ALTERNATE ENTRY POINT
+    ; $049142 ALTERNATE ENTRY POINT
     .setup
     
     STZ $0C5E, X
@@ -2568,7 +2556,7 @@ AddTransformationCloud:
     
     PLB
     
-    ; *$4915D ALTERNATE ENTRY POINT
+    ; $04915D ALTERNATE ENTRY POINT
     .return
     
     RTL
@@ -2576,7 +2564,7 @@ AddTransformationCloud:
 
 ; ==============================================================================
 
-; *$4915F-$491C2 LONG
+; $04915F-$0491C2 LONG
 AddDwarfTransformationCloud:
 {
     PHB : PHK : PLB 
@@ -2628,7 +2616,7 @@ AddDwarfTransformationCloud:
 
 ; ==============================================================================
 
-; *$491C3-$491FB LONG
+; $0491C3-$0491FB LONG
 AddDisintegratingBushPoof:
 {
     ; This occurs when Link puts Magic Powder on a bush, 
@@ -2668,7 +2656,7 @@ AddDisintegratingBushPoof:
 
 ; ==============================================================================
     
-; *$491FC-$492AB LONG
+; $0491FC-$0492AB LONG
 AddEtherSpell:
 {
     ; Triggers the Ether effect
@@ -2730,7 +2718,7 @@ AddEtherSpell:
 
 ; ==============================================================================
 
-; *$492AC-$492CF LONG
+; $0492AC-$0492CF LONG
 AddVictorySpinEffect:
 {
     PHB : PHK : PLB
@@ -2757,10 +2745,9 @@ AddVictorySpinEffect:
 
 ; ==============================================================================
 
-; $492D0-$492EF DATA
+; $0492D0-$0492EF DATA
 pool AddMagicPowder:
 {
-    
     .y_offsets
     dw  1, 40, 22, 22
     
@@ -2773,7 +2760,7 @@ pool AddMagicPowder:
 
 ; ==============================================================================
 
-; *$492F0-$49384 LONG
+; $0492F0-$049384 LONG
 AddMagicPowder:
 {
     ; A = 0x1A
@@ -2852,10 +2839,9 @@ AddMagicPowder:
 
 ; ==============================================================================
 
-; $49385-$49394 DATA
+; $049385-$049394 DATA
 pool AddWallTapSpark:
 {
-    
     .y_offsets
     dw -4,  32,  17,  17
     
@@ -2865,7 +2851,7 @@ pool AddWallTapSpark:
 
 ; ==============================================================================
 
-; *$49395-$493C1 LONG
+; $049395-$0493C1 LONG
 AddWallTapSpark:
 {
     PHB : PHK : PLB
@@ -2898,7 +2884,7 @@ AddWallTapSpark:
 
 ; ==============================================================================
 
-; *$493C2-$493E8 LONG
+; $0493C2-$0493E8 LONG
 AddSwordSwingSparkles:
 {
     PHB : PHK : PLB
@@ -2929,10 +2915,9 @@ AddSwordSwingSparkles:
 
 ; ==============================================================================
 
-; $493E9-$493F2 DATA
+; $0493E9-$0493F2 DATA
 pool AddDashTremor:
 {
-    
     .axis
     db $02, $02, $00, $00
     
@@ -2945,7 +2930,7 @@ pool AddDashTremor:
 
 ; ==============================================================================
 
-; *$493F3-$49447 LONG
+; $0493F3-$049447 LONG
 AddDashTremor:
 {
     PHB : PHK : PLB
@@ -3005,10 +2990,9 @@ AddDashTremor:
 
 ; ==============================================================================
 
-; $49448-$49477 DATA
+; $049448-$049477 DATA
 pool AddBoomerangWallHit:
 {
-    
     .y_offsets
     dw 0,  8,  8,  8,  4,  8, 12,  8
     
@@ -3022,7 +3006,7 @@ pool AddBoomerangWallHit:
 
 ; ==============================================================================
 
-; *$49478-$494C5 LONG
+; $049478-$0494C5 LONG
 AddBoomerangWallHit:
 {
     ; A = 0x06
@@ -3070,7 +3054,7 @@ AddBoomerangWallHit:
 
 ; ==============================================================================
     
-; *$494C6-$494FD LONG
+; $0494C6-$0494FD LONG
 AddHookshotWallHit:
 {
     ; A = 0x06
@@ -3103,7 +3087,7 @@ AddHookshotWallHit:
     
     BRL Shortcut.just_coords
     
-    ; *$494FB ALTERNATE ENTRY POINT
+    ; $0494FB ALTERNATE ENTRY POINT
     .return
     
     BRL AddTravelBird.return
@@ -3111,10 +3095,9 @@ AddHookshotWallHit:
     
 ; ==============================================================================
 
-    ;*$494FE-$49588 LONG
+    ; $0494FE-$049588 LONG
 AddTravelBird:
 {
-    
     ; \note Convenience label. Not necessary to invoke it, as it's the same
     ; as the main entry point.
     .pick_up
@@ -3135,7 +3118,7 @@ AddTravelBird:
     
     BRA .init_invariants
     
-    ; *$4951D ALTERNATE ENTRY POINT
+    ; $04951D ALTERNATE ENTRY POINT
     .drop_off
     
     PHB : PHK : PLB
@@ -3186,7 +3169,7 @@ AddTravelBird:
     
     BRL Shortcut.just_coords
     
-    ; $49587 ALTERNATE ENTRY POINT
+    ; $049587 ALTERNATE ENTRY POINT
     .spawn_failed
     .return
     
@@ -3197,7 +3180,7 @@ AddTravelBird:
 
 ; ==============================================================================
 
-; *$49589-$495FA LONG
+; $049589-$0495FA LONG
 AddQuakeSpell:
 {
     PHB : PHK : PLB
@@ -3248,10 +3231,9 @@ AddQuakeSpell:
 
 ; ==============================================================================
 
-; $495FB-$4960A DATA
+; $0495FB-$04960A DATA
 pool AddSpinAttackStartSparkle:
 {
-    
     .y_offsets
     dw 32,  -8,  10,  20
     
@@ -3261,7 +3243,7 @@ pool AddSpinAttackStartSparkle:
 
 ; ==============================================================================
     
-; *$4960B-$49659 LONG
+; $04960B-$049659 LONG
 AddSpinAttackStartSparkle:
 {
     ; A = 0x2A
@@ -3321,10 +3303,9 @@ AddSpinAttackStartSparkle:
 
 ; ==============================================================================
 
-; $4965A-$49691 DATA
+; $04965A-$049691 DATA
 pool AddBlastWall:
 {
-    
     .xy_offsets
     dw  -8,   0
     dw  -8,  16
@@ -3345,7 +3326,7 @@ pool AddBlastWall:
 
 ; ==============================================================================
 
-; *$49692-$49756 LONG
+; $049692-$049756 LONG
 AddBlastWall:
 {
     PHB : PHK : PLB
@@ -3437,7 +3418,7 @@ AddBlastWall:
 
 ; ==============================================================================
 
-; *$49757-$497CD LONG
+; $049757-$0497CD LONG
 AddSwordChargeSpark:
 {
     PHB : PHK : PLB
@@ -3516,10 +3497,9 @@ AddSwordChargeSpark:
 
 ; ==============================================================================
 
-; $497CE-$497DD DATA
+; $0497CE-$0497DD DATA
 pool AddSilverArrowSparkle:
 {
-    
     .y_offsets
     dw  0,  2, -4, -4
     
@@ -3529,7 +3509,7 @@ pool AddSilverArrowSparkle:
 
 ; ==============================================================================
   
-; *$497DE-$4984A LONG
+; $0497DE-$04984A LONG
 AddSilverArrowSparkle:
 {
     PHB : PHK : PLB
@@ -3596,10 +3576,9 @@ AddSilverArrowSparkle:
 
 ; ==============================================================================
 
-; $4984B-$49862 DATA
+; $04984B-$049862 DATA
 pool AddIceRodShot:
 {
-    
     .y_offsets
     dw -16, 24,   8,   8
     
@@ -3615,7 +3594,7 @@ pool AddIceRodShot:
 
 ; ==============================================================================
 
-; *$49863-$498FB LONG
+; $049863-$0498FB LONG
 AddIceRodShot:
 {
     ; A = 0x0B
@@ -3711,7 +3690,7 @@ AddIceRodShot:
 
 ; ==============================================================================
 
-; *$498FC-$49939 LONG
+; $0498FC-$049939 LONG
 AddTransitionSplash:
 {
     ; A = 0x15
@@ -3756,7 +3735,7 @@ AddTransitionSplash:
 
 ; ==============================================================================
 
-; $4993A-$499E8 DATA
+; $04993A-$0499E8 DATA
 pool AddGravestone:
 {
     .y_coordinates
@@ -3817,7 +3796,7 @@ pool AddGravestone:
 
 ; ==============================================================================
 
-; *$499E9-$49AF7 LONG
+; $0499E9-$049AF7 LONG
 AddGravestone:
 {
     ; A = 0x24
@@ -3987,10 +3966,9 @@ AddGravestone:
 
 ; ==============================================================================
 
-; $49AF8-$49B0F
+; $049AF8-$049B0F
 pool AddHookshot:
 {
-    
     .y_speeds
     db -64, 64,   0,  0
     
@@ -4006,7 +3984,7 @@ pool AddHookshot:
 
 ; ==============================================================================
 
-; *$49B10-$49B67 LONG
+; $049B10-$049B67 LONG
 AddHookshot:
 {
     PHB : PHK : PLB
@@ -4054,7 +4032,7 @@ AddHookshot:
 
 ; ==============================================================================
 
-; *$49B68-$49B82 LONG
+; $049B68-$049B82 LONG
 AddWaterfallSplash:
 {
     ; Splash of water over Link's head that occurs
@@ -4072,7 +4050,7 @@ AddWaterfallSplash:
     
 	STZ $0C5E, X
     
-    ; *$49B81 ALTERNATE ENTRY POINT
+    ; $049B81 ALTERNATE ENTRY POINT
     .already_present
     .no_open_slots
     
@@ -4083,7 +4061,7 @@ AddWaterfallSplash:
 
 ; ==============================================================================
 
-; *$49B83-$49C37 LONG
+; $049B83-$049C37 LONG
 AddBreakTowerSeal:
 {
     ; Waterfall sprite sees if you can open Ganon's tower
@@ -4184,7 +4162,7 @@ AddBreakTowerSeal:
 
 ; ==============================================================================
 
-; *$49C38-$49C4E LONG
+; $049C38-$049C4E LONG
 AddDoorDebris:
 {
     ; A = 0x08
@@ -4204,7 +4182,7 @@ AddDoorDebris:
     ; be added or not.
     CLC
     
-    ; $49C4D ALTERNATE ENTRY POINT
+    ; $049C4D ALTERNATE ENTRY POINT
     .spawn_failed
     
     PLB
@@ -4214,7 +4192,7 @@ AddDoorDebris:
 
 ; ==============================================================================
 
-; *$49C4F-$49CE1 LONG
+; $049C4F-$049CE1 LONG
 ConsumingFire_TransmuteToSkullWoodsFire:
 {
     PHB : PHK : PLB
@@ -4290,7 +4268,7 @@ ConsumingFire_TransmuteToSkullWoodsFire:
 
 ; ==============================================================================
     
-; *$49CE2-$49D17 LOCAL
+; $049CE2-$049D17 LOCAL
 AddAncilla:
 {
 	; Special effect activator
@@ -4352,7 +4330,7 @@ AddAncilla:
 
 ; ==============================================================================
 
-; *$49D18-$49D1F LONG
+; $049D18-$049D1F LONG
 AddAncillaLong:
 {
     PHB : PHK : PLB
@@ -4366,7 +4344,7 @@ AddAncillaLong:
 
 ; ==============================================================================
 
-; *$49D20-$49D2D LOCAL
+; $049D20-$049D2D LOCAL
 Ancilla_CheckIfAlreadyExists:
 {
     ; This routine accepts A as an input and returns true (SEC)
@@ -4394,7 +4372,7 @@ Ancilla_CheckIfAlreadyExists:
 ; ==============================================================================
 
     ; \unused
-; $49D2E-$49D35 DATA
+; $049D2E-$049D35 DATA
 Ancilla_CheckIfAlreadyExistsLong:
 {
     PHB : PHK : PLB
@@ -4408,7 +4386,7 @@ Ancilla_CheckIfAlreadyExistsLong:
 
 ; ==============================================================================
     
-; *$49D36-$49DA2 LOCAL
+; $049D36-$049DA2 LOCAL
 Ancilla_GetRidOfArrowInWall:
 {
     PHA
@@ -4497,10 +4475,9 @@ Ancilla_GetRidOfArrowInWall:
 
 ; ==============================================================================
 
-; $49DA3-$49DD2 DATA
+; $049DA3-$049DD2 DATA
 pool Ancilla_CheckInitialTileCollision_Class_1:
 {
-    
     .y_offsets
     dw   8,   0
     dw  -8,   8
@@ -4528,7 +4505,7 @@ pool Ancilla_CheckInitialTileCollision_Class_1:
     ; blocks. We'd need to come up with nammes for the two classes.
     
 Ancilla_CheckInitialTileCollision_Class_1:
-; *$49DD3-$49E23 LONG
+; $049DD3-$049E23 LONG
 {
     PHB : PHK : PLB
     
@@ -4588,10 +4565,9 @@ Ancilla_CheckInitialTileCollision_Class_1:
 
 ; ==============================================================================
 
-; $49E24-$49E43 DATA
+; $049E24-$049E43 DATA
 pool Ancilla_CheckInitialTileCollision_Class2:
 {
-    
     .y_offsets
     dw 15, 16
     dw 28, 24
@@ -4608,7 +4584,7 @@ pool Ancilla_CheckInitialTileCollision_Class2:
 ; ==============================================================================
 
     ; \task Maybe rename this big lug later on.
-; *$49E44-$49E8F LONG
+; $049E44-$049E8F LONG
 Ancilla_CheckInitialTileCollision_Class2:
 {
     PHB : PHK : PLB

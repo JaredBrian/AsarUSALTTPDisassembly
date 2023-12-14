@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $F2192-$F2195 DATA
+; $0F2192-$0F2195 DATA
 pool Sprite_Pengator:
 {
-    
     .animation_states
     db $05, $00, $0A, $0F
 }
 
 ; ==============================================================================
 
-; *$F2196-$F21E9 JUMP LOCATION
+; $0F2196-$0F21E9 JUMP LOCATION
 Sprite_Pengator:
 {
     LDY $0DE0, X
@@ -64,7 +63,7 @@ Sprite_Pengator:
 
 ; ==============================================================================
 
-; *$F21EA-$F21F4 JUMP LOCATION
+; $0F21EA-$0F21F4 JUMP LOCATION
 Pengator_FacePlayer:
 {
     JSR Sprite3_DirectionToFacePlayer
@@ -78,10 +77,9 @@ Pengator_FacePlayer:
 
 ; ==============================================================================
 
-; $F21F5-$F21FA DATA
+; $0F21F5-$0F21FA DATA
 pool Pengator_SpeedUp:
 {
-    
     .x_speeds length 4
     db 1, -1
     
@@ -90,7 +88,7 @@ pool Pengator_SpeedUp:
 
 ; ==============================================================================
 
-; *$F21FB-$F223F JUMP LOCATION
+; $0F21FB-$0F223F JUMP LOCATION
 Pengator_SpeedUp:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .delay
@@ -131,17 +129,16 @@ Pengator_SpeedUp:
 
 ; ==============================================================================
 
-; $F2240-$F2243 DATA
+; $0F2240-$0F2243 DATA
 pool Pengator_Jump:
 {
-    
     .animation_states
     db 4, 4, 3, 2
 }
 
 ; ==============================================================================
 
-; *$F2244-$F2260 JUMP LOCATION
+; $0F2244-$0F2260 JUMP LOCATION
 Pengator_Jump:
 {
     LDA $0DF0, X : BNE .state_transition_delay
@@ -169,10 +166,9 @@ Pengator_Jump:
 
 ; ==============================================================================
 
-; $F2261-$F2270 DATA
+; $0F2261-$0F2270 DATA
 pool Pengator_SlideAndSparkle:
 {
-    
     .random_x_offsets
     db  8, 10, 12, 14
     db 12, 12, 12, 12
@@ -184,7 +180,7 @@ pool Pengator_SlideAndSparkle:
 
 ; ==============================================================================
 
-; *$F2271-$F22B4 JUMP LOCATION
+; $0F2271-$0F22B4 JUMP LOCATION
 Pengator_SlideAndSparkle:
 {
     TXA : EOR $1A : AND.b #$07 : ORA $0F70, X : BNE .still_falling
@@ -222,10 +218,9 @@ Pengator_SlideAndSparkle:
 
 ; ==============================================================================
 
-; $F22B5-$F2414 DATA
+; $0F22B5-$0F2414 DATA
 pool Pengator_Draw:
 {
-    
     .oam_groups
     dw -1, -8 : db $82, $00, $00, $02
     dw  0,  0 : db $88, $00, $00, $02
@@ -277,7 +272,7 @@ pool Pengator_Draw:
 
 ; ==============================================================================
 
-; *$F2415-$F2461 LOCAL
+; $0F2415-$0F2461 LOCAL
 Pengator_Draw:
 {
     LDA.b #$00   : XBA

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $E8000-$E800F DATA
+; $0E8000-$0E800F DATA
 pool Sprite_ApplyConveyorAdjustment:
 {
     .x_shake_values
@@ -25,7 +25,7 @@ pool Sprite_ApplyConveyorAdjustment:
 
 ; ==============================================================================
 
-; *$E8010-$E803F LONG
+; $0E8010-$0E803F LONG
 Sprite_ApplyConveyorAdjustment:
 {
     ; Seems like this handles the velocity adjustment that a conveyor
@@ -54,7 +54,7 @@ Sprite_ApplyConveyorAdjustment:
 
 ; ==============================================================================
 
-; *$E8040-$E808B LONG
+; $0E8040-$0E808B LONG
 Sprite_CreateDeflectedArrow:
 {
     ; Creates a ... arrow that has been deflected (as in, now it's falling)
@@ -103,7 +103,7 @@ Sprite_CreateDeflectedArrow:
 
 ; ==============================================================================
 
-; *$E808C-$E8093 LONG
+; $0E808C-$0E8093 LONG
 Sprite_MoveLong:
 {
     ; Invoked from ending mode usually...?
@@ -118,7 +118,7 @@ Sprite_MoveLong:
 
 ; ==============================================================================
 
-; *$E8094-$E8098 LOCAL
+; $0E8094-$0E8098 LOCAL
 Sprite4_CheckTileCollision:
 {
     JSL Sprite_CheckTileCollisionLong
@@ -147,7 +147,7 @@ incsrc "sprite_chain_chomp.asm"
 
 ; ==============================================================================
 
-; *$EC211-$EC219 LOCAL
+; $0EC211-$0EC219 LOCAL
 Sprite4_CheckDamage:
 {
     JSL Sprite_CheckDamageFromPlayerLong
@@ -158,7 +158,7 @@ Sprite4_CheckDamage:
 
 ; ==============================================================================
 
-; *$EC21A-$EC221 LONG
+; $0EC21A-$0EC221 LONG
 SpriteActive4_MainLong:
 {
     PHB : PHK : PLB
@@ -172,7 +172,7 @@ SpriteActive4_MainLong:
 
 ; ==============================================================================
 
-; *$EC222-$EC26C LOCAL
+; $0EC222-$0EC26C LOCAL
 SpriteActive4_Main:
 {
     ; Ranges from 0 to 0x1A (since highest pointer is 0xD7)
@@ -237,7 +237,7 @@ incsrc "sprite_raven.asm"
 
 ; ==============================================================================
 
-; *$EDE82-$EDE89 LONG
+; $0EDE82-$0EDE89 LONG
 Vitreous_SpawnSmallerEyesLong:
 {
     PHB : PHK : PLB
@@ -251,9 +251,8 @@ Vitreous_SpawnSmallerEyesLong:
 
 ; ==============================================================================
 
-; $EDE8A-$EDECA DATA
+; $0EDE8A-$0EDECA DATA
 {
-    
     .
     db 
     
@@ -261,7 +260,7 @@ Vitreous_SpawnSmallerEyesLong:
 
 ; ==============================================================================
 
-; *$EDECB-$EDF44 LOCAL
+; $0EDECB-$0EDF44 LOCAL
 Vitreous_SpawnSmallerEyes:
 {
     LDA.b #$09 : STA $0ED0, X
@@ -320,7 +319,7 @@ incsrc "sprite_vitreolus.asm"
 
 ; ==============================================================================
 
-; *$EE893-$EE897 LOCAL
+; $0EE893-$0EE897 LOCAL
 Sprite4_DirectionToFacePlayer:
 {
     JSL Sprite_DirectionToFacePlayerLong
@@ -330,7 +329,7 @@ Sprite4_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; *$EE898-$EE89C LOCAL
+; $0EE898-$0EE89C LOCAL
 Sprite4_IsToRightOfPlayer:
 {
     JSL Sprite_IsToRightOfPlayerLong
@@ -340,7 +339,7 @@ Sprite4_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; *$EE89D-$EE8A1 LOCAL
+; $0EE89D-$0EE8A1 LOCAL
 Sprite4_IsBelowPlayer:
 {
     JSL Sprite_IsBelowPlayerLong
@@ -350,7 +349,7 @@ Sprite4_IsBelowPlayer:
 
 ; ==============================================================================
 
-; *$EE8A2-$EE8BE LOCAL
+; $0EE8A2-$0EE8BE LOCAL
 Sprite4_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -374,7 +373,7 @@ Sprite4_CheckIfActive:
 
 ; ==============================================================================
 
-; *$EE8C5-$EE947 LOCAL
+; $0EE8C5-$0EE947 LOCAL
 Sprite4_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -454,12 +453,12 @@ Sprite4_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; *$EE948-$EE951 LOCAL
+; $0EE948-$0EE951 LOCAL
 Sprite4_MoveXyz:
 {
     JSR Sprite4_MoveAltitude
     
-    ; *$EE94B ALTERNATE ENTRY POINT
+    ; $0EE94B ALTERNATE ENTRY POINT
     shared Sprite4_Move:
     
     JSR Sprite4_MoveHoriz
@@ -470,7 +469,7 @@ Sprite4_MoveXyz:
 
 ; ==============================================================================
 
-; *$EE952-$EE95C LOCAL
+; $0EE952-$0EE95C LOCAL
 Sprite4_MoveHoriz:
 {
     PHX : TXA : CLC : ADC.b #$10 : TAX
@@ -484,7 +483,7 @@ Sprite4_MoveHoriz:
 
 ; ==============================================================================
 
-; *$EE95D-$EE98A LOCAL
+; $0EE95D-$0EE98A LOCAL
 Sprite4_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
@@ -509,7 +508,7 @@ Sprite4_MoveVert:
 
 ; ==============================================================================
 
-; *$EE98B-$EE9AC LOCAL
+; $0EE98B-$0EE9AC LOCAL
 Sprite4_MoveAltitude:
 {
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
@@ -528,7 +527,7 @@ Sprite4_MoveAltitude:
 
 ; ==============================================================================
 
-; *$EE9AD-$EE9B5 LOCAL
+; $0EE9AD-$0EE9B5 LOCAL
 Sprite4_PrepOamCoord:
 {
     ; \task Perhaps come up with a better name for these sublabels?
@@ -543,7 +542,7 @@ Sprite4_PrepOamCoord:
 
 ; ==============================================================================
 
-; *$EE9B6-$EE9D9 LONG
+; $0EE9B6-$0EE9D9 LONG
 Filter_MajorWhitenMain:
 {
     LDA $0FF9 : BEQ .major_white_filter_inactive
@@ -583,7 +582,7 @@ Filter_MajorWhitenMain:
 
 ; ==============================================================================
 
-; *$EE9DA-$EE9FF LONG
+; $0EE9DA-$0EE9FF LONG
 CacheSprite_ExecuteAll:
 {
     ; Some kind of special enemy "switch out"
@@ -627,7 +626,7 @@ CacheSprite_ExecuteAll:
 
 ; ==============================================================================
 
-; *$EEA00-$EEB67 LOCAL
+; $0EEA00-$0EEB67 LOCAL
 CacheSprite_ExecuteSingle:
 {
     ; Save the relevant data of this non-cached sprite before
@@ -727,7 +726,7 @@ CacheSprite_ExecuteSingle:
 
 ; ==============================================================================
 
-; $EEB68-$EEB83 DATA
+; $0EEB68-$0EEB83 DATA
 pool Sprite_SimulateSoldier:
 {
     ; \task Fill in data.
@@ -735,7 +734,7 @@ pool Sprite_SimulateSoldier:
 
 ; ==============================================================================
 
-; *$EEB84-$EEBEA LONG
+; $0EEB84-$0EEBEA LONG
 Sprite_SimulateSoldier:
 {
     PHB : PHK : PLB
@@ -798,7 +797,7 @@ incsrc "sprite_evil_barrier.asm"
 
 ; ==============================================================================
 
-; *$EF277-$EF2A4 LONG
+; $0EF277-$0EF2A4 LONG
 Moldorm_Initialize:
 {
     PHX
@@ -828,7 +827,7 @@ Moldorm_Initialize:
 
 ; ==============================================================================
 
-; $EF2A5-$EF394 DATA
+; $0EF2A5-$0EF394 DATA
 pool Sprite_DrawFourAroundOne:
 {
     ; \task Fill in data.
@@ -836,7 +835,7 @@ pool Sprite_DrawFourAroundOne:
 
 ; ==============================================================================
 
-; *$EF395-$EF3D3 LONG
+; $0EF395-$0EF3D3 LONG
 Sprite_DrawFourAroundOne:
 {
     PHB : PHK : PLB
@@ -868,7 +867,7 @@ Sprite_DrawFourAroundOne:
 
 ; ==============================================================================
 
-; $EF3D4-$EF44C LONG
+; $0EF3D4-$0EF44C LONG
 Toppo_Flustered:
 {
     PHB : PHK : PLB
@@ -934,7 +933,7 @@ Toppo_Flustered:
 
 ; ==============================================================================
 
-; $EF44D-$EF588 DATA
+; $0EF44D-$0EF588 DATA
 pool Goriya_Draw:
 {
     ; \task Fill in data
@@ -956,7 +955,7 @@ pool Goriya_Draw:
 
 ; ==============================================================================
 
-; *$EF589-$EF5D3 LONG
+; $0EF589-$0EF5D3 LONG
 Goriya_Draw:
 {
     PHB : PHK : PLB
@@ -1007,10 +1006,9 @@ Goriya_Draw:
 
 ; ==============================================================================
 
-; $EF5D4-$EF613 DATA
+; $0EF5D4-$0EF613 DATA
 pool Sprite_ConvertVelocityToAngle:
 {
-    
     .x_angles
     db  0,  0,  1,  1,  1,  2,  2,  2
     db  0,  0, 15, 15, 15, 14, 14, 14
@@ -1026,7 +1024,7 @@ pool Sprite_ConvertVelocityToAngle:
 
 ; ==============================================================================
 
-; *$EF614-$EF65C LONG
+; $0EF614-$0EF65C LONG
 Sprite_ConvertVelocityToAngle:
 {
     !x_magnitude = $08
@@ -1088,12 +1086,12 @@ Sprite_ConvertVelocityToAngle:
 
 ; ==============================================================================
 
-; *$EF65D-$EF6CE LONG
+; $0EF65D-$0EF6CE LONG
 Sprite_SpawnDynamically:
 {
     LDY.b #$0F
     
-    ; *$EF65F ALTERNATE ENTRY POINT
+    ; $0EF65F ALTERNATE ENTRY POINT
     .arbitrary
     
     PHA
@@ -1160,7 +1158,7 @@ Sprite_SpawnDynamically:
 
 ; ==============================================================================
 
-; $EF6CF-$EF7CE DATA
+; $0EF6CF-$0EF7CE DATA
 {
     ; Used from bank 0x06. \task Document this. Though, it seems that the
     ; values here aren't really checked for anything other than being 
@@ -1169,9 +1167,8 @@ Sprite_SpawnDynamically:
 
 ; ==============================================================================
 
-; $EF7CF-$EF821 DATA
+; $0EF7CF-$0EF821 DATA
 {
-    
     ; \task Fill in data.
     
     ; $EF7CF
@@ -1193,7 +1190,7 @@ Sprite_SpawnDynamically:
 
 ; ==============================================================================
 
-; *$EF822-$EF942 LONG
+; $0EF822-$0EF942 LONG
 Moldorm_Draw:
 {
     JSL Sprite_PrepOamCoordLong : BCC .can_draw
@@ -1337,10 +1334,9 @@ incsrc "sprite_talking_tree.asm"
 
 ; ==============================================================================
 
-; $EFBCC-$EFBD6 DATA
+; $0EFBCC-$0EFBD6 DATA
 pool PullForRupees_SpawnRupees:
 {
-    
     .x_speeds
     db -18, -12,  12,  18
     
@@ -1353,7 +1349,7 @@ pool PullForRupees_SpawnRupees:
 
 ; ==============================================================================
 
-; *$EFBD7-$EFC37 LONG
+; $0EFBD7-$0EFC37 LONG
 PullForRupees_SpawnRupees:
 {
     PHB : PHK : PLB
@@ -1427,10 +1423,9 @@ incsrc "sprite_digging_game_guy.asm"
 
 ; ==============================================================================
 
-; $EFE6E-$EFF0D DATA
+; $0EFE6E-$0EFF0D DATA
 pool OldMountainMan_Draw:
 {
-    
     .static_pose
     dw  0, 0 : db $AC, $00, $00, $02
     dw  0, 8 : db $AE, $00, $00, $02
@@ -1468,7 +1463,7 @@ pool OldMountainMan_Draw:
 
 ; ==============================================================================
 
-; *$EFF0E-$EFF5A LONG
+; $0EFF0E-$0EFF5A LONG
 OldMountainMan_Draw:
 {
     PHB : PHK : PLB
@@ -1511,7 +1506,7 @@ OldMountainMan_Draw:
     RTL
 }
 
-; *$EFF5B-$EFFBC LONG
+; $0EFF5B-$0EFFBC LONG
 SpriteBurn_Execute:
 {
     PHB : PHK : PLB
@@ -1521,7 +1516,7 @@ SpriteBurn_Execute:
     LDA $0DF0, X : DEC A : BNE .delay
     
     ; Do this when the timer is at 0x01.
-    JSL $06F917 ; $37917 IN ROM
+    JSL $06F917 ; $037917 IN ROM
     
     PLB
     
@@ -1576,17 +1571,16 @@ SpriteBurn_Execute:
 
 ; ==============================================================================
 
-; $EFFBD-$EFFC4 DATA
+; $0EFFBD-$0EFFC4 DATA
 pool SpriteFall_Draw:
 {
-    
     .chr
     db $83, $83, $83, $80, $80, $80, $B7, $B7
 }
 
 ; ==============================================================================
 
-; *$EFFC5-$EFFF7 LONG
+; $0EFFC5-$0EFFF7 LONG
 SpriteFall_Draw:
 {
     PHB : PHK : PLB
@@ -1617,7 +1611,7 @@ SpriteFall_Draw:
 
 ; ==============================================================================
 
-; $EFFF8-$EFFFF NULL
+; $0EFFF8-$0EFFFF NULL
 pool Empty:
 {
     fillbyte $FF

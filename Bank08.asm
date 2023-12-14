@@ -4,7 +4,7 @@
 ; \unused 1. Don't think ambient sound effects do panning, and 2. this
 ; is probably unused because ... probably no ancillae cause
 ; ambient sound effects to play.
-; $40000-$40006 LOCAL 
+; $040000-$040006 LOCAL 
 Ancilla_DoSfx1_NearPlayer:
 {
     JSR Ancilla_SetSfxPan_NearPlayer : STA $012D
@@ -14,7 +14,7 @@ Ancilla_DoSfx1_NearPlayer:
 
 ; ==============================================================================
 
-; *$40007-$4000D LOCAL
+; $040007-$04000D LOCAL
 Ancilla_DoSfx2_NearPlayer:
 {
     JSR Ancilla_SetSfxPan_NearPlayer : STA $012E
@@ -24,7 +24,7 @@ Ancilla_DoSfx2_NearPlayer:
 
 ; ==============================================================================
 
-; *$4000E-$40014 LOCAL
+; $04000E-$040014 LOCAL
 Ancilla_DoSfx3_NearPlayer:
 {
     JSR Ancilla_SetSfxPan_NearPlayer : STA $012F
@@ -34,7 +34,7 @@ Ancilla_DoSfx3_NearPlayer:
 
 ; ==============================================================================
 
-; *$40015-$4001F LOCAL
+; $040015-$04001F LOCAL
 Ancilla_SetSfxPan_NearPlayer:
 {
     STA $0CF8
@@ -47,7 +47,7 @@ Ancilla_SetSfxPan_NearPlayer:
 ; ==============================================================================
 
     ; \unused
-; $40020-$40026 LOCAL
+; $040020-$040026 LOCAL
 Ancilla_DoSfx1:
 {
     JSR Ancilla_SetSfxPan : STA $012D
@@ -57,7 +57,7 @@ Ancilla_DoSfx1:
 
 ; ==============================================================================
 
-; *$40027-$4002D LOCAL
+; $040027-$04002D LOCAL
 Ancilla_DoSfx2:
 {
     JSR Ancilla_SetSfxPan : STA $012E
@@ -67,7 +67,7 @@ Ancilla_DoSfx2:
 
 ; ==============================================================================
 
-; *$4002E-$40034 LOCAL
+; $04002E-$040034 LOCAL
 Ancilla_DoSfx3:
 {
     JSR Ancilla_SetSfxPan : STA $012F
@@ -77,7 +77,7 @@ Ancilla_DoSfx3:
 
 ; ==============================================================================
 
-; *$40035-$4003F LOCAL
+; $040035-$04003F LOCAL
 Ancilla_SetSfxPan:
 {
     STA $0CF8
@@ -89,7 +89,7 @@ Ancilla_SetSfxPan:
 
 ; ==============================================================================
 
-; $40040-$4006E Data Table
+; $040040-$04006E Data Table
 {
     db  0,  0, -8, 16
     
@@ -105,14 +105,14 @@ Ancilla_SetSfxPan:
     db   0,  0, -64, 64
     db -64, 64,   0,  0
     
-    ; $40070 ($4006F + 1)
+    ; $040070 ($4006F + 1)
     db  8, 12, 16, 16,  4, 16, 24,  8,  8,  8,  0, 20,  0, 16, 40, 24
     db 
 }
 
 ; ==============================================================================
 
-; $4006F-$400B2 Data
+; $04006F-$0400B2 Data
 {
     db   0,   8,  12,  16,  16,   4,  16,  24
     db   8,   8,   8,   0,  20,   0,  16,  40
@@ -131,7 +131,7 @@ Ancilla_SetSfxPan:
 
 ; ==============================================================================
 
-; *$400B3-$4019E LONG
+; $0400B3-$04019E LONG
 AddFireRodShot:
 {
     LDY.b #$01
@@ -270,10 +270,9 @@ AddFireRodShot:
 
 ; ==============================================================================
 
-; $4019F-$401A6 DATA
+; $04019F-$0401A6 DATA
 pool SomarianBlast_SpawnCentrifugalQuad:
 {
-    
     .x_offsets
     db  -8, -8, -9, -4
     
@@ -283,7 +282,7 @@ pool SomarianBlast_SpawnCentrifugalQuad:
 
 ; ==============================================================================
 
-; *$401A7-$40241 LOCAL
+; $0401A7-$040241 LOCAL
 SomarianBlast_SpawnCentrifugalQuad:
 {
     LDA.b #$03 : STA $0FB5
@@ -350,7 +349,7 @@ SomarianBlast_SpawnCentrifugalQuad:
 
 ; ==============================================================================
 
-; *$40242-$4024C LONG
+; $040242-$04024C LONG
 Ancilla_Main:
 {
     PHB : PHK : PLB
@@ -365,7 +364,7 @@ Ancilla_Main:
 
 ; ==============================================================================
 
-; *$4024D-$40286 LOCAL
+; $04024D-$040286 LOCAL
 Bomb_ProjectReflexiveSpeedOntoSprite:
 {
     ; This routine subs in an object's coordinates for the
@@ -398,7 +397,7 @@ Bomb_ProjectReflexiveSpeedOntoSprite:
 
 ; ==============================================================================
 
-; *$40287-$4032A LOCAL
+; $040287-$04032A LOCAL
 Bomb_CheckSpriteDamage:
 {
     ; collision detection used for telling if sprites need some ass whoopin'
@@ -495,7 +494,7 @@ Bomb_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; *$4032B-$4033B LOCAL
+; $04032B-$04033B LOCAL
 Ancilla_ExecuteObjects:
 {
     LDX.b #$09
@@ -518,7 +517,7 @@ Ancilla_ExecuteObjects:
 
 ; ==============================================================================
 
-; *$4033C-$40404 LOCAL
+; $04033C-$040404 LOCAL
 Ancilla_ExecuteObject:
 {
     ; Push the ancilla's number to the stack.
@@ -668,10 +667,9 @@ incsrc "ancilla_fire_shot.asm"
 
 ; ==============================================================================
 
-; $40853-$4097A DATA
+; $040853-$04097A DATA
 pool Ancilla_CheckTileCollisionStaggered:
 {
-    
     .collision_table
     db 0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0
     db 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 0, 3, 3, 3
@@ -701,12 +699,12 @@ pool Ancilla_CheckTileCollisionStaggered:
 
 ; ==============================================================================
 
-; *$4097B-$40ABE LOCAL
+; $04097B-$040ABE LOCAL
 Ancilla_CheckTileCollisionStaggered:
 {
     TXA : EOR $1A : LSR A : BCC .skip_even_frames
     
-    ; *$40981 ALTERNATE ENTRY POINT
+    ; $040981 ALTERNATE ENTRY POINT
     shared Ancilla_CheckTileCollision:
     
     ; If indoors branch here
@@ -799,7 +797,7 @@ Ancilla_CheckTileCollisionStaggered:
     LDA $0C04, X : CLC : ADC .x_offsets, Y : STA $02
     LDA $0C18, X : ADC.b #$00        : STA $03
     
-    ; *$40A26 ALTERNATE ENTRY POINT
+    ; $040A26 ALTERNATE ENTRY POINT
     shared Ancilla_CheckTargetedTileCollision:
     
     REP #$20 : LDA $00 : SEC : SBC $E8
@@ -903,7 +901,7 @@ Ancilla_CheckTileCollisionStaggered:
     
     SEC
     
-    ; *$40AB9 ALTERNATE ENTRY POINT
+    ; $040AB9 ALTERNATE ENTRY POINT
     shared Ancilla_AlertSprites:
     
     ; This seems to activate enemies that "listen" for sounds
@@ -914,10 +912,9 @@ Ancilla_CheckTileCollisionStaggered:
 
 ; ==============================================================================
 
-; $40ABF-$40BCE DATA
+; $040ABF-$040BCE DATA
 pool Ancilla_CheckTileCollision_Class2:
 {
-    
     ; Similar to the other collision routine's behavior table, this one
     ; opts to not interact with torches or chests, but interacts more
     ; generally with doors and screen transition tiles. This may have
@@ -955,7 +952,7 @@ pool Ancilla_CheckTileCollision_Class2:
 
 ; ==============================================================================
 
-; *$40BCF-$40CD8 LOCAL
+; $040BCF-$040CD8 LOCAL
 Ancilla_CheckTileCollision_Class2:
 {
     ; Does collision detection for a number of entities, bombs being one of them
@@ -1136,7 +1133,7 @@ incsrc "ancilla_beam_hit.asm"
 
 ; ==============================================================================
 
-; *$40D68-$40DA1 LOCAL
+; $040D68-$040DA1 LOCAL
 Ancilla_CheckSpriteCollision:
 {
     LDY.b #$0F
@@ -1175,7 +1172,7 @@ Ancilla_CheckSpriteCollision:
 
 ; ==============================================================================
 
-; *$40DA2-$40DA9 LONG
+; $040DA2-$040DA9 LONG
 Ancilla_CheckSpriteCollisionLong:
 {
     PHB : PHK : PLB
@@ -1189,17 +1186,16 @@ Ancilla_CheckSpriteCollisionLong:
 
 ; ==============================================================================
 
-; $40DAA-$40DAD DATA
+; $040DAA-$040DAD DATA
 pool Ancilla_CheckIndividualSpriteCollision:
 {
-    
     .opposing_sprite_directions
     db 2, 3, 0, 1
 }
 
 ; ==============================================================================
 
-; *$40DAE-$40E7C LOCAL
+; $040DAE-$040E7C LOCAL
 Ancilla_CheckIndividualSpriteCollision:
 {
     JSR Ancilla_SetupHitBox
@@ -1247,7 +1243,7 @@ Ancilla_CheckIndividualSpriteCollision:
     
     JSR .create_deflected_arrow
     
-    ; *$40DEE ALTERNATE ENTRY POINT
+    ; $040DEE ALTERNATE ENTRY POINT
     .doesnt_deflect_arrows
     .not_arrow_ancilla
     .undeflected_silver_arrow
@@ -1346,7 +1342,7 @@ Ancilla_CheckIndividualSpriteCollision:
 
 ; ==============================================================================
 
-; $40E7D-$40EAC DATA
+; $040E7D-$040EAC DATA
 pool Ancilla_SetupHitBox:
 {
     db 4, 4, 4, 4
@@ -1376,7 +1372,7 @@ pool Ancilla_SetupHitBox:
 
 ; ==============================================================================
 
-; *$40EAD-$40EEC LOCAL
+; $040EAD-$040EEC LOCAL
 Ancilla_SetupHitBox:
 {
     STZ $09
@@ -1417,7 +1413,7 @@ Ancilla_SetupHitBox:
 
 ; ==============================================================================
 
-; *$40EED-$40F5B LOCAL
+; $040EED-$040F5B LOCAL
 Ancilla_ProjectSpeedTowardsPlayer:
 {
     STA $01
@@ -1515,7 +1511,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
 
 ; ==============================================================================
 
-; $40F5C-$40F6E LOCAL
+; $040F5C-$040F6E LOCAL
 Ancilla_IsToRightOfPlayer:
 {
     LDY.b #$00
@@ -1533,7 +1529,7 @@ Ancilla_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; *$40F6F-$40F81 LOCAL
+; $040F6F-$040F81 LOCAL
 Ancilla_IsBelowPlayer:
 {
     LDY.b #$00
@@ -1556,7 +1552,7 @@ incsrc "ancilla_repulse_spark.asm"
 
 ; ==============================================================================
 
-; *$41080-$4108A LOCAL
+; $041080-$04108A LOCAL
 Ancilla_MoveHoriz:
 {
     ; Increments X_reg by 0x0A so that X coordinates will be handled next
@@ -1570,7 +1566,7 @@ Ancilla_MoveHoriz:
 
 ; ==============================================================================
 
-; *$4108B-$410B6 LOCAL
+; $04108B-$0410B6 LOCAL
 Ancilla_MoveVert:
 {
     LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X
@@ -1598,7 +1594,7 @@ Ancilla_MoveVert:
 
 ; ==============================================================================
 
-; *$410B7-$410DB LOCAL
+; $0410B7-$0410DB LOCAL
 Ancilla_MoveAltitude:
 {
     LDA $0294, X : ASL #4 : CLC : ADC $02A8, X : STA $02A8, X
@@ -1652,7 +1648,7 @@ incsrc "ancilla_rising_crystal.asm"
 
 ; ==============================================================================
 
-; *$44C93-$44C9F LOCAL
+; $044C93-$044C9F LOCAL
 Ancilla_AddSwordChargeSpark:
 {
     ; Only on certain frames.
@@ -1685,7 +1681,7 @@ incsrc "ancilla_cane_spark.asm"
 
 ; ==============================================================================
 
-; *$45DC5-$45DC9 JUMP LOCATION
+; $045DC5-$045DC9 JUMP LOCATION
 Ancilla_SwordBeam:
 {
     JSL SwordBeam
@@ -1695,7 +1691,7 @@ Ancilla_SwordBeam:
 
 ; ==============================================================================
 
-; *$45DCA-$45DD7 JUMP LOCATION
+; $045DCA-$045DD7 JUMP LOCATION
 Ancilla_SwordFullChargeSpark:
 {
     LDA.b #$04
@@ -1716,7 +1712,7 @@ incsrc "ancilla_init_somarian_block.asm"
 
 ; ==============================================================================
 
-; *$461F9-$4623C LOCAL
+; $0461F9-$04623C LOCAL
 Ancilla_CheckBasicSpriteCollision:
 {
     LDY.b #$0F
@@ -1762,7 +1758,7 @@ Ancilla_CheckBasicSpriteCollision:
 
 ; ==============================================================================
 
-; *$4623D-$462C9 LOCAL
+; $04623D-$0462C9 LOCAL
 Ancilla_CheckSingleBasicSpriteCollision:
 {
     JSR Ancilla_SetupBasicHitBox
@@ -1850,7 +1846,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
     ; This routine, however, also takes altitude into account, whereas the
     ; more specific one doesn't, for whatever reason.
     
-; *$462CA-$462F8 LOCAL
+; $0462CA-$0462F8 LOCAL
 Ancilla_SetupBasicHitBox:
 {
     LDA $0C04, X : SEC : SBC.b #$08 : STA $00
@@ -1883,7 +1879,7 @@ incsrc "ancilla_game_over_text.asm"
 
 ; ==============================================================================
 
-; *$47624-$47630 LOCAL
+; $047624-$047630 LOCAL
 Ancilla_SetSfxPan_NearEntity:
 {
     PHX
@@ -1899,7 +1895,7 @@ Ancilla_SetSfxPan_NearEntity:
 
 ; ==============================================================================
 
-; *$47631-$4765E LOCAL
+; $047631-$04765E LOCAL
 Ancilla_Spawn:
 {
     PHA
@@ -1935,7 +1931,7 @@ Ancilla_Spawn:
 ; ==============================================================================
 
     ; \unused 
-; $4765F-$4766C LOCAL
+; $04765F-$04766C LOCAL
 Ancilla_FindMatch:
 {
     ; Looks through active effect slots to see if the one we want to
@@ -1962,18 +1958,17 @@ Ancilla_FindMatch:
 
 ; ==============================================================================
 
-; $4766D-$47670 DATA
+; $04766D-$047670 DATA
 pool Ancilla_PrepOamCoord:
     parallel pool Ancilla_PrepAdjustedOamCoord:
 {
-    
     .priority
     db $20, $10, $30, $20
 }
 
 ; ==============================================================================
 
-; *$47671-$476A3 LOCAL
+; $047671-$0476A3 LOCAL
 Ancilla_PrepOamCoord:
 {
     LDY $0C7C, X
@@ -1999,7 +1994,7 @@ Ancilla_PrepOamCoord:
 
 ; ==============================================================================
 
-; *$476A4-$476D8 LOCAL
+; $0476A4-$0476D8 LOCAL
 Ancilla_PrepAdjustedOamCoord:
 {
     ; Identical to the preceding routine, except that it measures against
@@ -2030,7 +2025,7 @@ Ancilla_PrepAdjustedOamCoord:
 
 ; ==============================================================================
 
-; *$476D9-$476E0 LONG
+; $0476D9-$0476E0 LONG
 Ancilla_PrepOamCoordLong:
 {
     PHB : PHK : PLB
@@ -2049,7 +2044,7 @@ Ancilla_PrepOamCoordLong:
     ; for just displaying special effects that are expected to be fully within
     ; the framme of view, it is not quite correct for handling OAM sprites
     ; that are partially on screen and partially off screen.
-; *$476E1-$476FD LOCAL
+; $0476E1-$0476FD LOCAL
 Ancilla_SetOam_XY:
 {
     PHX
@@ -2084,7 +2079,7 @@ Ancilla_SetOam_XY:
 
 ; ==============================================================================
 
-; *$476FE-$47701 LONG
+; $0476FE-$047701 LONG
 Ancilla_SetOam_XY_Long:
 {
     JSR Ancilla_SetOam_XY
@@ -2098,7 +2093,7 @@ Ancilla_SetOam_XY_Long:
     ; object in the correct way that most other logic in the game uses.
     ; The more basic Ancilla_SetOam_XY doesn't account for OAM entries being
     ; partially on screen and partially off screen.
-; *$47702-$4772E LOCAL
+; $047702-$04772E LOCAL
 Ancilla_SetSafeOam_XY:
 {
     REP #$20
@@ -2132,10 +2127,9 @@ Ancilla_SetSafeOam_XY:
 
 ; ==============================================================================
 
-; $4772F-$4776A DATA
+; $04772F-$04776A DATA
 pool Ancilla_CheckPlayerCollision:
 {
-    
     .y_offsets
     db  0,  0,  8,  0,  8,  0,  8,  0,  0,  0
     
@@ -2159,7 +2153,7 @@ pool Ancilla_CheckPlayerCollision:
 ; ==============================================================================
 
     ; \note Checks ancilla collision or proximity with the player.
-; *$4776B-$477DB LOCAL
+; $04776B-$0477DB LOCAL
 Ancilla_CheckPlayerCollision:
 {
     ; Y is probably a selector for different hit box sizes
@@ -2224,7 +2218,7 @@ Ancilla_CheckPlayerCollision:
 
 ; ==============================================================================
 
-; *$477DC-$47823 LOCAL
+; $0477DC-$047823 LOCAL
 Hookshot_CheckChainLinkProximityToPlayer:
 {
     REP #$20
@@ -2265,10 +2259,9 @@ Hookshot_CheckChainLinkProximityToPlayer:
 
 ; ==============================================================================
 
-; $47824-$47843 DATA
+; $047824-$047843 DATA
 pool Ancilla_CheckIfEntranceTriggered:
 {
-    
     .trigger_coord_y
     dw $0D40, $0210, $0CFC, $0100
     
@@ -2284,7 +2277,7 @@ pool Ancilla_CheckIfEntranceTriggered:
 
 ; ==============================================================================
 
-; *$47844-$4787A LOCAL
+; $047844-$04787A LOCAL
 Ancilla_CheckIfEntranceTriggered:
 {
     ; Y is the index into the coordinates where the trigger blocks are.
@@ -2330,10 +2323,9 @@ Ancilla_CheckIfEntranceTriggered:
 
 ; ==============================================================================
 
-; $4787B-$47896 DATA
+; $04787B-$047896 DATA
 pool Ancilla_DrawShadow:
 {
-    
     .chr
     db $6C, $6C
     db $28, $28
@@ -2355,7 +2347,7 @@ pool Ancilla_DrawShadow:
 
 ; ==============================================================================
 
-; *$47897-$47909 LOCAL
+; $047897-$047909 LOCAL
 Ancilla_DrawShadow:
 {
     CPX.b #$02 : BNE .not_small_shadow
@@ -2413,7 +2405,7 @@ Ancilla_DrawShadow:
 
 ; ==============================================================================
 
-; *$4790A-$47919 LOCAL
+; $04790A-$047919 LOCAL
 Ancilla_AllocateOam_B_or_E:
 {
     LDY $0FB3 : BNE .sort_sprites
@@ -2433,7 +2425,7 @@ Ancilla_AllocateOam_B_or_E:
 
 ; ==============================================================================
 
-; *$4791A-$479B9 LONG
+; $04791A-$0479B9 LONG
 Tagalong_GetCloseToPlayer:
 {
     PHB : PHK : PLB
@@ -2522,7 +2514,7 @@ Tagalong_GetCloseToPlayer:
 
 ; ==============================================================================
 
-; *$479BA-$479FF LOCAL
+; $0479BA-$0479FF LOCAL
 Ancilla_CustomAllocateOam:
 {
     PHA : PHX
@@ -2574,7 +2566,7 @@ Ancilla_CustomAllocateOam:
 
 ; ==============================================================================
 
-; *$47A00-$47A2C LOCAL
+; $047A00-$047A2C LOCAL
 HitStars_UpdateOamBufferPosition:
 {
     PHA : PHX
@@ -2605,7 +2597,7 @@ HitStars_UpdateOamBufferPosition:
 
 ; ==============================================================================
 
-; *$47A2D-$47ADC LOCAL
+; $047A2D-$047ADC LOCAL
 Hookshot_IsCollisionCheckFutile:
 {
     ; Only the Hookshot calls this.
@@ -2710,7 +2702,7 @@ Hookshot_IsCollisionCheckFutile:
 
 ; ==============================================================================
 
-; *$47ADD-$47B22 LOCAL
+; $047ADD-$047B22 LOCAL
 Ancilla_GetRadialProjection:
 {
     PHX
@@ -2748,7 +2740,7 @@ Ancilla_GetRadialProjection:
 
 ; ==============================================================================
 
-; *$47B23-$47B2A LONG
+; $047B23-$047B2A LONG
 Ancilla_GetRadialProjectionLong:
 {
     PHB : PHK : PLB
@@ -2762,7 +2754,7 @@ Ancilla_GetRadialProjectionLong:
 
 ; ==============================================================================
 
-; *$47B2B-$47B43 LOCAL
+; $047B2B-$047B43 LOCAL
 Ancilla_AllocateOam:
 {
     LDY $0FB3 : BNE .sorted_sprites
@@ -2788,7 +2780,7 @@ Ancilla_AllocateOam:
 
 ; ==============================================================================
 
-; *$47B44-$47BA5 LONG BRANCH LOCATION
+; $047B44-$047BA5 LONG BRANCH LOCATION
 BeamHit_Unknown:
 {
     JSR BeamHit_GetCoords
@@ -2862,7 +2854,7 @@ BeamHit_Unknown:
 
 ; ==============================================================================
 
-; *$47BA6-$47BC8 LOCAL
+; $047BA6-$047BC8 LOCAL
 BeamHit_GetCoords:
 {
     STY $0B
@@ -2878,7 +2870,7 @@ BeamHit_GetCoords:
 
 ; ==============================================================================
 
-; *$47BC9-$47BD5 LOCAL
+; $047BC9-$047BD5 LOCAL
 BeamHit_Get_Top_X_Bit:
 {
     REP #$20
@@ -2892,7 +2884,7 @@ BeamHit_Get_Top_X_Bit:
 
 ; ==============================================================================
 
-; *$47BD6-$47BEC LOCAL
+; $047BD6-$047BEC LOCAL
 BeamHit_CheckOffscreen_Y:
 {
     REP #$20
@@ -2909,7 +2901,7 @@ BeamHit_CheckOffscreen_Y:
 
 ; ==============================================================================
 
-; $47BED-$47EE9 lots of mysterious data. needs investigation
+; $047BED-$047EE9 lots of mysterious data. needs investigation
 pool QuakeSpell_DrawFirstGroundBolts:
 {
     ; \task name all of these??? I dunno.
@@ -3241,10 +3233,9 @@ pool QuakeSpell_DrawFirstGroundBolts:
     ; work it was going to be naming these and making sense of the pointers
     ; and vast amount of data.
     
-; $47EEA-$47FDA DATA
+; $047EEA-$047FDA DATA
 pool QuakeSpell_DrawFirstGroundBolts:
 {
-    
     .pointers
     dw $FBED, $FBF0, $FBF3, $FBF6, $FBF9, $FBFC, $FBFF, $FC02
     dw $FC05, $FC0B, $FC11, $FC17, $FC20, $FC2C, $FC38, $FC47
@@ -3258,7 +3249,6 @@ pool QuakeSpell_DrawFirstGroundBolts:
     
 pool QuakeSpell_DrawGroundBolts:
 {
-    
     .pointers
     dw $FDB2, $FDB5, $FDB8, $FDBB, $FDBE, $FDC1, $FDC4, $FDC7
     dw $FDCA, $FDD0, $FDD6, $FDDC, $FDE2, $FDE8, $FDEB, $FDEE
@@ -3271,7 +3261,7 @@ pool QuakeSpell_DrawGroundBolts:
 
 ; ==============================================================================
 
-; $47FDA-$47FFF NULL
+; $047FDA-$047FFF NULL
 {
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $323F9-$32408 DATA
+; $0323F9-$032408 DATA
 Sprite_Helmasaur:
 {
-    
     .animation_states
     db 3, 4, 3, 4, 2, 2, 5, 5
     
@@ -14,7 +13,7 @@ Sprite_Helmasaur:
 
 ; ==============================================================================
 
-; *$32409-$324D1 JUMP LOCATION
+; $032409-$0324D1 JUMP LOCATION
 Sprite_Helmasaur:
 {
     LDA $0DE0, X : ASL A : STA $00
@@ -71,7 +70,7 @@ Sprite_Helmasaur:
     
     BRA .done_drawing
     
-    ; *$32460 ALTERNATE ENTRY POINT
+    ; $032460 ALTERNATE ENTRY POINT
     shared Sprite_HardHatBeetle:
     
     LDA $0E80, X : LSR #2 : AND.b #$01 : STA $0DC0, X
@@ -153,9 +152,8 @@ Sprite_Helmasaur:
 
 ; ==============================================================================
 
-; $324D2-$324F1 DATA
+; $0324D2-$0324F1 DATA
 {
-    
     .oam_groups
     dw 0, -4 : db $40, $01, $00, $02
     dw 0,  2 : db $42, $01, $00, $02
@@ -166,7 +164,7 @@ Sprite_Helmasaur:
 
 ; ==============================================================================
 
-; *$324F2-$3250B LOCAL
+; $0324F2-$03250B LOCAL
 HardHatBeetle_Draw:
 {
     LDA $0DC0, X : ASL #4

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4698E-$469B1 DATA
+; $04698E-$0469B1 DATA
 pool Ancilla_SomarianBlockFizzle:
 {
-    
     .y_offsets
     dw -4, -1, -4, -4, -4, -4
     
@@ -20,7 +19,7 @@ pool Ancilla_SomarianBlockFizzle:
 
 ; ==============================================================================
 
-; *$469B2-$46A7E LONG BRANCH LOCATION
+; $0469B2-$046A7E LONG BRANCH LOCATION
 Ancilla_TransmuteToSomarianBlockFizzle:
 {
     LDA $5E : CMP.b #$12 : BNE .player_not_slowed_down
@@ -49,7 +48,7 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     .player_wasnt_carrying_block
     
-    ; *$469E8 ALTERNATE ENTRY POINT
+    ; $0469E8 ALTERNATE ENTRY POINT
     shared Ancilla_SomarianBlockFizzle:
     
     DEC $03B1, X : BPL .animation_delay

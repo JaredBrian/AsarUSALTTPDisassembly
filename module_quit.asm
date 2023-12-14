@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4F79B-$4F79E Jump Table
+; $04F79B-$04F79E Jump Table
 pool Module_Quit:
 {
-    
     .submodules
     dw Quit_IndicateHaltedState
     dw Quit_FadeOut
@@ -12,7 +11,7 @@ pool Module_Quit:
 
 ; ==============================================================================
 
-; *$4F79F-$4F7AE JUMP LOCATION LONG
+; $04F79F-$04F7AE JUMP LOCATION LONG
 Module_Quit:
 {
     ; Beginning of Module 0x17, Restart Mode
@@ -29,12 +28,12 @@ Module_Quit:
 
 ; ==============================================================================
 
-; *$4F7AF-$4F7BF LOCAL
+; $04F7AF-$04F7BF LOCAL
 Quit_IndicateHaltedState:
 {
     INC $11
     
-    ; *$4F7B1 ALTERNATE ENTRY POINT
+    ; $04F7B1 ALTERNATE ENTRY POINT
     shared Quit_FadeOut:
     
     DEC $13 : BNE Death_RestoreScreenPostRevival.return
@@ -45,7 +44,7 @@ Quit_IndicateHaltedState:
     
     LDA.b #$01 : STA $B0
     
-    JMP $F50F ; $4F50F IN ROM
+    JMP $F50F ; $04F50F IN ROM
 }
 
 ; ==============================================================================

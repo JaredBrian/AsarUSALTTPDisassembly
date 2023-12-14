@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$35853-$35891 JUMP LOCATION
+; $035853-$035891 JUMP LOCATION
 Sprite_Octospawn:
 {
     LDA $0E80, X : BNE .still_alive
@@ -41,7 +41,7 @@ Sprite_Octospawn:
     JSR Sprite_CheckTileCollision
     JSR Sprite_WallInducedSpeedInversion
     
-    ; *$3588B ALTERNATE ENTRY POINT
+    ; $03588B ALTERNATE ENTRY POINT
     shared Sprite_CheckDamage:
     
     JSR Sprite_CheckDamageFromPlayer

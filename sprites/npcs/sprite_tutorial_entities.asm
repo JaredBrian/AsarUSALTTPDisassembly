@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2D53B-$2D542 LONG
+; $02D53B-$02D542 LONG
 Sprite_TutorialEntitiesLong:
 {
     ; Tutorial Soldier (0x3F) / Evil Barrier (0x40)
@@ -17,7 +17,7 @@ Sprite_TutorialEntitiesLong:
 
 ; ==============================================================================
 
-; *$2D543-$2D547 BRANCH LOCATION
+; $02D543-$02D547 BRANCH LOCATION
 Sprite_EvilBarrierTrampoline:
 {
     JSL Sprite_EvilBarrierLong
@@ -27,17 +27,16 @@ Sprite_EvilBarrierTrampoline:
 
 ; ==============================================================================
 
-; $2D548-$2D54B DATA
+; $02D548-$02D54B DATA
 pool Sprite_TutorialEntities:
 {
-    
     .animation_states
     db $02, $01, $00, $03
 }
 
 ; ==============================================================================
 
-; *$2D54C-$2D5BE LOCAL
+; $02D54C-$02D5BE LOCAL
 Sprite_TutorialEntities:
 {
     ; check if it's the hyrule castle electric fence
@@ -114,10 +113,9 @@ Sprite_TutorialEntities:
 
 ; ==============================================================================
 
-; $2D5BF-$2D64A DATA
+; $02D5BF-$02D64A DATA
 pool TutorialSoldier_Draw:
 {
-    
     .x_offsets
     dw  4,  0, -6, -6,  2,  0,  0, -7
     dw -7, -7,  0,  0, 15, 15, 15,  6
@@ -146,7 +144,7 @@ pool TutorialSoldier_Draw:
 
 ; ==============================================================================
 
-; *$2D64B-$2D6BB LOCA
+; $02D64B-$02D6BB LOCA
 TutorialSoldier_Draw:
 {
     JSR Sprite2_PrepOamCoord

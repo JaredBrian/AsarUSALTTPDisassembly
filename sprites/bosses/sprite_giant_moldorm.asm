@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$ED6D1-$ED6F5 LONG
+; $0ED6D1-$0ED6F5 LONG
 Sprite_InitializedSegmented:
 {
     PHX : TXY
@@ -25,7 +25,7 @@ Sprite_InitializedSegmented:
 
 ; ==============================================================================
 
-; *$ED6F6-$ED6FD LONG
+; $0ED6F6-$0ED6FD LONG
 Sprite_GiantMoldormLong:
 {
     PHB : PHK : PLB
@@ -39,10 +39,9 @@ Sprite_GiantMoldormLong:
 
 ; ==============================================================================
 
-; $ED6FE-$ED74D DATA
+; $0ED6FE-$0ED74D DATA
 pool Sprite_GiantMoldorm:
 {
-    
     .x_speeds
     db  24,  22,  17,   9,   0,   -9, -17, -22
     db -24, -22, -17,  -9,   0,    9,  17,  22
@@ -62,7 +61,7 @@ pool Sprite_GiantMoldorm:
 
 ; ==============================================================================
 
-; *$ED74E-$ED7FD LOCAL
+; $0ED74E-$0ED7FD LOCAL
 Sprite_GiantMoldorm:
 {
     JSR GiantMoldorm_Draw
@@ -166,7 +165,7 @@ Sprite_GiantMoldorm:
 
 ; ==============================================================================
 
-; *$ED7FE-$ED82C JUMP LOCATION
+; $0ED7FE-$0ED82C JUMP LOCATION
 GiantMoldorm_StraightPath:
 {
     LDA !timer_0, X : BNE .wait
@@ -195,7 +194,7 @@ GiantMoldorm_StraightPath:
 
 ; ==============================================================================
 
-; *$ED82D-$ED851 JUMP LOCATION
+; $0ED82D-$0ED851 JUMP LOCATION
 GiantMoldorm_SpinningMeander:
 {
     LDA !timer_0, X : BNE .wait
@@ -219,7 +218,7 @@ GiantMoldorm_SpinningMeander:
 
 ; ==============================================================================
 
-; *$ED852-$ED880 JUMP LOCATION
+; $0ED852-$0ED880 JUMP LOCATION
 GiantMoldorm_LungeAtPlayer:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .frame_delay
@@ -255,7 +254,7 @@ GiantMoldorm_LungeAtPlayer:
 
 ; ==============================================================================
 
-; *$ED881-$ED8F1 LOCAL
+; $0ED881-$0ED8F1 LOCAL
 GiantMoldorm_Draw:
 {
     JSR Sprite4_PrepOamCoord
@@ -312,7 +311,7 @@ GiantMoldorm_Draw:
 
 ; ==============================================================================
 
-; *$ED8F2-$ED912 LOCAL
+; $0ED8F2-$0ED912 LOCAL
 GiantMoldorm_IncrementalSegmentExplosion:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .alive_and_well
@@ -335,10 +334,9 @@ GiantMoldorm_IncrementalSegmentExplosion:
 
 ; ==============================================================================
 
-; $ED913-$ED992 DATA
+; $0ED913-$0ED992 DATA
 pool GiantMoldorm_DrawHead:
 {
-    
     .oam_groups
     dw -8, -8 : db $80, $00, $00, $02
     dw  8, -8 : db $82, $00, $00, $02
@@ -363,7 +361,7 @@ pool GiantMoldorm_DrawHead:
 
 ; ==============================================================================
 
-; *$ED993-$ED9B7 LOCAL
+; $0ED993-$0ED9B7 LOCAL
 GiantMoldorm_DrawHead:
 {
     LDA.b #$00 : XBA
@@ -383,10 +381,9 @@ GiantMoldorm_DrawHead:
 
 ; ==============================================================================
 
-; $ED9B8-$ED9F7 DATA
+; $0ED9B8-$0ED9F7 DATA
 pool GiantMoldorm_DrawSegment_A:
 {
-    
     .oam_groups
     dw -8, -8 : db $84, $00, $00, $02
     dw  8, -8 : db $86, $00, $00, $02
@@ -402,7 +399,7 @@ pool GiantMoldorm_DrawSegment_A:
 ; ==============================================================================
 
     ; \note The segment nearest the head.
-; *$ED9F8-$EDA4F LOCAL
+; $0ED9F8-$0EDA4F LOCAL
 GiantMoldorm_DrawSegment_A:
 {
     TXY
@@ -411,7 +408,7 @@ GiantMoldorm_DrawSegment_A:
     
     LDA $0E80, X : SEC : SBC.b #$10
     
-    ; *$EDA00 ALTERNATE ENTRY POINT
+    ; $0EDA00 ALTERNATE ENTRY POINT
     shared GiantMoldorm_DrawLargeSegment:
     
     AND.b #$7F : TAX
@@ -449,7 +446,7 @@ GiantMoldorm_DrawSegment_A:
 
 ; ==============================================================================
 
-; *$EDA50-$EDA5A LOCAL
+; $0EDA50-$0EDA5A LOCAL
 GiantMoldorm_DrawSegment_B:
 {
     TXY
@@ -463,17 +460,16 @@ GiantMoldorm_DrawSegment_B:
 
 ; ==============================================================================
 
-; $EDA5B-$EDA5E DATA
+; $0EDA5B-$0EDA5E DATA
 pool GiantMoldorm_DrawSegment_C:
 {
-    
     .vh_flip
     db $00, $40, $C0, $80
 }
 
 ; ==============================================================================
 
-; *$EDA5F-$EDAB9 LOCAL
+; $0EDA5F-$0EDAB9 LOCAL
 GiantMoldorm_DrawSegment_C:
 {
     STZ $0DC0, X
@@ -492,7 +488,7 @@ GiantMoldorm_DrawSegment_C:
     
     LDA $0E80, X : SEC : SBC.b #$28
     
-    ; *$EDA7E ALTERNATE ENTRY POINT
+    ; $0EDA7E ALTERNATE ENTRY POINT
     shared GiantMoldorm_PrepAndDrawSingleLargeLong:
     
     AND.b #$7F : TAX
@@ -520,7 +516,7 @@ GiantMoldorm_DrawSegment_C:
 
 ; ==============================================================================
 
-; *$EDABA-$EDB16 LOCAL
+; $0EDABA-$0EDB16 LOCAL
 GiantMoldorm_Tail:
 {
     JSR GiantMoldorm_DrawTail
@@ -564,7 +560,7 @@ GiantMoldorm_Tail:
 
 ; ==============================================================================
 
-; *$EDB17-$EDB3D LOCAL
+; $0EDB17-$0EDB3D LOCAL
 GiantMoldorm_DrawTail:
 {
     REP #$20
@@ -589,10 +585,9 @@ GiantMoldorm_DrawTail:
 
 ; ==============================================================================
 
-; $EDB3E-$EDB9D DATA
+; $0EDB3E-$0EDB9D DATA
 pool GiantMoldorm_DrawEyeballs:
 {
-    
     .x_offsets
     dw  16,  15,  12,   6,   0,  -6, -12, -13
     dw -16, -13, -12,  -6,   0,   6,  12,  15
@@ -612,7 +607,7 @@ pool GiantMoldorm_DrawEyeballs:
 
 ; ==============================================================================
 
-; *$EDB9E-$EDC10 LOCAL
+; $0EDB9E-$0EDC10 LOCAL
 GiantMoldorm_DrawEyeballs:
 {
     STZ $07
@@ -670,12 +665,12 @@ GiantMoldorm_DrawEyeballs:
 
 ; ==============================================================================
 
-; *$EDC11-$EDC29 JUMP LOCATION
+; $0EDC11-$0EDC29 JUMP LOCATION
 GiantMoldorm_AwaitDeath:
 {
     LDA !timer_4, X : BNE .delay
     
-    ; *$EDC16 ALTERNATE ENTRY POINT
+    ; $0EDC16 ALTERNATE ENTRY POINT
 Sprite_ScheduleBossForDeath:
     
     LDA.b #$04 : STA $0DD0, X
@@ -695,12 +690,12 @@ Sprite_ScheduleBossForDeath:
 
 ; ==============================================================================
 
-; *$EDC2A-$EDC71 LONG
+; $0EDC2A-$0EDC71 LONG
 Sprite_MakeBossDeathExplosion:
 {
     LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
-    ; *$EDC30 ALTERNATE ENTRY POINT
+    ; $0EDC30 ALTERNATE ENTRY POINT
     .silent
     
     ; Spawn a.... raven? What? Oh it's just a dummy sprite that will be

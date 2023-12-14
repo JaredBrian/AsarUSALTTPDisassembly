@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F6111-$F611F JUMP LOCATION
+; $0F6111-$0F611F JUMP LOCATION
 Sprite_BombShopEntity:
 {
     ; Bomb Shop Guy
@@ -18,10 +18,9 @@ Sprite_BombShopEntity:
 
 ; ==============================================================================
 
-; $F6120-$F6133 DATA
+; $0F6120-$0F6133 DATA
 pool Sprite_BombShopGuy:
 {
-    
     .messages_low
     db $17, $18
     
@@ -37,7 +36,7 @@ pool Sprite_BombShopGuy:
 
 ; ==============================================================================
 
-; *$F6134-$F618F JUMP LOCATION
+; $0F6134-$0F618F JUMP LOCATION
 Sprite_BombShopGuy:
 {
     JSR BombShopEntity_Draw
@@ -90,7 +89,7 @@ Sprite_BombShopGuy:
 
 ; ==============================================================================
 
-; *$F6190-$F61DE JUMP LOCATION
+; $0F6190-$0F61DE JUMP LOCATION
 Sprite_BombShopBomb:
 {
     JSR BombShopEntity_Draw
@@ -107,7 +106,7 @@ Sprite_BombShopBomb:
     LDA.b #$64
     LDY.b #$00
     
-    ; $F739E IN ROM
+    ; $0F739E IN ROM
     JSR $F39E : BCC .player_cant_afford
     
     LDA.b #$1B : STA $7EF375
@@ -121,7 +120,7 @@ Sprite_BombShopBomb:
     
     LDY.b #$28
     
-    JSR $F366 ; $F7366 IN ROM
+    JSR $F366 ; $0F7366 IN ROM
     
     .didnt_solicit
     
@@ -133,18 +132,18 @@ Sprite_BombShopBomb:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A   ; $F738A IN ROM
+    JSR $F38A   ; $0F738A IN ROM
     
     RTS
     
     .player_cant_afford
     
-    JMP $F1A1 ; $F71A1 IN ROM
+    JMP $F1A1 ; $0F71A1 IN ROM
 }
 
 ; ==============================================================================
 
-; *$F61DF-$F6215 JUMP LOCATION
+; $0F61DF-$0F6215 JUMP LOCATION
 Sprite_BombShopSuperBomb:
 {
     JSR BombShopEntity_Draw
@@ -156,7 +155,7 @@ Sprite_BombShopSuperBomb:
     LDA.b #$64
     LDY.b #$00
     
-    ; $F739E IN ROM
+    ; $0F739E IN ROM
     JSR $F39E : BCC .player_cant_afford
     
     LDA.b #$0D : STA $7EF3CC ; Super Bomb sprite
@@ -183,22 +182,21 @@ Sprite_BombShopSuperBomb:
     
     .player_cant_afford
     
-    JMP $F1A1 ; $F71A1 IN ROM
+    JMP $F1A1 ; $0F71A1 IN ROM
 }
 
 ; ==============================================================================
 
-; $F6216-$F6219 DATA
+; $0F6216-$0F6219 DATA
 pool Sprite_BombShopSnoutPuff:
 {
-    
     .properties
     db $04, $44, $C4, $84
 }
 
 ; ==============================================================================
 
-; *$F621A-$F6255 JUMP LOCATION
+; $0F621A-$0F6255 JUMP LOCATION
 Sprite_BombShopSnoutPuff:
 {
     LDA.b #$04 : JSL OAM_AllocateFromRegionC
@@ -229,7 +227,7 @@ Sprite_BombShopSnoutPuff:
 
 ; ==============================================================================
 
-; *$F6256-$F6295 LOCAL
+; $0F6256-$0F6295 LOCAL
 BombShopGuy_SpawnSnoutPuff:
 {
     ; Spawn Bomb salesman or his bombs?
@@ -256,10 +254,9 @@ BombShopGuy_SpawnSnoutPuff:
 
 ; ==============================================================================
 
-; $F6296-$F62C5 DATA
+; $0F6296-$0F62C5 DATA
 pool BombShopEntity_Draw:
 {
-    
     .oam_groups
     db 0, 0, $48, $0A, $00, $02
     
@@ -280,7 +277,7 @@ pool BombShopEntity_Draw:
 
 ; ==============================================================================
 
-; *$F62C6-$F62E8 LOCAL
+; $0F62C6-$0F62E8 LOCAL
 BombShopEntity_Draw:
 {
     LDA.b #$01 : STA $06

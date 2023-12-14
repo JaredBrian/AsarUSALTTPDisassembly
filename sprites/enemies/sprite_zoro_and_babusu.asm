@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F1BC8-$F1C6A JUMP LOCATION
+; $0F1BC8-$0F1C6A JUMP LOCATION
 Sprite_Zoro:
     shared Sprite_Babusu:
 {
@@ -92,7 +92,7 @@ Sprite_Zoro:
 
 ; ==============================================================================
 
-; *$F1C6B-$F1C80 ALTERNATE ENTRY POINT
+; $0F1C6B-$0F1C80 ALTERNATE ENTRY POINT
 Babusu_Main:
 {
     JSL Babusu_Draw
@@ -110,7 +110,7 @@ Babusu_Main:
 
 ; ==============================================================================
 
-; *$F1C81-$F1C8E JUMP LOCATION
+; $0F1C81-$0F1C8E JUMP LOCATION
 Babusu_Reset:
 {
     INC $0D80, X
@@ -124,7 +124,7 @@ Babusu_Reset:
 
 ; ==============================================================================
 
-; *$F1C8F-$F1C9C JUMP LOCATION
+; $0F1C8F-$0F1C9C JUMP LOCATION
 Babusu_Hiding:
 {
     LDA $0DF0, X : BNE .delay
@@ -140,10 +140,9 @@ Babusu_Hiding:
 
 ; ==============================================================================
 
-; $F1C9D-$F1CAC DATA
+; $0F1C9D-$0F1CAC DATA
 pool Babusu_TerrorSprinkles:
 {
-    
     .animation_states
     db $05, $04, $03, $02, $01, $00
     
@@ -160,7 +159,7 @@ pool Babusu_TerrorSprinkles:
 
 ; ==============================================================================
 
-; *$F1CAD-$F1CE7 JUMP LOCATION
+; $0F1CAD-$0F1CE7 JUMP LOCATION
 Babusu_TerrorSprinkles:
 {
     LDA $0DF0, X : BNE .delay
@@ -201,17 +200,16 @@ Babusu_TerrorSprinkles:
 
 ; ==============================================================================
 
-; $F1CE8-$F1CEB DATA
+; $0F1CE8-$0F1CEB DATA
 pool Babusu_ScurryAcross:
 {
-    
     .animation_states
     db $12, $0E, $0C, $10
 }
 
 ; ==============================================================================
 
-; *$F1CEC-$F1D16 JUMP LOCATION
+; $0F1CEC-$0F1D16 JUMP LOCATION
 Babusu_ScurryAcross:
 {
     JSR Sprite3_CheckDamage

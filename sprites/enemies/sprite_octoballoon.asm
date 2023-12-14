@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $356A2-$356A9 DATA
+; $0356A2-$0356A9 DATA
 pool Sprite_Octoballoon:
 {
-    
     .altitudes
     db 16, 17, 18, 19, 20, 19, 18, 17
 }
 
 ; ==============================================================================
 
-; *$356AA-$3572A JUMP LOCATION
+; $0356AA-$03572A JUMP LOCATION
 Sprite_Octoballoon:
 {
     LDA $0E80, X : LSR #3 : AND.b #$07 : TAY
@@ -104,7 +103,7 @@ Sprite_Octoballoon:
 
 ; ==============================================================================
 
-; *$3572B-$3573B LOCAL
+; $03572B-$03573B LOCAL
 Octoballoon_ApplyRecoilToPlayer:
 {
     LDA $46 : BNE .player_invulnerable_right_now
@@ -122,7 +121,7 @@ Octoballoon_ApplyRecoilToPlayer:
 
 ; ==============================================================================
 
-; $3573C-$35783 DATA
+; $03573C-$035783 DATA
 pool Octoballoon_Draw:
 {
     ; \task Fill in data.
@@ -130,7 +129,7 @@ pool Octoballoon_Draw:
 
 ; ==============================================================================
 
-; *$35784-$35801 LOCAL
+; $035784-$035801 LOCAL
 Octoballoon_Draw:
 {
     STZ $0A
@@ -201,10 +200,9 @@ Octoballoon_Draw:
 
 ; ==============================================================================
 
-; $35802-$3580D DATA
+; $035802-$03580D DATA
 pool Octoballoon_SpawnTheSpawn:
 {
-    
     .x_speeds
     db  16,  11, -11, -16, -11,  11
     
@@ -215,7 +213,7 @@ pool Octoballoon_SpawnTheSpawn:
 ; ==============================================================================
 
     ; hehe.
-; *$3580E-$35842 LOCAL
+; $03580E-$035842 LOCAL
 Octoballoon_SpawnTheSpawn:
 {
     LDA.b #$0C : JSL Sound_SetSfx2PanLong

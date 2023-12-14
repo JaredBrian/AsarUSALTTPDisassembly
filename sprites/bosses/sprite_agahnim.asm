@@ -1,9 +1,8 @@
 
 ; ==============================================================================
 
-; $F5310-$F532F DATA
+; $0F5310-$0F532F DATA
 {
-    
     ; \task Split up and name labels later.
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $05, $05, $00, $01, $01, $04
@@ -14,10 +13,10 @@
 
 ; ==============================================================================
 
-; *$F5330-$F536E JUMP LOCATION
+; $0F5330-$0F536E JUMP LOCATION
 Sprite_Agahnim:
 {
-    JSR AgahDraw ;$D978 ; $F5978 IN ROM
+    JSR AgahDraw ;$D978 ; $0F5978 IN ROM
     
     LDA $0F00, X : BEQ .BRANCH_ALPHA
     LDA.b #$20 : STA $0DF0, X
@@ -52,9 +51,8 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; $F536F-$F5375 DATA
+; $0F536F-$0F5375 DATA
 {
-    
     ; \task Name this routine / pool.
     .animation_states
     db 0, 8, 10, 2, 2, 6, 4
@@ -62,7 +60,7 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; *$F5376-$F53D9 JUMP LOCATION
+; $0F5376-$0F53D9 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA ; Is the timer still going?
     
@@ -120,7 +118,7 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; *$F53DA-$F5407 JUMP LOCATION
+; $0F53DA-$0F5407 JUMP LOCATION
 {
     LDA.b #$02 : STA $0FFC
     
@@ -149,7 +147,7 @@ Sprite_Agahnim:
     RTS
 }
 
-; *$F5408-$F545D JUMP LOCATION
+; $0F5408-$0F545D JUMP LOCATION
 {
     STZ $0EB0, X
     
@@ -189,7 +187,7 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; *$F545E-$F5479 JUMP LOCATION
+; $0F545E-$0F5479 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
@@ -211,22 +209,21 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; $F547A-$F547B DATA
+; $0F547A-$0F547B DATA
 {
-    
     .x_speeds
     db 32, -32
 }
 
 ; ==============================================================================
 
-; *$F547C-$F54A6 JUMP LOCATION
+; $0F547C-$0F54A6 JUMP LOCATION
 {
     LDA $0EC0, X : BEQ .BRANCH_$F54A9
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
-    JMP $D509 ; $F5509 IN ROM
+    JMP $D509 ; $0F5509 IN ROM
     
     .BRANCH_ALPHA
     
@@ -250,9 +247,8 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; $F54A7-$F54A8 DATA
+; $0F54A7-$0F54A8 DATA
 {
-    
     ; \task Name this routine / pool.
     .special_properties
     db $09, $0B
@@ -260,11 +256,11 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; *$F54A9-$F54E9 BRANCH LOCATION
+; $0F54A9-$0F54E9 BRANCH LOCATION
 {
     LDA $0DF0, X : BNE .ai_transition_delay
     
-    JMP $D509 ; $F5509 IN ROM
+    JMP $D509 ; $0F5509 IN ROM
     
     .ai_transition_delay
     
@@ -299,16 +295,15 @@ Sprite_Agahnim:
 
 ; ==============================================================================
 
-; $F54EA-$F54EB DATA
+; $0F54EA-$0F54EB DATA
 {
-    
     .ai_states
     db 1, 6
 }
 
 ; ==============================================================================
 
-; *$F54EC-$F54F5 JUMP LOCATION
+; $0F54EC-$0F54F5 JUMP LOCATION
 Agah1or2:
 {
     ; Check if we are in the LW or DW. If dark world go to agah 2 instead.
@@ -319,7 +314,7 @@ Agah1or2:
     RTS
 }
 
-; *$F54F6-$F551E JUMP LOCATION
+; $0F54F6-$0F551E JUMP LOCATION
 Agah1Inro:
 {
     LDA $0DF0, X : BNE .dontShowIntroMessage ; (RTS)
@@ -330,7 +325,7 @@ Agah1Inro:
     
     JSL Sprite_ShowMessageMinimal
     
-    ; *$F5509 ALTERNATE ENTRY POINT
+    ; $0F5509 ALTERNATE ENTRY POINT
     
     LDA.b #$03 : STA $0D80, X
     
@@ -338,7 +333,7 @@ Agah1Inro:
     
     RTS
 
-; *$F5514-$F551E LOCAL
+; $0F5514-$0F551E LOCAL
 
     LDA.b #$02 : STA $0D80, X
     
@@ -350,9 +345,8 @@ Agah1Inro:
 
 ; ==============================================================================
 
-; $F551F-$F5523 DATA
+; $0F551F-$0F5523 DATA
 {
-    
     ; \task Name this pool / routine.
     .animation_states
     db 12, 13, 14, 15, 16, 
@@ -360,7 +354,7 @@ Agah1Inro:
 
 ; ==============================================================================
 
-; *$F5524-$F553F JUMP LOCATION
+; $0F5524-$0F553F JUMP LOCATION
 WaitToAttack:
 {
     STZ $0FF8
@@ -383,9 +377,8 @@ WaitToAttack:
 
 ; ==============================================================================
 
-; $F5540-$F5565 DATA
+; $0F5540-$0F5565 DATA
 {
-    
     ; \task Name this pool / routine.
     ; $F5540
     db 0, 0, 0, 0, 0, 0, 0, 1
@@ -401,7 +394,7 @@ WaitToAttack:
 
 ; ==============================================================================
 
-; *$F5566-$F560A JUMP LOCATION
+; $0F5566-$0F560A JUMP LOCATION
 AttachThenFadeToBlack:
 {
     LDA $0DF0, X : CMP.b #$C0 : BNE .BRANCH_ALPHA
@@ -509,7 +502,7 @@ AttachThenFadeToBlack:
 
 ; ==============================================================================
 
-; $F560B-$F562F DATA
+; $0F560B-$0F562F DATA
 {
     ; \task Name this routine / pool.
     .animation_states
@@ -528,7 +521,7 @@ AttachThenFadeToBlack:
 
 ; ==============================================================================
 
-; *$F5630-$F5667 JUMP LOCATION
+; $0F5630-$0F5667 JUMP LOCATION
 SetTargetPos:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay 
@@ -559,9 +552,8 @@ SetTargetPos:
 
 ; ==============================================================================
 
-; $F5668-$F5679 DATA
+; $0F5668-$0F5679 DATA
 {
-    
     ; \task Name this routine / pool.
     .x_offsets_low
     db  0, 10,  8,  0, -10, -10
@@ -575,7 +567,7 @@ SetTargetPos:
 
 ; ==============================================================================
 
-; *$F567A-$F5707 LOCAL
+; $0F567A-$0F5707 LOCAL
 DoLightningAttack:
 {
     CPX.b #$00 : BNE .BRANCH_ALPHA
@@ -594,9 +586,9 @@ DoLightningAttack:
     
     LDA.b #$26 : JSL Sound_SetSfx3PanLong
     
-    JSR $D6A1 ; $F56A1 IN ROM
+    JSR $D6A1 ; $0F56A1 IN ROM
     
-    ; *$F56A1 ALTERNATE ENTRY POINT
+    ; $0F56A1 ALTERNATE ENTRY POINT
     
     JSL Sprite_SpawnLightning
     JSL Sprite_SpawnLightning
@@ -640,7 +632,7 @@ DoLightningAttack:
     RTS
 }
 
-; *$F5708-$F577E JUMP LOCATION
+; $0F5708-$0F577E JUMP LOCATION
 ShadowSneak:
 {
     LDA.b #$01 : STA $0BA0, X
@@ -665,7 +657,7 @@ ShadowSneak:
         LDA $0DB0, X : STA $0D10, X
         LDA $0E90, X : STA $0D00, X
     
-        JMP $D514 ; $F5514 IN ROM
+        JMP $D514 ; $0F5514 IN ROM
     
     .BRANCH_ALPHA
     
@@ -691,7 +683,7 @@ ShadowSneak:
 
 ; ==============================================================================
 
-; $F577F-$f5977 DATA
+; $0F577F-$0f5977 DATA
 {
     ; TODO: Doccument this.
     F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 F8 08 FA 06 FA 06 F8 08 F8 08 FA 06 FA 06 00 08 00 08 F8 08 F8 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 F8 F8 08 08 FA FA 06 06 F8 F8 08 08 FA FA 06 06 00 00 08 08 08 08 08 08 82 82 A2 A2 80 80 A0 A0 84 84 A4 A4 86 86 A6 A6 88 8A A8 AA 8C 8E AC AE C4 C2 E4 E6 C0 C2 E0 E2 8A 88 AA A8 8E 8C AE AC C2 C4 E6 E4 C2 C0 E2 E0 EC EC EC EC EC EC EC EC EE EE EE EE EE EE EE EE DF DF DF DF 40 42 40 42 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 40 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 40 00 40 80 C0 00 40 80 C0 00 40 80 C0 00 40 80 C0 00 40 80 C0 00 00 00 00 F9 0F F5 0B F5 0B F8 08 FC 04 00 00 F6 FF F2 FB F2 FB F4 F9 F6 F9 F6 F6 10 08 0C 04 0C 04 0A 06 09 07 08 08 FA FA F6 F6 F6 F6 F6 F6 F6 F6 F6 F6 0E 0E 0A 0A 0A 0A 0A 0A 0A 0A 0A 0A F9 0F F5 0B F5 0B F8 08 FC 04 00 00 FB FB F7 F7 F7 F7 F7 F7 F7 F7 F7 F7 FD 09 F9 05 F9 05 FB 03 FD 03 FE FE FD 09 F9 05 F9 05 FB 03 FD 03 FE FE FD 09 F9 05 F9 05 FB 03 FD 03 FE FE FD 09 F9 05 F9 05 FB 03 FD 03 FE FE FB FB F7 F7 F7 F7 F7 F7 F7 F7 F7 F7 CE CC C6 C6 C6 C6 CE CC C6 C6 C6 C6 CE CC C6 C6 C6 C6 CE CC C6 C6 C6 C6 CE CC C6 C6 C6 C6 CE CC C6 C6 C6 C6 00 02 02 02 02 02 00 02 02 02 02 02 00 02 02 02 02 02 00 02 02 02 02 02 00 02 02 02 02 02 00 02 02 02 02 02 60
@@ -699,7 +691,7 @@ ShadowSneak:
 
 ; ==============================================================================
 
-; *$F5978-$F5A41 LOCAL
+; $0F5978-$0F5A41 LOCAL
 AgahDraw:
 {
     JSR Sprite3_PrepOamCoord

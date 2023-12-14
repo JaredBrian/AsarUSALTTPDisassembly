@@ -10,10 +10,9 @@ incsrc "sprite_retreat_bat.asm"
 ; ==============================================================================
 
 
-; $D785C-$D788B DATA
+; $0D785C-$0D788B DATA
 pool DrinkingGuy_Draw:
 {
-    
     .oam_groups
     dw 8,  2 : db $AE, $00, $00, $00
     dw 0, -9 : db $22, $08, $00, $02
@@ -27,7 +26,7 @@ pool DrinkingGuy_Draw:
 
 ; ==============================================================================
 
-; *$D788C-$D78AB LONG
+; $0D788C-$0D78AB LONG
 DrinkingGuy_Draw:
 {
     PHB : PHK : PLB
@@ -40,12 +39,12 @@ DrinkingGuy_Draw:
     LDA.b #$03 : STA $06
                  STZ $07
     
-    JMP $F94A ; $D794A IN ROM
+    JMP $F94A ; $0D794A IN ROM
 }
 
 ; ==============================================================================
 
-; *$D792C-$D7953 LONG
+; $0D792C-$0D7953 LONG
 Lady_Draw:
 {
     ; Generally speaking, this draws a lady sprite... can be young or old,
@@ -62,7 +61,7 @@ Lady_Draw:
     ADC.b #$AC              : STA $08
     LDA.b #$F8 : ADC.b #$00 : STA $09
     
-    ; *$D794A ALTERNATE ENTRY POINT
+    ; $0D794A ALTERNATE ENTRY POINT
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong
@@ -74,7 +73,7 @@ Lady_Draw:
 
 ; ==============================================================================
 
-; *$D7954-$D7970 LOCAL
+; $0D7954-$0D7970 LOCAL
 Sprite6_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -98,13 +97,12 @@ Sprite6_CheckIfActive:
 
 ; ==============================================================================
 
-; *$D7971-$D7980 DATA
+; $0D7971-$0D7980 DATA
 pool Lanmola_SpawnShrapnel:
 {
-    
 }
     
-; *$D7981-$D79E5 LONG
+; $0D7981-$0D79E5 LONG
 Lanmola_SpawnShrapnel:
 {
     ; Spawns Lanmolas' rocks when they pop out of the ground.
@@ -159,7 +157,7 @@ incsrc "sprite_cukeman.asm"
 
 ; ==============================================================================
 
-; *$D7B2C-$D7B7A LONG
+; $0D7B2C-$0D7B7A LONG
 RunningMan_SpawnDashDustGarnish:
 {
     INC $0CBA, X : LDA $0CBA, X : AND.b #$0F : BNE .delay
@@ -197,7 +195,7 @@ RunningMan_SpawnDashDustGarnish:
 
 ; ==============================================================================
 
-; $D7B7B-$D7BDA DATA
+; $0D7B7B-$0D7BDA DATA
 pool Overworld_SubstituteAlternateSecret:
 {
     .AreaIndex
@@ -219,7 +217,7 @@ pool Overworld_SubstituteAlternateSecret:
 
 ; ==============================================================================
 
-; *$D7BDB-$D7C30 LONG
+; $0D7BDB-$0D7C30 LONG
 Overworld_SubstituteAlternateSecret:
 {
     PHB : PHK : PLB
@@ -284,7 +282,7 @@ incsrc "sprite_movable_mantle.asm"
 
 ; ==============================================================================
 
-; $D7CED-$D7DAC DATA
+; $0D7CED-$0D7DAC DATA
 pool Mothula_Draw:
 {
     ; \task Fill in data.
@@ -292,7 +290,7 @@ pool Mothula_Draw:
 
 ; ==============================================================================
 
-; *$D7DAD-$D7DB4 LONG
+; $0D7DAD-$0D7DB4 LONG
 Mothula_DrawLong:
 {
     ; Something related to drawing Mothula (Gamoth?) or his beams?
@@ -307,7 +305,7 @@ Mothula_DrawLong:
 
 ; ==============================================================================
 
-; *$D7DB5-$D7E7D LOCAL
+; $0D7DB5-$0D7E7D LOCAL
 Mothula_Draw:
 {
     LDA.b #$00 : XBA
@@ -389,10 +387,9 @@ Mothula_Draw:
 
 ; ==============================================================================
 
-; $D7E7E-$D7E87 DATA
+; $0D7E7E-$0D7E87 DATA
 pool BottleVendor_PayForGoodBee:
 {
-    
     .x_speeds
     db -6, -3,  0,  4,  7
     
@@ -402,7 +399,7 @@ pool BottleVendor_PayForGoodBee:
 
 ; ==============================================================================
 
-; *$D7E88-$D7ECE LONG
+; $0D7E88-$0D7ECE LONG
 BottleVendor_PayForGoodBee:
 {
     PHB : PHK : PLB
@@ -445,7 +442,7 @@ BottleVendor_PayForGoodBee:
 
 ; ==============================================================================
 
-; *$D7ECF-$D7ED2 LONG
+; $0D7ECF-$0D7ED2 LONG
 Sprite_ChickenLadyLong:
 {
     JSR Sprite_ChickenLady        
@@ -455,7 +452,7 @@ Sprite_ChickenLadyLong:
 
 ; ==============================================================================
 
-; *$D7ED3-$D7EFF LOCAL
+; $0D7ED3-$0D7EFF LOCAL
 Sprite_ChickenLady:
 {
     LDA.b #$01 : STA $0DE0, X
@@ -480,7 +477,7 @@ Sprite_ChickenLady:
 
 ; ==============================================================================
 
-; *$D7F00-$D7F2A LONG
+; $0D7F00-$0D7F2A LONG
 SpritePrep_DiggingGameGuy:
 {
     LDA $0D00, X : STA $00
@@ -508,10 +505,9 @@ SpritePrep_DiggingGameGuy:
 
 ; ==============================================================================
 
-; $D7F2B-$D7F3B DATA
+; $0D7F2B-$0D7F3B DATA
 pool Player_SpawnSmallWaterSplashFromHammer:
 {
-    
     .x_offsets
     dw 0, 12, -8, 24
     
@@ -524,7 +520,7 @@ pool Player_SpawnSmallWaterSplashFromHammer:
 
 ; ==============================================================================
 
-; *$D7F3C-$D7FFD LONG
+; $0D7F3C-$0D7FFD LONG
 Player_SpawnSmallWaterSplashFromHammer:
 {
     LDA $11 : ORA $02E4 : ORA $0FC1 : BNE .easy_out
@@ -602,9 +598,8 @@ Player_SpawnSmallWaterSplashFromHammer:
 
 ; ==============================================================================
 
-; $D7FFE-$D7FFF NULL
+; $0D7FFE-$0D7FFF NULL
 {
-    
 }
 
 ; ==============================================================================

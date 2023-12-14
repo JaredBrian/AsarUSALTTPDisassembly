@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E24D-$2E254 LONG
+; $02E24D-$02E254 LONG
 Sprite_PullForRupeesLong:
 {
     ; PullForRupees sprite (0x33)
@@ -16,7 +16,7 @@ Sprite_PullForRupeesLong:
 
 ; ==============================================================================
 
-; *$2E255-$2E28B LOCAL
+; $02E255-$02E28B LOCAL
 Sprite_PullForRupees:
 {
     JSL Sprite_PrepOamCoordLong

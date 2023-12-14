@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$6CB54-$6CB5B LONG
+; $06CB54-$06CB5B LONG
 Sprite_MazeGameLadyLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_MazeGameLadyLong:
 
 ; ==============================================================================
 
-; *$6CB5C-$6CB7D LOCAL
+; $06CB5C-$06CB7D LOCAL
 Sprite_MazeGameLady:
 {
     JSL Lady_Draw
@@ -35,7 +35,7 @@ Sprite_MazeGameLady:
 
 ; ==============================================================================
 
-; *$6CB7E-$6CBB9 JUMP LOCATION
+; $06CB7E-$06CBB9 JUMP LOCATION
 MazeGameLady_Startup:
 {
     LDA $0D10, X : CMP $22 : BCS .yous_a_cheater
@@ -73,7 +73,7 @@ MazeGameLady_Startup:
 
 ; ==============================================================================
 
-; *$6CBBA-$6CBDF JUMP LOCATION
+; $06CBBA-$06CBDF JUMP LOCATION
 MazeGameLady_AccumulateTime:
 {
     INC $0D90, X : LDA $0D90, X : CMP.b #$3F : BNE .no_reset_frame_counter
@@ -97,7 +97,7 @@ MazeGameLady_AccumulateTime:
 
 ; ==============================================================================
 
-; *$6CBE0-$6CBE9 JUMP LOCATION
+; $06CBE0-$06CBE9 JUMP LOCATION
 MazeGameLady_PlayStartingNoise:
 {
     LDA.b #$07 : JSL Sound_SetSfx3PanLong

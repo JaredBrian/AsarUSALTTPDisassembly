@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$D75A5-$D75AC LONG
+; $0D75A5-$0D75AC LONG
 Sprite_WaterfallLong:
 {
     ; Waterfall sprite
@@ -17,7 +17,7 @@ Sprite_WaterfallLong:
 
 ; ==============================================================================
 
-; *$D75AD-$D75B7 LOCAL
+; $0D75AD-$0D75B7 LOCAL
 Sprite_Waterfall:
 {
     LDA $0E80, X
@@ -30,7 +30,7 @@ Sprite_Waterfall:
 
 ; ==============================================================================
 
-; *$D75B8-$D75D4 JUMP LOCATION
+; $0D75B8-$0D75D4 JUMP LOCATION
 Waterfall_Main:
 {
     JSR Sprite6_CheckIfActive

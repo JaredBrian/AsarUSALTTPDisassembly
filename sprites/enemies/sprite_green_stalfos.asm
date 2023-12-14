@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $F528D-$F5298 DATA
+; $0F528D-$0F5298 DATA
 pool Sprite_GreenStalfos:
 {
-    
     ,facing_direction
     db $04, $06, $00, $02
     
@@ -17,7 +16,7 @@ pool Sprite_GreenStalfos:
 
 ; ==============================================================================
 
-; *$F5299-$F530F JUMP LOCATION
+; $0F5299-$0F530F JUMP LOCATION
 Sprite_GreenStalfos:
 {
     LDY $0DE0, X

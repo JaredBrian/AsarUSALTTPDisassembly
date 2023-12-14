@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $40405-$40434 DATA
+; $040405-$040434 DATA
 pool Ancilla_IceShotSparkle:
 {
-    
     .x_offsets
     db 2, 7, 6, 1, 1, 7, 7,  1
     db 0, 7, 8, 1, 4, 9, 4, -1
@@ -20,7 +19,7 @@ pool Ancilla_IceShotSparkle:
 
 ; ==============================================================================
 
-; *$40435-$404BF JUMP LOCATION
+; $040435-$0404BF JUMP LOCATION
 Ancilla_IceShotSparkle:
 {
     !numSprites = $05
@@ -111,10 +110,9 @@ Ancilla_IceShotSparkle:
 
 ; ==============================================================================
 
-; $404C0-$404C7 DATA
+; $0404C0-$0404C7 DATA
 pool IceShotSparkle_Spawn:
 {
-    
     .x_speeds
     db -4,  4,  0,  0
     
@@ -124,7 +122,7 @@ pool IceShotSparkle_Spawn:
 
 ; ==============================================================================
 
-; *$404C8-$40514 LONG BRANCH LOCATION
+; $0404C8-$040514 LONG BRANCH LOCATION
 IceShotSparkle_Spawn:
 {
     ; Generates sparkles for.... the ice shot effect?

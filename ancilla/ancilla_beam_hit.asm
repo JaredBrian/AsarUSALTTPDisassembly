@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $40CD9-$40D18 DATA
+; $040CD9-$040D18 DATA
 pool Ancilla_BeamHit:
 {
-    
     .x_offsets
     db -12,  20, -12,  20
     db  -8,  16,  -8,  16
@@ -32,7 +31,7 @@ pool Ancilla_BeamHit:
 
 ; ==============================================================================
 
-; *$40D19-$40D67 JUMP LOCATION
+; $040D19-$040D67 JUMP LOCATION
 Ancilla_BeamHit:
 {
     JSR Ancilla_BoundsCheck

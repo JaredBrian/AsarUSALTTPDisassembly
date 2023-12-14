@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; *$EC853-$EC868 JUMP LOCATION
+; $0EC853-$0EC868 JUMP LOCATION
 pool Sprite_FireballJunction:
 {
-    
     .x_offsets_low
     db $0C, $F4, $00, $00
     
@@ -26,7 +25,7 @@ pool Sprite_FireballJunction:
 
 ; ==============================================================================
 
-; *$EC869-$EC8CB JUMP LOCATION
+; $0EC869-$0EC8CB JUMP LOCATION
 Sprite_FireballJunction:
 {
     JSL Sprite_PrepOamCoordLong

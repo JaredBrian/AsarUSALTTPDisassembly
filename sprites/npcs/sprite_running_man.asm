@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E88E-$2E895 LONG
+; $02E88E-$02E895 LONG
 SpritePrep_RunningManLong:
 {
     ; Sprite Prep for Red Hat Wussy (0x74)
@@ -17,7 +17,7 @@ SpritePrep_RunningManLong:
 
 ; ==============================================================================
 
-; *$2E896-$2E8A1 LOCAL
+; $02E896-$02E8A1 LOCAL
 SpritePrep_RunningMan:
 {
     LDA.b #$02 : STA $0EB0, X
@@ -30,7 +30,7 @@ SpritePrep_RunningMan:
 
 ; ==============================================================================
 
-; *$2E8A2-$2E8A9 LONG
+; $02E8A2-$02E8A9 LONG
 Sprite_RunningManLong:
 {
     ; Scared red hat man (0x74)
@@ -46,10 +46,9 @@ Sprite_RunningManLong:
 
 ; ==============================================================================
 
-; $2E8AA-$2E8B1 DATA
+; $02E8AA-$02E8B1 DATA
 pool RunningMan_RunFullSpeed:
 {
-    
     .x_speeds
     db   0,   0, -54,  54
     
@@ -59,7 +58,7 @@ pool RunningMan_RunFullSpeed:
 
 ; ==============================================================================
 
-; *$2E8B2-$2E8F4 LOCAL
+; $02E8B2-$02E8F4 LOCAL
 Sprite_RunningMan:
 {
     ; (Scared red hat man that runs away if you come near.)
@@ -99,17 +98,16 @@ Sprite_RunningMan:
 
 ; ==============================================================================
 
-; $2E8F5-$2E8F6 DATA
+; $02E8F5-$02E8F6 DATA
 pool RunningMan_Chillin:
 {
-    
     .x_speeds
     db $E8, $18
 }
 
 ; ==============================================================================
 
-; *$2E8F7-$2E937 JUMP LOCATION
+; $02E8F7-$02E937 JUMP LOCATION
 RunningMan_Chillin:
 {
     JSL Sprite_MakeBodyTrackHeadDirection
@@ -143,7 +141,7 @@ RunningMan_Chillin:
 
 ; ==============================================================================
 
-; *$2E938-$2E945 BRANCH LOCATION
+; $02E938-$02E945 BRANCH LOCATION
 RunningMan_AnimateAndRun:
 {
     LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
@@ -155,7 +153,7 @@ RunningMan_AnimateAndRun:
 
 ; ==============================================================================
 
-; *$2E946-$2E964 JUMP LOCATION
+; $02E946-$02E964 JUMP LOCATION
 RunningMan_RunLeft:
 {
     LDA $0DF0, X : BNE RunningMan_AnimateAndRun
@@ -172,7 +170,7 @@ RunningMan_RunLeft:
 
     .tick_run_countdown_timer
     
-    ; *$2E961 ALTERNATE ENTRY POINT
+    ; $02E961 ALTERNATE ENTRY POINT
 RunningMan_TickRunCountdownTimer:
 
     DEC $0D90, X
@@ -182,7 +180,7 @@ RunningMan_TickRunCountdownTimer:
 
 ; ==============================================================================
 
-; *$2E965-$2E96B BRANCH LOCATION
+; $02E965-$02E96B BRANCH LOCATION
 RunningMan_ResumeChillin:
 {
     ; \tcrf(confirmed) While this is never triggered, forcing it to
@@ -199,10 +197,9 @@ RunningMan_ResumeChillin:
 
 ; ==============================================================================
 
-; $2E96C-$2E972 DATA
+; $02E96C-$02E972 DATA
 pool RunningMan_WindingRunRight:
 {
-    
     ; \task Label this data and the surrounding routines when time avails.
     .timers
     db 120, 24, 128
@@ -214,7 +211,7 @@ pool RunningMan_WindingRunRight:
 
 ; ==============================================================================
 
-; *$2E973-$2E997 JUMP LOCATION
+; $02E973-$02E997 JUMP LOCATION
 RunningMan_WindingRunRight:
 {
     LDA $0DF0, X : BNE RunningMan_AnimateAndRun
@@ -237,7 +234,7 @@ RunningMan_WindingRunRight:
 
 ; ==============================================================================
 
-; *$2E998-$2E9AB JUMP LOCATION
+; $02E998-$02E9AB JUMP LOCATION
 RunningMan_GotCaught:
 {
     LDA.b #$A6
@@ -256,7 +253,7 @@ RunningMan_GotCaught:
 
 ; ==============================================================================
 
-; *$2E9AC-$2E9B9 LOCAL
+; $02E9AC-$02E9B9 LOCAL
 RunningMan_AnimateAndMakeDust:
 {
     JSL RunningMan_SpawnDashDustGarnish
@@ -268,7 +265,7 @@ RunningMan_AnimateAndMakeDust:
 
 ; ==============================================================================
 
-; *$2E9BA-$2E9CC LOCAL
+; $02E9BA-$02E9CC LOCAL
 RunningMan_RunFullSpeed:
 {
     LDY $0EB0, X
@@ -284,10 +281,9 @@ RunningMan_RunFullSpeed:
 
 ; ==============================================================================
 
-; $2E9CD-$2EA4C DATA
+; $02E9CD-$02EA4C DATA
 pool RunningMan_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $2C, $00, $00, $02
     dw 0,  0 : db $EE, $08, $00, $02
@@ -317,7 +313,7 @@ pool RunningMan_Draw:
 
 ; ==============================================================================
 
-; *$2EA4D-$2EA70 LOCAL
+; $02EA4D-$02EA70 LOCAL
 RunningMan_Draw:
 {
     LDA.b #$02 : STA $06

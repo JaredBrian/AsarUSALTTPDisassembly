@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $28176-$28191 DATA
+; $028176-$028191 DATA
 pool SpritePrep_ArcheryGameGuy:
 {
-    
     .x_offests
     db $00, $40, $80, $C0, $30, $60, $90, $C0
     
@@ -23,7 +22,7 @@ pool SpritePrep_ArcheryGameGuy:
 
 ; ==============================================================================
 
-; *$28192-$281FE LONG
+; $028192-$0281FE LONG
 SpritePrep_ArcheryGameGuy:
 {
     ; Shooting gallery guy initialization routine
@@ -85,7 +84,7 @@ SpritePrep_ArcheryGameGuy:
 
 ; ==============================================================================
 
-; *$281FF-$28212 JUMP LOCATION
+; $0281FF-$028212 JUMP LOCATION
 Sprite_ArcheryGameGuy:
 {
     ; Make sure arrows stay at the amount they started at when Link
@@ -104,17 +103,16 @@ Sprite_ArcheryGameGuy:
 
 ; ==============================================================================
 
-; $28213-$28216 DATA
+; $028213-$028216 DATA
 pool ArcheryGameGuy_Main:
 {
-    
     .animation_states
     db 3, 4, 3, 2
 }
     
 ; ==============================================================================
 
-; *$28217-$282D3 JUMP LOCATION
+; $028217-$0282D3 JUMP LOCATION
 ArcheryGameGuy_Main:
 {
     LDA $0B99 : BNE .have_minigame_arrows
@@ -242,7 +240,7 @@ ArcheryGameGuy_Main:
     
 ; ==============================================================================
 
-; $282D4-$283CE BRANCH LOCATION
+; $0282D4-$0283CE BRANCH LOCATION
 ArcheryGameGuy_RunGame:
 {
     LDA $0EB0, X : BNE .arrows_already_laid_out
@@ -364,10 +362,9 @@ ArcheryGameGuy_RunGame:
 
 ; ==============================================================================
 
-; $283CF-$283D8 DATA
+; $0283CF-$0283D8 DATA
 pool Sprite_GoodArcheryTarget:
 {
-    
     .prizes
     ; \tcrf (verified)
     ; Note the larger prizes available. The limit here seems to be
@@ -378,7 +375,7 @@ pool Sprite_GoodArcheryTarget:
 
 ; ==============================================================================
 
-; *$283D9-$284AE JUMP LOCATION
+; $0283D9-$0284AE JUMP LOCATION
 Sprite_GoodArcheryTarget:
 {
     LDA $0ED0, X : CMP.b #$05 : BCC .prize_index_in_range
@@ -433,7 +430,7 @@ Sprite_GoodArcheryTarget:
     
     BRA .moving_on
     
-    ; *$2844E ALTERNATE ENTRY POINT
+    ; $02844E ALTERNATE ENTRY POINT
     shared Sprite_BadArcheryTarget:
     
     LDA $0E40, X : AND.b #$E0 : STA $0E40, X
@@ -497,10 +494,9 @@ Sprite_GoodArcheryTarget:
 
 ; ==============================================================================
 
-; $284AF-$284CE DATA
+; $0284AF-$0284CE DATA
 pool GoodArcheryTarget_DrawPrize:
 {
-    
     .x_offsets
     
     db  -8,  -8,   0,   8,  16
@@ -526,7 +522,7 @@ pool GoodArcheryTarget_DrawPrize:
 
 ; ==============================================================================
 
-; *$284CF-$2852C LOCAL
+; $0284CF-$02852C LOCAL
 GoodArcheryTarget_DrawPrize:
 {
     ; Part of shooting gallery guy code

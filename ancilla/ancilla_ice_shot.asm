@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$424DD-$42535 JUMP LOCATION
+; $0424DD-$042535 JUMP LOCATION
     shared Ancilla_IceShot:
 {
     LDA $11 : BEQ .normal_submode

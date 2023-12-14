@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $45704-$457B1 DATA
+; $045704-$0457B1 DATA
 pool Ancilla_InitialSpinSpark:
 {
-    
     .timers
     db 4, 2, 3, 3, 2, 1
     
@@ -46,7 +45,7 @@ pool Ancilla_InitialSpinSpark:
 
 ; ==============================================================================
 
-; *$457B2-$4584C JUMP LOCATION
+; $0457B2-$04584C JUMP LOCATION
 Ancilla_InitialSpinSpark:
 {
     LDA $11 : BNE .draw
@@ -94,7 +93,7 @@ Ancilla_InitialSpinSpark:
     
     LDA $0C5E, X : DEC A : ASL #2 : TAX
     
-    ; *$45802 ALTERNATE ENTRY POINT
+    ; $045802 ALTERNATE ENTRY POINT
     .oam_commit_loop
     
     .next_oam_entry
@@ -138,9 +137,8 @@ Ancilla_InitialSpinSpark:
 
 ; ==============================================================================
 
-; $4584D-$4586C DATA
+; $04584D-$04586C DATA
 {
-    
     .initial_rotation_states
     db $21, $20, $1F, $1E
     db $03, $02, $01, $00
@@ -156,7 +154,7 @@ Ancilla_InitialSpinSpark:
 
 ; ==============================================================================
 
-; *$4586D-$458F5 LONG BRANCH LOCATION
+; $04586D-$0458F5 LONG BRANCH LOCATION
 InitialSpinSpark_TransmuteToNormalSpinSpark:
 {
     LDA.b #$2B : STA $0C4A, X

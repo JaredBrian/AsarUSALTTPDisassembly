@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B150-$4B177 DATA
+; $04B150-$04B177 DATA
 pool Garnish_ArrghusSplash:
 {
-    
     .y_offsets
     db -12,  20, -10,  10,  -8,   8,  -4,   4
     
@@ -23,7 +22,7 @@ pool Garnish_ArrghusSplash:
 
 ; ==============================================================================
 
-; $4B178-$4B1BC JUMP LOCATION
+; $04B178-$04B1BC JUMP LOCATION
 Garnish_ArrghusSplash:
 {
     JSR Garnish_PrepOamCoord

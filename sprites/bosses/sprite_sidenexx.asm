@@ -1,22 +1,22 @@
 
 ; ==============================================================================
 
-; *$EB897-$EB92A JUMP LOCATION
+; $0EB897-$0EB92A JUMP LOCATION
 Sprite_Sidenexx:
 {
     ; One of the two side heads?
 Sprite_CC_TrinexxBreath_FireHead:
     LDA $0E90, X : BEQ Sidenexx
     
-    JMP TrinexxBreath_fire ; $EBDC6 IN ROM
+    JMP TrinexxBreath_fire ; $0EBDC6 IN ROM
     
-    ; *$EB89F ALTERNATE ENTRY POINT
+    ; $0EB89F ALTERNATE ENTRY POINT
     Sprite_CD_TrinexxBreath_IceHead
     ; One of the two side heads?
     
     LDA $0E90, X : BEQ Sidenexx
     
-    JMP TrinexxBreath_ice ; $EBD28 IN ROM
+    JMP TrinexxBreath_ice ; $0EBD28 IN ROM
     
 Sidenexx:
     
@@ -31,14 +31,14 @@ Sidenexx:
     
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
     
-    JSR $BB70 ; $EBB70 IN ROM
+    JSR $BB70 ; $0EBB70 IN ROM
     JSR Sprite4_CheckIfActive
     
     LDA $0D80, X : BPL .BRANCH_BETA
     
     STA $0BA0, X
     
-    JMP $BB3F ; $EBB3F IN ROM
+    JMP $BB3F ; $0EBB3F IN ROM
     
     .BRANCH_BETA
     
@@ -72,7 +72,7 @@ Sidenexx:
     dw Sidenexx_Stunned ; = $EB92B*
 }
 
-; *$EB92B-$EB985 JUMP LOCATION
+; $0EB92B-$0EB985 JUMP LOCATION
 Sidenexx_Stunned:
 {
     LDA $0CAA, X : AND.b #$FB : STA $0CAA, X
@@ -143,7 +143,7 @@ Sidenexx_Stunned:
     RTS
 }
 
-; *$EB986-$EB9A5 JUMP LOCATION
+; $0EB986-$0EB9A5 JUMP LOCATION
 Sidenexx_Dormant:
 {
     LDA $0E60, X : ORA.b #$40 : STA $0E60, X
@@ -160,7 +160,7 @@ Sidenexx_Dormant:
     RTS
 }
 
-; *$EB9A6-$EB9F1 JUMP LOCATION
+; $0EB9A6-$0EB9F1 JUMP LOCATION
 Sidenexx_Move:
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
@@ -196,7 +196,7 @@ Sidenexx_Move:
     RTS
 }
 
-; *$EB9F2-$EBA66 JUMP LOCATION
+; $0EB9F2-$0EBA66 JUMP LOCATION
 Sidenexx_Think:
 {
     STZ $01
@@ -280,7 +280,7 @@ Sidenexx_Think:
     RTS
 }
 
-; *$EBA70-$EBAE5 JUMP LOCATION
+; $0EBA70-$0EBAE5 JUMP LOCATION
 Sidenexx_Breathe:
 {
     LDA $0DF0, X : BNE .breathe_yes
@@ -297,7 +297,7 @@ Sidenexx_Breathe:
     
     PHA
     
-    JSR Sidenexx_ExhaleDanger ; $EBAE8 IN ROM
+    JSR Sidenexx_ExhaleDanger ; $0EBAE8 IN ROM
     
     PLA
     
@@ -347,10 +347,9 @@ Sidenexx_Breathe:
 
 ; ==============================================================================
 
-; $EBAE6-$EBAE7 DATA
+; $0EBAE6-$0EBAE7 DATA
 pool SidenexxExhaleDanger:
 {
-    
     ; \task Name this routine / pool
     .x_accelerations
     db -2, 1
@@ -358,20 +357,20 @@ pool SidenexxExhaleDanger:
 
 ; ==============================================================================
 
-; *$EBAE8-$EBB3E LOCAL
+; $0EBAE8-$0EBB3E LOCAL
 Sidenexx_ExhaleDanger:
 {
     LDA $0E20, X : CMP.b #$CD : BNE .breathe_fire
     
     STZ $0FB6
     
-    JSR .breathe_ice ; $EBAFA IN ROM
+    JSR .breathe_ice ; $0EBAFA IN ROM
     
     INC $0FB6
     
     LDA.b #$CD
     
-    ; *$EBAFA ALTERNATE ENTRY POINT
+    ; $0EBAFA ALTERNATE ENTRY POINT
     .breathe_ice
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -414,7 +413,7 @@ Sidenexx_ExhaleDanger:
     RTS
 }
 
-; *$EBB3F-$EBB6C LOCAL
+; $0EBB3F-$0EBB6C LOCAL
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -441,16 +440,15 @@ Sidenexx_ExhaleDanger:
 
 ; ==============================================================================
 
-; $EBB6D-$EBB6F DATA
+; $0EBB6D-$0EBB6F DATA
 {
-    
     ; \task Apply labels to this pool / routine.
     db 0, 9, 18
 }
 
 ; ==============================================================================
 
-; *$EBB70-$EBC8B LOCAL
+; $0EBB70-$0EBC8B LOCAL
 SpriteDraw_Sidenexx:
 {
     LDA $0D90, X : STA $0D10, X
@@ -467,7 +465,7 @@ SpriteDraw_Sidenexx:
     STZ $0FB5
     STZ $0FB6
     
-    ; *$EBB95 ALTERNATE ENTRY POINT
+    ; $0EBB95 ALTERNATE ENTRY POINT
     
     LDY $0FB5
     
@@ -555,7 +553,7 @@ SpriteDraw_Sidenexx:
     
     LDA $0FB5 : BNE .BRANCH_THETA
     
-    JSR $BCA0 ; $EBCA0 IN ROM
+    JSR $BCA0 ; $0EBCA0 IN ROM
     
     BRA .BRANCH_IOTA
     
@@ -576,7 +574,7 @@ SpriteDraw_Sidenexx:
     
     INC $0FB5 : LDA $0FB5 : CMP $0E80, X : BEQ .BRANCH_KAPPA
     
-    JMP $BB95 ; $EBB95 IN ROM
+    JMP $BB95 ; $0EBB95 IN ROM
 
     .BRANCH_KAPPA
     
@@ -592,7 +590,7 @@ SpriteDraw_Sidenexx:
     RTS
 }
 
-; $EBC8C-$EBC9F DATA
+; $0EBC8C-$0EBC9F DATA
 {
     db $F8, $08, $F8, $08, $00, $F8, $F8, $08, $08, $02, $04, $04, $24, $24, $0A 
     
@@ -604,7 +602,7 @@ SpriteDraw_Sidenexx:
     db $00
 }
 
-; *$EBCA0-$EBD25 LOCAL
+; $0EBCA0-$0EBD25 LOCAL
 {
     LDA $0E30, X : STA $08
     
@@ -673,9 +671,8 @@ SpriteDraw_Sidenexx:
 
 ; ==============================================================================
 
-; $EBD26-$EBD27 DATA
+; $0EBD26-$0EBD27 DATA
 {
-    
     ; \task Name this routine / pool.
     .x_speed_targets
     db 16, -16
@@ -683,7 +680,7 @@ SpriteDraw_Sidenexx:
 
 ; ==============================================================================
 
-; *$EBD28-$EBD64 LOCAL
+; $0EBD28-$0EBD64 LOCAL
 TrinexxBreath_ice:
 {
     JSL Sprite_PrepOamCoordLong
@@ -695,9 +692,9 @@ TrinexxBreath_ice:
     
     PLA : STA $0D50, X
     
-    JSR AddIceGarnish ; $EBD65 IN ROM
+    JSR AddIceGarnish ; $0EBD65 IN ROM
     
-    ; *$EBD44 ALTERNATE ENTRY POINT
+    ; $0EBD44 ALTERNATE ENTRY POINT
     
     LDA $1A : AND.b #$03 : BNE .no_shake
     
@@ -718,7 +715,7 @@ TrinexxBreath_ice:
     RTS
 }
 
-; *$EBD65-$EBDC5 LOCAL
+; $0EBD65-$0EBDC5 LOCAL
 AddIceGarnish:
 {
     INC $0E80, X
@@ -765,16 +762,16 @@ AddIceGarnish:
     RTS
 }
 
-; *$EBDC6-$EBE3B JUMP LOCATION
+; $0EBDC6-$0EBE3B JUMP LOCATION
 TrinexxBreath_fire:
 {
     JSL Sprite_PrepOamCoordLong
     JSR Sprite4_CheckIfActive
     JSR Sprite4_Move
-    JSR AddFireGarnish          ; $EBDD6 IN ROM
-    JMP $BD44                   ; $EBD44 IN ROM
+    JSR AddFireGarnish          ; $0EBDD6 IN ROM
+    JMP $BD44                   ; $0EBD44 IN ROM
     
-    ; *$EBDD6 ALTERNATE ENTRY POINT
+    ; $0EBDD6 ALTERNATE ENTRY POINT
 AddFireGarnish:
     INC $0E80, X : LDA $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -782,7 +779,7 @@ AddFireGarnish:
     
     LDA.b #$1D
     
-    ; *$EBDE8 ALTERNATE ENTRY POINT
+    ; $0EBDE8 ALTERNATE ENTRY POINT
     
     PHX : TXY
     

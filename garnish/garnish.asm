@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4B020-$4B06D LONG
+; $04B020-$04B06D LONG
 ZoraFireball_SpawnTailGarnish:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .skip_frame
@@ -42,7 +42,7 @@ ZoraFireball_SpawnTailGarnish:
 
 ; ==============================================================================
 
-; *$4B06E-$4B07E LONG
+; $04B06E-$04B07E LONG
 Garnish_ExecuteUpperSlotsLong:
 {
     ; \note Maybe I'm nitpickin', but doesn't this seem a bit out of place
@@ -64,7 +64,7 @@ Garnish_ExecuteUpperSlotsLong:
 
 ; ==============================================================================
 
-; *$4B07F-$4B08B LONG
+; $04B07F-$04B08B LONG
 Garnish_ExecuteLowerSlotsLong:
 {
     LDA $0FB4 : BEQ .no_spawned_garnishes
@@ -82,7 +82,7 @@ Garnish_ExecuteLowerSlotsLong:
 
 ; ==============================================================================
 
-; *$4B08C-$4B096 LOCAL
+; $04B08C-$04B096 LOCAL
 Garnish_ExecuteUpperSlots:
 {
     LDX.b #$1D
@@ -98,7 +98,7 @@ Garnish_ExecuteUpperSlots:
 
 ; ==============================================================================
 
-; *$4B097-$4B09F LOCAL
+; $04B097-$04B09F LOCAL
 Garnish_ExecuteLowerSlots:
 {
     LDX.b #$0E
@@ -114,10 +114,9 @@ Garnish_ExecuteLowerSlots:
 
 ; ==============================================================================
 
-; $4B0A0-$4B0B5 DATA
+; $04B0A0-$04B0B5 DATA
 pool Garnish_ExecuteSingle:
 {
-    
     .oam_allocation
     db  4,  4,  4,  4,  4,  4,  4,  4
     db  4,  4,  4,  4,  4,  4,  4,  4
@@ -126,7 +125,7 @@ pool Garnish_ExecuteSingle:
 
 ; ==============================================================================
 
-; $4B0B6-$4B14F LOCAL
+; $04B0B6-$04B14F LOCAL
 Garnish_ExecuteSingle:
 {
     STX $0FA0
@@ -226,7 +225,7 @@ incsrc "garnish_pyramid_debris.asm"
 
 ; ==============================================================================
 
-; $4B252-$4B283 LOCAL
+; $04B252-$04B283 LOCAL
 Garnish_Move_XY:
 {
     PHX
@@ -272,7 +271,7 @@ incsrc "garnish_laser_beam_trail.asm"
 
 ; ==============================================================================
 
-; $4B5DE-$4B612 LOCAL
+; $04B5DE-$04B612 LOCAL
 Garnish_PrepOamCoord:
 {
     LDA $7FF83C, X : SEC : SBC $E2 : STA $00

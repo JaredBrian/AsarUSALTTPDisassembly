@@ -6,18 +6,17 @@
     ; pointer table would point to this location is obviously just data,
     ; instead of the code it's supposed to be.
     ; So perhaps 'incomplete' would be a better name than unused. Dunno.
-; $4280D-$4280E DATA
+; $04280D-$04280E DATA
 Ancilla_Unused_14:
 pool Ancilla_JumpSplash:
 {
-    
     .chr
     db $AC, $AE
 }
 
 ; ==============================================================================
 
-; *$4280F-$428E2 JUMP LOCATION
+; $04280F-$0428E2 JUMP LOCATION
 Ancilla_JumpSplash:
 {
     LDA $11 : BNE .draw

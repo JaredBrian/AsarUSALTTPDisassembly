@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B496-$4B49D DATA
+; $04B496-$04B49D DATA
 pool Garnish_BabusuFlash:
 {
-    
     .chr
     db $A8, $8A, $86, $86
     
@@ -14,7 +13,7 @@ pool Garnish_BabusuFlash:
 
 ; ==============================================================================
 
-; $4B49E-$4B4BF
+; $04B49E-$04B4BF
 Garnish_BabusuFlash:
 {
     JSR Garnish_PrepOamCoord

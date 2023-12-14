@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E88A1-$E88BB LONG
+; $0E88A1-$0E88BB LONG
 Sprite_SpawnPhantomGanon:
 {
     ; Spawn one of Ganon's bats? Emerges from Agahnim, seems like.
@@ -19,7 +19,7 @@ Sprite_SpawnPhantomGanon:
 
 ; ==============================================================================
 
-; *$E88BC-$E8905 JUMP LOCATION
+; $0E88BC-$0E8905 JUMP LOCATION
 Sprite_PhantomGanon:
 {
     LDA $0D80, X : BNE Sprite_GanonBat
@@ -67,10 +67,9 @@ incsrc "sprite_ganon_bat.asm"
 
 ; ==============================================================================
 
-; $E8A04-$E8A83 DATA
+; $0E8A04-$0E8A83 DATA
 pool PhantomGanon_Draw:
 {
-    
     .oam_groups
     dw -16, -8 : db $46, $0D, $00, $02
     dw  -8, -8 : db $47, $0D, $00, $02
@@ -93,7 +92,7 @@ pool PhantomGanon_Draw:
 
 ; ==============================================================================
 
-; *$E8A84-$E8AB5 LOCAL
+; $0E8A84-$0E8AB5 LOCAL
 PhantomGanon_Draw:
 {
     LDA.b #$00   : XBA
@@ -107,7 +106,7 @@ PhantomGanon_Draw:
     
     LDA.b #$08 : JMP Sprite4_DrawMultiple
     
-    ; *$E8AA9 ALTERNATE ENTRY POINT
+    ; $0E8AA9 ALTERNATE ENTRY POINT
     shared Sprite_PeriodicWhirringSfx:
     
     LDA $1A : AND.b #$0F : BNE .shadow_flicker

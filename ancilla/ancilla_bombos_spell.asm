@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $42F56-$42F65 DATA
+; $042F56-$042F65 DATA
 pool AddBombosSpell:
 {
-    
     .y_offsets
     dw   16,   24, -128,  -16
     
@@ -16,7 +15,7 @@ pool AddBombosSpell:
 
     ; Adds the bombos effect in response to getting it for the first time.
     ; The ether medallion doesn't use this approach so I wonder why the diff?
-; *$42F66-$430CD LONG
+; $042F66-$0430CD LONG
 AddBombosSpell:
 {
     PHB : PHK : PLB
@@ -155,7 +154,7 @@ AddBombosSpell:
 
 ; ==============================================================================
 
-; $430CE-$43109 JUMP LOCATION
+; $0430CE-$043109 JUMP LOCATION
 Ancilla_BombosSpell:
 {
     LDA $7F5934 : BNE .not_spawning_new_columns
@@ -212,7 +211,7 @@ Ancilla_BombosSpell:
 
 ; ==============================================================================
 
-; *$4310A-$43235 JUMP LOCATION
+; $04310A-$043235 JUMP LOCATION
 Bombos_ExecuteFlameColumns:
 {
     PHX
@@ -396,7 +395,7 @@ Bombos_ExecuteFlameColumns:
 
 ; ==============================================================================
 
-; *$43236-$43288 LOCAL
+; $043236-$043288 LOCAL
 BombosSpell_WrapUpFlameColumns:
 {
     PHX
@@ -455,15 +454,14 @@ BombosSpell_WrapUpFlameColumns:
 
 ; ==============================================================================
 
-; *$43289-$43372 DATA
+; $043289-$043372 DATA
 pool BombosSpell_DrawFireColumn:
 {
-    
 }
 
 ; ==============================================================================
 
-; *$43373-$4340C LOCAL
+; $043373-$04340C LOCAL
 BombosSpell_DrawFireColumn:
 {
     ; \note Why add 0? Seems like some testing code here wasn't completely
@@ -548,7 +546,7 @@ BombosSpell_DrawFireColumn:
 
 ; ==============================================================================
 
-; *$4340D-$43520 LOCAL
+; $04340D-$043520 LOCAL
 BombosSpell_ExecuteBlasts:
 {
     PHX
@@ -719,10 +717,9 @@ BombosSpell_ExecuteBlasts:
 
 ; ==============================================================================
 
-; $43521-$435E0 DATA
+; $043521-$0435E0 DATA
 pool BombosSpell_DrawBlast:
 {
-    
     .chr
     db $60, $FF, $FF, $FF
     db $62, $62, $62, $62
@@ -766,7 +763,7 @@ pool BombosSpell_DrawBlast:
 
 ; ==============================================================================
 
-; *$435E1-$43669 LOCAL
+; $0435E1-$043669 LOCAL
 BombosSpell_DrawBlast:
 {
     PHX

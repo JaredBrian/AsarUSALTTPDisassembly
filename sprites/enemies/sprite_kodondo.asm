@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F4103-$F411F JUMP LOCATION
+; $0F4103-$0F411F JUMP LOCATION
 Sprite_Kodondo:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong
@@ -22,10 +22,9 @@ Sprite_Kodondo:
 
 ; ==============================================================================
 
-; $F4120-$F4127 DATA
+; $0F4120-$0F4127 DATA
     pool Kodondo_ChooseDirection
 {
-    
     .x_speeds
     db $01, $FF, $00, $00
     
@@ -35,7 +34,7 @@ Sprite_Kodondo:
 
 ; ==============================================================================
 
-; *$F4128-$F4167 JUMP LOCATION
+; $0F4128-$0F4167 JUMP LOCATION
 Kodondo_ChooseDirection:
 {
     INC $0D80, X
@@ -63,7 +62,7 @@ Kodondo_ChooseDirection:
     
     .no_tile_collision
     
-    ; *$F4158 ALTERNATE ENTRY POINT
+    ; $0F4158 ALTERNATE ENTRY POINT
     shared Kodondo_SetSpeed:
     
     LDY $0DE0, X
@@ -77,10 +76,9 @@ Kodondo_ChooseDirection:
 
 ; ==============================================================================
 
-; $F4168-$F4177 DATA
+; $0F4168-$0F4177 DATA
 pool Kodondo_Move:
 {
-    
     .animation_states
     db $02, $02, $00, $05, $03, $03, $00, $05
     
@@ -90,7 +88,7 @@ pool Kodondo_Move:
 
 ; ==============================================================================
 
-; *$F4178-$F41CD JUMP LOCATION
+; $0F4178-$0F41CD JUMP LOCATION
 Kodondo_Move:
 {
     JSR Sprite3_Move
@@ -134,10 +132,9 @@ Kodondo_Move:
 
 ; ==============================================================================
 
-; $F41CE-$F41D5 DATA
+; $0F41CE-$0F41D5 DATA
 pool Kodondo_BreatheFlames:
 {
-    
     .animation_states
     db $02, $02, $00, $05
     db $04, $04, $01, $06
@@ -145,7 +142,7 @@ pool Kodondo_BreatheFlames:
 
 ; ==============================================================================
 
-; *$F41D6-$F4204 JUMP LOCATION
+; $0F41D6-$0F4204 JUMP LOCATION
 Kodondo_BreatheFlame:
 {
     LDA $0DF0, X : BNE .dont_revert_yet
@@ -183,10 +180,9 @@ Kodondo_BreatheFlame:
 
 ; ==============================================================================
 
-; $F4205-$F4222 DATA
+; $0F4205-$0F4222 DATA
 pool Kodondo_SpawnFlames:
 {
-    
     .x_offsets_low
     db $08, $F8, $00, $00
     
@@ -212,7 +208,7 @@ pool Kodondo_SpawnFlames:
 
 ; ==============================================================================
 
-; *$F4223-$F4266 LOCAL
+; $0F4223-$0F4266 LOCAL
 Kodondo_SpawnFlames:
 {
     LDA.b #$87

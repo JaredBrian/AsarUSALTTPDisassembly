@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $4B6C0-$4B6E0 JUMP LOCATION
+; $04B6C0-$04B6E0 JUMP LOCATION
 Garnish_WinderTrail:
 {
     ; special animation 0x01

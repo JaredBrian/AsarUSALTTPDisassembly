@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2BE0A-$2BE48 JUMP LOCATION
+; $02BE0A-$02BE48 JUMP LOCATION
 Sprite_BombTrooper:
 {
     LDA $0DB0, X : BNE .is_bomb
@@ -49,7 +49,7 @@ Sprite_BombTrooper:
     
 ; ==============================================================================
 
-; *$2BE49-$2BED2 LOCAL
+; $02BE49-$02BED2 LOCAL
 EnemyBomb_CheckDamageToSprite:
 {
     LDA $0D10, X : SEC : SBC.b #$10 : STA $00
@@ -179,7 +179,7 @@ EnemyBomb_ExplosionImminent:
 
 ; ==============================================================================
 
-; $2BF51-$2BFB0 LOCAL
+; $02BF51-$02BFB0 LOCAL
 BombTrooper_Main:
 {
     JSR BombTrooper_Draw
@@ -241,10 +241,9 @@ BombTrooper_Main:
 
 ; ==============================================================================
 
-; $2BFB1-$2BFC0 DATA
+; $02BFB1-$02BFC0 DATA
     pool 
 {
-    
     .x_offsets_low
     db $00, $01, $09, $F8
     
@@ -260,7 +259,7 @@ BombTrooper_Main:
 
 ; ==============================================================================
 
-; *$2BFC1-$2C04A LOCAL
+; $02BFC1-$02C04A LOCAL
 BombTrooper_SpawnAndThrowBomb:
 {
     LDA.b #$4A
@@ -326,18 +325,18 @@ BombTrooper_SpawnAndThrowBomb:
 
 ; ==============================================================================
 
-; *$2C04B-$2C068 LOCAL
+; $02C04B-$02C068 LOCAL
 BombTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
     LDY.b #$08
     
-    JSR $B160 ; $2B160 IN ROM
+    JSR $B160 ; $02B160 IN ROM
     
     LDY.b #$04
     
-    JSR $B3CD ; $2B3CD IN ROM
+    JSR $B3CD ; $02B3CD IN ROM
     
     LDA $0DC0, X : CMP.b #$14 : BCS .alpha
     
@@ -354,12 +353,11 @@ BombTrooper_Draw:
 
 ; ==============================================================================
 
-; *$2C089-$2C0D2 LOCAL
+; $02C089-$02C0D2 LOCAL
     ; \note This name is tentative, and based purely on educated guessing.
     ; \task Determine what this routine *really* does.
 BombTrooper_DrawArm:
 {
-    
     PHX
     
     LDA $0DE0, X : ASL A : ORA $0E80, X : ASL A : TAX
@@ -391,10 +389,9 @@ BombTrooper_DrawArm:
 
 ; ==============================================================================
 
-; $2C0D3-$2C112 DATA
+; $02C0D3-$02C112 DATA
 pool EnemyBomb_DrawExplosion:
 {
-    
     .x_offsets
     db -12, 12, -12, 12
     db -8,   8,  -8,  8
@@ -418,7 +415,7 @@ pool EnemyBomb_DrawExplosion:
 
 ; ==============================================================================
 
-; *$2C113-$2C154 LOCAL
+; $02C113-$02C154 LOCAL
 EnemyBomb_DrawExplosion:
 {
     JSR Sprite2_PrepOamCoord

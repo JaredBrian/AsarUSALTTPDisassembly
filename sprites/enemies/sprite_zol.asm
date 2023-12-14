@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F3002-$F3054 JUMP LOCATION
+; $0F3002-$0F3054 JUMP LOCATION
 Sprite_Zol:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .skip_initial_collision_check
@@ -52,7 +52,7 @@ Sprite_Zol:
 
 ; ==============================================================================
 
-; *$F3055-$F309E JUMP LOCATION
+; $0F3055-$0F309E JUMP LOCATION
 Zol_HidingUnseen:
 {
     LDA $0F60, X : PHA : ORA.b #$09 : STA $0F60, X
@@ -86,7 +86,7 @@ Zol_HidingUnseen:
 
 ; ==============================================================================
 
-; $F309F-$F30AE DATA
+; $0F309F-$0F30AE DATA
 pool Zol_PoppingOut:
 {
     .animation_states
@@ -96,7 +96,7 @@ pool Zol_PoppingOut:
 
 ; ==============================================================================
 
-; *$F30AF-$F30D3 JUMP LOCATION
+; $0F30AF-$0F30D3 JUMP LOCATION
 Zol_PoppingOut:
 {
     LDA $0DF0, X : BNE .delay
@@ -123,7 +123,7 @@ Zol_PoppingOut:
 
 ; ==============================================================================
 
-; $F30D4-$F30D5 DATA
+; $0F30D4-$0F30D5 DATA
 pool Zol_Falling:
 {
     .animation_states
@@ -132,7 +132,7 @@ pool Zol_Falling:
 
 ; ==============================================================================
 
-; *$F30D6-$F3143 JUMP LOCATION
+; $0F30D6-$0F3143 JUMP LOCATION
 Zol_Falling:
 {
     LDA $0DF0, X : BEQ .falling_from_above
@@ -197,7 +197,7 @@ Zol_Falling:
 
 ; =============================================================================
 
-; *$F3144-$F31C0 JUMP LOCATION
+; $0F3144-$0F31C0 JUMP LOCATION
 Zol_Active:
 {
     JSR Sprite3_CheckDamageToPlayer
@@ -253,7 +253,7 @@ Zol_Active:
 
 ; =============================================================================
 
-; $F31C1-$F31C4 DATA
+; $0F31C1-$0F31C4 DATA
 pool Zol_Draw:
 {
     .hflip_states
@@ -262,7 +262,7 @@ pool Zol_Draw:
 
 ; =============================================================================
 
-; *$F31C5-$F3213 LOCAL
+; $0F31C5-$0F3213 LOCAL
 Zol_Draw:
 {
     LDA $0F50, X : LSR A : BCS .skip_unknown_check
@@ -308,7 +308,7 @@ Zol_Draw:
 
 ; =============================================================================
 
-; $F3214-$F3253 DATA
+; $0F3214-$0F3253 DATA
 Pool_Zol_DrawMultiple:
 {
     .oam_groups
@@ -324,7 +324,7 @@ Pool_Zol_DrawMultiple:
 
 ; =============================================================================
 
-; *$F3254-$F326E LOCAL
+; $0F3254-$0F326E LOCAL
 Zol_DrawMultiple:
 {
     LDA.b #$00 : XBA

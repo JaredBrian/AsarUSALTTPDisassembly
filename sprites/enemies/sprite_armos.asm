@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2B703-$2B7DE JUMP LOCATION
+; $02B703-$02B7DE JUMP LOCATION
 Sprite_Armos:
 {
     JSR Armos_Draw
@@ -107,10 +107,9 @@ Sprite_Armos:
 
 ; ==============================================================================
 
-; $2B7DF-$2B7EE DATA
+; $02B7DF-$02B7EE DATA
 pool Armos_Draw:
 {
-    
     .oam_groups
     dw 0, -16 : db $C0, $00, $00, $02
     dw 0,   0 : db $E0, $00, $00, $02
@@ -118,7 +117,7 @@ pool Armos_Draw:
 
 ; ==============================================================================
 
-; *$2B7EF-$2B809 LOCAL
+; $02B7EF-$02B809 LOCAL
 Armos_Draw:
 {
     ; \task Find out why it would only prep sometimes. Does it use a

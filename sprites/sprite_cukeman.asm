@@ -2,7 +2,7 @@
 ; ==============================================================================
 
     ; \unused(suspected, but not fully confirmed yet)
-; $D79E6-$D7A0B LONG
+; $0D79E6-$0D7A0B LONG
 Cukeman_Unused:
 {
     LDY.b #$00
@@ -29,7 +29,7 @@ Cukeman_Unused:
 
 ; ==============================================================================
 
-; *$D7A0C-$D7A7D LONG
+; $0D7A0C-$0D7A7D LONG
 Sprite_Cukeman:
 {
     LDA $0EB0, X : BEQ .not_transformed
@@ -82,7 +82,7 @@ Sprite_Cukeman:
 
 ; ==============================================================================
 
-; $D7A7E-$D7B0D DATA
+; $0D7A7E-$0D7B0D DATA
 pool Cukeman_Draw:
 {
     dw  0,  0 : db $F3, $01, $00, $00
@@ -112,7 +112,7 @@ pool Cukeman_Draw:
 
 ; ==============================================================================
 
-; *$D7B0E-$D7B2B LOCAL
+; $0D7B0E-$0D7B2B LOCAL
 Cukeman_Draw:
 {
     LDA.b #$00 : XBA

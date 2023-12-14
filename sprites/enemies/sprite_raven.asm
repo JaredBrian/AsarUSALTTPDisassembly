@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EDD7B-$EDD82 LONG
+; $0EDD7B-$0EDD82 LONG
 Sprite_RavenLong:
 {
     PHB : PHK : PLB
@@ -15,17 +15,16 @@ Sprite_RavenLong:
 
 ; ==============================================================================
 
-; $EDD83-$EDD84 DATA
+; $0EDD83-$0EDD84 DATA
 pool Sprite_SetHflip:
 {
-    
     .h_flip
     db $00, $40
 }
 
 ; ==============================================================================
 
-; *$EDD85-$EDDAB LOCAL
+; $0EDD85-$0EDDAB LOCAL
 Sprite_Raven:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -48,10 +47,9 @@ Sprite_Raven:
 
 ; ==============================================================================
 
-; $EDDAC-$EDDAD DATA
+; $0EDDAC-$0EDDAD DATA
 pool Raven_Ascend:
 {
-    
     ; \task Name this routine / pool.
     .timers
     db $10, $F8
@@ -59,7 +57,7 @@ pool Raven_Ascend:
 
 ; ==============================================================================
 
-; *$EDDAE-$EDDE4 JUMP LOCATION
+; $0EDDAE-$0EDDE4 JUMP LOCATION
 Raven_InWait:
 {
     JSR Sprite4_IsToRightOfPlayer
@@ -88,7 +86,7 @@ Raven_InWait:
 
 ; ==============================================================================
 
-; *$EDDE5-$EDE08 JUMP LOCATION
+; $0EDDE5-$0EDE08 JUMP LOCATION
 Raven_Ascend:
 {
     LDA $0DF0, X : BNE .delay
@@ -114,7 +112,7 @@ Raven_Ascend:
 
 ; ==============================================================================
 
-; *$EDE09-$EDE65 JUMP LOCATION
+; $0EDE09-$0EDE65 JUMP LOCATION
 Raven_Attack:
 {
     LDA $0DF0, X : BNE .delay_fleeing
@@ -136,7 +134,7 @@ Raven_Attack:
     
     LDA #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    ; *$EDE27 ALTERNATE ENTRY POINT
+    ; $0EDE27 ALTERNATE ENTRY POINT
 Raven_AccelerateToTargetSpeed:
     
     LDA $0D40, X : CMP $00 : BEQ .y_speed_at_target
@@ -168,14 +166,14 @@ Raven_AccelerateToTargetSpeed:
     .delay_speed_analysis
     .animate
     
-    ; *$EDE49 ALTERNATE ENTRY POINT
+    ; $0EDE49 ALTERNATE ENTRY POINT
     shared Raven_Animate:
     
     LDA $1A : LSR A : AND.b #$01 : INC A : STA $0DC0, X
     
     LDA $0D50, X : ASL A : ROL A : AND.b #$01 : TAY
     
-    ; *$EDE5A ALTERNATE ENTRY POINT
+    ; $0EDE5A ALTERNATE ENTRY POINT
     shared Raven_SetHflip:
     
     LDA $0F50, X : AND.b #$BF : ORA $DD83, Y : STA $0F50, X
@@ -185,7 +183,7 @@ Raven_AccelerateToTargetSpeed:
 
 ; ==============================================================================
 
-; *$EDE66-$EDE81 JUMP LOCATION
+; $0EDE66-$0EDE81 JUMP LOCATION
 Raven_FleePlayer:
 {
     TXA : EOR $1A : LSR A : BCS Raven_Animate

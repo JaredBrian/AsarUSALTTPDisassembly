@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $442DD-$44389 DATA
+; $0442DD-$044389 DATA
 pool Ancilla_ReceiveItem:
 {
-    
     .item_messages
     dw $FFFF, $0070, $0077, $0052, $FFFF, $0078, $0078, $0062
     dw $0061, $0066, $0069, $0053, $0052, $0056, $FFFF, $0064
@@ -35,7 +34,7 @@ pool Ancilla_ReceiveItem:
 
 ; ==============================================================================
 
-; $4438A-$446F1 JUMP LOCATION
+; $04438A-$0446F1 JUMP LOCATION
 Ancilla_ReceiveItem:
 {
     ; Special Object 0x22
@@ -136,7 +135,7 @@ Ancilla_ReceiveItem:
     STZ $02DA
     STZ $037B
     
-    JSL GiveRupeeGift ; $4AD6C IN ROM
+    JSL GiveRupeeGift ; $04AD6C IN ROM
     
     ; needs real name
     .optimus
@@ -272,7 +271,7 @@ Ancilla_ReceiveItem:
     CMP.b #$28 : BNE .dontGiveRupees
         ; Check if item came from sprite
         LDA $0C54, X : CMP.b #$02 : BEQ .dontGiveRupees
-            ; $4AD6C IN ROM
+            ; $04AD6C IN ROM
             JSL GiveRupeeGift : BCS .rupeesGiven
                 LDA $0C5E, X : CMP.b #$17 : BNE .noSoundEffect
     
@@ -468,7 +467,7 @@ Ancilla_ReceiveItem:
     
     SEP #$20
     
-    ; $44690 ALTERNATE ENTRY POINT
+    ; $044690 ALTERNATE ENTRY POINT
     .draw
     
     PHX

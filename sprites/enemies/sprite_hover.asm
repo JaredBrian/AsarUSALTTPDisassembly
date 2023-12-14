@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F4C02-$F4C42 JUMP LOCATION
+; $0F4C02-$0F4C42 JUMP LOCATION
 Sprite_Hover:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -38,17 +38,16 @@ Sprite_Hover:
 
 ; ==============================================================================
 
-; $F4C43-$F4C46 DATA
+; $0F4C43-$0F4C46 DATA
 pool Hover_Stopped:
 {
-    
     .vh_flip
     db $40, $00, $40, $00
 }
 
 ; ==============================================================================
 
-; *$F4C47-$F4C78 JUMP LOCATION
+; $0F4C47-$0F4C78 JUMP LOCATION
 Hover_Stopped:
 {
     LDA $0DF0, X : BNE .delay
@@ -79,10 +78,9 @@ Hover_Stopped:
 
 ; ==============================================================================
 
-; $F4C79-$F4C88 DATA
+; $0F4C79-$0F4C88 DATA
 pool Hover_Moving:
 {
-    
     .x_acceleration_step
     db $01, $FF, $01, $FF
     
@@ -98,7 +96,7 @@ pool Hover_Moving:
 
 ; ==============================================================================
 
-; *$F4C89-$F4CD2 JUMP LOCATION
+; $0F4C89-$0F4CD2 JUMP LOCATION
 Hover_Moving:
 {
     LDA $0DF0, X : BEQ .timer_elapsed

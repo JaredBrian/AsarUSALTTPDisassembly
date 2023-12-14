@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $41543-$41559 DATA
+; $041543-$041559 DATA
 pool Ancilla_Bomb:
 {
-    
     .interstate_intervals
     db 160, 6, 4, 4, 4, 4, 4, 6, 6, 6, 6
     
@@ -14,7 +13,7 @@ pool Ancilla_Bomb:
 
 ; ==============================================================================
 
-; *$4155A-$417B5 JUMP LOCATION
+; $04155A-$0417B5 JUMP LOCATION
 Ancilla_Bomb:
 {
     ; Code for implementing the Bomb Special Effect (0x07)
@@ -411,10 +410,9 @@ Ancilla_Bomb:
 
 ; ==============================================================================
 
-; $417B6-$417BD DATA
+; $0417B6-$0417BD DATA
 pool Ancilla_ConveyorBeltVelocityOverride:
 {
-    
     .y_speeds
     db -8,  8,  0,  0
     
@@ -424,7 +422,7 @@ pool Ancilla_ConveyorBeltVelocityOverride:
 
 ; ==============================================================================
 
-; *$417BE-$417E1 LOCAL
+; $0417BE-$0417E1 LOCAL
 Ancilla_ConveyorBeltVelocityOverride:
 {
     ; This routine is triggered if a bomb is on a conveyor belt or
@@ -446,10 +444,9 @@ Ancilla_ConveyorBeltVelocityOverride:
 
 ; ==============================================================================
 
-; $417E2-$41814 DATA
+; $0417E2-$041814 DATA
 pool Bomb_CheckSpriteAndPlayerDamage:
 {
-    
     .recoil_magnitudes
     db 32, 32, 32, 32, 32, 32, 28, 28
     db 28, 28, 28, 28, 24, 24, 24, 24
@@ -468,7 +465,7 @@ pool Bomb_CheckSpriteAndPlayerDamage:
 
 ; ==============================================================================
 
-; *$41815-$41912 LOCAL
+; $041815-$041912 LOCAL
 Bomb_CheckSpriteAndPlayerDamage:
 {
     ; If the bomb is in state 9 it can do damage
@@ -584,10 +581,9 @@ Bomb_CheckSpriteAndPlayerDamage:
 
 ; ==============================================================================
 
-; $41913-$41975 DATA
+; $041913-$041975 DATA
 pool Ancilla_LiftableObjectLogic:
 {
-    
     .player_relative_y_offsets
     dw 16, 8, 4, 4
     dw 8, 2, -1, -1
@@ -610,13 +606,13 @@ pool Ancilla_LiftableObjectLogic:
     .throw_x_speeds
     db   0,   0, -32,  32
     
-    ; $4195A to $41961
+    ; $04195A to $41961
     ; \unused Presumably for testing throws and bounces
     .unused_throw_y_speeds
     db   8,   8,   0,   0
     db   4,   4,   0,   0
     
-    ; $41962 to $41969
+    ; $041962 to $41969
     ; \unused Presumably for testing throws and bounces
     .unused_throw_x_speeds
     db   0,   0,   8,   8
@@ -625,7 +621,7 @@ pool Ancilla_LiftableObjectLogic:
     .postbounce_z_speeds
     db 16, 16
     
-    ; $4196c to $41971
+    ; $04196c to $41971
     ; \unused Presumably for testing throws and bounces
     .unused_postbounce_z_speeds
     db 16, 16, 8,  8,  8,  8
@@ -636,7 +632,7 @@ pool Ancilla_LiftableObjectLogic:
 
 ; ==============================================================================
 
-; *$41976-$41C7E LOCAL
+; $041976-$041C7E LOCAL
 Ancilla_LiftableObjectLogic:
 {
     ; Setting this flag causes player to not be able to pick it up
@@ -786,7 +782,7 @@ Ancilla_LiftableObjectLogic:
     
     CPY.b #$03 : BNE Ancilla_PegCoordsToPlayer
     
-    ; *$41A4F ALTERNATE ENTRY POINT
+    ; $041A4F ALTERNATE ENTRY POINT
     shared Ancilla_PegAltitudeAbovePlayer:
     
     ; This subsection makes the elevation 0x11, but also pushes the y
@@ -802,7 +798,7 @@ Ancilla_LiftableObjectLogic:
     
     BRA .cant_throw
     
-    ; *$41A6A ALTERNATE ENTRY POINT
+    ; $041A6A ALTERNATE ENTRY POINT
     shared Ancilla_PegCoordsToPlayer:
     
     TYA : ASL #3 : CLC : ADC $2F : TAY
@@ -1023,7 +1019,7 @@ Ancilla_LiftableObjectLogic:
     
     BRL .throwing_object
     
-    ; *$41BEF ALTERNATE ENTRY POINT
+    ; $041BEF ALTERNATE ENTRY POINT
     shared Ancilla_SetPlayerHeldPosition:
     
     ; Link's animation status
@@ -1110,7 +1106,7 @@ Ancilla_LiftableObjectLogic:
     ; \wtf Wait, so the bombs and somarian blocks simulate gravity by adjusting
     ; the Y coordinate? What?
     
-; *$41C7F-$41CC2 LOCAL
+; $041C7F-$041CC2 LOCAL
 Ancilla_Adjust_Y_CoordByAltitude:
 {
     ; Special effects routine for adjusting objects for height
@@ -1151,7 +1147,7 @@ Ancilla_Adjust_Y_CoordByAltitude:
 
 ; ==============================================================================
 
-; $41CC3-$41CCD LOCAL
+; $041CC3-$041CCD LOCAL
 Ancilla_Set_Y_Coord:
 {
     LDA $73 : STA $0C0E, X
@@ -1166,7 +1162,7 @@ Ancilla_Set_Y_Coord:
     ; would be totally wrong. This gets the sum of the difference of delta x 
     ; and delta y of the player and bomb coordinates.
     
-; *$41CCE-$41D0F LOCAL
+; $041CCE-$041D0F LOCAL
 Bomb_GetGrossPlayerDistance:
 {
     LDA $0C04, X : STA $06
@@ -1205,11 +1201,10 @@ Bomb_GetGrossPlayerDistance:
 
 ; ==============================================================================
 
-; $41D10-$41E9D DATA
+; $041D10-$041E9D DATA
 pool Bomb_Draw:
     parallel pool Bomb_DrawExplosion:
 {
-    
     .chr_and_properties
     .chr
     
@@ -1388,7 +1383,7 @@ pool Bomb_Draw:
 
 ; ==============================================================================
 
-; *$41E9E-$41FB5 LOCAL
+; $041E9E-$041FB5 LOCAL
 Bomb_Draw:
 {
     JSR Ancilla_PrepAdjustedOamCoord

@@ -1893,7 +1893,7 @@ PlayerOam_ShadowOffset_X:
 
 ; =========================================================
     
-; $698F3-$69AF1
+; $0698F3-$069AF1
 AttackHitboxOffset_Y:
 {
     db $80, $80, $80, $80, $80, $80, $80, $80
@@ -1993,7 +1993,7 @@ AttackHitboxOffset_Y:
     db $00, $08, $09, $0C, $10, $18, $1E
 }
 
-; $69AF2-$69CF0 DATA
+; $069AF2-$069CF0 DATA
 AttackHitboxOffset_X:
 {
     db $80, $80, $80, $80, $80, $80, $80, $80
@@ -2093,7 +2093,7 @@ AttackHitboxOffset_X:
     db $10, $15, $18, $1C, $17, $14, $07
 }
 
-; $69CF1-$69EEF DATA
+; $069CF1-$069EEF DATA
 ; walking
 ; charging dash
 ; index 0 used for standing still
@@ -2196,9 +2196,10 @@ PlayerOam_Priority:
     db $02, $02, $02, $00, $00, $00, $00
 }
 
-; $69EF0-$6A02F DATA
+; $069EF0-$06A02F DATA
     
 PlayerOam_AnimationStepDataOffsets:
+{
 ; up
     dw $0000 ; 0x00 - Walking
     dw $0024 ; 0x01 - Powder duplicate unused?
@@ -2366,15 +2367,16 @@ PlayerOam_AnimationStepDataOffsets:
     dw $01D5 ; 0x25 - Book
     dw $01D6 ; 0x26 - Tree pull
     dw $01F6 ; 0x27 - Sword slash
-    
-; $6A030-$6A037 DATA
+}
+
+; $06A030-$06A037 DATA
 PlayerOam_AnimationDirectionalStepIndexOffset:
 { 
     ; up, down, left, right 
     dw $0000, $0050, $00A0, $00F0
 }
 
-; $6A038-$6A045 DATA
+; $06A038-$06A045 DATA
 ; falling, lifting item, swim, medallions, pull switch, grabbing, sword slashQ
 PlayerOam_AuxAnimationStepDataOffset:
 {
@@ -2387,13 +2389,13 @@ PlayerOam_AuxAnimationStepDataOffset:
     dw $0000, $0013, $0022, $0026, $003D, $0054, $0073 ; right 
 }
 
-; $6A070-$6A077 DATA
+; $06A070-$06A077 DATA
 PlayerOam_AuxAnimationDirectionalStepIndexOffset:
 {
     dw $0000, $000E, $001C, $002A
 }
     
-; $6A078-$6A107 DATA
+; $06A078-$06A107 DATA
 PlayerOam_Aux1BufferOffsets_SetA:
 {
     db $00, $08, $00, $08, $08, $0C, $14, $08
@@ -2477,7 +2479,7 @@ PlayerOam_ShadowBufferOffsets_SetB:
     db $00, $00, $00, $00
 }
 
-; $6A108-$6A11F DATA
+; $06A108-$06A11F DATA
 PlayerOam_PlayerOam_Aux1BufferOffsetPointers:
 {
     dw PlayerOam_Aux1BufferOffsets_SetA
@@ -2490,86 +2492,92 @@ PlayerOam_Aux2BufferOffsetPointers:
     dw $A084, $A0CC
 }
 
-; $6A110 DATA
+; $06A110 DATA
 PlayerOam_WeaponBufferOffsetPointers:
 {
     dw $A090, $A0D8
+}
 
 ; $6A114
 PlayerOam_ElfBufferOffsetPointers:
+{
     dw $A09C, $A0E4
+}
     
 ; $6A118
 PlayerOam_ShieldBufferOffsetPointers:
+{
     dw $A0A8, $A0F0
+}
     
 ; $6A11C
 PlayerOam_ShadowBufferOffsetPointers:
+{
     dw $A0B4, $A0FC
 }
 
-; $6A120-$6A123
+; $06A120-$06A123
 {
     dw $0190, $00E0
 }
 
-; $6A126-$6A12D
+; $06A126-$06A12D
 {
     dw $2000, $1000, $3000, $2000
 }
 
-; $6A120-$6A123 DATA
+; $06A120-$06A123 DATA
 {
     ; Two possible offsets into OAM buffer for player sprite.
     dw $0190, $00E0
 }
 
-; $6A124-$6A125 DATA
+; $06A124-$06A125 DATA
 {
     ; Another optional offset into the OAM buffer for the player sprite.
     dw $0000
 }
 
-; $6A126-$6A12D DATA
+; $06A126-$06A12D DATA
 {
     dw $2000, $1000, $3000, $2000
 }
 
-; $6A12E-$6A130 DATA
+; $06A12E-$06A130 DATA
 PlayerOam_RodTypeID:
 {
     ; Has to do with fire rod and ice rod oam handling...
     db $02, $04, $04
 }
 
-; $6A131-$6A139 DATA
+; $06A131-$06A139 DATA
 PlayerOam_StairsSomething:
 {
     db $00, $01, $02, $00, $01, $02, $00, $01, $02
 }
 
-; $6A13A-$6A141 DATA
+; $06A13A-$06A141 DATA
 PlayerOam_ItemsAUseIndex:
 {
     ; rod, hammer, n/a, n/a, bow, n/a, powder, boomerang
     db $06, $06, $06, $06, $07, $07, $08, $09
 }
 
-; $6A142-$6A147 DATA
+; $06A142-$06A147 DATA
 PlayerOam_ItemsBUseIndex:
 {
     ; shovel, unused prayer, hookshot, cane, net, book
     db $0C, $0B, $20, $22, $23, $25
 }
 
-; $6A148-$6A14F DATA
+; $06A148-$06A14F DATA
 PlayerOam_WeirdGrabIndices:
 {
     ; Methinks the 0x26 belongs to the previous array...?
     db $26, $0B, $0B, $0C, $0B, $0B, $0B, $0D
 }
 
-; $6A150-$6A15D DATA
+; $06A150-$06A15D DATA
 PlayerOam_AnimationsWithAuxParts:
 {
     ; Special poses to check for?
@@ -2588,7 +2596,7 @@ PlayerOam_StraightStairsYOffset:
     dw  0,  0,  0,  0,  0,  0
 }
     
-; *$6A18E-$6AAC2 LONG
+; $06A18E-$06AAC2 LONG
 PlayerOam_Main:
 {
     ; $72 = 0x00 if not standing in water or grass, 0x02 otherwise
@@ -3233,7 +3241,7 @@ PlayerOam_NoAux
 
     LDA $0309 : AND.w #$0004 : BEQ .always_taken
     
-    JSR PlayerOam_UnusedWeaponSettings ; $6ADB6 IN ROM
+    JSR PlayerOam_UnusedWeaponSettings ; $06ADB6 IN ROM
     
     BRA .skip_sword_vram
 
@@ -3266,7 +3274,7 @@ PlayerOam_NoAux
 
 .using_some_item:
 
-    ; $6AB6E IN ROM
+    ; $06AB6E IN ROM
     JSR PlayerOam_SetWeaponVRAMOffsets : BCC .continue_with_weapon
 
 .skip_sword_vram:
@@ -3357,7 +3365,7 @@ PlayerOam_NoAux
     
     LDA $0E : PHA
     
-    JSR PlayerOam_DrawSwordSwingTip ; $6ACD5 IN ROM
+    JSR PlayerOam_DrawSwordSwingTip ; $06ACD5 IN ROM
     
     PLA : STA $0E
 
@@ -3448,7 +3456,7 @@ PlayerOam_DrawShield:
     ; In other words, if Link has entered phase 1
     LDA $7EF3C5 : AND.w #$00FF : BEQ .dontShowShield
     
-    ; $6ABE6 IN ROM; affects graphics when carrying things?
+    ; $06ABE6 IN ROM; affects graphics when carrying things?
     JSR PlayerOam_SetEquipmentVRAMOffsets : BCC .showShield
 
 .dontShowShield
@@ -3577,7 +3585,7 @@ PlayerOam_DrawShadow:
     ; See if Link is standing in water.
     LDA $0351 : BEQ .recoil_check
     
-    JSR PlayerOam_DrawFootObject ; $6AED1 IN ROM; Draws water/grass sprites around Link
+    JSR PlayerOam_DrawFootObject ; $06AED1 IN ROM; Draws water/grass sprites around Link
     
     BRA .proceed_to_pose
 
@@ -3594,7 +3602,7 @@ PlayerOam_DrawShadow:
     
     LDA $5A : CMP.b #$06 : BCC .proceed_to_pose
     
-    JSR PlayerOam_DungeonFallShadow ; $6AE3B IN ROM
+    JSR PlayerOam_DungeonFallShadow ; $06AE3B IN ROM
 
 .proceed_to_pose:
 
@@ -3849,7 +3857,7 @@ PlayerOam_RunFinalAdjustments:
 
 ; =========================================================
 
-; *$6AAC3-$6AACB LOCAL
+; $06AAC3-$06AACB LOCAL
 PlayerOam_GetHighestSetBit:
 {
     ; This routine returns the highest bit set in whatever variable is the
@@ -3871,7 +3879,7 @@ PlayerOam_GetHighestSetBit:
 
 ; =========================================================
 
-; $6AACC-$???? DATA
+; $06AACC-$0???? DATA
 ; TODO analyze, format, annotate
 PlayerOam_WeaponOffsetID:
 {
@@ -4042,7 +4050,7 @@ PlayerOam_WeaponSize:
     
 }
 
-; *$6AB6E-$6ABC9 LOCAL
+; $06AB6E-$06ABC9 LOCAL
 PlayerOam_SetWeaponVRAMOffsets:
 {
     REP #$30
@@ -4106,7 +4114,7 @@ EquipmentVRAMOffsets:
 
 }
 
-; *$6ABE6-$6AC44 LOCAL
+; $06ABE6-$06AC44 LOCAL
 PlayerOam_SetEquipmentVRAMOffsets:
 {
     REP #$30
@@ -4302,7 +4310,7 @@ PlayerOam_SwordSwingTipOffsetX:
      db $FF
 }
 
-; *$6ACD5-$6AD81 LOCAL
+; $06ACD5-$06AD81 LOCAL
 PlayerOam_DrawSwordSwingTip:
 {
     LDA $0A : PHA
@@ -4381,7 +4389,7 @@ PlayerOam_DrawSwordSwingTip:
     RTS
 }
 
-; *$6ADB6-$6AE37 LOCAL
+; $06ADB6-$06AE37 LOCAL
 PlayerOam_UnusedWeaponSettings:
 {
     SEP #$30
@@ -4452,7 +4460,7 @@ BRANCH_ALPHA:
 
 ; =========================================================
 
-; $6AE38-$6AE3A DATA
+; $06AE38-$06AE3A DATA
 DungeonFallShadow:
 {
 .offset_x
@@ -4461,7 +4469,7 @@ DungeonFallShadow:
 
 ; =========================================================
 
-; *$6AE3B-$6AEC9 LOCAL
+; $06AE3B-$06AEC9 LOCAL
 PlayerOam_DungeonFallShadow:
 {
     LDY.b #$00
@@ -4544,10 +4552,9 @@ PlayerOam_DungeonFallShadow:
 
 ; =========================================================
 
-; $6AECA-$6AED0 DATA
+; $06AECA-$06AED0 DATA
 FootObject:
 {
-
 ; \task Name this pool / routine.
 .aux_check
     db $0A, $02, $0E
@@ -4557,7 +4564,7 @@ FootObject:
 
 ; =========================================================
 
-; *$6AED1-$6AF9C LOCAL
+; $06AED1-$06AF9C LOCAL
 PlayerOam_DrawFootObject:
 {
     ; Seems to draw the ripples around Link while standing in shallow water
@@ -4683,10 +4690,9 @@ PlayerOam_DrawFootObject:
 ; =========================================================
 
 ; \unused (Not sure if really unused yet.)
-; $6AF9D-$6AFA5 DATA
+; $06AF9D-$06AFA5 DATA
 pool PlayerOam_Unused_0:
 {
-
 .offsets
     db 0, 0, 0, 1, 0, 1, 1, 1
     db 0
@@ -4695,7 +4701,7 @@ pool PlayerOam_Unused_0:
 ; =========================================================
 
 ; \unused (Not sure if really unused yet.)
-; $6AFA6-$6AFBF LOCAL
+; $06AFA6-$06AFBF LOCAL
 PlayerOam_Unused_0:
 {
     SEP #$30
@@ -4716,7 +4722,7 @@ PlayerOam_Unused_0:
 
 ; =========================================================
 
-; *$6AFC0-$6AFDC LOCAL
+; $06AFC0-$06AFDC LOCAL
 PlayerOam_GetRelativeHighBit:
 {
     ; In general this seems to take an offset for a sprite and figure out

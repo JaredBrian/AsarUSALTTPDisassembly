@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EF063-$EF06A LONG
+; $0EF063-$0EF06A LONG
 Sprite_EvilBarrierLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_EvilBarrierLong:
 
 ; ==============================================================================
 
-; *$EF06B-$EF0E0 LOCAL
+; $0EF06B-$0EF0E0 LOCAL
 Sprite_EvilBarrier:
 {
     JSR EvilBarrier_Draw
@@ -78,10 +78,9 @@ Sprite_EvilBarrier:
 
 ; ==============================================================================
 
-; $EF0E1-$EF248 DATA
+; $0EF0E1-$0EF248 DATA
 pool EvilBarrier_Draw:
 {
-    
     .oam_groups
     dw   0,  0 : db $E8, $00, $00, $02
     dw -29,  3 : db $CA, $00, $00, $00
@@ -136,7 +135,7 @@ pool EvilBarrier_Draw:
 
 ; ==============================================================================
 
-; *$EF249-$EF276 LOCAL
+; $0EF249-$0EF276 LOCAL
 EvilBarrier_Draw:
 {
     LDA.b #$00   : XBA

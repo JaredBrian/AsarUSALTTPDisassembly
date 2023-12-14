@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $315C9-$315D8 DATA
+; $0315C9-$0315D8 DATA
 pool Sprite_Sluggula:
 {
-    
     .animation_states
     db 0, 1, 0, 1, 2, 3, 4, 5
     
@@ -14,7 +13,7 @@ pool Sprite_Sluggula:
 
 ; ==============================================================================
 
-; *$315D9-$31614 JUMP LOCATION
+; $0315D9-$031614 JUMP LOCATION
 Sprite_Sluggula:
 {
     LDA $0E80, X : AND.b #$08 : LSR #3 : STA $00
@@ -42,10 +41,9 @@ Sprite_Sluggula:
 
 ; ==============================================================================
 
-; $31615-$3161A DATA
+; $031615-$03161A DATA
 pool Sluggula_Normal:
 {
-    
     .x_speeds length 4
     db 16, -16
     
@@ -55,7 +53,7 @@ pool Sluggula_Normal:
 
 ; ==============================================================================
 
-; *$3161B-$31672 JUMP LOCATION
+; $03161B-$031672 JUMP LOCATION
 Sluggula_Normal:
 {
     LDA $0DF0, X : BNE .delay
@@ -84,7 +82,7 @@ Sluggula_Normal:
     
     JMP Sluggula_LayBomb
     
-    ; *$3164F ALTERNATE ENTRY POINT
+    ; $03164F ALTERNATE ENTRY POINT
     shared Sluggula_BreakFromBombing:
     
     LDA $0DF0, X : BNE .delay_resumption_of_bombing
@@ -111,7 +109,7 @@ Sluggula_Normal:
 
 ; ==============================================================================
 
-; *$31673-$31685 JUMP LOCATION
+; $031673-$031685 JUMP LOCATION
 Sluggula_LayBomb:
 {
     ; Spawn a Red Bomb Soldier...

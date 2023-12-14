@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EF943-$EF94A LONG
+; $0EF943-$0EF94A LONG
 Sprite_TalkingTreeLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_TalkingTreeLong:
 
 ; ==============================================================================
 
-; *$EF94B-$EF955 LOCAL
+; $0EF94B-$0EF955 LOCAL
 Sprite_TalkingTree:
 {
     LDA $0E80, X
@@ -28,9 +28,9 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EF956-$EF96D JUMP LOCATION
+; $0EF956-$0EF96D JUMP LOCATION
 {
-    JSR $FADB ; $EFADB IN ROM
+    JSR $FADB ; $0EFADB IN ROM
     JSR Sprite4_CheckIfActive
     
     STZ $0F60, X
@@ -47,7 +47,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EF96E-$EF99B JUMP LOCATION
+; $0EF96E-$0EF99B JUMP LOCATION
 {
     STZ $0DC0, X
     
@@ -75,7 +75,7 @@ Sprite_TalkingTree:
     RTS
 }
 
-; *$EF99C-$EF9AF JUMP LOCATION
+; $0EF99C-$0EF9AF JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -92,7 +92,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $EF9B0-$EF9B3 DATA
+; $0EF9B0-$0EF9B3 DATA
 {
     ; \task Name this routine / pool
     
@@ -102,7 +102,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EF9B4-$EF9D1 JUMP LOCATION
+; $0EF9B4-$0EF9D1 JUMP LOCATION
 {
     LDA $0DF0, X : LSR A : TAY
     
@@ -110,7 +110,7 @@ Sprite_TalkingTree:
     
     LDA $0DF0, X : CMP.b #$07 : BNE .BRANCH_ALPHA
     
-    JSR $FA4E ; $EFA4E IN ROM
+    JSR $FA4E ; $0EFA4E IN ROM
     
     .BRANCH_ALPHA
     
@@ -125,9 +125,8 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $EF9D2-$EF9E1 DATA
+; $0EF9D2-$0EF9E1 DATA
 {
-    
     ; \task Name this routine / pool
     
     .animation_states
@@ -139,9 +138,9 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EF9E2-$EFA00 JUMP LOCATION
+; $0EF9E2-$0EFA00 JUMP LOCATION
 {
-    JSR $FA03 ; $EFA03 IN ROM
+    JSR $FA03 ; $0EFA03 IN ROM
     
     LDA $0DF0, X : BNE .countingDown
     
@@ -158,9 +157,8 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $EFA01-$EFA02 DATA
+; $0EFA01-$0EFA02 DATA
 {
-    
     ; \task Name this routine / pool.
     .message_ids
     db $82, $7D
@@ -168,7 +166,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EFA03-$EFA2A LOCAL
+; $0EFA03-$0EFA2A LOCAL
 {
     LDA.b #$07 : STA $0F60, X
     
@@ -190,7 +188,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $EFA2B-$EFA32 DATA
+; $0EFA2B-$0EFA32 DATA
 {
     ; \task Label routine / pool.
     
@@ -203,7 +201,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EFA33-$EFA4D BRANCH LOCATION
+; $0EFA33-$0EFA4D BRANCH LOCATION
 {
     LDY.b #$00
     
@@ -232,7 +230,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EFA4E-$EFA7A LOCAL
+; $0EFA4E-$0EFA7A LOCAL
 {
     LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
@@ -255,7 +253,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EFADB-$EFAFA LOCAL
+; $0EFADB-$0EFAFA LOCAL
 {
     LDA $0DC0, X : DEC A : BMI .BRANCH_ALPHA
     
@@ -274,9 +272,8 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $EFAFB-$EFB09 DATA
+; $0EFAFB-$0EFB09 DATA
 {
-    
     ; \task Add labels.
     db  9, -9
     db  0, -1
@@ -287,7 +284,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; *$EFB0A-$EFB85 JUMP LOCATION
+; $0EFB0A-$0EFB85 JUMP LOCATION
 {
     JSL Sprite_PrepAndDrawSingleSmallLong
     JSR Sprite4_CheckIfActive
@@ -333,10 +330,9 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $EFB86-$EFB89 DATA
+; $0EFB86-$0EFB89 DATA
 pool TalkingTree_SpawnEyes:
 {
-    
     .x_offsets_low
     db $FC, $0E
     
@@ -346,7 +342,7 @@ pool TalkingTree_SpawnEyes:
 
 ; ==============================================================================
 
-; *$EFB8A-$EFBCB LONG
+; $0EFB8A-$0EFBCB LONG
 TalkingTree_SpawnEyes:
 {
     PHX : PHA

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F181D-$F1858 JUMP LOCATION
+; $0F181D-$0F1858 JUMP LOCATION
 Sprite_Freezor:
 {
     JSL Freezor_Draw
@@ -40,7 +40,7 @@ Sprite_Freezor:
 
 ; ==============================================================================
 
-; *$F1859-$F1870 JUMP LOCATION
+; $0F1859-$0F1870 JUMP LOCATION
 Freezor_Stasis:
 {
     INC $0BA0, X
@@ -60,7 +60,7 @@ Freezor_Stasis:
 
 ; ==============================================================================
 
-; *$F1871-$F18B7 JUMP LOCATION
+; $0F1871-$0F18B7 JUMP LOCATION
 Freezor_Awakening:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .shaking
@@ -96,10 +96,9 @@ Freezor_Awakening:
 
 ; ==============================================================================
 
-; $F18B8-$F18D1 DATA
+; $0F18B8-$0F18D1 DATA
 pool Freezor_Moving:
 {
-    
     .x_speeds length 4
     db $08, $F8
     
@@ -118,12 +117,12 @@ pool Freezor_Moving:
 
 ; ==============================================================================
 
-; *$F18D2-$F193D JUMP LOCATION
+; $0F18D2-$0F193D JUMP LOCATION
 Freezor_Moving:
 {
     JSR Sprite3_CheckDamageToPlayer
     
-    ; $372AA IN ROM
+    ; $0372AA IN ROM
     JSL Sprite_CheckDamageFromPlayerLong : BCC .no_damage_contact
     
     STZ $0EF0, X
@@ -176,17 +175,16 @@ Freezor_Moving:
 
 ; ==============================================================================
 
-; $F193E-$F1941 DATA
+; $0F193E-$0F1941 DATA
 pool Freezor_Melting:
 {
-    
     .animation_states
     db $06, $05, $04, $07
 }
 
 ; ==============================================================================
 
-; *$F1942-$F195A JUMP LOCATION
+; $0F1942-$0F195A JUMP LOCATION
 Freezor_Melting:
 {
     LDA $0DF0, X : BNE .not_dead_yet

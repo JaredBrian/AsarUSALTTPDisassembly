@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $44107-$44166 DATA
+; $044107-$044166 DATA
 pool Ancilla_VictorySparkle:
 {
-    
     .y_offsets
     dw -7,  0,  0,  0, -11, -11, -3, -3
     dw -7, -7,  0,  0,  -7,   0,  0,  0
@@ -24,7 +23,7 @@ pool Ancilla_VictorySparkle:
 
 ; ==============================================================================
 
-; *$44167-$441E3 JUMP LOCATION
+; $044167-$0441E3 JUMP LOCATION
 Ancilla_VictorySparkle:
 {
     ; Special object 0x3B (Victory Sparkle)

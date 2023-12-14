@@ -7,7 +7,6 @@
     
 pool foo1:
 {
-     
     .set0
     dw a0
     dw a1
@@ -29,7 +28,6 @@ pool foo1:
     
     ; transformed state
 {
-    
     .states
     dw a0, b0, c0
     dw a1, b1, c1
@@ -42,7 +40,6 @@ pool foo1:
 {states word i} => {lowers byte i.lower},
                    {uppers byte i.upper}
 {
-    
     .states
     dw a0
     dw a1
@@ -55,7 +52,6 @@ pool foo1:
     
     ; transformed state
 {
-    
     .lowers
     db a0
     db a1
@@ -81,7 +77,6 @@ pool foo1:
 {states long i} => {lowers word i      },
                    {uppers byte i >> 16}
 {
-    
     .states
     dl a0
     dl a1
@@ -94,7 +89,6 @@ pool foo1:
     
     ; transformed state
 {
-    
     .lowers
     dw a0
     dw a1
@@ -121,7 +115,6 @@ pool foo1:
                    {middles byte i >> 8},
                    {banks   byte i >> 16}
 {
-    
     .states 
     dl a0
     dl a1
@@ -134,7 +127,6 @@ pool foo1:
     
     ; transformed state
 {
-    
     .bottoms
     dw a0
     dw a1
@@ -172,7 +164,6 @@ pool foo1:
     
 pool foo1:
 {
-    
     .states
     dw a0, b0, c0
     dw a1, b1, c1
@@ -182,7 +173,6 @@ pool foo1:
     
     ; transformed state
 {
-     
     .set0
     dw a0
     dw a1

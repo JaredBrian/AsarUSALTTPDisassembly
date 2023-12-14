@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $47169-$4718C DATA
+; $047169-$04718C DATA
 pool Ancilla_SuperBombExplosion:
 {
-    
     .y_offsets
     dw   0, -16, -24, -16,   0,   0,  16,  24,  16
     
@@ -14,7 +13,7 @@ pool Ancilla_SuperBombExplosion:
 
 ; ==============================================================================
 
-; *$4718D-$4727B JUMP LOCATION
+; $04718D-$04727B JUMP LOCATION
 Ancilla_SuperBombExplosion:
 {
     LDA $11 : BNE .draw

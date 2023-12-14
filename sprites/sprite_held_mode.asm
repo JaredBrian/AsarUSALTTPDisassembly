@@ -1,16 +1,15 @@
 
 ; ==============================================================================
 
-; $35E4D-$35E82 DATA
+; $035E4D-$035E82 DATA
 pool SpriteHeld_Main:
 {
-    
     ; \task Fill in data and label.
 }
 
 ; ==============================================================================
 
-; *$35E83-$35F60 JUMP LOCATION
+; $035E83-$035F60 JUMP LOCATION
 SpriteHeld_Main:
 {
     ; Checks to see if the room we're in matches
@@ -111,7 +110,7 @@ SpriteHeld_Main:
     
     .dont_leap_from_player_grip
     
-    ; $35F5D ALTERNATE ENTRY POINT
+    ; $035F5D ALTERNATE ENTRY POINT
     parallel pool SpriteHeld_ThrowQuery:
     
     .easy_out
@@ -120,15 +119,14 @@ SpriteHeld_Main:
     
     .frozen_sprite
     
-    JMP $E2BA ; $362BA IN ROM
+    JMP $E2BA ; $0362BA IN ROM
 }
 
 ; ==============================================================================
 
-; $35F61-$35F6C DATA
+; $035F61-$035F6C DATA
 pool SpriteHeld_ThrowQuery:
 {
-    
     .x_speeds
     db 0, 0, -62, 63
     
@@ -141,7 +139,7 @@ pool SpriteHeld_ThrowQuery:
 
 ; ==============================================================================
 
-; *$35F6D-$35FF1 LOCAL
+; $035F6D-$035FF1 LOCAL
 SpriteHeld_ThrowQuery:
 {
     ; in text mode, so do nothing...

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $2BC8A-$2BCA1 DATA
+; $02BC8A-$02BCA1 DATA
 pool Sprite_Recruit:
 {
-    
     .x_speeds
     db  12, -12,   0,   0
     db  18, -18,   0,   0
@@ -19,7 +18,7 @@ pool Sprite_Recruit:
 
 ; ==============================================================================
 
-; *$2BCA2-$2BD15 JUMP LOCATION
+; $02BCA2-$02BD15 JUMP LOCATION
 Sprite_Recruit:
 {
     ; Green Soldier (weak version)
@@ -83,17 +82,16 @@ Sprite_Recruit:
 
 ; ==============================================================================
 
-; $2BD16-$2BD1D DATA
+; $02BD16-$02BD1D DATA
 pool Recruit_Moving:
 {
-    
     .next_head_direction
     db 2, 3, 2, 3, 0, 1, 0, 1
 }
     
 ; ==============================================================================
 
-; *$2BD1E-$2BD55 BRANCH LOCATION
+; $02BD1E-$02BD55 BRANCH LOCATION
 Recruit_Moving:
 {
     LDA.b #$10
@@ -123,7 +121,7 @@ Recruit_Moving:
     
     INC $0E80, X
     
-    ; *$2BD52 ALTERNATE ENTRY POINT
+    ; $02BD52 ALTERNATE ENTRY POINT
     .tick_animation_clock
     
     INC $0E80, X
@@ -133,10 +131,9 @@ Recruit_Moving:
 
 ; ==============================================================================
 
-; $2BD56-$2BD7D DATA
+; $02BD56-$02BD7D DATA
 pool Recruit_Draw:
 {
-    
     
     .x_offsets
     dw 2, 2, -2, -2, 0, 0, 0, 0
@@ -150,7 +147,7 @@ pool Recruit_Draw:
 
 ; ==============================================================================
 
-; *$2BD7E-$2BE09 LOCAL
+; $02BD7E-$02BE09 LOCAL
 Recruit_Draw:
 {
     JSR Sprite2_PrepOamCoord

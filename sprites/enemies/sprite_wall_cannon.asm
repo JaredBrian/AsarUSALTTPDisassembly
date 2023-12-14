@@ -1,9 +1,8 @@
 ; ==============================================================================
 
-; $28084-$2808F DATA
+; $028084-$02808F DATA
 pool Sprite_WallCannon:
 {
-    
     .cannon_x_speeds
     db $00, $00
     
@@ -19,7 +18,7 @@ pool Sprite_WallCannon:
 
 ; ==============================================================================
 
-; *$28090-$28175 JUMP LOCATION
+; $028090-$028175 JUMP LOCATION
 Sprite_WallCannon:
 {
     ; Moving cannon ball shooters

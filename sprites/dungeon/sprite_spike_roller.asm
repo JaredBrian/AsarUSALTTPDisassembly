@@ -2,9 +2,8 @@
 ; ==============================================================================
 
 pool Sprite_SpikeRoller:
-; $28DD8-$28DDD DATA
+; $028DD8-$028DDD DATA
 {
-    
     ; Note that the overlap is intentional, it's a space optimization.
     .x_speeds
     db $F0, $10
@@ -15,7 +14,7 @@ pool Sprite_SpikeRoller:
 
 ; ==============================================================================
 
-; *$28DDE-$28E20 JUMP LOCATION
+; $028DDE-$028E20 JUMP LOCATION
 Sprite_SpikeRoller:
 {
     ; These things are surprisingly simple...
@@ -53,10 +52,9 @@ Sprite_SpikeRoller:
 
 ; ==============================================================================
 
-; $28E21-$28EE2 DATA
+; $028E21-$028EE2 DATA
 pool SpikeRoller_Draw:
 {
-    
     .x_spacing
     dw 0,  0,  0,  0,  0,  0,  0,   0
     dw 0,  0,  0,  0,  0,  0,  0,   0
@@ -85,7 +83,7 @@ pool SpikeRoller_Draw:
 
 ; ==============================================================================
 
-; *$28EE3-$28F53 LOCAL
+; $028EE3-$028F53 LOCAL
 SpikeRoller_Draw:
 {
     JSR Sprite2_PrepOamCoord

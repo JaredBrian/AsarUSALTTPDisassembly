@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $40515-$4051A DATA
+; $040515-$04051A DATA
 pool Ancilla_SomarianBlast:
 {
-    
     .delay_masks
     db $07, $03, $01, $00, $00, $00
 }
 
 ; ==============================================================================
 
-; *$4051B-$40561 JUMP LOCATION
+; $04051B-$040561 JUMP LOCATION
 Ancilla_SomarianBlast:
 {
     ; Special Effect 0x01: Not sure what this is in the game
@@ -63,10 +62,9 @@ Ancilla_SomarianBlast:
 
 ; ==============================================================================
 
-; $40562-$40621 DATA
+; $040562-$040621 DATA
 pool SomarianBlast_Draw:
 {
-    
     .chr_a
     db $50, $50, $44, $44, $52, $52
     db $50, $50, $44, $44, $51, $51
@@ -118,10 +116,9 @@ pool SomarianBlast_Draw:
 
 ; ==============================================================================
 
-; *$40622-$40629 POOL
+; $040622-$040629 POOL
 pool Ancilla_BoundsCheck:
 {
-    
     .self_terminate
     
     PLA : PLA
@@ -136,7 +133,7 @@ pool Ancilla_BoundsCheck:
     
 ; ==============================================================================
 
-; *$4062A-$4064D LOCAL
+; $04062A-$04064D LOCAL
 Ancilla_BoundsCheck:
     
     ; Load a value based on which floor the special object is on.
@@ -163,7 +160,7 @@ Ancilla_BoundsCheck:
 
 ; ==============================================================================
 
-; $4064E-$4064F DATA
+; $04064E-$04064F DATA
 pool SomarianBlast_Draw:
 {
     ; Interesting. Somarian blasts were designed to have more than one
@@ -175,7 +172,7 @@ pool SomarianBlast_Draw:
 
 ; ==============================================================================
 
-; *$40650-$406D1 LONG BRANCH LOCATION
+; $040650-$0406D1 LONG BRANCH LOCATION
 SomarianBlast_Draw:
 {
     JSR Ancilla_BoundsCheck

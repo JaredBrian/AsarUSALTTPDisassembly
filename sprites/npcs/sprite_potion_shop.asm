@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2F521-$2F528 LONG
+; $02F521-$02F528 LONG
 SpritePrep_PotionShopLong:
 {
     ; Sprite preparation for magic shop dude and items...
@@ -17,7 +17,7 @@ SpritePrep_PotionShopLong:
 
 ; ==============================================================================
 
-; *$2F529-$2F538 LOCAL
+; $02F529-$02F538 LOCAL
 SpritePrep_PotionShop:
 {
     JSR PotionShop_SpawnMagicPowder
@@ -32,7 +32,7 @@ SpritePrep_PotionShop:
 
 ; ==============================================================================
 
-; *$2F539-$2F58D LOCAL
+; $02F539-$02F58D LOCAL
 PotionShop_SpawnMagicPowder:
 {
     LDA $0ABF : BEQ .must_leave_area_and_come_back
@@ -77,7 +77,7 @@ PotionShop_SpawnMagicPowder:
 
 ; ==============================================================================
 
-; *$2F58E-$2F5BE LOCAL
+; $02F58E-$02F5BE LOCAL
 PotionShop_SpawnGreenPotion:
 {
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
@@ -99,7 +99,7 @@ PotionShop_SpawnGreenPotion:
 
 ; ==============================================================================
 
-; *$2F5BF-$2F5EF LOCAL
+; $02F5BF-$02F5EF LOCAL
 PotionShop_SpawnBluePotion:
 {
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
@@ -121,7 +121,7 @@ PotionShop_SpawnBluePotion:
 
 ; ==============================================================================
 
-; *$2F5F0-$2F62A LOCAL
+; $02F5F0-$02F62A LOCAL
 PotionShop_SpawnRedPotion:
 {
     LDA.b #$E9
@@ -136,7 +136,7 @@ PotionShop_SpawnRedPotion:
     LDA $0D10, X : SEC : SBC.b #$58 : STA $0D10, Y
     LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
     
-    ; *$2F61D ALTERNATE ENTRY POINT
+    ; $02F61D ALTERNATE ENTRY POINT
     shared PotionShop_SetPlayerInteractivity:
     
     LDA.b #$03 : STA $0F60, Y
@@ -148,7 +148,7 @@ PotionShop_SpawnRedPotion:
 
 ; ==============================================================================
 
-; *$2F62B-$2F632 LONG
+; $02F62B-$02F632 LONG
 Sprite_PotionShopLong:
 {
     ; Magic shop dude and his items
@@ -164,7 +164,7 @@ Sprite_PotionShopLong:
 
 ; ==============================================================================
 
-; *$2F633-$2F643 LOCAL
+; $02F633-$02F643 LOCAL
 Sprite_PotionShop:
 {
     LDA $0E80, X
@@ -180,7 +180,7 @@ Sprite_PotionShop:
 
 ; ==============================================================================
 
-; *$2F644-$2F66A JUMP LOCATION
+; $02F644-$02F66A JUMP LOCATION
 Sprite_MagicPowderItem:
 {
     JSR MagicPowderItem_Draw
@@ -212,10 +212,9 @@ Sprite_MagicPowderItem:
 
 ; ==============================================================================
 
-; $2F66B-$2F67A DATA
+; $02F66B-$02F67A DATA
 pool MagicPowderItem_Draw:
 {
-    
     .oam_groups
     dw 0, 0 : db $E6, $04, $00, $02
     dw 0, 0 : db $E6, $04, $00, $02
@@ -223,7 +222,7 @@ pool MagicPowderItem_Draw:
 
 ; ==============================================================================
 
-; *$2F67B-$2F68D LOCAL
+; $02F67B-$02F68D LOCAL
 MagicPowderItem_Draw:
 {
     ; Interesting thing to note: This will end up drawing the same sprite
@@ -241,7 +240,7 @@ MagicPowderItem_Draw:
 
 ; ==============================================================================
 
-; *$2F68E-$2F6FF LOCAL
+; $02F68E-$02F6FF LOCAL
 Sprite_GreenPotionItem:
 {
     JSR GreenPotionItem_Draw
@@ -307,15 +306,14 @@ Sprite_GreenPotionItem:
     
     .delta
     
-    JMP $F83E   ; $2F83E IN ROM
+    JMP $F83E   ; $02F83E IN ROM
 }
 
 ; ==============================================================================
 
-; $2F700-$2F717 DATA
+; $02F700-$02F717 DATA
 pool GreenPotionItem_Draw:
 {
-    
     .oam_groups
     dw  0,  0 : db $C0, $08, $00, $02
     dw  8, 18 : db $30, $0A, $00, $00
@@ -324,7 +322,7 @@ pool GreenPotionItem_Draw:
 
 ; ==============================================================================
 
-; *$2F718-$2F72A LOCAL
+; $02F718-$02F72A LOCAL
 GreenPotionItem_Draw:
 {
     LDA.b #$03 : STA $06
@@ -340,7 +338,7 @@ GreenPotionItem_Draw:
 
 ; ==============================================================================
 
-; $2F72B-$2F79C JUMP LOCATION
+; $02F72B-$02F79C JUMP LOCATION
 Sprite_BluePotionItem:
 {
     JSR BluePotionItem_Draw
@@ -405,15 +403,14 @@ Sprite_BluePotionItem:
     
     .delta
     
-    JMP $F83E   ; $2F83E IN ROM
+    JMP $F83E   ; $02F83E IN ROM
 }
 
 ; ==============================================================================
 
-; $2F79D-$2F7BC DATA
+; $02F79D-$02F7BC DATA
 pool BluePotionItem_Draw:
 {
-    
     .oam_groups
     dw  0,  0 : db $C0, $04, $00, $02
     dw 13, 18 : db $30, $0A, $00, $00
@@ -423,7 +420,7 @@ pool BluePotionItem_Draw:
 
 ; ==============================================================================
 
-; *$2F7BD-$2F7CF LOCAL
+; $02F7BD-$02F7CF LOCAL
 BluePotionItem_Draw:
 {
     LDA.b #$04 : STA $06
@@ -439,7 +436,7 @@ BluePotionItem_Draw:
 
 ; ==============================================================================
 
-; *$2F7D0-$2F84C JUMP LOCATION
+; $02F7D0-$02F84C JUMP LOCATION
 Sprite_RedPotionItem:
 {
     JSR RedPotionItem_Draw
@@ -504,7 +501,7 @@ Sprite_RedPotionItem:
     
     BRA .zeta
     
-    ; *$2F83E ALTERNATE ENTRY POINT
+    ; $02F83E ALTERNATE ENTRY POINT
     .delta
     
     ; "I'm sorry, but you don't seem to have enough Rupees..."
@@ -515,7 +512,7 @@ Sprite_RedPotionItem:
     
     .zeta
     
-    ; *$2F846 ALTERNATE ENTRY POINT
+    ; $02F846 ALTERNATE ENTRY POINT
     shared PotionItem_ErrorSfx:
     
     LDA.b #$3C : JSL Sound_SetSfx2PanLong
@@ -525,10 +522,9 @@ Sprite_RedPotionItem:
 
 ; ==============================================================================
 
-; $2F84D-$2F86C DATA
+; $02F84D-$02F86C DATA
 pool RedPotionItem_Draw:
 {
-    
     .oam_groups
     dw  0,  0 : db $C0, $02, $00, $02
     dw 13, 18 : db $30, $0A, $00, $00
@@ -538,7 +534,7 @@ pool RedPotionItem_Draw:
 
 ; ==============================================================================
 
-; *$2F86D-$2F87F LOCAL
+; $02F86D-$02F87F LOCAL
 RedPotionItem_Draw:
 {
     LDA.b #$04 : STA $06
@@ -554,7 +550,7 @@ RedPotionItem_Draw:
 
 ; ==============================================================================
 
-; $2F880-$2F892 LOCAL
+; $02F880-$02F892 LOCAL
 WitchAssistant_CheckIfHaveAnyBottles:
 {
     LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
@@ -567,7 +563,7 @@ WitchAssistant_CheckIfHaveAnyBottles:
 
 ; ==============================================================================
 
-; *$2F893-$2F8FA JUMP LOCATION
+; $02F893-$02F8FA JUMP LOCATION
 Sprite_WitchAssistant:
 {
     JSL Shopkeeper_Draw
@@ -624,10 +620,9 @@ Sprite_WitchAssistant:
 
 ; ==============================================================================
 
-; $2F8FB-$2F91A DATA
+; $02F8FB-$02F91A DATA
 pool Shopkeeper_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $00, $0C, $00, $02
     dw 0,  0 : db $10, $0C, $00, $02
@@ -638,7 +633,7 @@ pool Shopkeeper_Draw:
 
 ; ==============================================================================
 
-; *$2F91B-$2F93E LONG
+; $02F91B-$02F93E LONG
 Shopkeeper_Draw:
 {
     PHB : PHK : PLB

@@ -3,27 +3,25 @@
 
 ; ==============================================================================
 
-; $ECCDB-$ECCDE DATA
+; $0ECCDB-$0ECCDE DATA
 pool Sprite_GiboNucleus:
 {
-    
     .vh_flip
     db $00, $40, $C0, $80
 }
 
 ; ==============================================================================
 
-; $ECCDF-$ECCE0 DATA
+; $0ECCDF-$0ECCE0 DATA
 pool Gibo_Draw:
 {
-    
     .palettes
     db $0B, $07
 }
 
 ; ==============================================================================
 
-; *$ECCE1-$ECD11 JUMP LOCATION
+; $0ECCE1-$0ECD11 JUMP LOCATION
 Sprite_Gibo:
 {
     LDA $0DA0, X : BEQ Gibo_Main
@@ -52,7 +50,7 @@ Sprite_Gibo:
 
 ; ==============================================================================
 
-; $ECD12-$ECD61 BRANCH LOCATION
+; $0ECD12-$0ECD61 BRANCH LOCATION
 Gibo_Main:
 {
     JSR Gibo_Draw
@@ -97,10 +95,9 @@ Gibo_Main:
 
 ; ==============================================================================
 
-; $ECD62-$ECD71 DATA
+; $0ECD62-$0ECD71 DATA
 pool Gibo_ExpelNucleus:
 {
-    
     .x_speeds
     db  16,  16,   0, -16, -16, -16,   0,  16
     
@@ -110,7 +107,7 @@ pool Gibo_ExpelNucleus:
 
 ; ==============================================================================
 
-; *$ECD72-$ECDE1 JUMP LOCATION
+; $0ECD72-$0ECDE1 JUMP LOCATION
 Gibo_ExpelNucleus:
 {
     LDA !timer_0, X : BNE .delay
@@ -188,7 +185,7 @@ Gibo_ExpelNucleus:
 
 ; ==============================================================================
 
-; *$ECDE2-$ECDEA JUMP LOCATION
+; $0ECDE2-$0ECDEA JUMP LOCATION
 Gibo_DelayPursuit:
 {
     LDA !timer_0, X : BNE .delay
@@ -202,7 +199,7 @@ Gibo_DelayPursuit:
 
 ; ==============================================================================
 
-; *$ECDEB-$ECE5D JUMP LOCATION
+; $0ECDEB-$0ECE5D JUMP LOCATION
 Gibo_PursueNucleus:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .stagger_retargeting
@@ -259,10 +256,9 @@ Gibo_PursueNucleus:
 
 ; ==============================================================================
 
-; $ECE5E-$ECF5D DATA
+; $0ECE5E-$0ECF5D DATA
 pool Gibo_Draw:
 {
-    
     .oam_groups
     dw  4, -4 : db $8A, $40, $00, $02
     dw -4, -4 : db $8F, $40, $00, $00
@@ -307,7 +303,7 @@ pool Gibo_Draw:
 
 ; ==============================================================================
 
-; *$ECF5E-$ECFC2 LOCAL
+; $0ECF5E-$0ECFC2 LOCAL
 Gibo_Draw:
 {
     LDA !is_nucleus_expelled, X : BNE .is_currently_expelled

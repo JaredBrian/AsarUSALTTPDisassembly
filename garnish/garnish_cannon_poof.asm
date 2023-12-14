@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B3E8-$4B3ED DATA
+; $04B3E8-$04B3ED DATA
 pool Garnish_CannonPoof:
 {
-    
     .chr
     db $8A, $86
     
@@ -13,7 +12,7 @@ pool Garnish_CannonPoof:
 
 ; ==============================================================================
 
-; $4B3EE-$4B418 JUMP LOCATION
+; $04B3EE-$04B418 JUMP LOCATION
 Garnish_CannonPoof:
 {
     ; special animation 0x0A

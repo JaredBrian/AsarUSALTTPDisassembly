@@ -14,7 +14,7 @@
 
 ; ==============================================================================
 
-; *$F2462-$F2487 LOCAL
+; $0F2462-$0F2487 LOCAL
 Sprite_LaserBeam:
 {
     JSL Sprite_PrepAndDrawSingleSmallLong
@@ -42,7 +42,7 @@ Sprite_LaserBeam:
 
 ; ==============================================================================
 
-; *$F2488-$F24E6 LOCAL
+; $0F2488-$0F24E6 LOCAL
 LaserBeam_Draw:
 {
     PHX : TXY
@@ -89,7 +89,7 @@ LaserBeam_Draw:
 
 ; ==============================================================================
 
-; *$F24E7-$F24EE LONG
+; $0F24E7-$0F24EE LONG
 SpritePrep_LaserEyeLong:
 {
     PHB : PHK : PLB
@@ -103,7 +103,7 @@ SpritePrep_LaserEyeLong:
 
 ; ==============================================================================
 
-; $F24EF-$F24F0 DATA
+; $0F24EF-$0F24F0 DATA
 pool SpritePrep_LaserEye:
 {
     ; \note This explains why the exact same data was found near the 
@@ -115,7 +115,7 @@ pool SpritePrep_LaserEye:
 
 ; ==============================================================================
 
-; *$F24F1-$F2540 LOCAL
+; $0F24F1-$0F2540 LOCAL
 SpritePrep_LaserEye:
 {
     LDA $0E20, X : CMP.b #$97 : BCC .horizontal
@@ -152,7 +152,7 @@ SpritePrep_LaserEye:
 
 ; ==============================================================================
 
-; *$F2541-$F2559 JUMP LOCATION
+; $0F2541-$0F2559 JUMP LOCATION
 Sprite_LaserEye:
 {
     LDA $0D90, X : BEQ .not_beam
@@ -174,17 +174,16 @@ Sprite_LaserEye:
 
 ; ==============================================================================
 
-; $F255A-$F255D DATA
+; $0F255A-$0F255D DATA
 pool LaserEye_MonitorFiringZone:
 {
-    
     .matching_directions
     db $02, $03, $00, $01
 }
 
 ; ==============================================================================
 
-; *$F255E-$F25AF JUMP LOCATION
+; $0F255E-$0F25AF JUMP LOCATION
 LaserEye_MonitorFiringZone:
 {
     REP #$20
@@ -241,10 +240,9 @@ LaserEye_MonitorFiringZone:
 
 ; ==============================================================================
 
-; $F25B0-$F25C1 DATA
+; $0F25B0-$0F25C1 DATA
 pool LaserEye_SpawnBeam:
 {
-    
     .x_offsets_low length 4
     db  12, -12
     
@@ -266,7 +264,7 @@ pool LaserEye_SpawnBeam:
 
 ; ==============================================================================
 
-; *$F25C2-$F25D7 JUMP LOCATION
+; $0F25C2-$0F25D7 JUMP LOCATION
 LaserEye_FiringBeam:
 {
     LDA.b #$01 : STA $0DC0, X
@@ -286,7 +284,7 @@ LaserEye_FiringBeam:
 
 ; ==============================================================================
 
-; *$F25D8-$F2647 LOCAL
+; $0F25D8-$0F2647 LOCAL
 LaserEye_SpawnBeam:
 {
     LDA.b #$95 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -335,10 +333,9 @@ LaserEye_SpawnBeam:
 
 ; ==============================================================================
 
-; $F2648-$F2707 DATA
+; $0F2648-$0F2707 DATA
 pool LaserEye_Draw:
 {
-    
     .oam_groups
     dw  8, -4 : db $C8, $40, $00, $00
     dw  8,  4 : db $D8, $40, $00, $00
@@ -375,7 +372,7 @@ pool LaserEye_Draw:
 
 ; ==============================================================================
 
-; *$F2708-$F273E LOCAL
+; $0F2708-$0F273E LOCAL
 LaserEye_Draw:
 {
     LDA !requires_facing, X : BEQ .open_by_default

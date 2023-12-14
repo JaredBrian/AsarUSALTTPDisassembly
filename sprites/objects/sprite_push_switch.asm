@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; $339E6-$339F9 DATA
+; $0339E6-$0339F9 DATA
     pool 
 {
     db 40,  6,  3,  3,  3,  5,  1,  1,  3, 12
@@ -10,10 +10,10 @@
 
 ; ==============================================================================
 
-; *$339FA-$33A0E JUMP LOCATION
+; $0339FA-$033A0E JUMP LOCATION
 Sprite_PushSwitch:
 {
-    JSR $BB22   ; $33B22 IN ROM
+    JSR $BB22   ; $033B22 IN ROM
     JSR Sprite_CheckIfActive
     
     LDA $0D80, X : CMP.b #$02 : BEQ PushSwitch_Inert
@@ -26,7 +26,7 @@ Sprite_PushSwitch:
 
 ; ==============================================================================
 
-; $33A0F-$33A0F BRANCH LOCATION
+; $033A0F-$033A0F BRANCH LOCATION
 PushSwitch_Inert:
 {
     RTS
@@ -34,7 +34,7 @@ PushSwitch_Inert:
 
 ; ==============================================================================
 
-; *$33A10-$33A32 JUMP LOCATION
+; $033A10-$033A32 JUMP LOCATION
 {
     LDA $0DB0, X : BEQ .BRANCH_ALPHA
     
@@ -59,7 +59,7 @@ PushSwitch_Inert:
     RTS
 }
 
-; *$33A33-$33A61 JUMP LOCATION
+; $033A33-$033A61 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -86,7 +86,7 @@ PushSwitch_Inert:
     RTS
 }
 
-; *$33B22-$33CAB LOCAL
+; $033B22-$033CAB LOCAL
 {
     JSR OAM_AllocateDeferToPlayer
     JSR Sprite_PrepOamCoord
@@ -184,7 +184,7 @@ PushSwitch_Inert:
     
     LDA $0F20, X : CMP $EE : BEQ .BRANCH_GAMMA
     
-    JMP $BCAB   ; $33CAB IN ROM
+    JMP $BCAB   ; $033CAB IN ROM
     
     .BRANCH_GAMMA
     
@@ -221,7 +221,7 @@ PushSwitch_Inert:
     LDA $BB02, Y : STA $06
     LDA $BB03, Y : STA $07
     
-    JSR $F70A   ; $3770A IN ROM
+    JSR $F70A   ; $03770A IN ROM
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_ZETA
     
@@ -253,7 +253,7 @@ PushSwitch_Inert:
     
     JSL Sprite_RepelDashAttackLong
     
-    ; *$33CAB ALTERNATE ENTRY POINT
+    ; $033CAB ALTERNATE ENTRY POINT
     .BRANCH_IOTA
     
     RTS

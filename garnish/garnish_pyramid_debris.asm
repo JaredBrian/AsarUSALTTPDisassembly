@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4B1BD-$4B20E LONG
+; $04B1BD-$04B20E LONG
 Garnish_SpawnPyramidDebris:
 {
     LDA.b #$03 : STA $012F
@@ -42,10 +42,9 @@ Garnish_SpawnPyramidDebris:
 
 ; ==============================================================================
 
-; $4B20F-$4B215 BRANCH LOCATION
+; $04B20F-$04B215 BRANCH LOCATION
 pool Garnish_PyramidDebris:
 {
-    
     .self_terminate
     
     LDA.b #$00 : STA $7FF800, X
@@ -55,7 +54,7 @@ pool Garnish_PyramidDebris:
 
 ; ==============================================================================
 
-; $4B216-$4B251 JUMP LOCATION
+; $04B216-$04B251 JUMP LOCATION
 Garnish_PyramidDebris:
 {
     ; special animation 0x13

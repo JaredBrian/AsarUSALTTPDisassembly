@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 pool Sprite_RetreatBat:
-; $D75D5-$D75D8 DATA
+; $0D75D5-$0D75D8 DATA
 {
     db  1, -1
     
@@ -14,7 +14,7 @@ pool Sprite_RetreatBat:
 
     ; \note Ganon bat that crashes into the pyramid of power.
 
-; *$D75D9-$D763C JUMP LOCATION
+; $0D75D9-$0D763C JUMP LOCATION
 Sprite_RetreatBat:
 {
     JSR RetreatBat_Draw
@@ -66,7 +66,7 @@ Sprite_RetreatBat:
     dw RetreatBat_FinishUp
     ]
 
-; *$D763D-$D7683 JUMP LOCATION
+; $0D763D-$0D7683 JUMP LOCATION
 {
     LDA $0D90, X : ASL A : TAY
     
@@ -87,7 +87,7 @@ Sprite_RetreatBat:
     INC $0D90, X
     INC $0DE0, X
     
-    ; *$D7660 ALTERNATE ENTRY POINT
+    ; $0D7660 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDA $1A : AND.b #$07 : BNE .BRANCH_GAMMA
@@ -115,7 +115,7 @@ Sprite_RetreatBat:
     RTS
 }
 
-; *$D7684-$D76C7 JUMP LOCATION
+; $0D7684-$0D76C7 JUMP LOCATION
 {
     LDA $0E00, X : BNE .BRANCH_ALPHA
     
@@ -147,11 +147,11 @@ Sprite_RetreatBat:
     
     LDA $0D90, X : ASL A : TAY
     
-    JMP $F660 ; $D7660 IN ROM
+    JMP $F660 ; $0D7660 IN ROM
 }
 
 
-; *$D76C8-$D76E8 JUMP LOCATION
+; $0D76C8-$0D76E8 JUMP LOCATION
 {
     LDA $0E00, X : BNE .advancement_delay
     
@@ -180,7 +180,7 @@ Sprite_RetreatBat:
 
 ; ==============================================================================
 
-; *$D76E9-$D76F4 JUMP LOCATION
+; $0D76E9-$0D76F4 JUMP LOCATION
 RetreatBat_FinishUp:
 {
     LDA $0E00, X : BNE .delay
@@ -198,7 +198,7 @@ RetreatBat_FinishUp:
 
 ; ==============================================================================
 
-; *$D76F5-$D772F LONG
+; $0D76F5-$0D772F LONG
 GanonEmerges_SpawnRetreatBat:
 {
     ; Create the bat to break into Pyramid of Power
@@ -228,10 +228,9 @@ GanonEmerges_SpawnRetreatBat:
 
 ; ==============================================================================
 
-; $D7730-$D774F DATA
+; $0D7730-$0D774F DATA
 pool RetreatBat_DrawSomethingElse:
 {
-    
     .oam_entries
     db $68, $97, $57, $01
     db $78, $97, $57, $01
@@ -247,7 +246,7 @@ pool RetreatBat_DrawSomethingElse:
 
 ; ==============================================================================
 
-; $D7750-$D776C LOCAL
+; $0D7750-$0D776C LOCAL
 RetreatBat_DrawSomethingElse:
 {
     ; This something esle is a sprite mask that is placed directly below the hole on the pyramid.
@@ -280,7 +279,7 @@ RetreatBat_DrawSomethingElse:
 
 ; ==============================================================================
 
-; *$D77E5-$D7809 LOCAL
+; $0D77E5-$0D7809 LOCAL
 RetreatBat_SpawnPyramidDebris:
 {
     LDY.b #$1D
@@ -306,10 +305,9 @@ RetreatBat_SpawnPyramidDebris:
 
 ; ==============================================================================
 
-; $D780A-$D7832 DATA
+; $0D780A-$0D7832 DATA
 pool RetreatBat_Draw:
 {
-    
     .ptr_low_bytes
     db $00, $00, $08, $08, $10, $10, $18, $18
     db $20, $20, $30, $30, $40, $50, $60, $50
@@ -326,7 +324,7 @@ pool RetreatBat_Draw:
 
 ; ==============================================================================
 
-; *$D7833-$D785B LOCAL
+; $0D7833-$0D785B LOCAL
 RetreatBat_Draw:
 {
     REP #$20

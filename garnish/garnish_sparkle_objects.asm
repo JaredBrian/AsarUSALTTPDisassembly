@@ -1,24 +1,23 @@
 
 ; ==============================================================================
 
-; $4B51C-$4B51F DATA
+; $04B51C-$04B51F DATA
 pool Garnish_Sparkle:
 {
-    
     .chr
     db $83, $C7, $80, $B7
 }
 
 ; ==============================================================================
 
-; $4B520-$4B558 JUMP LOCATION
+; $04B520-$04B558 JUMP LOCATION
 Garnish_Sparkle:
 {
     LDA $7FF90E, X
     
     BRA .set_chr_index
     
-    ; $4B526 ALTERNATE ENTRY POINT
+    ; $04B526 ALTERNATE ENTRY POINT
     shared Garnish_SimpleSparkle:
     
     LDA $7FF90E, X : LSR A

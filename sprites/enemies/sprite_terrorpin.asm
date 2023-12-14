@@ -1,7 +1,7 @@
 
 ; =============================================================================
 
-; *$F326F-$F3296 JUMP LOCATION
+; $0F326F-$0F3296 JUMP LOCATION
 Sprite_Terrorpin:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong
@@ -32,10 +32,9 @@ Sprite_Terrorpin:
 
 ; =============================================================================
 
-; $F3297-$F32A6 DATA
+; $0F3297-$0F32A6 DATA
 pool Terrorpin_Upright:
 {
-    
     .x_speeds
     db $08, $F8, $00, $00
     db $0C, $F4, $00, $00
@@ -47,7 +46,7 @@ pool Terrorpin_Upright:
 
 ; =============================================================================
 
-; *$F32A7-$F330D JUMP LOCATION
+; $0F32A7-$0F330D JUMP LOCATION
 Terrorpin_Upright:
 {
     LDA $0F10, X : BNE .delay
@@ -103,7 +102,7 @@ Terrorpin_Upright:
 
 ; =============================================================================
 
-; *$F330E-$F33A2 JUMP LOCATION
+; $0F330E-$0F33A2 JUMP LOCATION
 Terrorpin_Overturned:
 {
     ; Remove invulnerability.
@@ -186,7 +185,7 @@ Terrorpin_Overturned:
 
 ; =============================================================================
 
-; *$F33A3-$F3404 LOCAL
+; $0F33A3-$0F3404 LOCAL
 Terrorpin_CheckHammerHitNearby:
 {
     LDA $0F70, X : ORA $0E10, X : BNE .cant_overturn
@@ -231,7 +230,7 @@ Terrorpin_CheckHammerHitNearby:
 
 ; =============================================================================
 
-; *$F3405-$F3429 LOCAL
+; $0F3405-$0F3429 LOCAL
 Terrorpin_FormHammerHitBox:
 {
     LDA $0D10, X : SEC : SBC.b #$10 : STA $04

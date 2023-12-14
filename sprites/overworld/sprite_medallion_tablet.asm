@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2F25A-$2F261 LONG
+; $02F25A-$02F261 LONG
 SpritePrep_MedallionTabletLong:
 {
     ; Sprite prep for medallion tablet.
@@ -17,7 +17,7 @@ SpritePrep_MedallionTabletLong:
 
 ; ==============================================================================
 
-; *$2F262-$2F295 LOCAL
+; $02F262-$02F295 LOCAL
 SpritePrep_MedallionTablet:
 {
     INC $0BA0, X
@@ -47,7 +47,7 @@ SpritePrep_MedallionTablet:
 
 ; ==============================================================================
 
-; *$2F296-$2F29D LONG
+; $02F296-$02F29D LONG
 Sprite_MedallionTabletLong:
 {
     PHB : PHK : PLB
@@ -61,7 +61,7 @@ Sprite_MedallionTabletLong:
 
 ; ==============================================================================
 
-; *$2F29E-$2F2A8 LOCAL
+; $02F29E-$02F2A8 LOCAL
 Sprite_MedallionTablet:
 {
     LDA $0E80, X
@@ -74,10 +74,9 @@ Sprite_MedallionTablet:
 
 ; ==============================================================================
 
-; $2F2A9-$2F2B1 DATA
+; $02F2A9-$02F2B1 DATA
 pool Sprite_DustCloud:
 {
-    
     .animation_states
     db $00, $01, $02, $03, $04, $05, $01, $00
     db $FF
@@ -85,7 +84,7 @@ pool Sprite_DustCloud:
 
 ; ==============================================================================
 
-; *$2F2B2-$2F2D5 JUMP LOCATION
+; $02F2B2-$02F2D5 JUMP LOCATION
 Sprite_DustCloud:
 {
     JSL DustCloud_Draw
@@ -116,7 +115,7 @@ Sprite_DustCloud:
 
 ; ==============================================================================
 
-; *$2F2D6-$2F30B LOCAL
+; $02F2D6-$02F30B LOCAL
 MedallionTablet_SpawnDustCloud:
 {
     LDA.b #$F2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -142,7 +141,7 @@ MedallionTablet_SpawnDustCloud:
 
 ; ==============================================================================
 
-; *$2F30C-$2F346 JUMP LOCATION
+; $02F30C-$02F346 JUMP LOCATION
 MedallionTablet_Main:
 {
     JSL MedallionTablet_Draw
@@ -183,7 +182,7 @@ MedallionTablet_Main:
 
 ; ==============================================================================
 
-; *$2F34F-$2F3C3 JUMP LOCATION
+; $02F34F-$02F3C3 JUMP LOCATION
 MedallionTablet_WaitForMudoraReader:
 {
     LDA $8A : CMP.b #$03 : BEQ MedallionTablet_WaitForEther
@@ -260,7 +259,7 @@ MedallionTablet_WaitForMudoraReader:
     
 ; ==============================================================================
 
-; *$2F3C4-$2F42D BRANCH LOCATION
+; $02F3C4-$02F42D BRANCH LOCATION
 MedallionTablet_WaitForEther:
 {
     LDA $2F : BNE .return
@@ -323,7 +322,7 @@ MedallionTablet_WaitForEther:
 
 ; ==============================================================================
 
-; *$2F42E-$2F43B JUMP LOCATION
+; $02F42E-$02F43B JUMP LOCATION
 MedallionTablet_ExtendedDelay:
 {
     LDA $0DF0, X : BNE .delay
@@ -339,7 +338,7 @@ MedallionTablet_ExtendedDelay:
 
 ; ==============================================================================
 
-; *$2F43C-$2F462 JUMP LOCATION
+; $02F43C-$02F462 JUMP LOCATION
 MedallionTablet_Crumbling:
 {
     LDA $0DF0, X : BNE .delay
@@ -373,7 +372,7 @@ MedallionTablet_Crumbling:
 
 ; ==============================================================================
 
-; *$2F463-$2F468 JUMP LOCATION
+; $02F463-$02F468 JUMP LOCATION
 MedallionTablet_FinalAnimationState:
 {
     LDA.b #$04 : STA $0DC0, X

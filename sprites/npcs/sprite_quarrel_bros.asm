@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E00B-$2E012 LONG
+; $02E00B-$02E012 LONG
 Sprite_QuarrelBrosLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_QuarrelBrosLong:
 
 ; ==============================================================================
 
-; *$2E013-$2E051 LOCAL
+; $02E013-$02E051 LOCAL
 Sprite_QuarrelBros:
 {
     JSR QuarrelBros_Draw
@@ -63,7 +63,7 @@ Sprite_QuarrelBros:
 
 ; ==============================================================================
 
-; $2E052-$2E062 UNUSED
+; $02E052-$02E062 UNUSED
 Sprite_Oprhan1:
 {
     JSR Sprite2_Move
@@ -80,10 +80,9 @@ Sprite_Oprhan1:
 
 ; ==============================================================================
 
-; $2E063-$2E06A UNUSED DATA
+; $02E063-$02E06A UNUSED DATA
 pool Oprhan1_State1:
 {
-    
     .x_speeds
     db $00, $00, $F4, $0B
     
@@ -93,7 +92,7 @@ pool Oprhan1_State1:
 
 ; ==============================================================================
 
-; $2E06B-$2E0B5 UNUSED JUMP LOCATION
+; $02E06B-$02E0B5 UNUSED JUMP LOCATION
 Orphan1_State1:
 {
     LDA $0DF0, X : BNE .delay
@@ -129,7 +128,7 @@ Orphan1_State1:
 
 ; ==============================================================================
 
-; $2E0B6-$2E0FE UNUSED JUMP LOCATION
+; $02E0B6-$02E0FE UNUSED JUMP LOCATION
 Orphan1_State2:
 {
     LDA $0DF0, X : BNE .delay
@@ -165,10 +164,9 @@ Orphan1_State2:
 
 ; ==============================================================================
 
-; $2E0FF-$2E17E DATA
+; $02E0FF-$02E17E DATA
 pool QuarrelBros_Draw:
 {
-    
     .animation_states
     dw 0, -12 : db $04, $00, $00, $02
     db 0,   0 : db $0A, $00, $00, $02
@@ -190,7 +188,7 @@ pool QuarrelBros_Draw:
 
 ; ==============================================================================
 
-; *$2E17F-$2E1A2 LOCAL
+; $02E17F-$02E1A2 LOCAL
 QuarrelBros_Draw:
 {
     LDA.b #$02 : STA $06

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $441E4-$441E9 DATA
+; $0441E4-$0441E9 DATA
 pool Ancilla_SwordChargeSpark:
 {
-    
     .chr
     db $B7, $80, $83
     
@@ -14,7 +13,7 @@ pool Ancilla_SwordChargeSpark:
 
 ; ==============================================================================
 
-; *$441EA-$4422E JUMP LOCATION
+; $0441EA-$04422E JUMP LOCATION
 Ancilla_SwordChargeSpark:
 {
     LDA $11 : BNE .draw

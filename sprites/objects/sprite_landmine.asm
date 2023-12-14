@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E8099-$E80BA JUMP LOCATION
+; $0E8099-$0E80BA JUMP LOCATION
 Sprite_Landmine:
 {
     JSR Landmine_Draw
@@ -24,22 +24,21 @@ Sprite_Landmine:
 
 ; ==============================================================================
 
-; $E80BB-$E80BE DATA
+; $0E80BB-$0E80BE DATA
 pool Landmine_Detonating:
 {
-    
     .palettes
     db $04, $02, $08, $02
 }
 
 ; ==============================================================================
 
-; *$E80BF-$E80FB BRANCH LOCATION
+; $0E80BF-$0E80FB BRANCH LOCATION
 Landmine_Detonating:
 {
     CMP.b #$01 : BNE .palette_cycle
     
-    ; *$E80C3 ALTERNATE ENTRY POINT
+    ; $0E80C3 ALTERNATE ENTRY POINT
     shared Landmine_InstantDetonation:
     
     STZ $0DD0, X
@@ -73,10 +72,9 @@ Landmine_Detonating:
 
 ; ==============================================================================
 
-; $E80FC-$E810B DATA
+; $0E80FC-$0E810B DATA
 pool Landmine_Draw:
 {
-    
     .oam_groups
     dw 0, 4 : db $70, $00, $00, $00
     dw 8, 4 : db $70, $40, $00, $00
@@ -84,7 +82,7 @@ pool Landmine_Draw:
 
 ; ==============================================================================
 
-; *$E810C-$E8128 LOCAL
+; $0E810C-$0E8128 LOCAL
 Landmine_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
     
-; *$49E90-$49EF7 LONG
+; $049E90-$049EF7 LONG
 Tagalong_CheckBlindTriggerRegion:
 {
     PHB : PHK : PLB
@@ -65,17 +65,16 @@ Tagalong_CheckBlindTriggerRegion:
 
 ; ==============================================================================
 
-; $49EF8-$49EFB DATA
+; $049EF8-$049EFB DATA
 pool Tagalong_Init:
 {
-    
     .priorities
     db $20, $10, $30, $20
 }
 
 ; ==============================================================================
 
-; *$49EFC-$49F38 LONG
+; $049EFC-$049F38 LONG
 Tagalong_Init:
 {
     PHB : PHK : PLB
@@ -111,7 +110,7 @@ Tagalong_Init:
 
 ; ==============================================================================
 
-; *$49F39-$49F90 LONG
+; $049F39-$049F90 LONG
 Tagalong_SpawnFromSprite:
 {
     PHB : PHK : PLB : PHX
@@ -150,7 +149,7 @@ Tagalong_SpawnFromSprite:
 
 ; ==============================================================================
 
-; *$49F91-$49F98 LONG
+; $049F91-$049F98 LONG
 Tagalong_MainLong:
 {
     PHB : PHK : PLB
@@ -164,7 +163,7 @@ Tagalong_MainLong:
 
 ; ==============================================================================
 
-; $49F99-$49FB4 JUMP TABLE LOCAL
+; $049F99-$049FB4 JUMP TABLE LOCAL
 pool Tagalong_Main:
 {
     ; Tagalong Routines 1 (and only so far)
@@ -191,10 +190,9 @@ pool Tagalong_Main:
 
 ; ==============================================================================
 
-; $49FB5-$49FC3 DATA
+; $049FB5-$049FC3 DATA
 pool Tagalong_Main:
 {
-    
     .messaging_tagalongs
     db $05, $09, $0A
     
@@ -207,7 +205,7 @@ pool Tagalong_Main:
 
 ; ==============================================================================
 
-; *$49FC4-$4A196 LOCAL
+; $049FC4-$04A196 LOCAL
 Tagalong_Main:
 {
     LDA $7EF3CC : BNE .player_has_tagalong
@@ -275,7 +273,7 @@ Tagalong_Main:
     
     PLY
     
-    ; *$4A024 ALTERNATE ENTRY POINT
+    ; $04A024 ALTERNATE ENTRY POINT
     .BRANCH_EPSILON
     
     SEP #$20
@@ -477,7 +475,7 @@ Tagalong_Main:
     RTS
 }
 
-; *$4A197-$4A2B0 JUMP LOCATION
+; $04A197-$04A2B0 JUMP LOCATION
 {
     LDA $02E4 : BNE .BRANCH_ALPHA
     
@@ -502,7 +500,7 @@ Tagalong_Main:
     
     .BRANCH_GAMMA
     
-    JSR $A59E ; $4A59E IN ROM
+    JSR $A59E ; $04A59E IN ROM
     
     LDA $7EF3CC : CMP.b #$0A : BNE .BRANCH_DELTA
     
@@ -631,12 +629,12 @@ Tagalong_Main:
     BRL .BRANCH_$4A907
 }
 
-; $4A2B1-$4A2B1 BRANCH LOCATION
+; $04A2B1-$04A2B1 BRANCH LOCATION
 {
     RTS
 }
     
-; *$4A2B2-$4A308 JUMP LOCATION
+; $04A2B2-$04A308 JUMP LOCATION
 {
     LDA $7EF3D1 : CMP $1B : BNE .BRANCH_$4A2B1 ; (RTS) ; if indoors, don't branch
     
@@ -685,17 +683,16 @@ Tagalong_Main:
 
 ; ==============================================================================
 
-; $4A309-$4A317 DATA
+; $04A309-$04A317 DATA
 pool Tagalong_OldMountainMan:
 {
-    
     .replacement_tagalong
     db 0, 0, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 }
 
 ; ==============================================================================
 
-; *$4A318-$4A40F JUMP LOCATION
+; $04A318-$04A40F JUMP LOCATION
 Tagalong_OldMountainMan:
 {
     ; Old Man on the Mountain tagalong routine
@@ -735,7 +732,7 @@ Tagalong_OldMountainMan:
     
     .BRANCH_DELTA
     
-    JSR $A59E ; $4A59E IN ROM
+    JSR $A59E ; $04A59E IN ROM
     
     SEP #$30
     
@@ -845,9 +842,8 @@ Tagalong_OldMountainMan:
 
 ; ==============================================================================
 
-; $4A410-$4A41E DATA
+; $04A410-$04A41E DATA
 {
-    
     ; Task name this pool / routine
     .replacement_tagalong
     db $00, $00, $00, $02, $00, $00, $00, $00
@@ -856,7 +852,7 @@ Tagalong_OldMountainMan:
 
 ; ==============================================================================
 
-; *$4A41F-$4A48D JUMP LOCATION
+; $04A41F-$04A48D JUMP LOCATION
 {
     ; Slow down the player...
     LDA.b #$10 : STA $5E
@@ -884,7 +880,7 @@ Tagalong_OldMountainMan:
     
     RTS
     
-    ; *$4A450 ALTERNATE ENTRY POINT
+    ; $04A450 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDA $7EF3D2 : TAX : CPX $EE : BNE .BRANCH_BETA
@@ -918,7 +914,7 @@ Tagalong_OldMountainMan:
 
 ; ==============================================================================
 
-; *$4A48E-$4A4C7 LOCAL
+; $04A48E-$04A4C7 LOCAL
 Tagalong_CheckPlayerProximity:
 {
     DEC $02D2 : BPL .delay
@@ -951,9 +947,8 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; $4A4C8-$4A59D DATA
+; $04A4C8-$04A59D DATA
 {
-    
     .rooms_with_special_text_1
     dw $00F1
     dw $0061
@@ -963,7 +958,7 @@ Tagalong_CheckPlayerProximity:
     dw $00AB
     dw $0022
     
-    ; $4A4D6 to $4A54D
+    ; $04A4D6 to $4A54D
     .room_data_1
     ; ?
     ; ?
@@ -989,7 +984,7 @@ Tagalong_CheckPlayerProximity:
     dw $005E
     dw $0000
     
-    ; $4A554 to $4A585
+    ; $04A554 to $4A585
     .area_data_1
     dw $03C0, $0730, $0001, $009D, $0004
     dw $0648, $0F50, $0000, $FFFF, $000A
@@ -997,7 +992,7 @@ Tagalong_CheckPlayerProximity:
     dw $0688, $0C78, $0002, $FFFF, $000A
     dw $00E8, $0090, $0000, $0028, $000E
     
-    ; $4A586 ($4A588 too, in a way)
+    ; $04A586 ($4A588 too, in a way)
     .room_data_boundaries_1
     dw 0, 30, 60, 70, 90, 100, 110, 120, 
     
@@ -1008,7 +1003,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; *$4A59E-$4A6CC LOCAL
+; $04A59E-$04A6CC LOCAL
 {
     LDA $11 : BNE .no_text_message
     
@@ -1200,7 +1195,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; $4A6CD-$4A906 DATA
+; $04A6CD-$04A906 DATA
 {
     ; \task Fill in data later and name these routines.
     
@@ -1208,7 +1203,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; *$4A907-$4ABF8 LOCAL
+; $04A907-$04ABF8 LOCAL
 {
     ; best guess so far: zero if your tagalong is transforming, nonzero
     ; otherwise
@@ -1262,7 +1257,7 @@ Tagalong_CheckPlayerProximity:
     
     BRA .BRANCH_ZETA
 
-; *$4A957 ALTERNATE ENTRY POINT
+; $04A957 ALTERNATE ENTRY POINT
 
     PHX : PHY
 
@@ -1605,7 +1600,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; *$4ABF9-$4AC25 LOCAL
+; $04ABF9-$04AC25 LOCAL
 Tagalong_SetOam_XY:
 {
     REP #$20
@@ -1637,7 +1632,7 @@ Tagalong_SetOam_XY:
 
 ; ==============================================================================
 
-; *$4AC26-$4AC6A LOCAL
+; $04AC26-$04AC6A LOCAL
 Tagalong_CheckTextTriggerProximity:
 {
     REP #$20

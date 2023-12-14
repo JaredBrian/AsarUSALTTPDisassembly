@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; *$5FE70-$5FFA7 LONG
+; $05FE70-$05FFA7 LONG
 ; ZS replaces the latter half of this function.
 {
     ; Turn the subscreen off for the moment.
@@ -156,7 +156,7 @@
 
 ; ==============================================================================
 
-; *$5FFA8-$5FFF5 LONG
+; $05FFA8-$05FFF5 LONG
 WallMaster_SendPlayerToLastEntrance:
 {
     JSL Dungeon_SaveRoomData.justKeys
@@ -172,7 +172,7 @@ WallMaster_SendPlayerToLastEntrance:
     STZ $11
     STZ $14
 
-    ; *$5FFBF ALTERNATE ENTRY POINT
+    ; $05FFBF ALTERNATE ENTRY POINT
 
     STZ $0345
     
@@ -201,7 +201,7 @@ WallMaster_SendPlayerToLastEntrance:
     
     STZ $4B
 
-    ; *$5FFEE ALTERNATE ENTRY POINT
+    ; $05FFEE ALTERNATE ENTRY POINT
 
     JSL Ancilla_TerminateSelectInteractives
     JML Player_ResetState

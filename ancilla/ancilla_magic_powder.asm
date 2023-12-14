@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $438F4-$43AAF DATA
+; $0438F4-$043AAF DATA
 pool Ancilla_MagicPowder:
 {
-    
     .animation_groups
     db 13, 14, 15,  0,  1,  2,  3,  4,  5,  6
     db 10, 11, 12,  0,  1,  2,  3,  4,  5,  6
@@ -87,7 +86,7 @@ pool Ancilla_MagicPowder:
 
 ; ==============================================================================
 
-; *$43AB0-$43B57 JUMP LOCATION
+; $043AB0-$043B57 JUMP LOCATION
 Ancilla_MagicPowder:
 {
     LDA $11 : BNE .just_draw
@@ -122,7 +121,7 @@ Ancilla_MagicPowder:
     
     LDA $0C90, X : JSR Ancilla_AllocateOam_B_or_E
     
-    ; *$43AEB ALTERNATE ENTRY POINT
+    ; $043AEB ALTERNATE ENTRY POINT
     shared MagicPowder_Draw:
     
     JSR Ancilla_PrepOamCoord
@@ -189,7 +188,7 @@ Ancilla_MagicPowder:
 
 ; ==============================================================================
 
-; *$43B58-$43BBB LOCAL
+; $043B58-$043BBB LOCAL
 MagicPowder_ApplySpriteDamage:
 {
     LDY.b #$0F

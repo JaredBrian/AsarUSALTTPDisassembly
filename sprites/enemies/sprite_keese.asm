@@ -1,16 +1,15 @@
 ; ==============================================================================
 
-; $2AA87-$2AA8A DATA
+; $02AA87-$02AA8A DATA
 pool Sprite_Keese:
 {
-    
     .starting_speeds_indices
     db $02, $0A, $06, $0E
 }
 
 ; ==============================================================================
 
-; *$2AA8B-$2AAE1 JUMP LOCATION
+; $02AA8B-$02AAE1 JUMP LOCATION
 Sprite_Keese:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -51,10 +50,9 @@ Sprite_Keese:
 
 ; ==============================================================================
 
-; $2AAE2-$2AB03 DATA
+; $02AAE2-$02AB03 DATA
 pool Keese_Agitated:
 {
-    
     .index_step
     db 1, -1
     
@@ -69,7 +67,7 @@ pool Keese_Agitated:
 
 ; ==============================================================================
 
-; *$2AB04-$2AB53 BRANCH LOCATION
+; $02AB04-$02AB53 BRANCH LOCATION
 Keese_Agitated:
     shared Keese_JimmiesRustled:
 {

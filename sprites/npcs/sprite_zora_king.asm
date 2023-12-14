@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2995B-$29971 JUMP LOCATION
+; $02995B-$029971 JUMP LOCATION
 Sprite_ZoraKing:
 {
     JSR ZoraKing_Draw
@@ -20,7 +20,7 @@ Sprite_ZoraKing:
 
 ; ==============================================================================
 
-; $29972-$29979 DATA (UNUSED?)
+; $029972-$029979 DATA (UNUSED?)
 pool Unknown:
 {
     db $28, $78, $C8, $78, $60, $50, $70, $50
@@ -28,7 +28,7 @@ pool Unknown:
 
 ; ==============================================================================
 
-; *$2997A-$299D4 JUMP LOCATION
+; $02997A-$0299D4 JUMP LOCATION
 ZoraKing_WaitingForPlayer:
 {
     REP #$20
@@ -84,10 +84,9 @@ ZoraKing_WaitingForPlayer:
 
 ; ==============================================================================
 
-; $299D5-$299D8 DATA
+; $0299D5-$0299D8 DATA
 pool ZoraKing_RumblingGround:
 {
-    
     .offsets_low
     db $01, $FF
     
@@ -97,7 +96,7 @@ pool ZoraKing_RumblingGround:
 
 ; ==============================================================================
 
-; *$299D9-$29A06 JUMP LOCATION
+; $0299D9-$029A06 JUMP LOCATION
 ZoraKing_RumblingGround:
 {
     LDA $0DF0, X : BNE .delay
@@ -129,10 +128,9 @@ ZoraKing_RumblingGround:
 
 ; ==============================================================================
 
-; $29A07-$29A16 DATA
+; $029A07-$029A16 DATA
 pool ZoraKing_Surfacing:
 {
-    
     .animation_states
     db $00, $00, $00, $03, $09, $08, $07, $06
     db $09, $08, $07, $06, $05, $04, $05, $04
@@ -140,7 +138,7 @@ pool ZoraKing_Surfacing:
 
 ; ==============================================================================
 
-; *$29A17-$29A3D JUMP LOCATION
+; $029A17-$029A3D JUMP LOCATION
 ZoraKing_Surfacing:
 {
     LDA $0DF0, X : BNE .delay
@@ -174,17 +172,16 @@ ZoraKing_Surfacing:
 
 ; ==============================================================================
 
-; $29A3E-$29A45 DATA
+; $029A3E-$029A45 DATA
 pool ZoraKing_Dialogue:
 {
-    
     .animation_states
     db $00, $00, $01, $02, $01, $02, $00, $00
 }
 
 ; ==============================================================================
 
-; *$29A46-$29ACE JUMP LOCATION
+; $029A46-$029ACE JUMP LOCATION
 ZoraKing_Dialogue:
 {
     LDA $0DF0, X : BNE .delay
@@ -296,10 +293,9 @@ ZoraKing_Dialogue:
 
 ; ==============================================================================
 
-; $29ACF-$29AE3 DATA
+; $029ACF-$029AE3 DATA
 pool ZoraKing_Submerge:
 {
-    
     .animation_states
     db $0C, $0C, $0C, $0C, $0C, $0C, $0B, $0B
     db $0B, $0B, $0B, $0A, $0A, $0A, $0A, $03
@@ -308,7 +304,7 @@ pool ZoraKing_Submerge:
 
 ; ==============================================================================
 
-; *$29AE4-$29B07 JUMP LOCATION
+; $029AE4-$029B07 JUMP LOCATION
 ZoraKing_Submerge:
 {
     LDA $0DF0, X : BNE .delay
@@ -343,10 +339,9 @@ ZoraKing_Submerge:
 ; ==============================================================================
 
 
-; $29B08-$29B37 DATA
+; $029B08-$029B37 DATA
 pool Sprite_SpawnSplashRing:
 {
-    
     .x_offsets_low
     db $F8, $FB, $04, $0D, $10, $0D, $04, $FB
     
@@ -368,7 +363,7 @@ pool Sprite_SpawnSplashRing:
 
 ; ==============================================================================
 
-; *$29B38-$29B3F LONG
+; $029B38-$029B3F LONG
 Sprite_SpawnSplashRingLong:
 {
     PHB : PHK : PLB
@@ -382,7 +377,7 @@ Sprite_SpawnSplashRingLong:
 
 ; ==============================================================================
 
-; *$29B40-$29BBA LOCAL
+; $029B40-$029BBA LOCAL
 Sprite_SpawnSplashRing:
 {
     LDA.b #$24 : JSL Sound_SetSfx2PanLong
@@ -433,10 +428,9 @@ Sprite_SpawnSplashRing:
 
 ; ==============================================================================
 
-; $29BBB-$29CAA DATA
+; $029BBB-$029CAA DATA
 pool ZoraKing_Draw:
 {
-    
     .x_offsets
     db $F8, $08, $F8, $08, $F8, $08, $F8, $08
     db $F8, $08, $F8, $08, $F8, $08, $F8, $08
@@ -500,7 +494,7 @@ pool ZoraKing_Draw:
 
 ; ==============================================================================
 
-; *$29CAB-$29D49 LOCAL
+; $029CAB-$029D49 LOCAL
 ZoraKing_Draw:
 {
     JSR Sprite2_PrepOamCoord

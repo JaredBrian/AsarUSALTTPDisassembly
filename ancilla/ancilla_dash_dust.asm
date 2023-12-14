@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $43BF4-$43C91 DATA
+; $043BF4-$043C91 DATA
 pool Ancilla_DashDust:
 {
-    
     .y_offsets
     dw -2,  0, -1
     dw -3, -2,  0
@@ -47,7 +46,7 @@ pool Ancilla_DashDust:
 
 ; ==============================================================================
 
-; *$43C92-$43D4B JUMP LOCATION
+; $043C92-$043D4B JUMP LOCATION
 Ancilla_DashDust:
 {
     LDA $0C54, X : BEQ .stationary_dust

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$44CA0-$44EA9 JUMP LOCATION
+; $044CA0-$044EA9 JUMP LOCATION
 Ancilla_BreakTowerSeal:
 {
     LDA $0C54, X : BNE .not_first_state
@@ -274,7 +274,7 @@ Ancilla_BreakTowerSeal:
 
 ; ==============================================================================
 
-; *$44EAA-$44EC6 LOCAL
+; $044EAA-$044EC6 LOCAL
 BreakTowerSeal_DrawCrystal:
 {
     JSR Ancilla_SetSafeOam_XY
@@ -295,7 +295,7 @@ BreakTowerSeal_DrawCrystal:
 
 ; ==============================================================================
 
-; *$44EC7-$44F34 LOCAL
+; $044EC7-$044F34 LOCAL
 BreakTowerSeal_ActivateSingleSparkle:
 {
     LDX.b #$17
@@ -358,7 +358,7 @@ BreakTowerSeal_ActivateSingleSparkle:
 
 ; ==============================================================================
 
-; *$44F35-$44FA5 LOCAL
+; $044F35-$044FA5 LOCAL
 BreakTowerSeal_ExecuteSparkles:
 {
     LDX.b #$17

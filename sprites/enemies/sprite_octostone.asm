@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$355B9-$355F2 JUMP LOCATION
+; $0355B9-$0355F2 JUMP LOCATION
 Sprite_Octostone:
 {
     ; Octorock rocks sprite.
@@ -42,10 +42,9 @@ Sprite_Octostone:
 
 ; ==============================================================================
 
-; $355F3-$35642 DATA
+; $0355F3-$035642 DATA
 pool Octostone_DrawCrumbling:
 {
-    
     .x_offsets
     dw   0,   8,   0,   8,  -8,  16,  -8,  16
     dw -12,  20, -12,  20, -14,  22, -14,  22
@@ -61,7 +60,7 @@ pool Octostone_DrawCrumbling:
 
 ; ==============================================================================
 
-; *$35643-$356A1 LOCAL
+; $035643-$0356A1 LOCAL
 Octostone_DrawCrumbling:
 {
     JSR Sprite_PrepOamCoord

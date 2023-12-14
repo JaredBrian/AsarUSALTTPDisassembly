@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $6BB5B-$6BB5D DATA TABLE
+; $06BB5B-$06BB5D DATA TABLE
 pool Sound_SetSfxPan:
 {
     .pan_options
@@ -10,7 +10,7 @@ pool Sound_SetSfxPan:
 
 ; ==============================================================================
 
-; *$6BB5E-$6BB66 LONG
+; $06BB5E-$06BB66 LONG
 Sound_SfxPanObjectCoords:
 {
     LDA $0C18, X : XBA
@@ -21,7 +21,7 @@ Sound_SfxPanObjectCoords:
 
 ; ==============================================================================
 
-; *$6BB67-$6BB6D LONG
+; $06BB67-$06BB6D LONG
 Sound_SetSfxPanWithPlayerCoords:
 {
     LDA $23 : XBA
@@ -32,7 +32,7 @@ Sound_SetSfxPanWithPlayerCoords:
 
 ; ==============================================================================
 
-; *$6BB6E-$6BB7B LONG
+; $06BB6E-$06BB7B LONG
 Sound_SetSfx1PanLong:
 {
     PHY
@@ -52,7 +52,7 @@ Sound_SetSfx1PanLong:
 
 ; ==============================================================================
 
-; *$6BB7C-$6BB89 LONG
+; $06BB7C-$06BB89 LONG
 Sound_SetSfx2PanLong:
 {
     PHY
@@ -72,7 +72,7 @@ Sound_SetSfx2PanLong:
 
 ; ==============================================================================
 
-; *$6BB8A-$6BB97 LONG
+; $06BB8A-$06BB97 LONG
 Sound_SetSfx3PanLong:
 {
     PHY
@@ -94,7 +94,7 @@ Sound_SetSfx3PanLong:
 
 ; ==============================================================================
 
-; *$6BB98-$6BBA0 LOCAL
+; $06BB98-$06BBA0 LOCAL
 Sound_AddSfxPan:
 {
     ; Store the sound effect index here temporarily.
@@ -105,7 +105,7 @@ Sound_AddSfxPan:
 
 ; ==============================================================================
 
-; *$6BBA1-$6BBC7 LONG
+; $06BBA1-$06BBC7 LONG
 Sound_SetSfxPan:
 {
     ; Used to determine stereo settings for sound effects
@@ -115,7 +115,7 @@ Sound_SetSfxPan:
     LDA $0D30, X : XBA
     LDA $0D10, X
     
-    ; *$6BBA8 BRANCH LOCATION
+    ; $06BBA8 BRANCH LOCATION
     .useArbitraryCoords
     
     REP #$20
@@ -147,17 +147,16 @@ Sound_SetSfxPan:
 
 ; ==============================================================================
 
-; $6BBC8-$6BBCF DATA
+; $06BBC8-$06BBCF DATA
 pool Sound_GetFineSfxPan:
 {
-    
     .settings
     db $80, $80, $80, $00, $00, $40, $40, $40
 }
 
 ; ==============================================================================
 
-; *$6BBD0-$6BBDF LONG
+; $06BBD0-$06BBDF LONG
 Sound_GetFineSfxPan:
 {
     SEC : SBC $E2 : LSR #5 : PHX : TAX

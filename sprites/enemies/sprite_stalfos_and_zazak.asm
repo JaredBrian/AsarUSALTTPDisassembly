@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F0FDF-$F0FFF LOCAL
+; $0F0FDF-$0F0FFF LOCAL
 Sprite_StalfosBone:
 {
     JSR StalfosBone_Draw
@@ -27,10 +27,9 @@ Sprite_StalfosBone:
 
 ; ==============================================================================
 
-; $F1000-$F103F DATA
+; $0F1000-$0F103F DATA
 pool StalfosBone_Draw:
 {
-    
     .oam_groups
     dw -4, -2 : db $2F, $80, $00, $00
     dw  4,  2 : db $2F, $40, $00, $00
@@ -47,7 +46,7 @@ pool StalfosBone_Draw:
 
 ; ==============================================================================
 
-; *$F1040-$F105B LOCAL
+; $0F1040-$0F105B LOCAL
 StalfosBone_Draw:
 {
     LDA.b #$00   : XBA
@@ -63,10 +62,9 @@ StalfosBone_Draw:
 
 ; ==============================================================================
 
-; $F105C-$F106B DATA
+; $0F105C-$0F106B DATA
 pool Stalfos:
 {
-    
     .timers
     db $10, $20, $40, $20
     
@@ -79,7 +77,7 @@ pool Stalfos:
 
 ; ==============================================================================
 
-; *$F106C-$F10B0 JUMP LOCATION
+; $0F106C-$0F10B0 JUMP LOCATION
 Sprite_Stalfos:
 {
     LDA $0D90, X : BEQ .not_bone
@@ -125,7 +123,7 @@ Sprite_Stalfos:
 
 ; ==============================================================================
 
-; $F10B1-$F10B4 DATA
+; $0F10B1-$0F10B4 DATA
 pool Stalfos_Visible:
 {
     db $03, $02, $01, $00
@@ -133,7 +131,7 @@ pool Stalfos_Visible:
 
 ; ==============================================================================
 
-; *$F10B5-$F122A BRANCH LOCATION
+; $0F10B5-$0F122A BRANCH LOCATION
 Stalfos_Visible:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .dont_dodge
@@ -245,7 +243,7 @@ Stalfos_Visible:
     
     .not_dodging
     
-    ; *$F119F ALTERNATE ENTRY POINT
+    ; $0F119F ALTERNATE ENTRY POINT
     shared Sprite_Zazak:
     
     LDA $0DA0, X : BEQ .not_fire_phlegm
@@ -334,7 +332,7 @@ Stalfos_Visible:
     ; \note Walks in straight line, ignoring collision, and then uses the
     ; direction the head is facing as the next direction to walk in (in the
     ; next state).
-; *$F122B-$F1253 JUMP LOCATION
+; $0F122B-$0F1253 JUMP LOCATION
 Zazak_WalkThenTrackHead:
 {
     LDA !timer_0, X : BNE .delay
@@ -358,17 +356,16 @@ Zazak_WalkThenTrackHead:
 
 ; ==============================================================================
 
-; $F1254-$F125B DATA
+; $0F1254-$0F125B DATA
 pool Zazak_HaltAndPickNextDirection:
 {
-    
     .head_orientations
     db 2, 3, 2, 3, 0, 1, 0, 1
 }
 
 ; ==============================================================================
 
-; *$F125C-$F12D1 JUMP LOCATION
+; $0F125C-$0F12D1 JUMP LOCATION
 Zazak_HaltAndPickNextDirection:
 {
     LDA.b #$10
@@ -420,7 +417,7 @@ Zazak_HaltAndPickNextDirection:
     
     .zero_xy_velocity
     
-    ; *$F12BD ALTERNATE ENTRY POINT
+    ; $0F12BD ALTERNATE ENTRY POINT
     shared Sprite3_Zero_XY_Velocity:
     
     STZ $0D50, X
@@ -443,7 +440,7 @@ Zazak_HaltAndPickNextDirection:
 
 ; ==============================================================================
 
-; *$F12D2-$F12E3 JUMP LOCATION
+; $0F12D2-$0F12E3 JUMP LOCATION
 Zazak_ShootFirePhlegm:
 {
     LDA !timer_0, X : BNE .delay_ai_state_revert
@@ -465,7 +462,7 @@ Zazak_ShootFirePhlegm:
 
 ; ==============================================================================
 
-; *$F12E4-$F1378 LONG
+; $0F12E4-$0F1378 LONG
 Sprite_SpawnFirePhlegm:
 {
     PHB : PHK : PLB
@@ -541,7 +538,7 @@ Sprite_SpawnFirePhlegm:
 
 ; ==============================================================================
 
-; *$F1379-$F13C2 LOCAL
+; $0F1379-$0F13C2 LOCAL
 Stalfos_ThrowBoneAtPlayer:
 {
     LDA.b #$A7 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -581,10 +578,9 @@ Stalfos_ThrowBoneAtPlayer:
 
 ; ==============================================================================
 
-; $F13C3-$F1442 DATA
+; $0F13C3-$0F1442 DATA
 pool FirePhlegm_Draw:
 {
-    
     .oam_entries
     dw  0,  0 : db $C3, $00, $00, $00
     dw -8,  0 : db $C2, $00, $00, $00
@@ -613,7 +609,7 @@ pool FirePhlegm_Draw:
 
 ; ==============================================================================
 
-; *$F1443-$F145F LOCAL
+; $0F1443-$0F145F LOCAL
 FirePhlegm_Draw:
 {
     LDA.b #$00   : XBA

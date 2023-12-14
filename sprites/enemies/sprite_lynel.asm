@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E866A-$E8689 JUMP LOCATION
+; $0E866A-$0E8689 JUMP LOCATION
 Sprite_Lynel:
 {
     ; Lynel sprite code (Those Centaur looking things on DW Death Mountain)
@@ -25,10 +25,9 @@ Sprite_Lynel:
 
 ; ==============================================================================
 
-; $E868A-$E8697 DATA
+; $0E868A-$0E8697 DATA
 pool Lynel_TargetPlayer:
 {
-    
     ; \wtf These are out of the usual order... smart compiler or clever grunt?
     .x_offsets_low length 4
     db -96, 96
@@ -45,7 +44,7 @@ pool Lynel_TargetPlayer:
 
 ; ==============================================================================
 
-; *$E8698-$E86CC JUMP LOCATION
+; $0E8698-$0E86CC JUMP LOCATION
 Lynel_TargetPlayer:
 {
     LDA $0DF0, X : BNE .delay
@@ -69,17 +68,16 @@ Lynel_TargetPlayer:
 
 ; ==============================================================================
 
-; $E86CD-$E86D4 DATA
+; $0E86CD-$0E86D4 DATA
 pool Lynel_ApproachPlayer:
 {
-    
     .animation_states
     db 3, 0, 6, 9, 4, 1, 7, 10
 }
 
 ; ==============================================================================
 
-; *$E86D5-$E873B JUMP LOCATION
+; $0E86D5-$0E873B JUMP LOCATION
 Lynel_ApproachPlayer:
 {
     LDA $0DF0, X : BEQ .prepare_attack
@@ -124,7 +122,7 @@ Lynel_ApproachPlayer:
     
     INC $0E80, X
     
-    ; *$E872C ALTERNATE ENTRY POINT
+    ; $0E872C ALTERNATE ENTRY POINT
     shared Lynel_AnimationController:
     
     LDA $0E80, X : AND.b #$04 : ORA $0DE0, X : TAY
@@ -136,17 +134,16 @@ Lynel_ApproachPlayer:
 
 ; ==============================================================================
 
-; $E873C-$E873F DATA
+; $0E873C-$0E873F DATA
 pool Lynel_Attack:
 {
-    
     .animation_states
     db $05, $02, $08, $0A
 }
 
 ; ==============================================================================
 
-; *$E8740-$E8777 JUMP LOCATION
+; $0E8740-$0E8777 JUMP LOCATION
 Lynel_Attack:
 {
     LDA $0DF0, X : BNE .delay
@@ -182,10 +179,9 @@ Lynel_Attack:
 
 ; ==============================================================================
 
-; $E8778-$E887F DATA
+; $0E8778-$0E887F DATA
 pool Lynel_Draw:
 {
-    
     .oam_groups
     dw -5,  -5 : db $CC, $00, $00, $02
     dw -4,   0 : db $E4, $00, $00, $02
@@ -234,7 +230,7 @@ pool Lynel_Draw:
 
 ; ==============================================================================
 
-; *$E8880-$E88A0 LOCAL
+; $0E8880-$0E88A0 LOCAL
 Lynel_Draw:
 {
     LDA.b #$00   : XBA

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4260E-$42755 JUMP LOCATION
+; $04260E-$042755 JUMP LOCATION
 Ancilla_Unused_0E:
 Ancilla_Unused_0F:
 Ancilla_Unused_10:
@@ -196,7 +196,7 @@ Ancilla_BlastWall:
     
     STZ $0112
     
-    ; *$42752 ALTERNATE ENTRY POINT
+    ; $042752 ALTERNATE ENTRY POINT
     shared Ancilla_RestoreIndex:
     
     .return
@@ -208,7 +208,7 @@ Ancilla_BlastWall:
 
 ; ==============================================================================
 
-; *$42756-$427AA LOCAL
+; $042756-$0427AA LOCAL
 BlastWall_DrawExplosion:
 {
     PHX : PHY
@@ -266,10 +266,9 @@ BlastWall_DrawExplosion:
 
 ; ==============================================================================
 
-; *$427AB-$4280C LOCAL
+; $0427AB-$04280C LOCAL
 Bomb_DrawExplosion:
 {
-    
     .next_oam_entry
     
     LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry

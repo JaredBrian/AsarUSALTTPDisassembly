@@ -1,9 +1,8 @@
 ; ==============================================================================
 
-; $46EDE-$46F99 DATA
+; $046EDE-$046F99 DATA
 pool Ancilla_SkullWoodsFire:
 {
-    
     .flame_y_offsets_low
     db 0, 0, 0, -3
     
@@ -52,7 +51,7 @@ pool Ancilla_SkullWoodsFire:
 
 ; ==============================================================================
 
-; *$46F9A-$47168 JUMP LOCATION
+; $046F9A-$047168 JUMP LOCATION
 Ancilla_SkullWoodsFire:
 {
     LDA $7F0010 : BEQ .blast_inactive

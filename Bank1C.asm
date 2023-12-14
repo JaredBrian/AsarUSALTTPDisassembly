@@ -2,14 +2,13 @@
 ; ==============================================================================
 
 ; \note First block of dialogue data.
-; $E0000-$E7F29 DATA
+; $0E0000-$0E7F29 DATA
 {
-    
 }
     
 ; ==============================================================================
 
-; $E7F2A-$E7FFF NULL
+; $0E7F2A-$0E7FFF NULL
 ; ZScream uses this space as an extention of the dialog data block above.
 pool Null:
 {

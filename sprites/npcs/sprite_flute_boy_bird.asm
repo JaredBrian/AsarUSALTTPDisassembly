@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F1AEC-$F1B2B JUMP LOCATION
+; $0F1AEC-$0F1B2B JUMP LOCATION
 Sprite_FluteBoyBird:
 {
     LDA $0DC0, X : CMP.b #$03 : BNE .not_blinking
@@ -41,7 +41,7 @@ Sprite_FluteBoyBird:
 
 ; ==============================================================================
 
-; *$F1B2C-$F1B60 JUMP LOCATION
+; $0F1B2C-$0F1B60 JUMP LOCATION
 FluteBoyBird_Chillin:
 {
     LDY.b #$00
@@ -75,7 +75,7 @@ FluteBoyBird_Chillin:
 
 ; ==============================================================================
 
-; *$F1B61-$F1B83 JUMP LOCATION
+; $0F1B61-$0F1B83 JUMP LOCATION
 FluteBoyBird_Rising:
 {
     LDA $0DF0, X : BNE .delay
@@ -96,7 +96,7 @@ FluteBoyBird_Rising:
 
 ; ==============================================================================
 
-; *$F1B84-$F1B99 JUMP LOCATION
+; $0F1B84-$0F1B99 JUMP LOCATION
 FluteBoyBird_Falling:
 {
     LDA.b #$01 : STA $0DC0, X
@@ -114,17 +114,16 @@ FluteBoyBird_Falling:
 
 ; ==============================================================================
 
-; $F1B9A-$F1B9B DATA
+; $0F1B9A-$0F1B9B DATA
 pool FluteBoyBird_DrawBlink:
 {
-    
     .x_offsets
     $08, $00
 }
 
 ; ==============================================================================
 
-; *$F1B9C-$F1BC7 LOCAL
+; $0F1B9C-$0F1BC7 LOCAL
 FluteBoyBird_DrawBlink:
 {
     JSR Sprite3_PrepOamCoord

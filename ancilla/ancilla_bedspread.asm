@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $44003-$44012 DATA
+; $044003-$044012 DATA
 pool Ancilla_BedSpread:
 {
-    
     .chr
     db $0A, $0A, $0A, $0A
     db $0C, $0C, $0A, $0A
@@ -16,7 +15,7 @@ pool Ancilla_BedSpread:
 
 ; ==============================================================================
 
-; *$44013-$44090 JUMP LOCATION
+; $044013-$044090 JUMP LOCATION
 Ancilla_BedSpread:
 {
     JSR Ancilla_PrepOamCoord

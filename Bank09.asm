@@ -6,7 +6,7 @@ incsrc "tagalong.asm"
 
 ; ==============================================================================
 
-; *$4AC6B-$4ACF2 LONG
+; $04AC6B-$04ACF2 LONG
 Ancilla_TerminateSelectInteractives:
 {
     PHB : PHK : PLB
@@ -97,7 +97,7 @@ Ancilla_TerminateSelectInteractives:
 
 ; ==============================================================================
 
-; *$4ACF3-$4AD05 LONG
+; $04ACF3-$04AD05 LONG
 Tagalong_Disable:
 {
     ; Get rid of the tagalong following Link if it's
@@ -118,7 +118,7 @@ Tagalong_Disable:
 
 ; ==============================================================================
 
-; *$4AD06-$4AD1A LOCAL
+; $04AD06-$04AD1A LOCAL
 Ancilla_SetCoords:
 {
     LDA $00 : STA $0BFA, X
@@ -132,7 +132,7 @@ Ancilla_SetCoords:
 
 ; ==============================================================================
 
-; *$4AD1B-$4AD2F LOCAL
+; $04AD1B-$04AD2F LOCAL
 Ancilla_GetCoords:
 {
     LDA $0BFA, X : STA $00
@@ -148,7 +148,7 @@ Ancilla_GetCoords:
 
     ; \note Could this routine's placement indicate that dividing the blocks
     ; came later as a designed feature?
-; *$4AD30-$4AD66 LONG
+; $04AD30-$04AD66 LONG
 AddSomarianBlockDivide:
 {
     PHB : PHK : PLB
@@ -183,17 +183,16 @@ AddSomarianBlockDivide:
 
 ; ==============================================================================
 
-; $4AD67-$4AD6B DATA
+; $04AD67-$04AD6B DATA
 pool GiveRupeeGift:
 {
-    
     .gift_amounts
     db 1, 5, 20, 100, 50
 }
 
 ; ==============================================================================
 
-; *$4AD6C-$4ADC6 LONG
+; $04AD6C-$04ADC6 LONG
 GiveRupeeGift:
 {
     ; This routine handles rupee gift
@@ -266,7 +265,7 @@ GiveRupeeGift:
 
 ; ==============================================================================
 
-; *$4ADC7-$4ADF0 LONG
+; $04ADC7-$04ADF0 LONG
 Ancilla_TerminateSparkleObjects:
 {
     PHX
@@ -304,7 +303,7 @@ incsrc "ancilla_motive_dash_dust.asm"
 
 ; ==============================================================================
 
-; $4AE3E-$4AE3F DATA
+; $04AE3E-$04AE3F DATA
 pool Empty:
 {
     fillbyte $FF
@@ -314,7 +313,7 @@ pool Empty:
 
 ; ==============================================================================
 
-; *$4AE40-$4AE7D LONG
+; $04AE40-$04AE7D LONG
 Sprite_SpawnSuperficialBombBlast:
 {
     ; Create a blast that looks like a green bomb going off? (Somaria
@@ -331,7 +330,7 @@ Sprite_SpawnSuperficialBombBlast:
     
     LDA.b #$15 : JSL Sound_SetSfx2PanLong
     
-    ; *$4AE64 ALTERNATE ENTRY POINT
+    ; $04AE64 ALTERNATE ENTRY POINT
     shared Sprite_SetSpawnedCoords:
     
     LDA $00 : STA $0D10, Y
@@ -349,7 +348,7 @@ Sprite_SpawnSuperficialBombBlast:
 
 ; ==============================================================================
 
-; $4AE7E-$4AE9F LONG
+; $04AE7E-$04AE9F LONG
 Sprite_SpawnDummyDeathAnimation:
 {
     ; Used for the chicken swarm (has to be, I'm sure of it)
@@ -375,10 +374,9 @@ Sprite_SpawnDummyDeathAnimation:
 
 ; ==============================================================================
 
-; $4AEA0-$4AEA7 DATA
+; $04AEA0-$04AEA7 DATA
 pool Sprite_SpawnMadBatterBolts:
 {
-    
     .x_speeds
     -8, -4,  4,  8
     
@@ -389,14 +387,14 @@ pool Sprite_SpawnMadBatterBolts:
 ; ==============================================================================
 
     ; \note Only used by the mad batter (naturally).
-; *$4AEA8-$4AF31 LONG
+; $04AEA8-$04AF31 LONG
 Sprite_SpawnMadBatterBolts:
 {
     JSL .attempt_bold_spawn
     JSL .attempt_bold_spawn
     JSL .attempt_bold_spawn
     
-    ; *$4AEB4 ALTERNATE ENTRY POINT
+    ; $04AEB4 ALTERNATE ENTRY POINT
     .attempt_bold_spawn
     
     LDA.b #$3A : JSL Sprite_SpawnDynamically : BMI .spawnFailed
@@ -445,7 +443,7 @@ Sprite_SpawnMadBatterBolts:
 
 ; ==============================================================================
 
-; *$4AF32-$4AF88 LONG
+; $04AF32-$04AF88 LONG
 Sprite_VerifyAllOnScreenDefeated:
 {
     PHX
@@ -480,7 +478,7 @@ Sprite_VerifyAllOnScreenDefeated:
     
     BRA .check_overlords
     
-    ; *$4AF61 ALTERNATE ENTRY POINT
+    ; $04AF61 ALTERNATE ENTRY POINT
     shared Sprite_CheckIfAllDefeated:
     
     PHX
@@ -533,7 +531,7 @@ Sprite_VerifyAllOnScreenDefeated:
 
 ; ==============================================================================
 
-; *$4AF89-$4AFD5 LONG
+; $04AF89-$04AFD5 LONG
 Sprite_ReinitWarpVortex:
 {
     PHB : PHK : PLB
@@ -578,7 +576,7 @@ Sprite_ReinitWarpVortex:
 
 ; ==============================================================================
 
-; *$4AFD6-$4B01F LONG
+; $04AFD6-$04B01F LONG
 InitSpriteSlots:
 {
     PHB: PHK : PLB
@@ -651,7 +649,7 @@ incsrc "overlord.asm"
 
 ; ==============================================================================
 
-; $4C023-$4C02E DATA
+; $04C023-$04C02E DATA
 pool SpawnCrazyVillageSoldier:
 {
     ; \tcrf (verified)
@@ -674,7 +672,7 @@ pool SpawnCrazyVillageSoldier:
 
 ; ==============================================================================
 
-; *$4C02F-$4C087 LONG
+; $04C02F-$04C087 LONG
 SpawnCrazyVillageSoldier:
 {
     ; Spawn the crazy nutjob that shows up when you run into the scared ladies outside
@@ -732,10 +730,9 @@ SpawnCrazyVillageSoldier:
 
 ; ==============================================================================
 
-; $4C088-$4C08C DATA
+; $04C088-$04C08C DATA
 pool Overlord_CheckInRangeStatus:
 {
-    
     .offsets_low
     db $30, $C0
     
@@ -751,7 +748,7 @@ pool Overlord_CheckInRangeStatus:
 
     ; I think this... might terminate overlord sprites on the overworld.
     ; But we don't realy use them there anyways...
-; *$4C08D-$4C113 LOCAL
+; $04C08D-$04C113 LOCAL
 Overlord_CheckInRangeStatus:
 {
     LDA $1B : BNE .easy_out
@@ -818,20 +815,20 @@ Overlord_CheckInRangeStatus:
 
 ; ==============================================================================
 
-; *$4C114-$4C174 LONG
+; $04C114-$04C174 LONG
 Dungeon_ResetSprites:
 {
     ; Moves current room's data into reserve (gets ready for transition)
     
     PHB : PHK : PLB
     
-    ; $4C176 IN ROM; Transfer a lot of sprite data to other places.
+    ; $04C176 IN ROM; Transfer a lot of sprite data to other places.
     JSR Dungeon_CacheTransSprites
     
     ; Make Link drop whatever he's carrying.
     STZ $0309 : STZ $0308
     
-    ; $4C22F IN ROM; Zeroes out and disables a number of memory locations.
+    ; $04C22F IN ROM; Zeroes out and disables a number of memory locations.
     JSL Sprite_DisableAll
     
     REP #$20
@@ -878,15 +875,14 @@ Dungeon_ResetSprites:
 
 ; ==============================================================================
 
-; *$4C175-$4C22E BRANCH LOCATION
+; $04C175-$04C22E BRANCH LOCATION
 pool Dungeon_CacheTransSprites:
 {
-    
     .easy_out
     RTS
 }
     
-    ; *$4C176 ENTRY POINT
+    ; $04C176 ENTRY POINT
 Dungeon_CacheTransSprites:
 {
     ; Don't do this routine if we're outside.
@@ -952,7 +948,7 @@ Dungeon_CacheTransSprites:
 
 ; =============================================================
 
-; *$4C22F-$4C28F LONG
+; $04C22F-$04C28F LONG
 Sprite_DisableAll:
 {
     LDX.b #$0F
@@ -1027,7 +1023,7 @@ Sprite_DisableAll:
     !spriteSlotHi = $03 ; (high byte)
     !dataOffset   = $04
     
-; *$4C290-$4C2D4 LOCAL
+; $04C290-$04C2D4 LOCAL
 Dungeon_LoadSprites:
 {
     ; Dungeon sprite loader
@@ -1037,7 +1033,7 @@ Dungeon_LoadSprites:
     LDA $048E : ASL A : TAY
     
     ; (update: Black Magic ended up hooking $4C16E)
-    ; $4D62E is the pointer table for the sprite data in each room.
+    ; $04D62E is the pointer table for the sprite data in each room.
     LDA $D62E, Y : STA !dataPtr
     
     ; Load the room index again. Divide by 8. why... I'm not sure.
@@ -1068,7 +1064,7 @@ Dungeon_LoadSprites:
     
     BEQ .endOfSpriteList
     
-    JSR Dungeon_LoadSprite ; $4C327 IN ROM
+    JSR Dungeon_LoadSprite ; $04C327 IN ROM
     
     ; Increment the slot we're saving to. ($0E20, $0E21, ...)
     INC !spriteSlot
@@ -1086,10 +1082,9 @@ Dungeon_LoadSprites:
 
 ; ==============================================================================
 
-; $4C2D5-$4C2F4 DATA
+; $04C2D5-$04C2F4 DATA
     Dungeon_ManuallySetSpriteDeathFlag
 {
-    
     .flags
     dw $0001, $0002, $0004, $0008, $0010, $0020, $0040, $0080
     dw $0100, $0200, $0400, $0800, $1000, $2000, $4000, $8000
@@ -1097,7 +1092,7 @@ Dungeon_LoadSprites:
 
 ; ==============================================================================
 
-; *$4C2F5-$4C326 LONG
+; $04C2F5-$04C326 LONG
 Dungeon_ManuallySetSpriteDeathFlag:
 {
     PHB : PHK : PLB
@@ -1135,7 +1130,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
 
 ; ==============================================================================
 
-; *$4C327-$4C3E7 LOCAL
+; $04C327-$04C3E7 LOCAL
 Dungeon_LoadSprite:
 {
     ; LOAD'S SPRITE TYPES AND INFO INTO ROOM'S MEMORY
@@ -1154,14 +1149,14 @@ Dungeon_LoadSprite:
     ; If it's 16 pixels higher than that, drop a big key
     CMP.b #$FD : BNE .notOverlord
     
-    JSR $C345 ; $4C345 IN ROM
+    JSR $C345 ; $04C345 IN ROM
     
     ; Set $0CBA to 0x02 (means it's a big key)
     INC $0CBA, X 
     
     RTS
     
-    ; *$4C345 ALTERNATE ENTRY POINT
+    ; $04C345 ALTERNATE ENTRY POINT
     .isKey
     
     DEC !spriteSlot
@@ -1177,7 +1172,7 @@ Dungeon_LoadSprite:
     ; Examine its X coordinate, and go back to the sprite type position.
     LDA (!dataPtr), Y : INY : CMP.b #$E0 : BCC .notOverlord ; If X coord < 0xE0
     
-    JSR Dungeon_LoadOverlord ; $4C3E8 IN ROM ; Load the overlord's information into memory.
+    JSR Dungeon_LoadOverlord ; $04C3E8 IN ROM ; Load the overlord's information into memory.
     
     ; Since this isn't a normal sprite, we don't want to throw off their loading mechanism, 
     ; b/c the normal sprites are loaded in a linear order into $0E20, X, while these overlords go to $0B00, X.
@@ -1277,7 +1272,7 @@ Dungeon_LoadSprite:
 
 ; =============================================================
 
-; *$4C3E8-$4C44D LOCAL
+; $04C3E8-$04C44D LOCAL
 Dungeon_LoadOverlord:
 {
     ; LOADS OVERLORD INFORMATION INTO A ROOM'S MEMORY
@@ -1341,12 +1336,12 @@ Dungeon_LoadOverlord:
 
 ; =============================================================
 
-; *$4C44E-$4C498 LONG
+; $04C44E-$04C498 LONG
 Sprite_ResetAll:
 {
-    JSL Sprite_DisableAll  ; $4C22F IN ROM
+    JSL Sprite_DisableAll  ; $04C22F IN ROM
     
-    ; *$4C452 ALTERNATE ENTRY POINT
+    ; $04C452 ALTERNATE ENTRY POINT
     .justBuffers
     
     STZ $0FDD : STZ $0FDC : STZ $0FFD
@@ -1397,19 +1392,19 @@ Sprite_ResetAll:
 
 ; ==============================================================================
 
-; *$4C499-$4C4AB LONG
+; $04C499-$04C4AB LONG
 Sprite_OverworldReloadAll:
 {
     JSL Sprite_DisableAll
     JSL Sprite_ResetAll_justBuffers
     
-    ; *$4C49D ALTERNATE ENTRY POINT
+    ; $04C49D ALTERNATE ENTRY POINT
     .justLoad
     
     PHB : PHK : PLB
     
     JSR LoadOverworldSprites
-    JSR $C55E ; $4C55E IN ROM
+    JSR $C55E ; $04C55E IN ROM
     
     PLB
     
@@ -1418,7 +1413,7 @@ Sprite_OverworldReloadAll:
 
 ; ==============================================================================
 
-; *$4C4AC-$4C55D LOCAL
+; $04C4AC-$04C55D LOCAL
 LoadOverworldSprites:
 {
     ; Loads overworld sprite information into memory ($7FDF80, X is one such array)
@@ -1518,7 +1513,7 @@ LoadOverworldSprites:
 
 ; ==============================================================================
     
-; *$4C55E-$4C58E LOCAL
+; $04C55E-$04C58E LOCAL
 {
     LDA $E2 : PHA
     LDA $E3 : PHA
@@ -1533,7 +1528,7 @@ LoadOverworldSprites:
     
     PHY
     
-    JSR $C5BB ; $4C5BB IN ROM
+    JSR $C5BB ; $04C5BB IN ROM
     
     PLY
     
@@ -1553,15 +1548,15 @@ LoadOverworldSprites:
 
 ; ==============================================================================
     
-; *$4C58F-$4C5B6 LONG
+; $04C58F-$04C5B6 LONG
 Sprite_RangeBasedActivation:
 {
     PHB : PHK : PLB
     
     LDA $11 : BEQ .alpha
     
-    JSR $C5BB ; $4C5BB IN ROM
-    JSR $C5FA ; $4C5FA IN ROM
+    JSR $C5BB ; $04C5BB IN ROM
+    JSR $C5FA ; $04C5FA IN ROM
     
     PLB
     
@@ -1571,13 +1566,13 @@ Sprite_RangeBasedActivation:
     
     LDA $0FB7 : AND.b #$01 : BNE .beta
     
-    JSR $C5BB ; $4C5BB IN ROM
+    JSR $C5BB ; $04C5BB IN ROM
     
     .beta
     
     LDA $0FB7 : AND.b #$01 : BEQ .gamma
     
-    JSR $C5FA ; $4C5FA IN ROM
+    JSR $C5FA ; $04C5FA IN ROM
     
     .gamma
     
@@ -1590,9 +1585,8 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $4C5B7-$4C5BA DATA
+; $04C5B7-$04C5BA DATA
 {
-    
     ; \task Name these sublabels and the routines that use them.
     db $10, $F0
     
@@ -1601,7 +1595,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
    
-; *$4C5BB-$4C5F5 LOCAL
+; $04C5BB-$04C5F5 LOCAL
 {
     LDY.b #$00
     
@@ -1625,7 +1619,7 @@ Sprite_RangeBasedActivation:
     
     .vertical_loop
     
-    JSR $C6F5 ; $4C6F5 IN ROM
+    JSR $C6F5 ; $04C6F5 IN ROM
     
     REP #$20
     
@@ -1643,9 +1637,8 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $4C5F6-$4C5F9 DATA
+; $04C5F6-$04C5F9 DATA
 {
-    
     ; \task Name these sublabels and the routines that use them.
     db $10, $F0
     
@@ -1654,7 +1647,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; *$4C5FA-$4C634 LOCAL
+; $04C5FA-$04C634 LOCAL
 {
     LDY.b #$00
     
@@ -1675,7 +1668,7 @@ Sprite_RangeBasedActivation:
     
     .horizontalLoop
     
-    JSR $C6F5 ; $4C6F5 IN ROM
+    JSR $C6F5 ; $04C6F5 IN ROM
     
     REP #$20
     
@@ -1693,7 +1686,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $4C635-$4C6F4 DATA
+; $04C635-$04C6F4 DATA
 {
     ; \task Name these sublabels and the routines that use them.  ;i orginized these into groups of 8x8 rather than 4x2 to fit the layout better
     ; These are mostly known to be map sizes. ;i think some of these values are wrong as they do not seem to line up with the areas in the game
@@ -1727,7 +1720,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; *$4C6F5-$4C730 LOCAL
+; $04C6F5-$04C730 LOCAL
 {
     REP #$20
     
@@ -1749,7 +1742,7 @@ Sprite_RangeBasedActivation:
     
     PHX
     
-    JSR $C739 ; $4C739 IN ROM
+    JSR $C739 ; $04C739 IN ROM
     
     PLX
     
@@ -1762,16 +1755,15 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $4C731-$4C738 DATA
+; $04C731-$04C738 DATA
 {
-    
     ; \task Name these sublabels and the routines that use them.
     db $80, $40, $20, $10, $08, $04, $02, $01
 }
 
 ; ==============================================================================
     
-; *$4C739-$4C76F LOCAL
+; $04C739-$04C76F LOCAL
 {
     REP #$20
     
@@ -1805,7 +1797,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; *$4C770-$4C80A LOCAL
+; $04C770-$04C80A LOCAL
 Overworld_LoadSprite:
 {
     ; For some reason, sprite indices loaded from here are one less than
@@ -1887,7 +1879,7 @@ Overworld_LoadSprite:
 
 ; ==============================================================================
 
-; *$4C80B-$4C880 LOCAL
+; $04C80B-$04C880 LOCAL
 Overworld_LoadOverlord:
 {
     ; APPEARS TO BE THE METHOD OF LOADING OVERLORDS ON THE OVERWORLD.
@@ -1942,7 +1934,7 @@ Overworld_LoadOverlord:
     LDA $0B20, X : CLC : ADC $0FBF : STA $0B20, X
     STZ $0B40, X
     
-    ; *$4C871 ALTERNATE ENTRY POINT
+    ; $04C871 ALTERNATE ENTRY POINT
     .misc
     
     ; The area the overlord is residing in
@@ -1957,9 +1949,8 @@ Overworld_LoadOverlord:
 
 ; ==============================================================================
 
-; $4C881-$4EC9E DATA
+; $04C881-$04EC9E DATA
 {
-    
     ; \task Fill in a binary file or assembly file that contains
     ; the sprite pointers and data found in this range.
     ; Overworld and dungeon sprite data is here.
@@ -1967,10 +1958,9 @@ Overworld_LoadOverlord:
 
 ; ==============================================================================
 
-; $4EC9F-$4ED9E DATA
+; $04EC9F-$04ED9E DATA
 pool SpriteExplode_Execute:
 {
-    
     .oam_groups
     dw  0,  0 : db $60, $00, $00, $02
     dw  0,  0 : db $60, $00, $00, $02
@@ -2016,7 +2006,7 @@ pool SpriteExplode_Execute:
 ; ==============================================================================
 
     ; Exploderatin' mode for bosses?
-; *$4ED9F-$4EDA6 LONG
+; $04ED9F-$04EDA6 LONG
 SpriteExplode_ExecuteLong:
 {
     PHB : PHK : PLB
@@ -2030,7 +2020,7 @@ SpriteExplode_ExecuteLong:
 
 ; ==============================================================================
 
-; *$4EDA7-$4EDEE LOCAL
+; $04EDA7-$04EDEE LOCAL
 SpriteExplode_Execute:
 {
     ; 0 = explodes. > 0 = doesn't explode. :p
@@ -2080,9 +2070,8 @@ SpriteExplode_Execute:
 
 ; ==============================================================================
 
-; $4EDEF-$4EE0E DATA
+; $04EDEF-$04EE0E DATA
 {
-    
     .x_offsets_low
     db 0,   4,   8,  12,  -4,  -8, -12,   0
     db 0,   8,  16,  24, -24, -16,  -8,   0
@@ -2094,14 +2083,14 @@ SpriteExplode_Execute:
 
 ; ==============================================================================
 
-; *$4EE0F-$4EF55 LOCAL
+; $04EE0F-$04EF55 LOCAL
 {
     ; Force sprite to high priority (to make sure it's visible).
     LDA.b #$02 : STA $0F20, X
     
     LDA $0DF0, X : CMP.b #$20 : BEQ .check_heart_container_spawn
     
-    JMP $EEAD ; $4EEAD IN ROM
+    JMP $EEAD ; $04EEAD IN ROM
     
     .check_heart_container_spawn
     
@@ -2129,14 +2118,14 @@ SpriteExplode_Execute:
     
     .cant_spawn_heart_container
     
-    JMP $EEAD ; $4EEAD IN ROM
+    JMP $EEAD ; $04EEAD IN ROM
     
     .victory_over_ganon
     
     ; Play the victory song (yay you killed Ganon)
     LDA.b #$13 : STA $012C
     
-    JMP $EEAD ; $4EEAD IN ROM
+    JMP $EEAD ; $04EEAD IN ROM
     
     .not_victory_over_agahnim
     
@@ -2188,7 +2177,7 @@ SpriteExplode_Execute:
     
     RTS
     
-    ; *$4EEAD ALTERNATE ENTRY POINT
+    ; $04EEAD ALTERNATE ENTRY POINT
     
     ; \bug Probably nothing major, but these comparisons seem to assume that
     ; a value from the sprite's main timer has been loaded into A, and that
@@ -2286,7 +2275,7 @@ SpriteExplode_Execute:
 
     ; \note Current thinking is that this is what kills sprites other than
     ; the boss when a boss is dying..
-; *$4EF56-$4EF8A LONG
+; $04EF56-$04EF8A LONG
 Sprite_SchedulePeersForDeath:
 {
     LDY.b #$0F
@@ -2319,10 +2308,9 @@ Sprite_SchedulePeersForDeath:
 
 ; ==============================================================================
 
-; $4EF8B-$4F0CA DATA
+; $04EF8B-$04F0CA DATA
 pool Garnish_ScatterDebris:
 {
-    
     .x_offsets
     dw  0,  8,  0,  8, -2,  9, -1,  9
     dw -4,  9, -1, 10, -6,  9, -1, 12
@@ -2366,7 +2354,7 @@ pool Garnish_ScatterDebris:
 
 ; ==============================================================================
 
-; $4F0CB-$4F15B JUMP LOCATION
+; $04F0CB-$04F15B JUMP LOCATION
 Garnish_ScatterDebris:
 {
     ; Special animation 0x16
@@ -2466,10 +2454,9 @@ Garnish_ScatterDebris:
 
 ; ==============================================================================
 
-; $4F15C-$4F197 DATA
+; $04F15C-$04F197 DATA
 pool ScatterDebris_Draw:
 {
-    
     .x_offsets
     dw -8,  8, 16, -5,  8, 15, -1,  7
     dw 11,  1,  3,  8
@@ -2490,7 +2477,7 @@ pool ScatterDebris_Draw:
 ; ==============================================================================
 
     ; \note Also part of scatter debris.
-; $4F198-$4F1F7 LOCAL
+; $04F198-$04F1F7 LOCAL
 ScatterDebris_Draw:
 {
     LDA $7FF90E, X : CMP.b #$10 : BNE .termination_delay
@@ -2546,7 +2533,7 @@ ScatterDebris_Draw:
 
 ; ==============================================================================
 
-; *$4F1F8-$4F24A LONG
+; $04F1F8-$04F24A LONG
 Sprite_SelfTerminate:
 {
     ; erase the sprite if this bit is set
@@ -2610,16 +2597,15 @@ Sprite_SelfTerminate:
 
 ; ==============================================================================
 
-; $4F24B-$4F252 DATA
+; $04F24B-$04F252 DATA
 {
-    
     ; \task Name this pool (multiple routines use it).
     db ~$80, ~$40, ~$20, ~$10, ~$08, ~$04, ~$02, ~$01
 }
 
 ; ==============================================================================
 
-; $4F253-$4F26F NULL
+; $04F253-$04F26F NULL
 {
     fillbyte $FF
     
@@ -2633,10 +2619,9 @@ incsrc "module_quit.asm"
 
 ; ==============================================================================
 
-; $4F7C0-$4F7DD NULL
+; $04F7C0-$04F7DD NULL
 pool Empty:
 {
-    
 }
     
 ; ==============================================================================

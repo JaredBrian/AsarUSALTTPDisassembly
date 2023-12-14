@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4422F-$4425E DATA
+; $04422F-$04425E DATA
 pool Ancilla_SwordCeremony:
 {
-    
     .y_offsets
     dw 1, 1, 9, 9
     dw 1, 1, 9, 9
@@ -24,7 +23,7 @@ pool Ancilla_SwordCeremony:
 
 ; ==============================================================================
 
-; *$4425F-$442DC JUMP LOCATION
+; $04425F-$0442DC JUMP LOCATION
 Ancilla_SwordCeremony:
 {
     ; Special object 0x35 - Master Sword Ceremony

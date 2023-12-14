@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; *$2AB54-$2AB9B JUMP LOCATION
+; $02AB54-$02AB9B JUMP LOCATION
 Sprite_CannonBall:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong
@@ -32,7 +32,7 @@ Sprite_CannonBall:
     
     .no_tile_collision
     
-    ; *$2AB93 ALTERNATE ENTRY POINT
+    ; $02AB93 ALTERNATE ENTRY POINT
     shared Sprite2_CheckDamage:
     
     JSL Sprite_CheckDamageFromPlayerLong
@@ -43,7 +43,7 @@ Sprite_CannonBall:
 
 ; ==============================================================================
 
-; *$2AB9C-$2ABE3 LONG
+; $02AB9C-$02ABE3 LONG
 Sprite_SpawnPoofGarnish:
 {
     ; This routine does that poof of smoke effect when 
@@ -89,7 +89,7 @@ Sprite_SpawnPoofGarnish:
 
 ; ==============================================================================
 
-; *$2ABE4-$2AC19 JUMP LOCATION
+; $02ABE4-$02AC19 JUMP LOCATION
 Sprite_CannonTrooper:
 {
     ; Cannon soldier AI (unused in original game)
@@ -129,7 +129,7 @@ Sprite_CannonTrooper:
     RTS
 }
 
-; $2AC1A-$2AC23
+; $02AC1A-$02AC23
 {
     dw $AC24 ; $2AC24
     dw $AC52 ; $2AC52
@@ -138,7 +138,7 @@ Sprite_CannonTrooper:
     dw $AD28 ; $2AD28
 }
 
-; $2AC24-$2AC51 LOCAL
+; $02AC24-$02AC51 LOCAL
 {
     STZ $0D90, X
     
@@ -148,7 +148,7 @@ Sprite_CannonTrooper:
     
     LDA.b #$60 : STA $0DF0, X
     
-    ; $2AC34 ALTERNATE ENTRY POINT
+    ; $02AC34 ALTERNATE ENTRY POINT
     shared Trooper_FacePlayer:
     
     LDA $0DE0, X : PHA
@@ -170,7 +170,7 @@ Sprite_CannonTrooper:
 
 ; ==============================================================================
 
-; $2AC52-$2AC62 JUMP LOCATION
+; $02AC52-$02AC62 JUMP LOCATION
 {
     LDA.b #$00
     
@@ -188,10 +188,9 @@ Sprite_CannonTrooper:
 
 ; ==============================================================================
 
-; $2AC63-$2AC7A DATA
+; $02AC63-$02AC7A DATA
 pool CannonTrooper_SpawnCannonBall:
 {
-    
     .x_offsets_low
     db 16, -16,   0,   0
     
@@ -213,7 +212,7 @@ pool CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2AC7B-$2ACE9 LOCAL
+; $02AC7B-$02ACE9 LOCAL
 CannonTrooper_SpawnCannonBall:
 {
     INC $0D80, X
@@ -254,9 +253,8 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2ACEA-$2ACF1 DATA
+; $02ACEA-$02ACF1 DATA
 {
-    
     .x_speeds
     db -32,  32,   0,   0
     
@@ -266,7 +264,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2ACF2-$2AD11 LOCAL
+; $02ACF2-$02AD11 LOCAL
 {
     LDA $0DF0, X : BNE .delay
     
@@ -289,7 +287,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2AD12-$2AD1F LOCAL
+; $02AD12-$02AD1F LOCAL
 {
     LDA $0DF0, X : BNE .delay
     
@@ -304,9 +302,8 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2AD20-$2AD27 DATA
+; $02AD20-$02AD27 DATA
 {
-    
     ; \task Name this routine / pool.
     .x_speeds
     db 8, -8,  0,  0
@@ -317,7 +314,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2AD28-$2AD50 LOCAL
+; $02AD28-$02AD50 LOCAL
 {
     LDA $0DF0, X : BNE .delay_ai_state_reset
     
@@ -342,15 +339,14 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $2AD51-$2AEF8 DATA
+; $02AD51-$02AEF8 DATA
 {
-    
     ; \task Fill in data and name routine / pool.
 }
 
 ; ==============================================================================
 
-; *$2AEF9-$2AF70 LOCAL
+; $02AEF9-$02AF70 LOCAL
 CannonTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord

@@ -74,7 +74,7 @@
     
 ; ==============================================================================
 
-; *$EA03C-$EA080 LONG
+; $0EA03C-$0EA080 LONG
 Blind_SpawnFromMaidenTagalong:
 {
     LDX.b #$00
@@ -107,7 +107,7 @@ Blind_SpawnFromMaidenTagalong:
 
 ; ==============================================================================
 
-; *$EA081-$EA0B0 LONG
+; $0EA081-$0EA0B0 LONG
 Blind_Initialize:
 {
     LDA $7EF3CC : CMP.b #$06 : BEQ .self_terminate
@@ -139,7 +139,7 @@ Blind_Initialize:
 
 ; ==============================================================================
 
-; *$EA0B1-$EA10F LOCAL
+; $0EA0B1-$0EA10F LOCAL
 BlindLaser_SpawnTrailGarnish:
 {
     ; \note Must have been some kind of development test code that never
@@ -190,7 +190,7 @@ BlindLaser_SpawnTrailGarnish:
 
 ; ==============================================================================
 
-; $EA110-$EA117 DATA
+; $0EA110-$0EA117 DATA
 pool Sprite_BlindHead:
 {
     ; \task Fill in data and label.
@@ -210,7 +210,7 @@ pool Sprite_BlindHead:
 
 ; ==============================================================================
 
-; *$EA118-$EA1EC LOCAL
+; $0EA118-$0EA1EC LOCAL
 Sprite_BlindHead:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -339,7 +339,7 @@ Sprite_BlindHead:
 
 ; ==============================================================================
 
-; *$EA1ED-$EA23B LOCAL
+; $0EA1ED-$0EA23B LOCAL
 Blind_SpawnExtraHead:
 {
     ; Create a Blind Head sprite
@@ -375,10 +375,9 @@ Blind_SpawnExtraHead:
 
 ; ==============================================================================
 
-; $EA23C-$EA25B DATA
+; $0EA23C-$0EA25B DATA
 pool Sprite_BlindLaser:
 {
-    
     .animation_states
     db  7,  7,  8,  9, 10,  9,  8,  7
     db  7,  7,  8,  9, 10,  9,  8,  7
@@ -390,17 +389,16 @@ pool Sprite_BlindLaser:
     
 ; ==============================================================================
 
-; $EA25C-$EA262 DATA
+; $0EA25C-$0EA262 DATA
 pool Sprite_Blind:
 {
-    
     .animation_states
     db 20, 19, 18, 17, 16, 15, 15
 }
 
 ; ==============================================================================
 
-; *$EA263-$EA2CA JUMP LOCATION
+; $0EA263-$0EA2CA JUMP LOCATION
 Sprite_BlindEntities:
 {
     LDA !blind_subtype, X : BPL Sprite_Blind
@@ -470,7 +468,7 @@ Sprite_BlindEntities:
 
 ; ==============================================================================
 
-; $EA2CB-$EA3D3 BRANCH LOCATION
+; $0EA2CB-$0EA3D3 BRANCH LOCATION
 Sprite_Blind:
 {
     CMP.b #$02 : BNE .not_independent_head
@@ -641,17 +639,16 @@ Sprite_Blind:
 
 ; ==============================================================================
 
-; $EA3D4-$EA3D7 DATA
+; $0EA3D4-$0EA3D7 DATA
 pool Blind_BehindTheCurtain:
 {
-    
     .animation_states
     db 14, 13, 12, 10
 }
 
 ; ==============================================================================
 
-; *$EA3D8-$EA40A JUMP LOCATION
+; $0EA3D8-$0EA40A JUMP LOCATION
 Blind_BehindTheCurtain:
 {
     ; Prevent death from occurring since Blind can still spawn another
@@ -691,17 +688,16 @@ Blind_BehindTheCurtain:
 
 ; ==============================================================================
 
-; $EA40B-$EA40F DATA
+; $0EA40B-$0EA40F DATA
 pool Blind_Rerobe:
 {
-    
     .animation_states
     db 10, 11, 12, 13, 14
 }
 
 ; ==============================================================================
 
-; *$EA410-$EA444 JUMP LOCATION
+; $0EA410-$0EA444 JUMP LOCATION
 Blind_Rerobe:
 {
     LDA !timer_2, X : BNE .delay_ai_state_transition
@@ -736,10 +732,9 @@ Blind_Rerobe:
 
 ; ==============================================================================
 
-; $EA445-$EA464 DATA
+; $0EA445-$0EA464 DATA
 pool Blind_FireballReprisal:
 {
-    
     .x_speeds
     db -32, -28, -25, -16,   0,  16,  24,  28
     db  32,  28,  24,  16,   0, -16, -24, -28
@@ -751,7 +746,7 @@ pool Blind_FireballReprisal:
 
 ; ==============================================================================
 
-; *$EA465-$EA4C5 JUMP LOCATION
+; $0EA465-$0EA4C5 JUMP LOCATION
 Blind_FireballReprisal:
 {
     DEC $0E70, X
@@ -786,7 +781,7 @@ Blind_FireballReprisal:
     ; Spawn very frequently (every 0x10 frames).
     LDA.b #$0F
     
-    ; *$EA49D ALTERNATE ENTRY POINT
+    ; $0EA49D ALTERNATE ENTRY POINT
     shared Blind_SpawnFireball:
     
     LDY.b #$FF
@@ -817,7 +812,7 @@ Blind_FireballReprisal:
 
 ; ==============================================================================
 
-; *$EA4C6-$EA4F8 JUMP LOCATION
+; $0EA4C6-$0EA4F8 JUMP LOCATION
 Blind_BlindedByTheLight:
 {
     ; Wrapped up like a douche and the somethin something something?
@@ -859,7 +854,7 @@ Blind_BlindedByTheLight:
 
 ; ==============================================================================
 
-; *$EA4F9-$EA539 LOCAL
+; $0EA4F9-$0EA539 LOCAL
 Blind_SpawnPoof:
 {
     LDA.b #$0C : STA $012E
@@ -885,7 +880,7 @@ Blind_SpawnPoof:
 
 ; ==============================================================================
 
-; *$EA53A-$EA566 JUMP LOCATION
+; $0EA53A-$0EA566 JUMP LOCATION
 Blind_RetreatToBackWall:
 {
     JSR Blind_CheckBumpDamage
@@ -919,10 +914,9 @@ Blind_RetreatToBackWall:
 
 ; ==============================================================================
 
-; $EA567-$EA56C DATA
+; $0EA567-$0EA56C DATA
 pool Blind_OscillateAlongWall:
 {
-    
     .y_speed_limits
     db 18, -18
     
@@ -935,7 +929,7 @@ pool Blind_OscillateAlongWall:
 
 ; ==============================================================================
 
-; *$EA56D-$EA601 JUMP LOCATION
+; $0EA56D-$0EA601 JUMP LOCATION
 Blind_OscillateAlongWall:
 {
     JSR Blind_CheckBumpDamage
@@ -1020,10 +1014,9 @@ Blind_OscillateAlongWall:
 
 ; ==============================================================================
 
-; $EA602-$EA607 DATA
+; $0EA602-$0EA607 DATA
 pool Blind_SwitchWalls:
 {
-    
     .y_accellerations
     db 2, -2
     
@@ -1036,7 +1029,7 @@ pool Blind_SwitchWalls:
 
 ; ==============================================================================
 
-; *$EA608-$EA662 JUMP LOCATION
+; $0EA608-$0EA662 JUMP LOCATION
 Blind_SwitchWalls:
 {
     ; This state has Blind migrate to the opposite wall from where he's
@@ -1072,7 +1065,7 @@ Blind_SwitchWalls:
     
     JSR Sprite4_Move
     
-    ; *$EA647 ALTERNATE ENTRY POINT
+    ; $0EA647 ALTERNATE ENTRY POINT
     shared Blind_Decelerate_X:
     
     LDA $0D50, X : BEQ .fully_decelerated_x
@@ -1099,10 +1092,9 @@ Blind_SwitchWalls:
 
 ; ==============================================================================
 
-; $EA663-$EA666 DATA
+; $0EA663-$0EA666 DATA
     pool Blind_WhirlAround
 {
-    
     .animation_step_directions
     db -1, 1
     
@@ -1112,7 +1104,7 @@ Blind_SwitchWalls:
 
 ; ==============================================================================
 
-; *$EA667-$EA6BF JUMP LOCATION
+; $0EA667-$0EA6BF JUMP LOCATION
 Blind_WhirlAround:
 {
     JSR Blind_CheckBumpDamage
@@ -1140,7 +1132,7 @@ Blind_WhirlAround:
     .animation_logic_done
     .delay_animation_adjustment
     
-    ; *$EA6A4 ALTERNATE ENTRY POINT
+    ; $0EA6A4 ALTERNATE ENTRY POINT
     shared Blind_Decelerate_Y:
     
     LDA $0D40, X : BEQ .fully_decelerated_y
@@ -1167,7 +1159,7 @@ Blind_WhirlAround:
 
 ; ==============================================================================
 
-; *$EA6C0-$EA6CE LOCAL
+; $0EA6C0-$0EA6CE LOCAL
 Blind_CheckBumpDamage:
 {
     LDA !timer_4, X : ORA $0EA0, X : BNE .temporarily_intouchable
@@ -1183,10 +1175,9 @@ Blind_CheckBumpDamage:
 
 ; ==============================================================================
 
-; $EA6CF-$EA6EE DATA
+; $0EA6CF-$0EA6EE DATA
 pool Blind_Animate:
 {
-    
     .animation_states
     db 7, 8, 9, 8, 0, 1, 2, 1
     
@@ -1200,7 +1191,7 @@ pool Blind_Animate:
 
 ; ==============================================================================
 
-; *$EA6EF-$EA744 LOCAL
+; $0EA6EF-$0EA744 LOCAL
 Blind_Animate:
 {
     ; \task What the hell is this routine doing? Targeting the laser on
@@ -1235,7 +1226,7 @@ Blind_Animate:
     
     .counterattacking
     
-    ; *$EA729 ALTERNATE ENTRY POINT
+    ; $0EA729 ALTERNATE ENTRY POINT
     ; \task Come back eventually and see if there were any other animate
     ; functions named.
     shared Blind_AnimateBody:
@@ -1251,10 +1242,9 @@ Blind_Animate:
 
 ; ==============================================================================
 
-; $EA745-$EA764 DATA
+; $0EA745-$0EA764 DATA
 pool Blind_SpawnLaser:
 {
-    
     .x_speeds
     db -8, -8, -8, -4,  0,  4,  8,  8
     db  8,  8,  8,  4,  0, -4, -8, -8
@@ -1266,7 +1256,7 @@ pool Blind_SpawnLaser:
 
 ; ==============================================================================
 
-; *$EA765-$EA7A9 LOCAL
+; $0EA765-$0EA7A9 LOCAL
 Blind_SpawnLaser:
 {
     LDA.b #$CE : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -1303,7 +1293,7 @@ Blind_SpawnLaser:
 
 ; ==============================================================================
 
-; $EA7AA-$EAC2E DATA
+; $0EA7AA-$0EAC2E DATA
 BlindPoof_Draw:
 {
     ; \task Fill in data.
@@ -1326,7 +1316,7 @@ BlindPoof_Draw:
 
 ; ==============================================================================
 
-; *$EAC2F-$EAC41 BRANCH LOCATION
+; $0EAC2F-$0EAC41 BRANCH LOCATION
 BlindPoof_Draw:
 {
     PHA
@@ -1346,10 +1336,9 @@ BlindPoof_Draw:
 
 ; ==============================================================================
 
-; $EAC42-$EAC6D DATA
+; $0EAC42-$0EAC6D DATA
 pool Blind_Draw:
 {
-    
     .chr_patch_offsets
     db $12, $12, $12, $16, $16, $02, $02, $02
     db $02, $02
@@ -1365,7 +1354,7 @@ pool Blind_Draw:
 
 ; ==============================================================================
 
-; *$EAC6C-$EACC7 LOCAL
+; $0EAC6C-$0EACC7 LOCAL
 Blind_Draw:
 {
     LDA.b #$00   : XBA
@@ -1421,7 +1410,7 @@ Blind_Draw:
 ; ==============================================================================
 
     ; \task A tentative name. Please make sure this is correct.
-; *$EACC8-$EAD0D LOCAL
+; $0EACC8-$0EAD0D LOCAL
 Blind_BumpDamageFromBody:
 {
     REP #$20

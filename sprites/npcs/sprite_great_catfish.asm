@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $EDF45-$EDF48 DATA
+; $0EDF45-$0EDF48 DATA
 pool Sprite_StandaloneItem:
 {
-    
     .bounce_z_speeds
     db $20, $10, $08, $00
 }
 
 ; ==============================================================================
 
-; *$EDF49-$EDFD0 JUMP LOCATION
+; $0EDF49-$0EDFD0 JUMP LOCATION
 Sprite_GreatCatfish:
 {
     ; ILL OMEN MONSTER / QUAKE MEDALLION
@@ -104,7 +103,7 @@ Sprite_GreatCatfish:
     
 ; ==============================================================================
 
-; $EDFD1-$EDFE5 BRANCH LOCATION
+; $0EDFD1-$0EDFE5 BRANCH LOCATION
 GreatCatfish_Main:
     
     JSR GreatCatfish_Draw
@@ -122,7 +121,7 @@ GreatCatfish_Main:
 
 ; ==============================================================================
 
-; *$EDFE6-$EE038 JUMP LOCATION
+; $0EDFE6-$0EE038 JUMP LOCATION
 GreatCatfish_AwaitSpriteThrownInCircle:
 {
     LDY.b #$0F
@@ -148,7 +147,7 @@ GreatCatfish_AwaitSpriteThrownInCircle:
     
     SEP #$20
     
-    ; *$EE02A ALTERNATE ENTRY POINT
+    ; $0EE02A ALTERNATE ENTRY POINT
     shared GreatCatfish_AdvanceState:
     
     INC $0D80, X
@@ -168,7 +167,7 @@ GreatCatfish_AwaitSpriteThrownInCircle:
 
 ; ==============================================================================
 
-; *$EE039-$EE07B JUMP LOCATION
+; $0EE039-$0EE07B JUMP LOCATION
 GreatCatfish_RumbleBeforeEmergence:
 {
     LDA !timer_0, X : BNE .delay_emergence
@@ -216,10 +215,9 @@ GreatCatfish_RumbleBeforeEmergence:
 
 ; ==============================================================================
 
-; $EE07C-$EE08B DATA
+; $0EE07C-$0EE08B DATA
 pool GreatCatfish_Emerge:
 {
-    
     .animation_states
     db 1, 2, 2, 2, 2, 3, 3, 3
     db 4, 4, 4, 5, 0, 0, 0, 0
@@ -227,7 +225,7 @@ pool GreatCatfish_Emerge:
 
 ; ==============================================================================
 
-; *$EE08C-$EE0BE JUMP LOCATION
+; $0EE08C-$0EE0BE JUMP LOCATION
 GreatCatfish_Emerge:
 {
     INC $0E80, X
@@ -265,10 +263,9 @@ GreatCatfish_Emerge:
 
 ; ==============================================================================
 
-; $EE0BF-$EE0D2 DATA
+; $0EE0BF-$0EE0D2 DATA
 pool GreatCatfish_ConversateThenSubmerge:
 {
-    
     .animation_states
     db 0, 6, 7, 7, 7, 7, 7, 7
     db 7, 7, 7, 7, 7, 7, 7, 7
@@ -277,7 +274,7 @@ pool GreatCatfish_ConversateThenSubmerge:
 
 ; ==============================================================================
 
-; *$EE0D3-$EE143 JUMP LOCATION
+; $0EE0D3-$0EE143 JUMP LOCATION
 GreatCatfish_ConversateThenSubmerge:
 {
     LDA !timer_0, X : BNE .delay_self_termination
@@ -379,7 +376,7 @@ GreatCatfish_ConversateThenSubmerge:
 
 ; ==============================================================================
 
-; *$EE144-$EE163 LOCAL
+; $0EE144-$0EE163 LOCAL
 Sprite_SpawnBomb:
 {
     LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -400,7 +397,7 @@ Sprite_SpawnBomb:
 
 ; ==============================================================================
 
-; *$EE164-$EE16B BRANCH LOCATION
+; $0EE164-$0EE16B BRANCH LOCATION
 GreatCatfish_SpawnSurfacingSplash:
 {
     CMP.b #$FC : BNE .delay_splash_spawning
@@ -414,7 +411,7 @@ GreatCatfish_SpawnSurfacingSplash:
 
 ; ==============================================================================
 
-; *$EE16C-$EE1A9 LOCAL
+; $0EE16C-$0EE1A9 LOCAL
 GreatCatfish_SpawnQuakeMedallion:
 {
     LDA.b #$C0 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -453,7 +450,7 @@ GreatCatfish_SpawnQuakeMedallion:
 
 ; ==============================================================================
 
-; *$EE1AA-$EE1EC LONG
+; $0EE1AA-$0EE1EC LONG
 Sprite_SpawnFlippersItem:
 {
     LDA.b #$C0
@@ -499,7 +496,7 @@ Sprite_SpawnFlippersItem:
 
 ; ==============================================================================
 
-; *$EE1ED-$EE213 LOCAL
+; $0EE1ED-$0EE213 LOCAL
 GreatCatfish_SpawnImmediatelyDrownedSprite:
 {
     ; Spawn a bush...
@@ -523,7 +520,7 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
 
 ; ==============================================================================
 
-; *$EE214-$EE21B LONG
+; $0EE214-$0EE21B LONG
 Sprite_SpawnWaterSplashLong:
 {
     PHB : PHK : PLB
@@ -537,7 +534,7 @@ Sprite_SpawnWaterSplashLong:
 
 ; ==============================================================================
 
-; *$EE21C-$EE23F LOCAL
+; $0EE21C-$0EE23F LOCAL
 Sprite_SpawnWaterSplash:
 {
     LDA.b #$C0
@@ -562,10 +559,9 @@ Sprite_SpawnWaterSplash:
 
 ; ==============================================================================
 
-; $EE240-$EE31F DATA
+; $0EE240-$0EE31F DATA
 pool GreatCatfish_Draw:
 {
-    
     .oam_groups
     dw -4,  4 : db $8C, $00, $00, $02
     dw  4,  4 : db $8D, $00, $00, $02
@@ -605,7 +601,7 @@ pool GreatCatfish_Draw:
 
 ; ==============================================================================
 
-; *$EE320-$EE33C LOCAL
+; $0EE320-$0EE33C LOCAL
 GreatCatfish_Draw:
 {
     LDA.b #$00 : XBA
@@ -625,10 +621,9 @@ GreatCatfish_Draw:
 
 ; ==============================================================================
 
-; $EE33D-$EE37C DATA
+; $0EE33D-$0EE37C DATA
 pool Sprite_WaterSplash:
 {
-    
     .oam_groups
     dw -8, -4 : db $80, $00, $00, $00
     dw 18, -7 : db $80, $00, $00, $00
@@ -645,7 +640,7 @@ pool Sprite_WaterSplash:
 
 ; ==============================================================================
 
-; *$EE37D-$EE39C LOCAL
+; $0EE37D-$0EE39C LOCAL
 Sprite_WaterSplash:
 {
     LDA.b #$00 : XBA

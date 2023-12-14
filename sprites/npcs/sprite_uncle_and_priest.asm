@@ -4,7 +4,7 @@
 
 ; ==============================================================================
 
-; *$2DA29-$2DA30 LONG
+; $02DA29-$02DA30 LONG
 SpritePrep_UncleAndSageLong:
 {
     PHB : PHK : PLB
@@ -18,10 +18,9 @@ SpritePrep_UncleAndSageLong:
 
 ; ==============================================================================
 
-; $2DA31-$2DA3C DATA
+; $02DA31-$02DA3C DATA
 pool SpritePrep_UncleAndSage:
 {
-    
     .x_offsets
     dw -6, -6, -6
     
@@ -31,7 +30,7 @@ pool SpritePrep_UncleAndSage:
 
 ; ==============================================================================
 
-; *$2DA3D-$2DB22 LOCAL
+; $02DA3D-$02DB22 LOCAL
 SpritePrep_UncleAndSage:
 {
     LDA $A0 : CMP.b #$12 : BEQ .in_sanctuary
@@ -144,10 +143,9 @@ SpritePrep_UncleAndSage:
 
 ; ==============================================================================
 
-; $2DB23-$2DB26 DATA
+; $02DB23-$02DB26 DATA
 pool Sage_SpawnMantle:
 {
-    
     .x_coord
     dw $04F0
     
@@ -157,7 +155,7 @@ pool Sage_SpawnMantle:
 
 ; ==============================================================================
 
-; *$2DB27-$2DB85 LOCAL
+; $02DB27-$02DB85 LOCAL
 Sage_SpawnMantle:
 {
     INC $0DDF
@@ -202,7 +200,7 @@ Sage_SpawnMantle:
 
 ; ==============================================================================
 
-; *$2DB86-$2DB8D LONG
+; $02DB86-$02DB8D LONG
 Sprite_UncleAndSageLong:
 {
     ; Uncle / Priest
@@ -218,7 +216,7 @@ Sprite_UncleAndSageLong:
 
 ; ==============================================================================
 
-; *$2DB8E-$2DB9A LOCAL
+; $02DB8E-$02DB9A LOCAL
 Sprite_UncleAndSage:
 {
     LDA $0E90, X
@@ -232,7 +230,7 @@ Sprite_UncleAndSage:
 
 ; ==============================================================================
 
-; *$2DB9B-$2DBD2 JUMP LOCATION
+; $02DB9B-$02DBD2 JUMP LOCATION
 Sprite_SageMantle:
 {
     JSR SageMantle_Draw
@@ -252,7 +250,7 @@ Sprite_SageMantle:
     
     LDA.b #$07 : STA $0E00, X
     
-    ; *$2DBBB ALTERNATE ENTRY POINT
+    ; $02DBBB ALTERNATE ENTRY POINT
     shared SageMantle_RecentPlayerContact:
     
     STZ $0E80, X
@@ -272,7 +270,7 @@ Sprite_SageMantle:
 
 ; ==============================================================================
 
-; *$2DBD3-$2DBE2 BRANCH LOCATION
+; $02DBD3-$02DBE2 BRANCH LOCATION
 SageMantle_NoPlayerCollision:
 {
     ; \task These label names just suck, but they'll do for now.
@@ -289,7 +287,7 @@ SageMantle_NoPlayerCollision:
 
 ; ==============================================================================
 
-; *$2DBE3-$2DBF4 BRANCH LOCATION
+; $02DBE3-$02DBF4 BRANCH LOCATION
 SageMantle_SlidingRight:
 {
     LDA.b #$40 : STA $0D90, X
@@ -305,7 +303,7 @@ SageMantle_SlidingRight:
 
 ; ==============================================================================
 
-; *$2DBF5-$2DBFF JUMP LOCATION
+; $02DBF5-$02DBFF JUMP LOCATION
 {
     STZ $0D90, X
     
@@ -315,7 +313,7 @@ SageMantle_SlidingRight:
     
     INC $0E80, X
     
-    ; $2DBFF ALTERNATE ENTRY POINT
+    ; $02DBFF ALTERNATE ENTRY POINT
     shared SageMantle_DoNothing:
     
     RTS
@@ -323,7 +321,7 @@ SageMantle_SlidingRight:
 
 ; ==============================================================================
 
-; *$2DC00-$2DC38 JUMP LOCATION
+; $02DC00-$02DC38 JUMP LOCATION
 {
     LDA $0D10, X : PHA : CLC : ADC.b #$13 : STA $0D10, X
     LDA $0D30, X : PHA : ADC.b #$00 : STA $0D30, X
@@ -353,7 +351,7 @@ SageMantle_SlidingRight:
 
 ; ==============================================================================
 
-; *$2DC39-$2DC51 JUMP LOCATION
+; $02DC39-$02DC51 JUMP LOCATION
 {
     LDA.b #$18 : JSL Sound_SetSfx3PanLong
     
@@ -370,7 +368,7 @@ SageMantle_SlidingRight:
 
 ; ==============================================================================
 
-; *$2DC52-$2DC69 JUMP LOCATION
+; $02DC52-$02DC69 JUMP LOCATION
 {
     JSR Sprite2_Move
     
@@ -392,10 +390,9 @@ SageMantle_SlidingRight:
 
 ; ==============================================================================
 
-; $2DC6A-$2DC89 DATA
+; $02DC6A-$02DC89 DATA
 pool SageMantle_Draw:
 {
-    
     .animation_states
     db  0,  0 : db $2C, $16, $00, $02
     db 16,  0 : db $2C, $56, $00, $02
@@ -405,7 +402,7 @@ pool SageMantle_Draw:
 
 ; ==============================================================================
 
-; *$2DC8A-$2DCA1 LOCAL
+; $02DC8A-$02DCA1 LOCAL
 SageMantle_Draw:
 {
     ; $2DC6A
@@ -425,7 +422,7 @@ SageMantle_Draw:
 
 ; ==============================================================================
 
-; *$2DCA2-$2DCDD LONG
+; $02DCA2-$02DCDD LONG
 Sprite_MakeBodyTrackHeadDirection:
 {
     LDA $0DE0, X : CMP $0EB0, X : BEQ .set_body_to_head_dir
@@ -461,7 +458,7 @@ Sprite_MakeBodyTrackHeadDirection:
 
 ; ==============================================================================
 
-; $2DCDE-$2DCE5 DATA (UNUSED)
+; $02DCDE-$02DCE5 DATA (UNUSED)
 pool Sprite_Sage:
 {
     ; Probably unused because, to my knowledge, the priest never moves at
@@ -476,7 +473,7 @@ pool Sprite_Sage:
 
 ; ==============================================================================
 
-; *$2DCE6-$2DD09 JUMP LOCATION
+; $02DCE6-$02DD09 JUMP LOCATION
 Sprite_Sage:
 {
     LDA $0D90, X : BNE .dont_draw
@@ -501,7 +498,7 @@ Sprite_Sage:
 
 ; ==============================================================================
 
-; *$2DD0A-$2DD1E JUMP LOCATION
+; $02DD0A-$02DD1E JUMP LOCATION
 Sage_MortallyWounded:
 {
     LDA.b #$04 : STA $0EB0, X : STA $0DE0, X
@@ -517,7 +514,7 @@ Sage_MortallyWounded:
 
 ; ==============================================================================
 
-; *$2DD1F-$2DD3E JUMP LOCATION
+; $02DD1F-$02DD3E JUMP LOCATION
 Sage_DyingWords:
 {
     ; "You are a second too late... I have failed..." message from dying priest.
@@ -541,7 +538,7 @@ Sage_DyingWords:
 
 ; ==============================================================================
 
-; *$2DD3F-$2DD5E JUMP LOCATION
+; $02DD3F-$02DD5E JUMP LOCATION
 Sage_DeathFlash:
 {
     ; Because we all know people flash when they die, right?
@@ -568,7 +565,7 @@ Sage_DeathFlash:
 
 ; ==============================================================================
 
-; *$2DD5F-$2DD62 JUMP LOCATION
+; $02DD5F-$02DD62 JUMP LOCATION
 Sage_Terminate:
 {
     ; Well this is pretty pointless, why didn't we just kill him off
@@ -581,7 +578,7 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; *$2DD63-$2DD71 JUMP LOCATION
+; $02DD63-$02DD71 JUMP LOCATION
 {
     LDA $0D80, X
     
@@ -595,7 +592,7 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; $2DD72-$2DD9E JUMP LOCATION
+; $02DD72-$02DD9E JUMP LOCATION
 {
     LDA.b #$00 : STA $0EB0, X : STA $0DE0, X
     
@@ -624,7 +621,7 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; *$2DD9F-$2DDB2 JUMP LOCATION
+; $02DD9F-$02DDB2 JUMP LOCATION
 {
     LDA $7FFE01 : CMP.b #$02 : BNE .alpha
     
@@ -643,7 +640,7 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; *$2DDB3-$2DDC4 JUMP LOCATION
+; $02DDB3-$02DDC4 JUMP LOCATION
 {
     LDA $1CE8 : BNE .alpha
     
@@ -662,7 +659,7 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; *$2DDC5-$2DDDE JUMP LOCATION
+; $02DDC5-$02DDDE JUMP LOCATION
 {
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
     
@@ -682,9 +679,8 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; $2DDDF-$2DDE4 DATA
+; $02DDDF-$02DDE4 DATA
 {
-    
     .messages_low
     db $16, $19, $1A
     
@@ -694,7 +690,7 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; *$2DDE5-$2DE23 JUMP LOCATION
+; $02DDE5-$02DE23 JUMP LOCATION
 {
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
     
@@ -731,10 +727,9 @@ Sage_Terminate:
 
 ; ==============================================================================
 
-; $2DE24-$2DE2B DATA
+; $02DE24-$02DE2B DATA
 pool Uncle_LeavingHouse:
 {
-    
     .x_speeds
     db $00, $00, $F4, $0C
     
@@ -744,7 +739,7 @@ pool Uncle_LeavingHouse:
 
 ; ==============================================================================
 
-; *$2DE2C-$2DE3D JUMP LOCATION
+; $02DE2C-$02DE3D JUMP LOCATION
 Sprite_Uncle:
 {
     JSL Uncle_Draw
@@ -760,7 +755,7 @@ Sprite_Uncle:
 
 ; ==============================================================================
 
-; *$2DE3E-$2DE51 JUMP LOCATION
+; $02DE3E-$02DE51 JUMP LOCATION
 Uncle_AtHome:
 {
     JSR Sprite2_Move
@@ -778,7 +773,7 @@ Uncle_AtHome:
 
 ; ==============================================================================
 
-; *$2DE52-$2DE71 JUMP LOCATION
+; $02DE52-$02DE71 JUMP LOCATION
 Uncle_TelepathicZeldaPlea:
 {
     ; Set Link's coordinates to this specific position.
@@ -802,7 +797,7 @@ Uncle_TelepathicZeldaPlea:
 
 ; ==============================================================================
 
-; *$2DE72-$2DE99 JUMP LOCATION
+; $02DE72-$02DE99 JUMP LOCATION
 Uncle_WakeUpPlayer:
 {
     ; Lighten the screen gradually and then wake Link up partially
@@ -835,7 +830,7 @@ Uncle_WakeUpPlayer:
 
 ; ==============================================================================
 
-; *$2DE9A-$2DEAF JUMP LOCATION
+; $02DE9A-$02DEAF JUMP LOCATION
 Uncle_TellPlayerToStay:
 {
     LDA.b #$0D
@@ -856,10 +851,9 @@ Uncle_TellPlayerToStay:
 
 ; ==============================================================================
 
-; $2DEB0-$2DEB3 DATA
+; $02DEB0-$02DEB3 DATA
 pool Uncle_LeavingHouse:
 {
-    
     .timers
     db $40, $E0
     
@@ -869,7 +863,7 @@ pool Uncle_LeavingHouse:
 
 ; ==============================================================================
 
-; *$2DEB4-$2DEF7 JUMP LOCATION
+; $02DEB4-$02DEF7 JUMP LOCATION
 Uncle_LeavingHouse:
 {
     LDA $0DF0, X : BNE .moving
@@ -911,7 +905,7 @@ Uncle_LeavingHouse:
 
 ; ==============================================================================
 
-; $2DEF8-$2DF18 JUMP LOCATION
+; $02DEF8-$02DF18 JUMP LOCATION
 Uncle_AttachZeldaTelepathTagalong:
 {
     ; Sets up Zelda to bitch at you to get into the castle.
@@ -932,7 +926,7 @@ Uncle_AttachZeldaTelepathTagalong:
 
 ; ==============================================================================
 
-; *$2DF19-$2DF25 JUMP LOCATION
+; $02DF19-$02DF25 JUMP LOCATION
 Uncle_InSecretPassage:
 {
     LDA $0D80, X
@@ -946,7 +940,7 @@ Uncle_InSecretPassage:
 
 ; ==============================================================================
 
-; *$2DF26-$2DF43 JUMP LOCATION
+; $02DF26-$02DF43 JUMP LOCATION
 Uncle_RemoveZeldaTelepathTagalong:
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
@@ -975,7 +969,7 @@ Uncle_RemoveZeldaTelepathTagalong:
 
 ; ==============================================================================
 
-; *$2DF44-$2DF6B JUMP LOCATION
+; $02DF44-$02DF6B JUMP LOCATION
 Uncle_GiveSwordAndShield:
 {
     LDY.b #$00

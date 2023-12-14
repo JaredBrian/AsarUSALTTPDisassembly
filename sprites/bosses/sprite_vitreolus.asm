@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $EE763-$EE772 DATA
+; $0EE763-$0EE772 DATA
 pool Sprite_Vitreolus:
 {
-    
     .x_offsets
     dw 1,  0, -1,  0
     
@@ -14,7 +13,7 @@ pool Sprite_Vitreolus:
 
 ; ==============================================================================
 
-; *$EE773-$EE7C3 JUMP LOCATION
+; $0EE773-$0EE7C3 JUMP LOCATION
 Sprite_Vitreolus:
 {
     ; \note I chose this name because it sounds authentic enough and is, as
@@ -62,7 +61,7 @@ Sprite_Vitreolus:
     
 ; ==============================================================================
 
-; $EE7C4-$EE7D8 BRANCH LOCATION
+; $0EE7C4-$0EE7D8 BRANCH LOCATION
 Vitreolus_TargetPlayerPosition:
 {
     LDA $22 : STA $0ED0, X
@@ -76,7 +75,7 @@ Vitreolus_TargetPlayerPosition:
     
 ; ==============================================================================
 
-; $EE7D9-$EE829 BRANCH LOCATION
+; $0EE7D9-$0EE829 BRANCH LOCATION
 Vitreolus_PursueTargetPosition:
 {
     JSR Sprite4_CheckIfRecoiling
@@ -114,7 +113,7 @@ Vitreolus_PursueTargetPosition:
 
 ; ==============================================================================
 
-; *$EE82A-$EE892 JUMP LOCATION
+; $0EE82A-$0EE892 JUMP LOCATION
 Vitreolus_ReturnToOrigin:
 {
     JSR Sprite4_CheckIfRecoiling

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$6C4A5-$6C4AC LONG
+; $06C4A5-$06C4AC LONG
 Sprite_SweepingLadyLong:
 {
     ; Sweeping lady
@@ -17,7 +17,7 @@ Sprite_SweepingLadyLong:
 
 ; ==============================================================================
 
-; *$6C4AD-$6C4CA LOCAL
+; $06C4AD-$06C4CA LOCAL
 Sprite_SweepingLady:
 {
     JSR SweepingLady_Draw
@@ -39,10 +39,9 @@ Sprite_SweepingLady:
 
 ; ==============================================================================
 
-; $6C4CB-$6C4EA DATA
+; $06C4CB-$06C4EA DATA
 pool SweepingLady_Draw:
 {
-    
     .oam_groups
     dw 0, -7 : db $8E, $00, $00, $02
     dw 0,  5 : db $8A, $00, $00, $02
@@ -53,7 +52,7 @@ pool SweepingLady_Draw:
 
 ; ==============================================================================
 
-; *$6C4EB-$6C50A LOCAL
+; $06C4EB-$06C50A LOCAL
 SweepingLady_Draw:
 {
     ; Handles appearance of sprite

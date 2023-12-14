@@ -1,20 +1,19 @@
 
 ; ==============================================================================
 
-; $2B019-$2B01A DATA (UNUSED)
+; $02B019-$02B01A DATA (UNUSED)
 pool Sprite_ChainBallTrooper:
 {
-    
     .spin_speeds
     db $22, $10
 }
 
 ; ==============================================================================
 
-; *$2B01B-$2B07C JUMP LOCATION
+; $02B01B-$02B07C JUMP LOCATION
 Sprite_ChainBallTrooper:
 {
-    JSR $B144 ; $2B144 IN ROM
+    JSR $B144 ; $02B144 IN ROM
     
     LDA $0D80, X : CMP.b #$02 : BCS .alpha
     
@@ -23,7 +22,7 @@ Sprite_ChainBallTrooper:
     .alpha
     
     JSR Sprite2_CheckIfActive
-    JSL $06EB5E ; $36B5E IN ROM
+    JSL $06EB5E ; $036B5E IN ROM
     
     LDY $0D80, X
     
@@ -59,7 +58,7 @@ Sprite_ChainBallTrooper:
 
 ; ==============================================================================
 
-; $2B07D-$2B0C6 JUMP LOCATION
+; $02B07D-$02B0C6 JUMP LOCATION
 FlailTrooper_ApproachPlayer:
 {
     TXA : EOR $1A : AND.b #$0F : BNE .delay
@@ -97,11 +96,10 @@ FlailTrooper_ApproachPlayer:
     
 ; ==============================================================================
 
-; $2B0C7-$2B0E6 DATA
+; $02B0C7-$02B0E6 DATA
 pool FlailTrooper_Animate:
     parallel pool Sprite_PsychoTrooper:
 {
-    
     .animation_states
     
     db $10, $11, $12, $13, $10, $11, $12, $13
@@ -112,7 +110,7 @@ pool FlailTrooper_Animate:
 
 ; ==============================================================================
 
-; $2B0E7-$2B0F7 JUMP LOCATION
+; $02B0E7-$02B0F7 JUMP LOCATION
 FlailTrooper_ShortHalting:
 {
     JSR Sprite2_ZeroVelocity
@@ -130,7 +128,7 @@ FlailTrooper_ShortHalting:
 
 ; ==============================================================================
 
-; $2B0F8-$2B0FB DATA
+; $02B0F8-$02B0FB DATA
 pool FlailTrooper_Attack:
 {
     db $03, $01, $02, $00
@@ -138,7 +136,7 @@ pool FlailTrooper_Attack:
 
 ; ==============================================================================
 
-; $2B0FC-$2B12D JUMP LOCATION
+; $02B0FC-$02B12D JUMP LOCATION
 FlailTrooper_Attack:
 {
     LDA $0DF0, X : BNE .delay
@@ -171,7 +169,7 @@ FlailTrooper_Attack:
 
 ; ==============================================================================
 
-; $2B12E-$2B143 JUMP LOCATION
+; $02B12E-$02B143 JUMP LOCATION
 FlailTrooper_WindingDown:
 {
     JSR Sprite2_ZeroVelocity
@@ -193,22 +191,21 @@ FlailTrooper_WindingDown:
 
 ; ==============================================================================
 
-; *$2B144-$2B155 LOCAL
+; $02B144-$02B155 LOCAL
 {
     JSR Sprite2_PrepOamCoord
     JSR ChainBallTrooper_DrawHead
     JSR FlailTrooper_DrawBody
-    JSR $B468 ; $2B468 IN ROM
+    JSR $B468 ; $02B468 IN ROM
     JSR Sprite2_PrepOamCoord
-    JMP $C68C ; $2C68C IN ROM
+    JMP $C68C ; $02C68C IN ROM
 } 
 
 ; ==============================================================================
 
-; $2B156-$2B15D DATA
+; $02B156-$02B15D DATA
 pool ChainBallTrooper_DrawHead:
 {
-    
     .chr
     db $02, $02, $00, $04
     
@@ -218,12 +215,12 @@ pool ChainBallTrooper_DrawHead:
 
 ; ==============================================================================
 
-; *$2B15E-$2B1A2 LOCAL
+; $02B15E-$02B1A2 LOCAL
 ChainBallTrooper_DrawHead:
 {
     LDY.b #$18
     
-    ; *$2B160 ALTERNATE ENTRY POINT
+    ; $02B160 ALTERNATE ENTRY POINT
     
     PHX
     
@@ -259,10 +256,9 @@ ChainBallTrooper_DrawHead:
 
 ; ==============================================================================
 
-; $2B1A3-$2B3CA DATA
+; $02B1A3-$02B3CA DATA
 pool FlailTrooper_DrawBody:
 {
-    
     .x_offsets
 
     dw -4,  4, 12
@@ -363,7 +359,7 @@ pool FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; *$2B3CB-$2B43F LOCAL
+; $02B3CB-$02B43F LOCAL
 FlailTrooper_DrawBody:
 {
     LDY.b #$14
@@ -371,7 +367,7 @@ FlailTrooper_DrawBody:
     ; I am confuse, as this would certainly overwrite the head portion
     ; in most cases, right? bug?
     
-    ; *$2B3CD ALTERNATE ENTRY POINT
+    ; $02B3CD ALTERNATE ENTRY POINT
     
     LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $06
     
@@ -431,7 +427,7 @@ FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; $2B440-$2B467 DATA
+; $02B440-$02B467 DATA
 {
     db $10, $12, $14, $16, $18, $1A, $1C, $1E
     db $20, $22, $24, $26, $28, $2A, $2C, $2E
@@ -447,7 +443,7 @@ FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; *$2B468-$2B5BD LOCAL
+; $02B468-$02B5BD LOCAL
 {
     LDA $00 : STA $0FA8
     LDA $02 : STA $0FA9
@@ -500,7 +496,7 @@ FlailTrooper_DrawBody:
     
     STA $4203
     
-    JSR $B5BE ; $2B5BE IN ROM
+    JSR $B5BE ; $02B5BE IN ROM
     
     ASL $4216
     
@@ -526,7 +522,7 @@ FlailTrooper_DrawBody:
     
     STA $4203
     
-    JSR $B5BE ; $2B5BE IN ROM
+    JSR $B5BE ; $02B5BE IN ROM
     
     ASL $4216
     
@@ -569,7 +565,7 @@ FlailTrooper_DrawBody:
     LDA $0E      : STA $4202
     LDA $B5BA, X : STA $4203
     
-    JSR $B5BE ; $2B5BE IN ROM
+    JSR $B5BE ; $02B5BE IN ROM
     
     LDA $04 : ASL A
     
@@ -585,7 +581,7 @@ FlailTrooper_DrawBody:
     
     LDA .multiplicands, X : STA $4203
     
-    JSR $B5BE ; $2B5BE IN ROM
+    JSR $B5BE ; $02B5BE IN ROM
     
     LDA $06 : ASL A
     
@@ -622,7 +618,7 @@ FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; *$2B5BE-$2B5C2 LOCAL
+; $02B5BE-$02B5C2 LOCAL
 {
     NOP #4
     

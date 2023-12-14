@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E8235-$E826B JUMP LOCATION
+; $0E8235-$0E826B JUMP LOCATION
 Sprite_Fish:
 {
     ; Check if if the right graphics are loaded to be able to draw.
@@ -35,7 +35,7 @@ Sprite_Fish:
 
 ; ==============================================================================
 
-; $E826C-$E827D JUMP LOCATION
+; $0E826C-$0E827D JUMP LOCATION
 Fish_Wriggle:
 {
     LDA $0F70, X : BNE .aloft
@@ -59,7 +59,7 @@ Fish_Wriggle:
 
 ; ==============================================================================
 
-; *$E827E-$E828F JUMP LOCATION
+; $0E827E-$0E828F JUMP LOCATION
 Fish_PauseBeforeLeap:
 {
     LDA $0DF0, X : BNE .delay
@@ -70,7 +70,7 @@ Fish_PauseBeforeLeap:
     ; Determine the Z speed of the leap.
     LDA.b #$30 : STA $0F80, X
     
-    ; *$E828B ALTERNATE ENTRY POINT
+    ; $0E828B ALTERNATE ENTRY POINT
     shared Fish_SpawnSmallWaterSplash:
     
     JSL Sprite_SpawnSmallWaterSplash
@@ -82,10 +82,9 @@ Fish_PauseBeforeLeap:
 
 ; ==============================================================================
 
-; $E8290-$E82A0 DATA
+; $0E8290-$0E82A0 DATA
 pool Fish_Leaping:
 {
-    
     .animation_states
     db 5, 5, 6, 6, 5, 5, 4, 4
     db 3, 7, 7, 8, 8, 7, 7, 8
@@ -94,7 +93,7 @@ pool Fish_Leaping:
 
 ; ==============================================================================
 
-; *$E82A1-$E830E JUMP LOCATION
+; $0E82A1-$0E830E JUMP LOCATION
 Fish_Leaping:
 {
     JSR Sprite4_MoveAltitude
@@ -155,7 +154,7 @@ Fish_Leaping:
 
 ; ==============================================================================
 
-; *$E830F-$E8320 JUMP LOCATION
+; $0E830F-$0E8320 JUMP LOCATION
 Fish_PreliminaryDeepWaterCheck:
 {
     JSR Sprite4_CheckTileCollision
@@ -177,10 +176,9 @@ Fish_PreliminaryDeepWaterCheck:
 
 ; ==============================================================================
 
-; $E8321-$E8335 DATA
+; $0E8321-$0E8335 DATA
 Fish_FlopAround:
 {
-    
     .x_speeds
     db   0,  12,  16,  12,   0, -12, -16, -12
     
@@ -196,7 +194,7 @@ Fish_FlopAround:
 
 ; ==============================================================================
 
-; *$E8336-$E83B5 JUMP LOCATION
+; $0E8336-$0E83B5 JUMP LOCATION
 Fish_FlopAround:
 {
     JSL Sprite_CheckIfLiftedPermissiveLong
@@ -261,10 +259,9 @@ Fish_FlopAround:
 
 ; ==============================================================================
 
-; $E83B6-$E8482 POOL
+; $0E83B6-$0E8482 POOL
 pool Fish_Draw:
 {
-    
     .oam_groups
     dw -4,  8 : db $5E, $04, $00, $00
     dw  4,  8 : db $5F, $04, $00, $00
@@ -312,7 +309,7 @@ pool Fish_Draw:
 
 ; ==============================================================================
 
-; *$E8483-$E84F0 LOCAL
+; $0E8483-$0E84F0 LOCAL
 Fish_Draw:
 {
     LDA.b #$00   : XBA

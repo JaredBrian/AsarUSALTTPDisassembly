@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $42121-$42130 DATA
+; $042121-$042130 DATA
 pool Ancilla_Arrow:
 {
-    
     .y_offsets
     dw -4,  2,  0,  0
     
@@ -14,7 +13,7 @@ pool Ancilla_Arrow:
 
 ; ==============================================================================
 
-; *$42131-$4224D JUMP LOCATION
+; $042131-$04224D JUMP LOCATION
 Ancilla_Arrow:
 {
     LDA $11 : BEQ .normal_submode
@@ -154,10 +153,9 @@ Ancilla_Arrow:
 
 ; ==============================================================================
 
-; $4224E-$4236D DATA
+; $04224E-$04236D DATA
 pool Arrow_Draw:
 {
-    
     .chr_and_properties
     db $2B, $A4
     db $2A, $A4
@@ -261,7 +259,7 @@ pool Arrow_Draw:
 
 ; ==============================================================================
 
-; *$4236E-$4245A LONG BRANCH LOCATION
+; $04236E-$04245A LONG BRANCH LOCATION
 Arrow_Draw:
 {
     JSR Ancilla_PrepAdjustedOamCoord

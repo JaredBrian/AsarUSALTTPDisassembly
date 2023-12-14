@@ -1,15 +1,14 @@
 
 ; ==============================================================================
 
-; $44987-$449CC DATA
+; $044987-$0449CC DATA
 pool Ancilla_TransmuteToObjectSplash:
 {
-    
 }
 
 ; ==============================================================================
 
-; *$449CD-$44A84 LONG BRANCH LOCATION
+; $0449CD-$044A84 LONG BRANCH LOCATION
 Ancilla_TransmuteToObjectSplash:
 {
     ; turn the current effect into a splash effect (0x3D)
@@ -29,7 +28,7 @@ Ancilla_TransmuteToObjectSplash:
     
     LDA.b #$28 : JSR Ancilla_DoSfx2
     
-    ; *$44A01 ALTERNATE ENTRY POINT
+    ; $044A01 ALTERNATE ENTRY POINT
     shared Ancilla_ObjectSplash:
     
     LDA.b #$08
@@ -48,7 +47,7 @@ Ancilla_TransmuteToObjectSplash:
     
     RTS
     
-    ; *$44A22 ALTERNATE ENTRY POINT
+    ; $044A22 ALTERNATE ENTRY POINT
     .draw
     
     JSR Ancilla_PrepOamCoord

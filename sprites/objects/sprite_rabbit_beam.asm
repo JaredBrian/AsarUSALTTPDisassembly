@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $E84F1-$E8530 DATA
+; $0E84F1-$0E8530 DATA
 pool ChimneySmoke_Draw:
 {
-    
     .oam_groups
     dw 0, 0 : db $86, $00, $00, $00
     dw 8, 0 : db $87, $00, $00, $00
@@ -19,7 +18,7 @@ pool ChimneySmoke_Draw:
 
 ; ==============================================================================
 
-; *$E8531-$E854D LOCAL
+; $0E8531-$0E854D LOCAL
 ChimneySmoke_Draw:
 {
     LDA.b #$00 : XBA
@@ -32,7 +31,7 @@ ChimneySmoke_Draw:
     
     LDA.b #$04
     
-    ; *$E8549 ALTERNATE ENTRY POINT
+    ; $0E8549 ALTERNATE ENTRY POINT
     shared Sprite4_DrawMultiple:
     
     JSL Sprite_DrawMultiple
@@ -42,11 +41,10 @@ ChimneySmoke_Draw:
 
 ; ==============================================================================
 
-; $E854E-$E854F DATA
+; $0E854E-$0E854F DATA
 pool Sprite_ChimneySmoke:
     parallel pool Sprite_Chimney:
 {
-    
     ; \task Name this routine / pool.
     .x_speed_targets
     db 4, -4
@@ -54,7 +52,7 @@ pool Sprite_ChimneySmoke:
 
 ; ==============================================================================
 
-; *$E8550-$E858A BRANCH LOCATION
+; $0E8550-$0E858A BRANCH LOCATION
 Sprite_ChimneySmoke:
 {
     LDA.b #$30 : STA $0B89, X
@@ -89,7 +87,7 @@ Sprite_ChimneySmoke:
 
 ; ==============================================================================
 
-; *$E858B-$E85DF JUMP LOCATION
+; $0E858B-$0E85DF JUMP LOCATION
 Sprite_ChimneyAndRabbitBeam:
     shared Sprite_Chimney: ; \note This is only put here to indicate an alias.
 {
@@ -129,10 +127,9 @@ Sprite_ChimneyAndRabbitBeam:
     
 ; ==============================================================================
 
-; $E85E0-$E85F9 BRANCH LOCATION
+; $0E85E0-$0E85F9 BRANCH LOCATION
 Sprite_RabbitBeam:
 {
-    
     LDA $0D80, X : BNE RabbitBeam_Active
     
     JSL Sprite_PrepOamCoordLong
@@ -151,17 +148,16 @@ Sprite_RabbitBeam:
 
 ; ==============================================================================
 
-; $E85FA-$E85FF DATA
+; $0E85FA-$0E85FF DATA
 pool RabbitBeam_Active:
 {
-    
     .chr
     db $D7, $D7, $D7, $91, $91, $91
 }
 
 ; ==============================================================================
 
-; *$E8600-$E8669 BRANCH LOCATION
+; $0E8600-$0E8669 BRANCH LOCATION
 RabbitBeam_Active:
 {
     JSL Sprite_DrawFourAroundOne

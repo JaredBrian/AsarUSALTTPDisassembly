@@ -1,19 +1,18 @@
 
 ; ==============================================================================
 
-; $35030-$35031 DATA
+; $035030-$035031 DATA
 pool Sprite_Key:
     parallel pool Key_AbsorptionByPlayer:
     ; \task Another routine uses this data array, please name it.
 {
-    
     .flag_masks
     db $40, $20
 }
 
 ; ==============================================================================
 
-; *$35032-$350EC JUMP LOCATION
+; $035032-$0350EC JUMP LOCATION
 Sprite_Key:
     shared Sprite_BigKey:
 {
@@ -33,7 +32,7 @@ Sprite_Key:
     
     BRA .draw_logic_finished
     
-    ; *$3504A ALTERNATE ENTRY POINT
+    ; $03504A ALTERNATE ENTRY POINT
     ; \task A lot of other refill / pickup sprites map to this location
     ; carefully ensure they all get named right, and perhaps with distinct
     ; names would be safer.
@@ -131,7 +130,7 @@ Sprite_Key:
 
 ; ==============================================================================
 
-; *$350ED-$35115 LOCAL
+; $0350ED-$035115 LOCAL
 Sprite_HandleBlinkingPhaseOut:
 {
     LDA $0B58, X : BEQ .phase_out_not_scheduled
@@ -168,7 +167,7 @@ Sprite_HandleBlinkingPhaseOut:
 
 ; ==============================================================================
 
-; *$35116-$35124 LOCAL
+; $035116-$035124 LOCAL
 Sprite_CheckAbsorptionByPlayer:
 {
     LDA $0F10, X : BNE .sprite_is_paused
@@ -185,7 +184,7 @@ Sprite_CheckAbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$35125-$3512C LONG
+; $035125-$03512C LONG
 Sprite_HandleAbsorptionByPlayerLong:
 {
     PHB : PHK : PLB
@@ -199,10 +198,9 @@ Sprite_HandleAbsorptionByPlayerLong:
 
 ; ==============================================================================
 
-; $3512D-$3513B DATA
+; $03512D-$03513B DATA
 pool Sprite_HandleAbsorptionByPlayer:
 {
-    
     .sfx
     db $0B, $0A, $0A, $0A, $0B, $0B, $0B, $0B
     db $0B, $0B, $0B, $0B, $2F, $2F, $0B
@@ -210,7 +208,7 @@ pool Sprite_HandleAbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$3513C-$3516F LOCAL
+; $03513C-$03516F LOCAL
 Sprite_HandleAbsorptionByPlayer:
 {
     STZ $0DD0, X
@@ -242,7 +240,7 @@ Sprite_HandleAbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$35170-$35177 JUMP LOCATION
+; $035170-$035177 JUMP LOCATION
 ShieldPickup_AbsorptionByPlayer:
 {
     ; recoverable shield (from Pikit, etc)
@@ -253,7 +251,7 @@ ShieldPickup_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$35178-$351A4 JUMP LOCATION
+; $035178-$0351A4 JUMP LOCATION
 BigKey_AbsorptionByPlayer:
 {
     STZ $02E9
@@ -268,7 +266,7 @@ BigKey_AbsorptionByPlayer:
     
     BRA .set_event_flag
     
-    ; *$35185 ALTERNATE ENTRY POINT
+    ; $035185 ALTERNATE ENTRY POINT
     shared Key_AbsorptionByPlayer:
     
     LDA $7EF36F : INC A : STA $7EF36F
@@ -289,7 +287,7 @@ BigKey_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$351A5-$351BA JUMP LOCATION
+; $0351A5-$0351BA JUMP LOCATION
 Fairy_AbsorptionByPlayer:
 {
     LDA.b #$31 : JSL Sound_SetSfx2PanLong
@@ -298,7 +296,7 @@ Fairy_AbsorptionByPlayer:
     
     BRA .apply_refill_amount
     
-    ; *$351AF ALTERNATE ENTRY POINT
+    ; $0351AF ALTERNATE ENTRY POINT
     shared HeartRefill_AbsorptionByPlayer:
     
     ; Amount of hearts a standard heart refills
@@ -313,7 +311,7 @@ Fairy_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; $351BB-$351BD DATA
+; $0351BB-$0351BD DATA
 pool GreenRupee_AbsorptionByPlayer:
 {
     ; \task Name routines that use these locations.
@@ -323,7 +321,7 @@ pool GreenRupee_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$351BE-$351D4 JUMP LOCATION
+; $0351BE-$0351D4 JUMP LOCATION
 GreenRupee_AbsorptionByPlayer:
     shared BlueRupee_AbsorptionByPlayer:
     shared RedRupee_AbsorptionByPlayer:
@@ -343,17 +341,16 @@ GreenRupee_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; $351D5-$351D7 DATA
+; $0351D5-$0351D7 DATA
 pool OneBombRefill_AbsorptionByPlayer:
 {
-    
     .refill_quantities
     db 1, 4, 8
 }
 
 ; ==============================================================================
 
-; *$351D8-$351E7 JUMP LOCATION
+; $0351D8-$0351E7 JUMP LOCATION
 OneBombRefill_AbsorptionByPlayer:
     shared FourBombRefill_AbsorptionByPlayer:
     shared EightBombRefill_AbsorptionByPlayer:
@@ -368,7 +365,7 @@ OneBombRefill_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$351E8-$351F7 JUMP LOCATION
+; $0351E8-$0351F7 JUMP LOCATION
 SmallMagicRefill_AbsorptionByPlayer:
 {
     ; small magic decanter
@@ -376,7 +373,7 @@ SmallMagicRefill_AbsorptionByPlayer:
     
     BRA .apply_refill_amount
     
-    ; *$351F1 ALTERNATE ENTRY POINT
+    ; $0351F1 ALTERNATE ENTRY POINT
     shared FullMagicRefill_AbsorptionByPlayer:
     
     LDA.b #$80 ; Full magic decanter
@@ -390,7 +387,7 @@ SmallMagicRefill_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; *$351F8-$3520C JUMP LOCATION
+; $0351F8-$03520C JUMP LOCATION
 FiveArrowRefill_AbsorptionByPlayer:
 {
     ; Number of arrows is stored as a property for this sprite
@@ -400,7 +397,7 @@ FiveArrowRefill_AbsorptionByPlayer:
     
     BRA .apply_refill_amount
     
-    ; *$35201 ALTERNATE ENTRY POINT
+    ; $035201 ALTERNATE ENTRY POINT
     shared TenArrowRefill_AbsorptionByPlayer:
     
     LDA.b #$0A ; Different upgrade type, gives 10 arrows
@@ -414,10 +411,9 @@ FiveArrowRefill_AbsorptionByPlayer:
 
 ; ==============================================================================
 
-; $3520D-$3522E DATA
+; $03520D-$03522E DATA
 pool Sprite_DrawTransientAbsorbable:
 {
-    
     .unknown_0
     db 0, 1, 1, 1, 2, 2, 2, 0
     db 1, 1, 2, 2, 1, 2, 2
@@ -432,12 +428,12 @@ pool Sprite_DrawTransientAbsorbable:
 
 ; ==============================================================================
 
-; *$3522F-$35289 LOCAL
+; $03522F-$035289 LOCAL
 Sprite_DrawTransientAbsorbable:
 {
     JSR Sprite_HandleBlinkingPhaseOut
     
-    ; *$35232 ALTERNATE ENTRY POINT
+    ; $035232 ALTERNATE ENTRY POINT
     shared Sprite_DrawAbsorbable:
     
     LDA $0FB3 : BNE .dont_use_super_priority
@@ -502,10 +498,9 @@ Sprite_DrawTransientAbsorbable:
 
 ; ==============================================================================
 
-; $3528A-$352AD DATA
+; $03528A-$0352AD DATA
 Sprite_DrawNumberedAbsorbable:
 {
-    
     .x_offsets
     dw 0, 0, 8, 0, 0, 8, 0, 0
     dw 8, 0, 0, 2, 0, 0, 2, 0
@@ -516,20 +511,18 @@ Sprite_DrawNumberedAbsorbable:
 
     ; \wtf How exactly did this data array end up here and not closer
     ; to the octorock's code? Not that it hurts anything, it's just odd...
-; $352AE-$352B1 DATA
+; $0352AE-$0352B1 DATA
 pool Sprite_Octorock:
 {
-    
     .h_flip
     db $40, $00, $00, $00
 }
     
 ; ==============================================================================
 
-; $352B2-$352F9 DATA
+; $0352B2-$0352F9 DATA
 pool Sprite_DrawNumberedAbsorbable:
 {
-    
     .y_offsets
     dw 0, 0, 8, 0, 0, 8, 0, 0
     dw 8, 0, 8, 8, 0, 8, 8, 0
@@ -548,7 +541,7 @@ pool Sprite_DrawNumberedAbsorbable:
     
 ; ==============================================================================
 
-; *$352FA-$35362 LOCAL
+; $0352FA-$035362 LOCAL
 Sprite_DrawNumberedAbsorbable:
 {
     DEC A : STA $06

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$28F54-$28FC1 JUMP LOCATION LOCAL
+; $028F54-$028FC1 JUMP LOCATION LOCAL
 Sprite_Beamos:
 {
     ; Code for handling a statue sentry.
@@ -92,7 +92,7 @@ Sprite_Beamos:
     ; If the rotation exceeds step 0x3F, set it back to zero.
     LDA $0DE0, X : AND.b #$3F : STA $0DE0, X
     
-    ; *$28FC1 ALTERNATE ENTRY POINT
+    ; $028FC1 ALTERNATE ENTRY POINT
     .easy_out
     
     RTS
@@ -100,7 +100,7 @@ Sprite_Beamos:
 
 ; ==============================================================================
 
-; *$28FC2-$29061 LOCAL
+; $028FC2-$029061 LOCAL
 Beamos_FireBeam:
 {
     LDA $0B6A : CMP.b #$04 : BCS Sprite_Beamos_easy_out
@@ -175,10 +175,9 @@ Beamos_FireBeam:
 
 ; ==============================================================================
 
-; $29062-$29067 DATA
+; $029062-$029067 DATA
 pool Beamos_Draw:
 {
-    
     .y_offsets
     dw -16,  0
     
@@ -188,7 +187,7 @@ pool Beamos_Draw:
 
 ; ==============================================================================
 
-; *$29068-$290D0 LOCAL
+; $029068-$0290D0 LOCAL
 Beamos_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -260,7 +259,7 @@ Beamos_Draw:
 
 ; ==============================================================================
 
-; $290D1-$29150 DATA
+; $0290D1-$029150 DATA
 pool Beamos_DrawEyeBall:
 {
     .x_offsets
@@ -291,7 +290,7 @@ pool Beamos_DrawEyeBall:
 
 ; ==============================================================================
 
-; *$29151-$291B0 LOCAL
+; $029151-$0291B0 LOCAL
 Beamos_DrawEyeball:
 {
     LDY.b #$08
@@ -348,7 +347,7 @@ Beamos_DrawEyeball:
 
 ; ==============================================================================
 
-; $291B1-$291B4 DATA
+; $0291B1-$0291B4 DATA
 pool Sprite_BeamosLaser:
 {
     ; This segregates the space we're using for subsprites into 4 different
@@ -361,7 +360,7 @@ pool Sprite_BeamosLaser:
     
 ; ==============================================================================
     
-; *$291B5-$29256 LOCAL
+; $0291B5-$029256 LOCAL
 Sprite_BeamosLaser:
 {
     LDA $0E00, X : BNE .wait
@@ -462,7 +461,7 @@ Sprite_BeamosLaser:
 
 ; ==============================================================================
 
-; *$29257-$2925A LOCAL
+; $029257-$02925A LOCAL
 BeamosLaser_PrepOamCoord:
 {
     ; This routine is a waste...
@@ -476,7 +475,7 @@ BeamosLaser_PrepOamCoord:
 
 ; ==============================================================================
 
-; *$2925B-$292C5 LOCAL
+; $02925B-$0292C5 LOCAL
 BeamosLaser_Draw:
 {
     JSR BeamosLaser_PrepOamCoord
@@ -526,10 +525,9 @@ BeamosLaser_Draw:
 
 ; ==============================================================================
 
-; $292C6-$292D9 DATA
+; $0292C6-$0292D9 DATA
 pool Sprite_BeamosLaserHit:
 {
-    
     .x_offsets
     db -4, -1,  4,  0
     db -4, -1,  4,  0
@@ -544,7 +542,7 @@ pool Sprite_BeamosLaserHit:
 
 ; ==============================================================================
 
-; *$292DA-$29332 LOCAL
+; $0292DA-$029332 LOCAL
 Sprite_BeamosLaserHit:
 {
     ; Load the inactivity timer.

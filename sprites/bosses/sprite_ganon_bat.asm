@@ -1,9 +1,8 @@
 ; ==============================================================================
 
-; $E8906-$E890D DATA
+; $0E8906-$0E890D DATA
 pool Sprite_GanonBat:
 {
-    
     .animation_states
     db 0, 1, 2, 1
     
@@ -16,7 +15,7 @@ pool Sprite_GanonBat:
 
 ; ==============================================================================
 
-; *$E890E-$E89BA LOCAL
+; $0E890E-$0E89BA LOCAL
 Sprite_GanonBat:
 {
     JSR GanonBat_Draw
@@ -105,10 +104,9 @@ Sprite_GanonBat:
 
 ; ==============================================================================
 
-; $E89BB-$E89EA DATA
+; $0E89BB-$0E89EA DATA
 pool GanonBat_Draw:
 {
-    
     .oam_groups
 {
     dw -8, 0 : db $60, $05, $00, $02
@@ -123,7 +121,7 @@ pool GanonBat_Draw:
 
 ; ==============================================================================
 
-; *$E89EB-$E8A03 LOCAL
+; $0E89EB-$0E8A03 LOCAL
 GanonBat_Draw:
 {
     LDA.b #$00 : XBA

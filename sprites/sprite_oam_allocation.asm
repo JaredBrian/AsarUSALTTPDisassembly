@@ -1,35 +1,35 @@
 
 ; ==============================================================================
 
-; *$6BA80-$6BA9D LONG
+; $06BA80-$06BA9D LONG
 OAM_AllocateFromRegionA:
 {
     LDY.b #$00
     
     BRA .allocate
     
-    ; *$6BA84 ALTERNATE ENTRY POINT
+    ; $06BA84 ALTERNATE ENTRY POINT
     shared OAM_AllocateFromRegionB:
     
     LDY.b #$02
     
     BRA .allocate
     
-    ; *$6BA88 ALTERNATE ENTRY POINT
+    ; $06BA88 ALTERNATE ENTRY POINT
     shared OAM_AllocateFromRegionC:
     
     LDY.b #$04
     
     BRA .allocate
     
-    ; *$6BA8C ALTERNATE ENTRY POINT
+    ; $06BA8C ALTERNATE ENTRY POINT
     shared OAM_AllocateFromRegionD:
     
     LDY.b #$06
     
     BRA .allocate
     
-    ; *$6BA90 ALTERNATE ENTRY POINT
+    ; $06BA90 ALTERNATE ENTRY POINT
     shared OAM_AllocateFromRegionE:
     
     LDY.b #$08
@@ -37,7 +37,7 @@ OAM_AllocateFromRegionA:
     BRA .allocate
     
     ; \note Seems to be for sorted, bg1 sprites
-    ; *$6BA94 ALTERNATE ENTRY POINT
+    ; $06BA94 ALTERNATE ENTRY POINT
     shared OAM_AllocateFromRegionF:
     
     LDY.b #$0A
@@ -55,10 +55,9 @@ OAM_AllocateFromRegionA:
 
 ; ==============================================================================
 
-; $6BA9E-$6BB09 DATA TABLE
+; $06BA9E-$06BB09 DATA TABLE
 pool OAM_GetBufferPosition:
 {
-    
     ; upper limits for each OAM region
     .limits
     dw $0171 ; 0x0030 - 0x016F? (For now calling this region A)
@@ -130,7 +129,7 @@ pool OAM_GetBufferPosition:
 
 ; ==============================================================================
 
-; $6BB0A-$6BB5A LOCAL
+; $06BB0A-$06BB5A LOCAL
 OAM_GetBufferPosition:
 {
     ; Inputs:

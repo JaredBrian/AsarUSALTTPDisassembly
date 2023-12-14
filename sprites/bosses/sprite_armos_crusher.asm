@@ -3,7 +3,7 @@
 
     ; \note Looks like a handler for the lone pissed off armos knight after
     ; you kill all his bros.
-; *$EEF76-$EEF7D LONG
+; $0EEF76-$0EEF7D LONG
 Sprite_ArmosCrusherLong:
 {
     PHB : PHK : PLB
@@ -17,7 +17,7 @@ Sprite_ArmosCrusherLong:
 
 ; ==============================================================================
 
-; *$EEF7E-$EEFAB LOCAL
+; $0EEF7E-$0EEFAB LOCAL
 Sprite_ArmosCrusher:
 {
     ; Spotted in changing the Armos palette for the last one.
@@ -50,7 +50,7 @@ Sprite_ArmosCrusher:
 
 ; ==============================================================================
 
-; *$EEFAC-$EEFDF JUMP LOCATION
+; $0EEFAC-$0EEFDF JUMP LOCATION
 ArmosCrusher_RetargetPlayer:
 {
     JSR Sprite4_CheckDamage
@@ -78,7 +78,7 @@ ArmosCrusher_RetargetPlayer:
 
 ; ==============================================================================
 
-; *$EEFE0-$EF038 JUMP LOCATION
+; $0EEFE0-$0EF038 JUMP LOCATION
 ArmosCrusher_ApproachTargetCoords:
 {
     LDA $0F80, X : CLC : ADC.b #$03 : STA $0F80, X
@@ -123,7 +123,7 @@ ArmosCrusher_ApproachTargetCoords:
 
 ; ==============================================================================
 
-; *$EF039-$EF044 JUMP LOCATION
+; $0EF039-$0EF044 JUMP LOCATION
 ArmosCrusher_Hover:
 {
     STZ $0F80, X
@@ -139,7 +139,7 @@ ArmosCrusher_Hover:
 
 ; ==============================================================================
 
-; *$EF045-$EF062 JUMP LOCATION
+; $0EF045-$0EF062 JUMP LOCATION
 ArmosCrusher_Crush:
 {
     LDA.b #-$68 : STA $0F80, X

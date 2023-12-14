@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$E8AB6-$E8B06 JUMP LOCATION
+; $0E8AB6-$0E8B06 JUMP LOCATION
 Sprite_Trident:
 {
     JSR Trident_Draw
@@ -21,7 +21,7 @@ Sprite_Trident:
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    ; *$E8AE4 ALTERNATE ENTRY POINT
+    ; $0E8AE4 ALTERNATE ENTRY POINT
     
     LDA $00 : CMP $0D40, X : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
     
@@ -52,7 +52,7 @@ Sprite_Trident:
 
 ; ==============================================================================
 
-; $E8B07-$E8B0A DATA
+; $0E8B07-$0E8B0A DATA
 {
     ; \task Name this routine / pool.
     db 24, -16
@@ -61,7 +61,7 @@ Sprite_Trident:
 
 ; ==============================================================================
 
-; *$E8B0B-$E8B48 BRANCH LOCATION
+; $0E8B0B-$0E8B48 BRANCH LOCATION
 Trident_AimForParentPosition:
 {
     LDY $0DE0
@@ -85,7 +85,7 @@ Trident_AimForParentPosition:
     LDA.b #$20
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
-    JMP $8AE4   ; $E8AE4 IN ROM
+    JMP $8AE4   ; $0E8AE4 IN ROM
 }
 
 ; ==============================================================================

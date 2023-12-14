@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$3394C-$33961 JUMP LOCATION
+; $03394C-$033961 JUMP LOCATION
 Sprite_BugNetKid:
 {
     JSL BugNetKid_Draw
@@ -19,7 +19,7 @@ Sprite_BugNetKid:
 
 ; ==============================================================================
 
-; $33962-$33990 JUMP LOCATION
+; $033962-$033990 JUMP LOCATION
 BugNetKid_Resting:
 {
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_awaken
@@ -48,10 +48,9 @@ BugNetKid_Resting:
 
 ; ==============================================================================
 
-; $33991-$3399F DATA
+; $033991-$03399F DATA
 pool BugNetKid_PerkUp:
 {
-    
     .animation_states
     db 0,  1,  0,  1, 0, 1, 2, 255
     
@@ -61,7 +60,7 @@ pool BugNetKid_PerkUp:
 
 ; ==============================================================================
 
-; *$339A0-$339C5 JUMP LOCATION
+; $0339A0-$0339C5 JUMP LOCATION
 BugNetKid_PerkUp:
 {
     LDA $0DF0, X : BNE .delay
@@ -95,7 +94,7 @@ BugNetKid_PerkUp:
 
 ; ==============================================================================
 
-; *$339C6-$339D7 JUMP LOCATION
+; $0339C6-$0339D7 JUMP LOCATION
 BugNetKid_GrantBugNet:
 {
     ; Give Link the Bug catching net
@@ -118,7 +117,7 @@ BugNetKid_GrantBugNet:
 
 ; ==============================================================================
 
-; *$339D8-$339E5 JUMP LOCATION
+; $0339D8-$0339E5 JUMP LOCATION
 BugNetKid_BackToResting:
 {
     LDA.b #$01 : STA $0DC0, X

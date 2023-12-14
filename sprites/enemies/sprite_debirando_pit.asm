@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $2852D-$28530 DATA
+; $02852D-$028530 DATA
 pool Sprite_DebirandoPit:
 {
-    
     .unknown_1
     db -1, 1
     
@@ -14,7 +13,7 @@ pool Sprite_DebirandoPit:
 
 ; ==============================================================================
 
-; *$28531-$285DD JUMP LOCATION
+; $028531-$0285DD JUMP LOCATION
 Sprite_DebirandoPit:
 {
     ; Sand lion pit code
@@ -115,7 +114,7 @@ Sprite_DebirandoPit:
 
 ; ==============================================================================
 
-; *$285DE-$285F0 JUMP LOCATION
+; $0285DE-$0285F0 JUMP LOCATION
 DebirandoPit_Closed:
 {
     LDA.b #$06 : STA $0DC0, X
@@ -133,17 +132,16 @@ DebirandoPit_Closed:
 
 ; ==============================================================================
 
-; $285F1-$285F4 DATA
+; $0285F1-$0285F4 DATA
 pool DebirandoPit_Opening:
 {
-    
     .animation_states
     db 5, 4, 3, 3
 }
 
 ; ==============================================================================
 
-; *$285F5-$2860E JUMP LOCATION
+; $0285F5-$02860E JUMP LOCATION
 DebirandoPit_Opening:
 {
     LDA $0DF0, X : BNE .delay_ai_state_transition
@@ -165,7 +163,7 @@ DebirandoPit_Opening:
 
 ; ==============================================================================
 
-; *$2860F-$2862F JUMP LOCATION
+; $02860F-$02862F JUMP LOCATION
 DebirandoPit_Open:
 {
     LDA $1A : AND.b #$0F : BNE .skip_frame
@@ -190,17 +188,16 @@ DebirandoPit_Open:
 
 ; ==============================================================================
 
-; $28630-$28633 DATA
+; $028630-$028633 DATA
 pool DebirandoPit_Closing:
 {
-    
     .animation_states
     db 3, 3, 4, 5
 }
 
 ; ==============================================================================
 
-; *$28634-$2864D JUMP LOCATION
+; $028634-$02864D JUMP LOCATION
 DebirandoPit_Closing:
 {
     LDA $0DF0, X : BNE .delay
@@ -222,10 +219,9 @@ DebirandoPit_Closing:
 
 ; ==============================================================================
 
-; $2864E-$286E3 DATA
+; $02864E-$0286E3 DATA
 pool DebirandoPit_Draw:
 {
-    
     .x_offsets
     dw -8,  8, -8,  8, -8,  8, -8,  8
     dw -8,  8, -8,  8,  0,  8,  0,  8
@@ -252,7 +248,7 @@ pool DebirandoPit_Draw:
 
 ; ==============================================================================
 
-; *$286E4-$2874C LOCAL
+; $0286E4-$02874C LOCAL
 DebirandoPit_Draw:
 {
     JSR Sprite2_PrepOamCoord

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F1460-$F149D JUMP LOCATION
+; $0F1460-$0F149D JUMP LOCATION
 Sprite_KholdstareShell:
 {
     JSR Sprite3_CheckIfActive.permissive
@@ -33,10 +33,9 @@ Sprite_KholdstareShell:
 
 ; ==============================================================================
 
-; $F149E-$F14A1 DATA
+; $0F149E-$0F14A1 DATA
     pool KholdstareShell_ShakeFromDamage
 {
-    
     .x_offsets
     db $01, $FF
     
@@ -46,7 +45,7 @@ Sprite_KholdstareShell:
 
 ; ==============================================================================
 
-; *$F14A2-$F14C0 BRANCH LOCATION
+; $0F14A2-$0F14C0 BRANCH LOCATION
 KholdstareShell_ShakeFromDamage:
 {
     LDA $0EF0, X : BEQ .not_in_recoil_state
@@ -81,7 +80,7 @@ KholdstareShell_ShakeFromDamage:
     ; performed this modification ad-hoc style and it does indeed work as
     ; expected.
     
-; *$F14C1-$F14DC BRANCH LOCATION
+; $0F14C1-$0F14DC BRANCH LOCATION
 KholdstareShell_PhaseOut:
 {
     INC $0D80, X
@@ -109,7 +108,7 @@ KholdstareShell_PhaseOut:
 
 ; ==============================================================================
 
-; *$F14DD-$F1517 LOCAL
+; $0F14DD-$0F1517 LOCAL
 IceBallGenerator_DoYourOnlyJob:
 {
     INC $0E80, X
@@ -148,7 +147,7 @@ IceBallGenerator_DoYourOnlyJob:
     ; \note $0D90, X is used for the direction of the actual eyeball portion
     ; of the sprite. (90% certain.)
 
-; *$F1518-$F156E JUMP LOCATION
+; $0F1518-$0F156E JUMP LOCATION
 Sprite_Kholdstare:
 {
     JSL Kholdstare_Draw
@@ -197,7 +196,7 @@ Sprite_Kholdstare:
 
 ; ==============================================================================
 
-; *$F156F-$F15DC JUMP LOCATION
+; $0F156F-$0F15DC JUMP LOCATION
 Kholdstare_Accelerate:
 {
     JSR Sprite3_CheckDamage
@@ -240,7 +239,7 @@ Kholdstare_Accelerate:
     .y_speed_at_target
     .check_tile_collision
     
-    ; *$F15AA ALTERNATE ENTRY POINT
+    ; $0F15AA ALTERNATE ENTRY POINT
     shared Kholstare_CheckTileCollision:
     
     JSR Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
@@ -264,10 +263,9 @@ Kholdstare_Accelerate:
 
 ; ==============================================================================
 
-; $F15DD-$F15E4 DATA
+; $0F15DD-$0F15E4 DATA
 pool KholdStare_Decelerate:
 {
-    
     .x_speed_limits
     db  16,  16, -16, -16
     
@@ -277,7 +275,7 @@ pool KholdStare_Decelerate:
 
 ; ==============================================================================
 
-; *$F15E5-$F1645 JUMP LOCATION
+; $0F15E5-$0F1645 JUMP LOCATION
 Kholdstare_Decelerate:
 {
     JSR Sprite3_CheckDamage
@@ -342,10 +340,9 @@ Kholdstare_Decelerate:
 
 ; ==============================================================================
 
-; $F1646-$F164B
+; $0F1646-$0F164B
 pool Kholdstare_Triplicate:
 {
-    
     .x_speed_targets
     db  32, -32,   0
     
@@ -355,7 +352,7 @@ pool Kholdstare_Triplicate:
 
 ; ==============================================================================
 
-; *$F164C-$F1693 JUMP LOCATION
+; $0F164C-$0F1693 JUMP LOCATION
 Kholdstare_Triplicate:
 {
     LDA $0DF0, X : CMP.b #$01 : BNE .dont_spawn
@@ -403,7 +400,7 @@ Kholdstare_Triplicate:
 
 ; ==============================================================================
 
-; $F1694-$F1694 JUMP LOCATION
+; $0F1694-$0F1694 JUMP LOCATION
 Kholdstare_DoNothing:
 {
     RTS
@@ -411,10 +408,9 @@ Kholdstare_DoNothing:
 
 ; ==============================================================================
 
-; $F1695-$F16A4 DATA
+; $0F1695-$0F16A4 DATA
 pool Kholdstare_SpawnNebuleGarnish:
 {
-    
     .offsets_low
     db $F8, $FA, $FC, $FE, $00, $02, $04, $06
     
@@ -425,7 +421,7 @@ pool Kholdstare_SpawnNebuleGarnish:
 ; ==============================================================================
 
     ; \note Generates the puffs of white smoke for the Kholdstare eyeballs.
-; *$F16A5-$F170F LOCAL
+; $0F16A5-$0F170F LOCAL
 Kholdstare_SpawnNebuleGarnish:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .delay
@@ -473,7 +469,7 @@ Kholdstare_SpawnNebuleGarnish:
 
 ; ==============================================================================
 
-; *$F1710-$F1732 JUMP LOCATION
+; $0F1710-$0F1732 JUMP LOCATION
 Sprite_IceBallGenerator:
 {
     LDA $0DB0, X : BNE Sprite_IceBall
@@ -495,7 +491,7 @@ Sprite_IceBallGenerator:
 
 ; ==============================================================================
 
-; $F1733-$F17BE BRANCH LOCATION
+; $0F1733-$0F17BE BRANCH LOCATION
 Sprite_IceBall:
 {
     LDA.b #$01 : STA $0BA0, X
@@ -580,7 +576,7 @@ Sprite_IceBall:
 
 ; ==============================================================================
 
-; $F17BF-$F17CE DATA
+; $0F17BF-$0F17CE DATA
 pool IceBall_Quadruplicate:
 {
     ; \note the split has two configurations that alternate between diagonal
@@ -597,7 +593,7 @@ pool IceBall_Quadruplicate:
 
 ; ==============================================================================
 
-; *$F17CF-$F181C LOCAL
+; $0F17CF-$0F181C LOCAL
 IceBall_Quadruplicate:
 {
     LDA.b #$1F : JSL Sound_SetSfx2PanLong

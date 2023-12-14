@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4537A-$453BB DATA
+; $04537A-$0453BB DATA
 pool MorphPoof_Draw:
 {
-    
     .chr
     db $86, $A9, $9B
     
@@ -24,7 +23,7 @@ pool MorphPoof_Draw:
 
 ; ==============================================================================
 
-; *$453BC-$453FC JUMP LOCATION
+; $0453BC-$0453FC JUMP LOCATION
 Ancilla_MorphPoof:
 {
     DEC $03B1, X : BPL MorphPoof_Draw
@@ -66,7 +65,7 @@ Ancilla_MorphPoof:
     
 ; ==============================================================================
 
-; *$453FD-$45499 ALTERNATE ENTRY POINT
+; $0453FD-$045499 ALTERNATE ENTRY POINT
 MorphPoof_Draw:
     
     LDA $0FB3 : BEQ .unsorted_sprites

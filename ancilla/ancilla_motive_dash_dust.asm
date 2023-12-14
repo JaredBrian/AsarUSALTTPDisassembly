@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $4ADF1-$4ADF3 DATA
+; $04ADF1-$04ADF3 DATA
 pool Ancilla_MotiveDashDust:
 {
     db $A9, $CF, $DF
@@ -9,7 +9,7 @@ pool Ancilla_MotiveDashDust:
 
 ; ==============================================================================
 
-; *$4ADF4-$4AE3D LONG
+; $04ADF4-$04AE3D LONG
 Ancilla_MotiveDashDust:
 {
     PHB : PHK : PLB

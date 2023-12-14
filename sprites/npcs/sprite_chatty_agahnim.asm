@@ -3,7 +3,7 @@
 
 ; ==============================================================================
 
-; *$ED1FD-$ED233 LONG
+; $0ED1FD-$0ED233 LONG
 ChattyAgahnim_SpawnZeldaOnAltar:
 {
     LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
@@ -29,7 +29,7 @@ ChattyAgahnim_SpawnZeldaOnAltar:
 
 ; ==============================================================================
 
-; *$ED234-$ED23E JUMP LOCATION
+; $0ED234-$0ED23E JUMP LOCATION
 Sprite_ChattyAgahnim:
 {
     LDA !is_altar_zelda, X
@@ -42,7 +42,7 @@ Sprite_ChattyAgahnim:
 
 ; ==============================================================================
 
-; *$ED23F-$ED284 JUMP LOCATION
+; $0ED23F-$0ED284 JUMP LOCATION
 ChattyAgahnim_Main:
 {
     LDA $0DB0, X : BEQ .not_afterimage
@@ -97,7 +97,7 @@ ChattyAgahnim_Main:
 
 ; ==============================================================================
 
-; *$ED285-$ED2A0 JUMP LOCATION
+; $0ED285-$0ED2A0 JUMP LOCATION
 ChattyAgahnim_Problab:
 {
     LDA !timer_0, X : BNE .delay_message
@@ -119,17 +119,16 @@ ChattyAgahnim_Problab:
 
 ; ==============================================================================
 
-; $ED2A1-$ED2A4 DATA
+; $0ED2A1-$0ED2A4 DATA
 pool ChattyAgahnim_LevitateZelda:
 {
-    
     .animation_states
     db 2, 0, 3, 0
 }
 
 ; ==============================================================================
 
-; *$ED2A5-$ED2EE JUMP LOCATION
+; $0ED2A5-$0ED2EE JUMP LOCATION
 ChattyAgahnim_LevitateZelda:
 {
     INC $0DA0, X : LDA $0DA0, X : PHA : LSR #5 : AND.b #$03 : TAY
@@ -174,7 +173,7 @@ ChattyAgahnim_LevitateZelda:
 
 ; ==============================================================================
 
-; *$ED2EF-$ED321 JUMP LOCATION
+; $0ED2EF-$0ED321 JUMP LOCATION
 ChattyAgahnim_DoTelewarpSpell:
 {
     LDA !timer_0, X : BEQ .advance_ai_state
@@ -209,7 +208,7 @@ ChattyAgahnim_DoTelewarpSpell:
 
 ; ==============================================================================
 
-; *$ED322-$ED34E JUMP LOCATION
+; $0ED322-$0ED34E JUMP LOCATION
 ChattyAgahnim_CompleteTelewarpSpell:
 {
     LDA !timer_0, X : BEQ .finish_warping_zelda
@@ -241,7 +240,7 @@ ChattyAgahnim_CompleteTelewarpSpell:
 
 ; ==============================================================================
 
-; *$ED34F-$ED36A JUMP LOCATION
+; $0ED34F-$0ED36A JUMP LOCATION
 ChattyAgahnim_Epiblab:
 {
     LDA !timer_0, X : BNE .delay_message
@@ -263,7 +262,7 @@ ChattyAgahnim_Epiblab:
 
 ; ==============================================================================
 
-; *$ED36B-$ED391 JUMP LOCATION
+; $0ED36B-$0ED391 JUMP LOCATION
 ChattyAgahnim_TeleportTowardCurtains:
 {
     LDA !timer_0, X : DEC A : BNE .delay_sfx
@@ -292,7 +291,7 @@ ChattyAgahnim_TeleportTowardCurtains:
 
 ; ==============================================================================
 
-; *$ED392-$ED3B8 LONG
+; $0ED392-$0ED3B8 LONG
 Sprite_SpawnAgahnimAfterImage:
 {
     LDY.b #$FF
@@ -319,7 +318,7 @@ Sprite_SpawnAgahnimAfterImage:
 
 ; ==============================================================================
 
-; *$ED3B9-$ED3D0 JUMP LOCATION
+; $0ED3B9-$0ED3D0 JUMP LOCATION
 ChattyAgahnim_LingerThenTerminate:
 {
     LDA $0F10, X : BNE .delay_self_termination
@@ -339,10 +338,9 @@ ChattyAgahnim_LingerThenTerminate:
 
 ; ==============================================================================
 
-; $ED3D1-$ED450 DATA
+; $0ED3D1-$0ED450 DATA
 pool ChattyAgahnim_Draw:
 {
-    
     .oam_groups
     dw -8, -8 : db $82, $0B, $00, $02
     dw  8, -8 : db $82, $4B, $00, $02
@@ -367,7 +365,7 @@ pool ChattyAgahnim_Draw:
 
 ; ==============================================================================
 
-; *$ED451-$ED48C LOCAL
+; $0ED451-$0ED48C LOCAL
 ChattyAgahnim_Draw:
 {
     LDA $0F10, X : AND.b #$01 : BNE .dont_draw
@@ -402,7 +400,7 @@ ChattyAgahnim_Draw:
 
 ; ==============================================================================
 
-; $ED48D-$ED515 DATA
+; $0ED48D-$0ED515 DATA
 pool ChattyAgahnim_DrawTelewarpSpell:
 {
     ; \task This looks like a pain. Finish the labeling later.
@@ -456,7 +454,7 @@ pool ChattyAgahnim_DrawTelewarpSpell:
 
 ; ==============================================================================
 
-; *$ED516-$ED57C LOCAL
+; $0ED516-$0ED57C LOCAL
 ChattyAgahnim_DrawTelewarpSpell:
 {
     LDA.b #$38 : JSL OAM_AllocateFromRegionA
@@ -524,7 +522,7 @@ ChattyAgahnim_DrawTelewarpSpell:
 
 ; ==============================================================================
 
-; *$ED57D-$ED580 JUMP LOCATION
+; $0ED57D-$0ED580 JUMP LOCATION
 Sprite_AltarZelda:
 {
     JSR AltarZelda_Main
@@ -534,10 +532,9 @@ Sprite_AltarZelda:
 
 ; ==============================================================================
 
-; $ED581-$ED5A0 DATA
+; $0ED581-$0ED5A0 DATA
 pool AltarZelda_Main:
 {
-    
     .oam_groups
     dw -4, 0 : db $03, $01, $00, $02
     dw  4, 0 : db $04, $01, $00, $02
@@ -548,7 +545,7 @@ pool AltarZelda_Main:
 
 ; ==============================================================================
 
-; *$ED5A1-$ED5D8 LOCAL
+; $0ED5A1-$0ED5D8 LOCAL
 AltarZelda_Main:
 {
     LDA !timer_0, X : BEQ .not_telewarping_zelda
@@ -588,10 +585,9 @@ AltarZelda_Main:
 
 ; ==============================================================================
 
-; $ED5D9-$ED5E8 DATA
+; $0ED5D9-$0ED5E8 DATA
 pool AltarZelda_DrawBody:
 {
-    
     .xy_offsets
     db 4, 4, 3, 3, 2, 2, 1, 1
     db 0, 0, 0, 0, 0, 0, 0, 0
@@ -599,7 +595,7 @@ pool AltarZelda_DrawBody:
 
 ; ==============================================================================
 
-; *$ED5E9-$ED660 LOCAL
+; $0ED5E9-$0ED660 LOCAL
 AltarZelda_DrawBody:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionA
@@ -652,10 +648,9 @@ AltarZelda_DrawBody:
 
 ; ==============================================================================
 
-; $ED661-$ED6B0 DATA
+; $0ED661-$0ED6B0 DATA
 pool AltarZelda_DrawWarpEffect:
 {
-    
     .oam_groups
     dw  4, 4 : db $80, $04, $00, $00
     dw  4, 4 : db $80, $04, $00, $00
@@ -675,7 +670,7 @@ pool AltarZelda_DrawWarpEffect:
 
 ; ==============================================================================
 
-; *$ED6B1-$ED6D0 LOCAL
+; $0ED6B1-$0ED6D0 LOCAL
 AltarZelda_DrawWarpEffect:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionA

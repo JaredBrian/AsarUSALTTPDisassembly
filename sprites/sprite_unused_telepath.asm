@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $6C6DE-$6C6E5 LONG
+; $06C6DE-$06C6E5 LONG
 Sprite_UnusedTelepathLong:
 {
     PHB : PHK : PLB
@@ -24,7 +24,7 @@ Sprite_UnusedTelepathLong:
     ; this sprite is drawn. I can only assume that the graphics were removed
     ; at some point during development.
     
-; *$6C6E6-$6C706 LOCAL
+; $06C6E6-$06C706 LOCAL
 Sprite_UnusedTelepath:
 {
     JSR UnusedTelepath_Draw
@@ -44,10 +44,9 @@ Sprite_UnusedTelepath:
 
 ; ==============================================================================
 
-; $6C707-$6C736 DATA
+; $06C707-$06C736 DATA
 pool UnusedTelepath_Draw:
 {
-    
     .oam_groups
     dw 4, -14 : db $AE, $00, $00, $00
     dw 0, -16 : db $82, $00, $00, $02
@@ -60,7 +59,7 @@ pool UnusedTelepath_Draw:
 
 ; ==============================================================================
 
-; *$6C737-$6C759 LOCAL
+; $06C737-$06C759 LOCAL
 UnusedTelepath_Draw:
 {
     LDA.b #$03 : STA $06

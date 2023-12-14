@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $338CE-$338CF DATA
+; $0338CE-$0338CF DATA
 pool Sprite_CrystalSwitch:
 {
-    
     .palettes
     db $02, $04
 }
 
 ; ==============================================================================
 
-; *$338D0-$3394B JUMP LOCATION
+; $0338D0-$03394B JUMP LOCATION
 Sprite_CrystalSwitch:
 {
     ; And the palette value with 0xF1

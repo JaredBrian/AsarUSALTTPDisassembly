@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4F270-$4F28F Jump Table
+; $04F270-$04F28F Jump Table
 pool Module_Death:
 {
-    
     .states
     dw $F2A2 ; = $4F2A2*              ; 0x00 -
     dw $F2A4 ; = $4F2A4*              ; 0x01 - 
@@ -26,7 +25,7 @@ pool Module_Death:
 
 ; ==============================================================================
 
-; *$4F290-$4F2A1 JUMP LOCATION LONG
+; $04F290-$04F2A1 JUMP LOCATION LONG
 Module_Death:
 {
     ; Beginning of Module 0x12, Death Mode
@@ -47,11 +46,11 @@ Module_Death:
 
 ; ==============================================================================
 
-; *$4F2A2-$4F33A LOCAL
+; $04F2A2-$04F33A LOCAL
 {
     INC $11
     
-    ; *$4F2A4 ALTERNATE ENTRY POINT
+    ; $04F2A4 ALTERNATE ENTRY POINT
     
     ; ????
     LDA $0130 : STA $7EC227
@@ -117,7 +116,7 @@ Module_Death:
 } 
 
 
-; *$4F33B-$4F34F LOCAL
+; $04F33B-$04F34F LOCAL
 {
     DEC $C8 : BNE .alpha
     
@@ -137,7 +136,7 @@ Module_Death:
 
 ; ==============================================================================
 
-; *$4F350-$4F3DD LOCAL
+; $04F350-$04F3DD LOCAL
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
     
@@ -204,7 +203,7 @@ Module_Death:
 
 ; ==============================================================================
 
-; *$4F3DE-$4F457 LOCAL
+; $04F3DE-$04F457 LOCAL
 {
     LDA $C8 : BNE .delay
     
@@ -273,7 +272,7 @@ Module_Death:
     RTS
 }
 
-; *$4F458-$4F482 LOCAL
+; $04F458-$04F482 LOCAL
 {
     LDA.b #$0C : STA $C8
     LDA.b #$0F : STA $0AAA
@@ -290,21 +289,21 @@ Module_Death:
     
     INC $15 : INC $11
     
-    ; *$4F47E ALTERNATE ENTRY POINT
+    ; $04F47E ALTERNATE ENTRY POINT
     
     JSL Death_PlayerSwoon
     
     RTS
 }
 
-; *$4F483-$4F487 LOCAL
+; $04F483-$04F487 LOCAL
 {
     JSL Ancilla_GameOverTextLong
     
     RTS
 }
 
-; *$4F488-$4F4AB LOCAL
+; $04F488-$04F4AB LOCAL
 Death_ShowSaveOptionsMenu:
 {
     JSL Ancilla_GameOverTextLong
@@ -330,9 +329,8 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; $4F4AC-$4F4C0 DATA
+; $04F4AC-$04F4C0 DATA
 {
-    
     ; \task Name this pool / routine.
     db $18, $18, $18, $18, $18, $20, $20, $28
     db $28, $30, $30, $38, $38, $38, $40, $40
@@ -341,9 +339,9 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; *$4F4C1-$4F674 LOCAL
+; $04F4C1-$04F674 LOCAL
 {
-    JSR $F67A ; $4F67A IN ROM
+    JSR $F67A ; $04F67A IN ROM
     
     LDA $0C4A : BEQ .alpha
     
@@ -388,7 +386,7 @@ Death_ShowSaveOptionsMenu:
     
     LDA.b #$2C : STA $012E
     
-    ; *$4F50F ALTERNATE ENTRY POINT
+    ; $04F50F ALTERNATE ENTRY POINT
     
     LDA.b #$F1 : STA $012C
     
@@ -398,7 +396,7 @@ Death_ShowSaveOptionsMenu:
     
     .BRANCH_ZETA
     
-    JSL $02856A ; $1056A IN ROM
+    JSL $02856A ; $01056A IN ROM
     
     LDA $7EF3C5 : CMP.b #$03 : BCS .BRANCH_THETA
     
@@ -406,7 +404,7 @@ Death_ShowSaveOptionsMenu:
     
     LDA $7EF357 : BNE .BRANCH_THETA
     
-    JSL $028570 ; $10570 IN ROM
+    JSL $028570 ; $010570 IN ROM
     
     .BRANCH_THETA
     
@@ -416,7 +414,7 @@ Death_ShowSaveOptionsMenu:
     
     .BRANCH_IOTA
     
-    JSL $0BFFBF ; $5FFBF IN ROM
+    JSL $0BFFBF ; $05FFBF IN ROM
     
     LDA $7EF3CC
     
@@ -517,7 +515,7 @@ Death_ShowSaveOptionsMenu:
     
     STZ $010A
     
-    JSL $0CCFBB ; $64FBB IN ROM
+    JSL $0CCFBB ; $064FBB IN ROM
     
     RTS
     
@@ -533,7 +531,7 @@ Death_ShowSaveOptionsMenu:
     
     STZ $1B
     
-    JSL $0CF0E2 ; $670E2 IN ROM
+    JSL $0CF0E2 ; $0670E2 IN ROM
     
     STZ $04AA : STZ $010A : STZ $0132
     
@@ -574,7 +572,7 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; $4F675-$4F679 DATA
+; $04F675-$04F679 DATA
 {
     db -22, -20
     
@@ -583,7 +581,7 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; *$4F67A-$4F6A3 LOCAL 
+; $04F67A-$04F6A3 LOCAL 
 {
     PHB : PHK : PLB
     
@@ -607,7 +605,7 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; *$4F6A4-$4F6B3 LOCAL ; Fairy Revival stuff
+; $04F6A4-$04F6B3 LOCAL ; Fairy Revival stuff
 {
     ; Configure some ancillary objects for reviving the player, such
     ; as a fairy and... other stuff?
@@ -623,14 +621,14 @@ Death_ShowSaveOptionsMenu:
     RTS
 }
 
-; *$4F6B4-$4F6B8 LOCAL
+; $04F6B4-$04F6B8 LOCAL
 {
     JSL Ancilla_RevivalFairy
     
     RTS
 }
 
-; *$4F6B9-$4F71C LOCAL
+; $04F6B9-$04F71C LOCAL
 {
     LDA $7EF372 : BNE .refillHearts
     
@@ -659,11 +657,11 @@ Death_ShowSaveOptionsMenu:
     
     SEP #$20
     
-    ; *$4F712 ALTERNATE ENTRY POINT
+    ; $04F712 ALTERNATE ENTRY POINT
     
     INC $11
     
-    ; *$4F714 ALTERNATE ENTRY POINT
+    ; $04F714 ALTERNATE ENTRY POINT
     
     .refillHearts
     
@@ -673,7 +671,7 @@ Death_ShowSaveOptionsMenu:
     RTS
 }
 
-; *$4F71D-$4F734 LOCAL
+; $04F71D-$04F734 LOCAL
 {
     LDA $020A : BNE .BRANCH_$4F714
     
@@ -688,7 +686,7 @@ Death_ShowSaveOptionsMenu:
     BRA .BRANCH_$4F712
 }
 
-; *$4F735-$4F741 LOCAL
+; $04F735-$04F741 LOCAL
 {
     JSL Graphics_LoadChrHalfSlot
     
@@ -701,7 +699,7 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; *$4F742-$4F79A LOCAL
+; $04F742-$04F79A LOCAL
 Death_RestoreScreenPostRevival:
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Additive
@@ -711,7 +709,7 @@ Death_RestoreScreenPostRevival:
     
     LDA $7EC007 : CMP.b #$20 : BNE .not_done
     LDA $1B : BNE .indoors
-        JSL $0BFE70 ; $5FE70 IN ROM
+        JSL $0BFE70 ; $05FE70 IN ROM
     
     .indoors
     
@@ -733,7 +731,7 @@ Death_RestoreScreenPostRevival:
     
     SEP #$20
     
-    ; $4F742 ALTERNATE ENTRY POINT
+    ; $04F742 ALTERNATE ENTRY POINT
     .return
     .not_done
     

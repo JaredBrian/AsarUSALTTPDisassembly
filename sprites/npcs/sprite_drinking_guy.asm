@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F7603-$F7631 JUMP LOCATION
+; $0F7603-$0F7631 JUMP LOCATION
 Sprite_DrinkingGuy:
 {
     JSL DrinkingGuy_Draw

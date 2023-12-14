@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$406D2-$40758 JUMP LOCATION
+; $0406D2-$040758 JUMP LOCATION
 Ancilla_FireShot:
 {
     LDA $0C54, X : BEQ .traveling_shot
@@ -83,10 +83,9 @@ Ancilla_FireShot:
 
 ; ==============================================================================
 
-; $40759-$4077B DATA
+; $040759-$04077B DATA
 pool FireShot_Draw:
 {
-    
     .x_offsets
     db 7, 0, 8, 0, 8, 4, 0, 0
     db 2, 8, 0, 0, 1, 4, 9, 0
@@ -101,7 +100,7 @@ pool FireShot_Draw:
 
 ; ==============================================================================
 
-; *$4077C-$407CA LOCAL
+; $04077C-$0407CA LOCAL
 FireShot_Draw:
 {
     JSR Ancilla_BoundsCheck
@@ -155,10 +154,9 @@ FireShot_Draw:
 
 ; ==============================================================================
 
-; *$407CB-$40852 BRANCH LOCATION
+; $0407CB-$040852 BRANCH LOCATION
 pool Ancilla_ConsumingFire:
 {
-    
     .self_terminate
     
     ; Check if it was a torch flame (not fire rod)
@@ -185,7 +183,7 @@ pool Ancilla_ConsumingFire:
     .chr
     db $A2, $A0, $8E
     
-    ; *$407EC MAIN ENTRY POINT
+    ; $0407EC MAIN ENTRY POINT
 Ancilla_ConsumingFire:
     
     JSR Ancilla_CheckBasicSpriteCollision

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $2E3A3-$2E3A6 DATA
+; $02E3A3-$02E3A6 DATA
 pool Sprite_InnKeeper:
 {
-    
     ; "There is a lake swimming with Zoras at the source of the river...".
     ; "...there was a boy in this village who could talk to animals ..."
     .messages_low
@@ -16,7 +15,7 @@ pool Sprite_InnKeeper:
 
 ; ==============================================================================
 
-; *$2E3A7-$2E3AE LONG
+; $02E3A7-$02E3AE LONG
 Sprite_InnKeeperLong:
 {
     ; Inn Keeper (0x35)
@@ -32,7 +31,7 @@ Sprite_InnKeeperLong:
 
 ; ==============================================================================
 
-; *$2E3AF-$2E3CB LOCAL
+; $02E3AF-$02E3CB LOCAL
 Sprite_InnKeeper:
 {
     JSR InnKeeper_Draw
@@ -51,10 +50,9 @@ Sprite_InnKeeper:
 
 ; ==============================================================================
 
-; $2E3CC-$2E3DB DATA
+; $02E3CC-$02E3DB DATA
 pool InnKeeper_Draw:
 {
-    
     .animation_states
     dw 0, -8 : db $C4, $00, $00, $02
     dw 0,  0 : db $CA, $00, $00, $02
@@ -62,7 +60,7 @@ pool InnKeeper_Draw:
 
 ; ==============================================================================
 
-; *$2E3DC-$2E3F2 LOCAL
+; $02E3DC-$02E3F2 LOCAL
 InnKeeper_Draw:
 {
     LDA.b #$02 : STA $06

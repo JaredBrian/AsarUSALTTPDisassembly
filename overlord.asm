@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4B714-$4B772 LOCAL
+; $04B714-$04B772 LOCAL
 Overlord_SpawnBoulder:
 {
     LDA $1B : BNE .indoors
@@ -36,7 +36,7 @@ Overlord_SpawnBoulder:
 
 ; ==============================================================================
 
-; *$4B773-$4B77D LONG
+; $04B773-$04B77D LONG
 Overlord_Main:
 {
     PHB : PHK : PLB
@@ -51,7 +51,7 @@ Overlord_Main:
 
 ; ==============================================================================
 
-; *$4B77E-$4B792 LOCAL
+; $04B77E-$04B792 LOCAL
 Overlord_ExecuteAll:
 {
     LDA $11 : ORA $0FC1 : BNE .pause_execution
@@ -75,7 +75,7 @@ Overlord_ExecuteAll:
 
 ; ==============================================================================
 
-; *$4B793-$4B7DB LOCAL
+; $04B793-$04B7DB LOCAL
 Overlord_ExecuteSingle:
 {
     ; OVERLORD HANDLER
@@ -123,7 +123,7 @@ Overlord_ExecuteSingle:
 
 ; ==============================================================================
 
-; *$4B7DC-$4B7E0 JUMP LOCATION
+; $04B7DC-$04B7E0 JUMP LOCATION
 Overlord_ArmosCoordinator:
 {
     JSL ArmosCoordinatorLong
@@ -133,10 +133,9 @@ Overlord_ArmosCoordinator:
 
 ; ==============================================================================
 
-; $4B7E1-$4B7F4 DATA
+; $04B7E1-$04B7F4 DATA
 pool Overlord_RedStalfosTrap:
 {
-    
     .x_offsets_low
     db   0,   0, -48,  48
     
@@ -156,7 +155,7 @@ pool Overlord_RedStalfosTrap:
 ; ==============================================================================
 
     ; \unused(unconfirmed) If used, I certainly can't remember where.
-; *$4B7F5-$4B883 JUMP LOCATION
+; $04B7F5-$04B883 JUMP LOCATION
 Overlord_RedStalfosTrap:
 {
     LDA $0B08, X : STA $00
@@ -218,7 +217,7 @@ Overlord_RedStalfosTrap:
 
 ; ==============================================================================
 
-; *$4B884-$4B8C0 JUMP LOCATION
+; $04B884-$04B8C0 JUMP LOCATION
 Overlord_StalfosTrapTriggerWindow:
 {
     LDA $0B08, X : STA $00
@@ -247,10 +246,9 @@ Overlord_StalfosTrapTriggerWindow:
 
 ; ==============================================================================
 
-; $4B8C1-$4B8D0 DATA
+; $04B8C1-$04B8D0 DATA
 pool Overlord_ZoroFactory:
 {
-    
     .x_offsets_low
     db $FC, $FE, $00, $02, $04, $06, $08, $0C
     
@@ -260,7 +258,7 @@ pool Overlord_ZoroFactory:
 
 ; ==============================================================================
 
-; *$4B8D1-$4B971 JUMP LOCATION
+; $04B8D1-$04B971 JUMP LOCATION
 Overlord_ZoroFactory:
 {
     DEC $0B30, X
@@ -326,10 +324,9 @@ Overlord_ZoroFactory:
 
 ; ==============================================================================
 
-; $4B972-$4B985 DATA
+; $04B972-$04B985 DATA
 pool Overlord_WizzrobeFactory:
 {
-    
     .x_offsets_low
     db 48, -48,   0,   0
     
@@ -348,7 +345,7 @@ pool Overlord_WizzrobeFactory:
 
 ; ==============================================================================
 
-; *$4B986-$4B9E7 JUMP LOCATION
+; $04B986-$04B9E7 JUMP LOCATION
 Overlord_WizzrobeFactory:
 {
     LDA $0B30, X : CMP.b #$80 : BEQ .spawn
@@ -403,7 +400,7 @@ Overlord_WizzrobeFactory:
 
 ; ==============================================================================
 
-; *$4B9E8-$4BA29 JUMP LOCATION
+; $04B9E8-$04BA29 JUMP LOCATION
 Overlord_FlyingTileFactory:
 {
 	LDA $0B08, X : CMP $E2
@@ -447,10 +444,9 @@ Overlord_FlyingTileFactory:
 
 ; ==============================================================================
 
-; $4BA2A-$4BA55 DATA
+; $04BA2A-$04BA55 DATA
 pool Overlord_SpawnFlyingTile:
 {
-    
     .x_coords_low
     db $70, $80, $60, $90, $90, $60, $70, $80
     db $80, $70, $50, $A0, $A0, $50, $50, $A0
@@ -464,7 +460,7 @@ pool Overlord_SpawnFlyingTile:
 
 ; ==============================================================================
 
-; *$4BA56-$4BAAB LOCAL
+; $04BA56-$04BAAB LOCAL
 Overlord_SpawnFlyingTile:
 {
     LDA.b #$94 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -503,7 +499,7 @@ Overlord_SpawnFlyingTile:
 
 ; ==============================================================================
 
-; *$4BAAC-$4BABF JUMP LOCATION
+; $04BAAC-$04BABF JUMP LOCATION
 Overlord_PirogusuFactory:
 {
     LDA $0B00, X : SEC : SBC.b #$10 : STA $0FB5
@@ -518,17 +514,16 @@ Overlord_PirogusuFactory:
 
 ; ==============================================================================
 
-; $4BAC0-$4BAC3 DATA
+; $04BAC0-$04BAC3 DATA
 pool PirogusuFactory_Main:
 {
-    
     .dirctions
     db 2, 3, 0, 1
 }
 
 ; ==============================================================================
 
-; *$4BAC4-$4BB23 BRANCH LOCATION
+; $04BAC4-$04BB23 BRANCH LOCATION
 PirogusuFactory_Main:
 {
     JSL GetRandomInt : AND.b #$1F
@@ -588,7 +583,7 @@ PirogusuFactory_Main:
 
 ; ==============================================================================
 
-; $4BB24-$4BBB1 DATA
+; $04BB24-$04BBB1 DATA
 pool Overlord_CrumbleTilePath:
 {
     ; Defines to make it easier to tell what the path looks like.
@@ -669,7 +664,7 @@ pool Overlord_CrumbleTilePath:
 
 ; ==============================================================================
 
-; *$4BBB2-$4BC30 JUMP LOCATION
+; $04BBB2-$04BC30 JUMP LOCATION
 Overlord_CrumbleTilePath:
 {
     LDA $0B30, X : BEQ .timer_expired
@@ -730,7 +725,7 @@ Overlord_CrumbleTilePath:
 
 ; ==============================================================================
 
-; *$4BC31-$4BC7A LOCAL
+; $04BC31-$04BC7A LOCAL
 CrumbleTilePath_SpawnCrumbleTileGarnish:
 {
     TXY
@@ -772,7 +767,7 @@ CrumbleTilePath_SpawnCrumbleTileGarnish:
 
 ; ==============================================================================
 
-; *$4BC7B-$4BCC2 JUMP LOCATION
+; $04BC7B-$04BCC2 JUMP LOCATION
 Overlord_WallMasterFactory:
 {
     LDA $0B30, X : CMP.b #$80 : BEQ .timer_expired
@@ -819,7 +814,7 @@ Overlord_WallMasterFactory:
 
 ; ==============================================================================
 
-; *$4BCC3-$4BD3E JUMP LOCATION
+; $04BCC3-$04BD3E JUMP LOCATION
 Overlord_ZolFactory:
 {
     LDA $0B30, X : BEQ .timer_expired
@@ -887,7 +882,7 @@ Overlord_ZolFactory:
 
 ; ==============================================================================
 
-; *$4BD3F-$4BD8C JUMP LOCATION
+; $04BD3F-$04BD8C JUMP LOCATION
 Overlord_MovingFloor:
 {
     LDA $0DD0 : CMP.b #$04 : BNE .mothula_not_exploding
@@ -948,11 +943,10 @@ Overlord_MovingFloor:
 
 ; ==============================================================================
 
-; $4BD8D-$4BD9C DATA
+; $04BD8D-$04BD9C DATA
 pool Overlord_ZolFactory:
     parallel pool Overlord_StalfosFactory:
 {
-    
     .x_offsets_low
     db   0,   0, -48,  48
     
@@ -972,7 +966,7 @@ pool Overlord_ZolFactory:
     ; \task Investigate this.
     ; \note Somewhat like endless shrimp at Red Lobster, but more affordable.
     
-; *$4BD9D-$4BDFC JUMP LOCATION
+; $04BD9D-$04BDFC JUMP LOCATION
 Overlord_StalfosFactory:
 {
     LDA $0B30, X : BEQ .spawn
@@ -1027,7 +1021,7 @@ Overlord_StalfosFactory:
 
 ; ==============================================================================
 
-; *$4BDFD-$4BE06 LOCAL
+; $04BDFD-$04BE06 LOCAL
 Overlord_PlayDropSfx:
 {
     PHX : TYX
@@ -1036,7 +1030,7 @@ Overlord_PlayDropSfx:
     
     PLX
     
-    ; $4BE06 ALTERNATE ENTRY POINT
+    ; $04BE06 ALTERNATE ENTRY POINT
     .return
     
     RTS
@@ -1044,17 +1038,16 @@ Overlord_PlayDropSfx:
 
 ; ==============================================================================
 
-; $4BE07-$4BE0E DATA
+; $04BE07-$04BE0E DATA
 pool Overlord_StalfosTrap:
 {
-    
     .spawn_delays
     db $FF, $E0, $C0, $A0, $80, $60, $40, $20
 }
 
 ; ==============================================================================
 
-; *$4BE0F-$4BE6C JUMP LOCATION
+; $04BE0F-$04BE6C JUMP LOCATION
 Overlord_StalfosTrap:
 {
     LDA $0B08, X : CMP $E2
@@ -1109,17 +1102,16 @@ Overlord_StalfosTrap:
 
 ; ==============================================================================
 
-; $4BE6D-$4BE74 DATA
+; $04BE6D-$04BE74 DATA
 pool Overlord_SnakeTrap:
 {
-    
     .spawn_delays
     db $20, $30, $40, $50, $60, $70, $80, $90
 }
 
 ; ==============================================================================
 
-; *$4BE75-$4BED8 JUMP LOCATION
+; $04BE75-$04BED8 JUMP LOCATION
 Overlord_SnakeTrap:
     shared Overlord_BombTrap:
 {
@@ -1177,10 +1169,9 @@ Overlord_SnakeTrap:
 
 ; ==============================================================================
 
-; $4BED9-$4BF08 DATA
+; $04BED9-$04BF08 DATA
 pool Overlord_AllDirectionMetalBallFactory:
 {
-    
     .coord_indices
     db 2, 2, 2, 2, 1, 1, 1, 1
     db 3, 3, 3, 3, 0, 0, 0, 0
@@ -1196,7 +1187,7 @@ pool Overlord_AllDirectionMetalBallFactory:
 
 ; ==============================================================================
 
-; *$4BF09-$4BF5A JUMP LOCATION
+; $04BF09-$04BF5A JUMP LOCATION
 Overlord_AllDirectionMetalBallFactory:
 {
     LDA $0B08, X : CMP $E2
@@ -1232,7 +1223,7 @@ Overlord_AllDirectionMetalBallFactory:
 
 ; ==============================================================================
 
-; *$4BF5B-$4BFAE JUMP LOCATION
+; $04BF5B-$04BFAE JUMP LOCATION
 Overlord_CascadeMetalBallFactory:
 {
     LDA $0B08, X : CMP $E2
@@ -1290,7 +1281,7 @@ Overlord_CascadeMetalBallFactory:
 
 ; ==============================================================================
 
-; *$4BFAF-$4C015 LOCAL
+; $04BFAF-$04C015 LOCAL
 Overlord_SpawnMetalBall:
 {
     ; Metal Balls (in Eastern Palace)
@@ -1339,10 +1330,9 @@ Overlord_SpawnMetalBall:
 
 ; ==============================================================================
 
-; $4C016-$4C01D DATA
+; $04C016-$04C01D DATA
 pool Overlord_SpawnMetalBall:
 {
-    
     .x_speeds
     db  24, -24,   0,   0
     
@@ -1352,7 +1342,7 @@ pool Overlord_SpawnMetalBall:
 
 ; ==============================================================================
 
-; *$4C01E-$4C022 JUMP LOCATION
+; $04C01E-$04C022 JUMP LOCATION
 Overlord_SpritePositionTarget:
 {
     TXA : STA $0FDE

@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $31C20-$31C23 DATA
+; $031C20-$031C23 DATA
 pool Sprite_SnapDragon:
 {
-    
     .animation_state_bases
     db 4, 0, 6, 2
 }
 
 ; ==============================================================================
 
-; *$31C24-$31C4A JUMP LOCATION
+; $031C24-$031C4A JUMP LOCATION
 Sprite_SnapDragon:
 {
     LDY $0DE0, X
@@ -35,10 +34,9 @@ Sprite_SnapDragon:
 
 ; ==============================================================================
 
-; $31C4B-$31C5A DATA
+; $031C4B-$031C5A DATA
 pool SnapDragon_Attack:
 {
-    
     .x_speeds
     db  8,  -8,   8,  -8
     db 16, -16,  16, -16
@@ -50,17 +48,16 @@ pool SnapDragon_Attack:
     
 ; ==============================================================================
 
-; $31C5B-$31C5E DATA
+; $031C5B-$031C5E DATA
 pool SnapDragon_Resting:
 {
-    
     .timers
     db $20, $30, $40, $50
 }
 
 ; ==============================================================================
 
-; *$31C5F-$31CA8 JUMP LOCATION
+; $031C5F-$031CA8 JUMP LOCATION
 SnapDragon_Resting:
 {
     LDA $0DF0, X : BNE .delay
@@ -112,7 +109,7 @@ SnapDragon_Resting:
 
 ; ==============================================================================
 
-; *$31CA9-$31D01 JUMP LOCATION
+; $031CA9-$031D01 JUMP LOCATION
 SnapDragon_Attack:
 {
     ; Always has mouth open while in this state?
@@ -169,10 +166,9 @@ SnapDragon_Attack:
 
 ; ==============================================================================
 
-; $31D02-$31E01 DATA
+; $031D02-$031E01 DATA
 pool SnapDragon_Draw:
 {
-    
     .oam_groups
     dw  4, -8 : db $8F, $00, $00, $00
     dw 12, -8 : db $9F, $00, $00, $00
@@ -217,7 +213,7 @@ pool SnapDragon_Draw:
 
 ; ==============================================================================
 
-; *$31E02-$31E1E LOCAL
+; $031E02-$031E1E LOCAL
 SnapDragon_Draw:
 {
     LDA #$00 : XBA

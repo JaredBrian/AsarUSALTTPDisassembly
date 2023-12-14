@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $F51CD-$F51D0 DATA
+; $0F51CD-$0F51D0 DATA
 pool Sprite_Winder:
 {
-    
     .vh_flip
     db $00, $40, $80, $C0    
 }
@@ -12,7 +11,7 @@ pool Sprite_Winder:
 ; ==============================================================================
 
     ; \note Appearance is that of a wandering fireball chain
-; *$F51D1-$F51FD JUMP LOCATION
+; $0F51D1-$0F51FD JUMP LOCATION
 Sprite_Winder:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong
@@ -40,10 +39,9 @@ Sprite_Winder:
 
 ; ==============================================================================
 
-; $F51FE-$F5205 DATA
+; $0F51FE-$0F5205 DATA
 pool Winder_DefaultState:
 {
-    
     .x_speeds
     db $18, $E8, $00, $00
     
@@ -53,7 +51,7 @@ pool Winder_DefaultState:
 
 ; ==============================================================================
 
-; *$F5206-$F5238 LOCAL
+; $0F5206-$0F5238 LOCAL
 Winder_DefaultState:
 {
     JSR Sprite3_CheckDamage
@@ -85,7 +83,7 @@ Winder_DefaultState:
 
 ; ==============================================================================
 
-; *$F5239-$F528C LOCAL
+; $0F5239-$0F528C LOCAL
 Winder_SpawnFireballGarnish:
 {
     TXA : EOR $1A : AND.b #$07 : BNE .delay

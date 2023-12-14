@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $EC8CC-$EC8D7 DATA
+; $0EC8CC-$0EC8D7 DATA
 pool Thief:
 {
-    
     .standing_animation_states
     db $0B, $08, $02, $05
     
@@ -14,7 +13,7 @@ pool Thief:
 
 ; ==============================================================================
 
-; *$EC8D8-$EC90D JUMP LOCATION
+; $0EC8D8-$0EC90D JUMP LOCATION
 Sprite_Thief:
 {
     JSL Thief_Draw
@@ -44,7 +43,7 @@ Sprite_Thief:
 
 ; ==============================================================================
 
-; *$EC90E-$EC94B JUMP LOCATION
+; $0EC90E-$0EC94B JUMP LOCATION
 Thief_Loitering:
 {
     JSR Thief_CheckPlayerCollision
@@ -81,7 +80,7 @@ Thief_Loitering:
 
 ; ==============================================================================
 
-; *$EC94C-$EC984 JUMP LOCATION
+; $0EC94C-$0EC984 JUMP LOCATION
 Thief_WatchPlayer:
 {
     JSR Thief_CheckPlayerCollision
@@ -97,7 +96,7 @@ Thief_WatchPlayer:
     
     .delay
     
-    ; *$EC966 ALTERNATE ENTRY POINT
+    ; $0EC966 ALTERNATE ENTRY POINT
     shared Thief_BodyTracksHead:
     
     LDA $1A : AND.b #$1F : BNE .dont_adjust_body
@@ -106,7 +105,7 @@ Thief_WatchPlayer:
     
     .dont_adjust_body
     
-    ; *$EC972 ALTERNATE ENTRY POINT
+    ; $0EC972 ALTERNATE ENTRY POINT
     shared Thief_Animate:
     
     INC $0E80, X : LDA $0E80, X : AND.b #$04 : ORA $0DE0, X : TAY
@@ -118,7 +117,7 @@ Thief_WatchPlayer:
 
 ; ==============================================================================
 
-; *$EC985-$EC9DE JUMP LOCATION
+; $0EC985-$0EC9DE JUMP LOCATION
 Thief_ChasePlayer:
 {
     LDA.b #$12 : JSL Sprite_ApplySpeedTowardsPlayerLong
@@ -174,7 +173,7 @@ Thief_ChasePlayer:
 
 ; ==============================================================================
 
-; *$EC9DF-$ECA23 JUMP LOCATION
+; $0EC9DF-$0ECA23 JUMP LOCATION
 Thief_StealShit:
 {
     JSR Thief_CheckPlayerCollision
@@ -219,7 +218,7 @@ Thief_StealShit:
 
 ; ==============================================================================
 
-; *$ECA24-$ECA4B LOCAL
+; $0ECA24-$0ECA4B LOCAL
 Thief_ScanForBooty:
 {
     LDY.b #$0F
@@ -257,7 +256,7 @@ Thief_ScanForBooty:
 
 ; ==============================================================================
 
-; *$ECA4C-$ECA9D LOCAL
+; $0ECA4C-$0ECA9D LOCAL
 Thief_TrackDownBooty:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .speed_adjustment_delay
@@ -304,7 +303,7 @@ Thief_TrackDownBooty:
 
 ; ==============================================================================
 
-; *$ECA9E-$ECAF1 LOCAL
+; $0ECA9E-$0ECAF1 LOCAL
 Thief_AttemptBootyGrab:
 {
     LDA $0D10, Y : STA $04
@@ -342,7 +341,7 @@ Thief_AttemptBootyGrab:
 
 ; ==============================================================================
 
-; *$ECAF2-$ECB1F LOCAL
+; $0ECAF2-$0ECB1F LOCAL
 Thief_CheckPlayerCollision:
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_bump_player
@@ -361,7 +360,7 @@ Thief_CheckPlayerCollision:
     
     LDA.b #$0C : STA $0EA0, X
     
-    ; $ECB19 ALTERNATE ENTRY POINT
+    ; $0ECB19 ALTERNATE ENTRY POINT
     shared Thief_MakeStealingShitNoise:
     
     LDA.b #$0B : JSL Sound_SetSfx2PanLong
@@ -373,9 +372,8 @@ Thief_CheckPlayerCollision:
 
 ; ==============================================================================
 
-; $ECB20-$ECB2F DATA
+; $0ECB20-$0ECB2F DATA
 {
-    
     .x_speeds
     db   0,  24,  24,   0, -24, -24
     
@@ -388,7 +386,7 @@ Thief_CheckPlayerCollision:
 
 ; ==============================================================================
 
-; *$ECB30-$ECBD5 LOCAL
+; $0ECB30-$0ECBD5 LOCAL
 Thief_DislodgePlayerItems:
 {
     LDA.b #$05 : STA $0FB5
@@ -489,10 +487,9 @@ Thief_DislodgePlayerItems:
 
 ; ==============================================================================
 
-; $ECBD6-$ECC9D DATA
+; $0ECBD6-$0ECC9D DATA
 pool Thief_Draw:
 {
-    
     .oam_groups
     dw 0, -6 : db $00, $00, $00, $02
     dw 0,  0 : db $06, $00, $00, $02
@@ -528,7 +525,7 @@ pool Thief_Draw:
 
 ; ==============================================================================
 
-; *$ECC9E-$ECCDA LONG
+; $0ECC9E-$0ECCDA LONG
 Thief_Draw:
 {
     PHB : PHK : PLB

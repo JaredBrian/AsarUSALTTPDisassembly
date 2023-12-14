@@ -1,14 +1,14 @@
 
-; $D8000 - $DB1D6 - tail end of the music (spc) data
+; $0D8000 - $DB1D6 - tail end of the music (spc) data
 
     
-; $DB1D7 - $DB29A - possibly a test block of spc data, but seems to be unused
+; $0DB1D7 - $DB29A - possibly a test block of spc data, but seems to be unused
 {
     ; \task Fill in data and find out if that part about spc data seems
     ; credible.
 }
     
-; $DB29B - $DB7FF - null bytes / empty space
+; $0DB29B - $DB7FF - null bytes / empty space
 pool Null:
 {
     ; \task Put in fillbyte / fill directives.
@@ -16,25 +16,25 @@ pool Null:
 
 ; ==============================================================================
 
-; $DB800-$DB85F DATA
+; $0DB800-$0DB85F DATA
 pool Overworld_Hole:
 {
     .map16
     
-    ; $DB800 - map16 coordinates for holes
+    ; $0DB800 - map16 coordinates for holes
     dw $0CE0, $124E, $12CE, $1162, $11E2, $073C, $07BC, $0CE0
     dw $003C, $00BE, $003E, $0388, $0170, $03A4, $0424, $0518
     dw $028A, $020A, $0108
     
     .area
     
-    ; $DB826 - area numbers for holes
+    ; $0DB826 - area numbers for holes
     dw $0040, $0040, $0040, $0040, $0040, $0040, $0040, $0000
     dw $005B, $005B, $005B, $0015, $001B, $0022, $0022, $0002, $0018, $0018, $0014
     
     .entrance
     
-    ; $DB84C - dungeon entrance to go into
+    ; $0DB84C - dungeon entrance to go into
     db $76, $77, $77, $78, $78, $79, $79, $7A
     db $7B, $7B, $7B, $7C, $7D, $7E, $7E, $7F
     db $80, $80, $81, $82
@@ -42,7 +42,7 @@ pool Overworld_Hole:
 
 ; ==============================================================================
 
-; *$DB860-$DB8BE LONG
+; $0DB860-$0DB8BE LONG
 Overworld_Hole:
 {
     ; routine used to find the entrance to send Link to when he falls into a hole
@@ -95,7 +95,7 @@ Overworld_Hole:
     RTL
 }
 
-; $DB8BF-$DB916 - chr types indicating door entrances left
+; $0DB8BF-$0DB916 - chr types indicating door entrances left
     dw $00FE, $00C5, $00FE, $0114, $0115, $0175, $0156, $00F5
     dw $00E2, $01EF, $0119, $00FE, $0172, $0177, $013F, $0172
     dw $0112, $0161, $0172, $014C, $0156, $01EF, $00FE, $00FE
@@ -103,7 +103,7 @@ Overworld_Hole:
     dw $01CC, $015E, $0167, $0128, $0131, $0112, $016D, $0163
     dw $0173, $00FE, $0113, $0177
     
-; $DB917 - $DB96E - chr types indicating door entrances right
+; $0DB917 - $DB96E - chr types indicating door entrances right
     dw $014A, $00C4, $014F, $0115, $0114, $0174, $0155, $00F5
     dw $00EE, $01EB, $0118, $0146, $0171, $0155, $0137, $0174
     dw $0173, $0121, $0164, $0155, $0157, $0128, $0114, $0123
@@ -111,12 +111,12 @@ Overworld_Hole:
     dw $01CC, $0131, $0051, $014E, $0131, $0121, $017A, $0163
     dw $0172, $01BD, $0152, $0167
     
-; $DB96F - $DBA70 - Area list for entrances
+; $0DB96F - $DBA70 - Area list for entrances
     dw $002C, $0013, $001B, $001B, $001B, $000A, $0003, $001E
     
-; $DBA71 - $DBB72 - Map16 list for entrances
+; $0DBA71 - $DBB72 - Map16 list for entrances
     
-; $DBB73 - $DBBF3 - references to the dungeon entrance to go into for each entry
+; $0DBB73 - $DBBF3 - references to the dungeon entrance to go into for each entry
     db $01, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D, $0E, $0F, $10
     db $11, $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F, $20
     db $21, $22, $23, $24, $25, $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30
@@ -127,7 +127,7 @@ Overworld_Hole:
     db $4D, $5E, $65, $60, $57, $6B, $71, $71, $6D, $6E, $6F, $70, $6C, $72, $83, $84
     db $5E
 
-; *$DBBF4-$DBD79 LONG
+; $0DBBF4-$0DBD79 LONG
 Overworld_Entrance:
 {
     REP #$31
@@ -315,7 +315,7 @@ Overworld_Entrance:
 
 ; ==============================================================================
 
-; *$DBD7A-$DBF1D LONG
+; $0DBD7A-$0DBF1D LONG
 Overworld_Map16_ToolInteraction:
 {
     ; Handles Map16 interactions with sword, hammer, shovel, magic powder, etc
@@ -372,7 +372,7 @@ Overworld_Map16_ToolInteraction:
     
     REP #$20
     
-    JSL HandlePegPuzzles    ; $75D67 IN ROM
+    JSL HandlePegPuzzles    ; $075D67 IN ROM
     
     ; Choose the map16 tile with the "peg pounded down" tile
     LDA.w #$0DCB
@@ -458,7 +458,7 @@ Overworld_Map16_ToolInteraction:
     
     BRA .checkForSecret
     
-    ; *$DBE8D ALTERNATE ENTRY POINT
+    ; $0DBE8D ALTERNATE ENTRY POINT
     .isBush2
     
     LDA $037A : AND.w #$00FF : CMP.w #$0001 : BEQ .shoveling
@@ -554,7 +554,7 @@ Overworld_Map16_ToolInteraction:
 
 ; ==================================================
 
-; *$DBF1E-$DBF4B LOCAL
+; $0DBF1E-$0DBF4B LOCAL
 Overworld_HammerSfx:
 {
     ASL #3 : TAX
@@ -600,7 +600,7 @@ Overworld_HammerSfx:
     
 ; ==============================================================================
 
-; $DBF4C-$DBF63 DATA
+; $0DBF4C-$0DBF63 DATA
 {
     dw    0,   -2, -128, -130
     
@@ -613,7 +613,7 @@ Overworld_HammerSfx:
 
 ; ==============================================================================
 
-; *$DBF64-$DBF9C LOCAL
+; $0DBF64-$0DBF9C LOCAL
 Overworld_GetLinkMap16Coords:
 {
     LDA $2F : AND.w #$00FF : TAX
@@ -629,7 +629,7 @@ Overworld_GetLinkMap16Coords:
 
 ; ==================================================
 
-; *$DBF9D-$DC054 LONG
+; $0DBF9D-$0DC054 LONG
 Overworld_LiftableTiles:
 {
     ; Handles Map16 tiles that are liftable.
@@ -766,10 +766,9 @@ Overworld_LiftableTiles:
 
 ; ==================================================
 
-; *$DC055-$DC062 BRANCH LOCATION
+; $0DC055-$0DC062 BRANCH LOCATION
 Overworld_SmashRockPile:
 {
-    
     .checkForBush
     
     LDY.w #$0DC7
@@ -785,7 +784,7 @@ Overworld_SmashRockPile:
 
     RTL
     
-; *$DC063-$DC075 LONG
+; $0DC063-$0DC075 LONG
     .downOneTile
     
     REP #$30
@@ -800,7 +799,7 @@ Overworld_SmashRockPile:
     
     .presetCoords
     
-; *$DC076-$DC0F7 LONG
+; $0DC076-$0DC0F7 LONG
     .normalCoords
     
     REP #$30
@@ -882,7 +881,7 @@ Overworld_SmashRockPile:
 
 ; ==================================================
 
-; *$DC0F8-$DC154 LONG
+; $0DC0F8-$0DC154 LONG
 Overworld_ApplyBombToTiles:
 {
 	REP #$30
@@ -924,7 +923,7 @@ Overworld_ApplyBombToTiles:
 
 ; ==================================================
 
-; *$DC155-$DC21C LOCAL
+; $0DC155-$0DC21C LOCAL
 Overworld_ApplyBombToTile:
 {
     PHA
@@ -1049,7 +1048,7 @@ Overworld_ApplyBombToTile:
 
 ; ==================================================
 
-; *$DC21D-$DC263 LONG
+; $0DC21D-$0DC263 LONG
 Overworld_AlterWeathervane:
 {
     ; Called when the weather vane is about exploded.
@@ -1099,7 +1098,7 @@ Overworld_AlterWeathervane:
 
 ; ==============================================================================
 
-; *$DC264-$DC2A6 LONG
+; $0DC264-$0DC2A6 LONG
 Overworld_AlterGargoyleEntrance:
 {
     ; Seems to me that this routine does the tile modification for the
@@ -1115,17 +1114,17 @@ Overworld_AlterGargoyleEntrance:
     LDX.w #$0D40
     LDA.w #$0E1C
     
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDX.w #$0DBE
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDX.w #$0E3E
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, Y
     
@@ -1142,7 +1141,7 @@ Overworld_AlterGargoyleEntrance:
 
 ; ==============================================================================
 
-; *$DC2A7-$DC2F8 LONG
+; $0DC2A7-$0DC2F8 LONG
 Overworld_CreatePyramidHole:
 {
     ; Does tile modification for... the pyramid of power hole
@@ -1158,20 +1157,20 @@ Overworld_CreatePyramidHole:
     LDX.w #$03BE
     LDA.w #$0E40
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDX.w #$043C
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDX.w #$04BC
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, Y
     
@@ -1190,13 +1189,13 @@ Overworld_CreatePyramidHole:
 
 ; ==================================================
 
-; $DC2F9 - $DC3F8 - overworld secrets pointer table
+; $0DC2F9 - $DC3F8 - overworld secrets pointer table
     
-; $DC3F9 - overworld secrets data
+; $0DC3F9 - overworld secrets data
 
 ; ==================================================
 
-; *$DC8A4-$DC942 LOCAL
+; $0DC8A4-$0DC942 LOCAL
 Overworld_RevealSecret:
 {
     ; Routine is used for checking if there's secrets underneath a newly exposed map16 tile
@@ -1274,7 +1273,7 @@ Overworld_RevealSecret:
     
     .failure
     
-    JSR $C943   ; $DC943 IN ROM
+    JSR $C943   ; $0DC943 IN ROM
     
     LDX $04
     
@@ -1284,7 +1283,7 @@ Overworld_RevealSecret:
     
     .normalSecret
     
-    JSR $C943   ; $DC943 IN ROM
+    JSR $C943   ; $0DC943 IN ROM
     
     LDX $04
     
@@ -1297,7 +1296,7 @@ Overworld_RevealSecret:
 
 ; ==============================================================================
 
-; *$DC943-$DC951 LOCAL
+; $0DC943-$0DC951 LOCAL
 {
     LDA $0301 : AND.w #$0040 : BEQ .notUsingMagicPowder
     
@@ -1310,7 +1309,7 @@ Overworld_RevealSecret:
 
 ; ==============================================================================
 
-; *$DC952-$DC97B LONG
+; $0DC952-$0DC97B LONG
 Overworld_DrawWoodenDoor:
 {
     BCS .draw_closed_door
@@ -1350,17 +1349,17 @@ Overworld_DrawWoodenDoor:
 
 ; ==============================================================================
 
-; *$DC97C-$DC9DD LONG
+; $0DC97C-$0DC9DD LONG
 Overworld_DrawPersistentMap16:
 {
     STA $7E2000, X
     
-    ; *$DC980 ALTERNATE ENTRY POINT
+    ; $0DC980 ALTERNATE ENTRY POINT
     shared Overworld_DrawMap16:
     
     LDY.w #$0000
     
-    ; *$DC983 ALTERNATE ENTRY POINT
+    ; $0DC983 ALTERNATE ENTRY POINT
     shared Overworld_DrawMap16_Anywhere
     
     PHX
@@ -1372,7 +1371,7 @@ Overworld_DrawPersistentMap16:
     
     TXA : CLC : ADC $00 : STA $00
     
-    JSR $CA69 ; $DCA69 IN ROM
+    JSR $CA69 ; $0DCA69 IN ROM
     
     LDY $1000
     
@@ -1403,7 +1402,7 @@ Overworld_DrawPersistentMap16:
 
 ; ==============================================================================
 
-; *$DC9DE-$DCA68 LOCAL
+; $0DC9DE-$0DCA68 LOCAL
 {
     ; Has to do with solidity of the tiles being written.
     PHA : STA $7E2000, X
@@ -1468,7 +1467,7 @@ Overworld_DrawPersistentMap16:
 
 ; ==============================================================================
 
-; *$DCA69-$DCA9E LOCAL
+; $0DCA69-$0DCA9E LOCAL
 {
     ; I guess this calculates some sort of vram type address for an
     ; outdoor tile?
@@ -1496,7 +1495,7 @@ Overworld_DrawPersistentMap16:
 
 ; ==============================================================================
 
-; $DCA9F-$DCAB9 LONG
+; $0DCA9F-$0DCAB9 LONG
 Overworld_DrawWarpTile:
 {
     REP #$30 
@@ -1518,10 +1517,9 @@ Overworld_DrawWarpTile:
 
 ; ==============================================================================
 
-; $DCABA-$DCAC3 JUMP TABLE
+; $0DCABA-$0DCAC3 JUMP TABLE
 pool Overworld_EntranceSequence:
 {
-    
     .handlers
     dw DarkPalaceEntrance_Main
     dw $CBA6 ; = $DCBA6 ; Skull Woods Entrance Animation
@@ -1532,7 +1530,7 @@ pool Overworld_EntranceSequence:
 
 ; ==============================================================================
 
-; $DCAC4-$DCAD3 LONG
+; $0DCAC4-$0DCAD3 LONG
 Overworld_EntranceSequence:
 {
     ; The input to the function is which animation is currently ongoing ($04C6 I think)
@@ -1550,10 +1548,9 @@ Overworld_EntranceSequence:
 
 ; ==============================================================================
 
-; $DCAD4-$DCADD JUMP TABLE
+; $0DCAD4-$0DCADD JUMP TABLE
 pool DarkPalaceEntrance_Main:
 {
-    
     .handlers
     dw $CAE5
     dw $CB2B
@@ -1564,7 +1561,7 @@ pool DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCADE-$DCAE4 JUMP LOCATION
+; $0DCADE-$0DCAE4 JUMP LOCATION
 DarkPalaceEntrance_Main:
 {
     LDA $B0 : ASL A : TAX
@@ -1574,13 +1571,13 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCAE5-$DCB2A JUMP LOCATION
+; $0DCAE5-$0DCB2A JUMP LOCATION
 {
     INC $C8
     
     LDA $C8 : CMP.b #$40 : BNE .alpha
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     LDA $7EF2DE : ORA.b #$20 : STA $7EF2DE
     
@@ -1591,24 +1588,24 @@ DarkPalaceEntrance_Main:
     
     JSL Overworld_DrawPersistentMap16
     
-    ; $DCB18 ALTERNATE ENTRY POINT
+    ; $0DCB18 ALTERNATE ENTRY POINT
     
     LDX.w #$02EA
     
-    ; $DCB1B ALTERNATE ENTRY POINT
+    ; $0DCB1B ALTERNATE ENTRY POINT
     
     LDA.w #$0E30
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$026A
     LDA.w #$0E26
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$02EA
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, X
     
@@ -1623,13 +1620,13 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCB2B-$DCB46 JUMP LOCATION
+; $0DCB2B-$0DCB46 JUMP LOCATION
 {
     INC $C8
     
     LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     REP #$30
     
@@ -1645,13 +1642,13 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCB47-$DCB6B JUMP LOCATION
+; $0DCB47-$0DCB6B JUMP LOCATION
 {
     INC $C8
     
     LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     REP #$30
     
@@ -1663,7 +1660,7 @@ DarkPalaceEntrance_Main:
     LDX.w #$02EA
     LDA.w #$0E2B
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$036A
     
@@ -1672,13 +1669,13 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCB6C-$DCB90 JUMP LOCATION
+; $0DCB6C-$0DCB90 JUMP LOCATION
 {
     INC $C8
     
     LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2B
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     REP #$30
     
@@ -1690,7 +1687,7 @@ DarkPalaceEntrance_Main:
     LDX.w #$02EA
     LDA.w #$0E2E
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$036A
     
@@ -1699,18 +1696,18 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCB91-$DCB9B JUMP LOCATION
+; $0DCB91-$0DCB9B JUMP LOCATION
 {
     INC $C8
     
     LDA $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
     
-    JMP $CF40 ; $DCF40 IN ROM
+    JMP $CF40 ; $0DCF40 IN ROM
 }
 
 ; ==============================================================================
 
-; $DCB9C-$DCBA5 JUMP TABLE
+; $0DCB9C-$0DCBA5 JUMP TABLE
 {
     dw $CBAD
     dw $CBEE
@@ -1721,16 +1718,16 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCBA6-$DCBAC JUMP LOCATION
+; $0DCBA6-$0DCBAC JUMP LOCATION
 {
     LDA $B0 : ASL A : TAX
     
-    JMP ($CB9C, X) ; $DCB9C IN ROM
+    JMP ($CB9C, X) ; $0DCB9C IN ROM
 }
 
 ; ==============================================================================
 
-; $DCBAD-$DCBED JUMP LOCATION
+; $0DCBAD-$0DCBED JUMP LOCATION
 {
     INC $C8
     
@@ -1750,7 +1747,7 @@ DarkPalaceEntrance_Main:
     LDX.w #$0814
     LDA.w #$0E06
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012
     
@@ -1766,7 +1763,7 @@ DarkPalaceEntrance_Main:
     
     LDA.b #$16 : STA $012F
     
-    ; $DCBED ALTERNATE ENTRY POINT
+    ; $0DCBED ALTERNATE ENTRY POINT
     .delay
     
     RTS
@@ -1774,7 +1771,7 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCBEE-$DCC26 JUMP LOCATION
+; $0DCBEE-$0DCC26 JUMP LOCATION
 {
     INC $C8
     
@@ -1794,12 +1791,12 @@ DarkPalaceEntrance_Main:
     LDX.w #$0792
     LDA.w #$0E08
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
-    ; $DCC12 ALTERNATE ENTRY POINT
+    ; $0DCC12 ALTERNATE ENTRY POINT
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, X
     
@@ -1814,7 +1811,7 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $DCC27-$DCC4C JUMP LOCATION
+; $0DCC27-$0DCC4C JUMP LOCATION
 {
     INC $C8
     
@@ -1834,15 +1831,15 @@ DarkPalaceEntrance_Main:
     LDX.w #$0712
     LDA.w #$0E08
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     BRA .BRANCH_DCC12
 }
 
 ; ==============================================================================
 
-; $DCC4D-$DCC8B JUMP LOCATION
+; $0DCC4D-$0DCC8B JUMP LOCATION
 {
     INC $C8
     
@@ -1862,27 +1859,27 @@ DarkPalaceEntrance_Main:
     LDX.w #$0596
     LDA.w #$0E12
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0610
     LDA.w #$0E0D
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0692
     LDA.w #$0E0B
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
-    JMP $CC12 ; $DCC12 IN ROM
+    JMP $CC12 ; $0DCC12 IN ROM
 }
 
 ; ==============================================================================
 
-; $DCC8C-$DCCC7 JUMP LOCATION
+; $0DCC8C-$0DCCC7 JUMP LOCATION
 {
     INC $C8
     
@@ -1902,30 +1899,29 @@ DarkPalaceEntrance_Main:
     LDX.w #$0596
     LDA.w #$0E14
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0610
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0692
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
-    JSR $CC12 ; $DCC12 IN ROM
+    JSR $CC12 ; $0DCC12 IN ROM
     
-    JMP $CF40 ; $DCF40 IN ROM
+    JMP $CF40 ; $0DCF40 IN ROM
 }
 
 ; ==============================================================================
 
-; $DCCC8-$DCCD3 JUMP TABLE
+; $0DCCC8-$0DCCD3 JUMP TABLE
 pool MiseryMireEntrance_Main:
 {
-    
     .handlers
     dw MiseryMireEntrance_PhaseOutRain
     dw $CD41 ; = $DCD41*; Set up the rumbling noise 
@@ -1937,7 +1933,7 @@ pool MiseryMireEntrance_Main:
 
 ; ==============================================================================
 
-; *$DCCD4-$DCCF9 LOCAL
+; $0DCCD4-$0DCCF9 LOCAL
 MiseryMireEntrance_Main:
 {
     ; if($B0 < 0x02)
@@ -1963,10 +1959,9 @@ MiseryMireEntrance_Main:
 
 ; ==============================================================================
 
-; $DCCFA-$DCD13 DATA
+; $0DCCFA-$0DCD13 DATA
 pool MiseryMireEntrance_PhaseOutRain:
 {
-    
     .phase_masks
     db $FF, $F7, $F7, $FB, $EE, $EE, $EE, $EE
     db $EE, $EE, $AA, $AA, $AA, $AA, $AA, $AA
@@ -1976,7 +1971,7 @@ pool MiseryMireEntrance_PhaseOutRain:
 
 ; ==============================================================================
 
-; *$DCD14-$DCD40 JUMP LOCATION
+; $0DCD14-$0DCD40 JUMP LOCATION
 MiseryMireEntrance_PhaseOutRain:
 {
     ; \note Assume a data bank register value of 0x00 here. Yeah, strange,
@@ -2019,7 +2014,7 @@ MiseryMireEntrance_PhaseOutRain:
 
 ; ==============================================================================
 
-; *$DCD41-$DCDA8 JUMP LOCATION
+; $0DCD41-$0DCDA8 JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$10 : BNE .delay
     
@@ -2034,7 +2029,7 @@ MiseryMireEntrance_PhaseOutRain:
     ; If $C8 != 0x48, end the routine.
     CMP.b #$48 : BNE .return
     
-    JSR $D00E ; $DD00E IN ROM; SFX FOR THE ENTRANCE OPENING
+    JSR $D00E ; $0DD00E IN ROM; SFX FOR THE ENTRANCE OPENING
     
     ; So, on the 0x48th frame, 
     
@@ -2054,25 +2049,25 @@ MiseryMireEntrance_PhaseOutRain:
     
     LDX.w #$0624 : LDA.w #$0E49
     
-    ; *$DCD75 ALTERNATE ENTRY POINT
+    ; $0DCD75 ALTERNATE ENTRY POINT
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM Draw the next 3 tiles
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM Draw the next 3 tiles
     
     LDX.w #$06A2
     
-    JSR $C9DE ; $DC9DE IN ROM Draw the next 4 tiles
-    JSR $C9DE ; $DC9DE IN ROM one line below
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM Draw the next 4 tiles
+    JSR $C9DE ; $0DC9DE IN ROM one line below
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0722
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, Y
     
@@ -2080,13 +2075,13 @@ MiseryMireEntrance_PhaseOutRain:
     
     LDA.b #$01 : STA $14
     
-    ; *$DCDA8 ALTERNATE ENTRY POINT
+    ; $0DCDA8 ALTERNATE ENTRY POINT
     .return
     
     RTS
 }
 
-; *$DCDA9-$DCDD6 JUMP LOCATION
+; $0DCDA9-$0DCDD6 JUMP LOCATION
 {
     INC $C8
     
@@ -2094,7 +2089,7 @@ MiseryMireEntrance_PhaseOutRain:
     
     BNE .BRANCH_$DCDA8
     
-    JSR $D00E   ; $DD00E IN ROM
+    JSR $D00E   ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2106,24 +2101,24 @@ MiseryMireEntrance_PhaseOutRain:
     LDX.w #$05A4
     LDA.w #$0E55
     
-    ; *$DCDC6 BRANCH LOCATION
+    ; $0DCDC6 BRANCH LOCATION
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDX.w #$0622
     
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     BRA .BRANCH_$DCD75
 }
 
-; *$DCDD7-$DCE04 JUMP LOCATION
+; $0DCDD7-$0DCE04 JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$50 : BNE .BRANCH_$DCDA8
     
-    JSR $D00E   ; $DD00E IN ROM
+    JSR $D00E   ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2135,22 +2130,22 @@ MiseryMireEntrance_PhaseOutRain:
     LDX.w #$0524
     LDA.w $0E65
     
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDX.w #$05A2
     
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     BRA .BRANCH_$DCDC6
 }
 
-; *$DCE05-$DCE15 JUMP LOCATION
+; $0DCE05-$0DCE15 JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$80 : BNE .BRANCH_ALPHA
     
-    JSR $CF40 ; $DCF40 IN ROM; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY
+    JSR $CF40 ; $0DCF40 IN ROM; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY
     
     LDA.b #$05 : STA $012D
     
@@ -2161,10 +2156,9 @@ MiseryMireEntrance_PhaseOutRain:
 
 ; ==============================================================================
 
-; $DCE16-$DCE27 DATA
+; $0DCE16-$0DCE27 DATA
 pool TurtleRockEntrance_Main:
 {
-    
     .handlers
     dW $CE48
     dW $CE5E
@@ -2179,7 +2173,7 @@ pool TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCE28-$DCE47 JUMP LOCATION
+; $0DCE28-$0DCE47 JUMP LOCATION
 TurtleRockEntrance_Main:
 {
     REP #$20
@@ -2199,7 +2193,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCE48-$DCE89 JUMP LOCATION
+; $0DCE48-$0DCE89 JUMP LOCATION
 {
     LDX $8A
     
@@ -2213,23 +2207,23 @@ TurtleRockEntrance_Main:
     
     BRA .BRANCH_DCE68
     
-    ; $DCE5E ALTERNATE ENTRY POINT
+    ; $0DCE5E ALTERNATE ENTRY POINT
     
     LDA.b #$14
     
     BRA .BRANCH_DCE68
     
-    ; $DCE62 ALTERNATE ENTRY POINT
+    ; $0DCE62 ALTERNATE ENTRY POINT
     
     LDA.b #$18
     
     BRA .BRANCH_DCE68
     
-    ; $DCE66 ALTERNATE ENTRY POINT
+    ; $0DCE66 ALTERNATE ENTRY POINT
     
     LDA.b #$1C
     
-    ; $DCE68 ALTERNATE ENTRY POINT
+    ; $0DCE68 ALTERNATE ENTRY POINT
     
     STA $1002
     STZ $1003
@@ -2253,7 +2247,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCE8A-$DCEAB JUMP LOCATION
+; $0DCE8A-$0DCEAB JUMP LOCATION
 {
     REP #$20
     
@@ -2283,7 +2277,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCEAC-$DCEF7 JUMP LOCATION
+; $0DCEAC-$0DCEF7 JUMP LOCATION
 {
     JSR $CF60
     
@@ -2328,7 +2322,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCEF8-$DCF16 JUMP LOCATION
+; $0DCEF8-$0DCF16 JUMP LOCATION
 {
     LDA $1A : LSR A : BCS .alpha
     
@@ -2353,7 +2347,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCF17-$DCF3F JUMP LOCATION
+; $0DCF17-$0DCF3F JUMP LOCATION
 {
     LDA $1A : LSR A : BCS .alpha
     
@@ -2365,7 +2359,7 @@ TurtleRockEntrance_Main:
     
     DEC $C8 : BNE .BRANCH_DCF16
     
-    JSR $CF60 ; $DCF60 IN ROM
+    JSR $CF60 ; $0DCF60 IN ROM
     
     STZ $1D
     
@@ -2382,7 +2376,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; *$DCF40-$DCF5F LOCAL
+; $0DCF40-$0DCF5F LOCAL
 {
     ; Pretty much puts a stop to any entrance animation
     
@@ -2406,7 +2400,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $DCF60-$DCFBE JUMP LOCATION
+; $0DCF60-$0DCFBE JUMP LOCATION
 {
     REP #$30
     
@@ -2418,30 +2412,30 @@ TurtleRockEntrance_Main:
     LDX.w #$09A0
     LDA.w #$0E79
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0A1E
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0A9E
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0B1E
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, Y
     
@@ -2458,7 +2452,7 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 
-; $DCFBF-$DCFD8 JUMP TABLE
+; $0DCFBF-$0DCFD8 JUMP TABLE
 {
     dw $CFE0 ; = $DCFE0
     dw $CFE0 ; = $DCFE0
@@ -2475,27 +2469,27 @@ TurtleRockEntrance_Main:
     dw $D1C0 ; = $DD1C0* ; restore music, play some sfx, and let Link move again
 }
 
-; $DCFD9-$DCFDF ????
+; $0DCFD9-$0DCFDF ????
 {
     LDA $B0 : ASL A : TAX
 
     JMP ($CFBF, X) ; SEE JUMP TABLE AT $DCFBF
 }
 
-; $DCFE0-$DCFF0 JUMP LOCATION
+; $0DCFE0-$0DCFF0 JUMP LOCATION
 {
     LDX $8A
     
     LDA $7EF280, X : ORA.b #$20 : STA $7EF280, X
     
-    JSL $0EDDFC ; $75DFC IN ROM
+    JSL $0EDDFC ; $075DFC IN ROM
     
     RTS
 }
 
-; $DCFF1-$DD00D JUMP LOCATION
+; $0DCFF1-$0DD00D JUMP LOCATION
 {
-    JSL $0EDDFC ; $75DFC IN ROM
+    JSL $0EDDFC ; $075DFC IN ROM
     
     LDA $1D : BNE .BRANCH_BETA
     
@@ -2518,7 +2512,7 @@ TurtleRockEntrance_Main:
     RTS
 }
 
-; *$DD00E-$DD01C LOCAL
+; $0DD00E-$0DD01C LOCAL
 {
     INC $B0
     
@@ -2530,7 +2524,7 @@ TurtleRockEntrance_Main:
     RTS
 }
 
-; $DD01D-$DD061 LOCAL
+; $0DD01D-$0DD061 LOCAL
 {
     INC $C8
     
@@ -2538,7 +2532,7 @@ TurtleRockEntrance_Main:
     
     BNE .BRANCH_ALPHA
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2550,27 +2544,27 @@ TurtleRockEntrance_Main:
     LDX.w #$0460
     LDA.w #$0E89
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$04DE
     LDA.w #$0EA2
     
-    JSR $C9DE ; $DC9DE IN ROM
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$0E8A
     
-    ; *$DD04C ALTERNATE ENTRY POINT
+    ; $0DD04C ALTERNATE ENTRY POINT
     
     LDX.w #$055E
     
-    ; *$DD04F ALTERNATE ENTRY POINT
+    ; $0DD04F ALTERNATE ENTRY POINT
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
-    ; *$DD052 ALTERNATE ENTRY POINT
+    ; $0DD052 ALTERNATE ENTRY POINT
     
-    JSR $C9DE ; $DC9DE IN ROM
+    JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA $1012, Y
     
@@ -2578,19 +2572,19 @@ TurtleRockEntrance_Main:
     
     LDA.b #$01 : STA $14
     
-    ; *$DD061 ALTERNATE ENTRY POINT
+    ; $0DD061 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     RTS
 }
 
-; $DD062-$DD092 JUMP LOCATION
+; $0DD062-$0DD092 JUMP LOCATION
 {
     INC $C8
     
     LDA $C8 : CMP.b #$30 : BNE .BRANCH_$DD061; (RTS)
     
-    JSR $D00E ; $DD00E in Rom.
+    JSR $D00E ; $0DD00E in Rom.
     
     REP #$30
     
@@ -2602,20 +2596,20 @@ TurtleRockEntrance_Main:
     LDX.w #$0460
     LDA.w #$0E8D
     
-    JSR $C9DE ; $DC9DE in Rom.
+    JSR $C9DE ; $0DC9DE in Rom.
     
     LDX.w #$04DE
     LDA.w #$0E8E
     
-    JSR $C9DE ; $DC9DE in Rom.
-    JSR $C9DE ; $DC9DE in Rom.
+    JSR $C9DE ; $0DC9DE in Rom.
+    JSR $C9DE ; $0DC9DE in Rom.
     
     LDA.w #$0E90
     
     BRA .BRANCH_$DD04C
 }
 
-; *$DD093-$DD0DD JUMP LOCATION
+; $0DD093-$0DD0DD JUMP LOCATION
 {
 	INC $C8
 	
@@ -2623,7 +2617,7 @@ TurtleRockEntrance_Main:
 	
 	BNE .BRANCH_$DD0DD; (RTS)
     
-	JSR $D00E ; $DD00E IN ROM
+	JSR $D00E ; $0DD00E IN ROM
     
 	REP #$30
 	
@@ -2635,25 +2629,25 @@ TurtleRockEntrance_Main:
 	LDX.w #$0460
 	LDA.w #$0E93
 	
-	JSR $C9DE ; $DC9DE IN ROM
+	JSR $C9DE ; $0DC9DE IN ROM
     
 	LDX.w #$04DE
 	LDA.w #$0E94
 	
-	JSR $C9DE ; $DC9DE in Rom.
+	JSR $C9DE ; $0DC9DE in Rom.
 	
 	LDA.w #$0E94
 	
-	JSR $C9DE ; $DC9DE in Rom.
+	JSR $C9DE ; $0DC9DE in Rom.
 	
 	LDX.w #$055E
 	LDA.w #$0E95
 	
-	JSR $C9DE ; $DC9DE in Rom.
+	JSR $C9DE ; $0DC9DE in Rom.
 	
 	LDA.w #$0E95
 	
-	JSR $C9DE ; $DC9DE in Rom.
+	JSR $C9DE ; $0DC9DE in Rom.
     
 	LDA.w #$FFFF : STA $1012, Y
 	
@@ -2661,12 +2655,12 @@ TurtleRockEntrance_Main:
     
 	LDA.b #$01 : STA $14
 
-    ; *$DD0DD ALTERNATE ENTRY POINT
+    ; $0DD0DD ALTERNATE ENTRY POINT
 
 	RTS
 }
 
-; *$DD0DE-$DD106 JUMP LOCATION
+; $0DD0DE-$0DD106 JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD ; (RTS)
     
@@ -2682,19 +2676,19 @@ TurtleRockEntrance_Main:
     LDX.w #$0460
     LDA.w #$0E97
     
-    JSR $C9DE ; $DC9DE in rom
+    JSR $C9DE ; $0DC9DE in rom
     
     LDX.w #$04DE
     LDA.w #$0E98
     
-    JMP $D04F   ; $DD04F IN ROM
+    JMP $D04F   ; $0DD04F IN ROM
 }
 
-; *$DD107-$DD126 JUMP LOCATION
+; $0DD107-$0DD126 JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD; (RTS)
     
-    JSR $D00E   ; $DD00E IN ROM
+    JSR $D00E   ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2706,14 +2700,14 @@ TurtleRockEntrance_Main:
     LDX.w #$04E0
     LDA.w #$0E9B
     
-    JMP $D052   ; $DD052 IN ROM
+    JMP $D052   ; $0DD052 IN ROM
 }
 
-; *$DD127-$DD14C JUMP LOCATION
+; $0DD127-$0DD14C JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD
     
-    JSR $D00E   ; $DD00E IN ROM
+    JSR $D00E   ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2725,18 +2719,18 @@ TurtleRockEntrance_Main:
     LDX.w #$04E0
     LDA.w #$0E9D
     
-    JSR $C9DE   ; $DC9DE IN ROM
+    JSR $C9DE   ; $0DC9DE IN ROM
     
     LDA.w #$0E9E
     
-    JMP $D04C   ; $DD052 IN ROM
+    JMP $D04C   ; $0DD052 IN ROM
 }
 
-; *$DD14D-$DD16C JUMP LOCATION
+; $0DD14D-$0DD16C JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_DD0DD ; (RTS)
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2748,14 +2742,14 @@ TurtleRockEntrance_Main:
     LDX.w #$0560
     LDA.w #$0E9B
     
-    JMP $D052   ; $DD052 IN ROM
+    JMP $D052   ; $0DD052 IN ROM
 }
 
-; *$DD16D-$DD19E JUMP LOCATION
+; $0DD16D-$0DD19E JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$20  BNE .BRANCH_DD1D7; (RTS)
     
-    JSR $D00E ; $DD00E in Rom.
+    JSR $D00E ; $0DD00E in Rom.
     
     REP #$30
     
@@ -2772,21 +2766,21 @@ TurtleRockEntrance_Main:
     LDX.w #$05DE
     LDA.w #$0EA0
     
-    JSR $C9DE ; $DC9DE in Rom.
+    JSR $C9DE ; $0DC9DE in Rom.
     
     LDA.w #$0EA1
     LDX.w #$05E0
     
-    JMP $D052 ; $DD052 IN ROM.
+    JMP $D052 ; $0DD052 IN ROM.
 }
 
-; $DD19F-$DD1BF JUMP LOCATION
+; $0DD19F-$0DD1BF JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$20 : BNE .BRANCH_DD1D7 ; (RTS)
     
     LDA.b #$05 : STA $012D 
     
-    JSR $D00E ; $DD00E IN ROM
+    JSR $D00E ; $0DD00E IN ROM
     
     REP #$30
     
@@ -2800,11 +2794,11 @@ TurtleRockEntrance_Main:
     BRA .BRANCH_$DD199
 }
 
-; *$DD1C0-$DD1D7 JUMP LOCATION
+; $0DD1C0-$0DD1D7 JUMP LOCATION
 {
     INC $C8 : LDA $C8 : CMP.b #$48 : BNE .waitForTimer
     
-    JSR $CF40 ; $DCF40 IN ROM; Play "you solved puzzle" sound
+    JSR $CF40 ; $0DCF40 IN ROM; Play "you solved puzzle" sound
     
     STZ $C8
     
@@ -2814,7 +2808,7 @@ TurtleRockEntrance_Main:
     ; Rumble sound effect.
     LDA.b #$09 : STA $012D
     
-    ; *$DD1D7 ALTERNATE ENTRY POINT
+    ; $0DD1D7 ALTERNATE ENTRY POINT
     .waitForTimer
     
     RTS
@@ -2822,7 +2816,7 @@ TurtleRockEntrance_Main:
 
 ; ==================================================
 
-; $DD1D8-$DD217 NULL
+; $0DD1D8-$0DD217 NULL
 {
     fillbyte $FF
     

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$74440-$74447 JUMP LOCATION (LONG)
+; $074440-$074447 JUMP LOCATION (LONG)
 Messaging_Text:
 {
     ; Module 0x0E.0x02 (dialogue or "text" mode)
@@ -17,7 +17,7 @@ Messaging_Text:
 
 ; ==============================================================================
 
-; *$74448-$74454 LOCAL
+; $074448-$074454 LOCAL
 Text_Local:
 {
     LDA $1CD8
@@ -31,7 +31,7 @@ Text_Local:
 
 ; ==============================================================================
 
-; *$74455-$74482 JUMP LOCATION
+; $074455-$074482 JUMP LOCATION
 Text_PostDeathSaveOptions:
 {
     ; "Load the save & continue, save & quit, do not save or quit" dialog box
@@ -62,7 +62,7 @@ Text_PostDeathSaveOptions:
 
 ; ==============================================================================
 
-; *$74483-$744C8 JUMP LOCATION
+; $074483-$0744C8 JUMP LOCATION
 Text_Initialize:
 {
     ; (the increment into the next sub-submodule is obscured a bit)
@@ -123,7 +123,7 @@ Text_Initialize:
 
 ; ==============================================================================
 
-; *$744C9-$744E1 LOCAL
+; $0744C9-$0744E1 LOCAL
 Text_InitVwfState:
 {
     STZ $0722
@@ -140,7 +140,7 @@ Text_InitVwfState:
 
 ; ==============================================================================
 
-; *$744E2-$74546 LOCAL
+; $0744E2-$074546 LOCAL
 Text_LoadCharacterBuffer:
 {
     REP #$30
@@ -210,7 +210,7 @@ Text_LoadCharacterBuffer:
 
 ; ==============================================================================
 
-; *$74547-$74580 LOCAL
+; $074547-$074580 LOCAL
 Text_Command:
 {
     SEP #$31
@@ -252,7 +252,7 @@ Text_Command:
 
 ; ==============================================================================
 
-; *$74581-$74597 JUMP LOCATION
+; $074581-$074597 JUMP LOCATION
 Text_IgnoreCommand:
 {
     REP #$10
@@ -273,7 +273,7 @@ Text_IgnoreCommand:
 
 ; ==============================================================================
 
-; *$74598-$745B2 JUMP LOCATION
+; $074598-$0745B2 JUMP LOCATION
 Text_IgnoreParamCommand:
 {
     REP #$30
@@ -296,7 +296,7 @@ Text_IgnoreParamCommand:
 
 ; ==============================================================================
 
-; *$745B3-$74638 JUMP LOCATION
+; $0745B3-$074638 JUMP LOCATION
 Text_WritePlayerName:
 {
     ; [Name] command (setup)
@@ -377,7 +377,7 @@ Text_WritePlayerName:
 
 ; ==============================================================================
 
-; *$74639-$74656 LOCAL
+; $074639-$074656 LOCAL
 Text_FilterPlayerNameCharacters:
 {
     CMP.b #$5F : BCC .alpha
@@ -411,7 +411,7 @@ Text_FilterPlayerNameCharacters:
 
 ; ==============================================================================
 
-; *$74657-$74666 JUMP LOCATION
+; $074657-$074666 JUMP LOCATION
 Text_SetWindowType:
 {
     ; [Window XX] Command (preparation)
@@ -434,7 +434,7 @@ Text_SetWindowType:
 
 ; ==============================================================================
 
-; *$74667-$7469B JUMP LOCATION
+; $074667-$07469B JUMP LOCATION
 Text_WritePreloadedNumber:
 {
     ; [Number XX] Command
@@ -482,7 +482,7 @@ Text_WritePreloadedNumber:
 
 ; ==============================================================================
 
-; *$7469C-$746B5 JUMP LOCATION
+; $07469C-$0746B5 JUMP LOCATION
 Text_SetWindowPos:
 {
     ; [Position XX]
@@ -509,7 +509,7 @@ Text_SetWindowPos:
 
 ; ==============================================================================
 
-; *$746B6-$746D9 JUMP LOCATION
+; $0746B6-$0746D9 JUMP LOCATION
 Text_SetColor:
 {
     ; [Color XX]
@@ -543,7 +543,7 @@ Text_SetColor:
 
 ; ==============================================================================
 
-; *$746DA-$74702 LOCAL
+; $0746DA-$074702 LOCAL
 Text_DictionarySequence:
 {
     ; Handle dictionary compressed word fragments
@@ -576,7 +576,7 @@ Text_DictionarySequence:
 
 ; ==============================================================================
 
-; $74703-$747C6 DATA ; dictionary pointers
+; $074703-$0747C6 DATA ; dictionary pointers
 DictionaryPointers:
 {
     dw DictionaryEntries_fourSpaces
@@ -681,10 +681,9 @@ DictionaryPointers:
     
 ; ==============================================================================
 
-; $747C7-$748D8 DATA ; dictionary data
+; $0747C7-$0748D8 DATA ; dictionary data
 DictionaryEntries:
 {
-    
     .fourSpaces
     db $59, $59, $59, $59
     
@@ -981,7 +980,7 @@ DictionaryEntries:
 
 ; ==============================================================================
 
-; *$748D9-$748E9 JUMP LOCATION
+; $0748D9-$0748E9 JUMP LOCATION
 Text_Render:
 {
     LDA $1CD4 ; (second level controller for text mode submodules)
@@ -997,7 +996,7 @@ Text_Render:
 
 ; ==============================================================================
 
-; *$748EA-$74918 JUMP LOCATION
+; $0748EA-$074918 JUMP LOCATION
 Text_DrawBorder:
 {
     JSR Text_InitBorderOffsets
@@ -1037,7 +1036,7 @@ Text_DrawBorder:
 
 ; ==============================================================================
 
-; *$74919-$74935 JUMP LOCATION
+; $074919-$074935 JUMP LOCATION
 Text_DrawBorderIncremenal:
 {
     ; Unlike the previous method of drawing the border, this method takes place over the course of 8 frames,
@@ -1068,7 +1067,7 @@ Text_DrawBorderIncremenal:
 
 ; ==============================================================================
 
-; *$74936-$74949 JUMP LOCATION
+; $074936-$074949 JUMP LOCATION
 Text_DrawTopBorderRow:
 {
     REP #$30
@@ -1087,7 +1086,7 @@ Text_DrawTopBorderRow:
 
 ; ==============================================================================
 
-; *$7494A-$74960 JUMP LOCATION
+; $07494A-$074960 JUMP LOCATION
 Text_DrawMiddleBorderRow:
 {
     REP #$30
@@ -1108,7 +1107,7 @@ Text_DrawMiddleBorderRow:
 
 ; ==============================================================================
 
-; *$74961-$7497C JUMP LOCATION
+; $074961-$07497C JUMP LOCATION
 Text_DrawBottomBorderRow:
 {
     REP #$30
@@ -1131,7 +1130,7 @@ Text_DrawBottomBorderRow:
 
 ; ==============================================================================
 
-; *$7497D-$74983 JUMP LOCATION
+; $07497D-$074983 JUMP LOCATION
 Text_CharacterTilemap:
 {
     JSR Text_BuildCharacterTilemap
@@ -1143,10 +1142,9 @@ Text_CharacterTilemap:
 
 ; ==============================================================================
 
-; *$74984-$749FC JUMP LOCATION
+; $074984-$0749FC JUMP LOCATION
 Text_MessageHandler:
 {
-    
     .epsilon
     
     REP #$30
@@ -1227,7 +1225,7 @@ Text_MessageHandler:
 
 ; ==============================================================================
 
-; *$749FD-$74A34 LOCAL
+; $0749FD-$074A34 LOCAL
 VWF_CharacterOrCommand:
 {
     JSL UseImplicitRegIndexedLocalJumpTable
@@ -1266,7 +1264,7 @@ VWF_CharacterOrCommand:
 
 ; ==============================================================================
 
-; *$74A35-$74A6B JUMP LOCATION
+; $074A35-$074A6B JUMP LOCATION
 Text_Close:
 {
     REP #$30
@@ -1296,7 +1294,7 @@ Text_Close:
 
 ; ==============================================================================
 
-; *$74A6C-$74A98 JUMP LOCATION
+; $074A6C-$074A98 JUMP LOCATION
 VWF_Render:
 {
     ; Which line the text is currently printing to?
@@ -1328,7 +1326,7 @@ VWF_Render:
 
 ; ==============================================================================
 
-; *$74A99-$74AB7 JUMP LOCATION
+; $074A99-$074AB7 JUMP LOCATION
 VWF_RenderRecursive:
 {
     JSR VWF_RenderSingle
@@ -1345,7 +1343,7 @@ VWF_RenderRecursive:
     SEP #$30
     
     ; This is recursion, son. Fear it (stack overflows are possible)
-    JMP $C984 ; $74984 IN ROM
+    JMP $C984 ; $074984 IN ROM
 
     .BRANCH_ALPHA
 
@@ -1356,7 +1354,7 @@ VWF_RenderRecursive:
 
 ; ==============================================================================
 
-; *$74AB8-$74ADE LOCAL
+; $074AB8-$074ADE LOCAL
 VWF_RenderSingle:
 {
     ; Renders a single character (non recursive)
@@ -1389,10 +1387,9 @@ VWF_RenderSingle:
     RTS
 }
 
-; $74ADF-$74B5D DATA
+; $074ADF-$074B5D DATA
 pool VWF_RenderCharacter:
 {
-    
     .widths
     
     db 6, 6, 6, 6, 6, 6, 6, 6, 3, 6, 6, 6, 7, 6, 6, 6
@@ -1424,7 +1421,7 @@ pool VWF_RenderCharacter:
 
 ; ==============================================================================
 
-; *$74B5E-$74CF8 LOCAL
+; $074B5E-$074CF8 LOCAL
 VWF_RenderCharacter:
 {
     ; Notes:
@@ -1699,10 +1696,9 @@ VWF_RenderCharacter:
 
 ; ==============================================================================
 
-; *$74CF9-$74CFD JUMP LOCATION
+; $074CF9-$074CFD JUMP LOCATION
 VWF_InvalidSpeed:
 {
-    
     ._1
     
     DEC $1CD5
@@ -1716,7 +1712,7 @@ VWF_InvalidSpeed:
 
 ; ==============================================================================
 
-; *$74CFE-$74D15 JUMP LOCATION
+; $074CFE-$074D15 JUMP LOCATION
 VWF_NextPicture:
 {
     ; [NextPic] Command (rendering stage)
@@ -1745,7 +1741,7 @@ VWF_NextPicture:
     RTS
 }
 
-; $74D16-$74D19 DATA
+; $074D16-$074D19 DATA
 VWF_Select2Or3_Indented_messages:
 {
     dw $0001, $0002
@@ -1753,7 +1749,7 @@ VWF_Select2Or3_Indented_messages:
 
 ; ==============================================================================
 
-; *$74D1A-$74D87 JUMP LOCATION
+; $074D1A-$074D87 JUMP LOCATION
     VWF_Select2Or3_Indented:    
 {
     LDA $1CE9 : BEQ .readyForInput
@@ -1823,7 +1819,7 @@ VWF_Select2Or3_Indented_messages:
 
 ; ==============================================================================
 
-; *$74D88-$74DC7 JUMP LOCATION
+; $074D88-$074DC7 JUMP LOCATION
 VWF_SelectItem:
 {
     ; [Item] command
@@ -1873,10 +1869,9 @@ VWF_SelectItem:
 
 ; ==============================================================================
 
-; *$74DC8-$74DEC LOCAL
+; $074DC8-$074DEC LOCAL
 VWF_SelectPrevItem:
 {
-    
     .tryPrevSlot
     
     LDX $1CE8 : BPL .inRange
@@ -1902,10 +1897,9 @@ VWF_SelectPrevItem:
 
 ; ==============================================================================
 
-; *$74DED-$74E13 LOCAL
+; $074DED-$074E13 LOCAL
 VWF_SelectNextItem:
 {
-    
     .tryNextSlot
     
     LDX $1CE8 : CPX.b #$20 : BCC .inRange
@@ -1932,10 +1926,9 @@ VWF_SelectNextItem:
     INC $1CE8 : BRA .tryNextSlot
 }
     
-; *$74E14-$74E6A
+; $074E14-$074E6A
 VWF_ChangeItemTiles:
 {
-    
     ; Y = X, Y = X << 1, A is destroyed
     TXY : TXA : ASL A : TAX
     
@@ -1973,7 +1966,7 @@ VWF_ChangeItemTiles:
 
 ; ==============================================================================
 
-; *$74E6B-$74E7E LOCAL
+; $074E6B-$074E7E LOCAL
 VWF_IgnoreCommand:
 {
     ; [Window XX], [Name], [Number XX] point here in text generation but this routine
@@ -1997,7 +1990,7 @@ VWF_IgnoreCommand:
 
 ; ==============================================================================
 
-; $74E7F-$74E82 DATA
+; $074E7F-$074E82 DATA
 VWF_Select2Or3_messages:
 {
     dw $000B, $000C
@@ -2005,7 +1998,7 @@ VWF_Select2Or3_messages:
 
 ; ==============================================================================
 
-; *$74E83-$74EF0 JUMP LOCATION
+; $074E83-$074EF0 JUMP LOCATION
 VWF_Select2Or3:
 {
     ; [SelChng]
@@ -2079,7 +2072,7 @@ VWF_Select2Or3:
 
 ; ==============================================================================
 
-; $74EF1-$74EF6 DATA
+; $074EF1-$074EF6 DATA
 VWF_Crash:
 VWF_Choose3_ArrowDialogs:
 {
@@ -2088,7 +2081,7 @@ VWF_Choose3_ArrowDialogs:
 
 ; ==============================================================================
 
-; *$74EF7-$74F6D JUMP LOCATION
+; $074EF7-$074F6D JUMP LOCATION
 VWF_Choose3:
 {
     LDA $1CE9 : BEQ .readyForInput
@@ -2164,7 +2157,7 @@ VWF_Choose3:
 
 ; ==============================================================================
 
-; $74F6E-$74F71 DATA
+; $074F6E-$074F71 DATA
 VWF_Choose1Or2_messages:
 {
     dw $0009, $000A
@@ -2172,7 +2165,7 @@ VWF_Choose1Or2_messages:
 
 ; ==============================================================================
 
-; *$74F72-$74FE1 JUMP LOCATION
+; $074F72-$074FE1 JUMP LOCATION
 VWF_Choose1Or2:
 {
     ; [Choose2]
@@ -2245,7 +2238,7 @@ VWF_Choose1Or2:
 
 ; ==============================================================================
 
-; *$74FE2-$750C2 JUMP LOCATION
+; $074FE2-$0750C2 JUMP LOCATION
 VWF_Scroll:
 {
     ; [Scroll] (rendering stage)
@@ -2357,7 +2350,7 @@ VWF_Scroll:
     RTS
 }
 
-; $750C3-$750C8 DATA ; consists of values for $7E0722
+; $0750C3-$0750C8 DATA ; consists of values for $7E0722
 VWF_RowPositions:
 {
     dw $0000, $0002, $0004
@@ -2365,7 +2358,7 @@ VWF_RowPositions:
 
 ; ==============================================================================
 
-; *$750C9-$750F1 JUMP LOCATION
+; $0750C9-$0750F1 JUMP LOCATION
 VWF_SetLine:
 {
     ; [1], [2], and [3]
@@ -2397,7 +2390,7 @@ VWF_SetLine:
 
 ; ==============================================================================
 
-; *$750F2-$75114 JUMP LOCATION
+; $0750F2-$075114 JUMP LOCATION
 VWF_SetPalette:
 {
     ; [Color XX]
@@ -2426,7 +2419,7 @@ VWF_SetPalette:
 
 ; ==============================================================================
 
-; *$75115-$75137 JUMP LOCATION
+; $075115-$075137 JUMP LOCATION
 VWF_Wait:
 {
     ; [Wait XX] command (actual generation)
@@ -2460,10 +2453,9 @@ VWF_Wait:
     dw VWF_WaitLoop_decCounter  ; just counts down the timer (can be as high as 8.33 seconds!)
 }
 
-; *$75138-$75153 JUMP LOCATION
+; $075138-$075153 JUMP LOCATION
 VWF_WaitLoop:
 {
-    
     .initCounter
     
     REP #$30
@@ -2474,7 +2466,7 @@ VWF_WaitLoop:
     
     LDA Text_WaitDurations, X : STA $1CE0
     
-    ; *$7514C ALTERNATE ENTRY POINT
+    ; $07514C ALTERNATE ENTRY POINT
     .decCounter
     
     REP #$30
@@ -2486,7 +2478,7 @@ VWF_WaitLoop:
     RTS
 } 
 
-; *$75154-$75161 JUMP LOCATION
+; $075154-$075161 JUMP LOCATION
 VWF_EndWait:
 {
     REP #$30
@@ -2502,7 +2494,7 @@ VWF_EndWait:
     RTS
 }
 
-; *$75162-$75175 JUMP LOCATION
+; $075162-$075175 JUMP LOCATION
 VWF_PlaySound:
 {
     ; [Sound XX] (rendering stage)
@@ -2523,7 +2515,7 @@ VWF_PlaySound:
 
 ; ==============================================================================
 
-; *$75176-$7518C JUMP LOCATION
+; $075176-$07518C JUMP LOCATION
 VWF_SetSpeed:
 {
     ; [Speed XX] (rendering stage)
@@ -2545,7 +2537,7 @@ VWF_SetSpeed:
 
 ; ==============================================================================
 
-; *$7518D-$751BC JUMP LOCATION
+; $07518D-$0751BC JUMP LOCATION
 VWF_Command7B:
 {
     ; [Command 7B] - unused?
@@ -2573,12 +2565,12 @@ VWF_Command7B:
     
     SEP #$30
     
-    JMP $C984 ; $74984 IN ROM
+    JMP $C984 ; $074984 IN ROM
 }
 
 ; ==============================================================================
 
-; *$751BD-$751F8 JUMP LOCATION
+; $0751BD-$0751F8 JUMP LOCATION
 VWF_Command7C:
 {
     ; Command 0x7C (unused)
@@ -2612,12 +2604,12 @@ VWF_Command7C:
     
     SEP #$30
     
-    JMP $C984 ; $74984 IN ROM
+    JMP $C984 ; $074984 IN ROM
 }
 
 ; ==============================================================================
 
-; *$751F9-$7522F JUMP LOCATION
+; $0751F9-$07522F JUMP LOCATION
 VWF_ClearBuffer:
 {
     ; This routine sets $7F:0000 to $7F:07DF to zero.
@@ -2654,7 +2646,7 @@ VWF_ClearBuffer:
 
 ; ==============================================================================
 
-; *$75230-$7525A JUMP LOCATION
+; $075230-$07525A JUMP LOCATION
 VWF_WaitKey:
 {
     ; [WaitKey] command
@@ -2692,7 +2684,7 @@ VWF_WaitKey:
 
 ; ==============================================================================
 
-; *$7525B-$7527F JUMP LOCATION
+; $07525B-$07527F JUMP LOCATION
 VWF_EndMessage:
 {
     ; [End] Command
@@ -2723,7 +2715,7 @@ VWF_EndMessage:
 
 ; ==============================================================================
 
-; *$75280-$7529B LOCAL
+; $075280-$07529B LOCAL
 Text_SetDefaultWindowPos:
 {
     ; Determines one of two positions for the text box,
@@ -2745,7 +2737,7 @@ Text_SetDefaultWindowPos:
 
 ; ==============================================================================
 
-; *$7529C-$752AA LOCAL
+; $07529C-$0752AA LOCAL
 Text_InitBorderOffsets:
 {
     REP #$30
@@ -2761,7 +2753,7 @@ Text_InitBorderOffsets:
 
 ; ==============================================================================
 
-; *$752AB-$752EB LOCAL
+; $0752AB-$0752EB LOCAL
 Text_DrawBorderRow:
 {
     REP #$30
@@ -2804,7 +2796,7 @@ Text_DrawBorderRow:
 
 ; ==============================================================================
 
-; *$752EC-$75306 LOCAL
+; $0752EC-$075306 LOCAL
 Text_BuildCharacterTilemap:
 {
     REP #$30
@@ -2834,7 +2826,7 @@ Text_BuildCharacterTilemap:
 
 ; ==============================================================================
 
-; *$75307-$75359 LOCAL
+; $075307-$075359 LOCAL
 Text_DrawCharacterTilemap:
 {
     ; This routine is where the tilemap actually gets configured to be transferred to
@@ -2897,7 +2889,7 @@ Text_DrawCharacterTilemap:
     
 ; ==============================================================================
 
-; $7535A-$75379
+; $07535A-$075379
 Text_InitializationData:
 {
     ; Nothing of note here, sets $1CD0-$1CD7 to 0x00
@@ -2913,7 +2905,7 @@ Text_InitializationData:
     db $00, $00, $00, $00, $00, $00, $00, $00, $00, $1C, $04, $00, $00, $00, $00, $00    
 }
     
-; $7537A-$7537E
+; $07537A-$07537E
     ; unused?
 {
     db $00, $00, $00, $00, $00
@@ -2921,7 +2913,7 @@ Text_InitializationData:
     
 ; ==============================================================================
 
-; $7537F-$75390 DATA
+; $07537F-$075390 DATA
 Text_BorderTiles:
 {
     .top
@@ -2936,7 +2928,7 @@ Text_BorderTiles:
     
 ; ==============================================================================
 
-; $75391-$75394
+; $075391-$075394
 Text_Positions:
 {
     dw $6125, $6244
@@ -2944,7 +2936,7 @@ Text_Positions:
     
 ; ==============================================================================
 
-; $75395-$75398
+; $075395-$075398
 pool Text_Close:
 {
     .reg_config
@@ -2958,7 +2950,7 @@ pool Text_Close:
     
 ; ==============================================================================
 
-; $75399-$7539E DATA
+; $075399-$07539E DATA
 VWF_LinePositions:
 {
     ; line position values
@@ -2967,7 +2959,7 @@ VWF_LinePositions:
     
 ; ==============================================================================
 
-; $7539F-$753A6 DATA
+; $07539F-$0753A6 DATA
 Text_Command_7C_Data:
 {
     ; For use with command 0x7C (looks like items if you look at vram)
@@ -2976,10 +2968,9 @@ Text_Command_7C_Data:
     
 ; ==============================================================================
 
-; $753A7-$753AE DATA
+; $0753A7-$0753AE DATA
 pool VWF_Command7B:
 {
-    
     .unknown
     ; For use with command 0x7B (looks like items if you look at vram)
     dw $24B8, $24BA, $24BC, $24BE
@@ -2987,7 +2978,7 @@ pool VWF_Command7B:
     
 ; ==============================================================================
 
-; $753AF-$753CE DATA
+; $0753AF-$0753CE DATA
 Text_WaitDurations:
 {
     ; as expressed in frames or (1/60ths of a second)
@@ -2997,7 +2988,7 @@ Text_WaitDurations:
     
 ; ==============================================================================
 
-; $753CF-$753D1
+; $0753CF-$0753D1
 Text_UnusedData:
 {
     ; unused? I can't find this used anywhere in the rom,
@@ -3007,7 +2998,7 @@ Text_UnusedData:
     db 8, 3, 1
 }
     
-; $753D2-$753EA
+; $0753D2-$0753EA
 Text_CommandLengths:
 {
     ; Command argument lengths, starting with command 0x67 all the way up to
@@ -3018,7 +3009,7 @@ Text_CommandLengths:
 
 ; ==============================================================================
 
-; *$753EB-$7544A LONG
+; $0753EB-$07544A LONG
 Text_GenerateMessagePointers:
 {
     ; In this routine:

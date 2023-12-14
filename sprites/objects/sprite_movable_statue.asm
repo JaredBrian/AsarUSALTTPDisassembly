@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $340DA-$340E7 DATA
+; $0340DA-$0340E7 DATA
 pool Sprite_MovableStatue:
 {
-    
     .directions
     db 4, 6, 0, 2
     
@@ -20,7 +19,7 @@ pool Sprite_MovableStatue:
 
 ; ==============================================================================
 
-; *$340E8-$341F6 JUMP LOCATION
+; $0340E8-$0341F6 JUMP LOCATION
 Sprite_MovableStatue:
 {
     ; Movable Statue
@@ -47,7 +46,7 @@ Sprite_MovableStatue:
     
     JSR MovableStatue_Draw
     JSR Sprite_CheckIfActive
-    JSR $C277 ; $34277 IN ROM
+    JSR $C277 ; $034277 IN ROM
     
     STZ $0642
     
@@ -76,7 +75,7 @@ Sprite_MovableStatue:
     
     LDA $C0E4, Y : STA $0D40, X
     
-    ; *$3414A ALTERNATE ENTRY POINT
+    ; $03414A ALTERNATE ENTRY POINT
     
     LDA $0376 : AND.b #$02 : BNE .BRANCH_ZETA
     
@@ -140,7 +139,7 @@ Sprite_MovableStatue:
     
     LDA .y_speeds, Y : STA $0D40, X
     
-    JMP $C14A ; $3414A IN ROM
+    JMP $C14A ; $03414A IN ROM
     
     .BRANCH_KAPPA
     
@@ -162,10 +161,9 @@ Sprite_MovableStatue:
 
 ; ==============================================================================
 
-; $341F7-$34202 DATA
+; $0341F7-$034202 DATA
 pool MovableStatue_CheckFullSwitchCovering:
 {
-    
     .y_offsets
     db 3, 12,  3, 12
     
@@ -179,7 +177,7 @@ pool MovableStatue_CheckFullSwitchCovering:
 
 ; ==============================================================================
 
-; *$34203-$3424B LOCAL
+; $034203-$03424B LOCAL
 MovableStatue_CheckFullSwitchCovering:
 {
     LDY.b #$03
@@ -224,10 +222,9 @@ MovableStatue_CheckFullSwitchCovering:
 
 ; ==============================================================================
 
-; $3424C-$34263 DATA
+; $03424C-$034263 DATA
 pool MovableStatue_Draw:
 {
-    
     .oam_groups
     dw 0, -8 : db $C2, $00, $00, $00
     dw 8, -8 : db $C2, $40, $00, $00
@@ -236,7 +233,7 @@ pool MovableStatue_Draw:
 
 ; ==============================================================================
 
-; *$34264-$34276 LOCAL
+; $034264-$034276 LOCAL
 MovableStatue_Draw:
 {
     REP #$20
@@ -254,7 +251,7 @@ MovableStatue_Draw:
 
 ; ==============================================================================
 
-; *$34277-$342E4 LOCAL
+; $034277-$0342E4 LOCAL
 {
     LDY.b #$0F
     

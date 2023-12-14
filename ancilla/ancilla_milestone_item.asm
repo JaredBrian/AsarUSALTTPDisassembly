@@ -1,11 +1,10 @@
 
 ; ==============================================================================
 
-; $44A85-$44A8B DATA
+; $044A85-$044A8B DATA
 pool Ancilla_MilestoneItem:
     parallel pool Ancilla_ReceiveItem:
 {
-    
     .ether_medallion
     db $10
     
@@ -24,7 +23,7 @@ pool Ancilla_MilestoneItem:
 
 ; ==============================================================================
 
-; $44A8C-$44BE3 JUMP LOCATION
+; $044A8C-$044BE3 JUMP LOCATION
 Ancilla_MilestoneItem:
 {
     ; Routines for pendants waiting to be picked up in a room.

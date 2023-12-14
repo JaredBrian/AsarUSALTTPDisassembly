@@ -15,10 +15,9 @@
 
 ; ==============================================================================
 
-; $317D8-$31807 DATA
+; $0317D8-$031807 DATA
 pool Sprite_Moldorm:
 {
-    
     .x_speeds
     db  24,  22,  17,   9,   0,  -9, -17, -22
     db -24, -22, -17,  -9,   0,   9,  17,  22
@@ -34,7 +33,7 @@ pool Sprite_Moldorm:
 
 ; ==============================================================================
 
-; *$31808-$3185F JUMP LOCATION
+; $031808-$03185F JUMP LOCATION
 Sprite_Moldorm:
 {
     JSL Moldorm_Draw
@@ -85,7 +84,7 @@ Sprite_Moldorm:
 
 ; ==============================================================================
 
-; *$31860-$3188C JUMP LOCATION
+; $031860-$03188C JUMP LOCATION
 Moldorm_ConfigureNextState:
 {
     LDA $0DF0, X : BNE .delay
@@ -115,7 +114,7 @@ Moldorm_ConfigureNextState:
 
 ; ==============================================================================
 
-; *$3188D-$318B1 JUMP LOCATION
+; $03188D-$0318B1 JUMP LOCATION
 Moldorm_Meander:
 {
     LDA $0DF0, X : BNE .delay
@@ -139,7 +138,7 @@ Moldorm_Meander:
 
 ; ==============================================================================
 
-; *$318B2-$318DF JUMP LOCATION
+; $0318B2-$0318DF JUMP LOCATION
 Moldorm_SeekPlayer:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .delay

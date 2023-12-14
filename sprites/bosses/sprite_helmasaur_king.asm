@@ -3,7 +3,7 @@
 
     ; \task These might need reinitialization, we should check up on what their
     ; specific function is.
-; *$F0000-$F0038 LONG
+; $0F0000-$0F0038 LONG
 HelmasaurKing_Initialize:
 {
     LDA.b #$30 : STA $0B2F
@@ -16,7 +16,7 @@ HelmasaurKing_Initialize:
     STZ $0B31
     STZ $0B32
 
-    ; *$F0019 ALTERNATE ENTRY POINT
+    ; $0F0019 ALTERNATE ENTRY POINT
     shared HelmasaurKing_Reinitialize:
 
     PHB : PHK : PLB : PHX
@@ -40,7 +40,7 @@ HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; *$F0039-$F0109 JUMP LOCATION
+; $0F0039-$0F0109 JUMP LOCATION
 Sprite_HelmasaurKing:
 {
     LDA $0DB0, X : BPL .BRANCH_ALPHA
@@ -94,7 +94,7 @@ Sprite_HelmasaurKing:
     
     .BRANCH_ZETA
     
-    JSR $853B   ; $F053B IN ROM
+    JSR $853B   ; $0F053B IN ROM
     
     LDA $0DD0, X : CMP.b #$06 : BNE .BRANCH_$F0117
     
@@ -155,9 +155,8 @@ Sprite_HelmasaurKing:
 
 ; ==============================================================================
 
-; $F010A-$F0116 DATA
+; $0F010A-$0F0116 DATA
 {
-    
     .unknown
     db $03, $03, $03, $03, $03, $03, $03, $03
     db $02, $02, $01, $01, $00
@@ -165,7 +164,7 @@ Sprite_HelmasaurKing:
 
 ; ==============================================================================
 
-; *$F0117-$F018B BRANCH LOCATION
+; $0F0117-$0F018B BRANCH LOCATION
 {
     JSR Sprite3_CheckIfActive
     
@@ -177,7 +176,7 @@ Sprite_HelmasaurKing:
     
     STZ $0EF0, X
     
-    JSR $848C ; $F048C IN ROM
+    JSR $848C ; $0F048C IN ROM
     
     BRA .BRANCH_BETA
     
@@ -185,16 +184,16 @@ Sprite_HelmasaurKing:
     
     CMP $0E90, X : BEQ .BRANCH_BETA
     
-    JSR $847E ; $F047E IN ROM
+    JSR $847E ; $0F047E IN ROM
     
     .BRANCH_BETA
     
     LDA $0DB0, X : STA $0E90, X
     
     JSL Sprite_CheckDamageFromPlayerLong
-    JSR $82A0 ; $F02A0 IN ROM
-    JSR $83EB ; $F03EB IN ROM
-    JSR $8385 ; $F0385 IN ROM
+    JSR $82A0 ; $0F02A0 IN ROM
+    JSR $83EB ; $0F03EB IN ROM
+    JSR $8385 ; $0F0385 IN ROM
     
     LDA $0E00, X : BEQ .BRANCH_GAMMA
     CMP.b #$60   : BEQ .BRANCH_DELTA
@@ -206,7 +205,7 @@ Sprite_HelmasaurKing:
     LDA $0E10, X : BEQ .BRANCH_EPSILON
     CMP.b #$40   : BNE .BRANCH_ZETA
     
-    JSR $8517 ; $F0517 IN ROM
+    JSR $8517 ; $0F0517 IN ROM
     
     LDA $0DB0, X : CMP.b #$03 : BCC .BRANCH_ZETA
     
@@ -234,7 +233,7 @@ Sprite_HelmasaurKing:
     dw $8242 ; = $F0242*
 }
 
-; *$F019C-$F01D4 JUMP LOCATION
+; $0F019C-$0F01D4 JUMP LOCATION
 {
     LDA $0EF0, X : BNE .BRANCH_ALPHA
     
@@ -242,7 +241,7 @@ Sprite_HelmasaurKing:
     
     .BRANCH_ALPHA
     
-    JSR $8253 ; $F0253 IN ROM
+    JSR $8253 ; $0F0253 IN ROM
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
@@ -267,9 +266,9 @@ Sprite_HelmasaurKing:
     RTS
 }
 
-; *$F01D5-$F01E5 JUMP LOCATION
+; $0F01D5-$0F01E5 JUMP LOCATION
 {
-    JSR $81E6 ; $F01E6 IN ROM
+    JSR $81E6 ; $0F01E6 IN ROM
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -283,19 +282,19 @@ Sprite_HelmasaurKing:
 }
 
 
-; *$F01E6-$F01FF LOCAL
+; $0F01E6-$0F01FF LOCAL
 {
-    JSR $8200 ; $F0200 IN ROM
+    JSR $8200 ; $0F0200 IN ROM
     
     LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
-    JSR $8200 ; $F0200 IN ROM
+    JSR $8200 ; $0F0200 IN ROM
     
     .BRANCH_ALPHA
     
     LDA $0DB0, X : CMP.b #$03 : BCC .BRANCH_BETA
     
-    JSR $8200 ; $F0200 IN ROM
+    JSR $8200 ; $0F0200 IN ROM
     
     .BRANCH_BETA
     
@@ -305,7 +304,7 @@ Sprite_HelmasaurKing:
 }
 
 
-; *$F0200-$F020F LOCAL
+; $0F0200-$0F020F LOCAL
 {
     INC $0E80, X : LDA $0E80, X : AND.b #$0F : BNE .BRANCH_ALPHA
     
@@ -316,7 +315,7 @@ Sprite_HelmasaurKing:
     RTS
 }
 
-; *$F0210-$F0241 JUMP LOCATION
+; $0F0210-$0F0241 JUMP LOCATION
 {
     LDA $0EF0, X : BNE .BRANCH_ALPHA
     
@@ -324,7 +323,7 @@ Sprite_HelmasaurKing:
     
     .BRANCH_ALPHA
     
-    JSR $8253 ; $F0253 IN ROM
+    JSR $8253 ; $0F0253 IN ROM
     
     LDA #$40 : STA $0DF0, X
     
@@ -345,9 +344,9 @@ Sprite_HelmasaurKing:
     RTS
 }
 
-; *$F0242-$F0252 JUMP LOCATION
+; $0F0242-$0F0252 JUMP LOCATION
 {
-    JSR $81E6 ; $F01E6 IN ROM
+    JSR $81E6 ; $0F01E6 IN ROM
     
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -360,7 +359,7 @@ Sprite_HelmasaurKing:
     RTS
 }
 
-; *$F0253-$F027B LOCAL
+; $0F0253-$0F027B LOCAL
 {
     INC $0E30, X
     
@@ -389,7 +388,7 @@ Sprite_HelmasaurKing:
 
 ; ==============================================================================
 
-; $F029C-$F029F DATA
+; $0F029C-$0F029F DATA
 pool HelmasaurKing_Initialize:
 {
     db 0, 8, 16, 24
@@ -397,7 +396,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; *$F02A0-$F0326 LOCAL
+; $0F02A0-$0F0326 LOCAL
 {
     INC $0B0C
     
@@ -467,7 +466,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F032D-$F0356 BRANCH LOCATION
+; $0F032D-$0F0356 BRANCH LOCATION
 {
     LDY $0EB0, X
     
@@ -485,7 +484,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F0357-$F0382 BRANCH LOCATION
+; $0F0357-$0F0382 BRANCH LOCATION
 {
     LDA $0EB0, X : EOR.b #$01 : TAY
     
@@ -505,9 +504,8 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; $F0383-$F0384 DATA
+; $0F0383-$0F0384 DATA
 {
-    
     ; \task Name this routine / pool
     .unknown_0
     db 1, -1
@@ -515,7 +513,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; *$F0385-$F03EA LOCAL
+; $0F0385-$0F03EA LOCAL
 {
     LDA $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
     
@@ -562,7 +560,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F03EB-$F0419 LOCAL
+; $0F03EB-$0F0419 LOCAL
 {
     LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -583,15 +581,15 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F047E-$F04A9 LOCAL
+; $0F047E-$0F04A9 LOCAL
 {
     LDA $0DB0, X : CLC : ADC.b #$07 : STA $0FB5
     
-    JSR $84AA ; $F04AA IN ROM
+    JSR $84AA ; $0F04AA IN ROM
     
     BRA .BRANCH_ALPHA
     
-    ; *$F048C ALTERNATE ENTRY POINT
+    ; $0F048C ALTERNATE ENTRY POINT
     
     LDY.b #$0F
     LDA.b #$00
@@ -606,7 +604,7 @@ pool HelmasaurKing_Initialize:
     
     .BRANCH_GAMMA
     
-    JSR $84AA ; $F04AA IN ROM
+    JSR $84AA ; $0F04AA IN ROM
     
     DEC $0FB5 : BPL .BRANCH_GAMMA
     
@@ -617,7 +615,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F04AA-$F0516 LOCAL
+; $0F04AA-$0F0516 LOCAL
 {
     ; I think this can spawn all of parts of the Helmasaur King's mask
     ; flying off due to damage...
@@ -656,7 +654,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F0517-$F053A LOCAL
+; $0F0517-$0F053A LOCAL
 {
     ; Spawn helmasaur king fireball...
     LDA.b #$70 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -673,7 +671,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F053B-$F055E LOCAL
+; $0F053B-$0F055E LOCAL
 {
     REP #$20
     
@@ -683,21 +681,20 @@ pool HelmasaurKing_Initialize:
     SEP #$20
     
     JSR Sprite3_PrepOamCoord
-    JSR $8920 ; $F0920 IN ROM
-    JSR $856B ; $F056B IN ROM
-    JSR $8686 ; $F0686 IN ROM
-    JSR $87E5 ; $F07E5 IN ROM
-    JSR $8805 ; $F0805 IN ROM
-    JSR $88BC ; $F08BC IN ROM
+    JSR $8920 ; $0F0920 IN ROM
+    JSR $856B ; $0F056B IN ROM
+    JSR $8686 ; $0F0686 IN ROM
+    JSR $87E5 ; $0F07E5 IN ROM
+    JSR $8805 ; $0F0805 IN ROM
+    JSR $88BC ; $0F08BC IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; $F055F-$F056A DATA
+; $0F055F-$0F056A DATA
 {
-    
     ; \task Name this routine / pool.
     .x_offsets
     db -3, 11
@@ -711,7 +708,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; *$F056B-$F05C5 LOCAL
+; $0F056B-$0F05C5 LOCAL
 {
     REP #$20
     
@@ -764,7 +761,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F0686-$F06E4 LOCAL
+; $0F0686-$0F06E4 LOCAL
 {
     LDA.b #$00 : XBA
     
@@ -809,7 +806,7 @@ pool HelmasaurKing_Initialize:
     
     LDA $0C2C, Y : ORA $0C22, Y : BEQ .BRANCH_GAMMA
     
-    JSR $86E5   ; $F06E5 IN ROM
+    JSR $86E5   ; $0F06E5 IN ROM
     
     .notBomb
     .BRANCH_GAMMA
@@ -819,7 +816,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F06E5-$F074C LOCAL
+; $0F06E5-$0F074C LOCAL
 {
     ; Helmasaur king checking for proximity between exploding bombs and its mask, probably
     
@@ -857,7 +854,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F07E5-$F07F4 LOCAL
+; $0F07E5-$0F07F4 LOCAL
 {
     REP #$20
     
@@ -867,7 +864,7 @@ pool HelmasaurKing_Initialize:
     
     LDA.b #$13
     
-    ; *$F07F0 ALTERNATE ENTRY POINT
+    ; $0F07F0 ALTERNATE ENTRY POINT
     shared Sprite3_DrawMultiple:
     
     JSL Sprite_DrawMultiple
@@ -875,7 +872,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F0805-$F089B LOCAL
+; $0F0805-$0F089B LOCAL
 {
     REP #$20
     
@@ -940,7 +937,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; *$F08BC-$F08EF LOCAL
+; $0F08BC-$0F08EF LOCAL
 {
     LDA $0E10, X : BEQ .BRANCH_ALPHA
     
@@ -966,18 +963,18 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; $F08F0-$F091F DATA
+; $0F08F0-$0F091F DATA
 {
     ; \task Fill in data.
 }
 
 ; ==============================================================================
 
-; *$F0920-$F0A84 LOCAL
+; $0F0920-$0F0A84 LOCAL
 {
     STZ $0FB5
     
-    ; *$F0923 ALTERNATE ENTRY POINT
+    ; $0F0923 ALTERNATE ENTRY POINT
     
     LDY $0FB5 : PHY
     
@@ -1100,7 +1097,7 @@ pool HelmasaurKing_Initialize:
     
     INC $0FB5 : LDA $0FB5 : CMP.b #$10 : BEQ .BRANCH_IOTA
     
-    JMP $8923 ; $F0923 IN ROM
+    JMP $8923 ; $0F0923 IN ROM
     
     .BRANCH_IOTA
     

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $46C77-$46CAE DATA
+; $046C77-$046CAE DATA
 pool Ancilla_WaterfallSplash:
 {
     
@@ -29,7 +29,7 @@ pool Ancilla_WaterfallSplash:
 
 ; ==============================================================================
 
-; *$46CAF-$46D88 JUMP LOCATION
+; $046CAF-$046D88 JUMP LOCATION
 Ancilla_WaterfallSplash:
 {
     ; Waterfall splash (special object 0x41)

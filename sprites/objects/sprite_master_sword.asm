@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$288C5-$288D5 JUMP LOCATION
+; $0288C5-$0288D5 JUMP LOCATION
 Sprite_MasterSword:
 {
     LDA $0E80, X
@@ -17,7 +17,7 @@ Sprite_MasterSword:
 
 ; ==============================================================================
 
-; *$288D6-$28907 JUMP LOCATION
+; $0288D6-$028907 JUMP LOCATION
 MasterSword_Main:
 {
     LDA $10 : CMP.b #$1A : BEQ .in_end_sequence
@@ -53,7 +53,7 @@ MasterSword_Main:
 
 ; ==============================================================================
 
-; *$28908-$2894C JUMP LOCATION
+; $028908-$02894C JUMP LOCATION
 MasterSword_ReadyAndWaiting:
 {
     ; (Player in unusual pose => fail)
@@ -93,7 +93,7 @@ MasterSword_ReadyAndWaiting:
 
 ; ==============================================================================
 
-; *$2894D-$28967 JUMP LOCATION
+; $02894D-$028967 JUMP LOCATION
 MasterSword_PendantsInTransit:
 {
     LDA $0DF0, X : BNE .wait
@@ -117,7 +117,7 @@ MasterSword_PendantsInTransit:
 
 ; ==============================================================================
 
-; *$28968-$2899C JUMP LOCATION
+; $028968-$02899C JUMP LOCATION
 MasterSword_CrankUpLightShow:
 {
     LDA $0DF0, X : BNE .wait
@@ -134,7 +134,7 @@ MasterSword_CrankUpLightShow:
     
     BRA .immobilize_player
     
-    ; *$2897E ALTERNATE ENTRY POINT
+    ; $02897E ALTERNATE ENTRY POINT
     shared MasterSword_LightShowIsCrunk:
     
     LDA $0DF0, X : BNE .wait_2
@@ -164,7 +164,7 @@ MasterSword_CrankUpLightShow:
 
 ; ==============================================================================
 
-; *$2899D-$289C5 JUMP LOCATION
+; $02899D-$0289C5 JUMP LOCATION
 MasterSword_GrantToPlayer:
 {
     LDA $0DF0, X : BNE .wait
@@ -199,7 +199,7 @@ MasterSword_GrantToPlayer:
 
 ; ==============================================================================
 
-; *$289C6-$289C9 JUMP LOCATION
+; $0289C6-$0289C9 JUMP LOCATION
 MasterSword_Terminate:
 {
     STZ $0DD0, X
@@ -209,10 +209,9 @@ MasterSword_Terminate:
 
 ; ==============================================================================
 
-; $289CA-$289DB DATA
+; $0289CA-$0289DB DATA
 pool Sprite_MasterLightFountain:
 {
-    
     .animation_states
     db $00, $01, $01, $02, $02, $02, $01, $01, $00
     
@@ -222,7 +221,7 @@ pool Sprite_MasterLightFountain:
 
 ; ==============================================================================
 
-; *$289DC-$28A15 JUMP LOCATION
+; $0289DC-$028A15 JUMP LOCATION
 Sprite_MasterLightFountain:
 {
     JSR MasterSword_DrawLightBall
@@ -256,7 +255,7 @@ Sprite_MasterLightFountain:
 
 ; ==============================================================================
 
-; *$28A16-$28A33 JUMP LOCATION
+; $028A16-$028A33 JUMP LOCATION
 Sprite_MasterLightWell:
 {
     JSR MasterSword_DrawLightBall
@@ -278,10 +277,9 @@ Sprite_MasterLightWell:
 
 ; ==============================================================================
 
-; $28A34-$28A93 DATA
+; $028A34-$028A93 DATA
 pool MasterSword_DrawLightBall:
 {
-    
     .animation_states
     dw -6, 4 : db $82, $00, $00, $02
     dw -6, 4 : db $82, $40, $00, $02
@@ -299,7 +297,7 @@ pool MasterSword_DrawLightBall:
 
 ; ==============================================================================
 
-; *$28A94-$28AB5 LOCAL
+; $028A94-$028AB5 LOCAL
 MasterSword_DrawLightBall:
 {
     ; Generic routine that can draw either the light fountain (bigger) 
@@ -316,7 +314,7 @@ MasterSword_DrawLightBall:
     
     LDA.b #$01
     
-    ; *$28AB1 ALTERNATE ENTRY POINT
+    ; $028AB1 ALTERNATE ENTRY POINT
     shared Sprite_DrawMultipleRedundantCall:
     
     ; The point of the name I chose for this routine is that there's 
@@ -330,7 +328,7 @@ MasterSword_DrawLightBall:
 
 ; ==============================================================================
 
-; *$28AB6-$28ACF LOCAL
+; $028AB6-$028ACF LOCAL
 MasterSword_SpawnLightWell:
 {
     LDA.b #$62
@@ -347,7 +345,7 @@ MasterSword_SpawnLightWell:
 
 ; ==============================================================================
 
-; *$28AD0-$28AE9 LOCAL
+; $028AD0-$028AE9 LOCAL
 MasterSword_SpawnLightFountain:
 {
     LDA.b #$62
@@ -364,7 +362,7 @@ MasterSword_SpawnLightFountain:
 
 ; ==============================================================================
 
-; *$28AEA-$28B07 JUMP LOCATION
+; $028AEA-$028B07 JUMP LOCATION
 Sprite_MasterLightBeam:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong
@@ -390,10 +388,9 @@ Sprite_MasterLightBeam:
 
 ; ==============================================================================
 
-; $28B08-$28B1F DATA
+; $028B08-$028B1F DATA
 pool MasterSword_SpawnLightBeams:
 {
-    
     .x_speeds_1
     db $00, $D0
     
@@ -433,7 +430,7 @@ pool MasterSword_SpawnLightBeams:
 
 ; ==============================================================================
 
-; *$28B20-$28B61 LOCAL
+; $028B20-$028B61 LOCAL
 MasterLightBeam_SpawnAnotherBeam:
 {
     ; Not sure if the name is 100% accurate, but I can always change it
@@ -466,7 +463,7 @@ MasterLightBeam_SpawnAnotherBeam:
 
 ; ==============================================================================
 
-; *$28B62-$28CD2 LOCAL
+; $028B62-$028CD2 LOCAL
 MasterSword_SpawnLightBeams:
 {
     PHY : PHA
@@ -644,7 +641,7 @@ MasterSword_SpawnLightBeams:
 
 ; ==============================================================================
 
-; *$28CD3-$28D28 LOCAL
+; $028CD3-$028D28 LOCAL
 MasterSword_SpawnPendant:
 {
     PHA
@@ -691,7 +688,7 @@ MasterSword_SpawnPendant:
 
 ; ==============================================================================
 
-; *$28D29-$28D3F JUMP LOCATION
+; $028D29-$028D3F JUMP LOCATION
 Sprite_MasterSwordPendant:
 {
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
@@ -709,7 +706,7 @@ Sprite_MasterSwordPendant:
 
 ; ==============================================================================
 
-; *$28D40-$28D56 JUMP LOCATION
+; $028D40-$028D56 JUMP LOCATION
 MasterSwordPendant_DriftingAway:
 {
     JSR Sprite2_Move
@@ -729,7 +726,7 @@ MasterSwordPendant_DriftingAway:
 
 ; ==============================================================================
 
-; *$28D57-$28D79 JUMP LOCATION
+; $028D57-$028D79 JUMP LOCATION
 MasterSwordPendant_Flashing:
 {
     LDA $0F50, X : AND.b #$F1 : STA $0F50, X
@@ -750,7 +747,7 @@ MasterSwordPendant_Flashing:
 
 ; ==============================================================================
 
-; *$28D7A-$28D95 JUMP LOCATION
+; $028D7A-$028D95 JUMP LOCATION
 MasterSwordPendant_FlyAway:
 {
     ; This one gives me the impression of being poorly put together.
@@ -782,10 +779,9 @@ MasterSwordPendant_FlyAway:
 
 ; ==============================================================================
 
-; $28D96-$28DA7 DATA
+; $028D96-$028DA7 DATA
 pool MasterSword_Draw:
 {
-    
     .x_offsets
     db -8,  0, -8,  0, -8,  0
     
@@ -799,7 +795,7 @@ pool MasterSword_Draw:
 
 ; ==============================================================================
 
-; *$28DA8-$28DD7 LOCAL
+; $028DA8-$028DD7 LOCAL
 MasterSword_Draw:
 {
     JSR Sprite2_PrepOamCoord

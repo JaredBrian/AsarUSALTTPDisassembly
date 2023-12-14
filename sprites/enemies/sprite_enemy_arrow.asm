@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $3374A-$33753 DATA
+; $03374A-$033753 DATA
 pool Sprite_EnemyArrow:
 {
     ; \wtf Was it supposed to have variable speed per frame originally?
@@ -16,7 +16,7 @@ pool Sprite_EnemyArrow:
 
 ; ==============================================================================
 
-; *$33754-$337C2 JUMP LOCATION
+; $033754-$0337C2 JUMP LOCATION
 Sprite_EnemyArrow:
 {
     JSR EnemyArrow_Draw
@@ -59,7 +59,7 @@ Sprite_EnemyArrow:
     LDA $0E70, X : BEQ .BRANCH_DELTA
     LDY $0D90, X : BEQ .BRANCH_EPSILON
     
-    JSL $06EE60 ; $36E60 IN ROM
+    JSL $06EE60 ; $036E60 IN ROM
     
     RTS
     
@@ -86,20 +86,19 @@ Sprite_EnemyArrow:
 
 ; ==============================================================================
 
-; $337C3-$337C6 DATA
+; $0337C3-$0337C6 DATA
 {
-    
     .directions
     db 0, 2, 1, 3
 }
 
 ; ==============================================================================
 
-; *$337C7-$33805 BRANCH LOCATION
+; $0337C7-$033805 BRANCH LOCATION
 {
     LDA $0D80, X : BNE .prepped_for_fall_already
     
-    JSR $E229   ; $36229 IN ROM
+    JSR $E229   ; $036229 IN ROM
     
     LDA.b #$18 : STA $0F80, X
     
@@ -131,7 +130,7 @@ Sprite_EnemyArrow:
 
 ; ==============================================================================
 
-; $33807-$33866 DATA
+; $033807-$033866 DATA
 {
     ; \task Fill in data.
     ; $33807
@@ -192,7 +191,7 @@ Sprite_EnemyArrow:
 
 ; ==============================================================================
 
-; *$33867-$338CD LOCAL
+; $033867-$0338CD LOCAL
 EnemyArrow_Draw:
 {
     JSR Sprite_PrepOamCoord

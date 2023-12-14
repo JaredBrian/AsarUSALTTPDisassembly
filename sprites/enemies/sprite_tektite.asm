@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $EC26D-$EC274 DATA
+; $0EC26D-$0EC274 DATA
 pool Tektite_Stationary:
 {
-    
     .x_speeds
     db  16, -16,  16, -16
     
@@ -14,7 +13,7 @@ pool Tektite_Stationary:
 
 ; ==============================================================================
 
-; *$EC275-$EC292 JUMP LOCATION LOCAL
+; $0EC275-$0EC292 JUMP LOCATION LOCAL
 Sprite_GanonHelpers:
 {
     ; Tektite / Ganon's firebats and pitchfork code
@@ -38,7 +37,7 @@ Sprite_GanonHelpers:
 
 ; ==============================================================================
 
-; *$EC293-$EC2CD BRANCH LOCATION
+; $0EC293-$0EC2CD BRANCH LOCATION
 Sprite_Tektite:
 {
     ; Code for Tektites
@@ -77,17 +76,16 @@ Sprite_Tektite:
 
 ; ==============================================================================
 
-; $EC2CE-$EC2D1 DATA
+; $0EC2CE-$0EC2D1 DATA
 pool Tektite_Stationary:
 {
-    
     .comparison_directions
     db 3, 2, 1, 0
 }
 
 ; ==============================================================================
 
-; *$EC2D2-$EC387 JUMP LOCATION LOCAL
+; $0EC2D2-$0EC387 JUMP LOCATION LOCAL
 Tektite_Stationary:
 {
     JSR Sprite4_DirectionToFacePlayer
@@ -177,19 +175,19 @@ Tektite_Stationary:
 
 ; ==============================================================================
 
-; *$EC388-$EC3A7 JUMP LOCATION
+; $0EC388-$0EC3A7 JUMP LOCATION
 Tektite_Aloft:
 {
     LDA $0F70, X : BNE .aloft
     
-    ; *$EC38D ALTERNATE ENTRY POINT
+    ; $0EC38D ALTERNATE ENTRY POINT
     shared Tektite_RevertToStationary:
     
     STZ $0D80, X
     
     JSL GetRandomInt : AND.b #$3F : ADC.b #$48 : STA $0DF0, X
     
-    ; *$EC39B ALTERNATE ENTRY POINT
+    ; $0EC39B ALTERNATE ENTRY POINT
     shared Sprite4_Zero_XY_Velocity:
     
     STZ $0D40, X
@@ -206,7 +204,7 @@ Tektite_Aloft:
 
 ; ==============================================================================
 
-; *$EC3A8-$EC3C4 JUMP LOCATION
+; $0EC3A8-$0EC3C4 JUMP LOCATION
 Tektite_RepeatingHop:
 {
     LDA $0DF0, X : BEQ Tektite_RevertToStationary
@@ -228,10 +226,9 @@ Tektite_RepeatingHop:
 
 ; ==============================================================================
 
-; $EC3C5-$EC3F4 DATA
+; $0EC3C5-$0EC3F4 DATA
 pool Tektite_Draw:
 {
-    
     .oam_groups
     dw -8,  0 : db $C8, $00, $00, $02
     dw  8,  0 : db $C8, $40, $00, $02
@@ -242,7 +239,7 @@ pool Tektite_Draw:
 
 ; ==============================================================================
 
-; *$EC3F5-$EC411 LOCAL
+; $0EC3F5-$0EC411 LOCAL
 Tektite_Draw:
 {
     LDA.b #$00   : XBA

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$474CA-$474D1 LONG
+; $0474CA-$0474D1 LONG
 Ancilla_GameOverTextLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Ancilla_GameOverTextLong:
 
 ; ==============================================================================
 
-; $474D2-$474D7 Jump Table
+; $0474D2-$0474D7 Jump Table
 pool Ancilla_GameOverText:
 {
     ; \task interleaved!
@@ -27,7 +27,7 @@ pool Ancilla_GameOverText:
 
 ; ==============================================================================
 
-; *$474D8-$474ED LOCAL
+; $0474D8-$0474ED LOCAL
 Ancilla_GameOverText:
 {
     ; It looks as though these routines do ancillary objects of the death
@@ -51,10 +51,9 @@ Ancilla_GameOverText:
 
 ; ==============================================================================
 
-; $474EE-$474F5 DATA
+; $0474EE-$0474F5 DATA
 pool GameOverText_SweepLeft:
 {
-    
     .target_x_coords
     db 64
     db 80
@@ -68,7 +67,7 @@ pool GameOverText_SweepLeft:
 
 ; ==============================================================================
 
-; *$474F6-$47564 JUMP LOCATION
+; $0474F6-$047564 JUMP LOCATION
 GameOverText_SweepLeft:
 {
     LDX $035F : STX $0FA0
@@ -141,10 +140,9 @@ GameOverText_SweepLeft:
 
 ; ==============================================================================
 
-; $47565-$4756C DATA
+; $047565-$04756C DATA
 pool GameOverText_UnfurlRight:
 {
-    
     .target_x_coords
     db 88
     db 96
@@ -158,7 +156,7 @@ pool GameOverText_UnfurlRight:
 
 ; ==============================================================================
 
-; *$4756D-$475B3 LOCAL
+; $04756D-$0475B3 LOCAL
 GameOverText_UnfurlRight:
 {
     LDX $035F : STX $0FA0
@@ -202,10 +200,9 @@ GameOverText_UnfurlRight:
 
 ; ==============================================================================
 
-; $475B4-$475C3 DATA
+; $0475B4-$0475C3 DATA
 GameOverText_Draw:
 {
-    
     .chr
     db $40, $50
     db $41, $51
@@ -219,7 +216,7 @@ GameOverText_Draw:
 
 ; ==============================================================================
 
-; *$475C4-$47623 BRANCH LOCATION LONG
+; $0475C4-$047623 BRANCH LOCATION LONG
 GameOverText_Draw:
 {
     ; Start the oam buffer from scratch.

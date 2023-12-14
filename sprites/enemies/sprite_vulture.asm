@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EDC72-$EDC79 LONG
+; $0EDC72-$0EDC79 LONG
 Sprite_VultureLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_VultureLong:
 
 ; ==============================================================================
 
-; *$EDC7A-$EDC9B LOCAL
+; $0EDC7A-$0EDC9B LOCAL
 Sprite_Vulture:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -36,7 +36,7 @@ Sprite_Vulture:
 
 ; ==============================================================================
 
-; *$EDC9C-$EDCB4 JUMP LOCATION
+; $0EDC9C-$0EDCB4 JUMP LOCATION
 Vulture_Dormant:
 {
     INC $0E80, X : LDA $0E80, X : CMP.b #$A0 : BNE .activation_delay
@@ -54,17 +54,16 @@ Vulture_Dormant:
 
 ; ==============================================================================
 
-; $EDCB5-$EDCB8 DATA
+; $0EDCB5-$0EDCB8 DATA
 pool Vulture_Circling:
 {
-    
     .animation_states
     db 1, 2, 3, 2
 }
 
 ; ==============================================================================
 
-; *$EDCB9-$EDD1D JUMP LOCATION
+; $0EDCB9-$0EDD1D JUMP LOCATION
 Vulture_Circling:
 {
     LDA $1A : LSR A : AND.b #$03 : TAY
@@ -110,10 +109,9 @@ Vulture_Circling:
 
 ; ==============================================================================
 
-; $EDD1E-$EDD5D DATA
+; $0EDD1E-$0EDD5D DATA
 pool Vulture_Draw:
 {
-    
     .oam_groups
     dw -8,  0 : db $86, $00, $00, $02
     dw  8,  0 : db $86, $40, $00, $02
@@ -130,7 +128,7 @@ pool Vulture_Draw:
 
 ; ==============================================================================
 
-; *$EDD5E-$EDD7A LOCAL
+; $0EDD5E-$0EDD7A LOCAL
 Vulture_Draw:
 {
     LDA.b #$00 : XBA

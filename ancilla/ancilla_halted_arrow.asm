@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4245B-$424DC JUMP LOCATION
+; $04245B-$0424DC JUMP LOCATION
 Ancilla_HaltedArrow:
 {
     ; Special object 0x0A (arrow stuck in something)
@@ -61,7 +61,7 @@ Ancilla_HaltedArrow:
     
     JML Arrow_Draw
     
-    ; *$424DA ALTERNATE ENTRY POINT
+    ; $0424DA ALTERNATE ENTRY POINT
     .self_terminate
     
     BRL Ancilla_SelfTerminate

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $2A377-$2A379 DATA
+; $02A377-$02A379 DATA
 pool Lanmola_FinishInitialization:
 {
     ; Seems hard coded for 3 Lanmolas... here at least.
@@ -11,7 +11,7 @@ pool Lanmola_FinishInitialization:
 
 ; ==============================================================================
 
-; *$2A37A-$2A39F LONG
+; $02A37A-$02A39F LONG
 Lanmola_FinishInitialization:
 {
     LDA.l .starting_delay, X : STA $0DF0, X
@@ -43,17 +43,16 @@ Lanmola_FinishInitialization:
 
 ; ==============================================================================
 
-; $2A3A0-$2A3A1 DATA (UNUSED)
+; $02A3A0-$02A3A1 DATA (UNUSED)
 pool Sprite_Lanmola:
 {
-    
     .unused
     db 24, -24
 }
 
 ; ==============================================================================
 
-; *$2A3A2-$2A3BE JUMP LOCATION
+; $02A3A2-$02A3BE JUMP LOCATION
 Sprite_Lanmola:
 {
     JSL Sprite_PrepOamCoordLong
@@ -75,7 +74,7 @@ Sprite_Lanmola:
 
 ; ==============================================================================
 
-; *$2A3BF-$2A3D5 JUMP LOCATION
+; $02A3BF-$02A3D5 JUMP LOCATION
     Lanmola_Wait: ;0x00
 {
     LDA $0DF0, X : ORA $0F00, X : BNE .delay
@@ -94,7 +93,7 @@ Sprite_Lanmola:
 
 ; ==============================================================================
 
-; $2A3D6-$2A3E5 DATA
+; $02A3D6-$02A3E5 DATA
     pool Lanmola_Mound
 {
     .randXPos
@@ -107,7 +106,7 @@ Sprite_Lanmola:
 
 ; ==============================================================================
 
-; *$2A3E6-$2A42E JUMP LOCATION
+; $02A3E6-$02A42E JUMP LOCATION
     Lanmola_Mound: ;0x01
 {
     LDA $0DF0, X : BNE .alpha
@@ -131,7 +130,7 @@ Sprite_Lanmola:
     STZ $0EC0, X
     STZ $0ED0, X
     
-    ; *$2A41C ALTERNATE ENTRY POINT
+    ; $02A41C ALTERNATE ENTRY POINT
     shared Lanmola_SetScatterSandPosition:
     
     LDA $0D10, X : STA $0DE0, X
@@ -148,7 +147,7 @@ Sprite_Lanmola:
 
 ; ==============================================================================
 
-; $2A42F-$2A430 DATA
+; $02A42F-$02A430 DATA
 pool Lanmola_Fly:
 {
     .y_speed_slope
@@ -157,7 +156,7 @@ pool Lanmola_Fly:
 
 ; ==============================================================================
 
-; *$2A431-$2A4CA JUMP LOCATION
+; $02A431-$02A4CA JUMP LOCATION
     Lanmola_Fly: ;0x03
 {
     JSR Sprite2_CheckDamage
@@ -220,7 +219,7 @@ pool Lanmola_Fly:
     RTS
 }
 
-; *$2A4CB-$2A4F1 JUMP LOCATION
+; $02A4CB-$02A4F1 JUMP LOCATION
     Lanmola_Dive: ;0x03
 {
     JSR Sprite2_CheckDamage
@@ -248,7 +247,7 @@ pool Lanmola_Fly:
 
 ; ==============================================================================
 
-; *$2A4F2-$2A514 JUMP LOCATION
+; $02A4F2-$02A514 JUMP LOCATION
     Lanmola_Reset: ;0x04
 {
     LDA $0DF0, X : BNE .wait
@@ -274,16 +273,15 @@ pool Lanmola_Fly:
 
 ; ==============================================================================
 
-; $2A515-$2A51C DATA
+; $02A515-$02A51C DATA
 {
-    
     ; \task Name this routine / pool.
     db 0,  8, 16, 24, 32, 40, 48, 56
 }
 
 ; ==============================================================================
 
-; *$2A51D-$2A528 LONG
+; $02A51D-$02A528 LONG
 Sprite_SpawnFallingItem:
 {
     ; Triggers falling item special object apparently?
@@ -304,7 +302,7 @@ Sprite_SpawnFallingItem:
 
 ; ==============================================================================
 
-; *$2A529-$2A5D9 JUMP LOCATION
+; $02A529-$02A5D9 JUMP LOCATION
     Lanmola_Death: ;0x05
 {
     LDY $0DF0, X : BNE .alpha
@@ -368,10 +366,9 @@ Sprite_SpawnFallingItem:
 
 ; ==============================================================================
 
-; $2A5DA-$2A649 DATA
+; $02A5DA-$02A649 DATA
     shared pool Lanmola_FinishInitialization:
 {
-    
     .sprite_regions
     db $00, $40, $80, $C0
     
@@ -386,7 +383,7 @@ Sprite_SpawnFallingItem:
 
 ; ==============================================================================
 
-; $2A5E2-$2A649 DATA
+; $02A5E2-$02A649 DATA
 pool Lanmola_Draw:
 {
     ; $2A5E2
@@ -432,7 +429,7 @@ pool Lanmola_Draw:
 
  ; ==============================================================================   
 
-; *$2A64A-$2A87F LOCAL
+; $02A64A-$02A87F LOCAL
 Lanmola_Draw:
 {
     TXA : ASL A : TAY
@@ -649,7 +646,7 @@ Lanmola_Draw:
     
     RTS
     
-    ; *$2A820 ALTERNATE ENTRY POINT
+    ; $02A820 ALTERNATE ENTRY POINT
 Lanmola_DrawMound:
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB

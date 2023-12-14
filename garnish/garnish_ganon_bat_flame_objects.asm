@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B284-$4B2B1 DATA
+; $04B284-$04B2B1 DATA
 pool Garnish_GanonBatFlame:
 {
-    
     .chr
     db $AC, $AE, $66, $66, $8E, $A0, $A2
     
@@ -22,7 +21,7 @@ pool Garnish_GanonBatFlame:
 
     ; \note The last several frames of the GanonBatFlame object will look
     ; like this and will not damage the player.
-; $4B2B2-$4B305 JUMP LOCATION
+; $04B2B2-$04B305 JUMP LOCATION
 Garnish_GanonBatFlameout:
 {
     ; special animation 0x11
@@ -58,7 +57,7 @@ Garnish_GanonBatFlameout:
 
 ; ==============================================================================
 
-; $4B306-$4B33E JUMP LOCATION
+; $04B306-$04B33E JUMP LOCATION
 Garnish_GanonBatFlame:
 {
     ; special animation 0x10

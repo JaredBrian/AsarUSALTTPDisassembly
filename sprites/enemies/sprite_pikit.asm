@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F0BBF-$F0BD7 JUMP LOCATION
+; $0F0BBF-$0F0BD7 JUMP LOCATION
 Sprite_Pikit:
 {
     JSR Pikit_PrepThenDraw
@@ -20,11 +20,10 @@ Sprite_Pikit:
 
 ; ==============================================================================
 
-; $F0BD8-$F0BDD DATA
+; $0F0BD8-$0F0BDD DATA
 pool Pikit_Data:
     parallel pool Sprite3_Shake:
 {
-    
     .x_speeds length 4
     db $10, $F0
     
@@ -34,7 +33,7 @@ pool Pikit_Data:
 
 ; ==============================================================================
 
-; *$F0BDE-$F0C24 LOCAL
+; $0F0BDE-$0F0C24 LOCAL
 Pikit_SetNextVelocity:
 {
     LDA $0DF0, X : BNE .delay
@@ -63,7 +62,7 @@ Pikit_SetNextVelocity:
     
     .delay
     
-    ; *$F0C16 ALTERNATE ENTRY POINT
+    ; $0F0C16 ALTERNATE ENTRY POINT
     shared Pikit_Animate:
     
     INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$01 : STA $0DC0, X
@@ -73,7 +72,7 @@ Pikit_SetNextVelocity:
 
 ; ==============================================================================
 
-; *$F0C25-$F0C71 JUMP LOCATION
+; $0F0C25-$0F0C71 JUMP LOCATION
 Pikit_FinishJumpThenAttack:
 {
     JSR Sprite3_MoveXyz
@@ -118,16 +117,15 @@ Pikit_FinishJumpThenAttack:
 
 ; ==============================================================================
 
-; $F0C72-$F0CE1 DATA
+; $0F0C72-$0F0CE1 DATA
 pool Pikit_AttemptItemGrab:
 {
-    
     .animation_states
     db $02, $02, $02, $02, $03, $03, $03, $03
     db $03, $03, $03, $03, $03, $03, $03, $03
     db $03, $03, $03, $03, $02, $02, $02, $02
     
-    ; $F0C8A ; \task Name these sublabels.
+    ; $0F0C8A ; \task Name these sublabels.
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
@@ -147,7 +145,7 @@ pool Pikit_AttemptItemGrab:
 
 ; ==============================================================================
 
-; *$F0CE2-$F0DC9 JUMP LOCATION
+; $0F0CE2-$0F0DC9 JUMP LOCATION
 Pikit_AttemptItemGrab:
 {
     LDA $0DF0, X : BNE .tongue_still_out
@@ -277,7 +275,7 @@ Pikit_AttemptItemGrab:
 
 ; ==============================================================================
 
-; *$F0DCA-$F0DD1 LOCAL
+; $0F0DCA-$0F0DD1 LOCAL
     Pikit_PrepThenDraw
 {
     JSR Sprite3_PrepOamCoord

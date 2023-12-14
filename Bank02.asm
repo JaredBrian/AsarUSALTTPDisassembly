@@ -20,7 +20,7 @@ org $028000
 
 ; ==============================================================================
 
-; *$10000-$10053 LONG
+; $010000-$010053 LONG
 Intro_SetupScreen:
 {
     ; Indicate to NMI that updates to sprites will not be occurring
@@ -82,7 +82,7 @@ Intro_SetupScreen:
 
 ; ==============================================================================
 
-; *$10054-$10115 LONG
+; $010054-$010115 LONG
 Intro_ValidateSram:
 {
     REP #$30
@@ -197,7 +197,7 @@ Intro_ValidateSram:
 
 ; ==============================================================================
 
-; *$10116-$1011D JUMP LOCATION
+; $010116-$01011D JUMP LOCATION
 Intro_LoadTextPointersAndPalettes:
 {
     JSL Text_GenerateMessagePointers
@@ -211,7 +211,7 @@ Intro_LoadTextPointersAndPalettes:
 
 ; ==============================================================================
 
-; $1011E-$10135 DATA TABLE
+; $01011E-$010135 DATA TABLE
 AnimatedTileSheets:
 {
     ; 0x18 entries used for animated tiles
@@ -222,7 +222,7 @@ AnimatedTileSheets:
 
 ; ==============================================================================
 
-; *$10136-$103B4 JUMP LOCATION
+; $010136-$0103B4 JUMP LOCATION
 Module_LoadFile:
 {
     ; Beginning of Module 5, Loading Game Mode
@@ -352,7 +352,7 @@ Module_LoadFile:
 
     RTL
 
-; *$10208 ALTERNATE ENTRY POINT
+; $010208 ALTERNATE ENTRY POINT
 LoadDungeonRoomRebuildHUD:
     .indoors
 
@@ -365,7 +365,7 @@ LoadDungeonRoomRebuildHUD:
     JSL HUD.RebuildLong2
     JSL Equipment_UpdateEquippedItemLong
 
-; *$1021E JUMP LOCATION
+; $01021E JUMP LOCATION
 shared Module_PreDungeon:
 
     ; Beginning of Module 6: Predungeon Mode
@@ -463,7 +463,7 @@ shared Module_PreDungeon:
 
     SEP #$30
 
-    JSL $02B8CB ; $138CB IN ROM
+    JSL $02B8CB ; $0138CB IN ROM
 
     ; set color addition parameters
     LDA.b #$02 : STA $99
@@ -513,8 +513,8 @@ shared Module_PreDungeon:
     STZ $3C
 
     JSR Dungeon_ResetTorchBackgroundAndPlayer
-    JSL Link_CheckBunnyStatus ; $7FD22 IN ROM
-    JSR ResetThenCacheRoomEntryProperties   ; $10D71 IN ROM
+    JSL Link_CheckBunnyStatus ; $07FD22 IN ROM
+    JSR ResetThenCacheRoomEntryProperties   ; $010D71 IN ROM
 
     LDA $7EF3CC : CMP.b #$0D : BNE .notSuperBombTagalong
 
@@ -523,14 +523,14 @@ shared Module_PreDungeon:
 
     STZ $04B4
 
-    JSL FloorIndicator_hideIndicator ; $57D90 IN ROM
+    JSL FloorIndicator_hideIndicator ; $057D90 IN ROM
 
     .notSuperBombTagalong
 
     LDA.b #$09 : STA $94
 
     JSL Tagalong_Init
-    JSL Sprite_ResetAll      ; $4C44E IN ROM
+    JSL Sprite_ResetAll      ; $04C44E IN ROM
     JSL Dungeon_ResetSprites
 
     STZ $02F0
@@ -548,7 +548,7 @@ shared Module_PreDungeon:
 
     LDA.b #$00 : STA $7EC005 : STA $7EC006
 
-    JSL $079A2C ; $39A2C IN ROM ; Puts Link into a sleep state at the beginning of the game
+    JSL $079A2C ; $039A2C IN ROM ; Puts Link into a sleep state at the beginning of the game
 
     .notOpeningScene
 
@@ -560,7 +560,7 @@ shared Module_PreDungeon:
 
     JSR Dungeon_LoadSongBankIfNeeded
 
-    ; *$1038C ALTERNATE ENTRY POINT
+    ; $01038C ALTERNATE ENTRY POINT
     .setAmbientSfx
 
     ; If worldstate >= 2
@@ -593,17 +593,17 @@ shared Module_PreDungeon:
 
 ; ==============================================================================
 
-; $103B5-$103B8 LONG
+; $0103B5-$0103B8 LONG
 CacheRoomEntryProperties_long:
 {
-    JSR CacheRoomEntryProperties   ; $10D81 IN ROM
+    JSR CacheRoomEntryProperties   ; $010D81 IN ROM
 
     RTL
 }
 
 ; ==============================================================================
 
-; $103B9-$103BE Jump Table
+; $0103B9-$0103BE Jump Table
 PreOverworld_JumpTable:
 {
     dw PreOverworld_LoadProperties           ; *$103C7* Loads palettes
@@ -613,7 +613,7 @@ PreOverworld_JumpTable:
 
 ; ==============================================================================
 
-; *$103BF-$103C6 JUMP LOCATION
+; $0103BF-$0103C6 JUMP LOCATION
 Module_PreOverworld:
 {
     ; Module 0x08, 0x0A
@@ -621,7 +621,7 @@ Module_PreOverworld:
 
     LDA $11 : ASL A : TAX
 
-    ; $103B9 IN ROM; Use the above jump table
+    ; $0103B9 IN ROM; Use the above jump table
     JSR (PreOverworld_JumpTable, X)
 
     RTL
@@ -629,7 +629,7 @@ Module_PreOverworld:
 
 ; =============================================
 
-; *$103C7-$10569 LOCAL
+; $0103C7-$010569 LOCAL
 ; ZS overwrites most of this function.
 PreOverworld_LoadProperties:
 {
@@ -643,7 +643,7 @@ PreOverworld_LoadProperties:
     ; Cane of Somaria variable?
     STZ $03F4
 
-    ; $1056A IN ROM; If Link has moon pearl
+    ; $01056A IN ROM; If Link has moon pearl
     ; Load his default graphic states and otherwise
     JSL $02856A
 
@@ -656,7 +656,7 @@ PreOverworld_LoadProperties:
 
     .specialArea
 
-    JSR $E9BC ; $169BC IN ROM
+    JSR $E9BC ; $0169BC IN ROM
 
     .normalArea
 
@@ -780,7 +780,7 @@ PreOverworld_LoadProperties:
 
     JSL DecompOwAnimatedTiles       ; $5394 IN ROM
     JSL InitTilesets                ; $619B IN ROM; Decompress all other graphics
-    JSR Overworld_LoadAreaPalettes  ; $14692 IN ROM; Load palettes for overworld
+    JSR Overworld_LoadAreaPalettes  ; $014692 IN ROM; Load palettes for overworld
 
     LDX $8A
 
@@ -788,11 +788,11 @@ PreOverworld_LoadProperties:
 
     LDA $00FD1C, X
 
-    JSL Overworld_LoadPalettes      ; $755A8 IN ROM; Load some other palettes
-    JSL Palette_SetOwBgColor_Long   ; $75618 IN ROM; Sets the background color (changes depending on area)
+    JSL Overworld_LoadPalettes      ; $0755A8 IN ROM; Load some other palettes
+    JSL Palette_SetOwBgColor_Long   ; $075618 IN ROM; Sets the background color (changes depending on area)
 
     LDA $10 : CMP.b #$08 : BNE .specialArea2
-        ; $1465F IN ROM; Copies $7EC300[0x200] to $7EC500[0x200]
+        ; $01465F IN ROM; Copies $7EC300[0x200] to $7EC500[0x200]
         JSR $C65F
 
         BRA .normalArea2
@@ -800,11 +800,11 @@ PreOverworld_LoadProperties:
     .specialArea2
 
     ; apparently special overworld handles palettes a bit differently?
-    JSR $C6EB ; $146EB IN ROM
+    JSR $C6EB ; $0146EB IN ROM
 
     .normalArea2
 
-    JSL $0BFE70 ; $5FE70 IN ROM; Sets fixed colors and scroll values
+    JSL $0BFE70 ; $05FE70 IN ROM; Sets fixed colors and scroll values
 
     ; Something fixed color related
     LDA.b #$00 : STA $7EC017
@@ -825,7 +825,7 @@ PreOverworld_LoadProperties:
 
     ; Are we in the dark world? If so, there's no warp vortex there.
     LDA $8A : AND.b #$40 : BNE .noWarpVortex
-        JSL Sprite_ReinitWarpVortex ; $4AF89 IN ROM
+        JSL Sprite_ReinitWarpVortex ; $04AF89 IN ROM
 
     .noWarpVortex
 
@@ -856,7 +856,7 @@ PreOverworld_LoadProperties:
     STZ $0351
 
     ; Reinitialize many of Link's gameplay variables
-    JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $010B0C IN ROM
 
     LDA $7EF357 : BNE .notBunny
     LDA $7EF3CA : BEQ .notBunny
@@ -882,7 +882,7 @@ PreOverworld_LoadProperties:
 
     STZ $0402 : STZ $0403
 
-    ; *$1054C ALTERNATE ENTRY POINT
+    ; $01054C ALTERNATE ENTRY POINT
     shared Overworld_LoadMusicIfNeeded:
 
     LDA $0136 : BEQ .no_music_load_needed
@@ -910,13 +910,13 @@ PreOverworld_LoadProperties:
 
 ; ==============================================================================
 
-; *$1056A-$10582 LONG
+; $01056A-$010582 LONG
 AdjustBunnyLinkStatus:
 {
     ; Do we have the Moon pearl?
     LDA $7EF357 : BEQ .noMoonPearl
 
-; *$10570 ALTERNATE ENTRY POINT
+; $010570 ALTERNATE ENTRY POINT
 ForceNonBunnyStatus:
 
     ; Set Link's initial state
@@ -939,7 +939,7 @@ ForceNonBunnyStatus:
 
 ; ==============================================================================
 
-; $10583-$10585 DATA
+; $010583-$010585 DATA
 pool Module_LocationMenu:
 {
     .starting_points
@@ -950,7 +950,7 @@ pool Module_LocationMenu:
 
 ; ==============================================================================
 
-; *$10586-$105B3 JUMP LOCATION LONG
+; $010586-$0105B3 JUMP LOCATION LONG
 Module_LocationMenu:
 {
     ; Beginning of Module 0x1B, Start Location Select
@@ -984,7 +984,7 @@ Module_LocationMenu:
 
 ; ==============================================================================
 
-; $105B4-$105B9 JUMP TABLE
+; $0105B4-$0105B9 JUMP TABLE
 Credits_LoadScene_OverworldJumpTable
 {
     dw Credits_LoadScene_Overworld_PrepGFX ; $8604 ; = $10604
@@ -994,7 +994,7 @@ Credits_LoadScene_OverworldJumpTable
 
 ; ==============================================================================
 
-; *$105BA - $105C1 LONG
+; $0105BA - $105C1 LONG
 Credits_LoadScene_Overworld:
 {
     ; Note: ending sequence code
@@ -1009,7 +1009,7 @@ Credits_LoadScene_Overworld:
 
 ; ==============================================================================
 
-; $105C2-$10603 DATA TABLE
+; $0105C2-$010603 DATA TABLE
 Credits_LoadScene_Overworld_PrepGFX:
 {
     .screen
@@ -1052,7 +1052,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
 ; ==============================================================================
 
-; *$10604-$10696 LOCAL
+; $010604-$010696 LOCAL
 ; ZS rewrites the latter half of this function.
 Credits_LoadScene_Overworld_PrepGFX:
 {
@@ -1080,7 +1080,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .specialArea
 
-    JSR $E851 ; $16851 IN ROM; Needed for running sequence 0xC or 0x1E
+    JSR $E851 ; $016851 IN ROM; Needed for running sequence 0xC or 0x1E
     ; This is because they are special outdoor areas (zora's domain and master sword)
 
     .normalArea
@@ -1112,7 +1112,7 @@ Credits_LoadScene_Overworld_PrepGFX:
     LDA $0285F3, X : PHA
 
     JSL InitTilesets                ; $619B IN ROM
-    JSR Overworld_LoadAreaPalettes  ; $14692 IN ROM ; Load Palettes
+    JSR Overworld_LoadAreaPalettes  ; $014692 IN ROM ; Load Palettes
 
     PLA : STA $00
 
@@ -1120,22 +1120,22 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA $00FD1C, X
 
-    JSL Overworld_LoadPalettes ; $755A8 IN ROM
+    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
 
     LDA.b #$01 : STA $0AB2
 
-    JSL Palette_Hud ; $DEE52 IN ROM
+    JSL Palette_Hud ; $0DEE52 IN ROM
 
     LDA $11 : BNE .BRANCH_4
         JSL CopyFontToVram  ; $6556 IN ROM
 
     .BRANCH_4
 
-    JSR $C65F   ; $1465F IN ROM
-    JSL $0BFE70 ; $5FE70 IN ROM
+    JSR $C65F   ; $01465F IN ROM
+    JSL $0BFE70 ; $05FE70 IN ROM
 
     LDA $8A : CMP.b #$80 : BCC .BRANCH_5
-        JSL Palette_SetOwBgColor_Long ; $75618 IN ROM
+        JSL Palette_SetOwBgColor_Long ; $075618 IN ROM
 
     .BRANCH_5
 
@@ -1148,10 +1148,10 @@ Credits_LoadScene_Overworld_PrepGFX:
 
 ; ==============================================================================
 
-; *$10697-$106A4 LOCAL
+; $010697-$0106A4 LOCAL
 Credits_LoadScene_Overworld_Overlay:
 {
-    JSR Overworld_ReloadSubscreenOverlay ; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay ; $012F1E IN ROM
 
     STZ $012C
     STZ $012D
@@ -1163,11 +1163,11 @@ Credits_LoadScene_Overworld_Overlay:
     RTS
 }
 
-; *$106A5-$106B2 LOCAL
+; $0106A5-$0106B2 LOCAL
 Credits_LoadScene_Overworld_LoadMap:
 {
     JSR Overworld_LoadAndBuildScreen
-    JSL $0E98B9 ; $718B9 IN ROM
+    JSL $0E98B9 ; $0718B9 IN ROM
 
     STZ $C8
     STZ $C9
@@ -1176,21 +1176,21 @@ Credits_LoadScene_Overworld_LoadMap:
     RTS
 }
 
-; *$106B3-$106BF LONG
+; $0106B3-$0106BF LONG
 Credits_OperateScrollingAndTilemap:
 {
-    JSL $0EAEA6 ; $72EA6 IN ROM
+    JSL $0EAEA6 ; $072EA6 IN ROM
 
     LDA $0416 : BEQ .alpha
 
-    JSR Overworld_ScrollMap ; $17273 IN ROM
+    JSR Overworld_ScrollMap ; $017273 IN ROM
 
     .alpha
 
     RTL
 }
 
-; *$106C0-$106FC LONG
+; $0106C0-$0106FC LONG
 Credits_LoadCoolBackground:
 {
     ; Not sure...
@@ -1213,16 +1213,16 @@ Credits_LoadCoolBackground:
 
     LDA $00FD1C, X
 
-    JSL Overworld_LoadPalettes ; $755A8 IN ROM; Loads several palettes based on the X = 0x5B above.
+    JSL Overworld_LoadPalettes ; $0755A8 IN ROM; Loads several palettes based on the X = 0x5B above.
 
     ; reload the BG auxiliary 2 palette with a different value
     LDA.b #$03 : STA $0AB5
 
-    JSL Palette_OverworldBgAux2    ; $DEF0C IN ROM
+    JSL Palette_OverworldBgAux2    ; $0DEF0C IN ROM
 
     JSR Overworld_CgramAuxToMain
 
-    JSR Overworld_ReloadSubscreenOverlay ; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay ; $012F1E IN ROM
 
     STZ $E6
     STZ $E7
@@ -1236,7 +1236,7 @@ Credits_LoadCoolBackground:
 
 ; ==============================================================================
 
-; *$106FD-$1076B LONG
+; $0106FD-$01076B LONG
 Credits_LoadScene_Dungeon:
 {
     ; This is only called from the ending module (1A)
@@ -1261,7 +1261,7 @@ Credits_LoadScene_Dungeon:
 
     JSR Dungeon_LoadAndDrawRoom
 
-    ; $1011E IN ROM
+    ; $01011E IN ROM
     LDX $0AA1 : LDA $02811E, X : TAY
 
     JSL DecompDungAnimatedTiles ; $5337 IN ROM
@@ -1293,14 +1293,14 @@ Credits_LoadScene_Dungeon:
 
     INC $11
 
-    JSL $0E98B9 ; $718B9 IN ROM ; Do sprite loading specific to ending mode
+    JSL $0E98B9 ; $0718B9 IN ROM ; Do sprite loading specific to ending mode
 
     RTL
 }
 
 ; ==============================================================================
 
-; $1076C-$107A1 JUMP TABLE FOR MODULE 0x07
+; $01076C-$0107A1 JUMP TABLE FOR MODULE 0x07
 Module_DungeonTable:
 {
     ; PARAMETER: X
@@ -1335,7 +1335,7 @@ Module_DungeonTable:
 
 ; ==============================================================================
 
-; *$107A2-$1085D JUMP LOCATION
+; $0107A2-$01085D JUMP LOCATION
 Module_Dungeon:
 {
     ; Module 0x07, Dungeon Mode.
@@ -1355,7 +1355,7 @@ Module_Dungeon:
     LDA $11 : BNE .enteredNonDefaultSubmodule
 
     JSL Graphics_LoadChrHalfSlot
-    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
+    JSR Dungeon_HandleCamera   ; $013A31 IN ROM
 
     LDA $11 : BNE .enteredNonDefaultSubmodule
 
@@ -1375,7 +1375,7 @@ Module_Dungeon:
     LDA $6C : BNE .standingInDoorway
 
     ; Check if the player triggered an inter-room transition this frame.
-    JSR $885E ; $1085E IN ROM
+    JSR $885E ; $01085E IN ROM
 
     .enteredNonDefaultSubmodule
     .standingInDoorway
@@ -1404,7 +1404,7 @@ Module_Dungeon:
 
     SEP #$20
 
-    JSL $07F0AC ; $3F0AC IN ROM. Handle the sprites of pushed blocks.
+    JSL $07F0AC ; $03F0AC IN ROM. Handle the sprites of pushed blocks.
     JSL Sprite_Main
 
     REP #$20
@@ -1418,12 +1418,12 @@ Module_Dungeon:
 
     JSL PlayerOam_Main
     JSL HUD.RefillLogicLong
-    JML FloorIndicator ; $57D0C IN ROM. Handles HUD floor indicator
+    JML FloorIndicator ; $057D0C IN ROM. Handles HUD floor indicator
 }
 
 ; =====================================================
 
-; *$1085E-$108C0 LOCAL
+; $01085E-$0108C0 LOCAL
 Dungeon_TryScreenEdgeTransition:
 {
     REP #$20
@@ -1490,7 +1490,7 @@ Dungeon_TryScreenEdgeTransition:
 
 ; ==============================================================================
 
-; $108C1-$108C4 DATA
+; $0108C1-$0108C4 DATA
 pool Dungeon_HandleEdgeTransitionMovement:
 {
     .masks
@@ -1499,7 +1499,7 @@ pool Dungeon_HandleEdgeTransitionMovement:
 
 ; ==============================================================================
 
-; *$108C5-$108DD LONG
+; $0108C5-$0108DD LONG
 Dungeon_StartInterRoomTrans:
 {
     ; Forces Link to be moving on one axis (negates diagonal movement
@@ -1518,7 +1518,7 @@ Dungeon_StartInterRoomTrans:
 
 ; ==============================================================================
 
-; $108DE-$1094B LOCAL
+; $0108DE-$01094B LOCAL
 Dungeon_Normal:
 {
     LDA $0112 : ORA $02E4 : ORA $0FFC : BEQ .allowJoypadInput
@@ -1609,7 +1609,7 @@ Dungeon_Normal:
 
 ; ==============================================================================
 
-; $1094C-$1096B DATA
+; $01094C-$01096B DATA
 Dungeon_SubscreenEnable:
     db $00, $01, $01, $FF, $01, $01, $01, $01
 
@@ -1633,7 +1633,7 @@ CrystalBossRooms:
 
 ; ==============================================================================
 
-; $1096C-$1097B JUMP TABLE
+; $01096C-$01097B JUMP TABLE
 Dungeon_IntraRoomTransTable:
 {
     dw Dungeon_IntraRoomTransInit
@@ -1648,7 +1648,7 @@ Dungeon_IntraRoomTransTable:
 
 ; ==============================================================================
 
-; *$1097C-$10994 LOCAL
+; $01097C-$010994 LOCAL
 Dungeon_IntraRoomTrans:
 {
     ; Module 0x07.0x01 - room transition?
@@ -1661,7 +1661,7 @@ Dungeon_IntraRoomTrans:
     SEP #$20
 
     ; only seems to handle aspects of Link's appearance during the transition (speculative)
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     LDA $B0 : ASL A : TAX
 
@@ -1670,7 +1670,7 @@ Dungeon_IntraRoomTrans:
 
 ; ==============================================================================
 
-; *$10995-$109B5 JUMP LOCATION
+; $010995-$0109B5 JUMP LOCATION
 Dungeon_IntraRoomTransShutDoors:
 {
     ; open trap doors?
@@ -1696,7 +1696,7 @@ Dungeon_IntraRoomTransShutDoors:
 
 ; ==============================================================================
 
-; *$109B6-$109D7 JUMP LOCATION
+; $0109B6-$0109D7 JUMP LOCATION
 Dungeon_IntraRoomTransInit:
 {
     REP #$20
@@ -1720,7 +1720,7 @@ Dungeon_IntraRoomTransInit:
     RTS
 }
 
-; *$109D8-$109EF JUMP LOCATION
+; $0109D8-$0109EF JUMP LOCATION
 Dungeon_IntraRoomTransFilter:
 {
     LDA $7EC005 : BEQ .noFiltering
@@ -1744,12 +1744,12 @@ Dungeon_IntraRoomTransFilter:
 
 ; ==============================================================================
 
-; *$109F0-$10A05 JUMP LOCATION
+; $0109F0-$010A05 JUMP LOCATION
 Dungeon_IntraRoomTransOpenDoors:
 {
     ; make any applicable trap doors shut.
 
-    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $010D71 IN ROM
 
     LDA $0468 : BNE .alpha
 
@@ -1767,7 +1767,7 @@ Dungeon_IntraRoomTransOpenDoors:
 
 ; ==============================================================================
 
-; $10A06-$10A25 Jump Table
+; $010A06-$010A25 Jump Table
 Dungeon_InterRoomTransTable:
 {
     dw Dungeon_InterRoomTrans_Init ; = $10A4F* ; configure graphics settings
@@ -1790,7 +1790,7 @@ Dungeon_InterRoomTransTable:
 
 ; ==============================================================================
 
-; *$10A26-$10A4E JUMP LOCATION
+; $010A26-$010A4E JUMP LOCATION
 Dungeon_InterRoomTrans:
 {
     ; module 0x07.0x02
@@ -1813,26 +1813,26 @@ Dungeon_InterRoomTrans:
 
     .alpha
 
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     LDA $B0 : ASL A : TAX
 
-    JMP ($8A06, X) ; $10A06 IN ROM
+    JMP ($8A06, X) ; $010A06 IN ROM
 }
 
-; *$10A4F-$10A5A JUMP LOCATION
+; $010A4F-$010A5A JUMP LOCATION
 Dungeon_InterRoomTrans_Init:
 {
     LDA $0458 : PHA
 
-    JSR $8CAC ; $10CAC IN ROM
+    JSR $8CAC ; $010CAC IN ROM
 
     PLA : STA $0458
 
     RTS
 }
 
-; *$10A5B-$10A86 JUMP LOCATION
+; $010A5B-$010A86 JUMP LOCATION
 Dungeon_InterRoomTrans_LoadNextRoom:
 {
     ; module 0x07.0x02.0x01
@@ -1855,7 +1855,7 @@ Dungeon_InterRoomTrans_LoadNextRoom:
 
     LDA $0458 : BNE .darkRoomWithTorch
 
-    JSR Dungeon_SyncBG1and2Scroll ; $13B7B IN ROM
+    JSR Dungeon_SyncBG1and2Scroll ; $013B7B IN ROM
 
     .darkRoomWithTorch
 
@@ -1864,7 +1864,7 @@ Dungeon_InterRoomTrans_LoadNextRoom:
     RTS
 }
 
-; *$10A87-$10AA4 JUMP LOCATION
+; $010A87-$010AA4 JUMP LOCATION
 Dungeon_02_03:
 {
     ; Module 0x07.0x02.0x03
@@ -1886,17 +1886,17 @@ Dungeon_02_03:
     RTS
 }
 
-; *$10AA5-$10AB9 JUMP LOCATION
+; $010AA5-$010AB9 JUMP LOCATION
 Dungeon_02_0A:
 {
     LDA $7EC005 : ORA $7EC006 : BEQ .noDarkTransition
 
-    ; *$10AAF ALTERNATE ENTRY POINT
+    ; $010AAF ALTERNATE ENTRY POINT
     Dungeon_Dungeon_FilterPrepTilemapAndAdvance:
 
     JSL PaletteFilter.doFiltering
 
-    ; *$10AB3 ALTERNATE ENTRY POINT
+    ; $010AB3 ALTERNATE ENTRY POINT
     Dungeon_PrepTilemapAndAdvance:
     .noDarkTransition
 
@@ -1909,17 +1909,17 @@ Dungeon_02_0A:
 
 ; ==============================================================================
 
-; *$10ABA-$10ACE JUMP LOCATION
+; $010ABA-$010ACE JUMP LOCATION
 Dungeon_02_09:
 {
     LDA $7EC005 : ORA $7EC006 : BEQ .notDarkRoom
 
-    ; *$10AC4 ALTERNATE ENTRY POINT
+    ; $010AC4 ALTERNATE ENTRY POINT
     Dungeon_FilterUploadAndAdvance:
 
     JSL PaletteFilter.doFiltering
 
-    ; *$10AC8 ALTERNATE ENTRY POINT
+    ; $010AC8 ALTERNATE ENTRY POINT
     Dungeon_PrepNextQuadrantUploadAndAdvance:
     .notDarkRoom
 
@@ -1932,25 +1932,25 @@ Dungeon_02_09:
 
 ; ==============================================================================
 
-; $10ACF-$10B2D JUMP LOCATION
+; $010ACF-$010B2D JUMP LOCATION
 Dungeon_02_0C:
 {
     LDA $11 : CMP.b #$02 : BNE .BRANCH_ALPHA
 
     LDA $0200 : CMP.b #$05 : BNE .return
 
-    JSR $C12C ; $1412C IN ROM; ugh... wtf does this do.
+    JSR $C12C ; $01412C IN ROM; ugh... wtf does this do.
 
     LDA $7EC005 : ORA $7EC006 : BEQ .BRANCH_ALPHA
 
     JSL PaletteFilter.doFiltering
 
-    ; $10AED ALTERNATE ENTRY POINT
+    ; $010AED ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
 
     INC $B0
 
-    ; $10AEF ALTERNATE ENTRY POINT
+    ; $010AEF ALTERNATE ENTRY POINT
     shared Dungeon_ResetTorchBackgroundAndPlayer:
 
     .configScreens
@@ -1981,7 +1981,7 @@ Dungeon_02_0C:
 
     JSL RestoreTorchBackground
 
-    ; *$10B0C ALTERNATE ENTRY POINT
+    ; $010B0C ALTERNATE ENTRY POINT
     DeleteCertainAncillaeStopDashing:
 
     ; not really sure, terminates some ancillae, probably
@@ -2007,7 +2007,7 @@ Dungeon_02_0C:
 
 ; ==============================================================================
 
-; *$10B2E-$10B91 JUMP LOCATION
+; $010B2E-$010B91 JUMP LOCATION
 Dungeon_02_07:
 {
     REP #$10
@@ -2046,7 +2046,7 @@ Dungeon_02_07:
 
     SEP #$10
 
-    ; *$10B67 ALTERNATE ENTRY POINT
+    ; $010B67 ALTERNATE ENTRY POINT
 
     LDA $7EC005 : ORA $7EC006 : BEQ .notDarkTransition
 
@@ -2066,14 +2066,14 @@ Dungeon_02_07:
 
     .notDarkTransition
 
-    JSR $A1E9 ; $121E9 IN ROM
+    JSR $A1E9 ; $0121E9 IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; *$10B92-$10BAD JUMP LOCATION
+; $010B92-$010BAD JUMP LOCATION
 Dungeon_FadedFilter:
 {
     LDA $7EC005 : ORA $7EC006 : BEQ .noFilteringNeeded
@@ -2097,13 +2097,13 @@ Dungeon_FadedFilter:
 
 ; ==============================================================================
 
-; *$10BAE-$10C04 JUMP LOCATION
+; $010BAE-$010C04 JUMP LOCATION
 Dungeon_02_0F:
 {
   ; Module 0x07.0x02.0x0F
 
     ; Reset variables and return to normal dungeon mode next frame.
-    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $010D71 IN ROM
 
     LDA $0468 : BNE .doorDown
 
@@ -2123,7 +2123,7 @@ Dungeon_02_0F:
 
     LDA.b #$05 : STA $11
 
-    ; *$10BD7 ALTERNATE ENTRY POINT
+    ; $010BD7 ALTERNATE ENTRY POINT
     .doorDown
 
     REP #$20
@@ -2167,7 +2167,7 @@ Dungeon_02_0F:
 
 ; ==============================================================================
 
-; *$10C05-$10C09 JUMP LOCATION
+; $010C05-$010C09 JUMP LOCATION
 Dungeon_OverlayChange:
 {
     ; Module 0x07.0x03
@@ -2179,7 +2179,7 @@ Dungeon_OverlayChange:
 
 ; ==============================================================================
 
-; *$10C0A-$10C0E JUMP LOCATION
+; $010C0A-$010C0E JUMP LOCATION
 Dungeon_OpeningLockedDoor:
 {
     JSL Dungeon_AnimateOpeningLockedDoor
@@ -2189,7 +2189,7 @@ Dungeon_OpeningLockedDoor:
 
 ; ==============================================================================
 
-; *$10C0F-$10C13 JUMP LOCATION
+; $010C0F-$010C13 JUMP LOCATION
 Dungeon_ControlShutters:
 {
     ; Module 0x07.0x05
@@ -2200,7 +2200,7 @@ Dungeon_ControlShutters:
 
 ; ==============================================================================
 
-; *$10C14-$10C77 JUMP LOCATION
+; $010C14-$010C77 JUMP LOCATION
 Dungeon_FatInterRoomStairs:
 {
     LDA $B0 : CMP.b #$03 : BCC .BRANCH_ALPHA
@@ -2233,12 +2233,12 @@ Dungeon_FatInterRoomStairs:
 
     STX $67
 
-    JSL Link_HandleVelocity ; $3E245 IN ROM
-    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
+    JSL Link_HandleVelocity ; $03E245 IN ROM
+    JSR Dungeon_HandleCamera   ; $013A31 IN ROM
 
     .BRANCH_BETA
 
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     .BRANCH_GAMMA
 
@@ -2265,7 +2265,7 @@ Dungeon_FatInterRoomStairs:
 
 ; ==============================================================================
 
-; *$10C78-$10CE1 JUMP LOCATION
+; $010C78-$010CE1 JUMP LOCATION
 Dungeon_0E_01_HandleMusicAndResetProps:
 {
     REP #$20
@@ -2297,12 +2297,12 @@ Dungeon_0E_01_HandleMusicAndResetProps:
 
     STX $0464
 
-    ; $10CA9 ALTERNATE ENTRY POINT
+    ; $010CA9 ALTERNATE ENTRY POINT
     ResetTransitionPropsAndAdvance_ResetInterface:
 
     STZ $0200
 
-    ; $10CAC ALTERNATE ENTRY POINT
+    ; $010CAC ALTERNATE ENTRY POINT
 
     REP #$30
 
@@ -2328,7 +2328,7 @@ Dungeon_0E_01_HandleMusicAndResetProps:
     STZ $0458
 
     ; Performs a lot of resetting of Link's game engine variables
-    ; $10B0C IN ROM
+    ; $010B0C IN ROM
     JSR $8B0C
 
     JSR Overworld_CgramAuxToMain
@@ -2340,10 +2340,10 @@ Dungeon_0E_01_HandleMusicAndResetProps:
 
 ; ==============================================================================
 
-; *$10CE2-$10D00 JUMP LOCATION
+; $010CE2-$010D00 JUMP LOCATION
 Dungeon_InitializeRoomFromSpecial: ; Dungeon_Load_From_Hole?
 {
-    JSR Dungeon_AdjustAfterSpiralStairs   ; $122F0 IN ROM
+    JSR Dungeon_AdjustAfterSpiralStairs   ; $0122F0 IN ROM
     JSL Dungeon_LoadRoom
     JSL Dungeon_InitStarTileChr
     JSL LoadTransAuxGfx
@@ -2360,7 +2360,7 @@ Dungeon_InitializeRoomFromSpecial: ; Dungeon_Load_From_Hole?
 
 ; ==============================================================================
 
-; *$10D01-$10D0F JUMP LOCATION
+; $010D01-$010D0F JUMP LOCATION
 DungeonTransition_FatStairs_RunFade:
 {
     JSL PaletteFilter.doFiltering
@@ -2376,21 +2376,21 @@ DungeonTransition_FatStairs_RunFade:
 
 ; ==============================================================================
 
-; *$10D10-$10D1A JUMP LOCATION
+; $010D10-$010D1A JUMP LOCATION
 DungeonTransition_LoadSpriteGFX:
 {
     JSL LoadNewSpriteGFXSet  ; $6031 IN ROM ; prep some graphics for loading
     JSL Dungeon_ResetSprites
-    JMP $8B67   ; $10B67 IN ROM
+    JMP $8B67   ; $010B67 IN ROM
 }
 
 ; ==============================================================================
 
-; *$10D1B-$10D5E JUMP LOCATION
+; $010D1B-$010D5E JUMP LOCATION
 DungeonTransition_AdjustForFatStairScroll:
 {
-    JSR Dungeon_SyncBG1and2Scroll  ; $13B7B IN ROM
-    JSL Dungeon_AdjustForRoomLayout ; $135DC IN ROM
+    JSR Dungeon_SyncBG1and2Scroll  ; $013B7B IN ROM
+    JSL Dungeon_AdjustForRoomLayout ; $0135DC IN ROM
 
     LDY.b #$16
 
@@ -2428,13 +2428,13 @@ DungeonTransition_AdjustForFatStairScroll:
 
     LDA.b #$24 : STA $012F
 
-    JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $10EC9 IN ROM
-    JMP Dungeon_PrepTilemapAndAdvance ; $10AB3 IN ROM
+    JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $010EC9 IN ROM
+    JMP Dungeon_PrepTilemapAndAdvance ; $010AB3 IN ROM
 }
 
 ; ==============================================================================
 
-; *$10D5F-$10E0E JUMP LOCATION
+; $010D5F-$010E0E JUMP LOCATION
 DungeonTransition_FatStairsEntryCache:
 {
     LDA $7EC009 : ORA $7EC007 : BEQ .BRANCH_ALPHA
@@ -2447,7 +2447,7 @@ DungeonTransition_FatStairsEntryCache:
 
     LDA $0200 : CMP.b #$05 : BNE .BRANCH_BETA
 
-; $10D71 ALTERNATE ENTRY POINT
+; $010D71 ALTERNATE ENTRY POINT
 ResetThenCacheRoomEntryProperties:
   .reset
 
@@ -2458,7 +2458,7 @@ ResetThenCacheRoomEntryProperties:
     STZ $0642
     STZ $0641
 
-; $10D81 ALTERNATE ENTRY POINT
+; $010D81 ALTERNATE ENTRY POINT
 CacheRoomEntryProperties:
   .justCache
 
@@ -2501,7 +2501,7 @@ CacheRoomEntryProperties:
 
 ; ==============================================================================
 
-; *$10E0F-$10E1C JUMP LOCATION
+; $010E0F-$010E1C JUMP LOCATION
 DungeonTransition_TriggerBGC34UpdateAndAdvance:
 {
     JSL PrepTransAuxGfx ; $5F1A IN ROM
@@ -2515,7 +2515,7 @@ DungeonTransition_TriggerBGC34UpdateAndAdvance:
 
 ; ==============================================================================
 
-; *$10E1D-$10E26 JUMP LOCATION
+; $010E1D-$010E26 JUMP LOCATION
 DungeonTransition_TriggerBGC56UpdateAndAdvance:
 {
     LDA.b #$0A : STA $17 : STA $0710
@@ -2527,7 +2527,7 @@ DungeonTransition_TriggerBGC56UpdateAndAdvance:
 
 ; ==============================================================================
 
-; *$10E27-$10E62 JUMP LOCATION
+; $010E27-$010E62 JUMP LOCATION
 Dungeon_FallingTransition:
 {
     LDA $B0 : CMP.b #$06 : BCC .alpha
@@ -2564,7 +2564,7 @@ Dungeon_FallingTransition:
 
 ; ==============================================================================
 
-; *$10E63-$10E7F JUMP LOCATION
+; $010E63-$010E7F JUMP LOCATION
 Dungeon_FallingTransition_HandleMusicAndResetRoom:
 {
     REP #$20
@@ -2583,16 +2583,16 @@ Dungeon_FallingTransition_HandleMusicAndResetRoom:
 
     SEP #$20
 
-    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
 }
 
 ; ==============================================================================
 
-; *$10E80-$10EA0 JUMP LOCATION
+; $010E80-$010EA0 JUMP LOCATION
 Dungeon_FallingTransition_SyncBG1andBG2:
 {
-    JSR Dungeon_SyncBG1and2Scroll  ; $13B7B IN ROM
-    JSL Dungeon_AdjustForRoomLayout ; $135DC IN ROM
+    JSR Dungeon_SyncBG1and2Scroll  ; $013B7B IN ROM
+    JSL Dungeon_AdjustForRoomLayout ; $0135DC IN ROM
 
     LDY.b #$16
 
@@ -2615,7 +2615,7 @@ Dungeon_FallingTransition_SyncBG1andBG2:
     RTS
 }
 
-; *$10EA1-$10EDF JUMP LOCATION
+; $010EA1-$010EDF JUMP LOCATION
 Dungeon_FallingTransition_FallingFadeIn:
 {
     JSL PaletteFilter.doFiltering
@@ -2632,7 +2632,7 @@ Dungeon_FallingTransition_FallingFadeIn:
 
     STA $52
 
-    JSR $9165   ; $11165 IN ROM
+    JSR $9165   ; $011165 IN ROM
 
     LDA $A0
 
@@ -2643,14 +2643,14 @@ Dungeon_FallingTransition_FallingFadeIn:
     ; Drop one level in the palace / dungeon.
     DEC $A4
 
-    ; *$10EC9 ALTERNATE ENTRY POINT
+    ; $010EC9 ALTERNATE ENTRY POINT
     Dungeon_PlayBlipAndCacheQuadrantVisits:
 
     LDA.b #$01 : STA $04A0
 
     LDA.b #$24 : STA $012F
 
-    JSL $02B8CB ; $138CB IN ROM
+    JSL $02B8CB ; $0138CB IN ROM
 
     .BRANCH_ALPHA
 
@@ -2665,10 +2665,10 @@ Dungeon_FallingTransition_FallingFadeIn:
     RTS
 }
 
-; *$10EE0-$10EF9 JUMP LOCATION
+; $010EE0-$010EF9 JUMP LOCATION
 Dungeon_FallingTransition_LandLinkFromFalling:
 {
-    JSL $079520 ; $39520 IN ROM
+    JSL $079520 ; $039520 IN ROM
 
     LDA $11 : BNE .BRANCH_ALPHA
 
@@ -2687,13 +2687,13 @@ Dungeon_FallingTransition_LandLinkFromFalling:
 
 ; ==============================================================================
 
-; *$10EFA-$10F0B JUMP LOCATION
+; $010EFA-$010F0B JUMP LOCATION
 Dungeon_FallingTransition_CacheRoomAndSetMusic:
 {
     LDA $0200 : CMP.b #$05 : BNE .BRANCH_ALPHA
 
-    JSR ResetThenCacheRoomEntryProperties   ; $10D71 IN ROM
-    JSR $8BD7   ; $10BD7 IN ROM
+    JSR ResetThenCacheRoomEntryProperties   ; $010D71 IN ROM
+    JSR $8BD7   ; $010BD7 IN ROM
     JSL Graphics_LoadChrHalfSlot
 
     .BRANCH_ALPHA
@@ -2703,7 +2703,7 @@ Dungeon_FallingTransition_CacheRoomAndSetMusic:
 
 ; ==============================================================================
 
-; *$10F0C-$10F34 JUMP LOCATION
+; $010F0C-$010F34 JUMP LOCATION
 Dungeon_NorthIntraRoomStairs:
 {
     ; Module 0x07.0x08
@@ -2718,10 +2718,10 @@ Dungeon_NorthIntraRoomStairs:
 
     .BRANCH_BETA
 
-    JSL Link_HandleVelocity ; $3E245 IN ROM
-    JSL ApplyLinksMovementToCamera ; $3E9D3 IN ROM
-    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleVelocity ; $03E245 IN ROM
+    JSL ApplyLinksMovementToCamera ; $03E9D3 IN ROM
+    JSR Dungeon_HandleCamera   ; $013A31 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     ..BRANCH_ALPHA
 
@@ -2733,7 +2733,7 @@ Dungeon_NorthIntraRoomStairs:
 
 ; ==============================================================================
 
-; *$10F35-$10F5E JUMP LOCATION
+; $010F35-$010F5E JUMP LOCATION
 Dungeon_NorthIntraRoomStairs_InitStairs:
 {
     STZ $0351
@@ -2766,7 +2766,7 @@ Dungeon_NorthIntraRoomStairs_InitStairs:
 
 ; ==============================================================================
 
-; *$10F5F-$10F87 JUMP LOCATION
+; $010F5F-$010F87 JUMP LOCATION
 Dungeon_NorthIntraRoomStairs_ClimbStairs:
 {
     LDA $0464 : BNE .BRANCH_$10F5E ; (RTS)
@@ -2787,14 +2787,14 @@ Dungeon_NorthIntraRoomStairs_ClimbStairs:
     STZ $0418
     STZ $11
 
-    JSL $02B8CB ; $138CB IN ROM
+    JSL $02B8CB ; $0138CB IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; *$10F88-$10FB0 JUMP LOCATION
+; $010F88-$010FB0 JUMP LOCATION
 Dungeon_SouthIntraRoomStairs:
 {
     ; Module 0x07.0x10
@@ -2808,10 +2808,10 @@ Dungeon_SouthIntraRoomStairs:
 
     .skipStairDrag:
 
-    JSL Link_HandleVelocity ; $3E245 IN ROM
-    JSL ApplyLinksMovementToCamera ; $3E9D3 IN ROM
-    JSR Dungeon_HandleCamera   ; $13A31 IN ROM
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleVelocity ; $03E245 IN ROM
+    JSL ApplyLinksMovementToCamera ; $03E9D3 IN ROM
+    JSR Dungeon_HandleCamera   ; $013A31 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     .runGreatGrandSub:
 
@@ -2823,7 +2823,7 @@ Dungeon_SouthIntraRoomStairs:
 
 ; ==============================================================================
 
-; *$10FB1-$10FE0 JUMP LOCATION
+; $010FB1-$010FE0 JUMP LOCATION
 Dungeon_SouthIntraRoomStairs_InitStairs:
 {
     LDY.b #$19
@@ -2854,7 +2854,7 @@ Dungeon_SouthIntraRoomStairs_InitStairs:
 
 ; ==============================================================================
 
-; *$10FE1-$1100E JUMP LOCATION
+; $010FE1-$01100E JUMP LOCATION
 Dungeon_SouthIntraRoomStairs_ClimbStairs:
 {
     LDA $0464 : BNE .BRANCH_$10FE0 ; (RTS)
@@ -2875,14 +2875,14 @@ Dungeon_SouthIntraRoomStairs_ClimbStairs:
     STZ $0418
     STZ $11
 
-    JSL $02B8CB ; $138CB IN ROM
+    JSL $02B8CB ; $0138CB IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; *$1100F-$11013 JUMP LOCATION
+; $01100F-$011013 JUMP LOCATION
 Dungeon_DestroyingWeakDoor:
 {
     JSL Dungeon_AnimateDestroyingWeakDoor
@@ -2892,7 +2892,7 @@ Dungeon_DestroyingWeakDoor:
 
 ; ==============================================================================
 
-; *$11014-$1102C JUMP LOCATION
+; $011014-$01102C JUMP LOCATION
 Dungeon_ChangeBrightness:
 {
     ; Module 0x07.0x0A
@@ -2912,7 +2912,7 @@ Dungeon_ChangeBrightness:
 
 ; ==============================================================================
 
-; *$1102D-$11031 JUMP LOCATION
+; $01102D-$011031 JUMP LOCATION
 Dungeon_TurnOffWater:
 {
     ; Module 0x07.0x0B
@@ -2921,14 +2921,14 @@ Dungeon_TurnOffWater:
     ; from the same bank. The work could have been done in this routine
     ; just as easily.
 
-    JSL Dungeon_TurnOffWaterActual ; $11032 IN ROM
+    JSL Dungeon_TurnOffWaterActual ; $011032 IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; *$11032-$11049 LONG
+; $011032-$011049 LONG
 Dungeon_TurnOffWaterActual:
 {
     LDA $B0
@@ -2945,7 +2945,7 @@ Dungeon_TurnOffWaterActual:
 
 ; ==============================================================================
 
-; *$1104A-$1104E JUMP LOCATION
+; $01104A-$01104E JUMP LOCATION
 Dungeon_TurnOnWater:
 {
     JSL Dungeon_TurnOnWaterLong ; $F093 IN ROM
@@ -2955,7 +2955,7 @@ Dungeon_TurnOnWater:
 
 ; ==============================================================================
 
-; $1104F-$11053 JUMP LOCATION
+; $01104F-$011053 JUMP LOCATION
 Dungeon_Watergate:
 {
     JSL Watergate_Main
@@ -2965,7 +2965,7 @@ Dungeon_Watergate:
 
 ; ==============================================================================
 
-; *$11054-$11093 JUMP LOCATION
+; $011054-$011093 JUMP LOCATION
 Dungeon_SpiralStaircase:
 {
     ; Module 0x07.0x0E
@@ -2977,7 +2977,7 @@ Dungeon_SpiralStaircase:
 
     .BRANCH_ALPHA
 
-    JSL $07F2C1 ; $3F2C1 IN ROM
+    JSL $07F2C1 ; $03F2C1 IN ROM
 
     LDA $B0
 
@@ -3009,7 +3009,7 @@ Dungeon_SpiralStaircase:
 
 ; ==============================================================================
 
-; *$11094-$110A0 JUMP LOCATION
+; $011094-$0110A0 JUMP LOCATION
 Dungeon_DoubleApplyAndIncrementGrayscale:
 {
     JSL PaletteFilter.doFiltering
@@ -3021,7 +3021,7 @@ Dungeon_DoubleApplyAndIncrementGrayscale:
 
 ; ==============================================================================
 
-; *$110A1-$110C6 JUMP LOCATION
+; $0110A1-$0110C6 JUMP LOCATION
 Dungeon_ApplyFilterIf:
 {
     LDA $0464 : CMP.b #$09 : BCS .BRANCH_ALPHA
@@ -3049,7 +3049,7 @@ Dungeon_ApplyFilterIf:
 
 ; ==============================================================================
 
-; *$110C7-$1115A JUMP LOCATION
+; $0110C7-$01115A JUMP LOCATION
 Dungeon_SyncBackgroundsFromSpiralStairs:
 {
     LDA $7EF3CC : CMP.b #$06 : BNE .BRANCH_ALPHA
@@ -3082,7 +3082,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 
     LDA $01C322, X : STA $EE
 
-    JSR $92B1 ; $112B1 IN ROM
+    JSR $92B1 ; $0112B1 IN ROM
 
     PLA : STA $EE
 
@@ -3100,11 +3100,11 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 
     TXA : CLC : ADC $20 : STA $20
 
-    JSR Dungeon_SyncBG1and2Scroll; $13B7B IN ROM
+    JSR Dungeon_SyncBG1and2Scroll; $013B7B IN ROM
 
     SEP #$30
 
-    JSL Dungeon_AdjustForRoomLayout ; $135DC IN ROM
+    JSL Dungeon_AdjustForRoomLayout ; $0135DC IN ROM
 
     LDY.b #$16
 
@@ -3137,23 +3137,23 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 
     LDX.b #$18 : STX $0464
 
-    JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
+    JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $010EC9 IN ROM
     JSL RestoreTorchBackground
-    JMP Dungeon_PrepTilemapAndAdvance   ; $10AB3 IN ROM
+    JMP Dungeon_PrepTilemapAndAdvance   ; $010AB3 IN ROM
 }
 
 ; ==============================================================================
 
-; *$1115B-$1119A LOCAL
+; $01115B-$01119A LOCAL
 Dungeon_AdvanceThenSetBossMusicUnorthodox:
 {
-    JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $010B0C IN ROM
 
     LDA.b #$38 : STA $0464
 
     INC $B0
 
-    ; *$11165 ALTERANTE ENTRY POINT
+    ; $011165 ALTERANTE ENTRY POINT
 
     REP #$20
 
@@ -3190,10 +3190,10 @@ Dungeon_AdvanceThenSetBossMusicUnorthodox:
 
 ; ==============================================================================
 
-; *$1119B-$111B4 JUMP LOCATION
+; $01119B-$0111B4 JUMP LOCATION
 Module07_0E_12:
 {
-    JSL SpiralStairs_FindLandingSpot ; $3F391 IN ROM
+    JSL SpiralStairs_FindLandingSpot ; $03F391 IN ROM
 
     DEC $0464 : BNE .BRANCH_ALPHA
 
@@ -3216,10 +3216,10 @@ Module07_0E_12:
 
 ; ==============================================================================
 
-; *$111B5-$111C3 JUMP LOCATION
+; $0111B5-$0111C3 JUMP LOCATION
 Module07_0E_12:
 {
-    JSL SpiralStairs_FindLandingSpot ; $3F391 IN ROM
+    JSL SpiralStairs_FindLandingSpot ; $03F391 IN ROM
 
     DEC $0464 : BNE .BRANCH_ALPHA
 
@@ -3234,7 +3234,7 @@ Module07_0E_12:
 
 ; ==============================================================================
 
-; *$111C4-$111DC JUMP LOCATION
+; $0111C4-$0111DC JUMP LOCATION
 Module07_0E_00_InitPriorityAndScreens
 {
     JSL Dungeon_ElevateStaircasePriority
@@ -3255,7 +3255,7 @@ Module07_0E_00_InitPriorityAndScreens
 
 ; ==============================================================================
 
-; *$111DD-$11209 JUMP LOCATION
+; $0111DD-$011209 JUMP LOCATION
 Module07_0E_13_SetRoomAndLayerAndCache:
 {
     LDX $048A
@@ -3276,12 +3276,12 @@ Module07_0E_13_SetRoomAndLayerAndCache:
 
     LDA $A0 : STA $048E
 
-    JMP ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
+    JMP ResetThenCacheRoomEntryProperties ; $010D71 IN ROM
 }
 
 ; ==============================================================================
 
-; $1120A-$11219 DATA
+; $01120A-$011219 DATA
 pool RepositionLinkAfterSpiralStairs:
 {
     .x_offsets
@@ -3293,7 +3293,7 @@ pool RepositionLinkAfterSpiralStairs:
 
 ; ==============================================================================
 
-; *$1121A-$112B0 LONG
+; $01121A-$0112B0 LONG
 RepositionLinkAfterSpiralStairs:
 {
     SEP #$30
@@ -3381,7 +3381,7 @@ RepositionLinkAfterSpiralStairs:
 
 ; ==============================================================================
 
-; *$112B1-$11318 LOCAL
+; $0112B1-$011318 LOCAL
 SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
 {
     LDA $0462 : AND.b #$04 : BNE .BRANCH_ALPHA
@@ -3422,21 +3422,21 @@ SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
 
 ; ==============================================================================
 
-; $11319-$1131C Jump Table
+; $011319-$01131C Jump Table
 pool Dungeon_LandingWipe:
 {
     dw Module07_0F_00_InitSpotlight ; = $1132D*
     dw $9334 ; = $11334*
 }
 
-; *$1131D-$1132C JUMP LOCATION
+; $01131D-$01132C JUMP LOCATION
 Dungeon_LandingWipe:
 {
     LDA $B0 : ASL A : TAX
 
-    JSR ($9319, X) ; $11319 IN ROM
+    JSR ($9319, X) ; $011319 IN ROM
 
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
     JSL PlayerOam_Main
 
     RTS
@@ -3444,7 +3444,7 @@ Dungeon_LandingWipe:
 
 ; ==============================================================================
 
-; *$1132D-$11333 JUMP LOCATION
+; $01132D-$011333 JUMP LOCATION
 Module07_0F_00_InitSpotlight:
 {
     JSL Spotlight_open
@@ -3456,7 +3456,7 @@ Module07_0F_00_InitSpotlight:
 
 ; ==============================================================================
 
-; *$11334-$11356 JUMP LOCATION
+; $011334-$011356 JUMP LOCATION
 Module07_0F_01_OperateSpotlight
 {
     JSL Sprite_Main
@@ -3482,7 +3482,7 @@ Module07_0F_01_OperateSpotlight
 
 ; ==============================================================================
 
-; *$11357-$113BA JUMP LOCATION
+; $011357-$0113BA JUMP LOCATION
 Dungeon_StraightStairs:
 {
     LDA $B0 : CMP.b #$03 : BCC .doneWithAttrLoads
@@ -3518,11 +3518,11 @@ Dungeon_StraightStairs:
 
     STX $67
 
-    JSL Link_HandleVelocity ; $3E245 IN ROM
+    JSL Link_HandleVelocity ; $03E245 IN ROM
 
     .counterElapsed
 
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     LDA $B0
 
@@ -3551,7 +3551,7 @@ Dungeon_StraightStairs:
 
 ; ==============================================================================
 
-; *$113BB-$113EC JUMP LOCATION
+; $0113BB-$0113EC JUMP LOCATION
 Dungeon_StraightStairs_PrepAndReset:
 {
     LDA $0372 : BEQ .notDashing
@@ -3591,12 +3591,12 @@ Dungeon_StraightStairs_PrepAndReset:
 
     SEP #$20
 
-    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
 }
 
 ; ==============================================================================
 
-; *$113ED-$11402 JUMP LOCATION
+; $0113ED-$011402 JUMP LOCATION
 Dungeon_StraightStairs_FadeOut:
 {
     LDA $0464 : CMP.b #$09 : BCS .BRANCH_ALPHA
@@ -3614,7 +3614,7 @@ Dungeon_StraightStairs_FadeOut:
 
 ; ==============================================================================
 
-; *$11403-$11421 JUMP LOCATION
+; $011403-$011421 JUMP LOCATION
 Dungeon_StraightStairs_LoadAndPrepRoom:
 {
     JSL PaletteFilter.doFiltering
@@ -3622,7 +3622,7 @@ Dungeon_StraightStairs_LoadAndPrepRoom:
     JSL Dungeon_RestoreStarTileChr
     JSL LoadTransAuxGfx
     JSL Dungeon_LoadCustomTileAttr
-    JSL Dungeon_AdjustForRoomLayout ; $135DC IN ROM
+    JSL Dungeon_AdjustForRoomLayout ; $0135DC IN ROM
     JSL Tagalong_Init
 
     INC $B0
@@ -3632,22 +3632,22 @@ Dungeon_StraightStairs_LoadAndPrepRoom:
 
 ; ==============================================================================
 
-; *$11422-$11429 JUMP LOCATION
+; $011422-$011429 JUMP LOCATION
 StraightStairs_3:
 {
     JSL PaletteFilter.doFiltering
-    JSR $8E0F ; $10E0F IN ROM
+    JSR $8E0F ; $010E0F IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; *$1142A-$1143A JUMP LOCATION
+; $01142A-$01143A JUMP LOCATION
 StraightStairs_4:
 {
     JSL PaletteFilter.doFiltering
-    JSR $8E1D ; $10E1D IN ROM
+    JSR $8E1D ; $010E1D IN ROM
 
     LDA $A0 : STA $048E
 
@@ -3658,7 +3658,7 @@ StraightStairs_4:
 
 ; ==============================================================================
 
-; *$1143B-$114DF JUMP LOCATION
+; $01143B-$0114DF JUMP LOCATION
 StraightStairs_11:
 {
     LDY.b #$16
@@ -3774,14 +3774,14 @@ StraightStairs_11:
 
     ..BRANCH_THETA
 
-    JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $10EC9 IN ROM
+    JSR Dungeon_PlayBlipAndCacheQuadrantVisits   ; $010EC9 IN ROM
     JSL RestoreTorchBackground
-    JMP Dungeon_PrepTilemapAndAdvance   ; $10AB3 IN ROM
+    JMP Dungeon_PrepTilemapAndAdvance   ; $010AB3 IN ROM
 }
 
 ; ==============================================================================
 
-; *$114E0-$114EC JUMP LOCATION
+; $0114E0-$0114EC JUMP LOCATION
 StraightStairs_9:
 {
     JSL PaletteFilter.doFiltering
@@ -3789,12 +3789,12 @@ StraightStairs_9:
     DEC $B0
 
     JSL LoadNewSpriteGFXSet ; $6031 IN ROM
-    JMP $A1E9   ; $121E9 IN ROM
+    JMP $A1E9   ; $0121E9 IN ROM
 }
 
 ; ==============================================================================
 
-; *$114ED-$11517 JUMP LOCATION
+; $0114ED-$011517 JUMP LOCATION
 {
     LDA $0200 : CMP.b #$05 : BNE .BRANCH_ALPHA
 
@@ -3821,7 +3821,7 @@ StraightStairs_9:
 
     SEP #$20
 
-; *$11513 ALTERNATE ENTRY POINT
+; $011513 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
 
     JSL Dungeon_ApproachFixedColor
@@ -3831,7 +3831,7 @@ StraightStairs_9:
 
 ; ==============================================================================
 
-; *$11518-$1151F JUMP LOCATION
+; $011518-$01151F JUMP LOCATION
 {
     LDA $0464 : BNE .BRANCH_$11513
 
@@ -3842,7 +3842,7 @@ StraightStairs_9:
 
 ; ==============================================================================
 
-; *$11520-$11529 JUMP LOCATION
+; $011520-$011529 JUMP LOCATION
 {
     LDA $B0
 
@@ -3854,7 +3854,7 @@ StraightStairs_9:
 
 ; ==============================================================================
 
-; *$1152A-$11582 JUMP LOCATION
+; $01152A-$011582 JUMP LOCATION
 {
     REP #$20
 
@@ -3904,7 +3904,7 @@ StraightStairs_9:
 
     LDA $0458 : BNE .BRANCH_ZETA
 
-    JSR Dungeon_SyncBG1and2Scroll; $13B7B IN ROM
+    JSR Dungeon_SyncBG1and2Scroll; $013B7B IN ROM
 
     .BRANCH_ZETA
 
@@ -3915,7 +3915,7 @@ StraightStairs_9:
 
 ; ==============================================================================
 
-; *$11583-$11679 JUMP LOCATION
+; $011583-$011679 JUMP LOCATION
 {
     REP #$20
 
@@ -3967,11 +3967,11 @@ StraightStairs_9:
 
     LDA.b #$90 : STA $031F
 
-    JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $10EC9 IN ROM
+    JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $010EC9 IN ROM
 
     STZ $037B
 
-    JSL $07984B ; $3984B IN ROM
+    JSL $07984B ; $03984B IN ROM
 
     STZ $02F9
 
@@ -4004,7 +4004,7 @@ StraightStairs_9:
 
 ; ==============================================================================
 
-; *$1167A-$116AB JUMP LOCATION
+; $01167A-$0116AB JUMP LOCATION
 ; Dungeon warp
 Dungeon_Teleport:
 {
@@ -4038,16 +4038,16 @@ Dungeon_Teleport:
     dw $970F ; = $1170F*
 }
 
-; *$116AC-$116B9 JUMP LOCATION
+; $0116AC-$0116B9 JUMP LOCATION
 {
     JSR Overworld_ResetMosaic
 
     LDA $7EC011 : ORA.b #$03 : STA $95
 
-    JMP ApplyPaletteFilter_bounce ; $122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce ; $0122A0 IN ROM
 }
 
-; *$116BA-$116EB JUMP LOCATION
+; $0116BA-$0116EB JUMP LOCATION
 {
     JSL Dungeon_ApproachFixedColor
 
@@ -4060,8 +4060,8 @@ Dungeon_Teleport:
 
     .notRoomRightBeforeMuldorm
 
-    JSR Dungeon_SyncBG1and2Scroll  ; $13B7B IN ROM
-    JSL Dungeon_AdjustForRoomLayout ; $135DC IN ROM
+    JSR Dungeon_SyncBG1and2Scroll  ; $013B7B IN ROM
+    JSL Dungeon_AdjustForRoomLayout ; $0135DC IN ROM
 
     LDY.b #$16
 
@@ -4084,7 +4084,7 @@ Dungeon_Teleport:
     RTS
 }
 
-; *$116EC-$1170E JUMP LOCATION
+; $0116EC-$01170E JUMP LOCATION
 {
     LDA $7EC007 : LSR A : BCC .mosaicDisabled
 
@@ -4098,20 +4098,20 @@ Dungeon_Teleport:
 
     LDA $7EC011 : ORA.b #$03 : STA $95
 
-    JMP ApplyPaletteFilter_bounce ; $122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce ; $0122A0 IN ROM
 }
 
 ; ==============================================================================
 
-; *$1170F-$1171F JUMP LOCATION
+; $01170F-$01171F JUMP LOCATION
 {
     LDA $0200 : CMP.b #$05 : BNE .alpha
 
-    JSL $02B8CB ; $138CB IN ROM
+    JSL $02B8CB ; $0138CB IN ROM
 
     STZ $11
 
-    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $010D71 IN ROM
 
     .alpha
 
@@ -4120,7 +4120,7 @@ Dungeon_Teleport:
 
 ; ==============================================================================
 
-; $11720-$11729 Jump Table
+; $011720-$011729 Jump Table
 Dungeon_UpdatePegsTable:
 {
     dw $9739 ; = $11739* ; First four steps perform animation to show one barrier type
@@ -4130,7 +4130,7 @@ Dungeon_UpdatePegsTable:
     dw $97A9 ; = $117A9* ; Swap the barrier collision states.
 }
 
-; *$1172A-$11738 JUMP LOCATION
+; $01172A-$011738 JUMP LOCATION
 Dungeon_UpdatePegs:
 {
     ; Module 0x07.0x16 - Orange/Blue Barrier swapping
@@ -4139,10 +4139,10 @@ Dungeon_UpdatePegs:
 
     LDA $B0 : LSR A : TAX
 
-    JMP ($9720, X) ; $11720 IN ROM
+    JMP ($9720, X) ; $011720 IN ROM
 }
 
-; *$11739-$117A8 JUMP LOCATION
+; $011739-$0117A8 JUMP LOCATION
 {
     REP #$10
 
@@ -4159,7 +4159,7 @@ Dungeon_UpdatePegs:
 
     BRA .BRANCH_BETA
 
-    ; *$1174D ALTERNATE ENTRY POINT
+    ; $01174D ALTERNATE ENTRY POINT
 
     REP #$10
 
@@ -4176,7 +4176,7 @@ Dungeon_UpdatePegs:
 
     BRA .BRANCH_BETA
 
-    ; *$11761 ALTERNATE ENTRY POINT
+    ; $011761 ALTERNATE ENTRY POINT
 
     REP #$10
 
@@ -4189,7 +4189,7 @@ Dungeon_UpdatePegs:
 
     LDY.w #$0000
 
-    ; *$11773 ALTERNATE ENTRY POINT
+    ; $011773 ALTERNATE ENTRY POINT
     .BRANCH_BETA
 
     STY $0E
@@ -4227,7 +4227,7 @@ Dungeon_UpdatePegs:
     RTS
 }
 
-; *$117A9-$117B1 JUMP LOCATION
+; $0117A9-$0117B1 JUMP LOCATION
 {
     JSL Dungeon_ToggleBarrierAttr ; $C22A IN ROM
 
@@ -4237,7 +4237,7 @@ Dungeon_UpdatePegs:
     RTS
 }
 
-; *$117B2-$117C7 LONG
+; $0117B2-$0117C7 LONG
 {
     REP #$10
 
@@ -4252,14 +4252,14 @@ Dungeon_UpdatePegs:
 
   .BRANCH_ALPHA
 
-    JSR $9773; $11773 IN ROM
+    JSR $9773; $011773 IN ROM
 
     RTL
 }
 
 ; ==============================================================================
 
-; *$117C8-$117F9 JUMP LOCATION
+; $0117C8-$0117F9 JUMP LOCATION
 Dungeon_PressurePlate:
 {
     ; Module 0x07.0x17
@@ -4290,7 +4290,7 @@ Dungeon_PressurePlate:
 
 ; ==============================================================================
 
-; $117FA-$11809 DATA
+; $0117FA-$011809 DATA
 CrystalGraphicsTilemapLocation:
 {
     dw $1618, $1658, $1658, $1618, $0658, $1618, $1658, $0000
@@ -4298,7 +4298,7 @@ CrystalGraphicsTilemapLocation:
 
 ; ==============================================================================
 
-; *$1180A-$11825 JUMP LOCATION
+; $01180A-$011825 JUMP LOCATION
 Dungeon_Crystal:
 {
     ; Module 0x07.0x18 - Crystal Maiden sequence
@@ -4322,7 +4322,7 @@ Dungeon_Crystal:
 
 ; ==============================================================================
 
-; *$11826-$11887 JUMP LOCATION
+; $011826-$011887 JUMP LOCATION
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
 
@@ -4361,7 +4361,7 @@ Dungeon_Crystal:
     RTS
 }
 
-; *$11888-$118E6 JUMP LOCATION
+; $011888-$0118E6 JUMP LOCATION
 {
     JSL PaletteFilter_Crystal
 
@@ -4417,7 +4417,7 @@ Dungeon_Crystal:
     RTS
 }
 
-; *$118E7-$118F6 JUMP LOCATION
+; $0118E7-$0118F6 JUMP LOCATION
 {
     INC $012A
 
@@ -4430,12 +4430,12 @@ Dungeon_Crystal:
     RTS
 }
 
-; *$118F7-$11915 JUMP LOCATION
+; $0118F7-$011915 JUMP LOCATION
 Dungeon_MirrorFade:
 {
     ; Module 0x07.0x19
 
-    JSR Overworld_ResetMosaic_alwaysIncrease ; $142EB IN ROM
+    JSR Overworld_ResetMosaic_alwaysIncrease ; $0142EB IN ROM
 
     DEC $13 : BNE .notFullyDarkened
 
@@ -4457,7 +4457,7 @@ Dungeon_MirrorFade:
     RTS
 }
 
-; *$11916-$1191A JUMP LOCATION
+; $011916-$01191A JUMP LOCATION
 Dungeon_OpenGanonDoor:
 {
     ; Module 0x07.0x1A
@@ -4467,18 +4467,18 @@ Dungeon_OpenGanonDoor:
     RTS
 }
 
-; *$1191B-$11921 JUMP LOCATION
+; $01191B-$011921 JUMP LOCATION
 Module0C_Unused:
 {
     ; Beginning of Module #$C, ???? Mode
 
     JSR Overworld_ResetMosaic
-    JSR $9922 ; $11922 IN ROM
+    JSR $9922 ; $011922 IN ROM
 
     RTL
 }
 
-; *$11922-$1192D LOCAL
+; $011922-$01192D LOCAL
 Module0C_RunSubmodule:
 {
     LDA $B0
@@ -4490,7 +4490,7 @@ Module0C_RunSubmodule:
     dw $992E ; = $1192E*
 }
 
-; *$1192E-$11937 JUMP LOCATION
+; $01192E-$011937 JUMP LOCATION
 Module0C_RestoreSubmodule:
 {
     LDA $010C : STA $10
@@ -4501,7 +4501,7 @@ Module0C_RestoreSubmodule:
     RTS
 }
 
-; *$11938-$11950 JUMP LOCATION
+; $011938-$011950 JUMP LOCATION
 Module0D_Unused:
 {
     ; Beginning of Module 0x0D,
@@ -4512,13 +4512,13 @@ Module0D_Unused:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $142F6 IN ROM
-    JSR $9951 ; $11951 IN ROM
+    JSR $C2F6 ; $0142F6 IN ROM
+    JSR $9951 ; $011951 IN ROM
 
     RTL
 }
 
-; *$11951-$1195A LOCAL
+; $011951-$01195A LOCAL
 Module0D_RunSubmodule:
 {
     LDA $B0
@@ -4529,7 +4529,7 @@ Module0D_RunSubmodule:
     dw $995B ; = $1195B*
 }
 
-; *$1195B-$11979 JUMP LOCATION
+; $01195B-$011979 JUMP LOCATION
 Module0C_RestoreModule:
 {
     STZ $11
@@ -4548,9 +4548,9 @@ Module0C_RestoreModule:
     RTS
 }
 
-; $1197A-$1197D DATA
+; $01197A-$01197D DATA
 
-; $1197E-$11981 Jump Table
+; $01197E-$011981 Jump Table
 Module_CloseSpotlightTable:
 {
     dw $99CA ; = $119CA*
@@ -4559,7 +4559,7 @@ Module_CloseSpotlightTable:
 
 ; ==============================================================================
 
-; *$11982-$119C9 JUMP LOCATION
+; $011982-$0119C9 JUMP LOCATION
 Module_CloseSpotlight:
 {
     ; Beginning of Module 0x0F, "HDMA spotlights closing"
@@ -4568,7 +4568,7 @@ Module_CloseSpotlight:
 
     LDA $11 : ASL A : TAX
 
-    JSR ($997E, X) ; $1197E IN ROM
+    JSR ($997E, X) ; $01197E IN ROM
 
     LDA $1B : BNE .BRANCH_ALPHA
 
@@ -4580,7 +4580,7 @@ Module_CloseSpotlight:
 
     LDA.b #$06 : STA $5E
 
-    JSL Link_HandleVelocity ; $3E245 IN ROM
+    JSL Link_HandleVelocity ; $03E245 IN ROM
 
     STZ $31
     STZ $30
@@ -4601,13 +4601,13 @@ Module_CloseSpotlight:
 
     LDA $02997A, X : STA $26 : STA $67
 
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
     JML PlayerOam_Main
 }
 
 ; ==============================================================================
 
-; *$119CA-$11A18 JUMP LOCATION
+; $0119CA-$011A18 JUMP LOCATION
 Dungeon_PrepExitWithSpotlight:
 {
     STZ $012A
@@ -4653,7 +4653,7 @@ Dungeon_PrepExitWithSpotlight:
 
     STZ $04A0
 
-    JSL $0AFD0C ; $57D0C IN ROM
+    JSL $0AFD0C ; $057D0C IN ROM
 
     INC $16
 
@@ -4664,7 +4664,7 @@ Dungeon_PrepExitWithSpotlight:
     RTS
 }
 
-; *$11A19-$11AD2 JUMP LOCATION
+; $011A19-$011AD2 JUMP LOCATION
 ; ZS rewrites part of this function.
 Spotlight_ConfigureTableAndControl:
 {
@@ -4683,14 +4683,14 @@ Spotlight_ConfigureTableAndControl:
 
         SEP #$20
 
-    ; *$11A37 ALTERNATE ENTRY POINT
+    ; $011A37 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
 
     LDA $10 : CMP.b #$09 : BEQ .BRANCH_BETA
         ; Force V-blank in preperation for Dungeon mode
         JSL EnableForceBlank ; $93D IN ROM
 
-        JSL $07B107 ; $3B107 IN ROM
+        JSL $07B107 ; $03B107 IN ROM
 
     .BRANCH_BETA
 
@@ -4778,7 +4778,7 @@ Spotlight_ConfigureTableAndControl:
 
 ; =============================================
 
-; $11AD3-$11AD6 Jump Table
+; $011AD3-$011AD6 Jump Table
 Module_OpenSpotlightTable:
 {
     dw Module_OpenSpotlight_Iris          ; = $11AE6*
@@ -4787,7 +4787,7 @@ Module_OpenSpotlightTable:
 
 ; =============================================
 
-; *$11AD7-$11AE5 JUMP LOCATION LONG
+; $011AD7-$011AE5 JUMP LOCATION LONG
 Module_OpenSpotlight:
 {
     ; Module 0x10
@@ -4796,14 +4796,14 @@ Module_OpenSpotlight:
 
     LDA $11 : ASL A : TAX
 
-    JSR ($9AD3, X) ; $11AD3 IN ROM
+    JSR ($9AD3, X) ; $011AD3 IN ROM
 
     JML PlayerOam_Main
 }
 
 ; =============================================
 
-; $11AE6-$11AEC JUMP LOCATION
+; $011AE6-$011AEC JUMP LOCATION
 Module_OpenSpotlight_Iris:
 {
     ; Module 0x10.0x00
@@ -4818,10 +4818,9 @@ Module_OpenSpotlight_Iris:
 
 ; ==============================================================================
 
-; $11AED-$11AF8 Jump Table
+; $011AED-$011AF8 Jump Table
 pool Module_HoleToDungeon:
 {
-
 .submodules
     dw HoleToDungeon_FadeMusic
     dw HoleToDungeon_PaletteFilter
@@ -4833,7 +4832,7 @@ pool Module_HoleToDungeon:
 
 ; ==============================================================================
 
-; *$11AF9-$11B00 JUMP LOCATION LONG
+; $011AF9-$011B00 JUMP LOCATION LONG
 Module_HoleToDungeon:
 {
     ; Module 0x11
@@ -4847,7 +4846,7 @@ Module_HoleToDungeon:
 
 ; ==============================================================================
 
-; *$11B01-$11B1B LOCAL
+; $011B01-$011B1B LOCAL
 HoleToDungeon_FadeMusic:
 {
     ; Module 0x11.0x00
@@ -4864,12 +4863,12 @@ HoleToDungeon_FadeMusic:
 
     .dont_fade
 
-    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
 }
 
 ; ==============================================================================
 
-; *$11B1C-$11C0E LOCAL
+; $011B1C-$011C0E LOCAL
 HoleToDungeon_LoadDungeon:
 {
     ; Module 0x11.0x02 (falling into a hole)
@@ -4968,7 +4967,7 @@ HoleToDungeon_LoadDungeon:
 
     LDA.b #$07 : STA $11
 
-; $11BD7 ALTERNATE ENTRY POINT
+; $011BD7 ALTERNATE ENTRY POINT
 shared Dungeon_LoadSongBankIfNeeded:
 
     ; Is there no music loading?
@@ -5006,7 +5005,7 @@ shared Dungeon_LoadSongBankIfNeeded:
 
 ; ==============================================================================
 
-; *$11C0F-$11C3D LOCAL
+; $011C0F-$011C3D LOCAL
 {
     LDA $13 : INC A : AND.b #$0F : STA $13
 
@@ -5014,10 +5013,10 @@ shared Dungeon_LoadSongBankIfNeeded:
 
     INC $B0
 
-; *$11C1C ALTERNATE ENTRY POINT
+; $011C1C ALTERNATE ENTRY POINT
     .notFullyBright
 
-    JSL $079520 ; $39520 IN ROM
+    JSL $079520 ; $039520 IN ROM
 
     LDA $11 : BNE .notDefaultSubmodule
 
@@ -5026,8 +5025,8 @@ shared Dungeon_LoadSongBankIfNeeded:
     ; Disable tag routines while Link is still falling
     INC $04C7
 
-    JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $10EC9 IN ROM
-    JSR ResetThenCacheRoomEntryProperties ; $10D71 IN ROM
+    JSR Dungeon_PlayBlipAndCacheQuadrantVisits ; $010EC9 IN ROM
+    JSR ResetThenCacheRoomEntryProperties ; $010D71 IN ROM
 
     LDA $0132 : STA $012C
 
@@ -5040,7 +5039,7 @@ shared Dungeon_LoadSongBankIfNeeded:
 
 ; ==============================================================================
 
-; $11C3E-$11C49 Jump Table
+; $011C3E-$011C49 Jump Table
 Module_BossVictoryTable:
 {
     dw Module_BossVictory_Heal ; = $11C59*
@@ -5053,14 +5052,14 @@ Module_BossVictoryTable:
 
 ; ==============================================================================
 
-; *$11C4A-$11C58 JUMP LOCATION
+; $011C4A-$011C58 JUMP LOCATION
 Module_BossVictory:
 {
     ; Beginning of Module 0x13, Boss Victory and Refill Mode
 
     LDA $11 : ASL A : TAX
 
-    JSR ($9C3E, X)  ; $11C3E IN ROM
+    JSR ($9C3E, X)  ; $011C3E IN ROM
 
     JSL Sprite_Main
     JML PlayerOam_Main
@@ -5068,7 +5067,7 @@ Module_BossVictory:
 
 ; ==============================================================================
 
-; *$11C59-$11C92 LOCAL
+; $011C59-$011C92 LOCAL
 Module_BossVictory_Heal:
 {
     JSL HUD.RefillMagicPower : BCS .still_restoring_magic
@@ -5087,7 +5086,7 @@ Module_BossVictory_Heal:
 
     LDA $3A : AND.b #$BF : STA $3A
 
-    JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $010B0C IN ROM
 
     LDA.b #$02 : STA $2F
 
@@ -5111,7 +5110,7 @@ Module_BossVictory_Heal:
 
 ; ==============================================================================
 
-; *$11C93-$11CAC JUMP LOCATION
+; $011C93-$011CAC JUMP LOCATION
 Module_BossVictory_StartSpinAnimation:
 {
     DEC $B0 : BNE .countingDown
@@ -5120,7 +5119,7 @@ Module_BossVictory_StartSpinAnimation:
 
     LDA.b #$02 : STA $2F
 
-    JSL Link_AnimateVictorySpin_long ; $3A7B0 IN ROM
+    JSL Link_AnimateVictorySpin_long ; $03A7B0 IN ROM
     JSL Ancilla_TerminateSelectInteractives
     JSL addVictorySpinEffect
 
@@ -5133,7 +5132,7 @@ Module_BossVictory_StartSpinAnimation:
 
 ; ==============================================================================
 
-; *$11CAD-$11CD0 JUMP LOCATION
+; $011CAD-$011CD0 JUMP LOCATION
 Module_BossVictory_RunSpinAnimation:
 {
     JSL Player_Main
@@ -5163,7 +5162,7 @@ Module_BossVictory_RunSpinAnimation:
 
 ; ==============================================================================
 
-; *$11CD1-$11CE1 JUMP LOCATION
+; $011CD1-$011CE1 JUMP LOCATION
 Module_BossVictory_EndSpinAnimation
 {
     DEC $B0 : BNE .exit
@@ -5183,7 +5182,7 @@ Module_BossVictory_EndSpinAnimation
 
 ; ==============================================================================
 
-; $11CE2-$11CFB Jump Table
+; $011CE2-$011CFB Jump Table
 Module_MirrorTable:
 {
     .states
@@ -5204,7 +5203,7 @@ Module_MirrorTable:
 
 ; ==============================================================================
 
-; *$11CFC-$11D15 JUMP LOCATION LONG
+; $011CFC-$011D15 JUMP LOCATION LONG
 Module_Mirror:
 {
     ; Beginning of Module 0x15, Magic Mirror?
@@ -5230,7 +5229,7 @@ Module_Mirror:
 
 ; ==============================================================================
 
-; *$11D16-$11D21 LOCAL
+; $011D16-$011D21 LOCAL
 Mirror_LoadMusic:
 {
     STZ $0710
@@ -5245,7 +5244,7 @@ Mirror_LoadMusic:
 
 ; ==============================================================================
 
-; *$11D22-$11D5C LOCAL
+; $011D22-$011D5C LOCAL
 Mirror_Init:
 {
     ; Play the mirror warp "music"
@@ -5275,14 +5274,14 @@ Mirror_Init:
 
     SEP #$20
 
-    JSL $0BFFEE ; $5FFEE IN ROM
+    JSL $0BFFEE ; $05FFEE IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; *$11D5D-$11DB5 LOCAL
+; $011D5D-$011DB5 LOCAL
 {
     REP #$30
 
@@ -5321,7 +5320,7 @@ Mirror_Init:
 
 ; ==============================================================================
 
-; *$11DB6-$11DC1 LOCAL
+; $011DB6-$011DC1 LOCAL
 {
     DEC $B0 : BNE .BRANCH_ALPHA
 
@@ -5334,7 +5333,7 @@ Mirror_Init:
     RTS
 }
 
-; *$11DC2-$11DF4 LOCAL
+; $011DC2-$011DF4 LOCAL
 {
     JSL Messaging_Text
 
@@ -5373,7 +5372,7 @@ Mirror_Init:
     RTS
 }
 
-; *$11DF5-$11E05 LOCAL
+; $011DF5-$011E05 LOCAL
 {
     JSL Messaging_Text
 
@@ -5387,7 +5386,7 @@ Mirror_Init:
     RTS
 }
 
-; *$11E06-$11E0E LOCAL
+; $011E06-$011E0E LOCAL
 {
     JSL $00FE5E ; $7E5E IN ROM
 
@@ -5398,13 +5397,13 @@ Mirror_Init:
     RTS
 }
 
-; *$11E0F-$11E21 LOCAL
+; $011E0F-$011E21 LOCAL
 {
     JSL $00FE64 ; $7E64 IN ROM
 
     BRA .BRANCH_ALPHA
 
-; *$11E15 ALTERNATE ENTRY POINT
+; $011E15 ALTERNATE ENTRY POINT
 
     JSL $00FF2F ; $7F2F IN ROM
 
@@ -5421,11 +5420,11 @@ Mirror_Init:
     RTS
 }
 
-; *$11E22-$11E5E LOCAL
+; $011E22-$011E5E LOCAL
 {
     DEC $B0 : BNE .stillCountingDown
 
-    JSL $029E6E ; $11E6E IN ROM
+    JSL $029E6E ; $011E6E IN ROM
     JSL Overworld_SetSongList
 
     LDA $7EF29B : ORA.b #$20 : STA $7EF29B
@@ -5460,7 +5459,7 @@ Mirror_Init:
 
 ; =============================================
 
-; *$11E5F-$11E7F LONG
+; $011E5F-$011E7F LONG
 {
     ; If Link is not currently in a mirror warp, return
     ; This seems silly though, because the only routine that references this
@@ -5474,7 +5473,7 @@ Mirror_Init:
     ; \task address naming of this routine.
     JSL DecompOwAnimatedTiles ; $5394 IN ROM
 
-; *$11E6E ALTERNATE ENTRY POINT
+; $011E6E ALTERNATE ENTRY POINT
 
     JSL Ancilla_TerminateSelectInteractives
 
@@ -5491,10 +5490,9 @@ Mirror_Init:
 
 ; ==============================================================================
 
-; $11E80-$11E89 Jump Table
+; $011E80-$011E89 Jump Table
 pool Module_Victory:
 {
-
     .states
     dw $9C59 ; = $11C59*
     dw $9C93 ; = $11C93*
@@ -5505,7 +5503,7 @@ pool Module_Victory:
 
 ; ==============================================================================
 
-; *$11E8A-$11E98 JUMP LOCATION LONG
+; $011E8A-$011E98 JUMP LOCATION LONG
 Module_Victory:
 {
     ; Beginning of Module 0x16 (refilling stats after boss fight)
@@ -5526,7 +5524,7 @@ Module_Victory:
     RTS
 }
 
-; *$11E9A-$11EC9 LOCAL
+; $011E9A-$011EC9 LOCAL
 {
     DEC $13 : BNE .BRANCH_$11E99 ; (RTS)
 
@@ -5548,13 +5546,13 @@ Module_Victory:
 
     STZ $11 : STZ $B0
 
-    JMP $9A37 ; $11A37 IN ROM
+    JMP $9A37 ; $011A37 IN ROM
 }
 
 
 ; ==============================================================================
 
-; $11ECA-$11EDB Jump Table
+; $011ECA-$011EDB Jump Table
 pool Module_GanonEmerges:
 {
     .submodules
@@ -5571,7 +5569,7 @@ pool Module_GanonEmerges:
 
 ; ==============================================================================
 
-; *$11EDC-$11F2E JUMP LOCATION LONG
+; $011EDC-$011F2E JUMP LOCATION LONG
 Module_GanonEmerges:
 {
     REP #$21
@@ -5603,7 +5601,7 @@ Module_GanonEmerges:
 
 ; ==============================================================================
 
-; *$11F2F-$11F41 LOCAL
+; $011F2F-$011F41 LOCAL
 GanonEmerges_GetBirdForPursuit:
 {
     JSL Effect_Handler
@@ -5618,7 +5616,7 @@ GanonEmerges_GetBirdForPursuit:
 
 ; ==============================================================================
 
-; *$11F42-$11F5D LOCAL
+; $011F42-$011F5D LOCAL
 GanonEmerges_PrepForPyramidLocation:
 {
     JSL Effect_Handler
@@ -5642,7 +5640,7 @@ GanonEmerges_PrepForPyramidLocation:
 
 ; ==============================================================================
 
-; *$11F5E-$11F75 LOCAL
+; $011F5E-$011F75 LOCAL
 GanonEmerges_FadeOutDungeonScreen:
 {
     JSL Effect_Handler
@@ -5664,7 +5662,7 @@ GanonEmerges_FadeOutDungeonScreen:
 
 ; ==============================================================================
 
-; *$11F76-$11F8A LOCAL
+; $011F76-$011F8A LOCAL
 GanonEmerges_LOadPyramidArea:
 {
     ; The 9th bird travel target is only accessible via this code.
@@ -5683,7 +5681,7 @@ GanonEmerges_LOadPyramidArea:
 
 ; ==============================================================================
 
-; *$11F8B-$11F93 LOCAL
+; $011F8B-$011F93 LOCAL
 GanonEmerges_LoadAmbientOverlay:
 {
     JSL BirdTravel_LoadAmbientOverlay
@@ -5695,7 +5693,7 @@ GanonEmerges_LoadAmbientOverlay:
 
 ; ==============================================================================
 
-; *$11F94-$11FC0 LOCAL
+; $011F94-$011FC0 LOCAL
 GanonEmerges_BrightenScreenThenSpawnBat:
 {
     ; Module 0x18, submodule 0x05
@@ -5723,7 +5721,7 @@ GanonEmerges_BrightenScreenThenSpawnBat:
 
     LDA.b #$FF : STA $040C
 
-; $11FC0 ALTERNATE ENTRY POINT
+; $011FC0 ALTERNATE ENTRY POINT
 shared GanonEmerges_DelayForBatSmashIntoPyramid:
 
     .still_brightening
@@ -5734,7 +5732,7 @@ shared GanonEmerges_DelayForBatSmashIntoPyramid:
 
 ; ==============================================================================
 
-; *$11FC1-$11FC8 LOCAL
+; $011FC1-$011FC8 LOCAL
 GanonEmerges_DelayPlayerDropOff:
 {
     ; \wtf Why not juse branch to this routine's return instruction?!!
@@ -5748,7 +5746,7 @@ GanonEmerges_DelayPlayerDropOff:
 
 ; ==============================================================================
 
-; *$11FC9-$11FCD LOCAL
+; $011FC9-$011FCD LOCAL
 GanonEmerges_DropOffPlayerAtPyramid:
 {
     ; \wtf Wasn't the previous module dungeon?
@@ -5759,10 +5757,9 @@ GanonEmerges_DropOffPlayerAtPyramid:
 
 ; ==============================================================================
 
-; $11FCE-$11FEB Jump Table
+; $011FCE-$011FEB Jump Table
 pool Module_TriforceRoom:
 {
-
 .submodules
     dw TriforceRoom_Step0 ; = $12021*  0x00
     dw TriforceRoom_Step1 ; = $1202F*  0x01
@@ -5783,7 +5780,7 @@ pool Module_TriforceRoom:
 
 ; ==============================================================================
 
-; *$11FEC-$12020 JUMP LOCATION LONG
+; $011FEC-$012020 JUMP LOCATION LONG
 Module_TriforceRoom:
 {
     LDA $B0 : ASL A : TAX
@@ -5807,8 +5804,8 @@ Module_TriforceRoom:
 
     .BRANCH_ALPHA
 
-    JSL Link_HandleVelocity ; $3E245 IN ROM
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleVelocity ; $03E245 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     .BRANCH_BETA
 
@@ -5817,7 +5814,7 @@ Module_TriforceRoom:
 
 ; ==============================================================================
 
-; *$12021-$1202E LOCAL
+; $012021-$01202E LOCAL
 TriforceRoom_Step0:
 {
     JSL Player_ResetState
@@ -5827,17 +5824,17 @@ TriforceRoom_Step0:
     ; Make music fade out.
     LDA.b #$F1 : STA $012C
 
-    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
 }
 
-; *$1202F-$12034 LOCAL
+; $01202F-$012034 LOCAL
 TriforceRoom_Step1:
 {
     JSR Overworld_ResetMosaic
-    JMP ApplyPaletteFilter_bounce ; $122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce ; $0122A0 IN ROM
 }
 
-; *$12035-$12064 LOCAL
+; $012035-$012064 LOCAL
 TriforceRoom_Step2:
 {
     JSL EnableForceBlank ; $93D IN ROM
@@ -5860,15 +5857,15 @@ TriforceRoom_Step2:
 
     JSL Vram_EraseTilemaps.normal
     JSL Palette_RevertTranslucencySwap
-    JSR $E851   ; $16851 IN ROM
-    JSR Overworld_ReloadSubscreenOverlay   ; $12F1E IN ROM
+    JSR $E851   ; $016851 IN ROM
+    JSR Overworld_ReloadSubscreenOverlay   ; $012F1E IN ROM
 
     INC $B0
 
     BRA .BRANCH_$120C6
 }
 
-; *$12065-$12088 LOCAL
+; $012065-$012088 LOCAL
 ; ZS overwrites part of this function.
 TriforceRoom_Step3:
 {
@@ -5884,24 +5881,24 @@ TriforceRoom_Step3:
 
     ; ZS writes here.
     ; $01207A
-    JSR $C6AD   ; $146AD IN ROM
+    JSR $C6AD   ; $0146AD IN ROM
 
     LDA.b #$0E
 
-    JSL Overworld_LoadPalettes ; $755A8 IN ROM
-    JSR $C6EB                  ; $146EB IN ROM
+    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
+    JSR $C6EB                  ; $0146EB IN ROM
 
     INC $B0
 
     RTS
 }
 
-; *$12089-$120CC LOCAL
+; $012089-$0120CC LOCAL
 TriforceRoom_Step4:
 {
     LDA $B0 : PHA
 
-    JSR $EDB9 ; $16DB9 IN ROM
+    JSR $EDB9 ; $016DB9 IN ROM
 
     PLA : INC A : STA $B0
 
@@ -5924,7 +5921,7 @@ TriforceRoom_Step4:
 
     LDA.b #$20 : STA $012C
 
-; *$120C6 ALTERNATE ENTRY POINT
+; $0120C6 ALTERNATE ENTRY POINT
 
     LDA.b #$19 : STA $10
 
@@ -5933,7 +5930,7 @@ TriforceRoom_Step4:
     RTS
 }
 
-; *$120CD-$120E3 LOCAL
+; $0120CD-$0120E3 LOCAL
 TriforceRoom_Step5:
 {
     LDA.b #$08 : STA $67 : STA $26
@@ -5953,7 +5950,7 @@ TriforceRoom_Step5:
     RTS
 }
 
-; *$120E4-$120FF LOCAL
+; $0120E4-$0120FF LOCAL
 TriforceRoom_Step6:
 {
     LDA $7EC007 : LSR A : BCS .BRANCH_ALPHA
@@ -5964,16 +5961,16 @@ TriforceRoom_Step6:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6                       ; $142F6 IN ROM
+    JSR $C2F6                       ; $0142F6 IN ROM
     JSL PaletteFilter.doFiltering
 
     RTS
 }
 
-; *$12100-$12120 LOCAL
+; $012100-$012120 LOCAL
 TriforceRoom_Step7:
 {
-    JSL $0CCA54 ; $64A54 IN ROM
+    JSL $0CCA54 ; $064A54 IN ROM
 
     REP #$20
 
@@ -5992,10 +5989,10 @@ TriforceRoom_Step7:
     RTS
 }
 
-; *$12121-$12136 LOCAL
+; $012121-$012136 LOCAL
 TriforceRoom_Step9:
 {
-    JSL $0CCAB1 ; $64AB1 IN ROM
+    JSL $0CCAB1 ; $064AB1 IN ROM
     JSL Messaging_Text
 
     LDA $11 : BNE .waitForTextToEnd
@@ -6011,9 +6008,9 @@ TriforceRoom_Step9:
     RTS
 }
 
-; *$12137-$12150 LOCAL
+; $012137-$012150 LOCAL
 {
-    JSL $0CCAB1 ; $64AB1 IN ROM
+    JSL $0CCAB1 ; $064AB1 IN ROM
 
     LDA $B0 : CMP.b #$0B : BNE .BRANCH_ALPHA
 
@@ -6033,10 +6030,10 @@ TriforceRoom_Step9:
 
 ; ==============================================================================
 
-; *$12151-$12163 LOCAL
+; $012151-$012163 LOCAL
 TriforceRoom_Step11:
 {
-    JSL $0CCAB1 ; $64AB1 IN ROM
+    JSL $0CCAB1 ; $064AB1 IN ROM
     JSL Player_ApproachTriforce
 
     LDA $B0 : CMP.b #$0C : BNE .alpha
@@ -6051,16 +6048,16 @@ TriforceRoom_Step11:
 
 ; ==============================================================================
 
-; *$12164-$12172 LOCAL
+; $012164-$012172 LOCAL
 TriforceRoom_Step12:
 {
     ; submodule ??? of triforce room scene (fades screen to white after a time)
 
-    JSL $0CCAB1 ; $64AB1 IN ROM
+    JSL $0CCAB1 ; $064AB1 IN ROM
 
     DEC $C8 : BNE .alpha ; $C8 used as a timer here?
 
-    JSL $0EF404 ; $77404 IN ROM
+    JSL $0EF404 ; $077404 IN ROM
 
     INC $11
 
@@ -6071,11 +6068,11 @@ TriforceRoom_Step12:
 
 ; ==============================================================================
 
-; *$12173-$12185 LOCAL
+; $012173-$012185 LOCAL
 TriforceRoom_Step13:
 {
     ; totally brighten the screen (manipulate almost all palettes to be fully white)
-    JSL $0CCAB1 ; $64AB1 IN ROM
+    JSL $0CCAB1 ; $064AB1 IN ROM
     JSL $00EF8A ; $6F8A IN ROM
 
     LDA $7EC009 : CMP.b #$FF : BNE .alpha
@@ -6089,7 +6086,7 @@ TriforceRoom_Step13:
 
 ; ==============================================================================
 
-; *$12186-$121A3 LOCAL
+; $012186-$0121A3 LOCAL
 TriforceRoom_Step14:
 {
     ; make the screen dark and transition to the ending sequence module
@@ -6115,7 +6112,7 @@ TriforceRoom_Step14:
 ; ==============================================================================
 
 ; \note Crystals and pendant bitfiels indicating status.
-; $121A4-$121B0
+; $0121A4-$0121B0
 pool MilestoneItem_Flags:
 {
     db $00, $00, $04, $02, $00, $10, $02, $01
@@ -6124,7 +6121,7 @@ pool MilestoneItem_Flags:
 
 ; ==============================================================================
 
-; *$121B1-$121E4 LONG
+; $0121B1-$0121E4 LONG
 Dungeon_SaveRoomData:
 {
     LDA $040C : CMP.b #$FF : BEQ .notInPalace
@@ -6137,7 +6134,7 @@ Dungeon_SaveRoomData:
 
     JSL Dungeon_SaveRoomQuadrantData
 
-; *$121C7 ALTERNATE ENTRY POINT
+; $0121C7 ALTERNATE ENTRY POINT
     .justKeys
 
     ; branch if in a non palace interior.
@@ -6171,7 +6168,7 @@ Dungeon_SaveRoomData:
 
 ; ==============================================================================
 
-; $121E5-$121E8 DATA
+; $0121E5-$0121E8 DATA
 RoomEffectFixedColors:
 {
     ; \task Name this pool / apply to routines that use it.
@@ -6180,7 +6177,7 @@ RoomEffectFixedColors:
 
 ; ==============================================================================
 
-; *$121E9-$12280 LOCAL
+; $0121E9-$012280 LOCAL
 Dungeon_HandleTranslucencyAndPalettes:
 {
     LDA $0ABD : BEQ .no_swap
@@ -6262,7 +6259,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 
 ; ==============================================================================
 
-; *$12281-$1229A LOCAL
+; $012281-$01229A LOCAL
 {
     JSL PaletteFilter.doFiltering
 
@@ -6282,7 +6279,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 
 ; ==============================================================================
 
-; *$1229B-$1229F LOCAL
+; $01229B-$01229F LOCAL
 HoleToDungeon_PaletteFilter:
 {
     JSL PaletteFilter
@@ -6292,7 +6289,7 @@ HoleToDungeon_PaletteFilter:
 
 ; ==============================================================================
 
-; $122A0-$122A4 JUMP LOCATION
+; $0122A0-$0122A4 JUMP LOCATION
 ApplyPaletteFilter_bounce:
 {
     JSL PaletteFilter.doFiltering
@@ -6302,33 +6299,33 @@ ApplyPaletteFilter_bounce:
 
 ; ==============================================================================
 
-; *$122A5-$122A8 JUMP LOCATION LONG
+; $0122A5-$0122A8 JUMP LOCATION LONG
 ResetTransitionPropsAndAdvance_ResetInterface_long:
 {
-    JSR ResetTransitionPropsAndAdvance_ResetInterface ; $10CA9 IN ROM
+    JSR ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
 
     RTL
 }
 
 ; ==============================================================================
 
-; *$122A9-$122AC JUMP LOCATION LONG
+; $0122A9-$0122AC JUMP LOCATION LONG
 {
     ; only known reference is from a seemingly unused submodule of module 0x0E (submodule 0x06)
 
-    JSR $A1E9 ; $121E9 IN ROM
+    JSR $A1E9 ; $0121E9 IN ROM
 
     RTL
 }
 
-; *$122AD-$122B0 JUMP LOCATION LONG
+; $0122AD-$0122B0 JUMP LOCATION LONG
 {
-    JSR $A281 ; $12281 IN ROM
+    JSR $A281 ; $012281 IN ROM
 
     RTL
 }
 
-; *$122F0-$1237B LOCAL
+; $0122F0-$01237B LOCAL
 Dungeon_AdjustAfterSpiralStairs:
 {
     LDA $A2 : AND.b #$0F : STA $00
@@ -6362,7 +6359,7 @@ Dungeon_AdjustAfterSpiralStairs:
     RTS
 }
 
-; *$1237C-$1240C LOCAL
+; $01237C-$01240C LOCAL
 Dungeon_AdjustCoordsForLinkedRoom:
 {
     ; Y indicates the X direction we're moving in (-1 - left, 1 - right)
@@ -6414,7 +6411,7 @@ Dungeon_AdjustCoordsForLinkedRoom:
 ; OVERWORLD MODULE
 ; ==============================================================================
 
-; $1240D-$1246C JUMP TABLE FOR MODULE 0x09
+; $01240D-$01246C JUMP TABLE FOR MODULE 0x09
 Module_OverworldTable:
 {
     ; (Indexed by $11)
@@ -6468,7 +6465,7 @@ Module_OverworldTable:
     dw $B521 ; = $13521*                    ; 0x2F - Is jumped to from the previous submodule
 }
 
-; $1246D - $12474 DATA
+; $01246D - $12474 DATA
 {
     dw $0001
     dw $0001
@@ -6476,7 +6473,7 @@ Module_OverworldTable:
     dw $1100
 }
 
-; *$12475-$1252C Jump Location
+; $012475-$01252C Jump Location
 ; ZS overwrites the latter half of this function.
 Module_Overworld:
 {
@@ -6568,11 +6565,11 @@ Module_Overworld:
     RTL
 }
 
-; $1252D-$1253B DATA (unused?)
+; $01252D-$01253B DATA (unused?)
 
 ; ==============================================================================
 
-; *$1253C-$125EB JUMP LOCATION
+; $01253C-$0125EB JUMP LOCATION
 Overworld_PlayerControl:
 {
     ; main overworld submodule
@@ -6641,7 +6638,7 @@ Overworld_PlayerControl:
 
     BRA .changeSubmodule
 
-; *$12597 ALTERNATE ENTRY POINT
+; $012597 ALTERNATE ENTRY POINT
     .selectButtonNotDown
     .skipButtonInput
 
@@ -6658,7 +6655,7 @@ Overworld_PlayerControl:
 
     LDA $04B4 : CMP.b #$FF : BEQ .noSuperBombIndicator
 
-    JSL $0AFDA8 ; $57DA8 IN ROM ; Handles Super bomb countdown indicator on HUD
+    JSL $0AFDA8 ; $057DA8 IN ROM ; Handles Super bomb countdown indicator on HUD
 
     .noSuperBombIndicator
 
@@ -6670,20 +6667,20 @@ Overworld_PlayerControl:
     SEP #$20
 
     JSL Graphics_LoadChrHalfSlot
-    JSR Overworld_OperateCameraScroll   ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll   ; $013B90 IN ROM
 
     ; If special outdoors mode skip this part
     LDA $10 : CMP.b #$0B : BEQ .specialOverworld
 
     JSL Overworld_Entrance
     JSL Overworld_DwDeathMountainPaletteAnimation
-    JSR OverworldHandleTransitions  ; $129C4 IN ROM
+    JSR OverworldHandleTransitions  ; $0129C4 IN ROM
 
     BRA .return
 
     .specialOverworld
 
-    JSR ScrollAndCheckForSOWExit   ; $12B7B IN ROM
+    JSR ScrollAndCheckForSOWExit   ; $012B7B IN ROM
 
     .return
 
@@ -6807,13 +6804,13 @@ OverworldScreenTilemapChange:
 
 ; =============================================
 
-; *$129C4-$12B07 LOCAL
+; $0129C4-$012B07 LOCAL
 ; ZS modifies part of this function.
 OverworldHandleTransitions:
 {
     ; Tells us which direction we're scrolling in
     LDA $0416 : BEQ .noScroll
-        JSR Overworld_ScrollMap     ; $17273 IN ROM
+        JSR Overworld_ScrollMap     ; $017273 IN ROM
 
     .noScroll
 
@@ -6851,7 +6848,7 @@ OverworldHandleTransitions:
         .BRANCH_DELTA
         .noDeltaX
 
-        JSL $0EDE49 ; $75E49 IN ROM
+        JSL $0EDE49 ; $075E49 IN ROM
 
         RTS
 
@@ -6865,18 +6862,18 @@ OverworldHandleTransitions:
 
     STY $02 : STZ $03
 
-    JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $010B0C IN ROM
 
     REP #$31
 
     ;remove potential large world offest
-    LDX $02 : LDA $84 : AND $02A62C, X : STA $84 ; $1262C IN ROM
+    LDX $02 : LDA $84 : AND $02A62C, X : STA $84 ; $01262C IN ROM
 
-    LDA $0700 : CLC : ADC $02A834, X : PHA : STA $04 ; $12834 IN ROM
+    LDA $0700 : CLC : ADC $02A834, X : PHA : STA $04 ; $012834 IN ROM
 
     TXA : ASL #6 : ORA $04 : TAX
 
-    LDA $84 : CLC : ADC $02A634, X : STA $84 ; $12634 IN ROM
+    LDA $84 : CLC : ADC $02A634, X : STA $84 ; $012634 IN ROM
 
     PLA : LSR A : TAX
 
@@ -6949,7 +6946,7 @@ OverworldHandleTransitions:
 
     LDA $00FD1C, X
 
-    JSL Overworld_LoadPalettes      ; $755A8 IN ROM
+    JSL Overworld_LoadPalettes      ; $0755A8 IN ROM
     JSR Overworld_CgramAuxToMain
 
     RTS
@@ -6957,7 +6954,7 @@ OverworldHandleTransitions:
 
 ; =============================================
 
-; $12B08-$12B7A LOCAL
+; $012B08-$012B7A LOCAL
 Overworld_LoadMapProperties:
 {
     LDX $8A
@@ -7024,7 +7021,7 @@ Overworld_LoadMapProperties:
 
 ; ==============================================================================
 
-; *$12B7B-$12B87 LOCAL
+; $012B7B-$012B87 LOCAL
 ScrollAndCheckForSOWExit:
 {
     LDA $0416 : BEQ .alpha
@@ -7034,14 +7031,14 @@ ScrollAndCheckForSOWExit:
     .alpha
 
     ; Checks for tiles that lead back to normal overworld
-    JSL $0EDEE3 ; $75EE3 IN ROM
+    JSL $0EDEE3 ; $075EE3 IN ROM
 
     RTS
 }
 
 ; ==============================================================================
 
-; $12B88-$12BC5 JUMP LOCATION
+; $012B88-$012BC5 JUMP LOCATION
 ; ZS overwrites part of this function.
 Overworld_LoadTransGfx:
 {
@@ -7076,7 +7073,7 @@ Overworld_LoadTransGfx:
 
 ; ==============================================================================
 
-; $12BBC ALTERNATE ENTRY POINT
+; $012BBC ALTERNATE ENTRY POINT
 Overworld_FinishTransGfx:
 {
     ; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
@@ -7101,7 +7098,7 @@ Overworld_FinishTransGfx:
 
 ; ==============================================================================
 
-; *$12BC6-$12BD9 LOCAL
+; $012BC6-$012BD9 LOCAL
 Overworld_LoadNewMapAndGfx:
 {
     ; Module 0x09.0x03, 0x09.0x11
@@ -7115,7 +7112,7 @@ Overworld_LoadNewMapAndGfx:
 
     ; This mess all looks like it does map16 to map8 conversion, and the subsequent one sets up the
     ; system to blit it to vram during the next vblank
-    ; $17031 IN ROM
+    ; $017031 IN ROM
     JSR Overworld_StartTransMapUpdate
 
     ; $6031 IN ROM
@@ -7124,12 +7121,12 @@ Overworld_LoadNewMapAndGfx:
     RTL
 }
 
-; *$12BDA - $12BEC LOCAL JUMPED
+; $012BDA - $12BEC LOCAL JUMPED
 Overworld_RunScrollTransition:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
     JSL Graphics_IncrementalVramUpload
-    JSR OverworldScrollTransition   ; $14001 IN ROM
+    JSR OverworldScrollTransition   ; $014001 IN ROM
 
     AND.b #$0F : BEQ .alpha
 
@@ -7142,7 +7139,7 @@ Overworld_RunScrollTransition:
 
 ; =============================================
 
-; *$12BED - $12C39 JUMP LOCATION
+; $012BED - $12C39 JUMP LOCATION
 Overworld_LoadNewSprites:
 {
     ; Module 0x09.0x04, 0x09.0x12
@@ -7160,7 +7157,7 @@ Overworld_LoadNewSprites:
 
     .notDownTransition
 
-    JSL Sprite_OverworldReloadAll_justLoad  ; $4C49D IN ROM
+    JSL Sprite_OverworldReloadAll_justLoad  ; $04C49D IN ROM
 
     ; Reset tile modification index (keeps track of modified tiles when warping between worlds)
     STZ $04AC : STZ $04AD
@@ -7176,9 +7173,9 @@ Overworld_LoadNewSprites:
     LDA $11 : CMP.b #$12 : BEQ .specialTransition
 
     ; load bg color and other shit
-    JSL $0BFE70 ; $5FE70 IN ROM
+    JSL $0BFE70 ; $05FE70 IN ROM
 
-; *$12C27 ALTERNATE ENTRY POINT
+; $012C27 ALTERNATE ENTRY POINT
     .justScroll
     .skipBgColor
 
@@ -7187,13 +7184,13 @@ Overworld_LoadNewSprites:
     ; Horizontal transitions apparently don't do this step...
     LDX $0410 : CPX.b #$04 : BCC .notVerticalTrans
 
-; *$12C30 ALTERNATE ENTRY POINT
+; $012C30 ALTERNATE ENTRY POINT
 OverworldTranScrollSet:
     .alwaysScroll
 
     STX $0416
 
-    JSR $F20E ; $1720E IN ROM
+    JSR $F20E ; $01720E IN ROM
 
     STZ $0416
 
@@ -7204,17 +7201,16 @@ OverworldTranScrollSet:
 
 ; =============================================
 
-; *$12C3A - $12C8E LOCAL JUMPED
+; $012C3A - $12C8E LOCAL JUMPED
 Overworld_EaseOffScrollTransition:
 {
-
     LDX $8A
 
     LDA .overworldScreenSize, X : BEQ .largeArea
 
     LDX $0410 : STX $0416
 
-    JSR $F20E ; $1720E IN ROM
+    JSR $F20E ; $01720E IN ROM
 
     STZ $0416
 
@@ -7252,17 +7248,17 @@ Overworld_EaseOffScrollTransition:
 
     INC $11
 
-    JSL Tagalong_Disable ; $4ACF3 IN ROM
+    JSL Tagalong_Disable ; $04ACF3 IN ROM
 
     .return
 
     RTS
 }
 
-; *$12C8F-$12CC1 JUMP LOCATION
+; $012C8F-$012CC1 JUMP LOCATION
 Overworld_WalkFromExiting_FaceDown:
 {
-    JSL $07E69D ; $3E69D IN ROM
+    JSL $07E69D ; $03E69D IN ROM
 
     REP #$20
 
@@ -7283,11 +7279,11 @@ Overworld_WalkFromExiting_FaceDown:
 
     LDA.b #$03 : STA $30
 
-    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $013B90 IN ROM
 
     LDA $0416 : BEQ .noScroll
 
-    JSR Overworld_ScrollMap     ; $17273 IN ROM
+    JSR Overworld_ScrollMap     ; $017273 IN ROM
 
     .timedWait
     .noScroll
@@ -7295,10 +7291,10 @@ Overworld_WalkFromExiting_FaceDown:
     RTS
 }
 
-; *$12CC2-$12CD9 JUMP LOCATION
+; $012CC2-$012CD9 JUMP LOCATION
 Overworld_WalkFromExiting_FaceUp:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry    ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry    ; $03E6A6 IN ROM
 
     REP #$20
 
@@ -7315,7 +7311,7 @@ Overworld_WalkFromExiting_FaceUp:
     RTS
 }
 
-; $12CDA-$12D49 DATA
+; $012CDA-$012D49 DATA
 Map32UpdateTiles:
     dw $0DA2, $0DA3, $0DA4, $0DA5 ; sanc doors half open
     dw $0DA6, $0DA7, $0DA8, $0DA9 ; sanc doors 2/3 open
@@ -7332,7 +7328,7 @@ Map32UpdateTiles:
     dw $0DCB, $0DCC, $0DD5, $0DD6 ; open grave with pit top half
     dw $0E1B, $0E1C, $0E1D, $0E1E ; broken weather vane
 
-; *$12D4A-$12D5B JUMP LOCATION
+; $012D4A-$012D5B JUMP LOCATION
 Module09_09_OpenBigDoorFromExiting:
 {
     LDA $0690 : CMP.b #$03 : BNE .BRANCH_12D7B
@@ -7348,7 +7344,7 @@ Module09_09_OpenBigDoorFromExiting:
 
 ; ==============================================================================
 
-; *$12D5C-$12D62 LONG
+; $012D5C-$012D62 LONG
 Overworld_DoMapUpdate32x32_Long:
 {
     JSR Overworld_DoMapUpdate32x32
@@ -7360,18 +7356,18 @@ Overworld_DoMapUpdate32x32_Long:
 
 ; ==============================================================================
 
-; *$12D63-$12D6B LONG (UNUSED?)
+; $012D63-$012D6B LONG (UNUSED?)
 {
     REP #$30
 
-    JSR $AD87   ; $12D87 IN ROM; Involved in picking up large rocks
+    JSR $AD87   ; $012D87 IN ROM; Involved in picking up large rocks
 
     STZ $0692
 
     RTL
 }
 
-; *$12D6C-$12E5D LOCAL
+; $012D6C-$012E5D LOCAL
 Overworld_OpenBigFancyDoor:
 {
     LDA $0690 : CMP.b #$03 : BNE .BRANCH_ALPHA
@@ -7380,21 +7376,21 @@ Overworld_OpenBigFancyDoor:
 
     RTS
 
-; *$12D7B ALTERNATE ENTRY POINT
+; $012D7B ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
 
     LDA $0692 : AND.b #$07 : BEQ .BRANCH_BETA
 
-    JMP NoMap32Update   ; $12E5A IN ROM
+    JMP NoMap32Update   ; $012E5A IN ROM
 
-; *$12D85 ALTERNATE ENTRY POINT
+; $012D85 ALTERNATE ENTRY POINT
 shared Overworld_DoMapUpdate32x32:
 
     .BRANCH_BETA
 
     REP #$30
 
-; *$12D87 ALTERNATE ENTRY POINT
+; $012D87 ALTERNATE ENTRY POINT
 Overworld_DoMapUpdate32x32_16bit_already:
     ; This appears to happen if you pick up a large rock
     ; (Or other map16 modifications like a place sanctuary door opening)
@@ -7467,7 +7463,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDA.b #$01 : STA $14
 
-; *$12E5A ALTERNATE ENTRY POINT
+; $012E5A ALTERNATE ENTRY POINT
 NoMap32Update:
 
     INC $0692
@@ -7475,7 +7471,7 @@ NoMap32Update:
     RTS
 }
 
-; *$12E5E-$12E6C JUMP LOCATION
+; $012E5E-$012E6C JUMP LOCATION
 Overworld_StartMosaicTransition:
 {
     ; Modules 0x09.0x0D, 0x09.0x17, 0x09.0x24
@@ -7494,7 +7490,7 @@ Overworld_StartMosaicTransition:
 
 ; =========================================
 
-; $12E6D-$12E85 JUMP LOCATION
+; $012E6D-$012E85 JUMP LOCATION
 OverworldMosaicTransition_HandleSong:
 {
     ; module 0x0B.0x24/0x17/0x0D.0x00
@@ -7509,12 +7505,12 @@ OverworldMosaicTransition_HandleSong:
     .noFadeout
 
     ; do more basic common initialization of OW variables
-    JMP ResetTransitionPropsAndAdvance_ResetInterface   ; $10CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface   ; $010CA9 IN ROM
 }
 
 ; =========================================
 
-; *$12E86-$12ECD JUMP LOCATION
+; $012E86-$012ECD JUMP LOCATION
 OverworldMosaicTransition_HandleScreensAndLoadShroom:
 {
     ; forceblank the screen
@@ -7554,7 +7550,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     .lostWoods
 
     LDA $11 : CMP.b #$24 : BNE .BRANCH_GAMMA
-        JSR $E9BC ; $169BC IN ROM
+        JSR $E9BC ; $0169BC IN ROM
 
         LDA $8A : AND.b #$3F : BNE .BRANCH_GAMMA ; - ZS Custom Overworld? - loads some sort of animated tile, needs more investigation.
             LDA.b #$1E
@@ -7569,7 +7565,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     RTS
 }
 
-; $12ECE-$12EDC JUMP LOCATION
+; $012ECE-$012EDC JUMP LOCATION
 Module09_1D:
 {
     JSR Overworld_ResetMosaic
@@ -7583,7 +7579,7 @@ Module09_1D:
     dw $AEDD ; = $12EDD*
 }
 
-; *$12EDD-$12EE9 JUMP LOCATION
+; $012EDD-$012EE9 JUMP LOCATION
 Module09_1D_02_FBlankAndEnterModule0A:
 {
     LDA.b #$80 : STA $13 : STZ $B0
@@ -7593,7 +7589,7 @@ Module09_1D_02_FBlankAndEnterModule0A:
     RTS
 }
 
-; *$12EEA-$12EF8 JUMP LOCATION
+; $012EEA-$012EF8 JUMP LOCATION
 Module09_1E:
 {
     JSR Overworld_ResetMosaic
@@ -7607,12 +7603,12 @@ Module09_1E:
     dw $AEF9 ; = $12EF9*
 }
 
-; *$12EF9-$12F0A JUMP LOCATION
+; $012EF9-$012F0A JUMP LOCATION
 Module09_1E_02_FBlankAndLoadSPOW:
 {
     LDA.b #$80 : STA $13
 
-    JSR $E9BC ; $169BC IN ROM
+    JSR $E9BC ; $0169BC IN ROM
 
     LDA.b #$09 : STA $10
     LDA.b #$0F : STA $11
@@ -7624,7 +7620,7 @@ Module09_1E_02_FBlankAndLoadSPOW:
 
 ; ==============================================================================
 
-; *$12F0B-$130D1 JUMP LOCATION
+; $012F0B-$0130D1 JUMP LOCATION
 ; ZS rewrites most of this function.
 OverworldLoadSubScreenOverlay:
 {
@@ -7634,14 +7630,14 @@ OverworldLoadSubScreenOverlay:
     STZ $0308
     STZ $0309
 
-; *$12F19 ALTERNATE ENTRY POINT
+; $012F19 ALTERNATE ENTRY POINT
 Overworld_LoadSubscreenAndSilenceSFX1:
 
     ; Module 0x08.0x01, 0x09.0x0E, 0x0A.0x01
 
     LDA.b #$05 : STA $012D ; play silence. yes, literally play silence.
 
-    ; *$12F1E ALTERNATE ENTRY POINT
+    ; $012F1E ALTERNATE ENTRY POINT
   Overworld_ReloadSubscreenOverlay:
 
     REP #$30
@@ -7777,7 +7773,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
             ; The rain overlay
             LDX.w #$009F
 
-    ; *$1300B ALTERNATE ENTRY POINT ; TODO: Verify this. If it is an alternate entry I can't find where it is reference anywhere.
+    ; $01300B ALTERNATE ENTRY POINT ; TODO: Verify this. If it is an alternate entry I can't find where it is reference anywhere.
     .loadSubScreenOverlay
 
     STY $84
@@ -7877,7 +7873,7 @@ Overworld_LoadSubscreenAndSilenceSFX1:
 
 ; ==============================================================================
 
-; *$130D2-$130F2 JUMP LOCATION
+; $0130D2-$0130F2 JUMP LOCATION
 Module09_FadeBackInFromMosaic:
 {
     LDA $7EC007 : LSR A : BCC .BRANCH_ALPHA
@@ -7886,7 +7882,7 @@ Module09_FadeBackInFromMosaic:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $142F6 IN ROM
+    JSR $C2F6 ; $0142F6 IN ROM
 
     LDA $B0
 
@@ -7897,7 +7893,7 @@ Module09_FadeBackInFromMosaic:
     dw $B105 ; = $13105*
 }
 
-; *$130F3-$1314F JUMP LOCATION
+; $0130F3-$01314F JUMP LOCATION
 OverworldMosaicTransition_RecoverDestinationPalettes:
 {
     LDX $8A
@@ -7906,11 +7902,11 @@ OverworldMosaicTransition_RecoverDestinationPalettes:
 
     LDA $00FD1C, X
 
-    JSL Overworld_LoadPalettes ; $755A8 IN ROM
+    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
 
     BRA .BRANCH_$13171
 
-; *$13105 ALTERNATE ENTRY POINT
+; $013105 ALTERNATE ENTRY POINT
 OverworldMosaicTransition_RecoverSongAndSetMoving:
 
     LDA $0130 : STA $0133
@@ -7956,7 +7952,7 @@ OverworldMosaicTransition_RecoverSongAndSetMoving:
     RTS
 }
 
-; *$13150-$13170 JUMP LOCATION
+; $013150-$013170 JUMP LOCATION
 Module09_1C:
 {
     ; if(!($7EC007 % 2)) goto .BRANCH_ALPHA
@@ -7967,7 +7963,7 @@ Module09_1C:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $142F6 IN ROM
+    JSR $C2F6 ; $0142F6 IN ROM
 
     LDA $B0
 
@@ -7978,7 +7974,7 @@ Module09_1C:
     dw $B19E ; = $1319E*
 }
 
-; *$13171-$13194 JUMP LOCATION
+; $013171-$013194 JUMP LOCATION
 OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
 {
     JSL LoadNewSpriteGFXSet ; $6031 IN ROM
@@ -7996,7 +7992,7 @@ OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
     RTS
 }
 
-; *$13195-$1319D JUMP LOCATION
+; $013195-$01319D JUMP LOCATION
 OverworldMosaicTransition_FilterAndLoadGraphics:
 {
     JSL Graphics_IncrementalVramUpload
@@ -8005,7 +8001,7 @@ OverworldMosaicTransition_FilterAndLoadGraphics:
     RTS
 }
 
-; *$1319E-$131BA JUMP LOCATION
+; $01319E-$0131BA JUMP LOCATION
 Module09_1C_02_HandleMusic:
 {
     LDA $8A : CMP.b #$80 : BCS .BRANCH_ALPHA
@@ -8025,7 +8021,7 @@ Module09_1C_02_HandleMusic:
     RTS
 }
 
-; *$131BB-$131C7 JUMP LOCATION
+; $0131BB-$0131C7 JUMP LOCATION
 Overworld_BrightenScreen:
 {
     INC $13
@@ -8040,7 +8036,7 @@ Overworld_BrightenScreen:
     RTS
 }
 
-; *$131C8-$131DE JUMP LOCATION
+; $0131C8-$0131DE JUMP LOCATION
 Module09_18:
 {
     ; Module 0x09.0x18 (overworld loading an area submodule)
@@ -8050,8 +8046,8 @@ Module09_18:
     LDA $10 : PHA ; save module number
     LDA $11 : PHA ; save submodule number
 
-    JSR OverworldLoadSubScreenOverlay ; $E851 ; $16851 IN ROM
-    JSR $AF0B ; $12F0B IN ROM
+    JSR OverworldLoadSubScreenOverlay ; $E851 ; $016851 IN ROM
+    JSR $AF0B ; $012F0B IN ROM
 
     PLA : INC A : STA $11 ; move on to the next module (0x19)
     PLA : STA $10
@@ -8059,7 +8055,7 @@ Module09_18:
     RTS
 }
 
-; *$131DF-$131EF JUMP LOCATION
+; $0131DF-$0131EF JUMP LOCATION
 Module09_19:
 {
     ; Goes on to load a bunch of OW data like Map16 / Map32
@@ -8067,7 +8063,7 @@ Module09_19:
     LDA $10 : PHA
     LDA $11 : PHA
 
-    JSR $EDB9 ; $16DB9 IN ROM
+    JSR $EDB9 ; $016DB9 IN ROM
 
     PLA : INC A : STA $11
     PLA : STA $10
@@ -8077,7 +8073,7 @@ Module09_19:
 
 ; ==============================================================================
 
-; *$131F0-$131F3 LONG
+; $0131F0-$0131F3 LONG
 Overworld_LoadAndBuildScreen_long:
 {
     JSR Overworld_LoadAndBuildScreen
@@ -8087,10 +8083,10 @@ Overworld_LoadAndBuildScreen_long:
 
 ; ==============================================================================
 
-; *$131F4-$131F9 LONG
+; $0131F4-$0131F9 LONG
 Overworld_ReloadSubscreenOverlayAndAdvance_long:
 {
-    JSR Overworld_ReloadSubscreenOverlay; $12F1E IN ROM
+    JSR Overworld_ReloadSubscreenOverlay; $012F1E IN ROM
 
     DEC $11
 
@@ -8099,7 +8095,7 @@ Overworld_ReloadSubscreenOverlayAndAdvance_long:
 
 ; ==============================================================================
 
-; *$131FA-$131FE JUMP LOCATION
+; $0131FA-$0131FE JUMP LOCATION
 Overworld_MirrorWarp:
 {
     JSL Overworld_MirrorWarp_Main
@@ -8109,7 +8105,7 @@ Overworld_MirrorWarp:
 
 ; ==============================================================================
 
-; *$131FF-$13216 LONG
+; $0131FF-$013216 LONG
 Overworld_MirrorWarp_Main:
 {
     INC $0710
@@ -8130,7 +8126,7 @@ Overworld_MirrorWarp_Main:
 
 ; ==============================================================================
 
-; *$13217-$1325F JUMP LOCATION (LONG)
+; $013217-$01325F JUMP LOCATION (LONG)
 Overworld_InitMirrorWarp:
 {
     LDA $8A : CMP.b #$80 : BCC .not_extended_area
@@ -8169,7 +8165,7 @@ Overworld_InitMirrorWarp:
 
 ; ==============================================================================
 
-; *$13260-$132D3 JUMP LOCATION (LONG)
+; $013260-$0132D3 JUMP LOCATION (LONG)
 Overworld_FinishMirrorWarp:
 {
     REP #$20
@@ -8224,7 +8220,7 @@ Overworld_FinishMirrorWarp:
 
 ; ==============================================================================
 
-; *$132D4-$132E5 LONG
+; $0132D4-$0132E5 LONG
 ; ZS replaces this whole function. - ZS Custom Overworld
 MirrorWarp_HandleCastlePyramidSubscreen:
 {
@@ -8245,7 +8241,7 @@ MirrorWarp_HandleCastlePyramidSubscreen:
 
 ; ==============================================================================
 
-; *$132E6-$13333 LONG
+; $0132E6-$013333 LONG
 Overworld_DrawScreenAtCurrentMirrorPosition:
 {
     REP #$20
@@ -8290,7 +8286,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
 ; ==============================================================================
 
-; *$13334-$13409 LONG
+; $013334-$013409 LONG
 ; ZS rewrites part of this function.
 MirrorWarp_LoadSpritesAndColors:
 {
@@ -8329,7 +8325,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     SEP #$20
 
-    JSR Overworld_LoadAreaPalettes ; $14692 IN ROM
+    JSR Overworld_LoadAreaPalettes ; $014692 IN ROM
 
     LDX $8A
 
@@ -8337,9 +8333,9 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDA $00FD1C, X
 
-    JSL $0ED5A8 ; $755A8 IN ROM
-    JSL $0ED61D ; $7561D IN ROM
-    JSL $0BFE70 ; $5FE70 IN ROM
+    JSL $0ED5A8 ; $0755A8 IN ROM
+    JSL $0ED61D ; $07561D IN ROM
+    JSL $0BFE70 ; $05FE70 IN ROM
 
     ; ZS starts writing here.
     ; $0133A1 - ZS Custom Overworld
@@ -8376,8 +8372,8 @@ MirrorWarp_LoadSpritesAndColors:
 
     JSL Sprite_ResetAll
     JSL Sprite_OverworldReloadAll
-    JSL $07B107 ; $3B107 IN ROM
-    JSR $8B0C   ; $10B0C IN ROM
+    JSL $07B107 ; $03B107 IN ROM
+    JSR $8B0C   ; $010B0C IN ROM
 
     LDA.b #$14 : STA $5D
 
@@ -8389,19 +8385,19 @@ MirrorWarp_LoadSpritesAndColors:
     RTL
     }
 
-; *$1340A-$1340E JUMP LOCATION
+; $01340A-$01340E JUMP LOCATION
 Overworld_MasterSword:
 {
     ; module 0x09.0x2B - making the screen flash white during the master sword retrieval
 
-    JSL $0EF400 ; $77400 IN ROM
+    JSL $0EF400 ; $077400 IN ROM
 
     shared Overworld_WeathervaneExplosion:
 
     RTS
 }
 
-; *$1340F-$13431 JUMP LOCATION
+; $01340F-$013431 JUMP LOCATION
 Overworld_Whirlpool:
 {
     INC $0710
@@ -8425,7 +8421,7 @@ Overworld_Whirlpool:
     dw Whirlpool_FinalizeWarp  ; = $134EF*
     }
 
-    ; *$13432-$1344B JUMP LOCATION
+    ; $013432-$01344B JUMP LOCATION
     {
     LDA.b #$34 : STA $012E
     LDA.b #$05 : STA $012D
@@ -8439,21 +8435,21 @@ Overworld_Whirlpool:
     RTS
 }
 
-; *$1344C-$13450 JUMP LOCATION
+; $01344C-$013450 JUMP LOCATION
 {
     JSL WhirlpoolSaturateBlue ; $6F97 IN ROM
 
     RTS
 }
 
-; *$13451-$13455 JUMP LOCATION
+; $013451-$013455 JUMP LOCATION
 {
     JSL WhirlpoolIsolateBlue ; $700C IN ROM
 
     RTS
 }
 
-; *$13456-$1345E JUMP LOCATION
+; $013456-$01345E JUMP LOCATION
 {
     JSL Graphics_IncrementalVramUpload
     JSL WhirlpoolRestoreBlue ; $704A IN ROM
@@ -8461,7 +8457,7 @@ Overworld_Whirlpool:
     RTS
 }
 
-; *$1345F-$1346D JUMP LOCATION
+; $01345F-$01346D JUMP LOCATION
 {
     JSL WhirlpoolRestoreRedGreen
 
@@ -8473,7 +8469,7 @@ Overworld_Whirlpool:
     RTS
 }
 
-; *$1346E-$134EE JUMP LOCATION
+; $01346E-$0134EE JUMP LOCATION
 {
     LDA.b #$9F : STA $9E
 
@@ -8484,7 +8480,7 @@ Overworld_Whirlpool:
 
     STZ $B2
 
-    JSL $02B1F4 ; $131F4 IN ROM
+    JSL $02B1F4 ; $0131F4 IN ROM
 
     LDA.b #$0C : STA $17
 
@@ -8492,13 +8488,13 @@ Overworld_Whirlpool:
 
     BRA .BRANCH_DELTA
 
-; *$1348A ALTERNATE ENTRY POINT
+; $01348A ALTERNATE ENTRY POINT
 
     LDA.b #$0D : STA $17
 
     BRA .BRANCH_ALPHA
 
-; *$13490 ALTERNATE ENTRY POINT
+; $013490 ALTERNATE ENTRY POINT
 
     JSL BirdTravel_LoadAmbientOverlay
 
@@ -8506,13 +8502,13 @@ Overworld_Whirlpool:
 
     BRA .BRANCH_BETA
 
-; *$1349A ALTERNATE ENTRY POINT
+; $01349A ALTERNATE ENTRY POINT
 
     JSR Overworld_LoadTransGfx
 
     BRA .BRANCH_GAMMA
 
-; *$1349F ALTERNATE ENTRY POINT
+; $01349F ALTERNATE ENTRY POINT
 
     JSR Overworld_FinishTransGfx
 
@@ -8527,15 +8523,15 @@ Overworld_Whirlpool:
 
     RTS
 
-; *$134AE ALTERNATE ENTRY POINT
+; $0134AE ALTERNATE ENTRY POINT
 
     STZ $0AA9
 
-    JSL Palette_MainSpr         ; $DEC9E IN ROM
-    JSL Palette_MiscSpr         ; $DED6E IN ROM
-    JSL Palette_SpriteAux3      ; $DEC77 IN ROM
-    JSL Palette_Hud             ; $DEE52 IN ROM
-    JSL Palette_OverworldBgMain ; $DEEC7 IN ROM
+    JSL Palette_MainSpr         ; $0DEC9E IN ROM
+    JSL Palette_MiscSpr         ; $0DED6E IN ROM
+    JSL Palette_SpriteAux3      ; $0DEC77 IN ROM
+    JSL Palette_Hud             ; $0DEE52 IN ROM
+    JSL Palette_OverworldBgMain ; $0DEEC7 IN ROM
 
     LDX $8A
 
@@ -8543,9 +8539,9 @@ Overworld_Whirlpool:
 
     LDA $00FD1C, X
 
-    JSL Overworld_LoadPalettes      ; $755A8 IN ROM
-    JSL Palette_SetOwBgColor_Long   ; $75618 IN ROM
-    JSL $0BFE70                     ; $5FE70 IN ROM
+    JSL Overworld_LoadPalettes      ; $0755A8 IN ROM
+    JSL Palette_SetOwBgColor_Long   ; $075618 IN ROM
+    JSL $0BFE70                     ; $05FE70 IN ROM
     JSL LoadNewSpriteGFXSet                     ; $6031 IN ROM
 
     .BRANCH_DELTA
@@ -8564,7 +8560,7 @@ Overworld_Whirlpool:
     RTS
 }
 
-; *$134EF-$13520 JUMP LOCATION
+; $0134EF-$013520 JUMP LOCATION
 {
     LDA.b #$90 : STA $031F
 
@@ -8596,7 +8592,7 @@ Overworld_Whirlpool:
 
 ; ==============================================================================
 
-; $13521-$13527 JUMP LOCATION
+; $013521-$013527 JUMP LOCATION
 Module09_2F:
 {
     JSL Overworld_DrawWarpTile
@@ -8608,7 +8604,7 @@ Module09_2F:
 
 ; ==============================================================================
 
-; *$13528-$13531 JUMP LOCATION
+; $013528-$013531 JUMP LOCATION
 Overworld_RecoverFromDrowning:
 {
     LDA $B0
@@ -8619,7 +8615,7 @@ Overworld_RecoverFromDrowning:
     dw $9583 ; = $11583*
 }
 
-; *$13532-$135AB JUMP LOCATION
+; $013532-$0135AB JUMP LOCATION
 Module09_2A_00_ScrollToLand:
 {
     REP #$20
@@ -8694,18 +8690,18 @@ Module09_2A_00_ScrollToLand:
     LDA $00 : STA $30
     LDA $02 : STA $31
 
-    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $013B90 IN ROM
 
     LDA $0416 : BEQ .BRANCH_ZETA
 
-    JSR Overworld_ScrollMap     ; $17273 IN ROM
+    JSR Overworld_ScrollMap     ; $017273 IN ROM
 
     .BRANCH_ZETA
 
     RTS
 }
 
-; $135AC-$135CB DATA
+; $0135AC-$0135CB DATA
 RoomQuadrantLayoutValues:
 {
     db $0F, $0F, $0F, $0F ; layout 0
@@ -8718,7 +8714,7 @@ RoomQuadrantLayoutValues:
     db $0A, $09, $06, $05
 }
 
-; $135CC-$135DB
+; $0135CC-$0135DB
 QuadrantLayoutFlagBitfield:
 {
     db $08, $04, $02, $01, $0C, $0C, $03, $03
@@ -8727,14 +8723,14 @@ QuadrantLayoutFlagBitfield:
 
 ; ==============================================================================
 
-; *$135DC-$1362D LONG
+; $0135DC-$01362D LONG
 Dungeon_AdjustForRoomLayout:
 {
     PHB : PHK : PLB
 
     SEP #$30
 
-    JSR $BA27 ; $13A27 IN ROM; set $A8 to a composite of quadrants we're in
+    JSR $BA27 ; $013A27 IN ROM; set $A8 to a composite of quadrants we're in
 
     STZ $A6
 
@@ -8809,7 +8805,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; *$1362E-$136CC LONG
+; $01362E-$0136CC LONG
 {
     REP #$20
 
@@ -8817,26 +8813,26 @@ Dungeon_AdjustForRoomLayout:
 
     SEP #$20
 
-; *$1363A ALTERNATE ENTRY POINT
+; $01363A ALTERNATE ENTRY POINT
 
     PHB : PHK : PLB
 
     LDA $A9 : EOR.b #$01 : STA $A9
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B968 ; $13968 IN ROM
-    JSR $B947 ; $13947 IN ROM
+    JSR $B968 ; $013968 IN ROM
+    JSR $B947 ; $013947 IN ROM
 
     LDA $A9
 
-    JSR $BDC8 ; $13DC8 IN ROM
+    JSR $BDC8 ; $013DC8 IN ROM
 
     LDY.b #$02
 
-    JSR $B9DC ; $139DC IN ROM
+    JSR $B9DC ; $0139DC IN ROM
 
     INC $11
 
@@ -8844,7 +8840,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX.b #$08
 
-    JSR $B981 ; $13981 IN ROM
+    JSR $B981 ; $013981 IN ROM
 
     LDA $A0 : STA $A2
 
@@ -8870,7 +8866,7 @@ Dungeon_AdjustForRoomLayout:
 
     STA $A2
 
-    JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
+    JSR Dungeon_AdjustAfterSpiralStairs ; $0122F0 IN ROM
 
     .BRANCH_DELTA
 
@@ -8924,7 +8920,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; *$136CD-$1376D LONG
+; $0136CD-$01376D LONG
 {
     REP #$20
 
@@ -8932,26 +8928,26 @@ Dungeon_AdjustForRoomLayout:
 
     SEP #$20
 
-; *$136D9 ALTERNATE ENTRY POINT
+; $0136D9 ALTERNATE ENTRY POINT
 
     PHB : PHK : PLB
 
     LDA $A9 : EOR.b #$01 : STA $A9
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B99A ; $1399A IN ROM
-    JSR $B947 ; $13947 IN ROM
+    JSR $B99A ; $01399A IN ROM
+    JSR $B947 ; $013947 IN ROM
 
     LDA $A9 : EOR.b #$01
 
-    JSR $BDC8 ; $13DC8 IN ROM
+    JSR $BDC8 ; $013DC8 IN ROM
 
     LDY.b #$03
 
-    JSR $B9DC ; $139DC IN ROM
+    JSR $B9DC ; $0139DC IN ROM
 
     INC $11
 
@@ -8959,7 +8955,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX.b #$08
 
-    JSR $B9B3 ; $139B3 IN ROM
+    JSR $B9B3 ; $0139B3 IN ROM
 
     LDA $A0 : STA $A2
 
@@ -8981,7 +8977,7 @@ Dungeon_AdjustForRoomLayout:
 
     STA $A2
 
-    JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
+    JSR Dungeon_AdjustAfterSpiralStairs ; $0122F0 IN ROM
 
     .BRANCH_DELTA
 
@@ -9035,7 +9031,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; *$1376E-$1381B LONG
+; $01376E-$01381B LONG
 {
     REP #$20
 
@@ -9043,27 +9039,27 @@ Dungeon_AdjustForRoomLayout:
 
     SEP #$20
 
-; *$1377A ALTERNATE ENTRY POINT
+; $01377A ALTERNATE ENTRY POINT
 
     PHB : PHK : PLB
 
     ; Alternate between being in the lower half and the upper half of the room.
     LDA $AA : EOR #$02 : STA $AA
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
-    JSR $B968 ; $13968 IN ROM
-    JSR $B947 ; $13947 IN ROM
+    JSR $B968 ; $013968 IN ROM
+    JSR $B947 ; $013947 IN ROM
 
     LDA $AA
 
-    JSR $BDE2 ; $13DE2 IN ROM
+    JSR $BDE2 ; $013DE2 IN ROM
 
     LDY.b #$00
 
-    JSR $B9DC ; $139DC IN ROM
+    JSR $B9DC ; $0139DC IN ROM
 
     INC $11
 
@@ -9071,16 +9067,16 @@ Dungeon_AdjustForRoomLayout:
 
     LDX.b #$00
 
-    JSR $B981 ; $13981 IN ROM
+    JSR $B981 ; $013981 IN ROM
 
     LDA $A0 : STA $A2
 
     LDA $0114 : CMP.b #$8E : BNE .notGoingToOverworld
 
-; *$137AE ALTERNATE ENTRY POINT
+; $0137AE ALTERNATE ENTRY POINT
 
-    JSL Dungeon_SaveRoomData_justKeys ; $121C7 IN ROM
-    JSL $02B8E5                       ; $138E5 IN ROM
+    JSL Dungeon_SaveRoomData_justKeys ; $0121C7 IN ROM
+    JSL $02B8E5                       ; $0138E5 IN ROM
 
     LDA.b #$08 : STA $010C
 
@@ -9090,7 +9086,7 @@ Dungeon_AdjustForRoomLayout:
     STZ $11
     STZ $B0
 
-    JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $010B0C IN ROM
 
     PLB
 
@@ -9102,7 +9098,7 @@ Dungeon_AdjustForRoomLayout:
 
     STA $A2
 
-    JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
+    JSR Dungeon_AdjustAfterSpiralStairs ; $0122F0 IN ROM
 
     .gamma
 
@@ -9155,26 +9151,26 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; *$1381C-$138BC LONG
+; $01381C-$0138BC LONG
 {
     PHB : PHK : PLB
 
     LDA $AA : EOR.b #$02 : STA $AA
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
-    JSR $B99A ; $1399A IN ROM
-    JSR $B947 ; $13947 IN ROM
+    JSR $B99A ; $01399A IN ROM
+    JSR $B947 ; $013947 IN ROM
 
     LDA $AA : EOR.b #$02
 
-    JSR $BDE2 ; $13DE2 IN ROM
+    JSR $BDE2 ; $013DE2 IN ROM
 
     LDY.b #$01
 
-    JSR $B9DC ; $139DC IN ROM
+    JSR $B9DC ; $0139DC IN ROM
 
     INC $11
 
@@ -9182,19 +9178,19 @@ Dungeon_AdjustForRoomLayout:
 
     LDX.b #$00
 
-    JSR $B9B3 ; $139B3 IN ROM
+    JSR $B9B3 ; $0139B3 IN ROM
 
     LDA $A0 : STA $A2
 
     LDA $0114 : CMP.b #$8E : BNE .notGoingToOverworld
 
-    JMP $B7AE ; $137AE IN ROM
+    JMP $B7AE ; $0137AE IN ROM
 
     .notGoingToOverworld
 
     LDA $A0 : ORA $A1 : BNE .notInGanonsRoom
 
-    JSL Dungeon_SaveRoomData_justKeys ; $121C7 IN ROM
+    JSL Dungeon_SaveRoomData_justKeys ; $0121C7 IN ROM
 
     ; Go to the triforce room scene.
     LDA.b #$19 : STA $10
@@ -9212,7 +9208,7 @@ Dungeon_AdjustForRoomLayout:
 
     STA $A2
 
-    JSR Dungeon_AdjustAfterSpiralStairs ; $122F0 IN ROM
+    JSR Dungeon_AdjustAfterSpiralStairs ; $0122F0 IN ROM
 
     .BRANCH_DELTA
 
@@ -9267,17 +9263,17 @@ Dungeon_AdjustForRoomLayout:
     RTL
 }
 
-; *$138BD-$138F8 LONG
+; $0138BD-$0138F8 LONG
 {
     LDA $A9 : EOR #$01 : STA $A9
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B968 ; $13968 IN ROM
+    JSR $B968 ; $013968 IN ROM
 
-; *$138CB ALTERNATE ENTRY POINT
+; $0138CB ALTERNATE ENTRY POINT
 ; Update qudrants visited and store to sram
 
     LDA $A7 : ASL #2 : STA $00
@@ -9289,7 +9285,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDA $02B5CC, X : ORA $0408 : STA $0408
 
-; *$138E5 ALTERNATE ENTRY POINT
+; $0138E5 ALTERNATE ENTRY POINT
 
     REP #$30
 
@@ -9303,45 +9299,45 @@ Dungeon_AdjustForRoomLayout:
     RTL
 }
 
-; *$138F9-$13946 LONG
+; $0138F9-$013946 LONG
 {
     LDA $A9 : EOR #$01 : STA $A9
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B99A ; $1399A IN ROM
+    JSR $B99A ; $01399A IN ROM
 
     BRA .BRANCH_$138CB
 
-; *$13909 ALTERNATE ENTRY POINT
+; $013909 ALTERNATE ENTRY POINT
 
     LDA $AA : EOR.b #$02 : STA $AA
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
     ; moving down...
-    JSR $B968 ; $13968 IN ROM
+    JSR $B968 ; $013968 IN ROM
 
     BRA .BRANCH_$138CB
 
-; *$13919 ALTERNATE ENTRY POINT
+; $013919 ALTERNATE ENTRY POINT
 
     LDA $AA : EOR.b #$02 : STA $AA
 
-    JSR $BA27 ; $13A27 IN ROM
+    JSR $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
     ; moving up...
-    JSR $B99A ; $1399A IN ROM
+    JSR $B99A ; $01399A IN ROM
 
     BRA .BRANCH_$138CB
 
-; *$13929 ALTERNATE ENTRY POINT
+; $013929 ALTERNATE ENTRY POINT
 shared Dungeon_SaveRoomQuadrantData:
 
     ; figures out which Quadrants Link has visited in a room.
@@ -9364,14 +9360,14 @@ shared Dungeon_SaveRoomQuadrantData:
     ; These determine the quadrants Link has seen in this room.
     LDA $02B5CC, X : ORA $0408 : STA $0408
 
-    JSR $B947 ; $13947 IN ROM ; Save the room data and exit.
+    JSR $B947 ; $013947 IN ROM ; Save the room data and exit.
 
     RTL
 }
 
 ; ==============================================================================
 
-; *$13947-$13967 LOCAL
+; $013947-$013967 LOCAL
 {
     ; Saves data for the current room
 
@@ -9391,7 +9387,7 @@ shared Dungeon_SaveRoomQuadrantData:
     RTS
 }
 
-; *$13968-$13980 LOCAL
+; $013968-$013980 LOCAL
 {
     ; moving on down....
 
@@ -9405,7 +9401,7 @@ shared Dungeon_SaveRoomQuadrantData:
     RTS
 }
 
-; *$13981-$13999 LOCAL
+; $013981-$013999 LOCAL
 {
     REP #$20
 
@@ -9417,7 +9413,7 @@ shared Dungeon_SaveRoomQuadrantData:
     RTS
 }
 
-; *$1399A-$139B2 LOCAL
+; $01399A-$0139B2 LOCAL
 {
     ; movin on up....
 
@@ -9431,7 +9427,7 @@ shared Dungeon_SaveRoomQuadrantData:
     RTS
 }
 
-; *$139B3-$139CB LOCAL
+; $0139B3-$0139CB LOCAL
 {
     REP #$20
 
@@ -9443,9 +9439,9 @@ shared Dungeon_SaveRoomQuadrantData:
     RTS
 }
 
-; $139CC-$139DB DATA
+; $0139CC-$0139DB DATA
 
-; *$139DC-$13A26 LOCAL
+; $0139DC-$013A26 LOCAL
 {
     STY $0418
 
@@ -9502,7 +9498,7 @@ shared Dungeon_SaveRoomQuadrantData:
     RTS
 }
 
-; *$13A27-$13A30 LOCAL
+; $013A27-$013A30 LOCAL
 {
     LDA $040E : ORA $AA : ORA $A9 : STA $A8
 
@@ -9511,7 +9507,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
 ; ==============================================================================
 
-; *$13A31-$13B87 LOCAL
+; $013A31-$013B87 LOCAL
 {
     REP #$20
 
@@ -9663,7 +9659,7 @@ shared Dungeon_SaveRoomQuadrantData:
     CPX.b #$03 : BEQ .BRANCH_SIGMA
     CPX.b #$02 : BNE .BRANCH_RHO
 
-; *$13B7B ALTERNATE ENTRY POINT
+; $013B7B ALTERNATE ENTRY POINT
 Dungeon_SyncBG1and2Scroll:
     ..BRANCH_SIGMA
 
@@ -9682,7 +9678,7 @@ Dungeon_SyncBG1and2Scroll:
 
 ; ==============================================================================
 
-; $13B88-$13B8F DATA - bit masks describing which direction(s) to update the OW tilemap in
+; $013B88-$013B8F DATA - bit masks describing which direction(s) to update the OW tilemap in
 OverworldTransitionDirections:
 {
     dw $0008, $0004, $0002, $0001
@@ -9690,7 +9686,7 @@ OverworldTransitionDirections:
 
 ; ==============================================================================
 
-; $13B90-$13D61 LOCAL
+; $013B90-$013D61 LOCAL
 ; ZS rewrites part of this function.
 Overworld_OperateCameraScroll:
 {
@@ -9711,7 +9707,7 @@ Overworld_OperateCameraScroll:
     LDA.w #$0001 : STA $00
 
     LDA $30 : AND.w #$00FF : BNE .BRANCH_BETA
-        JMP $BC60 ; $13C60 IN ROM
+        JMP $BC60 ; $013C60 IN ROM
 
     .BRANCH_BETA
 
@@ -9745,7 +9741,7 @@ Overworld_OperateCameraScroll:
 
                     LDX.b #$06
 
-                    JSR $BD62 ; $13D62 IN ROM
+                    JSR $BD62 ; $013D62 IN ROM
 
         .BRANCH_EPSILON
     DEC $02 : BNE .BRANCH_THETA
@@ -9797,7 +9793,7 @@ Overworld_OperateCameraScroll:
             LDA.w #$06C0 : CMP $E6 : BCS .BRANCH_IOTA
                 STA $E6
 
-    ; $13C60 ALTERNATE ENTRY POINT
+    ; $013C60 ALTERNATE ENTRY POINT
     .BRANCH_IOTA
 
     LDA $22 : CLC : ADC.w #$0008 : STA $0E
@@ -9805,7 +9801,7 @@ Overworld_OperateCameraScroll:
     LDA.w #$0001 : STA $00
 
     LDA $31 : AND.w #$00FF : BNE .BRANCH_XI
-        JMP $BCFB ; $13CFB IN ROM
+        JMP $BCFB ; $013CFB IN ROM
 
     .BRANCH_XI
 
@@ -9836,7 +9832,7 @@ Overworld_OperateCameraScroll:
 
         LDX.b #$00
 
-        JSR $BD62 ; $13D62 IN ROM
+        JSR $BD62 ; $013D62 IN ROM
 
         .BRANCH_RHO
 
@@ -9875,7 +9871,7 @@ Overworld_OperateCameraScroll:
 
                 LDA $E0 : ADC $06 : STA $E0
 
-    ; *$13CFB ALTERNATE ENTRY POINT
+    ; $013CFB ALTERNATE ENTRY POINT
     .BRANCH_UPSILON
 
     LDX $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA ; - ZS Custom Overworld? - This one seems to control some sort of subscreen movement but only for turtle rock. This will need to be investigated further as to why.
@@ -9922,7 +9918,7 @@ Overworld_OperateCameraScroll:
 
 ; ==============================================================================
 
-; $13D62-$13DBF LOCAL
+; $013D62-$013DBF LOCAL
 {
     ; Compare X or Y scroll coordinate to the current position coordinate
     LDA $E2, X : CMP $0600, Y : BNE .BRANCH_ALPHA
@@ -9961,14 +9957,14 @@ Overworld_OperateCameraScroll:
     RTS
 }
 
-; $13DC0-$13DC7 DATA
+; $013DC0-$013DC7 DATA
 {
     dw $0000, $0100, $0100, $0000
 }
 
 ; ==============================================================================
 
-; *$13DC8-$13DD9 LOCAL
+; $013DC8-$013DD9 LOCAL
 {
     ASL #2 : TAY
 
@@ -9983,14 +9979,14 @@ Overworld_OperateCameraScroll:
     RTS
 }
 
-; $13DDA-$13DE1 DATA
+; $013DDA-$013DE1 DATA
 {
     dw $0000, $0110, $0100, $0010
 }
 
 ; ==============================================================================
 
-; *$13DE2-$13DF2 LOCAL
+; $013DE2-$013DF2 LOCAL
 {
     ASL A : TAY
 
@@ -10009,7 +10005,7 @@ Overworld_OperateCameraScroll:
 
 ; ==============================================================================
 
-; $13DF3-$13E02 DATA
+; $013DF3-$013E02 DATA
 {
     dw 4, -4, 4, -4
 
@@ -10020,7 +10016,7 @@ Overworld_OperateCameraScroll:
 
 ; ==============================================================================
 
-; *$13E03-$13E6C JUMP LOCATION
+; $013E03-$013E6C JUMP LOCATION
 {
     PHB : PHK : PLB
 
@@ -10042,7 +10038,7 @@ Overworld_OperateCameraScroll:
     LDX.b #$06
 
     .horizontalScrolling
-    ; $13DF3 IN ROM
+    ; $013DF3 IN ROM
     LDA $E2, X : CLC : ADC $BDF3, Y : AND.w #$FFFE : STA $E2, X : STA $E0, X : STA $00
 
     LDX.b #$00
@@ -10055,7 +10051,7 @@ Overworld_OperateCameraScroll:
 
     LDA $0126 : AND.w #$00FF : CMP $BDFB, Y : BCC .BRANCH_GAMMA
 
-    ; $13DF3 IN ROM
+    ; $013DF3 IN ROM
     LDA $20, X : CLC : ADC $BDF3, Y : STA $20, X
 
     .BRANCH_GAMMA
@@ -10065,7 +10061,7 @@ Overworld_OperateCameraScroll:
 
     SEP #$20
 
-    JSL $02B8CB ; $138CB IN ROM
+    JSL $02B8CB ; $0138CB IN ROM
 
     PLB
 
@@ -10090,11 +10086,11 @@ Overworld_OperateCameraScroll:
     RTS
 }
 
-; $13E6D-$13E74 DATA
+; $013E6D-$013E74 DATA
 
 ; ==============================================================================
 
-; *$13E75-$13EB9 JUMP LOCATION
+; $013E75-$013EB9 JUMP LOCATION
 StraightStairs_10:
 {
     PHB : PHK : PLB
@@ -10105,7 +10101,7 @@ StraightStairs_10:
 
     REP #$20
 
-    ; $13DF3 IN ROM
+    ; $013DF3 IN ROM
     LDA $E8 : CLC : ADC $BDF3, X : AND.w #$FFFC : STA $E8 : STA $E6
 
     AND.w #$01FC : CMP $0610, X : BNE .alpha
@@ -10136,7 +10132,7 @@ StraightStairs_10:
 
 ; ==============================================================================
 
-; $13EBA-$13FF9 DATA
+; $013EBA-$013FF9 DATA
 
 ; $13EBA
 .horizontalBG2ScrollOffset ;unsure of description
@@ -10195,7 +10191,7 @@ StraightStairs_10:
 ;$13FF2
       db $1B, $00, $1B, $00, $1E, $00, $1E, $00
 
-; *$13FFA-$14000 BRANCH LOCATION
+; $013FFA-$014000 BRANCH LOCATION
 {
     SEP #$20
 
@@ -10206,7 +10202,7 @@ StraightStairs_10:
     RTS
 }
 
-; *$14001-$140C2 LOCAL
+; $014001-$0140C2 LOCAL
 ; ZS rewrites part of this function.
 OverworldScrollTransition:
 {
@@ -10222,7 +10218,7 @@ OverworldScrollTransition:
 
     .horizScroll
 
-    LDA $BEBA, Y : STA $069E, X ; $13EBA in ROM
+    LDA $BEBA, Y : STA $069E, X ; $013EBA in ROM
 
     REP #$20
 
@@ -10236,7 +10232,7 @@ OverworldScrollTransition:
 
     .horizScroll2
 
-    LDA $E2, X : CLC : ADC $BEBA, Y : STA $E2, X ; $13EBA in ROM
+    LDA $E2, X : CLC : ADC $BEBA, Y : STA $E2, X ; $013EBA in ROM
 
     ; ZS writes here.
     ; $01402D - ZS Custom Overworld
@@ -10261,9 +10257,9 @@ OverworldScrollTransition:
 
     .verticalScroll
 
-    ; $13FF2 IN ROM
+    ; $013FF2 IN ROM
     LDA $0126 : AND.w #$00FF : CMP $BFF2, Y : BCC .dontMoveLink
-        LDA $20, X : CLC : ADC $BEBA, Y : STA $20, X ; $13EBA in ROM
+        LDA $20, X : CLC : ADC $BEBA, Y : STA $20, X ; $013EBA in ROM
 
     .dontMoveLink
 
@@ -10278,7 +10274,7 @@ OverworldScrollTransition:
     ; Snap Link's coordinate to an 8-pixel grid
     LDA $20, X : AND.w #$FFF8 : STA $20, X
 
-    CLC : ADC $BECA, Y : PHA ; $13ECA IN ROM
+    CLC : ADC $BECA, Y : PHA ; $013ECA IN ROM
 
     ; X = 0x00 or 0x04
     TXA : ASL A : TAX
@@ -10296,9 +10292,9 @@ OverworldScrollTransition:
 
     .largeOwMap
 
-    LDA $0700 : CLC : ADC $A83C, Y : TAY ; $1283C IN ROM
+    LDA $0700 : CLC : ADC $A83C, Y : TAY ; $01283C IN ROM
 
-    JSR $C0C3 ; $140C3 IN ROM
+    JSR $C0C3 ; $0140C3 IN ROM
 
     PLX
 
@@ -10322,7 +10318,7 @@ OverworldScrollTransition:
 
     PHA : PHX
 
-    ; $4AFD6 IN ROM
+    ; $04AFD6 IN ROM
     JSL InitSpriteSlots
 
     PLX : PLA
@@ -10332,7 +10328,7 @@ OverworldScrollTransition:
 
 ; =============================================
 
-; *$140C3-$140F7 LOCAL
+; $0140C3-$0140F7 LOCAL
 {
     ; Inputs:
     ; Y - an overworld area number * 2
@@ -10357,23 +10353,22 @@ OverworldScrollTransition:
 
 ; ==============================================================================
 
-; $140F8-$141FB DATA
+; $0140F8-$0141FB DATA
 {
     db $00, $05, $0A, $0F
 }
 
-; $140FC-$1410F DATA
+; $0140FC-$01410F DATA
 {
-
 }
 
 ; ==============================================================================
 
-; *$14110-$1412B JUMP LOCATION
+; $014110-$01412B JUMP LOCATION
 {
     ; this routine apparently positions link after the transition has occurred?
-    JSR $8B0C   ; $10B0C IN ROM ; erases special effects and resets dash status
-    JSR $C12C   ; $1412C IN ROM
+    JSR $8B0C   ; $010B0C IN ROM ; erases special effects and resets dash status
+    JSR $C12C   ; $01412C IN ROM
 
     INC $B0
 
@@ -10391,14 +10386,14 @@ OverworldScrollTransition:
 
 ; ==============================================================================
 
-; *$1412C-$14161 LOCAL
+; $01412C-$014161 LOCAL
 IntraroomTransitionCalculateLanding:
 {
     LDA $0418 : AND.b #$02
 
     PHA
 
-    JSR $C1E5 ; $141E5 IN ROM
+    JSR $C1E5 ; $0141E5 IN ROM
 
     LDX $0418
 
@@ -10441,18 +10436,18 @@ IntraroomTransitionCalculateLanding:
 
 ; =====================================================
 
-; *$14162-$14190 JUMP LOCATION
+; $014162-$014190 JUMP LOCATION
 {
     LDA $7EC005 : ORA $7EC006 : BEQ .noDarkTransition
 
     JSL PaletteFilter.doFiltering
 
-; *$14170 ALTERNATE ENTRY POINT
+; $014170 ALTERNATE ENTRY POINT
     .noDarkTransition
 
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
-    ; $14191 IN ROM
+    ; $014191 IN ROM
     JSR $C191 : BCC .BRANCH_BETA
 
     LDX $4E
@@ -10480,7 +10475,7 @@ IntraroomTransitionCalculateLanding:
 
 ; =====================================================
 
-; *$14191-$141E4 LOCAL
+; $014191-$0141E4 LOCAL
 {
     LDX $0418
 
@@ -10541,7 +10536,7 @@ IntraroomTransitionCalculateLanding:
     RTS
 }
 
-; *$141E5-$1423D LOCAL
+; $0141E5-$01423D LOCAL
 {
     REP #$20
 
@@ -10596,12 +10591,12 @@ IntraroomTransitionCalculateLanding:
     RTS
 }
 
-; $1423E-$14241 DATA
+; $01423E-$014241 DATA
 
-; *$14242-$142A3 JUMP LOCATION
+; $014242-$0142A3 JUMP LOCATION
 Overworld_FinalizeEntryOntoScreen:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     LDY.b #$02
 
@@ -10653,21 +10648,21 @@ Overworld_FinalizeEntryOntoScreen:
 
     .BRANCH_DELTA
 
-    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $013B90 IN ROM
 
     LDA $0416 : BEQ .BRANCH_EPSILON
 
-    JSR Overworld_ScrollMap ; $17273 IN ROM
+    JSR Overworld_ScrollMap ; $017273 IN ROM
 
     .BRANCH_EPSILON
 
     RTS
 }
 
-; *$142A4-$142E3 JUMP LOCATION
+; $0142A4-$0142E3 JUMP LOCATION
 Module09_1F:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $3E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     LDY.b #$01
 
@@ -10711,26 +10706,26 @@ Module09_1F:
 
     .BRANCH_DELTA
 
-    JSR Overworld_OperateCameraScroll ; $13B90 IN ROM
+    JSR Overworld_OperateCameraScroll ; $013B90 IN ROM
 
     RTS
 }
 
 ; =========================================
 
-; *$142E4-$14302 JUMP LOCATION
+; $0142E4-$014302 JUMP LOCATION
 Overworld_ResetMosaic:
 {
     ; if(($7EC007 & 0x01) == 0)
     LDA $7EC007 : LSR A : BCC .init
 
-; *$142EB ALTERNATE ENTRY POINT
+; $0142EB ALTERNATE ENTRY POINT
 MosaicControlIncrease:
     .alwaysIncrease
 
     LDA $7EC011 : CLC : ADC.b #$10 : STA $7EC011
 
-; *$142F6 ALTERNATE ENTRY POINT
+; $0142F6 ALTERNATE ENTRY POINT
 CopyMosaicControl:
     .init
 
@@ -10745,7 +10740,7 @@ CopyMosaicControl:
 
 ; =========================================
 
-; $14303-$14462 DATA
+; $014303-$014462 DATA
 ; Overworld music map
 Overworld_SetSongList_Pool:
 {
@@ -10807,7 +10802,7 @@ Overworld_SetSongList_Pool:
 }
 ; =========================================
 
-; *$14463-$144BF LONG
+; $014463-$0144BF LONG
 Overworld_SetSongList:
 {
     ; Interesting note on this routine:
@@ -10873,9 +10868,9 @@ Overworld_SetSongList:
 
 ; ==============================================================================
 
-; $144C0-$144FF NULL
+; $0144C0-$0144FF NULL
 
-; *$14500-$14532 LOCAL
+; $014500-$014532 LOCAL
 Intro_InitBgSettings:
 {
     ; Setini variable. No interlacing and such.
@@ -10917,7 +10912,7 @@ Intro_InitBgSettings:
 
 ; ==============================================================================
 
-; *$14533-$14545 LONG
+; $014533-$014545 LONG
 Attract_LoadDungeonRoom:
 {
     ; Loads an entrance
@@ -10936,7 +10931,7 @@ Attract_LoadDungeonRoom:
 
 ; ==============================================================================
 
-; *$14546-$1457A LONG
+; $014546-$01457A LONG
 Attract_LoadDungeonGfxAndTiles:
 {
     STX $0AA3
@@ -10949,9 +10944,9 @@ Attract_LoadDungeonGfxAndTiles:
 
     INC $15
 
-    JSL Palette_BgAndFixedColor ; $755F4 in Rom
+    JSL Palette_BgAndFixedColor ; $0755F4 in Rom
 
-; *$1455E ALTERNATE ENTRY POINT
+; $01455E ALTERNATE ENTRY POINT
     .justPalettes
 
     JSL Palette_SpriteAux3
@@ -10967,7 +10962,7 @@ Attract_LoadDungeonGfxAndTiles:
 
 ; ==============================================================================
 
-; *$1457B-$145B1 LOCAL
+; $01457B-$0145B1 LOCAL
 Dungeon_LoadAndDrawRoom:
 {
     ; Calls routines that 1. Load the room's header.
@@ -11007,7 +11002,7 @@ Dungeon_LoadAndDrawRoom:
 
 ; ==============================================================================
 
-; *$145B2-$1462F LOCAL
+; $0145B2-$01462F LOCAL
 Intro_LoadPalettes:
 {
     REP #$20
@@ -11066,7 +11061,7 @@ Intro_LoadPalettes:
 
 ; ==============================================================================
 
-; *$14630-$1468D LOCAL
+; $014630-$01468D LOCAL
 Dungeon_LoadPalettes:
 {
     ; Loads dungeon palettes
@@ -11085,7 +11080,7 @@ Dungeon_LoadPalettes:
     JSL Palette_Hud
     JSL Palette_DungBgMain
 
-; *$1465F ALTERNATE ENTRY POINT
+; $01465F ALTERNATE ENTRY POINT
     .cacheSettings
 
     ; this alternate entry point can be used for the pre-overworld module
@@ -11106,7 +11101,7 @@ Dungeon_LoadPalettes:
 ; ==============================================================================
 
 ; \unused Perhaps was used at one time, but not in the final build.
-; *$1468E-$14691 LONG
+; $01468E-$014691 LONG
 Overworld_LoadAreaPalettesLong:
 {
     JSR Overworld_LoadAreaPalettes
@@ -11116,7 +11111,7 @@ Overworld_LoadAreaPalettesLong:
 
 ; ==============================================================================
 
-; *$14692-$146EA LOCAL
+; $014692-$0146EA LOCAL
 ; ZS rewrites this whole function. - ZS Custom Overworld
 Overworld_LoadAreaPalettes:
 {
@@ -11138,7 +11133,7 @@ Overworld_LoadAreaPalettes:
         ; Adjust for the dark world / light world difference
         INX
 
-    ; *$146AD ALTERNATE ENTRY POINT
+    ; $0146AD ALTERNATE ENTRY POINT
     .lightWorld
 
     ; $0AB3 = 0 - LW 1 - DW, 2 - LW death mountain, 3 - DW death mountain, 4 - triforce room
@@ -11146,13 +11141,13 @@ Overworld_LoadAreaPalettes:
 
     STZ $0AA9
 
-    JSL Palette_MainSpr         ; $DEC9E IN ROM; load SP1 through SP4
-    JSL Palette_MiscSpr         ; $DED6E IN ROM; load SP0 (2nd half) and SP6 (2nd half)
-    JSL Palette_SpriteAux1      ; $DECC5 IN ROM; load SP5 (1st half)
-    JSL Palette_SpriteAux2      ; $DECE4 IN ROM; load SP6 (1st half)
-    JSL Palette_Sword           ; $DED03 IN ROM; load SP5 (2nd half, 1st 3 colors), which is the sword palette
-    JSL Palette_Shield          ; $DED29 IN ROM; load SP5 (2nd half, next 4 colors), which is the shield
-    JSL Palette_ArmorAndGloves  ; $DEDF9 IN ROM; load SP7 (full) Link's whole palette, including Armor
+    JSL Palette_MainSpr         ; $0DEC9E IN ROM; load SP1 through SP4
+    JSL Palette_MiscSpr         ; $0DED6E IN ROM; load SP0 (2nd half) and SP6 (2nd half)
+    JSL Palette_SpriteAux1      ; $0DECC5 IN ROM; load SP5 (1st half)
+    JSL Palette_SpriteAux2      ; $0DECE4 IN ROM; load SP6 (1st half)
+    JSL Palette_Sword           ; $0DED03 IN ROM; load SP5 (2nd half, 1st 3 colors), which is the sword palette
+    JSL Palette_Shield          ; $0DED29 IN ROM; load SP5 (2nd half, next 4 colors), which is the shield
+    JSL Palette_ArmorAndGloves  ; $0DEDF9 IN ROM; load SP7 (full) Link's whole palette, including Armor
 
     LDX.b #$01
 
@@ -11163,16 +11158,16 @@ Overworld_LoadAreaPalettes:
 
     STX $0AAC
 
-    JSL Palette_SpriteAux3      ; $DEC77 IN ROM; load SP0 (first half) (or SP7 (first half))
-    JSL Palette_Hud             ; $DEE52 IN ROM; load BP0 and BP1 (first halves)
-    JSL Palette_OverworldBgMain ; $DEEC7 IN ROM; load BP2 through BP5 (first halves)
+    JSL Palette_SpriteAux3      ; $0DEC77 IN ROM; load SP0 (first half) (or SP7 (first half))
+    JSL Palette_Hud             ; $0DEE52 IN ROM; load BP0 and BP1 (first halves)
+    JSL Palette_OverworldBgMain ; $0DEEC7 IN ROM; load BP2 through BP5 (first halves)
 
     RTS
 }
 
 ; =============================================
 
-; *$146EB-$14768 LOCAL
+; $0146EB-$014768 LOCAL
 {
     REP #$20
 
@@ -11215,7 +11210,7 @@ Overworld_LoadAreaPalettes:
 
 ; ==============================================================================
 
-; $14769-$147B7 LOCAL
+; $014769-$0147B7 LOCAL
 Overworld_CgramAuxToMain:
 {
     ; copies the auxiliary CGRAM buffer to the main one and causes NMI to reupload the palette.
@@ -11247,7 +11242,7 @@ Overworld_CgramAuxToMain:
 
 ; ==============================================================================
 
-; *$147B8-$147F1 LONG
+; $0147B8-$0147F1 LONG
 {
     ; seems mode7 related... (hdma for mode 7 manipulation, I mean)
 
@@ -11294,7 +11289,7 @@ Overworld_CgramAuxToMain:
 ; ==============================================================================
 
 ; \unused(not totally verified yet)
-; $147F2-$158B2 DATA (entrance data?)
+; $0147F2-$0158B2 DATA (entrance data?)
 {
     ; seems to be unreferenced data, but what is interesting is it appears to be some sort
     ; of .... disabled hdma table (note the presence of $1B00 and $1BF0 in this data)
@@ -11325,7 +11320,7 @@ incsrc "entrance_data.asm"
 
 ; ==============================================================================
 
-; *$158B3-$15B6D LOCAL
+; $0158B3-$015B6D LOCAL
 Dungeon_LoadEntrance:
 {
     ; Routine initializes dungeons
@@ -11516,7 +11511,7 @@ Dungeon_LoadEntrance:
     ; probably b/c they can't utilize exits
     STZ $A4
 
-; *$15ADB ALTERNATE ENTRY POINT
+; $015ADB ALTERNATE ENTRY POINT
     .notExtendedRoom
 
     LDA.b #$80 : STA $45 : STA $44
@@ -11576,7 +11571,7 @@ Dungeon_LoadEntrance:
     RTS
 }
 
-; *$15B6E-$15C54 DATA - mapped
+; $015B6E-$015C54 DATA - mapped
 SpawnPointData:
 {
     .rooms ; writes to $A0, $048E
@@ -11674,7 +11669,7 @@ SpawnPointData:
     db $07, $14, $10, $03, $10, $12, $12
 }
 
-; *$15C55-$15D89 JUMP LOCATION
+; $015C55-$015D89 JUMP LOCATION
 Dungeon_LoadStartingPoint:
 {
     ; An SRAM value that tells us what starting location to use?
@@ -11784,13 +11779,13 @@ Dungeon_LoadStartingPoint:
 
 ; =============================================
 
-; *$15D8B-$15E82 LOCAL
+; $015D8B-$015E82 LOCAL
     ;something to do with overworld overlay data?
     ; in SePH's notes it mentions the first ahganim transport
 
 ; =============================================
 
-; *$164A3-$165D3 LOCAL
+; $0164A3-$0165D3 LOCAL
 Overworld_LoadExitData:
 {
     ; Loads a bunch of exit data (e.g. Link's coordinates)
@@ -11913,7 +11908,7 @@ Overworld_LoadExitData:
 
     PLB
 
-; *$1658B ALTERNATE ENTRY POINT
+; $01658B ALTERNATE ENTRY POINT
 
     ; $EC = -8. Will be used during tilemap calculations to provide granularity for
     ; tile width. Here it's setting it so that tile calculations occur on an 8x8 pixel grid
@@ -11943,7 +11938,7 @@ Overworld_LoadExitData:
     .largeOwMap
 
     ; Sets up numerous boundaries ($06xx vars) but I don't know their exact function
-    JSR $C0C3 ; $140C3 IN ROM
+    JSR $C0C3 ; $0140C3 IN ROM
 
     SEP #$20
 
@@ -11964,7 +11959,7 @@ Overworld_LoadExitData:
 
 ; =============================================
 
-; *$165D4-$166E0 LOCAL
+; $0165D4-$0166E0 LOCAL
 Overworld_SimpleExit:
 {
     ; Unlike some dungeon rooms that have specific exit data attached to them
@@ -12046,7 +12041,7 @@ Overworld_SimpleExit:
 
 ; =============================================
 
-; *$16851-$169BB Local
+; $016851-$0169BB Local
 LoadSpecialOverworld:
 {
     ; caches a bunch of values and...?
@@ -12122,7 +12117,7 @@ LoadSpecialOverworld:
     ; property property a
     LDA $02E831, X
 
-    JSL Overworld_LoadPalettes ; $755A8 IN ROM
+    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
 
     PLX
 
@@ -12159,12 +12154,12 @@ LoadSpecialOverworld:
 
     PLB
 
-    JSL $0ED61D ; $7561D IN ROM
+    JSL $0ED61D ; $07561D IN ROM
 
     RTS
 }
 
-; *$169BC-$16AE4 LOCAL
+; $0169BC-$016AE4 LOCAL
 LoadOverworldFromSpecialOverworld:
 {
     ; returns from a special area to a normal overworld area
@@ -12216,8 +12211,8 @@ LoadOverworldFromSpecialOverworld:
     LDA $00FD1C, X
 
     ; set palettes and background color
-    JSL Overworld_LoadPalettes ; $755A8 IN ROM
-    JSL $0ED61D                ; $7561D IN ROM
+    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
+    JSL $0ED61D                ; $07561D IN ROM
 
     STZ $A9
 
@@ -12240,7 +12235,7 @@ LoadOverworldFromSpecialOverworld:
 
 ; ==============================================================================
 
-; $16AE5 - $16C38 DATA
+; $016AE5 - $16C38 DATA
 pool BirdTravel_LoadTargetAreaData:
 {
     ; OW 03 - Flute 1
@@ -12314,7 +12309,7 @@ pool BirdTravel_LoadTargetAreaData:
 
 ; ==============================================================================
 
-; *$16C39-$16CDC LONG
+; $016C39-$016CDC LONG
 BirdTravel_LoadTargetAreaData:
 {
     PHB : PHK : PLB
@@ -12327,7 +12322,7 @@ BirdTravel_LoadTargetAreaData:
 
     LDX $1AF0
 
-; *$16C47 ALTERNATE ENTRY POINT
+; $016C47 ALTERNATE ENTRY POINT
 shared Whirlpool_LoadTargetAreaData:
 
     LDA $EB29, X : STA $E6 : STA $E8 : STA $0122 : STA $0124
@@ -12357,20 +12352,20 @@ shared Whirlpool_LoadTargetAreaData:
 
     PLB
 
-    JSR $E58B   ; $1658B IN ROM
+    JSR $E58B   ; $01658B IN ROM
     JSL Sprite_ResetAll
     JSL Sprite_OverworldReloadAll
 
     STZ $6C
 
-    JSR $8B0C ; $10B0C IN ROM
+    JSR $8B0C ; $010B0C IN ROM
 
     RTL
 }
 
 ; ==============================================================================
 
-; *$16CDD-$16CF7 LONG
+; $016CDD-$016CF7 LONG
 BirdTravel_LoadTargetAreaPalettes:
 {
     JSR Overworld_LoadAreaPalettes
@@ -12383,14 +12378,14 @@ BirdTravel_LoadTargetAreaPalettes:
 
     JSL Overworld_LoadPalettes
     JSL Palette_SetOwBgColor_Long
-    JSR $C65F   ; $1465F IN ROM
+    JSR $C65F   ; $01465F IN ROM
 
     RTL
 }
 
 ; ==============================================================================
 
-; $16CF8 - $16D07 DATA
+; $016CF8 - $16D07 DATA
 pool Whirlpool_LookUpAndLoadTargetArea:
 {
     dw $000F ; OW 0F - Lake Hylia whirlpool
@@ -12405,7 +12400,7 @@ pool Whirlpool_LookUpAndLoadTargetArea:
 
 ; ==============================================================================
 
-; *$16D08-$16D24 LONG
+; $016D08-$016D24 LONG
 Whirlpool_LookUpAndLoadTargetArea:
 {
     PHB : PHK : PLB
@@ -12431,7 +12426,7 @@ Whirlpool_LookUpAndLoadTargetArea:
 ; ==============================================================================
 
 ; \task This and its companion routines probably need better naming.
-; *$16D25-$16DB8 LOCAL
+; $016D25-$016DB8 LOCAL
 Overworld_LoadAmbientOverlay:
 {
     REP #$20
@@ -12452,7 +12447,7 @@ Overworld_LoadAmbientOverlay:
 
     BRA .load_overlay
 
-; *$16D59 ALTERNATE ENTRY POINT
+; $016D59 ALTERNATE ENTRY POINT
 shared Overworld_LoadAndBuildScreen:
 
     REP #$20
@@ -12515,7 +12510,7 @@ shared Overworld_LoadAndBuildScreen:
 
 ; ==============================================================================
 
-; *$16DB9-$16DC4 LOCAL
+; $016DB9-$016DC4 LOCAL
 PreOverworld_LoadAndAdvance:
 {
     ; Module 0x08.0x02, 0x0A.0x02
@@ -12531,16 +12526,16 @@ PreOverworld_LoadAndAdvance:
     RTS
 }
 
-; $16DC5-$16EC4 DATA (Map16 locations of bombable doors)
+; $016DC5-$016EC4 DATA (Map16 locations of bombable doors)
 
 ; ==============================================================================
 
-; *$16EC5-$16F79 LOCAL
+; $016EC5-$016F79 LOCAL
 Overworld_LoadMapData:
 {
     REP #$30
 
-    ; $1754A IN ROM; Decompresses and loads the Area's map16 data
+    ; $01754A IN ROM; Decompresses and loads the Area's map16 data
     JSR Overworld_LoadMap32
 
     LDX.w #$001E
@@ -12603,7 +12598,7 @@ Overworld_LoadMapData:
     ; Doorway has been handled, zero it out.
     DEX #2 : STZ $0696
 
-; *$16F29 ALTERNATE ENTRY POINT
+; $016F29 ALTERNATE ENTRY POINT
 ; this alternate entry point is for scrolling OW area loads
 ; b/c drawing a door only applies to when you transition from a dungeon to the OW
 ; the exceptioon is OW areas 0x80 and above which are handled similar to entrances
@@ -12634,7 +12629,7 @@ Overworld_LoadMapData:
     ; If some flag has already been triggered, do something appropriate, such as changing tiles to reflect this.
     LDA $7EF280, X : AND.b #$20 : BEQ .dontDrawOverlay
 
-    ; $77652 IN ROM; The routine that makes the overlay show up
+    ; $077652 IN ROM; The routine that makes the overlay show up
     JSL Overworld_LoadEventOverlay
 
     .dontDrawOverlay
@@ -12666,7 +12661,7 @@ Overworld_LoadMapData:
 
 ; ==============================================================================
 
-; *$16F7A-$16FB2 LOCAL
+; $016F7A-$016FB2 LOCAL
 Overworld_TransVertical:
 {
     SEP #$30
@@ -12698,7 +12693,7 @@ Overworld_TransVertical:
 
 ; =============================================
 
-; $16FB3-$16FE7 LOCAL
+; $016FB3-$016FE7 LOCAL
 Overworld_TransHorizontal:
 {
     SEP #$30
@@ -12730,7 +12725,7 @@ Overworld_TransHorizontal:
 
 ; ==============================================================================
 
-; $16FE8-$1700C LOCAL
+; $016FE8-$01700C LOCAL
 Overworld_LoadTransMapData:
 {
     REP #$30
@@ -12763,7 +12758,7 @@ Overworld_LoadTransMapData:
 
 ; ==============================================================================
 
-; $1700D-$1701E Jump Table
+; $01700D-$01701E Jump Table
 Overworld_LargeTransTable:
 {
     dw Overworld_TransError
@@ -12777,7 +12772,7 @@ Overworld_LargeTransTable:
     dw Overworld_LargeTransUp
 }
 
-; $1701F-$17030 Jump Table
+; $01701F-$017030 Jump Table
 Overworld_SmallTransTable:
 {
     dw Overworld_TransError
@@ -12793,7 +12788,7 @@ Overworld_SmallTransTable:
 
 ; =============================================
 
-; *$17031-$1704A LOCAL
+; $017031-$01704A LOCAL
 Overworld_StartTransMapUpdate:
 {
     SEP #$30
@@ -12805,16 +12800,16 @@ Overworld_StartTransMapUpdate:
 
     LDA $0416 : ASL A : TAX
 
-    JMP (Overworld_LargeTransTable, X) ; $1700D IN ROM
+    JMP (Overworld_LargeTransTable, X) ; $01700D IN ROM
 
     .smallArea
 
     LDA $0416 : ASL A : TAX
 
-    JMP (Overworld_SmallTransTable, X) ; $1701F IN ROM
+    JMP (Overworld_SmallTransTable, X) ; $01701F IN ROM
 }
 
-; *$1706B-$17086 JUMP LOCATION
+; $01706B-$017086 JUMP LOCATION
 Overworld_LargeTransUp:
 {
     REP #$30
@@ -12827,7 +12822,7 @@ Overworld_LargeTransUp:
 
     LDA.w #$0007 : STA $08
 
-    JSR Overworld_TransVertical ; $16F7A IN ROM
+    JSR Overworld_TransVertical ; $016F7A IN ROM
 
     SEP #$30
 
@@ -12836,7 +12831,7 @@ Overworld_LargeTransUp:
 
 ; =============================================
 
-; *$17087-$170BF JUMP LOCATION
+; $017087-$0170BF JUMP LOCATION
 Overworld_LargeTransDown:
 {
     REP #$30
@@ -12861,7 +12856,7 @@ Overworld_LargeTransDown:
 
     LDA.w #$0008 : STA $08
 
-    JSR Overworld_TransVertical ; $16F7A IN ROM
+    JSR Overworld_TransVertical ; $016F7A IN ROM
 
     LDA $88 : CLC : ADC.w #$0009 : AND.w #$001F : STA $88
 
@@ -12874,7 +12869,7 @@ Overworld_LargeTransDown:
 
 ; =============================================
 
-; *$170C0-$170DB JUMP LOCATION
+; $0170C0-$0170DB JUMP LOCATION
 Overworld_LargeTransLeft:
 {
     REP #$30
@@ -12896,7 +12891,7 @@ Overworld_LargeTransLeft:
 
 ; =============================================
 
-; *$170DC-$1710E JUMP LOCATION
+; $0170DC-$01710E JUMP LOCATION
 Overworld_LargeTransRight:
 {
     REP #$30
@@ -12922,7 +12917,7 @@ Overworld_LargeTransRight:
 
 ; =============================================
 
-; *$1710F-$17140 JUMP LOCATION
+; $01710F-$017140 JUMP LOCATION
 Overworld_SmallTransUp:
 {
     REP #$30
@@ -12953,7 +12948,7 @@ Overworld_SmallTransUp:
 
 ; =============================================
 
-; *$17141-$17184 JUMP LOCATION
+; $017141-$017184 JUMP LOCATION
 Overworld_SmallTransDown:
 {
     REP #$30
@@ -12987,7 +12982,7 @@ Overworld_SmallTransDown:
 
 ; =============================================
 
-; *$17185-$171B6 JUMP LOCATION
+; $017185-$0171B6 JUMP LOCATION
 Overworld_SmallTransLeft:
 {
     REP #$30
@@ -13017,7 +13012,7 @@ Overworld_SmallTransLeft:
 
 ; =============================================
 
-; *$171B7-$171FB JUMP LOCATION
+; $0171B7-$0171FB JUMP LOCATION
 Overworld_SmallTranRight:
 {
     REP #$30
@@ -13051,7 +13046,7 @@ Overworld_SmallTranRight:
 
 ; =============================================
 
-; $171FC-$1720D Jump Table
+; $0171FC-$01720D Jump Table
 {
     dw Overworld_TransError
     dw BuildFullStripeDuringTransition_East                ; = $1724A*
@@ -13064,26 +13059,26 @@ Overworld_SmallTranRight:
     dw BuildFullStripeDuringTransition_North                ; = $17218*
 }
 
-; *$1720E-$17217 LOCAL
+; $01720E-$017217 LOCAL
 OverworldTransitionScrollAndLoadMap:
 {
     SEP #$30
 
     LDA $0416 : ASL A : TAX
 
-    JMP ($F1FC, X) ; $171FC IN ROM
+    JMP ($F1FC, X) ; $0171FC IN ROM
 }
 
-; *$17218-$17237 JUMP LOCATION
+; $017218-$017237 JUMP LOCATION
 BuildFullStripeDuringTransition_North:
 {
     REP #$30
 
     STZ $0E
 
-    JSR $F2F1 ; $172F1 IN ROM
+    JSR $F2F1 ; $0172F1 IN ROM
 
-; *$1721F ALTERNATE ENTRY POINT
+; $01721F ALTERNATE ENTRY POINT
 
     LDY $0E
 
@@ -13102,43 +13097,43 @@ BuildFullStripeDuringTransition_North:
     RTS
 }
 
-; *$17238-$17240 JUMP LOCATION
+; $017238-$017240 JUMP LOCATION
 BuildFullStripeDuringTransition_South:
 {
     REP #$30
 
     STZ $0E
 
-    JSR $F325 ; $17325 IN ROM
+    JSR $F325 ; $017325 IN ROM
 
     BRA .BRANCH_$1721F
 }
 
-; *$17241-$17249 JUMP LOCATION
+; $017241-$017249 JUMP LOCATION
 BuildFullStripeDuringTransition_West:
 {
     REP #$30
 
     STZ $0E
 
-    JSR $F363 ; $17363 IN ROM
+    JSR $F363 ; $017363 IN ROM
 
     BRA .BRANCH_$1721F
 }
 
-; *$1724A-$17252 JUMP LOCATION
+; $01724A-$017252 JUMP LOCATION
 BuildFullStripeDuringTransition_East:
 {
     REP #$30
 
     STZ $0E
 
-    JSR $F39D   ; $1739D IN ROM
+    JSR $F39D   ; $01739D IN ROM
 
     BRA .BRANCH_$1721F
 }
 
-; $17253-$17272 LOCAL JUMP TABLE
+; $017253-$017272 LOCAL JUMP TABLE
 Overworld_ScrollTable:
 {
     dw Overworld_TransError  ; 0x00 no direction = no update
@@ -13159,7 +13154,7 @@ Overworld_ScrollTable:
     dw Overworld_TransError  ; 0x0F impossible (down + up + left + right)
 }
 
-; *$17273-$172A1 LOCAL
+; $017273-$0172A1 LOCAL
 Overworld_ScrollMap:
 {
     REP #$30
@@ -13194,7 +13189,7 @@ Overworld_ScrollMap:
 
 ; ==============================================================================
 
-; *$172A2-$172A4 LOCAL
+; $0172A2-$0172A4 LOCAL
 Overworld_TransError:
 {
     ; Resets the submodule index to normal.
@@ -13206,10 +13201,10 @@ Overworld_TransError:
 
 ; ==============================================================================
 
-; *$172A5-$172AB LOCAL
+; $0172A5-$0172AB LOCAL
 Overworld_ScrollRight:
 {
-    JSR $F37F    ; $1737F IN ROM
+    JSR $F37F    ; $01737F IN ROM
 
     STZ $0416
 
@@ -13218,10 +13213,10 @@ Overworld_ScrollRight:
 
 ; ==============================================================================
 
-; *$172AC-$172B2 LOCAL
+; $0172AC-$0172B2 LOCAL
 Overworld_ScrollLeft:
 {
-    JSR $F345 ; $17345 IN ROM
+    JSR $F345 ; $017345 IN ROM
 
     STZ $0416
 
@@ -13230,10 +13225,10 @@ Overworld_ScrollLeft:
 
 ; ==============================================================================
 
-; *$172B3-$172B9 LOCAL
+; $0172B3-$0172B9 LOCAL
 Overworld_ScrollUp:
 {
-    JSR $F311 ; $17311 IN ROM
+    JSR $F311 ; $017311 IN ROM
 
     STZ $0416
 
@@ -13242,9 +13237,9 @@ Overworld_ScrollUp:
 
 ; ==============================================================================
 
-; *$172BA-$172C7 LOCAL
+; $0172BA-$0172C7 LOCAL
 {
-    JSR $F311 ; $17311 IN ROM
+    JSR $F311 ; $017311 IN ROM
 
     SEP #$30
 
@@ -13253,19 +13248,19 @@ Overworld_ScrollUp:
     RTS
 }
 
-; *$172C8-$172CE LOCAL
+; $0172C8-$0172CE LOCAL
 Overworld_ScrollDown:
 {
-    JSR $F2DD ; $172DD IN ROM
+    JSR $F2DD ; $0172DD IN ROM
 
     STZ $0416
 
     RTS
 }
 
-; *$172CF-$172DC LOCAL
+; $0172CF-$0172DC LOCAL
 {
-    JSR $F2DD ; $172DD IN ROM
+    JSR $F2DD ; $0172DD IN ROM
 
     SEP #$30
 
@@ -13274,7 +13269,7 @@ Overworld_ScrollDown:
     RTS
 }
 
-; *$172DD-$17310 LOCAL
+; $0172DD-$017310 LOCAL
 {
     REP #$30
 
@@ -13282,7 +13277,7 @@ Overworld_ScrollDown:
 
     LDX $8A : LDA .overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_BETA
 
-; *$172F1 ALTERNATE ENTRY POINT
+; $0172F1 ALTERNATE ENTRY POINT
 
     LDY $0E
 
@@ -13303,7 +13298,7 @@ Overworld_ScrollDown:
     RTS
 }
 
-; *$17311-$17344 LOCAL
+; $017311-$017344 LOCAL
 {
     REP #$30
 
@@ -13312,7 +13307,7 @@ Overworld_ScrollDown:
     ; $1788D, X THAT IS
     LDX $8A : LDA .overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_BETA
 
-; *$17325 ALTERNATE ENTRY POINT
+; $017325 ALTERNATE ENTRY POINT
 
     LDY $0E
 
@@ -13335,7 +13330,7 @@ Overworld_ScrollDown:
     RTS
 }
 
-; *$17345-$1737E LOCAL
+; $017345-$01737E LOCAL
 {
     REP #$30
 
@@ -13355,7 +13350,7 @@ Overworld_ScrollDown:
 
     LDX $8A : LDA .overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_DELTA
 
-; *$17363 ALTERNATE ENTRY POINT
+; $017363 ALTERNATE ENTRY POINT
 
     LDY $0E
 
@@ -13378,7 +13373,7 @@ Overworld_ScrollDown:
 
 ; ==============================================================================
 
-; *$1737F-$173B8 LOCAL
+; $01737F-$0173B8 LOCAL
 {
     REP #$30
 
@@ -13399,7 +13394,7 @@ Overworld_ScrollDown:
     ; $1788D, X THAT IS
     LDX $8A : LDA .overworldScreenSize, X : AND.w #$00FF : BNE .BRANCH_DELTA
 
-; *$1739D ALTERNATE ENTRY POINT
+; $01739D ALTERNATE ENTRY POINT
 
     LDY $0E
 
@@ -13422,12 +13417,12 @@ Overworld_ScrollDown:
 
 ; ==============================================================================
 
-; *$173B9-$17481 LOCAL
+; $0173B9-$017481 LOCAL
 Overworld_DrawHorizontalStrip:
 {
     LDA $0416 : AND.w #$0002 : TAX
 
-    LDA $84 : SEC : SBC $02F883, X : TAY ; $17883 IN ROM
+    LDA $84 : SEC : SBC $02F883, X : TAY ; $017883 IN ROM
 
     LDA $88 : ASL A : TAX
 
@@ -13471,15 +13466,15 @@ Overworld_DrawHorizontalStrip:
 
     LDA $02 : ASL A : CLC : ADC $00 : STA $00 : CLC : ADC.w #$0800 : STA $0C
 
-    LDA $02F889 ; $17889 IN ROM
+    LDA $02F889 ; $017889 IN ROM
 
-    JSR $F435 ; $17435 IN ROM
+    JSR $F435 ; $017435 IN ROM
 
     LDA $0C : STA $00
 
-    LDA $02F88B ; $1788B IN ROM
+    LDA $02F88B ; $01788B IN ROM
 
-; *$17435 ALTERNATE ENTRY POINT
+; $017435 ALTERNATE ENTRY POINT
 
     STA $02
 
@@ -13515,7 +13510,7 @@ Overworld_DrawHorizontalStrip:
 
 ; ==============================================================================
 
-; $17482-$17549 LOCAL
+; $017482-$017549 LOCAL
 Overworld_DrawVerticalStrip:
 {
     LDA $0416 : AND.w #$0004 : LSR A : TAX
@@ -13564,17 +13559,17 @@ Overworld_DrawVerticalStrip:
 
     LDA $00 : STA $1100, Y : INY #2
 
-    LDA $02F889 ; $17889 IN ROM
+    LDA $02F889 ; $017889 IN ROM
 
-    JSR $F50A   ; $1750A IN ROM
+    JSR $F50A   ; $01750A IN ROM
 
     LDY $0E
 
     LDA $0C : STA $1100, Y : INY #2
 
-    LDA $02F88B ; $1788B IN ROM
+    LDA $02F88B ; $01788B IN ROM
 
-; *$1750A ALTERNATE ENTRY POINT
+; $01750A ALTERNATE ENTRY POINT
 
     STA $02
 
@@ -13611,7 +13606,7 @@ Overworld_DrawVerticalStrip:
 
 ; ==============================================================================
 
-; $1754A-$17637 LOCAL
+; $01754A-$017637 LOCAL
 Overworld_LoadMap32:
 {
     ; This routine loads the tile data for the OW section
@@ -13751,10 +13746,9 @@ Overworld_LoadMap32:
 
 ; ==============================================================================
 
-; *$17638-$17690 LOCAL
+; $017638-$017690 LOCAL
 InterlaceMap32:
 {
-
     .highBytes
 
     ; Copies decompressed map32 data into the odd bytes in $7F4000[0x200]
@@ -13793,7 +13787,7 @@ InterlaceMap32:
 
     RTS
 
-; *$17679 ALTERNATE ENTRY POINT
+; $017679 ALTERNATE ENTRY POINT
     .lowBytes
 
     ; Copies decompressed map32 data into the even bytes in $7F4000[0x200]
@@ -13818,7 +13812,7 @@ InterlaceMap32:
 
 ; ==============================================================================
 
-; *$17691-$177CA LOCAL
+; $017691-$0177CA LOCAL
 Map32ToMap16:
 {
     ; converts a map32 tile to its 4 map16 tiles
@@ -13893,7 +13887,7 @@ Map32ToMap16:
 
     REP #$30
 
-; *$177AD ALTERNATE ENTRY POINT
+; $0177AD ALTERNATE ENTRY POINT
     .same
 
     PLA : AND.w #$0007 : TAX
@@ -13908,7 +13902,7 @@ Map32ToMap16:
 
 ; ==============================================================================
 
-; $177CB-$1787E LOCAL
+; $0177CB-$01787E LOCAL
 LoadSubOverlayMap32:
 {
     ; X = (3 * $8A)
@@ -14019,15 +14013,15 @@ LoadSubOverlayMap32:
 
 ; ==============================================================================
 
-; $1787F-$1794C DATA
+; $01787F-$01794C DATA
 {
     ; \unused Best intelligence available says this is not used.
     db $02, $00, $04, $00,
 
-    ; $17883-$17887
+    ; $017883-$017887
     dw $03D0
 
-    ; $17885-$17889
+    ; $017885-$017889
     .verticalScrollTileOffset
     dw $0410, $F410
 
@@ -14073,7 +14067,7 @@ LoadSubOverlayMap32:
 
 ; ==============================================================================
 
-; $1794D-$17D0C DATA
+; $01794D-$017D0C DATA
 pool Overworld_LoadMap32:
 parallel pool LoadSubOverlayMap32:
 {
@@ -14183,7 +14177,7 @@ parallel pool LoadSubOverlayMap32:
 
 ; ==============================================================================
 
-; $17D0D-$17D25 LOCAL
+; $017D0D-$017D25 LOCAL
 LoadSubscreenOverlay:
 {
     REP #$30
@@ -14208,7 +14202,7 @@ LoadSubscreenOverlay:
 
 ; ==============================================================================
 
-; *$17D26-$17D86 LOCAL
+; $017D26-$017D86 LOCAL
 Map16ToMap8:
 {
     !srcAddr    = $04
@@ -14230,7 +14224,7 @@ Map16ToMap8:
 
     BRA .ready
 
-    ; $17D37 ALTERNATE ENTRY POINT
+    ; $017D37 ALTERNATE ENTRY POINT
     .normalArea
 
     ; data bank = 0x0F
@@ -14278,7 +14272,7 @@ Map16ToMap8:
 
 ; ==============================================================================
 
-; *$17D87 - $17E46 LOCAL
+; $017D87 - $17E46 LOCAL
 Map16ChunkToMap8:
 {
     ; Converts Map16 data to Map8 data (normal tile data) 0x40 bytes at a time.
@@ -14327,7 +14321,7 @@ Map16ChunkToMap8:
     LDA $02 : ASL #6 : CLC : ADC $00 : STA $00
 
     ; why they needed to use a long address for this, I don't know. LDA.w #$0000 would have sufficed.
-    LDA $02F889 ; $17889 IN ROM
+    LDA $02F889 ; $017889 IN ROM
 
     JSR .prepForUpload
 
@@ -14335,7 +14329,7 @@ Map16ChunkToMap8:
     LDA $00 : CLC : ADC.w #$0400 : STA $00
 
     ; why they needed to use a long address for this, I don't know. LDA.w #$0020 would have sufficed.
-    LDA $02F88B ; $1788B IN ROM
+    LDA $02F88B ; $01788B IN ROM
 
     .prepForUpload
 
@@ -14380,7 +14374,7 @@ Map16ChunkToMap8:
 
 ; ==============================================================================
 
-; *$17E47-$17E70 LOCAL
+; $017E47-$017E70 LOCAL
 Overworld_RestoreFailedWarpMap16:
 {
     ; When Link warps between worlds and the warp fails, he has to warp
@@ -14417,7 +14411,7 @@ Overworld_RestoreFailedWarpMap16:
 
 ; ==============================================================================
 
-; *$17E71 - $17EBA JUMP LOCATION
+; $017E71 - $17EBA JUMP LOCATION
 Intro_LoadSpriteStats:
 {
     ; Decompresses and then stores battle information relevant to enemy
@@ -14467,7 +14461,7 @@ Intro_LoadSpriteStats:
 
 ; ==============================================================================
 
-; *$17EBB-$17F5E LOCAL
+; $017EBB-$017F5E LOCAL
 Overworld_Decomp:
 {
     ; A slight variant on the normal Decomp routine (the only difference is an extra XBA somewhere in the routine)
@@ -14476,7 +14470,7 @@ Overworld_Decomp:
 
     LDY.w #$0000
 
-; *$17EC0 JUMP LOCATION
+; $017EC0 JUMP LOCATION
     ..BRANCH_GETNEXTCODE
 
     JSR OverworldDecomp_GetNextSourceOctet
@@ -14607,7 +14601,7 @@ Overworld_Decomp:
 
     ..BRANCH_OUTOFBYTES
 
-    JMP $FEC0 ; $17EC0 IN ROM.
+    JMP $FEC0 ; $017EC0 IN ROM.
 
     .BRANCH_COPY
 
@@ -14648,7 +14642,7 @@ Overworld_Decomp:
 
 ; ==============================================================================
 
-; *$17F5F-$17F6D LOCAL
+; $017F5F-$017F6D LOCAL
 OverworldDecomp_GetNextSourceOctet:
 {
     LDA [$C8]
@@ -14671,7 +14665,7 @@ OverworldDecomp_GetNextSourceOctet:
 
 ; ==============================================================================
 
-; $17F6E-$17FFF NULL (Use for expansion)
+; $017F6E-$017FFF NULL (Use for expansion)
 
 ; ==============================================================================
 

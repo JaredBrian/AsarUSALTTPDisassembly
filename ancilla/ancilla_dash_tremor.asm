@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$43BBC-$43BF3 JUMP LOCATION
+; $043BBC-$043BF3 JUMP LOCATION
 Ancilla_DashTremor:
 {
     LDA $11 : BNE .just_alert_sprites

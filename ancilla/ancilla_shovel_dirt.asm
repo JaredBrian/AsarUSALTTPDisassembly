@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $42997-$429A8 DATA
+; $042997-$0429A8 DATA
 pool Ancilla_ShovelDirt:
 {
-    
     .xy_offsets
     dw 18, -13
     dw -9, 4
@@ -17,7 +16,7 @@ pool Ancilla_ShovelDirt:
 
 ; ==============================================================================
 
-; *$429A9-$42A31 JUMP LOCATION
+; $0429A9-$042A31 JUMP LOCATION
 Ancilla_ShovelDirt:
 {
     JSR Ancilla_PrepOamCoord

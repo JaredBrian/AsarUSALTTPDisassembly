@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $EBE3C-$EBE43 DATA
+; $0EBE3C-$0EBE43 DATA
 pool SpritePrep_ChainChomp:
 {
-    
     .extended_subsprite_offsets
     db $00, $10, $20, $30, $40, $50, $60, $70
 }
@@ -12,7 +11,7 @@ pool SpritePrep_ChainChomp:
 
 ; ==============================================================================
 
-; *$EBE44-$EBE7C LONG
+; $0EBE44-$0EBE7C LONG
 SpritePrep_ChainChomp:
 {
     PHX
@@ -47,13 +46,13 @@ SpritePrep_ChainChomp:
 
 ; ==============================================================================
 
-; *$EBE7D-$EBF09 JUMP LOCATION
+; $0EBE7D-$0EBF09 JUMP LOCATION
 Sprite_ChainChomp:
 {
-    JSR $C192 ; $EC192 IN ROM
+    JSR $C192 ; $0EC192 IN ROM
     JSR Sprite4_CheckIfActive
     JSR Sprite4_CheckDamage
-    JSR $C0F2 ; $EC0F2 IN ROM
+    JSR $C0F2 ; $0EC0F2 IN ROM
     
     TXA : EOR $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
@@ -115,7 +114,7 @@ Sprite_ChainChomp:
 
 ; ==============================================================================
 
-; *$EBF2C-$EBF94 JUMP LOCATION
+; $0EBF2C-$0EBF94 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -164,7 +163,7 @@ Sprite_ChainChomp:
     RTS
 }
 
-; *$EBF95-$EBFE4 JUMP LOCATION
+; $0EBF95-$0EBFE4 JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -176,7 +175,7 @@ Sprite_ChainChomp:
     
     AND.b #$0F : BNE .BRANCH_BETA
     
-    JSR $C02A   ; $EC02A IN ROM
+    JSR $C02A   ; $0EC02A IN ROM
     
     .BRANCH_BETA
     
@@ -210,7 +209,7 @@ Sprite_ChainChomp:
     RTS
 }
 
-; *$EBFE5-$EC01F JUMP LOCATION
+; $0EBFE5-$0EC01F JUMP LOCATION
 {
     LDA $0EC0, X : BNE .BRANCH_ALPHA
     
@@ -229,7 +228,7 @@ Sprite_ChainChomp:
     
     BRA .BRANCH_BETA
     
-    ; *$EC00C ALTERNATE ENTRY POINT
+    ; $0EC00C ALTERNATE ENTRY POINT
     
     LDA $0E00, X : BNE .BRANCH_BETA
     
@@ -239,24 +238,23 @@ Sprite_ChainChomp:
     
     .BRANCH_BETA
     
-    JSR $C02A   ; $EC02A IN ROM
-    JSR $C02A   ; $EC02A IN ROM
+    JSR $C02A   ; $0EC02A IN ROM
+    JSR $C02A   ; $0EC02A IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; $EC020-$EC029 DATA
+; $0EC020-$0EC029 DATA
 {
-    
     
     dw 205, 154, 102,  51,   8
 }
 
 ; ==============================================================================
 
-; *$EC02A-$EC0F1 LOCAL
+; $0EC02A-$0EC0F1 LOCAL
 {
     LDA $0D90, X : STA $00
     LDA $0DA0, X : STA $01
@@ -275,7 +273,7 @@ Sprite_ChainChomp:
     
     INX #2
 
-    ; *$EC05B ALTERNATE ENTRY POINT
+    ; $0EC05B ALTERNATE ENTRY POINT
 
     LDA $04
     
@@ -378,7 +376,7 @@ Sprite_ChainChomp:
     
     DEC $0D : BMI .BRANCH_KAPPA
     
-    JMP $C05B ; $EC05B IN ROM
+    JMP $C05B ; $0EC05B IN ROM
 
     .BRANCH_KAPPA
 
@@ -387,7 +385,7 @@ Sprite_ChainChomp:
     RTS
 }
 
-; *$EC0F2-$EC171 LOCAL
+; $0EC0F2-$0EC171 LOCAL
 {
     PHX
     
@@ -445,9 +443,8 @@ Sprite_ChainChomp:
 
 ; ==============================================================================
 
-; $EC172-$EC191 DATA
+; $0EC172-$0EC191 DATA
 {
-    
     .animation_states
     db 0, 1, 2, 3, 3, 3, 2, 1
     db 0, 0, 0, 4, 4, 4, 0, 0
@@ -459,7 +456,7 @@ Sprite_ChainChomp:
 
 ; ==============================================================================
 
-; *$EC192-$EC210 LOCAL
+; $0EC192-$0EC210 LOCAL
 {
     LDY $0DE0, X
     

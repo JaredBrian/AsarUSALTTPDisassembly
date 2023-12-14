@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B419-$4B428 DATA
+; $04B419-$04B428 DATA
 pool Garnish_LightningTrail:
 {
-    
     .chr
     db $CC, $EC, $CE, $EE, $CC, $EC, $CE, $EE
     
@@ -14,7 +13,7 @@ pool Garnish_LightningTrail:
 
 ; ==============================================================================
 
-; $4B429-$4B495 JUMP LOCATION
+; $04B429-$04B495 JUMP LOCATION
 Garnish_LightningTrail:
 {
     ; special animation 0x09
@@ -46,7 +45,7 @@ Garnish_LightningTrail:
     
     JSR Garnish_SetOamPropsAndLargeSize
     
-    ; $4B459 ALTERNATE ENTRY POINT
+    ; $04B459 ALTERNATE ENTRY POINT
     shared Garnish_CheckPlayerCollision:
     
     TXA : EOR $1A : AND.b #$07

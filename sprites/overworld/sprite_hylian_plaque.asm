@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $F603C-$F6043 DATA
+; $0F603C-$0F6043 DATA
     pool HylianPlaque
 {
-    
     .sword_messages_low
     db $B6, $B7
     
@@ -20,7 +19,7 @@
 
 ; ==============================================================================
 
-; *$F6044-$F609E JUMP LOCATION
+; $0F6044-$0F609E JUMP LOCATION
 Sprite_HylianPlaque:
 {
     JSL Sprite_PrepOamCoordLong
@@ -86,7 +85,7 @@ Sprite_HylianPlaque:
     
 ; ==============================================================================
 
-; *$F609F-$F60DC JUMP LOCATION
+; $0F609F-$0F60DC JUMP LOCATION
 HylianPlaque_Desert:
 {
     LDA $2F : BNE .not_facing_up
@@ -117,7 +116,7 @@ HylianPlaque_Desert:
     
     ; Call the routine that causes us to enter the desert palace opening
     ; submode of the player...
-    JSL $07866D ; $3866D IN ROM
+    JSL $07866D ; $03866D IN ROM
     
     .no_pose_needed
     

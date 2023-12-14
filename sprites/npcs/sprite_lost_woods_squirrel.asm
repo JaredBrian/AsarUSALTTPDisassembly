@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$29468-$294AE JUMP LOCATION
+; $029468-$0294AE JUMP LOCATION
 Sprite_LostWoodsSquirrel:
 {
     LDA $0E00, X : BNE .delay

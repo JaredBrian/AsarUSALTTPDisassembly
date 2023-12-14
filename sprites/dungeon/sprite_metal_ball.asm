@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2B648-$2B687 JUMP LOCATION
+; $02B648-$02B687 JUMP LOCATION
 Sprite_MetalBall:
 {
     ; Metal Balls in Eastern Palace (needs official name)
@@ -50,10 +50,9 @@ Sprite_MetalBall:
 
 ; ==============================================================================
 
-; $2B688-$2B6A3 DATA
+; $02B688-$02B6A3 DATA
 pool MetalBall_DrawLargerVariety:
 {
-    
     .x_offsets
     dw -8,  8, -8,  8
     
@@ -70,7 +69,7 @@ pool MetalBall_DrawLargerVariety:
 
 ; ==============================================================================
 
-; *$2B6A4-$2B702 LOCAL
+; $02B6A4-$02B702 LOCAL
 MetalBall_DrawLargerVariety:
 {
     JSR Sprite2_PrepOamCoord

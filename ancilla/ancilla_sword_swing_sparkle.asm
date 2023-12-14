@@ -4,10 +4,9 @@
     ; \note Each of these groupings corresponds to a different direction.
     ; Interestingly enough, I think the chr and properties are identical
     ; for all 3 directions. No surprise there, I guess.
-; $45596-$45659 DATA
+; $045596-$045659 DATA
 pool Ancilla_SwordSwingSparkle:
 {
-    
     .chr
     db $B7, $B7, $FF
     db $80, $80, $B7
@@ -98,7 +97,7 @@ pool Ancilla_SwordSwingSparkle:
 
 ; ==============================================================================
 
-; *$4565A-$45703 JUMP LOCATION
+; $04565A-$045703 JUMP LOCATION
 Ancilla_SwordSwingSparkle:
 {
     DEC $03B1, X : BPL .termination_delay

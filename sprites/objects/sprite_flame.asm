@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $F4270-$F4273 DATA
+; $0F4270-$0F4273 DATA
     pook Sprite_Flame:
 {
-    
     .vh_flip
     db $00, $40, $C0, $80
 }
 
 ; ==============================================================================
 
-; *$F4274-$F42B3 JUMP LOCATION
+; $0F4274-$0F42B3 JUMP LOCATION
 Sprite_Flame:
 {
     LDA $0DF0, X : BNE Flame_Halted
@@ -44,10 +43,9 @@ Sprite_Flame:
 
 ; ==============================================================================
 
-; $F42B4-$F42D3 DATA
+; $0F42B4-$0F42D3 DATA
 pool Flame_Halted:
 {
-    
     .animation_states
     db $05, $04, $03, $01, $02, $00, $03, $00
     db $01, $02, $03, $00, $01, $02, $03, $00
@@ -57,7 +55,7 @@ pool Flame_Halted:
 
 ; ==============================================================================
 
-; *$F42D4-$F42FB BRANCH LOCATION
+; $0F42D4-$0F42FB BRANCH LOCATION
 Flame_Halted:
 {
     ; \task figure out if this can even happen. (player damaging flame)
@@ -85,10 +83,9 @@ Flame_Halted:
 
 ; ==============================================================================
 
-; $F42FC-$F435B DATA
+; $0F42FC-$0F435B DATA
 pool Flame_Draw:
 {
-    
     .oam_groups
     dw 0,  0 : db $8E, $01, $00, $02
     dw 0,  0 : db $8E, $01, $00, $02
@@ -111,7 +108,7 @@ pool Flame_Draw:
 
 ; ==============================================================================
 
-; *$F435C-$F4378 LONG
+; $0F435C-$0F4378 LONG
 Flame_Draw:
 {
     PHB : PHK : PLB

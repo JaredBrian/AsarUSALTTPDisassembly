@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$EEDD6-$EEDDD LONG
+; $0EEDD6-$0EEDDD LONG
 Sprite_HelmasaurFireballLong:
 {
     PHB : PHK : PLB
@@ -15,10 +15,9 @@ Sprite_HelmasaurFireballLong:
 
 ; ==============================================================================
 
-; $EEDDE-$EEDE2 DATA
+; $0EEDDE-$0EEDE2 DATA
 pool Sprite_HelmasaurFireball:
 {
-    
     .chr
     db $CC, $CC, $CA
     
@@ -28,7 +27,7 @@ pool Sprite_HelmasaurFireball:
 
 ; ==============================================================================
 
-; *$EEDE3-$EEE9B LOCAL
+; $0EEDE3-$0EEE9B LOCAL
 Sprite_HelmasaurFireball:
 {
     INC $0E80, X
@@ -111,7 +110,7 @@ Sprite_HelmasaurFireball:
     
 ; ==============================================================================
 
-; $EEE72-$EEE84 JUMP LOCATION
+; $0EEE72-$0EEE84 JUMP LOCATION
 HelmasaurFireball_PreMigrateDown:
 {
     LDA !timer_0, X : BNE .delay_ai_state_transition
@@ -129,7 +128,7 @@ HelmasaurFireball_PreMigrateDown:
     
 ; ==============================================================================
 
-; $EEE85-$EEE9B BRANCH LOCATION
+; $0EEE85-$0EEE9B BRANCH LOCATION
 HelmasaurFireball_MigrateDown:
 {
     LDA !timer_0, X : BNE .delay
@@ -150,17 +149,16 @@ HelmasaurFireball_MigrateDown:
 
 ; ==============================================================================
 
-; $EEE9C-$EEE9F DATA
+; $0EEE9C-$0EEE9F DATA
 HelmasaurFireball_DelayThenTriSplit:
 {
-    
     .animation_states
     db 2, 2, 1, 0
 }
 
 ; ==============================================================================
 
-; *$EEEA0-$EEEB2 BRANCH LOCATION
+; $0EEEA0-$0EEEB2 BRANCH LOCATION
 HelmasaurFireball_DelayThenTriSplit:
 {
     LDA !timer_0, X : BNE .delay
@@ -178,7 +176,7 @@ HelmasaurFireball_DelayThenTriSplit:
 
 ; ==============================================================================
 
-; *$EEEB3-$EEEC8 BRANCH LOCATION
+; $0EEEB3-$0EEEC8 BRANCH LOCATION
 HelmasaurFireball_DelayThenQuadSplit:
 {
     LDA !timer_0, X : BNE .delay
@@ -200,7 +198,7 @@ HelmasaurFireball_DelayThenQuadSplit:
 
 ; ==============================================================================
 
-; *$EEEC9-$EEECC BRANCH LOCATION
+; $0EEEC9-$0EEECC BRANCH LOCATION
 HelamsaurFireball_Move:
 {
     ; Just moves until it hits the edge of the screen. (See notes at the
@@ -212,10 +210,9 @@ HelamsaurFireball_Move:
 
 ; ==============================================================================
 
-; $EEECD-$EEED2 DATA
+; $0EEECD-$0EEED2 DATA
 pool HelmasaurFireball_TriSplit:
 {
-    
     .x_speeds
     db   0,  28, -28
     
@@ -225,7 +222,7 @@ pool HelmasaurFireball_TriSplit:
 
 ; ==============================================================================
 
-; *$EEED3-$EEF34 LOCAL
+; $0EEED3-$0EEF34 LOCAL
 HelmasaurFireball_TriSplit:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
@@ -276,10 +273,9 @@ HelmasaurFireball_TriSplit:
 
 ; ==============================================================================
 
-; $EEF35-$EEF3C DATA
+; $0EEF35-$0EEF3C DATA
 HelmasaurFireball_QuadSplit:
 {
-    
     .x_speeds
     db  32,  32, -32, -32
     
@@ -289,7 +285,7 @@ HelmasaurFireball_QuadSplit:
 
 ; ==============================================================================
 
-; *$EEF3D-$EEF75 LOCAL
+; $0EEF3D-$0EEF75 LOCAL
 HelmasaurFireball_QuadSplit:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong

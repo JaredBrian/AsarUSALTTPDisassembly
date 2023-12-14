@@ -1,17 +1,16 @@
 
 ; ==============================================================================
 
-; $42A32-$42A34 DATA
+; $042A32-$042A34 DATA
 pool Ancilla_BlastWallFireball:
 {
-    
     .chr
     db $9D, $9C, $8D
 }
 
 ; ==============================================================================
 
-; *$42A35-$42A9F JUMP LOCATION
+; $042A35-$042A9F JUMP LOCATION
 Ancilla_BlastWallFireball:
 {
     LDA $11 : BNE .just_draw

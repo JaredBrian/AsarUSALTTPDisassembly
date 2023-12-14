@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F3B42-$F3BB8 JUMP LOCATION
+; $0F3B42-$0F3BB8 JUMP LOCATION
 Sprite_MothulaBeam:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong

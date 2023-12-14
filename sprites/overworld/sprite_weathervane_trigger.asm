@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$342E5-$34308 JUMP LOCATION
+; $0342E5-$034308 JUMP LOCATION
 Sprite_WeathervaneTrigger:
 {
     JSR Sprite_PrepOamCoordSafeWrapper

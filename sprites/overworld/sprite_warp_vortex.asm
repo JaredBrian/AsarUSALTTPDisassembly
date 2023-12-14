@@ -1,16 +1,15 @@
 ; ==============================================================================
 
-; $2AF71-$2AF74 DATA
+; $02AF71-$02AF74 DATA
 pool Sprite_WarpVortex:
 {
-    
     .vh_flip_states
     db $00, $40, $C0, $80
 }
 
 ; ==============================================================================
 
-; *$2AF75-$2B018 JUMP LOCATION
+; $02AF75-$02B018 JUMP LOCATION
 Sprite_WarpVortex:
 {
     ; Warp Vortex (Sprite 0x6C)

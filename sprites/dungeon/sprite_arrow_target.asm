@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$2E62B-$2E632 LONG
+; $02E62B-$02E632 LONG
 Sprite_ArrowTriggerLong:
 {
     PHB : PHK : PLB
@@ -15,7 +15,7 @@ Sprite_ArrowTriggerLong:
 
 ; ==============================================================================
 
-; *$2E633-$2E655 LOCAL
+; $02E633-$02E655 LOCAL
 Sprite_ArrowTrigger:
 {
     LDA $0DA0, X : BNE .alpha
@@ -38,7 +38,7 @@ Sprite_ArrowTrigger:
 
 ; ==============================================================================
 
-; $2E656-$2E656 LONG (UNUSED)
+; $02E656-$02E656 LONG (UNUSED)
 ArrowTrigger_Unused:
 {
     RTL

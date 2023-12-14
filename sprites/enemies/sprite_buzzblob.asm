@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $35892-$35899 DATA
+; $035892-$035899 DATA
 pool Sprite_Buzzblob:
 {
-    
     .animation_states
     db 0, 1, 0, 2
     
@@ -14,7 +13,7 @@ pool Sprite_Buzzblob:
 
 ; ==============================================================================
 
-; *$3589A-$358ED JUMP LOCATION
+; $03589A-$0358ED JUMP LOCATION
 Sprite_Buzzblob:
 {
     LDA $0E00, X : BEQ .not_buzzing
@@ -64,10 +63,9 @@ Sprite_Buzzblob:
 
 ; ==============================================================================
 
-; $358EE-$35905 DATA
+; $0358EE-$035905 DATA
 pool Buzzblob_SelectNewDirection:
 {
-    
     .x_speeds
     db  3,  2, -2, -3, -2,  2,  0,  0
     
@@ -80,7 +78,7 @@ pool Buzzblob_SelectNewDirection:
 
 ; ==============================================================================
 
-; *$35906-$3591F LOCAL
+; $035906-$03591F LOCAL
 Buzzblob_SelectNewDirection:
 {
     JSL GetRandomInt : AND.b #$07 : TAY
@@ -96,10 +94,9 @@ Buzzblob_SelectNewDirection:
 
 ; ==============================================================================
 
-; $35920-$35952 DATA
+; $035920-$035952 DATA
 pool Buzzblob_Draw:
 {
-    
     .x_offsets
     dw 0, 8, 0
     
@@ -128,7 +125,7 @@ pool Buzzblob_Draw:
 
 ; ==============================================================================
 
-; *$35953-$359BF LOCAL
+; $035953-$0359BF LOCAL
 BuzzBlob_Draw:
 {
     JSR Sprite_PrepOamCoord

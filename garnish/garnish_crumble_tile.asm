@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B613-$4B626 DATA
+; $04B613-$04B626 DATA
 pool Garnish_CrumbleTile:
 {
-    
     .chr
     db $80, $CC, $CC, $EA, $EA
     
@@ -23,7 +22,7 @@ pool Garnish_CrumbleTile:
 
 ; ==============================================================================
 
-; $4B627-$4B6BF JUMP LOCATION
+; $04B627-$04B6BF JUMP LOCATION
 Garnish_CrumbleTile:
 {
     ; Special animation 0x03

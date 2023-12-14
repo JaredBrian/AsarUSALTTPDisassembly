@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F39A9-$F39BF JUMP LOCATION
+; $0F39A9-$0F39BF JUMP LOCATION
 Sprite_Gibdo:
 {
     JSR Gibdo_Draw
@@ -19,10 +19,9 @@ Sprite_Gibdo:
 
 ; ==============================================================================
 
-; $F39C0-$F39CB DATA
+; $0F39C0-$0F39CB DATA
 pool Gibdo_ApproachTargetDirection:
 {
-    
     .target_direction length 8
     db $02, $06, $04, $00
     
@@ -32,7 +31,7 @@ pool Gibdo_ApproachTargetDirection:
 
 ; ==============================================================================
 
-; *$F39CC-$F39FF JUMP LOCATION
+; $0F39CC-$0F39FF JUMP LOCATION
 Gibdo_ApproachTargetDirection:
 {
     LDY $0DE0, X
@@ -72,10 +71,9 @@ Gibdo_ApproachTargetDirection:
 
 ; ==============================================================================
 
-; $F3A00-$F3A11 DATA
+; $0F3A00-$0F3A11 DATA
 pool Gibdo_CanMove:
 {
-    
     .y_speeds length 8
     db -16,   0
     
@@ -88,7 +86,7 @@ pool Gibdo_CanMove:
 
 ; ==============================================================================
 
-; *$F3A12-$F3A5F JUMP LOCATION
+; $0F3A12-$0F3A5F JUMP LOCATION
 Gibdo_CanMove:
 {
     LDY $0DE0, X
@@ -140,10 +138,9 @@ Gibdo_CanMove:
 
 ; ==============================================================================
 
-; $F3A60-$F3B1F DATA
+; $0F3A60-$0F3B1F DATA
 pool Gibdo_Draw:
 {
-    
     .oam_groups
     dw 0, -9 : db $80, $00, $00, $02
     dw 0,  0 : db $8A, $00, $00, $02
@@ -183,7 +180,7 @@ pool Gibdo_Draw:
 }
 ; ==============================================================================
 
-; *$F3B20-$F3B41 LOCAL
+; $0F3B20-$0F3B41 LOCAL
 Gibdo_Draw:
 {
     LDA.b #$00   : XBA

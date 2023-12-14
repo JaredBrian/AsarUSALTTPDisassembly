@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $35DAF-$35DB6 DATA
+; $035DAF-$035DB6 DATA
 pool Sprite_StalfosHead:
 {
-    
     .h_flip
     db $00, $00, $00, $40
     
@@ -14,7 +13,7 @@ pool Sprite_StalfosHead:
 
 ; ==============================================================================
 
-; *$35DB7-$35E4C JUMP LOCATION
+; $035DB7-$035E4C JUMP LOCATION
 Sprite_StalfosHead:
 {
     ; Force the sprite's layer to be that of the player's.

@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $4B33F-$4B34E DATA
+; $04B33F-$04B34E DATA
 pool Garnish_Trinexxice:
 {
-    
     .chr
     db $e8, $e8, $E6, $E6, $E4, $E4, $E4, $E4
     db $E4, $E4, $E4, $E4
@@ -15,7 +14,7 @@ pool Garnish_Trinexxice:
 
 ; ==============================================================================
 
-; $4B34F-$4B3B8 JUMP LOCATION
+; $04B34F-$04B3B8 JUMP LOCATION
 Garnish_TrinexxIce:
 {
     ; special animation 0x0C

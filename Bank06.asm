@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$30000-$30044 LONG
+; $030000-$030044 LONG
 BottleVendor_DetectFish:
 {
     PHB : PHK : PLB
@@ -53,10 +53,9 @@ BottleVendor_DetectFish:
 
 ; ==============================================================================
 
-; $30044-$30053 DATA
+; $030044-$030053 DATA
 pool BottleVendor_SpawnFishRewards:
 {
-    
     .x_speeds
     db $FA, $FD, $00, $04, $07
     
@@ -69,7 +68,7 @@ pool BottleVendor_SpawnFishRewards:
 
 ; ==============================================================================
 
-; *$30054-$3009E LONG
+; $030054-$03009E LONG
 BottleVendor_SpawnFishRewards:
 {
     ; Only used by the bottle vendor...
@@ -126,7 +125,7 @@ BottleVendor_SpawnFishRewards:
     ; Anyways, this routine overrides the values set by
     ; Ancilla_ProjectSpeedTowardsPlayer when the boomerang is out of
     ; view.
-; *$3009F-$300E5 LONG
+; $03009F-$0300E5 LONG
 Boomerang_CheatWhenNoOnesLooking:
 {
     LDA $0C04, X : STA $02
@@ -176,10 +175,9 @@ Boomerang_CheatWhenNoOnesLooking:
 
 ; ==============================================================================
 
-; $300E6-$300F9 DATA
+; $0300E6-$0300F9 DATA
 pool Player_ApplyRumbleToSprites:
 {
-    
     .x_offsets_low
     db -32, -32, -32, 16
     
@@ -202,7 +200,7 @@ pool Player_ApplyRumbleToSprites:
 
 ; ==============================================================================
 
-; *$300FA-$3012C LONG
+; $0300FA-$03012C LONG
 Player_ApplyRumbleToSprites:
 {
     ; Grabs Link's coordinates plus an offset determined by his direction
@@ -230,7 +228,7 @@ Player_ApplyRumbleToSprites:
 
 ; ==============================================================================
 
-; *$3012D-$3014A LONG
+; $03012D-$03014A LONG
 Sprite_SpawnImmediatelySmashedTerrain:
 {
     LDY $0314 : PHY
@@ -240,7 +238,7 @@ Sprite_SpawnImmediatelySmashedTerrain:
     
     JSL Sprite_SpawnThrowableTerrainSilently : BMI .spawn_failed
     
-    JSR $E239 ; $36239 IN ROM
+    JSR $E239 ; $036239 IN ROM
     
     .spawn_failed
     
@@ -254,7 +252,7 @@ Sprite_SpawnImmediatelySmashedTerrain:
 
 ; ==============================================================================
 
-; *$3014B-$301F3 LONG
+; $03014B-$0301F3 LONG
 Sprite_SpawnThrowableTerrain:
 {
     ; This routine is called when you pick up a bush/pot/etc.
@@ -275,7 +273,7 @@ Sprite_SpawnThrowableTerrain:
     
     PLA
     
-    ; *$30156 ALTERNATE ENTRY POINT
+    ; $030156 ALTERNATE ENTRY POINT
     shared Sprite_SpawnThrowableTerrainSilently:
     
     LDX.b #$0F
@@ -379,17 +377,16 @@ Sprite_SpawnThrowableTerrain:
 
 ; ==============================================================================
 
-; *$30262-$30327 BRANCH LOCATION
+; $030262-$030327 BRANCH LOCATION
 pool Sprite_SpawnSecret:
 {
-    
     .easy_out
     
     CLC
     
     RTS
     
-    ; *$30264 MAIN ENTRY POINT
+    ; $030264 MAIN ENTRY POINT
 Sprite_SpawnSecret:
     
     LDA $1B : BNE .indoors
@@ -438,7 +435,7 @@ Sprite_SpawnSecret:
     
     TYX
     
-    JSR $9262 ; $31262 IN ROM
+    JSR $9262 ; $031262 IN ROM
     
     PLX
     
@@ -496,7 +493,7 @@ Sprite_SpawnSecret:
 
 ; ==============================================================================
 
-; $30328-$303C1 LONG
+; $030328-$0303C1 LONG
 Sprite_Main:
 {
     ; ARE WE INDOORS
@@ -605,7 +602,7 @@ Sprite_Main:
 
 ; ==============================================================================
 
-; $303C2-$303C6 LONG
+; $0303C2-$0303C6 LONG
 EasterEgg_BageCodeTrampoline:
 {
     ; \tcrf Already mentioned on tcrf, but I'm pretty sure they got that
@@ -622,10 +619,9 @@ EasterEgg_BageCodeTrampoline:
 
 ; ==============================================================================
 
-; $303C7-$303D2 DATA
+; $0303C7-$0303D2 DATA
 pool Oam_ResetRegionBases:
 {
-    
     .bases
     db $0030, $01D0, $0000, $0030, $0120, $0140
 }
@@ -635,7 +631,7 @@ pool Oam_ResetRegionBases:
     ; \note Appears to reset oam regions every frame that the sprite
     ; handlers are active. Whether these are just for sprites themselves
     ; and not object handlers, I dunno.
-; *$303D3-$303E5 LOCAL
+; $0303D3-$0303E5 LOCAL
 Oam_ResetRegionBases:
 {
     LDY.b #$00
@@ -655,7 +651,7 @@ Oam_ResetRegionBases:
 
 ; ==============================================================================
 
-; *$303E6-$303E9 LONG
+; $0303E6-$0303E9 LONG
 Utility_CheckIfHitBoxesOverlapLong:
 {
     JSR Utility_CheckIfHitBoxesOverlap
@@ -665,7 +661,7 @@ Utility_CheckIfHitBoxesOverlapLong:
 
 ; ==============================================================================
 
-; *$303EA-$303F1 LONG
+; $0303EA-$0303F1 LONG
 Sprite_SetupHitBoxLong:
 {
     PHB : PHK : PLB
@@ -679,7 +675,7 @@ Sprite_SetupHitBoxLong:
 
 ; ==============================================================================
 
-; *$303F2-$304BC LOCAL
+; $0303F2-$0304BC LOCAL
 {
     JSR Sprite_Get_16_bit_Coords
     
@@ -706,7 +702,7 @@ Sprite_SetupHitBoxLong:
     ; typically branches along this path
     LDA $11 : ORA $0FC1 : BEQ .normalGameMode
     
-    JMP $84A4 ; $304A4 IN ROM
+    JMP $84A4 ; $0304A4 IN ROM
     
     .normalGameMode
     
@@ -770,7 +766,7 @@ Sprite_SetupHitBoxLong:
     
     CMP.b #$18 : BNE .BRANCH_LAMBDA
     
-    JSR $EEC8 ; $36EC8 IN ROM
+    JSR $EEC8 ; $036EC8 IN ROM
     
     .BRANCH_LAMBDA
     .sprite_inactive
@@ -798,7 +794,7 @@ Sprite_SetupHitBoxLong:
     
     .aux_timer_4_expired
     
-    ; *$304A4 ALTERNATE ENTRY POINT
+    ; $0304A4 ALTERNATE ENTRY POINT
     
     ; \wtf Interesting.... if player priority is super priority, all sprites
     ; follow? \task Investigate this.
@@ -818,7 +814,7 @@ Sprite_SetupHitBoxLong:
 
 ; ==============================================================================
 
-; *$304BD-$304C0 LONG
+; $0304BD-$0304C0 LONG
 Sprite_Get_16_bit_CoordsLong:
 {
     JSR Sprite_Get_16_bit_Coords
@@ -828,7 +824,7 @@ Sprite_Get_16_bit_CoordsLong:
 
 ; ==============================================================================
 
-; *$304C1-$304D9 LOCAL
+; $0304C1-$0304D9 LOCAL
 Sprite_Get_16_bit_Coords:
 {
     ; $0FD8 = sprite's X coordinate, $0FDA = sprite's Y coordinate
@@ -843,7 +839,7 @@ Sprite_Get_16_bit_Coords:
 
 ; ==============================================================================
 
-; *$304DA-$304E1 LON
+; $0304DA-$0304E1 LON
 Sprite_ExecuteSingleLong:
 {
     PHB : PHK : PLB
@@ -857,14 +853,14 @@ Sprite_ExecuteSingleLong:
 
 ; ==============================================================================
 
-; *$304E2-$30525 LOCAL
+; $0304E2-$030525 LOCAL
 Sprite_ExecuteSingle:
 {
     LDA $0DD0, X : BEQ .inactiveSprite
     
     PHA
     
-    JSR $83F2 ; $303F2 IN ROM; Loads some sprite data into common addresses.
+    JSR $83F2 ; $0303F2 IN ROM; Loads some sprite data into common addresses.
     
     PLA
     
@@ -897,7 +893,7 @@ Sprite_ExecuteSingle:
     ; me.
     RTS
     
-    ; *$30510 ALTERNATE ENTRY POINT
+    ; $030510 ALTERNATE ENTRY POINT
     .inactiveSprite
     
     LDA $1B : BNE .indoors
@@ -917,7 +913,7 @@ Sprite_ExecuteSingle:
 
 ; ==============================================================================
 
-; *$30526-$3052D LONG
+; $030526-$03052D LONG
 SpriteActive_MainLong:
 {
     PHB : PHK : PLB
@@ -931,7 +927,7 @@ SpriteActive_MainLong:
 
 ; ==============================================================================
 
-; *$3052E-$30542 JUMP LOCATION
+; $03052E-$030542 JUMP LOCATION
 SpriteFall_Main:
 {
     ; Sprite mode for falling into a hole
@@ -954,7 +950,7 @@ SpriteFall_Main:
 
 ; ==============================================================================
 
-; *$30543-$30547 JUMP LOCATION
+; $030543-$030547 JUMP LOCATION
 SpriteBurn_Main:
 {
     JSL SpriteBurn_Execute
@@ -964,7 +960,7 @@ SpriteBurn_Main:
 
 ; ==============================================================================
 
-; *$30548-$3054C JUMP LOCATION
+; $030548-$03054C JUMP LOCATION
 SpriteExplode_Main:
 {
     JSL SpriteExplode_ExecuteLong
@@ -974,10 +970,9 @@ SpriteExplode_Main:
 
 ; ==============================================================================
 
-; $3054D-$3059B DATA
+; $03054D-$03059B DATA
 pool SpriteDrown_Main:
 {
-    
     .oam_groups
     dw -7, -7 : db $80, $04, $00, $00
     dw 14, -6 : db $83, $04, $00, $00
@@ -1001,7 +996,7 @@ pool SpriteDrown_Main:
 
 ; ==============================================================================
 
-; *$3059C-$3064C JUMP LOCATION
+; $03059C-$03064C JUMP LOCATION
 SpriteDrown_Main:
 {
     ; Sprite Mode 0x03
@@ -1064,7 +1059,7 @@ SpriteDrown_Main:
     
     LDA.b #$12 : STA $0DF0, X
     
-    ; *$30612 ALTERNATE ENTRY POINT
+    ; $030612 ALTERNATE ENTRY POINT
     
     LDA $0E60, X : AND.b #$EF : STA $0E60, X
     
@@ -1111,7 +1106,7 @@ incsrc "sprite_prep.asm"
 
 ; ==============================================================================
     
-; $31283-$31468 JUMP TABLE
+; $031283-$031468 JUMP TABLE
 SpriteActive_Table:
 {
     ; SPRITE ROUTINES 1
@@ -1370,7 +1365,7 @@ SpriteActive_Table:
 
 ; ==============================================================================
 
-; *$31469-$3146D JUMP LOCATION
+; $031469-$03146D JUMP LOCATION
 Sprite_GiantMoldormTrampoline:
 {
     JSL Sprite_GiantMoldormLong
@@ -1380,7 +1375,7 @@ Sprite_GiantMoldormTrampoline:
 
 ; ==============================================================================
 
-; *$3146E-$31472 JUMP LOCATION
+; $03146E-$031472 JUMP LOCATION
 Sprite_RavenTrampoline:
 {
     JSL Sprit_RavenLong
@@ -1390,7 +1385,7 @@ Sprite_RavenTrampoline:
 
 ; ==============================================================================
 
-; *$31473-$31477 JUMP LOCATION
+; $031473-$031477 JUMP LOCATION
 Sprite_VultureTrampoline:
 {
     JSL Sprite_VultureLong
@@ -1415,7 +1410,7 @@ incsrc "sprite_chicken.asm"
 
 ; ==============================================================================
 
-; *$32853-$32857 JUMP LOCATION
+; $032853-$032857 JUMP LOCATION
 Sprite_MovableMantleTrampoline:
 {
     JSL Sprite_MovableMantleLong
@@ -1430,7 +1425,7 @@ incsrc "sprite_throwable_scenery.asm"
 
 ; ==============================================================================
 
-; *$32D03-$32D4F LOCAL
+; $032D03-$032D4F LOCAL
 Entity_ApplyRumbleToSprites:
 {
     LDY.b #$0F
@@ -1487,7 +1482,7 @@ Entity_ApplyRumbleToSprites:
 
 ; ==============================================================================
 
-; *$32D50-$32D6E LONG
+; $032D50-$032D6E LONG
 Sprite_TransmuteToEnemyBomb:
 {
     LDA.b #$4A : STA $0E20, X
@@ -1514,7 +1509,7 @@ incsrc "sprite_hobo.asm"
 
 ; ==============================================================================
 
-; *$33FE0-$33FE4 JUMP LOCATION
+; $033FE0-$033FE4 JUMP LOCATION
 Sprite_UncleAndSageTrampoline:
 {
     ; Uncle / Priest / Santuary Mantle
@@ -1525,7 +1520,7 @@ Sprite_UncleAndSageTrampoline:
 
 ; ==============================================================================
 
-; *$33FE5-$33FE9 JUMP LOCATION
+; $033FE5-$033FE9 JUMP LOCATION
 SpritePrep_UncleAndSageTrampoline:
 {
     JSL SpritePrep_UncleAndSageLong
@@ -1535,7 +1530,7 @@ SpritePrep_UncleAndSageTrampoline:
 
 ; ==============================================================================
 
-; *$33FEA-$33FEE JUMP LOCATION
+; $033FEA-$033FEE JUMP LOCATION
 SpriteActive2_Trampoline:
 {
     JSL SpriteActive2_MainLong
@@ -1545,7 +1540,7 @@ SpriteActive2_Trampoline:
 
 ; ==============================================================================
 
-; *$33FEF-$33FF3 JUMP LOCATION
+; $033FEF-$033FF3 JUMP LOCATION
 SpriteActive3_Transfer:
 {
     JSL SpriteActive3_MainLong
@@ -1555,7 +1550,7 @@ SpriteActive3_Transfer:
 
 ; ==============================================================================
 
-; *$33FF4-$33FF8 JUMP LOCATION
+; $033FF4-$033FF8 JUMP LOCATION
 SpriteActive4_Transfer:
 {
     JSL SpriteActive4_MainLong
@@ -1565,7 +1560,7 @@ SpriteActive4_Transfer:
 
 ; ==============================================================================
 
-; *$33FF9-$33FFD JUMP LOCATION
+; $033FF9-$033FFD JUMP LOCATION
 SpritePrep_OldMountainManTrampoline:
 {
     JSL SpritePrep_OldMountainManLong
@@ -1575,7 +1570,7 @@ SpritePrep_OldMountainManTrampoline:
 
 ; ==============================================================================
 
-; *$33FFE-$34002 JUMP LOCATION
+; $033FFE-$034002 JUMP LOCATION
 Sprite_TutorialEntitiesTrampoline:
 {
     JSL Sprite_TutorialEntitiesLong
@@ -1585,7 +1580,7 @@ Sprite_TutorialEntitiesTrampoline:
 
 ; ==============================================================================
 
-; *$34003-$34007 JUMP LOCATION
+; $034003-$034007 JUMP LOCATION
 Sprite_PullSwitchTrampoline:
 {
     JSL Sprite_PullSwitch
@@ -1595,7 +1590,7 @@ Sprite_PullSwitchTrampoline:
 
 ; ==============================================================================
 
-; *$34008-$3400C JUMP LOCATION
+; $034008-$03400C JUMP LOCATION
 Sprite_SomariaPlatformTrampoline:
 {
     JSL Sprite_SomariaPlatformLong
@@ -1605,7 +1600,7 @@ Sprite_SomariaPlatformTrampoline:
 
 ; ==============================================================================
 
-; *$3400D-$34011 JUMP LOCATION
+; $03400D-$034011 JUMP LOCATION
 Sprite_MedallionTabletTrampoline:
 {
     ; Medallion Tablet
@@ -1616,7 +1611,7 @@ Sprite_MedallionTabletTrampoline:
 
 ; ==============================================================================
 
-; *$34012-$34016 JUMP LOCATION
+; $034012-$034016 JUMP LOCATION
 Sprite_QuarrelBrosTrampoline:
 {
     JSL Sprite_QuarrelBrosLong
@@ -1626,7 +1621,7 @@ Sprite_QuarrelBrosTrampoline:
 
 ; ==============================================================================
 
-; *$34017-$3401B JUMP LOCATION
+; $034017-$03401B JUMP LOCATION
 Sprite_PullForRupeesTrampoline:
 {
     JSL Sprite_PullForRupeesLong
@@ -1636,7 +1631,7 @@ Sprite_PullForRupeesTrampoline:
 
 ; ==============================================================================
 
-; *$3401C-$34020 JUMP LOCATION
+; $03401C-$034020 JUMP LOCATION
 Sprite_GargoyleGrateTrampoline:
 {
     JSL Sprite_GargoyleGrateLong
@@ -1646,7 +1641,7 @@ Sprite_GargoyleGrateTrampoline:
 
 ; ==============================================================================
 
-; *$34021-$34025 JUMP LOCATION
+; $034021-$034025 JUMP LOCATION
 Sprite_YoungSnitchLadyTrampoline:
 {
     JSL Sprite_YoungSnitchLadyLong
@@ -1656,7 +1651,7 @@ Sprite_YoungSnitchLadyTrampoline:
 
 ; ==============================================================================
 
-; *$34026-$3402A JUMP LOCATION
+; $034026-$03402A JUMP LOCATION
 SpritePrep_YoungSnitchGirl:
 {
     JSL SpritePrep_SnitchesLong
@@ -1666,7 +1661,7 @@ SpritePrep_YoungSnitchGirl:
 
 ; ==============================================================================
 
-; *$3402B-$3402F JUMP LOCATION
+; $03402B-$03402F JUMP LOCATION
 Sprite_InnKeeperTrampoline:
 {
     JSL Sprite_InnKeeperLong
@@ -1676,7 +1671,7 @@ Sprite_InnKeeperTrampoline:
 
 ; ==============================================================================
 
-; *$34030-$34034 JUMP LOCATION
+; $034030-$034034 JUMP LOCATION
 SpritePrep_InnKeeper:
 {
     JSL SpritePrep_SnitchesLong
@@ -1686,7 +1681,7 @@ SpritePrep_InnKeeper:
 
 ; ==============================================================================
 
-; *$34035-$34039 JUMP LOCATION
+; $034035-$034039 JUMP LOCATION
 Sprite_WitchTrampoline:
 {
     JSL Sprite_WitchLong
@@ -1696,7 +1691,7 @@ Sprite_WitchTrampoline:
 
 ; ==============================================================================
 
-; *$3403A-$3403E JUMP LOCATION
+; $03403A-$03403E JUMP LOCATION
 Sprite_WaterfallTrampoline:
 {
     JSL Sprite_WaterfallLong
@@ -1706,7 +1701,7 @@ Sprite_WaterfallTrampoline:
 
 ; ==============================================================================
 
-; *$3403F-$34043 JUMP LOCATION
+; $03403F-$034043 JUMP LOCATION
 Sprite_ArrowTriggerTrampoline:
 {
     JSL Sprite_ArrowTriggerLong
@@ -1716,7 +1711,7 @@ Sprite_ArrowTriggerTrampoline:
 
 ; ==============================================================================
 
-; *$34044-$34048 JUMP LOCATION
+; $034044-$034048 JUMP LOCATION
 Sprite_MadBatterTrampoline:
 {
     JSL Sprite_MadBatterLong
@@ -1726,7 +1721,7 @@ Sprite_MadBatterTrampoline:
 
 ; ==============================================================================
 
-; *$34049-$3404D JUMP LOCATION
+; $034049-$03404D JUMP LOCATION
 Sprite_DashItemTrampoline:
 {
     JSL Sprite_DashItemLong
@@ -1736,7 +1731,7 @@ Sprite_DashItemTrampoline:
 
 ; ==============================================================================
 
-; *$3404E-$34052 JUMP LOCATION
+; $03404E-$034052 JUMP LOCATION
 Sprite_TroughBoyTrempoline:
 {
     JSL Sprite_TroughBoyLong
@@ -1746,7 +1741,7 @@ Sprite_TroughBoyTrempoline:
 
 ; ==============================================================================
 
-; *$34053-$34057 JUMP LOCATION
+; $034053-$034057 JUMP LOCATION
 Sprite_OldSnitchLadyTrampoline:
 {
     JSL Sprite_OldSnitchLadyLong
@@ -1756,7 +1751,7 @@ Sprite_OldSnitchLadyTrampoline:
 
 ; ==============================================================================
 
-; *$34058-$3405C JUMP LOCATION
+; $034058-$03405C JUMP LOCATION
 Sprite_RunningManTrampoline:
 {
     JSL Sprite_RunningManLong
@@ -1766,7 +1761,7 @@ Sprite_RunningManTrampoline:
 
 ; ==============================================================================
 
-; *$3405D-$34061 JUMP LOCATION
+; $03405D-$034061 JUMP LOCATION
 SpritePrep_RunningManTrampoline:
 {
     JSL SpritePrep_RunningManLong
@@ -1776,7 +1771,7 @@ SpritePrep_RunningManTrampoline:
 
 ; ==============================================================================
 
-; *$34062-$34066 JUMP LOCATION
+; $034062-$034066 JUMP LOCATION
 Sprite_BottleVendorTrampoline:
 {
     ; Bottle Vendor AI
@@ -1788,7 +1783,7 @@ Sprite_BottleVendorTrampoline:
 
 ; ==============================================================================
 
-; *$34067-$3406B JUMP LOCATION
+; $034067-$03406B JUMP LOCATION
 Sprite_ZeldaTrampoline:
 {
     JSL Sprite_ZeldaLong
@@ -1798,7 +1793,7 @@ Sprite_ZeldaTrampoline:
 
 ; ==============================================================================
 
-; *$3406C-$34070 JUMP LOCATION
+; $03406C-$034070 JUMP LOCATION
 SpritePrep_ZeldaTrampoline:
 {
     JSL SpritePrep_ZeldaLong
@@ -1808,7 +1803,7 @@ SpritePrep_ZeldaTrampoline:
 
 ; ==============================================================================
 
-; *$34071-$34075 JUMP LOCATION
+; $034071-$034075 JUMP LOCATION
 Sprite_ElderWifeTrampoline:
 {
     JSL Sprite_ElderWifeLong
@@ -1818,7 +1813,7 @@ Sprite_ElderWifeTrampoline:
 
 ; ==============================================================================
 
-; *$34076-$3407A JUMP LOCATION
+; $034076-$03407A JUMP LOCATION
 Sprite_MushroomTrampoline:
 {
     JSL Sprite_MushroomLong
@@ -1828,7 +1823,7 @@ Sprite_MushroomTrampoline:
 
 ; ==============================================================================
 
-; *$3407B-$3407F JUMP LOCATION
+; $03407B-$03407F JUMP LOCATION
 SpritePrep_MushroomTrampoline:
 {
     JSL SpritePrep_MushroomLong
@@ -1838,7 +1833,7 @@ SpritePrep_MushroomTrampoline:
 
 ; ==============================================================================
 
-; *$34080-$34084 JUMP LOCATION
+; $034080-$034084 JUMP LOCATION
 Sprite_FakeSwordTrampoline:
 {
     JSL Sprite_FakeSwordLong
@@ -1848,7 +1843,7 @@ Sprite_FakeSwordTrampoline:
 
 ; ==============================================================================
 
-; *$34085-$34089 JUMP LOCATION
+; $034085-$034089 JUMP LOCATION
 SpritePrep_FakeSwordTrampoline:
 {
     JSL SpritePrep_FakeSword
@@ -1858,7 +1853,7 @@ SpritePrep_FakeSwordTrampoline:
 
 ; ==============================================================================
 
-; *$3408A-$3408E JUMP LOCATION
+; $03408A-$03408E JUMP LOCATION
 Sprite_ElderTrampoline:
 {
     JSL Sprite_ElderLong
@@ -1868,7 +1863,7 @@ Sprite_ElderTrampoline:
 
 ; ==============================================================================
 
-; *$3408F-$34093 JUMP LOCATION
+; $03408F-$034093 JUMP LOCATION
 Sprite_PotionShopTrampoline:
 {
     JSL Sprite_PotionShopLong
@@ -1878,7 +1873,7 @@ Sprite_PotionShopTrampoline:
 
 ; ==============================================================================
 
-; *$34094-$34098 JUMP LOCATION
+; $034094-$034098 JUMP LOCATION
 SpritePrep_PotionShopTrampoline:
 {
     JSL SpritePrep_PotionShopLong
@@ -1888,7 +1883,7 @@ SpritePrep_PotionShopTrampoline:
 
 ; ==============================================================================
 
-; *$34099-$3409D JUMP LOCATION
+; $034099-$03409D JUMP LOCATION
 Sprite_HeartContainerTrampoline:
 {
     JSL Sprite_HeartContainerLong
@@ -1898,7 +1893,7 @@ Sprite_HeartContainerTrampoline:
 
 ; ==============================================================================
 
-; *$3409E-$340A2 JUMP LOCATION
+; $03409E-$0340A2 JUMP LOCATION
 SpritePrep_HeartContainerTrampoline:
 {
     JSL SpritePrep_HeartContainerLong
@@ -1908,7 +1903,7 @@ SpritePrep_HeartContainerTrampoline:
 
 ; ==============================================================================
 
-; *$340A3-$340A7 JUMP LOCATION
+; $0340A3-$0340A7 JUMP LOCATION
 Sprite_HeartPieceTrampoline:
 {
     JSL Sprite_HeartPieceLong
@@ -1918,7 +1913,7 @@ Sprite_HeartPieceTrampoline:
 
 ; ==============================================================================
 
-; *$340A8-$340AC JUMP LOCATION
+; $0340A8-$0340AC JUMP LOCATION
 SpritePrep_HeartPieceTrampoline:
 {
     JSL SpritePrep_HeartPieceLong
@@ -1928,7 +1923,7 @@ SpritePrep_HeartPieceTrampoline:
 
 ; ==============================================================================
 
-; $340AD-$340B1 JUMP LOCATION (UNUSED)
+; $0340AD-$0340B1 JUMP LOCATION (UNUSED)
 FluteBoy_UnusedInvocation:
 {
     JSL Sprite_FluteBoy
@@ -1938,7 +1933,7 @@ FluteBoy_UnusedInvocation:
 
 ; ==============================================================================
 
-; *$340B2-$340B6 JUMP LOCATION
+; $0340B2-$0340B6 JUMP LOCATION
 Sprite_UnusedTelepathTrampoline:
 {
     JSL Sprite_UnusedTelepathLong
@@ -1948,7 +1943,7 @@ Sprite_UnusedTelepathTrampoline:
 
 ; ==============================================================================
 
-; *$340B7-$340BB JUMP LOCATION
+; $0340B7-$0340BB JUMP LOCATION
 Sprite_HumanMulti_1_Trampoline:
 {
     JSL Sprite_HumanMulti_1_Long
@@ -1958,7 +1953,7 @@ Sprite_HumanMulti_1_Trampoline:
 
 ; ==============================================================================
 
-; *$340BC-$340C0 JUMP LOCATION
+; $0340BC-$0340C0 JUMP LOCATION
 Sprite_SweepingLadyTrampoline:
 {
     JSL Sprite_SweepingLadyLong
@@ -1968,7 +1963,7 @@ Sprite_SweepingLadyTrampoline:
 
 ; ==============================================================================
 
-; *$340C1-$340C5 JUMP LOCATION
+; $0340C1-$0340C5 JUMP LOCATION
 Sprite_LumberjacksTrampoline:
 {
     JSL Sprite_LumberjacksLong
@@ -1978,7 +1973,7 @@ Sprite_LumberjacksTrampoline:
 
 ; ==============================================================================
 
-; *$340C6-$340CA JUMP LOCATION
+; $0340C6-$0340CA JUMP LOCATION
 Sprite_FortuneTellerTrampoline:
 {
     JSL Sprite_FortuneTellerLong
@@ -1988,7 +1983,7 @@ Sprite_FortuneTellerTrampoline:
 
 ; ==============================================================================
 
-; *$340CB-$340CF JUMP LOCATION
+; $0340CB-$0340CF JUMP LOCATION
 Sprite_MazeGameLadyTrampoline:
 {
     JSL Sprite_MazeGameLadyLong
@@ -1998,7 +1993,7 @@ Sprite_MazeGameLadyTrampoline:
 
 ; ==============================================================================
 
-; *$340D0-$340D4 JUMP LOCATION
+; $0340D0-$0340D4 JUMP LOCATION
 Sprite_MazeGameGuyTrampoline:
 {
     JSL Sprite_MazeGameGuyLong
@@ -2008,7 +2003,7 @@ Sprite_MazeGameGuyTrampoline:
 
 ; ==============================================================================
 
-; *$340D5-$340D9 JUMP LOCATION
+; $0340D5-$0340D9 JUMP LOCATION
 Sprite_TalkingTreeTrampoline:
 {
     JSL Sprite_TalkingTreeLong
@@ -2033,7 +2028,7 @@ incsrc "sprite_buzzblob.asm"
 
 ; ==============================================================================
 
-; *$359C0-$359D4 LOCAL
+; $0359C0-$0359D4 LOCAL
 Sprite_WallInducedSpeedInversion:
 {
     LDA $0E70, X : AND.b #$03 : BEQ .no_horiz_collision
@@ -2053,12 +2048,12 @@ Sprite_WallInducedSpeedInversion:
 
 ; ==============================================================================
 
-; *$359D5-$359E1 LOCAL
+; $0359D5-$0359E1 LOCAL
 Sprite_Invert_XY_Speeds:
 {
     JSR Sprite_InvertVertSpeed
     
-    ; *$359D8 ALTERNATE ENTRY POINT
+    ; $0359D8 ALTERNATE ENTRY POINT
     shared Sprite_InvertHorizSpeed:
     
     ; Flip sign of X velocity
@@ -2069,7 +2064,7 @@ Sprite_Invert_XY_Speeds:
 
 ; ==============================================================================
 
-; *$359E2-$359EB LOCAL
+; $0359E2-$0359EB LOCAL
 Sprite_InvertVertSpeed:
 {
     ; Flip sign of Y velocity
@@ -2080,12 +2075,12 @@ Sprite_InvertVertSpeed:
 
 ; ==============================================================================
 
-; *$359EC-$35A08 LOCAL
+; $0359EC-$035A08 LOCAL
 Sprite_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
     
-    ; *$359F3 ALTERNATE ENTRY POINT
+    ; $0359F3 ALTERNATE ENTRY POINT
     .permissive
     
     LDA $0FC1 : BNE .inactive
@@ -2107,7 +2102,7 @@ Sprite_CheckIfActive:
 
 ; ==============================================================================
 
-; $35A09-$35B03 DATA
+; $035A09-$035B03 DATA
 {
     ; \task Needs naming, but probably just a simple conversion to a pool.
     db $A0, $A2, $A0, $A2, $80, $82, $80, $82
@@ -2161,7 +2156,7 @@ Sprite_CheckIfActive:
 
 ; ==============================================================================
 
-; $35B04-$35BEF DATA
+; $035B04-$035BEF DATA
 {
     db $C8, $00, $6B, $00, $00, $00, $00, $00
     db $00, $CB, $00, $08, $0A, $0B, $00, $00
@@ -2215,7 +2210,7 @@ Sprite_CheckIfActive:
 
 ; ==============================================================================
 
-; *$35BF0-$35BF7 LONG
+; $035BF0-$035BF7 LONG
 Sprite_PrepAndDrawSingleLargeLong:
 {
     PHB : PHK : PLB
@@ -2229,7 +2224,7 @@ Sprite_PrepAndDrawSingleLargeLong:
 
 ; ==============================================================================
 
-; *$35BF8-$35BFF LONG
+; $035BF8-$035BFF LONG
 Sprite_PrepAndDrawSingleSmallLong:
 {
     PHB : PHK : PLB
@@ -2243,18 +2238,18 @@ Sprite_PrepAndDrawSingleSmallLong:
 
 ; ==============================================================================
 
-; $35C00-$35C0F
+; $035C00-$035C0F
 {
     ; This data seems to be unused.
     db 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3
 }
 
-; $35C10-$35C53 LOCAL
+; $035C10-$035C53 LOCAL
 Sprite_PrepAndDrawSingleLarge:
 {
     JSR Sprite_PrepOamCoord
     
-    ; $35C13 ALTERNATE ENTRY POINT
+    ; $035C13 ALTERNATE ENTRY POINT
     .just_draw
     
     LDA $00 : STA ($90), Y
@@ -2281,7 +2276,7 @@ Sprite_PrepAndDrawSingleLarge:
     
     .out_of_bounds_y
 
-    ; $35C4C ALTERNATE ENTRY POINT
+    ; $035C4C ALTERNATE ENTRY POINT
 Sprite_DrawShadowRedundant:
     
     ; Optinally draw a shadow for the sprite if this flag is set.
@@ -2292,7 +2287,7 @@ Sprite_DrawShadowRedundant:
 
 ; ==============================================================================
 
-; *$35C54-$35C5B LONG
+; $035C54-$035C5B LONG
 Sprite_DrawShadowLong:
 {
     PHB : PHK : PLB
@@ -2306,10 +2301,9 @@ Sprite_DrawShadowLong:
 
 ; ==============================================================================
 
-; *$35C5C-$35C63 LONG
+; $035C5C-$035C63 LONG
 pool Sprite_DrawShadowLong:
 {
-    
     .variable
     
     PHB : PHK : PLB
@@ -2323,14 +2317,14 @@ pool Sprite_DrawShadowLong:
 
 ; ==============================================================================
 
-; $35C64-$35CEE LOCAL
+; $035C64-$035CEE LOCAL
 Sprite_DrawShadow:
 {
     ; This draws the shadow underneath a sprite
     
     LDA.b #$0A
     
-    ; $35C66 ALTERNATE ENTRY POINT
+    ; $035C66 ALTERNATE ENTRY POINT
     .variable
     
                CLC : ADC $0D00, X : STA $02
@@ -2394,7 +2388,7 @@ Sprite_DrawShadow:
 
 ; ==============================================================================
 
-; *$35CEF-$35D37 LOCAL
+; $035CEF-$035D37 LOCAL
 Sprite_PrepAndDrawSingleSmall:
 {
     JSR Sprite_PrepOamCoord
@@ -2437,7 +2431,7 @@ Sprite_PrepAndDrawSingleSmall:
 
 ; ==============================================================================
 
-; *$35D38-$35D3F LONG
+; $035D38-$035D3F LONG
 DashKey_Draw:
 {
     PHB : PHK : PLB
@@ -2451,7 +2445,7 @@ DashKey_Draw:
 
 ; ==============================================================================
 
-; *$35D40-$35DAE LOCAL
+; $035D40-$035DAE LOCAL
 Sprite_DrawKey:
     shared Sprite_DrawThinAndTall:
 {
@@ -2508,7 +2502,7 @@ incsrc "sprite_held_mode.asm"
 
 ; ==============================================================================
 
-; *$35FF2-$35FF9 LONG
+; $035FF2-$035FF9 LONG
 ThrownSprite_TileAndPeerInteractionLong:
 {
     PHB : PHK : PLB
@@ -2522,10 +2516,10 @@ ThrownSprite_TileAndPeerInteractionLong:
 
 ; ==============================================================================
 
-; *$35FFA-$36163 JUMP LOCATION
+; $035FFA-$036163 JUMP LOCATION
 SpriteStunned_Main:
 {
-    JSR $E2B6 ; $362B6 IN ROM
+    JSR $E2B6 ; $0362B6 IN ROM
     JSR Sprite_CheckIfActive.permissive
     
     LDA $0EA0, X : BEQ .not_recoiling
@@ -2556,12 +2550,12 @@ SpriteStunned_Main:
     
     LDA $0DD0, X : BEQ .BRANCH_EPSILON
     
-    ; *$3602A ALTERNATE ENTRY POINT
+    ; $03602A ALTERNATE ENTRY POINT
     shared ThrownSprite_TileAndPeerInteraction:
     
     LDA $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
-    JSR $E229 ; $36229 IN ROM
+    JSR $E229 ; $036229 IN ROM
     
     LDA $0DD0, X : CMP.b #$0B : BNE .not_frozen
     
@@ -2574,7 +2568,7 @@ SpriteStunned_Main:
     
     ; Check collision against boundary of the area we're in? (not solid
     ; tiles, the actual border of the area / room).
-    LDY.b #$68 : JSR $E73C ; $3673C IN ROM
+    LDY.b #$68 : JSR $E73C ; $03673C IN ROM
     
     PHX
     
@@ -2587,7 +2581,7 @@ SpriteStunned_Main:
     LDA $0FA5 : CMP.b #$20 : BNE .BRANCH_ZETA
     
     ; Just unsets draw shadow flag (no reason to when over a pit)
-    JSR $8612 ; $30612 IN ROM
+    JSR $8612 ; $030612 IN ROM
     
     .BRANCH_ZETA
     
@@ -2598,7 +2592,7 @@ SpriteStunned_Main:
     
     LDA $0F70, X : DEC A : CMP.b #$F0 : BCS .BRANCH_THETA
     
-    JMP $E149 ; $36149 IN ROM
+    JMP $E149 ; $036149 IN ROM
     
     .BRANCH_THETA
     
@@ -2614,7 +2608,7 @@ SpriteStunned_Main:
     
     LDA.b #$08 : STA $0DF0, X
     
-    ; *$36095 ALTERNATE ENTRY POINT
+    ; $036095 ALTERNATE ENTRY POINT
     
     LDA.b #$03 : STA $0E40, X
     
@@ -2626,13 +2620,13 @@ SpriteStunned_Main:
     .not_fake_master_sword
     
     ; Only applies to throwable scenery.
-    JSR $E22F ; $3622F IN ROM
+    JSR $E22F ; $03622F IN ROM
     
     LDA $0FA5 : CMP.b #$20 : BNE .BRANCH_KAPPA
     
     LDA $0B6B, X : LSR A : BCS .BRANCH_KAPPA
     
-    ; *$360AB ALTERNATE ENTRY POINT
+    ; $0360AB ALTERNATE ENTRY POINT
     
     ; \task So... 0x01 is for outdoors, and 0x05 falling state is for
     ; indoors? Double and triple check this as it alters the necessary
@@ -2663,7 +2657,7 @@ SpriteStunned_Main:
     
     TYX
     
-    JSR $E0F6 ; $360F6 IN ROM
+    JSR $E0F6 ; $0360F6 IN ROM
     
     PLX
     
@@ -2683,7 +2677,7 @@ SpriteStunned_Main:
     
     .anospawn_leaping_fish
     
-    ; *$360F6 ALTERNATE ENTRY POINT
+    ; $0360F6 ALTERNATE ENTRY POINT
     
     JSL Sound_SetSfxPan : ORA.b #$28 : STA $012E
     
@@ -2695,7 +2689,7 @@ SpriteStunned_Main:
     
     JSL GetRandomInt : AND.b #$01
     
-    JMP $E095 ; $36095 IN ROM
+    JMP $E095 ; $036095 IN ROM
     
     .BRANCH_MU
     
@@ -2726,7 +2720,7 @@ SpriteStunned_Main:
     
     STZ $0D40, X
     
-    ; *$36149 ALTERNATE ENTRY POINT
+    ; $036149 ALTERNATE ENTRY POINT
     .BRANCH_SIGMA
     
     LDA $0DD0, X : CMP.b #$0B : BNE .BRANCH_TAU
@@ -2748,7 +2742,7 @@ SpriteStunned_Main:
 
 ; ==============================================================================
 
-; *$36164-$36171 LOCAL
+; $036164-$036171 LOCAL
 ThrowableScenery_InteractWithSpritesAndTiles:
 {
     JSR Sprite_Move
@@ -2766,7 +2760,7 @@ ThrowableScenery_InteractWithSpritesAndTiles:
 
     ; This routine is intended to be used by 'throwable sprites' to damage
     ; other sprites.
-; *$36172-$361B1 LOCAL
+; $036172-$0361B1 LOCAL
 ThrownSprite_CheckDamageToPeers:
 {
     LDA $0F10, X : BNE .delay_damaging_others
@@ -2805,7 +2799,7 @@ ThrownSprite_CheckDamageToPeers:
 
 ; ==============================================================================
 
-; *$361B2-$3626D LOCAL
+; $0361B2-$03626D LOCAL
 ThrownSprite_CheckDamageToSinglePeer:
 {
     LDA $0D10, X : STA $00
@@ -2865,20 +2859,20 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     LDA.b #$10 : STA $0F10, X
     
-    ; *$36229 ALTERNATE ENTRY POINT
+    ; $036229 ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     JSR Sprite_Invert_XY_Speeds
     JSR Sprite_Halve_XY_Speeds
     
-    ; *$3622F ALTERNATE ENTRY POINT
+    ; $03622F ALTERNATE ENTRY POINT
     
     ; Not a bush...
     LDA $0E20, X : CMP.b #$EC : BNE .BRANCH_DELTA
     
     STZ $0FAC
     
-    ; *$36239 ALTERNATE ENTRY POINT
+    ; $036239 ALTERNATE ENTRY POINT
     
     LDA $0DC0, X : BEQ .BRANCH_EPSILON
     
@@ -2902,12 +2896,12 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     LDA $E272, Y : JSL Sound_SetSfx2PanLong
     
-    ; *$3625A ALTERNATE ENTRY POINT
+    ; $03625A ALTERNATE ENTRY POINT
     shared Sprite_ScheduleForBreakage:
     
     LDA.b #$1F
     
-    ; *$3625C ALTERNATE ENTRY POINT
+    ; $03625C ALTERNATE ENTRY POINT
     shared Sprite_CustomTimedScheduleForBreakage:
     
     STA $0DF0, Y
@@ -2924,7 +2918,7 @@ ThrownSprite_CheckDamageToSinglePeer:
 
 ; ==============================================================================
 
-; *$3626E-$3627C LOCAL
+; $03626E-$03627C LOCAL
 Sprite_Halve_XY_Speeds:
 {
     ; This sequence does an arithmetic (not logical!) shift right on
@@ -2942,7 +2936,7 @@ Sprite_Halve_XY_Speeds:
 
 ; ==============================================================================
 
-; *$36286-$362A6 LOCAL
+; $036286-$0362A6 LOCAL
 Fish_SpawnLeapingFish:
 {
     ; I think this is the routine called to spawn the fish that jump out
@@ -2970,11 +2964,11 @@ Fish_SpawnLeapingFish:
     RTS
 }
 
-; *$362B6-$36342 LOCAL
+; $0362B6-$036342 LOCAL
 {
     JSL Sprite_DrawRippleIfInWater
     
-    ; *$362BA ALTERNATE ENTRY POINT
+    ; $0362BA ALTERNATE ENTRY POINT
     
     JSR SpriteActive_Main
     
@@ -3039,10 +3033,9 @@ Fish_SpawnLeapingFish:
 
 ; ==============================================================================
 
-; $36343-$36392 DATA
+; $036343-$036392 DATA
 pool SpritePoof_Main:
 {
-    
     .x_offsets
     db -6,  10,   1,  13
     db -6,  10,   1,  13
@@ -3076,7 +3069,7 @@ pool SpritePoof_Main:
 
 ; ==============================================================================
 
-; *$36393-$36415 JUMP LOCATION
+; $036393-$036415 JUMP LOCATION
 SpritePoof_Main:
 {
     ; Sprite state 0x02
@@ -3093,7 +3086,7 @@ SpritePoof_Main:
     LDY $0D10, X : PHY
     LDY $0D30, X : PHY
     
-    JSR $F9D1 ; $379D1 IN ROM
+    JSR $F9D1 ; $0379D1 IN ROM
     
     PLA : STA $0D30, X
     PLA : STA $0D10, X
@@ -3109,11 +3102,11 @@ SpritePoof_Main:
     
     LDY.b #$02
     
-    JMP $F9BC ; $379BC IN ROM
+    JMP $F9BC ; $0379BC IN ROM
     
     .has_specific_drop_item
     
-    JMP $F923 ; $37923 IN ROM
+    JMP $F923 ; $037923 IN ROM
     
     .just_draw
     
@@ -3156,7 +3149,7 @@ SpritePoof_Main:
 
 ; ==============================================================================
 
-; *$36416-$36419 LONG
+; $036416-$036419 LONG
 Sprite_PrepOamCoordLong:
 {
     JSR Sprite_PrepOamCoordSafeWrapper
@@ -3166,7 +3159,7 @@ Sprite_PrepOamCoordLong:
 
 ; ==============================================================================
 
-; *$3641A-$3641D LOCAL
+; $03641A-$03641D LOCAL
 Sprite_PrepOamCoordSafeWrapper:
 {
     ; This wrapper is considered 'Safe' because it negates the caller
@@ -3183,7 +3176,7 @@ Sprite_PrepOamCoordSafeWrapper:
 
 ; ==============================================================================
 
-; $3641E-$36495 LOCAL
+; $03641E-$036495 LOCAL
 Sprite_PrepOamCoord:
 {
     ; Enable the sprite to move.
@@ -3263,7 +3256,7 @@ Sprite_PrepOamCoord:
 
 ; ==============================================================================
 
-; *$36496-$364A0 LONG
+; $036496-$0364A0 LONG
 Sprite_CheckTileCollisionLong:
 {
     PHB : PHK : PLB
@@ -3279,10 +3272,9 @@ Sprite_CheckTileCollisionLong:
 
 ; ==============================================================================
 
-; *$364A1-$364DA BRANCH LOCATION
+; $0364A1-$0364DA BRANCH LOCATION
 pool Sprite_CheckTileCollision:
 {
-    
     .restore_layer_property
     
     LDA $0FB6 : STA $0F20, X
@@ -3293,7 +3285,7 @@ pool Sprite_CheckTileCollision:
     
     JMP Sprite_CheckTileCollisionSingleLayer
     
-    ; $364AB MAIN ENTRY POINT
+    ; $0364AB MAIN ENTRY POINT
 Sprite_CheckTileCollision:
     
     STZ $0E70, X
@@ -3321,14 +3313,14 @@ Sprite_CheckTileCollision:
 
 ; ==============================================================================
 
-; *$364DB-$365B7 LOCAL
+; $0364DB-$0365B7 LOCAL
 Sprite_CheckTileCollisionSingleLayer:
 {
     LDA $0E40, X : AND.b #$20 : BEQ .BRANCH_ALPHA
     
     LDY.b #$6A
     
-    ; $3673C IN ROM
+    ; $03673C IN ROM
     JSR $E73C : BCC .BRANCH_BETA
     
     INC $0E70, X
@@ -3353,7 +3345,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_ZETA
     
-    JSR $E5EE   ; $365EE IN ROM
+    JSR $E5EE   ; $0365EE IN ROM
     
     .BRANCH_EPSILON
     
@@ -3365,7 +3357,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_IOTA
     
-    JSR $E5B8   ; $365B8 IN ROM
+    JSR $E5B8   ; $0365B8 IN ROM
     
     .BRANCH_THETA
     
@@ -3377,7 +3369,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_LAMBDA
     
-    JSR $E5EE   ; $365EE IN ROM
+    JSR $E5EE   ; $0365EE IN ROM
     
     DEY : BPL .BRANCH_LAMBDA
     
@@ -3385,7 +3377,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_MU
     
-    JSR $E5B8   ; $365B8 IN ROM
+    JSR $E5B8   ; $0365B8 IN ROM
     
     DEY : CPY.b #$01 : BNE .BRANCH_MU
     
@@ -3403,7 +3395,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDY.b #$68
     
-    JSR $E73C ; $3673C IN ROM
+    JSR $E73C ; $03673C IN ROM
     
     LDA $0FA5 : STA $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
     
@@ -3425,7 +3417,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA $1B : BNE .BRANCH_SIGMA
     
-    JMP $E0AB ; $360AB IN ROM
+    JMP $E0AB ; $0360AB IN ROM
     
     .BRANCH_SIGMA
     
@@ -3455,7 +3447,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA $7FFABC, X : CMP.b #$1C : BNE .BRANCH_PHI
     
-    JSR $E624 ; $36624 IN ROM
+    JSR $E624 ; $036624 IN ROM
     
     LDA $0E70, X : ORA.b #$20 : STA $0E70, X
     
@@ -3492,9 +3484,9 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; *$365B8-$365ED LOCAL
+; $0365B8-$0365ED LOCAL
 {
-    ; $3672F IN ROM
+    ; $03672F IN ROM
     JSR $E72F : BCC .BRANCH_ALPHA
     
     LDA $E723, Y : ORA $0E70, X : STA $0E70, X
@@ -3519,9 +3511,9 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; *$365EE-$36623 LOCAL
+; $0365EE-$036623 LOCAL
 {
-    ; $3672F IN ROM
+    ; $03672F IN ROM
     JSR $E72F : BCC .return
     
     LDA $E723, Y : ORA $0E70, X : STA $0E70, X
@@ -3536,7 +3528,7 @@ Sprite_CheckTileCollisionSingleLayer:
     JSR .add_offset
     JSR .add_offset
     
-    ; *$36610 ALTERNATE ENTRY POINT
+    ; $036610 ALTERNATE ENTRY POINT
     .add_offset
     
     LDA $0D00, X : CLC : ADC $E727, Y : STA $0D00, X
@@ -3547,7 +3539,7 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; *$36624-$3664A LOCAL
+; $036624-$03664A LOCAL
 {
     LDA $0310 : CLC : ADC $0D00, X : STA $0D00, X
     LDA $0311 : ADC $0D20, X : STA $0D20, X
@@ -3557,7 +3549,7 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; $3664B-$36722 DATA
+; $03664B-$036722 DATA
 {
     dw   8,   8,   2,  14,   8,   8,  -2,  10
     dw   8,   8,   1,  14,   4,   4,   4,   4
@@ -3579,9 +3571,8 @@ Sprite_CheckTileCollisionSingleLayer:
 
 ; ==============================================================================
 
-; $36723-$3672E DATA
+; $036723-$03672E DATA
 {
-    
     db 8,  4,  2,  1
     
     
@@ -3593,7 +3584,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
 ; ==============================================================================
 
-; *$3672F-$3687A LOCAL
+; $03672F-$03687A LOCAL
 {
     ; Seems that $08 is a value from 0 to 3 indicating the direction
     ; to check collision in... Pretty sure anyways.
@@ -3601,7 +3592,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA $0B6B, X : AND.b #$F0 : LSR #2 : ADC $08 : ASL A : TAY
     
-    ; *$3673C ALTERNATE ENTRY POINT
+    ; $03673C ALTERNATE ENTRY POINT
     
     LDA $1B : BEQ .outdoors
     
@@ -3637,7 +3628,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     SEP #$20 : BCC .inbounds
     
-    JMP $E852 ; $36852 IN ROM
+    JMP $E852 ; $036852 IN ROM
     
     .inbounds
     
@@ -3666,11 +3657,11 @@ Sprite_CheckTileCollisionSingleLayer:
     CMP.b #$14 : BCS .not_sloped_tile
     
     JSR Entity_CheckSlopedTileCollision
-    JMP $E878 ; $36878 IN ROM
+    JMP $E878 ; $036878 IN ROM
     
     .not_sloped_tile
     
-    JMP $E872 ; $36872 IN ROM
+    JMP $E872 ; $036872 IN ROM
     
     .BRANCH_EPSILON
     
@@ -3680,7 +3671,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_ZETA
     
-    JMP $E877 ; $36877 IN ROM
+    JMP $E877 ; $036877 IN ROM
     
     .dont_use_simplified_tile_collision
     
@@ -3762,9 +3753,9 @@ Sprite_CheckTileCollisionSingleLayer:
     
     BRA .BRANCH_PI
     
-    ; *$36852 ALTERNATE ENTRY POINT
+    ; $036852 ALTERNATE ENTRY POINT
     
-    JSR $E872 ; $36872 IN ROM
+    JSR $E872 ; $036872 IN ROM
     
     LDA $0E40, X : ASL A : BPL .BRANCH_PHI
     
@@ -3788,7 +3779,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA $0EA0, X : BNE .BRANCH_OMICRON
     
-    ; *$36872 ALTERNATE ENTRY POINT
+    ; $036872 ALTERNATE ENTRY POINT
     .not_pit_tile
     .BRANCH_PI
     
@@ -3798,13 +3789,13 @@ Sprite_CheckTileCollisionSingleLayer:
     
     BRA .BRANCH_SIGMA
     
-    ; *$36877 ALTERNATE ENTRY POINT
+    ; $036877 ALTERNATE ENTRY POINT
     .BRANCH_OMICRON
     .deep_water_tile
     
     CLC
     
-    ; *$36878 ALTERNATE ENTRY POINT
+    ; $036878 ALTERNATE ENTRY POINT
     .BRANCH_SIGMA
     
     LDY $08
@@ -3814,7 +3805,7 @@ Sprite_CheckTileCollisionSingleLayer:
 
 ; ==============================================================================
 
-; *$3687B-$36882 LONG
+; $03687B-$036882 LONG
 Entity_GetTileAttr:
 {
     PHB : PHK : PLB
@@ -3828,7 +3819,7 @@ Entity_GetTileAttr:
 
 ; ==============================================================================
 
-; *$36883-$368D5 LOCAL
+; $036883-$0368D5 LOCAL
 Sprite_GetTileAttrLocal:
 {
     ; Notes:
@@ -3837,7 +3828,7 @@ Sprite_GetTileAttrLocal:
     
     LDA $0F20, X ; Floor selector for sprites
     
-    ; *$36886 ALTERNATE ENTRY POINT
+    ; $036886 ALTERNATE ENTRY POINT
     shared Entity_GetTileAttrLocal:
     
     CMP.b #$01 : REP #$30 : STZ $05 : BCC .on_bg2
@@ -3880,10 +3871,9 @@ Sprite_GetTileAttrLocal:
 
 ; ==============================================================================
 
-; $368D6-$368F5 DATA
+; $0368D6-$0368F5 DATA
 pool Entity_CheckSlopedTileCollision:
 {
-    
     .subtile_boundaries
     db 7, 6, 5, 4, 3, 2, 1, 0
     db 0, 1, 2, 3, 4, 5, 6, 7
@@ -3893,7 +3883,7 @@ pool Entity_CheckSlopedTileCollision:
 
 ; ==============================================================================
 
-; *$368F6-$368FD LONG
+; $0368F6-$0368FD LONG
 Entity_CheckSlopedTileCollisionLong:
 {
     PHB : PHK : PLB
@@ -3911,7 +3901,7 @@ Entity_CheckSlopedTileCollisionLong:
     ; (digonally)
     ; \task go into more detail figuring out how this works now that we have
     ; a foothold.
-; *$368FE-$3692B LOCAL
+; $0368FE-$03692B LOCAL
 Entity_CheckSlopedTileCollision:
 {
     ; Not sure what this routine does
@@ -3950,13 +3940,13 @@ Entity_CheckSlopedTileCollision:
     ; \optimize Has been identified as time consuming (relative to what it
     ; does in real terms). Similar functions in other banks will have
     ; similar performance.
-; *$3692C-$36931 LOCAL
+; $03692C-$036931 LOCAL
 Sprite_Move:
 {
     JSR .do_horiz
     JMP .do_vert
     
-; *$36932-$3693D LOCAL
+; $036932-$03693D LOCAL
     shared Sprite_MoveHoriz:
     
     .do_horiz
@@ -3973,7 +3963,7 @@ Sprite_Move:
     
     .do_vert
     
-; *$3693E-$3696B LOCAL
+; $03693E-$03696B LOCAL
     shared Sprite_MoveVert:
     
     LDA $0D40, X : BEQ .return
@@ -3998,7 +3988,7 @@ Sprite_Move:
 
 ; ==============================================================================
 
-; *$3696C-$3698D LOCAL
+; $03696C-$03698D LOCAL
 Sprite_MoveAltitude:
 {
     ; Do... altitude adjustment...?
@@ -4018,7 +4008,7 @@ Sprite_MoveAltitude:
 
 ; ==============================================================================
 
-; *$3698E-$36990 BRANCH LOCATION
+; $03698E-$036990 BRANCH LOCATION
 Sprite_ProjectSpeedTowardsPlayer_return:
 {
     STZ $00
@@ -4028,7 +4018,7 @@ Sprite_ProjectSpeedTowardsPlayer_return:
 
 ; ==============================================================================
 
-; *$36991-$36A03 LOCAL
+; $036991-$036A03 LOCAL
 Sprite_ProjectSpeedTowardsPlayer:
 {
     ; Calculates a trajectory with a given magnitude.... but there's some
@@ -4137,7 +4127,7 @@ Sprite_ProjectSpeedTowardsPlayer:
 
 ; ==============================================================================
 
-; *$36A04-$36A11 LOCAL
+; $036A04-$036A11 LOCAL
 Sprite_ApplySpeedTowardsPlayer:
 {
     JSR Sprite_ProjectSpeedTowardsPlayer
@@ -4150,7 +4140,7 @@ Sprite_ApplySpeedTowardsPlayer:
 
 ; ==============================================================================
 
-; *$36A12-$36A19 LONG
+; $036A12-$036A19 LONG
 Sprite_ApplySpeedTowardsPlayerLong:
 {
     PHB : PHK : PLB
@@ -4164,7 +4154,7 @@ Sprite_ApplySpeedTowardsPlayerLong:
 
 ; ==============================================================================
 
-; *$36A1A-$36A21 LONG
+; $036A1A-$036A21 LONG
 Sprite_ProjectSpeedTowardsPlayerLong:
 {
     PHB : PHK : PLB
@@ -4178,7 +4168,7 @@ Sprite_ProjectSpeedTowardsPlayerLong:
 
 ; ==============================================================================
 
-; *$36A22-$36A29 LONG
+; $036A22-$036A29 LONG
 Sprite_ProjectSpeedTowardsEntityLong:
 {
     PHB : PHK : PLB
@@ -4192,10 +4182,9 @@ Sprite_ProjectSpeedTowardsEntityLong:
 
 ; ==============================================================================
 
-; *$36A2A-$36A2C BRANCH LOCATION
+; $036A2A-$036A2C BRANCH LOCATION
 pool Sprite_ProjectSpeedTowardsEntity:
 {
-    
     .return
     STZ $00
     
@@ -4204,7 +4193,7 @@ pool Sprite_ProjectSpeedTowardsEntity:
 
 ; ==============================================================================
 
-; *$36A2D-$36A9F LOCAL
+; $036A2D-$036A9F LOCAL
 Sprite_ProjectSpeedTowardsEntity:
 {
     STA $01 : CMP.b #$00 : BEQ .return
@@ -4298,7 +4287,7 @@ Sprite_ProjectSpeedTowardsEntity:
 
 ; ==============================================================================
 
-; *$36AA0-$36AA3 LONG
+; $036AA0-$036AA3 LONG
 Sprite_DirectionToFacePlayerLong:
 {
     JSR Sprite_DirectionToFacePlayer
@@ -4308,7 +4297,7 @@ Sprite_DirectionToFacePlayerLong:
 
 ; ==============================================================================
 
-; *$36AA4-$36ACC LOCAL
+; $036AA4-$036ACC LOCAL
     ; \return       $0E is low byte of player_y_pos - sprite_y_pos
     ; \return       $0F is low byte of player_x_pos - sprite_x_pos
 Sprite_DirectionToFacePlayer:
@@ -4346,7 +4335,7 @@ Sprite_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; *$36ACD-$36AD0 LONG
+; $036ACD-$036AD0 LONG
 Sprite_IsToRightOfPlayerLong:
 {
     JSR Sprite_IsToRightOfPlayer
@@ -4356,7 +4345,7 @@ Sprite_IsToRightOfPlayerLong:
 
 ; ==============================================================================
 
-; *$36AD1-$36AE3 LOCAL
+; $036AD1-$036AE3 LOCAL
 Sprite_IsToRightOfPlayer:
 {
     LDY.b #$00
@@ -4375,7 +4364,7 @@ Sprite_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; *$36AE4-$36AE7 LONG
+; $036AE4-$036AE7 LONG
 Sprite_IsBelowPlayerLong:
 {
     JSR Sprite_IsBelowPlayer
@@ -4387,7 +4376,7 @@ Sprite_IsBelowPlayerLong:
 
     ; \return Y=0 sprite is above or level with player
     ; \return Y=1 sprite is below player
-; *$36AE8-$36B09 LOCAL
+; $036AE8-$036B09 LOCAL
 Sprite_IsBelowPlayer:
 {
     LDY.b #$00
@@ -4416,7 +4405,7 @@ Sprite_IsBelowPlayer:
 
 ; ==============================================================================
 
-; *$36B0A-$36B1C LOCAL
+; $036B0A-$036B1C LOCAL
 Sprite_IsToRightOfEntity:
 {
     ; $04 = X coordinate of an entity
@@ -4435,7 +4424,7 @@ Sprite_IsToRightOfEntity:
 
 ; ==============================================================================
 
-; *$36B1D-$36B2F LOCAL
+; $036B1D-$036B2F LOCAL
 Sprite_IsBelowEntity:
 {
     ; $06 = coordinate of an entity
@@ -4454,7 +4443,7 @@ Sprite_IsBelowEntity:
 
 ; ==============================================================================
 
-; $36B30-$36B5D LONG
+; $036B30-$036B5D LONG
 Sprite_DirectionToFaceEntity:
 {
     PHB : PHK : PLB
@@ -4494,24 +4483,24 @@ Sprite_DirectionToFaceEntity:
     RTL
 }
 
-; *$36B5E-$36B65 LONG
+; $036B5E-$036B65 LONG
 {
     PHB : PHK : PLB
     
-    JSR $EB76 ; $36B76 IN ROM
+    JSR $EB76 ; $036B76 IN ROM
     
     PLB
     
     RTL
 }
 
-; *$36B66-$36B6D DATA
+; $036B66-$036B6D DATA
 {
     .recoilTimes
     db $0F db $0F db $18 db $0F db $0F db $13 db $0F db $0F
 }
 
-; *$36B76-$36C5B LOCAL
+; $036B76-$036C5B LOCAL
 {
     ; Exclusively called by soldier like enemies... but not sure why...?
     
@@ -4524,7 +4513,7 @@ Sprite_DirectionToFaceEntity:
                    BNE .return
     LDA $0EF0, X : BMI .return
     
-    JSR $F645 ; $37645 IN ROM
+    JSR $F645 ; $037645 IN ROM
     
     LDA $037A : AND.b #$10 : BNE .BRANCH_GAMMA
     
@@ -4589,7 +4578,7 @@ Sprite_DirectionToFaceEntity:
     
     JML Sprite_StaggeredCheckDamageToPlayerPlusRecoil
     
-    ; *$36C02 ALTERNATE ENTRY POINT
+    ; $036C02 ALTERNATE ENTRY POINT
     .BRANCH_IOTA
     
     LDA $0E20, X
@@ -4620,7 +4609,7 @@ Sprite_DirectionToFaceEntity:
     LDA.b #$40 : STA $0E00, X
                  STA $0360
     
-    JSR $F3DB ; $373DB IN ROM
+    JSR $F3DB ; $0373DB IN ROM
     
     .player_blinking_invulnerable
     
@@ -4642,14 +4631,14 @@ Sprite_DirectionToFaceEntity:
     LDA $00 : EOR.b #$FF : INC A : STA $0F30, X
     LDA $01 : EOR.b #$FF : INC A : STA $0F40, X
     
-    JSL $06ED3F ; $36D3F IN ROM
+    JSL $06ED3F ; $036D3F IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$36C5C-$36C7D LONG
+; $036C5C-$036C7D LONG
 Medallion_CheckSpriteDamage:
 {
     ; Exclusively called by Medallion code
@@ -4675,10 +4664,9 @@ Medallion_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; $36C7E-$36CB6 DATA
+; $036C7E-$036CB6 DATA
 pool Ancilla_CheckSpriteDamage:
 {
-    
     .damage_classes ; see $0C4A in ram
     db 6,  1, 11,  0,  0,  0,  0,  8,  0,  6,  0, 12,  1,  0,  0,  0
     db 0,  1,  0,  0,  0,  0,  0,  0, 14, 13,  0,  0, 15,  0,  0,  7
@@ -4688,7 +4676,7 @@ pool Ancilla_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; *$36CB7-$36D32 LONG
+; $036CB7-$036D32 LONG
 Ancilla_CheckSpriteDamage:
 {
     LDY $0EF0, X : BPL .sprite_not_already_dying
@@ -4697,7 +4685,7 @@ Ancilla_CheckSpriteDamage:
     
     ; \note It's called override because apparently it ignores the death timer
     ; status of the affected sprite.
-    ; *$36CBD ALTERNATE ENTRY POINT
+    ; $036CBD ALTERNATE ENTRY POINT
     .override
     .sprite_not_already_dying
 
@@ -4730,7 +4718,7 @@ Ancilla_CheckSpriteDamage:
     ; \task Should this really be in the Ancilla namespace? Perhaps this and
     ; its brethen should be in the Sprite_ namespace and flip around the
     ; ancilla part so it's taking damage from an ancilla or damage class.
-    ; *$36CE0 ALTERNATE ENTRY POINT
+    ; $036CE0 ALTERNATE ENTRY POINT
     .preset_class
     .not_arrow_damage_class
     
@@ -4773,7 +4761,7 @@ Ancilla_CheckSpriteDamage:
 
     RTL
     
-    ; *$36D25 ALTERNATE ENTRY POINT
+    ; $036D25 ALTERNATE ENTRY POINT
     .apply_damage
     .not_boomerang_or_hookshot
 
@@ -4793,14 +4781,14 @@ Ancilla_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; $36D33-$36D3E DATA TABLE
+; $036D33-$036D3E DATA TABLE
 {
     db 1, 2, 3, 4 ; normal strike damage indices
     db 2, 3, 4, 5 ; spin attack damage indices
     db 1, 1, 2, 3 ; stabbing damage indices
 }
 
-; *$36D3F-$36EC0 LONG
+; $036D3F-$036EC0 LONG
 {
     ; If bit 6 is set, sprite is invincible.
     LDA $0E60, X : AND.b #$40 : BEQ .notImpervious
@@ -4857,7 +4845,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$9D
     
-    ; *$36D89 ALTERNATE ENTRY POINT
+    ; $036D89 ALTERNATE ENTRY POINT
     
     STA $00
     
@@ -4891,14 +4879,14 @@ Ancilla_CheckSpriteDamage:
     
     PLX
     
-    ; $36DC5 ALTERNATE ENTRY POINT
+    ; $036DC5 ALTERNATE ENTRY POINT
     
     CMP.b #$F9 : BNE .dontMakeIntoFairy
     
     ; Turn something into a fairy
     LDA.b #$E3
     
-    ; *$36DCB ALTERNATE ENTRY POINT
+    ; $036DCB ALTERNATE ENTRY POINT
     
     STA $0E20, X
     
@@ -4909,7 +4897,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
     
-    JMP $EEC1   ; $36EC1 IN ROM
+    JMP $EEC1   ; $036EC1 IN ROM
     
     .dontMakeIntoFairy
     
@@ -4918,7 +4906,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$8F
     
-    JSL $06EDCB ; $36DCB IN ROM
+    JSL $06EDCB ; $036DCB IN ROM
     
     LDA.b #$02 : STA $0D80, X
     
@@ -4953,7 +4941,7 @@ Ancilla_CheckSpriteDamage:
     
     .BRANCH_THETA
     
-    JMP $EEC1 ; $36EC1 IN ROM; dont deal damage/dont kill sprite?
+    JMP $EEC1 ; $036EC1 IN ROM; dont deal damage/dont kill sprite?
     
     .notZeroDamageType
     
@@ -4985,7 +4973,7 @@ Ancilla_CheckSpriteDamage:
     
     CMP.b #$1B : BNE .not_arrow_in_wall
     
-    ; *$36E60 ALTERNATE ENTRY POINT
+    ; $036E60 ALTERNATE ENTRY POINT
     
     LDA.b #$05 : JSL Sound_SetSfx2PanLong
     
@@ -5044,7 +5032,7 @@ Ancilla_CheckSpriteDamage:
     RTL
 }
 
-; *$36EC1-$36EC7 JUMP LOCATION LONG
+; $036EC1-$036EC7 JUMP LOCATION LONG
 {
     STZ $0EF0, X
     STZ $0CE2, X
@@ -5052,7 +5040,7 @@ Ancilla_CheckSpriteDamage:
     RTL
 }
 
-; *$36EC8-$36F60 LOCAL
+; $036EC8-$036F60 LOCAL
 {
     ; Is the sprite alive?
     LDA $0DD0, X : CMP.b #$09 : BCC .not_fully_active_sprite
@@ -5130,7 +5118,7 @@ Ancilla_CheckSpriteDamage:
     
     .BRANCH_EPSILON
     
-    JMP $EFE7 ; $36FE7 IN ROM (RTS)
+    JMP $EFE7 ; $036FE7 IN ROM (RTS)
     
     .stun_timer_amounts
     db 32, 128,  0,  0, 255
@@ -5138,7 +5126,7 @@ Ancilla_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; *$36F61-$370AB BRANCH LOCATION
+; $036F61-$0370AB BRANCH LOCATION
 {
     LDA $0E50, X : STA $00
     
@@ -5189,7 +5177,7 @@ Ancilla_CheckSpriteDamage:
     
     LDY $0DB0, X : CPY.b #$02 : BNE .BRANCH_BETA
     
-    JMP $E239 ; $36239 IN ROM
+    JMP $E239 ; $036239 IN ROM
     
     .BRANCH_THETA
     
@@ -5206,13 +5194,13 @@ Ancilla_CheckSpriteDamage:
     
     PLA : CMP.b #$0C : BNE .BRANCH_KAPPA
     
-    ; *$36FDA ALTERNATE ENTRY POINT
+    ; $036FDA ALTERNATE ENTRY POINT
     shared Sprite_ScheduleForDeath:
     
     LDA.b #$06 : STA $0DD0, X
     LDA.b #$1F : STA $0DF0, X
     
-    JSR $E095 ; $36095 IN ROM
+    JSR $E095 ; $036095 IN ROM
     
     .BRANCH_BETA
     
@@ -5226,7 +5214,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$FF : STA $0DF0, X
     
-    JMP $F087 ; $37087 IN ROM
+    JMP $F087 ; $037087 IN ROM
     
     .BRANCH_LAMBDA
     
@@ -5257,7 +5245,7 @@ Ancilla_CheckSpriteDamage:
     CMP #$23 : BEQ .red_bari
     CMP #$0F : BNE .BRANCH_UPSILON
     
-    ; *$37025 ALTERNATE ENTRY POINT
+    ; $037025 ALTERNATE ENTRY POINT
     shared Octoballoon_ScheduleForDeath:
     
     STZ $0EF0, X
@@ -5280,7 +5268,7 @@ Ancilla_CheckSpriteDamage:
     
     STA $0DF0, X
     
-    JMP $F10B ; $3710B IN ROM
+    JMP $F10B ; $03710B IN ROM
     
     RTS
     
@@ -5331,7 +5319,7 @@ Ancilla_CheckSpriteDamage:
     
     BRA .BRANCH_ULTIMA
     
-    ; *$37087 ALTERNATE ENTRY POINT
+    ; $037087 ALTERNATE ENTRY POINT
     .BRANCH_PSI
     
     INC $0FFC
@@ -5366,7 +5354,7 @@ Ancilla_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; *$370AC-$37120 JUMP LOCATION
+; $0370AC-$037120 JUMP LOCATION
 Trinexx_ScheduleSideHeadForDeath:
 {
     LDA.b #$80 : STA $0D80, X
@@ -5379,7 +5367,7 @@ Trinexx_ScheduleSideHeadForDeath:
     ; the one above into smaller parts.
     BRA .BRANCH_$37087
     
-    ; *$370BD ALTERNATE ENTRY POINT
+    ; $0370BD ALTERNATE ENTRY POINT
     shared Trinexx_ScheduleMainHeadForDeath:
     
     LDA.b #$80 : STA $0D80, X
@@ -5390,7 +5378,7 @@ Trinexx_ScheduleSideHeadForDeath:
     
     BRA .BRANCH_$37087
     
-    ; *$370CE ALTERNATE ENTRY POINT
+    ; $0370CE ALTERNATE ENTRY POINT
     shared Agahnim_ScheduleForDeath:
     
     JSL Sprite_SchedulePeersForDeath
@@ -5406,7 +5394,7 @@ Trinexx_ScheduleSideHeadForDeath:
     
     LDA.b #$20 : STA $0F80, X
     
-    JMP $F087 ; $37087 IN ROM
+    JMP $F087 ; $037087 IN ROM
     
     .in_dark_world
     
@@ -5420,9 +5408,9 @@ Trinexx_ScheduleSideHeadForDeath:
     STZ $0DC1
     STZ $0DC2
     
-    JMP $F087 ; $36087 IN ROM
+    JMP $F087 ; $036087 IN ROM
     
-    ; *$3710B ALTERNATE ENTRY POINT
+    ; $03710B ALTERNATE ENTRY POINT
     
     LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
     
@@ -5437,7 +5425,7 @@ Trinexx_ScheduleSideHeadForDeath:
 
 ; ==============================================================================
 
-; *$37121-$37128 LONG
+; $037121-$037128 LONG
 Sprite_CheckDamageToPlayerLong:
 {
     PHB : PHK : PLB
@@ -5451,7 +5439,7 @@ Sprite_CheckDamageToPlayerLong:
 
 ; ==============================================================================
 
-; *$37129-$37130 LONG
+; $037129-$037130 LONG
 Sprite_CheckDamageToPlayerSameLayerLong:
 {
     PHB : PHK : PLB
@@ -5465,7 +5453,7 @@ Sprite_CheckDamageToPlayerSameLayerLong:
 
 ; ==============================================================================
 
-; *$37131-$37138 LONG
+; $037131-$037138 LONG
 Sprite_CheckDamageToPlayerIgnoreLayerLong:
 {
     PHB : PHK : PLB
@@ -5479,9 +5467,8 @@ Sprite_CheckDamageToPlayerIgnoreLayerLong:
 
 ; ==============================================================================
 
-; $37139-$37144 DATA
+; $037139-$037144 DATA
 {
-    
     ; \task Name this pool.
     .directions
     db 4, 6, 0, 2
@@ -5491,7 +5478,7 @@ Sprite_CheckDamageToPlayerIgnoreLayerLong:
 
 ; ==============================================================================
 
-; *$37145-$371F5 LOCAL
+; $037145-$0371F5 LOCAL
 Sprite_CheckDamageToPlayer:
 {
     ; Return value CLC = no damage
@@ -5500,7 +5487,7 @@ Sprite_CheckDamageToPlayer:
     ; Is Link untouchable?
     LDA $037B : BNE .no_damage
     
-    ; *$3714A ALTERNATE ENTRY POINT
+    ; $03714A ALTERNATE ENTRY POINT
     .stagger
     
     ; No he's not, he's vulnerable
@@ -5510,20 +5497,20 @@ Sprite_CheckDamageToPlayer:
     ; It wasn't the right frame to hit on?
     ORA $0EF0, X : BNE .no_damage
     
-    ; *$37154 ALTERNATE ENTRY POINT
+    ; $037154 ALTERNATE ENTRY POINT
     .same_layer
     
     ; Is the sprite on the same floor as Link?
     ; Nope, he doesn't get hit.
     LDA $00EE : CMP $0F20, X : BNE .BRANCH_BETA
     
-    ; *$3715C ALTERNATE ENTRY POINT
+    ; $03715C ALTERNATE ENTRY POINT
     .ignore_layer
     
     ; Is the sprite deactivated?
     LDA $0F60, X : BEQ .BRANCH_GAMMA
     
-    JSR Player_SetupHitBox_ignoreImmunity ;$F70A ; $3770A IN ROM; Puts Link's X / Y coords into memory
+    JSR Player_SetupHitBox_ignoreImmunity ;$F70A ; $03770A IN ROM; Puts Link's X / Y coords into memory
     JSR Sprite_SetupHitBox
     JSR Utility_CheckIfHitBoxesOverlap
     
@@ -5531,7 +5518,7 @@ Sprite_CheckDamageToPlayer:
     
     .BRANCH_GAMMA
     
-    JSR $F1F6 ; $371F6 IN ROM
+    JSR $F1F6 ; $0371F6 IN ROM
     
     .BRANCH_DELTA
     
@@ -5613,7 +5600,7 @@ Sprite_CheckDamageToPlayer:
     .cant_be_blocked_by_shield
     .BRANCH_ZETA
     
-    JSR $F3DB ; $373DB IN ROM
+    JSR $F3DB ; $0373DB IN ROM
     
     LDA $0E20, X : CMP.b #$0C : BNE .not_octorock_stone
     
@@ -5637,7 +5624,7 @@ Sprite_CheckDamageToPlayer:
     JMP Sprite_ScheduleForBreakage
 }
 
-; *$371F6-$37227 LOCAL
+; $0371F6-$037227 LOCAL
 {
     ; Load the sprite's Z component
     LDA $0F70, X : STA $0C
@@ -5668,7 +5655,7 @@ Sprite_CheckDamageToPlayer:
 
 ; ==============================================================================
 
-; $37228-$372A9 LOCAL
+; $037228-$0372A9 LOCAL
 Sprite_CheckIfLifted:
 {
     LDA $11 : ORA $3C : ORA $0FC1 : BNE .return
@@ -5690,14 +5677,14 @@ Sprite_CheckIfLifted:
     
     .is_chicken_or_bomb
     
-    ; $37257 ALTERNATE ENTRY POINT
+    ; $037257 ALTERNATE ENTRY POINT
     shared Sprite_CheckIfLiftedPermissive:
     
     LDA $0372 : BNE .return
         ; check if the current sprite is the same one Link is touching.
         LDA $02F4 : DEC A : CMP $0FA0 : BEQ .player_picks_up_sprite
             ; Set up player's hit box.
-            ; $37705 IN ROM
+            ; $037705 IN ROM
             JSR Player_SetupHitBox ;$F705
             JSR Sprite_SetupHitBox
                 
@@ -5736,7 +5723,7 @@ Sprite_CheckIfLifted:
 
 ; ==============================================================================
 
-; *$372AA-$372B3 LONG
+; $0372AA-$0372B3 LONG
 Sprite_CheckDamageFromPlayerLong:
 {
     PHB : PHK : PLB
@@ -5754,7 +5741,7 @@ Sprite_CheckDamageFromPlayerLong:
 
 ; ==============================================================================
 
-; *$372B4-$373C9 LOCAL
+; $0372B4-$0373C9 LOCAL
 Sprite_CheckDamageFromPlayer:
 {
     LDA $0EF0, X : AND.b #$80 : BNE .just_began_death_sequence
@@ -5818,7 +5805,7 @@ Sprite_CheckDamageFromPlayer:
     
     .spin_attack_charging
     
-    JMP $F3A2 ; $373A2 IN ROM
+    JMP $F3A2 ; $0373A2 IN ROM
     
     .is_baby_helmasaur
     
@@ -5828,24 +5815,24 @@ Sprite_CheckDamageFromPlayer:
     
     .is_flying_stalfos_head
     
-    JSR $F33D ; $3733D IN ROM
+    JSR $F33D ; $03733D IN ROM
     
     STZ $0EF0, X
     
     JSR Player_PlaceRepulseSpark
-    JMP $F3C7 ; $373C7 IN ROM
+    JMP $F3C7 ; $0373C7 IN ROM
     
-    ; *$3733D ALTERNATE ENTRY POINT
+    ; $03733D ALTERNATE ENTRY POINT
     .direction_mismatch
     .is_hardhat_bettle
     
-    JSR $EC02 ; $36C02 IN ROM
+    JSR $EC02 ; $036C02 IN ROM
     
     LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
     
     LDA.b #$10 : STA $47 : STA $46
     
-    JMP $F3C7 ; $373C7 IN ROM
+    JMP $F3C7 ; $0373C7 IN ROM
     
     .not_agahnim_energy_ball
     
@@ -5853,18 +5840,18 @@ Sprite_CheckDamageFromPlayer:
     
     LDA $0D90, X : BNE .sorry_youre_not_special
     
-    JSR $F445 ; $37445 IN ROM
+    JSR $F445 ; $037445 IN ROM
     
     ; I don't think this would play a sound at all, actually...
     LDA.b #$32 : JSL Sound_SetSfxPan : STA $012F
     
-    JMP $F3C2 ; $373C2 IN ROM
+    JMP $F3C2 ; $0373C2 IN ROM
     
     .not_giant_moldorm
     
     CMP.b #$92 : BNE .not_helmasaur_king
     
-    JMP $F460 ; $37460 IN ROM
+    JMP $F460 ; $037460 IN ROM
     
     .not_helmasaur_king
     
@@ -5879,7 +5866,7 @@ Sprite_CheckDamageFromPlayer:
     CMP.b #$CE : BEQ .certain_bosses
     CMP.b #$54 : BNE .sorry_youre_not_special
     
-    ; *$37395 ALTERNATE ENTRY POINT
+    ; $037395 ALTERNATE ENTRY POINT
     .certain_bosses:
     
     LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
@@ -5887,12 +5874,12 @@ Sprite_CheckDamageFromPlayer:
     LDA.b #$90 : STA $47
     LDA.b #$10 : STA $46
     
-    ; *$373A2 ALTERNATE ENTRY POINT
+    ; $0373A2 ALTERNATE ENTRY POINT
     .sorry_youre_not_special
     
     LDA $0CAA, X : AND.b #$04 : BNE .okay_maybe_you_are
     
-    JSR $EC02 ; $36C02 IN ROM
+    JSR $EC02 ; $036C02 IN ROM
     
     SEC
     
@@ -5904,7 +5891,7 @@ Sprite_CheckDamageFromPlayer:
     
     BRA .BRANCH_PI
     
-    ; *$373B2 ALTERNATE ENTRY POINT
+    ; $0373B2 ALTERNATE ENTRY POINT
     .okay_maybe_you_are
     
     LDA $47 : BNE .BRANCH_RHO
@@ -5914,14 +5901,14 @@ Sprite_CheckDamageFromPlayer:
     LDA.b #$10 : STA $46
     LDA.b #$10 : STA $47
     
-    ; *$373C2 ALTERNATE ENTRY POINT
+    ; $0373C2 ALTERNATE ENTRY POINT
     .BRANCH_RHO
     
     JSR Player_PlaceRepulseSpark
     
     SEC
     
-    ; *$373C7 ALTERNATE ENTRY POINT
+    ; $0373C7 ALTERNATE ENTRY POINT
     .BRANCH_PI
     
     LDA.b #$00
@@ -5931,17 +5918,17 @@ Sprite_CheckDamageFromPlayer:
 
 ; ==============================================================================
 
-; *$373CA-$3741E JUMP LOCATION
+; $0373CA-$03741E JUMP LOCATION
 Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 {
     TXA : EOR $1A : LSR A : BCS .delay_player_damage
     
-    JSR $F645 ; $37645 IN ROM
-    JSR Player_SetupHitBox ;$F705 ; $37705 IN ROM
+    JSR $F645 ; $037645 IN ROM
+    JSR Player_SetupHitBox ;$F705 ; $037705 IN ROM
     
     JSR Utility_CheckIfHitBoxesOverlap : BCS .dont_damage_player
     
-    ; *$373DB ALTERNATE ENTRY POINT
+    ; $0373DB ALTERNATE ENTRY POINT
     shared Sprite_AttemptDamageToPlayerPlusRecoil:
     
     LDA $031F : ORA $037B : BNE .dont_damage_player
@@ -5975,7 +5962,7 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 
 ; ==============================================================================
 
-; *$3741F-$37426 LONG
+; $03741F-$037426 LONG
 Sprite_AttemptDamageToPlayerPlusRecoilLong:
 {
     PHB : PHK : PLB
@@ -5989,7 +5976,7 @@ Sprite_AttemptDamageToPlayerPlusRecoilLong:
 
 ; ==============================================================================
 
-; $37427-$37444 DATA
+; $037427-$037444 DATA
     ; 1 of 3 values based on link's armour value and $0CD2, X
 Bump_Damage_Table:
 {
@@ -6007,7 +5994,7 @@ Bump_Damage_Table:
 
 ; ==============================================================================
 
-; *$37445-$3745F LOCAL
+; $037445-$03745F LOCAL
 {
     LDA.b #$30 : JSR Sprite_ApplyRecoilToPlayer
     
@@ -6018,21 +6005,21 @@ Bump_Damage_Table:
     
     LDA.b #$30 : STA $0E00, X
     
-    JMP $F3C7 ; $373C7 IN ROM
+    JMP $F3C7 ; $0373C7 IN ROM
 }
 
-; *$37460-$3746C LOCAL
+; $037460-$03746C LOCAL
 {
     LDA $0DB0, X : CMP #$03 : BCS .alpha
     
-    JMP $F3B2 ; $373B2 IN ROM
+    JMP $F3B2 ; $0373B2 IN ROM
     
     .alpha
     
-    JMP $F395 ; $37395 IN ROM
+    JMP $F395 ; $037395 IN ROM
 }
 
-; $37571-$3757D DATA
+; $037571-$03757D DATA
 {
     db 1, 1, 1, 0, 0, 0, 0, 1
     db 1, 0, 0, 1, 1
@@ -6040,7 +6027,7 @@ Bump_Damage_Table:
     
 ; ==============================================================================
 
-; *$3757E-$37585 LONG
+; $03757E-$037585 LONG
 Player_SetupActionHitBoxLong:
 {
     PHB : PHK : PLB
@@ -6054,10 +6041,9 @@ Player_SetupActionHitBoxLong:
 
 ; ==============================================================================
 
-; *$37594-$375DF LOCAL
+; $037594-$0375DF LOCAL
 pool Player_SetupActionHitBox:
 {
-    
     .spin_attack_hit_box
     
     LDA $22 : SEC : SBC.b #$0E : STA $00
@@ -6090,7 +6076,7 @@ pool Player_SetupActionHitBox:
 
 ; ==============================================================================
 
-; *$375E0-$37644 LOCAL
+; $0375E0-$037644 LOCAL
 Player_SetupActionHitBox:
 {
     LDA $0372 : BNE .dash_hit_box
@@ -6154,7 +6140,7 @@ Player_SetupActionHitBox:
 
 ; ==============================================================================
 
-; *$37645-$37687 LOCAL
+; $037645-$037687 LOCAL
 {
     LDY.b #$00
     
@@ -6200,7 +6186,7 @@ Player_SetupActionHitBox:
 
 ; ==============================================================================
 
-; *$37688-$3769E LOCAL
+; $037688-$03769E LOCAL
 Sprite_ApplyRecoilToPlayer:
 {
     PHA
@@ -6220,7 +6206,7 @@ Sprite_ApplyRecoilToPlayer:
 
 ; ==============================================================================
 
-; *$3769F-$376C9 LOCAL
+; $03769F-$0376C9 LOCAL
 Player_PlaceRepulseSpark:
 {
     LDA $0FAC : BNE .respulse_spark_already_active
@@ -6244,7 +6230,7 @@ Player_PlaceRepulseSpark:
 
 ; ==============================================================================
 
-; *$376CA-$37704 LONG
+; $0376CA-$037704 LONG
 Sprite_PlaceRupulseSpark:
 {
     LDA $0FAC : BNE .dont_place
@@ -6253,7 +6239,7 @@ Sprite_PlaceRupulseSpark:
     
     ; \note This entry point ignores whether there is already a repulse spark
     ; active (as there's only one slot for it, this would erase the old one).
-    ; *$376D5 ALTERNATE ENTRY POINT
+    ; $0376D5 ALTERNATE ENTRY POINT
     .coerce
     
     LDA $0D10, X : CMP $E2
@@ -6277,12 +6263,12 @@ Sprite_PlaceRupulseSpark:
 
 ; ==============================================================================
 
-; *$37705-$3772E LOCAL
+; $037705-$03772E LOCAL
 Player_SetupHitBox:
 {
     LDA $037B : BNE .no_player_interaction_with_sprites
     
-    ; *$3770A ALTERNATE ENTRY POINT
+    ; $03770A ALTERNATE ENTRY POINT
     .ignoreImmunity
     
     LDA.b #$08 : STA $02
@@ -6309,9 +6295,8 @@ Player_SetupHitBox:
 
 ; ==============================================================================
 
-; $3772F-$377EE DATA
+; $03772F-$0377EE DATA
 {
-    
     .x_offsets_low
     db   2,   3,   0,  -3,  -6,   0,   2,  -8
     db   0,  -4,  -8,   0,  -8, -16,   2,   2
@@ -6357,7 +6342,7 @@ Player_SetupHitBox:
 
 ; ==============================================================================
 
-; *$377EF-$37835 LOCAL
+; $0377EF-$037835 LOCAL
 Sprite_SetupHitBox:
 {
     ; Check the height value of the sprite.
@@ -6394,7 +6379,7 @@ Sprite_SetupHitBox:
 
 ; ==============================================================================
 
-; *$37836-$37863 LOCAL
+; $037836-$037863 LOCAL
 Utility_CheckIfHitBoxesOverlap:
 {
     ; returns carry clear if there was no overlap
@@ -6445,7 +6430,7 @@ Utility_CheckIfHitBoxesOverlap:
 
 ; ==============================================================================
 
-; $37864-$3786B LONG
+; $037864-$03786B LONG
 Sprite_OAM_AllocateDeferToPlayerLong:
 {
     PHB : PHK : PLB
@@ -6459,7 +6444,7 @@ Sprite_OAM_AllocateDeferToPlayerLong:
 
 ; ==============================================================================
 
-; $3786C-$378A1 LOCAL
+; $03786C-$0378A1 LOCAL
 OAM_AllocateDeferToPlayer:
 {
     ; Might want to rename this to a Sprite_ namespace...
@@ -6498,7 +6483,7 @@ OAM_AllocateDeferToPlayer:
 
 ; ==============================================================================
 
-; *$378A2-$37916 LOCAL
+; $0378A2-$037916 LOCAL
 SpriteDeath_Main:
 {
     ; Death routine for sprites
@@ -6526,7 +6511,7 @@ SpriteDeath_Main:
     
     LDA $0DF0, X : BEQ .BRANCH_37923
     
-    ; $378C9 ALTERNATE ENTRY POINT
+    ; $0378C9 ALTERNATE ENTRY POINT
     
     LDA $0E60, X : BMI .draw_normally
     
@@ -6573,11 +6558,11 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; *$37917-$3791E LONG
+; $037917-$03791E LONG
 {
     PHB : PHK : PLB
     
-    JSR $F923 ; $37923 IN ROM
+    JSR $F923 ; $037923 IN ROM
     
     PLB
     
@@ -6586,7 +6571,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; $3791F-$37922 DATA
+; $03791F-$037922 DATA
 {
     ; \task Name this pool / routine.
     
@@ -6596,7 +6581,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; *$37923-$37A53 LOCAL
+; $037923-$037A53 LOCAL
 {
     ; Is it a Vitreous small eyeball?
     LDA $0E20, X : CMP.b #$BE : BNE .not_small_vitreous_eyeball
@@ -6616,7 +6601,7 @@ SpriteDeath_Main:
     
     LDY $0E30, X : PHY
     
-    JSR $F9D1 ; $379D1 IN ROM
+    JSR $F9D1 ; $0379D1 IN ROM
     
     PLA : STA $0E30, X : DEC A : BNE .BRANCH_GAMMA
     
@@ -6700,7 +6685,7 @@ SpriteDeath_Main:
     ; Reload the prize pack #
     JSL GetRandomInt : PLY  : AND $FA5C, Y : BNE .BRANCH_MU
     
-    ; *$379BC ALTERNATE ENTRY POINT
+    ; $0379BC ALTERNATE ENTRY POINT
     
     TYA ; Transfer prize number to A register
     
@@ -6714,7 +6699,7 @@ SpriteDeath_Main:
     
     LDA $FA72, Y
     
-    ; *$379D1 ALTERNATE ENTRY POINT
+    ; $0379D1 ALTERNATE ENTRY POINT
     .BRANCH_ZETA
     
     ; Is the sprite we've dropped a big key?
@@ -6782,7 +6767,7 @@ SpriteDeath_Main:
     
     LDA.b #$04 : STA $0DC0, X
     
-    JMP $F8C9 ; $378C9 IN ROM
+    JMP $F8C9 ; $0378C9 IN ROM
     
     .not_evil_barrier
     
@@ -6791,7 +6776,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; $37A54-$37A5B LONG
+; $037A54-$037A5B LONG
 {
     PHB : PHK : PLB
     
@@ -6802,12 +6787,12 @@ SpriteDeath_Main:
     RTL
 }
 ; ==============================================================================
-; $37A5C-$37A71
+; $037A5C-$037A71
     ; This is using a mask system, 00 = 8/8 chances, 01 = 7/8 chances, 03 would be 6/8 etc...
     PrizePack_Chance: ; $06FA5C
     db $01, $01, $01, $00, $01, $01, $01
     
-; $37A72-$37AAA
+; $037A72-$037AAA
     PrizePack_Prizes: ; $06FA72
     ; wiki link for the prize pack as image : https://alttp-wiki.net/index.php/Enemy_prize_packs
     ;.group00 Empty group no data for it this label is just here for reference
@@ -6828,7 +6813,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; *$37B2A-$37B95 LOCAL
+; $037B2A-$037B95 LOCAL
 SpriteDeath_DrawPerishingOverlay:
 {
     LDA $046C : CMP.b #$04 : BNE .dont_use_super_priority
@@ -6878,7 +6863,7 @@ SpriteDeath_DrawPerishingOverlay:
 
 ; ==============================================================================
 
-; *$37BEA-$37CB6 JUMP LOCATION
+; $037BEA-$037CB6 JUMP LOCATION
 SpriteCustomFall_Main:
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
@@ -6942,7 +6927,7 @@ SpriteCustomFall_Main:
     
     LDA $FBB6, Y : STA $0DC0, X
     
-    JSR $FD17   ; $37D17 IN ROM
+    JSR $FD17   ; $037D17 IN ROM
     
     BRA .BRANCH_THETA
     
@@ -6958,7 +6943,7 @@ SpriteCustomFall_Main:
     
     STA $0DC0, X
     
-    JSR $FE5B   ; $37E5B IN ROM
+    JSR $FE5B   ; $037E5B IN ROM
     
     .BRANCH_THETA
     
@@ -6968,7 +6953,7 @@ SpriteCustomFall_Main:
     
     LDY.b #$68
     
-    JSR $E73C   ; $3673C IN ROM
+    JSR $E73C   ; $03673C IN ROM
     
     LDA $0FA5 : CMP.b #$20 : BEQ .BRANCH_KAPPA
     
@@ -6992,7 +6977,7 @@ SpriteCustomFall_Main:
     RTS
 }
 
-; *$37D17-$37D42 LOCAL
+; $037D17-$037D42 LOCAL
 {
     LDA $0E20, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
     
@@ -7019,14 +7004,14 @@ SpriteCustomFall_Main:
 
 ; ==============================================================================
 
-; $37D43-$37E5A DATA
+; $037D43-$037E5A DATA
 {
     ; \task Fill in data later, name stuff.
 }
 
 ; ==============================================================================
 
-; *$37E5B-$37EB3 LOCAL
+; $037E5B-$037EB3 LOCAL
 {
     JSR Sprite_PrepOamCoord
     
@@ -7081,7 +7066,7 @@ SpriteCustomFall_Main:
 
 ; ==============================================================================
 
-; *$37EB4-$37EBB LONG
+; $037EB4-$037EBB LONG
 Sprite_CorrectOamEntriesLong:
 {
     PHB : PHK : PLB
@@ -7095,7 +7080,7 @@ Sprite_CorrectOamEntriesLong:
 
 ; ==============================================================================
 
-; *$37EBC-$37F25 LOCAL
+; $037EBC-$037F25 LOCAL
 Sprite_CorrectOamEntries:
 {
     !spr_y_lo = $00
@@ -7188,7 +7173,7 @@ Sprite_CorrectOamEntries:
 
 ; ==============================================================================
 
-; *$37F26-$37F48 LOCAL
+; $037F26-$037F48 LOCAL
 Sprite_GetScreenRelativeCoords:
 {
     STY $0B
@@ -7208,7 +7193,7 @@ Sprite_GetScreenRelativeCoords:
 
 ; ==============================================================================
 
-; *$37F49-$37F55 LOCAL
+; $037F49-$037F55 LOCAL
 Sprite_CheckIfOnScreenX:
 {
     REP #$20
@@ -7222,7 +7207,7 @@ Sprite_CheckIfOnScreenX:
 
 ; ==============================================================================
 
-; *$37F56-$37F6C LOCAL
+; $037F56-$037F6C LOCAL
 Sprite_CheckIfOnScreenY:
 {
     REP #$20
@@ -7241,7 +7226,7 @@ Sprite_CheckIfOnScreenY:
 
 ; ==============================================================================
 
-; $37F6D-$37F71 UNUSED
+; $037F6D-$037F71 UNUSED
 pool Unused:
 {
     JSL Sprite_SelfTerminate
@@ -7251,17 +7236,16 @@ pool Unused:
 
 ; ==============================================================================
 
-; $37F72-$37F77 DATA
+; $037F72-$037F77 DATA
 pool Sprite_CheckIfRecoiling:
 {
-    
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
 }
 
 ; ==============================================================================
 
-; *$37F78-$37FF7 LOCAL
+; $037F78-$037FF7 LOCAL
 Sprite_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -7339,7 +7323,7 @@ Sprite_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $37FF8-$37FFF NULL
+; $037FF8-$037FFF NULL
 pool Null:
 {
     pad $FF

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$F6EEF-$F6F11 JUMP LOCATION
+; $0F6EEF-$0F6F11 JUMP LOCATION
 Sprite_ShopKeeper:
 {
     LDA $0E80, X
@@ -24,7 +24,7 @@ Sprite_ShopKeeper:
     dw $F322 ; = $F7322* ; 
 }
 
-; *$F6F12-$F6F6C JUMP LOCATION
+; $0F6F12-$0F6F6C JUMP LOCATION
 {
     LDA $0FFF : BEQ .in_light_world
     
@@ -71,7 +71,7 @@ Sprite_ShopKeeper:
     db $01, $01
 }
 
-; *$F6F6D-$F6F8F LOCAL
+; $0F6F6D-$0F6F8F LOCAL
 {
     REP #$20
     
@@ -91,7 +91,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F6F90-$F6FBE JUMP LOCATION
+; $0F6F90-$0F6FBE JUMP LOCATION
 {
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     JSL Sprite_PrepAndDrawSingleLargeLong
@@ -111,7 +111,7 @@ Sprite_ShopKeeper:
     dw $F000 ; = $F7000*
 }
 
-; $F6FBF-$F6FD4 JUMP LOCATION
+; $0F6FBF-$0F6FD4 JUMP LOCATION
 {
     LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
     
@@ -127,7 +127,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F6FD5-$F6FFF JUMP LOCATION
+; $0F6FD5-$0F6FFF JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
@@ -159,7 +159,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F7000-$F7016 JUMP LOCATION
+; $0F7000-$0F7016 JUMP LOCATION
 {
     LDA $04C4 : BNE .BRANCH_ALPHA
     
@@ -180,7 +180,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F7017-$F7037 LOCAL
+; $0F7017-$0F7037 LOCAL
 {
     LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
@@ -204,9 +204,9 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F7038-$F704E JUMP LOCATION
+; $0F7038-$0F704E JUMP LOCATION
 {
-    JSR $F017 ; $F7017 IN ROM
+    JSR $F017 ; $0F7017 IN ROM
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
@@ -219,7 +219,7 @@ Sprite_ShopKeeper:
     dw $F074 ; = $F7074*
     ]
 
-; $F704F-$F705C JUMP LOCATION
+; $0F704F-$0F705C JUMP LOCATION
 {
     LDA.b #$76
     LDY.b #$01
@@ -233,7 +233,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F705D-$F7077 JUMP LOCATION
+; $0F705D-$0F7077 JUMP LOCATION
 {
     LDA $0403 : AND.b #$40 : BNE .BRANCH_ALPHA
     
@@ -241,9 +241,9 @@ Sprite_ShopKeeper:
     
     INC $0D80, X
     
-    LDY.b #$46 : JMP $F366 ; $F7366 IN ROM
+    LDY.b #$46 : JMP $F366 ; $0F7366 IN ROM
     
-    ; *$F7074 ALTERNATE ENTRY PONT
+    ; $0F7074 ALTERNATE ENTRY PONT
     .BRANCH_ALPHA
     
     STZ $0D80, X
@@ -251,7 +251,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F7078-$F709B JUMP LOCATION
+; $0F7078-$0F709B JUMP LOCATION
 {
     JSR Sprite3_DirectionToFacePlayer
     
@@ -272,7 +272,7 @@ Sprite_ShopKeeper:
     dw $F0E1 ; = $F70E1*
 }
 
-; *$F709C-$F70B1 JUMP LOCATION
+; $0F709C-$0F70B1 JUMP LOCATION
 {
     LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
     
@@ -289,7 +289,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F70B2-$F70DC JUMP LOCATION
+; $0F70B2-$0F70DC JUMP LOCATION
 {
     LDA $1CE8 : BNE .BRANCH_ALPHA
     
@@ -321,10 +321,9 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; $F70DD-$F70E0 DATA
+; $0F70DD-$0F70E0 DATA
     pool 
 {
-    
     .messages_low
     ; "You can't open any more chests. The game is over."
     ; "Oh, I see...  Too bad. Drop by again after collecting Rupees."
@@ -334,7 +333,7 @@ Sprite_ShopKeeper:
     db $01, $01
 }
 
-; *$F70E1-$F70F2 JUMP LOCATION
+; $0F70E1-$0F70F2 JUMP LOCATION
 {
     LDA $04C4 : TAY
     
@@ -347,9 +346,9 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F70F3-$F7109 JUMP LOCATION
+; $0F70F3-$0F7109 JUMP LOCATION
 {
-    JSR $F017 ; $F7017 IN ROM
+    JSR $F017 ; $0F7017 IN ROM
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
@@ -362,7 +361,7 @@ Sprite_ShopKeeper:
     dw $F0E1 ; = $F70E1*
 }
 
-; *$F710A-$F711F JUMP LOCATION
+; $0F710A-$0F711F JUMP LOCATION
 {
     ; \bug Maybe? More like unnecessary given the structure of the minigame?
     LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_$F70B1 ; (RTS)
@@ -380,7 +379,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F7120-$F714A JUMP LOCATION
+; $0F7120-$0F714A JUMP LOCATION
 {
     LDA $1CE8 : BNE .player_declined
     
@@ -415,9 +414,8 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; *$F714B-$F714E JUMP LOCATION
+; $0F714B-$0F714E JUMP LOCATION
 {
-    
     .messages_low
     ; "Check out the cave east of Lake Hylia. Strange and wonderful..."
     ; "You can earn a lot of Rupees by defeating enemies. It's the ..."
@@ -427,9 +425,9 @@ Sprite_ShopKeeper:
     db $01, $01
 }
 
-; *$F714F-$F716D JUMP LOCATION
+; $0F714F-$0F716D JUMP LOCATION
 {
-    JSR $F017   ; $F7017 IN ROM
+    JSR $F017   ; $0F7017 IN ROM
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
@@ -444,7 +442,7 @@ Sprite_ShopKeeper:
 }
 
 
-; *$F716E-$F71AC JUMP LOCATION
+; $0F716E-$0F71AC JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
@@ -461,7 +459,7 @@ Sprite_ShopKeeper:
     
     STZ $0DD0, X
     
-    LDY.b #$2E : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$2E : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -473,35 +471,34 @@ Sprite_ShopKeeper:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A ; $F738A IN ROM
+    JSR $F38A ; $0F738A IN ROM
     
     RTS
     
-    ; *$F71A1 ALTERNATE ENTRY POINT
+    ; $0F71A1 ALTERNATE ENTRY POINT
     .player_cant_afford
     
     LDA.b #$7C
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A ; $F738A IN ROM
+    JSR $F38A ; $0F738A IN ROM
     
     RTS
 }
 
 ; ==============================================================================
 
-; $F71AD-$F71B2 DATA
+; $0F71AD-$0F71B2 DATA
 pool ShopKeeper_SpawnInventoryItem:
 {
-    
     .x_offsets
     dw -44, 8, 60
 }
 
 ; ==============================================================================
 
-; *$F71B3-$F71F1 LONG
+; $0F71B3-$0F71F1 LONG
 ShopKeeper_SpawnInventoryItem:
 {
     PHA : PHY
@@ -530,12 +527,12 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; *$F71F2-$F722F JUMP LOCATION
+; $0F71F2-$0F722F JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
-    JSR $F261 ; $F7261 IN ROM
+    JSR $F261 ; $0F7261 IN ROM
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
@@ -548,7 +545,7 @@ ShopKeeper_SpawnInventoryItem:
     
     STZ $0DD0, X
     
-    LDY.b #$04 : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$04 : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -560,27 +557,27 @@ ShopKeeper_SpawnInventoryItem:
     
     LDA.b #$66
     
-    ; *$F7221 ALTERNATE ENTRY POINT
+    ; $0F7221 ALTERNATE ENTRY POINT
     
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A   ; $F738A IN ROM
+    JSR $F38A   ; $0F738A IN ROM
     
     RTS
     
-    ; *$F722D ALTERNATE ENTRY POINT
+    ; $0F722D ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $F71A1 IN ROM
+    JMP $F1A1 ; $0F71A1 IN ROM
 }
 
-; *$F7230-$F7260 JUMP LOCATION
+; $0F7230-$0F7260 JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
-    JSR $F261   ; $F7261 IN ROM
+    JSR $F261   ; $0F7261 IN ROM
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
@@ -593,7 +590,7 @@ ShopKeeper_SpawnInventoryItem:
     
     STZ $0DD0, X
     
-    LDY.b #$05 : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$05 : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -604,7 +601,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; $F7261-$F727C LOCAL
+; $0F7261-$0F727C LOCAL
 {
     STZ $0BA0, X
     
@@ -623,7 +620,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
     
-; *$F727D-$F72AE JUMP LOCATION
+; $0F727D-$0F72AE JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
@@ -640,7 +637,7 @@ ShopKeeper_SpawnInventoryItem:
     
     STZ $0DD0, X
     
-    LDY.b #$42 : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$42 : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -648,16 +645,16 @@ ShopKeeper_SpawnInventoryItem:
     
     .BRANCH_BETA
     
-    JSR $F38A ; $F738A IN ROM
+    JSR $F38A ; $0F738A IN ROM
     
     RTS
     
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $F71A1 IN ROM
+    JMP $F1A1 ; $0F71A1 IN ROM
 }
 
-; *$F72AF-$F72EF JUMP LOCATION
+; $0F72AF-$0F72EF JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
@@ -681,30 +678,30 @@ ShopKeeper_SpawnInventoryItem:
     
     STZ $0DD0, X
     
-    LDY.b #$44 : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$44 : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
     RTS
     
-    ; *$F72E1 ALTERNATE ENTRY POINT
+    ; $0F72E1 ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     LDA.b #$6E
     LDY.b #$01
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
-    JSR $F38A   ; $F738A IN ROM
+    JSR $F38A   ; $0F738A IN ROM
     
     RTS
     
-    ; *$F72ED ALTERNATE ENTRY POINT
+    ; $0F72ED ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $F71A1 IN ROM
+    JMP $F1A1 ; $0F71A1 IN ROM
 }
 
-; *$F72F0-$F7321 JUMP LOCATION
+; $0F72F0-$0F7321 JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
@@ -729,14 +726,14 @@ ShopKeeper_SpawnInventoryItem:
     
     STZ $0DD0, X
     
-    LDY.b #$31 : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$31 : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
     RTS
 }
 
-; *$F7322-$F7357 JUMP LOCATION
+; $0F7322-$0F7357 JUMP LOCATION
 {
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
@@ -753,7 +750,7 @@ ShopKeeper_SpawnInventoryItem:
     
     STZ $0DD0, X
     
-    LDY.b #$0E : JSR $F366 ; $F7366 IN ROM
+    LDY.b #$0E : JSR $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -765,20 +762,19 @@ ShopKeeper_SpawnInventoryItem:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A   ; $F738A IN ROM
+    JSR $F38A   ; $0F738A IN ROM
     
     RTS
     
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $F71A1 IN ROM
+    JMP $F1A1 ; $0F71A1 IN ROM
 }
 
 ; ==============================================================================
 
-; $F7358-$F7365 DATA
+; $0F7358-$0F7365 DATA
 {
-    
     .message_ids_low
     db $68, $67, $67, $6C, $69, $6A, $6B
     
@@ -788,7 +784,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; *$F7366-$F7389 LOCAL
+; $0F7366-$0F7389 LOCAL
 {
     ; Subroutine grants the player an item parameterized by the A register.
     
@@ -815,7 +811,7 @@ ShopKeeper_SpawnInventoryItem:
     RTS
 }
 
-; *$F738A-$F7390 LOCAL
+; $0F738A-$0F7390 LOCAL
 {
     LDA.b #$3C : JSL Sound_SetSfx2PanLong
     
@@ -824,7 +820,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; *$F7391-$F739D LOCAL
+; $0F7391-$0F739D LOCAL
 ShopKeeper_CheckPlayerSolicitedDamage:
 {
     LDA $F6 : BPL .the_a_button_not_pressed
@@ -845,7 +841,7 @@ ShopKeeper_CheckPlayerSolicitedDamage:
 
 ; ==============================================================================
 
-; *$F739E-$F73B5 LOCAL
+; $0F739E-$0F73B5 LOCAL
 ShopKeeper_TryToGetPaid:
 {
     STA $00
@@ -868,10 +864,9 @@ ShopKeeper_TryToGetPaid:
 
 ; ==============================================================================
 
-; $F73B6-$F74CD DATA
+; $0F73B6-$0F74CD DATA
 pool ShopKeeper_DrawItemWithPrice:
 {
-    
     .oam_groups
     dw -4, 16 : db $31, $02, $00, $00
     dw  4, 16 : db $13, $02, $00, $00
@@ -918,7 +913,7 @@ pool ShopKeeper_DrawItemWithPrice:
 
 ; ==============================================================================
 
-; *$F74CE-$F74F2 LOCAL
+; $0F74CE-$0F74F2 LOCAL
 ShopKeeper_DrawItemWithPrice:
 {
     LDA $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA $00

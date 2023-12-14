@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4B6E1-$4B713 JUMP LOCATION
+; $04B6E1-$04B713 JUMP LOCATION
 Garnish_MothulaBeamTrail:
 {
     LDY.b #$00
@@ -21,7 +21,7 @@ Garnish_MothulaBeamTrail:
     
     PLY
     
-    ; *$4B70C ALTERNATE ENTRY POINT
+    ; $04B70C ALTERNATE ENTRY POINT
     shared Garnish_SetOamPropsAndLargeSize:
     
     INY : STA ($90), Y

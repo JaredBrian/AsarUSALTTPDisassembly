@@ -4,7 +4,7 @@
     ; \note These are fireball spitting faces. Their graphics are background
     ; based, so the only visible sprite manifestation they have are the
     ; fireballs they generate.
-; *$EC7EB-$EC852 JUMP LOCATION
+; $0EC7EB-$0EC852 JUMP LOCATION
 Sprite_Medusa:
 {
     JSL Sprite_PrepOamCoordLong
@@ -48,7 +48,7 @@ Sprite_Medusa:
     
     JSL Sprite_SpawnFireball : BMI .spawn_failed
     
-    ; *$EC845 ALTERNATE ENTRY POINT
+    ; $0EC845 ALTERNATE ENTRY POINT
     shared Medusa_ConfigFireballProperties:
     
     LDA $0CAA, Y : ORA.b #$08 : STA $0CAA, Y

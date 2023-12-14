@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; *$2F0CD-$2F0D4 LONG
+; $02F0CD-$02F0D4 LONG
 Sprite_ElderLong:
 {
     PHB : PHK : PLB
@@ -14,7 +14,7 @@ Sprite_ElderLong:
 
 ; ==============================================================================
 
-; *$2F0D5-$2F0E9 LOCAL
+; $02F0D5-$02F0E9 LOCAL
 Sprite_Elder:
 {
     JSR Elder_Draw
@@ -31,7 +31,7 @@ Sprite_Elder:
 
 ; ==============================================================================
 
-; *$2F0EA-$2F14C JUMP LOCATION
+; $02F0EA-$02F14C JUMP LOCATION
 Sprite_Aginah:
 {
     ; Guarantees that this is the first thing he says
@@ -96,7 +96,7 @@ Sprite_Aginah:
 
 ; ==============================================================================
 
-; *$2F14D-$2F15B JUMP LOCATION
+; $02F14D-$02F15B JUMP LOCATION
 Sprite_Sahasrahla:
 {
     LDA $0D80, X
@@ -111,7 +111,7 @@ Sprite_Sahasrahla:
 
 ; ==============================================================================
 
-; $2F15C-$2F15F DATA
+; $02F15C-$02F15F DATA
 pool Sahasrahla_Dialogue:
 {
     ; "You are correct, young man! I am Sahasrahla, the village elder..."
@@ -125,7 +125,7 @@ pool Sahasrahla_Dialogue:
 
 ; ==============================================================================
 
-; *$2F160-$2F1E8 JUMP LOCATION
+; $02F160-$02F1E8 JUMP LOCATION
 Sahasrahla_Dialogue:
 {
     LDA $7EF374 : AND.b #$04 : BNE .has_third_pendant
@@ -203,7 +203,7 @@ Sahasrahla_Dialogue:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    ; *$2F1DC ALTERNATE ENTRY POINT
+    ; $02F1DC ALTERNATE ENTRY POINT
     shared Elder_AdvanceAnimationState:
     
     .advance_animation_state
@@ -215,7 +215,7 @@ Sahasrahla_Dialogue:
 
 ; ==============================================================================
 
-; *$2F1E9-$2F1FA JUMP LOCATION
+; $02F1E9-$02F1FA JUMP LOCATION
 Sahasrahla_MarkMap:
 {
     ; "Good. As a test, can you retrieve the Pendant Of Courage (...) ?"
@@ -233,7 +233,7 @@ Sahasrahla_MarkMap:
 
 ; ==============================================================================
 
-; *$2F1FB-$2F20D JUMP LOCATION
+; $02F1FB-$02F20D JUMP LOCATION
 Sahasrahla_GrantBoots:
 {
     LDY.b #$4B
@@ -251,7 +251,7 @@ Sahasrahla_GrantBoots:
 
 ; ==============================================================================
 
-; *$2F20E-$2F219 JUMP LOCATION
+; $02F20E-$02F219 JUMP LOCATION
 Sahasrahla_ShamelesslyPromoteIceRod:
 {
     ; "A helpful item is hidden in the cave on the east side (...) Get it!"
@@ -267,10 +267,9 @@ Sahasrahla_ShamelesslyPromoteIceRod:
 
 ; ==============================================================================
 
-; $2F21A-$2F239 DATA
+; $02F21A-$02F239 DATA
     pool Elder_Draw
 {
-    
     .animation_states
     dw 0, -9 : db $A0, $00, $00, $02
     dw 0,  0 : db $A2, $00, $00, $02
@@ -281,7 +280,7 @@ Sahasrahla_ShamelesslyPromoteIceRod:
 
 ; ==============================================================================
 
-; *$2F23A-$2F259 LOCAL
+; $02F23A-$02F259 LOCAL
 Elder_Draw:
 {
     ; Sahasralah / Aginah graphics selector

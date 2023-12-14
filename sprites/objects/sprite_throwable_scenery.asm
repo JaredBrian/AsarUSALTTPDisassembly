@@ -1,10 +1,9 @@
 
 ; ==============================================================================
 
-; $32ABE-$32ADF DATA
+; $032ABE-$032ADF DATA
 pool Sprite_ThrowableScenery:
 {
-    
     .chr
     db $42, $44, $46, $00, $46, $44, $42, $44
     db $44, $00, $46, $44
@@ -21,7 +20,7 @@ pool Sprite_ThrowableScenery:
 
 ; ==============================================================================
 
-; *$32AE0-$32B59 JUMP LOCATION
+; $032AE0-$032B59 JUMP LOCATION
 Sprite_ThrowableScenery:
 {
 		; if($0FC6 >= 0x03)
@@ -94,10 +93,9 @@ Sprite_ThrowableScenery:
 
 ; ==============================================================================
 
-; $32B5A-$32B75 DATA
+; $032B5A-$032B75 DATA
 pool ThrowableScenery_DrawLarge:
 {
-    
     .x_offsets
     dw  -8,   8,  -8,   8
     
@@ -116,7 +114,7 @@ pool ThrowableScenery_DrawLarge:
 
 ; ==============================================================================
 
-; *$32B76-$32C30 LOCAL
+; $032B76-$032C30 LOCAL
 ThrowableScenery_DrawLarge:
 {
     LDY $0DB0, X
@@ -221,10 +219,9 @@ ThrowableScenery_DrawLarge:
 
 ; ==============================================================================
 
-; $32C31-$32C40 DATA
+; $032C31-$032C40 DATA
 pool ThrowableScenery_ScatterIntoDebris:
 {
-    
     .x_offsets_low
     db -8,  8, -8,  8
     
@@ -240,7 +237,7 @@ pool ThrowableScenery_ScatterIntoDebris:
 
 ; ==============================================================================
 
-; *$32C41-$32D02 LOCAL
+; $032C41-$032D02 LOCAL
 ThrowableScenery_ScatterIntoDebris:
 {
     LDA $0DB0, X : BMI .smaller_scenery

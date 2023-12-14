@@ -3,10 +3,9 @@
 
 ; ==============================================================================
 
-; $ECFC3-$ECFCA DATA
+; $0ECFC3-$0ECFCA DATA
 pool Boulder_Main:
 {
-    
     ; \note The second number in the pairs on each line correspond to the
     ; value used if the boulder hit a solid tile on the previous frame.
     .z_speeds
@@ -22,7 +21,7 @@ pool Boulder_Main:
 
 ; ==============================================================================
 
-; *$ECFCB-$ED029 JUMP LOCATION
+; $0ECFCB-$0ED029 JUMP LOCATION
 Sprite_Boulder:
     ; \note Name I gave to the Lanmolas rocks that fly out. 
     ; Sharpnolas ? lol.
@@ -78,7 +77,7 @@ Sprite_Boulder:
     
 ; ==============================================================================
 
-; $ED02A-$ED087 BRANCH LOCATION
+; $0ED02A-$0ED087 BRANCH LOCATION
 Boulder_Main:
 {
     ; Uses super priority for oam.
@@ -136,10 +135,9 @@ Boulder_Main:
 
 ; ==============================================================================
 
-; $ED088-$ED107 DATA
+; $0ED088-$0ED107 DATA
 pool Boulder_Draw:
 {
-    
     .oam_groups
     dw -8, -8 : db $CC, $01, $00, $02
     dw  8, -8 : db $CE, $01, $00, $02
@@ -164,10 +162,9 @@ pool Boulder_Draw:
     
 ; ==============================================================================
 
-; $ED108-$ED184 DATA
+; $0ED108-$0ED184 DATA
 pool Sprite_DrawLargeShadow:
 {
-    
     .oam_groups
     dw -6, 19 : db $6C, $08, $00, $02
     dw  0, 19 : db $6C, $08, $00, $02
@@ -196,7 +193,7 @@ pool Sprite_DrawLargeShadow:
 
 ; ==============================================================================
 
-; *$ED185-$ED1A7 LOCAL
+; $0ED185-$0ED1A7 LOCAL
 Boulder_Draw:
 {
     LDA.b #$00   : XBA
@@ -216,14 +213,14 @@ Boulder_Draw:
 
 ; ==============================================================================
 
-; *$ED1A8-$ED1FC LONG
+; $0ED1A8-$0ED1FC LONG
 Sprite_DrawLargeShadow:
 {
     PHB : PHK : PLB
     
     LDY.b #$00 : BRA .dont_use_smallest
     
-    ; *$ED1AF ALTERNATE ENTRY POINT
+    ; $0ED1AF ALTERNATE ENTRY POINT
     shared Sprite_DrawVariableSizedShadow:
     
     PHB : PHK : PLB

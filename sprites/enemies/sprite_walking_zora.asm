@@ -7,7 +7,7 @@
     ; Zora are huge babies compare to most monsters when they actually get
     ; hurt.
 
-; *$29D4A-$29D7E JUMP LOCATION
+; $029D4A-$029D7E JUMP LOCATION
 Sprite_WalkingZora:
 {
     ; Walking Zora
@@ -40,7 +40,7 @@ Sprite_WalkingZora:
 
 ; ==============================================================================
 
-; *$29D7F-$29D9B JUMP LOCATION
+; $029D7F-$029D9B JUMP LOCATION
 WalkingZora_Waiting:
 {
     JSL Sprite_PrepOamCoordLong
@@ -61,7 +61,7 @@ WalkingZora_Waiting:
 
 ; ==============================================================================
 
-; *$29D9C-$29DD5 JUMP LOCATION
+; $029D9C-$029DD5 JUMP LOCATION
 WalkingZora_Surfacing:
 {
     JSR Zora_Draw
@@ -92,7 +92,7 @@ WalkingZora_Surfacing:
 
 ; ==============================================================================
 
-; *$29DD6-$29E65 JUMP LOCATION
+; $029DD6-$029E65 JUMP LOCATION
 WalkingZora_Ambulating:
 {
     LDA $0E80, X : AND.b #$08 : LSR A : ADC $0DE0, X : TAY
@@ -164,7 +164,7 @@ WalkingZora_Ambulating:
 
 ; ==============================================================================
 
-; *$29E66-$29EEF JUMP LOCATION
+; $029E66-$029EEF JUMP LOCATION
 WalkingZora_Depressed:
 {
     JSL Sprite_CheckDamageFromPlayerLong
@@ -219,7 +219,7 @@ WalkingZora_Depressed:
     JSR Sprite2_Move
     JSL ThrownSprite_TileAndPeerInteractionLong
     
-    ; *$29EDB ALTERNATE ENTRY POINT
+    ; $029EDB ALTERNATE ENTRY POINT
     shared WalkingZora_DetermineShadowStatus:
     
     STZ $0EC0, X
@@ -241,10 +241,9 @@ WalkingZora_Depressed:
 
 ; ==============================================================================
 
-; $29EF0-$29F07 DATA
+; $029EF0-$029F07 DATA
 pool WalkingZora_Draw:
 {
-    
     .head_chr
     db $CE, $CE, $A4, $EE
     
@@ -260,7 +259,7 @@ pool WalkingZora_Draw:
 
 ; ==============================================================================
 
-; *$29F08-$29FAB LOCAL
+; $029F08-$029FAB LOCAL
 WalkingZora_Draw:
 {
     JSR WalkingZora_DrawWaterRipple
@@ -345,10 +344,9 @@ WalkingZora_Draw:
 
 ; ==============================================================================
 
-; $29FAC-$29FDF DATA
+; $029FAC-$029FDF DATA
 pool Sprite_DrawWaterRipple:
 {
-    
     .oam_groups
     dw 0, 10 : db $D8, $01, $00, $00
     dw 8, 10 : db $D8, $41, $00, $00
@@ -365,12 +363,12 @@ pool Sprite_DrawWaterRipple:
 
 ; ==============================================================================
 
-; *$29FE0-$29FF9 LOCAL
+; $029FE0-$029FF9 LOCAL
 WalkingZora_DrawWaterRipple:
 {
     LDA $0EC0, X : BEQ .not_in_shallow_water
     
-    ; *$29FE5 ALTERNATE ENTRY POINT
+    ; $029FE5 ALTERNATE ENTRY POINT
     shared Sprite_AutoIncDrawWaterRipple:
     
     ; The distinction in the name is that it auto increments the sprite
@@ -393,7 +391,7 @@ WalkingZora_DrawWaterRipple:
 
 ; ==============================================================================
 
-; *$29FFA-$2A028 LONG
+; $029FFA-$02A028 LONG
 Sprite_DrawWaterRipple:
 {
     PHB : PHK : PLB
@@ -422,7 +420,7 @@ Sprite_DrawWaterRipple:
 
 ; ==============================================================================
 
-; *$2A029-$2A030 LONG
+; $02A029-$02A030 LONG
 Sprite_AutoIncDrawWaterRippleLong:
 {
     PHB : PHK : PLB

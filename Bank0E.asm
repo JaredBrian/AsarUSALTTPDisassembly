@@ -936,7 +936,6 @@ Module_EndSequence:
 
 ; $071FC0-$0720E1 DATA
 {
-    
     ; $071FC0
     dw -4,   1 : db $68, $0C, $00, $00
     dw  0,  -8 : db $40, $0C, $00, $02
@@ -2425,7 +2424,6 @@ Module_EndSequence:
 
 ; $072E5D-$072E62 DATA
 {
-    
     .acceleration
     db 1, -1
     

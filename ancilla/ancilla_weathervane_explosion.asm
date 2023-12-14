@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; *$4503D-$45185 JUMP LOCATION
+; $04503D-$045185 JUMP LOCATION
 Ancilla_WeathervaneExplosion:
 {
     ; EFFECT 0x37. WEATHER VANE EXPLOSION
@@ -175,17 +175,16 @@ Ancilla_WeathervaneExplosion:
 
 ; ==============================================================================
 
-; $45186-$45187 DATA
+; $045186-$045187 DATA
 pool WeathervaneExplosion_DrawWoodChunk:
 {
-    
     .chr
     db $4E, $4F
 }
 
 ; ==============================================================================
 
-; *$45188-$451D3 LOCAL
+; $045188-$0451D3 LOCAL
 WeathervaneExplosion_DrawWoodChunk:
 {
     JSR Ancilla_PrepOamCoord

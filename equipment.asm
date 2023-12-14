@@ -2,7 +2,7 @@
 
 ; ==============================================================================
 
-; *$6DD2A-$6DD31 JUMP LOCATION
+; $06DD2A-$06DD31 JUMP LOCATION
 Messaging_Equipment:
 {
     ; Module E submodule 1 (Item submenu)
@@ -21,7 +21,7 @@ Messaging_Equipment:
 
 ; ==============================================================================
 
-; *$6DD32-$6DD35 LONG
+; $06DD32-$06DD35 LONG
 UpdateEquippedItemLong:
 {
     JSR UpdateHUD_updateEquippedItem
@@ -31,7 +31,7 @@ UpdateEquippedItemLong:
 
 ; ==============================================================================
     
-; *$6DD36-$6DD59 LOCAL
+; $06DD36-$06DD59 LOCAL
 Local:
 {
     ; Appears to be a simple debug frame counter (8-bit) for this submodule
@@ -59,7 +59,7 @@ Local:
 
 ; ==============================================================================
 
-; *$6DD5A-$6DDAA JUMP LOCATION
+; $06DD5A-$06DDAA JUMP LOCATION
 ClearTilemap:
 {
     ; This routine sets up a DMA transfer from
@@ -108,12 +108,12 @@ ClearTilemap:
 
 ; ==============================================================================
     
-; *$6DDAB-$6DE58 JUMP LOCATION
+; $06DDAB-$06DE58 JUMP LOCATION
 Init:
 {
     ; Module 0x0E.0x01.0x01
     
-    JSR CheckEquippedItem ; $6E399 IN ROM; Handles which item to equip (if none is equipped)
+    JSR CheckEquippedItem ; $06E399 IN ROM; Handles which item to equip (if none is equipped)
     
     LDA.b #$01
     
@@ -123,7 +123,7 @@ Init:
     LDA.b #$01
     
     JSR GetPaletteMask
-    JSR DrawSelectedItemBox ; $6E647 IN ROM; Construct a portion of the menu.
+    JSR DrawSelectedItemBox ; $06E647 IN ROM; Construct a portion of the menu.
     
     LDA.b #$01
     
@@ -241,7 +241,7 @@ Init:
 
 ; ==============================================================================
 
-; *$6DE59-$6DE6D JUMP LOCATION
+; $06DE59-$06DE6D JUMP LOCATION
 BringMenuDown:
 {
     REP #$20
@@ -261,7 +261,7 @@ BringMenuDown:
     
 ; ==============================================================================
 
-; *$6DE6E-$6DEAF JUMP LOCATION
+; $06DE6E-$06DEAF JUMP LOCATION
 ChooseNextMode:
 {
     ; Makes a determination whether to go to the normal menu handling mode
@@ -319,7 +319,7 @@ ChooseNextMode:
 
 ; ==============================================================================
 
-; *$6DEB0-$6DEBC LOCAL
+; $06DEB0-$06DEBC LOCAL
 DoWeHaveThisItem:
 {
     LDX $0202
@@ -342,7 +342,7 @@ DoWeHaveThisItem:
 
 ; ==============================================================================
     
-; *$6DEBD-$6DECA LOCAL
+; $06DEBD-$06DECA LOCAL
 GoToPrevItem:
 {
     LDA $0202 : DEC A : CMP.b #$01 : BCS .dontReset
@@ -358,7 +358,7 @@ GoToPrevItem:
 
 ; ==============================================================================
     
-; *$6DECB-$6DED8 LOCAL
+; $06DECB-$06DED8 LOCAL
 GotoNextItem:
 {
     ; Load our currently equipped item, and move to the next one
@@ -377,10 +377,9 @@ GotoNextItem:
 
 ; ==============================================================================
     
-; *$6DED9-$6DEE1 LOCAL
+; $06DED9-$06DEE1 LOCAL
 TryEquipPrevItem:
 {
-    
     .keepLooking
     
     JSR GoToPrevItem
@@ -392,10 +391,9 @@ TryEquipPrevItem:
 
 ; ==============================================================================
     
-; *$6DEE2-$6DEEA JUMP LOCATION
+; $06DEE2-$06DEEA JUMP LOCATION
 TryEquipNextItem:
 {
-    
     .keepLooking
     
     JSR GoToNextItem
@@ -407,10 +405,9 @@ TryEquipNextItem:
 
 ; ==============================================================================
     
-; *$6DEEB-$6DEFF LOCAL
+; $06DEEB-$06DEFF LOCAL
 TryEquipItemAbove:
 {
-    
     .keepLooking
     
     JSR GoToPrevItem
@@ -426,10 +423,9 @@ TryEquipItemAbove:
 
 ; ==============================================================================
 
-; *$6DF00-$6DF14 LOCAL
+; $06DF00-$06DF14 LOCAL
 TryEquipItemBelow:
 {
-    
     .keepLooking
     
     JSR GoToNextItem
@@ -445,7 +441,7 @@ TryEquipItemBelow:
 
 ; ==============================================================================
 
-; *$6DF15-$6DFA8 JUMP LOCATION
+; $06DF15-$06DFA8 JUMP LOCATION
 NormalMenu:
 {
     INC $0207
@@ -564,7 +560,7 @@ NormalMenu:
 
 ; ==============================================================================
 
-; *$6DFA9-$6DFB9 LOCAL
+; $06DFA9-$06DFB9 LOCAL
 UpdateHUD:
 {
     ; Move on to next step.
@@ -572,7 +568,7 @@ UpdateHUD:
     
     JSR HUD.Rebuild.updateOnly
     
-    ; *$6DFAF ALTERNATE ENTRY POINT
+    ; $06DFAF ALTERNATE ENTRY POINT
     .updateEquippedItem
     
     ; Using the item selected in the item menu,
@@ -587,10 +583,9 @@ UpdateHUD:
 
 ; ==============================================================================
 
-; *$6DFBA-$6DFFA JUMP LOCATION
+; $06DFBA-$06DFFA JUMP LOCATION
 CloseMenu:
 {
-    
     .scroll_up_additional_8_pixels
     
     REP #$20
@@ -647,7 +642,7 @@ CloseMenu:
 
 ; ==============================================================================
 
-; *$6DFFB-$6E001 JUMP LOCATION
+; $06DFFB-$06E001 JUMP LOCATION
 GotoBottleMenu:
 {
     STZ $0205
@@ -658,7 +653,7 @@ GotoBottleMenu:
 
 ; ==============================================================================
 
-; *$6E002-$6E04F JUMP LOCATION
+; $06E002-$06E04F JUMP LOCATION
 InitBottleMenu:
 {
     REP #$30
@@ -691,7 +686,7 @@ InitBottleMenu:
 
 ; ==============================================================================
 
-; $6E050-$6E08B DATA
+; $06E050-$06E08B DATA
 {
     dw $28FB, $28F9, $28F9, $28F9, $28F9
     dw $28F9, $28F9, $28F9, $28F9, $68FB
@@ -709,7 +704,7 @@ InitBottleMenu:
 
 ; ==============================================================================
 
-; *$6E08C-$6E0DE JUMP LOCATION
+; $06E08C-$06E0DE JUMP LOCATION
 ExpandBottleMenu:
 {
     ; each frame of this causes the bottle menu frame
@@ -768,7 +763,7 @@ ExpandBottleMenu:
 
 ; ==============================================================================
 
-; *$6E0DF-$6E176 JUMP LOCATION
+; $06E0DF-$06E176 JUMP LOCATION
 BottleMenu:
 {
     INC $0207
@@ -870,12 +865,12 @@ BottleMenu:
 
 ; ==============================================================================
 
-; $6E177-$6E17E DATA
+; $06E177-$06E17E DATA
     dw $0088, $0188, $0288, $0388 
 
 ; ==============================================================================
 
-; *$6E17F-$6E2FC LOCAL
+; $06E17F-$06E2FC LOCAL
 UpdateBottleMenu:
 {
     REP #$30
@@ -1009,7 +1004,7 @@ UpdateBottleMenu:
 
 ; ==============================================================================
 
-; *$6E2FD-$6E345 JUMP LOCATION
+; $06E2FD-$06E345 JUMP LOCATION
 EraseBottleMenu:
 {
     REP #$30
@@ -1042,7 +1037,7 @@ EraseBottleMenu:
 
 ; ==============================================================================
 
-; *$6E346-$6E371 JUMP LOCATION
+; $06E346-$06E371 JUMP LOCATION
 RestoreNormalMenu:
 {
     ; Updates just the portions of the screen that the bottle menu
@@ -1073,7 +1068,7 @@ RestoreNormalMenu:
 
 ; ==============================================================================
 
-; *$6E372-$6E394 LOCAL
+; $06E372-$06E394 LOCAL
 DrawItem:
 {
     LDA $02 : ASL #3 : TAY
@@ -1090,7 +1085,7 @@ DrawItem:
 
 ; ==============================================================================
 
-; *$6E395-$6E398 LONG
+; $06E395-$06E398 LONG
 SearchForEquippedItemLong:
 {
     JSR SearchForEquippedItem
@@ -1100,7 +1095,7 @@ SearchForEquippedItemLong:
 
 ; ==============================================================================
 
-; *$6E399-$6E3C7 LOCAL
+; $06E399-$06E3C7 LOCAL
 SearchForEquippedItem:
 {
     SEP #$30
@@ -1142,7 +1137,7 @@ SearchForEquippedItem:
 
 ; ==============================================================================
 
-; *$6E3C8-$6E3D8 LOCAL
+; $06E3C8-$06E3D8 LOCAL
 GetPaletteMask:
 {
     ; basically if(A == 0) $00 = 0xE3FF; else $00 = 0xFFFF;
@@ -1167,7 +1162,7 @@ GetPaletteMask:
 
 ; ==============================================================================
 
-    ;*$6E3D9-$6E646 LOCAL
+    ; $06E3D9-$06E646 LOCAL
 DrawYButtonItems:
 {
     REP #$30
@@ -1387,7 +1382,7 @@ DrawYButtonItems:
 
 ; ==============================================================================
 
-; *$6E647-$6E6B5 LOCAL
+; $06E647-$06E6B5 LOCAL
 DrawSelectedItemBox:
 {
     REP #$30
@@ -1443,7 +1438,7 @@ DrawSelectedItemBox:
 
 ; ==============================================================================
     
-; *$6E6B6-$6E7B6 LOCAL
+; $06E6B6-$06E7B6 LOCAL
 DrawAbilityText:
 {
     REP #$30
@@ -1544,7 +1539,7 @@ DrawAbilityText:
 
 ; ==============================================================================
 
-; *$6E7B7-$6E819 LOCAL
+; $06E7B7-$06E819 LOCAL
 DrawAbilityIcons:
 {
     REP #$30
@@ -1595,7 +1590,7 @@ DrawAbilityIcons:
 
 ; ==============================================================================
     
-; *$6E81A-$6E85F LOCAL
+; $06E81A-$06E85F LOCAL
 DrawGloveAbility:
 {
     STA $00 
@@ -1617,7 +1612,7 @@ DrawGloveAbility:
 
 ; ==============================================================================
     
-; $6E860-$6E9C7 DATA
+; $06E860-$06E9C7 DATA
     ; Progress box data
 
     ; Pendants
@@ -1662,7 +1657,7 @@ DrawGloveAbility:
 
 ; ==============================================================================
 
-; *$6E9C8-$6EB39 LOCAL
+; $06E9C8-$06EB39 LOCAL
 DrawProgressIcons:
 {
     LDA $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
@@ -1725,7 +1720,7 @@ DrawProgressIcons:
     
     RTS
     
-    ; *$6EA62 ALTERNATE ENTRY POINT
+    ; $06EA62 ALTERNATE ENTRY POINT
     .drawCrystals
     
     REP #$30
@@ -1818,7 +1813,7 @@ DrawProgressIcons:
 
 ; ==============================================================================
     
-; *$6EB3A-$6ECE8 LOCAL
+; $06EB3A-$06ECE8 LOCAL
 DrawSelectedYButtonItem:
 {
     REP #$30
@@ -1983,7 +1978,7 @@ DrawSelectedYButtonItem:
 
 ; ==============================================================================
  
-; *$6ECE9-$6ED03 LOCAL
+; $06ECE9-$06ED03 LOCAL
 DrawMoonPearl:
 {
     REP #$30
@@ -2001,7 +1996,7 @@ DrawMoonPearl:
 
 ; ==============================================================================
     
-; *$6ED04-$6ED08 LOCAL
+; $06ED04-$06ED08 LOCAL
 UnfinishedRoutine:
 {
     ; MOST WORTHLESS ROUTINE EVAR
@@ -2014,19 +2009,19 @@ UnfinishedRoutine:
 
 ; ==============================================================================
     
-; $6ED09-$6ED28 DATA ; Equipment box text
+; $06ED09-$06ED28 DATA ; Equipment box text
 
-; $6ED09 - "EQUIPMENT"
+; $06ED09 - "EQUIPMENT"
     .equipmentChars
     dw $2479, $247A, $247B, $247C, $248C, $24F5, $24F5, $24F5
 
-; $6ED19 - "DUNGEON ITEM"
+; $06ED19 - "DUNGEON ITEM"
     .dungeonChars
     dw $2469, $246A, $246B, $246C, $246D, $246E, $246F, $24F5
 
 ; ==============================================================================
 
-; *$6ED29-$6EE20 LOCAL
+; $06ED29-$06EE20 LOCAL
 DrawEquipment:
 {
     REP #$30
@@ -2131,7 +2126,7 @@ DrawEquipment:
 
 ; ==============================================================================
 
-; *$6EE21-$6EE3B LOCAL
+; $06EE21-$06EE3B LOCAL
 DrawShield:
 {
     REP #$30
@@ -2149,7 +2144,7 @@ DrawShield:
 
 ; ==============================================================================
 
-; *$6EE3C-$6EE56 LOCAL
+; $06EE3C-$06EE56 LOCAL
 DrawArmor:
 {
     REP #$30
@@ -2167,7 +2162,7 @@ DrawArmor:
 
 ; ==============================================================================
 
-; *$6EE57-$6EEB5 LOCAL
+; $06EE57-$06EEB5 LOCAL
 DrawMapAndBigKey:
 {
     REP #$30
@@ -2224,7 +2219,7 @@ DrawMapAndBigKey:
 
 ; ==============================================================================
 
-; *$6EEB6-$6EEDB LOCAL
+; $06EEB6-$06EEDB LOCAL
 CheckPalaceItemPossession:
 {
     SEP #$30
@@ -2251,10 +2246,9 @@ CheckPalaceItemPossession:
 
 ; ==============================================================================
 
-; *$6EEDC-$6EEE0 JUMP LOCATION
+; $06EEDC-$06EEE0 JUMP LOCATION
 pool CheckPalaceItemPossession:
 {
-    
     .failure
     
     STZ $02
@@ -2331,7 +2325,7 @@ pool CheckPalaceItemPossession:
 
 ; ==============================================================================
 
-; *$6EF39-$6EF66 LOCAL
+; $06EF39-$06EF66 LOCAL
 DrawCompass:
 {
     REP #$30
@@ -2363,7 +2357,7 @@ DrawCompass:
 
 ; ==============================================================================
 
-; *$6EF67-$6F0F6 LOCAL
+; $06EF67-$06F0F6 LOCAL
 DrawBottleMenu:
 {
     REP #$30

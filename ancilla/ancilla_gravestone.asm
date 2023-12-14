@@ -2,7 +2,7 @@
 ; ==============================================================================
 
     ; \note Performs movement and player interaction of the gravestone.
-; *$46D89-$46DF8 LONG
+; $046D89-$046DF8 LONG
 Gravestone_Move:
 {
     PHB : PHK : PLB
@@ -77,10 +77,9 @@ Gravestone_Move:
 
 ; ==============================================================================
 
-; $46DF9-$46E00 DATA
+; $046DF9-$046E00 DATA
 pool Ancilla_Gravestone:
 {
-    
     .chr
     db $C8, $C8, $D8, $D8
     
@@ -94,7 +93,7 @@ pool Ancilla_Gravestone:
     ; of the object. The actual movement and other logic of the gravestone
     ; is driven by the player engine, called from a routine found above
     ; (Gravestone_Move).
-; *$46E01-$46E56 JUMP LOCATION
+; $046E01-$046E56 JUMP LOCATION
 Ancilla_Gravestone:
 {
     PHX
@@ -149,7 +148,7 @@ Ancilla_Gravestone:
 
 ; ==============================================================================
 
-; *$46E57-$46EDD LOCAL
+; $046E57-$046EDD LOCAL
 Gravestone_RepelPlayerAdvance:
 {
     LDA $0BFA, X : STA $00
