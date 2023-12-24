@@ -1,7 +1,12 @@
+; ==============================================================================
 
-    ; Bank1E.rtf
-    ; Yes the day finally has come, I have found code in the (next to :p) 
-    ; last bank of the rom.
+; Bank 1E
+org $1E8000 ; $0F0000-$0F7FFF
+
+; ==============================================================================
+
+; Yes the day finally has come, I have found code in the (next to :p) 
+; last bank of the rom.
 
 ; ==============================================================================
 

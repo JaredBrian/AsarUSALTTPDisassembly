@@ -1,7 +1,9 @@
 ; ==============================================================================
 
-; Bank04.rtf
-; Another new member of the family. After more than two years.
+; Bank 04
+org $048000 ; $020000-$027FFF
+
+; ==============================================================================
 
 ;26800-269FF DATA used in Sprite_GuruguruBar
 

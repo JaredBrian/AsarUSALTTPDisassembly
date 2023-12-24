@@ -1,5 +1,10 @@
 ; ==============================================================================
 
+; Bank 0F
+org $0E8000 ; $078000-$07FFFF
+
+; ==============================================================================
+
 ; $07F540-$07F576 LONG
 Sprite_NullifyHookshotDrag:
 {
@@ -11,18 +16,15 @@ Sprite_NullifyHookshotDrag:
     
     .next_objext
     
-    ; Check if the hookshot is being used
-    LDA $0C4A, X : CMP.b #$1F : BNE .not_hookshot
-    
-    ; Is the hookshot dragging Link somewhere?
-    LDA $037E : BEQ .hookshot_not_dragging_player
-    
-    ; If the hookshot will drag Link through this sprite, stop him
-    STZ $037E : BRA .moving_on
-    
-    .not_hookshot
-    .hookshot_not_dragging_player
-    
+        ; Check if the hookshot is being used
+        LDA $0C4A, X : CMP.b #$1F : BNE .not_hookshot
+            ; Is the hookshot dragging Link somewhere?
+            LDA $037E : BEQ .hookshot_not_dragging_player
+                ; If the hookshot will drag Link through this sprite, stop him
+                STZ $037E : BRA .moving_on
+            
+            .hookshot_not_dragging_player
+        .not_hookshot
     DEX : BPL .next_object
     
     .moving_on
@@ -65,64 +67,57 @@ Ancilla_CheckForAvailableSlot:
     
     .nextSlot
     
-    ; Compare the effect with the first 5 effects.
-    CMP $0C4A, X : BNE .noMatch
-    
-    ; Y is the number of times that (A == $0C4A, X) is true
-    INY
-    
-    .noMatch
-    
+        ; Compare the effect with the first 5 effects.
+        CMP $0C4A, X : BNE .noMatch
+            ; Y is the number of times that (A == $0C4A, X) is true
+            INY
+        
+        .noMatch
     DEX : BPL .nextSlot
     
     CPY $0E : BEQ .alreadyFull
-    
-    LDY.b #$01 
-    
-    ; check if it's a bomb
-    CMP.b #$07 : BEQ .onlyTwoSlots
-    
-    ; check if it's the rock fall from a bomb blowing open a door
-    CMP.b #$08 : BEQ .onlyTwoSlots
-    
-    ; Otherwise, search 5 slots for an open one
-    LDY.b #$04
-    
-    .onlyTwoSlots
-    .findOpenSlot
-    
-    ; If any entry is zero, up to Y, end the routine (RTL)
-    LDA $0C4A, Y : BEQ .openSlot
-    
-    DEY : BPL .findOpenSlot
-    
-    ; Here, none of the entries were 0, up until Y.
-    .nextSlot2
-    
-    ; We go until this value is 0.
-    ; As long as $03C4 is positive, skip this next part.
-    DEC $03C4 : BPL .anoreset_slot_search_index
-    
-    ; The original Y parameter passed long ago.
-    LDA $0F : STA $03C4
-    
-    .anoreset_slot_search_index
-    
-    LDY $03C4
-    
-    ; certain kinds of effects can be overridden, apparently
-    LDA $0C4A, Y
-    
-    CMP.b #$3C : BEQ .openSlot
-    CMP.b #$13 : BEQ .openSlot
-    CMP.b #$0A : BEQ .openSlot
-    
-    ; Here none of the values matched. If we exhaust Y ( = $03C4), end the routine 
-    DEY : BPL .nextSlot2
-    
-    .openSlot
-    
-    RTL
+        LDY.b #$01 
+        
+        ; check if it's a bomb
+        CMP.b #$07 : BEQ .onlyTwoSlots
+            ; check if it's the rock fall from a bomb blowing open a door
+            CMP.b #$08 : BEQ .onlyTwoSlots
+                ; Otherwise, search 5 slots for an open one
+                LDY.b #$04
+            
+        .onlyTwoSlots
+
+        .findOpenSlot
+        
+            ; If any entry is zero, up to Y, end the routine (RTL)
+            LDA $0C4A, Y : BEQ .openSlot
+        DEY : BPL .findOpenSlot
+        
+        ; Here, none of the entries were 0, up until Y.
+        .nextSlot2
+        
+            ; We go until this value is 0.
+            ; As long as $03C4 is positive, skip this next part.
+            DEC $03C4 : BPL .anoreset_slot_search_index
+                ; The original Y parameter passed long ago.
+                LDA $0F : STA $03C4
+            
+            .anoreset_slot_search_index
+            
+            LDY $03C4
+            
+            ; certain kinds of effects can be overridden, apparently
+            LDA $0C4A, Y
+            
+            CMP.b #$3C : BEQ .openSlot
+            CMP.b #$13 : BEQ .openSlot
+            CMP.b #$0A : BEQ .openSlot
+        ; Here none of the values matched. If we exhaust Y ( = $03C4), end the routine 
+        DEY : BPL .nextSlot2
+        
+        .openSlot
+        
+        RTL
     
     .alreadyFull
     
@@ -155,45 +150,41 @@ Death_PlayerSwoon:
     PHB : PHK : PLB
     
     DEC $030B : BPL .delay
-    
-    ; \wtf Um, if this actually ends up as 0x0F, how do we advance in
-    ; death mode?
-    LDX $030D : INX : CPX.b #$0F : BEQ .return
-                      CPX.b #$0E : BNE .swoon_in_progress
-    
-    INC $11
-    
-    .swoon_in_progress
-    
-    STX $030D
-    
-    LDA .player_oam_states, X : STA $030A
-    
-    LDA .timers, X : STA $030B
-    
+        ; \wtf Um, if this actually ends up as 0x0F, how do we advance in
+        ; death mode?
+        LDX $030D : INX : CPX.b #$0F : BEQ .return
+            CPX.b #$0E : BNE .swoon_in_progress
+                INC $11
+            
+            .swoon_in_progress
+            
+            STX $030D
+            
+            LDA .player_oam_states, X : STA $030A
+            
+            LDA .timers, X : STA $030B
+        
     .delay
     
     LDA $030D : CMP.b #$0D : BNE .return
-    
-    LDA $4B : CMP.b #$0C : BEQ .player_not_visible
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$0010 : SEC : SBC $E8 : STA $00
-    LDA $22 : CLC : ADC.w #$0007 : SEC : SBC $E2 : STA $02
-    
-    SEP #$20
-    
-    LDY $EE
-    
-    LDA $02                         : STA $09D0
-    LDA $00                         : STA $09D1
-    LDA.b #$AA                      : STA $09D2
-    LDA .properties, Y : ORA.b #$02 : STA $09D3
-    
-    LDA.b #$02 : STA $0A94
-    
-    .player_not_visible
+        LDA $4B : CMP.b #$0C : BEQ .player_not_visible
+            REP #$20
+            
+            LDA $20 : CLC : ADC.w #$0010 : SEC : SBC $E8 : STA $00
+            LDA $22 : CLC : ADC.w #$0007 : SEC : SBC $E2 : STA $02
+            
+            SEP #$20
+            
+            LDY $EE
+            
+            LDA $02                         : STA $09D0
+            LDA $00                         : STA $09D1
+            LDA.b #$AA                      : STA $09D2
+            LDA .properties, Y : ORA.b #$02 : STA $09D3
+            
+            LDA.b #$02 : STA $0A94
+        
+        .player_not_visible
     .return
     
     PLB
@@ -244,64 +235,62 @@ AddSwordBeam:
     PHB : PHK : PLB
     
     ; Master sword's bolts of lightning
-    LDA.b #$0C : JSL AddAncillaLong : BCS Death_PlayerSwoon.return
-    
-    LDA $2F : ASL A : TAY
-    
-    LDA .initial_angles+0, Y : STA $7F5800
-    LDA .initial_angles+1, Y : STA $7F5801
-    LDA .initial_angles+2, Y : STA $7F5802
-    LDA .initial_angles+3, Y : STA $7F5803 : STA $7F5804
-    
-    LDA.b #$02 : STA $03B1, X
-    LDA.b #$4C : STA $0C5E, X
-    LDA.b #$08 : STA $039F, X
-    
-    STZ $0C54, X : STZ $0385, X : STZ $0394, X
-    
-    LDA.b #$00 : STA $03A4, X
-    
-    LDA.b #$0E : STA $7F5808
-    
-    LDA $2F : LSR A : STA $0C72, X : TAY
-    
-    LDA .y_speeds, Y        : STA $0C22, X
-    LDA .x_speeds, Y        : STA $0C2C, X
-    LDA .rotation_speeds, Y : STA $03A9, X
-    
-    REP #$20
-    
-    LDA $20 : CLC : ADC.w #$000C : STA $7F5810
-    LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
-    
-    SEP #$20
-    
-    JSL Ancilla_CheckInitialTileCollision_Class_1 : BCS .start_as_beam_hit
-    
-    PLB
-    
-    RTL
-    
-    .start_as_beam_hit
-    
-    LDY $0C72, X
-    
-    LDA $7F5810 : CLC : ADC .y_offsets_low,  Y : STA $0BFA, X
-    LDA $7F5811 : ADC .y_offsets_high, Y : STA $0C0E, X
-    
-    LDA $7F580E : CLC : ADC .x_offsets_low,  Y : STA $0C04, X
-    LDA $7F580F : ADC .x_offsets_high, Y : STA $0C18, X
-    
-    JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA $012F
-    
-    LDA.b #$04 : STA $0C4A, X
-    LDA.b #$07 : STA $0C68, X
-    
-    LDA.b #$10 : STA $0C90, X
-    
-    PLB
-    
-    RTL
+    LDA.b #$0C : JSL AddAncillaLong : BCS Death_PlayerSwoon_return
+        LDA $2F : ASL A : TAY
+        
+        LDA .initial_angles+0, Y : STA $7F5800
+        LDA .initial_angles+1, Y : STA $7F5801
+        LDA .initial_angles+2, Y : STA $7F5802
+        LDA .initial_angles+3, Y : STA $7F5803 : STA $7F5804
+        
+        LDA.b #$02 : STA $03B1, X
+        LDA.b #$4C : STA $0C5E, X
+        LDA.b #$08 : STA $039F, X
+        
+        STZ $0C54, X : STZ $0385, X : STZ $0394, X
+        
+        LDA.b #$00 : STA $03A4, X
+        
+        LDA.b #$0E : STA $7F5808
+        
+        LDA $2F : LSR A : STA $0C72, X : TAY
+        
+        LDA .y_speeds, Y        : STA $0C22, X
+        LDA .x_speeds, Y        : STA $0C2C, X
+        LDA .rotation_speeds, Y : STA $03A9, X
+        
+        REP #$20
+        
+        LDA $20 : CLC : ADC.w #$000C : STA $7F5810
+        LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
+        
+        SEP #$20
+        
+        JSL Ancilla_CheckInitialTileCollision_Class_1 : BCS .start_as_beam_hit
+            PLB
+            
+            RTL
+        
+        .start_as_beam_hit
+        
+        LDY $0C72, X
+        
+        LDA $7F5810 : CLC : ADC .y_offsets_low,  Y : STA $0BFA, X
+        LDA $7F5811 : ADC .y_offsets_high, Y : STA $0C0E, X
+        
+        LDA $7F580E : CLC : ADC .x_offsets_low,  Y : STA $0C04, X
+        LDA $7F580F : ADC .x_offsets_high, Y : STA $0C18, X
+        
+        JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA $012F
+        
+        LDA.b #$04 : STA $0C4A, X
+        LDA.b #$07 : STA $0C68, X
+        
+        LDA.b #$10 : STA $0C90, X
+        
+        PLB
+        
+        RTL
 }
 
 ; ==============================================================================
@@ -340,8 +329,7 @@ SwordBeam:
     LDA.b #$02 : STA $73
     
     LDA $11 : BEQ .execute
-    
-    BRL .draw_logic
+        BRL .draw_logic
     
     .execute
     
@@ -361,16 +349,14 @@ SwordBeam:
     LDA $0C18, X : STA $7F580F
     
     LDA $0394, X : AND.b #$0F : BNE .sfx_delay
-    
-    JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA $012F
+        JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA $012F
     
     .sfx_delay
     
     INC $0394, X
     
     JSL Ancilla_CheckSpriteCollisionLong : BCS .hit_sprite
-    
-    JSL Ancilla_CheckTileCollisionLong : BCC .anohit_sprite_or_tile
+        JSL Ancilla_CheckTileCollisionLong : BCC .anohit_sprite_or_tile
     
     .hit_sprite
     
@@ -394,10 +380,9 @@ SwordBeam:
     .anohit_sprite_or_tile
     
     DEC $03B1, X : BPL .draw_logic
-    
-    LDA.b #$04 : STA $73
-    
-    LDA.b #$02 : STA $03B1, X
+        LDA.b #$04 : STA $73
+        
+        LDA.b #$02 : STA $03B1, X
     
     .draw_logic
     
@@ -411,8 +396,7 @@ SwordBeam:
     STX $72
     
     LDA $11 : BNE .dont_rotate_component
-    
-    LDA $7F5800, X : CLC : ADC $76 : AND.b #$3F : STA $7F5800, X
+        LDA $7F5800, X : CLC : ADC $76 : AND.b #$3F : STA $7F5800, X
     
     .dont_rotate_component
     
@@ -448,40 +432,38 @@ SwordBeam:
     PLX : PHX
     
     LDA $11 : BNE .dont_rotate_extra_spark
-    
-    DEC $039F, X : BPL .skip_extra_spark_draw_logic
-    
-    LDA.b #$00 : STA $039F, X
-    
-    LDA $03A4, X : INC A : AND.b #$03 : STA $03A4, X : CMP.b #$03 : BNE .dont_rotate_extra_spark
-    
-    LDA $7F5804 : CLC : ADC $76 : AND.b #$3F : STA $7F5804
+        DEC $039F, X : BPL .skip_extra_spark_draw_logic
+        
+        LDA.b #$00 : STA $039F, X
+        
+        LDA $03A4, X : INC A : AND.b #$03 : STA $03A4, X
+        CMP.b #$03 : BNE .dont_rotate_extra_spark
+            LDA $7F5804 : CLC : ADC $76 : AND.b #$3F : STA $7F5804
     
     .dont_rotate_extra_spark
     
     LDA $03A4, X : STA $72 : CMP.b #$03 : BEQ .skip_extra_spark_draw_logic
-    
-    PHY
-    
-    LDA $7F5808 : STA $08
-    
-    LDA $7F5804
-    
-    JSL Ancilla_GetRadialProjectionLong
-    JSL Sparkle_PrepOamCoordsFromRadialProjection
-    
-    PLY
-    
-    JSL Ancilla_SetOam_XY_Long
-    
-    LDX $72
-    
-    LDA .extra_spark_chr, X : STA ($90), Y : INY
-    LDA.b #$04 : ORA $65    : STA ($90), Y : INY
-    
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$00 : STA ($92), Y
+        PHY
+        
+        LDA $7F5808 : STA $08
+        
+        LDA $7F5804
+        
+        JSL Ancilla_GetRadialProjectionLong
+        JSL Sparkle_PrepOamCoordsFromRadialProjection
+        
+        PLY
+        
+        JSL Ancilla_SetOam_XY_Long
+        
+        LDX $72
+        
+        LDA .extra_spark_chr, X : STA ($90), Y : INY
+        LDA.b #$04 : ORA $65    : STA ($90), Y : INY
+        
+        TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+        
+        LDA.b #$00 : STA ($92), Y
     
     .skip_extra_spark_draw_logic
     
@@ -493,10 +475,9 @@ SwordBeam:
     .find_active_component
     
     LDA ($90), Y : CMP.b #$F0 : BNE .at_least_one_component_active
-    
-    INY #4 : CPY.b #$11 : BNE .find_active_component
-    
-    STZ $0C4A, X
+        INY #4 : CPY.b #$11 : BNE .find_active_component
+        
+        STZ $0C4A, X
     
     .at_least_one_component_active
     .return
@@ -537,10 +518,9 @@ SwordFullChargeSpark:
     PHB : PHK : PLB
     
     LDA $0C68, X : BNE .delay_termination
-    
-    STZ $0C4A, X
-    
-    BRA .return
+        STZ $0C4A, X
+        
+        BRA .return
     
     .delay_termination
     
@@ -609,97 +589,89 @@ AncillaSpawn_SwordChargeSparkle:
     
     .next_slot
     
-    LDA $0C4A, X : BEQ .empty_ancillary_slot
-    
+        LDA $0C4A, X : BEQ .empty_ancillary_slot
     DEX : BPL .next_slot
     
     BRL .return
-    
-    .empty_ancillary_slot
-    
-    ; Spawn a sword charge sparkle.
-    LDA.b #$3C : STA $0C4A, X
-    
-    STZ $0C5E, X
-    
-    LDA.b #$04 : STA $0C68, X
-    
-    LDA $EE : STA $0C7C, X
-    
-    STZ $74
-    STZ $75
-    
-    LDA $2F : LSR A : TAY
-    
-    LDA .y_position_masks, Y : BNE .off_axis_y
-    
-    LDA $0079 : LSR #2
-    
-    CPY.b #$00 : BNE .sign_correct_for_y_direction
-    
-    EOR.b #$FF : INC A
-    
-    .sign_correct_for_y_direction
-    
-    STA $74
-    
-    LDA.b #$00
-    
-    .off_axis_y
-    
-    STA $72
-    
-    LDA .x_position_masks, Y : BNE .off_axis_x
-    
-    LDA $0079 : LSR #2
-    
-    CPY.b #$02 : BNE .sign_correct_for_x_direction
-    
-    EOR.b #$FF : INC A
-    
-    .sign_correct_for_x_direction
-    
-    STA $75
-    
-    LDA.b #$00
-    
-    .off_axis_x
-    
-    STA $73
-    
-    JSL GetRandomInt : STA $08 : AND $72 : STA $04
-                                           STZ $05
-    
-    LDA $08 : AND $73 : LSR #4 : STA $06
-                                 STZ $07
-    
-    LDY $2F
-    
-    REP #$20
-    
-    LDA $74 : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_y_offset
-    
-    ORA.w #$FF00
-    
-    .sign_ext_y_offset
-    
-    CLC : ADC $20 : CLC : ADC .y_offsets, Y : CLC : ADC $04 : STA $00
-    
-    LDA $75 : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_x_offset
-    
-    ORA.w #$FF00
-    
-    .sign_ext_x_offset
-    
-    CLC : ADC $22 : CLC : ADC .x_offsets, Y : CLC : ADC $06 : STA $02
-    
-    SEP #$20
-    
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
-    
-    LDA $02 : STA $0C04, X
-    LDA $03 : STA $0C18, X
+        .empty_ancillary_slot
+        
+        ; Spawn a sword charge sparkle.
+        LDA.b #$3C : STA $0C4A, X
+        
+        STZ $0C5E, X
+        
+        LDA.b #$04 : STA $0C68, X
+        
+        LDA $EE : STA $0C7C, X
+        
+        STZ $74
+        STZ $75
+        
+        LDA $2F : LSR A : TAY
+        
+        LDA .y_position_masks, Y : BNE .off_axis_y
+            LDA $0079 : LSR #2
+            
+            CPY.b #$00 : BNE .sign_correct_for_y_direction
+                EOR.b #$FF : INC A
+            
+            .sign_correct_for_y_direction
+            
+            STA $74
+            
+            LDA.b #$00
+        
+        .off_axis_y
+        
+        STA $72
+        
+        LDA .x_position_masks, Y : BNE .off_axis_x
+            LDA $0079 : LSR #2
+            
+            CPY.b #$02 : BNE .sign_correct_for_x_direction
+                EOR.b #$FF : INC A
+            
+            .sign_correct_for_x_direction
+            
+            STA $75
+            
+            LDA.b #$00
+        
+        .off_axis_x
+        
+        STA $73
+        
+        JSL GetRandomInt : STA $08 : AND $72 : STA $04
+                                            STZ $05
+        
+        LDA $08 : AND $73 : LSR #4 : STA $06
+                                    STZ $07
+        
+        LDY $2F
+        
+        REP #$20
+        
+        LDA $74 : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_y_offset
+            ORA.w #$FF00
+        
+        .sign_ext_y_offset
+        
+        CLC : ADC $20 : CLC : ADC .y_offsets, Y : CLC : ADC $04 : STA $00
+        
+        LDA $75 : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_x_offset
+            ORA.w #$FF00
+        
+        .sign_ext_x_offset
+        
+        CLC : ADC $22 : CLC : ADC .x_offsets, Y : CLC : ADC $06 : STA $02
+        
+        SEP #$20
+        
+        LDA $00 : STA $0BFA, X
+        LDA $01 : STA $0C0E, X
+        
+        LDA $02 : STA $0C04, X
+        LDA $03 : STA $0C18, X
     
     .return
     
@@ -735,11 +707,10 @@ SwordBeam_MoveVert:
     ; store the carry result of adding to $0C36, X
     ; check if the y pixel change per frame is negative
     LDA $0C22, X : PHP : LSR #4 : PLP : BPL .moving_down
-    
-    ; sign extend from 4-bits to 8-bits
-    ORA.b #$F0
-    
-    DEY
+        ; sign extend from 4-bits to 8-bits
+        ORA.b #$F0
+        
+        DEY
     
     .moving_down
     
@@ -779,8 +750,7 @@ Death_PrepFaint:
     
     ; \item
     LDA $7EF357 : BEQ .no_moon_pearl
-    
-    STZ $56
+        STZ $56
     
     .no_moon_pearl
     
@@ -817,12 +787,10 @@ ShopKeeper_RapidTerminateReceiveItem:
     
     .next_slot
     
-    LDA $0C4A, X : CMP.b #$22 : BNE .not_receive_item
-    
-    LDA.b #$01 : STA $03B1, X
-    
-    .not_receive_item
-    
+        LDA $0C4A, X : CMP.b #$22 : BNE .not_receive_item
+            LDA.b #$01 : STA $03B1, X
+        
+        .not_receive_item
     DEX : BPL .next_slot
     
     PLX
@@ -851,41 +819,39 @@ DashTremor_TwiddleOffset:
 	LDA $01 : STA $0C0E, X
     
 	LDA $1B : BNE .indoors
-    
-	CPY.b #$02 : BNE .horizontal_shake
-    
-	REP #$20
-    
-    ; \note It appears that these are screen boundaries of some sort.
-	LDA $0600 : CLC : ADC.w #$0001 : STA $02
-	LDA $0602 : CLC : ADC.w #$FFFF : STA $04
-    
-	LDA $00 : CLC : ADC $E8 : CMP $02 : BEQ .zero_shake_vert
-                                  BCC .zero_shake_vert
-                        CMP $04 : BEQ .zero_shake_vert
-                                  BCC .return
-    
-    .zero_shake_vert
-    
-	BRA .zero_shake_offset_this_frame
-    
-    .horizontal_shake
-    
-	REP #$20
-    
-    ; \note It appears that these are screen boundaries of some sort.
-	LDA $0604 : CLC : ADC.w #$0001 : STA $02
-	LDA $0606 : CLC : ADC.w #$FFFF : STA $04
-    
-	LDA $00 : CLC : ADC $E2 : CMP $02 : BEQ .zero_shake_horiz
-                                  BCC .zero_shake_horiz
-                        CMP $04 : BEQ .zero_shake_horiz
-                                  BCC .return
-    
-    .zero_shake_horiz
-    .zero_shake_offset_this_frame
-    
-	STZ $00
+        CPY.b #$02 : BNE .horizontal_shake
+            REP #$20
+            
+            ; \note It appears that these are screen boundaries of some sort.
+            LDA $0600 : CLC : ADC.w #$0001 : STA $02
+            LDA $0602 : CLC : ADC.w #$FFFF : STA $04
+            
+            LDA $00 : CLC : ADC $E8 : CMP $02 : BEQ .zero_shake_vert
+                                                BCC .zero_shake_vert
+                                    CMP $04 : BEQ .zero_shake_vert
+                                                    BCC .return
+            
+                .zero_shake_vert
+                
+                BRA .zero_shake_offset_this_frame
+        
+        .horizontal_shake
+        
+        REP #$20
+        
+        ; \note It appears that these are screen boundaries of some sort.
+        LDA $0604 : CLC : ADC.w #$0001 : STA $02
+        LDA $0606 : CLC : ADC.w #$FFFF : STA $04
+        
+        LDA $00 : CLC : ADC $E2 : CMP $02 : BEQ .zero_shake_horiz
+                                            BCC .zero_shake_horiz
+                                CMP $04 : BEQ .zero_shake_horiz
+                                                BCC .return
+        
+        .zero_shake_horiz
+        .zero_shake_offset_this_frame
+        
+        STZ $00
     
     .indoors
     .return
@@ -1002,22 +968,19 @@ pool Ancilla_SomarianBlockDivide:
 Link_CheckBunnyStatus:
 {
     LDA $5D : CMP.b #$02 : BNE .linkNotRecoiling
-    
-    LDY.b #$00
-    
-    LDA $02E0 : BEQ .linkNotBunny
-    
-    LDY.b #$17 
-    
-    LDA $7EF357 : BEQ .noMoonPearl
-    
-    LDY.b #$1C
-    
-    .noMoonPearl
-    
-    STY $5D
-    
-    .linkNotBunny
+        LDY.b #$00
+        
+        LDA $02E0 : BEQ .linkNotBunny
+            LDY.b #$17 
+            
+            LDA $7EF357 : BEQ .noMoonPearl
+                LDY.b #$1C
+            
+            .noMoonPearl
+            
+            STY $5D
+        
+        .linkNotBunny
     .linkNotRecoiling
     
     RTL
@@ -1030,19 +993,16 @@ Ancilla_TerminateWaterfallSplashes:
 {
     ; \hardcoded
     LDA $8A : CMP.b #$0F : BNE .not_area_below_zora_falls
-    
-    LDX.b #$04
-    
-    .next_slot
-    
-    LDA $0C4A, X : CMP.b #$41 : BNE not_waterfall_splash
-    
-    ; Terminate the ancilla if it's a waterfall splash.
-    STZ $0C4A, X
-    
-    .not_waterfall_splash
-    
-    DEX : BPL .next_slot
+        LDX.b #$04
+        
+        .next_slot
+        
+            LDA $0C4A, X : CMP.b #$41 : BNE .not_waterfall_splash
+                ; Terminate the ancilla if it's a waterfall splash.
+                STZ $0C4A, X
+            
+            .not_waterfall_splash
+        DEX : BPL .next_slot
     
     .not_area_below_zora_falls
     
@@ -1065,8 +1025,7 @@ Ancilla_TerminateIfOffscreen:
     REP #$20
     
     LDA $0C : SEC : SBC $E8 : CMP.w #$00F0 : BCS .self_terminate
-    
-    LDA $0E : SEC : SBC $E2 : CMP.w #$00F4 : BCC .on_screen
+        LDA $0E : SEC : SBC $E2 : CMP.w #$00F4 : BCC .on_screen
     
     .self_terminate
     
@@ -1098,20 +1057,18 @@ Sprite_InitializeSecondaryItemMinigame:
     
     .next_object
     
-    LDA $0C4A, X
-    
-    CMP.b #$30 : BEQ .terminate_object
-    CMP.b #$31 : BEQ .terminate_object
-    CMP.b #$05 : BNE .no_match
-    
-    STZ $035F
-    
-    .terminate_object
-    
-    STZ $0C4A, X
-    
-    .no_match
-    
+        LDA $0C4A, X
+        
+        CMP.b #$30 : BEQ .terminate_object
+        CMP.b #$31 : BEQ .terminate_object
+            CMP.b #$05 : BNE .no_match
+                STZ $035F
+                
+                .terminate_object
+                
+                STZ $0C4A, X
+            
+            .no_match
     DEX : BPL .next_object
     
     PLX
@@ -1127,18 +1084,17 @@ Main_ShowTextMessage:
 {
     ; Are we in text mode? If so then end the routine.
 	LDA $10 : CMP.b #$0E : BEQ .already_in_text_mode
-
-	STZ $0223   ; Otherwise set it so we are in text mode.
-	STZ $1CD8   ; Initialize the step in the submodule
-	
-    ; Go to text display mode (as opposed to maps, etc)
-	LDA.b #$02 : STA $11
-	
-    ; Store the current module in the temporary location.
-	LDA $10 : STA $010C
-	
-    ; Switch the main module ($10) to text mode.
-	LDA.b #$0E : STA $10
+        STZ $0223   ; Otherwise set it so we are in text mode.
+        STZ $1CD8   ; Initialize the step in the submodule
+        
+        ; Go to text display mode (as opposed to maps, etc)
+        LDA.b #$02 : STA $11
+        
+        ; Store the current module in the temporary location.
+        LDA $10 : STA $010C
+        
+        ; Switch the main module ($10) to text mode.
+        LDA.b #$0E : STA $10
 	
     .already_in_text_mode
 
@@ -1185,79 +1141,70 @@ Bomb_CheckUndersideSpriteStatus:
     ; This checks for a water tile type
     ; (water tile type of course)
     LDA $03E4, X : CMP.b #$09 : BNE .not_shallow_water
-    
-    DEC $03E1, X : BPL .ripple_animation_delay
-    
-    LDA.b #$03 : STA $03E1, X
-    
-    INC $03D2, X
-    
-    LDA $03D2, X : CMP.b #$03 : BNE .anoreset_ripple_animation_index
-    
-    LDA.b #$00 : STA $03D2, X
-    
-    .ripple_animation_delay
-    .anoreset_ripple_animation_index
-    
-    ; Puts a water ripple around the bomb
-    LDA $03D2, X : CLC : ADC.b #$04 : STA $0A
-    
-    LDA $012E : AND.b #$3F
-    
-    CMP.b #$0B : BEQ .sfx_can_be_overriden
-    CMP.b #$21 : BNE .shadow_size_logic
-    
-    .sfx_can_be_overriden
-    
-    STZ $012E
-    
-    JSL Sound_SfxPanObjectCoords : ORA.b #$28 : STA $012E
-    
-    BRA .shadow_size_logic
+        DEC $03E1, X : BPL .ripple_animation_delay
+            LDA.b #$03 : STA $03E1, X
+            
+            INC $03D2, X
+            
+            LDA $03D2, X : CMP.b #$03 : BNE .anoreset_ripple_animation_index
+                LDA.b #$00 : STA $03D2, X
+
+            .anoreset_ripple_animation_index
+        .ripple_animation_delay
+        
+        ; Puts a water ripple around the bomb
+        LDA $03D2, X : CLC : ADC.b #$04 : STA $0A
+        
+        LDA $012E : AND.b #$3F
+        
+        CMP.b #$0B : BEQ .sfx_can_be_overriden
+            CMP.b #$21 : BNE .shadow_size_logic
+        
+        .sfx_can_be_overriden
+        
+        STZ $012E
+        
+        JSL Sound_SfxPanObjectCoords : ORA.b #$28 : STA $012E
+        
+        BRA .shadow_size_logic
     
     .not_shallow_water
     
     ; grass tile type
     CMP.b #$40 : BNE .shadow_size_logic
-    
-    ; Put grass around the bomb
-    LDA.b #$03 : STA $0A
+        ; Put grass around the bomb
+        LDA.b #$03 : STA $0A
     
     .shadow_size_logic
     
     ; Check the bomb's height off the ground
     ; If less than two, shadow stays large
     LDA $029E, X : CMP.b #$02 : BCC .use_large_shadow
-    
-    ; If >= 252, shadow stays large
-    CMP.b #$FC : BCS .use_large_shadow
-    
-    ; if(height >= 2 && height < 252) draw a small shadow
-    LDA.b #$02 : STA $0A
+        ; If >= 252, shadow stays large
+        CMP.b #$FC : BCS .use_large_shadow
+            ; if(height >= 2 && height < 252) draw a small shadow
+            LDA.b #$02 : STA $0A
     
     .use_large_shadow
     
     ; Branch if Link is touching the bomb
     TXA : INC A : CMP $02EC : BNE .not_nearest_to_player
-    
-    ; Branch if Link is holding the bomb (or something else?)
-    LDA $0308 : AND.b #$80 : BNE .no_underside_sprite
+        ; Branch if Link is holding the bomb (or something else?)
+        LDA $0308 : AND.b #$80 : BNE .no_underside_sprite
     
     .not_nearest_to_player
     
     ; \wtf What's the point of this?
     CPY.b #$04 : BEQ .oam_slot_is_four_yeah_ok_whatever
-    
-    LDY.b #$00
+        LDY.b #$00
     
     .oam_slot_is_four_yeah_ok_whatever
     
     REP #$20
     
     LDA $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
-    
-    ; sign extends to 16-bits
-    ORA.w #$FF00
+        ; sign extends to 16-bits
+        ORA.w #$FF00
     
     .sign_ext_z_coord
     

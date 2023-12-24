@@ -1,9 +1,11 @@
+; ==============================================================================
 
-org $0E8000
-    ; \covered($070000-$070FFF)
+; Bank 0E
+org $0E8000 ; $070000-$077FFF
 
-    ; $070000-$070FFF FILE
-    incbin "binary_files/font_gfx.bin"
+; ==============================================================================
+
+incbin "binary_files/font_gfx.bin" ; $070000-$070FFF
 
 ; ==============================================================================
 
@@ -867,7 +869,6 @@ Module_EndSequence:
         LDY $9E78, X
         
         JSR $A703 ; $072703 IN ROM
-        
     DEX : BPL .gamma
     
 	PLX
@@ -1826,7 +1827,6 @@ Module_EndSequence:
         JSR $A6B3 ; $0726B3 IN ROM
     
         .BRANCH_BETA
-    
     INX : CPX.b #$05 : BCC .BRANCH_GAMMA
         
     LDA.b #$02
@@ -2498,9 +2498,10 @@ Module_EndSequence:
         BRA .BRANCH_GAMMA
     
     .BRANCH_BETA
-        STA $02
+
+    STA $02
         
-        LDY.b #$02
+    LDY.b #$02
     
     .BRANCH_GAMMA
     
@@ -3613,13 +3614,12 @@ Module_EndSequence:
         .notDoneWithSubmodule
     
         ; Scroll the credit list up one pixel
-        CLC : ADC.w #$0001 : STA $EA : TAY : AND.w #$0007
+        CLC : ADC.w #$0001 : STA $EA
         
-        BNE .return
-        
-        TYA : LSR #3 : STA $CA
-        
-        JSR $BE24 ; $073E24 IN ROM
+        TAY : AND.w #$0007 : BNE .return
+            TYA : LSR #3 : STA $CA
+            
+            JSR $BE24 ; $073E24 IN ROM
     
     ; $073DEB LONG BRANCH LOCATION
     .return
@@ -4459,7 +4459,7 @@ LoadGearPalettes:
     ; What type of sword and armor does Link have? (2 bytes)
     LDA $7EF359 : STA $0C
         
-     ; ....... ? .......
+    ; ....... ? .......
     LDA.w #$0303
     
     .variable
@@ -5252,7 +5252,6 @@ HandlePegPuzzles:
             BMI .return
         ; compare map8 CHR number to see if the scroll to the next area has triggered
         CMP $0EDE29, X : BNE .nextChrValue
-        
     ; Compare the area number, b/c only specific locations lead to the special OW areas.
     ; The CHR value and the area number must match for a warp to occur. (this is bizarre, I know)
     LDA $8A : CMP $0EDE31, X : BNE .matchFailed

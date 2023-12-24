@@ -1,3 +1,7 @@
+; ==============================================================================
+
+; Bank 06
+org $068000 ; $030000-$037FFF
 
 ; ==============================================================================
 
@@ -10,13 +14,11 @@ BottleVendor_DetectFish:
     
     .nextSprite
     
-    LDA $0DD0, Y : BEQ .inactiveSprite
-    
-    ; Literally!
-    LDA $0E20, Y : CMP.b #$D2 : BEQ .isFishOutOfWater
-    
-    .inactiveSprite
-    
+        LDA $0DD0, Y : BEQ .inactiveSprite
+            ; Literally!
+            LDA $0E20, Y : CMP.b #$D2 : BEQ .isFishOutOfWater
+        
+        .inactiveSprite
     DEY : BPL .nextSprite
     
     PLB
@@ -40,9 +42,8 @@ BottleVendor_DetectFish:
     PLX
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .delta
-    
-    ; If the fish is close enough to the merchant, indicate as such.
-    TYA : ORA.b #$80 : STA $0E90, X
+        ; If the fish is close enough to the merchant, indicate as such.
+        TYA : ORA.b #$80 : STA $0E90, X
     
     .delta
     
@@ -86,24 +87,23 @@ BottleVendor_SpawnFishRewards:
     LDY $0FB5
     
     LDA .item_types, Y : JSL Sprite_SpawnDynamically : BMI .spawnFailed
-    
-    JSL Sprite_SetSpawnedCoords
-    
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    
-    LDA.b #$FF : STA $0B58, Y
-    
-    PHX
-    
-    LDX $0FB5
-    
-    LDA .x_speeds, X : STA $0D50, Y
-    
-    LDA .y_speeds, X : STA $0D40, Y
-    
-    LDA.b #$20 : STA $0F80, Y : STA $0F10, Y
-    
-    PLX
+        JSL Sprite_SetSpawnedCoords
+        
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
+        
+        LDA.b #$FF : STA $0B58, Y
+        
+        PHX
+        
+        LDX $0FB5
+        
+        LDA .x_speeds, X : STA $0D50, Y
+        
+        LDA .y_speeds, X : STA $0D40, Y
+        
+        LDA.b #$20 : STA $0F80, Y : STA $0F10, Y
+        
+        PLX
     
     .spawnFailed
     

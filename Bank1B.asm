@@ -1,7 +1,12 @@
+; ==============================================================================
+
+; Bank 1B
+org $1B8000 ; $0D8000-$0DFFFF
+
+; ==============================================================================
 
 ; $0D8000 - $DB1D6 - tail end of the music (spc) data
 
-    
 ; $0DB1D7 - $DB29A - possibly a test block of spc data, but seems to be unused
 {
     ; \task Fill in data and find out if that part about spc data seems
@@ -19,22 +24,19 @@ pool Null:
 ; $0DB800-$0DB85F DATA
 pool Overworld_Hole:
 {
-    .map16
-    
     ; $0DB800 - map16 coordinates for holes
+    .map16
     dw $0CE0, $124E, $12CE, $1162, $11E2, $073C, $07BC, $0CE0
     dw $003C, $00BE, $003E, $0388, $0170, $03A4, $0424, $0518
     dw $028A, $020A, $0108
     
-    .area
-    
     ; $0DB826 - area numbers for holes
+    .area
     dw $0040, $0040, $0040, $0040, $0040, $0040, $0040, $0000
     dw $005B, $005B, $005B, $0015, $001B, $0022, $0022, $0002, $0018, $0018, $0014
     
-    .entrance
-    
     ; $0DB84C - dungeon entrance to go into
+    .entrance
     db $76, $77, $77, $78, $78, $79, $79, $7A
     db $7B, $7B, $7B, $7C, $7D, $7E, $7E, $7F
     db $80, $80, $81, $82

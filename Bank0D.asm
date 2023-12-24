@@ -1,3 +1,7 @@
+; ==============================================================================
+
+; Bank 0D
+org $0D8000 ; $068000-$06FFFF
 
 ; ==============================================================================
 
@@ -49,7 +53,7 @@ incsrc "sound_sfx.asm"
 ; ==============================================================================
 
 ; $06BBE0-$06BD1F DATA
-pool Babusu_Draw:
+pool_Babusu_Draw:
 {
     .oam_groups
     dw  0,  4 : db $80, $43, $00, $00
@@ -123,18 +127,16 @@ Babusu_Draw:
     LDA.b #$00 : XBA
     
     LDA $0DC0, X : BMI .invalid_animation_state
-    
-    REP #$20
-    
-    ASL #4 : ADC.w #(.oam_groups) : STA $08
-    
-    SEP #$20
-    
-    LDA.b #$02 : JSL Sprite_DrawMultiple
-    
-    PLB
-    
-    RTL
+        REP #$20
+        
+        ASL #4 : ADC.w #(.oam_groups) : STA $08
+        
+        SEP #$20
+        
+        LDA.b #$02 : JSL Sprite_DrawMultiple
+            PLB
+            
+            RTL
     
     .invalid_animation_state
     
@@ -148,7 +150,7 @@ Babusu_Draw:
 ; ==============================================================================
 
 ; $06BD46-$06BE05 DATA
-pool Wizzrobe_Draw:
+pool_Wizzrobe_Draw:
 {
     .oam_groups
     dw 0, -8 : db $B2, $00, $00, $00
@@ -182,7 +184,6 @@ pool Wizzrobe_Draw:
     dw 0, -8 : db $B2, $00, $00, $00
     dw 8, -8 : db $B3, $00, $00, $00
     dw 0,  0 : db $8E, $00, $00, $02
-  
 }
 
 ; ==============================================================================
@@ -286,7 +287,7 @@ pool Freezor_Draw:
     dw  0,  8 : db $AA, $00, $00, $00
     dw  8,  8 : db $AA, $40, $00, $00
     
-    ; $6BF66
+    ; $06BF66
     .normal_oam_group
     dw  0, 0 : db $AE, $00, $00, $00
     dw  8, 0 : db $AE, $40, $00, $00
@@ -307,20 +308,19 @@ Freezor_Draw:
     
     LDA.b #$00   : XBA
     LDA $0DC0, X : CMP.b #$07 : BEQ .use_normal_oam_groups
-    
-    REP #$20 : ASL #5 : ADC.w #(.death_oam_groups) : STA $08
-    
-    SEP #$20
-    
-    LDA.b #$04
-    
-    .now_draw
-    
-    JSL Sprite_DrawMultiple
-    
-    PLB
-    
-    RTL
+        REP #$20 : ASL #5 : ADC.w #(.death_oam_groups) : STA $08
+        
+        SEP #$20
+        
+        LDA.b #$04
+        
+        .now_draw
+        
+        JSL Sprite_DrawMultiple
+        
+        PLB
+        
+        RTL
     
     .use_normal_oam_groups
     
@@ -395,24 +395,22 @@ Zazak_Draw:
     SEP #$20
     
     LDA.b #$03 : JSL Sprite_DrawMultiple
-    
-    LDA $0F00, X : BNE .paused
-    
-    LDA $0E00, X : CMP.b #$01 : PHX : LDA $0EB0, X : TAX : BCC .mouth_closed
-    
-    INX #4
-    
-    .mouth_closed
-    
-    LDA .chr_overrides, X : LDY.b #$02 : STA ($90), Y
-    
-    INY
-    
-    LDA ($90), Y : AND.b #$BF : ORA .vh_flip_overrides, X : STA ($90), Y
-    
-    PLX
-    
-    JSL Sprite_DrawShadowLong
+        LDA $0F00, X : BNE .paused
+        
+        LDA $0E00, X : CMP.b #$01 : PHX : LDA $0EB0, X : TAX : BCC .mouth_closed
+            INX #4
+        
+        .mouth_closed
+        
+        LDA .chr_overrides, X : LDY.b #$02 : STA ($90), Y
+        
+        INY
+        
+        LDA ($90), Y : AND.b #$BF : ORA .vh_flip_overrides, X : STA ($90), Y
+        
+        PLX
+        
+        JSL Sprite_DrawShadowLong
     
     .paused
     
@@ -534,29 +532,27 @@ Stalfos_Draw:
 Probe_CheckTileSolidity:
 {
     LDA $0F20, X : CMP.b #$01 : REP #$30 : STZ $05 : BCC .on_bg2
-    
-    LDA.w #$1000 : STA $05
+        LDA.w #$1000 : STA $05
     
     .on_bg2
     
     SEP #$20
     
     LDA $1B : REP #$20 : BEQ .outdoors
-    
-    LDA $0FD8 : AND.w #$01FF : LSR #3 : STA $04
-    
-    LDA $0FDA : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $05
-    
-    PHX
-    
-    TAX
-    
-    ; Detect the tile type the soldier interacts with
-    LDA $7F2000, X
-    
-    PLX
-    
-    BRA .finished
+        LDA $0FD8 : AND.w #$01FF : LSR #3 : STA $04
+        
+        LDA $0FDA : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $05
+        
+        PHX
+        
+        TAX
+        
+        ; Detect the tile type the soldier interacts with
+        LDA $7F2000, X
+        
+        PLX
+        
+        BRA .finished
     
     .outdoors
     
@@ -1032,8 +1028,7 @@ Uncle_Draw:
     
     LDA $0DE0, X : BEQ .skip_shadow
     CMP.b #$03   : BEQ .skip_shadow
-    
-    JSL Sprite_DrawShadowLong
+        JSL Sprite_DrawShadowLong
     
     .skip_shadow
     
@@ -1102,14 +1097,10 @@ Sprite5_CheckIfActive:
     ; Deactivates the sprite in certain situations
 
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
-    
-    LDA $0FC1 : BNE .inactive
-    
-    LDA $11 : BNE .inactive
-    
-    LDA $0CAA, X : BMI .active
-    
-    LDA $0F00, X : BEQ .active
+        LDA $0FC1 : BNE .inactive
+            LDA $11 : BNE .inactive
+                LDA $0CAA, X : BMI .active
+                    LDA $0F00, X : BEQ .active
     
     .inactive
     
@@ -1217,8 +1208,7 @@ BomberPellet_DrawExplosion:
     PHB : PHK : PLB
     
     LDA $0DF0, X : BNE .still_exploding
-    
-    STZ $0DD0, X
+        STZ $0DD0, X
     
     .still_exploding
     
@@ -1243,8 +1233,7 @@ GoodBee_AttackOtherSprite:
 {
     ; Good bee can't attack any bosses except mothula, apparently.
     LDA $0E20, Y : CMP.b #$88 : BEQ .is_mothula
-    
-    LDA $0B6B, Y : AND.b #$02 : BNE .is_a_boss
+        LDA $0B6B, Y : AND.b #$02 : BNE .is_a_boss
     
     .is_mothula
     
@@ -1259,39 +1248,37 @@ GoodBee_AttackOtherSprite:
     LDA $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0010
     
     CMP.w #$0018 : BCS .sprite_not_close
-    
-    LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$FFF8
-    
-    CMP.w #$0018 : BCS .sprite_not_close
-    
-    SEP #$20
-    
-    LDA $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
-    
-    TXA : INC A : STA $0E90, Y
-    
-    RTL
-    
-    .not_bottle_vendor
-    
-    ; Damage class of the attack is same as that of the level 1 sword.
-    LDA.b #$01
-    
-    PHY : PHX
-    
-    TYX
-    
-    JSL Ancilla_CheckSpriteDamage.preset_class
-    
-    PLX : PLY
-    
-    LDA.b #$0F : STA $0EA0, Y
-    
-    LDA $0D50, X : ASL A : STA $0F40, Y
-    
-    LDA $0D40, X : ASL A : STA $0F30, Y
-    
-    INC $0DA0, X
+        LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$FFF8
+        
+        CMP.w #$0018 : BCS .sprite_not_close
+        
+        SEP #$20
+        
+        LDA $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
+            TXA : INC A : STA $0E90, Y
+            
+            RTL
+        
+        .not_bottle_vendor
+        
+        ; Damage class of the attack is same as that of the level 1 sword.
+        LDA.b #$01
+        
+        PHY : PHX
+        
+        TYX
+        
+        JSL Ancilla_CheckSpriteDamage.preset_class
+        
+        PLX : PLY
+        
+        LDA.b #$0F : STA $0EA0, Y
+        
+        LDA $0D50, X : ASL A : STA $0F40, Y
+        
+        LDA $0D40, X : ASL A : STA $0F30, Y
+        
+        INC $0DA0, X
     
     .sprite_not_close
     .is_a_boss
@@ -1379,106 +1366,99 @@ pool Pikit_DrawTongue:
 Pikit_DrawTongue:
 {
     LDA $0D80, X : CMP.b #$02 : BNE .easy_out
-    
-    LDA $0F00, X : BNE .easy_out
-    
-    LDA $00 : CLC : ADC.b #$04 : STA $00
-    
-    LDY.b #$14                : STA ($90), Y
-    CLC : ADC $0D90, X : LDY.b #$00 : STA ($90), Y
-    
-    LDA $02      : CLC : ADC.b #$03 : STA $02
-    
-                   LDY.b #$15 : STA ($90), Y
-    CLC : ADC $0DA0, X : LDY.b #$01 : STA ($90), Y
-    LDA.b #$FE   : LDY.b #$16 : STA ($90), Y
-                   LDY.b #$02 : STA ($90), Y
-    LDA $05      : LDY.b #$17 : STA ($90), Y
-                   LDY.b #$03 : STA ($90), Y
-    
-    LDA $0DE0, X : STA $0B
-    
-    LDA $0D90, X : STA $0E : BPL .BRANCH_ALPHA
-    
-    EOR.b #$FF : INC A
-    
-    .BRANCH_ALPHA
-    
-    STA $0C
-    
-    LDA $0DA0, X : STA $0F : BPL .BRANCH_BETA
-    
-    EOR.b #$FF : INC A
-    
-    .BRANCH_BETA
-    
-    STA $0D
-    
-    LDY.b #$04
-    
-    PHX
-    
-    LDX.b #$03
-    
-    .next_subsprite
-    
-    LDA $0C      : STA $4202
-    LDA .multipliers, X : STA $4203
-    
-    ; burn a few cycles...
-    JSR Pikit_MultiplicationDelay
-    
-    LDA $0E : ASL A
-    
-    LDA $4217 : BCC .BRANCH_GAMMA
-    
-    EOR.b #$FF : INC A
-    
-    .BRANCH_GAMMA
-    
-    CLC : ADC $00 : STA ($90), Y
-    
-    LDA $0D      : STA $4202
-    LDA .multipliers, X : STA $4203
-    
-    JSR Pikit_MultiplicationDelay
-    
-    LDA $0F : ASL A : LDA $4217 : BCC .BRANCH_DELTA
-    
-    EOR.b #$FF : INC A
-    
-    .BRANCH_DELTA
-    
-    CLC : ADC $02
-    
-    INY
-    
-    STA ($90), Y
-    
-    PHX
-    
-    LDX $0B
-    
-    LDA .chr, X : INY : STA ($90), Y
-    
-    INY
-    
-    LDA .vh_flip, X : ORA $05 : STA ($90), Y
-    
-    PLX
-    
-    INY
-    
-    DEX : BPL .next_subsprite
-    
-    PLX
-    
-    LDY.b #$00
-    LDA.b #$05
-    
-    JSL Sprite_CorrectOamEntriesLong
-    
-    RTS
+        LDA $0F00, X : BNE .easy_out
+            LDA $00 : CLC : ADC.b #$04 : STA $00
+            
+            LDY.b #$14                      : STA ($90), Y
+            CLC : ADC $0D90, X : LDY.b #$00 : STA ($90), Y
+            
+            LDA $02 : CLC : ADC.b #$03 : STA $02
+            
+                                LDY.b #$15 : STA ($90), Y
+            CLC : ADC $0DA0, X : LDY.b #$01 : STA ($90), Y
+            LDA.b #$FE         : LDY.b #$16 : STA ($90), Y
+                                LDY.b #$02 : STA ($90), Y
+            LDA $05            : LDY.b #$17 : STA ($90), Y
+                                LDY.b #$03 : STA ($90), Y
+            
+            LDA $0DE0, X : STA $0B
+            
+            LDA $0D90, X : STA $0E : BPL .BRANCH_ALPHA
+                EOR.b #$FF : INC A
+            
+            .BRANCH_ALPHA
+            
+            STA $0C
+            
+            LDA $0DA0, X : STA $0F : BPL .BRANCH_BETA
+                EOR.b #$FF : INC A
+            
+            .BRANCH_BETA
+            
+            STA $0D
+            
+            LDY.b #$04
+            
+            PHX
+            
+            LDX.b #$03
+            
+            .next_subsprite
+            
+                LDA $0C      : STA $4202
+                LDA .multipliers, X : STA $4203
+                
+                ; burn a few cycles...
+                JSR Pikit_MultiplicationDelay
+                
+                LDA $0E : ASL A
+                
+                LDA $4217 : BCC .BRANCH_GAMMA
+                    EOR.b #$FF : INC A
+                
+                .BRANCH_GAMMA
+                
+                CLC : ADC $00 : STA ($90), Y
+                
+                LDA $0D      : STA $4202
+                LDA .multipliers, X : STA $4203
+                
+                JSR Pikit_MultiplicationDelay
+                
+                LDA $0F : ASL A : LDA $4217 : BCC .BRANCH_DELTA
+                    EOR.b #$FF : INC A
+                
+                .BRANCH_DELTA
+                
+                CLC : ADC $02
+                
+                INY
+                
+                STA ($90), Y
+                
+                PHX
+                
+                LDX $0B
+                
+                LDA .chr, X : INY : STA ($90), Y
+                
+                INY
+                
+                LDA .vh_flip, X : ORA $05 : STA ($90), Y
+                
+                PLX
+                
+                INY
+            DEX : BPL .next_subsprite
+            
+            PLX
+            
+            LDY.b #$00
+            LDA.b #$05
+            
+            JSL Sprite_CorrectOamEntriesLong
+            
+            RTS
     
     .multipliers
     
@@ -1528,45 +1508,43 @@ pool Pikit_DrawGrabbedItem:
 Pikit_DrawGrabbedItem:
 {
     LDA $0ED0, X       : BEQ .return
-    DEC A : CMP.b #$03 : BNE .not_shield
-    
-    ; Indicates the shield level, which should be 1 or 2, resulting in
-    ; a final value here of 3 or 4.
-    LDA $0E30, X : CLC : ADC.b #$02
-    
-    .not_shield
-    
-    STA $02
-    
-    LDA.b #$10 : JSL OAM_AllocateFromRegionC
-    
-    LDY.b #$00
-    
-    PHX
-    
-    LDX.b #$03
-    
-    .next_subsprite
-    
-    STX $03
-    
-    LDA $02 : ASL #2 : ORA $03 : TAX
-    
-              LDA $0FB5    : CLC : ADC .x_offsets, X        : STA ($90), Y
-              LDA $0FB6    : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
-              LDA .chr, X                       : INY : STA ($90), Y
-    LDX $02 : LDA .properties, X                : INY : STA ($90), Y
-    
-    INY
-    
-    LDX $03 : DEX : BPL .next_subsprite
-    
-    PLX
-    
-    LDY.b #$00
-    LDA.b #$03
-    
-    JSL Sprite_CorrectOamEntriesLong
+        DEC A : CMP.b #$03 : BNE .not_shield
+            ; Indicates the shield level, which should be 1 or 2, resulting in
+            ; a final value here of 3 or 4.
+            LDA $0E30, X : CLC : ADC.b #$02
+        
+        .not_shield
+        
+        STA $02
+        
+        LDA.b #$10 : JSL OAM_AllocateFromRegionC
+        
+        LDY.b #$00
+        
+        PHX
+        
+        LDX.b #$03
+        
+        .next_subsprite
+        
+            STX $03
+            
+            LDA $02 : ASL #2 : ORA $03 : TAX
+            
+            LDA $0FB5 : CLC : ADC .x_offsets, X       : STA ($90), Y
+            LDA $0FB6 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+            LDA .chr, X                         : INY : STA ($90), Y
+            LDX $02 : LDA .properties, X        : INY : STA ($90), Y
+            
+            INY
+        LDX $03 : DEX : BPL .next_subsprite
+        
+        PLX
+        
+        LDY.b #$00
+        LDA.b #$03
+        
+        JSL Sprite_CorrectOamEntriesLong
     
     .return
     
@@ -1624,46 +1602,44 @@ Kholdstare_Draw:
     PHB : PHK : PLB
     
     JSL Sprite_PrepOamCoordLong : BCS .offscreen
-    
-    PHX
-    
-    LDA $0D90, X : PHA : ASL A : TAX
-    
-    REP #$20
-    
-    LDA $00      : CLC : ADC .x_offsets, X : STA ($90), Y
-    AND.w #$0100 : STA $0E
-    
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-    
-    CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-    
-    LDA.b #$F0 : STA ($90), Y
-    
-    .on_screen_y
-    
-    PLX
-    
-    LDA .chr, X               : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
-    
-    TYA : LSR #2 : TAY
-    
-    LDA.b #$02 : ORA $0F : STA ($92), Y
-    
-    PLX
-    
-    LDA.b #$00 : XBA
-    
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
-    
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
-    
-    INC $92
-    
-    SEP #$20
-    
-    LDA.b #$04 : JSL Sprite_DrawMultiple
+        PHX
+        
+        LDA $0D90, X : PHA : ASL A : TAX
+        
+        REP #$20
+        
+        LDA $00      : CLC : ADC .x_offsets, X : STA ($90), Y
+        AND.w #$0100 : STA $0E
+        
+        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+        
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+            LDA.b #$F0 : STA ($90), Y
+        
+        .on_screen_y
+        
+        PLX
+        
+        LDA .chr, X               : INY : STA ($90), Y
+        LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+        
+        TYA : LSR #2 : TAY
+        
+        LDA.b #$02 : ORA $0F : STA ($92), Y
+        
+        PLX
+        
+        LDA.b #$00 : XBA
+        
+        LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+        
+        LDA $90 : CLC : ADC.w #$0004 : STA $90
+        
+        INC $92
+        
+        SEP #$20
+        
+        LDA.b #$04 : JSL Sprite_DrawMultiple
     
     .offscreen
     
@@ -1685,39 +1661,38 @@ Sprite_SpawnFireball:
     LDA.b #$55
     
     JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
-    
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
-    
-    LDA $02 : CLC : ADC.b #$04 : PHP : SEC : SBC $04    : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : PLP : ADC.b #$00 : STA $0D20, Y
-    
-    LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y
-    
-    LDA.b #$06 : STA $0F50, Y
-    
-    LDA.b #$54 : STA $0F60, Y
-                 STA $0E90, Y
-    
-    LDA.b #$20 : STA $0E40, Y
-    
-    PHX : TYX
-    
-    LDA.b #$20
-    
-    JSL Sprite_ApplySpeedTowardsPlayerLong
-    
-    LDA.b #$14 : STA $0DF0, X
-    
-    LDA.b #$10 : STA $0E00, X
-    
-    STZ $0BE0, X
-    
-    LDA.b #$48 : STA $0CAA, X
-    
-    TXY
-    
-    PLX
+        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
+        LDA $01 : ADC.b #$00 : STA $0D30, Y
+        
+        LDA $02 : CLC : ADC.b #$04 : PHP : SEC : SBC $04    : STA $0D00, Y
+        LDA $03 : SBC.b #$00 : PLP : ADC.b #$00 : STA $0D20, Y
+        
+        LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y
+        
+        LDA.b #$06 : STA $0F50, Y
+        
+        LDA.b #$54 : STA $0F60, Y
+                    STA $0E90, Y
+        
+        LDA.b #$20 : STA $0E40, Y
+        
+        PHX : TYX
+        
+        LDA.b #$20
+        
+        JSL Sprite_ApplySpeedTowardsPlayerLong
+        
+        LDA.b #$14 : STA $0DF0, X
+        
+        LDA.b #$10 : STA $0E00, X
+        
+        STZ $0BE0, X
+        
+        LDA.b #$48 : STA $0CAA, X
+        
+        TXY
+        
+        PLX
     
     .spawn_failed
     
@@ -1787,19 +1762,18 @@ ArcheryGameGuy_Draw:
     
     .next_subsprite
     
-    PHX : TXA : CLC : ADC $06 : TAX
-    
-    LDA $00 : CLC : ADC .x_offsets, X         : STA ($90), Y
-    LDA $02 : CLC : ADC .y_offsets, X   : INY : STA ($90), Y
-    LDA .chr, X                   : INY : STA ($90), Y
-    LDA $05  : ORA .properties, X : INY : STA ($90), Y
-    
-    PHY : TYA : LSR #2 : TAY
-    
-    LDA .size_bits, X : STA ($92), Y
-    
-    PLY : INY
-    
+        PHX : TXA : CLC : ADC $06 : TAX
+        
+        LDA $00 : CLC : ADC .x_offsets, X         : STA ($90), Y
+        LDA $02 : CLC : ADC .y_offsets, X   : INY : STA ($90), Y
+        LDA .chr, X                   : INY : STA ($90), Y
+        LDA $05  : ORA .properties, X : INY : STA ($90), Y
+        
+        PHY : TYA : LSR #2 : TAY
+        
+        LDA .size_bits, X : STA ($92), Y
+        
+        PLY : INY
     PLX : DEX : BPL .next_subsprite
     
     PLX
