@@ -5,7 +5,7 @@ org $018000 ; $008000-$00FFFF
 
 ; ==============================================================================
 
-; $8000-$81FF DATA
+; $008000-$0081FF DATA
 pool Dungeon_LoadType1Object: 
 {
     .subtype_1_params
@@ -52,7 +52,7 @@ pool Dungeon_LoadType1Object:
 
 ; ==============================================================================
 
-; $8200-$83EF JUMP TABLE
+; $008200-$0083EF JUMP TABLE
 pool Dungeon_LoadType1Object:
 {
     .subtype_1_params
@@ -64,314 +64,314 @@ pool Dungeon_LoadType1Object:
     dw Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26
     dw Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs
     dw Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs
-    dw $8C37 ; = $8C37
-    dw $8C37 ; = $8C37
-    dw $8B79 ; = $8B79
+    dw $8C37 ; = $008C37
+    dw $8C37 ; = $008C37
+    dw $8B79 ; = $008B79
     
     ; 0x08
-    dw $8B79 ; = $8B79
-    dw $8C58 ; = $8C58
-    dw $8C61 ; = $8C61
-    dw $8C61 ; = $8C61
-    dw $8C58 ; = $8C58
-    dw $8C58 ; = $8C58
-    dw $8C61 ; = $8C61
-    dw $8C61 ; = $8C61
+    dw $8B79 ; = $008B79
+    dw $8C58 ; = $008C58
+    dw $8C61 ; = $008C61
+    dw $8C61 ; = $008C61
+    dw $8C58 ; = $008C58
+    dw $8C58 ; = $008C58
+    dw $8C61 ; = $008C61
+    dw $8C61 ; = $008C61
     
     ; 0x10
-    dw $8C58 ; = $8C58
-    dw $8C58 ; = $8C58
-    dw $8C61 ; = $8C61
-    dw $8C61 ; = $8C61
-    dw $8C58 ; = $8C58
-    dw $8C6A ; = $8C6A
-    dw $8CB9 ; = $8CB9
-    dw $8CB9 ; = $8CB9
+    dw $8C58 ; = $008C58
+    dw $8C58 ; = $008C58
+    dw $8C61 ; = $008C61
+    dw $8C61 ; = $008C61
+    dw $8C58 ; = $008C58
+    dw $8C6A ; = $008C6A
+    dw $8CB9 ; = $008CB9
+    dw $8CB9 ; = $008CB9
     
     ; 0x18
-    dw $8C6A ; = $8C6A
-    dw $8C6A ; = $8C6A
-    dw $8CB9 ; = $8CB9
-    dw $8CB9 ; = $8CB9
-    dw $8C6A ; = $8C6A
-    dw $8C6A ; = $8C6A
-    dw $8CB9 ; = $8CB9
-    dw $8CB9 ; = $8CB9
+    dw $8C6A ; = $008C6A
+    dw $8C6A ; = $008C6A
+    dw $8CB9 ; = $008CB9
+    dw $8CB9 ; = $008CB9
+    dw $8C6A ; = $008C6A
+    dw $8C6A ; = $008C6A
+    dw $8CB9 ; = $008CB9
+    dw $8CB9 ; = $008CB9
     
     ; 0x20
-    dw $8C6A ; = $8C6A
-    dw $8D5D ; = $8D5D ; mini staircase (just slows you down)
-    dw Object_HorizontalRail_short ; = $8EF0
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
+    dw $8C6A ; = $008C6A
+    dw $8D5D ; = $008D5D ; mini staircase (just slows you down)
+    dw Object_HorizontalRail_short ; = $008EF0
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
     
     ; 0x28
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $8FBD ; = $8FBD
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $8FBD ; = $008FBD
     
     ; 0x30
-    dw $9001 ; = $9001
-    dw $90F8 ; = $90F8 ; Unused object
-    dw $90F8 ; = $90F8 ; Unused object
-    dw $9111 ; = $9111
-    dw $9136 ; = $9136 ; 34
-    dw $913F ; = $913F ; 35? (HM says unused)
-    dw $92FB ; = $92FB ; Curtains in Agahnim's room (horizontal)
-    dw $92FB ; = $92FB ; Curtains in Agahnim's room (vertical, but not really useful b/c it tiles horizontally)
+    dw $9001 ; = $009001
+    dw $90F8 ; = $0090F8 ; Unused object
+    dw $90F8 ; = $0090F8 ; Unused object
+    dw $9111 ; = $009111
+    dw $9136 ; = $009136 ; 34
+    dw $913F ; = $00913F ; 35? (HM says unused)
+    dw $92FB ; = $0092FB ; Curtains in Agahnim's room (horizontal)
+    dw $92FB ; = $0092FB ; Curtains in Agahnim's room (vertical, but not really useful b/c it tiles horizontally)
     
     ; 0x38
-    dw $9323 ; = $9323
-    dw $936F ; = $936F
-    dw $9387 ; = $9387
-    dw $9387 ; = $9387
-    dw $93B7 ; = $93B7
-    dw $936F ; = $936F
-    dw $9456 ; = $9456
-    dw $8F62 ; = $8F62
+    dw $9323 ; = $009323
+    dw $936F ; = $00936F
+    dw $9387 ; = $009387
+    dw $9387 ; = $009387
+    dw $93B7 ; = $0093B7
+    dw $936F ; = $00936F
+    dw $9456 ; = $009456
+    dw $8F62 ; = $008F62
     
     ; 0x40
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $8F62 ; = $8F62 ; outline for water pools
-    dw $9466 ; = $9466 ; Thin waterfall (not used!)
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $8F62 ; = $008F62 ; outline for water pools
+    dw $9466 ; = $009466 ; Thin waterfall (not used!)
     
     ; 0x48
-    dw $9488 ; = $9488 ; Variable width waterfall (also unused)
-    dw $94B4 ; = $94B4
-    dw $94B4 ; = $94B4
-    dw $9456 ; = $9456
-    dw $94BD ; = $94BD
-    dw $94DF ; = $94DF ; Interesting that these three objects are identical and so are their parameters...
-    dw $94DF ; = $94DF
-    dw $94DF ; = $94DF
+    dw $9488 ; = $009488 ; Variable width waterfall (also unused)
+    dw $94B4 ; = $0094B4
+    dw $94B4 ; = $0094B4
+    dw $9456 ; = $009456
+    dw $94BD ; = $0094BD
+    dw $94DF ; = $0094DF ; Interesting that these three objects are identical and so are their parameters...
+    dw $94DF ; = $0094DF
+    dw $94DF ; = $0094DF
     
     ; 0x50
-    dw $96DC ; = $96DC
-    dw $9CC6 ; = $9CC6
-    dw $9CC6 ; = $9CC6
-    dw $8B79 ; = $8B79
-    dw $8AA3 ; = $8AA3 ; unused object
-    dw $96F9 ; = $96F9
-    dw $96F9 ; = $96F9
-    dw $971A ; = $971A
+    dw $96DC ; = $0096DC
+    dw $9CC6 ; = $009CC6
+    dw $9CC6 ; = $009CC6
+    dw $8B79 ; = $008B79
+    dw $8AA3 ; = $008AA3 ; unused object
+    dw $96F9 ; = $0096F9
+    dw $96F9 ; = $0096F9
+    dw $971A ; = $00971A
     
     ; 0x58
-    dw $971A ; = $971A
-    dw $971A ; = $971A
-    dw $971A ; = $971A
-    dw $9CC6 ; = $9CC6
-    dw $9CC6 ; = $9CC6
-    dw $8F36 ; = $8F36
-    dw $9338 ; = $9338
+    dw $971A ; = $00971A
+    dw $971A ; = $00971A
+    dw $971A ; = $00971A
+    dw $9CC6 ; = $009CC6
+    dw $9CC6 ; = $009CC6
+    dw $8F36 ; = $008F36
+    dw $9338 ; = $009338
     dw Object_HorizontalRail_long
     
     ; 0x60
     dw Object_Draw2x2sDownVariableOrFull
-    dw $8A89 ; = $8A89
-    dw $8A89 ; = $8A89
-    dw $8AA4 ; = $8AA4
-    dw $8AA4 ; = $8AA4
-    dw $8C4F ; = $8C4F
-    dw $8C4F ; = $8C4F
-    dw $8B74 ; = $8B74
+    dw $8A89 ; = $008A89
+    dw $8A89 ; = $008A89
+    dw $8AA4 ; = $008AA4
+    dw $8AA4 ; = $008AA4
+    dw $8C4F ; = $008C4F
+    dw $8C4F ; = $008C4F
+    dw $8B74 ; = $008B74
     
     ; 0x68
-    dw $8B74 ; = $8B74
-    dw $8EC3 ; = $8EC3
-    dw $8F8A ; = $8F8A
-    dw $8F8A ; = $8F8A
-    dw $9045 ; = $9045
-    dw $908F ; = $908F
-    dw $90F8 ; = $90F8 ; Unused object?
-    dw $90F8 ; = $90F8 ; Unused object?
+    dw $8B74 ; = $008B74
+    dw $8EC3 ; = $008EC3
+    dw $8F8A ; = $008F8A
+    dw $8F8A ; = $008F8A
+    dw $9045 ; = $009045
+    dw $908F ; = $00908F
+    dw $90F8 ; = $0090F8 ; Unused object?
+    dw $90F8 ; = $0090F8 ; Unused object?
     
     ; 0x70
-    dw $90F9 ; = $90F9
-    dw $9120 ; = $9120
-    dw $8AA3 ; = $8AA3
-    dw $930E ; = $930E
-    dw $930E ; = $930E
-    dw $9357 ; = $9357
-    dw $939F ; = $939F
-    dw $939F ; = $939F
+    dw $90F9 ; = $0090F9
+    dw $9120 ; = $009120
+    dw $8AA3 ; = $008AA3
+    dw $930E ; = $00930E
+    dw $930E ; = $00930E
+    dw $9357 ; = $009357
+    dw $939F ; = $00939F
+    dw $939F ; = $00939F
     
     ; 0x78
-    dw $9446 ; = $9446
-    dw $8F8A ; = $8F8A
-    dw $8F8A ; = $8F8A
-    dw $9446 ; = $9446
-    dw $96E4 ; = $96E4
-    dw $8B74 ; = $8B74
-    dw $8AA3 ; = $8AA3
-    dw $9702 ; = $9702
+    dw $9446 ; = $009446
+    dw $8F8A ; = $008F8A
+    dw $8F8A ; = $008F8A
+    dw $9446 ; = $009446
+    dw $96E4 ; = $0096E4
+    dw $8B74 ; = $008B74
+    dw $8AA3 ; = $008AA3
+    dw $9702 ; = $009702
     
     ; 0x80
-    dw $9702 ; = $9702
-    dw $971B ; = $971B
-    dw $971B ; = $971B
-    dw $971B ; = $971B
-    dw $971B ; = $971B
-    dw $9CEB ; = $9CEB
-    dw $9CEB ; = $9CEB
-    dw $9357 ; = $9357
+    dw $9702 ; = $009702
+    dw $971B ; = $00971B
+    dw $971B ; = $00971B
+    dw $971B ; = $00971B
+    dw $971B ; = $00971B
+    dw $9CEB ; = $009CEB
+    dw $9CEB ; = $009CEB
+    dw $9357 ; = $009357
     
     ; 0x88
-    dw $8F0C ; = $8F0C
-    dw $9347 ; = $9347
-    dw $8EBE ; = $8EBE
-    dw $90E2 ; = $90E2
-    dw $90E2 ; = $90E2
-    dw $8F8A ; = $8F8A
-    dw $8F8A ; = $8F8A
-    dw $97B5 ; = $97B5
+    dw $8F0C ; = $008F0C
+    dw $9347 ; = $009347
+    dw $8EBE ; = $008EBE
+    dw $90E2 ; = $0090E2
+    dw $90E2 ; = $0090E2
+    dw $8F8A ; = $008F8A
+    dw $8F8A ; = $008F8A
+    dw $97B5 ; = $0097B5
     
     ; 0x90
-    dw $8A89 ; = $8A89
-    dw $8A89 ; = $8A89
+    dw $8A89 ; = $008A89
+    dw $8A89 ; = $008A89
     dw Object_Draw2x2sDownVariableOrFull ; Blue block switch   (vertical)
     dw Object_Draw2x2sDownVariableOrFull ; Orange block switch (vertical)
-    dw $90F9 ; = $90F9 ; Partially see through floor
-    dw $B381 ; = $B381 ; Vertical line of pots
-    dw $B47F ; = $B47F ; Vertical Line of moles
-    dw $8AA3 ; = $8AA3
+    dw $90F9 ; = $0090F9 ; Partially see through floor
+    dw $B381 ; = $00B381 ; Vertical line of pots
+    dw $B47F ; = $00B47F ; Vertical Line of moles
+    dw $8AA3 ; = $008AA3
     
     ; 0x98
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
     
     ; 0xA0
-    dw $8BE0 ; = $8BE0
-    dw $8BF4 ; = $8BF4
-    dw $8C0E ; = $8C0E
-    dw $8C22 ; = $8C22
+    dw $8BE0 ; = $008BE0
+    dw $8BF4 ; = $008BF4
+    dw $8C0E ; = $008C0E
+    dw $8C22 ; = $008C22
     dw Object_Hole
-    dw $8E67 ; = $8E67
-    dw $8E7B ; = $8E7B
-    dw $8E95 ; = $8E95
+    dw $8E67 ; = $008E67
+    dw $8E7B ; = $008E7B
+    dw $8E95 ; = $008E95
     
     ; 0xA8
-    dw $8EA9 ; = $8EA9
-    dw $8E67 ; = $8E67
-    dw $8E7B ; = $8E7B
-    dw $8E95 ; = $8E95
-    dw $8EA9 ; = $8EA9
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
+    dw $8EA9 ; = $008EA9
+    dw $8E67 ; = $008E67
+    dw $8E7B ; = $008E7B
+    dw $8E95 ; = $008E95
+    dw $8EA9 ; = $008EA9
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
     
     ; 0xB0
-    dw $90D9 ; = $90D9
-    dw $90D9 ; = $90D9
-    dw $9111 ; = $9111
-    dw $8F62 ; = $8F62
-    dw $8F62 ; = $8F62
-    dw $97DC ; = $97DC ; Fortune teller curtain
+    dw $90D9 ; = $0090D9
+    dw $90D9 ; = $0090D9
+    dw $9111 ; = $009111
+    dw $8F62 ; = $008F62
+    dw $8F62 ; = $008F62
+    dw $97DC ; = $0097DC ; Fortune teller curtain
     dw Object_Draw4x2s_AdvanceRight.from_1_to_15_or_26
     dw Object_Draw4x2s_AdvanceRight.from_1_to_15_or_26
     
     ; 0xB8
     dw Object_Draw2x2s_AdvanceRight.from_1_to_15_or_32 ; Blue switch block (horizontal)
     dw Object_Draw2x2s_AdvanceRight.from_1_to_15_or_32 ; Orange switch block (horizontal)
-    dw $9111 ; = $9111
-    dw $9338 ; = $9338
-    dw $B376 ; = $B376 ; Horizontal line of pots
-    dw $B474 ; = $B474 ; Horizontal line of moles
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
+    dw $9111 ; = $009111
+    dw $9338 ; = $009338
+    dw $B376 ; = $00B376 ; Horizontal line of pots
+    dw $B474 ; = $00B474 ; Horizontal line of moles
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
     
     ; 0xC0
     dw Object_DrawRectOf1x1s
-    dw $8CC7 ; = $8CC7*
+    dw $8CC7 ; = $008CC7
     dw Object_DrawRectOf1x1s
-    dw $8D9E ; = $8D9E
-    dw $8FA2 ; = $8FA2
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
+    dw $8D9E ; = $008D9E
+    dw $8FA2 ; = $008FA2
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
     
     ; 0xC8
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $918F ; = $918F ; Undefined object
-    dw $918F ; = $918F ; Undefined object
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $918F ; = $00918F ; Undefined object
+    dw $918F ; = $00918F ; Undefined object
     dw Object_HiddenWallRight
     dw Object_HiddenWallLeft
-    dw $8FBC ; = $8FBC
+    dw $8FBC ; = $008FBC
     
     ; 0xD0
-    dw $8FBC ; = $8FBC
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $9298 ; = $9298*
-    dw $9298 ; = $9298*
-    dw $9298 ; = $9298*
-    dw $9298 ; = $9298*
-    dw $8D9E ; = $8D9E
+    dw $8FBC ; = $008FBC
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $9298 ; = $009298
+    dw $9298 ; = $009298
+    dw $9298 ; = $009298
+    dw $9298 ; = $009298
+    dw $8D9E ; = $008D9E
     
     ; 0xD8
     dw Object_Water ; Water
-    dw $8FA5 ; = $8FA5 ; Large black space
-    dw $95EF ; = $95EF* ; Water 2?
-    dw $8F9D ; = $8F9D
-    dw $9733 ; = $9733 ; Staircase platform
-    dw $93DC ; = $93DC* ; Large rock formation in caves / variable sized table
-    dw $9429 ; = $9429* ; Spike block groups
-    dw $8FA5 ; = $8FA5
+    dw $8FA5 ; = $008FA5 ; Large b8FA5lack space
+    dw $95EF ; = $0095EF ; Water 2?
+    dw $8F9D ; = $008F9D
+    dw $9733 ; = $009733 ; Staircase platform
+    dw $93DC ; = $0093DC ; Large rock formation in caves / variable sized table
+    dw $9429 ; = $009429 ; Spike block groups
+    dw $8FA5 ; = $008FA5
     
     ; 0xE0
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
-    dw $8FA5 ; = $8FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
+    dw $8FA5 ; = $008FA5
     
     ; 0xE8
-    dw $8FA5 ; = $8FA5
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
+    dw $8FA5 ; = $008FA5
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
     
     ; 0xF0
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
-    dw $8AA3 ; = $8AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
+    dw $8AA3 ; = $008AA3
 }
 
 ; ==============================================================================
 
-; $83F0-$846F DATA
+; $0083F0-$00846F DATA
 Subtype2Params:
 {
     dw $0B66, $0B86, $0BA6, $0BC6, $0C66, $0C86, $0CA6, $0CC6
@@ -389,7 +389,7 @@ Subtype2Params:
 
 ; ==============================================================================
 
-; $8470-$84EF JUMP TABLE
+; $008470-$0084EF JUMP TABLE
 Subtype2Routines:
 {
     ; Subtype 2 objects (0x40 distinct object types)
@@ -435,7 +435,7 @@ Subtype2Routines:
     dw Object_StarTile
     
     ; 0x20
-    dw $9892 ; = $9892* ; lit torch (distinct from the main torch type. one usage of note is in ganon's room)
+    dw $9892 ; = $009892 ; lit torch (distinct from the main torch type. one usage of note is in ganon's room)
     dw Object_Draw3x2
     dw Object_Draw5x4 ; mangled bed?...
     dw Object_Draw3x4
@@ -450,25 +450,25 @@ Subtype2Routines:
     dw Object_Draw2x4
     dw Object_Draw2x2
     dw Object_Draw3x6_Alternate 
-    dw $A41B ; = $A41B* ; inter-room in-room up-north   staircase
-    dw $A458 ; = $A458* ; inter-room in-room down-south staircase
-    dw $A486 ; = $A486* ; inter-room in-room down-north staircase (subtype obscured by hidden wall)
+    dw $A41B ; = $00A41B ; inter-room in-room up-north   staircase
+    dw $A458 ; = $00A458 ; inter-room in-room down-south staircase
+    dw $A486 ; = $00A486 ; inter-room in-room down-north staircase (subtype obscured by hidden wall)
     
     ; 0x30
-    dw $A25D ; = $A25D* ; seems identical to next object, but unused in the original game
-    dw $A26D ; = $A26D* ; inter-bg        in-room up-north staircase
-    dw $A2C7 ; = $A2C7* ; inter-psuedo bg in-room up-north staircase
-    dw $A2DF ; = $A2DF* ; inter-bg        in-room up-north staircase (subtype used in water rooms like in Swamp Palace)
+    dw $A25D ; = $00A25D ; seems identical to next object, but unused in the original game
+    dw $A26D ; = $00A26D ; inter-bg        in-room up-north staircase
+    dw $A2C7 ; = $00A2C7 ; inter-psuedo bg in-room up-north staircase
+    dw $A2DF ; = $00A2DF ; inter-bg        in-room up-north staircase (subtype used in water rooms like in Swamp Palace)
     dw Object_Draw2x2 ; single block
     dw Object_WaterLadder ; Swamp Palace activated ladder
     dw Object_InactiveWaterLadder ; Swamp Palace deactivated ladder
     dw Object_Watergate
     
     ; 0x38
-    dw $A4B4 ; = $A4B4* ; wall up-north spiral staircase
-    dw $A533 ; = $A533* ; wall down-north spiral staircase
-    dw $A4F5 ; = $A4F5* ; wall up-north spiral staircase
-    dw $A584 ; = $A584* ; wall down-north spiral staircase
+    dw $A4B4 ; = $00A4B4 ; wall up-north spiral staircase
+    dw $A533 ; = $00A533 ; wall down-north spiral staircase
+    dw $A4F5 ; = $00A4F5 ; wall up-north spiral staircase
+    dw $A584 ; = $00A584 ; wall down-north spiral staircase
     dw Object_SanctuaryMantle
     dw Object_Draw3x4
     dw Object_Draw3x6
@@ -477,7 +477,7 @@ Subtype2Routines:
 
 ; ==============================================================================
 
-; $84F0-$85EF DATA
+; $0084F0-$0085EF DATA
 Subtype3Params:
 {
     dw $1614, $162C, $1654, $0A0E, $0A0C, $09FC, $09FE, $0A00
@@ -507,16 +507,16 @@ Subtype3Params:
 
 ; ==============================================================================
 
-; $85F0-$86EF JUMP TABLE
+; $0085F0-$0086EF JUMP TABLE
 Subtype3Routines:
 {
     ; Subtype 3 Objects (0x80 disinct object types)
     
     ; 0x00
-    dw $9D29 ; = $9D29*
-    dw $9D5D ; = $9D5D*
-    dw $9D67 ; = $9D67*
-    dw $9C3B ; = $9C3B*
+    dw $9D29 ; = $009D29
+    dw $9D5D ; = $009D5D
+    dw $9D67 ; = $009D67
+    dw $9C3B ; = $009C3B
     dw Object_Draw1x1
     dw Object_Draw1x1
     dw Object_Draw1x1
@@ -529,7 +529,7 @@ Subtype3Routines:
     dw Object_Draw1x1
     dw Object_Draw1x1
     dw Object_PrisonBars ; Set of prison bars with slot (unused?)
-    dw $9C3B ; = $9C3B*
+    dw $9C3B ; = $009C3B
     dw Object_Draw1x1
     
     ; 0x10
@@ -543,40 +543,40 @@ Subtype3Routines:
     dw Object_PrisonBars ; Set of prison bars with slot (used)
     
     ; 0x18
-    dw Object_BigKeyLock       ; = $98AE*
-    dw Object_Chest            ; = $98D0* ; Normal Chest
-    dw Object_Chest_startsOpen ; = $99B8*
-    dw $A30C ; = $A30C* ; In-room up-south staircase
-    dw $A31C ; = $A31C* ; In-room up-south staircase
-    dw $A36E ; = $A36E* ; In-room up-south staircase
-    dw $A5D2 ; = $A5D2* ; Wall up-north straight staircase
-    dw $A5F4 ; = $A5F4* ; Wall down-north straight staircase
+    dw Object_BigKeyLock       ; = $0098AE
+    dw Object_Chest            ; = $0098D0 ; Normal Chest
+    dw Object_Chest_startsOpen ; = $0099B8
+    dw $A30C ; = $00A30C ; In-room up-south staircase
+    dw $A31C ; = $00A31C ; In-room up-south staircase
+    dw $A36E ; = $00A36E ; In-room up-south staircase
+    dw $A5D2 ; = $00A5D2 ; Wall up-north straight staircase
+    dw $A5F4 ; = $00A5F4 ; Wall down-north straight staircase
     
     ; 0x20
-    dw $A607 ; = $A607* ; Wall up-south straight staircase
-    dw $A626 ; = $A626* ; Wall down-south straight staircase
+    dw $A607 ; = $00A607 ; Wall up-south straight staircase
+    dw $A626 ; = $00A626 ; Wall down-south straight staircase
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
-    dw $A664 ; = $A664* ; Wall up-north straight staircase
-    dw $A695 ; = $A695* ; Wall down-north straight staircase
+    dw $A664 ; = $00A664 ; Wall up-north straight staircase
+    dw $A695 ; = $00A695 ; Wall down-north straight staircase
     
     ; 0x28
-    dw $A71C ; = $A71C* ; Wall up-south straight staircase
-    dw $A74A ; = $A74A* ; Wall down-south straight staircase  
+    dw $A71C ; = $00A71C ; Wall up-south straight staircase
+    dw $A74A ; = $00A74A ; Wall down-south straight staircase  
     dw Object_LanternLayer
-    dw $B306 ; = $B306* ; Heavy (unfinished) throwable pot?
+    dw $B306 ; = $00B306 ; Heavy (unfinished) throwable pot?
     dw Object_LargeLiftableBlock
     dw Object_AgahnimAltar 
     dw Object_AgahnimRoomFrame
-    dw Object_Pot ;* Pots and Skulls in dungeons
+    dw Object_Pot ; Pots and Skulls in dungeons
     
     ; 0x30
-    dw $B30B ; = $B30B* ; Other liftable object (graphics messed up)
-    dw Object_BigChest  ; = $99BB* ; Big Chest
+    dw $B30B ; = $00B30B ; Other liftable object (graphics messed up)
+    dw Object_BigChest  ; = $0099BB ; Big Chest
     dw Object_OpenedBigChest_fake
-    dw $A380 ; = $A380* ; in room staircase (facing up)
+    dw $A380 ; = $00A380 ; in room staircase (facing up)
     dw Object_Draw2x3
     dw Object_Draw2x3
     dw Object_Draw3x6_Alternate
@@ -618,15 +618,15 @@ Subtype3Routines:
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_FortuneTellerTemplate
-    dw $A194 ; = $A194*
+    dw $A194 ; = $00A194
     dw Object_Draw2x2
     dw Object_Draw2x2
     
     ; 0x58
     dw Object_Draw2x2
     dw Object_Draw2x2
-    dw $9D6C ; = $9D6C*
-    dw $A194 ; = $A194*
+    dw $9D6C ; = $009D6C
+    dw $A194 ; = $00A194
     dw Object_Draw4x6 ; Bookcase
     dw Object_Draw3x6
     dw Object_Draw2x2
@@ -635,7 +635,7 @@ Subtype3Routines:
     ; 0x60
     dw Object_Draw6x3
     dw Object_Draw6x3
-    dw $A1D1 ; = $A1D1*
+    dw $A1D1 ; = $00A1D1
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
@@ -670,12 +670,12 @@ Subtype3Routines:
     dw Object_Draw2x2
     dw Object_Draw2x2
     dw Object_Draw2x2
-    dw $8AA3 ; = $8AA3
+    dw $8AA3 ; = $008AA3
 }
 
 ; ==============================================================================
 
-; $86F0-$86F7 JUMP TABLE
+; $0086F0-$0086F7 JUMP TABLE
 DoorObjectRoutines:
 {
     ; A   = type
@@ -684,15 +684,15 @@ DoorObjectRoutines:
     ; $04 = type
     ; $0A = type
     
-    dw Door_Up    ; $A81C* ; Up
-    dw Door_Down  ; $A984* ; Down
-    dw Door_Left  ; $AAD7* ; Left
-    dw Door_Right ; $AB99* ; Right?
+    dw Door_Up    ; $00A81C ; Up
+    dw Door_Down  ; $00A984 ; Down
+    dw Door_Left  ; $00AAD7 ; Left
+    dw Door_Right ; $00AB99 ; Right?
 }
     
 ; ==============================================================================
 
-; $86F8 - $8739 DATA
+; $0086F8-$008739 DATA
 Dungeon_DrawObjectOffsets:
 {
     .BG2
@@ -720,7 +720,7 @@ Dungeon_DrawObjectOffsets:
 
 ; ==============================================================================
 
-; *$873A-$88E3 LONG
+; $00873A-$0088E3 LONG
 Dungeon_LoadRoom:
 {
     ; Loads dungeon room from start to finish.
@@ -787,12 +787,11 @@ Dungeon_LoadRoom:
     
     .initObjectBuffers
     
-    STZ $19A0, X : STZ $1980, X : STZ $19C0, X
-    
-    STZ $04F0, X
-    
-    STZ $0500, X : STZ $0520, X : STZ $0540, X
-    
+        STZ $19A0, X : STZ $1980, X : STZ $19C0, X
+        
+        STZ $04F0, X
+        
+        STZ $0500, X : STZ $0520, X : STZ $0540, X
     DEX #2 : BPL .initObjectBuffers
     
     STZ $BA
@@ -833,9 +832,8 @@ Dungeon_LoadRoom:
     
     .setupLayer2
     
-    ; These objects are drawn onto BG1
-    LDA Dungeon_DrawObjectOffsets_BG1+1, X : STA $C0, X
-    
+        ; These objects are drawn onto BG1
+        LDA Dungeon_DrawObjectOffsets_BG1+1, X : STA $C0, X
     DEX #3 : BPL .setupLayer2
     
     ; Draw Layer 2 objects to BG1
@@ -847,9 +845,8 @@ Dungeon_LoadRoom:
     
     .setupLayer3
     
-    ; These objects are drawn onto BG1
-    LDA Dungeon_DrawObjectOffsets_BG2+1, X : STA $C0, X
-    
+        ; These objects are drawn onto BG1
+        LDA Dungeon_DrawObjectOffsets_BG2+1, X : STA $C0, X
     DEX #3 : BPL .setupLayer3
     
     ; Draw layer 3 objects to BG1
@@ -859,21 +856,19 @@ Dungeon_LoadRoom:
     
     .next_block
     
-    LDX $BA
-    
-    ; If the block's room matches the current room, load.
-    LDA $7EF940, X : CMP $A0 : BNE .notInThisRoom
-    
-    ; Load the block's location
-    LDA $7EF942, X : STA $08 : TAY
-    
-    JSR Dungeon_LoadBlock
-    
-    .notInThisRoom
-    
-    ; Move to the next block entry
-    LDA $BA : CLC : ADC.w #$0004 : STA $BA
-    
+        LDX $BA
+        
+        ; If the block's room matches the current room, load.
+        LDA $7EF940, X : CMP $A0 : BNE .notInThisRoom
+            ; Load the block's location
+            LDA $7EF942, X : STA $08 : TAY
+            
+            JSR Dungeon_LoadBlock
+        
+        .notInThisRoom
+        
+        ; Move to the next block entry
+        LDA $BA : CLC : ADC.w #$0004 : STA $BA
     ; There are 99 (decimal) blocks in the game
     CMP.w #$018C : BNE .next_block
     
@@ -886,39 +881,35 @@ Dungeon_LoadRoom:
     
     .notEndOfTorches
     
-    LDX $BA
-    
-    LDA $7EFB40, X : CMP $A0 : BEQ .torchInThisRoom
-    
-    INX #2
-    
-    .nextTorch
-    
-    LDA $7EFB40, X
-    
-    INX #2 : STX $BA
-    
-    CMP.w #$FFFF : BNE .nextTorch
-    
+        LDX $BA
+        
+        LDA $7EFB40, X : CMP $A0 : BEQ .torchInThisRoom
+            INX #2
+            
+            .nextTorch
+            
+                LDA $7EFB40, X
+                
+                INX #2 : STX $BA
+            CMP.w #$FFFF : BNE .nextTorch
     CPX.w #$0120 : BNE .notEndOfTorches
     
     BRA .return
 
-    .torchInThisroom
+    .torchInThisRoom
 
     INX #2
     
     .nextTorchInRoom
     
-    ; get tilemap position
-    LDA $7EFB40, X : STA $08
-    
-    INX #2 : STX $BA
-    
-    JSR Dungeon_LoadTorch
-    
-    LDX $BA
-    
+        ; get tilemap position
+        LDA $7EFB40, X : STA $08
+        
+        INX #2 : STX $BA
+        
+        JSR Dungeon_LoadTorch
+        
+        LDX $BA
     LDA $7EFB40, X : CMP.w #$FFFF : BNE .nextTorchInRoom
     
     SEP #$30
@@ -930,7 +921,7 @@ Dungeon_LoadRoom:
 
 ; ==============================================================================
 
-; *$88E4-$8915 LOCAL
+; $0088E4-$008915 LOCAL
 Dungeon_DrawObjects:
 {
     ; Loads Level data?
@@ -943,12 +934,10 @@ Dungeon_DrawObjects:
     LDY $BA
     
     LDA [$B7], Y : CMP.w #$FFFF : BEQ .return
-    
-    STA $00 : CMP.w #$FFF0 : BEQ .enteredType2Section
-    
-    JSR Dungeon_LoadType1Object
-    
-    BRA .nextType1
+        STA $00 : CMP.w #$FFF0 : BEQ .enteredType2Section
+            JSR Dungeon_LoadType1Object
+            
+            BRA .nextType1
     
     .return
     
@@ -965,20 +954,19 @@ Dungeon_DrawObjects:
     
     ; Still stop if it's an #$FFFF object.
     LDA [$B7], Y : CMP.w #$FFFF : BEQ .return 
-    
-    ; Store the object's information at $00.
-    STA $00
-    
-    JSR Dungeon_LoadType2Object
-    
-    INC $BA : INC $BA
-    
-    BRA .nextType2
+        ; Store the object's information at $00.
+        STA $00
+        
+        JSR Dungeon_LoadType2Object
+        
+        INC $BA : INC $BA
+        
+        BRA .nextType2
 }
 
 ; ==============================================================================
 
-; *$8916-$893B LOCAL
+; $008916-$00893B LOCAL
 Dungeon_LoadType2Object:
 {
     ; This apparently loads doors...
@@ -1002,7 +990,7 @@ Dungeon_LoadType2Object:
 
 ; ==============================================================================
 
-; *$893C-$89DB LOCAL
+; $00893C-$0089DB LOCAL
 Dungeon_LoadType1Object:
 {
     ; Loads a 3 byte object into a room
@@ -1011,48 +999,46 @@ Dungeon_LoadType1Object:
     
     ; Basically, if object # >= 0xFC
     AND.b #$FC : CMP.b #$FC : BEQ .subtype2Object
-    
-    ; will become part of the tilemap offset
-    STA $08
-    
-    ; Reload the first byte of the object.
-    ; Store to this location (no idea what it does)
-    LDA $00 : AND.b #$03 : STA $B2
-    
-    ; Same here. Excuse my ignorance.
-    LDA $01 : AND.b #$03 : STA $B4
-    
-    ; Move to the third byte of the object.
-    INY #2
-    
-    ; Determines the object "type". I.e. the routine to use
-    LDA [$B7], Y : STA $04
-    
-    ; Set up the index to read the next object.
-    INY : STY $BA
-    
-    ; This now forms a full tile map offset.
-    LDA $01 : LSR #3 : ROR $08 : STA $09
-    
-    STZ $03
-    STZ $05
-    
-    REP #$20
-    
-    ; Load the object type, multiply by two
-    ; If object type >= 0xF8 goto subtype 3 objects
-    LDA $04 : ASL A : CMP.w #$01F0 : BCS .subtype3Object
-    
-    ; Handles subtype 1 objects
-    TAX
-    
-    LDA .subtype_1_routines, X : STA $0E
-    
-    LDA .subtype_1_params, X : TAX
-    
-    LDY $08
-    
-    JMP ($000E)
+        ; will become part of the tilemap offset
+        STA $08
+        
+        ; Reload the first byte of the object.
+        ; Store to this location (no idea what it does)
+        LDA $00 : AND.b #$03 : STA $B2
+        
+        ; Same here. Excuse my ignorance.
+        LDA $01 : AND.b #$03 : STA $B4
+        
+        ; Move to the third byte of the object.
+        INY #2
+        
+        ; Determines the object "type". I.e. the routine to use
+        LDA [$B7], Y : STA $04
+        
+        ; Set up the index to read the next object.
+        INY : STY $BA
+        
+        ; This now forms a full tile map offset.
+        LDA $01 : LSR #3 : ROR $08 : STA $09
+        
+        STZ $03
+        STZ $05
+        
+        REP #$20
+        
+        ; Load the object type, multiply by two
+        ; If object type >= 0xF8 goto subtype 3 objects
+        LDA $04 : ASL A : CMP.w #$01F0 : BCS .subtype3Object
+            ; Handles subtype 1 objects
+            TAX
+            
+            LDA .subtype_1_routines, X : STA $0E
+            
+            LDA .subtype_1_params, X : TAX
+            
+            LDY $08
+            
+            JMP ($000E)
     
     .subtype2Object
     
@@ -1102,20 +1088,19 @@ Dungeon_LoadType1Object:
 
 ; ==============================================================================
 
-; *$89DC-$8A43 LOCAL
+; $0089DC-$008A43 LOCAL
 Dungeon_DrawFloors:
 {
     LDX.w #$001E
     
     .nextBg1Offset
     
-    LDA Dungeon_DrawObjectOffsets_BG1,   X : STA $BF, X
-    LDA Dungeon_DrawObjectOffsets_BG1+1, X : STA $C0, X
-    
-    ; Sets up the drawing to go to BG1 ($7E4000 and beyond)
-    ; I guess we're setting up the addresses
-    ; that we'll be writing to in the $BF, X array.
-    ; This array extends up until $DF
+        ; Sets up the drawing to go to BG1 ($7E4000 and beyond)
+        ; I guess we're setting up the addresses
+        ; that we'll be writing to in the $BF, X array.
+        ; This array extends up until $DF
+        LDA Dungeon_DrawObjectOffsets_BG1,   X : STA $BF, X
+        LDA Dungeon_DrawObjectOffsets_BG1+1, X : STA $C0, X
     DEX #3 : BPL .nextBg1Offset
     
     LDY $BA : INC $BA
@@ -1131,9 +1116,8 @@ Dungeon_DrawFloors:
     
     .nextBg2Offset
     
-    LDA Dungeon_DrawObjectOffsets_BG2+1, X : STA $C0, X
-    
-    ; Sets up the drawing to now be to BG2 ($7E2000 and beyond)
+        ; Sets up the drawing to now be to BG2 ($7E2000 and beyond)
+        LDA Dungeon_DrawObjectOffsets_BG2+1, X : STA $C0, X
     DEX #3 : BPL .nextBg2Offset
     
     STZ $0C
@@ -1141,29 +1125,28 @@ Dungeon_DrawFloors:
     ; Floor 1 in Hyrule Magic
     PLA : AND.w #$000F : ASL #4 : STA $046A : TAX
     
-    ; *$8A1F ALTERNATE ENTRY POINT
+    ; $008A1F ALTERNATE ENTRY POINT
     .nextQuadrant
     
-    LDY $0C
-    
-    LDA.w Dungeon_QuadrantOffsets, Y : TAY
-    
-    LDA.w #$0008 : STA $0E
-    
-    .nextRow
-    
-    LDA.w #$0008
-    
-    ; Tells the game to draw a 4 x 32 tile block across the screen
-    JSR $8A44 ; $8A44 IN ROM
-    
-    ADC.w #$01C0 : TAY
-    
-    ;  This loops 8 times. Thus, this draws a 32 x 32 tile block
-    DEC $0E : BNE .nextRow
-    
-    INC $0C : INC $0C
-    
+        LDY $0C
+        
+        LDA.w Dungeon_QuadrantOffsets, Y : TAY
+        
+        LDA.w #$0008 : STA $0E
+        
+        .nextRow
+        
+        LDA.w #$0008
+        
+        ; Tells the game to draw a 4 x 32 tile block across the screen
+        JSR $8A44 ; $8A44 IN ROM
+        
+        ADC.w #$01C0 : TAY
+        
+        ;  This loops 8 times. Thus, this draws a 32 x 32 tile block
+        DEC $0E : BNE .nextRow
+        
+        INC $0C : INC $0C
     ; This loops 4 times 
     ; effectively drawing a 64x64 tile block
     LDA $0C : CMP.w #$0008 : BNE .nextQuadrant
@@ -1173,7 +1156,7 @@ Dungeon_DrawFloors:
 
 ; ==============================================================================
 
-; *$8A44-$8A88 LOCAL
+; $008A44-$008A88 LOCAL
 {
     ; $0A = how many times to perform this routine's goal
     ; The routine draws a 32x32 pixel block from right to left
@@ -1185,33 +1168,31 @@ Dungeon_DrawFloors:
     
     .next_block
     
-    LDA.w #$0002 : STA $04
-    
-    .nextRow
+        LDA.w #$0002 : STA $04
+        
+        .nextRow
 
-    ; These first four writes draw a 8 x 32 pixel block
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    LDA $9B58, X : STA [$C8], Y
-    
-    ; These next four draw another 8 x 32 pixel block directly below The first tiles.
-    ; Thus all in all it draws a 16 x 32 pixel block.
-    LDA $9B5A, X : STA [$CB], Y
-    LDA $9B5C, X : STA [$CE], Y
-    LDA $9B5E, X : STA [$D1], Y
-    LDA $9B60, X : STA [$D4], Y
-    
-    ; Add enough to draw another 16 x 32 directly below the first.
-    TYA : CLC : ADC.w #$0100 : TAY
-    
-    ; Loops once, which produces a 32 x 32 pixel region in the tilemap.
-    ; So this whole loop in effect makes a 4 x 4 tile block.
-    DEC $04 : BNE .nextRow
-    
-    ; Places the next 4 x 4 tile block directly to the right of the previous one. 
-    TYA : SEC : SBC.w #$01F8 : TAY
-    
+            ; These first four writes draw a 8 x 32 pixel block
+            LDA $9B52, X : STA [$BF], Y
+            LDA $9B54, X : STA [$C2], Y
+            LDA $9B56, X : STA [$C5], Y
+            LDA $9B58, X : STA [$C8], Y
+            
+            ; These next four draw another 8 x 32 pixel block directly below The first tiles.
+            ; Thus all in all it draws a 16 x 32 pixel block.
+            LDA $9B5A, X : STA [$CB], Y
+            LDA $9B5C, X : STA [$CE], Y
+            LDA $9B5E, X : STA [$D1], Y
+            LDA $9B60, X : STA [$D4], Y
+            
+            ; Add enough to draw another 16 x 32 directly below the first.
+            TYA : CLC : ADC.w #$0100 : TAY
+            
+            ; Loops once, which produces a 32 x 32 pixel region in the tilemap.
+            ; So this whole loop in effect makes a 4 x 4 tile block.
+            DEC $04 : BNE .nextRow
+        ; Places the next 4 x 4 tile block directly to the right of the previous one. 
+        TYA : SEC : SBC.w #$01F8 : TAY
     DEC $0A : BNE .next_block
     
     CLC
@@ -1221,7 +1202,7 @@ Dungeon_DrawFloors:
 
 ; ==============================================================================
 
-; *$8A89-$8A91 JUMP LOCATION
+; $008A89-$008A91 JUMP LOCATION
 {
     JSR Object_Size_1_to_15_or_26
     
@@ -1232,7 +1213,7 @@ Dungeon_DrawFloors:
 
 ; ==============================================================================
 
-; *$8A92-$8AA3 JUMP LOCATION
+; $008A92-$008AA3 JUMP LOCATION
 Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
 {
     JSR Object_Size_1_to_15_or_26
@@ -1241,22 +1222,21 @@ Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
     
     .next_block
     
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
-    LDX $0A
-    
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN
+        
+        LDX $0A
     DEC $B2 : BNE .next_block
     
-    ; *$8AA3 ALTERNATE ENTRY POINT
+    ; $008AA3 ALTERNATE ENTRY POINT
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$8AA4-$8B0C JUMP LOCATION
+; $008AA4-$008B0C JUMP LOCATION
 {
     ; swap X and Y (destroying A)
     TXA : TYX : TAY
@@ -1265,17 +1245,16 @@ Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
     
     .nextRow
     
-    LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-    LDA $9B54, Y : STA $7E4002, X : STA $7E2002, X
-    LDA $9B56, Y : STA $7E4004, X : STA $7E2004, X
-    LDA $9B58, Y : STA $7E4006, X : STA $7E2006, X
-    LDA $9B5A, Y : STA $7E4080, X : STA $7E2080, X
-    LDA $9B5C, Y : STA $7E4082, X : STA $7E2082, X
-    LDA $9B5E, Y : STA $7E4084, X : STA $7E2084, X
-    LDA $9B60, Y : STA $7E4086, X : STA $7E2086, X
-    
-    TXA : CLC : ADC.w #$0100 : TAX
-    
+        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA $9B54, Y : STA $7E4002, X : STA $7E2002, X
+        LDA $9B56, Y : STA $7E4004, X : STA $7E2004, X
+        LDA $9B58, Y : STA $7E4006, X : STA $7E2006, X
+        LDA $9B5A, Y : STA $7E4080, X : STA $7E2080, X
+        LDA $9B5C, Y : STA $7E4082, X : STA $7E2082, X
+        LDA $9B5E, Y : STA $7E4084, X : STA $7E2084, X
+        LDA $9B60, Y : STA $7E4086, X : STA $7E2086, X
+        
+        TXA : CLC : ADC.w #$0100 : TAX
     DEC $B2 : BNE .nextRow
     
     RTS
@@ -1283,7 +1262,7 @@ Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
 
 ; ==============================================================================
 
-; *$8B0D-$8B73 JUMP LOCATION
+; $008B0D-$008B73 JUMP LOCATION
 Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
 {
     ; Swap X and Y (destroying A)
@@ -1293,17 +1272,16 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-    LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-    LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-    LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
-    LDA $9B5A, Y : STA $7E4002, X : STA $7E2002, X
-    LDA $9B5C, Y : STA $7E4082, X : STA $7E2082, X
-    LDA $9B5E, Y : STA $7E4102, X : STA $7E2102, X
-    LDA $9B60, Y : STA $7E4182, X : STA $7E2182, X
-    
-    INX #4
-    
+        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
+        LDA $9B5A, Y : STA $7E4002, X : STA $7E2002, X
+        LDA $9B5C, Y : STA $7E4082, X : STA $7E2082, X
+        LDA $9B5E, Y : STA $7E4102, X : STA $7E2102, X
+        LDA $9B60, Y : STA $7E4182, X : STA $7E2182, X
+        
+        INX #4
     DEC $B2 : BNE .nextColumn
     
     RTS
@@ -1311,7 +1289,7 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
 
 ; ==============================================================================
 
-; *$8B74-$8B78 JUMP LOCATION
+; $008B74-$008B78 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -1320,7 +1298,7 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
 
 ; ==============================================================================
 
-; *$8B79-$8B7D JUMP LOCATION
+; $008B79-$008B7D JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -1329,15 +1307,14 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
 
 ; ==============================================================================
 
-; *$8B7E-$8B88 JUMP LOCATION
+; $008B7E-$008B88 JUMP LOCATION
 Object_Draw2x2sDownVariableOrFull:
 {
     JSR Object_Size_1_to_15_or_32
     
     .next_block
     
-    JSR Object_Draw2x2_AdvanceDown
-    
+        JSR Object_Draw2x2_AdvanceDown
     DEC $B2 : BNE .next_block
     
     RTS
@@ -1345,7 +1322,7 @@ Object_Draw2x2sDownVariableOrFull:
 
 ; ==============================================================================
 
-; *$8B89-$8B93 JUMP LOCATIONs
+; $008B89-$008B93 JUMP LOCATIONs
 Object_Draw2x2s_AdvanceRight:
 {
     .from_1_to_15_or_32
@@ -1355,8 +1332,7 @@ Object_Draw2x2s_AdvanceRight:
     
     .next_block
     
-    JSR Object_Draw2x2
-    
+        JSR Object_Draw2x2
     DEC $B2 : BNE .next_block
     
     RTS
@@ -1364,7 +1340,7 @@ Object_Draw2x2s_AdvanceRight:
 
 ; ==============================================================================
 
-; *$8B94-$8BDF JUMP LOCATION
+; $008B94-$008BDF JUMP LOCATION
 Object_DrawRectOf1x1s:
 {
     INC $B2
@@ -1372,30 +1348,28 @@ Object_DrawRectOf1x1s:
     
     .nextRowOfBlocks
     
-    LDA $B2 : STA $0A
-    
-    .nextColumnBlock
-    
-    LDA $9B52, X
-    STA [$BF], Y : STA [$C2], Y
-    STA [$C5], Y : STA [$C8], Y
-    STA [$CB], Y : STA [$CE], Y
-    STA [$D1], Y : STA [$D4], Y
-    
-    TYA : CLC : ADC.w #$0100 : TAY
-    
-    LDA $9B52, X
-    STA [$BF], Y : STA [$C2], Y
-    STA [$C5], Y : STA [$C8], Y
-    STA [$CB], Y : STA [$CE], Y
-    STA [$D1], Y : STA [$D4], Y
-    
-    TYA : SEC : SBC.w #$00F8 : TAY
-    
-    DEC $0A : BNE .nextColumnBlock
-    
-    LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
-    
+        LDA $B2 : STA $0A
+        
+        .nextColumnBlock
+        
+            LDA $9B52, X
+            STA [$BF], Y : STA [$C2], Y
+            STA [$C5], Y : STA [$C8], Y
+            STA [$CB], Y : STA [$CE], Y
+            STA [$D1], Y : STA [$D4], Y
+            
+            TYA : CLC : ADC.w #$0100 : TAY
+            
+            LDA $9B52, X
+            STA [$BF], Y : STA [$C2], Y
+            STA [$C5], Y : STA [$C8], Y
+            STA [$CB], Y : STA [$CE], Y
+            STA [$D1], Y : STA [$D4], Y
+            
+            TYA : SEC : SBC.w #$00F8 : TAY
+        DEC $0A : BNE .nextColumnBlock
+        
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
     DEC $B4 : BNE .nextRowOfBlocks
     
     RTS
@@ -1403,7 +1377,7 @@ Object_DrawRectOf1x1s:
 
 ; ==============================================================================
 
-; *$8BE0-$8BF3 JUMP LOCATION
+; $008BE0-$008BF3 JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1411,16 +1385,15 @@ Object_DrawRectOf1x1s:
     
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    ADC.w #$0080 : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        ADC.w #$0080 : STA $08 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8BF4-$8C0D JUMP LOCATION
+; $008BF4-$008C0D JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1430,20 +1403,19 @@ Object_DrawRectOf1x1s:
     
     .nextRow
     
-    LDA $B4
-    
-    JSR $B2D0 ; $B2D0 IN ROM
-    
-    ADC.w #$0080 : STA $08 : TAY
-    
-    INC $B4
-    
+        LDA $B4
+        
+        JSR $B2D0 ; $B2D0 IN ROM
+        
+        ADC.w #$0080 : STA $08 : TAY
+        
+        INC $B4
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8C0E-$8C21 JUMP LOCATION
+; $008C0E-$008C21 JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1451,16 +1423,15 @@ Object_DrawRectOf1x1s:
     
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    ADC.w #$0082 : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        ADC.w #$0082 : STA $08 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8C22-$8C36 JUMP LOCATION
+; $008C22-$008C36 JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1468,16 +1439,15 @@ Object_DrawRectOf1x1s:
     
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    SEC : SBC.w #$007E : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        SEC : SBC.w #$007E : STA $08 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8C37-$8C4E JUMP LOCATION
+; $008C37-$008C4E JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -1485,20 +1455,19 @@ Object_DrawRectOf1x1s:
     
     .next_block
     
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
-    LDX $0A
-    
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN
+        
+        TYA : CLC : ADC.w #$0008 : TAY
+        
+        LDX $0A
     DEC $B2 : BNE .next_block
     
     RTS
 }
 
-; *$8C4F-$8C57 JUMP LOCATION
+; $008C4F-$008C57 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -1507,7 +1476,7 @@ Object_DrawRectOf1x1s:
     JMP Object_Draw2x4s.VariableOffset
 }
 
-; *$8C58-$8C60 JUMP LOCATION
+; $008C58-$008C60 JUMP LOCATION
 {
     ; Sets minimum width to 7, maximum to 22
     LDA.w #$0007
@@ -1519,7 +1488,7 @@ Object_DrawRectOf1x1s:
     JMP $B2AA ; $B2AA IN ROM
 }
 
-; *$8C61-$8C69 JUMP LOCATION
+; $008C61-$008C69 JUMP LOCATION
 {
     ; Sets minimum width to 7, maximum to 22
     LDA.w #$0007
@@ -1531,7 +1500,7 @@ Object_DrawRectOf1x1s:
     JMP $B29C ; $B29C IN ROM
 }
 
-; *$8C6A-$8CB8 JUMP LOCATION
+; $008C6A-$008CB8 JUMP LOCATION
 {
     ; Swap X and Y, destroying A
     TXA : TYX : TAY
@@ -1546,22 +1515,21 @@ Object_DrawRectOf1x1s:
     
     STA $0E
     
-    .BRANCH_ALPHA
+    .loop
     
-    LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-    LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-    LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-    LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
-    LDA $9B5A, Y : STA $7E4200, X : STA $7E2200, X
-    
-    TXA : CLC : ADC $0E : TAX
-    
-    DEC $B2 : BNE .BRANCH_ALPHA
+        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
+        LDA $9B5A, Y : STA $7E4200, X : STA $7E2200, X
+        
+        TXA : CLC : ADC $0E : TAX
+    DEC $B2 : BNE .loop
     
     RTS
 }
 
-; *$8CB9-$8CC6 JUMP LOCATION
+; $008CB9-$008CC6 JUMP LOCATION
 {
     ; Swap X and Y, destroying A
     TXA : TYX : TAY
@@ -1575,13 +1543,13 @@ Object_DrawRectOf1x1s:
     BRA .BRANCH_$8C76
 }
 
-; *$8CC7-$8D46 JUMP LOCATION
+; $008CC7-$008D46 JUMP LOCATION
 {
     LDA $B2 : CLC : ADC.w #$0004 : STA $B2 : STA $0A
     
     INC $B4
     
-    JSR $8D47 ; $8D47 IN ROM
+    JSR $8D47 ; $008D47 IN ROM
     
     STX $0006
     
@@ -1593,29 +1561,27 @@ Object_DrawRectOf1x1s:
     
     .nextMiddleBlockRow
     
-    LDA $B2 : STA $0A
-    
-    LDY $08
-    LDX $06
-    
-    JSR Object_Draw2x3
-    
-    TXA : CLC : ADC.w #$000C : TAX
-    
-    TYA : CLC : ADC.w #$0006 : TAY
-    
-    .nextMiddleBlock
-    
-    JSR Object_Draw2x2
-    
-    DEC $0A : BNE .nextMiddleBlock
-    
-    TXA : CLC : ADC.w #$0008 : TAX
-    
-    JSR Object_Draw2x3
-    
-    LDA $08 : CLC : ADC.w #$0100 : STA $08
-    
+        LDA $B2 : STA $0A
+        
+        LDY $08
+        LDX $06
+        
+        JSR Object_Draw2x3
+        
+        TXA : CLC : ADC.w #$000C : TAX
+        
+        TYA : CLC : ADC.w #$0006 : TAY
+        
+        .nextMiddleBlock
+        
+            JSR Object_Draw2x2
+        DEC $0A : BNE .nextMiddleBlock
+        
+        TXA : CLC : ADC.w #$0008 : TAX
+        
+        JSR Object_Draw2x3
+        
+        LDA $08 : CLC : ADC.w #$0100 : STA $08
     DEC $0E : BNE .nextMiddleBlockRow
     
     TXA : CLC : ADC.w #$000C : TAX
@@ -1624,14 +1590,13 @@ Object_DrawRectOf1x1s:
     
     LDA $B2 : STA $0A
     
-    JSR $8D47 ; $8D47 IN ROM
+    JSR $8D47 ; $008D47 IN ROM
     
     LDA.w #$FF80
     
     .locateVerticalMidpoint
     
-    SEC : SBC.w #$0080
-    
+        SEC : SBC.w #$0080
     DEC $B4 : BNE .locateVerticalMidpoint
     
     CLC : ADC $08
@@ -1645,24 +1610,23 @@ Object_DrawRectOf1x1s:
     JMP Object_Draw2x2
 }
 
-; *$8D47-$8D5C LOCAL
+; $008D47-$008D5C LOCAL
 {
-    JSR $9216 ; $9216 IN ROM
+    JSR $9216 ; $009216 IN ROM
     
     .next_block
     
-    LDA.w #$0002
-    
-    JSR Object_Draw3xN
-    
-    TXA : SEC : SBC.w #$000C : TAX
-    
+        LDA.w #$0002
+        
+        JSR Object_Draw3xN
+        
+        TXA : SEC : SBC.w #$000C : TAX
     DEC $0A : BNE .next_block
     
-    JMP $9211 ; $9211 IN ROM
+    JMP $9211 ; $009211 IN ROM
 }
 
-; *$8D5D-$8D7F JUMP LOCATION
+; $008D5D-$008D7F JUMP LOCATION
 {
     ; Widths range in { 0x01, 0x03, 0x05, ..., 0x1D, 0x1F }
     LDA $B2 : ASL #2 : ORA $B4 : ASL A : INC A : STA $B2
@@ -1673,12 +1637,11 @@ Object_DrawRectOf1x1s:
     
     .next_two_columns
     
-    TXA : SEC : SBC.w #$0006 : TAX
-    
-    LDA.w #$0001
-    
-    JSR Object_Draw3xN
-    
+        TXA : SEC : SBC.w #$0006 : TAX
+        
+        LDA.w #$0001
+        
+        JSR Object_Draw3xN
     DEC $B2 : BNE .next_two_columns
     
     LDA.w #$0001
@@ -1686,53 +1649,50 @@ Object_DrawRectOf1x1s:
     ; (this routine segues into Object_Draw3xN)
 }
     
-; *$8D80-$8D9D LOCAL
+; $008D80-$008D9D LOCAL
 Object_Draw3xN:
 {
     STA $0E
     
     .next_column
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    
-    TXA : CLC : ADC.w #$0006 : TAX
-    
-    INY #2
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$CB], Y
+        LDA $9B56, X : STA [$D7], Y
+        
+        TXA : CLC : ADC.w #$0006 : TAX
+        
+        INY #2
     DEC $0E : BNE .next_column
     
     RTS
 }
 
-; *$8D9E-$8DDB JUMP LOCATION
+; $008D9E-$008DDB JUMP LOCATION
 {
     INC $B2
     INC $B4
     
     .next_row_of_blocks
     
-    LDA $B2 : STA $0A
-    
-    .next_block_to_the_right
-    
-    LDA $9B52, X
-    
-    ; Draw a 2x3 block
-    STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
-    STA [$CB], Y : STA [$CE], Y : STA [$D1], Y
-    
-    TYA : CLC : ADC.w #$0100 : TAY
-    
-    LDA $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
-    
-    TYA : SEC : SBC.w #$00FA : TAY
-    
-    DEC $0A : BNE .next_block_to_the_right
-    
-    LDA $08 : CLC : ADC.w #$0180 : STA $08 : TAY
-    
+        LDA $B2 : STA $0A
+        
+        .next_block_to_the_right
+        
+            LDA $9B52, X
+            
+            ; Draw a 2x3 block
+            STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
+            STA [$CB], Y : STA [$CE], Y : STA [$D1], Y
+            
+            TYA : CLC : ADC.w #$0100 : TAY
+            
+            LDA $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
+            
+            TYA : SEC : SBC.w #$00FA : TAY
+        DEC $0A : BNE .next_block_to_the_right
+        
+        LDA $08 : CLC : ADC.w #$0180 : STA $08 : TAY
     DEC $B4 : BNE .next_row_of_blocks
     
     RTS
@@ -1740,7 +1700,7 @@ Object_Draw3xN:
 
 ; ==============================================================================
 
-; *$8DDC-$8E66 JUMP LOCATION
+; $008DDC-$008E66 JUMP LOCATION
 Object_Hole:
 {
     ; Variable Size Hole object
@@ -1757,12 +1717,11 @@ Object_Hole:
     ; This loop draws the transparent portion
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    STA $0C
-    
-    ADC.w #$0080 : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        STA $0C
+        
+        ADC.w #$0080 : STA $08 : TAY
     DEC $0E : BNE .nextRow
        
     ; Start back at the top   
@@ -1774,26 +1733,24 @@ Object_Hole:
     
     .repeatOnBottomRow
     
-    LDA $B2 : DEC #2 : STA $0A
-    
-    LDA $9B52, X : STA [$BF], Y
-    
-    LDA $9B54, X
-    
-    .nextColumn
-    
-    STA [$C2], Y
-    
-    INY #2
-    
-    DEC $0A : BNE .nextColumn
-    
-    LDA $9B56, X : STA [$C2], Y
-    
-    TXA : CLC : ADC.w #$0006 : TAX
-    
-    LDY $0C
-    
+        LDA $B2 : DEC #2 : STA $0A
+        
+        LDA $9B52, X : STA [$BF], Y
+        
+        LDA $9B54, X
+        
+        .nextColumn
+        
+            STA [$C2], Y
+            
+            INY #2
+        DEC $0A : BNE .nextColumn
+        
+        LDA $9B56, X : STA [$C2], Y
+        
+        TXA : CLC : ADC.w #$0006 : TAX
+        
+        LDY $0C
     DEC $0E : BNE .repeatOnBottomRow
     
     LDA $08 : CLC : ADC.w #$0080
@@ -1804,8 +1761,7 @@ Object_Hole:
     
     .findRightBoundary
     
-    INC #2
-    
+        INC #2
     DEY : BNE .findRightBoundary
     
     STA $0C
@@ -1818,20 +1774,18 @@ Object_Hole:
     
     .repeatOnRightBoundary
     
-    LDA $B4 : STA $0A
-    
-    .nextRow2
-    
-    LDA $9B52, X : STA [$BF], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
-    DEC $0A : BNE .nextRow2
-    
-    INX #2
-    
-    LDY $0C
-    
+        LDA $B4 : STA $0A
+        
+        .nextRow2
+        
+            LDA $9B52, X : STA [$BF], Y
+            
+            TYA : CLC : ADC.w #$0080 : TAY
+        DEC $0A : BNE .nextRow2
+        
+        INX #2
+        
+        LDY $0C
     DEC $0E : BNE .repeatOnRightBoundary
     
     RTS
@@ -1839,7 +1793,7 @@ Object_Hole:
 
 ; ==============================================================================
 
-; *$8E67-$8E7A JUMP LOCATION
+; $008E67-$008E7A JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1847,16 +1801,15 @@ Object_Hole:
     
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    ADC.w #$0080 : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        ADC.w #$0080 : STA $08 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8E7B-$8E94 JUMP LOCATION
+; $008E7B-$008E94 JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1866,20 +1819,19 @@ Object_Hole:
     
     .nextRow
     
-    LDA $B4
-    
-    JSR $B2D0 ; $B2D0 IN ROM
-    
-    ADC.w #$0080 : STA $08 : TAY
-    
-    INC $B4
-    
+        LDA $B4
+        
+        JSR $B2D0 ; $B2D0 IN ROM
+        
+        ADC.w #$0080 : STA $08 : TAY
+        
+        INC $B4
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8E95-$8EA8 JUMP LOCATION
+; $008E95-$008EA8 JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1887,16 +1839,15 @@ Object_Hole:
     
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    ADC.w #$0082 : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        ADC.w #$0082 : STA $08 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8EA9-$8EBD JUMP LOCATION
+; $008EA9-$008EBD JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -1904,22 +1855,21 @@ Object_Hole:
     
     .nextRow
     
-    JSR $B2CE ; $B2CE IN ROM
-    
-    SEC : SBC.w #$007E : STA $08 : TAY
-    
+        JSR $B2CE ; $B2CE IN ROM
+        
+        SEC : SBC.w #$007E : STA $08 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8EBE-$8EEA JUMP LOCATION
+; $008EBE-$008EEA JUMP LOCATION
 {
     LDA.w #$0015
     
     BRA .setSize
     
-    ; *$8EC3 ALTERNATE ENTRY POINT
+    ; $008EC3 ALTERNATE ENTRY POINT
     
     LDA.w #$0002
     
@@ -1931,16 +1881,15 @@ Object_Hole:
     
     ; $B191 IN ROM
     JSR $B191 : BCC .dontOverwrite
-    
-    LDA $9B52, X : STA [$BF], Y
+        LDA $9B52, X : STA [$BF], Y
     
     .dontOverwrite
+
     .nextTile
     
-    TYA : CLC : ADC.w #$0080 : TAY
-    
-    LDA $9B54, X : STA [$BF], Y
-    
+        TYA : CLC : ADC.w #$0080 : TAY
+        
+        LDA $9B54, X : STA [$BF], Y 
     DEC $B2 : BNE .nextTile
     
     LDA $9B56, X : STA [$CB], Y
@@ -1948,7 +1897,7 @@ Object_Hole:
     RTS
 }
 
-; *$8EEB-$8F0B JUMP LOCATION
+; $008EEB-$008F0B JUMP LOCATION
 Object_HorizontalRail:
 {
     .long
@@ -1957,7 +1906,7 @@ Object_HorizontalRail:
     
     BRA .setWidth
     
-    ; *$8EF0 ALTERNATE ENTRY POINT
+    ; $008EF0 ALTERNATE ENTRY POINT
     .short
     
     LDA.w #$0002 ; There's a minimum of two segments
@@ -1970,9 +1919,8 @@ Object_HorizontalRail:
     
     ; $B191 IN ROM
     JSR $B191 : BCC .beta
-    
-    ; If the current tile CHR is not equal to 0x00E2, draw this tile.
-    LDA $9B52, X : STA [$BF], Y
+        ; If the current tile CHR is not equal to 0x00E2, draw this tile.
+        LDA $9B52, X : STA [$BF], Y
     
     .beta
     
@@ -1983,7 +1931,7 @@ Object_HorizontalRail:
     RTS
 }
 
-; *$8F0C-$8F35 JUMP LOCATION
+; $008F0C-$008F35 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -1993,24 +1941,26 @@ Object_HorizontalRail:
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$C2], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
     
     INX #4
-    
-    ; *$8F30 ALTERNATE ENTRY POINT
+
+    ; Segues into the next function.
+}
+
+; $008F30-008F35
 Object_Draw3x2:
-    
+{
     LDA.w #$0002
     
     JMP Object_Draw3xN
 }
 
-; *$8F36-$8F61 JUMP LOCATION
+; $008F36-$008F61 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -2020,15 +1970,14 @@ Object_Draw3x2:
     
     JSR Object_Draw3xN
     
-    .alpha
+    .loop
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    
-    INY #2
-    
-    DEC $B2 : BNE .alpha
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$CB], Y
+        LDA $9B56, X : STA [$D7], Y
+        
+        INY #2
+    DEC $B2 : BNE .loop
     
     INX #6
     
@@ -2037,7 +1986,7 @@ Object_Draw3x2:
     JMP Object_Draw3xN
 }
 
-; *$8F62-$8F89 JUMP LOCATION
+; $008F62-$008F89 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -2046,12 +1995,10 @@ Object_Draw3x2:
     ; $B191 IN ROM
     ; if(grabbed byte == 0x01DB)
     JSR $B191 : BCC .BRANCH_ALPHA
-    
-    CMP.w #$01A6 : BEQ .BRANCH_ALPHA
-    CMP.w #$01DD : BEQ .BRANCH_ALPHA
-    CMP.w #$01FC : BEQ .BRANCH_ALPHA
-    
-    LDA $9B52, X : STA [$BF], Y
+        CMP.w #$01A6 : BEQ .BRANCH_ALPHA
+        CMP.w #$01DD : BEQ .BRANCH_ALPHA
+        CMP.w #$01FC : BEQ .BRANCH_ALPHA
+            LDA $9B52, X : STA [$BF], Y
     
     .BRANCH_ALPHA
     
@@ -2062,33 +2009,32 @@ Object_Draw3x2:
     RTS
 }
 
-; *$8F8A-$8F9C JUMP LOCATION
+; $008F8A-$008F9C JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$8F9D-$8FA1 JUMP LOCATION
+; $008F9D-$008FA1 JUMP LOCATION
 {
     LDX $0490
     
     BRA .BRANCH_$8FA5
 }
 
-; *$8FA2-$8FBB JUMP LOCATION
+; $008FA2-$008FBB JUMP LOCATION
 {
     LDX $046A
     
-    ; *$8FA5 ALTERNATE ENTRY POINT
+    ; $008FA5 ALTERNATE ENTRY POINT
     
     INC $B2
     INC $B4
@@ -2097,21 +2043,20 @@ Object_Draw3x2:
     
     LDA $B2
     
-    JSR $8A44   ; $8A44 IN ROM
-    
-    LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
-    
+        JSR $8A44   ; $8A44 IN ROM
+        
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
     DEC $B4 : BNE .next_block
     
     RTS
 }
 
-; *$8FBC-$8FBC JUMP LOCATION
+; $008FBC-$008FBC JUMP LOCATION
 {
     RTS
 }
 
-; *$8FBD-$9000 JUMP LOCATION
+; $008FBD-$009000 JUMP LOCATION
 {
     LDA.w #$000A
     
@@ -2122,8 +2067,7 @@ Object_Draw3x2:
     INX #2
     
     LDA [$BF], Y : AND.w #$03FF : CMP.w #$00E2 : BEQ .dontOverwrite
-    
-    JSR .draw_2x2_at_endpoint
+        JSR .draw_2x2_at_endpoint
     
     .dontOverwrite
     
@@ -2131,12 +2075,11 @@ Object_Draw3x2:
     
     .nextColumn
     
-    LDA $9B52, X : STA [$BF], Y
-    
-    LDA $0E : STA [$CB], Y
-    
-    INY #2
-    
+        LDA $9B52, X : STA [$BF], Y
+        
+        LDA $0E : STA [$CB], Y
+        
+        INY #2
     DEC $B2 : BNE .nextColumn
     
     INX #2
@@ -2153,7 +2096,7 @@ Object_Draw3x2:
     RTS
 }
 
-; *$9001-$9044 JUMP LOCATION
+; $009001-$009044 JUMP LOCATION
 {
     LDA.w #$000A
     
@@ -2164,8 +2107,7 @@ Object_Draw3x2:
     INX #2
     
     LDA [$CB], Y : AND.w #$03FF : CMP.w #$00E2 : BEQ .dontOverwrite
-    
-    JSR .draw_2x2_at_endpoint
+        JSR .draw_2x2_at_endpoint
     
     .dontOverwrite
     
@@ -2173,11 +2115,10 @@ Object_Draw3x2:
     
     .nextColumn
     
-    LDA $0E      : STA [$BF], Y
-    LDA $9B52, X : STA [$CB], Y
-    
-    INY #2
-    
+        LDA $0E      : STA [$BF], Y
+        LDA $9B52, X : STA [$CB], Y
+        
+        INY #2
     DEC $B2 : BNE .nextColumn
     
     INY #2
@@ -2194,7 +2135,7 @@ Object_Draw3x2:
     RTS
 }
 
-; *$9045-$908E JUMP LOCATION
+; $009045-$00908E JUMP LOCATION
 {
     LDA.w #$000A
     
@@ -2205,8 +2146,7 @@ Object_Draw3x2:
     INX #2
     
     LDA [$BF], Y : AND.w #$03FF : CMP.w #$00E3 : BEQ .BRANCH_ALPHA
-    
-    JSR .draw_2x2_at_endpoint
+        JSR .draw_2x2_at_endpoint
     
     .BRANCH_ALPHA
     
@@ -2214,11 +2154,10 @@ Object_Draw3x2:
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $0E      : STA [$C2], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $0E      : STA [$C2], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
     
     INX #2
@@ -2236,7 +2175,7 @@ Object_Draw3x2:
     RTS
 }
 
-; *$908F-$90D8 JUMP LOCATION
+; $00908F-$0090D8 JUMP LOCATION
 {
     LDA.w #$000A
     
@@ -2247,8 +2186,7 @@ Object_Draw3x2:
     INX #2
     
     LDA [$C2], Y : AND.w #$03FF : CMP.w #$00E3 : BEQ .dontOverwrite
-    
-    JSR .draw_2x2_at_endpoint
+        JSR .draw_2x2_at_endpoint
     
     .dontOverwrite
     
@@ -2256,11 +2194,10 @@ Object_Draw3x2:
     
     .nextRow
     
-    LDA $0E      : STA [$BF], Y
-    LDA $9B52, X : STA [$C2], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $0E      : STA [$BF], Y
+        LDA $9B52, X : STA [$C2], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
     
     INX #2
@@ -2277,7 +2214,7 @@ Object_Draw3x2:
     RTS
 }
 
-; *$90D9-$90E1 JUMP LOCATION
+; $0090D9-$0090E1 JUMP LOCATION
 {
     LDA.w #$0008
     
@@ -2286,7 +2223,7 @@ Object_Draw3x2:
     JMP $B2CE ; $B2CE IN ROM
 }
 
-; *$90E2-$90F7 JUMP LOCATION
+; $0090E2-$0090F7 JUMP LOCATION
 {
     LDA.w #$0008
     
@@ -2294,21 +2231,20 @@ Object_Draw3x2:
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
 }
 
-; *$90F8-$90F8 JUMP LOCATION
+; $0090F8-$0090F8 JUMP LOCATION
 {
     RTS
 }
 
-; *$90F9-$9110 JUMP LOCATION
+; $0090F9-$009110 JUMP LOCATION
 {
     STX $0A
     
@@ -2316,18 +2252,17 @@ Object_Draw3x2:
     
     .next_block
     
-    LDX $0A
-    
-    JSR Object_Draw4x4
-    
-    LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
-    
+        LDX $0A
+        
+        JSR Object_Draw4x4
+        
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
     DEC $B2 : BNE .next_block
     
     RTS
 }
 
-; *$9111-$911F JUMP LOCATION
+; $009111-$00911F JUMP LOCATION
 {
     STX $0A
     
@@ -2335,16 +2270,15 @@ Object_Draw3x2:
     
     .loop
     
-    LDX $0A
-    
-    JSR Object_Draw4x4
-    
+        LDX $0A
+        
+        JSR Object_Draw4x4
     DEC $B2 : BNE .loop
     
     RTS
 }
 
-; *$9120-$9135 JUMP LOCATION
+; $009120-$009135 JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -2352,16 +2286,15 @@ Object_Draw3x2:
     
     .loop
     
-    LDA $9B52, X : STA [$BF], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .loop
     
     RTS
 }
 
-; *$9136-$913E JUMP LOCATION
+; $009136-$00913E JUMP LOCATION
 {
     LDA.w #$0004
     
@@ -2369,7 +2302,7 @@ Object_Draw3x2:
     JMP $B2CE ; $B2CE IN ROM
 }
 
-; *$913F-$918E JUMP LOCATION
+; $00913F-$00918E JUMP LOCATION
 {
     ; 1.1.0x35
     ; This object seems to do something, but it shows
@@ -2382,9 +2315,8 @@ Object_Draw3x2:
     
     ; Check to see which BG we're on.
     LDA $BF : CMP.w #$4000 : BNE .onBG2
-    
-    ; Using BG1 so use an address that indexes into its wram tilemap
-    TYA : ORA.w #$2000 : STA $04B0 : TAY
+        ; Using BG1 so use an address that indexes into its wram tilemap
+        TYA : ORA.w #$2000 : STA $04B0 : TAY
     
     .onBG2
     
@@ -2392,42 +2324,40 @@ Object_Draw3x2:
     ; Branch if a chest has been opened in this room?.... strange
     ; Probably doesn't mean that.
     LDA $0402 : AND.w #$1000 : BEQ .eventHasntOccurred
-    
-    STY $08
-    
-    ; Note the two consecutive loads for the Y register here
-    ; (double checked). This strongly suggests that the code for and
-    ; related to this object was not finished. We may be able to commandeer
-    ; it later, though.
-    LDY.w #$0052
-    LDY $08
-    
-    LDA.w #$0003 : STA $0E
-    
-    ; Draw a 4x3 region of tiles
-    JSR $AC1A ; $AC1A IN ROM
-    
-    ; This load of Y is also ignored
-    LDY.w #$0052
-    
-    LDA $08 : CLC : ADC.w #$000A
-    
-    LDY $BF : CPY.w #$4000 : BNE .onBG2_2
-    
-    CLC : ADC.w #$0004
-    
-    .onBG2_2
-    
-    ; Again note that the above code is clearly nonsensical
-    ; Why go to all the trouble of implementing logic to set a value for A
-    ; And then just overwrite it with 0x0003 on this line.
-    LDA.w #$0003 : STA $0E
-    
-    ; I'm fairly certain that his is overwriting the 4x3 region
-    ; we drew earlier... wtf?
-    JSR $AB78 ; $AB78 IN ROM
-    
-    RTS
+        STY $08
+        
+        ; Note the two consecutive loads for the Y register here
+        ; (double checked). This strongly suggests that the code for and
+        ; related to this object was not finished. We may be able to commandeer
+        ; it later, though.
+        LDY.w #$0052
+        LDY $08
+        
+        LDA.w #$0003 : STA $0E
+        
+        ; Draw a 4x3 region of tiles
+        JSR $AC1A ; $AC1A IN ROM
+        
+        ; This load of Y is also ignored
+        LDY.w #$0052
+        
+        LDA $08 : CLC : ADC.w #$000A
+        
+        LDY $BF : CPY.w #$4000 : BNE .onBG2_2
+            CLC : ADC.w #$0004
+        
+        .onBG2_2
+        
+        ; Again note that the above code is clearly nonsensical
+        ; Why go to all the trouble of implementing logic to set a value for A
+        ; And then just overwrite it with 0x0003 on this line.
+        LDA.w #$0003 : STA $0E
+        
+        ; I'm fairly certain that his is overwriting the 4x3 region
+        ; we drew earlier... wtf?
+        JSR $AB78 ; $AB78 IN ROM
+        
+        RTS
     
     .eventHasntOccurred
     
@@ -2436,21 +2366,20 @@ Object_Draw3x2:
     RTS
 }
 
-; *$918F-$918F JUMP LOCATION
+; $00918F-$00918F JUMP LOCATION
 {
     ; undefined objects (1.1.0xCB, 1.1.0xCC)
     RTS
 }
 
-; *$9190-$921B JUMP LOCATION
+; $009190-$00921B JUMP LOCATION
 Object_HiddenWallRight:
 {
     ; hidden wall (facing right)
     
     ; $9298 IN ROM
     JSR $9298 : BCS .drawWall
-    
-    RTS
+        RTS
     
     .drawWall
     
@@ -2473,8 +2402,7 @@ Object_HiddenWallRight:
     
     .BRANCH_BETA
     
-    DEC #2
-    
+        DEC #2
     DEY : BNE .BRANCH_BETA
     
     PHA : STA $06
@@ -2483,24 +2411,22 @@ Object_HiddenWallRight:
     
     .BRANCH_DELTA
     
-    LDA $0E : STA $0A
-    
-    LDY $06
-    
-    LDA $9B52, X : STA [$BF], Y
+        LDA $0E : STA $0A
+        
+        LDY $06
+        
+        LDA $9B52, X : STA [$BF], Y
 
-    .BRANCH_GAMMA
+        .BRANCH_GAMMA
 
-    LDA $9B54, X : STA [$CB], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
-    DEC $0A : BNE .BRANCH_GAMMA
-    
-    LDA $9B56, X : STA [$CB], Y
-    
-    INC $06 : INC $06
-    
+            LDA $9B54, X : STA [$CB], Y
+            
+            TYA : CLC : ADC.w #$0080 : TAY
+        DEC $0A : BNE .BRANCH_GAMMA
+        
+        LDA $9B56, X : STA [$CB], Y
+        
+        INC $06 : INC $06
     DEC $0C : BNE .BRANCH_DELTA
     
     PLA : DEC #2 : STA $06 : TAY
@@ -2519,36 +2445,34 @@ Object_HiddenWallRight:
     
     .BRANCH_EPSILON
     
-    JSR Object_Draw2x3
-    
-    TYA : CLC : ADC.w #$0100 : TAY
-    
+        JSR Object_Draw2x3
+        
+        TYA : CLC : ADC.w #$0100 : TAY
     DEC $0E : BNE .BRANCH_EPSILON
     
-    ; *$9210 ALTERNATE ENTRY POINT
+    ; $009210 ALTERNATE ENTRY POINT
     
     TXA
     
-    ; *$9211 ALTERNATE ENTRY POINT
+    ; $009211 ALTERNATE ENTRY POINT
     
     CLC : ADC.w #$000C : TAX
     
-    ; *$9216 ALTERNATE ENTRY POINT
+    ; $009216 ALTERNATE ENTRY POINT
     
     LDA.w #$0003
     
     JMP Object_Draw3xN
 }
 
-; *$921C-$9297 JUMP LOCATION
+; $00921C-$009297 JUMP LOCATION
 Object_HiddenWallLeft:
 {
     ; Hidden wall (facing left)
     
     ; $9298 IN ROM
     JSR $9298 : BCS .drawWall
-    
-    RTS
+        RTS
     
     .drawWall
     
@@ -2568,10 +2492,9 @@ Object_HiddenWallLeft:
     
     .BRANCH_BETA
     
-    JSR Object_Draw2x3
-    
-    TYA : CLC : ADC.w #$0100 : TAY
-    
+        JSR Object_Draw2x3
+        
+        TYA : CLC : ADC.w #$0100 : TAY
     DEC $0E : BNE .BRANCH_BETA
     
     JSR $9210 ; $9210 IN ROM
@@ -2588,24 +2511,22 @@ Object_HiddenWallLeft:
     
     .BRANCH_DELTA
     
-    LDA $0E : STA $0A
-    
-    LDY $06
-    
-    LDA $9B52, X : STA [$BF], Y
-    
-    .BRANCH_GAMMA
-    
-    LDA $9B54, X : STA [$CB], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
-    DEC $0A : BNE .BRANCH_GAMMA
-    
-    LDA $9B56, X : STA [$CB], Y
-    
-    INC $06 : INC $06
-    
+        LDA $0E : STA $0A
+        
+        LDY $06
+        
+        LDA $9B52, X : STA [$BF], Y
+        
+        .BRANCH_GAMMA
+        
+            LDA $9B54, X : STA [$CB], Y
+            
+            TYA : CLC : ADC.w #$0080 : TAY
+        DEC $0A : BNE .BRANCH_GAMMA
+        
+        LDA $9B56, X : STA [$CB], Y
+        
+        INC $06 : INC $06
     DEC $0C : BNE .BRANCH_DELTA
     
     LDY $06
@@ -2615,7 +2536,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9298-$92D0 JUMP LOCATION
+; $009298-$0092D0 JUMP LOCATION
 {
     ; objects (1.1.0xD3, 1.1.0xD4, 1.1.0xD5, 1.1.0xD6)
     
@@ -2629,7 +2550,7 @@ Object_HiddenWallLeft:
     LDA $AE
     
     CMP.b #$1C : BCC .tryScript2
-    CMP.b #$20 : BCC .isHiddenWallScript
+        CMP.b #$20 : BCC .isHiddenWallScript
     
     .tryScript2
     
@@ -2642,21 +2563,19 @@ Object_HiddenWallLeft:
     
     CMP.b #$1C : BCC .notHiddenWallScript
     CMP.b #$20 : BCS .notHiddenWallScript
+        .isHiddenWallScript
     
-    .ishiddenWallScript
-    
-    LDA $0403 : AND $98C7, Y : BEQ .notYetTriggered
-    
-    STZ $046C
-    STZ $AE, X
-    STZ $0414
-    
-    ; Note that this has an implicit "CLC" instruction embedded in it.
-    REP #$31
-    
-    RTS
-    
-    .notYetTriggered
+        LDA $0403 : AND $98C7, Y : BEQ .notYetTriggered
+            STZ $046C
+            STZ $AE, X
+            STZ $0414
+            
+            ; Note that this has an implicit "CLC" instruction embedded in it.
+            REP #$31
+            
+            RTS
+        
+        .notYetTriggered
     .notHiddenWallScript
     
     REP #$30
@@ -2668,22 +2587,20 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$92D1-$92FA JUMP LOCATION
+; $0092D1-$0092FA JUMP LOCATION
 {
     LDX.w #$007E
     LDA.w #$01EC
     
     .fill_with_value
     
-    STA $7EC880, X
-    
+        STA $7EC880, X
     DEX #2 : BPL .fill_with_value
     
     LDA $06 : AND.w #$003F : LSR A : STA $0A
     
     TYA : AND.w #$0040 : BEQ .BRANCH_BETA
-    
-    LDA.w #$0400 : TSB $0A
+        LDA.w #$0400 : TSB $0A
     
     .BRANCH_BETA
     
@@ -2694,7 +2611,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$92FB-$930D JUMP LOCATION
+; $0092FB-$00930D JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -2702,12 +2619,11 @@ Object_HiddenWallLeft:
     
     .next_block_to_right
     
-    LDX $0A
-    
-    JSR Object_Draw4x4
-    
-    INY #4
-    
+        LDX $0A
+        
+        JSR Object_Draw4x4
+        
+        INY #4
     DEC $B2 : BNE .next_block_to_right
     
     RTS
@@ -2715,7 +2631,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$930E-$9322 JUMP LOCATION
+; $00930E-$009322 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -2723,12 +2639,11 @@ Object_HiddenWallLeft:
     
     .next_block
     
-    LDX $0A
-    
-    JSR Object_Draw4x4
-    
-    TYA : CLC : ADC.w #$02F8 : TAY
-    
+        LDX $0A
+        
+        JSR Object_Draw4x4
+        
+        TYA : CLC : ADC.w #$02F8 : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -2736,20 +2651,19 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9323-$9337 JUMP LOCATION
+; $009323-$009337 JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .nextTwoColumns
     
-    LDX.w #$0E26
-    
-    LDA.w #$0002
-    
-    JSR Object_Draw3xN
-    
-    INY #4
-    
+        LDX.w #$0E26
+        
+        LDA.w #$0002
+        
+        JSR Object_Draw3xN
+        
+        INY #4
     DEC $B2 : BNE .nextTwoColumns
     
     RTS
@@ -2757,16 +2671,15 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9338-$9346 JUMP LOCATION
+; $009338-$009346 JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .BRANCH_ALPHA
     
-    JSR Object_Draw2x2
-    
-    INY #4
-    
+        JSR Object_Draw2x2
+        
+        INY #4
     DEC $B2 : BNE .BRANCH_ALPHA
     
     RTS
@@ -2774,16 +2687,15 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9347-$9356 JUMP LOCATION
+; $009347-$009356 JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .next_block
     
-    JSR Object_Draw2x2_AdvanceDown
-    
-    CLC : ADC.w #$0100 : TAY
-    
+        JSR Object_Draw2x2_AdvanceDown
+        
+        CLC : ADC.w #$0100 : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -2791,7 +2703,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9357-$936E JUMP LOCATION
+; $009357-$00936E JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -2799,14 +2711,13 @@ Object_HiddenWallLeft:
     
     .next_block
     
-    LDX $0C
-    
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
-    TYA : CLC : ADC.w #$02FC : TAY
-    
+        LDX $0C
+        
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN
+        
+        TYA : CLC : ADC.w #$02FC : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -2814,7 +2725,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$936F-$9386 JUMP LOCATION
+; $00936F-$009386 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -2822,15 +2733,14 @@ Object_HiddenWallLeft:
     
     .loop
     
-    LDA $0C
-    
-    ; two consecutive loads of A? huh...
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
+        LDA $0C
+        
+        ; two consecutive loads of A? huh...
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN
+        
+        TYA : CLC : ADC.w #$0008 : TAY
     DEC $B2 : BNE .loop
     
     RTS
@@ -2838,7 +2748,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9387-$939E JUMP LOCATION
+; $009387-$00939E JUMP LOCATION
 {
     STA $0A
     
@@ -2846,14 +2756,13 @@ Object_HiddenWallLeft:
     
     .nextFourColumns
     
-    LDX $0A
-    
-    LDA.w #$0004
-    
-    JSR Object_Draw3xN
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
+        LDX $0A
+        
+        LDA.w #$0004
+        
+        JSR Object_Draw3xN
+        
+        TYA : CLC : ADC.w #$0008 : TAY
     DEC $B2 : BNE .nextFourColumns
     
     RTS
@@ -2861,7 +2770,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$939F-$93B6 JUMP LOCATION
+; $00939F-$0093B6 JUMP LOCATION
 {
     STX $0A
     
@@ -2869,14 +2778,13 @@ Object_HiddenWallLeft:
     
     .next_block
     
-    LDX $0A
-    
-    LDA.w #$0003
-    
-    JSR Object_Draw4xN
-    
-    TYA : CLC : ADC.w #$03FA : TAY
-    
+        LDX $0A
+        
+        LDA.w #$0003
+        
+        JSR Object_Draw4xN
+        
+        TYA : CLC : ADC.w #$03FA : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -2884,25 +2792,24 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$93B7-$93DB JUMP LOCATION
+; $0093B7-$0093DB JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .BRANCH_ALPHA
     
-    LDX.w #$08CA
-    
-    JSR Object_Draw2x2_AdvanceDown
-    
-    CLC : ADC.w #$0200 : TAY
-    
-    ; since this is a known quantity, why calculate it? (Hint: it's 0x08D2)
-    TXA : CLC : ADC.w #$0008 : TAX
-    
-    JSR Object_Draw2x2_AdvanceDown
-    
-    LDA $08 : CLC : ADC.w #$0008 : STA $08 : TAY
-    
+        LDX.w #$08CA
+        
+        JSR Object_Draw2x2_AdvanceDown
+        
+        CLC : ADC.w #$0200 : TAY
+        
+        ; since this is a known quantity, why calculate it? (Hint: it's 0x08D2)
+        TXA : CLC : ADC.w #$0008 : TAX
+        
+        JSR Object_Draw2x2_AdvanceDown
+        
+        LDA $08 : CLC : ADC.w #$0008 : STA $08 : TAY
     DEC $B2 : BNE .BRANCH_ALPHA
     
     RTS
@@ -2910,7 +2817,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$93DC-$9428 JUMP LOCATION
+; $0093DC-$009428 JUMP LOCATION
 {
     ; = 1 to 4
     INC $B2
@@ -2924,17 +2831,16 @@ Object_HiddenWallLeft:
     
     .BRANCH_ALPHA
     
-    JSR $93FF ; $93FF IN ROM
-    
+        JSR $93FF ; $93FF IN ROM
     DEC $B4 : BNE .BRANCH_ALPHA
     
     JSR $93F7 ; $93F7 IN ROM
     
-    ; *$93F7 ALTERNATE ENTRY POINT
+    ; $0093F7 ALTERNATE ENTRY POINT
     
     INX #8
     
-    ; *$93FF ALTERNATE ENTRY POINT
+    ; $0093FF ALTERNATE ENTRY POINT
     
     LDA $B2 : STA $0E
     
@@ -2942,11 +2848,10 @@ Object_HiddenWallLeft:
     
     .BRANCH_BETA
     
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    
-    INY #4
-    
+        LDA $9B54, X : STA [$C2], Y
+        LDA $9B56, X : STA [$C5], Y
+        
+        INY #4
     DEC $0E : BNE .BRANCH_BETA
     
     LDA $9B58, X : STA [$C2], Y
@@ -2958,7 +2863,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9429-$9445 JUMP LOCATION
+; $009429-$009445 JUMP LOCATION
 {
     ; Width = 1 to 4
     INC $B2
@@ -2968,16 +2873,14 @@ Object_HiddenWallLeft:
     
     .next_row
     
-    LDA $B2 : STA $0E
-    
-    .next_block_right
-    
-    JSR Object_Draw2x2
-    
-    DEC $0E : BNE .next_block_right
-    
-    LDA $08 : CLC : ADC.w #$0100 : STA $08 : TAY
-    
+        LDA $B2 : STA $0E
+        
+        .next_block_right
+        
+            JSR Object_Draw2x2
+        DEC $0E : BNE .next_block_right
+        
+        LDA $08 : CLC : ADC.w #$0100 : STA $08 : TAY
     DEC $B4 : BNE .next_row
     
     RTS
@@ -2985,16 +2888,15 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9446-$9455 JUMP LOCATION
+; $009446-$009455 JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .next_piece
     
-    JSR Object_Draw2x2_AdvanceDown
-    
-    CLC : ADC.w #$0600 : TAY
-    
+        JSR Object_Draw2x2_AdvanceDown
+        
+        CLC : ADC.w #$0600 : TAY
     DEC $B2 : BNE .next_piece
     
     RTS
@@ -3002,16 +2904,15 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9456-$9465 JUMP LOCATION
+; $009456-$009465 JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .loop
     
-    JSR Object_Draw2x2_AdvanceDown
-    
-    CLC : ADC.w #$FF1C : TAY
-    
+        JSR Object_Draw2x2_AdvanceDown
+        
+        CLC : ADC.w #$FF1C : TAY
     DEC $B2 : BNE .loop
     
     RTS
@@ -3020,7 +2921,7 @@ Object_HiddenWallLeft:
 ; ==============================================================================
 
     ; \unused
-; *$9466-$9487 JUMP LOCATION
+; $009466-$009487 JUMP LOCATION
 {
     ; This is another unused object in the rom
     ; However it is visually something
@@ -3038,10 +2939,9 @@ Object_HiddenWallLeft:
     
     .nextColumn
     
-    JSR Object_Draw5x1
-    
-    INY #2
-    
+        JSR Object_Draw5x1
+        
+        INY #2
     DEC $B2 : BNE .nextColumn
     
     TXA : CLC : ADC.w #$000A : TAX
@@ -3051,7 +2951,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9488-$94B3 JUMP LOCATION
+; $009488-$0094B3 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3063,12 +2963,11 @@ Object_HiddenWallLeft:
     
     .nextColumn
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    
-    INY #2
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$CB], Y
+        LDA $9B56, X : STA [$D7], Y
+        
+        INY #2
     DEC $B2 : BNE .nextColumn
     
     INX #6
@@ -3080,7 +2979,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$94B4-$94BC JUMP LOCATION
+; $0094B4-$0094BC JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3091,7 +2990,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$94BD-$94DE JUMP LOCATION
+; $0094BD-$0094DE JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3105,10 +3004,9 @@ Object_HiddenWallLeft:
     
     .loop
     
-    JSR Object_Draw3x1
-    
-    INY #2
-    
+        JSR Object_Draw3x1
+        
+        INY #2 
     DEC $B2 : BNE .loop
     
     TXA : CLC : ADC.w #$0006 : TAX
@@ -3118,7 +3016,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$94DF-$9500 JUMP LOCATION
+; $0094DF-$009500 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3128,12 +3026,11 @@ Object_HiddenWallLeft:
     
     .alpha
     
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
-    TXA : SEC : SBC.w #$0010 : TAX
-    
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN
+        
+        TXA : SEC : SBC.w #$0010 : TAX
     DEC $B2 : BNE .alpha
     
     TXA : CLC : ADC.w #$0010 : TAX
@@ -3143,7 +3040,7 @@ Object_HiddenWallLeft:
 
 ; ==============================================================================
 
-; *$9501-$95EE JUMP LOCATION
+; $009501-$0095EE JUMP LOCATION
 Object_Water:
 {
     LDA $B2 : ASL A : TAX
@@ -3173,50 +3070,48 @@ Object_Water:
     
     ; (AND with 0x08)
     LDA $0403 : AND $98C9 : BEQ .notTriggered
-    
-    STZ $AF
-    STZ $0414
-    
-    REP #$30
-    
-    LDA $0442 : STA $0440
-    LDA $0444 : STA $0448
-    
-    STZ $0444
-    STZ $0442
-    
-    LDA $04AE : STA $049E
-    
-    STZ $04AE
-    
-    LDA $B2 : DEC A : ASL #2 : STA $0E
-    
-    LDA $08 : ADC $0E : STA $08
-    
-    LDA $B4 : DEC A : XBA : STA $0E
-    
-    LDA $08 : ADC $0E : TAX
-    
-    ; *$95A0 ALTERNATE ENTRY POINT
-    
-    LDY.w #$1438
-    
-    LDA.w #$0004 : STA $0E
-    
-    .loop
-    
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2002, X
-    LDA $9B56, Y : STA $7E2004, X
-    LDA $9B58, Y : STA $7E2006, X
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
-    DEC $0E : BNE .loop
-    
-    RTS
+        STZ $AF
+        STZ $0414
+        
+        REP #$30
+        
+        LDA $0442 : STA $0440
+        LDA $0444 : STA $0448
+        
+        STZ $0444
+        STZ $0442
+        
+        LDA $04AE : STA $049E
+        
+        STZ $04AE
+        
+        LDA $B2 : DEC A : ASL #2 : STA $0E
+        
+        LDA $08 : ADC $0E : STA $08
+        
+        LDA $B4 : DEC A : XBA : STA $0E
+        
+        LDA $08 : ADC $0E : TAX
+        
+        ; $0095A0 ALTERNATE ENTRY POINT
+        
+        LDY.w #$1438
+        
+        LDA.w #$0004 : STA $0E
+        
+        .loop
+        
+            LDA $9B52, Y : STA $7E2000, X
+            LDA $9B54, Y : STA $7E2002, X
+            LDA $9B56, Y : STA $7E2004, X
+            LDA $9B58, Y : STA $7E2006, X
+            
+            TYA : CLC : ADC.w #$0008 : TAY
+            
+            TXA : CLC : ADC.w #$0080 : TAX
+        DEC $0E : BNE .loop
+        
+        RTS
     
     .notTriggered
     
@@ -3228,12 +3123,11 @@ Object_Water:
     
     .loop2
     
-    LDA $B2
-    
-    JSR $8A44 ; $8A44 IN ROM
-    
-    LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
-    
+        LDA $B2
+        
+        JSR $8A44 ; $8A44 IN ROM
+        
+        LDA $08 : CLC : ADC.w #$0200 : STA $08 : TAY
     DEC $B4 : BNE .loop2
     
     RTS
@@ -3241,7 +3135,7 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$95EF-$96DB JUMP LOCATION
+; $0095EF-$0096DB JUMP LOCATION
 {
     LDA $B2 : ASL A : TAX
     
@@ -3271,10 +3165,9 @@ Object_Water:
     SEP #$30
     
     LDA $0403 : AND $98C9 : BEQ .alpha
-    
-    STZ $AF
-    
-    BRA .BRANCH_BETA
+        STZ $AF
+        
+        BRA .BRANCH_BETA
     
     .alpha
     
@@ -3301,37 +3194,35 @@ Object_Water:
     
     LDX.w #$0110
     
-    .BRANCH_DELTA
+    .loop1
     
-    LDY $08
-    
-    LDA $B2 : STA $0A
-    
-    .BRANCH_GAMMA
-    
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    LDA $9B58, X : STA [$C8], Y
-    LDA $9B5A, X : STA [$CB], Y
-    LDA $9B5C, X : STA [$CE], Y
-    LDA $9B5E, X : STA [$D1], Y
-    LDA $9B60, X : STA [$D4], Y
-    
-    INY #8
-    
-    DEC $0A : BNE .BRANCH_GAMMA
-    
-    LDA $08 : CLC : ADC.w #$0100 : STA $08
-    
-    DEC $04 : BNE .BRANCH_DELTA
+        LDY $08
+        
+        LDA $B2 : STA $0A
+        
+        .loop2
+        
+            LDA $9B52, X : STA [$BF], Y
+            LDA $9B54, X : STA [$C2], Y
+            LDA $9B56, X : STA [$C5], Y
+            LDA $9B58, X : STA [$C8], Y
+            LDA $9B5A, X : STA [$CB], Y
+            LDA $9B5C, X : STA [$CE], Y
+            LDA $9B5E, X : STA [$D1], Y
+            LDA $9B60, X : STA [$D4], Y
+            
+            INY #8
+        DEC $0A : BNE .loop2
+        
+        LDA $08 : CLC : ADC.w #$0100 : STA $08
+    DEC $04 : BNE .loop1
     
     RTS
 }
 
 ; ==============================================================================
 
-; *$96DC-$96E3 JUMP LOCATION
+; $0096DC-$0096E3 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3342,7 +3233,7 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$96E4-$96F8 JUMP LOCATION
+; $0096E4-$0096F8 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3350,10 +3241,9 @@ Object_Water:
     
     .next_block
     
-    LDA $95B2, X : STA [$BF], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $95B2, X : STA [$BF], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -3361,7 +3251,7 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$96F9-$9701 JUMP LOCATION
+; $0096F9-$009701 JUMP LOCATION
 {
     JSR Object_Size1to16
     
@@ -3372,7 +3262,7 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$9702-$9719 JUMP LOCATION
+; $009702-$009719 JUMP LOCATION
 {
     STX $0A
     
@@ -3380,15 +3270,14 @@ Object_Water:
     
     .next_block
     
-    LDX $0A
-    
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
-    ; make next block 10 tiles down?
-    TYA : CLC : ADC.w #$05FC : TAY
-    
+        LDX $0A
+        
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN
+        
+        ; make next block 10 tiles down?
+        TYA : CLC : ADC.w #$05FC : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -3396,14 +3285,14 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$971A-$971A JUMP LOCATION
+; $00971A-$00971A JUMP LOCATION
 {
     RTS
 }
 
 ; ==============================================================================
 
-; *$971B-$9732 JUMP LOCATION
+; $00971B-$009732 JUMP LOCATION
 {
     STX $0A
     
@@ -3411,15 +3300,14 @@ Object_Water:
     
     .next_block
     
-    LDX $0A
-    
-    LDA.w #$0003
-    
-    JSR Object_Draw4xN
-    
-    ; make next block 5 tiles down?
-    TYA : CLC : ADC.w #$02FA : TAY
-    
+        LDX $0A
+        
+        LDA.w #$0003
+        
+        JSR Object_Draw4xN
+        
+        ; make next block 5 tiles down?
+        TYA : CLC : ADC.w #$02FA : TAY
     DEC $B2 : BNE .next_block
     
     RTS
@@ -3427,11 +3315,10 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$9733-$97B4 JUMP LOCATION
+; $009733-$0097B4 JUMP LOCATION
 {
     LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    TYA : ORA.w #$2000 : TAY
+        TYA : ORA.w #$2000 : TAY
     
     .onBg2
     
@@ -3446,8 +3333,7 @@ Object_Water:
     
     .BRANCH_DELTA
     
-    JSR $975C ; $975C IN ROM
-    
+        JSR $975C ; $975C IN ROM
     DEC $B4 : BNE .BRANCH_DELTA
     
     INY #2
@@ -3456,7 +3342,7 @@ Object_Water:
     
     INY #2
     
-    ; *$975C ALTERNATE ENTRY POINT
+    ; $00975C ALTERNATE ENTRY POINT
     
     PHX
     
@@ -3468,10 +3354,9 @@ Object_Water:
     
     .BRANCH_BETA
     
-    STA $7E2002, X
-    
-    INX #2
-    
+        STA $7E2002, X
+        
+        INX #2
     DEC $0A : BNE .BRANCH_BETA
     
     LDA $9B5E, Y : STA $7E2002, X
@@ -3486,10 +3371,9 @@ Object_Water:
     
     .BRANCH_GAMMA
     
-    STA $7E200E, X
-    
-    INX #2
-    
+        STA $7E200E, X
+        
+        INX #2
     DEC $0A : BNE .BRANCH_GAMMA
     
     LDA $9B76, Y : STA $7E200E, X
@@ -3501,7 +3385,7 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$97B5-$97DB JUMP LOCATION
+; $0097B5-$0097DB JUMP LOCATION
 {
     LDA.w #$0002
     
@@ -3514,11 +3398,10 @@ Object_Water:
     
     .nextRow
     
-    LDA $9B56, X : STA [$CB], Y
-    LDA $9B58, X : STA [$CE], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B56, X : STA [$CB], Y
+        LDA $9B58, X : STA [$CE], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
     
     RTS
@@ -3526,17 +3409,16 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$97DC-$97EC JUMP LOCATION
+; $0097DC-$0097EC JUMP LOCATION
 {
     JSR Object_Size1to16
     
     .next_block
     
-    LDX.w #$0B16
-    LDA.w #$0002
-    
-    JSR Object_Draw4xN
-    
+        LDX.w #$0B16
+        LDA.w #$0002
+        
+        JSR Object_Draw4xN 
     DEC $B2 : BNE .next_block
     
     RTS
@@ -3544,28 +3426,29 @@ Object_Water:
 
 ; ==============================================================================
 
-; *$97ED-$9812 JUMP LOCATION
+; $0097ED-$009812 JUMP LOCATION
 Object_Draw4x4:
 {
     LDA.w #$0004
-    
-} ; nb: routine doesn't end here
-    ; *$97F0 ALTERNATE ENTRY POINT
+
+    ; Segues into next routine.
+} 
+
+; $0097F0 ALTERNATE ENTRY POINT
 Object_Draw4xN:
 {
     STA $0E
     
     .nextColumn
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    LDA $9B58, X : STA [$DA], Y
-    
-    TXA : CLC : ADC.w #$0008 : TAX
-    
-    INY #2
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$CB], Y
+        LDA $9B56, X : STA [$D7], Y
+        LDA $9B58, X : STA [$DA], Y
+        
+        TXA : CLC : ADC.w #$0008 : TAX
+        
+        INY #2
     DEC $0E : BNE .nextColumn
     
     RTS
@@ -3573,34 +3456,34 @@ Object_Draw4xN:
 
 ; ==============================================================================
 
-; *$9813-$985B JUMP LOCATION
+; $009813-$00985B JUMP LOCATION
 Object_Draw4x4_BothBgs:
 {
     TXA : TYX : TAY
     
     LDA.w #$0004
     
+    ;ALTERNATE ENTRY POINT? TODO: Confirm this.
     .variableNumberOfColumns
     
     STA $0E
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-    LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-    LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-    LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
+        
+        TYA : CLC : ADC.w #$0008 : TAY
+        
+        INX #2
     DEC $0E : BNE .nextColumn
     
     RTS
 }
     
-    ; *$9854 ALTERNATE ENTRY POINT
+; $009854 ALTERNATE ENTRY POINT
 Object_Draw4x3_BothBgs:
 {
     TXA : TYX : TAY
@@ -3612,7 +3495,7 @@ Object_Draw4x3_BothBgs:
 
 ; ==============================================================================
 
-; *$985C-$9891 JUMP LOCATION
+; $00985C-$009891 JUMP LOCATION
 Object_Draw3x4_BothBgs:
 {
     ; Swap X and Y (destroying A)
@@ -3622,14 +3505,13 @@ Object_Draw3x4_BothBgs:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-    LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-    LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-    
-    TYA : CLC : ADC.w #$0006 : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        
+        TYA : CLC : ADC.w #$0006 : TAY
+        
+        INX #2
     DEC $0E : BNE .nextColumn
     
     RTS
@@ -3637,7 +3519,7 @@ Object_Draw3x4_BothBgs:
 
 ; ==============================================================================
 
-; *$9892-$98AD JUMP LOCATION
+; $009892-$0098AD JUMP LOCATION
 {
     ; Increment number of torches in room?
     INC $045A
@@ -3645,7 +3527,7 @@ Object_Draw3x4_BothBgs:
     ; Segues into next routine.
 }
     
-    ; *$9895 ALTERNATE ENTRY POINT
+; $009895 ALTERNATE ENTRY POINT
 Object_Draw2x2:
 {
     LDA $9B52, X : STA [$BF], Y
@@ -3660,7 +3542,7 @@ Object_Draw2x2:
 
 ; ==============================================================================
 
-; *$98AE-$98CF JUMP LOCATION
+; $0098AE-$0098CF JUMP LOCATION
 Object_BigKeyLock:
 {
     ; Big Key Lock
@@ -3672,12 +3554,11 @@ Object_BigKeyLock:
     TYA : STA $06E0, X
     
     LDA $0402 : AND $9900, X : BNE .alreadyOpened
-    
-    INX #2 : STX $0498
-    
-    LDX.w #$1494
-    
-    BRA Object_Draw2x2
+        INX #2 : STX $0498
+        
+        LDX.w #$1494
+        
+        BRA Object_Draw2x2
     
     .alreadyOpened
     
@@ -3692,134 +3573,127 @@ Object_BigKeyLock:
 
 ; ==============================================================================
 
-; *$98D0-$99BA JUMP LOCATION
+; $0098D0-$0099BA JUMP LOCATION
 Object_Chest:
 {
     ; Normal Chest Object ( Type 0x01.0x03.0x19 )
     
     ; Are we in the ending sequence?
     ; If so, don't bother with this shit.
-    LDA $10 : AND.w #$00FF : CMP.w #$001A : BEQ Object_BigKeyLock.easyOut
-    
-    LDX $0496
-    
-    ; This is the chest's tile address shifted left by one.
-    ; (The msb is set if it's a big chest.)
-    TYA : STA $06E0, X
-    
-    LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    TYA : ORA.w #$2000 : STA $06E0, X
-    
-    .onBg2
-    
-    ; Check to see if the chest has already been opened.
-    ; It's already been opened.
-    LDA $0402 : AND $9900, X : BNE .alreadyOpened
-    
-    INX #2 : STX $0496 : STX $0498
-    
-    LDY.w #$FF00
-    LDX.w #$0000
-    
-    ; Check the Tag1 Properties.
-    LDA $AE : AND.w #$00FF
-    
-    CMP.w #$0027 : BEQ .hiddenChest
-    CMP.w #$003C : BEQ .hiddenChest
-    CMP.w #$003E : BEQ .hiddenChest
-    CMP.w #$0029 : BCC .checkTag2
-    CMP.w #$0033 : BCC .hiddenChest
-    
-    .checkTag2
-    
-    ; Load the tag2 properties
-    LDA $AF : AND.w #$00FF
-    
-    CMP.w #$0027 : BEQ .hiddenChest2
-    CMP.w #$003C : BEQ .hiddenChest2
-    CMP.w #$003E : BEQ .hiddenChest2
-    CMP.w #$0029 : BCC .notHiddenChest
-    CMP.w #$0033 : BCS .notHiddenChest
-    
-    .hiddenChest2
-    
-    LDY.w #$00FF
-    
-    INX #2
-    
-    .hiddenChest
-    
-    ; Has the chest already been opened?
-    ; (RTS); No, we're done and the chest will remain hidden
-    LDA $0402 : AND $009900, X : BEQ Object_BigKeyLock_easyOut
-    
-    ; if the chest has been revealed, neutralize the tag routine that would
-    ; trigger it.
-    TYA : AND $AE : STA $AE
-    
-    .notHiddenChest
-    
-    LDY $08
-    
-    LDX.w #$149C
-    
-    JMP Object_Draw2x2
-    
-    .alreadyOpened
-    
-    ; If the chest has been opened there's obviously no reason to track its
-    ; tile address.
-    STZ $06E0, X
-    
-    INX #2 : STX $0496 : STX $0498
-    
-    LDY.w #$FF00
-    LDX.w #$0000
-    
-    LDA $AE : AND.w #$00FF
-    
-    CMP.w #$0027 : BEQ .hiddenChest_2
-    CMP.w #$003C : BEQ .hiddenChest_2
-    CMP.w #$003E : BEQ .hiddenChest_2
-    CMP.w #$0029 : BCC .checkTag2_2
-    CMP.w #$0033 : BCC .hiddenChest_2
-    
-    .checkTag2_2
-    
-    LDA $AF : AND.w #$00FF
-    
-    CMP.w #$0027 : BEQ .hiddenChest2_2
-    CMP.w #$003C : BEQ .hiddenChest2_2
-    CMP.w #$003E : BEQ .hiddenChest2_2
-    CMP.w #$0029 : BCC .notHiddenChest_2
-    CMP.w #$0033 : BCS .notHiddenChest_2
-    
-    .hiddenChest2_2
-    
-    LDY.w #$00FF
-    
-    INX #2
-    
-    .hiddenChest_2
-    
-    TYA : AND $AE : STA $AE
-    
-    .notHiddenChest_2
-    
-    LDY $08
-    
-    LDX.w #$14A4
-    
-    ; *$99B8 ALTERNATE ENTRY POINT
-    .startsOpen
-    
-    JMP Object_Draw2x2
+    LDA $10 : AND.w #$00FF : CMP.w #$001A : BEQ Object_BigKeyLock_easyOut
+        LDX $0496
+        
+        ; This is the chest's tile address shifted left by one.
+        ; (The msb is set if it's a big chest.)
+        TYA : STA $06E0, X
+        
+        LDA $BF : CMP.w #$4000 : BNE .onBg2
+            TYA : ORA.w #$2000 : STA $06E0, X
+        
+        .onBg2
+        
+        ; Check to see if the chest has already been opened.
+        ; It's already been opened.
+        LDA $0402 : AND $9900, X : BNE .alreadyOpened
+            INX #2 : STX $0496 : STX $0498
+            
+            LDY.w #$FF00
+            LDX.w #$0000
+            
+            ; Check the Tag1 Properties.
+            LDA $AE : AND.w #$00FF
+            
+            CMP.w #$0027 : BEQ .hiddenChest
+            CMP.w #$003C : BEQ .hiddenChest
+            CMP.w #$003E : BEQ .hiddenChest
+            CMP.w #$0029 : BCC .checkTag2
+            CMP.w #$0033 : BCC .hiddenChest
+                .checkTag2
+            
+                ; Load the tag2 properties
+                LDA $AF : AND.w #$00FF
+                
+                CMP.w #$0027 : BEQ .hiddenChest2
+                CMP.w #$003C : BEQ .hiddenChest2
+                CMP.w #$003E : BEQ .hiddenChest2
+                CMP.w #$0029 : BCC .notHiddenChest
+                CMP.w #$0033 : BCS .notHiddenChest
+                    .hiddenChest2
+                
+                    LDY.w #$00FF
+                    
+                    INX #2
+                
+            .hiddenChest
+            
+            ; Has the chest already been opened?
+            ; (RTS); No, we're done and the chest will remain hidden
+            LDA $0402 : AND $009900, X : BEQ Object_BigKeyLock_easyOut
+            
+                ; if the chest has been revealed, neutralize the tag routine that would
+                ; trigger it.
+                TYA : AND $AE : STA $AE
+                
+                .notHiddenChest
+                
+                LDY $08
+                
+                LDX.w #$149C
+                
+                JMP Object_Draw2x2
+        
+        .alreadyOpened
+        
+        ; If the chest has been opened there's obviously no reason to track its
+        ; tile address.
+        STZ $06E0, X
+        
+        INX #2 : STX $0496 : STX $0498
+        
+        LDY.w #$FF00
+        LDX.w #$0000
+        
+        LDA $AE : AND.w #$00FF
+        
+        CMP.w #$0027 : BEQ .hiddenChest_2
+        CMP.w #$003C : BEQ .hiddenChest_2
+        CMP.w #$003E : BEQ .hiddenChest_2
+        CMP.w #$0029 : BCC .checkTag2_2
+        CMP.w #$0033 : BCC .hiddenChest_2
+            .checkTag2_2
+        
+            LDA $AF : AND.w #$00FF
+            
+            CMP.w #$0027 : BEQ .hiddenChest2_2
+            CMP.w #$003C : BEQ .hiddenChest2_2
+            CMP.w #$003E : BEQ .hiddenChest2_2
+            CMP.w #$0029 : BCC .notHiddenChest_2
+            CMP.w #$0033 : BCS .notHiddenChest_2
+                .hiddenChest2_2
+            
+                LDY.w #$00FF
+                
+                INX #2
+        
+        .hiddenChest_2
+        
+        TYA : AND $AE : STA $AE
+        
+        .notHiddenChest_2
+        
+        LDY $08
+        
+        LDX.w #$14A4
+        
+        ; $0099B8 ALTERNATE ENTRY POINT
+        .startsOpen
+        
+        JMP Object_Draw2x2
 }
 
 ; ==============================================================================
 
-; *$99BB-$99EB JUMP LOCATION
+; $0099BB-$0099EB JUMP LOCATION
 Object_BigChest:
 {
     LDX $0496
@@ -3828,8 +3702,7 @@ Object_BigChest:
     TYA : ORA.w #$8000 : STA $06E0, X
     
     LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    TYA : ORA.w #$A000 : STA $06E0, X
+        TYA : ORA.w #$A000 : STA $06E0, X
     
     .onBg2
     
@@ -3839,10 +3712,13 @@ Object_BigChest:
     INX #2 : STX $0496 : STX $0498
     
     LDX.w #$14AC
-    
-    ; *$99E6 ALTERNATE ENTRY POINT
+
+    ; Segues into next routine.
+}
+
+; $0099E6 ALTERNATE ENTRY POINT
 Object_Draw3x4:
-    
+{
     LDA.w #$0004
     
     JMP Object_Draw3xN
@@ -3850,7 +3726,7 @@ Object_Draw3x4:
 
 ; ==============================================================================
 
-; *$99EC-$99F1 JUMP LOCATION
+; $0099EC-$0099F1 JUMP LOCATION
 Object_Draw4x3:
 {
     LDA.w #$0003
@@ -3860,7 +3736,7 @@ Object_Draw4x3:
 
 ; ==============================================================================
 
-; $99F2-$9A05
+; $0099F2-$009A05
 Object_OpenedBigChest:
 {
     ; Opened chest, so use different tiles
@@ -3870,6 +3746,7 @@ Object_OpenedBigChest:
     
     LDX.w #$14C4
     
+    ; ALTERNATE ENTRY POINT ; TODO: Get address.
     .fake
     
     ; essentially a fake big chest that is opened
@@ -3882,7 +3759,7 @@ Object_OpenedBigChest:
 
 ; ==============================================================================
 
-; *$9A06-$9A0B JUMP LOCATION
+; $009A06-$009A0B JUMP LOCATION
 Object_Draw3x8:
 {
     LDA.w #$0008
@@ -3892,7 +3769,7 @@ Object_Draw3x8:
 
 ; ==============================================================================
 
-; *$9A0C-$9A11 JUMP LOCATION
+; $009A0C-$009A11 JUMP LOCATION
 Object_Draw3x6:
 {
     LDA.w #$0006
@@ -3902,14 +3779,13 @@ Object_Draw3x6:
 
 ; ==============================================================================
 
-; *$9A12-$9A65 JUMP LOCATION
+; $009A12-$009A65 JUMP LOCATION
 Object_Draw7x8:
 {
     TXY
     
     LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    LDA $08 : ORA.w #$2000 : STA $08
+        LDA $08 : ORA.w #$2000 : STA $08
     
     .onBg2
     
@@ -3919,18 +3795,17 @@ Object_Draw7x8:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
-    LDA $9B5A, Y : STA $7E2200, X
-    LDA $9B5C, Y : STA $7E2280, X
-    LDA $9B5E, Y : STA $7E2300, X
-    
-    TYA : CLC : ADC.w #$000E : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E2000, X
+        LDA $9B54, Y : STA $7E2080, X
+        LDA $9B56, Y : STA $7E2100, X
+        LDA $9B58, Y : STA $7E2180, X
+        LDA $9B5A, Y : STA $7E2200, X
+        LDA $9B5C, Y : STA $7E2280, X
+        LDA $9B5E, Y : STA $7E2300, X
+        
+        TYA : CLC : ADC.w #$000E : TAY
+        
+        INX #2
     DEC $0E : BNE .nextColumn
     
     RTS
@@ -3938,7 +3813,7 @@ Object_Draw7x8:
 
 ; ==============================================================================
 
-; $9A66-$9A6E JUMP LOCATION
+; $009A66-$009A6E JUMP LOCATION
 Object_Draw8x6:
 {
     LDY.w #$1F92
@@ -3949,7 +3824,7 @@ Object_Draw8x6:
 
 ; ==============================================================================
 
-; *$9A6F-$9A8F JUMP LOCATION
+; $009A6F-$009A8F JUMP LOCATION
 Object_StarTile:
 {
     ; Star shaped switch tiles (1.2.0x1F)
@@ -3961,8 +3836,7 @@ Object_StarTile:
     TYA : LSR A : STA $06A0, X
     
     LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    TYA : ORA.w #$2000 : LSR A : STA $06A0, X
+        TYA : ORA.w #$2000 : LSR A : STA $06A0, X
     
     .onBg2
     
@@ -3970,7 +3844,7 @@ Object_StarTile:
     
     PLX
     
-    ; *$9A8D ALTERNATE ENTRY POINT
+    ; $009A8D ALTERNATE ENTRY POINT
     .disabled
     
     ; dummied star shaped switch tile (1.2.0x1E)
@@ -3980,7 +3854,7 @@ Object_StarTile:
 
 ; ==============================================================================
 
-; *$9A90-$9AA2 JUMP LOCATION
+; $009A90-$009AA2 JUMP LOCATION
 Object_Draw6x4:
 {
     LDA.w #$0004
@@ -3996,7 +3870,7 @@ Object_Draw6x4:
 
 ; ==============================================================================
 
-; *$9AA3-$9AA8 JUMP LOCATION
+; $009AA3-$009AA8 JUMP LOCATION
 Object_Draw4x6:
 {
     LDA.w #$0006
@@ -4006,31 +3880,29 @@ Object_Draw4x6:
 
 ; ==============================================================================
 
-; *$9AA9-$9AED JUMP LOCATION
+; $009AA9-$009AED JUMP LOCATION
 Object_Rupees:
 {
-    ; Check to see if the rupees were already collected
+    ; Check to see if the rupees were already collected.
     LDA $0402 : AND.w #$1000 : BNE .rupeesAlreadyObtained
-    
-    LDA.w #$0003 : STA $0E
-    
-    LDY.w #$1DD6
-    
-    LDX $08
-    
-    LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    TXA : ORA #$2000 : TAX
-    
-    .onBg2
-    .moveTwoColumnsRight
-    
-    LDA $9B52, Y : STA $7E2000, X : STA $7E2180, X : STA $7E2300, X
-    LDA $9B54, Y : STA $7E2080, X : STA $7E2200, X : STA $7E2380, X
-    
-    INX #4
-    
-    DEC $0E : BNE .moveTwoColumnsRight
+        LDA.w #$0003 : STA $0E
+        
+        LDY.w #$1DD6
+        
+        LDX $08
+        
+        LDA $BF : CMP.w #$4000 : BNE .onBg2
+            TXA : ORA #$2000 : TAX
+        
+        .onBg2
+
+        .moveTwoColumnsRight
+        
+            LDA $9B52, Y : STA $7E2000, X : STA $7E2180, X : STA $7E2300, X
+            LDA $9B54, Y : STA $7E2080, X : STA $7E2200, X : STA $7E2380, X
+            
+            INX #4
+        DEC $0E : BNE .moveTwoColumnsRight
     
     .rupeesAlreadyObtained
     
@@ -4039,22 +3911,21 @@ Object_Rupees:
 
 ; ==============================================================================
 
-; *$9AEE-$9B17 JUMP LOCATION
+; $009AEE-$009B17 JUMP LOCATION
 Object_Draw5x4:
 {
     LDA.w #$0005 : STA $0E
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    LDA $9B58, X : STA [$C8], Y
-    
-    TXA : CLC : ADC.w #$0008 : TAX
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$C2], Y
+        LDA $9B56, X : STA [$C5], Y
+        LDA $9B58, X : STA [$C8], Y
+        
+        TXA : CLC : ADC.w #$0008 : TAX
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $0E : BNE .nextRow
     
     RTS
@@ -4063,7 +3934,7 @@ Object_Draw5x4:
 ; ==============================================================================
 
     ; \unused
-; $9B18-$9B1D LOCAL
+; $009B18-$009B1D LOCAL
 {
     LDA.w #$0002
     
@@ -4072,19 +3943,17 @@ Object_Draw5x4:
 
 ; ==============================================================================
 
-; *$9B1E-$9B4F JUMP LOCATION
+; $009B1E-$009B4F JUMP LOCATION
 Object_WaterLadder:
 {
     ; Object 1.2.0x35 (Water ladders)?
     
     ; branch if not the water twin tag
     LDA $AF : AND.w #$00FF : CMP.w #$001B : BNE .alpha
-    
-    LDA $A0 : ASL A : TAX
-    
-    LDA $7EF000, X : AND.w #$0100 : BNE .alpha
-    
-    JMP Object_InactiveWaterLadder
+        LDA $A0 : ASL A : TAX
+        
+        LDA $7EF000, X : AND.w #$0100 : BNE .alpha
+            JMP Object_InactiveWaterLadder
     
     .alpha
     
@@ -4097,10 +3966,13 @@ Object_WaterLadder:
     STX $0444
     
     LDX.w #$1108
-    
-    ; *$9B48 ALTERNATE ENTRY POINT
+
+    ; Segues into next routine.
+}
+
+; $009B48 ALTERNATE ENTRY POINT
 Object_Draw2x4:
-    
+{
     LDA.w #$0001 : STA $B2
     
     JMP Object_Draw2x4s_VariableOffset
@@ -4108,7 +3980,7 @@ Object_Draw2x4:
 
 ; ==============================================================================
 
-; *$9B50-$9B55 JUMP LOCATION
+; $009B50-$009B55 JUMP LOCATION
 Object_Draw3x6_Alternate:
 {
     ; There really is no difference between this object and the
@@ -4120,7 +3992,7 @@ Object_Draw3x6_Alternate:
 
 ; ==============================================================================
 
-; *$9B56-$9BD8 JUMP LOCATION
+; $009B56-$009BD8 JUMP LOCATION
 Object_SanctuaryMantle:
 {
     TXY
@@ -4170,7 +4042,7 @@ Object_SanctuaryMantle:
 
 ; ==============================================================================
 
-; *$9BD9-$9BF7 LOCAL
+; $009BD9-$009BF7 LOCAL
 Object_Draw2x3:
 {
     LDA $9B52, X : STA [$BF], Y
@@ -4185,22 +4057,21 @@ Object_Draw2x3:
 
 ; ==============================================================================
 
-; *$9BF8-$9C3A JUMP LOCATION
+; $009BF8-$009C3A JUMP LOCATION
 Object_Watergate:
 {
     ; watergate barrier object
     
     LDA $0402 : AND.w #$0800 : BNE .hasBeenOpened
-    
-    LDA.w #$000A
-    
-    JSR Object_Draw4xN
-    
-    LDA.w #$000F : STA $0470
-    
-    LDA $08 : STA $0472
-    
-    RTS
+        LDA.w #$000A
+        
+        JSR Object_Draw4xN
+        
+        LDA.w #$000F : STA $0470
+        
+        LDA $08 : STA $0472
+        
+        RTS
     
     .hasBeenOpened
     
@@ -4217,7 +4088,7 @@ Object_Watergate:
     
     LDA.w #$F1CD
     
-    JSR Object_WatergateChannelWater ;20 95 CC C2
+    JSR Object_WatergateChannelWater
     
     REP #$30
     
@@ -4230,13 +4101,16 @@ Object_Watergate:
 
 ; ==============================================================================
 
-; *$9C3B-$9C43 JUMP LOCATION
+; $009C3B-$009C43 JUMP LOCATION
 {
     INC $03F4 ; WTF is this?
-    
-    ; *$9C3E ALTERNATE ENTRY POINT
+
+    ; Segues into next routine.
+}
+
+; $009C3E ALTERNATE ENTRY POINT
 Object_Draw1x1:
-    
+{
     LDA $9B52, X : STA [$BF], Y
     
     RTS
@@ -4244,14 +4118,13 @@ Object_Draw1x1:
 
 ; ==============================================================================
 
-; *$9C44-$9CC5 JUMP LOCATION
+; $009C44-$009CC5 JUMP LOCATION
 Object_PrisonBars:
 {
     TYX
     
     LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    TXA : ORA.w #$2000 : TAX
+        TXA : ORA.w #$2000 : TAX
     
     .onBg2
     
@@ -4262,25 +4135,26 @@ Object_PrisonBars:
     
     .nextColumn
     
-    LDA $9B54, Y : STA $7E2004, X :                STA $7E2012, X
-    LDA $9B56, Y : STA $7E2084, X : ORA.w #$4000 : STA $7E2092, X
-    LDA $9B5A, Y : STA $7E2104, X : ORA.w #$4000 : STA $7E2112, X
-    LDA $9B5C, Y : STA $7E2184, X : ORA.w #$4000 : STA $7E2192, X
-    
-    INX #2
-    
+        LDA $9B54, Y : STA $7E2004, X :                STA $7E2012, X
+        LDA $9B56, Y : STA $7E2084, X : ORA.w #$4000 : STA $7E2092, X
+        LDA $9B5A, Y : STA $7E2104, X : ORA.w #$4000 : STA $7E2112, X
+        LDA $9B5C, Y : STA $7E2184, X : ORA.w #$4000 : STA $7E2192, X
+        
+        INX #2
     DEC $0C : BNE .nextColumn
     
     PLX
     
     LDA $9B52, Y : STA $7E2000, X : ORA.w #$4000 : STA $7E201E, X
-    LDA $9B54, Y : STA $7E2002, X                : STA $7E200E, X : STA $7E2010, X : STA $7E201C, X
+    LDA $9B54, Y : STA $7E2002, X                : STA $7E200E, X
+                                                   STA $7E2010, X
+                                                   STA $7E201C, X
     LDA $9B58, Y : STA $7E2102, X : ORA.w #$4000 : STA $7E211C, X
     
     RTS
 }
 
-; *$9CC6-$9CEA JUMP LOCATION
+; $009CC6-$009CEA JUMP LOCATION
 {
     JMP Object_Size1to16
     
@@ -4290,17 +4164,16 @@ Object_PrisonBars:
     
     DEC $B2 : BEQ .alpha
     
-    .beta
-    
-    PHX
-    
-    LDA.w #$0002
-    
-    JSR Object_Draw3xN
-    
-    PLX
-    
-    DEC $B2 : BNE .beta
+        .loop
+        
+            PHX
+            
+            LDA.w #$0002
+            
+            JSR Object_Draw3xN
+            
+            PLX
+        DEC $B2 : BNE .loop
     
     .alpha
     
@@ -4311,58 +4184,53 @@ Object_PrisonBars:
     JMP Object_Draw3xN
 }
 
-; *$9CEB-$9D28 JUMP LOCATION
+; $009CEB-$009D28 JUMP LOCATION
 {
     JSR Object_Size1to16
     
     JSR $9D04 ; $9D04 IN ROM
     
     DEC $B2 : BEQ .alpha
-    
-    .beta
-    
-    PHX
-    
-    JSR $9D04 ; $9D04 IN ROM
-    
-    PLX
-    
-    DEC $B2 : BNE .beta
+        .loop
+        
+            PHX
+            
+            JSR $9D04 ; $9D04 IN ROM
+            
+            PLX
+        DEC $B2 : BNE .loop
     
     .alpha
     
     TXA : CLC : ADC.w #$000C : TAX
     
-    ; *$9D04 ALTERNATE ENTRY POINT
+    ; $009D04 ALTERNATE ENTRY POINT
     
     LDA.w #$0002 : STA $0A
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$C2], Y
+        LDA $9B56, X : STA [$C5], Y
+        
+        INX #6
     
-    INX #6
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $0A : BNE .nextRow
     
     RTS
 }
 
-; *$9D29-$9D95 JUMP LOCATION
+; $009D29-$009D95 JUMP LOCATION
 {
     ; Check if tag2 is water twin
     LDA $AF : AND.w #$00FF : CMP.w #$001B : BNE .notWaterTwinTag
-    
-    LDA $A0 : ASL A : TAX
-    
-    ; Directly compare with the save data
-    LDA $7EF000, X : AND.w #$0100 : BNE .BRANCH_BETA
-    
-    LDX.w #$1614
+        LDA $A0 : ASL A : TAX
+        
+        ; Directly compare with the save data
+        LDA $7EF000, X : AND.w #$0100 : BNE .BRANCH_BETA
+            LDX.w #$1614
     
     .notWaterTwinTag
     
@@ -4370,9 +4238,8 @@ Object_PrisonBars:
     
     ; Also check for the "turn on water" tag
     LDA.w #$19 : CMP $AF : BNE .notTurnOnWaterTag
-    
-    ; AND with 0x0008
-    LDA $0403 : AND $98C9 : BNE .BRANCH_BETA
+        ; AND with 0x0008
+        LDA $0403 : AND $98C9 : BNE .BRANCH_BETA
     
     .notTurnOnWaterTag
     
@@ -4384,7 +4251,7 @@ Object_PrisonBars:
     
     BRA .BRANCH_EPSILON
     
-    ; *$9D5D ALTERNATE ENTRY POINT
+    ; $009D5D ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
     REP #$20
@@ -4394,14 +4261,12 @@ Object_PrisonBars:
     
     BRA .BRANCH_EPSILON
     
-    ; *$9D67 ALTERNATE ENTRY POINT
-    
+    ; $009D67 ALTERNATE ENTRY POINT
     LDA.w #$0007
     
     BRA .BRANCH_EPSILON
     
-    ; *$9D6C ALTERNATE ENTRY POINT
-    
+    ; $009D6C ALTERNATE ENTRY POINT
     LDA.w #$0002
     
     .BRANCH_EPSILON
@@ -4410,85 +4275,80 @@ Object_PrisonBars:
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    LDA $9B58, X : STA [$C8], Y
-    
-    TXA : CLC : ADC.w #$0008 : TAX
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B52, X : STA [$BF], Y
+        LDA $9B54, X : STA [$C2], Y
+        LDA $9B56, X : STA [$C5], Y
+        LDA $9B58, X : STA [$C8], Y
+        
+        TXA : CLC : ADC.w #$0008 : TAX
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $0E : BNE .nextRow
     
     RTS
 }
 
-; *$9D96-$9DE4 JUMP LOCATION
+; $009D96-$009DE4 JUMP LOCATION
 Object_Draw8xN:
-    shared Object_KholdstareShell:
+Object_KholdstareShell:
 {
     ; Kholdstare's Shell object (1.3.0x15)
     ; Check the 0x8000 bit
     ; if it was set, don't draw at all
     LDA $0402 : ASL A : BCS .boss_defeated
-    
-    LDY.w #$1DFA
-    LDA.w #$000A
-    
-    ; *$9DA2 ALTERNATE ENTRY POINT / BRANCH LOCATION
-    .draw
-    
-    STA $0A
-    
-    LDA $BF : CMP.w #$4000 : BNE .onBg2
-    
-    LDA $08 : ORA.w #$2000 : STA $08
-    
-    .onBg2
-    
-    LDA.w #$0008 : STA $0C
-    
-    .nextRow
-    
-    LDA $0A : STA $0E
-    
-    LDX $08
-    
-    .nextColumn
-    
-    LDA $9B52, Y : STA $7E2000, X
-    
-    INY #2
-    INX #2
-    
-    DEC $0E : BNE .nextColumn
-    
-    LDA $08 : CLC : ADC.w #$0080 : STA $08
-    
-    DEC $0C : BNE .nextRow
+        LDY.w #$1DFA
+        LDA.w #$000A
+        
+        ; $009DA2 ALTERNATE ENTRY POINT / BRANCH LOCATION
+        .draw
+        
+        STA $0A
+        
+        LDA $BF : CMP.w #$4000 : BNE .onBg2
+            LDA $08 : ORA.w #$2000 : STA $08
+        
+        .onBg2
+        
+        LDA.w #$0008 : STA $0C
+        
+        .nextRow
+        
+            LDA $0A : STA $0E
+            
+            LDX $08
+            
+            .nextColumn
+            
+                LDA $9B52, Y : STA $7E2000, X
+                
+                INY #2
+                INX #2
+            DEC $0E : BNE .nextColumn
+            
+            LDA $08 : CLC : ADC.w #$0080 : STA $08
+        DEC $0C : BNE .nextRow
     
     .boss_defeated
     
     RTS
     
-    shared Object_TrinexxShell:
+    ; ALTERANTE ENTRY POINT ; TODO: Get address and confirm.
+    Object_TrinexxShell:
     
     ; Trinexx Shell (1.3.0x72)
     LDA $0402 : ASL A : BCS .boss_defeated
-    
-    TXY
-    
-    LDA.w #$000A
-    
-    ; Indicates that structurally, the Trinexx shell is similar to
-    ; Kholdstare's
-    BRA .draw
+        TXY
+        
+        LDA.w #$000A
+        
+        ; Indicates that structurally, the Trinexx shell is similar to
+        ; Kholdstare's
+        BRA .draw
 }
 
 ; ==============================================================================
 
-; *$9DE5-$9E2F JUMP LOCATION
+; $009DE5-$009E2F JUMP LOCATION
 Object_LanternLayer:
 {
     LDY.w #$16DC
@@ -4517,21 +4377,19 @@ Object_LanternLayer:
     
     .nextRow
     
-    LDA.w #$000C : STA $0C
-    
-    LDX $00
-    
-    .nextColumn
-    
-    LDA $9B52, Y : STA $7E4000, X
-    
-    INY #2
-    INX #2
-    
-    DEC $0C : BNE .nextColumn
-    
-    LDA $00 : CLC : ADC.w #$0080 : STA $00
-    
+        LDA.w #$000C : STA $0C
+        
+        LDX $00
+        
+        .nextColumn
+        
+            LDA $9B52, Y : STA $7E4000, X
+            
+            INY #2
+            INX #2
+        DEC $0C : BNE .nextColumn
+        
+        LDA $00 : CLC : ADC.w #$0080 : STA $00
     DEC $02 : BNE .nextRow
     
     RTS
@@ -4539,7 +4397,7 @@ Object_LanternLayer:
 
 ; ==============================================================================
 
-; *$9E30-$9EA2 JUMP LOCATION
+; $009E30-$009EA2 JUMP LOCATION
 Object_AgahnimAltar:
 {
     LDA.w #$000E : STA $0E
@@ -4550,28 +4408,27 @@ Object_AgahnimAltar:
     
     .nextRow
     
-    LDA $9B52, Y : STA $7E2000, X
-    ORA.w #$4000 : STA $7E201A, X
-    
-    LDA $9B6E, Y : STA $7E2002, X : STA $7E2004, X
-    EOR.w #$4000 : STA $7E2016, X : STA $7E2018, X
-    
-    LDA $9B8A, Y : STA $7E2006, X
-    EOR.w #$4000 : STA $7E2014, X
-    
-    LDA $9BA6, Y : STA $7E2008, X
-    EOR.w #$4000 : STA $7E2012, X
-    
-    LDA $9BC2, Y : STA $7E200A, X
-    EOR.w #$4000 : STA $7E2010, X
-    
-    LDA $9BDE, Y : STA $7E200C, X
-    EOR.w #$4000 : STA $7E200E, X
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
-    INY #2
-    
+        LDA $9B52, Y : STA $7E2000, X
+        ORA.w #$4000 : STA $7E201A, X
+        
+        LDA $9B6E, Y : STA $7E2002, X : STA $7E2004, X
+        EOR.w #$4000 : STA $7E2016, X : STA $7E2018, X
+        
+        LDA $9B8A, Y : STA $7E2006, X
+        EOR.w #$4000 : STA $7E2014, X
+        
+        LDA $9BA6, Y : STA $7E2008, X
+        EOR.w #$4000 : STA $7E2012, X
+        
+        LDA $9BC2, Y : STA $7E200A, X
+        EOR.w #$4000 : STA $7E2010, X
+        
+        LDA $9BDE, Y : STA $7E200C, X
+        EOR.w #$4000 : STA $7E200E, X
+        
+        TXA : CLC : ADC.w #$0080 : TAX
+        
+        INY #2
     DEC $0E : BNE .nextRow
     
     RTS
@@ -4579,7 +4436,7 @@ Object_AgahnimAltar:
 
 ; ==============================================================================
 
-; *$9EA3-$A094 JUMP LOCATION
+; $009EA3-$00A094 JUMP LOCATION
 Object_AgahnimRoomFrame:
 {
     LDA.w #$0006 : STA $0E
@@ -4590,14 +4447,13 @@ Object_AgahnimRoomFrame:
     
     .topEdgeLoop
     
-    LDA $9B52, Y : STA $7E220E, X : STA $7E221A, X : STA $7E2226, X
-    LDA $9B54, Y : STA $7E228E, X : STA $7E229A, X : STA $7E22A6, X
-    LDA $9B56, Y : STA $7E230E, X : STA $7E231A, X : STA $7E2326, X
-    LDA $9B58, Y : STA $7E238E, X : STA $7E239A, X : STA $7E23A6, X
-    
-    INY #8
-    INX #2
-    
+        LDA $9B52, Y : STA $7E220E, X : STA $7E221A, X : STA $7E2226, X
+        LDA $9B54, Y : STA $7E228E, X : STA $7E229A, X : STA $7E22A6, X
+        LDA $9B56, Y : STA $7E230E, X : STA $7E231A, X : STA $7E2326, X
+        LDA $9B58, Y : STA $7E238E, X : STA $7E239A, X : STA $7E23A6, X
+        
+        INY #8
+        INX #2
     DEC $0E : BNE .topEdgeLoop
     
     LDA.w #$0005 : STA $0E
@@ -4608,16 +4464,15 @@ Object_AgahnimRoomFrame:
     
     .diagonalsLoop
     
-    LDA $9B52, Y   : STA $7E2504, X : STA $7E2486, X : STA $7E2408, X
-    STA $7E238A, X : STA $7E230C, X : STA $7E228E, X : STA $7E2210, X
-    
-    ORA.w #$4000   : STA $7E222E, X : STA $7E22B0, X : STA $7E2332, X
-    STA $7E23B4, X : STA $7E2436, X : STA $7E24B8, X : STA $7E253A, X
-    
-    INY #2
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
+        LDA $9B52, Y   : STA $7E2504, X : STA $7E2486, X : STA $7E2408, X
+        STA $7E238A, X : STA $7E230C, X : STA $7E228E, X : STA $7E2210, X
+        
+        ORA.w #$4000   : STA $7E222E, X : STA $7E22B0, X : STA $7E2332, X
+        STA $7E23B4, X : STA $7E2436, X : STA $7E24B8, X : STA $7E253A, X
+        
+        INY #2
+        
+        TXA : CLC : ADC.w #$0080 : TAX
     DEC $0E : BNE .diagonalsLoop
     
     LDA.w #$0006 : STA $0E
@@ -4628,24 +4483,23 @@ Object_AgahnimRoomFrame:
     
     .sidesLoop
     
-    LDA $9B52, Y : STA $7E2584, X : STA $7E2884, X : STA $7E2B84, X
-    ORA.w #$4000 : STA $7E25BA, X : STA $7E28BA, X : STA $7E2BBA, X
-    
-    LDA $9B54, Y : STA $7E2586, X : STA $7E2886, X : STA $7E2B86, X
-    ORA.w #$4000 : STA $7E25B8, X : STA $7E28B8, X : STA $7E2BB8, X
-    
-    LDA $9B56, Y : STA $7E2588, X : STA $7E2888, X : STA $7E2B88, X
-    ORA.w #$4000 : STA $7E25B6, X : STA $7E28B6, X : STA $7E2BB6, X
-    
-    LDA $9B58, Y : STA $7E258A, X : STA $7E288A, X : STA $7E2B8A, X
-    ORA.w #$4000 : STA $7E25B4, X : STA $7E28B4, X : STA $7E2BB4, X
-    
-    INY #8
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
-    DEC $0E : BEQ .sidesLoopDone
-    
+        LDA $9B52, Y : STA $7E2584, X : STA $7E2884, X : STA $7E2B84, X
+        ORA.w #$4000 : STA $7E25BA, X : STA $7E28BA, X : STA $7E2BBA, X
+        
+        LDA $9B54, Y : STA $7E2586, X : STA $7E2886, X : STA $7E2B86, X
+        ORA.w #$4000 : STA $7E25B8, X : STA $7E28B8, X : STA $7E2BB8, X
+        
+        LDA $9B56, Y : STA $7E2588, X : STA $7E2888, X : STA $7E2B88, X
+        ORA.w #$4000 : STA $7E25B6, X : STA $7E28B6, X : STA $7E2BB6, X
+        
+        LDA $9B58, Y : STA $7E258A, X : STA $7E288A, X : STA $7E2B8A, X
+        ORA.w #$4000 : STA $7E25B4, X : STA $7E28B4, X : STA $7E2BB4, X
+        
+        INY #8
+        
+        TXA : CLC : ADC.w #$0080 : TAX
+        
+        DEC $0E : BEQ .sidesLoopDone
     JMP .sidesLoop
     
     .sidesLoopDone
@@ -4658,12 +4512,11 @@ Object_AgahnimRoomFrame:
     
     .horizLightLoop
     
-    LDA $9B52, Y : STA $7E2498, X : STA $7E24A4, X
-    LDA $9B5E, Y : STA $7E2518, X : STA $7E2524, X
-    
-    INY #2
-    INX #2
-    
+        LDA $9B52, Y : STA $7E2498, X : STA $7E24A4, X
+        LDA $9B5E, Y : STA $7E2518, X : STA $7E2524, X
+        
+        INY #2
+        INX #2
     DEC $0E : BNE .horizLightLoop
     
     LDA.w #$0006 : STA $0E
@@ -4674,13 +4527,12 @@ Object_AgahnimRoomFrame:
     
     .vertLightLoop
     
-    LDA $9B52, Y : STA $7E270E, X : STA $7E2A0E, X
-    LDA $9B54, Y : STA $7E2710, X : STA $7E2A10, X
-    
-    INY #4
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
+        LDA $9B52, Y : STA $7E270E, X : STA $7E2A0E, X
+        LDA $9B54, Y : STA $7E2710, X : STA $7E2A10, X
+        
+        INY #4
+        
+        TXA : CLC : ADC.w #$0080 : TAX
     DEC $0E : BNE .vertLightLoop
     
     LDA.w #$0005 : STA $0E
@@ -4691,16 +4543,15 @@ Object_AgahnimRoomFrame:
     
     .draw5x5_LightLoop
     
-    LDA $9B52, Y : STA $7E248E, X
-    LDA $9B54, Y : STA $7E250E, X
-    LDA $9B56, Y : STA $7E258E, X
-    LDA $9B58, Y : STA $7E260E, X
-    LDA $9B5A, Y : STA $7E268E, X
-    
-    TYA : CLC : ADC.w #$000A : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E248E, X
+        LDA $9B54, Y : STA $7E250E, X
+        LDA $9B56, Y : STA $7E258E, X
+        LDA $9B58, Y : STA $7E260E, X
+        LDA $9B5A, Y : STA $7E268E, X
+        
+        TYA : CLC : ADC.w #$000A : TAY
+        
+        INX #2
     DEC $0E : BNE .draw5x5_LightLoop
     
     LDA.w #$0004 : STA $0E
@@ -4709,11 +4560,10 @@ Object_AgahnimRoomFrame:
     
     .addPriorityLoop
     
-    LDA $7E2E1C, X : ORA.w #$2000 : STA $7E2E1C, X
-    LDA $7E2E9C, X : ORA.w #$2000 : STA $7E2E9C, X
-    
-    INX #2
-    
+        LDA $7E2E1C, X : ORA.w #$2000 : STA $7E2E1C, X
+        LDA $7E2E9C, X : ORA.w #$2000 : STA $7E2E9C, X
+        
+        INX #2
     DEC $0E : BNE .addPriorityLoop
     
     RTS
@@ -4721,7 +4571,7 @@ Object_AgahnimRoomFrame:
 
 ; ==============================================================================
 
-; *$A095-$A193 JUMP LOCATION
+; $00A095-$00A193 JUMP LOCATION
 Object_FortuneTellerTemplate:
 {
     LDA.w #$0006 : STA $0E
@@ -4732,13 +4582,12 @@ Object_FortuneTellerTemplate:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2002, X : STA $7E2004, X : STA $7E2082, X : STA $7E2084, X
-    
-    LDA $9B54, Y : STA $7E2102, X
-    ORA.w #$4000 : STA $7E2104, X
-    
-    INX #4
-    
+        LDA $9B52, Y : STA $7E2002, X : STA $7E2004, X : STA $7E2082, X : STA $7E2084, X
+        
+        LDA $9B54, Y : STA $7E2102, X
+        ORA.w #$4000 : STA $7E2104, X
+        
+        INX #4
     DEC $0E : BNE .nextColumn
     
     LDA.w #$0003 : STA $0E
@@ -4747,16 +4596,15 @@ Object_FortuneTellerTemplate:
     
     .nextRow
     
-    LDA $9B56, Y : STA $7E2180, X : STA $7E2184, X : STA $7E2194, X : STA $7E2198, X
-    ORA.w #$4000 : STA $7E2182, X : STA $7E2186, X : STA $7E2196, X : STA $7E219A, X
-    
-    LDA $9B5C, Y : STA $7E2188, X : STA $7E218C, X : STA $7E2190, X
-    ORA.w #$4000 : STA $7E218A, X : STA $7E218E, X : STA $7E2192, X
-    
-    INY #2
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
+        LDA $9B56, Y : STA $7E2180, X : STA $7E2184, X : STA $7E2194, X : STA $7E2198, X
+        ORA.w #$4000 : STA $7E2182, X : STA $7E2186, X : STA $7E2196, X : STA $7E219A, X
+        
+        LDA $9B5C, Y : STA $7E2188, X : STA $7E218C, X : STA $7E2190, X
+        ORA.w #$4000 : STA $7E218A, X : STA $7E218E, X : STA $7E2192, X
+        
+        INY #2
+        
+        TXA : CLC : ADC.w #$0080 : TAX
     DEC $0E : BNE .nextRow
     
     LDX $08
@@ -4775,22 +4623,21 @@ Object_FortuneTellerTemplate:
     
     .nextRow2
     
-    LDA $9B66, Y : STA $7E2506, X
-    EOR.w #$4000 : STA $7E2514, X
-    
-    LDA $9B6E, Y : STA $7E2508, X
-    EOR.w #$4000 : STA $7E2512, X
-    
-    LDA $9B76, Y : STA $7E250A, X
-    EOR.w #$4000 : STA $7E2510, X
-    
-    LDA $9B7E, Y : STA $7E250C, X
-    EOR.w #$4000 : STA $7E250E, X
-    
-    INY #2
-    
-    TXA : CLC : ADC.w #$0080 : TAX
-    
+        LDA $9B66, Y : STA $7E2506, X
+        EOR.w #$4000 : STA $7E2514, X
+        
+        LDA $9B6E, Y : STA $7E2508, X
+        EOR.w #$4000 : STA $7E2512, X
+        
+        LDA $9B76, Y : STA $7E250A, X
+        EOR.w #$4000 : STA $7E2510, X
+        
+        LDA $9B7E, Y : STA $7E250C, X
+        EOR.w #$4000 : STA $7E250E, X
+        
+        INY #2
+        
+        TXA : CLC : ADC.w #$0080 : TAX
     DEC $0E : BNE .nextRow2
     
     RTS
@@ -4798,7 +4645,7 @@ Object_FortuneTellerTemplate:
 
 ; ==============================================================================
 
-; *$A194-$A1D0 JUMP LOCATION
+; $00A194-$00A1D0 JUMP LOCATION
 {
     LDA.w #$0003 : STA $0E
     
@@ -4808,12 +4655,11 @@ Object_FortuneTellerTemplate:
     
     .nextRow
     
-    LDA $9B58, X : STA [$CB], Y
-    LDA $9B5A, X : STA [$CE], Y
-    LDA $9B5C, X : STA [$D1], Y
-    
-    TYA : CLC : ADC.w #$0080 : TAY
-    
+        LDA $9B58, X : STA [$CB], Y
+        LDA $9B5A, X : STA [$CE], Y
+        LDA $9B5C, X : STA [$D1], Y
+        
+        TYA : CLC : ADC.w #$0080 : TAY
     DEC $0E : BNE .nextRow
     
     LDA $9B5E, X : STA [$CB], Y
@@ -4825,7 +4671,7 @@ Object_FortuneTellerTemplate:
 
 ; ==============================================================================
 
-; *$A1D1-$A254 JUMP LOCATION
+; $00A1D1-$00A254 JUMP LOCATION
 {
     LDY.w #$20F6
     
@@ -4836,22 +4682,21 @@ Object_FortuneTellerTemplate:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E4000, X
-    LDA $9B54, Y : STA $7E4080, X
-    LDA $9B56, Y : STA $7E4100, X
-    LDA $9B58, Y : STA $7E4180, X
-    LDA $9B5A, Y : STA $7E4200, X
-    LDA $9B5C, Y : STA $7E4280, X
-    LDA $9B5E, Y : STA $7E4300, X
-    LDA $9B60, Y : STA $7E4380, X
-    LDA $9B62, Y : STA $7E4400, X
-    LDA $9B64, Y : STA $7E4480, X
-    LDA $9B66, Y : STA $7E4500, X
-    
-    TYA : CLC : ADC.w #$0016 : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E4000, X
+        LDA $9B54, Y : STA $7E4080, X
+        LDA $9B56, Y : STA $7E4100, X
+        LDA $9B58, Y : STA $7E4180, X
+        LDA $9B5A, Y : STA $7E4200, X
+        LDA $9B5C, Y : STA $7E4280, X
+        LDA $9B5E, Y : STA $7E4300, X
+        LDA $9B60, Y : STA $7E4380, X
+        LDA $9B62, Y : STA $7E4400, X
+        LDA $9B64, Y : STA $7E4480, X
+        LDA $9B66, Y : STA $7E4500, X
+        
+        TYA : CLC : ADC.w #$0016 : TAY
+        
+        INX #2
     DEC $0E : BNE .nextColumn
     
     LDY.w #$22DA
@@ -4862,12 +4707,11 @@ Object_FortuneTellerTemplate:
     
     .nextColumn2
     
-    LDA $9B52, Y : STA $7E4592, X
-    LDA $9B58, Y : STA $7E4612, X
-    
-    INY #2
-    INX #2
-    
+        LDA $9B52, Y : STA $7E4592, X
+        LDA $9B58, Y : STA $7E4612, X
+        
+        INY #2
+        INX #2
     DEC $0E : BNE .nextColumn2
     
     RTS
@@ -4875,7 +4719,7 @@ Object_FortuneTellerTemplate:
 
 ; ==============================================================================
 
-; *$A255-$A25C JUMP LOCATION
+; $00A255-$00A25C JUMP LOCATION
 Object_EntireFloorIsPit:
 {
     STZ $0C
@@ -4887,7 +4731,7 @@ Object_EntireFloorIsPit:
 
 ; ==============================================================================
 
-; *$A25D-$A2C0 JUMP LOCATION
+; $00A25D-$00A2C0 JUMP LOCATION
 {
     ; In-floor in-room up-north staircase (1.2.0x30)
     
@@ -4901,7 +4745,7 @@ Object_EntireFloorIsPit:
     
     BRA .drawObject
     
-    ; *$A26D ALTERNATE ENTRY POINT
+    ; $00A26D ALTERNATE ENTRY POINT
     
     ; (1.2.0x31)
     
@@ -4926,15 +4770,14 @@ Object_EntireFloorIsPit:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
-    LDA $9B54, Y : STA $7E2080, X : STA $7E4080, X
-    LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
-    LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
+        LDA $9B54, Y : STA $7E2080, X : STA $7E4080, X
+        LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
+        LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
+        
+        TYA : CLC : ADC.w #$0008 : TAY
+        
+        INX #2
     DEC $0E : BNE .nextColumn
     
     RTS
@@ -4942,13 +4785,14 @@ Object_EntireFloorIsPit:
 
 ; ==============================================================================
 
-; *$A2C1-$A2DE BRANCH LOCATION
+; $00A2C1-$00A2DE BRANCH LOCATION
+_A2C1_: ; TODO: Get better name.
 {
     STZ $0414
     
     LDX.w #$10C8
     
-    ; *$A2C7 ALTERNATE ENTRY POINT
+    ; $00A2C7 ALTERNATE ENTRY POINT
     
     ; (1.2.0x32) inter-psuedo-bg north staircase
     
@@ -4969,17 +4813,16 @@ Object_EntireFloorIsPit:
     JMP Object_Draw4x4
 }
 
-; *$A2DF-$A30B JUMP LOCATION
+; $00A2DF-$00A30B JUMP LOCATION
 {
     ; (1.2.0x33)
     
     LDA $AF : AND.w #$00FF : CMP.w #$001B : BNE .notWaterTwin
+        LDA $A0 : ASL A : TAX
+        
+        LDA $7EF000, X : AND.w #$0100 : BEQ _A2C1_
     
-    LDA $A0 : ASL A : TAX
-    
-    LDA $7EF000, X : AND.w #$0100 : BEQ _A2C1_
-    
-    .notWaterTwins
+    .notWaterTwin
     
     LDX $0442
     
@@ -4995,7 +4838,7 @@ Object_EntireFloorIsPit:
     JMP Object_Draw4x4
 }
 
-; *$A30C-$A369 JUMP LOCATION
+; $00A30C-$00A369 JUMP LOCATION
 {
     ; In-room up-south staircase (1.3.0x1B)
     
@@ -5009,7 +4852,7 @@ Object_EntireFloorIsPit:
     
     BRA .drawObject
     
-    ; *$A31C ALTERNATE ENTRY POINT
+    ; $00A31C ALTERNATE ENTRY POINT
     
     ; In-room up-north staircase (1.3.0x1C)
     
@@ -5032,27 +4875,26 @@ Object_EntireFloorIsPit:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
-    LDA $9B54, Y : STA $7E2080, X : STA $7E4080, X
-    LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
-    LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
-    
-    TYA : CLC : ADC.w #$0008 : TAY
-    
-    INX #2
-    
+        LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
+        LDA $9B54, Y : STA $7E2080, X : STA $7E4080, X
+        LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
+        LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
+        
+        TYA : CLC : ADC.w #$0008 : TAY
+        
+        INX #2
     DEC $0E : BNE .nextColumn
     
     RTS
 }
 
-; *$A36A-$A37F BRANCH LOCATION
+; $00A36A-$00A37F BRANCH LOCATION
 {
     STZ $0414
     
     PLX
     
-    ; *$A36E ALTERNATE ENTRY POINT
+    ; $00A36E ALTERNATE ENTRY POINT
     
     ; In-room up-south staircase (1.3.0x1D)
     
@@ -5069,19 +4911,17 @@ Object_EntireFloorIsPit:
     JMP Object_Draw4x4
 }
 
-; *$A380-$A3AD JUMP LOCATION
+; $00A380-$00A3AD JUMP LOCATION
 {
     ; In room up-staircase (1.3.0x33)
     
     PHX
     
     LDA $AF : AND.w #$00FF : CMP.w #$001B : BNE .indoors
-    
-    LDA $A0 : ASL A : TAX
-    
-    LDA $7EF000, X : AND.w #$0100 : BEQ .BRANCH_$A36A
-    
-    LDA.w #$6202 : STA $99
+        LDA $A0 : ASL A : TAX
+        
+        LDA $7EF000, X : AND.w #$0100 : BEQ .BRANCH_$A36A
+            LDA.w #$6202 : STA $99
     
     .indoors
     
@@ -5096,7 +4936,7 @@ Object_EntireFloorIsPit:
     JMP Object_Draw4x4
 }
 
-; *$A3AE-$A41A JUMP LOCATION
+; $00A3AE-$00A41A JUMP LOCATION
 Object_InactiveWaterLadder:
 {
     ; Inactive ladders in the swamp palace
@@ -5127,7 +4967,7 @@ Object_InactiveWaterLadder:
     RTS
 }
 
-; *$A41B-$A457 JUMP LOCATION
+; $00A41B-$00A457 JUMP LOCATION
 {
     ; In-Floor up-north staircase
     ; (1.2.0x2D)
@@ -5160,7 +5000,7 @@ Object_InactiveWaterLadder:
     JMP Object_Draw4x4
 }
 
-; *$A458-$A485 JUMP LOCATION
+; $00A458-$00A485 JUMP LOCATION
 {
     ; In-floor inter-floor down-south staircase
     ; (1.2.0x2E)
@@ -5188,7 +5028,7 @@ Object_InactiveWaterLadder:
     JMP Object_Draw4x4
 }
 
-; *$A486-$A4B3 JUMP LOCATION
+; $00A486-$00A4B3 JUMP LOCATION
 {
     ; In-floor inter-room down-south staircase (use with hidden wall)
     ; (1.2.0x2F)
@@ -5216,7 +5056,7 @@ Object_InactiveWaterLadder:
     JMP Object_Draw4x4
 }
 
-; *$A4B4-$A5D1 JUMP LOCATION
+; $00A4B4-$00A5D1 JUMP LOCATION
 {
     ; Inter-room in-wall up-north spiral staircase
     ; (1.2.0x38)
@@ -5248,7 +5088,7 @@ Object_InactiveWaterLadder:
     
     BRA .drawLayer1Obj
     
-    ; *$A4F5 ALTERNATE ENTRY POINT
+    ; $00A4F5 ALTERNATE ENTRY POINT
     
     ; In-wall inter-room up-north spiral staircase (alternate)
     ; (1.2.0x3A) (note: this object is not actually used in the original game)
@@ -5278,7 +5118,7 @@ Object_InactiveWaterLadder:
     
     BRA .drawLayer2Obj
     
-    ; *$A533 ALTERNATE ENTRY POINT
+    ; $00A533 ALTERNATE ENTRY POINT
     
     ; (1.2.0x39) In-wall inter-floor down-north spiral staircase
     
@@ -5319,7 +5159,7 @@ Object_InactiveWaterLadder:
     
     RTS
     
-    ; *$A584 ALTERNATE ENTRY POINT
+    ; $00A584 ALTERNATE ENTRY POINT
     
     ; In-wall inter-room down-north spiral staircase
     ; (1.2.0x3B)
@@ -5358,7 +5198,7 @@ Object_InactiveWaterLadder:
     RTS
 }
 
-; *$A5D2-$A663 JUMP LOCATION
+; $00A5D2-$00A663 JUMP LOCATION
 {
     ; Wall up-north staircase (1.3.0x1E)
     ; Similar to 1.3.0x26 but only BG2
@@ -5381,7 +5221,7 @@ Object_InactiveWaterLadder:
     
     BRA .alpha
     
-    ; *$A5F4 ALTERNATE ENTRY POINT
+    ; $00A5F4 ALTERNATE ENTRY POINT
     
     ; In-wall inter-room down-north straight staircase (1.3.0x1F) (BG2 only)
     
@@ -5398,7 +5238,7 @@ Object_InactiveWaterLadder:
     
     BRA .alpha
     
-    ; *$A607 ALTERNATE ENTRY POINT
+    ; $00A607 ALTERNATE ENTRY POINT
     
     ; straight up south staircase (1.3.0x20)
     
@@ -5419,7 +5259,7 @@ Object_InactiveWaterLadder:
     
     BRA .alpha
     
-    ; *$A626 ALTERNATE ENTRY POINT
+    ; $00A626 ALTERNATE ENTRY POINT
     
     ; object (1.3.0x21)
     
@@ -5456,7 +5296,7 @@ Object_InactiveWaterLadder:
     RTS
 }
 
-; *$A664-$A71B JUMP LOCATION
+; $00A664-$00A71B JUMP LOCATION
 {
     ; Wall up-straight-staircase (1.3.0x26)
     ; Similar to 1.3.0x1E, but only BG1
@@ -5485,7 +5325,7 @@ Object_InactiveWaterLadder:
     
     BRA .draw
     
-    ; *$A695 ALTERNATE ENTRY POINT
+    ; $00A695 ALTERNATE ENTRY POINT
     
     ; (1.3.0x27) In-wall inter-room down-north straight staircase (BG1 only)
     
@@ -5529,7 +5369,7 @@ Object_InactiveWaterLadder:
     
     LDA $08 : SEC : SBC.w #$0200
     
-    ; *$A6EE ALTERNATE ENTRY POINT
+    ; $00A6EE ALTERNATE ENTRY POINT
     .increasePriority
     
     TAX
@@ -5542,7 +5382,7 @@ Object_InactiveWaterLadder:
     RTS
 }
 
-; *$A71C-$A7A2 JUMP LOCATION
+; $00A71C-$00A7A2 JUMP LOCATION
 {
     ; straight up south (1.3.0x28)
     
@@ -5569,7 +5409,7 @@ Object_InactiveWaterLadder:
     
     BRA .draw
     
-    ; *$A74A ALTERNATE ENTRY POINT
+    ; $00A74A ALTERNATE ENTRY POINT
     
     ; straight down south staircase (layer2?) (1.3.0x29)
     PHX
@@ -5613,7 +5453,7 @@ Object_InactiveWaterLadder:
     JMP $A6EE ; $A6EE IN ROM
 }
 
-; *$A7A3-$A7B5 JUMP LOCATION
+; $00A7A3-$00A7B5 JUMP LOCATION
 Object_Draw6x3:
 {
     LDA.w #$0003
@@ -5629,7 +5469,7 @@ Object_Draw6x3:
 
 ; ==============================================================================
 
-; *$A7B6-$A7D2 JUMP LOCATION
+; $00A7B6-$00A7D2 JUMP LOCATION
 Object_Stacked4x4s:
 {
     JSR Object_Draw4x4
@@ -5649,7 +5489,7 @@ Object_Stacked4x4s:
 
 ; ==============================================================================
 
-; *$A7D3-$A7EF JUMP LOCATION
+; $00A7D3-$00A7EF JUMP LOCATION
 Object_BlindLight:
 Object_8x8:
 {
@@ -5659,7 +5499,7 @@ Object_8x8:
     ; nature / dispel the magic? Don't really know, but who cares?
     LDA $7EF0CA : AND.w #$0100 : BEQ .eventNotTriggered
     
-    ; *$A7DC ALTERNATE ENTRY POINT
+    ; $00A7DC ALTERNATE ENTRY POINT
     .draw
     
     ; Boss entrance doorways + symbol (and Blind light)
@@ -5678,7 +5518,7 @@ Object_8x8:
 
 ; ==============================================================================
 
-; *$A7F0-$A808 JUMP LOCATION
+; $00A7F0-$00A808 JUMP LOCATION
 Object_Triforce:
 {
     JSR Object_Draw4x4
@@ -5698,7 +5538,7 @@ Object_Triforce:
 
 ; ==============================================================================
 
-; *$A809-$A81B JUMP LOCATION
+; $00A809-$00A81B JUMP LOCATION
 Object_Draw10x20_With4x4:
 {
     LDA.w #$0005
@@ -5717,7 +5557,7 @@ Object_Draw10x20_With4x4:
     !door_position = $02
     !tilemap_pos   = $08
 
-; *$A81C-$A983 JUMP LOCATION
+; $00A81C-$00A983 JUMP LOCATION
 Door_Up:
 {
     ; Determine the position for the door from a table
@@ -5850,7 +5690,7 @@ Door_Up:
     
     DEC $0E : BNE .nextColumn
     
-    ; *$A8FA ALTERNATE ENTRY POINT
+    ; $00A8FA ALTERNATE ENTRY POINT
     .BRANCH_KAPPA
     
     LDX $0460
@@ -5865,7 +5705,7 @@ Door_Up:
     
     JMP $AD41 ; $AD41 IN ROM
     
-    ; *$A90F ALTERNATE ENTRY POINT
+    ; $00A90F ALTERNATE ENTRY POINT
     .BRANCH_PI
     
     ; Check the door's "Pos" or "location"
@@ -5943,7 +5783,7 @@ Door_Up:
 
 ; ==============================================================================
 
-; *$A984-$AAD6 JUMP LOCATION
+; $00A984-$00AAD6 JUMP LOCATION
 Door_Down:
 {
     ; get the position of the door
@@ -6042,7 +5882,7 @@ Door_Down:
     CMP.w #$000E : BEQ .caveExitDoor
     CMP.w #$0010 : BNE .notCaveExitDoor
     
-    ; *$AA2F ALTERNATE ENTRY POINT
+    ; $00AA2F ALTERNATE ENTRY POINT
     
     TYA : CLC : ADC.w #$0200
     
@@ -6082,7 +5922,7 @@ Door_Down:
     
     BRA .prioritizeLineOnBg2
     
-    ; *$AA66 ALTERNATE ENTRY POINT
+    ; $00AA66 ALTERNATE ENTRY POINT
     .notOtherCaveExitDoor
     
     CMP.w #$0002 : BNE .BRANCH_XI
@@ -6100,7 +5940,7 @@ Door_Down:
     JSR $AA80 ; $AA80 IN ROM
     JMP $A8FA ; $A8FA IN ROM
     
-    ; *$AA80 ALTERNATE ENTRY POINT
+    ; $00AA80 ALTERNATE ENTRY POINT
     .notWaterfallDoor
     .BRANCH_OMICRON; Default behavior
     
@@ -6155,7 +5995,7 @@ Door_Down:
 
 ; ==============================================================================
 
-; *$AAD7-$AB98 JUMP LOCATION
+; $00AAD7-$00AB98 JUMP LOCATION
 Door_Left:
 {
     ; get the position of the door
@@ -6204,7 +6044,7 @@ Door_Left:
     
     JMP $AE40 ; $AE40 IN ROM
     
-    ; *$AB1F ALTERNATE ENTRY POINT
+    ; $00AB1F ALTERNATE ENTRY POINT
     .BRANCH_EPSILON 
     ;Default behavior
     
@@ -6262,7 +6102,7 @@ Door_Left:
     
     LDA.w #$0003 : STA $0E
     
-    ; *$AB78 ALTERNATE ENTRY POINT
+    ; $00AB78 ALTERNATE ENTRY POINT
     .nextRow
     
     LDA $9B52, X : STA [$BF], Y
@@ -6283,7 +6123,7 @@ Door_Left:
 
 ; ==============================================================================
 
-; *$AB99-$AC3A JUMP LOCATION
+; $00AB99-$00AC3A JUMP LOCATION
 Door_Right:
 {
     ; Draws a door?
@@ -6319,7 +6159,7 @@ Door_Right:
     
     JMP $AEF0 ; $AEF0 IN ROM
     
-    ; *$ABC8 ALTERNATE ENTRY POINT
+    ; $00ABC8 ALTERNATE ENTRY POINT
     .BRANCH_THETA
     
     CMP.w #$0002 : BNE .BRANCH_ALPHA
@@ -6337,7 +6177,7 @@ Door_Right:
     JSR $ABE2 ; $ABE2 IN ROM
     JMP $A8FA ; $A8FA IN ROM
     
-    ; *$ABE2 ALTERNATE ENTRY POINT
+    ; $00ABE2 ALTERNATE ENTRY POINT
     ; Default behavior
     .BRANCH_BETA
     
@@ -6373,7 +6213,7 @@ Door_Right:
     
     LDA.w #$0003 : STA $0E
     
-    ; *$AC1A ALTERNATE ENTRY POINT
+    ; $00AC1A ALTERNATE ENTRY POINT
     .nextColumn
     
     LDA $9B52, X : STA [$BF], Y
@@ -6394,7 +6234,7 @@ Door_Right:
     
 ; ==============================================================================
 
-; *$AC3B-$AC5A JUMP LOCATION
+; $00AC3B-$00AC5A JUMP LOCATION
 Door_SwordActivated:
 {
     ; (Agahnim's curtain covered door and vines in Skull Palace).
@@ -6428,7 +6268,7 @@ Door_SwordActivated:
 
 ; ==============================================================================
 
-; $AC5B-$AC6F BRANCH LOCATION
+; $00AC5B-$00AC6F BRANCH LOCATION
 Door_UntouchedBlastWall:
 {
     LDX $0460
@@ -6444,7 +6284,7 @@ Door_UntouchedBlastWall:
 
 ; ==============================================================================
 
-; *$AC70-$AD40 JUMP LOCATION
+; $00AC70-$00AD40 JUMP LOCATION
 Door_BlastWall:
 {
     LDY $99DE, X : STY $08
@@ -6503,7 +6343,7 @@ Door_BlastWall:
     
     LDX $CD9E, Y
     
-    ; *$ACE4 ALTERNATE ENTRY POINT
+    ; $00ACE4 ALTERNATE ENTRY POINT
     
     LDA.w #$0012 : STA $B2
     
@@ -6539,7 +6379,7 @@ Door_BlastWall:
     
     INX #2
     
-    ; *$AD25 ALTERNATE ENTRY POINT
+    ; $00AD25 ALTERNATE ENTRY POINT
     
     LDA.w #$0006 : STA $0A
     
@@ -6559,7 +6399,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; *$AD41-$ADD3 JUMP LOCATION
+; $00AD41-$00ADD3 JUMP LOCATION
 {
     LDX $02 : CPX.w #$000C : BCC .BRANCH_ALPHA
     
@@ -6640,7 +6480,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; *$ADD4-$AE3F JUMP LOCATION
+; $00ADD4-$00AE3F JUMP LOCATION
 {
     ; Y = tilemap address
     
@@ -6702,7 +6542,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; *$AE40-$AEEF JUMP LOCATION
+; $00AE40-$00AEEF JUMP LOCATION
 {
     ; If position < 0x0C
     LDX $02 : CPX.w #$000C : BCC .BRANCH_ALPHA
@@ -6789,7 +6629,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; *$AEF0-$AF7E LOCAL
+; $00AEF0-$00AF7E LOCAL
 {
     ; Store the offset into the tile map here.
     STY $08
@@ -6856,7 +6696,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; *$AF7F-$AFC7 LOCAL
+; $00AF7F-$00AFC7 LOCAL
 {
     LDA.w #$0000
     
@@ -6864,7 +6704,7 @@ Door_BlastWall:
     
     LDA $08 : CLC : ADC.w #$0080
     
-    ; *$AF8B ALTERNATE ENTRY POINT
+    ; $00AF8B ALTERNATE ENTRY POINT
     
     STA $02
     
@@ -6886,7 +6726,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; *$AFC8-$B00C JUMP LOCATION
+; $00AFC8-$00B00C JUMP LOCATION
 Door_PrioritizeDownToQuadBoundary:
 {
     LDA.w #$0001
@@ -6895,7 +6735,7 @@ Door_PrioritizeDownToQuadBoundary:
     
     LDA $08 : CLC : ADC.w #$0100
     
-    ; *$AFD4 ALTERNATE ENTRY POINT
+    ; $00AFD4 ALTERNATE ENTRY POINT
     .varaible
     
     TAX
@@ -6916,7 +6756,7 @@ Door_PrioritizeDownToQuadBoundary:
 
 ; ==============================================================================
 
-; *$B00D-$B04F JUMP LOCATION
+; $00B00D-$00B04F JUMP LOCATION
 {
     LDA.w #$0002
     
@@ -6924,7 +6764,7 @@ Door_PrioritizeDownToQuadBoundary:
     
     LDA $08 : INC #2
     
-    ; *$B017 ALTERNATE ENTRY POINT
+    ; $00B017 ALTERNATE ENTRY POINT
     
     STA $02
     
@@ -6945,7 +6785,7 @@ Door_PrioritizeDownToQuadBoundary:
 
 ; ==============================================================================
 
-; $B050-$B091 LOCAL
+; $00B050-$00B091 LOCAL
 {
     LDA.w #$0003
     
@@ -6953,7 +6793,7 @@ Door_PrioritizeDownToQuadBoundary:
     
     LDA $08 : CLC : ADC.w #$0004
     
-    ; *$B05C ALTERNATE ENTRY POINT
+    ; $00B05C ALTERNATE ENTRY POINT
     
     TAX
     
@@ -6974,7 +6814,7 @@ Door_PrioritizeDownToQuadBoundary:
 
 ; ==============================================================================
 
-; *$B092-$B09E JUMP LOCATION
+; $00B092-$00B09E JUMP LOCATION
 Door_AddPalaceToggleProperty:
 {
     LDX $0450
@@ -6988,7 +6828,7 @@ Door_AddPalaceToggleProperty:
 
 ; ==============================================================================
 
-; *$B09F-$B0AB JUMP LOCATION
+; $00B09F-$00B0AB JUMP LOCATION
 Door_AddFloorToggleProperty:
 {
     LDX $044E
@@ -7002,7 +6842,7 @@ Door_AddFloorToggleProperty:
 
 ; ==============================================================================
 
-; *$B0AC-$B0BD LOCAL
+; $00B0AC-$00B0BD LOCAL
 Object_Size1to16:
 {
     ; used by objects needing variable width or height ranging from 0x01 to 0x10
@@ -7011,7 +6851,7 @@ Object_Size1to16:
     ; Segues into the next routine (Object_Size_N_to_N_plus15)
 }
     
-    ; *$B0AF ALTERNATE ENTRY POINT
+    ; $00B0AF ALTERNATE ENTRY POINT
 Object_Size_N_to_N_plus_15:
 {
     ; alternate entry point for objects needing varaible width or height ranging
@@ -7028,7 +6868,7 @@ Object_Size_N_to_N_plus_15:
 
 ; ==============================================================================
 
-; *$B0BE-$B0CB JUMP LOCATION
+; $00B0BE-$00B0CB JUMP LOCATION
 Object_Size_1_to_15_or_26:
 {
     ; used by objects needing variable width or height ranging from 0x01 to 0x0F
@@ -7046,7 +6886,7 @@ Object_Size_1_to_15_or_26:
 
 ; ==============================================================================
 
-; *$B0CC-$B0D9 LOCAL
+; $00B0CC-$00B0D9 LOCAL
 Object_Size_1_to_15_or_32:
 {
     ; used by objects needing variable width or height ranging from 0x01 to 0x0F
@@ -7064,7 +6904,7 @@ Object_Size_1_to_15_or_32:
 
 ; ==============================================================================
 
-; *$B0DA-$B190 LOCAL
+; $00B0DA-$00B190 LOCAL
 Door_Register:
 {
     ; A represents the direction (0 - up, 1 - down, 2, 3 - left, 4 -right)
@@ -7171,7 +7011,7 @@ Door_Register:
 
 ; ==============================================================================
 
-; *$B191-$B19D LOCAL
+; $00B191-$00B19D LOCAL
 {
     STA $0E
     
@@ -7186,7 +7026,7 @@ Door_Register:
 ; ==============================================================================
 
     ; \unused
-; $B19E-$B1A3 LOCAL
+; $00B19E-$00B1A3 LOCAL
 Door_Prioritize7x4_Unreferenced:
 {
     ; Unreferenced routine (And this doesn't do anything different from
@@ -7201,7 +7041,7 @@ Door_Prioritize7x4_Unreferenced:
 
 ; ==============================================================================
 
-; *$B1A4-$B1E0 LOCAL
+; $00B1A4-$00B1E0 LOCAL
 Door_Prioritize7x4:
 {
     ; adds priority bit to a 7 row by 4 column region of tiles 
@@ -7230,7 +7070,7 @@ Door_Prioritize7x4:
 ; ==============================================================================
 
     ; \unused
-; $B1E1-$B1E6 LOCAL
+; $00B1E1-$00B1E6 LOCAL
 Door_Prioritize4x7:
 {
     TAX
@@ -7242,7 +7082,7 @@ Door_Prioritize4x7:
 
 ; ==============================================================================
 
-; *$B1E7-$B21F LOCAL
+; $00B1E7-$00B21F LOCAL
 Door_Prioritize4x5:
 {
     ; adds priority bit to a 4 row by 5 column region of tiles
@@ -7270,7 +7110,7 @@ Door_Prioritize4x5:
 
 ; ==============================================================================
 
-; *$B220-$B253 JUMP LOCATION
+; $00B220-$00B253 JUMP LOCATION
 Object_Draw2x4s_VariableOffset:
 {
     STA $0E
@@ -7295,8 +7135,8 @@ Object_Draw2x4s_VariableOffset:
 
 ; ==============================================================================
 
-    ; \unused
-; $B254-$B263 LOCAL
+; \unused
+; $00B254-$00B263 LOCAL
 {
     STA $0E
     
@@ -7313,8 +7153,8 @@ Object_Draw2x4s_VariableOffset:
 
 ; ==============================================================================
 
-    ; \unused
-; $B264-$B278 LOCAL
+; \unused
+; $00B264-$00B278 LOCAL
 {
     LDA $B2 : BEQ .terminated
     
@@ -7335,7 +7175,7 @@ Object_Draw2x4s_VariableOffset:
 
 ; ==============================================================================
 
-; *$B279-$B292 LOCAL
+; $00B279-$00B292 LOCAL
 Object_Draw5x1:
 {
     LDA $9B52, X : STA [$BF], Y
@@ -7349,7 +7189,7 @@ Object_Draw5x1:
 
 ; ==============================================================================
 
-; *$B293-$B2AE BLOCK
+; $00B293-$00B2AE BLOCK
 {
     .BRANCH_ALPHA
     
@@ -7357,7 +7197,7 @@ Object_Draw5x1:
     
     TYA : CLC : ADC.w #$0082 : TAY
     
-    ; *$B29C ALTERNATE ENTRY POINT
+    ; $00B29C ALTERNATE ENTRY POINT
     
     DEC $B2 : BNE .BRANCH_ALPHA
     
@@ -7369,7 +7209,7 @@ Object_Draw5x1:
     
     TYA : SEC : SBC.w #$007E : TAY
     
-    ; *$B2AA ALTERNATE ENTRY POINT
+    ; $00B2AA ALTERNATE ENTRY POINT
     
     DEC $B2 : BNE .BRANCH_BETA
     
@@ -7378,7 +7218,7 @@ Object_Draw5x1:
 
 ; ==============================================================================
 
-; *$B2AF-$B2C9 LOCAL
+; $00B2AF-$00B2C9 LOCAL
 Object_Draw2x2_AdvanceDown:
 {
     LDA $9B52, X : STA [$BF], Y
@@ -7393,16 +7233,16 @@ Object_Draw2x2_AdvanceDown:
 
 ; ==============================================================================
 
-; *$B2CA-$B2E0 LOCAL
+; $00B2CA-$00B2E0 LOCAL
 {
     INX #2
     INY #2
     
-    ; *$B2CE ALTERNATE ENTRY POINT
+    ; $00B2CE ALTERNATE ENTRY POINT
     
     LDA $B2
     
-    ; *$B2D0 ALTERNATE ENTRY POINT
+    ; $00B2D0 ALTERNATE ENTRY POINT
     
     STA $0A
     
@@ -7425,7 +7265,7 @@ Object_Draw2x2_AdvanceDown:
 
 ; ==============================================================================
 
-; *$B2E1-$B2F5 JUMP LOCATION
+; $00B2E1-$00B2F5 JUMP LOCATION
 Object_Draw4x1:
 {
     LDA $9B52, X : STA [$BF], Y
@@ -7438,7 +7278,7 @@ Object_Draw4x1:
 
 ; ==============================================================================
 
-; *$B2F6-$B305 JUMP LOCATION
+; $00B2F6-$00B305 JUMP LOCATION
 Object_Draw3x1:
 {
     LDA $9B52, X : STA [$BF], Y
@@ -7450,7 +7290,7 @@ Object_Draw3x1:
 
 ; ==============================================================================
 
-; *$B306-$B30A JUMP LOCATION
+; $00B306-$00B30A JUMP LOCATION
 {
     ; Strange pot I don't recognize...
     ; Although the graphics don't display correctly, this
@@ -7464,7 +7304,7 @@ Object_Draw3x1:
 
 ; ==============================================================================
 
-; *$B30B-$B30F ALTERNATE ENTRY POINT
+; $00B30B-$00B30F ALTERNATE ENTRY POINT
     ; Some other liftable object. graphics are messed up
 {
     LDA.w #$1212
@@ -7474,7 +7314,7 @@ Object_Draw3x1:
 
 ; ==============================================================================
 
-; *$B310-$B375 ALTERNATE ENTRY POINT
+; $00B310-$00B375 ALTERNATE ENTRY POINT
 Object_LargeLiftableBlock:
 {
     ; Large liftable blocks in dungeons (requires powerglove)
@@ -7534,7 +7374,7 @@ Object_LargeLiftableBlock:
 
 ; ==============================================================================
 
-; *$B376-$B380 JUMP LOCATION
+; $00B376-$00B380 JUMP LOCATION
 {
     ; Horizontal row of pots or skulls (doesn't seem to be used though)
     
@@ -7551,7 +7391,7 @@ Object_LargeLiftableBlock:
 
 ; ==============================================================================
 
-; *$B381-$B394 JUMP LOCATION
+; $00B381-$00B394 JUMP LOCATION
 {
     ; Vertical row of pots (also seems unused :\)
     
@@ -7572,7 +7412,7 @@ Object_LargeLiftableBlock:
 
 ; ==============================================================================
 
-; *$B395-$B3E0 JUMP LOCATION
+; $00B395-$00B3E0 JUMP LOCATION
 Object_Pot:
 {
     ; Normal pots / skull pots
@@ -7615,7 +7455,7 @@ Object_Pot:
 
 ; ==============================================================================
 
-; *$B3E1-$B473 JUMP LOCATION
+; $00B3E1-$00B473 JUMP LOCATION
 Object_BombableFloor:
 {
     ; Bombable Cracked floor object
@@ -7705,7 +7545,7 @@ Object_BombableFloor:
 
 ; ==============================================================================
 
-; *$B474-$B47E JUMP LOCATION
+; $00B474-$00B47E JUMP LOCATION
 {
     ; horizontal line of moles (1.1.0xBD)
     
@@ -7722,7 +7562,7 @@ Object_BombableFloor:
 
 ; ==============================================================================
 
-; *$B47F-$B492 JUMP LOCATION
+; $00B47F-$00B492 JUMP LOCATION
 {
     ; vertical line of moles (1.1.96)
     JSR Object_Size1to16
@@ -7742,7 +7582,7 @@ Object_BombableFloor:
 
 ; ==============================================================================
 
-; *$B493-$B4D5 LOCAL
+; $00B493-$00B4D5 LOCAL
 Object_Mole:
 {
     ; Single Mole (1.3.0x16)
@@ -7777,7 +7617,7 @@ Object_Mole:
 
 ; ==============================================================================
 
-; *$B4D6-$B508 LOCAL
+; $00B4D6-$00B508 LOCAL
 Dungeon_LoadBlock:
 {
     ; moveable block object
@@ -7804,7 +7644,7 @@ Dungeon_LoadBlock:
 
 ; ==============================================================================
 
-; *$B509-$B53B LOCAL
+; $00B509-$00B53B LOCAL
 Dungeon_LoadTorch:
 {
     ; Load special lightable torch objects
@@ -7846,11 +7686,11 @@ Dungeon_LoadTorch:
 
 ; ==============================================================================
 
-; $B53C - $B55F NULL (use for expansion)
+; $00B53C-$00B55F NULL (use for expansion)
 
 ; ==============================================================================
 
-; $B560-$B563 DATA
+; $00B560-$00B563 DATA
 DungeonHeader_SpecialAdjustment:
 {
     ; First value is for entering a room facing, right, the second
@@ -7862,7 +7702,7 @@ DungeonHeader_SpecialAdjustment:
 
 ; ==============================================================================
 
-; *$B564-$B758 LOCAL
+; $00B564-$00B758 LOCAL
 Dungeon_LoadHeader:
 {
     STZ $0642
@@ -8116,7 +7956,7 @@ Dungeon_LoadHeader:
 
 ; ==============================================================================
 
-; *$B759-$B7EE LOCAL
+; $00B759-$00B7EE LOCAL
 Dungeon_CheckAdjacentRoomOpenedDoors:
 {
     ; ARGUMENTS: A -> $04 and X -> $0E
@@ -8197,7 +8037,7 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
 
 ; ==============================================================================
 
-; *$B7EF-$B83D LOCAL
+; $00B7EF-$00B83D LOCAL
 Dungeon_LoadAdjacentRoomDoors:
 {
     STX $0E
@@ -8243,7 +8083,7 @@ Dungeon_LoadAdjacentRoomDoors:
 
 ; ==============================================================================
 
-; *$B83E-$B8A7 LONG
+; $00B83E-$00B8A7 LONG
 Dungeon_ApplyOverlay:
 {
     REP #$30
@@ -8320,7 +8160,7 @@ Dungeon_ApplyOverlay:
 
 ; ==============================================================================
 
-; $B8A8-$B8B3 Jump Table
+; $00B8A8-$00B8B3 Jump Table
 Dungeon_LoadAttrSelectable_jumpTable:
 {
     dw Dungeon_LoadBasicAttr
@@ -8333,7 +8173,7 @@ Dungeon_LoadAttrSelectable_jumpTable:
 
 ; ==============================================================================
 
-; *$B8B4-$B8BE LONG
+; $00B8B4-$00B8BE LONG
 Dungeon_LoadAttrSelectable:
 {
     LDA $0200 : ASL A : TAX
@@ -8353,7 +8193,7 @@ Dungeon_LoadAttrSelectable:
     !tileOffset    = $B2
     !attrOffset    = $B4
 
-; *$B8BF-$B8E2 LONG
+; $00B8BF-$00B8E2 LONG
 Dungeon_LoadAttrTable:
 {
     REP #$20
@@ -8383,7 +8223,7 @@ Dungeon_LoadAttrTable:
 
 ; ==============================================================================
 
-; *$B8E3-$B966 JUMP LOCATION
+; $00B8E3-$00B966 JUMP LOCATION
 Dungeon_LoadBasicAttr:
 {
     .transition
@@ -8399,14 +8239,14 @@ Dungeon_LoadBasicAttr:
     STZ !tileOffset
     STZ !attrOffset
     
-    ; *$B8EC ALTERNATE ENTRY POINT
+    ; $00B8EC ALTERNATE ENTRY POINT
     .partial
     
     REP #$20
     
     LDA.w #$0040 : STA !numTiles
     
-    ; *$B8F3 ALTERNATE ENTRY POINT
+    ; $00B8F3 ALTERNATE ENTRY POINT
     .full
     
     PHB : LDX.w #$7E : PHX : PLB
@@ -8485,7 +8325,7 @@ Dungeon_LoadBasicAttr:
 
 ; ==============================================================================
 
-; *$B967-$BDDA LOCAL
+; $00B967-$00BDDA LOCAL
 Dungeon_LoadObjAttr:
 {
     REP #$30
@@ -8941,7 +8781,7 @@ Dungeon_LoadObjAttr:
 
 ; ==============================================================================
 
-; *$BDDB-$BE16 LOCAL
+; $00BDDB-$00BE16 LOCAL
 Dungeon_SetChestAttr:
 {
     ; This routine loads tile attribute information for chests and big chests
@@ -8975,7 +8815,7 @@ Dungeon_SetChestAttr:
 
 ; ==============================================================================
 
-; *$BE17-$BE34 LOCAL
+; $00BE17-$00BE34 LOCAL
 Dungeon_LoadDoorAttr:
 {
     REP #$30
@@ -9004,7 +8844,7 @@ Dungeon_LoadDoorAttr:
 
 ; ==============================================================================
 
-; *$BE35-$BFB1 LOCAL
+; $00BE35-$00BFB1 LOCAL
 Dungeon_LoadSingleDoorAttr:
 {
     ; Low byte is the object type.
@@ -9174,7 +9014,7 @@ Dungeon_LoadSingleDoorAttr:
 
 ; ==============================================================================
 
-; *$BFB2-$BFB2 JUMP LOCATION
+; $00BFB2-$00BFB2 JUMP LOCATION
 Door_LoadBlastWallAttrStub:
 {
     ; This is handled somewhere else because a blast
@@ -9185,7 +9025,7 @@ Door_LoadBlastWallAttrStub:
 ; ==============================================================================
 
     ; \unused
-; *$BFB3-$BFC0 JUMP LOCATION
+; $00BFB3-$00BFC0 JUMP LOCATION
 {
     TYA : AND.W #$000F : TAX
     
@@ -9200,7 +9040,7 @@ Door_LoadBlastWallAttrStub:
 
 ; ==============================================================================
 
-; *$BFC1-$C084 LOCAL
+; $00BFC1-$00C084 LOCAL
 Door_LoadBlastWallAttr:
 {
     LDA $19C0, Y : AND.w #$0002 : BNE .leftOrRightDoor
@@ -9259,7 +9099,7 @@ Door_LoadBlastWallAttr:
 
 ; ==============================================================================
 
-; *$C085-$C1B9 JUMP LOCATION
+; $00C085-$00C1B9 JUMP LOCATION
 {
     CMP.w #$0040 : BEQ .alpha
     CMP.w #$0046 : BEQ .alpha
@@ -9284,7 +9124,7 @@ Door_LoadBlastWallAttr:
     
     RTS
     
-    ; *$C0B8 ALTERNATE ENTRY POINT
+    ; $00C0B8 ALTERNATE ENTRY POINT
     .alpha
     
     ; Load the door type
@@ -9366,7 +9206,7 @@ Door_LoadBlastWallAttr:
 
 ; ==============================================================================
 
-; *$C1BA-$C21B LOCAL
+; $00C1BA-$00C21B LOCAL
 {
     ; The code in here seems experimental, and I don't think the object
     ; that would use this is even used the actual game anywhere.
@@ -9419,7 +9259,7 @@ Door_LoadBlastWallAttr:
 
 ; ==============================================================================
 
-; *$C21C-$C229 JUMP LOCATION
+; $00C21C-$00C229 JUMP LOCATION
 Dungeon_InitBarrierAttr:
 {
     ; Initializes the tile attributes for the orange/blue barrier tiles
@@ -9439,7 +9279,7 @@ Dungeon_InitBarrierAttr:
 
 ; ==============================================================================
 
-; *$C22A-$C27C LONG
+; $00C22A-$00C27C LONG
 Dungeon_ToggleBarrierAttr:
 {
     REP #$10
@@ -9501,87 +9341,87 @@ Dungeon_ToggleBarrierAttr:
 
 ; ==============================================================================
 
-; $C27D-$C2FC JUMP TABLE
+; $00C27D-$00C2FC JUMP TABLE
 Dungeon_TagRoutines:
 {
     ; Tag routines
     
-    dw $C328 ; = $C328* ; routine 0x00 (RTS)
-    dw $C432 ; = $C432* ; routine 0x01 "NW kill enemy to open"
-    dw $C438 ; = $C438* ; routine 0x02 "NE kill enemy to open"
-    dw $C43E ; = $C43E* ; routine 0x03 "SW kill enemy to open"
-    dw $C444 ; = $C444* ; routine 0x04 "SE kill enemy to open"
-    dw $C44A ; = $C44A* ; routine 0x05 "W kill enemy to open"
-    dw $C450 ; = $C450* ; routine 0x06 "E kill enemy to open"
-    dw $C456 ; = $C456* ; routine 0x07 "N kill enemy to open"
+    dw $C328 ; = $00C328 ; routine 0x00 (RTS)
+    dw $C432 ; = $00C432 ; routine 0x01 "NW kill enemy to open"
+    dw $C438 ; = $00C438 ; routine 0x02 "NE kill enemy to open"
+    dw $C43E ; = $00C43E ; routine 0x03 "SW kill enemy to open"
+    dw $C444 ; = $00C444 ; routine 0x04 "SE kill enemy to open"
+    dw $C44A ; = $00C44A ; routine 0x05 "W kill enemy to open"
+    dw $C450 ; = $00C450 ; routine 0x06 "E kill enemy to open"
+    dw $C456 ; = $00C456 ; routine 0x07 "N kill enemy to open"
     
-    dw $C45C ; = $C45C* ; routine 0x08 "S kill enemy to open"
-    dw $C461 ; = $C461* ; routine 0x09 "clear quadrant to open"
-    dw $C4BF ; = $C4BF* ; routine 0x0A "clear room to open"
-    dw $C432 ; = $C432* ; routine 0x0B "NW move block to open"
-    dw $C438 ; = $C438* ; routine 0x0C "NE move block to open"
-    dw $C43E ; = $C43E* ; routine 0x0D "SW move block to open"
-    dw $C444 ; = $C444* ; routine 0x0E "SE move block to open"
-    dw $C44A ; = $C44A* ; routine 0x0F "W move block to open"
+    dw $C45C ; = $00C45C ; routine 0x08 "S kill enemy to open"
+    dw $C461 ; = $00C461 ; routine 0x09 "clear quadrant to open"
+    dw $C4BF ; = $00C4BF ; routine 0x0A "clear room to open"
+    dw $C432 ; = $00C432 ; routine 0x0B "NW move block to open"
+    dw $C438 ; = $00C438 ; routine 0x0C "NE move block to open"
+    dw $C43E ; = $00C43E ; routine 0x0D "SW move block to open"
+    dw $C444 ; = $00C444 ; routine 0x0E "SE move block to open"
+    dw $C44A ; = $00C44A ; routine 0x0F "W move block to open"
     
-    dw $C450 ; = $C450* ; routine 0x10 "E move block to open"
-    dw $C456 ; = $C456* ; routine 0x11 "N move block to open"
-    dw $C45C ; = $C45C* ; routine 0x12 "S move block to open"
-    dw $C461 ; = $C461* ; routien 0x13 "move block to open"
-    dw $C4E7 ; = $C4E7* ; routine 0x14 "pull lever to Open"
-    dw $C508 ; = $C508* ; routine 0x15 "clear level to open door"
-    dw $C541 ; = $C541* ; routine 0x16 "switch opens doors (hold)"
-    dw $C599 ; = $C599* ; routine 0x17 "switch opens doors (toggle)"
+    dw $C450 ; = $00C450 ; routine 0x10 "E move block to open"
+    dw $C456 ; = $00C456 ; routine 0x11 "N move block to open"
+    dw $C45C ; = $00C45C ; routine 0x12 "S move block to open"
+    dw $C461 ; = $00C461 ; routien 0x13 "move block to open"
+    dw $C4E7 ; = $00C4E7 ; routine 0x14 "pull lever to Open"
+    dw $C508 ; = $00C508 ; routine 0x15 "clear level to open door"
+    dw $C541 ; = $00C541 ; routine 0x16 "switch opens doors (hold)"
+    dw $C599 ; = $00C599 ; routine 0x17 "switch opens doors (toggle)"
     
-    dw $CA94 ; = $CA94* ; routine 0x18 (turn off water)
+    dw $CA94 ; = $00CA94 ; routine 0x18 (turn off water)
     dw Tag_TurnOnWater ; routine 0x19 (turn on water)
     dw Tag_Watergate   ; routine 0x1A (watergate room)
-    dw $CBFF ; = $CBFF* ; (RTS) (water twin)
-    dw $C8D4 ; = $C8D4* ; routine 0x1C Secret Wall (Right)
-    dw $C98B ; = $C98B* ; routine 0x1D Secret Wall (Left)
-    dw $CA17 ; = $CA17* ; routine 0x1E "Crash"
-    dw $CA17 ; = $CA17* ; routine 0x1F "Crash"
+    dw $CBFF ; = $00CBFF ; (RTS) (water twin)
+    dw $C8D4 ; = $00C8D4 ; routine 0x1C Secret Wall (Right)
+    dw $C98B ; = $00C98B ; routine 0x1D Secret Wall (Left)
+    dw $CA17 ; = $00CA17 ; routine 0x1E "Crash"
+    dw $CA17 ; = $00CA17 ; routine 0x1F "Crash"
     
-    dw $C67A ; = $C67A* ; routine 0x20 "use switch to bomb wall"
-    dw $CC00 ; = $CC00* ; routine 0x21 "holes(0)"
-    dw $CC5B ; = $CC5B* ; routine 0x22 "open chest for holes (0)"
-    dw $CC04 ; = $CC04* ; routine 0x23 "holes(1)"
-    dw $CC89 ; = $CC89* ; routine 0x24 "holes(2)"
-    dw $C709 ; = $C709* ; routine 0x25 "kill enemy to clear level"
-    dw $C7A2 ; = $C7A2* ; routine 0x26 "kill enemy to move block"
-    dw $C7CC ; = $C7CC* ; routine 0x27 "trigger activated chest"
+    dw $C67A ; = $00C67A ; routine 0x20 "use switch to bomb wall"
+    dw $CC00 ; = $00CC00 ; routine 0x21 "holes(0)"
+    dw $CC5B ; = $00CC5B ; routine 0x22 "open chest for holes (0)"
+    dw $CC04 ; = $00CC04 ; routine 0x23 "holes(1)"
+    dw $CC89 ; = $00CC89 ; routine 0x24 "holes(2)"
+    dw $C709 ; = $00C709 ; routine 0x25 "kill enemy to clear level"
+    dw $C7A2 ; = $00C7A2 ; routine 0x26 "kill enemy to move block"
+    dw $C7CC ; = $00C7CC ; routine 0x27 "trigger activated chest"
     
-    dw $C685 ; = $C685* ; routine 0x28 "use lever to bomb wall"
-    dw $C432 ; = $C432* ; routine 0x29 "NW kill enemy for chest"
-    dw $C438 ; = $C438* ; routine 0x2A "NE kill enemy for chest"
-    dw $C43E ; = $C43E* ; routine 0x2B "SW kill enemy for chest"
-    dw $C444 ; = $C444* ; routine 0x2C "SE kill enemy for chest"
-    dw $C44A ; = $C44A* ; routine 0x2D "W kill enemy for chest"
-    dw $C450 ; = $C450* ; routine 0x2F "E kill enemy for chest"
-    dw $C456 ; = $C456* ; routine 0x2F "N kill enemy for chest"
+    dw $C685 ; = $00C685 ; routine 0x28 "use lever to bomb wall"
+    dw $C432 ; = $00C432 ; routine 0x29 "NW kill enemy for chest"
+    dw $C438 ; = $00C438 ; routine 0x2A "NE kill enemy for chest"
+    dw $C43E ; = $00C43E ; routine 0x2B "SW kill enemy for chest"
+    dw $C444 ; = $00C444 ; routine 0x2C "SE kill enemy for chest"
+    dw $C44A ; = $00C44A ; routine 0x2D "W kill enemy for chest"
+    dw $C450 ; = $00C450 ; routine 0x2F "E kill enemy for chest"
+    dw $C456 ; = $00C456 ; routine 0x2F "N kill enemy for chest"
     
-    dw $C45C ; = $C45C* ; routine 0x30 "S kill enemy for chest"
-    dw $C461 ; = $C461* ; routine 0x31 "clear quadrant for chest"
-    dw $C4BF ; = $C4BF* ; routine 0x32 "clear room for chest"
-    dw $C629 ; = $C629* ; routine 0x33 "light torches to open"
-    dw $CC08 ; = $CC08* ; routine 0x34 "Holes(3)"
-    dw $CC0C ; = $CC0C* ; routine 0x35 "Holes(4)"
-    dw $CC10 ; = $CC10* ; routine 0x36 "Holes(5)"
-    dw $CC14 ; = $CC14* ; routine 0x37 "Holes(6)"
+    dw $C45C ; = $00C45C ; routine 0x30 "S kill enemy for chest"
+    dw $C461 ; = $00C461 ; routine 0x31 "clear quadrant for chest"
+    dw $C4BF ; = $00C4BF ; routine 0x32 "clear room for chest"
+    dw $C629 ; = $00C629 ; routine 0x33 "light torches to open"
+    dw $CC08 ; = $00CC08 ; routine 0x34 "Holes(3)"
+    dw $CC0C ; = $00CC0C ; routine 0x35 "Holes(4)"
+    dw $CC10 ; = $00CC10 ; routine 0x36 "Holes(5)"
+    dw $CC14 ; = $00CC14 ; routine 0x37 "Holes(6)"
     
-    dw $C74E ; = $C74E* ; routine 0x38 "Agahnim's room"
-    dw $CC18 ; = $CC18* ; routine 0x39 "Holes(7)"
-    dw $CC1C ; = $CC1C* ; routine 0x3A "Holes(8)"
-    dw $CC62 ; = $CC62* ; routine 0x3B "open chest for holes (8)"
-    dw $C7C2 ; = $C7C2* ; routine 0x3C "move block to get chest"
-    dw $C767 ; = $C767* ; routine 0x3D "Kill to open Ganon's door"
-    dw $C8AE ; = $C8AE* ; routine 0x3E "light torches to get chest"
-    dw $C4DB ; = $C4DB* ; routine 0x3F "kill boss again"
+    dw $C74E ; = $00C74E ; routine 0x38 "Agahnim's room"
+    dw $CC18 ; = $00CC18 ; routine 0x39 "Holes(7)"
+    dw $CC1C ; = $00CC1C ; routine 0x3A "Holes(8)"
+    dw $CC62 ; = $00CC62 ; routine 0x3B "open chest for holes (8)"
+    dw $C7C2 ; = $00C7C2 ; routine 0x3C "move block to get chest"
+    dw $C767 ; = $00C767 ; routine 0x3D "Kill to open Ganon's door"
+    dw $C8AE ; = $00C8AE ; routine 0x3E "light torches to get chest"
+    dw $C4DB ; = $00C4DB ; routine 0x3F "kill boss again"
 }
 
 ; ==============================================================================
 
-; *$C2FD-$C31E LONG
+; $00C2FD-$00C31E LONG
 Dungeon_CheckStairsAndRunScripts:
 {
     LDA $04C7 : BNE .return
@@ -9614,25 +9454,25 @@ Dungeon_CheckStairsAndRunScripts:
 
 ; ==============================================================================
 
-; $C31F-$C324 DATA
+; $00C31F-$00C324 DATA
 {
     db $00, $01, $01
     
-    ; $C322
+    ; $00C322
     
     db $00, $00, $01
 }
 
 ; ==============================================================================
 
-; *$C325-$C328 BRANCH LOCATION
+; $00C325-$00C328 BRANCH LOCATION
 Dungeon_DetectStaircaseEasyOut:
 {
     ._1
     
     PLA
     
-    ; *$C326 ALTERNATE ENTRY POINT
+    ; $00C326 ALTERNATE ENTRY POINT
     ._2
     
     SEP #$30
@@ -9642,7 +9482,7 @@ Dungeon_DetectStaircaseEasyOut:
 
 ; ==============================================================================
 
-; *$C329-$C431 LOCAL
+; $00C329-$00C431 LOCAL
 Dungeon_DetectStaircase:
 {
     REP #$20
@@ -9825,14 +9665,14 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; *$C432-$C4E6 JUMP LOCATION
+; $00C432-$00C4E6 JUMP LOCATION
 {
     ; branch if Link is in the left two quadrants
     LDA $23 : LSR A : BCC .checkIfNorth
     
     RTS
     
-    ; *$C438 ALTERNATE ENTRY POINT
+    ; $00C438 ALTERNATE ENTRY POINT
     
     ; Tag routine 0x02 (NE Kill Enemy To Open), 0x0A (NE move block to open), 0x2A (NE kill enemy for chest)
     ; branch if Link in the right two quadrants
@@ -9840,33 +9680,33 @@ Dungeon_DetectStaircase:
     
     RTS
     
-    ; *$C43E ALTERNATE ENTRY POINT
+    ; $00C43E ALTERNATE ENTRY POINT
     
     LDA $23 : LSR A : BCC .checkIfSouth
     
     RTS
     
-    ; *$C444 ALTERNATE ENTRY POINT
+    ; $00C444 ALTERNATE ENTRY POINT
     
     ; Tag routine 0x04 (SE kill enemy to open), 0x0E (SE move block to open), 0x2C (SE kill enemy for chest)
     LDA $23 : LSR A : BCS .checkIfSouth
     
     RTS
     
-    ; *$C44A ALTERNATE ENTRY POINT
+    ; $00C44A ALTERNATE ENTRY POINT
     
     ; Tag routine 0x05 (W kill enemy to open), 0x0F (W move block to open), 0x2D (W kill enemy for chest)
     LDA $23 : LSR A : BCC .coordSuccess
     
     RTS
     
-    ; *$C450 ALTERNATE ENTRY POINT
+    ; $00C450 ALTERNATE ENTRY POINT
 
     LDA $23 : LSR A : BCS .coordSuccess
     
     RTS
     
-    ; *$C45C ALTERNATE ENTRY POINT
+    ; $00C45C ALTERNATE ENTRY POINT
     .checkIfNorth
     
     ; Branch if Link is in the upper two quadrants
@@ -9952,7 +9792,7 @@ Dungeon_DetectStaircase:
     
     RTS
     
-    ; *$C4BF ALTERNATE ENTRY POINT
+    ; $00C4BF ALTERNATE ENTRY POINT
     
     LDX $0E
     
@@ -9974,7 +9814,7 @@ Dungeon_DetectStaircase:
     
     JSL Sprite_CheckIfAllDefeated : BCC .return : BCS .checkDoorState
     
-    ; *$C4DB ALTERNATE ENTRY POINT
+    ; $00C4DB ALTERNATE ENTRY POINT
     
     ; tag routine 0x3F "kill boss again"
     
@@ -9987,7 +9827,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C4E7-$C507 JUMP LOCATION
+; $00C4E7-$00C507 JUMP LOCATION
 {
     ; tag routine 0x14 "pull lever to open"
     
@@ -10014,7 +9854,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; $C508-$C540 JUMP LOCATION
+; $00C508-$00C540 JUMP LOCATION
 {
     ; Tag routine 0x16 "clear level to open doors" "Clear_Level_to_Open"
     
@@ -10057,7 +9897,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; *$C541-$C598 JUMP LOCATION
+; $00C541-$00C598 JUMP LOCATION
 {
     ; Tag routine 0x16 - "switch opens doors (hold)"
     
@@ -10116,7 +9956,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; *$C599-$C5CE JUMP LOCATION
+; $00C599-$00C5CE JUMP LOCATION
 {
     ; Dungeon Tag routine 0x17 "switch opens doors"
     
@@ -10161,7 +10001,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C5CF-$C628 LOCAL
+; $00C5CF-$00C628 LOCAL
 {
     STA $11
     
@@ -10208,7 +10048,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C629-$C665 JUMP LOCATION
+; $00C629-$00C665 JUMP LOCATION
 {
     REP #$30
     
@@ -10252,7 +10092,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; $C666-$C679 DATA
+; $00C666-$00C679 DATA
 {
     dw $0004, $0006, $0000, $0000, $0000
     
@@ -10261,7 +10101,7 @@ Dungeon_DetectStaircase:
     dw $0000, $000A, $0000, $0000, $0280
 }
 
-; *$C67A-$C6FB JUMP LOCATION
+; $00C67A-$00C6FB JUMP LOCATION
 {
     ; tag routine 0x20 "use switch to bomb wall"
     REP #$30
@@ -10273,7 +10113,7 @@ Dungeon_DetectStaircase:
     
     BRA .checkForBombableWall
     
-    ; *$C685 ALTERNATE ENTRY POINT
+    ; $00C685 ALTERNATE ENTRY POINT
     
     ; tag routine 0x28 "use lever to bomb wall"
     LDA $0642 : BEQ .return
@@ -10330,12 +10170,12 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; $C6FC-$C708
+; $00C6FC-$00C708
 {
     db $00, $00, $01, $02, $00, $06, $06, $06, $06, $06, $03, $06, $06
 }
 
-; $C709-$C74D JUMP LOCATION
+; $00C709-$00C74D JUMP LOCATION
 {
     ; name: Kill enemy to clear level in hyrule magic
     
@@ -10376,7 +10216,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C74E-$C766 JUMP LOCATION
+; $00C74E-$00C766 JUMP LOCATION
 {
     ; Tag routine 0x38 "Agahnim's room"
     
@@ -10399,7 +10239,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C767-$C7A1 JUMP LOCATION
+; $00C767-$00C7A1 JUMP LOCATION
 {
     ; Tag routine 0x3D (Kill to open Ganon's door)
     
@@ -10443,7 +10283,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C7A2-$C7C1 JUMP LOCATION
+; $00C7A2-$00C7C1 JUMP LOCATION
 {
     ;  routine 0x26 (SE kill enemy to move block)
     
@@ -10469,7 +10309,7 @@ Dungeon_DetectStaircase:
     ; This instruction is never reached in the original game
     PLA
     
-    ; *$C7BE ALTERNATE ENTRY POINT
+    ; $00C7BE ALTERNATE ENTRY POINT
     
     SEP #$30
     
@@ -10478,7 +10318,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C7C2-$C8AD JUMP LOCATION
+; $00C7C2-$00C8AD JUMP LOCATION
 {
     ; Tag routine 0x3C (Move block to get chest)
     
@@ -10490,7 +10330,7 @@ Dungeon_DetectStaircase:
     
     RTS
     
-    ; *$C7CC ALTERNATE ENTRY POINT
+    ; $00C7CC ALTERNATE ENTRY POINT
     
     ; Tag routine 0x27 "trigger activated chest"
     ; Link is flashing, so he can't do shit, son
@@ -10501,7 +10341,7 @@ Dungeon_DetectStaircase:
     ; $CD39 IN ROM
     JSR $CD39 : BCC .BRANCH_C7BE
     
-    ; *$C7D8 ALTERNATE ENTRY POINT
+    ; $00C7D8 ALTERNATE ENTRY POINT
     .showChests
     
     SEP #$30
@@ -10517,7 +10357,7 @@ Dungeon_DetectStaircase:
     
     LDA.w #$5858 : STA $0C
     
-    ; *$C7EB ALTERNATE ENTRY POINT
+    ; $00C7EB ALTERNATE ENTRY POINT
     .nextChest
     
     LDX $0200
@@ -10595,7 +10435,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C8AE-$C8D3 JUMP LOCATION
+; $00C8AE-$00C8D3 JUMP LOCATION
 {
     ; Tag routine 0x3E "light torches to get chest"
     
@@ -10626,7 +10466,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C8D4-$C960 JUMP LOCATION
+; $00C8D4-$00C960 JUMP LOCATION
 {
     REP #$20
     
@@ -10696,7 +10536,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; $C961-$C968 DATA
+; $00C961-$00C968 DATA
 {
     db  0,  1, -1, -1
     
@@ -10705,7 +10545,7 @@ Dungeon_DetectStaircase:
     db -1, -1,  1,  0
 }
 
-; *$C969-$C98A LOCAL
+; $00C969-$00C98A LOCAL
 {
     LDA $1A : AND.w #$0001 : ASL A : TAX
     
@@ -10724,7 +10564,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; *$C98B-$CA16 JUMP LOCATION Secret Wall (Left
+; $00C98B-$00CA16 JUMP LOCATION Secret Wall (Left
 {
     REP #$20
     
@@ -10797,7 +10637,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; *$CA17-$CA65 LOCAL
+; $00CA17-$00CA65 LOCAL
 {
     REP #$10
     
@@ -10846,7 +10686,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; *$CA66-$CA74 LOCAL
+; $00CA66-$00CA74 LOCAL
 {
     LDA.w #$2200 : CLC : ADC $041C : STA $041C
     
@@ -10857,7 +10697,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; $CA75-$CA93 LOCAL
+; $00CA75-$00CA93 LOCAL
 {
     LDX $0E
     
@@ -10884,7 +10724,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; *$CA94-$CB19 JUMP LOCATION
+; $00CA94-$00CB19 JUMP LOCATION
 {
     ; routine 0x18 - turn off water
     
@@ -10944,7 +10784,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; $CB1A-$CB48 JUMP LOCATION
+; $00CB1A-$00CB48 JUMP LOCATION
 Tag_TurnOnWater:
 {
     ; routine 0x19 - turn on water
@@ -10975,7 +10815,7 @@ Tag_TurnOnWater:
 
 ; ==============================================================================
 
-; *$CB49-$CBFF JUMP LOCATION
+; $00CB49-$00CBFF JUMP LOCATION
 Tag_Watergate:
 {
     ; routine 0x1A - watergate room
@@ -11060,49 +10900,49 @@ Tag_Watergate:
 
 ; ==============================================================================
 
-; *$CC00-$CC5A JUMP LOCATION
+; $00CC00-$00CC5A JUMP LOCATION
 {
     LDA.b #$01
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC04 ALTERNATE ENTRY POINT
+    ; $00CC04 ALTERNATE ENTRY POINT
     
     LDA.b #$03
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC08 ALTERNATE ENTRY POINT
+    ; $00CC08 ALTERNATE ENTRY POINT
     
     LDA.b #$06
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC0C ALTERNATE ENTRY POINT
+    ; $00CC0C ALTERNATE ENTRY POINT
     
     LDA.b #$08
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC10 ALTERNATE ENTRY POINT
+    ; $00CC10 ALTERNATE ENTRY POINT
     
     LDA.b #$0A
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC14 ALTERNATE ENTRY POINT
+    ; $00CC14 ALTERNATE ENTRY POINT
     
     LDA.b #$0C
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC18 ALTERNATE ENTRY POINT
+    ; $00CC18 ALTERNATE ENTRY POINT
     
     LDA.b #$0E
     
     BRA .BRANCH_ALPHA
     
-    ; *$CC1C ALTERNATE ENTRY POINT
+    ; $00CC1C ALTERNATE ENTRY POINT
     
     LDA.b #$10
     
@@ -11148,7 +10988,7 @@ Tag_Watergate:
     RTS
 }
 
-; *$CC5B-$CC88 JUMP LOCATION
+; $00CC5B-$00CC88 JUMP LOCATION
 {
     REP #$10
     
@@ -11157,7 +10997,7 @@ Tag_Watergate:
     
     BRA .alpha
     
-    ; *$CC62 ALTERNATE ENTRY POINT
+    ; $00CC62 ALTERNATE ENTRY POINT
     
     ; Tag routine 0xCC62 (Open chest for holes)
     REP #$10
@@ -11169,7 +11009,7 @@ Tag_Watergate:
     
     LDA $0403 : AND.b #$01 : BEQ .chestNotOpened
     
-    ; *$CC6E ALTERNATE ENTRY POINT
+    ; $00CC6E ALTERNATE ENTRY POINT
     
     ; Tell the "show dungeon overlay" submodule which overlay to use.
     STY $04BA
@@ -11198,7 +11038,7 @@ Tag_Watergate:
 
 ; ==============================================================================
 
-; *$CC89-$CC94 JUMP LOCATION
+; $00CC89-$00CC94 JUMP LOCATION
 {
     REP #$30
     
@@ -11212,7 +11052,7 @@ Tag_Watergate:
 
 ; ==============================================================================
 
-; *$CC95-$CD38 LOCAL
+; $00CC95-$00CD38 LOCAL
 Object_WatergateChannelWater:
 {
     STA $B7
@@ -11297,7 +11137,7 @@ Object_WatergateChannelWater:
 
 ; ==============================================================================
 
-; *$CD39-$CDA4 LOCAL
+; $00CD39-$00CDA4 LOCAL
 {
     LDA $02E4 : AND.w #$00FF : BNE .matchFailed
     
@@ -11346,7 +11186,7 @@ Object_WatergateChannelWater:
     
     RTS
     
-    ; *$CDA0 ALTERNATE ENTRY POINT
+    ; $00CDA0 ALTERNATE ENTRY POINT
     .matchFailed
     
     STZ $04B6
@@ -11358,7 +11198,7 @@ Object_WatergateChannelWater:
 
 ; ==============================================================================
 
-; *$CDA5-$CDCB LOCAL
+; $00CDA5-$00CDCB LOCAL
 {
     LDA $22 : CLC : ADC.w #$FFFF : AND.w #$01F8 : LSR #3 : STA $00
     LDA $20 : CLC : ADC.w #$000E : AND.w #$01F8 : ASL #3 : ORA $00
@@ -11378,7 +11218,7 @@ Object_WatergateChannelWater:
 
     !star_tiles = $3B3B
 
-; *$CDCC-$CE5B LOCAL
+; $00CDCC-$00CE5B LOCAL
 {
     LDA $02E4 : AND.w #$00FF : BNE _CD39_matchFailed
     
@@ -11462,7 +11302,7 @@ Object_WatergateChannelWater:
 
 ; ==============================================================================
 
-; $CE5C-$CE6F DATA
+; $00CE5C-$00CE6F DATA
 {
     ; \task Name this pool and sublabels.
     
@@ -11480,7 +11320,7 @@ Object_WatergateChannelWater:
     
 ; ==============================================================================
 
-; *$CE70-$D1F3 LONG
+; $00CE70-$00D1F3 LONG
 Dungeon_ProcessTorchAndDoorInteractives:
 {
     LDA $1A : AND.b #$03 : BNE .skip_torch_logic
@@ -11673,7 +11513,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     
     RTL
     
-    ; *$CFEA ALTERNATE ENTRY POINT
+    ; $00CFEA ALTERNATE ENTRY POINT
     .notDashing
     
     SEP #$30
@@ -11862,7 +11702,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     
     BRA .BRANCH_OPTIMUS
     
-    ; *$D18A ALTERNATE ENTRY POINT
+    ; $00D18A ALTERNATE ENTRY POINT
     
     LDA $7F2000, X : AND.w #$000F : ASL A : TAY
     
@@ -11906,7 +11746,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     
     REP #$30
     
-    ; *$D1E3 ALTERNATE ENTRY POINT
+    ; $00D1E3 ALTERNATE ENTRY POINT
     
     LDY $0C
     
@@ -11927,7 +11767,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
 
 ; ==============================================================================
 
-; *$D1F4-$D2C8 LONG
+; $00D1F4-$00D2C8 LONG
 Bomb_CheckForVulnerableTileObjects:
 {
     ; Check for cracked floors and expose bombable floor if necessary
@@ -12023,7 +11863,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D2C9-$D2E7 JUMP LOCATION (LONG)
+; $00D2C9-$00D2E7 JUMP LOCATION (LONG)
 {
     ; \hardcoded Obviously.
     LDA $A0 : CMP.w #$0065 : BNE .not_room_above_blind
@@ -12045,7 +11885,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D2E8-$D310 LOCAL
+; $00D2E8-$00D310 LOCAL
 {
     LDX $19A0, Y : STX $08
     
@@ -12076,7 +11916,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D311-$D339 LOCAL
+; $00D311-$00D339 LOCAL
 {
     ; Load door's tilemap address
     LDX $19A0, Y : STX $08
@@ -12109,7 +11949,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D33A-$D364 LOCAL
+; $00D33A-$00D364 LOCAL
 {
     LDX $19A0, Y : STX $08
     
@@ -12140,7 +11980,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D365-$D372 LOCAL
+; $00D365-$00D372 LOCAL
 {
     LDX $19A0, Y : STX $08
     
@@ -12151,7 +11991,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D373-$D38E LOCAL
+; $00D373-$00D38E LOCAL
 {
     STZ $045E
     STZ $0C
@@ -12170,7 +12010,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; *$D38F-$D468 LONG
+; $00D38F-$00D468 LONG
 Dungeon_AnimateTrapDoors:
 {
     ; Invoked from Module 0x07.0x05
@@ -12329,7 +12169,7 @@ Dungeon_AnimateTrapDoors:
 
 ; ==============================================================================
 
-; *$D469-$D50F LONG
+; $00D469-$00D50F LONG
 Dungeon_AnimateDestroyingWeakDoor:
 {
     REP #$30
@@ -12340,7 +12180,7 @@ Dungeon_AnimateDestroyingWeakDoor:
     
     BRA .set_event_flags
     
-    ; *$D476 ALTERNATE ENTRY POINT
+    ; $00D476 ALTERNATE ENTRY POINT
     shared Dungeon_AnimateOpeningLockedDoor:
     
     ; (Door opening)
@@ -12428,18 +12268,18 @@ Dungeon_AnimateDestroyingWeakDoor:
 
 ; ==============================================================================
 
-; *$D510-$D5A9 LOCAL
+; $00D510-$00D5A9 LOCAL
 Dungeon_LoadToggleDoorAttr:
 {
     LDX $068E
     
     LDA $7F2000, X : AND.w #$000F : ASL A : TAY
     
-    ; *$D51C ALTERNATE ENTRY POINT
+    ; $00D51C ALTERNATE ENTRY POINT
     
     JSR Dungeon_LoadSingleDoorAttr
     
-    ; *$D51F ALTERNATE ENTRY POINT
+    ; $00D51F ALTERNATE ENTRY POINT
     .extern
     
     ; Do attributes for floor toggling doors
@@ -12499,7 +12339,7 @@ Dungeon_LoadToggleDoorAttr:
     RTS
 }
 
-; *$D5AA-$D6C0 LOCAL
+; $00D5AA-$00D6C0 LOCAL
 Object_RefreshStaircaseAttr:
 {
     LDA.w #$3030 : STA $00
@@ -12620,7 +12460,7 @@ Object_RefreshStaircaseAttr:
 
 ; ==============================================================================
 
-; *$D6C1-$D747 LONG
+; $00D6C1-$00D747 LONG
 Door_BlastWallExploding:
 {
     ; compare with $7F0000? .... well that's confusing
@@ -12687,7 +12527,7 @@ Door_BlastWallExploding:
 
 ; ==============================================================================
 
-; *$D748-$D7BF LONG
+; $00D748-$00D7BF LONG
 Dungeon_QueryIfTileLiftable:
 {
     REP #$30
@@ -12751,7 +12591,7 @@ Dungeon_QueryIfTileLiftable:
 
 ; ==============================================================================
 
-; *$D7C0-$D827 BRANCH LOCATION
+; $00D7C0-$00D827 BRANCH LOCATION
 pool PushBlock_Handler:
 {
     .move_distances
@@ -12810,7 +12650,7 @@ pool PushBlock_Handler:
     
     INC $042C : INC $042C
     
-    ; *$D81B MAIN ENTRY POINT
+    ; $00D81B MAIN ENTRY POINT
 PushBlock_Handler:
     
     REP #$30
@@ -12824,7 +12664,7 @@ PushBlock_Handler:
 
 ; ==============================================================================
 
-; *$D828-$D8D3 LOCAL
+; $00D828-$00D8D3 LOCAL
 Dungeon_EraseInteractive2x2:
 {
     LDX $1000
@@ -12847,7 +12687,7 @@ Dungeon_EraseInteractive2x2:
     
     LDA $00
     
-    ; *$D87F ALTERNATE ENTRY POINT
+    ; $00D87F ALTERNATE ENTRY POINT
     .partially_prepped
     
     STA $7F2000, X : STA $7F2040, X
@@ -12897,7 +12737,7 @@ Dungeon_EraseInteractive2x2:
 
 ; ==============================================================================
 
-; *$D8D4-$D98D LOCAL
+; $00D8D4-$00D98D LOCAL
 PushBlock_StoppedMoving:
 {
     LDA $0540, Y : AND.w #$4000 : BNE .blockTriggersSomething
@@ -12991,7 +12831,7 @@ PushBlock_StoppedMoving:
 
 ; ==============================================================================
 
-; *$D98E-$D9B9 LOCAL
+; $00D98E-$00D9B9 LOCAL
 Dungeon_GetInteractiveVramAddr:
 {
     !tile_offset = $0E
@@ -13009,7 +12849,7 @@ Dungeon_GetInteractiveVramAddr:
 
 ; ==============================================================================
 
-; $D9BA-$D9EB DATA
+; $00D9BA-$00D9EB DATA
 pool Dungeon_RevealCoveredTiles:
     ; \task Name this pool / routine.
 {
@@ -13035,7 +12875,7 @@ pool Dungeon_RevealCoveredTiles:
     
 ; ==============================================================================
 
-; *$D9EC-$DABA LONG
+; $00D9EC-$00DABA LONG
 Dungeon_RevealCoveredTiles:
 {
     ; secrets
@@ -13159,7 +12999,7 @@ pool Dungeon_ToolAndTileInteraction:
 
 ; ==============================================================================
 
-; *$DABB-$DB40 JUMP LOCATION
+; $00DABB-$00DB40 JUMP LOCATION
 Dungeon_ToolAndTileInteraction:
 {
     !pot_tile  = $1010
@@ -13229,7 +13069,7 @@ Dungeon_ToolAndTileInteraction:
 
 ; ==============================================================================
 
-; *$DB41-$DB68 LOCAL
+; $00DB41-$00DB68 LOCAL
 Dungeon_GetUprootedTerrainSpawnCoords:
 {
     LDY $042C
@@ -13252,14 +13092,14 @@ Dungeon_GetUprootedTerrainSpawnCoords:
 
 ; ==============================================================================
 
-; $DB69-$E6B1
+; $00DB69-$00E6B1
 {
     ; Secrets data
 }
 
 ; ==============================================================================
 
-; *$E6B2-$E794 LOCAL
+; $00E6B2-$00E794 LOCAL
 Dungeon_LoadSecret:
 {
     ; Seems to load "secrets" data from ROM when a secret is exposed
@@ -13396,7 +13236,7 @@ Dungeon_LoadSecret:
 
 ; ==============================================================================
 
-; $E795-$E7A8 DATA
+; $00E795-$00E7A8 DATA
 pool Dungeon_PrepSpriteInducedDma:
 {
     .replacement_tiles
@@ -13415,7 +13255,7 @@ pool Dungeon_PrepSpriteInducedDma:
 
 ; ==============================================================================
 
-; *$E7A9-$E7DE LONG
+; $00E7A9-$00E7DE LONG
 Dungeon_SpriteInducedTilemapUpdate:
 {
     ; somehow this routine is related to ice men, moving spike blocks,
@@ -13468,7 +13308,7 @@ Dungeon_SpriteInducedTilemapUpdate:
 
 ; ==============================================================================
 
-; *$E7DF-$E898 LOCAL
+; $00E7DF-$00E898 LOCAL
 Dungeon_PrepSpriteInducedDma:
 {
     ; Convert coordiates to tilemap position.
@@ -13539,7 +13379,7 @@ Dungeon_PrepSpriteInducedDma:
 
 ; ==============================================================================
 
-; *$E899-$E8BC LOCAL
+; $00E899-$00E8BC LOCAL
 Dungeon_GetRelativeVramAddr_2:
 {
     CLC : ADC $06 : STA $0E
@@ -13553,7 +13393,7 @@ Dungeon_GetRelativeVramAddr_2:
 
 ; ==============================================================================
 
-; *$E8BD-$E949 LONG
+; $00E8BD-$00E949 LONG
 Dungeon_ClearRupeeTile:
 {
     PHB : LDA.b #$00 : PHA : PLB
@@ -13612,7 +13452,7 @@ Dungeon_ClearRupeeTile:
 
 ; ==============================================================================
 
-; *$E94A-$E96D LOCAL
+; $00E94A-$00E96D LOCAL
 Dungeon_GetRelativeVramAddr:
 {
     CLC : ADC $06 : STA $0C
@@ -13626,7 +13466,7 @@ Dungeon_GetRelativeVramAddr:
 
 ; ==============================================================================
 
-; $E96E-$EB65
+; $00E96E-$00EB65
 Dungeon_ChestData:
 {
     ; top byte of each entry is the item to give, bottom 15 bits are the room
@@ -13656,7 +13496,7 @@ Dungeon_ChestData:
     
 ; ==============================================================================
 
-; *$EB66-$ED04 LONG
+; $00EB66-$00ED04 LONG
 Dungeon_OpenKeyedObject:
 {
     ; SearchForChest()
@@ -13895,7 +13735,7 @@ Dungeon_OpenKeyedObject:
 
 ; ==============================================================================
 
-; *$ED05-$ED88 JUMP LOCATION
+; $00ED05-$00ED88 JUMP LOCATION
 Dungeon_OpenBigChest:
 {
     LDA $0402 : ORA $9900, Y : STA $0402
@@ -13955,7 +13795,7 @@ Dungeon_OpenBigChest:
 
 ; ==============================================================================
 
-; *$ED89-$EDA2 BRANCH LOCATION
+; $00ED89-$00EDA2 BRANCH LOCATION
 Dungeon_ShowMinigameChestMessage:
 {
     .didnt_pay
@@ -13969,7 +13809,7 @@ Dungeon_ShowMinigameChestMessage:
     
     BRA .showDialogue
     
-    ; *$ED92 ALTERNATE ENTRY POINT
+    ; $00ED92 ALTERNATE ENTRY POINT
     .out_of_credits
     
     REP #$20
@@ -13994,7 +13834,7 @@ Dungeon_ShowMinigameChestMessage:
 
 ; ==============================================================================
 
-; $EDA3-$EDAA DATA
+; $00EDA3-$00EDAA DATA
 Dungeon_MinigameChestPrizes:
 {
     ; 100 rupees, 50 rupees, 1 rupee, single heart, 1 array,
@@ -14004,7 +13844,7 @@ Dungeon_MinigameChestPrizes:
 
 ; ==============================================================================
 
-; *$EDAB-$EED6 LONG
+; $00EDAB-$00EED6 LONG
 Dungeon_OpenMiniGameChest:
 {
     ; number of credits left for opening minigame chests
@@ -14127,7 +13967,7 @@ Dungeon_OpenMiniGameChest:
     
     LDA.l Dungeon_MinigameChestPrizes, X
     
-    ; *$EEC5 ALTERNATE ENTRY POINT
+    ; $00EEC5 ALTERNATE ENTRY POINT
     prizeExternallyDetermined
     
     ; Set the index of the last item Link received
@@ -14148,7 +13988,7 @@ Dungeon_OpenMiniGameChest:
 
 ; ==============================================================================
  
-; $EED7-$EEF6 DATA
+; $00EED7-$00EEF6 DATA
 Dungeon_RupeeChestMinigamePrizes:
 {
     db $47, $34, $46, $34, $46, $46, $34, $47
@@ -14160,7 +14000,7 @@ Dungeon_RupeeChestMinigamePrizes:
 
 ; ==============================================================================
 
-; *$EEF7-$EF0E BRANCH LOCATION
+; $00EEF7-$00EF0E BRANCH LOCATION
 Dungeon_GetRupeeChestMinigamePrize:
 {
     .highStakes
@@ -14169,7 +14009,7 @@ Dungeon_GetRupeeChestMinigamePrize:
     
     BRA .BRANCH_ALPHA
     
-    ; *$EEFF ALTERNATE ENTRY POINT
+    ; $00EEFF ALTERNATE ENTRY POINT
     .lowStakes
     
     JSL GetRandomInt : AND.b #$0F : CLC : ADC.w #$10
@@ -14185,7 +14025,7 @@ Dungeon_GetRupeeChestMinigamePrize:
     
 ; ==============================================================================
 
-; *$EF0F-$EF33 LOCAL
+; $00EF0F-$00EF33 LOCAL
 Dungeon_GetKeyedObjectRelativeVramAddr:
 {
     ; In-game tilemap address format for dungeons:
@@ -14216,7 +14056,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
     
 ; ==============================================================================
 
-; $EF34-$EF53 DATA
+; $00EF34-$00EF53 DATA
 {
     dw -1, -1, -1,  1
     dw -1, -1, -1,  1
@@ -14226,7 +14066,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; *$EF54-$EFEB LONG
+; $00EF54-$00EFEB LONG
 {
     LDA $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -14312,7 +14152,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; *$EFEC-$F045 LONG
+; $00EFEC-$00F045 LONG
 {
     REP #$30
 
@@ -14341,7 +14181,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; *$F046-$F062 JUMP LOCATION
+; $00F046-$00F062 JUMP LOCATION
 {
     JSL $0091C4 ; $11C4 IN ROM
     
@@ -14358,7 +14198,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; $F063-$F07A DATA
+; $00F063-$00F07A DATA
 {
     dw  1,  1,  1, -1
     dw  1,  2,  1, -1
@@ -14367,29 +14207,29 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; $F07B-$F092 JUMP TABLE
+; $00F07B-$00F092 JUMP TABLE
 pool Dungeon_TurnOnWaterLong:
 {
     .handlers
-    dw $F046 ; = $F046*
-    dw $F046 ; = $F046*
-    dw $F046 ; = $F046*
-    dw $F046 ; = $F046*
+    dw $F046 ; = $00F046
+    dw $F046 ; = $00F046
+    dw $F046 ; = $00F046
+    dw $F046 ; = $00F046
     
-    dw $F09B ; = $F09B*
-    dw $F09B ; = $F09B*
-    dw $F09B ; = $F09B*
-    dw $F09B ; = $F09B*
+    dw $F09B ; = $00F09B
+    dw $F09B ; = $00F09B
+    dw $F09B ; = $00F09B
+    dw $F09B ; = $00F09B
     
-    dw $F09B ; = $F09B*
-    dw $F16D ; = $F16D*
-    dw $F18C ; = $F18C*
-    dw $F1E1 ; = $F1E1*
+    dw $F09B ; = $00F09B
+    dw $F16D ; = $00F16D
+    dw $F18C ; = $00F18C
+    dw $F1E1 ; = $00F1E1
 }
 
 ; ==============================================================================
 
-; *$F093-$F09A LONG
+; $00F093-$00F09A LONG
 Dungeon_TurnOnWaterLong:
 {
     LDA $B0 : ASL A : TAX
@@ -14401,7 +14241,7 @@ Dungeon_TurnOnWaterLong:
 
 ; ==============================================================================
 
-; *$F09B-$F16C JUMP LOCATION
+; $00F09B-$00F16C JUMP LOCATION
 {
     DEC $0424 : BNE .BRANCH_$F09A ; (RTL)
     
@@ -14419,7 +14259,7 @@ Dungeon_TurnOnWaterLong:
     
     LDA.w #$1654 : CLC : ADC.w #$0010 : TAY
     
-    ; *$F0C9 ALTERNATE ENTRY POINT
+    ; $00F0C9 ALTERNATE ENTRY POINT
     
     LDA $047C : CLC : ADC.w #$0100 : STA $08 : TAX
     
@@ -14472,7 +14312,7 @@ Dungeon_TurnOnWaterLong:
 
 ; ==============================================================================
 
-; *$F16D-$F1E0 JUMP LOCATION
+; $00F16D-$00F1E0 JUMP LOCATION
 {
     LDA.b #$03 : STA $96
     
@@ -14489,7 +14329,7 @@ Dungeon_TurnOnWaterLong:
     
     INC $B0
     
-    ; *$F18C ALTERNATE ENTRY POINT
+    ; $00F18C ALTERNATE ENTRY POINT
     
     LDA $0424 : AND.b #$03 : ASL A : TAX
     
@@ -14523,7 +14363,7 @@ Dungeon_TurnOnWaterLong:
 
 ; ==============================================================================
 
-; *$F1E1-$F2D9 JUMP LOCATION
+; $00F1E1-$00F2D9 JUMP LOCATION
 {
     LDA $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -14631,7 +14471,7 @@ Dungeon_TurnOnWaterLong:
     
 ; ==============================================================================
 
-; $F2DA-$F2F1
+; $00F2DA-$00F2F1
 {
     ; Unreferenced data
     
@@ -14643,20 +14483,20 @@ Dungeon_TurnOnWaterLong:
 
 ; ==============================================================================
 
-; $F2F2-$F2FD JUMP TABLE
+; $00F2F2-$00F2FD JUMP TABLE
 Watergate_MainJumpTable:
 {
-    dw $F3A7 ; = $F3A7*
-    dw $F3AA ; = $F3AA*
-    dw $F3AA ; = $F3AA*
-    dw $F3AA ; = $F3AA*
-    dw $F30C ; = $F30C*
-    dw $F3BD ; = $F3BD*
+    dw $F3A7 ; = $00F3A7
+    dw $F3AA ; = $00F3AA
+    dw $F3AA ; = $00F3AA
+    dw $F3AA ; = $00F3AA
+    dw $F30C ; = $00F30C
+    dw $F3BD ; = $00F3BD
 }
 
 ; ==============================================================================
 
-; *$F2FE-$F30B LONG
+; $00F2FE-$00F30B LONG
 Watergate_Main:
 {
     JSL $00F734 ; $7734 IN ROM
@@ -14674,7 +14514,7 @@ Watergate_Main:
 
 ; ==============================================================================
 
-; *$F30C-$F3A6 JUMP LOCATION
+; $00F30C-$00F3A6 JUMP LOCATION
 {
     INC $0470
     
@@ -14746,11 +14586,11 @@ Watergate_Main:
 
 ; ==============================================================================
 
-; *$F3A7-$F3BC JUMP LOCATION
+; $00F3A7-$00F3BC JUMP LOCATION
 {
     STZ $045C
     
-    ; *$F3AA ALTERNATE ENTRY POINT
+    ; $00F3AA ALTERNATE ENTRY POINT
     
     STZ $0418
     
@@ -14765,7 +14605,7 @@ Watergate_Main:
 
 ; ==============================================================================
 
-; *$F3BD-$F3DA JUMP LOCATION
+; $00F3BD-$00F3DA JUMP LOCATION
 {
     INC $0684
     
@@ -14786,7 +14626,7 @@ Watergate_Main:
 
 ; ==============================================================================
 
-; *$F3DB-$F3DE BRANCH LOCATION
+; $00F3DB-$00F3DE BRANCH LOCATION
 Dungeon_LightTorchFail:
 {
     STZ $0333
@@ -14797,7 +14637,7 @@ Dungeon_LightTorchFail:
 ; ==============================================================================
 
     ; \unused
-; $F3DF-$F3EB LONG
+; $00F3DF-$00F3EB LONG
 {
     LDA $0333 : AND.b #$F0 : CMP.b #$C0 : BNE Dungeon_LightTorchFail
     
@@ -14808,7 +14648,7 @@ Dungeon_LightTorchFail:
     
 ; ==============================================================================
 
-; *$F3EC-$F495 LONG
+; $00F3EC-$00F495 LONG
 Dungeon_LightTorch:
 {
     ; it's not a torch tile
@@ -14910,7 +14750,7 @@ Dungeon_LightTorch:
 
 ; ==============================================================================
 
-; *$F496-$F527 LONG
+; $00F496-$00F527 LONG
 Dungeon_ExtinguishFirstTorch:
 {
     JSL Palette_AssertTranslucencySwap
@@ -14919,14 +14759,14 @@ Dungeon_ExtinguishFirstTorch:
     
     BRA .extinguish
     
-    ; *$F4A1 ALTERNATE ENTRY POINT
+    ; $00F4A1 ALTERNATE ENTRY POINT
 Dungeon_ExtinguishSecondTorch:
     
     LDA.b #$C1 : STA $0333
     
     .extinguish
     
-    ; *$F4A6 ALTERNATE ENTRY POINT
+    ; $00F4A6 ALTERNATE ENTRY POINT
     shared Dungeon_ExtinguishTorch:
     
     LDA.b #$C0 : STA $08 : STZ $09
@@ -14994,7 +14834,7 @@ Dungeon_ExtinguishSecondTorch:
 
 ; ==============================================================================
 
-; *$F528-$F584 LONG
+; $00F528-$00F584 LONG
 Dungeon_ElevateStaircasePriority:
 {
     REP #$30
@@ -15033,7 +14873,7 @@ Dungeon_ElevateStaircasePriority:
 
 ; ==============================================================================
 
-; *$F585-$F5D0 LONG
+; $00F585-$00F5D0 LONG
 Dungeon_DecreaseStaircasePriority:
 {
     REP #$30
@@ -15063,14 +14903,14 @@ Dungeon_DecreaseStaircasePriority:
 
 ; ==============================================================================
 
-; $F5D1-$F5D8
+; $00F5D1-$00F5D8
 {
     dw $2556, $2596, $25D6, $2616
 }
 
 ; ==============================================================================
 
-; $F5D9-$F5D9
+; $00F5D9-$00F5D9
 Object_OpenGanonDoor_easyOut:
 {
     RTL
@@ -15078,7 +14918,7 @@ Object_OpenGanonDoor_easyOut:
 
 ; ==============================================================================
 
-; *$F5DA-$F6B3 LONG
+; $00F5DA-$00F6B3 LONG
 Object_OpenGanonDoor:
 {
     LDA.b #$01 : STA $02E4
@@ -15175,7 +15015,7 @@ Object_OpenGanonDoor:
 ; ==============================================================================
 
     ; \unused
-; $F6B4-$F745 LOCAL
+; $00F6B4-$00F745 LOCAL
 {
     ; Sets up DMA transfers for some unknown purpose.
     
@@ -15238,7 +15078,7 @@ Object_OpenGanonDoor:
 
 ; ==============================================================================
 
-; *$F746-$F7F0 LOCAL
+; $00F746-$00F7F0 LOCAL
 Dungeon_PrepOverlayDma:
 {
     ; Preps DMA transfers for updating tilemap during NMI
@@ -15251,12 +15091,12 @@ Dungeon_PrepOverlayDma:
     LDA $9B56, Y : STA $7E2002, X
     LDA $9B58, Y : STA $7E2082, X
     
-    ; *$F762 ALTERNATE ENTRY POINT
+    ; $00F762 ALTERNATE ENTRY POINT
     .tilemapAlreadyUpdated
     
     STZ $0C
     
-    ; *$F764 ALTERNATE ENTRY POINT
+    ; $00F764 ALTERNATE ENTRY POINT
     .nextPrep
     
     ; Going to blit 4 separate tiles...
@@ -15272,7 +15112,7 @@ Dungeon_PrepOverlayDma:
     ; As opposed to vertical dma (vram).
     INC $06
     
-    ; *$F77C ALTERNATE ENTRY POINT
+    ; $00F77C ALTERNATE ENTRY POINT
     .useHorizontalDma
     .nextTileGroup
     
@@ -15319,7 +15159,7 @@ Dungeon_PrepOverlayDma:
 ; ==============================================================================
 
     ; \unused Pretty sure it is so far. Wonder what it was intended for...
-; $F7F1-$F810 DATA
+; $00F7F1-$00F810 DATA
 {
     dw $0004, $0008, $000C, $0010, $0014, $0018, $001C, $0020
     dw $0100, $0200, $0300, $0400, $0500, $0600, $0700, $0800
@@ -15327,7 +15167,7 @@ Dungeon_PrepOverlayDma:
 
 ; ==============================================================================
 
-; *$F811-$F907 LOCAL
+; $00F811-$00F907 LOCAL
 {
     ; Routine used with blast walls to prep vram updates for nmi.
     
@@ -15420,7 +15260,7 @@ Dungeon_PrepOverlayDma:
 ; ==============================================================================
 
     ; \unused
-; $F908-$F966 LOCAL
+; $00F908-$00F966 LOCAL
 {
     ; This routine appears to be unused and unreferenced in the rom so far...
     ; I actually only noticed it by seeing that there was a gap in addresses
@@ -15468,7 +15308,7 @@ Dungeon_PrepOverlayDma:
 
 ; ==============================================================================
 
-; *$F967-$F97F LOCAL
+; $00F967-$00F97F LOCAL
 Dungeon_DrawOverlay:
 {
     .nextObject
@@ -15497,7 +15337,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$F980-$FA49 LOCAL
+; $00F980-$00FA49 LOCAL
 {
     ; Dungeon overlay object "drawer".
     ; Note that it doesn't apply attribute modifications.
@@ -15558,13 +15398,13 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FA4A-$FB0A LOCAL
+; $00FA4A-$00FB0A LOCAL
 {
     LDA $0460 : AND.w #$00FF : STA $04
     
     BRA .BRANCH_ALPHA
     
-    ; *$FA54 ALTERNATE ENTRY POINT
+    ; $00FA54 ALTERNATE ENTRY POINT
     
     LDA $0460 : PHA
     
@@ -15599,7 +15439,7 @@ Dungeon_DrawOverlay:
     
     PLA : STA $0460
     
-    ; *$FAA0 ALTERNATE ENTRY POINT
+    ; $00FAA0 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDX $0460
@@ -15632,7 +15472,7 @@ Dungeon_DrawOverlay:
     
     BRA .BRANCH_KAPPA
     
-    ; *$FAD7 ALTERNATE ENTRY POINT
+    ; $00FAD7 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     JSR $FD79 ; $FD79 IN ROM
@@ -15664,13 +15504,13 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FB0B-$FBC1 JUMP LOCATION
+; $00FB0B-$00FBC1 JUMP LOCATION
 {
     LDA $0460 : AND.w #$00FF : STA $04
     
     BRA .BRANCH_ALPHA
     
-    ; *$FB15 ALTERNATE ENTRY POINT
+    ; $00FB15 ALTERNATE ENTRY POINT
     
     LDA $0460 : PHA
     
@@ -15705,7 +15545,7 @@ Dungeon_DrawOverlay:
     
     PLA : STA $0460
     
-    ; *$FB61 ALTERNATE ENTRY POINT
+    ; $00FB61 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDX $0460
@@ -15734,7 +15574,7 @@ Dungeon_DrawOverlay:
     
     BRA .BRANCH_IOTA
     
-    ; *$FB8E ALTERNATE ENTRY POINT
+    ; $00FB8E ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     JSR $FD79 ; $FD79 IN ROM
@@ -15766,13 +15606,13 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FBC2-$FC7F JUMP LOCATION
+; $00FBC2-$00FC7F JUMP LOCATION
 {
     LDA $0460 : AND.w #$00FF : STA $04
     
     BRA .BRANCH_ALPHA
     
-    ; *$FBCC ALTERNATE ENTRY POINT
+    ; $00FBCC ALTERNATE ENTRY POINT
     
     LDA $0460 : PHA
     
@@ -15807,7 +15647,7 @@ Dungeon_DrawOverlay:
     
     PLA : STA $0460
     
-    ; *$FC18 ALTERNATE ENTRY POINT
+    ; $00FC18 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDX $0460
@@ -15836,7 +15676,7 @@ Dungeon_DrawOverlay:
     
     BRA .BRANCH_IOTA
     
-    ; *$FC45 ALTERNATE ENTRY POINT
+    ; $00FC45 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     JSR $FD79 ; $FD79 IN ROM
@@ -15869,13 +15709,13 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FC80-$FD3D JUMP LOCATION
+; $00FC80-$00FD3D JUMP LOCATION
 {
     LDA $0460 : AND.w #$00FF : STA $04
     
     BRA .BRANCH_ALPHA
     
-    ; *$FC8A ALTERNATE ENTRY POINT
+    ; $00FC8A ALTERNATE ENTRY POINT
     
     LDA $0460 : PHA : AND.w #$000F : STA $04
     
@@ -15908,7 +15748,7 @@ Dungeon_DrawOverlay:
     
     PLA : STA $0460
     
-    ; *$FCD6 ALTERNATE ENTRY POINT
+    ; $00FCD6 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
     LDX $0460
@@ -15937,7 +15777,7 @@ Dungeon_DrawOverlay:
     
     BRA .drawDoor
     
-    ; *$FD03 ALTERNATE ENTRY POINT
+    ; $00FD03 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
     JSR $FD79 ; $FD79 IN ROM
@@ -15970,7 +15810,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FD3E-$FD78 JUMP LOCATION
+; $00FD3E-$00FD78 JUMP LOCATION
 {
     ; Seems to draw a very specific door type. I can only guess what...
     ; Maybe a door revealed by sword swipes like in Agahnim's first room?
@@ -16003,7 +15843,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FD79-$FD91 LOCAL
+; $00FD79-$00FD91 LOCAL
 {
     ; Used in opening doors and closing doors.... not exactly sure what
     ; the point is though. Maybe it selects the offset of the tiles
@@ -16026,7 +15866,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FD92-$FE40 JUMP LOCATION
+; $00FD92-$00FE40 JUMP LOCATION
 {
     ; This routine is used with the exploding walls
     ; (not bomb doors! It's easy to get confused about 
@@ -16054,7 +15894,7 @@ Dungeon_DrawOverlay:
     
     INY #2
     
-    ; *$FDDB ALTERNATE ENTRY POINT
+    ; $00FDDB ALTERNATE ENTRY POINT
     
     LDA.w #$0002 : STA $0E
     
@@ -16084,7 +15924,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; *$FE41-$FEAB LOCAL
+; $00FE41-$00FEAB LOCAL
 Dungeon_ApplyOverlayAttr:
 {
     ; This routine takes performs the modifications to the tile attribute
@@ -16140,14 +15980,14 @@ Dungeon_ApplyOverlayAttr:
     
 ; ==============================================================================
 
-; $FEAC-$FEAF NULL
+; $00FEAC-$00FEAF NULL
 {
     db $FF, $FF, $FF, $FF
 }
 
 ; ==============================================================================
 
-; *$FEB0-$FED1 LONG
+; $00FEB0-$00FED1 LONG
 Dungeon_ApproachFixedColor:
 {
     LDA $9C : AND.b #$1F : CMP $7EC017 : BEQ .targetReached
@@ -16162,7 +16002,7 @@ Dungeon_ApproachFixedColor:
     
     STA $00
     
-    ; *$FEC1 ALTERNATE ENTRY POINT
+    ; $00FEC1 ALTERNATE ENTRY POINT
     .variable
     
     ; Sets fixed color for +/-
@@ -16177,7 +16017,7 @@ Dungeon_ApproachFixedColor:
 
 ; ==============================================================================
 
-; *$FED2-$FF04 LONG
+; $00FED2-$00FF04 LONG
 Player_SetElectrocutionMosaicLevel:
 {
     ; This routine's primary purpose is for the Link's electrocution 
@@ -16196,7 +16036,7 @@ Player_SetElectrocutionMosaicLevel:
     
     LDA $7EC011 : SEC : SBC.b #$10 : BNE .set_mosaic_level
     
-    ; *$FEF0 ALTERNATE ENTRY POINT
+    ; $00FEF0 ALTERNATE ENTRY POINT
     shared Player_SetCustomMosaicLevel:
     
     ; Reset mosaic decreasing flag.
@@ -16217,7 +16057,7 @@ Player_SetElectrocutionMosaicLevel:
 
 ; ==============================================================================
 
-; *$FF05-$FF27 LONG
+; $00FF05-$00FF27 LONG
 Player_LedgeJumpInducedLayerChange:
 {
     ; Executes when Link hits the ground after jumping off of a ledge.
@@ -16252,7 +16092,7 @@ Player_LedgeJumpInducedLayerChange:
 
 ; ==============================================================================
 
-; *$FF28-$FFB5 LONG
+; $00FF28-$00FFB5 LONG
 Player_CacheStatePriorToHandler:
 {
     ; We may be able to remove this routine...
@@ -16294,7 +16134,7 @@ Player_CacheStatePriorToHandler:
 
 ; ==============================================================================
 
-; *$FFB6-$FFD8 LONG
+; $00FFB6-$00FFD8 LONG
 Link_CheckSwimCapability:
 {
     LDA $02E0 : BNE .bunnyGraphics
@@ -16328,7 +16168,7 @@ Link_CheckSwimCapability:
 
 ; ==============================================================================
 
-; *$FFD9-$FFFC LONG
+; $00FFD9-$00FFFC LONG
 Overworld_PitDamage:
 {
     ; Take a heart off of Link and put him in the submodule
@@ -16359,7 +16199,7 @@ Overworld_PitDamage:
 
 ; ==============================================================================
 
-; $FFFD-$FFFF NULL
+; $00FFFD-$00FFFF NULL
 {
     db $FF, $FF, $FF
 }
