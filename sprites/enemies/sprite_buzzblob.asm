@@ -83,11 +83,11 @@ Buzzblob_SelectNewDirection:
 {
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA $D8EE, Y : STA $0D50, X
+    LDA.w $D8EE, Y : STA $0D50, X
     
-    LDA $D8F6, Y : STA $0D40, X
+    LDA.w $D8F6, Y : STA $0D40, X
     
-    LDA $D8FE, Y : STA $0DF0, X
+    LDA.w $D8FE, Y : STA $0DF0, X
     
     RTS
 }

@@ -60,7 +60,7 @@ Ancilla_VictorySparkle:
     
     .next_oam_entry
     
-    LDA $C147, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w $C147, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     REP #$20
     

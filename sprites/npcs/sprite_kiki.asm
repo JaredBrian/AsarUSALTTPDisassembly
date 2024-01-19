@@ -433,9 +433,9 @@ Kiki_LyingInWait:
     
     LDA $0D80, X : SEC : SBC.b #$02 : TAY
     
-    LDA $E57C, Y : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
+    LDA.w $E57C, Y : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
     
-    LDA $E576, Y : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
+    LDA.w $E576, Y : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
     
     INC $0D80, X
     
@@ -450,11 +450,11 @@ Kiki_LyingInWait:
     
     .BRANCH_ALPHA
     
-    LDA $E57C, Y : STA $04
-    LDA $E57D, Y : STA $05
+    LDA.w $E57C, Y : STA $04
+    LDA.w $E57D, Y : STA $05
     
-    LDA $E576, Y : STA $06
-    LDA $E577, Y : STA $07
+    LDA.w $E576, Y : STA $06
+    LDA.w $E577, Y : STA $07
     
     LDA.b #$09 : JSL Sprite_ProjectSpeedTowardsEntityLong
     

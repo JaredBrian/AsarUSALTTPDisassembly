@@ -74,15 +74,15 @@ ReturningSmithy_ApproachTheBench:
     
     INC A : STA $0D90, X
     
-    LDA $B20E, Y : STA $0DF0, X
+    LDA.w $B20E, Y : STA $0DF0, X
     
-    LDA $B210, Y : BMI .done_walking
+    LDA.w $B210, Y : BMI .done_walking
     
     STA $0DE0, X : TAY
     
-    LDA $B213, Y : STA $0D50, X
+    LDA.w $B213, Y : STA $0D50, X
     
-    LDA $B217, Y : STA $0D40, X
+    LDA.w $B217, Y : STA $0D40, X
     
     .direction_change_delay
     
@@ -798,11 +798,11 @@ SmithySpark_Main:
     
     INC A : AND.b #$07 : STA $0D90, X
     
-    LDA $B696, Y : BMI .self_terminate
+    LDA.w $B696, Y : BMI .self_terminate
     
     STA $0DC0, X
     
-    LDA $B69D, Y : STA $0DF0, X
+    LDA.w $B69D, Y : STA $0DF0, X
     
     .delay
     

@@ -401,7 +401,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDX $72
     
-    LDA $D8F6, X      : STA ($90), Y : INY
+    LDA.w $D8F6, X      : STA ($90), Y : INY
     LDA $73 : ORA $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY

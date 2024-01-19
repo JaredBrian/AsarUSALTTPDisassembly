@@ -771,29 +771,29 @@ Main_PrepSpritesForNmi:
         
     LDX $0100
         
-    LDA $9396, X : STA $0ACC : ADC.w #$0200 : STA $0ACE
-    LDA $95F4, X : STA $0AD0 : CLC : ADC.w #$0200 : STA $0AD2
+    LDA.w $9396, X : STA $0ACC : ADC.w #$0200 : STA $0ACE
+    LDA.w $95F4, X : STA $0AD0 : CLC : ADC.w #$0200 : STA $0AD2
         
-    LDX $0102 : LDA $9852, X : STA $0AD4
+    LDX $0102 : LDA.w $9852, X : STA $0AD4
         
-    LDX $0104 : LDA $9852, X : STA $0AD6
+    LDX $0104 : LDA.w $9852, X : STA $0AD6
         
     SEP #$10
         
-    LDX $0107 : LDA $849C, X : STA $0AC0 : CLC : ADC.w #$0180 : STA $0AC2
-    LDX $0108 : LDA $84AC, X : STA $0AC4 : CLC : ADC.w #$00C0 : STA $0AC6
+    LDX $0107 : LDA.w $849C, X : STA $0AC0 : CLC : ADC.w #$0180 : STA $0AC2
+    LDX $0108 : LDA.w $84AC, X : STA $0AC4 : CLC : ADC.w #$00C0 : STA $0AC6
         
     LDA $0109 : AND.w #$00F8 : LSR #2 : TAY
         
     LDA $0109 : ASL A : TAX
         
-    LDA $84B2, X : STA $0AC8
+    LDA.w $84B2, X : STA $0AC8
         
     CLC : TYX : ADC $85B2, X : STA $0ACA
         
     LDA $02C3 : AND.w #$0003 : ASL A : TAX
         
-    LDA $8494, X : STA $0AD8 : CLC : ADC.w #$0100 : STA $0ADA
+    LDA.w $8494, X : STA $0AD8 : CLC : ADC.w #$0100 : STA $0ADA
         
     LDA $7EC00D : DEC A : STA $7EC00D : BNE .ignoreTileAnimation
         ; Reset the counter for tile animation
@@ -829,7 +829,7 @@ Main_PrepSpritesForNmi:
         
         TXA : STA $7EC015
             
-        LDA $85D2, X : STA $7EC013
+        LDA.w $85D2, X : STA $7EC013
             
         LDA.w #$B280 : CLC : ADC $85DE, X : STA $0AE0
         CLC : ADC.w #$0060 : STA $0AE2
@@ -1295,6 +1295,7 @@ Main_SaveGameFile:
 ; ==============================================================================
 
 ; $0009C2-$0009DF NULL
+NULL_0089C2:
 {
     db $FF, $FF, $FF, $FF, $FF, $FF $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF $FF, $FF
@@ -1555,9 +1556,9 @@ NMI_DoUpdates:
     ; Another graphics flag... not sure what it does
     LDY $14 : BEQ .BRANCH_6
         ; $137A, Y in Rom        
-        LDA $937A, Y : STA $00
-        LDA $9383, Y : STA $01
-        LDA $938C, Y : STA $02
+        LDA.w $937A, Y : STA $00
+        LDA.w $9383, Y : STA $01
+        LDA.w $938C, Y : STA $02
         
         JSR $92A1 ; $12A1 in Rom
         
@@ -1699,7 +1700,7 @@ NMI_UploadTilemap:
     
     ; $1888, X that is
     ; Sets the high byte of the Target VRAM address.
-    LDX $0116 : LDA $9888, X : STA $2117
+    LDX $0116 : LDA.w $9888, X : STA $2117
     
     ; bank of the source address is 0x00
     STZ $4304
@@ -2037,7 +2038,7 @@ NMI_LightWorldMode7Tilemap:
 
         LDA.w #$0020 : STA $06
         
-        LDA $8E4C, X : STA $00
+        LDA.w $8E4C, X : STA $00
 
         .beta
 
@@ -2545,9 +2546,9 @@ NMI_UpdateStarTiles:
     
     STA $14 : TAY
     
-    LDA $937A, Y : STA $00
-    LDA $9383, Y : STA $01
-    LDA $938C, Y : STA $02
+    LDA.w $937A, Y : STA $00
+    LDA.w $9383, Y : STA $01
+    LDA.w $938C, Y : STA $02
     
     JSR $92A1 ; $0012A1 in Rom
     
@@ -2574,7 +2575,7 @@ NMI_UpdateStarTiles:
     
     LDA $0418 : AND.w #$000F : ADC $045C : PHA : ASL A : TAY
     
-    LDX $910F, Y
+    LDX.w $910F, Y
     
     LDY.w #$0000
 
@@ -2611,7 +2612,7 @@ NMI_UpdateStarTiles:
     
     LDA $045C : CLC : ADC.b #$04 : STA $045C
     
-    LDA $912F, X : STA $0116
+    LDA.w $912F, X : STA $0116
     
     LDA.b #$01 : STA $17 : STA $0710
     
@@ -2639,7 +2640,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
     ; Start off at zero.
     LDA $0418 : AND.w #$000F : ADC $045C : PHA : ASL A : TAY
     
-    LDX $910F, Y
+    LDX.w $910F, Y
     
     LDY.w #$0000
 
@@ -2671,7 +2672,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
     
     SEP #$30
     
-    LDA $912F, X : CLC : ADC.b #$10 : STA $0116
+    LDA.w $912F, X : CLC : ADC.b #$10 : STA $0116
     
     LDA.b #$01 : STA $17 : STA $0710
     
@@ -2686,7 +2687,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
 
     .waterLoop
 
-            LDA $9B52, X
+            LDA.w $9B52, X
             
             STA $1000, Y : STA $1002, Y : STA $1040, Y : STA $1042, Y
             STA $1080, Y : STA $1082, Y : STA $10C0, Y : STA $10C2, Y
@@ -2697,7 +2698,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
     
     SEP #$30
     
-    LDA $912F, X : CLC : ADC.b #$10 : STA $0116
+    LDA.w $912F, X : CLC : ADC.b #$10 : STA $0116
     
     RTL
 }
@@ -2993,7 +2994,7 @@ LinkOAM_AuxAddresses:
 ; $0018C7-$0018DF DATA something to do with the moving walls
 {
     ; TODO: Duplicate data? either this is duplicate or the address is wrong. Uncommented for now.
-    ;db $10, $00, $08, $00, $04, $00, $02, $00, $01, $80, $00, $40, $00, $20, $00, $10, $00, $08, $00, $04, $00, $02, $00, $01, $00
+    ; db $10, $00, $08, $00, $04, $00, $02, $00, $01, $80, $00, $40, $00, $20, $00, $10, $00, $08, $00, $04, $00, $02, $00, $01, $00
 }
 
 ; $001900-$00190B
@@ -3822,9 +3823,9 @@ GetAnimatedSpriteTile:
     ; Will always load a pointer to sprite graphics pack 0
     LDY.b #$00
     
-    LDA $CFF3, Y : STA $02 : STA $05
-    LDA $D0D2, Y : STA $01
-    LDA $D1B1, Y : STA $00
+    LDA.w $CFF3, Y : STA $02 : STA $05
+    LDA.w $D0D2, Y : STA $01
+    LDA.w $D1B1, Y : STA $00
     
     BRA .expandTo4bpp
 
@@ -4022,7 +4023,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DD97, X : BEQ .noBgGfxChange0
+    LDA.w $DD97, X : BEQ .noBgGfxChange0
         STA $7EC2F8
         
         SEP #$10
@@ -4042,7 +4043,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DD98, X : BEQ .noBgGfxChange1
+    LDA.w $DD98, X : BEQ .noBgGfxChange1
         STA $7EC2F9
         
         SEP #$10
@@ -4062,7 +4063,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DD99, X : BEQ .noBgGfxChange2
+    LDA.w $DD99, X : BEQ .noBgGfxChange2
         STA $7EC2FA
         
         SEP #$10
@@ -4082,7 +4083,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DD9A, X : BEQ .noBgGfxChange3
+    LDA.w $DD9A, X : BEQ .noBgGfxChange3
         STA $7EC2FB
         
         SEP #$10
@@ -4119,7 +4120,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DB57, X : BEQ .noSprGfxChange0
+    LDA.w $DB57, X : BEQ .noSprGfxChange0
         STA $7EC2FC
 
     .noSprGfxChange0
@@ -4137,7 +4138,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DB58, X : BEQ .noSprGfxChange1
+    LDA.w $DB58, X : BEQ .noSprGfxChange1
         STA $7EC2FD
 
     .noSprGfxChange1
@@ -4155,7 +4156,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DB59, X : BEQ .noSprGfxChange2
+    LDA.w $DB59, X : BEQ .noSprGfxChange2
         STA $7EC2FE
 
     .noSprGfxChange2
@@ -4173,7 +4174,7 @@ LoadTransAuxGfx:
     
     LDX $0E
     
-    LDA $DB5A, X : BEQ .noSprGfxChange3
+    LDA.w $DB5A, X : BEQ .noSprGfxChange3
         STA $7EC2FF
 
     .noSprGfxChange3
@@ -4300,7 +4301,7 @@ Attract_DecompressStoryGfx:
 
 ; ==============================================================================
 
-; $005837-$005854 Jump Table ;overworld mirror warp gfx decompression
+; $005837-$005854 Jump Table ; overworld mirror warp gfx decompression
 pool_AnimateMirrorWarp:
 {
     ; TODO: interleaved!
@@ -4339,11 +4340,11 @@ AnimateMirrorWarp:
     
     LDX $0200
     
-    LDA $00D855, X : STA $17 : STA $0710 ;5855
+    LDA $00D855, X : STA $17 : STA $0710 ; 5855
     
     ; Determine which subroutine in the jump table to call.
-    LDA $00D837, X : STA $0E ;5837
-    LDA $00D846, X : STA $0F ;5846
+    LDA $00D837, X : STA $0E ; 5837
+    LDA $00D846, X : STA $0F ; 5846
     
     LDX.b #$00
     
@@ -4475,29 +4476,29 @@ AnimateMirrorWarp:
     
     SEP #$20
     
-    LDA $DD97, Y : BNE .override1
-        LDA $E076, X
+    LDA.w $DD97, Y : BNE .override1
+        LDA.w $E076, X
 
     .override1
 
     STA $7EC2F8
     
-    LDA $DD98, Y : BNE .override2
-        LDA $E077, X
+    LDA.w $DD98, Y : BNE .override2
+        LDA.w $E077, X
 
     .override2
 
     STA $7EC2F9
     
-    LDA $DD99, Y : BNE .override3
-        LDA $E078, X
+    LDA.w $DD99, Y : BNE .override3
+        LDA.w $E078, X
 
     .override3
 
     STA $7EC2FA
     
-    LDA $DD9A, Y : BNE .override4
-        LDA $E079, X
+    LDA.w $DD9A, Y : BNE .override4
+        LDA.w $E079, X
 
     .override4
 
@@ -4509,22 +4510,22 @@ AnimateMirrorWarp:
     
     SEP #$20
     
-    LDA $DB57, Y : BEQ .noChange1
+    LDA.w $DB57, Y : BEQ .noChange1
         STA $7EC2FC
 
     .noChange1
 
-    LDA $DB58, Y : BEQ .noChange2
+    LDA.w $DB58, Y : BEQ .noChange2
         STA $7EC2FD
 
     .noChange2
 
-    LDA $DB59, Y : BEQ .noChange3
+    LDA.w $DB59, Y : BEQ .noChange3
         STA $7EC2FE
 
     .noChange3
 
-    LDA $DB5A, Y : BEQ .noChange4
+    LDA.w $DB5A, Y : BEQ .noChange4
         STA $7EC2FF
 
     .noChange4
@@ -4712,9 +4713,9 @@ AnimateMirrorWarp:
         
     LDA $00D8F4, X : TAY
         
-    LDA $D1B1, Y : STA $00
-    LDA $D0D2, Y : STA $01
-    LDA $CFF3, Y : STA $02
+    LDA.w $D1B1, Y : STA $00
+    LDA.w $D0D2, Y : STA $01
+    LDA.w $CFF3, Y : STA $02
     STA $05
         
     PLB
@@ -5192,28 +5193,28 @@ InitTilesets:
     
     SEP #$20
     
-    LDA $DB57,Y : BEQ .skipSprSlot1
+    LDA.w $DB57,Y : BEQ .skipSprSlot1
         STA $7EC2FC
 
     .skipSprSlot1
 
     LDA $7EC2FC : STA $09
     
-    LDA $DB58,Y : BEQ .skipSprSlot2
+    LDA.w $DB58,Y : BEQ .skipSprSlot2
         STA $7EC2FD
 
     .skipSprSlot2
 
     LDA $7EC2FD : STA $08
     
-    LDA $DB59,Y : BEQ .skipSprSlot3
+    LDA.w $DB59,Y : BEQ .skipSprSlot3
         STA $7EC2FE
 
     .skipSprSlot3
 
     LDA $7EC2FE : STA $07
     
-    LDA $DB5A,Y : BEQ .skipSprSlot4
+    LDA.w $DB5A,Y : BEQ .skipSprSlot4
         STA $7EC2FF
 
     .skipSprSlot4
@@ -5255,39 +5256,39 @@ InitTilesets:
     
     SEP #$20
     
-    LDA $E073, Y : STA $0D
-    LDA $E074, Y : STA $0C
-    LDA $E075, Y : STA $0B
+    LDA.w $E073, Y : STA $0D
+    LDA.w $E074, Y : STA $0C
+    LDA.w $E075, Y : STA $0B
     
-    LDA $DD97, X : BNE .overrideDefaultBgSlot1
-        LDA $E076, Y
+    LDA.w $DD97, X : BNE .overrideDefaultBgSlot1
+        LDA.w $E076, Y
 
     .overrideDefaultBgSlot1
 
     STA $7EC2F8 : STA $0A
     
-    LDA $DD98, X : BNE .overrideDefaultBgSlot2
-        LDA $E077, Y
+    LDA.w $DD98, X : BNE .overrideDefaultBgSlot2
+        LDA.w $E077, Y
 
     .overrideDefaultBgSlot2
 
     STA $7EC2F9 : STA $09
     
-    LDA $DD99, X : BNE .overrideDefaultBgSlot3
-        LDA $E078, Y
+    LDA.w $DD99, X : BNE .overrideDefaultBgSlot3
+        LDA.w $E078, Y
 
     .overrideDefaultBgSlot3
 
     STA $7EC2FA : STA $08
     
-    LDA $DD9A, X : BNE .overrideDefaultBgSlot4
-        LDA $E079, Y
+    LDA.w $DD9A, X : BNE .overrideDefaultBgSlot4
+        LDA.w $E079, Y
 
     .overrideDefaultBgSlot4
 
     STA $7EC2FB : STA $07
     
-    LDA $E07A, Y : STA $06
+    LDA.w $E07A, Y : STA $06
     
     SEP #$10
     
@@ -5359,9 +5360,9 @@ LoadDefaultGfx:
     LDA.b #$80 : STA $2115
     
     ; The long address at $00[3] is $10F000 = $87000 in rom.
-    LDA $CFF3 : STA $02
-    LDA $D0D2 : STA $01
-    LDA $D1B1 : STA $00
+    LDA.w $CFF3 : STA $02
+    LDA.w $D0D2 : STA $01
+    LDA.w $D1B1 : STA $00
     
     REP #$20
 
@@ -5573,7 +5574,7 @@ Graphics_LoadChrHalfSlot:
     
     PHB : PHK : PLB
     
-    LDA $E3E5, X : BMI .negative
+    LDA.w $E3E5, X : BMI .negative
         STA $0AB1 ; $0AB1 can be derived from $0AAA
         
         CPX.b #$01 : BNE .notSlot1
@@ -5635,7 +5636,7 @@ Graphics_LoadChrHalfSlot:
     LDA.b #$0B : STA $17
     
     ; $0063D1, X THAT IS
-    LDY $E3D1, X : CPY.b #$01 : BNE .dontUseDefault
+    LDY.w $E3D1, X : CPY.b #$01 : BNE .dontUseDefault
         ; Just load the typical misc sprite graphics in this case
         LDY $0AA4
 
@@ -5644,9 +5645,9 @@ Graphics_LoadChrHalfSlot:
     ; Y = sprite graphics pack to load. Note that decompression will not be occuring,
     ; just conversion to 4bpp from 3bpp
     
-    LDA $CFF3, Y : STA $02 : STA $05
-    LDA $D0D2, Y : STA $01
-    LDA $D1B1, Y : STA $00
+    LDA.w $CFF3, Y : STA $02 : STA $05
+    LDA.w $D0D2, Y : STA $01
+    LDA.w $D1B1, Y : STA $00
     
     REP #$31
     
@@ -6013,9 +6014,9 @@ LoadCommonSprGfx:
     ; Loads more sprite graphics using index #$06
     LDY $0AA4
     
-    LDA $CFF3, Y : STA $02    
-    LDA $D0D2, Y : STA $01
-    LDA $D1B1, Y : STA $00
+    LDA.w $CFF3, Y : STA $02    
+    LDA.w $D0D2, Y : STA $01
+    LDA.w $D1B1, Y : STA $00
     
     REP #$20
     
@@ -6055,9 +6056,9 @@ LoadCommonSprGfx:
         LDY.b #$06
         
         ; Determine the address of the data to directly convert from 3bpp to 4bpp
-        LDA $CFF3, Y : STA $02
-        LDA $D0D2, Y : STA $01
-        LDA $D1B1, Y : STA $00
+        LDA.w $CFF3, Y : STA $02
+        LDA.w $D0D2, Y : STA $01
+        LDA.w $D1B1, Y : STA $00
         
         REP #$20
         
@@ -6118,9 +6119,9 @@ Decomp:
     .spr_variable
 
     ; Set $C8[3], the indirect long source address
-    LDA $CFF3, Y : STA $CA
-    LDA $D0D2, Y : STA $C9
-    LDA $D1B1, Y : STA $C8
+    LDA.w $CFF3, Y : STA $CA
+    LDA.w $D0D2, Y : STA $C9
+    LDA.w $D1B1, Y : STA $C8
     
     BRA .begin
 
@@ -6143,9 +6144,9 @@ Decomp:
     ; GetSrcTypeTwo( )
     
     ; Set $C8[3], the indirect long source address
-    LDA $CF80, Y : STA $CA
-    LDA $D05F, Y : STA $C9
-    LDA $D13E, Y : STA $C8
+    LDA.w $CF80, Y : STA $CA
+    LDA.w $D05F, Y : STA $C9
+    LDA.w $D13E, Y : STA $C8
 
     .begin
 
@@ -6409,16 +6410,16 @@ PaletteFilter:
     
     ; To avoid confusion, in this routine this does in fact load from bank $00
     ; $0C will contain a 2-byte value that consists of a single bit
-    LDA $98C0, X : STA !bitFilter
+    LDA.w $98C0, X : STA !bitFilter
     
     PHB : PHK : PLB
     
     ; this variable determines whether we're darkening or lightening the screen
     LDA $7EC009 : TAX
     
-    LDA $E880, X : STA $06
-    LDA $E884, X : STA $08
-    LDA $E888, X : STA $0A
+    LDA.w $E880, X : STA $06
+    LDA.w $E884, X : STA $08
+    LDA.w $E888, X : STA $0A
     
     LDX.w #$0040
     
@@ -6573,15 +6574,15 @@ PaletteFilterUnused:
     
     AND.w #$000F : ASL A : TAX
     
-    LDA $98C0, X : STA $0C
+    LDA.w $98C0, X : STA $0C
     
     PHB : PHK : PLB
     
     LDA $7EC009 : TAX
     
-    LDA $E880, X : STA $06
-    LDA $E884, X : STA $08
-    LDA $E888, X : STA $0A
+    LDA.w $E880, X : STA $06
+    LDA.w $E884, X : STA $08
+    LDA.w $E888, X : STA $0A
     
     LDX.w #$0040
     LDA.w #$0200
@@ -6730,9 +6731,9 @@ PaletteFilterHistory:
     
     LDA $7EC009 : TAX
     
-    LDA $E880, X : STA $06
-    LDA $E884, X : STA $08
-    LDA $E888, X : STA $0A
+    LDA.w $E880, X : STA $06
+    LDA.w $E884, X : STA $08
+    LDA.w $E888, X : STA $0A
     
     ; going to just modify BP2
     LDX.w #$0020
@@ -6870,9 +6871,9 @@ Palette_Filter_SP5F:
         
         LDA $7EC009 : TAX
         
-        LDA $E880, X : STA $06
-        LDA $E884, X : STA $08
-        LDA $E888, X : STA $0A
+        LDA.w $E880, X : STA $06
+        LDA.w $E884, X : STA $08
+        LDA.w $E888, X : STA $0A
         
         LDX.w #$01A0
         LDA.w #$01B0
@@ -6949,9 +6950,9 @@ KholdstareShell_PaletteFiltering:
         
         LDA $7EC009 : TAX
         
-        LDA $E880, X : STA $06
-        LDA $E884, X : STA $08
-        LDA $E888, X : STA $0A
+        LDA.w $E880, X : STA $06
+        LDA.w $E884, X : STA $08
+        LDA.w $E888, X : STA $0A
         
         LDX.w #$0080
         LDA.w #$0090
@@ -7046,9 +7047,9 @@ PaletteFilter_Agahnim:
     
     LDA $7EC009 : TAX
     
-    LDA $E880, X : STA $06
-    LDA $E884, X : STA $08
-    LDA $E888, X : STA $0A
+    LDA.w $E880, X : STA $06
+    LDA.w $E884, X : STA $08
+    LDA.w $E888, X : STA $0A
     
     LDX $00 : PHX
     
@@ -7275,85 +7276,90 @@ MirrorGFXDecompress:
 
 ; =============================================
 
-; $006EE7-$006F89 LONG
+; $006EE7-$006EF0 LONG
+MirrorWarp_RunAnimationSubmodules:
 {
     DEC $06BB : BNE MirrorGFXDecompress_return
         LDA.b #$02 : STA $06BB
 
-        ; $006EF1 ALTERNATE ENTRY POINT
+        ; Bleeds into the next function.
+}
 
-        REP #$30
+; $006EF1-$006F89 LONG
+PaletteFilter_BlindingWhite:
+{
+    REP #$30
         
-        LDA $7EC009
+    LDA $7EC009
         
-        CMP.w #$00FF : BEQ MirrorGFXDecompress_return
-            CMP.w #$0002 : BNE .alpha
+    CMP.w #$00FF : BEQ MirrorGFXDecompress_return
+        CMP.w #$0002 : BNE .alpha
             
-                LDX.w #$0040 : LDA.w #$01B0
+            LDX.w #$0040 : LDA.w #$01B0
                 
-                JSR RestorePaletteAdditive
+            JSR RestorePaletteAdditive
                 
-                LDX.w #$01C0
-                LDA.w #$01E0
-                
-                JSR RestorePaletteAdditive
-                
-                BRA .beta
-
-            .alpha
-
-            LDX.w #$0040
-            LDA.w #$01B0
-            
-            JSR RestorePaletteSubtractive
-            
             LDX.w #$01C0
             LDA.w #$01E0
-            
-            JSR RestorePaletteSubtractive
-
-            ; $006F27 ALTERNATE ENTRY POINT
-            .beta
-
-            LDA $7EC540 : STA $7EC500
-            
-            LDA $7EC009 : BNE .gamma
-                LDA $7EC007 : INC A : STA $7EC007 : CMP.w #$0042 : BNE .delta
-                    LDA.w #$00FF : STA $7EC009
-                    
-                    SEP #$20
-                    
-                    LDA.b #$20 : STA $06BB
-
-                .delta
-
-                SEP #$30
                 
+            JSR RestorePaletteAdditive
+                
+            BRA .PaletteFilter_StartBlindingWhite
+
+        .alpha
+
+        LDX.w #$0040
+        LDA.w #$01B0
+            
+        JSR RestorePaletteSubtractive
+            
+        LDX.w #$01C0
+        LDA.w #$01E0
+            
+        JSR RestorePaletteSubtractive
+
+        ; $006F27 ALTERNATE ENTRY POINT
+        .PaletteFilter_StartBlindingWhite
+
+        LDA $7EC540 : STA $7EC500
+            
+        LDA $7EC009 : BNE .gamma
+            LDA $7EC007 : INC A : STA $7EC007 : CMP.w #$0042 : BNE .delta
+                LDA.w #$00FF : STA $7EC009
+                    
+                SEP #$20
+                    
+                LDA.b #$20 : STA $06BB
+
+            .delta
+
+            SEP #$30
+                
+            INC $15
+                
+            RTL
+
+        .gamma
+
+        LDA $7EC007 : INC A : STA $7EC007 : CMP.w #$001F : BNE .delta
+            LDA $7EC009 : EOR.w #$0002 : STA $7EC009
+                
+            SEP #$30
+                
+            LDA $10 : CMP.b #$15 : BNE .epsilon
+                STZ $420C : STZ $9B
+                    
+                REP #$20
+                    
+                LDX.b #$3E : LDA.w #$0778
+                    
+                JSL $00FE3E ; $007E3E IN ROM
+                    
                 INC $15
-                
-                RTL
 
-            .gamma
+            .epsilon
 
-            LDA $7EC007 : INC A : STA $7EC007 : CMP.w #$001F : BNE .delta
-                LDA $7EC009 : EOR.w #$0002 : STA $7EC009
-                
-                SEP #$30
-                
-                LDA $10 : CMP.b #$15 : BNE .epsilon
-                    STZ $420C : STZ $9B
-                    
-                    REP #$20
-                    
-                    LDX.b #$3E : LDA.w #$0778
-                    
-                    JSL $00FE3E ; $007E3E IN ROM
-                    
-                    INC $15
-
-                .epsilon
-
-                RTL
+            RTL
 }
 
 ; =============================================
@@ -7774,7 +7780,7 @@ PaletteFilter_IncreaseTrinexxBlue:
 
 ; ==============================================================================
 
-;*$007253-$00728A LONG
+; *$007253-$00728A LONG
 PaletteFilter_RestoreTrinexxBlue:
 {
     LDA $04BF : BNE IncreaseTrinexxBlue_countdown
@@ -8073,7 +8079,7 @@ ResetSpotlightTable:
     
     TAX
     
-    LDY $F44B, X : STY $0A : STY $4202
+    LDY.w $F44B, X : STY $0A : STY $4202
     
     LDA $067C : STA $4203
     
@@ -8998,7 +9004,7 @@ Sprite_LoadGfxProperties:
     db $42, $42, $30, $40, $40, $42, $42, $40
     db $42, $42, $30, $40, $40, $42, $42, $30
 
-    ;007D1C - overworld palette group data
+    ; 007D1C - overworld palette group data
 }
 
 ; =============================================

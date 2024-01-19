@@ -291,8 +291,8 @@ Octorock_SpitOutRock:
     
     LDA !direction, Y : TAX
     
-    LDA $D4C5, X : STA $0D50, Y
-    LDA $D4C9, X : STA $0D40, Y
+    LDA.w $D4C5, X : STA $0D50, Y
+    LDA.w $D4C9, X : STA $0D40, Y
     
     PLX
     

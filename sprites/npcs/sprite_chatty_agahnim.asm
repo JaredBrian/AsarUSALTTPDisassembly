@@ -483,7 +483,7 @@ ChattyAgahnim_DrawTelewarpSpell:
     
     INY
     
-    LDA $D50B, Y : TAY
+    LDA.w $D50B, Y : TAY
     
     .next_oam_entry
     

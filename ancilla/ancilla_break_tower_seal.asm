@@ -398,8 +398,8 @@ BreakTowerSeal_ExecuteSparkles:
     JSR Ancilla_SetOam_XY
     
     ; Uses the same chr and properties as the master sword swing sparkle?
-    LDA $C1E4, X              : STA ($90), Y : INY
-    LDA $C1E7, X : ORA.b #$30 : STA ($90), Y : INY
+    LDA.w $C1E4, X              : STA ($90), Y : INY
+    LDA.w $C1E7, X : ORA.b #$30 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

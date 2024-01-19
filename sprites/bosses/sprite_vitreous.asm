@@ -204,7 +204,7 @@ Vitreous_SelectVitreolusToActivate:
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA $E5CA, Y : TAY
+    LDA.w $E5CA, Y : TAY
     LDA $0D80, Y : BNE .already_activated
     
     

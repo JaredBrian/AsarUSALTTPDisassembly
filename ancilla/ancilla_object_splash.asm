@@ -69,14 +69,14 @@ Ancilla_TransmuteToObjectSplash:
     
     .next_oam_entry
     
-    LDA $C987, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w $C987, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     PHX : TXA : ASL A : TAX
     
     REP #$20
     
-    LDA $C99B, X : CLC : ADC $04 : STA $00
-    LDA $C9AF, X : CLC : ADC $06 : STA $02
+    LDA.w $C99B, X : CLC : ADC $04 : STA $00
+    LDA.w $C9AF, X : CLC : ADC $06 : STA $02
     
     SEP #$20
     
@@ -84,12 +84,12 @@ Ancilla_TransmuteToObjectSplash:
     
     JSR Ancilla_SetOam_XY
     
-    LDA $C987, X              : STA ($90), Y : INY
-    LDA $C991, X : ORA.b #$24 : STA ($90), Y : INY
+    LDA.w $C987, X              : STA ($90), Y : INY
+    LDA.w $C991, X : ORA.b #$24 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA $C9C3, X : STA ($92), Y
+    LDA.w $C9C3, X : STA ($92), Y
     
     PLY
     

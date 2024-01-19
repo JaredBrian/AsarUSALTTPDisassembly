@@ -172,7 +172,7 @@ Pikit_AttemptItemGrab:
     
     CLC : ADC $8CD2, Y : TAY
     
-    LDA $8C8A, Y : STA $0D90, X : STA $04
+    LDA.w $8C8A, Y : STA $0D90, X : STA $04
                                   STZ $05
     
     BPL .sign_extend_x_offset
@@ -186,7 +186,7 @@ Pikit_AttemptItemGrab:
     PLA : CLC : ADC $8CDA, Y : TAY
     
     ; Two STZs in a row?
-    LDA $8C8A, Y : STA $0DA0, X : STA $06
+    LDA.w $8C8A, Y : STA $0DA0, X : STA $06
                                   STZ $07
                                   STZ $07
     

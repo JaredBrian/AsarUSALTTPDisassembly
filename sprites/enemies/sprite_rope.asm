@@ -143,7 +143,7 @@ Rope_Moving:
     
     LDA $0E70, X : BEQ .no_tile_collision
     
-    LDA $AA40, Y : STA $0DE0, X : TAY
+    LDA.w $AA40, Y : STA $0DE0, X : TAY
     
     .no_tile_collision
     

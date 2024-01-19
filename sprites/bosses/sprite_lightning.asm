@@ -12,7 +12,7 @@ Sprite_Lightning:
     
     LDA $0F50, X : AND.b #$B1 : ORA $E3A5, Y : ORA $00 : STA $0F50, X
     
-    LDA $E39D, Y
+    LDA.w $E39D, Y
     
     LDY $048E : CPY.b #$20 : BNE .BRANCH_ALPHA
     
@@ -48,7 +48,7 @@ Sprite_Lightning:
     
     STZ $01
     
-    LDA $E3AD, Y : BPL .BRANCH_DELTA
+    LDA.w $E3AD, Y : BPL .BRANCH_DELTA
     
     DEC $01
     

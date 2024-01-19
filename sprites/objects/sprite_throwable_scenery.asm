@@ -68,7 +68,7 @@ Sprite_ThrowableScenery:
     
     TAX
     
-    LDA $AABE, X : LDY.b #$02 : STA ($90), Y : INY
+    LDA.w $AABE, X : LDY.b #$02 : STA ($90), Y : INY
     
     LDA ($90), Y : AND.b #$F0 : PLX : ORA $AACA, X : STA ($90), Y
     

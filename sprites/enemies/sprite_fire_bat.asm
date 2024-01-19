@@ -86,7 +86,7 @@ Sprite_FireBat:
 {
     INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA $8C34, Y : STA $0DC0, X
+    LDA.w $8C34, Y : STA $0DC0, X
     
     RTS
 }

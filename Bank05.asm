@@ -159,7 +159,7 @@ SpriteActive2_Main:
     ; Sprite routines 3*
     
     ; Please note that the numbers in the comments to the right are the actual sprite numbers
-    ; and have nothing to do with the orientation of the table, though they ;are in order.
+    ; and have nothing to do with the orientation of the table, though they ; are in order.
     
     dw Sprite_Soldier                     ; 0x41 - Green Soldier
     dw Sprite_Soldier                     ; 0x42 - Blue Soldier
@@ -488,7 +488,7 @@ Soldier_Main:
     
     LDA $0E30, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA $C2D0, Y : STA $0DF0, X
+    LDA.w $C2D0, Y : STA $0DF0, X
     
     LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
     
@@ -584,9 +584,9 @@ pool Probe:
 {
     LDY $0DA0, X
     
-    LDA $C359, Y : STA $0D50, X
+    LDA.w $C359, Y : STA $0D50, X
     
-    LDA $C361, Y : STA $0D40, X
+    LDA.w $C361, Y : STA $0D40, X
     
     JSR Sprite2_CheckTileCollision
     
@@ -595,7 +595,7 @@ pool Probe:
     
     LDY $0DA0, X
     
-    LDA $C399, Y : STA $0DA0, X
+    LDA.w $C399, Y : STA $0DA0, X
     
     BRA .beta
     
@@ -613,7 +613,7 @@ pool Probe:
     
     LDA $0E70, Y : AND $C381, Y : BEQ .gamma
     
-    LDA $C391, Y : STA $0DA0, X
+    LDA.w $C391, Y : STA $0DA0, X
     
     .gamma
     
@@ -623,7 +623,7 @@ pool Probe:
     
     LDA Soldier.chase_y_speeds, Y : STA $0D40, X
     
-    LDA $C379, Y : STA $0DE0, X : STA $0EB0, X
+    LDA.w $C379, Y : STA $0DE0, X : STA $0EB0, X
     
     JMP $C454 ; $02C454 IN ROM
 }
@@ -801,7 +801,7 @@ Sprite2_ZeroVelocity:
     
     .gamma
     
-    LDA $C566, X : JSL Sprite_ApplySpeedTowardsPlayerLong
+    LDA.w $C566, X : JSL Sprite_ApplySpeedTowardsPlayerLong
     
     JSR Sprite2_DirectionToFacePlayer : TYA : STA $0DE0, X : STA $0EB0, X
     
@@ -942,9 +942,9 @@ Sprite_SpawnProbeStaggered:
     
     TXA : STA $0DE0, Y
     
-    LDA $C56E, X : STA $0D50, Y
+    LDA.w $C56E, X : STA $0D50, Y
     
-    LDA $C5AE, X : STA $0D40, Y
+    LDA.w $C5AE, X : STA $0D40, Y
     
     LDA $0E40, Y : AND.b #$F0 : ORA.b #$A0 : STA $0E40, Y
     
@@ -1082,8 +1082,8 @@ Soldier_AnimateMarionetteTempLong:
     
     SEP #$20
     
-    LDA $C6A2, X : INY           : STA ($90), Y
-    LDA $C6A6, X : INY : ORA $05 : STA ($90), Y
+    LDA.w $C6A2, X : INY           : STA ($90), Y
+    LDA.w $C6A6, X : INY : ORA $05 : STA ($90), Y
     
     TYA : LSR #2 : TAY
     
@@ -1098,7 +1098,7 @@ Soldier_AnimateMarionetteTempLong:
 {
     LDY $0DE0, X
     
-    LDA $CA05, Y : TAY
+    LDA.w $CA05, Y : TAY
     
     ; $02CA10 ALTERNATE ENTRY POINT
     
@@ -1117,9 +1117,9 @@ Soldier_AnimateMarionetteTempLong:
     
     LDA $08 : CMP.b #$46 : BCC .alpha
     
-    LDA $C99D, X : BEQ .beta
+    LDA.w $C99D, X : BEQ .beta
     
-    LDA $C8CD, X
+    LDA.w $C8CD, X
     
     PLX : PHX
     
@@ -1151,7 +1151,7 @@ Soldier_AnimateMarionetteTempLong:
     
     LDX $06
     
-    LDA $C8CD, X : INY : STA ($90), Y : CMP.b #$20 : BNE .delta
+    LDA.w $C8CD, X : INY : STA ($90), Y : CMP.b #$20 : BNE .delta
     
     LDA.b #$02 : STA $0D
     
@@ -1163,11 +1163,11 @@ Soldier_AnimateMarionetteTempLong:
     
     .delta
     
-    LDA $C99D, X : CMP.b #$01
+    LDA.w $C99D, X : CMP.b #$01
     
     .epsilon
     
-    LDA $C935, X : ORA $05
+    LDA.w $C935, X : ORA $05
     
     BCS .zeta
     
@@ -1179,7 +1179,7 @@ Soldier_AnimateMarionetteTempLong:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $C99D, X : ORA $0F : STA ($92), Y
+    LDA.w $C99D, X : ORA $0F : STA ($92), Y
     
     PLY : INY
     
@@ -1204,7 +1204,7 @@ Soldier_AnimateMarionetteTempLong:
     
     LDY $0DE0, X
     
-    LDA $CB60, Y : TAY
+    LDA.w $CB60, Y : TAY
     
     PHX
     
@@ -1220,11 +1220,11 @@ Soldier_AnimateMarionetteTempLong:
     
     REP #$20
     
-    LDA $CAB8, X : CLC : ADC $00 : STA ($90), Y
+    LDA.w $CAB8, X : CLC : ADC $00 : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
-    LDA $CAF0, X : CLC : ADC $02 : INY : STA ($90), Y
+    LDA.w $CAF0, X : CLC : ADC $02 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
     
@@ -1234,14 +1234,14 @@ Soldier_AnimateMarionetteTempLong:
     
     SEP #$20
     
-    LDA $CAB8, X : STA $0FAB
-    LDA $CAF0, X : STA $0FAA
+    LDA.w $CAB8, X : STA $0FAB
+    LDA.w $CAF0, X : STA $0FAA
     
     PLX
     
     LDA $08 : CMP.b #$02
     
-    LDA $CB28, X : BCS .beta
+    LDA.w $CB28, X : BCS .beta
     
     ADC.b #$03
     
@@ -1249,7 +1249,7 @@ Soldier_AnimateMarionetteTempLong:
     
     INY : STA ($90), Y
     
-    LDA $CB44, X : ORA $05 : INY : STA ($90), Y
+    LDA.w $CB44, X : ORA $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -1284,7 +1284,7 @@ Sprite_PsychoSpearSoldier:
     
     TXA : AND.b #$03 : TAY
     
-    LDA $C56A, Y
+    LDA.w $C56A, Y
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -1358,7 +1358,7 @@ Sprite_PsychoTrooper:
     
     TXA : AND.b #$03 : TAY
     
-    LDA $C56A, Y
+    LDA.w $C56A, Y
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -1387,7 +1387,7 @@ Sprite_PsychoTrooper:
     
     INC $0E80, X : LDA $0E80, X : LSR A : AND.b #$07 : ORA $00 : TAY
     
-    LDA $B0C7, Y : STA $0DC0, X
+    LDA.w $B0C7, Y : STA $0DC0, X
     
     RTS
 }
@@ -1442,11 +1442,11 @@ Sprite_PsychoTrooper:
     
     REP #$20
     
-    LDA $CCE8, X : CLC : ADC $00 : STA ($90), Y
+    LDA.w $CCE8, X : CLC : ADC $00 : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
-    LDA $CD08, X : CLC : ADC $02 : INY : STA ($90), Y
+    LDA.w $CD08, X : CLC : ADC $02 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
     
@@ -1456,19 +1456,19 @@ Sprite_PsychoTrooper:
     
     SEP #$20
     
-    LDA $CCE8, X : STA $0FAB
-    LDA $CD08, X : STA $0FAA
+    LDA.w $CCE8, X : STA $0FAB
+    LDA.w $CD08, X : STA $0FAA
     
     PLX
     
-    LDA $08 : CMP.b #$48 : LDA $CD28, X : BCC .gamma
+    LDA $08 : CMP.b #$48 : LDA.w $CD28, X : BCC .gamma
     
     SBC.b #$03
     
     .gamma
     
                                                        INY : STA ($90), Y
-    LDA $CD38, X : ORA $05 : AND.b #$F1 : ORA.b #$08 : INY : STA ($90), Y
+    LDA.w $CD38, X : ORA $05 : AND.b #$F1 : ORA.b #$08 : INY : STA ($90), Y
     
     PLX
     
@@ -2189,7 +2189,7 @@ Sprite_BushJavelinSoldier:
     
     PLA : LSR #2 : TAY
     
-    LDA $D203, Y : STA $0DC0, X
+    LDA.w $D203, Y : STA $0DC0, X
     
     RTS
     
@@ -2283,7 +2283,7 @@ Sprite_BushJavelinSoldier:
     
     LSR #2 : TAY
     
-    LDA $D2BE, Y : STA $0DC0, X
+    LDA.w $D2BE, Y : STA $0DC0, X
     
     RTS
 }
@@ -2322,9 +2322,9 @@ Sprite_BushJavelinSoldier:
     
     PLX
     
-    LDA $D305, X : INY : STA ($90), Y
+    LDA.w $D305, X : INY : STA ($90), Y
     
-    LDA $D313, X : ORA.b #$20 : PLX : BNE .beta
+    LDA.w $D313, X : ORA.b #$20 : PLX : BNE .beta
     
     AND.b #$F1 : ORA $05
     
@@ -2398,7 +2398,7 @@ ArcherSoldier_Draw:
     
     LDY $0DE0, X
     
-    LDA $D4D0, Y
+    LDA.w $D4D0, Y
     
     PLY
     
@@ -2436,8 +2436,8 @@ ArcherSoldier_Draw:
     
     PLX
     
-    LDA $D470, X              : INY : STA ($90), Y
-    LDA $D4A0, X : ORA.b #$20 : INY : STA ($90), Y
+    LDA.w $D470, X              : INY : STA ($90), Y
+    LDA.w $D4A0, X : ORA.b #$20 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     

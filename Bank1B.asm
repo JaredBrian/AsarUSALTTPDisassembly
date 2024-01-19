@@ -1999,7 +1999,7 @@ MiseryMireEntrance_PhaseOutRain:
     PLA : AND.b #$F8 : LSR #3 : TAX
     
     ; $98C1, Y THAT IS
-    LDA $98C1, Y
+    LDA.w $98C1, Y
     
     STZ $1D
     

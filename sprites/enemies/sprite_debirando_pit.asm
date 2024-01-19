@@ -78,8 +78,8 @@ Sprite_DebirandoPit:
     
     CLC : ADC $0D90, X : STA $0D90, X : BCC .zeta
     
-    LDA $852D, Y : STA $0B7E
-    LDA $852F, Y : STA $0B7F
+    LDA.w $852D, Y : STA $0B7E
+    LDA.w $852F, Y : STA $0B7F
     
     .zeta
     
@@ -95,8 +95,8 @@ Sprite_DebirandoPit:
     
     CLC : ADC $0DA0, X : STA $0DA0, X : BCC .gamma
     
-    LDA $852D, Y : STA $0B7C
-    LDA $852F, Y : STA $0B7D
+    LDA.w $852D, Y : STA $0B7C
+    LDA.w $852F, Y : STA $0B7D
     
     .gamma
     .no_player_contact

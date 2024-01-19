@@ -173,7 +173,7 @@ Ancilla_TravelBirdIntro:
     
     ; Indicate which chr to transfer to vram for the travel bird. There are
     ; only two states, but this is updated every frame.
-    LDA $DDE5, Y : STA $0AF4
+    LDA.w $DDE5, Y : STA $0AF4
     
     JSR Ancilla_PrepOamCoord
     
@@ -205,15 +205,15 @@ Ancilla_TravelBirdIntro:
     REP #$20
     
     ; Check up on this to work on the bird (Paul)
-    LDA $DDDE : AND.w #$00FF : CLC : ADC $04 : STA $00
-    LDA $DDE1 : AND.w #$00FF : CLC : ADC $06 : STA $02
+    LDA.w $DDDE : AND.w #$00FF : CLC : ADC $04 : STA $00
+    LDA.w $DDE1 : AND.w #$00FF : CLC : ADC $06 : STA $02
     
     SEP #$20
     
     JSR Ancilla_SetOam_XY
     
-    LDA $DDD8                        : STA ($90), Y : INY
-    LDA $DDDB : ORA.b #$30 : ORA $08 : STA ($90), Y : INY
+    LDA.w $DDD8                        : STA ($90), Y : INY
+    LDA.w $DDDB : ORA.b #$30 : ORA $08 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

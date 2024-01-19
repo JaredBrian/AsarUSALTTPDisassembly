@@ -264,8 +264,8 @@ Sprite_HappinessPond:
     
     LDA AddReceiveItem.wide_item_flag, X : TAY
     
-    LDA $C4B1, Y : STA $08
-    LDA $C4B2, Y : STA $09
+    LDA.w $C4B1, Y : STA $08
+    LDA.w $C4B2, Y : STA $09
     
     LDA.b #$04
     
@@ -331,8 +331,8 @@ Sprite_HappinessPond:
     
     STA $0DC0, X : TAY
     
-    LDA $C527, Y : STA $1CF2
-    LDA $C528, Y : STA $1CF3
+    LDA.w $C527, Y : STA $1CF2
+    LDA.w $C528, Y : STA $1CF3
     
     LDA.b #$4E
     LDY.b #$01
@@ -370,11 +370,11 @@ Sprite_HappinessPond:
 {
     LDA $1CE8 : CLC : ADC $0DC0, X : TAY
     
-    LDA $C527, Y : STA $1CF3
+    LDA.w $C527, Y : STA $1CF3
     
     REP #$20
     
-    LDA $C523, Y : AND.w #$00FF : STA $00
+    LDA.w $C523, Y : AND.w #$00FF : STA $00
     
     LDA $7EF360 : CMP $00 : BCC .BRANCH_$3455D
     
@@ -1008,7 +1008,7 @@ YesIThrewIt:
     ; Store the value for the new item message.
     LDA.b #$04 : STA $0EB0, X
     
-    ;You are an honest person. I like you. I will give you something important... These are the Silver Arrows. To give Ganon his last moment, you definitely need them!  I know I don't quite have the figure of a faerie. Ganon's cruel power is to blame! You must defeat Ganon!
+    ; You are an honest person. I like you. I will give you something important... These are the Silver Arrows. To give Ganon his last moment, you definitely need them!  I know I don't quite have the figure of a faerie. Ganon's cruel power is to blame! You must defeat Ganon!
     LDA.b #$4F
     LDY.b #$01
     
@@ -1327,14 +1327,14 @@ FairyQueen_Draw:
     LDA $00 : CLC : ADC $CA0E, X       : STA ($90), Y
     LDA $02 : CLC : ADC $CA26, X : INY : STA ($90), Y
     
-    LDA $CA3E, X            : INY : STA ($90), Y
-    LDA $CA56, X : ORA $05  : INY : STA ($90), Y
+    LDA.w $CA3E, X            : INY : STA ($90), Y
+    LDA.w $CA56, X : ORA $05  : INY : STA ($90), Y
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA $CA6E, X : STA ($92), Y
+    LDA.w $CA6E, X : STA ($92), Y
     
     PLY : INY
     

@@ -222,7 +222,7 @@ Pirogusu_Swim:
     JSL GetRandomInt : LSR A : LDA $0DE0, X : ROL A : TAY
     
     ; \task Needs to be named.
-    LDA $9254, Y : STA $0DE0, X
+    LDA.w $9254, Y : STA $0DE0, X
     
     .anochange_direction
     

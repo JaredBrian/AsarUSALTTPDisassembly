@@ -126,9 +126,9 @@ Sprite_ChainChomp:
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA $BF0C, Y : ASL #2 : STA $0D50, X
+    LDA.w $BF0C, Y : ASL #2 : STA $0D50, X
     
-    LDA $BF1C, Y : ASL #2 : STA $0D40, X
+    LDA.w $BF1C, Y : ASL #2 : STA $0D40, X
     
     JSL GetRandomInt : AND.b #$00 : BNE .BRANCH_GAMMA
     
@@ -148,9 +148,9 @@ Sprite_ChainChomp:
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA $BF0C, Y : STA $0D50, X
+    LDA.w $BF0C, Y : STA $0D50, X
     
-    LDA $BF1C, Y : STA $0D40, X
+    LDA.w $BF1C, Y : STA $0D40, X
     
     INC $0D80, X
     
@@ -266,7 +266,7 @@ Sprite_ChainChomp:
     
     LDA.b #$05 : STA $0D
     
-    LDA $BE3C, X : TAX
+    LDA.w $BE3C, X : TAX
     
     LDA $7FFC00, X : SEC : SBC $00 : STA $04
     LDA $7FFD00, X : SEC : SBC $02 : STA $05
@@ -290,7 +290,7 @@ Sprite_ChainChomp:
     
     PHX : TXA : AND.b #$0F : TAX
     
-    LDA $C01E, X : STA $4203
+    LDA.w $C01E, X : STA $4203
     
     PLX
     
@@ -327,7 +327,7 @@ Sprite_ChainChomp:
     
     TXA : AND.b #$0F : TAX
     
-    LDA $C01E, X : STA $4203
+    LDA.w $C01E, X : STA $4203
     
     PLX
     
@@ -389,7 +389,7 @@ Sprite_ChainChomp:
 {
     PHX
     
-    LDA $BE3C, X : TAX
+    LDA.w $BE3C, X : TAX
     
     REP #$20
     
@@ -472,7 +472,7 @@ Sprite_ChainChomp:
     
     PHX
     
-    LDA $BE3C, X : TAX
+    LDA.w $BE3C, X : TAX
     
     LDY.b #$04
     

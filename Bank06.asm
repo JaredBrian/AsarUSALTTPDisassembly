@@ -216,8 +216,8 @@ Player_ApplyRumbleToSprites:
     LDA $20 : ADC .y_offsets_low,  Y : STA $01
     LDA $21 : ADC .y_offsets_high, Y : STA $09
     
-    LDA $80F4, Y : STA $02
-    LDA $80F6, Y : STA $03
+    LDA.w $80F4, Y : STA $02
+    LDA.w $80F6, Y : STA $03
     
     JSR Entity_ApplyRumbleToSprites
     
@@ -335,7 +335,7 @@ Sprite_SpawnThrowableTerrain:
     
     TAY
     
-    LDA $AACA, Y : STA $0F50, X
+    LDA.w $AACA, Y : STA $0F50, X
     
     LDA.b #$09 : STA $7FFA2C, X
     
@@ -405,7 +405,7 @@ Sprite_SpawnSecret:
     STY $0D
     
     ; List of sprites that can be spawned by secrets
-    LDA $81F3, Y : BEQ .easy_out
+    LDA.w $81F3, Y : BEQ .easy_out
     
     JSL Sprite_SpawnDynamically : BMI .easy_out
     
@@ -413,9 +413,9 @@ Sprite_SpawnSecret:
     
     LDX $0D
     
-    LDA $8209, X : STA $0D80, Y
-    LDA $8235, X : STA $0BA0, Y
-    LDA $824B, X : STA $0F80, Y
+    LDA.w $8209, X : STA $0D80, Y
+    LDA.w $8235, X : STA $0BA0, Y
+    LDA.w $824B, X : STA $0F80, Y
     
     LDA $00 : CLC : ADC $821F, X : STA $0D10, Y
     LDA $01 : ADC.b #$00   : STA $0D30, Y
@@ -2269,9 +2269,9 @@ Sprite_PrepAndDrawSingleLarge:
     
     LDY $0E20, X
     
-    LDA $DB04, Y : CLC : ADC $0DC0, X : TAY
+    LDA.w $DB04, Y : CLC : ADC $0DC0, X : TAY
     
-    LDA $DA09, Y : PLY : INY : STA ($90), Y
+    LDA.w $DA09, Y : PLY : INY : STA ($90), Y
     LDA $05            : INY : STA ($90), Y
     
     .out_of_bounds_y
@@ -2411,9 +2411,9 @@ Sprite_PrepAndDrawSingleSmall:
     
     LDY $0E20, X
     
-    LDA $DB04, Y : CLC : ADC $0DC0, X : TAY
+    LDA.w $DB04, Y : CLC : ADC $0DC0, X : TAY
     
-    LDA $DA09, Y : PLY : INY : STA ($90), Y
+    LDA.w $DA09, Y : PLY : INY : STA ($90), Y
     LDA $05            : INY : STA ($90), Y
     
     .BRANCH_ALPHA
@@ -2486,9 +2486,9 @@ Sprite_DrawKey:
     
     LDY $0E20, X
     
-    LDA $DB04, Y : CLC : ADC $0DC0, X : TAY
+    LDA.w $DB04, Y : CLC : ADC $0DC0, X : TAY
     
-    LDA $DA09, Y : LDY.b #$02 : STA ($90), Y
+    LDA.w $DA09, Y : LDY.b #$02 : STA ($90), Y
     CLC : ADC.b #$10   : LDY.b #$06 : STA ($90), Y
     LDA $05      : LDY.b #$03 : STA ($90), Y
                    LDY.b #$07 : STA ($90), Y
@@ -2894,7 +2894,7 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     STZ $012E
     
-    LDA $E272, Y : JSL Sound_SetSfx2PanLong
+    LDA.w $E272, Y : JSL Sound_SetSfx2PanLong
     
     ; $03625A ALTERNATE ENTRY POINT
     shared Sprite_ScheduleForBreakage:
@@ -2987,13 +2987,13 @@ Fish_SpawnLeapingFish:
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $E2A7, Y : STA $00
-    LDA $E2AB, Y : STA $01
+    LDA.w $E2A7, Y : STA $00
+    LDA.w $E2AB, Y : STA $01
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $E2A7, Y : STA $02
-    LDA $E2AB, Y : STA $03
+    LDA.w $E2A7, Y : STA $02
+    LDA.w $E2AB, Y : STA $03
     
     JSL Sprite_SpawnSimpleSparkleGarnish
     
@@ -3489,7 +3489,7 @@ Sprite_CheckTileCollisionSingleLayer:
     ; $03672F IN ROM
     JSR $E72F : BCC .BRANCH_ALPHA
     
-    LDA $E723, Y : ORA $0E70, X : STA $0E70, X
+    LDA.w $E723, Y : ORA $0E70, X : STA $0E70, X
     
     LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .BRANCH_ALPHA
     
@@ -3516,7 +3516,7 @@ Sprite_CheckTileCollisionSingleLayer:
     ; $03672F IN ROM
     JSR $E72F : BCC .return
     
-    LDA $E723, Y : ORA $0E70, X : STA $0E70, X
+    LDA.w $E723, Y : ORA $0E70, X : STA $0E70, X
     
     LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .return
     
@@ -4529,14 +4529,14 @@ Sprite_DirectionToFaceEntity:
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    ;36B66 IN ROM
-    LDA .recoilTimes, Y : STA $0EA0, X ;$EB66
+    ; 36B66 IN ROM
+    LDA .recoilTimes, Y : STA $0EA0, X ; $EB66
     
     .BRANCH_EPSILON
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA $EB6E, Y : STA $46
+    LDA.w $EB6E, Y : STA $46
     
     LDA.b #$18
     
@@ -4620,7 +4620,7 @@ Sprite_DirectionToFaceEntity:
     
     LDA.b #$50
     
-    LDY $3C : CPY.b #$09 : BMI .BRANCH_OMICRON ;;not spin attack
+    LDY $3C : CPY.b #$09 : BMI .BRANCH_OMICRON ; not spin attack
     
     LDA.b #$40
     
@@ -4672,7 +4672,7 @@ pool Ancilla_CheckSpriteDamage:
     db 0,  1,  0,  0,  0,  0,  0,  0, 14, 13,  0,  0, 15,  0,  0,  7
     db 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 11
     db 0,  1,  1,  1,  1,  1,  1,  1,  1
-} ;possible: 0, 1, 6, 7, 8, 11, 12, 13, 14, 15
+} ; possible: 0, 1, 6, 7, 8, 11, 12, 13, 14, 15
 
 ; ==============================================================================
 
@@ -4697,7 +4697,7 @@ Ancilla_CheckSpriteDamage:
     
     PLX
     
-    CMP.b #$06 : BNE .not_arrow_damage_class                                ;check for 6
+    CMP.b #$06 : BNE .not_arrow_damage_class                                ; check for 6
     
     ; Do we have silver arrows?
     PHA : LDA $7EF340 : CMP.b #$03
@@ -4722,7 +4722,7 @@ Ancilla_CheckSpriteDamage:
     .preset_class
     .not_arrow_damage_class
     
-    CMP.b #$0F : BNE .not_quake_spell                                       ;check for 15
+    CMP.b #$0F : BNE .not_quake_spell                                       ; check for 15
     
     LDY $0F70, X : BEQ .quake_only_affects_enemy_on_ground
     
@@ -4732,8 +4732,8 @@ Ancilla_CheckSpriteDamage:
     .quake_only_affects_enemy_on_ground
     .not_quake_spell
     
-    CMP.b #$00 : BEQ .boomerang_or_hookshot_class                           ;check for 00
-    CMP.b #$07 : BNE .not_boomerang_or_hookshot                             ;check for 07
+    CMP.b #$00 : BEQ .boomerang_or_hookshot_class                           ; check for 00
+    CMP.b #$07 : BNE .not_boomerang_or_hookshot                             ; check for 07
     
     .boomerang_or_hookshot_class
     
@@ -4769,7 +4769,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$20
     
-    CPY.b #$08 : BNE .not_bomb_class                                        ;check for 8
+    CPY.b #$08 : BNE .not_bomb_class                                        ; check for 8
     
     ; Cause the sprite to recoil more from bomb damage, right?
     LDA.b #$35
@@ -4867,7 +4867,7 @@ Ancilla_CheckSpriteDamage:
     
     SEP #$20
     
-    LDA $7F6000, X : STA $02                        ;loads Selected Sprite Damage in Advanced Damage Editor
+    LDA $7F6000, X : STA $02                        ; loads Selected Sprite Damage in Advanced Damage Editor
     
     SEP #$10
     
@@ -4875,7 +4875,7 @@ Ancilla_CheckSpriteDamage:
     LDA $0CF2 : ASL #3 : ORA $02 : TAX              ;
     
     ; Get the damage value for that monster for that damage class... bah...
-    LDA $0DB8F1, X                                  ;loads Selected Damage Table in Advanced Damage Editor located in sprite_properties.asm
+    LDA $0DB8F1, X                                  ; loads Selected Damage Table in Advanced Damage Editor located in sprite_properties.asm
     
     PLX
     
@@ -4890,7 +4890,7 @@ Ancilla_CheckSpriteDamage:
     
     STA $0E20, X
     
-    JSL Sprite_LoadProperties ;$0DB818
+    JSL Sprite_LoadProperties ; $0DB818
     JSL Sprite_SpawnPoofGarnish
     
     STZ $012F
@@ -4927,7 +4927,7 @@ Ancilla_CheckSpriteDamage:
     CMP $0CE2, X : BCC .ifNewDamageLessIgnore 
     
     ; if(calc_dmg < base_dmg) dmg = base_dmg
-    STA $0CE2, X                             ;---------------------------------------------------adds damage
+    STA $0CE2, X                             ; ---------------------------------------------------adds damage
     
     .ifNewDamageLessIgnore
     
@@ -5510,7 +5510,7 @@ Sprite_CheckDamageToPlayer:
     ; Is the sprite deactivated?
     LDA $0F60, X : BEQ .BRANCH_GAMMA
     
-    JSR Player_SetupHitBox_ignoreImmunity ;$F70A ; $03770A IN ROM; Puts Link's X / Y coords into memory
+    JSR Player_SetupHitBox_ignoreImmunity ; $F70A ; $03770A IN ROM; Puts Link's X / Y coords into memory
     JSR Sprite_SetupHitBox
     JSR Utility_CheckIfHitBoxesOverlap
     
@@ -5547,7 +5547,7 @@ Sprite_CheckDamageToPlayer:
     
     ; Use an alternate direction when the shield is beind held off to the
     ; side (when holding the B button down).
-    LDA $F13D, Y
+    LDA.w $F13D, Y
     
     .BRANCH_THETA
     
@@ -5685,7 +5685,7 @@ Sprite_CheckIfLifted:
         LDA $02F4 : DEC A : CMP $0FA0 : BEQ .player_picks_up_sprite
             ; Set up player's hit box.
             ; $037705 IN ROM
-            JSR Player_SetupHitBox ;$F705
+            JSR Player_SetupHitBox ; $F705
             JSR Sprite_SetupHitBox
                 
             JSR Utility_CheckIfHitBoxesOverlap : BCC .return
@@ -5712,7 +5712,7 @@ Sprite_CheckIfLifted:
         
         JSR Sprite_DirectionToFacePlayer
         
-        LDA $F139, Y : STA $2F
+        LDA.w $F139, Y : STA $2F
         
         PLA : PLA
     
@@ -5924,7 +5924,7 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
     TXA : EOR $1A : LSR A : BCS .delay_player_damage
     
     JSR $F645 ; $037645 IN ROM
-    JSR Player_SetupHitBox ;$F705 ; $037705 IN ROM
+    JSR Player_SetupHitBox ; $F705 ; $037705 IN ROM
     
     JSR Utility_CheckIfHitBoxesOverlap : BCS .dont_damage_player
     
@@ -6091,7 +6091,7 @@ Player_SetupActionHitBox:
     
     LDY $3C : BMI .spin_attack_hit_box
     
-    LDA $F571, Y : BNE .return
+    LDA.w $F571, Y : BNE .return
     
     ; Adding $3C seems to be for the pokey player hit box with the swordy.
     LDA $2F : ASL #3 : CLC : ADC $3C : TAX : INX
@@ -6121,9 +6121,9 @@ Player_SetupActionHitBox:
     TYA : ADC $21 : STA $09
     
     ; Widths of the colision boxes for player? Update: yep (Nov. 2012 haha)
-    LDA $F4AE, X : STA $02
+    LDA.w $F4AE, X : STA $02
     
-    LDA $F530, X : STA $03
+    LDA.w $F530, X : STA $03
     
     PLX
     
@@ -6361,9 +6361,9 @@ Sprite_SetupHitBox:
     LDA $0D00, X : CLC : ADC .y_offsets_low, Y : PHP : SEC : SBC $0F70, X  : STA $05
     LDA $0D20, X : SBC.b #$00   : PLP : ADC .y_offsets_high, Y : STA $0B
     
-    ; Box... widths? right? ;yes it is the width
+    ; Box... widths? right? ; yes it is the width
     LDA .unknown_0, Y : STA $06
-    ;yes it is the height
+    ; yes it is the height
     LDA .unknown_1, Y : STA $07
     
     PLY
@@ -6697,7 +6697,7 @@ SpriteDeath_Main:
     
     PLY
     
-    LDA $FA72, Y
+    LDA.w $FA72, Y
     
     ; $0379D1 ALTERNATE ENTRY POINT
     .BRANCH_ZETA
@@ -6728,7 +6728,7 @@ SpriteDeath_Main:
     
     LDY $0E20, X
     
-    LDA $F98B, Y : PHA
+    LDA.w $F98B, Y : PHA
     
     AND.b #$F0 : STA $0F80, X
     
@@ -6795,7 +6795,7 @@ SpriteDeath_Main:
 ; $037A72-$037AAA
     PrizePack_Prizes: ; $06FA72
     ; wiki link for the prize pack as image : https://alttp-wiki.net/index.php/Enemy_prize_packs
-    ;.group00 Empty group no data for it this label is just here for reference
+    ; .group00 Empty group no data for it this label is just here for reference
     .group01 ; heart, heart, heart, heart, 1rupee, heart, heart, 1rupee
     db $D8, $D8, $D8, $D8, $D9, $D8, $D8, $D9
     .group02 ; 5rupee, 1rupee, 5rupee, 20rupee, 5rupee, 1rupee, 5rupee, 5rupee
@@ -6836,7 +6836,7 @@ SpriteDeath_DrawPerishingOverlay:
     
     PHY
     
-    LDA $FAEA, X : BEQ .skip_entry
+    LDA.w $FAEA, X : BEQ .skip_entry
     
                                             INY #2 : STA ($90), Y
     LDA $0FA9 : SEC : SBC $0C    : CLC : ADC $FACA, X : DEY    : STA ($90), Y
@@ -6925,7 +6925,7 @@ SpriteCustomFall_Main:
     
     .BRANCH_EPSILON
     
-    LDA $FBB6, Y : STA $0DC0, X
+    LDA.w $FBB6, Y : STA $0DC0, X
     
     JSR $FD17   ; $037D17 IN ROM
     
@@ -6933,7 +6933,7 @@ SpriteCustomFall_Main:
     
     .BRANCH_ZETA
     
-    LDA $FB96, Y : CMP.b #$0C : BCS .BRANCH_MU
+    LDA.w $FB96, Y : CMP.b #$0C : BCS .BRANCH_MU
     
     LDY $0DE0, X
     
@@ -7042,12 +7042,12 @@ SpriteCustomFall_Main:
     
     LDA $00      : CLC : ADC $FD43, X       : STA ($90), Y
     LDA $02      : CLC : ADC $FD7B, X : INY : STA ($90), Y
-    LDA $FDB3, X                : INY : STA ($90), Y
-    LDA $FDEB, X : EOR $05      : INY : STA ($90), Y
+    LDA.w $FDB3, X                : INY : STA ($90), Y
+    LDA.w $FDEB, X : EOR $05      : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $FE23, X : STA ($92), Y
+    LDA.w $FE23, X : STA ($92), Y
     
     PLY : INY
     

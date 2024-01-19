@@ -190,11 +190,11 @@ Sprite_SomariaPlatform:
     
     LDY $0DE0, X
     
-    LDA $F6BD, Y : CLC : ADC $0B7C : STA $0B7C
-    LDA $F6B8, Y : ADC $0B7D : STA $0B7D
+    LDA.w $F6BD, Y : CLC : ADC $0B7C : STA $0B7C
+    LDA.w $F6B8, Y : ADC $0B7D : STA $0B7D
     
-    LDA $F6C4, Y : CLC : ADC $0B7E : STA $0B7E
-    LDA $F6CC, Y : ADC $0B7F : STA $0B7F
+    LDA.w $F6C4, Y : CLC : ADC $0B7E : STA $0B7E
+    LDA.w $F6CC, Y : ADC $0B7F : STA $0B7F
     
     JSR Sprite3_Move
     JSR $FB49 ; $0F7B49 IN ROM
@@ -224,9 +224,9 @@ Sprite_SomariaPlatform:
     
     LDY $0DE0, X
     
-    LDA $F6A9, Y : STA $0D50, X
+    LDA.w $F6A9, Y : STA $0D50, X
     
-    LDA $F6B0, Y : STA $0D40, X
+    LDA.w $F6B0, Y : STA $0D40, X
     
     RTS
 }

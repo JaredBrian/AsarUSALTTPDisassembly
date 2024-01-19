@@ -710,8 +710,8 @@ Sage_Terminate:
     
     .beta
     
-    LDA $DDDF, Y       : XBA
-    LDA $DDE2, Y : TAY : XBA
+    LDA.w $DDDF, Y       : XBA
+    LDA.w $DDE2, Y : TAY : XBA
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .gamma
     

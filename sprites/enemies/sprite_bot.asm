@@ -41,8 +41,8 @@ Sprite_Bot:
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA $AAE4, Y : ASL #2 : STA $0D50, X
-    LDA $AAF4, Y : ASL #2 : STA $0D40, X
+    LDA.w $AAE4, Y : ASL #2 : STA $0D50, X
+    LDA.w $AAF4, Y : ASL #2 : STA $0D40, X
     
     .delta
     

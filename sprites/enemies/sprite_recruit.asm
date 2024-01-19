@@ -181,8 +181,8 @@ Recruit_Draw:
     
     SEP #$20
     
-    LDA $C6A2, X : INY           : STA ($90), Y
-    LDA $C6A6, X : INY : ORA $05 : STA ($90), Y
+    LDA.w $C6A2, X : INY           : STA ($90), Y
+    LDA.w $C6A6, X : INY : ORA $05 : STA ($90), Y
     
     ; Set extended X coordinate and priority settings
     LDA.b #$02 : ORA $0F : STA ($92)

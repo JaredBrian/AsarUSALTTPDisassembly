@@ -37,8 +37,8 @@ Ancilla_GameOverText:
     
     DEX
     
-    LDA $F4D2, X : STA $00
-    LDA $F4D5, X : STA $01
+    LDA.w $F4D2, X : STA $00
+    LDA.w $F4D5, X : STA $01
     
     JMP ($0000)
     

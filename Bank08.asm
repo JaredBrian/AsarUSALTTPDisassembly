@@ -181,7 +181,7 @@ AddFireRodShot:
     
     LDA $00 : STA $0C4A, Y : TAX
     
-    LDA $806F, X : STA $0C90, Y
+    LDA.w $806F, X : STA $0C90, Y
     
     LDA.b #$03 : STA $0C68, Y
     
@@ -208,8 +208,8 @@ AddFireRodShot:
     
     LDA $0C4A, Y : CMP.b #$01 : BEQ .sword_determines_speed
     
-    LDA $8068, X : STA $0C2C, Y
-    LDA $806C, X
+    LDA.w $8068, X : STA $0C2C, Y
+    LDA.w $806C, X
     
     BRA .speed_has_been_determined
     
@@ -222,9 +222,9 @@ AddFireRodShot:
     
     TXA : CLC : ADC $0F : TAX
     
-    LDA $8050, X : STA $0C2C, Y
+    LDA.w $8050, X : STA $0C2C, Y
     
-    LDA $805C, X
+    LDA.w $805C, X
     
     .speed_has_been_determined
     
@@ -320,7 +320,7 @@ SomarianBlast_SpawnCentrifugalQuad:
     
     LDA.b #$01 : STA $0C4A, Y : TAX
     
-    LDA $806F, X : STA $0C90, Y
+    LDA.w $806F, X : STA $0C90, Y
     
     LDA.b #$04 : STA $0C54, Y
     LDA.b #$00 : STA $0C5E, Y : STA $0280, Y
@@ -335,8 +335,8 @@ SomarianBlast_SpawnCentrifugalQuad:
     
     JSL Ancilla_TerminateIfOffscreen
     
-    LDA $8050, X : STA $0C2C, Y
-    LDA $805C, X : STA $0C22, Y
+    LDA.w $8050, X : STA $0C2C, Y
+    LDA.w $805C, X : STA $0C22, Y
     
     LDA $04 : STA $0C7C, Y
     
@@ -455,7 +455,7 @@ Bomb_CheckSpriteDamage:
     
     LDA $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king
     
-    ; Only certain parts of the HK are vulnerable.   ;only the stage where he still has his mask
+    ; Only certain parts of the HK are vulnerable.   ; only the stage where he still has his mask
     LDA $0DB0, Y : CMP.b #$03 : BCS .sprite_undamaged
     
     .not_helmasaur_king
@@ -1403,8 +1403,8 @@ Ancilla_SetupHitBox:
     LDA $0BFA, X : CLC : ADC $8E95, Y : STA $01
     LDA $0C0E, X : ADC $09      : STA $09
     
-    LDA $8E89, Y : STA $02
-    LDA $8EA1, Y : STA $03
+    LDA.w $8E89, Y : STA $02
+    LDA.w $8EA1, Y : STA $03
     
     PLY
     
@@ -1912,7 +1912,7 @@ Ancilla_Spawn:
     
     STA $0C4A, X : TAY
     
-    LDA $806F, Y : STA $0C90, X
+    LDA.w $806F, Y : STA $0C90, X
     LDA $EE      : STA $0C7C, X
     LDA $0476    : STA $03CA, X
     
@@ -2386,7 +2386,7 @@ Ancilla_DrawShadow:
     
     SEP #$20
     
-    LDA $F87C, X : CMP.b #$FF : BEQ .only_one_oam_entry
+    LDA.w $F87C, X : CMP.b #$FF : BEQ .only_one_oam_entry
     
     STZ $74
     STZ $75

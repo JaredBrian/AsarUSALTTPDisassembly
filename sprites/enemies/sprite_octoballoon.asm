@@ -178,8 +178,8 @@ Octoballoon_Draw:
     
     PLX
     
-    LDA $D76C, X           : INY : STA ($90), Y
-    LDA $D778, X : ORA $05 : INY : STA ($90), Y
+    LDA.w $D76C, X           : INY : STA ($90), Y
+    LDA.w $D778, X : ORA $05 : INY : STA ($90), Y
     
     PHY
     

@@ -29,7 +29,7 @@ Sprite_GerudoMan:
     AND.w #$00FF : ASL A : TAY
     
     ; Hidden table! gah!!!
-    LDA $B8E0, Y : DEC A : PHA
+    LDA.w $B8E0, Y : DEC A : PHA
     
     SEP #$30
     

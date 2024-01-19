@@ -373,7 +373,7 @@ Chicken_SpawnAvengerChicken:
             
             LDA $0F : AND.b #$01 : TAX
             
-            LDA $9F3C, X : ADC $E8    : STA $0D00, Y
+            LDA.w $9F3C, X : ADC $E8    : STA $0D00, Y
             LDA $E9      : ADC.b #$00 : STA $0D20, Y
             
             BRA .set_velocity
@@ -385,7 +385,7 @@ Chicken_SpawnAvengerChicken:
         
         LDA $0F : AND.b #$01 : TAX
         
-        LDA $9F3C, X : ADC $E2    : STA $0D10, Y
+        LDA.w $9F3C, X : ADC $E2    : STA $0D10, Y
         LDA $E3      : ADC.b #$00 : STA $0D30, Y
     
         .set_velocity

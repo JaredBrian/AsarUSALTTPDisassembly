@@ -247,8 +247,8 @@ MedallionTablet_WaitForMudoraReader:
     
     .zeta
     
-    LDA $F34B, Y       : XBA
-    LDA $F34D, Y : TAY : XBA
+    LDA.w $F34B, Y       : XBA
+    LDA.w $F34D, Y : TAY : XBA
     
     JSL Sprite_ShowMessageUnconditional
     
@@ -310,8 +310,8 @@ MedallionTablet_WaitForEther:
     
     .show_hylian_script
     
-    LDA $F347, Y       : XBA
-    LDA $F349, Y : TAY : XBA
+    LDA.w $F347, Y       : XBA
+    LDA.w $F349, Y : TAY : XBA
     
     JSL Sprite_ShowMessageUnconditional
     

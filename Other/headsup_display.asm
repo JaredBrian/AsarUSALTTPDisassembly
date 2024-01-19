@@ -656,7 +656,7 @@ RefillMagicPower:
     dw $24A3, $24A4, $24A3, $24A0, $0101, $0101
 }
 
-;===================================================================
+; ===================================================================
 
     ; $6FA15
 {
@@ -668,7 +668,7 @@ RefillMagicPower:
     db $0B, $12, $0D, $13, $14
     
     ; not sure what these are used for, if anything... 
-                    ;Used to determine what item to have link use, based on the position of the selected item in the Item Menu see $0303
+                    ; Used to determine what item to have link use, based on the position of the selected item in the Item Menu see $0303
     ; $6FA2A
     
     db $00, $01, $06, $02, $07
@@ -872,15 +872,15 @@ UpdateItemBox:
     .bottleNotEquipped
     
     STA $02
-                ;insert jump here check for 0x15 in X then branch off, interject gfx, and return to .noEquippedItem,
-                ;otherwise insert the next line again and return to LDA $FA93
-    TXA : DEC A : ASL A : TAX ;(x-1)*2
+                ; insert jump here check for 0x15 in X then branch off, interject gfx, and return to .noEquippedItem,
+                ; otherwise insert the next line again and return to LDA.w $FA93
+    TXA : DEC A : ASL A : TAX ; (x-1)*2
     
-    LDA $FA93, X : STA $04 ;for fire rod (05), loads F6A1
+    LDA.w $FA93, X : STA $04 ; for fire rod (05), loads F6A1
     
-    LDA $02 : ASL #3 : TAY ;loads 08
+    LDA $02 : ASL #3 : TAY ; loads 08
     
-    ; These addresses form the item box graphics. ;fire rod loads: 24B0, 24B1, 24C0, 24C1 ;ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1 
+    ; These addresses form the item box graphics. ; fire rod loads: 24B0, 24B1, 24C0, 24C1 ; ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1 
     LDA ($04), Y : STA $7EC74A : INY #2
     LDA ($04), Y : STA $7EC74C : INY #2
     LDA ($04), Y : STA $7EC78A : INY #2

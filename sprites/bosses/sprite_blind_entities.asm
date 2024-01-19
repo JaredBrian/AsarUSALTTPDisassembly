@@ -223,7 +223,7 @@ Sprite_BlindHead:
     
     LDA !head_angle, X : TAX
     
-    LDA $AC4C, X : STA ($90), Y : INY
+    LDA.w $AC4C, X : STA ($90), Y : INY
     
     LDA ($90), Y : AND.b #$3F : ORA $AC5C, X : STA ($90), Y
     
@@ -1204,7 +1204,7 @@ Blind_Animate:
     ; X coordinate.
     LDA $22 : LSR #5 : TAY
     
-    LDA $A6E7, Y
+    LDA.w $A6E7, Y
     
     LDY !blind_direction, X : CPY.b #$03 : BNE .facing_down
     
@@ -1222,7 +1222,7 @@ Blind_Animate:
     
     ; Now offset it by another small amount we calculated earlier and...
     ; fire the laser?
-    LDA $A6D7, Y : CLC : ADC $01 : AND.b #$0F : STA !head_angle, X
+    LDA.w $A6D7, Y : CLC : ADC $01 : AND.b #$0F : STA !head_angle, X
     
     .counterattacking
     

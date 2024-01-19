@@ -129,8 +129,8 @@ DeadRock_PickDirection:
     
     STA $0DE0, X : TAY
     
-    LDA $9500, Y : STA $0D50, X
-    LDA $9502, Y : STA $0D40, X
+    LDA.w $9500, Y : STA $0D50, X
+    LDA.w $9502, Y : STA $0D40, X
     
     .wait
     

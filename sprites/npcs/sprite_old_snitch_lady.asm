@@ -181,9 +181,9 @@ Snitch_FacePlayer:
     
     LDA $0DE0, X : EOR.b #$01 : STA $0EB0, X : TAY
     
-    LDA $E6A2, Y : STA $0D50, X
+    LDA.w $E6A2, Y : STA $0D50, X
     
-    LDA $E6A6, Y : STA $0D40, X
+    LDA.w $E6A6, Y : STA $0D40, X
     
     LDA $0DB0, X : EOR.b #$01 : STA $0DB0, X
     

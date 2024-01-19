@@ -284,7 +284,7 @@ RevivalFaerie_Dust:
     CLC : ADC $00 : TAY
     
     ; oam group? or something else...
-    LDA $B8F4, Y : STA $03C2, X
+    LDA.w $B8F4, Y : STA $03C2, X
     
     .animation_delay
     

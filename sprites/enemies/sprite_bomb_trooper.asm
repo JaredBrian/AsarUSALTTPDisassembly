@@ -234,7 +234,7 @@ BombTrooper_Main:
     
     LDA $0DE0, X : ASL #3 : ORA $00 : CLC : ADC.b #$20 : TAY
     
-    LDA $D001, Y : STA $0DC0, X
+    LDA.w $D001, Y : STA $0DC0, X
     
     RTS
 }

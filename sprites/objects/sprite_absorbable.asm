@@ -358,7 +358,7 @@ OneBombRefill_AbsorptionByPlayer:
     LDY $0E20, X
     
     ; (actual useful values start at $351D5)
-    LDA $D0F9, Y : CLC : ADC $7EF375 : STA $7EF375
+    LDA.w $D0F9, Y : CLC : ADC $7EF375 : STA $7EF375
     
     RTS
 }

@@ -107,13 +107,13 @@ TrinexxHead_Initialize:
     
     JSL Sprite_ConvertVelocityToAngle : LSR A : TAY
     
-    LDA $ADA5, Y : STA $0DC0, X
+    LDA.w $ADA5, Y : STA $0DC0, X
     
     LDY $0E00, X : BEQ .BRANCH_ALPHA
     
     TAY
     
-    LDA $ADAD, Y : STA $0DC0, X
+    LDA.w $ADAD, Y : STA $0DC0, X
     
     .BRANCH_ALPHA
     
@@ -210,9 +210,9 @@ TrinexxHead_Initialize:
     
     LDY $0DE0, X
     
-    LDA $AE65, Y : STA $0D50, X
+    LDA.w $AE65, Y : STA $0D50, X
     
-    LDA $AE69, Y : STA $0D40, X
+    LDA.w $AE69, Y : STA $0D40, X
     
     RTS
 }
@@ -350,7 +350,7 @@ TrinexxHead_Initialize:
 
     LDA $90 : CLC : ADC $AF54, Y : STA $90
     
-    LDA $AF54, Y : LSR #2 : CLC : ADC $92 : STA $92
+    LDA.w $AF54, Y : LSR #2 : CLC : ADC $92 : STA $92
     
     SEP #$20
     
@@ -372,7 +372,7 @@ TrinexxHead_Initialize:
 
 .BRANCH_GAMMA
 
-    LDA $AF3C, Y : STA $0DC0, X : CMP.b #$03 : BEQ .BRANCH_DELTA
+    LDA.w $AF3C, Y : STA $0DC0, X : CMP.b #$03 : BEQ .BRANCH_DELTA
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -572,7 +572,7 @@ Sprite_Trinexx:
     
     LDA $0F : CLC : ADC.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC .BRANCH_GAMMA
     
-    LDA $B0C8, Y
+    LDA.w $B0C8, Y
     
     .BRANCH_GAMMA
     
@@ -652,9 +652,9 @@ Sprite_Trinexx:
     
     .BRANCH_BETA
     
-    LDA $B24A, Y : STA $0B08
+    LDA.w $B24A, Y : STA $0B08
     
-    LDA $B24E, Y : STA $0B09
+    LDA.w $B24E, Y : STA $0B09
     
     JSL GetRandomInt : AND.b #$03 : CMP.b #$01 : TYA : BCS .BRANCH_GAMMA
     
@@ -986,7 +986,7 @@ TrinexxHeadAndSnakeDraw:
     
     LDA $0A : STA $4202
     
-    LDA $B804, Y : STA $4203
+    LDA.w $B804, Y : STA $4203
     
     NOP #8
     
@@ -1010,7 +1010,7 @@ TrinexxHeadAndSnakeDraw:
     
     LDA $0B : STA $4202
     
-    LDA $B804, Y : STA $4203
+    LDA.w $B804, Y : STA $4203
     
     NOP #8
     
@@ -1143,7 +1143,7 @@ TrinexxHeadAndSnakeDraw:
 
     PLX
     
-    LDA $B7FF, X : INY : STA $096C, Y
+    LDA.w $B7FF, X : INY : STA $096C, Y
     LDA $05      : INY : STA $096C, Y
     
     PHY : TYA : LSR #2 : TAY

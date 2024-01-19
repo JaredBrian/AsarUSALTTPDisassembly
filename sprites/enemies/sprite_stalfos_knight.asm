@@ -189,7 +189,7 @@ StalfosKnight_Falling:
     
     LSR #3 : TAY
     
-    LDA $AB96, Y : STA $0EB0, X
+    LDA.w $AB96, Y : STA $0EB0, X
     
     LDA.b #$00 : STA $0DB0, X
     
@@ -340,7 +340,7 @@ StalfosKnight_Falling:
     
     LSR #3 : TAY
     
-    LDA $AC57, Y : STA $0DB0, X
+    LDA.w $AC57, Y : STA $0DB0, X
     
     LDA.b #$03 : STA $0DC0, X
     

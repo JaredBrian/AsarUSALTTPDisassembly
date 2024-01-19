@@ -1629,7 +1629,7 @@ Player_BombosSpell:
     ; Play the "something's falling" sound effect
     LDA.b #$20 : JSR Player_DoSfx2
     
-    JSR $8AD1 ; $038AD1 IN ROM ;20 D1 8A
+    JSR $8AD1 ; $038AD1 IN ROM ; 20 D1 8A
     
     LDA $1B : BNE .indoors
     
@@ -1860,7 +1860,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8AC9, Y : CLC : ADC $20 : STA $20
+    LDA.w $8AC9, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -1903,7 +1903,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8ACD, Y : CLC : ADC $20 : STA $20
+    LDA.w $8ACD, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -1961,7 +1961,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8AC9, Y : CLC : ADC $20 : STA $20
+    LDA.w $8AC9, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -1988,9 +1988,9 @@ Player_BombosSpell:
     
     LSR #4 : TAX
     
-    LDA $8B8B, X : STA $0362 : STA $0363
+    LDA.w $8B8B, X : STA $0362 : STA $0363
     
-    LDA $8B93, X
+    LDA.w $8B93, X
     
     CPY.b #$FF : BNE .BRANCH_GAMMA
     
@@ -2008,7 +2008,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8ACD, X : CLC : ADC $20 : STA $20
+    LDA.w $8ACD, X : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2091,7 +2091,7 @@ Player_BombosSpell:
     
     TXA : LSR #2 : TAX
     
-    LDA $8C65, X
+    LDA.w $8C65, X
     
     CPY.b #$02 : BNE .BRANCH_GAMMA
     
@@ -2113,7 +2113,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8C61, X : CLC : ADC $20 : STA $20
+    LDA.w $8C61, X : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2146,7 +2146,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8CEF, Y : CLC : ADC $22 : STA $22
+    LDA.w $8CEF, Y : CLC : ADC $22 : STA $22
     
     SEP #$20
     
@@ -2181,7 +2181,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8CF3, Y : CLC : ADC $32 : STA $22
+    LDA.w $8CF3, Y : CLC : ADC $32 : STA $22
     
     SEP #$20
 
@@ -2191,7 +2191,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8CF7, Y : CLC : ADC $22 : STA $22
+    LDA.w $8CF7, Y : CLC : ADC $22 : STA $22
     
     LDA $32 : SEC : SBC $22 : BPL .BRANCH_DELTA
     
@@ -2203,7 +2203,7 @@ Player_BombosSpell:
     
     SEP #$20
     
-    LDA $8CFB, X : CPY.b #$02 : BEQ .BRANCH_EPSILON
+    LDA.w $8CFB, X : CPY.b #$02 : BEQ .BRANCH_EPSILON
     
     EOR.b #$FF : INC A
 
@@ -2211,7 +2211,7 @@ Player_BombosSpell:
 
     STA $28
     
-    LDA $8D13, X : STA $0362 : STA $0363
+    LDA.w $8D13, X : STA $0362 : STA $0363
     
     PLX
     
@@ -2296,7 +2296,7 @@ Player_BombosSpell:
     
     SEP #$20
     
-    LDA $8DFD, Y
+    LDA.w $8DFD, Y
     
     CPX.b #$02 : BNE .BRANCH_GAMMA
     
@@ -2340,11 +2340,11 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8E6D, Y : CLC : ADC $22 : STA $22
+    LDA.w $8E6D, Y : CLC : ADC $22 : STA $22
     
     LDA $66 : AND.w #$00FF : ASL A : TAY
     
-    LDA $8E71, Y : CLC : ADC $20 : STA $20
+    LDA.w $8E71, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2352,7 +2352,7 @@ Player_BombosSpell:
     
     PLY : TYA : LSR A : TAY
     
-    LDA $8E79, Y : STA $72
+    LDA.w $8E79, Y : STA $72
     
     LDA $0343 : ORA $035B : ORA $0357 : ORA $0341
     
@@ -2377,7 +2377,7 @@ Player_BombosSpell:
     
     REP #$20
     
-    LDA $8E75, Y : CLC : ADC $20 : STA $20
+    LDA.w $8E75, Y : CLC : ADC $20 : STA $20
     
     SEP #$20
     
@@ -2574,7 +2574,7 @@ Player_BombosSpell:
     ; it to a Tagalong that is waiting for the player to come back (0x03).
     LDA $7EF3CC : TAX : CMP $8F68, X : BNE .BRANCH_MU
     
-    LDA $8F77, X : STA $7EF3CC
+    LDA.w $8F77, X : STA $7EF3CC
     
     .BRANCH_MU
     
@@ -2626,7 +2626,7 @@ Player_BombosSpell:
     
     LDA $2F : LSR A : TAX
     
-    LDA $8F61, X
+    LDA.w $8F61, X
     
     .BRANCH_PI
     
@@ -2699,7 +2699,7 @@ Player_BombosSpell:
     
     LDA $2F : LSR A : TAX
     
-    LDA $8F61, X : STA $00
+    LDA.w $8F61, X : STA $00
     
     LDA $F0 : AND.b #$0F : BEQ .BRANCH_PSI
     CMP $00              : BEQ .BRANCH_PSI
@@ -2720,7 +2720,7 @@ Player_BombosSpell:
     
     LDA $2F : LSR A : TAX
     
-    LDA $8F61, X
+    LDA.w $8F61, X
     
     .BRANCH_OMEGA
     
@@ -2875,9 +2875,9 @@ Player_HaltDashAttackLong:
     LDX $66
     
     ; recoil in the opposite direction from the dash
-    LDA $91BD, X : STA $27
+    LDA.w $91BD, X : STA $27
     
-    LDA $91C1, X : STA $28
+    LDA.w $91C1, X : STA $28
     
     LDA.b #$18 : STA $46
     
@@ -2885,10 +2885,10 @@ Player_HaltDashAttackLong:
     
     LDA $034A : BEQ .BRANCH_DELTA
     
-    LDA $91ED, X : STA $0340 : STA $67
+    LDA.w $91ED, X : STA $0340 : STA $67
     
-    LDA $91C5, X : STA $0338
-    LDA $91C9, X : STA $033A
+    LDA.w $91C5, X : STA $0338
+    LDA.w $91C9, X : STA $033A
     
     PHX
     
@@ -2898,8 +2898,8 @@ Player_HaltDashAttackLong:
     
     REP #$20
     
-    LDA $91CD, X : STA $033C
-    LDA $91DD, X : STA $033E
+    LDA.w $91CD, X : STA $033C
+    LDA.w $91DD, X : STA $033E
     
     SEP #$20
     
@@ -2976,7 +2976,7 @@ Sprite_RepelDashAttackLong:
     ; $0392B9 ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
-    LDA $91ED, Y : TSB $67
+    LDA.w $91ED, Y : TSB $67
     
     .BRANCH_GAMMA
     
@@ -3190,7 +3190,7 @@ Sprite_RepelDashAttackLong:
     
     LDX $02C9
     
-    LDA $92BF, X : TSB $67
+    LDA.w $92BF, X : TSB $67
     
     LDA $00 : BEQ .BRANCH_OMEGA
     
@@ -3579,7 +3579,7 @@ Sprite_RepelDashAttackLong:
     
     LDA $2E : INC A : AND.b #$03 : STA $2E : TAX
     
-    LDA $9635, X : STA $02CC
+    LDA.w $9635, X : STA $02CC
     
     .BRANCH_EPSILON
     
@@ -3766,7 +3766,7 @@ Sprite_RepelDashAttackLong:
     
     DEC A : ASL A : TAY
     
-    LDA $97C3, Y : STA $0326, X
+    LDA.w $97C3, Y : STA $0326, X
     
     PLY
     
@@ -3788,7 +3788,7 @@ Sprite_RepelDashAttackLong:
     
     LDA $0334, X : BNE .BRANCH_ALPHA
     
-    LDA $9639 : STA $0334, X
+    LDA.w $9639 : STA $0334, X
     
     .BRANCH_ALPHA
     
@@ -3899,7 +3899,7 @@ Player_ResetSwimCollision:
     
     .BRANCH_DELTA
     
-    LDA $9896, Y : CMP $033C, X : BCS .BRANCH_GAMMA
+    LDA.w $9896, Y : CMP $033C, X : BCS .BRANCH_GAMMA
     
     INY #2 : CPY.w #$0012 : BNE .BRANCH_DELTA
     
@@ -3919,7 +3919,7 @@ Player_ResetSwimCollision:
     
     LDA.w #$0001 : STA $033C, X
     
-    LDA $9639
+    LDA.w $9639
     
     .BRANCH_GAMMA
     
@@ -3974,7 +3974,7 @@ Player_ResetSwimCollision:
     
     .BRANCH_BETA
     
-    LDA $9639 : STA $0334, X
+    LDA.w $9639 : STA $0334, X
     
     STZ $032F, X
     
@@ -4488,7 +4488,7 @@ Player_Sword:
     .attemptAction
     
     ; Check to see if we have the capability for this action.
-    LDA $9BA2, X : AND $7EF379 : BEQ .cantDoAction
+    LDA.w $9BA2, X : AND $7EF379 : BEQ .cantDoAction
     
     ; Buffer $036C with the current action index.
     STX $036C
@@ -4660,7 +4660,7 @@ Player_Sword:
     
     TAX
     
-    LDA $9CBF, X : STA $3D
+    LDA.w $9CBF, X : STA $3D
     
     CPX.b #$05 : BNE .BRANCH_ZETA
     
@@ -4758,7 +4758,7 @@ Player_Sword:
     
     LDX.b #$0A : STX $3C
     
-    LDA $9CBF, X : STA $3D
+    LDA.w $9CBF, X : STA $3D
 
 .BRANCH_ZETA
 
@@ -4800,7 +4800,7 @@ Player_Sword:
 
     STA $3C : TAX
     
-    LDA $9CBF, X : STA $3D
+    LDA.w $9CBF, X : STA $3D
     
 .BRANCH_THETA
 
@@ -4965,7 +4965,7 @@ LinkItem_Rod:
     JSR LinkItem_RodDiscriminator
     
     ; Delay the spin attack for some amount of time?
-    LDA $9EEC : STA $3D
+    LDA.w $9EEC : STA $3D
     
     STZ $2E
     STZ $0300
@@ -4984,7 +4984,7 @@ LinkItem_Rod:
     
     LDA $0300 : INC A : STA $0300 : TAX
     
-    LDA $9EEC, X : STA $3D
+    LDA.w $9EEC, X : STA $3D
     
     CPX.b #$03 : BNE .BRANCH_GAMMA
     
@@ -5077,7 +5077,7 @@ LinkItem_Hammer:
     
     .BRANCH_GAMMA
     
-    LDA $9F78 : STA $3D
+    LDA.w $9F78 : STA $3D
     
     LDA.b #$01 : TSB $50
     
@@ -5097,7 +5097,7 @@ LinkItem_Hammer:
     
     LDA $0300 : INC A : STA $0300 : TAX
     
-    LDA $9F78, X : STA $3D
+    LDA.w $9F78, X : STA $3D
     
     CPX.b #$01 : BNE .BRANCH_EPSILON
     
@@ -5162,7 +5162,7 @@ LinkItem_Bow:
     
     LDA.b #$01 : TSB $50
     
-    LDA $A003 : STA $3D
+    LDA.w $A003 : STA $3D
     
     STZ $2E
     STZ $0300
@@ -5179,7 +5179,7 @@ LinkItem_Bow:
     
     LDA $0300 : INC A : STA $0300 : TAX
     
-    LDA $A003, X : STA $3D
+    LDA.w $A003, X : STA $3D
     
     CPX.b #$03 : BNE .BRANCH_BETA
     
@@ -5548,7 +5548,7 @@ LinkItem_MagicPowder:
     
     JSR LinkItem_EvaluateMagicCost : BCC .BRANCH_DELTA
     
-    LDA $A289 : STA $3D
+    LDA.w $A289 : STA $3D
     
     STZ $0300
     STZ $2E
@@ -5572,7 +5572,7 @@ LinkItem_MagicPowder:
     
     LDA $0300 : INC A : STA $0300 : TAX
     
-    LDA $A289, X : STA $3D
+    LDA.w $A289, X : STA $3D
     
     CPX.b #$04 : BNE .BRANCH_EPSILON
     
@@ -5631,7 +5631,7 @@ LinkItem_Shovel:
     
     JSR Link_CheckNewY_ButtonPress : BCC .BRANCH_$3A312
     
-    LDA $A320 : STA $3D
+    LDA.w $A320 : STA $3D
     
     STZ $030D
     STZ $0300
@@ -5656,9 +5656,9 @@ LinkItem_Shovel:
     
     LDX $030D : INX : STX $030D
     
-    LDA $A320, X : STA $3D
+    LDA.w $A320, X : STA $3D
     
-    LDA $A326, X : STA $0300 : CMP.b #$01 : BNE .BRANCH_GAMMA
+    LDA.w $A326, X : STA $0300 : CMP.b #$01 : BNE .BRANCH_GAMMA
     
     LDY.b #$02
     
@@ -5914,7 +5914,7 @@ LinkItem_EtherMedallion:
     
     LDA.b #$01 : TSB $50
     
-    LDA $A503 : STA $3D
+    LDA.w $A503 : STA $3D
     
     STZ $031C
     STZ $031D
@@ -5979,9 +5979,9 @@ LinkItem_EtherMedallion:
     
     .BRANCH_GAMMA
     
-    LDA $A503, X : STA $3D
+    LDA.w $A503, X : STA $3D
     
-    LDA $A4F7, X : STA $031C
+    LDA.w $A4F7, X : STA $031C
     
     LDA $0324 : BNE .BRANCH_ALPHA
     
@@ -6038,9 +6038,9 @@ LinkItem_EtherMedallion:
     
     LDA.b #$01 : TSB $50
     
-    LDA $A5E3 : STA $3D
+    LDA.w $A5E3 : STA $3D
     
-    LDA $A5CF : STA $031C
+    LDA.w $A5CF : STA $031C
     
     STZ $031D
     STZ $0324
@@ -6086,9 +6086,9 @@ LinkItem_EtherMedallion:
     
     .BRANCH_DELTA
     
-    LDA $A5E3, X : STA $3D
+    LDA.w $A5E3, X : STA $3D
     
-    LDA $A5CF, X : STA $031C
+    LDA.w $A5CF, X : STA $031C
     
     LDA $0324 : BNE .BRANCH_ALPHA
     
@@ -6146,9 +6146,9 @@ LinkItem_Quake:
     
     LDA.b #$01 : TSB $50
     
-    LDA $A6CA : STA $3D
+    LDA.w $A6CA : STA $3D
     
-    LDA $A6BE : STA $031C
+    LDA.w $A6BE : STA $031C
     
     STZ $031D
     STZ $0324
@@ -6247,9 +6247,9 @@ LinkItem_Quake:
     
     .BRANCH_IOTA
     
-    LDA $A6CA, X : STA $3D
+    LDA.w $A6CA, X : STA $3D
     
-    LDA $A6BE, X : STA $031C
+    LDA.w $A6BE, X : STA $031C
     
     LDA $0324 : BNE .BRANCH_DELTA
     
@@ -6286,11 +6286,11 @@ LinkItem_Quake:
     
     LDA $2F : LSR A : TAX
     
-    LDA $A800, X : STA $031E : TAX
+    LDA.w $A800, X : STA $031E : TAX
     
-    LDA $A7E8 : STA $3D
+    LDA.w $A7E8 : STA $3D
     
-    LDA $A7B8, X : STA $031C : STA $031D, X
+    LDA.w $A7B8, X : STA $031C : STA $031D, X
     
     ; Trigger the spin attack motion.
     LDA.b #$90 : STA $3C
@@ -6460,12 +6460,12 @@ LinkItem_Quake:
     LDA $031D : CLC : ADC $031E : TAX
     
     ; Determine which graphic to display while spinning.
-    LDA $A7B8, X : STA $031C
+    LDA.w $A7B8, X : STA $031C
     
     LDX $031D
     
     ; Determine the frame delay between changing the sprites.
-    LDY $A7F4, X : STY $3D
+    LDY.w $A7F4, X : STY $3D
     
     LDY.b #$08
     
@@ -6488,11 +6488,11 @@ LinkItem_Quake:
     
     LDA $2F : LSR A : TAX
     
-    LDA $A800, X : STA $031E : TAX
+    LDA.w $A800, X : STA $031E : TAX
     
-    LDA $A7E8 : STA $3D
+    LDA.w $A7E8 : STA $3D
     
-    LDA $A7B8, X : STA $031C
+    LDA.w $A7B8, X : STA $031C
     
     STZ $031D
     
@@ -6970,7 +6970,7 @@ LinkItem_Mirror:
     
     STZ $05
     
-    LDA $AB6C, Y : STA $04 : BPL .BRANCH_THETA
+    LDA.w $AB6C, Y : STA $04 : BPL .BRANCH_THETA
     
     LDA.b #$FF : STA $05
 
@@ -6978,7 +6978,7 @@ LinkItem_Mirror:
 
     STZ $07
     
-    LDA $AB70, Y : STA $06 : BPL .BRANCH_IOTA
+    LDA.w $AB70, Y : STA $06 : BPL .BRANCH_IOTA
     
     LDA.b #$FF : STA $07
 
@@ -6987,8 +6987,8 @@ LinkItem_Mirror:
     STZ $27
     STZ $28
     
-    LDA $AB74, Y : STA $08 : STZ $09
-    LDA $AB78, Y : STA $0A : STZ $0B
+    LDA.w $AB74, Y : STA $08 : STZ $09
+    LDA.w $AB78, Y : STA $0A : STZ $0B
     
     REP #$20
     
@@ -7243,7 +7243,7 @@ LinkItem_Cape:
     
     LDA $7EF37B : TAY
     
-    LDA $AEBE, Y : STA $4C
+    LDA.w $AEBE, Y : STA $4C
     
     LDA.b #$14 : STA $02E2
     
@@ -7417,7 +7417,7 @@ LinkItem_CaneOfSomaria:
     
     JSL AddSomarianBlock
     
-    LDA $9EEC : STA $3D
+    LDA.w $9EEC : STA $3D
     
     STZ $2E
     STZ $0300
@@ -7435,7 +7435,7 @@ LinkItem_CaneOfSomaria:
     
     LDA $0300 : INC A : STA $0300 : TAX
     
-    LDA $9EEC, X : STA $3D
+    LDA.w $9EEC, X : STA $3D
     
     CPX.b #$03 : BNE .return
     
@@ -7592,9 +7592,9 @@ PlayerItem_CaneOfByrna:
     
     LDA $2F : LSR A : TAY
     
-    LDX $AFF4, Y
+    LDX.w $AFF4, Y
     
-    LDA $AFCC, X : STA $0300
+    LDA.w $AFCC, X : STA $0300
     
     LDA.b #$03 : STA $3D
     
@@ -7622,9 +7622,9 @@ PlayerItem_CaneOfByrna:
     
     LDA $2F : LSR A : TAY
     
-    LDA $AFF4, Y : CLC : ADC $030D : TAY
+    LDA.w $AFF4, Y : CLC : ADC $030D : TAY
     
-    LDA $AFCC, Y : STA $0300
+    LDA.w $AFCC, Y : STA $0300
     
     CPX.b #$0A : BNE .BRANCH_BETA
     
@@ -7882,7 +7882,7 @@ Link_Lift:
     STZ $3A
     
     ; Set an animation timer
-    LDA $B199 : STA $030B
+    LDA.w $B199 : STA $030B
     
     ; Set it so Link is kneeling down to pick up the item
     LDA.b #$01 : STA $0309
@@ -7937,7 +7937,7 @@ Link_Lift:
     
     LDA $030B : CMP.b #$05 : BCC .alpha
     
-    LDA $B19C : STA $030B
+    LDA.w $B19C : STA $030B
     
     .alpha
     
@@ -7983,9 +7983,9 @@ Link_Lift:
     
     STA $0300 : TAX
     
-    LDA $B1B6, X : STA $030B
+    LDA.w $B1B6, X : STA $030B
     
-    LDA $B1C0, X : STA $030A
+    LDA.w $B1C0, X : STA $030A
     
     CPX.b #$06 : BNE .BRANCH_THETA
     
@@ -8022,7 +8022,7 @@ Link_Lift:
     
     LDX $030A : INX
     
-    LDA $B199, X : STA $030B
+    LDA.w $B199, X : STA $030B
     
     STX $030A : CPX.b #$03 : BNE .BRANCH_THETA
     
@@ -8112,7 +8112,7 @@ Link_Lift:
     STZ $2E
     STZ $030A
     
-    LDA $B314 : STA $030B
+    LDA.w $B314 : STA $030B
     
     STZ $030D
     
@@ -8153,8 +8153,8 @@ Link_Lift:
     
     STX $030D
     
-    LDA $B31B, X : STA $030A
-    LDA $B314, X : STA $030B
+    LDA.w $B31B, X : STA $030A
+    LDA.w $B314, X : STA $030B
     
     .BRANCH_DELTA
     
@@ -8184,7 +8184,7 @@ Link_MovableStatue:
     STZ $2E
     STZ $030A
     
-    LDA $B314 : STA $030B
+    LDA.w $B314 : STA $030B
     
     STZ $030D
     
@@ -8228,9 +8228,9 @@ Link_MovableStatue:
     
     STX $030D
     
-    LDA $B31B, X : STA $030A
+    LDA.w $B31B, X : STA $030A
     
-    LDA $B314, X : STA $030B
+    LDA.w $B314, X : STA $030B
     
     .BRANCH_DELTA
     
@@ -8264,7 +8264,7 @@ Link_MovableStatue:
     STZ $2E
     STZ $030A
     
-    LDA $B314 : STA $030B
+    LDA.w $B314 : STA $030B
     
     STZ $030D
     
@@ -8326,8 +8326,8 @@ Link_MovableStatue:
     
     INC $030D : LDX $030D
     
-    LDA $B31B, X : STA $030A
-    LDA $B314, X : STA $030B
+    LDA.w $B31B, X : STA $030A
+    LDA.w $B314, X : STA $030B
     
     CPX.b #$07 : BNE .BRANCH_DELTA
     
@@ -8371,7 +8371,7 @@ Link_MovableStatue:
     
     LDA.b #$02 : STA $030B
     
-    LDA $B400D, X : STA $030A
+    LDA.w $B400D, X : STA $030A
     
     LDA.b #$30 : STA $27
     
@@ -8724,7 +8724,7 @@ Link_Chest:
 
 .BRANCH_EPSILON
 
-    LDA $B64B, Y : STA $42
+    LDA.w $B64B, Y : STA $42
 
 .BRANCH_IOTA
 
@@ -8812,7 +8812,7 @@ Link_Chest:
 
 .BRANCH_OMICRON
 
-    LDA $B64B, Y : STA $43
+    LDA.w $B64B, Y : STA $43
 
 .BRANCH_SIGMA
 
@@ -9277,7 +9277,7 @@ Link_Chest:
 
 .BRANCH_OMICRON
 
-    LDA $B7C3, Y : STA $49
+    LDA.w $B7C3, Y : STA $49
 
 .BRANCH_XI
 
@@ -9681,7 +9681,7 @@ BRANCH_ULTIMA
     
     LDA $7EF35B : TAY
     
-    LDA $BA07, Y : STA $0373
+    LDA.w $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
     JSR $AE54   ; $03AE54 IN ROM
@@ -10344,7 +10344,7 @@ BRANCH_ULTIMA
 
     LDA $7EF35B : TAY
     
-    LDA $BA07, Y : STA $0373
+    LDA.w $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
     JSR $AE54 ; $03AE54 IN ROM
@@ -10365,12 +10365,12 @@ BRANCH_ULTIMA
 ; $03C16D-$03C1A0 LOCAL 
 {
     ; Check the sub sub mode we're in.
-    LDA $4D : CMP.b #$01 : BEQ .BRANCH_ALPHA ;3C171 Change from F0 to 80 to stop players from jumping off ledges all together
+    LDA $4D : CMP.b #$01 : BEQ .BRANCH_ALPHA ; 3C171 Change from F0 to 80 to stop players from jumping off ledges all together
     
     ; Is Link running? Bypass waiting to jump off of a ledge. I think...
     LDA $0372 : BNE .BRANCH_BETA
     
-    DEC $0375 : BPL .BRANCH_ALPHA ;3C17B Change from 10 to 80 to stop players from jumping off ledges unless dashing
+    DEC $0375 : BPL .BRANCH_ALPHA ; 3C17B Change from 10 to 80 to stop players from jumping off ledges unless dashing
     
     LDA.b #$13 : STA $0375
     
@@ -10674,7 +10674,7 @@ BRANCH_ULTIMA
     
     STX $00
     
-    LDA $C2BA, X : TAX
+    LDA.w $C2BA, X : TAX
     
     LDA $66 : BNE .BRANCH_GAMMA
     
@@ -10688,12 +10688,12 @@ BRANCH_ULTIMA
     
     LDX $00
     
-    LDA $C2B2, X : STA $29 : STA $02C7
+    LDA.w $C2B2, X : STA $29 : STA $02C7
     
     STZ $24
     STZ $25
     
-    LDA $C2C0, X : STA $46
+    LDA.w $C2C0, X : STA $46
     
     LDA $4D : CMP.b #$02 : BEQ .BRANCH_DELTA
     
@@ -10757,7 +10757,7 @@ BRANCH_ULTIMA
     
     LDA $32 : LSR #3 : TAY
     
-    LDA $C30C, Y : TAX
+    LDA.w $C30C, Y : TAX
     
     LDA $66 : BNE .BRANCH_GAMMA
     
@@ -10768,11 +10768,11 @@ BRANCH_ULTIMA
     STX $27
     STZ $28
     
-    LDA $C32C, Y : STA $29 : STA $02C7
+    LDA.w $C32C, Y : STA $29 : STA $02C7
     
     STZ $24 : STZ $25
     
-    LDA $C34C, Y : STA $46
+    LDA.w $C34C, Y : STA $46
     
     LDA.b #$02 : STA $4D
     
@@ -10821,9 +10821,9 @@ BRANCH_ULTIMA
     
     SEP #$20
     
-    LDA $C409, Y : EOR.b #$FF : INC A : STA $27
+    LDA.w $C409, Y : EOR.b #$FF : INC A : STA $27
     
-    LDA $C429, Y
+    LDA.w $C429, Y
     
     CPX.b #$02
     
@@ -10835,7 +10835,7 @@ BRANCH_ULTIMA
 
     STA $28
     
-    LDA $C449, Y : STA $29 : STA $02C7
+    LDA.w $C449, Y : STA $29 : STA $02C7
     
     STZ $24
     STZ $25
@@ -10939,7 +10939,7 @@ BRANCH_ULTIMA
 
 .BRANCH_XI
 
-    LDA $B7C3, Y : STA $49
+    LDA.w $B7C3, Y : STA $49
 
 .BRANCH_NU
 
@@ -11246,7 +11246,7 @@ BRANCH_ULTIMA
     
     LDA $7EF35B : TAY
     
-    LDA $BA07, Y : STA $0373
+    LDA.w $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
     JSR $AE54 ; $03AE54 IN ROM
@@ -11661,7 +11661,7 @@ BRANCH_ULTIMA
     
     LDA.b #$FF : STA $0364
     
-    LDA.b #$0C : STA $5D ;3CA1B
+    LDA.b #$0C : STA $5D ; 3CA1B
     
     LDA.b #$01 : STA $037B : STA $78
     
@@ -11695,7 +11695,7 @@ BRANCH_ULTIMA
 
 .BRANCH_RHO
 
-    JSR $8AD1; $038AD1 IN ROM ;20 D1 8A
+    JSR $8AD1; $038AD1 IN ROM ; 20 D1 8A
 
 .BRANCH_SIGMA
 
@@ -11867,7 +11867,7 @@ BRANCH_ULTIMA
     ; use armor value to determine damage to be doled out
     LDA $7EF35B : TAY
     
-    LDA $BA07, Y : STA $0373
+    LDA.w $BA07, Y : STA $0373
     
     JSR Player_HaltDashAttack
     
@@ -12043,7 +12043,7 @@ BRANCH_ULTIMA
     
     STX $00
     
-    LDA $CC33, X : TAX
+    LDA.w $CC33, X : TAX
     
     LDA $66 : AND.b #$01 : BNE .BRANCH_GAMMA
     
@@ -12056,9 +12056,9 @@ BRANCH_ULTIMA
     
     LDX $00
     
-    LDA $CC36, X : STA $29 : STA $02C7
+    LDA.w $CC36, X : STA $29 : STA $02C7
     
-    LDA $CC39, X : STA $46
+    LDA.w $CC39, X : STA $46
     
     LDA.b $4D : CMP.b #$02 : BEQ .BRANCH_DELTA
     
@@ -12161,7 +12161,7 @@ BRANCH_ULTIMA
     
     LDY $31 : BMI .BRANCH_IOTA
     
-    LDA $CC83, Y
+    LDA.w $CC83, Y
     
     BRA .BRANCH_KAPPA
     
@@ -12169,7 +12169,7 @@ BRANCH_ULTIMA
     
     TYA : EOR.b #$FF : INC A : TAY
     
-    LDA $CC8D, Y ; $3CC8D, Y THAT IS
+    LDA.w $CC8D, Y ; $3CC8D, Y THAT IS
     
     .BRANCH_KAPPA
     
@@ -12187,7 +12187,7 @@ BRANCH_ULTIMA
     
     LDY $30 : BMI .BRANCH_MU
     
-    LDA $CC97, Y
+    LDA.w $CC97, Y
     
     BRA .BRANCH_NU
     
@@ -12195,7 +12195,7 @@ BRANCH_ULTIMA
     
     TYA : EOR.b #$FF : INC A : TAY
     
-    LDA $CCA1, Y
+    LDA.w $CCA1, Y
     
     .BRANCH_NU
     
@@ -12490,7 +12490,7 @@ Player_TileDetectNearby:
     
     TAY
     
-    LDA $D06F, Y : AND.w #$00FF : CLC : ADC.w #$0040 : TAY
+    LDA.w $D06F, Y : AND.w #$00FF : CLC : ADC.w #$0040 : TAY
     
     BRA .delta
     
@@ -12740,7 +12740,7 @@ Player_TileDetectNearby:
     LDA $7EF35B : TAY
     
     ; Determine how much damage the spike floor will do to Link.
-    LDA $D06C, Y : STA $0373
+    LDA.w $D06C, Y : STA $0373
     
     BRL Player_HaltDashAttack
     
@@ -12956,7 +12956,7 @@ Player_TileDetectNearby:
     
     AND.b #$0F : TAY
     
-    LDA $D37C, Y : STA $0368 : TAY
+    LDA.w $D37C, Y : STA $0368 : TAY
     
     BRA .check_lift_strength
     
@@ -13002,7 +13002,7 @@ Player_TileDetectNearby:
     .check_lift_strength
     
     ; Subtract glove strength.
-    LDA $D375, Y : SEC : SBC $7EF354 : BEQ .strongEnough : BPL .checkIfOpeningChest
+    LDA.w $D375, Y : SEC : SBC $7EF354 : BEQ .strongEnough : BPL .checkIfOpeningChest
     
     .strongEnough
     
@@ -14170,7 +14170,7 @@ TileDetect_Execute:
     
     LDA $06 : AND.w #$0003 : ASL A : TAY
     
-    LDA $DC55, Y : STA $6E
+    LDA.w $DC55, Y : STA $6E
     
     RTS
 }
@@ -14334,7 +14334,7 @@ TileDetect_Execute:
     
     LDA $06 : AND.w #$000F : ASL A : TAY
     
-    LDA $DD21, Y : TSB $5F
+    LDA.w $DD21, Y : TSB $5F
     
     .BRANCH_ALPHA
     
@@ -14733,7 +14733,7 @@ TileDetect_Execute:
     
     LDA $7F2000, X : AND.w #$00FF : TAX
     
-    LDA $DF26, X : AND.w #$00FF
+    LDA.w $DF26, X : AND.w #$00FF
     
     RTS
 }
@@ -14773,7 +14773,7 @@ TileDetect_Execute:
 
     STA $02
     
-    LDA $E052, X : SEC : SBC $02
+    LDA.w $E052, X : SEC : SBC $02
     
     LDY $30 : BEQ .BRANCH_EPSILON  BPL .BRANCH_ZETA
     
@@ -14787,7 +14787,7 @@ TileDetect_Execute:
 
 .BRANCH_BETA
 
-    LDA $E052, X : SEC : SBC $00 : STA $00
+    LDA.w $E052, X : SEC : SBC $00 : STA $00
 
 .BRANCH_THETA
 
@@ -14831,7 +14831,7 @@ TileDetect_Execute:
 
 .BRANCH_LAMBDA
 
-    LDA $E072, Y : ORA.w #$0410
+    LDA.w $E072, Y : ORA.w #$0410
     
     RTL
 
@@ -14884,7 +14884,7 @@ TileDetect_Execute:
 
     SEC : SBC.b #$08 : EOR.b #$FF : INC A : STA $02
     
-    LDA $E052, X : SEC : SBC $02
+    LDA.w $E052, X : SEC : SBC $02
 
 .BRANCH_EPSILON
 
@@ -14900,7 +14900,7 @@ TileDetect_Execute:
 
 .BRANCH_GAMMA
 
-    LDA $E052, X : SEC : SBC $00 : STA $00
+    LDA.w $E052, X : SEC : SBC $00 : STA $00
 
 .BRANCH_IOTA
 
@@ -14942,7 +14942,7 @@ TileDetect_Execute:
 
 .BRANCH_MU
 
-    LDA $E072, Y : ORA.w #$0420
+    LDA.w $E072, Y : ORA.w #$0420
     
     RTL
 
@@ -15225,7 +15225,7 @@ TileDetect_Execute:
     .BRANCH_OMICRON
     
     ; $3E227, X in rom. Link's speed table.
-    LDA $E227, X
+    LDA.w $E227, X
     
     .BRANCH_UPSILON
     
@@ -15393,17 +15393,17 @@ TileDetect_Execute:
     
     .BRANCH_BETA
     
-    LDA $E406, Y : CLC : ADC $033C, X : BEQ .BRANCH_GAMMA  BPL .BRANCH_DELTA
+    LDA.w $E406, Y : CLC : ADC $033C, X : BEQ .BRANCH_GAMMA  BPL .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
-    LDA $E41E, X : AND $67 : STA $67 : STA $26
+    LDA.w $E41E, X : AND $67 : STA $67 : STA $26
     
     LDA $032B, X : CMP.w #$0002 : BNE .BRANCH_EPSILON
     
     STZ $032B, X
     
-    LDA $9639 : STA $0334, X
+    LDA.w $9639 : STA $0334, X
     
     LDA.w #$0002
     
@@ -15421,7 +15421,7 @@ TileDetect_Execute:
     
     TXA : CLC : ADC $0338, X : ASL A : TAY
     
-    LDA $E422, Y : ORA $67 : STA $67
+    LDA.w $E422, Y : ORA $67 : STA $67
     
     PLA : CMP $0334, X : BCC .BRANCH_ZETA
     
@@ -15693,7 +15693,7 @@ TileDetect_Execute:
     
     LDY $03F3 : DEY
     
-    LDA $E5E4, Y : AND $67 : BEQ .BRANCH_$3E595_ALPHA
+    LDA.w $E5E4, Y : AND $67 : BEQ .BRANCH_$3E595_ALPHA
     
     .BRANCH_BETA
     
@@ -15701,11 +15701,11 @@ TileDetect_Execute:
     
     LDY $03F3 : DEY
     
-    LDA $E5E4, Y : TSB $67
+    LDA.w $E5E4, Y : TSB $67
     
-    LDA $E5E8, Y : STA $72
+    LDA.w $E5E8, Y : STA $72
     
-    LDA $E5EC, Y : STA $73
+    LDA.w $E5EC, Y : STA $73
     
     LDX.b #$01
     LDY.b #$02
@@ -15906,7 +15906,7 @@ TileDetect_Execute:
     
     LDA $02F5 : CMP.b #$02 : BEQ .BRANCH_PI
     
-    LDA $E675, X : STA $00
+    LDA.w $E675, X : STA $00
     
     LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC .BRANCH_PSI
     
@@ -15946,7 +15946,7 @@ TileDetect_Execute:
     
     LDA $02F5 : CMP.b #$02 : BEQ .BRANCH_DEL
     
-    LDA $E685, X : STA $00
+    LDA.w $E685, X : STA $00
     
     LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC .BRANCH_THEL
     
@@ -15972,7 +15972,7 @@ TileDetect_Execute:
     
     LDA $02F5 : CMP.b #$02 : BEQ .BRANCH_ZAH
     
-    LDA $E675, X : STA $00
+    LDA.w $E675, X : STA $00
     
     LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC .BRANCH_DEL
     
@@ -16072,7 +16072,7 @@ TileDetect_Execute:
     
     TXA : ASL #3 : TAX
     
-    LDA $E842, X : STA $00
+    LDA.w $E842, X : STA $00
     
     LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC .BRANCH_DELTA
     
@@ -16092,7 +16092,7 @@ TileDetect_Execute:
     
     .BRANCH_GAMMA
     
-    LDA $E87A, X : STA $00
+    LDA.w $E87A, X : STA $00
     
     LDA $2D : CLC : ADC.b #$01 : STA $2D : CMP $00 : BCC .BRANCH_THETA
     
@@ -16564,7 +16564,7 @@ Player_InitPrayingScene_HDMA:
     
     .BRANCH_ALTIMA
     
-    LDA $EA22, X : STA $3D
+    LDA.w $EA22, X : STA $3D
     
     .BRANCH_CHI
     
@@ -16636,12 +16636,12 @@ Player_InitPrayingScene_HDMA:
     
     TAX
     
-    LDY $EC5B, X
+    LDY.w $EC5B, X
     
     LDA $067E : BEQ .contracting
     
     ; Use a different table if dilating.
-    LDY $EBDA, X
+    LDY.w $EBDA, X
     
     .contracting
     
@@ -16825,7 +16825,7 @@ Player_InitPrayingScene_HDMA:
     
     INC $02C3 : LDX $02C3
     
-    LDA $EDF4, X : STA $02C4
+    LDA.w $EDF4, X : STA $02C4
     
     CPX.b #$04 : BNE .not_finished
     
@@ -16867,14 +16867,14 @@ Player_InitPrayingScene_HDMA:
     STZ $27
     STZ $28
     
-    LDA $EE30 : STA $0A : STA $0B
+    LDA.w $EE30 : STA $0A : STA $0B
     
     LDA.b #$03 : STA $0C
     LDA.b #$02 : STA $0D
     
     LDA $05F8, Y : LSR A : TAX
     
-    LDA $EE31, X : STA $00
+    LDA.w $EE31, X : STA $00
     
     LDX.b #$01
     
@@ -17000,8 +17000,8 @@ Player_InitPrayingScene_HDMA:
     LDA $05F8, Y : LSR A : TAY
     
     ; Push the sprite because a pushable block is colliding with it?
-    LDA $EF61, Y : STA $0F40, X
-    LDA $EF65, Y : STA $0F30, X
+    LDA.w $EF61, Y : STA $0F40, X
+    LDA.w $EF65, Y : STA $0F30, X
     
     PLY
     
@@ -17054,16 +17054,16 @@ Player_InitPrayingScene_HDMA:
     
     LDA $0E : PHA
     
-    LDA $EFA1, Y : STA $0C
-    LDA $EFB1, Y : STA $0E
+    LDA.w $EFA1, Y : STA $0C
+    LDA.w $EFB1, Y : STA $0E
     
     LDA ($0C) : CLC : ADC $EF71, Y : STA $00
     LDA ($0C) : CLC : ADC $EF79, Y : STA $02
     LDA ($0E) : CLC : ADC $EF89, Y : STA $04
     LDA ($0E) : CLC : ADC $EF91, Y : STA $06
     
-    LDA $EF99, Y : STA $0C
-    LDA $EFA9, Y : STA $0E
+    LDA.w $EF99, Y : STA $0C
+    LDA.w $EFA9, Y : STA $0E
     
     LDA ($0C) : CLC : ADC $EF69, Y : STA $08
     LDA ($0E) : CLC : ADC $EF81, Y : STA $0A
@@ -17233,11 +17233,11 @@ Player_InitPrayingScene_HDMA:
     
     LDY $02C3
     
-    LDA $F0D0, Y : TAX
+    LDA.w $F0D0, Y : TAX
     
     LDY.b #$00
     
-    LDA $F0CC, X : CMP.b #$FF : BNE .alpha
+    LDA.w $F0CC, X : CMP.b #$FF : BNE .alpha
     
     BRA .beta
     

@@ -1270,8 +1270,8 @@ Palette_SelectScreen:
     ; This section of code has to do with loading the fairy sprite used
     ; For selecting which game you're in.
     
-    LDA $D226, Y : STA $7EC4D0, X : STA $7EC6D0, X
-    LDA $D244, Y : STA $7EC4F0, X : STA $7EC6F0, X
+    LDA.w $D226, Y : STA $7EC4D0, X : STA $7EC6D0, X
+    LDA.w $D244, Y : STA $7EC4F0, X : STA $7EC6F0, X
     
     INY #2
     INX #2
@@ -1300,7 +1300,7 @@ Palette_SelectScreenArmor:
     AND.w #$00FF : ASL A : TAY
     
     ; $0DEC06 IN ROM, will be 0, 30, or 60
-    LDA $EC06, Y : AND.w #$00FF : CLC : ADC.w #$00F0 : TAY
+    LDA.w $EC06, Y : AND.w #$00FF : CLC : ADC.w #$00F0 : TAY
     
     ; Length of the palette in Words
     LDA.w #$000F : STA $0E
@@ -1308,7 +1308,7 @@ Palette_SelectScreenArmor:
     .loadArmorPalette
     
     ; Load the fairys's palette data?
-    LDA $D218, Y : STA $7EC402, X : STA $7EC602, X
+    LDA.w $D218, Y : STA $7EC402, X : STA $7EC602, X
     
     INY #2
     
@@ -1326,7 +1326,7 @@ Palette_SelectScreenArmor:
     DEC A : ASL A : TAY
     
     ; X will be #$00, #$40, #$80...
-    LDA $EDF5, Y : STA $7EC41A, X : STA $7EC61A, X
+    LDA.w $EDF5, Y : STA $7EC41A, X : STA $7EC61A, X
     
     .defaultGloveColor
     
@@ -1343,7 +1343,7 @@ Palette_SelectScreenSword:
     
     ; $0DEBB4 IN ROM. A will be #$00, #$06, #$0C, #$12...
     ; Generally A will be #$418, #$41E, #$424, #$42A
-    LDA $EBB4, Y : AND.w #$00FF : CLC : ADC.w #$0418 : TAY
+    LDA.w $EBB4, Y : AND.w #$00FF : CLC : ADC.w #$0418 : TAY
     
     ; The length of the palette in Word Length
     LDA.w #$0003 : STA $0E
@@ -1351,7 +1351,7 @@ Palette_SelectScreenSword:
     .copyPalette
     
     ; $0DD218 IN ROM
-    LDA $D218, Y : STA $7EC432, X : STA $7EC632, X
+    LDA.w $D218, Y : STA $7EC432, X : STA $7EC632, X
     
     INY #2
     
@@ -1374,7 +1374,7 @@ Palette_SelectScreenShield:
     
     ; #$00, #$08, #$10
     ; A will be #$430, #$438, #$440
-    LDA $EBC1, Y : AND.w #$00FF : CLC : ADC.w #$0430 : TAY
+    LDA.w $EBC1, Y : AND.w #$00FF : CLC : ADC.w #$0430 : TAY
     
     ; Length of the palette in Word Length. (8 bytes)
     LDA.w #$0004 : STA $0E
@@ -1382,7 +1382,7 @@ Palette_SelectScreenShield:
     .copyPalette
     
     ; $D218 appears to be the base address for palette data.
-    LDA $D218, Y : STA $7EC438, X : STA $7EC638, X
+    LDA.w $D218, Y : STA $7EC438, X : STA $7EC638, X
     
     INY #2
     

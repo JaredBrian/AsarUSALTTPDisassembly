@@ -46,7 +46,7 @@ Sprite_TutorialEntities:
     
     LDA $0E00, X : BEQ .direction_lock_inactive
     
-    LDA $B5CB, Y : STA $0DE0, X
+    LDA.w $B5CB, Y : STA $0DE0, X
     
     .direction_lock_inactive
     
@@ -166,10 +166,10 @@ TutorialSoldier_Draw:
     
     REP #$20
     
-    LDA $D5BF, X : CLC : ADC $00       : STA ($90), Y
+    LDA.w $D5BF, X : CLC : ADC $00       : STA ($90), Y
                                    AND.w #$0100 : STA $0E
     
-    LDA $D5E7, X : CLC : ADC $02 : INY : STA ($90), Y
+    LDA.w $D5E7, X : CLC : ADC $02 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     

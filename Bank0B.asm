@@ -39,7 +39,7 @@ org $0B8000 ; $058000-$05FFFF
         LDA $8A : AND.w #$0040 : BEQ .setBgColor
         
         ; Default tan color for the dark world
-        LDX.w #$2A32     ;#$9205 for fairy world
+        LDX.w #$2A32     ; #$9205 for fairy world
     
     .setBgColor
     

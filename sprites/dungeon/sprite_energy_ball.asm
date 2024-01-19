@@ -4,7 +4,7 @@
 ; $0F5A42-$0F5B43 JUMP LOCATION
 Sprite_EnergyBall:
 {
-    LDA $0DA0, X : BEQ .repulsable_energy_ball ;--
+    LDA $0DA0, X : BEQ .repulsable_energy_ball ; --
     
     LDA $0DF0, X : BEQ .stop_tracking_player
     
@@ -24,13 +24,13 @@ Sprite_EnergyBall:
     
     STA $0F50, X
     
-    LDA $0D80, X : BEQ .BRANCH_DELTA ;--
+    LDA $0D80, X : BEQ .BRANCH_DELTA ; --
     
     JMP EnergyBall_DrawTrail
     
     .BRANCH_DELTA
     
-    LDA $0DA0, X : BEQ .not_seeker_2 ;--
+    LDA $0DA0, X : BEQ .not_seeker_2 ; --
     
     JSR SeekerEnergyBall_Draw
     
@@ -48,7 +48,7 @@ Sprite_EnergyBall:
     
     JSR Sprite3_Move
     
-    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision ;--
+    JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision ; --
     
     STZ $0DD0, X
     
@@ -56,7 +56,7 @@ Sprite_EnergyBall:
     
     .no_tile_collision
     
-    LDA $0D90, X : BEQ .BRANCH_KAPPA  ;--
+    LDA $0D90, X : BEQ .BRANCH_KAPPA  ; --
     
     LDA $0BA0 : BNE .BRANCH_KAPPA
     
@@ -103,7 +103,7 @@ Sprite_EnergyBall:
     
     JSR Sprite3_CheckDamageToPlayer
     
-    JSL Sprite_CheckDamageFromPlayerLong : BCC .no_player_damage ;--
+    JSL Sprite_CheckDamageFromPlayerLong : BCC .no_player_damage ; --
     
     LDA $0DA0, X : BEQ .not_seeker_3
     
@@ -135,7 +135,7 @@ Sprite_EnergyBall:
     
     .no_player_damage
     
-    TXA : EOR $1A : AND.b #$03 : ORA $0DA0, X : BNE .BRANCH_NU ;--
+    TXA : EOR $1A : AND.b #$03 : ORA $0DA0, X : BNE .BRANCH_NU ; --
     
     LDA.b #$7B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     

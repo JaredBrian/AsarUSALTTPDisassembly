@@ -394,7 +394,7 @@ Boomerang_Draw:
     
     LDA $EE : STA $0C7C, X : TAY
     
-    LDA $F66D, Y : STA $65
+    LDA.w $F66D, Y : STA $65
     
     .moving_away
     
@@ -474,7 +474,7 @@ Boomerang_Draw:
     
     INY
     
-    LDA $931A, X : AND.b #$CF : ORA $65 : STA ($90), Y
+    LDA.w $931A, X : AND.b #$CF : ORA $65 : STA ($90), Y
     
     LDA.b #$02 : ORA $75 : STA ($92)
     

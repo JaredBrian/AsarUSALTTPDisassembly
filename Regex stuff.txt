@@ -1,0 +1,2 @@
+Find un labled LDA.w
+LD([AYX]).w (\$[89ABCDEF][^\s][^\s][^\s])

@@ -428,7 +428,7 @@ DashTreeTop_Draw:
     
     .gamma
     
-    LDA $FE23, Y : STA $02, X
+    LDA.w $FE23, Y : STA $02, X
     
     INX #4
     
@@ -469,11 +469,11 @@ DashTreeTop_Draw:
     
     LDY $00
     
-    LDA $FE63, Y : STA $00, X
+    LDA.w $FE63, Y : STA $00, X
     
     INX
     
-    LDA $FE69, Y : STA $00, X
+    LDA.w $FE69, Y : STA $00, X
     
     INX
     

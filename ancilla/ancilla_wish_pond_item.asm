@@ -44,7 +44,7 @@ Ancilla_WishPondItem:
     ; or compiler or whatever the hell they used, were also fallible.
     ; This particular read indexes into the code region of the
     ; "ice shot sparkle" ancilla, if you belee dat.
-    LDA $8450, Y : BNE .dont_use_4_pixel_offset
+    LDA.w $8450, Y : BNE .dont_use_4_pixel_offset
     
     LDA.b #$04 : STA $00
     
@@ -66,7 +66,7 @@ Ancilla_WishPondItem:
     ; is...
     LDA $0C5E, X : CMP.b #$01 : BNE .unknown
     
-    LDA $C37B : STA $0BF0, X
+    LDA.w $C37B : STA $0BF0, X
     
     .unknown
     
@@ -101,7 +101,7 @@ Ancilla_WishPondItem:
     LDA $0C5E, X : TAX
     
     ; \bug(confirmed) Same bug, different part of the routine.
-    LDA $8450, X : TAX
+    LDA.w $8450, X : TAX
     
     REP #$20
     

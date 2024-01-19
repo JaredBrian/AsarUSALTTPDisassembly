@@ -202,9 +202,9 @@ GreatCatfish_RumbleBeforeEmergence:
     AND.b #$01 : TAY
     
     ; Shake the screen.
-    LDA $8000, Y : STA $011A
+    LDA.w $8000, Y : STA $011A
     
-    LDA $8002, Y : STA $011B
+    LDA.w $8002, Y : STA $011B
     
     LDA.b #$01 : STA $02E4
     

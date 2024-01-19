@@ -71,9 +71,9 @@ Sprite_MovableStatue:
     
     JSR Sprite_DirectionToFacePlayer
     
-    LDA $C0E2, Y : STA $0D50, X
+    LDA.w $C0E2, Y : STA $0D50, X
     
-    LDA $C0E4, Y : STA $0D40, X
+    LDA.w $C0E4, Y : STA $0D40, X
     
     ; $03414A ALTERNATE ENTRY POINT
     

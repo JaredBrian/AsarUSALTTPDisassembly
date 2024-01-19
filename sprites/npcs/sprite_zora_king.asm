@@ -196,7 +196,7 @@ ZoraKing_Dialogue:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X ;$9A3E IN ROM
+    LDA .animation_states, Y : STA $0DC0, X ; $9A3E IN ROM
     
     LDA $0DF0, X : CMP.b #$50 : BEQ .initial_message
     

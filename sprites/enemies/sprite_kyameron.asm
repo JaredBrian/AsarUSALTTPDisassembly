@@ -193,7 +193,7 @@ Kyameron_Moving:
     
     INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA $9F55, Y : STA $0DC0, X
+    LDA.w $9F55, Y : STA $0DC0, X
     
     TXA : EOR $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
     

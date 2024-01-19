@@ -39,7 +39,7 @@ Sprite_BadPullSwitch:
     LDY $0DC0, X : BEQ .alpha
     CPY.b #$0B   : BEQ .alpha
     
-    LDA $D738, Y : STA $0377
+    LDA.w $D738, Y : STA $0377
     
     LDA $0D00, X : SEC : SBC.b #$13 : STA $20
     LDA $0D20, X : SBC.b #$00 : STA $21
@@ -57,7 +57,7 @@ Sprite_BadPullSwitch:
     
     .beta
     
-    LDA $D72D, Y : STA $0DF0, X
+    LDA.w $D72D, Y : STA $0DF0, X
     
     BRA .alpha
     

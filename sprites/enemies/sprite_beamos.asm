@@ -499,7 +499,7 @@ BeamosLaser_Draw:
     LDA $00 : SEC : SBC $E2       : STA ($90), Y : AND.w #$0100 : STA $0E
     LDA $02 : SEC : SBC $E8 : INY : STA ($90), Y
     
-    CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen    ;added missing #
+    CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen    ; added missing #
     
     LDA.b #$F0 : STA ($90), Y
     

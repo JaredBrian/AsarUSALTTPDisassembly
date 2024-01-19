@@ -209,7 +209,7 @@ Debirando_Draw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $8847, X : ORA $0F : STA ($92), Y
+    LDA.w $8847, X : ORA $0F : STA ($92), Y
     
     PLY : INY
     

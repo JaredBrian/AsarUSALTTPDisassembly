@@ -298,14 +298,14 @@ Sprite_LoadProperties:
     
     LDY $0E20, X ; What kind of sprite is it?
     
-    LDA $B080, Y : STA $0E40, X
+    LDA.w $B080, Y : STA $0E40, X
     
-    LDA $B173, Y : STA $0E50, X ; Load its HP statistic.
-    LDA $B44C, Y : STA $0F60, X ; ????
-    LDA $B632, Y : STA $0BE0, X
-    LDA $B725, Y : STA $0CAA, X
-    LDA $B266, Y : STA $0CD2, X ; Load how much damage the sprite can do.
-    LDA $B53F, Y : STA $0B6B, X
+    LDA.w $B173, Y : STA $0E50, X ; Load its HP statistic.
+    LDA.w $B44C, Y : STA $0F60, X ; ????
+    LDA.w $B632, Y : STA $0BE0, X
+    LDA.w $B725, Y : STA $0CAA, X
+    LDA.w $B266, Y : STA $0CD2, X ; Load how much damage the sprite can do.
+    LDA.w $B53F, Y : STA $0B6B, X
     
     ; Load the outdoor area number.
     LDA $040A
@@ -334,7 +334,7 @@ Sprite_LoadProperties:
     ; Again, tell us what sprite it is
     LDY $0E20, X
     
-    LDA $B359, Y : STA $0E60, X : AND.b #$0F : STA $0F50, X
+    LDA.w $B359, Y : STA $0E60, X : AND.b #$0F : STA $0F50, X
     
     PLB
     

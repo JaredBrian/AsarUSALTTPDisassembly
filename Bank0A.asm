@@ -476,7 +476,7 @@ OverworldMap_InitGfx:
     .lightWorld
     .copyFullCgramBuffer
 
-    LDA $DB27, Y : STA $7EC500, X
+    LDA.w $DB27, Y : STA $7EC500, X
     
     DEY #2
     
@@ -2030,7 +2030,7 @@ PalaceMap_OptionalGraphic:
     
     ; guessing this means that there's no special graphic
     ; for this palace.
-    LDY $E196, X : BMI .return
+    LDY.w $E196, X : BMI .return
     
     LDA.b #$FF : STA $1022
     
@@ -2038,8 +2038,8 @@ PalaceMap_OptionalGraphic:
     
     REP #$20
     
-    LDA $E176, Y : STA $1002, X
-    LDA $E186, Y : STA $1012, X
+    LDA.w $E176, Y : STA $1002, X
+    LDA.w $E186, Y : STA $1012, X
     
     SEP #$20
     
@@ -2047,8 +2047,8 @@ PalaceMap_OptionalGraphic:
 
     .copyTiles
 
-    LDA $E15A, X : STA $1002, X
-    LDA $E168, X : STA $1012, X
+    LDA.w $E15A, X : STA $1002, X
+    LDA.w $E168, X : STA $1012, X
     
     DEX : BPL .copyTiles
     
@@ -2084,7 +2084,7 @@ PalaceMap_OptionalGraphic:
     
     LDX $040C : PHX
     
-    LDA $F5D9, X
+    LDA.w $F5D9, X
     
     AND.w #$0300 : BEQ .skipTileCopy
     AND.w #$0100 : BEQ .skipTileCopy
@@ -2093,7 +2093,7 @@ PalaceMap_OptionalGraphic:
 
     .copyTiles
 
-    LDA $EFDD, X : STA $1000, X
+    LDA.w $EFDD, X : STA $1000, X
         
     DEX #2 : BNE .copyTiles
     
@@ -2122,7 +2122,7 @@ PalaceMap_OptionalGraphic:
     STZ $00
     STZ $02
     
-    LDX $040C : LDA $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
+    LDX $040C : LDA.w $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
     
     ; Seems to be looking for tower style levels (tower of hera, hyrule castl 2, ganon's tower)
     LSR #4 : SEC : SBC.w #$0004 : ASL A : STA $00
@@ -2141,7 +2141,7 @@ PalaceMap_OptionalGraphic:
     
     LDY $1000
     
-    LDA $E1E1, X : STA $00 : STA $0E
+    LDA.w $E1E1, X : STA $00 : STA $0E
 
     .limitNotReached
 
@@ -2157,10 +2157,10 @@ PalaceMap_OptionalGraphic:
     
     LDX $02
     
-    LDA $EFD1, X : STA $04
+    LDA.w $EFD1, X : STA $04
     
     ; check bit 13 in palace properties word
-    LDX $040C : LDA $F5D9, X : AND.w #$0200 : BEQ .noOffset
+    LDX $040C : LDA.w $F5D9, X : AND.w #$0200 : BEQ .noOffset
     
     LDA $04 : CLC : ADC.w #$0400 : STA $04
 
@@ -2216,7 +2216,7 @@ PalaceMap_OptionalGraphic:
 {
     REP #$20
     
-    LDA $F5D9, X : AND.w #$00FF : STA $02
+    LDA.w $F5D9, X : AND.w #$00FF : STA $02
     AND.w #$000F : STA $00
     
     LDA $02 : LSR #4 : CLC : ADC $00 : STA $02
@@ -2263,7 +2263,7 @@ PalaceMap_OptionalGraphic:
 
     .BRANCH_GAMMA
 
-    LDA $E2E5, X : STA $1002, Y
+    LDA.w $E2E5, X : STA $1002, Y
     
     INY #2
     
@@ -2309,7 +2309,7 @@ PalaceMap_OptionalGraphic:
     
     LDX $040C
     
-    LDA $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP $A4 : BEQ .BRANCH_ALPHA
+    LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP $A4 : BEQ .BRANCH_ALPHA
     
     LDA $A4 : AND.w #$00FF : STA $020E
     
@@ -2407,11 +2407,11 @@ PalaceMap_OptionalGraphic:
 
     .BRANCH_ALPHA
 
-    LDY $02 : LDA $E431, Y : CLC : ADC $06 : AND.w #$0FFF : TAX
+    LDY $02 : LDA.w $E431, Y : CLC : ADC $06 : AND.w #$0FFF : TAX
     
     LDA.w #$0F00 : STA $7F0000, X
     
-    LDA $E429, Y : AND $08 : STA $7F0000, X
+    LDA.w $E429, Y : AND $08 : STA $7F0000, X
     
     INC $02 : INC $02
     
@@ -2423,7 +2423,7 @@ PalaceMap_OptionalGraphic:
 
     STZ $02
     
-    LDA $E43D, Y : CLC : ADC $06 : STA $04
+    LDA.w $E43D, Y : CLC : ADC $06 : STA $04
 
     .BRANCH_BETA
 
@@ -2431,7 +2431,7 @@ PalaceMap_OptionalGraphic:
     
     LDA.w #$0F00 : STA $7F0000, X
     
-    LDA $E439, Y : AND $08 : STA $7F0000, X
+    LDA.w $E439, Y : AND $08 : STA $7F0000, X
     
     INC $02 : INC $02 : LDA $02 : CMP.w #$0014 : BNE .BRANCH_BETA
     
@@ -2443,7 +2443,7 @@ PalaceMap_OptionalGraphic:
 
     STZ $02
     
-    LDA $E445, Y : CLC : ADC $06 : STA $04
+    LDA.w $E445, Y : CLC : ADC $06 : STA $04
 
     .BRANCH_DELTA
 
@@ -2451,7 +2451,7 @@ PalaceMap_OptionalGraphic:
     
     LDA.w #$0F00 : STA $7F0000, X
     
-    LDA $E441, Y : AND $08 : STA $7F0000, X
+    LDA.w $E441, Y : AND $08 : STA $7F0000, X
     
     LDA $02 : CLC : ADC.w #$0040 : STA $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
     
@@ -2492,7 +2492,7 @@ PalaceMap_OptionalGraphic:
 
     LDA $020E : AND.w #$000F : ASL A : TAY
     
-    LDA $E4E9, Y
+    LDA.w $E4E9, Y
 
     .BRANCH_GAMMA
 
@@ -2506,7 +2506,7 @@ PalaceMap_OptionalGraphic:
     
     LDA $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
     
-    LDA $E4E9, Y
+    LDA.w $E4E9, Y
     
     BRA .BRANCH_EPSILON
 
@@ -2540,7 +2540,7 @@ PalaceMap_OptionalGraphic:
 
     LDA $00 : ASL A : TAX
     
-    LDA $E56F, X : CLC : ADC $06 : AND.w #$0FFF : TAX
+    LDA.w $E56F, X : CLC : ADC $06 : AND.w #$0FFF : TAX
     
     JSR $E5BC ; $0565BC IN ROM
     
@@ -2591,15 +2591,15 @@ PalaceMap_OptionalGraphic:
     
     ; I think this is trying to figure out the current floor against
     ; the deepest depth of the current palace.
-    LDA $F5D9, X : AND.b #$0F : CLC : ADC $020E : ASL A : STA $0E : TAY
+    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $020E : ASL A : STA $0E : TAY
     
     REP #$20
     
     ; 
-    LDA $F605, X : STA $0C
+    LDA.w $F605, X : STA $0C
     
     ; Y = (???? * 0x19) + $04;
-    LDA $F5F5, Y : CLC : ADC $04 : TAY
+    LDA.w $F5F5, Y : CLC : ADC $04 : TAY
     
     SEP #$20
     
@@ -2641,7 +2641,7 @@ PalaceMap_OptionalGraphic:
     
     LDY.w #$0000
     
-    LDX $040C : LDA $F605, X : STA $0C
+    LDX $040C : LDA.w $F605, X : STA $0C
 
     .BRANCH_ALIF
 
@@ -2665,7 +2665,7 @@ PalaceMap_OptionalGraphic:
     .BRANCH_BET
     REP #$20
     
-    LDA $FBE4, X : STA $0C
+    LDA.w $FBE4, X : STA $0C
     
     LDA $C8 : TAY
     
@@ -2681,7 +2681,7 @@ PalaceMap_OptionalGraphic:
 
     PLX
     
-    LDA $F009, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
+    LDA.w $F009, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
     
     ; Check if top left quadrant has been seen
     LDA $0E : AND.w #$0008 : BNE .BRANCH_DELTA
@@ -2742,7 +2742,7 @@ PalaceMap_OptionalGraphic:
 
     STA $7F0000, X
     
-    LDA $F00B, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
+    LDA.w $F00B, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
     
     ; Check if top right quadrant has been seen
     LDA $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
@@ -2804,7 +2804,7 @@ PalaceMap_OptionalGraphic:
 
     STA $7F0002, X
     
-    LDA $F00D, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
+    LDA.w $F00D, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
     
     LDA $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
     
@@ -2863,7 +2863,7 @@ PalaceMap_OptionalGraphic:
 
     STA $7F0040, X
     
-    LDA $F00F, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
+    LDA.w $F00F, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
     
     LDA $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
     
@@ -2950,7 +2950,7 @@ PalaceMap_OptionalGraphic:
     
     LDA.b #$00 : XBA
     
-    LDX $040C : LDA $F5D9, X : AND.b #$0F : CLC : ADC $A4 : ASL A : TAY : STY $0C
+    LDX $040C : LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $A4 : ASL A : TAY : STY $0C
     
     REP #$20
     
@@ -2958,7 +2958,7 @@ PalaceMap_OptionalGraphic:
     
     PHY
     
-    LDY $E805
+    LDY.w $E805
     
     ; This loop is searching for rooms that you can fall into that are out
     ; of the way (secret locations you can get to by falling through
@@ -2977,7 +2977,7 @@ PalaceMap_OptionalGraphic:
 
     ; Substitute a different room to use in the case that we're in a secret
     ; room.
-    LDA $E7FF, Y
+    LDA.w $E7FF, Y
 
     .notSecretRoom
 
@@ -2985,9 +2985,9 @@ PalaceMap_OptionalGraphic:
     
     PLY
     
-    LDA $F605, X : STA $04
+    LDA.w $F605, X : STA $04
     
-    LDA $F5F5, Y : TAY
+    LDA.w $F5F5, Y : TAY
     
     SEP #$20
 
@@ -3030,13 +3030,13 @@ PalaceMap_OptionalGraphic:
     
     LDA.b #$00 : XBA
     
-    LDA $F5D9, X : AND.b #$0F : CLC : ADC $EE79, X
+    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $EE79, X
     
     REP #$20
     
     ASL A : TAY
     
-    LDA $F605, X : CLC : ADC $F5F5, Y : STA $0E
+    LDA.w $F605, X : CLC : ADC $F5F5, Y : STA $0E
     
     SEP #$20
     
@@ -3169,9 +3169,9 @@ PalaceMap_3:
 {
     REP #$30
     
-    LDX $040C : LDA $F5D9, X : AND.w #$00F0 : LSR #4 : STA $00
+    LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : STA $00
     
-    LDA $F5D9, X : AND.w #$000F : CLC : ADC $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
+    LDA.w $F5D9, X : AND.w #$000F : CLC : ADC $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
     
     SEP #$30
     
@@ -3194,7 +3194,7 @@ PalaceMap_3:
     
     REP #$30
     
-    LDX $040C : LDA $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP $020E : BNE .BRANCH_DELTA
+    LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP $020E : BNE .BRANCH_DELTA
     
     JMP $EA75 ; $056A75 IN ROM
 
@@ -3210,7 +3210,7 @@ PalaceMap_3:
 
     REP #$30
     
-    LDX $040C : LDA $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP $020E : BEQ .BRANCH_MU
+    LDX $040C : LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP $020E : BEQ .BRANCH_MU
     
     DEC $020E : DEC $020E
     
@@ -3333,7 +3333,7 @@ PalaceMap_Scroll:
     
     REP #$10
     
-    LDX $040C : LDA $F5D9, X : AND.b #$0F : STA $02
+    LDX $040C : LDA.w $F5D9, X : AND.b #$0F : STA $02
     
     CLC : ADC $A4 : STA $01 : STA $03
     
@@ -3396,7 +3396,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     CLC : ADC $03 : STA $03
     
-    LDA $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
+    LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
     
     SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
 
@@ -3414,7 +3414,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     LDY $03
     
-    LDA $ECBE, Y : SEC : SBC.b #$04 : STA $0801, X
+    LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA $0801, X
     STZ $0802, X
     
     LDA.b #$3E
@@ -3463,8 +3463,8 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     LDA $1A : AND.b #$0C : LSR #2 : TAY
     
-    LDA $EB40    : STA $0802, X
-    LDA $EB48, Y : STA $0803, X
+    LDA.w $EB40    : STA $0802, X
+    LDA.w $EB48, Y : STA $0803, X
     
     RTS
 }
@@ -3499,7 +3499,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     STZ $0802, X
     
-    LDA $EB92, Y : STA $0C 
+    LDA.w $EB92, Y : STA $0C 
     
     PHY
     
@@ -3530,7 +3530,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 {
     REP #$10
     
-    LDX $040C : LDA $F5D9, X : PHA : LSR #4 : STA $02
+    LDX $040C : LDA.w $F5D9, X : PHA : LSR #4 : STA $02
     
     PLA : AND.b #$0F : STA $03
     
@@ -3572,7 +3572,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     .BRANCH_ALPHA
 
-    LDA $ECBE, Y : INC A : STA $04
+    LDA.w $ECBE, Y : INC A : STA $04
     
     DEC $02
     
@@ -3599,7 +3599,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     LDY $02 : BMI .BRANCH_EPSILON
     
-    LDA $ECC6, Y : STA $0802, X
+    LDA.w $ECC6, Y : STA $0802, X
     
     BRA .BRANCH_ZETA
 
@@ -3607,7 +3607,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     TYA : EOR.b #$FF : TAY
     
-    LDA $ECC6, Y : STA $0806, X
+    LDA.w $ECC6, Y : STA $0806, X
 
     .BRANCH_ZETA
 
@@ -3634,9 +3634,9 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     REP #$10
     
-    LDX $040C : LDA $F5D9, X : LSR #4 : STA $02
+    LDX $040C : LDA.w $F5D9, X : LSR #4 : STA $02
     
-    LDA $F5D9, X : AND.b #$0F
+    LDA.w $F5D9, X : AND.b #$0F
     
     SEP #$10
     
@@ -3653,18 +3653,18 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     .BRANCH_DELTA
 
-    LDX $02 : LDA $ECCE : STA $0E, X
+    LDX $02 : LDA.w $ECCE : STA $0E, X
     
     REP #$10
     
-    LDX $040C : LDA $F5D9, X : AND.b #$0F : STA $01
+    LDX $040C : LDA.w $F5D9, X : AND.b #$0F : STA $01
     CLC : ADC $03 : STA $00
     
     LDA.b #$04 : SEC : SBC $01 : BMI .BRANCH_BETA
     
     CLC : ADC $00 : STA $00
     
-    LDA $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
+    LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
     
     SEC : SBC $00 : EOR.b #$FF : INC A : STA $00
     .BRANCH_BETA
@@ -3689,16 +3689,16 @@ PalaceMap_DrawPlayerFloorIndicator:
 
 ; $056D54-$056DE3 BRANCH LOCATION
 {
-    LDY $00 : LDA $ECBE, Y : SEC : SBC.b #$04 : STA $02
+    LDY $00 : LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA $02
     CLC : ADC.b #$10 : STA $03
     
     LDY.b #$00
     
     REP #$10
     
-    LDX $040C : LDA $F5D9, X : LSR #4 : STA $0D
+    LDX $040C : LDA.w $F5D9, X : LSR #4 : STA $0D
     
-    LDA $F5D9, X : AND.b #$0F 
+    LDA.w $F5D9, X : AND.b #$0F 
     
     SEP #$10
     
@@ -3715,7 +3715,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     LDA.b #$28 : STA $01
     LDA.b #$03 : STA $0C
     
-    LDX $0D : LDA $ED4E, X : TAY
+    LDX $0D : LDA.w $ED4E, X : TAY
 
     .BRANCH_GAMMA
 
@@ -3730,7 +3730,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     PHX
     
-    LDX $0C : LDA $ED50, X : STA $0902, Y : STA $0912, Y
+    LDX $0C : LDA.w $ED50, X : STA $0902, Y : STA $0912, Y
     
     PLX : PHY
     
@@ -3771,7 +3771,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     PHX
     
     ; X = boss room of the palace
-    LDA $E807, X : ASL A : TAX
+    LDA.w $E807, X : ASL A : TAX
     
     SEP #$20
     
@@ -3783,7 +3783,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     ; Check if we have the compass for this palace
     LDA $7EF364 : AND $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
     
-    LDA $EE7A, X : BPL .palaceHasBoss
+    LDA.w $EE7A, X : BPL .palaceHasBoss
 
     .dontShowBossIcon
 
@@ -3809,7 +3809,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     TYA : ASL #2 : TAY
     
-    LDA $EE5E, X : CLC : ADC $0FA8 : CLC : ADC.b #$90 : STA $0800, Y
+    LDA.w $EE5E, X : CLC : ADC $0FA8 : CLC : ADC.b #$90 : STA $0800, Y
     
     LDA $0FAB : BEQ .BRANCH_DELTA
     
@@ -3819,13 +3819,13 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     .BRANCH_DELTA
 
-    LDA $EE5D, X : CLC : ADC $0FAA
+    LDA.w $EE5D, X : CLC : ADC $0FAA
 
     .BRANCH_EPSILON
 
                 STA $0801, Y
-    LDA $EE5B : STA $0802, Y
-    LDA $EE5C : STA $0803, Y
+    LDA.w $EE5B : STA $0802, Y
+    LDA.w $EE5C : STA $0803, Y
     
     INC $00
 
@@ -3883,13 +3883,13 @@ PalaceMap_DrawPlayerFloorIndicator:
 ; $056E95-$056EF5 LOCAL
 PalaceMap_DrawBossFloorIndicator:
 {
-    LDA $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03
+    LDA.w $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03
     
     LDA.b #$04 : SEC : SBC $02 : BMI .BRANCH_ALPHA
     
     CLC : ADC $03 : STA $03
     
-    LDA $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
+    LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
     
     SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
 
@@ -3907,10 +3907,10 @@ PalaceMap_DrawBossFloorIndicator:
     
     LDY $03
     
-    LDA $ECBE, Y : STA $0801, X
+    LDA.w $ECBE, Y : STA $0801, X
     
-    LDA $EE5B : STA $0802, X
-    LDA $EE5C : STA $0803, X
+    LDA.w $EE5B : STA $0802, X
+    LDA.w $EE5C : STA $0803, X
     
     INC $00
 
@@ -4685,8 +4685,8 @@ HUD.SuperBombIndicator:
 
     .BRANCH_DELTA
 
-    LDA $FCE0, Y : STA $7EC7F2, X
-    LDA $FCF6, Y : STA $7EC832, X
+    LDA.w $FCE0, Y : STA $7EC7F2, X
+    LDA.w $FCF6, Y : STA $7EC832, X
     
     DEX #2 : BPL .BRANCH_EPSILON
     

@@ -2746,7 +2746,7 @@ PlayerOam_Main:
     
     LDX $2E
     
-    LDA $A131, X : STA $02
+    LDA.w $A131, X : STA $02
     
     LDY.b #$19
     
@@ -2940,7 +2940,7 @@ nothing_with_desert_cutscene
 
 .keep_lift_direction
 
-    LDY $A148, X : CPY.b #$0D : BCC .check_desert_step_counter
+    LDY.w $A148, X : CPY.b #$0D : BCC .check_desert_step_counter
     
     LDA $0309 : AND.b #$02 : BEQ .not_throwing_object
     
@@ -3159,7 +3159,7 @@ nothing_with_desert_cutscene
     
     LSR A : TAY
     
-    LDA $838C, Y : TAY
+    LDA.w $838C, Y : TAY
     
     LDA $06 : AND.w #$0001 : BEQ .dont_shift_aux1
     
@@ -3529,7 +3529,7 @@ PlayerOam_DrawShield:
     
     STZ $74
     
-    LDA $8563, Y : CMP.w #$FFFF : BEQ .no_shield_to_draw
+    LDA.w $8563, Y : CMP.w #$FFFF : BEQ .no_shield_to_draw
     
     AND.w #$C1FF : ORA $0E : ORA $64 : STA $0802, X
     
@@ -4398,7 +4398,7 @@ PlayerOam_UnusedWeaponSettings:
     
     JSR PlayerOam_GetHighestSetBit
     
-    LDA $ADB4, X : CLC : ADC $030E : ASL #2 : STA $06 : STZ $07
+    LDA.w $ADB4, X : CLC : ADC $030E : ASL #2 : STA $06 : STZ $07
     
     LDA.b #$42 : STA $0109
     
@@ -4406,7 +4406,7 @@ PlayerOam_UnusedWeaponSettings:
     
     LDX $72
     
-    LDA $A110, X : STA $74
+    LDA.w $A110, X : STA $74
     
     LDA $04 : AND.w #$00FF : TAY
     
@@ -4425,13 +4425,13 @@ BRANCH_BETA:
     
     PHY
     
-    LDA $AD84, Y : CMP.b #$FF : BEQ BRANCH_ALPHA
+    LDA.w $AD84, Y : CMP.b #$FF : BEQ BRANCH_ALPHA
     
     REP #$20
     
     AND.w #$00FF : TAY
     
-    LDA $AD82, Y : AND.w #$CFFF : ORA $64 : STA $0802, X
+    LDA.w $AD82, Y : AND.w #$CFFF : ORA $64 : STA $0802, X
     
     LDA $0A : STA $0800, X
     
@@ -4709,7 +4709,7 @@ PlayerOam_Unused_0:
     LDX $2E
     
     LDA $0354 : CMP.b #$19 : BNE .alpha
-        LDA $A131, X : TAX
+        LDA.w $A131, X : TAX
 
     .alpha
 

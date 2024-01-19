@@ -1038,7 +1038,7 @@ Dungeon_LoadSprites:
     
     ; (update: Black Magic ended up hooking $4C16E)
     ; $04D62E is the pointer table for the sprite data in each room.
-    LDA $D62E, Y : STA !dataPtr
+    LDA.w $D62E, Y : STA !dataPtr
     
     ; Load the room index again. Divide by 8. why... I'm not sure.
     LDA $048E : LSR #3
@@ -1430,7 +1430,7 @@ LoadOverworldSprites:
     
     LDA $040A : TAY
     
-    LDX $C635, Y : STX $0FB9 : STZ $0FB8 
+    LDX.w $C635, Y : STX $0FB9 : STZ $0FB8 
     STX $0FBB    : STZ $0FBA
     
     REP #$30
@@ -1447,24 +1447,24 @@ LoadOverworldSprites:
     CMP.b #$02 : BEQ .firstPart
     
     ; Load the "Beginning" sprites for the Overworld.
-    LDA $C881, Y : STA $00
-    LDA $C882, Y
+    LDA.w $C881, Y : STA $00
+    LDA.w $C882, Y
     
     BRA .loadData
     
     .secondPart
     
     ; Load the "Second part" sprites for the Overworld.
-    LDA $CA21, Y : STA $00
-    LDA $CA22, Y
+    LDA.w $CA21, Y : STA $00
+    LDA.w $CA22, Y
     
     BRA .loadData
     
     .firstPart
     
     ; Load the "First Part" sprites for the Overworld.
-    LDA $C901, Y : STA $00
-    LDA $C902, Y
+    LDA.w $C901, Y : STA $00
+    LDA.w $C902, Y
     
     .loadData
     
@@ -1692,8 +1692,8 @@ Sprite_RangeBasedActivation:
 
 ; $04C635-$04C6F4 DATA
 {
-    ; \task Name these sublabels and the routines that use them.  ;i orginized these into groups of 8x8 rather than 4x2 to fit the layout better
-    ; These are mostly known to be map sizes. ;i think some of these values are wrong as they do not seem to line up with the areas in the game
+    ; \task Name these sublabels and the routines that use them.  ; i orginized these into groups of 8x8 rather than 4x2 to fit the layout better
+    ; These are mostly known to be map sizes. ; i think some of these values are wrong as they do not seem to line up with the areas in the game
     db $04, $04, $02, $04, $04, $04, $04, $02
     db $04, $04, $04, $04, $04, $04, $04, $04
     db $02, $02, $02, $02, $02, $02, $02, $02
@@ -2044,7 +2044,7 @@ SpriteExplode_Execute:
     
     LDY.b #$01 : STY $0AAA
     
-    JSL Sprite_VerifyAllOnScreenDefeated : BCS .found_one ;BRANCH_BETA
+    JSL Sprite_VerifyAllOnScreenDefeated : BCS .found_one ; BRANCH_BETA
     
     ; Restore menu functionality. Bit of a \hack, imo.
     STZ $0FFC
@@ -2434,14 +2434,14 @@ Garnish_ScatterDebris:
     
     ; Feel I should leave a comment here because of this unusual sequence
     ; of instructions.
-    CMP.b #$80 : LDA $F04B, X : BCC .BRANCH_ZETA
+    CMP.b #$80 : LDA.w $F04B, X : BCC .BRANCH_ZETA
     
     LDA.b #$F2
     
     .BRANCH_ZETA
     
                    INY           : STA ($90), Y
-    LDA $F08B, X : INY : ORA $05 : STA ($90), Y
+    LDA.w $F08B, X : INY : ORA $05 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     

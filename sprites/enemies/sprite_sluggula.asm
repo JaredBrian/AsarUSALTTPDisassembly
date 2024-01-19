@@ -68,9 +68,9 @@ Sluggula_Normal:
     
     TAY
     
-    LDA $9615, Y : STA $0D50, X
+    LDA.w $9615, Y : STA $0D50, X
     
-    LDA $9617, Y : STA $0D40, X
+    LDA.w $9617, Y : STA $0D40, X
     
     RTS
     

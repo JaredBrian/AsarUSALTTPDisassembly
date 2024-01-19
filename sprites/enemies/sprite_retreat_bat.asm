@@ -35,8 +35,8 @@ Sprite_RetreatBat:
     
     AND.b #$01 : TAY
     
-    LDA $F5D5, Y : STA $011C
-    LDA $F5D7, Y : STA $011D
+    LDA.w $F5D5, Y : STA $011C
+    LDA.w $F5D7, Y : STA $011D
     
     .BRANCH_ALPHA
     
@@ -52,7 +52,7 @@ Sprite_RetreatBat:
     
     LDY $0DE0, X
     
-    LDA $F5A0, Y : STA $0DF0, X
+    LDA.w $F5A0, Y : STA $0DF0, X
     
     .BRANCH_GAMMA
     
@@ -72,7 +72,7 @@ Sprite_RetreatBat:
     
     REP #$20
     
-    LDA $F590, Y : CMP $0FD8
+    LDA.w $F590, Y : CMP $0FD8
     
     SEP #$30 : BCS .BRANCH_ALPHA
     
@@ -94,7 +94,7 @@ Sprite_RetreatBat:
     
     REP #$20
     
-    LDA $F598, Y : CMP $0FDA : SEP #$30 : BCC .BRANCH_DELTA
+    LDA.w $F598, Y : CMP $0FDA : SEP #$30 : BCC .BRANCH_DELTA
     
     INC $0D40, X
     
@@ -286,11 +286,11 @@ RetreatBat_SpawnPyramidDebris:
     
     .spawn_another
     
-    LDA $F76D, Y : STA $00
-    LDA $F78B, Y : STA $01
+    LDA.w $F76D, Y : STA $00
+    LDA.w $F78B, Y : STA $01
     
-    LDA $F7A9, Y : STA $02
-    LDA $F7C7, Y : STA $03
+    LDA.w $F7A9, Y : STA $02
+    LDA.w $F7C7, Y : STA $03
     
     PHY
     

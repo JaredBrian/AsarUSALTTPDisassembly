@@ -203,7 +203,7 @@ Sidenexx_Think:
     
     LDA $0DE0, X : ASL #3 : ADC $0DE0, X : TAY
     
-    LDA $BB6D, X : PHX : TAX
+    LDA.w $BB6D, X : PHX : TAX
     
     LDA.b #$08 : STA $00
     
@@ -629,7 +629,7 @@ SpriteDraw_Sidenexx:
     .BRANCH_ALPHA
     
                                   INY : STA ($90), Y
-    LDA $BC96, X                : INY : STA ($90), Y
+    LDA.w $BC96, X                : INY : STA ($90), Y
     LDA $05      : ORA $BC9B, X : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY

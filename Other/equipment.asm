@@ -212,7 +212,7 @@ Init:
     JSR DrawSelectedYButtonItem
     
     ; Does the player have a bottle equipped currently?
-    LDA $0202 : CMP.b #$10                 ;initial draw
+    LDA $0202 : CMP.b #$10                 ; initial draw
     
     BNE .equippedItemIsntBottle
     
@@ -718,7 +718,7 @@ ExpandBottleMenu:
     
     .drawBottleMenuTop
     
-    LDA $E050, Y : STA $12FC, X
+    LDA.w $E050, Y : STA $12FC, X
     
     DEX #2 : DEY #2 : BPL .drawBottleMenuTop
     
@@ -730,7 +730,7 @@ ExpandBottleMenu:
     ; from the previous frame until fully expanded
     .eraseOldTop
     
-    LDA $E064, Y : STA $133C, X
+    LDA.w $E064, Y : STA $133C, X
     
     DEX #2
     
@@ -742,7 +742,7 @@ ExpandBottleMenu:
     ; step of the submodule
     .drawBottleMenuBottom
     
-    LDA $E078, X : STA $176A, X
+    LDA.w $E078, X : STA $176A, X
     
     DEX #2 : BPL .drawBottleMenuBottom
     
@@ -942,7 +942,7 @@ UpdateBottleMenu:
     
     LDA $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
-    LDY $FAD5, X
+    LDY.w $FAD5, X
     
     LDA $0000, Y : STA $11B2
     LDA $0002, Y : STA $11B4
@@ -951,7 +951,7 @@ UpdateBottleMenu:
     
     LDA $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
-    LDA $E177, Y : TAY
+    LDA.w $E177, Y : TAY
     
     LDA $0207 : AND.w #$0010 : BEQ .return
     
@@ -982,8 +982,8 @@ UpdateBottleMenu:
     
     .writeBottleDescription
     
-    LDA $F449, X : STA $122C, Y
-    LDA $F459, X : STA $126C, Y
+    LDA.w $F449, X : STA $122C, Y
+    LDA.w $F459, X : STA $126C, Y
     
     INX #2
     INY #2 : CPY.w #$0010
@@ -1425,7 +1425,7 @@ DrawSelectedItemBox:
     
     .drawBoxInterior
     
-    STA $11AC, X : STA $11EC, X : STA $122C, X : STA $126C, X ;init description draw
+    STA $11AC, X : STA $11EC, X : STA $122C, X : STA $126C, X ; init description draw
     
     INX #2
     
@@ -1474,16 +1474,16 @@ DrawAbilityText:
     
     ; Draws the ability strings if Link has the ability
     ; (2 x 5 tile rectangle for each ability)
-    LDA $F959, X : STA $1588, Y
-    LDA $F95B, X : STA $158A, Y
-    LDA $F95D, X : STA $158C, Y
-    LDA $F95F, X : STA $158E, Y
-    LDA $F961, X : STA $1590, Y
-    LDA $F963, X : STA $15C8, Y
-    LDA $F965, X : STA $15CA, Y
-    LDA $F967, X : STA $15CC, Y
-    LDA $F969, X : STA $15CE, Y
-    LDA $F96B, X : STA $15D0, Y
+    LDA.w $F959, X : STA $1588, Y
+    LDA.w $F95B, X : STA $158A, Y
+    LDA.w $F95D, X : STA $158C, Y
+    LDA.w $F95F, X : STA $158E, Y
+    LDA.w $F961, X : STA $1590, Y
+    LDA.w $F963, X : STA $15C8, Y
+    LDA.w $F965, X : STA $15CA, Y
+    LDA.w $F967, X : STA $15CC, Y
+    LDA.w $F969, X : STA $15CE, Y
+    LDA.w $F96B, X : STA $15D0, Y
     
     .lacksAbility
     
@@ -1596,16 +1596,16 @@ DrawGloveAbility:
     STA $00 
     ASL #2 : ADC $00 : ASL #2 : TAX
     
-    LDA $F931, X : STA $1588
-    LDA $F933, X : STA $158A
-    LDA $F935, X : STA $158C
-    LDA $F937, X : STA $158E
-    LDA $F939, X : STA $1590
-    LDA $F93B, X : STA $15C8
-    LDA $F93D, X : STA $15CA
-    LDA $F93F, X : STA $15CC
-    LDA $F941, X : STA $15CE
-    LDA $F943, X : STA $15D0
+    LDA.w $F931, X : STA $1588
+    LDA.w $F933, X : STA $158A
+    LDA.w $F935, X : STA $158C
+    LDA.w $F937, X : STA $158E
+    LDA.w $F939, X : STA $1590
+    LDA.w $F93B, X : STA $15C8
+    LDA.w $F93D, X : STA $15CA
+    LDA.w $F93F, X : STA $15CC
+    LDA.w $F941, X : STA $15CE
+    LDA.w $F943, X : STA $15D0
     
     RTS
 }
@@ -1672,15 +1672,15 @@ DrawProgressIcons:
     
     .initPendantDiagram
     
-    LDA $E860, X : STA $12EA, X
-    LDA $E874, X : STA $132A, X
-    LDA $E888, X : STA $136A, X
-    LDA $E89C, X : STA $13AA, X
-    LDA $E8B0, X : STA $13EA, X
-    LDA $E8C4, X : STA $142A, X
-    LDA $E8D8, X : STA $146A, X
-    LDA $E8EC, X : STA $14AA, X
-    LDA $E900, X : STA $14EA, X
+    LDA.w $E860, X : STA $12EA, X
+    LDA.w $E874, X : STA $132A, X
+    LDA.w $E888, X : STA $136A, X
+    LDA.w $E89C, X : STA $13AA, X
+    LDA.w $E8B0, X : STA $13EA, X
+    LDA.w $E8C4, X : STA $142A, X
+    LDA.w $E8D8, X : STA $146A, X
+    LDA.w $E8EC, X : STA $14AA, X
+    LDA.w $E900, X : STA $14EA, X
     
     INX #2 : CPX.w #$0014 : BCC .initPendantDiagram
     
@@ -1729,15 +1729,15 @@ DrawProgressIcons:
     
     .initCrystalDiagram
     
-    LDA $E914, X : STA $12EA, X
-    LDA $E928, X : STA $132A, X
-    LDA $E93C, X : STA $136A, X
-    LDA $E950, X : STA $13AA, X
-    LDA $E964, X : STA $13EA, X
-    LDA $E978, X : STA $142A, X
-    LDA $E98C, X : STA $146A, X
-    LDA $E9A0, X : STA $14AA, X
-    LDA $E9B4, X : STA $14EA, X
+    LDA.w $E914, X : STA $12EA, X
+    LDA.w $E928, X : STA $132A, X
+    LDA.w $E93C, X : STA $136A, X
+    LDA.w $E950, X : STA $13AA, X
+    LDA.w $E964, X : STA $13EA, X
+    LDA.w $E978, X : STA $142A, X
+    LDA.w $E98C, X : STA $146A, X
+    LDA.w $E9A0, X : STA $14AA, X
+    LDA.w $E9B4, X : STA $14EA, X
     
     INX #2 : CPX.w #$0014
     
@@ -1820,7 +1820,7 @@ DrawSelectedYButtonItem:
     
     LDA $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
-    LDY $FAD5, X
+    LDY.w $FAD5, X
     LDA $0000, Y : STA $11B2
     LDA $0002, Y : STA $11B4
     LDA $0040, Y : STA $11F2
@@ -1859,8 +1859,8 @@ DrawSelectedYButtonItem:
     
     .drawBottleDecription
     
-    LDA $F449, X : STA $122C, Y ;loads 24F5, 
-    LDA $F459, X : STA $126C, Y ;loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,   
+    LDA.w $F449, X : STA $122C, Y ; loads 24F5, 
+    LDA.w $F459, X : STA $126C, Y ; loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,   
     
     INX #2
     INY #2 : CPY.w #$0010
@@ -1882,8 +1882,8 @@ DrawSelectedYButtonItem:
     
     .writePowderDescription
     
-    LDA $F549, X : STA $122C, Y
-    LDA $F559, X : STA $126C, Y
+    LDA.w $F549, X : STA $122C, Y
+    LDA.w $F559, X : STA $126C, Y
     
     INX #2
     
@@ -1903,8 +1903,8 @@ DrawSelectedYButtonItem:
     
     .writeMirrorDescription
     
-    LDA $F5A9, X : STA $122C, Y
-    LDA $F5B9, X : STA $126C, Y
+    LDA.w $F5A9, X : STA $122C, Y
+    LDA.w $F5B9, X : STA $126C, Y
     
     INX #2
     
@@ -1924,8 +1924,8 @@ DrawSelectedYButtonItem:
     
     .writeFluteDescription
     
-    LDA $F569, X : STA $122C, Y
-    LDA $F579, X : STA $126C, Y
+    LDA.w $F569, X : STA $122C, Y
+    LDA.w $F579, X : STA $126C, Y
     
     INX #2
     
@@ -1945,8 +1945,8 @@ DrawSelectedYButtonItem:
     
     .writeBowDescription
     
-    LDA $F5C9, X : STA $122C, Y
-    LDA $F5D9, X : STA $126C, Y
+    LDA.w $F5C9, X : STA $122C, Y
+    LDA.w $F5D9, X : STA $126C, Y
     
     INX #2
     
@@ -1962,8 +1962,8 @@ DrawSelectedYButtonItem:
     
     .writeDefaultDescription
     
-    LDA $F1C9, X : STA $122C, Y
-    LDA $F1D9, X : STA $126C, Y
+    LDA.w $F1C9, X : STA $122C, Y
+    LDA.w $F1D9, X : STA $126C, Y
     
     INX #2
     
@@ -2444,14 +2444,14 @@ DrawBottleMenu:
     LDA $7EF34F : AND.w #$00FF : TAX
     
     LDA $7EF35B, X : AND.w #$00FF : STA $02
-    LDA.w #$F751                  : STA $04 ;loads $2837, $2838, $2CC3, $2CD3
+    LDA.w #$F751                  : STA $04 ; loads $2837, $2838, $2CC3, $2CD3
     
     JSR DrawItem
     
     ; Take the currently selected item, and draw something with it, perhaps on the main menu region
     LDA $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
-    LDY $FAD5, X 
+    LDY.w $FAD5, X 
     
     LDA $0000, Y : STA $11B2
     LDA $0002, Y : STA $11B4
@@ -2460,7 +2460,7 @@ DrawBottleMenu:
     
     LDA $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
-    LDA $E177, Y : TAY
+    LDA.w $E177, Y : TAY
     
     ; appears to be an extraneous load, perhaps something that was unfinished
     ; or meant to be taken out but it just never happened

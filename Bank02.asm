@@ -1169,7 +1169,7 @@ Credits_LoadScene_Overworld_Overlay:
 Credits_LoadScene_Overworld_LoadMap:
 {
     JSR Overworld_LoadAndBuildScreen
-    JSL $0E98B9 ; $0718B9 IN ROM
+    JSL Credits_PrepAndLoadSprites ; $0718B9 IN ROM
 
     STZ $C8
     STZ $C9
@@ -1295,7 +1295,7 @@ Credits_LoadScene_Dungeon:
 
     INC $11
 
-    JSL $0E98B9 ; $0718B9 IN ROM ; Do sprite loading specific to ending mode
+    JSL Credits_PrepAndLoadSprites ; $0718B9 IN ROM ; Do sprite loading specific to ending mode
 
     RTL
 }
@@ -6710,7 +6710,7 @@ Overworld_ActualScreenID:
 OverworldScreenTilemapChange:
     dw $0F80, $0F80, $003F, $003F
 
-;data $12634 ; transitioning right
+; data $12634 ; transitioning right
 .OverworldScreenTileMapChangeByScreen1
     dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
     dw $0060, $0060, $0060, $1060, $1060, $1060, $1060, $0060
@@ -6721,7 +6721,7 @@ OverworldScreenTilemapChange:
     dw $0060, $0060, $0060, $0060, $0060, $0060, $0060, $0060
     dw $0060, $0060, $0060, $0060, $0060, $1060, $1060, $0060
 
-;data $126B4 ; transitioning left
+; data $126B4 ; transitioning left
 .OverworldScreenTileMapChangeByScreen2
     dw $0080, $0080, $0040, $0080, $0080, $0080, $0080, $0040
     dw $1080, $1080, $0040, $1080, $1080, $1080, $1080, $0040
@@ -6732,7 +6732,7 @@ OverworldScreenTilemapChange:
     dw $0080, $0080, $0040, $0040, $0040, $0080, $0080, $0040
     dw $1080, $1080, $0040, $0040, $0040, $1080, $1080, $0040
 
-;data $12734 ; transitioning down
+; data $12734 ; transitioning down
 .OverworldScreenTileMapChangeByScreen3
     dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
     dw $1800, $1840, $1800, $1800, $1840, $1800, $1840, $1800
@@ -6743,7 +6743,7 @@ OverworldScreenTilemapChange:
     dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
     dw $1800, $1840, $1800, $1800, $1800, $1800, $1840, $1800
 
-;data $127B4 ; transitioning up
+; data $127B4 ; transitioning up
 .OverworldScreenTileMapChangeByScreen4
     dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
     dw $2000, $2040, $1000, $2000, $2040, $2000, $2040, $1000
@@ -6754,13 +6754,13 @@ OverworldScreenTilemapChange:
     dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
     dw $2000, $2040, $1000, $1000, $1000, $2000, $2040, $1000
 
-;data $12834
+; data $12834
     dw $0002, $FFFE, $0010, $FFF0
 
-;data $1283C
+; data $1283C
     dw $FFF0, $0010, $FFFE, $0002
 
-;data $12844
+; data $12844
 .overworldMapSize
     db $20, $20, $00, $20, $20, $20, $20, $00
     db $20, $20, $00, $20, $20, $20, $20, $00
@@ -6771,7 +6771,7 @@ OverworldScreenTilemapChange:
     db $20, $20, $00, $00, $00, $20, $20, $00
     db $20, $20, $00, $00, $00, $20, $20, $00
 
-;data $12884
+; data $12884
 .overworldMapSizeHighByte
     db $03, $03, $01, $03, $03, $03, $03, $01
     db $03, $03, $01, $03, $03, $03, $03, $01
@@ -6782,7 +6782,7 @@ OverworldScreenTilemapChange:
     db $03, $03, $01, $01, $01, $03, $03, $01
     db $03, $03, $01, $01, $01, $03, $03, $01
 
-;data $128C4
+; data $128C4
 .overworldTransitionPositionY
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
     dw $0000, $0000, $0200, $0000, $0000, $0000, $0000, $0200
@@ -6793,7 +6793,7 @@ OverworldScreenTilemapChange:
     dw $0C00, $0C00, $0C00, $0C00, $0C00, $0C00, $0C00, $0C00
     dw $0C00, $0C00, $0E00, $0E00, $0E00, $0C00, $0C00, $0E00
 
-;data $12944
+; data $12944
 .overworldTransitionPositionX
     dw $0000, $0000, $0400, $0600, $0600, $0A00, $0A00, $0E00
     dw $0000, $0000, $0400, $0600, $0600, $0A00, $0A00, $0E00
@@ -6838,7 +6838,7 @@ OverworldHandleTransitions:
 
         LDA $67 : AND.w #$0003 : STA $00
 
-        LDX $0700 : LDA $22 : SEC : SBC .overworldTransitionPositionX, X ;$02A944
+        LDX $0700 : LDA $22 : SEC : SBC .overworldTransitionPositionX, X ; $02A944
 
         LDY.b #$02 : LDX.b #$02 : CMP.w #$0006 : BCC .BRANCH_GAMMA
 
@@ -6868,7 +6868,7 @@ OverworldHandleTransitions:
 
     REP #$31
 
-    ;remove potential large world offest
+    ; remove potential large world offest
     LDX $02 : LDA $84 : AND $02A62C, X : STA $84 ; $01262C IN ROM
 
     LDA $0700 : CLC : ADC $02A834, X : PHA : STA $04 ; $012834 IN ROM
@@ -6886,7 +6886,7 @@ OverworldHandleTransitions:
 
     .notFluteBoyGrove
 
-    ; sets the OW area number ;125EC in rom
+    ; sets the OW area number ; 125EC in rom
     LDA $02A5EC, X : ORA $7EF3CA : STA $8A : STA $040A : TAX
 
     LDA $7EF3CA : BEQ .lightWorld
@@ -6904,7 +6904,7 @@ OverworldHandleTransitions:
     LDA $7F5B00, X : AND.b #$0F : CMP $0130 : BEQ .noMusicChange
         LDA.b #$F1 : STA $012C
 
-    .noMusicChange ;BANCH_IOTA
+    .noMusicChange ; BANCH_IOTA
 
     JSR Overworld_LoadMapProperties
 
@@ -6924,9 +6924,9 @@ OverworldHandleTransitions:
 
     ; ZS writes a jump here.
     ; $012ADB
-    AND.b #$3F : BEQ .BRANCH_MU ; um... ;Area it was
+    AND.b #$3F : BEQ .BRANCH_MU ; um... ; Area it was
         ; um...
-        LDA $8A : AND.b #$BF : BNE .BRANCH_NU     ;Area it is
+        LDA $8A : AND.b #$BF : BNE .BRANCH_NU     ; Area it is
 
     .BRANCH_MU
 
@@ -7405,7 +7405,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     ; Load a map16 tile type based on this input and store it to the tile map.
     ; A here is the tile16, X is the location on the tilemap
-    LDY $0692 : LDA $ACDA, Y : STA $7E2000, X
+    LDY $0692 : LDA.w $ACDA, Y : STA $7E2000, X
 
     ; Store the actual map16 value to our array for failed warps
     LDX $04AC : STA $7EFA00, X
@@ -7417,7 +7417,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
     LDA $0698 : LDX $04AC : INC #2 : STA $7EF802, X
 
     ; Load the next tile type.
-    LDX $0698 : LDY $0692 : LDA $ACDC, Y : STA $7E2002, X ; Store it to the next location in the tilemap
+    LDX $0698 : LDY $0692 : LDA.w $ACDC, Y : STA $7E2002, X ; Store it to the next location in the tilemap
 
     LDX $04AC : STA $7EFA02, X
 
@@ -7428,7 +7428,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
     LDA $0698 : LDX $04AC : CLC : ADC.w #$0080 : STA $7EF804, X
 
     ; Load the third tile (block?) type, and then store in a place to be blitted to VRAM.
-    LDX $0698 : LDY $0692 : LDA $ACDE, Y : STA $7E2080, X
+    LDX $0698 : LDY $0692 : LDA.w $ACDE, Y : STA $7E2080, X
 
     LDX $04AC : STA $7EFA04, X
 
@@ -7438,7 +7438,7 @@ Overworld_DoMapUpdate32x32_16bit_already:
 
     LDA $0698 : LDX $04AC : CLC : ADC.w ADC #$0082 : STA $7EF806, X
 
-    LDX $0698 : LDY $0692 : LDA $ACE0, Y : STA $7E2082, X
+    LDX $0698 : LDY $0692 : LDA.w $ACE0, Y : STA $7E2082, X
 
     LDX $04AC : STA $7EFA06, X
 
@@ -7516,7 +7516,7 @@ OverworldMosaicTransition_HandleSong:
 OverworldMosaicTransition_HandleScreensAndLoadShroom:
 {
     ; forceblank the screen
-    LDA.b #$80 : STA $13                ;JML written here
+    LDA.b #$80 : STA $13                ; JML written here
 
     STZ $B0
 
@@ -8753,7 +8753,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX $A8
 
-    LDA $B5AC, X : AND $00 : BNE .gamma
+    LDA.w $B5AC, X : AND $00 : BNE .gamma
 
     .blastWallOpenHoriz
 
@@ -8780,7 +8780,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX $A8
 
-    LDA $B5AC, X : AND $00 : BNE .zeta
+    LDA.w $B5AC, X : AND $00 : BNE .zeta
 
     .blastWallOpenVert
 
@@ -8907,7 +8907,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX $A8
 
-    LDA $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
+    LDA.w $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
 
     .BRANCH_IOTA
 
@@ -9018,7 +9018,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX $A8
 
-    LDA $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
+    LDA.w $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
 
     .BRANCH_IOTA
 
@@ -9138,7 +9138,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX $A8
 
-    LDA $B5AC, X : AND $00 : BNE .BRANCH_THETA
+    LDA.w $B5AC, X : AND $00 : BNE .BRANCH_THETA
 
     .BRANCH_ZETA
 
@@ -9252,7 +9252,7 @@ Dungeon_AdjustForRoomLayout:
 
     LDX $A8
 
-    LDA $B5AC, X : AND $00 : BNE .kappa
+    LDA.w $B5AC, X : AND $00 : BNE .kappa
 
     .iota
 
@@ -9465,7 +9465,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     .BRANCH_GAMMA
 
-    LDA $B9D4, X : STA $061C
+    LDA.w $B9D4, X : STA $061C
 
     INC A : INC A : STA $061E
 
@@ -9491,7 +9491,7 @@ shared Dungeon_SaveRoomQuadrantData:
 
     .BRANCH_EPSILON
 
-    LDA $B9CC, X : STA $0618
+    LDA.w $B9CC, X : STA $0618
 
     INC A : INC A : STA $061A
 
@@ -9667,7 +9667,7 @@ Dungeon_SyncBG1and2Scroll:
 
     REP #$20
 
-    ; synchronize BG2 and BG1 scroll regs           ;BG1 move
+    ; synchronize BG2 and BG1 scroll regs           ; BG1 move
     LDA $E2 : STA $E0
     LDA $E8 : STA $E6
 
@@ -9949,7 +9949,7 @@ Overworld_OperateCameraScroll:
 
         ; Sets the side (east , north, etc) the tilemap needs to be updated on.
 
-        LDA $BB88, Y : ORA $0416 : STA $0416
+        LDA.w $BB88, Y : ORA $0416 : STA $0416
 
     .notGrid
 
@@ -9974,7 +9974,7 @@ Overworld_OperateCameraScroll:
 
     .nextDirection
 
-    LDA $BDC0, Y : STA $0614, X
+    LDA.w $BDC0, Y : STA $0614, X
 
     INX #2 : CPX.b #$04 : BNE .nextDirection
 
@@ -9996,7 +9996,7 @@ Overworld_OperateCameraScroll:
 
 .nextDirection
 
-    LDA $BDDA, Y : STA $0610, X
+    LDA.w $BDDA, Y : STA $0610, X
 
     INY
 
@@ -10137,7 +10137,7 @@ StraightStairs_10:
 ; $013EBA-$013FF9 DATA
 
 ; $13EBA
-.horizontalBG2ScrollOffset ;unsure of description
+.horizontalBG2ScrollOffset ; unsure of description
     db $F8, $FF, $08, $00, $F8, $FF, $08, $00
 
 ; $13EC2
@@ -10171,26 +10171,26 @@ StraightStairs_10:
     dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
     dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
 
-;$13FE2
+; $13FE2
 .boundary_y_size
       dw $011E, $031E
 
-;$13FE6
+; $13FE6
 .boundary_x_size
       dw $0100, $0300
 
-;$13FEA
+; $13FEA
 .transition_target_south_offset
       dw $02E0, $04E0
 
-;$13FEE
+; $13FEE
 .transition_target_east_offset
       dw $0300, $0500
 
-;$13FEE
+; $13FEE
       dw $0300, $0500
 
-;$13FF2
+; $13FF2
       db $1B, $00, $1B, $00, $1E, $00, $1E, $00
 
 ; $013FFA-$014000 BRANCH LOCATION
@@ -10220,7 +10220,7 @@ OverworldScrollTransition:
 
     .horizScroll
 
-    LDA $BEBA, Y : STA $069E, X ; $013EBA in ROM
+    LDA.w $BEBA, Y : STA $069E, X ; $013EBA in ROM
 
     REP #$20
 
@@ -10336,7 +10336,7 @@ OverworldScrollTransition:
     ; Y - an overworld area number * 2
     ; X - 0 for small map, 2 for large map
 
-    ;ADDs are from $13FE2 - $13FF1
+    ; ADDs are from $13FE2 - $13FF1
 
     LDA .overworldTransitionPositionY, Y : STA $0600
     CLC : ADC .boundary_y_size, X : STA $0602 ; $A8C4, $BFE2
@@ -11255,7 +11255,7 @@ Overworld_CgramAuxToMain:
 
     .configure_dma_channel
 
-    LDA $C807, X : STA $4370, X
+    LDA.w $C807, X : STA $4370, X
 
     DEX : BPL .configure_dma_channel
 
@@ -11410,27 +11410,27 @@ Dungeon_LoadEntrance:
     ; Use a normal entrance instead
     LDA $010E : AND.w #$00FF : ASL A : TAX : ASL #2 : TAY
 
-    LDA $C813, X : STA $A0 : STA $048E
+    LDA.w $C813, X : STA $A0 : STA $048E
 
-    LDA $CE4F, X : STA $E8 : STA $E6 : STA $0122 : STA $0124
+    LDA.w $CE4F, X : STA $E8 : STA $E6 : STA $0122 : STA $0124
 
-    LDA $CD45, X : STA $E2 : STA $E0 : STA $011E : STA $0120
+    LDA.w $CD45, X : STA $E2 : STA $E0 : STA $011E : STA $0120
 
     ; Has Link woken up yet?
     LDA $7EF3C5 : BEQ .beforeUncleGear
 
     ; $14F59, X THAT IS
-    LDA $CF59, X : STA $20
-    LDA $D063, X : STA $22
+    LDA.w $CF59, X : STA $20
+    LDA.w $D063, X : STA $22
 
     .beforeUncleGear
 
-    LDA $D16D, X : STA $0618 : INC #2 : STA $061A
-    LDA $D277, X : STA $061C : INC #2 : STA $061E
+    LDA.w $D16D, X : STA $0618 : INC #2 : STA $061A
+    LDA.w $D277, X : STA $061C : INC #2 : STA $061E
 
     LDA.w #$01F8 : STA $EC
 
-    LDA $D724, X : STA $0696 : STZ $0698
+    LDA.w $D724, X : STA $0696 : STZ $0698
 
     LDA.w #$0000 : STA $0610
     LDA.w #$0110 : STA $0612
@@ -11442,14 +11442,14 @@ Dungeon_LoadEntrance:
     SEP #$20
 
     ; HM calls these scroll edges. Must investigate.
-    LDA $C91D, Y : STA $0601
-    LDA $C91E, Y : STA $0603
-    LDA $C91F, Y : STA $0605
-    LDA $C920, Y : STA $0607
-    LDA $C921, Y : STA $0609
-    LDA $C922, Y : STA $060B
-    LDA $C923, Y : STA $060D
-    LDA $C924, Y : STA $060F
+    LDA.w $C91D, Y : STA $0601
+    LDA.w $C91E, Y : STA $0603
+    LDA.w $C91F, Y : STA $0605
+    LDA.w $C920, Y : STA $0607
+    LDA.w $C921, Y : STA $0609
+    LDA.w $C922, Y : STA $060B
+    LDA.w $C923, Y : STA $060D
+    LDA.w $C924, Y : STA $060F
 
     STZ $0600 : STZ $0602
 
@@ -11460,7 +11460,7 @@ Dungeon_LoadEntrance:
 
     CPX.w #$0000 : BEQ .linkFacesSouth
 
-    ; one special cases where Link enters from the top. potential for an edit here ;)
+    ; one special cases where Link enters from the top. potential for an edit here ; )
     CPX.w #$0043 : BEQ .linkFacesSouth
 
     LDA.b #$00 ; Make it so Link faces north
@@ -11470,10 +11470,10 @@ Dungeon_LoadEntrance:
     STA $2F
 
     ; Main blockset value
-    LDA $D381, X : STA $0AA1
+    LDA.w $D381, X : STA $0AA1
 
     ; Music value. Is it the beginning music?
-    LDA $D82E, X : STA $0132 : CMP.b #$03 : BNE .notBeginningMusic
+    LDA.w $D82E, X : STA $0132 : CMP.b #$03 : BNE .notBeginningMusic
 
     ; Check game status
     ; Is it less than first part?
@@ -11488,24 +11488,24 @@ Dungeon_LoadEntrance:
 
     .notBeginningMusic
 
-    LDA $D406, X : STA $A4
+    LDA.w $D406, X : STA $A4
 
     ; Load the palace number.
-    LDA $D48B, X : STA $040C
+    LDA.w $D48B, X : STA $040C
 
     ; Interestingly enough, this could allow for horizontal doorways?
-    LDA $D510, X : STA $6C
+    LDA.w $D510, X : STA $6C
 
     ; Set the position that Link starts at.
-    LDA $D595, X : LSR #4 : STA $EE
+    LDA.w $D595, X : LSR #4 : STA $EE
 
     ; Set Pseudo bg level
-    LDA $D595, X : AND.b #$0F : STA $0476
+    LDA.w $D595, X : AND.b #$0F : STA $0476
 
-    LDA $D61A, X : LSR #4     : STA $A6
-    LDA $D61A, X : AND.b #$0F : STA $A7
-    LDA $D69F, X : LSR #4     : STA $A9
-    LDA $D69F, X : AND.b #$0F : STA $AA
+    LDA.w $D61A, X : LSR #4     : STA $A6
+    LDA.w $D61A, X : AND.b #$0F : STA $A7
+    LDA.w $D69F, X : LSR #4     : STA $A9
+    LDA.w $D69F, X : AND.b #$0F : STA $AA
 
     LDX $A0 : CPX.w #$0100 : BCC .notExtendedRoom
 
@@ -11721,14 +11721,14 @@ Dungeon_LoadStartingPoint:
 
     ; set a bunch of quadrant boundaries
     ; SpawnPointData_camera_scroll_boundaries, Y
-    LDA $DB7C, Y : STA $0601
-    LDA $DB7D, Y : STA $0603
-    LDA $DB7E, Y : STA $0605
-    LDA $DB7F, Y : STA $0607
-    LDA $DB80, Y : STA $0609
-    LDA $DB81, Y : STA $060B
-    LDA $DB82, Y : STA $060D
-    LDA $DB83, Y : STA $060F
+    LDA.w $DB7C, Y : STA $0601
+    LDA.w $DB7D, Y : STA $0603
+    LDA.w $DB7E, Y : STA $0605
+    LDA.w $DB7F, Y : STA $0607
+    LDA.w $DB80, Y : STA $0609
+    LDA.w $DB81, Y : STA $060B
+    LDA.w $DB82, Y : STA $060D
+    LDA.w $DB83, Y : STA $060F
 
     STZ $0600 : STZ $0602
 
@@ -11753,7 +11753,7 @@ Dungeon_LoadStartingPoint:
     LDA SpawnPointData_layer, X : LSR #4 : STA $EE
 
     ; set starting speudo bg level
-    LDA $DC1D, X : AND.w #$0F : STA $0476
+    LDA.w $DC1D, X : AND.w #$0F : STA $0476
 
     ; set quadrant information
     LDA SpawnPointData_camera_scroll_controller, X : LSR #4     : STA $A6
@@ -11782,7 +11782,7 @@ Dungeon_LoadStartingPoint:
 ; =============================================
 
 ; $015D8B-$015E82 LOCAL
-    ;something to do with overworld overlay data?
+    ; something to do with overworld overlay data?
     ; in SePH's notes it mentions the first ahganim transport
 
 ; =============================================
@@ -11849,53 +11849,53 @@ Overworld_LoadExitData:
     CMP $DD8A, X : BNE .findRoomExit
 
     ; Load things like scroll data
-    LDA $DF15, X : STA $E6 : STA $E8 : STA $0122 : STA $0124
+    LDA.w $DF15, X : STA $E6 : STA $E8 : STA $0122 : STA $0124
 
-    LDA $DFB3, X : STA $E0 : STA $E2 : STA $011E : STA $0120
+    LDA.w $DFB3, X : STA $E0 : STA $E2 : STA $011E : STA $0120
 
     ; Loads up Link's coordinates
-    LDA $E051, X : STA $20
+    LDA.w $E051, X : STA $20
 
     ; See the data document for details
-    LDA $E0EF, X : STA $22
+    LDA.w $E0EF, X : STA $22
 
-    LDA $DE77, X                               : STA $84
+    LDA.w $DE77, X                               : STA $84
     SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA $88
 
     LDA $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA $86
 
-    LDA $E18D, X : STA $0618
+    LDA.w $E18D, X : STA $0618
     DEC #2       : STA $061A
 
-    LDA $E22B, X : STA $061C
+    LDA.w $E22B, X : STA $061C
     DEC #2       : STA $061E
 
     ; Make Link face the downwards direction
     LDA.w #$0002 : STA $2F
 
-    LDA $E367, X : STA $0696
+    LDA.w $E367, X : STA $0696
 
-    LDA $E405, X : STA $0698
+    LDA.w $E405, X : STA $0698
 
     TXA : LSR A : TAX
 
     SEP #$20
 
     ; $15E28, X that is; These are the exits
-    LDA $DE28, X : STA $8A : STA $040A
+    LDA.w $DE28, X : STA $8A : STA $040A
 
     ; zero out the upper byte of the area index
     STZ $8B
 
     STZ $040B
 
-    LDA $E2C9, X : STA $0624 : STZ $0625 : ASL A : BCC .positive1
+    LDA.w $E2C9, X : STA $0624 : STZ $0625 : ASL A : BCC .positive1
 
     DEC $0625 ; sign extends to 16-bit
 
     .positive1
 
-    LDA $E318, X : STA $0628 : STZ $0629 : ASL A : BCC .positive2
+    LDA.w $E318, X : STA $0628 : STZ $0629 : ASL A : BCC .positive2
 
     DEC $0629 ; sign extend to 16-bit
 
@@ -12141,14 +12141,14 @@ LoadSpecialOverworld:
 
     SEP #$10
 
-    LDA $E6E1, Y : STA $0600
-    LDA $E701, Y : STA $0602
-    LDA $E721, Y : STA $0604
-    LDA $E741, Y : STA $0606
-    LDA $E761, Y : STA $0610
-    LDA $E7A1, Y : STA $0612
-    LDA $E781, Y : STA $0614
-    LDA $E7C1, Y : STA $0616
+    LDA.w $E6E1, Y : STA $0600
+    LDA.w $E701, Y : STA $0602
+    LDA.w $E721, Y : STA $0604
+    LDA.w $E741, Y : STA $0606
+    LDA.w $E761, Y : STA $0610
+    LDA.w $E7A1, Y : STA $0612
+    LDA.w $E781, Y : STA $0614
+    LDA.w $E7C1, Y : STA $0616
 
     SEP #$20
 
@@ -12327,28 +12327,28 @@ BirdTravel_LoadTargetAreaData:
 ; $016C47 ALTERNATE ENTRY POINT
 shared Whirlpool_LoadTargetAreaData:
 
-    LDA $EB29, X : STA $E6 : STA $E8 : STA $0122 : STA $0124
-    LDA $EB4B, X : STA $E0 : STA $E2 : STA $011E : STA $0120
+    LDA.w $EB29, X : STA $E6 : STA $E8 : STA $0122 : STA $0124
+    LDA.w $EB4B, X : STA $E0 : STA $E2 : STA $011E : STA $0120
 
-    LDA $EB6D, X : STA $20
-    LDA $EB8F, X : STA $22
+    LDA.w $EB6D, X : STA $20
+    LDA.w $EB8F, X : STA $22
 
-    LDA $EBF5, X : STA $0624
+    LDA.w $EBF5, X : STA $0624
 
     LDA.w #$0000 : SEC : SBC $0624 : STA $0626
 
-    LDA $EC17, X : STA $0628
+    LDA.w $EC17, X : STA $0628
 
     LDA.w #$0000 : SEC : SBC $0628 : STA $062A
 
-    LDA $EAE5, X : STA $8A : STA $040A
+    LDA.w $EAE5, X : STA $8A : STA $040A
 
-    LDA $EB07, X : STA $84 : SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA $88
+    LDA.w $EB07, X : STA $84 : SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA $88
 
     LDA $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA $86
 
-    LDA $EBB1, X : STA $0618 : DEC #2 : STA $061A
-    LDA $EBD3, X : STA $061C : DEC #2 : STA $061E
+    LDA.w $EBB1, X : STA $0618 : DEC #2 : STA $061A
+    LDA.w $EBD3, X : STA $061C : DEC #2 : STA $061E
 
     STZ $0696 : STZ $0698
 
@@ -12613,14 +12613,14 @@ Overworld_LoadMapData:
     ; Well basiclly it's because the data between area 0x33 and 0x73 only differ by this (one rock)
     ; so they hardcoded it in. What a stupid place to put this though, if you ask me.
     ; all that unused overlay flag space and they didn't use it for this.
-    STA $7E22A8 ;16F33 EA EA EA EA
+    STA $7E22A8 ; 16F33 EA EA EA EA
 
     .noRock
 
     ; Same for this other area.
     CPX.w #$002F : BNE .noRock2
 
-    STA $7E2BB2 ;16F3C EA EA EA EA
+    STA $7E2BB2 ; 16F3C EA EA EA EA
 
     .noRock2
 
@@ -14036,7 +14036,7 @@ LoadSubOverlayMap32:
     ; has something to do with seeing whether an area is 2x2 or not?
     ; $01788D
     .overworldScreenSize
-    ;LW
+    ; LW
     db $00, $00, $01, $00, $00, $00, $00, $01
     db $00, $00, $01, $00, $00, $00, $00, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
@@ -14046,7 +14046,7 @@ LoadSubOverlayMap32:
     db $00, $00, $01, $01, $01, $00, $00, $01
     db $00, $00, $01, $01, $01, $00, $00, $01
 
-    ;DW
+    ; DW
     db $00, $00, $01, $00, $00, $00, $00, $01
     db $00, $00, $01, $00, $00, $00, $00, $01
     db $01, $01, $01, $01, $01, $01, $01, $01
@@ -14056,7 +14056,7 @@ LoadSubOverlayMap32:
     db $00, $00, $01, $01, $01, $00, $00, $01
     db $00, $00, $01, $01, $01, $00, $00, $01
 
-    ;SP
+    ; SP
     db $01, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $00, $00
@@ -14075,7 +14075,7 @@ parallel pool LoadSubOverlayMap32:
 {
     .high_byte_packs
     dl $0B8000, $0B80D6, $0B81C2, $0B8316
-    dl $0B83EA, $0B850E, $0B8671, $0B880F ;0E850B ;31 89 0B
+    dl $0B83EA, $0B850E, $0B8671, $0B880F ; 0E850B ; 31 89 0B
     dl $0B89D3, $0B8B90, $0BD709, $0B8D24
     dl $0B8EE3, $0B9070, $0B91EA, $0B93CC
 
@@ -14360,10 +14360,10 @@ Map16ChunkToMap8:
 
     ; The data in $7F2000 will end up as the tilemap for BG0 or BG1 (depending on settings)
     ; Also note that $8000 and its cousins here represent $0F8000, etc, in actuality.
-    LDA $8000, Y : STA $7F2000, X
-    LDA $8004, Y : STA $7F2040, X : INX #2
-    LDA $8002, Y : STA $7F2000, X
-    LDA $8006, Y : STA $7F2040, X : INX #2
+    LDA.w $8000, Y : STA $7F2000, X
+    LDA.w $8004, Y : STA $7F2040, X : INX #2
+    LDA.w $8002, Y : STA $7F2000, X
+    LDA.w $8006, Y : STA $7F2040, X : INX #2
 
     DEC $0C : BNE .nextMap16Tile
 
@@ -14639,7 +14639,7 @@ Overworld_Decomp:
 
     DEC $CB : SEP #$20 : BNE .BRANCH_LOOPBACK2
 
-    JMP $FEC0 ;$17EC0 IN ROM. SAME EXPLANATION AS BEFORE.
+    JMP $FEC0 ; $17EC0 IN ROM. SAME EXPLANATION AS BEFORE.
 }
 
 ; ==============================================================================

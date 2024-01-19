@@ -33,15 +33,15 @@ Sprite_Boulder:
     ; Check if we can draw.
     LDA $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
-    JSL Sprite_PrepAndDrawSingleSmallLong ;$06DBF8
+    JSL Sprite_PrepAndDrawSingleSmallLong ; $06DBF8
     
     .invalid_gfx_loaded
     
-    JSR Sprite4_CheckIfActive ;$E8A2
+    JSR Sprite4_CheckIfActive ; $E8A2
     
     LDA $1A : ASL #2 : AND.b #$C0 : ORA.b #$00 : STA $0F50, X
     
-    JSR Sprite4_MoveXyz ;$E948
+    JSR Sprite4_MoveXyz ; $E948
     
     TXA : EOR $1A : AND.b #$03 : BNE .delay
     
@@ -57,7 +57,7 @@ Sprite_Boulder:
     
     SEP #$20
     
-    JSL Sprite_AttemptDamageToPlayerPlusRecoilLong ;$06F41F
+    JSL Sprite_AttemptDamageToPlayerPlusRecoilLong ; $06F41F
     
     .player_not_close
     
@@ -65,7 +65,7 @@ Sprite_Boulder:
     
     TXA : EOR $1A : AND.b #$03 : BNE .delay
     
-    JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision ;$8094
+    JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision ; $8094
     
     STZ $0DD0, X
     

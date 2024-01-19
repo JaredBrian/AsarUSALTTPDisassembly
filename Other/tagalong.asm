@@ -1048,9 +1048,9 @@ Tagalong_CheckPlayerProximity:
     
     .room_match
     
-    LDA $A588, X : STA $08
+    LDA.w $A588, X : STA $08
     
-    LDA $A586, X : TAX
+    LDA.w $A586, X : TAX
     
     .next_room_data_block
     
@@ -1060,10 +1060,10 @@ Tagalong_CheckPlayerProximity:
     
     LDA $7EF3CC : AND.w #$00FF : CMP $A4DE, X : BNE .not_room_data_match
     
-    LDA $A4D6, X : STA $00
-    LDA $A4D8, X : STA $02
-    LDA $A4DA, X : STA $06
-    LDA $A4DC, X : STA $04
+    LDA.w $A4D6, X : STA $00
+    LDA.w $A4D8, X : STA $02
+    LDA.w $A4DA, X : STA $06
+    LDA.w $A4DC, X : STA $04
     
     SEP #$30
     
@@ -1081,8 +1081,8 @@ Tagalong_CheckPlayerProximity:
     
     .area_match
     
-    LDA $A598, X : STA $08
-    LDA $A596, X : TAX
+    LDA.w $A598, X : STA $08
+    LDA.w $A596, X : TAX
     
     .next_area_data_block
     
@@ -1091,10 +1091,10 @@ Tagalong_CheckPlayerProximity:
     
     LDA $7EF3CC : AND.w #$00FF : CMP $A55C, X : BNE .not_area_data_match
     
-    LDA $A554, X : STA $00
-    LDA $A556, X : STA $02
-    LDA $A558, X : STA $06
-    LDA $A55A, X : STA $04
+    LDA.w $A554, X : STA $00
+    LDA.w $A556, X : STA $02
+    LDA.w $A558, X : STA $06
+    LDA.w $A55A, X : STA $04
     
     SEP #$30
     
@@ -1373,13 +1373,13 @@ Tagalong_CheckPlayerProximity:
 
     LDA $05 : AND.w #$0003 : BNE .BRANCH_UPSILON
     
-    LDA $A8F1, Y
+    LDA.w $A8F1, Y
     
     BRA .BRANCH_PHI
 
 .BRANCH_UPSILON
 
-    LDA $A8F5, Y
+    LDA.w $A8F5, Y
 
 .BRANCH_PHI
 
@@ -1455,8 +1455,8 @@ Tagalong_CheckPlayerProximity:
     
     JSR Tagalong_SetOam_XY
     
-    LDA $A8D9, X : STA ($90), Y : INY
-    LDA $A8DA, X : STA ($90), Y : INY
+    LDA.w $A8D9, X : STA ($90), Y : INY
+    LDA.w $A8DA, X : STA ($90), Y : INY
     
     PHY
     
@@ -1476,8 +1476,8 @@ Tagalong_CheckPlayerProximity:
     
     JSR Tagalong_SetOam_XY
     
-    LDA $A8DB, X : STA ($90), Y : INY
-    LDA $A8DC, X : STA ($90), Y : INY
+    LDA.w $A8DB, X : STA ($90), Y : INY
+    LDA.w $A8DC, X : STA ($90), Y : INY
     
     PHY
     
@@ -1491,7 +1491,7 @@ Tagalong_CheckPlayerProximity:
 
     LDA $7EF3CC : TAX
     
-    LDA $A8F9, X : CMP.b #$07 : BNE .BRANCH_OPTIMUS
+    LDA.w $A8F9, X : CMP.b #$07 : BNE .BRANCH_OPTIMUS
     
     TAX
     
@@ -1530,8 +1530,8 @@ Tagalong_CheckPlayerProximity:
     
     TYA : CLC : ADC $A8BD, X : TAX
     
-    LDA $A6FD, X : CLC : ADC $06 : STA $00
-    LDA $A6FF, X : CLC : ADC $08 : STA $02
+    LDA.w $A6FD, X : CLC : ADC $06 : STA $00
+    LDA.w $A6FF, X : CLC : ADC $08 : STA $02
     
     PLY
     
@@ -1545,9 +1545,9 @@ Tagalong_CheckPlayerProximity:
     
     LDA $04 : ASL A : CLC : ADC $04 : TAX
     
-    LDA $A6CD, X : STA $0AE8
+    LDA.w $A6CD, X : STA $0AE8
     
-    LDA $A6CF, X : AND.b #$F0 : ORA $72 : ORA $65 : STA ($90), Y
+    LDA.w $A6CF, X : AND.b #$F0 : ORA $72 : ORA $65 : STA ($90), Y
     
     INY : PHY
     
@@ -1569,9 +1569,9 @@ Tagalong_CheckPlayerProximity:
     
     TYA : CLC : ADC $A8BD, X : TAX
     
-    LDA $A701, X : CLC : ADC $06 : CLC : ADC.w #$0008 : STA $00
+    LDA.w $A701, X : CLC : ADC $06 : CLC : ADC.w #$0008 : STA $00
     
-    LDA $A703, X : CLC : ADC $08 : STA $02
+    LDA.w $A703, X : CLC : ADC $08 : STA $02
     
     PLY
     
@@ -1585,9 +1585,9 @@ Tagalong_CheckPlayerProximity:
     
     LDA $04 : ASL A : CLC : ADC $04 : TAX
     
-    LDA $A6CE, X : STA $0AEA
+    LDA.w $A6CE, X : STA $0AEA
     
-    LDA $A6CF, X : AND.b #$0F : ASL #4 : ORA $72 : ORA $65 : STA ($90), Y
+    LDA.w $A6CF, X : AND.b #$0F : ASL #4 : ORA $72 : ORA $65 : STA ($90), Y
     
     INY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

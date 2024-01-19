@@ -144,7 +144,7 @@ FlailTrooper_Attack:
     LDA $0D90, X : ASL A : LDA $0DA0, X : ROL A : TAY
     
     ; Head doesn't match a direction...? what?
-    LDA $B0F8, Y : CMP $0EB0, X : BNE .delay
+    LDA.w $B0F8, Y : CMP $0EB0, X : BNE .delay
     
     INC $0D80, X
     
@@ -457,7 +457,7 @@ FlailTrooper_DrawBody:
     
     LDA $0E10, X : TAY
     
-    LDA $B440, Y
+    LDA.w $B440, Y
     
     .alpha
     
@@ -465,8 +465,8 @@ FlailTrooper_DrawBody:
     
     LDY $0DE0, X
     
-    LDA $B460, Y : STA $0C
-    LDA $B464, Y : STA $0D
+    LDA.w $B460, Y : STA $0C
+    LDA.w $B464, Y : STA $0D
     
     PHX
     
@@ -563,7 +563,7 @@ FlailTrooper_DrawBody:
     .iota
     
     LDA $0E      : STA $4202
-    LDA $B5BA, X : STA $4203
+    LDA.w $B5BA, X : STA $4203
     
     JSR $B5BE ; $02B5BE IN ROM
     

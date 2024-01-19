@@ -130,7 +130,7 @@ Sprite_ArmosKnight:
     
     LSR A : EOR $0FA0 : AND.b #$01 : TAY
     
-    LDA $95FC, Y : STA $0D50, X
+    LDA.w $95FC, Y : STA $0D50, X
     
     JSR Sprite2_MoveHoriz
     
@@ -344,8 +344,8 @@ ArmosKnight_Draw:
     
     REP #$20
     
-    LDA $A25C, Y : STA $90
-    LDA $A268, Y : STA $92
+    LDA.w $A25C, Y : STA $90
+    LDA.w $A268, Y : STA $92
     
     SEP #$20
     

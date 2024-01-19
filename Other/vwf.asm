@@ -177,7 +177,7 @@ Text_LoadCharacterBuffer:
     
     .commandByte
     
-    ; Terminator byte = bye bye ;)
+    ; Terminator byte = bye bye ; )
     CMP.b #$7F : BEQ .endOfMessage
     
     JSR Text_Command

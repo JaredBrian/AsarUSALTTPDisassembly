@@ -547,7 +547,7 @@ Intro_InitGfx:
     .beta
     
     CMP.b #$71 : BNE .dontStartMusic
-        ;Selects the opening theme during the triforce scene/ intro.
+        ; Selects the opening theme during the triforce scene/ intro.
         LDA.b #$01 : STA $012C
     
     .dontStartMusic
@@ -692,13 +692,13 @@ Intro_InitGfx:
 {
     TXA : ASL : TAY
     
-    LDA $C572, Y : STA $1E30, X
-    LDA $C573, Y : STA $1E38, X
-    LDA $C578, Y : STA $1E48, X
-    LDA $C579, Y : STA $1E50, X
+    LDA.w $C572, Y : STA $1E30, X
+    LDA.w $C573, Y : STA $1E38, X
+    LDA.w $C578, Y : STA $1E48, X
+    LDA.w $C579, Y : STA $1E50, X
     
-    LDA $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
-    LDA $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
+    LDA.w $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
+    LDA.w $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
     
     INC $1E10, X
     
@@ -732,17 +732,17 @@ Intro_InitGfx:
 ; $0645D6-$064607 JUMP LOCATION
 {
     LDA $1E0A : AND.b #$1F : BNE .BRANCH_1
-        LDA $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
-        LDA $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
+        LDA.w $C5CA, X : CLC : ADC $1E58, X : STA $1E58, X
+        LDA.w $C5CD, X : CLC : ADC $1E60, X : STA $1E60, X
         
     .BRANCH_1
     
-    LDA $C5D0, X : CMP $1E30, X : BNE .BRANCH_2
+    LDA.w $C5D0, X : CMP $1E30, X : BNE .BRANCH_2
         STZ $1E58, X
     
     .BRANCH_2
     
-    LDA $C5D3, X : CMP $1E48, X : BNE .BRANCH_3
+    LDA.w $C5D3, X : CMP $1E48, X : BNE .BRANCH_3
         STZ $1E60, X
     
     .BRANCH_3
@@ -888,8 +888,8 @@ AnimateSceneSprite_DrawTriangle
 {
     LDA $1E0A : LSR #5 : AND.b #$03 : TAY
     
-    LDA $C8FD, Y : STA $1E30, X
-    LDA $C901, Y : STA $1E48, X
+    LDA.w $C8FD, Y : STA $1E30, X
+    LDA.w $C901, Y : STA $1E48, X
     
     INC $1E10, X
     
@@ -902,8 +902,8 @@ AnimateSceneSprite_DrawTriangle
     
     LDA $1E0A : LSR #2 : AND.b #$03 : TAY
     
-    LDA $C8FD, Y : STA $1E30, X
-    LDA $C901, Y : STA $1E48, X
+    LDA.w $C8FD, Y : STA $1E30, X
+    LDA.w $C901, Y : STA $1E48, X
     
     RTS
 }
@@ -1054,7 +1054,7 @@ AnimateSceneSprite_DrawTriangle
 
 ; ==============================================================================
 
-; $064A54-$064A80 LONG ;coming from Module_TriforceRoom
+; $064A54-$064A80 LONG ; coming from Module_TriforceRoom
 {
     LDA.b #$08 : STA $0AA4
     
@@ -1076,6 +1076,7 @@ AnimateSceneSprite_DrawTriangle
 ; ==============================================================================
 
 ; $064A81-$064AB0 LONG
+Credits_InitializePolyhedral:
 {
     LDA.b #$08 : STA $0AA4
     
@@ -1247,6 +1248,7 @@ AnimateSceneSprite_DrawTriangle
 ; ==============================================================================
 
 ; $064BA2-$064BAF LONG
+Credits_AnimateTheTriangles:
 {
     PHB : PHK : PLB
     
@@ -1292,12 +1294,12 @@ AnimateSceneSprite_DrawTriangle
 {
     TXA : ASL A : TAY
     
-    LDA $CBD6, Y : STA $1E30, X
-    LDA $CBD7, Y : STA $1E38, Y
-    LDA $CBDC, Y : STA $1E48, X
-    LDA $CBDD, Y : STA $1E50, X
-    LDA $CBE2, X : STA $1E58, X
-    LDA $CBE5, X : STA $1E60, X
+    LDA.w $CBD6, Y : STA $1E30, X
+    LDA.w $CBD7, Y : STA $1E38, Y
+    LDA.w $CBDC, Y : STA $1E48, X
+    LDA.w $CBDD, Y : STA $1E50, X
+    LDA.w $CBE2, X : STA $1E58, X
+    LDA.w $CBE5, X : STA $1E60, X
     
     INC $1E10, X
     
@@ -1334,12 +1336,12 @@ AnimateSceneSprite_DrawTriangle
 ; $064C33-$064C55 JUMP LOCATION
 {
     LDA $1E0A : AND.b #$07 : BNE .BRANCH_1
-        LDA $CC2D, X : CLC : ADC $1E58, X : STA $1E58, X
+        LDA.w $CC2D, X : CLC : ADC $1E58, X : STA $1E58, X
     
     .BRANCH_1
     
     LDA $1E0A : AND.b #$03 : BNE .BRANCH_2
-        LDA $CC30, X : CLC : ADC $1E60, X : STA $1E60, X
+        LDA.w $CC30, X : CLC : ADC $1E60, X : STA $1E60, X
     
     .BRANCH_2
     
@@ -1375,12 +1377,12 @@ AnimateSceneSprite_DrawTriangle
     
     .BRANCH_1
     
-    LDA $CC65, X : CMP $1E30, X : BNE .BRANCH_2
+    LDA.w $CC65, X : CMP $1E30, X : BNE .BRANCH_2
         STZ $1E58, X
     
     .BRANCH_2
     
-    LDA $CC68, X : CMP $1E48, X : BNE .BRANCH_3
+    LDA.w $CC68, X : CMP $1E48, X : BNE .BRANCH_3
         STZ $1E60, X
     
     .BRANCH_3
@@ -1400,7 +1402,7 @@ AnimateSceneSprite_DrawTriangle
 ; $064C8F-$064CAF JUMP LOCATION
 {
     LDA $1E0C : ORA $1E0D : BNE .BRANCH_1
-        LDA $CC8C, X : STA $1E48, X
+        LDA.w $CC8C, X : STA $1E48, X
         
         RTS
     
@@ -1416,26 +1418,26 @@ AnimateSceneSprite_DrawTriangle
 
 ; $064CB0-$064D0C LOCAL
 {
-    LDA $CC65, X : CMP $1E30, X : BCC .BRANCH_1
-        LDA $CC60, X
+    LDA.w $CC65, X : CMP $1E30, X : BCC .BRANCH_1
+        LDA.w $CC60, X
         
         BRA .BRANCH_2
     
     .BRANCH_1
     
-    LDA $CC5D, X
+    LDA.w $CC5D, X
     
     .BRANCH_2
     
     CLC : ADC $1E58, X : STA $1E58, X : CMP $CC63 : BNE .BRANCH_3
-        LDA $CC63 : INC A
+        LDA.w $CC63 : INC A
         
         BRA .BRANCH_4
     
     .BRANCH_3
     
     CMP $CC64 : BNE .BRANCH_5
-        LDA $CC64 : INC A
+        LDA.w $CC64 : INC A
         
         .BRANCH_4
         
@@ -1443,26 +1445,26 @@ AnimateSceneSprite_DrawTriangle
     
     .BRANCH_5
     
-    LDA $CC68, X : CMP $1E48, X : BCC .BRANCH_6
-        LDA $CC60, X
+    LDA.w $CC68, X : CMP $1E48, X : BCC .BRANCH_6
+        LDA.w $CC60, X
         
         BRA .BRANCH_7
     
     .BRANCH_6
     
-    LDA $CC5D, X
+    LDA.w $CC5D, X
     
     .BRANCH_7
     
     CLC : ADC $1E60, X : STA $1E60, X : CMP $CC63 : BNE .BRANCH_8
-        LDA $CC63 : INC A
+        LDA.w $CC63 : INC A
         
         BRA .BRANCH_9
     
     .BRANCH_8
     
     CMP $CC64 : BNE .BRANCH_10
-        LDA $CC64 : DEC A
+        LDA.w $CC64 : DEC A
         
         .BRANCH_9
         
@@ -1493,10 +1495,10 @@ AnimateSceneSprite_DrawTriangle
 {
     TXA : ASL A : TAY
     
-    LDA $CD0D, Y : STA $1E30, X
-    LDA $CD0E, Y : STA $1E38, X
-    LDA $CD13, Y : STA $1E48, X
-    LDA $CD14, Y : STA $1E50, X
+    LDA.w $CD0D, Y : STA $1E30, X
+    LDA.w $CD0E, Y : STA $1E38, X
+    LDA.w $CD13, Y : STA $1E48, X
+    LDA.w $CD14, Y : STA $1E50, X
     
     INC $1E10, X
     
@@ -1523,8 +1525,8 @@ AnimateSceneSprite_DrawTriangle
         LDA $1E20, X : CMP.b #$50 : BEQ .BRANCH_1
             INC $1E20, X
             
-            LDA $CD38, X : CLC : ADC $1E58, X : STA $1E58, X
-            LDA $CD3B, X : CLC : ADC $1E60, X : STA $1E60, X
+            LDA.w $CD38, X : CLC : ADC $1E58, X : STA $1E58, X
+            LDA.w $CD3B, X : CLC : ADC $1E60, X : STA $1E60, X
         
         .BRANCH_1
         
@@ -1659,7 +1661,7 @@ Module_SelectFile:
         LDA $00 : PHA : AND.w #$0020 : LSR #4; TAY; 
         
         ; $064E17, A = 0xCE0F OR 0xCE13
-        LDA $CE17, Y : STA $02
+        LDA.w $CE17, Y : STA $02
         
         ; A is Odd or Even?
         ; i.e. 0x00 if even or 0x02 if odd
@@ -1694,7 +1696,7 @@ Module_SelectFile:
     .loop
     
         ; Addresses $1806 - $18E5 are written
-        LDA $E1C8, Y : STA $1806, Y
+        LDA.w $E1C8, Y : STA $1806, Y
         
         ; Notice that X is increasing but has nothing to do with the loop.
         INX #2
@@ -1793,7 +1795,7 @@ FileSelect_TriggerStripesAndAdvance:
     .BRANCH_1
     
         ; Write from $1001 to $10FE
-        LDA $E358, X : STA $1001, X
+        LDA.w $E358, X : STA $1001, X
     DEX : BNE .BRANCH_1
     
     SEP #$10
@@ -1866,7 +1868,7 @@ FileSelect_TriggerStripesAndAdvance:
     LDA.b #$1C : STA $00
     
     ; Tells us what height the "fairy" selector should be at.
-    LDA $CD78, X : STA $01
+    LDA.w $CD78, X : STA $01
     
     ; animates the fairy icon
     JSR SelectFile_DrawFairy
@@ -2146,7 +2148,7 @@ Module_CopyFile:
     
         LDY.w #$000B : STY $00
         
-        LDY $D0C2, X
+        LDY.w $D0C2, X
         
         .BRANCH_2
         
@@ -2171,7 +2173,7 @@ Module_CopyFile:
     
     .BRANCH_1
     
-        LDA $E68D, X : STA $1002, X
+        LDA.w $E68D, X : STA $1002, X
     DEX : BPL .BRANCH_1
     
     REP #$20
@@ -2189,7 +2191,7 @@ Module_CopyFile:
             
             TAX
             
-            LDA $D139, Y : TAY
+            LDA.w $D139, Y : TAY
             
             LDA.w #$0006 : STA $02
             
@@ -2210,8 +2212,8 @@ Module_CopyFile:
     
     LDX $C8
     
-    LDA $D0E6, X : STA $00
-    LDA $D0EA, X : STA $01
+    LDA.w $D0E6, X : STA $00
+    LDA.w $D0EA, X : STA $01
     
     JSR SelectFile_DrawFairy
     
@@ -2282,13 +2284,13 @@ Module_CopyFile:
         .BRANCH_13
         
             ; $0650ED
-            LDA $D0ED, X : STA $1035, X
+            LDA.w $D0ED, X : STA $1035, X
         DEX : BNE .BRANCH_13
         
         ; Tell me what menu item they really picked...
         LDX $C8 : CPX.b #$02 : BEQ .BRANCH_14
             ; If not, then look up a value...
-            LDA $D137, X : TAX
+            LDA.w $D137, X : TAX
             
             LDA.b #$6C : STA $1036, X : STA $103C, X
             
@@ -2337,7 +2339,7 @@ Module_CopyFile:
     
     .BRANCH_3
     
-        LDA $E73A, X : STA $1002, X
+        LDA.w $E73A, X : STA $1002, X
     DEX : BPL .BRANCH_3
     
     REP #$20
@@ -2347,11 +2349,11 @@ Module_CopyFile:
     .BRANCH_4
     
         STX $00 : CPX $CC : BEQ .BRANCH_6
-            LDY $04 : LDA $D271, Y : TAY
+            LDY $04 : LDA.w $D271, Y : TAY
             
             INC $04 : INC $04
             
-            LDA $D275, X  : STA $1002, Y
+            LDA.w $D275, X  : STA $1002, Y
             CLC : ADC.w #$0010 : STA $1016, Y
             
             LDA $BF, X : BEQ .BRANCH_6
@@ -2377,9 +2379,9 @@ Module_CopyFile:
     
     SEP #$30
     
-    LDX $C8 : LDA $D26B, X : STA $00
+    LDX $C8 : LDA.w $D26B, X : STA $00
     
-    LDA $D26E, X : STA $01
+    LDA.w $D26E, X : STA $01
     
     JSR SelectFile_DrawFairy
     
@@ -2416,7 +2418,7 @@ Module_CopyFile:
             .BRANCH_10
             
                 ; write out "copy ok?"
-                LDA $D23A, X : STA $1036, X
+                LDA.w $D23A, X : STA $1036, X
             DEX : BPL .BRANCH_10
             
             LDA $C8 : BNE .BRANCH_11
@@ -2459,7 +2461,7 @@ Module_CopyFile:
     LDX $C8
     
     LDA.b #$1C   : STA $00
-    LDA $D36F, X : STA $01
+    LDA.w $D36F, X : STA $01
     
     JSR SelectFile_DrawFairy
     
@@ -2609,7 +2611,7 @@ Module_EraseFile:
     
     .BRANCH_1
     
-        LDA $E53E, X : STA $1001, X
+        LDA.w $E53E, X : STA $1001, X
     DEX : BNE .BRANCH_1
     
     REP #$20
@@ -2632,8 +2634,8 @@ Module_EraseFile:
     
     LDX $C8
     
-    LDA $D416, X : STA $00
-    LDA $D41A, X : STA $01
+    LDA.w $D416, X : STA $00
+    LDA.w $D41A, X : STA $01
     
     JSR SelectFile_DrawFairy
     
@@ -2695,14 +2697,14 @@ Module_EraseFile:
             
             .BRANCH_10
             
-            LDA $D41E, X : STA $1002, X
+            LDA.w $D41E, X : STA $1002, X
             
             DEX : BPL .BRANCH_10
             
             INC $11
             
             LDX $C8 : CPX.b #$02 : BEQ .BRANCH_11
-                LDA $D483, X : TAX
+                LDA.w $D483, X : TAX
                 
                 LDA.b #$62 : STA $1002, X : STA $1008, X
                 
@@ -2823,7 +2825,7 @@ Module_EraseFile:
     PHX
     
     ; sets the position in the tilemap buffer to draw to.
-    LDY $00 : LDA $D630, Y : TAY
+    LDY $00 : LDA.w $D630, Y : TAY
     
     LDA.w #$0006 : STA $02
     
@@ -2842,7 +2844,7 @@ Module_EraseFile:
     
     LDY.w #$0001 : LDA $70036C, X : AND.w #$00FF : LSR #3 : STA $02
     
-    LDX $00 : LDY $D636, X : STY $04
+    LDX $00 : LDY.w $D636, X : STY $04
     
     LDA.w #$0520 : LDX.w #$000A
     
@@ -2897,7 +2899,7 @@ Module_EraseFile:
     
     ; $06569C that is. A -> #$28, #$3C, #$50
     ; in Decimal 40, 60, 80
-    LDA $D69C, Y : TAX
+    LDA.w $D69C, Y : TAX
     
     ; $D698 -> $65698 #$34 = 52
     ; A -> #$40 = 64
@@ -2913,7 +2915,7 @@ Module_EraseFile:
     CLC : ADC.b #$08 : STA $0805, X
     
     ; A -> #$72, #$76, #$7A
-    LDA $D6A6, Y : STA $0803, X : STA $0807, X
+    LDA.w $D6A6, Y : STA $0803, X : STA $0807, X
     
     PHY : PHX 
     
@@ -2942,7 +2944,7 @@ Module_EraseFile:
     
     ; A -> #$85, #$A1, #$A1, #$A1 (#$85 is for the fighter sword shape)
     ; I guess this is where the sprite data for the sword is kept.
-    LDA $D69F, Y : STA $0802, X
+    LDA.w $D69F, Y : STA $0802, X
     
     ; Adding 0x10 gives you the lower part of the sword. (0x95 or 0xB1)
     ; So this is also tile data apparently.
@@ -2971,7 +2973,7 @@ Module_EraseFile:
     LDA ($02), Y : CLC : ADC.b #$0A : STA $0801, X
     
     ; A -> #$32, #$36, #$3A
-    LDA $D6A9, Y : STA $0803, X
+    LDA.w $D6A9, Y : STA $0803, X
     
     PHY : PHX
     
@@ -2997,7 +2999,7 @@ Module_EraseFile:
     .hasShield
     
     ; Tells us which graphic to use for the shield
-    LDA $D6A3, Y : STA $0802, X
+    LDA.w $D6A3, Y : STA $0802, X
     
     ; We're back to Y = 0x0, 0x1, or 0x2
     PLY
@@ -3015,7 +3017,7 @@ Module_EraseFile:
     LDA.b #$00 : STA $0802, X
     LDA.b #$02 : STA $0806, X
     
-    LDA $D6AC, Y : STA $0803, X
+    LDA.w $D6AC, Y : STA $0803, X
     ORA.b #$40   : STA $0807, X
     
     LDA ($02), Y : STA $0801, X
@@ -3142,7 +3144,7 @@ SelectFile_DrawFairy:
     
     LDA $00 : LSR A : TAY
     
-    LDA $D7D5, Y : TAY
+    LDA.w $D7D5, Y : TAY
     
     .nextDigit
     
@@ -3151,7 +3153,7 @@ SelectFile_DrawFairy:
         LDA $02, X : TAX
         
         ; set the sprite CHR based on the digit value
-        LDA $D7CB, X : STA $0802, Y
+        LDA.w $D7CB, X : STA $0802, Y
         
         PHY
         
@@ -3574,7 +3576,7 @@ Module_NamePlayer:
     .loadInitialEquipment
 
         ; Setup initial equipment and flags values
-        LDA $F48A, Y : STA $700340, X
+        LDA.w $F48A, Y : STA $700340, X
             
         INX #2
         INY #2
@@ -3744,13 +3746,13 @@ Intro_DisplayNintendoLogo:
         LDA.b #$02 : STA $0A20, Y
         
         ; These are the X-coordinates of the Nintendo Logo Sprites
-        LDA $ED7A, Y : STA $0800, X
+        LDA.w $ED7A, Y : STA $0800, X
         
         ; The (hardcoded) Y coordinate for the Nintendo Logo sprites.
         LDA.b #$68   : STA $0801, X
         
         ; The sprite index (which sprite CHR is used
-        LDA $ED7E, Y : STA $0802, X
+        LDA.w $ED7E, Y : STA $0802, X
         
         ; Palette, priority, and flip in formation for each sprite.
         LDA.b #$32 : STA $0803, X
@@ -5091,8 +5093,8 @@ Dramagahnim_ReadySpell:
     LDA.w #$F953 : CLC : ADC $F603, Y : STA $02
     LDA.w #$F961 : CLC : ADC $F603, Y : STA $04
     
-    LDA $F582, X : CLC : ADC $F603, Y : STA $06
-    LDA $F586, X : CLC : ADC $F603, Y : STA $08
+    LDA.w $F582, X : CLC : ADC $F603, Y : STA $06
+    LDA.w $F586, X : CLC : ADC $F603, Y : STA $08
     
     SEP #$20
     
@@ -5101,7 +5103,7 @@ Dramagahnim_ReadySpell:
     
     LDX $00
     
-    LDA $F5FB, X : TAY
+    LDA.w $F5FB, X : TAY
     
     JSR Attract_DrawSpriteSet
     
@@ -5560,10 +5562,10 @@ Atract_DrawZelda:
     LDA $29 : CLC : ADC $FA2A, Y : STA $0901, X
               CLC : ADC $FA2C, Y : STA $0905, X
     
-    LDA $FA27    : STA $0902, X
-    LDA $FA28, Y : STA $0906, X
-    LDA $FA2E    : STA $0903, X
-    LDA $FA2F    : STA $0907, X
+    LDA.w $FA27    : STA $0902, X
+    LDA.w $FA28, Y : STA $0906, X
+    LDA.w $FA2E    : STA $0903, X
+    LDA.w $FA2F    : STA $0907, X
     
     INC $2A : INC $2A
     
@@ -5790,9 +5792,9 @@ Intro_HandleLogoSword:
         
         LDA.b #$02 : STA $0A72, Y
         
-        LDA $FE1C, Y : STA $094A, X
+        LDA.w $FE1C, Y : STA $094A, X
         LDA.b #$21   : STA $094B, X
-        LDA $FE26, Y : STA $0948, X
+        LDA.w $FE26, Y : STA $0948, X
         
         PHY : TYA : ASL A : TAY
         
@@ -5896,7 +5898,7 @@ Intro_HandleLogoSword:
         .BRANCH_1
         
         ; $067F05. SEE DATA TABLE ABOVE.
-        LDA $FF05, X : STA $CA
+        LDA.w $FF05, X : STA $CA
     
     .BRANCH_2
     
@@ -5907,7 +5909,7 @@ Intro_HandleLogoSword:
     
     LDA $25 : STA $0943
     
-    LDA $FF0C, X : STA $0942
+    LDA.w $FF0C, X : STA $0942
     
     .BRANCH_3
     
@@ -5945,8 +5947,8 @@ Intro_HandleLogoSword:
         
         LDA.b #$23 : STA $0943 : STA $0947
         
-        LDA $FF49, X : STA $0942
-        LDA $FF4A, X : STA $0946
+        LDA.w $FF49, X : STA $0942
+        LDA.w $FF4A, X : STA $0946
         
         LDA $CA : BNE .BRANCH_3
             LDA $CD : CLC : ADC.b #$04 : STA $CD

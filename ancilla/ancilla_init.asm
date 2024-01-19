@@ -585,7 +585,7 @@ pool AddReceiveItem:
     db  0,  0,  4,  4,  0,  4,  0,  0
     db  0,  4,  0,  0
     
-    ;$048404
+    ; $048404
     .item_graphics_indices
     db $06, $18, $18, $18, $2D, $20, $2E, $09
     db $09, $0A, $08, $05, $10, $0B, $2C, $1B
@@ -986,7 +986,7 @@ AddReceivedItem:
     
     .extractGraphic
     
-    JSL GetAnimatedSpriteTile.variable ;passes through here 0987a0
+    JSL GetAnimatedSpriteTile.variable ; passes through here 0987a0
     
     LDA $72
     
@@ -1086,7 +1086,7 @@ AddReceivedItem:
     
     REP #$20
     
-    LDA $836C, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
+    LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
     
     LDA .x_offsets, X : AND.w #$00FF : CLC : ADC $02
     
@@ -1191,7 +1191,7 @@ AddReceivedItem:
     
     LDA $04 : BEQ .noYAdjustForText
     ; Sign extend the byte to a 2-byte negative offset for the Y coordinate
-    LDA $836C, Y : AND.w #$00FF : ORA.w #$FF00 : STA $00
+    LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : STA $00
     
     .noYAdjustForText
     
@@ -1266,7 +1266,7 @@ GiveBottledItem:
         ; If so, Link acquires the item stored in variable $0C (along with a bottle)
         LDA $7EF35C, X : CMP.b #$02 : BCS .checkNextBottleSlot
             ; Give Link the bottle or bottled item
-            LDA $0C : STA $7EF35C, X                   ;JML written here to fix bottle bug
+            LDA $0C : STA $7EF35C, X                   ; JML written here to fix bottle bug
             
             ; And.... we're done in this routine.
             BRL .finished
@@ -3368,8 +3368,8 @@ AddBlastWall:
     
     REP #$20
     
-    LDA $967A, Y : CLC : ADC $7F0018 : STA $7F0018
-    LDA $9682, Y : CLC : ADC $7F001A : STA $7F001A
+    LDA.w $967A, Y : CLC : ADC $7F0018 : STA $7F0018
+    LDA.w $9682, Y : CLC : ADC $7F001A : STA $7F001A
     
     SEP #$20
     
@@ -3840,14 +3840,14 @@ AddGravestone:
     
     TYA : LSR A : TAY
     
-    LDA $99E1, Y : AND.w #$00FF : STA $00
+    LDA.w $99E1, Y : AND.w #$00FF : STA $00
     
     ; get index of corresponding X coordinate
-    LDA $99E0, Y : AND.w #$00FF : TAY
+    LDA.w $99E0, Y : AND.w #$00FF : TAY
     
     .xCoordNext
     
-    LDA $994A, Y : CMP $22 : BCS .xCoordNonMatch
+    LDA.w $994A, Y : CMP $22 : BCS .xCoordNonMatch
     
     CLC : ADC.w #$000F : CMP $22 : BCC .xCoordNonMatch
     
@@ -3882,11 +3882,11 @@ AddGravestone:
     
     .success
     
-    LDA $99A4, Y  : STA $0698
+    LDA.w $99A4, Y  : STA $0698
     
     SEC : SBC.w #$0080 : STA $72
     
-    LDA $99C2, Y : STA $0692 : CMP.w #$0058 : BEQ .holeUnderGrave
+    LDA.w $99C2, Y : STA $0692 : CMP.w #$0058 : BEQ .holeUnderGrave
     
     CMP.w #$0038 : BNE .notStairsUnderGrave
     
@@ -3930,11 +3930,11 @@ AddGravestone:
     TYA : AND.w #$00FF : TAY
     
     ; Load the tilemap locations of the graves.
-    LDA $9968, Y : CLC : ADC.w #$FFFE : STA $00
+    LDA.w $9968, Y : CLC : ADC.w #$FFFE : STA $00
     
     CLC : ADC.w #$FFF0 : STA $04
     
-    LDA $9986, Y : STA $02
+    LDA.w $9986, Y : STA $02
     
     SEP #$30
     
@@ -4601,8 +4601,8 @@ Ancilla_CheckInitialTileCollision_Class2:
     
     REP #$20
     
-    LDA $9E24, Y : CLC : ADC $20 : STA $02
-    LDA $9E34, Y : CLC : ADC $22 : STA $04
+    LDA.w $9E24, Y : CLC : ADC $20 : STA $02
+    LDA.w $9E34, Y : CLC : ADC $22 : STA $04
     
     SEP #$20
     

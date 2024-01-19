@@ -1053,7 +1053,7 @@ Dungeon_LoadType1Object:
     
     LDA [$B7], Y : XBA : AND.w #$003F
     
-    ; Look ahead to the next object but we're not done with this one yet ;)
+    ; Look ahead to the next object but we're not done with this one yet ; )
     INY #2 : STY $BA
     
     ASL A : TAX
@@ -1173,17 +1173,17 @@ Dungeon_DrawFloors:
         .nextRow
 
             ; These first four writes draw a 8 x 32 pixel block
-            LDA $9B52, X : STA [$BF], Y
-            LDA $9B54, X : STA [$C2], Y
-            LDA $9B56, X : STA [$C5], Y
-            LDA $9B58, X : STA [$C8], Y
+            LDA.w $9B52, X : STA [$BF], Y
+            LDA.w $9B54, X : STA [$C2], Y
+            LDA.w $9B56, X : STA [$C5], Y
+            LDA.w $9B58, X : STA [$C8], Y
             
             ; These next four draw another 8 x 32 pixel block directly below The first tiles.
             ; Thus all in all it draws a 16 x 32 pixel block.
-            LDA $9B5A, X : STA [$CB], Y
-            LDA $9B5C, X : STA [$CE], Y
-            LDA $9B5E, X : STA [$D1], Y
-            LDA $9B60, X : STA [$D4], Y
+            LDA.w $9B5A, X : STA [$CB], Y
+            LDA.w $9B5C, X : STA [$CE], Y
+            LDA.w $9B5E, X : STA [$D1], Y
+            LDA.w $9B60, X : STA [$D4], Y
             
             ; Add enough to draw another 16 x 32 directly below the first.
             TYA : CLC : ADC.w #$0100 : TAY
@@ -1245,14 +1245,14 @@ Object_Draw4x2s_AdvanceRight_from_1_to_15_or_26:
     
     .nextRow
     
-        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-        LDA $9B54, Y : STA $7E4002, X : STA $7E2002, X
-        LDA $9B56, Y : STA $7E4004, X : STA $7E2004, X
-        LDA $9B58, Y : STA $7E4006, X : STA $7E2006, X
-        LDA $9B5A, Y : STA $7E4080, X : STA $7E2080, X
-        LDA $9B5C, Y : STA $7E4082, X : STA $7E2082, X
-        LDA $9B5E, Y : STA $7E4084, X : STA $7E2084, X
-        LDA $9B60, Y : STA $7E4086, X : STA $7E2086, X
+        LDA.w $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA.w $9B54, Y : STA $7E4002, X : STA $7E2002, X
+        LDA.w $9B56, Y : STA $7E4004, X : STA $7E2004, X
+        LDA.w $9B58, Y : STA $7E4006, X : STA $7E2006, X
+        LDA.w $9B5A, Y : STA $7E4080, X : STA $7E2080, X
+        LDA.w $9B5C, Y : STA $7E4082, X : STA $7E2082, X
+        LDA.w $9B5E, Y : STA $7E4084, X : STA $7E2084, X
+        LDA.w $9B60, Y : STA $7E4086, X : STA $7E2086, X
         
         TXA : CLC : ADC.w #$0100 : TAX
     DEC $B2 : BNE .nextRow
@@ -1272,14 +1272,14 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-        LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
-        LDA $9B5A, Y : STA $7E4002, X : STA $7E2002, X
-        LDA $9B5C, Y : STA $7E4082, X : STA $7E2082, X
-        LDA $9B5E, Y : STA $7E4102, X : STA $7E2102, X
-        LDA $9B60, Y : STA $7E4182, X : STA $7E2182, X
+        LDA.w $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA.w $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA.w $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA.w $9B58, Y : STA $7E4180, X : STA $7E2180, X
+        LDA.w $9B5A, Y : STA $7E4002, X : STA $7E2002, X
+        LDA.w $9B5C, Y : STA $7E4082, X : STA $7E2082, X
+        LDA.w $9B5E, Y : STA $7E4102, X : STA $7E2102, X
+        LDA.w $9B60, Y : STA $7E4182, X : STA $7E2182, X
         
         INX #4
     DEC $B2 : BNE .nextColumn
@@ -1352,7 +1352,7 @@ Object_DrawRectOf1x1s:
         
         .nextColumnBlock
         
-            LDA $9B52, X
+            LDA.w $9B52, X
             STA [$BF], Y : STA [$C2], Y
             STA [$C5], Y : STA [$C8], Y
             STA [$CB], Y : STA [$CE], Y
@@ -1360,7 +1360,7 @@ Object_DrawRectOf1x1s:
             
             TYA : CLC : ADC.w #$0100 : TAY
             
-            LDA $9B52, X
+            LDA.w $9B52, X
             STA [$BF], Y : STA [$C2], Y
             STA [$C5], Y : STA [$C8], Y
             STA [$CB], Y : STA [$CE], Y
@@ -1517,11 +1517,11 @@ Object_DrawRectOf1x1s:
     
     .loop
     
-        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-        LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
-        LDA $9B5A, Y : STA $7E4200, X : STA $7E2200, X
+        LDA.w $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA.w $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA.w $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA.w $9B58, Y : STA $7E4180, X : STA $7E2180, X
+        LDA.w $9B5A, Y : STA $7E4200, X : STA $7E2200, X
         
         TXA : CLC : ADC $0E : TAX
     DEC $B2 : BNE .loop
@@ -1656,9 +1656,9 @@ Object_Draw3xN:
     
     .next_column
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$CB], Y
-        LDA $9B56, X : STA [$D7], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$CB], Y
+        LDA.w $9B56, X : STA [$D7], Y
         
         TXA : CLC : ADC.w #$0006 : TAX
         
@@ -1679,7 +1679,7 @@ Object_Draw3xN:
         
         .next_block_to_the_right
         
-            LDA $9B52, X
+            LDA.w $9B52, X
             
             ; Draw a 2x3 block
             STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
@@ -1687,7 +1687,7 @@ Object_Draw3xN:
             
             TYA : CLC : ADC.w #$0100 : TAY
             
-            LDA $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
+            LDA.w $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
             
             TYA : SEC : SBC.w #$00FA : TAY
         DEC $0A : BNE .next_block_to_the_right
@@ -1735,9 +1735,9 @@ Object_Hole:
     
         LDA $B2 : DEC #2 : STA $0A
         
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         
-        LDA $9B54, X
+        LDA.w $9B54, X
         
         .nextColumn
         
@@ -1746,7 +1746,7 @@ Object_Hole:
             INY #2
         DEC $0A : BNE .nextColumn
         
-        LDA $9B56, X : STA [$C2], Y
+        LDA.w $9B56, X : STA [$C2], Y
         
         TXA : CLC : ADC.w #$0006 : TAX
         
@@ -1778,7 +1778,7 @@ Object_Hole:
         
         .nextRow2
         
-            LDA $9B52, X : STA [$BF], Y
+            LDA.w $9B52, X : STA [$BF], Y
             
             TYA : CLC : ADC.w #$0080 : TAY
         DEC $0A : BNE .nextRow2
@@ -1881,7 +1881,7 @@ Object_Hole:
     
     ; $B191 IN ROM
     JSR $B191 : BCC .dontOverwrite
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
     
     .dontOverwrite
 
@@ -1889,10 +1889,10 @@ Object_Hole:
     
         TYA : CLC : ADC.w #$0080 : TAY
         
-        LDA $9B54, X : STA [$BF], Y 
+        LDA.w $9B54, X : STA [$BF], Y 
     DEC $B2 : BNE .nextTile
     
-    LDA $9B56, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$CB], Y
     
     RTS
 }
@@ -1920,13 +1920,13 @@ Object_HorizontalRail:
     ; $B191 IN ROM
     JSR $B191 : BCC .beta
         ; If the current tile CHR is not equal to 0x00E2, draw this tile.
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
     
     .beta
     
     JSR $B2CA ; $B2CA IN ROM
     
-    LDA $9B54, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$BF], Y
     
     RTS
 }
@@ -1941,8 +1941,8 @@ Object_HorizontalRail:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$C2], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$C2], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
@@ -1972,9 +1972,9 @@ Object_Draw3x2:
     
     .loop
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$CB], Y
-        LDA $9B56, X : STA [$D7], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$CB], Y
+        LDA.w $9B56, X : STA [$D7], Y
         
         INY #2
     DEC $B2 : BNE .loop
@@ -1998,13 +1998,13 @@ Object_Draw3x2:
         CMP.w #$01A6 : BEQ .BRANCH_ALPHA
         CMP.w #$01DD : BEQ .BRANCH_ALPHA
         CMP.w #$01FC : BEQ .BRANCH_ALPHA
-            LDA $9B52, X : STA [$BF], Y
+            LDA.w $9B52, X : STA [$BF], Y
     
     .BRANCH_ALPHA
     
     JSR $B2CA ; $B2CA IN ROM
     
-    LDA $9B54, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$BF], Y
     
     RTS
 }
@@ -2015,7 +2015,7 @@ Object_Draw3x2:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
@@ -2062,7 +2062,7 @@ Object_Draw3x2:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA $9B52, X : STA $0E
+    LDA.w $9B52, X : STA $0E
     
     INX #2
     
@@ -2075,7 +2075,7 @@ Object_Draw3x2:
     
     .nextColumn
     
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         
         LDA $0E : STA [$CB], Y
         
@@ -2086,8 +2086,8 @@ Object_Draw3x2:
     
     .draw_2x2_at_endpoint
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$C2], Y
     
     LDA $0E : STA [$CB], Y : STA [$CE], Y
     
@@ -2102,7 +2102,7 @@ Object_Draw3x2:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA $9B52, X : STA $0E
+    LDA.w $9B52, X : STA $0E
     
     INX #2
     
@@ -2116,7 +2116,7 @@ Object_Draw3x2:
     .nextColumn
     
         LDA $0E      : STA [$BF], Y
-        LDA $9B52, X : STA [$CB], Y
+        LDA.w $9B52, X : STA [$CB], Y
         
         INY #2
     DEC $B2 : BNE .nextColumn
@@ -2127,8 +2127,8 @@ Object_Draw3x2:
     
     LDA $0E      : STA [$BF], Y
                    STA [$C2], Y
-    LDA $9B52, X : STA [$CB], Y
-    LDA $9B54, X : STA [$CE], Y
+    LDA.w $9B52, X : STA [$CB], Y
+    LDA.w $9B54, X : STA [$CE], Y
     
     INY #4
     
@@ -2141,7 +2141,7 @@ Object_Draw3x2:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA $9B52, X : STA $0E
+    LDA.w $9B52, X : STA $0E
     
     INX #2
     
@@ -2154,7 +2154,7 @@ Object_Draw3x2:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         LDA $0E      : STA [$C2], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
@@ -2164,8 +2164,8 @@ Object_Draw3x2:
     
     .draw_2x2_at_endpoint
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
     
     LDA $0E : STA [$C2], Y
               STA [$CE], Y
@@ -2181,7 +2181,7 @@ Object_Draw3x2:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA $9B52, X : STA $0E
+    LDA.w $9B52, X : STA $0E
     
     INX #2
     
@@ -2195,7 +2195,7 @@ Object_Draw3x2:
     .nextRow
     
         LDA $0E      : STA [$BF], Y
-        LDA $9B52, X : STA [$C2], Y
+        LDA.w $9B52, X : STA [$C2], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
@@ -2206,8 +2206,8 @@ Object_Draw3x2:
     
     LDA $0E : STA [$BF], Y : STA [$CB], Y
     
-    LDA $9B52, X : STA [$C2], Y
-    LDA $9B54, X : STA [$CE], Y
+    LDA.w $9B52, X : STA [$C2], Y
+    LDA.w $9B54, X : STA [$CE], Y
     
     TYA : CLC : ADC.w #$0100 : TAY
     
@@ -2231,7 +2231,7 @@ Object_Draw3x2:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
@@ -2286,7 +2286,7 @@ Object_Draw3x2:
     
     .loop
     
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .loop
@@ -2390,13 +2390,13 @@ Object_HiddenWallRight:
     
     LDA $B2 : ASL A : TAY
     
-    LDA $9B0A, Y : PHA
+    LDA.w $9B0A, Y : PHA
     
     ASL A : ADC.w #$0004 : STA $0E
     
     LDA $B4 : ASL A : STA $041E : TAY
     
-    LDA $9B12, Y : STA $0C : TAY
+    LDA.w $9B12, Y : STA $0C : TAY
     
     LDA $08
     
@@ -2415,16 +2415,16 @@ Object_HiddenWallRight:
         
         LDY $06
         
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
 
         .BRANCH_GAMMA
 
-            LDA $9B54, X : STA [$CB], Y
+            LDA.w $9B54, X : STA [$CB], Y
             
             TYA : CLC : ADC.w #$0080 : TAY
         DEC $0A : BNE .BRANCH_GAMMA
         
-        LDA $9B56, X : STA [$CB], Y
+        LDA.w $9B56, X : STA [$CB], Y
         
         INC $06 : INC $06
     DEC $0C : BNE .BRANCH_DELTA
@@ -2486,7 +2486,7 @@ Object_HiddenWallLeft:
     
     LDA $B2 : ASL A : TAY
     
-    LDA $9B0A, Y : STA $0E : PHA
+    LDA.w $9B0A, Y : STA $0E : PHA
     
     LDA $08 : CLC : ADC.w #$0180 : TAY
     
@@ -2503,7 +2503,7 @@ Object_HiddenWallLeft:
     
     LDA $B4 : ASL A : STA $041E : TAY
     
-    LDA $9B12, Y : STA $0C
+    LDA.w $9B12, Y : STA $0C
     
     LDA $08 : CLC : ADC.w #$0006 : STA $06
     
@@ -2515,16 +2515,16 @@ Object_HiddenWallLeft:
         
         LDY $06
         
-        LDA $9B52, X : STA [$BF], Y
+        LDA.w $9B52, X : STA [$BF], Y
         
         .BRANCH_GAMMA
         
-            LDA $9B54, X : STA [$CB], Y
+            LDA.w $9B54, X : STA [$CB], Y
             
             TYA : CLC : ADC.w #$0080 : TAY
         DEC $0A : BNE .BRANCH_GAMMA
         
-        LDA $9B56, X : STA [$CB], Y
+        LDA.w $9B56, X : STA [$CB], Y
         
         INC $06 : INC $06
     DEC $0C : BNE .BRANCH_DELTA
@@ -2844,17 +2844,17 @@ Object_HiddenWallLeft:
     
     LDA $B2 : STA $0E
     
-    LDA $9B52, X : STA [$BF], Y
+    LDA.w $9B52, X : STA [$BF], Y
     
     .BRANCH_BETA
     
-        LDA $9B54, X : STA [$C2], Y
-        LDA $9B56, X : STA [$C5], Y
+        LDA.w $9B54, X : STA [$C2], Y
+        LDA.w $9B56, X : STA [$C5], Y
         
         INY #4
     DEC $0E : BNE .BRANCH_BETA
     
-    LDA $9B58, X : STA [$C2], Y
+    LDA.w $9B58, X : STA [$C2], Y
     
     LDA $08 : CLC : ADC.w #$0080 : STA $08 : TAY
     
@@ -2963,9 +2963,9 @@ Object_HiddenWallLeft:
     
     .nextColumn
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$CB], Y
-        LDA $9B56, X : STA [$D7], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$CB], Y
+        LDA.w $9B56, X : STA [$D7], Y
         
         INY #2
     DEC $B2 : BNE .nextColumn
@@ -3045,17 +3045,17 @@ Object_Water:
 {
     LDA $B2 : ASL A : TAX
     
-    LDA $9B3A, X : STA $B2
+    LDA.w $9B3A, X : STA $B2
     
-    LDA $9B42, X : STA $0686
+    LDA.w $9B42, X : STA $0686
     
     LDA $B4 : ASL A : TAX
     
-    LDA $9B3A, X : STA $B4
+    LDA.w $9B3A, X : STA $B4
     
     ; Looks like all these $06xx addreses are calculated for hdma of the 
     ; water (for rooms that have a script for that)
-    LDA $9B42, X  : STA $0684
+    LDA.w $9B42, X  : STA $0684
     SEC : SBC.w #$0018 : STA $0688
     
     TYA : AND.w #$007E : ASL #2 : STA $0680
@@ -3101,10 +3101,10 @@ Object_Water:
         
         .loop
         
-            LDA $9B52, Y : STA $7E2000, X
-            LDA $9B54, Y : STA $7E2002, X
-            LDA $9B56, Y : STA $7E2004, X
-            LDA $9B58, Y : STA $7E2006, X
+            LDA.w $9B52, Y : STA $7E2000, X
+            LDA.w $9B54, Y : STA $7E2002, X
+            LDA.w $9B56, Y : STA $7E2004, X
+            LDA.w $9B58, Y : STA $7E2006, X
             
             TYA : CLC : ADC.w #$0008 : TAY
             
@@ -3140,15 +3140,15 @@ Object_Water:
     LDA $B2 : ASL A : TAX
     
     ; Use the initial height to index into a table to get the actual height.
-    LDA $9B3A, X : STA $B2
+    LDA.w $9B3A, X : STA $B2
     
-    LDA $9B42, X : SEC : SBC.w #$0018 : STA $0686
+    LDA.w $9B42, X : SEC : SBC.w #$0018 : STA $0686
     
     LDA $B4 : ASL A : TAX
     
-    LDA $9B3A, X : STA $B4
+    LDA.w $9B3A, X : STA $B4
     
-    LDA $9B42, X : SEC : SBC.w #$0008 : STA $0688
+    LDA.w $9B42, X : SEC : SBC.w #$0008 : STA $0688
     
     SEC : SBC.w #$0018 : STA $0684
     
@@ -3190,7 +3190,7 @@ Object_Water:
     
     LDA $B4 : ASL A : TAX
     
-    LDA $9B46, X : STA $04
+    LDA.w $9B46, X : STA $04
     
     LDX.w #$0110
     
@@ -3202,14 +3202,14 @@ Object_Water:
         
         .loop2
         
-            LDA $9B52, X : STA [$BF], Y
-            LDA $9B54, X : STA [$C2], Y
-            LDA $9B56, X : STA [$C5], Y
-            LDA $9B58, X : STA [$C8], Y
-            LDA $9B5A, X : STA [$CB], Y
-            LDA $9B5C, X : STA [$CE], Y
-            LDA $9B5E, X : STA [$D1], Y
-            LDA $9B60, X : STA [$D4], Y
+            LDA.w $9B52, X : STA [$BF], Y
+            LDA.w $9B54, X : STA [$C2], Y
+            LDA.w $9B56, X : STA [$C5], Y
+            LDA.w $9B58, X : STA [$C8], Y
+            LDA.w $9B5A, X : STA [$CB], Y
+            LDA.w $9B5C, X : STA [$CE], Y
+            LDA.w $9B5E, X : STA [$D1], Y
+            LDA.w $9B60, X : STA [$D4], Y
             
             INY #8
         DEC $0A : BNE .loop2
@@ -3241,7 +3241,7 @@ Object_Water:
     
     .next_block
     
-        LDA $95B2, X : STA [$BF], Y
+        LDA.w $95B2, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .next_block
@@ -3348,9 +3348,9 @@ Object_Water:
     
     LDA $B2 : STA $0A
     
-    LDA $9B52, Y : STA $7E2000, X
+    LDA.w $9B52, Y : STA $7E2000, X
     
-    LDA $9B58, Y
+    LDA.w $9B58, Y
     
     .BRANCH_BETA
     
@@ -3359,15 +3359,15 @@ Object_Water:
         INX #2
     DEC $0A : BNE .BRANCH_BETA
     
-    LDA $9B5E, Y : STA $7E2002, X
+    LDA.w $9B5E, Y : STA $7E2002, X
     
-    LDA $9B64, Y : STA $7E2004, X : STA $7E2006, X : STA $7E2008, X : STA $7E200A, X
+    LDA.w $9B64, Y : STA $7E2004, X : STA $7E2006, X : STA $7E2008, X : STA $7E200A, X
     
     LDA $B2 : STA $0A
     
-    LDA $9B6A, Y : STA $7E200C, X
+    LDA.w $9B6A, Y : STA $7E200C, X
     
-    LDA $9B70, Y
+    LDA.w $9B70, Y
     
     .BRANCH_GAMMA
     
@@ -3376,7 +3376,7 @@ Object_Water:
         INX #2
     DEC $0A : BNE .BRANCH_GAMMA
     
-    LDA $9B76, Y : STA $7E200E, X
+    LDA.w $9B76, Y : STA $7E200E, X
     
     PLA : CLC : ADC.w #$0080 : TAX
     
@@ -3393,13 +3393,13 @@ Object_Water:
     
     ASL $B2
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$C2], Y
     
     .nextRow
     
-        LDA $9B56, X : STA [$CB], Y
-        LDA $9B58, X : STA [$CE], Y
+        LDA.w $9B56, X : STA [$CB], Y
+        LDA.w $9B58, X : STA [$CE], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $B2 : BNE .nextRow
@@ -3441,10 +3441,10 @@ Object_Draw4xN:
     
     .nextColumn
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$CB], Y
-        LDA $9B56, X : STA [$D7], Y
-        LDA $9B58, X : STA [$DA], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$CB], Y
+        LDA.w $9B56, X : STA [$D7], Y
+        LDA.w $9B58, X : STA [$DA], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -3463,17 +3463,17 @@ Object_Draw4x4_BothBgs:
     
     LDA.w #$0004
     
-    ;ALTERNATE ENTRY POINT? TODO: Confirm this.
+    ; ALTERNATE ENTRY POINT? TODO: Confirm this.
     .variableNumberOfColumns
     
     STA $0E
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
-        LDA $9B58, Y : STA $7E4180, X : STA $7E2180, X
+        LDA.w $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA.w $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA.w $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA.w $9B58, Y : STA $7E4180, X : STA $7E2180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -3505,9 +3505,9 @@ Object_Draw3x4_BothBgs:
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E4000, X : STA $7E2000, X
-        LDA $9B54, Y : STA $7E4080, X : STA $7E2080, X
-        LDA $9B56, Y : STA $7E4100, X : STA $7E2100, X
+        LDA.w $9B52, Y : STA $7E4000, X : STA $7E2000, X
+        LDA.w $9B54, Y : STA $7E4080, X : STA $7E2080, X
+        LDA.w $9B56, Y : STA $7E4100, X : STA $7E2100, X
         
         TYA : CLC : ADC.w #$0006 : TAY
         
@@ -3530,10 +3530,10 @@ Object_Draw3x4_BothBgs:
 ; $009895 ALTERNATE ENTRY POINT
 Object_Draw2x2:
 {
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$C2], Y
-    LDA $9B58, X : STA [$CE], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$C2], Y
+    LDA.w $9B58, X : STA [$CE], Y
     
     INY #4
     
@@ -3795,13 +3795,13 @@ Object_Draw7x8:
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E2000, X
-        LDA $9B54, Y : STA $7E2080, X
-        LDA $9B56, Y : STA $7E2100, X
-        LDA $9B58, Y : STA $7E2180, X
-        LDA $9B5A, Y : STA $7E2200, X
-        LDA $9B5C, Y : STA $7E2280, X
-        LDA $9B5E, Y : STA $7E2300, X
+        LDA.w $9B52, Y : STA $7E2000, X
+        LDA.w $9B54, Y : STA $7E2080, X
+        LDA.w $9B56, Y : STA $7E2100, X
+        LDA.w $9B58, Y : STA $7E2180, X
+        LDA.w $9B5A, Y : STA $7E2200, X
+        LDA.w $9B5C, Y : STA $7E2280, X
+        LDA.w $9B5E, Y : STA $7E2300, X
         
         TYA : CLC : ADC.w #$000E : TAY
         
@@ -3898,8 +3898,8 @@ Object_Rupees:
 
         .moveTwoColumnsRight
         
-            LDA $9B52, Y : STA $7E2000, X : STA $7E2180, X : STA $7E2300, X
-            LDA $9B54, Y : STA $7E2080, X : STA $7E2200, X : STA $7E2380, X
+            LDA.w $9B52, Y : STA $7E2000, X : STA $7E2180, X : STA $7E2300, X
+            LDA.w $9B54, Y : STA $7E2080, X : STA $7E2200, X : STA $7E2380, X
             
             INX #4
         DEC $0E : BNE .moveTwoColumnsRight
@@ -3918,10 +3918,10 @@ Object_Draw5x4:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$C2], Y
-        LDA $9B56, X : STA [$C5], Y
-        LDA $9B58, X : STA [$C8], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$C2], Y
+        LDA.w $9B56, X : STA [$C5], Y
+        LDA.w $9B58, X : STA [$C8], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -4003,7 +4003,7 @@ Object_SanctuaryMantle:
     
     .nextRow
     
-    LDA $9B52, Y
+    LDA.w $9B52, Y
     
     STA $7E2000, X : STA $7E2008, X
     STA $7E2010, X : STA $7E201C, X
@@ -4015,7 +4015,7 @@ Object_SanctuaryMantle:
     STA $7E2012, X : STA $7E201E, X
     STA $7E2026, X : STA $7E202E, X
     
-    LDA $9B5E, Y
+    LDA.w $9B5E, Y
     
     STA $7E2004, X : STA $7E200C, X
     STA $7E2020, X : STA $7E2028, X
@@ -4045,12 +4045,12 @@ Object_SanctuaryMantle:
 ; $009BD9-$009BF7 LOCAL
 Object_Draw2x3:
 {
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    LDA $9B58, X : STA [$CB], Y
-    LDA $9B5A, X : STA [$CE], Y
-    LDA $9B5C, X : STA [$D1], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$C2], Y
+    LDA.w $9B56, X : STA [$C5], Y
+    LDA.w $9B58, X : STA [$CB], Y
+    LDA.w $9B5A, X : STA [$CE], Y
+    LDA.w $9B5C, X : STA [$D1], Y
     
     RTS
 }
@@ -4111,7 +4111,7 @@ Object_Watergate:
 ; $009C3E ALTERNATE ENTRY POINT
 Object_Draw1x1:
 {
-    LDA $9B52, X : STA [$BF], Y
+    LDA.w $9B52, X : STA [$BF], Y
     
     RTS
 }
@@ -4135,21 +4135,21 @@ Object_PrisonBars:
     
     .nextColumn
     
-        LDA $9B54, Y : STA $7E2004, X :                STA $7E2012, X
-        LDA $9B56, Y : STA $7E2084, X : ORA.w #$4000 : STA $7E2092, X
-        LDA $9B5A, Y : STA $7E2104, X : ORA.w #$4000 : STA $7E2112, X
-        LDA $9B5C, Y : STA $7E2184, X : ORA.w #$4000 : STA $7E2192, X
+        LDA.w $9B54, Y : STA $7E2004, X :                STA $7E2012, X
+        LDA.w $9B56, Y : STA $7E2084, X : ORA.w #$4000 : STA $7E2092, X
+        LDA.w $9B5A, Y : STA $7E2104, X : ORA.w #$4000 : STA $7E2112, X
+        LDA.w $9B5C, Y : STA $7E2184, X : ORA.w #$4000 : STA $7E2192, X
         
         INX #2
     DEC $0C : BNE .nextColumn
     
     PLX
     
-    LDA $9B52, Y : STA $7E2000, X : ORA.w #$4000 : STA $7E201E, X
-    LDA $9B54, Y : STA $7E2002, X                : STA $7E200E, X
+    LDA.w $9B52, Y : STA $7E2000, X : ORA.w #$4000 : STA $7E201E, X
+    LDA.w $9B54, Y : STA $7E2002, X                : STA $7E200E, X
                                                    STA $7E2010, X
                                                    STA $7E201C, X
-    LDA $9B58, Y : STA $7E2102, X : ORA.w #$4000 : STA $7E211C, X
+    LDA.w $9B58, Y : STA $7E2102, X : ORA.w #$4000 : STA $7E211C, X
     
     RTS
 }
@@ -4210,9 +4210,9 @@ Object_PrisonBars:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$C2], Y
-        LDA $9B56, X : STA [$C5], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$C2], Y
+        LDA.w $9B56, X : STA [$C5], Y
         
         INX #6
     
@@ -4275,10 +4275,10 @@ Object_PrisonBars:
     
     .nextRow
     
-        LDA $9B52, X : STA [$BF], Y
-        LDA $9B54, X : STA [$C2], Y
-        LDA $9B56, X : STA [$C5], Y
-        LDA $9B58, X : STA [$C8], Y
+        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w $9B54, X : STA [$C2], Y
+        LDA.w $9B56, X : STA [$C5], Y
+        LDA.w $9B58, X : STA [$C8], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -4319,7 +4319,7 @@ Object_KholdstareShell:
             
             .nextColumn
             
-                LDA $9B52, Y : STA $7E2000, X
+                LDA.w $9B52, Y : STA $7E2000, X
                 
                 INY #2
                 INX #2
@@ -4383,7 +4383,7 @@ Object_LanternLayer:
         
         .nextColumn
         
-            LDA $9B52, Y : STA $7E4000, X
+            LDA.w $9B52, Y : STA $7E4000, X
             
             INY #2
             INX #2
@@ -4408,22 +4408,22 @@ Object_AgahnimAltar:
     
     .nextRow
     
-        LDA $9B52, Y : STA $7E2000, X
+        LDA.w $9B52, Y : STA $7E2000, X
         ORA.w #$4000 : STA $7E201A, X
         
-        LDA $9B6E, Y : STA $7E2002, X : STA $7E2004, X
+        LDA.w $9B6E, Y : STA $7E2002, X : STA $7E2004, X
         EOR.w #$4000 : STA $7E2016, X : STA $7E2018, X
         
-        LDA $9B8A, Y : STA $7E2006, X
+        LDA.w $9B8A, Y : STA $7E2006, X
         EOR.w #$4000 : STA $7E2014, X
         
-        LDA $9BA6, Y : STA $7E2008, X
+        LDA.w $9BA6, Y : STA $7E2008, X
         EOR.w #$4000 : STA $7E2012, X
         
-        LDA $9BC2, Y : STA $7E200A, X
+        LDA.w $9BC2, Y : STA $7E200A, X
         EOR.w #$4000 : STA $7E2010, X
         
-        LDA $9BDE, Y : STA $7E200C, X
+        LDA.w $9BDE, Y : STA $7E200C, X
         EOR.w #$4000 : STA $7E200E, X
         
         TXA : CLC : ADC.w #$0080 : TAX
@@ -4447,10 +4447,10 @@ Object_AgahnimRoomFrame:
     
     .topEdgeLoop
     
-        LDA $9B52, Y : STA $7E220E, X : STA $7E221A, X : STA $7E2226, X
-        LDA $9B54, Y : STA $7E228E, X : STA $7E229A, X : STA $7E22A6, X
-        LDA $9B56, Y : STA $7E230E, X : STA $7E231A, X : STA $7E2326, X
-        LDA $9B58, Y : STA $7E238E, X : STA $7E239A, X : STA $7E23A6, X
+        LDA.w $9B52, Y : STA $7E220E, X : STA $7E221A, X : STA $7E2226, X
+        LDA.w $9B54, Y : STA $7E228E, X : STA $7E229A, X : STA $7E22A6, X
+        LDA.w $9B56, Y : STA $7E230E, X : STA $7E231A, X : STA $7E2326, X
+        LDA.w $9B58, Y : STA $7E238E, X : STA $7E239A, X : STA $7E23A6, X
         
         INY #8
         INX #2
@@ -4464,7 +4464,7 @@ Object_AgahnimRoomFrame:
     
     .diagonalsLoop
     
-        LDA $9B52, Y   : STA $7E2504, X : STA $7E2486, X : STA $7E2408, X
+        LDA.w $9B52, Y   : STA $7E2504, X : STA $7E2486, X : STA $7E2408, X
         STA $7E238A, X : STA $7E230C, X : STA $7E228E, X : STA $7E2210, X
         
         ORA.w #$4000   : STA $7E222E, X : STA $7E22B0, X : STA $7E2332, X
@@ -4483,16 +4483,16 @@ Object_AgahnimRoomFrame:
     
     .sidesLoop
     
-        LDA $9B52, Y : STA $7E2584, X : STA $7E2884, X : STA $7E2B84, X
+        LDA.w $9B52, Y : STA $7E2584, X : STA $7E2884, X : STA $7E2B84, X
         ORA.w #$4000 : STA $7E25BA, X : STA $7E28BA, X : STA $7E2BBA, X
         
-        LDA $9B54, Y : STA $7E2586, X : STA $7E2886, X : STA $7E2B86, X
+        LDA.w $9B54, Y : STA $7E2586, X : STA $7E2886, X : STA $7E2B86, X
         ORA.w #$4000 : STA $7E25B8, X : STA $7E28B8, X : STA $7E2BB8, X
         
-        LDA $9B56, Y : STA $7E2588, X : STA $7E2888, X : STA $7E2B88, X
+        LDA.w $9B56, Y : STA $7E2588, X : STA $7E2888, X : STA $7E2B88, X
         ORA.w #$4000 : STA $7E25B6, X : STA $7E28B6, X : STA $7E2BB6, X
         
-        LDA $9B58, Y : STA $7E258A, X : STA $7E288A, X : STA $7E2B8A, X
+        LDA.w $9B58, Y : STA $7E258A, X : STA $7E288A, X : STA $7E2B8A, X
         ORA.w #$4000 : STA $7E25B4, X : STA $7E28B4, X : STA $7E2BB4, X
         
         INY #8
@@ -4512,8 +4512,8 @@ Object_AgahnimRoomFrame:
     
     .horizLightLoop
     
-        LDA $9B52, Y : STA $7E2498, X : STA $7E24A4, X
-        LDA $9B5E, Y : STA $7E2518, X : STA $7E2524, X
+        LDA.w $9B52, Y : STA $7E2498, X : STA $7E24A4, X
+        LDA.w $9B5E, Y : STA $7E2518, X : STA $7E2524, X
         
         INY #2
         INX #2
@@ -4527,8 +4527,8 @@ Object_AgahnimRoomFrame:
     
     .vertLightLoop
     
-        LDA $9B52, Y : STA $7E270E, X : STA $7E2A0E, X
-        LDA $9B54, Y : STA $7E2710, X : STA $7E2A10, X
+        LDA.w $9B52, Y : STA $7E270E, X : STA $7E2A0E, X
+        LDA.w $9B54, Y : STA $7E2710, X : STA $7E2A10, X
         
         INY #4
         
@@ -4543,11 +4543,11 @@ Object_AgahnimRoomFrame:
     
     .draw5x5_LightLoop
     
-        LDA $9B52, Y : STA $7E248E, X
-        LDA $9B54, Y : STA $7E250E, X
-        LDA $9B56, Y : STA $7E258E, X
-        LDA $9B58, Y : STA $7E260E, X
-        LDA $9B5A, Y : STA $7E268E, X
+        LDA.w $9B52, Y : STA $7E248E, X
+        LDA.w $9B54, Y : STA $7E250E, X
+        LDA.w $9B56, Y : STA $7E258E, X
+        LDA.w $9B58, Y : STA $7E260E, X
+        LDA.w $9B5A, Y : STA $7E268E, X
         
         TYA : CLC : ADC.w #$000A : TAY
         
@@ -4582,9 +4582,9 @@ Object_FortuneTellerTemplate:
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E2002, X : STA $7E2004, X : STA $7E2082, X : STA $7E2084, X
+        LDA.w $9B52, Y : STA $7E2002, X : STA $7E2004, X : STA $7E2082, X : STA $7E2084, X
         
-        LDA $9B54, Y : STA $7E2102, X
+        LDA.w $9B54, Y : STA $7E2102, X
         ORA.w #$4000 : STA $7E2104, X
         
         INX #4
@@ -4596,10 +4596,10 @@ Object_FortuneTellerTemplate:
     
     .nextRow
     
-        LDA $9B56, Y : STA $7E2180, X : STA $7E2184, X : STA $7E2194, X : STA $7E2198, X
+        LDA.w $9B56, Y : STA $7E2180, X : STA $7E2184, X : STA $7E2194, X : STA $7E2198, X
         ORA.w #$4000 : STA $7E2182, X : STA $7E2186, X : STA $7E2196, X : STA $7E219A, X
         
-        LDA $9B5C, Y : STA $7E2188, X : STA $7E218C, X : STA $7E2190, X
+        LDA.w $9B5C, Y : STA $7E2188, X : STA $7E218C, X : STA $7E2190, X
         ORA.w #$4000 : STA $7E218A, X : STA $7E218E, X : STA $7E2192, X
         
         INY #2
@@ -4609,10 +4609,10 @@ Object_FortuneTellerTemplate:
     
     LDX $08
     
-    LDA $9B5C, Y : STA $7E2000, X : STA $7E2080, X
+    LDA.w $9B5C, Y : STA $7E2000, X : STA $7E2080, X
     ORA.w #$4000 : STA $7E201A, X : STA $7E209A, X
     
-    LDA $9B5E, Y : STA $7E2100, X
+    LDA.w $9B5E, Y : STA $7E2100, X
     ORA.w #$4000 : STA $7E211A, X
     
     LDA.w #$0004 : STA $0E
@@ -4623,16 +4623,16 @@ Object_FortuneTellerTemplate:
     
     .nextRow2
     
-        LDA $9B66, Y : STA $7E2506, X
+        LDA.w $9B66, Y : STA $7E2506, X
         EOR.w #$4000 : STA $7E2514, X
         
-        LDA $9B6E, Y : STA $7E2508, X
+        LDA.w $9B6E, Y : STA $7E2508, X
         EOR.w #$4000 : STA $7E2512, X
         
-        LDA $9B76, Y : STA $7E250A, X
+        LDA.w $9B76, Y : STA $7E250A, X
         EOR.w #$4000 : STA $7E2510, X
         
-        LDA $9B7E, Y : STA $7E250C, X
+        LDA.w $9B7E, Y : STA $7E250C, X
         EOR.w #$4000 : STA $7E250E, X
         
         INY #2
@@ -4649,22 +4649,22 @@ Object_FortuneTellerTemplate:
 {
     LDA.w #$0003 : STA $0E
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$C2], Y
+    LDA.w $9B56, X : STA [$C5], Y
     
     .nextRow
     
-        LDA $9B58, X : STA [$CB], Y
-        LDA $9B5A, X : STA [$CE], Y
-        LDA $9B5C, X : STA [$D1], Y
+        LDA.w $9B58, X : STA [$CB], Y
+        LDA.w $9B5A, X : STA [$CE], Y
+        LDA.w $9B5C, X : STA [$D1], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC $0E : BNE .nextRow
     
-    LDA $9B5E, X : STA [$CB], Y
-    LDA $9B60, X : STA [$CE], Y
-    LDA $9B62, X : STA [$D1], Y
+    LDA.w $9B5E, X : STA [$CB], Y
+    LDA.w $9B60, X : STA [$CE], Y
+    LDA.w $9B62, X : STA [$D1], Y
     
     RTS
 }
@@ -4682,17 +4682,17 @@ Object_FortuneTellerTemplate:
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E4000, X
-        LDA $9B54, Y : STA $7E4080, X
-        LDA $9B56, Y : STA $7E4100, X
-        LDA $9B58, Y : STA $7E4180, X
-        LDA $9B5A, Y : STA $7E4200, X
-        LDA $9B5C, Y : STA $7E4280, X
-        LDA $9B5E, Y : STA $7E4300, X
-        LDA $9B60, Y : STA $7E4380, X
-        LDA $9B62, Y : STA $7E4400, X
-        LDA $9B64, Y : STA $7E4480, X
-        LDA $9B66, Y : STA $7E4500, X
+        LDA.w $9B52, Y : STA $7E4000, X
+        LDA.w $9B54, Y : STA $7E4080, X
+        LDA.w $9B56, Y : STA $7E4100, X
+        LDA.w $9B58, Y : STA $7E4180, X
+        LDA.w $9B5A, Y : STA $7E4200, X
+        LDA.w $9B5C, Y : STA $7E4280, X
+        LDA.w $9B5E, Y : STA $7E4300, X
+        LDA.w $9B60, Y : STA $7E4380, X
+        LDA.w $9B62, Y : STA $7E4400, X
+        LDA.w $9B64, Y : STA $7E4480, X
+        LDA.w $9B66, Y : STA $7E4500, X
         
         TYA : CLC : ADC.w #$0016 : TAY
         
@@ -4707,8 +4707,8 @@ Object_FortuneTellerTemplate:
     
     .nextColumn2
     
-        LDA $9B52, Y : STA $7E4592, X
-        LDA $9B58, Y : STA $7E4612, X
+        LDA.w $9B52, Y : STA $7E4592, X
+        LDA.w $9B58, Y : STA $7E4612, X
         
         INY #2
         INX #2
@@ -4770,10 +4770,10 @@ Object_EntireFloorIsPit:
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
-        LDA $9B54, Y : STA $7E2080, X : STA $7E4080, X
-        LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
-        LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
+        LDA.w $9B52, Y : STA $7E2000, X : STA $7E4000, X
+        LDA.w $9B54, Y : STA $7E2080, X : STA $7E4080, X
+        LDA.w $9B56, Y : STA $7E2100, X : STA $7E4100, X
+        LDA.w $9B58, Y : STA $7E2180, X : STA $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -4875,10 +4875,10 @@ _A2C1_: ; TODO: Get better name.
     
     .nextColumn
     
-        LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
-        LDA $9B54, Y : STA $7E2080, X : STA $7E4080, X
-        LDA $9B56, Y : STA $7E2100, X : STA $7E4100, X
-        LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
+        LDA.w $9B52, Y : STA $7E2000, X : STA $7E4000, X
+        LDA.w $9B54, Y : STA $7E2080, X : STA $7E4080, X
+        LDA.w $9B56, Y : STA $7E2100, X : STA $7E4100, X
+        LDA.w $9B58, Y : STA $7E2180, X : STA $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -4955,14 +4955,14 @@ Object_InactiveWaterLadder:
     
     LDY.w #$1108
     
-    LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
-    LDA $9B54, Y : STA $7E2002, X : STA $7E4002, X
-    LDA $9B56, Y : STA $7E2004, X : STA $7E4004, X
-    LDA $9B58, Y : STA $7E2006, X : STA $7E4006, X
-    LDA $9B5A, Y : STA $7E2080, X : STA $7E4080, X
-    LDA $9B5C, Y : STA $7E2082, X : STA $7E4082, X
-    LDA $9B5E, Y : STA $7E2084, X : STA $7E4084, X
-    LDA $9B60, Y : STA $7E2086, X : STA $7E4086, X
+    LDA.w $9B52, Y : STA $7E2000, X : STA $7E4000, X
+    LDA.w $9B54, Y : STA $7E2002, X : STA $7E4002, X
+    LDA.w $9B56, Y : STA $7E2004, X : STA $7E4004, X
+    LDA.w $9B58, Y : STA $7E2006, X : STA $7E4006, X
+    LDA.w $9B5A, Y : STA $7E2080, X : STA $7E4080, X
+    LDA.w $9B5C, Y : STA $7E2082, X : STA $7E4082, X
+    LDA.w $9B5E, Y : STA $7E2084, X : STA $7E4084, X
+    LDA.w $9B60, Y : STA $7E2086, X : STA $7E4086, X
     
     RTS
 }
@@ -5282,10 +5282,10 @@ Object_InactiveWaterLadder:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -5356,10 +5356,10 @@ Object_InactiveWaterLadder:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X : STA $7E4000, X
-    LDA $9B54, Y : STA $7E4080, X
-    LDA $9B56, Y : STA $7E4100, X
-    LDA $9B58, Y : STA $7E4180, X
+    LDA.w $9B52, Y : STA $7E2000, X : STA $7E4000, X
+    LDA.w $9B54, Y : STA $7E4080, X
+    LDA.w $9B56, Y : STA $7E4100, X
+    LDA.w $9B58, Y : STA $7E4180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -5437,10 +5437,10 @@ Object_InactiveWaterLadder:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E4000, X
-    LDA $9B54, Y : STA $7E4080, X
-    LDA $9B56, Y : STA $7E4100, X
-    LDA $9B58, Y : STA $7E2180, X : STA $7E4180, X
+    LDA.w $9B52, Y : STA $7E4000, X
+    LDA.w $9B54, Y : STA $7E4080, X
+    LDA.w $9B56, Y : STA $7E4100, X
+    LDA.w $9B58, Y : STA $7E2180, X : STA $7E4180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -5561,7 +5561,7 @@ Object_Draw10x20_With4x4:
 Door_Up:
 {
     ; Determine the position for the door from a table
-    LDY $997E, X : STY !tilemap_pos
+    LDY.w $997E, X : STY !tilemap_pos
     
     CMP.w #$0030 : BNE .notBlastWall
     
@@ -5647,7 +5647,7 @@ Door_Up:
     
     TXA : AND.w #$000F : TAY
     
-    LDA $98C0, Y
+    LDA.w $98C0, Y
     
     LDY !tilemap_pos
     
@@ -5671,7 +5671,7 @@ Door_Up:
     
     JSR Door_Register
     
-    LDA $CD9E, Y : TAY
+    LDA.w $CD9E, Y : TAY
     
     LDX !tilemap_pos
     
@@ -5680,9 +5680,9 @@ Door_Up:
     .nextColumn
     
     ; Apparently some of these doors can only draw to BG1
-    LDA $9B52, Y : STA $7E4000, X
-    LDA $9B54, Y : STA $7E4080, X
-    LDA $9B56, Y : STA $7E4100, X
+    LDA.w $9B52, Y : STA $7E4000, X
+    LDA.w $9B54, Y : STA $7E4080, X
+    LDA.w $9B56, Y : STA $7E4100, X
     
     TYA : CLC : ADC.w #$0006 : TAY
     
@@ -5718,7 +5718,7 @@ Door_Up:
     
     ORA.w #$0010 : STA $0460
     
-    LDY $998A, X
+    LDY.w $998A, X
     
     LDA $04
     
@@ -5758,7 +5758,7 @@ Door_Up:
     
     .notOneSidedTrapDoor
     
-    LDX $CD9E, Y
+    LDX.w $CD9E, Y
     
     LDY !tilemap_pos
     
@@ -5766,9 +5766,9 @@ Door_Up:
     
     .nextColumn2
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$D7], Y
     
     TXA : CLC : ADC.w #$0006 : TAX
     
@@ -5787,7 +5787,7 @@ Door_Up:
 Door_Down:
 {
     ; get the position of the door
-    LDY $9996, X : STY $08
+    LDY.w $9996, X : STY $08
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
     
@@ -5970,7 +5970,7 @@ Door_Down:
     
     .BRANCH_SIGMA
     
-    LDX $CE06, Y
+    LDX.w $CE06, Y
     
     LDY $08
     
@@ -5978,9 +5978,9 @@ Door_Down:
     
     .nextColumn
     
-    LDA $9B52, X : STA [$CB], Y
-    LDA $9B54, X : STA [$D7], Y
-    LDA $9B56, X : STA [$DA], Y
+    LDA.w $9B52, X : STA [$CB], Y
+    LDA.w $9B54, X : STA [$D7], Y
+    LDA.w $9B56, X : STA [$DA], Y
     
     TXA : CLC : ADC.w #$0006 : TAX
     
@@ -5999,7 +5999,7 @@ Door_Down:
 Door_Left:
 {
     ; get the position of the door
-    LDY $99AE, X : STY $08
+    LDY.w $99AE, X : STY $08
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
     
@@ -6046,7 +6046,7 @@ Door_Left:
     
     ; $00AB1F ALTERNATE ENTRY POINT
     .BRANCH_EPSILON 
-    ;Default behavior
+    ; Default behavior
     
     LDX !door_position : CPX.w #$000C : BCC .BRANCH_THETA
     
@@ -6056,7 +6056,7 @@ Door_Left:
     
     ORA.w #$0010 : STA $0460
     
-    LDY $99BA, X
+    LDY.w $99BA, X
     
     LDA $04
     
@@ -6096,7 +6096,7 @@ Door_Left:
     
     .BRANCH_MU
     
-    LDX $CE66, Y
+    LDX.w $CE66, Y
     
     LDY $08
     
@@ -6105,10 +6105,10 @@ Door_Left:
     ; $00AB78 ALTERNATE ENTRY POINT
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    LDA $9B58, X : STA [$DA], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$D7], Y
+    LDA.w $9B58, X : STA [$DA], Y
     
     TXA : CLC : ADC.w #$0008 : TAX
     
@@ -6130,7 +6130,7 @@ Door_Right:
     ; eg #$4632
     
     ; get the position of the door
-    LDY $99C6, X : STY $08
+    LDY.w $99C6, X : STY $08
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
     
@@ -6207,7 +6207,7 @@ Door_Right:
     
     .BRANCH_EPSILON
     
-    LDX $CEC6, Y
+    LDX.w $CEC6, Y
     
     LDY $08 : INY #2
     
@@ -6216,10 +6216,10 @@ Door_Right:
     ; $00AC1A ALTERNATE ENTRY POINT
     .nextColumn
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    LDA $9B58, X : STA [$DA], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$D7], Y
+    LDA.w $9B58, X : STA [$DA], Y
     
     TXA : CLC : ADC.w #$0008 : TAX
     
@@ -6246,7 +6246,7 @@ Door_SwordActivated:
     
     JSR Door_Register : BCC .failedRegistration
     
-    LDX $CD9E, Y
+    LDX.w $CD9E, Y
     
     BRA .drawOtherGraphic ; temp name
     
@@ -6287,7 +6287,7 @@ Door_UntouchedBlastWall:
 ; $00AC70-$00AD40 JUMP LOCATION
 Door_BlastWall:
 {
-    LDY $99DE, X : STY $08
+    LDY.w $99DE, X : STY $08
     
     LDX $0460
     
@@ -6329,7 +6329,7 @@ Door_BlastWall:
     
     LDY.w #$0054
     
-    LDX $CE06, Y
+    LDX.w $CE06, Y
     
     JSR $ACE4 ; $ACE4 IN ROM
     
@@ -6341,7 +6341,7 @@ Door_BlastWall:
     
     LDY.w #$0054
     
-    LDX $CD9E, Y
+    LDX.w $CD9E, Y
     
     ; $00ACE4 ALTERNATE ENTRY POINT
     
@@ -6362,7 +6362,7 @@ Door_BlastWall:
     LDX $08
     
     ; $9B52, Y THAT IS
-    LDA $9B52, Y
+    LDA.w $9B52, Y
     
     .nextColumn
     
@@ -6385,8 +6385,8 @@ Door_BlastWall:
     
     .nextRow
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B5E, X : STA [$C2], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B5E, X : STA [$C2], Y
     
     INX #2
     
@@ -6411,7 +6411,7 @@ Door_BlastWall:
     
     ORA.w #$0010 : STA $0460
     
-    LDY $998A, X
+    LDY.w $998A, X
     
     JSR $ADD4 ; $ADD4 IN ROM
     
@@ -6445,7 +6445,7 @@ Door_BlastWall:
     
     .BRANCH_GAMMA
     
-    LDA $CD9E, Y : TAY
+    LDA.w $CD9E, Y : TAY
     
     LDX $08
     
@@ -6453,9 +6453,9 @@ Door_BlastWall:
     
     .BRANCH_DELTA
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E4080, X
-    LDA $9B56, Y : STA $7E4100, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E4080, X
+    LDA.w $9B56, Y : STA $7E4100, X
     
     TYA : CLC : ADC.w #$0006 : TAY
     
@@ -6510,7 +6510,7 @@ Door_BlastWall:
     
     .notOneSidedTrapDoor
     
-    LDA $CE06, Y : TAY
+    LDA.w $CE06, Y : TAY
     
     LDX $08
     
@@ -6518,9 +6518,9 @@ Door_BlastWall:
     
     .nextColumn
     
-    LDA $9B52, X : STA $7E4080, X
-    LDA $9B54, X : STA $7E4100, X
-    LDA $9B56, X : STA $7E2180, X
+    LDA.w $9B52, X : STA $7E4080, X
+    LDA.w $9B54, X : STA $7E4100, X
+    LDA.w $9B56, X : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0006 : TAY
     
@@ -6553,7 +6553,7 @@ Door_BlastWall:
     
     ORA.w #$0010 : STA $0460
     
-    LDY $99BA, X
+    LDY.w $99BA, X
     
     JSR $AEF0 ; $AEF0 IN ROM
     
@@ -6588,14 +6588,14 @@ Door_BlastWall:
     
     .BRANCH_GAMMA
     
-    LDA $CE66, Y : TAY
+    LDA.w $CE66, Y : TAY
     
     LDX $08
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -6605,10 +6605,10 @@ Door_BlastWall:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E4000, X
-    LDA $9B54, Y : STA $7E4080, X
-    LDA $9B52, Y : STA $7E4100, X
-    LDA $9B52, Y : STA $7E4180, X
+    LDA.w $9B52, Y : STA $7E4000, X
+    LDA.w $9B54, Y : STA $7E4080, X
+    LDA.w $9B52, Y : STA $7E4100, X
+    LDA.w $9B52, Y : STA $7E4180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -6659,7 +6659,7 @@ Door_BlastWall:
     .BRANCH_BETA
     
     ; Offset of the start of the tiles, we're going to be writing to the buffer.
-    LDA $CEC6, Y : TAY
+    LDA.w $CEC6, Y : TAY
     
     LDX $08
     
@@ -6667,10 +6667,10 @@ Door_BlastWall:
     
     .BRANCH_GAMMA
     
-    LDA $9B52, Y : STA $7E4002, X
-    LDA $9B54, Y : STA $7E4082, X
-    LDA $9B56, Y : STA $7E4102, X
-    LDA $9B58, Y : STA $7E4182, X
+    LDA.w $9B52, Y : STA $7E4002, X
+    LDA.w $9B54, Y : STA $7E4082, X
+    LDA.w $9B56, Y : STA $7E4102, X
+    LDA.w $9B58, Y : STA $7E4182, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -6678,10 +6678,10 @@ Door_BlastWall:
     
     DEC $0E : BNE .BRANCH_GAMMA
     
-    LDA $9B52, Y : STA $7E2002, X
-    LDA $9B54, Y : STA $7E2082, X
-    LDA $9B56, Y : STA $7E2102, X
-    LDA $9B58, Y : STA $7E2182, X
+    LDA.w $9B52, Y : STA $7E2002, X
+    LDA.w $9B54, Y : STA $7E2082, X
+    LDA.w $9B56, Y : STA $7E2102, X
+    LDA.w $9B58, Y : STA $7E2182, X
     
     LDA $08 : CLC : ADC.w #$0008
     
@@ -6945,7 +6945,7 @@ Door_Register:
     
     LDX $04
     
-    LDA $9A02, X : STA $0A
+    LDA.w $9A02, X : STA $0A
     
     PLX
     
@@ -7117,14 +7117,14 @@ Object_Draw2x4s_VariableOffset:
     
     .alpha
     
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$C2], Y
-    LDA $9B56, X : STA [$C5], Y
-    LDA $9B58, X : STA [$C8], Y
-    LDA $9B5A, X : STA [$CB], Y
-    LDA $9B5C, X : STA [$CE], Y
-    LDA $9B5E, X : STA [$D1], Y
-    LDA $9B60, X : STA [$D4], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$C2], Y
+    LDA.w $9B56, X : STA [$C5], Y
+    LDA.w $9B58, X : STA [$C8], Y
+    LDA.w $9B5A, X : STA [$CB], Y
+    LDA.w $9B5C, X : STA [$CE], Y
+    LDA.w $9B5E, X : STA [$D1], Y
+    LDA.w $9B60, X : STA [$D4], Y
     
     TYA : CLC : ADC.w $0E : TAY
     
@@ -7178,11 +7178,11 @@ Object_Draw2x4s_VariableOffset:
 ; $00B279-$00B292 LOCAL
 Object_Draw5x1:
 {
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    LDA $9B58, X : STA [$DA], Y
-    LDA $9B5A, X : STA [$DD], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$D7], Y
+    LDA.w $9B58, X : STA [$DA], Y
+    LDA.w $9B5A, X : STA [$DD], Y
     
     RTS
 }
@@ -7221,10 +7221,10 @@ Object_Draw5x1:
 ; $00B2AF-$00B2C9 LOCAL
 Object_Draw2x2_AdvanceDown:
 {
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$C2], Y
-    LDA $9B58, X : STA [$CE], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$C2], Y
+    LDA.w $9B58, X : STA [$CE], Y
     
     TYA : CLC : ADC.w #$0100 : TAY
     
@@ -7246,7 +7246,7 @@ Object_Draw2x2_AdvanceDown:
     
     STA $0A
     
-    LDA $9B52, X
+    LDA.w $9B52, X
     
     .nextColumn
     
@@ -7268,10 +7268,10 @@ Object_Draw2x2_AdvanceDown:
 ; $00B2E1-$00B2F5 JUMP LOCATION
 Object_Draw4x1:
 {
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
-    LDA $9B58, X : STA [$DA], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$D7], Y
+    LDA.w $9B58, X : STA [$DA], Y
     
     RTS
 }
@@ -7281,9 +7281,9 @@ Object_Draw4x1:
 ; $00B2F6-$00B305 JUMP LOCATION
 Object_Draw3x1:
 {
-    LDA $9B52, X : STA [$BF], Y
-    LDA $9B54, X : STA [$CB], Y
-    LDA $9B56, X : STA [$D7], Y
+    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w $9B56, X : STA [$D7], Y
     
     RTS
 }
@@ -7530,10 +7530,10 @@ Object_BombableFloor:
     
     LDY $0E
     
-    LDA $9B52, Y : STA $0560, X
-    LDA $9B54, Y : STA $0580, X
-    LDA $9B56, Y : STA $05A0, X
-    LDA $9B58, Y : STA $05C0, X
+    LDA.w $9B52, Y : STA $0560, X
+    LDA.w $9B54, Y : STA $0580, X
+    LDA.w $9B56, Y : STA $05A0, X
+    LDA.w $9B58, Y : STA $05C0, X
     
     TYA : CLC : ADC.w #$0008 : STA $0E
     
@@ -7985,7 +7985,7 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
     
     .matchPosition
     
-    LDA $9AD2, X : STA $00
+    LDA.w $9AD2, X : STA $00
     
     LDX.w #$0000
     
@@ -8262,7 +8262,7 @@ Dungeon_LoadBasicAttr:
     
     ; Obtains a the behavior associated with this graphical tile.
     ; e.g. chests have a behavior associated with their tile type.
-    LDA $FE00, Y : STA !rightTileAttr
+    LDA.w $FE00, Y : STA !rightTileAttr
     
     ; Y = CHR value
     LDA $7E2000, X : AND.w #$03FF : TAY
@@ -8270,7 +8270,7 @@ Dungeon_LoadBasicAttr:
     SEP #$20
     
     ; if tile type < 0x10
-    LDA $FE00, Y : CMP.b #$10 : BCC .tileIgnoresFlip
+    LDA.w $FE00, Y : CMP.b #$10 : BCC .tileIgnoresFlip
     
     CMP.b #$1C
     
@@ -8924,7 +8924,7 @@ Dungeon_LoadSingleDoorAttr:
     .lockedStaircaseCover
     
     ; Load tile attributes to fill in for the door's passage way.
-    LDA $9A52, X : STA $00
+    LDA.w $9A52, X : STA $00
     
     ; check if it's an up door?
     LDA $19C0, Y : AND.w #$0003 : BNE .notUpDoor
@@ -9131,7 +9131,7 @@ Door_LoadBlastWallAttr:
     LDX $02
     
     ; Load the tile attributes to use
-    LDA $9A52, X : STA $00
+    LDA.w $9A52, X : STA $00
     
     LDA $19C0, Y : AND.w #$0003 : BNE .notUpDoor
     
@@ -10366,10 +10366,10 @@ Dungeon_DetectStaircase:
     
     LDY.w #$149C
     
-    LDA $9B52, Y : STA $7E2000, X : STA $02
-    LDA $9B54, Y : STA $7E2080, X : STA $04
-    LDA $9B56, Y : STA $7E2002, X : STA $06
-    LDA $9B58, Y : STA $7E2082, X : STA $08
+    LDA.w $9B52, Y : STA $7E2000, X : STA $02
+    LDA.w $9B54, Y : STA $7E2080, X : STA $04
+    LDA.w $9B56, Y : STA $7E2002, X : STA $06
+    LDA.w $9B58, Y : STA $7E2082, X : STA $08
     
     LDY $0200
     
@@ -11111,14 +11111,14 @@ Object_WatergateChannelWater:
     
     .next2x4
     
-    LDA $9B52, Y : STA $7E4000, X
-    LDA $9B54, Y : STA $7E4002, X
-    LDA $9B56, Y : STA $7E4004, X
-    LDA $9B58, Y : STA $7E4006, X
-    LDA $9B5A, Y : STA $7E4080, X
-    LDA $9B5C, Y : STA $7E4082, X
-    LDA $9B5E, Y : STA $7E4084, X
-    LDA $9B60, Y : STA $7E4086, X
+    LDA.w $9B52, Y : STA $7E4000, X
+    LDA.w $9B54, Y : STA $7E4002, X
+    LDA.w $9B56, Y : STA $7E4004, X
+    LDA.w $9B58, Y : STA $7E4006, X
+    LDA.w $9B5A, Y : STA $7E4080, X
+    LDA.w $9B5C, Y : STA $7E4082, X
+    LDA.w $9B5E, Y : STA $7E4084, X
+    LDA.w $9B60, Y : STA $7E4086, X
     
     TXA : CLC : ADC.w #$0100 : TAX
     
@@ -11689,10 +11689,10 @@ Dungeon_ProcessTorchAndDoorInteractives:
     
     .next_column
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -13116,7 +13116,7 @@ Dungeon_LoadSecret:
     ; Secrets pointer array (16-bit local pointer for each of the 0x140 rooms).
     LDA $01DB69, X : STA $00
     
-    ; When moving the secrets data, this will make it cake ;)
+    ; When moving the secrets data, this will make it cake ; )
     LDA.w #$0001 : STA $02
     
     LDY.w #$FFFD
@@ -13321,17 +13321,17 @@ Dungeon_PrepSpriteInducedDma:
     
     LDX $1000
     
-    LDA $9B52, Y : STA $1006, X
-    LDA $9B54, Y : STA $100C, X
-    LDA $9B56, Y : STA $1012, X
-    LDA $9B58, Y : STA $1018, X
+    LDA.w $9B52, Y : STA $1006, X
+    LDA.w $9B54, Y : STA $100C, X
+    LDA.w $9B56, Y : STA $1012, X
+    LDA.w $9B58, Y : STA $1018, X
     
     LDX $06
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2002, X
-    LDA $9B58, Y : STA $7E2082, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2002, X
+    LDA.w $9B58, Y : STA $7E2082, X
     
     AND.w #$03FF : TAX
     
@@ -13551,10 +13551,10 @@ Dungeon_OpenKeyedObject:
     LDY $046A
     
     ; Draw floor tiles over the old ones (won't be permanent)
-    LDA $9B52, Y : STA $7E2000, X : STA $02
-    LDA $9B54, Y : STA $7E2080, X : STA $04
-    LDA $9B56, Y : STA $7E2002, X : STA $06
-    LDA $9B58, Y
+    LDA.w $9B52, Y : STA $7E2000, X : STA $02
+    LDA.w $9B54, Y : STA $7E2080, X : STA $04
+    LDA.w $9B56, Y : STA $7E2002, X : STA $06
+    LDA.w $9B58, Y
     
     JMP .storeTilemapChanges
     
@@ -13637,10 +13637,10 @@ Dungeon_OpenKeyedObject:
     LDY.w #$14A4
     
     ; I guess this changes the tiles of the chest.
-    LDA $9B52, Y : STA $7E2000, X : STA $02
-    LDA $9B54, Y : STA $7E2080, X : STA $04
-    LDA $9B56, Y : STA $7E2002, X : STA $06
-    LDA $9B58, Y
+    LDA.w $9B52, Y : STA $7E2000, X : STA $02
+    LDA.w $9B54, Y : STA $7E2080, X : STA $04
+    LDA.w $9B56, Y : STA $7E2002, X : STA $06
+    LDA.w $9B58, Y
     
     .storeTilemapChanges
     
@@ -13748,9 +13748,9 @@ Dungeon_OpenBigChest:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
     
     INY #6
     INX #2
@@ -13883,10 +13883,10 @@ Dungeon_OpenMiniGameChest:
     ; set replacement tiles to be drawn
     LDY.w #$14A4
     
-    LDA $9B52, Y : STA $7E2000, X : STA $02
-    LDA $9B54, Y : STA $7E2080, X : STA $04
-    LDA $9B56, Y : STA $7E2002, X : STA $06
-    LDA $9B58, Y : STA $7E2082, X : STA $08
+    LDA.w $9B52, Y : STA $7E2000, X : STA $02
+    LDA.w $9B54, Y : STA $7E2080, X : STA $04
+    LDA.w $9B56, Y : STA $7E2002, X : STA $06
+    LDA.w $9B58, Y : STA $7E2082, X : STA $08
     
     LDX $1000
     
@@ -14159,7 +14159,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
     LDX.w #$0000
     LDY.w #$01E0
 
-    LDA $9B52, Y
+    LDA.w $9B52, Y
 
     .BRANCH_ALPHA
 
@@ -14265,10 +14265,10 @@ Dungeon_TurnOnWaterLong:
     
     .BRANCH_ALPHA
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2002, X
-    LDA $9B56, Y : STA $7E2004, X
-    LDA $9B58, Y : STA $7E2006, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2002, X
+    LDA.w $9B56, Y : STA $7E2004, X
+    LDA.w $9B58, Y : STA $7E2006, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     TXA : CLC : ADC.w #$0080 : TAX
@@ -14528,7 +14528,7 @@ Watergate_Main:
     
     CLC : ADC $00 : STA $0684
     
-    LDA $0470 : AND.b #$0F : BNE _F309_easyOut ; (SEP #$30, RTL;)
+    LDA $0470 : AND.b #$0F : BNE _F309_easyOut ; (SEP #$30, RTL; )
     
     LDA $0470 : CMP.b #$40 : BNE .BRANCH_ALPHA
     
@@ -14550,10 +14550,10 @@ Watergate_Main:
     
     .BRANCH_BETA
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -14953,10 +14953,10 @@ Object_OpenGanonDoor:
     ; open the door to the triforce room
     .nextColumn
     
-    LDA $9B52, Y : STA $7E21D8, X
-    LDA $9B54, Y : STA $7E2258, X
-    LDA $9B56, Y : STA $7E22D8, X
-    LDA $9B58, Y : STA $7E2358, X
+    LDA.w $9B52, Y : STA $7E21D8, X
+    LDA.w $9B54, Y : STA $7E2258, X
+    LDA.w $9B56, Y : STA $7E22D8, X
+    LDA.w $9B58, Y : STA $7E2358, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -15086,10 +15086,10 @@ Dungeon_PrepOverlayDma:
     ; slow (inefficient) during NMI, taking on average 1 scanline per tile,
     ; which is INSANE.
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2002, X
-    LDA $9B58, Y : STA $7E2082, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2002, X
+    LDA.w $9B58, Y : STA $7E2082, X
     
     ; $00F762 ALTERNATE ENTRY POINT
     .tilemapAlreadyUpdated
@@ -15364,20 +15364,20 @@ Dungeon_DrawOverlay:
     
     LDY.w #$05AA
     
-    LDA $9B52, Y
+    LDA.w $9B52, Y
     
     STA $7E2080, X : STA $7E2082, X : STA $7E2084, X : STA $7E2086, X
     STA $7E2100, X : STA $7E2102, X : STA $7E2104, X : STA $7E2106, X
     
     LDY.w #$063C
     
-    LDA $9B54, Y
+    LDA.w $9B54, Y
     
     STA $7E2000, X : STA $7E2002, X : STA $7E2004, X : STA $7E2006, X
     
     LDY.w #$0642
     
-    LDA $9B54, Y
+    LDA.w $9B54, Y
     
     STA $7E2180, X : STA $7E2182, X : STA $7E2184, X : STA $7E2186, X
     
@@ -15388,10 +15388,10 @@ Dungeon_DrawOverlay:
     ; Use the floor 2 pattern
     LDY $046A
     
-    LDA $9B52, Y : STA $7E2000, X : STA $7E2004, X : STA $7E2100, X : STA $7E2104, X
-    LDA $9B54, Y : STA $7E2002, X : STA $7E2006, X : STA $7E2102, X : STA $7E2106, X
-    LDA $9B5A, Y : STA $7E2080, X : STA $7E2084, X : STA $7E2180, X : STA $7E2184, X
-    LDA $9B5C, Y : STA $7E2082, X : STA $7E2086, X : STA $7E2182, X : STA $7E2186, X
+    LDA.w $9B52, Y : STA $7E2000, X : STA $7E2004, X : STA $7E2100, X : STA $7E2104, X
+    LDA.w $9B54, Y : STA $7E2002, X : STA $7E2006, X : STA $7E2102, X : STA $7E2106, X
+    LDA.w $9B5A, Y : STA $7E2080, X : STA $7E2084, X : STA $7E2180, X : STA $7E2184, X
+    LDA.w $9B5C, Y : STA $7E2082, X : STA $7E2086, X : STA $7E2182, X : STA $7E2186, X
     
     RTS
 }
@@ -15468,7 +15468,7 @@ Dungeon_DrawOverlay:
     
     .BRANCH_IOTA
     
-    LDY $CF24, X
+    LDY.w $CF24, X
     
     BRA .BRANCH_KAPPA
     
@@ -15477,7 +15477,7 @@ Dungeon_DrawOverlay:
     
     JSR $FD79 ; $FD79 IN ROM
     
-    LDY $CD9E, X
+    LDY.w $CD9E, X
     
     .BRANCH_KAPPA
     
@@ -15489,9 +15489,9 @@ Dungeon_DrawOverlay:
     
     .BRANCH_LAMBDA
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
     
     TYA : CLC : ADC.w #$0006 : TAY
     
@@ -15570,7 +15570,7 @@ Dungeon_DrawOverlay:
     
     .BRANCH_THETA
     
-    LDY $CF2C, X
+    LDY.w $CF2C, X
     
     BRA .BRANCH_IOTA
     
@@ -15579,7 +15579,7 @@ Dungeon_DrawOverlay:
     
     JSR $FD79 ; $FD79 IN ROM
     
-    LDY $CE06, X
+    LDY.w $CE06, X
     
     .BRANCH_IOTA
     
@@ -15591,9 +15591,9 @@ Dungeon_DrawOverlay:
     
     .BRANCH_KAPPA
     
-    LDA $9B52, Y : STA $7E2080, X
-    LDA $9B54, Y : STA $7E2100, X
-    LDA $9B56, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2080, X
+    LDA.w $9B54, Y : STA $7E2100, X
+    LDA.w $9B56, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0006 : TAY
     
@@ -15672,7 +15672,7 @@ Dungeon_DrawOverlay:
     
     .BRANCH_THETA
     
-    LDY $CF34, X
+    LDY.w $CF34, X
     
     BRA .BRANCH_IOTA
     
@@ -15681,7 +15681,7 @@ Dungeon_DrawOverlay:
     
     JSR $FD79 ; $FD79 IN ROM
     
-    LDY $CE66, X
+    LDY.w $CE66, X
     
     .BRANCH_IOTA
     
@@ -15693,10 +15693,10 @@ Dungeon_DrawOverlay:
     
     .BRANCH_KAPPA
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -15773,7 +15773,7 @@ Dungeon_DrawOverlay:
     
     .notTrapDoor
     
-    LDY $CF3C, X
+    LDY.w $CF3C, X
     
     BRA .drawDoor
     
@@ -15782,7 +15782,7 @@ Dungeon_DrawOverlay:
     
     JSR $FD79 ; $FD79 IN ROM
     
-    LDY $CEC6, X
+    LDY.w $CEC6, X
     
     .drawDoor
     
@@ -15794,10 +15794,10 @@ Dungeon_DrawOverlay:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2002, X
-    LDA $9B54, Y : STA $7E2082, X
-    LDA $9B56, Y : STA $7E2102, X
-    LDA $9B58, Y : STA $7E2182, X
+    LDA.w $9B52, Y : STA $7E2002, X
+    LDA.w $9B54, Y : STA $7E2082, X
+    LDA.w $9B56, Y : STA $7E2102, X
+    LDA.w $9B58, Y : STA $7E2182, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -15817,7 +15817,7 @@ Dungeon_DrawOverlay:
     
     LDX.w #$0056
     
-    LDY $CD9E, X
+    LDY.w $CD9E, X
     
     LDX $0460
     
@@ -15827,10 +15827,10 @@ Dungeon_DrawOverlay:
     
     .nextColumn
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -15857,7 +15857,7 @@ Dungeon_DrawOverlay:
     
     LDA $068C : AND $98C0, Y : BEQ .notOpen
     
-    LDA $9A02, X : TAX
+    LDA.w $9A02, X : TAX
     
     .notOpen
     
@@ -15878,7 +15878,7 @@ Dungeon_DrawOverlay:
     
     LDA $0454 : DEC A : STA $0E : BEQ .skip
     
-    LDA $9B52, Y
+    LDA.w $9B52, Y
     
     .nextColumn
     
@@ -15900,18 +15900,18 @@ Dungeon_DrawOverlay:
     
     .nextColumn2
     
-    LDA $9B52, Y : STA $7E2000, X
-    LDA $9B54, Y : STA $7E2080, X
-    LDA $9B56, Y : STA $7E2100, X
-    LDA $9B58, Y : STA $7E2180, X
-    LDA $9B5A, Y : STA $7E2200, X
-    LDA $9B5C, Y : STA $7E2280, X
-    LDA $9B5E, Y : STA $7E2300, X
-    LDA $9B60, Y : STA $7E2380, X
-    LDA $9B62, Y : STA $7E2400, X
-    LDA $9B64, Y : STA $7E2480, X
-    LDA $9B66, Y : STA $7E2500, X
-    LDA $9B68, Y : STA $7E2580, X
+    LDA.w $9B52, Y : STA $7E2000, X
+    LDA.w $9B54, Y : STA $7E2080, X
+    LDA.w $9B56, Y : STA $7E2100, X
+    LDA.w $9B58, Y : STA $7E2180, X
+    LDA.w $9B5A, Y : STA $7E2200, X
+    LDA.w $9B5C, Y : STA $7E2280, X
+    LDA.w $9B5E, Y : STA $7E2300, X
+    LDA.w $9B60, Y : STA $7E2380, X
+    LDA.w $9B62, Y : STA $7E2400, X
+    LDA.w $9B64, Y : STA $7E2480, X
+    LDA.w $9B66, Y : STA $7E2500, X
+    LDA.w $9B68, Y : STA $7E2580, X
     
     INX #2
     

@@ -94,21 +94,21 @@ Polyhedral_InitThread:
     
     LDY $04
     
-    LDA $FB6D, Y : STA $50
+    LDA.w $FB6D, Y : STA $50
     
     CMP.b #$80 : SBC $50 : EOR.b #$FF : STA $51
     
-    LDA $FBAD, Y : STA $52
+    LDA.w $FBAD, Y : STA $52
     
     CMP.b #$80 : SBC $52 : EOR.b #$FF : STA $53
     
     LDY $05
     
-    LDA $FB6D, Y : STA $54
+    LDA.w $FB6D, Y : STA $54
     
     CMP.b #$80 : SBC $54 : EOR.b #$FF : STA $55
     
-    LDA $FBAD, Y : STA $56
+    LDA.w $FBAD, Y : STA $56
     
     CMP.b #$80 : SBC $56 : EOR.b #$FF : STA $57
     

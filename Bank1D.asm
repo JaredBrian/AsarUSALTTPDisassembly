@@ -303,7 +303,7 @@ Vitreous_SpawnSmallerEyes:
     LDA $03 : ADC.b #$00   : PLP : ADC $DEB1, Y : STA $0D21, Y
                                                   STA $0DE1, Y
     
-    LDA $DEBE, Y : STA $0DC1, Y : STA $0BA1, Y
+    LDA.w $DEBE, Y : STA $0DC1, Y : STA $0BA1, Y
     
     TYA : ASL #3 : STA $0F
     
@@ -660,7 +660,7 @@ CacheSprite_ExecuteSingle:
     
     LDA $7FF9C2, X : PHA
     
-    LDA $0BA0, X : PHA ;jump made here to also store $0E30
+    LDA $0BA0, X : PHA ; jump made here to also store $0E30
     
     ; temporarily swap the cached sprite data in.
     LDA $1D00, X : STA $0DD0, X
@@ -698,7 +698,7 @@ CacheSprite_ExecuteSingle:
     .active_sprite
     
     ; Restore the data of the non-cached sprite from the stack.
-    PLA : STA $0BA0, X ;jump made here to also load $0E30
+    PLA : STA $0BA0, X ; jump made here to also load $0E30
     
     PLA : STA $7FF9C2, X
     
@@ -755,7 +755,7 @@ Sprite_SimulateSoldier:
     
     LDA $04 : STA $0DE0, X : STA $0EB0, X : TAY
     
-    LDA $EB68, Y : CLC : ADC $06 : STA $0DC0, X
+    LDA.w $EB68, Y : CLC : ADC $06 : STA $0DC0, X
     
     LDA.b #$10 : STA $0E60, X
     
@@ -780,8 +780,8 @@ Sprite_SimulateSoldier:
     
     REP #$20
     
-    LDA $EB6C, Y : STA $90
-    LDA $EB78, Y : STA $92
+    LDA.w $EB6C, Y : STA $90
+    LDA.w $EB78, Y : STA $92
     
     SEP #$20
     
@@ -972,7 +972,7 @@ Goriya_Draw:
     
     REP #$20
     
-    LDA $F565, Y : STA $08
+    LDA.w $F565, Y : STA $08
     
     SEP #$20
     
@@ -985,7 +985,7 @@ Goriya_Draw:
     
     REP #$20
     
-    LDA $F56B, Y : STA $08
+    LDA.w $F56B, Y : STA $08
     
     LDA $90 : CLC : ADC.w #$0004 : STA $90
     
@@ -995,7 +995,7 @@ Goriya_Draw:
     
     PLY
     
-    LDA $F57F, Y : JSR Sprite4_DrawMultiple
+    LDA.w $F57F, Y : JSR Sprite4_DrawMultiple
     
     DEC $0E40, X
     
@@ -1312,14 +1312,14 @@ Moldorm_Draw:
     
     PLX
     
-    LDA $F7D3, X : INY : STA ($90), Y
+    LDA.w $F7D3, X : INY : STA ($90), Y
     LDA $05      : INY : STA ($90), Y
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA $F7DC, X : ORA $0F : STA ($92), Y
+    LDA.w $F7DC, X : ORA $0F : STA ($92), Y
     
     PLY : INY
     

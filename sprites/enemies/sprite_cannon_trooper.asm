@@ -104,7 +104,7 @@ Sprite_CannonTrooper:
     
     LDA $0E00, X : BEQ .beta
     
-    LDA $B5CB, Y : STA $0DE0, X
+    LDA.w $B5CB, Y : STA $0DE0, X
     
     .beta
     
@@ -122,7 +122,7 @@ Sprite_CannonTrooper:
     AND.w #$00FF : ASL A : TAY
     
     ; Hidden table! gah!!!
-    LDA $AC1A, Y : DEC A : PHA
+    LDA.w $AC1A, Y : DEC A : PHA
     
     SEP #$30
     
@@ -353,7 +353,7 @@ CannonTrooper_Draw:
     
     LDY $0DE0, X
     
-    LDA $AEF5, Y : CLC : ADC $0D90, X : STA $06
+    LDA.w $AEF5, Y : CLC : ADC $0D90, X : STA $06
     
     ASL #2 : ADC $06 : STA $06
     
@@ -386,11 +386,11 @@ CannonTrooper_Draw:
     
     PLX
     
-    LDA $AE41, X : INY : STA ($90), Y
+    LDA.w $AE41, X : INY : STA ($90), Y
     
     SEC : SBC.b #$24 : CMP.b #$05
     
-    LDA $AE7D, X : ORA $05
+    LDA.w $AE7D, X : ORA $05
     
     BCS .beta
     
@@ -402,7 +402,7 @@ CannonTrooper_Draw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $AEB9, X : ORA $0F : STA ($92), Y
+    LDA.w $AEB9, X : ORA $0F : STA ($92), Y
     
     PLY : INY
     

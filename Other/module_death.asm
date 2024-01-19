@@ -589,11 +589,11 @@ Death_ShowSaveOptionsMenu:
     
     LDA.b #$34 : STA $0850
     
-    LDA $F677, X : STA $0851
+    LDA.w $F677, X : STA $0851
     
     LDA $1A : AND.b #$08 : LSR #3 : TAX
     
-    LDA $F675, X : STA $0852
+    LDA.w $F675, X : STA $0852
     
     LDA.b #$78 : STA $0853
     LDA.b #$02 : STA $0A34

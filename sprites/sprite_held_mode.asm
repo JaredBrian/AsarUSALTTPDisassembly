@@ -63,7 +63,7 @@ SpriteHeld_Main:
     LDA $22 : CLC : ADC $DE4D, Y : PHP : ADC $00      : STA $0D10, X
     LDA $23 : ADC.b #$00   : PLP : ADC $DE5D, Y : STA $0D30, X
     
-    LDA $DE6D, Y : STA $0F70, X
+    LDA.w $DE6D, Y : STA $0F70, X
     
     LDY $2E : CPY.b #$06 : BCC .not_last_animation_step
     

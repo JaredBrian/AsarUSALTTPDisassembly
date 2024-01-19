@@ -16,7 +16,7 @@
 ; $0F5330-$0F536E JUMP LOCATION
 Sprite_Agahnim:
 {
-    JSR AgahDraw ;$D978 ; $0F5978 IN ROM
+    JSR AgahDraw ; $D978 ; $0F5978 IN ROM
     
     LDA $0F00, X : BEQ .BRANCH_ALPHA
     LDA.b #$20 : STA $0DF0, X
@@ -229,7 +229,7 @@ Sprite_Agahnim:
     
     ; Each of the clones has its own x speed at the start... I guess
     ; that's what is going on here.
-    LDA $D479, X : STA $0D50, X
+    LDA.w $D479, X : STA $0D50, X
     
     ; And speed up the y velocity.
     LDA $0D40, X : CLC : ADC.b #$02 : STA $0D40, X
@@ -319,7 +319,7 @@ Agah1Inro:
 {
     LDA $0DF0, X : BNE .dontShowIntroMessage ; (RTS)
     
-    ;Oh, so?...  You mean to say you would like to be totally destroyed?  Well, I can make your wish come true!
+    ; Oh, so?...  You mean to say you would like to be totally destroyed?  Well, I can make your wish come true!
     LDA.b #$3F : STA $1CF0
     LDA.b #$01 : STA $1CF1
     
@@ -456,7 +456,7 @@ AttachThenFadeToBlack:
         
     ASL #2 : ADC $02 : ADC.b #$02 : CLC : ADC $01 : TAY
         
-    LDA $D310, Y : STA $0DE0, X
+    LDA.w $D310, Y : STA $0DE0, X
         
     LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
         
@@ -480,9 +480,9 @@ AttachThenFadeToBlack:
     
     LSR #4 : TAY
     
-    LDA $D540, Y : STA $0D90, X
+    LDA.w $D540, Y : STA $0D90, X
     
-    LDA $D550, Y : BEQ .BRANCH_LAMBDA
+    LDA.w $D550, Y : BEQ .BRANCH_LAMBDA
     CLC
     
     LDY $0DE0, X
@@ -495,7 +495,7 @@ AttachThenFadeToBlack:
     
     LDY $0DE0, X
     
-    LDA $D329, Y : CLC : ADC $0D90, X : STA $0DC0, X
+    LDA.w $D329, Y : CLC : ADC $0D90, X : STA $0DC0, X
     
     RTS
 }
@@ -545,7 +545,7 @@ SetTargetPos:
     
     LSR #3 : TAY
     
-    LDA $D60B, Y : STA $0DC0, X
+    LDA.w $D60B, Y : STA $0DC0, X
     
     RTS
 }
@@ -710,8 +710,8 @@ AgahDraw:
     
     LDA $00      : CLC : ADC $D77F, X       : STA ($90), Y
     LDA $02      : CLC : ADC $D7C7, X : INY : STA ($90), Y
-    LDA $D80F, X                : INY : STA ($90), Y
-    LDA $D857, X : ORA $05      : INY : STA ($90), Y
+    LDA.w $D80F, X                : INY : STA ($90), Y
+    LDA.w $D857, X : ORA $05      : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -790,7 +790,7 @@ AgahDraw:
     
     LDX $0C
     
-    LDA $D92F, X : INY : STA ($90), Y
+    LDA.w $D92F, X : INY : STA ($90), Y
     
     INY
     
@@ -798,7 +798,7 @@ AgahDraw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $D953, X : STA ($92), Y
+    LDA.w $D953, X : STA ($92), Y
     
     PLY : INY
     

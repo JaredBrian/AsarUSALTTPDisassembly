@@ -75,9 +75,9 @@ PushSwitch_Inert:
     
     .BRANCH_BETA
     
-    LDA $B9E6, Y : STA $0DF0, X
+    LDA.w $B9E6, Y : STA $0DF0, X
     
-    LDA $B9F0, Y : STA $0DE0, X
+    LDA.w $B9F0, Y : STA $0DE0, X
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
@@ -121,7 +121,7 @@ PushSwitch_Inert:
     
     TAY
     
-    LDX $BB12, Y
+    LDX.w $BB12, Y
     
     LDA $90 : ADC.w #$0004 : STA $90 : TAY
     
@@ -192,11 +192,11 @@ PushSwitch_Inert:
     
     LDA $0DE0, X : ASL #4 : TAY
     
-    LDA $BA62, Y : CLC : ADC $0D10, X : STA $04
+    LDA.w $BA62, Y : CLC : ADC $0D10, X : STA $04
     
     STZ $0A
     
-    LDA $BA62, Y : BPL .BRANCH_DELTA
+    LDA.w $BA62, Y : BPL .BRANCH_DELTA
     
     DEC $0A
     
@@ -204,11 +204,11 @@ PushSwitch_Inert:
     
     LDA $0A : ADC $0D30, X : STA $0A
     
-    LDA $BA63, Y : CLC : ADC $0D00, X : STA $05
+    LDA.w $BA63, Y : CLC : ADC $0D00, X : STA $05
     
     STZ $0B
     
-    LDA $BA63, Y : BPL .BRANCH_EPSILON
+    LDA.w $BA63, Y : BPL .BRANCH_EPSILON
     
     DEC $0B
     
@@ -218,8 +218,8 @@ PushSwitch_Inert:
     
     LDA $0DE0, X : ASL A : TAY
     
-    LDA $BB02, Y : STA $06
-    LDA $BB03, Y : STA $07
+    LDA.w $BB02, Y : STA $06
+    LDA.w $BB03, Y : STA $07
     
     JSR $F70A   ; $03770A IN ROM
     

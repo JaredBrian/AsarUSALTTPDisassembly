@@ -12,7 +12,7 @@ Sprite_Trident:
     
     DEC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$07 : TAY
     
-    LDA $92F7, Y : STA $0ED0, X
+    LDA.w $92F7, Y : STA $0ED0, X
     
     LDA $0DF0, X : BEQ Trident_AimForParentPosition
     LSR A        : BCS .BRANCH_ALPHA

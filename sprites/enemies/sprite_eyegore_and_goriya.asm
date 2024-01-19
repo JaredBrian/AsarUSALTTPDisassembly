@@ -83,11 +83,11 @@ Sprite_Goriya:
     
     TAY
     
-    LDA $C761, Y : STA $0DE0, X
+    LDA.w $C761, Y : STA $0DE0, X
     
-    LDA $C721, Y : STA $0D50, X
+    LDA.w $C721, Y : STA $0D50, X
     
-    LDA $C741, Y : STA $0D40, X
+    LDA.w $C741, Y : STA $0D40, X
     
     LDA $0E70, X : BNE .tile_collision
     
@@ -100,7 +100,7 @@ Sprite_Goriya:
     
     INC $0E80, X : LDA $0E80, X : AND.b #$0C : ORA $0DE0, X : TAY
     
-    LDA $C781, Y : STA $0DC0, X
+    LDA.w $C781, Y : STA $0DC0, X
     
     LDA $0E20, X : CMP.b #$84 : BNE .no_fire_phlegm_logic
     

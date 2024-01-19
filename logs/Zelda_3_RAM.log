@@ -1138,7 +1138,7 @@ $012E[0x01] -   (Sound)
     
     0x10:   hammer being used?
     0x11:   hammer pounding down stake
-    0x12:   really familiar but can't place it exactly  ;Shovel digging noise
+    0x12:   really familiar but can't place it exactly  ; Shovel digging noise
     0x13:   playing the flute
     0x14:   Link picking something small up?
     0x15:   Weird zapping noise   ; bunny link turning back into a bunny
@@ -1154,7 +1154,7 @@ $012E[0x01] -   (Sound)
     0x1F:   object smashing to bits
     
     0x20:   item falling into a pit
-    0x21:   sounds like a plop on wood, can't remember where it gets used   ;link landing sound/ boss stepping sound
+    0x21:   sounds like a plop on wood, can't remember where it gets used   ; link landing sound/ boss stepping sound
     0x22:   loud thunderous noise
     0x23:   pegasus boots slippy sound
     0x24:   Link making a splash in deep water (but having to come back out)
@@ -1163,7 +1163,7 @@ $012E[0x01] -   (Sound)
     0x27:   Link passing out
     0x28:   item falling onto shallow water
     0x29:   rupees refill sound
-    0x2A:   whiffy sound    ;aslo fire rod sound?
+    0x2A:   whiffy sound    ; aslo fire rod sound?
     0x2B:   low life warning beep
     0x2C:   pulling master sword out
     0x2D:   taking magic power damage from enemy
@@ -1172,7 +1172,7 @@ $012E[0x01] -   (Sound)
     
     0x30:   chicken getting owned
     0x31:   big fairy healing your wounds
-    0x32:   sounds familiar but can't place it. Whooshing noise     ;bug net swing
+    0x32:   sounds familiar but can't place it. Whooshing noise     ; bug net swing
     0x33:   cheesy noise that happens when Agahnim makes chicks disappear
     0x34:   cheesy noise that happens when Agahnim makes chicks disappear
     0x35:   faint rumbling noise
@@ -1194,10 +1194,10 @@ $012F[0x01] -   (Sound)
     0x00:   none (no change)
     0x01:   master sword beam
     0x02:   unintelligble switch noise
-    0x03:   ????? yet another loud thud  ;loud stomp /door?
+    0x03:   ????? yet another loud thud  ; loud stomp /door?
     0x04:   Nutcase soldier getting pissed off
     0x05:   shooting a fireball (Lynel)
-    0x06:   ?????    ;low whoosh sound
+    0x06:   ?????    ; low whoosh sound
     0x07:   giant metal balls coming out of nodes
     0x08:   normal enemy taking a big hit
     0x09:   normal enemy dying
@@ -1213,8 +1213,8 @@ $012F[0x01] -   (Sound)
     0x12:   menu screen going up
     0x13:   throwing an item
     0x14:   clink (not sure what it's used for)
-    0x15:   loud thud 1   ;armous bounce?
-    0x16:   loud thud 2   ;armous bounce?
+    0x15:   loud thud 1   ; armous bounce?
+    0x16:   loud thud 2   ; armous bounce?
     0x17:   rats
     0x18:   dragging something
     0x19:   zora shooting fireball
@@ -3383,7 +3383,7 @@ $0B6B[0x10] -   (Sprite)
         for use when detecting the tile types that the sprite is interacting
         with.
     
-    a - ;if set the sprite will deflect arrow? bank 08 in Ancilla_CheckIndividualSpriteCollision
+    a - ; if set the sprite will deflect arrow? bank 08 in Ancilla_CheckIndividualSpriteCollision
     
     c - 
     
@@ -3457,7 +3457,7 @@ $0B9F[0x01] -   free ram
 
 $0BA0[0x10] -   undocumented sprite variable (shows up a lot, though)
 
-    Update: Seems to indicate that it ignores all projectile interactions if set. ;causes arrows to not hit
+    Update: Seems to indicate that it ignores all projectile interactions if set. ; causes arrows to not hit
 
 $0BB0[0x10] -   For sprites that interact with speical objects (arrows in particular), the special object
                 will identify its type to the sprite via this location.
@@ -3702,12 +3702,12 @@ $0CD2[0x10] -   (Sprite)
 $0CE2[0x10] -   (Sprite)
     
     When the sprite is hit, this is written to with the amount of damage to
-    subtract from the sprite's HP.  ;certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
-    ;FF - hookshot/boomerang
-    ;FE - Ice Rod effect
-    ;FD - Fire Rod effect
-    ;FC - hookshot/boomerang shorter effect time?
-    ;FB - hookshot/boomerang wears off almost immediately
+    subtract from the sprite's HP.  ; certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
+    ; FF - hookshot/boomerang
+    ; FE - Ice Rod effect
+    ; FD - Fire Rod effect
+    ; FC - hookshot/boomerang shorter effect time?
+    ; FB - hookshot/boomerang wears off almost immediately
 
 $0CF2[0x01] -   (Sprite)
     
@@ -3779,41 +3779,41 @@ $0CFE[0x02] -   Used to override the palette of a sprite that is frozen. When
 = Page 0x0D ================================================================================================================
 ============================================================================================================================
 
-$0D00[0x10] -   The lower byte of a sprite's Y - coordinate. ;functions
-$0D10[0x10] -   The lower byte of a sprite's X - coordinate. ;functions
-$0D20[0x10] -   The high byte of a sprite's Y - coordinate. ;functions
-$0D30[0x10] -   The high byte of a sprite's X - coordinate. ;functions
+$0D00[0x10] -   The lower byte of a sprite's Y - coordinate. ; functions
+$0D10[0x10] -   The lower byte of a sprite's X - coordinate. ; functions
+$0D20[0x10] -   The high byte of a sprite's Y - coordinate. ; functions
+$0D30[0x10] -   The high byte of a sprite's X - coordinate. ; functions
 
-$0D40[0x10] -   (Sprite) ;sprite
+$0D40[0x10] -   (Sprite) ; sprite
     
     Y velocity.
 
-$0D50[0x10] -   (Sprite) ;sprite
+$0D50[0x10] -   (Sprite) ; sprite
     
     X velocity.
 
-$0D60[0x10] -   Y "second derivative" to give a path a more rounded shape when needed. ;sprite
-$0D70[0x10] -   X "second derivative" to give a path a more rounded shape when needed. ;sprite
+$0D60[0x10] -   Y "second derivative" to give a path a more rounded shape when needed. ; sprite
+$0D70[0x10] -   X "second derivative" to give a path a more rounded shape when needed. ; sprite
 
-$0D80[0x10] -   Controls whether the sprite has been spawned yet. 0 - no. Not 0 - yes. Also used as an AI pointer ;functions
+$0D80[0x10] -   Controls whether the sprite has been spawned yet. 0 - no. Not 0 - yes. Also used as an AI pointer ; functions
 
-$0D90[0x10] -   (Sprite) ;sprite ;i use it to control which draw frame we are on
+$0D90[0x10] -   (Sprite) ; sprite ; i use it to control which draw frame we are on
     
     In some creatures, used as an index for determining $0DC0
 
-$0DA0[0x10] -   (Sprite) ;sprite ;i use to to determine the palette we are on
+$0DA0[0x10] -   (Sprite) ; sprite ; i use to to determine the palette we are on
     
     usage varies considerably for each sprite type
 
-$0DB0[0x10] -   (Sprite) ;sprite ;beamos laser subsprite control ;stage index for helmasaur king
+$0DB0[0x10] -   (Sprite) ; sprite ; beamos laser subsprite control ; stage index for helmasaur king
     
     hard to say at this point. Various usages?
 
-$0DC0[0x10] -   (Sprite) ;sprite ;i use it to control the animation frame we are on
+$0DC0[0x10] -   (Sprite) ; sprite ; i use it to control the animation frame we are on
     
     Designates which graphics to use.
 
-$0DD0[0x10] -   (Sprite) ;setting
+$0DD0[0x10] -   (Sprite) ; setting
     
     General state of the sprite. Usage of values other than those listed will
     almost certainly crash the game, so do not attempt to use them.
@@ -3844,7 +3844,7 @@ $0DD0[0x10] -   (Sprite) ;setting
     
     0x0B - Sprite is frozen and / or stunned.
     
-$0DE0[0x10] - (Sprite) ;functions
+$0DE0[0x10] - (Sprite) ; functions
     
     A position counter for the statue sentry? May have other uses
     
@@ -3920,21 +3920,21 @@ $0DE0[0x10] - (Sprite) ;functions
     
     As always, more exceptional uses of this variable may exist.
 
-$0DF0[0x10] - (Sprite) ;timer
+$0DF0[0x10] - (Sprite) ; timer
     
     Main delay timer for sprites. Usually used to time intervals between state
     transitions, and also for certain time sensitive events, like playing a
     sound effect on a specific frame.
 
-$0E00[0x10] - (Sprite) ;timer
+$0E00[0x10] - (Sprite) ; timer
     
     Auxiliary Delay Timer 1
 
-$0E10[0x10] - (Sprite) ;timer
+$0E10[0x10] - (Sprite) ; timer
     
     Auxiliary Delay Timer 2
 
-$0E20[0x10] - (Sprite)               ;sprite index
+$0E20[0x10] - (Sprite)               ; sprite index
 
     The type of the sprite. The following is a list of all the sprite types
     available. For sprite overlords, see $0B00[0x08]
@@ -4043,7 +4043,7 @@ $0E20[0x10] - (Sprite)               ;sprite index
     0x5F = Roller (???)
     
     0x60 = Roller (horizontal moving)
-    0x61 = Statue Sentry      ;beamos
+    0x61 = Statue Sentry      ; beamos
     0x62 = Master Sword plus pendants and beams of light
     0x63 = Sand Lion Pit
     0x64 = Sand Lion
@@ -4199,7 +4199,7 @@ $0E20[0x10] - (Sprite)               ;sprite index
     0xF1 = Cane of Somaria Platform (same as 0xED but this index is not used)
     0xF2 = Medallion Tablet
 
-$0E30[0x10] -   (Sprite)            ;xxxyysss
+$0E30[0x10] -   (Sprite)            ; xxxyysss
     
     Subtype designation 1
     
@@ -4290,7 +4290,7 @@ $0EA0[0x10] -   (Sprite)
     0x80 -  Signal that the recoil process has finished and will terminate
             during this frame.
 
-$0EB0[0x10] -   (Sprite) ;functions
+$0EB0[0x10] -   (Sprite) ; functions
     
     For sprites that are intuitively considered to have a head, this indicates
     the direction that the head is facing. It would seem that every humanoid
@@ -4322,9 +4322,9 @@ $0EF0[0x10] -   (Sprite)
     abbb bbbb:
     
     a        - start death timer?
-    b*bb bbbb - death timer?       ;the amount of time that the sprite will have the flicker effect after taking damage.
-                                   ;needs to be set for sprite to actually take damage or have other effect applied.
-                                   ;the first bit * may also have another effect. seems to delay when the sprite starts flickering
+    b*bb bbbb - death timer?       ; the amount of time that the sprite will have the flicker effect after taking damage.
+                                   ; needs to be set for sprite to actually take damage or have other effect applied.
+                                   ; the first bit * may also have another effect. seems to delay when the sprite starts flickering
 $0F00[0x10] -   (Sprite)
     
     Pause button for sprites apparently. If nonzero they don't do anything.
@@ -6122,17 +6122,17 @@ PARCCC (of gshi, a PAR code community):
 
 
     link's starting position from zarby
-0x039A37 ;Link LOW X Position
-0x039A32 ;Link LOW Y Position
-0x039A38 ;Link HIGH X Position reset(used to change quadrant) -1 to move left portion
-0x039A33 ;Link HIGH Y Position reset(used to change quadrant) -1 to move top portion
+0x039A37 ; Link LOW X Position
+0x039A32 ; Link LOW Y Position
+0x039A38 ; Link HIGH X Position reset(used to change quadrant) -1 to move left portion
+0x039A33 ; Link HIGH Y Position reset(used to change quadrant) -1 to move top portion
 
-0x02DE53 ;Link LOW X Position reset
-0x02DE5D ;Link LOW Y Position reset
-0x02DE58 ;Link HIGH X Position reset(used to change quadrant) -1 to move left portion
-0x02DE62 ;Link HIGH Y Position reset(used to change quadrant) -1 to move top portion
+0x02DE53 ; Link LOW X Position reset
+0x02DE5D ; Link LOW Y Position reset
+0x02DE58 ; Link HIGH X Position reset(used to change quadrant) -1 to move left portion
+0x02DE62 ; Link HIGH Y Position reset(used to change quadrant) -1 to move top portion
 
-0x0480BD ;Bed Sheet LOW X
-0x0480B8 ;Bed Sheet LOW Y
-0x0480BE ;High X(used to change quadrant) -1 to move left portion
-0x0480B9 ;High Y(used to change quadrant) -1 to move top portion
+0x0480BD ; Bed Sheet LOW X
+0x0480B8 ; Bed Sheet LOW Y
+0x0480BE ; High X(used to change quadrant) -1 to move left portion
+0x0480B9 ; High Y(used to change quadrant) -1 to move top portion

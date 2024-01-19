@@ -62,11 +62,11 @@ Ganon_Initialize:
     
     TYA : SEC : SBC.b #$04 : AND.b #$0F : TAY
     
-    LDA $8D50, Y : STA $0D51, X
+    LDA.w $8D50, Y : STA $0D51, X
     
     ASL A : PHP : ROR $0D51, X : PLP : ROR $0D51, X
     
-    LDA $8D60, Y : STA $0D41, X
+    LDA.w $8D60, Y : STA $0D41, X
     
     ASL A : PHP : ROR $0D41, X : PLP : ROR $0D41, X
     
@@ -241,7 +241,7 @@ Sprite_Ganon:
     LDY $0DE0, X
     
     ; $E8ECD, Y THAT IS (DIFFERENT POSES FOR GANON)
-    LDA $8ECD, Y : STA $0DC0, X
+    LDA.w $8ECD, Y : STA $0DC0, X
     
     .BRANCH_ALPHA
     
@@ -302,7 +302,7 @@ Sprite_Ganon:
     
     LDA $0F : ADC.b #$20 : CMP.b #$40 : LDA.b #$01 : BCC .BRANCH_ZETA
     
-    LDA $8ECB, Y
+    LDA.w $8ECB, Y
     
     .BRANCH_ZETA
     
@@ -439,7 +439,7 @@ Sprite_Ganon:
     
     LDY $0DE0, X
     
-    LDA $8FBA, Y : STA $0DC0, X
+    LDA.w $8FBA, Y : STA $0DC0, X
     
     .BRANCH_GAMMA
     
@@ -456,7 +456,7 @@ Sprite_Ganon:
     
     LDA.b #$FF : STA $0DC0, X
     
-    ;*$E8FFA ALTERNATE ENTRY POINT
+    ; *$E8FFA ALTERNATE ENTRY POINT
     .BRANCH_EPSILON
     
     LDA $0EF0, X : AND.b #$7F : CMP.b #$1A : BNE .BRANCH_ZETA
@@ -569,8 +569,8 @@ Sprite_Ganon:
     
     AND.b #$01 : TAY
     
-    LDA $8000, Y : STA $011C
-    LDA $8002, Y : STA $011D
+    LDA.w $8000, Y : STA $011C
+    LDA.w $8002, Y : STA $011D
     
     LDA.b #$01 : STA $02E4
     
@@ -595,7 +595,7 @@ Sprite_Ganon:
     
     LDY $0DE0, X
     
-    LDA $9042, Y : STA $0DC0, X
+    LDA.w $9042, Y : STA $0DC0, X
     
     RTS
 }
@@ -622,11 +622,11 @@ Sprite_Ganon:
     
     TAX
     
-    LDA $90C4, X : STA $0B00, Y
-    LDA $90C8, X : STA $0B08, Y
+    LDA.w $90C4, X : STA $0B00, Y
+    LDA.w $90C8, X : STA $0B08, Y
     
     LDA $23      : STA $0B10, Y
-    LDA $90CC, X : STA $0B18, Y
+    LDA.w $90CC, X : STA $0B18, Y
     
     LDA $21    : STA $0B20, Y
     LDA.b #$00 : STA $0B28, Y : STA $0B30, Y
@@ -679,7 +679,7 @@ Sprite_Ganon:
     
     .BRANCH_DELTA
     
-    LDA $910D, Y : STA $0DC0, X
+    LDA.w $910D, Y : STA $0DC0, X
     
     LDA $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE .BRANCH_EPSILON
     
@@ -852,7 +852,7 @@ Sprite_Ganon:
     
     LDA.b #$02 : STA $0D80, Y
     
-    LDA $9240, Y : STA $0DF0, Y
+    LDA.w $9240, Y : STA $0DF0, Y
     
     DEY : BNE .BRANCH_GAMMA
     
@@ -972,7 +972,7 @@ Sprite_Ganon:
     
     LDY $0DE0, X
     
-    LDA $933F, Y : STA $0DC0, X
+    LDA.w $933F, Y : STA $0DC0, X
     
     RTS
 }
@@ -1013,9 +1013,9 @@ Sprite_Ganon:
     
     JSL Sprite_ConvertVelocityToAngle : PLY : SEC : SBC.b #$02 : AND.b #$0F : TAX
     
-    LDA $931F, X : STA $0D50, Y
+    LDA.w $931F, X : STA $0D50, Y
     
-    LDA $932F, X : STA $0D40, Y
+    LDA.w $932F, X : STA $0D40, Y
     
     PLX
     
@@ -1046,9 +1046,9 @@ Sprite_Ganon:
     
     TAY
     
-    LDA $92F7, Y : STA $0ED0, X
+    LDA.w $92F7, Y : STA $0ED0, X
     
-    LDA $9307, Y : STA $0DC0, X
+    LDA.w $9307, Y : STA $0DC0, X
     
     JSR Sprite_PeriodicWhirringSfx
     
@@ -1076,7 +1076,7 @@ Sprite_Ganon:
     
     LDY $0DE0, X
     
-    LDA $93FB, Y : STA $0DC0, X
+    LDA.w $93FB, Y : STA $0DC0, X
     
     LDA $0DF0, X : BEQ .BRANCH_BETA
     
@@ -1119,13 +1119,13 @@ Sprite_Ganon:
     
     LDY $0DE0, X
     
-    LDA $9424, Y : STA $0ED0, X
+    LDA.w $9424, Y : STA $0ED0, X
     
     ; $0E944C ALTERNATE ENTRY POINT
     
     LDY $0DE0, X
     
-    LDA $9426, Y : STA $0DC0, X
+    LDA.w $9426, Y : STA $0DC0, X
     
     RTS
     
@@ -1156,13 +1156,13 @@ Sprite_Ganon:
     
     JSL GetRandomInt : AND.b #$03 : ORA $01 : TAY
     
-    LDA $94D5, Y
+    LDA.w $94D5, Y
     
     STA $0E30, X : TAY
     
-    LDA $94C5, Y : STA $7FFD5C
+    LDA.w $94C5, Y : STA $7FFD5C
     
-    LDA $94CD, Y : STA $7FFD68
+    LDA.w $94CD, Y : STA $7FFD68
     
     LDA.b $00 : STA $0D80, X
     
@@ -1179,7 +1179,7 @@ Sprite_Ganon:
     
     LSR #3 : TAY
     
-    LDA $945A, Y : STA $0EB0, X
+    LDA.w $945A, Y : STA $0EB0, X
     
     RTS
 }
@@ -1369,9 +1369,9 @@ Sprite_Ganon:
     
     LDA $00      : CLC : ADC $95CE, X       : STA ($90), Y
     LDA $02      : CLC : ADC $969A, X : INY : STA ($90), Y
-    LDA $9766, X                 : INY : STA ($90), Y
+    LDA.w $9766, X                 : INY : STA ($90), Y
     
-    LDA $05 : AND.b #$0F : CMP.b #$05 : LDA $9843, X : BCC .BRANCH_BETA
+    LDA $05 : AND.b #$0F : CMP.b #$05 : LDA.w $9843, X : BCC .BRANCH_BETA
     
     AND.b #$F0
     
@@ -1391,7 +1391,7 @@ Sprite_Ganon:
     
     LDY $0DC0, X
     
-    LDA $9832, Y : CMP.b #$0F : BEQ .BRANCH_DELTA
+    LDA.w $9832, Y : CMP.b #$0F : BEQ .BRANCH_DELTA
     
     ASL #2 : CLC : ADC.b #$14 : TAY : INY #2
     
@@ -1409,13 +1409,13 @@ Sprite_Ganon:
     
     PLY
     
-    LDA $9AB3, X : STA ($90), Y : INY
+    LDA.w $9AB3, X : STA ($90), Y : INY
     
     LDA ($90), Y : AND.b #$3F : ORA $9ABF, X : STA ($90), Y
     
     INY #3
     
-    LDA $9AB4, X : STA ($90), Y
+    LDA.w $9AB4, X : STA ($90), Y
     
     INY
     
@@ -1461,7 +1461,7 @@ Sprite_Ganon:
     
     .BRANCH_IOTA
     
-    LDA $D180, Y : STA $00 : STZ $01
+    LDA.w $D180, Y : STA $00 : STZ $01
     
     REP #$20
     

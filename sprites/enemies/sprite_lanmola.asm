@@ -64,18 +64,18 @@ Sprite_Lanmola:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     ; \task Name these ai states.
-    dw Lanmola_Wait   ;0x00 ; = $2A3BF*
-    dw Lanmola_Mound: ;0x01 ; = $2A3E6*
-    dw Lanmola_Fly    ;0x02 ; = $2A431*
-    dw Lanmola_Dive   ;0x03 ; = $2A4CB*
-    dw Lanmola_Reset  ;0x04 ; = $2A4F2*
-    dw Lanmola_Death  ;0x05 ; = $2A529*
+    dw Lanmola_Wait   ; 0x00 ; = $2A3BF*
+    dw Lanmola_Mound: ; 0x01 ; = $2A3E6*
+    dw Lanmola_Fly    ; 0x02 ; = $2A431*
+    dw Lanmola_Dive   ; 0x03 ; = $2A4CB*
+    dw Lanmola_Reset  ; 0x04 ; = $2A4F2*
+    dw Lanmola_Death  ; 0x05 ; = $2A529*
 }
 
 ; ==============================================================================
 
 ; $02A3BF-$02A3D5 JUMP LOCATION
-    Lanmola_Wait: ;0x00
+    Lanmola_Wait: ; 0x00
 {
     LDA $0DF0, X : ORA $0F00, X : BNE .delay
     
@@ -83,7 +83,7 @@ Sprite_Lanmola:
     
     INC $0D80, X
     
-    ;Play rumbling sound
+    ; Play rumbling sound
     LDA.b #$35 : JSL Sound_SetSfx2PanLong
     
     .delay
@@ -99,7 +99,7 @@ Sprite_Lanmola:
     .randXPos
     db $58, $50, $60, $70, $80, $90, $A0, $98
     
-    ;$2A3DE
+    ; $2A3DE
     .randYPos
     db $68, $60, $70, $80, $90, $A0, $A8, $B0
 }
@@ -107,7 +107,7 @@ Sprite_Lanmola:
 ; ==============================================================================
 
 ; $02A3E6-$02A42E JUMP LOCATION
-    Lanmola_Mound: ;0x01
+    Lanmola_Mound: ; 0x01
 {
     LDA $0DF0, X : BNE .alpha
     
@@ -117,11 +117,11 @@ Sprite_Lanmola:
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA .randXPos, Y : STA $0DA0, X ;$A3D6
+    LDA .randXPos, Y : STA $0DA0, X ; $A3D6
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA .randYPos, Y : STA $0DB0, X ;$A3DE
+    LDA .randYPos, Y : STA $0DB0, X ; $A3DE
     
     INC $0D80, X
     
@@ -157,7 +157,7 @@ pool Lanmola_Fly:
 ; ==============================================================================
 
 ; $02A431-$02A4CA JUMP LOCATION
-    Lanmola_Fly: ;0x03
+    Lanmola_Fly: ; 0x03
 {
     JSR Sprite2_CheckDamage
     JSR Sprite2_MoveAltitude
@@ -220,7 +220,7 @@ pool Lanmola_Fly:
 }
 
 ; $02A4CB-$02A4F1 JUMP LOCATION
-    Lanmola_Dive: ;0x03
+    Lanmola_Dive: ; 0x03
 {
     JSR Sprite2_CheckDamage
     JSR Sprite2_Move
@@ -248,7 +248,7 @@ pool Lanmola_Fly:
 ; ==============================================================================
 
 ; $02A4F2-$02A514 JUMP LOCATION
-    Lanmola_Reset: ;0x04
+    Lanmola_Reset: ; 0x04
 {
     LDA $0DF0, X : BNE .wait
     
@@ -256,11 +256,11 @@ pool Lanmola_Fly:
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA Lanmola_Mound_randXPos, Y : STA $0D10, X ;$A3D6
+    LDA Lanmola_Mound_randXPos, Y : STA $0D10, X ; $A3D6
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA Lanmola_Mound_randYPos, Y : STA $0D00, X ;$A3DE
+    LDA Lanmola_Mound_randYPos, Y : STA $0D00, X ; $A3DE
     
     .wait
     
@@ -303,7 +303,7 @@ Sprite_SpawnFallingItem:
 ; ==============================================================================
 
 ; $02A529-$02A5D9 JUMP LOCATION
-    Lanmola_Death: ;0x05
+    Lanmola_Death: ; 0x05
 {
     LDY $0DF0, X : BNE .alpha
     
@@ -327,7 +327,7 @@ Sprite_SpawnFallingItem:
     
     LDA $7FF81E, X : TAY
     
-    LDA $0E80, X : SEC : SBC $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ;$A5DA
+    LDA $0E80, X : SEC : SBC $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ; $A5DA
     
     LDA $7FFC00, X : SEC : SBC $E2                  : STA $0A
     LDA $7FFD00, X : SEC : SBC $7FFE00, X : SEC : SBC $E8 : STA $0B
@@ -436,8 +436,8 @@ Lanmola_Draw:
     
     REP #$20
     
-    LDA .oamCoord90, Y : STA $90 ;$A63A
-    LDA .oamCoord92, Y : STA $92 ;$A642
+    LDA .oamCoord90, Y : STA $90 ; $A63A
+    LDA .oamCoord92, Y : STA $92 ; $A642
     
     SEP #$20
     
@@ -446,7 +446,7 @@ Lanmola_Draw:
     
     JSL Sprite_ConvertVelocityToAngle : STA $0DC0, X
     
-    LDA Lanmola_FinishInitialization_sprite_regions, X : STA $04 ;$A5DA
+    LDA Lanmola_FinishInitialization_sprite_regions, X : STA $04 ; $A5DA
     
     PHX
     
@@ -488,9 +488,9 @@ Lanmola_Draw:
     
     LDA $0D40, X : ASL A : ROL A : AND.b #$01 : TAX
     
-    LDA .data2, X : STA $0C ;$A5E0
+    LDA .data2, X : STA $0C ; $A5E0
     
-    LDY .data1, X ;$A5DE
+    LDY .data1, X ; $A5DE
     
     PLX
     
@@ -528,13 +528,13 @@ Lanmola_Draw:
     
     CPY $0B : BNE .zeta
     
-    LDA .chr1, X ;$A5E2
+    LDA .chr1, X ; $A5E2
     
     BRA .zeta
     
     .epsilon
     
-    LDA .chr2, X ;$A5F2
+    LDA .chr2, X ; $A5F2
     
     .zeta
     
@@ -625,16 +625,16 @@ Lanmola_Draw:
     
     TXA : CLC : ADC $06 : TAX
     
-    LDA $00 : CLC : ADC .xDirt, X                    : STA ($90), Y ;$A612
-    LDA $02 : CLC : ADC .yDirt, X              : INY : STA ($90), Y ;$A61A
-    LDA .chrDirt, X                      : INY : STA ($90), Y ;$A622
-    LDA .propertiesDirt,  X : ORA.b #$31 : INY : STA ($90), Y ;$A62A
+    LDA $00 : CLC : ADC .xDirt, X                    : STA ($90), Y ; $A612
+    LDA $02 : CLC : ADC .yDirt, X              : INY : STA ($90), Y ; $A61A
+    LDA .chrDirt, X                      : INY : STA ($90), Y ; $A622
+    LDA .propertiesDirt,  X : ORA.b #$31 : INY : STA ($90), Y ; $A62A
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA .sizesDirt, X : STA ($92), Y ;$A632
+    LDA .sizesDirt, X : STA ($92), Y ; $A632
     
     PLY : INY
     
@@ -658,14 +658,14 @@ Lanmola_DrawMound:
     
     PHX
     
-    LDX .frame, Y ;$A870
+    LDX .frame, Y ; $A870
     
     LDY.b #$00
     
     LDA $00                          : STA ($90), Y
     LDA $02                    : INY : STA ($90), Y
-    LDA .properties, X         : INY : STA ($90), Y ;$A864
-    LDA .sizes, X : ORA.b #$31 : INY : STA ($90), Y ;$A86A
+    LDA .properties, X         : INY : STA ($90), Y ; $A864
+    LDA .sizes, X : ORA.b #$31 : INY : STA ($90), Y ; $A86A
     
     TYA : LSR #2 : TAY
     

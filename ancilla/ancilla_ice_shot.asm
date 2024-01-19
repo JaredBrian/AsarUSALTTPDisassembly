@@ -45,7 +45,7 @@
     ; That object is called Ancilla_IceShotSpread.
     LDA.b #$11 : STA $0C4A, X : TAY
     
-    LDA $806F, Y : STA $0C90, X
+    LDA.w $806F, Y : STA $0C90, X
     
     STZ $0C5E, X
     

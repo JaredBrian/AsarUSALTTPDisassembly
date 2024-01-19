@@ -194,7 +194,7 @@ RunningMan_SpawnDashDustGarnish:
     
     .delay
     
-    RTL ;original dissasembly had this as an RTS
+    RTL ; original dissasembly had this as an RTS
 }
 
 ; ==============================================================================

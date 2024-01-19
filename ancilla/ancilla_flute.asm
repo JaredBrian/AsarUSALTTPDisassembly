@@ -28,7 +28,7 @@ Ancilla_Flute:
     
     INC $0C54, X : LDY $0C54, X
     
-    LDA $CFA6, Y : STA $0294, X
+    LDA.w $CFA6, Y : STA $0294, X
     
     STZ $029E, X
     

@@ -72,7 +72,7 @@ AddBombosSpell:
     ; \wtf this points to a nonexistent data table. Is this on purpose?
     ; (It points to the beginning of the boomerang ancilla code.
     ; \bug Could be considered a bug, hard to say.
-    LDA $90FC, Y : CMP.b #$E0 : BCC .wtf
+    LDA.w $90FC, Y : CMP.b #$E0 : BCC .wtf
     
     AND.b #$7F
     
@@ -484,7 +484,7 @@ BombosSpell_DrawFireColumn:
     
     .next_oam_entry
     
-    LDA $B289, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w $B289, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     PHX
     
@@ -511,8 +511,8 @@ BombosSpell_DrawFireColumn:
     
     PLX
     
-    LDA $B289, X : STA ($90), Y : INY
-    LDA $B2B0, X : STA ($90), Y : INY
+    LDA.w $B289, X : STA ($90), Y : INY
+    LDA.w $B2B0, X : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -790,7 +790,7 @@ BombosSpell_DrawBlast:
     
     .next_oam_entry
     
-    LDA $B521, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w $B521, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     PHX : TXA : ASL A : TAX
     
@@ -805,8 +805,8 @@ BombosSpell_DrawBlast:
     
     JSR Ancilla_SetOam_XY
     
-    LDA $B521, X : STA ($90), Y : INY
-    LDA $B541, X : STA ($90), Y : INY
+    LDA.w $B521, X : STA ($90), Y : INY
+    LDA.w $B541, X : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

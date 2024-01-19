@@ -52,9 +52,9 @@ Moblin_SelectDirection:
     
     LDA $0EB0, X : STA $0DE0, X : TAY
     
-    LDA $9615, Y : STA $0D50, X
+    LDA.w $9615, Y : STA $0D50, X
     
-    LDA $9617, Y : STA $0D40, X
+    LDA.w $9617, Y : STA $0D40, X
     
     .direction_change_delay
     
@@ -109,7 +109,7 @@ Moblin_Walk:
     
     LDA $0DE0, X : ASL A : ORA $00 : TAY
     
-    LDA $9930, Y : STA $0EB0, X
+    LDA.w $9930, Y : STA $0EB0, X
     
     STZ $0D80, X
     
@@ -183,7 +183,7 @@ Moblin_ThrowSpear:
     
     .just_animate
     
-    LDA $99A9, Y : STA $0DC0, X
+    LDA.w $99A9, Y : STA $0DC0, X
     
     RTS
 }

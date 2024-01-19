@@ -42,8 +42,8 @@ Sprite_ShopKeeper:
     
     LDY $0FFF
     
-    LDA $EF69, Y       : XBA
-    LDA $EF6B, Y : TAY : XBA
+    LDA.w $EF69, Y       : XBA
+    LDA.w $EF6B, Y : TAY : XBA
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
@@ -79,8 +79,8 @@ Sprite_ShopKeeper:
     
     LDY $0FFF
     
-    LDA $EF69, Y       : XBA
-    LDA $EF6B, Y : TAY : XBA
+    LDA.w $EF69, Y       : XBA
+    LDA.w $EF6B, Y : TAY : XBA
     
     JSL Sprite_ShowMessageUnconditional
     
@@ -338,8 +338,8 @@ Sprite_ShopKeeper:
     LDA $04C4 : TAY
     
     ; \bug Maybe? Don't see how the second message could ever occur so far.
-    LDA $F0DD, Y       : XBA
-    LDA $F0DF, Y : TAY : XBA
+    LDA.w $F0DD, Y       : XBA
+    LDA.w $F0DF, Y : TAY : XBA
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
@@ -433,8 +433,8 @@ Sprite_ShopKeeper:
     
     LDA $0E80, X : SEC : SBC.b #$05 : TAY
     
-    LDA $F14B, Y : XBA
-    LDA $F14D, Y : TAY : XBA
+    LDA.w $F14B, Y : XBA
+    LDA.w $F14D, Y : TAY : XBA
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     

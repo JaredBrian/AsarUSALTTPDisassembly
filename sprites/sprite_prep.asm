@@ -345,9 +345,9 @@ SpritePrep_Rat:
 {
     LDY $0FFF
     
-    LDA $8874, Y : STA $0CD2, X
+    LDA.w $8874, Y : STA $0CD2, X
     
-    LDA $8876, Y : STA $0E50, X
+    LDA.w $8876, Y : STA $0E50, X
     
     RTS
 }
@@ -1863,7 +1863,7 @@ SpritePrep_Bosses:
     
     LDY.b #$0F
     
-    .nextSprite ;kill certain other sprites in the room based on 6B266 in sprite_properties.asm
+    .nextSprite ; kill certain other sprites in the room based on 6B266 in sprite_properties.asm
     
     PHX
     
@@ -2139,7 +2139,7 @@ SpritePrep_CrystalSwitch:
 {
     LDA $7EC172 : AND.b #$01 : TAY
     
-    LDA $B8CE, Y : ORA $0F50, X : STA $0F50, X
+    LDA.w $B8CE, Y : ORA $0F50, X : STA $0F50, X
     
     RTS
 }
@@ -2434,7 +2434,7 @@ SpritePrep_Agahnim:
     
     LDY $0FFF
     
-    LDA $9193, Y : STA $0F50, X
+    LDA.w $9193, Y : STA $0F50, X
     
     ; $0311AE ALTERNATE ENTRY POINT
     shared SpritePrep_DoNothing_2:

@@ -226,7 +226,7 @@ Toppo_Draw:
     
     PHX : TXA : CLC : ADC $08 : PHA : TAX
     
-    LDA $BBF0, X : STA $0C
+    LDA.w $BBF0, X : STA $0C
     
     TXA : ASL A : TAX
     
@@ -258,9 +258,9 @@ Toppo_Draw:
     
     PLX
     
-    LDA $BBD2, X : INY : STA ($90), Y
+    LDA.w $BBD2, X : INY : STA ($90), Y
     
-    LDA $0C : CMP.b #$01 : LDA $BBE1, X : ORA $05 : BCS .gamma
+    LDA $0C : CMP.b #$01 : LDA.w $BBE1, X : ORA $05 : BCS .gamma
     
     AND.b #$F0 : ORA #$02
     

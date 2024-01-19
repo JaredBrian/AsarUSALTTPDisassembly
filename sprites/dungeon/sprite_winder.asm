@@ -68,7 +68,7 @@ Winder_DefaultState:
     ; Pick a new direction at random
     JSL GetRandomInt : LSR A : LDA $0DE0, X : ROL A : TAY
     
-    LDA $9254, Y : STA $0DE0, X
+    LDA.w $9254, Y : STA $0DE0, X
     
     .no_tile_collision_this_frame
     

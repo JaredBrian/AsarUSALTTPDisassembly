@@ -111,7 +111,7 @@ Ancilla_DashDust:
     
     LDX $04
     
-    LDA $BC6C, X : CMP.b #$FF : BEQ .skip_oam_entry
+    LDA.w $BC6C, X : CMP.b #$FF : BEQ .skip_oam_entry
     
     TXA : ASL A : TAX
     

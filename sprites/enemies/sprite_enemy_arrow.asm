@@ -112,7 +112,7 @@ Sprite_EnemyArrow:
     
     LDA $0DF0, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA $B7C3, Y : STA $0DE0, X
+    LDA.w $B7C3, Y : STA $0DE0, X
     
     JSR Sprite_MoveAltitude
     JSR Sprite_Move
@@ -229,7 +229,7 @@ EnemyArrow_Draw:
     PLA : CLC : ADC $07 : TAX
     
     LDA .chr, X                  : INY : STA ($90), Y
-    LDA .properties, X : ORA $05 : INY : STA ($90), Y ;$338B5
+    LDA .properties, X : ORA $05 : INY : STA ($90), Y ; $338B5
     
     PHY
     

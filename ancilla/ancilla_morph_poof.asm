@@ -127,7 +127,7 @@ MorphPoof_Draw:
     
     TXA : LSR A : TAX
     
-    LDA $D380, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY : PHY
+    LDA.w $D380, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY : PHY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

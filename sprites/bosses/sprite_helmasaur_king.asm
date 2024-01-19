@@ -21,7 +21,7 @@ HelmasaurKing_Initialize:
 
     PHB : PHK : PLB : PHX
     
-    LDA $0E80, X : STA $00 ;jump here
+    LDA $0E80, X : STA $00 ; jump here
     
     LDY.b #$03
     
@@ -29,7 +29,7 @@ HelmasaurKing_Initialize:
     
     LDA $00 : CLC : ADC $829C, Y : AND.b #$1F : TAX
     
-    LDA $827C, X : STA $0B08, Y
+    LDA.w $827C, X : STA $0B08, Y
     
     DEY : BPL .next_whatever
     
@@ -170,7 +170,7 @@ Sprite_HelmasaurKing:
     
     LDA $0E50, X : LSR #2 : TAY
     
-    LDA $810A, Y : STA $0DB0, X : CMP.b #$03 : BNE .BRANCH_ALPHA
+    LDA.w $810A, Y : STA $0DB0, X : CMP.b #$03 : BNE .BRANCH_ALPHA
     
     CMP $0E90, X : BEQ .BRANCH_BETA
     
@@ -245,8 +245,8 @@ Sprite_HelmasaurKing:
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA $818C, Y : STA $0D50, X
-    LDA $8194, Y : STA $0D40, X
+    LDA.w $818C, Y : STA $0D50, X
+    LDA.w $8194, Y : STA $0D40, X
     
     LDA.b #$40 : STA $0DF0, X
     
@@ -631,14 +631,14 @@ pool HelmasaurKing_Initialize:
     LDA $02 : CLC : ADC $841A, X : STA $0D00, Y
     LDA $03 : ADC $8424, X : STA $0D20, Y
     
-    LDA $8442, X : STA $0F70, Y
-    LDA $844C, X : STA $0D50, Y
-    LDA $8456, X : STA $0D40, Y
-    LDA $8460, X : STA $0F80, Y
+    LDA.w $8442, X : STA $0F70, Y
+    LDA.w $844C, X : STA $0D50, Y
+    LDA.w $8456, X : STA $0D40, Y
+    LDA.w $8460, X : STA $0F80, Y
     
-    LDA $846A, X : ORA.b #$0D : STA $0F50, Y
+    LDA.w $846A, X : ORA.b #$0D : STA $0F50, Y
     
-    LDA $8474, X : STA $0DC0, Y
+    LDA.w $8474, X : STA $0DC0, Y
     
     LDA.b #$80 : STA $0DB0, Y
     ASL A      : STA $0E40, Y
@@ -895,8 +895,8 @@ pool HelmasaurKing_Initialize:
     LDA $00 : CLC : ADC $87F5, X : STA ($90), Y
     
     LDA $02 : CLC : ADC $87F9, X : CLC : ADC $0B08, X : INY : STA ($90), Y
-    LDA $87FD, X                          : INY : STA ($90), Y
-    LDA $8801, X : EOR $05                : INY : STA ($90), Y
+    LDA.w $87FD, X                          : INY : STA ($90), Y
+    LDA.w $8801, X : EOR $05                : INY : STA ($90), Y
     
     PHY
     
@@ -909,8 +909,8 @@ pool HelmasaurKing_Initialize:
     LDA $00 : CLC : ADC $87F5, X : STA ($90), Y
     
     LDA $02 : CLC : ADC $87F9, X : CLC : ADC.b #$10 : CLC : ADC $0B08, X : INY : STA ($90), Y
-    LDA $87FD, X : CLC : ADC.b #$02                          : INY : STA ($90), Y
-    LDA $8801, X : EOR $05                             : INY : STA ($90), Y
+    LDA.w $87FD, X : CLC : ADC.b #$02                          : INY : STA ($90), Y
+    LDA.w $8801, X : EOR $05                             : INY : STA ($90), Y
     
     PHY
     
@@ -943,7 +943,7 @@ pool HelmasaurKing_Initialize:
     
     LSR #2 : TAY
     
-    LDA $889C, Y : STA $06
+    LDA.w $889C, Y : STA $06
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
     
@@ -1002,7 +1002,7 @@ pool HelmasaurKing_Initialize:
     
     STA $4202
     
-    LDA $88F0, Y : STA $4203
+    LDA.w $88F0, Y : STA $4203
     
     JSR Sprite3_DivisionDelay
     
@@ -1019,7 +1019,7 @@ pool HelmasaurKing_Initialize:
     PLY
     
     LDA $0B2F    : STA $4202
-    LDA $8910, Y : STA $4203
+    LDA.w $8910, Y : STA $4203
     
     JSR Sprite3_DivisionDelay
     
