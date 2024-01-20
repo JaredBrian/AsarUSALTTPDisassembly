@@ -168,7 +168,7 @@ Dungeon_LoadCustomTileAttr:
         
     REP #$30
         
-    LDA $0AA2 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AA2 : AND.w #$00FF : ASL A : TAX
         
     LDA Pool_Dungeon_LoadCustomTileAttr_group_offsets, X : TAY
         
@@ -176,8 +176,8 @@ Dungeon_LoadCustomTileAttr:
     
     .load_loop
     
-        LDA Pool_Dungeon_LoadCustomTileAttr_groups, Y       : STA $7EFF40, X
-        LDA Pool_Dungeon_LoadCustomTileAttr_groups + $40, Y : STA $7EFF80, X
+        LDA Pool_Dungeon_LoadCustomTileAttr_groups, Y       : STZ.l $7EFF40, X
+        LDA Pool_Dungeon_LoadCustomTileAttr_groups + $40, Y : STZ.l $7EFF80, X
         
         INY #2
     INX #2 : CPX.w #$0040 : BNE .load_loop
@@ -279,12 +279,12 @@ Init_LoadDefaultTileAttr:
     
     .loop
     
-        LDA Dungeon_DefaultAttr + $0000, X : STA $7EFE00, X
-        LDA Dungeon_DefaultAttr + $0040, X : STA $7EFE40, X
-        LDA Dungeon_DefaultAttr + $0080, X : STA $7EFE80, X
-        LDA Dungeon_DefaultAttr + $0100, X : STA $7EFEC0, X
-        LDA Dungeon_DefaultAttr + $0140, X : STA $7EFF00, X
-        LDA Dungeon_DefaultAttr + $0180, X : STA $7EFFC0, X
+        LDA Dungeon_DefaultAttr + $0000, X : STZ.l $7EFE00, X
+        LDA Dungeon_DefaultAttr + $0040, X : STZ.l $7EFE40, X
+        LDA Dungeon_DefaultAttr + $0080, X : STZ.l $7EFE80, X
+        LDA Dungeon_DefaultAttr + $0100, X : STZ.l $7EFEC0, X
+        LDA Dungeon_DefaultAttr + $0140, X : STZ.l $7EFF00, X
+        LDA Dungeon_DefaultAttr + $0180, X : STZ.l $7EFFC0, X
     DEX #2 : BPL .loop
         
     SEP #$30
@@ -370,15 +370,15 @@ Module_EndSequence:
         
     REP #$20
         
-    LDA.w #$0030 : STA $0FE0
-    LDA.w #$01D0 : STA $0FE2
+    LDA.w #$0030 : STA.w $0FE0
+    LDA.w #$01D0 : STA.w $0FE2
         
-    STZ $0FE4
+    STZ.w $0FE4
         
     SEP #$20
         
     ; Load the level 1 submodule index and used it to index into a jump table.
-    LDA $11 : ASL A : TAX
+    LDA.b $11 : ASL A : TAX
         
     JSR (Pool_Module_EndSequence, X) ; ($071820, X) that is.
         
@@ -435,12 +435,12 @@ Credits_PrepAndLoadSprites:
 
         JSL Sprite_ResetProperties
         
-        STZ $0DD0, X
-        STZ $0BE0, X
-        STZ $0CAA, X
+        STZ.w $0DD0, X
+        STZ.w $0BE0, X
+        STZ.w $0CAA, X
     DEX : BPL .loop
         
-    LDA $11 : AND.b #$FE : TAX
+    LDA.b $11 : AND.b #$FE : TAX
         
     JSR (Pool_Credits_PrepAndLoadSprites, X)  ; ($071899, X THAT IS) SEE JUMP TABLE
         
@@ -458,34 +458,34 @@ Credits_ScrollScene_Overworld:
     
     .loop
     
-        LDA $0DF0, X : BEQ .BRANCH_ALPHA
-            DEC $0DF0, X
+        LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
+            DEC.w $0DF0, X
         
         .BRANCH_ALPHA
     DEX : BPL .loop
         
-    LDA $11 : AND.b #$FE : TAX
+    LDA.b $11 : AND.b #$FE : TAX
         
     STZ $30
     STZ $31
         
     REP #$20
         
-    LDA $C8
+    LDA.b $C8
         
     CMP.w #$0040 : BCC .BRANCH_GAMMA
     AND.w #$0001 : BNE .BRANCH_GAMMA
         ; $0718D8, X THAT IS
-        LDA $E8 : CMP $98D8, X : BEQ .BRANCH_DELTA
+        LDA.b $E8 : CMP.w $98D8, X : BEQ .BRANCH_DELTA
             ; // $071918, X THAT IS
-            LDY.w $9918, X : STY $30
+            LDY.w $9918, X : STY.b $30
         
         .BRANCH_DELTA
     
         ; $0718F8, X THAT IS
-        LDA $E2 : CMP $98F8, X : BEQ .BRANCH_GAMMA
+        LDA.b $E2 : CMP.w $98F8, X : BEQ .BRANCH_GAMMA
             ; $071938, X THAT IS
-            LDY.w $9938, X : STY $31
+            LDY.w $9938, X : STY.b $31
         
     .BRANCH_GAMMA
     
@@ -536,30 +536,30 @@ Credits_ScrollScene_Underworld:
     
     .BRANCH_BETA
     
-        LDA $0DF0, X
+        LDA.w $0DF0, X
         
         BEQ .BRANCH_ALPHA
             ; Countdown sprite timer
-            DEC $0DF0, X
+            DEC.w $0DF0, X
         
         .BRANCH_ALPHA
     DEX : BPL .BRANCH_BETA
         
-    LDA $11 : AND.b #$FE : TAX
+    LDA.b $11 : AND.b #$FE : TAX
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0040 : BCC .BRANCH_GAMMA
+    LDA.b $C8 : CMP.w #$0040 : BCC .BRANCH_GAMMA
               AND.w #$0001 : BNE .BRANCH_GAMMA
-        LDA $E8 : CMP $98D8, X : BEQ .BRANCH_DELTA
-            CLC : ADC $9918, X : STA $E8
+        LDA.b $E8 : CMP.w $98D8, X : BEQ .BRANCH_DELTA
+            CLC : ADC.w $9918, X : STA.b $E8
         
         .BRANCH_DELTA
     
-        LDA $E2 : CMP $98F8, X
+        LDA.b $E2 : CMP.w $98F8, X
         
         BEQ .BRANCH_GAMMA
-            CLC : ADC $9938, Y : STA $E2
+            CLC : ADC.w $9938, Y : STA.b $E2
     
     .BRANCH_GAMMA
     
@@ -596,29 +596,29 @@ Pool_Credits_HandleSceneFade
 ; $071A2A-$071A75 JUMP LOCATION
 Credits_HandleSceneFade:
 {
-    LDA $11 : AND.b #$FE : TAX
+    LDA.b $11 : AND.b #$FE : TAX
         
     REP #$20
         
-    LDA $C8 : CMP Pool_Credits_HandleSceneFade, X : SEP #$20 : BCC .BRANCH_ALPHA
-        LDA $C8 : AND.b #$01 : BNE .BRANCH_BETA
-            DEC $13 : BNE .BRANCH_BETA
+    LDA.b $C8 : CMP Pool_Credits_HandleSceneFade, X : SEP #$20 : BCC .BRANCH_ALPHA
+        LDA.b $C8 : AND.b #$01 : BNE .BRANCH_BETA
+            DEC.b $13 : BNE .BRANCH_BETA
         
-            INC $11
+            INC.b $11
         
             BRA .BRANCH_GAMMA
     
     .BRANCH_ALPHA
     
-    LDA $C8 : AND.b #$01 : BNE .BRANCH_BETA
-        LDA $13 : CMP.b #$0F : BEQ .BRANCH_BETA
-            INC $13
+    LDA.b $C8 : AND.b #$01 : BNE .BRANCH_BETA
+        LDA.b $13 : CMP.b #$0F : BEQ .BRANCH_BETA
+            INC.b $13
     
     .BRANCH_BETA
     
     REP #$20
         
-    INC $C8
+    INC.b $C8
         
     SEP #$20
     
@@ -626,10 +626,10 @@ Credits_HandleSceneFade:
     
     REP #$20
         
-    LDA $E2 : STA $011E
-    LDA $E8 : STA $0122
-    LDA $E0 : STA $0120
-    LDA $E6 : STA $0124
+    LDA.b $E2 : STA.w $011E
+    LDA.b $E8 : STA.w $0122
+    LDA.b $E0 : STA.w $0120
+    LDA.b $E6 : STA.w $0124
         
     SEP #$20
         
@@ -968,7 +968,7 @@ Credits_SpriteData:
 ; $071C1A-$071C55 LOCAL
 Credits_LoadSprites_Zora:
 {
-    LDA.b #$FF : STA $0DF0 : STA $0DF1 : STA $0DF2
+    LDA.b #$FF : STA.w $0DF0 : STA.w $0DF1 : STA.w $0DF2
         
     BRA Credits_LoadSprites_Desert_Bounce
 }
@@ -976,7 +976,7 @@ Credits_LoadSprites_Zora:
 ; $071C27-$071C55 LOCAL
 Credits_LoadSprites_Kakariko1:
 {
-    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA $0D46
+    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D46
         
     BRA Credits_LoadSprites_Desert_Bounce
 }
@@ -984,20 +984,20 @@ Credits_LoadSprites_Kakariko1:
 ; $071C2F LOCAL
 Credits_LoadSprites_Desert:
 {
-    LDA.b #$16 : STA $0D95
+    LDA.b #$16 : STA.w $0D95
         
-    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA $0D40
-    LDA CreditsSpriteSpeeds_y_speed_limits          : STA $0D41
+    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D40
+    LDA CreditsSpriteSpeeds_y_speed_limits          : STA.w $0D41
         
-    LDA.b #$01 : STA $0EB1
+    LDA.b #$01 : STA.w $0EB1
         
     LDY.b #$02
     
     .loop
     
-        LDA.b #$57 : STA $0E22, Y
+        LDA.b #$57 : STA.w $0E22, Y
         
-        LDA.b #$31 : STA $0F52, Y
+        LDA.b #$31 : STA.w $0F52, Y
     DEY : BPL .loop
     
     ; $071C54 ALTERNATE ENTRY POINT
@@ -1020,22 +1020,22 @@ Credits_LoadSprites_Grove:
     
     .loop1
     
-        LDA Pool_Credits_LoadSprites_Grove_sprite_timers, Y : STA $0DF0, Y
+        LDA Pool_Credits_LoadSprites_Grove_sprite_timers, Y : STA.w $0DF0, Y
         
-        LDA.b #$00 : STA $0DD0, Y
+        LDA.b #$00 : STA.w $0DD0, Y
     DEY : BPL .loop1
         
-    LDA.b #$2E : STA $0E25
+    LDA.b #$2E : STA.w $0E25
         
     LDY.b #$01
     
     .loop2
     
-        LDA.b #$9F : STA $0E27, Y
-        LDA.b #$A0 : STA $0E29, Y
+        LDA.b #$9F : STA.w $0E27, Y
+        LDA.b #$A0 : STA.w $0E29, Y
         
-        LDA.b #$01 : STA $0E47, Y : INC A : STA $0E49, Y
-        LDA.b #$10 : STA $0E67, Y :         STA $0E69, Y
+        LDA.b #$01 : STA.w $0E47, Y : INC A : STA.w $0E49, Y
+        LDA.b #$10 : STA.w $0E67, Y :         STA.w $0E69, Y
     DEY : BPL .loop2
 
     ; $071C90 ALTERNATE ENTRY POINT
@@ -1047,17 +1047,17 @@ Credits_LoadSprites_Grove:
 ; $071C92-$071CB3 LOCAL
 Credits_LoadSprites_LostWoods:
 {
-    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA $0D45
-    LDA CreditsSpriteSpeeds_y_speed_limits          : STA $0D46
+    LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D45
+    LDA CreditsSpriteSpeeds_y_speed_limits          : STA.w $0D46
         
-    LDA.b #$01 : STA $0EB6
-    LDA.b #$08 : STA $0D90
+    LDA.b #$01 : STA.w $0EB6
+    LDA.b #$08 : STA.w $0D90
         
     LDY.b #$03
     
     .loop
     
-        LDA.b #$04 : STA $0D41, Y
+        LDA.b #$04 : STA.w $0D41, Y
     DEY : BPL .loop
         
     BRA Credits_LoadSprites_GenericOW:
@@ -1066,11 +1066,11 @@ Credits_LoadSprites_LostWoods:
 ; $071CB4-$071CC9 LOCAL
 Credits_LoadSprites_Pedestal:
 {
-    LDA.b #$02 : STA $0DB4
-    LDA.b #$08 : STA $0D45
-    LDA.b #$13 : STA $0DF1
+    LDA.b #$02 : STA.w $0DB4
+    LDA.b #$08 : STA.w $0D45
+    LDA.b #$13 : STA.w $0DF1
         
-    LDA.b #$40 : STA $0DF4
+    LDA.b #$40 : STA.w $0DF4
         
     BRA Credits_LoadSprites_GenericOW:
 }
@@ -1078,7 +1078,7 @@ Credits_LoadSprites_Pedestal:
 ; $071CCA-$071CD0 LOCAL
 Credits_LoadSprites_Witch:
 {
-    LDA.b #$FF : STA $0DF1
+    LDA.b #$FF : STA.w $0DF1
         
     BRA Credits_LoadSprites_GenericOW:
 }
@@ -1090,17 +1090,17 @@ Credits_LoadSprites_Kakariko2:
     
     .loop
     
-        LDA.b #$39 : STA $0F53, Y
-        LDA.b #$0B : STA $0E23, Y
-        LDA.b #$10 : STA $0E63, Y
-        LDA.b #$01 : STA $0E43, Y
+        LDA.b #$39 : STA.w $0F53, Y
+        LDA.b #$0B : STA.w $0E23, Y
+        LDA.b #$10 : STA.w $0E63, Y
+        LDA.b #$01 : STA.w $0E43, Y
     DEY : BPL .loop
         
-    LDA.b #$2A : STA $0E25
+    LDA.b #$2A : STA.w $0E25
         
-    LDA.b #$79 : STA $0E26
-    LDA.b #$01 : STA $0D86
-    LDA.b #$05 : STA $0F76
+    LDA.b #$79 : STA.w $0E26
+    LDA.b #$01 : STA.w $0D86
+    LDA.b #$05 : STA.w $0F76
 
     ; Bleed into the next function.
 }
@@ -1108,10 +1108,10 @@ Credits_LoadSprites_Kakariko2:
 ; $071CFE-$071D5B LOCAL
 Credits_LoadSprites_GenericOW:
 {
-    LDA Credits_SpriteData_position_x_pointers, X      : STA $04
-    LDA Credits_SpriteData_position_x_pointers + $1, X : STA $05
-    LDA Credits_SpriteData_position_y_pointers, X      : STA $06
-    LDA Credits_SpriteData_position_y_pointers + $1, X : STA $07
+    LDA Credits_SpriteData_position_x_pointers, X      : STA.b $04
+    LDA Credits_SpriteData_position_x_pointers + $1, X : STA.b $05
+    LDA Credits_SpriteData_position_y_pointers, X      : STA.b $06
+    LDA Credits_SpriteData_position_y_pointers + $1, X : STA.b $07
         
     TXA : LSR A : TAX
         
@@ -1123,19 +1123,19 @@ Credits_LoadSprites_GenericOW:
         
         REP #$20
         
-        LDA.w #$FFFF : STA $0FBA
-                       STA $0FB8
+        LDA.w #$FFFF : STA.w $0FBA
+                       STA.w $0FB8
         
-        LDA $040A : ASL A :         XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA $00
+        LDA.w $040A : ASL A :         XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA.b $00
         
-        LDA $040A : LSR A : LSR A : XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA $02
+        LDA.w $040A : LSR A : LSR A : XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA.b $02
         
         SEP #$20
         
-        LDA $00 : STA $0D10
-        LDA $01 : STA $0D30
-        LDA $02 : STA $0D00
-        LDA $03 : STA $0D20 
+        LDA.b $00 : STA.w $0D10
+        LDA.b $01 : STA.w $0D30
+        LDA.b $02 : STA.w $0D00
+        LDA.b $03 : STA.w $0D20 
     DEX : BPL .loop
         
     RTS
@@ -1144,10 +1144,10 @@ Credits_LoadSprites_GenericOW:
 ; $071D5C-$071D6F LOCAL
 Credits_LoadSprites_Venus:
 {
-    LDA.b #$10 : STA $0DF1
-    LDA.b #$20 : STA $0DF2
+    LDA.b #$10 : STA.w $0DF1
+    LDA.b #$20 : STA.w $0DF2
         
-    LDA.b #$08 : STA $0F53 : STA $0F54
+    LDA.b #$08 : STA.w $0F53 : STA.w $0F54
         
     BRA Credits_LoadSprites_GenericUW
 }
@@ -1155,11 +1155,11 @@ Credits_LoadSprites_Venus:
 ; $071D70-$071D83 LOCAL
 Credits_LoadSprites_Smithy:
 {
-    LDA.b #$79 : STA $0F54
-    LDA.b #$39 : STA $0F55
+    LDA.b #$79 : STA.w $0F54
+    LDA.b #$39 : STA.w $0F55
         
-    LDA.b #$01 : STA $0DE1
-    LDA.b #$04 : STA $0D91
+    LDA.b #$01 : STA.w $0DE1
+    LDA.b #$04 : STA.w $0D91
 
     ; Bleed into next function.
 }
@@ -1169,18 +1169,18 @@ Credits_LoadSprites_GenericUW:
 {
     REP #$20
         
-    LDA $048E : LSR #3
+    LDA.w $048E : LSR #3
         
     SEP #$20
         
-    AND.b #$FE : STA $0FB1
+    AND.b #$FE : STA.w $0FB1
         
-    LDA $048E : AND.b #$0F : ASL A : STA $0FB0
+    LDA.w $048E : AND.b #$0F : ASL A : STA.w $0FB0
         
-    LDA Credits_SpriteData_position_x_pointers, X      : STA $04
-    LDA Credits_SpriteData_position_x_pointers + $1, X : STA $05
-    LDA Credits_SpriteData_position_y_pointers, X      : STA $06
-    LDA Credits_SpriteData_position_y_pointers + $1, X : STA $07
+    LDA Credits_SpriteData_position_x_pointers, X      : STA.b $04
+    LDA Credits_SpriteData_position_x_pointers + $1, X : STA.b $05
+    LDA Credits_SpriteData_position_y_pointers, X      : STA.b $06
+    LDA Credits_SpriteData_position_y_pointers + $1, X : STA.b $07
         
     TXA : LSR A : TAX
         
@@ -1191,30 +1191,30 @@ Credits_LoadSprites_GenericUW:
     
         TXA : ASL A : TAY
         
-        LDA $0FB1 : XBA
+        LDA.w $0FB1 : XBA
         
         LDA.b #$00
         
         REP #$20
         
-        CLC : ADC ($06), Y : STA $02
+        CLC : ADC ($06), Y : STA.b $02
         
         SEP #$20
         
-        LDA $0FB0 : XBA
+        LDA.w $0FB0 : XBA
         
         LDA.b #$00
         
         REP #$20
         
-        CLC : ADC ($04), Y : STA $00
+        CLC : ADC ($04), Y : STA.b $00
         
         SEP #$20
         
-        LDA $00 : STA $0D10, X
-        LDA $01 : STA $0D30, X
-        LDA $02 : STA $0D00, X
-        LDA $03 : STA $0D20, X
+        LDA.b $00 : STA.w $0D10, X
+        LDA.b $01 : STA.w $0D30, X
+        LDA.b $02 : STA.w $0D00, X
+        LDA.b $03 : STA.w $0D20, X
     DEX : BPL .loop
         
     RTS
@@ -1315,7 +1315,7 @@ Credits_SpriteDraw_Castle:
 
     .loop1
 
-        LDA.w Pool_Credits_SpriteDraw_Castle_props, X : STA $0F50, X
+        LDA.w Pool_Credits_SpriteDraw_Castle_props, X : STA.w $0F50, X
         
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w $9E78, X
@@ -1325,7 +1325,7 @@ Credits_SpriteDraw_Castle:
 
     .loop2
 
-        LDA $1A : ASL #2 : AND.b #$40 : ORA.w Pool_Credits_SpriteDraw_Castle_props, X : STA $0F50, X
+        LDA.b $1A : ASL #2 : AND.b #$40 : ORA.w Pool_Credits_SpriteDraw_Castle_props, X : STA.w $0F50, X
         
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w $9E78, X
@@ -1335,7 +1335,7 @@ Credits_SpriteDraw_Castle:
 
     .loop3
 
-        LDA.w Pool_Credits_SpriteDraw_Castle_props, X : STA $0F50, X
+        LDA.w Pool_Credits_SpriteDraw_Castle_props, X : STA.w $0F50, X
         
         LDA.w Pool_Credits_SpriteDraw_Castle_group_size, X
         LDY.w $9E78, X
@@ -1416,7 +1416,7 @@ Credits_SpriteDraw_Hera:
     
     LDY.b #$02
     
-    LDA.b #$35 : STA $0F50, X
+    LDA.b #$35 : STA.w $0F50, X
     
     LDA.b #$01
     LDY.b #$3C
@@ -1427,30 +1427,30 @@ Credits_SpriteDraw_Hera:
 
         DEX
         
-        LDA $0D50, X : DEC A : LSR A : AND.b #$40 : EOR.b #$72 : STA $0F50, X
+        LDA.w $0D50, X : DEC A : LSR A : AND.b #$40 : EOR.b #$72 : STA.w $0F50, X
         
-        LDA $1A : LSR #3 : AND.b #$10 : STA $0DC0, X
+        LDA.b $1A : LSR #3 : AND.b #$10 : STA.w $0DC0, X
         
         TXA : ASL A : TAY
         
         REP #$20
         
-        LDA $C8 : CMP $9F2D, Y
+        LDA.b $C8 : CMP.w $9F2D, Y
         
         SEP #$20
         
         BCC .BRANCH_ALPHA
-            LDA $0DF0, X : BNE .BRANCH_ALPHA
-                LDY $0D90, X
+            LDA.w $0DF0, X : BNE .BRANCH_ALPHA
+                LDY.w $0D90, X
                 
-                LDA.w $9F3B, Y : PHA : AND.b #$F8 : STA $0DF0, X
+                LDA.w $9F3B, Y : PHA : AND.b #$F8 : STA.w $0DF0, X
                 
                 PLA : AND.b #$07 : TAY
                 
-                LDA.w $9F33, Y : STA $0D40, X
-                LDA.w $9F31, Y : STA $0D50, X
+                LDA.w $9F33, Y : STA.w $0D40, X
+                LDA.w $9F31, Y : STA.w $0D50, X
                 
-                INC $0D90, X
+                INC.w $0D90, X
             
         .BRANCH_ALPHA
 
@@ -1569,11 +1569,11 @@ Credits_SpriteDraw_Kakariko1:
     LDA $00001A : LSR #2 : AND.b #$01 : TAY
         
     ; Alternate the travel bird's graphics for flappage.
-    LDA.w $A0DE, Y : STA $0AF4
+    LDA.w $A0DE, Y : STA.w $0AF4
         
-    LDA $0D50, X : ROL A : ROR A : AND.b #$01 : TAY
+    LDA.w $0D50, X : ROL A : ROR A : AND.b #$01 : TAY
         
-    LDA $0D50, X : CLC : ADC $A0E0, X : LSR A : AND.b #$40 : ORA.b #$32 : STA $0F50, X
+    LDA.w $0D50, X : CLC : ADC.w $A0E0, X : LSR A : AND.b #$40 : ORA.b #$32 : STA.w $0F50, X
         
     LDA.b #$02
     LDY.b #$24
@@ -1583,16 +1583,16 @@ Credits_SpriteDraw_Kakariko1:
         
     DEX
         
-    LDA.b #$31 : STA $0F50, X
+    LDA.b #$31 : STA.w $0F50, X
         
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
-        LDA $0D90, X : TAY
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
+        LDA.w $0D90, X : TAY
         
-        EOR.b #$01 : STA $0D90, X
+        EOR.b #$01 : STA.w $0D90, X
         
-        LDA.w $A0D0, X : STA $0DF0, X
+        LDA.w $A0D0, X : STA.w $0DF0, X
         
-        LDA $0DC0, X : INC A : AND.b #$03 : STA $0DC0, X
+        LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X
     
     .BRANCH_ALPHA
     
@@ -1605,12 +1605,12 @@ Credits_SpriteDraw_Kakariko1:
     
     .BRANCH_GAMMA
     
-        LDA $1A : AND.b #$0F : BNE .BRANCH_BETA
-            LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
+        LDA.b $1A : AND.b #$0F : BNE .BRANCH_BETA
+            LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
         
         .BRANCH_BETA
     
-        LDA.b #$31 : STA $0F50, X
+        LDA.b #$31 : STA.w $0F50, X
         
         LDY.w $A0D2, X
         LDA.w $A0D7, X
@@ -1693,7 +1693,7 @@ Credits_SpriteDraw_House:
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0200 : BNE .BRANCH_ALPHA
+    LDA.b $C8 : CMP.w #$0200 : BNE .BRANCH_ALPHA
         LDY.b #$01
         
         BRA .BRANCH_BETA
@@ -1705,7 +1705,7 @@ Credits_SpriteDraw_House:
     
         .BRANCH_BETA
         
-        STY $012E
+        STY.w $012E
     
     .BRANCH_GAMMA
     
@@ -1720,12 +1720,12 @@ Credits_SpriteDraw_House:
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0200 : SEP #$20 : BCS .BRANCH_EPSILON
-        LDA.b #$01 : STA $0DC0, X
+    LDA.b $C8 : CMP.w #$0200 : SEP #$20 : BCS .BRANCH_EPSILON
+        LDA.b #$01 : STA.w $0DC0, X
     
     .BRANCH_EPSILON
     
-    LDA.b #$31 : STA $0F50, X
+    LDA.b #$31 : STA.w $0F50, X
         
     LDA.b #$04
     LDY.b #$08
@@ -1733,19 +1733,19 @@ Credits_SpriteDraw_House:
     JSR Credits_SpriteDraw_Single ; $072703 IN ROM
     JSR Credits_SpriteDraw_DrawShadow_priority_set ; $0725FD IN ROM
         
-    LDA $0DC0, X : DEX : STA $0DC0, X : TAY
+    LDA.w $0DC0, X : DEX : STA.w $0DC0, X : TAY
         
-    STZ $0107
+    STZ.w $0107
         
-    LDA.w $A274, Y : STA $0108
+    LDA.w $A274, Y : STA.w $0108
         
-    LDA.b #$30 : STA $0F50, X
+    LDA.b #$30 : STA.w $0F50, X
         
     PHY : TYA : ASL A : TAY
         
     REP #$20
         
-    LDA.w $A276, Y : STA $0100
+    LDA.w $A276, Y : STA.w $0100
         
     SEP #$20
         
@@ -1789,19 +1789,19 @@ Credits_SpriteDraw_DeathMountain:
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0200
+    LDA.b $C8 : CMP.w #$0200
         
     SEP #$20 : BNE .BRANCH_ALPHA
-        LDA.b #$FC : STA $0D50, X
+        LDA.b #$FC : STA.w $0D50, X
     
     .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$10 : LSR #4 : STA $0DC0, X
+    LDA.b $1A : AND.b #$10 : LSR #4 : STA.w $0DC0, X
         
-    LDA $0D10, X : CMP.b #$38 : BNE .BRANCH_BETA
-        STZ $0D50, X
+    LDA.w $0D10, X : CMP.b #$38 : BNE .BRANCH_BETA
+        STZ.w $0D50, X
         
-        INC $0DC0, X : INC $0DC0, X
+        INC.w $0DC0, X : INC.w $0DC0, X
     
     .BRANCH_BETA
     
@@ -1823,11 +1823,11 @@ Credits_SpriteDraw_Lumberjacks:
         
     LDX.b #$00
         
-    LDA.b #$2C : STA $0E20, X
+    LDA.b #$2C : STA.w $0E20, X
         
     LDA.b #$2C : JSL OAM_AllocateFromRegionA
         
-    LDA.b #$3B : STA $0F50, X
+    LDA.b #$3B : STA.w $0F50, X
         
     JSL Sprite_Get_16_bit_CoordsLong
         
@@ -1835,14 +1835,14 @@ Credits_SpriteDraw_Lumberjacks:
         
     REP #$10
         
-    LDY $C8 : CPY.w #$01C0 : SEP #$10 : BCS .BRANCH_ALPHA
+    LDY.b $C8 : CPY.w #$01C0 : SEP #$10 : BCS .BRANCH_ALPHA
         TYA : AND.b #$20
         
         ASL #3 : ROL A
     
     .BRANCH_ALPHA
     
-    STA $0DC0, X
+    STA.w $0DC0, X
         
     JSL SpriteActive_MainLong
         
@@ -1860,14 +1860,14 @@ Credits_SpriteDraw_Venus:
         
     JSL Sprite_Get_16_bit_CoordsLong
         
-    LDA $0F00, X : BNE .BRANCH_ALPHA 
+    LDA.w $0F00, X : BNE .BRANCH_ALPHA 
         JSL GetRandomInt : AND.b #$07 : TAX
             
-        LDA $06C309, X : CLC : ADC $0FD8 : PHA
+        LDA $06C309, X : CLC : ADC.w $0FD8 : PHA
             
         JSL GetRandomInt : AND.b #$07 : TAX
             
-        LDA $06C311, X : CLC : ADC $0FDA
+        LDA $06C311, X : CLC : ADC.w $0FDA
         
         PLX
         
@@ -1881,12 +1881,12 @@ Credits_SpriteDraw_Venus:
     
     .BRANCH_GAMMA
     
-        LDA $0E00, X : BEQ .BRANCH_BETA
-            DEC $0E00, X
+        LDA.w $0E00, X : BEQ .BRANCH_BETA
+            DEC.w $0E00, X
         
         .BRANCH_BETA
     
-        LDA.b #$E3 : STA $0E20, X
+        LDA.b #$E3 : STA.w $0E20, X
         
         LDA.b #$01
         
@@ -1894,9 +1894,9 @@ Credits_SpriteDraw_Venus:
         JSR Credits_SpriteDraw_ActivateAndRunSprite_allocate8 ; $072692 IN ROM
     INX : CPX.b #$05 : BNE .BRANCH_GAMMA
         
-    LDA.b #$72 : STA $0E20, X
-    LDA.b #$3B : STA $0F50, X
-    LDA.b #$09 : STA $0DD0, X : STA $0DA0, X
+    LDA.b #$72 : STA.w $0E20, X
+    LDA.b #$3B : STA.w $0F50, X
+    LDA.b #$09 : STA.w $0DD0, X : STA.w $0DA0, X
         
     LDA.b #$30
         
@@ -1914,7 +1914,7 @@ Credits_SpriteDraw_Kakariko2:
         
     LDX.b #$06
         
-    LDA $1A : AND.b #$01 : STA $0DC0, X : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$01 : STA.w $0DC0, X : BNE .BRANCH_ALPHA
         LDA.b #$01
             
         LDY.w $D010, X : CPY.b #$80 : BMI .BRANCH_BETA
@@ -1922,32 +1922,32 @@ Credits_SpriteDraw_Kakariko2:
         
         .BRANCH_BETA
     
-        CLC : ADC $0D50, X : STA $0D50, X
+        CLC : ADC.w $0D50, X : STA.w $0D50, X
         
         LDA.b #$01
         
-        LDY $0D00, X : CPY.b #$B0 : BMI .BRANCH_GAMMA
+        LDY.w $0D00, X : CPY.b #$B0 : BMI .BRANCH_GAMMA
             LDA.b #$FF
         
         .BRANCH_GAMMA
     
-        CLC : ADC $0D40, X : STA $0D40, X
+        CLC : ADC.w $0D40, X : STA.w $0D40, X
         
         JSL Sprite_MoveLong
     
     .BRANCH_ALPHA
     
-    LDA $0D50, X : LSR A : AND.b #$40 : EOR.b #$7E : STA $0F50, X
+    LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.b #$7E : STA.w $0F50, X
         
-    LDA.b #$01 : STA $0E40, X
-    LDA.b #$30 : STA $0E60, X
-    LDA.b #$10 : STA $0F70, X
+    LDA.b #$01 : STA.w $0E40, X
+    LDA.b #$30 : STA.w $0E60, X
+    LDA.b #$10 : STA.w $0F70, X
         
     JSR Credits_SpriteDraw_PreexistingSpriteDraw_eight ; $0726B1 IN ROM
         
     DEX
         
-    LDA.b #$37 : STA $0F50, X
+    LDA.b #$37 : STA.w $0F50, X
         
     LDA.b #$02
         
@@ -1983,7 +1983,7 @@ Credits_SpriteDraw_Kakariko2:
         .BRANCH_DELTA
     
         LSR A : BEQ .BRANCH_ZETA
-            LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+            LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
             
             BRA .BRANCH_THETA
     
@@ -1991,16 +1991,16 @@ Credits_SpriteDraw_Kakariko2:
     
         LDY.b #$00
         
-        LDA $1A : AND.b #$1F : CMP.b #$0F : BCS .BRANCH_IOTA
+        LDA.b $1A : AND.b #$1F : CMP.b #$0F : BCS .BRANCH_IOTA
             TAY
             
-            LDA.w $A540, Y : STA $0F70, X
+            LDA.w $A540, Y : STA.w $0F70, X
             
             LDY.b #$01
     
         .BRANCH_IOTA
     
-        TYA : STA $0DC0, X
+        TYA : STA.w $0DC0, X
         
         JSR Credits_SpriteDraw_DrawShadow ; $0725F8 IN ROM
     
@@ -2020,7 +2020,7 @@ Credits_SpriteDraw_DrawShadow:
     
     ; $0725FA ALTERNATE ENTRY POINT
     .parameterized_priority
-    STA $0F50, X
+    STA.w $0F50, X
     
     ; $0725FD ALTERNATE ENTRY POINT
     .priority_set
@@ -2065,9 +2065,9 @@ Credits_SpriteDraw:
     .AnimateLostWoodsThief
     JSR Credits_SpriteDraw_DrawShadow_parameterized_priority ; $0725FA IN ROM
         
-    LDY $0D90, X
+    LDY.w $0D90, X
         
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
         INY : CPY.b #$08 : BNE .BRANCH_BETA
             LDY.b #$06
     
@@ -2083,26 +2083,26 @@ Credits_SpriteDraw:
     
         .BRANCH_DELTA
     
-        TYA : STA $0D90, X
+        TYA : STA.w $0D90, X
         
-        LDA.w $A60C, X : STA $0DF0, X
+        LDA.w $A60C, X : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
     LDA.w $A627, X : BPL .BRANCH_EPSILON
-        LDA $1A : AND.b #$08 : LSR #3
+        LDA.b $1A : AND.b #$08 : LSR #3
     
     .BRANCH_EPSILON
     
-    STA $0DC0, X
+    STA.w $0DC0, X
         
     CPY.b #$05 : BCC .BRANCH_ZETA
     CPY.b #$0A : BCC .BRANCH_THETA
     CPY.b #$0F : BCS .BRANCH_THETA
         .BRANCH_ZETA
     
-        LDA $1A : AND.b #$01 : BNE .BRANCH_THETA
-            INC $0D00, X
+        LDA.b $1A : AND.b #$01 : BNE .BRANCH_THETA
+            INC.w $0D00, X
     
     .BRANCH_THETA
     
@@ -2120,20 +2120,20 @@ Credits_SpriteDraw_ActivateAndRunSprite_allocate8:
 ; $072694-$0726B0 LOCAL
 Credits_SpriteDraw_ActivateAndRunSprite:
 {
-    STX $0FA0
+    STX.w $0FA0
         
     JSL OAM_AllocateFromRegionA
     JSR Sprite_Get_16_bit_CoordsLong
         
-    LDA $11 : PHA
+    LDA.b $11 : PHA
         
     STZ $11
         
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
         
     JSL SpriteActive_MainLong
         
-    PLA : STA $11
+    PLA : STA.b $11
         
     RTS
 }
@@ -2151,7 +2151,7 @@ Credits_SpriteDraw_PreexistingSpriteDraw:
 {
     JSL OAM_AllocateFromRegionA
         
-    STX $0FA0
+    STX.w $0FA0
         
     JSL Sprite_Get_16_bit_CoordsLong
     JSL SpriteActive_MainLong
@@ -2220,25 +2220,25 @@ Credits_SpriteDraw_Single:
     
     JSL Sprite_Get_16_bit_CoordsLong
     
-    PLA : STA $4202
+    PLA : STA.w $4202
     
-    LDA.b #$08 : STA $4203
+    LDA.b #$08 : STA.w $4203
     
     ; \optimize Are they seriously using the multiplication registers to
     ; multiply by 8? Rather than just shifting left three times in 16-bit
     ; mode...
     NOP #4
     
-    LDA $4216 : STA $4202
+    LDA.w $4216 : STA.w $4202
     
     ; This part I can understand as it's variable, potentially.
-    LDA $0DC0, X : STA $4203
+    LDA.w $0DC0, X : STA.w $4203
     
     REP #$20
     
     PLY
     
-    LDA.w $A6C3, Y : CLC : ADC $4216, Y : STA $08
+    LDA.w $A6C3, Y : CLC : ADC.w $4216, Y : STA.b $08
     
     SEP #$20
     
@@ -2294,22 +2294,22 @@ Credits_SpriteDraw_Zora:
 
     .loop
 
-        STX $0FA0
+        STX.w $0FA0
         
-        LDA.w $A73D, X : STA $0E20, X
+        LDA.w $A73D, X : STA.w $0E20, X
         
         LDA.w $A740, X : JSL OAM_AllocateFromRegionA
         
-        LDA.w $A743, X : STA $0D80, X
+        LDA.w $A743, X : STA.w $0D80, X
         
         TXY
         
         REP #$20
         
-        LDA $C8 : CMP.w #$026F : BNE .BRANCH_ALPHA
+        LDA.b $C8 : CMP.w #$026F : BNE .BRANCH_ALPHA
             PHY
             
-            LDY.b #$21 : STY $012F ; SOUND EFFECT BEING PLAYED
+            LDY.b #$21 : STY.w $012F ; SOUND EFFECT BEING PLAYED
             
             PLY
 
@@ -2320,9 +2320,9 @@ Credits_SpriteDraw_Zora:
 
         .BRANCH_BETA
 
-        LDA.w $A746, Y : STA $0DC0, X
+        LDA.w $A746, Y : STA.w $0DC0, X
         
-        LDA.b #$33 : STA $0F50, X
+        LDA.b #$33 : STA.w $0F50, X
         
         JSL Sprite_Get_16_bit_CoordsLong
         JSL SpriteActive_MainLong
@@ -2342,7 +2342,7 @@ Credits_SpriteDraw_Smithy:
     
     REP #$20
     
-    LDA $C8 : CMP.w #$0170 : SEP #$20 : BCC .BRANCH_ALPHA
+    LDA.b $C8 : CMP.w #$0170 : SEP #$20 : BCC .BRANCH_ALPHA
         LDX.b #$04
 
         .loop
@@ -2355,25 +2355,25 @@ Credits_SpriteDraw_Smithy:
         
         LDX.b #$00
         
-        LDA.b #$39 : STA $0F50, X
+        LDA.b #$39 : STA.w $0F50, X
         
         REP #$20
         
-        LDA $C8 : CMP.w #$01C0 : SEP #$20 : BCS .BRANCH_GAMMA
+        LDA.b $C8 : CMP.w #$01C0 : SEP #$20 : BCS .BRANCH_GAMMA
             LDA.b #$02
             
             BRA .BRANCH_DELTA
 
         .BRANCH_GAMMA
 
-        LDA $0DF0, X : BNE .BRANCH_EPSILON
-            LDA.b #$20 : STA $0DF0, X
+        LDA.w $0DF0, X : BNE .BRANCH_EPSILON
+            LDA.b #$20 : STA.w $0DF0, X
             
-            LDA $0DC0, X : EOR.b #$01 : AND.b #$01
+            LDA.w $0DC0, X : EOR.b #$01 : AND.b #$01
 
             .BRANCH_DELTA
 
-            STA $0DC0, X
+            STA.w $0DC0, X
 
         .BRANCH_EPSILON
 
@@ -2390,25 +2390,25 @@ Credits_SpriteDraw_Smithy:
 
     .loop
 
-        LDA #$1A : STA $0E20, X
+        LDA.b #$1A : STA.w $0E20, X
         
-        LDA.b #$39 : STA $0F50, X
+        LDA.b #$39 : STA.w $0F50, X
         
         LDA.b #$02
         
         JSR Credits_SpriteDraw_SetShadowProp ; $072CA2 IN ROM
         
-        LDA $10 : PHA
+        LDA.b $10 : PHA
         
         LDA.b #$0C
         
         JSR Credits_SpriteDraw_ActivateAndRunSprite ; $072694 IN ROM
         
-        PLA : STA $10
+        PLA : STA.b $10
         
-        LDA $0DA0, X : CMP.b #$0F : BNE .BRANCH_ZETA
-            LDA $0D90, X : CMP.b #$04 : BNE .BRANCH_ZETA
-                LDA.b #$0F : STA $0DF2, X
+        LDA.w $0DA0, X : CMP.b #$0F : BNE .BRANCH_ZETA
+            LDA.w $0D90, X : CMP.b #$04 : BNE .BRANCH_ZETA
+                LDA.b #$0F : STA.w $0DF2, X
 
         .BRANCH_ZETA
 
@@ -2446,14 +2446,14 @@ Credits_SpriteDraw_DrawSmithSpark:
         
     INX #2
         
-    LDA $0DF0, X
+    LDA.w $0DF0, X
         
     BEQ .BRANCH_ALPHA
         TAY
         
-        LDA.b #$02 : STA $0F50, X
+        LDA.b #$02 : STA.w $0F50, X
         
-        LDA.w $A8B8, Y : STA $0DC0, X
+        LDA.w $A8B8, Y : STA.w $0DC0, X
         
         LDA.b #$02
         LDY.b #$36
@@ -2505,18 +2505,18 @@ Credits_SpriteDraw_Desert:
     .BRANCH_GAMMA
     
         CPX.b #$02 : BCS .BRANCH_ALPHA
-            LDA.b #$01 : STA $0E20, X
-            LDA.b #$0B : STA $0F50, X
+            LDA.b #$01 : STA.w $0E20, X
+            LDA.b #$0B : STA.w $0F50, X
             
             LDA.b #$02
             
             JSR Credits_SpriteDraw_SetShadowProp ; $072CA2 IN ROM
             
-            LDA.b #$30 : STA $0F70, X
+            LDA.b #$30 : STA.w $0F70, X
             
-            LDA $1A : CLC : ADC $A95F, X : LSR #2 : AND.b #$03 : TAY
+            LDA.b $1A : CLC : ADC.w $A95F, X : LSR #2 : AND.b #$03 : TAY
             
-            LDA.w $A93D, Y : STA $0DC0, X
+            LDA.w $A93D, Y : STA.w $0DC0, X
             
             JSR Credits_SpriteDraw_CirclingBirds ; $072E63 IN ROM
             
@@ -2576,9 +2576,9 @@ Credits_SpriteDraw_Sanctuary:
     INX
         
     ; Put the Priest in the ending sanctuary.
-    LDA.b #$73 : STA $0E20, X
-    LDA.b #$27 : STA $0F50, X
-    LDA.b #$02 : STA $0E90, X
+    LDA.b #$73 : STA.w $0E20, X
+    LDA.b #$27 : STA.w $0F50, X
+    LDA.b #$02 : STA.w $0E90, X
         
     LDA.b #$10
         
@@ -2610,16 +2610,16 @@ Credits_SpriteDraw_Witch:
         
     JSR Credits_SpriteDraw_SetShadowProp ; $072CA2 IN ROM
         
-    LDA.b #$E9 : STA $0E20, X
+    LDA.b #$E9 : STA.w $0E20, X
         
     LDA.b #$0C : JSL OAM_AllocateFromRegionA
         
-    LDA.b #$37 : STA $0F50, X
+    LDA.b #$37 : STA.w $0F50, X
         
     JSL Sprite_Get_16_bit_CoordsLong
         
-    LDA $1A : AND.b #$0F : BNE .BRANCH_ALPHA
-        LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
+    LDA.b $1A : AND.b #$0F : BNE .BRANCH_ALPHA
+        LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
     
     .BRANCH_ALPHA
     
@@ -2627,30 +2627,30 @@ Credits_SpriteDraw_Witch:
         
     REP #$20
         
-    LDA $C8 : CMP.w #$0180 : SEP #$20 : BCC .BRANCH_BETA
-        LDA.b #$04 : STA $0D40, X
+    LDA.b $C8 : CMP.w #$0180 : SEP #$20 : BCC .BRANCH_BETA
+        LDA.b #$04 : STA.w $0D40, X
         
-        LDA $0D00, X : CMP.b #$7C : BEQ .BRANCH_BETA
+        LDA.w $0D00, X : CMP.b #$7C : BEQ .BRANCH_BETA
             JSL Sprite_MoveLong
     
     .BRANCH_BETA
     
     DEX
         
-    LDA.b #$36 : STA $0E20, X
+    LDA.b #$36 : STA.w $0E20, X
         
     LDA.b #$18 : JSL OAM_AllocateFromRegionA
         
-    LDA.b #$39 : STA $0F50, X
+    LDA.b #$39 : STA.w $0F50, X
         
     JSL Sprite_Get_16_bit_CoordsLong
         
-    LDA $0DF0, X : BNE .BRANCH_GAMMA
-        LDA.b #$04 : STA $0DF0, X
+    LDA.w $0DF0, X : BNE .BRANCH_GAMMA
+        LDA.b #$04 : STA.w $0DF0, X
         
-        LDA $C9 : LSR A : AND.b #$01 : TAY
+        LDA.b $C9 : LSR A : AND.b #$01 : TAY
         
-        LDA $0DC0, X : CLC : ADC .animation_step_amounts, Y : AND.b #$07 : STA $0DC0, X
+        LDA.w $0DC0, X : CLC : ADC .animation_step_amounts, Y : AND.b #$07 : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
@@ -2725,34 +2725,34 @@ Credits_SpriteDraw_Grove:
     
     .loop1
     
-        LDA $0DF0, X : BNE .delay
+        LDA.w $0DF0, X : BNE .delay
             ; \bug
             ; This seems like.... a mistake.
             ; Writing 0x60 into $0DD0 could possibly cause a crash.
-            LDA.b #$60 : STA $0DF0, X
-                         STA $0DD0, X
+            LDA.b #$60 : STA.w $0DF0, X
+                         STA.w $0DD0, X
             
-            STZ $0D50, X
+            STZ.w $0D50, X
             
-            LDA.b #$EE : STA $0D10, X
-            LDA.b #$04 : STA $0D30, X
+            LDA.b #$EE : STA.w $0D10, X
+            LDA.b #$04 : STA.w $0D30, X
             
-            LDA.b #$18 : STA $0D00, X
-            LDA.b #$0B : STA $0D20, X
+            LDA.b #$18 : STA.w $0D00, X
+            LDA.b #$0B : STA.w $0D20, X
     
         .delay
     
-        LDA $0DD0, X : BEQ .BRANCH_BETA
-            LDA.b #$F8 : STA $0D40, X
+        LDA.w $0DD0, X : BEQ .BRANCH_BETA
+            LDA.b #$F8 : STA.w $0D40, X
             
             JSL Sprite_MoveLong
             
-            LDA $1A : LSR A : BCS .BRANCH_GAMMA
-                STX $00
+            LDA.b $1A : LSR A : BCS .BRANCH_GAMMA
+                STX.b $00
                 
-                LDA $1A : LSR #5 : EOR $00 : AND.b #$01 : TAY
+                LDA.b $1A : LSR #5 : EOR.b $00 : AND.b #$01 : TAY
                 
-                LDA $0D50, X : CLC : ADC.b #$7B : TAX : STA $0D50, X
+                LDA.w $0D50, X : CLC : ADC.b #$7B : TAX : STA.w $0D50, X
         
             .BRANCH_GAMMA
         
@@ -2766,24 +2766,24 @@ Credits_SpriteDraw_Grove:
     
     .loop2
     
-        LDY $0D90, X
+        LDY.w $0D90, X
         
-        LDA $0DF0, X : BNE .BRANCH_EPSILON
+        LDA.w $0DF0, X : BNE .BRANCH_EPSILON
             LDA.w $AA7D, Y : CPX.b #$05 : BEQ .BRANCH_ZETA
                 LDA.w $AA81, Y
         
             .BRANCH_ZETA
         
-            STA $0DF0, X
+            STA.w $0DF0, X
             
-            TYA : INC A : AND.b #$03 : STA $0D90, X
+            TYA : INC A : AND.b #$03 : STA.w $0D90, X
             
-            LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
+            LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
     
         .BRANCH_EPSILON
     
         CPX.b #$05 : BNE .BRANCH_THETA
-            LDA.b #$31 : STA $0F50, X
+            LDA.b #$31 : STA.w $0F50, X
             
             LDA.b #$10
             
@@ -2804,8 +2804,8 @@ Credits_SpriteDraw_Grove:
     
     .loop3
     
-        LDA.w $AA82, X : STA $0F50, X
-        LDA.w $AA86, X : STA $0DE0, X
+        LDA.w $AA82, X : STA.w $0F50, X
+        LDA.w $AA86, X : STA.w $0DE0, X
         
         LDA.w $AA7E, X
         
@@ -2875,19 +2875,19 @@ Credits_SpriteDraw_LostWoods:
     ; $072BF8 ALTERNATE ENTRY POINT
     
     CPX.b #$05 : BCC .BRANCH_ALPHA
-        LDA.b #$00 : STA $0E20, X
+        LDA.b #$00 : STA.w $0E20, X
         
         LDA.b #$01
         
         JSR Credits_SpriteDraw_SetShadowProp ; $072CA2 IN ROM
         
-        LDA $1A : CLC : ADC $AC09, X : AND.b #$08 : LSR #3 : STA $0DC0, X
+        LDA.b $1A : CLC : ADC.w $AC09, X : AND.b #$08 : LSR #3 : STA.w $0DC0, X
         
-        LDA.b #$20 : STA $0F70, X
+        LDA.b #$20 : STA.w $0F70, X
         
         JSR Credits_SpriteDraw_CirclingBirds ; $072E63 IN ROM
         
-        LDA $0D50, X : LSR A : AND.b #$40 : EOR.b #$0F : STA $0F50, X
+        LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.b #$0F : STA.w $0F50, X
         
         LDA.b #$08
         
@@ -2897,10 +2897,10 @@ Credits_SpriteDraw_LostWoods:
     
     .BRANCH_ALPHA
     
-    LDA.b #$0D : STA $0E20, X
+    LDA.b #$0D : STA.w $0E20, X
         
     CPX.b #$01 : BNE .BRANCH_GAMMA
-        STA $0EB0, X
+        STA.w $0EB0, X
     
     .BRANCH_GAMMA
     
@@ -2908,24 +2908,24 @@ Credits_SpriteDraw_LostWoods:
         
     JSR Credits_SpriteDraw_SetShadowProp ; $072CA2 IN ROM
         
-    LDA.b #$2B : STA $0F50, X
+    LDA.b #$2B : STA.w $0F50, X
         
-    LDA $0DF0, X : BNE .BRANCH_DELTA
-        LDA.b #$C0 : STA $0DF0, X
+    LDA.w $0DF0, X : BNE .BRANCH_DELTA
+        LDA.b #$C0 : STA.w $0DF0, X
     
     .BRANCH_DELTA
     
     LSR A : BNE .BRANCH_EPSILON
-        STA $0D40, X
+        STA.w $0D40, X
         
         BRA .BRANCH_ZETA
     
     .BRANCH_EPSILON
     
-    CMP $ABF0, X : BCS .BRANCH_THETA
-        LDA $1A : AND.b #$03 : BNE .BRANCH_THETA
-            LDA $0D40, X : BEQ .BRANCH_THETA
-                DEC A : STA $0D40, X
+    CMP.w $ABF0, X : BCS .BRANCH_THETA
+        LDA.b $1A : AND.b #$03 : BNE .BRANCH_THETA
+            LDA.w $0D40, X : BEQ .BRANCH_THETA
+                DEC A : STA.w $0D40, X
                 
                 CLC : ADC.b #$FC
                 072645
@@ -2934,15 +2934,15 @@ Credits_SpriteDraw_LostWoods:
                 
                 .BRANCH_ZETA
             
-                STA $0D50, X
+                STA.w $0D50, X
     
     .BRANCH_THETA
     
     JSL Sprite_MoveLong
         
-    LDA $1A : LSR #3 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #3 : AND.b #$03 : TAY
         
-    LDA.w $ABED, Y : STA $0DC0, X
+    LDA.w $ABED, Y : STA.w $0DC0, X
         
     LDA.b #$10
         
@@ -2972,9 +2972,9 @@ Credits_SpriteDraw_LostWoods:
 ; $072CA2-$072CAA LOCAL
 Credits_SpriteDraw_SetShadowProp:
 {
-    STA $0E40, X
+    STA.w $0E40, X
         
-    LDA.b #$10 : STA $0E60, X
+    LDA.b #$10 : STA.w $0E60, X
         
     RTS
 }
@@ -3017,28 +3017,28 @@ Credits_SpriteDraw_AddSparkle_timer:
 ; $072CE5-$072D21 LOCAL
 Credits_SpriteDraw_AddSparkle:
 {
-    STX $00
-    STA $02
-    STY $0DB0
+    STX.b $00
+    STA.b $02
+    STY.w $0DB0
         
     LDX.b #$00
     
     .loop
     
-        LDY $0DC0, X
+        LDY.w $0DC0, X
         
-        LDA $0DF0, X : BNE .BRANCH_ALPHA
+        LDA.w $0DF0, X : BNE .BRANCH_ALPHA
             INY : CPY.b #$06 : BCC .BRANCH_BETA
-                LDA $00 : STA $0D10, X
-                LDA $02 : STA $0D00, X
+                LDA.b $00 : STA.w $0D10, X
+                LDA.b $02 : STA.w $0D00, X
                 
                 LDY.b #$00
             
             .BRANCH_BETA
         
-            TYA : STA $0DC0, X
+            TYA : STA.w $0DC0, X
             
-            LDA.w $ACD7, Y : STA $0DF0, X
+            LDA.w $ACD7, Y : STA.w $0DF0, X
         
         .BRANCH_ALPHA
     
@@ -3049,7 +3049,7 @@ Credits_SpriteDraw_AddSparkle:
             JSR Credits_SpriteDraw_Single ; $072703 IN ROM
         
         .BRANCH_GAMMA
-    INX : CPX $0DB0 : BCC .loop
+    INX : CPX.w $0DB0 : BCC .loop
         
     RTS
 }
@@ -3059,7 +3059,7 @@ Credits_SpriteDraw_Pedestal:
 {
     PHX
         
-    LDY $1A
+    LDY.b $1A
         
     LDA.w $AD25, Y : AND.b #$03 : TAY
         
@@ -3067,12 +3067,12 @@ Credits_SpriteDraw_Pedestal:
         
     LDA.w $E1B9, Y
         
-    LDY $02A0
+    LDY.w $02A0
         
     JSR Credits_SpriteDraw_AddSparkle ; $072CE5 IN ROM
         
-    LDA.b #$62 : STA $0E20, X
-    LDA.b #$39 : STA $0F50, X
+    LDA.b #$62 : STA.w $0E20, X
+    LDA.b #$39 : STA.w $0F50, X
         
     LDA.b #$18
         
@@ -3084,22 +3084,22 @@ Credits_SpriteDraw_Pedestal:
     
         INX
         
-        LDA $0E00, X : 	BEQ .BRANCH_ALPHA
-            DEC $0E00, X
+        LDA.w $0E00, X : 	BEQ .BRANCH_ALPHA
+            DEC.w $0E00, X
     
         .BRANCH_ALPHA
     
-        LDA $0D50, X : LSR A : AND.b #$40 : EOR $ACCB, Y : STA $0F50, X
+        LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.w $ACCB, Y : STA.w $0F50, X
         
-        LDA $0DF0, X : BNE .BRANCH_BETA
-            LDA.b #$80 : STA $0DF0, X
+        LDA.w $0DF0, X : BNE .BRANCH_BETA
+            LDA.b #$80 : STA.w $0DF0, X
             
-            STZ $0D90, X
+            STZ.w $0D90, X
     
         .BRANCH_BETA
     
-        LDA $0D90, X : BNE .BRANCH_GAMMA
-            LDA $1A : LSR #2 : AND.b #$01 : INC #2 : STA $0DC0, X
+        LDA.w $0D90, X : BNE .BRANCH_GAMMA
+            LDA.b $1A : LSR #2 : AND.b #$01 : INC #2 : STA.w $0DC0, X
             
             PHY
             
@@ -3111,23 +3111,23 @@ Credits_SpriteDraw_Pedestal:
     
         .BRANCH_GAMMA
     
-        LDA $0E00, X : BNE .BRANCH_DELTA
-            LDA $0DA0, X : CMP.b #$08 : BNE .BRANCH_EPSILON
-                STZ $0DA0, X
+        LDA.w $0E00, X : BNE .BRANCH_DELTA
+            LDA.w $0DA0, X : CMP.b #$08 : BNE .BRANCH_EPSILON
+                STZ.w $0DA0, X
         
             .BRANCH_EPSILON
         
             PHY
             
-            LDA $0DA0, X : AND.b #$07 : TAY
+            LDA.w $0DA0, X : AND.b #$07 : TAY
             
-            LDA.w $AFCF, Y : STA $0E00, X
+            LDA.w $AFCF, Y : STA.w $0E00, X
             
             PLY
             
-            LDA $0DC0, X : AND.b #$01 : EOR.b #$01 : STA $0DC0, X
+            LDA.w $0DC0, X : AND.b #$01 : EOR.b #$01 : STA.w $0DC0, X
             
-            INC $0DA0, X
+            INC.w $0DA0, X
     
         .BRANCH_DELTA
     
@@ -3176,22 +3176,22 @@ Pool_Credits_SpriteDraw_WalkLinkAwayFromPedestal:
 ; $072DF7-$072E2C LOCAL
 Credits_SpriteDraw_WalkLinkAwayFromPedestal:
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
-        LDA $0DC0, X : INC A : AND.b #$07 : STA $0DC0, X
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
+        LDA.w $0DC0, X : INC A : AND.b #$07 : STA.w $0DC0, X
         
-        LDA.b #$04 : STA $0DF0, X
+        LDA.b #$04 : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
-    LDA $0DC0, X : ASL A : TAY
+    LDA.w $0DC0, X : ASL A : TAY
         
     REP #$20
         
-    LDA.w $ADE7, Y : STA $0100
+    LDA.w $ADE7, Y : STA.w $0100
         
     SEP #$20
         
-    LDA.b #$20 : STA $0F50, X
+    LDA.b #$20 : STA.w $0F50, X
         
     LDA.b #$02
     LDY.b #$1A
@@ -3220,20 +3220,20 @@ Pool_Credits_SpriteDraw_MoveSquirrel
 ; $072E35-$072E5C LOCAL
 Credits_SpriteDraw_MoveSquirrel:
 {
-    LDA $0DF0, X : CMP.b #$40 : BCS .delay
-        LDA $0DB0, X : INC A : AND.b #$03 : STA $0DB0, X
+    LDA.w $0DF0, X : CMP.b #$40 : BCS .delay
+        LDA.w $0DB0, X : INC A : AND.b #$03 : STA.w $0DB0, X
         
-        INC $0D90, X
+        INC.w $0D90, X
         
         RTS
     
     .delay
     
-    LDY $0DB0, X
+    LDY.w $0DB0, X
         
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
         
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
         
     JSL Sprite_MoveLong
         
@@ -3263,22 +3263,22 @@ CreditsSpriteSpeeds:
 ; $072E63-$072E9D LOCAL
 Credits_SpriteDraw_CirclingBirds:
 {
-    LDA $0DE0, X : AND.b #$01 : TAY
+    LDA.w $0DE0, X : AND.b #$01 : TAY
         
-    LDA $0D50, X : CLC : ADC .acceleration, X : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC .acceleration, X : STA.w $0D50, X
         
     CMP .x_speed_limits, Y : BNE .anotoggle_x_acceleration
-        INC $0DE0, X
+        INC.w $0DE0, X
     
     .anotoggle_x_direction
     
-    LDA $1A : AND.b #$01 : BNE .delay
-        LDA $0EB0, X : AND.b #$01 : TAY
+    LDA.b $1A : AND.b #$01 : BNE .delay
+        LDA.w $0EB0, X : AND.b #$01 : TAY
         
-        LDA $0D40, X : CLC : ADC .acceleration, X : STA $0D40, X
+        LDA.w $0D40, X : CLC : ADC .acceleration, X : STA.w $0D40, X
         
         CMP y_speed_limits, Y : BNE .anotoggle_y_acceleration
-            INC $0EB0, X
+            INC.w $0EB0, X
 
         .anotoggle_y_acceleration
     .delay
@@ -3306,9 +3306,9 @@ Credits_HandleCameraScrollControl:
         
     REP #$20
         
-    LDA.w #$0001 : STA $00
+    LDA.w #$0001 : STA.b $00
         
-    LDA $30 : AND.w #$00FF : BNE .BRANCH_ALPHA
+    LDA.b $30 : AND.w #$00FF : BNE .BRANCH_ALPHA
         JMP $AF1E   ; $072F1E IN ROM
     
     .BRANCH_ALPHA
@@ -3316,9 +3316,9 @@ Credits_HandleCameraScrollControl:
     CMP.w #$0080 : BCC .BRANCH_BETA
         EOR.w #$00FF : INC A
         
-        DEC $00 : DEC $00
+        DEC.b $00 : DEC.b $00
         
-        STA $02
+        STA.b $02
         
         LDY.b #$00
         
@@ -3326,7 +3326,7 @@ Credits_HandleCameraScrollControl:
     
     .BRANCH_BETA
 
-    STA $02
+    STA.b $02
         
     LDY.b #$02
     
@@ -3336,23 +3336,23 @@ Credits_HandleCameraScrollControl:
         
     JSR Credits_SingleCameraScrollControl ; $072FF2 IN ROM
         
-    LDA $04 : STA $069E
+    LDA.b $04 : STA.w $069E
         
-    LDX $8C : CPX.b #$97 : BEQ .BRANCH_DELTA
+    LDX.b $8C : CPX.b #$97 : BEQ .BRANCH_DELTA
               CPX.b #$9D : BEQ .BRANCH_DELTA
-        LDA $04 : BEQ .BRANCH_DELTA
+        LDA.b $04 : BEQ .BRANCH_DELTA
         
         STZ $00
         
-        LSR A : ROR $00
+        LSR A : ROR.b $00
         
-        LDX $8C
+        LDX.b $8C
         
         CPX.b #$B5 : BEQ .BRANCH_EPSILON
             CPX.b #$BE : BNE .BRANCH_ZETA
         
         .BRANCH_EPSILON
-            LSR A : ROR $00
+            LSR A : ROR.b $00
             
             CMP.w #$3000 : BCC .BRANCH_IOTA
                 ORA.w #$F000
@@ -3366,18 +3366,18 @@ Credits_HandleCameraScrollControl:
         
         .BRANCH_IOTA
     
-        STA $06
+        STA.b $06
         
-        LDA $0622 : CLC : ADC $00 : STA $0622
+        LDA.w $0622 : CLC : ADC.b $00 : STA.w $0622
         
-        LDA $E6 : ADC $06 : STA $E6
+        LDA.b $E6 : ADC.b $06 : STA.b $E6
     
     ; $072F1E ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
-    LDA.w #$0001 : STA $00
+    LDA.w #$0001 : STA.b $00
         
-    LDA $31 : AND.w #$00FF : BNE .BRANCH_THETA
+    LDA.b $31 : AND.w #$00FF : BNE .BRANCH_THETA
         JMP $AF91   ; $072F91 IN ROM
     
     .BRANCH_THETA
@@ -3385,16 +3385,16 @@ Credits_HandleCameraScrollControl:
     CMP.w #$0080 : BCC .BRANCH_KAPPA
         EOR.w #$00FF : INC A
         
-        DEC $00 : DEC $00
+        DEC.b $00 : DEC.b $00
         
-        STA $02
+        STA.b $02
         
         LDY.b #$04
         
         BRA .BRANCH_LAMBDA
     
     .BRANCH_KAPPA
-        STA $02
+        STA.b $02
         
         LDY.b #$06
     
@@ -3404,25 +3404,25 @@ Credits_HandleCameraScrollControl:
         
     JSR Credits_SingleCameraScrollControl ; $072FF2 IN ROM
         
-    LDA $04 : STA $069F
+    LDA.b $04 : STA.w $069F
         
-    LDX $8C
+    LDX.b $8C
         
     CPX.b #$97 : BEQ .BRANCH_MUNU
     CPX.b #$9D : BEQ .BRANCH_MUNU
-        LDA $04 : BEQ .BRANCH_MUNU
+        LDA.b $04 : BEQ .BRANCH_MUNU
         
         STZ $00
         
-        LSR A : ROR $00
+        LSR A : ROR.b $00
         
-        LDX $8C
+        LDX.b $8C
         
         CPX.b #$95 : BEQ .BRANCH_XI
             CPX.b #$9E : BNE .BRANCH_OMICRON
                 .BRANCH_XI
     
-                LSR A : ROR $00
+                LSR A : ROR.b $00
                 
                 CMP.w #$3000 : BCC .BRANCH_PI
                 
@@ -3437,40 +3437,40 @@ Credits_HandleCameraScrollControl:
     
         .BRANCH_PI
     
-        STA $06
+        STA.b $06
         
-        LDA $0620 : CLC : ADC $00 : STA $0620
-        LDA $E0         : ADC $06 : STA $E0
+        LDA.w $0620 : CLC : ADC.b $00 : STA.w $0620
+        LDA.b $E0         : ADC.b $06 : STA.b $E0
     
     ; $072F91 ALTERNATE ENTRY POINT
     .BRANCH_MUNU
     
-    LDX $8C
+    LDX.b $8C
         
     CPX.b #$9C : BEQ .BRANCH_RHO
         CPX.b #$97 : BEQ .BRANCH_SIGMA
             CPX.b #$9D : BNE .BRANCH_TAU
                 .BRANCH_SIGMA
             
-                LDA $0622 : CLC : ADC.w #$2000 : STA $0622
-                LDA $E6         : ADC.w #$0000 : STA $E6
-                LDA $0620 : CLC : ADC.w #$2000 : STA $0620
-                LDA $E0         : ADC.w #$0000 : STA $E0
+                LDA.w $0622 : CLC : ADC.w #$2000 : STA.w $0622
+                LDA.b $E6         : ADC.w #$0000 : STA.b $E6
+                LDA.w $0620 : CLC : ADC.w #$2000 : STA.w $0620
+                LDA.b $E0         : ADC.w #$0000 : STA.b $E0
                 
                 BRA .BRANCH_TAU
     
     .BRANCH_RHO
     
-    LDA $0622 : SEC : SBC.w #$2000 : STA $0622
+    LDA.w $0622 : SEC : SBC.w #$2000 : STA.w $0622
         
-    LDA $E6 : SEC : SBC.w #$0000 : CLC : ADC $069E : STA $E6
-    LDA $E2                                  : STA $E0
+    LDA.b $E6 : SEC : SBC.w #$0000 : CLC : ADC.w $069E : STA.b $E6
+    LDA.b $E2                                  : STA.b $E0
     
     .BRANCH_TAU
     
-    LDA $A0 : CMP.w #$0181 : BNE .BRANCH_UPSILON
-        LDA $E8 : ORA.w #$0100 : STA $E6
-        LDA $E2                : STA $E0
+    LDA.b $A0 : CMP.w #$0181 : BNE .BRANCH_UPSILON
+        LDA.b $E8 : ORA.w #$0100 : STA.b $E6
+        LDA.b $E2                : STA.b $E0
     
     .BRANCH_UPSILON
     
@@ -3489,25 +3489,25 @@ Credits_SingleCameraScrollControl:
     
     .BRANCH_ALPHA
     
-        LDA $E2, X : CLC : ADC $00 : STA $E2, X
+        LDA.b $E2, X : CLC : ADC.b $00 : STA.b $E2, X
         
-        INC $06
+        INC.b $06
         
-        LDA $04 : CLC : ADC $00 : STA $04
-    DEC $02 : BNE .BRANCH_ALPHA
+        LDA.b $04 : CLC : ADC.b $00 : STA.b $04
+    DEC.b $02 : BNE .BRANCH_ALPHA
         
     TYA : ORA.w #$0002 : TAX
         
-    LDA $0624, Y : CLC : ADC $06 : STA $0624, Y
+    LDA.w $0624, Y : CLC : ADC.b $06 : STA.w $0624, Y
         
     CMP.w #$0010 : BMI .BRANCH_BETA 
-        SEC : SBC.w #$0010 : STA $0624, Y
+        SEC : SBC.w #$0010 : STA.w $0624, Y
             
-        LDA .flags, Y : ORA $0416 : STA $0416
+        LDA .flags, Y : ORA.w $0416 : STA.w $0416
     
     .BRANCH_BETA
     
-    LDA.w #$0000 : SEC : SBC $0624, Y : STA $0624, X
+    LDA.w #$0000 : SEC : SBC.w $0624, Y : STA.w $0624, X
         
     RTS
 }
@@ -4259,24 +4259,24 @@ Credits_InitializeTheActualCredits:
     JSL Credits_InitializePolyhedral ; $064A81 IN ROM
         
     ; Force blank the screen.
-    LDA.b #$80 : STA $13
+    LDA.b #$80 : STA.b $13
         
-    LDA.b #$02 : STA $0AA9
+    LDA.b #$02 : STA.w $0AA9
         
     ; Load a couple of palettes.
-    LDA.b #$01 : STA $0AB2
+    LDA.b #$01 : STA.w $0AB2
         
     JSL Palette_Hud ; $0DEE52 IN ROM
         
     ; Note that cgram should be updated for the next frame.
-    INC $15
+    INC.b $15
         
     REP #$20
         
-    LDA.w #$0000 : STA $7EF3EF
+    LDA.w #$0000 : STZ.l $7EF3EF
         
     ; The counter for the number of times you've saved/died.
-    LDA $7EF403 : CLC : ADC $7EF401 : STA $7EF401
+    LDA $7EF403 : CLC : ADC $7EF401 : STZ.l $7EF401
         
     LDX.b #$18
 
@@ -4284,11 +4284,11 @@ Credits_InitializeTheActualCredits:
 
         ; Read values up to $7EF3FF (WORD)
         ; Cycle through all the dungeons.
-        CLC : ADC $7EF3E7, X : STA $7EF405
+        CLC : ADC $7EF3E7, X : STZ.l $7EF405
     DEX #2 : BPL .loop
         
     ; Zero out the overall life counter.
-    LDA.w #$0000 : STA $7EF403
+    LDA.w #$0000 : STZ.l $7EF403
         
     SEP #$20
         
@@ -4298,26 +4298,26 @@ Credits_InitializeTheActualCredits:
     LDA $7EF36C : LSR #3 : TAX
         
     ; This is the table of how many hearts to give when you start up.
-    LDA $09F4AC, X : STA $7EF36D
+    LDA $09F4AC, X : STZ.l $7EF36D
         
     ; Puts us in the Dark World.
-    LDA.b #$40 : STA $7EF3CA
+    LDA.b #$40 : STZ.l $7EF3CA
         
     JSL Main_SaveGameFile
         
     REP #$20
         
-    LDA.w #$0000 : STA $7EC34C : STA $7EC54D
-    LDA.w #$0000 : STA $7EC300 : STA $7EC500
+    LDA.w #$0000 : STZ.l $7EC34C : STZ.l $7EC54D
+    LDA.w #$0000 : STZ.l $7EC300 : STZ.l $7EC500
 
-    LDA.w #$0016 : STA $1C
-    LDA.w #$6800 : STA $C8
+    LDA.w #$0016 : STA.b $1C
+    LDA.w #$6800 : STA.b $C8
         
     STZ $CA
     STZ $CC
         
-    LDA.w #$FFB8 : STA $E8
-    LDA.w #$0090 : STA $E2
+    LDA.w #$FFB8 : STA.b $E8
+    LDA.w #$0090 : STA.b $E2
         
     STZ $EA
     STZ $E4
@@ -4327,18 +4327,18 @@ Credits_InitializeTheActualCredits:
         
     SEP #$20
         
-    LDA.b #$22 : STA $012C
+    LDA.b #$22 : STA.w $012C
         
     STZ $99
         
-    LDA.b #$A2 : STA $9A
+    LDA.b #$A2 : STA.b $9A
         
-    LDA.b #$12 : STA $2108
+    LDA.b #$12 : STA.w $2108
         
-    LDA.b #$3F : STA $9C
-    LDA.b #$5F : STA $9D
-    LDA.b #$9F : STA $9E
-    LDA.b #$40 : STA $B0
+    LDA.b #$3F : STA.b $9C
+    LDA.b #$5F : STA.b $9D
+    LDA.b #$9F : STA.b $9E
+    LDA.b #$40 : STA.b $B0
         
     STZ $13
         
@@ -4346,12 +4346,12 @@ Credits_InitializeTheActualCredits:
     
     .BRANCH_BETA
     
-        LDA .hdma_data, X : STA $4370, X
+        LDA .hdma_data, X : STA.w $4370, X
     DEX : BPL .BRANCH_BETA
         
-    STZ $4377
+    STZ.w $4377
         
-    LDA.b #$80 : STA $9B
+    LDA.b #$80 : STA.b $9B
         
     BRL Credits_FadeColorAndBeginAnimating_return ; $073DEB IN ROM
 
@@ -4389,25 +4389,25 @@ Credits_FadeOutFixedCol:
 {
     ; Gradually neutralizes color addition / subtraction to neutral.
         
-    DEC $B0 : BNE .BRANCH_ALPHA
-        LDA.b #$10 : STA $B0
+    DEC.b $B0 : BNE .BRANCH_ALPHA
+        LDA.b #$10 : STA.b $B0
         
-        LDA $9C : CMP.b #$20 : BEQ .BRANCH_BETA
-            DEC $9C
+        LDA.b $9C : CMP.b #$20 : BEQ .BRANCH_BETA
+            DEC.b $9C
             
             BRA .BRANCH_ALPHA
     
     .BRANCH_BETA
     
-    LDA $9D : CMP.b #$40 : BEQ .BRANCH_GAMMA
-        DEC $9D
+    LDA.b $9D : CMP.b #$40 : BEQ .BRANCH_GAMMA
+        DEC.b $9D
         
         BRA .BRANCH_ALPHA
     
     .BRANCH_GAMMA
     
-    LDA $9E : CMP.b #$80 : BEQ .BRANCH_ALPHA
-        DEC $9E
+    LDA.b $9E : CMP.b #$80 : BEQ .BRANCH_ALPHA
+        DEC.b $9E
     
     .BRANCH_ALPHA
     
@@ -4422,7 +4422,7 @@ Credits_FadeColorAndBeginAnimating:
     ; Gradually neutralize color add/sub.
     JSR Credits_FadeOutFixedCol ; $073D66 IN ROM
         
-    LDA.b #$01 : STA $0710
+    LDA.b #$01 : STA.w $0710
         
     SEP #$30
         
@@ -4431,36 +4431,36 @@ Credits_FadeColorAndBeginAnimating:
         
     REP #$30
         
-    LDA $1A : AND.w #$0003 : BNE .return
+    LDA.b $1A : AND.w #$0003 : BNE .return
         ; Advance the scenery background to the right 1 pixel.
-        INC $E2
+        INC.b $E2
         
-        LDA $E2 : CMP.w #$0C00 : BNE .noTilemapAdjust
+        LDA.b $E2 : CMP.w #$0C00 : BNE .noTilemapAdjust
             ; Adjust the tilemap size and locations of BG1 and BG2... not entirely clear yet as to why.
-            LDY.w #$1300 : STY $2107
+            LDY.w #$1300 : STY.w $2107
         
         .noTilemapAdjust
     
         ; $0604 = BG2HOFS / 2, $0600 = BG2HOFS * 3 / 2, $0602 = BG2HOFS * 3 / 4
-        LSR A : STA $0604 : CLC : ADC $E2 : STA $0600 : LSR A : STA $0602
+        LSR A : STA.w $0604 : CLC : ADC.b $E2 : STA.w $0600 : LSR A : STA.w $0602
         
         ; $0606 = BG2HOFS / 4
-        LDA $0604 : LSR A : STA $0606
+        LDA.w $0604 : LSR A : STA.w $0606
         
-        LDA $EA : CMP.w #$0CD8 : BNE .notDoneWithSubmodule
-            LDA.w #$0080 : STA $C8
+        LDA.b $EA : CMP.w #$0CD8 : BNE .notDoneWithSubmodule
+            LDA.w #$0080 : STA.b $C8
             
-            INC $11
+            INC.b $11
             
             BRA .return
         
         .notDoneWithSubmodule
     
         ; Scroll the credit list up one pixel.
-        CLC : ADC.w #$0001 : STA $EA
+        CLC : ADC.w #$0001 : STA.b $EA
         
         TAY : AND.w #$0007 : BNE .return
-            TYA : LSR #3 : STA $CA
+            TYA : LSR #3 : STA.b $CA
             
             JSR Credits_AddNextAttribution ; $073E24 IN ROM
     
@@ -4469,11 +4469,11 @@ Credits_FadeColorAndBeginAnimating:
     
     REP #$20
         
-    LDA $E2 : STA $011E
-    LDA $E8 : STA $0122
+    LDA.b $E2 : STA.w $011E
+    LDA.b $E8 : STA.w $0122
         
-    LDA $E0 : STA $0120
-    LDA $E6 : STA $0124
+    LDA.b $E0 : STA.w $0120
+    LDA.b $E6 : STA.w $0124
         
     SEP #$30
         
@@ -4527,7 +4527,7 @@ Credits_AddNextAttribution:
     ; Basically a tab in terms of tiles
     ; If it's ...1, that means it's a blank line.
     LDA.w CreditsData_LineData, Y : AND.w #$00FF : CMP.w #$00FF : BEQ .BRANCH_BETA ; $B178
-        CLC : ADC $C8 : XBA : STA.w $1002, X
+        CLC : ADC.b $C8 : XBA : STA.w $1002, X
         
         INY
         
@@ -4992,16 +4992,16 @@ Credits_AddEndingSequenceText:
         
     REP #$30
         
-    LDA.w #$0060 : STA $1002
-    LDA.w #$FE47 : STA $1004
+    LDA.w #$0060 : STA.w $1002
+    LDA.w #$FE47 : STA.w $1004
         
     ; $073176 THAT IS; = 0x3CA9
-    LDA.w $B176 : STA $1006
+    LDA.w $B176 : STA.w $1006
         
     ; Take $11, round to the nearest lowest even integer.
-    LDA $11 : AND.w #$00FE : TAY
+    LDA.b $11 : AND.w #$00FE : TAY
         
-    LDA.w $C2E3, Y : STA $04
+    LDA.w $C2E3, Y : STA.b $04
         
     LDA.w $C2E1, Y : TAY
         
@@ -5010,42 +5010,42 @@ Credits_AddEndingSequenceText:
     .loop1
     
         ; $073F4C, Y THAT IS
-        LDA.w $BF4C, Y : STA $1008, X
+        LDA.w $BF4C, Y : STA.w $1008, X
         
         INY #2
         INX #2
         
         ; $073F4C, Y THAT IS
-        LDA.w $BF4C, Y : STA $1008, X
+        LDA.w $BF4C, Y : STA.w $1008, X
         
-        XBA : AND.w #$00FF : LSR A : STA $00
+        XBA : AND.w #$00FF : LSR A : STA.b $00
         
         INY #2
         INX #2
         
-        STY $02
+        STY.b $02
     
         .loop2
     
-            LDY $02
+            LDY.b $02
             
             LDA.w $BF4C, Y : AND.w #$00FF : ASL A : TAY
             
-            LDA CreditsData_TileData, Y : STA $1008, X ; $B038
+            LDA CreditsData_TileData, Y : STA.w $1008, X ; $B038
             
-            INC $02
+            INC.b $02
             
             INX #2
-        DEC $00 : BPL .loop2
-    LDY $02 : CPY $04 : BNE .loop1
+        DEC.b $00 : BPL .loop2
+    LDY.b $02 : CPY $04 : BNE .loop1
         
-    TXA : CLC : ADC.w #$0006 : STA $1000
+    TXA : CLC : ADC.w #$0006 : STA.w $1000
         
     SEP #$30
         
-    LDA.b #$FF : STA $1008, X
+    LDA.b #$FF : STA.w $1008, X
         
-    LDA.b #$01 : STA $14
+    LDA.b #$01 : STA.b $14
         
     PLB
         
@@ -5055,13 +5055,13 @@ Credits_AddEndingSequenceText:
 ; $07437C-$074390 LOCAL
 Credits_BrightenTriangles:
 {
-    LDA $1A : AND.b #$0F : BNE .BRANCH_ALPHA
-        INC $13
+    LDA.b $1A : AND.b #$0F : BNE .BRANCH_ALPHA
+        INC.b $13
         
-        LDA $13 : CMP.b #$0F
+        LDA.b $13 : CMP.b #$0F
         
         BNE .BRANCH_ALPHA
-            INC $11
+            INC.b $11
     
     .BRANCH_ALPHA
     
@@ -5073,22 +5073,22 @@ Credits_BrightenTriangles:
 ; $074391-$0743D4 LOCAL
 Credits_StopCreditsScroll:
 {
-    DEC $C8
+    DEC.b $C8
             
     BNE .BRANCH_BETA 
         REP #$20
             
-        STZ $0AA6
+        STZ.w $0AA6
             
-        LDA.w #$0000 : STA $7EC009 : STA $7EC007
+        LDA.w #$0000 : STZ.l $7EC009 : STZ.l $7EC007
             
-        LDA.w #$001F : STA $7EC00B
+        LDA.w #$001F : STZ.l $7EC00B
             
         SEP #$20
             
-        INC $11
+        INC.b $11
             
-        LDA.b #$C0 : STA $C8
+        LDA.b #$C0 : STA.b $C8
             
         STZ $CA
     
@@ -5101,18 +5101,18 @@ Credits_StopCreditsScroll:
         ; $0743B8 ALTERNATE ENTRY POINT
         Credits_FadeAndDisperseTriangles:
 
-        DEC $C8
+        DEC.b $C8
         
-        LDA $CA : BNE .BRANCH_GAMMA
+        LDA.b $CA : BNE .BRANCH_GAMMA
             JSL PaletteFilter.doFiltering
             
             LDA $7EC007 : BNE .loop
-                INC $CA
+                INC.b $CA
         
         .BRANCH_GAMMA
-    LDA $C8 : BNE .loop
+    LDA.b $C8 : BNE .loop
         
-    INC $11
+    INC.b $11
         
     JSL PaletteFilter_InitTheEndSprite
         
@@ -5122,12 +5122,12 @@ Credits_StopCreditsScroll:
 ; $0743D5-$0743E9 LOCAL
 Credits_FadeInTheEnd:
 {
-    LDA $1A : AND.b #$07 : BNE .frameNotMultipleOf8
+    LDA.b $1A : AND.b #$07 : BNE .frameNotMultipleOf8
         ; Do some palette filtering.
         JSL Palette_Filter_SP5F
             
         LDA $7EC007 : BNE .notDoneFiltering
-            INC $11
+            INC.b $11
         
         .notDoneFiltering
     .frameNotMultipleOf8
@@ -5157,12 +5157,12 @@ Credits_DrawTheEnd:
         .writeTheEndWithSprites
         
             ; $0743EA, X THAT IS
-            LDA $0EC3EA, X : STA $0800, X
+            LDA $0EC3EA, X : STA.w $0800, X
         DEX #2 : BPL .writeTheEndWithSprites
             
         SEP #$20
             
-        LDA.b #$02 : STA $0A20 : STA $0A21 : STA $0A22 : STA $0A23
+        LDA.b #$02 : STA.w $0A20 : STA.w $0A21 : STA.w $0A22 : STA.w $0A23
             
         RTS
     
@@ -5309,36 +5309,36 @@ Overworld_LoadPalettes:
 {
     ASL #2 : TAX ; *2
         
-    STZ $0AA9
+    STZ.w $0AA9
         
     LDA $0ED504, X : BMI .noPaletteChange1
-        STA $0AB4
+        STA.w $0AB4
     
     .noPaletteChange1
     
     ; $075505, X THAT IS
     LDA $0ED505, X : BMI .noPaletteChange2
-        STA $0AB5
+        STA.w $0AB5
     
     .noPaletteChange2
     
     ; $075506, X THAT IS
     LDA $0ED506, X : BMI .noPaletteChange3
-        STA $0AB8
+        STA.w $0AB8
     
     .noPaletteChange3
     
-    LDA $00 : ASL A : TAX
+    LDA.b $00 : ASL A : TAX
         
     ; $075580, X THAT IS
     LDA $0ED580, X : BMI .noPaletteChange4
-        STA $0AAD
+        STA.w $0AAD
     
     .noPaletteChange4
     
     ; $075581, X THAT IS
     LDA $0ED581, X : BMI .noPaletteChange5
-        STA $0AAE
+        STA.w $0AAE
     
     .noPaletteChange5
     
@@ -5365,10 +5365,10 @@ Palette_BgAndFixedColor:
     ; $0755F9 ALTERNATE ENTRY POINT
     .setBgColor
     
-    STA $7EC500
-    STA $7EC540
-    STA $7EC300
-    STA $7EC340
+    STZ.l $7EC500
+    STZ.l $7EC540
+    STZ.l $7EC300
+    STZ.l $7EC340
         
     SEP #$30
 
@@ -5381,9 +5381,9 @@ SetBGColorCacheOnly:
     .justFixedColor
     
     ; Sets color add / sub settings to normal intensity.
-    LDA.b #$20 : STA $9C
-    LDA.b #$40 : STA $9D
-    LDA.b #$80 : STA $9E
+    LDA.b #$20 : STA.b $9C
+    LDA.b #$40 : STA.b $9D
+    LDA.b #$80 : STA.b $9E
         
     RTL
 }
@@ -5417,9 +5417,9 @@ Palette_GetOwBgColor:
     ; ZS writes here.
     ; $075627 - ZS Custom Overworld
     ; If area number < 0x80
-    LDA $8A : CMP.w #$0080 : BCC .notSpecialArea
+    LDA.b $8A : CMP.w #$0080 : BCC .notSpecialArea
         ; Check for special areas
-        LDA $A0
+        LDA.b $A0
         
         CMP.w #$0183 : BEQ .specialArea
         CMP.w #$0182 : BEQ .specialArea
@@ -5437,7 +5437,7 @@ Palette_GetOwBgColor:
     ; Default green color.
     LDX.w #$2669
         
-    LDA $8A : AND.w #$0040 : BEQ .finished
+    LDA.b $8A : AND.w #$0040 : BEQ .finished
         ; Default tan color for the dark world.
         LDX.w #$2A32                            
     
@@ -5454,7 +5454,7 @@ Palette_AssertTranslucencySwap_ForcePlayerToBg1:
 {
     ; ???
     ; these two instructions don't seem to have a reference.
-    LDA.b #$01 : STA $EE
+    LDA.b #$01 : STA.b $EE
 
     ; Bleed into the next function.
 }
@@ -5462,7 +5462,7 @@ Palette_AssertTranslucencySwap_ForcePlayerToBg1:
 ; $075657-$07565B LONG
 Palette_AssertTranslucencySwap:
 {   
-    LDA.b #$01 : STA $0ABD
+    LDA.b #$01 : STA.w $0ABD
 
     ; Bleed into the next function.
 }
@@ -5490,34 +5490,34 @@ Palette_PerformTranslucencySwap:
         ; Swap SP0_L with SP7_L.
         LDA $7EC400, X : PHA
         
-        LDA $7EC4E0, X : STA $7EC400, X
-                         STA $7EC600, X
+        LDA $7EC4E0, X : STZ.l $7EC400, X
+                         STZ.l $7EC600, X
         
-        PLA : STA $7EC4E0, X
-              STA $7EC6E0, X
+        PLA : STZ.l $7EC4E0, X
+              STZ.l $7EC6E0, X
         
         ; Swap SP0_H with SP7_H.
         LDA $7EC410, X : PHA
         
-        LDA $7EC4F0, X : STA $7EC410, X
-                         STA $7EC610, X
+        LDA $7EC4F0, X : STZ.l $7EC410, X
+                         STZ.l $7EC610, X
         
-        PLA : STA $7EC4F0, X
-              STA $7EC6F0, X
+        PLA : STZ.l $7EC4F0, X
+              STZ.l $7EC6F0, X
         
         ; Swap SP5_H with SP3_H.
         LDA $7EC4B0, X : PHA
         
-        LDA $7EC470, X : STA $7EC4B0, X
-                         STA $7EC6B0, X
+        LDA $7EC470, X : STZ.l $7EC4B0, X
+                         STZ.l $7EC6B0, X
         
-        PLA : STA $7EC470, X
-              STA $7EC670, X
+        PLA : STZ.l $7EC470, X
+              STZ.l $7EC670, X
     INX #2 : CPX.b #$10 : BNE .swap_palettes
         
     SEP #$20
         
-    INC $15
+    INC.b $15
         
     RTL
 }
@@ -5536,7 +5536,7 @@ Palette_RevertTranslucencySwap_ForcePlayerBg2:
 ; $0756BB-$0756BF
 Palette_RevertTranslucencySwap:
 {
-    STZ $0ABD
+    STZ.w $0ABD
         
     BRA Palette_PerformTranslucencySwap
 }
@@ -5552,7 +5552,7 @@ LoadActualGearPalettes:
     REP #$20
         
     ; Link's sword and shield value.
-    LDA $7EF359 : STA $0C
+    LDA $7EF359 : STA.b $0C
         
     ; Link's armor value.
     LDA $7EF35B : AND.w #$00FF
@@ -5569,7 +5569,7 @@ Palette_ElectroThemedGear:
 {
     REP #$20
         
-    LDA.w #$0202 : STA $0C
+    LDA.w #$0202 : STA.b $0C
         
     LDA.w #$0404
         
@@ -5586,20 +5586,20 @@ LoadGearPalettes:
     REP #$20
         
     ; What type of sword and armor does Link have? (2 bytes).
-    LDA $7EF359 : STA $0C
+    LDA $7EF359 : STA.b $0C
         
     ; ....... ? .......
     LDA.w #$0303
     
     .variable
     
-    STA $0E
+    STA.b $0E
         
     ; Setting up the bank for the source data.
-    LDA.w #$001B : STA $02
+    LDA.w #$001B : STA.b $02
         
     ; X = #$0, #$1, #$2, #$3, or #$4 (sword value).
-    LDX $0C
+    LDX.b $0C
         
     ; A = #$0, #$0, #$6, #$C, or #$12.
     LDA $1BEBB4, X : AND.w #$00FF : CLC : ADC.w #$D630
@@ -5614,7 +5614,7 @@ LoadGearPalettes:
     SEP #$10
         
     ; X = #$0, #$1, #$2, or #$3 (shield value).
-    LDX $0D
+    LDX.b $0D
         
     ; A = #$0, #$0, #$8, or #$10.
     LDA $1BEBC1, X : AND.w #$00FF : CLC : ADC.w #$D648
@@ -5629,7 +5629,7 @@ LoadGearPalettes:
     SEP #$10
         
     ; Armor value
-    LDX $0E
+    LDX.b $0E
         
     LDA $1BEC06, X : AND.w #$00FF : ASL A : CLC : ADC.w #$D308
         
@@ -5642,7 +5642,7 @@ LoadGearPalettes:
         
     SEP #$30
         
-    INC $15
+    INC.b $15
         
     RTL
 }
@@ -5653,15 +5653,15 @@ LoadGearPalettes:
 LoadGearPalette:
 {
     ; ($00 is variable input).
-    STA $00
+    STA.b $00
 
     .nextColor
 
         ; LDA from address $1BXXXX into auxiliary cgram buffer and normal cgram buffer. 
-        LDA [$00] : STA $7EC300, X : STA $7EC500, X
+        LDA [$00] : STZ.l $7EC300, X : STZ.l $7EC500, X
 
         ; Y is the length of the palette in colors (words).
-        INC $00 : INC $00
+        INC.b $00 : INC.b $00
         
         INX #2
     DEY : BPL .nextColor
@@ -5680,18 +5680,18 @@ Filter_Majorly_Whiten_Bg:
     
     .next_color_in_each_palette
     
-        LDA $7EC340, X : JSR Filter_Majorly_Whiten_Color : STA $7EC540, X
-        LDA $7EC350, X : JSR Filter_Majorly_Whiten_Color : STA $7EC550, X
-        LDA $7EC360, X : JSR Filter_Majorly_Whiten_Color : STA $7EC560, X
-        LDA $7EC370, X : JSR Filter_Majorly_Whiten_Color : STA $7EC570, X
-        LDA $7EC380, X : JSR Filter_Majorly_Whiten_Color : STA $7EC580, X
-        LDA $7EC390, X : JSR Filter_Majorly_Whiten_Color : STA $7EC590, X
-        LDA $7EC3A0, X : JSR Filter_Majorly_Whiten_Color : STA $7EC5A0, X
-        LDA $7EC3B0, X : JSR Filter_Majorly_Whiten_Color : STA $7EC5B0, X
-        LDA $7EC3C0, X : JSR Filter_Majorly_Whiten_Color : STA $7EC5C0, X
-        LDA $7EC3D0, X : JSR Filter_Majorly_Whiten_Color : STA $7EC5D0, X
-        LDA $7EC3E0, X : JSR Filter_Majorly_Whiten_Color : STA $7EC5E0, X
-        LDA $7EC3F0, X : JSR Filter_Majorly_Whiten_Color : STA $7EC5F0, X
+        LDA $7EC340, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC540, X
+        LDA $7EC350, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC550, X
+        LDA $7EC360, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC560, X
+        LDA $7EC370, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC570, X
+        LDA $7EC380, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC580, X
+        LDA $7EC390, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC590, X
+        LDA $7EC3A0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5A0, X
+        LDA $7EC3B0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5B0, X
+        LDA $7EC3C0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5C0, X
+        LDA $7EC3D0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5D0, X
+        LDA $7EC3E0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5E0, X
+        LDA $7EC3F0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5F0, X
     INX #2 : CPX.b #$10 : BEQ .finished_whitening_increment
         
     JMP .next_color_in_each_palette
@@ -5709,7 +5709,7 @@ Filter_Majorly_Whiten_Bg:
         TAY
     .non_black_backdrop_color
     
-    TYA : STA $7EC500
+    TYA : STZ.l $7EC500
         
     SEP #$30
         
@@ -5721,28 +5721,28 @@ Filter_Majorly_Whiten_Bg:
 ; $0757FE-$075839 LOCAL
 Filter_Majorly_Whiten_Color:
 {
-    STA $00
+    STA.b $00
         
     AND.w #$001F : CLC : ADC.w #$000E : CMP.w #$001F : BCC .red_not_maxed
         LDA.w #$001F
     
     .red_not_maxed
     
-    STA $02
+    STA.b $02
         
-    LDA $00 : AND.w #$03E0 : CLC : ADC.w #$01C0 : CMP.w #$03E0 : BCC .green_not_maxed
+    LDA.b $00 : AND.w #$03E0 : CLC : ADC.w #$01C0 : CMP.w #$03E0 : BCC .green_not_maxed
         LDA.w #$03E0
     
     .green_not_maxed
     
-    STA $04
+    STA.b $04
         
-    LDA $00 : AND.w #$7C00 : CLC : ADC.w #$3800 : CMP.w #$7C00 : BCC .blue_not_maxed
+    LDA.b $00 : AND.w #$7C00 : CLC : ADC.w #$3800 : CMP.w #$7C00 : BCC .blue_not_maxed
         LDA.w #$7C00
     
     .blue_not_maxed
     
-    ORA $02 : ORA $04
+    ORA.b $02 : ORA.b $04
         
     RTS
 }
@@ -5758,37 +5758,37 @@ Palette_Restore_BG_From_Flash:
     LDX.b #$00
     
     .restore_loop
-        LDA $7EC340, X : STA $7EC540, X
-        LDA $7EC350, X : STA $7EC550, X
-        LDA $7EC360, X : STA $7EC560, X
-        LDA $7EC370, X : STA $7EC570, X
-        LDA $7EC380, X : STA $7EC580, X
-        LDA $7EC390, X : STA $7EC590, X
-        LDA $7EC3A0, X : STA $7EC5A0, X
-        LDA $7EC3B0, X : STA $7EC5B0, X
-        LDA $7EC3C0, X : STA $7EC5C0, X
-        LDA $7EC3D0, X : STA $7EC5D0, X
-        LDA $7EC3E0, X : STA $7EC5E0, X
-        LDA $7EC3F0, X : STA $7EC5F0, X
+        LDA $7EC340, X : STZ.l $7EC540, X
+        LDA $7EC350, X : STZ.l $7EC550, X
+        LDA $7EC360, X : STZ.l $7EC560, X
+        LDA $7EC370, X : STZ.l $7EC570, X
+        LDA $7EC380, X : STZ.l $7EC580, X
+        LDA $7EC390, X : STZ.l $7EC590, X
+        LDA $7EC3A0, X : STZ.l $7EC5A0, X
+        LDA $7EC3B0, X : STZ.l $7EC5B0, X
+        LDA $7EC3C0, X : STZ.l $7EC5C0, X
+        LDA $7EC3D0, X : STZ.l $7EC5D0, X
+        LDA $7EC3E0, X : STZ.l $7EC5E0, X
+        LDA $7EC3F0, X : STZ.l $7EC5F0, X
         
     INX #2 : CPX.b #$10 : BNE .restore_loop
         
-    LDA $7EC540 : STA $7EC500
+    LDA $7EC540 : STZ.l $7EC500
         
     SEP #$30
     
     ; ZS starts replacing from here.
     ; $0758AE ALTERNATE ENTRY POINT - ZS Custom Overworld
-    LDA $1B : BNE .noSpecialColor
+    LDA.b $1B : BNE .noSpecialColor
         REP #$10
         
-        LDX.w #$4020 : STX $9C
-        LDX.w #$8040 : STX $9D
+        LDX.w #$4020 : STX.b $9C
+        LDX.w #$8040 : STX.b $9D
         
         LDX.w #$4F33
         LDY.w #$894F
         
-        LDA $8A    : BEQ .noSpecialColor
+        LDA.b $8A    : BEQ .noSpecialColor
         CMP.b #$40 : BEQ .noSpecialColor
             CMP.b #$5B : BEQ .specialColor
                 LDX.w #$4C26
@@ -5807,8 +5807,8 @@ Palette_Restore_BG_From_Flash:
                     
             .specialColor
 
-            STX $9C
-            STY $9D
+            STX.b $9C
+            STY.b $9D
     
     .noSpecialColor
     
@@ -5828,13 +5828,13 @@ Palette_Restore_BG_And_HUD:
     
     .next_color
     
-        LDA $7EC300, X : STA $7EC500, X
-        LDA $7EC380, X : STA $7EC580, X
+        LDA $7EC300, X : STZ.l $7EC500, X
+        LDA $7EC380, X : STZ.l $7EC580, X
     DEX #2 : BPL .next_color
         
     SEP #$20
         
-    INC $15
+    INC.b $15
         
     JMP $D8AE ; $0758AE IN ROM
 }
@@ -5856,10 +5856,10 @@ NULL_0ED91A:
 ; $075940-$07594B JUMP LOCATION (LONG)
 PalaceMap_LightenUpMap:
 {
-    INC $13
+    INC.b $13
         
-    LDA $13 : CMP.b #$0F : BNE .stillTooDark
-        INC $0200
+    LDA.b $13 : CMP.b #$0F : BNE .stillTooDark
+        INC.w $0200
     
     .stillTooDark
 
@@ -5875,80 +5875,80 @@ PalaceMap_Backup:
 {
     ; Darken the screen until it's fully dark.
     ; Then we can do some actual work.
-    DEC $13 : BNE PalaceMap_LightenUpMap_return
+    DEC.b $13 : BNE PalaceMap_LightenUpMap_return
         
     ; Turn off mosaic on BG1 and BG2.
-    LDA.b #$03 : STA $95
+    LDA.b #$03 : STA.b $95
         
     ; Cache the hdma setup for later when we're done with the map
     ; because EnableForceBlank turns off hdma.
-    LDA $9B : STA $7EC229
+    LDA.b $9B : STZ.l $7EC229
         
     JSL EnableForceBlank ; $00093D IN ROM
         
     ; Move on to next step of the submodule, and initialize the initilization indicator ($020D).
-    INC $0200 : STZ $020D
+    INC.w $0200 : STZ.w $020D
         
     ; Set the fixed color to neutral (a value of 0,0,0).
-    LDA.b #$20 : STA $9C
-    LDA.b #$40 : STA $9D
-    LDA.b #$80 : STA $9E
+    LDA.b #$20 : STA.b $9C
+    LDA.b #$40 : STA.b $9D
+    LDA.b #$80 : STA.b $9E
         
     REP #$20
         
     ; Set's Link's graphics to a particular configuration useful during the palace map mode.
-    LDA.w #$0250 : STA $0100
+    LDA.w #$0250 : STA.w $0100
     
     LDX.b #$7E
     
     .cachePaletteBuffer
     
         ; Store the CGRAM buffer away for safe keeping until we get back from map mode.
-        LDA $7EC500, X : STA $7FDD80, X : LDA $7EC580, X : STA $7FDE00, X
-        LDA $7EC600, X : STA $7FDE80, X : LDA $7EC680, X : STA $7FDF00, X
+        LDA $7EC500, X : STZ.l $7FDD80, X : LDA $7EC580, X : STZ.l $7FDE00, X
+        LDA $7EC600, X : STZ.l $7FDE80, X : LDA $7EC680, X : STZ.l $7FDF00, X
     DEX #2 : BPL .cachePaletteBuffer
         
     ; Cache BG scroll offset (for quaking and such).
-    LDA $011A : STA $7EC221
-    LDA $011C : STA $7EC223
+    LDA.w $011A : STZ.l $7EC221
+    LDA.w $011C : STZ.l $7EC223
         
-    STZ $011A : STZ $011C
+    STZ.w $011A : STZ.w $011C
         
     ; Cache all BG scroll value.
-    LDA $E0 : STA $7EC200
-    LDA $E2 : STA $7EC202
-    LDA $E6 : STA $7EC204
-    LDA $E8 : STA $7EC206
+    LDA.b $E0 : STZ.l $7EC200
+    LDA.b $E2 : STZ.l $7EC202
+    LDA.b $E6 : STZ.l $7EC204
+    LDA.b $E8 : STZ.l $7EC206
         
     ; Zero all the BG scroll values after that.
     STZ $E0 : STZ $E2 : STZ $E4
     STZ $E6 : STZ $E8 : STZ $EA
         
     ; Cache CGWSEL register
-    LDA $99 : STA $7EC225
+    LDA.b $99 : STZ.l $7EC225
         
     ; Set cg +/- to be subscreen addition and turn on half color math
     ; (but enable it on no layers?).
-    LDA.w #$2002 : STA $99
+    LDA.w #$2002 : STA.b $99
         
     LDX.b #$00
     LDA.w #$0300
     
     .writeLoop
     
-        STA $7F0000, X : STA $7F0100, X : STA $7F0200, X : STA $7F0300, X
-        STA $7F0400, X : STA $7F0500, X : STA $7F0600, X : STA $7F0700, X
-        STA $7F0800, X : STA $7F0900, X : STA $7F0A00, X : STA $7F0B00, X
-        STA $7F0C00, X : STA $7F0D00, X : STA $7F0E00, X : STA $7F0F00, X  
+        STZ.l $7F0000, X : STZ.l $7F0100, X : STZ.l $7F0200, X : STZ.l $7F0300, X
+        STZ.l $7F0400, X : STZ.l $7F0500, X : STZ.l $7F0600, X : STZ.l $7F0700, X
+        STZ.l $7F0800, X : STZ.l $7F0900, X : STZ.l $7F0A00, X : STZ.l $7F0B00, X
+        STZ.l $7F0C00, X : STZ.l $7F0D00, X : STZ.l $7F0E00, X : STZ.l $7F0F00, X  
     DEX #2 : BNE .writeLoop
         
     SEP #$20
         
     ; Play sound effect for opening the Palace Map.
-    LDA.b #$10 : STA $012F
+    LDA.b #$10 : STA.w $012F
         
     ; Quiet the music a bit when we're in map mode.
-    LDA.b #$F2 : STA $012C
+    LDA.b #$F2 : STA.w $012C
         
     RTL
 }
@@ -5958,31 +5958,31 @@ PalaceMap_Backup:
 ; $075A37-$075A78 JUMP LOCATION (LONG)
 PalaceMap_FadeMapToBlack:
 {
-    DEC $13 : BNE .notDoneDarkening
+    DEC.b $13 : BNE .notDoneDarkening
         
         ; Forceblank the screen
         JSL EnableForceBlank ; $00093D IN ROM
         
         ; Move to next step of submodule.
-        INC $0200
+        INC.w $0200
         
         REP #$30
         
-        LDA $7EC225 : STA $99
-        LDA $7EC200 : STA $E0
-        LDA $7EC202 : STA $E2
-        LDA $7EC204 : STA $E6
-        LDA $7EC206 : STA $E8
+        LDA $7EC225 : STA.b $99
+        LDA $7EC200 : STA.b $E0
+        LDA $7EC202 : STA.b $E2
+        LDA $7EC204 : STA.b $E6
+        LDA $7EC206 : STA.b $E8
         
         STZ $E4
         STZ $EA
         
-        LDA $7EC221 : STA $011A
-        LDA $7EC223 : STA $011C
+        LDA $7EC221 : STA.w $011A
+        LDA $7EC223 : STA.w $011C
         
         SEP #$30
         
-        INC $15
+        INC.b $15
     .notDoneDarkening
     
     RTL
@@ -5995,20 +5995,20 @@ PalaceMap_LightenUpDungeon:
 {
     JSL OrientLampBg
         
-    INC $13
+    INC.b $13
         
-    LDA $13 : CMP.b #$0F : BNE .notDoneBrightening
-        LDA $010C : STA $10
+    LDA.b $13 : CMP.b #$0F : BNE .notDoneBrightening
+        LDA.w $010C : STA.b $10
         
         STZ $11
-        STZ $0200
+        STZ.w $0200
         STZ $B0
         
         ; Bring screen brightness to full.
-        LDA.b #$0F : STA $13
+        LDA.b #$0F : STA.b $13
     
         ; Restore hdma settings from before being in map mode.
-        LDA $7EC229 : STA $9B
+        LDA $7EC229 : STA.b $9B
     
     .notDoneBrightening
     
@@ -6213,9 +6213,9 @@ Overworld_Memorize_Map16_Change:
         CMP.w #$0DC9 : BEQ .dontRemember
             PHA : PHX : TXY
             
-            LDX $04AC : STA $7EFA00, X
+            LDX.w $04AC : STZ.l $7EFA00, X
             
-            TYA : STA $7EF800, X : INX #2 : STX $04AC
+            TYA : STZ.l $7EF800, X : INX #2 : STX.w $04AC
             
             PLX : PLA
     
@@ -6237,46 +6237,46 @@ LwTurtleRockPegPositions:
 ; $075D67-$075DFB LONG
 HandlePegPuzzles:
 {
-    LDA $8A : CMP.w #$0007 : BNE .notLwTurtleRock
+    LDA.b $8A : CMP.w #$0007 : BNE .notLwTurtleRock
         LDA $7EF287 : AND.w #$0020 : BNE .warpAlreadyOpen
             ; Y in this routine apparently contains the map16 address of the peg tile that Link hit.
-            STY $00
+            STY.b $00
             
-            LDX $04C8 : CPX.w #$FFFF : BEQ .puzzleFailed
+            LDX.w $04C8 : CPX.w #$FFFF : BEQ .puzzleFailed
                 ; As you all probably realize, the 3 pegs in this area have to be hit in a specific order
                 ; in order for the warp to open up. If you fail, you have to exit the screen and come back.
                 ; That's what $04C8 being -1 (0xFFFF) indicates.
-                LDA LwTurtleRockPegPositions, X : CMP $00 : BNE .puzzleFailed
+                LDA LwTurtleRockPegPositions, X : CMP.b $00 : BNE .puzzleFailed
                     ; Play the successful puzzle step sound effect.
-                    LDA.w #$2D00 : STA $012E
+                    LDA.w #$2D00 : STA.w $012E
                     
                     ; Move to the next peg
-                    INX #2 : STX $04C8 : CPX.w #$0006 : BNE .puzzleIncomplete
+                    INX #2 : STX.w $04C8 : CPX.w #$0006 : BNE .puzzleIncomplete
                         ; Play mystery solved sound effect.
-                        LDA.w #$1B00 : STA $012E
+                        LDA.w #$1B00 : STA.w $012E
                         
                         ; Set a flag so that next time we enter this screen
                         ; The puzzle will already be complete.
-                        LDA $7EF287 : ORA.w #$0020 : STA $7EF287
+                        LDA $7EF287 : ORA.w #$0020 : STZ.l $7EF287
                         
                         SEP #$20
                         
-                        LDA.b #$2F : STA $11
+                        LDA.b #$2F : STA.b $11
                         
                         REP #$20
                     
                     .puzzleIncomplete
                     
-                    LDX $00
+                    LDX.b $00
                         
                     RTL
         
             .puzzleFailed
         
-            LDA.w #$003C : STA $012E
-            LDA.w #$FFFF : STA $04C8
+            LDA.w #$003C : STA.w $012E
+            LDA.w #$FFFF : STA.w $04C8
             
-            LDX $00
+            LDX.b $00
     
         .warpAlreadyOpen
     
@@ -6285,21 +6285,21 @@ HandlePegPuzzles:
     .notLwTurtleRock
     
     CMP.w #$0062 : BNE .notDwSmithyHouse
-        INC $04C8
+        INC.w $04C8
         
-        LDA $04C8 : CMP.w #$0016 : BNE .notEnoughPegs
+        LDA.w $04C8 : CMP.w #$0016 : BNE .notEnoughPegs
             PHX
             
             SEP #$20
             
-            LDA $7EF2E2 : ORA.b #$20 : STA $7EF2E2
+            LDA $7EF2E2 : ORA.b #$20 : STZ.l $7EF2E2
             
-            LDA.b #$1B : STA $012F
+            LDA.b #$1B : STA.w $012F
             
             REP #$20
             
-            LDA.w #$0050 : STA $0692
-            LDA.w #$0D20 : STA $0698
+            LDA.w #$0050 : STA.w $0692
+            LDA.w #$0D20 : STA.w $0698
             
             JSL Overworld_DoMapUpdate32x32_Long
             
@@ -6316,8 +6316,8 @@ HandlePegPuzzles:
 ; $075DFC-$075E28 LONG
 HandleStakeField:
 {
-    LDA $B0 : BNE .BRANCH_ALPHA
-        LDA.b #$29 : STA $012E
+    LDA.b $B0 : BNE .BRANCH_ALPHA
+        LDA.b #$29 : STA.w $012E
             
         JML PaletteBlackAndWhiteSomething_NonConditional ; $077404 IN ROM
     
@@ -6328,12 +6328,12 @@ HandleStakeField:
     REP #$30
         
     LDA $7EC009 : CMP.w #$00FF : BNE .BRANCH_BETA
-        STA $7EC007
-        STA $7EC009
+        STZ.l $7EC007
+        STZ.l $7EC009
         
         SEP #$30
         
-        INC $B0
+        INC.b $B0
         
         RTL
     
@@ -6378,13 +6378,13 @@ Overworld_CheckForSpecialOverworldTrigger:
     JSR GetMap16Tile ; $075E9A IN ROM
         
     ; Get the CHR at that location...
-    LDA $0F8000, X : AND.w #$01FF : STA $00
+    LDA $0F8000, X : AND.w #$01FF : STA.b $00
         
     LDX.w #$0008
     
     .matchFailed
     
-        LDA $00
+        LDA.b $00
     
         .nextChrValue
     
@@ -6396,15 +6396,15 @@ Overworld_CheckForSpecialOverworldTrigger:
         CMP $0EDE29, X : BNE .nextChrValue
     ; Compare the area number, b/c only specific locations lead to the special OW areas.
     ; The CHR value and the area number must match for a warp to occur. (this is bizarre, I know.)
-    LDA $8A : CMP $0EDE31, X : BNE .matchFailed
+    LDA.b $8A : CMP $0EDE31, X : BNE .matchFailed
         
     ; Loads the exit number to use (so that we can get to the proper destination).
-    LDA $0EDE41, X : STA $A0
+    LDA $0EDE41, X : STA.b $A0
         
     SEP #$20
         
     ; Sets the direction Link will face when he comes in or out of the special area.
-    LDA $0EDE39, X : STA $67 : STA $0410 : STA $0416
+    LDA $0EDE39, X : STA.b $67 : STA.w $0410 : STA.w $0416
         
     LDX.w #$0004
     
@@ -6414,12 +6414,12 @@ Overworld_CheckForSpecialOverworldTrigger:
         DEX
     LSR A : BCC .convertLoop
         
-    STX $0418 : STX $069C
+    STX.w $0418 : STX.w $069C
         
-    LDA.b #$17 : STA $11
+    LDA.b #$17 : STA.b $11
         
     ; Go to special overworld mode (under bridge and master sword).
-    LDA.b #$0B : STA $10
+    LDA.b #$0B : STA.b $10
     
     .return
     
@@ -6431,11 +6431,11 @@ Overworld_CheckForSpecialOverworldTrigger:
 ; $075E9A-$075ECD LOCAL
 GetMap16Tile:
 {
-    LDA $20 : CLC : ADC.w #$000C : STA $00
-    SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
+    LDA.b $20 : CLC : ADC.w #$000C : STA.b $00
+    SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $06
         
-    LDA $22 : CLC : ADC.w #$0008 : LSR #3 : STA $02
-    SEC : SBC $070C : AND $070E : CLC : ADC $06 : TAY : TAX
+    LDA.b $22 : CLC : ADC.w #$0008 : LSR #3 : STA.b $02
+    SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06 : TAY : TAX
         
     LDA $7E2000, X : ASL #3 : TAX
         
@@ -6480,13 +6480,13 @@ SpecialOverworld_CheckForReturnTrigger:
         
     JSR GetMap16Tile ; $075E9A IN ROM
         
-    LDA $0F8000, X : AND.w #$01FF : STA $00
+    LDA $0F8000, X : AND.w #$01FF : STA.b $00
         
     LDX.w #$0006
     
     .matchFailed
     
-        LDA $00
+        LDA.b $00
     
         .nextChrValue
     
@@ -6495,11 +6495,11 @@ SpecialOverworld_CheckForReturnTrigger:
             ; Ends the routine (Link is not going back to the normal Overworld this frame.)
             BMI WeirdAssPlaceForAnExit
         CMP $0EDECE, X : BNE .nextChrValue
-    LDA $8A : CMP $0EDED4, X : BNE .matchFailed
+    LDA.b $8A : CMP $0EDED4, X : BNE .matchFailed
         
     SEP #$30
         
-    LDA $0EDEDA, X : STA $67
+    LDA $0EDEDA, X : STA.b $67
         
     LDX.b #$04
     
@@ -6511,9 +6511,9 @@ SpecialOverworld_CheckForReturnTrigger:
         LSR A
     BCC .convertLoop
         
-    TXA : STA $0418
+    TXA : STA.w $0418
         
-    LDA $67 
+    LDA.b $67 
         
     LDX.b #$04
     
@@ -6526,9 +6526,9 @@ SpecialOverworld_CheckForReturnTrigger:
         DEX
     LSR A : BCC .convertLoop2
         
-    TXA : STA $069C
+    TXA : STA.w $069C
         
-    LDA.b #$24 : STA $11
+    LDA.b #$24 : STA.b $11
         
     STZ $B0
     STZ $A0
@@ -7946,7 +7946,7 @@ PaletteBlackAndWhiteSomething:
     ; ganon's tower opening).
         
     ; Don't do the following section if it's not the 0th part of a sub-submodule
-    LDA $B0 : BNE .BRANCH_ALPHA
+    LDA.b $B0 : BNE .BRANCH_ALPHA
     
         ; $077404 ALTERNATE ENTRY POINT
         .NonConditional
@@ -7959,29 +7959,29 @@ PaletteBlackAndWhiteSomething:
     
             ; This loop turns all the colors in the temporary palette buffer to white
             ; It also saves them to a a temporary buffer (0x7FDD80[0x200]).
-            LDA $7EC300, X : STA $7FDD80, X
-            LDA $7EC380, X : STA $7FDE00, X
-            LDA $7EC400, X : STA $7FDE80, X
-            LDA $7EC480, X : STA $7FDF00, X
+            LDA $7EC300, X : STZ.l $7FDD80, X
+            LDA $7EC380, X : STZ.l $7FDE00, X
+            LDA $7EC400, X : STZ.l $7FDE80, X
+            LDA $7EC480, X : STZ.l $7FDF00, X
             
-            LDA.w #$7FFF : STA $7EC300, X
-                         STA $7EC380, X
-                         STA $7EC400, X
-                         STA $7EC480, X
+            LDA.w #$7FFF : STZ.l $7EC300, X
+                         STZ.l $7EC380, X
+                         STZ.l $7EC400, X
+                         STZ.l $7EC480, X
         INX #2 : CPX.b #$80 : BNE .cache_colors_and_whiten_loop
         
         ; Save the background color to another area of the palette buffer.
-        LDA $7EC500 : STA $7EC540
+        LDA $7EC500 : STZ.l $7EC540
         
         ; Mosaic level is zero.
-        LDA.w #$0000 : STA $7EC007
+        LDA.w #$0000 : STZ.l $7EC007
         
         ; Turn on color filtering.
-        LDA.w #$0002 : STA $7EC009
+        LDA.w #$0002 : STZ.l $7EC009
         
         SEP #$20
         
-        INC $B0
+        INC.b $B0
         
         RTL
     
@@ -7996,11 +7996,11 @@ PaletteBlackAndWhiteSomething:
     
         .BRANCH_DELTA
     
-            STA $7EC3B0, X : STA $7EC5B0, X
+            STZ.l $7EC3B0, X : STZ.l $7EC5B0, X
         DEX #2 : BPL .BRANCH_DELTA
         
-        STA $7EC007
-        STA $7EC009
+        STZ.l $7EC007
+        STZ.l $7EC009
         
         SEP #$20
         
@@ -8020,13 +8020,13 @@ PaletteBlackAndWhiteSomething:
     
         .restore_cached_colors_loop
     
-            LDA $7FDD80, X : STA $7EC300, X
-            LDA $7FDDC0, X : STA $7EC340, X
-            LDA $7FDE00, X : STA $7EC380, X
-            LDA $7FDE40, X : STA $7EC3C0, X
-            LDA $7FDE80, X : STA $7EC400, X
-            LDA $7FDEC0, X : STA $7EC440, X
-            LDA $7FDF00, X : STA $7EC480, X
+            LDA $7FDD80, X : STZ.l $7EC300, X
+            LDA $7FDDC0, X : STZ.l $7EC340, X
+            LDA $7FDE00, X : STZ.l $7EC380, X
+            LDA $7FDE40, X : STZ.l $7EC3C0, X
+            LDA $7FDE80, X : STZ.l $7EC400, X
+            LDA $7FDEC0, X : STZ.l $7EC440, X
+            LDA $7FDF00, X : STZ.l $7EC480, X
         INX #2 : CPX.w #$0040 : BNE .restore_cached_colors_loop
         
         SEP #$20
@@ -8052,8 +8052,8 @@ Overworld_DwDeathMountainPaletteAnimation_easyOut:
 ; This function controls the lighting flashing int he background of DW death mountain as well as the Ganon's tower palette cycling.
 Overworld_DwDeathMountainPaletteAnimation:
 {
-    LDA $04C6 : BNE .easyOut
-        LDA $8A
+    LDA.w $04C6 : BNE .easyOut
+        LDA.b $8A
         CMP.b #$43 : BEQ .dwDeathMountain
         CMP.b #$45 : BEQ .dwDeathMountain
         CMP.b #$47 : BNE .easyOut
@@ -8061,7 +8061,7 @@ Overworld_DwDeathMountainPaletteAnimation:
             
             PHB : PHK : PLB
                 
-            LDA $1A
+            LDA.b $1A
             CMP.b #$03 : BEQ .alter_palettes
             CMP.b #$05 : BEQ .restore_palettes
             CMP.b #$24 : BEQ .play_sound
@@ -8075,11 +8075,11 @@ Overworld_DwDeathMountainPaletteAnimation:
                 LDX.b #$02
                     
                 .loop_1
-                    LDA $7EC360, X : STA $7EC560, X
-                    LDA $7EC370, X : STA $7EC570, X
-                    LDA $7EC390, X : STA $7EC590, X
-                    LDA $7EC3E0, X : STA $7EC5E0, X
-                    LDA $7EC3F0, X : STA $7EC5F0, X
+                    LDA $7EC360, X : STZ.l $7EC560, X
+                    LDA $7EC370, X : STZ.l $7EC570, X
+                    LDA $7EC390, X : STZ.l $7EC590, X
+                    LDA $7EC3E0, X : STZ.l $7EC5E0, X
+                    LDA $7EC3F0, X : STZ.l $7EC5F0, X
                         
                 INX #2 : CPX.b #$10 : BNE .loop_1
                         
@@ -8087,7 +8087,7 @@ Overworld_DwDeathMountainPaletteAnimation:
                     
             .play_sound
                 
-            LDX.b #$36 : STX $012E
+            LDX.b #$36 : STX.w $012E
             
             .alter_palettes
 
@@ -8097,11 +8097,11 @@ Overworld_DwDeathMountainPaletteAnimation:
             LDY.b #$00
             
             .loop_2
-                LDA.w $F4EB, Y : STA $7EC560, X
-                LDA.w $F4F9, Y : STA $7EC570, X
-                LDA.w $F507, Y : STA $7EC590, X
-                LDA.w $F515, Y : STA $7EC5E0, X
-                LDA.w $F523, Y : STA $7EC5F0, X
+                LDA.w $F4EB, Y : STZ.l $7EC560, X
+                LDA.w $F4F9, Y : STZ.l $7EC570, X
+                LDA.w $F507, Y : STZ.l $7EC590, X
+                LDA.w $F515, Y : STZ.l $7EC5E0, X
+                LDA.w $F523, Y : STZ.l $7EC5F0, X
                 
                 INY #2
                 
@@ -8114,7 +8114,7 @@ Overworld_DwDeathMountainPaletteAnimation:
             LDX.b #$00
             LDY.b #$40
                 
-            LDA $8A
+            LDA.b $8A
                 
             CMP.b #$43 : BEQ .check_flag
                 CMP.b #$45 : BNE .do_palette_animation
@@ -8122,13 +8122,13 @@ Overworld_DwDeathMountainPaletteAnimation:
             .check_flag
             
             LDA $7EF2C3 : AND.b #$20 : BNE .ganons_tower_opened
-                LDA $1A : AND.b #$0C : ASL #2 : TAY
+                LDA.b $1A : AND.b #$0C : ASL #2 : TAY
             
                 .do_palette_animation
                 .palette_write_loop
                     REP #$20
                     
-                    LDA.w $F531, Y : STA $7EC5D0, X
+                    LDA.w $F531, Y : STZ.l $7EC5D0, X
                     
                     INY #2
                 
@@ -8140,7 +8140,7 @@ Overworld_DwDeathMountainPaletteAnimation:
                 
             PLB
                 
-            INC $15
+            INC.b $15
                 
             RTL
 }
@@ -8159,7 +8159,7 @@ Overworld_LoadEventOverlay:
         
     ; Check to see what Overworld area we're in.
     ; Use it as an index into a jump table.
-    LDA $8A : ASL A : TAX
+    LDA.b $8A : ASL A : TAX
         
     JSR (Overworld_EventOverlayTable, X)
         
@@ -8330,21 +8330,21 @@ OverworldOverlay_LumberjackTree:
 {
     LDA.w #$0E32
     
-    STA $2816 : STA $2818 : STA $281A 
-    STA $281C : STA $2896 : STA $289C
+    STA.w $2816 : STA.w $2818 : STA.w $281A 
+    STA.w $281C : STA.w $2896 : STA.w $289C
     
-    INC A : STA $2898
-    INC A : STA $2E9A
-    INC A : STA $2916
-    INC A : STA $2918
-    INC A : STA $291A
-    INC A : STA $291C
-    INC A : STA $2996
-    INC A : STA $2998
-    INC A : STA $299A
-    INC A : STA $299C
-    INC A : STA $2A18
-    INC A : STA $2A1A
+    INC A : STA.w $2898
+    INC A : STA.w $2E9A
+    INC A : STA.w $2916
+    INC A : STA.w $2918
+    INC A : STA.w $291A
+    INC A : STA.w $291C
+    INC A : STA.w $2996
+    INC A : STA.w $2998
+    INC A : STA.w $299A
+    INC A : STA.w $299C
+    INC A : STA.w $2A18
+    INC A : STA.w $2A1A
     
     RTS
 }
@@ -8352,7 +8352,7 @@ OverworldOverlay_LumberjackTree:
 ; $0777AA-$0777B0 LOCAL
 OverworldOverlay_TurtleRockPortal:
 {
-    LDA.w #$0212 : STA $2720
+    LDA.w #$0212 : STA.w $2720
     
     RTS
 }
@@ -8364,10 +8364,10 @@ OverworldOverlay_BonkRocks:
 
     ; $0777B4 ALTERNATIVE ENTRY POINT
 
-    LDA.w #$0918 : STA $2000, X
-    INC A        : STA $2002, X
-    INC A        : STA $2080, X
-    INC A        : STA $2082, X
+    LDA.w #$0918 : STA.w $2000, X
+    INC A        : STA.w $2002, X
+    INC A        : STA.w $2080, X
+    INC A        : STA.w $2082, X
     
     RTS
 }
@@ -8375,13 +8375,13 @@ OverworldOverlay_BonkRocks:
 ; $0777C7-$0777E3 LOCAL
 OverworldOverlay_KingsTomb:
 {
-    LDA.w #$0DD1 : STA $2532
-    INC A        : STA $2534
+    LDA.w #$0DD1 : STA.w $2532
+    INC A        : STA.w $2534
     
-    LDA.w #$0DD7 : STA $25B2
-    INC A        : STA $25B4
-    INC A        : STA $2632
-    INC A        : STA $2634
+    LDA.w #$0DD7 : STA.w $25B2
+    INC A        : STA.w $25B4
+    INC A        : STA.w $2632
+    INC A        : STA.w $2634
     
     RTS
 }
@@ -8389,11 +8389,11 @@ OverworldOverlay_KingsTomb:
 ; $0777E4-$0777FD LOCAL
 OverworldOverlay_WeatherVane:
 {
-    LDA.w #$0E21 : STA $2C3E : STA $2C42
-    INC A        : STA $2C40
-    INC A        : STA $2CBE
-    INC A        : STA $2CC0
-    INC A        : STA $2CC2
+    LDA.w #$0E21 : STA.w $2C3E : STA.w $2C42
+    INC A        : STA.w $2C40
+    INC A        : STA.w $2CBE
+    INC A        : STA.w $2CC0
+    INC A        : STA.w $2CC2
     
     RTS
 }
@@ -8401,17 +8401,17 @@ OverworldOverlay_WeatherVane:
 ; $0777FE-$077826 LOCAL
 OverworldOverlay_CastleGate:
 {
-    LDA.w #$0DC1 : STA $33BC
-    INC A        : STA $33BE
+    LDA.w #$0DC1 : STA.w $33BC
+    INC A        : STA.w $33BE
     
-    LDA.w #$0DBE : STA $343C
-    INC A        : STA $343E
+    LDA.w #$0DBE : STA.w $343C
+    INC A        : STA.w $343E
     
-    LDA.w #$0DC2 : STA $33C0
-    INC A        : STA $33C2
+    LDA.w #$0DC2 : STA.w $33C0
+    INC A        : STA.w $33C2
     
-    LDA.w #$0DBF : STA $3440
-    INC A        : STA $3442
+    LDA.w #$0DBF : STA.w $3440
+    INC A        : STA.w $3442
     
     RTS
 }
@@ -8453,87 +8453,87 @@ OverworldOverlay_DrainedDam:
 {
     LDA.w #$0DDF
     
-    STA $23AC : STA $2424 : STA $24A0 : STA $251E
-    STA $261C : STA $2734
+    STA.w $23AC : STA.w $2424 : STA.w $24A0 : STA.w $251E
+    STA.w $261C : STA.w $2734
     
-    INC A : STA $23AE : STA $24A2
-    INC A : STA $23B0 : STA $2438 : STA $24BA : STA $25AA : STA $273A
-    INC A : STA $2426 : STA $2428 : STA $242A : STA $2432 : STA $2434 : STA $2436
-    INC A : STA $242C : STA $24A4 : STA $2520 : STA $261E
-    
-    INC A
-    
-    STA $242E : STA $2426 : STA $24A8 : STA $24B0
-    STA $24B6 : STA $2522 : STA $2524 : STA $2526
-    STA $2538 : STA $25A0 : STA $25A2 : STA $25A4
-    STA $25A6 : STA $2620 : STA $2622 : STA $269E
-    STA $26A0 : STA $271E : STA $2720 : STA $2826
-    STA $28A6 : STA $28A8 : STA $2926
+    INC A : STA.w $23AE : STA.w $24A2
+    INC A : STA.w $23B0 : STA.w $2438 : STA.w $24BA : STA.w $25AA : STA.w $273A
+    INC A : STA.w $2426 : STA.w $2428 : STA.w $242A : STA.w $2432 : STA.w $2434 : STA.w $2436
+    INC A : STA.w $242C : STA.w $24A4 : STA.w $2520 : STA.w $261E
     
     INC A
     
-    STA $2430 : STA $24B8 : STA $25A8 : STA $262A
+    STA.w $242E : STA.w $2426 : STA.w $24A8 : STA.w $24B0
+    STA.w $24B6 : STA.w $2522 : STA.w $2524 : STA.w $2526
+    STA.w $2538 : STA.w $25A0 : STA.w $25A2 : STA.w $25A4
+    STA.w $25A6 : STA.w $2620 : STA.w $2622 : STA.w $269E
+    STA.w $26A0 : STA.w $271E : STA.w $2720 : STA.w $2826
+    STA.w $28A6 : STA.w $28A8 : STA.w $2926
     
     INC A
     
-    STA $24AA : STA $24B2 : STA $2528 : STA $25B8
-    STA $28AA : STA $2928
+    STA.w $2430 : STA.w $24B8 : STA.w $25A8 : STA.w $262A
     
     INC A
     
-    STA $24AC : STA $2530 : STA $279E : STA $27A0
-    STA $29A6 : STA $29B8
+    STA.w $24AA : STA.w $24B2 : STA.w $2528 : STA.w $25B8
+    STA.w $28AA : STA.w $2928
     
     INC A
     
-    STA $24AE : STA $24B4 : STA $2536 : STA $27A2
-    STA $2824
+    STA.w $24AC : STA.w $2530 : STA.w $279E : STA.w $27A0
+    STA.w $29A6 : STA.w $29B8
     
     INC A
     
-    STA $252E : STA $2534 : STA $279C : STA $2822
-    STA $2934 : STA $29B6
+    STA.w $24AE : STA.w $24B4 : STA.w $2536 : STA.w $27A2
+    STA.w $2824
     
     INC A
     
-    STA $253A : STA $2638 : STA $26B8 : STA $293A
+    STA.w $252E : STA.w $2534 : STA.w $279C : STA.w $2822
+    STA.w $2934 : STA.w $29B6
     
     INC A
     
-    STA $259E : STA $25B6 : STA $2636 : STA $269C
-    STA $26B6 : STA $271C : STA $28A4 : STA $2924
-    
-    INC A : STA $2624 : STA $26A2
-    INC A : STA $2626
-    INC A : STA $2628
-    INC A : STA $26A4 : STA $27B6
+    STA.w $253A : STA.w $2638 : STA.w $26B8 : STA.w $293A
     
     INC A
     
-    STA $26A6 : STA $2726 : STA $2728 : STA $272A
-    STA $27AA : STA $2836 : STA $2838
+    STA.w $259E : STA.w $25B6 : STA.w $2636 : STA.w $269C
+    STA.w $26B6 : STA.w $271C : STA.w $28A4 : STA.w $2924
     
-    INC A : STA $26A8 : STA $27B8
-    INC A : STA $26AA
-    INC A : STA $2727 : STA $27A4 : STA $2828
-    INC A : STA $2724
-    INC A : STA $27A6
-    INC A : STA $27A8 : STA $28B6
-    INC A : STA $27B4
-    INC A : STA $27BA
-    INC A : STA $282A
-    INC A : STA $2834
-    INC A : STA $283A
-    INC A : STA $28B4
-    INC A : STA $28B8
-    INC A : STA $28BA
-    INC A : STA $2936
-    INC A : STA $2938
-    INC A : STA $252A : STA $2532 : STA $292A
-    INC A : STA $25BA : STA $29A8 : STA $29BA
-    INC A : STA $29A4
-    INC A : STA $2736
-    INC A : STA $2738
+    INC A : STA.w $2624 : STA.w $26A2
+    INC A : STA.w $2626
+    INC A : STA.w $2628
+    INC A : STA.w $26A4 : STA.w $27B6
+    
+    INC A
+    
+    STA.w $26A6 : STA.w $2726 : STA.w $2728 : STA.w $272A
+    STA.w $27AA : STA.w $2836 : STA.w $2838
+    
+    INC A : STA.w $26A8 : STA.w $27B8
+    INC A : STA.w $26AA
+    INC A : STA.w $2727 : STA.w $27A4 : STA.w $2828
+    INC A : STA.w $2724
+    INC A : STA.w $27A6
+    INC A : STA.w $27A8 : STA.w $28B6
+    INC A : STA.w $27B4
+    INC A : STA.w $27BA
+    INC A : STA.w $282A
+    INC A : STA.w $2834
+    INC A : STA.w $283A
+    INC A : STA.w $28B4
+    INC A : STA.w $28B8
+    INC A : STA.w $28BA
+    INC A : STA.w $2936
+    INC A : STA.w $2938
+    INC A : STA.w $252A : STA.w $2532 : STA.w $292A
+    INC A : STA.w $25BA : STA.w $29A8 : STA.w $29BA
+    INC A : STA.w $29A4
+    INC A : STA.w $2736
+    INC A : STA.w $2738
     
     RTS
 }
@@ -8541,20 +8541,20 @@ OverworldOverlay_DrainedDam:
 ; $0779E6-$077A2D LOCAL
 OverworldOverlay_SkullWoods:
 {
-    LDA.w #$0E13 : STA $2590
-    INC A        : STA $2596
-    INC A        : STA $2610
-    INC A        : STA $2612
-    INC A        : STA $2614
-    INC A        : STA $2616
-    INC A        : STA $2692
-    INC A        : STA $2694
+    LDA.w #$0E13 : STA.w $2590
+    INC A        : STA.w $2596
+    INC A        : STA.w $2610
+    INC A        : STA.w $2612
+    INC A        : STA.w $2614
+    INC A        : STA.w $2616
+    INC A        : STA.w $2692
+    INC A        : STA.w $2694
     
-    LDA.w #$0E06 : STA $2812 : STA $2814
-    INC A        : STA $2710 : STA $2790
-    INC A        : STA $2712 : STA $2792
-    INC A        : STA $2714 : STA $2794
-    INC A        : STA $2716 : STA $2796
+    LDA.w #$0E06 : STA.w $2812 : STA.w $2814
+    INC A        : STA.w $2710 : STA.w $2790
+    INC A        : STA.w $2712 : STA.w $2792
+    INC A        : STA.w $2714 : STA.w $2794
+    INC A        : STA.w $2716 : STA.w $2796
     
     RTS
 }
@@ -8562,14 +8562,14 @@ OverworldOverlay_SkullWoods:
 ; $077A2E-$077A5A LOCAL
 OverworldOverlay_GanonsTower:
 {
-    LDA.w #$0E96 : STA $7E245E
-    INC A        : STA $7E2460
+    LDA.w #$0E96 : STZ.l $7E245E
+    INC A        : STZ.l $7E2460
     
-    LDA.w #$0E9C : STA $7E24DE : STA $7E255E
-    INC A        : STA $7E24E0 : STA $7E2560
+    LDA.w #$0E9C : STZ.l $7E24DE : STZ.l $7E255E
+    INC A        : STZ.l $7E24E0 : STZ.l $7E2560
     
-    LDA.w #$0E9A : STA $7E25DE
-    INC A        : STA $7E25E0
+    LDA.w #$0E9A : STZ.l $7E25DE
+    INC A        : STZ.l $7E25E0
     
     RTS
 }
@@ -8585,22 +8585,22 @@ OverworldOverlay_HookshotCave:
 ; $077A61-$077AB3 LOCAL
 OverworldOverlay_TurtleRock:
 {
-    LDA.w #$0E78 : STA $7E299E
-    INC A        : STA $7E29A0
-    INC A        : STA $7E29A2
-    INC A        : STA $7E29A4
-    INC A        : STA $7E2A1E
-    INC A        : STA $7E202A
-    INC A        : STA $7E2A22
-    INC A        : STA $7E2A24
-    INC A        : STA $7E2A9E
-    INC A        : STA $7E2AA0
-    INC A        : STA $7E2AA2
-    INC A        : STA $7E2AA4
-    INC A        : STA $7E2B1E
-    INC A        : STA $7E2B20
-    INC A        : STA $7E2B22
-    INC A        : STA $7E2B24
+    LDA.w #$0E78 : STZ.l $7E299E
+    INC A        : STZ.l $7E29A0
+    INC A        : STZ.l $7E29A2
+    INC A        : STZ.l $7E29A4
+    INC A        : STZ.l $7E2A1E
+    INC A        : STZ.l $7E202A
+    INC A        : STZ.l $7E2A22
+    INC A        : STZ.l $7E2A24
+    INC A        : STZ.l $7E2A9E
+    INC A        : STZ.l $7E2AA0
+    INC A        : STZ.l $7E2AA2
+    INC A        : STZ.l $7E2AA4
+    INC A        : STZ.l $7E2B1E
+    INC A        : STZ.l $7E2B20
+    INC A        : STZ.l $7E2B22
+    INC A        : STZ.l $7E2B24
     
     RTS
 }
@@ -8608,12 +8608,12 @@ OverworldOverlay_TurtleRock:
 ; $077AB4-$077ACE LOCAL
 OverworldOverlay_GargoylesDomain:
 {
-    LDA.w #$0E1B : STA $2D3E
-    INC A        : STA $2D40
-    INC A        : STA $2DBE
-    INC A        : STA $2DC0
-    INC A        : STA $2E3E
-    INC A        : STA $2E40
+    LDA.w #$0E1B : STA.w $2D3E
+    INC A        : STA.w $2D40
+    INC A        : STA.w $2DBE
+    INC A        : STA.w $2DC0
+    INC A        : STA.w $2E3E
+    INC A        : STA.w $2E40
     
     RTS
 }
@@ -8621,15 +8621,15 @@ OverworldOverlay_GargoylesDomain:
 ; $077ACF-$077AF5 LOCAL
 OverworldOverlay_PyramidHole:
 {
-    LDA.w #$0E3F : STA $23BC
-    INC A        : STA $23BE
-    INC A        : STA $23C0
-    INC A        : STA $243C
-    INC A        : STA $243E
-    INC A        : STA $2440
-    INC A        : STA $24BC
-    INC A        : STA $24BE
-    INC A        : STA $24C0
+    LDA.w #$0E3F : STA.w $23BC
+    INC A        : STA.w $23BE
+    INC A        : STA.w $23C0
+    INC A        : STA.w $243C
+    INC A        : STA.w $243E
+    INC A        : STA.w $2440
+    INC A        : STA.w $24BC
+    INC A        : STA.w $24BE
+    INC A        : STA.w $24C0
     
     RTS
 }
@@ -8637,12 +8637,12 @@ OverworldOverlay_PyramidHole:
 ; $077AF6-$077B0A LOCAL
 OverworldOverlay_POD:
 {
-    LDA.w #$0E31 : STA $21E6
+    LDA.w #$0E31 : STA.w $21E6
     
-    LDA.w #$0E2D : STA $226A
+    LDA.w #$0E2D : STA.w $226A
     
-    INC A : STA $22EA
-    INC A : STA $236A
+    INC A : STA.w $22EA
+    INC A : STA.w $236A
     
     RTS
 }
@@ -8658,27 +8658,27 @@ OverworldOverlay_PegPuzzle:
 ; $077B11-$077B63 LOCAL
 OverworldOverlay_MiseryMire:
 {
-    LDA.w #$0E64 : STA $2522
+    LDA.w #$0E64 : STA.w $2522
     
-    INC A : STA $2524
-    INC A : STA $2526
-    INC A : STA $2528
-    INC A : STA $25A2
-    INC A : STA $25A4
-    INC A : STA $25A6
-    INC A : STA $25A8
-    INC A : STA $2622
-    INC A : STA $2624
-    INC A : STA $2626
-    INC A : STA $2628
-    INC A : STA $26A2
-    INC A : STA $26A4
-    INC A : STA $26A6
-    INC A : STA $26A8
-    INC A : STA $2722
-    INC A : STA $2724
-    INC A : STA $2726
-    INC A : STA $2728
+    INC A : STA.w $2524
+    INC A : STA.w $2526
+    INC A : STA.w $2528
+    INC A : STA.w $25A2
+    INC A : STA.w $25A4
+    INC A : STA.w $25A6
+    INC A : STA.w $25A8
+    INC A : STA.w $2622
+    INC A : STA.w $2624
+    INC A : STA.w $2626
+    INC A : STA.w $2628
+    INC A : STA.w $26A2
+    INC A : STA.w $26A4
+    INC A : STA.w $26A6
+    INC A : STA.w $26A8
+    INC A : STA.w $2722
+    INC A : STA.w $2724
+    INC A : STA.w $2726
+    INC A : STA.w $2728
     
     RTS
 }
