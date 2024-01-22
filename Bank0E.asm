@@ -449,6 +449,86 @@ Credits_PrepAndLoadSprites:
     RTL
 }
 
+; $0718D8-$071957 DATA
+Pool_Credits_ScrollScene:
+{
+    ; $0718D8
+    .target_y
+    dw $06F2 ; Hyrule Castle
+    dw $0210 ; Sanctuary
+    dw $072C ; Kakariko
+    dw $0C00 ; Desert
+    dw $010C ; Tower of Hera
+    dw $0A9B ; Link's house
+    dw $0010 ; Zora's Domain
+    dw $0510 ; Potion shop
+    dw $0089 ; Lumberjacks
+    dw $0A8E ; Haunted Grove
+    dw $222C ; Wishing Well
+    dw $2510 ; Smithery
+    dw $0826 ; Kakariko (bug net)
+    dw $005C ; Death Mountain
+    dw $020A ; Lost Woods
+    dw $0030 ; Master Sword
+
+    ; $0718F8
+    .target_x
+    dw $077F ; Hyrule Castle
+    dw $0480 ; Sanctuary
+    dw $0193 ; Kakariko
+    dw $00AA ; Desert
+    dw $0878 ; Tower of Hera
+    dw $0847 ; Link's house
+    dw $04FD ; Zora's Domain
+    dw $0C57 ; Potion shop
+    dw $040F ; Lumberjacks
+    dw $0478 ; Haunted Grove
+    dw $0A00 ; Wishing Well
+    dw $0200 ; Smithery
+    dw $0201 ; Kakariko (bug net)
+    dw $0AA1 ; Death Mountain
+    dw $026F ; Lost Woods
+    dw $0000 ; Master Sword
+
+    ; $071918
+    .movement_y
+    dw  -1   ; Hyrule Castle
+    dw  -1   ; Sanctuary
+    dw   1   ; Kakariko
+    dw  -1   ; Desert
+    dw   1   ; Tower of Hera
+    dw   1   ; Link's house
+    dw   0   ; Zora's Domain
+    dw   1   ; Potion shop
+    dw   0   ; Lumberjacks
+    dw  -1   ; Haunted Grove
+    dw  -1   ; Wishing Well
+    dw   0   ; Smithery
+    dw   0   ; Kakariko (bug net)
+    dw   0   ; Death Mountain
+    dw   1   ; Lost Woods
+    dw  -1   ; Master Sword
+
+    ; $071938
+    .movement_x
+    dw   0   ; Hyrule Castle
+    dw   0   ; Sanctuary
+    dw  -1   ; Kakariko
+    dw   0   ; Desert
+    dw   0   ; Tower of Hera
+    dw  -1   ; Link's house
+    dw   1   ; Zora's Domain
+    dw   0   ; Potion shop
+    dw  -1   ; Lumberjacks
+    dw   0   ; Haunted Grove
+    dw   0   ; Wishing Well
+    dw   0   ; Smithery
+    dw   1   ; Kakariko (bug net)
+    dw  -1   ; Death Mountain
+    dw   1   ; Lost Woods
+    dw   0   ; Master Sword
+}
+
 ; $071958-$0719A4 LOCAL
 Credits_ScrollScene_Overworld:
 {
@@ -476,16 +556,16 @@ Credits_ScrollScene_Overworld:
     CMP.w #$0040 : BCC .BRANCH_GAMMA
     AND.w #$0001 : BNE .BRANCH_GAMMA
         ; $0718D8, X THAT IS
-        LDA.b $E8 : CMP.w $98D8, X : BEQ .BRANCH_DELTA
+        LDA.b $E8 : CMP.w Pool_Credits_ScrollScene_target_y, X : BEQ .BRANCH_DELTA
             ; // $071918, X THAT IS
-            LDY.w $9918, X : STY.b $30
+            LDY.w Pool_Credits_ScrollScene_movement_y, X : STY.b $30
         
         .BRANCH_DELTA
     
         ; $0718F8, X THAT IS
-        LDA.b $E2 : CMP.w $98F8, X : BEQ .BRANCH_GAMMA
+        LDA.b $E2 : CMP.w Pool_Credits_ScrollScene_target_x, X : BEQ .BRANCH_GAMMA
             ; $071938, X THAT IS
-            LDY.w $9938, X : STY.b $31
+            LDY.w Pool_Credits_ScrollScene_movement_x, X : STY.b $31
         
     .BRANCH_GAMMA
     
@@ -3518,9 +3598,6 @@ Credits_SingleCameraScrollControl:
 ; 0x0C34 total
 CreditsData:
 {
-    ; TODO: Data needs to be filled in or supplied with a binary file,
-    ; etc. Seems to be text data for the credits sequence? ; Correct.
-
     ; Tile format:
     ; vhopppcc cccccccc
     ; These are all the actual tiles themselves, all characters and their available color variants.

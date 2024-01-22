@@ -1201,7 +1201,7 @@ Credits_LoadCoolBackground:
     ; Loads the proper tile set for the scrolling view of Hyrule.
     LDA.b #$3B : STA $0AA2
 
-    ; Not sure...
+    ; Sprite GFX index. used later in loading the "THE END" text.
     LDA.b #$2D : STA $0AA3
 
     ; Using the parameters above, loads all the necessary tile sets
