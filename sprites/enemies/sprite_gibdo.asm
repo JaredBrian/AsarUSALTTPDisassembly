@@ -180,7 +180,7 @@ pool Gibdo_Draw:
 }
 ; ==============================================================================
 
-; $0F3B20-$0F3B41 LOCAL
+; $0F3B20-$0F3B41 LOCAL JUMP LOCATION
 Gibdo_Draw:
 {
     LDA.b #$00   : XBA

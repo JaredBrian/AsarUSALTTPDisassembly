@@ -24,7 +24,7 @@ pool Sprite_SetHflip:
 
 ; ==============================================================================
 
-; $0EDD85-$0EDDAB LOCAL
+; $0EDD85-$0EDDAB LOCAL JUMP LOCATION
 Sprite_Raven:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X

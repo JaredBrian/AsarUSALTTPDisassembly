@@ -98,7 +98,7 @@ Ancilla_QuakeSpell:
 
 ; ==============================================================================
 
-; $0436F7-$043712 LOCAL
+; $0436F7-$043712 LOCAL JUMP LOCATION
 QuakeSpell_ShakeScreen:
 {
     REP #$20
@@ -128,7 +128,7 @@ pool QuakeSpell_ExecuteBolts:
 ; ==============================================================================
 
     ; \task A bit iffy on the labels in this routine too.
-; $043718-$04378D LOCAL
+; $043718-$04378D LOCAL JUMP LOCATION
 QuakeSpell_ExecuteBolts:
 {
     PHX
@@ -212,7 +212,7 @@ pool QuakeSpell_DrawFirstGroundBolts:
 
     ; \task Get deeper into the logic of this ancilla to get a better name
     ; for this, as we're still somewhat confused on how this spell progresses.
-; $043793-$04384E LOCAL
+; $043793-$04384E LOCAL JUMP LOCATION
 pool QuakeSpell_DrawFirstGroundBolts:
 {
     PHX

@@ -921,7 +921,7 @@ Dungeon_LoadRoom:
 
 ; ==============================================================================
 
-; $0088E4-$008915 LOCAL
+; $0088E4-$008915 LOCAL JUMP LOCATION
 Dungeon_DrawObjects:
 {
     ; Loads Level data?
@@ -966,7 +966,7 @@ Dungeon_DrawObjects:
 
 ; ==============================================================================
 
-; $008916-$00893B LOCAL
+; $008916-$00893B LOCAL JUMP LOCATION
 Dungeon_LoadType2Object:
 {
     ; This apparently loads doors...
@@ -990,7 +990,7 @@ Dungeon_LoadType2Object:
 
 ; ==============================================================================
 
-; $00893C-$0089DB LOCAL
+; $00893C-$0089DB LOCAL JUMP LOCATION
 Dungeon_LoadType1Object:
 {
     ; Loads a 3 byte object into a room
@@ -1088,7 +1088,7 @@ Dungeon_LoadType1Object:
 
 ; ==============================================================================
 
-; $0089DC-$008A43 LOCAL
+; $0089DC-$008A43 LOCAL JUMP LOCATION
 Dungeon_DrawFloors:
 {
     LDX.w #$001E
@@ -1156,7 +1156,7 @@ Dungeon_DrawFloors:
 
 ; ==============================================================================
 
-; $008A44-$008A88 LOCAL
+; $008A44-$008A88 LOCAL JUMP LOCATION
 {
     ; $0A = how many times to perform this routine's goal
     ; The routine draws a 32x32 pixel block from right to left
@@ -1610,7 +1610,7 @@ Object_DrawRectOf1x1s:
     JMP Object_Draw2x2
 }
 
-; $008D47-$008D5C LOCAL
+; $008D47-$008D5C LOCAL JUMP LOCATION
 {
     JSR $9216 ; $009216 IN ROM
     
@@ -1649,7 +1649,7 @@ Object_DrawRectOf1x1s:
     ; (this routine segues into Object_Draw3xN)
 }
     
-; $008D80-$008D9D LOCAL
+; $008D80-$008D9D LOCAL JUMP LOCATION
 Object_Draw3xN:
 {
     STA $0E
@@ -3934,7 +3934,7 @@ Object_Draw5x4:
 ; ==============================================================================
 
     ; \unused
-; $009B18-$009B1D LOCAL
+; $009B18-$009B1D LOCAL JUMP LOCATION
 {
     LDA.w #$0002
     
@@ -4042,7 +4042,7 @@ Object_SanctuaryMantle:
 
 ; ==============================================================================
 
-; $009BD9-$009BF7 LOCAL
+; $009BD9-$009BF7 LOCAL JUMP LOCATION
 Object_Draw2x3:
 {
     LDA.w $9B52, X : STA [$BF], Y
@@ -6629,7 +6629,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; $00AEF0-$00AF7E LOCAL
+; $00AEF0-$00AF7E LOCAL JUMP LOCATION
 {
     ; Store the offset into the tile map here.
     STY $08
@@ -6696,7 +6696,7 @@ Door_BlastWall:
 
 ; ==============================================================================
 
-; $00AF7F-$00AFC7 LOCAL
+; $00AF7F-$00AFC7 LOCAL JUMP LOCATION
 {
     LDA.w #$0000
     
@@ -6785,7 +6785,7 @@ Door_PrioritizeDownToQuadBoundary:
 
 ; ==============================================================================
 
-; $00B050-$00B091 LOCAL
+; $00B050-$00B091 LOCAL JUMP LOCATION
 {
     LDA.w #$0003
     
@@ -6842,7 +6842,7 @@ Door_AddFloorToggleProperty:
 
 ; ==============================================================================
 
-; $00B0AC-$00B0BD LOCAL
+; $00B0AC-$00B0BD LOCAL JUMP LOCATION
 Object_Size1to16:
 {
     ; used by objects needing variable width or height ranging from 0x01 to 0x10
@@ -6886,7 +6886,7 @@ Object_Size_1_to_15_or_26:
 
 ; ==============================================================================
 
-; $00B0CC-$00B0D9 LOCAL
+; $00B0CC-$00B0D9 LOCAL JUMP LOCATION
 Object_Size_1_to_15_or_32:
 {
     ; used by objects needing variable width or height ranging from 0x01 to 0x0F
@@ -6904,7 +6904,7 @@ Object_Size_1_to_15_or_32:
 
 ; ==============================================================================
 
-; $00B0DA-$00B190 LOCAL
+; $00B0DA-$00B190 LOCAL JUMP LOCATION
 Door_Register:
 {
     ; A represents the direction (0 - up, 1 - down, 2, 3 - left, 4 -right)
@@ -7011,7 +7011,7 @@ Door_Register:
 
 ; ==============================================================================
 
-; $00B191-$00B19D LOCAL
+; $00B191-$00B19D LOCAL JUMP LOCATION
 {
     STA $0E
     
@@ -7026,7 +7026,7 @@ Door_Register:
 ; ==============================================================================
 
     ; \unused
-; $00B19E-$00B1A3 LOCAL
+; $00B19E-$00B1A3 LOCAL JUMP LOCATION
 Door_Prioritize7x4_Unreferenced:
 {
     ; Unreferenced routine (And this doesn't do anything different from
@@ -7041,7 +7041,7 @@ Door_Prioritize7x4_Unreferenced:
 
 ; ==============================================================================
 
-; $00B1A4-$00B1E0 LOCAL
+; $00B1A4-$00B1E0 LOCAL JUMP LOCATION
 Door_Prioritize7x4:
 {
     ; adds priority bit to a 7 row by 4 column region of tiles 
@@ -7070,7 +7070,7 @@ Door_Prioritize7x4:
 ; ==============================================================================
 
     ; \unused
-; $00B1E1-$00B1E6 LOCAL
+; $00B1E1-$00B1E6 LOCAL JUMP LOCATION
 Door_Prioritize4x7:
 {
     TAX
@@ -7082,7 +7082,7 @@ Door_Prioritize4x7:
 
 ; ==============================================================================
 
-; $00B1E7-$00B21F LOCAL
+; $00B1E7-$00B21F LOCAL JUMP LOCATION
 Door_Prioritize4x5:
 {
     ; adds priority bit to a 4 row by 5 column region of tiles
@@ -7136,7 +7136,7 @@ Object_Draw2x4s_VariableOffset:
 ; ==============================================================================
 
 ; \unused
-; $00B254-$00B263 LOCAL
+; $00B254-$00B263 LOCAL JUMP LOCATION
 {
     STA $0E
     
@@ -7154,7 +7154,7 @@ Object_Draw2x4s_VariableOffset:
 ; ==============================================================================
 
 ; \unused
-; $00B264-$00B278 LOCAL
+; $00B264-$00B278 LOCAL JUMP LOCATION
 {
     LDA $B2 : BEQ .terminated
     
@@ -7175,7 +7175,7 @@ Object_Draw2x4s_VariableOffset:
 
 ; ==============================================================================
 
-; $00B279-$00B292 LOCAL
+; $00B279-$00B292 LOCAL JUMP LOCATION
 Object_Draw5x1:
 {
     LDA.w $9B52, X : STA [$BF], Y
@@ -7218,7 +7218,7 @@ Object_Draw5x1:
 
 ; ==============================================================================
 
-; $00B2AF-$00B2C9 LOCAL
+; $00B2AF-$00B2C9 LOCAL JUMP LOCATION
 Object_Draw2x2_AdvanceDown:
 {
     LDA.w $9B52, X : STA [$BF], Y
@@ -7233,7 +7233,7 @@ Object_Draw2x2_AdvanceDown:
 
 ; ==============================================================================
 
-; $00B2CA-$00B2E0 LOCAL
+; $00B2CA-$00B2E0 LOCAL JUMP LOCATION
 {
     INX #2
     INY #2
@@ -7582,7 +7582,7 @@ Object_BombableFloor:
 
 ; ==============================================================================
 
-; $00B493-$00B4D5 LOCAL
+; $00B493-$00B4D5 LOCAL JUMP LOCATION
 Object_Mole:
 {
     ; Single Mole (1.3.0x16)
@@ -7617,7 +7617,7 @@ Object_Mole:
 
 ; ==============================================================================
 
-; $00B4D6-$00B508 LOCAL
+; $00B4D6-$00B508 LOCAL JUMP LOCATION
 Dungeon_LoadBlock:
 {
     ; moveable block object
@@ -7644,7 +7644,7 @@ Dungeon_LoadBlock:
 
 ; ==============================================================================
 
-; $00B509-$00B53B LOCAL
+; $00B509-$00B53B LOCAL JUMP LOCATION
 Dungeon_LoadTorch:
 {
     ; Load special lightable torch objects
@@ -7702,7 +7702,7 @@ DungeonHeader_SpecialAdjustment:
 
 ; ==============================================================================
 
-; $00B564-$00B758 LOCAL
+; $00B564-$00B758 LOCAL JUMP LOCATION
 Dungeon_LoadHeader:
 {
     STZ $0642
@@ -7956,7 +7956,7 @@ Dungeon_LoadHeader:
 
 ; ==============================================================================
 
-; $00B759-$00B7EE LOCAL
+; $00B759-$00B7EE LOCAL JUMP LOCATION
 Dungeon_CheckAdjacentRoomOpenedDoors:
 {
     ; ARGUMENTS: A -> $04 and X -> $0E
@@ -8037,7 +8037,7 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
 
 ; ==============================================================================
 
-; $00B7EF-$00B83D LOCAL
+; $00B7EF-$00B83D LOCAL JUMP LOCATION
 Dungeon_LoadAdjacentRoomDoors:
 {
     STX $0E
@@ -8325,7 +8325,7 @@ Dungeon_LoadBasicAttr:
 
 ; ==============================================================================
 
-; $00B967-$00BDDA LOCAL
+; $00B967-$00BDDA LOCAL JUMP LOCATION
 Dungeon_LoadObjAttr:
 {
     REP #$30
@@ -8781,7 +8781,7 @@ Dungeon_LoadObjAttr:
 
 ; ==============================================================================
 
-; $00BDDB-$00BE16 LOCAL
+; $00BDDB-$00BE16 LOCAL JUMP LOCATION
 Dungeon_SetChestAttr:
 {
     ; This routine loads tile attribute information for chests and big chests
@@ -8815,7 +8815,7 @@ Dungeon_SetChestAttr:
 
 ; ==============================================================================
 
-; $00BE17-$00BE34 LOCAL
+; $00BE17-$00BE34 LOCAL JUMP LOCATION
 Dungeon_LoadDoorAttr:
 {
     REP #$30
@@ -8844,7 +8844,7 @@ Dungeon_LoadDoorAttr:
 
 ; ==============================================================================
 
-; $00BE35-$00BFB1 LOCAL
+; $00BE35-$00BFB1 LOCAL JUMP LOCATION
 Dungeon_LoadSingleDoorAttr:
 {
     ; Low byte is the object type.
@@ -9040,7 +9040,7 @@ Door_LoadBlastWallAttrStub:
 
 ; ==============================================================================
 
-; $00BFC1-$00C084 LOCAL
+; $00BFC1-$00C084 LOCAL JUMP LOCATION
 Door_LoadBlastWallAttr:
 {
     LDA $19C0, Y : AND.w #$0002 : BNE .leftOrRightDoor
@@ -9206,7 +9206,7 @@ Door_LoadBlastWallAttr:
 
 ; ==============================================================================
 
-; $00C1BA-$00C21B LOCAL
+; $00C1BA-$00C21B LOCAL JUMP LOCATION
 {
     ; The code in here seems experimental, and I don't think the object
     ; that would use this is even used the actual game anywhere.
@@ -9482,7 +9482,7 @@ Dungeon_DetectStaircaseEasyOut:
 
 ; ==============================================================================
 
-; $00C329-$00C431 LOCAL
+; $00C329-$00C431 LOCAL JUMP LOCATION
 Dungeon_DetectStaircase:
 {
     REP #$20
@@ -10001,7 +10001,7 @@ Dungeon_DetectStaircase:
     RTS
 }
 
-; $00C5CF-$00C628 LOCAL
+; $00C5CF-$00C628 LOCAL JUMP LOCATION
 {
     STA $11
     
@@ -10545,7 +10545,7 @@ Dungeon_DetectStaircase:
     db -1, -1,  1,  0
 }
 
-; $00C969-$00C98A LOCAL
+; $00C969-$00C98A LOCAL JUMP LOCATION
 {
     LDA $1A : AND.w #$0001 : ASL A : TAX
     
@@ -10637,7 +10637,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; $00CA17-$00CA65 LOCAL
+; $00CA17-$00CA65 LOCAL JUMP LOCATION
 {
     REP #$10
     
@@ -10686,7 +10686,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; $00CA66-$00CA74 LOCAL
+; $00CA66-$00CA74 LOCAL JUMP LOCATION
 {
     LDA.w #$2200 : CLC : ADC $041C : STA $041C
     
@@ -10697,7 +10697,7 @@ Dungeon_DetectStaircase:
 
 ; ==============================================================================
 
-; $00CA75-$00CA93 LOCAL
+; $00CA75-$00CA93 LOCAL JUMP LOCATION
 {
     LDX $0E
     
@@ -11052,7 +11052,7 @@ Tag_Watergate:
 
 ; ==============================================================================
 
-; $00CC95-$00CD38 LOCAL
+; $00CC95-$00CD38 LOCAL JUMP LOCATION
 Object_WatergateChannelWater:
 {
     STA $B7
@@ -11137,7 +11137,7 @@ Object_WatergateChannelWater:
 
 ; ==============================================================================
 
-; $00CD39-$00CDA4 LOCAL
+; $00CD39-$00CDA4 LOCAL JUMP LOCATION
 {
     LDA $02E4 : AND.w #$00FF : BNE .matchFailed
     
@@ -11198,7 +11198,7 @@ Object_WatergateChannelWater:
 
 ; ==============================================================================
 
-; $00CDA5-$00CDCB LOCAL
+; $00CDA5-$00CDCB LOCAL JUMP LOCATION
 {
     LDA $22 : CLC : ADC.w #$FFFF : AND.w #$01F8 : LSR #3 : STA $00
     LDA $20 : CLC : ADC.w #$000E : AND.w #$01F8 : ASL #3 : ORA $00
@@ -11218,7 +11218,7 @@ Object_WatergateChannelWater:
 
     !star_tiles = $3B3B
 
-; $00CDCC-$00CE5B LOCAL
+; $00CDCC-$00CE5B LOCAL JUMP LOCATION
 {
     LDA $02E4 : AND.w #$00FF : BNE _CD39_matchFailed
     
@@ -11885,7 +11885,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; $00D2E8-$00D310 LOCAL
+; $00D2E8-$00D310 LOCAL JUMP LOCATION
 {
     LDX $19A0, Y : STX $08
     
@@ -11916,7 +11916,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; $00D311-$00D339 LOCAL
+; $00D311-$00D339 LOCAL JUMP LOCATION
 {
     ; Load door's tilemap address
     LDX $19A0, Y : STX $08
@@ -11949,7 +11949,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; $00D33A-$00D364 LOCAL
+; $00D33A-$00D364 LOCAL JUMP LOCATION
 {
     LDX $19A0, Y : STX $08
     
@@ -11980,7 +11980,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; $00D365-$00D372 LOCAL
+; $00D365-$00D372 LOCAL JUMP LOCATION
 {
     LDX $19A0, Y : STX $08
     
@@ -11991,7 +11991,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; $00D373-$00D38E LOCAL
+; $00D373-$00D38E LOCAL JUMP LOCATION
 {
     STZ $045E
     STZ $0C
@@ -12268,7 +12268,7 @@ Dungeon_AnimateDestroyingWeakDoor:
 
 ; ==============================================================================
 
-; $00D510-$00D5A9 LOCAL
+; $00D510-$00D5A9 LOCAL JUMP LOCATION
 Dungeon_LoadToggleDoorAttr:
 {
     LDX $068E
@@ -12339,7 +12339,7 @@ Dungeon_LoadToggleDoorAttr:
     RTS
 }
 
-; $00D5AA-$00D6C0 LOCAL
+; $00D5AA-$00D6C0 LOCAL JUMP LOCATION
 Object_RefreshStaircaseAttr:
 {
     LDA.w #$3030 : STA $00
@@ -12664,7 +12664,7 @@ PushBlock_Handler:
 
 ; ==============================================================================
 
-; $00D828-$00D8D3 LOCAL
+; $00D828-$00D8D3 LOCAL JUMP LOCATION
 Dungeon_EraseInteractive2x2:
 {
     LDX $1000
@@ -12737,7 +12737,7 @@ Dungeon_EraseInteractive2x2:
 
 ; ==============================================================================
 
-; $00D8D4-$00D98D LOCAL
+; $00D8D4-$00D98D LOCAL JUMP LOCATION
 PushBlock_StoppedMoving:
 {
     LDA $0540, Y : AND.w #$4000 : BNE .blockTriggersSomething
@@ -12831,7 +12831,7 @@ PushBlock_StoppedMoving:
 
 ; ==============================================================================
 
-; $00D98E-$00D9B9 LOCAL
+; $00D98E-$00D9B9 LOCAL JUMP LOCATION
 Dungeon_GetInteractiveVramAddr:
 {
     !tile_offset = $0E
@@ -13069,7 +13069,7 @@ Dungeon_ToolAndTileInteraction:
 
 ; ==============================================================================
 
-; $00DB41-$00DB68 LOCAL
+; $00DB41-$00DB68 LOCAL JUMP LOCATION
 Dungeon_GetUprootedTerrainSpawnCoords:
 {
     LDY $042C
@@ -13099,7 +13099,7 @@ Dungeon_GetUprootedTerrainSpawnCoords:
 
 ; ==============================================================================
 
-; $00E6B2-$00E794 LOCAL
+; $00E6B2-$00E794 LOCAL JUMP LOCATION
 Dungeon_LoadSecret:
 {
     ; Seems to load "secrets" data from ROM when a secret is exposed
@@ -13308,7 +13308,7 @@ Dungeon_SpriteInducedTilemapUpdate:
 
 ; ==============================================================================
 
-; $00E7DF-$00E898 LOCAL
+; $00E7DF-$00E898 LOCAL JUMP LOCATION
 Dungeon_PrepSpriteInducedDma:
 {
     ; Convert coordiates to tilemap position.
@@ -13379,7 +13379,7 @@ Dungeon_PrepSpriteInducedDma:
 
 ; ==============================================================================
 
-; $00E899-$00E8BC LOCAL
+; $00E899-$00E8BC LOCAL JUMP LOCATION
 Dungeon_GetRelativeVramAddr_2:
 {
     CLC : ADC $06 : STA $0E
@@ -13452,7 +13452,7 @@ Dungeon_ClearRupeeTile:
 
 ; ==============================================================================
 
-; $00E94A-$00E96D LOCAL
+; $00E94A-$00E96D LOCAL JUMP LOCATION
 Dungeon_GetRelativeVramAddr:
 {
     CLC : ADC $06 : STA $0C
@@ -14025,7 +14025,7 @@ Dungeon_GetRupeeChestMinigamePrize:
     
 ; ==============================================================================
 
-; $00EF0F-$00EF33 LOCAL
+; $00EF0F-$00EF33 LOCAL JUMP LOCATION
 Dungeon_GetKeyedObjectRelativeVramAddr:
 {
     ; In-game tilemap address format for dungeons:
@@ -15015,7 +15015,7 @@ Object_OpenGanonDoor:
 ; ==============================================================================
 
     ; \unused
-; $00F6B4-$00F745 LOCAL
+; $00F6B4-$00F745 LOCAL JUMP LOCATION
 {
     ; Sets up DMA transfers for some unknown purpose.
     
@@ -15078,7 +15078,7 @@ Object_OpenGanonDoor:
 
 ; ==============================================================================
 
-; $00F746-$00F7F0 LOCAL
+; $00F746-$00F7F0 LOCAL JUMP LOCATION
 Dungeon_PrepOverlayDma:
 {
     ; Preps DMA transfers for updating tilemap during NMI
@@ -15167,7 +15167,7 @@ Dungeon_PrepOverlayDma:
 
 ; ==============================================================================
 
-; $00F811-$00F907 LOCAL
+; $00F811-$00F907 LOCAL JUMP LOCATION
 {
     ; Routine used with blast walls to prep vram updates for nmi.
     
@@ -15260,7 +15260,7 @@ Dungeon_PrepOverlayDma:
 ; ==============================================================================
 
     ; \unused
-; $00F908-$00F966 LOCAL
+; $00F908-$00F966 LOCAL JUMP LOCATION
 {
     ; This routine appears to be unused and unreferenced in the rom so far...
     ; I actually only noticed it by seeing that there was a gap in addresses
@@ -15308,7 +15308,7 @@ Dungeon_PrepOverlayDma:
 
 ; ==============================================================================
 
-; $00F967-$00F97F LOCAL
+; $00F967-$00F97F LOCAL JUMP LOCATION
 Dungeon_DrawOverlay:
 {
     .nextObject
@@ -15337,7 +15337,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; $00F980-$00FA49 LOCAL
+; $00F980-$00FA49 LOCAL JUMP LOCATION
 {
     ; Dungeon overlay object "drawer".
     ; Note that it doesn't apply attribute modifications.
@@ -15398,7 +15398,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; $00FA4A-$00FB0A LOCAL
+; $00FA4A-$00FB0A LOCAL JUMP LOCATION
 {
     LDA $0460 : AND.w #$00FF : STA $04
     
@@ -15843,7 +15843,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; $00FD79-$00FD91 LOCAL
+; $00FD79-$00FD91 LOCAL JUMP LOCATION
 {
     ; Used in opening doors and closing doors.... not exactly sure what
     ; the point is though. Maybe it selects the offset of the tiles
@@ -15924,7 +15924,7 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
-; $00FE41-$00FEAB LOCAL
+; $00FE41-$00FEAB LOCAL JUMP LOCATION
 Dungeon_ApplyOverlayAttr:
 {
     ; This routine takes performs the modifications to the tile attribute

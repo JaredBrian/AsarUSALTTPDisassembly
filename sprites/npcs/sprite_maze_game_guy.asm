@@ -15,7 +15,7 @@ Sprite_MazeGameGuyLong:
 
 ; ==============================================================================
 
-; $06CBF2-$06CC2C LOCAL
+; $06CBF2-$06CC2C LOCAL JUMP LOCATION
 Sprite_MazeGameGuy:
 {
     JSL MazeGameGuy_Draw

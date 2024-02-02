@@ -119,7 +119,7 @@ pool FluteBoyOstrich_Draw:
 
 ; ==============================================================================
 
-; $0F1A4B-$0F1A6A LOCAL
+; $0F1A4B-$0F1A6A LOCAL JUMP LOCATION
 FluteBoyOstrich_Draw:
 {
     LDA.b #$00   : XBA

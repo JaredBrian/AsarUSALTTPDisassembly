@@ -31,7 +31,7 @@ Sprite_InnKeeperLong:
 
 ; ==============================================================================
 
-; $02E3AF-$02E3CB LOCAL
+; $02E3AF-$02E3CB LOCAL JUMP LOCATION
 Sprite_InnKeeper:
 {
     JSR InnKeeper_Draw
@@ -60,7 +60,7 @@ pool InnKeeper_Draw:
 
 ; ==============================================================================
 
-; $02E3DC-$02E3F2 LOCAL
+; $02E3DC-$02E3F2 LOCAL JUMP LOCATION
 InnKeeper_Draw:
 {
     LDA.b #$02 : STA $06

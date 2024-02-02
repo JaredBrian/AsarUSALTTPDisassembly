@@ -17,7 +17,7 @@ Sprite_BottleVendorLong:
 
 ; ==============================================================================
 
-; $02EA79-$02EABD LOCAL
+; $02EA79-$02EABD LOCAL JUMP LOCATION
 Sprite_BottleVendor:
 {
     ; Note: $0E90 is 0 - normal, 1 - good bee is present, 0x80 - fish
@@ -252,7 +252,7 @@ pool BottleVendor_Draw:
 
 ; ==============================================================================
 
-; $02EBA7-$02EBC6 LOCAL
+; $02EBA7-$02EBC6 LOCAL JUMP LOCATION
 BottleVendor_Draw:
 {
     LDA.b #$02 : STA $06

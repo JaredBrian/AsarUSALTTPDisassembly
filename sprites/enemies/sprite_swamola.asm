@@ -262,7 +262,7 @@ Swamola_WiggleTowardsTarget:
 
 ; ==============================================================================
 
-; $0E9E13-$0E9E31 LOCAL
+; $0E9E13-$0E9E31 LOCAL JUMP LOCATION
 Swamola_PursueTargetCoord:
 {
     LDA $7FFD5C, X : STA $04
@@ -341,7 +341,7 @@ Swamola_Submerge:
 
 ; ==============================================================================
 
-; $0E9EAA-$0E9ECD LOCAL
+; $0E9EAA-$0E9ECD LOCAL JUMP LOCATION
 Swamola_SpawnRipples:
 {
     LDA.b #$CF : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -364,7 +364,7 @@ Swamola_SpawnRipples:
 
 ; ==============================================================================
 
-; $0E9ECE-$0E9EDC LOCAL
+; $0E9ECE-$0E9EDC LOCAL JUMP LOCATION
 Sprite_SwamolaRipples:
 {
     JSR SwamolaRipples_Draw
@@ -400,7 +400,7 @@ pool SwamolaRipples_Draw:
 
 ; ==============================================================================
 
-; $0E9F1D-$0E9F3B LOCAL
+; $0E9F1D-$0E9F3B LOCAL JUMP LOCATION
 SwamolaRipples_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB
@@ -438,7 +438,7 @@ pool Swamola_Draw:
 
 ; ==============================================================================
 
-; $0E9F64-$0EA03B LOCAL
+; $0E9F64-$0EA03B LOCAL JUMP LOCATION
 Swamola_Draw:
 {
     LDA $0D50, X : STA $01

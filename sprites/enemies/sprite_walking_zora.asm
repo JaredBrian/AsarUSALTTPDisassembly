@@ -259,7 +259,7 @@ pool WalkingZora_Draw:
 
 ; ==============================================================================
 
-; $029F08-$029FAB LOCAL
+; $029F08-$029FAB LOCAL JUMP LOCATION
 WalkingZora_Draw:
 {
     JSR WalkingZora_DrawWaterRipple
@@ -363,7 +363,7 @@ pool Sprite_DrawWaterRipple:
 
 ; ==============================================================================
 
-; $029FE0-$029FF9 LOCAL
+; $029FE0-$029FF9 LOCAL JUMP LOCATION
 WalkingZora_DrawWaterRipple:
 {
     LDA $0EC0, X : BEQ .not_in_shallow_water

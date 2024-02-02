@@ -291,7 +291,7 @@ pool Bomber_SpawnPellet:
 
 ; ==============================================================================
 
-; $0F0F81-$0F0FDE LOCAL
+; $0F0F81-$0F0FDE LOCAL JUMP LOCATION
 Bomber_SpawnPellet:
 {
     LDA.b #$A8 : JSL Sprite_SpawnDynamically : BMI .spawn_failed

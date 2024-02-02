@@ -207,7 +207,7 @@ Sprite_BounceFromTileCollisionLong:
 
 ; ==============================================================================
 
-; $0EC77D-$0EC7EA LOCAL
+; $0EC77D-$0EC7EA LOCAL JUMP LOCATION
 Hokbok_Draw:
 {
     JSR Sprite4_PrepOamCoord

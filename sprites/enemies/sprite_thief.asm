@@ -218,7 +218,7 @@ Thief_StealShit:
 
 ; ==============================================================================
 
-; $0ECA24-$0ECA4B LOCAL
+; $0ECA24-$0ECA4B LOCAL JUMP LOCATION
 Thief_ScanForBooty:
 {
     LDY.b #$0F
@@ -256,7 +256,7 @@ Thief_ScanForBooty:
 
 ; ==============================================================================
 
-; $0ECA4C-$0ECA9D LOCAL
+; $0ECA4C-$0ECA9D LOCAL JUMP LOCATION
 Thief_TrackDownBooty:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .speed_adjustment_delay
@@ -303,7 +303,7 @@ Thief_TrackDownBooty:
 
 ; ==============================================================================
 
-; $0ECA9E-$0ECAF1 LOCAL
+; $0ECA9E-$0ECAF1 LOCAL JUMP LOCATION
 Thief_AttemptBootyGrab:
 {
     LDA $0D10, Y : STA $04
@@ -341,7 +341,7 @@ Thief_AttemptBootyGrab:
 
 ; ==============================================================================
 
-; $0ECAF2-$0ECB1F LOCAL
+; $0ECAF2-$0ECB1F LOCAL JUMP LOCATION
 Thief_CheckPlayerCollision:
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_bump_player
@@ -386,7 +386,7 @@ Thief_CheckPlayerCollision:
 
 ; ==============================================================================
 
-; $0ECB30-$0ECBD5 LOCAL
+; $0ECB30-$0ECBD5 LOCAL JUMP LOCATION
 Thief_DislodgePlayerItems:
 {
     LDA.b #$05 : STA $0FB5

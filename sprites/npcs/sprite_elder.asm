@@ -14,7 +14,7 @@ Sprite_ElderLong:
 
 ; ==============================================================================
 
-; $02F0D5-$02F0E9 LOCAL
+; $02F0D5-$02F0E9 LOCAL JUMP LOCATION
 Sprite_Elder:
 {
     JSR Elder_Draw
@@ -280,7 +280,7 @@ Sahasrahla_ShamelesslyPromoteIceRod:
 
 ; ==============================================================================
 
-; $02F23A-$02F259 LOCAL
+; $02F23A-$02F259 LOCAL JUMP LOCATION
 Elder_Draw:
 {
     ; Sahasralah / Aginah graphics selector

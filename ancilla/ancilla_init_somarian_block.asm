@@ -154,7 +154,7 @@ pool SomarianBlock_CheckForTransitLine:
 
 ; ==============================================================================
 
-; $046191-$0461F8 LOCAL
+; $046191-$0461F8 LOCAL JUMP LOCATION
 SomarianBlock_CheckForTransitLine:
 {
     ; If there are no transit lines, we need not even worry about this.

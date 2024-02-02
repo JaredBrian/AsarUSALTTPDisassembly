@@ -248,7 +248,7 @@ pool DebirandoPit_Draw:
 
 ; ==============================================================================
 
-; $0286E4-$02874C LOCAL
+; $0286E4-$02874C LOCAL JUMP LOCATION
 DebirandoPit_Draw:
 {
     JSR Sprite2_PrepOamCoord

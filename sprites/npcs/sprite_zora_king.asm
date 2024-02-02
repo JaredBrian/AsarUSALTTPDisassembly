@@ -377,7 +377,7 @@ Sprite_SpawnSplashRingLong:
 
 ; ==============================================================================
 
-; $029B40-$029BBA LOCAL
+; $029B40-$029BBA LOCAL JUMP LOCATION
 Sprite_SpawnSplashRing:
 {
     LDA.b #$24 : JSL Sound_SetSfx2PanLong
@@ -494,7 +494,7 @@ pool ZoraKing_Draw:
 
 ; ==============================================================================
 
-; $029CAB-$029D49 LOCAL
+; $029CAB-$029D49 LOCAL JUMP LOCATION
 ZoraKing_Draw:
 {
     JSR Sprite2_PrepOamCoord

@@ -249,7 +249,7 @@ pool Pirogusu_SpawnSplashGarnish:
 
 ; ==============================================================================
 
-; $0F2897-$0F2902 LOCAL
+; $0F2897-$0F2902 LOCAL JUMP LOCATION
 Pirogusu_SpawnSplashGarnish:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .garnish_delay
@@ -316,7 +316,7 @@ pool Pirogusu_Draw:
 
 ; ==============================================================================
 
-; $0F293B-$0F297E LOCAL
+; $0F293B-$0F297E LOCAL JUMP LOCATION
 Pirogusu_Draw:
 {
     LDY $0D90, X

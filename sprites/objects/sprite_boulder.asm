@@ -193,7 +193,7 @@ pool Sprite_DrawLargeShadow:
 
 ; ==============================================================================
 
-; $0ED185-$0ED1A7 LOCAL
+; $0ED185-$0ED1A7 LOCAL JUMP LOCATION
 Boulder_Draw:
 {
     LDA.b #$00   : XBA

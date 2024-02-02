@@ -191,7 +191,7 @@ Sprite_EnemyArrow:
 
 ; ==============================================================================
 
-; $033867-$0338CD LOCAL
+; $033867-$0338CD LOCAL JUMP LOCATION
 EnemyArrow_Draw:
 {
     JSR Sprite_PrepOamCoord

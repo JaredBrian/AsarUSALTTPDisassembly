@@ -120,7 +120,7 @@ Sprite_CoveredRupeeCrab:
 
 ; ==============================================================================
 
-; $03291D-$032A0B LOCAL
+; $03291D-$032A0B LOCAL JUMP LOCATION
 Sprite_RupeeCrab:
 {
     JSR Sprite_PrepAndDrawSingleLarge
@@ -252,10 +252,10 @@ Sprite_CheckIfLiftedPermissiveLong:
 
 ; ==============================================================================
 
-    ; \wtf Don't ask me why this is needed rather than just calling the routine
-    ; directly.
-    ; \optimize See the wtf above.
-; $032A14-$032A17 LOCAL
+; \wtf Don't ask me why this is needed rather than just calling the routine
+; directly.
+; \optimize See the wtf above.
+; $032A14-$032A17 LOCAL JUMP LOCATION
 Sprite_CheckIfLiftedPermissiveWrapper:
 {
     JSR Sprite_CheckIfLiftedPermissive
@@ -283,7 +283,7 @@ pool CoveredRupeeCrab_Draw:
 
 ; ==============================================================================
 
-; $032A48-$032ABD LOCAL
+; $032A48-$032ABD LOCAL JUMP LOCATION
 CoveredRupeeCrab_Draw:
 {
     JSR Sprite_PrepOamCoord

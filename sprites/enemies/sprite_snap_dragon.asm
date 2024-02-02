@@ -213,7 +213,7 @@ pool SnapDragon_Draw:
 
 ; ==============================================================================
 
-; $031E02-$031E1E LOCAL
+; $031E02-$031E1E LOCAL JUMP LOCATION
 SnapDragon_Draw:
 {
     LDA #$00 : XBA

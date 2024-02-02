@@ -30,7 +30,7 @@ pool SpritePrep_UncleAndSage:
 
 ; ==============================================================================
 
-; $02DA3D-$02DB22 LOCAL
+; $02DA3D-$02DB22 LOCAL JUMP LOCATION
 SpritePrep_UncleAndSage:
 {
     LDA $A0 : CMP.b #$12 : BEQ .in_sanctuary
@@ -155,7 +155,7 @@ pool Sage_SpawnMantle:
 
 ; ==============================================================================
 
-; $02DB27-$02DB85 LOCAL
+; $02DB27-$02DB85 LOCAL JUMP LOCATION
 Sage_SpawnMantle:
 {
     INC $0DDF
@@ -216,7 +216,7 @@ Sprite_UncleAndSageLong:
 
 ; ==============================================================================
 
-; $02DB8E-$02DB9A LOCAL
+; $02DB8E-$02DB9A LOCAL JUMP LOCATION
 Sprite_UncleAndSage:
 {
     LDA $0E90, X
@@ -402,7 +402,7 @@ pool SageMantle_Draw:
 
 ; ==============================================================================
 
-; $02DC8A-$02DCA1 LOCAL
+; $02DC8A-$02DCA1 LOCAL JUMP LOCATION
 SageMantle_Draw:
 {
     ; $2DC6A

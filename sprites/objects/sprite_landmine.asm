@@ -82,7 +82,7 @@ pool Landmine_Draw:
 
 ; ==============================================================================
 
-; $0E810C-$0E8128 LOCAL
+; $0E810C-$0E8128 LOCAL JUMP LOCATION
 Landmine_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB

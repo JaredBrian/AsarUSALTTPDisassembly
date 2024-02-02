@@ -297,7 +297,7 @@ pool MasterSword_DrawLightBall:
 
 ; ==============================================================================
 
-; $028A94-$028AB5 LOCAL
+; $028A94-$028AB5 LOCAL JUMP LOCATION
 MasterSword_DrawLightBall:
 {
     ; Generic routine that can draw either the light fountain (bigger) 
@@ -328,7 +328,7 @@ MasterSword_DrawLightBall:
 
 ; ==============================================================================
 
-; $028AB6-$028ACF LOCAL
+; $028AB6-$028ACF LOCAL JUMP LOCATION
 MasterSword_SpawnLightWell:
 {
     LDA.b #$62
@@ -345,7 +345,7 @@ MasterSword_SpawnLightWell:
 
 ; ==============================================================================
 
-; $028AD0-$028AE9 LOCAL
+; $028AD0-$028AE9 LOCAL JUMP LOCATION
 MasterSword_SpawnLightFountain:
 {
     LDA.b #$62
@@ -430,7 +430,7 @@ pool MasterSword_SpawnLightBeams:
 
 ; ==============================================================================
 
-; $028B20-$028B61 LOCAL
+; $028B20-$028B61 LOCAL JUMP LOCATION
 MasterLightBeam_SpawnAnotherBeam:
 {
     ; Not sure if the name is 100% accurate, but I can always change it
@@ -463,7 +463,7 @@ MasterLightBeam_SpawnAnotherBeam:
 
 ; ==============================================================================
 
-; $028B62-$028CD2 LOCAL
+; $028B62-$028CD2 LOCAL JUMP LOCATION
 MasterSword_SpawnLightBeams:
 {
     PHY : PHA
@@ -641,7 +641,7 @@ MasterSword_SpawnLightBeams:
 
 ; ==============================================================================
 
-; $028CD3-$028D28 LOCAL
+; $028CD3-$028D28 LOCAL JUMP LOCATION
 MasterSword_SpawnPendant:
 {
     PHA
@@ -795,7 +795,7 @@ pool MasterSword_Draw:
 
 ; ==============================================================================
 
-; $028DA8-$028DD7 LOCAL
+; $028DA8-$028DD7 LOCAL JUMP LOCATION
 MasterSword_Draw:
 {
     JSR Sprite2_PrepOamCoord

@@ -52,7 +52,7 @@ pool DoorDebris_Draw:
 
 ; ==============================================================================
 
-; $042091-$042120 LOCAL
+; $042091-$042120 LOCAL JUMP LOCATION
 DoorDebris_Draw:
 {
     JSR Ancilla_PrepAdjustedOamCoord

@@ -148,7 +148,7 @@ Ancilla_Gravestone:
 
 ; ==============================================================================
 
-; $046E57-$046EDD LOCAL
+; $046E57-$046EDD LOCAL JUMP LOCATION
 Gravestone_RepelPlayerAdvance:
 {
     LDA $0BFA, X : STA $00

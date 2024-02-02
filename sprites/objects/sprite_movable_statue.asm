@@ -177,7 +177,7 @@ pool MovableStatue_CheckFullSwitchCovering:
 
 ; ==============================================================================
 
-; $034203-$03424B LOCAL
+; $034203-$03424B LOCAL JUMP LOCATION
 MovableStatue_CheckFullSwitchCovering:
 {
     LDY.b #$03
@@ -233,7 +233,7 @@ pool MovableStatue_Draw:
 
 ; ==============================================================================
 
-; $034264-$034276 LOCAL
+; $034264-$034276 LOCAL JUMP LOCATION
 MovableStatue_Draw:
 {
     REP #$20
@@ -251,7 +251,7 @@ MovableStatue_Draw:
 
 ; ==============================================================================
 
-; $034277-$0342E4 LOCAL
+; $034277-$0342E4 LOCAL JUMP LOCATION
 {
     LDY.b #$0F
     

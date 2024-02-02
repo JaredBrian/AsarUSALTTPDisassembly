@@ -24,7 +24,7 @@ Sprite_UnusedTelepathLong:
     ; this sprite is drawn. I can only assume that the graphics were removed
     ; at some point during development.
     
-; $06C6E6-$06C706 LOCAL
+; $06C6E6-$06C706 LOCAL JUMP LOCATION
 Sprite_UnusedTelepath:
 {
     JSR UnusedTelepath_Draw
@@ -59,7 +59,7 @@ pool UnusedTelepath_Draw:
 
 ; ==============================================================================
 
-; $06C737-$06C759 LOCAL
+; $06C737-$06C759 LOCAL JUMP LOCATION
 UnusedTelepath_Draw:
 {
     LDA.b #$03 : STA $06

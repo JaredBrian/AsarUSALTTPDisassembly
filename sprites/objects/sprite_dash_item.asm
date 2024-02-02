@@ -15,7 +15,7 @@ Sprite_DashItemLong:
 
 ; ==============================================================================
 
-; $02FBF7-$02FC03 LOCAL
+; $02FBF7-$02FC03 LOCAL JUMP LOCATION
 Sprite_DashItem:
 {
     ; Based on the item's appearance, different code is
@@ -385,7 +385,7 @@ DashTreeTop_DancingLeaves:
 
 ; ==============================================================================
 
-; $02FE6F-$02FF38 LOCAL
+; $02FE6F-$02FF38 LOCAL JUMP LOCATION
 DashTreeTop_Draw:
 {
     JSR Sprite2_PrepOamCoord

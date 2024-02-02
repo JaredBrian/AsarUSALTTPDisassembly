@@ -164,7 +164,7 @@ pool EnergyBall_DrawTrail:
 
 ; ==============================================================================
 
-; $0F5B54-$0F5B89 LOCAL
+; $0F5B54-$0F5B89 LOCAL JUMP LOCATION
 EnergyBall_DrawTrail:
 {
     LDA $0DC0, X : CMP.b #$02 : BEQ .is_small
@@ -217,7 +217,7 @@ pool SeekerEnergyBall_SplitIntoSixSmaller:
 
 ; ==============================================================================
 
-; $0F5B96-$0F5BFD LOCAL
+; $0F5B96-$0F5BFD LOCAL JUMP LOCATION
 SeekerEnergyBall_SplitIntoSixSmaller:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
@@ -280,7 +280,7 @@ pool SeekerEnergyBall_Draw:
 
 ; ==============================================================================
 
-; $0F5C3E-$0F5C5A LOCAL
+; $0F5C3E-$0F5C5A LOCAL JUMP LOCATION
 SeekerEnergyBall_Draw:
 {
     LDA.b #$00   : XBA

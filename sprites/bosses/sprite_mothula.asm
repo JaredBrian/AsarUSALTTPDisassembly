@@ -16,7 +16,7 @@ Sprite_Mothula:
 
 ; ==============================================================================
 
-; $0F3E88-$0F3ED7 LOCAL
+; $0F3E88-$0F3ED7 LOCAL JUMP LOCATION
 Mothula_Main:
 {
     JSL Mothula_DrawLong
@@ -229,7 +229,7 @@ pool Mothula_FlapWings:
 
 ; ==============================================================================
 
-; $0F3F9F-$0F3FB8 LOCAL
+; $0F3F9F-$0F3FB8 LOCAL JUMP LOCATION
 Mothula_FlapWings:
 {
     INC $0E80, X
@@ -354,7 +354,7 @@ pool Mothula_ActivateMovingSpikeBlock:
 
 ; ==============================================================================
 
-; $0F4088-$0F4102 LOCAL
+; $0F4088-$0F4102 LOCAL JUMP LOCATION
 Mothula_ActivateMovingSpikeBlock:
 {
     DEC !spike_activation_timer, X : BNE .activation_delay

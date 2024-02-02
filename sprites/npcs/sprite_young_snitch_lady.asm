@@ -16,7 +16,7 @@ Sprite_YoungSnitchLadyLong:
 
 ; ==============================================================================
 
-; $02E2F2-$02E2FE LOCAL
+; $02E2F2-$02E2FE LOCAL JUMP LOCATION
 Sprite_YoungSnitchLady:
 {
     LDA $0D80, X : CMP.b #$02 : BCS .not_visible
@@ -54,7 +54,7 @@ pool YoungSnitchLady_Draw:
 
 ; ==============================================================================
 
-; $02E37F-$02E3A2 LOCAL
+; $02E37F-$02E3A2 LOCAL JUMP LOCATION
 YoungSnitchLady_Draw:
 {
     LDA.b #$02 : STA $06

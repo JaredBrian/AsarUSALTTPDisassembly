@@ -68,7 +68,7 @@ Polyhedral_InitThread:
     BRA .wait
 }
 
-; $04F83D-$04F863 LOCAL
+; $04F83D-$04F863 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -88,7 +88,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $04F864-$04F8FA LOCAL
+; $04F864-$04F8FA LOCAL JUMP LOCATION
 {
     SEP #$30
     
@@ -473,7 +473,7 @@ Polyhedral_InitThread:
     JMP .beta
 }
 
-; $04FACA-$04FAD6 LOCAL
+; $04FACA-$04FAD6 LOCAL JUMP LOCATION
 {
     LDA $01 : BNE .BRANCH_4FAD7_external_1
     
@@ -760,7 +760,7 @@ Polyhedral_InitThread:
     RTL
 }
 
-; $04FDCF-$04FE93 LOCAL
+; $04FDCF-$04FE93 LOCAL JUMP LOCATION
 {
     LDA $E6 : AND.b #$07 : ASL A : TAY
     
@@ -836,7 +836,7 @@ Polyhedral_InitThread:
     dw $8080, $C0C0, $E0E0, $F0F0, $F8F8, $FCFC, $FEFE, $FFFF
 }
 
-; $04FEB4-$04FF1D LOCAL
+; $04FEB4-$04FF1D LOCAL JUMP LOCATION
 {
     .loop
     
@@ -918,7 +918,7 @@ Polyhedral_InitThread:
     RTS
 }
 
-; $04FF1E-$04FF8B LOCAL
+; $04FF1E-$04FF8B LOCAL JUMP LOCATION
 {
     .loop
     

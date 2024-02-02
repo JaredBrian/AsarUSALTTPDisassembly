@@ -230,7 +230,7 @@ pool Zora_Surfacing:
 
 ; ==============================================================================
 
-; $0297C5-$0297E8 LOCAL
+; $0297C5-$0297E8 LOCAL JUMP LOCATION
 Zora_Surfacing:
 {
     LDA $0DF0, X : STA $0BA0, X : BNE .delay
@@ -264,7 +264,7 @@ pool Zora_Attack:
 
 ; ==============================================================================
 
-; $0297F1-$029817 LOCAL
+; $0297F1-$029817 LOCAL JUMP LOCATION
 Zora_Attack:
 {
     JSR Sprite2_CheckDamage
@@ -308,7 +308,7 @@ pool Zora_Submerging:
 
 ; ==============================================================================
 
-; $029824-$02983E LOCAL
+; $029824-$02983E LOCAL JUMP LOCATION
 Zora_Submerging:
 {
     LDA $0DF0, X : BNE .delay
@@ -367,7 +367,7 @@ pool Zora_Draw:
 
 ; ==============================================================================
 
-; $0298F5-$02995A LOCAL
+; $0298F5-$02995A LOCAL JUMP LOCATION
 Zora_Draw:
 {
     JSR Sprite2_PrepOamCoord

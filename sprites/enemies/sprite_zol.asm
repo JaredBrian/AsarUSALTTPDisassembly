@@ -262,7 +262,7 @@ pool Zol_Draw:
 
 ; =============================================================================
 
-; $0F31C5-$0F3213 LOCAL
+; $0F31C5-$0F3213 LOCAL JUMP LOCATION
 Zol_Draw:
 {
     LDA $0F50, X : LSR A : BCS .skip_unknown_check
@@ -324,7 +324,7 @@ Pool_Zol_DrawMultiple:
 
 ; =============================================================================
 
-; $0F3254-$0F326E LOCAL
+; $0F3254-$0F326E LOCAL JUMP LOCATION
 Zol_DrawMultiple:
 {
     LDA.b #$00 : XBA

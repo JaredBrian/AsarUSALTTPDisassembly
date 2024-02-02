@@ -94,7 +94,7 @@ Sound_SetSfx3PanLong:
 
 ; ==============================================================================
 
-; $06BB98-$06BBA0 LOCAL
+; $06BB98-$06BBA0 LOCAL JUMP LOCATION
 Sound_AddSfxPan:
 {
     ; Store the sound effect index here temporarily.

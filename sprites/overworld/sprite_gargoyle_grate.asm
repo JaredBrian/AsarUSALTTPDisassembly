@@ -16,7 +16,7 @@ Sprite_GargoyleGrateLong:
 
 ; ==============================================================================
 
-; $02E294-$02E2E9 LOCAL
+; $02E294-$02E2E9 LOCAL JUMP LOCATION
 Sprite_GargoyleGrate:
 {
     JSL Sprite_PrepOamCoordLong

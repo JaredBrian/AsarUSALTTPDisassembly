@@ -217,7 +217,7 @@ Sprite_RedBari:
 
 ; ==============================================================================
 
-; $03234E-$03239B LOCAL
+; $03234E-$03239B LOCAL JUMP LOCATION
 RedBari_Split:
 {
     LDA.b #$01 : STA $0FB5
@@ -276,7 +276,7 @@ pool RedBari_Draw:
 
 ; ==============================================================================
 
-; $0323DC-$0323F8 LOCAL
+; $0323DC-$0323F8 LOCAL JUMP LOCATION
 RedBari_Draw:
 {
     LDA.b #$00 : XBA

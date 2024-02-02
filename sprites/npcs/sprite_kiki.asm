@@ -572,7 +572,7 @@ Kiki_InitiatePalaceOpeningProposal:
 
 ; ==============================================================================
 
-; $0F667A-$0F66C6 LOCAL
+; $0F667A-$0F66C6 LOCAL JUMP LOCATION
 Kiki_TransitionFromTagalong:
 {
     PHA
@@ -698,7 +698,7 @@ pool Kiki_Draw:
 
 ; ==============================================================================
 
-; $0F6859-$0F68B5 LOCAL
+; $0F6859-$0F68B5 LOCAL JUMP LOCATION
 Kiki_Draw:
 {
     ; \task Figure out the symantics of $0DE0 for this sprite.

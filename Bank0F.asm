@@ -682,7 +682,7 @@ AncillaSpawn_SwordChargeSparkle:
 
 ; ==============================================================================
 
-; $07FA37-$07FA42 LOCAL
+; $07FA37-$07FA42 LOCAL JUMP LOCATION
 SwordBeam_MoveHoriz:
 {
 	TXA : CLC : ADC.b #$0A : TAX
@@ -696,7 +696,7 @@ SwordBeam_MoveHoriz:
 
 ; ==============================================================================
 
-; $07FA43-$07FA6E LOCAL
+; $07FA43-$07FA6E LOCAL JUMP LOCATION
 SwordBeam_MoveVert:
 {
     LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X

@@ -78,7 +78,7 @@ pool Buzzblob_SelectNewDirection:
 
 ; ==============================================================================
 
-; $035906-$03591F LOCAL
+; $035906-$03591F LOCAL JUMP LOCATION
 Buzzblob_SelectNewDirection:
 {
     JSL GetRandomInt : AND.b #$07 : TAY
@@ -125,7 +125,7 @@ pool Buzzblob_Draw:
 
 ; ==============================================================================
 
-; $035953-$0359BF LOCAL
+; $035953-$0359BF LOCAL JUMP LOCATION
 BuzzBlob_Draw:
 {
     JSR Sprite_PrepOamCoord

@@ -578,7 +578,7 @@ Vram_EraseTilemaps:
     RTL
 }
 
-; $0003D1 - $00041D LOCAL
+; $0003D1-$00041D LOCAL JUMP LOCATION
 NMI_ReadJoypads:
 {
     !disableJoypad2 = "RTS"
@@ -625,7 +625,7 @@ NMI_ReadJoypads:
 
 ; ==============================================================================
 
-; $00041E-$000489 LOCAL
+; $00041E-$000489 LOCAL JUMP LOCATION
 ClearOamBuffer:
 {
     ; Gets rid of old sprites by moving them off screen, basically.
@@ -730,7 +730,7 @@ ClearOamBuffer:
 
 ; ==============================================================================
 
-; $0005FC-$000780 LOCAL
+; $0005FC-$000780 LOCAL JUMP LOCATION
 Main_PrepSpritesForNmi:
 {
     ; Writes some extra data for the OAM memory
@@ -932,7 +932,7 @@ UseImplicitRegIndexedLongJumpTable:
 
 ; ==============================================================================
 
-; $0007C0-$00082D LOCAL
+; $0007C0-$00082D LOCAL JUMP LOCATION
 Startup_InitializeMemory:
 {
     ; Zeroes out $7E0000-$7E1FFF, and checks some values in SRAM
@@ -1035,7 +1035,7 @@ Overworld_GetTileAttrAtLocation:
 
 ; ==============================================================================
 
-; $000888-$000900 LOCAL
+; $000888-$000900 LOCAL JUMP LOCATION
 Sound_LoadSongBank:
 {
     ; Loads SPC with data
@@ -1154,7 +1154,7 @@ Sound_LoadSongBank:
 
 ; ==============================================================================
 
-; $000901-$000912 LOCAL
+; $000901-$000912 LOCAL JUMP LOCATION
 Sound_LoadIntroSongBank:
 {
     ; $00[3] = $198000, which is $C8000 in Rom
@@ -1305,7 +1305,7 @@ NULL_0089C2:
 
 ; ==============================================================================
 
-; $0009E0-$0000D12 LOCAL
+; $0009E0-$0000D12 LOCAL JUMP LOCATION
 NMI_DoUpdates:
 {
     REP #$10
@@ -2705,7 +2705,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
 
 ; ==============================================================================
 
-; $0012A1-$001346 LOCAL
+; $0012A1-$001346 LOCAL JUMP LOCATION
 {
     REP #$10
     
@@ -2821,7 +2821,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
 
 ; ==============================================================================
 
-; $001347-$00137A LOCAL
+; $001347-$00137A LOCAL JUMP LOCATION
 NMI_UpdateIrqGfx:
 {
     LDA $1F0C : BEQ .noTransfer
@@ -3595,7 +3595,7 @@ DecompOwAnimatedTiles:
 
 ; ==============================================================================
 
-; $0053C6-$005406 LOCAL
+; $0053C6-$005406 LOCAL JUMP LOCATION
 {
     ; Loads blue / orange block, bird / thief's chest, and star
     ; animated tiles (in that order)
@@ -3814,7 +3814,7 @@ GetAnimatedSpriteTile:
 
 ; ==============================================================================
 
-; $005537-$005584 LOCAL
+; $005537-$005584 LOCAL JUMP LOCATION
 {
     ; Parameters: A
     
@@ -3878,7 +3878,7 @@ GetAnimatedSpriteTile:
 
 ; ==============================================================================
 
-; $005585-$0055CA LOCAL
+; $005585-$0055CA LOCAL JUMP LOCATION
 ; This "unpacks" animated tiles
 ; Unused 3BPP to WRAM 4BPP routine
 {
@@ -3913,7 +3913,7 @@ GetAnimatedSpriteTile:
 
 ; ==============================================================================
 
-; $0055CB-$005618 LOCAL
+; $0055CB-$005618 LOCAL JUMP LOCATION
 ; Isn't this just another 3bpp to 4bpp converter?
 ; Swear to God, they have like 8 different routines for this
 ; (update: they have at least 3)
@@ -3954,7 +3954,7 @@ Do3To4LowAnimated:
 
 ; ==============================================================================
 
-; $005619-$00566D LOCAL
+; $005619-$00566D LOCAL JUMP LOCATION
 Do3To4HighAnimated:
 {
     ; Inputs:
@@ -4986,7 +4986,7 @@ PrepTransAuxGfx:
 
 ; ==============================================================================
 
-; $005F4F-$005FB7 LOCAL
+; $005F4F-$005FB7 LOCAL JUMP LOCATION
 Do3To4High16Bit:
 {
     ; Looks similar to Do3To4High, exept that it accepts more parameters
@@ -5030,7 +5030,7 @@ Do3To4High16Bit:
 
 ; =============================================
 
-; $005FB8-$006030 LOCAL
+; $005FB8-$006030 LOCAL JUMP LOCATION
 Do3To4Low16Bit:
 {
     ; Very similar to Do3To4Low, except that the routine is completely standalone, and remains in 16-bit
@@ -5423,7 +5423,7 @@ LoadDefaultGfx:
 
 ; ==============================================================================
 
-; $00633B-$00636C LOCAL
+; $00633B-$00636C LOCAL JUMP LOCATION
 DecompAndDirectCopy:
 {
     ; inputs:
@@ -5922,7 +5922,7 @@ Do3To4High:
 
 ; ==============================================================================
 
-; $006609-$0066B6 LOCAL
+; $006609-$0066B6 LOCAL JUMP LOCATION
 LoadBgGfx:
 {
     ; Inputs:
@@ -6007,7 +6007,7 @@ Do3To4Low:
 
 ; =============================================
 
-; $0066B7-$00675B LOCAL
+; $0066B7-$00675B LOCAL JUMP LOCATION
 LoadCommonSprGfx:
 {
     ; Loads basic sprite graphics using $0AA4
@@ -6089,7 +6089,7 @@ LoadCommonSprGfx:
 
 ; =============================================
 
-; $00675C-$006851 LOCAL
+; $00675C-$006851 LOCAL JUMP LOCATION
 Decomp:
 {
     ; The infamous graphics decompression routine
@@ -6496,7 +6496,7 @@ PaletteFilter:
 
 ; =============================================
 
-; $0069E4-$006A48 LOCAL
+; $0069E4-$006A48 LOCAL JUMP LOCATION
 FilterColors:
 {
     ; performs color filtering on the palette data given a starting color, and counts up to color 0x1B0,
@@ -6626,7 +6626,7 @@ PaletteFilterUnused:
 
 ; =============================================
 
-; $006ACE-$006B28 LOCAL
+; $006ACE-$006B28 LOCAL JUMP LOCATION
 FilterColorsEndpoint:
 {
     ; similar to FilterColors, but it has a variable last color. Also doesn't skip SP5 or SP7
@@ -7028,7 +7028,7 @@ PaletteFilter_Agahnim:
 
 ; ==============================================================================
 
-; $006D19-$006D7B LOCAL
+; $006D19-$006D7B LOCAL JUMP LOCATION
 {
     LDY.w #$E88C
     
@@ -7139,7 +7139,7 @@ PaletteFilter_Agahnim:
 
 ; ==============================================================================
 
-; $006DCA-$006E20 LOCAL
+; $006DCA-$006E20 LOCAL JUMP LOCATION
 RestorePaletteAdditive:
 {
     ; Gradually changes the colors in the main buffer so that they match those in the
@@ -8057,7 +8057,7 @@ ResetSpotlightTable:
 
 ; =============================================
 
-; $0074CC-$00753D LOCAL
+; $0074CC-$00753D LOCAL JUMP LOCATION
 {
     SEP #$30
     

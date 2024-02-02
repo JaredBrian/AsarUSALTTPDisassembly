@@ -117,7 +117,7 @@ pool Armos_Draw:
 
 ; ==============================================================================
 
-; $02B7EF-$02B809 LOCAL
+; $02B7EF-$02B809 LOCAL JUMP LOCATION
 Armos_Draw:
 {
     ; \task Find out why it would only prep sometimes. Does it use a

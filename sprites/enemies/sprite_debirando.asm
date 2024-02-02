@@ -164,7 +164,7 @@ pool Debirando_Draw:
 
 ; ==============================================================================
 
-; $028857-$0288C4 LOCAL
+; $028857-$0288C4 LOCAL JUMP LOCATION
 Debirando_Draw:
 {
     ; Don't draw if the sprite's hidden.

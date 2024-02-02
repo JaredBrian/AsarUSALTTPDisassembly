@@ -1846,7 +1846,7 @@ SpritePrep_ZoraKing:
 
 ; ==============================================================================
 
-; $030F1C-$030F3E LOCAL
+; $030F1C-$030F3E LOCAL JUMP LOCATION
 SpritePrep_Bosses:
 {
     LDA $0403 : BPL .bossNotDeadInHere
@@ -2392,7 +2392,7 @@ SpritePrep_Fairy:
 
 ; ==============================================================================
 
-; $031175-$031192 LOCAL
+; $031175-$031192 LOCAL JUMP LOCATION
 SpritePrep_GoodBee:
 {
     LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
@@ -2652,7 +2652,7 @@ SpritePrep_BigKey:
 
 ; ==============================================================================
 
-; $031271-$031282 LOCAL
+; $031271-$031282 LOCAL JUMP LOCATION
 SpriteActive_Main:
 {
     LDA $0E20, X

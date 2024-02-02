@@ -147,7 +147,7 @@ pool Recruit_Draw:
 
 ; ==============================================================================
 
-; $02BD7E-$02BE09 LOCAL
+; $02BD7E-$02BE09 LOCAL JUMP LOCATION
 Recruit_Draw:
 {
     JSR Sprite2_PrepOamCoord

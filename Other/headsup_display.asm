@@ -335,7 +335,7 @@ incsrc "equipment.asm"
 
 ; =============================================
 
-; $06F0F7-$06F127 LOCAL
+; $06F0F7-$06F127 LOCAL JUMP LOCATION
 HexToDecimal:
 {
     ; This apparently is a hex to decimal converter for use with displaying numbers
@@ -431,7 +431,7 @@ RefillHealth:
 
 ; =============================================
 
-; $06F14F-$06F1B2 LOCAL
+; $06F14F-$06F1B2 LOCAL JUMP LOCATION
 AnimateHeartRefill:
 {
     SEP #$30
@@ -746,7 +746,7 @@ RebuildIndoor:
 
 ; ==============================================================================
 
-; $06FA70-$06FA92 LOCAL
+; $06FA70-$06FA92 LOCAL JUMP LOCATION
 Rebuild:
 {
     ; When the screen finishes transitioning from the menu to the main game screen
@@ -807,7 +807,7 @@ Rebuild:
 
 ; ==============================================================================
 
-; $06FAFD-$06FB90 LOCAL
+; $06FAFD-$06FB90 LOCAL JUMP LOCATION
 UpdateItemBox:
 {
     SEP #$30
@@ -893,7 +893,7 @@ UpdateItemBox:
 
 ; =============================================
 
-; $06FB91-$06FCF9 LOCAL
+; $06FB91-$06FCF9 LOCAL JUMP LOCATION
 Update:
 {
     JSR UpdateItemBox
@@ -1049,7 +1049,7 @@ Update:
 
 ; ==============================================================================
 
-; $06FDAB-$06FDEE LOCAL
+; $06FDAB-$06FDEE LOCAL JUMP LOCATION
 UpdateHearts:
 {
     ; Draws hearts in a painfully slow loop

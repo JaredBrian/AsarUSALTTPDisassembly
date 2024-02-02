@@ -18,7 +18,7 @@ Ancilla_DoSfx1_NearPlayer:
 
 ; ==============================================================================
 
-; $040007-$04000D LOCAL
+; $040007-$04000D LOCAL JUMP LOCATION
 Ancilla_DoSfx2_NearPlayer:
 {
     JSR Ancilla_SetSfxPan_NearPlayer : STA $012E
@@ -28,7 +28,7 @@ Ancilla_DoSfx2_NearPlayer:
 
 ; ==============================================================================
 
-; $04000E-$040014 LOCAL
+; $04000E-$040014 LOCAL JUMP LOCATION
 Ancilla_DoSfx3_NearPlayer:
 {
     JSR Ancilla_SetSfxPan_NearPlayer : STA $012F
@@ -38,7 +38,7 @@ Ancilla_DoSfx3_NearPlayer:
 
 ; ==============================================================================
 
-; $040015-$04001F LOCAL
+; $040015-$04001F LOCAL JUMP LOCATION
 Ancilla_SetSfxPan_NearPlayer:
 {
     STA $0CF8
@@ -51,7 +51,7 @@ Ancilla_SetSfxPan_NearPlayer:
 ; ==============================================================================
 
     ; \unused
-; $040020-$040026 LOCAL
+; $040020-$040026 LOCAL JUMP LOCATION
 Ancilla_DoSfx1:
 {
     JSR Ancilla_SetSfxPan : STA $012D
@@ -61,7 +61,7 @@ Ancilla_DoSfx1:
 
 ; ==============================================================================
 
-; $040027-$04002D LOCAL
+; $040027-$04002D LOCAL JUMP LOCATION
 Ancilla_DoSfx2:
 {
     JSR Ancilla_SetSfxPan : STA $012E
@@ -71,7 +71,7 @@ Ancilla_DoSfx2:
 
 ; ==============================================================================
 
-; $04002E-$040034 LOCAL
+; $04002E-$040034 LOCAL JUMP LOCATION
 Ancilla_DoSfx3:
 {
     JSR Ancilla_SetSfxPan : STA $012F
@@ -81,7 +81,7 @@ Ancilla_DoSfx3:
 
 ; ==============================================================================
 
-; $040035-$04003F LOCAL
+; $040035-$04003F LOCAL JUMP LOCATION
 Ancilla_SetSfxPan:
 {
     STA $0CF8
@@ -286,7 +286,7 @@ pool SomarianBlast_SpawnCentrifugalQuad:
 
 ; ==============================================================================
 
-; $0401A7-$040241 LOCAL
+; $0401A7-$040241 LOCAL JUMP LOCATION
 SomarianBlast_SpawnCentrifugalQuad:
 {
     LDA.b #$03 : STA $0FB5
@@ -368,7 +368,7 @@ Ancilla_Main:
 
 ; ==============================================================================
 
-; $04024D-$040286 LOCAL
+; $04024D-$040286 LOCAL JUMP LOCATION
 Bomb_ProjectReflexiveSpeedOntoSprite:
 {
     ; This routine subs in an object's coordinates for the
@@ -401,7 +401,7 @@ Bomb_ProjectReflexiveSpeedOntoSprite:
 
 ; ==============================================================================
 
-; $040287-$04032A LOCAL
+; $040287-$04032A LOCAL JUMP LOCATION
 Bomb_CheckSpriteDamage:
 {
     ; collision detection used for telling if sprites need some ass whoopin'
@@ -498,7 +498,7 @@ Bomb_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; $04032B-$04033B LOCAL
+; $04032B-$04033B LOCAL JUMP LOCATION
 Ancilla_ExecuteObjects:
 {
     LDX.b #$09
@@ -521,7 +521,7 @@ Ancilla_ExecuteObjects:
 
 ; ==============================================================================
 
-; $04033C-$040404 LOCAL
+; $04033C-$040404 LOCAL JUMP LOCATION
 Ancilla_ExecuteObject:
 {
     ; Push the ancilla's number to the stack.
@@ -703,7 +703,7 @@ pool Ancilla_CheckTileCollisionStaggered:
 
 ; ==============================================================================
 
-; $04097B-$040ABE LOCAL
+; $04097B-$040ABE LOCAL JUMP LOCATION
 Ancilla_CheckTileCollisionStaggered:
 {
     TXA : EOR $1A : LSR A : BCC .skip_even_frames
@@ -956,7 +956,7 @@ pool Ancilla_CheckTileCollision_Class2:
 
 ; ==============================================================================
 
-; $040BCF-$040CD8 LOCAL
+; $040BCF-$040CD8 LOCAL JUMP LOCATION
 Ancilla_CheckTileCollision_Class2:
 {
     ; Does collision detection for a number of entities, bombs being one of them
@@ -1137,7 +1137,7 @@ incsrc "ancilla_beam_hit.asm"
 
 ; ==============================================================================
 
-; $040D68-$040DA1 LOCAL
+; $040D68-$040DA1 LOCAL JUMP LOCATION
 Ancilla_CheckSpriteCollision:
 {
     LDY.b #$0F
@@ -1199,7 +1199,7 @@ pool Ancilla_CheckIndividualSpriteCollision:
 
 ; ==============================================================================
 
-; $040DAE-$040E7C LOCAL
+; $040DAE-$040E7C LOCAL JUMP LOCATION
 Ancilla_CheckIndividualSpriteCollision:
 {
     JSR Ancilla_SetupHitBox
@@ -1376,7 +1376,7 @@ pool Ancilla_SetupHitBox:
 
 ; ==============================================================================
 
-; $040EAD-$040EEC LOCAL
+; $040EAD-$040EEC LOCAL JUMP LOCATION
 Ancilla_SetupHitBox:
 {
     STZ $09
@@ -1417,7 +1417,7 @@ Ancilla_SetupHitBox:
 
 ; ==============================================================================
 
-; $040EED-$040F5B LOCAL
+; $040EED-$040F5B LOCAL JUMP LOCATION
 Ancilla_ProjectSpeedTowardsPlayer:
 {
     STA $01
@@ -1515,7 +1515,7 @@ Ancilla_ProjectSpeedTowardsPlayer:
 
 ; ==============================================================================
 
-; $040F5C-$040F6E LOCAL
+; $040F5C-$040F6E LOCAL JUMP LOCATION
 Ancilla_IsToRightOfPlayer:
 {
     LDY.b #$00
@@ -1533,7 +1533,7 @@ Ancilla_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; $040F6F-$040F81 LOCAL
+; $040F6F-$040F81 LOCAL JUMP LOCATION
 Ancilla_IsBelowPlayer:
 {
     LDY.b #$00
@@ -1556,7 +1556,7 @@ incsrc "ancilla_repulse_spark.asm"
 
 ; ==============================================================================
 
-; $041080-$04108A LOCAL
+; $041080-$04108A LOCAL JUMP LOCATION
 Ancilla_MoveHoriz:
 {
     ; Increments X_reg by 0x0A so that X coordinates will be handled next
@@ -1570,7 +1570,7 @@ Ancilla_MoveHoriz:
 
 ; ==============================================================================
 
-; $04108B-$0410B6 LOCAL
+; $04108B-$0410B6 LOCAL JUMP LOCATION
 Ancilla_MoveVert:
 {
     LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X
@@ -1598,7 +1598,7 @@ Ancilla_MoveVert:
 
 ; ==============================================================================
 
-; $0410B7-$0410DB LOCAL
+; $0410B7-$0410DB LOCAL JUMP LOCATION
 Ancilla_MoveAltitude:
 {
     LDA $0294, X : ASL #4 : CLC : ADC $02A8, X : STA $02A8, X
@@ -1652,7 +1652,7 @@ incsrc "ancilla_rising_crystal.asm"
 
 ; ==============================================================================
 
-; $044C93-$044C9F LOCAL
+; $044C93-$044C9F LOCAL JUMP LOCATION
 Ancilla_AddSwordChargeSpark:
 {
     ; Only on certain frames.
@@ -1716,7 +1716,7 @@ incsrc "ancilla_init_somarian_block.asm"
 
 ; ==============================================================================
 
-; $0461F9-$04623C LOCAL
+; $0461F9-$04623C LOCAL JUMP LOCATION
 Ancilla_CheckBasicSpriteCollision:
 {
     LDY.b #$0F
@@ -1762,7 +1762,7 @@ Ancilla_CheckBasicSpriteCollision:
 
 ; ==============================================================================
 
-; $04623D-$0462C9 LOCAL
+; $04623D-$0462C9 LOCAL JUMP LOCATION
 Ancilla_CheckSingleBasicSpriteCollision:
 {
     JSR Ancilla_SetupBasicHitBox
@@ -1850,7 +1850,7 @@ Ancilla_CheckSingleBasicSpriteCollision:
     ; This routine, however, also takes altitude into account, whereas the
     ; more specific one doesn't, for whatever reason.
     
-; $0462CA-$0462F8 LOCAL
+; $0462CA-$0462F8 LOCAL JUMP LOCATION
 Ancilla_SetupBasicHitBox:
 {
     LDA $0C04, X : SEC : SBC.b #$08 : STA $00
@@ -1883,7 +1883,7 @@ incsrc "ancilla_game_over_text.asm"
 
 ; ==============================================================================
 
-; $047624-$047630 LOCAL
+; $047624-$047630 LOCAL JUMP LOCATION
 Ancilla_SetSfxPan_NearEntity:
 {
     PHX
@@ -1899,7 +1899,7 @@ Ancilla_SetSfxPan_NearEntity:
 
 ; ==============================================================================
 
-; $047631-$04765E LOCAL
+; $047631-$04765E LOCAL JUMP LOCATION
 Ancilla_Spawn:
 {
     PHA
@@ -1935,7 +1935,7 @@ Ancilla_Spawn:
 ; ==============================================================================
 
     ; \unused 
-; $04765F-$04766C LOCAL
+; $04765F-$04766C LOCAL JUMP LOCATION
 Ancilla_FindMatch:
 {
     ; Looks through active effect slots to see if the one we want to
@@ -1972,7 +1972,7 @@ pool Ancilla_PrepOamCoord:
 
 ; ==============================================================================
 
-; $047671-$0476A3 LOCAL
+; $047671-$0476A3 LOCAL JUMP LOCATION
 Ancilla_PrepOamCoord:
 {
     LDY $0C7C, X
@@ -1998,7 +1998,7 @@ Ancilla_PrepOamCoord:
 
 ; ==============================================================================
 
-; $0476A4-$0476D8 LOCAL
+; $0476A4-$0476D8 LOCAL JUMP LOCATION
 Ancilla_PrepAdjustedOamCoord:
 {
     ; Identical to the preceding routine, except that it measures against
@@ -2048,7 +2048,7 @@ Ancilla_PrepOamCoordLong:
     ; for just displaying special effects that are expected to be fully within
     ; the framme of view, it is not quite correct for handling OAM sprites
     ; that are partially on screen and partially off screen.
-; $0476E1-$0476FD LOCAL
+; $0476E1-$0476FD LOCAL JUMP LOCATION
 Ancilla_SetOam_XY:
 {
     PHX
@@ -2097,7 +2097,7 @@ Ancilla_SetOam_XY_Long:
     ; object in the correct way that most other logic in the game uses.
     ; The more basic Ancilla_SetOam_XY doesn't account for OAM entries being
     ; partially on screen and partially off screen.
-; $047702-$04772E LOCAL
+; $047702-$04772E LOCAL JUMP LOCATION
 Ancilla_SetSafeOam_XY:
 {
     REP #$20
@@ -2157,7 +2157,7 @@ pool Ancilla_CheckPlayerCollision:
 ; ==============================================================================
 
     ; \note Checks ancilla collision or proximity with the player.
-; $04776B-$0477DB LOCAL
+; $04776B-$0477DB LOCAL JUMP LOCATION
 Ancilla_CheckPlayerCollision:
 {
     ; Y is probably a selector for different hit box sizes
@@ -2222,7 +2222,7 @@ Ancilla_CheckPlayerCollision:
 
 ; ==============================================================================
 
-; $0477DC-$047823 LOCAL
+; $0477DC-$047823 LOCAL JUMP LOCATION
 Hookshot_CheckChainLinkProximityToPlayer:
 {
     REP #$20
@@ -2281,7 +2281,7 @@ pool Ancilla_CheckIfEntranceTriggered:
 
 ; ==============================================================================
 
-; $047844-$04787A LOCAL
+; $047844-$04787A LOCAL JUMP LOCATION
 Ancilla_CheckIfEntranceTriggered:
 {
     ; Y is the index into the coordinates where the trigger blocks are.
@@ -2351,7 +2351,7 @@ pool Ancilla_DrawShadow:
 
 ; ==============================================================================
 
-; $047897-$047909 LOCAL
+; $047897-$047909 LOCAL JUMP LOCATION
 Ancilla_DrawShadow:
 {
     CPX.b #$02 : BNE .not_small_shadow
@@ -2409,7 +2409,7 @@ Ancilla_DrawShadow:
 
 ; ==============================================================================
 
-; $04790A-$047919 LOCAL
+; $04790A-$047919 LOCAL JUMP LOCATION
 Ancilla_AllocateOam_B_or_E:
 {
     LDY $0FB3 : BNE .sort_sprites
@@ -2518,7 +2518,7 @@ Tagalong_GetCloseToPlayer:
 
 ; ==============================================================================
 
-; $0479BA-$0479FF LOCAL
+; $0479BA-$0479FF LOCAL JUMP LOCATION
 Ancilla_CustomAllocateOam:
 {
     PHA : PHX
@@ -2570,7 +2570,7 @@ Ancilla_CustomAllocateOam:
 
 ; ==============================================================================
 
-; $047A00-$047A2C LOCAL
+; $047A00-$047A2C LOCAL JUMP LOCATION
 HitStars_UpdateOamBufferPosition:
 {
     PHA : PHX
@@ -2601,7 +2601,7 @@ HitStars_UpdateOamBufferPosition:
 
 ; ==============================================================================
 
-; $047A2D-$047ADC LOCAL
+; $047A2D-$047ADC LOCAL JUMP LOCATION
 Hookshot_IsCollisionCheckFutile:
 {
     ; Only the Hookshot calls this.
@@ -2706,7 +2706,7 @@ Hookshot_IsCollisionCheckFutile:
 
 ; ==============================================================================
 
-; $047ADD-$047B22 LOCAL
+; $047ADD-$047B22 LOCAL JUMP LOCATION
 Ancilla_GetRadialProjection:
 {
     PHX
@@ -2758,7 +2758,7 @@ Ancilla_GetRadialProjectionLong:
 
 ; ==============================================================================
 
-; $047B2B-$047B43 LOCAL
+; $047B2B-$047B43 LOCAL JUMP LOCATION
 Ancilla_AllocateOam:
 {
     LDY $0FB3 : BNE .sorted_sprites
@@ -2858,7 +2858,7 @@ BeamHit_Unknown:
 
 ; ==============================================================================
 
-; $047BA6-$047BC8 LOCAL
+; $047BA6-$047BC8 LOCAL JUMP LOCATION
 BeamHit_GetCoords:
 {
     STY $0B
@@ -2874,7 +2874,7 @@ BeamHit_GetCoords:
 
 ; ==============================================================================
 
-; $047BC9-$047BD5 LOCAL
+; $047BC9-$047BD5 LOCAL JUMP LOCATION
 BeamHit_Get_Top_X_Bit:
 {
     REP #$20
@@ -2888,7 +2888,7 @@ BeamHit_Get_Top_X_Bit:
 
 ; ==============================================================================
 
-; $047BD6-$047BEC LOCAL
+; $047BD6-$047BEC LOCAL JUMP LOCATION
 BeamHit_CheckOffscreen_Y:
 {
     REP #$20

@@ -27,7 +27,7 @@ pool Ancilla_GameOverText:
 
 ; ==============================================================================
 
-; $0474D8-$0474ED LOCAL
+; $0474D8-$0474ED LOCAL JUMP LOCATION
 Ancilla_GameOverText:
 {
     ; It looks as though these routines do ancillary objects of the death
@@ -156,7 +156,7 @@ pool GameOverText_UnfurlRight:
 
 ; ==============================================================================
 
-; $04756D-$0475B3 LOCAL
+; $04756D-$0475B3 LOCAL JUMP LOCATION
 GameOverText_UnfurlRight:
 {
     LDX $035F : STX $0FA0

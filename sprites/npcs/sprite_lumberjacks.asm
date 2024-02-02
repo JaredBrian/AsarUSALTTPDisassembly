@@ -27,7 +27,7 @@ pool Sprite_Lumberjacks:
 
 ; ==============================================================================
 
-; $06C51B-$06C57E LOCAL
+; $06C51B-$06C57E LOCAL JUMP LOCATION
 Sprite_Lumberjacks:
 {
     JSR LumberJacks_Draw
@@ -101,7 +101,7 @@ pool Lumberjacks_CheckProximity:
 
 ; ==============================================================================
 
-; $06C58F-$06C5B1 LOCAL
+; $06C58F-$06C5B1 LOCAL JUMP LOCATION
 Lumberjacks_CheckProximity:
 {
     REP #$20
@@ -169,7 +169,7 @@ pool Lumberjacks_Draw:
 
 ; ==============================================================================
 
-; $06C6BA-$06C6DD LOCAL
+; $06C6BA-$06C6DD LOCAL JUMP LOCATION
 Lumberjacks_Draw:
 {
     LDA.b #$0B : STA $06

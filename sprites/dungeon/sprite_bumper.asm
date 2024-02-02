@@ -120,7 +120,7 @@ pool Bumper_Draw:
 
 ; ==============================================================================
 
-; $0F2A8B-$0F2AA6 LOCAL
+; $0F2A8B-$0F2AA6 LOCAL JUMP LOCATION
 Bumper_Draw:
 {
     LDA.b #$00   : XBA

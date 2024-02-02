@@ -208,7 +208,7 @@ Ancilla_BlastWall:
 
 ; ==============================================================================
 
-; $042756-$0427AA LOCAL
+; $042756-$0427AA LOCAL JUMP LOCATION
 BlastWall_DrawExplosion:
 {
     PHX : PHY
@@ -266,7 +266,7 @@ BlastWall_DrawExplosion:
 
 ; ==============================================================================
 
-; $0427AB-$04280C LOCAL
+; $0427AB-$04280C LOCAL JUMP LOCATION
 Bomb_DrawExplosion:
 {
     .next_oam_entry

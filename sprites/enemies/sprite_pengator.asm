@@ -272,7 +272,7 @@ pool Pengator_Draw:
 
 ; ==============================================================================
 
-; $0F2415-$0F2461 LOCAL
+; $0F2415-$0F2461 LOCAL JUMP LOCATION
 Pengator_Draw:
 {
     LDA.b #$00   : XBA

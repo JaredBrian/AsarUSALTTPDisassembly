@@ -15,7 +15,7 @@ Sprite_ElderWifeLong:
 
 ; ==============================================================================
 
-; $02F471-$02F489 LOCAL
+; $02F471-$02F489 LOCAL JUMP LOCATION
 Sprite_ElderWife:
 {
     ; Namely, I think it seems implied that this is Sahasralah's wife.
@@ -143,7 +143,7 @@ pool ElderWife_Draw:
     
 ; ==============================================================================
 
-; $02F505-$02F520 LOCAL
+; $02F505-$02F520 LOCAL JUMP LOCATION
 ElderWife_Draw:
 {
     LDA.b #$02 : STA $06

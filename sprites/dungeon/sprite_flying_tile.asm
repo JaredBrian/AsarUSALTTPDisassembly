@@ -154,7 +154,7 @@ pool FlyingTile_Draw:
 
 ; ==============================================================================
 
-; $0F3CCA-$0F3CE7 LOCAL
+; $0F3CCA-$0F3CE7 LOCAL JUMP LOCATION
 FlyingTile_Draw:
 {
     LDA.b #$00   : XBA

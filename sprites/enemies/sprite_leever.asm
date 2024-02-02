@@ -74,7 +74,7 @@ Leever_UnderSand:
     ; where the Leever didn't go towards the player while it was submerged.
     ; I say this due to the large simlarity with the previous routine
     ; (Leever_UnderSand).
-; $034BF5-$034C02 LOCAL
+; $034BF5-$034C02 LOCAL JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
@@ -276,7 +276,7 @@ pool Leever_Draw:
 
 ; ==============================================================================
 
-; $034E45-$034EBF LOCAL
+; $034E45-$034EBF LOCAL JUMP LOCATION
 Leever_Draw:
 {
     JSR Sprite_PrepOamCoord

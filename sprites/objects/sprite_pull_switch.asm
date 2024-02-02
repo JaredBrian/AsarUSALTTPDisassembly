@@ -31,7 +31,7 @@ Sprite_PullSwitch:
 
 ; ==============================================================================
 
-; $02D6D4-$02D72E LOCAL
+; $02D6D4-$02D72E LOCAL JUMP LOCATION
 Sprite_BadPullSwitch:
 {
     JSR $D743 ; $02D743 IN ROM
@@ -85,7 +85,7 @@ Sprite_BadPullSwitch:
 
 ; ==============================================================================
 
-; $02D743-$02D7C9 LOCAL
+; $02D743-$02D7C9 LOCAL JUMP LOCATION
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
@@ -181,7 +181,7 @@ Sprite_BadPullSwitch:
 
 ; ==============================================================================
 
-; $02D7F9-$02D855 LOCAL
+; $02D7F9-$02D855 LOCAL JUMP LOCATION
 BadPullDownSwitch_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -244,7 +244,7 @@ pool BadPullUpSwitch_Draw:
 
 ; ==============================================================================
 
-; $02D858-$02D8B4 LOCAL
+; $02D858-$02D8B4 LOCAL JUMP LOCATION
 BadPullUpSwitch_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -304,7 +304,7 @@ BadPullUpSwitch_Draw:
 
 ; ==============================================================================
 
-; $02D8B5-$02D944 LOCAL
+; $02D8B5-$02D944 LOCAL JUMP LOCATION
 Sprite_GoodPullSwitch:
 {
     JSR $D999 ; $02D999 IN ROM
@@ -387,7 +387,7 @@ pool GoodPullSwitch_Draw:
 
 ; ==============================================================================
 
-; $02D953-$02D998 LOCAL
+; $02D953-$02D998 LOCAL JUMP LOCATION
 GoodPUllSwitch_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -418,7 +418,7 @@ GoodPUllSwitch_Draw:
 
 ; ==============================================================================
 
-; $02D999-$02DA28 LOCAL
+; $02D999-$02DA28 LOCAL JUMP LOCATION
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     

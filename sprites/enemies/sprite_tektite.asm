@@ -13,7 +13,7 @@ pool Tektite_Stationary:
 
 ; ==============================================================================
 
-; $0EC275-$0EC292 JUMP LOCATION LOCAL
+; $0EC275-$0EC292 LOCAL JUMP LOCATION
 Sprite_GanonHelpers:
 {
     ; Tektite / Ganon's firebats and pitchfork code

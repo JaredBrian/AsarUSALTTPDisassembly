@@ -228,7 +228,7 @@ DiggingGameGuy_AttemptPrizeSpawnLong:
 
 ; ==============================================================================
 
-; $0EFD5C-$0EFD81 LOCAL
+; $0EFD5C-$0EFD81 LOCAL JUMP LOCATION
 DiggingGameGuy_AttemptPrizeSpawn:
 {
     REP #$20
@@ -358,7 +358,7 @@ pool DiggingGameGuy_Draw:
 
 ; ==============================================================================
 
-; $0EFE4B-$0EFE6D LOCAL
+; $0EFE4B-$0EFE6D LOCAL JUMP LOCATION
 DiggingGameGuy_Draw:
 {
     LDA.b #$03 : STA $06

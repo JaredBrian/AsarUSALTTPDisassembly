@@ -114,7 +114,7 @@ pool SpikeTrap_Draw:
 
 ; ==============================================================================
 
-; $0F4FFF-$0F5011 LOCAL
+; $0F4FFF-$0F5011 LOCAL JUMP LOCATION
 SpikeTrap_Draw:
 {
     REP #$20

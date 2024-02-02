@@ -15,7 +15,7 @@ Sprite_ArrowTriggerLong:
 
 ; ==============================================================================
 
-; $02E633-$02E655 LOCAL
+; $02E633-$02E655 LOCAL JUMP LOCATION
 Sprite_ArrowTrigger:
 {
     LDA $0DA0, X : BNE .alpha

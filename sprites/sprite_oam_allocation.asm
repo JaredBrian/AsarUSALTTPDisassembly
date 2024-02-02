@@ -129,7 +129,7 @@ pool OAM_GetBufferPosition:
 
 ; ==============================================================================
 
-; $06BB0A-$06BB5A LOCAL
+; $06BB0A-$06BB5A LOCAL JUMP LOCATION
 OAM_GetBufferPosition:
 {
     ; Inputs:

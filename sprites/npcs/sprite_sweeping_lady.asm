@@ -17,7 +17,7 @@ Sprite_SweepingLadyLong:
 
 ; ==============================================================================
 
-; $06C4AD-$06C4CA LOCAL
+; $06C4AD-$06C4CA LOCAL JUMP LOCATION
 Sprite_SweepingLady:
 {
     JSR SweepingLady_Draw
@@ -52,7 +52,7 @@ pool SweepingLady_Draw:
 
 ; ==============================================================================
 
-; $06C4EB-$06C50A LOCAL
+; $06C4EB-$06C50A LOCAL JUMP LOCATION
 SweepingLady_Draw:
 {
     ; Handles appearance of sprite

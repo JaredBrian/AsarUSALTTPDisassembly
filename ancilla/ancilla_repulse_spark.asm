@@ -17,7 +17,7 @@ pool Ancilla_RepulseSpark:
     ; don't fit anywhere else, but $0FAC is quite unfamiliar still. It never
     ; seems to receive a value higher than 5, but there are checks for
     ; it as high as 9 and beyond.
-; $040F89-$04107F LOCAL
+; $040F89-$04107F LOCAL JUMP LOCATION
 Ancilla_RepulseSpark:
 {
     LDA $0FAC : BEQ Ancilla_IsBelowPlayer.return

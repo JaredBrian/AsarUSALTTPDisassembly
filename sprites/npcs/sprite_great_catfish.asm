@@ -376,7 +376,7 @@ GreatCatfish_ConversateThenSubmerge:
 
 ; ==============================================================================
 
-; $0EE144-$0EE163 LOCAL
+; $0EE144-$0EE163 LOCAL JUMP LOCATION
 Sprite_SpawnBomb:
 {
     LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -411,7 +411,7 @@ GreatCatfish_SpawnSurfacingSplash:
 
 ; ==============================================================================
 
-; $0EE16C-$0EE1A9 LOCAL
+; $0EE16C-$0EE1A9 LOCAL JUMP LOCATION
 GreatCatfish_SpawnQuakeMedallion:
 {
     LDA.b #$C0 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -496,7 +496,7 @@ Sprite_SpawnFlippersItem:
 
 ; ==============================================================================
 
-; $0EE1ED-$0EE213 LOCAL
+; $0EE1ED-$0EE213 LOCAL JUMP LOCATION
 GreatCatfish_SpawnImmediatelyDrownedSprite:
 {
     ; Spawn a bush...
@@ -534,7 +534,7 @@ Sprite_SpawnWaterSplashLong:
 
 ; ==============================================================================
 
-; $0EE21C-$0EE23F LOCAL
+; $0EE21C-$0EE23F LOCAL JUMP LOCATION
 Sprite_SpawnWaterSplash:
 {
     LDA.b #$C0
@@ -601,7 +601,7 @@ pool GreatCatfish_Draw:
 
 ; ==============================================================================
 
-; $0EE320-$0EE33C LOCAL
+; $0EE320-$0EE33C LOCAL JUMP LOCATION
 GreatCatfish_Draw:
 {
     LDA.b #$00 : XBA
@@ -640,7 +640,7 @@ pool Sprite_WaterSplash:
 
 ; ==============================================================================
 
-; $0EE37D-$0EE39C LOCAL
+; $0EE37D-$0EE39C LOCAL JUMP LOCATION
 Sprite_WaterSplash:
 {
     LDA.b #$00 : XBA

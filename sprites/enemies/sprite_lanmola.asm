@@ -429,7 +429,7 @@ pool Lanmola_Draw:
 
  ; ==============================================================================   
 
-; $02A64A-$02A87F LOCAL
+; $02A64A-$02A87F LOCAL JUMP LOCATION
 Lanmola_Draw:
 {
     TXA : ASL A : TAY

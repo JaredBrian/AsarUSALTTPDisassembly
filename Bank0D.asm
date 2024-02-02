@@ -1091,7 +1091,7 @@ BugNetKid_Draw:
 
 ; ==============================================================================
 
-; $06D49F-$06D4BB LOCAL
+; $06D49F-$06D4BB LOCAL JUMP LOCATION
 Sprite5_CheckIfActive:
 {
     ; Deactivates the sprite in certain situations
@@ -1362,7 +1362,7 @@ pool Pikit_DrawTongue:
 
 ; ==============================================================================
 
-; $06D74A-$06D812 LOCAL
+; $06D74A-$06D812 LOCAL JUMP LOCATION
 Pikit_DrawTongue:
 {
     LDA $0D80, X : CMP.b #$02 : BNE .easy_out
@@ -1469,7 +1469,7 @@ Pikit_DrawTongue:
 
 ; ==============================================================================
 
-; $06D813-$06D816 LOCAL
+; $06D813-$06D816 LOCAL JUMP LOCATION
 Pikit_MultiplicationDelay:
 {
     ; delay for multiplication
@@ -1504,7 +1504,7 @@ pool Pikit_DrawGrabbedItem:
 
 ; ==============================================================================
 
-; $06D858-$06D8AE LOCAL
+; $06D858-$06D8AE LOCAL JUMP LOCATION
 Pikit_DrawGrabbedItem:
 {
     LDA $0ED0, X       : BEQ .return

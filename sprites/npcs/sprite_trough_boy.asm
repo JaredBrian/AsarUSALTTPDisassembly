@@ -15,7 +15,7 @@ Sprite_TroughBoyLong:
 
 ; ==============================================================================
 
-; $02FF66-$02FF9E LOCAL
+; $02FF66-$02FF9E LOCAL JUMP LOCATION
 Sprite_TroughBoy:
 {
     JSR TroughBoy_Draw
@@ -52,7 +52,7 @@ Sprite_TroughBoy:
 
 ; ==============================================================================
 
-; $02FF9F-$02FFDE LOCAL
+; $02FF9F-$02FFDE LOCAL JUMP LOCATION
 pool TroughBoy_Draw:
 {
     .oam_groups
@@ -71,7 +71,7 @@ pool TroughBoy_Draw:
 
 ; ==============================================================================
 
-; $02FFDF-$02FFFE LOCAL
+; $02FFDF-$02FFFE LOCAL JUMP LOCATION
 TroughBoy_Draw:
 {
     LDA.b #$02 : STA $06

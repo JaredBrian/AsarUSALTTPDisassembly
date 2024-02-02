@@ -208,7 +208,7 @@ pool Kodondo_SpawnFlames:
 
 ; ==============================================================================
 
-; $0F4223-$0F4266 LOCAL
+; $0F4223-$0F4266 LOCAL JUMP LOCATION
 Kodondo_SpawnFlames:
 {
     LDA.b #$87

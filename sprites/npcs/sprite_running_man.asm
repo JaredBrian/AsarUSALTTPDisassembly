@@ -17,7 +17,7 @@ SpritePrep_RunningManLong:
 
 ; ==============================================================================
 
-; $02E896-$02E8A1 LOCAL
+; $02E896-$02E8A1 LOCAL JUMP LOCATION
 SpritePrep_RunningMan:
 {
     LDA.b #$02 : STA $0EB0, X
@@ -58,7 +58,7 @@ pool RunningMan_RunFullSpeed:
 
 ; ==============================================================================
 
-; $02E8B2-$02E8F4 LOCAL
+; $02E8B2-$02E8F4 LOCAL JUMP LOCATION
 Sprite_RunningMan:
 {
     ; (Scared red hat man that runs away if you come near.)
@@ -253,7 +253,7 @@ RunningMan_GotCaught:
 
 ; ==============================================================================
 
-; $02E9AC-$02E9B9 LOCAL
+; $02E9AC-$02E9B9 LOCAL JUMP LOCATION
 RunningMan_AnimateAndMakeDust:
 {
     JSL RunningMan_SpawnDashDustGarnish
@@ -265,7 +265,7 @@ RunningMan_AnimateAndMakeDust:
 
 ; ==============================================================================
 
-; $02E9BA-$02E9CC LOCAL
+; $02E9BA-$02E9CC LOCAL JUMP LOCATION
 RunningMan_RunFullSpeed:
 {
     LDY $0EB0, X
@@ -313,7 +313,7 @@ pool RunningMan_Draw:
 
 ; ==============================================================================
 
-; $02EA4D-$02EA70 LOCAL
+; $02EA4D-$02EA70 LOCAL JUMP LOCATION
 RunningMan_Draw:
 {
     LDA.b #$02 : STA $06

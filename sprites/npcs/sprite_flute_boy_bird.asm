@@ -123,7 +123,7 @@ pool FluteBoyBird_DrawBlink:
 
 ; ==============================================================================
 
-; $0F1B9C-$0F1BC7 LOCAL
+; $0F1B9C-$0F1BC7 LOCAL JUMP LOCATION
 FluteBoyBird_DrawBlink:
 {
     JSR Sprite3_PrepOamCoord

@@ -29,7 +29,7 @@ Sprite_FireBat:
 
 ; ==============================================================================
 
-; $0E8BEE-$0E8C16 LOCAL
+; $0E8BEE-$0E8C16 LOCAL JUMP LOCATION
 {
     LDY $0DE0
     
@@ -82,7 +82,7 @@ Sprite_FireBat:
     BRA .BRANCH_$E8C23
 }
 
-; $0E8C43-$0E8C54 LOCAL
+; $0E8C43-$0E8C54 LOCAL JUMP LOCATION
 {
     INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
     
@@ -162,7 +162,7 @@ pool FireBat_Draw:
 
 ; ==============================================================================
 
-; $0E8CA9-$0E8D05 LOCAL
+; $0E8CA9-$0E8D05 LOCAL JUMP LOCATION
 FireBat_Draw:
 {
     JSR Sprite4_PrepOamCoord

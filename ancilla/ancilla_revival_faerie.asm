@@ -226,7 +226,7 @@ Ancilla_RevivalFaerie:
 
 ; ==============================================================================
 
-; $0473CF-$04742F LOCAL
+; $0473CF-$04742F LOCAL JUMP LOCATION
 RevivalFaerie_Dust:
 {
     LDA $0C54, X : BNE .possible_faerie_dust
@@ -297,7 +297,7 @@ RevivalFaerie_Dust:
 
 ; ==============================================================================
 
-; $047430-$0474C9 LOCAL
+; $047430-$0474C9 LOCAL JUMP LOCATION
 RevivalFaerie_MonitorPlayerRecovery:
 {
     LDA $7EF36C : STA $00

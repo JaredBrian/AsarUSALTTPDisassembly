@@ -71,7 +71,7 @@ Sprite_ShopKeeper:
     db $01, $01
 }
 
-; $0F6F6D-$0F6F8F LOCAL
+; $0F6F6D-$0F6F8F LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -180,7 +180,7 @@ Sprite_ShopKeeper:
     RTS
 }
 
-; $0F7017-$0F7037 LOCAL
+; $0F7017-$0F7037 LOCAL JUMP LOCATION
 {
     LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
@@ -601,7 +601,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; $0F7261-$0F727C LOCAL
+; $0F7261-$0F727C LOCAL JUMP LOCATION
 {
     STZ $0BA0, X
     
@@ -784,7 +784,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; $0F7366-$0F7389 LOCAL
+; $0F7366-$0F7389 LOCAL JUMP LOCATION
 {
     ; Subroutine grants the player an item parameterized by the A register.
     
@@ -811,7 +811,7 @@ ShopKeeper_SpawnInventoryItem:
     RTS
 }
 
-; $0F738A-$0F7390 LOCAL
+; $0F738A-$0F7390 LOCAL JUMP LOCATION
 {
     LDA.b #$3C : JSL Sound_SetSfx2PanLong
     
@@ -820,7 +820,7 @@ ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; $0F7391-$0F739D LOCAL
+; $0F7391-$0F739D LOCAL JUMP LOCATION
 ShopKeeper_CheckPlayerSolicitedDamage:
 {
     LDA $F6 : BPL .the_a_button_not_pressed
@@ -841,7 +841,7 @@ ShopKeeper_CheckPlayerSolicitedDamage:
 
 ; ==============================================================================
 
-; $0F739E-$0F73B5 LOCAL
+; $0F739E-$0F73B5 LOCAL JUMP LOCATION
 ShopKeeper_TryToGetPaid:
 {
     STA $00
@@ -913,7 +913,7 @@ pool ShopKeeper_DrawItemWithPrice:
 
 ; ==============================================================================
 
-; $0F74CE-$0F74F2 LOCAL
+; $0F74CE-$0F74F2 LOCAL JUMP LOCATION
 ShopKeeper_DrawItemWithPrice:
 {
     LDA $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA $00

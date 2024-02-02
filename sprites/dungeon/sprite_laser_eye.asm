@@ -14,7 +14,7 @@
 
 ; ==============================================================================
 
-; $0F2462-$0F2487 LOCAL
+; $0F2462-$0F2487 LOCAL JUMP LOCATION
 Sprite_LaserBeam:
 {
     JSL Sprite_PrepAndDrawSingleSmallLong
@@ -42,7 +42,7 @@ Sprite_LaserBeam:
 
 ; ==============================================================================
 
-; $0F2488-$0F24E6 LOCAL
+; $0F2488-$0F24E6 LOCAL JUMP LOCATION
 LaserBeam_Draw:
 {
     PHX : TXY
@@ -115,7 +115,7 @@ pool SpritePrep_LaserEye:
 
 ; ==============================================================================
 
-; $0F24F1-$0F2540 LOCAL
+; $0F24F1-$0F2540 LOCAL JUMP LOCATION
 SpritePrep_LaserEye:
 {
     LDA $0E20, X : CMP.b #$97 : BCC .horizontal
@@ -284,7 +284,7 @@ LaserEye_FiringBeam:
 
 ; ==============================================================================
 
-; $0F25D8-$0F2647 LOCAL
+; $0F25D8-$0F2647 LOCAL JUMP LOCATION
 LaserEye_SpawnBeam:
 {
     LDA.b #$95 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -372,7 +372,7 @@ pool LaserEye_Draw:
 
 ; ==============================================================================
 
-; $0F2708-$0F273E LOCAL
+; $0F2708-$0F273E LOCAL JUMP LOCATION
 LaserEye_Draw:
 {
     LDA !requires_facing, X : BEQ .open_by_default

@@ -122,7 +122,7 @@ Sprite_MoveLong:
 
 ; ==============================================================================
 
-; $0E8094-$0E8098 LOCAL
+; $0E8094-$0E8098 LOCAL JUMP LOCATION
 Sprite4_CheckTileCollision:
 {
     JSL Sprite_CheckTileCollisionLong
@@ -151,7 +151,7 @@ incsrc "sprite_chain_chomp.asm"
 
 ; ==============================================================================
 
-; $0EC211-$0EC219 LOCAL
+; $0EC211-$0EC219 LOCAL JUMP LOCATION
 Sprite4_CheckDamage:
 {
     JSL Sprite_CheckDamageFromPlayerLong
@@ -176,7 +176,7 @@ SpriteActive4_MainLong:
 
 ; ==============================================================================
 
-; $0EC222-$0EC26C LOCAL
+; $0EC222-$0EC26C LOCAL JUMP LOCATION
 SpriteActive4_Main:
 {
     ; Ranges from 0 to 0x1A (since highest pointer is 0xD7)
@@ -264,7 +264,7 @@ Vitreous_SpawnSmallerEyesLong:
 
 ; ==============================================================================
 
-; $0EDECB-$0EDF44 LOCAL
+; $0EDECB-$0EDF44 LOCAL JUMP LOCATION
 Vitreous_SpawnSmallerEyes:
 {
     LDA.b #$09 : STA $0ED0, X
@@ -323,7 +323,7 @@ incsrc "sprite_vitreolus.asm"
 
 ; ==============================================================================
 
-; $0EE893-$0EE897 LOCAL
+; $0EE893-$0EE897 LOCAL JUMP LOCATION
 Sprite4_DirectionToFacePlayer:
 {
     JSL Sprite_DirectionToFacePlayerLong
@@ -333,7 +333,7 @@ Sprite4_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; $0EE898-$0EE89C LOCAL
+; $0EE898-$0EE89C LOCAL JUMP LOCATION
 Sprite4_IsToRightOfPlayer:
 {
     JSL Sprite_IsToRightOfPlayerLong
@@ -343,7 +343,7 @@ Sprite4_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; $0EE89D-$0EE8A1 LOCAL
+; $0EE89D-$0EE8A1 LOCAL JUMP LOCATION
 Sprite4_IsBelowPlayer:
 {
     JSL Sprite_IsBelowPlayerLong
@@ -353,7 +353,7 @@ Sprite4_IsBelowPlayer:
 
 ; ==============================================================================
 
-; $0EE8A2-$0EE8BE LOCAL
+; $0EE8A2-$0EE8BE LOCAL JUMP LOCATION
 Sprite4_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -377,7 +377,7 @@ Sprite4_CheckIfActive:
 
 ; ==============================================================================
 
-; $0EE8C5-$0EE947 LOCAL
+; $0EE8C5-$0EE947 LOCAL JUMP LOCATION
 Sprite4_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -457,7 +457,7 @@ Sprite4_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $0EE948-$0EE951 LOCAL
+; $0EE948-$0EE951 LOCAL JUMP LOCATION
 Sprite4_MoveXyz:
 {
     JSR Sprite4_MoveAltitude
@@ -473,7 +473,7 @@ Sprite4_MoveXyz:
 
 ; ==============================================================================
 
-; $0EE952-$0EE95C LOCAL
+; $0EE952-$0EE95C LOCAL JUMP LOCATION
 Sprite4_MoveHoriz:
 {
     PHX : TXA : CLC : ADC.b #$10 : TAX
@@ -487,7 +487,7 @@ Sprite4_MoveHoriz:
 
 ; ==============================================================================
 
-; $0EE95D-$0EE98A LOCAL
+; $0EE95D-$0EE98A LOCAL JUMP LOCATION
 Sprite4_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
@@ -512,7 +512,7 @@ Sprite4_MoveVert:
 
 ; ==============================================================================
 
-; $0EE98B-$0EE9AC LOCAL
+; $0EE98B-$0EE9AC LOCAL JUMP LOCATION
 Sprite4_MoveAltitude:
 {
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
@@ -531,7 +531,7 @@ Sprite4_MoveAltitude:
 
 ; ==============================================================================
 
-; $0EE9AD-$0EE9B5 LOCAL
+; $0EE9AD-$0EE9B5 LOCAL JUMP LOCATION
 Sprite4_PrepOamCoord:
 {
     ; \task Perhaps come up with a better name for these sublabels?
@@ -630,7 +630,7 @@ CacheSprite_ExecuteAll:
 
 ; ==============================================================================
 
-; $0EEA00-$0EEB67 LOCAL
+; $0EEA00-$0EEB67 LOCAL JUMP LOCATION
 CacheSprite_ExecuteSingle:
 {
     ; Save the relevant data of this non-cached sprite before

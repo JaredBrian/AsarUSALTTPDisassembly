@@ -184,7 +184,7 @@ pool WeathervaneExplosion_DrawWoodChunk:
 
 ; ==============================================================================
 
-; $045188-$0451D3 LOCAL
+; $045188-$0451D3 LOCAL JUMP LOCATION
 WeathervaneExplosion_DrawWoodChunk:
 {
     JSR Ancilla_PrepOamCoord

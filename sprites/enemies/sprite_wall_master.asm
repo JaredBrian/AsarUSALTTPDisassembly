@@ -182,7 +182,7 @@ pool WallMaster_Draw:
 
 ; ==============================================================================
 
-; $0F2FE4-$0F3001 LOCAL
+; $0F2FE4-$0F3001 LOCAL JUMP LOCATION
 WallMaster_Draw:
 {
     LDA.b #$00 : XBA

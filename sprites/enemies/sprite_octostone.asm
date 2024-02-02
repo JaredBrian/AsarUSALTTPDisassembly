@@ -60,7 +60,7 @@ pool Octostone_DrawCrumbling:
 
 ; ==============================================================================
 
-; $035643-$0356A1 LOCAL
+; $035643-$0356A1 LOCAL JUMP LOCATION
 Octostone_DrawCrumbling:
 {
     JSR Sprite_PrepOamCoord

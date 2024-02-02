@@ -26,7 +26,7 @@ Fairy_HandleMovementLong:
 
 ; ==============================================================================
 
-; $0F7D1C-$0F7E32 LOCAL
+; $0F7D1C-$0F7E32 LOCAL JUMP LOCATION
 Fairy_HandleMovement:
 {
     LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X

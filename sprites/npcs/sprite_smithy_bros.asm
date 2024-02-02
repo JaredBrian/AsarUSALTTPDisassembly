@@ -234,7 +234,7 @@ pool SmithyFrog_Draw:
 
 ; ==============================================================================
 
-; $033339-$03334D LOCAL
+; $033339-$03334D LOCAL JUMP LOCATION
 SmithyFrog_Draw:
 {
     LDA.b #$01 : STA $06
@@ -405,7 +405,7 @@ Smithy_ConversationStart:
 
 ; ==============================================================================
 
-; $03343D-$03345E LOCAL
+; $03343D-$03345E LOCAL JUMP LOCATION
 Smithy_NearbyHammerUseListener:
 {
     LDA $0E00, X : BNE .delay
@@ -694,7 +694,7 @@ Smithy_CopiouslyThankful:
 
 ; ==============================================================================
 
-; $0335A6-$0335D2 LOCAL
+; $0335A6-$0335D2 LOCAL JUMP LOCATION
 Smithy_SpawnOtherSmithy:
 {
     LDA.b #$1A
@@ -755,7 +755,7 @@ pool Smithy_Draw:
 
 ; ==============================================================================
 
-; $033673-$033695 LOCAL
+; $033673-$033695 LOCAL JUMP LOCATION
 Smithy_Draw:
 {
     LDA.b #$02 : STA $06
@@ -826,7 +826,7 @@ pool SmithyBros_SpawnSmithySpark:
 
 ; ==============================================================================
 
-; $0336CD-$0336FB LOCAL
+; $0336CD-$0336FB LOCAL JUMP LOCATION
 SmithyBros_SpawnSmithySpark:
 {
     LDA.b #$1A
@@ -870,7 +870,7 @@ pool SmithySpark_Draw:
 
 ; ==============================================================================
 
-; $03372C-$033749 LOCAL
+; $03372C-$033749 LOCAL JUMP LOCATION
 SmithySpark_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB

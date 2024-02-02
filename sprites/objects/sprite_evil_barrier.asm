@@ -15,7 +15,7 @@ Sprite_EvilBarrierLong:
 
 ; ==============================================================================
 
-; $0EF06B-$0EF0E0 LOCAL
+; $0EF06B-$0EF0E0 LOCAL JUMP LOCATION
 Sprite_EvilBarrier:
 {
     JSR EvilBarrier_Draw
@@ -135,7 +135,7 @@ pool EvilBarrier_Draw:
 
 ; ==============================================================================
 
-; $0EF249-$0EF276 LOCAL
+; $0EF249-$0EF276 LOCAL JUMP LOCATION
 EvilBarrier_Draw:
 {
     LDA.b #$00   : XBA

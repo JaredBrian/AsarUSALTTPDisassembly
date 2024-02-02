@@ -17,7 +17,7 @@ Sprite_WaterfallLong:
 
 ; ==============================================================================
 
-; $0D75AD-$0D75B7 LOCAL
+; $0D75AD-$0D75B7 LOCAL JUMP LOCATION
 Sprite_Waterfall:
 {
     LDA $0E80, X

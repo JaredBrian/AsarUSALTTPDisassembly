@@ -268,7 +268,7 @@ pool Octorock_SpitOutRock:
 
 ; ==============================================================================
 
-; $0354CD-$035513 LOCAL
+; $0354CD-$035513 LOCAL JUMP LOCATION
 Octorock_SpitOutRock:
 {
     LDA.b #$07 : JSL Sound_SetSfx2PanLong
@@ -321,7 +321,7 @@ pool Octorock_Draw:
 
 ; ==============================================================================
 
-; $03554A-$0355B8 LOCAL
+; $03554A-$0355B8 LOCAL JUMP LOCATION
 Octorock_Draw:
 {
     !top_x_bit_low  = $0E

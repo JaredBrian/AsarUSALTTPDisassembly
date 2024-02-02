@@ -631,7 +631,7 @@ pool Oam_ResetRegionBases:
     ; \note Appears to reset oam regions every frame that the sprite
     ; handlers are active. Whether these are just for sprites themselves
     ; and not object handlers, I dunno.
-; $0303D3-$0303E5 LOCAL
+; $0303D3-$0303E5 LOCAL JUMP LOCATION
 Oam_ResetRegionBases:
 {
     LDY.b #$00
@@ -675,7 +675,7 @@ Sprite_SetupHitBoxLong:
 
 ; ==============================================================================
 
-; $0303F2-$0304BC LOCAL
+; $0303F2-$0304BC LOCAL JUMP LOCATION
 {
     JSR Sprite_Get_16_bit_Coords
     
@@ -824,7 +824,7 @@ Sprite_Get_16_bit_CoordsLong:
 
 ; ==============================================================================
 
-; $0304C1-$0304D9 LOCAL
+; $0304C1-$0304D9 LOCAL JUMP LOCATION
 Sprite_Get_16_bit_Coords:
 {
     ; $0FD8 = sprite's X coordinate, $0FDA = sprite's Y coordinate
@@ -853,7 +853,7 @@ Sprite_ExecuteSingleLong:
 
 ; ==============================================================================
 
-; $0304E2-$030525 LOCAL
+; $0304E2-$030525 LOCAL JUMP LOCATION
 Sprite_ExecuteSingle:
 {
     LDA $0DD0, X : BEQ .inactiveSprite
@@ -1425,7 +1425,7 @@ incsrc "sprite_throwable_scenery.asm"
 
 ; ==============================================================================
 
-; $032D03-$032D4F LOCAL
+; $032D03-$032D4F LOCAL JUMP LOCATION
 Entity_ApplyRumbleToSprites:
 {
     LDY.b #$0F
@@ -2028,7 +2028,7 @@ incsrc "sprite_buzzblob.asm"
 
 ; ==============================================================================
 
-; $0359C0-$0359D4 LOCAL
+; $0359C0-$0359D4 LOCAL JUMP LOCATION
 Sprite_WallInducedSpeedInversion:
 {
     LDA $0E70, X : AND.b #$03 : BEQ .no_horiz_collision
@@ -2048,7 +2048,7 @@ Sprite_WallInducedSpeedInversion:
 
 ; ==============================================================================
 
-; $0359D5-$0359E1 LOCAL
+; $0359D5-$0359E1 LOCAL JUMP LOCATION
 Sprite_Invert_XY_Speeds:
 {
     JSR Sprite_InvertVertSpeed
@@ -2064,7 +2064,7 @@ Sprite_Invert_XY_Speeds:
 
 ; ==============================================================================
 
-; $0359E2-$0359EB LOCAL
+; $0359E2-$0359EB LOCAL JUMP LOCATION
 Sprite_InvertVertSpeed:
 {
     ; Flip sign of Y velocity
@@ -2075,7 +2075,7 @@ Sprite_InvertVertSpeed:
 
 ; ==============================================================================
 
-; $0359EC-$035A08 LOCAL
+; $0359EC-$035A08 LOCAL JUMP LOCATION
 Sprite_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -2244,7 +2244,7 @@ Sprite_PrepAndDrawSingleSmallLong:
     db 0, 0, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3
 }
 
-; $035C10-$035C53 LOCAL
+; $035C10-$035C53 LOCAL JUMP LOCATION
 Sprite_PrepAndDrawSingleLarge:
 {
     JSR Sprite_PrepOamCoord
@@ -2317,7 +2317,7 @@ pool Sprite_DrawShadowLong:
 
 ; ==============================================================================
 
-; $035C64-$035CEE LOCAL
+; $035C64-$035CEE LOCAL JUMP LOCATION
 Sprite_DrawShadow:
 {
     ; This draws the shadow underneath a sprite
@@ -2388,7 +2388,7 @@ Sprite_DrawShadow:
 
 ; ==============================================================================
 
-; $035CEF-$035D37 LOCAL
+; $035CEF-$035D37 LOCAL JUMP LOCATION
 Sprite_PrepAndDrawSingleSmall:
 {
     JSR Sprite_PrepOamCoord
@@ -2445,7 +2445,7 @@ DashKey_Draw:
 
 ; ==============================================================================
 
-; $035D40-$035DAE LOCAL
+; $035D40-$035DAE LOCAL JUMP LOCATION
 Sprite_DrawKey:
     shared Sprite_DrawThinAndTall:
 {
@@ -2742,7 +2742,7 @@ SpriteStunned_Main:
 
 ; ==============================================================================
 
-; $036164-$036171 LOCAL
+; $036164-$036171 LOCAL JUMP LOCATION
 ThrowableScenery_InteractWithSpritesAndTiles:
 {
     JSR Sprite_Move
@@ -2760,7 +2760,7 @@ ThrowableScenery_InteractWithSpritesAndTiles:
 
     ; This routine is intended to be used by 'throwable sprites' to damage
     ; other sprites.
-; $036172-$0361B1 LOCAL
+; $036172-$0361B1 LOCAL JUMP LOCATION
 ThrownSprite_CheckDamageToPeers:
 {
     LDA $0F10, X : BNE .delay_damaging_others
@@ -2799,7 +2799,7 @@ ThrownSprite_CheckDamageToPeers:
 
 ; ==============================================================================
 
-; $0361B2-$03626D LOCAL
+; $0361B2-$03626D LOCAL JUMP LOCATION
 ThrownSprite_CheckDamageToSinglePeer:
 {
     LDA $0D10, X : STA $00
@@ -2918,7 +2918,7 @@ ThrownSprite_CheckDamageToSinglePeer:
 
 ; ==============================================================================
 
-; $03626E-$03627C LOCAL
+; $03626E-$03627C LOCAL JUMP LOCATION
 Sprite_Halve_XY_Speeds:
 {
     ; This sequence does an arithmetic (not logical!) shift right on
@@ -2936,7 +2936,7 @@ Sprite_Halve_XY_Speeds:
 
 ; ==============================================================================
 
-; $036286-$0362A6 LOCAL
+; $036286-$0362A6 LOCAL JUMP LOCATION
 Fish_SpawnLeapingFish:
 {
     ; I think this is the routine called to spawn the fish that jump out
@@ -2964,7 +2964,7 @@ Fish_SpawnLeapingFish:
     RTS
 }
 
-; $0362B6-$036342 LOCAL
+; $0362B6-$036342 LOCAL JUMP LOCATION
 {
     JSL Sprite_DrawRippleIfInWater
     
@@ -3159,7 +3159,7 @@ Sprite_PrepOamCoordLong:
 
 ; ==============================================================================
 
-; $03641A-$03641D LOCAL
+; $03641A-$03641D LOCAL JUMP LOCATION
 Sprite_PrepOamCoordSafeWrapper:
 {
     ; This wrapper is considered 'Safe' because it negates the caller
@@ -3176,7 +3176,7 @@ Sprite_PrepOamCoordSafeWrapper:
 
 ; ==============================================================================
 
-; $03641E-$036495 LOCAL
+; $03641E-$036495 LOCAL JUMP LOCATION
 Sprite_PrepOamCoord:
 {
     ; Enable the sprite to move.
@@ -3313,7 +3313,7 @@ Sprite_CheckTileCollision:
 
 ; ==============================================================================
 
-; $0364DB-$0365B7 LOCAL
+; $0364DB-$0365B7 LOCAL JUMP LOCATION
 Sprite_CheckTileCollisionSingleLayer:
 {
     LDA $0E40, X : AND.b #$20 : BEQ .BRANCH_ALPHA
@@ -3484,7 +3484,7 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; $0365B8-$0365ED LOCAL
+; $0365B8-$0365ED LOCAL JUMP LOCATION
 {
     ; $03672F IN ROM
     JSR $E72F : BCC .BRANCH_ALPHA
@@ -3511,7 +3511,7 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; $0365EE-$036623 LOCAL
+; $0365EE-$036623 LOCAL JUMP LOCATION
 {
     ; $03672F IN ROM
     JSR $E72F : BCC .return
@@ -3539,7 +3539,7 @@ Sprite_CheckTileCollisionSingleLayer:
     RTS
 }
 
-; $036624-$03664A LOCAL
+; $036624-$03664A LOCAL JUMP LOCATION
 {
     LDA $0310 : CLC : ADC $0D00, X : STA $0D00, X
     LDA $0311 : ADC $0D20, X : STA $0D20, X
@@ -3584,7 +3584,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
 ; ==============================================================================
 
-; $03672F-$03687A LOCAL
+; $03672F-$03687A LOCAL JUMP LOCATION
 {
     ; Seems that $08 is a value from 0 to 3 indicating the direction
     ; to check collision in... Pretty sure anyways.
@@ -3819,7 +3819,7 @@ Entity_GetTileAttr:
 
 ; ==============================================================================
 
-; $036883-$0368D5 LOCAL
+; $036883-$0368D5 LOCAL JUMP LOCATION
 Sprite_GetTileAttrLocal:
 {
     ; Notes:
@@ -3901,7 +3901,7 @@ Entity_CheckSlopedTileCollisionLong:
     ; (digonally)
     ; \task go into more detail figuring out how this works now that we have
     ; a foothold.
-; $0368FE-$03692B LOCAL
+; $0368FE-$03692B LOCAL JUMP LOCATION
 Entity_CheckSlopedTileCollision:
 {
     ; Not sure what this routine does
@@ -3940,13 +3940,13 @@ Entity_CheckSlopedTileCollision:
     ; \optimize Has been identified as time consuming (relative to what it
     ; does in real terms). Similar functions in other banks will have
     ; similar performance.
-; $03692C-$036931 LOCAL
+; $03692C-$036931 LOCAL JUMP LOCATION
 Sprite_Move:
 {
     JSR .do_horiz
     JMP .do_vert
     
-; $036932-$03693D LOCAL
+; $036932-$03693D LOCAL JUMP LOCATION
     shared Sprite_MoveHoriz:
     
     .do_horiz
@@ -3963,7 +3963,7 @@ Sprite_Move:
     
     .do_vert
     
-; $03693E-$03696B LOCAL
+; $03693E-$03696B LOCAL JUMP LOCATION
     shared Sprite_MoveVert:
     
     LDA $0D40, X : BEQ .return
@@ -3988,7 +3988,7 @@ Sprite_Move:
 
 ; ==============================================================================
 
-; $03696C-$03698D LOCAL
+; $03696C-$03698D LOCAL JUMP LOCATION
 Sprite_MoveAltitude:
 {
     ; Do... altitude adjustment...?
@@ -4018,7 +4018,7 @@ Sprite_ProjectSpeedTowardsPlayer_return:
 
 ; ==============================================================================
 
-; $036991-$036A03 LOCAL
+; $036991-$036A03 LOCAL JUMP LOCATION
 Sprite_ProjectSpeedTowardsPlayer:
 {
     ; Calculates a trajectory with a given magnitude.... but there's some
@@ -4127,7 +4127,7 @@ Sprite_ProjectSpeedTowardsPlayer:
 
 ; ==============================================================================
 
-; $036A04-$036A11 LOCAL
+; $036A04-$036A11 LOCAL JUMP LOCATION
 Sprite_ApplySpeedTowardsPlayer:
 {
     JSR Sprite_ProjectSpeedTowardsPlayer
@@ -4193,7 +4193,7 @@ pool Sprite_ProjectSpeedTowardsEntity:
 
 ; ==============================================================================
 
-; $036A2D-$036A9F LOCAL
+; $036A2D-$036A9F LOCAL JUMP LOCATION
 Sprite_ProjectSpeedTowardsEntity:
 {
     STA $01 : CMP.b #$00 : BEQ .return
@@ -4297,7 +4297,7 @@ Sprite_DirectionToFacePlayerLong:
 
 ; ==============================================================================
 
-; $036AA4-$036ACC LOCAL
+; $036AA4-$036ACC LOCAL JUMP LOCATION
     ; \return       $0E is low byte of player_y_pos - sprite_y_pos
     ; \return       $0F is low byte of player_x_pos - sprite_x_pos
 Sprite_DirectionToFacePlayer:
@@ -4345,7 +4345,7 @@ Sprite_IsToRightOfPlayerLong:
 
 ; ==============================================================================
 
-; $036AD1-$036AE3 LOCAL
+; $036AD1-$036AE3 LOCAL JUMP LOCATION
 Sprite_IsToRightOfPlayer:
 {
     LDY.b #$00
@@ -4376,7 +4376,7 @@ Sprite_IsBelowPlayerLong:
 
     ; \return Y=0 sprite is above or level with player
     ; \return Y=1 sprite is below player
-; $036AE8-$036B09 LOCAL
+; $036AE8-$036B09 LOCAL JUMP LOCATION
 Sprite_IsBelowPlayer:
 {
     LDY.b #$00
@@ -4405,7 +4405,7 @@ Sprite_IsBelowPlayer:
 
 ; ==============================================================================
 
-; $036B0A-$036B1C LOCAL
+; $036B0A-$036B1C LOCAL JUMP LOCATION
 Sprite_IsToRightOfEntity:
 {
     ; $04 = X coordinate of an entity
@@ -4424,7 +4424,7 @@ Sprite_IsToRightOfEntity:
 
 ; ==============================================================================
 
-; $036B1D-$036B2F LOCAL
+; $036B1D-$036B2F LOCAL JUMP LOCATION
 Sprite_IsBelowEntity:
 {
     ; $06 = coordinate of an entity
@@ -4500,7 +4500,7 @@ Sprite_DirectionToFaceEntity:
     db $0F db $0F db $18 db $0F db $0F db $13 db $0F db $0F
 }
 
-; $036B76-$036C5B LOCAL
+; $036B76-$036C5B LOCAL JUMP LOCATION
 {
     ; Exclusively called by soldier like enemies... but not sure why...?
     
@@ -5040,7 +5040,7 @@ Ancilla_CheckSpriteDamage:
     RTL
 }
 
-; $036EC8-$036F60 LOCAL
+; $036EC8-$036F60 LOCAL JUMP LOCATION
 {
     ; Is the sprite alive?
     LDA $0DD0, X : CMP.b #$09 : BCC .not_fully_active_sprite
@@ -5478,7 +5478,7 @@ Sprite_CheckDamageToPlayerIgnoreLayerLong:
 
 ; ==============================================================================
 
-; $037145-$0371F5 LOCAL
+; $037145-$0371F5 LOCAL JUMP LOCATION
 Sprite_CheckDamageToPlayer:
 {
     ; Return value CLC = no damage
@@ -5624,7 +5624,7 @@ Sprite_CheckDamageToPlayer:
     JMP Sprite_ScheduleForBreakage
 }
 
-; $0371F6-$037227 LOCAL
+; $0371F6-$037227 LOCAL JUMP LOCATION
 {
     ; Load the sprite's Z component
     LDA $0F70, X : STA $0C
@@ -5655,7 +5655,7 @@ Sprite_CheckDamageToPlayer:
 
 ; ==============================================================================
 
-; $037228-$0372A9 LOCAL
+; $037228-$0372A9 LOCAL JUMP LOCATION
 Sprite_CheckIfLifted:
 {
     LDA $11 : ORA $3C : ORA $0FC1 : BNE .return
@@ -5741,7 +5741,7 @@ Sprite_CheckDamageFromPlayerLong:
 
 ; ==============================================================================
 
-; $0372B4-$0373C9 LOCAL
+; $0372B4-$0373C9 LOCAL JUMP LOCATION
 Sprite_CheckDamageFromPlayer:
 {
     LDA $0EF0, X : AND.b #$80 : BNE .just_began_death_sequence
@@ -5994,7 +5994,7 @@ Bump_Damage_Table:
 
 ; ==============================================================================
 
-; $037445-$03745F LOCAL
+; $037445-$03745F LOCAL JUMP LOCATION
 {
     LDA.b #$30 : JSR Sprite_ApplyRecoilToPlayer
     
@@ -6008,7 +6008,7 @@ Bump_Damage_Table:
     JMP $F3C7 ; $0373C7 IN ROM
 }
 
-; $037460-$03746C LOCAL
+; $037460-$03746C LOCAL JUMP LOCATION
 {
     LDA $0DB0, X : CMP #$03 : BCS .alpha
     
@@ -6041,7 +6041,7 @@ Player_SetupActionHitBoxLong:
 
 ; ==============================================================================
 
-; $037594-$0375DF LOCAL
+; $037594-$0375DF LOCAL JUMP LOCATION
 pool Player_SetupActionHitBox:
 {
     .spin_attack_hit_box
@@ -6076,7 +6076,7 @@ pool Player_SetupActionHitBox:
 
 ; ==============================================================================
 
-; $0375E0-$037644 LOCAL
+; $0375E0-$037644 LOCAL JUMP LOCATION
 Player_SetupActionHitBox:
 {
     LDA $0372 : BNE .dash_hit_box
@@ -6140,7 +6140,7 @@ Player_SetupActionHitBox:
 
 ; ==============================================================================
 
-; $037645-$037687 LOCAL
+; $037645-$037687 LOCAL JUMP LOCATION
 {
     LDY.b #$00
     
@@ -6186,7 +6186,7 @@ Player_SetupActionHitBox:
 
 ; ==============================================================================
 
-; $037688-$03769E LOCAL
+; $037688-$03769E LOCAL JUMP LOCATION
 Sprite_ApplyRecoilToPlayer:
 {
     PHA
@@ -6206,7 +6206,7 @@ Sprite_ApplyRecoilToPlayer:
 
 ; ==============================================================================
 
-; $03769F-$0376C9 LOCAL
+; $03769F-$0376C9 LOCAL JUMP LOCATION
 Player_PlaceRepulseSpark:
 {
     LDA $0FAC : BNE .respulse_spark_already_active
@@ -6263,7 +6263,7 @@ Sprite_PlaceRupulseSpark:
 
 ; ==============================================================================
 
-; $037705-$03772E LOCAL
+; $037705-$03772E LOCAL JUMP LOCATION
 Player_SetupHitBox:
 {
     LDA $037B : BNE .no_player_interaction_with_sprites
@@ -6342,7 +6342,7 @@ Player_SetupHitBox:
 
 ; ==============================================================================
 
-; $0377EF-$037835 LOCAL
+; $0377EF-$037835 LOCAL JUMP LOCATION
 Sprite_SetupHitBox:
 {
     ; Check the height value of the sprite.
@@ -6379,7 +6379,7 @@ Sprite_SetupHitBox:
 
 ; ==============================================================================
 
-; $037836-$037863 LOCAL
+; $037836-$037863 LOCAL JUMP LOCATION
 Utility_CheckIfHitBoxesOverlap:
 {
     ; returns carry clear if there was no overlap
@@ -6444,7 +6444,7 @@ Sprite_OAM_AllocateDeferToPlayerLong:
 
 ; ==============================================================================
 
-; $03786C-$0378A1 LOCAL
+; $03786C-$0378A1 LOCAL JUMP LOCATION
 OAM_AllocateDeferToPlayer:
 {
     ; Might want to rename this to a Sprite_ namespace...
@@ -6483,7 +6483,7 @@ OAM_AllocateDeferToPlayer:
 
 ; ==============================================================================
 
-; $0378A2-$037916 LOCAL
+; $0378A2-$037916 LOCAL JUMP LOCATION
 SpriteDeath_Main:
 {
     ; Death routine for sprites
@@ -6581,7 +6581,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; $037923-$037A53 LOCAL
+; $037923-$037A53 LOCAL JUMP LOCATION
 {
     ; Is it a Vitreous small eyeball?
     LDA $0E20, X : CMP.b #$BE : BNE .not_small_vitreous_eyeball
@@ -6813,7 +6813,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; $037B2A-$037B95 LOCAL
+; $037B2A-$037B95 LOCAL JUMP LOCATION
 SpriteDeath_DrawPerishingOverlay:
 {
     LDA $046C : CMP.b #$04 : BNE .dont_use_super_priority
@@ -6977,7 +6977,7 @@ SpriteCustomFall_Main:
     RTS
 }
 
-; $037D17-$037D42 LOCAL
+; $037D17-$037D42 LOCAL JUMP LOCATION
 {
     LDA $0E20, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
     
@@ -7011,7 +7011,7 @@ SpriteCustomFall_Main:
 
 ; ==============================================================================
 
-; $037E5B-$037EB3 LOCAL
+; $037E5B-$037EB3 LOCAL JUMP LOCATION
 {
     JSR Sprite_PrepOamCoord
     
@@ -7080,7 +7080,7 @@ Sprite_CorrectOamEntriesLong:
 
 ; ==============================================================================
 
-; $037EBC-$037F25 LOCAL
+; $037EBC-$037F25 LOCAL JUMP LOCATION
 Sprite_CorrectOamEntries:
 {
     !spr_y_lo = $00
@@ -7173,7 +7173,7 @@ Sprite_CorrectOamEntries:
 
 ; ==============================================================================
 
-; $037F26-$037F48 LOCAL
+; $037F26-$037F48 LOCAL JUMP LOCATION
 Sprite_GetScreenRelativeCoords:
 {
     STY $0B
@@ -7193,7 +7193,7 @@ Sprite_GetScreenRelativeCoords:
 
 ; ==============================================================================
 
-; $037F49-$037F55 LOCAL
+; $037F49-$037F55 LOCAL JUMP LOCATION
 Sprite_CheckIfOnScreenX:
 {
     REP #$20
@@ -7207,7 +7207,7 @@ Sprite_CheckIfOnScreenX:
 
 ; ==============================================================================
 
-; $037F56-$037F6C LOCAL
+; $037F56-$037F6C LOCAL JUMP LOCATION
 Sprite_CheckIfOnScreenY:
 {
     REP #$20
@@ -7245,7 +7245,7 @@ pool Sprite_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $037F78-$037FF7 LOCAL
+; $037F78-$037FF7 LOCAL JUMP LOCATION
 Sprite_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return

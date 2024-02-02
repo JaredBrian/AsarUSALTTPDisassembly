@@ -379,7 +379,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $06436F-$0643BC LOCAL
+; $06436F-$0643BC LOCAL JUMP LOCATION
 {
     JSL Polyhedral_InitThread
     JSR $C3BD   ; $0643BD
@@ -451,7 +451,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $064412-$064424 LOCAL
+; $064412-$064424 LOCAL JUMP LOCATION
 {
     LDA.b #$00 : STA $1E08
     LDA.b #$09 : STA $1E09
@@ -477,7 +477,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $064435-$064447 LOCAL
+; $064435-$064447 LOCAL JUMP LOCATION
 {
     LDA.b #$01 : STA $012A
     
@@ -494,7 +494,7 @@ Intro_InitGfx:
 
 ; ==============================================================================
 
-; $064448-$06445A LOCAL
+; $064448-$06445A LOCAL JUMP LOCATION
 {
     LDA $1E00
     
@@ -631,7 +631,7 @@ Intro_InitGfx:
     RTS
 }
 
-; $064534 - $064542 LOCAL
+; $064534 - $064542 LOCAL JUMP LOCATION
 {
     LDA $1E10, X : BEQ .alpha
         JSL UseImplicitRegIndexedLocalJumpTable
@@ -799,7 +799,7 @@ AnimateSceneSprite_DrawTriangle
     dw   0,  48 : db $AE, $5B, $00, $02
 }
 
-; $06470F-$06472E LOCAL
+; $06470F-$06472E LOCAL JUMP LOCATION
 {
     LDA.b #$10 : STA $06
                  STZ $07
@@ -822,7 +822,7 @@ AnimateSceneSprite_DrawTriangle
     RTS
 }
 
-; $06482F-$06484E LOCAL
+; $06482F-$06484E LOCAL JUMP LOCATION
 {
     LDA.b #$10 : STA $06
                  STZ $07
@@ -872,7 +872,7 @@ AnimateSceneSprite_DrawTriangle
     RTS
 }
 
-; $0648D0-$0648E1 LOCAL
+; $0648D0-$0648E1 LOCAL JUMP LOCATION
 {
     LDA.b #$0D : STA $06
                  STZ $07
@@ -908,7 +908,7 @@ AnimateSceneSprite_DrawTriangle
     RTS
 }
 
-; $064956-$064971 LOCAL
+; $064956-$064971 LOCAL JUMP LOCATION
 {
     LDA.b #$01 : STA $06 : STZ $07
     
@@ -926,7 +926,7 @@ AnimateSceneSprite_DrawTriangle
 
 ; ==============================================================================
 
-; $064972-$0649F0 LOCAL
+; $064972-$0649F0 LOCAL JUMP LOCATION
 {
     ; Puts triforce sprites in OAM buffer.
     LDA $1E30, X : STA $00
@@ -993,7 +993,7 @@ AnimateSceneSprite_DrawTriangle
 
 ; ==============================================================================
 
-; $0649F1-$064A4B LOCAL
+; $0649F1-$064A4B LOCAL JUMP LOCATION
 {
     LDA $1E58, X : BEQ .BRANCH_2
         ASL #4 : CLC : ADC $1E28, X : STA $1E28, X
@@ -1040,7 +1040,7 @@ AnimateSceneSprite_DrawTriangle
 
 ; ==============================================================================
 
-; $064A4C-$064A53 LOCAL
+; $064A4C-$064A53 LOCAL JUMP LOCATION
 {
     LDA $1E02 : BEQ .BRANCH_1
         ; Note that this maneuver will pull the return address from this Sub off the stack
@@ -1113,7 +1113,7 @@ Credits_InitializePolyhedral:
 
 ; ==============================================================================
 
-; $064ABC-$064AD7 LOCAL
+; $064ABC-$064AD7 LOCAL JUMP LOCATION
 {
     LDA.b #$01 : STA $012A
                  STA $1E02
@@ -1134,7 +1134,7 @@ Credits_InitializePolyhedral:
 
 ; ==============================================================================
 
-; $064AD8-$064AE8 LOCAL
+; $064AD8-$064AE8 LOCAL JUMP LOCATION
 {
     LDA $1E00
     
@@ -1264,7 +1264,7 @@ Credits_AnimateTheTriangles:
 
 ; ==============================================================================
 
-; $064BB0-$064BC2 LOCAL
+; $064BB0-$064BC2 LOCAL JUMP LOCATION
 {
     LDA.b #$01 : STA $012A
     
@@ -1280,7 +1280,7 @@ Credits_AnimateTheTriangles:
 
 ; ==============================================================================
 
-; $064BC3-$064BD5 LOCAL
+; $064BC3-$064BD5 LOCAL JUMP LOCATION
 {
     LDA $1F05 : CLC : ADC.b #$03 : STA $1F05
     LDA $1F04 : CLC : ADC.b #$01 : STA $1F04
@@ -1416,7 +1416,7 @@ Credits_AnimateTheTriangles:
 
 ; ==============================================================================
 
-; $064CB0-$064D0C LOCAL
+; $064CB0-$064D0C LOCAL JUMP LOCATION
 {
     LDA.w $CC65, X : CMP $1E30, X : BCC .BRANCH_1
         LDA.w $CC60, X
@@ -1642,7 +1642,7 @@ Module_SelectFile:
 
 ; ==============================================================================
 
-; $064E1B-$064E52 LOCAL
+; $064E1B-$064E52 LOCAL JUMP LOCATION
 {
     ; vram target is 0x1000 (0x2000 in bytes) aka BG0's tilemap
     LDA.w #$0010 : STA $1002
@@ -1784,7 +1784,7 @@ FileSelect_TriggerStripesAndAdvance:
 
 ; ==============================================================================
 
-; $064EC7-$064EDB LOCAL
+; $064EC7-$064EDB LOCAL JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -2137,7 +2137,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; $0650C6-$0650E5 LOCAL
+; $0650C6-$0650E5 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -2165,7 +2165,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; $06513F-$065239 LOCAL
+; $06513F-$065239 LOCAL JUMP LOCATION
 {
     REP #$10
     
@@ -2320,7 +2320,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; $06527B-$06536E LOCAL
+; $06527B-$06536E LOCAL JUMP LOCATION
 {
     LDA.b #$04
     LDX.b #$01
@@ -2456,7 +2456,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; $065371-$0653DB LOCAL
+; $065371-$0653DB LOCAL JUMP LOCATION
 {
     LDX $C8
     
@@ -2519,7 +2519,7 @@ Module_CopyFile:
 
 ; ==============================================================================
 
-; $0653DC-$065415 LOCAL
+; $0653DC-$065415 LOCAL JUMP LOCATION
 {
     SEP #$20
     
@@ -2603,7 +2603,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; $0654BA-$065596 LOCAL
+; $0654BA-$065596 LOCAL JUMP LOCATION
 {
     REP #$10
     
@@ -2742,7 +2742,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; $065599-$06562F LOCAL
+; $065599-$06562F LOCAL JUMP LOCATION
 {
     LDA $B0 : ASL A : STA $00
     
@@ -2818,7 +2818,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; $06563C-$065694 LOCAL
+; $06563C-$065694 LOCAL JUMP LOCATION
 {
     ; Draws both the Player's name and the hearts of that player to screen.
     
@@ -2880,7 +2880,7 @@ Module_EraseFile:
 
 ; ==============================================================================
 
-; $0656AF-$0657A2 LOCAL
+; $0656AF-$0657A2 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -3043,7 +3043,7 @@ pool SelectFile_DrawFairy:
 
 ; ==============================================================================
 
-; $0657A5-$0657CA LOCAL
+; $0657A5-$0657CA LOCAL JUMP LOCATION
 SelectFile_DrawFairy:
 {
     ; This routine animates the fairy on the select screen.
@@ -3074,7 +3074,7 @@ SelectFile_DrawFairy:
 
 ; ==============================================================================
 
-; $0657DB-$065889 LOCAL
+; $0657DB-$065889 LOCAL JUMP LOCATION
 {
     !onesDigit     = $02
     !tensDigit     = $04
@@ -3616,7 +3616,7 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; $065C8C-$065CBE LOCAL
+; $065C8C-$065CBE LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -3648,7 +3648,7 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; $065CBF-$065D23 LOCAL
+; $065CBF-$065D23 LOCAL JUMP LOCATION
 {
     LDA $F0 : AND.b #$C0 : BEQ .BRANCH_5
         STA $02
@@ -3708,7 +3708,7 @@ Module_NamePlayer:
 
 ; ==============================================================================
 
-; $065D30-$065D6C LOCAL
+; $065D30-$065D6C LOCAL JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -3733,7 +3733,7 @@ Module_NamePlayer:
     RTS
 }
 
-; $066D82-$066DAC LOCAL
+; $066D82-$066DAC LOCAL JUMP LOCATION
 Intro_DisplayNintendoLogo:
 {
     PHB : PHK : PLB
@@ -3934,7 +3934,7 @@ Attract_InitGraphics:
 
 ; ==============================================================================
 
-; $066EA6-$066EB9 LOCAL
+; $066EA6-$066EB9 LOCAL JUMP LOCATION
 Attract_SlowBrigthenSetFlag:
 {
     ; Wait until screen brightness is at max.
@@ -5010,7 +5010,7 @@ Attract_MaidenWarp:
     RTL
 }
 
-; $06757B-$067581 LOCAL
+; $06757B-$067581 LOCAL JUMP LOCATION
 {
     LDA $61 : BEQ .BRANCH_ALPHA
         INC $60
@@ -5020,7 +5020,7 @@ Attract_MaidenWarp:
     RTS
 }
 
-; $067592-$0675FA LOCAL
+; $067592-$0675FA LOCAL JUMP LOCATION
 Dramagahnim_ReadySpell:
 {
     LDA $1A : LSR A : AND.b #$02 : TAX
@@ -5077,7 +5077,7 @@ Dramagahnim_ReadySpell:
     RTS
 }
 
-; $067613-$067674 LOCAL
+; $067613-$067674 LOCAL JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -5122,7 +5122,7 @@ Dramagahnim_ReadySpell:
     RTS
 }
 
-; $067689-$0676E1 LOCAL
+; $067689-$0676E1 LOCAL JUMP LOCATION
 {
     LDA $51 : CMP.b #$06 : BNE .BRANCH_ALPHA
         INC $52
@@ -5169,7 +5169,7 @@ Dramagahnim_ReadySpell:
     RTS
 }
 
-; $0676E2-$0676FF LOCAL
+; $0676E2-$0676FF LOCAL JUMP LOCATION
 {
     JSR Attract_ShowTimedTextMessage
     
@@ -5241,7 +5241,7 @@ Attract_LegendGraphics:
 
 ; ==============================================================================
 
-; $06773E-$067765 LOCAL
+; $06773E-$067765 LOCAL JUMP LOCATION
 Attract_LoadNextLegendGraphic:
 {
     !picSize = $00
@@ -5275,7 +5275,7 @@ Attract_LoadNextLegendGraphic:
 
 ; ==============================================================================
 
-; $067766-$067782 LOCAL
+; $067766-$067782 LOCAL JUMP LOCATION
 Attract_ShowTimedTextMessage:
 {
     LDA $E8 : STA $20
@@ -5301,7 +5301,7 @@ Attract_ShowTimedTextMessage:
 
 ; ==============================================================================
 
-; $067783-$0677BD LOCAL
+; $067783-$0677BD LOCAL JUMP LOCATION
 Attract_AdjustMapZoom:
 {
     REP #$10
@@ -5335,7 +5335,7 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
-; $0677E6-$067878 LOCAL
+; $0677E6-$067878 LOCAL JUMP LOCATION
 {
     LDA.b #$09 : STA $94
     
@@ -5412,7 +5412,7 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
-; $067879-$0678A6 LOCAL
+; $067879-$0678A6 LOCAL JUMP LOCATION
 {
     SEP #$10
     
@@ -5439,7 +5439,7 @@ Attract_AdjustMapZoom:
 
 ; ==============================================================================
 
-; $0679B5-$0679E3 LOCAL
+; $0679B5-$0679E3 LOCAL JUMP LOCATION
 Attract_DrawSpriteSet:
 {
     ; Y - One less than the number of sprites to draw to OAM buffer
@@ -5498,7 +5498,7 @@ pool Attract_DrawZelda:
     
 ; ==============================================================================
 
-; $0679E8-$067A26 LOCAL
+; $0679E8-$067A26 LOCAL JUMP LOCATION
 Atract_DrawZelda:
 {
     ; Pardon me for saying so, but this routine is pretty damn silly.
@@ -5536,7 +5536,7 @@ Atract_DrawZelda:
 
 ; ==============================================================================
 
-; $067A30-$067A86 LOCAL
+; $067A30-$067A86 LOCAL JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -5595,7 +5595,7 @@ Atract_DrawZelda:
     dl $0CFA87
 }
 
-; $067AA3-$067AC1 LOCAL
+; $067AA3-$067AC1 LOCAL JUMP LOCATION
 Attract_SetupHdma:
 {
     ; Note: This sets up the windowing via hdma for the legend sequence.
@@ -5741,7 +5741,7 @@ Intro_HandleLogoSword:
 
 ; ==============================================================================
     
-; $067E45-$067EE8 LOCAL
+; $067E45-$067EE8 LOCAL JUMP LOCATION
 {
     LDA.b #$07 : STA $CB
     

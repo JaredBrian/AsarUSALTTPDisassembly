@@ -82,7 +82,7 @@ Garnish_ExecuteLowerSlotsLong:
 
 ; ==============================================================================
 
-; $04B08C-$04B096 LOCAL
+; $04B08C-$04B096 LOCAL JUMP LOCATION
 Garnish_ExecuteUpperSlots:
 {
     LDX.b #$1D
@@ -98,7 +98,7 @@ Garnish_ExecuteUpperSlots:
 
 ; ==============================================================================
 
-; $04B097-$04B09F LOCAL
+; $04B097-$04B09F LOCAL JUMP LOCATION
 Garnish_ExecuteLowerSlots:
 {
     LDX.b #$0E
@@ -125,7 +125,7 @@ pool Garnish_ExecuteSingle:
 
 ; ==============================================================================
 
-; $04B0B6-$04B14F LOCAL
+; $04B0B6-$04B14F LOCAL JUMP LOCATION
 Garnish_ExecuteSingle:
 {
     STX $0FA0
@@ -225,7 +225,7 @@ incsrc "garnish_pyramid_debris.asm"
 
 ; ==============================================================================
 
-; $04B252-$04B283 LOCAL
+; $04B252-$04B283 LOCAL JUMP LOCATION
 Garnish_Move_XY:
 {
     PHX
@@ -271,7 +271,7 @@ incsrc "garnish_laser_beam_trail.asm"
 
 ; ==============================================================================
 
-; $04B5DE-$04B612 LOCAL
+; $04B5DE-$04B612 LOCAL JUMP LOCATION
 Garnish_PrepOamCoord:
 {
     LDA $7FF83C, X : SEC : SBC $E2 : STA $00

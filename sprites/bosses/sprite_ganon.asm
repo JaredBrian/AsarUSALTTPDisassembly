@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0E8D06-$0E8D28 LOCAL
+; $0E8D06-$0E8D28 LOCAL JUMP LOCATION
 Ganon_CheckEntityProximity:
 {
     REP #$20
@@ -39,7 +39,7 @@ Ganon_Initialize:
 
 ; ==============================================================================
 
-; $0E8D70-$0E8E74 LOCAL
+; $0E8D70-$0E8E74 LOCAL JUMP LOCATION
 {
     LDA.b #$FC : CLC : ADC $0B08 : STA $0B08
     LDA.b #$FF : ADC $0B09 : STA $0B09
@@ -169,14 +169,14 @@ Ganon_Initialize:
     RTS
 }
 
-; $0E8E75-$0E8E7B LOCAL
+; $0E8E75-$0E8E7B LOCAL JUMP LOCATION
 {
     NOP #6
     
     RTS
 }
 
-; $0E8E7C-$0E8EB3 LOCAL
+; $0E8E7C-$0E8EB3 LOCAL JUMP LOCATION
 {
     LDA.b #$C9
     LDY.b #$08
@@ -201,7 +201,7 @@ Ganon_Initialize:
     RTS
 }
 
-; $0E8EB4-$0E8ECA JUMP LOCATION LOCAL
+; $0E8EB4-$0E8ECA JUMP LOCATION LOCAL JUMP LOCATION
 Sprite_Ganon:
 {
     ; CODE FOR GANON
@@ -600,7 +600,7 @@ Sprite_Ganon:
     RTS
 }
 
-; $0E90D0-$0E910C LOCAL
+; $0E90D0-$0E910C LOCAL JUMP LOCATION
 {
     LDY.b #$07
     
@@ -705,7 +705,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $0E915C-$0E91D4 LOCAL
+; $0E915C-$0E91D4 LOCAL JUMP LOCATION
 {
     ; Seems to spawn some Ganon helpers. Not sure which ones yet.
     
@@ -1335,7 +1335,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $0E9ADF-$0E9C1B LOCAL
+; $0E9ADF-$0E9C1B LOCAL JUMP LOCATION
 {
     LDA $0DC0, X : BMI .BRANCH_$E9ADB
     
@@ -1494,7 +1494,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $0E9C1C-$0E9C79 LOCAL
+; $0E9C1C-$0E9C79 LOCAL JUMP LOCATION
 Trident_Draw:
 {
     LDA.b #$00 : XBA

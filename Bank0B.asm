@@ -53,7 +53,7 @@ org $0B8000 ; $058000-$05FFFF
     LDA.w #$4020 : STA $9C
     LDA.w #$8040 : STA $9D
         
-    LDA $8A      : BEQ .noCustomFixedColor
+    LDA $8A : BEQ .noCustomFixedColor
         CMP.w #$0070 : BNE .notSwampOfEvil
             JMP .subscreenOnAndReturn
         

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $04B714-$04B772 LOCAL
+; $04B714-$04B772 LOCAL JUMP LOCATION
 Overlord_SpawnBoulder:
 {
     LDA $1B : BNE .indoors
@@ -51,7 +51,7 @@ Overlord_Main:
 
 ; ==============================================================================
 
-; $04B77E-$04B792 LOCAL
+; $04B77E-$04B792 LOCAL JUMP LOCATION
 Overlord_ExecuteAll:
 {
     LDA $11 : ORA $0FC1 : BNE .pause_execution
@@ -75,7 +75,7 @@ Overlord_ExecuteAll:
 
 ; ==============================================================================
 
-; $04B793-$04B7DB LOCAL
+; $04B793-$04B7DB LOCAL JUMP LOCATION
 Overlord_ExecuteSingle:
 {
     ; OVERLORD HANDLER
@@ -460,7 +460,7 @@ pool Overlord_SpawnFlyingTile:
 
 ; ==============================================================================
 
-; $04BA56-$04BAAB LOCAL
+; $04BA56-$04BAAB LOCAL JUMP LOCATION
 Overlord_SpawnFlyingTile:
 {
     LDA.b #$94 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -725,7 +725,7 @@ Overlord_CrumbleTilePath:
 
 ; ==============================================================================
 
-; $04BC31-$04BC7A LOCAL
+; $04BC31-$04BC7A LOCAL JUMP LOCATION
 CrumbleTilePath_SpawnCrumbleTileGarnish:
 {
     TXY
@@ -1021,7 +1021,7 @@ Overlord_StalfosFactory:
 
 ; ==============================================================================
 
-; $04BDFD-$04BE06 LOCAL
+; $04BDFD-$04BE06 LOCAL JUMP LOCATION
 Overlord_PlayDropSfx:
 {
     PHX : TYX
@@ -1281,7 +1281,7 @@ Overlord_CascadeMetalBallFactory:
 
 ; ==============================================================================
 
-; $04BFAF-$04C015 LOCAL
+; $04BFAF-$04C015 LOCAL JUMP LOCATION
 Overlord_SpawnMetalBall:
 {
     ; Metal Balls (in Eastern Palace)

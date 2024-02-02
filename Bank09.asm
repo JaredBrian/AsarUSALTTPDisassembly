@@ -122,7 +122,7 @@ Tagalong_Disable:
 
 ; ==============================================================================
 
-; $04AD06-$04AD1A LOCAL
+; $04AD06-$04AD1A LOCAL JUMP LOCATION
 Ancilla_SetCoords:
 {
     LDA $00 : STA $0BFA, X
@@ -136,7 +136,7 @@ Ancilla_SetCoords:
 
 ; ==============================================================================
 
-; $04AD1B-$04AD2F LOCAL
+; $04AD1B-$04AD2F LOCAL JUMP LOCATION
 Ancilla_GetCoords:
 {
     LDA $0BFA, X : STA $00
@@ -752,7 +752,7 @@ pool Overlord_CheckInRangeStatus:
 
     ; I think this... might terminate overlord sprites on the overworld.
     ; But we don't realy use them there anyways...
-; $04C08D-$04C113 LOCAL
+; $04C08D-$04C113 LOCAL JUMP LOCATION
 Overlord_CheckInRangeStatus:
 {
     LDA $1B : BNE .easy_out
@@ -1027,7 +1027,7 @@ Sprite_DisableAll:
     !spriteSlotHi = $03 ; (high byte)
     !dataOffset   = $04
     
-; $04C290-$04C2D4 LOCAL
+; $04C290-$04C2D4 LOCAL JUMP LOCATION
 Dungeon_LoadSprites:
 {
     ; Dungeon sprite loader
@@ -1134,7 +1134,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
 
 ; ==============================================================================
 
-; $04C327-$04C3E7 LOCAL
+; $04C327-$04C3E7 LOCAL JUMP LOCATION
 Dungeon_LoadSprite:
 {
     ; LOAD'S SPRITE TYPES AND INFO INTO ROOM'S MEMORY
@@ -1276,7 +1276,7 @@ Dungeon_LoadSprite:
 
 ; =============================================================
 
-; $04C3E8-$04C44D LOCAL
+; $04C3E8-$04C44D LOCAL JUMP LOCATION
 Dungeon_LoadOverlord:
 {
     ; LOADS OVERLORD INFORMATION INTO A ROOM'S MEMORY
@@ -1417,7 +1417,7 @@ Sprite_OverworldReloadAll:
 
 ; ==============================================================================
 
-; $04C4AC-$04C55D LOCAL
+; $04C4AC-$04C55D LOCAL JUMP LOCATION
 LoadOverworldSprites:
 {
     ; Loads overworld sprite information into memory ($7FDF80, X is one such array)
@@ -1517,7 +1517,7 @@ LoadOverworldSprites:
 
 ; ==============================================================================
     
-; $04C55E-$04C58E LOCAL
+; $04C55E-$04C58E LOCAL JUMP LOCATION
 {
     LDA $E2 : PHA
     LDA $E3 : PHA
@@ -1599,7 +1599,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
    
-; $04C5BB-$04C5F5 LOCAL
+; $04C5BB-$04C5F5 LOCAL JUMP LOCATION
 {
     LDY.b #$00
     
@@ -1651,7 +1651,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $04C5FA-$04C634 LOCAL
+; $04C5FA-$04C634 LOCAL JUMP LOCATION
 {
     LDY.b #$00
     
@@ -1724,7 +1724,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $04C6F5-$04C730 LOCAL
+; $04C6F5-$04C730 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -1767,7 +1767,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
     
-; $04C739-$04C76F LOCAL
+; $04C739-$04C76F LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -1801,7 +1801,7 @@ Sprite_RangeBasedActivation:
 
 ; ==============================================================================
 
-; $04C770-$04C80A LOCAL
+; $04C770-$04C80A LOCAL JUMP LOCATION
 Overworld_LoadSprite:
 {
     ; For some reason, sprite indices loaded from here are one less than
@@ -1883,7 +1883,7 @@ Overworld_LoadSprite:
 
 ; ==============================================================================
 
-; $04C80B-$04C880 LOCAL
+; $04C80B-$04C880 LOCAL JUMP LOCATION
 Overworld_LoadOverlord:
 {
     ; APPEARS TO BE THE METHOD OF LOADING OVERLORDS ON THE OVERWORLD.
@@ -2024,7 +2024,7 @@ SpriteExplode_ExecuteLong:
 
 ; ==============================================================================
 
-; $04EDA7-$04EDEE LOCAL
+; $04EDA7-$04EDEE LOCAL JUMP LOCATION
 SpriteExplode_Execute:
 {
     ; 0 = explodes. > 0 = doesn't explode. :p
@@ -2087,7 +2087,7 @@ SpriteExplode_Execute:
 
 ; ==============================================================================
 
-; $04EE0F-$04EF55 LOCAL
+; $04EE0F-$04EF55 LOCAL JUMP LOCATION
 {
     ; Force sprite to high priority (to make sure it's visible).
     LDA.b #$02 : STA $0F20, X
@@ -2481,7 +2481,7 @@ pool ScatterDebris_Draw:
 ; ==============================================================================
 
     ; \note Also part of scatter debris.
-; $04F198-$04F1F7 LOCAL
+; $04F198-$04F1F7 LOCAL JUMP LOCATION
 ScatterDebris_Draw:
 {
     LDA $7FF90E, X : CMP.b #$10 : BNE .termination_delay

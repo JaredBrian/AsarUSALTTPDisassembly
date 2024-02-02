@@ -348,7 +348,7 @@ pool Kyameron_Draw:
 
 ; ==============================================================================
 
-; $0F2158-$0F2191 LOCAL
+; $0F2158-$0F2191 LOCAL JUMP LOCATION
 Kyameron_Draw:
 {
     LDA $0DC0, X : CMP.b #$0C : BCS .dispersing

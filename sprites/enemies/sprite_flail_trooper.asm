@@ -191,7 +191,7 @@ FlailTrooper_WindingDown:
 
 ; ==============================================================================
 
-; $02B144-$02B155 LOCAL
+; $02B144-$02B155 LOCAL JUMP LOCATION
 {
     JSR Sprite2_PrepOamCoord
     JSR ChainBallTrooper_DrawHead
@@ -215,7 +215,7 @@ pool ChainBallTrooper_DrawHead:
 
 ; ==============================================================================
 
-; $02B15E-$02B1A2 LOCAL
+; $02B15E-$02B1A2 LOCAL JUMP LOCATION
 ChainBallTrooper_DrawHead:
 {
     LDY.b #$18
@@ -359,7 +359,7 @@ pool FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; $02B3CB-$02B43F LOCAL
+; $02B3CB-$02B43F LOCAL JUMP LOCATION
 FlailTrooper_DrawBody:
 {
     LDY.b #$14
@@ -443,7 +443,7 @@ FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; $02B468-$02B5BD LOCAL
+; $02B468-$02B5BD LOCAL JUMP LOCATION
 {
     LDA $00 : STA $0FA8
     LDA $02 : STA $0FA9
@@ -618,7 +618,7 @@ FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; $02B5BE-$02B5C2 LOCAL
+; $02B5BE-$02B5C2 LOCAL JUMP LOCATION
 {
     NOP #4
     

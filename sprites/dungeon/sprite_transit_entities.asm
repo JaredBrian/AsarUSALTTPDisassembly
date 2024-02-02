@@ -106,7 +106,7 @@ Sprite_SomariaPlatformLong:
 
 ; ==============================================================================
 
-; $0F76D4-$0F76DE LOCAL
+; $0F76D4-$0F76DE LOCAL JUMP LOCATION
 Sprite_SomariaPlatform:
 {
     ; sprite types 0xED, 0xEF, $F0, and $F1 (cane of somaria platform)
@@ -231,7 +231,7 @@ Sprite_SomariaPlatform:
     RTS
 }
 
-; $0F77C2-$0F77DF LOCAL
+; $0F77C2-$0F77DF LOCAL JUMP LOCATION
 {
     LDA $0D00, X : STA $00
     LDA $0D20, X : STA $01
@@ -276,7 +276,7 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $0F7860-$0F787C LOCAL
+; $0F7860-$0F787C LOCAL JUMP LOCATION
 {
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
@@ -290,7 +290,7 @@ Sprite_SomariaPlatform:
 
 ; ==============================================================================
 
-; $0F787D-$0F78AC LOCAL
+; $0F787D-$0F78AC LOCAL JUMP LOCATION
 {
     LDA $0E90, X : SEC : SBC.b #$B0 : BCS .is_upper_tile
     
@@ -323,7 +323,7 @@ Sprite_SomariaPlatform:
     dw $FB3A ; = $F7B3A* ; 0xBE - Endpoint node transit tile
 }
 
-; $0F78AD-$0F78D6 LOCAL
+; $0F78AD-$0F78D6 LOCAL JUMP LOCATION
 {
     LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
@@ -344,7 +344,7 @@ Sprite_SomariaPlatform:
     RTS
 }
 
-; $0F78D7-$0F7900 LOCAL
+; $0F78D7-$0F7900 LOCAL JUMP LOCATION
 {
     LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
@@ -365,7 +365,7 @@ Sprite_SomariaPlatform:
     RTS
 } 
 
-; $0F7901-$0F7907 LOCAL
+; $0F7901-$0F7907 LOCAL JUMP LOCATION
 {
     JSR $F8AD ; $0F78AD IN ROM
     JSR $F8D7 ; $0F78D7 IN ROM
@@ -800,7 +800,7 @@ Sprite_SomariaPlatform:
     BRA .BRANCH_$F7B34
 }
 
-; $0F7B49-$0F7B77 LOCAL
+; $0F7B49-$0F7B77 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -1114,7 +1114,7 @@ Pipe_DragPlayerAlong:
     RTS
 }
 
-; $0F7CFF-$0F7D11 LOCAL
+; $0F7CFF-$0F7D11 LOCAL JUMP LOCATION
 {
     ; Induces player movement, I do believe (in spite of the fact that
     ; we made the player invisible and 'froze' them. So... this sprite

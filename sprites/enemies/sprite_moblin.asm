@@ -321,7 +321,7 @@ pool Moblin_Draw:
 
 ; ==============================================================================
 
-; $031BC4-$031C1F LOCAL
+; $031BC4-$031C1F LOCAL JUMP LOCATION
 Moblin_Draw:
 {
     LDA.b #$00 : XBA

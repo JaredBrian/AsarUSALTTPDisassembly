@@ -39,7 +39,7 @@ Player_Main:
 
     ; \unused Much like the Ancilla version of this routine, seems like
     ; ambient sfx gets no love.
-; $038021-$038027 LOCAL
+; $038021-$038027 LOCAL JUMP LOCATION
 Player_DoSfx1:
 {
     JSR Player_SetSfxPan : STA $012D
@@ -49,7 +49,7 @@ Player_DoSfx1:
 
 ; ==============================================================================
 
-; $038028-$03802E LOCAL
+; $038028-$03802E LOCAL JUMP LOCATION
 Player_DoSfx2:
 {
     JSR Player_SetSfxPan : STA $012E
@@ -59,7 +59,7 @@ Player_DoSfx2:
 
 ; ==============================================================================
 
-; $03802F-$038035 LOCAL
+; $03802F-$038035 LOCAL JUMP LOCATION
 Player_DoSfx3:
 {
     JSR Player_SetSfxPan : STA $012F
@@ -69,7 +69,7 @@ Player_DoSfx3:
 
 ; ==============================================================================
 
-; $038036-$038040 LOCAL
+; $038036-$038040 LOCAL JUMP LOCATION
 Player_SetSfxPan:
 {
     STA $0CF8
@@ -122,7 +122,7 @@ Player_SetSfxPan:
     dw $A804 ; = $3A804* 0x1E - Spin attack mode 2
 }
 
-; $03807F-$038108 LOCAL
+; $03807F-$038108 LOCAL JUMP LOCATION
 {
     ; Is Link being damaged?
     LDA $0373 : BEQ .linkNotDamaged
@@ -1125,7 +1125,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $038689-$0386B4 LOCAL
+; $038689-$0386B4 LOCAL JUMP LOCATION
 {
     ; Are we in a dungeon?
     LDA $1B : BNE .indoors
@@ -1577,7 +1577,7 @@ Player_BombosSpell:
     BRL .BRANCH_PI
 }
 
-; $038926-$03894D LOCAL
+; $038926-$03894D LOCAL JUMP LOCATION
 {
     LDX.b #$02
     
@@ -1610,7 +1610,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $03894E-$038A04 JUMP LOCATION LOCAL
+; $03894E-$038A04 JUMP LOCATION LOCAL JUMP LOCATION
 {
     ; Link mode 0x0B - falling down ledge to water or a hole? (Is that it?)
     
@@ -1716,7 +1716,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $038A05-$038AC8 LOCAL
+; $038A05-$038AC8 LOCAL JUMP LOCATION
 {
     LDA $0362 : STA $29
     LDA $0362 : STA $02C7
@@ -1847,7 +1847,7 @@ Player_BombosSpell:
     db -16, -1, 16, 0
 }
 
-; $038AD1-$038B73 LOCAL
+; $038AD1-$038B73 LOCAL JUMP LOCATION
 {
     LDA $21 : STA $33
     LDA $20 : STA $32
@@ -1950,7 +1950,7 @@ Player_BombosSpell:
     BRL .BRANCH_$38A05 ; (RTS)
 }
 
-; $038B9B-$038C58 LOCAL
+; $038B9B-$038C58 LOCAL JUMP LOCATION
 {
     LDA $21 : STA $33
     LDA $20 : STA $32
@@ -2132,7 +2132,7 @@ Player_BombosSpell:
     BRL .BRANCH_$38A05 ; (RTS)
 }
 
-; $038D2B-$038DC5 LOCAL
+; $038D2B-$038DC5 LOCAL JUMP LOCATION
 {
     LDA $23 : STA $33
     LDA $22 : STA $32
@@ -2317,7 +2317,7 @@ Player_BombosSpell:
     BRL .BRANCH_$38A05 ; (RTS)
 }
 
-; $038E7B-$038F1C LOCAL
+; $038E7B-$038F1C LOCAL JUMP LOCATION
 {
     LDA $21 : STA $33
     LDA $20 : STA $32
@@ -2399,7 +2399,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $038F1D-$038F60 LOCAL
+; $038F1D-$038F60 LOCAL JUMP LOCATION
 {
     PHX : PHY
     
@@ -2777,7 +2777,7 @@ Player_BombosSpell:
 
 ; ==============================================================================
 
-; $039195-$0391B8 LOCAL
+; $039195-$0391B8 LOCAL JUMP LOCATION
 Player_HaltDashAttack:
 {
     ; Routine essentially stops all dashing activities, usually due to some\
@@ -2842,7 +2842,7 @@ Player_HaltDashAttackLong:
     
 }
     
-; $0391F1-$039290 LOCAL
+; $0391F1-$039290 LOCAL JUMP LOCATION
 {
     LDA $0372 : BEQ .no_dash_bounce
     
@@ -2951,7 +2951,7 @@ Sprite_RepelDashAttackLong:
 
 ; ==============================================================================
 
-; $0392A0-$0392BE LOCAL
+; $0392A0-$0392BE LOCAL JUMP LOCATION
 {
     STZ $67
     
@@ -3683,7 +3683,7 @@ Sprite_RepelDashAttackLong:
     RTS
 }
 
-; $039785-$0397A5 LOCAL
+; $039785-$0397A5 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -3710,7 +3710,7 @@ Sprite_RepelDashAttackLong:
     RTS
 }
 
-; $0397A6-$0397BE LOCAL
+; $0397A6-$0397BE LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -3856,7 +3856,7 @@ Player_ResetSwimState:
 
 ; ==============================================================================
 
-; $039873-$039895 LOCAL
+; $039873-$039895 LOCAL JUMP LOCATION
 Player_ResetSwimCollision:
 {
     REP #$20
@@ -3879,7 +3879,7 @@ Player_ResetSwimCollision:
 
 ; ==============================================================================
 
-; $0398A8-$039902 LOCAL
+; $0398A8-$039902 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -3936,7 +3936,7 @@ Player_ResetSwimCollision:
     RTS
 }
 
-; $039903-$03996B LOCAL
+; $039903-$03996B LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -4244,7 +4244,7 @@ Link_ReceiveItem:
     RTS
 }
 
-; $039AC2-$039AE5 LOCAL
+; $039AC2-$039AE5 LOCAL JUMP LOCATION
 Player_Sword:
 {
     DEC $02E3 : BPL .BRANCH_ALPHA
@@ -4299,7 +4299,7 @@ Player_Sword:
     dw LinkItem_Mirror
 }
 
-; $039B0E-$039B91 LOCAL
+; $039B0E-$039B91 LOCAL JUMP LOCATION
 {
     LDA $3C    : BEQ .BRANCH_ALPHA
     CMP.b #$09 : BCC .BRANCH_39AE5
@@ -4390,7 +4390,7 @@ Player_Sword:
     dw $B40C ; = $3B40C*
 }
 
-; $039BAA-$039C4E LOCAL
+; $039BAA-$039C4E LOCAL JUMP LOCATION
 {
     STZ $02F4
     
@@ -4527,7 +4527,7 @@ Player_Sword:
     dw $B3E5 ; = $3B3E5* ; Pull For Rupees / DW Dungeon 4 entrance
 }
 
-; $039C5F-$039C62 LOCAL
+; $039C5F-$039C62 LOCAL JUMP LOCATION
 {
     JMP ($9C4F, X) ; SEE JUMP TABLE $39C4F
     
@@ -4546,7 +4546,7 @@ Player_Sword:
 
 ; ==============================================================================
 
-; $039C66-$039CBE LOCAL
+; $039C66-$039CBE LOCAL JUMP LOCATION
 {
     LDA $67 : AND.b #$F0 : STA $67
     
@@ -4604,7 +4604,7 @@ Player_Sword:
 
 ; ==============================================================================
 
-; $039CD9-$039D83 LOCAL
+; $039CD9-$039D83 LOCAL JUMP LOCATION
 {
     ; (RTS)
     LDA $3B : AND.b #$10 : BNE .BRANCH_39C66_easy_out
@@ -4720,7 +4720,7 @@ Player_Sword:
     BRL .BRANCH_$3A77A
 }
 
-; $039D84-$039E62 LOCAL
+; $039D84-$039E62 LOCAL JUMP LOCATION
 {
 .BRANCH_EPSILON
 
@@ -4861,7 +4861,7 @@ Player_Sword:
     RTS
 }
 
-; $039E63-$039EEB LOCAL
+; $039E63-$039EEB LOCAL JUMP LOCATION
 {
     ; sword
     LDA $7EF359 : BEQ .BRANCH_39D84_BRANCH_ALPHA ; RTS
@@ -4939,7 +4939,7 @@ parallel pool LinkItem_Rod:
 
 ; ==============================================================================
 
-; $039EEF-$039F58 LOCAL
+; $039EEF-$039F58 LOCAL JUMP LOCATION
 LinkItem_Rod:
 {
     ; Called when the fire rod or ice rod is invoked.
@@ -5016,7 +5016,7 @@ pool LinkItem_RodDiscriminator:
 
 ; ==============================================================================
 
-; $039F5D-$039F65 LOCAL
+; $039F5D-$039F65 LOCAL JUMP LOCATION
 LinkItem_RodDiscriminator:
 {
     LDA $0307 : DEC A : ASL A : TAX
@@ -5039,7 +5039,7 @@ LinkItem_IceRod:
 
 ; ==============================================================================
 
-; $039F6F-$039F77 LOCAL
+; $039F6F-$039F77 LOCAL JUMP LOCATION
 LinkItem_FireRod:
 {
     LDA.b #$02
@@ -5483,7 +5483,7 @@ pool LinkItem_Lamp:
 
 ; ==============================================================================
 
-; $03A24D-$03A288 LOCAL
+; $03A24D-$03A288 LOCAL JUMP LOCATION
 LinkItem_Lamp:
 {
     LDA $6C : BNE .no_input
@@ -5607,7 +5607,7 @@ LinkItem_MagicPowder:
 
 ; ==============================================================================
 
-; $03A313-$03A31F LOCAL
+; $03A313-$03A31F LOCAL JUMP LOCATION
 LinkItem_ShovelAndFlute:
 {
     ; Play flute or use the shovel
@@ -6736,7 +6736,7 @@ LinkItem_Mirror:
 
 ; ==============================================================================
 
-; $03AA6C-$03AAA1 JUMP LOCATION LOCAL
+; $03AA6C-$03AAA1 LOCAL JUMP LOCATION
 {
     ; Begin moving the Desert Palace barricades
     ; Put us in submodule 5 of text mode.
@@ -7318,7 +7318,7 @@ LinkItem_Cape:
 
 ; ==============================================================================
 
-; $03AE65-$03AE87 LOCAL
+; $03AE65-$03AE87 LOCAL JUMP LOCATION
 {
     LDA $AD : CMP.b #$02 : BNE .BRANCH_ALPHA
     
@@ -7345,7 +7345,7 @@ LinkItem_Cape:
     
 ; ==============================================================================
 
-; $03AE88-$03AEBF LOCAL
+; $03AE88-$03AEBF LOCAL JUMP LOCATION
 {
     LDA $0308 : AND.b #$80 : BEQ .BRANCH_BETA
     
@@ -7548,7 +7548,7 @@ PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; $03AFB5-$03AFCB LOCAL
+; $03AFB5-$03AFCB LOCAL JUMP LOCATION
 {
     ; The labels are probably not correct yet, need some in game debugging
     ; to verify assumptions...
@@ -7582,7 +7582,7 @@ PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; $03AFF8-$03B072 LOCAL
+; $03AFF8-$03B072 LOCAL JUMP LOCATION
 {
     BIT $3A : BVS .BRANCH_ALPHA
     
@@ -7647,7 +7647,7 @@ PlayerItem_CaneOfByrna:
 
 ; ==============================================================================
 
-; $03B073-$03B086 LOCAL
+; $03B073-$03B086 LOCAL JUMP LOCATION
 Link_CheckNewY_ButtonPress:
 {
     ; Check if the Y button is already down.
@@ -7714,7 +7714,7 @@ LinkItem_MagicCostBaseIndices:
 
 ; ==============================================================================
 
-; $03B0AB-$03B0E8 LOCAL
+; $03B0AB-$03B0E8 LOCAL JUMP LOCATION
 LinkItem_EvaluateMagicCost:
 {
     STX $02
@@ -7800,7 +7800,7 @@ LinkItem_ReturnUnusedMagic:
 
 ; ==============================================================================
 
-; $03B11C-$03B198 JUMP LOCATION LOCAL
+; $03B11C-$03B198 LOCAL JUMP LOCATION
 Link_Lift:
 {
     ; Code for picking things up
@@ -7928,7 +7928,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; $03B1CA-$03B280 JUMP LOCATION LOCAL
+; $03B1CA-$03B280 LOCAL JUMP LOCATION
 {
     LDA $0308 : BEQ .BRANCH_$3B198
     
@@ -8554,7 +8554,7 @@ Link_Chest:
 
 ; ==============================================================================
 
-; $03B5C0-$03B5D5 LOCAL
+; $03B5C0-$03B5D5 LOCAL JUMP LOCATION
 {
     ; Is the A button already down?
     LDA $3B : AND.b #$80 : BNE .failure
@@ -8617,7 +8617,7 @@ Link_Chest:
     RTS
 }
 
-; $03B64F-$03B7C2 LOCAL
+; $03B64F-$03B7C2 LOCAL JUMP LOCATION
 {
     ; $03B97C IN ROM
     JSR $B97C : BCC .onlyOneBg
@@ -8856,7 +8856,7 @@ Link_Chest:
 
 ; ==============================================================================
 
-; $03B7C7-$03B955 LOCAL
+; $03B7C7-$03B955 LOCAL JUMP LOCATION
 {
     ; Initialize the diagonal wall state
     STZ $6E
@@ -9090,7 +9090,7 @@ Link_Chest:
     RTS
 }
 
-; $03B956-$03B968 LOCAL
+; $03B956-$03B968 LOCAL JUMP LOCATION
 {
     LDA $6B : AND.b #$20 : BNE .BRANCH_ALPHA
     
@@ -9107,7 +9107,7 @@ Link_Chest:
     RTS
 }
 
-; $03B969-$03B97B LOCAL
+; $03B969-$03B97B LOCAL JUMP LOCATION
 {
     LDA $6B : AND.b #$10 : BNE .BRANCH_ALPHA
     
@@ -9124,7 +9124,7 @@ Link_Chest:
     RTS
 }
 
-; $03B97C-$03B9B2 LOCAL
+; $03B97C-$03B9B2 LOCAL JUMP LOCATION
 {
     ; Collision settings
     LDA $046C  : BEQ .oneBg
@@ -9158,7 +9158,7 @@ Link_Chest:
     RTS
 }
 
-; $03B9B3-$03B9F6 LOCAL
+; $03B9B3-$03B9F6 LOCAL JUMP LOCATION
 {
     LDA $046C : CMP.b #$01 : BEQ .BRANCH_ALPHA
     
@@ -9184,7 +9184,7 @@ Link_Chest:
     RTS
 }
 
-; $03BA0A-$03BEAE LOCAL
+; $03BA0A-$03BEAE LOCAL JUMP LOCATION
 {
     LDA $30 : BNE .changeInYCoord
     
@@ -10417,7 +10417,7 @@ BRANCH_ULTIMA
 
 ; ==============================================================================
 
-; $03C1A1-$03C1E3 LOCAL
+; $03C1A1-$03C1E3 LOCAL JUMP LOCATION
 {
     ; Dashing?
     LDA $0372 : BEQ .BRANCH_$3C19F
@@ -10475,7 +10475,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03C1E4-$03C1FE LOCAL
+; $03C1E4-$03C1FE LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -10494,7 +10494,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03C1FF-$03C23C LOCAL
+; $03C1FF-$03C23C LOCAL JUMP LOCATION
 {
     LDA $0E : AND.b #$04 : BEQ .BRANCH_ALPHA
     
@@ -10637,7 +10637,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03C29F-$03C2B9 LOCAL
+; $03C29F-$03C2B9 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -10654,7 +10654,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03C2C3-$03C30B LOCAL
+; $03C2C3-$03C30B LOCAL JUMP LOCATION
 {
     LDA $1B : BNE .BRANCH_ALPHA
     
@@ -10783,7 +10783,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03C46D-$03C4D3 LOCAL
+; $03C46D-$03C4D3 LOCAL JUMP LOCATION
 {
     LDA $3E : PHA
     LDA $22 : PHA
@@ -10850,7 +10850,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03C4D4-$03C8E8 LOCAL
+; $03C4D4-$03C8E8 LOCAL JUMP LOCATION
 {
     LDA $31 : BNE .BRANCH_ALPHA
     
@@ -11882,7 +11882,7 @@ BRANCH_ULTIMA
     BRL .BRANCH_$3C7FC
 }
 
-; $03CB84-$03CB9E LOCAL
+; $03CB84-$03CB9E LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -11960,7 +11960,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CBDD-$03CC32 LOCAL
+; $03CBDD-$03CC32 LOCAL JUMP LOCATION
 {
     LDA.b #$02 : TSB $50
     
@@ -12023,7 +12023,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CC3C-$03CC82 LOCAL
+; $03CC3C-$03CC82 LOCAL JUMP LOCATION
 {
     LDA $1B : BNE .BRANCH_ALPHA
     
@@ -12073,7 +12073,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CCAB-$03CD7A LOCAL
+; $03CCAB-$03CD7A LOCAL JUMP LOCATION
 {
     ; Denotes how much Link will move during the frame in a vertical direction (signed)
     LDA $30 : BEQ .BRANCH_ALPHA
@@ -12224,7 +12224,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CDCB-$03CE29 LOCAL
+; $03CDCB-$03CE29 LOCAL JUMP LOCATION
 {
     ; This probably the up/down movement handler analagous to $3CE2A below
     REP #$20
@@ -12261,7 +12261,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CE2A-$03CE84 LOCAL
+; $03CE2A-$03CE84 LOCAL JUMP LOCATION
 {
     ; Note, this routine only execute when Link is moving horizontally
     ; (Yes, it will execute if he's moving in a diagonal direction since that includes horizontal)
@@ -12303,7 +12303,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CE85-$03CEC8 LOCAL
+; $03CE85-$03CEC8 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -12333,7 +12333,7 @@ BRANCH_ULTIMA
     RTS
 }
 
-; $03CEC9-$03CF09 LOCAL
+; $03CEC9-$03CF09 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -12380,7 +12380,7 @@ Player_TileDetectNearbyLong:
 
 ; ==============================================================================
 
-; $03CF12-$03CF7D LOCAL
+; $03CF12-$03CF7D LOCAL JUMP LOCATION
 Player_TileDetectNearby:
 {
     STZ $59
@@ -12432,7 +12432,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; $03CF7E-$03CFCB LOCAL
+; $03CF7E-$03CFCB LOCAL JUMP LOCATION
 {
     STZ $59
     
@@ -12468,7 +12468,7 @@ Player_TileDetectNearby:
     RTS
 }
 
-; $03D077-$03D2C5 LOCAL
+; $03D077-$03D2C5 LOCAL JUMP LOCATION
 {
     ; Takes Y as an input ranging from 0x00 to 0x08
     ; The different behaviors with each has not been figured out yet
@@ -12818,7 +12818,7 @@ Player_TileDetectNearby:
     RTS
 }
 
-; $03D2C6-$03D2E3 LOCAL
+; $03D2C6-$03D2E3 LOCAL JUMP LOCATION
 {
     LDA $67 : AND.b #$0F : BEQ .BRANCH_ALPHA
     
@@ -12845,7 +12845,7 @@ Player_TileDetectNearby:
     RTS
 }
 
-; $03D304-$03D364 LOCAL
+; $03D304-$03D364 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -12895,7 +12895,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; $03D383-$03D444 LOCAL
+; $03D383-$03D444 LOCAL JUMP LOCATION
 {
     STZ $59
     
@@ -13024,7 +13024,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; $03D485-$03D555 LOCAL
+; $03D485-$03D555 LOCAL JUMP LOCATION
 {
     LDA $00 : PHA
     
@@ -13239,7 +13239,7 @@ Hookshot_CheckTileCollison:
 
 ; ==============================================================================
 
-; $03D607-$03D656 LOCAL
+; $03D607-$03D656 LOCAL JUMP LOCATION
 Hookshot_CheckSingleLayerTileCollision:
 {
     REP #$20
@@ -13360,7 +13360,7 @@ Hookshot_CheckSingleLayerTileCollision:
     RTS
 }
 
-; $03D6F4-$03D72D JUMP LOCAL
+; $03D6F4-$03D72D LOCAL JUMP LOCATION
 {
     STZ $59
     
@@ -13377,7 +13377,7 @@ Hookshot_CheckSingleLayerTileCollision:
     BRL .BRANCH_$3CF49
 }
 
-; $03D73E-$03D797 LOCAL
+; $03D73E-$03D797 LOCAL JUMP LOCATION
 {
     STZ $59
     
@@ -13413,7 +13413,7 @@ Hookshot_CheckSingleLayerTileCollision:
 
 ; ==============================================================================
 
-; $03D798-$03D7D7 LOCAL
+; $03D798-$03D7D7 LOCAL JUMP LOCATION
 TileDetect_ResetState:
 {
     STZ $0C
@@ -13745,7 +13745,7 @@ TileDetect_ResetState:
 
 ; ==============================================================================
 
-; $03D9D8-$03DA29 LOCAL
+; $03D9D8-$03DA29 LOCAL JUMP LOCATION
 TileDetect_Execute:
 {
     ; Tile attribute handler
@@ -14715,7 +14715,7 @@ TileDetect_Execute:
     RTS
 }
 
-; $03E026-$03E051 LOCAL
+; $03E026-$03E051 LOCAL JUMP LOCATION
 {
     LDA $00 : AND.w #$FFF8 : ASL #3 : STA $06
     
@@ -14738,7 +14738,7 @@ TileDetect_Execute:
     RTS
 }
 
-; $03E076-$03E111 LOCAL
+; $03E076-$03E111 LOCAL JUMP LOCATION
 {
     LDA $51 : AND.b #$07 : STA $00
     
@@ -14951,7 +14951,7 @@ TileDetect_Execute:
     RTS
 }
 
-; $03E1BE-$03E226 LOCAL
+; $03E1BE-$03E226 LOCAL JUMP LOCATION
 {
     STZ $67
     
@@ -15601,7 +15601,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $03E595-$03E5E3 LOCAL
+; $03E595-$03E5E3 LOCAL JUMP LOCATION
 {
     LDA $046C : BEQ .BRANCH_ALPHA
     
@@ -15671,7 +15671,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $03E5F0-$03E670 LOCAL
+; $03E5F0-$03E670 LOCAL JUMP LOCATION
 {
     LDA $03F3 : BEQ .BRANCH_$3E595_ALPHA
     
@@ -16113,7 +16113,7 @@ TileDetect_Execute:
     RTL
 }
 
-; $03E8F0-$03E900 LOCAL
+; $03E8F0-$03E900 LOCAL JUMP LOCATION
 {
     ; If outdoors, ignore
     LDA $1B : BEQ .return
@@ -16617,7 +16617,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03ECDC-$03ED2B LOCAL
+; $03ECDC-$03ED2B LOCAL JUMP LOCATION
 {
     ; ( table[ ( (A / B) / 2) ] * B) >> 8
     
@@ -16668,7 +16668,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03ED2C-$03ED3E LOCAL
+; $03ED2C-$03ED3E LOCAL JUMP LOCATION
 {
     LDX.b #$01
     
@@ -16693,7 +16693,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03ED3F-$03EDB4 LOCAL
+; $03ED3F-$03EDB4 LOCAL JUMP LOCATION
 {
     PHX : STX $72
     
@@ -16862,7 +16862,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03EE35-$03EF60 LOCAL
+; $03EE35-$03EF60 LOCAL JUMP LOCATION
 {
     STZ $27
     STZ $28
@@ -17025,7 +17025,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03EFB9-$03F0AB LOCAL
+; $03EFB9-$03F0AB LOCAL JUMP LOCATION
 {
     PHY
     
@@ -17204,7 +17204,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03F0D9-$03F13B LOCAL
+; $03F0D9-$03F13B LOCAL JUMP LOCATION
 {
     ; Appears to draw moving blocks or falling moving blocks or both.
     ; \task Name this routine.
@@ -17985,7 +17985,7 @@ Player_IsPipeEnterable:
 
 ; ==============================================================================
 
-; $03F514-$03F51C LOCAL
+; $03F514-$03F51C LOCAL JUMP LOCATION
 {
     LDA $1B : BNE .indoors
     

@@ -5,7 +5,7 @@
     
 ; ==============================================================================
 
-; $044BE4-$044C92 LOCAL
+; $044BE4-$044C92 LOCAL JUMP LOCATION
 Ancilla_TransmuteToRisingCrystal:
 {
     ; Start up 3D crystal effect

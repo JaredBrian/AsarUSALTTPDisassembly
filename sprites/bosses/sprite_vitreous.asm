@@ -197,7 +197,7 @@ Vitreous_PursuePlayer:
 
 ; ==============================================================================
 
-; $0EE5DA-$0EE601 LOCAL
+; $0EE5DA-$0EE601 LOCAL JUMP LOCATION
 Vitreous_SelectVitreolusToActivate:
 {
     INC $0E80, X : LDA $0E80, X : AND.b #$3F : BNE .delay
@@ -283,7 +283,7 @@ pool Vitreous_Draw:
 
 ; ==============================================================================
 
-; $0EE716-$0EE762 LOCAL
+; $0EE716-$0EE762 LOCAL JUMP LOCATION
 Vitreous_Draw:
 {
     LDA.b #$00 : XBA

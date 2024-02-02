@@ -333,7 +333,7 @@ Agah1Inro:
     
     RTS
 
-; $0F5514-$0F551E LOCAL
+; $0F5514-$0F551E LOCAL JUMP LOCATION
 
     LDA.b #$02 : STA $0D80, X
     
@@ -567,7 +567,7 @@ SetTargetPos:
 
 ; ==============================================================================
 
-; $0F567A-$0F5707 LOCAL
+; $0F567A-$0F5707 LOCAL JUMP LOCATION
 DoLightningAttack:
 {
     CPX.b #$00 : BNE .BRANCH_ALPHA
@@ -691,7 +691,7 @@ ShadowSneak:
 
 ; ==============================================================================
 
-; $0F5978-$0F5A41 LOCAL
+; $0F5978-$0F5A41 LOCAL JUMP LOCATION
 AgahDraw:
 {
     JSR Sprite3_PrepOamCoord

@@ -83,7 +83,7 @@ pool SpikeRoller_Draw:
 
 ; ==============================================================================
 
-; $028EE3-$028F53 LOCAL
+; $028EE3-$028F53 LOCAL JUMP LOCATION
 SpikeRoller_Draw:
 {
     JSR Sprite2_PrepOamCoord

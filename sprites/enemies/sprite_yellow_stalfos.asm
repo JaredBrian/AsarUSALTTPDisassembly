@@ -323,7 +323,7 @@ YellowStalfos_Neutralized:
 
 ; ==============================================================================
 
-; $0F4580-$0F45A4 LOCAL
+; $0F4580-$0F45A4 LOCAL JUMP LOCATION
 YellowStalfos_DetachHead:
 {
     ; \note One of those rare occasions where the sprite id of the spawned
@@ -395,7 +395,7 @@ pool YellowStalfos_Draw:
 
 ; ==============================================================================
 
-; $0F4655-$0F4691 LOCAL
+; $0F4655-$0F4691 LOCAL JUMP LOCATION
 YellowStalfos_Draw:
 {
     LDA.b #$00   : XBA
@@ -441,7 +441,7 @@ pool YellowStalfos_DrawHead:
 
 ; ==============================================================================
 
-; $0F469A-$0F46FF LOCAL
+; $0F469A-$0F46FF LOCAL JUMP LOCATION
 YellowStalfos_DrawHead:
 {
     LDA $0DC0, X : CMP.b #$0A : BEQ .return

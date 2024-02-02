@@ -46,7 +46,7 @@ SpriteActive3_MainLong:
 
 ; ==============================================================================
 
-; $0F0B19-$0F0B2D LOCAL
+; $0F0B19-$0F0B2D LOCAL JUMP LOCATION
 SpriteActive3_Main:
 {
     LDA $0E20, X : SEC : SBC.b #$79 : REP #$30 : AND.w #$00FF : ASL A : TAY
@@ -61,7 +61,7 @@ SpriteActive3_Main:
 
 ; ==============================================================================
 
-; $0F0B2E-$0F0B32 LOCAL
+; $0F0B2E-$0F0B32 LOCAL JUMP LOCATION
 Sprite3_CheckTileCollision:
 {
     JSL Sprite_CheckTileCollisionLong
@@ -191,7 +191,7 @@ incsrc "sprite_kodondo.asm"
 
 ; ==============================================================================
 
-; $0F4267-$0F426F LOCAL
+; $0F4267-$0F426F LOCAL JUMP LOCATION
 Sprite3_CheckDamage:
 {
     JSL Sprite_CheckDamageFromPlayerLong
@@ -256,7 +256,7 @@ Sprite_PlayerCantPassThrough:
 
 ; ==============================================================================
 
-; $0F7508-$0F7514 LOCAL
+; $0F7508-$0F7514 LOCAL JUMP LOCATION
 Sprite_HaltSpecialPlayerMovement:
 {
     PHX
@@ -284,7 +284,7 @@ incsrc "sprite_fairy_handle_movement.asm"
 
 ; ==============================================================================
 
-; $0F7E69-$0F7E6D LOCAL
+; $0F7E69-$0F7E6D LOCAL JUMP LOCATION
 Sprite3_DirectionToFacePlayer:
 {
     JSL Sprite_DirectionToFacePlayerLong
@@ -294,7 +294,7 @@ Sprite3_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; $0F7E6E-$0F7E72 LOCAL
+; $0F7E6E-$0F7E72 LOCAL JUMP LOCATION
 Sprite3_IsToRightOfPlayer:
 {
     JSL Sprite_IsToRightOfPlayerLong
@@ -304,7 +304,7 @@ Sprite3_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; $0F7E73-$0F7E77 LOCAL
+; $0F7E73-$0F7E77 LOCAL JUMP LOCATION
 Sprite3_IsBelowPlayer:
 {
     JSL Sprite_IsBelowPlayerLong
@@ -314,7 +314,7 @@ Sprite3_IsBelowPlayer:
 
 ; ==============================================================================
 
-; $0F7E78-$0F7E94 LOCAL
+; $0F7E78-$0F7E94 LOCAL JUMP LOCATION
 Sprite3_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -350,7 +350,7 @@ pool Sprite3_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $0F7E9B-$0F7F1D LOCAL
+; $0F7E9B-$0F7F1D LOCAL JUMP LOCATION
 Sprite3_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -429,7 +429,7 @@ Sprite3_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $0F7F1E-$0F7F27 LOCAL
+; $0F7F1E-$0F7F27 LOCAL JUMP LOCATION
 Sprite3_MoveXyz:
 {
     JSR Sprite3_MoveAltitude
@@ -445,7 +445,7 @@ Sprite3_MoveXyz:
 
 ; ==============================================================================
 
-; $0F7F28-$0F7F33 LOCAL
+; $0F7F28-$0F7F33 LOCAL JUMP LOCATION
 Sprite3_MoveHoriz:
 {
     TXA : CLC : ADC.b #$10 : TAX
@@ -459,7 +459,7 @@ Sprite3_MoveHoriz:
 
 ; ==============================================================================
 
-; $0F7F34-$0F7F61 LOCAL
+; $0F7F34-$0F7F61 LOCAL JUMP LOCATION
 Sprite3_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
@@ -484,7 +484,7 @@ Sprite3_MoveVert:
 
 ; ==============================================================================
 
-; $0F7F62-$0F7F83 LOCAL
+; $0F7F62-$0F7F83 LOCAL JUMP LOCATION
 Sprite3_MoveAltitude:
 {
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
@@ -502,7 +502,7 @@ Sprite3_MoveAltitude:
 
 ; ==============================================================================
 
-; $0F7F84-$0F7F8C LOCAL
+; $0F7F84-$0F7F8C LOCAL JUMP LOCATION
 Sprite3_PrepOamCoord:
 {
     JSL Sprite_PrepOamCoordLong : BCC .renderable

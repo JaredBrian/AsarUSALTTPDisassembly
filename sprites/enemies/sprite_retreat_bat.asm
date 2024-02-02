@@ -246,7 +246,7 @@ pool RetreatBat_DrawSomethingElse:
 
 ; ==============================================================================
 
-; $0D7750-$0D776C LOCAL
+; $0D7750-$0D776C LOCAL JUMP LOCATION
 RetreatBat_DrawSomethingElse:
 {
     ; This something esle is a sprite mask that is placed directly below the hole on the pyramid.
@@ -279,7 +279,7 @@ RetreatBat_DrawSomethingElse:
 
 ; ==============================================================================
 
-; $0D77E5-$0D7809 LOCAL
+; $0D77E5-$0D7809 LOCAL JUMP LOCATION
 RetreatBat_SpawnPyramidDebris:
 {
     LDY.b #$1D
@@ -324,7 +324,7 @@ pool RetreatBat_Draw:
 
 ; ==============================================================================
 
-; $0D7833-$0D785B LOCAL
+; $0D7833-$0D785B LOCAL JUMP LOCATION
 RetreatBat_Draw:
 {
     REP #$20

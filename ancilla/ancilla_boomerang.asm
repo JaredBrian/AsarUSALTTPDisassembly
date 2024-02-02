@@ -253,7 +253,7 @@ Ancilla_CheckTileCollision_Class2_Long:
 
 ; ==============================================================================
 
-; $04124B-$0412AA LOCAL
+; $04124B-$0412AA LOCAL JUMP LOCATION
 Boomerang_CheckForScreenEdgeReversal:
 {
     LDA $0BFA, X : STA $00
@@ -309,7 +309,7 @@ Boomerang_CheckForScreenEdgeReversal:
 
 ; ==============================================================================
 
-; $0412AB-$041319 LOCAL
+; $0412AB-$041319 LOCAL JUMP LOCATION
 Boomerang_SelfTerminateIfOffscreen:
 {
     LDA $0BFA, X : STA $04

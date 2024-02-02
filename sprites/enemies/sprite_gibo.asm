@@ -303,7 +303,7 @@ pool Gibo_Draw:
 
 ; ==============================================================================
 
-; $0ECF5E-$0ECFC2 LOCAL
+; $0ECF5E-$0ECFC2 LOCAL JUMP LOCATION
 Gibo_Draw:
 {
     LDA !is_nucleus_expelled, X : BNE .is_currently_expelled

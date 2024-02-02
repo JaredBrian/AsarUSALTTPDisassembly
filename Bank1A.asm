@@ -77,7 +77,7 @@ Lady_Draw:
 
 ; ==============================================================================
 
-; $0D7954-$0D7970 LOCAL
+; $0D7954-$0D7970 LOCAL JUMP LOCATION
 Sprite6_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -309,7 +309,7 @@ Mothula_DrawLong:
 
 ; ==============================================================================
 
-; $0D7DB5-$0D7E7D LOCAL
+; $0D7DB5-$0D7E7D LOCAL JUMP LOCATION
 Mothula_Draw:
 {
     LDA.b #$00 : XBA
@@ -456,7 +456,7 @@ Sprite_ChickenLadyLong:
 
 ; ==============================================================================
 
-; $0D7ED3-$0D7EFF LOCAL
+; $0D7ED3-$0D7EFF LOCAL JUMP LOCATION
 Sprite_ChickenLady:
 {
     LDA.b #$01 : STA $0DE0, X

@@ -3857,7 +3857,7 @@ PlayerOam_RunFinalAdjustments:
 
 ; =========================================================
 
-; $06AAC3-$06AACB LOCAL
+; $06AAC3-$06AACB LOCAL JUMP LOCATION
 PlayerOam_GetHighestSetBit:
 {
     ; This routine returns the highest bit set in whatever variable is the
@@ -4050,7 +4050,7 @@ PlayerOam_WeaponSize:
     
 }
 
-; $06AB6E-$06ABC9 LOCAL
+; $06AB6E-$06ABC9 LOCAL JUMP LOCATION
 PlayerOam_SetWeaponVRAMOffsets:
 {
     REP #$30
@@ -4114,7 +4114,7 @@ EquipmentVRAMOffsets:
 
 }
 
-; $06ABE6-$06AC44 LOCAL
+; $06ABE6-$06AC44 LOCAL JUMP LOCATION
 PlayerOam_SetEquipmentVRAMOffsets:
 {
     REP #$30
@@ -4310,7 +4310,7 @@ PlayerOam_SwordSwingTipOffsetX:
      db $FF
 }
 
-; $06ACD5-$06AD81 LOCAL
+; $06ACD5-$06AD81 LOCAL JUMP LOCATION
 PlayerOam_DrawSwordSwingTip:
 {
     LDA $0A : PHA
@@ -4389,7 +4389,7 @@ PlayerOam_DrawSwordSwingTip:
     RTS
 }
 
-; $06ADB6-$06AE37 LOCAL
+; $06ADB6-$06AE37 LOCAL JUMP LOCATION
 PlayerOam_UnusedWeaponSettings:
 {
     SEP #$30
@@ -4469,7 +4469,7 @@ DungeonFallShadow:
 
 ; =========================================================
 
-; $06AE3B-$06AEC9 LOCAL
+; $06AE3B-$06AEC9 LOCAL JUMP LOCATION
 PlayerOam_DungeonFallShadow:
 {
     LDY.b #$00
@@ -4564,7 +4564,7 @@ FootObject:
 
 ; =========================================================
 
-; $06AED1-$06AF9C LOCAL
+; $06AED1-$06AF9C LOCAL JUMP LOCATION
 PlayerOam_DrawFootObject:
 {
     ; Seems to draw the ripples around Link while standing in shallow water
@@ -4701,7 +4701,7 @@ pool PlayerOam_Unused_0:
 ; =========================================================
 
 ; \unused (Not sure if really unused yet.)
-; $06AFA6-$06AFBF LOCAL
+; $06AFA6-$06AFBF LOCAL JUMP LOCATION
 PlayerOam_Unused_0:
 {
     SEP #$30
@@ -4722,7 +4722,7 @@ PlayerOam_Unused_0:
 
 ; =========================================================
 
-; $06AFC0-$06AFDC LOCAL
+; $06AFC0-$06AFDC LOCAL JUMP LOCATION
 PlayerOam_GetRelativeHighBit:
 {
     ; In general this seems to take an offset for a sprite and figure out

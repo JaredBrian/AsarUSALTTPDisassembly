@@ -385,7 +385,7 @@ Module_EndSequence:
     RTL
 }
     
-; $071889-$071890 LOCAL
+; $071889-$071890 LOCAL JUMP LOCATION
 Credits_LoadNextScene_Overworld:
 {
     ; For overworld portions:
@@ -395,7 +395,7 @@ Credits_LoadNextScene_Overworld:
     RTS
 }
     
-; $071891-$071898 LOCAL
+; $071891-$071898 LOCAL JUMP LOCATION
 Credits_LoadNextScene_Underworld:
 {
     ; For dungeon portions
@@ -529,7 +529,7 @@ Pool_Credits_ScrollScene:
     dw   0   ; Master Sword
 }
 
-; $071958-$0719A4 LOCAL
+; $071958-$0719A4 LOCAL JUMP LOCATION
 Credits_ScrollScene_Overworld:
 {
     PHB : PHK : PLB
@@ -605,7 +605,7 @@ Pool_Credits_ScrollScene_Underworld:
     dw Credits_SpriteDraw_Pedestal      ; $AD22 = $072D22
 }
 
-; $0719C5-$071A09 LOCAL
+; $0719C5-$071A09 LOCAL JUMP LOCATION
 Credits_ScrollScene_Underworld:
 {
     ; Dungeon Engine for Ending sequence (module 1A).
@@ -1045,7 +1045,7 @@ Credits_SpriteData:
     db   5 ; Master Sword
 }
 
-; $071C1A-$071C55 LOCAL
+; $071C1A-$071C55 LOCAL JUMP LOCATION
 Credits_LoadSprites_Zora:
 {
     LDA.b #$FF : STA.w $0DF0 : STA.w $0DF1 : STA.w $0DF2
@@ -1053,7 +1053,7 @@ Credits_LoadSprites_Zora:
     BRA Credits_LoadSprites_Desert_Bounce
 }
 
-; $071C27-$071C55 LOCAL
+; $071C27-$071C55 LOCAL JUMP LOCATION
 Credits_LoadSprites_Kakariko1:
 {
     LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D46
@@ -1061,7 +1061,7 @@ Credits_LoadSprites_Kakariko1:
     BRA Credits_LoadSprites_Desert_Bounce
 }
 
-; $071C2F LOCAL
+; $071C2F LOCAL JUMP LOCATION
 Credits_LoadSprites_Desert:
 {
     LDA.b #$16 : STA.w $0D95
@@ -1093,7 +1093,7 @@ Pool_Credits_LoadSprites_Grove:
     db $00, $13, $26, $39, $4C
 }
 
-; $071C5B-$071C91 LOCAL
+; $071C5B-$071C91 LOCAL JUMP LOCATION
 Credits_LoadSprites_Grove:
 {
     LDY.b #$04
@@ -1124,7 +1124,7 @@ Credits_LoadSprites_Grove:
     BRA Credits_LoadSprites_GenericOW:
 }
     
-; $071C92-$071CB3 LOCAL
+; $071C92-$071CB3 LOCAL JUMP LOCATION
 Credits_LoadSprites_LostWoods:
 {
     LDA CreditsSpriteSpeeds_y_speed_limits_negative : STA.w $0D45
@@ -1143,7 +1143,7 @@ Credits_LoadSprites_LostWoods:
     BRA Credits_LoadSprites_GenericOW:
 }
 
-; $071CB4-$071CC9 LOCAL
+; $071CB4-$071CC9 LOCAL JUMP LOCATION
 Credits_LoadSprites_Pedestal:
 {
     LDA.b #$02 : STA.w $0DB4
@@ -1155,7 +1155,7 @@ Credits_LoadSprites_Pedestal:
     BRA Credits_LoadSprites_GenericOW:
 }
 
-; $071CCA-$071CD0 LOCAL
+; $071CCA-$071CD0 LOCAL JUMP LOCATION
 Credits_LoadSprites_Witch:
 {
     LDA.b #$FF : STA.w $0DF1
@@ -1163,7 +1163,7 @@ Credits_LoadSprites_Witch:
     BRA Credits_LoadSprites_GenericOW:
 }
 
-; $071CD1-$071CFD LOCAL
+; $071CD1-$071CFD LOCAL JUMP LOCATION
 Credits_LoadSprites_Kakariko2:
 {
     LDY.b #$01
@@ -1185,7 +1185,7 @@ Credits_LoadSprites_Kakariko2:
     ; Bleed into the next function.
 }
 
-; $071CFE-$071D5B LOCAL
+; $071CFE-$071D5B LOCAL JUMP LOCATION
 Credits_LoadSprites_GenericOW:
 {
     LDA Credits_SpriteData_position_x_pointers, X      : STA.b $04
@@ -1221,7 +1221,7 @@ Credits_LoadSprites_GenericOW:
     RTS
 }
 
-; $071D5C-$071D6F LOCAL
+; $071D5C-$071D6F LOCAL JUMP LOCATION
 Credits_LoadSprites_Venus:
 {
     LDA.b #$10 : STA.w $0DF1
@@ -1232,7 +1232,7 @@ Credits_LoadSprites_Venus:
     BRA Credits_LoadSprites_GenericUW
 }
     
-; $071D70-$071D83 LOCAL
+; $071D70-$071D83 LOCAL JUMP LOCATION
 Credits_LoadSprites_Smithy:
 {
     LDA.b #$79 : STA.w $0F54
@@ -1244,7 +1244,7 @@ Credits_LoadSprites_Smithy:
     ; Bleed into next function.
 }
 
-; $071D84-$071DEF LOCAL
+; $071D84-$071DEF LOCAL JUMP LOCATION
 Credits_LoadSprites_GenericUW:
 {
     REP #$20
@@ -1386,7 +1386,7 @@ Pool_Credits_SpriteDraw_Castle:
     db $39 ; Guard 4
 }
 
-; $071E9C-$071EE0 LOCAL
+; $071E9C-$071EE0 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Castle:
 {
 	PHX
@@ -1489,7 +1489,7 @@ Pool_Credits_SpriteDraw_Hera:
     db  46,  47,  30,  40,  71,  53,  50,  48
 }
 
-; $071F53-$071FBF LOCAL
+; $071F53-$071FBF LOCAL JUMP LOCATION
 Credits_SpriteDraw_Hera:
 {
     PHX
@@ -1639,7 +1639,7 @@ CreditsOAMGroup1:
 
 ; ==============================================================================
 
-; $0720E2-$072163 LOCAL
+; $0720E2-$072163 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Kakariko1:
 {
     PHX
@@ -1766,7 +1766,7 @@ CreditsOAMGroup2:
 
 ; ==============================================================================
 
-; $07227C-$0722F7 LOCAL
+; $07227C-$0722F7 LOCAL JUMP LOCATION
 Credits_SpriteDraw_House:
 {
     PHX
@@ -1860,7 +1860,7 @@ CreditsOAMGroup_OldMan:
     dw -16, -16 : db $AA, $39, $00, $02
 }
 
-; $072358-$072392 LOCAL
+; $072358-$072392 LOCAL JUMP LOCATION
 Credits_SpriteDraw_DeathMountain:
 {
     PHX
@@ -1896,7 +1896,7 @@ Credits_SpriteDraw_DeathMountain:
     RTS
 }
 
-; $072393-$0723C6 LOCAL
+; $072393-$0723C6 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Lumberjacks:
 {
     PHX
@@ -1931,7 +1931,7 @@ Credits_SpriteDraw_Lumberjacks:
     RTS
 }
 
-; $0723C7-$07242C LOCAL
+; $0723C7-$07242C LOCAL JUMP LOCATION
 Credits_SpriteDraw_Venus:
 {
     PHX
@@ -1987,7 +1987,7 @@ Credits_SpriteDraw_Venus:
     RTS
 }
 
-; $07254F-$0725F7 LOCAL
+; $07254F-$0725F7 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Kakariko2:
 {
     PHX
@@ -2092,7 +2092,7 @@ Credits_SpriteDraw_Kakariko2:
     RTS
 }
 
-; $0725F8-$07260C LOCAL
+; $0725F8-$07260C LOCAL JUMP LOCATION
 Credits_SpriteDraw_DrawShadow:
 {
     .high_prioritize
@@ -2135,7 +2135,7 @@ Credits_SpriteDraw_AnimateLostWoodsThief
 
 ; ==============================================================================
 
-; $072643-$072691 LOCAL
+; $072643-$072691 LOCAL JUMP LOCATION
 Credits_SpriteDraw:
 {
     .AnimateRunningKidAndLocksmith
@@ -2189,7 +2189,7 @@ Credits_SpriteDraw:
     RTS
 }
 
-; $072692-$072693 LOCAL
+; $072692-$072693 LOCAL JUMP LOCATION
 Credits_SpriteDraw_ActivateAndRunSprite_allocate8:
 {
     LDA.b #$08
@@ -2197,7 +2197,7 @@ Credits_SpriteDraw_ActivateAndRunSprite_allocate8:
     ; Bleeds into the next function.
 }
     
-; $072694-$0726B0 LOCAL
+; $072694-$0726B0 LOCAL JUMP LOCATION
 Credits_SpriteDraw_ActivateAndRunSprite:
 {
     STX.w $0FA0
@@ -2218,7 +2218,7 @@ Credits_SpriteDraw_ActivateAndRunSprite:
     RTS
 }
 
-; $0726B1-$0726B2 LOCAL
+; $0726B1-$0726B2 LOCAL JUMP LOCATION
 Credits_SpriteDraw_PreexistingSpriteDraw_eight:
 {
     LDA.b #$08
@@ -2226,7 +2226,7 @@ Credits_SpriteDraw_PreexistingSpriteDraw_eight:
     ; Bleeds into the next function.
 }
 
-; $0726B3-$0726C2 LOCAL
+; $0726B3-$0726C2 LOCAL JUMP LOCATION
 Credits_SpriteDraw_PreexistingSpriteDraw:
 {
     JSL OAM_AllocateFromRegionA
@@ -2287,7 +2287,7 @@ Pool_Credits_SpriteDraw_Single:
 
 ; ==============================================================================
 
-; $072703-$07273C LOCAL
+; $072703-$07273C LOCAL JUMP LOCATION
 Credits_SpriteDraw_Single:
 {
     ; A number of oam entries to allocate for and to draw.
@@ -2363,7 +2363,7 @@ Pool_Credits_SpriteDraw_Zora
     db $06 ; Right zora
 }
 
-; $07274C-$072799 LOCAL
+; $07274C-$072799 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Zora:
 {
     PHX
@@ -2413,7 +2413,7 @@ Credits_SpriteDraw_Zora:
     RTS
 }
 
-; $072802-$072887 LOCAL
+; $072802-$072887 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Smithy:
 {
     PHX
@@ -2519,7 +2519,7 @@ Pool_Credits_SpriteDraw_DrawSmithSpark
     db $00, $00, $00, $00
 }
 
-; $0728C8-$0728E4 LOCAL
+; $0728C8-$0728E4 LOCAL JUMP LOCATION
 Credits_SpriteDraw_DrawSmithSpark:
 {
     PHX
@@ -2575,7 +2575,7 @@ Pool_Credits_SpriteDraw_Desert
     db $01, $02, $03, $02
 }
 
-; $072941-$072994 LOCAL
+; $072941-$072994 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Desert:
 {
     PHX
@@ -2680,7 +2680,7 @@ Pool_Credits_SpriteDraw_Witch
 
 ; ==============================================================================
 
-; $0729D3-$072A52 LOCAL
+; $0729D3-$072A52 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Witch:
 {
     PHX
@@ -2796,7 +2796,7 @@ Pool_Credits_SpriteDraw_Grove:
 
 ; ==============================================================================
 
-; $072A91-$072B44 LOCAL
+; $072A91-$072B44 LOCAL JUMP LOCATION
 Credits_SpriteDraw_Grove:
 {
     PHX
@@ -2945,7 +2945,7 @@ Pool_Credits_SpriteDraw_LostWoods:
 
 ; ==============================================================================
 
-; $072BF5-$072CA1 LOCAL
+; $072BF5-$072CA1 LOCAL JUMP LOCATION
 Credits_SpriteDraw_LostWoods:
 {
     PHX
@@ -3049,7 +3049,7 @@ Credits_SpriteDraw_LostWoods:
     RTS
 }
 
-; $072CA2-$072CAA LOCAL
+; $072CA2-$072CAA LOCAL JUMP LOCATION
 Credits_SpriteDraw_SetShadowProp:
 {
     STA.w $0E40, X
@@ -3094,7 +3094,7 @@ Credits_SpriteDraw_AddSparkle_timer:
     db $8B, $83, $8D, $85
 }
 
-; $072CE5-$072D21 LOCAL
+; $072CE5-$072D21 LOCAL JUMP LOCATION
 Credits_SpriteDraw_AddSparkle:
 {
     STX.b $00
@@ -3253,7 +3253,7 @@ Pool_Credits_SpriteDraw_WalkLinkAwayFromPedestal:
     dw $0178
 }
 
-; $072DF7-$072E2C LOCAL
+; $072DF7-$072E2C LOCAL JUMP LOCATION
 Credits_SpriteDraw_WalkLinkAwayFromPedestal:
 {
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
@@ -3297,7 +3297,7 @@ Pool_Credits_SpriteDraw_MoveSquirrel
 
 ; ==============================================================================
 
-; $072E35-$072E5C LOCAL
+; $072E35-$072E5C LOCAL JUMP LOCATION
 Credits_SpriteDraw_MoveSquirrel:
 {
     LDA.w $0DF0, X : CMP.b #$40 : BCS .delay
@@ -3340,7 +3340,7 @@ CreditsSpriteSpeeds:
 
 ; ==============================================================================
 
-; $072E63-$072E9D LOCAL
+; $072E63-$072E9D LOCAL JUMP LOCATION
 Credits_SpriteDraw_CirclingBirds:
 {
     LDA.w $0DE0, X : AND.b #$01 : TAY
@@ -3561,7 +3561,7 @@ Credits_HandleCameraScrollControl:
     RTL
 }
 
-; $072FF2-$073037 LOCAL
+; $072FF2-$073037 LOCAL JUMP LOCATION
 Credits_SingleCameraScrollControl:
 {
     STZ $04
@@ -4326,7 +4326,7 @@ CreditsData:
 
 ; ==============================================================================
 
-; $073C6D-$073D65 LOCAL
+; $073C6D-$073D65 LOCAL JUMP LOCATION
 Credits_InitializeTheActualCredits:
 {
     JSL EnableForceBlank             ; $00093D in ROM. Set up the screen values, resets HDMA, etc.
@@ -4350,6 +4350,7 @@ Credits_InitializeTheActualCredits:
         
     REP #$20
         
+    ; Zero out the Hyrule Castle 2 death counter? why?
     LDA.w #$0000 : STZ.l $7EF3EF
         
     ; The counter for the number of times you've saved/died.
@@ -4461,7 +4462,7 @@ Credits_InitializeTheActualCredits:
     db $00
 }
 
-; $073D66-$073D8A LOCAL
+; $073D66-$073D8A LOCAL JUMP LOCATION
 Credits_FadeOutFixedCol:
 {
     ; Gradually neutralizes color addition / subtraction to neutral.
@@ -4493,7 +4494,7 @@ Credits_FadeOutFixedCol:
 
 ; ==============================================================================
 
-; $073D8B-$073E03 LOCAL
+; $073D8B-$073E03 LOCAL JUMP LOCATION
 Credits_FadeColorAndBeginAnimating:
 {
     ; Gradually neutralize color add/sub.
@@ -4574,7 +4575,7 @@ Pool_Credits_AddNextAttribution
 
 ; ==============================================================================
 
-; $073E24-$073F4B LOCAL
+; $073E24-$073F4B LOCAL JUMP LOCATION
 Credits_AddNextAttribution:
 {
     PHB : PHK : PLB
@@ -5060,7 +5061,7 @@ Pool_Credits_AddEndingSequenceText:
 
 ; ==============================================================================
 
-; $074303-$07437B LOCAL
+; $074303-$07437B LOCAL JUMP LOCATION
 Credits_AddEndingSequenceText:
 {
     ; Does this draw the tag lines for the ending sequence?
@@ -5129,7 +5130,7 @@ Credits_AddEndingSequenceText:
     RTS
 }
 
-; $07437C-$074390 LOCAL
+; $07437C-$074390 LOCAL JUMP LOCATION
 Credits_BrightenTriangles:
 {
     LDA.b $1A : AND.b #$0F : BNE .BRANCH_ALPHA
@@ -5147,7 +5148,7 @@ Credits_BrightenTriangles:
     RTS
 }
 
-; $074391-$0743D4 LOCAL
+; $074391-$0743D4 LOCAL JUMP LOCATION
 Credits_StopCreditsScroll:
 {
     DEC.b $C8
@@ -5196,7 +5197,7 @@ Credits_StopCreditsScroll:
     RTS
 }
 
-; $0743D5-$0743E9 LOCAL
+; $0743D5-$0743E9 LOCAL JUMP LOCATION
 Credits_FadeInTheEnd:
 {
     LDA.b $1A : AND.b #$07 : BNE .frameNotMultipleOf8
@@ -5220,7 +5221,7 @@ Credits_FadeInTheEnd:
     db $D0, $B8, $06, $3B
 }
     
-; $0743FA-$07441B JUMP LOCATION LOCAL
+; $0743FA-$07441B JUMP LOCATION LOCAL JUMP LOCATION
 Credits_DrawTheEnd:
 {
     ; The End!
@@ -5452,7 +5453,7 @@ Palette_BgAndFixedColor:
     ; Bleed into the next function.
 }
 
-; $07560B-$075617 LOCAL
+; $07560B-$075617 LONG JUMP LOCATION
 SetBGColorCacheOnly:
 {
     .justFixedColor
@@ -5482,7 +5483,7 @@ Overworld_SetScreenBGColorCacheOnly:
     BRA SetBGColorCacheOnly
 }
 
-; $075622-$075652 LOCAL
+; $075622-$075652 LOCAL JUMP LOCATION
 ; ZS changes this function.
 Palette_GetOwBgColor:
 {
@@ -5503,8 +5504,7 @@ Palette_GetOwBgColor:
         CMP.w #$0180 : BNE .finished
             .specialArea
 
-            ; The special areas apparently have a slightly different shade of green
-            ; for their background.
+            ; The special areas have a slightly darker shade of green.
             LDX.w #$19C6
         
         BRA .finished
@@ -5726,7 +5726,7 @@ LoadGearPalettes:
 
 ; =============================================
     
-; $075741-$075756 LOCAL
+; $075741-$075756 LONG JUMP LOCATION
 LoadGearPalette:
 {
     ; ($00 is variable input).
@@ -5795,7 +5795,7 @@ Filter_Majorly_Whiten_Bg:
 
 ; ==============================================================================
 
-; $0757FE-$075839 LOCAL
+; $0757FE-$075839 LOCAL JUMP LOCATION
 Filter_Majorly_Whiten_Color:
 {
     STA.b $00
@@ -6505,7 +6505,7 @@ Overworld_CheckForSpecialOverworldTrigger:
     RTL
 }
 
-; $075E9A-$075ECD LOCAL
+; $075E9A-$075ECD LOCAL JUMP LOCATION
 GetMap16Tile:
 {
     LDA.b $20 : CLC : ADC.w #$000C : STA.b $00
@@ -8402,7 +8402,7 @@ Overworld_EventOverlayTable:
     ; Must be handled elsewhere.
 }
 
-; $077764-$0777A9 LOCAL
+; $077764-$0777A9 LOCAL JUMP LOCATION
 OverworldOverlay_LumberjackTree:
 {
     LDA.w #$0E32
@@ -8426,7 +8426,7 @@ OverworldOverlay_LumberjackTree:
     RTS
 }
 
-; $0777AA-$0777B0 LOCAL
+; $0777AA-$0777B0 LOCAL JUMP LOCATION
 OverworldOverlay_TurtleRockPortal:
 {
     LDA.w #$0212 : STA.w $2720
@@ -8434,7 +8434,7 @@ OverworldOverlay_TurtleRockPortal:
     RTS
 }
 
-; $0777B1-$0777C6 LOCAL
+; $0777B1-$0777C6 LOCAL JUMP LOCATION
 OverworldOverlay_BonkRocks:
 {
     LDX.w #$0506
@@ -8449,7 +8449,7 @@ OverworldOverlay_BonkRocks:
     RTS
 }
 
-; $0777C7-$0777E3 LOCAL
+; $0777C7-$0777E3 LOCAL JUMP LOCATION
 OverworldOverlay_KingsTomb:
 {
     LDA.w #$0DD1 : STA.w $2532
@@ -8463,7 +8463,7 @@ OverworldOverlay_KingsTomb:
     RTS
 }
 
-; $0777E4-$0777FD LOCAL
+; $0777E4-$0777FD LOCAL JUMP LOCATION
 OverworldOverlay_WeatherVane:
 {
     LDA.w #$0E21 : STA.w $2C3E : STA.w $2C42
@@ -8475,7 +8475,7 @@ OverworldOverlay_WeatherVane:
     RTS
 }
 
-; $0777FE-$077826 LOCAL
+; $0777FE-$077826 LOCAL JUMP LOCATION
 OverworldOverlay_CastleGate:
 {
     LDA.w #$0DC1 : STA.w $33BC
@@ -8493,7 +8493,7 @@ OverworldOverlay_CastleGate:
     RTS
 }
 
-; $077827-$07782C LOCAL
+; $077827-$07782C LOCAL JUMP LOCATION
 OverworldOverlay_LinksHouseBonkRocks:
 {
     LDX.w #$0330
@@ -8501,7 +8501,7 @@ OverworldOverlay_LinksHouseBonkRocks:
     JMP $F7B4 ; $0777B4 IN ROM
 }
 
-; $07782D-$077832 LOCAL
+; $07782D-$077832 LOCAL JUMP LOCATION
 OverworldOverlay_CheckerBoardCave:
 {
     LDX.w #$0358
@@ -8509,7 +8509,7 @@ OverworldOverlay_CheckerBoardCave:
     JMP $F7B4 ; $0777B4 IN ROM
 }
 
-; $077833-$077838 LOCAL
+; $077833-$077838 LOCAL JUMP LOCATION
 OverworldOverlay_IceRodThief:
 {
     LDX.w #$040C
@@ -8517,7 +8517,7 @@ OverworldOverlay_IceRodThief:
     JMP $F7B4 ; $0777B4 IN ROM
 }
 
-; $077839-$07783E LOCAL
+; $077839-$07783E LOCAL JUMP LOCATION
 OverworldOverlay_DesertThief:
 {
     LDX.w #$0A1E
@@ -8525,7 +8525,7 @@ OverworldOverlay_DesertThief:
     JMP $F7B4 ; $0777B4
 }
 
-; $07783F-$0779E5 LOCAL
+; $07783F-$0779E5 LOCAL JUMP LOCATION
 OverworldOverlay_DrainedDam:
 {
     LDA.w #$0DDF
@@ -8615,7 +8615,7 @@ OverworldOverlay_DrainedDam:
     RTS
 }
 
-; $0779E6-$077A2D LOCAL
+; $0779E6-$077A2D LOCAL JUMP LOCATION
 OverworldOverlay_SkullWoods:
 {
     LDA.w #$0E13 : STA.w $2590
@@ -8636,7 +8636,7 @@ OverworldOverlay_SkullWoods:
     RTS
 }
 
-; $077A2E-$077A5A LOCAL
+; $077A2E-$077A5A LOCAL JUMP LOCATION
 OverworldOverlay_GanonsTower:
 {
     LDA.w #$0E96 : STZ.l $7E245E
@@ -8651,7 +8651,7 @@ OverworldOverlay_GanonsTower:
     RTS
 }
 
-; $077A5B-$077A60 LOCAL
+; $077A5B-$077A60 LOCAL JUMP LOCATION
 OverworldOverlay_HookshotCave:
 {
     LDX.w #$0868
@@ -8659,7 +8659,7 @@ OverworldOverlay_HookshotCave:
     JMP $F7B4   ; $0777B4 IN ROM
 }
 
-; $077A61-$077AB3 LOCAL
+; $077A61-$077AB3 LOCAL JUMP LOCATION
 OverworldOverlay_TurtleRock:
 {
     LDA.w #$0E78 : STZ.l $7E299E
@@ -8682,7 +8682,7 @@ OverworldOverlay_TurtleRock:
     RTS
 }
 
-; $077AB4-$077ACE LOCAL
+; $077AB4-$077ACE LOCAL JUMP LOCATION
 OverworldOverlay_GargoylesDomain:
 {
     LDA.w #$0E1B : STA.w $2D3E
@@ -8695,7 +8695,7 @@ OverworldOverlay_GargoylesDomain:
     RTS
 }
 
-; $077ACF-$077AF5 LOCAL
+; $077ACF-$077AF5 LOCAL JUMP LOCATION
 OverworldOverlay_PyramidHole:
 {
     LDA.w #$0E3F : STA.w $23BC
@@ -8711,7 +8711,7 @@ OverworldOverlay_PyramidHole:
     RTS
 }
 
-; $077AF6-$077B0A LOCAL
+; $077AF6-$077B0A LOCAL JUMP LOCATION
 OverworldOverlay_POD:
 {
     LDA.w #$0E31 : STA.w $21E6
@@ -8724,7 +8724,7 @@ OverworldOverlay_POD:
     RTS
 }
 
-; $077B0B-$077B10 LOCAL
+; $077B0B-$077B10 LOCAL JUMP LOCATION
 OverworldOverlay_PegPuzzle:
 {
     LDX.w #$0D20
@@ -8732,7 +8732,7 @@ OverworldOverlay_PegPuzzle:
     JMP $F7B4 ; $0777B4 IN ROM
 }
 
-; $077B11-$077B63 LOCAL
+; $077B11-$077B63 LOCAL JUMP LOCATION
 OverworldOverlay_MiseryMire:
 {
     LDA.w #$0E64 : STA.w $2522

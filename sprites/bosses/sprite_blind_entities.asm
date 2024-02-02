@@ -139,7 +139,7 @@ Blind_Initialize:
 
 ; ==============================================================================
 
-; $0EA0B1-$0EA10F LOCAL
+; $0EA0B1-$0EA10F LOCAL JUMP LOCATION
 BlindLaser_SpawnTrailGarnish:
 {
     ; \note Must have been some kind of development test code that never
@@ -210,7 +210,7 @@ pool Sprite_BlindHead:
 
 ; ==============================================================================
 
-; $0EA118-$0EA1EC LOCAL
+; $0EA118-$0EA1EC LOCAL JUMP LOCATION
 Sprite_BlindHead:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -339,7 +339,7 @@ Sprite_BlindHead:
 
 ; ==============================================================================
 
-; $0EA1ED-$0EA23B LOCAL
+; $0EA1ED-$0EA23B LOCAL JUMP LOCATION
 Blind_SpawnExtraHead:
 {
     ; Create a Blind Head sprite
@@ -854,7 +854,7 @@ Blind_BlindedByTheLight:
 
 ; ==============================================================================
 
-; $0EA4F9-$0EA539 LOCAL
+; $0EA4F9-$0EA539 LOCAL JUMP LOCATION
 Blind_SpawnPoof:
 {
     LDA.b #$0C : STA $012E
@@ -1159,7 +1159,7 @@ Blind_WhirlAround:
 
 ; ==============================================================================
 
-; $0EA6C0-$0EA6CE LOCAL
+; $0EA6C0-$0EA6CE LOCAL JUMP LOCATION
 Blind_CheckBumpDamage:
 {
     LDA !timer_4, X : ORA $0EA0, X : BNE .temporarily_intouchable
@@ -1191,7 +1191,7 @@ pool Blind_Animate:
 
 ; ==============================================================================
 
-; $0EA6EF-$0EA744 LOCAL
+; $0EA6EF-$0EA744 LOCAL JUMP LOCATION
 Blind_Animate:
 {
     ; \task What the hell is this routine doing? Targeting the laser on
@@ -1256,7 +1256,7 @@ pool Blind_SpawnLaser:
 
 ; ==============================================================================
 
-; $0EA765-$0EA7A9 LOCAL
+; $0EA765-$0EA7A9 LOCAL JUMP LOCATION
 Blind_SpawnLaser:
 {
     LDA.b #$CE : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -1354,7 +1354,7 @@ pool Blind_Draw:
 
 ; ==============================================================================
 
-; $0EAC6C-$0EACC7 LOCAL
+; $0EAC6C-$0EACC7 LOCAL JUMP LOCATION
 Blind_Draw:
 {
     LDA.b #$00   : XBA
@@ -1410,7 +1410,7 @@ Blind_Draw:
 ; ==============================================================================
 
     ; \task A tentative name. Please make sure this is correct.
-; $0EACC8-$0EAD0D LOCAL
+; $0EACC8-$0EAD0D LOCAL JUMP LOCATION
 Blind_BumpDamageFromBody:
 {
     REP #$20

@@ -395,7 +395,7 @@ Bombos_ExecuteFlameColumns:
 
 ; ==============================================================================
 
-; $043236-$043288 LOCAL
+; $043236-$043288 LOCAL JUMP LOCATION
 BombosSpell_WrapUpFlameColumns:
 {
     PHX
@@ -461,7 +461,7 @@ pool BombosSpell_DrawFireColumn:
 
 ; ==============================================================================
 
-; $043373-$04340C LOCAL
+; $043373-$04340C LOCAL JUMP LOCATION
 BombosSpell_DrawFireColumn:
 {
     ; \note Why add 0? Seems like some testing code here wasn't completely
@@ -546,7 +546,7 @@ BombosSpell_DrawFireColumn:
 
 ; ==============================================================================
 
-; $04340D-$043520 LOCAL
+; $04340D-$043520 LOCAL JUMP LOCATION
 BombosSpell_ExecuteBlasts:
 {
     PHX
@@ -763,7 +763,7 @@ pool BombosSpell_DrawBlast:
 
 ; ==============================================================================
 
-; $0435E1-$043669 LOCAL
+; $0435E1-$043669 LOCAL JUMP LOCATION
 BombosSpell_DrawBlast:
 {
     PHX

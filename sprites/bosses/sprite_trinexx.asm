@@ -15,7 +15,7 @@ TrinexxComponents_InitializeLong:
 
 ; ==============================================================================
 
-; $0EAD16-$0EAD25 LOCAL
+; $0EAD16-$0EAD25 LOCAL JUMP LOCATION
 TrinexxComponents_Initialize:
 {
     LDA $0E20, X : SEC : SBC.b #$CB
@@ -99,7 +99,7 @@ TrinexxHead_Initialize:
 
 ; ==============================================================================
 
-; $0EADB5-$0EAE64 LOCAL
+; $0EADB5-$0EAE64 LOCAL JUMP LOCATION
 {
     LDA $0D40, X : STA $00
     
@@ -290,7 +290,7 @@ TrinexxHead_Initialize:
     RTS
 }
 
-; $0EAF84-$0EB078 LOCAL
+; $0EAF84-$0EB078 LOCAL JUMP LOCATION
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
 
@@ -395,7 +395,7 @@ TrinexxHead_Initialize:
     RTS
 }
 
-; $0EB079-$0EB0C7 LOCAL
+; $0EB079-$0EB0C7 LOCAL JUMP LOCATION
 {
     LDA $0D10, X : PHA
     LDA $0D30, X : PHA
@@ -545,7 +545,7 @@ Sprite_Trinexx:
     RTS
 }
 
-; $0EB1D1-$0EB249 LOCAL
+; $0EB1D1-$0EB249 LOCAL JUMP LOCATION
 {
     LDA $0DD1 : ORA $0DD2 : BNE .BRANCH_ALPHA
     
@@ -836,7 +836,7 @@ Sprite_Trinexx:
 
 ; ==============================================================================
 
-; $0EB3B5-$0EB3E5 LOCAL
+; $0EB3B5-$0EB3E5 LOCAL JUMP LOCATION
 {
     LDA $0B0D : BNE .BRANCH_ALPHA
     
@@ -863,7 +863,7 @@ Sprite_Trinexx:
     RTS
 }
 
-; $0EB3E6-$0EB43F LOCAL
+; $0EB3E6-$0EB43F LOCAL JUMP LOCATION
 {
     LDA $0D90, X : STA $04
     LDA $0DA0, X : STA $05
@@ -924,7 +924,7 @@ DrawData:
     dw $FFF8, $0008, $8026, $0200, $0008, $0008, $C026, $0200
 }
 
-; $0EB560-$0EB586 LOCAL
+; $0EB560-$0EB586 LOCAL JUMP LOCATION
 TrinexxHeadAndSnakeDraw:
 {
     LDA.b #$00 : XBA
@@ -946,7 +946,7 @@ TrinexxHeadAndSnakeDraw:
     RTS
 }
 
-; $0EB587-$0EB772 LOCAL
+; $0EB587-$0EB772 LOCAL JUMP LOCATION
 {
     LDA $0EB0, X : BMI .BRANCH_$EB586 ; (RTS)
     

@@ -153,7 +153,7 @@ Sprite_WishPond:
 
 ; ==============================================================================
 
-; $03441D-$03444B LOCAL
+; $03441D-$03444B LOCAL JUMP LOCATION
 FairyPondTriggerMain:
 {
     JSR $C4B5 ; $0344B5 IN ROM
@@ -229,7 +229,7 @@ Sprite_HappinessPond:
 
 ; ==============================================================================
 
-; $0344B5-$0344FC LOCAL
+; $0344B5-$0344FC LOCAL JUMP LOCATION
 {
     ; No items returned at happiness pond.
     LDA $A0 : CMP.b #$15 : BEQ .return
@@ -1303,7 +1303,7 @@ pool FairyQueen_Draw:
 
 ; ==============================================================================
 
-; $034B26-$034BA1 LOCAL
+; $034B26-$034BA1 LOCAL JUMP LOCATION
 FairyQueen_Draw:
 {
     LDA $7EF3CA : BNE .in_dark_world

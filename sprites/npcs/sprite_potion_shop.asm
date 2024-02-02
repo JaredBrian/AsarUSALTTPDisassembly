@@ -17,7 +17,7 @@ SpritePrep_PotionShopLong:
 
 ; ==============================================================================
 
-; $02F529-$02F538 LOCAL
+; $02F529-$02F538 LOCAL JUMP LOCATION
 SpritePrep_PotionShop:
 {
     JSR PotionShop_SpawnMagicPowder
@@ -32,7 +32,7 @@ SpritePrep_PotionShop:
 
 ; ==============================================================================
 
-; $02F539-$02F58D LOCAL
+; $02F539-$02F58D LOCAL JUMP LOCATION
 PotionShop_SpawnMagicPowder:
 {
     LDA $0ABF : BEQ .must_leave_area_and_come_back
@@ -77,7 +77,7 @@ PotionShop_SpawnMagicPowder:
 
 ; ==============================================================================
 
-; $02F58E-$02F5BE LOCAL
+; $02F58E-$02F5BE LOCAL JUMP LOCATION
 PotionShop_SpawnGreenPotion:
 {
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
@@ -99,7 +99,7 @@ PotionShop_SpawnGreenPotion:
 
 ; ==============================================================================
 
-; $02F5BF-$02F5EF LOCAL
+; $02F5BF-$02F5EF LOCAL JUMP LOCATION
 PotionShop_SpawnBluePotion:
 {
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
@@ -121,7 +121,7 @@ PotionShop_SpawnBluePotion:
 
 ; ==============================================================================
 
-; $02F5F0-$02F62A LOCAL
+; $02F5F0-$02F62A LOCAL JUMP LOCATION
 PotionShop_SpawnRedPotion:
 {
     LDA.b #$E9
@@ -164,7 +164,7 @@ Sprite_PotionShopLong:
 
 ; ==============================================================================
 
-; $02F633-$02F643 LOCAL
+; $02F633-$02F643 LOCAL JUMP LOCATION
 Sprite_PotionShop:
 {
     LDA $0E80, X
@@ -222,7 +222,7 @@ pool MagicPowderItem_Draw:
 
 ; ==============================================================================
 
-; $02F67B-$02F68D LOCAL
+; $02F67B-$02F68D LOCAL JUMP LOCATION
 MagicPowderItem_Draw:
 {
     ; Interesting thing to note: This will end up drawing the same sprite
@@ -240,7 +240,7 @@ MagicPowderItem_Draw:
 
 ; ==============================================================================
 
-; $02F68E-$02F6FF LOCAL
+; $02F68E-$02F6FF LOCAL JUMP LOCATION
 Sprite_GreenPotionItem:
 {
     JSR GreenPotionItem_Draw
@@ -322,7 +322,7 @@ pool GreenPotionItem_Draw:
 
 ; ==============================================================================
 
-; $02F718-$02F72A LOCAL
+; $02F718-$02F72A LOCAL JUMP LOCATION
 GreenPotionItem_Draw:
 {
     LDA.b #$03 : STA $06
@@ -420,7 +420,7 @@ pool BluePotionItem_Draw:
 
 ; ==============================================================================
 
-; $02F7BD-$02F7CF LOCAL
+; $02F7BD-$02F7CF LOCAL JUMP LOCATION
 BluePotionItem_Draw:
 {
     LDA.b #$04 : STA $06
@@ -534,7 +534,7 @@ pool RedPotionItem_Draw:
 
 ; ==============================================================================
 
-; $02F86D-$02F87F LOCAL
+; $02F86D-$02F87F LOCAL JUMP LOCATION
 RedPotionItem_Draw:
 {
     LDA.b #$04 : STA $06
@@ -550,7 +550,7 @@ RedPotionItem_Draw:
 
 ; ==============================================================================
 
-; $02F880-$02F892 LOCAL
+; $02F880-$02F892 LOCAL JUMP LOCATION
 WitchAssistant_CheckIfHaveAnyBottles:
 {
     LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F

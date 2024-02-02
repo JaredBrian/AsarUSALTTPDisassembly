@@ -108,7 +108,7 @@ KholdstareShell_PhaseOut:
 
 ; ==============================================================================
 
-; $0F14DD-$0F1517 LOCAL
+; $0F14DD-$0F1517 LOCAL JUMP LOCATION
 IceBallGenerator_DoYourOnlyJob:
 {
     INC $0E80, X
@@ -421,7 +421,7 @@ pool Kholdstare_SpawnNebuleGarnish:
 ; ==============================================================================
 
     ; \note Generates the puffs of white smoke for the Kholdstare eyeballs.
-; $0F16A5-$0F170F LOCAL
+; $0F16A5-$0F170F LOCAL JUMP LOCATION
 Kholdstare_SpawnNebuleGarnish:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .delay
@@ -593,7 +593,7 @@ pool IceBall_Quadruplicate:
 
 ; ==============================================================================
 
-; $0F17CF-$0F181C LOCAL
+; $0F17CF-$0F181C LOCAL JUMP LOCATION
 IceBall_Quadruplicate:
 {
     LDA.b #$1F : JSL Sound_SetSfx2PanLong

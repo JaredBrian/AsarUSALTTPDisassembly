@@ -15,7 +15,7 @@ Sprite_VultureLong:
 
 ; ==============================================================================
 
-; $0EDC7A-$0EDC9B LOCAL
+; $0EDC7A-$0EDC9B LOCAL JUMP LOCATION
 Sprite_Vulture:
 {
     LDA $0B89, X : ORA.b #$30 : STA $0B89, X
@@ -128,7 +128,7 @@ pool Vulture_Draw:
 
 ; ==============================================================================
 
-; $0EDD5E-$0EDD7A LOCAL
+; $0EDD5E-$0EDD7A LOCAL JUMP LOCATION
 Vulture_Draw:
 {
     LDA.b #$00 : XBA

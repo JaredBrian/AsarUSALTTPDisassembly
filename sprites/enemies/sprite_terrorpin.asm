@@ -185,7 +185,7 @@ Terrorpin_Overturned:
 
 ; =============================================================================
 
-; $0F33A3-$0F3404 LOCAL
+; $0F33A3-$0F3404 LOCAL JUMP LOCATION
 Terrorpin_CheckHammerHitNearby:
 {
     LDA $0F70, X : ORA $0E10, X : BNE .cant_overturn
@@ -230,7 +230,7 @@ Terrorpin_CheckHammerHitNearby:
 
 ; =============================================================================
 
-; $0F3405-$0F3429 LOCAL
+; $0F3405-$0F3429 LOCAL JUMP LOCATION
 Terrorpin_FormHammerHitBox:
 {
     LDA $0D10, X : SEC : SBC.b #$10 : STA $04

@@ -1238,7 +1238,7 @@ PotionList:
     
 ; ==============================================================================
 
-; $04893E-$048999 LOCAL
+; $04893E-$048999 LOCAL JUMP LOCATION
 GiveBottledItem:
 {
     ; cache the value of the item to give.
@@ -4268,7 +4268,7 @@ ConsumingFire_TransmuteToSkullWoodsFire:
 
 ; ==============================================================================
     
-; $049CE2-$049D17 LOCAL
+; $049CE2-$049D17 LOCAL JUMP LOCATION
 AddAncilla:
 {
 	; Special effect activator
@@ -4344,7 +4344,7 @@ AddAncillaLong:
 
 ; ==============================================================================
 
-; $049D20-$049D2D LOCAL
+; $049D20-$049D2D LOCAL JUMP LOCATION
 Ancilla_CheckIfAlreadyExists:
 {
     ; This routine accepts A as an input and returns true (SEC)
@@ -4386,7 +4386,7 @@ Ancilla_CheckIfAlreadyExistsLong:
 
 ; ==============================================================================
     
-; $049D36-$049DA2 LOCAL
+; $049D36-$049DA2 LOCAL JUMP LOCATION
 Ancilla_GetRidOfArrowInWall:
 {
     PHA

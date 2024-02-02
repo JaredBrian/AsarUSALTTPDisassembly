@@ -17,7 +17,7 @@ SpritePrep_MedallionTabletLong:
 
 ; ==============================================================================
 
-; $02F262-$02F295 LOCAL
+; $02F262-$02F295 LOCAL JUMP LOCATION
 SpritePrep_MedallionTablet:
 {
     INC $0BA0, X
@@ -61,7 +61,7 @@ Sprite_MedallionTabletLong:
 
 ; ==============================================================================
 
-; $02F29E-$02F2A8 LOCAL
+; $02F29E-$02F2A8 LOCAL JUMP LOCATION
 Sprite_MedallionTablet:
 {
     LDA $0E80, X
@@ -115,7 +115,7 @@ Sprite_DustCloud:
 
 ; ==============================================================================
 
-; $02F2D6-$02F30B LOCAL
+; $02F2D6-$02F30B LOCAL JUMP LOCATION
 MedallionTablet_SpawnDustCloud:
 {
     LDA.b #$F2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed

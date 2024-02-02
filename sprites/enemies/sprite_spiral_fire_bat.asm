@@ -66,7 +66,7 @@ Sprite_SpiralFireBat:
     ; \task Investigate the usage of this routine. I suspect that it more
     ; correctly would be called Sprite4_LoadOriginCoord, but it's not clear
     ; if the Lynel uses it differently.
-; $0E8BBC-$0E8BD0 LOCAL
+; $0E8BBC-$0E8BD0 LOCAL JUMP LOCATION
 Sprite4_Load_16bit_AuxCoord:
 {
     LDA $0D90, X : STA $04

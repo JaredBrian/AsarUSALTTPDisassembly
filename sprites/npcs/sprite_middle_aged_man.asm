@@ -203,7 +203,7 @@ pool MiddleAgedMan_Draw:
 
 ; ==============================================================================
 
-; $033DAC-$033DC0 LOCAL
+; $033DAC-$033DC0 LOCAL JUMP LOCATION
 MiddleAgedMan_Draw:
 {
     LDA.b #$02 : STA $06

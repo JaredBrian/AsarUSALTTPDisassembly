@@ -556,7 +556,7 @@ Overworld_Map16_ToolInteraction:
 
 ; ==================================================
 
-; $0DBF1E-$0DBF4B LOCAL
+; $0DBF1E-$0DBF4B LOCAL JUMP LOCATION
 Overworld_HammerSfx:
 {
     ASL #3 : TAX
@@ -615,7 +615,7 @@ Overworld_HammerSfx:
 
 ; ==============================================================================
 
-; $0DBF64-$0DBF9C LOCAL
+; $0DBF64-$0DBF9C LOCAL JUMP LOCATION
 Overworld_GetLinkMap16Coords:
 {
     LDA $2F : AND.w #$00FF : TAX
@@ -925,7 +925,7 @@ Overworld_ApplyBombToTiles:
 
 ; ==================================================
 
-; $0DC155-$0DC21C LOCAL
+; $0DC155-$0DC21C LOCAL JUMP LOCATION
 Overworld_ApplyBombToTile:
 {
     PHA
@@ -1197,7 +1197,7 @@ Overworld_CreatePyramidHole:
 
 ; ==================================================
 
-; $0DC8A4-$0DC942 LOCAL
+; $0DC8A4-$0DC942 LOCAL JUMP LOCATION
 Overworld_RevealSecret:
 {
     ; Routine is used for checking if there's secrets underneath a newly exposed map16 tile
@@ -1298,7 +1298,7 @@ Overworld_RevealSecret:
 
 ; ==============================================================================
 
-; $0DC943-$0DC951 LOCAL
+; $0DC943-$0DC951 LOCAL JUMP LOCATION
 {
     LDA $0301 : AND.w #$0040 : BEQ .notUsingMagicPowder
     
@@ -1404,7 +1404,7 @@ Overworld_DrawPersistentMap16:
 
 ; ==============================================================================
 
-; $0DC9DE-$0DCA68 LOCAL
+; $0DC9DE-$0DCA68 LOCAL JUMP LOCATION
 {
     ; Has to do with solidity of the tiles being written.
     PHA : STA $7E2000, X
@@ -1469,7 +1469,7 @@ Overworld_DrawPersistentMap16:
 
 ; ==============================================================================
 
-; $0DCA69-$0DCA9E LOCAL
+; $0DCA69-$0DCA9E LOCAL JUMP LOCATION
 {
     ; I guess this calculates some sort of vram type address for an
     ; outdoor tile?
@@ -1935,7 +1935,7 @@ pool MiseryMireEntrance_Main:
 
 ; ==============================================================================
 
-; $0DCCD4-$0DCCF9 LOCAL
+; $0DCCD4-$0DCCF9 LOCAL JUMP LOCATION
 MiseryMireEntrance_Main:
 {
     ; if($B0 < 0x02)
@@ -2378,7 +2378,7 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $0DCF40-$0DCF5F LOCAL
+; $0DCF40-$0DCF5F LOCAL JUMP LOCATION
 {
     ; Pretty much puts a stop to any entrance animation
     
@@ -2514,7 +2514,7 @@ TurtleRockEntrance_Main:
     RTS
 }
 
-; $0DD00E-$0DD01C LOCAL
+; $0DD00E-$0DD01C LOCAL JUMP LOCATION
 {
     INC $B0
     
@@ -2526,7 +2526,7 @@ TurtleRockEntrance_Main:
     RTS
 }
 
-; $0DD01D-$0DD061 LOCAL
+; $0DD01D-$0DD061 LOCAL JUMP LOCATION
 {
     INC $C8
     

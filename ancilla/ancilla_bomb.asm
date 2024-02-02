@@ -422,7 +422,7 @@ pool Ancilla_ConveyorBeltVelocityOverride:
 
 ; ==============================================================================
 
-; $0417BE-$0417E1 LOCAL
+; $0417BE-$0417E1 LOCAL JUMP LOCATION
 Ancilla_ConveyorBeltVelocityOverride:
 {
     ; This routine is triggered if a bomb is on a conveyor belt or
@@ -465,7 +465,7 @@ pool Bomb_CheckSpriteAndPlayerDamage:
 
 ; ==============================================================================
 
-; $041815-$041912 LOCAL
+; $041815-$041912 LOCAL JUMP LOCATION
 Bomb_CheckSpriteAndPlayerDamage:
 {
     ; If the bomb is in state 9 it can do damage
@@ -632,7 +632,7 @@ pool Ancilla_LiftableObjectLogic:
 
 ; ==============================================================================
 
-; $041976-$041C7E LOCAL
+; $041976-$041C7E LOCAL JUMP LOCATION
 Ancilla_LiftableObjectLogic:
 {
     ; Setting this flag causes player to not be able to pick it up
@@ -1106,7 +1106,7 @@ Ancilla_LiftableObjectLogic:
     ; \wtf Wait, so the bombs and somarian blocks simulate gravity by adjusting
     ; the Y coordinate? What?
     
-; $041C7F-$041CC2 LOCAL
+; $041C7F-$041CC2 LOCAL JUMP LOCATION
 Ancilla_Adjust_Y_CoordByAltitude:
 {
     ; Special effects routine for adjusting objects for height
@@ -1147,7 +1147,7 @@ Ancilla_Adjust_Y_CoordByAltitude:
 
 ; ==============================================================================
 
-; $041CC3-$041CCD LOCAL
+; $041CC3-$041CCD LOCAL JUMP LOCATION
 Ancilla_Set_Y_Coord:
 {
     LDA $73 : STA $0C0E, X
@@ -1162,7 +1162,7 @@ Ancilla_Set_Y_Coord:
     ; would be totally wrong. This gets the sum of the difference of delta x 
     ; and delta y of the player and bomb coordinates.
     
-; $041CCE-$041D0F LOCAL
+; $041CCE-$041D0F LOCAL JUMP LOCATION
 Bomb_GetGrossPlayerDistance:
 {
     LDA $0C04, X : STA $06
@@ -1383,7 +1383,7 @@ pool Bomb_Draw:
 
 ; ==============================================================================
 
-; $041E9E-$041FB5 LOCAL
+; $041E9E-$041FB5 LOCAL JUMP LOCATION
 Bomb_Draw:
 {
     JSR Ancilla_PrepAdjustedOamCoord

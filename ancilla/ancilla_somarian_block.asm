@@ -601,7 +601,7 @@ Ancilla_SomarianBlock:
 
 ; ==============================================================================
 
-; $04675C-$0467BF LOCAL
+; $04675C-$0467BF LOCAL JUMP LOCATION
 SomarianBlock_CheckCoveredTileTrigger:
 {
     STZ $0646

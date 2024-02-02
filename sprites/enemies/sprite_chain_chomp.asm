@@ -254,7 +254,7 @@ Sprite_ChainChomp:
 
 ; ==============================================================================
 
-; $0EC02A-$0EC0F1 LOCAL
+; $0EC02A-$0EC0F1 LOCAL JUMP LOCATION
 {
     LDA $0D90, X : STA $00
     LDA $0DA0, X : STA $01
@@ -385,7 +385,7 @@ Sprite_ChainChomp:
     RTS
 }
 
-; $0EC0F2-$0EC171 LOCAL
+; $0EC0F2-$0EC171 LOCAL JUMP LOCATION
 {
     PHX
     
@@ -456,7 +456,7 @@ Sprite_ChainChomp:
 
 ; ==============================================================================
 
-; $0EC192-$0EC210 LOCAL
+; $0EC192-$0EC210 LOCAL JUMP LOCATION
 {
     LDY $0DE0, X
     

@@ -206,7 +206,7 @@ TransientSpikeBlock_Retract:
 
 ; ==============================================================================
 
-; $0F3E00-$0F3E18 LOCAL
+; $0F3E00-$0F3E18 LOCAL JUMP LOCATION
 SpikeBlock_InduceTilemapUpdate:
 {
     LDA $0D10, X : STA $00
@@ -222,7 +222,7 @@ SpikeBlock_InduceTilemapUpdate:
 
 ; ==============================================================================
 
-; $0F3E19-$0F3E7D LOCAL
+; $0F3E19-$0F3E7D LOCAL JUMP LOCATION
 SpikeBlock_CheckStatueSpriteCollision:
 {
     ; This subroutine checks collisions between the sprite block and

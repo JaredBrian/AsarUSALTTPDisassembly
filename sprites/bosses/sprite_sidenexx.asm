@@ -357,7 +357,7 @@ pool SidenexxExhaleDanger:
 
 ; ==============================================================================
 
-; $0EBAE8-$0EBB3E LOCAL
+; $0EBAE8-$0EBB3E LOCAL JUMP LOCATION
 Sidenexx_ExhaleDanger:
 {
     LDA $0E20, X : CMP.b #$CD : BNE .breathe_fire
@@ -413,7 +413,7 @@ Sidenexx_ExhaleDanger:
     RTS
 }
 
-; $0EBB3F-$0EBB6C LOCAL
+; $0EBB3F-$0EBB6C LOCAL JUMP LOCATION
 {
     LDA $0DF0, X : BNE .BRANCH_ALPHA
     
@@ -448,7 +448,7 @@ Sidenexx_ExhaleDanger:
 
 ; ==============================================================================
 
-; $0EBB70-$0EBC8B LOCAL
+; $0EBB70-$0EBC8B LOCAL JUMP LOCATION
 SpriteDraw_Sidenexx:
 {
     LDA $0D90, X : STA $0D10, X
@@ -602,7 +602,7 @@ SpriteDraw_Sidenexx:
     db $00
 }
 
-; $0EBCA0-$0EBD25 LOCAL
+; $0EBCA0-$0EBD25 LOCAL JUMP LOCATION
 {
     LDA $0E30, X : STA $08
     
@@ -680,7 +680,7 @@ SpriteDraw_Sidenexx:
 
 ; ==============================================================================
 
-; $0EBD28-$0EBD64 LOCAL
+; $0EBD28-$0EBD64 LOCAL JUMP LOCATION
 TrinexxBreath_ice:
 {
     JSL Sprite_PrepOamCoordLong
@@ -715,7 +715,7 @@ TrinexxBreath_ice:
     RTS
 }
 
-; $0EBD65-$0EBDC5 LOCAL
+; $0EBD65-$0EBDC5 LOCAL JUMP LOCATION
 AddIceGarnish:
 {
     INC $0E80, X

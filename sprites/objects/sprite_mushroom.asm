@@ -15,7 +15,7 @@ SpritePrep_MushroomLong:
 
 ; ==============================================================================
 
-; $02EE53-$02EE6F LOCAL
+; $02EE53-$02EE6F LOCAL JUMP LOCATION
 SpritePrep_Mushroom:
 {
     ; \item(Magic powder)
@@ -52,7 +52,7 @@ Sprite_MushroomLong:
 
 ; ==============================================================================
 
-; $02EE78-$02EEA5 LOCAL
+; $02EE78-$02EEA5 LOCAL JUMP LOCATION
 Sprite_Mushroom:
 {
     JSL Sprite_PrepAndDrawSingleLargeLong

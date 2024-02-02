@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0F0FDF-$0F0FFF LOCAL
+; $0F0FDF-$0F0FFF LOCAL JUMP LOCATION
 Sprite_StalfosBone:
 {
     JSR StalfosBone_Draw
@@ -46,7 +46,7 @@ pool StalfosBone_Draw:
 
 ; ==============================================================================
 
-; $0F1040-$0F105B LOCAL
+; $0F1040-$0F105B LOCAL JUMP LOCATION
 StalfosBone_Draw:
 {
     LDA.b #$00   : XBA
@@ -538,7 +538,7 @@ Sprite_SpawnFirePhlegm:
 
 ; ==============================================================================
 
-; $0F1379-$0F13C2 LOCAL
+; $0F1379-$0F13C2 LOCAL JUMP LOCATION
 Stalfos_ThrowBoneAtPlayer:
 {
     LDA.b #$A7 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -609,7 +609,7 @@ pool FirePhlegm_Draw:
 
 ; ==============================================================================
 
-; $0F1443-$0F145F LOCAL
+; $0F1443-$0F145F LOCAL JUMP LOCATION
 FirePhlegm_Draw:
 {
     LDA.b #$00   : XBA

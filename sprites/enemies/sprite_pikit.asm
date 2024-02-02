@@ -33,7 +33,7 @@ pool Pikit_Data:
 
 ; ==============================================================================
 
-; $0F0BDE-$0F0C24 LOCAL
+; $0F0BDE-$0F0C24 LOCAL JUMP LOCATION
 Pikit_SetNextVelocity:
 {
     LDA $0DF0, X : BNE .delay
@@ -275,7 +275,7 @@ Pikit_AttemptItemGrab:
 
 ; ==============================================================================
 
-; $0F0DCA-$0F0DD1 LOCAL
+; $0F0DCA-$0F0DD1 LOCAL JUMP LOCATION
     Pikit_PrepThenDraw
 {
     JSR Sprite3_PrepOamCoord

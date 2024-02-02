@@ -41,7 +41,7 @@ Sprite_GuruguruBar:
 
 ; ==============================================================================
 
-; $0F5049-$0F51CC LOCAL
+; $0F5049-$0F51CC LOCAL JUMP LOCATION
 GuruguruBar_Main:
 {
     JSR Sprite3_PrepOamCoord

@@ -289,7 +289,7 @@ Sprite_CustomTimedDrawDistressMarker:
 
 ; ==============================================================================
 
-; $03278E-$0327B7 LOCAL
+; $03278E-$0327B7 LOCAL JUMP LOCATION
 Chicken_Aloft:
 {
     JSR Chicken_Move_XYZ_AndCheckTileCollision : BEQ .no_tile_collision
@@ -347,7 +347,7 @@ pool Sprite_DrawDistressMarker:
 
 ; ==============================================================================
 
-; $0327D3-$032852 LOCAL
+; $0327D3-$032852 LOCAL JUMP LOCATION
 Chicken_SpawnAvengerChicken:
 {
     TXA : EOR $1A : AND.b #$0F : ORA $1B : BNE .spawn_delay

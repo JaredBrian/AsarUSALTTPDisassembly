@@ -17,7 +17,7 @@ Sprite_MadBatterLong:
 
 ; ==============================================================================
 
-; $02FAD2-$02FAFE LOCAL
+; $02FAD2-$02FAFE LOCAL JUMP LOCATION
 Sprite_MadBatter:
 {
     LDA $0EB0, X : BEQ .not_thunderbolt

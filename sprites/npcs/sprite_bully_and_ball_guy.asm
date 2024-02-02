@@ -165,7 +165,7 @@ pool BallGuy_Friction:
 
 ; ==============================================================================
 
-; $0F6C4D-$0F6C73 LOCAL
+; $0F6C4D-$0F6C73 LOCAL JUMP LOCATION
 BallGuy_Friction:
 {
     LDA $0D50, X : BEQ .zero_x_velocity
@@ -341,7 +341,7 @@ pool Bully_Draw:
 
 ; ==============================================================================
 
-; $0F6D9E-$0F6DC1 LOCAL
+; $0F6D9E-$0F6DC1 LOCAL JUMP LOCATION
 Bully_Draw:
 {
     LDA.b #$02 : STA $06
@@ -360,7 +360,7 @@ Bully_Draw:
 
 ; ==============================================================================
 
-; $0F6DC2-$0F6DC8 LOCAL
+; $0F6DC2-$0F6DC8 LOCAL JUMP LOCATION
 BallGuy_PlayBounceNoise:
 {
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
@@ -449,7 +449,7 @@ pool Bully_Dialogue:
 
 ; ==============================================================================
 
-; $0F6E25-$0F6E55 LOCAL
+; $0F6E25-$0F6E55 LOCAL JUMP LOCATION
 Bully_Dialogue:
 {
     LDA $0F10, X : BNE .delay

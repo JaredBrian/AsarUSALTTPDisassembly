@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $034F64-$034F93 LOCAL
+; $034F64-$034F93 LOCAL JUMP LOCATION
 Sprite_HandleDraggingByAncilla:
 {
     ; The ancillae in question would most likely be the boomerang or
@@ -107,7 +107,7 @@ Fairy_Normal:
 
 ; ==============================================================================
 
-; $034FE4-$035010 LOCAL
+; $034FE4-$035010 LOCAL JUMP LOCATION
 Fairy_HandleCapture:
 {
     LDA $1CE8 : BNE .was_released
@@ -148,7 +148,7 @@ Fairy_HandleCapture:
 
 ; ==============================================================================
 
-; $035011-$03502F LOCAL
+; $035011-$03502F LOCAL JUMP LOCATION
 Fairy_CheckForTemporaryUntouchability:
 {
     LDA $11 : CMP.b #$02 : BNE .not_in_text_mode

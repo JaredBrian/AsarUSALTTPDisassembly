@@ -17,7 +17,7 @@ Messaging_Text:
 
 ; ==============================================================================
 
-; $074448-$074454 LOCAL
+; $074448-$074454 LOCAL JUMP LOCATION
 Text_Local:
 {
     LDA $1CD8
@@ -123,7 +123,7 @@ Text_Initialize:
 
 ; ==============================================================================
 
-; $0744C9-$0744E1 LOCAL
+; $0744C9-$0744E1 LOCAL JUMP LOCATION
 Text_InitVwfState:
 {
     STZ $0722
@@ -140,7 +140,7 @@ Text_InitVwfState:
 
 ; ==============================================================================
 
-; $0744E2-$074546 LOCAL
+; $0744E2-$074546 LOCAL JUMP LOCATION
 Text_LoadCharacterBuffer:
 {
     REP #$30
@@ -210,7 +210,7 @@ Text_LoadCharacterBuffer:
 
 ; ==============================================================================
 
-; $074547-$074580 LOCAL
+; $074547-$074580 LOCAL JUMP LOCATION
 Text_Command:
 {
     SEP #$31
@@ -377,7 +377,7 @@ Text_WritePlayerName:
 
 ; ==============================================================================
 
-; $074639-$074656 LOCAL
+; $074639-$074656 LOCAL JUMP LOCATION
 Text_FilterPlayerNameCharacters:
 {
     CMP.b #$5F : BCC .alpha
@@ -543,7 +543,7 @@ Text_SetColor:
 
 ; ==============================================================================
 
-; $0746DA-$074702 LOCAL
+; $0746DA-$074702 LOCAL JUMP LOCATION
 Text_DictionarySequence:
 {
     ; Handle dictionary compressed word fragments
@@ -1225,7 +1225,7 @@ Text_MessageHandler:
 
 ; ==============================================================================
 
-; $0749FD-$074A34 LOCAL
+; $0749FD-$074A34 LOCAL JUMP LOCATION
 VWF_CharacterOrCommand:
 {
     JSL UseImplicitRegIndexedLocalJumpTable
@@ -1354,7 +1354,7 @@ VWF_RenderRecursive:
 
 ; ==============================================================================
 
-; $074AB8-$074ADE LOCAL
+; $074AB8-$074ADE LOCAL JUMP LOCATION
 VWF_RenderSingle:
 {
     ; Renders a single character (non recursive)
@@ -1421,7 +1421,7 @@ pool VWF_RenderCharacter:
 
 ; ==============================================================================
 
-; $074B5E-$074CF8 LOCAL
+; $074B5E-$074CF8 LOCAL JUMP LOCATION
 VWF_RenderCharacter:
 {
     ; Notes:
@@ -1869,7 +1869,7 @@ VWF_SelectItem:
 
 ; ==============================================================================
 
-; $074DC8-$074DEC LOCAL
+; $074DC8-$074DEC LOCAL JUMP LOCATION
 VWF_SelectPrevItem:
 {
     .tryPrevSlot
@@ -1897,7 +1897,7 @@ VWF_SelectPrevItem:
 
 ; ==============================================================================
 
-; $074DED-$074E13 LOCAL
+; $074DED-$074E13 LOCAL JUMP LOCATION
 VWF_SelectNextItem:
 {
     .tryNextSlot
@@ -1966,7 +1966,7 @@ VWF_ChangeItemTiles:
 
 ; ==============================================================================
 
-; $074E6B-$074E7E LOCAL
+; $074E6B-$074E7E LOCAL JUMP LOCATION
 VWF_IgnoreCommand:
 {
     ; [Window XX], [Name], [Number XX] point here in text generation but this routine
@@ -2715,7 +2715,7 @@ VWF_EndMessage:
 
 ; ==============================================================================
 
-; $075280-$07529B LOCAL
+; $075280-$07529B LOCAL JUMP LOCATION
 Text_SetDefaultWindowPos:
 {
     ; Determines one of two positions for the text box,
@@ -2737,7 +2737,7 @@ Text_SetDefaultWindowPos:
 
 ; ==============================================================================
 
-; $07529C-$0752AA LOCAL
+; $07529C-$0752AA LOCAL JUMP LOCATION
 Text_InitBorderOffsets:
 {
     REP #$30
@@ -2753,7 +2753,7 @@ Text_InitBorderOffsets:
 
 ; ==============================================================================
 
-; $0752AB-$0752EB LOCAL
+; $0752AB-$0752EB LOCAL JUMP LOCATION
 Text_DrawBorderRow:
 {
     REP #$30
@@ -2796,7 +2796,7 @@ Text_DrawBorderRow:
 
 ; ==============================================================================
 
-; $0752EC-$075306 LOCAL
+; $0752EC-$075306 LOCAL JUMP LOCATION
 Text_BuildCharacterTilemap:
 {
     REP #$30
@@ -2826,7 +2826,7 @@ Text_BuildCharacterTilemap:
 
 ; ==============================================================================
 
-; $075307-$075359 LOCAL
+; $075307-$075359 LOCAL JUMP LOCATION
 Text_DrawCharacterTilemap:
 {
     ; This routine is where the tilemap actually gets configured to be transferred to

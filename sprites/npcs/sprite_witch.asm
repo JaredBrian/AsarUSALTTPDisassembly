@@ -15,7 +15,7 @@ Sprite_WitchLong:
 
 ; ==============================================================================
 
-; $02E3FB-$02E452 LOCAL
+; $02E3FB-$02E452 LOCAL JUMP LOCATION
 Sprite_Witch:
 {
     JSR Witch_Draw
@@ -200,7 +200,7 @@ Witch_PlayerHasMushroom:
 
 ; ==============================================================================
 
-; $02E4CF-$02E508 LOCAL
+; $02E4CF-$02E508 LOCAL JUMP LOCATION
 Witch_PlayerHandsMushroomOver:
 {
     ; Witch
@@ -290,7 +290,7 @@ pool Witch_Draw:
 
 ; ==============================================================================
 
-; $02E55D-$02E62A LOCAL
+; $02E55D-$02E62A LOCAL JUMP LOCATION
 Witch_Draw:
 {
     JSR Sprite2_PrepOamCoord

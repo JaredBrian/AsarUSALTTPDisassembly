@@ -233,7 +233,7 @@ Sprite_StoryTeller_1:
     RTS
 }
 
-; $032EAB-$032EC9 LOCAL
+; $032EAB-$032EC9 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -275,7 +275,7 @@ pool StoryTeller_1_Draw:
 
 ; ==============================================================================
 
-; $032F1A-$032F3A LOCAL
+; $032F1A-$032F3A LOCAL JUMP LOCATION
 StoryTeller_1_Draw:
 {
     LDA $0E80, X : ASL A : ADC $0DC0, X : ASL #3

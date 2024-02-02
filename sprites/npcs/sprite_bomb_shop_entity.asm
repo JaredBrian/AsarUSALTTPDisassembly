@@ -227,7 +227,7 @@ Sprite_BombShopSnoutPuff:
 
 ; ==============================================================================
 
-; $0F6256-$0F6295 LOCAL
+; $0F6256-$0F6295 LOCAL JUMP LOCATION
 BombShopGuy_SpawnSnoutPuff:
 {
     ; Spawn Bomb salesman or his bombs?
@@ -277,7 +277,7 @@ pool BombShopEntity_Draw:
 
 ; ==============================================================================
 
-; $0F62C6-$0F62E8 LOCAL
+; $0F62C6-$0F62E8 LOCAL JUMP LOCATION
 BombShopEntity_Draw:
 {
     LDA.b #$01 : STA $06

@@ -535,7 +535,7 @@ OverworldMap_DarkWorldTilemap:
 
 ; =============================================
 
-; $053A9A-$053AA9 JUMP LOCATION LOCAL
+; $053A9A-$053AA9 LOCAL JUMP LOCATION
 OverworldMap_LoadSprGfx:
 {
     LDA.b #$10 : STA $0AAA
@@ -835,7 +835,7 @@ OverworldMap_RestoreGfx:
 
 ; ==============================================================================
 
-; $053C96-$053DA4 LOCAL
+; $053C96-$053DA4 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -939,7 +939,7 @@ OverworldMap_RestoreGfx:
 
 ; ==============================================================================
 
-; $053DA5-$053DCE LOCAL
+; $053DA5-$053DCE LOCAL JUMP LOCATION
 ClearMode7Tilemap:
 {
     ; clears out the low bytes of the first 0x4000 words of VRAM
@@ -977,7 +977,7 @@ ClearMode7Tilemap:
 
 ; ==============================================================================
 
-; $053F66-$05439E LOCAL
+; $053F66-$05439E LOCAL JUMP LOCATION
 {
     LDA $1A : AND.b #$10 : BEQ .BRANCH_ALPHA
     
@@ -1511,7 +1511,7 @@ ClearMode7Tilemap:
 
 ; ==============================================================================
 
-; $05439F-$054514 LOCAL
+; $05439F-$054514 LOCAL JUMP LOCATION
 {
     LDA $0636 : BNE .BRANCH_ALPHA
     
@@ -1761,7 +1761,7 @@ ClearMode7Tilemap:
 {
 }
 
-; $05451C-$05456C LOCAL
+; $05451C-$05456C LOCAL JUMP LOCATION
 {
     ; alternates on and off every 16 frames
     LDA $1A : LSR #4 : AND.b #$01 : BNE .BRANCH_ALPHA
@@ -1804,7 +1804,7 @@ ClearMode7Tilemap:
 
 ; =============================================
     
-; $05456D-$05457F LOCAL
+; $05456D-$05457F LOCAL JUMP LOCATION
 {
     STA $4202
     
@@ -1821,7 +1821,7 @@ ClearMode7Tilemap:
 
 ; =============================================
 
-; $054580-$054588 LOCAL
+; $054580-$054588 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -1832,7 +1832,7 @@ ClearMode7Tilemap:
     RTS
 }
 
-; $054589-$0545A5 LOCAL
+; $054589-$0545A5 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -1851,7 +1851,7 @@ ClearMode7Tilemap:
 
 ; =============================================
 
-; $0545A9-$0545BE LOCAL
+; $0545A9-$0545BE LOCAL JUMP LOCATION
 Overworldmap_CheckPendant:
 {
     ; X is an input variable to this function
@@ -1883,7 +1883,7 @@ Overworldmap_CheckPendant:
 
 ; ==============================================================================
 
-; $0545C6-$0545D9 LOCAL
+; $0545C6-$0545D9 LOCAL JUMP LOCATION
 OverworldMap_CheckCrystal:
 {
     ; Check if the sprite indicator tells us to show all 7 crystals (ones we've yet to obtain)
@@ -2212,7 +2212,7 @@ PalaceMap_OptionalGraphic:
 
 ; ==============================================================================
 
-; $0562F5-$056383 LOCAL
+; $0562F5-$056383 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -2399,7 +2399,7 @@ PalaceMap_OptionalGraphic:
 
 ; ==============================================================================
     
-; $056449-$0564E8 LOCAL
+; $056449-$0564E8 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -2468,7 +2468,7 @@ PalaceMap_OptionalGraphic:
 {
 }
 
-; $0564F9-$05656E LOCAL
+; $0564F9-$05656E LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -2528,7 +2528,7 @@ PalaceMap_OptionalGraphic:
     dw $0124, $01A4, $0224, $02A4, $0324
 }
 
-; $056579-$056599 LOCAL
+; $056579-$056599 LOCAL JUMP LOCATION
 {
     ; Draws a 5x5 floor grid for the map?
     
@@ -2568,7 +2568,7 @@ PalaceMap_OptionalGraphic:
 
 ; ==============================================================================
 
-; $0565BC-$0567F2 LOCAL
+; $0565BC-$0567F2 LOCAL JUMP LOCATION
 {
     REP #$30
     
@@ -3387,7 +3387,7 @@ pool PalaceMap_DrawBossFloorIndicator:
     
 ; ==============================================================================
 
-; $056AF0-$056B3F LOCAL
+; $056AF0-$056B3F LOCAL JUMP LOCATION
 PalaceMap_DrawPlayerFloorIndicator:
 {
     REP #$10
@@ -3439,7 +3439,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 
 ; ==============================================================================
 
-; $056B50-$056B89 LOCAL
+; $056B50-$056B89 LOCAL JUMP LOCATION
 {
     LDX $00
     
@@ -3473,7 +3473,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 {
 }
 
-; $056BA8-$056C09 LOCAL
+; $056BA8-$056C09 LOCAL JUMP LOCATION
 {
     LDY.b #$03
 
@@ -3526,7 +3526,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     RTS
 }
 
-; $056C0A-$056CBD LOCAL
+; $056C0A-$056CBD LOCAL JUMP LOCATION
 {
     REP #$10
     
@@ -3624,7 +3624,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 {
 }
 
-; $056CCF-$056D4D LOCAL
+; $056CCF-$056D4D LOCAL JUMP LOCATION
 {
     LDA $00 : STA $05
     
@@ -3759,7 +3759,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     RTS
 }
 
-; $056DE4-$056E5A LOCAL
+; $056DE4-$056E5A LOCAL JUMP LOCATION
 {
     REP #$10
     
@@ -3880,7 +3880,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 
 ; ==============================================================================
 
-; $056E95-$056EF5 LOCAL
+; $056E95-$056EF5 LOCAL JUMP LOCATION
 PalaceMap_DrawBossFloorIndicator:
 {
     LDA.w $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03

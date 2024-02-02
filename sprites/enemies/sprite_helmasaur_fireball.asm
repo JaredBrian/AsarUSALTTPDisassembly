@@ -27,7 +27,7 @@ pool Sprite_HelmasaurFireball:
 
 ; ==============================================================================
 
-; $0EEDE3-$0EEE9B LOCAL
+; $0EEDE3-$0EEE9B LOCAL JUMP LOCATION
 Sprite_HelmasaurFireball:
 {
     INC $0E80, X
@@ -222,7 +222,7 @@ pool HelmasaurFireball_TriSplit:
 
 ; ==============================================================================
 
-; $0EEED3-$0EEF34 LOCAL
+; $0EEED3-$0EEF34 LOCAL JUMP LOCATION
 HelmasaurFireball_TriSplit:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
@@ -285,7 +285,7 @@ HelmasaurFireball_QuadSplit:
 
 ; ==============================================================================
 
-; $0EEF3D-$0EEF75 LOCAL
+; $0EEF3D-$0EEF75 LOCAL JUMP LOCATION
 HelmasaurFireball_QuadSplit:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong

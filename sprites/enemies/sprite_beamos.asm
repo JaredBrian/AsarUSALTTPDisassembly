@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $028F54-$028FC1 JUMP LOCATION LOCAL
+; $028F54-$028FC1 LOCAL JUMP LOCATION
 Sprite_Beamos:
 {
     ; Code for handling a statue sentry.
@@ -100,7 +100,7 @@ Sprite_Beamos:
 
 ; ==============================================================================
 
-; $028FC2-$029061 LOCAL
+; $028FC2-$029061 LOCAL JUMP LOCATION
 Beamos_FireBeam:
 {
     LDA $0B6A : CMP.b #$04 : BCS Sprite_Beamos_easy_out
@@ -187,7 +187,7 @@ pool Beamos_Draw:
 
 ; ==============================================================================
 
-; $029068-$0290D0 LOCAL
+; $029068-$0290D0 LOCAL JUMP LOCATION
 Beamos_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -290,7 +290,7 @@ pool Beamos_DrawEyeBall:
 
 ; ==============================================================================
 
-; $029151-$0291B0 LOCAL
+; $029151-$0291B0 LOCAL JUMP LOCATION
 Beamos_DrawEyeball:
 {
     LDY.b #$08
@@ -360,7 +360,7 @@ pool Sprite_BeamosLaser:
     
 ; ==============================================================================
     
-; $0291B5-$029256 LOCAL
+; $0291B5-$029256 LOCAL JUMP LOCATION
 Sprite_BeamosLaser:
 {
     LDA $0E00, X : BNE .wait
@@ -461,7 +461,7 @@ Sprite_BeamosLaser:
 
 ; ==============================================================================
 
-; $029257-$02925A LOCAL
+; $029257-$02925A LOCAL JUMP LOCATION
 BeamosLaser_PrepOamCoord:
 {
     ; This routine is a waste...
@@ -475,7 +475,7 @@ BeamosLaser_PrepOamCoord:
 
 ; ==============================================================================
 
-; $02925B-$0292C5 LOCAL
+; $02925B-$0292C5 LOCAL JUMP LOCATION
 BeamosLaser_Draw:
 {
     JSR BeamosLaser_PrepOamCoord
@@ -542,7 +542,7 @@ pool Sprite_BeamosLaserHit:
 
 ; ==============================================================================
 
-; $0292DA-$029332 LOCAL
+; $0292DA-$029332 LOCAL JUMP LOCATION
 Sprite_BeamosLaserHit:
 {
     ; Load the inactivity timer.

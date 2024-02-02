@@ -15,7 +15,7 @@ Sprite_MazeGameLadyLong:
 
 ; ==============================================================================
 
-; $06CB5C-$06CB7D LOCAL
+; $06CB5C-$06CB7D LOCAL JUMP LOCATION
 Sprite_MazeGameLady:
 {
     JSL Lady_Draw

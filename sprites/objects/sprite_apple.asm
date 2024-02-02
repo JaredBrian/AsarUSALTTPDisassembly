@@ -34,7 +34,7 @@ Sprite_DashApple:
 
 ; ==============================================================================
 
-; $0F7535-$0F7579 LOCAL
+; $0F7535-$0F7579 LOCAL JUMP LOCATION
 Apple_SpawnTangibleApple:
 {
     LDA.b #$AC : JSL Sprite_SpawnDynamically : BMI .spawn_failed

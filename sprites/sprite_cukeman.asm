@@ -112,7 +112,7 @@ pool Cukeman_Draw:
 
 ; ==============================================================================
 
-; $0D7B0E-$0D7B2B LOCAL
+; $0D7B0E-$0D7B2B LOCAL JUMP LOCATION
 Cukeman_Draw:
 {
     LDA.b #$00 : XBA

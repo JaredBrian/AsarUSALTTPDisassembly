@@ -29,7 +29,7 @@ SpritePrep_HeartContainerLong:
 
 ; ==============================================================================
 
-; $02EF09-$02EF3E LOCAL
+; $02EF09-$02EF3E LOCAL JUMP LOCATION
 HeartUpdgrade_CheckIfAlreadyObtained:
 {
     LDA $1B : BNE .indoors
@@ -89,7 +89,7 @@ Sprite_HeartContainerLong:
 
 ; ==============================================================================
 
-; $02EF47-$02EFC5 LOCAL
+; $02EF47-$02EFC5 LOCAL JUMP LOCATION
 Sprite_HeartContainer:
 {
     LDA $040C : CMP.b #$1A : BNE .not_in_ganons_tower
@@ -256,7 +256,7 @@ Sprite_HeartPieceLong:
 
 ; ==============================================================================
 
-; $02F020-$02F0CC LOCAL
+; $02F020-$02F0CC LOCAL JUMP LOCATION
 Sprite_HeartPiece:
 {
     LDA $0D80, X : BNE .skip_acquisition_check

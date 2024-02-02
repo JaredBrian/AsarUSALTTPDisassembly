@@ -426,7 +426,7 @@ pool StalfosKnight_Draw:
 
 ; ==============================================================================
 
-; $0F2E04-$0F2E45 LOCAL
+; $0F2E04-$0F2E45 LOCAL JUMP LOCATION
 StalfosKnight_Draw:
 {
     JSR Sprite3_PrepOamCoord
@@ -473,7 +473,7 @@ StalfosKnight_Draw:
 
 ; ==============================================================================
 
-; $0F2E4E-$0F2EA3 LOCAL
+; $0F2E4E-$0F2EA3 LOCAL JUMP LOCATION
 {
     LDA $0DC0, X : CMP.b #$02 : BEQ .dont_draw
     

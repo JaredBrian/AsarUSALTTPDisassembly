@@ -15,7 +15,7 @@ Sprite_QuarrelBrosLong:
 
 ; ==============================================================================
 
-; $02E013-$02E051 LOCAL
+; $02E013-$02E051 LOCAL JUMP LOCATION
 Sprite_QuarrelBros:
 {
     JSR QuarrelBros_Draw
@@ -188,7 +188,7 @@ pool QuarrelBros_Draw:
 
 ; ==============================================================================
 
-; $02E17F-$02E1A2 LOCAL
+; $02E17F-$02E1A2 LOCAL JUMP LOCATION
 QuarrelBros_Draw:
 {
     LDA.b #$02 : STA $06

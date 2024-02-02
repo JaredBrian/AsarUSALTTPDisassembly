@@ -17,7 +17,7 @@ SpritePrep_SnitchesLong:
 
 ; ==============================================================================
 
-; $02E67D-$02E699 LOCAL
+; $02E67D-$02E699 LOCAL JUMP LOCATION
 SpritePrep_Snitches:
 {
     LDA.b #$02 : STA $0DE0, X : STA $0EB0, X
@@ -63,7 +63,7 @@ Sprite_OldSnitchLadyLong:
 
 ; ==============================================================================
 
-; $02E6AA-$02E705 LOCAL
+; $02E6AA-$02E705 LOCAL JUMP LOCATION
 Sprite_OldSnitchLady:
 {
     LDA $0E30, X : BEQ .not_indoor_chicken_lady

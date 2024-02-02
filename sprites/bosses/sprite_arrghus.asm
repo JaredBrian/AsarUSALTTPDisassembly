@@ -438,7 +438,7 @@ Arrghus_Decelerate:
 
 ; ==============================================================================
 
-; $0F36E9-$0F3817 LOCAL
+; $0F36E9-$0F3817 LOCAL JUMP LOCATION
 {
     LDA $0B08 : CLC : ADC $0B0C  : STA $0B08
     LDA $0B09 : ADC.b #$00 : STA $0B09
@@ -597,7 +597,7 @@ pool Arrghus_Draw:
 
 ; ==============================================================================
 
-; $0F3840-$0F38B3 LOCAL
+; $0F3840-$0F38B3 LOCAL JUMP LOCATION
 Arrghus_Draw:
 {
     REP #$20

@@ -18,7 +18,7 @@ pool ChimneySmoke_Draw:
 
 ; ==============================================================================
 
-; $0E8531-$0E854D LOCAL
+; $0E8531-$0E854D LOCAL JUMP LOCATION
 ChimneySmoke_Draw:
 {
     LDA.b #$00 : XBA

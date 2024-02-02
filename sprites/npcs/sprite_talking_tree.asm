@@ -15,7 +15,7 @@ Sprite_TalkingTreeLong:
 
 ; ==============================================================================
 
-; $0EF94B-$0EF955 LOCAL
+; $0EF94B-$0EF955 LOCAL JUMP LOCATION
 Sprite_TalkingTree:
 {
     LDA $0E80, X
@@ -166,7 +166,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $0EFA03-$0EFA2A LOCAL
+; $0EFA03-$0EFA2A LOCAL JUMP LOCATION
 {
     LDA.b #$07 : STA $0F60, X
     
@@ -230,7 +230,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $0EFA4E-$0EFA7A LOCAL
+; $0EFA4E-$0EFA7A LOCAL JUMP LOCATION
 {
     LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
@@ -253,7 +253,7 @@ Sprite_TalkingTree:
 
 ; ==============================================================================
 
-; $0EFADB-$0EFAFA LOCAL
+; $0EFADB-$0EFAFA LOCAL JUMP LOCATION
 {
     LDA $0DC0, X : DEC A : BMI .BRANCH_ALPHA
     

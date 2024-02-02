@@ -16,7 +16,7 @@ Sprite_PullForRupeesLong:
 
 ; ==============================================================================
 
-; $02E255-$02E28B LOCAL
+; $02E255-$02E28B LOCAL JUMP LOCATION
 Sprite_PullForRupees:
 {
     JSL Sprite_PrepOamCoordLong

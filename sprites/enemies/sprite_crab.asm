@@ -76,7 +76,7 @@ pool Crab_Draw:
 
 ; ==============================================================================
 
-; $029510-$02956C LOCAL
+; $029510-$02956C LOCAL JUMP LOCATION
 Crab_Draw:
 {
     JSR Sprite2_PrepOamCoord

@@ -28,7 +28,7 @@ Module_Quit:
 
 ; ==============================================================================
 
-; $04F7AF-$04F7BF LOCAL
+; $04F7AF-$04F7BF LOCAL JUMP LOCATION
 Quit_IndicateHaltedState:
 {
     INC $11

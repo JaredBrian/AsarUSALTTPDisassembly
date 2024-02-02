@@ -51,7 +51,7 @@ pool Winder_DefaultState:
 
 ; ==============================================================================
 
-; $0F5206-$0F5238 LOCAL
+; $0F5206-$0F5238 LOCAL JUMP LOCATION
 Winder_DefaultState:
 {
     JSR Sprite3_CheckDamage
@@ -83,7 +83,7 @@ Winder_DefaultState:
 
 ; ==============================================================================
 
-; $0F5239-$0F528C LOCAL
+; $0F5239-$0F528C LOCAL JUMP LOCATION
 Winder_SpawnFireballGarnish:
 {
     TXA : EOR $1A : AND.b #$07 : BNE .delay

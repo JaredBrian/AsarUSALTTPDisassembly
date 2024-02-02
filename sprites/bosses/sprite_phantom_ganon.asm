@@ -92,7 +92,7 @@ pool PhantomGanon_Draw:
 
 ; ==============================================================================
 
-; $0E8A84-$0E8AB5 LOCAL
+; $0E8A84-$0E8AB5 LOCAL JUMP LOCATION
 PhantomGanon_Draw:
 {
     LDA.b #$00   : XBA

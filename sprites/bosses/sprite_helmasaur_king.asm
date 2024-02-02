@@ -282,7 +282,7 @@ Sprite_HelmasaurKing:
 }
 
 
-; $0F01E6-$0F01FF LOCAL
+; $0F01E6-$0F01FF LOCAL JUMP LOCATION
 {
     JSR $8200 ; $0F0200 IN ROM
     
@@ -304,7 +304,7 @@ Sprite_HelmasaurKing:
 }
 
 
-; $0F0200-$0F020F LOCAL
+; $0F0200-$0F020F LOCAL JUMP LOCATION
 {
     INC $0E80, X : LDA $0E80, X : AND.b #$0F : BNE .BRANCH_ALPHA
     
@@ -359,7 +359,7 @@ Sprite_HelmasaurKing:
     RTS
 }
 
-; $0F0253-$0F027B LOCAL
+; $0F0253-$0F027B LOCAL JUMP LOCATION
 {
     INC $0E30, X
     
@@ -396,7 +396,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; $0F02A0-$0F0326 LOCAL
+; $0F02A0-$0F0326 LOCAL JUMP LOCATION
 {
     INC $0B0C
     
@@ -513,7 +513,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; $0F0385-$0F03EA LOCAL
+; $0F0385-$0F03EA LOCAL JUMP LOCATION
 {
     LDA $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
     
@@ -560,7 +560,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F03EB-$0F0419 LOCAL
+; $0F03EB-$0F0419 LOCAL JUMP LOCATION
 {
     LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -581,7 +581,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F047E-$0F04A9 LOCAL
+; $0F047E-$0F04A9 LOCAL JUMP LOCATION
 {
     LDA $0DB0, X : CLC : ADC.b #$07 : STA $0FB5
     
@@ -615,7 +615,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F04AA-$0F0516 LOCAL
+; $0F04AA-$0F0516 LOCAL JUMP LOCATION
 {
     ; I think this can spawn all of parts of the Helmasaur King's mask
     ; flying off due to damage...
@@ -654,7 +654,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F0517-$0F053A LOCAL
+; $0F0517-$0F053A LOCAL JUMP LOCATION
 {
     ; Spawn helmasaur king fireball...
     LDA.b #$70 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -671,7 +671,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F053B-$0F055E LOCAL
+; $0F053B-$0F055E LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -708,7 +708,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; $0F056B-$0F05C5 LOCAL
+; $0F056B-$0F05C5 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -761,7 +761,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F0686-$0F06E4 LOCAL
+; $0F0686-$0F06E4 LOCAL JUMP LOCATION
 {
     LDA.b #$00 : XBA
     
@@ -816,7 +816,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F06E5-$0F074C LOCAL
+; $0F06E5-$0F074C LOCAL JUMP LOCATION
 {
     ; Helmasaur king checking for proximity between exploding bombs and its mask, probably
     
@@ -854,7 +854,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F07E5-$0F07F4 LOCAL
+; $0F07E5-$0F07F4 LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -872,7 +872,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F0805-$0F089B LOCAL
+; $0F0805-$0F089B LOCAL JUMP LOCATION
 {
     REP #$20
     
@@ -937,7 +937,7 @@ pool HelmasaurKing_Initialize:
     RTS
 }
 
-; $0F08BC-$0F08EF LOCAL
+; $0F08BC-$0F08EF LOCAL JUMP LOCATION
 {
     LDA $0E10, X : BEQ .BRANCH_ALPHA
     
@@ -970,7 +970,7 @@ pool HelmasaurKing_Initialize:
 
 ; ==============================================================================
 
-; $0F0920-$0F0A84 LOCAL
+; $0F0920-$0F0A84 LOCAL JUMP LOCATION
 {
     STZ $0FB5
     

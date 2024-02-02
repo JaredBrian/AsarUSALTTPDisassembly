@@ -194,7 +194,7 @@ pool Poe_Draw:
 
 ; ==============================================================================
 
-; $031786-$0317D7 LOCAL
+; $031786-$0317D7 LOCAL JUMP LOCATION
 Poe_Draw:
 {
     JSR Sprite_PrepOamCoord

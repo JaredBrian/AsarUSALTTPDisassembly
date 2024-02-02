@@ -231,7 +231,7 @@ pool GerudoMan_Draw:
 
 ; ==============================================================================
 
-; $02BA24-$02BA84 LOCAL
+; $02BA24-$02BA84 LOCAL JUMP LOCATION
 GerudoMan_Draw:
 {
     JSR Sprite2_PrepOamCoord

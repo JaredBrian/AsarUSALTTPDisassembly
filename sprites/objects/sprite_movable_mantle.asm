@@ -16,7 +16,7 @@ Sprite_MovableMantleLong:
 
 ; ==============================================================================
 
-; $0D7C39-$0D7C9A LOCAL
+; $0D7C39-$0D7C9A LOCAL JUMP LOCATION
 Sprite_MovableMantle:
 {
     JSR MovableMantle_Draw
@@ -79,7 +79,7 @@ pool MovableMantle_Draw:
 
 ; ==============================================================================
 
-; $0D7CB3-$0D7CEC LOCAL
+; $0D7CB3-$0D7CEC LOCAL JUMP LOCATION
 MovableMantle_Draw:
 {
     LDA.b #$20 : JSL OAM_AllocateFromRegionB

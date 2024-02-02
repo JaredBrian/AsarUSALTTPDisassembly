@@ -36,7 +36,7 @@ pool Sprite_TutorialEntities:
 
 ; ==============================================================================
 
-; $02D54C-$02D5BE LOCAL
+; $02D54C-$02D5BE LOCAL JUMP LOCATION
 Sprite_TutorialEntities:
 {
     ; check if it's the hyrule castle electric fence

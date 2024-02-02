@@ -365,7 +365,7 @@ pool ChattyAgahnim_Draw:
 
 ; ==============================================================================
 
-; $0ED451-$0ED48C LOCAL
+; $0ED451-$0ED48C LOCAL JUMP LOCATION
 ChattyAgahnim_Draw:
 {
     LDA $0F10, X : AND.b #$01 : BNE .dont_draw
@@ -454,7 +454,7 @@ pool ChattyAgahnim_DrawTelewarpSpell:
 
 ; ==============================================================================
 
-; $0ED516-$0ED57C LOCAL
+; $0ED516-$0ED57C LOCAL JUMP LOCATION
 ChattyAgahnim_DrawTelewarpSpell:
 {
     LDA.b #$38 : JSL OAM_AllocateFromRegionA
@@ -545,7 +545,7 @@ pool AltarZelda_Main:
 
 ; ==============================================================================
 
-; $0ED5A1-$0ED5D8 LOCAL
+; $0ED5A1-$0ED5D8 LOCAL JUMP LOCATION
 AltarZelda_Main:
 {
     LDA !timer_0, X : BEQ .not_telewarping_zelda
@@ -595,7 +595,7 @@ pool AltarZelda_DrawBody:
 
 ; ==============================================================================
 
-; $0ED5E9-$0ED660 LOCAL
+; $0ED5E9-$0ED660 LOCAL JUMP LOCATION
 AltarZelda_DrawBody:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionA
@@ -670,7 +670,7 @@ pool AltarZelda_DrawWarpEffect:
 
 ; ==============================================================================
 
-; $0ED6B1-$0ED6D0 LOCAL
+; $0ED6B1-$0ED6D0 LOCAL JUMP LOCATION
 AltarZelda_DrawWarpEffect:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionA

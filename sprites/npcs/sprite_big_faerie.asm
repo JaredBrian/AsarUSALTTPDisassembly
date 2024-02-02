@@ -131,7 +131,7 @@ FairyCloud_FadeOut:
 
     !animation_timer = $0ED0
 
-; $0EC4BF-$0EC4F8 LOCAL
+; $0EC4BF-$0EC4F8 LOCAL JUMP LOCATION
 BigFairy_Main:
 {
     LDA !timer_2, X : BEQ .draw
@@ -257,7 +257,7 @@ pool BigFairy_Draw:
 
 ; ==============================================================================
 
-; $0EC5D0-$0EC5ED LOCAL
+; $0EC5D0-$0EC5ED LOCAL JUMP LOCATION
 BigFairy_Draw:
 {
     LDA.b #$00   : XBA
@@ -300,7 +300,7 @@ pool FairyCloud_Draw:
 
 ; ==============================================================================
 
-; $0EC616-$0EC64E LOCAL
+; $0EC616-$0EC64E LOCAL JUMP LOCATION
 FairyCloud_Draw:
 {
     ; This apparently randomly generates the fairy cloud sparkles.

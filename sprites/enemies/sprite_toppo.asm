@@ -180,7 +180,7 @@ Toppo_FlusteredTrampoline:
 
 ; ==============================================================================
 
-; $02BB72-$02BB95 LOCAL
+; $02BB72-$02BB95 LOCAL JUMP LOCATION
 Toppo_CheckLandingSiteForGrass:
 {
     LDA $0D00, X : STA $00
@@ -208,7 +208,7 @@ pool Toppo_Draw:
 
 ; ==============================================================================
 
-; $02BBFF-$02BC89 LOCAL
+; $02BBFF-$02BC89 LOCAL JUMP LOCATION
 Toppo_Draw:
 {
     JSR Sprite2_PrepOamCoord

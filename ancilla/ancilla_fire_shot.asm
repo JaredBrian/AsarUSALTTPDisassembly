@@ -100,7 +100,7 @@ pool FireShot_Draw:
 
 ; ==============================================================================
 
-; $04077C-$0407CA LOCAL
+; $04077C-$0407CA LOCAL JUMP LOCATION
 FireShot_Draw:
 {
     JSR Ancilla_BoundsCheck

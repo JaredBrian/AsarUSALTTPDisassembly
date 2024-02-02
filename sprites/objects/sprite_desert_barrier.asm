@@ -127,7 +127,7 @@ pool DesertBarrier_Draw:
 
 ; ==============================================================================
 
-; $029626-$029669 LOCAL
+; $029626-$029669 LOCAL JUMP LOCATION
 DesertBarrier_Draw:
 {
     LDA $0DF0, X : CMP.b #$01 : BNE .no_sound_effect

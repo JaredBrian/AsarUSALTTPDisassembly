@@ -15,7 +15,7 @@ Sprite_MadBatterBoltLong:
 
 ; ==============================================================================
 
-; $0F0A96-$0F0ABA LOCAL
+; $0F0A96-$0F0ABA LOCAL JUMP LOCATION
 Sprite_MadBatterBolt:
 {
     LDA $0E80, X : AND.b #$10 : BEQ .in_front_of_player

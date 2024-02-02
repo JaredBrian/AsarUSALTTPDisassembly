@@ -25,7 +25,7 @@ Sprite_FakeSwordLong:
 
 ; ==============================================================================
 
-; $02EEAF-$02EED5 LOCAL
+; $02EEAF-$02EED5 LOCAL JUMP LOCATION
 Sprite_FakeSword:
 {
     JSR FakeSword_Draw
@@ -67,7 +67,7 @@ pool FakeSword_Draw:
 
 ; ==============================================================================
 
-; $02EEE6-$02EEF8 LOCAL
+; $02EEE6-$02EEF8 LOCAL JUMP LOCATION
 FakeSword_Draw:
 {
     LDA.b #$02 : STA $06

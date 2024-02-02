@@ -17,7 +17,7 @@ Sprite_FortuneTellerLong:
 
 ; ==============================================================================
 
-; $06C762-$06C76C LOCAL
+; $06C762-$06C76C LOCAL JUMP LOCATION
 Sprite_FortuneTeller:
 {
     LDA $0E80, X
@@ -369,7 +369,7 @@ FortuneTeller_GiveReading:
 
 ; ==============================================================================
 
-; $06C953-$06C95F LOCAL
+; $06C953-$06C95F LOCAL JUMP LOCATION
 FortuneTeller_PopulateNextMessageSlot:
 {
     LDY $03
@@ -391,7 +391,7 @@ FortuneTeller_PopulateNextMessageSlot:
 
 ; ==============================================================================
 
-; $06C960-$06C975 LOCAL
+; $06C960-$06C975 LOCAL JUMP LOCATION
 LW_FortuneTeller_ShowCostMessage:
 {
     STZ $0DC0, X
@@ -412,7 +412,7 @@ LW_FortuneTeller_ShowCostMessage:
 
 ; ==============================================================================
 
-; $06C976-$06C995 LOCAL
+; $06C976-$06C995 LOCAL JUMP LOCATION
 LW_FortuneTeller_DeductPayment:
 {
     LDY $0D90, X
@@ -681,7 +681,7 @@ pool FortuneTeller_Draw:
 
 ; ==============================================================================
 
-; $06CB01-$06CB29 LOCAL
+; $06CB01-$06CB29 LOCAL JUMP LOCATION
 FortuneTeller_Draw:
 {
     LDA $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA $00

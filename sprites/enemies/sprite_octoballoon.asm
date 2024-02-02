@@ -103,7 +103,7 @@ Sprite_Octoballoon:
 
 ; ==============================================================================
 
-; $03572B-$03573B LOCAL
+; $03572B-$03573B LOCAL JUMP LOCATION
 Octoballoon_ApplyRecoilToPlayer:
 {
     LDA $46 : BNE .player_invulnerable_right_now
@@ -129,7 +129,7 @@ pool Octoballoon_Draw:
 
 ; ==============================================================================
 
-; $035784-$035801 LOCAL
+; $035784-$035801 LOCAL JUMP LOCATION
 Octoballoon_Draw:
 {
     STZ $0A
@@ -212,8 +212,7 @@ pool Octoballoon_SpawnTheSpawn:
 
 ; ==============================================================================
 
-    ; hehe.
-; $03580E-$035842 LOCAL
+; $03580E-$035842 LOCAL JUMP LOCATION
 Octoballoon_SpawnTheSpawn:
 {
     LDA.b #$0C : JSL Sound_SetSfx2PanLong

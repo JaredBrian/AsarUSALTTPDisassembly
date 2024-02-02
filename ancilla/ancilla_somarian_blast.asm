@@ -133,9 +133,9 @@ pool Ancilla_BoundsCheck:
     
 ; ==============================================================================
 
-; $04062A-$04064D LOCAL
+; $04062A-$04064D LOCAL JUMP LOCATION
 Ancilla_BoundsCheck:
-    
+{
     ; Load a value based on which floor the special object is on.
     LDY $0C7C, X
     

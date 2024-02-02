@@ -51,7 +51,7 @@ CrystalMaiden_Configure:
 
 ; ==============================================================================
 
-; $0F4D48-$0F4DD8 LOCAL
+; $0F4D48-$0F4DD8 LOCAL JUMP LOCATION
 CrystalMaiden_SpawnAndConfigMaiden:
 {
     LDY.b #$0F
@@ -142,7 +142,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
 
 ; ==============================================================================
 
-; $0F4DD9-$0F4E02 LOCAL
+; $0F4DD9-$0F4E02 LOCAL JUMP LOCATION
 CrystalMaiden_InitPolyhedral:
 {
     LDA.b #$9C : STA $1F02
@@ -201,7 +201,7 @@ Sprite_CrystalMaiden:
 
 ; ==============================================================================
 
-; $0F4E39-$0F4E62 LOCAL
+; $0F4E39-$0F4E62 LOCAL JUMP LOCATION
 CrystalMaiden_Main:
 {
     INC $0E90, X

@@ -17,7 +17,7 @@ Sprite_ArmosCrusherLong:
 
 ; ==============================================================================
 
-; $0EEF7E-$0EEFAB LOCAL
+; $0EEF7E-$0EEFAB LOCAL JUMP LOCATION
 Sprite_ArmosCrusher:
 {
     ; Spotted in changing the Armos palette for the last one.

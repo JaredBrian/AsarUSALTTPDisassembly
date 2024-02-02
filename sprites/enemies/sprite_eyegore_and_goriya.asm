@@ -386,7 +386,7 @@ pool Eyegore_Draw:
 
 ; ==============================================================================
 
-; $0F4ACF-$0F4AF3 LOCAL
+; $0F4ACF-$0F4AF3 LOCAL JUMP LOCATION
 Eyegore_Draw:
 {
     LDA.b #$00   : XBA

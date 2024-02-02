@@ -54,7 +54,7 @@ pool Bee:
 
 ; ==============================================================================
 
-; $0F5C8F-$0F5CCE LOCAL
+; $0F5C8F-$0F5CCE LOCAL JUMP LOCATION
 DashBeeHive_SpawnBee:
 {
     LDA.b #$79 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -319,7 +319,7 @@ Sprite_GetEmptyBottleIndex:
 
 ; ==============================================================================
 
-; $0F5E44-$0F5E62 LOCAL
+; $0F5E44-$0F5E62 LOCAL JUMP LOCATION
 Bee_DetermineInteractionStatus:
 {
     LDA $11 : CMP.b #$02 : BNE .not_in_text_mode
@@ -387,7 +387,7 @@ GoodBee_WaitingForDash:
 
 ; ==============================================================================
 
-; $0F5E90-$0F5ECF LOCAL
+; $0F5E90-$0F5ECF LOCAL JUMP LOCATION
 GoodBee_SpawnTangibleVersion:
 {
     LDA.b #$79 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -528,7 +528,7 @@ GoodBee_Activated:
 
 ; ==============================================================================
 
-; $0F5F8A-$0F5FAA LOCAL
+; $0F5F8A-$0F5FAA LOCAL JUMP LOCATION
 Bee_SetAltitude:
 {
     LDA.b #$10 : STA $0F70, X
@@ -548,7 +548,7 @@ Bee_SetAltitude:
 
 ; ==============================================================================
 
-; $0F5FAB-$0F602D LOCAL
+; $0F5FAB-$0F602D LOCAL JUMP LOCATION
 GoodBee_ScanForTargetableSprites:
 {
     LDA.b #$0F : STA $00
@@ -616,7 +616,7 @@ GoodBee_ScanForTargetableSprites:
 
 ; ==============================================================================
 
-; $0F602E-$0F603B LOCAL
+; $0F602E-$0F603B LOCAL JUMP LOCATION
 Bee_Buzz:
 {
     TXA : EOR $1A : AND.b #$1F : BNE .delay

@@ -421,7 +421,7 @@ FluteAardvark_FullyArborated:
 
 ; ==============================================================================
 
-; $03312E-$033170 LOCAL
+; $03312E-$033170 LOCAL JUMP LOCATION
 FluteBoy_CheckIfPlayerTooClose:
 {
     LDA $0D10, X : STA $00
@@ -499,7 +499,7 @@ Sprite_FluteNote:
 
 ; ==============================================================================
 
-; $0331A5-$0331DD LOCAL
+; $0331A5-$0331DD LOCAL JUMP LOCATION
 FluteBoy_SpawnFluteNote:
 {
     LDA.b #$2E : JSL Sprite_SpawnDynamically : BMI .spawn_failed

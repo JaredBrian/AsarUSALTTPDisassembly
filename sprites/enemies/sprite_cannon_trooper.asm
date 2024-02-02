@@ -138,7 +138,7 @@ Sprite_CannonTrooper:
     dw $AD28 ; $2AD28
 }
 
-; $02AC24-$02AC51 LOCAL
+; $02AC24-$02AC51 LOCAL JUMP LOCATION
 {
     STZ $0D90, X
     
@@ -212,7 +212,7 @@ pool CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $02AC7B-$02ACE9 LOCAL
+; $02AC7B-$02ACE9 LOCAL JUMP LOCATION
 CannonTrooper_SpawnCannonBall:
 {
     INC $0D80, X
@@ -264,7 +264,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $02ACF2-$02AD11 LOCAL
+; $02ACF2-$02AD11 LOCAL JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
@@ -287,7 +287,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $02AD12-$02AD1F LOCAL
+; $02AD12-$02AD1F LOCAL JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay
     
@@ -314,7 +314,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $02AD28-$02AD50 LOCAL
+; $02AD28-$02AD50 LOCAL JUMP LOCATION
 {
     LDA $0DF0, X : BNE .delay_ai_state_reset
     
@@ -346,7 +346,7 @@ CannonTrooper_SpawnCannonBall:
 
 ; ==============================================================================
 
-; $02AEF9-$02AF70 LOCAL
+; $02AEF9-$02AF70 LOCAL JUMP LOCATION
 CannonTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord

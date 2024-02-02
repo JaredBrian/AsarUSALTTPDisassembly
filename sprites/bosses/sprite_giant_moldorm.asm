@@ -61,7 +61,7 @@ pool Sprite_GiantMoldorm:
 
 ; ==============================================================================
 
-; $0ED74E-$0ED7FD LOCAL
+; $0ED74E-$0ED7FD LOCAL JUMP LOCATION
 Sprite_GiantMoldorm:
 {
     JSR GiantMoldorm_Draw
@@ -254,7 +254,7 @@ GiantMoldorm_LungeAtPlayer:
 
 ; ==============================================================================
 
-; $0ED881-$0ED8F1 LOCAL
+; $0ED881-$0ED8F1 LOCAL JUMP LOCATION
 GiantMoldorm_Draw:
 {
     JSR Sprite4_PrepOamCoord
@@ -311,7 +311,7 @@ GiantMoldorm_Draw:
 
 ; ==============================================================================
 
-; $0ED8F2-$0ED912 LOCAL
+; $0ED8F2-$0ED912 LOCAL JUMP LOCATION
 GiantMoldorm_IncrementalSegmentExplosion:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .alive_and_well
@@ -361,7 +361,7 @@ pool GiantMoldorm_DrawHead:
 
 ; ==============================================================================
 
-; $0ED993-$0ED9B7 LOCAL
+; $0ED993-$0ED9B7 LOCAL JUMP LOCATION
 GiantMoldorm_DrawHead:
 {
     LDA.b #$00 : XBA
@@ -399,7 +399,7 @@ pool GiantMoldorm_DrawSegment_A:
 ; ==============================================================================
 
     ; \note The segment nearest the head.
-; $0ED9F8-$0EDA4F LOCAL
+; $0ED9F8-$0EDA4F LOCAL JUMP LOCATION
 GiantMoldorm_DrawSegment_A:
 {
     TXY
@@ -446,7 +446,7 @@ GiantMoldorm_DrawSegment_A:
 
 ; ==============================================================================
 
-; $0EDA50-$0EDA5A LOCAL
+; $0EDA50-$0EDA5A LOCAL JUMP LOCATION
 GiantMoldorm_DrawSegment_B:
 {
     TXY
@@ -469,7 +469,7 @@ pool GiantMoldorm_DrawSegment_C:
 
 ; ==============================================================================
 
-; $0EDA5F-$0EDAB9 LOCAL
+; $0EDA5F-$0EDAB9 LOCAL JUMP LOCATION
 GiantMoldorm_DrawSegment_C:
 {
     STZ $0DC0, X
@@ -516,7 +516,7 @@ GiantMoldorm_DrawSegment_C:
 
 ; ==============================================================================
 
-; $0EDABA-$0EDB16 LOCAL
+; $0EDABA-$0EDB16 LOCAL JUMP LOCATION
 GiantMoldorm_Tail:
 {
     JSR GiantMoldorm_DrawTail
@@ -560,7 +560,7 @@ GiantMoldorm_Tail:
 
 ; ==============================================================================
 
-; $0EDB17-$0EDB3D LOCAL
+; $0EDB17-$0EDB3D LOCAL JUMP LOCATION
 GiantMoldorm_DrawTail:
 {
     REP #$20
@@ -607,7 +607,7 @@ pool GiantMoldorm_DrawEyeballs:
 
 ; ==============================================================================
 
-; $0EDB9E-$0EDC10 LOCAL
+; $0EDB9E-$0EDC10 LOCAL JUMP LOCATION
 GiantMoldorm_DrawEyeballs:
 {
     STZ $07

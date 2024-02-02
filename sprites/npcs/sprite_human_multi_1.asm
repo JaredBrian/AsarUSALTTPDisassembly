@@ -15,7 +15,7 @@ Sprite_HumanMulti_1_Long:
 
 ; ==============================================================================
 
-; $06C2D9-$06C2E5 LOCAL
+; $06C2D9-$06C2E5 LOCAL JUMP LOCATION
 Sprite_HumanMulti_1:
 {
     LDA $0E80, X
@@ -192,7 +192,7 @@ pool FluteBoyFather_Draw:
 
 ; ==============================================================================
 
-; $06C3E1-$06C400 LOCAL
+; $06C3E1-$06C400 LOCAL JUMP LOCATION
 FluteBoyFather_Draw:
 {
     LDA.b #$02 : STA $06
@@ -242,7 +242,7 @@ pool BlindHideoutGuy_Draw:
 
 ; ==============================================================================
 
-; $06C481-$06C4A4 LOCAL
+; $06C481-$06C4A4 LOCAL JUMP LOCATION
 BlindHideoutGuy_Draw:
 {
     LDA.b #$02 : STA $06

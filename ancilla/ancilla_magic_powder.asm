@@ -188,7 +188,7 @@ Ancilla_MagicPowder:
 
 ; ==============================================================================
 
-; $043B58-$043BBB LOCAL
+; $043B58-$043BBB LOCAL JUMP LOCATION
 MagicPowder_ApplySpriteDamage:
 {
     LDY.b #$0F

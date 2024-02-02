@@ -130,7 +130,7 @@ Sprite_Key:
 
 ; ==============================================================================
 
-; $0350ED-$035115 LOCAL
+; $0350ED-$035115 LOCAL JUMP LOCATION
 Sprite_HandleBlinkingPhaseOut:
 {
     LDA $0B58, X : BEQ .phase_out_not_scheduled
@@ -167,7 +167,7 @@ Sprite_HandleBlinkingPhaseOut:
 
 ; ==============================================================================
 
-; $035116-$035124 LOCAL
+; $035116-$035124 LOCAL JUMP LOCATION
 Sprite_CheckAbsorptionByPlayer:
 {
     LDA $0F10, X : BNE .sprite_is_paused
@@ -208,7 +208,7 @@ pool Sprite_HandleAbsorptionByPlayer:
 
 ; ==============================================================================
 
-; $03513C-$03516F LOCAL
+; $03513C-$03516F LOCAL JUMP LOCATION
 Sprite_HandleAbsorptionByPlayer:
 {
     STZ $0DD0, X
@@ -428,7 +428,7 @@ pool Sprite_DrawTransientAbsorbable:
 
 ; ==============================================================================
 
-; $03522F-$035289 LOCAL
+; $03522F-$035289 LOCAL JUMP LOCATION
 Sprite_DrawTransientAbsorbable:
 {
     JSR Sprite_HandleBlinkingPhaseOut
@@ -541,7 +541,7 @@ pool Sprite_DrawNumberedAbsorbable:
     
 ; ==============================================================================
 
-; $0352FA-$035362 LOCAL
+; $0352FA-$035362 LOCAL JUMP LOCATION
 Sprite_DrawNumberedAbsorbable:
 {
     DEC A : STA $06

@@ -522,7 +522,7 @@ pool GoodArcheryTarget_DrawPrize:
 
 ; ==============================================================================
 
-; $0284CF-$02852C LOCAL
+; $0284CF-$02852C LOCAL JUMP LOCATION
 GoodArcheryTarget_DrawPrize:
 {
     ; Part of shooting gallery guy code

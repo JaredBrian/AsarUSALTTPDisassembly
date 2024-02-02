@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02BE0A-$02BE48 JUMP LOCATION
+; $02BE0A-$02BE48 LOCAL JUMP LOCATION
 Sprite_BombTrooper:
 {
     LDA $0DB0, X : BNE .is_bomb
@@ -49,7 +49,7 @@ Sprite_BombTrooper:
     
 ; ==============================================================================
 
-; $02BE49-$02BED2 LOCAL
+; $02BE49-$02BED2 LOCAL JUMP LOCATION
 EnemyBomb_CheckDamageToSprite:
 {
     LDA $0D10, X : SEC : SBC.b #$10 : STA $00
@@ -108,7 +108,7 @@ EnemyBomb_CheckDamageToSprite:
     
 ; ==============================================================================
 
-; *$2BED3-2BF50 LOCAL
+; *$2BED3-2BF50 LOCAL JUMP LOCATION
 EnemyBomb_ExplosionImminent:
 {
     LDA $0E90, X : BEQ .iota
@@ -179,7 +179,7 @@ EnemyBomb_ExplosionImminent:
 
 ; ==============================================================================
 
-; $02BF51-$02BFB0 LOCAL
+; $02BF51-$02BFB0 LOCAL JUMP LOCATION
 BombTrooper_Main:
 {
     JSR BombTrooper_Draw
@@ -259,7 +259,7 @@ BombTrooper_Main:
 
 ; ==============================================================================
 
-; $02BFC1-$02C04A LOCAL
+; $02BFC1-$02C04A LOCAL JUMP LOCATION
 BombTrooper_SpawnAndThrowBomb:
 {
     LDA.b #$4A
@@ -325,7 +325,7 @@ BombTrooper_SpawnAndThrowBomb:
 
 ; ==============================================================================
 
-; $02C04B-$02C068 LOCAL
+; $02C04B-$02C068 LOCAL JUMP LOCATION
 BombTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -353,7 +353,7 @@ BombTrooper_Draw:
 
 ; ==============================================================================
 
-; $02C089-$02C0D2 LOCAL
+; $02C089-$02C0D2 LOCAL JUMP LOCATION
     ; \note This name is tentative, and based purely on educated guessing.
     ; \task Determine what this routine *really* does.
 BombTrooper_DrawArm:
@@ -415,7 +415,7 @@ pool EnemyBomb_DrawExplosion:
 
 ; ==============================================================================
 
-; $02C113-$02C154 LOCAL
+; $02C113-$02C154 LOCAL JUMP LOCATION
 EnemyBomb_DrawExplosion:
 {
     JSR Sprite2_PrepOamCoord

@@ -114,7 +114,7 @@ pool ThrowableScenery_DrawLarge:
 
 ; ==============================================================================
 
-; $032B76-$032C30 LOCAL
+; $032B76-$032C30 LOCAL JUMP LOCATION
 ThrowableScenery_DrawLarge:
 {
     LDY $0DB0, X
@@ -237,7 +237,7 @@ pool ThrowableScenery_ScatterIntoDebris:
 
 ; ==============================================================================
 
-; $032C41-$032D02 LOCAL
+; $032C41-$032D02 LOCAL JUMP LOCATION
 ThrowableScenery_ScatterIntoDebris:
 {
     LDA $0DB0, X : BMI .smaller_scenery

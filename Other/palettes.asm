@@ -1070,7 +1070,7 @@ Palette_OverworldBgAux2:
 
 ; ==================================================
 
-; $0DEF30-$0DEF4A LOCAL
+; $0DEF30-$0DEF4A LOCAL JUMP LOCATION
 Palette_SingleLoad:
 {
     ; Unlike like the Subroutine after this one, it only loads one palette to memory.
@@ -1100,7 +1100,7 @@ Palette_SingleLoad:
 
 ; ==================================================
 
-; $0DEF4B-$0DEF7A LOCAL
+; $0DEF4B-$0DEF7A LOCAL JUMP LOCATION
 Palette_MultiLoad:
 {
     ; Description: Generally used to load multiple palettes for BGs.
@@ -1155,7 +1155,7 @@ Palette_MultiLoad:
 
 ; =============================================
 
-; $0DEF7B-$0DEF95 LOCAL
+; $0DEF7B-$0DEF95 LOCAL JUMP LOCATION
 Palette_ArbitraryLoad:
 {
     ; This routine accepts a 2 byte pointer local to bank 0x1B
@@ -1289,7 +1289,7 @@ Palette_SelectScreen:
 
 ; ==============================================================================
 
-; $0DF032-$0DF071 LOCAL
+; $0DF032-$0DF071 LOCAL JUMP LOCATION
 Palette_SelectScreenArmor:
 {
     ; And gloves!
@@ -1335,7 +1335,7 @@ Palette_SelectScreenArmor:
 
 ; =============================================
 
-; $0DF072-$0DF099 LOCAL
+; $0DF072-$0DF099 LOCAL JUMP LOCATION
 Palette_SelectScreenSword:
 {
     ; Expects A to be the sword's value.
@@ -1365,7 +1365,7 @@ Palette_SelectScreenSword:
     
 ; =============================================
 
-; $0DF09A-$0DF0C1 LOCAL
+; $0DF09A-$0DF0C1 LOCAL JUMP LOCATION
 Palette_SelectScreenShield:
 {
     ; This routine is generally the same as the two above.

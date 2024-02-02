@@ -407,7 +407,7 @@ pool EtherSpell_DrawBlitzBall:
 ; ==============================================================================
 
     ; \note Draws the circular 
-; $042CED-$042D48 LOCAL
+; $042CED-$042D48 LOCAL JUMP LOCATION
 EtherSpell_DrawBlitzBall:
 {
     REP #$20
@@ -543,7 +543,7 @@ pool EtherSpell_DrawSplittingBlitzSegment:
     ; Commits two 16x16 sprites.
     ; Draws the blitz segments still in lightning form as they split away
     ; from the center. Shortly they will become blitz balls.
-; $042DC9-$042E72 LOCAL
+; $042DC9-$042E72 LOCAL JUMP LOCATION
 EtherSpell_DrawSplittingBlitzSegment:
 {
     REP #$20

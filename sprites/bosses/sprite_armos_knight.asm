@@ -195,7 +195,7 @@ Sprite_ArmosKnight:
 
 ; ==============================================================================
     
-; $02A18F-$02A1B3 LOCAL
+; $02A18F-$02A1B3 LOCAL JUMP LOCATION
 ArmosKnight_ProjectSpeedTowardsTarget:
 {
     LDA $0B10, X : STA $04
@@ -272,7 +272,7 @@ pool ArmosKnight_Draw:
 
 ; ==============================================================================
 
-; $02A274-$02A376 LOCAL
+; $02A274-$02A376 LOCAL JUMP LOCATION
 ArmosKnight_Draw:
 {
     JSR Sprite2_PrepOamCoord

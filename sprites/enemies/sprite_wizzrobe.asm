@@ -238,7 +238,7 @@ pool Wizzrobe_SpawnBeam:
 
 ; ==============================================================================
 
-; $0F1E15-$0F1E7A LOCAL
+; $0F1E15-$0F1E7A LOCAL JUMP LOCATION
 Wizzrobe_SpawnBeam:
 {
     LDA.b #$9B : JSL Sprite_SpawnDynamically : BMI .spawn_failed

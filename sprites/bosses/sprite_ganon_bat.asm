@@ -15,7 +15,7 @@ pool Sprite_GanonBat:
 
 ; ==============================================================================
 
-; $0E890E-$0E89BA LOCAL
+; $0E890E-$0E89BA LOCAL JUMP LOCATION
 Sprite_GanonBat:
 {
     JSR GanonBat_Draw
@@ -108,7 +108,6 @@ Sprite_GanonBat:
 pool GanonBat_Draw:
 {
     .oam_groups
-{
     dw -8, 0 : db $60, $05, $00, $02
     dw  8, 0 : db $60, $45, $00, $02
     
@@ -121,7 +120,7 @@ pool GanonBat_Draw:
 
 ; ==============================================================================
 
-; $0E89EB-$0E8A03 LOCAL
+; $0E89EB-$0E8A03 LOCAL JUMP LOCATION
 GanonBat_Draw:
 {
     LDA.b #$00 : XBA

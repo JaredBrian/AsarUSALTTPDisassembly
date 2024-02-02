@@ -17,7 +17,7 @@ SpritePrep_ZeldaLong:
 
 ; ==============================================================================
 
-; $02EBCF-$02EC4B LOCAL
+; $02EBCF-$02EC4B LOCAL JUMP LOCATION
 SpritePrep_Zelda:
 {
     LDA $7EF359 : CMP.b #$02 : BCS .hasMasterSword
@@ -82,7 +82,7 @@ SpritePrep_Zelda:
 
 ; ==============================================================================
 
-; $02EC4C-$02EC8D LOCAL
+; $02EC4C-$02EC8D LOCAL JUMP LOCATION
 Zelda_TransitionFromTagalong:
 {
     ; Transition princess Zelda back into a sprite from the tagalong
@@ -144,7 +144,7 @@ Sprite_ZeldaLong:
 
 ; ==============================================================================
 
-; $02EC9E-$02ECBE LOCAL
+; $02EC9E-$02ECBE LOCAL JUMP LOCATION
 Sprite_Zelda:
 {
     JSL CrystalMaiden_Draw

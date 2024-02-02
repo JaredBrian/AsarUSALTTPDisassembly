@@ -163,7 +163,7 @@ Tagalong_MainLong:
 
 ; ==============================================================================
 
-; $049F99-$049FB4 JUMP TABLE LOCAL
+; $049F99-$049FB4 LOCAL JUMP TABLE
 pool Tagalong_Main:
 {
     ; Tagalong Routines 1 (and only so far)
@@ -205,7 +205,7 @@ pool Tagalong_Main:
 
 ; ==============================================================================
 
-; $049FC4-$04A196 LOCAL
+; $049FC4-$04A196 LOCAL JUMP LOCATION
 Tagalong_Main:
 {
     LDA $7EF3CC : BNE .player_has_tagalong
@@ -914,7 +914,7 @@ Tagalong_OldMountainMan:
 
 ; ==============================================================================
 
-; $04A48E-$04A4C7 LOCAL
+; $04A48E-$04A4C7 LOCAL JUMP LOCATION
 Tagalong_CheckPlayerProximity:
 {
     DEC $02D2 : BPL .delay
@@ -1003,7 +1003,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; $04A59E-$04A6CC LOCAL
+; $04A59E-$04A6CC LOCAL JUMP LOCATION
 {
     LDA $11 : BNE .no_text_message
     
@@ -1203,7 +1203,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; $04A907-$04ABF8 LOCAL
+; $04A907-$04ABF8 LOCAL JUMP LOCATION
 {
     ; best guess so far: zero if your tagalong is transforming, nonzero
     ; otherwise
@@ -1600,7 +1600,7 @@ Tagalong_CheckPlayerProximity:
 
 ; ==============================================================================
 
-; $04ABF9-$04AC25 LOCAL
+; $04ABF9-$04AC25 LOCAL JUMP LOCATION
 Tagalong_SetOam_XY:
 {
     REP #$20
@@ -1632,7 +1632,7 @@ Tagalong_SetOam_XY:
 
 ; ==============================================================================
 
-; $04AC26-$04AC6A LOCAL
+; $04AC26-$04AC6A LOCAL JUMP LOCATION
 Tagalong_CheckTextTriggerProximity:
 {
     REP #$20

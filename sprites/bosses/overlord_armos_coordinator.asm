@@ -39,7 +39,7 @@ ArmosCoordinatorLong:
 
 ; ==============================================================================
 
-; $0EEBF3-$0EEC11 LOCAL
+; $0EEBF3-$0EEC11 LOCAL JUMP LOCATION
 ArmosCoordinator_Main:
 {
     LDA !state_timer, X : BEQ .timer_expired
@@ -367,7 +367,7 @@ ArmosCoordinator_TimedRotateThenTransition:
 
 ; ==============================================================================
 
-; $0EEDB8-$0EEDCA LOCAL
+; $0EEDB8-$0EEDCA LOCAL JUMP LOCATION
 ArmosCoordinator_AreAllActiveKnightsSubmissive:
 {
     LDY.b #$05
@@ -396,9 +396,9 @@ ArmosCoordinator_AreAllActiveKnightsSubmissive:
 
 ; ==============================================================================
 
-    ; Instead of being forced to specific coordinates by the coordinator,
-    ; configure the knights to be guided to specific coordinates.
-; $0EEDCB-$0EEDD5 LOCAL
+; Instead of being forced to specific coordinates by the coordinator,
+; configure the knights to be guided to specific coordinates.
+; $0EEDCB-$0EEDD5 LOCAL JUMP LOCATION
 ArmosCoordinator_DisableKnights_XY_Coercion:
 {
     LDY.b #$05

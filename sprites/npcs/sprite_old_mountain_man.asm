@@ -15,7 +15,7 @@ SpritePrep_OldMountainManLong:
 
 ; ==============================================================================
 
-; $0F68F9-$0F6937 LOCAL
+; $0F68F9-$0F6937 LOCAL JUMP LOCATION
 SpritePrep_OldMountainMan:
 {
     INC $0BA0, X
@@ -101,7 +101,7 @@ OldMountainMan_TransitionFromTagalong:
 
 ; ==============================================================================
 
-; $0F6989-$0F6991 LOCAL
+; $0F6989-$0F6991 LOCAL JUMP LOCATION
 OldMountainMan_FreezePlayer:
 {
     LDA.b #$01 : STA $02E4

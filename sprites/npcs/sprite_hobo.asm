@@ -179,7 +179,7 @@ Hobo_BackToSleep:
 ; ==============================================================================
 
     ; \note I know, why would this guy spawn himself? Makes no sense.
-; $033E9D-$033EB1 LOCAL
+; $033E9D-$033EB1 LOCAL JUMP LOCATION
 Hobo_SpawnHobo:
 {
     LDA.b #$2B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -241,7 +241,7 @@ Sprite_HoboBubble:
 
 ; ==============================================================================
 
-; $033EED-$033F14 LOCAL
+; $033EED-$033F14 LOCAL JUMP LOCATION
 Hobo_SpawnBubble:
 {
     ; Spawn the sleep bubble hanging out of the hobo's nose?
@@ -303,7 +303,7 @@ Sprite_HoboFire:
 
 ; ==============================================================================
 
-; $033F4B-$033F7C LOCAL
+; $033F4B-$033F7C LOCAL JUMP LOCATION
 Hobo_SpawnCampfire:
 {
     LDA.b #$2B
@@ -365,7 +365,7 @@ Sprite_HoboSmoke:
 
 ; ==============================================================================
 
-; $033FAF-$033FDF LOCAL
+; $033FAF-$033FDF LOCAL JUMP LOCATION
 HoboFire_SpawnSmoke:
 {
     LDA.b #$2B

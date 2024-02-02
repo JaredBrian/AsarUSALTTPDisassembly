@@ -139,7 +139,7 @@ pool SpriteHeld_ThrowQuery:
 
 ; ==============================================================================
 
-; $035F6D-$035FF1 LOCAL
+; $035F6D-$035FF1 LOCAL JUMP LOCATION
 SpriteHeld_ThrowQuery:
 {
     ; in text mode, so do nothing...

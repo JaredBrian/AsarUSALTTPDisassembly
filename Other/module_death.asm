@@ -46,7 +46,7 @@ Module_Death:
 
 ; ==============================================================================
 
-; $04F2A2-$04F33A LOCAL
+; $04F2A2-$04F33A LOCAL JUMP LOCATION
 {
     INC $11
     
@@ -115,8 +115,7 @@ Module_Death:
     RTS
 } 
 
-
-; $04F33B-$04F34F LOCAL
+; $04F33B-$04F34F LOCAL JUMP LOCATION
 {
     DEC $C8 : BNE .alpha
     
@@ -136,7 +135,7 @@ Module_Death:
 
 ; ==============================================================================
 
-; $04F350-$04F3DD LOCAL
+; $04F350-$04F3DD LOCAL JUMP LOCATION
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
     
@@ -203,7 +202,7 @@ Module_Death:
 
 ; ==============================================================================
 
-; $04F3DE-$04F457 LOCAL
+; $04F3DE-$04F457 LOCAL JUMP LOCATION
 {
     LDA $C8 : BNE .delay
     
@@ -272,7 +271,7 @@ Module_Death:
     RTS
 }
 
-; $04F458-$04F482 LOCAL
+; $04F458-$04F482 LOCAL JUMP LOCATION
 {
     LDA.b #$0C : STA $C8
     LDA.b #$0F : STA $0AAA
@@ -296,14 +295,14 @@ Module_Death:
     RTS
 }
 
-; $04F483-$04F487 LOCAL
+; $04F483-$04F487 LOCAL JUMP LOCATION
 {
     JSL Ancilla_GameOverTextLong
     
     RTS
 }
 
-; $04F488-$04F4AB LOCAL
+; $04F488-$04F4AB LOCAL JUMP LOCATION
 Death_ShowSaveOptionsMenu:
 {
     JSL Ancilla_GameOverTextLong
@@ -339,7 +338,7 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; $04F4C1-$04F674 LOCAL
+; $04F4C1-$04F674 LOCAL JUMP LOCATION
 {
     JSR $F67A ; $04F67A IN ROM
     
@@ -621,14 +620,14 @@ Death_ShowSaveOptionsMenu:
     RTS
 }
 
-; $04F6B4-$04F6B8 LOCAL
+; $04F6B4-$04F6B8 LOCAL JUMP LOCATION
 {
     JSL Ancilla_RevivalFairy
     
     RTS
 }
 
-; $04F6B9-$04F71C LOCAL
+; $04F6B9-$04F71C LOCAL JUMP LOCATION
 {
     LDA $7EF372 : BNE .refillHearts
     
@@ -671,7 +670,7 @@ Death_ShowSaveOptionsMenu:
     RTS
 }
 
-; $04F71D-$04F734 LOCAL
+; $04F71D-$04F734 LOCAL JUMP LOCATION
 {
     LDA $020A : BNE .BRANCH_$4F714
     
@@ -686,7 +685,7 @@ Death_ShowSaveOptionsMenu:
     BRA .BRANCH_$4F712
 }
 
-; $04F735-$04F741 LOCAL
+; $04F735-$04F741 LOCAL JUMP LOCATION
 {
     JSL Graphics_LoadChrHalfSlot
     
@@ -699,7 +698,7 @@ Death_ShowSaveOptionsMenu:
 
 ; ==============================================================================
 
-; $04F742-$04F79A LOCAL
+; $04F742-$04F79A LOCAL JUMP LOCATION
 Death_RestoreScreenPostRevival:
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Additive

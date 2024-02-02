@@ -141,7 +141,7 @@ Soldier_DirectionLockSettings:
 
 ; ==============================================================================
 
-; $02B5D3-$02B647 LOCAL
+; $02B5D3-$02B647 LOCAL JUMP LOCATION
 SpriteActive2_Main:
 {
     ; This routine is meant to handle sprites with IDs 0x41 to 0x70.
@@ -228,7 +228,7 @@ incsrc "sprite_recruit.asm"
 
 ; ==============================================================================
 
-; $02C155-$02C226 JUMP LOCATION LOCAL
+; $02C155-$02C226 LOCAL JUMP LOCATION
 Sprite_Soldier:
 {
     LDA $0DB0, X : BNE .is_probe
@@ -771,7 +771,7 @@ pool Soldier:
 
 ; ==============================================================================
 
-; $02C4F9-$02C4FF LOCAL
+; $02C4F9-$02C4FF LOCAL JUMP LOCATION
 Sprite2_ZeroVelocity:
 {
     ; Stop horizontal and vertical velocities
@@ -783,7 +783,7 @@ Sprite2_ZeroVelocity:
 
 ; ==============================================================================
 
-; $02C500-$02C53B LOCAL
+; $02C500-$02C53B LOCAL JUMP LOCATION
 {
     TYA : EOR $1A : AND.b #$1F : BNE .alpha
     
@@ -902,7 +902,7 @@ Probe_SetDirectionTowardsPlayer:
 
 ; ==============================================================================
 
-; $02C5F2-$02C66D LOCAL
+; $02C5F2-$02C66D LOCAL JUMP LOCATION
 Sprite_SpawnProbeStaggered:
 {
     ; Soldiers and Archers seem to be the only two types that call this.
@@ -995,7 +995,7 @@ Soldier_AnimateMarionetteTempLong:
     RTL
 }
 
-; $02C680-$02C6A2 LOCAL
+; $02C680-$02C6A2 LOCAL JUMP LOCATION
 {
     JSR Sprite2_PrepOamCoord
     JSR $C6DE ; $02C6DE IN ROM
@@ -1020,7 +1020,7 @@ Soldier_AnimateMarionetteTempLong:
     db $0C, $0C, $0A, $0A
 }
 
-; $02C6A2-$2C6DD LOCAL
+; $02C6A2-$2C6DD LOCAL JUMP LOCATION
     ; TODO: Data found accidentally by letterbomb. Is used for the soldier recruit draw but may have other uses as well.
 {
     ; $02C6A2
@@ -1045,7 +1045,7 @@ Soldier_AnimateMarionetteTempLong:
     db $08, $00, $08, $00, $08, $00, $08, $00
 }
 
-; $02C6DE-$02C72C LOCAL
+; $02C6DE-$02C72C LOCAL JUMP LOCATION
 {
     LDY.b #$00
     
@@ -1094,7 +1094,7 @@ Soldier_AnimateMarionetteTempLong:
     RTS
 }
 
-; $02CA09-$02CAB7 LOCAL
+; $02CA09-$02CAB7 LOCAL JUMP LOCATION
 {
     LDY $0DE0, X
     
@@ -1196,7 +1196,7 @@ Soldier_AnimateMarionetteTempLong:
     RTS
 }
 
-; $02CB64-$02CBDF LOCAL
+; $02CB64-$02CBDF LOCAL JUMP LOCATION
 {
     LDA $0DC0, X : ASL A : STA $06
     
@@ -1318,7 +1318,7 @@ Sprite_PsychoSpearSoldier:
 
 ; ==============================================================================
 
-; $02CC3C-$02CC64 LOCAL
+; $02CC3C-$02CC64 LOCAL JUMP LOCATION
 PsychoSpearSoldier_PlayChaseMusic:
 {
     LDA $0ED0, X : CMP.b #$10 : BEQ .no_change
@@ -1394,7 +1394,7 @@ Sprite_PsychoTrooper:
 
 ; ==============================================================================
 
-; $02CCD5-$02CCE7 LOCAL
+; $02CCD5-$02CCE7 LOCAL JUMP LOCATION
 {
     JSR Sprite2_PrepOamCoord
     
@@ -1406,7 +1406,7 @@ Sprite_PsychoTrooper:
     JMP $C68C ; $02C68C IN ROM
 }
 
-; $02CD48-$02CDD3 LOCAL
+; $02CD48-$02CDD3 LOCAL JUMP LOCATION
 {
     LDY.b #$00
     
@@ -1487,7 +1487,7 @@ Sprite_PsychoTrooper:
 
 ; ==============================================================================
 
-; $02CDD4-$02CDDC LOCAL
+; $02CDD4-$02CDDC LOCAL JUMP LOCATION
 Sprite2_MoveIfNotTouchingWall:
 {
     LDA $0E70, X : BNE .alpha
@@ -1596,7 +1596,7 @@ Sprite_JavelinTrooper:
 
 ; ==============================================================================
 
-; $02CE74-$02CEA9 LOCAL
+; $02CE74-$02CEA9 LOCAL JUMP LOCATION
 JavelinTrooper_Resting:
 {
     JSR Sprite2_ZeroVelocity
@@ -1626,7 +1626,7 @@ JavelinTrooper_Resting:
 
 ; ==============================================================================
 
-; $02CEAA-$02CF12 LOCAL
+; $02CEAA-$02CF12 LOCAL JUMP LOCATION
 JavelinTrooper_WalkingAround:
 {
     LDA $0DF0, X : BNE .delay
@@ -1685,7 +1685,7 @@ JavelinTrooper_WalkingAround:
 
 ; ==============================================================================
 
-; $02CF13-$02CF43 LOCAL
+; $02CF13-$02CF43 LOCAL JUMP LOCATION
 JavelinTrooper_LookingAround:
 {
     JSR Sprite2_ZeroVelocity
@@ -1716,7 +1716,7 @@ JavelinTrooper_LookingAround:
 
 ; ==============================================================================
 
-; $02CF44-$02CF60 LOCAL
+; $02CF44-$02CF60 LOCAL JUMP LOCATION
 JavelinTrooper_NoticedPlayer:
 {
     JSR Sprite2_ZeroVelocity
@@ -1766,7 +1766,7 @@ pool JavelinTrooper_Agitated:
 
 ; ==============================================================================
 
-; $02CF85-$02D000 LOCAL
+; $02CF85-$02D000 LOCAL JUMP LOCATION
 JavelinTrooper_Agitated:
 {
     LDY $0DE0, X
@@ -1851,7 +1851,7 @@ pool JavelinTrooper_Attack:
 
 ; ==============================================================================
 
-; $02D045-$02D08A LOCAL
+; $02D045-$02D08A LOCAL JUMP LOCATION
 JavelinTrooper_Attack:
 {
     LDY $0DE0, X
@@ -1946,7 +1946,7 @@ JavelinTrooper_Attack:
 
 ; ==============================================================================
 
-; $02D0C5-$02D140 LOCAL
+; $02D0C5-$02D140 LOCAL JUMP LOCATION
 JavelinTrooper_SpawnProjectile:
 {
     LDA.b #$1B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
@@ -2004,7 +2004,7 @@ JavelinTrooper_SpawnProjectile:
 
 ; ==============================================================================
 
-; $02D141-$02D191 LOCAL
+; $02D141-$02D191 LOCAL JUMP LOCATION
 BushJavelinSoldier_Draw:
 {
     LDA $0DC0, X : PHA
@@ -2053,7 +2053,7 @@ BushJavelinSoldier_Draw:
 
 ; ==============================================================================
 
-; $02D192-$02D1AB LOCAL
+; $02D192-$02D1AB LOCAL JUMP LOCATION
 JavelinTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -2197,7 +2197,7 @@ Sprite_BushJavelinSoldier:
     
 }
 
-; $02D252-$02D276 LOCAL
+; $02D252-$02D276 LOCAL JUMP LOCATION
 {
     LDA.b #$EC : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
@@ -2288,7 +2288,7 @@ Sprite_BushJavelinSoldier:
     RTS
 }
 
-; $02D321-$02D380 LOCAL
+; $02D321-$02D380 LOCAL JUMP LOCATION
 {
     JSR Sprite2_PrepOamCoord
     
@@ -2363,7 +2363,7 @@ pool ArcherSoldier_Draw:
 
 ; ==============================================================================
 
-; $02D38C-$02D3AF LOCAL
+; $02D38C-$02D3AF LOCAL JUMP LOCATION
 ArcherSoldier_Draw:
 {
     JSR Sprite2_PrepOamCoord
@@ -2390,7 +2390,7 @@ ArcherSoldier_Draw:
 
 ; ==============================================================================
 
-; $02D4D4-$02D53A LOCAL
+; $02D4D4-$02D53A LOCAL JUMP LOCATION
 {
     LDA $0DC0, X : SEC : SBC.b #$0E : BCS .alpha
     
@@ -2555,7 +2555,7 @@ Sprite_DrawMultiple:
 
 ; ==============================================================================
 
-; $02DFE5-$02E00A LOCAL
+; $02DFE5-$02E00A LOCAL JUMP LOCATION
 {
     ; Has two return values (CLC and SEC)
     
@@ -2810,7 +2810,7 @@ incsrc "sprite_potion_shop.asm"
     
 ; ==============================================================================
 
-; $02F93F-$02F943 LOCAL
+; $02F93F-$02F943 LOCAL JUMP LOCATION
 Sprite2_DirectionToFacePlayer:
 {
     JSL Sprite_DirectionToFacePlayerLong
@@ -2820,7 +2820,7 @@ Sprite2_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; $02F944-$02F948 LOCAL
+; $02F944-$02F948 LOCAL JUMP LOCATION
 Sprite2_IsToRightOfPlayer:
 {
     JSL Sprite_IsToRightOfPlayerLong
@@ -2830,7 +2830,7 @@ Sprite2_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; $02F949-$02F94D LOCAL
+; $02F949-$02F94D LOCAL JUMP LOCATION
 Sprite2_IsBelowPlayer:
 {
     JSL Sprite_IsBelowPlayerLong
@@ -2840,7 +2840,7 @@ Sprite2_IsBelowPlayer:
 
 ; ==============================================================================
 
-; $02F94E-$02F96A LOCAL
+; $02F94E-$02F96A LOCAL JUMP LOCATION
 Sprite2_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
@@ -2872,11 +2872,11 @@ pool Sprite2_CheckIfRecoiling:
 {
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
-    ]
+}
 
 ; ==============================================================================
 
-; $02F971-$02F9EC LOCAL
+; $02F971-$02F9EC LOCAL JUMP LOCATION
 Sprite2_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
@@ -2952,7 +2952,7 @@ Sprite2_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $02F9ED-$02F9F3 LOCAL
+; $02F9ED-$02F9F3 LOCAL JUMP LOCATION
 Sprite2_Move:
 {
     JSR Sprite2_MoveHoriz
@@ -2963,7 +2963,7 @@ Sprite2_Move:
 
 ; ==============================================================================
 
-; $02F9F4-$02F9FF LOCAL
+; $02F9F4-$02F9FF LOCAL JUMP LOCATION
 Sprite2_MoveHoriz:
 {
     TXA : CLC : ADC.b #$10 : TAX
@@ -2977,7 +2977,7 @@ Sprite2_MoveHoriz:
 
 ; ==============================================================================
 
-; $02FA00-$02FA2D LOCAL
+; $02FA00-$02FA2D LOCAL JUMP LOCATION
 Sprite2_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
@@ -3002,7 +3002,7 @@ Sprite2_MoveVert:
 
 ; ==============================================================================
 
-; $02FA2E-$02FA4F LOCAL
+; $02FA2E-$02FA4F LOCAL JUMP LOCATION
 Sprite2_MoveAltitude:
 {
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
@@ -3020,7 +3020,7 @@ Sprite2_MoveAltitude:
 
 ; ==============================================================================
 
-; $02FA50-$02FA58 LOCAL
+; $02FA50-$02FA58 LOCAL JUMP LOCATION
 Sprite2_PrepOamCoord:
 {
     ; Collision detecting function (at least it calls one in bank $06)

@@ -86,7 +86,7 @@ PushSwitch_Inert:
     RTS
 }
 
-; $033B22-$033CAB LOCAL
+; $033B22-$033CAB LOCAL JUMP LOCATION
 {
     JSR OAM_AllocateDeferToPlayer
     JSR Sprite_PrepOamCoord

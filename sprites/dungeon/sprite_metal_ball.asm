@@ -69,7 +69,7 @@ pool MetalBall_DrawLargerVariety:
 
 ; ==============================================================================
 
-; $02B6A4-$02B702 LOCAL
+; $02B6A4-$02B702 LOCAL JUMP LOCATION
 MetalBall_DrawLargerVariety:
 {
     JSR Sprite2_PrepOamCoord
