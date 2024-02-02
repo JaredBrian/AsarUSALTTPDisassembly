@@ -43,7 +43,7 @@ Sprite_CannonBall:
 
 ; ==============================================================================
 
-; $02AB9C-$02ABE3 LONG
+; $02AB9C-$02ABE3 LONG JUMP LOCATION
 Sprite_SpawnPoofGarnish:
 {
     ; This routine does that poof of smoke effect when 

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0EF943-$0EF94A LONG
+; $0EF943-$0EF94A LONG JUMP LOCATION
 Sprite_TalkingTreeLong:
 {
     PHB : PHK : PLB
@@ -342,7 +342,7 @@ pool TalkingTree_SpawnEyes:
 
 ; ==============================================================================
 
-; $0EFB8A-$0EFBCB LONG
+; $0EFB8A-$0EFBCB LONG JUMP LOCATION
 TalkingTree_SpawnEyes:
 {
     PHX : PHA

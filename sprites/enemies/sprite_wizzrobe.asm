@@ -43,7 +43,8 @@ Sprite_WizzrobeAndBeam:
     .dont_self_terminate
     
     RTS
-    
+}
+
 ; ==============================================================================
 
 ; $0F1D46-$0F1D79 BRANCH LOCATION

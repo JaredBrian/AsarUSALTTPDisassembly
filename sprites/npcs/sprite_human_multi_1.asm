@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06C2D1-$06C2D8 LONG
+; $06C2D1-$06C2D8 LONG JUMP LOCATION
 Sprite_HumanMulti_1_Long:
 {
     PHB : PHK : PLB

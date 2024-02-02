@@ -5,7 +5,7 @@ org $0E8000 ; $078000-$07FFFF
 
 ; ==============================================================================
 
-; $07F540-$07F576 LONG
+; $07F540-$07F576 LONG JUMP LOCATION
 Sprite_NullifyHookshotDrag:
 {
     PHB : PHK : PLB
@@ -54,7 +54,7 @@ Sprite_NullifyHookshotDrag:
 
 ; ==============================================================================
     
-; $07F577-$07F5C2 LONG
+; $07F577-$07F5C2 LONG JUMP LOCATION
 Ancilla_CheckForAvailableSlot:
 {
     ; sees if the effect in question is already in play
@@ -144,7 +144,7 @@ pool Death_PlayerSwoon:
 
 ; ==============================================================================
 
-; $07F5E3-$07F64E LONG
+; $07F5E3-$07F64E LONG JUMP LOCATION
 Death_PlayerSwoon:
 {
     PHB : PHK : PLB
@@ -227,7 +227,7 @@ pool AddSwordBeam:
 
 ; ==============================================================================
 
-; $07F67B-$07F74C LONG
+; $07F67B-$07F74C LONG JUMP LOCATION
 AddSwordBeam:
 {
     ; \note SHOOT TEH BEAMZ
@@ -319,7 +319,7 @@ pool SwordBeam:
 
 ; ==============================================================================
 
-; $07F764-$07F8EA LONG
+; $07F764-$07F8EA LONG JUMP LOCATION
 SwordBeam:
 {
     PHB : PHK : PLB
@@ -512,7 +512,7 @@ pool SwordFullChargeSpark:
 
 ; ==============================================================================
 
-; $07F8FF-$07F960 LONG
+; $07F8FF-$07F960 LONG JUMP LOCATION
 SwordFullChargeSpark:
 {
     PHB : PHK : PLB
@@ -580,7 +580,7 @@ pool AncillaSpawn_SwordChargeSparkle:
 
 ; ==============================================================================
 
-; $07F979-$07FA36 LONG
+; $07F979-$07FA36 LONG JUMP LOCATION
 AncillaSpawn_SwordChargeSparkle:
 {
     PHB : PHK : PLB
@@ -723,7 +723,7 @@ SwordBeam_MoveVert:
 
 ; ==============================================================================
 
-; $07FA6F-$07FAE9 LONG
+; $07FA6F-$07FAE9 LONG JUMP LOCATION
 Death_PrepFaint:
 {
     ; Something related to death mode and the spot light closing in...
@@ -776,7 +776,7 @@ Death_PrepFaint:
 
 ; ==============================================================================
 
-; $07FAEA-$07FAFD LONG
+; $07FAEA-$07FAFD LONG JUMP LOCATION
 ShopKeeper_RapidTerminateReceiveItem:
 {
     ; Causes receive item ancilla to hurry up and finish executing.
@@ -800,7 +800,7 @@ ShopKeeper_RapidTerminateReceiveItem:
 
 ; ==============================================================================
 
-; $07FAFE-$07FB79 LONG
+; $07FAFE-$07FB79 LONG JUMP LOCATION
 DashTremor_TwiddleOffset:
 {
 	LDY $0C72, X
@@ -964,7 +964,7 @@ pool Ancilla_SomarianBlockDivide:
 
 ; ==============================================================================
 
-; $07FD22-$07FD3B LONG
+; $07FD22-$07FD3B LONG JUMP LOCATION
 Link_CheckBunnyStatus:
 {
     LDA $5D : CMP.b #$02 : BNE .linkNotRecoiling
@@ -988,7 +988,7 @@ Link_CheckBunnyStatus:
 
 ; ==============================================================================
 
-; $07FD3C-$07FD51 LONG
+; $07FD3C-$07FD51 LONG JUMP LOCATION
 Ancilla_TerminateWaterfallSplashes:
 {
     ; \hardcoded
@@ -1013,7 +1013,7 @@ Ancilla_TerminateWaterfallSplashes:
 
     ; \note I think this routine is redundant, there are probably routines
     ; in bank 0x08 that can already handle this.
-; $07FD52-$07FD85 LONG
+; $07FD52-$07FD85 LONG JUMP LOCATION
 Ancilla_TerminateIfOffscreen:
 {
     LDA $0BFA, Y : STA $0C
@@ -1042,7 +1042,7 @@ Ancilla_TerminateIfOffscreen:
 
 ; ==============================================================================
 
-; $07FD86-$07FDA9 LONG
+; $07FD86-$07FDA9 LONG JUMP LOCATION
 Sprite_InitializeSecondaryItemMinigame:
 {
     PHX
@@ -1079,7 +1079,7 @@ Sprite_InitializeSecondaryItemMinigame:
 ; ==============================================================================
 
     ; Uses $1CF0 as the index for which message it shows.
-; $07FDAA-$07FDC3 LONG
+; $07FDAA-$07FDC3 LONG JUMP LOCATION
 Main_ShowTextMessage:
 {
     ; Are we in text mode? If so then end the routine.
@@ -1103,7 +1103,7 @@ Main_ShowTextMessage:
 
 ; ==============================================================================
 
-; $07FDC4-$07FDCE LONG
+; $07FDC4-$07FDCE LONG JUMP LOCATION
 Sprite_SpawnSparkleAncilla:
 {
 	PHB : PHK : PLB
@@ -1126,7 +1126,7 @@ Sprite_SpawnSparkleAncilla:
     ; are necessary or appropriate, and returns a carry flag state of clear
     ; to indicate that no 'underside' sprite should be drawn.
     
-; $07FDCF-$07FE71 LONG
+; $07FDCF-$07FE71 LONG JUMP LOCATION
 Bomb_CheckUndersideSpriteStatus:
 {
     ; this routine is a bomb exclusive

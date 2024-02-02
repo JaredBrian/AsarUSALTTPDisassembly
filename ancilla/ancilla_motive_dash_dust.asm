@@ -9,7 +9,7 @@ pool Ancilla_MotiveDashDust:
 
 ; ==============================================================================
 
-; $04ADF4-$04AE3D LONG
+; $04ADF4-$04AE3D LONG JUMP LOCATION
 Ancilla_MotiveDashDust:
 {
     PHB : PHK : PLB

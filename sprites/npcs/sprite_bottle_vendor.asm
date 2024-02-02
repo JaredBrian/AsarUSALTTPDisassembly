@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02EA71-$02EA78 LONG
+; $02EA71-$02EA78 LONG JUMP LOCATION
 Sprite_BottleVendorLong:
 {
     ; Bottle vendor (0x75)

@@ -10,7 +10,7 @@ incsrc "tagalong.asm"
 
 ; ==============================================================================
 
-; $04AC6B-$04ACF2 LONG
+; $04AC6B-$04ACF2 LONG JUMP LOCATION
 Ancilla_TerminateSelectInteractives:
 {
     PHB : PHK : PLB
@@ -101,7 +101,7 @@ Ancilla_TerminateSelectInteractives:
 
 ; ==============================================================================
 
-; $04ACF3-$04AD05 LONG
+; $04ACF3-$04AD05 LONG JUMP LOCATION
 Tagalong_Disable:
 {
     ; Get rid of the tagalong following Link if it's
@@ -152,7 +152,7 @@ Ancilla_GetCoords:
 
     ; \note Could this routine's placement indicate that dividing the blocks
     ; came later as a designed feature?
-; $04AD30-$04AD66 LONG
+; $04AD30-$04AD66 LONG JUMP LOCATION
 AddSomarianBlockDivide:
 {
     PHB : PHK : PLB
@@ -196,7 +196,7 @@ pool GiveRupeeGift:
 
 ; ==============================================================================
 
-; $04AD6C-$04ADC6 LONG
+; $04AD6C-$04ADC6 LONG JUMP LOCATION
 GiveRupeeGift:
 {
     ; This routine handles rupee gift
@@ -269,7 +269,7 @@ GiveRupeeGift:
 
 ; ==============================================================================
 
-; $04ADC7-$04ADF0 LONG
+; $04ADC7-$04ADF0 LONG JUMP LOCATION
 Ancilla_TerminateSparkleObjects:
 {
     PHX
@@ -317,7 +317,7 @@ pool Empty:
 
 ; ==============================================================================
 
-; $04AE40-$04AE7D LONG
+; $04AE40-$04AE7D LONG JUMP LOCATION
 Sprite_SpawnSuperficialBombBlast:
 {
     ; Create a blast that looks like a green bomb going off? (Somaria
@@ -352,7 +352,7 @@ Sprite_SpawnSuperficialBombBlast:
 
 ; ==============================================================================
 
-; $04AE7E-$04AE9F LONG
+; $04AE7E-$04AE9F LONG JUMP LOCATION
 Sprite_SpawnDummyDeathAnimation:
 {
     ; Used for the chicken swarm (has to be, I'm sure of it)
@@ -391,7 +391,7 @@ pool Sprite_SpawnMadBatterBolts:
 ; ==============================================================================
 
     ; \note Only used by the mad batter (naturally).
-; $04AEA8-$04AF31 LONG
+; $04AEA8-$04AF31 LONG JUMP LOCATION
 Sprite_SpawnMadBatterBolts:
 {
     JSL .attempt_bold_spawn
@@ -447,7 +447,7 @@ Sprite_SpawnMadBatterBolts:
 
 ; ==============================================================================
 
-; $04AF32-$04AF88 LONG
+; $04AF32-$04AF88 LONG JUMP LOCATION
 Sprite_VerifyAllOnScreenDefeated:
 {
     PHX
@@ -535,7 +535,7 @@ Sprite_VerifyAllOnScreenDefeated:
 
 ; ==============================================================================
 
-; $04AF89-$04AFD5 LONG
+; $04AF89-$04AFD5 LONG JUMP LOCATION
 Sprite_ReinitWarpVortex:
 {
     PHB : PHK : PLB
@@ -580,7 +580,7 @@ Sprite_ReinitWarpVortex:
 
 ; ==============================================================================
 
-; $04AFD6-$04B01F LONG
+; $04AFD6-$04B01F LONG JUMP LOCATION
 InitSpriteSlots:
 {
     PHB: PHK : PLB
@@ -676,7 +676,7 @@ pool SpawnCrazyVillageSoldier:
 
 ; ==============================================================================
 
-; $04C02F-$04C087 LONG
+; $04C02F-$04C087 LONG JUMP LOCATION
 SpawnCrazyVillageSoldier:
 {
     ; Spawn the crazy nutjob that shows up when you run into the scared ladies outside
@@ -819,7 +819,7 @@ Overlord_CheckInRangeStatus:
 
 ; ==============================================================================
 
-; $04C114-$04C174 LONG
+; $04C114-$04C174 LONG JUMP LOCATION
 Dungeon_ResetSprites:
 {
     ; Moves current room's data into reserve (gets ready for transition)
@@ -952,7 +952,7 @@ Dungeon_CacheTransSprites:
 
 ; =============================================================
 
-; $04C22F-$04C28F LONG
+; $04C22F-$04C28F LONG JUMP LOCATION
 Sprite_DisableAll:
 {
     LDX.b #$0F
@@ -1096,7 +1096,7 @@ Dungeon_LoadSprites:
 
 ; ==============================================================================
 
-; $04C2F5-$04C326 LONG
+; $04C2F5-$04C326 LONG JUMP LOCATION
 Dungeon_ManuallySetSpriteDeathFlag:
 {
     PHB : PHK : PLB
@@ -1340,7 +1340,7 @@ Dungeon_LoadOverlord:
 
 ; =============================================================
 
-; $04C44E-$04C498 LONG
+; $04C44E-$04C498 LONG JUMP LOCATION
 Sprite_ResetAll:
 {
     JSL Sprite_DisableAll  ; $04C22F IN ROM
@@ -1396,7 +1396,7 @@ Sprite_ResetAll:
 
 ; ==============================================================================
 
-; $04C499-$04C4AB LONG
+; $04C499-$04C4AB LONG JUMP LOCATION
 Sprite_OverworldReloadAll:
 {
     JSL Sprite_DisableAll
@@ -1552,7 +1552,7 @@ LoadOverworldSprites:
 
 ; ==============================================================================
     
-; $04C58F-$04C5B6 LONG
+; $04C58F-$04C5B6 LONG JUMP LOCATION
 Sprite_RangeBasedActivation:
 {
     PHB : PHK : PLB
@@ -2010,7 +2010,7 @@ pool SpriteExplode_Execute:
 ; ==============================================================================
 
     ; Exploderatin' mode for bosses?
-; $04ED9F-$04EDA6 LONG
+; $04ED9F-$04EDA6 LONG JUMP LOCATION
 SpriteExplode_ExecuteLong:
 {
     PHB : PHK : PLB
@@ -2279,7 +2279,7 @@ SpriteExplode_Execute:
 
     ; \note Current thinking is that this is what kills sprites other than
     ; the boss when a boss is dying..
-; $04EF56-$04EF8A LONG
+; $04EF56-$04EF8A LONG JUMP LOCATION
 Sprite_SchedulePeersForDeath:
 {
     LDY.b #$0F
@@ -2537,7 +2537,7 @@ ScatterDebris_Draw:
 
 ; ==============================================================================
 
-; $04F1F8-$04F24A LONG
+; $04F1F8-$04F24A LONG JUMP LOCATION
 Sprite_SelfTerminate:
 {
     ; erase the sprite if this bit is set

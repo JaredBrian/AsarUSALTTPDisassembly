@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $04B020-$04B06D LONG
+; $04B020-$04B06D LONG JUMP LOCATION
 ZoraFireball_SpawnTailGarnish:
 {
     TXA : EOR $1A : AND.b #$03 : BNE .skip_frame
@@ -42,7 +42,7 @@ ZoraFireball_SpawnTailGarnish:
 
 ; ==============================================================================
 
-; $04B06E-$04B07E LONG
+; $04B06E-$04B07E LONG JUMP LOCATION
 Garnish_ExecuteUpperSlotsLong:
 {
     ; \note Maybe I'm nitpickin', but doesn't this seem a bit out of place
@@ -64,7 +64,7 @@ Garnish_ExecuteUpperSlotsLong:
 
 ; ==============================================================================
 
-; $04B07F-$04B08B LONG
+; $04B07F-$04B08B LONG JUMP LOCATION
 Garnish_ExecuteLowerSlotsLong:
 {
     LDA $0FB4 : BEQ .no_spawned_garnishes

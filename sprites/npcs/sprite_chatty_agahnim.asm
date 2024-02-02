@@ -3,7 +3,7 @@
 
 ; ==============================================================================
 
-; $0ED1FD-$0ED233 LONG
+; $0ED1FD-$0ED233 LONG JUMP LOCATION
 ChattyAgahnim_SpawnZeldaOnAltar:
 {
     LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
@@ -291,7 +291,7 @@ ChattyAgahnim_TeleportTowardCurtains:
 
 ; ==============================================================================
 
-; $0ED392-$0ED3B8 LONG
+; $0ED392-$0ED3B8 LONG JUMP LOCATION
 Sprite_SpawnAgahnimAfterImage:
 {
     LDY.b #$FF

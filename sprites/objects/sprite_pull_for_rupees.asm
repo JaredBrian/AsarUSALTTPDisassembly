@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E24D-$02E254 LONG
+; $02E24D-$02E254 LONG JUMP LOCATION
 Sprite_PullForRupeesLong:
 {
     ; PullForRupees sprite (0x33)

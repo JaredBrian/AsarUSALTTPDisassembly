@@ -25,7 +25,7 @@ pool Module_Death:
 
 ; ==============================================================================
 
-; $04F290-$04F2A1 JUMP LOCATION LONG
+; $04F290-$04F2A1 LONG JUMP LOCATION
 Module_Death:
 {
     ; Beginning of Module 0x12, Death Mode

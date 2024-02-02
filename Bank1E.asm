@@ -32,7 +32,7 @@ incsrc "sprite_mad_batter_bolt.asm"
 
 ; ==============================================================================
 
-; $0F0B11-$0F0B18 LONG
+; $0F0B11-$0F0B18 LONG JUMP LOCATION
 SpriteActive3_MainLong:
 {
     PHB : PHK : PLB
@@ -235,7 +235,7 @@ incsrc "sprite_shopkeeper.asm"
 
 ; ==============================================================================
 
-; $0F74F3-$0F7507 LONG
+; $0F74F3-$0F7507 LONG JUMP LOCATION
 Sprite_PlayerCantPassThrough:
 {
     LDA $0F60, X : PHA
@@ -516,7 +516,7 @@ Sprite3_PrepOamCoord:
 
 ; ==============================================================================
 
-; $0F7F8D-$0F7FDD LONG
+; $0F7F8D-$0F7FDD LONG JUMP LOCATION
 Sprite_DrawRippleIfInWater:
 {
     LDA $7FF9C2, X

@@ -5,7 +5,7 @@ org $0B8000 ; $058000-$05FFFF
 
 ; ==============================================================================
 
-; $05FE70-$05FFA7 LONG
+; $05FE70-$05FFA7 LONG JUMP LOCATION
 ; ZS replaces the latter half of this function.
 {
     ; Turn the subscreen off for the moment.
@@ -161,7 +161,7 @@ org $0B8000 ; $058000-$05FFFF
 
 ; ==============================================================================
 
-; $05FFA8-$05FFF5 LONG
+; $05FFA8-$05FFF5 LONG JUMP LOCATION
 WallMaster_SendPlayerToLastEntrance:
 {
     JSL Dungeon_SaveRoomData.justKeys

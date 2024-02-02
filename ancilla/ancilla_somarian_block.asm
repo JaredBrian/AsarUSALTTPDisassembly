@@ -692,7 +692,7 @@ pool SomarianBlock_PlayerInteraction:
 
 ; ==============================================================================
 
-; $0467E6-$0468F2 LONG
+; $0467E6-$0468F2 LONG JUMP LOCATION
 SomarianBlock_PlayerInteraction:
 {
     PHB : PHK : PLB

@@ -217,7 +217,7 @@ Sprite_ShopKeeper:
     dw $F04F ; = $F704F*
     dw $F05D ; = $F705D*
     dw $F074 ; = $F7074*
-    ]
+}
 
 ; $0F704F-$0F705C JUMP LOCATION
 {
@@ -498,7 +498,7 @@ pool ShopKeeper_SpawnInventoryItem:
 
 ; ==============================================================================
 
-; $0F71B3-$0F71F1 LONG
+; $0F71B3-$0F71F1 LONG JUMP LOCATION
 ShopKeeper_SpawnInventoryItem:
 {
     PHA : PHY

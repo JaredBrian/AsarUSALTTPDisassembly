@@ -135,7 +135,7 @@ Ancilla_SetSfxPan:
 
 ; ==============================================================================
 
-; $0400B3-$04019E LONG
+; $0400B3-$04019E LONG JUMP LOCATION
 AddFireRodShot:
 {
     LDY.b #$01
@@ -353,7 +353,7 @@ SomarianBlast_SpawnCentrifugalQuad:
 
 ; ==============================================================================
 
-; $040242-$04024C LONG
+; $040242-$04024C LONG JUMP LOCATION
 Ancilla_Main:
 {
     PHB : PHK : PLB
@@ -1176,7 +1176,7 @@ Ancilla_CheckSpriteCollision:
 
 ; ==============================================================================
 
-; $040DA2-$040DA9 LONG
+; $040DA2-$040DA9 LONG JUMP LOCATION
 Ancilla_CheckSpriteCollisionLong:
 {
     PHB : PHK : PLB
@@ -2029,7 +2029,7 @@ Ancilla_PrepAdjustedOamCoord:
 
 ; ==============================================================================
 
-; $0476D9-$0476E0 LONG
+; $0476D9-$0476E0 LONG JUMP LOCATION
 Ancilla_PrepOamCoordLong:
 {
     PHB : PHK : PLB
@@ -2083,7 +2083,7 @@ Ancilla_SetOam_XY:
 
 ; ==============================================================================
 
-; $0476FE-$047701 LONG
+; $0476FE-$047701 LONG JUMP LOCATION
 Ancilla_SetOam_XY_Long:
 {
     JSR Ancilla_SetOam_XY
@@ -2429,7 +2429,7 @@ Ancilla_AllocateOam_B_or_E:
 
 ; ==============================================================================
 
-; $04791A-$0479B9 LONG
+; $04791A-$0479B9 LONG JUMP LOCATION
 Tagalong_GetCloseToPlayer:
 {
     PHB : PHK : PLB
@@ -2744,7 +2744,7 @@ Ancilla_GetRadialProjection:
 
 ; ==============================================================================
 
-; $047B23-$047B2A LONG
+; $047B23-$047B2A LONG JUMP LOCATION
 Ancilla_GetRadialProjectionLong:
 {
     PHB : PHK : PLB

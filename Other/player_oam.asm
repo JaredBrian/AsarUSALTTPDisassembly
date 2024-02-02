@@ -2596,7 +2596,7 @@ PlayerOam_StraightStairsYOffset:
     dw  0,  0,  0,  0,  0,  0
 }
     
-; $06A18E-$06AAC2 LONG
+; $06A18E-$06AAC2 LONG JUMP LOCATION
 PlayerOam_Main:
 {
     ; $72 = 0x00 if not standing in water or grass, 0x02 otherwise

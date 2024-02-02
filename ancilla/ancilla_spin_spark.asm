@@ -184,9 +184,9 @@ Ancilla_SpinSpark:
 
 ; ==============================================================================
 
-    ; \note Takes the calculated radial projection and converts the values
-    ; to screen relative coordinates (oam coordinates)
-; $045A17-$045A4B LONG
+; \note Takes the calculated radial projection and converts the values
+; to screen relative coordinates (oam coordinates)
+; $045A17-$045A4B LONG JUMP LOCATION
 Sparkle_PrepOamCoordsFromRadialProjection:
 {
     REP #$20

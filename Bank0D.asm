@@ -23,7 +23,7 @@ incsrc "sprite_properties.asm"
 
 ; ==============================================================================
 
-; $06BA71-$06BA7F LONG
+; $06BA71-$06BA7F LONG JUMP LOCATION
 GetRandomInt:
 {
     ; Interesting to note two consecutive reads from differing locations.
@@ -119,7 +119,7 @@ pool_Babusu_Draw:
 
 ; ==============================================================================
 
-; $06BD20-$06BD45 LONG
+; $06BD20-$06BD45 LONG JUMP LOCATION
 Babusu_Draw:
 {
     PHB : PHK : PLB
@@ -188,7 +188,7 @@ pool_Wizzrobe_Draw:
 
 ; ==============================================================================
 
-; $06BE06-$06BE27 LONG
+; $06BE06-$06BE27 LONG JUMP LOCATION
 Wizzrobe_Draw:
 {
     PHB : PHK : PLB
@@ -228,7 +228,7 @@ pool Wizzbeam_Draw:
 
 ; ==============================================================================
 
-; $06BE68-$06BE85 LONG
+; $06BE68-$06BE85 LONG JUMP LOCATION
 Wizzbeam_Draw:
 {
     PHB : PHK : PLB
@@ -301,7 +301,7 @@ pool Freezor_Draw:
 
 ; ==============================================================================
 
-; $06BFA6-$06BFD5 LONG
+; $06BFA6-$06BFD5 LONG JUMP LOCATION
 Freezor_Draw:
 {
     PHB : PHK : PLB
@@ -382,7 +382,7 @@ pool Zazak_Draw:
 
 ; ==============================================================================
 
-; $06C0A6-$06C0F2 LONG
+; $06C0A6-$06C0F2 LONG JUMP LOCATION
 Zazak_Draw:
 {
     PHB : PHK : PLB
@@ -485,7 +485,7 @@ pool Stalfos_Draw:
 
 ; ==============================================================================
 
-; $06C21C-$06C26D LONG
+; $06C21C-$06C26D LONG JUMP LOCATION
 Stalfos_Draw:
 {
     LDA $0E10, X : BNE .easy_out
@@ -528,7 +528,7 @@ Stalfos_Draw:
 
 ; ==============================================================================
 
-; $06C26E-$06C2D0 LONG
+; $06C26E-$06C2D0 LONG JUMP LOCATION
 Probe_CheckTileSolidity:
 {
     LDA $0F20, X : CMP.b #$01 : REP #$30 : STZ $05 : BCC .on_bg2
@@ -637,7 +637,7 @@ pool CrystalMaiden_Draw:
 
 ; ==============================================================================
 
-; $06CE5F-$06CE90 LONG
+; $06CE5F-$06CE90 LONG JUMP LOCATION
 CrystalMaiden_Draw:
 {
     PHB : PHK : PLB
@@ -702,7 +702,7 @@ pool Priest_Draw:
 
 ; ==============================================================================
 
-; $06CF31-$06CF58 LONG
+; $06CF31-$06CF58 LONG JUMP LOCATION
 Priest_Draw:
 {
     ; called by two routines
@@ -754,7 +754,7 @@ pool FluteBoy_Draw:
 
 ; ==============================================================================
 
-; $06CFD9-$06CFFF LONG
+; $06CFD9-$06CFFF LONG JUMP LOCATION
 FluteBoy_Draw:
 {
     PHB : PHK : PLB
@@ -793,7 +793,7 @@ pool FluteAardvark_Draw:
 
 ; ==============================================================================
 
-; $06D040-$06D05F LONG
+; $06D040-$06D05F LONG JUMP LOCATION
 FluteAardvark_Draw:
 {
     PHB : PHK : PLB
@@ -852,7 +852,7 @@ pool DustCloud_Draw:
 
 ; ==============================================================================
 
-; $06D120-$06D141 LONG
+; $06D120-$06D141 LONG JUMP LOCATION
 DustCloud_Draw:
 {
     ; Part of medallion tablet code...
@@ -907,7 +907,7 @@ pool MedallionTablet_Draw:
 
 ; ==============================================================================
 
-; $06D1E2-$06D202 LONG
+; $06D1E2-$06D202 LONG JUMP LOCATION
 MedallionTablet_Draw:
 {
     PHB : PHK : PLB
@@ -992,7 +992,7 @@ pool Uncle_Draw:
 
 ; ==============================================================================
 
-; $06D391-$06D3EA LONG
+; $06D391-$06D3EA LONG JUMP LOCATION
 Uncle_Draw:
 {
     PHB : PHK : PLB
@@ -1067,7 +1067,7 @@ pool BugKidNet_Draw:
 
 ; ==============================================================================
 
-; $06D47B-$06D49E LONG
+; $06D47B-$06D49E LONG JUMP LOCATION
 BugNetKid_Draw:
 {
     PHB : PHK : PLB
@@ -1153,7 +1153,7 @@ pool Bomber_Draw:
 
 ; ==============================================================================
 
-; $06D56C-$06D58D LONG
+; $06D56C-$06D58D LONG JUMP LOCATION
 Bomber_Draw:
 {
     PHB : PHK : PLB
@@ -1202,7 +1202,7 @@ pool BomberPellet_DrawExplosion:
 
 ; ==============================================================================
 
-; $06D606-$06D630 LONG
+; $06D606-$06D630 LONG JUMP LOCATION
 BomberPellet_DrawExplosion:
 {
     PHB : PHK : PLB
@@ -1228,7 +1228,7 @@ BomberPellet_DrawExplosion:
 
 ; ==============================================================================
 
-; $06D631-$06D6A5 LONG
+; $06D631-$06D6A5 LONG JUMP LOCATION
 GoodBee_AttackOtherSprite:
 {
     ; Good bee can't attack any bosses except mothula, apparently.
@@ -1309,7 +1309,7 @@ pool Pikit_Draw:
 
 ; ==============================================================================
 
-; $06D6E6-$06D738 LONG
+; $06D6E6-$06D738 LONG JUMP LOCATION
 Pikit_Draw:
 {
     PHB : PHK : PLB
@@ -1596,7 +1596,7 @@ pool Kholdstare_Draw:
 
 ; ==============================================================================
 
-; $06D98F-$06DA05 LONG
+; $06D98F-$06DA05 LONG JUMP LOCATION
 Kholdstare_Draw:
 {
     PHB : PHK : PLB
@@ -1650,7 +1650,7 @@ Kholdstare_Draw:
 
 ; ==============================================================================
 
-; $06DA06-$06DA78 LONG
+; $06DA06-$06DA78 LONG JUMP LOCATION
 Sprite_SpawnFireball:
 {
     PHB : PHK : PLB
@@ -1746,7 +1746,7 @@ pool ArcheryGameGuy_Draw:
 
 ; ==============================================================================
 
-; $06DAC4-$06DB16 LONG
+; $06DAC4-$06DB16 LONG JUMP LOCATION
 ArcheryGameGuy_Draw:
 {
     PHB : PHK : PLB

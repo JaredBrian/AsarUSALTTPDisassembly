@@ -5,7 +5,7 @@ org $0A8000 ; $050000-$057FFF
 
 ; ==============================================================================
 
-; $053730-$05374A JUMP LOCATION LONG
+; $053730-$05374A LONG JUMP LOCATION
 Messaging_BirdTravel:
 {
     LDA $0200
@@ -26,7 +26,7 @@ Messaging_BirdTravel:
 
 ; ==============================================================================
 
-; $05374B-$053752 JUMP LOCATION LONG
+; $05374B-$053752 LONG JUMP LOCATION
 BirdTravel_InitGfx:
 {
     STZ $1AF0
@@ -38,7 +38,7 @@ BirdTravel_InitGfx:
 
 ; ==============================================================================
 
-; $053753-$05375A JUMP LOCATION LONG
+; $053753-$05375A LONG JUMP LOCATION
 BirdTravel_InitCounter:
 {
     LDA.b #$10 : STA $C8
@@ -69,7 +69,7 @@ pool BirdTravel_Main:
 
 ; ==============================================================================
 
-; $05378B-$0538C4 JUMP LOCATION LONG
+; $05378B-$0538C4 LONG JUMP LOCATION
 BirdTravel_Main:
 {
     LDA $C8 : BNE .waitForCounter
@@ -217,7 +217,7 @@ BirdTravel_Main:
 
 ; ==============================================================================
 
-; $0538C5-$053947 JUMP LOCATION LONG
+; $0538C5-$053947 LONG JUMP LOCATION
 ; ZS replaces most of this function.
 BirdTravel_LoadTargetArea:
 {
@@ -282,7 +282,7 @@ BirdTravel_LoadTargetArea:
 
 ; ==============================================================================
 
-; $053948-$053963 LONG
+; $053948-$053963 LONG JUMP LOCATION
 BirdTravel_LoadAmbientOverlay:
 {
     REP #$20
@@ -309,7 +309,7 @@ BirdTravel_LoadAmbientOverlay:
 
 ; ==============================================================================
 
-; $053964-$05398A JUMP LOCATION LONG
+; $053964-$05398A LONG JUMP LOCATION
 BirdTravel_Finish:
 {
     INC $13
@@ -343,7 +343,7 @@ BirdTravel_Finish:
 
 ; ==============================================================================
 
-; $05398B-$0539A1 JUMP LOCATION LONG
+; $05398B-$0539A1 LONG JUMP LOCATION
 Messaging_OverworldMap:
 {
     LDA $0200
@@ -370,7 +370,7 @@ OverworldMap_KeepDarkening:
 
 ; ==============================================================================
 
-; $0539A3-$053A2F JUMP LOCATION LONG
+; $0539A3-$053A2F LONG JUMP LOCATION
 OverworldMap_Backup:
 {
     ; Darken the screen until it's fully black.
@@ -448,7 +448,7 @@ OverworldMap_Backup:
 
 ; =============================================
 
-; $053A30-$053A79 JUMP LOCATION LONG
+; $053A30-$053A79 LONG JUMP LOCATION
 OverworldMap_InitGfx:
 {
     JSR ClearMode7Tilemap
@@ -504,7 +504,7 @@ OverworldMap_InitGfx:
 
 ; =============================================
 
-; $053A7A-$053A99 JUMP LOCATION LONG
+; $053A7A-$053A99 LONG JUMP LOCATION
 OverworldMap_DarkWorldTilemap:
 {
     ; Performs the necessary mods to the light world tilemap to produce
@@ -552,7 +552,7 @@ OverworldMap_LoadSprGfx:
 
 ; ==============================================================================
 
-; $053AAA-$053AB5 JUMP LOCATION LONG
+; $053AAA-$053AB5 LONG JUMP LOCATION
 OverworldMap_BrightenScreen:
 {
     INC $13
@@ -583,7 +583,7 @@ pool OverworldMap_Main:
 
 ; ==============================================================================
 
-; $053AE6-$053BD5 JUMP LOCATION LONG
+; $053AE6-$053BD5 LONG JUMP LOCATION
 OverworldMap_Main:
 {
     LDA $0636 : ASL A : BCC .dontToggleZoomLevel
@@ -784,7 +784,7 @@ OverworldMap_PrepExit:
 
 ; ==============================================================================
 
-; $053C54-$053C95 JUMP LOCATION LONG
+; $053C54-$053C95 LONG JUMP LOCATION
 ; ZS makes a jump in this function.
 OverworldMap_RestoreGfx:
 {
@@ -3117,7 +3117,7 @@ PalaceMap_3:
 
 ; ==============================================================================
 
-; $005695B-$056974 LONG
+; $005695B-$056974 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -3150,7 +3150,7 @@ PalaceMap_3:
     dw $0060, $FFA0
 }
 
-; $0056979-$056985 LONG
+; $0056979-$056985 LONG JUMP LOCATION
 {
     JSL $0AE986 ; $056986 IN ROM
     
@@ -3165,7 +3165,7 @@ PalaceMap_3:
 
 ; ==============================================================================
 
-; $0056986-$056A76 LONG
+; $0056986-$056A76 LONG JUMP LOCATION
 {
     REP #$30
     
@@ -4630,7 +4630,7 @@ FloorIndicator:
 ; =======================================================
 
 HUD.SuperBombIndicator:
-; $057DA8-$057E17 LONG
+; $057DA8-$057E17 LONG JUMP LOCATION
 {
     LDA $04B5 : BNE .BRANCH_ALPHA
     
@@ -4709,7 +4709,7 @@ pool Empty:
 
 ; ==============================================================================
 
-; $057E20-$057E64 LONG
+; $057E20-$057E64 LONG JUMP LOCATION
 Death_InitializeGameOverLetters:
 {
     PHB : PHK : PLB
@@ -4771,7 +4771,7 @@ pool Effect_Handler:
     
 ; ==============================================================================
 
-; $057E80-$057E86 LONG
+; $057E80-$057E86 LONG JUMP LOCATION
 Effect_Handler:
 {
     LDA $AD : ASL A : TAX

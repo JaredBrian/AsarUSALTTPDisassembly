@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0F68F1-$0F68F8 LONG
+; $0F68F1-$0F68F8 LONG JUMP LOCATION
 SpritePrep_OldMountainManLong:
 {
     PHB : PHK : PLB
@@ -65,7 +65,7 @@ SpritePrep_OldMountainMan:
 
 ; ==============================================================================
 
-; $0F6938-$0F6988 LONG
+; $0F6938-$0F6988 LONG JUMP LOCATION
 OldMountainMan_TransitionFromTagalong:
 {
     PHA

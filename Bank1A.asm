@@ -30,7 +30,7 @@ pool DrinkingGuy_Draw:
 
 ; ==============================================================================
 
-; $0D788C-$0D78AB LONG
+; $0D788C-$0D78AB LONG JUMP LOCATION
 DrinkingGuy_Draw:
 {
     PHB : PHK : PLB
@@ -48,7 +48,7 @@ DrinkingGuy_Draw:
 
 ; ==============================================================================
 
-; $0D792C-$0D7953 LONG
+; $0D792C-$0D7953 LONG JUMP LOCATION
 Lady_Draw:
 {
     ; Generally speaking, this draws a lady sprite... can be young or old,
@@ -106,7 +106,7 @@ pool Lanmola_SpawnShrapnel:
 {
 }
     
-; $0D7981-$0D79E5 LONG
+; $0D7981-$0D79E5 LONG JUMP LOCATION
 Lanmola_SpawnShrapnel:
 {
     ; Spawns Lanmolas' rocks when they pop out of the ground.
@@ -161,7 +161,7 @@ incsrc "sprite_cukeman.asm"
 
 ; ==============================================================================
 
-; $0D7B2C-$0D7B7A LONG
+; $0D7B2C-$0D7B7A LONG JUMP LOCATION
 RunningMan_SpawnDashDustGarnish:
 {
     INC $0CBA, X : LDA $0CBA, X : AND.b #$0F : BNE .delay
@@ -221,7 +221,7 @@ pool Overworld_SubstituteAlternateSecret:
 
 ; ==============================================================================
 
-; $0D7BDB-$0D7C30 LONG
+; $0D7BDB-$0D7C30 LONG JUMP LOCATION
 Overworld_SubstituteAlternateSecret:
 {
     PHB : PHK : PLB
@@ -294,7 +294,7 @@ pool Mothula_Draw:
 
 ; ==============================================================================
 
-; $0D7DAD-$0D7DB4 LONG
+; $0D7DAD-$0D7DB4 LONG JUMP LOCATION
 Mothula_DrawLong:
 {
     ; Something related to drawing Mothula (Gamoth?) or his beams?
@@ -403,7 +403,7 @@ pool BottleVendor_PayForGoodBee:
 
 ; ==============================================================================
 
-; $0D7E88-$0D7ECE LONG
+; $0D7E88-$0D7ECE LONG JUMP LOCATION
 BottleVendor_PayForGoodBee:
 {
     PHB : PHK : PLB
@@ -446,7 +446,7 @@ BottleVendor_PayForGoodBee:
 
 ; ==============================================================================
 
-; $0D7ECF-$0D7ED2 LONG
+; $0D7ECF-$0D7ED2 LONG JUMP LOCATION
 Sprite_ChickenLadyLong:
 {
     JSR Sprite_ChickenLady        
@@ -481,7 +481,7 @@ Sprite_ChickenLady:
 
 ; ==============================================================================
 
-; $0D7F00-$0D7F2A LONG
+; $0D7F00-$0D7F2A LONG JUMP LOCATION
 SpritePrep_DiggingGameGuy:
 {
     LDA $0D00, X : STA $00
@@ -524,7 +524,7 @@ pool Player_SpawnSmallWaterSplashFromHammer:
 
 ; ==============================================================================
 
-; $0D7F3C-$0D7FFD LONG
+; $0D7F3C-$0D7FFD LONG JUMP LOCATION
 Player_SpawnSmallWaterSplashFromHammer:
 {
     LDA $11 : ORA $02E4 : ORA $0FC1 : BNE .easy_out

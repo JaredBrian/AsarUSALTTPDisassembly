@@ -517,7 +517,7 @@
 
 ; ==================================================
 
-; $0DEC77-$0DEC9D LONG
+; $0DEC77-$0DEC9D LONG JUMP LOCATION
 Palette_SpriteAux3:
 {
     REP #$21
@@ -551,7 +551,7 @@ Palette_SpriteAux3:
 
 ; ==================================================
 
-; $0DEC9E-$0DECC4 LONG
+; $0DEC9E-$0DECC4 LONG JUMP LOCATION
 Palette_MainSpr:
 {
      ; Loads palettes for the commonly used sprites like fairys, blue / red creatures,
@@ -585,7 +585,7 @@ Palette_MainSpr:
 
 ; ==================================================
 
-; $0DECC5-$0DECE3 LONG
+; $0DECC5-$0DECE3 LONG JUMP LOCATION
 Palette_SpriteAux1:
 {
     REP #$31
@@ -608,7 +608,7 @@ Palette_SpriteAux1:
 
 ; ==================================================
 
-; $0DECE4-$0DED02 LONG
+; $0DECE4-$0DED02 LONG JUMP LOCATION
 Palette_SpriteAux2:
 {
     REP #$31
@@ -631,7 +631,7 @@ Palette_SpriteAux2:
 
 ; ==================================================
 
-; $0DED03-$0DED28 LONG
+; $0DED03-$0DED28 LONG JUMP LOCATION
 Palette_Sword:
 {
     ; Load sword palette
@@ -660,7 +660,7 @@ Palette_Sword:
 
 ; ==================================================
 
-; $0DED29-$0DED4E LONG
+; $0DED29-$0DED4E LONG JUMP LOCATION
 Palette_Shield:
 {
     ; Load shield palette
@@ -716,7 +716,7 @@ Palette_Unused:
 
 ; ==================================================
 
-; $0DED6E-$0DEDDC LONG
+; $0DED6E-$0DEDDC LONG JUMP LOCATION
 Palette_MiscSpr:
 {
      ; If we're outdoors do something else...
@@ -796,7 +796,7 @@ Palette_MiscSpr:
 
 ; ==================================================
 
-; $0DEDDD-$0DEDF4 LONG
+; $0DEDDD-$0DEDF4 LONG JUMP LOCATION
 Palette_PalaceMapSpr:
 {
     ; Load palettes for Palace Map sprite graphics.
@@ -825,7 +825,7 @@ Palette_PalaceMapSpr:
 ; $0DEDF5-$0DEDF8 DATA - glove colors (other than skin colored)
 dw $52F6, $0376
     
-; $0DEDF9-$0DEE39 LONG
+; $0DEDF9-$0DEE39 LONG JUMP LOCATION
 ; Palette_ChangeGloveColor:
 Palette_ArmorAndGloves:
 {
@@ -870,7 +870,7 @@ Palette_ArmorAndGloves:
 
 ; ==================================================
 
-; $0DEE3A-$0DEE51 LONG
+; $0DEE3A-$0DEE51 LONG JUMP LOCATION
 Palette_PalaceMapBg:
 {
     ; Much like the name implies, loads the palettes for
@@ -897,7 +897,7 @@ Palette_PalaceMapBg:
 
 ; =============================================
 
-; $0DEE52-$0DEE73 LONG
+; $0DEE52-$0DEE73 LONG JUMP LOCATION
 Palette_Hud:
 {
     REP #$21
@@ -925,7 +925,7 @@ Palette_Hud:
 
 ; =============================================
 
-; $0DEE74-$0DEEA7 LONG
+; $0DEE74-$0DEEA7 LONG JUMP LOCATION
 Palette_DungBgMain:
 {
     ; Note this resets the carry. (For the ADC below.)
@@ -972,7 +972,7 @@ Palette_DungBgMain:
 
 ; =============================================
 
-; $0DEEA8-$0DEEC6 LONG
+; $0DEEA8-$0DEEC6 LONG JUMP LOCATION
 Palette_OverworldBgAux3:
 {
     REP #$21
@@ -995,7 +995,7 @@ Palette_OverworldBgAux3:
 
 ; =============================================
 
-; $0DEEC7-$0DEEE7 LONG
+; $0DEEC7-$0DEEE7 LONG JUMP LOCATION
 Palette_OverworldBgMain:
 {
     REP #$21
@@ -1022,7 +1022,7 @@ Palette_OverworldBgMain:
 
 ; =============================================
 
-; $0DEEE8-$0DEF0B LONG
+; $0DEEE8-$0DEF0B LONG JUMP LOCATION
 Palette_OverworldBgAux1:
 {
     REP #$21
@@ -1046,7 +1046,7 @@ Palette_OverworldBgAux1:
 
 ; =============================================
 
-; $0DEF0C-$0DEF2F LONG
+; $0DEF0C-$0DEF2F LONG JUMP LOCATION
 Palette_OverworldBgAux2:
 {
     REP #$21
@@ -1180,7 +1180,7 @@ Palette_ArbitraryLoad:
 
 ; ==============================================================================
 
-; $0DEF96-$0DF031 LONG
+; $0DEF96-$0DF031 LONG JUMP LOCATION
 Palette_SelectScreen:
 {
     ; This routine sets up the palettes for each of the three Links on the
@@ -1398,7 +1398,7 @@ Palette_SelectScreenShield:
     ; \task Perhaps rename this routine when we have a better idea of what its
     ; exact use is. As it stands, it's named so due to the circumstances under
     ; which it is called.
-; $0DF0C2-$0DF107 LONG
+; $0DF0C2-$0DF107 LONG JUMP LOCATION
 Palette_AgahnimClones:
 {
     ; The only place this routine is referenced from is the

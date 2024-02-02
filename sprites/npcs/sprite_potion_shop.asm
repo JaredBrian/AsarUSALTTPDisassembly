@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02F521-$02F528 LONG
+; $02F521-$02F528 LONG JUMP LOCATION
 SpritePrep_PotionShopLong:
 {
     ; Sprite preparation for magic shop dude and items...
@@ -148,7 +148,7 @@ PotionShop_SpawnRedPotion:
 
 ; ==============================================================================
 
-; $02F62B-$02F632 LONG
+; $02F62B-$02F632 LONG JUMP LOCATION
 Sprite_PotionShopLong:
 {
     ; Magic shop dude and his items
@@ -633,7 +633,7 @@ pool Shopkeeper_Draw:
 
 ; ==============================================================================
 
-; $02F91B-$02F93E LONG
+; $02F91B-$02F93E LONG JUMP LOCATION
 Shopkeeper_Draw:
 {
     PHB : PHK : PLB

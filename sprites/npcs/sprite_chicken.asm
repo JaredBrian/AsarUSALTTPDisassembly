@@ -230,7 +230,7 @@ Chicken_DrawDistressMarker:
 
 ; ==============================================================================
 
-; $03272F-$03278D LONG
+; $03272F-$03278D LONG JUMP LOCATION
 ; Draws the 4 little dots that appear above the cucco when you hit them.
 ; Each dot is 1 8x8 oam tile for a total of 4.
 Sprite_DrawDistressMarker:

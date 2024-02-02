@@ -1,9 +1,9 @@
 
 ; ==============================================================================
 
-    ; \task These might need reinitialization, we should check up on what their
-    ; specific function is.
-; $0F0000-$0F0038 LONG
+; \task These might need reinitialization, we should check up on what their
+; specific function is.
+; $0F0000-$0F0038 LONG JUMP LOCATION
 HelmasaurKing_Initialize:
 {
     LDA.b #$30 : STA $0B2F

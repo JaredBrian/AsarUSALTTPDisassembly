@@ -22,7 +22,7 @@ pool SpritePrep_ArcheryGameGuy:
 
 ; ==============================================================================
 
-; $028192-$0281FE LONG
+; $028192-$0281FE LONG JUMP LOCATION
 SpritePrep_ArcheryGameGuy:
 {
     ; Shooting gallery guy initialization routine
@@ -237,7 +237,8 @@ ArcheryGameGuy_Main:
     LDA.b #$87
     
     BRA .show_message
-    
+}
+
 ; ==============================================================================
 
 ; $0282D4-$0283CE BRANCH LOCATION

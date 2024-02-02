@@ -21,7 +21,7 @@ Messaging_Equipment:
 
 ; ==============================================================================
 
-; $06DD32-$06DD35 LONG
+; $06DD32-$06DD35 LONG JUMP LOCATION
 UpdateEquippedItemLong:
 {
     JSR UpdateHUD_updateEquippedItem
@@ -1085,7 +1085,7 @@ DrawItem:
 
 ; ==============================================================================
 
-; $06E395-$06E398 LONG
+; $06E395-$06E398 LONG JUMP LOCATION
 SearchForEquippedItemLong:
 {
     JSR SearchForEquippedItem

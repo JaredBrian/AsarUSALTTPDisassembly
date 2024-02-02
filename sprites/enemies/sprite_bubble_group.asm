@@ -31,7 +31,7 @@ pool SpritePrep_BubbleGroup:
 
 ; ==============================================================================
 
-; $0F4B0C-$0F4B8A LONG
+; $0F4B0C-$0F4B8A LONG JUMP LOCATION
 SpritePrep_BubbleGroup:
 {
     LDA $0D10, X : SEC : SBC.b #$0A : STA $0D10, X

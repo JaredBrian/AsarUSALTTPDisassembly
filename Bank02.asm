@@ -22,7 +22,7 @@ org $028000 ; $010000-$017FFF
 
 ; ==============================================================================
 
-; $010000-$010053 LONG
+; $010000-$010053 LONG JUMP LOCATION
 Intro_SetupScreen:
 {
     ; Indicate to NMI that updates to sprites will not be occurring
@@ -84,7 +84,7 @@ Intro_SetupScreen:
 
 ; ==============================================================================
 
-; $010054-$010115 LONG
+; $010054-$010115 LONG JUMP LOCATION
 Intro_ValidateSram:
 {
     REP #$30
@@ -217,7 +217,7 @@ AnimatedTileSheets:
 
 ; ==============================================================================
 
-; $010136-$010207 LONG
+; $010136-$010207 LONG JUMP LOCATION
 Module_LoadFile:
 {
     ; Beginning of Module 5, Loading Game Mode
@@ -345,7 +345,7 @@ Module_LoadFile:
     ; Bleed into the next function.
 }
 
-; $010208-$01021D LONG
+; $010208-$01021D LONG JUMP LOCATION
 LoadDungeonRoomRebuildHUD:
 {
     LDA.b #$00 : STA.l $7EC011
@@ -360,7 +360,7 @@ LoadDungeonRoomRebuildHUD:
     ; Bleed into the next function.
 }
 
-; $01021E-$0103B4 LONG
+; $01021E-$0103B4 LONG JUMP LOCATION
 Module_PreDungeon:
 {
     ; Beginning of Module 6: Predungeon Mode
@@ -573,7 +573,7 @@ Module_PreDungeon:
 
 ; ==============================================================================
 
-; $0103B5-$0103B8 LONG
+; $0103B5-$0103B8 LONG JUMP LOCATION
 CacheRoomEntryProperties_long:
 {
     JSR CacheRoomEntryProperties ; $010D81 IN ROM
@@ -890,7 +890,7 @@ PreOverworld_LoadProperties:
 
 ; ==============================================================================
 
-; $01056A-$010582 LONG
+; $01056A-$010582 LONG JUMP LOCATION
 AdjustBunnyLinkStatus:
 {
     ; Do we have the Moon pearl?
@@ -974,7 +974,7 @@ Credits_LoadScene_OverworldJumpTable
 
 ; ==============================================================================
 
-; $0105BA - $105C1 LONG
+; $0105BA-$0105C1 LONG JUMP LOCATION
 Credits_LoadScene_Overworld:
 {
     ; Note: ending sequence code
@@ -1156,7 +1156,7 @@ Credits_LoadScene_Overworld_LoadMap:
     RTS
 }
 
-; $0106B3-$0106BF LONG
+; $0106B3-$0106BF LONG JUMP LOCATION
 Credits_OperateScrollingAndTilemap:
 {
     JSL $0EAEA6 ; $072EA6 IN ROM
@@ -1170,7 +1170,7 @@ Credits_OperateScrollingAndTilemap:
     RTL
 }
 
-; $0106C0-$0106FC LONG
+; $0106C0-$0106FC LONG JUMP LOCATION
 Credits_LoadCoolBackground:
 {
     ; Not sure...
@@ -1216,7 +1216,7 @@ Credits_LoadCoolBackground:
 
 ; ==============================================================================
 
-; $0106FD-$01076B LONG
+; $0106FD-$01076B LONG JUMP LOCATION
 Credits_LoadScene_Dungeon:
 {
     ; This is only called from the ending module (1A)
@@ -1479,7 +1479,7 @@ pool Dungeon_HandleEdgeTransitionMovement:
 
 ; ==============================================================================
 
-; $0108C5-$0108DD LONG
+; $0108C5-$0108DD LONG JUMP LOCATION
 Dungeon_StartInterRoomTrans:
 {
     ; Forces Link to be moving on one axis (negates diagonal movement
@@ -2902,7 +2902,7 @@ Dungeon_TurnOffWater:
 
 ; ==============================================================================
 
-; $011032-$011049 LONG
+; $011032-$011049 LONG JUMP LOCATION
 Dungeon_TurnOffWaterActual:
 {
     LDA $B0
@@ -3267,7 +3267,7 @@ pool RepositionLinkAfterSpiralStairs:
 
 ; ==============================================================================
 
-; $01121A-$0112B0 LONG
+; $01121A-$0112B0 LONG JUMP LOCATION
 RepositionLinkAfterSpiralStairs:
 {
     SEP #$30
@@ -5431,7 +5431,7 @@ Mirror_Init:
 
 ; =============================================
 
-; $011E5F-$011E7F LONG
+; $011E5F-$011E7F LONG JUMP LOCATION
 {
     ; If Link is not currently in a mirror warp, return
     ; This seems silly though, because the only routine that references this
@@ -6093,7 +6093,7 @@ pool MilestoneItem_Flags:
 
 ; ==============================================================================
 
-; $0121B1-$0121E4 LONG
+; $0121B1-$0121E4 LONG JUMP LOCATION
 Dungeon_SaveRoomData:
 {
     LDA $040C : CMP.b #$FF : BEQ .notInPalace
@@ -7311,7 +7311,7 @@ Module09_09_OpenBigDoorFromExiting:
 
 ; ==============================================================================
 
-; $012D5C-$012D62 LONG
+; $012D5C-$012D62 LONG JUMP LOCATION
 Overworld_DoMapUpdate32x32_Long:
 {
     JSR Overworld_DoMapUpdate32x32
@@ -8054,7 +8054,7 @@ Overworld_LoadAndBuildScreen_long:
 
 ; ==============================================================================
 
-; $0131F4-$0131F9 LONG
+; $0131F4-$0131F9 LONG JUMP LOCATION
 Overworld_ReloadSubscreenOverlayAndAdvance_long:
 {
     JSR Overworld_ReloadSubscreenOverlay; $012F1E IN ROM
@@ -8076,7 +8076,7 @@ Overworld_MirrorWarp:
 
 ; ==============================================================================
 
-; $0131FF-$013216 LONG
+; $0131FF-$013216 LONG JUMP LOCATION
 Overworld_MirrorWarp_Main:
 {
     INC $0710
@@ -8191,7 +8191,7 @@ Overworld_FinishMirrorWarp:
 
 ; ==============================================================================
 
-; $0132D4-$0132E5 LONG
+; $0132D4-$0132E5 LONG JUMP LOCATION
 ; ZS replaces this whole function. - ZS Custom Overworld
 MirrorWarp_HandleCastlePyramidSubscreen:
 {
@@ -8212,7 +8212,7 @@ MirrorWarp_HandleCastlePyramidSubscreen:
 
 ; ==============================================================================
 
-; $0132E6-$013333 LONG
+; $0132E6-$013333 LONG JUMP LOCATION
 Overworld_DrawScreenAtCurrentMirrorPosition:
 {
     REP #$20
@@ -8257,7 +8257,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 
 ; ==============================================================================
 
-; $013334-$013409 LONG
+; $013334-$013409 LONG JUMP LOCATION
 ; ZS rewrites part of this function.
 MirrorWarp_LoadSpritesAndColors:
 {
@@ -8701,7 +8701,7 @@ QuadrantLayoutFlagBitfield:
 
 ; ==============================================================================
 
-; $0135DC-$01362D LONG
+; $0135DC-$01362D LONG JUMP LOCATION
 Dungeon_AdjustForRoomLayout:
 {
     PHB : PHK : PLB
@@ -8783,7 +8783,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; $01362E-$0136CC LONG
+; $01362E-$0136CC LONG JUMP LOCATION
 {
     REP #$20
 
@@ -8898,7 +8898,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; $0136CD-$01376D LONG
+; $0136CD-$01376D LONG JUMP LOCATION
 {
     REP #$20
 
@@ -9009,7 +9009,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; $01376E-$01381B LONG
+; $01376E-$01381B LONG JUMP LOCATION
 {
     REP #$20
 
@@ -9129,7 +9129,7 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; $01381C-$0138BC LONG
+; $01381C-$0138BC LONG JUMP LOCATION
 {
     PHB : PHK : PLB
 
@@ -9241,7 +9241,7 @@ Dungeon_AdjustForRoomLayout:
     RTL
 }
 
-; $0138BD-$0138F8 LONG
+; $0138BD-$0138F8 LONG JUMP LOCATION
 {
     LDA $A9 : EOR #$01 : STA $A9
 
@@ -9277,7 +9277,7 @@ Dungeon_AdjustForRoomLayout:
     RTL
 }
 
-; $0138F9-$013946 LONG
+; $0138F9-$013946 LONG JUMP LOCATION
 {
     LDA $A9 : EOR #$01 : STA $A9
 
@@ -10780,7 +10780,7 @@ Overworld_SetSongList_Pool:
 }
 ; =========================================
 
-; $014463-$0144BF LONG
+; $014463-$0144BF LONG JUMP LOCATION
 Overworld_SetSongList:
 {
     ; Interesting note on this routine:
@@ -10890,7 +10890,7 @@ Intro_InitBgSettings:
 
 ; ==============================================================================
 
-; $014533-$014545 LONG
+; $014533-$014545 LONG JUMP LOCATION
 Attract_LoadDungeonRoom:
 {
     ; Loads an entrance
@@ -10909,7 +10909,7 @@ Attract_LoadDungeonRoom:
 
 ; ==============================================================================
 
-; $014546-$01457A LONG
+; $014546-$01457A LONG JUMP LOCATION
 Attract_LoadDungeonGfxAndTiles:
 {
     STX $0AA3
@@ -11079,7 +11079,7 @@ Dungeon_LoadPalettes:
 ; ==============================================================================
 
 ; \unused Perhaps was used at one time, but not in the final build.
-; $01468E-$014691 LONG
+; $01468E-$014691 LONG JUMP LOCATION
 Overworld_LoadAreaPalettesLong:
 {
     JSR Overworld_LoadAreaPalettes
@@ -11220,7 +11220,7 @@ Overworld_CgramAuxToMain:
 
 ; ==============================================================================
 
-; $0147B8-$0147F1 LONG
+; $0147B8-$0147F1 LONG JUMP LOCATION
 {
     ; seems mode7 related... (hdma for mode 7 manipulation, I mean)
 
@@ -12287,7 +12287,7 @@ pool BirdTravel_LoadTargetAreaData:
 
 ; ==============================================================================
 
-; $016C39-$016CDC LONG
+; $016C39-$016CDC LONG JUMP LOCATION
 BirdTravel_LoadTargetAreaData:
 {
     PHB : PHK : PLB
@@ -12343,7 +12343,7 @@ shared Whirlpool_LoadTargetAreaData:
 
 ; ==============================================================================
 
-; $016CDD-$016CF7 LONG
+; $016CDD-$016CF7 LONG JUMP LOCATION
 BirdTravel_LoadTargetAreaPalettes:
 {
     JSR Overworld_LoadAreaPalettes
@@ -12378,7 +12378,7 @@ pool Whirlpool_LookUpAndLoadTargetArea:
 
 ; ==============================================================================
 
-; $016D08-$016D24 LONG
+; $016D08-$016D24 LONG JUMP LOCATION
 Whirlpool_LookUpAndLoadTargetArea:
 {
     PHB : PHK : PLB

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0D75A5-$0D75AC LONG
+; $0D75A5-$0D75AC LONG JUMP LOCATION
 Sprite_WaterfallLong:
 {
     ; Waterfall sprite

@@ -31,7 +31,7 @@ pool Hobo_Draw:
 
 ; ==============================================================================
 
-; $026A60-$026A80 LONG
+; $026A60-$026A80 LONG JUMP LOCATION
 Hobo_Draw:
 {
     PHB : PHK : PLB
@@ -53,7 +53,7 @@ Hobo_Draw:
 
 ; ==============================================================================
 
-; $026A81-$026A9C LONG
+; $026A81-$026A9C LONG JUMP LOCATION
 Landmine_CheckDetonationFromHammer:
 {
     LDA $0301 : AND.b #$0A : BEQ .player_not_using_hammer
@@ -76,7 +76,7 @@ Landmine_CheckDetonationFromHammer:
 
 ; ==============================================================================
 
-    ; *26A9D-$26B62 LONG
+; $026A9D-$026B62 LONG JUMP LOCATION
 EasterEgg_BageCode:
 {
     ; Code that utilizes the player's name (hidden, secret, awesome!!)
@@ -181,7 +181,7 @@ EasterEgg_BageCode:
 
 ; ==============================================================================
 
-; $026B63-$026BA9 LONG
+; $026B63-$026BA9 LONG JUMP LOCATION
 Bomb_ProjectSpeedTowardsPlayer:
 {
     LDX.b #$00
@@ -219,12 +219,12 @@ Bomb_ProjectSpeedTowardsPlayer:
 
 ; ==============================================================================
 
-    ; \note The name of this routine has more to do with its only caller than
-    ; with what it actually does. Anybody could call this and it would do the
-    ; same thing regardless. However, the only caller of this subroutine
-    ; replaced the player's coordinates with an ancillary object's coordinates
-    ; (specifically, only bombs call this routine's caller).
-; $026BAA-$026BB2 LONG
+; \note The name of this routine has more to do with its only caller than
+; with what it actually does. Anybody could call this and it would do the
+; same thing regardless. However, the only caller of this subroutine
+; replaced the player's coordinates with an ancillary object's coordinates
+; (specifically, only bombs call this routine's caller).
+; $026BAA-$026BB2 LONG JUMP LOCATION
 Bomb_ProjectReflexiveSpeedOntoSpriteLong:
 {
     PHB : PHK : PLB
@@ -255,7 +255,7 @@ pool Sprite_DrawLargeWaterTurbulence:
 
 ; ==============================================================================
 
-; $026BE5-$026C1B LONG
+; $026BE5-$026C1B LONG JUMP LOCATION
 Sprite_DrawLargeWaterTurbulence:
 {
     PHB : PHK : PLB

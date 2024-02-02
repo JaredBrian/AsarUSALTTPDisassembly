@@ -13,7 +13,7 @@ pool AddSomarianBlock:
 
 ; ==============================================================================
 
-; $046078-$046160 LONG
+; $046078-$046160 LONG JUMP LOCATION
 AddSomarianBlock:
 {
     PHB : PHK : PLB

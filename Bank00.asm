@@ -129,7 +129,7 @@ pool Module_MainRouting:
 
 ; ==============================================================================
 
-; $0000B5-$0000C8 LONG
+; $0000B5-$0000C8 LONG JUMP LOCATION
 Module_MainRouting:
 {
     ; This variable determines which module we're in.
@@ -446,7 +446,7 @@ Vector_IRQ:
     RTI
 }
 
-; $000333-$0003D0 LONG
+; $000333-$0003D0 LONG JUMP LOCATION
 Vram_EraseTilemaps:
 {
     ; this routine might be optimizable
@@ -858,7 +858,7 @@ Main_PrepSpritesForNmi:
 
 ; ==============================================================================
 
-; $000781-$00079B LONG
+; $000781-$00079B LONG JUMP LOCATION
 UseImplicitRegIndexedLocalJumpTable:
 {
     ; Parameters: Stack, A
@@ -997,7 +997,7 @@ Startup_InitializeMemory:
 
 ; ==============================================================================
 
-; $00082E-$000887 LONG
+; $00082E-$000887 LONG JUMP LOCATION
 Overworld_GetTileAttrAtLocation:
 {
     ; inputs:
@@ -1173,7 +1173,7 @@ Sound_LoadIntroSongBank:
 
 ; ==============================================================================
 
-; $000913-$000924 LONG
+; $000913-$000924 LONG JUMP LOCATION
 Sound_LoadLightWorldSongBank:
 {
     ; $00[3] = $1A9EF5, which is $D1EF5 in Rom
@@ -1216,7 +1216,7 @@ Sound_LoadLightWorldSongBank:
 
 ; ==============================================================================
 
-; $00093D-$000949 LONG
+; $00093D-$000949 LONG JUMP LOCATION
 EnableForceBlank:
 {
     ; Bring the screen into forceblank
@@ -1231,7 +1231,7 @@ EnableForceBlank:
 
 ; ==============================================================================
 
-; $00094A-$0009C1 LONG
+; $00094A-$0009C1 LONG JUMP LOCATION
 Main_SaveGameFile:
 {
     ; Loads Ram into SRAM, calculates an inverse checksum
@@ -2520,7 +2520,7 @@ NMI_UpdateStarTiles:
 
 ; ==============================================================================
 
-; $0010E3-$0010E6 LONG
+; $0010E3-$0010E6 LONG JUMP LOCATION
 {
     JSR NMI_UploadTilemap
     
@@ -2529,7 +2529,7 @@ NMI_UpdateStarTiles:
 
 ; ==============================================================================
 
-; $0010E7-$0010EA LONG
+; $0010E7-$0010EA LONG JUMP LOCATION
 {
     ; Unused???
     
@@ -2540,7 +2540,7 @@ NMI_UpdateStarTiles:
 
 ; ==============================================================================
 
-; $0010EB-$00110E LONG
+; $0010EB-$00110E LONG JUMP LOCATION
 {
     ; UNUSED???
     
@@ -2569,7 +2569,7 @@ NMI_UpdateStarTiles:
 
 ; =============================================
 
-; $00113F-$0011C3 LONG
+; $00113F-$0011C3 LONG JUMP LOCATION
 {
     REP #$31
     
@@ -2621,7 +2621,7 @@ NMI_UpdateStarTiles:
 
 ; ==============================================================================
 
-; $0011C4-$0012A0 LONG
+; $0011C4-$0012A0 LONG JUMP LOCATION
 WaterFlood_BuildOneQuadrantForVRAM:
 {
     ; Seems to be used to update the tiles of an room (indoors)
@@ -3275,7 +3275,7 @@ Dungeon_QuadrantOffsets:
 
 ; ==============================================================================
 
-; $005231-$0052BD JUMP LOCATION LONG
+; $005231-$0052BD LONG JUMP LOCATION
 {  
     PHB : PHK : PLB
     
@@ -3398,7 +3398,7 @@ Dungeon_QuadrantOffsets:
 
 ; ==============================================================================
 
-; $0052C8-$0052FF LONG
+; $0052C8-$0052FF LONG JUMP LOCATION
 DecompSwordGfx:
 {
     PHB : PHK : PLB
@@ -3448,7 +3448,7 @@ DecompSwordGfx:
 
 ; ==============================================================================
 
-; $005308-$005336 LONG
+; $005308-$005336 LONG JUMP LOCATION
 DecompShieldGfx:
 {
     PHB : PHK : PLB
@@ -3490,7 +3490,7 @@ DecompShieldGfx:
 
 ; ==============================================================================
 
-; $005337-$005393 LONG
+; $005337-$005393 LONG JUMP LOCATION
 DecompDungAnimatedTiles:
 {
     ; Decompress Animated Tiles for Dungeons
@@ -3548,7 +3548,7 @@ DecompDungAnimatedTiles:
 
 ; ==============================================================================
 
-; $005394-$0053C5 LONG
+; $005394-$0053C5 LONG JUMP LOCATION
 DecompOwAnimatedTiles:
 {
     ; Decompress Animated Tiles for Overworld
@@ -3657,7 +3657,7 @@ DecompOwAnimatedTiles:
 
 ; ==============================================================================
 
-; $005423-$005468 LONG
+; $005423-$005468 LONG JUMP LOCATION
 Tagalong_LoadGfx:
 {
     ; Something of a tagalong graphics decompressor
@@ -3723,7 +3723,7 @@ pool GetAnimatedSpriteTile:
 
 ; ==============================================================================
 
-; $0054DB-$005536 LONG
+; $0054DB-$005536 LONG JUMP LOCATION
 GetAnimatedSpriteTile:
 {
     ; Inputs:
@@ -4004,7 +4004,7 @@ Do3To4HighAnimated:
 
 ; ==============================================================================
 
-; $00566E-$005787 LONG
+; $00566E-$005787 LONG JUMP LOCATION
 LoadTransAuxGfx:
 {
     PHB : PHK : PLB
@@ -4194,7 +4194,7 @@ LoadTransAuxGfx:
 
 ; ==============================================================================
 
-; $005788-$00580D LONG
+; $005788-$00580D LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -4330,7 +4330,7 @@ pool_AnimateMirrorWarp:
     db $00, $00, $00, $12, $13, $14, $00
 }
 
-; $005864-$005891 LONG
+; $005864-$005891 LONG JUMP LOCATION
 AnimateMirrorWarp:
 {
     ; Sets up the two low bytes of the decompression target address (0x4000)
@@ -4917,7 +4917,7 @@ pool Graphics_IncrementalVramUpload:
     
 ; ==============================================================================
 
-; $005EFF-$005F19 LONG
+; $005EFF-$005F19 LONG JUMP LOCATION
 Graphics_IncrementalVramUpload:
 {
     LDX $0412 : CPX.b #$10 : BEQ .finished
@@ -4936,7 +4936,7 @@ Graphics_IncrementalVramUpload:
 
 ; ==============================================================================
 
-; $005F1A-$005F4E LONG
+; $005F1A-$005F4E LONG JUMP LOCATION
 PrepTransAuxGfx:
 {
     ; Prepares the transition graphics to be transferred to VRAM during NMI
@@ -5076,7 +5076,7 @@ Do3To4Low16Bit:
 
 ; ==============================================================================
     
-; $006031-$006072 LONG
+; $006031-$006072 LONG JUMP LOCATION
 LoadNewSpriteGFXSet:
 {
     LDA.b #$7E : STA $02 : STA $05
@@ -5169,7 +5169,7 @@ db $00, $46, $39, $72, $40, $41, $39, $0F
 
 ; ==============================================================================
 
-; $00619B-$0062CF LONG
+; $00619B-$0062CF LONG JUMP LOCATION
 InitTilesets:
 {
     ; Summary of this routine:
@@ -5347,7 +5347,7 @@ InitTilesets:
 
 ; ==============================================================================
 
-; $0062D0-$00633A LONG
+; $0062D0-$00633A LONG JUMP LOCATION
 LoadDefaultGfx:
 {    
     ; The subroutine loads some default sprite graphics into VRAM
@@ -5455,7 +5455,7 @@ DecompAndDirectCopy:
 
 ; ==============================================================================
 
-; $00636D-$006383 LONG
+; $00636D-$006383 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -5477,7 +5477,7 @@ DecompAndDirectCopy:
 
 ; ==============================================================================
 
-; $006384-$006398 LONG
+; $006384-$006398 LONG JUMP LOCATION
 Graphics_LoadCommonSprLong:
 {
     PHB : PHK : PLB
@@ -5497,7 +5497,7 @@ Graphics_LoadCommonSprLong:
 
 ; =============================================
 
-; $006399-$0063D1 LONG
+; $006399-$0063D1 LONG JUMP LOCATION
 CopyMode7Chr: ; decent name?
 {
     ; appears to write the mode 7 chr data to vram
@@ -5566,7 +5566,7 @@ CopyMode7Chr: ; decent name?
 ; TODO: Verify the naming of this, but pretty confident that it's good
 ; these days.
 
-; $0063FA-$0064E8 LONG
+; $0063FA-$0064E8 LONG JUMP LOCATION
 Graphics_LoadChrHalfSlot:
 {
     ; $AAA is 0, return
@@ -5712,7 +5712,7 @@ Graphics_LoadChrHalfSlot:
 
 ; =============================================
 
-; 00$64E9-$006555 LONG
+; 00$64E9-$006555 LONG JUMP LOCATION
 LoadSelectScreenGfx:
 {
     ; The base address for OAM data will be (2 << 14) = $8000 (byte) in vram
@@ -5808,7 +5808,7 @@ LoadSelectScreenGfx:
 
 ; =============================================
 
-; $006556-$006582 LONG
+; $006556-$006582 LONG JUMP LOCATION
 CopyFontToVram:
 {
     ; copies font graphics to VRAM (for BG3)
@@ -6375,7 +6375,7 @@ Decomp:
 
 ; =============================================
 
-; $00690C-$0069E3 LONG
+; $00690C-$0069E3 LONG JUMP LOCATION
 PaletteFilter:
 {
     ; color filtering routine
@@ -6553,7 +6553,7 @@ FilterColors:
 
 ; =============================================
 
-; $006A49-$006AB5 LONG
+; $006A49-$006AB5 LONG JUMP LOCATION
 PaletteFilterUnused:
 {
     ; This routine and its companion routine below don't seem to be used in the game at all
@@ -6679,7 +6679,7 @@ FilterColorsEndpoint:
 
 ; ==============================================================================
 
-; $006B29-$006B5D LONG
+; $006B29-$006B5D LONG JUMP LOCATION
 Attract_ResetHudPalettes_4_and_5:
 {
     ; Zeroes out BP1 (first half) in the cgram buffer and sets $15 high
@@ -6707,7 +6707,7 @@ Attract_ResetHudPalettes_4_and_5:
 
 ; ==============================================================================
 
-; $006B5E-$006BC4 LONG
+; $006B5E-$006BC4 LONG JUMP LOCATION
 PaletteFilterHistory:
 {
     REP #$30
@@ -6766,7 +6766,7 @@ PaletteFilterHistory:
 ; ==============================================================================
 
 ; TODO: This probably needs a better name.
-; $006BC5-$006BF1 LONG
+; $006BC5-$006BF1 LONG JUMP LOCATION
 PaletteFilter_WishPonds:
 {
     ; Put BG2 on the subscreen? What?
@@ -6811,7 +6811,7 @@ PaletteFilter_WishPonds:
 
 ; ==============================================================================
 
-; $006BF2-$006C0C LONG
+; $006BF2-$006C0C LONG JUMP LOCATION
 Palette_Restore_SP5F:
 {
     REP #$20
@@ -6843,7 +6843,7 @@ Palette_Restore_SP5F:
 
 ; ==============================================================================
 
-; $006C0D-$006C53 LONG
+; $006C0D-$006C53 LONG JUMP LOCATION
 Palette_Filter_SP5F:
 {
     JSR .filter
@@ -6919,7 +6919,7 @@ pool KholdstareShell_PaletteFiltering:
 
 ; ==============================================================================
 
-; $006C79-$006CC3 LONG
+; $006C79-$006CC3 LONG JUMP LOCATION
 KholdstareShell_PaletteFiltering:
 {
     LDA $B0 : BEQ .initialize
@@ -6971,7 +6971,7 @@ pool PaletteFilter_Agahnim:
 
 ; ==============================================================================
 
-; $006CCA-$006D18 LONG
+; $006CCA-$006D18 LONG JUMP LOCATION
 PaletteFilter_Agahnim:
 {
     ; \parameters:
@@ -7076,7 +7076,7 @@ PaletteFilter_Agahnim:
 
 ; =============================================
 
-; $006D7C-$006DB0 LONG
+; $006D7C-$006DB0 LONG JUMP LOCATION
 {
     REP #$30
     
@@ -7116,7 +7116,7 @@ PaletteFilter_Agahnim:
 
 ; ==============================================================================
 
-; $006DB1-$006DC9 LONG
+; $006DB1-$006DC9 LONG JUMP LOCATION
 {
     REP #$30
     
@@ -7276,7 +7276,7 @@ MirrorGFXDecompress:
 
 ; =============================================
 
-; $006EE7-$006EF0 LONG
+; $006EE7-$006EF0 LONG JUMP LOCATION
 MirrorWarp_RunAnimationSubmodules:
 {
     DEC $06BB : BNE MirrorGFXDecompress_return
@@ -7285,7 +7285,7 @@ MirrorWarp_RunAnimationSubmodules:
         ; Bleeds into the next function.
 }
 
-; $006EF1-$006F89 LONG
+; $006EF1-$006F89 LONG JUMP LOCATION
 PaletteFilter_BlindingWhite:
 {
     REP #$30
@@ -7364,7 +7364,7 @@ PaletteFilter_BlindingWhite:
 
 ; =============================================
 
-; $006F8A-$006F96 LONG
+; $006F8A-$006F96 LONG JUMP LOCATION
 {
     REP #$30
     
@@ -7378,7 +7378,7 @@ PaletteFilter_BlindingWhite:
 
 ; =============================================
 
-; $006F97-$00700B LONG
+; $006F97-$00700B LONG JUMP LOCATION
 WhirlpoolSaturateBlue:
 {
     ; Causes all the colors in the palette to saturate their blue component (saturated = 0x1F)
@@ -7439,7 +7439,7 @@ WhirlpoolSaturateBlue:
 
 ; =============================================
 
-; $00700C-$007049 LONG
+; $00700C-$007049 LONG JUMP LOCATION
 WhirlpoolIsolateBlue:
 {
     ; Cycles through all colors in the palette and decrements the red and green components of
@@ -7477,7 +7477,7 @@ WhirlpoolIsolateBlue:
 
 ; =============================================
 
-; $00704A-$0070C6 LONG
+; $00704A-$0070C6 LONG JUMP LOCATION
 WhirlpoolRestoreBlue:
 {
     ; Restores the blue components in the palette colors to their original states
@@ -7534,7 +7534,7 @@ WhirlpoolRestoreBlue:
 
 ; =============================================
 
-; $0070C7-$007131 LONG
+; $0070C7-$007131 LONG JUMP LOCATION
 WhirlpoolRestoreRedGreen:
 {
     ; restores the red and green component levels of the palette's colors
@@ -7598,7 +7598,7 @@ PaletteFilter_EasyOut:
     RTL
 }
 
-; $007135 ENTRY POINT LONG
+; $007135 ENTRY POINT LONG JUMP LOCATION
 PaletteFilter_Restore_Strictly_Bg_Subtractive:
 {
     REP #$30
@@ -7632,7 +7632,7 @@ PaletteFilter_Restore_Strictly_Bg_Subtractive:
 
 ; ==============================================================================
 
-; $007169-$007182 LONG
+; $007169-$007182 LONG JUMP LOCATION
 PaletteFilter_Restore_Strictly_Bg_Additive:
 {
     REP #$30
@@ -7653,7 +7653,7 @@ PaletteFilter_Restore_Strictly_Bg_Additive:
 
 ; ==============================================================================
 
-; $007183-$0071CE LONG
+; $007183-$0071CE LONG JUMP LOCATION
 PaletteFilter_IncreaseTrinexxRed:
 {
     ; increases the red component in the sprite palette of Trinexx, or one of his parts
@@ -7702,7 +7702,7 @@ PaletteFilter_IncreaseTrinexxRed:
 
 ; ==============================================================================
 
-; $0071CF-$007206 LONG
+; $0071CF-$007206 LONG JUMP LOCATION
 PaletteFilter_RestoreTrinexxRed:
 {
     LDA $04BE : BNE IncreaseTrinexxRed_countdown
@@ -7730,7 +7730,7 @@ PaletteFilter_RestoreTrinexxRed:
 
 ; ==============================================================================
 
-; $007207-$007252 LONG
+; $007207-$007252 LONG JUMP LOCATION
 PaletteFilter_IncreaseTrinexxBlue:
 {
     ; increases the blue component of trinexx or one of his parts by one
@@ -7780,7 +7780,7 @@ PaletteFilter_IncreaseTrinexxBlue:
 
 ; ==============================================================================
 
-; *$007253-$00728A LONG
+; *$007253-$00728A LONG JUMP LOCATION
 PaletteFilter_RestoreTrinexxBlue:
 {
     LDA $04BF : BNE IncreaseTrinexxBlue_countdown
@@ -7897,7 +7897,7 @@ pool ConfigureSpotlightTable:
 
 ; ==============================================================================
 
-; $007312-$007426 LONG
+; $007312-$007426 LONG JUMP LOCATION
 ConfigureSpotlightTable:
 {
     PHB : PHK : PLB
@@ -8033,7 +8033,7 @@ ConfigureSpotlightTable:
 
 ; =============================================
 
-; $007427-$00744A LONG
+; $007427-$00744A LONG JUMP LOCATION
 ResetSpotlightTable:
 {
     REP #$30
@@ -8149,7 +8149,7 @@ OrientLampData:
     RTL
 }
 
-; $007567-$007648 LONG
+; $007567-$007648 LONG JUMP LOCATION
 OrientLampBg:
 {
     ; If necessary, this function orients BG1 (which would have lamp graphics on it) 
@@ -8253,7 +8253,7 @@ OrientLampBg:
 
 ; =============================================
 
-; $007649-$007733 LONG
+; $007649-$007733 LONG JUMP LOCATION
 Hdma_ConfigureWaterTable:
 {
     REP #$30
@@ -8386,7 +8386,7 @@ Hdma_ConfigureWaterTable:
 
 ; =============================================
 
-; $007734-$0077DF LONG
+; $007734-$0077DF LONG JUMP LOCATION
 {
     !leftFinal  = $00
     !scanline   = $04
@@ -8556,7 +8556,7 @@ Messaging_MainJumpTable:
 
 ; ==============================================================================
 
-; $00789A-$0078B0 LONG
+; $00789A-$0078B0 LONG JUMP LOCATION
 Messaging_Main:
 {
     LDX $11
@@ -8570,7 +8570,7 @@ Messaging_Main:
 
 ; ==============================================================================
 
-; $0078B1-$0078C5 JUMP LOCATION LONG
+; $0078B1-$0078C5 LONG JUMP LOCATION
 Messaging_PrayingPlayer:
 {
     ; for using messaging functions without being in module 0x0E
@@ -8588,7 +8588,7 @@ Messaging_PrayingPlayer:
 
 ; ==============================================================================
 
-; $0078C6-$0078DF JUMP LOCATION LONG
+; $0078C6-$0078DF LONG JUMP LOCATION
 PrayingPlayer_InitScene:
 {
     JSL Player_InitPrayingScene_HDMA
@@ -8604,7 +8604,7 @@ PrayingPlayer_InitScene:
 
 ; =============================================
 
-; $0078E0-$0078E8 JUMP LOCATION LONG
+; $0078E0-$0078E8 LONG JUMP LOCATION
 PrayingPlayer_FadeInScene:
 {
     ; Lightens scene until fully illuminated.
@@ -8620,7 +8620,7 @@ PrayingPlayer_FadeInScene:
 
 ; =============================================
 
-; $0078E9-$0078FA JUMP LOCATION LONG
+; $0078E9-$0078FA LONG JUMP LOCATION
 {
     LDA $B0
     
@@ -8634,7 +8634,7 @@ PrayingPlayer_FadeInScene:
 
 ; =============================================
 
-; $0078FB-$7910 JUMP LOCATION LONG
+; $0078FB-$7910 LONG JUMP LOCATION
 RefillHeathFromRedPotion:
 {
     JSL HUD.RefillHealth : BCC .BRANCH_ALPHA
@@ -8655,7 +8655,7 @@ RefillHeathFromRedPotion:
 
 ; =============================================
 
-; $007911-$007917 JUMP LOCATION LONG
+; $007911-$007917 LONG JUMP LOCATION
 {
     JSL HUD.RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
         RTL
@@ -8663,7 +8663,7 @@ RefillHeathFromRedPotion:
 
 ; ==============================================================================
 
-; $007918-$00792C JUMP LOCATION LONG
+; $007918-$00792C LONG JUMP LOCATION
 {
     JSL HUD.RefillHealth : BCC .alpha
         LDA.b #$08 : STA $11
@@ -8692,7 +8692,7 @@ RefillHeathFromRedPotion:
 
 ; ==============================================================================
 
-; $007945-$0079DC LONG
+; $007945-$0079DC LONG JUMP LOCATION
 PrepDungeonExit:
 {
     JSL SavePalaceDeaths
@@ -8792,7 +8792,7 @@ PrepDungeonExit:
 
 ; =============================================
     
-; $0079DD-$0079F9 LONG
+; $0079DD-$0079F9 LONG JUMP LOCATION
 SavePalaceDeaths:
 {
     PHX
@@ -8935,7 +8935,7 @@ Sprite_PaletteIndices:
 
 ; =============================================
 
-; $007C41-$007C9B LONG
+; $007C41-$007C9B LONG JUMP LOCATION
 Sprite_LoadGfxProperties:
 {
     PHB : PHK : PLB
@@ -9009,7 +9009,7 @@ Sprite_LoadGfxProperties:
 
 ; =============================================
 
-; $007DA4-$007DED LONG
+; $007DA4-$007DED LONG JUMP LOCATION
 Dungeon_InitStarTileChr:
 {
     ; Swaps star tiles, bitches!
@@ -9072,7 +9072,7 @@ Dungeon_InitStarTileChr:
 
 ; ==============================================================================
 
-; $007DEE-$007E5D LONG
+; $007DEE-$007E5D LONG JUMP LOCATION
 Mirror_InitHdmaSettings:
 {
     STZ $9B
@@ -9118,7 +9118,7 @@ Mirror_InitHdmaSettings:
 
 ; ==============================================================================
 
-; $007E5E-$007F2E LONG
+; $007E5E-$007F2E LONG JUMP LOCATION
 MirrorHDMA:
 {
     INC $B0

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0E88A1-$0E88BB LONG
+; $0E88A1-$0E88BB LONG JUMP LOCATION
 Sprite_SpawnPhantomGanon:
 {
     ; Spawn one of Ganon's bats? Emerges from Agahnim, seems like.

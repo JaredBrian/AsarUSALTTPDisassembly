@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02FACA-$02FAD1 LONG
+; $02FACA-$02FAD1 LONG JUMP LOCATION
 Sprite_MadBatterLong:
 {
     ; Magic powder bat / lightning bolt he throws AI

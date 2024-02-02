@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02EE4B-$02EE52 LONG
+; $02EE4B-$02EE52 LONG JUMP LOCATION
 SpritePrep_MushroomLong:
 {
     PHB : PHK : PLB
@@ -38,7 +38,7 @@ SpritePrep_Mushroom:
 
 ; ==============================================================================
 
-; $02EE70-$02EE77 LONG
+; $02EE70-$02EE77 LONG JUMP LOCATION
 Sprite_MushroomLong:
 {
     PHB : PHK : PLB

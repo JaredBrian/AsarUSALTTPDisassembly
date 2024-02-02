@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06CBEA-$06CBF1 LONG
+; $06CBEA-$06CBF1 LONG JUMP LOCATION
 Sprite_MazeGameGuyLong:
 {
     PHB : PHK : PLB
@@ -283,7 +283,7 @@ pool MazeGameGuy_Draw:
 
 ; ==============================================================================
 
-; $06CDA7-$06CDCE LONG
+; $06CDA7-$06CDCE LONG JUMP LOCATION
 MazeGameGuy_Draw:
 {
     PHB : PHK : PLB

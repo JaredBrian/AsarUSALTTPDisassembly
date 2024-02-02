@@ -130,7 +130,8 @@ Sprite_BallGuy:
     PLA : ASL #2 : AND.b #$80 : STA $0EB0, X
     
     RTS
-    
+}
+
 ; ==============================================================================
 
 ; $0F6C31-$0F6C4A ALTERNATE ENTRY POINT
@@ -370,7 +371,7 @@ BallGuy_PlayBounceNoise:
 
 ; ==============================================================================
 
-; $0F6DC9-$0F6DE3 LONG
+; $0F6DC9-$0F6DE3 LONG JUMP LOCATION
 BullyAndBallGuy_SpawnBully:
 {
     LDA.b #$B9 : JSL Sprite_SpawnDynamically : BMI .spawn_failed

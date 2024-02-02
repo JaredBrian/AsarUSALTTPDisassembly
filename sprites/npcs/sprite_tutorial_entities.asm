@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02D53B-$02D542 LONG
+; $02D53B-$02D542 LONG JUMP LOCATION
 Sprite_TutorialEntitiesLong:
 {
     ; Tutorial Soldier (0x3F) / Evil Barrier (0x40)

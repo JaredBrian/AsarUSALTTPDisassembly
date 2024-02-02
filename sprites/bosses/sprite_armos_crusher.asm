@@ -1,9 +1,9 @@
 
 ; ==============================================================================
 
-    ; \note Looks like a handler for the lone pissed off armos knight after
-    ; you kill all his bros.
-; $0EEF76-$0EEF7D LONG
+; \note Looks like a handler for the lone pissed off armos knight after
+; you kill all his bros.
+; $0EEF76-$0EEF7D LONG JUMP LOCATION
 Sprite_ArmosCrusherLong:
 {
     PHB : PHK : PLB

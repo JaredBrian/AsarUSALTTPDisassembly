@@ -44,7 +44,7 @@ pool Overworld_Hole:
 
 ; ==============================================================================
 
-; $0DB860-$0DB8BE LONG
+; $0DB860-$0DB8BE LONG JUMP LOCATION
 Overworld_Hole:
 {
     ; routine used to find the entrance to send Link to when he falls into a hole
@@ -129,7 +129,7 @@ Overworld_Hole:
     db $4D, $5E, $65, $60, $57, $6B, $71, $71, $6D, $6E, $6F, $70, $6C, $72, $83, $84
     db $5E
 
-; $0DBBF4-$0DBD79 LONG
+; $0DBBF4-$0DBD79 LONG JUMP LOCATION
 Overworld_Entrance:
 {
     REP #$31
@@ -317,7 +317,7 @@ Overworld_Entrance:
 
 ; ==============================================================================
 
-; $0DBD7A-$0DBF1D LONG
+; $0DBD7A-$0DBF1D LONG JUMP LOCATION
 Overworld_Map16_ToolInteraction:
 {
     ; Handles Map16 interactions with sword, hammer, shovel, magic powder, etc
@@ -631,7 +631,7 @@ Overworld_GetLinkMap16Coords:
 
 ; ==================================================
 
-; $0DBF9D-$0DC054 LONG
+; $0DBF9D-$0DC054 LONG JUMP LOCATION
 Overworld_LiftableTiles:
 {
     ; Handles Map16 tiles that are liftable.
@@ -786,7 +786,7 @@ Overworld_SmashRockPile:
 
     RTL
     
-; $0DC063-$0DC075 LONG
+; $0DC063-$0DC075 LONG JUMP LOCATION
     .downOneTile
     
     REP #$30
@@ -801,7 +801,7 @@ Overworld_SmashRockPile:
     
     .presetCoords
     
-; $0DC076-$0DC0F7 LONG
+; $0DC076-$0DC0F7 LONG JUMP LOCATION
     .normalCoords
     
     REP #$30
@@ -883,7 +883,7 @@ Overworld_SmashRockPile:
 
 ; ==================================================
 
-; $0DC0F8-$0DC154 LONG
+; $0DC0F8-$0DC154 LONG JUMP LOCATION
 Overworld_ApplyBombToTiles:
 {
 	REP #$30
@@ -1050,7 +1050,7 @@ Overworld_ApplyBombToTile:
 
 ; ==================================================
 
-; $0DC21D-$0DC263 LONG
+; $0DC21D-$0DC263 LONG JUMP LOCATION
 Overworld_AlterWeathervane:
 {
     ; Called when the weather vane is about exploded.
@@ -1100,7 +1100,7 @@ Overworld_AlterWeathervane:
 
 ; ==============================================================================
 
-; $0DC264-$0DC2A6 LONG
+; $0DC264-$0DC2A6 LONG JUMP LOCATION
 Overworld_AlterGargoyleEntrance:
 {
     ; Seems to me that this routine does the tile modification for the
@@ -1143,7 +1143,7 @@ Overworld_AlterGargoyleEntrance:
 
 ; ==============================================================================
 
-; $0DC2A7-$0DC2F8 LONG
+; $0DC2A7-$0DC2F8 LONG JUMP LOCATION
 Overworld_CreatePyramidHole:
 {
     ; Does tile modification for... the pyramid of power hole
@@ -1311,7 +1311,7 @@ Overworld_RevealSecret:
 
 ; ==============================================================================
 
-; $0DC952-$0DC97B LONG
+; $0DC952-$0DC97B LONG JUMP LOCATION
 Overworld_DrawWoodenDoor:
 {
     BCS .draw_closed_door
@@ -1351,7 +1351,7 @@ Overworld_DrawWoodenDoor:
 
 ; ==============================================================================
 
-; $0DC97C-$0DC9DD LONG
+; $0DC97C-$0DC9DD LONG JUMP LOCATION
 Overworld_DrawPersistentMap16:
 {
     STA $7E2000, X
@@ -1497,7 +1497,7 @@ Overworld_DrawPersistentMap16:
 
 ; ==============================================================================
 
-; $0DCA9F-$0DCAB9 LONG
+; $0DCA9F-$0DCAB9 LONG JUMP LOCATION
 Overworld_DrawWarpTile:
 {
     REP #$30 
@@ -1532,7 +1532,7 @@ pool Overworld_EntranceSequence:
 
 ; ==============================================================================
 
-; $0DCAC4-$0DCAD3 LONG
+; $0DCAC4-$0DCAD3 LONG JUMP LOCATION
 Overworld_EntranceSequence:
 {
     ; The input to the function is which animation is currently ongoing ($04C6 I think)

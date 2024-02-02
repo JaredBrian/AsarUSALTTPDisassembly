@@ -212,7 +212,7 @@ DiggingGameGuy_ComeBackLater:
 
 ; ==============================================================================
 
-; $0EFD4B-$0EFD5B LONG
+; $0EFD4B-$0EFD5B LONG JUMP LOCATION
 DiggingGameGuy_AttemptPrizeSpawnLong:
 {
     PHB : PHK : PLB

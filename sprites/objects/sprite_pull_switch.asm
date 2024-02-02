@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02D6BC-$02D6D3 LONG
+; $02D6BC-$02D6D3 LONG JUMP LOCATION
 Sprite_PullSwitch:
 {
     ; Switch / Lever (0x04, 0x05, 0x06, 0x07) That can be pulled in puzzles.

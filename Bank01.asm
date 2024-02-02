@@ -720,7 +720,7 @@ Dungeon_DrawObjectOffsets:
 
 ; ==============================================================================
 
-; $00873A-$0088E3 LONG
+; $00873A-$0088E3 LONG JUMP LOCATION
 Dungeon_LoadRoom:
 {
     ; Loads dungeon room from start to finish.
@@ -8083,7 +8083,7 @@ Dungeon_LoadAdjacentRoomDoors:
 
 ; ==============================================================================
 
-; $00B83E-$00B8A7 LONG
+; $00B83E-$00B8A7 LONG JUMP LOCATION
 Dungeon_ApplyOverlay:
 {
     REP #$30
@@ -8173,7 +8173,7 @@ Dungeon_LoadAttrSelectable_jumpTable:
 
 ; ==============================================================================
 
-; $00B8B4-$00B8BE LONG
+; $00B8B4-$00B8BE LONG JUMP LOCATION
 Dungeon_LoadAttrSelectable:
 {
     LDA $0200 : ASL A : TAX
@@ -8193,7 +8193,7 @@ Dungeon_LoadAttrSelectable:
     !tileOffset    = $B2
     !attrOffset    = $B4
 
-; $00B8BF-$00B8E2 LONG
+; $00B8BF-$00B8E2 LONG JUMP LOCATION
 Dungeon_LoadAttrTable:
 {
     REP #$20
@@ -9279,7 +9279,7 @@ Dungeon_InitBarrierAttr:
 
 ; ==============================================================================
 
-; $00C22A-$00C27C LONG
+; $00C22A-$00C27C LONG JUMP LOCATION
 Dungeon_ToggleBarrierAttr:
 {
     REP #$10
@@ -9421,7 +9421,7 @@ Dungeon_TagRoutines:
 
 ; ==============================================================================
 
-; $00C2FD-$00C31E LONG
+; $00C2FD-$00C31E LONG JUMP LOCATION
 Dungeon_CheckStairsAndRunScripts:
 {
     LDA $04C7 : BNE .return
@@ -11320,7 +11320,7 @@ Object_WatergateChannelWater:
     
 ; ==============================================================================
 
-; $00CE70-$00D1F3 LONG
+; $00CE70-$00D1F3 LONG JUMP LOCATION
 Dungeon_ProcessTorchAndDoorInteractives:
 {
     LDA $1A : AND.b #$03 : BNE .skip_torch_logic
@@ -11767,7 +11767,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
 
 ; ==============================================================================
 
-; $00D1F4-$00D2C8 LONG
+; $00D1F4-$00D2C8 LONG JUMP LOCATION
 Bomb_CheckForVulnerableTileObjects:
 {
     ; Check for cracked floors and expose bombable floor if necessary
@@ -12010,7 +12010,7 @@ Bomb_CheckForVulnerableTileObjects:
 
 ; ==============================================================================
 
-; $00D38F-$00D468 LONG
+; $00D38F-$00D468 LONG JUMP LOCATION
 Dungeon_AnimateTrapDoors:
 {
     ; Invoked from Module 0x07.0x05
@@ -12169,7 +12169,7 @@ Dungeon_AnimateTrapDoors:
 
 ; ==============================================================================
 
-; $00D469-$00D50F LONG
+; $00D469-$00D50F LONG JUMP LOCATION
 Dungeon_AnimateDestroyingWeakDoor:
 {
     REP #$30
@@ -12460,7 +12460,7 @@ Object_RefreshStaircaseAttr:
 
 ; ==============================================================================
 
-; $00D6C1-$00D747 LONG
+; $00D6C1-$00D747 LONG JUMP LOCATION
 Door_BlastWallExploding:
 {
     ; compare with $7F0000? .... well that's confusing
@@ -12527,7 +12527,7 @@ Door_BlastWallExploding:
 
 ; ==============================================================================
 
-; $00D748-$00D7BF LONG
+; $00D748-$00D7BF LONG JUMP LOCATION
 Dungeon_QueryIfTileLiftable:
 {
     REP #$30
@@ -12875,7 +12875,7 @@ pool Dungeon_RevealCoveredTiles:
     
 ; ==============================================================================
 
-; $00D9EC-$00DABA LONG
+; $00D9EC-$00DABA LONG JUMP LOCATION
 Dungeon_RevealCoveredTiles:
 {
     ; secrets
@@ -13255,7 +13255,7 @@ pool Dungeon_PrepSpriteInducedDma:
 
 ; ==============================================================================
 
-; $00E7A9-$00E7DE LONG
+; $00E7A9-$00E7DE LONG JUMP LOCATION
 Dungeon_SpriteInducedTilemapUpdate:
 {
     ; somehow this routine is related to ice men, moving spike blocks,
@@ -13393,7 +13393,7 @@ Dungeon_GetRelativeVramAddr_2:
 
 ; ==============================================================================
 
-; $00E8BD-$00E949 LONG
+; $00E8BD-$00E949 LONG JUMP LOCATION
 Dungeon_ClearRupeeTile:
 {
     PHB : LDA.b #$00 : PHA : PLB
@@ -13496,7 +13496,7 @@ Dungeon_ChestData:
     
 ; ==============================================================================
 
-; $00EB66-$00ED04 LONG
+; $00EB66-$00ED04 LONG JUMP LOCATION
 Dungeon_OpenKeyedObject:
 {
     ; SearchForChest()
@@ -13844,7 +13844,7 @@ Dungeon_MinigameChestPrizes:
 
 ; ==============================================================================
 
-; $00EDAB-$00EED6 LONG
+; $00EDAB-$00EED6 LONG JUMP LOCATION
 Dungeon_OpenMiniGameChest:
 {
     ; number of credits left for opening minigame chests
@@ -14066,7 +14066,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; $00EF54-$00EFEB LONG
+; $00EF54-$00EFEB LONG JUMP LOCATION
 {
     LDA $0424 : AND.b #$07 : BNE .BRANCH_ALPHA
     
@@ -14152,7 +14152,7 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 
 ; ==============================================================================
 
-; $00EFEC-$00F045 LONG
+; $00EFEC-$00F045 LONG JUMP LOCATION
 {
     REP #$30
 
@@ -14229,7 +14229,7 @@ pool Dungeon_TurnOnWaterLong:
 
 ; ==============================================================================
 
-; $00F093-$00F09A LONG
+; $00F093-$00F09A LONG JUMP LOCATION
 Dungeon_TurnOnWaterLong:
 {
     LDA $B0 : ASL A : TAX
@@ -14496,7 +14496,7 @@ Watergate_MainJumpTable:
 
 ; ==============================================================================
 
-; $00F2FE-$00F30B LONG
+; $00F2FE-$00F30B LONG JUMP LOCATION
 Watergate_Main:
 {
     JSL $00F734 ; $7734 IN ROM
@@ -14637,7 +14637,7 @@ Dungeon_LightTorchFail:
 ; ==============================================================================
 
     ; \unused
-; $00F3DF-$00F3EB LONG
+; $00F3DF-$00F3EB LONG JUMP LOCATION
 {
     LDA $0333 : AND.b #$F0 : CMP.b #$C0 : BNE Dungeon_LightTorchFail
     
@@ -14648,7 +14648,7 @@ Dungeon_LightTorchFail:
     
 ; ==============================================================================
 
-; $00F3EC-$00F495 LONG
+; $00F3EC-$00F495 LONG JUMP LOCATION
 Dungeon_LightTorch:
 {
     ; it's not a torch tile
@@ -14750,7 +14750,7 @@ Dungeon_LightTorch:
 
 ; ==============================================================================
 
-; $00F496-$00F527 LONG
+; $00F496-$00F527 LONG JUMP LOCATION
 Dungeon_ExtinguishFirstTorch:
 {
     JSL Palette_AssertTranslucencySwap
@@ -14834,7 +14834,7 @@ Dungeon_ExtinguishSecondTorch:
 
 ; ==============================================================================
 
-; $00F528-$00F584 LONG
+; $00F528-$00F584 LONG JUMP LOCATION
 Dungeon_ElevateStaircasePriority:
 {
     REP #$30
@@ -14873,7 +14873,7 @@ Dungeon_ElevateStaircasePriority:
 
 ; ==============================================================================
 
-; $00F585-$00F5D0 LONG
+; $00F585-$00F5D0 LONG JUMP LOCATION
 Dungeon_DecreaseStaircasePriority:
 {
     REP #$30
@@ -14918,7 +14918,7 @@ Object_OpenGanonDoor_easyOut:
 
 ; ==============================================================================
 
-; $00F5DA-$00F6B3 LONG
+; $00F5DA-$00F6B3 LONG JUMP LOCATION
 Object_OpenGanonDoor:
 {
     LDA.b #$01 : STA $02E4
@@ -15987,7 +15987,7 @@ Dungeon_ApplyOverlayAttr:
 
 ; ==============================================================================
 
-; $00FEB0-$00FED1 LONG
+; $00FEB0-$00FED1 LONG JUMP LOCATION
 Dungeon_ApproachFixedColor:
 {
     LDA $9C : AND.b #$1F : CMP $7EC017 : BEQ .targetReached
@@ -16017,7 +16017,7 @@ Dungeon_ApproachFixedColor:
 
 ; ==============================================================================
 
-; $00FED2-$00FF04 LONG
+; $00FED2-$00FF04 LONG JUMP LOCATION
 Player_SetElectrocutionMosaicLevel:
 {
     ; This routine's primary purpose is for the Link's electrocution 
@@ -16057,7 +16057,7 @@ Player_SetElectrocutionMosaicLevel:
 
 ; ==============================================================================
 
-; $00FF05-$00FF27 LONG
+; $00FF05-$00FF27 LONG JUMP LOCATION
 Player_LedgeJumpInducedLayerChange:
 {
     ; Executes when Link hits the ground after jumping off of a ledge.
@@ -16092,7 +16092,7 @@ Player_LedgeJumpInducedLayerChange:
 
 ; ==============================================================================
 
-; $00FF28-$00FFB5 LONG
+; $00FF28-$00FFB5 LONG JUMP LOCATION
 Player_CacheStatePriorToHandler:
 {
     ; We may be able to remove this routine...
@@ -16134,7 +16134,7 @@ Player_CacheStatePriorToHandler:
 
 ; ==============================================================================
 
-; $00FFB6-$00FFD8 LONG
+; $00FFB6-$00FFD8 LONG JUMP LOCATION
 Link_CheckSwimCapability:
 {
     LDA $02E0 : BNE .bunnyGraphics
@@ -16168,7 +16168,7 @@ Link_CheckSwimCapability:
 
 ; ==============================================================================
 
-; $00FFD9-$00FFFC LONG
+; $00FFD9-$00FFFC LONG JUMP LOCATION
 Overworld_PitDamage:
 {
     ; Take a heart off of Link and put him in the submodule

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06C4A5-$06C4AC LONG
+; $06C4A5-$06C4AC LONG JUMP LOCATION
 Sprite_SweepingLadyLong:
 {
     ; Sweeping lady

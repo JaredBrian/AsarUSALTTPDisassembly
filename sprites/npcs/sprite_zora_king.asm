@@ -363,7 +363,7 @@ pool Sprite_SpawnSplashRing:
 
 ; ==============================================================================
 
-; $029B38-$029B3F LONG
+; $029B38-$029B3F LONG JUMP LOCATION
 Sprite_SpawnSplashRingLong:
 {
     PHB : PHK : PLB

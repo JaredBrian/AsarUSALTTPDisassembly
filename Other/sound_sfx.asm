@@ -10,7 +10,7 @@ pool Sound_SetSfxPan:
 
 ; ==============================================================================
 
-; $06BB5E-$06BB66 LONG
+; $06BB5E-$06BB66 LONG JUMP LOCATION
 Sound_SfxPanObjectCoords:
 {
     LDA $0C18, X : XBA
@@ -21,7 +21,7 @@ Sound_SfxPanObjectCoords:
 
 ; ==============================================================================
 
-; $06BB67-$06BB6D LONG
+; $06BB67-$06BB6D LONG JUMP LOCATION
 Sound_SetSfxPanWithPlayerCoords:
 {
     LDA $23 : XBA
@@ -32,7 +32,7 @@ Sound_SetSfxPanWithPlayerCoords:
 
 ; ==============================================================================
 
-; $06BB6E-$06BB7B LONG
+; $06BB6E-$06BB7B LONG JUMP LOCATION
 Sound_SetSfx1PanLong:
 {
     PHY
@@ -52,7 +52,7 @@ Sound_SetSfx1PanLong:
 
 ; ==============================================================================
 
-; $06BB7C-$06BB89 LONG
+; $06BB7C-$06BB89 LONG JUMP LOCATION
 Sound_SetSfx2PanLong:
 {
     PHY
@@ -72,7 +72,7 @@ Sound_SetSfx2PanLong:
 
 ; ==============================================================================
 
-; $06BB8A-$06BB97 LONG
+; $06BB8A-$06BB97 LONG JUMP LOCATION
 Sound_SetSfx3PanLong:
 {
     PHY
@@ -105,7 +105,7 @@ Sound_AddSfxPan:
 
 ; ==============================================================================
 
-; $06BBA1-$06BBC7 LONG
+; $06BBA1-$06BBC7 LONG JUMP LOCATION
 Sound_SetSfxPan:
 {
     ; Used to determine stereo settings for sound effects
@@ -156,7 +156,7 @@ pool Sound_GetFineSfxPan:
 
 ; ==============================================================================
 
-; $06BBD0-$06BBDF LONG
+; $06BBD0-$06BBDF LONG JUMP LOCATION
 Sound_GetFineSfxPan:
 {
     SEC : SBC $E2 : LSR #5 : PHX : TAX

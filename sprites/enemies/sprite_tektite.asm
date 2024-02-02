@@ -85,7 +85,7 @@ pool Tektite_Stationary:
 
 ; ==============================================================================
 
-; $0EC2D2-$0EC387 JUMP LOCATION LOCAL
+; $0EC2D2-$0EC387 LOCAL JUMP LOCATION
 Tektite_Stationary:
 {
     JSR Sprite4_DirectionToFacePlayer

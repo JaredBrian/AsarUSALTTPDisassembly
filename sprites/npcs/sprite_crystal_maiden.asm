@@ -10,7 +10,7 @@ pool CrystalMaiden_Configure:
 
 ; ==============================================================================
 
-; $0F4CE3-$0F4D47 LONG
+; $0F4CE3-$0F4D47 LONG JUMP LOCATION
 CrystalMaiden_Configure:
 {
     ; USED DURING THE CRYSTAL SEQUENCE

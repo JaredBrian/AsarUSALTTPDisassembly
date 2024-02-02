@@ -108,7 +108,7 @@ pool Flame_Draw:
 
 ; ==============================================================================
 
-; $0F435C-$0F4378 LONG
+; $0F435C-$0F4378 LONG JUMP LOCATION
 Flame_Draw:
 {
     PHB : PHK : PLB

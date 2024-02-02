@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $04F7DE-$04F81C LONG
+; $04F7DE-$04F81C LONG JUMP LOCATION
 Polyhedral_InitThread:
 {
     PHP : PHB
@@ -587,7 +587,7 @@ Polyhedral_InitThread:
     ; $4FBAD
 }
 
-; $04FCAE-$04FCC3 LONG
+; $04FCAE-$04FCC3 LONG JUMP LOCATION
 {
     PHP
     
@@ -626,7 +626,7 @@ Polyhedral_InitThread:
     dd $FFFFFFFF
 }
 
-; $04FD04-$04FD1D LONG
+; $04FD04-$04FD1D LONG JUMP LOCATION
 {
     PHP : PHB
     
@@ -645,7 +645,7 @@ Polyhedral_InitThread:
     RTL
 }
 
-; $04FD1E-$04FDCE LONG
+; $04FD1E-$04FDCE LONG JUMP LOCATION
 {
     PHP : PHB
     

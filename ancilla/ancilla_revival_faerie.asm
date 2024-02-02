@@ -24,8 +24,8 @@ pool Ancilla_RevivalFaerie:
 
 ; ==============================================================================
 
-    ; \note Looks like this animated the faeries during death mode.
-; $047283-$0473CE LONG
+; \note Looks like this animated the faeries during death mode.
+; $047283-$0473CE LONG JUMP LOCATION
 Ancilla_RevivalFaerie:
 {
     PHB : PHK : PLB

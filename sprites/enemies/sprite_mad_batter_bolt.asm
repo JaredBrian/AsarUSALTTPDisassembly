@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0F0A8E-$0F0A95 LONG
+; $0F0A8E-$0F0A95 LONG JUMP LOCATION
 Sprite_MadBatterBoltLong:
 {
     PHB : PHK : PLB

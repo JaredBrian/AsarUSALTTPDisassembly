@@ -238,7 +238,7 @@ pool Sprite_SpawnLightning:
 
 ; ==============================================================================
 
-; $0EE612-$0EE655 LONG
+; $0EE612-$0EE655 LONG JUMP LOCATION
 Sprite_SpawnLightning:
 {
     PHB : PHK : PLB

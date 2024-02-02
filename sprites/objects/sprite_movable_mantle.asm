@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0D7C31-$0D7C38 LONG
+; $0D7C31-$0D7C38 LONG JUMP LOCATION
 Sprite_MovableMantleLong:
 {
     ; Sprite Logic for sprite 0xEE - pushable mantle

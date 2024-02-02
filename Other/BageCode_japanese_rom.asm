@@ -1,5 +1,5 @@
 
-; $01EA1D-$01EAE0 LONG
+; $01EA1D-$01EAE0 LONG JUMP LOCATION
 {
     LDA $F2 : AND.b #$10 : BNE .r_button_held
     

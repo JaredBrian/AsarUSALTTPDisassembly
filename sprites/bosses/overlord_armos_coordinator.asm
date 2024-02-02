@@ -25,7 +25,7 @@
 
 ; ==============================================================================
 
-; $0EEBEB-$0EEBF2 LONG
+; $0EEBEB-$0EEBF2 LONG JUMP LOCATION
 ArmosCoordinatorLong:
 {
     PHB : PHK : PLB

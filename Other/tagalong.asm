@@ -1,7 +1,7 @@
 
 ; ==============================================================================
     
-; $049E90-$049EF7 LONG
+; $049E90-$049EF7 LONG JUMP LOCATION
 Tagalong_CheckBlindTriggerRegion:
 {
     PHB : PHK : PLB
@@ -74,7 +74,7 @@ pool Tagalong_Init:
 
 ; ==============================================================================
 
-; $049EFC-$049F38 LONG
+; $049EFC-$049F38 LONG JUMP LOCATION
 Tagalong_Init:
 {
     PHB : PHK : PLB
@@ -110,7 +110,7 @@ Tagalong_Init:
 
 ; ==============================================================================
 
-; $049F39-$049F90 LONG
+; $049F39-$049F90 LONG JUMP LOCATION
 Tagalong_SpawnFromSprite:
 {
     PHB : PHK : PLB : PHX
@@ -149,7 +149,7 @@ Tagalong_SpawnFromSprite:
 
 ; ==============================================================================
 
-; $049F91-$049F98 LONG
+; $049F91-$049F98 LONG JUMP LOCATION
 Tagalong_MainLong:
 {
     PHB : PHK : PLB

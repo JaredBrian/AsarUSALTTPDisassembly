@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0EAD0E-$0EAD15 LONG
+; $0EAD0E-$0EAD15 LONG JUMP LOCATION
 TrinexxComponents_InitializeLong:
 {
     PHB : PHK : PLB

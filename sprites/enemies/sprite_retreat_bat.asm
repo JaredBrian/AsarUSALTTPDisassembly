@@ -64,7 +64,7 @@ Sprite_RetreatBat:
     dw $F684 ; = $D7684*
     dw $F6C8 ; = $D76C8* ; ???
     dw RetreatBat_FinishUp
-    ]
+}
 
 ; $0D763D-$0D7683 JUMP LOCATION
 {

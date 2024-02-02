@@ -74,7 +74,7 @@
     
 ; ==============================================================================
 
-; $0EA03C-$0EA080 LONG
+; $0EA03C-$0EA080 LONG JUMP LOCATION
 Blind_SpawnFromMaidenTagalong:
 {
     LDX.b #$00
@@ -107,7 +107,7 @@ Blind_SpawnFromMaidenTagalong:
 
 ; ==============================================================================
 
-; $0EA081-$0EA0B0 LONG
+; $0EA081-$0EA0B0 LONG JUMP LOCATION
 Blind_Initialize:
 {
     LDA $7EF3CC : CMP.b #$06 : BEQ .self_terminate

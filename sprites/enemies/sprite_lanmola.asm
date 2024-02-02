@@ -11,7 +11,7 @@ pool Lanmola_FinishInitialization:
 
 ; ==============================================================================
 
-; $02A37A-$02A39F LONG
+; $02A37A-$02A39F LONG JUMP LOCATION
 Lanmola_FinishInitialization:
 {
     LDA.l .starting_delay, X : STA $0DF0, X
@@ -281,7 +281,7 @@ pool Lanmola_Fly:
 
 ; ==============================================================================
 
-; $02A51D-$02A528 LONG
+; $02A51D-$02A528 LONG JUMP LOCATION
 Sprite_SpawnFallingItem:
 {
     ; Triggers falling item special object apparently?

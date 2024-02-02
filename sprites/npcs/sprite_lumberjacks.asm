@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06C50B-$06C512 LONG
+; $06C50B-$06C512 LONG JUMP LOCATION
 Sprite_LumberjacksLong:
 {
     PHB : PHK : PLB

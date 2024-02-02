@@ -4,7 +4,7 @@
 
 ; ==============================================================================
 
-; $02DA29-$02DA30 LONG
+; $02DA29-$02DA30 LONG JUMP LOCATION
 SpritePrep_UncleAndSageLong:
 {
     PHB : PHK : PLB
@@ -200,7 +200,7 @@ Sage_SpawnMantle:
 
 ; ==============================================================================
 
-; $02DB86-$02DB8D LONG
+; $02DB86-$02DB8D LONG JUMP LOCATION
 Sprite_UncleAndSageLong:
 {
     ; Uncle / Priest
@@ -422,7 +422,7 @@ SageMantle_Draw:
 
 ; ==============================================================================
 
-; $02DCA2-$02DCDD LONG
+; $02DCA2-$02DCDD LONG JUMP LOCATION
 Sprite_MakeBodyTrackHeadDirection:
 {
     LDA $0DE0, X : CMP $0EB0, X : BEQ .set_body_to_head_dir

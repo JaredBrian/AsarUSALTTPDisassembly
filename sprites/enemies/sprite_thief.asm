@@ -525,7 +525,7 @@ pool Thief_Draw:
 
 ; ==============================================================================
 
-; $0ECC9E-$0ECCDA LONG
+; $0ECC9E-$0ECCDA LONG JUMP LOCATION
 Thief_Draw:
 {
     PHB : PHK : PLB

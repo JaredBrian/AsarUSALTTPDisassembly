@@ -558,7 +558,7 @@ Kiki_LyingInWait:
 
     ; \covered($F666B-$F6EEE)
     
-; $0F666B-$0F6679 LONG
+; $0F666B-$0F6679 LONG JUMP LOCATION
 Kiki_InitiatePalaceOpeningProposal:
 {
     JSR Kiki_TransitionFromTagalong
@@ -611,7 +611,7 @@ Kiki_TransitionFromTagalong:
 
 ; ==============================================================================
 
-; $0F66C7-$0F66CF LONG
+; $0F66C7-$0F66CF LONG JUMP LOCATION
 Kiki_InitiateFirstBeggingSequence:
 {
     JSR Kiki_TransitionFromTagalong
@@ -623,7 +623,7 @@ Kiki_InitiateFirstBeggingSequence:
 
 ; ==============================================================================
 
-; $0F66D0-$0F66E8 LONG
+; $0F66D0-$0F66E8 LONG JUMP LOCATION
 Kiki_AbandonDamagedPlayer:
 {
     JSR Kiki_TransitionFromTagalong

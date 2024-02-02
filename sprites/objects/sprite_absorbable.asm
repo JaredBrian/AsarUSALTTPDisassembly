@@ -184,7 +184,7 @@ Sprite_CheckAbsorptionByPlayer:
 
 ; ==============================================================================
 
-; $035125-$03512C LONG
+; $035125-$03512C LONG JUMP LOCATION
 Sprite_HandleAbsorptionByPlayerLong:
 {
     PHB : PHK : PLB

@@ -20,7 +20,7 @@ pool AddHitStars:
 
 ; ==============================================================================
 
-; $048024-$048090 LONG
+; $048024-$048090 LONG JUMP LOCATION
 AddHitStars:
 {
     ; special effect 0x16 initializer
@@ -84,7 +84,7 @@ AddHitStars:
 
 ; ==============================================================================
 
-; $048091-$0480C7 LONG
+; $048091-$0480C7 LONG JUMP LOCATION
 AddLinksBedSpread:
 {
     ; special effect 0x20 initializer
@@ -132,7 +132,7 @@ AddLinksBedSpread:
 
 ; ==============================================================================
 
-; $0480C8-$0480FE LONG
+; $0480C8-$0480FE LONG JUMP LOCATION
 AddLinksSleepZs:
 {
     ; special effect 0x21 initializer
@@ -186,8 +186,8 @@ pool AddBlueBomb:
 
 ; ==============================================================================
     
-    ; \note Special Effect 0x07 (Link's blue bombs) Initializer
-; $04811F-$0481B2 LONG
+; \note Special Effect 0x07 (Link's blue bombs) Initializer
+; $04811F-$0481B2 LONG JUMP LOCATION
 AddBlueBomb:
 {
     PHB : PHK : PLB	
@@ -318,7 +318,7 @@ pool AddBoomerang:
 
 ; ==============================================================================
     
-; $04820F-$04836B LONG
+; $04820F-$04836B LONG JUMP LOCATION
 AddBoomerang:
 {
     ; special effect 0x5 (boomerang) initializer
@@ -674,7 +674,7 @@ pool AddReceiveItem:
 
 ; ==============================================================================
     
-; $0485E8-$048931 LONG
+; $0485E8-$048931 LONG JUMP LOCATION
 AddReceivedItem:
 {
     ; special effect 0x22 initializer (falling prize objects from boss fights)
@@ -1343,7 +1343,7 @@ pool AddWishPondItem:
 
 ; ==============================================================================
     
-; $048A32-$048AB9 LONG
+; $048A32-$048AB9 LONG JUMP LOCATION
 AddWishPondItem:
 {
     ; special effect 0x28 initializer
@@ -1453,7 +1453,7 @@ pool AddHappinessPondRupees:
 
 ; ==============================================================================
     
-; $048AE0-$048B8F LONG
+; $048AE0-$048B8F LONG JUMP LOCATION
 AddHappinessPondRupees:
 {
     PHB : PHK : PLB
@@ -1587,7 +1587,7 @@ pool AddPendantOrCrystal:
 
 ; ==============================================================================
 
-; $048BC1-$048C72 LONG
+; $048BC1-$048C72 LONG JUMP LOCATION
 AddPendantOrCrystal:
 {
     ; A = 0x29 (pendants/crystals, etc)
@@ -1691,7 +1691,7 @@ AddPendantOrCrystal:
 
 ; ==============================================================================
 
-; $048C73-$048CB0 LONG
+; $048C73-$048CB0 LONG JUMP LOCATION
 AddRecoveredFlute:
 {
     PHB : PHK : PLB
@@ -1740,7 +1740,7 @@ AddRecoveredFlute:
 
 ; ==============================================================================
 
-; $048CB1-$048CD4 LONG
+; $048CB1-$048CD4 LONG JUMP LOCATION
 AddChargedSpinAttackSparkle:
 {
     PHB : PHK : PLB
@@ -1797,7 +1797,7 @@ pool AddWeathervaneExplosion:
 
 ; ==============================================================================
 
-; $048D11-$048D8F LONG
+; $048D11-$048D8F LONG JUMP LOCATION
 AddWeathervaneExplosion:
 {
     ; A = 0x37
@@ -1871,7 +1871,7 @@ AddWeathervaneExplosion:
 
 ; ==============================================================================
 
-; $048D90-$048DD1 LONG
+; $048D90-$048DD1 LONG JUMP LOCATION
 AddTravelBirdIntro:
 {
     ; Sets up some initial values for the bird to use. 
@@ -1915,7 +1915,7 @@ AddTravelBirdIntro:
 
 ; ==============================================================================
 
-; $048DD2-$048DF8 LONG
+; $048DD2-$048DF8 LONG JUMP LOCATION
 AddSomarianPlatformPoof:
 {
     ; special effect 0x39 initializer
@@ -1949,7 +1949,7 @@ AddSomarianPlatformPoof:
 
 ; ==============================================================================
 
-; $048DF9-$048E4D LONG
+; $048DF9-$048E4D LONG JUMP LOCATION
 AddSuperBombExplosion:
 {
     ; Special effect 0x3A initializer
@@ -1998,7 +1998,7 @@ AddSuperBombExplosion:
 
 ; ==============================================================================
 
-; $048E4E-$048EDF LONG
+; $048E4E-$048EDF LONG JUMP LOCATION
 Ancilla_ConfigureRevivalObjects:
 {
 	; 
@@ -2079,7 +2079,7 @@ Ancilla_ConfigureRevivalObjects:
 
 ; ==============================================================================
 
-; $048EE0-$048F0B LONG
+; $048EE0-$048F0B LONG JUMP LOCATION
 AddCaneOfByrnaStart:
 { 
     ; A = 0x30
@@ -2136,7 +2136,7 @@ pool AddLampFlame:
 
 ; ==============================================================================
 
-; $048F1C-$048F5A LONG
+; $048F1C-$048F5A LONG JUMP LOCATION
 AddLampFlame:
 { 
     ; A = $2F
@@ -2177,7 +2177,7 @@ AddLampFlame:
 
 ; ==============================================================================
 
-; $048F5B-$048F7B LONG
+; $048F5B-$048F7B LONG JUMP LOCATION
 AddShovelDirt:
 {
     PHB : PHK : PLB
@@ -2207,7 +2207,7 @@ AddShovelDirt:
 
 ; ==============================================================================
     
-; $048F7C-$048FA9 LONG
+; $048F7C-$048FA9 LONG JUMP LOCATION
 AddSwordCeremony:
 {
     ; The graphical suckfest that is the granting of the master sword
@@ -2253,7 +2253,7 @@ pool AddDashingDust:
 
 ; ==============================================================================
 
-; $048FBA-$049010 LONG
+; $048FBA-$049010 LONG JUMP LOCATION
 AddDashingDust:
 {
     ; A = #$1E
@@ -2335,7 +2335,7 @@ pool AddBlastWallFireball:
 
 ; ==============================================================================
 
-; $049031-$049087 LONG
+; $049031-$049087 LONG JUMP LOCATION
 AddBlastWallFireball:
 {
     PHB : PHK : PLB
@@ -2413,7 +2413,7 @@ pool AddArrow:
 
 ; ==============================================================================
 
-; $0490A4-$049101 LONG
+; $0490A4-$049101 LONG JUMP LOCATION
 AddArrow:
 {
     PHB : PHK : PLB
@@ -2479,7 +2479,7 @@ AddArrow:
     
 ; ==============================================================================
 
-; $049102-$04912B LONG
+; $049102-$04912B LONG JUMP LOCATION
 AddWarpTransformationCloud:
 { 
     ; This cloud triggers only when warping between worlds (and you don't have a moon pearl)
@@ -2516,7 +2516,7 @@ AddWarpTransformationCloud:
 
 ; ==============================================================================
 
-; $04912C-$04915E LONG
+; $04912C-$04915E LONG JUMP LOCATION
 AddTransformationCloud:
 {
     ; The transformation cloud is the poof that occurs
@@ -2564,7 +2564,7 @@ AddTransformationCloud:
 
 ; ==============================================================================
 
-; $04915F-$0491C2 LONG
+; $04915F-$0491C2 LONG JUMP LOCATION
 AddDwarfTransformationCloud:
 {
     PHB : PHK : PLB 
@@ -2616,7 +2616,7 @@ AddDwarfTransformationCloud:
 
 ; ==============================================================================
 
-; $0491C3-$0491FB LONG
+; $0491C3-$0491FB LONG JUMP LOCATION
 AddDisintegratingBushPoof:
 {
     ; This occurs when Link puts Magic Powder on a bush, 
@@ -2656,7 +2656,7 @@ AddDisintegratingBushPoof:
 
 ; ==============================================================================
     
-; $0491FC-$0492AB LONG
+; $0491FC-$0492AB LONG JUMP LOCATION
 AddEtherSpell:
 {
     ; Triggers the Ether effect
@@ -2718,7 +2718,7 @@ AddEtherSpell:
 
 ; ==============================================================================
 
-; $0492AC-$0492CF LONG
+; $0492AC-$0492CF LONG JUMP LOCATION
 AddVictorySpinEffect:
 {
     PHB : PHK : PLB
@@ -2760,7 +2760,7 @@ pool AddMagicPowder:
 
 ; ==============================================================================
 
-; $0492F0-$049384 LONG
+; $0492F0-$049384 LONG JUMP LOCATION
 AddMagicPowder:
 {
     ; A = 0x1A
@@ -2851,7 +2851,7 @@ pool AddWallTapSpark:
 
 ; ==============================================================================
 
-; $049395-$0493C1 LONG
+; $049395-$0493C1 LONG JUMP LOCATION
 AddWallTapSpark:
 {
     PHB : PHK : PLB
@@ -2884,7 +2884,7 @@ AddWallTapSpark:
 
 ; ==============================================================================
 
-; $0493C2-$0493E8 LONG
+; $0493C2-$0493E8 LONG JUMP LOCATION
 AddSwordSwingSparkles:
 {
     PHB : PHK : PLB
@@ -2930,7 +2930,7 @@ pool AddDashTremor:
 
 ; ==============================================================================
 
-; $0493F3-$049447 LONG
+; $0493F3-$049447 LONG JUMP LOCATION
 AddDashTremor:
 {
     PHB : PHK : PLB
@@ -3006,7 +3006,7 @@ pool AddBoomerangWallHit:
 
 ; ==============================================================================
 
-; $049478-$0494C5 LONG
+; $049478-$0494C5 LONG JUMP LOCATION
 AddBoomerangWallHit:
 {
     ; A = 0x06
@@ -3054,7 +3054,7 @@ AddBoomerangWallHit:
 
 ; ==============================================================================
     
-; $0494C6-$0494FD LONG
+; $0494C6-$0494FD LONG JUMP LOCATION
 AddHookshotWallHit:
 {
     ; A = 0x06
@@ -3095,7 +3095,7 @@ AddHookshotWallHit:
     
 ; ==============================================================================
 
-    ; $0494FE-$049588 LONG
+; $0494FE-$049588 LONG JUMP LOCATION
 AddTravelBird:
 {
     ; \note Convenience label. Not necessary to invoke it, as it's the same
@@ -3180,7 +3180,7 @@ AddTravelBird:
 
 ; ==============================================================================
 
-; $049589-$0495FA LONG
+; $049589-$0495FA LONG JUMP LOCATION
 AddQuakeSpell:
 {
     PHB : PHK : PLB
@@ -3243,7 +3243,7 @@ pool AddSpinAttackStartSparkle:
 
 ; ==============================================================================
     
-; $04960B-$049659 LONG
+; $04960B-$049659 LONG JUMP LOCATION
 AddSpinAttackStartSparkle:
 {
     ; A = 0x2A
@@ -3326,7 +3326,7 @@ pool AddBlastWall:
 
 ; ==============================================================================
 
-; $049692-$049756 LONG
+; $049692-$049756 LONG JUMP LOCATION
 AddBlastWall:
 {
     PHB : PHK : PLB
@@ -3418,7 +3418,7 @@ AddBlastWall:
 
 ; ==============================================================================
 
-; $049757-$0497CD LONG
+; $049757-$0497CD LONG JUMP LOCATION
 AddSwordChargeSpark:
 {
     PHB : PHK : PLB
@@ -3509,7 +3509,7 @@ pool AddSilverArrowSparkle:
 
 ; ==============================================================================
   
-; $0497DE-$04984A LONG
+; $0497DE-$04984A LONG JUMP LOCATION
 AddSilverArrowSparkle:
 {
     PHB : PHK : PLB
@@ -3594,7 +3594,7 @@ pool AddIceRodShot:
 
 ; ==============================================================================
 
-; $049863-$0498FB LONG
+; $049863-$0498FB LONG JUMP LOCATION
 AddIceRodShot:
 {
     ; A = 0x0B
@@ -3690,7 +3690,7 @@ AddIceRodShot:
 
 ; ==============================================================================
 
-; $0498FC-$049939 LONG
+; $0498FC-$049939 LONG JUMP LOCATION
 AddTransitionSplash:
 {
     ; A = 0x15
@@ -3796,7 +3796,7 @@ pool AddGravestone:
 
 ; ==============================================================================
 
-; $0499E9-$049AF7 LONG
+; $0499E9-$049AF7 LONG JUMP LOCATION
 AddGravestone:
 {
     ; A = 0x24
@@ -3984,7 +3984,7 @@ pool AddHookshot:
 
 ; ==============================================================================
 
-; $049B10-$049B67 LONG
+; $049B10-$049B67 LONG JUMP LOCATION
 AddHookshot:
 {
     PHB : PHK : PLB
@@ -4032,7 +4032,7 @@ AddHookshot:
 
 ; ==============================================================================
 
-; $049B68-$049B82 LONG
+; $049B68-$049B82 LONG JUMP LOCATION
 AddWaterfallSplash:
 {
     ; Splash of water over Link's head that occurs
@@ -4061,7 +4061,7 @@ AddWaterfallSplash:
 
 ; ==============================================================================
 
-; $049B83-$049C37 LONG
+; $049B83-$049C37 LONG JUMP LOCATION
 AddBreakTowerSeal:
 {
     ; Waterfall sprite sees if you can open Ganon's tower
@@ -4162,7 +4162,7 @@ AddBreakTowerSeal:
 
 ; ==============================================================================
 
-; $049C38-$049C4E LONG
+; $049C38-$049C4E LONG JUMP LOCATION
 AddDoorDebris:
 {
     ; A = 0x08
@@ -4192,7 +4192,7 @@ AddDoorDebris:
 
 ; ==============================================================================
 
-; $049C4F-$049CE1 LONG
+; $049C4F-$049CE1 LONG JUMP LOCATION
 ConsumingFire_TransmuteToSkullWoodsFire:
 {
     PHB : PHK : PLB
@@ -4330,7 +4330,7 @@ AddAncilla:
 
 ; ==============================================================================
 
-; $049D18-$049D1F LONG
+; $049D18-$049D1F LONG JUMP LOCATION
 AddAncillaLong:
 {
     PHB : PHK : PLB
@@ -4505,7 +4505,7 @@ pool Ancilla_CheckInitialTileCollision_Class_1:
     ; blocks. We'd need to come up with nammes for the two classes.
     
 Ancilla_CheckInitialTileCollision_Class_1:
-; $049DD3-$049E23 LONG
+; $049DD3-$049E23 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -4584,7 +4584,7 @@ pool Ancilla_CheckInitialTileCollision_Class2:
 ; ==============================================================================
 
     ; \task Maybe rename this big lug later on.
-; $049E44-$049E8F LONG
+; $049E44-$049E8F LONG JUMP LOCATION
 Ancilla_CheckInitialTileCollision_Class2:
 {
     PHB : PHK : PLB

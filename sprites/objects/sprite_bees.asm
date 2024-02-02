@@ -92,7 +92,7 @@ DashBeeHive_SpawnBee:
 
 ; ==============================================================================
 
-; $0F5CCF-$0F5D40 LONG
+; $0F5CCF-$0F5D40 LONG JUMP LOCATION
 PlayerItem_ReleaseBee:
 {
     PHB : PHK : PLB
@@ -291,7 +291,7 @@ Bee_PutInbottle:
 
 ; ==============================================================================
 
-; $0F5E2E-$0F5E43 LONG
+; $0F5E2E-$0F5E43 LONG JUMP LOCATION
 Sprite_GetEmptyBottleIndex:
 {
     PHX

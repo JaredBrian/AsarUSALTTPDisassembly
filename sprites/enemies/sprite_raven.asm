@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0EDD7B-$0EDD82 LONG
+; $0EDD7B-$0EDD82 LONG JUMP LOCATION
 Sprite_RavenLong:
 {
     PHB : PHK : PLB

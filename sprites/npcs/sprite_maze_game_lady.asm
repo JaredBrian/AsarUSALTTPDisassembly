@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06CB54-$06CB5B LONG
+; $06CB54-$06CB5B LONG JUMP LOCATION
 Sprite_MazeGameLadyLong:
 {
     PHB : PHK : PLB

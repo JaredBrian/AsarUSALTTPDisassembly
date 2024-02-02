@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06BA80-$06BA9D LONG
+; $06BA80-$06BA9D LONG JUMP LOCATION
 OAM_AllocateFromRegionA:
 {
     LDY.b #$00

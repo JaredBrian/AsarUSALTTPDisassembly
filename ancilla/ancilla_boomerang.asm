@@ -225,7 +225,7 @@ Ancilla_Boomerang:
 
 ; ==============================================================================
 
-; $04123B-$041242 LONG
+; $04123B-$041242 LONG JUMP LOCATION
 Ancilla_CheckTileCollisionLong:
 {
     PHB : PHK : PLB
@@ -239,7 +239,7 @@ Ancilla_CheckTileCollisionLong:
 
 ; ==============================================================================
 
-; $041243-$04124A LONG
+; $041243-$04124A LONG JUMP LOCATION
 Ancilla_CheckTileCollision_Class2_Long:
 {
     PHB : PHK : PLB

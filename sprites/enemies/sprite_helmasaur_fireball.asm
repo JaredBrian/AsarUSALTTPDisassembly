@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0EEDD6-$0EEDDD LONG
+; $0EEDD6-$0EEDDD LONG JUMP LOCATION
 Sprite_HelmasaurFireballLong:
 {
     PHB : PHK : PLB

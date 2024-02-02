@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; $02E28C-$02E293 LONG
+; $02E28C-$02E293 LONG JUMP LOCATION
 Sprite_GargoyleGrateLong:
 {
     ; Gargoyle's Domain Entrance (0x14)

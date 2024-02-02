@@ -11,7 +11,7 @@ pool Module_Quit:
 
 ; ==============================================================================
 
-; $04F79F-$04F7AE JUMP LOCATION LONG
+; $04F79F-$04F7AE LONG JUMP LOCATION
 Module_Quit:
 {
     ; Beginning of Module 0x17, Restart Mode

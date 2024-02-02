@@ -462,7 +462,7 @@ Zazak_ShootFirePhlegm:
 
 ; ==============================================================================
 
-; $0F12E4-$0F1378 LONG
+; $0F12E4-$0F1378 LONG JUMP LOCATION
 Sprite_SpawnFirePhlegm:
 {
     PHB : PHK : PLB

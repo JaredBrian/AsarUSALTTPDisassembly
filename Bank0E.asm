@@ -159,7 +159,7 @@ Pool_Dungeon_LoadCustomTileAttr:
 
 ; ==============================================================================
 
-; $07142A-$071458 LONG
+; $07142A-$071458 LONG JUMP LOCATION
 Dungeon_LoadCustomTileAttr:
 {
     ; Loads tile attributes that are specific to a tileset type.
@@ -270,7 +270,7 @@ Dungeon_DefaultAttr:
     
 ; ==============================================================================
 
-; $0717D9-$071813 LONG
+; $0717D9-$071813 LONG JUMP LOCATION
 Init_LoadDefaultTileAttr:
 {
     REP #$20
@@ -424,7 +424,7 @@ Pool_Credits_PrepAndLoadSprites:
     dw Credits_LoadSprites_Pedestal  ; $9CB4 = $071CB4 ; And the Master Sword sleeps again... 
 }
 
-; $0718B9-$0718D7 LONG
+; $0718B9-$0718D7 LONG JUMP LOCATION
 Credits_PrepAndLoadSprites:
 {
     PHB : PHK : PLB
@@ -2641,7 +2641,7 @@ CreditsOAMGroup_Priest:
     dw   0,  -1 : db $08, $09, $00, $02 ; body
 }
 
-; $0729AD-$0729D0 LONG
+; $0729AD-$0729D0 LONG JUMP LOCATION
 Credits_SpriteDraw_Sanctuary:
 {
     PHX
@@ -3379,7 +3379,7 @@ Pool_Credits_SingleCameraScrollControl
 
 ; ==============================================================================
 
-; $072EA6-$072FF1 LONG
+; $072EA6-$072FF1 LONG JUMP LOCATION
 Credits_HandleCameraScrollControl:
 {
     PHB : PHK : PLB
@@ -5221,7 +5221,7 @@ Credits_FadeInTheEnd:
     db $D0, $B8, $06, $3B
 }
     
-; $0743FA-$07441B JUMP LOCATION LOCAL JUMP LOCATION
+; $0743FA-$07441B LOCAL JUMP LOCATION
 Credits_DrawTheEnd:
 {
     ; The End!
@@ -5382,7 +5382,7 @@ OverworldSpritesPaletteSet:
     db $0C, $0E
 }
 
-; $0755A8-$0755F3 LONG
+; $0755A8-$0755F3 LONG JUMP LOCATION
 Overworld_LoadPalettes:
 {
     ASL #2 : TAX ; *2
@@ -5431,7 +5431,7 @@ Overworld_LoadPalettes:
     RTL
 }
 
-; $0755F4-$07560A LONG
+; $0755F4-$07560A LONG JUMP LOCATION
 Palette_BgAndFixedColor:
 {
     ; Zero Bg color
@@ -5466,7 +5466,7 @@ SetBGColorCacheOnly:
     RTL
 }
 
-; $075618-$07561C LONG
+; $075618-$07561C LONG JUMP LOCATION
 Palette_SetOwBgColor_Long:
 {
     JSR Palette_GetOwBgColor
@@ -5475,7 +5475,7 @@ Palette_SetOwBgColor_Long:
     BRA Palette_BgAndFixedColor_setBgColor
 }
 
-; $07561D-$075621 LONG
+; $07561D-$075621 LONG JUMP LOCATION
 Overworld_SetScreenBGColorCacheOnly:
 {
     JSR Palette_GetOwBgColor
@@ -5526,7 +5526,7 @@ Palette_GetOwBgColor:
 }
 
 ; \unused Only the top label is unused.
-; $075653-$075655 LONG
+; $075653-$075655 LONG JUMP LOCATION
 Palette_AssertTranslucencySwap_ForcePlayerToBg1:
 {
     ; ???
@@ -5536,7 +5536,7 @@ Palette_AssertTranslucencySwap_ForcePlayerToBg1:
     ; Bleed into the next function.
 }
 
-; $075657-$07565B LONG
+; $075657-$07565B LONG JUMP LOCATION
 Palette_AssertTranslucencySwap:
 {   
     LDA.b #$01 : STA.w $0ABD
@@ -5602,7 +5602,7 @@ Palette_PerformTranslucencySwap:
 ; ==============================================================================
     
 ; \unused Again, only the top label is unused.
-; $0756B9-$0756BA LONG
+; $0756B9-$0756BA LONG JUMP LOCATION
 Palette_RevertTranslucencySwap_ForcePlayerBg2:
 {
     STZ $EE
@@ -5620,7 +5620,7 @@ Palette_RevertTranslucencySwap:
 
 ; =============================================
 
-; $0756C0-$0756D0 LONG
+; $0756C0-$0756D0 LONG JUMP LOCATION
 LoadActualGearPalettes:
 {
     ; Called "actual" because none of the types of gear (sword, shield, armor)
@@ -5641,7 +5641,7 @@ LoadActualGearPalettes:
 
 ; Loads player palettes for unusual states, such as being electrocuted
 ; or using the Ether spell.
-; $0756D1-$0756DC LONG
+; $0756D1-$0756DC LONG JUMP LOCATION
 Palette_ElectroThemedGear:
 {
     REP #$20
@@ -5655,7 +5655,7 @@ Palette_ElectroThemedGear:
 
 ; =============================================
 
-; $0756DD-$075740 LONG
+; $0756DD-$075740 LONG JUMP LOCATION
 LoadGearPalettes:
 {
     .bunny
@@ -5748,7 +5748,7 @@ LoadGearPalette:
 
 ; ==============================================================================
 
-; $075757-$0757FD LONG
+; $075757-$0757FD LONG JUMP LOCATION
 Filter_Majorly_Whiten_Bg:
 {
     REP #$20
@@ -5826,7 +5826,7 @@ Filter_Majorly_Whiten_Color:
 
 ; ==============================================================================
 
-; $07583A-$0758FA LONG
+; $07583A-$0758FA LONG JUMP LOCATION
 Palette_Restore_BG_From_Flash:
 ; ZS replcaces the latter half of this function.
 {
@@ -5896,7 +5896,7 @@ Palette_Restore_BG_From_Flash:
 
 ; ==============================================================================
 
-; $0758FB-$075919 LONG
+; $0758FB-$075919 LONG JUMP LOCATION
 Palette_Restore_BG_And_HUD:
 {
     REP #$20
@@ -6279,7 +6279,7 @@ NULL_0EDD31:
 
 ; ==============================================================================
 
-; $075D40-$075D60 LONG
+; $075D40-$075D60 LONG JUMP LOCATION
 Overworld_Memorize_Map16_Change:
 {
     ; Keeps track of map modifications for when warping between worlds.
@@ -6311,7 +6311,7 @@ LwTurtleRockPegPositions:
     dw $081A
 }
 
-; $075D67-$075DFB LONG
+; $075D67-$075DFB LONG JUMP LOCATION
 HandlePegPuzzles:
 {
     LDA.b $8A : CMP.w #$0007 : BNE .notLwTurtleRock
@@ -6390,7 +6390,7 @@ HandlePegPuzzles:
     RTL
 }
 
-; $075DFC-$075E28 LONG
+; $075DFC-$075E28 LONG JUMP LOCATION
 HandleStakeField:
 {
     LDA.b $B0 : BNE .BRANCH_ALPHA
@@ -6444,7 +6444,7 @@ Pool_Overworld_CheckForSpecialOverworldTrigger:
     dw $0180, $0181, $0182, $0189
 }
 
-; $075E49-$075E99 LONG
+; $075E49-$075E99 LONG JUMP LOCATION
 Overworld_CheckForSpecialOverworldTrigger:
 {
     ; This routine specifically checks to see if Link will enter a special area (areas >= 0x80).
@@ -6548,7 +6548,7 @@ WeirdAssPlaceForAnExit:
 
 ; ==============================================================================
 
-; $075EE3-$075F2E LONG
+; $075EE3-$075F2E LONG JUMP LOCATION
 SpecialOverworld_CheckForReturnTrigger:
 {
     ; The reverse of $075E49, in that it detects tiles and area numbers that lead back to normal OW areas (from special areas).
@@ -8015,7 +8015,7 @@ NULL_0EEE21:
 
 ; ==============================================================================
 
-; $077400-$0774EA LONG
+; $077400-$0774EA LONG JUMP LOCATION
 PaletteBlackAndWhiteSomething:
 {
     .Conditional
@@ -8125,7 +8125,7 @@ Overworld_DwDeathMountainPaletteAnimation_easyOut:
     RTL
 }
 
-; $077582-$077651 LONG
+; $077582-$077651 LONG JUMP LOCATION
 ; This function controls the lighting flashing int he background of DW death mountain as well as the Ganon's tower palette cycling.
 Overworld_DwDeathMountainPaletteAnimation:
 {
@@ -8224,7 +8224,7 @@ Overworld_DwDeathMountainPaletteAnimation:
 
 ; ==============================================================================
 
-; $077652-$077663 LONG
+; $077652-$077663 LONG JUMP LOCATION
 Overworld_LoadEventOverlay:
 {
     PHB

@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E62B-$02E632 LONG
+; $02E62B-$02E632 LONG JUMP LOCATION
 Sprite_ArrowTriggerLong:
 {
     PHB : PHK : PLB

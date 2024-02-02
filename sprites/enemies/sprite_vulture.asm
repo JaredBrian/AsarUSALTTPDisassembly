@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0EDC72-$0EDC79 LONG
+; $0EDC72-$0EDC79 LONG JUMP LOCATION
 Sprite_VultureLong:
 {
     PHB : PHK : PLB

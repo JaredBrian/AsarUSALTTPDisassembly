@@ -9,7 +9,7 @@ SpritePrep_FakeSword:
 
 ; ==============================================================================
 
-; $02EEA7-$02EEAE LONG
+; $02EEA7-$02EEAE LONG JUMP LOCATION
 Sprite_FakeSwordLong:
 {
     ; Fake Master Sword (0xE8)

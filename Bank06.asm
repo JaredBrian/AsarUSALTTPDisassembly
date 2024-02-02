@@ -5,7 +5,7 @@ org $068000 ; $030000-$037FFF
 
 ; ==============================================================================
 
-; $030000-$030044 LONG
+; $030000-$030044 LONG JUMP LOCATION
 BottleVendor_DetectFish:
 {
     PHB : PHK : PLB
@@ -69,7 +69,7 @@ pool BottleVendor_SpawnFishRewards:
 
 ; ==============================================================================
 
-; $030054-$03009E LONG
+; $030054-$03009E LONG JUMP LOCATION
 BottleVendor_SpawnFishRewards:
 {
     ; Only used by the bottle vendor...
@@ -125,7 +125,7 @@ BottleVendor_SpawnFishRewards:
     ; Anyways, this routine overrides the values set by
     ; Ancilla_ProjectSpeedTowardsPlayer when the boomerang is out of
     ; view.
-; $03009F-$0300E5 LONG
+; $03009F-$0300E5 LONG JUMP LOCATION
 Boomerang_CheatWhenNoOnesLooking:
 {
     LDA $0C04, X : STA $02
@@ -200,7 +200,7 @@ pool Player_ApplyRumbleToSprites:
 
 ; ==============================================================================
 
-; $0300FA-$03012C LONG
+; $0300FA-$03012C LONG JUMP LOCATION
 Player_ApplyRumbleToSprites:
 {
     ; Grabs Link's coordinates plus an offset determined by his direction
@@ -228,7 +228,7 @@ Player_ApplyRumbleToSprites:
 
 ; ==============================================================================
 
-; $03012D-$03014A LONG
+; $03012D-$03014A LONG JUMP LOCATION
 Sprite_SpawnImmediatelySmashedTerrain:
 {
     LDY $0314 : PHY
@@ -252,7 +252,7 @@ Sprite_SpawnImmediatelySmashedTerrain:
 
 ; ==============================================================================
 
-; $03014B-$0301F3 LONG
+; $03014B-$0301F3 LONG JUMP LOCATION
 Sprite_SpawnThrowableTerrain:
 {
     ; This routine is called when you pick up a bush/pot/etc.
@@ -493,7 +493,7 @@ Sprite_SpawnSecret:
 
 ; ==============================================================================
 
-; $030328-$0303C1 LONG
+; $030328-$0303C1 LONG JUMP LOCATION
 Sprite_Main:
 {
     ; ARE WE INDOORS
@@ -602,7 +602,7 @@ Sprite_Main:
 
 ; ==============================================================================
 
-; $0303C2-$0303C6 LONG
+; $0303C2-$0303C6 LONG JUMP LOCATION
 EasterEgg_BageCodeTrampoline:
 {
     ; \tcrf Already mentioned on tcrf, but I'm pretty sure they got that
@@ -651,7 +651,7 @@ Oam_ResetRegionBases:
 
 ; ==============================================================================
 
-; $0303E6-$0303E9 LONG
+; $0303E6-$0303E9 LONG JUMP LOCATION
 Utility_CheckIfHitBoxesOverlapLong:
 {
     JSR Utility_CheckIfHitBoxesOverlap
@@ -661,7 +661,7 @@ Utility_CheckIfHitBoxesOverlapLong:
 
 ; ==============================================================================
 
-; $0303EA-$0303F1 LONG
+; $0303EA-$0303F1 LONG JUMP LOCATION
 Sprite_SetupHitBoxLong:
 {
     PHB : PHK : PLB
@@ -814,7 +814,7 @@ Sprite_SetupHitBoxLong:
 
 ; ==============================================================================
 
-; $0304BD-$0304C0 LONG
+; $0304BD-$0304C0 LONG JUMP LOCATION
 Sprite_Get_16_bit_CoordsLong:
 {
     JSR Sprite_Get_16_bit_Coords
@@ -913,7 +913,7 @@ Sprite_ExecuteSingle:
 
 ; ==============================================================================
 
-; $030526-$03052D LONG
+; $030526-$03052D LONG JUMP LOCATION
 SpriteActive_MainLong:
 {
     PHB : PHK : PLB
@@ -1482,7 +1482,7 @@ Entity_ApplyRumbleToSprites:
 
 ; ==============================================================================
 
-; $032D50-$032D6E LONG
+; $032D50-$032D6E LONG JUMP LOCATION
 Sprite_TransmuteToEnemyBomb:
 {
     LDA.b #$4A : STA $0E20, X
@@ -2210,7 +2210,7 @@ Sprite_CheckIfActive:
 
 ; ==============================================================================
 
-; $035BF0-$035BF7 LONG
+; $035BF0-$035BF7 LONG JUMP LOCATION
 Sprite_PrepAndDrawSingleLargeLong:
 {
     PHB : PHK : PLB
@@ -2224,7 +2224,7 @@ Sprite_PrepAndDrawSingleLargeLong:
 
 ; ==============================================================================
 
-; $035BF8-$035BFF LONG
+; $035BF8-$035BFF LONG JUMP LOCATION
 Sprite_PrepAndDrawSingleSmallLong:
 {
     PHB : PHK : PLB
@@ -2287,7 +2287,7 @@ Sprite_DrawShadowRedundant:
 
 ; ==============================================================================
 
-; $035C54-$035C5B LONG
+; $035C54-$035C5B LONG JUMP LOCATION
 Sprite_DrawShadowLong:
 {
     PHB : PHK : PLB
@@ -2301,7 +2301,7 @@ Sprite_DrawShadowLong:
 
 ; ==============================================================================
 
-; $035C5C-$035C63 LONG
+; $035C5C-$035C63 LONG JUMP LOCATION
 pool Sprite_DrawShadowLong:
 {
     .variable
@@ -2431,7 +2431,7 @@ Sprite_PrepAndDrawSingleSmall:
 
 ; ==============================================================================
 
-; $035D38-$035D3F LONG
+; $035D38-$035D3F LONG JUMP LOCATION
 DashKey_Draw:
 {
     PHB : PHK : PLB
@@ -2502,7 +2502,7 @@ incsrc "sprite_held_mode.asm"
 
 ; ==============================================================================
 
-; $035FF2-$035FF9 LONG
+; $035FF2-$035FF9 LONG JUMP LOCATION
 ThrownSprite_TileAndPeerInteractionLong:
 {
     PHB : PHK : PLB
@@ -3149,7 +3149,7 @@ SpritePoof_Main:
 
 ; ==============================================================================
 
-; $036416-$036419 LONG
+; $036416-$036419 LONG JUMP LOCATION
 Sprite_PrepOamCoordLong:
 {
     JSR Sprite_PrepOamCoordSafeWrapper
@@ -3256,7 +3256,7 @@ Sprite_PrepOamCoord:
 
 ; ==============================================================================
 
-; $036496-$0364A0 LONG
+; $036496-$0364A0 LONG JUMP LOCATION
 Sprite_CheckTileCollisionLong:
 {
     PHB : PHK : PLB
@@ -3805,7 +3805,7 @@ Sprite_CheckTileCollisionSingleLayer:
 
 ; ==============================================================================
 
-; $03687B-$036882 LONG
+; $03687B-$036882 LONG JUMP LOCATION
 Entity_GetTileAttr:
 {
     PHB : PHK : PLB
@@ -3883,7 +3883,7 @@ pool Entity_CheckSlopedTileCollision:
 
 ; ==============================================================================
 
-; $0368F6-$0368FD LONG
+; $0368F6-$0368FD LONG JUMP LOCATION
 Entity_CheckSlopedTileCollisionLong:
 {
     PHB : PHK : PLB
@@ -4140,7 +4140,7 @@ Sprite_ApplySpeedTowardsPlayer:
 
 ; ==============================================================================
 
-; $036A12-$036A19 LONG
+; $036A12-$036A19 LONG JUMP LOCATION
 Sprite_ApplySpeedTowardsPlayerLong:
 {
     PHB : PHK : PLB
@@ -4154,7 +4154,7 @@ Sprite_ApplySpeedTowardsPlayerLong:
 
 ; ==============================================================================
 
-; $036A1A-$036A21 LONG
+; $036A1A-$036A21 LONG JUMP LOCATION
 Sprite_ProjectSpeedTowardsPlayerLong:
 {
     PHB : PHK : PLB
@@ -4168,7 +4168,7 @@ Sprite_ProjectSpeedTowardsPlayerLong:
 
 ; ==============================================================================
 
-; $036A22-$036A29 LONG
+; $036A22-$036A29 LONG JUMP LOCATION
 Sprite_ProjectSpeedTowardsEntityLong:
 {
     PHB : PHK : PLB
@@ -4287,7 +4287,7 @@ Sprite_ProjectSpeedTowardsEntity:
 
 ; ==============================================================================
 
-; $036AA0-$036AA3 LONG
+; $036AA0-$036AA3 LONG JUMP LOCATION
 Sprite_DirectionToFacePlayerLong:
 {
     JSR Sprite_DirectionToFacePlayer
@@ -4335,7 +4335,7 @@ Sprite_DirectionToFacePlayer:
 
 ; ==============================================================================
 
-; $036ACD-$036AD0 LONG
+; $036ACD-$036AD0 LONG JUMP LOCATION
 Sprite_IsToRightOfPlayerLong:
 {
     JSR Sprite_IsToRightOfPlayer
@@ -4364,7 +4364,7 @@ Sprite_IsToRightOfPlayer:
 
 ; ==============================================================================
 
-; $036AE4-$036AE7 LONG
+; $036AE4-$036AE7 LONG JUMP LOCATION
 Sprite_IsBelowPlayerLong:
 {
     JSR Sprite_IsBelowPlayer
@@ -4443,7 +4443,7 @@ Sprite_IsBelowEntity:
 
 ; ==============================================================================
 
-; $036B30-$036B5D LONG
+; $036B30-$036B5D LONG JUMP LOCATION
 Sprite_DirectionToFaceEntity:
 {
     PHB : PHK : PLB
@@ -4483,7 +4483,7 @@ Sprite_DirectionToFaceEntity:
     RTL
 }
 
-; $036B5E-$036B65 LONG
+; $036B5E-$036B65 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -4638,7 +4638,7 @@ Sprite_DirectionToFaceEntity:
 
 ; ==============================================================================
 
-; $036C5C-$036C7D LONG
+; $036C5C-$036C7D LONG JUMP LOCATION
 Medallion_CheckSpriteDamage:
 {
     ; Exclusively called by Medallion code
@@ -4676,7 +4676,7 @@ pool Ancilla_CheckSpriteDamage:
 
 ; ==============================================================================
 
-; $036CB7-$036D32 LONG
+; $036CB7-$036D32 LONG JUMP LOCATION
 Ancilla_CheckSpriteDamage:
 {
     LDY $0EF0, X : BPL .sprite_not_already_dying
@@ -4788,7 +4788,7 @@ Ancilla_CheckSpriteDamage:
     db 1, 1, 2, 3 ; stabbing damage indices
 }
 
-; $036D3F-$036EC0 LONG
+; $036D3F-$036EC0 LONG JUMP LOCATION
 {
     ; If bit 6 is set, sprite is invincible.
     LDA $0E60, X : AND.b #$40 : BEQ .notImpervious
@@ -5032,7 +5032,7 @@ Ancilla_CheckSpriteDamage:
     RTL
 }
 
-; $036EC1-$036EC7 JUMP LOCATION LONG
+; $036EC1-$036EC7 LONG JUMP LOCATION
 {
     STZ $0EF0, X
     STZ $0CE2, X
@@ -5425,7 +5425,7 @@ Trinexx_ScheduleSideHeadForDeath:
 
 ; ==============================================================================
 
-; $037121-$037128 LONG
+; $037121-$037128 LONG JUMP LOCATION
 Sprite_CheckDamageToPlayerLong:
 {
     PHB : PHK : PLB
@@ -5439,7 +5439,7 @@ Sprite_CheckDamageToPlayerLong:
 
 ; ==============================================================================
 
-; $037129-$037130 LONG
+; $037129-$037130 LONG JUMP LOCATION
 Sprite_CheckDamageToPlayerSameLayerLong:
 {
     PHB : PHK : PLB
@@ -5453,7 +5453,7 @@ Sprite_CheckDamageToPlayerSameLayerLong:
 
 ; ==============================================================================
 
-; $037131-$037138 LONG
+; $037131-$037138 LONG JUMP LOCATION
 Sprite_CheckDamageToPlayerIgnoreLayerLong:
 {
     PHB : PHK : PLB
@@ -5723,7 +5723,7 @@ Sprite_CheckIfLifted:
 
 ; ==============================================================================
 
-; $0372AA-$0372B3 LONG
+; $0372AA-$0372B3 LONG JUMP LOCATION
 Sprite_CheckDamageFromPlayerLong:
 {
     PHB : PHK : PLB
@@ -5962,7 +5962,7 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 
 ; ==============================================================================
 
-; $03741F-$037426 LONG
+; $03741F-$037426 LONG JUMP LOCATION
 Sprite_AttemptDamageToPlayerPlusRecoilLong:
 {
     PHB : PHK : PLB
@@ -6027,7 +6027,7 @@ Bump_Damage_Table:
     
 ; ==============================================================================
 
-; $03757E-$037585 LONG
+; $03757E-$037585 LONG JUMP LOCATION
 Player_SetupActionHitBoxLong:
 {
     PHB : PHK : PLB
@@ -6230,7 +6230,7 @@ Player_PlaceRepulseSpark:
 
 ; ==============================================================================
 
-; $0376CA-$037704 LONG
+; $0376CA-$037704 LONG JUMP LOCATION
 Sprite_PlaceRupulseSpark:
 {
     LDA $0FAC : BNE .dont_place
@@ -6430,7 +6430,7 @@ Utility_CheckIfHitBoxesOverlap:
 
 ; ==============================================================================
 
-; $037864-$03786B LONG
+; $037864-$03786B LONG JUMP LOCATION
 Sprite_OAM_AllocateDeferToPlayerLong:
 {
     PHB : PHK : PLB
@@ -6558,7 +6558,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; $037917-$03791E LONG
+; $037917-$03791E LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -6776,7 +6776,7 @@ SpriteDeath_Main:
 
 ; ==============================================================================
 
-; $037A54-$037A5B LONG
+; $037A54-$037A5B LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -7066,7 +7066,7 @@ SpriteCustomFall_Main:
 
 ; ==============================================================================
 
-; $037EB4-$037EBB LONG
+; $037EB4-$037EBB LONG JUMP LOCATION
 Sprite_CorrectOamEntriesLong:
 {
     PHB : PHK : PLB

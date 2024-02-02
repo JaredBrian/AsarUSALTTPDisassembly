@@ -2,7 +2,7 @@
 ; ==============================================================================
 
     ; \unused(suspected, but not fully confirmed yet)
-; $0D79E6-$0D7A0B LONG
+; $0D79E6-$0D7A0B LONG JUMP LOCATION
 Cukeman_Unused:
 {
     LDY.b #$00
@@ -29,7 +29,7 @@ Cukeman_Unused:
 
 ; ==============================================================================
 
-; $0D7A0C-$0D7A7D LONG
+; $0D7A0C-$0D7A7D LONG JUMP LOCATION
 Sprite_Cukeman:
 {
     LDA $0EB0, X : BEQ .not_transformed

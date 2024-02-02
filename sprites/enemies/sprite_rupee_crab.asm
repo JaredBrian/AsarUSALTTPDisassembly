@@ -238,7 +238,7 @@ Sprite_RupeeCrab:
 
 ; ==============================================================================
 
-; $032A0C-$032A13 LONG
+; $032A0C-$032A13 LONG JUMP LOCATION
 Sprite_CheckIfLiftedPermissiveLong:
 {
     PHB : PHK : PLB

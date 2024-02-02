@@ -89,7 +89,7 @@ LaserBeam_Draw:
 
 ; ==============================================================================
 
-; $0F24E7-$0F24EE LONG
+; $0F24E7-$0F24EE LONG JUMP LOCATION
 SpritePrep_LaserEyeLong:
 {
     PHB : PHK : PLB

@@ -10,7 +10,7 @@ pool Fairy_HandleMovement:
 
 ; ==============================================================================
 
-; $0F7D14-$0F7D1B LONG
+; $0F7D14-$0F7D1B LONG JUMP LOCATION
 Fairy_HandleMovementLong:
 {
     ; Some subroutine of a Fairy...
@@ -173,7 +173,7 @@ Fairy_HandleMovement:
 
 ; ==============================================================================
 
-; $0F7E33-$0F7E68 LONG
+; $0F7E33-$0F7E68 LONG JUMP LOCATION
 PlayerItem_SpawnFairy:
 {
     LDA.b #$E3 : JSL Sprite_SpawnDynamically : BMI .spawn_failed

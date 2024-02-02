@@ -36,7 +36,7 @@ Overlord_SpawnBoulder:
 
 ; ==============================================================================
 
-; $04B773-$04B77D LONG
+; $04B773-$04B77D LONG JUMP LOCATION
 Overlord_Main:
 {
     PHB : PHK : PLB

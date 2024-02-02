@@ -17,7 +17,7 @@ pool Sprite_SpawnSparkleGarnish:
 
 ; ==============================================================================
 
-; $028008-$02807E LONG
+; $028008-$02807E LONG JUMP LOCATION
 Sprite_SpawnSparkleGarnish:
 {
     ; Check if the frame counter is a multiple of 4
@@ -115,7 +115,7 @@ incsrc "sprite_flail_trooper.asm"
 
 ; ==============================================================================
 
-; $02B5C3-$02B5CA LONG
+; $02B5C3-$02B5CA LONG JUMP LOCATION
 SpriteActive2_MainLong:
 {
     PHB : PHK : PLB
@@ -834,7 +834,7 @@ pool Probe_SetDirectionTowardsPlayer:
 
 ; ==============================================================================
 
-; $02C542-$02C565 LONG
+; $02C542-$02C565 LONG JUMP LOCATION
 Probe_SetDirectionTowardsPlayer:
 {
     PHB : PHK : PLB
@@ -965,7 +965,7 @@ Sprite_SpawnProbeStaggered:
 
 ; ==============================================================================
 
-; $02C66E-$02C675 LONG
+; $02C66E-$02C675 LONG JUMP LOCATION
 Sprite_SpawnProbeAlwaysLong:
 {
     PHB : PHK : PLB
@@ -979,7 +979,7 @@ Sprite_SpawnProbeAlwaysLong:
 
 ; ==============================================================================
 
-; $02C676-$02C67F LONG
+; $02C676-$02C67F LONG JUMP LOCATION
 Soldier_AnimateMarionetteTempLong:
 {
     PHB : PHK : PLB
@@ -2460,7 +2460,7 @@ incsrc "sprite_uncle_and_priest.asm"
 
 ; ==============================================================================
 
-; $02DF6C-$02DFE4 LONG
+; $02DF6C-$02DFE4 LONG JUMP LOCATION
 Sprite_DrawMultiple:
 {
     ; Widely called, seems to do with placing sprite graphics
@@ -2606,7 +2606,7 @@ pool Sprite_ShowSolicitedMessageIfPlayerFacing:
 
 ; ==============================================================================
 
-; $02E1A7-$02E1EF LONG
+; $02E1A7-$02E1EF LONG JUMP LOCATION
 Sprite_ShowSolicitedMessageIfPlayerFacing:
 {
     ; Handles text messages
@@ -2657,7 +2657,7 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
 
 ; ==============================================================================
 
-; $02E1F0-$02E218 LONG
+; $02E1F0-$02E218 LONG JUMP LOCATION
 Sprite_ShowMessageFromPlayerContact:
 {
     ; You might be wondering how this differs from the similarly named
@@ -2695,7 +2695,7 @@ Sprite_ShowMessageFromPlayerContact:
 
 ; ==============================================================================
 
-; $02E219-$02E24C LONG
+; $02E219-$02E24C LONG JUMP LOCATION
 Sprite_ShowMessageUnconditional:
 {
     ; Routine is used to display a text message with
@@ -3036,7 +3036,7 @@ Sprite2_PrepOamCoord:
 
 ; ==============================================================================
 
-; $02FA59-$02FAA1 LONG
+; $02FA59-$02FAA1 LONG JUMP LOCATION
 Sprite_ShowMessageIfPlayerTouching:
 {
     STA $1CF0
@@ -3089,7 +3089,7 @@ Sprite_ShowMessageIfPlayerTouching:
 
 ; ==============================================================================
 
-; $02FAA2-$02FAC9 LONG
+; $02FAA2-$02FAC9 LONG JUMP LOCATION
 Overworld_ReadTileAttr:
 {
     ; \task (rather a bug in the way I named this routine...

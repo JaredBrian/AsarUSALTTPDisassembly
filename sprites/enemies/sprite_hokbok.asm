@@ -193,7 +193,7 @@ Hokbok_Moving:
 
 ; ==============================================================================
 
-; $0EC778-$0EC77C LONG
+; $0EC778-$0EC77C LONG JUMP LOCATION
 Sprite_BounceFromTileCollisionLong:
 {
     JSR Sprite4_BounceFromTileCollision

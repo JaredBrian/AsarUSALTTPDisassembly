@@ -10,7 +10,7 @@ pool Swamola_InitSegments:
 
 ; ==============================================================================
 
-; $0E9C80-$0E9CAC LONG
+; $0E9C80-$0E9CAC LONG JUMP LOCATION
 Swamola_InitSegments:
 {
     PHX : TXY

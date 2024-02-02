@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06C75A-$06C761 LONG
+; $06C75A-$06C761 LONG JUMP LOCATION
 Sprite_FortuneTellerLong:
 {
     ; Fortune teller / Dwarf Swordsmith.
@@ -699,7 +699,7 @@ FortuneTeller_Draw:
 
 ; ==============================================================================
 
-; $06CB2A-$06CB53 LONG
+; $06CB2A-$06CB53 LONG JUMP LOCATION
 Dwarf_SpawnDwarfSolidity:
 {
     LDA.b #$31 : JSL Sprite_SpawnDynamically

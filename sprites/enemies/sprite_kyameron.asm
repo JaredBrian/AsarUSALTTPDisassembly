@@ -241,7 +241,7 @@ Kyameron_Disperse:
 
 ; ==============================================================================
 
-; $0F2001-$0F206B LONG
+; $0F2001-$0F206B LONG JUMP LOCATION
 Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
 {
     PHX

@@ -14,7 +14,7 @@
 
 ; ==============================================================================
     
-; $06DB75-$06DB7E LONG
+; $06DB75-$06DB7E LONG JUMP LOCATION
 RefillLogicLong:
 {
     PHB : PHK : PLB
@@ -30,7 +30,7 @@ RefillLogicLong:
     
 ; =============================================
 
-; $06DB7F-$06DB91 LONG
+; $06DB7F-$06DB91 LONG JUMP LOCATION
 RefreshIconLong:
 {
     ; Similar to RebuildLong but it checks to see if
@@ -399,7 +399,7 @@ HexToDecimal:
 
 ; =============================================
 
-; $06F128-$06F14E LONG
+; $06F128-$06F14E LONG JUMP LOCATION
 RefillHealth:
 {
     ; Check goal health versus actual health.
@@ -486,7 +486,7 @@ AnimateHeartRefill:
 
 ; =============================================
 
-; $06F1B3-$06F1C8 LONG
+; $06F1B3-$06F1C8 LONG JUMP LOCATION
 RefillMagicPower:
 {
     SEP #$30
@@ -678,7 +678,7 @@ RefillMagicPower:
 
 ; ==============================================================================
 
-; $06FA33-$06FA57 LONG
+; $06FA33-$06FA57 LONG JUMP LOCATION
 RestoreTorchBackground:
 {
     ; See if we have the torch...
@@ -710,7 +710,7 @@ RestoreTorchBackground:
 
 ; ==============================================================================
 
-; $06FA58-$06FA5F LONG
+; $06FA58-$06FA5F LONG JUMP LOCATION
 RebuildLong:
 {
     PHB : PHK : PLB
@@ -724,7 +724,7 @@ RebuildLong:
 
 ; ==============================================================================
 
-; $06FA60-$06FA6F LONG
+; $06FA60-$06FA6F LONG JUMP LOCATION
 RebuildIndoor:
 {
     LDA.b #$00 : STA $7EC017

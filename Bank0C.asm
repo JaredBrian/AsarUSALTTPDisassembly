@@ -1075,7 +1075,7 @@ AnimateSceneSprite_DrawTriangle
 
 ; ==============================================================================
 
-; $064A81-$064AB0 LONG
+; $064A81-$064AB0 LONG JUMP LOCATION
 Credits_InitializePolyhedral:
 {
     LDA.b #$08 : STA $0AA4
@@ -1099,7 +1099,7 @@ Credits_InitializePolyhedral:
 
 ; ==============================================================================
 
-; $064AB1-$064ABB LONG
+; $064AB1-$064ABB LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -1247,7 +1247,7 @@ Credits_InitializePolyhedral:
 
 ; ==============================================================================
 
-; $064BA2-$064BAF LONG
+; $064BA2-$064BAF LONG JUMP LOCATION
 Credits_AnimateTheTriangles:
 {
     PHB : PHK : PLB
@@ -3767,7 +3767,7 @@ Intro_DisplayNintendoLogo:
 
 ; ==============================================================================
 
-; $066DAD-$066DD1 JUMP LOCATION LONG
+; $066DAD-$066DD1 LONG JUMP LOCATION
 Module_Attract:
 {
     ; Beginning of Module 0x14, History Mode
@@ -3813,7 +3813,7 @@ Attract_Submodules:
 
 ; ==============================================================================
 
-; $066DE6-$066E0B JUMP LOCATION LONG
+; $066DE6-$066E0B LONG JUMP LOCATION
 Attract_Fade:
 {
     ; Module 0x14.0x00
@@ -3850,7 +3850,7 @@ Attract_Fade:
 
 ; ==============================================================================
 
-; $066E0C-$066EA5 JUMP LOCATION LONG
+; $066E0C-$066EA5 LONG JUMP LOCATION
 Attract_InitGraphics:
 {
     LDX.b #$50
@@ -3957,7 +3957,7 @@ Attract_SlowBrigthenSetFlag:
 
 ; ==============================================================================
 
-; $066EBA-$066ECA JUMP LOCATION LONG
+; $066EBA-$066ECA LONG JUMP LOCATION
 Attract_SlowBrighten:
 {
     LDA $13 : CMP.b #$0F : BEQ Attract_SlowFadeToBlank_nextSubmodule
@@ -3974,7 +3974,7 @@ Attract_SlowBrighten:
 
 ; ==============================================================================
 
-; $066ECB-$066EE4 JUMP LOCATION LONG
+; $066ECB-$066EE4 LONG JUMP LOCATION
 Attract_SlowFadeToBlank:
 {
     LDA $13 : BEQ .fullyDarkened
@@ -4001,7 +4001,7 @@ Attract_SlowFadeToBlank:
 
 ; ==============================================================================
 
-; $066EE5-$066EEB JUMP LOCATION LONG
+; $066EE5-$066EEB LONG JUMP LOCATION
 Attract_PrepNextSequence:
 {
     LDA $23 : ASL A : TAX
@@ -4024,7 +4024,7 @@ Attract_PrepRoutines:
 
 ; ==============================================================================
 
-; $066EF8-$066EFE JUMP LOCATION LONG
+; $066EF8-$066EFE LONG JUMP LOCATION
 Attract_PrepLegend:
 {
     STZ $26
@@ -4078,7 +4078,7 @@ Attract_PrepMapZoom:
 
 ; ==============================================================================
 
-; $066F4E-$066FE2 JUMP LOCATION LONG
+; $066F4E-$066FE2 LONG JUMP LOCATION
 Attract_PrepThroneRoom:
 {
     STZ $420C
@@ -4171,7 +4171,7 @@ Attract_PrepThroneRoom:
 
 ; ==============================================================================
 
-; $066FE3-$067057 JUMP LOCATION LONG
+; $066FE3-$067057 LONG JUMP LOCATION
 Attract_PrepZeldaPrison:
 {
     STZ $99
@@ -4238,7 +4238,7 @@ Attract_PrepZeldaPrison:
 
 ; ==============================================================================
 
-; $067058-$0670DB JUMP LOCATION LONG
+; $067058-$0670DB LONG JUMP LOCATION
 Attract_PrepMaidenWarp:
 {
     REP #$20
@@ -4310,7 +4310,7 @@ Attract_PrepMaidenWarp:
 
 ; ==============================================================================
 
-; $0670DC-$067114 LONG
+; $0670DC-$067114 LONG JUMP LOCATION
 {
     REP #$20
     
@@ -4348,7 +4348,7 @@ Attract_PrepMaidenWarp:
 
 ; ==============================================================================
 
-; $067115-$06711B JUMP LOCATION LONG
+; $067115-$06711B LONG JUMP LOCATION
 Attract_RunSequence:
 {
     LDA $23 : ASL A : TAX
@@ -4370,7 +4370,7 @@ Attract_SequenceRoutines:
 
 ; ==============================================================================
 
-; $067126-$067175 JUMP LOCATION LONG
+; $067126-$067175 LONG JUMP LOCATION
 Attract_Legend:
 {
     ; Move the BGs every fourth frame.
@@ -4430,7 +4430,7 @@ Attract_Legend:
 
 ; ==============================================================================
 
-; $067176-$0671AD JUMP LOCATION LONG
+; $067176-$0671AD LONG JUMP LOCATION
 Attract_MapZoom:
 {
     ; Zoom into hyrule castle on the mode 7 overworld map.
@@ -4510,7 +4510,7 @@ Attract_MapZoom:
 
 ; ==============================================================================
 
-; $0671C8-$06725F JUMP LOCATION LONG
+; $0671C8-$06725F LONG JUMP LOCATION
 Attract_ThroneRoom:
 {
     STZ $2A
@@ -4621,7 +4621,7 @@ Attract_ThroneRoom:
 
 ; ==============================================================================
 
-; $06727A-$06731F JUMP LOCATION LONG
+; $06727A-$06731F LONG JUMP LOCATION
 Attract_ZeldaPrison:
 {
     STZ $2A
@@ -4724,7 +4724,7 @@ Attract_ZeldaPrison:
 
 ; ==============================================================================
 
-; $067324-$06732A JUMP LOCATION LONG
+; $067324-$06732A LONG JUMP LOCATION
 Attract_AdvanceToNextSequence:
 {
     INC $23
@@ -4736,7 +4736,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; $06732B-$067364 JUMP LOCATION LONG
+; $06732B-$067364 LONG JUMP LOCATION
 {
     LDA $34 : BNE .BRANCH_ALPHA
         INC $60
@@ -4771,7 +4771,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; $067379-$067400 JUMP LOCATION LONG
+; $067379-$067400 LONG JUMP LOCATION
 {
     LDA $25 : CMP.b #$80 : BCS .BRANCH_ALPHA
         JSR Attract_ShowTimedTextMessage
@@ -4861,7 +4861,7 @@ Attract_AdvanceToNextSequence:
 
 ; ==============================================================================
 
-; $067423-$06754E JUMP LOCATION LONG
+; $067423-$06754E LONG JUMP LOCATION
 Attract_MaidenWarp:
 {
     LDA $5D : BEQ .sequenceNotFinished
@@ -5190,7 +5190,7 @@ Dramagahnim_ReadySpell:
     RTS
 }
 
-; $067700-$06772D JUMP LOCATION LONG
+; $067700-$06772D LONG JUMP LOCATION
 Attract_Exit:
 {
     DEC $13 : BNE .stillDarkening

@@ -15,7 +15,7 @@ pool Sprite_InnKeeper:
 
 ; ==============================================================================
 
-; $02E3A7-$02E3AE LONG
+; $02E3A7-$02E3AE LONG JUMP LOCATION
 Sprite_InnKeeperLong:
 {
     ; Inn Keeper (0x35)

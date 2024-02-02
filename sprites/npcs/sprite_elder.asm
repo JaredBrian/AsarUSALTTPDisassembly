@@ -1,6 +1,6 @@
 ; ==============================================================================
 
-; $02F0CD-$02F0D4 LONG
+; $02F0CD-$02F0D4 LONG JUMP LOCATION
 Sprite_ElderLong:
 {
     PHB : PHK : PLB

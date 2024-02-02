@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E2EA-$02E2F1 LONG
+; $02E2EA-$02E2F1 LONG JUMP LOCATION
 Sprite_YoungSnitchLadyLong:
 {
     ; Scared Girl 2 (HM Name) (0x34)

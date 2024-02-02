@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02F25A-$02F261 LONG
+; $02F25A-$02F261 LONG JUMP LOCATION
 SpritePrep_MedallionTabletLong:
 {
     ; Sprite prep for medallion tablet.
@@ -47,7 +47,7 @@ SpritePrep_MedallionTablet:
 
 ; ==============================================================================
 
-; $02F296-$02F29D LONG
+; $02F296-$02F29D LONG JUMP LOCATION
 Sprite_MedallionTabletLong:
 {
     PHB : PHK : PLB

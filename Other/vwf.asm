@@ -3009,7 +3009,7 @@ Text_CommandLengths:
 
 ; ==============================================================================
 
-; $0753EB-$07544A LONG
+; $0753EB-$07544A LONG JUMP LOCATION
 Text_GenerateMessagePointers:
 {
     ; In this routine:

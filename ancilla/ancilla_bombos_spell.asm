@@ -13,9 +13,9 @@ pool AddBombosSpell:
 
 ; ==============================================================================
 
-    ; Adds the bombos effect in response to getting it for the first time.
-    ; The ether medallion doesn't use this approach so I wonder why the diff?
-; $042F66-$0430CD LONG
+; Adds the bombos effect in response to getting it for the first time.
+; The ether medallion doesn't use this approach so I wonder why the diff?
+; $042F66-$0430CD LONG JUMP LOCATION
 AddBombosSpell:
 {
     PHB : PHK : PLB

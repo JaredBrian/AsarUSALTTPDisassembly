@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E00B-$02E012 LONG
+; $02E00B-$02E012 LONG JUMP LOCATION
 Sprite_QuarrelBrosLong:
 {
     PHB : PHK : PLB

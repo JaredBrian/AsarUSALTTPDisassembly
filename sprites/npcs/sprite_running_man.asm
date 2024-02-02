@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E88E-$02E895 LONG
+; $02E88E-$02E895 LONG JUMP LOCATION
 SpritePrep_RunningManLong:
 {
     ; Sprite Prep for Red Hat Wussy (0x74)
@@ -30,7 +30,7 @@ SpritePrep_RunningMan:
 
 ; ==============================================================================
 
-; $02E8A2-$02E8A9 LONG
+; $02E8A2-$02E8A9 LONG JUMP LOCATION
 Sprite_RunningManLong:
 {
     ; Scared red hat man (0x74)

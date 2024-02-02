@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0ED6D1-$0ED6F5 LONG
+; $0ED6D1-$0ED6F5 LONG JUMP LOCATION
 Sprite_InitializedSegmented:
 {
     PHX : TXY
@@ -25,7 +25,7 @@ Sprite_InitializedSegmented:
 
 ; ==============================================================================
 
-; $0ED6F6-$0ED6FD LONG
+; $0ED6F6-$0ED6FD LONG JUMP LOCATION
 Sprite_GiantMoldormLong:
 {
     PHB : PHK : PLB
@@ -690,7 +690,7 @@ Sprite_ScheduleBossForDeath:
 
 ; ==============================================================================
 
-; $0EDC2A-$0EDC71 LONG
+; $0EDC2A-$0EDC71 LONG JUMP LOCATION
 Sprite_MakeBossDeathExplosion:
 {
     LDA.b #$0C : JSL Sound_SetSfx2PanLong

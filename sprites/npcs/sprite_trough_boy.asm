@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02FF5E-$02FF65 LONG
+; $02FF5E-$02FF65 LONG JUMP LOCATION
 Sprite_TroughBoyLong:
 {
     PHB : PHK : PLB

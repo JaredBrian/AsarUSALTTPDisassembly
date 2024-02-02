@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0474CA-$0474D1 LONG
+; $0474CA-$0474D1 LONG JUMP LOCATION
 Ancilla_GameOverTextLong:
 {
     PHB : PHK : PLB
@@ -216,7 +216,7 @@ GameOverText_Draw:
 
 ; ==============================================================================
 
-; $0475C4-$047623 BRANCH LOCATION LONG
+; $0475C4-$047623 LONG BRANCH LOCATION
 GameOverText_Draw:
 {
     ; Start the oam buffer from scratch.

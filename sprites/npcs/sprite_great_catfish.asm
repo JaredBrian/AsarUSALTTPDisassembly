@@ -450,7 +450,7 @@ GreatCatfish_SpawnQuakeMedallion:
 
 ; ==============================================================================
 
-; $0EE1AA-$0EE1EC LONG
+; $0EE1AA-$0EE1EC LONG JUMP LOCATION
 Sprite_SpawnFlippersItem:
 {
     LDA.b #$C0
@@ -520,7 +520,7 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
 
 ; ==============================================================================
 
-; $0EE214-$0EE21B LONG
+; $0EE214-$0EE21B LONG JUMP LOCATION
 Sprite_SpawnWaterSplashLong:
 {
     PHB : PHK : PLB

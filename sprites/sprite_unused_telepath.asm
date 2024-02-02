@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $06C6DE-$06C6E5 LONG
+; $06C6DE-$06C6E5 LONG JUMP LOCATION
 Sprite_UnusedTelepathLong:
 {
     PHB : PHK : PLB

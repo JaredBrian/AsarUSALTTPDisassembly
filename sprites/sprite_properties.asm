@@ -285,7 +285,7 @@ pool Sprite_LoadProperties:
 
 ; ==============================================================================
 
-; $06B818-$06B870 LONG
+; $06B818-$06B870 LONG JUMP LOCATION
 Sprite_LoadProperties:
 {
     ; Load's sprite characteristics, such as HP
@@ -345,7 +345,7 @@ Sprite_LoadProperties:
 
 ; ==============================================================================
 
-; $06B871-$06B8F0 LONG
+; $06B871-$06B8F0 LONG JUMP LOCATION
 Sprite_ResetProperties:
 {
     STZ $0F00, X

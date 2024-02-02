@@ -58,7 +58,7 @@ Pipe_LocateTransitTile:
 
 ; ==============================================================================
 
-; $0F76A1-$0F76A8 LONG
+; $0F76A1-$0F76A8 LONG JUMP LOCATION
 Sprite_SomariaPlatformLong:
 {
     PHB : PHK : PLB

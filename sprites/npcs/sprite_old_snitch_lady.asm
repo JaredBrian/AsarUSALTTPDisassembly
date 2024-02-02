@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E675-$02E67C LONG
+; $02E675-$02E67C LONG JUMP LOCATION
 SpritePrep_SnitchesLong:
 {
     ; Sprite Prep for Scared Lady, Scared Ladies, and Inn Keeper? (0x3D, 0x34, 0x35 ?)
@@ -34,7 +34,7 @@ SpritePrep_Snitches:
 
 ; ==============================================================================
 
-; $02E69A-$02E6A1 LONG
+; $02E69A-$02E6A1 LONG JUMP LOCATION
 Sprite_OldSnitchLadyLong:
 {
     ; Scared Ladies / Chicken Lady (0x3D)

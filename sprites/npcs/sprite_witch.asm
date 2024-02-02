@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02E3F3-$02E3FA LONG
+; $02E3F3-$02E3FA LONG JUMP LOCATION
 Sprite_WitchLong:
 {
     PHB : PHK : PLB

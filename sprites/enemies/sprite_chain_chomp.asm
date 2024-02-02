@@ -11,7 +11,7 @@ pool SpritePrep_ChainChomp:
 
 ; ==============================================================================
 
-; $0EBE44-$0EBE7C LONG
+; $0EBE44-$0EBE7C LONG JUMP LOCATION
 SpritePrep_ChainChomp:
 {
     PHX

@@ -213,7 +213,7 @@ Boulder_Draw:
 
 ; ==============================================================================
 
-; $0ED1A8-$0ED1FC LONG
+; $0ED1A8-$0ED1FC LONG JUMP LOCATION
 Sprite_DrawLargeShadow:
 {
     PHB : PHK : PLB

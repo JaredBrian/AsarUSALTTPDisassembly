@@ -29,7 +29,7 @@ pool Sprite_ApplyConveyorAdjustment:
 
 ; ==============================================================================
 
-; $0E8010-$0E803F LONG
+; $0E8010-$0E803F LONG JUMP LOCATION
 Sprite_ApplyConveyorAdjustment:
 {
     ; Seems like this handles the velocity adjustment that a conveyor
@@ -58,7 +58,7 @@ Sprite_ApplyConveyorAdjustment:
 
 ; ==============================================================================
 
-; $0E8040-$0E808B LONG
+; $0E8040-$0E808B LONG JUMP LOCATION
 Sprite_CreateDeflectedArrow:
 {
     ; Creates a ... arrow that has been deflected (as in, now it's falling)
@@ -107,7 +107,7 @@ Sprite_CreateDeflectedArrow:
 
 ; ==============================================================================
 
-; $0E808C-$0E8093 LONG
+; $0E808C-$0E8093 LONG JUMP LOCATION
 Sprite_MoveLong:
 {
     ; Invoked from ending mode usually...?
@@ -162,7 +162,7 @@ Sprite4_CheckDamage:
 
 ; ==============================================================================
 
-; $0EC21A-$0EC221 LONG
+; $0EC21A-$0EC221 LONG JUMP LOCATION
 SpriteActive4_MainLong:
 {
     PHB : PHK : PLB
@@ -241,7 +241,7 @@ incsrc "sprite_raven.asm"
 
 ; ==============================================================================
 
-; $0EDE82-$0EDE89 LONG
+; $0EDE82-$0EDE89 LONG JUMP LOCATION
 Vitreous_SpawnSmallerEyesLong:
 {
     PHB : PHK : PLB
@@ -546,7 +546,7 @@ Sprite4_PrepOamCoord:
 
 ; ==============================================================================
 
-; $0EE9B6-$0EE9D9 LONG
+; $0EE9B6-$0EE9D9 LONG JUMP LOCATION
 Filter_MajorWhitenMain:
 {
     LDA $0FF9 : BEQ .major_white_filter_inactive
@@ -586,7 +586,7 @@ Filter_MajorWhitenMain:
 
 ; ==============================================================================
 
-; $0EE9DA-$0EE9FF LONG
+; $0EE9DA-$0EE9FF LONG JUMP LOCATION
 CacheSprite_ExecuteAll:
 {
     ; Some kind of special enemy "switch out"
@@ -738,7 +738,7 @@ pool Sprite_SimulateSoldier:
 
 ; ==============================================================================
 
-; $0EEB84-$0EEBEA LONG
+; $0EEB84-$0EEBEA LONG JUMP LOCATION
 Sprite_SimulateSoldier:
 {
     PHB : PHK : PLB
@@ -801,7 +801,7 @@ incsrc "sprite_evil_barrier.asm"
 
 ; ==============================================================================
 
-; $0EF277-$0EF2A4 LONG
+; $0EF277-$0EF2A4 LONG JUMP LOCATION
 Moldorm_Initialize:
 {
     PHX
@@ -839,7 +839,7 @@ pool Sprite_DrawFourAroundOne:
 
 ; ==============================================================================
 
-; $0EF395-$0EF3D3 LONG
+; $0EF395-$0EF3D3 LONG JUMP LOCATION
 Sprite_DrawFourAroundOne:
 {
     PHB : PHK : PLB
@@ -871,7 +871,7 @@ Sprite_DrawFourAroundOne:
 
 ; ==============================================================================
 
-; $0EF3D4-$0EF44C LONG
+; $0EF3D4-$0EF44C LONG JUMP LOCATION
 Toppo_Flustered:
 {
     PHB : PHK : PLB
@@ -959,7 +959,7 @@ pool Goriya_Draw:
 
 ; ==============================================================================
 
-; $0EF589-$0EF5D3 LONG
+; $0EF589-$0EF5D3 LONG JUMP LOCATION
 Goriya_Draw:
 {
     PHB : PHK : PLB
@@ -1028,7 +1028,7 @@ pool Sprite_ConvertVelocityToAngle:
 
 ; ==============================================================================
 
-; $0EF614-$0EF65C LONG
+; $0EF614-$0EF65C LONG JUMP LOCATION
 Sprite_ConvertVelocityToAngle:
 {
     !x_magnitude = $08
@@ -1090,7 +1090,7 @@ Sprite_ConvertVelocityToAngle:
 
 ; ==============================================================================
 
-; $0EF65D-$0EF6CE LONG
+; $0EF65D-$0EF6CE LONG JUMP LOCATION
 Sprite_SpawnDynamically:
 {
     LDY.b #$0F
@@ -1194,7 +1194,7 @@ Sprite_SpawnDynamically:
 
 ; ==============================================================================
 
-; $0EF822-$0EF942 LONG
+; $0EF822-$0EF942 LONG JUMP LOCATION
 Moldorm_Draw:
 {
     JSL Sprite_PrepOamCoordLong : BCC .can_draw
@@ -1353,7 +1353,7 @@ pool PullForRupees_SpawnRupees:
 
 ; ==============================================================================
 
-; $0EFBD7-$0EFC37 LONG
+; $0EFBD7-$0EFC37 LONG JUMP LOCATION
 PullForRupees_SpawnRupees:
 {
     PHB : PHK : PLB
@@ -1467,7 +1467,7 @@ pool OldMountainMan_Draw:
 
 ; ==============================================================================
 
-; $0EFF0E-$0EFF5A LONG
+; $0EFF0E-$0EFF5A LONG JUMP LOCATION
 OldMountainMan_Draw:
 {
     PHB : PHK : PLB
@@ -1510,7 +1510,7 @@ OldMountainMan_Draw:
     RTL
 }
 
-; $0EFF5B-$0EFFBC LONG
+; $0EFF5B-$0EFFBC LONG JUMP LOCATION
 SpriteBurn_Execute:
 {
     PHB : PHK : PLB
@@ -1584,7 +1584,7 @@ pool SpriteFall_Draw:
 
 ; ==============================================================================
 
-; $0EFFC5-$0EFFF7 LONG
+; $0EFFC5-$0EFFF7 LONG JUMP LOCATION
 SpriteFall_Draw:
 {
     PHB : PHK : PLB

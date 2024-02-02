@@ -5,7 +5,7 @@ org $078000 ; $038000-$03FFFF
 
 ; ==============================================================================
 
-; $038000-$038020 LONG
+; $038000-$038020 LONG JUMP LOCATION
 Player_Main:
 {
     PHB : PHK : PLB
@@ -906,7 +906,7 @@ Player_SetSfxPan:
 
 ; ==============================================================================
 
-    ; *3855A-$3856F LONG
+    ; *3855A-$3856F LONG JUMP LOCATION
 Player_InitiateFirstEtherSpell:
 {
     REP #$20
@@ -1003,7 +1003,7 @@ Player_EtherSpell:
 
 ; ==============================================================================
 
-; $0385E5-$0385FA LONG
+; $0385E5-$0385FA LONG JUMP LOCATION
 Player_InitiateFirstBombosSpell:
 {
     REP #$20
@@ -1098,7 +1098,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $03866D-$03867A LONG
+; $03866D-$03867A LONG JUMP LOCATION
 {
     ; Enters the desert palace opening mode
     REP #$20
@@ -1610,7 +1610,7 @@ Player_BombosSpell:
     RTS
 }
 
-; $03894E-$038A04 JUMP LOCATION LOCAL JUMP LOCATION
+; $03894E-$038A04 LOCAL JUMP LOCATION
 {
     ; Link mode 0x0B - falling down ledge to water or a hole? (Is that it?)
     
@@ -2816,7 +2816,7 @@ Player_HaltDashAttack:
 
 ; ==============================================================================
 
-; $0391B9-$0391BC LONG
+; $0391B9-$0391BC LONG JUMP LOCATION
 Player_HaltDashAttackLong:
 {
     JSR Player_HaltDashAttack
@@ -2932,7 +2932,7 @@ Player_HaltDashAttackLong:
 
 ; ==============================================================================
 
-; $039291-$03929F LONG
+; $039291-$03929F LONG JUMP LOCATION
 Sprite_RepelDashAttackLong:
 {
     PHB : PHK : PLB
@@ -3360,7 +3360,7 @@ Sprite_RepelDashAttackLong:
 
 ; ==============================================================================
 
-; $039520-$039634 LONG
+; $039520-$039634 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -3805,7 +3805,7 @@ Sprite_RepelDashAttackLong:
 
 ; ==============================================================================
 
-; $03983A-$03984A LONG
+; $03983A-$03984A LONG JUMP LOCATION
 Player_ResetSwimState:
 {
     PHB : PHK : PLB
@@ -3823,7 +3823,7 @@ Player_ResetSwimState:
 
 ; ==============================================================================
 
-; $03984B-$039872 LONG
+; $03984B-$039872 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -4044,7 +4044,7 @@ Player_Electrocution:
 
 ; ==============================================================================
 
-; $0399AD-$039A2B LONG
+; $0399AD-$039A2B LONG JUMP LOCATION
 Link_ReceiveItem:
 {
     ; Grant link the item he earned, if possible
@@ -4137,7 +4137,7 @@ Link_ReceiveItem:
 
 ; ==============================================================================
 
-; $039A2C-$039A53 LONG
+; $039A2C-$039A53 LONG JUMP LOCATION
 {
     ; Puts link in bed asleep
     
@@ -5832,7 +5832,7 @@ LinkItem_Flute:
 
 ; ==============================================================================
 
-; $03A45F-$03A470 LONG
+; $03A45F-$03A470 LONG JUMP LOCATION
 GanonEmerges_SpawnTravelBird:
 {
     PHB : PHK : PLB
@@ -6306,7 +6306,7 @@ LinkItem_Quake:
     RTS
 }
 
-; $03A7B0-$03A7B7 LONG
+; $03A7B0-$03A7B7 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -6770,7 +6770,7 @@ LinkItem_Mirror:
     RTS
 }
 
-; $03AAA2-$03AB24 LONG
+; $03AAA2-$03AB24 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -7767,7 +7767,7 @@ LinkItem_EvaluateMagicCost:
 
 ; ==============================================================================
 
-; $03B0E9-$03B106 LONG
+; $03B0E9-$03B106 LONG JUMP LOCATION
 LinkItem_ReturnUnusedMagic:
 {
     PHB : PHK : PLB
@@ -7785,7 +7785,7 @@ LinkItem_ReturnUnusedMagic:
 
 ; ==============================================================================
 
-; $03B107-$03B11B LONG
+; $03B107-$03B11B LONG JUMP LOCATION
 {
     STZ $030A
     STZ $3B
@@ -8039,7 +8039,7 @@ Link_Lift:
 
 ; ==============================================================================
 
-; $03B281-$03B2ED JUMP LOCATION LOCAL ; Commented by zarby
+; $03B281-$03B2ED LOCAL JUMP LOCATION ; Commented by zarby
 {
     LDA $02F5 : BNE .BRANCH_$3B1CA_THETA ; on somaria platform?
     
@@ -8581,7 +8581,7 @@ Link_Chest:
     RTS
 }
 
-; $03B5D6-$03B608 LONG
+; $03B5D6-$03B608 LONG JUMP LOCATION
 {
     LDA $3B : AND.b #$80 : BEQ .aButtonNotDown
     
@@ -12366,7 +12366,7 @@ BRANCH_ULTIMA
 
 ; ==============================================================================
 
-; $03CF0A-$03CF11 LONG
+; $03CF0A-$03CF11 LONG JUMP LOCATION
 Player_TileDetectNearbyLong:
 {
     PHB : PHK : PLB
@@ -13159,7 +13159,7 @@ Player_TileDetectNearby:
 
 ; ==============================================================================
 
-; $03D576-$03D606 LONG
+; $03D576-$03D606 LONG JUMP LOCATION
 Hookshot_CheckTileCollison:
 {
     PHB : PHK : PLB
@@ -15057,7 +15057,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $03E245-$03E405 LONG
+; $03E245-$03E405 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -15747,7 +15747,7 @@ TileDetect_Execute:
     RTS
 }
 
-; $03E69D-$03E7CD LONG
+; $03E69D-$03E7CD LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -16254,7 +16254,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $03E9D3-$03EA05 LONG
+; $03E9D3-$03EA05 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -16296,7 +16296,7 @@ TileDetect_Execute:
 
 ; ==============================================================================
 
-; $03EA06-$03EA21 LONG
+; $03EA06-$03EA21 LONG JUMP LOCATION
 Player_InitPrayingScene_HDMA:
 {
     ; This routine initializes the hdma table for Link praying to open
@@ -16336,7 +16336,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03EA27-$03EBD9 LONG
+; $03EA27-$03EBD9 LONG JUMP LOCATION
 {
     ; This routine seems to construct the hdma table that zeroes in or out
     ; on the player's position (e.g. when leaving a dungeon or entering
@@ -16760,7 +16760,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03EDB5-$03EDF3 LONG
+; $03EDB5-$03EDF3 LONG JUMP LOCATION
 {
     ; Input parameters: Y
     
@@ -16811,7 +16811,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03EDF9-$03EE2F LONG
+; $03EDF9-$03EE2F LONG JUMP LOCATION
 {
     ; Appears to be involved with push blocks or falling push blocks.
     
@@ -17156,7 +17156,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03F0AC-$03F0CA LONG
+; $03F0AC-$03F0CA LONG JUMP LOCATION
 {
     ; Handles animation of moveable blocks and such?
     
@@ -17272,7 +17272,7 @@ Player_InitPrayingScene_HDMA:
 
 ; ==============================================================================
 
-; $03F13C-$03F1A2 LONG
+; $03F13C-$03F1A2 LONG JUMP LOCATION
 Init_Player:
 {
     PHB : PHK : PLB
@@ -17329,7 +17329,7 @@ Init_Player:
 
 ; ==============================================================================
 
-; $03F1A3-$03F259 LONG
+; $03F1A3-$03F259 LONG JUMP LOCATION
 Player_ResetState:
 {
     STZ $26
@@ -17418,7 +17418,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F25A-$03F2C0 LONG
+; $03F25A-$03F2C0 LONG JUMP LOCATION
 {
     ; \task Name this routine. Seems to be important to straight inter room
     ; staircases.
@@ -17497,7 +17497,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F2C1-$03F390 LONG
+; $03F2C1-$03F390 LONG JUMP LOCATION
 {
     ; \task Name this routine. Seems pretty important to spiral staircases.
     
@@ -17638,7 +17638,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F391-$03F3F2 LONG
+; $03F391-$03F3F2 LONG JUMP LOCATION
 {
     ; \task Name this routine. Used by spiral staircases.
     
@@ -17703,7 +17703,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F3F3-$03F3FC LONG
+; $03F3F3-$03F3FC LONG JUMP LOCATION
 {
     ; \task Name this routine. It apparently has something to do with
     ; staircases, possibly spiral staircases in particular.
@@ -17722,7 +17722,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F3FD-$03F42E LONG
+; $03F3FD-$03F42E LONG JUMP LOCATION
 {
     ; \unused Pretty certain this is unused
     ; \task What would it be for, though? Looks like staircases. Hard to say
@@ -17763,7 +17763,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F42F-$03F438 LONG
+; $03F42F-$03F438 LONG JUMP LOCATION
 {
     PHB : PHK : PLB
     
@@ -17778,7 +17778,7 @@ Player_ResetState:
 
 ; ==============================================================================
 
-; $03F439-$03F46E LONG
+; $03F439-$03F46E LONG JUMP LOCATION
 Player_IsScreenTransitionPermitted:
 {
     PHB : PHK : PLB
@@ -17824,7 +17824,7 @@ Player_IsScreenTransitionPermitted:
 
 ; ==============================================================================
 
-; $03F46F-$03F49B LONG
+; $03F46F-$03F49B LONG JUMP LOCATION
 Tagalong_CanWeDisplayMessage:
 {
     ; Is link in his basic game state?
@@ -17862,7 +17862,7 @@ Tagalong_CanWeDisplayMessage:
 
 ; ==============================================================================
 
-; $03F49C-$03F4CF LONG
+; $03F49C-$03F4CF LONG JUMP LOCATION
 Player_ApproachTriforce:
 {
     ; \optimize No local data is used, so we don't have to do this.
@@ -17912,7 +17912,7 @@ Player_ApproachTriforce:
 
 ; ==============================================================================
 
-; $03F4D0-$03F4F0 LONG
+; $03F4D0-$03F4F0 LONG JUMP LOCATION
 Sprite_CheckIfPlayerPreoccupied:
 {
     PHX
@@ -17949,7 +17949,7 @@ Sprite_CheckIfPlayerPreoccupied:
 
 ; ==============================================================================
 
-; $03F4F1-$03F513 LONG
+; $03F4F1-$03F513 LONG JUMP LOCATION
 Player_IsPipeEnterable:
 {
     LDX.b #$04

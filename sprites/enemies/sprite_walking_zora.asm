@@ -391,7 +391,7 @@ WalkingZora_DrawWaterRipple:
 
 ; ==============================================================================
 
-; $029FFA-$02A028 LONG
+; $029FFA-$02A028 LONG JUMP LOCATION
 Sprite_DrawWaterRipple:
 {
     PHB : PHK : PLB
@@ -420,7 +420,7 @@ Sprite_DrawWaterRipple:
 
 ; ==============================================================================
 
-; $02A029-$02A030 LONG
+; $02A029-$02A030 LONG JUMP LOCATION
 Sprite_AutoIncDrawWaterRippleLong:
 {
     PHB : PHK : PLB

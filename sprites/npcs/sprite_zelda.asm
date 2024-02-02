@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02EBC7-$02EBCE LONG
+; $02EBC7-$02EBCE LONG JUMP LOCATION
 SpritePrep_ZeldaLong:
 {
     ; Sprite Prep for Princess Zelda (0x76)
@@ -130,7 +130,7 @@ pool Sprite_Zelda:
 
 ; ==============================================================================
 
-; $02EC96-$02EC9D LONG
+; $02EC96-$02EC9D LONG JUMP LOCATION
 Sprite_ZeldaLong:
 {
     PHB : PHK : PLB

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
     ; \note Performs movement and player interaction of the gravestone.
-; $046D89-$046DF8 LONG
+; $046D89-$046DF8 LONG JUMP LOCATION
 Gravestone_Move:
 {
     PHB : PHK : PLB

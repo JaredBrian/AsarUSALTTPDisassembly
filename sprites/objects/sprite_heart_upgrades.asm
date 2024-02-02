@@ -13,7 +13,7 @@ pool Sprite_HeartPiece:
 
 ; ==============================================================================
 
-; $02EF01-$02EF08 LONG
+; $02EF01-$02EF08 LONG JUMP LOCATION
 SpritePrep_HeartContainerLong:
     shared SpritePrep_HeartPieceLong:
 {
@@ -75,7 +75,7 @@ HeartUpdgrade_CheckIfAlreadyObtained:
 
 ; ==============================================================================
 
-; $02EF3F-$02EF46 LONG
+; $02EF3F-$02EF46 LONG JUMP LOCATION
 Sprite_HeartContainerLong:
 {
     PHB : PHK : PLB
@@ -242,7 +242,7 @@ HeartUpgrade_SetIndoorAcquiredFlag:
 
 ; ==============================================================================
 
-; $02F018-$02F01F LONG
+; $02F018-$02F01F LONG JUMP LOCATION
 Sprite_HeartPieceLong:
 {
     PHB : PHK : PLB

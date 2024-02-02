@@ -19,7 +19,7 @@ Ganon_CheckEntityProximity:
 
 ; ==============================================================================
 
-; $0E8D29-$0E8D3F LONG
+; $0E8D29-$0E8D3F LONG JUMP LOCATION
 Ganon_Initialize:
 {
     PHB : PHK : PLB
@@ -201,7 +201,7 @@ Ganon_Initialize:
     RTS
 }
 
-; $0E8EB4-$0E8ECA JUMP LOCATION LOCAL JUMP LOCATION
+; $0E8EB4-$0E8ECA LOCAL JUMP LOCATION
 Sprite_Ganon:
 {
     ; CODE FOR GANON
@@ -374,7 +374,7 @@ Sprite_Ganon:
 
 ; ==============================================================================
 
-; $0E8F8C-$0E8FB7 JUMP LOCATION LOCAL ; 0x13
+; $0E8F8C-$0E8FB7 LOCAL JUMP LOCATION ; 0x13
 {
     LDA.b #$05 : STA $0F50, X
     LDA.b #$02 : STA $0B6B, X
@@ -922,7 +922,7 @@ Sprite_Ganon:
     RTS
 }
 
-; $0E92CA-$0E92F6 JUMP LOCATION LOCAL ; 0x00
+; $0E92CA-$0E92F6 LOCAL JUMP LOCATION ; 0x00
 {
     ; Is the timer still going?
     LDA $0DF0, X : BNE .BRANCH_ALPHA

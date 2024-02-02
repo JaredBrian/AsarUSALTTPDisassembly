@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $02FBEF-$02FBF6 LONG
+; $02FBEF-$02FBF6 LONG JUMP LOCATION
 Sprite_DashItemLong:
 {
     PHB : PHK : PLB

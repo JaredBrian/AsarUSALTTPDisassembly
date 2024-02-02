@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $0EF063-$0EF06A LONG
+; $0EF063-$0EF06A LONG JUMP LOCATION
 Sprite_EvilBarrierLong:
 {
     PHB : PHK : PLB

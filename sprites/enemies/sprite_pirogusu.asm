@@ -163,7 +163,7 @@ Pirogusu_SplashIntoPlay:
 
 ; ==============================================================================
 
-; $0F2820-$0F284B LONG
+; $0F2820-$0F284B LONG JUMP LOCATION
 Sprite_SpawnSmallWaterSplash:
 {
     ; Spawn a bush sprite... but for what...

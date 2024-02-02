@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-; $04B1BD-$04B20E LONG
+; $04B1BD-$04B20E LONG JUMP LOCATION
 Garnish_SpawnPyramidDebris:
 {
     LDA.b #$03 : STA $012F
