@@ -7240,7 +7240,7 @@ Palette_InitWhiteFilter:
     LDA.w #$0002 : STA $7EC009
         
     ; ZS writes here.
-    ; $006EBC - ZS Custom Overworld
+    ; $006EBB - ZS Custom Overworld
     ; If we are going to the pyramid area set the BG color to transparent so the background can appear there.
     LDA $8A : CMP.w #$001B : BNE .notHyruleCastle
         LDA.w #$0000 : STA $7EC300 : STA $7EC340 : STA $7EC500 : STA $7EC540
