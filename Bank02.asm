@@ -9,17 +9,17 @@ org $028000
 ; Bank 0x02 - not for the faint of heart
 ;
 ; MainRouting Modules: (defined in Bank00)
-;   - LoadFile        0x05
-;   - PreDungeon      0x06
-;   - Dungeon         0x07
-;   - PreOverworld    0x08
-;   - Overworld       0x09
-;   - CloseSpotlight  0x0F
+;   - LoadFile       0x05
+;   - PreDungeon     0x06
+;   - Dungeon        0x07
+;   - PreOverworld   0x08
+;   - Overworld      0x09
+;   - CloseSpotlight 0x0F
 ;   - Victory
 ;   - BossVictory
 ;   - LoadMusic
-;   - TriforceRoom    0x19
-;   - LocationMenu    0x1B
+;   - TriforceRoom   0x19
+;   - LocationMenu   0x1B
 
 ; ==============================================================================
 
@@ -914,7 +914,7 @@ AdjustBunnyLinkStatus:
 ; ==============================================================================
 
 ; $010583-$010585 DATA TABLE
-pool Module_LocationMenu:
+Pool_Module_LocationMenu:
 {
     .starting_points
     db $00 ; Link's House
@@ -1452,7 +1452,7 @@ Dungeon_TryScreenEdgeTransition:
 ; ==============================================================================
 
 ; $0108C1-$0108C4 DATA TABLE
-pool Dungeon_HandleEdgeTransitionMovement:
+Pool_Dungeon_HandleEdgeTransitionMovement:
 {
     .masks
     db $03, $03, $0C, $0C
@@ -3164,7 +3164,7 @@ Module07_0E_13_SetRoomAndLayerAndCache:
 ; ==============================================================================
 
 ; $01120A-$011219 DATA TABLE
-pool RepositionLinkAfterSpiralStairs:
+Pool_RepositionLinkAfterSpiralStairs:
 {
     .x_offsets
     dw -28, -28,  24,  24
@@ -3295,7 +3295,7 @@ SpiralStairs_MakeNearbyWallsHighPriority_Exiting:
 ; ==============================================================================
 
 ; $011319-$01131C LOCAL JUMP TABLE
-pool Dungeon_LandingWipe:
+Pool_Dungeon_LandingWipe:
 {
     dw Module07_0F_00_InitSpotlight ; = $01132D
     dw $9334 ; = $011334
@@ -3683,6 +3683,7 @@ Module07_11_19_SetSongAndFilter:
 ; ==============================================================================
 
 ; $011518-$01151F LOCAL JUMP LOCATION
+Module07_11_11_KeepSliding:
 {
     LDA.w $0464 : BNE Module07_11_19_SetSongAndFilter_BRANCH_ALPHA
         INC.b $B0
@@ -3693,6 +3694,7 @@ Module07_11_19_SetSongAndFilter:
 ; ==============================================================================
 
 ; $011520-$011529 LOCAL JUMP LOCATION
+Module07_14_RecoverFromFall:
 {
     LDA.b $B0
 
@@ -3705,6 +3707,7 @@ Module07_11_19_SetSongAndFilter:
 ; ==============================================================================
 
 ; $01152A-$011582 LOCAL JUMP LOCATION
+Module07_14_00_ScrollCamera:
 {
     REP #$20
 
@@ -3758,6 +3761,7 @@ Module07_11_19_SetSongAndFilter:
 ; ==============================================================================
 
 ; $011583-$011679 LOCAL JUMP LOCATION
+RecoverPositionAfterDrowning:
 {
     REP #$20
 
@@ -3877,6 +3881,7 @@ Dungeon_Teleport:
 }
 
 ; $0116AC-$0116B9 LOCAL JUMP LOCATION
+Module07_15_01_ApplyMosaicAndFilter:
 {
     JSR Overworld_ResetMosaic
 
@@ -3886,6 +3891,7 @@ Dungeon_Teleport:
 }
 
 ; $0116BA-$0116EB LOCAL JUMP LOCATION
+Module07_15_04_SyncRoomPropsAndBuildOverlay:
 {
     JSL Dungeon_ApproachFixedColor
 
@@ -3921,6 +3927,7 @@ Dungeon_Teleport:
 }
 
 ; $0116EC-$01170E LOCAL JUMP LOCATION
+Module07_15_0E_FadeInFromWarp:
 {
     LDA.l $7EC007 : LSR A : BCC .mosaicDisabled
         LDA.l $7EC011 : BEQ .mosaicDisabled
@@ -3976,6 +3983,7 @@ Dungeon_UpdatePegs:
 }
 
 ; $011739-$0117A8 LOCAL JUMP LOCATION
+Module07_16_UpdatePegs_Step1:
 {
     REP #$10
 
@@ -4055,6 +4063,7 @@ Dungeon_UpdatePegs:
 }
 
 ; $0117A9-$0117B1 LOCAL JUMP LOCATION
+Module07_16_UpdatePegs_FinishUp:
 {
     JSL Dungeon_ToggleBarrierAttr ; $C22A IN ROM
 
@@ -4065,6 +4074,7 @@ Dungeon_UpdatePegs:
 }
 
 ; $0117B2-$0117C7 LONG JUMP LOCATION
+RecoverPegGFXFromMapping:
 {
     REP #$10
 
@@ -4148,6 +4158,7 @@ Dungeon_Crystal:
 ; ==============================================================================
 
 ; $011826-$011887 LOCAL JUMP LOCATION
+PrepareForCrystalCutscene:
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
 
@@ -4185,6 +4196,7 @@ Dungeon_Crystal:
 }
 
 ; $011888-$0118E6 LOCAL JUMP LOCATION
+BuildCrystalCutsceneTilemap:
 {
     JSL PaletteFilter_Crystal
 
@@ -4238,6 +4250,7 @@ Dungeon_Crystal:
 }
 
 ; $0118E7-$0118F6 LOCAL JUMP LOCATION
+StartCrystalCutscene:
 {
     INC.w $012A
 
@@ -4363,9 +4376,14 @@ Module0C_RestoreModule:
     RTS
 }
 
-; $01197A-$01197D DATA
+; $01197A-$01197D DATA TABLE
+Pool_Module0F_SpotlightClose
 {
-
+    .direction
+    db $08
+    db $04
+    db $02
+    db $01
 }
 
 ; $01197E-$011981 LOCAL JUMP TABLE
@@ -4626,7 +4644,7 @@ Module_OpenSpotlight_Iris:
 ; ==============================================================================
 
 ; $011AED-$011AF8 LOCAL JUMP TABLE
-pool Module_HoleToDungeon:
+Pool_Module_HoleToDungeon:
 {
 .submodules
     dw HoleToDungeon_FadeMusic
@@ -4809,6 +4827,7 @@ HoleToDungeon_LoadDungeon:
 ; ==============================================================================
 
 ; $011C0F-$011C3D LOCAL JUMP LOCATION
+Module11_04_FadeAndLoadQuadrants:
 {
     LDA.b $13 : INC A : AND.b #$0F : STA.b $13
 
@@ -5076,6 +5095,7 @@ Mirror_Init:
 ; ==============================================================================
 
 ; $011D5D-$011DB5 LOCAL JUMP LOCATION
+Module15_05:
 {
     REP #$30
 
@@ -5114,6 +5134,7 @@ Mirror_Init:
 ; ==============================================================================
 
 ; $011DB6-$011DC1 LOCAL JUMP LOCATION
+Module15_06:
 {
     DEC.b $B0 : BNE .BRANCH_ALPHA
 
@@ -5127,6 +5148,7 @@ Mirror_Init:
 }
 
 ; $011DC2-$011DF4 LOCAL JUMP LOCATION
+Module15_07:
 {
     JSL Messaging_Text
 
@@ -5164,6 +5186,7 @@ Mirror_Init:
 }
 
 ; $011DF5-$011E05 LOCAL JUMP LOCATION
+Module15_08:
 {
     JSL Messaging_Text
 
@@ -5177,6 +5200,7 @@ Mirror_Init:
 }
 
 ; $011E06-$011E0E LOCAL JUMP LOCATION
+Module15_02_RunMirrorWarp_Part1:
 {
     JSL $00FE5E ; $007E5E IN ROM
 
@@ -5188,6 +5212,7 @@ Mirror_Init:
 }
 
 ; $011E0F-$011E21 LOCAL JUMP LOCATION
+Module15_03_RunMirrorWarp_Part2:
 {
     JSL $00FE64 ; $007E64 IN ROM
 
@@ -5209,6 +5234,7 @@ Mirror_Init:
 }
 
 ; $011E22-$011E5E LOCAL JUMP LOCATION
+Module15_0C:
 {
     DEC.b $B0 : BNE .stillCountingDown
         JSL $029E6E ; $011E6E IN ROM
@@ -5246,6 +5272,7 @@ Mirror_Init:
 ; =============================================
 
 ; $011E5F-$011E7F LONG JUMP LOCATION
+SetTargetOverworldWarpToPyramid:
 {
     ; If Link is not currently in a mirror warp, return
     ; This seems silly though, because the only routine that references this
@@ -5276,7 +5303,7 @@ Mirror_Init:
 ; ==============================================================================
 
 ; $011E80-$011E89 LOCAL JUMP TABLE
-pool Module_Victory:
+Pool_Module_Victory:
 {
     .states
     dw $9C59 ; = $011C59
@@ -5310,8 +5337,9 @@ EXIT_029E99:
 }
 
 ; $011E9A-$011EC9 LOCAL JUMP LOCATION
+Module16_04_FadeAndEnd:
 {
-    DEC.b $13 : BNE EXIT_029E99 ; (RTS)
+    DEC.b $13 : BNE EXIT_029E99
         REP #$20
 
         STZ.w $011A : STZ.w $011C : STZ.b $30
@@ -5336,7 +5364,7 @@ EXIT_029E99:
 ; ==============================================================================
 
 ; $011ECA-$011EDB LOCAL JUMP TABLE
-pool Module_GanonEmerges:
+Pool_Module_GanonEmerges:
 {
     .submodules
     dw GanonEmerges_GetBirdForPursuit
@@ -5537,24 +5565,24 @@ GanonEmerges_DropOffPlayerAtPyramid:
 ; ==============================================================================
 
 ; $011FCE-$011FEB LOCAL JUMP TABLE
-pool Module_TriforceRoom:
+Pool_Module_TriforceRoom:
 {
-.submodules
-    dw TriforceRoom_Step0 ; = $012021  0x00
-    dw TriforceRoom_Step1 ; = $01202F  0x01
-    dw TriforceRoom_Step2 ; = $012035  0x02
-    dw TriforceRoom_Step3 ; = $012065  0x03
-    dw TriforceRoom_Step4 ; = $012089  0x04
-    dw TriforceRoom_Step5 ; = $0120CD  0x05
-    dw TriforceRoom_Step6 ; = $0120E4  0x06
-    dw TriforceRoom_Step7 ; = $012100  0x07
-    dw $A137 ; = $012137               0x08
-    dw TriforceRoom_Step9 ; = $012121  0x09
-    dw $A137 ; = $012137               0x0A
-    dw TriforceRoom_Step11 ; = $012151 0x0B
-    dw TriforceRoom_Step12 ; = $012164 0x0C
-    dw TriforceRoom_Step13 ; = $012173 0x0D
-    dw TriforceRoom_Step14 ; = $012186 0x0E
+    .submodules
+    dw TriforceRoom_Step0      ; = $012021 0x00
+    dw TriforceRoom_Step1      ; = $01202F 0x01
+    dw TriforceRoom_Step2      ; = $012035 0x02
+    dw TriforceRoom_Step3      ; = $012065 0x03
+    dw TriforceRoom_Step4      ; = $012089 0x04
+    dw TriforceRoom_Step5      ; = $0120CD 0x05
+    dw TriforceRoom_Step6      ; = $0120E4 0x06
+    dw TriforceRoom_Step7      ; = $012100 0x07
+    dw TriforceRoom_Step8And10 ; = $012137 0x08
+    dw TriforceRoom_Step9      ; = $012121 0x09
+    dw TriforceRoom_Step8And10 ; = $012137 0x0A
+    dw TriforceRoom_Step11     ; = $012151 0x0B
+    dw TriforceRoom_Step12     ; = $012164 0x0C
+    dw TriforceRoom_Step13     ; = $012173 0x0D
+    dw TriforceRoom_Step14     ; = $012186 0x0E
 }
 
 ; ==============================================================================
@@ -5783,6 +5811,7 @@ TriforceRoom_Step9:
 }
 
 ; $012137-$012150 LOCAL JUMP LOCATION
+TriforceRoom_Step8And10:
 {
     JSL $0CCAB1 ; $064AB1 IN ROM
 
@@ -5882,7 +5911,7 @@ TriforceRoom_Step14:
 
 ; \note Crystals and pendant bitfiels indicating status.
 ; $0121A4-$0121B0 DATA
-pool MilestoneItem_Flags:
+Pool_MilestoneItem_Flags:
 {
     db $00, $00, $04, $02, $00, $10, $02, $01
     db $40, $04, $01, $20, $08
@@ -6019,6 +6048,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 ; ==============================================================================
 
 ; $012281-$01229A LOCAL JUMP LOCATION
+UnusedInterfacePaletteRecovery:
 {
     JSL PaletteFilter.doFiltering
 
@@ -6068,6 +6098,7 @@ ResetTransitionPropsAndAdvance_ResetInterface_long:
 ; ==============================================================================
 
 ; $0122A9-$0122AC LONG JUMP LOCATION 
+Underworld_HandleTranslucencyAndPalettes_long:
 {
     ; Only known reference is from a seemingly unused submodule of module 0x0E (submodule 0x06)
     JSR $A1E9 ; $0121E9 IN ROM
@@ -6076,6 +6107,7 @@ ResetTransitionPropsAndAdvance_ResetInterface_long:
 }
 
 ; $0122AD-$0122B0 LONG JUMP LOCATION
+UnusedInterfacePaletteRecovery_long:
 {
     JSR $A281 ; $012281 IN ROM
 
@@ -6222,11 +6254,15 @@ Module_OverworldTable:
 }
 
 ; $01246D-$012474 DATA
+OWOverlay:
 {
-    dw $0001
-    dw $0001
-    dw $1100
-    dw $1100
+    ; $01246D
+    .HShift:
+    db  1,  0,  1,  0
+
+    ; $012471
+    .VShift:
+    db  0, 17,  0, 17
 }
 
 ; $012475-$01252C LONG JUMP LOCATION
@@ -6322,8 +6358,10 @@ Module_Overworld:
 }
 
 ; $01252D-$01253B DATA (unused?)
+UNREACHABLE_02A52D:
 {
-
+    db $08, $09, $02, $04, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02
 }
 
 ; ==============================================================================
@@ -7099,6 +7137,7 @@ Overworld_DoMapUpdate32x32_Long:
 ; ==============================================================================
 
 ; $012D63-$012D6B LONG JUMP LOCATION (UNUSED?)
+UNREACHABLE_02AD63:
 {
     REP #$30
 
@@ -8131,7 +8170,7 @@ Overworld_MasterSword:
 
     JSL $0EF400 ; $077400 IN ROM
 
-    shared Overworld_WeathervaneExplosion:
+    Overworld_WeathervaneExplosion:
 
     RTS
 }
@@ -8145,22 +8184,23 @@ Overworld_Whirlpool:
 
     JSL UseImplicitRegIndexedLocalJumpTable
 
-    dw Whirlpool_InitWhirlpool ; = $013432
-    dw Whirlpool_FilterBlue ; = $01344C
-    dw Whirlpool_MoreBlue ; = $013451
-    dw Whirlpool_FindDestination ; = $01346E
-    dw $B48A ; = $01348A
-    dw Whirlpool_LoadDestinationMap ; = $013490
-    dw $B48A ; = $01348A
-    dw Whirlpool_LoadAuxGraphics ; = $01349A
-    dw Whirlpool_TriggerTilemapUpdate ; = $01349F
-    dw Whirlpool_LoadPalettes ; = $0134AE
-    dw $B45F ; = $01345F
-    dw $B456 ; = $013456
-    dw Whirlpool_FinalizeWarp  ; = $0134EF
+    dw Whirlpool_InitWhirlpool        ; = $013432 - 0x00
+    dw Whirlpool_FilterBlue           ; = $01344C - 0x01
+    dw Whirlpool_MoreBlue             ; = $013451 - 0x02
+    dw Whirlpool_FindDestination      ; = $01346E - 0x03
+    dw Module09_2E_04                 ; = $01348A - 0x04
+    dw Whirlpool_LoadDestinationMap   ; = $013490 - 0x05
+    dw Module09_2E_04                 ; = $01348A - 0x06
+    dw Whirlpool_LoadAuxGraphics      ; = $01349A - 0x07
+    dw Whirlpool_TriggerTilemapUpdate ; = $01349F - 0x08
+    dw Whirlpool_LoadPalettes         ; = $0134AE - 0x09
+    dw Module09_2E_0A                 ; = $01345F - 0x0A
+    dw Module09_2E_0B                 ; = $013456 - 0x0B
+    dw Whirlpool_FinalizeWarp         ; = $0134EF - 0x0C
 }
 
 ; $013432-$01344B LOCAL JUMP LOCATION
+Whirlpool_InitWhirlpool:
 {
     LDA.b #$34 : STA.w $012E
     LDA.b #$05 : STA.w $012D
@@ -8175,6 +8215,7 @@ Overworld_Whirlpool:
 }
 
 ; $01344C-$013450 LOCAL JUMP LOCATION
+Whirlpool_FilterBlue:
 {
     JSL WhirlpoolSaturateBlue ; $006F97 IN ROM
 
@@ -8182,6 +8223,7 @@ Overworld_Whirlpool:
 }
 
 ; $013451-$013455 LOCAL JUMP LOCATION
+Whirlpool_MoreBlue:
 {
     JSL WhirlpoolIsolateBlue ; $00700C IN ROM
 
@@ -8189,6 +8231,7 @@ Overworld_Whirlpool:
 }
 
 ; $013456-$01345E LOCAL JUMP LOCATION
+Module09_2E_0B:
 {
     JSL Graphics_IncrementalVramUpload
     JSL WhirlpoolRestoreBlue ; $00704A IN ROM
@@ -8197,6 +8240,7 @@ Overworld_Whirlpool:
 }
 
 ; $01345F-$01346D LOCAL JUMP LOCATION
+Module09_2E_0A:
 {
     JSL WhirlpoolRestoreRedGreen
 
@@ -8209,6 +8253,7 @@ Overworld_Whirlpool:
 }
 
 ; $01346E-$013489 LOCAL JUMP LOCATION
+Module09_2E_03_FindDestination:
 {
     LDA.b #$9F : STA.b $9E
 
@@ -8229,6 +8274,7 @@ Overworld_Whirlpool:
 }
 
 ; $01348A-$01348F LOCAL JUMP LOCATION
+Module09_2E_04:
 {
     LDA.b #$0D : STA.b $17
 
@@ -8236,6 +8282,7 @@ Overworld_Whirlpool:
 }
 
 ; $013490-$013499 LOCAL JUMP LOCATION
+Module09_2E_05_LoadDestinationMap:
 {
     JSL BirdTravel_LoadAmbientOverlay
 
@@ -8245,6 +8292,7 @@ Overworld_Whirlpool:
 }
 
 ; $01349A-$01349E LOCAL JUMP LOCATION
+Module09_2E_07_LoadAuxGraphics:
 {
     JSR Overworld_LoadTransGfx
 
@@ -8307,6 +8355,7 @@ Module09_2E_09_LoadPalettes:
 }
 
 ; $0134EF-$013520 LOCAL JUMP LOCATION
+Module09_2E_0C_FinalizeWarp:
 {
     LDA.b #$90 : STA.w $031F
 
@@ -8536,6 +8585,7 @@ Dungeon_AdjustForRoomLayout:
 ; ==============================================================================
 
 ; $01362E-$0136CC LONG JUMP LOCATION
+HandleEdgeTransitionMovementEast_RightBy8:
 {
     REP #$20
 
@@ -8643,6 +8693,7 @@ Dungeon_AdjustForRoomLayout:
 ; ==============================================================================
 
 ; $0136CD-$01376D LONG JUMP LOCATION
+HandleEdgeTransitionMovementWest_LeftBy8:
 {
     REP #$20
 
@@ -8745,7 +8796,8 @@ Dungeon_AdjustForRoomLayout:
 
 ; ==============================================================================
 
-; $01376E-$01381B LONG JUMP LOCATION
+; $01376E-$013779 LONG JUMP LOCATION
+HandleEdgeTransitionMovementSouth_DownBy16:
 {
     REP #$20
 
@@ -8753,8 +8805,12 @@ Dungeon_AdjustForRoomLayout:
 
     SEP #$20
 
-    ; $01377A ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
 
+; $01377A-$01381B LONG JUMP LOCATION
+HandleEdgeTransitionMovementSouth:
+{
     PHB : PHK : PLB
 
     ; Alternate between being in the lower half and the upper half of the room.
@@ -8859,6 +8915,7 @@ Dungeon_AdjustForRoomLayout:
 ; ==============================================================================
 
 ; $01381C-$0138BC LONG JUMP LOCATION
+HandleEdgeTransitionMovementNorth:
 {
     PHB : PHK : PLB
 
@@ -8963,6 +9020,7 @@ Dungeon_AdjustForRoomLayout:
 }
 
 ; $0138BD-$0138CA LONG JUMP LOCATION
+AdjustQuadrantAndCamera_right:
 {
     LDA.b $A9 : EOR #$01 : STA.b $A9
 
@@ -9002,6 +9060,7 @@ SetAndSaveVisitedQuadrantFlags:
 }
 
 ; $0138F9-$013908 LONG JUMP LOCATION
+AdjustQuadrantAndCamera_left:
 {
     LDA.b $A9 : EOR #$01 : STA.b $A9
 
@@ -9015,6 +9074,7 @@ SetAndSaveVisitedQuadrantFlags:
 }
 
 ; $013909-$013918 LONG JUMP LOCATION
+AdjustQuadrantAndCamera_down:
 {
     LDA.b $AA : EOR.b #$02 : STA.b $AA
 
@@ -9028,7 +9088,8 @@ SetAndSaveVisitedQuadrantFlags:
     BRA SetAndSaveVisitedQuadrantFlags
 }
 
-; $013919-$013928
+; $013919-$013928 LONG JUMP LOCATION
+AdjustQuadrantAndCamera_up:
 {
     LDA.b $AA : EOR.b #$02 : STA.b $AA
 
@@ -9073,6 +9134,7 @@ Dungeon_SaveRoomQuadrantData:
 ; ==============================================================================
 
 ; $013947-$013967 LOCAL JUMP LOCATION
+Underworld_SaveRoomData:
 {
     ; Saves data for the current room
 
@@ -9093,6 +9155,7 @@ Dungeon_SaveRoomQuadrantData:
 }
 
 ; $013968-$013980 LOCAL JUMP LOCATION
+AdjustCameraBoundaries_DownOrRightQuadrant:
 {
     ; moving on down....
 
@@ -9107,6 +9170,7 @@ Dungeon_SaveRoomQuadrantData:
 }
 
 ; $013981-$013999 LOCAL JUMP LOCATION
+AdjustCameraBoundaries_DownOrRightWholeRoom:
 {
     REP #$20
 
@@ -9119,6 +9183,7 @@ Dungeon_SaveRoomQuadrantData:
 }
 
 ; $01399A-$0139B2 LOCAL JUMP LOCATION
+AdjustCameraBoundaries_UpOrLeftQuadrant:
 {
     ; movin on up....
 
@@ -9133,6 +9198,7 @@ Dungeon_SaveRoomQuadrantData:
 }
 
 ; $0139B3-$0139CB LOCAL JUMP LOCATION
+AdjustCameraBoundaries_UpOrLeftWholeRoom:
 {
     REP #$20
 
@@ -9162,6 +9228,7 @@ HandleEdgeTransition_AdjustCameraBoundaries:
 }
 
 ; $0139DC-$013A26 LOCAL JUMP LOCATION
+HandleEdgeTransition_AdjustCameraBoundaries:
 {
     STY.w $0418
 
@@ -9214,6 +9281,7 @@ HandleEdgeTransition_AdjustCameraBoundaries:
 }
 
 ; $013A27-$013A30 LOCAL JUMP LOCATION
+Underworld_AdjustQuadrant:
 {
     LDA.w $040E : ORA.b $AA : ORA.b $A9 : STA.b $A8
 
@@ -9223,6 +9291,7 @@ HandleEdgeTransition_AdjustCameraBoundaries:
 ; ==============================================================================
 
 ; $013A31-$013B87 LOCAL JUMP LOCATION
+Underworld_HandleCamera:
 {
     REP #$20
 
@@ -9615,6 +9684,7 @@ Overworld_OperateCameraScroll:
 ; ==============================================================================
 
 ; $013D62-$013DBF LOCAL JUMP LOCATION
+OverworldCameraBoundaryCheck:
 {
     ; Compare X or Y scroll coordinate to the current position coordinate
     LDA.b $E2, X : CMP.w $0600, Y : BNE .BRANCH_ALPHA
@@ -9654,13 +9724,16 @@ Overworld_OperateCameraScroll:
 }
 
 ; $013DC0-$013DC7 DATA
+Pool_UnderworldTransition_AdjustCamera_Horizontal:
 {
+    .boundary
     dw $0000, $0100, $0100, $0000
 }
 
 ; ==============================================================================
 
 ; $013DC8-$013DD9 LOCAL JUMP LOCATION
+UnderworldTransition_AdjustCamera_Horizontal:
 {
     ASL #2 : TAY
 
@@ -9675,13 +9748,16 @@ Overworld_OperateCameraScroll:
 }
 
 ; $013DDA-$013DE1 DATA
+Pool_UnderworldTransition_AdjustCamera_Vertical:
 {
+    .boundary
     dw $0000, $0110, $0100, $0010
 }
 
 ; ==============================================================================
 
 ; $013DE2-$013DF2 LOCAL JUMP LOCATION
+UnderworldTransition_AdjustCamera_Vertical:
 {
     ASL A : TAY
 
@@ -9700,17 +9776,20 @@ Overworld_OperateCameraScroll:
 ; ==============================================================================
 
 ; $013DF3-$013E02 DATA
+Pool_UnderworldTransition_ScrollRoom:
 {
+    .camera_scroll
     dw 4, -4, 4, -4
 
-; $13DFB
-
+    ; $013DFB
+    .boundaries
     dw $0034, $0034, $003B, $003A
 }
 
 ; ==============================================================================
 
 ; $013E03-$013E6C LOCAL JUMP LOCATION
+UnderworldTransition_ScrollRoom:
 {
     PHB : PHK : PLB
 
@@ -9776,6 +9855,14 @@ Overworld_OperateCameraScroll:
 }
 
 ; $013E6D-$013E74 DATA
+Pool_Module07_11_0A_ScrollCamera
+{
+    .offset
+    dw  32
+    dw -64
+    dw  32
+    dw -32
+}
 
 ; ==============================================================================
 
@@ -9820,21 +9907,22 @@ StraightStairs_10:
 ; ==============================================================================
 
 ; $013EBA-$013FF9 DATA
+pool OverworldScrollTransition Overworld_SetCameraBoundaries
+
+.coordinate_camera_adjust
 {
-    ; $13EBA
-    .horizontalBG2ScrollOffset ; unsure of description
-    db $F8, $FF, $08, $00, $F8, $FF, $08, $00
+    ; $013EBA
+    .coordinate_camera_adjust
+    dw $FFF8, $0008, $FFF8, $0008
+    dw $FFE8, $0018, $FFD8, $0018
 
-    ; $13EC2
-    db $E8, $FF, $18, $00, $D8, $FF, $18, $00, $90, $FF, $70, $00
+    ; $013ECA
+    .boundary_delta
+    dw $FF90, $0070, $FF90, $0070
+    dw $FE00, $0200, $FE00, $0200
+    dw $0018, $00E8, $0008, $00E8
 
-    ; $13ECA
-    dw $FF90, $0070, $FE00, $0200
-
-    ; $13ED2
-    db $00, $FE, $00, $02, $18, $00, $E8, $00, $08, $00, $E8, $00
-
-    ; $13EE2
+    ; $013EE2
     .transition_target_north
     dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
     dw $FF20, $FF20, $0120, $FF20, $FF20, $FF20, $FF20, $0120
@@ -9845,7 +9933,7 @@ StraightStairs_10:
     dw $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20, $0B20
     dw $0B20, $0B20, $0D20, $0D20, $0D20, $0B20, $0B20, $0D20
 
-    ; $13F62
+    ; $013F62
     .transition_target_west
     dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
     dw $FF00, $FF00, $0300, $0500, $0500, $0900, $0900, $0D00
@@ -9856,30 +9944,29 @@ StraightStairs_10:
     dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
     dw $FF00, $FF00, $0300, $0500, $0700, $0900, $0900, $0D00
 
-    ; $13FE2
+    ; $013FE2
     .boundary_y_size
     dw $011E, $031E
 
-    ; $13FE6
+    ; $013FE6
     .boundary_x_size
     dw $0100, $0300
 
-    ; $13FEA
+    ; $013FEA
     .transition_target_south_offset
     dw $02E0, $04E0
 
-    ; $13FEE
+    ; $013FEE
     .transition_target_east_offset
     dw $0300, $0500
 
-    ; $13FEE
-    dw $0300, $0500
-
-    ; $13FF2
-    db $1B, $00, $1B, $00, $1E, $00, $1E, $00
+    ; $013FF2
+    .camera_matters_when
+    dw $001B, $001B, $001E, $001E
 }
 
 ; $013FFA-$014000 LOCAL JUMP LOCATION
+OverworldScrollTransition_dirty_exit:
 {
     SEP #$20
 
@@ -10017,6 +10104,7 @@ OverworldScrollTransition:
 ; =============================================
 
 ; $0140C3-$0140F7 LOCAL JUMP LOCATION
+Overworld_SetCameraBoundaries:
 {
     ; Inputs:
     ; Y - an overworld area number * 2
@@ -10042,17 +10130,24 @@ OverworldScrollTransition:
 ; ==============================================================================
 
 ; $0140F8-$0141FB DATA
+LinkLandingIndexOffset:
 {
     db $00, $05, $0A, $0F
 }
 
 ; $0140FC-$01410F DATA
+UnderworldTransitionLandingCoordinate:
 {
+    db $0C, $20, $30, $38, $48
+    db $D4, $D8, $C0, $C0, $A8
+    db $0C, $18, $28, $30, $40
+    db $E4, $D8, $C8, $C0, $B0
 }
 
 ; ==============================================================================
 
 ; $014110-$01412B LOCAL JUMP LOCATION
+UnderworldTransition_FindTransitionLanding:
 {
     ; this routine apparently positions link after the transition has occurred?
     JSR $8B0C   ; $010B0C IN ROM ; erases special effects and resets dash status
@@ -10125,6 +10220,7 @@ IntraroomTransitionCalculateLanding:
 ; =====================================================
 
 ; $014162-$014190 LOCAL JUMP LOCATION
+Module07_02_0D:
 {
     LDA.l $7EC005 : ORA.l $7EC006 : BEQ .noDarkTransition
         JSL PaletteFilter.doFiltering
@@ -10161,6 +10257,7 @@ IntraroomTransitionCalculateLanding:
 ; =====================================================
 
 ; $014191-$0141E4 LOCAL JUMP LOCATION
+UnderworldTransition_MoveLinkOutDoor:
 {
     LDX.w $0418
 
@@ -10216,6 +10313,7 @@ IntraroomTransitionCalculateLanding:
 }
 
 ; $0141E5-$01423D LOCAL JUMP LOCATION
+CalculateTransitionLanding:
 {
     REP #$20
 
@@ -10265,8 +10363,13 @@ IntraroomTransitionCalculateLanding:
 }
 
 ; $01423E-$014241 DATA
+Pool_Overworld_FinalizeEntryOntoScreen
 {
-
+    .song_change_directions
+    db $E0
+    db $08
+    db $E0
+    db $10
 }
 
 ; $014242-$0142A3 LOCAL JUMP LOCATION
@@ -10535,8 +10638,16 @@ Overworld_SetSongList:
 ; ==============================================================================
 
 ; $0144C0-$0144FF NULL
+NULL_02C4C0:
 {
-
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 }
 
 ; $014500-$014532 LOCAL JUMP LOCATION
@@ -10835,6 +10946,7 @@ Overworld_LoadAreaPalettes:
 ; =============================================
 
 ; $0146EB-$014768 LOCAL JUMP LOCATION
+SpecialOverworld_CopyPalettesToCache:
 {
     REP #$20
 
@@ -10907,6 +11019,7 @@ Overworld_CgramAuxToMain:
 ; ==============================================================================
 
 ; $0147B8-$0147F1 LONG JUMP LOCATION
+CleanUpAndPrepDesertPrayerHDMA:
 {
     ; seems mode7 related... (hdma for mode 7 manipulation, I mean)
 
@@ -10950,35 +11063,44 @@ Overworld_CgramAuxToMain:
 
 ; ==============================================================================
 
-; \unused(not totally verified yet)
-; $0147F2-$0158B2 DATA (entrance data?)
+; \unused (not totally verified yet) kan agrees though.
+; $0147F2-$0158B2 DATA TABLE
+UNUSED_$02C7F2
 {
     ; seems to be unreferenced data, but what is interesting is it appears to be some sort
     ; of .... disabled hdma table (note the presence of $1B00 and $1BF0 in this data)
     ; this information appears to be unused in the final product.
-    dl $FF0001, $FF0001, $FF0001, $FF0001, $000081,
-    dl $260100
+    .unused_hdma_data
+    db $01 : dw $FF00 ; 1 line
+    db $01 : dw $FF00 ; 1 line
+    db $01 : dw $FF00 ; 1 line
+    db $01 : dw $FF00 ; 1 line
+    db $81 : dw $0000 ; 1 line continuous
+    db $00 ; end
 
-    dw $1B00
-    db $00
+    .unused_hdma_props
+    db $01 ; direct transfer, 2 registers write once
+    db $26
+    dl $001B00 ; table location
+}
 
-    ; $14807
-    dw $2641
-    db $0C
+; $014807-$014812 DATA TABLE
+Pool_CleanUpAndPrepDesertPrayerHDMA:
+{
+    .hdma_props
+    db $41 ; indirect transfer, 2 registers write once
+    db $26
+    dl .indirect_table
 
-    dw $02C8
-    db $F8
-
-    dw $1B00
-    db $F8
-
-    dw $1BF0
-    db $00
+    .indirect_table
+    db $F8 : dw $1B00 ; 120 lines, continuous
+    db $F8 : dw $1BF0 ; 120 lines, continuous
+    db $00 ; end
 }
 
 ; ==============================================================================
 
-incsrc "entrance_data.asm"
+incsrc "entrance_data.asm" ; $014813-$0158B2
 
 ; ==============================================================================
 
@@ -11414,10 +11536,1081 @@ Dungeon_LoadStartingPoint:
 
 ; =============================================
 
-; $015D8B-$015E82 LOCAL DATA
+; $015D8A-$015E82 LOCAL DATA
+UnderworldExitData:
 {
     ; something to do with overworld overlay data?
     ; in SePH's notes it mentions the first ahganim transport
+
+    ; $015D8A
+    .room_id
+    dw $0104 ; 0x00
+    dw $0012 ; 0x01
+    dw $0060 ; 0x02
+    dw $0061 ; 0x03
+    dw $0062 ; 0x04
+    dw $FFFF ; 0x05
+    dw $0020 ; 0x06
+    dw $00F0 ; 0x07
+    dw $00F1 ; 0x08
+    dw $00C9 ; 0x09
+    dw $0084 ; 0x0A
+    dw $0085 ; 0x0B
+    dw $0083 ; 0x0C
+    dw $0063 ; 0x0D
+    dw $00F2 ; 0x0E
+    dw $00F3 ; 0x0F
+    dw $00F4 ; 0x10
+    dw $00F5 ; 0x11
+    dw $00E3 ; 0x12
+    dw $00E2 ; 0x13
+    dw $00F8 ; 0x14
+    dw $00E8 ; 0x15
+    dw $0023 ; 0x16
+    dw $00FB ; 0x17
+    dw $00EB ; 0x18
+    dw $00D5 ; 0x19
+    dw $0024 ; 0x1A
+    dw $00FD ; 0x1B
+    dw $00ED ; 0x1C
+    dw $00FE ; 0x1D
+    dw $00EE ; 0x1E
+    dw $00FF ; 0x1F
+    dw $00EF ; 0x20
+    dw $00DF ; 0x21
+    dw $00F9 ; 0x22
+    dw $00FA ; 0x23
+    dw $00EA ; 0x24
+    dw $00E0 ; 0x25
+    dw $0028 ; 0x26
+    dw $004A ; 0x27
+    dw $0098 ; 0x28
+    dw $0056 ; 0x29
+    dw $0057 ; 0x2A
+    dw $0058 ; 0x2B
+    dw $0059 ; 0x2C
+    dw $0077 ; 0x2D
+    dw $000E ; 0x2E
+    dw $00E6 ; 0x2F
+    dw $00E7 ; 0x30
+    dw $00E4 ; 0x31
+    dw $00E5 ; 0x32
+    dw $0055 ; 0x33
+    dw $00D6 ; 0x34
+    dw $00DB ; 0x35
+    dw $00E1 ; 0x36
+    dw $0010 ; 0x37
+    dw $000C ; 0x38
+    dw $0008 ; 0x39
+    dw $002F ; 0x3A
+    dw $003C ; 0x3B
+    dw $002C ; 0x3C
+    dw $0003 ; 0x3D
+    dw $1000 ; 0x3E
+    dw $1002 ; 0x3F
+    dw $1004 ; 0x40
+    dw $1006 ; 0x41
+    dw $1008 ; 0x42
+    dw $100A ; 0x43
+    dw $100C ; 0x44
+    dw $100E ; 0x45
+    dw $1010 ; 0x46
+    dw $1012 ; 0x47
+    dw $1014 ; 0x48
+    dw $1016 ; 0x49
+    dw $1018 ; 0x4A
+    dw $0180 ; 0x4B
+    dw $0181 ; 0x4C
+    dw $0182 ; 0x4D
+    dw $0189 ; 0x4E
+
+    ; $015E28
+    .overworld_id
+    db $2C ; 0x00
+    db $13 ; 0x01
+    db $1B ; 0x02
+    db $1B ; 0x03
+    db $1B ; 0x04
+    db $0F ; 0x05
+    db $5B ; 0x06
+    db $0A ; 0x07
+    db $03 ; 0x08
+    db $1E ; 0x09
+    db $30 ; 0x0A
+    db $30 ; 0x0B
+    db $30 ; 0x0C
+    db $30 ; 0x0D
+    db $18 ; 0x0E
+    db $18 ; 0x0F
+    db $28 ; 0x10
+    db $29 ; 0x11
+    db $22 ; 0x12
+    db $02 ; 0x13
+    db $45 ; 0x14
+    db $45 ; 0x15
+    db $45 ; 0x16
+    db $4A ; 0x17
+    db $4A ; 0x18
+    db $45 ; 0x19
+    db $45 ; 0x1A
+    db $05 ; 0x1B
+    db $05 ; 0x1C
+    db $05 ; 0x1D
+    db $05 ; 0x1E
+    db $05 ; 0x1F
+    db $05 ; 0x20
+    db $05 ; 0x21
+    db $03 ; 0x22
+    db $03 ; 0x23
+    db $03 ; 0x24
+    db $1B ; 0x25
+    db $7B ; 0x26
+    db $5E ; 0x27
+    db $70 ; 0x28
+    db $40 ; 0x29
+    db $40 ; 0x2A
+    db $40 ; 0x2B
+    db $40 ; 0x2C
+    db $03 ; 0x2D
+    db $75 ; 0x2E
+    db $0A ; 0x2F
+    db $03 ; 0x30
+    db $03 ; 0x31
+    db $03 ; 0x32
+    db $1B ; 0x33
+    db $47 ; 0x34
+    db $58 ; 0x35
+    db $00 ; 0x36
+    db $5B ; 0x37
+    db $43 ; 0x38
+    db $15 ; 0x39
+    db $18 ; 0x3A
+    db $45 ; 0x3B
+    db $45 ; 0x3C
+    db $2C ; 0x3D
+    db $1B ; 0x3E
+    db $18 ; 0x3F
+    db $03 ; 0x40
+    db $2C ; 0x41
+    db $05 ; 0x42
+    db $02 ; 0x43
+    db $1E ; 0x44
+    db $18 ; 0x45
+    db $81 ; 0x46
+    db $30 ; 0x47
+    db $16 ; 0x48
+    db $2A ; 0x49
+    db $00 ; 0x4A
+    db $80 ; 0x4B
+    db $80 ; 0x4C
+    db $81 ; 0x4D
+    db $88 ; 0x4E
+
+    ; $015E77
+    .exit_vram_addr
+    dw $0506 ; 0x00
+    dw $001C ; 0x01
+    dw $0016 ; 0x02
+    dw $0530 ; 0x03
+    dw $004A ; 0x04
+    dw $001C ; 0x05
+    dw $002E ; 0x06
+    dw $03A0 ; 0x07
+    dw $1402 ; 0x08
+    dw $005A ; 0x09
+    dw $0314 ; 0x0A
+    dw $02A8 ; 0x0B
+    dw $0280 ; 0x0C
+    dw $0016 ; 0x0D
+    dw $02BC ; 0x0E
+    dw $02C4 ; 0x0F
+    dw $08A0 ; 0x10
+    dw $0880 ; 0x11
+    dw $0412 ; 0x12
+    dw $0118 ; 0x13
+    dw $0EE0 ; 0x14
+    dw $0460 ; 0x15
+    dw $07CA ; 0x16
+    dw $03A0 ; 0x17
+    dw $00A0 ; 0x18
+    dw $0AD4 ; 0x19
+    dw $07E0 ; 0x1A
+    dw $0DD4 ; 0x1B
+    dw $0AD4 ; 0x1C
+    dw $0CCA ; 0x1D
+    dw $07C8 ; 0x1E
+    dw $0EE0 ; 0x1F
+    dw $17E0 ; 0x20
+    dw $0460 ; 0x21
+    dw $0D9C ; 0x22
+    dw $0EAC ; 0x23
+    dw $092C ; 0x24
+    dw $0032 ; 0x25
+    dw $049E ; 0x26
+    dw $005A ; 0x27
+    dw $0414 ; 0x28
+    dw $0C8E ; 0x29
+    dw $0EB8 ; 0x2A
+    dw $0F4C ; 0x2B
+    dw $0282 ; 0x2C
+    dw $0050 ; 0x2D
+    dw $0BC6 ; 0x2E
+    dw $00A0 ; 0x2F
+    dw $0D82 ; 0x30
+    dw $181A ; 0x31
+    dw $10C6 ; 0x32
+    dw $044A ; 0x33
+    dw $0712 ; 0x34
+    dw $0B2E ; 0x35
+    dw $0F4E ; 0x36
+    dw $0B0E ; 0x37
+    dw $0052 ; 0x38
+    dw $0088 ; 0x39
+    dw $0386 ; 0x3A
+    dw $04DA ; 0x3B
+    dw $004C ; 0x3C
+    dw $0506 ; 0x3D
+    dw $1230 ; 0x3E
+    dw $0448 ; 0x3F
+    dw $0050 ; 0x40
+    dw $009A ; 0x41
+    dw $034E ; 0x42
+    dw $049A ; 0x43
+    dw $07C0 ; 0x44
+    dw $1100 ; 0x45
+    dw $0040 ; 0x46
+    dw $0916 ; 0x47
+    dw $000A ; 0x48
+    dw $0910 ; 0x49
+    dw $0A3A ; 0x4A
+    dw $0000 ; 0x4B
+    dw $0020 ; 0x4C
+    dw $1782 ; 0x4D
+    dw $0000 ; 0x4E
+
+    ; $015F15
+    .vertical_scroll
+    dw $0A9A ; 0x00
+    dw $0400 ; 0x01
+    dw $0600 ; 0x02
+    dw $0692 ; 0x03
+    dw $0600 ; 0x04
+    dw $0200 ; 0x05
+    dw $0600 ; 0x06
+    dw $0264 ; 0x07
+    dw $0294 ; 0x08
+    dw $0600 ; 0x09
+    dw $0C56 ; 0x0A
+    dw $0C4A ; 0x0B
+    dw $0C46 ; 0x0C
+    dw $0C00 ; 0x0D
+    dw $064C ; 0x0E
+    dw $064A ; 0x0F
+    dw $0B06 ; 0x10
+    dw $0B07 ; 0x11
+    dw $087A ; 0x12
+    dw $0015 ; 0x13
+    dw $01E4 ; 0x14
+    dw $0093 ; 0x15
+    dw $0103 ; 0x16
+    dw $0263 ; 0x17
+    dw $020A ; 0x18
+    dw $0164 ; 0x19
+    dw $0103 ; 0x1A
+    dw $01C4 ; 0x1B
+    dw $0163 ; 0x1C
+    dw $01A3 ; 0x1D
+    dw $0108 ; 0x1E
+    dw $01E3 ; 0x1F
+    dw $0304 ; 0x20
+    dw $0093 ; 0x21
+    dw $01C3 ; 0x22
+    dw $01E3 ; 0x23
+    dw $0133 ; 0x24
+    dw $0600 ; 0x25
+    dw $0E8C ; 0x26
+    dw $0600 ; 0x27
+    dw $0C79 ; 0x28
+    dw $01A6 ; 0x29
+    dw $01E6 ; 0x2A
+    dw $01F6 ; 0x2B
+    dw $0066 ; 0x2C
+    dw $0014 ; 0x2D
+    dw $0D6A ; 0x2E
+    dw $0205 ; 0x2F
+    dw $01C4 ; 0x30
+    dw $031E ; 0x31
+    dw $0224 ; 0x32
+    dw $067A ; 0x33
+    dw $00DA ; 0x34
+    dw $075A ; 0x35
+    dw $01F6 ; 0x36
+    dw $075A ; 0x37
+    dw $0000 ; 0x38
+    dw $0400 ; 0x39
+    dw $0665 ; 0x3A
+    dw $00A3 ; 0x3B
+    dw $0000 ; 0x3C
+    dw $0A9A ; 0x3D
+    dw $0842 ; 0x3E
+    dw $0674 ; 0x3F
+    dw $0000 ; 0x40
+    dw $0A0B ; 0x41
+    dw $005C ; 0x42
+    dw $0089 ; 0x43
+    dw $06E4 ; 0x44
+    dw $0826 ; 0x45
+    dw $0010 ; 0x46
+    dw $0D20 ; 0x47
+    dw $0400 ; 0x48
+    dw $0B1E ; 0x49
+    dw $016A ; 0x4A
+    dw $0120 ; 0x4B
+    dw $0000 ; 0x4C
+    dw $0320 ; 0x4D
+    dw $0000 ; 0x4E
+
+    ; $015FB3
+    .horizontal_scroll
+    dw $0832 ; 0x00
+    dw $06DE ; 0x01
+    dw $06AE ; 0x02
+    dw $0784 ; 0x03
+    dw $0856 ; 0x04
+    dw $0EE2 ; 0x05
+    dw $0778 ; 0x06
+    dw $0500 ; 0x07
+    dw $0604 ; 0x08
+    dw $0ED6 ; 0x09
+    dw $00A6 ; 0x0A
+    dw $0142 ; 0x0B
+    dw $0003 ; 0x0C
+    dw $00A2 ; 0x0D
+    dw $01E2 ; 0x0E
+    dw $0222 ; 0x0F
+    dw $0100 ; 0x10
+    dw $0200 ; 0x11
+    dw $048E ; 0x12
+    dw $04C6 ; 0x13
+    dw $0D00 ; 0x14
+    dw $0D00 ; 0x15
+    dw $0C46 ; 0x16
+    dw $0500 ; 0x17
+    dw $0500 ; 0x18
+    dw $0CA6 ; 0x19
+    dw $0D00 ; 0x1A
+    dw $0CA6 ; 0x1B
+    dw $0CA6 ; 0x1C
+    dw $0C56 ; 0x1D
+    dw $0C46 ; 0x1E
+    dw $0D00 ; 0x1F
+    dw $0D00 ; 0x20
+    dw $0D00 ; 0x21
+    dw $06D4 ; 0x22
+    dw $0754 ; 0x23
+    dw $0754 ; 0x24
+    dw $0784 ; 0x25
+    dw $06F2 ; 0x26
+    dw $0ED6 ; 0x27
+    dw $00A6 ; 0x28
+    dw $0062 ; 0x29
+    dw $01C2 ; 0x2A
+    dw $0262 ; 0x2B
+    dw $0016 ; 0x2C
+    dw $087C ; 0x2D
+    dw $0C3E ; 0x2E
+    dw $0500 ; 0x2F
+    dw $0600 ; 0x30
+    dw $06B4 ; 0x31
+    dw $0814 ; 0x32
+    dw $0854 ; 0x33
+    dw $0E96 ; 0x34
+    dw $0176 ; 0x35
+    dw $0262 ; 0x36
+    dw $0674 ; 0x37
+    dw $0884 ; 0x38
+    dw $0A36 ; 0x39
+    dw $0032 ; 0x3A
+    dw $0CD6 ; 0x3B
+    dw $0C56 ; 0x3C
+    dw $0832 ; 0x3D
+    dw $077F ; 0x3E
+    dw $024B ; 0x3F
+    dw $0878 ; 0x40
+    dw $08D7 ; 0x41
+    dw $0C6D ; 0x42
+    dw $04CF ; 0x43
+    dw $0DFE ; 0x44
+    dw $0001 ; 0x45
+    dw $0401 ; 0x46
+    dw $00AA ; 0x47
+    dw $0C57 ; 0x48
+    dw $0478 ; 0x49
+    dw $01CF ; 0x4A
+    dw $0000 ; 0x4B
+    dw $0100 ; 0x4C
+    dw $021E ; 0x4D
+    dw $0000 ; 0x4E
+
+    ; $016051
+    .y_coordinate
+    dw $0AE8 ; 0x00
+    dw $0414 ; 0x01
+    dw $0604 ; 0x02
+    dw $06CC ; 0x03
+    dw $0604 ; 0x04
+    dw $0203 ; 0x05
+    dw $065C ; 0x06
+    dw $02B8 ; 0x07
+    dw $02E8 ; 0x08
+    dw $0618 ; 0x09
+    dw $0CA8 ; 0x0A
+    dw $0C98 ; 0x0B
+    dw $0C98 ; 0x0C
+    dw $0C28 ; 0x0D
+    dw $0698 ; 0x0E
+    dw $0698 ; 0x0F
+    dw $0B58 ; 0x10
+    dw $0B58 ; 0x11
+    dw $08C8 ; 0x12
+    dw $0067 ; 0x13
+    dw $0238 ; 0x14
+    dw $00E7 ; 0x15
+    dw $0157 ; 0x16
+    dw $02B7 ; 0x17
+    dw $0258 ; 0x18
+    dw $01B8 ; 0x19
+    dw $0157 ; 0x1A
+    dw $0218 ; 0x1B
+    dw $01B7 ; 0x1C
+    dw $01F7 ; 0x1D
+    dw $0158 ; 0x1E
+    dw $0237 ; 0x1F
+    dw $0358 ; 0x20
+    dw $00E7 ; 0x21
+    dw $0217 ; 0x22
+    dw $0237 ; 0x23
+    dw $0187 ; 0x24
+    dw $0634 ; 0x25
+    dw $0ED8 ; 0x26
+    dw $0628 ; 0x27
+    dw $0CC7 ; 0x28
+    dw $01F8 ; 0x29
+    dw $0238 ; 0x2A
+    dw $0248 ; 0x2B
+    dw $00B8 ; 0x2C
+    dw $0068 ; 0x2D
+    dw $0DB8 ; 0x2E
+    dw $0257 ; 0x2F
+    dw $0218 ; 0x30
+    dw $03A7 ; 0x31
+    dw $0278 ; 0x32
+    dw $06C8 ; 0x33
+    dw $0128 ; 0x34
+    dw $07A8 ; 0x35
+    dw $0248 ; 0x36
+    dw $07A8 ; 0x37
+    dw $0028 ; 0x38
+    dw $0448 ; 0x39
+    dw $06B7 ; 0x3A
+    dw $0107 ; 0x3B
+    dw $0038 ; 0x3C
+    dw $0AE8 ; 0x3D
+    dw $0890 ; 0x3E
+    dw $06C2 ; 0x3F
+    dw $004D ; 0x40
+    dw $0A59 ; 0x41
+    dw $00AA ; 0x42
+    dw $00DB ; 0x43
+    dw $0732 ; 0x44
+    dw $0874 ; 0x45
+    dw $006E ; 0x46
+    dw $0D72 ; 0x47
+    dw $044D ; 0x48
+    dw $0B72 ; 0x49
+    dw $01BE ; 0x4A
+    dw $01E8 ; 0x4B
+    dw $0080 ; 0x4C
+    dw $03E8 ; 0x4D
+    dw $0100 ; 0x4E
+
+    ; $0160EF
+    .x_coordinate
+    dw $08B8 ; 0x00
+    dw $0758 ; 0x01
+    dw $0728 ; 0x02
+    dw $07F8 ; 0x03
+    dw $08C8 ; 0x04
+    dw $0F50 ; 0x05
+    dw $07F0 ; 0x06
+    dw $05A8 ; 0x07
+    dw $0678 ; 0x08
+    dw $0F50 ; 0x09
+    dw $0128 ; 0x0A
+    dw $01C8 ; 0x0B
+    dw $0088 ; 0x0C
+    dw $0128 ; 0x0D
+    dw $0268 ; 0x0E
+    dw $02A8 ; 0x0F
+    dw $01B8 ; 0x10
+    dw $0238 ; 0x11
+    dw $0508 ; 0x12
+    dw $0548 ; 0x13
+    dw $0D78 ; 0x14
+    dw $0DB8 ; 0x15
+    dw $0CB8 ; 0x16
+    dw $05A8 ; 0x17
+    dw $05B8 ; 0x18
+    dw $0D18 ; 0x19
+    dw $0D78 ; 0x1A
+    dw $0D18 ; 0x1B
+    dw $0D18 ; 0x1C
+    dw $0CC8 ; 0x1D
+    dw $0CB8 ; 0x1E
+    dw $0DA8 ; 0x1F
+    dw $0DC8 ; 0x20
+    dw $0DB8 ; 0x21
+    dw $0748 ; 0x22
+    dw $07C8 ; 0x23
+    dw $07C8 ; 0x24
+    dw $07F8 ; 0x25
+    dw $0778 ; 0x26
+    dw $0F50 ; 0x27
+    dw $0128 ; 0x28
+    dw $00E8 ; 0x29
+    dw $0248 ; 0x2A
+    dw $02E8 ; 0x2B
+    dw $0098 ; 0x2C
+    dw $08F0 ; 0x2D
+    dw $0CB8 ; 0x2E
+    dw $05B8 ; 0x2F
+    dw $0648 ; 0x30
+    dw $0728 ; 0x31
+    dw $0888 ; 0x32
+    dw $08C8 ; 0x33
+    dw $0F08 ; 0x34
+    dw $01F8 ; 0x35
+    dw $02E8 ; 0x36
+    dw $06E8 ; 0x37
+    dw $08F8 ; 0x38
+    dw $0AA8 ; 0x39
+    dw $00B8 ; 0x3A
+    dw $0D48 ; 0x3B
+    dw $0CC8 ; 0x3C
+    dw $08B8 ; 0x3D
+    dw $07F3 ; 0x3E
+    dw $02CD ; 0x3F
+    dw $08E6 ; 0x40
+    dw $094F ; 0x41
+    dw $0CDF ; 0x42
+    dw $0551 ; 0x43
+    dw $0E7C ; 0x44
+    dw $0083 ; 0x45
+    dw $047D ; 0x46
+    dw $0130 ; 0x47
+    dw $0CD1 ; 0x48
+    dw $04FE ; 0x49
+    dw $0255 ; 0x4A
+    dw $0080 ; 0x4B
+    dw $01F0 ; 0x4C
+    dw $029E ; 0x4D
+    dw $0080 ; 0x4E
+
+    ; $01618D
+    .camera_trigger_y
+    dw $0B07 ; 0x00
+    dw $046D ; 0x01
+    dw $066D ; 0x02
+    dw $06FF ; 0x03
+    dw $066D ; 0x04
+    dw $026D ; 0x05
+    dw $066D ; 0x06
+    dw $02D3 ; 0x07
+    dw $0303 ; 0x08
+    dw $066D ; 0x09
+    dw $0CC3 ; 0x0A
+    dw $0CB7 ; 0x0B
+    dw $0CB3 ; 0x0C
+    dw $0C6D ; 0x0D
+    dw $06B9 ; 0x0E
+    dw $06B7 ; 0x0F
+    dw $0B73 ; 0x10
+    dw $0B74 ; 0x11
+    dw $08E7 ; 0x12
+    dw $0082 ; 0x13
+    dw $0253 ; 0x14
+    dw $0102 ; 0x15
+    dw $0172 ; 0x16
+    dw $02D2 ; 0x17
+    dw $0277 ; 0x18
+    dw $01D3 ; 0x19
+    dw $0172 ; 0x1A
+    dw $0233 ; 0x1B
+    dw $01D2 ; 0x1C
+    dw $0212 ; 0x1D
+    dw $0177 ; 0x1E
+    dw $0252 ; 0x1F
+    dw $0373 ; 0x20
+    dw $0102 ; 0x21
+    dw $0232 ; 0x22
+    dw $0252 ; 0x23
+    dw $01A2 ; 0x24
+    dw $066D ; 0x25
+    dw $0EF9 ; 0x26
+    dw $066D ; 0x27
+    dw $0CE6 ; 0x28
+    dw $0213 ; 0x29
+    dw $0253 ; 0x2A
+    dw $0263 ; 0x2B
+    dw $00D3 ; 0x2C
+    dw $0083 ; 0x2D
+    dw $0DD7 ; 0x2E
+    dw $0272 ; 0x2F
+    dw $0233 ; 0x30
+    dw $038D ; 0x31
+    dw $0293 ; 0x32
+    dw $06E7 ; 0x33
+    dw $0147 ; 0x34
+    dw $07C7 ; 0x35
+    dw $0263 ; 0x36
+    dw $07C7 ; 0x37
+    dw $006F ; 0x38
+    dw $046F ; 0x39
+    dw $06D2 ; 0x3A
+    dw $0112 ; 0x3B
+    dw $006F ; 0x3C
+    dw $0B07 ; 0x3D
+    dw $08AF ; 0x3E
+    dw $06E1 ; 0x3F
+    dw $006D ; 0x40
+    dw $0A78 ; 0x41
+    dw $00C9 ; 0x42
+    dw $00F6 ; 0x43
+    dw $0751 ; 0x44
+    dw $0893 ; 0x45
+    dw $008D ; 0x46
+    dw $0D8D ; 0x47
+    dw $046D ; 0x48
+    dw $0B8D ; 0x49
+    dw $01D9 ; 0x4A
+    dw $019D ; 0x4B
+    dw $008F ; 0x4C
+    dw $039D ; 0x4D
+    dw $009D ; 0x4E
+
+    ;---------------------------------------------------------------------------------------------------
+
+    ; $01622B
+    .camera_trigger_x
+    dw $08BF ; 0x00
+    dw $0763 ; 0x01
+    dw $0733 ; 0x02
+    dw $0803 ; 0x03
+    dw $08D3 ; 0x04
+    dw $0F57 ; 0x05
+    dw $07F7 ; 0x06
+    dw $058D ; 0x07
+    dw $0683 ; 0x08
+    dw $0F5B ; 0x09
+    dw $0133 ; 0x0A
+    dw $01CF ; 0x0B
+    dw $0090 ; 0x0C
+    dw $012F ; 0x0D
+    dw $026F ; 0x0E
+    dw $02AF ; 0x0F
+    dw $018D ; 0x10
+    dw $028D ; 0x11
+    dw $0513 ; 0x12
+    dw $0553 ; 0x13
+    dw $0D7D ; 0x14
+    dw $0D7D ; 0x15
+    dw $0CC3 ; 0x16
+    dw $058D ; 0x17
+    dw $058D ; 0x18
+    dw $0D23 ; 0x19
+    dw $0D7D ; 0x1A
+    dw $0D23 ; 0x1B
+    dw $0D23 ; 0x1C
+    dw $0CD3 ; 0x1D
+    dw $0CC3 ; 0x1E
+    dw $0D7D ; 0x1F
+    dw $0D7D ; 0x20
+    dw $0D7D ; 0x21
+    dw $0753 ; 0x22
+    dw $07D3 ; 0x23
+    dw $07D3 ; 0x24
+    dw $0803 ; 0x25
+    dw $077F ; 0x26
+    dw $0F5B ; 0x27
+    dw $0133 ; 0x28
+    dw $00EF ; 0x29
+    dw $024F ; 0x2A
+    dw $02EF ; 0x2B
+    dw $00A3 ; 0x2C
+    dw $08FB ; 0x2D
+    dw $0CC3 ; 0x2E
+    dw $058D ; 0x2F
+    dw $067F ; 0x30
+    dw $0733 ; 0x31
+    dw $0893 ; 0x32
+    dw $08D3 ; 0x33
+    dw $0F13 ; 0x34
+    dw $0203 ; 0x35
+    dw $02EF ; 0x36
+    dw $06F3 ; 0x37
+    dw $0903 ; 0x38
+    dw $0AB3 ; 0x39
+    dw $00BF ; 0x3A
+    dw $0D53 ; 0x3B
+    dw $0CD3 ; 0x3C
+    dw $08BF ; 0x3D
+    dw $07FE ; 0x3E
+    dw $02D8 ; 0x3F
+    dw $08ED ; 0x40
+    dw $0956 ; 0x41
+    dw $0CEA ; 0x42
+    dw $055C ; 0x43
+    dw $0E83 ; 0x44
+    dw $008E ; 0x45
+    dw $0484 ; 0x46
+    dw $0137 ; 0x47
+    dw $0CDC ; 0x48
+    dw $0505 ; 0x49
+    dw $025C ; 0x4A
+    dw $0083 ; 0x4B
+    dw $018D ; 0x4C
+    dw $02A1 ; 0x4D
+    dw $0083 ; 0x4E
+
+    ;---------------------------------------------------------------------------------------------------
+
+    ; $0162C9
+    .scroll_mod_y
+    db $06 ; 0x00
+    db $00 ; 0x01
+    db $00 ; 0x02
+    db $0E ; 0x03
+    db $00 ; 0x04
+    db $00 ; 0x05
+    db $00 ; 0x06
+    db $0A ; 0x07
+    db $0A ; 0x08
+    db $00 ; 0x09
+    db $0A ; 0x0A
+    db $06 ; 0x0B
+    db $0A ; 0x0C
+    db $00 ; 0x0D
+    db $04 ; 0x0E
+    db $06 ; 0x0F
+    db $0A ; 0x10
+    db $09 ; 0x11
+    db $06 ; 0x12
+    db $0B ; 0x13
+    db $0A ; 0x14
+    db $0B ; 0x15
+    db $0B ; 0x16
+    db $0B ; 0x17
+    db $06 ; 0x18
+    db $0A ; 0x19
+    db $0B ; 0x1A
+    db $0A ; 0x1B
+    db $0B ; 0x1C
+    db $0B ; 0x1D
+    db $06 ; 0x1E
+    db $0B ; 0x1F
+    db $0A ; 0x20
+    db $0B ; 0x21
+    db $0B ; 0x22
+    db $0B ; 0x23
+    db $0B ; 0x24
+    db $00 ; 0x25
+    db $04 ; 0x26
+    db $00 ; 0x27
+    db $07 ; 0x28
+    db $0A ; 0x29
+    db $0A ; 0x2A
+    db $0A ; 0x2B
+    db $0A ; 0x2C
+    db $0A ; 0x2D
+    db $06 ; 0x2E
+    db $0B ; 0x2F
+    db $0A ; 0x30
+    db $00 ; 0x31
+    db $0A ; 0x32
+    db $06 ; 0x33
+    db $06 ; 0x34
+    db $06 ; 0x35
+    db $0A ; 0x36
+    db $06 ; 0x37
+    db $00 ; 0x38
+    db $00 ; 0x39
+    db $0B ; 0x3A
+    db $0B ; 0x3B
+    db $00 ; 0x3C
+    db $06 ; 0x3D
+    db $FE ; 0x3E
+    db $0C ; 0x3F
+    db $00 ; 0x40
+    db $05 ; 0x41
+    db $04 ; 0x42
+    db $01 ; 0x43
+    db $07 ; 0x44
+    db $FA ; 0x45
+    db $00 ; 0x46
+    db $00 ; 0x47
+    db $00 ; 0x48
+    db $00 ; 0x49
+    db $F4 ; 0x4A
+    db $00 ; 0x4B
+    db $00 ; 0x4C
+    db $00 ; 0x4D
+    db $00 ; 0x4E
+
+    ; $016318
+    .scroll_mod_x
+    db $FE ; 0x00
+    db $02 ; 0x01
+    db $02 ; 0x02
+    db $FA ; 0x03
+    db $FA ; 0x04
+    db $FE ; 0x05
+    db $F8 ; 0x06
+    db $00 ; 0x07
+    db $FC ; 0x08
+    db $FA ; 0x09
+    db $FA ; 0x0A
+    db $FE ; 0x0B
+    db $FD ; 0x0C
+    db $0E ; 0x0D
+    db $FE ; 0x0E
+    db $FE ; 0x0F
+    db $00 ; 0x10
+    db $00 ; 0x11
+    db $02 ; 0x12
+    db $FA ; 0x13
+    db $00 ; 0x14
+    db $00 ; 0x15
+    db $0A ; 0x16
+    db $00 ; 0x17
+    db $00 ; 0x18
+    db $FA ; 0x19
+    db $00 ; 0x1A
+    db $FA ; 0x1B
+    db $FA ; 0x1C
+    db $FA ; 0x1D
+    db $FA ; 0x1E
+    db $00 ; 0x1F
+    db $00 ; 0x20
+    db $00 ; 0x21
+    db $FC ; 0x22
+    db $FC ; 0x23
+    db $FC ; 0x24
+    db $0A ; 0x25
+    db $FE ; 0x26
+    db $FA ; 0x27
+    db $FA ; 0x28
+    db $0E ; 0x29
+    db $FE ; 0x2A
+    db $FE ; 0x2B
+    db $FA ; 0x2C
+    db $F4 ; 0x2D
+    db $F2 ; 0x2E
+    db $00 ; 0x2F
+    db $00 ; 0x30
+    db $0C ; 0x31
+    db $0C ; 0x32
+    db $FA ; 0x33
+    db $FA ; 0x34
+    db $FA ; 0x35
+    db $0E ; 0x36
+    db $FA ; 0x37
+    db $FC ; 0x38
+    db $0A ; 0x39
+    db $FE ; 0x3A
+    db $FA ; 0x3B
+    db $0A ; 0x3C
+    db $FE ; 0x3D
+    db $FF ; 0x3E
+    db $F5 ; 0x3F
+    db $08 ; 0x40
+    db $F9 ; 0x41
+    db $03 ; 0x42
+    db $01 ; 0x43
+    db $02 ; 0x44
+    db $FF ; 0x45
+    db $FF ; 0x46
+    db $06 ; 0x47
+    db $F9 ; 0x48
+    db $08 ; 0x49
+    db $01 ; 0x4A
+    db $00 ; 0x4B
+    db $00 ; 0x4C
+    db $F2 ; 0x4D
+    db $00 ; 0x4E
+
+    ; $016367
+    .door_graphic
+    dw $0816 ; 0x00
+    dw $0000 ; 0x01
+    dw $0000 ; 0x02
+    dw $0000 ; 0x03
+    dw $0000 ; 0x04
+    dw $0000 ; 0x05
+    dw $0000 ; 0x06
+    dw $0000 ; 0x07
+    dw $0000 ; 0x08
+    dw $0000 ; 0x09
+    dw $0000 ; 0x0A
+    dw $0000 ; 0x0B
+    dw $0000 ; 0x0C
+    dw $0000 ; 0x0D
+    dw $05CC ; 0x0E
+    dw $05D4 ; 0x0F
+    dw $0BB6 ; 0x10
+    dw $0B86 ; 0x11
+    dw $0000 ; 0x12
+    dw $0000 ; 0x13
+    dw $0000 ; 0x14
+    dw $0000 ; 0x15
+    dw $0000 ; 0x16
+    dw $0000 ; 0x17
+    dw $0000 ; 0x18
+    dw $0000 ; 0x19
+    dw $0000 ; 0x1A
+    dw $0000 ; 0x1B
+    dw $0000 ; 0x1C
+    dw $0000 ; 0x1D
+    dw $0000 ; 0x1E
+    dw $0000 ; 0x1F
+    dw $0000 ; 0x20
+    dw $0000 ; 0x21
+    dw $0000 ; 0x22
+    dw $0000 ; 0x23
+    dw $0000 ; 0x24
+    dw $0000 ; 0x25
+    dw $0000 ; 0x26
+    dw $0000 ; 0x27
+    dw $0000 ; 0x28
+    dw $0000 ; 0x29
+    dw $0000 ; 0x2A
+    dw $0000 ; 0x2B
+    dw $0000 ; 0x2C
+    dw $0000 ; 0x2D
+    dw $0000 ; 0x2E
+    dw $0000 ; 0x2F
+    dw $0000 ; 0x30
+    dw $0000 ; 0x31
+    dw $0000 ; 0x32
+    dw $0000 ; 0x33
+    dw $0000 ; 0x34
+    dw $0000 ; 0x35
+    dw $0000 ; 0x36
+    dw $0000 ; 0x37
+    dw $0000 ; 0x38
+    dw $0000 ; 0x39
+    dw $0000 ; 0x3A
+    dw $0000 ; 0x3B
+    dw $0000 ; 0x3C
+    dw $0816 ; 0x3D
+    dw $0000 ; 0x3E
+    dw $0000 ; 0x3F
+    dw $0000 ; 0x40
+    dw $0000 ; 0x41
+    dw $0000 ; 0x42
+    dw $0000 ; 0x43
+    dw $0000 ; 0x44
+    dw $0000 ; 0x45
+    dw $0000 ; 0x46
+    dw $0000 ; 0x47
+    dw $0000 ; 0x48
+    dw $0000 ; 0x49
+    dw $0000 ; 0x4A
+    dw $0000 ; 0x4B
+    dw $0000 ; 0x4C
+    dw $0000 ; 0x4D
+    dw $0000 ; 0x4E
+
+    ; $016405
+    .door_graphic_location
+    dw $0000 ; 0x00
+    dw $01AA ; 0x01
+    dw $8124 ; 0x02
+    dw $87BE ; 0x03
+    dw $8158 ; 0x04
+    dw $0000 ; 0x05
+    dw $0000 ; 0x06
+    dw $0000 ; 0x07
+    dw $0000 ; 0x08
+    dw $0000 ; 0x09
+    dw $0000 ; 0x0A
+    dw $0000 ; 0x0B
+    dw $0000 ; 0x0C
+    dw $0000 ; 0x0D
+    dw $0000 ; 0x0E
+    dw $0000 ; 0x0F
+    dw $0000 ; 0x10
+    dw $0000 ; 0x11
+    dw $0000 ; 0x12
+    dw $0000 ; 0x13
+    dw $0000 ; 0x14
+    dw $0000 ; 0x15
+    dw $0000 ; 0x16
+    dw $0000 ; 0x17
+    dw $0000 ; 0x18
+    dw $0000 ; 0x19
+    dw $0000 ; 0x1A
+    dw $0000 ; 0x1B
+    dw $0000 ; 0x1C
+    dw $0000 ; 0x1D
+    dw $0000 ; 0x1E
+    dw $0000 ; 0x1F
+    dw $0000 ; 0x20
+    dw $0000 ; 0x21
+    dw $0000 ; 0x22
+    dw $0000 ; 0x23
+    dw $0000 ; 0x24
+    dw $82BE ; 0x25
+    dw $0000 ; 0x26
+    dw $0000 ; 0x27
+    dw $0000 ; 0x28
+    dw $0000 ; 0x29
+    dw $0000 ; 0x2A
+    dw $0000 ; 0x2B
+    dw $0000 ; 0x2C
+    dw $0000 ; 0x2D
+    dw $0000 ; 0x2E
+    dw $0000 ; 0x2F
+    dw $0000 ; 0x30
+    dw $0000 ; 0x31
+    dw $0000 ; 0x32
+    dw $0000 ; 0x33
+    dw $0000 ; 0x34
+    dw $0000 ; 0x35
+    dw $0000 ; 0x36
+    dw $0000 ; 0x37
+    dw $0000 ; 0x38
+    dw $0000 ; 0x39
+    dw $0000 ; 0x3A
+    dw $0000 ; 0x3B
+    dw $0000 ; 0x3C
+    dw $0000 ; 0x3D
+    dw $0000 ; 0x3E
+    dw $0000 ; 0x3F
+    dw $0000 ; 0x40
+    dw $0000 ; 0x41
+    dw $0000 ; 0x42
+    dw $0000 ; 0x43
+    dw $0000 ; 0x44
+    dw $0000 ; 0x45
+    dw $0000 ; 0x46
+    dw $0000 ; 0x47
+    dw $0000 ; 0x48
+    dw $0000 ; 0x49
+    dw $0000 ; 0x4A
+    dw $0000 ; 0x4B
+    dw $0000 ; 0x4C
+    dw $0000 ; 0x4D
+    dw $0000 ; 0x4E
 }
 
 ; =============================================
@@ -11864,7 +13057,7 @@ LoadOverworldFromSpecialOverworld:
 ; ==============================================================================
 
 ; $016AE5-$016C38 DATA TABLE
-pool BirdTravel_LoadTargetAreaData:
+Pool_BirdTravel_LoadTargetAreaData:
 {
     ; OW 03 - Flute 1
     ; OW 16 - Flute 2
@@ -12014,7 +13207,7 @@ BirdTravel_LoadTargetAreaPalettes:
 ; ==============================================================================
 
 ; $016CF8-$016D07 DATA TABLE
-pool Whirlpool_LookUpAndLoadTargetArea:
+Pool_Whirlpool_LookUpAndLoadTargetArea:
 {
     dw $000F ; OW 0F - Lake Hylia whirlpool
     dw $0035 ; OW 35 - Waterfall of Wishing whirlpool
@@ -12153,8 +13346,26 @@ PreOverworld_LoadAndAdvance:
 }
 
 ; $016DC5-$016EC4 DATA (Map16 locations of bombable doors)
+Pool_Overworld_HandleOverlaysAndBombDoors
 {
+    .bombable_door_location
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $1C0C, $1C0C, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $1C0C, $1C0C, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $03B0, $180C, $180C, $0288
+    dw $0000, $0000, $0000, $0000, $0000, $180C, $180C, $0000
 
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $1AB6, $1AB6, $0000, $0E2E, $0E2E, $0000, $0000, $0000
+    dw $1AB6, $1AB6, $0000, $0E2E, $0E2E, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0000, $0000, $0000, $0000, $03B0, $0000, $0000, $0288
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
 }
 
 ; ==============================================================================
@@ -12665,6 +13876,7 @@ Overworld_SmallTranRight:
 ; =============================================
 
 ; $0171FC-$01720D LOCAL JUMP TABLE
+OverworldTransitionScrollAndLoadMapJumpTable:
 {
     dw Overworld_TransError
     dw BuildFullStripeDuringTransition_East ; = $01724A
@@ -12858,6 +14070,7 @@ Overworld_ScrollUp:
 ; ==============================================================================
 
 ; $0172BA-$0172C7 LOCAL JUMP LOCATION
+MapScroll_SouthAndClear:
 {
     JSR $F311 ; $017311 IN ROM
 
@@ -12879,6 +14092,7 @@ Overworld_ScrollDown:
 }
 
 ; $0172CF-$0172DC LOCAL JUMP LOCATION
+MapScroll_NorthAndClear:
 {
     JSR $F2DD ; $0172DD IN ROM
 
@@ -12890,6 +14104,7 @@ Overworld_ScrollDown:
 }
 
 ; $0172DD-$017310 LOCAL JUMP LOCATION
+CheckForNewlyLoadedMapAreas_North:
 {
     REP #$30
 
@@ -12917,6 +14132,7 @@ Overworld_ScrollDown:
 }
 
 ; $017311-$017344 LOCAL JUMP LOCATION
+CheckForNewlyLoadedMapAreas_South:
 {
     REP #$30
 
@@ -12947,6 +14163,7 @@ Overworld_ScrollDown:
 }
 
 ; $017345-$01737E LOCAL JUMP LOCATION
+CheckForNewlyLoadedMapAreas_West:
 {
     REP #$30
 
@@ -12987,6 +14204,7 @@ Overworld_ScrollDown:
 ; ==============================================================================
 
 ; $01737F-$0173B8 LOCAL JUMP LOCATION
+CheckForNewlyLoadedMapAreas_East:
 {
     REP #$30
 
@@ -13615,22 +14833,30 @@ LoadSubOverlayMap32:
 
 ; ==============================================================================
 
-; $01787F-$01794C DATA TABLE
+; $01787F-$017882 DATA TABLE
+UNREACHABLE_02F87F:
 {
     ; \unused Best intelligence available says this is not used.
     db $02, $00, $04, $00,
+}
 
+; $017883-$01794C DATA TABLE
+Pool_BufferAndBuildMap16Stripes:
+{
     ; $017883-$017887
+    .verticalScrollTileOffset
     dw $03D0
 
     ; $017885-$017889
     .verticalScrollTileOffset
     dw $0410, $F410
 
-    ; $17889
+    ; $017889
+    .Map16BufferOffsetLow
     dw $0000
 
-    ; $1788B
+    ; $01788B
+    .Map16BufferOffsetHigh
     dw $0020
 
     ; has something to do with seeing whether an area is 2x2 or not?
@@ -13670,8 +14896,8 @@ LoadSubOverlayMap32:
 ; ==============================================================================
 
 ; $01794D-$017D0C DATA TABLE
-pool Overworld_LoadMap32:
-parallel pool LoadSubOverlayMap32:
+Pool_Overworld_LoadMap32:
+Pool_LoadSubOverlayMap32:
 {
     .high_byte_packs
     dl $0B8000, $0B80D6, $0B81C2, $0B8316
@@ -14250,8 +15476,27 @@ OverworldDecomp_GetNextSourceOctet:
 ; ==============================================================================
 
 ; $017F6E-$017FFF NULL (Use for expansion)
+NULL_02FF6E:
 {
-
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF
 }
 
 ; ==============================================================================
