@@ -5,15 +5,15 @@ org $1B8000 ; $0D8000-$0DFFFF
 
 ; ==============================================================================
 
-; $0D8000 - $DB1D6 - tail end of the music (spc) data
+; $0D8000-$0DB1D6 - tail end of the music (spc) data
 
-; $0DB1D7 - $DB29A - possibly a test block of spc data, but seems to be unused
+; $0DB1D7-$0DB29A - possibly a test block of spc data, but seems to be unused
 {
     ; \task Fill in data and find out if that part about spc data seems
     ; credible.
 }
     
-; $0DB29B - $DB7FF - null bytes / empty space
+; $0DB29B-$0DB7FF - null bytes / empty space
 pool Null:
 {
     ; \task Put in fillbyte / fill directives.
@@ -105,7 +105,7 @@ Overworld_Hole:
     dw $01CC, $015E, $0167, $0128, $0131, $0112, $016D, $0163
     dw $0173, $00FE, $0113, $0177
     
-; $0DB917 - $DB96E - chr types indicating door entrances right
+; $0DB917-$0DB96E - chr types indicating door entrances right
     dw $014A, $00C4, $014F, $0115, $0114, $0174, $0155, $00F5
     dw $00EE, $01EB, $0118, $0146, $0171, $0155, $0137, $0174
     dw $0173, $0121, $0164, $0155, $0157, $0128, $0114, $0123
@@ -113,12 +113,12 @@ Overworld_Hole:
     dw $01CC, $0131, $0051, $014E, $0131, $0121, $017A, $0163
     dw $0172, $01BD, $0152, $0167
     
-; $0DB96F - $DBA70 - Area list for entrances
+; $0DB96F-$0DBA70 - Area list for entrances
     dw $002C, $0013, $001B, $001B, $001B, $000A, $0003, $001E
     
-; $0DBA71 - $DBB72 - Map16 list for entrances
+; $0DBA71-$0DBB72 - Map16 list for entrances
     
-; $0DBB73 - $DBBF3 - references to the dungeon entrance to go into for each entry
+; $0DBB73-$0DBBF3 - references to the dungeon entrance to go into for each entry
     db $01, $02, $03, $04, $05, $06, $07, $08, $09, $0A, $0B, $0C, $0D, $0E, $0F, $10
     db $11, $12, $13, $14, $15, $16, $17, $18, $19, $1A, $1B, $1C, $1D, $1E, $1F, $20
     db $21, $22, $23, $24, $25, $26, $27, $28, $29, $2A, $2B, $2C, $2D, $2E, $2F, $30
@@ -1191,7 +1191,7 @@ Overworld_CreatePyramidHole:
 
 ; ==================================================
 
-; $0DC2F9 - $DC3F8 - overworld secrets pointer table
+; $0DC2F9-$0DC3F8 - overworld secrets pointer table
     
 ; $0DC3F9 - overworld secrets data
 

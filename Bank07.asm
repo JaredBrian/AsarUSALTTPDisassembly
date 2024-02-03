@@ -86,40 +86,40 @@ Player_SetSfxPan:
 {
     ; Indexed by $5D.
     
-    dw $8109 ; = $38109* 0x00 - Ground state (normal mode)
-    dw $92D3 ; = $392D3* 0x01 - Falling into a hole or getting close to edge of hole
-    dw $86B5 ; = $386B5* 0x02 - Recoil from hitting a wall (other such movement)
-    dw $A804 ; = $3A804* 0x03 - Spin Attack Mode
-    dw $963B ; = $3963B* 0x04 - Swimming Mode
-    dw $8872 ; = $38872* 0x05 - Turtle Rock Platforms
-    dw $86B5 ; = $386B5* 0x06 - recoil mode 2
+    dw $8109 ; = $038109 0x00 - Ground state (normal mode)
+    dw $92D3 ; = $0392D3 0x01 - Falling into a hole or getting close to edge of hole
+    dw $86B5 ; = $0386B5 0x02 - Recoil from hitting a wall (other such movement)
+    dw $A804 ; = $03A804 0x03 - Spin Attack Mode
+    dw $963B ; = $03963B 0x04 - Swimming Mode
+    dw $8872 ; = $038872 0x05 - Turtle Rock Platforms
+    dw $86B5 ; = $0386B5 0x06 - recoil mode 2
     dw Player_Electrocution ; 0x07 - Electrocution Mode
     
-    dw $A50F ; = $3A50F* 0x08 - Ether Medallion Mode
-    dw $A5F7 ; = $3A5F7* 0x09 - Bombos Medallion Mode
-    dw $A6D6 ; = $3A6D6* 0x0A - Quake Medallion Mode
-    dw $894E ; = $3894E* 0x0B - Falling into hole by jumping off a ledge
-    dw $8B74 ; = $38B74* 0x0C - Falling to the left/right off a ledge
-    dw $8DC6 ; = $38DC6* 0x0D - Jumping off a ledge diagonally up and left/right
-    dw $8E15 ; = $38E15* 0x0E - Jumping off a ledge diagonally down and left/right
-    dw $8C69 ; = $38C69* 0x0F - More jumping off a ledge but with dashing maybe + some directions
+    dw $A50F ; = $03A50F 0x08 - Ether Medallion Mode
+    dw $A5F7 ; = $03A5F7 0x09 - Bombos Medallion Mode
+    dw $A6D6 ; = $03A6D6 0x0A - Quake Medallion Mode
+    dw $894E ; = $03894E 0x0B - Falling into hole by jumping off a ledge
+    dw $8B74 ; = $038B74 0x0C - Falling to the left/right off a ledge
+    dw $8DC6 ; = $038DC6 0x0D - Jumping off a ledge diagonally up and left/right
+    dw $8E15 ; = $038E15 0x0E - Jumping off a ledge diagonally down and left/right
+    dw $8C69 ; = $038C69 0x0F - More jumping off a ledge but with dashing maybe + some directions
     
-    dw $8C69 ; = $38C69* 0x10 - Same as 0x0F?
-    dw $8F86 ; = $38F86* 0x11 - Falling off a ledge / Dashing
-    dw $915E ; = $3915E* 0x12 - Coming out of dash due to button press in the direction we're not going
-    dw $AB7C ; - $3AB7C* 0x13 - Hookshot
-    dw $A9B1 ; = $3A9B1* 0x14 - Magic Mirror
-    dw $99AC ; = $399AC* 0x15 - Holding up an item (RTS)
-    dw $9A5A ; = $39A5A* 0x16 - Asleep in bed
-    dw $83A1 ; = $383A1* 0x17 - Permabunny mode
+    dw $8C69 ; = $038C69 0x10 - Same as 0x0F?
+    dw $8F86 ; = $038F86 0x11 - Falling off a ledge / Dashing
+    dw $915E ; = $03915E 0x12 - Coming out of dash due to button press in the direction we're not going
+    dw $AB7C ; = $03AB7C 0x13 - Hookshot
+    dw $A9B1 ; = $03A9B1 0x14 - Magic Mirror
+    dw $99AC ; = $0399AC 0x15 - Holding up an item (RTS)
+    dw $9A5A ; = $039A5A 0x16 - Asleep in bed
+    dw $83A1 ; = $0383A1 0x17 - Permabunny mode
     
-    dw $8481 ; = $38481*  ; 0x18 - stuck under heavy lifted object
+    dw $8481 ; = $038481  ; 0x18 - stuck under heavy lifted object
     dw Player_EtherSpell  ; 0x19 - Receiving Ether Medallion Mode
     dw Player_BombosSpell ; 0x1A - Receiving Bombos Medallion Mode
-    dw $867B ; = $3867B* 0x1B - Opening Desert Palace Mode
-    dw $8365 ; = $38365* 0x1C - Temp bunny mode
-    dw $B416 ; = $3B416* 0x1D - Rolling back from Gargoyle gate or PullForRupees
-    dw $A804 ; = $3A804* 0x1E - Spin attack mode 2
+    dw $867B ; = $03867B 0x1B - Opening Desert Palace Mode
+    dw $8365 ; = $038365 0x1C - Temp bunny mode
+    dw $B416 ; = $03B416 0x1D - Rolling back from Gargoyle gate or PullForRupees
+    dw $A804 ; = $03A804 0x1E - Spin attack mode 2
 }
 
 ; $03807F-$038108 LOCAL JUMP LOCATION

@@ -6437,7 +6437,7 @@ Module_OverworldTable:
     dw $B521 ; = $13521*                    ; 0x2F - Is jumped to from the previous submodule
 }
 
-; $01246D - $12474 DATA
+; $01246D-$012474 DATA
 {
     dw $0001
     dw $0001
@@ -7173,7 +7173,7 @@ OverworldTranScrollSet:
 
 ; =============================================
 
-; $012C3A - $12C8E LOCAL JUMPED
+; $012C3A-$012C8E LOCAL JUMPED
 Overworld_EaseOffScrollTransition:
 {
     LDX $8A
@@ -10312,7 +10312,7 @@ OverworldScrollTransition:
     ; Y - an overworld area number * 2
     ; X - 0 for small map, 2 for large map
 
-    ; ADDs are from $13FE2 - $13FF1
+    ; ADDs are from $013FE2-$013FF1
 
     LDA .overworldTransitionPositionY, Y : STA $0600
     CLC : ADC .boundary_y_size, X : STA $0602 ; $A8C4, $BFE2
@@ -12213,7 +12213,7 @@ LoadOverworldFromSpecialOverworld:
 
 ; ==============================================================================
 
-; $016AE5 - $16C38 DATA
+; $016AE5-$016C38 DATA
 pool BirdTravel_LoadTargetAreaData:
 {
     ; OW 03 - Flute 1
@@ -12363,7 +12363,7 @@ BirdTravel_LoadTargetAreaPalettes:
 
 ; ==============================================================================
 
-; $016CF8 - $16D07 DATA
+; $016CF8-$016D07 DATA
 pool Whirlpool_LookUpAndLoadTargetArea:
 {
     dw $000F ; OW 0F - Lake Hylia whirlpool
@@ -14250,7 +14250,7 @@ Map16ToMap8:
 
 ; ==============================================================================
 
-; $017D87 - $17E46 LOCAL JUMP LOCATION
+; $017D87-$017E46 LOCAL JUMP LOCATION
 Map16ChunkToMap8:
 {
     ; Converts Map16 data to Map8 data (normal tile data) 0x40 bytes at a time.

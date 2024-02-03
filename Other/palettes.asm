@@ -481,7 +481,7 @@
 }
     
     ; \unused maybe
-; $0DEC0B - $DEC12 DATA
+; $0DEC0B-$0DEC12 DATA
 {
     db $00, $1C, $38, $54, $70, $8C, $A8, $C4
 }

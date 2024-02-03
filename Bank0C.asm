@@ -5,7 +5,7 @@ org $0C8000 ; $060000-$067FFF
 
 ; ==============================================================================
 
-; $064120 - $6415C JUMP LOCATION
+; $064120-$06415C JUMP LOCATION
 Module_Intro:
 {
     ; Beginning of Module 0x00, Startup Screen:
@@ -631,7 +631,7 @@ Intro_InitGfx:
     RTS
 }
 
-; $064534 - $064542 LOCAL JUMP LOCATION
+; $064534-$064542 LOCAL JUMP LOCATION
 {
     LDA $1E10, X : BEQ .alpha
         JSL UseImplicitRegIndexedLocalJumpTable
@@ -2865,7 +2865,7 @@ Module_EraseFile:
     RTS
 }
 
-; $065695 - $656AE DATA TABLE
+; $065695-$0656AE DATA TABLE
 {
     db $01, $06, $0B
     db $34
