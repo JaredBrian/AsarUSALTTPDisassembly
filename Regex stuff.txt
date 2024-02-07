@@ -1,2 +1,16 @@
 Find un labled LDA.w
 LD([AYX]).w (\$[89ABCDEF][^\s][^\s][^\s])
+
+
+Find comments without a leading space and replace with one.
+(;)([^ ])
+; $2
+
+Find comments with a lower case starting letter and replace with upper case:
+; ([a-z])
+; \U$1
+
+
+Find comments that don't end in a period and replace with a period:
+(; .*[^=\.]$)
+$1.

@@ -18,11 +18,11 @@ Sprite_StoryTeller_1:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $AD9A ; = $32D9A*
-    dw $ADE1 ; = $32DE1*
-    dw $AE0A ; = $32E0A*
-    dw $AE34 ; = $32E34*
-    dw $AE5B ; = $32E5B*
+    dw $AD9A ; = $032D9A
+    dw $ADE1 ; = $032DE1
+    dw $AE0A ; = $032E0A
+    dw $AE34 ; = $032E34
+    dw $AE5B ; = $032E5B
 }
 
 ; $032D9A-$032DA6 JUMP LOCATION
@@ -31,9 +31,9 @@ Sprite_StoryTeller_1:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $ADA7 ; = $32DA7*
-    dw $ADBF ; = $32DBF*
-    dw $ADB5 ; = $32DB5*
+    dw $ADA7 ; = $032DA7
+    dw $ADBF ; = $032DBF
+    dw $ADB5 ; = $032DB5
 }
 
 ; $032DA7-$032DB4 JUMP LOCATION
