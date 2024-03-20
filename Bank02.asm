@@ -6898,8 +6898,8 @@ Overworld_LoadNewMapAndGfx:
 
     INC.w $0710
 
-    ; This mess all looks like it does map16 to map8 conversion, and the subsequent one sets up the
-    ; system to blit it to vram during the next vblank.
+    ; This mess all looks like it does map16 to map8 conversion, and the subsequent one sets
+    ; up the system to blit it to vram during the next vblank.
     ; $017031 IN ROM
     JSR Overworld_StartTransMapUpdate
 
@@ -7295,7 +7295,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     STZ.b $B0
 
     ; Forest areas are 0x00 and 0x40.
-    ; - ZS Custom Overworld? - Loads some sort of animated tile, needs more investigation.
+    ; $012E8C - ZS Custom Overworld? - Loads some sort of animated tile, needs more investigation.
     LDA.b $8A : AND.b #$3F : BNE .notForestArea 
         LDA.b #$1E
 
@@ -7328,7 +7328,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     LDA.b $11 : CMP.b #$24 : BNE .BRANCH_GAMMA
         JSR $E9BC ; $0169BC IN ROM
 
-        ; - ZS Custom Overworld? - loads some sort of animated tile, needs more investigation.
+        ; $012EBF - ZS Custom Overworld? - loads some sort of animated tile, needs more investigation.
         LDA.b $8A : AND.b #$3F : BNE .BRANCH_GAMMA 
             LDA.b #$1E
 
@@ -9637,7 +9637,7 @@ Overworld_OperateCameraScroll:
     ; $013CFB ALTERNATE ENTRY POINT
     .BRANCH_UPSILON
 
-    LDX.b $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA ; - ZS Custom Overworld? - This one seems to control some sort of subscreen movement but only for turtle rock. This will need to be investigated further as to why.
+    LDX.b $8A : CPX.b #$47 : BEQ .BRANCH_OMEGA ; $013CFB - ZS Custom Overworld? - This one seems to control some sort of subscreen movement but only for turtle rock. This will need to be investigated further as to why.
         LDX.b $8C
 
         CPX.b #$9C : BEQ .BRANCH_ALTIMA

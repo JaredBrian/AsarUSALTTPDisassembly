@@ -554,7 +554,7 @@ Palette_SpriteAux3:
 ; $0DEC9E-$0DECC4 LONG JUMP LOCATION
 Palette_MainSpr:
 {
-     ; Loads palettes for the commonly used sprites like fairys, blue / red creatures,
+    ; Loads palettes for the commonly used sprites like fairys, blue / red creatures,
     ; hearts, rupees, etc
     REP #$21
     
@@ -562,8 +562,8 @@ Palette_MainSpr:
     LDX.b #$00
     
     LDA $8A : AND.w #$0040 : BEQ .lightWorld ; - ZS Custom Overworld? not sure, needs investigation.
-    ; X = 0x02 for dark world
-    INX #2
+        ; X = 0x02 for dark world
+        INX #2
     
     .lightWorld
     
@@ -719,7 +719,7 @@ Palette_Unused:
 ; $0DED6E-$0DEDDC LONG JUMP LOCATION
 Palette_MiscSpr:
 {
-     ; If we're outdoors do something else...
+    ; If we're outdoors do something else...
     LDA $1B : BEQ .outdoors
     ; $0DED72 ALTERNATE ENTRY POINT 
     .justSP6
@@ -752,7 +752,7 @@ Palette_MiscSpr:
     
     ; See if we're in the dark world.
     LDA $8A : AND.w #$0040 : BEQ .lightWorld ; - ZS Custom Overworld? not sure, needs investigation.
-    INX #2
+        INX #2
     
     .lightWorld
     

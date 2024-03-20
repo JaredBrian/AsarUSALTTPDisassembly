@@ -3385,7 +3385,7 @@ $0B6B[0x10] -   (Sprite)
     
     a - ; if set the sprite will deflect arrow? bank 08 in Ancilla_CheckIndividualSpriteCollision
     
-    c - 
+    c - Override Slash Imminuty (according to Zarby.)
     
     b - "Dies like a boss'. Meaning it has that rather explosive death animation
         and makes a different noise.
@@ -3491,7 +3491,7 @@ $0BE0[0x10] -   (Sprite)
         some enemies in spite of the fact that they are still taking damage.)
     
     p - Prize pack to grant (assassin17 has this somewhat figured out, I just
-        need to make sure my doc jives with his, and if not, find out why.
+        need to make sure my doc jives with his, and if not, find out why.)
     
     
     prize pack for a sprite in the sprite object model (see below)
@@ -3655,8 +3655,10 @@ $0CAA[0x10] -   (Sprite)
     abcdefgh
     
     a - If set... creates some condition where it may or may not die
+        (Active off screen according to Zarby)
     
     b - Same as bit 'a' in some contexts (Zora in particular)
+        (Die off screen according to Zarby)
     
     c - While this is set and unset in a lot of places for various sprites, its
         status doesn't appear to ever be queried. Based on the pattern of its
@@ -3675,14 +3677,17 @@ $0CAA[0x10] -   (Sprite)
         in the ROM data, but it was functional and interesting
         enough to include.
     
-    e - If set, makes the sprite collide with less tiles than usual
+    e - If set, makes the sprite collide with less tiles than usual.
+        (Projectile like collision according to Zarby)
     
-    f - If set, makes sprite impervious to sword and hammer type attacks
+    f - If set, makes sprite impervious to sword and hammer type attacks.
     
-    g - ???? Seems to make sprite impervious to arrows, but may have other
+    g - Seems to make sprite impervious to arrows, but may have other
         additional meanings. Makes the sprite be able to be picked up by the boomerang.
+        (Bonk item according to Zarby)
     
     h - disabled???
+        (No perma-death in dungeons according to Zarby)
 
 $0CBA[0x10] -   (Sprite)
     
@@ -3696,18 +3701,41 @@ $0CBA[0x10] -   (Sprite)
 $0CCA[0x08] -   Area that an overlord was loaded during
 
 $0CD2[0x10] -   (Sprite)
+
+    rbiadddd
+
+    r - Recoil without collision.
+    b - Bee target
+    i - Immune to powder
+    a - Allowed in boss fights
     
-    Bump damage the sprite can inflict on the player.
+    d - Bump damage the sprite can inflict on the player.
 
 $0CE2[0x10] -   (Sprite)
     
     When the sprite is hit, this is written to with the amount of damage to
-    subtract from the sprite's HP.  ; certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
-    ; FF - hookshot/boomerang
-    ; FE - Ice Rod effect
-    ; FD - Fire Rod effect
-    ; FC - hookshot/boomerang shorter effect time?
-    ; FB - hookshot/boomerang wears off almost immediately
+    subtract from the sprite's HP. Certain values also have other effects, such as inserting #$FF stuns the sprite like the hookshot or boomerang
+
+    Special Effects:
+    ; 0xFF - Target is stunned for 0xFF frames (Hookshot/boomerang).
+    ; 0xFE - Target becomes frozen (Ice Rod effect).
+    ; 0xFD - Target is incinerated (Fire Rod effect).
+    ; 0xFC - Target is stunned for 0x80 frames (Hookshot/boomerang).
+    ; 0xFB - Target is stunned for 0x20 frames (Hookshot/boomerang).
+    ; 0xFA - Target becomes a blob (Magic Powder).
+    ; 0xF9 - Target becomes a fairy (Magic Powder).
+
+    These are the rest of the values that appear in vanilla but all just do that amount of damage to the sprite.
+    ; 0x64
+    ; 0x40
+    ; 0x20
+    ; 0x18
+    ; 0x10
+    ; 0x08
+    ; 0x04
+    ; 0x02
+    ; 0x01
+    ; 0x00 
 
 $0CF2[0x01] -   (Sprite)
     

@@ -12,5 +12,5 @@ Find comments with a lower case starting letter and replace with upper case:
 
 
 Find comments that don't end in a period and replace with a period:
-(; .*[^=\.]$)
+(; .*[^=?:!\.]$)
 $1.

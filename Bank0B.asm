@@ -7,6 +7,7 @@ org $0B8000 ; $058000-$05FFFF
 
 ; $05FE70-$05FFA7 LONG JUMP LOCATION
 ; ZS replaces the latter half of this function.
+Overworld_SetFixedColorAndScroll:
 {
     ; Turn the subscreen off for the moment.
     STZ $1D

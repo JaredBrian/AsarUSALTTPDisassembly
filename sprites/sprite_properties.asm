@@ -4,6 +4,8 @@
 ; $06B080-$06B817 DATA
 pool Sprite_LoadProperties:
 {
+    ; $06B080
+    ; $0E40 - OAM allocation and misc settings.
     db $01, $02, $01, $82, $81, $84, $84, $84
     db $02, $0F, $02, $01, $20, $03, $04, $84
     db $01, $05, $04, $01, $80, $04, $A2, $83
@@ -36,7 +38,8 @@ pool Sprite_LoadProperties:
     db $A1, $A3, $A1, $A1, $A1, $83, $85, $83
     db $83, $83, $83
     
-    ; $06B173 ; health
+    ; $06B173
+    ; $0E50 - Health
     db $0C, $06, $FF, $03, $03, $03, $03, $03
     db $02, $0C, $04, $FF, $00, $03, $0C, $02
     db $00, $14, $04, $04, $00, $FF, $00, $02
@@ -69,7 +72,8 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00
     
-    ; $06B266 ; Bump damage
+    ; $06B266
+    ; Goes into $0CD2 - Bump damage.
     db $83, $83, $81, $02, $02, $02, $02, $02
     db $01, $13, $01, $01, $01, $01, $08, $01
     db $01, $08, $05, $03, $40, $04, $00, $02
@@ -102,7 +106,9 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00
     
-    ; $06B359 ; $0E60 and $0F50 byte 4 $90 properties (palette, priority, H and V flip)
+    ; $06B359
+    ; $0E60 - Misc settings
+    ; And last 4 bits into $0F50 - Byte 4 $90 properties (palette, priority, H and V flip).
     db $19, $0B, $1B, $4B, $41, $41, $41, $4D
     db $1D, $01, $1D, $19, $8D, $1B, $09, $9D
     db $3D, $01, $09, $11, $40, $01, $4D, $19
@@ -135,7 +141,8 @@ pool Sprite_LoadProperties:
     db $69, $C1, $D2, $D2, $DC, $C7, $C1, $C7
     db $C7, $C7, $C1
     
-    ; $06B44C $0F60 Alive / hit box property
+    ; $06B44C
+    ; $0F60 - Alive / hit box properties.
     db $00, $00, $00, $43, $43, $43, $43, $43
     db $00, $00, $00, $00, $1C, $00, $00, $02
     
@@ -183,7 +190,8 @@ pool Sprite_LoadProperties:
     
     db $1B, $1B, $03
     
-    ; $6B53F
+    ; $06B53F
+    ; $0B6B - Tile hit box and other misc settings.
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $0A, $00, $01, $30, $00, $00, $20
     db $10, $00, $00, $01, $00, $00, $00, $00
@@ -216,7 +224,8 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $00, $00, $00, $00
     db $00, $00, $00
     
-    ; $6B632
+    ; $06B632
+    ; $0BE0 - Prize pack and other misc settings.
     db $83, $96, $84, $80, $80, $80, $80, $80
     db $02, $00, $02, $80, $A0, $83, $97, $80
     db $80, $94, $91, $07, $00, $80, $00, $80
@@ -249,7 +258,8 @@ pool Sprite_LoadProperties:
     db $00, $00, $00, $00, $80, $00, $00, $00
     db $00, $00, $00
     
-    ; $06B725 ; What goes into $0CAA 
+    ; $06B725
+    ; $0CAA - Deflection properties
     db $00, $00, $44, $20, $20, $20, $20, $20
     db $00, $81, $00, $00, $48, $00, $00, $00
     db $00, $00, $00, $00, $00, $00, $04, $00
@@ -300,7 +310,7 @@ Sprite_LoadProperties:
     
     LDA.w $B080, Y : STA $0E40, X
     
-    LDA.w $B173, Y : STA $0E50, X ; Load its HP statistic.
+    LDA.w $B173, Y : STA $0E50, X ; Load its HP.
     LDA.w $B44C, Y : STA $0F60, X ; ????
     LDA.w $B632, Y : STA $0BE0, X
     LDA.w $B725, Y : STA $0CAA, X
@@ -311,9 +321,8 @@ Sprite_LoadProperties:
     LDA $040A
     
     LDY $1B : BEQ .outdoors
-    
-    ; If indoors, instead load the room number. (in this case, the lower byte)
-    LDA $048E
+        ; If indoors, instead load the room number. (in this case, the lower byte)
+        LDA $048E
     
     .outdoors
     
@@ -325,7 +334,7 @@ Sprite_LoadProperties:
     PLY
     
     ; $06B85C ALTERNATE ENTRY POINT
-    shared Sprite_LoadPalette:
+    Sprite_LoadPalette:
     
     PHY
     

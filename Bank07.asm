@@ -7786,6 +7786,7 @@ LinkItem_ReturnUnusedMagic:
 ; ==============================================================================
 
 ; $03B107-$03B11B LONG JUMP LOCATION
+Link_ItemReset_FromOverworldThings:
 {
     STZ $030A
     STZ $3B

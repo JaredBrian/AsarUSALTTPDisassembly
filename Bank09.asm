@@ -544,26 +544,22 @@ Sprite_ReinitWarpVortex:
     
     .nextSprite
     
-    LDA $0DD0, X : BEQ .dead
-    
-    ; Trying to kill the warp vortex
-    LDA $0E20, X : CMP.b #$6C : BNE .notWarpVortex
-    
-    ; Kill the warp vortex!
-    STZ $0DD0, X
-    
-    .dead
-    .notWarpVortex
-    
+        LDA $0DD0, X : BEQ .dead
+            ; Trying to kill the warp vortex
+            LDA $0E20, X : CMP.b #$6C : BNE .notWarpVortex
+                ; Kill the warp vortex!
+                STZ $0DD0, X
+            
+            .notWarpVortex
+        .dead
     DEX : BPL .nextSprite
     
     LDA.b #$6C
     
     JSL Sprite_SpawnDynamically : BPL .spawnSucceeded
+        LDY.b #$00
     
-    LDY.b #$00
-    
-    .spawnSuceeded
+    .spawnSucceeded
     
     LDA $001ABF : STA $0D10, Y
     LDA $001ACF : STA $0D30, Y
