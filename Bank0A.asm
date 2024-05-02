@@ -8,7 +8,7 @@ org $0A8000 ; $050000-$057FFF
 ; $053730-$05374A LONG JUMP LOCATION
 Messaging_BirdTravel:
 {
-    LDA $0200
+    LDA.w $0200
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -29,7 +29,7 @@ Messaging_BirdTravel:
 ; $05374B-$053752 LONG JUMP LOCATION
 BirdTravel_InitGfx:
 {
-    STZ $1AF0
+    STZ.w $1AF0
     
     JSL OverworldMap_InitGfx
     
@@ -41,9 +41,9 @@ BirdTravel_InitGfx:
 ; $053753-$05375A LONG JUMP LOCATION
 BirdTravel_InitCounter:
 {
-    LDA.b #$10 : STA $C8
+    LDA.b #$10 : STA.b $C8
     
-    INC $0200
+    INC.w $0200
     
     RTL
 }
@@ -83,25 +83,25 @@ Pool_BirdTravel_Main:
 ; $05378B-$0538C4 LONG JUMP LOCATION
 BirdTravel_Main:
 {
-    LDA $C8 : BNE .waitForCounter
+    LDA.b $C8 : BNE .waitForCounter
     
     ; Check A, X, B, and Y buttons (BYSTudlr and AXLR----)
-    LDA $F2 : ORA $F0 : AND.b #$C0 : BEQ .noButtonInput
+    LDA.b $F2 : ORA.b $F0 : AND.b #$C0 : BEQ .noButtonInput
         ; These buttons cause us to exit bird travel and end up at the
         ; selected destination.
-        INC $0200
+        INC.w $0200
         
         RTL
 
         .waitForCounter
 
-        DEC $C8
+        DEC.b $C8
 
     .noButtonInput
 
     LDY.b #$07
     
-    LDX $1AF0
+    LDX.w $1AF0
 
     .BRANCH_LAMBDA
 
@@ -113,33 +113,33 @@ BirdTravel_Main:
 
     .BRANCH_GAMMA
 
-    STX $1AF0
+    STX.w $1AF0
     
-    LDA $F4 : AND.b #$0A : BEQ .BRANCH_DELTA
-        DEC $1AF0
+    LDA.b $F4 : AND.b #$0A : BEQ .BRANCH_DELTA
+        DEC.w $1AF0
         
-        LDA.b #$20 : STA $012F
+        LDA.b #$20 : STA.w $012F
 
     .BRANCH_DELTA
 
-    LDA $F4 : AND.b #$05 : BEQ .BRANCH_EPSILON
-        INC $1AF0
+    LDA.b $F4 : AND.b #$05 : BEQ .BRANCH_EPSILON
+        INC.w $1AF0
         
-        LDA.b #$20 : STA $012F
+        LDA.b #$20 : STA.w $012F
 
     .BRANCH_EPSILON
 
-    LDA $1AF0 : AND.b #$07 : STA $1AF0
+    LDA.w $1AF0 : AND.b #$07 : STA.w $1AF0
     
-    LDA $1A : AND.b #$10 : BEQ .BRANCH_ZETA
+    LDA.b $1A : AND.b #$10 : BEQ .BRANCH_ZETA
         ; $05439F IN ROM
         JSR $C39F : BCC .BRANCH_ZETA
-            LDA $0E : SEC : SBC.b #$04 : STA $0E
-            LDA $0F : SEC : SBC.b #$04 : STA $0F
+            LDA.b $0E : SEC : SBC.b #$04 : STA.b $0E
+            LDA.b $0F : SEC : SBC.b #$04 : STA.b $0F
             
-            LDA.b #$00 : STA $0D
-            LDA.b #$3E : STA $0C
-            LDA.b #$02 : STA $0B
+            LDA.b #$00 : STA.b $0D
+            LDA.b #$3E : STA.b $0C
+            LDA.b #$02 : STA.b $0B
             
             LDX.b #$10
             
@@ -147,19 +147,19 @@ BirdTravel_Main:
 
     .BRANCH_ZETA
 
-    LDA $7EC108 : PHA
-    LDA $7EC109 : PHA
-    LDA $7EC10A : PHA
-    LDA $7EC10B : PHA
+    LDA.l $7EC108 : PHA
+    LDA.l $7EC109 : PHA
+    LDA.l $7EC10A : PHA
+    LDA.l $7EC10B : PHA
     
     LDX.b #$07
 
     ; $053813 ALTERNATE ENTRY POINT
-    CPX $1AF0 : BNE .BRANCH_THETA
-        LDA $0AB763, X : STA $1AB0, X : STA $7EC10A
-        LDA $0AB76B, X : STA $1AC0, X : STA $7EC10B
-        LDA $0AB773, X : STA $1AD0, X : STA $7EC108
-        LDA $0AB77B, X : STA $1AE0, X : STA $7EC109
+    CPX.w $1AF0 : BNE .BRANCH_THETA
+        LDA.l $0AB763, X : STA.w $1AB0, X : STA.l $7EC10A
+        LDA.l $0AB76B, X : STA.w $1AC0, X : STA.l $7EC10B
+        LDA.l $0AB773, X : STA.w $1AD0, X : STA.l $7EC108
+        LDA.l $0AB77B, X : STA.w $1AE0, X : STA.l $7EC109
         
         PHX
         
@@ -168,11 +168,11 @@ BirdTravel_Main:
         PLX
         
         BCC .BRANCH_IOTA
-            LDA $0AB75B, X : STA $0D
+            LDA.l $0AB75B, X : STA.b $0D
             
-            LDA $1A : AND.b #$06 : ORA.b #$30 : STA $0C
+            LDA.b $1A : AND.b #$06 : ORA.b #$30 : STA.b $0C
             
-            LDA.b #$00 : STA $0B
+            LDA.b #$00 : STA.b $0B
             
             PHX
             
@@ -184,10 +184,10 @@ BirdTravel_Main:
 
     .BRANCH_THETA
 
-    LDA $0AB763, X : STA $1AB0, X : STA $7EC10A
-    LDA $0AB76B, X : STA $1AC0, X : STA $7EC10B
-    LDA $0AB773, X : STA $1AD0, X : STA $7EC108
-    LDA $0AB77B, X : STA $1AE0, X : STA $7EC109
+    LDA.l $0AB763, X : STA.w $1AB0, X : STA.l $7EC10A
+    LDA.l $0AB76B, X : STA.w $1AC0, X : STA.l $7EC10B
+    LDA.l $0AB773, X : STA.w $1AD0, X : STA.l $7EC108
+    LDA.l $0AB77B, X : STA.w $1AE0, X : STA.l $7EC109
     
     PHX
     
@@ -196,10 +196,10 @@ BirdTravel_Main:
     PLX
     
     BCC .BRANCH_IOTA
-        LDA $0AB75B, X : STA $0D
+        LDA.l $0AB75B, X : STA.b $0D
         
-        LDA.b #$32 : STA $0C
-        LDA.b #$00 : STA $0B
+        LDA.b #$32 : STA.b $0C
+        LDA.b #$00 : STA.b $0B
         
         PHX
         
@@ -214,10 +214,10 @@ BirdTravel_Main:
 
     .BRANCH_KAPPA
 
-    PLA : STA $7EC10B
-    PLA : STA $7EC10A
-    PLA : STA $7EC109
-    PLA : STA $7EC108
+    PLA : STA.l $7EC10B
+    PLA : STA.l $7EC10A
+    PLA : STA.l $7EC109
+    PLA : STA.l $7EC108
     
     RTL
 }
@@ -230,12 +230,12 @@ BirdTravel_LoadTargetArea:
 {
     ; Reset the overlay flags for the swamp palace and its light world
     ; counterpart.
-    LDA $7EF2BB : AND.b #$DF : STA $7EF2BB
-    LDA $7EF2FB : AND.b #$DF : STA $7EF2FB
+    LDA.l $7EF2BB : AND.b #$DF : STA.l $7EF2BB
+    LDA.l $7EF2FB : AND.b #$DF : STA.l $7EF2FB
         
     ; Reset the indoor flags for the swamp palace and the watergate as well.
-    LDA $7EF216 : AND.b #$7F : STA $7EF216
-    LDA $7EF051 : AND.b #$FE : STA $7EF051
+    LDA.l $7EF216 : AND.b #$7F : STA.l $7EF216
+    LDA.l $7EF051 : AND.b #$FE : STA.l $7EF051
         
     JSL BirdTravel_LoadTargetAreaData
     JSL BirdTravel_LoadTargetAreaPalettes
@@ -245,7 +245,7 @@ BirdTravel_LoadTargetArea:
     ; Load differnt animated tiles for certain areas.
     LDY.b #$58
         
-    LDA $8A : AND.b #$BF
+    LDA.b $8A : AND.b #$BF
         
     CMP.b #$03 : BEQ .death_mountain
     CMP.b #$05 : BEQ .death_mountain
@@ -257,32 +257,32 @@ BirdTravel_LoadTargetArea:
     JSL DecompOwAnimatedTiles ; $005394 IN ROM
     JSL $0BFE70 ; $05FE70 IN ROM
         
-    STZ $0AA9
-    STZ $0AB2
+    STZ.w $0AA9
+    STZ.w $0AB2
         
     JSL InitTilesets
         
-    INC $0200
+    INC.w $0200
         
-    STZ $B2
+    STZ.b $B2
         
     JSL $02B1F4 ; $0131F4 IN ROM
         
     ; Play sound effect indicating we're coming out of map mode.
-    LDA.b #$10 : STA $012F
+    LDA.b #$10 : STA.w $012F
         
     ; Reset the ambient sound effect to what it was.
-    LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
+    LDX.b $8A : LDA.l $7F5B00, X : LSR #4 : STA.w $012D
         
     ; If it's a different music track than was playing where we came from,
     ; simply change to it (as opposed to setting volume back to full).
-    LDA $7F5B00, X : AND.b #$0F : TAX : CPX $0130 : BNE .different_music
+    LDA.l $7F5B00, X : AND.b #$0F : TAX : CPX.w $0130 : BNE .different_music
         ; Otherwise, just set the volume back to full.
         LDX.b #$F3
     
     .different_music
     
-    STX $012C
+    STX.w $012C
         
     RTL
 }
@@ -294,9 +294,9 @@ BirdTravel_LoadAmbientOverlay:
 {
     REP #$20
     
-    LDA $10 : PHA
+    LDA.b $10 : PHA
     
-    LDA $0200 : PHA
+    LDA.w $0200 : PHA
     
     SEP #$20
     
@@ -305,9 +305,9 @@ BirdTravel_LoadAmbientOverlay:
     
     REP #$20
     
-    PLA : INC A : STA $0200
+    PLA : INC A : STA.w $0200
     
-    PLA : STA $10
+    PLA : STA.b $10
     
     SEP #$20
     
@@ -319,21 +319,21 @@ BirdTravel_LoadAmbientOverlay:
 ; $053964-$05398A LONG JUMP LOCATION
 BirdTravel_Finish:
 {
-    INC $13
+    INC.b $13
     
-    LDA $13 : CMP.b #$0F : BNE .keep_brightening
+    LDA.b $13 : CMP.b #$0F : BNE .keep_brightening
         ; $05396C ALTERNATE ENTRY POINT
         .restore_prev_module
 
-        STZ $0200
+        STZ.w $0200
         
-        STZ $B0
+        STZ.b $B0
         
-        LDA $010C : STA $10
+        LDA.w $010C : STA.b $10
         
-        STZ $11
+        STZ.b $11
         
-        LDA $7EC229 : STA $9B
+        LDA.l $7EC229 : STA.b $9B
         
         LDY.b #$04
         LDA.b #$27
@@ -352,7 +352,7 @@ BirdTravel_Finish:
 ; $05398B-$0539A1 LONG JUMP LOCATION
 Messaging_OverworldMap:
 {
-    LDA $0200
+    LDA.w $0200
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -380,73 +380,73 @@ OverworldMap_KeepDarkening:
 OverworldMap_Backup:
 {
     ; Darken the screen until it's fully black.
-    DEC $13 : BNE OverworldMap_KeepDarkening
+    DEC.b $13 : BNE OverworldMap_KeepDarkening
         ; Cache hdma settings.
-        LDA $9B : STA $7EC229
+        LDA.b $9B : STA.l $7EC229
         
         JSL EnableForceBlank ; $00093D IN ROM
         
         ; Set mosaic to disabled on BG1 and BG2.
-        LDA.b #$03 : STA $95
+        LDA.b #$03 : STA.b $95
         
         ; Move to next step of submodule.
-        INC $0200
+        INC.w $0200
         
         REP #$20
         
         ; Cache main screen designation.
-        LDA $1C : STA $7EC211
+        LDA.b $1C : STA.l $7EC211
         
         ; Cache BG offset register mirros.
-        LDA $E0 : STA $7EC200
-        LDA $E2 : STA $7EC202
-        LDA $E6 : STA $7EC204
-        LDA $E8 : STA $7EC206
+        LDA.b $E0 : STA.l $7EC200
+        LDA.b $E2 : STA.l $7EC202
+        LDA.b $E6 : STA.l $7EC204
+        LDA.b $E8 : STA.l $7EC206
         
         ; Zero out BG offset register mirrors.
-        STZ $E0 : STZ $E2
-        STZ $E4 : STZ $E6
-        STZ $E8 : STZ $EA
+        STZ.b $E0 : STZ.b $E2
+        STZ.b $E4 : STZ.b $E6
+        STZ.b $E8 : STZ.b $EA
         
         ; Cache CGWSEL register mirror.
-        LDA $99 : STA $7EC225
+        LDA.b $99 : STA.l $7EC225
         
-        LDA.w #$01FC : STA $0100
+        LDA.w #$01FC : STA.w $0100
         
-        LDX $8A : CPX.b #$80 : BCS .specialArea
+        LDX.b $8A : CPX.b #$80 : BCS .specialArea
             ; Cache Link's coordinates.
-            LDA $20 : STA $7EC108
-            LDA $22 : STA $7EC10A
+            LDA.b $20 : STA.l $7EC108
+            LDA.b $22 : STA.l $7EC10A
 
         .specialArea
 
         SEP #$20
         
-        LDA $7EF3C5 : CMP.b #$02 : BCS .savedZeldaOnce
+        LDA.l $7EF3C5 : CMP.b #$02 : BCS .savedZeldaOnce
             ; Clip to black before color math inside color window only.
-            LDA.b #$80 : STA $99
+            LDA.b #$80 : STA.b $99
             
             ; Apply color math to BG1 and background, with half addition.
-            LDA.b #$61 : STA $9A
+            LDA.b #$61 : STA.b $9A
 
         .savedZeldaOnce
 
         ; Play sound effect indicating we're entering overworld map mode.
-        LDA.b #$10 : STA $012F
+        LDA.b #$10 : STA.w $012F
         
         ; Play another sound effect in conjunction (to produce a nuanced sound).
-        LDA.b #$05 : STA $012D
+        LDA.b #$05 : STA.w $012D
         
         ; Set volume to half.
-        LDA.b #$F2 : STA $012C
+        LDA.b #$F2 : STA.w $012C
         
         ; Set screen mode to mode 7 (because the overworld map is done in mode
         ; 7, obviously).
-        LDA.b #$07 : STA $2105 : STA $94
+        LDA.b #$07 : STA.w $2105 : STA.b $94
         
         ; Set so that the playing field is filled with transparency wherever
         ; there aren't tiles.
-        LDA.b #$80 : STA $211A
+        LDA.b #$80 : STA.w $211A
         
         RTL
 }
@@ -459,8 +459,8 @@ OverworldMap_InitGfx:
     JSR ClearMode7Tilemap
     
     ; Put BG1 and OBJ on main screen, and nothing on the subscreen.
-    LDA.b #$11 : STA $1C
-                 STZ $1D
+    LDA.b #$11 : STA.b $1C
+                 STZ.b $1D
     
     JSL WriteMode7Chr ; $006399 IN ROM
     JSR $BC96         ; $053C96 IN ROM (configures hdma for map mode)
@@ -474,14 +474,14 @@ OverworldMap_InitGfx:
     LDY.w #$00FE
     
     ; Loads a different palette if in the DW.
-    LDA $8A : AND.w #$0040 : BEQ .lightWorld
+    LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
         LDY.w #$01FE
 
     .lightWorld
 
     .copyFullCgramBuffer
 
-        LDA.w $DB27, Y : STA $7EC500, X
+        LDA.w $DB27, Y : STA.l $7EC500, X
         
         DEY #2
     DEX #2 : BPL .copyFullCgramBuffer
@@ -493,15 +493,15 @@ OverworldMap_InitGfx:
     JSL LoadActualGearPalettes ; $0756C0 IN ROM
     
     ; Tell NMI to update CGRAM this frame.
-    INC $15
+    INC.b $15
     
-    LDA.b #$07 : STA $17
+    LDA.b #$07 : STA.b $17
     
-    STZ $13
+    STZ.b $13
     
-    INC $0710
+    INC.w $0710
     
-    INC $0200
+    INC.w $0200
     
     RTL
 }
@@ -514,23 +514,23 @@ OverworldMap_DarkWorldTilemap:
     ; Performs the necessary mods to the light world tilemap to produce
     ; the dark world tilemap.
     
-    LDA $8A : AND.b #$40 : BEQ .lightWorld
+    LDA.b $8A : AND.b #$40 : BEQ .lightWorld
         REP #$30
         
         LDX.w #$03FE
 
         .copyLoop
 
-            LDA $0AD727, X : STA $1000, X
+            LDA.l $0AD727, X : STA.w $1000, X
         DEX #2 : BPL .copyLoop
         
         SEP #$30
         
-        LDA.b #$15 : STA $17
+        LDA.b #$15 : STA.b $17
 
     .lightWorld
 
-    INC $0200
+    INC.w $0200
     
     RTL
 }
@@ -540,14 +540,14 @@ OverworldMap_DarkWorldTilemap:
 ; $053A9A-$053AA9 LOCAL JUMP LOCATION
 OverworldMap_LoadSprGfx:
 {
-    LDA.b #$10 : STA $0AAA
+    LDA.b #$10 : STA.w $0AAA
     
     JSL Graphics_LoadChrHalfSlot
     
-    STZ $0AAA
+    STZ.w $0AAA
     
     ; Move on to next substep.
-    INC $0200
+    INC.w $0200
     
     RTL
 }
@@ -557,11 +557,11 @@ OverworldMap_LoadSprGfx:
 ; $053AAA-$053AB5 LONG JUMP LOCATION
 OverworldMap_BrightenScreen:
 {
-    INC $13
+    INC.b $13
     
-    LDA $13 : CMP.b #$0F : BNE .notDoneBrightening
+    LDA.b $13 : CMP.b #$0F : BNE .notDoneBrightening
         ; Move to next step.
-        INC $0200
+        INC.w $0200
 
     .notDoneBrightening
 
@@ -614,65 +614,65 @@ Pool_OverworldMap_Main:
 ; $053AE6-$053BD5 LONG JUMP LOCATION
 OverworldMap_Main:
 {
-    LDA $0636 : ASL A : BCC .dontToggleZoomLevel
+    LDA.w $0636 : ASL A : BCC .dontToggleZoomLevel
         TAX
         
-        ; We got rid of bit 7 of $0636
-        LSR A : STA $0636
+        ; We got rid of bit 7 of $0636.
+        LSR A : STA.w $0636
         
-        ; Change the matrix multiplication done via hdma
-        ; (changes from closeup to full view)
-        LDA $0ABAE2, X : STA $4362 : STA $4372
+        ; Change the matrix multiplication done via hdma (changes from
+        ; closeup to full view).
+        LDA.l $0ABAE2, X : STA.w $4362 : STA.w $4372
 
     .dontToggleZoomLevel
 
-    LDA $0636 : BNE .dontExitMap
+    LDA.w $0636 : BNE .dontExitMap
         ; Check for presses of the X button this frame.
-        LDA $F6 : AND.b #$40 : BEQ .dontExitMap
-            ; The signal to come out of map mode
-            INC $0200
+        LDA.b $F6 : AND.b #$40 : BEQ .dontExitMap
+            ; The signal to come out of map mode.
+            INC.w $0200
             
             RTL
 
     .dontExitMap
 
-    LDA $B2 : BEQ .zoomTransitionFinished
-        DEC $B2
+    LDA.b $B2 : BEQ .zoomTransitionFinished
+        DEC.b $B2
         
         JMP .noButtonInput
 
     .zoomTransitionFinished
 
     ; Checking -XLR---- (AXLR----)
-    LDA $F6 : AND.b #$70 : BEQ .noButtonInput
+    LDA.b $F6 : AND.b #$70 : BEQ .noButtonInput
         ; Play the "change map screen" sound effect.
-        LDA.b #$24 : STA $012F
+        LDA.b #$24 : STA.w $012F
         
-        LDA.b #$08 : STA $B2
+        LDA.b #$08 : STA.b $B2
         
         ; Toggle bit 0 of $0636 and OR in bit 7.
-        LDA $0636 : EOR.b #$01 : TAX
+        LDA.w $0636 : EOR.b #$01 : TAX
         
-        ORA.b #$80 : STA $0636
+        ORA.b #$80 : STA.w $0636
         
-        LDA $0ABAC4, X : STA $0637 : CMP.b #$0C : BNE .fartherZoomedOut
+        LDA.l $0ABAC4, X : STA.w $0637 : CMP.b #$0C : BNE .fartherZoomedOut
             REP #$20
             
-            LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : STA $E6
+            LDA.l $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : STA.b $E6
             
-            CLC : ADC.w #$0100 : STA $063A
+            CLC : ADC.w #$0100 : STA.w $063A
             
-            LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL .BRANCH_ZETA
+            LDA.l $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_ZETA
                 EOR.w #$FFFF : INC A
 
             .BRANCH_ZETA
 
-            STA $00
+            STA.b $00
                 
             ; A = ($00 * 5) / 2
-            ASL #2 : CLC : ADC $00 : LSR A
+            ASL #2 : CLC : ADC.b $00 : LSR A
             
-            LDX $03 : BPL .BRANCH_THETA
+            LDX.b $03 : BPL .BRANCH_THETA
                 EOR.w #$FFFF : INC A
 
             .BRANCH_THETA
@@ -685,28 +685,28 @@ OverworldMap_Main:
 
         REP #$21
         
-        LDA.w #$00C8 : STA $E6
-        ADC.w #$0100 : STA $063A
+        LDA.w #$00C8 : STA.b $E6
+        ADC.w #$0100 : STA.w $063A
         
         LDA.w #$0080
 
         .BRANCH_IOTA
 
-        AND.w #$FFFE : STA $E0
+        AND.w #$FFFE : STA.b $E0
 
     .noButtonInput
 
     SEP #$20
     
-    LDA $0636 : BEQ .BRANCH_KAPPA
+    LDA.w $0636 : BEQ .BRANCH_KAPPA
         ; BYSTudlr -> ----ud--
-        LDA $F0 : AND.b #$0C : TAX
+        LDA.b $F0 : AND.b #$0C : TAX
         
         REP #$20
         
-        LDA $E6 : CMP $0ABAD6, X : BEQ .BRANCH_LAMBDA
-            CLC : ADC $0ABAC6, X : STA $E6
-            CLC : ADC.w #$0100 : STA $063A
+        LDA.b $E6 : CMP.l $0ABAD6, X : BEQ .BRANCH_LAMBDA
+            CLC : ADC.l $0ABAC6, X : STA.b $E6
+            CLC : ADC.w #$0100 : STA.w $063A
 
         .BRANCH_LAMBDA
 
@@ -714,12 +714,12 @@ OverworldMap_Main:
         
         ; BYSTudlr -> ----lr10 -> X
         ; .... who knows what they're doing... Anyways, keep reading.
-        LDA $F0 : AND.b #$03 : ASL A : INC A : ASL A : TAX
+        LDA.b $F0 : AND.b #$03 : ASL A : INC A : ASL A : TAX
         
         REP #$20
         
-        LDA $E0 : CMP $0ABAD6, X : BEQ .BRANCH_MU
-            CLC : ADC $0ABAC6, X : STA $E0
+        LDA.b $E0 : CMP.l $0ABAD6, X : BEQ .BRANCH_MU
+            CLC : ADC.l $0ABAC6, X : STA.b $E0
 
         .BRANCH_MU
 
@@ -739,14 +739,14 @@ OverworldMap_Main:
 ; $053BD6-$053C53 JUMP LOCATION
 OverworldMap_PrepExit:
 {
-    ; 0x0E.0x07.0x06 (coming out of overworld map)
+    ; 0x0E.0x07.0x06 (coming out of overworld map).
     
-    ; Darken screen gradually until fully dark
-    DEC $13 : BNE OverworldMap_Main_easyOut ; (RTL)
+    ; Darken screen gradually until fully dark.
+    DEC.b $13 : BNE OverworldMap_Main_easyOut ; (RTL)
     
     JSL EnableForceBlank ; $00093D IN ROM
     
-    INC $0200
+    INC.w $0200
     
     REP #$20
     
@@ -756,23 +756,23 @@ OverworldMap_PrepExit:
 
         ; This restores the palette to the original state before the map
         ; was brought up.
-        LDA $7EC300, X : STA $7EC500, X
-        LDA $7EC380, X : STA $7EC580, X
-        LDA $7EC400, X : STA $7EC600, X
-        LDA $7EC480, X : STA $7EC680, X
+        LDA.l $7EC300, X : STA.l $7EC500, X
+        LDA.l $7EC380, X : STA.l $7EC580, X
+        LDA.l $7EC400, X : STA.l $7EC600, X
+        LDA.l $7EC480, X : STA.l $7EC680, X
     INX #2 : CPX.b #$80 : BNE .restore_palette
     
-    ; Next we restore other screen settings (needs some research)
+    ; Next we restore other screen settings (needs some research).
     
-    LDA $7EC225 : STA $99
+    LDA.l $7EC225 : STA.b $99
     
-    STZ $E4 : STZ $EA
+    STZ.b $E4 : STZ.b $EA
     
-    LDA $7EC200 : STA $E0
-    LDA $7EC202 : STA $E2
-    LDA $7EC204 : STA $E6
-    LDA $7EC206 : STA $E8
-    LDA $7EC211 : STA $1C
+    LDA.l $7EC200 : STA.b $E0
+    LDA.l $7EC202 : STA.b $E2
+    LDA.l $7EC204 : STA.b $E6
+    LDA.l $7EC206 : STA.b $E8
+    LDA.l $7EC211 : STA.b $1C
 
     ; TODO: Find this exact Address.
     ; $XXXXXX ALTERNATE ENTRY POINT
@@ -780,22 +780,22 @@ OverworldMap_PrepExit:
 
     ; Restore HDMA settings on channel 7
     
-    LDA.w #$BDDD : STA $4372
+    LDA.w #$BDDD : STA.w $4372
     
-    LDX.b #$0A : STX $4374
-    LDX.b #$00 : STX $4377
+    LDX.b #$0A : STX.w $4374
+    LDX.b #$00 : STX.w $4377
     
     SEP #$30
     
-    ; Enable hdma only on channel 7 (for spotlight effect)
-    LDA.b #$80 : STA $9B
+    ; Enable hdma only on channel 7 (for spotlight effect).
+    LDA.b #$80 : STA.b $9B
     
-    ; Return to screen mode 1 (with priority bit enabled)
-    LDA.b #$09 : STA $2105
+    ; Return to screen mode 1 (with priority bit enabled).
+    LDA.b #$09 : STA.w $2105
     
-    STA $94
+    STA.b $94
     
-    STZ $0710
+    STZ.w $0710
     
     RTL
 }
@@ -809,8 +809,8 @@ OverworldMap_RestoreGfx:
     ; 0x0E.0x07.0x07 (restoring graphics?)
         
     ; Indicate that special palette values are no longer in use.
-    STZ $0AA9
-    STZ $0AB2
+    STZ.w $0AA9
+    STZ.w $0AB2
         
     ; ZS writes here.
     ; $053C5A
@@ -818,35 +818,35 @@ OverworldMap_RestoreGfx:
     JSL InitTilesets
         
     ; Update CGRAM this frame.
-    INC $15
+    INC.b $15
         
     ; Set things back to the way they were, submodule-wise.
-    STZ $B2
-    STZ $0200
-    STZ $B0
+    STZ.b $B2
+    STZ.w $0200
+    STZ.b $B0
         
     ; Restore module we came from.
-    LDA $010C : STA $10
+    LDA.w $010C : STA.b $10
         
     ; Put us in submodule 0x20.
-    LDA.b #$20 : STA $11
+    LDA.b #$20 : STA.b $11
         
     ; Indicate there's no special tile or tilemap transfers this frame.
-    STZ $1000 : STZ $1001
+    STZ.w $1000 : STZ.w $1001
         
     ; Restore CGADSUB.
-    LDA $7EC229 : STA $9B
+    LDA.l $7EC229 : STA.b $9B
         
     SEP #$20
         
     ; Restore ambient sound effect (rain, etc).
-    LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
+    LDX.b $8A : LDA.l $7F5B00, X : LSR #4 : STA.w $012D
         
     ; Play sound effect indicating we're coming out of map mode.
-    LDA.b #$10 : STA $012F
+    LDA.b #$10 : STA.w $012F
         
     ; Signal music to go back to full volume.
-    LDA.b #$F3 : STA $012C
+    LDA.b #$F3 : STA.w $012C
         
     RTL
 }
@@ -858,59 +858,59 @@ WorldMap_SetUpHDMA:
 {
     REP #$20
     
-    LDA.w #$0080 : STA $E0
-    LDA.w #$00C8 : STA $E6
-    ADC.w #$0100 : STA $063A
+    LDA.w #$0080 : STA.b $E0
+    LDA.w #$00C8 : STA.b $E6
+    ADC.w #$0100 : STA.w $063A
     
-    LDA.w #$0100 : STA $0638
+    LDA.w #$0100 : STA.w $0638
     
-    LDA.w #$1B42 : STA $4360
-    LDA.w #$1E42 : STA $4370
+    LDA.w #$1B42 : STA.w $4360
+    LDA.w #$1E42 : STA.w $4370
     
     SEP #$20
     
-    STZ $96 : STZ $97 : STZ $98
+    STZ.b $96 : STZ.b $97 : STZ.b $98
     
-    STZ $1E : STZ $1F
+    STZ.b $1E : STZ.b $1F
     
-    STZ $211C : STZ $211C
-    STZ $211D : STZ $211D
+    STZ.w $211C : STZ.w $211C
+    STZ.w $211D : STZ.w $211D
     
-    STZ $211F : LDA.b #$01 : STA $211F
-    STZ $2120 : STA $2120 
+    STZ.w $211F : LDA.b #$01 : STA.w $211F
+    STZ.w $2120 : STA.w $2120 
     
-    LDA $10 : CMP.b #$14 : BEQ .attractMode
-        LDA $11 : CMP.b #$0A : BNE .beta
+    LDA.b $10 : CMP.b #$14 : BEQ .attractMode
+        LDA.b $11 : CMP.b #$0A : BNE .beta
             JMP .flute_map ; $053D76 IN ROM
 
         .beta
 
-        LDA.b #$04 : STA $0635
-        LDA.b #$0C : STA $0637
-        LDA.b #$01 : STA $0636
+        LDA.b #$04 : STA.w $0635
+        LDA.b #$0C : STA.w $0637
+        LDA.b #$01 : STA.w $0636
         
         REP #$21
         
-        LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC $0ABAC6 : STA $E6
-        CLC : ADC.w #$0100 : STA $063A
+        LDA.l $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC.l $0ABAC6 : STA.b $E6
+        CLC : ADC.w #$0100 : STA.w $063A
         
-        LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL .BRANCH_GAMMA
+        LDA.l $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_GAMMA
             EOR.w #$FFFF : INC A
 
         .BRANCH_GAMMA
 
-        STA $00
-        ASL #2 : CLC : ADC $00 : LSR A
+        STA.b $00
+        ASL #2 : CLC : ADC.b $00 : LSR A
         
-        LDX $03 : BPL .BRANCH_DELTA
+        LDX.b $03 : BPL .BRANCH_DELTA
             EOR.w #$FFFF : INC A
 
         .BRANCH_DELTA
 
-        CLC : ADC.w #$0080 : AND.w #$FFFE : STA $E0
+        CLC : ADC.w #$0080 : AND.w #$FFFE : STA.b $E0
         
-        LDA.w #$BDD6 : STA $4362 : STA $4372
-        LDX.b #$0A   : STX $4364 : STX $4374
+        LDA.w #$BDD6 : STA.w $4362 : STA.w $4372
+        LDX.b #$0A   : STX.w $4364 : STX.w $4374
         
         LDX.b #$0A
         
@@ -920,8 +920,8 @@ WorldMap_SetUpHDMA:
 
     REP #$21
     
-    LDA.w #$BDDD : STA $4362 : STA $4372
-    LDX.b #$0A   : STX $4364 : STX $4374
+    LDA.w #$BDDD : STA.w $4362 : STA.w $4372
+    LDX.b #$0A   : STX.w $4364 : STX.w $4374
     
     LDX.b #$00
     
@@ -930,25 +930,25 @@ WorldMap_SetUpHDMA:
     ; $053D76 ALTERNATE ENTRY POINT
     .flute_map
 
-    LDA.b #$04 : STA $0635
-    LDA.b #$21 : STA $0637
-               : STZ $0636
+    LDA.b #$04 : STA.w $0635
+    LDA.b #$21 : STA.w $0637
+               : STZ.w $0636
     
     REP #$21
     
-    LDA.w #$BDCF : STA $4362 : STA $4372
-    LDX.b #$0A   : STX $4364 : STX $4374
+    LDA.w #$BDCF : STA.w $4362 : STA.w $4372
+    LDX.b #$0A   : STX.w $4364 : STX.w $4374
     
     LDX.b #$0A
 
     .BRANCH_EPSILON
 
-    STX $4367 : STX $4377
+    STX.w $4367 : STX.w $4377
     
     SEP #$20
     
     ; Enable hdma transfers on channels 6 and 7.
-    LDA.b #$C0 : STA $9B
+    LDA.b #$C0 : STA.b $9B
     
     RTS
 }
@@ -961,25 +961,25 @@ ClearMode7Tilemap:
     ; Clears out the low bytes of the first 0x4000 words of VRAM.
     REP #$20
     
-    LDA.w #$00EF : STA $00
+    LDA.w #$00EF : STA.b $00
     
     ; Sets VRAM address to 0x0000 and configures the video port.
-    STZ $2115 : STZ $2116
+    STZ.w $2115 : STZ.w $2116
     
     ; Destination register is $2118 and DMA address will not be adjusted.
-    LDA.w #$1808 : STA $4310
+    LDA.w #$1808 : STA.w $4310
     
     ; Use bank $00 for DMA address.
-    STZ $4314
+    STZ.w $4314
     
     ; Use address $000000 ($7E:0000) for DMA address.
-    LDA.w #$0000 : STA $4312
+    LDA.w #$0000 : STA.w $4312
     
     ; Write 0x4000 bytes.
-    LDA.w #$4000 : STA $4315
+    LDA.w #$4000 : STA.w $4315
     
     ; Do transfer on DMA channel 0.
-    LDY.b #$02 : STY $420B
+    LDY.b #$02 : STY.w $420B
     
     SEP #$20
     
@@ -1359,15 +1359,15 @@ WorldMap_PortalProps:
 ; $053F66-$05439E LOCAL JUMP LOCATION
 WorldMap_HandleSprites:
 {
-    LDA $1A : AND.b #$10 : BEQ .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$10 : BEQ .BRANCH_ALPHA
         ; $05439F IN ROM
         JSR $C39F : BCC .BRANCH_ALPHA
-            LDA $0E : SEC : SBC.b #$04 : STA $0E
-            LDA $0F : SEC : SBC.b #$04 : STA $0F
+            LDA.b $0E : SEC : SBC.b #$04 : STA.b $0E
+            LDA.b $0F : SEC : SBC.b #$04 : STA.b $0F
             
-            LDA #$00 : STA $0D
-            LDA #$3E : STA $0C
-            LDA #$02 : STA $0B
+            LDA.b #$00 : STA.b $0D
+            LDA.b #$3E : STA.b $0C
+            LDA.b #$02 : STA.b $0B
             
             LDX.b #$00
             
@@ -1375,34 +1375,34 @@ WorldMap_HandleSprites:
 
     .BRANCH_ALPHA
 
-    LDA $7EC108 : PHA
-    LDA $7EC109 : PHA
-    LDA $7EC10A : PHA
-    LDA $7EC10B : PHA
+    LDA.l $7EC108 : PHA
+    LDA.l $7EC109 : PHA
+    LDA.l $7EC10A : PHA
+    LDA.l $7EC10B : PHA
     
-    LDA $008A : CMP.b #$40 : BCS .BRANCH_BETA
+    LDA.w $008A : CMP.b #$40 : BCS .BRANCH_BETA
         LDX.b #$0F
         
-        LDA $1AB0, X : ORA $1AC0, X : ORA $1AD0, X : ORA $1AE0, X : BEQ .BRANCH_BETA
-            LDA $1A : BNE .BRANCH_GAMMA
-                LDA $1AF0, X : INC A : STA $1AF0, X
+        LDA.w $1AB0, X : ORA.w $1AC0, X : ORA.w $1AD0, X : ORA.w $1AE0, X : BEQ .BRANCH_BETA
+            LDA.b $1A : BNE .BRANCH_GAMMA
+                LDA.w $1AF0, X : INC A : STA.w $1AF0, X
 
             .BRANCH_GAMMA
 
-            LDA $1AB0, X : STA $7EC10A
-            LDA $1AC0, X : STA $7EC10B
-            LDA $1AD0, X : STA $7EC108
-            LDA $1AE0, X : STA $7EC109
+            LDA.w $1AB0, X : STA.l $7EC10A
+            LDA.w $1AC0, X : STA.l $7EC10B
+            LDA.w $1AD0, X : STA.l $7EC108
+            LDA.w $1AE0, X : STA.l $7EC109
             
             ; $05439F IN ROM
             JSR $C39F : BCC .BRANCH_BETA
-                LDA.b #$6A : STA $0D
+                LDA.b #$6A : STA.b $0D
                 
-                LDA $1A : LSR A : AND.b #$03 : TAX
+                LDA.b $1A : LSR A : AND.b #$03 : TAX
                 
-                LDA $0ABF62, X : STA $0C
+                LDA.l $0ABF62, X : STA.b $0C
                 
-                LDA.b #$02 : STA $0B
+                LDA.b #$02 : STA.b $0B
                 
                 LDX.b #$0F
                 
@@ -1410,9 +1410,9 @@ WorldMap_HandleSprites:
 
     .BRANCH_BETA
 
-    LDA $7EF2DB : AND.b #$20 : BNE .BRANCH_DELTA
-        ; Load map icon indicator variable
-        LDA $7EF3C7 : CMP.b #$06 : ROL A : EOR $0FFF : AND.b #$01 : BEQ .lightWorldSprites
+    LDA.l $7EF2DB : AND.b #$20 : BNE .BRANCH_DELTA
+        ; Load map icon indicator variable.
+        LDA.l $7EF3C7 : CMP.b #$06 : ROL A : EOR.w $0FFF : AND.b #$01 : BEQ .lightWorldSprites
 
     .BRANCH_DELTA
 
@@ -1428,18 +1428,18 @@ WorldMap_HandleSprites:
         ; $0545C6 IN ROM
         JSR OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
             ; X = (map sprites indicator << 1)
-            LDA $7EF3C7 : ASL A : TAX
+            LDA.l $7EF3C7 : ASL A : TAX
             
-            LDA $0ABDE5, X : BMI .BRANCH_ZETA
-                STA $7EC10B
+            LDA.l $0ABDE5, X : BMI .BRANCH_ZETA
+                STA.l $7EC10B
                 
-                LDA $0ABDE4, X : STA $7EC10A
-                LDA $0ABDF7, X : STA $7EC109
-                LDA $0ABDF6, X : STA $7EC108
+                LDA.l $0ABDE4, X : STA.l $7EC10A
+                LDA.l $0ABDF7, X : STA.l $7EC109
+                LDA.l $0ABDF6, X : STA.l $7EC108
                 
-                LDA $0ABEE1, X : BEQ .BRANCH_THETA
+                LDA.l $0ABEE1, X : BEQ .BRANCH_THETA
                     CMP.b #$64     : BEQ .BRANCH_IOTA
-                        LDA $1A : AND.b #$10 : BNE .BRANCH_ZETA
+                        LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZETA
                             .BRANCH_IOTA
 
                             JSR $C589 ; $054589 IN ROM
@@ -1451,12 +1451,12 @@ WorldMap_HandleSprites:
                 ; $05439F IN ROM
                 JSR $C39F : BCC .BRANCH_ZETA
                     ; X = (map sprites indicator << 1)
-                    LDA $7EF3C7 : ASL A : TAX
+                    LDA.l $7EF3C7 : ASL A : TAX
                     
-                    LDA $0ABEE1, X : BEQ .BRANCH_KAPPA
-                        STA $0D
+                    LDA.l $0ABEE1, X : BEQ .BRANCH_KAPPA
+                        STA.b $0D
                         
-                        LDA $0ABEE0, X : STA $0C
+                        LDA.l $0ABEE0, X : STA.b $0C
                         
                         LDA.b #$02
                         
@@ -1464,15 +1464,15 @@ WorldMap_HandleSprites:
 
                     .BRANCH_KAPPA
 
-                    LDA $1A : LSR #3 : AND.b #$03 : TAX
+                    LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                     
-                    LDA $0ABF5E, X : STA $0D
-                    LDA.b #$32     : STA $0C
+                    LDA.l $0ABF5E, X : STA.b $0D
+                    LDA.b #$32     : STA.b $0C
                     LDA.b #$00
 
                     .BRANCH_LAMBDA
 
-                    STA $0B
+                    STA.b $0B
                     
                     LDX.b #$0E
                     
@@ -1487,19 +1487,19 @@ WorldMap_HandleSprites:
         ; $0545C6 IN ROM
         JSR $C5C6 : BCS .BRANCH_MU
             ; X = (map sprites indicator << 1)
-            LDA $7EF3C7 : ASL A : TAX
+            LDA.l $7EF3C7 : ASL A : TAX
             
-            LDA $0ABE09, X : BMI .BRANCH_MU
-                STA $7EC10B
+            LDA.l $0ABE09, X : BMI .BRANCH_MU
+                STA.l $7EC10B
                 
-                LDA $0ABE08, X : STA $7EC10A
-                LDA $0ABE1B, X : STA $7EC109
-                LDA $0ABE1A, X : STA $7EC108
+                LDA.l $0ABE08, X : STA.l $7EC10A
+                LDA.l $0ABE1B, X : STA.l $7EC109
+                LDA.l $0ABE1A, X : STA.l $7EC108
                 
-                LDA $0ABEF3, X : BEQ .BRANCH_NU
+                LDA.l $0ABEF3, X : BEQ .BRANCH_NU
                     CMP.b #$64 : BEQ .BRANCH_XI
                         ; Every 16 frames...
-                        LDA $1A : AND.b #$10 : BNE .BRANCH_MU
+                        LDA.b $1A : AND.b #$10 : BNE .BRANCH_MU
                             .BRANCH_XI
 
                             JSR $C589 ; $054589 IN ROM
@@ -1509,12 +1509,12 @@ WorldMap_HandleSprites:
                 ; $05439F IN ROM
                 JSR $C39F : BCC .BRANCH_MU
                     ; X = (map sprites indicator << 1)
-                    LDA $7EF3C7 : ASL A : TAX
+                    LDA.l $7EF3C7 : ASL A : TAX
                             
-                    LDA $0ABEF3, X : BEQ .BRANCH_OMICRON
-                        STA $0D
+                    LDA.l $0ABEF3, X : BEQ .BRANCH_OMICRON
+                        STA.b $0D
                                 
-                        LDA $0ABEF2, X : STA $0C
+                        LDA.l $0ABEF2, X : STA.b $0C
                                 
                         LDA.b #$02
                                 
@@ -1522,15 +1522,15 @@ WorldMap_HandleSprites:
 
                     .BRANCH_OMICRON
 
-                    LDA $1A : LSR #3 : AND.b #$03 : TAX
+                    LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                             
-                    LDA $0ABF5E, X : STA $0D
-                    LDA.b #$32     : STA $0C
+                    LDA.l $0ABF5E, X : STA.b $0D
+                    LDA.b #$32     : STA.b $0C
                     LDA.b #$00
 
                     .BRANCH_PI
 
-                    STA $0B
+                    STA.b $0B
                             
                     LDX.b #$0D
                             
@@ -1545,18 +1545,18 @@ WorldMap_HandleSprites:
         ; $0545C6 IN ROM
         JSR $C5C6 : BCS .BRANCH_RHO
             ; X = (map sprites indicator << 1)
-            LDA $7EF3C7 : ASL A : TAX
+            LDA.l $7EF3C7 : ASL A : TAX
             
-            LDA $0ABE2D, X : BMI .BRANCH_RHO
-                STA $7EC10B
+            LDA.l $0ABE2D, X : BMI .BRANCH_RHO
+                STA.l $7EC10B
                 
-                LDA $0ABE2C, X : STA $7EC10A
-                LDA $0ABE3F, X : STA $7EC109
-                LDA $0ABE3E, X : STA $7EC108
+                LDA.l $0ABE2C, X : STA.l $7EC10A
+                LDA.l $0ABE3F, X : STA.l $7EC109
+                LDA.l $0ABE3E, X : STA.l $7EC108
                 
-                LDA $0ABF05, X : BEQ .BRANCH_SIGMA
+                LDA.l $0ABF05, X : BEQ .BRANCH_SIGMA
                     CMP.b #$64 : BEQ .BRANCH_TAU
-                        LDA $1A : AND.b #$10 : BNE .BRANCH_RHO
+                        LDA.b $1A : AND.b #$10 : BNE .BRANCH_RHO
                             .BRANCH_TAU
 
                             JSR $C589 ; $054589 IN ROM
@@ -1568,12 +1568,12 @@ WorldMap_HandleSprites:
                 ; $05439F IN ROM
                 JSR $C39F : BCC .BRANCH_RHO
                      ; X = (map sprites indictaor << 1)
-                    LDA $7EF3C7 : ASL A : TAX
+                    LDA.l $7EF3C7 : ASL A : TAX
                                 
-                    LDA $0ABF05, X : BEQ .BRANCH_UPSILON
-                        STA $0D
+                    LDA.l $0ABF05, X : BEQ .BRANCH_UPSILON
+                        STA.b $0D
                                     
-                        LDA $0ABF04, X : STA $0C
+                        LDA.l $0ABF04, X : STA.b $0C
                                     
                         LDA.b #$02
                                     
@@ -1581,17 +1581,17 @@ WorldMap_HandleSprites:
 
                     .BRANCH_UPSILON
 
-                    LDA $1A : LSR #3 : AND.b #$03 : TAX
+                    LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                                 
-                    LDA $0ABF5E, X : STA $0D
+                    LDA.l $0ABF5E, X : STA.b $0D
                                 
-                    LDA.b #$32 : STA $0C
+                    LDA.b #$32 : STA.b $0C
                                 
                     LDA.b #$00
 
                     .BRANCH_PHI
 
-                    STA $0B
+                    STA.b $0B
                                 
                     LDX.b #$0C
                                 
@@ -1604,18 +1604,18 @@ WorldMap_HandleSprites:
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_CHI
         ; X = (map sprites indicator << 1)
-        LDA $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA $0ABE51, X : BMI .BRANCH_CHI
-            STA $7EC10B
+        LDA.l $0ABE51, X : BMI .BRANCH_CHI
+            STA.l $7EC10B
             
-            LDA $0ABE50, X : STA $7EC10A
-            LDA $0ABE63, X : STA $7EC109
-            LDA $0ABE62, X : STA $7EC108
+            LDA.l $0ABE50, X : STA.l $7EC10A
+            LDA.l $0ABE63, X : STA.l $7EC109
+            LDA.l $0ABE62, X : STA.l $7EC108
             
-            LDA $0ABF17, X : BEQ .BRANCH_PSI
+            LDA.l $0ABF17, X : BEQ .BRANCH_PSI
                 CMP.b #$64 : BEQ .BRANCH_OMEGA
-                    LDA $1A : AND.b #$10 : BNE .BRANCH_CHI
+                    LDA.b $1A : AND.b #$10 : BNE .BRANCH_CHI
                         .BRANCH_OMEGA
 
                         JSR $C589 ; $054589 IN ROM
@@ -1627,12 +1627,12 @@ WorldMap_HandleSprites:
             ; $05439F IN ROM
             JSR $C39F : BCC .BRANCH_CHI
                 ; X = (map sprites indicator << 1)
-                LDA $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA $0ABF17, X : BEQ .BRANCH_ALTIMA
-                    STA $0D
+                LDA.l $0ABF17, X : BEQ .BRANCH_ALTIMA
+                    STA.b $0D
                     
-                    LDA $0ABF16, X : STA $0C
+                    LDA.l $0ABF16, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -1640,15 +1640,15 @@ WorldMap_HandleSprites:
 
                 .BRANCH_ALTIMA
 
-                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA $0ABF5E, X : STA $0D
-                LDA.b #$32     : STA $0C
+                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.b #$32     : STA.b $0C
                 LDA.b #$00
 
                 .BRANCH_ULTIMA
 
-                STA $0B
+                STA.b $0B
                 
                 LDX.b #$0B
                 
@@ -1661,18 +1661,18 @@ WorldMap_HandleSprites:
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_OPTIMUS
         ; X = (map sprites indicator << 1)
-        LDA $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA $0ABE75, X : BMI .BRANCH_OPTIMUS
-            STA $7EC10B
+        LDA.l $0ABE75, X : BMI .BRANCH_OPTIMUS
+            STA.l $7EC10B
             
-            LDA $0ABE74, X : STA $7EC10A
-            LDA $0ABE87, X : STA $7EC109
-            LDA $0ABE86, X : STA $7EC108
+            LDA.l $0ABE74, X : STA.l $7EC10A
+            LDA.l $0ABE87, X : STA.l $7EC109
+            LDA.l $0ABE86, X : STA.l $7EC108
             
-            LDA $0ABF29, X : BEQ .BRANCH_ALIF
+            LDA.l $0ABF29, X : BEQ .BRANCH_ALIF
                 CMP.b #$64 : BEQ .BRANCH_BET
-                    LDA $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
+                    LDA.b $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
                         .BRANCH_BET
 
                         JSR $C589 ; $054589 IN ROM
@@ -1684,12 +1684,12 @@ WorldMap_HandleSprites:
             ; $05439F IN ROM
             JSR $C39F : BCC .BRANCH_OPTIMUS
                 ; X = (map sprites indicator << 1)
-                LDA $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA $0ABF29, X : BEQ .BRANCH_DEL
-                    STA $0D
+                LDA.l $0ABF29, X : BEQ .BRANCH_DEL
+                    STA.b $0D
                     
-                    LDA $0ABF28, X : STA $0C
+                    LDA.l $0ABF28, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -1697,16 +1697,16 @@ WorldMap_HandleSprites:
 
                 .BRANCH_DEL
 
-                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA $0ABF5E, X : STA $0D
-                LDA.b #$32     : STA $0C
+                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.b #$32     : STA.b $0C
                 
                 LDA.b #$00
 
                 .BRANCH_THEL
 
-                STA $0B
+                STA.b $0B
                 
                 LDX.b #$0A
                 
@@ -1718,18 +1718,18 @@ WorldMap_HandleSprites:
     
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_SIN
-        LDA $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA $0ABE99, X : BMI .BRANCH_SIN
-            STA $7EC10B
+        LDA.l $0ABE99, X : BMI .BRANCH_SIN
+            STA.l $7EC10B
             
-            LDA $0ABE98, X : STA $7EC10A
-            LDA $0ABEAB, X : STA $7EC109
-            LDA $0ABEAA, X : STA $7EC108
+            LDA.l $0ABE98, X : STA.l $7EC10A
+            LDA.l $0ABEAB, X : STA.l $7EC109
+            LDA.l $0ABEAA, X : STA.l $7EC108
             
-            LDA $0ABF3B, X : BEQ .BRANCH_SHIN
+            LDA.l $0ABF3B, X : BEQ .BRANCH_SHIN
                 CMP.b #$64 : BEQ .BRANCH_SOD
-                    LDA $1A : AND.b #$10 : BNE .BRANCH_SIN
+                    LDA.b $1A : AND.b #$10 : BNE .BRANCH_SIN
                         .BRANCH_SOD
 
                         JSR $C589 ; $054589 IN ROM
@@ -1740,12 +1740,12 @@ WorldMap_HandleSprites:
             
             ; $05439F IN ROM
             JSR $C39F : BCC .BRANCH_SIN
-                LDA $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA $0ABF3B, X : BEQ .BRANCH_DOD
-                    STA $0D
+                LDA.l $0ABF3B, X : BEQ .BRANCH_DOD
+                    STA.b $0D
                     
-                    LDA $0ABF3A, X : STA $0C
+                    LDA.l $0ABF3A, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -1753,16 +1753,16 @@ WorldMap_HandleSprites:
 
                 .BRANCH_DOD
 
-                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA $0ABF5E, X : STA $0D
-                LDA.b #$32     : STA $0C
+                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.b #$32     : STA.b $0C
                 
                 LDA.b #$00
 
                 .BRANCH_TOD
 
-                STA $0B
+                STA.b $0B
                 
                 LDX.b #$09
                 
@@ -1774,18 +1774,18 @@ WorldMap_HandleSprites:
     
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_ZOD
-        LDA $7EF3C7 : ASL A : TAX
+        LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA $0ABEBD, X : BMI .BRANCH_ZOD
-            STA $7EC10B
+        LDA.l $0ABEBD, X : BMI .BRANCH_ZOD
+            STA.l $7EC10B
             
-            LDA $0ABEBC, X : STA $7EC10A
-            LDA $0ABECF, X : STA $7EC109
-            LDA $0ABECE, X : STA $7EC108
+            LDA.l $0ABEBC, X : STA.l $7EC10A
+            LDA.l $0ABECF, X : STA.l $7EC109
+            LDA.l $0ABECE, X : STA.l $7EC108
             
-            LDA $0ABF4D, X : BEQ .BRANCH_FATHA
+            LDA.l $0ABF4D, X : BEQ .BRANCH_FATHA
                 CMP.b #$64 : BEQ .BRANCH_KESRA
-                    LDA $1A : AND.b #$10 : BNE .BRANCH_ZOD
+                    LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZOD
                         .BRANCH_KESRA
 
                         JSR $C589 ; $054589 IN ROM
@@ -1797,12 +1797,12 @@ WorldMap_HandleSprites:
             ; $05439F IN ROM
             JSR $C39F : BCC .BRANCH_ZOD
                 ; X = (map sprites indicator << 1)
-                LDA $7EF3C7 : ASL A : TAX
+                LDA.l $7EF3C7 : ASL A : TAX
                 
-                LDA $0ABF4D, X : BEQ .BRANCH_DUMMA
-                    STA $0D
+                LDA.l $0ABF4D, X : BEQ .BRANCH_DUMMA
+                    STA.b $0D
                     
-                    LDA $0ABF4C, X : STA $0C
+                    LDA.l $0ABF4C, X : STA.b $0C
                     
                     LDA.b #$02
                     
@@ -1810,16 +1810,16 @@ WorldMap_HandleSprites:
 
                 .BRANCH_DUMMA
 
-                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
-                LDA $0ABF5E, X : STA $0D
-                LDA.b #$32     : STA $0C
+                LDA.l $0ABF5E, X : STA.b $0D
+                LDA.b #$32     : STA.b $0C
                 
                 LDA.b #$00
 
                 .BRANCH_EIN
 
-                STA $0B
+                STA.b $0B
                 
                 LDX.b #$08
                 
@@ -1828,10 +1828,10 @@ WorldMap_HandleSprites:
     ; $05438A ALTERNATE ENTRY POINT
     .BRANCH_ZOD
 
-    PLA : STA $7EC10B
-    PLA : STA $7EC10A
-    PLA : STA $7EC109
-    PLA : STA $7EC108
+    PLA : STA.l $7EC10B
+    PLA : STA.l $7EC10A
+    PLA : STA.l $7EC109
+    PLA : STA.l $7EC108
     
     RTS
 }
@@ -1839,15 +1839,16 @@ WorldMap_HandleSprites:
 ; ==============================================================================
 
 ; $05439F-$054514 LOCAL JUMP LOCATION
+WorldMap_CalculateOAMCoordinates:
 {
-    LDA $0636 : BNE .BRANCH_ALPHA
+    LDA.w $0636 : BNE .BRANCH_ALPHA
         REP #$30
         
-        LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC $063A : SEC : SBC.w #$00C0 : TAX
+        LDA.l $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC.w $063A : SEC : SBC.w #$00C0 : TAX
         
         SEP #$20
         
-        LDA $0AC5DA, X : STA $0F
+        LDA.l $0AC5DA, X : STA.b $0F
         
         SEP #$30
         
@@ -1858,11 +1859,11 @@ WorldMap_HandleSprites:
         JSR $C56D ; $05456D IN ROM
         JSR $C580 ; $054580 IN ROM
         
-        STA $0F
+        STA.b $0F
         
         REP #$30
         
-        LDA $7EC10A : LSR #4
+        LDA.l $7EC10A : LSR #4
         
         SEP #$30
         
@@ -1875,7 +1876,7 @@ WorldMap_HandleSprites:
 
         PHA
         
-        LDA $0F : CMP.b #$E0 : BCC .BRANCH_GAMMA
+        LDA.b $0F : CMP.b #$E0 : BCC .BRANCH_GAMMA
             LDA.b #$00
 
         .BRANCH_GAMMA
@@ -1895,9 +1896,9 @@ WorldMap_HandleSprites:
         XBA
         
         PLP : BCS .BRANCH_DELTA
-            STA $00
+            STA.b $00
             
-            LDA #$80 : SEC : SBC.b $00
+            LDA.b #$80 : SEC : SBC.b $00
             
             BRA .BRANCH_EPSILON
 
@@ -1907,10 +1908,10 @@ WorldMap_HandleSprites:
 
         .BRANCH_EPSILON
 
-        SEC : SBC $E0 : STA $0E
+        SEC : SBC.b $E0 : STA.b $0E
         
-        LDA $0E : CLC : ADC.b #$80 : STA $0E
-        LDA $0F : CLC : ADC.b #$0C : STA $0F
+        LDA.b $0E : CLC : ADC.b #$80 : STA.b $0E
+        LDA.b $0F : CLC : ADC.b #$0C : STA.b $0F
         
         JMP $C50D ; $05450D IN ROM
 
@@ -1918,9 +1919,9 @@ WorldMap_HandleSprites:
 
     REP #$30
     
-    LDA $7EC108 : LSR #4
+    LDA.l $7EC108 : LSR #4
     EOR.w #$FFFF : INC A
-    CLC : ADC $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
+    CLC : ADC.w $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
         JMP $C511 ; $054511 IN ROM
 
     .BRANCH_ZETA
@@ -1941,13 +1942,13 @@ WorldMap_HandleSprites:
 
     .BRANCH_THETA
 
-    LDA $0AC5DA, X : STA $0F
+    LDA.l $0AC5DA, X : STA.b $0F
     
     REP #$20
     
-    LDA $7EC10A : SEC : SBC.w #$07F8
+    LDA.l $7EC10A : SEC : SBC.w #$07F8
     
-    ; Supposed to be PLP? (check rom)
+    ; Supposed to be PLP? (check rom).
     PHP
 
     BPL .BRANCH_IOTA
@@ -1959,7 +1960,7 @@ WorldMap_HandleSprites:
     
     SEP #$20
     
-    LDA $0F : CMP.b #$E2 : BCC .BRANCH_KAPPA
+    LDA.b $0F : CMP.b #$E2 : BCC .BRANCH_KAPPA
         LDA.b #$00
 
     .BRANCH_KAPPA
@@ -1970,26 +1971,26 @@ WorldMap_HandleSprites:
     
     JSR $C56D ; $05456D IN ROM
     
-    XBA : CLC : ADC.b #$B2 : STA $00 : XBA
+    XBA : CLC : ADC.b #$B2 : STA.b $00 : XBA
     
     PLA
     
     JSR $C56D ; $05456D IN ROM
     
-    XBA : STA $01
+    XBA : STA.b $01
     
     PLA : XBA
     
-    LDA $00
+    LDA.b $00
     
     JSR $C56D ; $05456D IN ROM
     
-    CLC : ADC $01 : XBA : ADC.b #$00 : XBA
+    CLC : ADC.b $01 : XBA : ADC.b #$00 : XBA
     
     PLP : BCS .BRANCH_LAMBDA
-        STA $00
+        STA.b $00
 
-        LDA #$0800 : SEC : SBC $00
+        LDA.w #$0800 : SEC : SBC.b $00
 
         BRA .BRANCH_MU
 
@@ -2000,7 +2001,7 @@ WorldMap_HandleSprites:
     .BRANCH_MU
 
     SEC : SBC.w #$0800 : BCS .BRANCH_NU
-        EOR #$FFFF : INC A
+        EOR.w #$FFFF : INC A
 
     .BRANCH_NU
 
@@ -2014,7 +2015,7 @@ WorldMap_HandleSprites:
 
     JSR $C56D ; $05456D IN ROM
 
-    XBA : STA $00
+    XBA : STA.b $00
 
     PLA : XBA
 
@@ -2022,15 +2023,15 @@ WorldMap_HandleSprites:
 
     JSR $C56D ; $05456D IN ROM
 
-    CLC : ADC $00 : XBA : ADC.b #$00 : XBA
+    CLC : ADC.b $00 : XBA : ADC.b #$00 : XBA
 
     PLP
 
     BCS .BRANCH_XI
-        STA $00
+        STA.b $00
 
-        LDA.b #$80 : SEC : SBC $00 : XBA : STA $00
-        LDA.b #$00 : SBC $00 : XBA
+        LDA.b #$80 : SEC : SBC.b $00 : XBA : STA.b $00
+        LDA.b #$00 : SBC.b $00 : XBA
         
         BRA .BRANCH_OMICRON
 
@@ -2040,19 +2041,19 @@ WorldMap_HandleSprites:
 
     .BRANCH_OMICRON
 
-    PHA : SEC : SBC $E0 : STA $0E
+    PHA : SEC : SBC.b $E0 : STA.b $0E
     
     PLA
     
     REP #$30
     
-    SEC : SBC.w #$FF80 : SEC : SBC $E0
+    SEC : SBC.w #$FF80 : SEC : SBC.b $E0
     
     SEP #$30
     
     XBA : BNE .BRANCH_PI
-        LDA $0E : CLC : ADC.b #$81 : STA $0E
-        LDA $0F : CLC : ADC.b #$10 : STA $0F
+        LDA.b $0E : CLC : ADC.b #$81 : STA.b $0E
+        LDA.b $0F : CLC : ADC.b #$10 : STA.b $0F
 
         ; $05450D ALTERNATE ENTRY POINT
         ; TODO: Give this entry point a label.
@@ -2091,39 +2092,39 @@ Pool_WorldMap_HandleSpriteBlink:
 ; $05451C-$05456C LOCAL JUMP LOCATION
 WorldMap_HandleSpriteBlink:
 {
-    ; Alternates on and off every 16 frames
-    LDA $1A : LSR #4 : AND.b #$01 : BNE .BRANCH_ALPHA
-        LDA $0D : CMP.b #$64 : BNE .BRANCH_ALPHA
+    ; Alternates on and off every 16 frames.
+    LDA.b $1A : LSR #4 : AND.b #$01 : BNE .BRANCH_ALPHA
+        LDA.b $0D : CMP.b #$64 : BNE .BRANCH_ALPHA
             ; Since the base of this array starts in code, we deduce that
-            ; X must range from 0x08 and 0x0E
-            LDA $0AC50D, X : STA $0D
-            LDA.b #$32     : STA $0C
+            ; X must range from 0x08 and 0x0E.
+            LDA.l $0AC50D, X : STA.b $0D
+            LDA.b #$32     : STA.b $0C
             
-            STZ $0A20, X
+            STZ.w $0A20, X
             
             TXA : ASL #2 : TAX
             
-            ; Set coordinates of the sprite
-            LDA $0E : STA $0800, X
-            LDA $0F : STA $0801, X
+            ; Set coordinates of the sprite.
+            LDA.b $0E : STA.w $0800, X
+            LDA.b $0F : STA.w $0801, X
             
             BRA .finishedWithCoords
 
     .BRANCH_ALPHA
 
-    LDA $0B : STA $0A20, X
+    LDA.b $0B : STA.w $0A20, X
     
     TXA : ASL #2 : TAX
     
-    ; Offset the coordinates of the sprite by -4, vertically and horizontally
-    LDA $0E : SEC : SBC.b #$04 : STA $0800, X
-    LDA $0F : SEC : SBC.b #$04 : STA $0801, X
+    ; Offset the coordinates of the sprite by -4, vertically and horizontally.
+    LDA.b $0E : SEC : SBC.b #$04 : STA.w $0800, X
+    LDA.b $0F : SEC : SBC.b #$04 : STA.w $0801, X
 
     .finishedWithCoords
 
-    ; Set CHR, palette, and priority of the sprite
-    LDA $0D : STA $0802, X
-    LDA $0C : STA $0803, X
+    ; Set CHR, palette, and priority of the sprite.
+    LDA.b $0D : STA.w $0802, X
+    LDA.b $0C : STA.w $0803, X
     
     RTS
 }
@@ -2133,15 +2134,15 @@ WorldMap_HandleSpriteBlink:
 ; $05456D-$05457F LOCAL JUMP LOCATION
 WorldMap_MultiplyAxB:
 {
-    STA $4202
+    STA.w $4202
     
-    XBA : STA $4203
+    XBA : STA.w $4203
     
     NOP #4
     
-    LDA $4217 : XBA
+    LDA.w $4217 : XBA
     
-    LDA $4216
+    LDA.w $4216
     
     RTS
 }
@@ -2165,8 +2166,8 @@ WorldMapIcon_AdjustCoordinate:
 {
     REP #$20
     
-    LDA $7EC10A : SEC : SBC.w #$0004 : STA $7EC10A
-    LDA $7EC108 : SEC : SBC.w #$0004 : STA $7EC108
+    LDA.l $7EC10A : SEC : SBC.w #$0004 : STA.l $7EC10A
+    LDA.l $7EC108 : SEC : SBC.w #$0004 : STA.l $7EC108
     
     SEP #$20
     
@@ -2185,12 +2186,12 @@ Pool_OverworldMap_CheckForPendant:
 ; $0545A9-$0545BE LOCAL JUMP LOCATION
 Overworldmap_CheckPendant:
 {
-    ; X is an input variable to this function
+    ; X is an input variable to this function.
     
-    ; Check if the sprites indicator tells us to show the three pendants
-    LDA $7EF3C7 : CMP.b #$03 : BNE .fail
-        ; Check if we have that pendant
-        LDA $7EF374 : AND $0AC5A6, X : BEQ .fail
+    ; Check if the sprites indicator tells us to show the three pendants.
+    LDA.l $7EF3C7 : CMP.b #$03 : BNE .fail
+        ; Check if we have that pendant.
+        LDA.l $7EF374 : AND.l $0AC5A6, X : BEQ .fail
             SEC
             
             RTS
@@ -2218,10 +2219,10 @@ OverworldMap_CheckForCrystal
 OverworldMap_CheckCrystal:
 {
     ; Check if the sprite indicator tells us to show all 7 crystals
-    ; (ones we've yet to obtain)
-    LDA $7EF3C7 : CMP.b #$07 : BNE OverworldMap_CheckPendant_fail
-        ; Check if we have that crystal
-        LDA $7EF37A : AND $0AC5BF, X : BEQ OverworldMap_CheckPendant_fail
+    ; (ones we've yet to obtain).
+    LDA.l $7EF3C7 : CMP.b #$07 : BNE OverworldMap_CheckPendant_fail
+        ; Check if we have that crystal.
+        LDA.l $7EF37A : AND.l $0AC5BF, X : BEQ OverworldMap_CheckPendant_fail
             SEC
             
             RTS
@@ -2410,8 +2411,6 @@ WorldMap_LightWorldTilemap:
     db $34, $F6, $89, $6B, $6C, $89, $F6, $10 ; Quadrant 0, Row 1F, Strip 2
     db $12, $FB, $FB, $00, $02, $CD, $34, $3E ; Quadrant 0, Row 1F, Strip 3
 
-; ==============================================================================
-
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 0
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 1
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 2
@@ -2541,8 +2540,6 @@ WorldMap_LightWorldTilemap:
     db $5C, $35, $4C, $28, $29, $28, $28, $28 ; Quadrant 1, Row 1F, Strip 2
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1F, Strip 3
 
-; ==============================================================================
-
     db $28, $28, $28, $28, $2B, $2D, $28, $28 ; Quadrant 2, Row 00, Strip 0
     db $28, $28, $28, $2C, $2A, $0B, $14, $15 ; Quadrant 2, Row 00, Strip 1
     db $34, $B6, $34, $3E, $5E, $88, $88, $10 ; Quadrant 2, Row 00, Strip 2
@@ -2671,8 +2668,6 @@ WorldMap_LightWorldTilemap:
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 1
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 2
     db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 3
-
-; ==============================================================================
 
     db $5E, $34, $CE, $10, $12, $FC, $FC, $5C ; Quadrant 3, Row 00, Strip 0
     db $C7, $9D, $59, $58, $59, $89, $58, $5C ; Quadrant 3, Row 00, Strip 1
@@ -2996,118 +2991,118 @@ Palettes_DWMAP:
 ; $055D27-$055E06 DATA
 WorldMapHDMA_ZoomedOut_Part1:
 {
-    dw $0177 ; scanline   0
-    dw $0176 ; scanline   1
-    dw $0175 ; scanline   2
-    dw $0175 ; scanline   3
-    dw $0174 ; scanline   4
-    dw $0173 ; scanline   5
-    dw $0173 ; scanline   6
-    dw $0172 ; scanline   7
-    dw $0171 ; scanline   8
-    dw $0171 ; scanline   9
-    dw $0170 ; scanline  10
-    dw $016F ; scanline  11
-    dw $016F ; scanline  12
-    dw $016E ; scanline  13
-    dw $016D ; scanline  14
-    dw $016D ; scanline  15
-    dw $016C ; scanline  16
-    dw $016B ; scanline  17
-    dw $016B ; scanline  18
-    dw $0169 ; scanline  19
-    dw $0169 ; scanline  20
-    dw $0168 ; scanline  21
-    dw $0167 ; scanline  22
-    dw $0167 ; scanline  23
-    dw $0166 ; scanline  24
-    dw $0165 ; scanline  25
-    dw $0165 ; scanline  26
-    dw $0164 ; scanline  27
-    dw $0163 ; scanline  28
-    dw $0163 ; scanline  29
-    dw $0162 ; scanline  30
-    dw $0162 ; scanline  31
-    dw $0161 ; scanline  32
-    dw $0160 ; scanline  33
-    dw $0160 ; scanline  34
-    dw $015F ; scanline  35
-    dw $015F ; scanline  36
-    dw $015E ; scanline  37
-    dw $015D ; scanline  38
-    dw $015D ; scanline  39
-    dw $015C ; scanline  40
-    dw $015C ; scanline  41
-    dw $015B ; scanline  42
-    dw $015A ; scanline  43
-    dw $015A ; scanline  44
-    dw $0159 ; scanline  45
-    dw $0159 ; scanline  46
-    dw $0158 ; scanline  47
-    dw $0157 ; scanline  48
-    dw $0157 ; scanline  49
-    dw $0156 ; scanline  50
-    dw $0156 ; scanline  51
-    dw $0155 ; scanline  52
-    dw $0155 ; scanline  53
-    dw $0154 ; scanline  54
-    dw $0153 ; scanline  55
-    dw $0153 ; scanline  56
-    dw $0152 ; scanline  57
-    dw $0152 ; scanline  58
-    dw $0151 ; scanline  59
-    dw $0151 ; scanline  60
-    dw $0150 ; scanline  61
-    dw $014F ; scanline  62
-    dw $014F ; scanline  63
-    dw $014E ; scanline  64
-    dw $014E ; scanline  65
-    dw $014D ; scanline  66
-    dw $014D ; scanline  67
-    dw $014C ; scanline  68
-    dw $014C ; scanline  69
-    dw $014B ; scanline  70
-    dw $014B ; scanline  71
-    dw $014A ; scanline  72
-    dw $014A ; scanline  73
-    dw $0148 ; scanline  74
-    dw $0147 ; scanline  75
-    dw $0147 ; scanline  76
-    dw $0146 ; scanline  77
-    dw $0146 ; scanline  78
-    dw $0145 ; scanline  79
-    dw $0145 ; scanline  80
-    dw $0144 ; scanline  81
-    dw $0144 ; scanline  82
-    dw $0143 ; scanline  83
-    dw $0143 ; scanline  84
-    dw $0142 ; scanline  85
-    dw $0142 ; scanline  86
-    dw $0141 ; scanline  87
-    dw $0141 ; scanline  88
-    dw $0140 ; scanline  89
-    dw $0140 ; scanline  90
-    dw $013F ; scanline  91
-    dw $013F ; scanline  92
-    dw $013E ; scanline  93
-    dw $013E ; scanline  94
-    dw $013D ; scanline  95
-    dw $013D ; scanline  96
-    dw $013C ; scanline  97
-    dw $013C ; scanline  98
-    dw $013B ; scanline  99
-    dw $013B ; scanline 100
-    dw $013A ; scanline 101
-    dw $013A ; scanline 102
-    dw $0139 ; scanline 103
-    dw $0139 ; scanline 104
-    dw $0138 ; scanline 105
-    dw $0138 ; scanline 106
-    dw $0137 ; scanline 107
-    dw $0137 ; scanline 108
-    dw $0136 ; scanline 109
-    dw $0136 ; scanline 110
-    dw $0135 ; scanline 111
+    dw $0177 ; Scanline   0
+    dw $0176 ; Scanline   1
+    dw $0175 ; Scanline   2
+    dw $0175 ; Scanline   3
+    dw $0174 ; Scanline   4
+    dw $0173 ; Scanline   5
+    dw $0173 ; Scanline   6
+    dw $0172 ; Scanline   7
+    dw $0171 ; Scanline   8
+    dw $0171 ; Scanline   9
+    dw $0170 ; Scanline  10
+    dw $016F ; Scanline  11
+    dw $016F ; Scanline  12
+    dw $016E ; Scanline  13
+    dw $016D ; Scanline  14
+    dw $016D ; Scanline  15
+    dw $016C ; Scanline  16
+    dw $016B ; Scanline  17
+    dw $016B ; Scanline  18
+    dw $0169 ; Scanline  19
+    dw $0169 ; Scanline  20
+    dw $0168 ; Scanline  21
+    dw $0167 ; Scanline  22
+    dw $0167 ; Scanline  23
+    dw $0166 ; Scanline  24
+    dw $0165 ; Scanline  25
+    dw $0165 ; Scanline  26
+    dw $0164 ; Scanline  27
+    dw $0163 ; Scanline  28
+    dw $0163 ; Scanline  29
+    dw $0162 ; Scanline  30
+    dw $0162 ; Scanline  31
+    dw $0161 ; Scanline  32
+    dw $0160 ; Scanline  33
+    dw $0160 ; Scanline  34
+    dw $015F ; Scanline  35
+    dw $015F ; Scanline  36
+    dw $015E ; Scanline  37
+    dw $015D ; Scanline  38
+    dw $015D ; Scanline  39
+    dw $015C ; Scanline  40
+    dw $015C ; Scanline  41
+    dw $015B ; Scanline  42
+    dw $015A ; Scanline  43
+    dw $015A ; Scanline  44
+    dw $0159 ; Scanline  45
+    dw $0159 ; Scanline  46
+    dw $0158 ; Scanline  47
+    dw $0157 ; Scanline  48
+    dw $0157 ; Scanline  49
+    dw $0156 ; Scanline  50
+    dw $0156 ; Scanline  51
+    dw $0155 ; Scanline  52
+    dw $0155 ; Scanline  53
+    dw $0154 ; Scanline  54
+    dw $0153 ; Scanline  55
+    dw $0153 ; Scanline  56
+    dw $0152 ; Scanline  57
+    dw $0152 ; Scanline  58
+    dw $0151 ; Scanline  59
+    dw $0151 ; Scanline  60
+    dw $0150 ; Scanline  61
+    dw $014F ; Scanline  62
+    dw $014F ; Scanline  63
+    dw $014E ; Scanline  64
+    dw $014E ; Scanline  65
+    dw $014D ; Scanline  66
+    dw $014D ; Scanline  67
+    dw $014C ; Scanline  68
+    dw $014C ; Scanline  69
+    dw $014B ; Scanline  70
+    dw $014B ; Scanline  71
+    dw $014A ; Scanline  72
+    dw $014A ; Scanline  73
+    dw $0148 ; Scanline  74
+    dw $0147 ; Scanline  75
+    dw $0147 ; Scanline  76
+    dw $0146 ; Scanline  77
+    dw $0146 ; Scanline  78
+    dw $0145 ; Scanline  79
+    dw $0145 ; Scanline  80
+    dw $0144 ; Scanline  81
+    dw $0144 ; Scanline  82
+    dw $0143 ; Scanline  83
+    dw $0143 ; Scanline  84
+    dw $0142 ; Scanline  85
+    dw $0142 ; Scanline  86
+    dw $0141 ; Scanline  87
+    dw $0141 ; Scanline  88
+    dw $0140 ; Scanline  89
+    dw $0140 ; Scanline  90
+    dw $013F ; Scanline  91
+    dw $013F ; Scanline  92
+    dw $013E ; Scanline  93
+    dw $013E ; Scanline  94
+    dw $013D ; Scanline  95
+    dw $013D ; Scanline  96
+    dw $013C ; Scanline  97
+    dw $013C ; Scanline  98
+    dw $013B ; Scanline  99
+    dw $013B ; Scanline 100
+    dw $013A ; Scanline 101
+    dw $013A ; Scanline 102
+    dw $0139 ; Scanline 103
+    dw $0139 ; Scanline 104
+    dw $0138 ; Scanline 105
+    dw $0138 ; Scanline 106
+    dw $0137 ; Scanline 107
+    dw $0137 ; Scanline 108
+    dw $0136 ; Scanline 109
+    dw $0136 ; Scanline 110
+    dw $0135 ; Scanline 111
 }
 
 ; ==============================================================================
@@ -3115,118 +3110,118 @@ WorldMapHDMA_ZoomedOut_Part1:
 ; $055E07-$055EE6 DATA
 WorldMapHDMA_ZoomedOut_Part2:
 {
-    dw $0135 ; scanline 112
-    dw $0135 ; scanline 113
-    dw $0134 ; scanline 114
-    dw $0134 ; scanline 115
-    dw $0133 ; scanline 116
-    dw $0133 ; scanline 117
-    dw $0132 ; scanline 118
-    dw $0132 ; scanline 119
-    dw $0131 ; scanline 120
-    dw $0131 ; scanline 121
-    dw $0130 ; scanline 122
-    dw $0130 ; scanline 123
-    dw $012F ; scanline 124
-    dw $012F ; scanline 125
-    dw $012F ; scanline 126
-    dw $012E ; scanline 127
-    dw $012E ; scanline 128
-    dw $012D ; scanline 129
-    dw $012D ; scanline 130
-    dw $012C ; scanline 131
-    dw $012C ; scanline 132
-    dw $012B ; scanline 133
-    dw $012B ; scanline 134
-    dw $012B ; scanline 135
-    dw $012A ; scanline 136
-    dw $012A ; scanline 137
-    dw $0129 ; scanline 138
-    dw $0129 ; scanline 139
-    dw $0127 ; scanline 140
-    dw $0127 ; scanline 141
-    dw $0126 ; scanline 142
-    dw $0126 ; scanline 143
-    dw $0126 ; scanline 144
-    dw $0125 ; scanline 145
-    dw $0125 ; scanline 146
-    dw $0124 ; scanline 147
-    dw $0124 ; scanline 148
-    dw $0124 ; scanline 149
-    dw $0123 ; scanline 150
-    dw $0123 ; scanline 151
-    dw $0122 ; scanline 152
-    dw $0122 ; scanline 153
-    dw $0121 ; scanline 154
-    dw $0121 ; scanline 155
-    dw $0121 ; scanline 156
-    dw $0120 ; scanline 157
-    dw $0120 ; scanline 158
-    dw $011F ; scanline 159
-    dw $011F ; scanline 160
-    dw $011F ; scanline 161
-    dw $011E ; scanline 162
-    dw $011E ; scanline 163
-    dw $011D ; scanline 164
-    dw $011D ; scanline 165
-    dw $011D ; scanline 166
-    dw $011C ; scanline 167
-    dw $011C ; scanline 168
-    dw $011B ; scanline 169
-    dw $011B ; scanline 170
-    dw $011B ; scanline 171
-    dw $011A ; scanline 172
-    dw $011A ; scanline 173
-    dw $0119 ; scanline 174
-    dw $0119 ; scanline 175
-    dw $0119 ; scanline 176
-    dw $0118 ; scanline 177
-    dw $0118 ; scanline 178
-    dw $0117 ; scanline 179
-    dw $0117 ; scanline 180
-    dw $0117 ; scanline 181
-    dw $0116 ; scanline 182
-    dw $0116 ; scanline 183
-    dw $0116 ; scanline 184
-    dw $0115 ; scanline 185
-    dw $0115 ; scanline 186
-    dw $0114 ; scanline 187
-    dw $0114 ; scanline 188
-    dw $0114 ; scanline 189
-    dw $0113 ; scanline 190
-    dw $0113 ; scanline 191
-    dw $0113 ; scanline 192
-    dw $0112 ; scanline 193
-    dw $0112 ; scanline 194
-    dw $0111 ; scanline 195
-    dw $0111 ; scanline 196
-    dw $0111 ; scanline 197
-    dw $0110 ; scanline 198
-    dw $0110 ; scanline 199
-    dw $0110 ; scanline 200
-    dw $010F ; scanline 201
-    dw $010F ; scanline 202
-    dw $010F ; scanline 203
-    dw $010E ; scanline 204
-    dw $010E ; scanline 205
-    dw $010D ; scanline 206
-    dw $010D ; scanline 207
-    dw $010D ; scanline 208
-    dw $010C ; scanline 209
-    dw $010C ; scanline 210
-    dw $010C ; scanline 211
-    dw $010B ; scanline 212
-    dw $010B ; scanline 213
-    dw $010B ; scanline 214
-    dw $010A ; scanline 215
-    dw $010A ; scanline 216
-    dw $010A ; scanline 217
-    dw $0109 ; scanline 218
-    dw $0109 ; scanline 219
-    dw $0109 ; scanline 220
-    dw $0108 ; scanline 221
-    dw $0108 ; scanline 222
-    dw $0108 ; scanline 223
+    dw $0135 ; Scanline 112
+    dw $0135 ; Scanline 113
+    dw $0134 ; Scanline 114
+    dw $0134 ; Scanline 115
+    dw $0133 ; Scanline 116
+    dw $0133 ; Scanline 117
+    dw $0132 ; Scanline 118
+    dw $0132 ; Scanline 119
+    dw $0131 ; Scanline 120
+    dw $0131 ; Scanline 121
+    dw $0130 ; Scanline 122
+    dw $0130 ; Scanline 123
+    dw $012F ; Scanline 124
+    dw $012F ; Scanline 125
+    dw $012F ; Scanline 126
+    dw $012E ; Scanline 127
+    dw $012E ; Scanline 128
+    dw $012D ; Scanline 129
+    dw $012D ; Scanline 130
+    dw $012C ; Scanline 131
+    dw $012C ; Scanline 132
+    dw $012B ; Scanline 133
+    dw $012B ; Scanline 134
+    dw $012B ; Scanline 135
+    dw $012A ; Scanline 136
+    dw $012A ; Scanline 137
+    dw $0129 ; Scanline 138
+    dw $0129 ; Scanline 139
+    dw $0127 ; Scanline 140
+    dw $0127 ; Scanline 141
+    dw $0126 ; Scanline 142
+    dw $0126 ; Scanline 143
+    dw $0126 ; Scanline 144
+    dw $0125 ; Scanline 145
+    dw $0125 ; Scanline 146
+    dw $0124 ; Scanline 147
+    dw $0124 ; Scanline 148
+    dw $0124 ; Scanline 149
+    dw $0123 ; Scanline 150
+    dw $0123 ; Scanline 151
+    dw $0122 ; Scanline 152
+    dw $0122 ; Scanline 153
+    dw $0121 ; Scanline 154
+    dw $0121 ; Scanline 155
+    dw $0121 ; Scanline 156
+    dw $0120 ; Scanline 157
+    dw $0120 ; Scanline 158
+    dw $011F ; Scanline 159
+    dw $011F ; Scanline 160
+    dw $011F ; Scanline 161
+    dw $011E ; Scanline 162
+    dw $011E ; Scanline 163
+    dw $011D ; Scanline 164
+    dw $011D ; Scanline 165
+    dw $011D ; Scanline 166
+    dw $011C ; Scanline 167
+    dw $011C ; Scanline 168
+    dw $011B ; Scanline 169
+    dw $011B ; Scanline 170
+    dw $011B ; Scanline 171
+    dw $011A ; Scanline 172
+    dw $011A ; Scanline 173
+    dw $0119 ; Scanline 174
+    dw $0119 ; Scanline 175
+    dw $0119 ; Scanline 176
+    dw $0118 ; Scanline 177
+    dw $0118 ; Scanline 178
+    dw $0117 ; Scanline 179
+    dw $0117 ; Scanline 180
+    dw $0117 ; Scanline 181
+    dw $0116 ; Scanline 182
+    dw $0116 ; Scanline 183
+    dw $0116 ; Scanline 184
+    dw $0115 ; Scanline 185
+    dw $0115 ; Scanline 186
+    dw $0114 ; Scanline 187
+    dw $0114 ; Scanline 188
+    dw $0114 ; Scanline 189
+    dw $0113 ; Scanline 190
+    dw $0113 ; Scanline 191
+    dw $0113 ; Scanline 192
+    dw $0112 ; Scanline 193
+    dw $0112 ; Scanline 194
+    dw $0111 ; Scanline 195
+    dw $0111 ; Scanline 196
+    dw $0111 ; Scanline 197
+    dw $0110 ; Scanline 198
+    dw $0110 ; Scanline 199
+    dw $0110 ; Scanline 200
+    dw $010F ; Scanline 201
+    dw $010F ; Scanline 202
+    dw $010F ; Scanline 203
+    dw $010E ; Scanline 204
+    dw $010E ; Scanline 205
+    dw $010D ; Scanline 206
+    dw $010D ; Scanline 207
+    dw $010D ; Scanline 208
+    dw $010C ; Scanline 209
+    dw $010C ; Scanline 210
+    dw $010C ; Scanline 211
+    dw $010B ; Scanline 212
+    dw $010B ; Scanline 213
+    dw $010B ; Scanline 214
+    dw $010A ; Scanline 215
+    dw $010A ; Scanline 216
+    dw $010A ; Scanline 217
+    dw $0109 ; Scanline 218
+    dw $0109 ; Scanline 219
+    dw $0109 ; Scanline 220
+    dw $0108 ; Scanline 221
+    dw $0108 ; Scanline 222
+    dw $0108 ; Scanline 223
 }
 
 ; ==============================================================================
@@ -3234,118 +3229,118 @@ WorldMapHDMA_ZoomedOut_Part2:
 ; $055EE7-$055FC6 DATA
 WorldMapHDMA_ZoomedIn_Part1:
 {
-    dw $0088 ; scanline   0
-    dw $0088 ; scanline   1
-    dw $0087 ; scanline   2
-    dw $0087 ; scanline   3
-    dw $0087 ; scanline   4
-    dw $0087 ; scanline   5
-    dw $0087 ; scanline   6
-    dw $0086 ; scanline   7
-    dw $0086 ; scanline   8
-    dw $0086 ; scanline   9
-    dw $0085 ; scanline  10
-    dw $0085 ; scanline  11
-    dw $0085 ; scanline  12
-    dw $0085 ; scanline  13
-    dw $0084 ; scanline  14
-    dw $0084 ; scanline  15
-    dw $0084 ; scanline  16
-    dw $0084 ; scanline  17
-    dw $0084 ; scanline  18
-    dw $0083 ; scanline  19
-    dw $0083 ; scanline  20
-    dw $0083 ; scanline  21
-    dw $0082 ; scanline  22
-    dw $0082 ; scanline  23
-    dw $0082 ; scanline  24
-    dw $0082 ; scanline  25
-    dw $0082 ; scanline  26
-    dw $0081 ; scanline  27
-    dw $0081 ; scanline  28
-    dw $0081 ; scanline  29
-    dw $0081 ; scanline  30
-    dw $0081 ; scanline  31
-    dw $0080 ; scanline  32
-    dw $0080 ; scanline  33
-    dw $0080 ; scanline  34
-    dw $007F ; scanline  35
-    dw $007F ; scanline  36
-    dw $007F ; scanline  37
-    dw $007F ; scanline  38
-    dw $007F ; scanline  39
-    dw $007E ; scanline  40
-    dw $007E ; scanline  41
-    dw $007E ; scanline  42
-    dw $007E ; scanline  43
-    dw $007E ; scanline  44
-    dw $007D ; scanline  45
-    dw $007D ; scanline  46
-    dw $007D ; scanline  47
-    dw $007C ; scanline  48
-    dw $007C ; scanline  49
-    dw $007C ; scanline  50
-    dw $007C ; scanline  51
-    dw $007C ; scanline  52
-    dw $007C ; scanline  53
-    dw $007B ; scanline  54
-    dw $007B ; scanline  55
-    dw $007B ; scanline  56
-    dw $007B ; scanline  57
-    dw $007B ; scanline  58
-    dw $007A ; scanline  59
-    dw $007A ; scanline  60
-    dw $007A ; scanline  61
-    dw $0079 ; scanline  62
-    dw $0079 ; scanline  63
-    dw $0079 ; scanline  64
-    dw $0079 ; scanline  65
-    dw $0079 ; scanline  66
-    dw $0079 ; scanline  67
-    dw $0078 ; scanline  68
-    dw $0078 ; scanline  69
-    dw $0078 ; scanline  70
-    dw $0078 ; scanline  71
-    dw $0078 ; scanline  72
-    dw $0078 ; scanline  73
-    dw $0077 ; scanline  74
-    dw $0077 ; scanline  75
-    dw $0077 ; scanline  76
-    dw $0076 ; scanline  77
-    dw $0076 ; scanline  78
-    dw $0076 ; scanline  79
-    dw $0076 ; scanline  80
-    dw $0076 ; scanline  81
-    dw $0076 ; scanline  82
-    dw $0075 ; scanline  83
-    dw $0075 ; scanline  84
-    dw $0075 ; scanline  85
-    dw $0075 ; scanline  86
-    dw $0075 ; scanline  87
-    dw $0075 ; scanline  88
-    dw $0074 ; scanline  89
-    dw $0074 ; scanline  90
-    dw $0074 ; scanline  91
-    dw $0074 ; scanline  92
-    dw $0073 ; scanline  93
-    dw $0073 ; scanline  94
-    dw $0073 ; scanline  95
-    dw $0073 ; scanline  96
-    dw $0073 ; scanline  97
-    dw $0073 ; scanline  98
-    dw $0072 ; scanline  99
-    dw $0072 ; scanline 100
-    dw $0072 ; scanline 101
-    dw $0072 ; scanline 102
-    dw $0072 ; scanline 103
-    dw $0072 ; scanline 104
-    dw $0071 ; scanline 105
-    dw $0071 ; scanline 106
-    dw $0071 ; scanline 107
-    dw $0071 ; scanline 108
-    dw $0070 ; scanline 109
-    dw $0070 ; scanline 110
-    dw $0070 ; scanline 111
+    dw $0088 ; Scanline   0
+    dw $0088 ; Scanline   1
+    dw $0087 ; Scanline   2
+    dw $0087 ; Scanline   3
+    dw $0087 ; Scanline   4
+    dw $0087 ; Scanline   5
+    dw $0087 ; Scanline   6
+    dw $0086 ; Scanline   7
+    dw $0086 ; Scanline   8
+    dw $0086 ; Scanline   9
+    dw $0085 ; Scanline  10
+    dw $0085 ; Scanline  11
+    dw $0085 ; Scanline  12
+    dw $0085 ; Scanline  13
+    dw $0084 ; Scanline  14
+    dw $0084 ; Scanline  15
+    dw $0084 ; Scanline  16
+    dw $0084 ; Scanline  17
+    dw $0084 ; Scanline  18
+    dw $0083 ; Scanline  19
+    dw $0083 ; Scanline  20
+    dw $0083 ; Scanline  21
+    dw $0082 ; Scanline  22
+    dw $0082 ; Scanline  23
+    dw $0082 ; Scanline  24
+    dw $0082 ; Scanline  25
+    dw $0082 ; Scanline  26
+    dw $0081 ; Scanline  27
+    dw $0081 ; Scanline  28
+    dw $0081 ; Scanline  29
+    dw $0081 ; Scanline  30
+    dw $0081 ; Scanline  31
+    dw $0080 ; Scanline  32
+    dw $0080 ; Scanline  33
+    dw $0080 ; Scanline  34
+    dw $007F ; Scanline  35
+    dw $007F ; Scanline  36
+    dw $007F ; Scanline  37
+    dw $007F ; Scanline  38
+    dw $007F ; Scanline  39
+    dw $007E ; Scanline  40
+    dw $007E ; Scanline  41
+    dw $007E ; Scanline  42
+    dw $007E ; Scanline  43
+    dw $007E ; Scanline  44
+    dw $007D ; Scanline  45
+    dw $007D ; Scanline  46
+    dw $007D ; Scanline  47
+    dw $007C ; Scanline  48
+    dw $007C ; Scanline  49
+    dw $007C ; Scanline  50
+    dw $007C ; Scanline  51
+    dw $007C ; Scanline  52
+    dw $007C ; Scanline  53
+    dw $007B ; Scanline  54
+    dw $007B ; Scanline  55
+    dw $007B ; Scanline  56
+    dw $007B ; Scanline  57
+    dw $007B ; Scanline  58
+    dw $007A ; Scanline  59
+    dw $007A ; Scanline  60
+    dw $007A ; Scanline  61
+    dw $0079 ; Scanline  62
+    dw $0079 ; Scanline  63
+    dw $0079 ; Scanline  64
+    dw $0079 ; Scanline  65
+    dw $0079 ; Scanline  66
+    dw $0079 ; Scanline  67
+    dw $0078 ; Scanline  68
+    dw $0078 ; Scanline  69
+    dw $0078 ; Scanline  70
+    dw $0078 ; Scanline  71
+    dw $0078 ; Scanline  72
+    dw $0078 ; Scanline  73
+    dw $0077 ; Scanline  74
+    dw $0077 ; Scanline  75
+    dw $0077 ; Scanline  76
+    dw $0076 ; Scanline  77
+    dw $0076 ; Scanline  78
+    dw $0076 ; Scanline  79
+    dw $0076 ; Scanline  80
+    dw $0076 ; Scanline  81
+    dw $0076 ; Scanline  82
+    dw $0075 ; Scanline  83
+    dw $0075 ; Scanline  84
+    dw $0075 ; Scanline  85
+    dw $0075 ; Scanline  86
+    dw $0075 ; Scanline  87
+    dw $0075 ; Scanline  88
+    dw $0074 ; Scanline  89
+    dw $0074 ; Scanline  90
+    dw $0074 ; Scanline  91
+    dw $0074 ; Scanline  92
+    dw $0073 ; Scanline  93
+    dw $0073 ; Scanline  94
+    dw $0073 ; Scanline  95
+    dw $0073 ; Scanline  96
+    dw $0073 ; Scanline  97
+    dw $0073 ; Scanline  98
+    dw $0072 ; Scanline  99
+    dw $0072 ; Scanline 100
+    dw $0072 ; Scanline 101
+    dw $0072 ; Scanline 102
+    dw $0072 ; Scanline 103
+    dw $0072 ; Scanline 104
+    dw $0071 ; Scanline 105
+    dw $0071 ; Scanline 106
+    dw $0071 ; Scanline 107
+    dw $0071 ; Scanline 108
+    dw $0070 ; Scanline 109
+    dw $0070 ; Scanline 110
+    dw $0070 ; Scanline 111
 }
 
 ; ==============================================================================
@@ -3353,118 +3348,118 @@ WorldMapHDMA_ZoomedIn_Part1:
 ; $055FC7-$0560A6 DATA
 WorldMapHDMA_ZoomedIn_Part2:
 {
-    dw $0070 ; scanline 112
-    dw $0070 ; scanline 113
-    dw $0070 ; scanline 114
-    dw $0070 ; scanline 115
-    dw $006F ; scanline 116
-    dw $006F ; scanline 117
-    dw $006F ; scanline 118
-    dw $006F ; scanline 119
-    dw $006F ; scanline 120
-    dw $006F ; scanline 121
-    dw $006E ; scanline 122
-    dw $006E ; scanline 123
-    dw $006E ; scanline 124
-    dw $006E ; scanline 125
-    dw $006E ; scanline 126
-    dw $006D ; scanline 127
-    dw $006D ; scanline 128
-    dw $006D ; scanline 129
-    dw $006D ; scanline 130
-    dw $006D ; scanline 131
-    dw $006D ; scanline 132
-    dw $006C ; scanline 133
-    dw $006C ; scanline 134
-    dw $006C ; scanline 135
-    dw $006C ; scanline 136
-    dw $006C ; scanline 137
-    dw $006C ; scanline 138
-    dw $006C ; scanline 139
-    dw $006B ; scanline 140
-    dw $006B ; scanline 141
-    dw $006B ; scanline 142
-    dw $006B ; scanline 143
-    dw $006B ; scanline 144
-    dw $006A ; scanline 145
-    dw $006A ; scanline 146
-    dw $006A ; scanline 147
-    dw $006A ; scanline 148
-    dw $006A ; scanline 149
-    dw $006A ; scanline 150
-    dw $006A ; scanline 151
-    dw $0069 ; scanline 152
-    dw $0069 ; scanline 153
-    dw $0069 ; scanline 154
-    dw $0069 ; scanline 155
-    dw $0069 ; scanline 156
-    dw $0069 ; scanline 157
-    dw $0069 ; scanline 158
-    dw $0068 ; scanline 159
-    dw $0068 ; scanline 160
-    dw $0068 ; scanline 161
-    dw $0068 ; scanline 162
-    dw $0068 ; scanline 163
-    dw $0067 ; scanline 164
-    dw $0067 ; scanline 165
-    dw $0067 ; scanline 166
-    dw $0067 ; scanline 167
-    dw $0067 ; scanline 168
-    dw $0067 ; scanline 169
-    dw $0067 ; scanline 170
-    dw $0067 ; scanline 171
-    dw $0066 ; scanline 172
-    dw $0066 ; scanline 173
-    dw $0066 ; scanline 174
-    dw $0066 ; scanline 175
-    dw $0066 ; scanline 176
-    dw $0066 ; scanline 177
-    dw $0066 ; scanline 178
-    dw $0065 ; scanline 179
-    dw $0065 ; scanline 180
-    dw $0065 ; scanline 181
-    dw $0065 ; scanline 182
-    dw $0065 ; scanline 183
-    dw $0065 ; scanline 184
-    dw $0064 ; scanline 185
-    dw $0064 ; scanline 186
-    dw $0064 ; scanline 187
-    dw $0064 ; scanline 188
-    dw $0064 ; scanline 189
-    dw $0064 ; scanline 190
-    dw $0064 ; scanline 191
-    dw $0064 ; scanline 192
-    dw $0063 ; scanline 193
-    dw $0063 ; scanline 194
-    dw $0063 ; scanline 195
-    dw $0063 ; scanline 196
-    dw $0063 ; scanline 197
-    dw $0063 ; scanline 198
-    dw $0063 ; scanline 199
-    dw $0063 ; scanline 200
-    dw $0062 ; scanline 201
-    dw $0062 ; scanline 202
-    dw $0062 ; scanline 203
-    dw $0062 ; scanline 204
-    dw $0062 ; scanline 205
-    dw $0061 ; scanline 206
-    dw $0061 ; scanline 207
-    dw $0061 ; scanline 208
-    dw $0061 ; scanline 209
-    dw $0061 ; scanline 210
-    dw $0061 ; scanline 211
-    dw $0061 ; scanline 212
-    dw $0061 ; scanline 213
-    dw $0061 ; scanline 214
-    dw $0060 ; scanline 215
-    dw $0060 ; scanline 216
-    dw $0060 ; scanline 217
-    dw $0060 ; scanline 218
-    dw $0060 ; scanline 219
-    dw $0060 ; scanline 220
-    dw $0060 ; scanline 221
-    dw $0060 ; scanline 222
-    dw $0060 ; scanline 223
+    dw $0070 ; Scanline 112
+    dw $0070 ; Scanline 113
+    dw $0070 ; Scanline 114
+    dw $0070 ; Scanline 115
+    dw $006F ; Scanline 116
+    dw $006F ; Scanline 117
+    dw $006F ; Scanline 118
+    dw $006F ; Scanline 119
+    dw $006F ; Scanline 120
+    dw $006F ; Scanline 121
+    dw $006E ; Scanline 122
+    dw $006E ; Scanline 123
+    dw $006E ; Scanline 124
+    dw $006E ; Scanline 125
+    dw $006E ; Scanline 126
+    dw $006D ; Scanline 127
+    dw $006D ; Scanline 128
+    dw $006D ; Scanline 129
+    dw $006D ; Scanline 130
+    dw $006D ; Scanline 131
+    dw $006D ; Scanline 132
+    dw $006C ; Scanline 133
+    dw $006C ; Scanline 134
+    dw $006C ; Scanline 135
+    dw $006C ; Scanline 136
+    dw $006C ; Scanline 137
+    dw $006C ; Scanline 138
+    dw $006C ; Scanline 139
+    dw $006B ; Scanline 140
+    dw $006B ; Scanline 141
+    dw $006B ; Scanline 142
+    dw $006B ; Scanline 143
+    dw $006B ; Scanline 144
+    dw $006A ; Scanline 145
+    dw $006A ; Scanline 146
+    dw $006A ; Scanline 147
+    dw $006A ; Scanline 148
+    dw $006A ; Scanline 149
+    dw $006A ; Scanline 150
+    dw $006A ; Scanline 151
+    dw $0069 ; Scanline 152
+    dw $0069 ; Scanline 153
+    dw $0069 ; Scanline 154
+    dw $0069 ; Scanline 155
+    dw $0069 ; Scanline 156
+    dw $0069 ; Scanline 157
+    dw $0069 ; Scanline 158
+    dw $0068 ; Scanline 159
+    dw $0068 ; Scanline 160
+    dw $0068 ; Scanline 161
+    dw $0068 ; Scanline 162
+    dw $0068 ; Scanline 163
+    dw $0067 ; Scanline 164
+    dw $0067 ; Scanline 165
+    dw $0067 ; Scanline 166
+    dw $0067 ; Scanline 167
+    dw $0067 ; Scanline 168
+    dw $0067 ; Scanline 169
+    dw $0067 ; Scanline 170
+    dw $0067 ; Scanline 171
+    dw $0066 ; Scanline 172
+    dw $0066 ; Scanline 173
+    dw $0066 ; Scanline 174
+    dw $0066 ; Scanline 175
+    dw $0066 ; Scanline 176
+    dw $0066 ; Scanline 177
+    dw $0066 ; Scanline 178
+    dw $0065 ; Scanline 179
+    dw $0065 ; Scanline 180
+    dw $0065 ; Scanline 181
+    dw $0065 ; Scanline 182
+    dw $0065 ; Scanline 183
+    dw $0065 ; Scanline 184
+    dw $0064 ; Scanline 185
+    dw $0064 ; Scanline 186
+    dw $0064 ; Scanline 187
+    dw $0064 ; Scanline 188
+    dw $0064 ; Scanline 189
+    dw $0064 ; Scanline 190
+    dw $0064 ; Scanline 191
+    dw $0064 ; Scanline 192
+    dw $0063 ; Scanline 193
+    dw $0063 ; Scanline 194
+    dw $0063 ; Scanline 195
+    dw $0063 ; Scanline 196
+    dw $0063 ; Scanline 197
+    dw $0063 ; Scanline 198
+    dw $0063 ; Scanline 199
+    dw $0063 ; Scanline 200
+    dw $0062 ; Scanline 201
+    dw $0062 ; Scanline 202
+    dw $0062 ; Scanline 203
+    dw $0062 ; Scanline 204
+    dw $0062 ; Scanline 205
+    dw $0061 ; Scanline 206
+    dw $0061 ; Scanline 207
+    dw $0061 ; Scanline 208
+    dw $0061 ; Scanline 209
+    dw $0061 ; Scanline 210
+    dw $0061 ; Scanline 211
+    dw $0061 ; Scanline 212
+    dw $0061 ; Scanline 213
+    dw $0061 ; Scanline 214
+    dw $0060 ; Scanline 215
+    dw $0060 ; Scanline 216
+    dw $0060 ; Scanline 217
+    dw $0060 ; Scanline 218
+    dw $0060 ; Scanline 219
+    dw $0060 ; Scanline 220
+    dw $0060 ; Scanline 221
+    dw $0060 ; Scanline 222
+    dw $0060 ; Scanline 223
 }
 
 ; ==============================================================================
@@ -3481,7 +3476,7 @@ NULL_0AE0A7:
 ; $0560B0-$0560D1 JUMP LOCATION (LONG)
 Messaging_PalaceMap:
 {
-    LDA $0200 ; An index into what type of display to use.
+    LDA.w $0200 ; An index into what type of display to use.
     
     JSL UseImplicitRegIndexedLongJumpTable
     
@@ -3511,7 +3506,7 @@ PalaceMap_InitJumpTable:
 ; $0560DC-$0560E3 JUMP LOCATION (LONG)
 PalaceMap_Init:
 {
-    LDA $020D : ASL A : TAX
+    LDA.w $020D : ASL A : TAX
     
     JMP (PalaceMap_InitJumpTable, X) ; $0560D2 IN ROM
 }
@@ -3522,29 +3517,29 @@ PalaceMap_Init:
 PalaceMap_SetupGraphics:
 {
     ; Cache HDMA settings elsewhere and turn off HDMA for the time being.
-    LDA $9B : PHA : STZ $420C : STZ $9B
+    LDA.b $9B : PHA : STZ.w $420C : STZ.b $9B
     
     ; Cache graphics settings to temp variables.
-    LDA $0AA1 : STA $7EC20E
-    LDA $0AA3 : STA $7EC20F
-    LDA $0AA2 : STA $7EC210
+    LDA.w $0AA1 : STA.l $7EC20E
+    LDA.w $0AA3 : STA.l $7EC20F
+    LDA.w $0AA2 : STA.l $7EC210
     
     ; Cache bg screen settings to temp variables.
-    LDA $1C : STA $7EC211
-    LDA $1D : STA $7EC212
+    LDA.b $1C : STA.l $7EC211
+    LDA.b $1D : STA.l $7EC212
     
     ; Set a fixed main graphics index.
-    LDA.b #$20 : STA $0AA1
+    LDA.b #$20 : STA.w $0AA1
     
     ; Use the current palace we're in to determine the sprite tileset.
-    LDA $040C : LSR A : ORA.b #$80 : STA $0AA3
+    LDA.w $040C : LSR A : ORA.b #$80 : STA.w $0AA3
     
     ; Set the auxiliary bg graphics tileset.
-    LDA.b #$40 : STA $0AA2
+    LDA.b #$40 : STA.w $0AA2
     
     ; BG1 on subscreen; BG2, BG3, and OAM on main screen.
-    LDA.b #$16 : STA $1C
-    LDA.b #$01 : STA $1D
+    LDA.b #$16 : STA.b $1C
+    LDA.b #$01 : STA.b $1D
     
     ; Writes blanks to $0000-$01FFF (byte addr) in vram. Clears BG2 tilemap.
     JSL Vram_EraseTilemaps_palace ; $00033F IN ROM
@@ -3553,14 +3548,14 @@ PalaceMap_SetupGraphics:
     JSL InitTilesets ; $00619B IN ROM
     
     ; Set special palette index.
-    LDA.b #$02 : STA $0AA9
+    LDA.b #$02 : STA.w $0AA9
     
     ; Load palettes
     JSL Palette_PalaceMapBg  ; $0DEE3A IN ROM
     JSL Palette_PalaceMapSpr ; $0DEDDD IN ROM
     
     ; Set another palette index.
-    LDA.b #$01 : STA $0AB2
+    LDA.b #$01 : STA.w $0AB2
     
     ; Load palettes for BG3 (2bpp) graphics.
     JSL Palette_Hud ; $0DEE52 IN ROM
@@ -3568,15 +3563,15 @@ PalaceMap_SetupGraphics:
     ; $0756C0 IN ROM
     JSL LoadActualGearPalettes
     
-    INC $15
+    INC.b $15
     
-    INC $020D
+    INC.w $020D
         
-    PLA : STA $9B
+    PLA : STA.b $9B
     
-    LDA.b #$09 : STA $14
+    LDA.b #$09 : STA.b $14
     
-    STA $0710
+    STA.w $0710
     
     RTL
 }
@@ -3629,19 +3624,18 @@ PalaceMap_OptionalGraphic:
     PHB : PHK : PLB
     
     ; Load palace index
-    LDA $040C : LSR A : TAX
+    LDA.w $040C : LSR A : TAX
     
-    ; Guessing this means that there's no special graphic
-    ; for this palace.
+    ; Guessing this means that there's no special graphic for this palace.
     LDY.w .dungeon_level, X : BMI .return
-        LDA.b #$FF : STA $1022
+        LDA.b #$FF : STA.w $1022
         
         LDX.b #$0E
         
         REP #$20
         
-        LDA.w $E176, Y : STA $1002, X
-        LDA.w $E186, Y : STA $1012, X
+        LDA.w $E176, Y : STA.w $1002, X
+        LDA.w $E186, Y : STA.w $1012, X
         
         SEP #$20
         
@@ -3649,16 +3643,16 @@ PalaceMap_OptionalGraphic:
 
         .copyTiles
 
-            LDA.w $E15A, X : STA $1002, X
-            LDA.w $E168, X : STA $1012, X
+            LDA.w $E15A, X : STA.w $1002, X
+            LDA.w $E168, X : STA.w $1012, X
         DEX : BPL .copyTiles
         
-        LDA.b #$01 : STA $14
+        LDA.b #$01 : STA.b $14
 
     .return
 
     ; Move to next step of submodule.
-    INC $020D
+    INC.w $020D
     
     PLB
     
@@ -3691,9 +3685,9 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     REP #$30
     
-    STZ $1000
+    STZ.w $1000
     
-    LDX $040C : PHX
+    LDX.w $040C : PHX
     
     LDA.w $F5D9, X
     
@@ -3703,87 +3697,88 @@ Module0E_03_01_02_DrawFloorsBackdrop:
 
         .copyTiles
 
-            LDA.w $EFDD, X : STA $1000, X   
+            LDA.w $EFDD, X : STA.w $1000, X   
         DEX #2 : BNE .copyTiles
         
         PLX
         
-        LDA.w #$1123 : STA $00
+        LDA.w #$1123 : STA.b $00
         
         LDY.w #$0010
 
         .copyTiles2
 
-            LDA $00 : XBA : STA $1002, X
-            XBA : CLC : ADC.w #$0020 : STA $00
+            LDA.b $00 : XBA : STA.w $1002, X
+            XBA : CLC : ADC.w #$0020 : STA.b $00
             
-            LDA.w #$0E40 : STA $1004, X
-            LDA.w #$1B2E : STA $1006, X
+            LDA.w #$0E40 : STA.w $1004, X
+            LDA.w #$1B2E : STA.w $1006, X
             
             INX #6
         DEY : BNE .copyTiles2
         
-        STX $1000
+        STX.w $1000
 
     .skipTileCopy
 
-    STZ $00
-    STZ $02
+    STZ.b $00
+    STZ.b $02
     
-    LDX $040C : LDA.w $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
-        ; Seems to be looking for tower style levels (tower of hera, hyrule castl 2, ganon's tower)
-        LSR #4 : SEC : SBC.w #$0004 : ASL A : STA $00
+    LDX.w $040C : LDA.w $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
+        ; Seems to be looking for tower style levels (tower of hera, hyrule
+        ; castle 2, ganon's tower)
+        LSR #4 : SEC : SBC.w #$0004 : ASL A : STA.b $00
         
         BRA .setupVramTarget
 
     .notTower
 
     AND.w #$000F : CMP.w #$0005 : BCC .setupVramTarget
-        ASL A : STA $00
+        ASL A : STA.b $00
 
     .setupVramTarget
 
-    LDX $00
+    LDX.b $00
     
-    LDY $1000
+    LDY.w $1000
     
-    LDA.w $E1E1, X : STA $00 : STA $0E
+    LDA.w $E1E1, X : STA.b $00 : STA.b $0E
 
     .limitNotReached
 
         ; Store big endian vram target address????
-        LDA $00 : XBA : STA $1002, Y
+        LDA.b $00 : XBA : STA.w $1002, Y
         
         INY #2
         
-        ; .... have to look up NMI workings to know what this does.
-        LDA.w #$0E40 : STA $1002, Y
+        ; TODO: Have to look up NMI workings to know what this does.
+        LDA.w #$0E40 : STA.w $1002, Y
         
         INY #2
         
-        LDX $02
+        LDX.b $02
         
-        LDA.w $EFD1, X : STA $04
+        LDA.w $EFD1, X : STA.b $04
         
         ; Check bit 13 in palace properties word.
-        LDX $040C : LDA.w $F5D9, X : AND.w #$0200 : BEQ .noOffset
-            LDA $04 : CLC : ADC.w #$0400 : STA $04
+        LDX.w $040C : LDA.w $F5D9, X : AND.w #$0200 : BEQ .noOffset
+            LDA.b $04 : CLC : ADC.w #$0400 : STA.b $04
 
         .noOffset
 
-        LDA $04 : STA $1002, Y
+        LDA.b $04 : STA.w $1002, Y
         
         INY #2
         
         ; Apparently stop incrementing once $02 reaches 0x000C.
-        LDA $02 : CMP.w #$000C : BEQ .stopIncrementing
-            INC $02 : INC $02
+        LDA.b $02 : CMP.w #$000C : BEQ .stopIncrementing
+            INC.b $02 : INC.b $02
 
         .stopIncrementing
-    LDA $00 : CLC : ADC.w #$0020 : STA $00 : CMP.w #$1360 : BCC .limitNotReached
+    LDA.b $00 : CLC : ADC.w #$0020 : STA.b $00 : CMP.w #$1360 : BCC .limitNotReached
     
     ; Tell NMI how large the buffer is as of now.
-    STY $1000
+    STY.w $1000
     
     SEP #$20
     
@@ -3793,16 +3788,16 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     REP #$10
     
-    LDY $1000
+    LDY.w $1000
     
-    LDA.b #$FF : STA $1002, Y
+    LDA.b #$FF : STA.w $1002, Y
     
     SEP #$10
     
     ; Move to next step of submodule.
-    INC $020D
+    INC.w $020D
     
-    LDA.b #$01 : STA $14
+    LDA.b #$01 : STA.b $14
     
     PLB
     
@@ -3825,52 +3820,52 @@ DungeonMap_BuildFloorListBoxes:
 {
     REP #$20
     
-    LDA.w $F5D9, X : AND.w #$00FF : STA $02
-    AND.w #$000F : STA $00
+    LDA.w $F5D9, X : AND.w #$00FF : STA.b $02
+    AND.w #$000F : STA.b $00
     
-    LDA $02 : LSR #4 : CLC : ADC $00 : STA $02
+    LDA.b $02 : LSR #4 : CLC : ADC.b $00 : STA.b $02
     
-    LDA $A4 : CLC : ADC $00 : AND.w #$00FF : STA $0C
+    LDA.b $A4 : CLC : ADC.b $00 : AND.w #$00FF : STA.b $0C
     
-    STZ $0A
+    STZ.b $0A
     
-    LDA $0E : SEC : SBC.w #$0040 : CLC : ADC.w #$0002 : STA $0E
+    LDA.b $0E : SEC : SBC.w #$0040 : CLC : ADC.w #$0002 : STA.b $0E
     
-    LDX $00 : BEQ .BRANCH_ALPHA
-        LDA $0E
+    LDX.b $00 : BEQ .BRANCH_ALPHA
+        LDA.b $0E
         
         .BRANCH_BETA
 
             CLC : ADC.w #$0040
         DEX : BNE .BRANCH_BETA
         
-        STA $0E
+        STA.b $0E
 
     .BRANCH_ALPHA
 
     REP #$10
     
-    LDY $1000
+    LDY.w $1000
 
     .BRANCH_ZETA
 
         LDX.w #$0000
         
-        LDA $0E
+        LDA.b $0E
 
         .BRANCH_THETA
 
-        XBA : STA $1002, Y
+        XBA : STA.w $1002, Y
         
         INY #2
         
-        LDA.w #$0700 : STA $1002, Y
+        LDA.w #$0700 : STA.w $1002, Y
         
         INY #2
 
         .BRANCH_GAMMA
 
-            LDA.w $E2E5, X : STA $1002, Y
+            LDA.w $E2E5, X : STA.w $1002, Y
             
             INY #2
         INX #2 : CPX.w #$0008 : BCC .BRANCH_GAMMA : BEQ .BRANCH_DELTA
@@ -3879,16 +3874,16 @@ DungeonMap_BuildFloorListBoxes:
 
         .BRANCH_DELTA
 
-        LDA $0E : CLC : ADC.w #$0020
+        LDA.b $0E : CLC : ADC.w #$0020
         
         BRA .BRANCH_THETA
 
         .BRANCH_EPSILON
 
-        LDA $0E : SEC : SBC.w #$0040 : STA $0E
-    INC $0A : LDA $0A : CMP $02 : BMI .BRANCH_ZETA
+        LDA.b $0E : SEC : SBC.w #$0040 : STA.b $0E
+    INC.b $0A : LDA.b $0A : CMP.b $02 : BMI .BRANCH_ZETA
     
-    STY $1000
+    STY.w $1000
     
     SEP #$30
     
@@ -3902,38 +3897,38 @@ Module0E_03_01_03_DrawRooms:
 {
     PHB : PHK : PLB
     
-    STZ $0210
+    STZ.w $0210
     
     REP #$30
     
-    STZ $00 : STZ $02 : STZ $04 : STZ $06
-    STZ $08 : STZ $0A : STZ $0C
+    STZ.b $00 : STZ.b $02 : STZ.b $04 : STZ.b $06
+    STZ.b $08 : STZ.b $0A : STZ.b $0C
     
-    STZ $0211
+    STZ.w $0211
     
-    LDX $040C
+    LDX.w $040C
     
-    LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP $A4 : BEQ .BRANCH_ALPHA
-        LDA $A4 : AND.w #$00FF : STA $020E
+    LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
+        LDA.b $A4 : AND.w #$00FF : STA.w $020E
         
         BRA .BRANCH_BETA
 
     .BRANCH_ALPHA
 
-    LDA $A4 : INC A : STA $020E
+    LDA.b $A4 : INC A : STA.w $020E
     
-    INC $0211 : INC $0211
+    INC.w $0211 : INC.w $0211
 
     .BRANCH_BETA
 
-    LDA $020E : AND.w #$0050 : BNE .BRANCH_GAMMA
-        LDA.w #$EFFF : STA $08
+    LDA.w $020E : AND.w #$0050 : BNE .BRANCH_GAMMA
+        LDA.w #$EFFF : STA.b $08
         
         BRA .BRANCH_DELTA
 
     .BRANCH_GAMMA
 
-    LDA.w #$EFFF : STA $08
+    LDA.w #$EFFF : STA.b $08
 
     .BRANCH_DELTA
 
@@ -3941,25 +3936,25 @@ Module0E_03_01_03_DrawRooms:
     JSR $E449 ; $056449 IN ROM
     JSR $E579 ; $056579 IN ROM
     
-    DEC $020E
+    DEC.w $020E
     
     REP #$30
     
-    LDA.w #$0300 : STA $06
+    LDA.w #$0300 : STA.b $06
     
-    LDA $0211 : BNE .BRANCH_EPSILON
+    LDA.w $0211 : BNE .BRANCH_EPSILON
         BRA .BRANCH_EPSILON
 
     .BRANCH_EPSILON
 
-    LDA $020E : AND.w #$0050 : BNE .BRANCH_ZETA
-        LDA.w #$EFFF : STA $08
+    LDA.w $020E : AND.w #$0050 : BNE .BRANCH_ZETA
+        LDA.w #$EFFF : STA.b $08
         
         BRA .BRANCH_THETA
 
     .BRANCH_ZETA
 
-    LDA.w #$EFFF : STA $08
+    LDA.w #$EFFF : STA.b $08
 
     .BRANCH_THETA
 
@@ -3969,17 +3964,17 @@ Module0E_03_01_03_DrawRooms:
     
     REP #$30
     
-    INC $020E
+    INC.w $020E
     
-    STZ $06
+    STZ.b $06
     
     SEP #$30
     
-    LDA.b #$08 : STA $17
+    LDA.b #$08 : STA.b $17
     
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
-    INC $020D
+    INC.w $020D
     
     PLB
     
@@ -4015,53 +4010,53 @@ DungeonMap_DrawBorderForRooms:
 {
     REP #$30
     
-    STZ $02
+    STZ.b $02
 
     .BRANCH_ALPHA
 
-        LDY $02 : LDA.w $E431, Y : CLC : ADC $06 : AND.w #$0FFF : TAX
+        LDY.b $02 : LDA.w $E431, Y : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
-        LDA.w #$0F00 : STA $7F0000, X
+        LDA.w #$0F00 : STA.l $7F0000, X
         
-        LDA.w $E429, Y : AND $08 : STA $7F0000, X
+        LDA.w $E429, Y : AND.b $08 : STA.l $7F0000, X
         
-        INC $02 : INC $02
-    LDA $02 : CMP.w #$0008 : BNE .BRANCH_ALPHA
+        INC.b $02 : INC.b $02
+    LDA.b $02 : CMP.w #$0008 : BNE .BRANCH_ALPHA
     
     LDY.w #$0000
 
     .BRANCH_GAMMA
 
-        STZ $02
+        STZ.b $02
         
-        LDA.w $E43D, Y : CLC : ADC $06 : STA $04
+        LDA.w $E43D, Y : CLC : ADC.b $06 : STA.b $04
 
         .BRANCH_BETA
 
-            LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
+            LDA.b $04 : CLC : ADC.b $02 : AND.w #$0FFF : TAX
             
-            LDA.w #$0F00 : STA $7F0000, X
+            LDA.w #$0F00 : STA.l $7F0000, X
             
-            LDA.w $E439, Y : AND $08 : STA $7F0000, X
-        INC $02 : INC $02 : LDA $02 : CMP.w #$0014 : BNE .BRANCH_BETA
+            LDA.w $E439, Y : AND.b $08 : STA.l $7F0000, X
+        INC.b $02 : INC.b $02 : LDA.b $02 : CMP.w #$0014 : BNE .BRANCH_BETA
     INY #2 : CPY.w #$0004 : BNE .BRANCH_GAMMA
     
     LDY.w #$0000
 
     .BRANCH_EPSILON
 
-        STZ $02
+        STZ.b $02
         
-        LDA.w $E445, Y : CLC : ADC $06 : STA $04
+        LDA.w $E445, Y : CLC : ADC.b $06 : STA.b $04
 
         .BRANCH_DELTA
 
-            LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
+            LDA.b $04 : CLC : ADC.b $02 : AND.w #$0FFF : TAX
             
-            LDA.w #$0F00 : STA $7F0000, X
+            LDA.w #$0F00 : STA.l $7F0000, X
             
-            LDA.w $E441, Y : AND $08 : STA $7F0000, X
-        LDA $02 : CLC : ADC.w #$0040 : STA $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
+            LDA.w $E441, Y : AND.b $08 : STA.l $7F0000, X
+        LDA.b $02 : CLC : ADC.w #$0040 : STA.b $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
     INY #2 : CPY.w #$0004 : BNE .BRANCH_EPSILON
     
     SEP #$30
@@ -4090,23 +4085,23 @@ DungeonMap_DrawFloorNumbersByRoom:
 {
     REP #$30
     
-    LDA.w #$00DE : STA $00
+    LDA.w #$00DE : STA.b $00
 
     .BRANCH_ALPHA
 
-        LDA $00 : CLC : ADC $06 : AND.w #$0FFF : TAX
+        LDA.b $00 : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
-        LDA.w #$0F00 : STA $7F0000, X : STA $7F0002, X
-    LDA $00 : CLC : ADC.w #$0040 : STA $00 : CMP.w #$039E : BNE .BRANCH_ALPHA
+        LDA.w #$0F00 : STA.l $7F0000, X : STA.l $7F0002, X
+    LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00 : CMP.w #$039E : BNE .BRANCH_ALPHA
     
-    LDA $020E : AND.w #$0080 : BEQ .BRANCH_BETA
+    LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_BETA
         LDA.w #$1F1C
         
         BRA .BRANCH_GAMMA
 
     .BRANCH_BETA
 
-    LDA $020E : AND.w #$000F : ASL A : TAY
+    LDA.w $020E : AND.w #$000F : ASL A : TAY
     
     LDA.w $E4E9, Y
 
@@ -4114,12 +4109,12 @@ DungeonMap_DrawFloorNumbersByRoom:
 
     PHA
     
-    LDA.w #$035E : CLC : ADC $06 : AND.w #$0FFF : TAX
+    LDA.w #$035E : CLC : ADC.b $06 : AND.w #$0FFF : TAX
     
-    PLA : AND $08 : STA $7F0000, X
+    PLA : AND.b $08 : STA.l $7F0000, X
     
-    LDA $020E : AND.w #$0080 : BEQ .BRANCH_DELTA
-        LDA $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
+    LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_DELTA
+        LDA.w $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
         
         LDA.w $E4E9, Y
         
@@ -4131,7 +4126,7 @@ DungeonMap_DrawFloorNumbersByRoom:
 
     .BRANCH_EPSILON
 
-    AND $08 : STA $7F0002, X
+    AND.b $08 : STA.l $7F0002, X
     
     SEP #$30
     
@@ -4154,18 +4149,18 @@ DungeonMap_DrawDungeonLayout:
     
     REP #$30
     
-    STZ $00
+    STZ.b $00
 
     .nextRow
 
-        LDA $00 : ASL A : TAX
+        LDA.b $00 : ASL A : TAX
         
-        LDA.w $E56F, X : CLC : ADC $06 : AND.w #$0FFF : TAX
+        LDA.w $E56F, X : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
         JSR $E5BC ; $0565BC IN ROM
         
-        INC $00
-    LDA $00 : CMP.w #$0005 : BNE .nextRow
+        INC.b $00
+    LDA.b $00 : CMP.w #$0005 : BNE .nextRow
     
     SEP #$30
     
@@ -4191,33 +4186,33 @@ DungeonMap_DrawSingleRowOfRooms:
 {
     REP #$30
     
-    STZ $02
+    STZ.b $02
 
     .nextColumn
 
-        STZ $0E
+        STZ.b $0E
         
         PHX
         
-        LDA $00 : ASL A : TAX
+        LDA.b $00 : ASL A : TAX
         
         ; $04 = column * 5;
-        LDA $02 : ADC $E59A, X : STA $04
+        LDA.b $02 : ADC.w $E59A, X : STA.b $04
         
         SEP #$20
         
-        LDX $040C
+        LDX.w $040C
         
         ; I think this is trying to figure out the current floor against
         ; the deepest depth of the current palace.
-        LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $020E : ASL A : STA $0E : TAY
+        LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.w $020E : ASL A : STA.b $0E : TAY
         
         REP #$20
         
-        LDA.w $F605, X : STA $0C
+        LDA.w $F605, X : STA.b $0C
         
         ; Y = (???? * 0x19) + $04;
-        LDA.w $F5F5, Y : CLC : ADC $04 : TAY
+        LDA.w $F5F5, Y : CLC : ADC.b $04 : TAY
         
         SEP #$20
         
@@ -4233,14 +4228,14 @@ DungeonMap_DrawSingleRowOfRooms:
 
         REP #$20
         
-        AND.w #$00FF : STA $CA
+        AND.w #$00FF : STA.b $CA
         
         ASL A : PHA
         
-        LDA $CA : ASL A : TAX
+        LDA.b $CA : ASL A : TAX
         
-        ; $0E = the quadrants Link has visited
-        LDA $7EF000, X : AND.w #$000F : STA $0E
+        ; $0E = the quadrants Link has visited.
+        LDA.l $7EF000, X : AND.w #$000F : STA.b $0E
         
         PLA
         
@@ -4254,11 +4249,11 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_ULTIMA
 
-        STZ $C8
+        STZ.b $C8
         
         LDY.w #$0000
         
-        LDX $040C : LDA.w $F605, X : STA $0C
+        LDX.w $040C : LDA.w $F605, X : STA.b $0C
 
         .BRANCH_ALIF
 
@@ -4271,8 +4266,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_OPTIMUS
 
-        CMP $CA : BEQ .BRANCH_BET
-            INC $C8
+        CMP.b $CA : BEQ .BRANCH_BET
+            INC.b $C8
             
             INY
                 
@@ -4282,9 +4277,9 @@ DungeonMap_DrawSingleRowOfRooms:
 
         REP #$20
         
-        LDA.w $FBE4, X : STA $0C
+        LDA.w $FBE4, X : STA.b $0C
         
-        LDA $C8 : TAY
+        LDA.b $C8 : TAY
         
         SEP #$20
         
@@ -4298,11 +4293,11 @@ DungeonMap_DrawSingleRowOfRooms:
 
         PLX
         
-        LDA.w $F009, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
-            ; Check if top left quadrant has been seen
-            LDA $0E : AND.w #$0008 : BNE .BRANCH_DELTA
-                LDA $0C : AND.w #$1000 : BNE .BRANCH_EPSILON
-                    LDA.w #$0400 : STA $0C
+        LDA.w $F009, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
+            ; Check if top left quadrant has been seen.
+            LDA.b $0E : AND.w #$0008 : BNE .BRANCH_DELTA
+                LDA.b $0C : AND.w #$1000 : BNE .BRANCH_EPSILON
+                    LDA.w #$0400 : STA.b $0C
                     
                     BRA .BRANCH_ZETA
 
@@ -4310,13 +4305,13 @@ DungeonMap_DrawSingleRowOfRooms:
 
                 PHX
                 
-                LDX $040C
+                LDX.w $040C
                 
-                ; Check if Link has the map
-                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_DEL
+                ; Check if Link has the map.
+                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_DEL
                     PLX : PLA
                     
-                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
                     
                     BRA .BRANCH_THEL
 
@@ -4326,24 +4321,24 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_DELTA
 
-        STZ $0C
+        STZ.b $0C
 
         .BRANCH_ZETA
         
-        PLA : CLC : ADC $0C : PHX : STA $0C
+        PLA : CLC : ADC.b $0C : PHX : STA.b $0C
         
-        LDX $040C
+        LDX.w $040C
         
-        ; Check if Link has the map
-        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_THETA
-            LDA $0E : AND.w #$0008 : BNE .BRANCH_THETA
+        ; Check if Link has the map.
+        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_THETA
+            LDA.b $0E : AND.w #$0008 : BNE .BRANCH_THETA
                 LDA.w #$0B00
                 
                 BRA .BRANCH_IOTA
 
         .BRANCH_THETA
 
-        LDA $0C
+        LDA.b $0C
 
         .BRANCH_IOTA
 
@@ -4351,13 +4346,13 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_THEL
 
-        STA $7F0000, X
+        STA.l $7F0000, X
         
-        LDA.w $F00B, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
-            ; Check if top right quadrant has been seen
-            LDA $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
-                LDA $0C : AND.w #$1000 : BNE .BRANCH_LAMBDA
-                    LDA.w #$0400 : STA $0C
+        LDA.w $F00B, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
+            ; Check if top right quadrant has been seen.
+            LDA.b $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
+                LDA.b $0C : AND.w #$1000 : BNE .BRANCH_LAMBDA
+                    LDA.w #$0400 : STA.b $0C
                     
                     BRA .BRANCH_MU
 
@@ -4365,13 +4360,13 @@ DungeonMap_DrawSingleRowOfRooms:
 
                 PHX
 
-                LDX $040C
+                LDX.w $040C
                 
-                ; Check if Link has the map
-                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_SIN
+                ; Check if Link has the map.
+                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_SIN
                     PLX : PLA
                     
-                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
                     
                     BRA .BRANCH_SHIN
 
@@ -4381,25 +4376,25 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_KAPPA
 
-        STZ $0C
+        STZ.b $0C
 
         .BRANCH_MU
 
         ; PHX in the middle... whatever. But it's an eyesore.
-        PLA : CLC : ADC $0C : PHX : STA $0C
+        PLA : CLC : ADC.b $0C : PHX : STA.b $0C
         
-        LDX $040C
+        LDX.w $040C
         
         ; Check if we have the map for this dungeon.
-        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_NU
-            LDA $0E : AND.w #$0004 : BNE .BRANCH_NU
+        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_NU
+            LDA.b $0E : AND.w #$0004 : BNE .BRANCH_NU
                 LDA.w #$0B00
                 
                 BRA .BRANCH_XI
 
         .BRANCH_NU
 
-        LDA $0C
+        LDA.b $0C
 
         .BRANCH_XI
 
@@ -4407,12 +4402,12 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_SHIN
 
-        STA $7F0002, X
+        STA.l $7F0002, X
         
-        LDA.w $F00D, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
-            LDA $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
-                LDA $0C : AND.w #$1000 : BNE .BRANCH_PI
-                    LDA.w #$0400 : STA $0C
+        LDA.w $F00D, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
+            LDA.b $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
+                LDA.b $0C : AND.w #$1000 : BNE .BRANCH_PI
+                    LDA.w #$0400 : STA.b $0C
                     
                     BRA .BRANCH_RHO
 
@@ -4420,13 +4415,13 @@ DungeonMap_DrawSingleRowOfRooms:
 
                 PHX
                 
-                LDX $040C
+                LDX.w $040C
                 
-                ; Check if we have the map... again
-                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_SOD
+                ; Check if we have the map... again.
+                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_SOD
                     PLX : PLA
                     
-                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
                     
                     BRA .BRANCH_DOD
 
@@ -4436,23 +4431,23 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_OMICRON
 
-        STZ $0C
+        STZ.b $0C
 
         .BRANCH_RHO
 
-        PLA : CLC : ADC $0C : PHX : STA $0C
+        PLA : CLC : ADC.b $0C : PHX : STA.b $0C
         
-        LDX $040C
+        LDX.w $040C
         
-        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_SIGMA
-            LDA $0E : AND.w #$0002 : BNE .BRANCH_SIGMA
+        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_SIGMA
+            LDA.b $0E : AND.w #$0002 : BNE .BRANCH_SIGMA
                 LDA.w #$0B00
                 
                 BRA .BRANCH_TAU
 
         .BRANCH_SIGMA
 
-        LDA $0C
+        LDA.b $0C
 
         .BRANCH_TAU
 
@@ -4460,12 +4455,12 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_DOD
 
-        STA $7F0040, X
+        STA.l $7F0040, X
         
-        LDA.w $F00F, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
-            LDA $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
-                LDA $0C : AND.w #$1000 : BNE .BRANCH_PHI
-                    LDA #$0400 : STA $0C
+        LDA.w $F00F, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
+            LDA.b $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
+                LDA.b $0C : AND.w #$1000 : BNE .BRANCH_PHI
+                    LDA.w #$0400 : STA.b $0C
                     
                     BRA .BRANCH_CHI
 
@@ -4473,13 +4468,13 @@ DungeonMap_DrawSingleRowOfRooms:
 
                 PHX
                 
-                LDX $040C
+                LDX.w $040C
                 
-                ; Check if Link has the map
-                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_TOD
+                ; Check if Link has the map.
+                LDA.l $7EF368 : AND.l $0098C0, X : BEQ .BRANCH_TOD
                     PLX : PLA
                     
-                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    LDA.b $0C : AND.w #$E3FF : ORA.w #$0C00
                     
                     BRA .BRANCH_ZOD
 
@@ -4489,24 +4484,24 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_UPSILON
 
-        STZ $0C
+        STZ.b $0C
 
         .BRANCH_CHI
 
-        PLA : CLC : ADC $0C : PHX : STA $0C
+        PLA : CLC : ADC.b $0C : PHX : STA.b $0C
 
-        LDX $040C
+        LDX.w $040C
         
-        ; Check if Link has the map
-        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_PSI
-            LDA $0E : AND.w #$0001 : BNE .BRANCH_PSI
+        ; Check if Link has the map.
+        LDA.l $7EF368 : AND.l $0098C0, X : BNE .BRANCH_PSI
+            LDA.b $0E : AND.w #$0001 : BNE .BRANCH_PSI
                 LDA.w #$0B00
                 
                 BRA .BRANCH_OMEGA
 
         .BRANCH_PSI
 
-        LDA $0C
+        LDA.b $0C
 
         .BRANCH_OMEGA
 
@@ -4514,13 +4509,13 @@ DungeonMap_DrawSingleRowOfRooms:
 
         .BRANCH_ZOD
 
-        STA $7F0042, X
+        STA.l $7F0042, X
         
         INX #4
         
-        INC $02
+        INC.b $02
         
-        LDA $02 : CMP.w #$0005 : BEQ .BRANCH_ALTIMA
+        LDA.b $02 : CMP.w #$0005 : BEQ .BRANCH_ALTIMA
     JMP .nextColumn
 
     .BRANCH_ALTIMA
@@ -4584,11 +4579,12 @@ DungeonMap_DrawRoomMarkers:
     
     LDA.b #$00 : XBA
     
-    LDX $040C : LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $A4 : ASL A : TAY : STY $0C
+    LDX.w $040C
+    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.b $A4 : ASL A : TAY : STY.b $0C
     
     REP #$20
     
-    STZ $00 : STZ $02
+    STZ.b $00 : STZ.b $02
     
     PHY
     
@@ -4597,11 +4593,11 @@ DungeonMap_DrawRoomMarkers:
     ; This loop is searching for rooms that you can fall into that are out
     ; of the way (secret locations you can get to by falling through
     ; pots in the Tower of Hera or Eastern Palace.
-    LDA $A0
+    LDA.b $A0
 
     .secretRoomLoop
 
-        CMP $E7F9, Y : BEQ .isSecretRoom
+        CMP.w $E7F9, Y : BEQ .isSecretRoom
     DEY #2 : BPL .secretRoomLoop
     
     BRA .notSecretRoom
@@ -4614,11 +4610,11 @@ DungeonMap_DrawRoomMarkers:
 
     .notSecretRoom
 
-    STA $0E
+    STA.b $0E
     
     PLY
     
-    LDA.w $F605, X : STA $04
+    LDA.w $F605, X : STA.b $04
     
     LDA.w $F5F5, Y : TAY
     
@@ -4628,17 +4624,17 @@ DungeonMap_DrawRoomMarkers:
     ; palace's map data.
     .BRANCH_ZETA
     
-    LDA ($04), Y : INY : CMP $0E : BEQ .BRANCH_DELTA
-        LDA $00 : CMP.b #$40 : BCC .BRANCH_EPSILON
-            STZ $00
+    LDA ($04), Y : INY : CMP.b $0E : BEQ .BRANCH_DELTA
+        LDA.b $00 : CMP.b #$40 : BCC .BRANCH_EPSILON
+            STZ.b $00
             
-            LDA $02 : CLC : ADC.b #$10 : STA $02
+            LDA.b $02 : CLC : ADC.b #$10 : STA.b $02
             
             BRA .BRANCH_ZETA
 
         .BRANCH_EPSILON
 
-        CLC : ADC.b #$10 : STA $00
+        CLC : ADC.b #$10 : STA.b $00
         
         BRA .BRANCH_ZETA
 
@@ -4646,86 +4642,86 @@ DungeonMap_DrawRoomMarkers:
 
     REP #$20
     
-    LDA $00 : CLC : ADC $E7F7 : STA $0215
+    LDA.b $00 : CLC : ADC.w $E7F7 : STA.w $0215
     
-    LDA $22 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC $0215 : STA $0215
+    LDA.b $22 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC.w $0215 : STA.w $0215
     
-    LDY $0211
+    LDY.w $0211
     
-    LDA $02 : STA $0CF5
-    CLC : ADC $E7F3, Y : STA $0217
+    LDA.b $02 : STA.w $0CF5
+    CLC : ADC.w $E7F3, Y : STA.w $0217
     
-    LDA $20 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC $0217 : STA $0217
+    LDA.b $20 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC.w $0217 : STA.w $0217
         
     SEP #$20
     
     LDA.b #$00 : XBA
     
-    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $EE79, X
+    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.w $EE79, X
     
     REP #$20
     
     ASL A : TAY
     
-    LDA.w $F605, X : CLC : ADC $F5F5, Y : STA $0E
+    LDA.w $F605, X : CLC : ADC.w $F5F5, Y : STA.b $0E
     
     SEP #$20
     
-    LDA.b #$40 : STA $0FA8 : STZ $0FA9
-                 STA $0FAA : STZ $0FAB
+    LDA.b #$40 : STA.w $0FA8 : STZ.w $0FA9
+                 STA.w $0FAA : STZ.w $0FAB
     
     LDY.w #$0018
 
     .BRANCH_LAMBDA
 
         LDA ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
-            CMP $E807, X : BEQ .BRANCH_IOTA
+            CMP.w $E807, X : BEQ .BRANCH_IOTA
 
         .BRANCH_THETA
 
-        LDA $0FA8 : SEC : SBC.b #$10 : STA $0FA8 : BPL .BRANCH_KAPPA
-            LDA.b #$40 : STA $0FA8
+        LDA.w $0FA8 : SEC : SBC.b #$10 : STA.w $0FA8 : BPL .BRANCH_KAPPA
+            LDA.b #$40 : STA.w $0FA8
             
-            LDA $0FAA : SEC : SBC.b #$10 : STA $0FAA
+            LDA.w $0FAA : SEC : SBC.b #$10 : STA.w $0FAA
 
         .BRANCH_KAPPA
     DEY : BPL .BRANCH_LAMBDA
 
     .BRANCH_IOTA
 
-    STZ $02
-    STZ $0F
+    STZ.b $02
+    STZ.b $0F
     
-    LDA $020E : SEC : SBC $EE79, X : STA $0E : BPL .BRANCH_MU
-        EOR.b #$FF : INC A : STA $0E
+    LDA.w $020E : SEC : SBC.w $EE79, X : STA.b $0E : BPL .BRANCH_MU
+        EOR.b #$FF : INC A : STA.b $0E
         
-        INC $02 : INC $02
+        INC.b $02 : INC.b $02
 
     .BRANCH_MU
 
     SEP #$10
     
-    LDY $02
+    LDY.b $02
     
     REP #$20
 
     .BRANCH_XI
 
-    DEC $0E : BMI .BRANCH_NU
-        LDA $0FAA : CLC : ADC $E975, Y : STA $0FAA
+    DEC.b $0E : BMI .BRANCH_NU
+        LDA.w $0FAA : CLC : ADC.w $E975, Y : STA.w $0FAA
         
         BRA .BRANCH_XI
 
     .BRANCH_NU
 
-    LDA $0FAA : CLC : ADC $E7F3 : STA $0FAA
+    LDA.w $0FAA : CLC : ADC.w $E7F3 : STA.w $0FAA
     
     SEP #$20
     
-    INC $0200
+    INC.w $0200
     
-    STZ $13
-    STZ $020D
+    STZ.b $13
+    STZ.w $020D
     
     PLB
     
@@ -4749,7 +4745,7 @@ DungeonMap_HandleInput:
     PHB : PHK : PLB
     
     ; Unless the depressed button is X, continue.
-    LDA $F6 : AND.b #$40 : BNE .exitPalaceMapMode
+    LDA.b $F6 : AND.b #$40 : BNE .exitPalaceMapMode
         JSL $0AE979 ; $056979 IN ROM
         
         PLB
@@ -4760,9 +4756,9 @@ DungeonMap_HandleInput:
     
     ; In this case, we need come out of map mode.
 
-    INC $0200 : INC $0200
+    INC.w $0200 : INC.w $0200
     
-    STZ $020D
+    STZ.w $020D
     
     PLB
     
@@ -4782,7 +4778,7 @@ DungeonMap_HandleMovementInput:
 {
     JSL $0AE986 ; $056986 IN ROM
     
-    LDA $0210 : BEQ .notScrolling
+    LDA.w $0210 : BEQ .notScrolling
         JMP PalaceMap_Scroll
 
     .notScrolling
@@ -4797,14 +4793,14 @@ DungeonMap_HandleFloorSelect:
 {
     REP #$30
     
-    LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : STA $00
+    LDX.w $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : STA.b $00
     
-    LDA.w $F5D9, X : AND.w #$000F : CLC : ADC $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
+    LDA.w $F5D9, X : AND.w #$000F : CLC : ADC.b $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
         SEP #$30
         
-        LDA $0210 : BNE .BRANCH_ALPHA
+        LDA.w $0210 : BNE .BRANCH_ALPHA
             ; BYSTudlr -> ----ud--
-            LDA $F0 : AND.b #$0C : BNE .BRANCH_BETA
+            LDA.b $F0 : AND.b #$0C : BNE .BRANCH_BETA
 
     .BRANCH_ALPHA
 
@@ -4812,21 +4808,21 @@ DungeonMap_HandleFloorSelect:
 
     .BRANCH_BETA
 
-    STA $0A
+    STA.b $0A
     
-    STZ $020F
+    STZ.w $020F
     
     AND.b #$08 : BEQ .BRANCH_GAMMA
         REP #$30
         
-        LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP $020E : BNE .BRANCH_DELTA
+        LDX.w $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP.w $020E : BNE .BRANCH_DELTA
             JMP $EA75 ; $056A75 IN ROM
 
         .BRANCH_DELTA
 
-        INC $020E
+        INC.w $020E
         
-        LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
+        LDA.b $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA.b $06
         
         BRA .BRANCH_EPSILON
 
@@ -4834,16 +4830,16 @@ DungeonMap_HandleFloorSelect:
 
     REP #$30
     
-    LDX $040C : LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP $020E : BEQ .BRANCH_MU
-        DEC $020E : DEC $020E
+    LDX.w $040C : LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP.w $020E : BEQ .BRANCH_MU
+        DEC.w $020E : DEC.w $020E
         
-        LDA $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA $06
+        LDA.b $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA.b $06
 
         .BRANCH_EPSILON
 
         SEP #$20
         
-        LDA $020E : CMP $A4 : BNE .BRANCH_ZETA
+        LDA.w $020E : CMP.b $A4 : BNE .BRANCH_ZETA
             REP #$20
             
             BRA .BRANCH_THETA
@@ -4861,14 +4857,14 @@ DungeonMap_HandleFloorSelect:
 
         .BRANCH_THETA
 
-        LDA $020E : AND.w #$0080 : BNE .BRANCH_IOTA
-            LDA.w #$EFFF : STA $08
+        LDA.w $020E : AND.w #$0080 : BNE .BRANCH_IOTA
+            LDA.w #$EFFF : STA.b $08
             
             BRA .BRANCH_KAPPA
 
         .BRANCH_IOTA
 
-        LDA.w #$EFFF : STA $08
+        LDA.w #$EFFF : STA.b $08
 
         .BRANCH_KAPPA
 
@@ -4880,24 +4876,24 @@ DungeonMap_HandleFloorSelect:
         
         SEP #$20
         
-        INC $0210
+        INC.w $0210
         
-        LDA $0A : AND.b #$08 : LSR #2 : TAX
+        LDA.b $0A : AND.b #$08 : LSR #2 : TAX
         
         REP #$30
         
-        LDA $E8 : CLC : ADC $E975, X : STA $0213
+        LDA.b $E8 : CLC : ADC.w $E975, X : STA.w $0213
         
-        LDA $0A : AND.w #$0008 : BNE .BRANCH_LAMBDA
-            LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
+        LDA.b $0A : AND.w #$0008 : BNE .BRANCH_LAMBDA
+            LDA.b $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA.b $06
             
-            INC $020E
+            INC.w $020E
         
         .BRANCH_LAMBDA
         
         SEP #$20
         
-        LDA.b #$08 : STA $17
+        LDA.b #$08 : STA.b $17
     
     ; $056A75 ALTERNATE ENTRY POINT
     .BRANCH_MU
@@ -4929,15 +4925,15 @@ PalaceMap_Scroll:
     REP #$30
     
     ; $0A is direction?
-    LDA $0A : AND.w #$0008 : LSR #2 : TAX
+    LDA.b $0A : AND.w #$0008 : LSR #2 : TAX
     
-    LDA $0217 : CLC : ADC .speed_sprites, X : STA $0217
-    LDA $0FAA : CLC : ADC .speed_sprites, X : STA $0FAA
+    LDA.w $0217 : CLC : ADC .speed_sprites, X : STA.w $0217
+    LDA.w $0FAA : CLC : ADC .speed_sprites, X : STA.w $0FAA
     
-    LDA $E8 : CLC : ADC .speed_bg, X : STA $E8 : CMP $0213 : BNE .notDoneScrolling
+    LDA.b $E8 : CLC : ADC .speed_bg, X : STA.b $E8 : CMP.w $0213 : BNE .notDoneScrolling
         SEP #$20
         
-        STZ $0210
+        STZ.w $0210
 
     .notDoneScrolling
 
@@ -4958,29 +4954,29 @@ DungeonMap_DrawSprites:
     
     REP #$10
     
-    LDX $040C : LDA.w $F5D9, X : AND.b #$0F : STA $02
+    LDX.w $040C : LDA.w $F5D9, X : AND.b #$0F : STA.b $02
     
-    CLC : ADC $A4 : STA $01 : STA $03
+    CLC : ADC.b $A4 : STA.b $01 : STA.b $03
     
     SEP #$10
     
-    STZ $00
-    STZ $0E
+    STZ.b $00
+    STZ.b $0E
     
     JSR PalaceMap_DrawPlayerFloorIndicator
     
-    INC $00
+    INC.b $00
 
     .BRANCH_ALPHA
 
         JSR $EBA8 ; $056BA8 IN ROM
         
-        INC $0E
-    LDA $00 : CMP.b #$09 : BNE .BRANCH_ALPHA
+        INC.b $0E
+    LDA.b $00 : CMP.b #$09 : BNE .BRANCH_ALPHA
     
     JSR $EB50 ; $056B50 IN ROM
     
-    INC $00
+    INC.b $00
     
     JSR $EDE4 ; $056DE4 IN ROM
     JSR $EC0A ; $056C0A IN ROM
@@ -5016,37 +5012,37 @@ PalaceMap_DrawPlayerFloorIndicator:
 {
     REP #$10
     
-    LDA.b #$04 : SEC : SBC $02 : BMI .BRANCH_ALPHA
-        CLC : ADC $03 : STA $03
+    LDA.b #$04 : SEC : SBC.b $02 : BMI .BRANCH_ALPHA
+        CLC : ADC.b $03 : STA.b $03
         
         LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
-            SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
+            SEC : SBC.b $03 : EOR.b #$FF : INC A : STA.b $03
 
     .BRANCH_ALPHA
 
     SEP #$10
     
-    LDX $00
+    LDX.b $00
     
-    LDA #$02 : STA $0A20, X
+    LDA.b #$02 : STA.w $0A20, X
     
     TXA : ASL #2 : TAX
     
-    LDA .x_offset : STA $0800, X
+    LDA .x_offset : STA.w $0800, X
     
-    LDY $03
+    LDY.b $03
     
-    LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA $0801, X
-    STZ $0802, X
+    LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA.w $0801, X
+    STZ.w $0802, X
     
     LDA.b #$3E
     
-    LDY $0ABD : BEQ .playerPaletteSwapped
+    LDY.w $0ABD : BEQ .playerPaletteSwapped
         LDA.b #$30
 
     .playerPaletteSwapped
 
-    STA $0803, X
+    STA.w $0803, X
     
     RTS
 }
@@ -5072,29 +5068,29 @@ Pool_DungeonMap_DrawBlinkingIndicator
 ; $056B50-$056B89 LOCAL JUMP LOCATION
 DungeonMap_DrawBlinkingIndicator:
 {
-    LDX $00
+    LDX.b $00
     
-    LDA.b #$00 : STA $0A20, X
+    LDA.b #$00 : STA.w $0A20, X
     
     TXA : ASL #2 : TAX
     
-    LDA $0215 : SEC : SBC.b #$03 : STA $0800, X
+    LDA.w $0215 : SEC : SBC.b #$03 : STA.w $0800, X
     
-    LDA $0218 : BEQ .BRANCH_ALPHA
+    LDA.w $0218 : BEQ .BRANCH_ALPHA
         LDA.b #$F0 : BRA .BRANCH_BETA
 
     .BRANCH_ALPHA
 
-    LDA $0217
+    LDA.w $0217
 
     .BRANCH_BETA
 
-    SEC : SBC.b #$03 : STA $0801, X
+    SEC : SBC.b #$03 : STA.w $0801, X
     
-    LDA $1A : AND.b #$0C : LSR #2 : TAY
+    LDA.b $1A : AND.b #$0C : LSR #2 : TAY
     
-    LDA.w $EB40    : STA $0802, X
-    LDA.w $EB48, Y : STA $0803, X
+    LDA.w $EB40    : STA.w $0802, X
+    LDA.w $EB48, Y : STA.w $0803, X
     
     RTS
 }
@@ -5141,45 +5137,45 @@ DungeonMap_DrawLocationMarker:
 
     .BRANCH_BETA
 
-        LDA $00 : TAX
+        LDA.b $00 : TAX
         
-        LDA.b #$02 : STA $0A20, X
+        LDA.b #$02 : STA.w $0A20, X
         
         TXA : ASL #2 : TAX
         
-        LDA $0215 : AND.b #$F0 : CLC : ADC $EB8A, Y : STA $0800, X
+        LDA.w $0215 : AND.b #$F0 : CLC : ADC.w $EB8A, Y : STA.w $0800, X
         
         PHY
         
-        LDA $0E : ASL A : TAY
+        LDA.b $0E : ASL A : TAY
         
-        LDA $0CF5 : CLC : ADC $E7F3, Y : STA $0F
+        LDA.w $0CF5 : CLC : ADC.w $E7F3, Y : STA.b $0F
         
         PLY
         
-        CLC : ADC $EB8E, Y : STA $0801, X
+        CLC : ADC.w $EB8E, Y : STA.w $0801, X
         
-        STZ $0802, X
+        STZ.w $0802, X
         
-        LDA.w $EB92, Y : STA $0C 
+        LDA.w $EB92, Y : STA.b $0C 
         
         PHY
         
-        LDA $1A : LSR #2 : AND.b #$01 : TAY
+        LDA.b $1A : LSR #2 : AND.b #$01 : TAY
         
-        INC $0F
+        INC.b $0F
         
-        LDA $0217 : INC A : AND.b #$F0 : CMP $0F : BNE .BRANCH_ALPHA
-            LDA $0218 : BNE .BRANCH_ALPHA
+        LDA.w $0217 : INC A : AND.b #$F0 : CMP.b $0F : BNE .BRANCH_ALPHA
+            LDA.w $0218 : BNE .BRANCH_ALPHA
                 INY #2
 
         .BRANCH_ALPHA
 
-        LDA $0C : ORA $EB96, Y : STA $0803, X
+        LDA.b $0C : ORA.w $EB96, Y : STA.w $0803, X
         
         PLY
         
-        INC $00
+        INC.b $00
     DEY : BPL .BRANCH_BETA
     
     RTS
@@ -5190,69 +5186,69 @@ DungeonMap_DrawFloorNumberObjects:
 {
     REP #$10
     
-    LDX $040C : LDA.w $F5D9, X : PHA : LSR #4 : STA $02
+    LDX.w $040C : LDA.w $F5D9, X : PHA : LSR #4 : STA.b $02
     
-    PLA : AND.b #$0F : STA $03
+    PLA : AND.b #$0F : STA.b $03
     
     SEP #$10
     
     LDY.b #$07
     
-    LDA $02 : CLC : ADC $03 : CMP.b #$08 : BEQ .BRANCH_ALPHA
-        LDA $02 : CMP.b #$04 : BPL .BRANCH_ALPHA
+    LDA.b $02 : CLC : ADC.b $03 : CMP.b #$08 : BEQ .BRANCH_ALPHA
+        LDA.b $02 : CMP.b #$04 : BPL .BRANCH_ALPHA
             DEY
             
-            LDX.b #$03 : STX $04
+            LDX.b #$03 : STX.b $04
 
             .BRANCH_GAMMA
 
-            CMP $04 : BEQ .BRANCH_BETA
+            CMP.b $04 : BEQ .BRANCH_BETA
                 DEY
                 
-                DEC $04 : BNE .BRANCH_GAMMA
+                DEC.b $04 : BNE .BRANCH_GAMMA
 
             .BRANCH_BETA
 
-            LDA $03 : CMP.b #$05 : BMI .BRANCH_ALPHA
-                LDX.b #$05 : STX $04
+            LDA.b $03 : CMP.b #$05 : BMI .BRANCH_ALPHA
+                LDX.b #$05 : STX.b $04
 
                 .BRANCH_DELTA
 
-                    CMP $04 : BEQ .BRANCH_ALPHA
+                    CMP.b $04 : BEQ .BRANCH_ALPHA
                         INY
                         
-                        INC $04
+                        INC.b $04
                 CMP.b #$08 : BNE .BRANCH_DELTA
 
     .BRANCH_ALPHA
 
-    LDA.w $ECBE, Y : INC A : STA $04
+    LDA.w $ECBE, Y : INC A : STA.b $04
     
-    DEC $02
+    DEC.b $02
     
-    LDA $03 : EOR.b #$FF : INC A : STA $03
+    LDA.b $03 : EOR.b #$FF : INC A : STA.b $03
 
     .BRANCH_THETA
 
-        LDX $00
+        LDX.b $00
         
-        LDA.b #$00 : STA $0A20, X : STA $0A21, X
+        LDA.b #$00 : STA.w $0A20, X : STA.w $0A21, X
         
         TXA : ASL #2 : TAX
         
-        LDA.b #$30 : STA $0800, X
-        LDA.b #$38 : STA $0804, X
+        LDA.b #$30 : STA.w $0800, X
+        LDA.b #$38 : STA.w $0804, X
         
-        LDA $04 : STA $0801, X : STA $0805, X
+        LDA.b $04 : STA.w $0801, X : STA.w $0805, X
         
-        CLC : ADC.b #$10 : STA $04
+        CLC : ADC.b #$10 : STA.b $04
         
-        LDA.b #$3D : STA $0803, X : STA $0807, X
-        LDA.b #$1C : STA $0802, X
-        LDA.b #$1D : STA $0806, X
+        LDA.b #$3D : STA.w $0803, X : STA.w $0807, X
+        LDA.b #$1C : STA.w $0802, X
+        LDA.b #$1D : STA.w $0806, X
         
-        LDY $02 : BMI .BRANCH_EPSILON
-            LDA.w $ECC6, Y : STA $0802, X
+        LDY.b $02 : BMI .BRANCH_EPSILON
+            LDA.w $ECC6, Y : STA.w $0802, X
             
             BRA .BRANCH_ZETA
 
@@ -5260,14 +5256,14 @@ DungeonMap_DrawFloorNumberObjects:
 
         TYA : EOR.b #$FF : TAY
         
-        LDA.w $ECC6, Y : STA $0806, X
+        LDA.w $ECC6, Y : STA.w $0806, X
 
         .BRANCH_ZETA
 
-        INC $00 : INC $00
+        INC.b $00 : INC.b $00
         
-        DEC $02
-    LDA $02 : INC A : CMP $03 : BNE .BRANCH_THETA
+        DEC.b $02
+    LDA.b $02 : INC A : CMP.b $03 : BNE .BRANCH_THETA
     
     RTS
 }
@@ -5309,59 +5305,59 @@ FloorNumberBlinkProps:
 ; $056CCF-$056D4D LOCAL JUMP LOCATION
 DungeonMap_DrawFloorBlinker:
 {
-    LDA $00 : STA $05
+    LDA.b $00 : STA.b $05
     
-    LDA $020E : STA $03
+    LDA.w $020E : STA.b $03
     
     LDY.b #$00
     
     REP #$10
     
-    LDX $040C : LDA.w $F5D9, X : LSR #4 : STA $02
+    LDX.w $040C : LDA.w $F5D9, X : LSR #4 : STA.b $02
     
     LDA.w $F5D9, X : AND.b #$0F
     
     SEP #$10
     
-    CLC : ADC $02 : CMP.b #$01 : BEQ .BRANCH_ALPHA
-        INC $05 : INC $05
-        DEC $03
+    CLC : ADC.b $02 : CMP.b #$01 : BEQ .BRANCH_ALPHA
+        INC.b $05 : INC.b $05
+        DEC.b $03
         
         LDY.b #$01
 
     .BRANCH_ALPHA
 
-    STY $02
+    STY.b $02
 
     .BRANCH_DELTA
 
-        LDX $02 : LDA.w $ECCE : STA $0E, X
+        LDX.b $02 : LDA.w $ECCE : STA.b $0E, X
         
         REP #$10
         
-        LDX $040C : LDA.w $F5D9, X : AND.b #$0F : STA $01
-        CLC : ADC $03 : STA $00
+        LDX.w $040C : LDA.w $F5D9, X : AND.b #$0F : STA.b $01
+        CLC : ADC.b $03 : STA.b $00
         
-        LDA.b #$04 : SEC : SBC $01 : BMI .BRANCH_BETA
-            CLC : ADC $00 : STA $00
+        LDA.b #$04 : SEC : SBC.b $01 : BMI .BRANCH_BETA
+            CLC : ADC.b $00 : STA.b $00
             
             LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
-                SEC : SBC $00 : EOR.b #$FF : INC A : STA $00
+                SEC : SBC.b $00 : EOR.b #$FF : INC A : STA.b $00
 
         .BRANCH_BETA
 
         SEP #$10
         
-        DEC $05 : DEC $05
+        DEC.b $05 : DEC.b $05
         
-        INC $03
+        INC.b $03
         
-        DEC $02 : BMI .BRANCH_GAMMA
+        DEC.b $02 : BMI .BRANCH_GAMMA
     BRL .BRANCH_DELTA
 
     .BRANCH_GAMMA
 
-    LDA $1A : AND.b #$10 : BNE .blink_on  
+    LDA.b $1A : AND.b #$10 : BNE .blink_on  
         RTS
 
     ; $056D4E
@@ -5375,68 +5371,68 @@ DungeonMap_DrawFloorBlinker:
     ; $056D54-$056DE3 BRANCH LOCATION
     .blink_on
 
-    LDY $00 : LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA $02
-    CLC : ADC.b #$10 : STA $03
+    LDY.b $00 : LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA.b $02
+    CLC : ADC.b #$10 : STA.b $03
     
     LDY.b #$00
     
     REP #$10
     
-    LDX $040C : LDA.w $F5D9, X : LSR #4 : STA $0D
+    LDX.w $040C : LDA.w $F5D9, X : LSR #4 : STA.b $0D
     
     LDA.w $F5D9, X : AND.b #$0F 
     
     SEP #$10
     
-    CLC : ADC $0D : CMP.b #$01 : BEQ .BRANCH_ALPHA
+    CLC : ADC.b $0D : CMP.b #$01 : BEQ .BRANCH_ALPHA
         LDY.b #$01
 
     .BRANCH_ALPHA
 
-    STY $0D
+    STY.b $0D
 
     .BRANCH_DELTA
 
-        LDA.b #$28 : STA $01
-        LDA.b #$03 : STA $0C
+        LDA.b #$28 : STA.b $01
+        LDA.b #$03 : STA.b $0C
         
-        LDX $0D : LDA.w $ED4E, X : TAY
+        LDX.b $0D : LDA.w $ED4E, X : TAY
 
         .BRANCH_GAMMA
 
-            LDA.b #$00 : STA $0A60, Y : STA $0A64, Y
+            LDA.b #$00 : STA.w $0A60, Y : STA.w $0A64, Y
             
             PHY
             
             TYA : ASL #2 : TAY
             
-            LDA $01 : STA $0900, Y : STA $0910, Y
-            LDA $02, X : STA $0901, Y : CLC : ADC.b #$08 : STA $0911, Y
+            LDA.b $01 : STA.w $0900, Y : STA.w $0910, Y
+            LDA.b $02, X : STA.w $0901, Y : CLC : ADC.b #$08 : STA.w $0911, Y
             
             PHX
             
-            LDX $0C : LDA.w $ED50, X : STA $0902, Y : STA $0912, Y
+            LDX.b $0C : LDA.w $ED50, X : STA.w $0902, Y : STA.w $0912, Y
             
             PLX : PHY
             
-            LDA $0E, X
+            LDA.b $0E, X
             
-            LDY $0C : BNE .BRANCH_BETA
+            LDY.b $0C : BNE .BRANCH_BETA
                 ORA.b #$40
 
             .BRANCH_BETA
 
             PLY
             
-            STA $0903, Y
+            STA.w $0903, Y
             
-            ORA.b #$80 : STA $0913, Y
+            ORA.b #$80 : STA.w $0913, Y
             
             PLY : INY
             
-            LDA $01 : CLC : ADC.b #$08 : STA $01
-        DEC $0C : BPL .BRANCH_GAMMA
-    DEC $0D : BPL .BRANCH_DELTA
+            LDA.b $01 : CLC : ADC.b #$08 : STA.b $01
+        DEC.b $0C : BPL .BRANCH_GAMMA
+    DEC.b $0D : BPL .BRANCH_DELTA
     
     RTS
 }
@@ -5448,24 +5444,24 @@ DungeonMap_DrawBossIcon:
 {
     REP #$10
     
-    ; Load palace index
-    LDX $040C
+    ; Load palace index.
+    LDX.w $040C
     
     REP #$20
     
     PHX
     
-    ; X = boss room of the palace
+    ; X = boss room of the palace.
     LDA.w $E807, X : ASL A : TAX
     
     SEP #$20
     
-    ; Check if the boss of the palace has been beaten
-    LDA $7EF001, X : PLX : AND.b #$08 : BNE .dontShowBossIcon
+    ; Check if the boss of the palace has been beaten.
+    LDA.l $7EF001, X : PLX : AND.b #$08 : BNE .dontShowBossIcon
         REP #$20
         
-        ; Check if we have the compass for this palace
-        LDA $7EF364 : AND $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
+        ; Check if we have the compass for this palace.
+        LDA.l $7EF364 : AND.l $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
             LDA.w $EE7A, X : BPL .palaceHasBoss
 
     .dontShowBossIcon
@@ -5484,31 +5480,31 @@ DungeonMap_DrawBossIcon:
     
     SEP #$10
     
-    LDA $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_GAMMA
-        LDY $00
+    LDA.b $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_GAMMA
+        LDY.b $00
         
-        LDA.b #$00 : STA $0A20, Y
+        LDA.b #$00 : STA.w $0A20, Y
         
         TYA : ASL #2 : TAY
         
-        LDA.w $EE5E, X : CLC : ADC $0FA8 : CLC : ADC.b #$90 : STA $0800, Y
+        LDA.w $EE5E, X : CLC : ADC.w $0FA8 : CLC : ADC.b #$90 : STA.w $0800, Y
         
-        LDA $0FAB : BEQ .BRANCH_DELTA
+        LDA.w $0FAB : BEQ .BRANCH_DELTA
             LDA.b #$F0
             
             BRA .BRANCH_EPSILON
 
         .BRANCH_DELTA
 
-        LDA.w $EE5D, X : CLC : ADC $0FAA
+        LDA.w $EE5D, X : CLC : ADC.w $0FAA
 
         .BRANCH_EPSILON
 
-                      STA $0801, Y
-        LDA.w $EE5B : STA $0802, Y
-        LDA.w $EE5C : STA $0803, Y
+                      STA.w $0801, Y
+        LDA.w $EE5B : STA.w $0802, Y
+        LDA.w $EE5C : STA.w $0803, Y
         
-        INC $00
+        INC.b $00
 
     .BRANCH_GAMMA
 
@@ -5569,33 +5565,33 @@ DungeonMap_BossRoomFloor:
 ; $056E95-$056EF5 LOCAL JUMP LOCATION
 PalaceMap_DrawBossFloorIndicator:
 {
-    LDA.w $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03
+    LDA.w $F5D9, X : AND.b #$0F : STA.b $02 : CLC : ADC.w $EE79, X : STA.b $03
     
-    LDA.b #$04 : SEC : SBC $02 : BMI .BRANCH_ALPHA
-        CLC : ADC $03 : STA $03
+    LDA.b #$04 : SEC : SBC.b $02 : BMI .BRANCH_ALPHA
+        CLC : ADC.b $03 : STA.b $03
         
         LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
-            SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
+            SEC : SBC.b $03 : EOR.b #$FF : INC A : STA.b $03
 
     .BRANCH_ALPHA
 
     SEP #$10
     
-    LDA $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_BETA
-        LDX $00 : LDA.b #$00 : STA $0A20, X
+    LDA.b $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_BETA
+        LDX.b $00 : LDA.b #$00 : STA.w $0A20, X
         
         TXA : ASL #2 : TAX
         
-        LDA .x_offset : STA $0800, X
+        LDA .x_offset : STA.w $0800, X
         
-        LDY $03
+        LDY.b $03
         
-        LDA.w $ECBE, Y : STA $0801, X
+        LDA.w $ECBE, Y : STA.w $0801, X
         
-        LDA.w $EE5B : STA $0802, X
-        LDA.w $EE5C : STA $0803, X
+        LDA.w $EE5B : STA.w $0802, X
+        LDA.w $EE5C : STA.w $0803, X
         
-        INC $00
+        INC.b $00
 
     .BRANCH_BETA
 
@@ -5614,15 +5610,15 @@ PalaceMap_4:
     
     REP #$30
     
-    LDA $0213 : CLC : ADC $E8 : STA $E8
+    LDA.w $0213 : CLC : ADC.b $E8 : STA.b $E8
     
-    LDA $0213 : EOR.w #$FFFF : INC A : CLC : ADC $0217 : STA $0217
+    LDA.w $0213 : EOR.w #$FFFF : INC A : CLC : ADC.w $0217 : STA.w $0217
     
     SEP #$30
     
-    DEC $0205 : BNE .alpha
+    DEC.w $0205 : BNE .alpha
         ; Go back to previous mode.
-        DEC $0200
+        DEC.w $0200
 
     .alpha
 
@@ -5634,36 +5630,36 @@ PalaceMap_4:
 ; $056F19-$056FC8 JUMP LOCATION (LONG)
 PalaceMap_RestoreGraphics:
 {
-    LDA $9B : PHA
+    LDA.b $9B : PHA
     
-    STZ $420C
-    STZ $9B
+    STZ.w $420C
+    STZ.b $9B
     
     JSL Vram_EraseTilemaps_normal
     
     ; Restore main screen designation.
-    LDA $7EC211 : STA $1C
+    LDA.l $7EC211 : STA.b $1C
     
     ; Assembler problem much?
     ; (compiled as long address when only a direct page access was necessary).
-    LDA $7EC212 : STA $00001D
+    LDA.l $7EC212 : STA.l $00001D
     
     ; Restore graphics tileset indices.
-    LDA $7EC20E : STA $0AA1
-    LDA $7EC20F : STA $0AA3
-    LDA $7EC210 : STA $0AA2
+    LDA.l $7EC20E : STA.w $0AA1
+    LDA.l $7EC20F : STA.w $0AA3
+    LDA.l $7EC210 : STA.w $0AA2
     
     ; Restore graphic from the mode we came from.
     JSL InitTilesets ; $00619B IN ROM
     
     ; Begin ignoring any special palette loads.
-    STZ $0AA9
-    STZ $0AB2
+    STZ.w $0AA9
+    STZ.w $0AB2
     
     JSL HUD_RebuildLong2
     
-    STZ $0418
-    STZ $045C
+    STZ.w $0418
+    STZ.w $045C
 
     .drawQuadrants
 
@@ -5671,12 +5667,12 @@ PalaceMap_RestoreGraphics:
         JSL $0090E3 ; $0010E3 IN ROM
         JSL $00913F ; $00113F IN ROM
         JSL $0090E3 ; $0010E3 IN ROM
-    LDA $045C : CMP.b #$10 : BNE .drawQuadrants
+    LDA.w $045C : CMP.b #$10 : BNE .drawQuadrants
     
-    STZ $17
-    STZ $B0
+    STZ.b $17
+    STZ.b $B0
     
-    PLA : STA $9B
+    PLA : STA.b $9B
     
     REP #$20
     
@@ -5684,32 +5680,32 @@ PalaceMap_RestoreGraphics:
 
     .restorePaletteBuffer
 
-        LDA $7FDD80, X : STA $7EC500, X
-        LDA $7FDE00, X : STA $7EC580, X
-        LDA $7FDE80, X : STA $7EC600, X
-        LDA $7FDF00, X : STA $7EC680, X
+        LDA.l $7FDD80, X : STA.l $7EC500, X
+        LDA.l $7FDE00, X : STA.l $7EC580, X
+        LDA.l $7FDE80, X : STA.l $7EC600, X
+        LDA.l $7FDF00, X : STA.l $7EC680, X
     INX #2 : CPX.b #$80 : BNE .restorePaletteBuffer
     
     SEP #$20
     
-    LDA $7EC017 : TSB $9C : TSB $9D : TSB $9E
+    LDA.l $7EC017 : TSB $9C : TSB $9D : TSB $9E
     
     ; Play sound effect indicating we're coming out of map mode.
-    LDA.b #$10 : STA $012F
+    LDA.b #$10 : STA.w $012F
     
     ; Bring volume back to full
-    LDA #$F3 : STA $012C
+    LDA.b #$F3 : STA.w $012C
     
     JSL $0297B2 ; $0117B2 IN ROM
     
     ; Refresh cgram this frame.
-    INC $15
+    INC.b $15
     
     ; Move to next step of the submodule.
-    INC $0200
+    INC.w $0200
     
-    STZ $13
-    STZ $0710
+    STZ.b $13
+    STZ.w $0710
     
     RTL
 }
@@ -5721,7 +5717,7 @@ PalaceMap_RestoreStarTileState:
 {
     JSL Dungeon_RestoreStarTileChr
     
-    INC $0200
+    INC.w $0200
     
     RTL
 } 
@@ -6413,9 +6409,8 @@ DungeonMapRoomData_GanonsTower:
 
 ; ==============================================================================
 
-; I'm tentatively assuming this is chest data for the maps
-; (i.e. a listing of references to chest numbers),
-; but so far it's inconclusive.
+; I'm tentatively assuming this is chest data for the maps (i.e. a listing of
+; references to chest numbers), but so far it's inconclusive.
 
 ; $057BE4-$057BFF
 DungeonMapRoomLayoutPointers:
@@ -6729,37 +6724,39 @@ FloorIndicator:
     
     REP #$30
     
-    LDA $04A0 : AND.w #$00FF : BEQ .hideIndicator
+    LDA.w $04A0 : AND.w #$00FF : BEQ .hideIndicator
         INC A : CMP.w #$00C0 : BNE .dontDisable
-            ; If the count up timer reaches 0x00BF frames, disable the floor indicator during the next frame.
+            ; If the count up timer reaches 0x00BF frames, disable the floor
+            ; indicator during the next frame.
             LDA.w #$0000
 
         .dontDisable
 
-        STA $04A0
+        STA.w $04A0
         
         PHB : PHK : PLB
         
-        LDA.w #$251E : STA $7EC7F2
-        INC A        : STA $7EC834
-        INC A        : STA $7EC832
+        LDA.w #$251E : STA.l $7EC7F2
+        INC A        : STA.l $7EC834
+        INC A        : STA.l $7EC832
         
-        LDA.w #$250F : STA $7EC7F4
+        LDA.w #$250F : STA.l $7EC7F4
         
         LDX.w #$0000
         
         ; This confused me at first, but it's actually looking at whether $A4[1]
         ; has a negative value $A3 has nothing to do with $A4.
-        LDA $A3 : BMI .basementFloor
+        LDA.b $A3 : BMI .basementFloor
             ; Check which floor Link is on.
-            LDA $A4 : BNE .notFloor1F
-                LDA $A0 : CMP.w #$0002 : BEQ .sanctuaryRatRoom
+            LDA.b $A4 : BNE .notFloor1F
+                LDA.b $A0 : CMP.w #$0002 : BEQ .sanctuaryRatRoom
                     SEP #$20
                     
                     ; Check the world state.
-                    LDA $7EF3C5 : CMP.b #$02 : BCS .noRainSound
-                        ; Cause the ambient rain sound to occur (indoor version).
-                        LDA.b #$03 : STA $012D
+                    LDA.l $7EF3C5 : CMP.b #$02 : BCS .noRainSound
+                        ; Cause the ambient rain sound to occur (indoor
+                        ; version).
+                        LDA.b #$03 : STA.w $012D
 
                     .noRainSound
 
@@ -6768,7 +6765,7 @@ FloorIndicator:
                 .sanctuaryRatRoom
             .notFloor1F
 
-            LDA $A4 : AND.w #$00FF
+            LDA.b $A4 : AND.w #$00FF
             
             BRA .setFloorIndicatorNumber
 
@@ -6777,27 +6774,27 @@ FloorIndicator:
         SEP #$20
             
         ; Turn off any ambient sound effects.
-        LDA.b #$05 : STA $012D
+        LDA.b #$05 : STA.w $012D
         
         REP #$20
         
         INX #2
         
-        LDA $A4 : ORA.w #$FF00 : EOR.w #$FFFF
+        LDA.b $A4 : ORA.w #$FF00 : EOR.w #$FFFF
         
         .setFloorIndicatorNumber
         
         ASL A : TAY
         
-        LDA FloorIndicatorNumberHigh, Y : STA $7EC7F2, X
-        LDA FloorIndicatorNumberLow, Y  : STA $7EC832, X
+        LDA FloorIndicatorNumberHigh, Y : STA.l $7EC7F2, X
+        LDA FloorIndicatorNumberLow, Y  : STA.l $7EC832, X
         
         SEP #$30
         
         PLB
         
         ; Send a signal indicating that bg3 needs updating.
-        INC $16
+        INC.b $16
         
         RTL
     
@@ -6807,7 +6804,7 @@ FloorIndicator:
     REP #$20
     
     ; Disable the display of the floor indicator.
-    LDA.w #$007F : STA $7EC7F2 : STA $7EC832 : STA $7EC7F4 : STA $7EC834
+    LDA.w #$007F : STA.l $7EC7F2 : STA.l $7EC832 : STA.l $7EC7F4 : STA.l $7EC834
     
     SEP #$30
     
@@ -6819,20 +6816,20 @@ FloorIndicator:
 ; $057DA8-$057E17 LONG JUMP LOCATION
 HUD.SuperBombIndicator:
 {
-    LDA $04B5 : BNE .BRANCH_ALPHA
-        LDA $04B4 : BMI .BRANCH_BETA
-            DEC $04B4
+    LDA.w $04B5 : BNE .BRANCH_ALPHA
+        LDA.w $04B4 : BMI .BRANCH_BETA
+            DEC.w $04B4
             
-            LDA.b #$3E : STA $04B5
+            LDA.b #$3E : STA.w $04B5
 
     .BRANCH_ALPHA
 
-    DEC $04B5
+    DEC.w $04B5
     
-    LDA $04B4 : BPL .BRANCH_GAMMA
+    LDA.w $04B4 : BPL .BRANCH_GAMMA
         .BRANCH_BETA
 
-        LDA.b #$FF : STA $04B4
+        LDA.b #$FF : STA.w $04B4
         
         REP #$30
         
@@ -6840,16 +6837,16 @@ HUD.SuperBombIndicator:
 
     .BRANCH_GAMMA
 
-    LDA $04B4 : STA $4204
-                STZ $4205
+    LDA.w $04B4 : STA.w $4204
+                STZ.w $4205
     
-    LDA.b #$0A : STA $4206
+    LDA.b #$0A : STA.w $4206
     
     NOP #8
     
-    LDA $4214 : ASL A : STA $00
+    LDA.w $4214 : ASL A : STA.b $00
     
-    LDA $4216 : ASL A : STA $02
+    LDA.w $4216 : ASL A : STA.b $02
     
     PHB : PHK : PLB
     
@@ -6859,7 +6856,7 @@ HUD.SuperBombIndicator:
 
     .BRANCH_EPSILON
 
-        LDY $00, X : DEY #2 : BPL .BRANCH_DELTA
+        LDY.b $00, X : DEY #2 : BPL .BRANCH_DELTA
             LDY.b #$12
             
             CPX.b #$00 : BNE .BRANCH_DELTA
@@ -6867,8 +6864,8 @@ HUD.SuperBombIndicator:
 
         .BRANCH_DELTA
 
-        LDA.w $FCE0, Y : STA $7EC7F2, X
-        LDA.w $FCF6, Y : STA $7EC832, X
+        LDA.w $FCE0, Y : STA.l $7EC7F2, X
+        LDA.w $FCF6, Y : STA.l $7EC832, X
     DEX #2 : BPL .BRANCH_EPSILON
     
     SEP #$20
@@ -6893,30 +6890,30 @@ Death_InitializeGameOverLetters:
 {
     PHB : PHK : PLB
     
-    STZ $035F
+    STZ.w $035F
     
-    ; Sets X coordinates for the first 8 special effects to 0x00B0
-    LDA.b #$B0 : STA $0C04
-                 STA $0C05
-                 STA $0C06
-                 STA $0C07
-                 STA $0C08
-                 STA $0C09
-                 STA $0C0A
-                 STA $0C0B
+    ; Sets X coordinates for the first 8 special effects to 0x00B0.
+    LDA.b #$B0 : STA.w $0C04
+                 STA.w $0C05
+                 STA.w $0C06
+                 STA.w $0C07
+                 STA.w $0C08
+                 STA.w $0C09
+                 STA.w $0C0A
+                 STA.w $0C0B
     
-    LDA.b #$00 : STA $0C18
-                 STA $0C19
-                 STA $0C1A
-                 STA $0C1B
-                 STA $0C1C
-                 STA $0C1D
-                 STA $0C1E
-                 STA $0C1F
+    LDA.b #$00 : STA.w $0C18
+                 STA.w $0C19
+                 STA.w $0C1A
+                 STA.w $0C1B
+                 STA.w $0C1C
+                 STA.w $0C1D
+                 STA.w $0C1E
+                 STA.w $0C1F
     
-    INC A : STA $0C4A
+    INC A : STA.w $0C4A
     
-    LDA.b #$06 : STA $039D
+    LDA.b #$06 : STA.w $039D
     
     PLB
     
@@ -6953,7 +6950,7 @@ Pool_Effect_Handler:
 ; $057E80-$057E86 LONG JUMP LOCATION
 Effect_Handler:
 {
-    LDA $AD : ASL A : TAX
+    LDA.b $AD : ASL A : TAX
     
     JMP (.handlers, X)
 }
@@ -6972,8 +6969,8 @@ Effect_DoNothing:
 Effect_MovingFloor:
 {
     ; If the boss has been beaten in this room don't move the floor anymore.
-    LDA $0403 : AND.b #$80 : BEQ .bossNotDead
-        STZ $AD
+    LDA.w $0403 : AND.b #$80 : BEQ .bossNotDead
+        STZ.b $AD
         
         RTL
 
@@ -6982,33 +6979,34 @@ Effect_MovingFloor:
     REP #$30
     
     ; Set moving floor speeds to zero, both X and Y velocities.    
-    STZ $0312 : STZ $0310
+    STZ.w $0312 : STZ.w $0310
     
     ; Test the low bit of $041A[2]
     ; The low bit of that variable disables floor movement
-    LDA $041A : LSR A : BCS .return
+    LDA.w $041A : LSR A : BCS .return
         ; X = the bit 1 of $041A[2]
         ASL A : AND.w #$0002 : TAX
         
         ; $041C[2] += 0x8000
-        LDA $041C : CLC : ADC.w #$8000 : STA $041C
+        LDA.w $041C : CLC : ADC.w #$8000 : STA.w $041C
         
-        ; If $041C[2] was negative before the addition, then A = 1, otherwise A = 0
+        ; If $041C[2] was negative before the addition, then A = 1, otherwise
+        ; A = 0
         ROL A : AND.w #$0001
         
         CPX.w #$0002 : BNE .notInverted
-            ; Invert the accumulator. Thus A =   
+            ; Invert the accumulator, thus A = A *-1
             EOR.w #$FFFF : INC A
 
         .notInverted
 
-        LDX $041A : CPX.w #$0004 : BCS .vertical
-            ; Set the horizontal floor movement speed
-            STA $0312
+        LDX.w $041A : CPX.w #$0004 : BCS .vertical
+            ; Set the horizontal floor movement speed.
+            STA.w $0312
             
-            LDA $0422 : SEC : SBC $0312 : STA $0422
+            LDA.w $0422 : SEC : SBC.w $0312 : STA.w $0422
             
-            CLC : ADC $E2 : STA $E0
+            CLC : ADC.b $E2 : STA.b $E0
             
             SEP #$30
             
@@ -7018,11 +7016,11 @@ Effect_MovingFloor:
 
         ; Tells the floor to move in a Y direction instead. 
         ; Set the vertical floor movement speed.
-        STA $0310
+        STA.w $0310
             
-        LDA $0424 : SEC : SBC $0310 : STA $0424
+        LDA.w $0424 : SEC : SBC.w $0310 : STA.w $0424
         
-        CLC : ADC $E8 : STA $E6
+        CLC : ADC.b $E8 : STA.b $E6
 
     .return
 
@@ -7038,13 +7036,14 @@ Effect_MovingFloor2:
 {
     REP #$20
     
-    ; Causes the background to move by the amounts specified by the variables below.
-    LDA $0422 : CLC : ADC $0312 : STA $0422
-    LDA $0424 : CLC : ADC $0310 : STA $0424
+    ; Causes the background to move by the amounts specified by the variables
+    ; below.
+    LDA.w $0422 : CLC : ADC.w $0312 : STA.w $0422
+    LDA.w $0424 : CLC : ADC.w $0310 : STA.w $0424
     
     ; Sets the velocities of the background to zero, meaning they must be set
     ; again for the bg to continue moving.
-    STZ $0312 : STZ $0310
+    STZ.w $0312 : STZ.w $0310
     
     SEP #$20
     
@@ -7056,7 +7055,7 @@ Effect_MovingFloor2:
 ; $057F0D-$057F5C JUMP LOCATION
 Effect_RedFlashes:
 {
-    LDA $1A : AND.b #$7F
+    LDA.b $1A : AND.b #$7F
     
     CMP.b #$03 : BEQ .redFlash
         CMP.b #$05 : BEQ .restoreColors
@@ -7066,23 +7065,23 @@ Effect_RedFlashes:
 
                     REP #$20
                     
-                    LDA $7EC3DA : STA $7EC5DA
-                    LDA $7EC3DC : STA $7EC5DC
+                    LDA.l $7EC3DA : STA.l $7EC5DA
+                    LDA.l $7EC3DC : STA.l $7EC5DC
                     
-                    LDA $7EC3DE
+                    LDA.l $7EC3DE
 
                     .finishUp
 
-                    STA $7EC5DE : STA $7EC5EE
+                    STA.l $7EC5DE : STA.l $7EC5EE
                     
                     SEP #$20
                     
-                    INC $15
+                    INC.b $15
 
                 .noChange
 
                 ; Put bg2 on the subscreen
-                LDA.b #$02 : STA $1D
+                LDA.b #$02 : STA.b $1D
                 
                 RTL
 
@@ -7090,8 +7089,8 @@ Effect_RedFlashes:
 
     REP #$20
     
-    LDA.w #$1D59 : STA $7EC5DA
-    LDA.w #$25FF : STA $7EC5DC
+    LDA.w #$1D59 : STA.l $7EC5DA
+    LDA.w #$25FF : STA.l $7EC5DC
     
     ; Change the sky to a very red color.
     LDA.w #$001A
@@ -7108,13 +7107,13 @@ Effect_TorchHiddenTiles:
     
     REP #$30
     
-    LDX.w #$0000 : STX $00
+    LDX.w #$0000 : STX.b $00
 
     .countLitTorches
 
         ; Special object tile position...
-        LDA $0540, X : ASL A : BCC .notLit
-            INC $00
+        LDA.w $0540, X : ASL A : BCC .notLit
+            INC.b $00
 
         .notLit
     INX #2 : CPX.w #$0020 : BNE .countLitTorches
@@ -7124,27 +7123,28 @@ Effect_TorchHiddenTiles:
     LDY.w #$4E60
     
     ; Check how many torches are lit  ; At least one is lit.
-    LDA $00 : BNE .atLeastOne
-        ; Hides the tiles by setting critical colors in the tiles' palette to black.
+    LDA.b $00 : BNE .atLeastOne
+        ; Hides the tiles by setting critical colors in the tiles' palette
+        ; to black.
         LDX.w #$0000
         LDY.w #$0000
 
     .atLeastOne
 
-    TXA : CMP $7EC3F6 : BEQ .matchesAuxiliary
-        STA $7EC3F6 : STA $7EC5F6 ; Changing a palette value.
+    TXA : CMP.l $7EC3F6 : BEQ .matchesAuxiliary
+        STA.l $7EC3F6 : STA.l $7EC5F6 ; Changing a palette value.
         
-        TYA : STA $7EC3F8 : STA $7EC5F8
+        TYA : STA.l $7EC3F8 : STA.l $7EC5F8
         
         ; Tell NMI to reupload CGRAM data.
-        INC $15
+        INC.b $15
 
     .matchesAuxiliary
 
     SEP #$30
     
     ; Enable bg2 on the subscreen 
-    LDA.b #$02 : STA $1D
+    LDA.b #$02 : STA.b $1D
     
     RTL
 }
@@ -7155,7 +7155,7 @@ Effect_TorchHiddenTiles:
 Effect_TorchGanonRoom:
 {
     ; Initialize number of lit torches to zero
-    STZ $04C5
+    STZ.w $04C5
     
     REP #$30
     
@@ -7163,8 +7163,8 @@ Effect_TorchGanonRoom:
 
     .nextTorch
 
-        LDA $0540, X : ASL A : BCC .notLit
-            NC $04C5
+        LDA.w $0540, X : ASL A : BCC .notLit
+            INC.w $04C5
 
         .notLit
 
@@ -7174,13 +7174,13 @@ Effect_TorchGanonRoom:
     
     SEP #$30
     
-    LDA $04C5 : BNE .oneLit
-        ; Effectively this darkens the room so you can't see Ganonm
+    LDA.w $04C5 : BNE .oneLit
+        ; Effectively this darkens the room so you can't see Ganon
         ; diable all layers on the subscreen.
-        STZ $1D
+        STZ.b $1D
         
         ; $9A = !CGSUB | !CGBG0 | !CGBG1 | !CGOBJ | !CGBGD
-        LDA.b #$B3 : STA $9A
+        LDA.b #$B3 : STA.b $9A
         
         RTL
 
@@ -7189,20 +7189,21 @@ Effect_TorchGanonRoom:
     ; Only one torch is lit in Ganon's room.
     CMP.b #$01 : BNE .fullyLit
         ; Put BG1 on the subscreen    
-        LDA.b #$02 : STA $1D
+        LDA.b #$02 : STA.b $1D
         
         ; $9A = !CGADDHALF | !CGOBJ | !CGBGD
-        LDA.b #$70 : STA $9A
+        LDA.b #$70 : STA.b $9A
         
         RTL
 
     .fullyLit
 
-    ; Since BG1 does not participate in color math anymore, it appears normal (fully lit).
-    STZ $1D ; Take BG1 off of the subscreen.
+    ; Since BG1 does not participate in color math anymore, it appears
+    ; normal (fully lit).
+    STZ.b $1D ; Take BG1 off of the subscreen.
     
     ; $9A = !CGADDHALF | !CGOBJ | !CGBGD
-    LDA.b #$70 : STA $9A
+    LDA.b #$70 : STA.b $9A
     
     RTL
 }
@@ -7215,15 +7216,15 @@ Effect_MovingWater:
     REP #$21
     
     ; $041C alternates between being negative and non negative.
-    LDA.w #$8000 : ADC $041C : STA $041C
+    LDA.w #$8000 : ADC.w $041C : STA.w $041C
     
     ; Effectively this means that $00 alternates between being 0 and 1 each
     ; frame.
-    ROL A : AND.w #$0001 : STA $00
+    ROL A : AND.w #$0001 : STA.b $00
     
     ; Adjust the horizontal position of the water background by either 0 or
     ; -1.
-    LDA.w #$0000 : SEC : SBC $00 : STA $0312
+    LDA.w #$0000 : SEC : SBC.b $00 : STA.w $0312
     
     SEP #$20
     
