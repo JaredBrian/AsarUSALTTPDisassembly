@@ -658,11 +658,13 @@ OverworldMap_Main:
         LDA.l $0ABAC4, X : STA.w $0637 : CMP.b #$0C : BNE .fartherZoomedOut
             REP #$20
             
-            LDA.l $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : STA.b $E6
+            LDA.l $7EC108 : LSR #4
+            SEC : SBC.w #$0048 : AND.w #$FFFE : STA.b $E6
             
             CLC : ADC.w #$0100 : STA.w $063A
             
-            LDA.l $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_ZETA
+            LDA.l $7EC10A : LSR #4
+            SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_ZETA
                 EOR.w #$FFFF : INC A
 
             .BRANCH_ZETA
@@ -891,10 +893,12 @@ WorldMap_SetUpHDMA:
         
         REP #$21
         
-        LDA.l $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC.l $0ABAC6 : STA.b $E6
+        LDA.l $7EC108 : LSR #4
+        SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC.l $0ABAC6 : STA.b $E6
         CLC : ADC.w #$0100 : STA.w $063A
         
-        LDA.l $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_GAMMA
+        LDA.l $7EC10A : LSR #4
+        SEC : SBC.w #$0080 : STA.b $02 : BPL .BRANCH_GAMMA
             EOR.w #$FFFF : INC A
 
         .BRANCH_GAMMA
@@ -1438,7 +1442,7 @@ WorldMap_HandleSprites:
                 LDA.l $0ABDF6, X : STA.l $7EC108
                 
                 LDA.l $0ABEE1, X : BEQ .BRANCH_THETA
-                    CMP.b #$64     : BEQ .BRANCH_IOTA
+                    CMP.b #$64 : BEQ .BRANCH_IOTA
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZETA
                             .BRANCH_IOTA
 
@@ -1525,7 +1529,7 @@ WorldMap_HandleSprites:
                     LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                             
                     LDA.l $0ABF5E, X : STA.b $0D
-                    LDA.b #$32     : STA.b $0C
+                    LDA.b #$32 : STA.b $0C
                     LDA.b #$00
 
                     .BRANCH_PI
@@ -1643,7 +1647,7 @@ WorldMap_HandleSprites:
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
                 LDA.l $0ABF5E, X : STA.b $0D
-                LDA.b #$32     : STA.b $0C
+                LDA.b #$32 : STA.b $0C
                 LDA.b #$00
 
                 .BRANCH_ULTIMA
@@ -1700,7 +1704,7 @@ WorldMap_HandleSprites:
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
                 LDA.l $0ABF5E, X : STA.b $0D
-                LDA.b #$32     : STA.b $0C
+                LDA.b #$32 : STA.b $0C
                 
                 LDA.b #$00
 
@@ -1756,7 +1760,7 @@ WorldMap_HandleSprites:
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
                 LDA.l $0ABF5E, X : STA.b $0D
-                LDA.b #$32     : STA.b $0C
+                LDA.b #$32 : STA.b $0C
                 
                 LDA.b #$00
 
@@ -1813,7 +1817,7 @@ WorldMap_HandleSprites:
                 LDA.b $1A : LSR #3 : AND.b #$03 : TAX
                 
                 LDA.l $0ABF5E, X : STA.b $0D
-                LDA.b #$32     : STA.b $0C
+                LDA.b #$32 : STA.b $0C
                 
                 LDA.b #$00
 
@@ -2098,7 +2102,7 @@ WorldMap_HandleSpriteBlink:
             ; Since the base of this array starts in code, we deduce that
             ; X must range from 0x08 and 0x0E.
             LDA.l $0AC50D, X : STA.b $0D
-            LDA.b #$32     : STA.b $0C
+            LDA.b #$32 : STA.b $0C
             
             STZ.w $0A20, X
             
@@ -4205,7 +4209,8 @@ DungeonMap_DrawSingleRowOfRooms:
         
         ; I think this is trying to figure out the current floor against
         ; the deepest depth of the current palace.
-        LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.w $020E : ASL A : STA.b $0E : TAY
+        LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.w $020E : ASL A : STA.b $0E
+        TAY
         
         REP #$20
         

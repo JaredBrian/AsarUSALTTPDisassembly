@@ -5,20 +5,24 @@ org $0B8000 ; $058000-$05FFFF
 
 ; ==============================================================================
 
+; TODO: Fill in the missing data here.
+
+; ==============================================================================
+
 ; $05FE70-$05FFA7 LONG JUMP LOCATION
 ; ZS replaces the latter half of this function.
 Overworld_SetFixedColorAndScroll:
 {
     ; Turn the subscreen off for the moment.
-    STZ $1D
+    STZ.b $1D
         
     REP #$30
         
     LDX.w #$19C6
-        LDA $8A : CMP.w #$0080 : BNE .notMasterSwordArea
+        LDA.b $8A : CMP.w #$0080 : BNE .notMasterSwordArea
         
-        LDA $A0 : CMP.w #$0181 : BNE .setBgColor
-            INC $1D
+        LDA.b $A0 : CMP.w #$0181 : BNE .setBgColor
+            INC.b $1D
         
             BRA .useDefaultGreen
     
@@ -37,24 +41,24 @@ Overworld_SetFixedColorAndScroll:
     
         LDX.w #$2669
         
-        LDA $8A : AND.w #$0040 : BEQ .setBgColor
+        LDA.b $8A : AND.w #$0040 : BEQ .setBgColor
         
-        ; Default tan color for the dark world
-        LDX.w #$2A32     ; #$9205 for fairy world
+        ; Default tan color for the dark world.
+        LDX.w #$2A32
     
     .setBgColor
     
     TXA
-    STA $7EC500 : STA $7EC300 ; old ZS function call written here.
-    STA $7EC540 : STA $7EC340
+    STA.l $7EC500 : STA.l $7EC300 ; Old ZS function call written here.
+    STA.l $7EC540 : STA.l $7EC340
     
     ; ZS starts replacing from here.
     ; $05FEC6 - ZS Custom Overworld
-    ; set fixed color to neutral
-    LDA.w #$4020 : STA $9C
-    LDA.w #$8040 : STA $9D
+    ; Set fixed color to neutral.
+    LDA.w #$4020 : STA.b $9C
+    LDA.w #$8040 : STA.b $9D
         
-    LDA $8A : BEQ .noCustomFixedColor
+    LDA.b $8A : BEQ .noCustomFixedColor
         CMP.w #$0070 : BNE .notSwampOfEvil
             JMP .subscreenOnAndReturn
         
@@ -77,37 +81,38 @@ Overworld_SetFixedColorAndScroll:
             
             SEP #$30
             
-            ; Update CGRAM this frame
-            INC $15
+            ; Update CGRAM this frame.
+            INC.b $15
             
             RTL
         
         .setCustomFixedColor
         
-        STX $9C
-        STY $9D ; Set the fixed color addition color values
+        STX.b $9C
+        STY.b $9D ; Set the fixed color addition color values.
     
     .noCustomFixedColor
     
-    LDA $11 : AND.w #$00FF : CMP.w #$0004 : BEQ .BRANCH_11
-        ; Make sure BG2 and BG1 Y scroll values are synchronized. Same for X scroll
-        LDA $E8 : STA $E6
-        LDA $E2 : STA $E0
+    LDA.b $11 : AND.w #$00FF : CMP.w #$0004 : BEQ .BRANCH_11
+        ; Make sure BG2 and BG1 Y scroll values are synchronized.
+        ; Same for X scroll.
+        LDA.b $E8 : STA.b $E6
+        LDA.b $E2 : STA.b $E0
             
-        LDA $8A : AND.w #$003F
+        LDA.b $8A : AND.w #$003F
             
         ; Are we at Hyrule Castle or Pyramid of Power?
         CMP.w #$001B : BNE .subscreenOnAndReturn
-            LDA $E2 : SEC : SBC.w #$0778 : LSR A : TAY : AND.w #$4000 : BEQ .BRANCH_7
+            LDA.b $E2 : SEC : SBC.w #$0778 : LSR A : TAY : AND.w #$4000 : BEQ .BRANCH_7
                 TYA : ORA.w #$8000 : TAY
             
             .BRANCH_7
             
-            STY $00
+            STY.b $00
                 
-            LDA $E2 : SEC : SBC $00 : STA $E0
+            LDA.b $E2 : SEC : SBC.b $00 : STA.b $E0
                 
-            LDA $E6 : CMP.w #$06C0 : BCC .BRANCH_9
+            LDA.b $E6 : CMP.w #$06C0 : BCC .BRANCH_9
                 SEC : SBC.w #$0600 : AND.w #$03FF : CMP.w #$0180 : BCS .BRANCH_8
                     LSR A : ORA.w #$0600
                 
@@ -121,41 +126,41 @@ Overworld_SetFixedColorAndScroll:
             
             .BRANCH_9
 
-            LDA $E6 : AND.w #$00FF : LSR A : ORA.w #$0600
+            LDA.b $E6 : AND.w #$00FF : LSR A : ORA.w #$0600
             
             .BRANCH_10
             
-            ; Set BG1 vertical scroll
-            STA $E6
+            ; Set BG1 vertical scroll.
+            STA.b $E6
                 
             BRA .subscreenOnAndReturn
     
     .BRANCH_11
     
-    LDA $8A : AND.w #$003F : CMP.w #$001B : BNE .subscreenOnAndReturn
-        ; Synchronize Y scrolls on BG0 and BG1. Same for X scrolls
-        LDA $E8 : STA $E6
-        LDA $E2 : STA $E0
+    LDA.b $8A : AND.w #$003F : CMP.w #$001B : BNE .subscreenOnAndReturn
+        ; Synchronize Y scrolls on BG0 and BG1. Same for X scrolls.
+        LDA.b $E8 : STA.b $E6
+        LDA.b $E2 : STA.b $E0
             
-        LDA $0410 : AND.w #$00FF : CMP.w #$0008 : BEQ .BRANCH_12
+        LDA.w $0410 : AND.w #$00FF : CMP.w #$0008 : BEQ .BRANCH_12
             ; Handles scroll for special areas maybe?
-            LDA.w #$0838 : STA $E0
+            LDA.w #$0838 : STA.b $E0
         
         .BRANCH_12
         
-        LDA #$06C0 : STA $E6
+        LDA.w #$06C0 : STA.b $E6
     
     .subscreenOnAndReturn
     
     SEP #$20
         
-    ; Put BG0 on the subscreen
-    LDA.b #$01 : STA $1D
+    ; Put BG0 on the subscreen.
+    LDA.b #$01 : STA.b $1D
         
     SEP #$30
         
-    ; Update palette
-    INC $15
+    ; Update palette.
+    INC.b $15
         
     RTL
 }
@@ -170,42 +175,42 @@ WallMaster_SendPlayerToLastEntrance:
     JSL Sprite_ResetAll
     
     ; Don't use a starting point entrance.
-    STZ $04AA
+    STZ.w $04AA
     
     ; Falling into an overworld hole mode.
-    LDA.b #$11 : STA $10
+    LDA.b #$11 : STA.b $10
     
-    STZ $11
-    STZ $14
+    STZ.b $11
+    STZ.b $14
 
     ; $05FFBF ALTERNATE ENTRY POINT
-
-    STZ $0345
+    ; TODO: Make a label for the entry point.
+    STZ.w $0345
     
-    ; \wtf 0x11? Written here? I thought these were all even.
-    STA $005E
+    ; TODO: \wtf 0x11? Written here? I thought these were all even.
+    STA.w $005E
     
-    STZ $03F3
-    STZ $0322
-    STZ $02E4
-    STZ $0ABD
-    STZ $036B
-    STZ $0373
+    STZ.w $03F3
+    STZ.w $0322
+    STZ.w $02E4
+    STZ.w $0ABD
+    STZ.w $036B
+    STZ.w $0373
     
-    STZ $27
-    STZ $28
+    STZ.b $27
+    STZ.b $28
     
-    STZ $29
+    STZ.b $29
     
-    STZ $24
+    STZ.b $24
     
-    STZ $0351
-    STZ $0316
-    STZ $031F
+    STZ.w $0351
+    STZ.w $0316
+    STZ.w $031F
     
-    LDA.b #$00 : STA $5D
+    LDA.b #$00 : STA.b $5D
     
-    STZ $4B
+    STZ.b $4B
 
     ; $05FFEE ALTERNATE ENTRY POINT
 
