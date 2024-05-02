@@ -51,19 +51,30 @@ BirdTravel_InitCounter:
 ; ==============================================================================
 
 ; $05375B-$05378A DATA
-pool BirdTravel_Main:
+Pool_BirdTravel_Main:
 {
-    ; TODO: Apply labels to these locations
+    ; $05375B
+    .char
     db $7F, $79, $6C, $6D, $6E, $6F, $7C, $7D
 
+    ; $053763
+    .pos_x_low
     db $80, $CF, $10, $B8, $30, $70, $70, $F0
 
+    ; $05376B
+    .pos_x_high
     db $06, $0C, $02, $08, $0F, $00, $07, $0E
 
+    ; $053773
+    .pos_y_low
     db $5B, $98, $C0, $20, $50, $B0, $30, $80
 
+    ; $05377B
+    .pos_y_high
     db $03, $05, $07, $0B, $0B, $0F, $0F, $0F
 
+    ; $053783
+    .bits
     db $80, $40, $20, $10, $08, $04, $02, $01
 }
 
@@ -77,7 +88,7 @@ BirdTravel_Main:
     ; Check A, X, B, and Y buttons (BYSTudlr and AXLR----)
     LDA $F2 : ORA $F0 : AND.b #$C0 : BEQ .noButtonInput
         ; These buttons cause us to exit bird travel and end up at the
-        ; selected destination
+        ; selected destination.
         INC $0200
         
         RTL
@@ -145,33 +156,31 @@ BirdTravel_Main:
 
     ; $053813 ALTERNATE ENTRY POINT
     CPX $1AF0 : BNE .BRANCH_THETA
-    
-    LDA $0AB763, X : STA $1AB0, X : STA $7EC10A
-    LDA $0AB76B, X : STA $1AC0, X : STA $7EC10B
-    LDA $0AB773, X : STA $1AD0, X : STA $7EC108
-    LDA $0AB77B, X : STA $1AE0, X : STA $7EC109
-    
-    PHX
-    
-    JSR $C39F ; $05439F IN ROM
-    
-    PLX
-    
-    BCC .BRANCH_IOTA
-    
-    LDA $0AB75B, X : STA $0D
-    
-    LDA $1A : AND.b #$06 : ORA.b #$30 : STA $0C
-    
-    LDA.b #$00 : STA $0B
-    
-    PHX
-    
-    JSR $C51C ; $05451C IN ROM
-    
-    PLX
-    
-    BRA .BRANCH_IOTA
+        LDA $0AB763, X : STA $1AB0, X : STA $7EC10A
+        LDA $0AB76B, X : STA $1AC0, X : STA $7EC10B
+        LDA $0AB773, X : STA $1AD0, X : STA $7EC108
+        LDA $0AB77B, X : STA $1AE0, X : STA $7EC109
+        
+        PHX
+        
+        JSR $C39F ; $05439F IN ROM
+        
+        PLX
+        
+        BCC .BRANCH_IOTA
+            LDA $0AB75B, X : STA $0D
+            
+            LDA $1A : AND.b #$06 : ORA.b #$30 : STA $0C
+            
+            LDA.b #$00 : STA $0B
+            
+            PHX
+            
+            JSR $C51C ; $05451C IN ROM
+            
+            PLX
+            
+            BRA .BRANCH_IOTA
 
     .BRANCH_THETA
 
@@ -187,23 +196,21 @@ BirdTravel_Main:
     PLX
     
     BCC .BRANCH_IOTA
-    
-    LDA $0AB75B, X : STA $0D
-    
-    LDA.b #$32 : STA $0C
-    LDA.b #$00 : STA $0B
-    
-    PHX
-    
-    JSR $C51C ; $05451C IN ROM
-    
-    PLX
+        LDA $0AB75B, X : STA $0D
+        
+        LDA.b #$32 : STA $0C
+        LDA.b #$00 : STA $0B
+        
+        PHX
+        
+        JSR $C51C ; $05451C IN ROM
+        
+        PLX
 
     .BRANCH_IOTA
 
     DEX : BMI .BRANCH_KAPPA
-    
-    JMP $B813 ; $053813 IN ROM
+        JMP $B813 ; $053813 IN ROM
 
     .BRANCH_KAPPA
 
@@ -221,12 +228,12 @@ BirdTravel_Main:
 ; ZS replaces most of this function.
 BirdTravel_LoadTargetArea:
 {
-    ; reset the overlay flags for the swamp palace and its light world
+    ; Reset the overlay flags for the swamp palace and its light world
     ; counterpart.
     LDA $7EF2BB : AND.b #$DF : STA $7EF2BB
     LDA $7EF2FB : AND.b #$DF : STA $7EF2FB
         
-    ; reset the indoor flags for the swamp palace and the watergate as well.
+    ; Reset the indoor flags for the swamp palace and the watergate as well.
     LDA $7EF216 : AND.b #$7F : STA $7EF216
     LDA $7EF051 : AND.b #$FE : STA $7EF051
         
@@ -261,16 +268,16 @@ BirdTravel_LoadTargetArea:
         
     JSL $02B1F4 ; $0131F4 IN ROM
         
-    ; Play sound effect indicating we're coming out of map mode
+    ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA $012F
         
-    ; reset the ambient sound effect to what it was
+    ; Reset the ambient sound effect to what it was.
     LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
         
-    ; if it's a different music track than was playing where we came from,
-    ; simply change to it (as opposed to setting volume back to full)
+    ; If it's a different music track than was playing where we came from,
+    ; simply change to it (as opposed to setting volume back to full).
     LDA $7F5B00, X : AND.b #$0F : TAX : CPX $0130 : BNE .different_music
-        ; otherwise, just set the volume back to full.
+        ; Otherwise, just set the volume back to full.
         LDX.b #$F3
     
     .different_music
@@ -293,7 +300,7 @@ BirdTravel_LoadAmbientOverlay:
     
     SEP #$20
     
-    ; Loads overworld map32 data (and subsequently map16, etc etc)
+    ; Loads overworld map32 data (and subsequently map16, etc etc).
     JSL $02B1F0 ; $0131F0 IN ROM
     
     REP #$20
@@ -315,24 +322,23 @@ BirdTravel_Finish:
     INC $13
     
     LDA $13 : CMP.b #$0F : BNE .keep_brightening
+        ; $05396C ALTERNATE ENTRY POINT
+        .restore_prev_module
 
-    ; $05396C ALTERNATE ENTRY POINT
-    .restore_prev_module
-
-    STZ $0200
-    
-    STZ $B0
-    
-    LDA $010C : STA $10
-    
-    STZ $11
-    
-    LDA $7EC229 : STA $9B
-    
-    LDY.b #$04
-    LDA.b #$27
-    
-    JSL AddTravelBird.drop_off
+        STZ $0200
+        
+        STZ $B0
+        
+        LDA $010C : STA $10
+        
+        STZ $11
+        
+        LDA $7EC229 : STA $9B
+        
+        LDY.b #$04
+        LDA.b #$27
+        
+        JSL AddTravelBird.drop_off
 
     .keep_brightening
 
@@ -350,14 +356,14 @@ Messaging_OverworldMap:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw OverworldMap_Backup
-    dw OverworldMap_InitGfx
-    dw OverworldMap_DarkWorldTilemap
-    dw OverworldMap_LoadSprGfx
-    dw OverworldMap_BrightenScreen
-    dw OverworldMap_Main
-    dw OverworldMap_PrepExit
-    dw OverworldMap_RestoreGfx
+    dw OverworldMap_Backup           ; 0x00
+    dw OverworldMap_InitGfx          ; 0x01
+    dw OverworldMap_DarkWorldTilemap ; 0x02
+    dw OverworldMap_LoadSprGfx       ; 0x03
+    dw OverworldMap_BrightenScreen   ; 0x04
+    dw OverworldMap_Main             ; 0x05
+    dw OverworldMap_PrepExit         ; 0x06
+    dw OverworldMap_RestoreGfx       ; 0x07
 }
 
 ; ==============================================================================
@@ -375,90 +381,89 @@ OverworldMap_Backup:
 {
     ; Darken the screen until it's fully black.
     DEC $13 : BNE OverworldMap_KeepDarkening
-    
-    ; Cache hdma settings
-    LDA $9B : STA $7EC229
-    
-    JSL EnableForceBlank ; $00093D IN ROM
-    
-    ; Set mosaic to disabled on BG1 and BG2
-    LDA.b #$03 : STA $95
-    
-    ; Move to next step of submodule
-    INC $0200
-    
-    REP #$20
-    
-    ; cache main screen designation
-    LDA $1C : STA $7EC211
-    
-    ; Cache BG offset register mirros
-    LDA $E0 : STA $7EC200
-    LDA $E2 : STA $7EC202
-    LDA $E6 : STA $7EC204
-    LDA $E8 : STA $7EC206
-    
-    ; Zero out BG offset register mirrors
-    STZ $E0 : STZ $E2
-    STZ $E4 : STZ $E6
-    STZ $E8 : STZ $EA
-    
-    ; cache CGWSEL register mirror
-    LDA $99 : STA $7EC225
-    
-    LDA.w #$01FC : STA $0100
-    
-    LDX $8A : CPX.b #$80 : BCS .specialArea
-    
-    ; Cache Link's coordinates
-    LDA $20 : STA $7EC108
-    LDA $22 : STA $7EC10A
+        ; Cache hdma settings.
+        LDA $9B : STA $7EC229
+        
+        JSL EnableForceBlank ; $00093D IN ROM
+        
+        ; Set mosaic to disabled on BG1 and BG2.
+        LDA.b #$03 : STA $95
+        
+        ; Move to next step of submodule.
+        INC $0200
+        
+        REP #$20
+        
+        ; Cache main screen designation.
+        LDA $1C : STA $7EC211
+        
+        ; Cache BG offset register mirros.
+        LDA $E0 : STA $7EC200
+        LDA $E2 : STA $7EC202
+        LDA $E6 : STA $7EC204
+        LDA $E8 : STA $7EC206
+        
+        ; Zero out BG offset register mirrors.
+        STZ $E0 : STZ $E2
+        STZ $E4 : STZ $E6
+        STZ $E8 : STZ $EA
+        
+        ; Cache CGWSEL register mirror.
+        LDA $99 : STA $7EC225
+        
+        LDA.w #$01FC : STA $0100
+        
+        LDX $8A : CPX.b #$80 : BCS .specialArea
+            ; Cache Link's coordinates.
+            LDA $20 : STA $7EC108
+            LDA $22 : STA $7EC10A
 
-    .specialArea
+        .specialArea
 
-    SEP #$20
-    
-    LDA $7EF3C5 : CMP.b #$02 : BCS .savedZeldaOnce
-    
-    ; Clip to black before color math inside color window only
-    LDA.b #$80 : STA $99
-    
-    ; apply color math to BG1 and background, with half addition
-    LDA.b #$61 : STA $9A
+        SEP #$20
+        
+        LDA $7EF3C5 : CMP.b #$02 : BCS .savedZeldaOnce
+            ; Clip to black before color math inside color window only.
+            LDA.b #$80 : STA $99
+            
+            ; Apply color math to BG1 and background, with half addition.
+            LDA.b #$61 : STA $9A
 
-    .savedZeldaOne
+        .savedZeldaOnce
 
-    ; Play sound effect indicating we're entering overworld map mode
-    LDA.b #$10 : STA $012F
-    
-    ; Play another sound effect in conjunction (to produce a nuanced sound)
-    LDA.b #$05 : STA $012D
-    
-    ; Set volume to half
-    LDA.b #$F2 : STA $012C
-    
-    ; Set screen mode to mode 7 (because the overworld map is done in mode 7, obviously)
-    LDA.b #$07 : STA $2105 : STA $94
-    
-    ; Set so that the playing field is filled with transparency wherever there aren't tiles.
-    LDA.b #$80 : STA $211A
-    
-    RTL
+        ; Play sound effect indicating we're entering overworld map mode.
+        LDA.b #$10 : STA $012F
+        
+        ; Play another sound effect in conjunction (to produce a nuanced sound).
+        LDA.b #$05 : STA $012D
+        
+        ; Set volume to half.
+        LDA.b #$F2 : STA $012C
+        
+        ; Set screen mode to mode 7 (because the overworld map is done in mode
+        ; 7, obviously).
+        LDA.b #$07 : STA $2105 : STA $94
+        
+        ; Set so that the playing field is filled with transparency wherever
+        ; there aren't tiles.
+        LDA.b #$80 : STA $211A
+        
+        RTL
 }
 
-; =============================================
+; ==============================================================================
 
 ; $053A30-$053A79 LONG JUMP LOCATION
 OverworldMap_InitGfx:
 {
     JSR ClearMode7Tilemap
     
-    ; Put BG1 and OBJ on main screen, and nothing on the subscreen
+    ; Put BG1 and OBJ on main screen, and nothing on the subscreen.
     LDA.b #$11 : STA $1C
                  STZ $1D
     
-    JSL WriteMode7Chr       ; $006399 IN ROM
-    JSR $BC96               ; $053C96 IN ROM (configures hdma for map mode)
+    JSL WriteMode7Chr ; $006399 IN ROM
+    JSR $BC96         ; $053C96 IN ROM (configures hdma for map mode)
     
     ; Set data bank to 0x0A
     PHB : LDA.b #$0A : PHA : PLB
@@ -470,16 +475,15 @@ OverworldMap_InitGfx:
     
     ; Loads a different palette if in the DW.
     LDA $8A : AND.w #$0040 : BEQ .lightWorld
-    
-    LDY.w #$01FE
+        LDY.w #$01FE
 
     .lightWorld
+
     .copyFullCgramBuffer
 
-    LDA.w $DB27, Y : STA $7EC500, X
-    
-    DEY #2
-    
+        LDA.w $DB27, Y : STA $7EC500, X
+        
+        DEY #2
     DEX #2 : BPL .copyFullCgramBuffer
     
     SEP #$30
@@ -502,7 +506,7 @@ OverworldMap_InitGfx:
     RTL
 }
 
-; =============================================
+; ==============================================================================
 
 ; $053A7A-$053A99 LONG JUMP LOCATION
 OverworldMap_DarkWorldTilemap:
@@ -511,20 +515,18 @@ OverworldMap_DarkWorldTilemap:
     ; the dark world tilemap.
     
     LDA $8A : AND.b #$40 : BEQ .lightWorld
-    
-    REP #$30
-    
-    LDX.w #$03FE
+        REP #$30
+        
+        LDX.w #$03FE
 
-    .copyLoop
+        .copyLoop
 
-    LDA $0AD727, X : STA $1000, X
-    
-    DEX #2 : BPL .copyLoop
-    
-    SEP #$30
-    
-    LDA.b #$15 : STA $17
+            LDA $0AD727, X : STA $1000, X
+        DEX #2 : BPL .copyLoop
+        
+        SEP #$30
+        
+        LDA.b #$15 : STA $17
 
     .lightWorld
 
@@ -533,7 +535,7 @@ OverworldMap_DarkWorldTilemap:
     RTL
 }
 
-; =============================================
+; ==============================================================================
 
 ; $053A9A-$053AA9 LOCAL JUMP LOCATION
 OverworldMap_LoadSprGfx:
@@ -544,7 +546,7 @@ OverworldMap_LoadSprGfx:
     
     STZ $0AAA
     
-    ; Move on to next substep
+    ; Move on to next substep.
     INC $0200
     
     RTL
@@ -558,9 +560,8 @@ OverworldMap_BrightenScreen:
     INC $13
     
     LDA $13 : CMP.b #$0F : BNE .notDoneBrightening
-    
-    ; Move to next step
-    INC $0200
+        ; Move to next step.
+        INC $0200
 
     .notDoneBrightening
 
@@ -570,15 +571,42 @@ OverworldMap_BrightenScreen:
 ; ==============================================================================
 
 ; $053AB6-$053AE5 DATA
-pool OverworldMap_Main:
+Pool_OverworldMap_Main:
 {
-    ; TODO: Assign labels to these locations.
+    ; $053AB6
+    .UNREACHABLE_0ABAB6
     db $1E, $00, $1E, $02, $FE, $02, $00, $80
-    db $02, $80, $00, $01, $FF, $01, $21, $0C
-    db $00, $00, $00, $00, $01, $00, $02, $00
-    db $FF, $FF, $FE, $FF, $01, $00, $02, $00
-    db $00, $00, $00, $00, $E0, $00, $E0, $01
-    db $B8, $FF, $20, $FF, $CF, $BD, $D6, $BD
+    db $02, $80, $00, $01, $FF, $01
+
+    ; $053AC4
+    .WorldMap_BaseZoom
+    db $21 ; zoomed out
+    db $0C ; zoomed in
+
+    ; $053AC6
+    .WorldMap_PanMovements
+    dw $0000 ; none
+    dw $0000 ; none
+    dw $0001 ; down
+    dw $0002 ; right
+    dw $FFFF ; up
+    dw $FFFE ; left
+    dw $0001 ; never used, but handles UD
+    dw $0002 ; never used, but handles LR
+
+    ; $053AD6
+    .WorldMap_PanBoundaries
+    db $00, $00 ; none
+    db $00, $00 ; none
+    db $E0, $00 ; down
+    db $E0, $01 ; right
+    db $B8, $FF ; up
+    db $20, $FF ; left
+
+    ; $053AE2
+    .WorldMapHDMA_ZoomPointers
+    dw WorldMapHDMA_ZoomedOut
+    dw WorldMapHDMA_ZoomedIn
 }
 
 ; ==============================================================================
@@ -587,126 +615,115 @@ pool OverworldMap_Main:
 OverworldMap_Main:
 {
     LDA $0636 : ASL A : BCC .dontToggleZoomLevel
-    
-    TAX
-    
-    ; we got rid of bit 7 of $0636
-    LSR A : STA $0636
-    
-    ; Change the matrix multiplication done via hdma
-    ; (changes from closeup to full view)
-    LDA $0ABAE2, X : STA $4362 : STA $4372
+        TAX
+        
+        ; We got rid of bit 7 of $0636
+        LSR A : STA $0636
+        
+        ; Change the matrix multiplication done via hdma
+        ; (changes from closeup to full view)
+        LDA $0ABAE2, X : STA $4362 : STA $4372
 
     .dontToggleZoomLevel
 
     LDA $0636 : BNE .dontExitMap
-    
-    ; Check for presses of the X button this frame.
-    LDA $F6 : AND.b #$40 : BEQ .dontExitMap
-    
-    ; The signal to come out of map mode
-    INC $0200
-    
-    RTL
+        ; Check for presses of the X button this frame.
+        LDA $F6 : AND.b #$40 : BEQ .dontExitMap
+            ; The signal to come out of map mode
+            INC $0200
+            
+            RTL
 
     .dontExitMap
 
     LDA $B2 : BEQ .zoomTransitionFinished
-    
-    DEC $B2
-    
-    JMP .noButtonInput
+        DEC $B2
+        
+        JMP .noButtonInput
 
     .zoomTransitionFinished
 
-    ; checking -XLR---- (AXLR----)
+    ; Checking -XLR---- (AXLR----)
     LDA $F6 : AND.b #$70 : BEQ .noButtonInput
-    
-    ; Play the "change map screen" sound effect.
-    LDA.b #$24 : STA $012F
-    
-    LDA.b #$08 : STA $B2
-    
-    ; Toggle bit 0 of $0636 and OR in bit 7.
-    LDA $0636 : EOR.b #$01 : TAX
-    
-    ORA.b #$80 : STA $0636
-    
-    LDA $0ABAC4, X : STA $0637 : CMP.b #$0C : BNE .fartherZoomedOut
-    
-    REP #$20
-    
-    LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : STA $E6
-    
-    CLC : ADC.w #$0100 : STA $063A
-    
-    LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL .BRANCH_ZETA
-    
-    EOR.w #$FFFF : INC A
-
-    .BRANCH_ZETA
-
-    STA $00
+        ; Play the "change map screen" sound effect.
+        LDA.b #$24 : STA $012F
         
-    ; A = ($00 * 5) / 2
-    ASL #2 : CLC : ADC $00 : LSR A
-    
-    LDX $03 : BPL .BRANCH_THETA
-    
-    EOR.w #$FFFF : INC A
+        LDA.b #$08 : STA $B2
+        
+        ; Toggle bit 0 of $0636 and OR in bit 7.
+        LDA $0636 : EOR.b #$01 : TAX
+        
+        ORA.b #$80 : STA $0636
+        
+        LDA $0ABAC4, X : STA $0637 : CMP.b #$0C : BNE .fartherZoomedOut
+            REP #$20
+            
+            LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : STA $E6
+            
+            CLC : ADC.w #$0100 : STA $063A
+            
+            LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL .BRANCH_ZETA
+                EOR.w #$FFFF : INC A
 
-    .BRANCH_THETA
+            .BRANCH_ZETA
 
-    CLC : ADC.w #$0080
-    
-    BRA .BRANCH_IOTA
+            STA $00
+                
+            ; A = ($00 * 5) / 2
+            ASL #2 : CLC : ADC $00 : LSR A
+            
+            LDX $03 : BPL .BRANCH_THETA
+                EOR.w #$FFFF : INC A
 
-    .fartherZoomedOut
+            .BRANCH_THETA
 
-    REP #$21
-    
-    LDA.w #$00C8 : STA $E6
-    ADC.w #$0100 : STA $063A
-    
-    LDA.w #$0080
+            CLC : ADC.w #$0080
+            
+            BRA .BRANCH_IOTA
 
-    .BRANCH_IOTA
+        .fartherZoomedOut
 
-    AND.w #$FFFE : STA $E0
+        REP #$21
+        
+        LDA.w #$00C8 : STA $E6
+        ADC.w #$0100 : STA $063A
+        
+        LDA.w #$0080
+
+        .BRANCH_IOTA
+
+        AND.w #$FFFE : STA $E0
 
     .noButtonInput
 
     SEP #$20
     
     LDA $0636 : BEQ .BRANCH_KAPPA
-    
-    ; BYSTudlr -> ----ud--
-    LDA $F0 : AND.b #$0C : TAX
-    
-    REP #$20
-    
-    LDA $E6 : CMP $0ABAD6, X : BEQ .BRANCH_LAMBDA
-    
-    CLC : ADC $0ABAC6, X : STA $E6
-    CLC : ADC.w #$0100 : STA $063A
+        ; BYSTudlr -> ----ud--
+        LDA $F0 : AND.b #$0C : TAX
+        
+        REP #$20
+        
+        LDA $E6 : CMP $0ABAD6, X : BEQ .BRANCH_LAMBDA
+            CLC : ADC $0ABAC6, X : STA $E6
+            CLC : ADC.w #$0100 : STA $063A
 
-    .BRANCH_LAMBDA
+        .BRANCH_LAMBDA
 
-    SEP #$20
-    
-    ; BYSTudlr -> ----lr10 -> X
-    ; .... who knows what they're doing... Anyways, keep reading.
-    LDA $F0 : AND.b #$03 : ASL A : INC A : ASL A : TAX
-    
-    REP #$20
-    
-    LDA $E0 : CMP $0ABAD6, X : BEQ .BRANCH_MU
-    
-    CLC : ADC $0ABAC6, X : STA $E0
+        SEP #$20
+        
+        ; BYSTudlr -> ----lr10 -> X
+        ; .... who knows what they're doing... Anyways, keep reading.
+        LDA $F0 : AND.b #$03 : ASL A : INC A : ASL A : TAX
+        
+        REP #$20
+        
+        LDA $E0 : CMP $0ABAD6, X : BEQ .BRANCH_MU
+            CLC : ADC $0ABAC6, X : STA $E0
 
-    .BRANCH_MU
+        .BRANCH_MU
 
-    SEP #$20
+        SEP #$20
 
     .BRANCH_KAPPA
 
@@ -717,14 +734,14 @@ OverworldMap_Main:
     RTL
 }
 
-; =============================================
+; ==============================================================================
 
 ; $053BD6-$053C53 JUMP LOCATION
 OverworldMap_PrepExit:
 {
     ; 0x0E.0x07.0x06 (coming out of overworld map)
     
-    ; darken screen gradually until fully dark
+    ; Darken screen gradually until fully dark
     DEC $13 : BNE OverworldMap_Main_easyOut ; (RTL)
     
     JSL EnableForceBlank ; $00093D IN ROM
@@ -737,13 +754,12 @@ OverworldMap_PrepExit:
 
     .restore_palette
 
-    ; This restores the palette to the original state before the map
-    ; was brought up
-    LDA $7EC300, X : STA $7EC500, X
-    LDA $7EC380, X : STA $7EC580, X
-    LDA $7EC400, X : STA $7EC600, X
-    LDA $7EC480, X : STA $7EC680, X
-    
+        ; This restores the palette to the original state before the map
+        ; was brought up.
+        LDA $7EC300, X : STA $7EC500, X
+        LDA $7EC380, X : STA $7EC580, X
+        LDA $7EC400, X : STA $7EC600, X
+        LDA $7EC480, X : STA $7EC680, X
     INX #2 : CPX.b #$80 : BNE .restore_palette
     
     ; Next we restore other screen settings (needs some research)
@@ -758,9 +774,11 @@ OverworldMap_PrepExit:
     LDA $7EC206 : STA $E8
     LDA $7EC211 : STA $1C
 
+    ; TODO: Find this exact Address.
+    ; $XXXXXX ALTERNATE ENTRY POINT
     .restoreHdmaSettings
 
-    ; restore HDMA settings on channel 7
+    ; Restore HDMA settings on channel 7
     
     LDA.w #$BDDD : STA $4372
     
@@ -790,44 +808,44 @@ OverworldMap_RestoreGfx:
 {
     ; 0x0E.0x07.0x07 (restoring graphics?)
         
-    ; Indicate that special palette values are no longer in use
+    ; Indicate that special palette values are no longer in use.
     STZ $0AA9
     STZ $0AB2
         
     ; ZS writes here.
     ; $053C5A
-    ; $00619B IN ROM. Decompression routine
+    ; $00619B IN ROM. Decompression routine.
     JSL InitTilesets
         
-    ; Update CGRAM this frame
+    ; Update CGRAM this frame.
     INC $15
         
-    ; Set things back to the way they were, submodule-wise
+    ; Set things back to the way they were, submodule-wise.
     STZ $B2
     STZ $0200
     STZ $B0
         
-    ; Restore module we came from
+    ; Restore module we came from.
     LDA $010C : STA $10
         
-    ; Put us in submodule 0x20
+    ; Put us in submodule 0x20.
     LDA.b #$20 : STA $11
         
-    ; Indicate there's no special tile or tilemap transfers this frame
+    ; Indicate there's no special tile or tilemap transfers this frame.
     STZ $1000 : STZ $1001
         
-    ; Restore CGADSUB
+    ; Restore CGADSUB.
     LDA $7EC229 : STA $9B
         
     SEP #$20
         
-    ; restore ambient sound effect (rain, etc)
+    ; Restore ambient sound effect (rain, etc).
     LDX $8A : LDA $7F5B00, X : LSR #4 : STA $012D
         
-    ; Play sound effect indicating we're coming out of map mode
+    ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA $012F
         
-    ; Signal music to go back to full volume
+    ; Signal music to go back to full volume.
     LDA.b #$F3 : STA $012C
         
     RTL
@@ -836,6 +854,7 @@ OverworldMap_RestoreGfx:
 ; ==============================================================================
 
 ; $053C96-$053DA4 LOCAL JUMP LOCATION
+WorldMap_SetUpHDMA:
 {
     REP #$20
     
@@ -861,45 +880,41 @@ OverworldMap_RestoreGfx:
     STZ $2120 : STA $2120 
     
     LDA $10 : CMP.b #$14 : BEQ .attractMode
-    
-    LDA $11 : CMP.b #$0A : BNE .beta
-    
-    JMP $BD76 ; $053D76 IN ROM
+        LDA $11 : CMP.b #$0A : BNE .beta
+            JMP .flute_map ; $053D76 IN ROM
 
-    .beta
+        .beta
 
-    LDA.b #$04 : STA $0635
-    LDA.b #$0C : STA $0637
-    LDA.b #$01 : STA $0636
-    
-    REP #$21
-    
-    LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC $0ABAC6 : STA $E6
-    CLC : ADC.w #$0100 : STA $063A
-    
-    LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL .BRANCH_GAMMA
-    
-    EOR.w #$FFFF : INC A
+        LDA.b #$04 : STA $0635
+        LDA.b #$0C : STA $0637
+        LDA.b #$01 : STA $0636
+        
+        REP #$21
+        
+        LDA $7EC108 : LSR #4 : SEC : SBC.w #$0048 : AND.w #$FFFE : CLC : ADC $0ABAC6 : STA $E6
+        CLC : ADC.w #$0100 : STA $063A
+        
+        LDA $7EC10A : LSR #4 : SEC : SBC.w #$0080 : STA $02 : BPL .BRANCH_GAMMA
+            EOR.w #$FFFF : INC A
 
-    .BRANCH_GAMMA
+        .BRANCH_GAMMA
 
-    STA $00
-    ASL #2 : CLC : ADC $00 : LSR A
-    
-    LDX $03 : BPL .BRANCH_DELTA
-    
-    EOR.w #$FFFF : INC A
+        STA $00
+        ASL #2 : CLC : ADC $00 : LSR A
+        
+        LDX $03 : BPL .BRANCH_DELTA
+            EOR.w #$FFFF : INC A
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    CLC : ADC.w #$0080 : AND.w #$FFFE : STA $E0
-    
-    LDA.w #$BDD6 : STA $4362 : STA $4372
-    LDX.b #$0A   : STX $4364 : STX $4374
-    
-    LDX.b #$0A
-    
-    BRA .BRANCH_EPSILON
+        CLC : ADC.w #$0080 : AND.w #$FFFE : STA $E0
+        
+        LDA.w #$BDD6 : STA $4362 : STA $4372
+        LDX.b #$0A   : STX $4364 : STX $4374
+        
+        LDX.b #$0A
+        
+        BRA .BRANCH_EPSILON
 
     .attractMode
 
@@ -913,6 +928,7 @@ OverworldMap_RestoreGfx:
     BRA .BRANCH_EPSILON
 
     ; $053D76 ALTERNATE ENTRY POINT
+    .flute_map
 
     LDA.b #$04 : STA $0635
     LDA.b #$21 : STA $0637
@@ -931,7 +947,7 @@ OverworldMap_RestoreGfx:
     
     SEP #$20
     
-    ; enable hdma transfers on channels 6 and 7.
+    ; Enable hdma transfers on channels 6 and 7.
     LDA.b #$C0 : STA $9B
     
     RTS
@@ -942,8 +958,7 @@ OverworldMap_RestoreGfx:
 ; $053DA5-$053DCE LOCAL JUMP LOCATION
 ClearMode7Tilemap:
 {
-    ; clears out the low bytes of the first 0x4000 words of VRAM
-    
+    ; Clears out the low bytes of the first 0x4000 words of VRAM.
     REP #$20
     
     LDA.w #$00EF : STA $00
@@ -951,19 +966,19 @@ ClearMode7Tilemap:
     ; Sets VRAM address to 0x0000 and configures the video port.
     STZ $2115 : STZ $2116
     
-    ; destination register is $2118 and DMA address will not be adjusted.
+    ; Destination register is $2118 and DMA address will not be adjusted.
     LDA.w #$1808 : STA $4310
     
-    ; use bank $00 for DMA address.
+    ; Use bank $00 for DMA address.
     STZ $4314
     
-    ; use address $000000 ($7E:0000) for DMA address
+    ; Use address $000000 ($7E:0000) for DMA address.
     LDA.w #$0000 : STA $4312
     
-    ; write 0x4000 bytes
+    ; Write 0x4000 bytes.
     LDA.w #$4000 : STA $4315
     
-    ; do transfer on DMA channel 0.
+    ; Do transfer on DMA channel 0.
     LDY.b #$02 : STY $420B
     
     SEP #$20
@@ -973,27 +988,390 @@ ClearMode7Tilemap:
 
 ; ==============================================================================
 
-; $053DCF-$053F65 DATA?
+; $053DCF-$053DD5 DATA
+WorldMapHDMA_ZoomedOut:
+{
+    db $F0 : dw WorldMapHDMA_ZoomedOut_Part1 ; 112 lines, continuous
+    db $F0 : dw WorldMapHDMA_ZoomedOut_Part2 ; 112 lines, continuous
+    db $00 ; End
+}
+
+; ==============================================================================
+
+; $053DD6-$053DDC DATA
+WorldMapHDMA_ZoomedIn:
+{
+    db $F0 : dw WorldMapHDMA_ZoomedIn_Part1 ; 112 lines, continuous
+    db $F0 : dw WorldMapHDMA_ZoomedIn_Part2 ; 112 lines, continuous
+    db $00 ; End
+}
+
+; ==============================================================================
+
+; $053DDD-$053DE4 DATA
+WorldMapHDMA_AttractMode:
+{
+    db $F0 : dw $1B00 ; 112 lines, continuous
+    db $F0 : dw $1BE0 ; 112 lines, continuous
+    db $00 ; End
+}
+
+; ==============================================================================
+
+; $053DE4-$053DF5 DATA
+WorldMapIcon_posx_spr0:
+{
+    dw $07FF ; 0x00
+    dw $02C0 ; 0x01
+    dw $0D00 ; 0x02
+    dw $0F31 ; 0x03
+    dw $006D ; 0x04
+    dw $07E0 ; 0x05
+    dw $0F40 ; 0x06
+    dw $0F40 ; 0x07
+    dw $08DC ; 0x08
+}
+
+; $053DF6-$053E07 DATA
+WorldMapIcon_posy_spr0:
+{
+    dw $0730 ; 0x00
+    dw $06A0 ; 0x01
+    dw $0710 ; 0x02
+    dw $0620 ; 0x03
+    dw $0070 ; 0x04
+    dw $0640 ; 0x05
+    dw $0620 ; 0x06
+    dw $0620 ; 0x07
+    dw $0030 ; 0x08
+}
+
+; ==============================================================================
+
+; $053E08-$053E19 DATA
+WorldMapIcon_posx_spr1:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $08D0 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0082 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; $053E1A-$053E2B DATA
+WorldMapIcon_posy_spr1:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $0080 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $00B0 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053E2C-$053E3D DATA
+WorldMapIcon_posx_spr2:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $0108 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0F11 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; $053E3E-$053E4F DATA
+WorldMapIcon_posy_spr2:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $0D70 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0103 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053E50-$053E61 DATA
+WorldMapIcon_posx_spr3:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $006D ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $01D0 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; $053E62-$053E73 DATA
+WorldMapIcon_posy_spr3:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $0070 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0780 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053E74-$053E86 DATA
+WorldMapIcon_posx_spr4:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $FF00 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0100 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; $053E86-$053E97 DATA
+WorldMapIcon_posy_spr4:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $FF00 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0CA0 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053E98-$053EA9 DATA
+WorldMapIcon_posx_spr5:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $FF00 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0CA0 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; $053EAA-$053EBB DATA
+WorldMapIcon_posy_spr5:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $FF00 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0DA0 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053EBC-$053ECD DATA
+WorldMapIcon_posx_spr6:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $FF00 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0759 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; $053ECE-$053EDF DATA
+WorldMapIcon_posy_spr6:
+{
+    dw $FF00 ; 0x00
+    dw $FF00 ; 0x01
+    dw $FF00 ; 0x02
+    dw $FF00 ; 0x03
+    dw $FF00 ; 0x04
+    dw $FF00 ; 0x05
+    dw $FF00 ; 0x06
+    dw $0ED0 ; 0x07
+    dw $FF00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053EE0-$053EF1 DATA
+WorldMapIcon_tile_spr0:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $38, $60 ; 0x03
+    db $34, $62 ; 0x04
+    db $32, $66 ; 0x05
+    db $34, $64 ; 0x06
+    db $34, $64 ; 0x07
+    db $32, $66 ; 0x08
+}
+
+; ==============================================================================
+
+; $053EF2-$053F03 DATA
+WorldMapIcon_tile_spr1:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $32, $60 ; 0x03
+    db $00, $00 ; 0x04
+    db $00, $00 ; 0x05
+    db $00, $00 ; 0x06
+    db $34, $64 ; 0x07
+    db $00, $00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053F04-$053F15 DATA
+WorldMapIcon_tile_spr2:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $34, $60 ; 0x03
+    db $00, $00 ; 0x04
+    db $00, $00 ; 0x05
+    db $00, $00 ; 0x06
+    db $34, $64 ; 0x07
+    db $00, $00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053F16-$053F27 DATA
+WorldMapIcon_tile_spr3:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $34, $62 ; 0x03
+    db $00, $00 ; 0x04
+    db $00, $00 ; 0x05
+    db $00, $00 ; 0x06
+    db $34, $64 ; 0x07
+    db $00, $00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053F28-$053F39 DATA
+WorldMapIcon_tile_spr4:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $00, $00 ; 0x03
+    db $00, $00 ; 0x04
+    db $00, $00 ; 0x05
+    db $00, $00 ; 0x06
+    db $34, $64 ; 0x07
+    db $00, $00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053F3A-$053F4B DATA
+WorldMapIcon_tile_spr5:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $00, $00 ; 0x03
+    db $00, $00 ; 0x04
+    db $00, $00 ; 0x05
+    db $00, $00 ; 0x06
+    db $34, $64 ; 0x07
+    db $00, $00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053F4C-$053F5D DATA
+WorldMapIcon_tile_spr6:
+{
+    db $00, $00 ; 0x00
+    db $00, $00 ; 0x01
+    db $00, $00 ; 0x02
+    db $00, $00 ; 0x03
+    db $00, $00 ; 0x04
+    db $00, $00 ; 0x05
+    db $00, $00 ; 0x06
+    db $34, $64 ; 0x07
+    db $00, $00 ; 0x08
+}
+
+; ==============================================================================
+
+; $053F5E-$053F61 DATA
+WorldMap_RedXChars:
+{
+    db $68, $69, $78, $69
+}
+
+; ==============================================================================
+
+; $053F62-$053F65
+WorldMap_PortalProps:
+{
+    db $34, $74, $F4, $B4
+}
 
 ; ==============================================================================
 
 ; $053F66-$05439E LOCAL JUMP LOCATION
+WorldMap_HandleSprites:
 {
     LDA $1A : AND.b #$10 : BEQ .BRANCH_ALPHA
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_ALPHA
-    
-    LDA $0E : SEC : SBC.b #$04 : STA $0E
-    LDA $0F : SEC : SBC.b #$04 : STA $0F
-    
-    LDA #$00 : STA $0D
-    LDA #$3E : STA $0C
-    LDA #$02 : STA $0B
-    
-    LDX.b #$00
-    
-    JSR $C51C ; $05451C IN ROM
+        ; $05439F IN ROM
+        JSR $C39F : BCC .BRANCH_ALPHA
+            LDA $0E : SEC : SBC.b #$04 : STA $0E
+            LDA $0F : SEC : SBC.b #$04 : STA $0F
+            
+            LDA #$00 : STA $0D
+            LDA #$3E : STA $0C
+            LDA #$02 : STA $0B
+            
+            LDX.b #$00
+            
+            JSR $C51C ; $05451C IN ROM
 
     .BRANCH_ALPHA
 
@@ -1003,43 +1381,38 @@ ClearMode7Tilemap:
     LDA $7EC10B : PHA
     
     LDA $008A : CMP.b #$40 : BCS .BRANCH_BETA
-    
-    LDX.b #$0F
-    
-    LDA $1AB0, X : ORA $1AC0, X : ORA $1AD0, X : ORA $1AE0, X : BEQ .BRANCH_BETA
-    
-    LDA $1A : BNE .BRANCH_GAMMA
-    
-    LDA $1AF0, X : INC A : STA $1AF0, X
+        LDX.b #$0F
+        
+        LDA $1AB0, X : ORA $1AC0, X : ORA $1AD0, X : ORA $1AE0, X : BEQ .BRANCH_BETA
+            LDA $1A : BNE .BRANCH_GAMMA
+                LDA $1AF0, X : INC A : STA $1AF0, X
 
-    .BRANCH_GAMMA
+            .BRANCH_GAMMA
 
-    LDA $1AB0, X : STA $7EC10A
-    LDA $1AC0, X : STA $7EC10B
-    LDA $1AD0, X : STA $7EC108
-    LDA $1AE0, X : STA $7EC109
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_BETA
-    
-    LDA.b #$6A : STA $0D
-    
-    LDA $1A : LSR A : AND.b #$03 : TAX
-    
-    LDA $0ABF62, X : STA $0C
-    
-    LDA.b #$02 : STA $0B
-    
-    LDX.b #$0F
-    
-    JSR $C51C ; $05451C IN ROM
+            LDA $1AB0, X : STA $7EC10A
+            LDA $1AC0, X : STA $7EC10B
+            LDA $1AD0, X : STA $7EC108
+            LDA $1AE0, X : STA $7EC109
+            
+            ; $05439F IN ROM
+            JSR $C39F : BCC .BRANCH_BETA
+                LDA.b #$6A : STA $0D
+                
+                LDA $1A : LSR A : AND.b #$03 : TAX
+                
+                LDA $0ABF62, X : STA $0C
+                
+                LDA.b #$02 : STA $0B
+                
+                LDX.b #$0F
+                
+                JSR $C51C ; $05451C IN ROM
 
     .BRANCH_BETA
 
     LDA $7EF2DB : AND.b #$20 : BNE .BRANCH_DELTA
-    
-    ; Load map icon indicator variable
-    LDA $7EF3C7 : CMP.b #$06 : ROL A : EOR $0FFF : AND.b #$01 : BEQ .lightWorldSprites
+        ; Load map icon indicator variable
+        LDA $7EF3C7 : CMP.b #$06 : ROL A : EOR $0FFF : AND.b #$01 : BEQ .lightWorldSprites
 
     .BRANCH_DELTA
 
@@ -1047,70 +1420,63 @@ ClearMode7Tilemap:
 
     .lightWorldSprites
 
-    ; checking pendant 0 (courage)
+    ; Checking pendant 0 (courage)
     LDX.b #$00
     
     ; $0545A9 IN ROM
     JSR OverworldMap_CheckPendant : BCS .BRANCH_ZETA
-    
-    ; $0545C6 IN ROM
-    JSR OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABDE5, X : BMI .BRANCH_ZETA
-    
-    STA $7EC10B
-    
-    LDA $0ABDE4, X : STA $7EC10A
-    LDA $0ABDF7, X : STA $7EC109
-    LDA $0ABDF6, X : STA $7EC108
-    
-    LDA $0ABEE1, X : BEQ .BRANCH_THETA
-    CMP.b #$64     : BEQ .BRANCH_IOTA
-    
-    LDA $1A : AND.b #$10 : BNE .BRANCH_ZETA
+        ; $0545C6 IN ROM
+        JSR OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
+            ; X = (map sprites indicator << 1)
+            LDA $7EF3C7 : ASL A : TAX
+            
+            LDA $0ABDE5, X : BMI .BRANCH_ZETA
+                STA $7EC10B
+                
+                LDA $0ABDE4, X : STA $7EC10A
+                LDA $0ABDF7, X : STA $7EC109
+                LDA $0ABDF6, X : STA $7EC108
+                
+                LDA $0ABEE1, X : BEQ .BRANCH_THETA
+                    CMP.b #$64     : BEQ .BRANCH_IOTA
+                        LDA $1A : AND.b #$10 : BNE .BRANCH_ZETA
+                            .BRANCH_IOTA
 
-    .BRANCH_IOTA
+                            JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+                .BRANCH_THETA
 
-    .BRANCH_THETA
+                LDX.b #$0E
+                
+                ; $05439F IN ROM
+                JSR $C39F : BCC .BRANCH_ZETA
+                    ; X = (map sprites indicator << 1)
+                    LDA $7EF3C7 : ASL A : TAX
+                    
+                    LDA $0ABEE1, X : BEQ .BRANCH_KAPPA
+                        STA $0D
+                        
+                        LDA $0ABEE0, X : STA $0C
+                        
+                        LDA.b #$02
+                        
+                        BRA .BRANCH_LAMBDA
 
-    LDX.b #$0E
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_ZETA
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABEE1, X : BEQ .BRANCH_KAPPA
-    
-    STA $0D
-    
-    LDA $0ABEE0, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_LAMBDA
+                    .BRANCH_KAPPA
 
-    .BRANCH_KAPPA
+                    LDA $1A : LSR #3 : AND.b #$03 : TAX
+                    
+                    LDA $0ABF5E, X : STA $0D
+                    LDA.b #$32     : STA $0C
+                    LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    LDA.b #$32     : STA $0C
-    LDA.b #$00
+                    .BRANCH_LAMBDA
 
-    .BRANCH_LAMBDA
-
-    STA $0B
-    
-    LDX.b #$0E
-    
-    JSR $C51C ; $05451C IN ROM
+                    STA $0B
+                    
+                    LDX.b #$0E
+                    
+                    JSR $C51C ; $05451C IN ROM
 
     .BRANCH_ZETA
 
@@ -1118,64 +1484,57 @@ ClearMode7Tilemap:
     
     ; $0545A9 IN ROM
     JSR $C5A9 : BCS .BRANCH_MU
-    
-    ; $0545C6 IN ROM
-    JSR $C5C6 : BCS .BRANCH_MU
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABE09, X : BMI .BRANCH_MU
-    
-    STA $7EC10B
-    
-    LDA $0ABE08, X : STA $7EC10A
-    LDA $0ABE1B, X : STA $7EC109
-    LDA $0ABE1A, X : STA $7EC108
-    
-    LDA $0ABEF3, X : BEQ .BRANCH_NU
-    CMP.b #$64     : BEQ .BRANCH_XI
-    
-    ; every 16 frames...
-    LDA $1A : AND.b #$10 : BNE .BRANCH_MU
+        ; $0545C6 IN ROM
+        JSR $C5C6 : BCS .BRANCH_MU
+            ; X = (map sprites indicator << 1)
+            LDA $7EF3C7 : ASL A : TAX
+            
+            LDA $0ABE09, X : BMI .BRANCH_MU
+                STA $7EC10B
+                
+                LDA $0ABE08, X : STA $7EC10A
+                LDA $0ABE1B, X : STA $7EC109
+                LDA $0ABE1A, X : STA $7EC108
+                
+                LDA $0ABEF3, X : BEQ .BRANCH_NU
+                    CMP.b #$64 : BEQ .BRANCH_XI
+                        ; Every 16 frames...
+                        LDA $1A : AND.b #$10 : BNE .BRANCH_MU
+                            .BRANCH_XI
 
-    .BRANCH_XI
+                            JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+                .BRANCH_NU
 
-    .BRANCH_NU
+                ; $05439F IN ROM
+                JSR $C39F : BCC .BRANCH_MU
+                    ; X = (map sprites indicator << 1)
+                    LDA $7EF3C7 : ASL A : TAX
+                            
+                    LDA $0ABEF3, X : BEQ .BRANCH_OMICRON
+                        STA $0D
+                                
+                        LDA $0ABEF2, X : STA $0C
+                                
+                        LDA.b #$02
+                                
+                        BRA .BRANCH_PI
 
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_MU
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABEF3, X : BEQ .BRANCH_OMICRON
-    
-    STA $0D
-    
-    LDA $0ABEF2, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_PI
+                    .BRANCH_OMICRON
 
-    .BRANCH_OMICRON
+                    LDA $1A : LSR #3 : AND.b #$03 : TAX
+                            
+                    LDA $0ABF5E, X : STA $0D
+                    LDA.b #$32     : STA $0C
+                    LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    LDA.b #$32     : STA $0C
-    LDA.b #$00
+                    .BRANCH_PI
 
-    .BRANCH_PI
-
-    STA $0B
-    
-    LDX.b #$0D
-    
-    JSR $C51C ; $05451C IN ROM
+                    STA $0B
+                            
+                    LDX.b #$0D
+                            
+                    JSR $C51C ; $05451C IN ROM
 
     .BRANCH_MU
 
@@ -1183,67 +1542,60 @@ ClearMode7Tilemap:
     
     ; $0545A9 IN ROM
     JSR $C5A9 : BCS .BRANCH_RHO
-    
-    ; $0545C6 IN ROM
-    JSR $C5C6 : BCS .BRANCH_RHO
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABE2D, X : BMI .BRANCH_RHO
-    
-    STA $7EC10B
-    
-    LDA $0ABE2C, X : STA $7EC10A
-    LDA $0ABE3F, X : STA $7EC109
-    LDA $0ABE3E, X : STA $7EC108
-    
-    LDA $0ABF05, X : BEQ .BRANCH_SIGMA
-    CMP.b #$64     : BEQ .BRANCH_TAU
-    
-    LDA $1A : AND.b #$10 : BNE .BRANCH_RHO
+        ; $0545C6 IN ROM
+        JSR $C5C6 : BCS .BRANCH_RHO
+            ; X = (map sprites indicator << 1)
+            LDA $7EF3C7 : ASL A : TAX
+            
+            LDA $0ABE2D, X : BMI .BRANCH_RHO
+                STA $7EC10B
+                
+                LDA $0ABE2C, X : STA $7EC10A
+                LDA $0ABE3F, X : STA $7EC109
+                LDA $0ABE3E, X : STA $7EC108
+                
+                LDA $0ABF05, X : BEQ .BRANCH_SIGMA
+                    CMP.b #$64 : BEQ .BRANCH_TAU
+                        LDA $1A : AND.b #$10 : BNE .BRANCH_RHO
+                            .BRANCH_TAU
 
-    .BRANCH_TAU
+                            JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+                .BRANCH_SIGMA
 
-    .BRANCH_SIGMA
+                LDX.b #$0C
+                            
+                ; $05439F IN ROM
+                JSR $C39F : BCC .BRANCH_RHO
+                     ; X = (map sprites indictaor << 1)
+                    LDA $7EF3C7 : ASL A : TAX
+                                
+                    LDA $0ABF05, X : BEQ .BRANCH_UPSILON
+                        STA $0D
+                                    
+                        LDA $0ABF04, X : STA $0C
+                                    
+                        LDA.b #$02
+                                    
+                        BRA .BRANCH_PHI
 
-    LDX.b #$0C
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_RHO
-    
-    ; X = (map sprites indictaor << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABF05, X : BEQ .BRANCH_UPSILON
-    
-    STA $0D
-    
-    LDA $0ABF04, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_PHI
+                    .BRANCH_UPSILON
 
-    .BRANCH_UPSILON
+                    LDA $1A : LSR #3 : AND.b #$03 : TAX
+                                
+                    LDA $0ABF5E, X : STA $0D
+                                
+                    LDA.b #$32 : STA $0C
+                                
+                    LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    
-    LDA.b #$32 : STA $0C
-    
-    LDA.b #$00
+                    .BRANCH_PHI
 
-    .BRANCH_PHI
-
-    STA $0B
-    
-    LDX.b #$0C
-    
-    JSR $C51C ; $05451C IN ROM
+                    STA $0B
+                                
+                    LDX.b #$0C
+                                
+                    JSR $C51C ; $05451C IN ROM
 
     .BRANCH_RHO
 
@@ -1251,62 +1603,56 @@ ClearMode7Tilemap:
     
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_CHI
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABE51, X : BMI .BRANCH_CHI
-    
-    STA $7EC10B
-    
-    LDA $0ABE50, X : STA $7EC10A
-    LDA $0ABE63, X : STA $7EC109
-    LDA $0ABE62, X : STA $7EC108
-    
-    LDA $0ABF17, X : BEQ .BRANCH_PSI
-    CMP.b #$64     : BEQ .BRANCH_OMEGA
-    
-    LDA $1A : AND.b #$10 : BNE .BRANCH_CHI
+        ; X = (map sprites indicator << 1)
+        LDA $7EF3C7 : ASL A : TAX
+        
+        LDA $0ABE51, X : BMI .BRANCH_CHI
+            STA $7EC10B
+            
+            LDA $0ABE50, X : STA $7EC10A
+            LDA $0ABE63, X : STA $7EC109
+            LDA $0ABE62, X : STA $7EC108
+            
+            LDA $0ABF17, X : BEQ .BRANCH_PSI
+                CMP.b #$64 : BEQ .BRANCH_OMEGA
+                    LDA $1A : AND.b #$10 : BNE .BRANCH_CHI
+                        .BRANCH_OMEGA
 
-    .BRANCH_OMEGA
+                        JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+            .BRANCH_PSI
 
-    .BRANCH_PSI
+            LDX.b #$0B
+            
+            ; $05439F IN ROM
+            JSR $C39F : BCC .BRANCH_CHI
+                ; X = (map sprites indicator << 1)
+                LDA $7EF3C7 : ASL A : TAX
+                
+                LDA $0ABF17, X : BEQ .BRANCH_ALTIMA
+                    STA $0D
+                    
+                    LDA $0ABF16, X : STA $0C
+                    
+                    LDA.b #$02
+                    
+                    BRA .BRANCH_ULTIMA
 
-    LDX.b #$0B
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_CHI
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABF17, X : BEQ .BRANCH_ALTIMA
-    
-    STA $0D
-    
-    LDA $0ABF16, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_ULTIMA
+                .BRANCH_ALTIMA
 
-    .BRANCH_ALTIMA
+                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                
+                LDA $0ABF5E, X : STA $0D
+                LDA.b #$32     : STA $0C
+                LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    LDA.b #$32     : STA $0C
-    LDA.b #$00
+                .BRANCH_ULTIMA
 
-    .BRANCH_ULTIMA
-
-    STA $0B
-    
-    LDX.b #$0B
-    
-    JSR $C51C ; $05451C IN ROM
+                STA $0B
+                
+                LDX.b #$0B
+                
+                JSR $C51C ; $05451C IN ROM
 
     .BRANCH_CHI
 
@@ -1314,63 +1660,57 @@ ClearMode7Tilemap:
     
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_OPTIMUS
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABE75, X : BMI .BRANCH_OPTIMUS
-    
-    STA $7EC10B
-    
-    LDA $0ABE74, X : STA $7EC10A
-    LDA $0ABE87, X : STA $7EC109
-    LDA $0ABE86, X : STA $7EC108
-    
-    LDA $0ABF29, X : BEQ .BRANCH_ALIF
-    CMP.b #$64     : BEQ .BRANCH_BET
-    
-    LDA $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
+        ; X = (map sprites indicator << 1)
+        LDA $7EF3C7 : ASL A : TAX
+        
+        LDA $0ABE75, X : BMI .BRANCH_OPTIMUS
+            STA $7EC10B
+            
+            LDA $0ABE74, X : STA $7EC10A
+            LDA $0ABE87, X : STA $7EC109
+            LDA $0ABE86, X : STA $7EC108
+            
+            LDA $0ABF29, X : BEQ .BRANCH_ALIF
+                CMP.b #$64 : BEQ .BRANCH_BET
+                    LDA $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
+                        .BRANCH_BET
 
-    .BRANCH_BET
+                        JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+            .BRANCH_ALIF
 
-    .BRANCH_ALIF
+            LDX.b #$0A
+            
+            ; $05439F IN ROM
+            JSR $C39F : BCC .BRANCH_OPTIMUS
+                ; X = (map sprites indicator << 1)
+                LDA $7EF3C7 : ASL A : TAX
+                
+                LDA $0ABF29, X : BEQ .BRANCH_DEL
+                    STA $0D
+                    
+                    LDA $0ABF28, X : STA $0C
+                    
+                    LDA.b #$02
+                    
+                    BRA .BRANCH_THEL
 
-    LDX.b #$0A
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_OPTIMUS
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABF29, X : BEQ .BRANCH_DEL
-    
-    STA $0D
-    
-    LDA $0ABF28, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_THEL
+                .BRANCH_DEL
 
-    .BRANCH_DEL
+                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                
+                LDA $0ABF5E, X : STA $0D
+                LDA.b #$32     : STA $0C
+                
+                LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    LDA.b #$32     : STA $0C
-    
-    LDA.b #$00
+                .BRANCH_THEL
 
-    .BRANCH_THEL
-
-    STA $0B
-    
-    LDX.b #$0A
-    
-    JSR $C51C ; $05451C IN ROM
+                STA $0B
+                
+                LDX.b #$0A
+                
+                JSR $C51C ; $05451C IN ROM
 
     .BRANCH_OPTIMUS
 
@@ -1378,62 +1718,55 @@ ClearMode7Tilemap:
     
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_SIN
-    
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABE99, X : BMI .BRANCH_SIN
-    
-    STA $7EC10B
-    
-    LDA $0ABE98, X : STA $7EC10A
-    LDA $0ABEAB, X : STA $7EC109
-    LDA $0ABEAA, X : STA $7EC108
-    
-    LDA $0ABF3B, X : BEQ .BRANCH_SHIN
-    
-    CMP.b #$64 : BEQ .BRANCH_SOD
-    
-    LDA $1A : AND.b #$10 : BNE .BRANCH_SIN
+        LDA $7EF3C7 : ASL A : TAX
+        
+        LDA $0ABE99, X : BMI .BRANCH_SIN
+            STA $7EC10B
+            
+            LDA $0ABE98, X : STA $7EC10A
+            LDA $0ABEAB, X : STA $7EC109
+            LDA $0ABEAA, X : STA $7EC108
+            
+            LDA $0ABF3B, X : BEQ .BRANCH_SHIN
+                CMP.b #$64 : BEQ .BRANCH_SOD
+                    LDA $1A : AND.b #$10 : BNE .BRANCH_SIN
+                        .BRANCH_SOD
 
-    .BRANCH_SOD
+                        JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+            .BRANCH_SHIN
 
-    .BRANCH_SHIN
+            LDX.b #$09
+            
+            ; $05439F IN ROM
+            JSR $C39F : BCC .BRANCH_SIN
+                LDA $7EF3C7 : ASL A : TAX
+                
+                LDA $0ABF3B, X : BEQ .BRANCH_DOD
+                    STA $0D
+                    
+                    LDA $0ABF3A, X : STA $0C
+                    
+                    LDA.b #$02
+                    
+                    BRA .BRANCH_TOD
 
-    LDX.b #$09
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_SIN
-    
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABF3B, X : BEQ .BRANCH_DOD
-    
-    STA $0D
-    
-    LDA $0ABF3A, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_TOD
+                .BRANCH_DOD
 
-    .BRANCH_DOD
+                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                
+                LDA $0ABF5E, X : STA $0D
+                LDA.b #$32     : STA $0C
+                
+                LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    LDA.b #$32     : STA $0C
-    
-    LDA.b #$00
+                .BRANCH_TOD
 
-    .BRANCH_TOD
-
-    STA $0B
-    
-    LDX.b #$09
-    
-    JSR $C51C ; $05451C IN ROM
+                STA $0B
+                
+                LDX.b #$09
+                
+                JSR $C51C ; $05451C IN ROM
 
     .BRANCH_SIN
 
@@ -1441,62 +1774,56 @@ ClearMode7Tilemap:
     
     ; $0545C6 IN ROM
     JSR $C5C6 : BCS .BRANCH_ZOD
-    
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABEBD, X : BMI .BRANCH_ZOD
-    
-    STA $7EC10B
-    
-    LDA $0ABEBC, X : STA $7EC10A
-    LDA $0ABECF, X : STA $7EC109
-    LDA $0ABECE, X : STA $7EC108
-    
-    LDA $0ABF4D, X : BEQ .BRANCH_FATHA
-    CMP.b #$64     : BEQ .BRANCH_KESRA
-    
-    LDA $1A : AND.b #$10 : BNE .BRANCH_ZOD
+        LDA $7EF3C7 : ASL A : TAX
+        
+        LDA $0ABEBD, X : BMI .BRANCH_ZOD
+            STA $7EC10B
+            
+            LDA $0ABEBC, X : STA $7EC10A
+            LDA $0ABECF, X : STA $7EC109
+            LDA $0ABECE, X : STA $7EC108
+            
+            LDA $0ABF4D, X : BEQ .BRANCH_FATHA
+                CMP.b #$64 : BEQ .BRANCH_KESRA
+                    LDA $1A : AND.b #$10 : BNE .BRANCH_ZOD
+                        .BRANCH_KESRA
 
-    .BRANCH_KESRA
+                        JSR $C589 ; $054589 IN ROM
 
-    JSR $C589 ; $054589 IN ROM
+            .BRANCH_FATHA
 
-    .BRANCH_FATHA
+            LDX.b #$08
+            
+            ; $05439F IN ROM
+            JSR $C39F : BCC .BRANCH_ZOD
+                ; X = (map sprites indicator << 1)
+                LDA $7EF3C7 : ASL A : TAX
+                
+                LDA $0ABF4D, X : BEQ .BRANCH_DUMMA
+                    STA $0D
+                    
+                    LDA $0ABF4C, X : STA $0C
+                    
+                    LDA.b #$02
+                    
+                    BRA .BRANCH_EIN
 
-    LDX.b #$08
-    
-    ; $05439F IN ROM
-    JSR $C39F : BCC .BRANCH_ZOD
-    
-    ; X = (map sprites indicator << 1)
-    LDA $7EF3C7 : ASL A : TAX
-    
-    LDA $0ABF4D, X : BEQ .BRANCH_DUMMA
-    
-    STA $0D
-    
-    LDA $0ABF4C, X : STA $0C
-    
-    LDA.b #$02
-    
-    BRA .BRANCH_EIN
+                .BRANCH_DUMMA
 
-    .BRANCH_DUMMA
+                LDA $1A : LSR #3 : AND.b #$03 : TAX
+                
+                LDA $0ABF5E, X : STA $0D
+                LDA.b #$32     : STA $0C
+                
+                LDA.b #$00
 
-    LDA $1A : LSR #3 : AND.b #$03 : TAX
-    
-    LDA $0ABF5E, X : STA $0D
-    LDA.b #$32     : STA $0C
-    
-    LDA.b #$00
+                .BRANCH_EIN
 
-    .BRANCH_EIN
-
-    STA $0B
-    
-    LDX.b #$08
-    
-    JSR $C51C ; $05451C IN ROM
+                STA $0B
+                
+                LDX.b #$08
+                
+                JSR $C51C ; $05451C IN ROM
 
     ; $05438A ALTERNATE ENTRY POINT
     .BRANCH_ZOD
@@ -1514,90 +1841,87 @@ ClearMode7Tilemap:
 ; $05439F-$054514 LOCAL JUMP LOCATION
 {
     LDA $0636 : BNE .BRANCH_ALPHA
-    
-    REP #$30
-    
-    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC $063A : SEC : SBC.w #$00C0 : TAX
-    
-    SEP #$20
-    
-    LDA $0AC5DA, X : STA $0F
-    
-    SEP #$30
-    
-    XBA
-    
-    LDA.b #$0D
-    
-    JSR $C56D ; $05456D IN ROM
-    JSR $C580 ; $054580 IN ROM
-    
-    STA $0F
-    
-    REP #$30
-    
-    LDA $7EC10A : LSR #4
-    
-    SEP #$30
-    
-    SEC : SBC.b #$80
-    
-    PHP : BPL .BRANCH_BETA
-    
-    EOR.b #$FF
+        REP #$30
+        
+        LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : ADC $063A : SEC : SBC.w #$00C0 : TAX
+        
+        SEP #$20
+        
+        LDA $0AC5DA, X : STA $0F
+        
+        SEP #$30
+        
+        XBA
+        
+        LDA.b #$0D
+        
+        JSR $C56D ; $05456D IN ROM
+        JSR $C580 ; $054580 IN ROM
+        
+        STA $0F
+        
+        REP #$30
+        
+        LDA $7EC10A : LSR #4
+        
+        SEP #$30
+        
+        SEC : SBC.b #$80
+        
+        PHP : BPL .BRANCH_BETA
+            EOR.b #$FF
 
-    .BRANCH_BETA
+        .BRANCH_BETA
 
-    PHA
-    
-    LDA $0F : CMP.b #$E0 : BCC .BRANCH_GAMMA
-    
-    LDA.b #$00
+        PHA
+        
+        LDA $0F : CMP.b #$E0 : BCC .BRANCH_GAMMA
+            LDA.b #$00
 
-    .BRANCH_GAMMA
+        .BRANCH_GAMMA
 
-    XBA
-    
-    LDA.b #$54
-    
-    JSR $C56D ; $05456D
-    
-    XBA : CLC : ADC.b #$B2 : XBA
-    
-    PLA
-    
-    JSR $C56D ; $05456D IN ROM
-    
-    XBA
-    
-    PLP : BCS .BRANCH_DELTA
-    
-    STA $00
-    
-    LDA #$80 : SEC : SBC.b $00
-    
-    BRA .BRANCH_EPSILON
+        XBA
+        
+        LDA.b #$54
+        
+        JSR $C56D ; $05456D
+        
+        XBA : CLC : ADC.b #$B2 : XBA
+        
+        PLA
+        
+        JSR $C56D ; $05456D IN ROM
+        
+        XBA
+        
+        PLP : BCS .BRANCH_DELTA
+            STA $00
+            
+            LDA #$80 : SEC : SBC.b $00
+            
+            BRA .BRANCH_EPSILON
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    CLC : ADC.b #$80
+        CLC : ADC.b #$80
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-    SEC : SBC $E0 : STA $0E
-    
-    LDA $0E : CLC : ADC.b #$80 : STA $0E
-    LDA $0F : CLC : ADC.b #$0C : STA $0F
-    
-    JMP $C50D ; $05450D IN ROM
+        SEC : SBC $E0 : STA $0E
+        
+        LDA $0E : CLC : ADC.b #$80 : STA $0E
+        LDA $0F : CLC : ADC.b #$0C : STA $0F
+        
+        JMP $C50D ; $05450D IN ROM
 
     .BRANCH_ALPHA
 
     REP #$30
     
-    LDA $7EC108 : LSR #4 : EOR.w #$FFFF : INC A : CLC : ADC $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
-    
-    JMP $C511 ; $054511 IN ROM
+    LDA $7EC108 : LSR #4
+    EOR.w #$FFFF : INC A
+    CLC : ADC $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
+        JMP $C511 ; $054511 IN ROM
 
     .BRANCH_ZETA
 
@@ -1613,8 +1937,7 @@ ClearMode7Tilemap:
     REP #$10
     
     TAX : CPX.w #$014D : BCC .BRANCH_THETA
-    
-    JMP $C511 ; $054511 IN ROM
+        JMP $C511 ; $054511 IN ROM
 
     .BRANCH_THETA
 
@@ -1624,12 +1947,11 @@ ClearMode7Tilemap:
     
     LDA $7EC10A : SEC : SBC.w #$07F8
     
-    ; supposed to be PLP? (check rom)
+    ; Supposed to be PLP? (check rom)
     PHP
 
     BPL .BRANCH_IOTA
-    
-    EOR.w #$FFFF : INC A
+        EOR.w #$FFFF : INC A
     
     .BRANCH_IOTA
 
@@ -1638,8 +1960,7 @@ ClearMode7Tilemap:
     SEP #$20
     
     LDA $0F : CMP.b #$E2 : BCC .BRANCH_KAPPA
-    
-    LDA.b #$00
+        LDA.b #$00
 
     .BRANCH_KAPPA
 
@@ -1666,12 +1987,11 @@ ClearMode7Tilemap:
     CLC : ADC $01 : XBA : ADC.b #$00 : XBA
     
     PLP : BCS .BRANCH_LAMBDA
-    
-    STA $00
+        STA $00
 
-    LDA #$0800 : SEC : SBC $00
+        LDA #$0800 : SEC : SBC $00
 
-    BRA .BRANCH_MU
+        BRA .BRANCH_MU
 
     .BRANCH_LAMBDA
 
@@ -1680,8 +2000,7 @@ ClearMode7Tilemap:
     .BRANCH_MU
 
     SEC : SBC.w #$0800 : BCS .BRANCH_NU
-
-    EOR #$FFFF : INC A
+        EOR #$FFFF : INC A
 
     .BRANCH_NU
 
@@ -1708,13 +2027,12 @@ ClearMode7Tilemap:
     PLP
 
     BCS .BRANCH_XI
+        STA $00
 
-    STA $00
-
-    LDA.b #$80 : SEC : SBC $00 : XBA : STA $00
-    LDA.b #$00 : SBC $00 : XBA
-    
-    BRA .BRANCH_OMICRON
+        LDA.b #$80 : SEC : SBC $00 : XBA : STA $00
+        LDA.b #$00 : SBC $00 : XBA
+        
+        BRA .BRANCH_OMICRON
 
     .BRANCH_XI
 
@@ -1733,17 +2051,17 @@ ClearMode7Tilemap:
     SEP #$30
     
     XBA : BNE .BRANCH_PI
-    
-    LDA $0E : CLC : ADC.b #$81 : STA $0E
-    LDA $0F : CLC : ADC.b #$10 : STA $0F
+        LDA $0E : CLC : ADC.b #$81 : STA $0E
+        LDA $0F : CLC : ADC.b #$10 : STA $0F
 
-    ; $05450D ALTERNATE ENTRY POINT
+        ; $05450D ALTERNATE ENTRY POINT
+        ; TODO: Give this entry point a label.
 
-    SEP #$30
-    
-    SEC
-    
-    RTS
+        SEP #$30
+        
+        SEC
+        
+        RTS
 
     ; $054511 ALTERNATE ENTRY POINT
     .BRANCH_PI
@@ -1757,31 +2075,39 @@ ClearMode7Tilemap:
 
 ; ==============================================================================
 
-; $054515-$05451B DATA?
+; $054515-$05451B DATA
+Pool_WorldMap_HandleSpriteBlink:
 {
+    .crystal_numbers
+    db $79 ; 2
+    db $6E ; 5
+    db $6F ; 6
+    db $6D ; 4
+    db $7C ; 7
+    db $6C ; 3
+    db $7F ; 1
 }
 
 ; $05451C-$05456C LOCAL JUMP LOCATION
+WorldMap_HandleSpriteBlink:
 {
-    ; alternates on and off every 16 frames
+    ; Alternates on and off every 16 frames
     LDA $1A : LSR #4 : AND.b #$01 : BNE .BRANCH_ALPHA
-    
-    LDA $0D : CMP.b #$64 : BNE .BRANCH_ALPHA
-    
-    ; Since the base of this array starts in code, we deduce that
-    ; X must range from 0x08 and 0x0E
-    LDA $0AC50D, X : STA $0D
-    LDA.b #$32     : STA $0C
-    
-    STZ $0A20, X
-    
-    TXA : ASL #2 : TAX
-    
-    ; Set coordinates of the sprite
-    LDA $0E : STA $0800, X
-    LDA $0F : STA $0801, X
-    
-    BRA .finishedWithCoords
+        LDA $0D : CMP.b #$64 : BNE .BRANCH_ALPHA
+            ; Since the base of this array starts in code, we deduce that
+            ; X must range from 0x08 and 0x0E
+            LDA $0AC50D, X : STA $0D
+            LDA.b #$32     : STA $0C
+            
+            STZ $0A20, X
+            
+            TXA : ASL #2 : TAX
+            
+            ; Set coordinates of the sprite
+            LDA $0E : STA $0800, X
+            LDA $0F : STA $0801, X
+            
+            BRA .finishedWithCoords
 
     .BRANCH_ALPHA
 
@@ -1802,9 +2128,10 @@ ClearMode7Tilemap:
     RTS
 }
 
-; =============================================
+; ==============================================================================
     
 ; $05456D-$05457F LOCAL JUMP LOCATION
+WorldMap_MultiplyAxB:
 {
     STA $4202
     
@@ -1819,9 +2146,10 @@ ClearMode7Tilemap:
     RTS
 }
 
-; =============================================
+; ==============================================================================
 
 ; $054580-$054588 LOCAL JUMP LOCATION
+WorldMap_ShiftNibblesRight:
 {
     REP #$30
     
@@ -1833,6 +2161,7 @@ ClearMode7Tilemap:
 }
 
 ; $054589-$0545A5 LOCAL JUMP LOCATION
+WorldMapIcon_AdjustCoordinate:
 {
     REP #$20
     
@@ -1845,26 +2174,26 @@ ClearMode7Tilemap:
 }
 
 ; $0545A6-$0545A8 DATA
+Pool_OverworldMap_CheckForPendant:
 {
+    .bit
     db $04, $02, $01
 }
 
-; =============================================
+; ==============================================================================
 
 ; $0545A9-$0545BE LOCAL JUMP LOCATION
 Overworldmap_CheckPendant:
 {
     ; X is an input variable to this function
     
-    ; check if the sprites indicator tells us to show the three pendants
+    ; Check if the sprites indicator tells us to show the three pendants
     LDA $7EF3C7 : CMP.b #$03 : BNE .fail
-    
-    ; check if we have that pendant
-    LDA $7EF374 : AND $0AC5A6, X : BEQ .fail
-    
-    SEC
-    
-    RTS
+        ; Check if we have that pendant
+        LDA $7EF374 : AND $0AC5A6, X : BEQ .fail
+            SEC
+            
+            RTS
 
     ; $0545BD ALTERNATE ENTRY POINT
     .fail
@@ -1876,8 +2205,10 @@ Overworldmap_CheckPendant:
 
 ; ==============================================================================
     
-; $0545BF-$0545C5 DATA?
+; $0545BF-$0545C5 DATA
+OverworldMap_CheckForCrystal
 {
+    .bit
     db $02, $40, $08, $20, $01, $04, $10
 }
 
@@ -1886,25 +2217,1263 @@ Overworldmap_CheckPendant:
 ; $0545C6-$0545D9 LOCAL JUMP LOCATION
 OverworldMap_CheckCrystal:
 {
-    ; Check if the sprite indicator tells us to show all 7 crystals (ones we've yet to obtain)
+    ; Check if the sprite indicator tells us to show all 7 crystals
+    ; (ones we've yet to obtain)
     LDA $7EF3C7 : CMP.b #$07 : BNE OverworldMap_CheckPendant_fail
-    
-    ; Check if we have that crystal
-    LDA $7EF37A : AND $0AC5BF, X : BEQ OverworldMap_CheckPendant_fail
-    
-    SEC
-    
-    RTS
+        ; Check if we have that crystal
+        LDA $7EF37A : AND $0AC5BF, X : BEQ OverworldMap_CheckPendant_fail
+            SEC
+            
+            RTS
 }
 
 ; ==============================================================================
 
-; $0545DA-$0560AF DATA
+; $0545DA-$054726 DATA
+WorldMap_SpritePositions:
 {
-    ; TODO: Figure out what this data is and split it up. There's a lot
-    ; though! A quick perusal doesn't seem to turn up any code, btw.
+    db $E0, $E0, $E0, $E0, $E0, $E0, $E0, $E0
+    db $E0, $E0, $E0, $E0, $E0, $E0, $E0, $DF
+    db $DE, $DD, $DC, $DB, $DA, $D8, $D7, $D6
+    db $D5, $D4, $D3, $D2, $D1, $D0, $CF, $CE
+    db $CD, $CC, $CB, $CA, $C9, $C7, $C6, $C5
+    db $C4, $C3, $C2, $C1, $C0, $BF, $BE, $BD
+    db $BC, $BB, $BA, $B9, $B8, $B7, $B6, $B5
+    db $B4, $B3, $B2, $B1, $B0, $AF, $AE, $AD
+    db $AC, $AB, $AA, $A9, $A8, $A7, $A6, $A5
+    db $A4, $A3, $A2, $A1, $A0, $9F, $9E, $9D
+    db $9C, $9B, $9B, $9A, $99, $98, $97, $96
+    db $95, $94, $93, $92, $91, $90, $8F, $8E
+    db $8D, $8C, $8B, $8B, $8A, $89, $88, $87
+    db $86, $85, $84, $83, $82, $81, $81, $80
+    db $7F, $7E, $7D, $7C, $7B, $7A, $79, $79
+    db $78, $77, $76, $75, $74, $73, $72, $72
+    db $71, $70, $6F, $6E, $6D, $6C, $6C, $6B
+    db $6A, $69, $68, $67, $67, $66, $65, $64
+    db $63, $62, $62, $61, $60, $5F, $5E, $5D
+    db $5D, $5C, $5B, $5A, $59, $59, $58, $57
+    db $56, $55, $55, $54, $53, $52, $51, $51
+    db $50, $4F, $4E, $4E, $4D, $4C, $4B, $4A
+    db $4A, $49, $48, $47, $47, $46, $45, $44
+    db $44, $43, $42, $41, $41, $40, $3F, $3E
+    db $3E, $3D, $3C, $3C, $3B, $3A, $39, $39
+    db $38, $37, $36, $36, $35, $34, $34, $33
+    db $32, $32, $31, $30, $2F, $2F, $2E, $2D
+    db $2D, $2C, $2B, $2B, $2A, $29, $29, $28
+    db $27, $27, $26, $25, $25, $24, $23, $23
+    db $22, $21, $21, $20, $1F, $1F, $1E, $1D
+    db $1D, $1C, $1C, $1B, $1A, $1A, $19, $18
+    db $18, $17, $17, $16, $15, $15, $14, $14
+    db $13, $12, $12, $11, $10, $10, $0F, $0F
+    db $0E, $0E, $0D, $0C, $0C, $0B, $0B, $0A
+    db $09, $09, $08, $08, $07, $07, $06, $05
+    db $05, $04, $04, $03, $03, $02, $01, $01
+    db $00, $00, $00, $00, $FF, $FE, $FE, $FD
+    db $FC, $FC, $FB, $FB, $FA, $F9, $F9, $F8
+    db $F7, $F7, $F6, $F5, $F4, $F4, $F3, $F2
+    db $F2, $F1, $F0, $EF, $EE, $EE, $ED, $EC
+    db $EB, $EA, $E9, $E8, $E8, $E7, $E6, $E5
+    db $E4, $E3, $E2, $E1, $E0
+}
 
-    ; LW and DW mini map palettes are here, roughly: $055B27
+; ==============================================================================
+
+; $054727-$055726 DATA
+WorldMap_LightWorldTilemap:
+{
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 00, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 00, Strip 1
+    db $28, $28, $28, $28, $28, $2C, $09, $08 ; Quadrant 0, Row 00, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 00, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 0, Row 01, Strip 0
+    db $29, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 01, Strip 1
+    db $28, $28, $28, $28, $28, $28, $2A, $28 ; Quadrant 0, Row 01, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 01, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 02, Strip 0
+    db $2C, $09, $08, $09, $28, $28, $28, $28 ; Quadrant 0, Row 02, Strip 1
+    db $28, $28, $28, $28, $28, $08, $29, $28 ; Quadrant 0, Row 02, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 02, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 03, Strip 0
+    db $28, $2C, $2D, $2C, $09, $28, $28, $28 ; Quadrant 0, Row 03, Strip 1
+    db $28, $28, $28, $28, $08, $28, $2C, $09 ; Quadrant 0, Row 03, Strip 2
+    db $08, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 0, Row 03, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 04, Strip 0
+    db $28, $28, $2C, $28, $2B, $09, $28, $28 ; Quadrant 0, Row 04, Strip 1
+    db $28, $28, $28, $08, $28, $28, $28, $2A ; Quadrant 0, Row 04, Strip 2
+    db $28, $28, $28, $28, $28, $28, $08, $28 ; Quadrant 0, Row 04, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 05, Strip 0
+    db $28, $28, $28, $28, $2B, $2A, $28, $28 ; Quadrant 0, Row 05, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 05, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 05, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 06, Strip 0
+    db $28, $29, $28, $28, $2A, $28, $28, $28 ; Quadrant 0, Row 06, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 06, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 06, Strip 3
+    db $28, $28, $08, $29, $28, $28, $28, $28 ; Quadrant 0, Row 07, Strip 0
+    db $28, $2C, $29, $28, $28, $28, $28, $28 ; Quadrant 0, Row 07, Strip 1
+    db $28, $08, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 07, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 07, Strip 3
+    db $28, $08, $28, $2C, $09, $08, $28, $28 ; Quadrant 0, Row 08, Strip 0
+    db $28, $28, $2B, $09, $08, $29, $08, $29 ; Quadrant 0, Row 08, Strip 1
+    db $08, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 08, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 08, Strip 3
+    db $08, $28, $28, $28, $2A, $28, $28, $28 ; Quadrant 0, Row 09, Strip 0
+    db $28, $28, $2B, $2E, $2D, $2C, $2D, $2C ; Quadrant 0, Row 09, Strip 1
+    db $2D, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 09, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 09, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0A, Strip 0
+    db $28, $28, $2C, $2C, $2C, $28, $2C, $28 ; Quadrant 0, Row 0A, Strip 1
+    db $2C, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0A, Strip 2
+    db $28, $28, $28, $28, $08, $29, $28, $2F ; Quadrant 0, Row 0A, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0B, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0B, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0B, Strip 2
+    db $28, $08, $09, $08, $28, $2C, $09, $1B ; Quadrant 0, Row 0B, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0C, Strip 0
+    db $28, $28, $28, $29, $28, $28, $28, $28 ; Quadrant 0, Row 0C, Strip 1
+    db $28, $2F, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0C, Strip 2
+    db $08, $28, $2C, $2D, $28, $28, $2B, $19 ; Quadrant 0, Row 0C, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0D, Strip 0
+    db $28, $28, $28, $2C, $29, $28, $2F, $28 ; Quadrant 0, Row 0D, Strip 1
+    db $2F, $1B, $1A, $28, $2F, $28, $2F, $08 ; Quadrant 0, Row 0D, Strip 2
+    db $28, $28, $28, $2C, $28, $28, $2C, $2E ; Quadrant 0, Row 0D, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0E, Strip 0
+    db $28, $28, $28, $28, $2C, $38, $1B, $1C ; Quadrant 0, Row 0E, Strip 1
+    db $1D, $1F, $1E, $1A, $1B, $1C, $1D, $1A ; Quadrant 0, Row 0E, Strip 2
+    db $28, $2F, $28, $2F, $28, $28, $28, $2B ; Quadrant 0, Row 0E, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 0F, Strip 0
+    db $28, $28, $28, $28, $28, $2E, $19, $1E ; Quadrant 0, Row 0F, Strip 1
+    db $1F, $14, $14, $1E, $1F, $1E, $1F, $1E ; Quadrant 0, Row 0F, Strip 2
+    db $1A, $1B, $3B, $3C, $3B, $28, $28, $28 ; Quadrant 0, Row 0F, Strip 3
+    db $28, $28, $28, $28, $08, $29, $08, $29 ; Quadrant 0, Row 10, Strip 0
+    db $28, $28, $28, $28, $28, $2B, $2E, $0B ; Quadrant 0, Row 10, Strip 1
+    db $26, $27, $14, $14, $14, $A5, $14, $26 ; Quadrant 0, Row 10, Strip 2
+    db $24, $25, $56, $35, $5B, $73, $74, $28 ; Quadrant 0, Row 10, Strip 3
+    db $28, $28, $28, $08, $28, $2C, $28, $2B ; Quadrant 0, Row 11, Strip 0
+    db $09, $08, $29, $28, $28, $2C, $2E, $1B ; Quadrant 0, Row 11, Strip 1
+    db $36, $37, $14, $14, $14, $14, $14, $15 ; Quadrant 0, Row 11, Strip 2
+    db $34, $A7, $64, $5B, $90, $73, $73, $52 ; Quadrant 0, Row 11, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $2C ; Quadrant 0, Row 12, Strip 0
+    db $2E, $2D, $2C, $09, $28, $2F, $1B, $1F ; Quadrant 0, Row 12, Strip 1
+    db $14, $14, $14, $14, $14, $14, $14, $15 ; Quadrant 0, Row 12, Strip 2
+    db $A7, $34, $E4, $90, $82, $83, $83, $83 ; Quadrant 0, Row 12, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 13, Strip 0
+    db $2C, $2E, $2D, $2A, $29, $2C, $19, $14 ; Quadrant 0, Row 13, Strip 1
+    db $A5, $14, $14, $14, $A5, $14, $14, $15 ; Quadrant 0, Row 13, Strip 2
+    db $A7, $B6, $DF, $82, $B2, $93, $D6, $D6 ; Quadrant 0, Row 13, Strip 3
+    db $09, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 14, Strip 0
+    db $28, $2C, $2A, $28, $2C, $09, $1B, $14 ; Quadrant 0, Row 14, Strip 1
+    db $14, $A5, $14, $14, $14, $14, $14, $15 ; Quadrant 0, Row 14, Strip 2
+    db $34, $A7, $82, $B2, $D6, $93, $93, $93 ; Quadrant 0, Row 14, Strip 3
+    db $2B, $09, $08, $29, $28, $28, $28, $28 ; Quadrant 0, Row 15, Strip 0
+    db $28, $28, $28, $28, $28, $2B, $19, $14 ; Quadrant 0, Row 15, Strip 1
+    db $14, $14, $14, $14, $A5, $14, $A5, $36 ; Quadrant 0, Row 15, Strip 2
+    db $05, $34, $B0, $D6, $D6, $82, $83, $83 ; Quadrant 0, Row 15, Strip 3
+    db $2C, $2A, $28, $2B, $2D, $28, $28, $28 ; Quadrant 0, Row 16, Strip 0
+    db $28, $28, $28, $28, $28, $2C, $2B, $0B ; Quadrant 0, Row 16, Strip 1
+    db $A5, $14, $14, $A5, $14, $A5, $14, $14 ; Quadrant 0, Row 16, Strip 2
+    db $15, $33, $33, $33, $90, $B2, $D6, $93 ; Quadrant 0, Row 16, Strip 3
+    db $28, $28, $28, $2C, $2E, $2D, $08, $28 ; Quadrant 0, Row 17, Strip 0
+    db $28, $28, $28, $28, $28, $28, $2F, $1B ; Quadrant 0, Row 17, Strip 1
+    db $14, $14, $A5, $A5, $14, $14, $14, $A5 ; Quadrant 0, Row 17, Strip 2
+    db $15, $A6, $FB, $34, $82, $83, $83, $83 ; Quadrant 0, Row 17, Strip 3
+    db $28, $28, $28, $28, $2C, $2A, $28, $28 ; Quadrant 0, Row 18, Strip 0
+    db $28, $28, $08, $29, $08, $29, $1B, $1F ; Quadrant 0, Row 18, Strip 1
+    db $26, $27, $26, $27, $26, $24, $24, $D5 ; Quadrant 0, Row 18, Strip 2
+    db $25, $34, $34, $34, $B0, $93, $71, $93 ; Quadrant 0, Row 18, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 19, Strip 0
+    db $28, $2F, $28, $2C, $28, $2C, $19, $14 ; Quadrant 0, Row 19, Strip 1
+    db $15, $13, $15, $13, $15, $33, $40, $41 ; Quadrant 0, Row 19, Strip 2
+    db $33, $BF, $34, $34, $30, $23, $81, $23 ; Quadrant 0, Row 19, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 0, Row 1A, Strip 0
+    db $2F, $1B, $1A, $28, $28, $2F, $1B, $14 ; Quadrant 0, Row 1A, Strip 1
+    db $15, $13, $15, $13, $15, $BC, $BD, $A6 ; Quadrant 0, Row 1A, Strip 2
+    db $A7, $34, $41, $33, $40, $34, $C0, $34 ; Quadrant 0, Row 1A, Strip 3
+    db $29, $28, $28, $28, $28, $08, $2D, $28 ; Quadrant 0, Row 1B, Strip 0
+    db $28, $19, $0A, $28, $2F, $1B, $1F, $14 ; Quadrant 0, Row 1B, Strip 1
+    db $15, $13, $15, $13, $36, $05, $D0, $D0 ; Quadrant 0, Row 1B, Strip 2
+    db $D0, $D0, $D0, $D0, $D0, $D0, $C3, $D0 ; Quadrant 0, Row 1B, Strip 3
+    db $2C, $09, $28, $28, $08, $28, $2B, $2D ; Quadrant 0, Row 1C, Strip 0
+    db $28, $2C, $28, $2F, $1B, $1F, $14, $14 ; Quadrant 0, Row 1C, Strip 1
+    db $15, $23, $25, $23, $24, $25, $C0, $A6 ; Quadrant 0, Row 1C, Strip 2
+    db $FB, $A7, $A6, $00, $6A, $3D, $6E, $8B ; Quadrant 0, Row 1C, Strip 3
+    db $28, $2C, $09, $08, $28, $28, $2C, $2E ; Quadrant 0, Row 1D, Strip 0
+    db $2D, $08, $29, $1B, $1F, $A5, $14, $26 ; Quadrant 0, Row 1D, Strip 1
+    db $25, $31, $B6, $E4, $FD, $FE, $C0, $10 ; Quadrant 0, Row 1D, Strip 2
+    db $12, $A6, $FB, $10, $12, $4D, $7E, $9B ; Quadrant 0, Row 1D, Strip 3
+    db $28, $28, $2A, $29, $28, $28, $28, $2C ; Quadrant 0, Row 1E, Strip 0
+    db $2A, $28, $2C, $19, $14, $14, $A5, $15 ; Quadrant 0, Row 1E, Strip 1
+    db $34, $41, $33, $33, $33, $33, $C0, $10 ; Quadrant 0, Row 1E, Strip 2
+    db $12, $A7, $FB, $20, $22, $CD, $A7, $3E ; Quadrant 0, Row 1E, Strip 3
+    db $28, $28, $28, $2C, $2D, $28, $28, $28 ; Quadrant 0, Row 1F, Strip 0
+    db $28, $28, $28, $2B, $0B, $A5, $14, $15 ; Quadrant 0, Row 1F, Strip 1
+    db $34, $F6, $89, $6B, $6C, $89, $F6, $10 ; Quadrant 0, Row 1F, Strip 2
+    db $12, $FB, $FB, $00, $02, $CD, $34, $3E ; Quadrant 0, Row 1F, Strip 3
+
+; ==============================================================================
+
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 00, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 01, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 01, Strip 1
+    db $28, $28, $28, $28, $08, $29, $28, $28 ; Quadrant 1, Row 01, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 01, Strip 3
+    db $28, $28, $08, $28, $08, $29, $28, $28 ; Quadrant 1, Row 02, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 02, Strip 1
+    db $28, $28, $28, $08, $28, $2C, $09, $28 ; Quadrant 1, Row 02, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 02, Strip 3
+    db $09, $08, $28, $08, $28, $2C, $09, $28 ; Quadrant 1, Row 03, Strip 0
+    db $28, $28, $28, $28, $28, $29, $08, $29 ; Quadrant 1, Row 03, Strip 1
+    db $08, $29, $08, $28, $28, $28, $2B, $09 ; Quadrant 1, Row 03, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 03, Strip 3
+    db $2C, $2D, $28, $28, $28, $28, $2B, $09 ; Quadrant 1, Row 04, Strip 0
+    db $28, $28, $08, $28, $28, $2C, $2D, $2C ; Quadrant 1, Row 04, Strip 1
+    db $2D, $2C, $2D, $28, $28, $28, $2C, $2E ; Quadrant 1, Row 04, Strip 2
+    db $09, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 04, Strip 3
+    db $28, $2C, $28, $28, $28, $28, $2C, $2E ; Quadrant 1, Row 05, Strip 0
+    db $09, $08, $28, $28, $28, $28, $2C, $28 ; Quadrant 1, Row 05, Strip 1
+    db $2C, $28, $2C, $28, $28, $28, $28, $2B ; Quadrant 1, Row 05, Strip 2
+    db $2A, $29, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 05, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $2B ; Quadrant 1, Row 06, Strip 0
+    db $2A, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 06, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 1, Row 06, Strip 2
+    db $09, $2C, $09, $28, $28, $28, $28, $28 ; Quadrant 1, Row 06, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 1, Row 07, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 07, Strip 1
+    db $28, $28, $28, $28, $28, $28, $08, $28 ; Quadrant 1, Row 07, Strip 2
+    db $2C, $28, $2B, $09, $28, $28, $28, $28 ; Quadrant 1, Row 07, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 08, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 08, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 08, Strip 2
+    db $28, $28, $2C, $2E, $2D, $28, $28, $28 ; Quadrant 1, Row 08, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 09, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 09, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 09, Strip 2
+    db $28, $28, $28, $2B, $2A, $2D, $28, $28 ; Quadrant 1, Row 09, Strip 3
+    db $28, $28, $28, $28, $28, $28, $2F, $28 ; Quadrant 1, Row 0A, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0A, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0A, Strip 2
+    db $28, $28, $28, $2A, $28, $2C, $28, $28 ; Quadrant 1, Row 0A, Strip 3
+    db $1A, $28, $08, $29, $08, $29, $1B, $1A ; Quadrant 1, Row 0B, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0B, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0B, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0B, Strip 3
+    db $0A, $08, $2D, $2C, $2D, $1B, $1F, $0A ; Quadrant 1, Row 0C, Strip 0
+    db $28, $28, $28, $2F, $28, $28, $28, $28 ; Quadrant 1, Row 0C, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0C, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0C, Strip 3
+    db $2D, $28, $2C, $28, $2C, $19, $0A, $28 ; Quadrant 1, Row 0D, Strip 0
+    db $28, $28, $2F, $1B, $1A, $28, $28, $28 ; Quadrant 1, Row 0D, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0D, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0D, Strip 3
+    db $2E, $28, $08, $29, $28, $2C, $2D, $28 ; Quadrant 1, Row 0E, Strip 0
+    db $28, $28, $2C, $19, $0A, $28, $28, $28 ; Quadrant 1, Row 0E, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 1, Row 0E, Strip 2
+    db $29, $08, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0E, Strip 3
+    db $2C, $98, $42, $2C, $09, $28, $2C, $28 ; Quadrant 1, Row 0F, Strip 0
+    db $28, $08, $29, $2C, $28, $28, $28, $28 ; Quadrant 1, Row 0F, Strip 1
+    db $28, $28, $28, $28, $28, $28, $08, $28 ; Quadrant 1, Row 0F, Strip 2
+    db $2C, $2D, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 0F, Strip 3
+    db $72, $99, $63, $73, $73, $74, $2C, $72 ; Quadrant 1, Row 10, Strip 0
+    db $73, $73, $73, $A1, $A0, $73, $73, $74 ; Quadrant 1, Row 10, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 10, Strip 2
+    db $28, $2C, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 10, Strip 3
+    db $52, $9A, $70, $A0, $73, $91, $09, $90 ; Quadrant 1, Row 11, Strip 0
+    db $73, $73, $A1, $84, $90, $73, $73, $91 ; Quadrant 1, Row 11, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 11, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 11, Strip 3
+    db $83, $83, $84, $82, $83, $52, $52, $83 ; Quadrant 1, Row 12, Strip 0
+    db $83, $83, $84, $B3, $90, $A1, $83, $84 ; Quadrant 1, Row 12, Strip 1
+    db $3B, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 12, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 12, Strip 3
+    db $93, $93, $94, $92, $93, $94, $72, $93 ; Quadrant 1, Row 13, Strip 0
+    db $93, $93, $B3, $A1, $82, $84, $93, $A2 ; Quadrant 1, Row 13, Strip 1
+    db $4A, $3B, $08, $28, $28, $28, $28, $28 ; Quadrant 1, Row 13, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 13, Strip 3
+    db $D6, $93, $94, $92, $93, $94, $82, $93 ; Quadrant 1, Row 14, Strip 0
+    db $82, $83, $83, $84, $B4, $94, $06, $54 ; Quadrant 1, Row 14, Strip 1
+    db $35, $4C, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 14, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 14, Strip 3
+    db $83, $84, $B3, $B2, $93, $94, $B4, $90 ; Quadrant 1, Row 15, Strip 0
+    db $B2, $93, $93, $B3, $CA, $B7, $95, $54 ; Quadrant 1, Row 15, Strip 1
+    db $48, $3B, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 15, Strip 2
+    db $28, $28, $28, $28, $08, $29, $28, $28 ; Quadrant 1, Row 15, Strip 3
+    db $93, $B3, $73, $A1, $83, $52, $62, $90 ; Quadrant 1, Row 16, Strip 0
+    db $73, $73, $73, $91, $9F, $06, $22, $54 ; Quadrant 1, Row 16, Strip 1
+    db $5C, $4A, $3B, $28, $28, $28, $28, $28 ; Quadrant 1, Row 16, Strip 2
+    db $28, $28, $28, $08, $28, $2C, $09, $08 ; Quadrant 1, Row 16, Strip 3
+    db $83, $83, $83, $84, $93, $94, $CA, $82 ; Quadrant 1, Row 17, Strip 0
+    db $83, $83, $83, $84, $A9, $16, $02, $54 ; Quadrant 1, Row 17, Strip 1
+    db $58, $56, $4A, $3B, $08, $28, $28, $28 ; Quadrant 1, Row 17, Strip 2
+    db $28, $28, $08, $28, $28, $28, $2B, $2D ; Quadrant 1, Row 17, Strip 3
+    db $93, $93, $93, $A4, $93, $A4, $CA, $B4 ; Quadrant 1, Row 18, Strip 0
+    db $93, $93, $93, $B7, $11, $11, $12, $54 ; Quadrant 1, Row 18, Strip 1
+    db $35, $58, $56, $4C, $29, $28, $28, $28 ; Quadrant 1, Row 18, Strip 2
+    db $28, $28, $28, $28, $28, $28, $2C, $2E ; Quadrant 1, Row 18, Strip 3
+    db $24, $24, $24, $25, $00, $85, $06, $21 ; Quadrant 1, Row 19, Strip 0
+    db $21, $21, $21, $21, $21, $21, $22, $54 ; Quadrant 1, Row 19, Strip 1
+    db $39, $3A, $39, $28, $2C, $2D, $28, $28 ; Quadrant 1, Row 19, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $2C ; Quadrant 1, Row 19, Strip 3
+    db $B6, $80, $80, $B6, $20, $07, $95, $A6 ; Quadrant 1, Row 1A, Strip 0
+    db $A6, $F6, $A7, $44, $45, $41, $31, $54 ; Quadrant 1, Row 1A, Strip 1
+    db $3B, $28, $28, $28, $28, $2C, $28, $28 ; Quadrant 1, Row 1A, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1A, Strip 3
+    db $D0, $D0, $D0, $D0, $D0, $10, $06, $77 ; Quadrant 1, Row 1B, Strip 0
+    db $7B, $7B, $7B, $43, $7A, $7B, $8D, $8E ; Quadrant 1, Row 1B, Strip 1
+    db $4A, $3B, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1B, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 1, Row 1B, Strip 3
+    db $8C, $6E, $3F, $8A, $02, $10, $12, $54 ; Quadrant 1, Row 1C, Strip 0
+    db $57, $9D, $9D, $9D, $9D, $9D, $C8, $C9 ; Quadrant 1, Row 1C, Strip 1
+    db $35, $4C, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1C, Strip 2
+    db $28, $28, $28, $28, $28, $28, $08, $28 ; Quadrant 1, Row 1C, Strip 3
+    db $9C, $7E, $4F, $10, $12, $10, $12, $54 ; Quadrant 1, Row 1D, Strip 0
+    db $C7, $57, $56, $48, $35, $89, $89, $5C ; Quadrant 1, Row 1D, Strip 1
+    db $35, $3B, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1D, Strip 2
+    db $28, $28, $28, $28, $28, $08, $28, $28 ; Quadrant 1, Row 1D, Strip 3
+    db $5E, $A7, $CE, $10, $12, $52, $52, $54 ; Quadrant 1, Row 1E, Strip 0
+    db $C7, $EE, $EF, $58, $9D, $9D, $9D, $5C ; Quadrant 1, Row 1E, Strip 1
+    db $48, $4A, $3B, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1E, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1E, Strip 3
+    db $5E, $34, $CE, $10, $F3, $F4, $22, $54 ; Quadrant 1, Row 1F, Strip 0
+    db $C7, $89, $49, $56, $57, $9D, $56, $5C ; Quadrant 1, Row 1F, Strip 1
+    db $5C, $35, $4C, $28, $29, $28, $28, $28 ; Quadrant 1, Row 1F, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 1, Row 1F, Strip 3
+
+; ==============================================================================
+
+    db $28, $28, $28, $28, $2B, $2D, $28, $28 ; Quadrant 2, Row 00, Strip 0
+    db $28, $28, $28, $2C, $2A, $0B, $14, $15 ; Quadrant 2, Row 00, Strip 1
+    db $34, $B6, $34, $3E, $5E, $88, $88, $10 ; Quadrant 2, Row 00, Strip 2
+    db $12, $FB, $A6, $10, $12, $CD, $34, $3E ; Quadrant 2, Row 00, Strip 3
+    db $28, $28, $28, $28, $2C, $2E, $2D, $08 ; Quadrant 2, Row 01, Strip 0
+    db $09, $28, $28, $28, $2F, $2A, $0B, $15 ; Quadrant 2, Row 01, Strip 1
+    db $88, $88, $BC, $BD, $BC, $BD, $F6, $10 ; Quadrant 2, Row 01, Strip 2
+    db $12, $BC, $BD, $10, $12, $5D, $4E, $7D ; Quadrant 2, Row 01, Strip 3
+    db $28, $28, $28, $28, $28, $2C, $2A, $28 ; Quadrant 2, Row 02, Strip 0
+    db $2B, $09, $28, $28, $28, $2F, $1B, $25 ; Quadrant 2, Row 02, Strip 1
+    db $34, $A7, $34, $34, $34, $34, $A7, $20 ; Quadrant 2, Row 02, Strip 2
+    db $22, $33, $33, $10, $16, $01, $01, $50 ; Quadrant 2, Row 02, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 03, Strip 0
+    db $2C, $2A, $28, $28, $2F, $3C, $4B, $66 ; Quadrant 2, Row 03, Strip 1
+    db $CF, $04, $04, $CB, $04, $BB, $C0, $03 ; Quadrant 2, Row 03, Strip 2
+    db $04, $04, $04, $DB, $E6, $21, $21, $60 ; Quadrant 2, Row 03, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 04, Strip 0
+    db $28, $28, $08, $09, $08, $5A, $35, $35 ; Quadrant 2, Row 04, Strip 1
+    db $69, $24, $24, $27, $26, $25, $C0, $13 ; Quadrant 2, Row 04, Strip 2
+    db $26, $24, $24, $27, $15, $A7, $FB, $FB ; Quadrant 2, Row 04, Strip 3
+    db $09, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 05, Strip 0
+    db $28, $28, $28, $2C, $2D, $2B, $3A, $35 ; Quadrant 2, Row 05, Strip 1
+    db $55, $34, $34, $13, $15, $E4, $33, $13 ; Quadrant 2, Row 05, Strip 2
+    db $15, $FB, $A7, $13, $15, $A7, $FB, $FB ; Quadrant 2, Row 05, Strip 3
+    db $2B, $09, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 06, Strip 0
+    db $28, $28, $28, $28, $2C, $2F, $3C, $35 ; Quadrant 2, Row 06, Strip 1
+    db $55, $33, $31, $23, $25, $33, $F6, $13 ; Quadrant 2, Row 06, Strip 2
+    db $15, $A7, $FB, $13, $15, $A7, $A6, $34 ; Quadrant 2, Row 06, Strip 3
+    db $2C, $2E, $09, $08, $29, $28, $28, $28 ; Quadrant 2, Row 07, Strip 0
+    db $28, $2C, $09, $28, $2F, $3C, $4B, $35 ; Quadrant 2, Row 07, Strip 1
+    db $7A, $7B, $7B, $A3, $D2, $7B, $7C, $23 ; Quadrant 2, Row 07, Strip 2
+    db $36, $05, $03, $37, $15, $A7, $41, $33 ; Quadrant 2, Row 07, Strip 3
+    db $28, $2C, $2A, $28, $2C, $09, $28, $28 ; Quadrant 2, Row 08, Strip 0
+    db $28, $28, $2C, $09, $3C, $4B, $35, $57 ; Quadrant 2, Row 08, Strip 1
+    db $9D, $9D, $C5, $9D, $9D, $56, $55, $A6 ; Quadrant 2, Row 08, Strip 2
+    db $23, $25, $23, $24, $25, $34, $44, $66 ; Quadrant 2, Row 08, Strip 3
+    db $28, $28, $28, $28, $28, $2B, $2D, $28 ; Quadrant 2, Row 09, Strip 0
+    db $28, $28, $28, $2C, $5A, $35, $35, $C7 ; Quadrant 2, Row 09, Strip 1
+    db $35, $DE, $CC, $DE, $57, $5C, $47, $66 ; Quadrant 2, Row 09, Strip 2
+    db $45, $D0, $D0, $D0, $C3, $34, $AF, $67 ; Quadrant 2, Row 09, Strip 3
+    db $28, $28, $28, $28, $28, $2B, $2A, $28 ; Quadrant 2, Row 0A, Strip 0
+    db $28, $28, $28, $28, $2C, $3A, $35, $C7 ; Quadrant 2, Row 0A, Strip 1
+    db $57, $9D, $78, $9D, $59, $58, $56, $35 ; Quadrant 2, Row 0A, Strip 2
+    db $7A, $7B, $7C, $A7, $34, $B1, $AD, $B6 ; Quadrant 2, Row 0A, Strip 3
+    db $28, $28, $28, $28, $2F, $2A, $28, $28 ; Quadrant 2, Row 0B, Strip 0
+    db $28, $28, $28, $28, $28, $2C, $3A, $C7 ; Quadrant 2, Row 0B, Strip 1
+    db $C7, $86, $DC, $57, $59, $86, $58, $56 ; Quadrant 2, Row 0B, Strip 2
+    db $35, $35, $7A, $7B, $7B, $D3, $AC, $BF ; Quadrant 2, Row 0B, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 0C, Strip 0
+    db $28, $28, $08, $09, $08, $29, $3C, $C7 ; Quadrant 2, Row 0C, Strip 1
+    db $C7, $86, $58, $59, $86, $86, $86, $5C ; Quadrant 2, Row 0C, Strip 2
+    db $57, $56, $57, $56, $57, $65, $B6, $B6 ; Quadrant 2, Row 0C, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 0D, Strip 0
+    db $28, $28, $28, $2C, $2D, $3C, $4B, $C7 ; Quadrant 2, Row 0D, Strip 1
+    db $59, $86, $86, $86, $86, $86, $86, $5C ; Quadrant 2, Row 0D, Strip 2
+    db $C7, $64, $65, $54, $55, $B6, $B6, $B6 ; Quadrant 2, Row 0D, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 0E, Strip 0
+    db $28, $28, $28, $28, $2C, $5A, $35, $C7 ; Quadrant 2, Row 0E, Strip 1
+    db $86, $86, $86, $86, $86, $86, $86, $58 ; Quadrant 2, Row 0E, Strip 2
+    db $C2, $7F, $6F, $C1, $65, $B6, $79, $F5 ; Quadrant 2, Row 0E, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 0F, Strip 0
+    db $28, $28, $28, $08, $29, $2C, $3A, $C7 ; Quadrant 2, Row 0F, Strip 1
+    db $66, $49, $86, $86, $86, $86, $86, $86 ; Quadrant 2, Row 0F, Strip 2
+    db $5C, $47, $46, $55, $B6, $B6, $B6, $B6 ; Quadrant 2, Row 0F, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 10, Strip 0
+    db $08, $29, $08, $28, $2C, $09, $3C, $47 ; Quadrant 2, Row 10, Strip 1
+    db $66, $66, $66, $66, $66, $66, $66, $66 ; Quadrant 2, Row 10, Strip 2
+    db $46, $35, $35, $47, $66, $66, $66, $66 ; Quadrant 2, Row 10, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 11, Strip 0
+    db $28, $2C, $09, $28, $28, $2B, $5A, $39 ; Quadrant 2, Row 11, Strip 1
+    db $3A, $39, $3A, $35, $35, $39, $3A, $48 ; Quadrant 2, Row 11, Strip 2
+    db $66, $66, $49, $39, $3A, $35, $35, $39 ; Quadrant 2, Row 11, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 12, Strip 0
+    db $28, $28, $2C, $28, $28, $2C, $2C, $2D ; Quadrant 2, Row 12, Strip 1
+    db $2C, $28, $2C, $3A, $39, $2F, $3C, $5C ; Quadrant 2, Row 12, Strip 2
+    db $39, $3A, $39, $28, $2C, $3A, $39, $28 ; Quadrant 2, Row 12, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 13, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $2C ; Quadrant 2, Row 13, Strip 1
+    db $28, $28, $28, $2C, $28, $2C, $5A, $46 ; Quadrant 2, Row 13, Strip 2
+    db $3B, $2C, $2D, $28, $28, $2C, $2D, $28 ; Quadrant 2, Row 13, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 2, Row 14, Strip 0
+    db $29, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 14, Strip 1
+    db $28, $28, $28, $28, $28, $28, $3C, $35 ; Quadrant 2, Row 14, Strip 2
+    db $4A, $3B, $2C, $2D, $28, $28, $2C, $28 ; Quadrant 2, Row 14, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 15, Strip 0
+    db $2C, $09, $08, $29, $28, $28, $28, $28 ; Quadrant 2, Row 15, Strip 1
+    db $28, $28, $28, $28, $28, $08, $5A, $35 ; Quadrant 2, Row 15, Strip 2
+    db $35, $4A, $3B, $3C, $3B, $08, $29, $28 ; Quadrant 2, Row 15, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 16, Strip 0
+    db $28, $2C, $2D, $2C, $09, $28, $28, $28 ; Quadrant 2, Row 16, Strip 1
+    db $28, $28, $28, $28, $08, $28, $2C, $3A ; Quadrant 2, Row 16, Strip 2
+    db $39, $3A, $4A, $4B, $4C, $28, $2C, $09 ; Quadrant 2, Row 16, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 17, Strip 0
+    db $28, $28, $2C, $28, $2B, $09, $08, $29 ; Quadrant 2, Row 17, Strip 1
+    db $28, $28, $28, $08, $28, $28, $28, $2A ; Quadrant 2, Row 17, Strip 2
+    db $28, $2C, $3A, $39, $28, $28, $28, $08 ; Quadrant 2, Row 17, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 18, Strip 0
+    db $28, $28, $28, $28, $2B, $2A, $28, $2C ; Quadrant 2, Row 18, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 18, Strip 2
+    db $28, $28, $2B, $2D, $28, $28, $28, $28 ; Quadrant 2, Row 18, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 19, Strip 0
+    db $28, $28, $28, $28, $2A, $28, $28, $28 ; Quadrant 2, Row 19, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 19, Strip 2
+    db $28, $28, $2C, $2E, $2D, $28, $28, $28 ; Quadrant 2, Row 19, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1A, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1A, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1A, Strip 2
+    db $28, $28, $28, $2C, $2E, $28, $28, $28 ; Quadrant 2, Row 1A, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1B, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1B, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1B, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1B, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1C, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1C, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1C, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1C, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1D, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1D, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1D, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1D, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1E, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1E, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1E, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1E, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 2, Row 1F, Strip 3
+
+; ==============================================================================
+
+    db $5E, $34, $CE, $10, $12, $FC, $FC, $5C ; Quadrant 3, Row 00, Strip 0
+    db $C7, $9D, $59, $58, $59, $89, $58, $5C ; Quadrant 3, Row 00, Strip 1
+    db $58, $39, $28, $28, $2C, $2D, $28, $28 ; Quadrant 3, Row 00, Strip 2
+    db $08, $29, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 00, Strip 3
+    db $6D, $4E, $5F, $20, $22, $FC, $FC, $5C ; Quadrant 3, Row 01, Strip 0
+    db $C7, $67, $56, $89, $57, $67, $67, $5C ; Quadrant 3, Row 01, Strip 1
+    db $39, $28, $28, $28, $28, $2B, $2D, $08 ; Quadrant 3, Row 01, Strip 2
+    db $28, $2C, $2D, $28, $28, $28, $28, $28 ; Quadrant 3, Row 01, Strip 3
+    db $51, $01, $01, $01, $02, $FC, $FC, $5C ; Quadrant 3, Row 02, Strip 0
+    db $55, $9E, $64, $67, $65, $FB, $A7, $54 ; Quadrant 3, Row 02, Strip 1
+    db $3B, $28, $28, $08, $28, $28, $2C, $28 ; Quadrant 3, Row 02, Strip 2
+    db $28, $28, $2C, $28, $28, $28, $28, $28 ; Quadrant 3, Row 02, Strip 3
+    db $61, $21, $21, $07, $12, $FC, $FC, $5C ; Quadrant 3, Row 03, Strip 0
+    db $55, $77, $7B, $7B, $7B, $7B, $7C, $54 ; Quadrant 3, Row 03, Strip 1
+    db $4A, $3B, $08, $28, $28, $28, $28, $28 ; Quadrant 3, Row 03, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 03, Strip 3
+    db $FB, $A7, $C0, $10, $12, $FC, $FC, $5C ; Quadrant 3, Row 04, Strip 0
+    db $55, $64, $67, $56, $57, $67, $65, $54 ; Quadrant 3, Row 04, Strip 1
+    db $48, $4C, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 04, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 04, Strip 3
+    db $FB, $B6, $C0, $10, $12, $34, $34, $64 ; Quadrant 3, Row 05, Strip 0
+    db $65, $A6, $A6, $54, $55, $31, $44, $46 ; Quadrant 3, Row 05, Strip 1
+    db $58, $3B, $28, $2F, $28, $28, $28, $28 ; Quadrant 3, Row 05, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 05, Strip 3
+    db $B6, $F6, $C0, $10, $16, $50, $51, $01 ; Quadrant 3, Row 06, Strip 0
+    db $01, $01, $01, $68, $55, $41, $64, $56 ; Quadrant 3, Row 06, Strip 1
+    db $48, $4A, $3B, $3C, $3B, $28, $28, $28 ; Quadrant 3, Row 06, Strip 2
+    db $2F, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 06, Strip 3
+    db $33, $33, $C3, $20, $21, $60, $61, $AB ; Quadrant 3, Row 07, Strip 0
+    db $97, $97, $BE, $68, $7A, $7B, $7B, $43 ; Quadrant 3, Row 07, Strip 1
+    db $5C, $35, $4A, $4B, $4A, $3B, $08, $29 ; Quadrant 3, Row 07, Strip 2
+    db $3C, $3B, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 07, Strip 3
+    db $66, $45, $44, $66, $45, $34, $34, $64 ; Quadrant 3, Row 08, Strip 0
+    db $AE, $AE, $A9, $68, $57, $C6, $67, $56 ; Quadrant 3, Row 08, Strip 1
+    db $58, $56, $35, $35, $35, $4C, $2F, $3C ; Quadrant 3, Row 08, Strip 2
+    db $4B, $4C, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 08, Strip 3
+    db $67, $65, $64, $56, $75, $76, $96, $01 ; Quadrant 3, Row 09, Strip 0
+    db $17, $11, $11, $B8, $53, $01, $02, $54 ; Quadrant 3, Row 09, Strip 1
+    db $35, $58, $39, $3A, $39, $28, $28, $5A ; Quadrant 3, Row 09, Strip 2
+    db $39, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 09, Strip 3
+    db $B6, $B6, $B6, $54, $55, $10, $06, $07 ; Quadrant 3, Row 0A, Strip 0
+    db $87, $97, $BE, $8F, $9F, $06, $12, $54 ; Quadrant 3, Row 0A, Strip 1
+    db $35, $39, $28, $2C, $2D, $28, $28, $2C ; Quadrant 3, Row 0A, Strip 2
+    db $2D, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 3, Row 0A, Strip 3
+    db $BF, $B6, $B6, $54, $55, $10, $16, $17 ; Quadrant 3, Row 0B, Strip 0
+    db $B9, $C6, $BA, $8F, $9F, $12, $12, $54 ; Quadrant 3, Row 0B, Strip 1
+    db $35, $3B, $08, $28, $2C, $28, $28, $28 ; Quadrant 3, Row 0B, Strip 2
+    db $2C, $28, $28, $28, $28, $28, $08, $28 ; Quadrant 3, Row 0B, Strip 3
+    db $B6, $B6, $B6, $54, $47, $AA, $11, $11 ; Quadrant 3, Row 0C, Strip 0
+    db $16, $96, $17, $8F, $9F, $12, $22, $54 ; Quadrant 3, Row 0C, Strip 1
+    db $35, $4C, $2D, $28, $28, $28, $28, $28 ; Quadrant 3, Row 0C, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 0C, Strip 3
+    db $B6, $30, $33, $54, $57, $F2, $11, $11 ; Quadrant 3, Row 0D, Strip 0
+    db $11, $11, $11, $A8, $A9, $95, $02, $54 ; Quadrant 3, Row 0D, Strip 1
+    db $39, $28, $2C, $2D, $28, $28, $08, $29 ; Quadrant 3, Row 0D, Strip 2
+    db $08, $29, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 0D, Strip 3
+    db $B6, $32, $34, $64, $65, $10, $11, $11 ; Quadrant 3, Row 0E, Strip 0
+    db $06, $21, $07, $11, $11, $06, $22, $54 ; Quadrant 3, Row 0E, Strip 1
+    db $3B, $28, $28, $2C, $28, $28, $28, $2C ; Quadrant 3, Row 0E, Strip 2
+    db $28, $2C, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 0E, Strip 3
+    db $30, $40, $34, $B6, $34, $20, $21, $21 ; Quadrant 3, Row 0F, Strip 0
+    db $22, $34, $B6, $34, $34, $34, $B6, $54 ; Quadrant 3, Row 0F, Strip 1
+    db $39, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 0F, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 0F, Strip 3
+    db $66, $66, $66, $66, $66, $66, $66, $66 ; Quadrant 3, Row 10, Strip 0
+    db $66, $66, $66, $66, $66, $66, $66, $46 ; Quadrant 3, Row 10, Strip 1
+    db $3B, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 10, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 10, Strip 3
+    db $3A, $48, $66, $66, $66, $49, $48, $49 ; Quadrant 3, Row 11, Strip 0
+    db $39, $3A, $35, $35, $39, $3A, $35, $35 ; Quadrant 3, Row 11, Strip 1
+    db $39, $2D, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 11, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 11, Strip 3
+    db $2C, $3A, $39, $3A, $35, $47, $46, $39 ; Quadrant 3, Row 12, Strip 0
+    db $28, $2C, $3A, $39, $28, $2C, $3A, $39 ; Quadrant 3, Row 12, Strip 1
+    db $28, $2C, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 12, Strip 2
+    db $28, $28, $28, $28, $28, $08, $29, $08 ; Quadrant 3, Row 12, Strip 3
+    db $28, $2C, $2D, $2C, $3A, $35, $39, $28 ; Quadrant 3, Row 13, Strip 0
+    db $28, $28, $2C, $08, $29, $28, $2C, $28 ; Quadrant 3, Row 13, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 13, Strip 2
+    db $28, $28, $28, $28, $08, $28, $2C, $2D ; Quadrant 3, Row 13, Strip 3
+    db $28, $28, $2C, $28, $2C, $39, $28, $28 ; Quadrant 3, Row 14, Strip 0
+    db $28, $28, $28, $28, $2B, $09, $08, $29 ; Quadrant 3, Row 14, Strip 1
+    db $28, $28, $28, $28, $08, $29, $28, $28 ; Quadrant 3, Row 14, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $2C ; Quadrant 3, Row 14, Strip 3
+    db $28, $28, $28, $28, $08, $29, $28, $28 ; Quadrant 3, Row 15, Strip 0
+    db $28, $28, $28, $28, $2C, $2A, $28, $2C ; Quadrant 3, Row 15, Strip 1
+    db $09, $28, $28, $08, $28, $2C, $09, $28 ; Quadrant 3, Row 15, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 15, Strip 3
+    db $28, $28, $28, $08, $28, $2C, $2D, $28 ; Quadrant 3, Row 16, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 16, Strip 1
+    db $08, $29, $08, $28, $28, $28, $2B, $09 ; Quadrant 3, Row 16, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 16, Strip 3
+    db $29, $28, $08, $28, $28, $28, $2C, $28 ; Quadrant 3, Row 17, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 17, Strip 1
+    db $28, $2C, $2D, $28, $28, $28, $2C, $2E ; Quadrant 3, Row 17, Strip 2
+    db $09, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 17, Strip 3
+    db $2C, $2D, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 18, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 18, Strip 1
+    db $28, $28, $2C, $28, $28, $28, $28, $2B ; Quadrant 3, Row 18, Strip 2
+    db $2A, $29, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 18, Strip 3
+    db $28, $2C, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 19, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 19, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $08 ; Quadrant 3, Row 19, Strip 2
+    db $09, $2C, $09, $28, $28, $28, $28, $28 ; Quadrant 3, Row 19, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1A, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1A, Strip 1
+    db $28, $28, $28, $28, $28, $28, $08, $28 ; Quadrant 3, Row 1A, Strip 2
+    db $28, $28, $2B, $09, $28, $28, $28, $28 ; Quadrant 3, Row 1A, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1B, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1B, Strip 1
+    db $28, $28, $28, $28, $28, $08, $28, $28 ; Quadrant 3, Row 1B, Strip 2
+    db $28, $28, $2C, $2E, $2D, $28, $28, $28 ; Quadrant 3, Row 1B, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1C, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1C, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1C, Strip 2
+    db $28, $28, $28, $2B, $2A, $28, $28, $28 ; Quadrant 3, Row 1C, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1D, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1D, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1D, Strip 2
+    db $28, $28, $28, $2A, $28, $28, $28, $28 ; Quadrant 3, Row 1D, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1E, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1E, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1E, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1E, Strip 3
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1F, Strip 0
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1F, Strip 1
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1F, Strip 2
+    db $28, $28, $28, $28, $28, $28, $28, $28 ; Quadrant 3, Row 1F, Strip 3
+}
+
+; ==============================================================================
+
+; $055727-$055B26 DATA
+WorldMap_DarkWorldTilemap:
+{
+    db $26, $27, $14, $14, $14, $A5, $14, $26 ; Row 00, Strip 0
+    db $24, $25, $56, $35, $5B, $73, $74, $28 ; Row 00, Strip 1
+    db $72, $99, $63, $73, $73, $74, $2C, $72 ; Row 00, Strip 2
+    db $73, $73, $73, $A1, $A0, $73, $73, $74 ; Row 00, Strip 3
+    db $36, $37, $14, $14, $14, $14, $14, $15 ; Row 01, Strip 0
+    db $34, $A7, $64, $5B, $90, $73, $73, $73 ; Row 01, Strip 1
+    db $73, $9A, $70, $A0, $73, $91, $09, $90 ; Row 01, Strip 2
+    db $73, $73, $A1, $84, $90, $73, $FF, $91 ; Row 01, Strip 3
+    db $14, $14, $14, $14, $14, $14, $14, $15 ; Row 02, Strip 0
+    db $A7, $34, $E4, $90, $82, $83, $83, $83 ; Row 02, Strip 1
+    db $83, $83, $84, $82, $83, $83, $83, $83 ; Row 02, Strip 2
+    db $83, $83, $84, $B3, $82, $83, $83, $84 ; Row 02, Strip 3
+    db $A5, $14, $14, $14, $A5, $14, $14, $15 ; Row 03, Strip 0
+    db $A7, $B6, $DF, $82, $B2, $93, $93, $93 ; Row 03, Strip 1
+    db $93, $93, $94, $92, $93, $94, $72, $93 ; Row 03, Strip 2
+    db $93, $93, $B3, $91, $B4, $93, $93, $A2 ; Row 03, Strip 3
+    db $14, $A5, $14, $14, $14, $14, $14, $15 ; Row 04, Strip 0
+    db $34, $A7, $82, $B2, $93, $93, $93, $93 ; Row 04, Strip 1
+    db $93, $93, $94, $92, $93, $94, $82, $93 ; Row 04, Strip 2
+    db $82, $83, $83, $84, $CA, $CA, $CA, $8F ; Row 04, Strip 3
+    db $14, $14, $14, $14, $A5, $14, $A5, $36 ; Row 05, Strip 0
+    db $05, $34, $B0, $D6, $93, $82, $83, $83 ; Row 05, Strip 1
+    db $83, $84, $B3, $B2, $93, $B3, $B4, $90 ; Row 05, Strip 2
+    db $B2, $93, $93, $B3, $BE, $11, $95, $54 ; Row 05, Strip 3
+    db $A5, $14, $14, $A5, $14, $A5, $14, $14 ; Row 06, Strip 0
+    db $15, $33, $33, $33, $90, $B2, $93, $93 ; Row 06, Strip 1
+    db $93, $B3, $73, $A1, $83, $84, $11, $90 ; Row 06, Strip 2
+    db $73, $73, $73, $91, $9F, $06, $22, $54 ; Row 06, Strip 3
+    db $14, $14, $A5, $A5, $14, $14, $14, $A5 ; Row 07, Strip 0
+    db $15, $A6, $FB, $34, $82, $83, $83, $83 ; Row 07, Strip 1
+    db $83, $83, $83, $84, $93, $94, $CA, $82 ; Row 07, Strip 2
+    db $83, $83, $83, $84, $A9, $16, $02, $54 ; Row 07, Strip 3
+    db $26, $27, $26, $27, $26, $24, $24, $D5 ; Row 08, Strip 0
+    db $25, $34, $34, $34, $B0, $93, $D6, $93 ; Row 08, Strip 1
+    db $93, $93, $93, $A4, $93, $A4, $CA, $B4 ; Row 08, Strip 2
+    db $93, $93, $93, $B7, $11, $11, $12, $54 ; Row 08, Strip 3
+    db $15, $13, $15, $13, $15, $33, $40, $41 ; Row 09, Strip 0
+    db $33, $BF, $34, $34, $30, $FB, $C0, $23 ; Row 09, Strip 1
+    db $24, $24, $24, $25, $00, $17, $06, $21 ; Row 09, Strip 2
+    db $21, $21, $21, $21, $21, $21, $22, $54 ; Row 09, Strip 3
+    db $15, $13, $15, $13, $15, $BC, $BD, $A6 ; Row 0A, Strip 0
+    db $A7, $34, $41, $33, $40, $34, $C0, $34 ; Row 0A, Strip 1
+    db $B6, $80, $80, $B6, $20, $07, $95, $A6 ; Row 0A, Strip 2
+    db $A6, $F6, $A7, $44, $45, $34, $41, $54 ; Row 0A, Strip 3
+    db $15, $13, $15, $13, $36, $05, $D0, $D0 ; Row 0B, Strip 0
+    db $D0, $D0, $D0, $D0, $D0, $D0, $C3, $D0 ; Row 0B, Strip 1
+    db $D0, $D0, $D0, $D0, $D0, $10, $06, $77 ; Row 0B, Strip 2
+    db $7B, $7B, $7B, $43, $7A, $7B, $8D, $8E ; Row 0B, Strip 3
+    db $15, $23, $25, $23, $24, $25, $C0, $A6 ; Row 0C, Strip 0
+    db $FB, $A7, $A6, $00, $EA, $E8, $E8, $E8 ; Row 0C, Strip 1
+    db $E9, $E9, $E9, $EB, $02, $10, $12, $54 ; Row 0C, Strip 2
+    db $57, $9D, $9D, $9D, $9D, $9D, $C8, $C9 ; Row 0C, Strip 3
+    db $25, $31, $B6, $34, $6E, $6E, $C0, $10 ; Row 0D, Strip 0
+    db $12, $A7, $A6, $10, $C4, $D9, $D9, $D7 ; Row 0D, Strip 1
+    db $E7, $DA, $DA, $D4, $12, $10, $12, $54 ; Row 0D, Strip 2
+    db $C7, $E2, $E2, $E2, $E2, $F1, $89, $54 ; Row 0D, Strip 3
+    db $34, $41, $33, $33, $33, $33, $C0, $10 ; Row 0E, Strip 0
+    db $12, $A6, $F6, $10, $C4, $D9, $D7, $D8 ; Row 0E, Strip 1
+    db $EC, $E7, $DA, $D4, $12, $10, $12, $54 ; Row 0E, Strip 2
+    db $C7, $E2, $E2, $E2, $E2, $E1, $F1, $54 ; Row 0E, Strip 3
+    db $34, $F6, $89, $6B, $6C, $89, $F6, $10 ; Row 0F, Strip 0
+    db $12, $FB, $FB, $10, $C4, $D7, $EC, $D8 ; Row 0F, Strip 1
+    db $D8, $D8, $E7, $D4, $F3, $F4, $22, $54 ; Row 0F, Strip 2
+    db $C7, $E2, $E1, $E1, $E2, $E1, $F1, $54 ; Row 0F, Strip 3
+    db $34, $B6, $34, $3E, $5E, $88, $88, $10 ; Row 10, Strip 0
+    db $12, $A6, $A6, $10, $D1, $D8, $D8, $EC ; Row 10, Strip 1
+    db $EC, $D8, $D8, $E5, $12, $FC, $FC, $5C ; Row 10, Strip 2
+    db $C7, $E0, $6D, $7D, $E0, $E1, $F1, $54 ; Row 10, Strip 3
+    db $88, $88, $E3, $BD, $E3, $BD, $F6, $10 ; Row 11, Strip 0
+    db $12, $E3, $BD, $10, $12, $34, $A7, $89 ; Row 11, Strip 1
+    db $89, $A7, $34, $20, $22, $FC, $FC, $5C ; Row 11, Strip 2
+    db $C7, $E2, $E1, $E2, $E2, $F1, $89, $54 ; Row 11, Strip 3
+    db $34, $A7, $34, $34, $34, $34, $A7, $20 ; Row 12, Strip 0
+    db $22, $33, $33, $10, $16, $01, $01, $01 ; Row 12, Strip 1
+    db $01, $01, $01, $01, $02, $FC, $FC, $5C ; Row 12, Strip 2
+    db $55, $F0, $89, $F0, $F0, $FB, $A7, $54 ; Row 12, Strip 3
+    db $CF, $04, $04, $CB, $04, $BB, $C0, $03 ; Row 13, Strip 0
+    db $04, $04, $04, $DB, $E6, $21, $21, $21 ; Row 13, Strip 1
+    db $21, $21, $21, $07, $12, $FC, $FC, $5C ; Row 13, Strip 2
+    db $55, $77, $7B, $7B, $7B, $7B, $7C, $54 ; Row 13, Strip 3
+    db $69, $24, $24, $27, $26, $25, $C0, $13 ; Row 14, Strip 0
+    db $26, $24, $24, $27, $15, $A7, $FB, $FB ; Row 14, Strip 1
+    db $FB, $A7, $C0, $10, $12, $FC, $FC, $5C ; Row 14, Strip 2
+    db $55, $64, $67, $56, $57, $67, $65, $54 ; Row 14, Strip 3
+    db $55, $34, $34, $13, $15, $33, $33, $13 ; Row 15, Strip 0
+    db $15, $FB, $A7, $13, $15, $A7, $FB, $FB ; Row 15, Strip 1
+    db $FB, $B6, $C0, $10, $12, $34, $34, $64 ; Row 15, Strip 2
+    db $65, $A6, $A6, $54, $55, $31, $44, $46 ; Row 15, Strip 3
+    db $55, $33, $31, $23, $25, $33, $F6, $13 ; Row 16, Strip 0
+    db $15, $A7, $FB, $13, $15, $A7, $A6, $34 ; Row 16, Strip 1
+    db $B6, $F6, $C0, $10, $16, $02, $00, $96 ; Row 16, Strip 2
+    db $01, $01, $01, $68, $55, $41, $64, $56 ; Row 16, Strip 3
+    db $7A, $7B, $7B, $7B, $7B, $7B, $7C, $23 ; Row 17, Strip 0
+    db $36, $05, $03, $37, $15, $A7, $41, $33 ; Row 17, Strip 1
+    db $33, $33, $C3, $20, $21, $22, $20, $AB ; Row 17, Strip 2
+    db $97, $97, $BE, $68, $7A, $7B, $7B, $43 ; Row 17, Strip 3
+    db $9D, $9D, $9D, $9D, $9D, $56, $55, $A6 ; Row 18, Strip 0
+    db $23, $25, $23, $24, $25, $34, $44, $66 ; Row 18, Strip 1
+    db $66, $45, $44, $66, $45, $34, $34, $64 ; Row 18, Strip 2
+    db $AE, $AE, $A9, $68, $57, $C6, $67, $56 ; Row 18, Strip 3
+    db $9F, $DD, $DD, $DD, $11, $8F, $47, $66 ; Row 19, Strip 0
+    db $45, $D0, $D0, $D0, $C3, $34, $AF, $67 ; Row 19, Strip 1
+    db $67, $65, $64, $56, $75, $76, $01, $01 ; Row 19, Strip 2
+    db $17, $11, $11, $B8, $53, $96, $02, $54 ; Row 19, Strip 3
+    db $9F, $11, $11, $11, $11, $A8, $56, $35 ; Row 1A, Strip 0
+    db $55, $77, $7C, $A7, $34, $B1, $AD, $B6 ; Row 1A, Strip 1
+    db $B6, $B6, $B6, $54, $55, $10, $11, $11 ; Row 1A, Strip 2
+    db $11, $11, $11, $8F, $9F, $06, $12, $54 ; Row 1A, Strip 3
+    db $9F, $ED, $ED, $11, $ED, $11, $A8, $56 ; Row 1B, Strip 0
+    db $7A, $43, $7A, $7B, $7B, $D3, $AC, $BF ; Row 1B, Strip 1
+    db $BF, $B6, $B6, $54, $55, $10, $11, $11 ; Row 1B, Strip 2
+    db $F7, $F8, $11, $8F, $9F, $12, $22, $54 ; Row 1B, Strip 3
+    db $9F, $ED, $11, $11, $11, $ED, $11, $54 ; Row 1C, Strip 0
+    db $57, $56, $57, $56, $57, $65, $B6, $B6 ; Row 1C, Strip 1
+    db $B6, $B6, $B6, $54, $47, $AA, $11, $11 ; Row 1C, Strip 2
+    db $F9, $FA, $11, $8F, $9F, $12, $34, $54 ; Row 1C, Strip 3
+    db $A9, $11, $11, $ED, $11, $11, $11, $54 ; Row 1D, Strip 0
+    db $55, $64, $65, $54, $55, $B6, $B6, $B6 ; Row 1D, Strip 1
+    db $B6, $30, $33, $54, $57, $F2, $11, $11 ; Row 1D, Strip 2
+    db $11, $11, $11, $A8, $A9, $95, $02, $54 ; Row 1D, Strip 3
+    db $11, $11, $ED, $11, $11, $ED, $11, $54 ; Row 1E, Strip 0
+    db $7A, $7F, $6F, $C1, $65, $B6, $79, $F5 ; Row 1E, Strip 1
+    db $B6, $32, $34, $64, $65, $20, $07, $11 ; Row 1E, Strip 2
+    db $11, $11, $11, $11, $06, $21, $22, $54 ; Row 1E, Strip 3
+    db $21, $07, $11, $ED, $11, $ED, $06, $54 ; Row 1F, Strip 0
+    db $35, $47, $46, $55, $B6, $B6, $B6, $B6 ; Row 1F, Strip 1
+    db $30, $40, $34, $B6, $34, $34, $10, $11 ; Row 1F, Strip 2
+    db $11, $11, $06, $21, $22, $34, $B6, $54 ; Row 1F, Strip 3
+}
+
+; ==============================================================================
+
+; $055B27-$055C26 DATA
+Palettes_OWMAP:
+{
+    ; Shared the same as the next block.
+}
+
+; $055B27-$055C26 DATA
+Palettes_LWMAP:
+{
+    dw  $0000,  $094B,  $1563,  $1203,  $2995,  $5BDF,  $2191,  $2E37
+    dw  $7C1F,  $6F37,  $7359,  $777A,  $7B9B,  $7FBD,  $0000,  $0000
+    dw  $0000,  $0100,  $0000,  $0000,  $7B9B,  $11B6,  $1A9B,  $5FFF
+    dw  $2995,  $6E94,  $76D6,  $7F39,  $7F7B,  $7FBD,  $0000,  $0000
+    dw  $0000,  $0100,  $1D74,  $67F9,  $1EE9,  $338E,  $6144,  $7E6A
+    dw  $0A44,  $7C1F,  $6144,  $22EB,  $3DCA,  $5ED2,  $7FDA,  $316A
+    dw  $0000,  $0100,  $14CC,  $1910,  $2995,  $3E3A,  $1963,  $15E3
+    dw  $25F5,  $2E37,  $15E3,  $22EB,  $6144,  $7E33,  $5D99,  $771D
+    dw  $0000,  $0CEC,  $22EB,  $2FB1,  $1D70,  $2E37,  $25F5,  $3E77
+    dw  $473A,  $6144,  $7E6A,  $15E3,  $2E0B,  $5354,  $7FFF,  $16A6
+    dw  $0000,  $0100,  $15C5,  $16A6,  $1EE9,  $2F4D,  $25F5,  $3E77
+    dw  $473A,  $5354,  $15E3,  $22EB,  $2918,  $4A1F,  $3F7F,  $7C1F
+    dw  $0000,  $0100,  $1563,  $1203,  $1EE9,  $2FB0,  $1D70,  $2E37
+    dw  $473A,  $6144,  $15E3,  $22EB,  $1D70,  $2E37,  $4F3F,  $7FBD
+    dw  $0000,  $0000,  $0000,  $0000,  $0000,  $0000,  $0000,  $25F5
+    dw  $316A,  $5ED2,  $7FFF,  $15E3,  $473A,  $2918,  $771D,  $0000
+}
+
+; ==============================================================================
+
+; $055C27-$055D26 DATA
+Palettes_DWMAP:
+{
+    dw  $0000,  $18C6,  $0948,  $118A,  $25CF,  $57BF,  $1971,  $2A18
+    dw  $7C1F,  $52D8,  $5AF9,  $5F1A,  $633B,  $6B5C,  $0000,  $0000
+    dw  $0000,  $18C6,  $0005,  $45FC,  $633B,  $1DCE,  $3694,  $4718
+    dw  $25CF,  $1D40,  $34EA,  $616F,  $771B,  $26D6,  $2B18,  $2F5A
+    dw  $0000,  $18C6,  $2571,  $63DA,  $2A32,  $3A94,  $1D40,  $2580
+    dw  $7C1F,  $7C1F,  $0CC0,  $1ECC,  $3135,  $1DCE,  $4718,  $3694
+    dw  $0000,  $18C6,  $14E7,  $216C,  $25D0,  $3A75,  $2169,  $2E0E
+    dw  $21D6,  $2A18,  $1971,  $2A32,  $1D40,  $2580,  $597A,  $72FE
+    dw  $0000,  $18C6,  $2A32,  $3A94,  $2171,  $3238,  $29F6,  $4278
+    dw  $4EDB,  $1D40,  $35CD,  $15AB,  $198E,  $3254,  $731F,  $1ED4
+    dw  $0000,  $18C6,  $016A,  $21CE,  $2A32,  $3A94,  $29F6,  $4278
+    dw  $4EDB,  $1D40,  $1971,  $2A32,  $496C,  $5A10,  $3B5F,  $7C1F
+    dw  $0000,  $18C6,  $0948,  $118A,  $222E,  $32F2,  $1951,  $2A18
+    dw  $431B,  $1D40,  $1971,  $2A32,  $21D4,  $2A18,  $4B1F,  $7B9D
+    dw  $0000,  $7C1F,  $7C1F,  $7C1F,  $7C1F,  $2E31,  $00E4,  $2169
+    dw  $2E0E,  $42F1,  $7C1F,  $7C1F,  $7C1F,  $4A1D,  $4E3F,  $5A5F
+
+}
+; ==============================================================================
+
+; $055D27-$055E06 DATA
+WorldMapHDMA_ZoomedOut_Part1:
+{
+    dw $0177 ; scanline   0
+    dw $0176 ; scanline   1
+    dw $0175 ; scanline   2
+    dw $0175 ; scanline   3
+    dw $0174 ; scanline   4
+    dw $0173 ; scanline   5
+    dw $0173 ; scanline   6
+    dw $0172 ; scanline   7
+    dw $0171 ; scanline   8
+    dw $0171 ; scanline   9
+    dw $0170 ; scanline  10
+    dw $016F ; scanline  11
+    dw $016F ; scanline  12
+    dw $016E ; scanline  13
+    dw $016D ; scanline  14
+    dw $016D ; scanline  15
+    dw $016C ; scanline  16
+    dw $016B ; scanline  17
+    dw $016B ; scanline  18
+    dw $0169 ; scanline  19
+    dw $0169 ; scanline  20
+    dw $0168 ; scanline  21
+    dw $0167 ; scanline  22
+    dw $0167 ; scanline  23
+    dw $0166 ; scanline  24
+    dw $0165 ; scanline  25
+    dw $0165 ; scanline  26
+    dw $0164 ; scanline  27
+    dw $0163 ; scanline  28
+    dw $0163 ; scanline  29
+    dw $0162 ; scanline  30
+    dw $0162 ; scanline  31
+    dw $0161 ; scanline  32
+    dw $0160 ; scanline  33
+    dw $0160 ; scanline  34
+    dw $015F ; scanline  35
+    dw $015F ; scanline  36
+    dw $015E ; scanline  37
+    dw $015D ; scanline  38
+    dw $015D ; scanline  39
+    dw $015C ; scanline  40
+    dw $015C ; scanline  41
+    dw $015B ; scanline  42
+    dw $015A ; scanline  43
+    dw $015A ; scanline  44
+    dw $0159 ; scanline  45
+    dw $0159 ; scanline  46
+    dw $0158 ; scanline  47
+    dw $0157 ; scanline  48
+    dw $0157 ; scanline  49
+    dw $0156 ; scanline  50
+    dw $0156 ; scanline  51
+    dw $0155 ; scanline  52
+    dw $0155 ; scanline  53
+    dw $0154 ; scanline  54
+    dw $0153 ; scanline  55
+    dw $0153 ; scanline  56
+    dw $0152 ; scanline  57
+    dw $0152 ; scanline  58
+    dw $0151 ; scanline  59
+    dw $0151 ; scanline  60
+    dw $0150 ; scanline  61
+    dw $014F ; scanline  62
+    dw $014F ; scanline  63
+    dw $014E ; scanline  64
+    dw $014E ; scanline  65
+    dw $014D ; scanline  66
+    dw $014D ; scanline  67
+    dw $014C ; scanline  68
+    dw $014C ; scanline  69
+    dw $014B ; scanline  70
+    dw $014B ; scanline  71
+    dw $014A ; scanline  72
+    dw $014A ; scanline  73
+    dw $0148 ; scanline  74
+    dw $0147 ; scanline  75
+    dw $0147 ; scanline  76
+    dw $0146 ; scanline  77
+    dw $0146 ; scanline  78
+    dw $0145 ; scanline  79
+    dw $0145 ; scanline  80
+    dw $0144 ; scanline  81
+    dw $0144 ; scanline  82
+    dw $0143 ; scanline  83
+    dw $0143 ; scanline  84
+    dw $0142 ; scanline  85
+    dw $0142 ; scanline  86
+    dw $0141 ; scanline  87
+    dw $0141 ; scanline  88
+    dw $0140 ; scanline  89
+    dw $0140 ; scanline  90
+    dw $013F ; scanline  91
+    dw $013F ; scanline  92
+    dw $013E ; scanline  93
+    dw $013E ; scanline  94
+    dw $013D ; scanline  95
+    dw $013D ; scanline  96
+    dw $013C ; scanline  97
+    dw $013C ; scanline  98
+    dw $013B ; scanline  99
+    dw $013B ; scanline 100
+    dw $013A ; scanline 101
+    dw $013A ; scanline 102
+    dw $0139 ; scanline 103
+    dw $0139 ; scanline 104
+    dw $0138 ; scanline 105
+    dw $0138 ; scanline 106
+    dw $0137 ; scanline 107
+    dw $0137 ; scanline 108
+    dw $0136 ; scanline 109
+    dw $0136 ; scanline 110
+    dw $0135 ; scanline 111
+}
+
+; ==============================================================================
+
+; $055E07-$055EE6 DATA
+WorldMapHDMA_ZoomedOut_Part2:
+{
+    dw $0135 ; scanline 112
+    dw $0135 ; scanline 113
+    dw $0134 ; scanline 114
+    dw $0134 ; scanline 115
+    dw $0133 ; scanline 116
+    dw $0133 ; scanline 117
+    dw $0132 ; scanline 118
+    dw $0132 ; scanline 119
+    dw $0131 ; scanline 120
+    dw $0131 ; scanline 121
+    dw $0130 ; scanline 122
+    dw $0130 ; scanline 123
+    dw $012F ; scanline 124
+    dw $012F ; scanline 125
+    dw $012F ; scanline 126
+    dw $012E ; scanline 127
+    dw $012E ; scanline 128
+    dw $012D ; scanline 129
+    dw $012D ; scanline 130
+    dw $012C ; scanline 131
+    dw $012C ; scanline 132
+    dw $012B ; scanline 133
+    dw $012B ; scanline 134
+    dw $012B ; scanline 135
+    dw $012A ; scanline 136
+    dw $012A ; scanline 137
+    dw $0129 ; scanline 138
+    dw $0129 ; scanline 139
+    dw $0127 ; scanline 140
+    dw $0127 ; scanline 141
+    dw $0126 ; scanline 142
+    dw $0126 ; scanline 143
+    dw $0126 ; scanline 144
+    dw $0125 ; scanline 145
+    dw $0125 ; scanline 146
+    dw $0124 ; scanline 147
+    dw $0124 ; scanline 148
+    dw $0124 ; scanline 149
+    dw $0123 ; scanline 150
+    dw $0123 ; scanline 151
+    dw $0122 ; scanline 152
+    dw $0122 ; scanline 153
+    dw $0121 ; scanline 154
+    dw $0121 ; scanline 155
+    dw $0121 ; scanline 156
+    dw $0120 ; scanline 157
+    dw $0120 ; scanline 158
+    dw $011F ; scanline 159
+    dw $011F ; scanline 160
+    dw $011F ; scanline 161
+    dw $011E ; scanline 162
+    dw $011E ; scanline 163
+    dw $011D ; scanline 164
+    dw $011D ; scanline 165
+    dw $011D ; scanline 166
+    dw $011C ; scanline 167
+    dw $011C ; scanline 168
+    dw $011B ; scanline 169
+    dw $011B ; scanline 170
+    dw $011B ; scanline 171
+    dw $011A ; scanline 172
+    dw $011A ; scanline 173
+    dw $0119 ; scanline 174
+    dw $0119 ; scanline 175
+    dw $0119 ; scanline 176
+    dw $0118 ; scanline 177
+    dw $0118 ; scanline 178
+    dw $0117 ; scanline 179
+    dw $0117 ; scanline 180
+    dw $0117 ; scanline 181
+    dw $0116 ; scanline 182
+    dw $0116 ; scanline 183
+    dw $0116 ; scanline 184
+    dw $0115 ; scanline 185
+    dw $0115 ; scanline 186
+    dw $0114 ; scanline 187
+    dw $0114 ; scanline 188
+    dw $0114 ; scanline 189
+    dw $0113 ; scanline 190
+    dw $0113 ; scanline 191
+    dw $0113 ; scanline 192
+    dw $0112 ; scanline 193
+    dw $0112 ; scanline 194
+    dw $0111 ; scanline 195
+    dw $0111 ; scanline 196
+    dw $0111 ; scanline 197
+    dw $0110 ; scanline 198
+    dw $0110 ; scanline 199
+    dw $0110 ; scanline 200
+    dw $010F ; scanline 201
+    dw $010F ; scanline 202
+    dw $010F ; scanline 203
+    dw $010E ; scanline 204
+    dw $010E ; scanline 205
+    dw $010D ; scanline 206
+    dw $010D ; scanline 207
+    dw $010D ; scanline 208
+    dw $010C ; scanline 209
+    dw $010C ; scanline 210
+    dw $010C ; scanline 211
+    dw $010B ; scanline 212
+    dw $010B ; scanline 213
+    dw $010B ; scanline 214
+    dw $010A ; scanline 215
+    dw $010A ; scanline 216
+    dw $010A ; scanline 217
+    dw $0109 ; scanline 218
+    dw $0109 ; scanline 219
+    dw $0109 ; scanline 220
+    dw $0108 ; scanline 221
+    dw $0108 ; scanline 222
+    dw $0108 ; scanline 223
+}
+
+; ==============================================================================
+
+; $055EE7-$055FC6 DATA
+WorldMapHDMA_ZoomedIn_Part1:
+{
+    dw $0088 ; scanline   0
+    dw $0088 ; scanline   1
+    dw $0087 ; scanline   2
+    dw $0087 ; scanline   3
+    dw $0087 ; scanline   4
+    dw $0087 ; scanline   5
+    dw $0087 ; scanline   6
+    dw $0086 ; scanline   7
+    dw $0086 ; scanline   8
+    dw $0086 ; scanline   9
+    dw $0085 ; scanline  10
+    dw $0085 ; scanline  11
+    dw $0085 ; scanline  12
+    dw $0085 ; scanline  13
+    dw $0084 ; scanline  14
+    dw $0084 ; scanline  15
+    dw $0084 ; scanline  16
+    dw $0084 ; scanline  17
+    dw $0084 ; scanline  18
+    dw $0083 ; scanline  19
+    dw $0083 ; scanline  20
+    dw $0083 ; scanline  21
+    dw $0082 ; scanline  22
+    dw $0082 ; scanline  23
+    dw $0082 ; scanline  24
+    dw $0082 ; scanline  25
+    dw $0082 ; scanline  26
+    dw $0081 ; scanline  27
+    dw $0081 ; scanline  28
+    dw $0081 ; scanline  29
+    dw $0081 ; scanline  30
+    dw $0081 ; scanline  31
+    dw $0080 ; scanline  32
+    dw $0080 ; scanline  33
+    dw $0080 ; scanline  34
+    dw $007F ; scanline  35
+    dw $007F ; scanline  36
+    dw $007F ; scanline  37
+    dw $007F ; scanline  38
+    dw $007F ; scanline  39
+    dw $007E ; scanline  40
+    dw $007E ; scanline  41
+    dw $007E ; scanline  42
+    dw $007E ; scanline  43
+    dw $007E ; scanline  44
+    dw $007D ; scanline  45
+    dw $007D ; scanline  46
+    dw $007D ; scanline  47
+    dw $007C ; scanline  48
+    dw $007C ; scanline  49
+    dw $007C ; scanline  50
+    dw $007C ; scanline  51
+    dw $007C ; scanline  52
+    dw $007C ; scanline  53
+    dw $007B ; scanline  54
+    dw $007B ; scanline  55
+    dw $007B ; scanline  56
+    dw $007B ; scanline  57
+    dw $007B ; scanline  58
+    dw $007A ; scanline  59
+    dw $007A ; scanline  60
+    dw $007A ; scanline  61
+    dw $0079 ; scanline  62
+    dw $0079 ; scanline  63
+    dw $0079 ; scanline  64
+    dw $0079 ; scanline  65
+    dw $0079 ; scanline  66
+    dw $0079 ; scanline  67
+    dw $0078 ; scanline  68
+    dw $0078 ; scanline  69
+    dw $0078 ; scanline  70
+    dw $0078 ; scanline  71
+    dw $0078 ; scanline  72
+    dw $0078 ; scanline  73
+    dw $0077 ; scanline  74
+    dw $0077 ; scanline  75
+    dw $0077 ; scanline  76
+    dw $0076 ; scanline  77
+    dw $0076 ; scanline  78
+    dw $0076 ; scanline  79
+    dw $0076 ; scanline  80
+    dw $0076 ; scanline  81
+    dw $0076 ; scanline  82
+    dw $0075 ; scanline  83
+    dw $0075 ; scanline  84
+    dw $0075 ; scanline  85
+    dw $0075 ; scanline  86
+    dw $0075 ; scanline  87
+    dw $0075 ; scanline  88
+    dw $0074 ; scanline  89
+    dw $0074 ; scanline  90
+    dw $0074 ; scanline  91
+    dw $0074 ; scanline  92
+    dw $0073 ; scanline  93
+    dw $0073 ; scanline  94
+    dw $0073 ; scanline  95
+    dw $0073 ; scanline  96
+    dw $0073 ; scanline  97
+    dw $0073 ; scanline  98
+    dw $0072 ; scanline  99
+    dw $0072 ; scanline 100
+    dw $0072 ; scanline 101
+    dw $0072 ; scanline 102
+    dw $0072 ; scanline 103
+    dw $0072 ; scanline 104
+    dw $0071 ; scanline 105
+    dw $0071 ; scanline 106
+    dw $0071 ; scanline 107
+    dw $0071 ; scanline 108
+    dw $0070 ; scanline 109
+    dw $0070 ; scanline 110
+    dw $0070 ; scanline 111
+}
+
+; ==============================================================================
+
+; $055FC7-$0560A6 DATA
+WorldMapHDMA_ZoomedIn_Part2:
+{
+    dw $0070 ; scanline 112
+    dw $0070 ; scanline 113
+    dw $0070 ; scanline 114
+    dw $0070 ; scanline 115
+    dw $006F ; scanline 116
+    dw $006F ; scanline 117
+    dw $006F ; scanline 118
+    dw $006F ; scanline 119
+    dw $006F ; scanline 120
+    dw $006F ; scanline 121
+    dw $006E ; scanline 122
+    dw $006E ; scanline 123
+    dw $006E ; scanline 124
+    dw $006E ; scanline 125
+    dw $006E ; scanline 126
+    dw $006D ; scanline 127
+    dw $006D ; scanline 128
+    dw $006D ; scanline 129
+    dw $006D ; scanline 130
+    dw $006D ; scanline 131
+    dw $006D ; scanline 132
+    dw $006C ; scanline 133
+    dw $006C ; scanline 134
+    dw $006C ; scanline 135
+    dw $006C ; scanline 136
+    dw $006C ; scanline 137
+    dw $006C ; scanline 138
+    dw $006C ; scanline 139
+    dw $006B ; scanline 140
+    dw $006B ; scanline 141
+    dw $006B ; scanline 142
+    dw $006B ; scanline 143
+    dw $006B ; scanline 144
+    dw $006A ; scanline 145
+    dw $006A ; scanline 146
+    dw $006A ; scanline 147
+    dw $006A ; scanline 148
+    dw $006A ; scanline 149
+    dw $006A ; scanline 150
+    dw $006A ; scanline 151
+    dw $0069 ; scanline 152
+    dw $0069 ; scanline 153
+    dw $0069 ; scanline 154
+    dw $0069 ; scanline 155
+    dw $0069 ; scanline 156
+    dw $0069 ; scanline 157
+    dw $0069 ; scanline 158
+    dw $0068 ; scanline 159
+    dw $0068 ; scanline 160
+    dw $0068 ; scanline 161
+    dw $0068 ; scanline 162
+    dw $0068 ; scanline 163
+    dw $0067 ; scanline 164
+    dw $0067 ; scanline 165
+    dw $0067 ; scanline 166
+    dw $0067 ; scanline 167
+    dw $0067 ; scanline 168
+    dw $0067 ; scanline 169
+    dw $0067 ; scanline 170
+    dw $0067 ; scanline 171
+    dw $0066 ; scanline 172
+    dw $0066 ; scanline 173
+    dw $0066 ; scanline 174
+    dw $0066 ; scanline 175
+    dw $0066 ; scanline 176
+    dw $0066 ; scanline 177
+    dw $0066 ; scanline 178
+    dw $0065 ; scanline 179
+    dw $0065 ; scanline 180
+    dw $0065 ; scanline 181
+    dw $0065 ; scanline 182
+    dw $0065 ; scanline 183
+    dw $0065 ; scanline 184
+    dw $0064 ; scanline 185
+    dw $0064 ; scanline 186
+    dw $0064 ; scanline 187
+    dw $0064 ; scanline 188
+    dw $0064 ; scanline 189
+    dw $0064 ; scanline 190
+    dw $0064 ; scanline 191
+    dw $0064 ; scanline 192
+    dw $0063 ; scanline 193
+    dw $0063 ; scanline 194
+    dw $0063 ; scanline 195
+    dw $0063 ; scanline 196
+    dw $0063 ; scanline 197
+    dw $0063 ; scanline 198
+    dw $0063 ; scanline 199
+    dw $0063 ; scanline 200
+    dw $0062 ; scanline 201
+    dw $0062 ; scanline 202
+    dw $0062 ; scanline 203
+    dw $0062 ; scanline 204
+    dw $0062 ; scanline 205
+    dw $0061 ; scanline 206
+    dw $0061 ; scanline 207
+    dw $0061 ; scanline 208
+    dw $0061 ; scanline 209
+    dw $0061 ; scanline 210
+    dw $0061 ; scanline 211
+    dw $0061 ; scanline 212
+    dw $0061 ; scanline 213
+    dw $0061 ; scanline 214
+    dw $0060 ; scanline 215
+    dw $0060 ; scanline 216
+    dw $0060 ; scanline 217
+    dw $0060 ; scanline 218
+    dw $0060 ; scanline 219
+    dw $0060 ; scanline 220
+    dw $0060 ; scanline 221
+    dw $0060 ; scanline 222
+    dw $0060 ; scanline 223
+}
+
+; ==============================================================================
+
+; $0560A7-$0560AF DATA
+NULL_0AE0A7:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF
 }
 
 ; ==============================================================================
@@ -1916,27 +3485,27 @@ Messaging_PalaceMap:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl PalaceMap_Backup         ; Fade to full darkness (amidst other things)
-    dl PalaceMap_Init           ; Loading Dungeon Map
-    dl PalaceMap_LightenUpMap   ; Fade to full brightness
-    dl PalaceMap_3              ; Dungeon map Mode
-    dl PalaceMap_4              ;  
-    dl PalaceMap_FadeMapToBlack
-    dl PalaceMap_RestoreGraphics
-    dl PalaceMap_RestoreStarTileState
-    dl PalaceMap_LightenUpDungeon
+    dl PalaceMap_Backup               ; 0x00 Fade to full darkness (amidst other things)
+    dl PalaceMap_Init                 ; 0x01 Loading Dungeon Map
+    dl PalaceMap_LightenUpMap         ; 0x02 Fade to full brightness
+    dl PalaceMap_3                    ; 0x03 Dungeon map Mode
+    dl PalaceMap_4                    ; 0x04  
+    dl PalaceMap_FadeMapToBlack       ; 0x05
+    dl PalaceMap_RestoreGraphics      ; 0x06
+    dl PalaceMap_RestoreStarTileState ; 0x07
+    dl PalaceMap_LightenUpDungeon     ; 0x08
 }
 
-; =============================================
+; ==============================================================================
 
 ; $0560D2-$0560DB Jump Table
 PalaceMap_InitJumpTable:
 {
-    dw PalaceMap_SetupGraphics
-    dw PalaceMap_OptionalGraphic
-    dw $E1F3 ; = $561F3*
-    dw $E384 ; = $56384*
-    dw $E823 ; = $56823*
+    dw PalaceMap_SetupGraphics   ; 0x00
+    dw PalaceMap_OptionalGraphic ; 0x01
+    dw $E1F3                     ; 0x02 = $0561F3
+    dw $E384                     ; 0x03 = $056384
+    dw $E823                     ; 0x04 = $056823
 }
 
 ; $0560DC-$0560E3 JUMP LOCATION (LONG)
@@ -1944,10 +3513,10 @@ PalaceMap_Init:
 {
     LDA $020D : ASL A : TAX
     
-    JMP (PalaceMap_InitJumpTable, X)  ; $0560D2 IN ROM
+    JMP (PalaceMap_InitJumpTable, X) ; $0560D2 IN ROM
 }
 
-; =============================================
+; ==============================================================================
 
 ; $0560E4-$056159 JUMP LOCATION (LONG)
 PalaceMap_SetupGraphics:
@@ -1955,45 +3524,45 @@ PalaceMap_SetupGraphics:
     ; Cache HDMA settings elsewhere and turn off HDMA for the time being.
     LDA $9B : PHA : STZ $420C : STZ $9B
     
-    ; Cache graphics settings to temp variables
+    ; Cache graphics settings to temp variables.
     LDA $0AA1 : STA $7EC20E
     LDA $0AA3 : STA $7EC20F
     LDA $0AA2 : STA $7EC210
     
-    ; Cache bg screen settings to temp variables
+    ; Cache bg screen settings to temp variables.
     LDA $1C : STA $7EC211
     LDA $1D : STA $7EC212
     
-    ; Set a fixed main graphics index
+    ; Set a fixed main graphics index.
     LDA.b #$20 : STA $0AA1
     
-    ; Use the current palace we're in to determine the sprite tileset
+    ; Use the current palace we're in to determine the sprite tileset.
     LDA $040C : LSR A : ORA.b #$80 : STA $0AA3
     
-    ; Set the auxiliary bg graphics tileset
+    ; Set the auxiliary bg graphics tileset.
     LDA.b #$40 : STA $0AA2
     
     ; BG1 on subscreen; BG2, BG3, and OAM on main screen.
     LDA.b #$16 : STA $1C
     LDA.b #$01 : STA $1D
     
-    ; Writes blanks to $0000-$01FFF (byte addr) in vram. Clears BG2 tilemap
+    ; Writes blanks to $0000-$01FFF (byte addr) in vram. Clears BG2 tilemap.
     JSL Vram_EraseTilemaps_palace ; $00033F IN ROM
     
-    ; Perform the standard graphics decompression routine
-    JSL InitTilesets    ; $00619B IN ROM
+    ; Perform the standard graphics decompression routine.
+    JSL InitTilesets ; $00619B IN ROM
     
-    ; Set special palette index
+    ; Set special palette index.
     LDA.b #$02 : STA $0AA9
     
     ; Load palettes
-    JSL Palette_PalaceMapBg     ; $0DEE3A IN ROM
-    JSL Palette_PalaceMapSpr    ; $0DEDDD IN ROM
+    JSL Palette_PalaceMapBg  ; $0DEE3A IN ROM
+    JSL Palette_PalaceMapSpr ; $0DEDDD IN ROM
     
-    ; Set another palette index
+    ; Set another palette index.
     LDA.b #$01 : STA $0AB2
     
-    ; Load palettes for BG3 (2bpp) graphics
+    ; Load palettes for BG3 (2bpp) graphics.
     JSL Palette_Hud ; $0DEE52 IN ROM
     
     ; $0756C0 IN ROM
@@ -2012,15 +3581,49 @@ PalaceMap_SetupGraphics:
     RTL
 }
     
-; =============================================
+; ==============================================================================
 
 ; $05615A-$0561A3 DATA
+; Module0E_03_01_01_DrawLEVEL
+Pool_PalaceMap_OptionalGraphic:
 {
+    .LEVEL_top
+    dw $8460, $0B00 ; VRAM $C108 | 12 bytes | Horizontal
+    dw $2132, $2133, $2138, $213A, $207F
+
+    .LEVEL_bottom
+    dw $A460, $0B00 ; VRAM $C148 | 12 bytes | Horizontal
+    dw $2142, $2143, $2149, $214A, $207F
+
+    .numerals_top
+    dw $2108, $2109, $2109, $210A
+    dw $210B, $210C, $210D, $211D
+
+    .numerals_bottom
+    dw $2118, $2119, $A109, $211A
+    dw $211B, $211C, $2118, $A11D
+
+    .dungeon_level
+    db $FF ; Sewers
+    db $FF ; Hyrule Castle
+    db $FF ; Eastern Palace
+    db $FF ; Desert Palace
+    db $FF ; Agahnim's Tower
+    db $02 ; Swamp Palace
+    db $00 ; Palace of Darkness
+    db $0A ; Misery Mire
+    db $04 ; Skull Woods
+    db $08 ; Ice Palace
+    db $FF ; Tower of Hera
+    db $06 ; Thieves' Town
+    db $0C ; Turtle Rock
+    db $0E ; Ganon's Tower
 }
 
-; =============================================
+; ==============================================================================
 
 ; $0561A4-$0561E0 JUMP LOCATION (LONG)
+; Module0E_03_01_01_DrawLEVEL
 PalaceMap_OptionalGraphic:
 {
     PHB : PHK : PLB
@@ -2028,35 +3631,33 @@ PalaceMap_OptionalGraphic:
     ; Load palace index
     LDA $040C : LSR A : TAX
     
-    ; guessing this means that there's no special graphic
+    ; Guessing this means that there's no special graphic
     ; for this palace.
-    LDY.w $E196, X : BMI .return
-    
-    LDA.b #$FF : STA $1022
-    
-    LDX.b #$0E
-    
-    REP #$20
-    
-    LDA.w $E176, Y : STA $1002, X
-    LDA.w $E186, Y : STA $1012, X
-    
-    SEP #$20
-    
-    DEX
+    LDY.w .dungeon_level, X : BMI .return
+        LDA.b #$FF : STA $1022
+        
+        LDX.b #$0E
+        
+        REP #$20
+        
+        LDA.w $E176, Y : STA $1002, X
+        LDA.w $E186, Y : STA $1012, X
+        
+        SEP #$20
+        
+        DEX
 
-    .copyTiles
+        .copyTiles
 
-    LDA.w $E15A, X : STA $1002, X
-    LDA.w $E168, X : STA $1012, X
-    
-    DEX : BPL .copyTiles
-    
-    LDA.b #$01 : STA $14
+            LDA.w $E15A, X : STA $1002, X
+            LDA.w $E168, X : STA $1012, X
+        DEX : BPL .copyTiles
+        
+        LDA.b #$01 : STA $14
 
     .return
 
-    ; move to next step of submodule
+    ; Move to next step of submodule.
     INC $020D
     
     PLB
@@ -2064,17 +3665,27 @@ PalaceMap_OptionalGraphic:
     RTL
 }
 
-; =============================================
+; ==============================================================================
 
 ; $0561E1-$0561F2 DATA
+DungeonMap_BackdropFloorPosition:
 {
-    dw $1223, $1263, $12A3, $12E3, $1323, $11E3, $11A3, $1163
-    dw $1123
+    dw $1223 ; 4B-4F | VRAM $2446
+    dw $1263 ; 5F    | VRAM $24C6
+    dw $12A3 ; 6F    | VRAM $2546
+    dw $12E3 ; 7F    | VRAM $25C6
+    dw $1323 ; 8F    | VRAM $2646
+
+    dw $11E3 ; 5B    | VRAM $23C6
+    dw $11A3 ; 6B    | VRAM $2346
+    dw $1163 ; 7B    | VRAM $22C6
+    dw $1123 ; 8B    | VRAM $2246
 }
 
-; =============================================
+; ==============================================================================
 
 ; $0561F3-$0562E4 JUMP LOCATION (LONG)
+Module0E_03_01_02_DrawFloorsBackdrop:
 {
     PHB : PHK : PLB
     
@@ -2088,34 +3699,31 @@ PalaceMap_OptionalGraphic:
     
     AND.w #$0300 : BEQ .skipTileCopy
     AND.w #$0100 : BEQ .skipTileCopy
-    
-    LDX.w #$002A : PHX
+        LDX.w #$002A : PHX
 
-    .copyTiles
+        .copyTiles
 
-    LDA.w $EFDD, X : STA $1000, X
+            LDA.w $EFDD, X : STA $1000, X   
+        DEX #2 : BNE .copyTiles
         
-    DEX #2 : BNE .copyTiles
-    
-    PLX
-    
-    LDA.w #$1123 : STA $00
-    
-    LDY.w #$0010
+        PLX
+        
+        LDA.w #$1123 : STA $00
+        
+        LDY.w #$0010
 
-    .copyTiles2
+        .copyTiles2
 
-    LDA $00 : XBA : STA $1002, X
-    XBA : CLC : ADC.w #$0020 : STA $00
-    
-    LDA.w #$0E40 : STA $1004, X
-    LDA.w #$1B2E : STA $1006, X
-    
-    INX #6
-    
-    DEY : BNE .copyTiles2
-    
-    STX $1000
+            LDA $00 : XBA : STA $1002, X
+            XBA : CLC : ADC.w #$0020 : STA $00
+            
+            LDA.w #$0E40 : STA $1004, X
+            LDA.w #$1B2E : STA $1006, X
+            
+            INX #6
+        DEY : BNE .copyTiles2
+        
+        STX $1000
 
     .skipTileCopy
 
@@ -2123,17 +3731,15 @@ PalaceMap_OptionalGraphic:
     STZ $02
     
     LDX $040C : LDA.w $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
-    
-    ; Seems to be looking for tower style levels (tower of hera, hyrule castl 2, ganon's tower)
-    LSR #4 : SEC : SBC.w #$0004 : ASL A : STA $00
-    
-    BRA .setupVramTarget
+        ; Seems to be looking for tower style levels (tower of hera, hyrule castl 2, ganon's tower)
+        LSR #4 : SEC : SBC.w #$0004 : ASL A : STA $00
+        
+        BRA .setupVramTarget
 
     .notTower
 
     AND.w #$000F : CMP.w #$0005 : BCC .setupVramTarget
-    
-    ASL A : STA $00
+        ASL A : STA $00
 
     .setupVramTarget
 
@@ -2145,41 +3751,38 @@ PalaceMap_OptionalGraphic:
 
     .limitNotReached
 
-    ; store big endian vram target address????
-    LDA $00 : XBA : STA $1002, Y
-    
-    INY #2
-    
-    ; .... have to look up NMI workings to know what this does.
-    LDA.w #$0E40 : STA $1002, Y
-    
-    INY #2
-    
-    LDX $02
-    
-    LDA.w $EFD1, X : STA $04
-    
-    ; check bit 13 in palace properties word
-    LDX $040C : LDA.w $F5D9, X : AND.w #$0200 : BEQ .noOffset
-    
-    LDA $04 : CLC : ADC.w #$0400 : STA $04
+        ; Store big endian vram target address????
+        LDA $00 : XBA : STA $1002, Y
+        
+        INY #2
+        
+        ; .... have to look up NMI workings to know what this does.
+        LDA.w #$0E40 : STA $1002, Y
+        
+        INY #2
+        
+        LDX $02
+        
+        LDA.w $EFD1, X : STA $04
+        
+        ; Check bit 13 in palace properties word.
+        LDX $040C : LDA.w $F5D9, X : AND.w #$0200 : BEQ .noOffset
+            LDA $04 : CLC : ADC.w #$0400 : STA $04
 
-    .noOffset
+        .noOffset
 
-    LDA $04 : STA $1002, Y
-    
-    INY #2
-    
-    ; apparently stop incrementing once $02 reaches 0x000C
-    LDA $02 : CMP.w #$000C : BEQ .stopIncrementing
-    
-    INC $02 : INC $02
+        LDA $04 : STA $1002, Y
+        
+        INY #2
+        
+        ; Apparently stop incrementing once $02 reaches 0x000C.
+        LDA $02 : CMP.w #$000C : BEQ .stopIncrementing
+            INC $02 : INC $02
 
-    .stopIncrementing
-
+        .stopIncrementing
     LDA $00 : CLC : ADC.w #$0020 : STA $00 : CMP.w #$1360 : BCC .limitNotReached
     
-    ; Tell NMI how large the buffer is as of now
+    ; Tell NMI how large the buffer is as of now.
     STY $1000
     
     SEP #$20
@@ -2196,7 +3799,7 @@ PalaceMap_OptionalGraphic:
     
     SEP #$10
     
-    ; Move to next step of submodule
+    ; Move to next step of submodule.
     INC $020D
     
     LDA.b #$01 : STA $14
@@ -2208,11 +3811,17 @@ PalaceMap_OptionalGraphic:
 
 ; ==============================================================================
 
-    ; $0562E5-$0562F4 DATA
+; $0562E5-$0562F4 DATA
+Pool_DungeonMap_BuildFloorListBoxes:
+{
+    dw $0F26, $0F27, $4F27, $4F26
+    dw $8F26, $8F27, $CF27, $CF26
+}
 
 ; ==============================================================================
 
 ; $0562F5-$056383 LOCAL JUMP LOCATION
+DungeonMap_BuildFloorListBoxes:
 {
     REP #$20
     
@@ -2228,16 +3837,14 @@ PalaceMap_OptionalGraphic:
     LDA $0E : SEC : SBC.w #$0040 : CLC : ADC.w #$0002 : STA $0E
     
     LDX $00 : BEQ .BRANCH_ALPHA
-    
-    LDA $0E
-    
-    .BRANCH_BETA
+        LDA $0E
+        
+        .BRANCH_BETA
 
-    CLC : ADC.w #$0040
-    
-    DEX : BNE .BRANCH_BETA
-    
-    STA $0E
+            CLC : ADC.w #$0040
+        DEX : BNE .BRANCH_BETA
+        
+        STA $0E
 
     .BRANCH_ALPHA
 
@@ -2247,42 +3854,38 @@ PalaceMap_OptionalGraphic:
 
     .BRANCH_ZETA
 
-    LDX.w #$0000
-    
-    LDA $0E
+        LDX.w #$0000
+        
+        LDA $0E
 
-    .BRANCH_THETA
+        .BRANCH_THETA
 
-    XBA : STA $1002, Y
-    
-    INY #2
-    
-    LDA.w #$0700 : STA $1002, Y
-    
-    INY #2
+        XBA : STA $1002, Y
+        
+        INY #2
+        
+        LDA.w #$0700 : STA $1002, Y
+        
+        INY #2
 
-    .BRANCH_GAMMA
+        .BRANCH_GAMMA
 
-    LDA.w $E2E5, X : STA $1002, Y
-    
-    INY #2
-    
-    INX #2 : CPX.w #$0008 : BCC .BRANCH_GAMMA  BEQ .BRANCH_DELTA
-    
-    CPX.w #$0010 : BNE .BRANCH_GAMMA
-    
-    BRA .BRANCH_EPSILON
+            LDA.w $E2E5, X : STA $1002, Y
+            
+            INY #2
+        INX #2 : CPX.w #$0008 : BCC .BRANCH_GAMMA : BEQ .BRANCH_DELTA
+            CPX.w #$0010 : BNE .BRANCH_GAMMA
+                BRA .BRANCH_EPSILON
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    LDA $0E : CLC : ADC.w #$0020
-    
-    BRA .BRANCH_THETA
+        LDA $0E : CLC : ADC.w #$0020
+        
+        BRA .BRANCH_THETA
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-    LDA $0E : SEC : SBC.w #$0040 : STA $0E
-    
+        LDA $0E : SEC : SBC.w #$0040 : STA $0E
     INC $0A : LDA $0A : CMP $02 : BMI .BRANCH_ZETA
     
     STY $1000
@@ -2295,6 +3898,7 @@ PalaceMap_OptionalGraphic:
 ; ==============================================================================
 
 ; $056384-$056428 JUMP LOCATION (LONG)
+Module0E_03_01_03_DrawRooms:
 {
     PHB : PHK : PLB
     
@@ -2310,10 +3914,9 @@ PalaceMap_OptionalGraphic:
     LDX $040C
     
     LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP $A4 : BEQ .BRANCH_ALPHA
-    
-    LDA $A4 : AND.w #$00FF : STA $020E
-    
-    BRA .BRANCH_BETA
+        LDA $A4 : AND.w #$00FF : STA $020E
+        
+        BRA .BRANCH_BETA
 
     .BRANCH_ALPHA
 
@@ -2324,10 +3927,9 @@ PalaceMap_OptionalGraphic:
     .BRANCH_BETA
 
     LDA $020E : AND.w #$0050 : BNE .BRANCH_GAMMA
-    
-    LDA.w #$EFFF : STA $08
-    
-    BRA .BRANCH_DELTA
+        LDA.w #$EFFF : STA $08
+        
+        BRA .BRANCH_DELTA
 
     .BRANCH_GAMMA
 
@@ -2346,16 +3948,14 @@ PalaceMap_OptionalGraphic:
     LDA.w #$0300 : STA $06
     
     LDA $0211 : BNE .BRANCH_EPSILON
-    
-    BRA .BRANCH_EPSILON
+        BRA .BRANCH_EPSILON
 
     .BRANCH_EPSILON
 
     LDA $020E : AND.w #$0050 : BNE .BRANCH_ZETA
-    
-    LDA.w #$EFFF : STA $08
-    
-    BRA .BRANCH_THETA
+        LDA.w #$EFFF : STA $08
+        
+        BRA .BRANCH_THETA
 
     .BRANCH_ZETA
 
@@ -2389,17 +3989,29 @@ PalaceMap_OptionalGraphic:
 ; ==============================================================================
 
 ; $056429-$056448 DATA
+Pool_DungeonMap_DrawBorderForRooms:
 {
+    .tiles_corner
     dw $1F19, $5F19, $9F19, $DF19
-    
-    dw $00E2, $00F8, $03A2, $03B8
-    
-    dw $1F1A, $9F1A, $
-}
 
-; ==============================================================================
+    .tiles_corner_address
+    dw $00E2, $00F8, $03A2, $03B8
+
+    .tiles_vertical_border
+    dw $1F1A, $9F1A
+
+    .tiles_vertical_border_address
+    dw $00E4, $03A4
+
+    .tiles_horizontal_border
+    dw $1F1B, $5F1B
+
+    .tiles_horizontal_border_address
+    dw $0122, $0138
+}
     
 ; $056449-$0564E8 LOCAL JUMP LOCATION
+DungeonMap_DrawBorderForRooms:
 {
     REP #$30
     
@@ -2407,54 +4019,49 @@ PalaceMap_OptionalGraphic:
 
     .BRANCH_ALPHA
 
-    LDY $02 : LDA.w $E431, Y : CLC : ADC $06 : AND.w #$0FFF : TAX
-    
-    LDA.w #$0F00 : STA $7F0000, X
-    
-    LDA.w $E429, Y : AND $08 : STA $7F0000, X
-    
-    INC $02 : INC $02
-    
+        LDY $02 : LDA.w $E431, Y : CLC : ADC $06 : AND.w #$0FFF : TAX
+        
+        LDA.w #$0F00 : STA $7F0000, X
+        
+        LDA.w $E429, Y : AND $08 : STA $7F0000, X
+        
+        INC $02 : INC $02
     LDA $02 : CMP.w #$0008 : BNE .BRANCH_ALPHA
     
     LDY.w #$0000
 
     .BRANCH_GAMMA
 
-    STZ $02
-    
-    LDA.w $E43D, Y : CLC : ADC $06 : STA $04
+        STZ $02
+        
+        LDA.w $E43D, Y : CLC : ADC $06 : STA $04
 
-    .BRANCH_BETA
+        .BRANCH_BETA
 
-    LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
-    
-    LDA.w #$0F00 : STA $7F0000, X
-    
-    LDA.w $E439, Y : AND $08 : STA $7F0000, X
-    
-    INC $02 : INC $02 : LDA $02 : CMP.w #$0014 : BNE .BRANCH_BETA
-    
+            LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
+            
+            LDA.w #$0F00 : STA $7F0000, X
+            
+            LDA.w $E439, Y : AND $08 : STA $7F0000, X
+        INC $02 : INC $02 : LDA $02 : CMP.w #$0014 : BNE .BRANCH_BETA
     INY #2 : CPY.w #$0004 : BNE .BRANCH_GAMMA
     
     LDY.w #$0000
 
     .BRANCH_EPSILON
 
-    STZ $02
-    
-    LDA.w $E445, Y : CLC : ADC $06 : STA $04
+        STZ $02
+        
+        LDA.w $E445, Y : CLC : ADC $06 : STA $04
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
-    
-    LDA.w #$0F00 : STA $7F0000, X
-    
-    LDA.w $E441, Y : AND $08 : STA $7F0000, X
-    
-    LDA $02 : CLC : ADC.w #$0040 : STA $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
-    
+            LDA $04 : CLC : ADC $02 : AND.w #$0FFF : TAX
+            
+            LDA.w #$0F00 : STA $7F0000, X
+            
+            LDA.w $E441, Y : AND $08 : STA $7F0000, X
+        LDA $02 : CLC : ADC.w #$0040 : STA $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
     INY #2 : CPY.w #$0004 : BNE .BRANCH_EPSILON
     
     SEP #$30
@@ -2465,10 +4072,21 @@ PalaceMap_OptionalGraphic:
 ; ==============================================================================
 
 ; $0564E9-$0564F8 DATA
+Pool_DungeonMap_DrawFloorNumbersByRoom
 {
+    .floor_numbers
+    dw $1F1E ; 1
+    dw $1F1F ; 2
+    dw $1F20 ; 3
+    dw $1F21 ; 4
+    dw $1F22 ; 5
+    dw $1F23 ; 6
+    dw $1F24 ; 7
+    dw $1F25 ; 8
 }
 
 ; $0564F9-$05656E LOCAL JUMP LOCATION
+DungeonMap_DrawFloorNumbersByRoom:
 {
     REP #$30
     
@@ -2476,17 +4094,15 @@ PalaceMap_OptionalGraphic:
 
     .BRANCH_ALPHA
 
-    LDA $00 : CLC : ADC $06 : AND.w #$0FFF : TAX
-    
-    LDA.w #$0F00 : STA $7F0000, X : STA $7F0002, X
-    
+        LDA $00 : CLC : ADC $06 : AND.w #$0FFF : TAX
+        
+        LDA.w #$0F00 : STA $7F0000, X : STA $7F0002, X
     LDA $00 : CLC : ADC.w #$0040 : STA $00 : CMP.w #$039E : BNE .BRANCH_ALPHA
     
     LDA $020E : AND.w #$0080 : BEQ .BRANCH_BETA
-    
-    LDA.w #$1F1C
-    
-    BRA .BRANCH_GAMMA
+        LDA.w #$1F1C
+        
+        BRA .BRANCH_GAMMA
 
     .BRANCH_BETA
 
@@ -2503,12 +4119,11 @@ PalaceMap_OptionalGraphic:
     PLA : AND $08 : STA $7F0000, X
     
     LDA $020E : AND.w #$0080 : BEQ .BRANCH_DELTA
-    
-    LDA $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
-    
-    LDA.w $E4E9, Y
-    
-    BRA .BRANCH_EPSILON
+        LDA $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
+        
+        LDA.w $E4E9, Y
+        
+        BRA .BRANCH_EPSILON
 
     .BRANCH_DELTA
 
@@ -2523,12 +4138,17 @@ PalaceMap_OptionalGraphic:
     RTS
 }
 
+; ==============================================================================
+
 ; $05656F-$056578 DATA
+Pool_DungeonMap_DrawDungeonLayout:
 {
+    .row_offset
     dw $0124, $01A4, $0224, $02A4, $0324
 }
 
 ; $056579-$056599 LOCAL JUMP LOCATION
+DungeonMap_DrawDungeonLayout:
 {
     ; Draws a 5x5 floor grid for the map?
     
@@ -2538,14 +4158,13 @@ PalaceMap_OptionalGraphic:
 
     .nextRow
 
-    LDA $00 : ASL A : TAX
-    
-    LDA.w $E56F, X : CLC : ADC $06 : AND.w #$0FFF : TAX
-    
-    JSR $E5BC ; $0565BC IN ROM
-    
-    INC $00
-    
+        LDA $00 : ASL A : TAX
+        
+        LDA.w $E56F, X : CLC : ADC $06 : AND.w #$0FFF : TAX
+        
+        JSR $E5BC ; $0565BC IN ROM
+        
+        INC $00
     LDA $00 : CMP.w #$0005 : BNE .nextRow
     
     SEP #$30
@@ -2556,19 +4175,19 @@ PalaceMap_OptionalGraphic:
 ; ==============================================================================
 
 ; $05659A-$0565BB DATA
+Pool_DungeonMap_DrawSingleRowOfRooms
 {
+    .row_draw_offset
     dw $0000, $0005, $000A, $000F, $0014
     
-    ; unused?
-    dw $0000, $0032, $0064, $0096, $00C8, $00FA, $012C, $015E
-    dw $0190, $0300
-    
-    dw $0B00, $0F00
+    .unused
+    dw $0000, $0032, $0064, $0096
+    dw $00C8, $00FA, $012C, $015E
+    dw $0190, $0300, $0B00, $0F00
 }
 
-; ==============================================================================
-
 ; $0565BC-$0567F2 LOCAL JUMP LOCATION
+DungeonMap_DrawSingleRowOfRooms:
 {
     REP #$30
     
@@ -2576,359 +4195,332 @@ PalaceMap_OptionalGraphic:
 
     .nextColumn
 
-    STZ $0E
-    
-    PHX
-    
-    LDA $00 : ASL A : TAX
-    
-    ; $04 = column * 5;
-    LDA $02 : ADC $E59A, X : STA $04
-    
-    SEP #$20
-    
-    LDX $040C
-    
-    ; I think this is trying to figure out the current floor against
-    ; the deepest depth of the current palace.
-    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $020E : ASL A : STA $0E : TAY
-    
-    REP #$20
-    
-    ; 
-    LDA.w $F605, X : STA $0C
-    
-    ; Y = (???? * 0x19) + $04;
-    LDA.w $F5F5, Y : CLC : ADC $04 : TAY
-    
-    SEP #$20
-    
-    ; 0x0F incdiates a blank room in the map, or so it would seem.
-    LDA ($0C), Y : CMP.b #$0F : BNE .BRANCH_ALPHA
-    
-    REP #$20
-    
-    LDA.w #$0051
-    
-    BRA .BRANCH_BETA
-
-    .BRANCH_ALPHA
-
-    REP #$20
-    
-    AND.w #$00FF : STA $CA
-    
-    ASL A : PHA
-    
-    LDA $CA : ASL A : TAX
-    
-    ; $0E = the quadrants Link has visited
-    LDA $7EF000, X : AND.w #$000F : STA $0E
-    
-    PLA
-    
-    BRA .BRANCH_ULTIMA
-
-    .BRANCH_BETA
-
-    ASL #3 : TAY
-    
-    BRA .BRANCH_GAMMA
-
-    .BRANCH_ULTIMA
-
-    STZ $C8
-    
-    LDY.w #$0000
-    
-    LDX $040C : LDA.w $F605, X : STA $0C
-
-    .BRANCH_ALIF
-
-    SEP #$20
-    
-    LDA ($0C), Y : CMP.b #$0F : BNE .BRANCH_OPTIMUS
-    
-    INY
-    
-    BRA .BRANCH_ALIF
-
-    .BRANCH_OPTIMUS
-
-    CMP $CA : BEQ .BRANCH_BET
-    
-    INC $C8
-    
-    INY
+        STZ $0E
         
-    BRA .BRANCH_ALIF
-    .BRANCH_BET
-    REP #$20
-    
-    LDA.w $FBE4, X : STA $0C
-    
-    LDA $C8 : TAY
-    
-    SEP #$20
-    
-    LDA ($0C), Y
-    
-    REP #$20
-    
-    ASL #3 : TAY
+        PHX
+        
+        LDA $00 : ASL A : TAX
+        
+        ; $04 = column * 5;
+        LDA $02 : ADC $E59A, X : STA $04
+        
+        SEP #$20
+        
+        LDX $040C
+        
+        ; I think this is trying to figure out the current floor against
+        ; the deepest depth of the current palace.
+        LDA.w $F5D9, X : AND.b #$0F : CLC : ADC $020E : ASL A : STA $0E : TAY
+        
+        REP #$20
+        
+        LDA.w $F605, X : STA $0C
+        
+        ; Y = (???? * 0x19) + $04;
+        LDA.w $F5F5, Y : CLC : ADC $04 : TAY
+        
+        SEP #$20
+        
+        ; 0x0F incdiates a blank room in the map, or so it would seem.
+        LDA ($0C), Y : CMP.b #$0F : BNE .BRANCH_ALPHA
+            REP #$20
+            
+            LDA.w #$0051
+            
+            BRA .BRANCH_BETA
 
-    .BRANCH_GAMMA
+        .BRANCH_ALPHA
 
-    PLX
-    
-    LDA.w $F009, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
-    
-    ; Check if top left quadrant has been seen
-    LDA $0E : AND.w #$0008 : BNE .BRANCH_DELTA
-    
-    LDA $0C : AND.w #$1000 : BNE .BRANCH_EPSILON
-    
-    LDA.w #$0400 : STA $0C
-    
-    BRA .BRANCH_ZETA
+        REP #$20
+        
+        AND.w #$00FF : STA $CA
+        
+        ASL A : PHA
+        
+        LDA $CA : ASL A : TAX
+        
+        ; $0E = the quadrants Link has visited
+        LDA $7EF000, X : AND.w #$000F : STA $0E
+        
+        PLA
+        
+        BRA .BRANCH_ULTIMA
 
-    .BRANCH_EPSILON
+        .BRANCH_BETA
 
-    PHX
-    
-    LDX $040C
-    
-    ; Check if Link has the map
-    LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_DEL
-    
-    PLX : PLA
-    
-    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
-    
-    BRA .BRANCH_THEL
+        ASL #3 : TAY
+        
+        BRA .BRANCH_GAMMA
 
-    .BRANCH_DEL
+        .BRANCH_ULTIMA
 
-    PLX
+        STZ $C8
+        
+        LDY.w #$0000
+        
+        LDX $040C : LDA.w $F605, X : STA $0C
 
-    .BRANCH_DELTA
+        .BRANCH_ALIF
 
-    STZ $0C
+        SEP #$20
+        
+        LDA ($0C), Y : CMP.b #$0F : BNE .BRANCH_OPTIMUS
+            INY
+            
+            BRA .BRANCH_ALIF
 
-    .BRANCH_ZETA
-    
-    PLA : CLC : ADC $0C : PHX : STA $0C
-    
-    LDX $040C
-    
-    ; Check if Link has the map
-    LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_THETA
-    
-    LDA $0E : AND.w #$0008 : BNE .BRANCH_THETA
-    
-    LDA.w #$0B00
-    
-    BRA .BRANCH_IOTA
+        .BRANCH_OPTIMUS
 
-    .BRANCH_THETA
+        CMP $CA : BEQ .BRANCH_BET
+            INC $C8
+            
+            INY
+                
+            BRA .BRANCH_ALIF
 
-    LDA $0C
+        .BRANCH_BET
 
-    .BRANCH_IOTA
+        REP #$20
+        
+        LDA.w $FBE4, X : STA $0C
+        
+        LDA $C8 : TAY
+        
+        SEP #$20
+        
+        LDA ($0C), Y
+        
+        REP #$20
+        
+        ASL #3 : TAY
 
-    PLX
+        .BRANCH_GAMMA
 
-    .BRANCH_THEL
+        PLX
+        
+        LDA.w $F009, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
+            ; Check if top left quadrant has been seen
+            LDA $0E : AND.w #$0008 : BNE .BRANCH_DELTA
+                LDA $0C : AND.w #$1000 : BNE .BRANCH_EPSILON
+                    LDA.w #$0400 : STA $0C
+                    
+                    BRA .BRANCH_ZETA
 
-    STA $7F0000, X
-    
-    LDA.w $F00B, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
-    
-    ; Check if top right quadrant has been seen
-    LDA $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
-    
-    LDA $0C : AND.w #$1000 : BNE .BRANCH_LAMBDA
-    
-    LDA.w #$0400 : STA $0C
-    
-    BRA .BRANCH_MU
+                .BRANCH_EPSILON
 
-    .BRANCH_LAMBDA
+                PHX
+                
+                LDX $040C
+                
+                ; Check if Link has the map
+                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_DEL
+                    PLX : PLA
+                    
+                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    
+                    BRA .BRANCH_THEL
 
-    PHX
+                .BRANCH_DEL
 
-    LDX $040C
-    
-    ; Check if Link has the map
-    LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_SIN
-    
-    PLX : PLA
-    
-    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
-    
-    BRA .BRANCH_SHIN
+                PLX
 
-    .BRANCH_SIN
+        .BRANCH_DELTA
 
-    PLX
+        STZ $0C
 
-    .BRANCH_KAPPA
+        .BRANCH_ZETA
+        
+        PLA : CLC : ADC $0C : PHX : STA $0C
+        
+        LDX $040C
+        
+        ; Check if Link has the map
+        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_THETA
+            LDA $0E : AND.w #$0008 : BNE .BRANCH_THETA
+                LDA.w #$0B00
+                
+                BRA .BRANCH_IOTA
 
-    STZ $0C
+        .BRANCH_THETA
 
-    .BRANCH_MU
+        LDA $0C
 
-    ; damn PHX in the middle... whatever. But it's an eyesore.
-    PLA : CLC : ADC $0C : PHX : STA $0C
-    
-    LDX $040C
-    
-    ; check if we have the map for this dungeon
-    LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_NU
-    
-    LDA $0E : AND.w #$0004 : BNE .BRANCH_NU
-    
-    LDA.w #$0B00
-    
-    BRA .BRANCH_XI
+        .BRANCH_IOTA
 
-    .BRANCH_NU
+        PLX
 
-    LDA $0C
+        .BRANCH_THEL
 
-    .BRANCH_XI
+        STA $7F0000, X
+        
+        LDA.w $F00B, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
+            ; Check if top right quadrant has been seen
+            LDA $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
+                LDA $0C : AND.w #$1000 : BNE .BRANCH_LAMBDA
+                    LDA.w #$0400 : STA $0C
+                    
+                    BRA .BRANCH_MU
 
-    PLX
+                .BRANCH_LAMBDA
 
-    .BRANCH_SHIN
+                PHX
 
-    STA $7F0002, X
-    
-    LDA.w $F00D, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
-    
-    LDA $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
-    
-    LDA $0C : AND.w #$1000 : BNE .BRANCH_PI
-    
-    LDA.w #$0400 : STA $0C
-    
-    BRA .BRANCH_RHO
+                LDX $040C
+                
+                ; Check if Link has the map
+                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_SIN
+                    PLX : PLA
+                    
+                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    
+                    BRA .BRANCH_SHIN
 
-    .BRANCH_PI
+                .BRANCH_SIN
 
-    PHX
-    
-    LDX $040C
-    
-    ; Check if we have the map... again
-    LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_SOD
-    
-    PLX : PLA
-    
-    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
-    
-    BRA .BRANCH_DOD
+                PLX
 
-    .BRANCH_SOD
+        .BRANCH_KAPPA
 
-    PLX
+        STZ $0C
 
-    .BRANCH_OMICRON
+        .BRANCH_MU
 
-    STZ $0C
+        ; PHX in the middle... whatever. But it's an eyesore.
+        PLA : CLC : ADC $0C : PHX : STA $0C
+        
+        LDX $040C
+        
+        ; Check if we have the map for this dungeon.
+        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_NU
+            LDA $0E : AND.w #$0004 : BNE .BRANCH_NU
+                LDA.w #$0B00
+                
+                BRA .BRANCH_XI
 
-    .BRANCH_RHO
+        .BRANCH_NU
 
-    PLA : CLC : ADC $0C : PHX : STA $0C
-    
-    LDX $040C
-    
-    LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_SIGMA
-    
-    LDA $0E : AND.w #$0002 : BNE .BRANCH_SIGMA
-    
-    LDA.w #$0B00
-    
-    BRA .BRANCH_TAU
+        LDA $0C
 
-    .BRANCH_SIGMA
+        .BRANCH_XI
 
-    LDA $0C
+        PLX
 
-    .BRANCH_TAU
+        .BRANCH_SHIN
 
-    PLX
+        STA $7F0002, X
+        
+        LDA.w $F00D, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
+            LDA $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
+                LDA $0C : AND.w #$1000 : BNE .BRANCH_PI
+                    LDA.w #$0400 : STA $0C
+                    
+                    BRA .BRANCH_RHO
 
-    .BRANCH_DOD
+                .BRANCH_PI
 
-    STA $7F0040, X
-    
-    LDA.w $F00F, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
-    
-    LDA $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
-    
-    LDA $0C : AND.w #$1000 : BNE .BRANCH_PHI
-    
-    LDA #$0400 : STA $0C
-    
-    BRA .BRANCH_CHI
+                PHX
+                
+                LDX $040C
+                
+                ; Check if we have the map... again
+                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_SOD
+                    PLX : PLA
+                    
+                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    
+                    BRA .BRANCH_DOD
 
-    .BRANCH_PHI
+                .BRANCH_SOD
 
-    PHX
-    
-    LDX $040C
-    
-    ; Check if Link has the map
-    LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_TOD
-    
-    PLX : PLA
-    
-    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
-    
-    BRA .BRANCH_ZOD
+                PLX
 
-    .BRANCH_TOD
+        .BRANCH_OMICRON
 
-    PLX
+        STZ $0C
 
-    .BRANCH_UPSILON
+        .BRANCH_RHO
 
-    STZ $0C
+        PLA : CLC : ADC $0C : PHX : STA $0C
+        
+        LDX $040C
+        
+        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_SIGMA
+            LDA $0E : AND.w #$0002 : BNE .BRANCH_SIGMA
+                LDA.w #$0B00
+                
+                BRA .BRANCH_TAU
 
-    .BRANCH_CHI
+        .BRANCH_SIGMA
 
-    PLA : CLC : ADC $0C : PHX : STA $0C
+        LDA $0C
 
-    LDX $040C
-    
-    ; Check if Link has the map
-    LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_PSI
-    
-    LDA $0E : AND.w #$0001 : BNE .BRANCH_PSI
-    
-    LDA.w #$0B00
-    
-    BRA .BRANCH_OMEGA
+        .BRANCH_TAU
 
-    .BRANCH_PSI
+        PLX
 
-    LDA $0C
+        .BRANCH_DOD
 
-    .BRANCH_OMEGA
+        STA $7F0040, X
+        
+        LDA.w $F00F, Y : STA $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
+            LDA $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
+                LDA $0C : AND.w #$1000 : BNE .BRANCH_PHI
+                    LDA #$0400 : STA $0C
+                    
+                    BRA .BRANCH_CHI
 
-    PLX
+                .BRANCH_PHI
 
-    .BRANCH_ZOD
+                PHX
+                
+                LDX $040C
+                
+                ; Check if Link has the map
+                LDA $7EF368 : AND $0098C0, X : BEQ .BRANCH_TOD
+                    PLX : PLA
+                    
+                    LDA $0C : AND.w #$E3FF : ORA.w #$0C00
+                    
+                    BRA .BRANCH_ZOD
 
-    STA $7F0042, X
-    
-    INX #4
-    
-    INC $02
-    
-    LDA $02 : CMP.w #$0005 : BEQ .BRANCH_ALTIMA
-    
+                .BRANCH_TOD
+
+                PLX
+
+        .BRANCH_UPSILON
+
+        STZ $0C
+
+        .BRANCH_CHI
+
+        PLA : CLC : ADC $0C : PHX : STA $0C
+
+        LDX $040C
+        
+        ; Check if Link has the map
+        LDA $7EF368 : AND $0098C0, X : BNE .BRANCH_PSI
+            LDA $0E : AND.w #$0001 : BNE .BRANCH_PSI
+                LDA.w #$0B00
+                
+                BRA .BRANCH_OMEGA
+
+        .BRANCH_PSI
+
+        LDA $0C
+
+        .BRANCH_OMEGA
+
+        PLX
+
+        .BRANCH_ZOD
+
+        STA $7F0042, X
+        
+        INX #4
+        
+        INC $02
+        
+        LDA $02 : CMP.w #$0005 : BEQ .BRANCH_ALTIMA
     JMP .nextColumn
 
     .BRANCH_ALTIMA
@@ -2938,11 +4530,53 @@ PalaceMap_OptionalGraphic:
 
 ; ==============================================================================
 
-; $0567F3-$056822 DATA
+; $0567F3-$0567F6 DATA
+DungeonMapRoomMarkerYBase:
 {
+    dw $001F, $007F
+}
+
+; $0567F7-$056806 DATA
+Pool_DungeonMap_DrawRoomMarkers
+{
+    .offset_x_base
+    dw $0090
+
+    .fairy_rooms
+    dw $0089 ; ROOM 0089 - Eastern fairy room
+    dw $00A7 ; ROOM 00A7 - Hera fairy room
+    dw $004F ; ROOM 004F - Ice Palace fairy room
+
+    .fairy_room_replacements
+    dw $00A9 ; ROOM 00A9 - Eastern big chest room
+    dw $0077 ; ROOM 0077 - Hera lobby
+    dw $00BE ; ROOM 00BE - Ice Palace block switch room
+
+    .floor_threshold
+    dw $0004
+}
+
+; $056807-$056822 DATA
+DungeonMapBossRooms:
+{
+    dw $000F ; ROOM 000F - Sewers: none
+    dw $000F ; ROOM 000F - Castle: none
+    dw $00C8 ; ROOM 00C8 - Eastern
+    dw $0033 ; ROOM 0033 - Desert
+    dw $0020 ; ROOM 0020 - Agahnim's tower
+    dw $0006 ; ROOM 0006 - Swamp palace
+    dw $005A ; ROOM 005A - Palace of Darkness
+    dw $0090 ; ROOM 0090 - Misery Mire
+    dw $0029 ; ROOM 0029 - Skull Woods
+    dw $00DE ; ROOM 00DE - Ice Palace
+    dw $0007 ; ROOM 0007 - Tower of Hera
+    dw $00AC ; ROOM 00AC - Thieves' Town
+    dw $00A4 ; ROOM 00A4 - Turtle Rock
+    dw $000D ; ROOM 000D - Ganon's tower
 }
 
 ; $056823-$056953 JUMP LOCATION (LONG)
+DungeonMap_DrawRoomMarkers:
 {
     PHB : PHK : PLB
     
@@ -2967,8 +4601,7 @@ PalaceMap_OptionalGraphic:
 
     .secretRoomLoop
 
-    CMP $E7F9, Y : BEQ .isSecretRoom
-    
+        CMP $E7F9, Y : BEQ .isSecretRoom
     DEY #2 : BPL .secretRoomLoop
     
     BRA .notSecretRoom
@@ -2996,20 +4629,18 @@ PalaceMap_OptionalGraphic:
     .BRANCH_ZETA
     
     LDA ($04), Y : INY : CMP $0E : BEQ .BRANCH_DELTA
-    
-    LDA $00 : CMP.b #$40 : BCC .BRANCH_EPSILON
-    
-    STZ $00
-    
-    LDA $02 : CLC : ADC.b #$10 : STA $02
-    
-    BRA .BRANCH_ZETA
+        LDA $00 : CMP.b #$40 : BCC .BRANCH_EPSILON
+            STZ $00
+            
+            LDA $02 : CLC : ADC.b #$10 : STA $02
+            
+            BRA .BRANCH_ZETA
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-    CLC : ADC.b #$10 : STA $00
-    
-    BRA .BRANCH_ZETA
+        CLC : ADC.b #$10 : STA $00
+        
+        BRA .BRANCH_ZETA
 
     .BRANCH_DELTA
 
@@ -3021,7 +4652,7 @@ PalaceMap_OptionalGraphic:
     
     LDY $0211
     
-    LDA $02       : STA $0CF5
+    LDA $02 : STA $0CF5
     CLC : ADC $E7F3, Y : STA $0217
     
     LDA $20 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC $0217 : STA $0217
@@ -3047,20 +4678,17 @@ PalaceMap_OptionalGraphic:
 
     .BRANCH_LAMBDA
 
-    LDA ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
-    
-    CMP $E807, X : BEQ .BRANCH_IOTA
+        LDA ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
+            CMP $E807, X : BEQ .BRANCH_IOTA
 
-    .BRANCH_THETA
+        .BRANCH_THETA
 
-    LDA $0FA8 : SEC : SBC.b #$10 : STA $0FA8 : BPL .BRANCH_KAPPA
-    
-    LDA.b #$40 : STA $0FA8
-    
-    LDA $0FAA : SEC : SBC.b #$10 : STA $0FAA
+        LDA $0FA8 : SEC : SBC.b #$10 : STA $0FA8 : BPL .BRANCH_KAPPA
+            LDA.b #$40 : STA $0FA8
+            
+            LDA $0FAA : SEC : SBC.b #$10 : STA $0FAA
 
-    .BRANCH_KAPPA
-
+        .BRANCH_KAPPA
     DEY : BPL .BRANCH_LAMBDA
 
     .BRANCH_IOTA
@@ -3069,10 +4697,9 @@ PalaceMap_OptionalGraphic:
     STZ $0F
     
     LDA $020E : SEC : SBC $EE79, X : STA $0E : BPL .BRANCH_MU
-    
-    EOR.b #$FF : INC A : STA $0E
-    
-    INC $02 : INC $02
+        EOR.b #$FF : INC A : STA $0E
+        
+        INC $02 : INC $02
 
     .BRANCH_MU
 
@@ -3085,10 +4712,9 @@ PalaceMap_OptionalGraphic:
     .BRANCH_XI
 
     DEC $0E : BMI .BRANCH_NU
-    
-    LDA $0FAA : CLC : ADC $E975, Y : STA $0FAA
-    
-    BRA .BRANCH_XI
+        LDA $0FAA : CLC : ADC $E975, Y : STA $0FAA
+        
+        BRA .BRANCH_XI
 
     .BRANCH_NU
 
@@ -3117,22 +4743,22 @@ PalaceMap_3:
 
 ; ==============================================================================
 
-; $005695B-$056974 LONG JUMP LOCATION
+; $05695B-$056974 LONG JUMP LOCATION
+DungeonMap_HandleInput:
 {
     PHB : PHK : PLB
     
     ; Unless the depressed button is X, continue.
     LDA $F6 : AND.b #$40 : BNE .exitPalaceMapMode
-    
-    JSL $0AE979 ; $056979 IN ROM
-    
-    PLB
-    
-    RTL
+        JSL $0AE979 ; $056979 IN ROM
+        
+        PLB
+        
+        RTL
 
     .exitPalaceMapMode
     
-    ; in this case, we need come out of map mode
+    ; In this case, we need come out of map mode.
 
     INC $0200 : INC $0200
     
@@ -3146,17 +4772,18 @@ PalaceMap_3:
 ; ==============================================================================
 
 ; $056975-$056978 DATA
+DungeonMap_PanValues:
 {
     dw $0060, $FFA0
 }
 
-; $0056979-$056985 LONG JUMP LOCATION
+; $056979-$056985 LONG JUMP LOCATION
+DungeonMap_HandleMovementInput:
 {
     JSL $0AE986 ; $056986 IN ROM
     
     LDA $0210 : BEQ .notScrolling
-    
-    JMP PalaceMap_Scroll
+        JMP PalaceMap_Scroll
 
     .notScrolling
 
@@ -3165,20 +4792,19 @@ PalaceMap_3:
 
 ; ==============================================================================
 
-; $0056986-$056A76 LONG JUMP LOCATION
+; $056986-$056A76 LONG JUMP LOCATION
+DungeonMap_HandleFloorSelect:
 {
     REP #$30
     
     LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : STA $00
     
     LDA.w $F5D9, X : AND.w #$000F : CLC : ADC $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
-    
-    SEP #$30
-    
-    LDA $0210 : BNE .BRANCH_ALPHA
-    
-    ; BYSTudlr -> ----ud--
-    LDA $F0 : AND.b #$0C : BNE .BRANCH_BETA
+        SEP #$30
+        
+        LDA $0210 : BNE .BRANCH_ALPHA
+            ; BYSTudlr -> ----ud--
+            LDA $F0 : AND.b #$0C : BNE .BRANCH_BETA
 
     .BRANCH_ALPHA
 
@@ -3191,110 +4817,108 @@ PalaceMap_3:
     STZ $020F
     
     AND.b #$08 : BEQ .BRANCH_GAMMA
-    
-    REP #$30
-    
-    LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP $020E : BNE .BRANCH_DELTA
-    
-    JMP $EA75 ; $056A75 IN ROM
+        REP #$30
+        
+        LDX $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP $020E : BNE .BRANCH_DELTA
+            JMP $EA75 ; $056A75 IN ROM
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    INC $020E
-    
-    LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
-    
-    BRA .BRANCH_EPSILON
+        INC $020E
+        
+        LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
+        
+        BRA .BRANCH_EPSILON
 
     .BRANCH_GAMMA
 
     REP #$30
     
     LDX $040C : LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP $020E : BEQ .BRANCH_MU
-    
-    DEC $020E : DEC $020E
-    
-    LDA $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA $06
+        DEC $020E : DEC $020E
+        
+        LDA $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA $06
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-    SEP #$20
-    
-    LDA $020E : CMP $A4 : BNE .BRANCH_ZETA
-    
-    REP #$20
-    
-    BRA .BRANCH_THETA
+        SEP #$20
+        
+        LDA $020E : CMP $A4 : BNE .BRANCH_ZETA
+            REP #$20
+            
+            BRA .BRANCH_THETA
 
-    .BRANCH_ZETA
+        .BRANCH_ZETA
 
-    BMI .BRANCH_NU
-    
-    REP #$20
-    
-    BRA .BRANCH_THETA
+        BMI .BRANCH_NU
+            REP #$20
+            
+            BRA .BRANCH_THETA
 
-    .BRANCH_NU
+        .BRANCH_NU
 
-    REP #$20
+        REP #$20
 
-    .BRANCH_THETA
+        .BRANCH_THETA
 
-    LDA $020E : AND.w #$0080 : BNE .BRANCH_IOTA
-    
-    LDA.w #$EFFF : STA $08
-    
-    BRA .BRANCH_KAPPA
+        LDA $020E : AND.w #$0080 : BNE .BRANCH_IOTA
+            LDA.w #$EFFF : STA $08
+            
+            BRA .BRANCH_KAPPA
 
-    .BRANCH_IOTA
+        .BRANCH_IOTA
 
-    LDA.w #$EFFF : STA $08
+        LDA.w #$EFFF : STA $08
 
-    .BRANCH_KAPPA
+        .BRANCH_KAPPA
 
-    SEP #$20
-    
-    JSR $E4F9 ; $0564F9 IN ROM
-    JSR $E449 ; $056449 IN ROM
-    JSR $E579 ; $056579 IN ROM
-    
-    SEP #$20
-    
-    INC $0210
-    
-    LDA $0A : AND.b #$08 : LSR #2 : TAX
-    
-    REP #$30
-    
-    LDA $E8 : CLC : ADC $E975, X : STA $0213
-    
-    LDA $0A : AND.w #$0008 : BNE .BRANCH_LAMBDA
-    
-    LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
-    
-    INC $020E
-    
-    .BRANCH_LAMBDA
-    
-    SEP #$20
-    
-    LDA.b #$08 : STA $17
+        SEP #$20
+        
+        JSR $E4F9 ; $0564F9 IN ROM
+        JSR $E449 ; $056449 IN ROM
+        JSR $E579 ; $056579 IN ROM
+        
+        SEP #$20
+        
+        INC $0210
+        
+        LDA $0A : AND.b #$08 : LSR #2 : TAX
+        
+        REP #$30
+        
+        LDA $E8 : CLC : ADC $E975, X : STA $0213
+        
+        LDA $0A : AND.w #$0008 : BNE .BRANCH_LAMBDA
+            LDA $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA $06
+            
+            INC $020E
+        
+        .BRANCH_LAMBDA
+        
+        SEP #$20
+        
+        LDA.b #$08 : STA $17
     
     ; $056A75 ALTERNATE ENTRY POINT
     .BRANCH_MU
     
-    BRA .BRANCH_$56AAF
+    BRA PalaceMap_Scroll_easyOut
 }
 
 ; ==============================================================================
 
 ; $056A77-$056A7E DATA
+Pool_DungeonMap_ScrollFloors:
+Pool_PalaceMap_Scroll:
 {
-    dw 4, -4
+    .speed_bg
+    dw   4 ; down
+    dw  -4 ; up
     
     ; $056A7B
-    
-    dw -4, 4
+    .speed_sprites
+    dw  -4 ; down
+    dw   4 ; up
 }
 
 ; ==============================================================================
@@ -3307,17 +4931,17 @@ PalaceMap_Scroll:
     ; $0A is direction?
     LDA $0A : AND.w #$0008 : LSR #2 : TAX
     
-    LDA $0217 : CLC : ADC $EA7B, X : STA $0217
-    LDA $0FAA : CLC : ADC $EA7B, X : STA $0FAA
+    LDA $0217 : CLC : ADC .speed_sprites, X : STA $0217
+    LDA $0FAA : CLC : ADC .speed_sprites, X : STA $0FAA
     
-    LDA $E8 : CLC : ADC $EA77, X : STA $E8 : CMP $0213 : BNE .notDoneScrolling
-    
-    SEP #$20
-    
-    STZ $0210
+    LDA $E8 : CLC : ADC .speed_bg, X : STA $E8 : CMP $0213 : BNE .notDoneScrolling
+        SEP #$20
+        
+        STZ $0210
+
+    .notDoneScrolling
 
     ; $056AAF ALTERNATE ENTRY POINT
-    .notDoneScrolling
     .easyOut
 
     SEP #$30
@@ -3328,6 +4952,7 @@ PalaceMap_Scroll:
 ; ==============================================================================
 
 ; $056AB2-$056AED JUMP LOCATION (LONG)
+DungeonMap_DrawSprites:
 {
     PHB : PHK : PLB
     
@@ -3348,10 +4973,9 @@ PalaceMap_Scroll:
 
     .BRANCH_ALPHA
 
-    JSR $EBA8 ; $056BA8 IN ROM
-    
-    INC $0E
-    
+        JSR $EBA8 ; $056BA8 IN ROM
+        
+        INC $0E
     LDA $00 : CMP.b #$09 : BNE .BRANCH_ALPHA
     
     JSR $EB50 ; $056B50 IN ROM
@@ -3370,7 +4994,7 @@ PalaceMap_Scroll:
 ; ==============================================================================
 
 ; $056AEE-$056AEE DATA
-pool PalaceMap_DrawPlayerFloorIndicator:
+Pool_PalaceMap_DrawPlayerFloorIndicator:
 {
     .x_offset
     db $19
@@ -3379,7 +5003,7 @@ pool PalaceMap_DrawPlayerFloorIndicator:
 ; ==============================================================================
 
 ; $056AEF-$056AEF DATA
-pool PalaceMap_DrawBossFloorIndicator:
+Pool_PalaceMap_DrawBossFloorIndicator:
 {
     .x_offset
     db $4C
@@ -3393,12 +5017,10 @@ PalaceMap_DrawPlayerFloorIndicator:
     REP #$10
     
     LDA.b #$04 : SEC : SBC $02 : BMI .BRANCH_ALPHA
-    
-    CLC : ADC $03 : STA $03
-    
-    LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
-    
-    SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
+        CLC : ADC $03 : STA $03
+        
+        LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
+            SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
 
     .BRANCH_ALPHA
 
@@ -3420,8 +5042,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     LDA.b #$3E
     
     LDY $0ABD : BEQ .playerPaletteSwapped
-    
-    LDA.b #$30
+        LDA.b #$30
 
     .playerPaletteSwapped
 
@@ -3433,13 +5054,23 @@ PalaceMap_DrawPlayerFloorIndicator:
 ; ==============================================================================
 
 ; $056B40-$056B4F DATA
+Pool_DungeonMap_DrawBlinkingIndicator
 {
-    ; TODO: Fill in data and apply labels.
+    ; $056B40
+    .tile
+    db $34, $35, $36, $34
+    db $31, $32, $33, $32
+
+    ; $056B48
+    .prop
+    db $39, $3B, $3D, $3B
+    db $3B, $3B, $3B, $3B
 }
 
 ; ==============================================================================
 
 ; $056B50-$056B89 LOCAL JUMP LOCATION
+DungeonMap_DrawBlinkingIndicator:
 {
     LDX $00
     
@@ -3450,8 +5081,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     LDA $0215 : SEC : SBC.b #$03 : STA $0800, X
     
     LDA $0218 : BEQ .BRANCH_ALPHA
-    
-    LDA.b #$F0 : BRA .BRANCH_BETA
+        LDA.b #$F0 : BRA .BRANCH_BETA
 
     .BRANCH_ALPHA
 
@@ -3470,63 +5100,93 @@ PalaceMap_DrawPlayerFloorIndicator:
 }
 
 ; $056B8A-$056BA7 DATA
+Pool_DungeonMap_DrawLocationMarker:
 {
+    ; $056B8A
+    .offset_x
+    db  -9 ; top left
+    db   8 ; top right
+    db  -9 ; bottom left
+    db   8 ; bottom right
+
+    ; $056B8E
+    .offset_y
+    db  -8 ; top left
+    db  -8 ; top right
+    db   9 ; bottom left
+    db   9 ; bottom right
+
+    ; $056B92
+    .props
+    db $F1 ; top left
+    db $B1 ; top right
+    db $71 ; bottom left
+    db $31 ; bottom right
+
+    ; $056B96
+    .palette_flash
+    db $0C, $0C
+    db $08, $0A
+
+    ; $056B9A
+    .unsued
+    dw $0000, $0060, $00C0, $0120
+    dw $0180, $01E0, $0240
 }
 
 ; $056BA8-$056C09 LOCAL JUMP LOCATION
+DungeonMap_DrawLocationMarker:
 {
     LDY.b #$03
 
     .BRANCH_BETA
 
-    LDA $00 : TAX
-    
-    LDA.b #$02 : STA $0A20, X
-    
-    TXA : ASL #2 : TAX
-    
-    LDA $0215 : AND.b #$F0 : CLC : ADC $EB8A, Y : STA $0800, X
-    
-    PHY
-    
-    LDA $0E : ASL A : TAY
-    
-    LDA $0CF5 : CLC : ADC $E7F3, Y : STA $0F
-    
-    PLY
-    
-    CLC : ADC $EB8E, Y : STA $0801, X
-    
-    STZ $0802, X
-    
-    LDA.w $EB92, Y : STA $0C 
-    
-    PHY
-    
-    LDA $1A : LSR #2 : AND.b #$01 : TAY
-    
-    INC $0F
-    
-    LDA $0217 : INC A : AND.b #$F0 : CMP $0F : BNE .BRANCH_ALPHA
-    
-    LDA $0218 : BNE .BRANCH_ALPHA
-    
-    INY #2
+        LDA $00 : TAX
+        
+        LDA.b #$02 : STA $0A20, X
+        
+        TXA : ASL #2 : TAX
+        
+        LDA $0215 : AND.b #$F0 : CLC : ADC $EB8A, Y : STA $0800, X
+        
+        PHY
+        
+        LDA $0E : ASL A : TAY
+        
+        LDA $0CF5 : CLC : ADC $E7F3, Y : STA $0F
+        
+        PLY
+        
+        CLC : ADC $EB8E, Y : STA $0801, X
+        
+        STZ $0802, X
+        
+        LDA.w $EB92, Y : STA $0C 
+        
+        PHY
+        
+        LDA $1A : LSR #2 : AND.b #$01 : TAY
+        
+        INC $0F
+        
+        LDA $0217 : INC A : AND.b #$F0 : CMP $0F : BNE .BRANCH_ALPHA
+            LDA $0218 : BNE .BRANCH_ALPHA
+                INY #2
 
-    .BRANCH_ALPHA
+        .BRANCH_ALPHA
 
-    LDA $0C : ORA $EB96, Y : STA $0803, X
-    
-    PLY
-    
-    INC $00
-    
+        LDA $0C : ORA $EB96, Y : STA $0803, X
+        
+        PLY
+        
+        INC $00
     DEY : BPL .BRANCH_BETA
     
     RTS
 }
 
 ; $056C0A-$056CBD LOCAL JUMP LOCATION
+DungeonMap_DrawFloorNumberObjects:
 {
     REP #$10
     
@@ -3539,36 +5199,30 @@ PalaceMap_DrawPlayerFloorIndicator:
     LDY.b #$07
     
     LDA $02 : CLC : ADC $03 : CMP.b #$08 : BEQ .BRANCH_ALPHA
-    
-    LDA $02 : CMP.b #$04 : BPL .BRANCH_ALPHA
-    
-    DEY
-    
-    LDX.b #$03 : STX $04
+        LDA $02 : CMP.b #$04 : BPL .BRANCH_ALPHA
+            DEY
+            
+            LDX.b #$03 : STX $04
 
-    .BRANCH_GAMMA
+            .BRANCH_GAMMA
 
-    CMP $04 : BEQ .BRANCH_BETA
-    
-    DEY
-    
-    DEC $04 : BNE .BRANCH_GAMMA
+            CMP $04 : BEQ .BRANCH_BETA
+                DEY
+                
+                DEC $04 : BNE .BRANCH_GAMMA
 
-    .BRANCH_BETA
+            .BRANCH_BETA
 
-    LDA $03 : CMP.b #$05 : BMI .BRANCH_ALPHA
-    
-    LDX.b #$05 : STX $04
+            LDA $03 : CMP.b #$05 : BMI .BRANCH_ALPHA
+                LDX.b #$05 : STX $04
 
-    .BRANCH_DELTA
+                .BRANCH_DELTA
 
-    CMP $04 : BEQ .BRANCH_ALPHA
-    
-    INY
-    
-    INC $04
-    
-    CMP.b #$08 : BNE .BRANCH_DELTA
+                    CMP $04 : BEQ .BRANCH_ALPHA
+                        INY
+                        
+                        INC $04
+                CMP.b #$08 : BNE .BRANCH_DELTA
 
     .BRANCH_ALPHA
 
@@ -3580,51 +5234,80 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     .BRANCH_THETA
 
-    LDX $00
-    
-    LDA.b #$00 : STA $0A20, X : STA $0A21, X
-    
-    TXA : ASL #2 : TAX
-    
-    LDA.b #$30 : STA $0800, X
-    LDA.b #$38 : STA $0804, X
-    
-    LDA $04 : STA $0801, X : STA $0805, X
-    
-    CLC : ADC.b #$10 : STA $04
-    
-    LDA.b #$3D : STA $0803, X : STA $0807, X
-    LDA.b #$1C : STA $0802, X
-    LDA.b #$1D : STA $0806, X
-    
-    LDY $02 : BMI .BRANCH_EPSILON
-    
-    LDA.w $ECC6, Y : STA $0802, X
-    
-    BRA .BRANCH_ZETA
+        LDX $00
+        
+        LDA.b #$00 : STA $0A20, X : STA $0A21, X
+        
+        TXA : ASL #2 : TAX
+        
+        LDA.b #$30 : STA $0800, X
+        LDA.b #$38 : STA $0804, X
+        
+        LDA $04 : STA $0801, X : STA $0805, X
+        
+        CLC : ADC.b #$10 : STA $04
+        
+        LDA.b #$3D : STA $0803, X : STA $0807, X
+        LDA.b #$1C : STA $0802, X
+        LDA.b #$1D : STA $0806, X
+        
+        LDY $02 : BMI .BRANCH_EPSILON
+            LDA.w $ECC6, Y : STA $0802, X
+            
+            BRA .BRANCH_ZETA
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-    TYA : EOR.b #$FF : TAY
-    
-    LDA.w $ECC6, Y : STA $0806, X
+        TYA : EOR.b #$FF : TAY
+        
+        LDA.w $ECC6, Y : STA $0806, X
 
-    .BRANCH_ZETA
+        .BRANCH_ZETA
 
-    INC $00 : INC $00
-    
-    DEC $02
-    
+        INC $00 : INC $00
+        
+        DEC $02
     LDA $02 : INC A : CMP $03 : BNE .BRANCH_THETA
     
     RTS
 }
 
-; $056CBE-$056CCE DATA
+; ==============================================================================
+
+; $056CBE-$056CC5 DATA
+FloorIconOffsetY:
 {
+    db $BB
+    db $AB
+    db $9B
+    db $8B
+    db $7B
+    db $6B
+    db $5B
+    db $4B
+}
+
+; $056CC6-$056CCD DATA
+FloorNumberOAMChar:
+{
+    db $1E ; 1
+    db $1F ; 2
+    db $20 ; 3
+    db $21 ; 4
+    db $22 ; 5
+    db $23 ; 6
+    db $24 ; 7
+    db $25 ; 8
+}
+
+; $056CCE-$056CCE DATA
+FloorNumberBlinkProps:
+{
+    db $3D
 }
 
 ; $056CCF-$056D4D LOCAL JUMP LOCATION
+DungeonMap_DrawFloorBlinker:
 {
     LDA $00 : STA $05
     
@@ -3641,11 +5324,10 @@ PalaceMap_DrawPlayerFloorIndicator:
     SEP #$10
     
     CLC : ADC $02 : CMP.b #$01 : BEQ .BRANCH_ALPHA
-    
-    INC $05 : INC $05
-    DEC $03
-    
-    LDY.b #$01
+        INC $05 : INC $05
+        DEC $03
+        
+        LDY.b #$01
 
     .BRANCH_ALPHA
 
@@ -3653,42 +5335,46 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     .BRANCH_DELTA
 
-    LDX $02 : LDA.w $ECCE : STA $0E, X
-    
-    REP #$10
-    
-    LDX $040C : LDA.w $F5D9, X : AND.b #$0F : STA $01
-    CLC : ADC $03 : STA $00
-    
-    LDA.b #$04 : SEC : SBC $01 : BMI .BRANCH_BETA
-    
-    CLC : ADC $00 : STA $00
-    
-    LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
-    
-    SEC : SBC $00 : EOR.b #$FF : INC A : STA $00
-    .BRANCH_BETA
-    SEP #$10
-    
-    DEC $05 : DEC $05
-    
-    INC $03
-    
-    DEC $02 : BMI .BRANCH_GAMMA
-    
+        LDX $02 : LDA.w $ECCE : STA $0E, X
+        
+        REP #$10
+        
+        LDX $040C : LDA.w $F5D9, X : AND.b #$0F : STA $01
+        CLC : ADC $03 : STA $00
+        
+        LDA.b #$04 : SEC : SBC $01 : BMI .BRANCH_BETA
+            CLC : ADC $00 : STA $00
+            
+            LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
+                SEC : SBC $00 : EOR.b #$FF : INC A : STA $00
+
+        .BRANCH_BETA
+
+        SEP #$10
+        
+        DEC $05 : DEC $05
+        
+        INC $03
+        
+        DEC $02 : BMI .BRANCH_GAMMA
     BRL .BRANCH_DELTA
 
     .BRANCH_GAMMA
 
-    LDA $1A : AND.b #$10 : BNE .BRANCH_$56D54
-        
-    RTS
-}
+    LDA $1A : AND.b #$10 : BNE .blink_on  
+        RTS
 
-; $056D4E-$056D53 DATA
+    ; $056D4E
+    .oam_data_offset
+    db $00, $08
 
-; $056D54-$056DE3 BRANCH LOCATION
-{
+    ; $056D50
+    .char
+    db $37, $38, $38, $37
+
+    ; $056D54-$056DE3 BRANCH LOCATION
+    .blink_on
+
     LDY $00 : LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA $02
     CLC : ADC.b #$10 : STA $03
     
@@ -3703,8 +5389,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     SEP #$10
     
     CLC : ADC $0D : CMP.b #$01 : BEQ .BRANCH_ALPHA
-    
-    LDY.b #$01
+        LDY.b #$01
 
     .BRANCH_ALPHA
 
@@ -3712,54 +5397,54 @@ PalaceMap_DrawPlayerFloorIndicator:
 
     .BRANCH_DELTA
 
-    LDA.b #$28 : STA $01
-    LDA.b #$03 : STA $0C
-    
-    LDX $0D : LDA.w $ED4E, X : TAY
+        LDA.b #$28 : STA $01
+        LDA.b #$03 : STA $0C
+        
+        LDX $0D : LDA.w $ED4E, X : TAY
 
-    .BRANCH_GAMMA
+        .BRANCH_GAMMA
 
-    LDA.b #$00 : STA $0A60, Y : STA $0A64, Y
-    
-    PHY
-    
-    TYA : ASL #2 : TAY
-    
-    LDA $01 : STA $0900, Y : STA $0910, Y
-    LDA $02, X : STA $0901, Y : CLC : ADC.b #$08 : STA $0911, Y
-    
-    PHX
-    
-    LDX $0C : LDA.w $ED50, X : STA $0902, Y : STA $0912, Y
-    
-    PLX : PHY
-    
-    LDA $0E, X
-    
-    LDY $0C : BNE .BRANCH_BETA
-    
-    ORA.b #$40
+            LDA.b #$00 : STA $0A60, Y : STA $0A64, Y
+            
+            PHY
+            
+            TYA : ASL #2 : TAY
+            
+            LDA $01 : STA $0900, Y : STA $0910, Y
+            LDA $02, X : STA $0901, Y : CLC : ADC.b #$08 : STA $0911, Y
+            
+            PHX
+            
+            LDX $0C : LDA.w $ED50, X : STA $0902, Y : STA $0912, Y
+            
+            PLX : PHY
+            
+            LDA $0E, X
+            
+            LDY $0C : BNE .BRANCH_BETA
+                ORA.b #$40
 
-    .BRANCH_BETA
+            .BRANCH_BETA
 
-    PLY
-    
-    STA $0903, Y
-    
-    ORA.b #$80 : STA $0913, Y
-    
-    PLY : INY
-    
-    LDA $01 : CLC : ADC.b #$08 : STA $01
-    
-    DEC $0C : BPL .BRANCH_GAMMA
-    
+            PLY
+            
+            STA $0903, Y
+            
+            ORA.b #$80 : STA $0913, Y
+            
+            PLY : INY
+            
+            LDA $01 : CLC : ADC.b #$08 : STA $01
+        DEC $0C : BPL .BRANCH_GAMMA
     DEC $0D : BPL .BRANCH_DELTA
     
     RTS
 }
 
+; ==============================================================================
+
 ; $056DE4-$056E5A LOCAL JUMP LOCATION
+DungeonMap_DrawBossIcon:
 {
     REP #$10
     
@@ -3777,13 +5462,11 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     ; Check if the boss of the palace has been beaten
     LDA $7EF001, X : PLX : AND.b #$08 : BNE .dontShowBossIcon
-    
-    REP #$20
-    
-    ; Check if we have the compass for this palace
-    LDA $7EF364 : AND $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
-    
-    LDA.w $EE7A, X : BPL .palaceHasBoss
+        REP #$20
+        
+        ; Check if we have the compass for this palace
+        LDA $7EF364 : AND $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
+            LDA.w $EE7A, X : BPL .palaceHasBoss
 
     .dontShowBossIcon
 
@@ -3802,48 +5485,49 @@ PalaceMap_DrawPlayerFloorIndicator:
     SEP #$10
     
     LDA $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_GAMMA
-    
-    LDY $00
-    
-    LDA.b #$00 : STA $0A20, Y
-    
-    TYA : ASL #2 : TAY
-    
-    LDA.w $EE5E, X : CLC : ADC $0FA8 : CLC : ADC.b #$90 : STA $0800, Y
-    
-    LDA $0FAB : BEQ .BRANCH_DELTA
-    
-    LDA.b #$F0
-    
-    BRA .BRANCH_EPSILON
+        LDY $00
+        
+        LDA.b #$00 : STA $0A20, Y
+        
+        TYA : ASL #2 : TAY
+        
+        LDA.w $EE5E, X : CLC : ADC $0FA8 : CLC : ADC.b #$90 : STA $0800, Y
+        
+        LDA $0FAB : BEQ .BRANCH_DELTA
+            LDA.b #$F0
+            
+            BRA .BRANCH_EPSILON
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    LDA.w $EE5D, X : CLC : ADC $0FAA
+        LDA.w $EE5D, X : CLC : ADC $0FAA
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-                STA $0801, Y
-    LDA.w $EE5B : STA $0802, Y
-    LDA.w $EE5C : STA $0803, Y
-    
-    INC $00
+                      STA $0801, Y
+        LDA.w $EE5B : STA $0802, Y
+        LDA.w $EE5C : STA $0803, Y
+        
+        INC $00
 
     .BRANCH_GAMMA
 
     RTS
 }
 
-; ==============================================================================
-
 ; $056E5B-$056E94 DATA
+DungeonMap_BossSkull_char:
 {
+    ; $056E5B
+    .char
     db $31
     
     ; $056E5C
+    .prop
     db $33
     
     ; $056E5D
+    .offsets
     db $FF, $FF
     db $FF, $FF
     db $08, $08
@@ -3859,26 +5543,28 @@ PalaceMap_DrawPlayerFloorIndicator:
     db $08, $08
     db $00, $08
     db $00, $08
-
-    ; $056E79
-    db $FF, $FF
-    db $FF, $FF
-    db $01, $00
-    db $01, $00
-    db $06, $00
-    db $FF, $00
-    db $FF, $00
-    db $FF, $00
-    
-    db $FE, $00
-    db $F9, $00
-    db $05, $00
-    db $FF, $00
-    db $FD, $00
-    db $06, $00
 }
 
 ; ==============================================================================
+
+; $056E79-$056E94 DATA
+DungeonMap_BossRoomFloor:
+{
+    dw $FFFF ; // - Sewers
+    dw $FFFF ; // - Hyrule Castle
+    dw $0001 ; 2F - Eastern Palace
+    dw $0001 ; 2F - Desert Palace
+    dw $0006 ; 7F - Agahnim's Tower
+    dw $00FF ; B1 - Swamp Palace
+    dw $00FF ; B1 - Palace of Darkness
+    dw $00FF ; B1 - Misery Mire
+    dw $00FE ; B2 - Skull Woods
+    dw $00F9 ; B7 - Ice Palace
+    dw $0005 ; 6F - Tower of Hera
+    dw $00FF ; B1 - Thieves' Town
+    dw $00FD ; B3 - Turtle Rock
+    dw $0006 ; 7F - Ganon's Tower
+}
 
 ; $056E95-$056EF5 LOCAL JUMP LOCATION
 PalaceMap_DrawBossFloorIndicator:
@@ -3886,33 +5572,30 @@ PalaceMap_DrawBossFloorIndicator:
     LDA.w $F5D9, X : AND.b #$0F : STA $02 : CLC : ADC $EE79, X : STA $03
     
     LDA.b #$04 : SEC : SBC $02 : BMI .BRANCH_ALPHA
-    
-    CLC : ADC $03 : STA $03
-    
-    LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
-    
-    SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
+        CLC : ADC $03 : STA $03
+        
+        LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
+            SEC : SBC $03 : EOR.b #$FF : INC A : STA $03
 
     .BRANCH_ALPHA
 
     SEP #$10
     
     LDA $1A : AND.b #$0F : CMP.b #$0A : BCS .BRANCH_BETA
-    
-    LDX $00 : LDA.b #$00 : STA $0A20, X
-    
-    TXA : ASL #2 : TAX
-    
-    LDA .x_offset : STA $0800, X
-    
-    LDY $03
-    
-    LDA.w $ECBE, Y : STA $0801, X
-    
-    LDA.w $EE5B : STA $0802, X
-    LDA.w $EE5C : STA $0803, X
-    
-    INC $00
+        LDX $00 : LDA.b #$00 : STA $0A20, X
+        
+        TXA : ASL #2 : TAX
+        
+        LDA .x_offset : STA $0800, X
+        
+        LDY $03
+        
+        LDA.w $ECBE, Y : STA $0801, X
+        
+        LDA.w $EE5B : STA $0802, X
+        LDA.w $EE5C : STA $0803, X
+        
+        INC $00
 
     .BRANCH_BETA
 
@@ -3921,12 +5604,13 @@ PalaceMap_DrawBossFloorIndicator:
     RTS
 }
 
-; =======================================================
+; ==============================================================================
 
 ; $056EF6-$056F18 JUMP LOCATION (LONG)
 PalaceMap_4:
 {
     ; Is this ever used?
+    ; The Kan dissasembly confirms that this is unused.
     
     REP #$30
     
@@ -3937,16 +5621,15 @@ PalaceMap_4:
     SEP #$30
     
     DEC $0205 : BNE .alpha
-    
-    ; Go back to previous mode.
-    DEC $0200
+        ; Go back to previous mode.
+        DEC $0200
 
     .alpha
 
     RTL
 }
 
-; =======================================================
+; ==============================================================================
 
 ; $056F19-$056FC8 JUMP LOCATION (LONG)
 PalaceMap_RestoreGraphics:
@@ -3956,39 +5639,38 @@ PalaceMap_RestoreGraphics:
     STZ $420C
     STZ $9B
     
-    JSL Vram_EraseTilemaps.normal
+    JSL Vram_EraseTilemaps_normal
     
-    ; Restore main screen designation
+    ; Restore main screen designation.
     LDA $7EC211 : STA $1C
     
-    ; assembler problem much?
-    ; (compiled as long address when only a direct page access was necessary)
+    ; Assembler problem much?
+    ; (compiled as long address when only a direct page access was necessary).
     LDA $7EC212 : STA $00001D
     
-    ; Restore graphics tileset indices
+    ; Restore graphics tileset indices.
     LDA $7EC20E : STA $0AA1
     LDA $7EC20F : STA $0AA3
     LDA $7EC210 : STA $0AA2
     
-    ; Restore graphic from the mode we came from
+    ; Restore graphic from the mode we came from.
     JSL InitTilesets ; $00619B IN ROM
     
-    ; Begin ignoring any special palette loads
+    ; Begin ignoring any special palette loads.
     STZ $0AA9
     STZ $0AB2
     
-    JSL HUD.RebuildLong2
+    JSL HUD_RebuildLong2
     
     STZ $0418
     STZ $045C
 
     .drawQuadrants
 
-    JSL $0091C4 ; $0011C4 IN ROM
-    JSL $0090E3 ; $0010E3 IN ROM
-    JSL $00913F ; $00113F IN ROM
-    JSL $0090E3 ; $0010E3 IN ROM
-    
+        JSL $0091C4 ; $0011C4 IN ROM
+        JSL $0090E3 ; $0010E3 IN ROM
+        JSL $00913F ; $00113F IN ROM
+        JSL $0090E3 ; $0010E3 IN ROM
     LDA $045C : CMP.b #$10 : BNE .drawQuadrants
     
     STZ $17
@@ -4002,11 +5684,10 @@ PalaceMap_RestoreGraphics:
 
     .restorePaletteBuffer
 
-    LDA $7FDD80, X : STA $7EC500, X
-    LDA $7FDE00, X : STA $7EC580, X
-    LDA $7FDE80, X : STA $7EC600, X
-    LDA $7FDF00, X : STA $7EC680, X
-    
+        LDA $7FDD80, X : STA $7EC500, X
+        LDA $7FDE00, X : STA $7EC580, X
+        LDA $7FDE80, X : STA $7EC600, X
+        LDA $7FDF00, X : STA $7EC680, X
     INX #2 : CPX.b #$80 : BNE .restorePaletteBuffer
     
     SEP #$20
@@ -4024,7 +5705,7 @@ PalaceMap_RestoreGraphics:
     ; Refresh cgram this frame.
     INC $15
     
-    ; Move to next step of the submodule
+    ; Move to next step of the submodule.
     INC $0200
     
     STZ $13
@@ -4033,7 +5714,7 @@ PalaceMap_RestoreGraphics:
     RTL
 }
 
-; =============================================
+; ==============================================================================
 
 ; $056FC9-$056FD0 JUMP LOCATION (LONG)
 PalaceMap_RestoreStarTileState:
@@ -4047,464 +5728,974 @@ PalaceMap_RestoreStarTileState:
 
 ; ==============================================================================
     
-; $056FD1-$057D0B DATA
+; $056FD1-$056FDE DATA
+DungeonMap_BackdropFloorGradientTiles:
 {
+    dw $1B28, $1B29, $1B2A, $1B2B, $1B2C, $1B2D, $1B2E
+}
+
+; $056FDF-$057008 DATA
+DungeonMap_MountainStripes:
+{
+    dw $AA10, $0100 ; VRAM $2154 | 2 bytes | Horizontal
+    dw $1B2F
+
+    dw $C910, $0300 ; VRAM $2192 | 4 bytes | Horizontal
+    dw $1B2F, $1B2E
+
+    dw $E510, $0B00 ; VRAM $21CA | 12 bytes | Horizontal
+    dw $1B2F, $1B2E, $5B2F, $1B2F, $1B2E, $1B2E
+
+    dw $0311, $0100 ; VRAM $2206 | 2 bytes | Horizontal
+    dw $1B2F
+
+    dw $0411, $0C40 ; VRAM $2208 | 14 bytes | Fixed horizontal
+    dw $1B2E
+}
+
+; $057009-$0575D8 DATA
+DungeonMap_RoomTemplates:
+{
+    dw $0B61, $5361, $8B61, $8B62 ; 0x00 - ROOM 0011
+    dw $0B60, $0B63, $8B60, $0B64 ; 0x01 - ROOM 0021
+    dw $0B00, $0B00, $0B65, $0B66 ; 0x02 - ROOM 0022
+    dw $0B67, $4B67, $9367, $D367 ; 0x03 - ROOM 0032
+    dw $0B60, $5360, $8B60, $CB60 ; 0x04 - ROOM 0002
+    dw $0B6A, $4B6A, $4B6D, $0B6D ; 0x05 - ROOM 0012
+    dw $1368, $1369, $0B00, $0B00 ; 0x06 - ROOM 0042
+    dw $0B6A, $136B, $0B6C, $0B6D ; 0x07 - ROOM 0041
+
+    dw $136E, $4B6E, $0B00, $0B00 ; 0x08 - ROOM 0080
+    dw $136F, $0B00, $0B00, $0B00 ; 0x09 - ROOM 0070
+    dw $1340, $0B00, $0B78, $1744 ; 0x0A - ROOM 0071
+    dw $536D, $136D, $4B76, $0B76 ; 0x0B - ROOM 0072
+    dw $0B70, $0B71, $0B72, $8B71 ; 0x0C - ROOM 0081
+    dw $0B75, $0B76, $8B75, $8B76 ; 0x0D - ROOM 0082
+    dw $0B00, $0B53, $0B00, $0B55 ; 0x0E - ROOM 0050
+    dw $1354, $5354, $0B00, $0B00 ; 0x0F - ROOM 0001
+    dw $4B53, $0B00, $0B56, $0B57 ; 0x10 - ROOM 0052
+    dw $0B00, $0B59, $0B00, $135E ; 0x11 - ROOM 0060
+    dw $135A, $135B, $135F, $535F ; 0x12 - ROOM 0061
+    dw $0B5C, $0B5D, $535E, $CB58 ; 0x13 - ROOM 0062
+    dw $0B50, $4B50, $1352, $5352 ; 0x14 - ROOM 0051
+
+    dw $0B00, $0B40, $1345, $0B46 ; 0x15 - ROOM 0099
+    dw $8B42, $0B47, $0B42, $0B49 ; 0x16 - ROOM 00A8
+    dw $1348, $5348, $174A, $574A ; 0x17 - ROOM 00A9
+    dw $4B47, $CB42, $4B49, $4B42 ; 0x18 - ROOM 00AA
+    dw $0B00, $0B4B, $0B00, $0B4D ; 0x19 - ROOM 00B8
+    dw $0B4C, $4B4C, $0B4E, $4B4E ; 0x1A - ROOM 00B9
+    dw $0B51, $0B44, $0B00, $0B00 ; 0x1B - ROOM 00BA
+    dw $0B4F, $4B4F, $934F, $D34F ; 0x1C - ROOM 00C9
+    dw $0B00, $0B00, $0B00, $0B40 ; 0x1D - ROOM 00C8
+    dw $0B00, $0B41, $0B00, $0B42 ; 0x1E - ROOM 00D8
+    dw $0B00, $0B00, $0B43, $0B43 ; 0x1F - ROOM 00D9
+    dw $0B00, $0B00, $9344, $0B00 ; 0x20 - ROOM 00DA
+
+    dw $1340, $0B00, $1341, $0B00 ; 0x21 - ROOM 0063
+    dw $1740, $0B40, $0B42, $0B7D ; 0x22 - ROOM 0073
+    dw $4B7A, $0B7A, $0B7E, $4B7E ; 0x23 - ROOM 0074
+    dw $0B40, $8B4D, $4BBA, $0B55 ; 0x24 - ROOM 0076
+    dw $0B40, $8B55, $1378, $CB53 ; 0x25 - ROOM 0083
+    dw $4B76, $4B75, $13BB, $53BB ; 0x26 - ROOM 0084
+    dw $4B7F, $4B42, $0B83, $13BC ; 0x27 - ROOM 0086
+    dw $0B00, $0B00, $0B79, $0B00 ; 0x28 - ROOM 0033
+    dw $0B6E, $4B7C, $0B00, $0B41 ; 0x29 - ROOM 0042
+    dw $1340, $8B55, $0B42, $0B7B ; 0x2A - ROOM 0053
+
+    dw $8B42, $9344, $1341, $0B00 ; 0x2B - ROOM 00E0
+    dw $0B53, $9344, $8B53, $9344 ; 0x2C - ROOM 00C0/ROOM 00D0
+    dw $8B42, $9344, $0B42, $9344 ; 0x2D - ROOM 00B0
+    dw $934D, $0B00, $8B53, $9344 ; 0x2E - ROOM 0040
+    dw $0B00, $0B00, $0B40, $0B00 ; 0x2F - ROOM 0020
+    dw $0B41, $0B00, $1384, $0B00 ; 0x30 - ROOM 0030
+
+    dw $0BB8, $13B9, $4B85, $CB7C ; 0x31 - ROOM 0066
+    dw $0B87, $13B0, $4B7B, $9344 ; 0x32 - ROOM 0076
+    dw $0B00, $0B00, $0B40, $0B00 ; 0x33 - ROOM 0006
+    dw $0B91, $5391, $0B9C, $4B9C ; 0x34 - ROOM 0016
+    dw $8B42, $1392, $0B93, $1394 ; 0x35 - ROOM 0026
+    dw $0B95, $0B96, $9395, $8B96 ; 0x36 - ROOM 0034
+    dw $0B97, $0B98, $8B97, $8B98 ; 0x37 - ROOM 0035
+    dw $1799, $5799, $9799, $D799 ; 0x38 - ROOM 0036
+    dw $4B98, $4B97, $CB98, $CB97 ; 0x39 - ROOM 0037
+    dw $937B, $0B00, $0B7B, $0B00 ; 0x3A - ROOM 0038
+    dw $0BA6, $4BA6, $CB7A, $8B7A ; 0x3B - ROOM 0046
+    dw $0B8E, $4B8E, $938E, $CB8E ; 0x3C - ROOM 0054
+    dw $934D, $0B8F, $1390, $5390 ; 0x3D - ROOM 0028
+
+    dw $0B00, $934E, $0B00, $8B4D ; 0x3F - ROOM 006A
+    dw $8B72, $1346, $0B45, $0B46 ; 0x40 - ROOM 000B
+    dw $0B00, $0B00, $0B00, $8B48 ; 0x3E - ROOM 005A
+    dw $5744, $1744, $0B00, $0B00 ; 0x41 - ROOM 000A
+    dw $134D, $0B00, $8B54, $0B00 ; 0x42 - ROOM 003B
+    dw $1349, $1349, $0B00, $0B00 ; 0x43 - ROOM 0009
+    dw $0B4B, $8B48, $0B72, $4B72 ; 0x44 - ROOM 004B
+    dw $0B00, $0B74, $0B00, $0BB0 ; 0x45 - ROOM 0019
+    dw $0B71, $1747, $17AF, $0B4B ; 0x46 - ROOM 001A
+    dw $0B6F, $1370, $0B4B, $0B00 ; 0x47 - ROOM 001B
+    dw $0B6B, $8B6C, $8B6B, $0BAD ; 0x48 - ROOM 002A
+    dw $0B73, $0B00, $13AE, $0B46 ; 0x49 - ROOM 002B
+    dw $176B, $576B, $0B6A, $4B6A ; 0x4A - ROOM 003A
+    dw $1368, $5368, $1369, $5369 ; 0x4B - ROOM 004A
+
+    dw $8B4E, $0B00, $9354, $0B00 ; 0x4C - ROOM 00D5
+    dw $0B00, $0B00, $0B00, $5377 ; 0x4D - ROOM 0023
+
+    dw $0B00, $974D, $0B00, $4B7B ; 0x4E - ROOM 0091
+    dw $0B40, $8B4D, $0B51, $0B8D ; 0x4F - ROOM 0092
+    dw $537A, $137A, $4B42, $8B40 ; 0x50 - ROOM 0093
+    dw $0B00, $0B00, $0B00, $0B00 ; 0x51 - UNUSED
+    dw $0B00, $0B00, $0B40, $0B00 ; 0x52 - ROOM 0090
+    dw $CB7A, $576E, $0B00, $0B00 ; 0x53 - ROOM 00A0
+    dw $0B6E, $0B9F, $0B00, $4BA5 ; 0x54 - ROOM 00A1
+    dw $13A0, $13A1, $0BA2, $0BA3 ; 0x55 - ROOM 00A2
+    dw $0BA4, $0B00, $0BA5, $0B00 ; 0x56 - ROOM 00A3
+    dw $0B40, $8B55, $0B42, $CB87 ; 0x57 - ROOM 00B1
+    dw $8B95, $0BA7, $8B42, $0BAF ; 0x58 - ROOM 00B2
+    dw $4B78, $0B00, $4B78, $0B00 ; 0x59 - ROOM 00B3
+    dw $8B42, $0B51, $0B78, $8B51 ; 0x5A - ROOM 00C1
+    dw $0BA8, $0BA9, $0BAC, $8BA9 ; 0x5B - ROOM 00C2
+    dw $0BAA, $17AB, $13B4, $8BAB ; 0x5C - ROOM 00C3
+    dw $17B1, $0B41, $4B44, $4B42 ; 0x5D - ROOM 00D1
+    dw $0B00, $0BAD, $0B00, $13AE ; 0x5E - ROOM 00D2
+    dw $1340, $0BB7, $0B42, $0BB6 ; 0x5F - ROOM 0097
+    dw $0B00, $0B00, $139D, $139E ; 0x60 - ROOM 0098
+
+    dw $0B00, $0B00, $0B00, $0B79 ; 0x61 - ROOM 0029
+    dw $0B00, $0B00, $8B42, $0B86 ; 0x62 - ROOM 0039
+    dw $0B42, $8B7B, $8B42, $0B7B ; 0x63 - ROOM 0049
+    dw $0B87, $8B7B, $9387, $0B7B ; 0x64 - ROOM 0059
+    dw $0B40, $13B3, $1378, $0B8D ; 0x65 - ROOM 0056
+    dw $8B42, $0B88, $5378, $0B40 ; 0x66 - ROOM 0057
+    dw $4B44, $D342, $97B5, $4B78 ; 0x67 - ROOM 0058
+    dw $13B3, $8B55, $4B7B, $0B8D ; 0x68 - ROOM 0067
+    dw $0B89, $138A, $0B8B, $0B8C ; 0x69 - ROOM 0068
+
+    dw $0B00, $0B7C, $0B00, $0B00 ; 0x6A - ROOM 00DE
+    dw $0B00, $9348, $0B00, $0B56 ; 0x6B - ROOM 00BE
+    dw $0B00, $0B00, $0B88, $0B00 ; 0x6C - ROOM 00BF
+    dw $0B00, $0B48, $0B00, $0B00 ; 0x6D - ROOM 00CE
+    dw $0B00, $9348, $1786, $0B65 ; 0x6E - ROOM 009E
+    dw $0B00, $0B00, $CB5A, $0B00 ; 0x6F - ROOM 009F
+    dw $0B00, $5388, $0B00, $0B00 ; 0x70 - ROOM 00AE
+    dw $4B5A, $0B00, $0B00, $0B00 ; 0x71 - ROOM 00AF
+    dw $0B00, $CB5B, $13AB, $0BAC ; 0x72 - ROOM 007E
+    dw $CB5A, $0B00, $137E, $0B00 ; 0x73 - ROOM 007F
+    dw $0B00, $137E, $0B00, $0B00 ; 0x74 - ROOM 008E
+    dw $0B00, $8B48, $1783, $1384 ; 0x75 - ROOM 005E
+    dw $0B00, $0B00, $1385, $0B00 ; 0x76 - ROOM 005F
+    dw $0B00, $537E, $0B00, $0B00 ; 0x77 - ROOM 006E
+    dw $0B00, $8B48, $0B43, $CB43 ; 0x78 - ROOM 003E
+    dw $0B00, $0B00, $1379, $137A ; 0x79 - ROOM 003F
+    dw $0B5A, $137B, $0B00, $0B00 ; 0x7A - ROOM 004E
+    dw $0B00, $8B48, $137F, $1380 ; 0x7B - ROOM 001E
+    dw $0B00, $0B00, $1381, $1382 ; 0x7C - ROOM 001F
+    dw $0B00, $0B48, $0B00, $0B00 ; 0x7D - ROOM 002E
+    dw $0B00, $0B00, $1387, $1377 ; 0x7E - ROOM 000E
+
+    dw $5746, $0B47, $1349, $0B48 ; 0x7F - ROOM 0087
+    dw $1375, $4B42, $174A, $574A ; 0x80 - ROOM 0077
+    dw $0B43, $1344, $0B45, $1746 ; 0x81 - ROOM 0031
+    dw $1742, $5742, $8B42, $CB42 ; 0x82 - ROOM 0027
+    dw $1375, $5375, $8B42, $CB42 ; 0x83 - ROOM 0017
+    dw $4B40, $1340, $0B41, $4B41 ; 0x84 - ROOM 0007
+
+    dw $4B46, $0B71, $1786, $8B71 ; 0x85 - ROOM 0044
+    dw $1347, $0B4D, $0B65, $0B5B ; 0x86 - ROOM 0045
+    dw $0B00, $0B00, $9348, $0B00 ; 0x87 - ROOM 00AB
+    dw $0B00, $0B00, $0B00, $8B48 ; 0x88 - ROOM 00AC
+    dw $4B66, $8B65, $4B5B, $0B65 ; 0x89 - ROOM 00BB
+    dw $9365, $0B66, $0B63, $8B66 ; 0x8A - ROOM 00BC
+    dw $4B51, $0B5F, $CB76, $0B60 ; 0x8B - ROOM 00CB
+    dw $0B64, $4B4F, $4B60, $8B76 ; 0x8C - ROOM 00CC
+    dw $4B76, $0B61, $D376, $1362 ; 0x8D - ROOM 00DB
+    dw $4B61, $0B76, $CB58, $8B51 ; 0x8E - ROOM 00DC
+    dw $0B00, $0B00, $5746, $0B5E ; 0x8F - ROOM 0064
+    dw $0B00, $0B00, $0B5E, $0B46 ; 0x90 - ROOM 0065
+
+    dw $0B00, $0B00, $8B48, $0B00 ; 0x91 - ROOM 00A4
+    dw $0B4F, $0B51, $CB76, $8B76 ; 0x92 - ROOM 00B4
+    dw $5351, $0B51, $8B4F, $8B51 ; 0x93 - ROOM 00B5
+    dw $4B76, $0B76, $CB51, $8B58 ; 0x94 - ROOM 00C4
+    dw $0B54, $0B00, $8B66, $0B00 ; 0x95 - ROOM 00C5
+    dw $9348, $8B48, $0B56, $4B45 ; 0x96 - ROOM 0004
+    dw $0B00, $0B57, $0B00, $0B59 ; 0x97 - ROOM 0013
+    dw $4B50, $0B58, $CB50, $8B50 ; 0x98 - ROOM 0014
+    dw $5758, $1751, $CB58, $8B51 ; 0x99 - ROOM 0015
+    dw $0B56, $4B56, $0B65, $5756 ; 0x9A - ROOM 0024
+    dw $9348, $8B48, $0B4C, $0B4B ; 0x9B - ROOM 00B6
+    dw $0B4D, $0B00, $8B54, $0B00 ; 0x9C - ROOM 00B7
+    dw $0B4F, $0B50, $8B4F, $8B50 ; 0x9D - ROOM 00C6
+    dw $4B50, $0B51, $CB58, $8B51 ; 0x9E - ROOM 00C7
+    dw $0B52, $0B54, $0B53, $9354 ; 0x9F - ROOM 00D6
+
+    dw $9748, $9748, $138D, $138E ; 0xA0 - ROOM 001C
+    dw $1391, $1392, $138C, $138F ; 0xA1 - ROOM 007B
+    dw $1393, $1390, $9393, $138F ; 0xA2 - ROOM 007C
+    dw $1394, $1395, $138E, $138C ; 0xA3 - ROOM 007D
+    dw $175D, $1399, $975D, $538F ; 0xA4 - ROOM 008B
+    dw $1397, $1398, $179A, $138C ; 0xA5 - ROOM 008C
+    dw $1399, $1766, $138F, $D75D ; 0xA6 - ROOM 008D
+    dw $538E, $538F, $1391, $1392 ; 0xA7 - ROOM 009B
+    dw $139B, $539B, $139C, $539C ; 0xA8 - ROOM 009C
+    dw $138F, $138E, $5392, $5391 ; 0xA9 - ROOM 009D
+    dw $138A, $538A, $138B, $538B ; 0xAA - ROOM 000C
+    dw $0B00, $CB5B, $0B00, $8B54 ; 0xAB - ROOM 005B
+    dw $4B74, $13A6, $0B00, $4B48 ; 0xAC - ROOM 005C
+    dw $13A0, $13A1, $538E, $138E ; 0xAD - ROOM 006B
+    dw $D38E, $53A3, $13A4, $0B00 ; 0xAE - ROOM 005D
+    dw $97AA, $0B00, $538E, $1399 ; 0xAF - ROOM 006C
+    dw $13A4, $0B00, $138E, $0B00 ; 0xB0 - ROOM 006D
+    dw $0B00, $5393, $0B00, $574E ; 0xB1 - ROOM 0095
+    dw $4B7D, $0B00, $8B7D, $139F ; 0xB2 - ROOM 0096
+    dw $97AA, $13A4, $13A9, $53A9 ; 0xB3 - ROOM 00A5
+    dw $13A5, $13A6, $93A5, $D3A5 ; 0xB4 - ROOM 00A6
+    dw $D38E, $938E, $13A4, $13AA ; 0xB5 - ROOM 0034
+    dw $0B00, $13A6, $0B00, $8B5F ; 0xB6 - ROOM 004C
+    dw $139B, $13A6, $139C, $53A2 ; 0xB7 - ROOM 004D
+    dw $0B00, $0B00, $138C, $0B00 ; 0xB8 - ROOM 000D
+    dw $9394, $139E, $0B00, $0B00 ; 0xB9 - ROOM 001D
 }
 
 ; ==============================================================================
 
-; $0575D9 DATA
+; $0575D9-$0575F4 DATA
+DungeonMapFloorCountData:
 {
-    dw $0021, $0023, $0020, $0021, $0070, $0012, $0011, $0212
-    dw $0002, $0217, $0160, $0012, $0113, $0171
+    db $21, $00 ; Sewers
+    db $23, $00 ; Hyrule Castle
+    db $20, $00 ; Eastern Palace
+    db $21, $00 ; Desert Palace
+    db $70, $00 ; Agahnim's Tower
+    db $12, $00 ; Swamp Palace
+    db $11, $00 ; Palace of Darkness
+    db $12, $02 ; Misery Mire
+    db $02, $00 ; Skull Woods
+    db $17, $02 ; Ice Palace
+    db $60, $01 ; Tower of Hera
+    db $12, $00 ; Thieves' Town
+    db $13, $01 ; Turtle Rock
+    db $71, $01 ; Ganon's Tower
+}
     
-    ; $0575F5
-    dw $0000, $0019, $0032, $004B, $0064, $007D, $0096, $00AF
-    
-    ; $057605
+; $0575F5-$057604 DATA
+DungeonMapFloorToDataOffset:
+{
+    dw $0000
+    dw $0019
+    dw $0032
+    dw $004B
+    dw $0064
+    dw $007D
+    dw $0096
+    dw $00AF
+}
+
+; $057605-$057620 DATA
+DungeonMapRoomPointers:
+{
     ; Quick note, all of these pointers seem to be a multiple of 25 bytes
     ; apart...
     db $F621, $F66C, $F6E9, $F71B, $F766, $F815, $F860, $F892
     db $F8DD, $F90F, $F9D7, $FA6D, $FAB8, $FB1C
-
-    ; $057621
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $11, $0F, $0F
-    db $0F, $0F, $21, $22, $0F
-    db $0F, $0F, $0F, $32, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $02, $0F, $0F
-    db $0F, $0F, $12, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $42, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $41, $0F
-
-    ; $05766C
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $80, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $70, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $71, $72, $0F, $0F
-    db $0F, $81, $82, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $50, $01, $52, $0F
-    db $0F, $60, $61, $62, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $51, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    ; $0576E9
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $99, $0F, $0F
-    db $0F, $A8, $A9, $AA, $0F
-    db $0F, $B8, $B9, $BA, $0F
-    db $0F, $0F, $C9, $0F, $0F
-    
-    db $C8, $0F, $0F, $0F, $0F
-    db $D8, $D9, $DA, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    ; $05771B
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $73, $74, $75, $0F
-    db $0F, $83, $84, $85, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $63, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $33, $0F, $0F
-    db $0F, $0F, $43, $0F, $0F
-    db $0F, $0F, $53, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    ; $057766
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $E0, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $D0, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $C0, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $B0, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $40, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $20, $0F, $0F
-    db $0F, $0F, $30, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    ; $057815
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $66, $0F, $0F
-    db $0F, $0F, $76, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $06, $0F, $0F
-    db $0F, $0F, $16, $0F, $0F
-    db $0F, $0F, $26, $0F, $0F
-    db $34, $35, $36, $37, $38
-    db $0F, $0F, $46, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $54, $0F, $0F, $0F, $28
-    db $0F, $0F, $0F, $0F, $0F
-    
-    ; $057860
-    db $0F, $0F, $5A, $0F, $0F
-    db $0F, $0F, $6A, $0B, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0A, $3B, $0F
-    db $0F, $0F, $09, $4B, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $19, $1A, $1B, $0F
-    db $0F, $0F, $2A, $2B, $0F
-    db $0F, $0F, $3A, $0F, $0F
-    db $0F, $0F, $4A, $0F, $0F
-    
-    ; $057892
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $91, $92, $93, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $90, $0F, $0F, $0F
-    db $0F, $A0, $A1, $A2, $A3
-    db $0F, $0F, $B1, $B2, $B3
-    db $0F, $0F, $C1, $C2, $C3
-    db $0F, $0F, $D1, $D2, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $97, $98, $0F
-    
-    ; $0578DD
-    db $29, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $39, $0F, $0F, $0F, $0F
-    db $49, $0F, $0F, $0F, $0F
-    db $59, $0F, $0F, $0F, $0F
-    db $0F, $56, $57, $58, $0F
-    db $0F, $0F, $67, $68, $0F
-        
-    ; $05790F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $DE, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $BE, $BF, $0F
-    db $0F, $0F, $CE, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $9E, $9F, $0F
-    db $0F, $0F, $AE, $AF, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $7E, $7F, $0F
-    db $0F, $0F, $8E, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $5E, $5F, $0F
-    db $0F, $0F, $6E, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $3E, $3F, $0F
-    db $0F, $0F, $4E, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $1E, $1F, $0F
-    db $0F, $0F, $2E, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0E, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-        
-    ; $0579D7
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $87, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $77, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $31, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $27, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $17, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $07, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-        
-    ; $057A6D
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $44, $45, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $AB, $AC, $0F, $0F
-    db $0F, $BB, $BC, $0F, $0F
-    db $0F, $CB, $CC, $0F, $0F
-    db $0F, $DB, $DC, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $64, $65, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-        
-    ; $057AB8
-    db $0F, $A4, $0F, $0F, $0F
-    db $0F, $B4, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $B5, $0F, $0F
-    db $0F, $C4, $C5, $0F, $0F
-    db $0F, $0F, $D5, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $04, $0F, $0F
-    db $0F, $13, $14, $15, $0F
-    db $0F, $23, $24, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $B6, $B7
-    db $0F, $0F, $0F, $C6, $C7
-    db $0F, $0F, $0F, $D6, $0F
-        
-    ; $057B1C
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $1C, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $7B, $7C, $7D, $0F
-    db $0F, $8B, $8C, $8D, $0F
-    db $0F, $9B, $9C, $9D, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0C, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $5B, $5C, $0F
-    db $0F, $0F, $6B, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $5D, $0F
-    db $0F, $0F, $6C, $6D, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $95, $96, $0F
-    db $0F, $0F, $A5, $A6, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $3D, $0F
-    db $0F, $0F, $4C, $4D, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0D, $0F, $0F
-    db $0F, $0F, $1D, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
-    db $0F, $0F, $0F, $0F, $0F
 }
+
+; $057621-$05766B DATA
+DungeonMapRoomData_Sewers:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $11, $0F, $0F ; row 1
+    db $0F, $0F, $21, $22, $0F ; row 2
+    db $0F, $0F, $0F, $32, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $02, $0F, $0F ; row 1
+    db $0F, $0F, $12, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $42, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $41, $0F ; row 4
+}
+
+; $05766C-$0576E8 DATA
+DungeonMapRoomData_HyruleCastle:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $80, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $70, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $71, $72, $0F, $0F ; row 2
+    db $0F, $81, $82, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $50, $01, $52, $0F ; row 2
+    db $0F, $60, $61, $62, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $51, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+    
+; $0576E9-$05771A DATA
+DungeonMapRoomData_EasternPalace:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $99, $0F, $0F ; row 1
+    db $0F, $A8, $A9, $AA, $0F ; row 2
+    db $0F, $B8, $B9, $BA, $0F ; row 3
+    db $0F, $0F, $C9, $0F, $0F ; row 4
+
+    db $C8, $0F, $0F, $0F, $0F ; row 0
+    db $D8, $D9, $DA, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+
+; $05771B-$057765 DATA
+DungeonMapRoomData_DesertPalace:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $73, $74, $75, $0F ; row 3
+    db $0F, $83, $84, $85, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $63, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $33, $0F, $0F ; row 0
+    db $0F, $0F, $43, $0F, $0F ; row 1
+    db $0F, $0F, $53, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+
+; $057766-$057814 DATA
+DungeonMapRoomData_AgahnimsTower:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $E0, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $D0, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $C0, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $B0, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $40, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $20, $0F, $0F ; row 1
+    db $0F, $0F, $30, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+    
+; $057815-$05785F DATA
+DungeonMapRoomData_SwampPalace:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $66, $0F, $0F ; row 1
+    db $0F, $0F, $76, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $06, $0F, $0F ; row 0
+    db $0F, $0F, $16, $0F, $0F ; row 1
+    db $0F, $0F, $26, $0F, $0F ; row 2
+    db $34, $35, $36, $37, $38 ; row 3
+    db $0F, $0F, $46, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $54, $0F, $0F, $0F, $28 ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+    
+; $057860-$057891 DATA
+DungeonMapRoomData_PalaceofDarkness:
+{
+    db $0F, $0F, $5A, $0F, $0F ; row 0
+    db $0F, $0F, $6A, $0B, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0A, $3B, $0F ; row 3
+    db $0F, $0F, $09, $4B, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $19, $1A, $1B, $0F ; row 1
+    db $0F, $0F, $2A, $2B, $0F ; row 2
+    db $0F, $0F, $3A, $0F, $0F ; row 3
+    db $0F, $0F, $4A, $0F, $0F ; row 4
+}
+    
+; $057892-$0578DC DATA
+DungeonMapRoomData_MiseryMire:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $91, $92, $93, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $90, $0F, $0F, $0F ; row 0
+    db $0F, $A0, $A1, $A2, $A3 ; row 1
+    db $0F, $0F, $B1, $B2, $B3 ; row 2
+    db $0F, $0F, $C1, $C2, $C3 ; row 3
+    db $0F, $0F, $D1, $D2, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $97, $98, $0F ; row 4
+}
+    
+; $0578DD-$05790E DATA
+DungeonMapRoomData_SkullWoods:
+{
+    db $29, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $39, $0F, $0F, $0F, $0F ; row 0
+    db $49, $0F, $0F, $0F, $0F ; row 1
+    db $59, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $56, $57, $58, $0F ; row 3
+    db $0F, $0F, $67, $68, $0F ; row 4
+}
+        
+; $05790F-$0579D6 DATA
+DungeonMapRoomData_IcePalace:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $DE, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $BE, $BF, $0F ; row 2
+    db $0F, $0F, $CE, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $9E, $9F, $0F ; row 2
+    db $0F, $0F, $AE, $AF, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $7E, $7F, $0F ; row 2
+    db $0F, $0F, $8E, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $5E, $5F, $0F ; row 2
+    db $0F, $0F, $6E, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $3E, $3F, $0F ; row 2
+    db $0F, $0F, $4E, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $1E, $1F, $0F ; row 2
+    db $0F, $0F, $2E, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0E, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+
+; $0579D7-$057A6C DATA
+DungeonMapRoomData_TowerofHera:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $87, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $77, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $31, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $27, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $17, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $07, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+
+; $057A6D-$057AB7 DATA
+DungeonMapRoomData_ThievesTown:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $44, $45, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $AB, $AC, $0F, $0F ; row 1
+    db $0F, $BB, $BC, $0F, $0F ; row 2
+    db $0F, $CB, $CC, $0F, $0F ; row 3
+    db $0F, $DB, $DC, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $64, $65, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+        
+; $057AB8-$057B1B DATA
+DungeonMapRoomData_TurtleRock:
+{
+    db $0F, $A4, $0F, $0F, $0F ; row 0
+    db $0F, $B4, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $B5, $0F, $0F ; row 1
+    db $0F, $C4, $C5, $0F, $0F ; row 2
+    db $0F, $0F, $D5, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $04, $0F, $0F ; row 1
+    db $0F, $13, $14, $15, $0F ; row 2
+    db $0F, $23, $24, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0F, $B6, $B7 ; row 2
+    db $0F, $0F, $0F, $C6, $C7 ; row 3
+    db $0F, $0F, $0F, $D6, $0F ; row 4
+}
+        
+; $057B1C-$057BE3 DATA
+DungeonMapRoomData_GanonsTower:
+{
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $1C, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $7B, $7C, $7D, $0F ; row 1
+    db $0F, $8B, $8C, $8D, $0F ; row 2
+    db $0F, $9B, $9C, $9D, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $0F, $0F ; row 1
+    db $0F, $0F, $0C, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $5B, $5C, $0F ; row 1
+    db $0F, $0F, $6B, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $5D, $0F ; row 1
+    db $0F, $0F, $6C, $6D, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $95, $96, $0F ; row 1
+    db $0F, $0F, $A5, $A6, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0F, $3D, $0F ; row 1
+    db $0F, $0F, $4C, $4D, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+
+    db $0F, $0F, $0F, $0F, $0F ; row 0
+    db $0F, $0F, $0D, $0F, $0F ; row 1
+    db $0F, $0F, $1D, $0F, $0F ; row 2
+    db $0F, $0F, $0F, $0F, $0F ; row 3
+    db $0F, $0F, $0F, $0F, $0F ; row 4
+}
+
+; ==============================================================================
 
 ; I'm tentatively assuming this is chest data for the maps
 ; (i.e. a listing of references to chest numbers),
 ; but so far it's inconclusive.
-; $057BE4
+
+; $057BE4-$057BFF
+DungeonMapRoomLayoutPointers:
 {
-    dw $FC00, $FC08, $FC15, $FC21, $FC2B, $FC32, $FC3F, $FC4D
-    dw $FC5F, $FC68, $FC7D, $FC83, $FC8F, $FCA0
+    dw DungeonMapLayoutData_Sewers
+    dw DungeonMapLayoutData_HyruleCastle
+    dw DungeonMapLayoutData_EasternPalace
+    dw DungeonMapLayoutData_DesertPalace
+    dw DungeonMapLayoutData_AgahnimsTower
+    dw DungeonMapLayoutData_SwampPalace
+    dw DungeonMapLayoutData_PalaceOfDarkness
+    dw DungeonMapLayoutData_MiseryMire
+    dw DungeonMapLayoutData_SkullWoods
+    dw DungeonMapLayoutData_IcePalace
+    dw DungeonMapLayoutData_TowerOfHera
+    dw DungeonMapLayoutData_ThievesTown
+    dw DungeonMapLayoutData_TurtleRock
+    dw DungeonMapLayoutData_GanonsTower
 }
     
-; $057C00
+; $057C00-$057C07 DATA
+DungeonMapLayoutData_Sewers:
 {
-    db $00, $01, $02, $03, $04, $05, $06, $07
-    
-    ; $057C08
-    db $08, $09, $0A, $0B, $0C, $0D, $0E, $0F
-    db $10, $11, $12, $13, $14
-    
-    ; $057C15
-    db $15, $16, $17, $18, $19, $1A, $1B, $1C
-    db $1D, $1E, $1F, $20
-    
-    ; $057C21
-    db $22, $23, $24, $25, $26, $27, $21, $28
-    db $29, $2A
-    
-    ; $057C2B
-    db $2B, $2C, $2C, $2D, $2E, $2F, $30
-    
-    ; $057C32
-    db $31, $32, $33, $34, $35, $36, $37, $38
-    db $39, $3A, $3B, $3C, $3D
-    
-    ; $057C3F
-    db $3E, $3F, $40, $41, $42, $43, $44, $45
-    db $46, $47, $48, $49, $4A, $4B
-    
-    ; $057C4D
-    db $4E, $4F, $50, $52, $53, $54, $55, $56
-    db $57, $58, $59, $5A, $5B, $5C, $5D, $5E
-    db $5F, $60
-    
-    ; $057C5F
-    db $61, $62, $63, $64, $65, $66, $67, $68
-    db $69, $6A, $6B
-    
-    ; $057C68
-    db $6C, $6D, $6E, $6F, $70, $71, $72, $73
-    db $74, $75, $76, $77, $78, $79, $7A, $7B
-    db $7C, $7D, $7E, $7F, $80
-    
-    ; $057C7D
-    db $81, $82, $83, $84, $85, $86
-    
-    ; $057C83
-    db $87, $88, $89, $8A, $8B, $8C, $8D, $8E
-    db $8F, $90, $91, $92
-    
-    ; $057C8F
-    db $93, $94, $95, $4C, $96, $97, $98, $99
-    db $4D, $9A, $9B, $9C, $9D, $9E, $9F, $A0
-    db $A1
-        
-    ; $057CA0
-    db $A2, $A3, $A4, $A5, $A6, $A7, $A8, $A9
-    db $AA, $AB, $AC, $AD, $AE, $AF, $B0, $B1
-    db $B2, $B3, $B4, $B5, $B6, $B7, $B8, $B9
+    db $00 ; Room 0011
+    db $01 ; Room 0021
+    db $02 ; Room 0022
+    db $03 ; Room 0032
+    db $04 ; Room 0002
+    db $05 ; Room 0012
+    db $06 ; Room 0042
+    db $07 ; Room 0041
 }
+
+; $057C08-$057C14 DATA
+DungeonMapLayoutData_HyruleCastle:
+{
+    db $08 ; Room 0080
+    db $09 ; Room 0070
+    db $0A ; Room 0071
+    db $0B ; Room 0072
+    db $0C ; Room 0081
+    db $0D ; Room 0082
+    db $0E ; Room 0050
+    db $0F ; Room 0001
+    db $10 ; Room 0052
+    db $11 ; Room 0060
+    db $12 ; Room 0061
+    db $13 ; Room 0062
+    db $14 ; Room 0051
+}
+
+; $057C14-$057C20 DATA
+DungeonMapLayoutData_EasternPalace:
+{
+    db $15 ; Room 0099
+    db $16 ; Room 00A8
+    db $17 ; Room 00A9
+    db $18 ; Room 00AA
+    db $19 ; Room 00B8
+    db $1A ; Room 00B9
+    db $1B ; Room 00BA
+    db $1C ; Room 00C9
+    db $1D ; Room 00C8
+    db $1E ; Room 00D8
+    db $1F ; Room 00D9
+    db $20 ; Room 00DA
+}
+
+; $057C21-$057C2A DATA
+DungeonMapLayoutData_DesertPalace:
+{
+    db $22 ; Room 0073
+    db $23 ; Room 0074
+    db $24 ; Room 0076
+    db $25 ; Room 0083
+    db $26 ; Room 0084
+    db $27 ; Room 0086
+    db $21 ; Room 0063
+    db $28 ; Room 0033
+    db $29 ; Room 0042
+    db $2A ; Room 0053
+}
+
+; $057C2B-$057C31 DATA
+DungeonMapLayoutData_AgahnimsTower:
+{
+    db $2B ; Room 00E0
+    db $2C ; Room 00D0
+    db $2C ; Room 00C0
+    db $2D ; Room 00B0
+    db $2E ; Room 0040
+    db $2F ; Room 0020
+    db $30 ; Room 0030
+}
+
+; $057C32-$057C3E DATA
+DungeonMapLayoutData_SwampPalace:
+{
+    db $31 ; Room 0066
+    db $32 ; Room 0076
+    db $33 ; Room 0006
+    db $34 ; Room 0016
+    db $35 ; Room 0026
+    db $36 ; Room 0034
+    db $37 ; Room 0035
+    db $38 ; Room 0036
+    db $39 ; Room 0037
+    db $3A ; Room 0038
+    db $3B ; Room 0046
+    db $3C ; Room 0054
+    db $3D ; Room 0028
+}
+
+; $057C3F-$057C4C DATA
+DungeonMapLayoutData_PalaceOfDarkness:
+{
+    db $3E ; Room 005A
+    db $3F ; Room 006A
+    db $40 ; Room 000B
+    db $41 ; Room 000A
+    db $42 ; Room 003B
+    db $43 ; Room 0009
+    db $44 ; Room 004B
+    db $45 ; Room 0019
+    db $46 ; Room 001A
+    db $47 ; Room 001B
+    db $48 ; Room 002A
+    db $49 ; Room 002B
+    db $4A ; Room 003A
+    db $4B ; Room 004A
+}
+
+; $057C4D-$057C5E DATA
+DungeonMapLayoutData_MiseryMire:
+{
+    db $4E ; Room 0091
+    db $4F ; Room 0092
+    db $50 ; Room 0093
+    db $52 ; Room 0090
+    db $53 ; Room 00A0
+    db $54 ; Room 00A1
+    db $55 ; Room 00A2
+    db $56 ; Room 00A3
+    db $57 ; Room 00B1
+    db $58 ; Room 00B2
+    db $59 ; Room 00B3
+    db $5A ; Room 00C1
+    db $5B ; Room 00C2
+    db $5C ; Room 00C3
+    db $5D ; Room 00D1
+    db $5E ; Room 00D2
+    db $5F ; Room 0097
+    db $60 ; Room 0098
+}
+
+; $057C5F-$057C67 DATA
+DungeonMapLayoutData_SkullWoods:
+{
+    db $61 ; Room 0029
+    db $62 ; Room 0039
+    db $63 ; Room 0049
+    db $64 ; Room 0059
+    db $65 ; Room 0056
+    db $66 ; Room 0057
+    db $67 ; Room 0058
+    db $68 ; Room 0067
+    db $69 ; Room 0068
+}
+
+; $057C68-$057C7C DATA
+DungeonMapLayoutData_IcePalace:
+{
+    db $6A ; Room 00DE
+    db $6B ; Room 00BE
+    db $6C ; Room 00BF
+    db $6D ; Room 00CE
+    db $6E ; Room 009E
+    db $6F ; Room 009F
+    db $70 ; Room 00AE
+    db $71 ; Room 00AF
+    db $72 ; Room 007E
+    db $73 ; Room 007F
+    db $74 ; Room 008E
+    db $75 ; Room 005E
+    db $76 ; Room 005F
+    db $77 ; Room 006E
+    db $78 ; Room 003E
+    db $79 ; Room 003F
+    db $7A ; Room 004E
+    db $7B ; Room 001E
+    db $7C ; Room 001F
+    db $7D ; Room 002E
+    db $7E ; Room 000E
+}
+
+; $057C7D-$057C82 DATA
+DungeonMapLayoutData_TowerOfHera:
+{
+    db $7F ; Room 0087
+    db $80 ; Room 0077
+    db $81 ; Room 0031
+    db $82 ; Room 0027
+    db $83 ; Room 0017
+    db $84 ; Room 0007
+}
+
+; $057C83-$057C8E DATA
+DungeonMapLayoutData_ThievesTown:
+{
+    db $85 ; Room 0044
+    db $86 ; Room 0045
+    db $87 ; Room 00AB
+    db $88 ; Room 00AC
+    db $89 ; Room 00BB
+    db $8A ; Room 00BC
+    db $8B ; Room 00CB
+    db $8C ; Room 00CC
+    db $8D ; Room 00DB
+    db $8E ; Room 00DC
+    db $8F ; Room 0064
+    db $90 ; Room 0065
+}
+
+; $057C8F-$057C9F DATA
+DungeonMapLayoutData_TurtleRock:
+{
+    db $91 ; Room 00A4
+    db $92 ; Room 00B4
+    db $93 ; Room 00B5
+    db $94 ; Room 00C4
+    db $95 ; Room 00C5
+    db $4C ; Room 00D5
+    db $96 ; Room 0004
+    db $97 ; Room 0013
+    db $98 ; Room 0014
+    db $99 ; Room 0015
+    db $4D ; Room 0023
+    db $9A ; Room 0024
+    db $9B ; Room 00B6
+    db $9C ; Room 00B7
+    db $9D ; Room 00C6
+    db $9E ; Room 00C7
+    db $9F ; Room 00D6
+}
+
+; $057CA0-$057CB9 DATA
+DungeonMapLayoutData_GanonsTower:
+{
+    db $A0 ; Room 001C
+    db $A1 ; Room 007B
+    db $A2 ; Room 007C
+    db $A3 ; Room 007D
+    db $A4 ; Room 008B
+    db $A5 ; Room 008C
+    db $A6 ; Room 008D
+    db $A7 ; Room 009B
+    db $A8 ; Room 009C
+    db $A9 ; Room 009D
+    db $AA ; Room 000C
+    db $AB ; Room 005B
+    db $AC ; Room 005C
+    db $AD ; Room 006B
+    db $AE ; Room 005D
+    db $AF ; Room 006C
+    db $B0 ; Room 006D
+    db $B1 ; Room 0095
+    db $B2 ; Room 0096
+    db $B3 ; Room 00A5
+    db $B4 ; Room 00A6
+    db $B5 ; Room 0034
+    db $B6 ; Room 004C
+    db $B7 ; Room 004D
+    db $B8 ; Room 000D
+    db $B9 ; Room 001D
+}
+
+; ==============================================================================
     
-; $057CBA NULL
+; $057CBA-$057CDF NULL
+NULL_0AFCBA:
 {
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
@@ -4513,14 +6704,16 @@ PalaceMap_RestoreStarTileState:
     db $FF, $FF, $FF, $FF, $FF, $FF        
 }
 
-; $057CE0 DATA
+; ==============================================================================
+
+; $057CE0-$057CF5 DATA
 HUD.FloorIndicatorNumberHigh:
 {
     dw $2508, $2509, $2509, $250A, $250B, $250C, $250D, $251D
     dw $E51C, $250E, $007F
 }
 
-; $057CF6 DATA
+; $057CF6-$057D0B DATA
 HUD.FloorIndicatorNumberLow:
 {
     dw $2518, $2519, $A509, $251A, $251B, $251C, $2518, $A51D
@@ -4537,89 +6730,83 @@ FloorIndicator:
     REP #$30
     
     LDA $04A0 : AND.w #$00FF : BEQ .hideIndicator
-    
-    INC A : CMP.w #$00C0 : BNE .dontDisable
-    
-    ; if the count up timer reaches 0x00BF frames, disable the floor indicator during the next frame.
-    LDA.w #$0000
+        INC A : CMP.w #$00C0 : BNE .dontDisable
+            ; If the count up timer reaches 0x00BF frames, disable the floor indicator during the next frame.
+            LDA.w #$0000
 
-    .dontDisable
+        .dontDisable
 
-    STA $04A0
-    
-    PHB : PHK : PLB
-    
-    LDA.w #$251E : STA $7EC7F2
-    INC A        : STA $7EC834
-    INC A        : STA $7EC832
-    
-    LDA.w #$250F : STA $7EC7F4
-    
-    LDX.w #$0000
-    
-    ; this confused me at first, but it's actually looking at whether $A4[1]
-    ; has a negative value $A3 has nothing to do with $A4
-    LDA $A3 : BMI .basementFloor
-    
-    ; check which floor Link is on.
-    LDA $A4 : BNE .notFloor1F
-    
-    LDA $A0 : CMP.w #$0002 : BEQ .sanctuaryRatRoom
-    
-    SEP #$20
-    
-    ; Check the world state
-    LDA $7EF3C5 : CMP.b #$02 : BCS .noRainSound
-    
-    ; cause the ambient rain sound to occur (indoor version)
-    LDA.b #$03 : STA $012D
-
-    .noRainSound
-
-    REP #$20
-
-    .notFloor1F
-    .sanctuaryRatRoom
-
-    LDA $A4 : AND.w #$00FF
-    
-    BRA .setFloorIndicatorNumber
-
-    .basementFloor
-
-    SEP #$20
+        STA $04A0
         
-    ; turn off any ambient sound effects
-    LDA.b #$05 : STA $012D
-    
-    REP #$20
-    
-    INX #2
-    
-    LDA $A4 : ORA.w #$FF00 : EOR.w #$FFFF
-    
-    .setFloorIndicatorNumber
-    
-    ASL A : TAY
-    
-    LDA FloorIndicatorNumberHigh, Y : STA $7EC7F2, X
-    LDA FloorIndicatorNumberLow, Y  : STA $7EC832, X
-    
-    SEP #$30
-    
-    PLB
-    
-    ; send a signal indicating that bg3 needs updating
-    INC $16
-    
-    RTL
+        PHB : PHK : PLB
+        
+        LDA.w #$251E : STA $7EC7F2
+        INC A        : STA $7EC834
+        INC A        : STA $7EC832
+        
+        LDA.w #$250F : STA $7EC7F4
+        
+        LDX.w #$0000
+        
+        ; This confused me at first, but it's actually looking at whether $A4[1]
+        ; has a negative value $A3 has nothing to do with $A4.
+        LDA $A3 : BMI .basementFloor
+            ; Check which floor Link is on.
+            LDA $A4 : BNE .notFloor1F
+                LDA $A0 : CMP.w #$0002 : BEQ .sanctuaryRatRoom
+                    SEP #$20
+                    
+                    ; Check the world state.
+                    LDA $7EF3C5 : CMP.b #$02 : BCS .noRainSound
+                        ; Cause the ambient rain sound to occur (indoor version).
+                        LDA.b #$03 : STA $012D
+
+                    .noRainSound
+
+                    REP #$20
+
+                .sanctuaryRatRoom
+            .notFloor1F
+
+            LDA $A4 : AND.w #$00FF
+            
+            BRA .setFloorIndicatorNumber
+
+        .basementFloor
+
+        SEP #$20
+            
+        ; Turn off any ambient sound effects.
+        LDA.b #$05 : STA $012D
+        
+        REP #$20
+        
+        INX #2
+        
+        LDA $A4 : ORA.w #$FF00 : EOR.w #$FFFF
+        
+        .setFloorIndicatorNumber
+        
+        ASL A : TAY
+        
+        LDA FloorIndicatorNumberHigh, Y : STA $7EC7F2, X
+        LDA FloorIndicatorNumberLow, Y  : STA $7EC832, X
+        
+        SEP #$30
+        
+        PLB
+        
+        ; Send a signal indicating that bg3 needs updating.
+        INC $16
+        
+        RTL
     
     ; $057D90 ALTERNATE ENTRY POINT
     .hideIndicator
     
     REP #$20
     
-    ; disable the display of the floor indicator.
+    ; Disable the display of the floor indicator.
     LDA.w #$007F : STA $7EC7F2 : STA $7EC832 : STA $7EC7F4 : STA $7EC834
     
     SEP #$30
@@ -4627,32 +6814,29 @@ FloorIndicator:
     RTL
 }
 
-; =======================================================
+; ==============================================================================
 
-HUD.SuperBombIndicator:
 ; $057DA8-$057E17 LONG JUMP LOCATION
+HUD.SuperBombIndicator:
 {
     LDA $04B5 : BNE .BRANCH_ALPHA
-    
-    LDA $04B4 : BMI .BRANCH_BETA
-    
-    DEC $04B4
-    
-    LDA.b #$3E : STA $04B5
+        LDA $04B4 : BMI .BRANCH_BETA
+            DEC $04B4
+            
+            LDA.b #$3E : STA $04B5
 
     .BRANCH_ALPHA
 
     DEC $04B5
     
     LDA $04B4 : BPL .BRANCH_GAMMA
+        .BRANCH_BETA
 
-    .BRANCH_BETA
-
-    LDA.b #$FF : STA $04B4
-    
-    REP #$30
-    
-    BRA FloorIndicator_hideIndicator
+        LDA.b #$FF : STA $04B4
+        
+        REP #$30
+        
+        BRA FloorIndicator_hideIndicator
 
     .BRANCH_GAMMA
 
@@ -4675,19 +6859,16 @@ HUD.SuperBombIndicator:
 
     .BRANCH_EPSILON
 
-    LDY $00, X : DEY #2 : BPL .BRANCH_DELTA
-    
-    LDY.b #$12
-    
-    CPX.b #$00 : BNE .BRANCH_DELTA
-    
-    LDY.b #$14
+        LDY $00, X : DEY #2 : BPL .BRANCH_DELTA
+            LDY.b #$12
+            
+            CPX.b #$00 : BNE .BRANCH_DELTA
+                LDY.b #$14
 
-    .BRANCH_DELTA
+        .BRANCH_DELTA
 
-    LDA.w $FCE0, Y : STA $7EC7F2, X
-    LDA.w $FCF6, Y : STA $7EC832, X
-    
+        LDA.w $FCE0, Y : STA $7EC7F2, X
+        LDA.w $FCF6, Y : STA $7EC832, X
     DEX #2 : BPL .BRANCH_EPSILON
     
     SEP #$20
@@ -4700,11 +6881,9 @@ HUD.SuperBombIndicator:
 ; ==============================================================================
 
 ; $057E18-$057E1F EMPTY
-pool Empty:
+NULL_0AFE18:
 {
-    fillbyte $FF
-    
-    fill $08
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 }
 
 ; ==============================================================================
@@ -4747,24 +6926,24 @@ Death_InitializeGameOverLetters:
 ; ==============================================================================
 
 ; $057E65-$057E6F NULL
+NULL_0AFE65:
 {
-    fillbyte $FF
-    
-    fill $0B
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF
 }
 
 ; ==============================================================================
 
 ; $057E70-$057E7F DATA
-pool Effect_Handler:
+Pool_Effect_Handler:
 {
     .handlers
     dw Effect_DoNothing
     dw Effect_DoNothing
     dw Effect_MovingFloor
     dw Effect_MovingWater
-    dw Effect_MovingFloor2      ; Not sure if this is used anywhere
-    dw Effect_RedFlashes        ; (Agahnim's room in Ganon's tower)
+    dw Effect_MovingFloor2     ; Not sure if this is used anywhere
+    dw Effect_RedFlashes       ; (Agahnim's room in Ganon's tower)
     dw Effect_TorchHiddenTiles
     dw Effect_TorchGanonRoom
 }
@@ -4794,10 +6973,9 @@ Effect_MovingFloor:
 {
     ; If the boss has been beaten in this room don't move the floor anymore.
     LDA $0403 : AND.b #$80 : BEQ .bossNotDead
-    
-    STZ $AD
-    
-    RTL
+        STZ $AD
+        
+        RTL
 
     .bossNotDead
 
@@ -4809,45 +6987,42 @@ Effect_MovingFloor:
     ; Test the low bit of $041A[2]
     ; The low bit of that variable disables floor movement
     LDA $041A : LSR A : BCS .return
-    
-    ; X = the bit 1 of $041A[2]
-    ASL A : AND.w #$0002 : TAX
-    
-    ; $041C[2] += 0x8000
-    LDA $041C : CLC : ADC.w #$8000 : STA $041C
-    
-    ; if $041C[2] was negative before the addition, then A = 1, otherwise A = 0
-    ROL A : AND.w #$0001
-    
-    CPX.w #$0002 : BNE .notInverted
-    
-    ; Invert the accumulator. Thus A =   
-    EOR.w #$FFFF : INC A
-
-    .notInverted
-
-    LDX $041A : CPX.w #$0004 : BCS .vertical
-    
-    ; Set the horizontal floor movement speed
-    STA $0312
-    
-    LDA $0422 : SEC : SBC $0312 : STA $0422
-    
-    CLC : ADC $E2 : STA $E0
-    
-    SEP #$30
-    
-    RTL
-
-    .vertical
-
-    ; Tells the floor to move in a Y direction instead. 
-    ; Set the vertical floor movement speed.
-    STA $0310
+        ; X = the bit 1 of $041A[2]
+        ASL A : AND.w #$0002 : TAX
         
-    LDA $0424 : SEC : SBC $0310 : STA $0424
-    
-    CLC : ADC $E8 : STA $E6
+        ; $041C[2] += 0x8000
+        LDA $041C : CLC : ADC.w #$8000 : STA $041C
+        
+        ; If $041C[2] was negative before the addition, then A = 1, otherwise A = 0
+        ROL A : AND.w #$0001
+        
+        CPX.w #$0002 : BNE .notInverted
+            ; Invert the accumulator. Thus A =   
+            EOR.w #$FFFF : INC A
+
+        .notInverted
+
+        LDX $041A : CPX.w #$0004 : BCS .vertical
+            ; Set the horizontal floor movement speed
+            STA $0312
+            
+            LDA $0422 : SEC : SBC $0312 : STA $0422
+            
+            CLC : ADC $E2 : STA $E0
+            
+            SEP #$30
+            
+            RTL
+
+        .vertical
+
+        ; Tells the floor to move in a Y direction instead. 
+        ; Set the vertical floor movement speed.
+        STA $0310
+            
+        LDA $0424 : SEC : SBC $0310 : STA $0424
+        
+        CLC : ADC $E8 : STA $E6
 
     .return
 
@@ -4863,11 +7038,12 @@ Effect_MovingFloor2:
 {
     REP #$20
     
-    ; Causes the background to move by the amounts specified by the variables below
+    ; Causes the background to move by the amounts specified by the variables below.
     LDA $0422 : CLC : ADC $0312 : STA $0422
     LDA $0424 : CLC : ADC $0310 : STA $0424
     
-    ; Sets the velocities of the background to zero, meaning they must be set again for the bg to continue moving.
+    ; Sets the velocities of the background to zero, meaning they must be set
+    ; again for the bg to continue moving.
     STZ $0312 : STZ $0310
     
     SEP #$20
@@ -4883,33 +7059,32 @@ Effect_RedFlashes:
     LDA $1A : AND.b #$7F
     
     CMP.b #$03 : BEQ .redFlash
-    CMP.b #$05 : BEQ .restoreColors
-    CMP.b #$24 : BEQ .redFlash
-    CMP.b #$26 : BNE .noChange
+        CMP.b #$05 : BEQ .restoreColors
+            CMP.b #$24 : BEQ .redFlash
+                CMP.b #$26 : BNE .noChange
+                    .restoreColors
 
-    .restoreColors
+                    REP #$20
+                    
+                    LDA $7EC3DA : STA $7EC5DA
+                    LDA $7EC3DC : STA $7EC5DC
+                    
+                    LDA $7EC3DE
 
-    REP #$20
-    
-    LDA $7EC3DA : STA $7EC5DA
-    LDA $7EC3DC : STA $7EC5DC
-    
-    LDA $7EC3DE
+                    .finishUp
 
-    .finishUp
+                    STA $7EC5DE : STA $7EC5EE
+                    
+                    SEP #$20
+                    
+                    INC $15
 
-    STA $7EC5DE : STA $7EC5EE
-    
-    SEP #$20
-    
-    INC $15
+                .noChange
 
-    .noChange
-
-    ; Put bg2 on the subscreen
-    LDA.b #$02 : STA $1D
-    
-    RTL
+                ; Put bg2 on the subscreen
+                LDA.b #$02 : STA $1D
+                
+                RTL
 
     .redFlash
 
@@ -4937,36 +7112,32 @@ Effect_TorchHiddenTiles:
 
     .countLitTorches
 
-    ; special object tile position...
-    LDA $0540, X : ASL A : BCC .notLit
+        ; Special object tile position...
+        LDA $0540, X : ASL A : BCC .notLit
+            INC $00
 
-    INC $00
-
-    .notLit
-
+        .notLit
     INX #2 : CPX.w #$0020 : BNE .countLitTorches
     
     ; Cause the tiles to be seen by setting them two bluish colors.
     LDX.w #$2940
     LDY.w #$4E60
     
-    ; Check how many torches are lit        ; at least one is lit
+    ; Check how many torches are lit  ; At least one is lit.
     LDA $00 : BNE .atLeastOne
-    
-    ; hides the tiles by setting critical colors in the tiles' palette to black.
-    LDX.w #$0000
-    LDY.w #$0000
+        ; Hides the tiles by setting critical colors in the tiles' palette to black.
+        LDX.w #$0000
+        LDY.w #$0000
 
     .atLeastOne
 
     TXA : CMP $7EC3F6 : BEQ .matchesAuxiliary
-    
-    STA $7EC3F6 : STA $7EC5F6 ; Changing a palette value
-    
-    TYA : STA $7EC3F8 : STA $7EC5F8
-    
-    ; tell NMI to reupload CGRAM data
-    INC $15
+        STA $7EC3F6 : STA $7EC5F6 ; Changing a palette value.
+        
+        TYA : STA $7EC3F8 : STA $7EC5F8
+        
+        ; Tell NMI to reupload CGRAM data.
+        INC $15
 
     .matchesAuxiliary
 
@@ -4983,7 +7154,7 @@ Effect_TorchHiddenTiles:
 ; $057FA4-$057FDD JUMP LOCATION
 Effect_TorchGanonRoom:
 {
-    ; initialize number of lit torches to zero
+    ; Initialize number of lit torches to zero
     STZ $04C5
     
     REP #$30
@@ -4992,46 +7163,43 @@ Effect_TorchGanonRoom:
 
     .nextTorch
 
-    LDA $0540, X : ASL A : BCC .notLit
-    
-    INC $04C5
+        LDA $0540, X : ASL A : BCC .notLit
+            NC $04C5
 
-    .notLit
+        .notLit
 
-    ; only check the first 3 torches in memory. (this probably causes bugs
-    ; in some hacks) Cycle through all the torche
+        ; Only check the first 3 torches in memory. (this probably causes bugs
+        ; in some hacks) Cycle through all the torche.
     INX #2 : CPX.w #$0006 : BNE .nextTorch
     
     SEP #$30
     
     LDA $04C5 : BNE .oneLit
-    
-    ; effectively this darkens the room so you can't see Ganon
-    ; diable all layers on the subscreen
-    STZ $1D
-    
-    ; $9A = !CGSUB | !CGBG0 | !CGBG1 | !CGOBJ | !CGBGD ;    
-    LDA.b #$B3 : STA $9A
-    
-    RTL
+        ; Effectively this darkens the room so you can't see Ganonm
+        ; diable all layers on the subscreen.
+        STZ $1D
+        
+        ; $9A = !CGSUB | !CGBG0 | !CGBG1 | !CGOBJ | !CGBGD
+        LDA.b #$B3 : STA $9A
+        
+        RTL
 
     .oneLit
 
-    ; only one torch is lit in Ganon's room.
+    ; Only one torch is lit in Ganon's room.
     CMP.b #$01 : BNE .fullyLit
-    
-    ; Put BG1 on the subscreen    
-    LDA.b #$02 : STA $1D
-    
-    ; $9A = !CGADDHALF | !CGOBJ | !CGBGD
-    LDA.b #$70 : STA $9A
-    
-    RTL
+        ; Put BG1 on the subscreen    
+        LDA.b #$02 : STA $1D
+        
+        ; $9A = !CGADDHALF | !CGOBJ | !CGBGD
+        LDA.b #$70 : STA $9A
+        
+        RTL
 
     .fullyLit
 
-    ; since BG1 does not participate in color math anymore, it appears normal (fully lit)
-    STZ $1D ; Take BG1 off of the subscreen
+    ; Since BG1 does not participate in color math anymore, it appears normal (fully lit).
+    STZ $1D ; Take BG1 off of the subscreen.
     
     ; $9A = !CGADDHALF | !CGOBJ | !CGBGD
     LDA.b #$70 : STA $9A
@@ -5046,15 +7214,15 @@ Effect_MovingWater:
 {
     REP #$21
     
-    ; $041C alternates between being negative and non negative
+    ; $041C alternates between being negative and non negative.
     LDA.w #$8000 : ADC $041C : STA $041C
     
     ; Effectively this means that $00 alternates between being 0 and 1 each
-    ; frame
+    ; frame.
     ROL A : AND.w #$0001 : STA $00
     
     ; Adjust the horizontal position of the water background by either 0 or
-    ; -1
+    ; -1.
     LDA.w #$0000 : SEC : SBC $00 : STA $0312
     
     SEP #$20
@@ -5065,6 +7233,7 @@ Effect_MovingWater:
 ; ==============================================================================
 
 ; $057FFB-$057FFF NULL
+NULL_0AFFFB:
 {
     db $FF, $FF, $FF, $FF, $FF
 }

@@ -682,14 +682,14 @@ AddReceivedItem:
     
     ; Carry indicates success for this routine.
     JSR AddAncilla : BCC .openSlot
-    BRL .noOpenSlots
+        BRL .noOpenSlots
     
     .openSlot
     
     ; Did the item come from a chest?
     LDA $02E9 : CMP.b #$01 : BNE .notOpeningChest
-    LDA $72 : PHA
-    LDA $73 : PHA
+        LDA $72 : PHA
+        LDA $73 : PHA
     
     .notOpeningChest
     
@@ -697,7 +697,7 @@ AddReceivedItem:
     
     ; is the item a crystal?
     LDA $02D8 : CMP.b #$20 : BNE .notCrystal
-    LDY.b #$02
+        LDY.b #$02
     
     .notCrystal
     
@@ -708,14 +708,14 @@ AddReceivedItem:
     ; Load the item index again
     ; If it's not a sword+lvl_1 shield. 
     LDY $02D8 : BNE .not_uncles_gear
-    LDX.b #$08
-    
-    ; Gives the address to write this value to.    
-    LDA .item_target_addr+0, X : STA $00
-    LDA .item_target_addr+1, X : STA $01
-    LDA.b #$7E                 : STA $02
-    
-    LDA .item_values, Y : STA [$00]
+        LDX.b #$08
+        
+        ; Gives the address to write this value to.    
+        LDA .item_target_addr+0, X : STA $00
+        LDA .item_target_addr+1, X : STA $01
+        LDA.b #$7E                 : STA $02
+        
+        LDA .item_values, Y : STA [$00]
     
     .not_uncles_gear
     
@@ -729,15 +729,15 @@ AddReceivedItem:
     ; Tells what value to write to that location.    
     ; If it's a negative value, don't write it.
     LDA .item_values, Y : BMI .dontWrite
-    STA [$00]
+        STA [$00]
     
     .dontWrite
     
     ; Is it a moon pearl?
     ; Not a moon pearl.    
     CPY.b #$1F : BNE .notMoonPearl
-    ; Reset Link's graphic status to normal (so he's not a bunny anymore)
-    STZ $56
+        ; Reset Link's graphic status to normal (so he's not a bunny anymore)
+        STZ $56
     
     .notMoonPearl
     
@@ -803,162 +803,160 @@ AddReceivedItem:
     
             .alreadyHaveUpgradeArmor
     
-    BRA .doneWithValue
+            BRA .doneWithValue
     
-    .notArmor
+        .notArmor
     
-    ; Is it a dungeon compass?
-    CPY.b #$25 : BEQ .isPalaceItem
-    ; Is it a big key?
-    CPY.b #$32 : BEQ .isPalaceItem
-        ; Is it a a dungeon map?    
-        CPY.b #$33 : BNE .notPalaceItem
-            ; Palaces have compasses, big keys, and maps
-            .isPalaceItem
+        ; Is it a dungeon compass?
+        CPY.b #$25 : BEQ .isPalaceItem
+        ; Is it a big key?
+        CPY.b #$32 : BEQ .isPalaceItem
+            ; Is it a a dungeon map?    
+            CPY.b #$33 : BNE .notPalaceItem
+                ; Palaces have compasses, big keys, and maps
+                .isPalaceItem
+        
+                ; Tell me what dungeon I'm in.
+                LDX $040C
+                
+                REP #$20
+                
+                ; Give Link the item.
+                LDA .item_masks, X : ORA [$00] : STA [$00]
+                
+                SEP #$20
+                
+                ; don't have a good name for this but it basically means move on, we're done here
+                BRL .gfxHandling
+        
+        .notPalaceItem
     
-            ; Tell me what dungeon I'm in.
-            LDX $040C
+        ; Is it a heart container?
+        CPY.b #$3E : BNE .notHeartContainer
+            BIT $0308 : BPL .notCarryingAnything
+                LDA.b #$02 : STA $0309
             
-            REP #$20
+            .notHeartContainer
+        .notCarryingAnything
+    
+        ; Is it a crystal?
+        CPY.b #$20 : BNE .notCrystal2
+            ; Paul's concern
+            INC $0200
             
-            ; Give Link the item.
-            LDA .item_masks, X : ORA [$00] : STA [$00]
+            PHX
             
-            SEP #$20
+            LDX.b #$04
             
-            ; don't have a good name for this but it basically means move on, we're done here
-            BRL .gfxHandling
-    
-    .notPalaceItem
-    
-    ; Is it a heart container?
-    CPY.b #$3E : BNE .notHeartContainer
-    BIT $0308 : BPL .notCarryingAnything
-        LDA.b #$02 : STA $0309
-    
-    .notHeartContainer
-    .notCarryingAnything
-    
-    ; Is it a crystal?
-    CPY.b #$20 : BNE .notCrystal2
-    ; Paul's concern
-    INC $0200
-    
-    PHX
-    
-    LDX.b #$04
-    
-    .nextObject
-    
-        LDA $0C4A, X : CMP.b #$07 : BEQ .notBombObject
-                       CMP.b #$2C : BNE .notBombOrSomariaBlock
-            .notBombObject
-        
-            STZ $0C4A, X
+            .nextObject
             
-            STZ $0308
-            STZ $0309
-    
-        .notBombOrSomariaBlock
-    
-    DEX : BPL .nextObject
-    
-    PLX
-    
-    ; Is Link in "cape" mode?
-    LDA $55 : BEQ .notInCapeMode
-        ; if so, transform him out of it.
-        LDA.b #$20 : STA $02E2
-        
-        STZ $037B
-        STZ $55
-        
-        PHY : PHX
-        
-        LDY.b #$04
-        LDA.b #$23
-        
-        JSL AddTransformationCloud
-        JSL Sound_SetSfxPanWithPlayerCoords
-        
-        ; play sound effect
-        ORA.b #$15 : STA $012E
-        
-        PLX : PLY
-        
-        BRL .gfxHandling
-    
-    .notCrystal2
-    .notInCapeMode
-    
-    ; Is it a mushroom / magic powder?
-    CPY.b #$29 : BNE .notMagicPowder
-    ; check if we have magic powder
-    LDA $7EF344 : CMP.b #$02 : BEQ .notMagicPowder
-        ; if not, give the guy a mushroom instead
-        LDA.b #$01 : STA [$00]
-        
-        ; probably should split off a differnt name for this invocation of the branch
-        BRA .noKeyOverflow
-    
-    .notMagicPowder
-    
-    LDX.b #$01
-    
-    ; but not the Big Key, just to be clear
-    CPY.b #$24 : BEQ .addToStock
-    LDA $02E9 : CMP.b #$02 : BEQ .receivingFromSprite
-        ; give the guy 1 bomb
-        CPY.b #$27 : BEQ .addToStock
-            ; give the guy 3 bombs
-            LDX.b #$03
+                LDA $0C4A, X : CMP.b #$07 : BEQ .notBombObject
+                            CMP.b #$2C : BNE .notBombOrSomariaBlock
+                    .notBombObject
+                
+                    STZ $0C4A, X
+                    
+                    STZ $0308
+                    STZ $0309
             
-            CPY.b #$28 : BEQ .addToStock
-                ; bombs again, this time you get 10 bombs
-                ; branch if not those things.
-                CPY.b #$31 : BNE .notFillerItem
-                    ; give the guy 10 bombs
-                    LDX.b #$0A
+                .notBombOrSomariaBlock
+            DEX : BPL .nextObject
+            
+            PLX
+            
+            ; Is Link in "cape" mode?
+            LDA $55 : BEQ .notInCapeMode
+                ; if so, transform him out of it.
+                LDA.b #$20 : STA $02E2
+                
+                STZ $037B
+                STZ $55
+                
+                PHY : PHX
+                
+                LDY.b #$04
+                LDA.b #$23
+                
+                JSL AddTransformationCloud
+                JSL Sound_SetSfxPanWithPlayerCoords
+                
+                ; play sound effect
+                ORA.b #$15 : STA $012E
+                
+                PLX : PLY
+                
+                BRL .gfxHandling
+            .notInCapeMode
+        .notCrystal2
+        
+        ; Is it a mushroom / magic powder?
+        CPY.b #$29 : BNE .notMagicPowder
+            ; check if we have magic powder
+            LDA $7EF344 : CMP.b #$02 : BEQ .notMagicPowder
+                ; if not, give the guy a mushroom instead
+                LDA.b #$01 : STA [$00]
+                
+                ; probably should split off a differnt name for this invocation of the branch
+                BRA .noKeyOverflow
+        
+        .notMagicPowder
+        
+        LDX.b #$01
+        
+        ; but not the Big Key, just to be clear
+        CPY.b #$24 : BEQ .addToStock
+            LDA $02E9 : CMP.b #$02 : BEQ .receivingFromSprite
+                ; give the guy 1 bomb
+                CPY.b #$27 : BEQ .addToStock
+                    ; give the guy 3 bombs
+                    LDX.b #$03
+                    
+                    CPY.b #$28 : BEQ .addToStock
+                        ; bombs again, this time you get 10 bombs
+                        ; branch if not those things.
+                        CPY.b #$31 : BNE .notFillerItem
+                            ; give the guy 10 bombs
+                            LDX.b #$0A
+        
+        .addToStock
+        
+        TXA : CLC : ADC [$00] : STA [$00]
+        
+        CMP.b #99 : BCC .noKeyOverflow
+            LDA.b #99 : STA [$00]
+        
+        .noKeyOverflow
+        
+        JSL HUD.RebuildLong
     
-    .addToStock
-    
-    TXA : CLC : ADC [$00] : STA [$00]
-    
-    CMP.b #99 : BCC .noKeyOverflow
-    LDA.b #99 : STA [$00]
-    
-    .noKeyOverflow
-    
-    JSL HUD.RebuildLong
-    
-    BRA .gfxHandling
-    
-    .notFillerItem
-    .receivingFromSprite
-    
-    ; Is it a piece of heart?
-     CPY.b #$17 : BNE .notPieceOfHeart
-    LDA [$00] : INC A : AND.b #$03 : STA [$00]
-    
-    JSL Sound_SetSfxPanWithPlayerCoords
-    
-    ORA.b #$2D : STA $012F
-    
-    BRA .gfxHandling
-    
-    .notPieceOfHeart
-    
-    ; Is it the Master sword?
-    CPY.b #$01 : BNE .notMasterSword
-    PHY : PHX
-    
-    JSL Overworld_SetSongList
-    
-    PLX : PLY
-    
-    .notMasterSword
-    
-    JSR GiveBottledItem 
+        BRA .gfxHandling
+        
+        .notFillerItem
+        .receivingFromSprite
+        
+        ; Is it a piece of heart?
+        CPY.b #$17 : BNE .notPieceOfHeart
+            LDA [$00] : INC A : AND.b #$03 : STA [$00]
+            
+            JSL Sound_SetSfxPanWithPlayerCoords
+            
+            ORA.b #$2D : STA $012F
+            
+            BRA .gfxHandling
+        
+        .notPieceOfHeart
+        
+        ; Is it the Master sword?
+        CPY.b #$01 : BNE .notMasterSword
+            PHY : PHX
+            
+            JSL Overworld_SetSongList
+            
+            PLX : PLY
+        
+        .notMasterSword
+        
+        JSR GiveBottledItem 
     
     .gfxHandling
     
@@ -994,9 +992,9 @@ AddReceivedItem:
     CMP.b #$18 : BNE .notSword
         .isSword
     
-    LDA $02D8 : BEQ .notSword
-        JSL DecompSwordGfx              ; $52C8 IN ROM
-        JSL Palette_Sword               ; $0DED03 IN ROM
+        LDA $02D8 : BEQ .notSword
+            JSL DecompSwordGfx ; $0052C8 IN ROM
+            JSL Palette_Sword ; $0DED03 IN ROM
     
     .notSword
     
@@ -1008,26 +1006,26 @@ AddReceivedItem:
     STZ $03A4, X
     
     LDA.b #$09 : CPY.b #$01 : BNE .notMasterSword2
-    STA $039F, X
-    
-    ; not sure if this is accurate
-    LDA $02E9 : CMP.b #$02 : BEQ .masterSwordFromSprite
-        LDA.b #$A0 : STA $0C68, X
+        STA $039F, X
         
-        LDA.b #$2B : STA $11
-        
-        LDA.b #$00 : STA $7EC007
-        
-        PHX : PHY
-        
-        LDY.b #$04
-        LDA.b #$35
-        
-        JSL AddSwordCeremony
-        
-        PLY : PLX
-        
-        LDA.b #$02
+        ; not sure if this is accurate
+        LDA $02E9 : CMP.b #$02 : BEQ .masterSwordFromSprite
+            LDA.b #$A0 : STA $0C68, X
+            
+            LDA.b #$2B : STA $11
+            
+            LDA.b #$00 : STA $7EC007
+            
+            PHX : PHY
+            
+            LDY.b #$04
+            LDA.b #$35
+            
+            JSL AddSwordCeremony
+            
+            PLY : PLX
+            
+            LDA.b #$02
     
     .notMasterSword2
     
@@ -1042,7 +1040,7 @@ AddReceivedItem:
     LDY.b #$60
     
     LDA $02E9 : STA $0C54, X : BEQ .fromText
-    LDY.b #$38
+        LDY.b #$38
     
     .fromText
     
@@ -1053,10 +1051,10 @@ AddReceivedItem:
     CMP.b #$37 : BEQ .isCrystalOrPendant
     CMP.b #$38 : BEQ .isCrystalOrPendant
     CMP.b #$39 : BEQ .isCrystalOrPendant
-    CMP.b #$26 : BNE .heartPiece
-    LDY.b #$02
-    
-    BRA .heartPiece
+        CMP.b #$26 : BNE .heartPiece
+            LDY.b #$02
+        
+        BRA .heartPiece
     
     .isCrystalOrPendant
     
@@ -1070,27 +1068,27 @@ AddReceivedItem:
     PLY
     
     LDA $02E9 : CMP.b #$01 : BNE .notFromChest
-    PLA : STA $73
-    PLA : STA $72
-    
-    REP #$20
-    
-    LDA $72 : AND.w #$1F80 : LSR #4 : STA $00
-    LDA $72 : AND.w #$007E : ASL #2 : STA $02
-    
-    SEP #$20
-    
-    ; Since we're indoors (chests only occur indoors), add the base coordinates for the room we're in
-    LDA $01 : CLC : ADC $062F : STA $01
-    LDA $03 : CLC : ADC $062D : STA $03
-    
-    REP #$20
-    
-    LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
-    
-    LDA .x_offsets, X : AND.w #$00FF : CLC : ADC $02
-    
-    BRL .finishedWithCoords
+        PLA : STA $73
+        PLA : STA $72
+        
+        REP #$20
+        
+        LDA $72 : AND.w #$1F80 : LSR #4 : STA $00
+        LDA $72 : AND.w #$007E : ASL #2 : STA $02
+        
+        SEP #$20
+        
+        ; Since we're indoors (chests only occur indoors), add the base coordinates for the room we're in
+        LDA $01 : CLC : ADC $062F : STA $01
+        LDA $03 : CLC : ADC $062D : STA $03
+        
+        REP #$20
+        
+        LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : CLC : ADC $00 : STA $00
+        
+        LDA .x_offsets, X : AND.w #$00FF : CLC : ADC $02
+        
+        BRL .finishedWithCoords
     
     .notFromChest
     
@@ -1098,72 +1096,73 @@ AddReceivedItem:
     
     ; Check method
     LDA $0C54, X : BNE .notFromText
-    ; Check item
-    LDA $0C5E, X : CMP.b #$01 : BNE .notMasterSword4
-        JSL Sound_SetSfxPanWithPlayerCoords
-    
-        ; Play sound of sword being brandished (since we're getting the master sword)
-        ORA.b #$2C : STA $012E
-    
-        BRA .doneWithSoundEffects
+        ; Check item
+        LDA $0C5E, X : CMP.b #$01 : BNE .notMasterSword4
+            JSL Sound_SetSfxPanWithPlayerCoords
+        
+            ; Play sound of sword being brandished (since we're getting the master sword)
+            ORA.b #$2C : STA $012E
+        
+            BRA .doneWithSoundEffects
 
-    .notMasterSword4
+        .notMasterSword4
 
     .notFromText
     
     LDA $0C5E, X : CMP.b #$3E : BEQ .doneWithSoundEffects
-               CMP.b #$17 : BEQ .doneWithSoundEffects
-    ; Is it a crystal?
-    CMP.b #$20 : BEQ .bossVictoryMusic
+                   CMP.b #$17 : BEQ .doneWithSoundEffects
+        ; Is it a crystal?
+        CMP.b #$20 : BEQ .bossVictoryMusic
+            
+        ; These are the three pendants, 0x37, 0x38, and 0x$39
+        CMP.b #$37 : BEQ .bossVictoryMusic
+        CMP.b #$38 : BEQ .bossVictoryMusic
+        CMP.b #$39 : BNE .generalSoundEffect
+            .bossVictoryMusic
         
-    ; These are the three pendants, 0x37, 0x38, and 0x$39
-    CMP.b #$37 : BEQ .bossVictoryMusic
-    CMP.b #$38 : BEQ .bossVictoryMusic
-    CMP.b #$39 : BNE .generalSoundEffect
-        .bossVictoryMusic
-    
+            JSL Sound_SetSfxPanWithPlayerCoords
+            
+            ORA.b #$13 : STA $012C ; Play the boss victory song.
+            
+            BRA .doneWithSoundEffects
+        
+        .generalSoundEffect
+        
         JSL Sound_SetSfxPanWithPlayerCoords
-        
-        ORA.b #$13 : STA $012C ; Play the boss victory song.
-        
-        BRA .doneWithSoundEffects
-    
-    .generalSoundEffect
-    
-    JSL Sound_SetSfxPanWithPlayerCoords
-        
-    ; Play general "you got something sound effect"
-    ORA.b #$0F : STA $012F
+            
+        ; Play general "you got something sound effect"
+        ORA.b #$0F : STA $012F
     
     .doneWithSoundEffects
     
     ; X coord = 0x000A
     LDA.b #$0A : STA $02
-             STZ $03
+
+    STZ $03
     
     ; Check a flag to see whether we should use an alternate default coordinate
     LDY $0C5E, X
     
     LDA .wide_item_flag, Y : BEQ .setCoordinates
-    ; Is it a crystal?
-    CPY.b #$20 : BNE .notCrystal5
-        ; If it is a crystal, don't shift over the item's X position to be
-        ; directly over link, and instead making it right over his left hand
-        ; so he can raise it up.
-        STZ $02
+        ; Is it a crystal?
+        CPY.b #$20 : BNE .notCrystal5
+            ; If it is a crystal, don't shift over the item's X position to be
+            ; directly over link, and instead making it right over his left hand
+            ; so he can raise it up.
+            STZ $02
+            
+            BRA .setCoordinates
         
-        BRA .setCoordinates
-    
-    .notCrystal5
-    
-    LDA.b #$06 : STA $02
+        .notCrystal5
+        
+        LDA.b #$06 : STA $02
     
     .setCoordinates
     
     ; Did we get this item off a special object?
     LDY $02E9 : CPY.b #$03 : BNE .notFromAncilla
-    ; Treat special object given items just like text, when it comes to coordinates
-    LDY.b #$00
+        ; Treat special object given items just like text, when it comes to coordinates
+        LDY.b #$00
     
     .notFromAncilla
     
@@ -1172,9 +1171,9 @@ AddReceivedItem:
     STZ $09
     
     CPY.b #$02 : BNE .noAltitudeAdjustForNonSprite
-    ; $08 = 0xFFF8 (-8)
-    LDA.b #$F8 : STA $08
-                 DEC $09
+        ; $08 = 0xFFF8 (-8)
+        LDA.b #$F8 : STA $08
+                     DEC $09
     
     .noAltitudeAdjustForNonSprite
 
@@ -1190,8 +1189,8 @@ AddReceivedItem:
     LDA #$FFF2 : STA $00
     
     LDA $04 : BEQ .noYAdjustForText
-    ; Sign extend the byte to a 2-byte negative offset for the Y coordinate
-    LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : STA $00
+        ; Sign extend the byte to a 2-byte negative offset for the Y coordinate
+        LDA.w $836C, Y : AND.w #$00FF : ORA.w #$FF00 : STA $00
     
     .noYAdjustForText
     
@@ -1199,8 +1198,8 @@ AddReceivedItem:
     LDA $00 : CLC : ADC $20 : CLC : ADC $08 : STA $00
     
     LDA $04 : BEQ .noXAdjustForText
-    ; Sign extend the byte to a 2-byte position offset for the X coordinate
-    LDA .x_offsets, Y : AND.w #$00FF : STA $02
+        ; Sign extend the byte to a 2-byte position offset for the X coordinate
+        LDA .x_offsets, Y : AND.w #$00FF : STA $02
     
     .noXAdjustForText
     

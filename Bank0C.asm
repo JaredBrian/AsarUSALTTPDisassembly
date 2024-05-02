@@ -4314,7 +4314,7 @@ Attract_PrepMaidenWarp:
 {
     REP #$20
     
-    JSL OverworldMap_PrepExit.restoreHdmaSettings
+    JSL OverworldMap_PrepExit_restoreHdmaSettings
     
     ; $0670E2 ALTERNATE ENTRY POINT
     

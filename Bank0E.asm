@@ -4580,7 +4580,7 @@ Credits_AddNextAttribution:
 {
     PHB : PHK : PLB
         
-    REP.b #$30
+    REP #$30
         
     LDX.w $1000
         
@@ -4718,7 +4718,7 @@ Credits_AddNextAttribution:
     
     STY.b $C8
         
-    SEP.b #$30
+    SEP #$30
         
     LDA.b #$FF : STA.w $1002, X
         

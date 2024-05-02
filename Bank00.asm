@@ -84,7 +84,7 @@ Vector_Reset:
 ; ==============================================================================
 
 ; $000061-$0000B4 JUMP TABLE FOR SR$0085
-pool Module_MainRouting: 
+Pool_Module_MainRouting: 
 {
     ; TODO: Reference jpdisasm for interleaved long pointers
     interleave
@@ -3710,7 +3710,7 @@ Tagalong_LoadGfx:
 ; ==============================================================================
 
 ; $005469-$0054DA DATA
-pool GetAnimatedSpriteTile:
+Pool_GetAnimatedSpriteTile:
 {
     dw $09C0, $0030, $0060, $0090, $00C0, $0300, $0318, $0330
     dw $0348, $0360, $0378, $0390, $0930, $03F0, $0420, $0450
@@ -4302,7 +4302,7 @@ Attract_DecompressStoryGfx:
 ; ==============================================================================
 
 ; $005837-$005854 Jump Table ; overworld mirror warp gfx decompression
-pool_AnimateMirrorWarp:
+Pool_AnimateMirrorWarp:
 {
     ; TODO: interleaved!
 
@@ -4904,7 +4904,7 @@ AnimateMirrorWarp:
 }
 
 ; $005EDF-$005EFE DATA
-pool Graphics_IncrementalVramUpload:
+Pool_Graphics_IncrementalVramUpload:
 {
     ; $005EDF
     db $50, $51, $52, $53, $54, $55, $56, $57
@@ -6884,7 +6884,7 @@ Palette_Filter_SP5F:
 ; ==============================================================================
 
 ; $006C54-$006C78 BRANCH LOCATION
-pool KholdstareShell_PaletteFiltering:
+Pool_KholdstareShell_PaletteFiltering:
 {
     .initialize
 
@@ -6963,7 +6963,7 @@ KholdstareShell_PaletteFiltering:
 ; ==============================================================================
 
 ; $006CC4-$006CC9 DATA
-pool PaletteFilter_Agahnim:
+Pool_PaletteFilter_Agahnim:
 {
     .palette_offsets
     dw $0160, $0180, $01A0
@@ -7885,7 +7885,7 @@ Spotlight:
 ; ==============================================================================
 
 ; $007302-$007311 DATA
-pool ConfigureSpotlightTable:
+Pool_ConfigureSpotlightTable:
 {
     ; granularity of how much the spotlight expands or dilates each frame
     .delta_size

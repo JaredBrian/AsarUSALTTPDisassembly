@@ -38,7 +38,7 @@ RefreshIconLong:
     
     PHB : PHK : PLB
 
-    JSR Equipment_SearchForEquippedItem
+    JSR SearchForEquippedItem
     JSR Equipment_UpdateHUD
     JSR Rebuild
 

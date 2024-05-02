@@ -4052,49 +4052,49 @@ Link_ReceiveItem:
     
     ; Is Link in another type of mode besides ground state?
     LDA $4D : BEQ .groundState
-    ; If not, bring him back to normal so he can get this item.
-    STZ $4D : STZ $46
-    
-    STZ $031F : STZ $0308
+        ; If not, bring him back to normal so he can get this item.
+        STZ $4D : STZ $46
+        
+        STZ $031F : STZ $0308
     
     .groundState
     
     ; The index of the item we're going to give to Link.
     ; Did Link receive a heart container?
     STY $02D8 : CPY.b #$3E : BNE .notHeartContainer
-    ; Link received a heart container.. handle it.
-    LDA.b #$2E : JSR Player_DoSfx3
+        ; Link received a heart container.. handle it.
+        LDA.b #$2E : JSR Player_DoSfx3
     
     .notHeartContainer
     
     LDA.b #$60 : STA $02D9
     
     LDA $02E9 : BEQ .fromTextOrObject
-    ; 0x03 = grabbed an item off the floor (from an ancillary object).
-    CMP.b #$03 : BNE .fromChestOrSprite
-        .fromTextOrObject
-    
-        STZ $0308
+        ; 0x03 = grabbed an item off the floor (from an ancillary object).
+        CMP.b #$03 : BNE .fromChestOrSprite
+            .fromTextOrObject
         
-        ; Zero out player input.
-        STZ $3A : STZ $3B : STZ $3C
+            STZ $0308
+            
+            ; Zero out player input.
+            STZ $3A : STZ $3B : STZ $3C
+            
+            STZ $5E : STZ $50
+            
+            STZ $0301 : STZ $037A : STZ $0300
+            
+            ; Put Link in a position looking up at his item.
+            LDA.b #$15 : STA $5D
+            
+            LDA.b #$01 : STA $02DA : STA $037B
+            
+            ; Is the item a crystal?
+            CPY.b #$20 : BNE .notCrystal
+                ; up the ante or whatever >_>
+                ; (Puts Link in a different pose holding the item up with two hands)
+                INC A : STA $02DA
         
-        STZ $5E : STZ $50
-        
-        STZ $0301 : STZ $037A : STZ $0300
-        
-        ; Put Link in a position looking up at his item.
-        LDA.b #$15 : STA $5D
-        
-        LDA.b #$01 : STA $02DA : STA $037B
-        
-        ; Is the item a crystal?
-        CPY.b #$20 : BNE .notCrystal
-            ; up the ante or whatever >_>
-            ; (Puts Link in a different pose holding the item up with two hands)
-            INC A : STA $02DA
-    
-        .notCrystal
+            .notCrystal
 
     .fromChestOrSprite
     
@@ -4111,7 +4111,7 @@ Link_ReceiveItem:
     CMP.b #$37 : BEQ .noHudRefresh
     CMP.b #$38 : BEQ .noHudRefresh
     CMP.b #$39 : BEQ .noHudRefresh
-    JSL HUD.RefreshIconLong
+        JSL HUD.RefreshIconLong
     
     .noHudRefresh
     
@@ -8492,63 +8492,56 @@ Link_Chest:
     
     ; Not facing up... (can't open the chest)
     LDA $2F : BNE .cantAttempt
+        ; Is Link already opening the chest?
+        LDA $02E9 : BNE .cantAttempt
+            ; Is Link in the auxiliary ground state?
+            LDA $4D : BNE .cantAttempt
+                ; Clear the A button location
+                STZ $3B
+                
+                LDA $76
+                
+                ; Carry clear means failure. So branch if it failed.
+                JSL Dungeon_OpenKeyedObject : BCC .cantOpen
+                    ; Set indicate that the Receive Item method is from a chest.
+                    LDA.b #$01 : STA $02E9
+                    
+                    ; Okay... so what item did we get?
+                    ; Items don't run into the negatives, so we messed up.
+                    LDY $0C : BMI .cantOpen
+                        ; Load an alternate item to use.
+                        ; If it's 0xFF it seems obvious it isn't an alternate b/c items can't be negative.
+                        LDA Link_ReceiveItemAlternates, Y : STA $03
+                        
+                        CMP.b #$FF : BEQ .dontUseAlternate
+                            TYA : ASL A : TAX
+                            
+                            ; Determine what memory location to give this item over to.
+                            ; Effective address at [$00] is $7E:???? as determined above.
+                            LDA ItemTargetAddr+0, X : STA $00
+                            LDA ItemTargetAddr+1, X : STA $01
+                            LDA.b #$7E              : STA $02
+                            
+                            ; Check what's at that location. Is it empty? (i.e. zero?)
+                            ; We don't have it yet.
+                            LDA [$00] : BEQ .dontUseAlternate
+                                ; If we do have it, load the alternate.
+                                LDY $03
+                        
+                        .dontUseAlternate
+                        
+                        ; Link is opening a chest.
+                        JSL Link_ReceiveItem
+                        
+                        BRA .return
+                
+                .cantOpen
+                
+                ; set item method to... from text?
+                STZ $02E9
     
-    ; Is Link already opening the chest?
-    LDA $02E9 : BNE .cantAttempt
-    
-    ; Is Link in the auxiliary ground state?
-    LDA $4D : BNE .cantAttempt
-    
-    ; Clear the A button location
-    STZ $3B
-    
-    LDA $76
-    
-    ; Carry clear means failure. So branch if it failed.
-    JSL Dungeon_OpenKeyedObject : BCC .cantOpen
-    
-    ; Set indicate that the Receive Item method is from a chest.
-    LDA.b #$01 : STA $02E9
-    
-    ; Okay... so what item did we get?
-    ; Items don't run into the negatives, so we messed up.
-    LDY $0C : BMI .cantOpen
-    
-    ; Load an alternate item to use.
-    ; If it's 0xFF it seems obvious it isn't an alternate b/c items can't be negative.
-    LDA Link_ReceiveItemAlternates, Y : STA $03
-    
-    CMP.b #$FF : BEQ .dontUseAlternate
-    
-    TYA : ASL A : TAX
-    
-    ; Determine what memory location to give this item over to.
-    ; Effective address at [$00] is $7E:???? as determined above.
-    LDA ItemTargetAddr+0, X : STA $00
-    LDA ItemTargetAddr+1, X : STA $01
-    LDA.b #$7E              : STA $02
-    
-    ; Check what's at that location. Is it empty? (i.e. zero?)
-    ; We don't have it yet.
-    LDA [$00] : BEQ .dontUseAlternate
-    
-    ; If we do have it, load the alternate.
-    LDY $03
-    
-    .dontUseAlternate
-    
-    ; Link is opening a chest.
-    JSL Link_ReceiveItem
-    
-    BRA .return
-    
-    .cantOpen
-    
-    ; set item method to... from text?
-    STZ $02E9
-    
-    .cantAttempt
     .return
+    .cantAttempt
     
     RTS
 }

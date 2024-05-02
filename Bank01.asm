@@ -11008,26 +11008,25 @@ Tag_Watergate:
     .alpha
     
     LDA $0403 : AND.b #$01 : BEQ .chestNotOpened
-    
-    ; $00CC6E ALTERNATE ENTRY POINT
-    
-    ; Tell the "show dungeon overlay" submodule which overlay to use.
-    STY $04BA
-    
-    SEP #$30
-    
-    STZ $BA
-    STZ $BB
-    STZ $B0
-    
-    ; Play "puzzle solved" sound effect
-    LDA.b #$1B : STA $012F
-    
-    LDA.b #$03 : STA $11
-    
-    LDX $0E
-    
-    STZ $AE, X
+        ; $00CC6E ALTERNATE ENTRY POINT
+        
+        ; Tell the "show dungeon overlay" submodule which overlay to use.
+        STY $04BA
+        
+        SEP #$30
+        
+        STZ $BA
+        STZ $BB
+        STZ $B0
+        
+        ; Play "puzzle solved" sound effect
+        LDA.b #$1B : STA $012F
+        
+        LDA.b #$03 : STA $11
+        
+        LDX $0E
+        
+        STZ $AE, X
     
     .chestNotOpened
     
@@ -11061,77 +11060,73 @@ Object_WatergateChannelWater:
     
     .nextObjectGroup
     
-    STZ $B2
-    STZ $B4
-    
-    LDY $BA : LDA [$BY], Y : CMP.w #$FFFF : BNE .validObjectData
-    
-    SEP #$30
-    
-    RTS
-    
-    .validObjectData
-    
-    !startPos = $08
-    
-    ; Load a dungeon the way we normally would, but in a a more limited
-    ; way (hint: it's only water objects we're drawing)
-    STA $00
-    
-    SEP #$20
-    
-    AND.b #$FC : STA !startPos
-    
-    LDA $00 : AND.b #$03 : INC A : STA $B2
-    LDA $01 : AND.b #$03 : INC A : STA $B4
-    
-    INY #3 : STY $BA
-    
-    LDA $01 : LSR #3 : ROR !startPos : STA $09
-    
-    REP #$20
-    
-    LDX !startPos
-    
-    LDY.w #$0110
-    
-    .nextRow
-    
-    !numRows    = $B4
-    !numColumns = $0A
-    
-    LDA $B2 : STA !numColumns
-    
-    .move_right_for_next_block
-    
-    !num2x4s = $04
-    
-    ; this loop draws a 4 row by 4 column block of tiles
-    LDA.w #$0002 : STA !num2x4s
-    
-    .next2x4
-    
-    LDA.w $9B52, Y : STA $7E4000, X
-    LDA.w $9B54, Y : STA $7E4002, X
-    LDA.w $9B56, Y : STA $7E4004, X
-    LDA.w $9B58, Y : STA $7E4006, X
-    LDA.w $9B5A, Y : STA $7E4080, X
-    LDA.w $9B5C, Y : STA $7E4082, X
-    LDA.w $9B5E, Y : STA $7E4084, X
-    LDA.w $9B60, Y : STA $7E4086, X
-    
-    TXA : CLC : ADC.w #$0100 : TAX
-    
-    DEC !num2x4s : BNE .next2x4
-    
-    TXA : SEC : SBC.w #$01F8 : TAX
-    
-    DEC !numColumns : BNE .moveRightFornext_block
-    
-    LDA !startPos : CLC : ADC.w #$0200 : STA !startPos : TAX
-    
-    DEC !numRows : BNE .nextRow
-    
+        STZ $B2
+        STZ $B4
+        
+        LDY $BA : LDA [$BY], Y : CMP.w #$FFFF : BNE .validObjectData
+            SEP #$30
+            
+            RTS
+        
+        .validObjectData
+        
+        !startPos = $08
+        
+        ; Load a dungeon the way we normally would, but in a a more limited
+        ; way (hint: it's only water objects we're drawing)
+        STA $00
+        
+        SEP #$20
+        
+        AND.b #$FC : STA !startPos
+        
+        LDA $00 : AND.b #$03 : INC A : STA $B2
+        LDA $01 : AND.b #$03 : INC A : STA $B4
+        
+        INY #3 : STY $BA
+        
+        LDA $01 : LSR #3 : ROR !startPos : STA $09
+        
+        REP #$20
+        
+        LDX !startPos
+        
+        LDY.w #$0110
+        
+        .nextRow
+        
+            !numRows    = $B4
+            !numColumns = $0A
+            
+            LDA $B2 : STA !numColumns
+            
+            .move_right_for_next_block
+            
+            !num2x4s = $04
+            
+            ; this loop draws a 4 row by 4 column block of tiles
+            LDA.w #$0002 : STA !num2x4s
+            
+            .next2x4
+            
+                LDA.w $9B52, Y : STA $7E4000, X
+                LDA.w $9B54, Y : STA $7E4002, X
+                LDA.w $9B56, Y : STA $7E4004, X
+                LDA.w $9B58, Y : STA $7E4006, X
+                LDA.w $9B5A, Y : STA $7E4080, X
+                LDA.w $9B5C, Y : STA $7E4082, X
+                LDA.w $9B5E, Y : STA $7E4084, X
+                LDA.w $9B60, Y : STA $7E4086, X
+                
+                TXA : CLC : ADC.w #$0100 : TAX
+            DEC !num2x4s : BNE .next2x4
+            
+            TXA : SEC : SBC.w #$01F8 : TAX
+            
+            DEC !numColumns : BNE .move_right_for_next_block
+            
+            LDA !startPos : CLC : ADC.w #$0200 : STA !startPos : TAX
+        DEC !numRows : BNE .nextRow
     JMP .nextObjectGroup
 }
 
@@ -13505,8 +13500,7 @@ Dungeon_OpenKeyedObject:
     PHB : LDX.b #$00 : PHX : PLB
     
     CMP.b #$63 : BNE .notMiniGameChest
-    
-    JMP Dungeon_OpenMinigameChest
+        JMP Dungeon_OpenMinigameChest
     
     .notMiniGameChest
     
@@ -13519,60 +13513,58 @@ Dungeon_OpenKeyedObject:
     
     ; if it's not a big key lock
     LDA $06E0, Y : CMP.w #$8000 : BCC .notBigKeyLock
-    
-    ; It's a big key lock. We have to examine the Big Key data.
-    LDX $040C
-    
-    ; (this is the Big Key data)
-    ; Branch if we have the Big Key.
-    LDA $7EF366 : AND $0098C0, X : BNE .openBigKeyLock
-    
-    ; It's the "Eh? You don't have the big key" crap text message.
-    LDA.w #$007A : STA $1CF0
-    
-    SEP #$30
-    
-    JSL Main_ShowTextMessage
-    
-    REP #$30
-    
-    BRA .cantOpenBigKeyLock
-    
-    .openBigKeyLock
-    
-    ; Set it so that the chest/lock is unlocked
-    LDA $0402 : ORA $9900, Y : STA $0402
-    
-    ; Chest opening noise.
-    LDA.w #$1529 : STA $012E
-    
-    LDA $06E0, Y : AND.w #$7FFF : TAX
-    
-    LDY $046A
-    
-    ; Draw floor tiles over the old ones (won't be permanent)
-    LDA.w $9B52, Y : STA $7E2000, X : STA $02
-    LDA.w $9B54, Y : STA $7E2080, X : STA $04
-    LDA.w $9B56, Y : STA $7E2002, X : STA $06
-    LDA.w $9B58, Y
-    
-    JMP .storeTilemapChanges
-    
-    .couldntFindChest
-    
-    PLX
-    
-    .cantOpenBigKeyLock
-    
-    PLY : PLA
-    
-    SEP #$30
-    
-    PLB
-    
-    CLC
-    
-    RTL
+        ; It's a big key lock. We have to examine the Big Key data.
+        LDX $040C
+        
+        ; (this is the Big Key data)
+        ; Branch if we have the Big Key.
+        LDA $7EF366 : AND $0098C0, X : BNE .openBigKeyLock
+            ; It's the "Eh? You don't have the big key" crap text message.
+            LDA.w #$007A : STA $1CF0
+            
+            SEP #$30
+            
+            JSL Main_ShowTextMessage
+            
+            REP #$30
+            
+            BRA .cantOpenBigKeyLock
+        
+        .openBigKeyLock
+        
+        ; Set it so that the chest/lock is unlocked
+        LDA $0402 : ORA $9900, Y : STA $0402
+        
+        ; Chest opening noise.
+        LDA.w #$1529 : STA $012E
+        
+        LDA $06E0, Y : AND.w #$7FFF : TAX
+        
+        LDY $046A
+        
+        ; Draw floor tiles over the old ones (won't be permanent)
+        LDA.w $9B52, Y : STA $7E2000, X : STA $02
+        LDA.w $9B54, Y : STA $7E2080, X : STA $04
+        LDA.w $9B56, Y : STA $7E2002, X : STA $06
+        LDA.w $9B58, Y
+        
+        JMP .storeTilemapChanges
+        
+        .couldntFindChest
+        
+        PLX
+        
+        .cantOpenBigKeyLock
+        
+        PLY : PLA
+        
+        SEP #$30
+        
+        PLB
+        
+        CLC
+        
+        RTL
     
     .notBigKeyLock
     
@@ -13584,12 +13576,12 @@ Dungeon_OpenKeyedObject:
     
     .nextChest
     
-    ; This limits us to 168 chests... might have to change.
-    INX #3 : CPX.w #$01F8 : BEQ .couldntFindChest
-    
-    ; An array of chest data, including the room and item number.
-    ; Does the room in the data match the room we're in?
-    LDA Dungeon_ChestData, X : AND.w #$7FFF : CMP $A0 : BNE .nextChest
+            ; This limits us to 168 chests... might have to change.
+            INX #3 : CPX.w #$01F8 : BEQ .couldntFindChest
+        
+        ; An array of chest data, including the room and item number.
+        ; Does the room in the data match the room we're in?
+        LDA Dungeon_ChestData, X : AND.w #$7FFF : CMP $A0 : BNE .nextChest
     
     ; Not sure why this is here yet...
     DEC $0E : BNE .nextChest
@@ -13599,40 +13591,38 @@ Dungeon_OpenKeyedObject:
     
     ; Load the room index for the chest.
     LDA Dungeon_ChestData, X : ASL A : BCC .smallChest
-    
-    ; otherwise it's a (you guessed it...) Big Chest.
-    LDX $040C
-    
-    ; Make sure we have the key to it.
-    LDA $7EF366 : AND $0098C0, X : BEQ .cantOpenBigChest
-    
-    PLX : PLA
-    
-    JMP Dungeon_OpenBigChest
-    
-    .cantOpenBigChest
-    
-    PLX : PLY : PLA
-    
-    ; Again the "eh, you don't have the big key" message...
-    LDA.w #$007A : STA $1CF0
-    
-    SEP #$30
-    
-    JSL Main_ShowTextMessage
-    
-    PLB
-    
-    CLC
-    
-    RTL
+        ; otherwise it's a (you guessed it...) Big Chest.
+        LDX $040C
+        
+        ; Make sure we have the key to it.
+        LDA $7EF366 : AND $0098C0, X : BEQ .cantOpenBigChest
+            PLX : PLA
+            
+            JMP Dungeon_OpenBigChest
+        
+        .cantOpenBigChest
+        
+        PLX : PLY : PLA
+        
+        ; Again the "eh, you don't have the big key" message...
+        LDA.w #$007A : STA $1CF0
+        
+        SEP #$30
+        
+        JSL Main_ShowTextMessage
+        
+        PLB
+        
+        CLC
+        
+        RTL
     
     .smallChest
     
     PLX
     
     ; Load room information about chests. Indicate to the game that this chest has been opened.
-    LDA $0402 : ORA $9900, Y : STA $0402
+    LDA $0402 : ORA RoomFlagMask, Y : STA $0402
     
     LDY.w #$14A4
     
@@ -13652,11 +13642,10 @@ Dungeon_OpenKeyedObject:
     
     ; Is this a big key lock?
     LDA $06E0, Y : CMP.w #$8000 : BCC .notBigKeyLock2
-    
-    AND.w #$7FFF
-    
-    ; Use tile attr of 0x00 for each updated tile instead.
-    STZ $00
+        AND.w #$7FFF
+        
+        ; Use tile attr of 0x00 for each updated tile instead.
+        STZ $00
     
     .notBigKeyLock2
     
@@ -13712,9 +13701,8 @@ Dungeon_OpenKeyedObject:
     
     ; Is there a sound channel available?
     LDA $012F : BNE .sfx3ChannelNotAvailable
-    
-    ; Make the "chest opening" noise.
-    LDA.b #$0E : STA $012F
+        ; Make the "chest opening" noise.
+        LDA.b #$0E : STA $012F
     
     .sfx3ChannelNotAvailable
     

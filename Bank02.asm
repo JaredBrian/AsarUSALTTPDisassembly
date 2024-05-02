@@ -3604,7 +3604,7 @@ StraightStairs_11:
     .BRANCH_EPSILON
 
     LDA.b $00 : BNE .BRANCH_THETA
-        REP.b #$20
+        REP #$20
 
         LDA.w #$000C
 
@@ -6644,7 +6644,7 @@ OverworldHandleTransitions:
 
         RTS
 
-    ; $12A33
+    ; $012A33
     .BRANCH_EPSILON ; Triggers when Link finally reaches the edge of the screen.
 
     SEP #$20
@@ -6672,11 +6672,13 @@ OverworldHandleTransitions:
     SEP #$30
 
     LDA.b $8A : PHA : CMP.b #$2A : BNE .notFluteBoyGrove
-        LDA.b #$80 : STA.w $012D    ; Flute boy area has special flute sound effect (surprise?).
+        ; Flute boy area has special flute sound effect (surprise?).
+        LDA.b #$80 : STA.w $012D
 
     .notFluteBoyGrove
 
-    ; Sets the OW area number ; $0125EC in rom
+    ; The "custom lost woods" asm hooks in right here.
+    ; $012A7D Sets the OW area number
     LDA.l $02A5EC, X : ORA.l $7EF3CA : STA.b $8A : STA.w $040A : TAX
 
     LDA.l $7EF3CA : BEQ .lightWorld
@@ -9905,7 +9907,7 @@ StraightStairs_10:
 ; ==============================================================================
 
 ; $013EBA-$013FF9 DATA
-pool OverworldScrollTransition Overworld_SetCameraBoundaries
+Pool_OverworldScrollTransition Overworld_SetCameraBoundaries
 
 .coordinate_camera_adjust
 {
@@ -15111,8 +15113,8 @@ Map16ChunkToMap8:
     ; Y = ($84 - 0x0410) & 0x1FFF
     ; X = $86 << 1
     ; $00 = 0x0010
-    LDA.b $84      : SEC : SBC.w #$0410 : AND.w #$1FFF : TAY
-    LDA.b $86      : ASL A : TAX
+    LDA.b $84 : SEC : SBC.w #$0410 : AND.w #$1FFF : TAY
+    LDA.b $86 : ASL A : TAX
     LDA.w #$0010 : STA.b $00
 
     .getMap16Chunk

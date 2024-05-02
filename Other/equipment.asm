@@ -325,13 +325,10 @@ DoWeHaveThisItem:
     LDX $0202
     
     ; Check to see if we have this item...
-    LDA $7EF33F, X
-    
-    BNE .haveThisItem
-    
-    CLC
-    
-    RTS
+    LDA $7EF33F, X : BNE .haveThisItem
+        CLC
+        
+        RTS
     
     .haveThisItem
     
@@ -346,8 +343,7 @@ DoWeHaveThisItem:
 GoToPrevItem:
 {
     LDA $0202 : DEC A : CMP.b #$01 : BCS .dontReset
-    
-    LDA.b #$14
+        LDA.b #$14
     
     .dontReset
     
@@ -364,8 +360,7 @@ GotoNextItem:
     ; Load our currently equipped item, and move to the next one
     ; If we reach our limit (21), set it back to the bow and arrow slot.
     LDA $0202 : INC A : CMP.b #$15 : BCC .dontReset
-    
-    LDA.b #$01
+        LDA.b #$01
     
     .dontReset
     
@@ -382,8 +377,7 @@ TryEquipPrevItem:
 {
     .keepLooking
     
-    JSR GoToPrevItem
-    
+        JSR GoToPrevItem
     JSR DoWeHaveThisItem : BCC .keepLooking
     
     RTS
@@ -396,8 +390,7 @@ TryEquipNextItem:
 {
     .keepLooking
     
-    JSR GoToNextItem
-    
+        JSR GoToNextItem
     JSR DoWeHaveThisItem : BCC .keepLooking
     
     RTS
@@ -410,12 +403,11 @@ TryEquipItemAbove:
 {
     .keepLooking
     
-    JSR GoToPrevItem
-    JSR GoToPrevItem
-    JSR GoToPrevItem
-    JSR GoToPrevItem
-    JSR GoToPrevItem
-    
+        JSR GoToPrevItem
+        JSR GoToPrevItem
+        JSR GoToPrevItem
+        JSR GoToPrevItem
+        JSR GoToPrevItem
     JSR DoWeHaveThisItem : BCC .keepLooking
     
     RTS
@@ -428,12 +420,11 @@ TryEquipItemBelow:
 {
     .keepLooking
     
-    JSR GoToNextItem
-    JSR GoToNextItem
-    JSR GoToNextItem
-    JSR GoToNextItem
-    JSR GoToNextItem
-    
+        JSR GoToNextItem
+        JSR GoToNextItem
+        JSR GoToNextItem
+        JSR GoToNextItem
+        JSR GoToNextItem
     JSR DoWeHaveThisItem : BCC .keepLooking
     
     RTS
@@ -1086,6 +1077,7 @@ DrawItem:
 ; ==============================================================================
 
 ; $06E395-$06E398 LONG JUMP LOCATION
+; TODO: Unused? Investigate.
 SearchForEquippedItemLong:
 {
     JSR SearchForEquippedItem
@@ -1106,31 +1098,29 @@ SearchForEquippedItem:
     
     ; Go through all our equipable items, hoping to find at least one available
     .itemCheck
-    
+        ; Loop.
     ORA $7EF341, X : DEX : BPL .itemCheck                     
     
     CMP.b #$00 : BNE .equippableItemAvailable
-    
-    ; In this case we have no equippable items
-    STZ $0202 : STZ $0203 : STZ $0204
-    
-    .weHaveThatItem
-    
-    RTS
+        ; In this case we have no equippable items
+        STZ $0202 : STZ $0203 : STZ $0204
+        
+        .weHaveThatItem
+        
+        RTS
     
     .equippableItemAvailable
     
     ; Is there an item currently equipped (in the HUD slot)?
     LDA $0202 : BNE .alreadyEquipped
-    
-    ; If not, set the equipped item to the Bow and Arrow (even if we don't actually have it)
-    LDA.b #$01 : STA $0202
+        ; If not, set the equipped item to the Bow and Arrow (even if we don't actually have it)
+        LDA.b #$01 : STA $0202
     
     .alreadyEquipped
     
     ; Checks to see if we actually have that item
     ; We're done if we have that item
-    JSR DoWeHaveThisItem : BCS .wehaveThatItem
+    JSR DoWeHaveThisItem : BCS .weHaveThatItem
     
     JMP TryEquipNextItem
 }
@@ -1148,8 +1138,7 @@ GetPaletteMask:
     LDX.b #$E3
     
     CMP.b #$00 : BEQ .alpha
-    
-    LDX.b #$FF
+        LDX.b #$FF
     
     .alpha
     
@@ -1178,11 +1167,10 @@ DrawYButtonItems:
     
     .drawVerticalEdges
     
-    LDA.w #$3CFC : AND $00 : STA $1182, X
-    ORA.w #$4000 : STA $11A6, X
-    
-    TXA : CLC : ADC.w #$0040 : TAX
-    
+        LDA.w #$3CFC : AND $00 : STA $1182, X
+        ORA.w #$4000 : STA $11A6, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
     DEY : BPL .drawVerticalEdges
     
     LDX.w #$0000
@@ -1190,11 +1178,10 @@ DrawYButtonItems:
     
     .drawHorizontalEdges
     
-    LDA.w #$3CF9 : AND $00 : STA $1144, X
-    ORA.w #$8000 : STA $14C4, X
-    
-    INX #2
-    
+        LDA.w #$3CF9 : AND $00 : STA $1144, X
+        ORA.w #$8000 : STA $14C4, X
+        
+        INX #2
     DEY : BPL .drawHorizontalEdges
     
     LDX.w #$0000
@@ -1203,13 +1190,12 @@ DrawYButtonItems:
     
     .drawBoxInterior
     
-    STA $1184, X : STA $11C4, X : STA $1204, X : STA $1244, X
-    STA $1284, X : STA $12C4, X : STA $1304, X : STA $1344, X
-    STA $1384, X : STA $13C4, X : STA $1404, X : STA $1444, X
-    STA $1484, X
-    
-    INX #2
-    
+        STA $1184, X : STA $11C4, X : STA $1204, X : STA $1244, X
+        STA $1284, X : STA $12C4, X : STA $1304, X : STA $1344, X
+        STA $1384, X : STA $13C4, X : STA $1404, X : STA $1444, X
+        STA $1484, X
+        
+        INX #2
     DEY : BPL .drawBoxInterior
     
     ; Draw 'Y' button Icon
@@ -1245,8 +1231,7 @@ DrawYButtonItems:
     LDA.w #$11DA : STA $00
     
     LDA $7EF343 : AND.w #$00FF : BEQ .gotNoBombs
-    
-    LDA.w #$0001
+        LDA.w #$0001
     
     .gotNoBombs
     
@@ -1335,10 +1320,9 @@ DrawYButtonItems:
     
     ; there is an active bottle
     LDA $7EF34F : AND.w #$00FF : TAX : BNE .haveSelectedBottle
-    
-    LDA.w #$0000
-    
-    BRA .noSelectedBottle
+        LDA.w #$0000
+        
+        BRA .noSelectedBottle
     
     .haveSelectedBottle
     
@@ -1399,11 +1383,10 @@ DrawSelectedItemBox:
     ; the lines these tiles make are vertical
     .drawBoxVerticalSides
     
-    LDA.w #$3CFC : AND $00 : STA $11AA, X
-    ORA.w #$4000 : STA $11BC, X
-    
-    TXA : CLC : ADC.w #$0040 : TAX
-    
+        LDA.w #$3CFC : AND $00 : STA $11AA, X
+        ORA.w #$4000 : STA $11BC, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
     DEY : BPL .drawBoxVerticalSides
     
     LDX.w #$0000
@@ -1412,11 +1395,10 @@ DrawSelectedItemBox:
     ; I say horizontal b/c the lines the sides make are horizontal
     .drawBoxHorizontalSides
     
-    LDA.w #$3CF9 : AND $00 : STA $116C, X
-    ORA.w #$8000 : STA $12AC, X
-    
-    INX #2
-    
+        LDA.w #$3CF9 : AND $00 : STA $116C, X
+        ORA.w #$8000 : STA $12AC, X
+        
+        INX #2
     DEY : BPL .drawBoxHorizontalSides
     
     LDX.w #$0000
@@ -1425,10 +1407,9 @@ DrawSelectedItemBox:
     
     .drawBoxInterior
     
-    STA $11AC, X : STA $11EC, X : STA $122C, X : STA $126C, X ; init description draw
-    
-    INX #2
-    
+        STA $11AC, X : STA $11EC, X : STA $122C, X : STA $126C, X ; init description draw
+        
+        INX #2
     DEY : BPL .drawBoxInterior
     
     SEP #$30
@@ -1449,12 +1430,11 @@ DrawAbilityText:
     
     .drawBoxInterior
     
-    STA $1584, X : STA $15C4, X
-    STA $1604, X : STA $1644, X
-    STA $1684, X : STA $16C4, X
-    
-    STA $1704, X : INX #2
-    
+        STA $1584, X : STA $15C4, X
+        STA $1604, X : STA $1644, X
+        STA $1684, X : STA $16C4, X
+        
+        STA $1704, X : INX #2
     DEY : BPL .drawBoxInterior
     
     ; get data from ability variable (set of flags for each ability)
@@ -1466,34 +1446,31 @@ DrawAbilityText:
     
     .nextLine
     
-    LDA.w #$0004 : STA $06
-    
-    .nextAbility
-    
-    ASL $02 : BCC .lacksAbility
-    
-    ; Draws the ability strings if Link has the ability
-    ; (2 x 5 tile rectangle for each ability)
-    LDA.w $F959, X : STA $1588, Y
-    LDA.w $F95B, X : STA $158A, Y
-    LDA.w $F95D, X : STA $158C, Y
-    LDA.w $F95F, X : STA $158E, Y
-    LDA.w $F961, X : STA $1590, Y
-    LDA.w $F963, X : STA $15C8, Y
-    LDA.w $F965, X : STA $15CA, Y
-    LDA.w $F967, X : STA $15CC, Y
-    LDA.w $F969, X : STA $15CE, Y
-    LDA.w $F96B, X : STA $15D0, Y
-    
-    .lacksAbility
-    
-    TXA : CLC : ADC.w #$0014 : TAX
-    TYA : CLC : ADC.w #$000A : TAY
-    
-    DEC $06 : BNE .nextAbility
-    
-    TYA : CLC : ADC.w #$0058 : TAY
-    
+        LDA.w #$0004 : STA $06
+        
+        .nextAbility
+        
+            ASL $02 : BCC .lacksAbility
+                ; Draws the ability strings if Link has the ability
+                ; (2 x 5 tile rectangle for each ability)
+                LDA.w $F959, X : STA $1588, Y
+                LDA.w $F95B, X : STA $158A, Y
+                LDA.w $F95D, X : STA $158C, Y
+                LDA.w $F95F, X : STA $158E, Y
+                LDA.w $F961, X : STA $1590, Y
+                LDA.w $F963, X : STA $15C8, Y
+                LDA.w $F965, X : STA $15CA, Y
+                LDA.w $F967, X : STA $15CC, Y
+                LDA.w $F969, X : STA $15CE, Y
+                LDA.w $F96B, X : STA $15D0, Y
+            
+            .lacksAbility
+            
+            TXA : CLC : ADC.w #$0014 : TAX
+            TYA : CLC : ADC.w #$000A : TAY
+        DEC $06 : BNE .nextAbility
+        
+        TYA : CLC : ADC.w #$0058 : TAY
     DEC $04 : BNE .nextLine
     
     ; draw the 4 corners of the box containing the ability tiles
@@ -1507,10 +1484,10 @@ DrawAbilityText:
     
     .drawVerticalEdges
     
-    LDA.w #$24FC : AND $00 : STA $1582, X
-    ORA.w #$4000 : STA $15A6, X
-    
-    TXA : CLC : ADC.w #$0040 : TAX
+        LDA.w #$24FC : AND $00 : STA $1582, X
+        ORA.w #$4000 : STA $15A6, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
     
     DEY : BPL .drawVerticalEdges
     
@@ -1519,11 +1496,10 @@ DrawAbilityText:
     
     .drawHorizontalEdges
     
-    LDA.w #$24F9 : AND $00 : STA $1544, X
-    ORA.w #$8000 : STA $1744, X
-    
-    INX #2
-    
+        LDA.w #$24F9 : AND $00 : STA $1544, X
+        ORA.w #$8000 : STA $1744, X
+        
+        INX #2
     DEY : BPL .drawHorizontalEdges
     
     ; Draw 'A' button icon
@@ -1567,19 +1543,18 @@ DrawAbilityIcons:
     LDA $7EF354
     
     AND.w #$00FF : BEQ .finished
-    CMP.w #$0001 : BNE .titansMitt
-    
-    LDA.w #$0000
-    
-    JSR DrawGloveAbility
-    
-    BRA .finished
-    
-    .titansMitt
-    
-    LDA.w #$0001
-    
-    JSR DrawGloveAbility
+        CMP.w #$0001 : BNE .titansMitt
+            LDA.w #$0000
+            
+            JSR DrawGloveAbility
+            
+            BRA .finished
+        
+        .titansMitt
+        
+        LDA.w #$0001
+        
+        JSR DrawGloveAbility
     
     .finished
     
@@ -1661,8 +1636,7 @@ DrawGloveAbility:
 DrawProgressIcons:
 {
     LDA $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
-    
-    JMP .drawCrystals
+        JMP .drawCrystals
     
     .beforeAgahnim
     
@@ -1672,16 +1646,15 @@ DrawProgressIcons:
     
     .initPendantDiagram
     
-    LDA.w $E860, X : STA $12EA, X
-    LDA.w $E874, X : STA $132A, X
-    LDA.w $E888, X : STA $136A, X
-    LDA.w $E89C, X : STA $13AA, X
-    LDA.w $E8B0, X : STA $13EA, X
-    LDA.w $E8C4, X : STA $142A, X
-    LDA.w $E8D8, X : STA $146A, X
-    LDA.w $E8EC, X : STA $14AA, X
-    LDA.w $E900, X : STA $14EA, X
-    
+        LDA.w $E860, X : STA $12EA, X
+        LDA.w $E874, X : STA $132A, X
+        LDA.w $E888, X : STA $136A, X
+        LDA.w $E89C, X : STA $13AA, X
+        LDA.w $E8B0, X : STA $13EA, X
+        LDA.w $E8C4, X : STA $142A, X
+        LDA.w $E8D8, X : STA $146A, X
+        LDA.w $E8EC, X : STA $14AA, X
+        LDA.w $E900, X : STA $14EA, X
     INX #2 : CPX.w #$0014 : BCC .initPendantDiagram
     
     LDA.w #$13B2               : STA $00
@@ -1694,8 +1667,7 @@ DrawProgressIcons:
     STZ $02
     
     LDA $7EF374 : AND.w #$0002 : BEQ .needWisdomPendant
-    
-    INC $02
+        INC $02
     
     .needWisdomPendant
     
@@ -1707,8 +1679,7 @@ DrawProgressIcons:
     STZ $02
     
     LDA $7EF374 : AND.w #$0004 : BEQ .needPowerPendant
-    
-    INC $02
+        INC $02
     
     .needPowerPendant
     
@@ -1729,80 +1700,56 @@ DrawProgressIcons:
     
     .initCrystalDiagram
     
-    LDA.w $E914, X : STA $12EA, X
-    LDA.w $E928, X : STA $132A, X
-    LDA.w $E93C, X : STA $136A, X
-    LDA.w $E950, X : STA $13AA, X
-    LDA.w $E964, X : STA $13EA, X
-    LDA.w $E978, X : STA $142A, X
-    LDA.w $E98C, X : STA $146A, X
-    LDA.w $E9A0, X : STA $14AA, X
-    LDA.w $E9B4, X : STA $14EA, X
+        LDA.w $E914, X : STA $12EA, X
+        LDA.w $E928, X : STA $132A, X
+        LDA.w $E93C, X : STA $136A, X
+        LDA.w $E950, X : STA $13AA, X
+        LDA.w $E964, X : STA $13EA, X
+        LDA.w $E978, X : STA $142A, X
+        LDA.w $E98C, X : STA $146A, X
+        LDA.w $E9A0, X : STA $14AA, X
+        LDA.w $E9B4, X : STA $14EA, X
+    INX #2 : CPX.w #$0014 : BCC .initCrystalDiagram
     
-    INX #2 : CPX.w #$0014
-    
-    BCC .initCrystalDiagram
-    
-    LDA $7EF37A : AND.w #$0001
-    
-    BEQ .miseryMireNotDone
-    
-    LDA.w #$2D44 : STA $13B0
-    LDA.w #$2D45 : STA $13B2
+    LDA $7EF37A : AND.w #$0001 : BEQ .miseryMireNotDone
+        LDA.w #$2D44 : STA $13B0
+        LDA.w #$2D45 : STA $13B2
     
     .miseryMireNotDone
     
-    LDA $7EF37A : AND.w #$0002
-    
-    BEQ .darkPalaceNotDone
-    
-    LDA.w #$2D44 : STA $13B4
-    LDA.w #$2D45 : STA $13B6
+    LDA $7EF37A : AND.w #$0002 : BEQ .darkPalaceNotDone
+        LDA.w #$2D44 : STA $13B4
+        LDA.w #$2D45 : STA $13B6
     
     .darkPalaceNotDone
     
-    LDA $7EF37A : AND.w #$0004
-    
-    BEQ .icePalaceNotDone
-    
-    LDA.w #$2D44 : STA $142E
-    LDA.w #$2D45 : STA $1430
+    LDA $7EF37A : AND.w #$0004 : BEQ .icePalaceNotDone
+        LDA.w #$2D44 : STA $142E
+        LDA.w #$2D45 : STA $1430
     
     .icePalaceNotDone
     
-    LDA $7EF37A : AND.w #$0008
-    
-    BEQ .turtleRockNotDone
-    
-    LDA.w #$2D44 : STA $1432
-    LDA.w #$2D45 : STA $1434
+    LDA $7EF37A : AND.w #$0008 : BEQ .turtleRockNotDone
+        LDA.w #$2D44 : STA $1432
+        LDA.w #$2D45 : STA $1434
     
     .turtleRockNotDone
     
-    LDA $7EF37A : AND.w #$0010
-    
-    BEQ .swampPalaceNotDone
-    
-    LDA.w #$2D44 : STA $1436
-    LDA.w #$2D45 : STA $1438
+    LDA $7EF37A : AND.w #$0010 : BEQ .swampPalaceNotDone
+        LDA.w #$2D44 : STA $1436
+        LDA.w #$2D45 : STA $1438
     
     .swampPalaceNotDone
     
-    LDA $7EF37A : AND.w #$0020
-    
-    BEQ .blindHideoutNotDone
-    
-    LDA.w #$2D44 : STA $14B0
-    LDA.w #$2D45 : STA $14B2
+    LDA $7EF37A : AND.w #$0020 : BEQ .blindHideoutNotDone
+        LDA.w #$2D44 : STA $14B0
+        LDA.w #$2D45 : STA $14B2
     
     .blindHideoutNotDone
     
-    LDA $7EF37A : AND.w #$0040
-    
-    BEQ .skullWoodsNotDone
-    
-    LDA.w #$2D44 : STA $14B4
-    LDA.w #$2D45 : STA $14B6
+    LDA $7EF37A : AND.w #$0040 : BEQ .skullWoodsNotDone
+        LDA.w #$2D44 : STA $14B4
+        LDA.w #$2D45 : STA $14B6
     
     .skullWoodsNotDone
     
@@ -1827,132 +1774,117 @@ DrawSelectedYButtonItem:
     LDA $0042, Y : STA $11F4
     
     LDA $0207 : AND.w #$0010 : BEQ .dontUpdate
-    
-    LDA.w #$3C61 : STA $FFC0, Y
-    ORA.w #$4000 : STA $FFC2, Y
-    
-    LDA.w #$3C70 : STA $FFFE, Y
-    ORA.w #$4000 : STA $0004, Y
-    
-    LDA.w #$BC70 : STA $003E, Y
-    ORA.w #$4000 : STA $0044, Y
-    
-    LDA.w #$BC61 : STA $0080, Y
-    ORA.w #$4000 : STA $0082, Y
-    
-    LDA.w #$3C60 : STA $FFBE, Y
-    ORA.w #$4000 : STA $FFC4, Y
-    ORA.w #$8000 : STA $0084, Y
-    EOR.w #$4000 : STA $007E, Y
+        LDA.w #$3C61 : STA $FFC0, Y
+        ORA.w #$4000 : STA $FFC2, Y
+        
+        LDA.w #$3C70 : STA $FFFE, Y
+        ORA.w #$4000 : STA $0004, Y
+        
+        LDA.w #$BC70 : STA $003E, Y
+        ORA.w #$4000 : STA $0044, Y
+        
+        LDA.w #$BC61 : STA $0080, Y
+        ORA.w #$4000 : STA $0082, Y
+        
+        LDA.w #$3C60 : STA $FFBE, Y
+        ORA.w #$4000 : STA $FFC4, Y
+        ORA.w #$8000 : STA $0084, Y
+        EOR.w #$4000 : STA $007E, Y
     
     .dontUpdate
     
     LDA $0202 : AND.w #$00FF : CMP.w #$0010 : BNE .bottleNotSelected
-    
-    LDA $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
-    
-    TAX
-    
-    LDA $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
-    
-    LDY.w #$0000
-    
-    .drawBottleDecription
-    
-    LDA.w $F449, X : STA $122C, Y ; loads 24F5, 
-    LDA.w $F459, X : STA $126C, Y ; loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,   
-    
-    INX #2
-    INY #2 : CPY.w #$0010
-    
-    BCC .drawBottleDescription
-    
-    JMP .finished
+        LDA $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
+            TAX
+            
+            LDA $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .drawBottleDescription
+            
+            LDA.w $F449, X : STA $122C, Y ; loads 24F5, 
+            LDA.w $F459, X : STA $126C, Y ; loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,   
+            
+            INX #2
+            INY #2 : CPY.w #$0010
+            
+            BCC .drawBottleDescription
+            
+            JMP .finished
     
     .bottleNotSelected
     
     ; Magic Powder selected?
     LDA $0202 : AND.w #$00FF : CMP.w #$0005 : BNE .powderNotSelected
-    
-    LDA $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
-    
-    DEC A : ASL #5 : TAX
-    
-    LDY.w #$0000
-    
-    .writePowderDescription
-    
-    LDA.w $F549, X : STA $122C, Y
-    LDA.w $F559, X : STA $126C, Y
-    
-    INX #2
-    
-    INY #2 : CPY.w #$0010 : BCC .writePowderDescription
-    
-    JMP .finished
+        LDA $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writePowderDescription
+            
+                LDA.w $F549, X : STA $122C, Y
+                LDA.w $F559, X : STA $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writePowderDescription
+            
+            JMP .finished
     
     .powderNotSelected
     
     LDA $0202 : AND.w #$00FF : CMP.w #$0014 : BNE .mirrorNotSelected
-    
-    LDA $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
-    
-    DEC A : ASL #5 : TAX
-    
-    LDY.w #$0000
-    
-    .writeMirrorDescription
-    
-    LDA.w $F5A9, X : STA $122C, Y
-    LDA.w $F5B9, X : STA $126C, Y
-    
-    INX #2
-    
-    INY #2 : CPY.w #$0010 : BCC .writeMirrorDescription
-    
-    JMP .finished
+        LDA $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeMirrorDescription
+            
+                LDA.w $F5A9, X : STA $122C, Y
+                LDA.w $F5B9, X : STA $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeMirrorDescription
+            
+            JMP .finished
     
     .mirrorNotSelected
     
     LDA $0202 : AND.w #$00FF : CMP.w #$000D : BNE .fluteNotSelected
-    
-    LDA $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
-    
-    DEC A : ASL #5 : TAX
-    
-    LDY.w #$0000
-    
-    .writeFluteDescription
-    
-    LDA.w $F569, X : STA $122C, Y
-    LDA.w $F579, X : STA $126C, Y
-    
-    INX #2
-    
-    INY #2 : CPY.w #$0010 : BCC .writeFluteDescription
-    
-    BRA .finished
-    
+        LDA $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeFluteDescription
+            
+                LDA.w $F569, X : STA $122C, Y
+                LDA.w $F579, X : STA $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeFluteDescription
+            
+            BRA .finished
+        
     .fluteNotSelected
     
     LDA $0202 : AND.w #$00FF : CMP.w #$0001 : BNE .bowNotSelected
-    
-    LDA $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
-    
-    DEC A : ASL #5 : TAX
-    
-    LDY.w #$0000
-    
-    .writeBowDescription
-    
-    LDA.w $F5C9, X : STA $122C, Y
-    LDA.w $F5D9, X : STA $126C, Y
-    
-    INX #2
-    
-    INY #2 : CPY.w #$0010 : BCC .writeBowDescription
-    
-    BRA .finished
+        LDA $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeBowDescription
+            
+                LDA.w $F5C9, X : STA $122C, Y
+                LDA.w $F5D9, X : STA $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeBowDescription
+            
+            BRA .finished
     
     .bowNotSelected
     
@@ -1962,11 +1894,10 @@ DrawSelectedYButtonItem:
     
     .writeDefaultDescription
     
-    LDA.w $F1C9, X : STA $122C, Y
-    LDA.w $F1D9, X : STA $126C, Y
-    
-    INX #2
-    
+        LDA.w $F1C9, X : STA $122C, Y
+        LDA.w $F1D9, X : STA $126C, Y
+        
+        INX #2
     INY #2 : CPY.w #$0010 : BCC .writeDefaultDescription
     
     .finished
@@ -1983,9 +1914,9 @@ DrawMoonPearl:
 {
     REP #$30
     
-    LDA.w #$16E0               : STA $00
-    LDA $7EF357 : AND.w #$00FF : STA $02
-    LDA.w #$F821               : STA $04
+    LDA.w #$16E0                 : STA $00
+    LDA.l $7EF357 : AND.w #$00FF : STA $02
+    LDA.w #$F821                 : STA $04
     
     JSR DrawItem
     
