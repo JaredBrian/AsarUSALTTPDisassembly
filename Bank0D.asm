@@ -9,12 +9,30 @@ incsrc "player_oam.asm"
 
 ; ==============================================================================
 
-; $06AFDD-$06B07F EMPTY
-pool Empty:
+; $06AFDD-$06B07F NULL
+NULL_0DAFDD:
 {
-    fillbyte $FF
-    
-    fill $A3
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF
 }
 
 ; ==============================================================================
@@ -31,7 +49,7 @@ GetRandomInt:
     ; (v or hcount, I can't remember)
     ; Reading this "latch" places a value in $213C. 
     
-    LDA $2137
+    LDA.w $2137
     
     ; The purpose of this routine is to generate a random
     ; Number, of course. Number = counter + frame counter + $0FA1 which is
@@ -40,7 +58,7 @@ GetRandomInt:
     ; Contributing to the chaos is that all adds are done without regard to
     ; the state of the carry. It's probably not a well distributed random
     ; number generator but I'm sure it gets the job done most of the time.
-    LDA $213C : ADC $1A : ADC $0FA1 : STA $0FA1
+    LDA.w $213C : ADC.b $1A : ADC.w $0FA1 : STA.w $0FA1
     
     RTL
 }
@@ -126,10 +144,10 @@ Babusu_Draw:
     
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : BMI .invalid_animation_state
+    LDA.w $0DC0, X : BMI .invalid_animation_state
         REP #$20
         
-        ASL #4 : ADC.w #(.oam_groups) : STA $08
+        ASL #4 : ADC.w #(.oam_groups) : STA.b $08
         
         SEP #$20
         
@@ -194,9 +212,9 @@ Wizzrobe_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #3 : STA $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC $00 : ADC.w #(.oam_groups) : STA $08
+    ASL A : ADC.b $00 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
@@ -210,7 +228,7 @@ Wizzrobe_Draw:
 ; ==============================================================================
 
 ; $06BE28-$06BE67 DATA
-pool Wizzbeam_Draw:
+Pool_Wizzbeam_Draw:
 {
     .oam_groups
     dw  0, -4 : db $C5, $00, $00, $00
@@ -235,7 +253,7 @@ Wizzbeam_Draw:
     
     LDA.b #$00 : XBA
     
-    LDA $0DE0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DE0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
@@ -249,7 +267,7 @@ Wizzbeam_Draw:
 ; ==============================================================================
 
 ; $06BE86-$06BFA5 DATA
-pool Freezor_Draw:
+Pool_Freezor_Draw:
 {
     .death_oam_groups
     dw -8,  0 : db $A6, $00, $00, $02
@@ -307,8 +325,8 @@ Freezor_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : CMP.b #$07 : BEQ .use_normal_oam_groups
-        REP #$20 : ASL #5 : ADC.w #(.death_oam_groups) : STA $08
+    LDA.w $0DC0, X : CMP.b #$07 : BEQ .use_normal_oam_groups
+        REP #$20 : ASL #5 : ADC.w #(.death_oam_groups) : STA.b $08
         
         SEP #$20
         
@@ -326,7 +344,7 @@ Freezor_Draw:
     
     REP #$20
     
-    LDA.w #(.normal_oam_group) : STA $08
+    LDA.w #(.normal_oam_group) : STA.b $08
     
     SEP #$20
     
@@ -338,7 +356,7 @@ Freezor_Draw:
 ; ==============================================================================
 
 ; $06BFD6-$06C0A5 DATA
-pool Zazak_Draw:
+Pool_Zazak_Draw:
 {
     .oam_groups
     dw  0, -8 : db $08, $00, $00, $02
@@ -388,16 +406,16 @@ Zazak_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL A : ADC $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
     LDA.b #$03 : JSL Sprite_DrawMultiple
-        LDA $0F00, X : BNE .paused
+        LDA.w $0F00, X : BNE .paused
         
-        LDA $0E00, X : CMP.b #$01 : PHX : LDA $0EB0, X : TAX : BCC .mouth_closed
+        LDA.w $0E00, X : CMP.b #$01 : PHX : LDA.w $0EB0, X : TAX : BCC .mouth_closed
             INX #4
         
         .mouth_closed
@@ -422,7 +440,7 @@ Zazak_Draw:
 ; ==============================================================================
 
 ; $06C0F3-$06C21B MIXED
-pool Stalfos_Draw:
+Pool_Stalfos_Draw:
 {
     .oam_groups
     dw  0, -10 : db $00, $00, $00, $02
@@ -488,23 +506,23 @@ pool Stalfos_Draw:
 ; $06C21C-$06C26D LONG JUMP LOCATION
 Stalfos_Draw:
 {
-    LDA $0E10, X : BNE .easy_out
+    LDA.w $0E10, X : BNE .easy_out
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL A : ADC $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
     LDA.b #$03 : JSL Sprite_DrawMultiple
     
-    LDA $0DC0, X : CMP.b #$08 : BCS .no_head_override
-        LDA $0F00, X : BNE .no_head_override
+    LDA.w $0DC0, X : CMP.b #$08 : BCS .no_head_override
+        LDA.w $0F00, X : BNE .no_head_override
             PHX
             
-            LDA $0EB0, X : TAX
+            LDA.w $0EB0, X : TAX
             
             LDA .head_chr, X : LDY.b #$02 : STA ($90), Y
             
@@ -531,24 +549,24 @@ Stalfos_Draw:
 ; $06C26E-$06C2D0 LONG JUMP LOCATION
 Probe_CheckTileSolidity:
 {
-    LDA $0F20, X : CMP.b #$01 : REP #$30 : STZ $05 : BCC .on_bg2
-        LDA.w #$1000 : STA $05
+    LDA.w $0F20, X : CMP.b #$01 : REP #$30 : STZ.b $05 : BCC .on_bg2
+        LDA.w #$1000 : STA.b $05
     
     .on_bg2
     
     SEP #$20
     
-    LDA $1B : REP #$20 : BEQ .outdoors
-        LDA $0FD8 : AND.w #$01FF : LSR #3 : STA $04
+    LDA.b $1B : REP #$20 : BEQ .outdoors
+        LDA.w $0FD8 : AND.w #$01FF : LSR #3 : STA.b $04
         
-        LDA $0FDA : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $05
+        LDA.w $0FDA : AND.w #$01F8 : ASL #3 : CLC : ADC.b $04 : CLC : ADC.b $05
         
         PHX
         
         TAX
         
         ; Detect the tile type the soldier interacts with
-        LDA $7F2000, X
+        LDA.l $7F2000, X
         
         PLX
         
@@ -558,9 +576,9 @@ Probe_CheckTileSolidity:
     
     PHX : PHY
     
-    LDA $0FD8 : LSR #3 : STA $02
+    LDA.w $0FD8 : LSR #3 : STA.b $02
     
-    LDA $0FDA : STA $00
+    LDA.w $0FDA : STA.b $00
     
     SEP #$30
     
@@ -577,7 +595,7 @@ Probe_CheckTileSolidity:
     
     PHX
     
-    STA $0FA5 : TAX
+    STA.w $0FA5 : TAX
     
     LDA Sprite_SimplifiedTileAttr, X : PLX : CMP.b #$01
     
@@ -597,7 +615,7 @@ incsrc "sprite_maze_game_guy.asm"
 ; ==============================================================================
 
 ; $06CDCF-$06CE5E DATA
-pool CrystalMaiden_Draw:
+Pool_CrystalMaiden_Draw:
 {
     .oam_groups
     dw 1, -7 : db $20, $01, $00, $02
@@ -642,19 +660,19 @@ CrystalMaiden_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL A : TAY
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
     
-    LDA .vram_source_indices + 0, Y : STA $0AE8
-    LDA .vram_source_indices + 1, Y : STA $0AEA
+    LDA .vram_source_indices + 0, Y : STA.w $0AE8
+    LDA .vram_source_indices + 1, Y : STA.w $0AEA
     
     ; Crystal maidens?
     TYA : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -666,7 +684,7 @@ CrystalMaiden_Draw:
 ; ==============================================================================
 
 ; $06CE91-$06CF30 DATA
-pool Priest_Draw:
+Pool_Priest_Draw:
 {
     .oam_groups
     dw  0, -8 : db $20, $0E, $00, $02
@@ -709,13 +727,13 @@ Priest_Draw:
     
     PHB : PHK : PLB
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-                 ADC.b #(.oam_groups >. 0) : STA $08
-    LDA.b #$00 : ADC.b #(.oam_groups >> 8) : STA $09
+                 ADC.b #(.oam_groups >. 0) : STA.b $08
+    LDA.b #$00 : ADC.b #(.oam_groups >> 8) : STA.b $09
     
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong
@@ -728,7 +746,7 @@ Priest_Draw:
 ; ==============================================================================
 
 ; $06CF59-$06CFD8 DATA
-pool FluteBoy_Draw:
+Pool_FluteBoy_Draw:
 {
     .oam_groups
     dw -1,  -1 : db $BE, $0A, $00, $00
@@ -761,10 +779,10 @@ FluteBoy_Draw:
     
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #5
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #5
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : JSL Sprite_DrawMultiple
     
@@ -776,7 +794,7 @@ FluteBoy_Draw:
 ; ==============================================================================
 
 ; $06D000-$06D03F DATA
-pool FluteAardvark_Draw:
+Pool_FluteAardvark_Draw:
 {
     db 0, -10, $E6, $06, $00, $02
     db 0,  -8, $C8, $06, $00, $02
@@ -798,13 +816,13 @@ FluteAardvark_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
-    ADC.b #$00              : STA $08
-    LDA.b #$D0 : ADC.b #$00 : STA $09
+    ADC.b #$00              : STA.b $08
+    LDA.b #$D0 : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -816,7 +834,7 @@ FluteAardvark_Draw:
 ; ==============================================================================
 
 ; $06D060-$06D11F DATA
-pool DustCloud_Draw:
+Pool_DustCloud_Draw:
 {
     .oam_groups
     db  0, -3 : db $8B, $00, $00, $00
@@ -856,15 +874,14 @@ pool DustCloud_Draw:
 DustCloud_Draw:
 {
     ; Part of medallion tablet code...
-    
     PHB : PHK : PLB
     
-    LDA.b #$14 : STA $0F50, X
+    LDA.b #$14 : STA.w $0F50, X
     
-    LDA $0DC0, X : ASL #5
+    LDA.w $0DC0, X : ASL #5
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : JSL Sprite_DrawMultiple
     
@@ -876,7 +893,7 @@ DustCloud_Draw:
 ; ==============================================================================
 
 ; $06D142-$06D1E1 DATA
-pool MedallionTablet_Draw:
+Pool_MedallionTablet_Draw:
 {
     .oam_groups
     dw -8, -16 : $8C, $00, $00, $02
@@ -912,14 +929,14 @@ MedallionTablet_Draw:
 {
     PHB : PHK : PLB
     
-    LDA $0DC0, X : ASL #5
+    LDA.w $0DC0, X : ASL #5
     
     ; $6D142
-    ADC.b #$42              : STA $08
-    LDA.b #$D1 : ADC.b #$00 : STA $09
+    ADC.b #$42              : STA.b $08
+    LDA.b #$D1 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$04 : STA $06
-                 STZ $07
+    LDA.b #$04 : STA.b $06
+                 STZ.b $07
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -931,7 +948,7 @@ MedallionTablet_Draw:
 ; ==============================================================================
 
 ; $06D203-$06D390 DATA
-pool Uncle_Draw:
+Pool_Uncle_Draw:
 {
     .oam_groups
     dw   0, -10 : db $00, $0E, $00, $02
@@ -1001,32 +1018,32 @@ Uncle_Draw:
     
     REP #$20
     
-    LDA $0DC0, X : AND.w #$00FF : STA $00
+    LDA.w $0DC0, X : AND.w #$00FF : STA.b $00
     
-    LDA $0DE0, X : AND.w #$00FF : STA $02
+    LDA.w $0DE0, X : AND.w #$00FF : STA.b $02
     
     ; This calculation is... ( ( ( ( (v2 * 2) + v2 + v0) * 2) + v0) * 16 )
     ; or... 96v2 + 48v0. wtf is this for?
-    ASL A : ADC $02 : ADC $00 : ASL A : ADC $00 : ASL #4
+    ASL A : ADC.b $02 : ADC.b $00 : ASL A : ADC.b $00 : ASL #4
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
-    LDA.w #$0006 : STA $06
+    LDA.w #$0006 : STA.b $06
     
     SEP #$30
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : TAY
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : TAY
     
     ; \bug Don't have proof yet, but something tells me that if Link's uncle
     ; were ever facing to the right, it would not look correct. These tables
     ; are only 7 elements long and should be 8 elements long...
-    LDA .source_for_vram_1, Y : STA $0107
+    LDA .source_for_vram_1, Y : STA.w $0107
     
-    LDA .source_for_vram_2, Y : STA $0108
+    LDA .source_for_vram_2, Y : STA.w $0108
     
     JSL Sprite_DrawMultiple.quantity_preset
     
-    LDA $0DE0, X : BEQ .skip_shadow
+    LDA.w $0DE0, X : BEQ .skip_shadow
     CMP.b #$03   : BEQ .skip_shadow
         JSL Sprite_DrawShadowLong
     
@@ -1040,7 +1057,7 @@ Uncle_Draw:
 ; ==============================================================================
 
 ; $06D3EB-$06D47A DATA
-pool BugKidNet_Draw:
+Pool_BugKidNet_Draw:
 {
     .oam_groups
     dw  4,  0 : db $27, $00, $00, $00
@@ -1072,15 +1089,15 @@ BugNetKid_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$06 : STA $06
-                 STZ $07
+    LDA.b #$06 : STA.b $06
+                 STZ.b $07
     
     ; Multiples of 0x30
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
     ; $2D3EB
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -1096,11 +1113,11 @@ Sprite5_CheckIfActive:
 {
     ; Deactivates the sprite in certain situations
 
-    LDA $0DD0, X : CMP.b #$09 : BNE .inactive
-        LDA $0FC1 : BNE .inactive
-            LDA $11 : BNE .inactive
-                LDA $0CAA, X : BMI .active
-                    LDA $0F00, X : BEQ .active
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
+        LDA.w $0FC1 : BNE .inactive
+            LDA.b $11 : BNE .inactive
+                LDA.w $0CAA, X : BMI .active
+                    LDA.w $0F00, X : BEQ .active
     
     .inactive
     
@@ -1114,7 +1131,7 @@ Sprite5_CheckIfActive:
 ; ==============================================================================
 
 ; $06D4BC-$06D56B DATA
-pool Bomber_Draw:
+Pool_Bomber_Draw:
 {
     .oam_groups
     dw  0, 0 : db $C6, $40, $00, $02
@@ -1158,9 +1175,9 @@ Bomber_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$00 : XBA : LDA $0DC0, X : REP #$20 : ASL #4
+    LDA.b #$00 : XBA : LDA.w $0DC0, X : REP #$20 : ASL #4
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
@@ -1176,7 +1193,7 @@ Bomber_Draw:
 ; ==============================================================================
 
 ; $06D58E-$06D605 DATA
-pool BomberPellet_DrawExplosion:
+Pool_BomberPellet_DrawExplosion:
 {
     .oam_groups
     dw -11,   0 : db $9B, $01, $00, $00
@@ -1207,15 +1224,15 @@ BomberPellet_DrawExplosion:
 {
     PHB : PHK : PLB
     
-    LDA $0DF0, X : BNE .still_exploding
-        STZ $0DD0, X
+    LDA.w $0DF0, X : BNE .still_exploding
+        STZ.w $0DD0, X
     
     .still_exploding
     
     ; multiply by 24 and add 0xD58E...
-    LSR #2 : PHA : LDA.b #$00 : XBA : PLA : REP #$20 : ASL #3 : STA $00
+    LSR #2 : PHA : LDA.b #$00 : XBA : PLA : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC $00 : ADC.w #(.oam_groups) : STA $08
+    ASL A : ADC.b $00 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
@@ -1232,30 +1249,30 @@ BomberPellet_DrawExplosion:
 GoodBee_AttackOtherSprite:
 {
     ; Good bee can't attack any bosses except mothula, apparently.
-    LDA $0E20, Y : CMP.b #$88 : BEQ .is_mothula
-        LDA $0B6B, Y : AND.b #$02 : BNE .is_a_boss
+    LDA.w $0E20, Y : CMP.b #$88 : BEQ .is_mothula
+        LDA.w $0B6B, Y : AND.b #$02 : BNE .is_a_boss
     
     .is_mothula
     
-    LDA $0D10, Y : STA $00
-    LDA $0D30, Y : STA $01
+    LDA.w $0D10, Y : STA.b $00
+    LDA.w $0D30, Y : STA.b $01
     
-    LDA $0D00, Y : STA $02
-    LDA $0D20, Y : STA $03
+    LDA.w $0D00, Y : STA.b $02
+    LDA.w $0D20, Y : STA.b $03
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0010
+    LDA.w $0FD8 : SEC : SBC.b $00 : CLC : ADC.w #$0010
     
     CMP.w #$0018 : BCS .sprite_not_close
-        LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$FFF8
+        LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$FFF8
         
         CMP.w #$0018 : BCS .sprite_not_close
         
         SEP #$20
         
-        LDA $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
-            TXA : INC A : STA $0E90, Y
+        LDA.w $0E20, Y : CMP.b #$75 : BNE .not_bottle_vendor
+            TXA : INC A : STA.w $0E90, Y
             
             RTL
         
@@ -1272,13 +1289,13 @@ GoodBee_AttackOtherSprite:
         
         PLX : PLY
         
-        LDA.b #$0F : STA $0EA0, Y
+        LDA.b #$0F : STA.w $0EA0, Y
         
-        LDA $0D50, X : ASL A : STA $0F40, Y
+        LDA.w $0D50, X : ASL A : STA.w $0F40, Y
         
-        LDA $0D40, X : ASL A : STA $0F30, Y
+        LDA.w $0D40, X : ASL A : STA.w $0F30, Y
         
-        INC $0DA0, X
+        INC.w $0DA0, X
     
     .sprite_not_close
     .is_a_boss
@@ -1291,7 +1308,7 @@ GoodBee_AttackOtherSprite:
 ; ==============================================================================
 
 ; $06D6A6-$06D6E5 DATA
-pool Pikit_Draw:
+Pool_Pikit_Draw:
 {
     .oam_groups
     dw  0, 0 : db $C8, $00, $00, $02
@@ -1318,25 +1335,25 @@ Pikit_Draw:
     
     LDY.b #$00
     
-    LDA ($90), Y : STA $0FB5 : INY
-    LDA ($90), Y : STA $0FB6
+    LDA ($90), Y : STA.w $0FB5 : INY
+    LDA ($90), Y : STA.w $0FB6
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
     
-    LDA $90 : CLC : ADC.w #$0018 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0018 : STA.b $90
     
-    LDA $92 : CLC : ADC.w #$0006 : STA $92
+    LDA.b $92 : CLC : ADC.w #$0006 : STA.b $92
     
     SEP #$20
     
     LDA.b #$02 : JSL Sprite_DrawMultiple
     
-    LDA $0E40, X : PHA : SEC : SBC.b #$06 : STA $0E40, X
+    LDA.w $0E40, X : PHA : SEC : SBC.b #$06 : STA.w $0E40, X
     
     JSL Sprite_DrawShadowLong
     
-    PLA : STA $0E40, X
+    PLA : STA.w $0E40, X
     
     JSR Pikit_DrawGrabbedItem
     
@@ -1348,7 +1365,7 @@ Pikit_Draw:
 ; ==============================================================================
 
 ; $06D739-$06D749 BRANCH LOCATION
-pool Pikit_DrawTongue:
+Pool_Pikit_DrawTongue:
 {
     .easy_out
     RTS
@@ -1365,37 +1382,37 @@ pool Pikit_DrawTongue:
 ; $06D74A-$06D812 LOCAL JUMP LOCATION
 Pikit_DrawTongue:
 {
-    LDA $0D80, X : CMP.b #$02 : BNE .easy_out
-        LDA $0F00, X : BNE .easy_out
-            LDA $00 : CLC : ADC.b #$04 : STA $00
+    LDA.w $0D80, X : CMP.b #$02 : BNE .easy_out
+        LDA.w $0F00, X : BNE .easy_out
+            LDA.b $00 : CLC : ADC.b #$04 : STA.b $00
             
-            LDY.b #$14                      : STA ($90), Y
-            CLC : ADC $0D90, X : LDY.b #$00 : STA ($90), Y
+            LDY.b #$14                        : STA ($90), Y
+            CLC : ADC.w $0D90, X : LDY.b #$00 : STA ($90), Y
             
-            LDA $02 : CLC : ADC.b #$03 : STA $02
+            LDA.b $02 : CLC : ADC.b #$03 : STA.b $02
             
-                                LDY.b #$15 : STA ($90), Y
-            CLC : ADC $0DA0, X : LDY.b #$01 : STA ($90), Y
-            LDA.b #$FE         : LDY.b #$16 : STA ($90), Y
-                                LDY.b #$02 : STA ($90), Y
-            LDA $05            : LDY.b #$17 : STA ($90), Y
-                                LDY.b #$03 : STA ($90), Y
+                                   LDY.b #$15 : STA ($90), Y
+            CLC : ADC.w $0DA0, X : LDY.b #$01 : STA ($90), Y
+            LDA.b #$FE           : LDY.b #$16 : STA ($90), Y
+                                   LDY.b #$02 : STA ($90), Y
+            LDA.b $05            : LDY.b #$17 : STA ($90), Y
+                                   LDY.b #$03 : STA ($90), Y
             
-            LDA $0DE0, X : STA $0B
+            LDA.w $0DE0, X : STA.b $0B
             
-            LDA $0D90, X : STA $0E : BPL .BRANCH_ALPHA
+            LDA.w $0D90, X : STA.b $0E : BPL .BRANCH_ALPHA
                 EOR.b #$FF : INC A
             
             .BRANCH_ALPHA
             
-            STA $0C
+            STA.b $0C
             
-            LDA $0DA0, X : STA $0F : BPL .BRANCH_BETA
+            LDA.w $0DA0, X : STA.b $0F : BPL .BRANCH_BETA
                 EOR.b #$FF : INC A
             
             .BRANCH_BETA
             
-            STA $0D
+            STA.b $0D
             
             LDY.b #$04
             
@@ -1405,32 +1422,32 @@ Pikit_DrawTongue:
             
             .next_subsprite
             
-                LDA $0C      : STA $4202
-                LDA .multipliers, X : STA $4203
+                LDA.b $0C           : STA.w $4202
+                LDA .multipliers, X : STA.w $4203
                 
                 ; burn a few cycles...
                 JSR Pikit_MultiplicationDelay
                 
-                LDA $0E : ASL A
+                LDA.b $0E : ASL A
                 
-                LDA $4217 : BCC .BRANCH_GAMMA
+                LDA.w $4217 : BCC .BRANCH_GAMMA
                     EOR.b #$FF : INC A
                 
                 .BRANCH_GAMMA
                 
-                CLC : ADC $00 : STA ($90), Y
+                CLC : ADC.b $00 : STA ($90), Y
                 
-                LDA $0D      : STA $4202
-                LDA .multipliers, X : STA $4203
+                LDA.b $0D           : STA.w $4202
+                LDA .multipliers, X : STA.w $4203
                 
                 JSR Pikit_MultiplicationDelay
                 
-                LDA $0F : ASL A : LDA $4217 : BCC .BRANCH_DELTA
+                LDA.b $0F : ASL A : LDA.w $4217 : BCC .BRANCH_DELTA
                     EOR.b #$FF : INC A
                 
                 .BRANCH_DELTA
                 
-                CLC : ADC $02
+                CLC : ADC.b $02
                 
                 INY
                 
@@ -1438,13 +1455,13 @@ Pikit_DrawTongue:
                 
                 PHX
                 
-                LDX $0B
+                LDX.b $0B
                 
                 LDA .chr, X : INY : STA ($90), Y
                 
                 INY
                 
-                LDA .vh_flip, X : ORA $05 : STA ($90), Y
+                LDA .vh_flip, X : ORA.b $05 : STA ($90), Y
                 
                 PLX
                 
@@ -1481,7 +1498,7 @@ Pikit_MultiplicationDelay:
 ; ==============================================================================
 
 ; $06D817-$06D857 DATA
-pool Pikit_DrawGrabbedItem:
+Pool_Pikit_DrawGrabbedItem:
 {
     .x_offsets
     db -4,  4, -4,  4,  0,  8,  0,  8
@@ -1507,15 +1524,15 @@ pool Pikit_DrawGrabbedItem:
 ; $06D858-$06D8AE LOCAL JUMP LOCATION
 Pikit_DrawGrabbedItem:
 {
-    LDA $0ED0, X       : BEQ .return
+    LDA.w $0ED0, X       : BEQ .return
         DEC A : CMP.b #$03 : BNE .not_shield
             ; Indicates the shield level, which should be 1 or 2, resulting in
             ; a final value here of 3 or 4.
-            LDA $0E30, X : CLC : ADC.b #$02
+            LDA.w $0E30, X : CLC : ADC.b #$02
         
         .not_shield
         
-        STA $02
+        STA.b $02
         
         LDA.b #$10 : JSL OAM_AllocateFromRegionC
         
@@ -1527,17 +1544,17 @@ Pikit_DrawGrabbedItem:
         
         .next_subsprite
         
-            STX $03
+            STX.b $03
             
-            LDA $02 : ASL #2 : ORA $03 : TAX
+            LDA.b $02 : ASL #2 : ORA.b $03 : TAX
             
-            LDA $0FB5 : CLC : ADC .x_offsets, X       : STA ($90), Y
-            LDA $0FB6 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-            LDA .chr, X                         : INY : STA ($90), Y
-            LDX $02 : LDA .properties, X        : INY : STA ($90), Y
+            LDA.w $0FB5 : CLC : ADC .x_offsets, X       : STA ($90), Y
+            LDA.w $0FB6 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+            LDA .chr, X                           : INY : STA ($90), Y
+            LDX.b $02 : LDA .properties, X        : INY : STA ($90), Y
             
             INY
-        LDX $03 : DEX : BPL .next_subsprite
+        LDX.b $03 : DEX : BPL .next_subsprite
         
         PLX
         
@@ -1554,7 +1571,7 @@ Pikit_DrawGrabbedItem:
 ; ==============================================================================
 
 ; $06D8AF-$06D98E DATA
-pool Kholdstare_Draw:
+Pool_Kholdstare_Draw:
 {
     .oam_groups
     dw -8, -8 : db $80, $00, $00, $02
@@ -1604,14 +1621,14 @@ Kholdstare_Draw:
     JSL Sprite_PrepOamCoordLong : BCS .offscreen
         PHX
         
-        LDA $0D90, X : PHA : ASL A : TAX
+        LDA.w $0D90, X : PHA : ASL A : TAX
         
         REP #$20
         
-        LDA $00      : CLC : ADC .x_offsets, X : STA ($90), Y
-        AND.w #$0100 : STA $0E
+        LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+        AND.w #$0100 : STA.b $0E
         
-        LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA ($90), Y
@@ -1620,22 +1637,22 @@ Kholdstare_Draw:
         
         PLX
         
-        LDA .chr, X               : INY : STA ($90), Y
-        LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+        LDA .chr, X                 : INY : STA ($90), Y
+        LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
         
         TYA : LSR #2 : TAY
         
-        LDA.b #$02 : ORA $0F : STA ($92), Y
+        LDA.b #$02 : ORA.b $0F : STA ($92), Y
         
         PLX
         
         LDA.b #$00 : XBA
         
-        LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+        LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
         
-        LDA $90 : CLC : ADC.w #$0004 : STA $90
+        LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
         
-        INC $92
+        INC.b $92
         
         SEP #$20
         
@@ -1661,20 +1678,20 @@ Sprite_SpawnFireball:
     LDA.b #$55
     
     JSL Sprite_SpawnDynamically_arbitrary : BMI .spawn_failed
-        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-        LDA $01 : ADC.b #$00 : STA $0D30, Y
+        LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+        LDA.b $01       : ADC.b #$00 : STA.w $0D30, Y
         
-        LDA $02 : CLC : ADC.b #$04 : PHP : SEC : SBC $04    : STA $0D00, Y
-        LDA $03 : SBC.b #$00 : PLP : ADC.b #$00 : STA $0D20, Y
+        LDA.b $02 : CLC : ADC.b #$04 : PHP : SEC : SBC.b $04  : STA.w $0D00, Y
+        LDA.b $03       : SBC.b #$00 : PLP       : ADC.b #$00 : STA.w $0D20, Y
         
-        LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y
+        LDA.w $0E60, Y : AND.b #$FE : ORA.b #$40 : STA.w $0E60, Y
         
-        LDA.b #$06 : STA $0F50, Y
+        LDA.b #$06 : STA.w $0F50, Y
         
-        LDA.b #$54 : STA $0F60, Y
-                    STA $0E90, Y
+        LDA.b #$54 : STA.w $0F60, Y
+                     STA.w $0E90, Y
         
-        LDA.b #$20 : STA $0E40, Y
+        LDA.b #$20 : STA.w $0E40, Y
         
         PHX : TYX
         
@@ -1682,13 +1699,13 @@ Sprite_SpawnFireball:
         
         JSL Sprite_ApplySpeedTowardsPlayerLong
         
-        LDA.b #$14 : STA $0DF0, X
+        LDA.b #$14 : STA.w $0DF0, X
         
-        LDA.b #$10 : STA $0E00, X
+        LDA.b #$10 : STA.w $0E00, X
         
-        STZ $0BE0, X
+        STZ.w $0BE0, X
         
-        LDA.b #$48 : STA $0CAA, X
+        LDA.b #$48 : STA.w $0CAA, X
         
         TXY
         
@@ -1706,7 +1723,7 @@ Sprite_SpawnFireball:
 ; ==============================================================================
 
 ; $06DA79-$06DAC3 DATA
-pool ArcheryGameGuy_Draw:
+Pool_ArcheryGameGuy_Draw:
 {
     .x_offsets
     db $00, $00, $00
@@ -1754,7 +1771,7 @@ ArcheryGameGuy_Draw:
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     JSL Sprite_PrepOamCoordLong
     
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -1762,12 +1779,12 @@ ArcheryGameGuy_Draw:
     
     .next_subsprite
     
-        PHX : TXA : CLC : ADC $06 : TAX
+        PHX : TXA : CLC : ADC.b $06 : TAX
         
-        LDA $00 : CLC : ADC .x_offsets, X         : STA ($90), Y
-        LDA $02 : CLC : ADC .y_offsets, X   : INY : STA ($90), Y
-        LDA .chr, X                   : INY : STA ($90), Y
-        LDA $05  : ORA .properties, X : INY : STA ($90), Y
+        LDA.b $00 : CLC : ADC .x_offsets, X        : STA ($90), Y
+        LDA.b $02 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
+        LDA .chr, X                          : INY : STA ($90), Y
+        LDA.b $05       : ORA .properties, X : INY : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
         
@@ -1788,11 +1805,14 @@ ArcheryGameGuy_Draw:
 ; ==============================================================================
 
 ; $06DB17-$06DB3F NULL
-pool Unused:
+NULL_0DDB17:
 {
-    fillbyte $FF
-    
-    fill $29
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF
 }
 
 ; ==============================================================================
@@ -1800,4 +1820,3 @@ pool Unused:
 incsrc "headsup_display.asm"
 
 ; ==============================================================================
-

@@ -2700,7 +2700,8 @@ FileSelect_HandleInput:
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$FC : BEQ .return
     
     AND.b #$2C : BEQ .actionButtonDown
-        AND.b #$08 : BEQ .dpadDownButton ; What happens if the down direction was pressed.
+        ; What happens if the down direction was pressed.
+        AND.b #$08 : BEQ .dpadDownButton
         
             ; What happens if up or select was pressed.
             LDA.b #$20 : STA.w $012F
@@ -2734,7 +2735,8 @@ FileSelect_HandleInput:
             ; Otherwise, find out which save slot this is.
             LDA.b $C8 : ASL A : TAX
             
-            ; If this save file is empty, go to the naming mode for a new player.
+            ; If this save file is empty, go to the naming mode for a new
+            ; player.
             LDA.b $BF, X : BEQ .emptyFile
                 ; Tells us to cut the music for the moment.
                 LDA.b #$F1 : STA.w $012C
@@ -3208,8 +3210,10 @@ CopyFile_SelectionAndBlinker:
     ; $06522D ALTERNATE ENTRY POINT
     .BRANCH_15
     
-    LDA.b #$01 : STA.b $10 ; This means the mode will change to select screen mode.
-    LDA.b #$01 : STA.b $11 ; And the submodule will be the second (#$01) one.
+    ; This means the mode will change to select screen mode.
+    LDA.b #$01 : STA.b $10
+    ; And the submodule will be the second (#$01) one.
+    LDA.b #$01 : STA.b $11
     
     STZ.b $B0 ; Reset the sub-index of the submodule as well.
     
@@ -4832,7 +4836,8 @@ Module_Attract:
             CMP.b #$06 : BEQ .ignoreInput
                 ; Check the joypad for activity on B or Start.
                 LDA.b $F4 : AND.b #$90 : BEQ .dontEndSequence
-                    ; Begin exiting attract mode if one of those buttons was pressed.
+                    ; Begin exiting attract mode if one of those buttons was
+                    ; pressed.
                     LDA.b #$09 : STA.b $22
 
                 .dontEndSequence
@@ -5739,7 +5744,8 @@ Attract_ZeldaPrison:
         
         TXA : ASL A : TAX
         
-        LDA.b $30 : CLC : ADC.w #$0100 : CLC : ADC.l $0CF260, X : STA.b $00 : TAY : STY.b $34
+        LDA.b $30 : CLC : ADC.w #$0100 : CLC : ADC.l $0CF260, X : STA.b $00
+        TAY : STY.b $34
         
         SEP #$20
         
@@ -6740,7 +6746,7 @@ AttractImage0Stripes:
     db $FF ; end of stripes data
 }
 
-;===================================================================================================
+; ==============================================================================
 
 ; $067B5F-$067C4B DATA
 AttractImage1Stripes:
@@ -6790,7 +6796,7 @@ AttractImage1Stripes:
     db $FF ; end of stripes data
 }
 
-;===================================================================================================
+; ==============================================================================
 
 ; $067C4C-$067D12 DATA
 AttractImage2Stripes:
@@ -6838,7 +6844,7 @@ AttractImage2Stripes:
     db $FF ; end of stripes data
 }
 
-;===================================================================================================
+; ==============================================================================
 
 ; $067D13-$067E1B DATA
 AttractImage3Stripes:
