@@ -5,8 +5,595 @@ org $0C8000 ; $060000-$067FFF
 
 ; ==============================================================================
 
-; TODO: Fill in this missing data.
-; It's some sort of OW data accroding to the kan dissasembly.
+; $060000-$0600D1 DATA
+;org $0C8000
+OverworldMap32_Screen62_High:
+{
+    incbin "bin/ow/screen62-h.bin" ; size: 0x00D2
+}
+
+; $0600D2-$0601C3 DATA
+;org $0C80D2
+OverworldMap32_Screen62_Low: 
+{
+    incbin "bin/ow/screen62-l.bin" ; size: 0x00F2
+}
+
+; $0601C4-$060264 DATA
+;org $0C81C4
+OverworldMap32_Screen63_High:
+{
+    incbin "bin/ow/screen63-h.bin" ; size: 0x00A1
+}
+
+; $060265-$060320 DATA
+;org $0C8265
+OverworldMap32_Screen63_Low: 
+{
+    incbin "bin/ow/screen63-l.bin" ; size: 0x00BC
+}
+
+; $060321-$0603E5 DATA
+;org $0C8321
+OverworldMap32_Screen64_High:
+{
+    incbin "bin/ow/screen64-h.bin" ; size: 0x00C5
+}
+
+; $0603E6-$0604BC DATA
+;org $0C83E6
+OverworldMap32_Screen64_Low: 
+{
+    incbin "bin/ow/screen64-l.bin" ; size: 0x00D7
+}
+
+; $0604BD-$060597 DATA
+;org $0C84BD
+OverworldMap32_Screen25_High:
+{
+    incbin "bin/ow/screen25-h.bin" ; size: 0x00DB
+}
+
+; $060598-$060687 DATA
+;org $0C8598
+OverworldMap32_Screen25_Low: 
+{
+    incbin "bin/ow/screen25-l.bin" ; size: 0x00F0
+}
+
+; $060688-$060733 DATA
+;org $0C8688
+OverworldMap32_Screen66_High:
+{
+    incbin "bin/ow/screen66-h.bin" ; size: 0x00AC
+}
+
+; $060734-$06080C DATA
+;org $0C8734
+OverworldMap32_Screen66_Low: 
+{
+    incbin "bin/ow/screen66-l.bin" ; size: 0x00D9
+}
+
+; $06080D-$0608DC DATA
+;org $0C880D
+OverworldMap32_Screen67_High:
+{
+    incbin "bin/ow/screen67-h.bin" ; size: 0x00D0
+}
+
+; $0608DD-$0609CB DATA
+;org $0C88DD
+OverworldMap32_Screen67_Low: 
+{
+    incbin "bin/ow/screen67-l.bin" ; size: 0x00EF
+}
+
+; $0609CC-$060AA3 DATA
+;org $0C89CC
+OverworldMap32_Screen68_High:
+{
+    incbin "bin/ow/screen68-h.bin" ; size: 0x00D8
+}
+
+; $060AA4-$060B99 DATA
+;org $0C8AA4
+OverworldMap32_Screen68_Low: 
+{
+    incbin "bin/ow/screen68-l.bin" ; size: 0x00F6
+}
+
+; $060B9A-$060C72 DATA
+;org $0C8B9A
+OverworldMap32_Screen69_High:
+{
+    incbin "bin/ow/screen69-h.bin" ; size: 0x00D9
+}
+
+; $060C73-$060D6B DATA
+;org $0C8C73
+OverworldMap32_Screen69_Low: 
+{
+    incbin "bin/ow/screen69-l.bin" ; size: 0x00F9
+}
+
+; $060D6C-$060E3A DATA
+;org $0C8D6C
+OverworldMap32_Screen2A_High:
+{
+    incbin "bin/ow/screen2A-h.bin" ; size: 0x00CF
+}
+
+; $060E3B-$060F2A DATA
+;org $0C8E3B
+OverworldMap32_Screen2A_Low: 
+{
+    incbin "bin/ow/screen2A-l.bin" ; size: 0x00F0
+}
+
+; $060F2B-$06100B DATA
+;org $0C8F2B
+OverworldMap32_Screen2B_High:
+{
+    incbin "bin/ow/screen2B-h.bin" ; size: 0x00E1
+}
+
+; $06100C-$061105 DATA
+;org $0C900C
+OverworldMap32_Screen2B_Low: 
+{
+    incbin "bin/ow/screen2B-l.bin" ; size: 0x00FA
+}
+
+; $061106-$0611F0 DATA
+;org $0C9106
+OverworldMap32_Screen2C_High:
+{
+    incbin "bin/ow/screen2C-h.bin" ; size: 0x00EB
+}
+
+; $0611F1-$0612E7 DATA
+;org $0C91F1
+OverworldMap32_Screen2C_Low: 
+{
+    incbin "bin/ow/screen2C-l.bin" ; size: 0x00F7
+}
+
+; $0612E8-$0613D3 DATA
+;org $0C92E8
+OverworldMap32_Screen6D_High:
+{
+    incbin "bin/ow/screen6D-h.bin" ; size: 0x00EC
+}
+
+; $0613D4-$0614CF DATA
+;org $0C93D4
+OverworldMap32_Screen6D_Low: 
+{
+    incbin "bin/ow/screen6D-l.bin" ; size: 0x00FC
+}
+
+; $0614D0-$0615C3 DATA
+;org $0C94D0
+OverworldMap32_Screen2E_High:
+{
+    incbin "bin/ow/screen2E-h.bin" ; size: 0x00F4
+}
+
+; $0615C4-$0616BE DATA
+;org $0C95C4
+OverworldMap32_Screen2E_Low: 
+{
+    incbin "bin/ow/screen2E-l.bin" ; size: 0x00FB
+}
+
+; $0616BF-$0617B2 DATA
+;org $0C96BF
+OverworldMap32_Screen2F_High:
+{
+    incbin "bin/ow/screen2F-h.bin" ; size: 0x00F4
+}
+
+; $0617B3-$0618AF DATA
+;org $0C97B3
+OverworldMap32_Screen2F_Low: 
+{
+    incbin "bin/ow/screen2F-l.bin" ; size: 0x00FD
+}
+
+; $0618B0-$06196D DATA
+;org $0C98B0
+OverworldMap32_Screen70_High:
+{
+    incbin "bin/ow/screen70-h.bin" ; size: 0x00BE
+}
+
+; $06196E-$061A47 DATA
+;org $0C996E
+OverworldMap32_Screen70_Low: 
+{
+    incbin "bin/ow/screen70-l.bin" ; size: 0x00DA
+}
+
+; $061A48-$061AF3 DATA
+;org $0C9A48
+OverworldMap32_Screen71_High:
+{
+    incbin "bin/ow/screen71-h.bin" ; size: 0x00AC
+}
+
+; $061AF4-$061BC1 DATA
+;org $0C9AF4
+OverworldMap32_Screen71_Low: 
+{
+    incbin "bin/ow/screen71-l.bin" ; size: 0x00CE
+}
+
+; $061BC2-$061CB2 DATA
+;org $0C9BC2
+OverworldMap32_Screen72_High:
+{
+    incbin "bin/ow/screen72-h.bin" ; size: 0x00F1
+}
+
+; $061CB3-$061DAE DATA
+;org $0C9CB3
+OverworldMap32_Screen72_Low: 
+{
+    incbin "bin/ow/screen72-l.bin" ; size: 0x00FC
+}
+
+; $061DAF-$061E81 DATA
+;org $0C9DAF
+OverworldMap32_Screen33_High:
+{
+    incbin "bin/ow/screen33-h.bin" ; size: 0x00D3
+}
+
+; $061E82-$061F72 DATA
+;org $0C9E82
+OverworldMap32_Screen33_Low: 
+{
+    incbin "bin/ow/screen33-l.bin" ; size: 0x00F1
+}
+
+; $061F73-$062048 DATA
+;org $0C9F73
+OverworldMap32_Screen34_High:
+{
+    incbin "bin/ow/screen34-h.bin" ; size: 0x00D6
+}
+
+; $062049-$062131 DATA
+;org $0CA049
+OverworldMap32_Screen34_Low: 
+{
+    incbin "bin/ow/screen34-l.bin" ; size: 0x00E9
+}
+
+; $062132-$062225 DATA
+;org $0CA132
+OverworldMap32_Screen75_High:
+{
+    incbin "bin/ow/screen75-h.bin" ; size: 0x00F4
+}
+
+; $062226-$062328 DATA
+;org $0CA226
+OverworldMap32_Screen75_Low: 
+{
+    incbin "bin/ow/screen75-l.bin" ; size: 0x0103
+}
+
+; $062329-$0623DB DATA
+;org $0CA329
+OverworldMap32_Screen76_High:
+{
+    incbin "bin/ow/screen76-h.bin" ; size: 0x00B3
+}
+
+; $0623DC-$0624B9 DATA
+;org $0CA3DC
+OverworldMap32_Screen76_Low: 
+{
+    incbin "bin/ow/screen76-l.bin" ; size: 0x00DE
+}
+
+; $0624BA-$0625B2 DATA
+;org $0CA4BA
+OverworldMap32_Screen37_High:
+{
+    incbin "bin/ow/screen37-h.bin" ; size: 0x00F9
+}
+
+; $0625B3-$0626B1 DATA
+;org $0CA5B3
+OverworldMap32_Screen37_Low: 
+{
+    incbin "bin/ow/screen37-l.bin" ; size: 0x00FF
+}
+
+; $0626B2-$062798 DATA
+;org $0CA6B2
+OverworldMap32_Screen78_High:
+{
+    incbin "bin/ow/screen78-h.bin" ; size: 0x00E7
+}
+
+; $062799-$062897 DATA
+;org $0CA799
+OverworldMap32_Screen78_Low: 
+{
+    incbin "bin/ow/screen78-l.bin" ; size: 0x00FF
+}
+
+; $062898-$062970 DATA
+;org $0CA898
+OverworldMap32_Screen79_High:
+{
+    incbin "bin/ow/screen79-h.bin" ; size: 0x00D9
+}
+
+; $062971-$062A6C DATA
+;org $0CA971
+OverworldMap32_Screen79_Low: 
+{
+    incbin "bin/ow/screen79-l.bin" ; size: 0x00FC
+}
+
+; $062A6D-$062B63 DATA
+;org $0CAA6D
+OverworldMap32_Screen7A_High:
+{
+    incbin "bin/ow/screen7A-h.bin" ; size: 0x00F7
+}
+
+; $062B64-$062C5E DATA
+;org $0CAB64
+OverworldMap32_Screen7A_Low: 
+{
+    incbin "bin/ow/screen7A-l.bin" ; size: 0x00FB
+}
+
+; $062C5F-$062D49 DATA
+;org $0CAC5F
+OverworldMap32_Screen3B_High:
+{
+    incbin "bin/ow/screen3B-h.bin" ; size: 0x00EB
+}
+
+; $062D4A-$062E36 DATA
+;org $0CAD4A
+OverworldMap32_Screen3B_Low: 
+{
+    incbin "bin/ow/screen3B-l.bin" ; size: 0x00ED
+}
+
+; $062E37-$062F23 DATA
+;org $0CAE37
+OverworldMap32_Screen3C_High:
+{
+    incbin "bin/ow/screen3C-h.bin" ; size: 0x00ED
+}
+
+; $062F24-$063015 DATA
+;org $0CAF24
+OverworldMap32_Screen3C_Low: 
+{
+    incbin "bin/ow/screen3C-l.bin" ; size: 0x00F2
+}
+
+; $063016-$06310B DATA
+;org $0CB016
+OverworldMap32_Screen7D_High:
+{
+    incbin "bin/ow/screen7D-h.bin" ; size: 0x00F6
+}
+
+; $06310C-$06320A DATA
+;org $0CB10C
+OverworldMap32_Screen7D_Low: 
+{
+    incbin "bin/ow/screen7D-l.bin" ; size: 0x00FF
+}
+
+; $06320B-$0632E5 DATA
+;org $0CB20B
+OverworldMap32_Screen7E_High:
+{
+    incbin "bin/ow/screen7E-h.bin" ; size: 0x00DB
+}
+
+; $0632E6-$0633D1 DATA
+;org $0CB2E6
+OverworldMap32_Screen7E_Low: 
+{
+    incbin "bin/ow/screen7E-l.bin" ; size: 0x00EC
+}
+
+; $0633D2-$0634C7 DATA
+;org $0CB3D2
+OverworldMap32_Screen3F_High:
+{
+    incbin "bin/ow/screen3F-h.bin" ; size: 0x00F6
+}
+
+; $0634C8-$0635C7 DATA
+;org $0CB4C8
+OverworldMap32_Screen3F_Low: 
+{
+    incbin "bin/ow/screen3F-l.bin" ; size: 0x0100
+}
+
+; $0635C8-$0635CB DATA
+;org $0CB5C8
+OverworldMap32_Screen9E_High:
+{
+    incbin "bin/ow/screen9E-h.bin" ; size: 0x0004
+}
+
+; $0635CC-$06367A DATA
+;org $0CB5CC
+OverworldMap32_Screen9E_Low: 
+{
+    incbin "bin/ow/screen9E-l.bin" ; size: 0x00AF
+}
+
+; $06367B-$06367E DATA
+;org $0CB67B
+OverworldMap32_Screen97_High:
+{
+    incbin "bin/ow/screen97-h.bin" ; size: 0x0004
+}
+
+; $06367F-$0636BD DATA
+;org $0CB67F
+OverworldMap32_Screen97_Low: 
+{
+    incbin "bin/ow/screen97-l.bin" ; size: 0x003F
+}
+
+; $0636BE-$063742 DATA
+;org $0CB6BE
+OverworldMap32_Screen9F_High:
+{
+    incbin "bin/ow/screen9F-h.bin" ; size: 0x0085
+}
+
+; $063743-$06383B DATA
+;org $0CB743
+OverworldMap32_Screen9F_Low: 
+{
+    incbin "bin/ow/screen9F-l.bin" ; size: 0x00F9
+}
+
+; $06383C-$0638AB DATA
+;org $0CB83C
+OverworldMap32_Screen80_High:
+{
+    incbin "bin/ow/screen80-h.bin" ; size: 0x0070
+}
+
+; $0638AC-$06397B DATA
+;org $0CB8AC
+OverworldMap32_Screen80_Low: 
+{
+    incbin "bin/ow/screen80-l.bin" ; size: 0x00D0
+}
+
+; $06397C-$063A15 DATA
+;org $0CB97C
+OverworldMap32_Screen81_High:
+{
+    incbin "bin/ow/screen81-h.bin" ; size: 0x009A
+}
+
+; $063A16-$063AF1 DATA
+;org $0CBA16
+OverworldMap32_Screen81_Low: 
+{
+    incbin "bin/ow/screen81-l.bin" ; size: 0x00DC
+}
+
+; $063AF2-$063BB8 DATA
+;org $0CBAF2
+OverworldMap32_Screen82_High:
+{
+    incbin "bin/ow/screen82-h.bin" ; size: 0x00C7
+}
+
+; $063BB9-$063CAD DATA
+;org $0CBBB9
+OverworldMap32_Screen82_Low: 
+{
+    incbin "bin/ow/screen82-l.bin" ; size: 0x00F5
+}
+
+; $063CAE-$063D5D DATA
+;org $0CBCAE
+OverworldMap32_Screen89_High:
+{
+    incbin "bin/ow/screen89-h.bin" ; size: 0x00B0
+}
+
+; $063D5E-$063E4A DATA
+;org $0CBD5E
+OverworldMap32_Screen89_Low: 
+{
+    incbin "bin/ow/screen89-l.bin" ; size: 0x00ED
+}
+
+; $063E4B-$063F04 DATA
+;org $0CBE4B
+OverworldMap32_Screen8A_High:
+{
+    incbin "bin/ow/screen8A-h.bin" ; size: 0x00BA
+}
+
+; $063F05-$063FD6 DATA
+;org $0CBF05
+OverworldMap32_Screen8A_Low: 
+{
+    incbin "bin/ow/screen8A-l.bin" ; size: 0x00D2
+}
+
+; $063FD7-$063FDD DATA
+;org $0CBFD7
+OverworldMap32_Screen96_High:
+{
+    incbin "bin/ow/screen96-h.bin" ; size: 0x0007
+}
+
+; $063FDE-$063FF9 DATA
+;org $0CBFDE
+OverworldMap32_Screen96_Low: 
+{
+    incbin "bin/ow/screen96-l.bin" ; size: 0x001C
+}
+
+; $063FFA-$064043 DATA
+;org $0CBFFA
+OverworldMap32_Screen95_High:
+{
+    incbin "bin/ow/screen95-h.bin" ; size: 0x004A
+}
+
+; $064044-$0640AB DATA
+;org $0CC044
+OverworldMap32_Screen95_Low: 
+{
+    incbin "bin/ow/screen95-l.bin" ; size: 0x0068
+}
+
+; $0640AC-$0640AF DATA
+;org $0CC0AC
+OverworldMap32_Screen9C_High:
+{
+    incbin "bin/ow/screen9C-h.bin" ; size: 0x0004
+}
+
+; $0640B0-$0640B3 DATA
+;org $0CC0B0
+OverworldMap32_Screen9C_Low: 
+{
+    incbin "bin/ow/screen9C-l.bin" ; size: 0x0004
+}
+
+; $0640B4-$0640B7 DATA
+;org $0CC0B4
+OverworldMap32_Screen88_High:
+{
+    incbin "bin/ow/screen88-h.bin" ; size: 0x0004
+}
+
+; $0640B8-$06410A DATA
+;org $0CC0B8
+OverworldMap32_Screen88_Low: 
+{
+    incbin "bin/ow/screen88-l.bin" ; size: 0x0054
+}
+
+; ==============================================================================
 
 ; $06410C-$06411F DATA
 NULL_0CC10C:
