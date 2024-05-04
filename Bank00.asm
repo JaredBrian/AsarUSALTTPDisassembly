@@ -8,32 +8,32 @@ org $008000 ; $000000-$00FFFF
 ; $000000-$000060
 Vector_Reset:
 {
-    SEI ; Set interrupt disable bits
+    SEI ; Set interrupt disable bits.
 
-    STZ $4200   ; Disables the NMI and various other things
-    STZ $420C   ; HDMA and DMA is disabled
+    STZ $4200   ; Disables the NMI and various other things.
+    STZ $420C   ; HDMA and DMA is disabled.
     STZ $420B   
-    STZ $2140   ; Clear SPC locations
+    STZ $2140   ; Clear SPC locations.
     STZ $2141
     STZ $2142
     STZ $2143
 
-    ; Set brightness to zero and enable force blank (forced V-Blank all the time)
+    ; Set brightness to zero and enable force blank (forced V-Blank all the time).
     LDA.b #$80 : STA $2100
 
-    ; Switch to native mode
+    ; Switch to native mode.
     CLC : XCE
 
-    ; Reset M and D flags
+    ; Reset M and D flags.
     REP #$28
 
-    ; Direct page is at $0000
+    ; Direct page is at $0000.
     LDA.w #$0000 : TCD
 
-    ; Stack is located at $01FF
+    ; Stack is located at $01FF.
     LDA.w #$01FF : TCS
 
-    SEP #$30 ; M and X are 8 bit
+    SEP #$30 ; M and X are 8 bit.
 
     JSR Sound_LoadIntroSongBank
     JSR Startup_InitializeMemory
@@ -52,7 +52,7 @@ Vector_Reset:
         BRA .do_frame
 
         ; Inaccessible code, used for debug if assembled in.
-        ; NOP out the above BRA to activate this code
+        ; NOP out the above BRA to activate this code.
         .frameStepDebugCode
 
         LDA $F6 : AND.b #$20 : BEQ .L_ButtonDown ; If the L button is down, then...
@@ -76,7 +76,7 @@ Vector_Reset:
 
                 JSR Main_PrepSpritesForNmi
 
-                ; Start the NMI Wait loop again
+                ; Start the NMI Wait loop again.
                 STZ $12
     BRA .nmi_wait_loop
 }
@@ -86,10 +86,10 @@ Vector_Reset:
 ; $000061-$0000B4 JUMP TABLE FOR SR$0085
 Pool_Module_MainRouting: 
 {
-    ; TODO: Reference jpdisasm for interleaved long pointers
+    ; TODO: Reference jpdisasm for interleaved long pointers.
     interleave
     {
-    ; Note: there are 28 distinct modes here (0x1C)
+    ; Note: there are 28 distinct modes here (0x1C).
 
     .modules
     dl Module_Intro          ; 0x00 - Triforce / Zelda startup screens
@@ -139,7 +139,7 @@ Module_MainRouting:
     LDA .middles, Y : STA $04
     LDA .banks, Y   : STA $05
     
-    ; Jump to a main module depending on addr $7E0010 in ram
+    ; Jump to a main module depending on addr $7E0010 in ram.
     JMP [$0003]
 }
 
@@ -148,19 +148,19 @@ Module_MainRouting:
 ; $0000C9-$00022C NMI Interrupt Subroutine (NMI Vector)
 Vector_NMI:
 {
-    ; Ensures this interrupt isn't interrupted by an IRQ
+    ; Ensures this interrupt isn't interrupted by an IRQ.
     SEI
     
-    ; Resets M and X flags
+    ; Resets M and X flags.
     REP #$30
     
-    ; Pushes 16 bit registers to the stack
+    ; Pushes 16 bit registers to the stack.
     PHA : PHX : PHY : PHD : PHB
     
-    ; Sets DP to $0000
+    ; Sets DP to $0000.
     LDA.w #$0000 : TCD
     
-    ; Equate Program and Data banks
+    ; Equate Program and Data banks.
     PHK : PLB
     
     SEP #$30
@@ -173,7 +173,7 @@ Vector_NMI:
     LDA $012C : BNE .nonzeroMusicInput
         LDA $2140 : CMP $0133 : BNE .handleAmbientSfxInput
         
-        ; If they were the same, put 0 in $2140
+        ; If they were the same, put 0 in $2140.
         STZ $2140
         
         BRA .handleAmbientSfxInput
@@ -192,9 +192,9 @@ Vector_NMI:
     .handleAmbientSfxInput
 
     LDA $012D : BNE .nonzeroAmbientSfxInput
-        ; Compare the values
+        ; Compare the values.
         LDA $2141 : CMP $0131 : BNE .writeSfx
-            STZ $2141 ; If equal, zero out $2141
+            STZ $2141 ; If equal, zero out $2141.
             
             BRA .writeSfx
 
@@ -206,20 +206,20 @@ Vector_NMI:
 
     .writeSfx
 
-    ; Addresses will hold SPC memory locations
+    ; Addresses will hold SPC memory locations.
     LDA $012E : STA $2142
     LDA $012F : STA $2143
     
     STZ $012E
     STZ $012F
     
-    ; Bring the screen into forceblank (forced vblank)
+    ; Bring the screen into forceblank (forced vblank).
     LDA.b #$80 : STA $2100
     
-    ; Disable all DMA transfers
+    ; Disable all DMA transfers.
     STZ $420C
     
-    ; Checks to see if we're still in the infinite loop in the main routine
+    ; Checks to see if we're still in the infinite loop in the main routine.
     ; If $12 is not 0, it shows that the infinite loop isn't running.
     LDA $12 : BNE .normalFrameNotFinished
         ; This would happen if NMI had been called from the wait loop.
@@ -235,21 +235,21 @@ Vector_NMI:
 
     .helperThreadInactive
 
-    ; Sets background clipping... 
+    ; Sets background clipping... .
     LDA $96 : STA $2123
     LDA $97 : STA $2124
     LDA $98 : STA $2125
     
-    ; Sets color / sprite windowing registers
+    ; Sets color / sprite windowing registers.
     LDA $99 : STA $2130
     LDA $9A : STA $2131
     
-    ; Possibly a register that must be written 3 times (internal pointer)
+    ; Possibly a register that must be written 3 times (internal pointer).
     LDA $9C : STA $2132
     LDA $9D : STA $2132
     LDA $9E : STA $2132
     
-    ; Main / Subscreen designation registers
+    ; Main / Subscreen designation registers.
     LDA $1C : STA $212C
     LDA $1D : STA $212D
     
@@ -273,15 +273,15 @@ Vector_NMI:
     LDA $E4 : STA $2111
     LDA $E5 : STA $2111
     
-    ; All BG registers
+    ; All BG registers.
     LDA $EA : STA $2112
     LDA $EB : STA $2112
     
-    ; MOSAIC and BGMODE register mirrors
+    ; MOSAIC and BGMODE register mirrors.
     LDA $95 : STA $2106
     LDA $94 : STA $2105
     
-    ; Check to see if we're in mode 7
+    ; Check to see if we're in mode 7.
     AND.b #$07 : CMP.b #$07 : BNE .notInMode7
         STZ $211C : STZ $211C
         STZ $211D : STZ $211D
@@ -294,23 +294,23 @@ Vector_NMI:
     .notInMode7
 
     LDA $0128 : BEQ .irqInactive
-        ; Clear the IRQ line if one is pending? (reset latch)
+        ; Clear the IRQ line if one is pending? (reset latch).
         LDA $4211
         
         ; Set vertical irq trigger position to 128, which is a tad
-        ; bit past the middle of the screen, vertically
+        ; bit past the middle of the screen, vertically.
         LDA.b #$80 : STA $4209 : STZ $420A
         
-        ; Set horizontal irq trigger position to 0.
-        ; (Will not be used anyways)
+        ; Set horizontal irq trigger position to 0
+        ; (Will not be used anyways).
         STZ $4207 : STZ $4208
         
-        ; Will enable NMI, and Joypad, and vertical IRQ trigger
+        ; Will enable NMI, and Joypad, and vertical IRQ trigger.
         LDA.b #$A1 : STA $4200 ; #$A1 = #%10100001
 
     .irqInactive
 
-    ; $13 holds the screen state
+    ; $13 holds the screen state.
     LDA $13 : STA $2100
     LDA $9B : STA $420C
     
@@ -332,7 +332,7 @@ NMI_SwitchThread:
     
     LDA $FF : STA $4209 : STZ $420A
     
-    ; A = #%10100001, which means activate NMI, V-IRQ, and Joypad
+    ; A = #%10100001, which means activate NMI, V-IRQ, and Joypad.
     LDA.b #$A1 : STA $4200
     
     LDA $96 : STA $2123
@@ -372,14 +372,14 @@ NMI_SwitchThread:
     REP #$30
     
     ; This is very tricksy.
-    ; X = S; (apparently they did't know about the TSX instruction)
+    ; X = S; (apparently they did't know about the TSX instruction).
     TSC : TAX
     
     ; S = $1F0A
     ; $1F0A = X
     LDA $1F0A : TCS : STX $1F0A
     
-    ; Expect to end up at $09F81D after the RTI ;)
+    ; Expect to end up at $09F81D after the RTI ;).
     
     PLB : PLD : PLY : PLX : PLA
     
@@ -407,7 +407,7 @@ Vector_IRQ:
 
             .BRANCH_1
 
-            BIT $4212 : BVC .BRANCH_1 ; Wait for hBlank
+            BIT $4212 : BVC .BRANCH_1 ; Wait for hBlank.
             
             LDA $0630 : STA $2111
             LDA $0631 : STA $2111
@@ -438,7 +438,7 @@ Vector_IRQ:
     ; X = S
     TSC : TAX
     
-    ; Transfer A -> S
+    ; Transfer A -> S.
     LDA $1F0A : TCS : STX $1F0A
     
     PLB : PLD : PLY : PLX : PLA
@@ -449,9 +449,9 @@ Vector_IRQ:
 ; $000333-$0003D0 LONG JUMP LOCATION
 Vram_EraseTilemaps:
 {
-    ; this routine might be optimizable
+    ; This routine might be optimizable.
 
-    .triforce ; for use with the title screen and the credits sequence
+    .triforce ; For use with the title screen and the credits sequence.
 
     !fillBg_1_2 = $00
     !fillBg_3   = $02
@@ -478,11 +478,11 @@ Vram_EraseTilemaps:
     ; $00034B ALTERNATE ENTRY POINT
     .normal
 
-    ; Performs a tilemap blanking (filling with transparent tiles) for BG1, BG2, and BG3
+    ; Performs a tilemap blanking (filling with transparent tiles) for BG1, BG2, and BG3.
     
     REP #$20
     
-    ; $01EC indicates "blank" tiles
+    ; $01EC indicates "blank" tiles.
     LDA.w #$007F : STA !fillBg_3
     
     LDA.w #$01EC
@@ -492,85 +492,85 @@ Vram_EraseTilemaps:
     ; Could be any number of values.
     STA !fillBg_1_2
     
-    ; vram target address updates on writes to $2118
+    ; vram target address updates on writes to $2118.
     STZ $2115
     
-    ; The vram target address is $0000 (word address)
+    ; The vram target address is $0000 (word address).
     STZ $2116
     
-    ; target register is $2118, write one register once mode, with fixed source address
+    ; target register is $2118, write one register once mode, with fixed source address.
     LDA.w #$1808 : STA $4310
     
-    ; dma source address is $000000    
+    ; dma source address is $000000.
     STZ $4314
     LDA.w #$0000 : STA $4312
     
     ; will write 0x2000 bytes. since we're only writing to the low byte of each vram word address,
     ; we will technically cover 0x4000 bytes worth of address space, but in terms of vram addresses it's 
-    ; still only vram address $0000 to $1FFF
+    ; still only vram address $0000 to $1FFF.
     LDA.w #$2000 : STA $4315
     
-    ; transfer the data on channel 1
+    ; transfer the data on channel 1.
     LDY.b #$02 : STY $420B
     
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ; increment vram address when $2119 is written
+    ; increment vram address when $2119 is written.
     LDX.b #$80 : STX $2115
     
-    ; Reinitialize vram target address to $0000 (word)
+    ; Reinitialize vram target address to $0000 (word).
     STZ $2116
     
-    ; Again write 0x2000 bytes
+    ; Again write 0x2000 bytes.
     STA $4315
     
-    ; dma target register is $2119, write one register once mode, with fixed address
+    ; dma target register is $2119, write one register once mode, with fixed address.
     LDA.w #$1908 : STA $4310
     
-    ; The DMA source address will now be $000001
+    ; The DMA source address will now be $000001.
     LDA.w #$0001 : STA $4312
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     STY $420B
     
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ; This value was saved earliest in the routine.
     LDA !fillBg_3 : STA !fillBg_1_2
     
-    ; increment on writes to $2118 again
+    ; increment on writes to $2118 again.
     STZ $2115
     
-    ; write to vram address $6000 (word)
+    ; write to vram address $6000 (word).
     LDA.w #$6000 : STA $2116
     
-    ; Write to $2118, Non incrementally
+    ; Write to $2118, Non incrementally.
     LDA.w #$1808 : STA $4310
     
-    ; $DMA source address is $000000
+    ; $DMA source address is $000000.
     LDA.w #$0000 : STA $4312
     
     ; Write $00 #$800 times to Vram.
     LDA.w #$0800 : STA $4315
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     STY $420B
     
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ; increment on writes to $2119 again
+    ; increment on writes to $2119 again.
     STX $2115
     
-    ; Reset the byte amount to 0x800 bytes    
+    ; Reset the byte amount to 0x800 bytes.
     STA $4315
     
-    ; Reset vram target address to $6000 (word)
+    ; Reset vram target address to $6000 (word).
     LDA.w #$6000 : STA $2116
     
-    ; write to $2119, write one register once mode, fixed source address
+    ; write to $2119, write one register once mode, fixed source address.
     LDA.w #$1908 : STA $4310
     
-    ; DMA source address is $000001
+    ; DMA source address is $000001.
     LDA.w #$0001 : STA $4312
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     STY $420B
     
     SEP #$20
@@ -588,11 +588,11 @@ NMI_ReadJoypads:
     ; Probably indicates that we're not using the old style joypad reading.
     STZ $4016 
     
-    ; Storing the state of Joypad 1 to $00-$01
+    ; Storing the state of Joypad 1 to $00-$01.
     LDA $4218 : STA $00
     LDA $4219 : STA $01
     
-    ; $F2 has the pure joypad data
+    ; $F2 has the pure joypad data.
     LDA $00 : STA $F2 : TAY 
     
     ; $FA at this point contains the joypad data from the last frame.
@@ -630,9 +630,8 @@ ClearOamBuffer:
 {
     ; Gets rid of old sprites by moving them off screen, basically.
     ; E.g., when you kill a soldier, his sprite has to disappear, right?
-    ; Any sprites that are still in the game engine will be moved back on screen 
-    ; before VRAM
-    ; is written to again.    
+    ; Any sprites that are still in the game engine will be moved back on screen
+    ; before VRAM is written to again.
     
     LDX.b #$60
 
@@ -733,10 +732,9 @@ ClearOamBuffer:
 ; $0005FC-$000780 LOCAL JUMP LOCATION
 Main_PrepSpritesForNmi:
 {
-    ; Writes some extra data for the OAM memory
-    ; The data is written to $0A00 to $0A1F,
-    ; And the data that is written is formed from
-    ; The addresses $0A20 through $0A9F
+    ; Writes some extra data for the OAM memory. The data is written to $0A00 to
+    ; $0A1F, and the data that is written is formed from the addresses $0A20
+    ; through $0A9F.
         
     LDY.b #$1C
 
@@ -796,7 +794,7 @@ Main_PrepSpritesForNmi:
     LDA.w $8494, X : STA $0AD8 : CLC : ADC.w #$0100 : STA $0ADA
         
     LDA $7EC00D : DEC A : STA $7EC00D : BNE .ignoreTileAnimation
-        ; Reset the counter for tile animation
+        ; Reset the counter for tile animation.
         LDA.w #$0009
         
         LDX $8C : CPX.b #$B5 : BEQ .BRANCH_1A
@@ -836,7 +834,7 @@ Main_PrepSpritesForNmi:
 
     .ignoreSpriteAnimation
 
-    ; setup tagalong sprite for dma transfer
+    ; setup tagalong sprite for dma transfer.
     LDA $0AE8    : ASL A
     ADC.w #$B940 : STA $0AEC
     ADC.w #$0200 : STA $0AEE
@@ -846,7 +844,7 @@ Main_PrepSpritesForNmi:
     ADC.w #$B940 : STA $0AF0
     ADC.w #$0200 : STA $0AF2
         
-    ; setup dma transfer for bird's sprite slot
+    ; setup dma transfer for bird's sprite slot.
     LDA $0AF4    : ASL A
     ADC.w #$B540 : STA $0AF6
     ADC.w #$0200 : STA $0AF8
@@ -863,20 +861,20 @@ UseImplicitRegIndexedLocalJumpTable:
 {
     ; Parameters: Stack, A
     
-    ; save current Y
+    ; save current Y.
     STY $03
     
-    ; Pull return PCL to Y
+    ; Pull return PCL to Y.
     PLY : STY $00
     
     REP #$30
     
-    ; Ensures offset is a Multiple of two
+    ; Ensures offset is a Multiple of two.
     AND.w #$00FF : ASL A : TAY
     
-    ; Pull the rest of the return address onto A
+    ; Pull the rest of the return address onto A.
     ; Since this is a 16 bit value this ensures that the jump address is 
-    ; in the same bank as the return address
+    ; in the same bank as the return address.
     PLA : STA $01
     
     INY
@@ -885,7 +883,7 @@ UseImplicitRegIndexedLocalJumpTable:
     
     SEP #$30
     
-    ; restore Y
+    ; restore Y.
     LDY $03
     
     JML [$0000]
@@ -898,7 +896,7 @@ UseImplicitRegIndexedLongJumpTable:
 {
     STY $05
     
-    ; load Y with lower return PC from the stack
+    ; load Y with lower return PC from the stack.
     PLY : STY $02
     
     REP #$30
@@ -906,22 +904,22 @@ UseImplicitRegIndexedLongJumpTable:
     AND.w #$00FF : STA $03
     
     ; shift bits left = multiply by two, since bit 15 will NOT be set.
-    ; Add the original number. Essentially, this is 2N + N = 3N
-    ; // In other words, Y is indexed as 3 times the value that A had.
+    ; Add the original number. Essentially, this is 2N + N = 3N.
+    ; In other words, Y is indexed as 3 times the value that A had.
     ASL A : ADC $03 : TAY
     
     ; Pull the upper return PC and return PB from the Stack.
     PLA : STA $03
     
-    INY ; Pushes Y past the edge of the original PC
+    INY ; Pushes Y past the edge of the original PC.
     
-    ; Look up a new address in a table
+    ; Look up a new address in a table.
     LDA [$02], Y : STA $00 : INY
     
     ; Note that the first STA overlapped this one.
     LDA [$02], Y : STA $01
     
-    ; The idea was to retrieve a 3-byte address from a jump table
+    ; The idea was to retrieve a 3-byte address from a jump table.
     
     SEP #$30
     
@@ -935,11 +933,11 @@ UseImplicitRegIndexedLongJumpTable:
 ; $0007C0-$00082D LOCAL JUMP LOCATION
 Startup_InitializeMemory:
 {
-    ; Zeroes out $7E0000-$7E1FFF, and checks some values in SRAM
+    ; Zeroes out $7E0000-$7E1FFF, and checks some values in SRAM.
     
     REP #$30
     
-    ; Save the return location of this subroutine
+    ; Save the return location of this subroutine.
     ; But why do this, why not something like "TSX : TXY"?
     LDY.w $01FE
     
@@ -966,7 +964,7 @@ Startup_InitializeMemory:
 
     .validSlot1Sram
 
-    ; repeat this for slots 2 and 3
+    ; repeat this for slots 2 and 3.
     LDA $7008E5 : CMP.w #$55AA : BEQ .validSlot2Sram
         LDA.w #$0000 : STA $7008E5
 
@@ -977,19 +975,19 @@ Startup_InitializeMemory:
 
     .validSlot3Sram
 
-    ; Restore the return location for this function to the stack
-    ; As above, I think "TYX : TXS" would have worked >___>
+    ; Restore the return location for this function to the stack.
+    ; As above, I think "TYX : TXS" would have worked >___>.
     STY $01FE
     
-    ; Window mask activation
+    ; Window mask activation.
     STZ $212E
     
     SEP #$30
     
-    ; bring the screen into force blank after NMI
+    ; bring the screen into force blank after NMI.
     LDA.b #$80 : STA $13
     
-    ; update cgram this frame
+    ; update cgram this frame.
     INC $15
     
     RTS
@@ -1002,7 +1000,7 @@ Overworld_GetTileAttrAtLocation:
 {
     ; inputs:
     ; $00 - full 16-bit Y coordinate of an object.
-    ; $02 - full 16-bit X coordinate of an object
+    ; $02 - full 16-bit X coordinate of an object.
     ; $
     
     REP #$30
@@ -1038,7 +1036,7 @@ Overworld_GetTileAttrAtLocation:
 ; $000888-$000900 LOCAL JUMP LOCATION
 Sound_LoadSongBank:
 {
-    ; Loads SPC with data
+    ; Loads SPC with data.
     
     PHP
     
@@ -1049,7 +1047,7 @@ Sound_LoadSongBank:
 
     .BRANCH_INIT_WAIT
 
-        ; // Wait for the SPC to initialize to #$AABB
+        ; Wait for the SPC to initialize to #$AABB.
     CMP $2140 : BNE .BRANCH_INIT_WAIT
     
     SEP #$20
@@ -1079,7 +1077,7 @@ Sound_LoadSongBank:
             
             ; Are we at the end of a bank?
             CPY.w #$8000 : BNE .BRANCH_NOT_BANK_END ; If not, then branch forward.
-                LDY.w #$0000 ; Otherwise, increment the bank of the address at [$00]
+                LDY.w #$0000 ; Otherwise, increment the bank of the address at [$00].
                 
                 INC $02
 
@@ -1089,19 +1087,19 @@ Sound_LoadSongBank:
 
             .BRANCH_WAIT_FOR_ZERO
 
-                ; Wait for $2140 to be #$00 (we're in 8bit mode)
+                ; Wait for $2140 to be #$00 (we're in 8bit mode).
             CMP $2140 : BNE .BRANCH_WAIT_FOR_ZERO
             
-            INC A ; Increment the byte count
+            INC A ; Increment the byte count.
 
             .BRANCH_WRITE_ZERO_BYTE
 
             REP #$20
             
-            ; Ends up storing the byte count to $2140 and the
+            ; Ends up storing the byte count to $2140 and the.
             STA $2140
             
-            SEP #$20 ; data byte to $2141. (Data byte represented as **)
+            SEP #$20 ; data byte to $2141. (Data byte represented as **).
         DEX : BNE .BRANCH_CONTINUE_TRANSFER
 
     .BRANCH_SYNCHRONIZE ; We ran out of bytes to transfer.
@@ -1109,10 +1107,10 @@ Sound_LoadSongBank:
         ; But we still need to synchronize.
     CMP $2140 : BNE .BRANCH_SYNCHRONIZE
 
-    .BRANCH_NO_ZERO ; At this point $2140 = #$01
+    .BRANCH_NO_ZERO ; At this point $2140 = #$01.
 
-        ; Add four to the byte count
-    ADC.b #$03 : BEQ .BRANCH_NO_ZERO ; (But Don't let A be zero!)
+        ; Add four to the byte count.
+    ADC.b #$03 : BEQ .BRANCH_NO_ZERO ; (But Don't let A be zero!).
 
     .BRANCH_SETUP_TRANSFER
 
@@ -1128,8 +1126,7 @@ Sound_LoadSongBank:
         
         CPX.w #$0001 ; If the number of bytes left to transfer > 0...
         
-        ; Then the carry bit will be set
-        ; And rotated into the accumulator (A = #$01)
+        ; Then the carry bit will be set and rotated into the accumulator (A = #$01)
         ; NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
         ; He mistook #$0001 to be #$0100.
         LDA.b #$00 : ROL A : STA $2141 : ADC.b #$7F
@@ -1139,9 +1136,8 @@ Sound_LoadSongBank:
 
         .BRANCH_TRANSFER_INIT_WAIT
 
-            ; Initially, a 0xCC byte will be sent to initialize
-            ; The transfer.
-            ; If A was #$01 earlier...
+            ; Initially, a 0xCC byte will be sent to initialize the transfer.
+            ; if A was #$01 earlier...
         CMP $2140 : BNE .BRANCH_TRANSFER_INIT_WAIT
     BVS .BRANCH_BEGIN_TRANSFER
     
@@ -1219,11 +1215,11 @@ Sound_LoadLightWorldSongBank:
 ; $00093D-$000949 LONG JUMP LOCATION
 EnableForceBlank:
 {
-    ; Bring the screen into forceblank
-    ; Screen state is mirrored at $13
+    ; Bring the screen into forceblank.
+    ; Screen state is mirrored at $13.
     LDA.b #$80 : STA $2100 : STA $13
     
-    ; Disable hdma transfers on all channels. 
+    ; Disable hdma transfers on all channels.
     STZ $420C : STZ $9B
     
     RTL
@@ -1234,23 +1230,23 @@ EnableForceBlank:
 ; $00094A-$0009C1 LONG JUMP LOCATION
 Main_SaveGameFile:
 {
-    ; Loads Ram into SRAM, calculates an inverse checksum
+    ; Loads Ram into SRAM, calculates an inverse checksum.
     
-    ; Data bank = 0x70, which is the bank that SRAM has been mapped it
+    ; Data bank = 0x70, which is the bank that SRAM has been mapped it.
     PHB : LDA.b #$70 : PHA : PLB
     
     REP #$30
     
     ; $701FFE, an offset of 0, 2, 4, 6,...
-    ; Will give Y a value of 0, 0x0500, 0x0A00, or 0x0F00
+    ; Will give Y a value of 0, 0x0500, 0x0A00, or 0x0F00.
     LDX $1FFE : LDA $00848A, X : TAY : PHY
     
     LDX.w #$0000
 
     .writeSlot
 
-        ; loads memory from WRAM and writes it into SRAM
-        ; Notice the difference of 0xF00 in the mirrored SRAM locations
+        ; loads memory from WRAM and writes it into SRAM.
+        ; Notice the difference of 0xF00 in the mirrored SRAM locations.
         LDA $7EF000, X : STA $0000, Y : STA $0F00, Y
         LDA $7EF100, X : STA $0100, Y : STA $1000, Y
         LDA $7EF200, X : STA $0200, Y : STA $1100, Y
@@ -1266,23 +1262,23 @@ Main_SaveGameFile:
 
     .calcChecksum
 
-        ; The checksum is a sum of 16-bit words of the first 0x4FE words of the save file
+        ; The checksum is a sum of 16-bit words of the first 0x4FE words of the save file.
         CLC : ADC $7EF000, X
     INX #2 : CPX.w #$04FE : BNE .calcChecksum
     
-    ; Store the calculated checksum to dp address $00 for temporary keeping
+    ; Store the calculated checksum to dp address $00 for temporary keeping.
     STA $00
     
-    ; restore the index (0x0000, 0x0500, 0x0A00, ... )
+    ; restore the index (0x0000, 0x0500, 0x0A00, ... ).
     PLY
     
-    ; Subtract the checksum from 0x5A5A, and store the result at a corresponding location in RAM
-    ; Because the result is subtracted from 0x5A5A, I'm inclined to call it an "inverse" checksum
+    ; Subtract the checksum from 0x5A5A, and store the result at a corresponding location in RAM.
+    ; Because the result is subtracted from 0x5A5A, I'm inclined to call it an "inverse" checksum.
     LDA.w #$5A5A : SEC : SBC $00 : STA $7EF4FE
     
     TYX
     
-    ; Store the checksum at offset 0x4FE into the SRAM save game slot. (the last two bytes of the slot)
+    ; Store the checksum at offset 0x4FE into the SRAM save game slot. (the last two bytes of the slot).
     STA $7004FE, X : STA $7013FE, X
     
     SEP #$30
@@ -1310,7 +1306,7 @@ NMI_DoUpdates:
 {
     REP #$10
     
-    ; update target vram address after writes to $2119
+    ; update target vram address after writes to $2119.
     LDA.b #$80 : STA $2115
     
     ; flag used to indicate that special screen updates need to happen.
@@ -1319,45 +1315,46 @@ NMI_DoUpdates:
 
     .doCoreAnimatedSpriteUpdates
 
-    ; In this section Link's sprite, his sword, his shield, blocks, sparkles, rupees, tagalongs,
-    ; and optionally the bird's sprite gets updated (copied to vram).
+    ; In this section Link's sprite, his sword, his shield, blocks, sparkles,
+    ; rupees, tagalongs, and optionally the bird's sprite gets updated
+    ; (copied to vram).
     
     ; base dma register is $2118, write two registers once mode ($2118/$2119), with autoincrementing source addr.
     ; Why isn't $4320 set????
     LDX.w #$1801 : STX $4300 : STX $4310 : STX $4320 : STX $4330 : STX $4340
     
-    ; Sets the bank for the DMA source bank to $10
-    ; Use channels 0 - 2
+    ; Sets the bank for the DMA source bank to $10.
+    ; Use channels 0 - 2.
     LDA.b #$10 : STA $4304 : STA $4314 : STA $4324
     
-    ; The vram target address is $4100 (word)
+    ; The vram target address is $4100 (word).
     LDY.w #$4100 : STY $2116
     
-    ; Sets a source address for dma channel 0
+    ; Sets a source address for dma channel 0.
     LDY $0ACE : STY $4302
     
-    ; going to write 0x40 bytes on channel 0 
+    ; going to write 0x40 bytes on channel 0.
     LDX.w #$0040 : STX $4305
     
-    ; set source address for channel 1
+    ; set source address for channel 1.
     LDY $0AD2 : STY $4312
     
-    ; Also send 0x40 bytes on channel 1
+    ; Also send 0x40 bytes on channel 1.
     STX $4315
     
-    ; Set source for channel 1
+    ; Set source for channel 1.
     LDY $0AD6 : STY $4322
     
-    ; Send 32 bytes on channel 2
+    ; Send 32 bytes on channel 2.
     LDY.w #$0020 : STY $4325
     
     ; VOLLEY 1 *****
-    ; activates DMA transfers on channels 0 - 2
+    ; activates DMA transfers on channels 0 - 2.
     LDA.b #$07 : STA $420B
     
     STY $4325 ; Reset for another 32 bytes?
     
-    ; Set VRAM target to $4000 word addr. = $8000 byte addr. 
+    ; Set VRAM target to $4000 word addr. = $8000 byte addr.
     LDY.w #$4000 : STY $2116
     
     LDY $0ACC ; 0 on first round
@@ -1372,7 +1369,7 @@ NMI_DoUpdates:
     STY $4322 ; Note $4325 is still #$20. This was done above to save cycles.
     STA $420B ; Activate transfer ( A = #$7 ) End of Volley 2 *****
     
-    ; Set the bank for the source to $7E
+    ; Set the bank for the source to $7E.
     LDA.b #$7E : STA $4304
     
     STA $4314
@@ -1394,21 +1391,21 @@ NMI_DoUpdates:
     
     LDY $0AE0 : STY $4332
     
-    ; Store 0x20 bytes
+    ; Store 0x20 bytes.
     LDY.w #$0020 : STY $4335
     
-    ; Use as a Rom local source address (channel 5)
+    ; Use as a Rom local source address (channel 5).
     LDY $0AD8 : STY $4342
     
-    STX $4345 ; Store 64 bytes
+    STX $4345 ; Store 64 bytes.
     
     ; 0x1F = 0b00011111
     LDA.b #$1F : STA $420B ; Activate DMA channels 0 - 4 ; End of Volley 3 *****
     
-    ; Target $8300 in VRAM
+    ; Target $8300 in VRAM.
     LDY.w #$4150 : STY $2116
     
-    ; Again X = 0x40
+    ; Again X = 0x40.
     LDY $0AC2 : STY $4302
     STX $4305
     
@@ -1420,7 +1417,7 @@ NMI_DoUpdates:
     
     LDY $0AE2 : STY $4332
     
-    ; Transfer 32 bytes
+    ; Transfer 32 bytes.
     LDY.w #$0020 : STY $4335
     
     LDY $0ADA : STY $4342
@@ -1429,7 +1426,7 @@ NMI_DoUpdates:
     ; Activate lines 0 - 4; End of Volley 4
     STA $420B
     
-    ; Target #$8400
+    ; Target #$8400.
     LDY.w #$4200 : STY $2116
     
     LDY $0AEC : STY $4302
@@ -1445,7 +1442,7 @@ NMI_DoUpdates:
     ; Use lines 0 - 2 ; End of Volley 5 *****
     LDA.b #$07 : STA $420B
     
-    ; Target $8600 in VRAM
+    ; Target $8600 in VRAM.
     LDY.w #$4300 : STY $2116
     
     LDY $0AEE : STY $4302
@@ -1460,29 +1457,29 @@ NMI_DoUpdates:
     STA $420B ; Use lines 0 - 2 ; End of Volley 6 *****
     
     LDA $0AF4 : BEQ .noBirdSpriteUpdate
-        ; Otherwise, Target $81C0
+        ; Otherwise, Target $81C0.
         LDY.w #$40E0 : STY $2116
         
         ; X = 64 = #$40
         LDY $0AF6 : STY $4302
         STX $4305
         
-        ; Use line 0
+        ; Use line 0.
         LDA.b #$01 : STA $420B
         
-        ; Target $83C0
+        ; Target $83C0.
         LDY.w #$41E0 : STY $2116
         
         LDY $0AF8 : STY $4302
         STX $4305
         
-        STA $420B ; Activate line 0
+        STA $420B ; Activate line 0.
 
     .noBirdSpriteUpdate
 
     LDX $0ADC : STX $4302
     
-    ; Set the target vram address
+    ; Set the target vram address.
     LDX $0134 : STX $2116
     
     ; Transfer #$400 = 4 * 256 = 1024 bytes = 1 Kbyte
@@ -1497,36 +1494,36 @@ NMI_DoUpdates:
         ; target vram address is determined by $0219, but I'd expect this to be somewhat... fixed in practice.
         LDX $0219 : STX $2116
         
-        ; $7EC700 is the WRAM buffer for this data
+        ; $7EC700 is the WRAM buffer for this data.
         LDX.w #$C700 : STX $4302
         LDA.b #$7E   : STA $4304
         
-        ; number of bytes to transfer is 330
+        ; number of bytes to transfer is 330.
         LDX.w #$014A : STX $4305
         
-        ; refresh BG3 tilemap data with this transfer on channel 0
+        ; refresh BG3 tilemap data with this transfer on channel 0.
         LDA.b #$01 : STA $420B
 
     .noBg3Update
 
     LDA $15 : BEQ .noCgramUpdate
-        ; If $15 is set, we'll update CGRAM (palette update)
+        ; If $15 is set, we'll update CGRAM (palette update).
         
-        ; Initialize the cgram pointer to color 0 (the start of cgram)
+        ; Initialize the cgram pointer to color 0 (the start of cgram).
         STZ $2121
         
         ; We're going to be loading up CGRAM with palette data.
-        ; Sets up data to be read in mode 0, to address $2222 (CGRAM DATA IN)
+        ; Sets up data to be read in mode 0, to address $2222 (CGRAM DATA IN).
         LDY.w #$2200 : STY $4310
         
-        ; Sets source address to $7EC500
+        ; Sets source address to $7EC500.
         LDY.w #$C500 : STY $4312
         LDA.b #$7E   : STA $4314
         
-        ; number of bytes to transfer is 0x200, which is also the size of cgram
+        ; number of bytes to transfer is 0x200, which is also the size of cgram.
         LDY.w #$0200 : STY $4315
         
-        ; transfer data on channel 1
+        ; transfer data on channel 1.
         LDA.b #$02 : STA $420B
 
     .noCgramUpdate
@@ -1535,27 +1532,27 @@ NMI_DoUpdates:
     
     REP #$20 : SEP #$10
     
-    ; Clear out $15-$16 and an OAM register
+    ; Clear out $15-$16 and an OAM register.
     STZ $15 : STZ $2102
     
-    ; Will send data to $2104, write one register once mode, autoincrementing source address
+    ; Will send data to $2104, write one register once mode, autoincrementing source address.
     LDA.w #$0400 : STA $4300
     
-    ; Source address will be $7E0800
+    ; Source address will be $7E0800.
     LDA.w #$0800 : STA $4302
     STZ $4304
     
     ; Fetch #$220 = 512 + 32 = 544 bytes
     LDA.w #$0220 : STA $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDY.b #$01 : STY $420B
     
     SEP #$30
     
-    ; Another graphics flag... not sure what it does
+    ; Another graphics flag... not sure what it does.
     LDY $14 : BEQ .BRANCH_6
-        ; $137A, Y in Rom        
+        ; $137A, Y in Rom
         LDA.w $937A, Y : STA $00
         LDA.w $9383, Y : STA $01
         LDA.w $938C, Y : STA $02
@@ -1573,26 +1570,25 @@ NMI_DoUpdates:
 
     ; What does $19 do?
     LDA $19 : BEQ .BRANCH_7
-        ; apparently part of its function is to determine the upper byte of the target vram address
-        ; this already looks fiendish :/
+        ; apparently part of its function is to determine the upper byte of the target vram address.
         STA $2117
         
         REP #$10
         
-        ; update vram target address after writes to $2119
+        ; update vram target address after writes to $2119.
         LDY.w #$0080 : STY $2115
         
-        ; dma target address is $2118, write two registers once, autoincrement source address
+        ; dma target address is $2118, write two registers once, autoincrement source address.
         LDX.w #$1801 : STX $4300
         
         ; source address is ($7F0000 + $0118).
         LDX $0118  : STX $4302
         LDA.b #$7F : STA $4304
         
-        ; number of bytes to transfer is 0x0200
+        ; number of bytes to transfer is 0x0200.
         LDX.w #$0200 : STX $4305
         
-        ; transfer data on channel 0
+        ; transfer data on channel 0.
         LDA.b #$01 : STA $420B
         
         STZ $19
@@ -1601,14 +1597,14 @@ NMI_DoUpdates:
         
     .BRANCH_7
 
-    ; Yet another graphics flag
+    ; Yet another graphics flag.
     LDX $18 : BEQ .BRANCH_9
         ; Write from Bank $00.
         STZ $4314
         
         REP #$20
         
-        ; Writing to $2118 / $2119 alternating, with autoincrementing addressing
+        ; Writing to $2118 / $2119 alternating, with autoincrementing addressing.
         LDA.w #$1801 : STA $4310
         
         REP #$10
@@ -1617,7 +1613,7 @@ NMI_DoUpdates:
 
     .BRANCH_8
 
-    ; Extract the target VRAM Address
+    ; Extract the target VRAM Address.
     STA $2116
     
     TXA : CLC : ADC.w #$1104 : STA $4312
@@ -1629,10 +1625,10 @@ NMI_DoUpdates:
     
     SEP #$20
     
-    ; video port settings are determined in the packed data
+    ; video port settings are determined in the packed data.
     LDA $1102, X : STA $2115
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDA.b #$02 : STA $420B
     
     REP #$21
@@ -1650,7 +1646,7 @@ NMI_DoUpdates:
     ; This graphics variable is not a flag but an index for which specialized graphics routine to run this frame.
     LDA $17 : ASL A : TAX
     
-    ; disable the variable (meaning it will have to be reenabled next frame)
+    ; disable the variable (meaning it will have to be reenabled next frame).
     STZ $17
     
     JMP ($8C7E, X)
@@ -1698,28 +1694,27 @@ NMI_UploadTilemap:
     ; General purpose dma transfer for updating tilemaps, though
     ; I suppose you could use it to update graphics too.
     
-    ; $1888, X that is
-    ; Sets the high byte of the Target VRAM address.
+    ; $1888, X that is sets the high byte of the Target VRAM address.
     LDX $0116 : LDA.w $9888, X : STA $2117
     
-    ; bank of the source address is 0x00
+    ; bank of the source address is 0x00.
     STZ $4304
     
     REP #$20
     
-    ; vram target address will auto update after writes to $2119. (lower byte of vram addr is also 0x00 now)
+    ; vram target address will auto update after writes to $2119. (lower byte of vram addr is also 0x00 now).
     LDA.w #$0080 : STA $2115
     
     ; dma target register is $2118, write two registers once mode ($2118/$2119), autoincrement source address.
     LDA.w #$1801 : STA $4300
     
-    ; Designates the source addr as $001000
+    ; Designates the source addr as $001000.
     LDA.w #$1000 : STA $4302
     
-    ; The number of bytes to transfer is $800
+    ; The number of bytes to transfer is $800.
     LDA.w #$0800 : STA $4305
     
-    ; Fire DMA channel 1. 
+    ; Fire DMA channel 1.
     LDY.b #$01 : STY $420B
     
     ; Do a little clean up.
@@ -1740,27 +1735,27 @@ NMI_UploadTilemap:
 ; $000CE4-$000D12 JUMP LOCATION
 NMI_UploadBg3Text:
 {
-    ; Copies $7F0000[0x7E0] to $7C00 in VRAM ($F800 in byte addressing)
+    ; Copies $7F0000[0x7E0] to $7C00 in VRAM ($F800 in byte addressing).
     
     REP #$10
     
-    ; update target vram address after writes to $2119
+    ; update target vram address after writes to $2119.
     LDA.b #$80 : STA $2115
     
-    ; dma target address = $2118, write two registers once mode ($2118/$2119), autoincrement source address        
+    ; dma target address = $2118, write two registers once mode ($2118/$2119), autoincrement source address.
     LDX.w #$1801 : STX $4300
     
-    ; target vram address is $7C00 (word)
+    ; target vram address is $7C00 (word).
     LDY.w #$7C00 : STY $2116
     
-    ; source address is $7F0000
+    ; source address is $7F0000.
     LDY.w #$0000 : STY $4302
     LDA.b #$7F   : STA $4304
     
-    ; Copy 0x07E0 bytes
+    ; Copy 0x07E0 bytes.
     LDX.w #$07E0 : STX $4305
     
-    ; transfer data on channel 0
+    ; transfer data on channel 0.
     LDA.b #$01 : STA $420B
     
     SEP #$10
@@ -1775,21 +1770,21 @@ NMI_UploadBg3Text:
 ; $000D13-$000D61 JUMP LOCATION
 NMI_UpdateScrollingOwMap:
 {
-    ; This updates the tilemap on the overworld every time you reach a map16 boundary
-    ; From a graphical standpoint, that means every time you cross a boundary on an imaginary grid of
-    ; 16x16 pixel tiles. 
+    ; This updates the tilemap on the overworld every time you reach a map16
+    ; boundary. From a graphical standpoint, that means every time you cross a
+    ; boundary on an imaginary grid of 16x16 pixel tiles.
     
     REP #$10
     
-    ; dma will alternate writing between $2118 and $2119
+    ; dma will alternate writing between $2118 and $2119.
     LDX.w #$1801 : STX $4300
     
-    ; source bank is determined to be 0x00
+    ; source bank is determined to be 0x00.
     STZ $4304
     
-    ; Value is either 0x81 or 0x80
-    ; This means, increment on writing to $2119 and optionally write to VRAM horizontally (0x80)
-    ; or vertically (0x81). It depends on how the data in the $1100 area was set up
+    ; Value is either 0x81 or 0x80. This means, increment on writing to $2119
+    ; and optionally write to VRAM horizontally (0x80) or vertically (0x81)
+    ; It depends on how the data in the $1100 area was set up.
     LDA $1101 : AND.b #$80 : ASL A : ROL A : ORA.b #$80 : STA $2115
     
     REP #$20
@@ -1803,25 +1798,25 @@ NMI_UpdateScrollingOwMap:
 
         REP #$21
         
-        ; the next word in the array determines the target vram address (word)
+        ; the next word in the array determines the target vram address (word).
         LDA $1102, Y : STA $2116
         
         TYA : ADC.w #$1104 : STA $4302
         
-        ; brings us to the header of the next transfer block
+        ; brings us to the header of the next transfer block.
         TYA : ADC $02 : TAY
         
-        ; Set number of bytes to transfer
+        ; Set number of bytes to transfer.
         STX $4305
         
         SEP #$20
         
-        ; transfer data on channel 0
+        ; transfer data on channel 0.
         LDA.b #$01 : STA $420B
     
-    ; while somewhat nonsensical, the signal to stop transferring is a negative byte
-    ; ( what if you wanted the next transfer to do between 0x80 and 0xFF bytes?)
-    ; well apparently it wasn't designed for that.
+    ; while somewhat nonsensical, the signal to stop transferring is a negative
+    ; byte (what if you wanted the next transfer to do between 0x80 and 0xFF
+    ; bytes?) well apparently it wasn't designed for that.
     LDA $1103, Y : BPL .nextTransfer
     
     SEP #$30
@@ -1836,20 +1831,20 @@ NMI_UpdateScrollingOwMap:
 ; $000D62-$000E08 JUMP LOCATION
 NMI_UploadSubscreenOverlay:
 {
-    ; write 0x2000 bytes to vram
+    ; write 0x2000 bytes to vram.
     
-    ; source bank is 0x7F
+    ; source bank is 0x7F.
     LDA.b #$7F : STA $4304
     
-    ; update target vram address after writes to $2119
+    ; update target vram address after writes to $2119.
     LDA.b #$80 : STA $2115
     
     REP #$31
     
-    ; source address is $7F2000
+    ; source address is $7F2000.
     LDA.w #$2000 : STA $4302
     
-    ; Going to loop many many times to fill the whole screen    
+    ; Going to loop many many times to fill the whole screen.
     LDX.w #$0000
     LDA.w #$0080
     
@@ -1858,17 +1853,17 @@ NMI_UploadSubscreenOverlay:
     ; $000D7C ALTERNATE ENTRY POINT
     .firstHalf
 
-    ; write 0x1000 bytes to vram (half of a tilemap)
+    ; write 0x1000 bytes to vram (half of a tilemap).
     
-    ; source bank is 0x7F
+    ; source bank is 0x7F.
     LDA.b #$7F : STA $4304
     
-    ; update target vram address after writes to $2119
+    ; update target vram address after writes to $2119.
     LDA.b #$80 : STA $2115
     
     REP #$31
     
-    ; source address is $7F2000
+    ; source address is $7F2000.
     LDA.w #$2000 : STA $4302
     
     LDX.w #$0000
@@ -1879,17 +1874,17 @@ NMI_UploadSubscreenOverlay:
     ; $000D96 ALTERNATE ENTRY POINT
     .secondHalf
 
-    ; write the second 0x1000 bytes to vram (half of a tilemap)
+    ; write the second 0x1000 bytes to vram (half of a tilemap).
     
-    ; source bank is 0x7F
+    ; source bank is 0x7F.
     LDA.b #$7F : STA $4304
     
-    ; update target vram address after writes to $2119
+    ; update target vram address after writes to $2119.
     LDA.b #$80 : STA $2115
     
     REP #$31
     
-    ; source address is $7F3000
+    ; source address is $7F3000.
     LDA.w #$3000 : STA $4302
     
     LDX.w #$0040
@@ -1897,48 +1892,49 @@ NMI_UploadSubscreenOverlay:
 
     .startTransfers
 
-    ; This part does several DMA transfers that build a tilemap
+    ; This part does several DMA transfers that build a tilemap.
     STA $02
     
-    ; alternate writing to $2118 and $2119, autoincrement source address
+    ; alternate writing to $2118 and $2119, autoincrement source address.
     LDA.w #$1801 : STA $4300
     
     LDA.w #$0001 : STA $00
     
-    ; We gonna write 0x80 bytes tonight... doo wop wop
+    ; We gonna write 0x80 bytes tonight... doo wop wop.
     LDY.w #$0080
     
     .nextRound
 
-        ; Each iteration of this loop writes four packets of 0x80 bytes each (0x200 bytes).
-        ; Since the number of packets [ times two ] is specified by (A - X) in the various entry points to the function,
-        ; this results in either 0x1000 or 0x2000 bytes being written to vram.
+        ; Each iteration of this loop writes four packets of 0x80 bytes each
+        ; (0x200 bytes). Since the number of packets [ times two ] is specified
+        ; by (A - X) in the various entry points to the function, this results
+        ; in either 0x1000 or 0x2000 bytes being written to vram.
 
-        ; target vram address (word) is determined by $7F4000
+        ; target vram address (word) is determined by $7F4000.
         LDA $7F4000, X : STA $2116
 
-        ; store the number of bytes to use to the proper register
+        ; store the number of bytes to use to the proper register.
         STY $4305
 
-        ; transfer data on channel 0
+        ; transfer data on channel 0.
         LDA $00 : STA $420B
         
-        ; updating the target vram address with a new value
+        ; updating the target vram address with a new value.
         LDA $7F4002, X : STA $2116
 
-        ; reset the number of bytes to 0x80
+        ; reset the number of bytes to 0x80.
         STY $4305
         
-        ; perform another 0x80 byte transfer
+        ; perform another 0x80 byte transfer.
         LDA $00 : STA $420B
         
-        ; updating target vram address (again, yeesh)
+        ; updating target vram address (again, yeesh).
         LDA $7F4004, X : STA $2116
         
-        ; 0x80 bytes (again, double yeesh)
+        ; 0x80 bytes (again, double yeesh).
         STY $4305
         
-        ; I think you can tell where this is headed
+        ; I think you can tell where this is headed.
         LDA $00 : STA $420B
         
         LDA $7F4006, X : STA $2116
@@ -1948,7 +1944,7 @@ NMI_UploadSubscreenOverlay:
         LDA $00 : STA $420B
 
     ; Note there was a REP #$31 earlier that reset the carry. Tricky bastards, eh?
-    ; Tells the next iteration to handle the next 4 packets specified in the $7F4000, X array
+    ; Tells the next iteration to handle the next 4 packets specified in the $7F4000, X array.
     TXA : ADC.w #$0008 : TAX : CMP $02 : BNE .nextRound
     
     SEP #$30
@@ -1965,35 +1961,35 @@ NMI_UploadBg3Unknown:
 {
     REP #$20
     
-    ; target dma address is $2118, write two registers once mode, auto increment source address
+    ; target dma address is $2118, write two registers once mode, auto increment source address.
     LDA.w #$1801 : STA $4300
     
-    ; vram target address (word) = $0116
+    ; vram target address (word) = $0116.
     LDA $0116 : STA $2116
     
-    ; update vram address after writes to $2119
+    ; update vram address after writes to $2119.
     LDX.b #$81 : STX $2115
     
-    ; source address = $7EC880
+    ; source address = $7EC880.
     LDX.b #$7E   : STX $4304
     LDA.w #$C880 : STA $4302
     
-    ; write 0x40 bytes
+    ; write 0x40 bytes.
     LDA.w #$0040 : STA $4305
     
-    ; transfer data on channel 0
+    ; transfer data on channel 0.
     LDY.b #$01 : STY $420B
     
-    ; write 0x40 bytes again
+    ; write 0x40 bytes again.
     STA $4305
     
-    ; increment vram target address by 0x800 words
+    ; increment vram target address by 0x800 words.
     LDA $0116 : CLC : ADC.w #$0800 : STA $2116
     
-    ; source address = $7EC8C0
+    ; source address = $7EC8C0.
     LDA.w #$C8C0 : STA $4302
     
-    ; transfer data on channel 0
+    ; transfer data on channel 0.
     STY $420B
     
     REP #$20
@@ -2020,13 +2016,12 @@ NMI_LightWorldMode7Tilemap:
 {
     STZ $2115
     
-    ; Source address is in bank 0x0A
+    ; Source address is in bank 0x0A.
     LDA.b #$0A : STA $4304
     
     REP #$20
     
-    ; Writing to $2118, incrementing of source address enabled
-    ; (write once)
+    ; Writing to $2118, incrementing of source address enabled (write once).
     LDA.w #$1800 : STA $4300
     
     STZ $04 : STZ $02
@@ -2044,14 +2039,15 @@ NMI_LightWorldMode7Tilemap:
 
             LDA $00 : STA $2116
             
-            ; but is adjusted for each iteration of the loop by 0x80 words (0x100 bytes)
+            ; but is adjusted for each iteration of the loop by 0x80 words
+            ; (0x100 bytes).
             CLC : ADC.w #$0080 : STA $00
             
-            ; Mode 7 tilemap data is based at $0AC727 ($054727 in rom)    
-            ; This data fills in the tilemap data that isn't "blank"
+            ; Mode 7 tilemap data is based at $0AC727 ($054727 in rom)
+            ; This data fills in the tilemap data that isn't "blank".
             LDA $02 : CLC : ADC.w #$C727 : STA $4302
             
-            ; Number of bytes to transfer is 0x0020
+            ; Number of bytes to transfer is 0x0020.
             LDA.w #$0020 : STA $4305
             
             STY $420B
@@ -2072,24 +2068,24 @@ NMI_LightWorldMode7Tilemap:
 ; $000EA9-$000EE6 JUMP LOCATION
 NMI_UpdateLeftBg2Tilemaps:
 {
-    ; Copies $7F0000[0x1000] to VRAM address $0000
+    ; Copies $7F0000[0x1000] to VRAM address $0000.
     
-    ; vram address increments after writing to $2119
+    ; vram address increments after writing to $2119.
     LDA.b #$80 : STA $2115
     
     REP #$10
     
-    ; Target address in vram is (word) 0x0000
+    ; Target address in vram is (word) 0x0000.
     LDY.w #$0000 : STY $2116
     
-    ; Target $2118, two registers write once ($2118 / $2119 alternating)
+    ; Target $2118, two registers write once ($2118 / $2119 alternating).
     LDY.w #$1801 : STY $4310
     
-    ; Source address is $7F0000
+    ; Source address is $7F0000.
     LDY.w #$0000 : STY $4312
     LDA.b #$7F : STA $4314
     
-    ; transfer 0x0800 bytes
+    ; transfer 0x0800 bytes.
     LDY.w #$0800 : STY $4315
     
     ; Use channel 2 to transfer the data.
@@ -2097,10 +2093,10 @@ NMI_UpdateLeftBg2Tilemaps:
     
     STY $4315
     
-    ; Target address in vram is (word) 0x0800    
+    ; Target address in vram is (word) 0x0800.
     LDY.w #$0800 : STY $2116
     
-    ; Source address is $7F0800
+    ; Source address is $7F0800.
     LDY.w #$0800 : STY $4312
     
     ; Use channel 1 to transfer the data.
@@ -2116,27 +2112,27 @@ NMI_UpdateLeftBg2Tilemaps:
 ; $000EE7-$000F15 JUMP LOCATION
 NMI_UpdateBgChrSlots_3_to_4:
 {
-    ; Transfers 0x1000 bytes from $7F0000 to VRAM $2C00 (word)
+    ; Transfers 0x1000 bytes from $7F0000 to VRAM $2C00 (word).
     
     REP #$20
     
-    ; vram target is $2C00 (word)
+    ; vram target is $2C00 (word).
     LDA.w #$2C00 : STA $2116
     
-    ; Increment vram address on writes to $2119
+    ; Increment vram address on writes to $2119.
     LDY.b #$80 : STY $2115
     
-    ; target bbus address is $2118, write two registers once ($2118 / $2119)
+    ; target bbus address is $2118, write two registers once ($2118 / $2119).
     LDA.w #$1801 : STA $4300
     
-    ; source address is $7F0000
+    ; source address is $7F0000.
     LDA.w #$0000 : STA $4302
     LDY.b #$7F : STY $4304
     
-    ; write 0x1000 bytes
+    ; write 0x1000 bytes.
     LDA.w #$1000 : STA $4305
     
-    ; transfer data on channel 0
+    ; transfer data on channel 0.
     LDY #$01 : STY $420B
     
     SEP #$20
@@ -2151,27 +2147,27 @@ NMI_UpdateBgChrSlots_3_to_4:
 ; $000F16-$000F44 JUMP LOCATION
 NMI_UpdateBgChrSlots_5_to_6:
 {
-    ; Transfers 0x1000 bytes from $7F0000 to vram $3400 (word)
+    ; Transfers 0x1000 bytes from $7F0000 to vram $3400 (word).
     
     REP #$20
     
-    ; vram target address is $3400 (word)
+    ; vram target address is $3400 (word).
     LDA.w #$3400 : STA $2116
     
-    ; increment on writes to $2119
+    ; increment on writes to $2119.
     LDY.b #$80 : STY $2115
     
-    ; target $2118, write twice ($2118 / $2119)
+    ; target $2118, write twice ($2118 / $2119).
     LDA.w #$1801 : STA $4300
     
-    ; source address is $7F1000    
+    ; source address is $7F1000.
     LDA.w #$1000 : STA $4302
     LDY.b #$7F   : STY $4304
     
-    ; write 0x1000 bytes
+    ; write 0x1000 bytes.
     LDA.w #$1000 : STA $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDY.b #$01 : STY $420B
     
     SEP #$20
@@ -2186,25 +2182,25 @@ NMI_UpdateBgChrSlots_5_to_6:
 ; $000F45-$000F71 JUMP LOCATION
 NMI_UpdateChrHalfSlot:
 {
-    ; set vram target address as variable ($0116)
+    ; set vram target address as variable ($0116).
     LDA $0116 : STA $2117
     
     REP #$10
     
-    ; increment on writes to $2119
+    ; increment on writes to $2119.
     LDX.w #$0080 : STX $2115
     
-    ; target is $2118, write twice ($2118 / $2119)    
+    ; target is $2118, write twice ($2118 / $2119).
     LDX.w #$1801 : STX $4300
     
-    ; source address is $7F1000
+    ; source address is $7F1000.
     LDX.w #$1000 : STX $4302
     LDA.b #$7F   : STA $4304
     
-    ; write 0x400 bytes
+    ; write 0x400 bytes.
     LDX.w #$0400 : STX $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDA.b #$01 : STA $420B
     
     SEP #$10
@@ -2219,7 +2215,7 @@ NMI_UpdateChr_Bg0:
 {
     REP #$20
     
-    ; set vram target to $2000 (word)
+    ; set vram target to $2000 (word).
     LDA.w #$2000
     
     BRA NMI_UpdateChr_doUpdate
@@ -2232,7 +2228,7 @@ NMI_UpdateChr_Bg1:
 {
     REP #$20
     
-    ; set vram target to $2800 (word)
+    ; set vram target to $2800 (word).
     LDA.w #$2800
     
     BRA NMI_UpdateChr_doUpdate
@@ -2245,7 +2241,7 @@ NMI_UpdateChr_Bg2:
 {
     REP #$20
     
-    ; set vram target to $3000 (word)
+    ; set vram target to $3000 (word).
     LDA.w #$3000
     
     BRA NMI_UpdateChr_doUpdate
@@ -2258,7 +2254,7 @@ NMI_UpdateChr_Bg3:
 {
     REP #$20
     
-    ; set vram target to $3800 (word)
+    ; set vram target to $3800 (word).
     LDA.w #$3800
     
     BRA NMI_UpdateChr_doUpdate
@@ -2271,24 +2267,24 @@ NMI_UpdateChr_Spr0:
 {
     REP #$20
     
-    ; vram target addr is $4400 (word)
+    ; vram target addr is $4400 (word).
     LDA.w #$4400 : STA $2116
     
     LDA.w #$0000 : STA $4302
     
-    ; increment vram address on writes to $2119
+    ; increment vram address on writes to $2119.
     LDY.b #$80 : STY $2115
     
-    ; target is $2118, write two registers once ($2118 / $2119)
+    ; target is $2118, write two registers once ($2118 / $2119).
     LDA.w #$1801 : STA $4300
     
-    ; source address is $7F0000    
+    ; source address is $7F0000.
     LDY.b #$7F : STY $4304
     
-    ; write 0x0800 bytes
+    ; write 0x0800 bytes.
     LDA.w #$0800 : STA $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDY #$01 : STY $420B
     
     SEP #$20
@@ -2305,7 +2301,7 @@ NMI_UpdateChr_Spr2:
 {
     REP #$20
     
-    ; set vram target to $5000 (word)
+    ; set vram target to $5000 (word).
     LDA.w #$5000
     
     BRA NMI_UpdateChr_doUpdate
@@ -2320,7 +2316,7 @@ NMI_UpdateChr:
 
     REP #$20
     
-    ; set vram target to $5800 (word)
+    ; set vram target to $5800 (word).
     LDA.w #$5800
 
     .doUpdate
@@ -2329,19 +2325,19 @@ NMI_UpdateChr:
     
     LDA.w #$0000 : STA $4302
     
-    ; increment on writes to $2119
+    ; increment on writes to $2119.
     LDY.b #$80 : STY $2115
     
-    ; target is $2118, write two registers once ($2118 / $2119)    
+    ; target is $2118, write two registers once ($2118 / $2119).
     LDA.w #$1801 : STA $4300
     
-    ; source address is $7F0000    
+    ; source address is $7F0000.
     LDY.b #$7F : STY $4304
     
-    ; write 0x1000 bytes
+    ; write 0x1000 bytes.
     LDA.w #$1000 : STA $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDY.b #$01 : STY $420B
     
     SEP #$20
@@ -2356,15 +2352,15 @@ NMI_UpdateChr:
 ; $000FF3-$001037 JUMP LOCATION
 NMI_DarkWorldMode7Tilemap:
 {
-    ; increment vram address on writes to $2118
+    ; increment vram address on writes to $2118.
     STZ $2115
     
-    ; source bank is 0x00
+    ; source bank is 0x00.
     STZ $4304
     
     REP #$20
     
-    ; set dma target register to $2118
+    ; set dma target register to $2118.
     LDA.w #$1800 : STA $4300
     
     STZ $02
@@ -2372,7 +2368,7 @@ NMI_DarkWorldMode7Tilemap:
     LDA.w #$0020 : STA $06
     LDA.w #$0810 : STA $00
     
-    ; going to transfer on channel 0
+    ; going to transfer on channel 0.
     LDY.b #$01
 
     .writeLoop
@@ -2382,16 +2378,16 @@ NMI_DarkWorldMode7Tilemap:
         
         LDA $02 : CLC : ADC.w #$1000 : STA $4302
         
-        ; transfering 0x20 bytes
+        ; transfering 0x20 bytes.
         LDA.w #$0020 : STA $4305
         
-        ; perform dma transfer
+        ; perform dma transfer.
         STY $420B
         
-        ; increment source address by 0x20 bytes each iteration
+        ; increment source address by 0x20 bytes each iteration.
         CLC : ADC $02 : STA $02
     
-    ; loop 0x20 times
+    ; loop 0x20 times.
     DEC $06 : BNE .writeLoop
     
     SEP #$20
@@ -2404,49 +2400,49 @@ NMI_DarkWorldMode7Tilemap:
 ; $001038-$00108A JUMP LOCATION
 NMI_UpdateBg3ChrForDeathMode:
 {
-    ; Transfers 0x800 bytes from $7E2000 to vram $7800 (word)
+    ; Transfers 0x800 bytes from $7E2000 to vram $7800 (word).
     
     REP #$20
     
-    ; target vram addr is $7800 (word)
+    ; target vram addr is $7800 (word).
     LDA.w #$7800 : STA $2116
     
     LDA.w #$2000 : STA $4302
     
-    ; increment vram addr on writes to $2119
+    ; increment vram addr on writes to $2119.
     LDY.b #$80 : STY $2115
     
-    ; target is $2118, write two registers once ($2118 / $2119)
+    ; target is $2118, write two registers once ($2118 / $2119).
     LDA.w #$1801 : STA $4300
     
-    ; source address is $7E2000
+    ; source address is $7E2000.
     LDY.b #$7E : STY $4304
     
-    ; write 0x0800 bytes
+    ; write 0x0800 bytes.
     LDA.b #$0800 : STA $4305
     
-    ; transfer data on channel 1    
+    ; transfer data on channel 1.
     LDY.b #$01 : STY $420B
     
-    ; target vram addr is $7D00
+    ; target vram addr is $7D00.
     LDA.w #$7D00 : STA $2116
     
     LDA.w #$3400 : STA $4302
     
     ; don't know why this was written again. The value hasn't changed.
-    ; I suspect some macro tomfoolery
+    ; I suspect some macro tomfoolery.
     LDY.b #$80 : STY $2115
     
-    ; again, this setting hasn't changed
+    ; again, this setting hasn't changed.
     LDA.w #$1801 : STA $4300
     
-    ; source address is $7E3400
+    ; source address is $7E3400.
     LDY.b #$7E : STY $4304
     
-    ; transfer 0x0600 bytes
+    ; transfer 0x0600 bytes.
     LDA.w #$0600 : STA $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDY.b #$01 : STY $420B
     
     SEP #$20
@@ -2457,27 +2453,27 @@ NMI_UpdateBg3ChrForDeathMode:
 ; $00108B-$0010B6 JUMP LOCATION
 NMI_UpdateBarrierTileChr:
 {
-    ; transfers 0x100 bytes from $7F0000 to vram $3D00 (word)
+    ; transfers 0x100 bytes from $7F0000 to vram $3D00 (word).
     
     REP #$10
     
-    ; vram target address is $3D00 (word)
+    ; vram target address is $3D00 (word).
     LDX.w #$3D00 : STX $2116
     
-    ; increment target addr on writes to $2119
+    ; increment target addr on writes to $2119.
     LDA.b #$80 : STA $2115
     
-    ; base register is $2118, write two registers once ($2118 / $2119)
+    ; base register is $2118, write two registers once ($2118 / $2119).
     LDX.w #$1801 : STX $4300
     
-    ; source address is $7F0000
+    ; source address is $7F0000.
     LDX.w #$0000 : STX $4302
     LDA.b #$7F : STA $4304
     
-    ; write 0x100 bytes
+    ; write 0x100 bytes.
     LDX.w #$0100 : STX $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDA.b #$01 : STA $420B
     
     SEP #$10
@@ -2490,27 +2486,27 @@ NMI_UpdateBarrierTileChr:
 ; $0010B7-$0010E2 JUMP LOCATION
 NMI_UpdateStarTiles:
 {
-    ; transfers 0x40 bytes from $7F0000 to vram $3ED0 (word)
+    ; transfers 0x40 bytes from $7F0000 to vram $3ED0 (word).
     
     REP #$10
     
-    ; vram target address is $3ED0 (word)
+    ; vram target address is $3ED0 (word).
     LDX.w #$3ED0 : STX $2116
     
-    ; increment vram address on writes to $2119
+    ; increment vram address on writes to $2119.
     LDA.b #$80 : STA $2115
     
-    ; base register is $2118, two registers write once ($2118 / $2119)
+    ; base register is $2118, two registers write once ($2118 / $2119).
     LDX.w #$1801 : STX $4300
     
-    ; source address is $7F0000
+    ; source address is $7F0000.
     LDX.w #$0000 : STX $4302
     LDA.b #$7F   : STA $4304
     
-    ; write 0x40 bytes
+    ; write 0x40 bytes.
     LDX.w #$0040 : STX $4305
     
-    ; transfer data on channel 1
+    ; transfer data on channel 1.
     LDA.b #$01 : STA $420B
     
     REP #$10
@@ -2533,7 +2529,7 @@ NMI_UpdateStarTiles:
 {
     ; Unused???
     
-    JSR $8D13 ; $000D13 IN ROM    
+    JSR $8D13 ; $000D13 IN ROM
     
     RTL
 }
@@ -2593,17 +2589,17 @@ NMI_UpdateStarTiles:
             
             INX #4
         
-        ; Loop until Y has increased by $40
+        ; Loop until Y has increased by $40.
         ; (what's wrong with a CPY.w #$0040 : BCC ...?
         INY #4 : TYA : AND.w #$003F : BNE .copyTilemap
         
-        ; Y's net increase: $100
+        ; Y's net increase: $100.
         TYA : CLC : ADC.w #$00C0 : TAY
         
-        ; X's net increase: $200
+        ; X's net increase: $200.
         TXA : CLC : ADC.w #$01C0 : TAX
     
-    ; Loop until Y reaches $800
+    ; Loop until Y reaches $800.
     CPY.w #$0800 : BNE .copyTilemap
     
     PLX
@@ -2624,8 +2620,8 @@ NMI_UpdateStarTiles:
 ; $0011C4-$0012A0 LONG JUMP LOCATION
 WaterFlood_BuildOneQuadrantForVRAM:
 {
-    ; Seems to be used to update the tiles of an room (indoors)
-    ; One known use is for the watergate
+    ; Seems to be used to update the tiles of an room (indoors).
+    ; One known use is for the watergate.
     
     ; Not a water enabled room?
     LDA $AE : CMP.b #$19 : BNE .noWater
@@ -2636,8 +2632,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
 
     REP #$31
     
-    ; It's worth noting that both $418 and $45C
-    ; Start off at zero.
+    ; It's worth noting that both $418 and $45C start off at zero.
     LDA $0418 : AND.w #$000F : ADC $045C : PHA : ASL A : TAY
     
     LDX.w $910F, Y
@@ -2646,7 +2641,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
 
     .loadBlitBuffer
         
-            ; Every iteration will write 0x100 bytes
+            ; Every iteration will write 0x100 bytes.
             LDA $7E4000, X : STA $1000, Y
             LDA $7E4002, X : STA $1002, Y
             LDA $7E4080, X : STA $1040, Y
@@ -2659,16 +2654,16 @@ WaterFlood_BuildOneQuadrantForVRAM:
             INX #4
         INY #4 : TYA : AND.w #$003F : BNE .loadBlitBuffer
         
-        ; Net Y increase, $100
+        ; Net Y increase, $100.
         TYA : CLC : ADC.w #$00C0 : TAY
         
-        ; Net X increase, $200
+        ; Net X increase, $200.
         TXA : CLC : ADC.w #$01C0 : TAX
 
     ; Stop when we've written $800 bytes.
     CPY.w #$0800 : BNE .loadBlitBuffer
     
-    PLX ; X = previously masked value ( ($418 & #$000F) + 0x045C)
+    PLX ; X = previously masked value ( ($418 & #$000F) + 0x045C).
     
     SEP #$30
     
@@ -2709,15 +2704,15 @@ WaterFlood_BuildOneQuadrantForVRAM:
 {
     REP #$10
     
-    ; Designates a source bank for a transfer to VRAM
+    ; Designates a source bank for a transfer to VRAM.
     STA $4314
     
-    ; You may have noticed this function is passed parameters through memory
+    ; You may have noticed this function is passed parameters through memory.
     STZ $06
     
     LDY.w #$0000
     
-    ; Typically tells us whether to look at $1000 or $1002
+    ; Typically tells us whether to look at $1000 or $1002.
     LDA [$00], Y : BPL .validTransfer
         SEP #$30
         
@@ -2729,17 +2724,18 @@ WaterFlood_BuildOneQuadrantForVRAM:
                          STA $04
     INY : LDA [$00], Y : STA $03 
     
-    ; If this number is negative, A will end up as 0x01, otherwise 0x00
-    ; This determines whether the transfer will write to the tilemap in a horizontal or vertical fashion.
+    ; If this number is negative, A will end up as 0x01, otherwise 0x00. This
+    ; determines whether the transfer will write to the tilemap in a horizontal
+    ; or vertical fashion.
     INY : LDA [$00], Y : AND.b #$80 : ASL A : ROL A : STA $07
     
     ; Check whether the source address will be fixed or incrmenting during the transfer.
     LDA [$00], Y : AND.b #$40 : STA $05
     
-    ; This adds the "two registers, write once" setting
+    ; This adds the "two registers, write once" setting.
     LSR #3 : ORA.b #$01 : STA $4310
     
-    ; Write to $2118 in DMA transfers
+    ; Write to $2118 in DMA transfers.
     LDA.b #$18 : STA $4311
     
     REP #$20
@@ -2747,15 +2743,15 @@ WaterFlood_BuildOneQuadrantForVRAM:
     ; write to the vram target address register.
     LDA $03 : STA $2116
     
-    ; Set the number of bytes to transfer
-    ; (the amount stored in the buffer is the number of bytes minus one)
+    ; Set the number of bytes to transfer.
+    ; (the amount stored in the buffer is the number of bytes minus one).
     LDA [$00], Y : XBA : AND.w #$3FFF : TAX : INX : STX $4315
     
-    ; Set the source address (which will be somewhere in the $1000[0x800] buffer
+    ; Set the source address (which will be somewhere in the $1000[0x800] buffer.
     INY #2 : TYA : CLC : ADC $00 : STA $4312
     
-    ; A = #$40 or #$00
-    ; If DMAing in incremental mode, branch
+    ; A = #$40 or #$00.
+    ; If DMAing in incremental mode, branch.
     LDA $05 : BEQ .incrementSourceAddress
         INX
         
@@ -2765,28 +2761,28 @@ WaterFlood_BuildOneQuadrantForVRAM:
         
         LDA $05 : LSR #3 : STA $4310
         
-        ; A = 0x00 or 0x01
-        ; Hence we'll either increment VRAM addresses by 2 or 64 bytes    
+        ; A = 0x00 or 0x01.
+        ; Hence we'll either increment VRAM addresses by 2 or 64 bytes.
         LDA $07 : STA $2115
         
         LDA.b #$02 : STA $420B ; Fire DMA channel 2.
         
-        ; Now data is written to $2119 (upper byte only gets written)
+        ; Now data is written to $2119 (upper byte only gets written).
         LDA.b #$19 : STA $4311
         
         REP #$21
         
-        ; Y is still the offset after reading the encoding information earlier.    
+        ; Y is still the offset after reading the encoding information earlier.
         TYA
         
         ; Add the original absolute address to this offset.
-        ; It becomes the source address for DMA
+        ; It becomes the source address for DMA.
         ADC $00 : INC A : STA $4312
         
-        ; $03 contains the VRAM target address
+        ; $03 contains the VRAM target address.
         LDA $03 : STA $2116
         
-        ; X contains the number of bytes to transfer
+        ; X contains the number of bytes to transfer.
         STX $4315
         
         LDX.w #$0002
@@ -2797,7 +2793,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
     STX $03
     
     ; Again, the offset past the encoding info.
-    ; A procedure to position ourselves just past the encoding information
+    ; A procedure to position ourselves just past the encoding information.
     TYA : CLC : ADC $03 : TAY
     
     SEP #$20
@@ -2806,7 +2802,7 @@ WaterFlood_BuildOneQuadrantForVRAM:
     ; We're incrementing when $2118 is accessed.
     LDA $07 : ORA.b #$80 : STA $2115
     
-    ; fire DMA channel 1
+    ; fire DMA channel 1.
     LDA.b #$02 : STA $420B
     
     LDA [$00], Y : BMI .endOfTransfers
@@ -2830,13 +2826,13 @@ NMI_UpdateIrqGfx:
         
         REP #$20
         
-        ; VRAM target is $5800
+        ; VRAM target is $5800.
         LDA.w #$5800 : STA.w !VMADDR
         
-        ; DMA will write to $2118, write two registers once mode ($2118/$2119)
+        ; DMA will write to $2118, write two registers once mode ($2118/$2119).
         LDA.w #$1801 : STA.w !DMAP0
         
-        ; source address is $7EE800
+        ; source address is $7EE800.
         LDA.w #$e800 : STA.w !A1T0
         LDX.b #$7e   : STX.w !A1B0
         
@@ -2845,7 +2841,7 @@ NMI_UpdateIrqGfx:
         
         SEP #$20
         
-        ; transfer data on channel 0
+        ; transfer data on channel 0.
         LDA.b #$01 : STA.w !MDMAEN
         
         STZ $1F0C
@@ -2986,12 +2982,12 @@ LinkOAM_AuxAddresses:
     dw $FF7F, $FFBF, $FFDF, $FFEF, $FFF7, $FFFB, $FFFD, $FFFE    
 }
 
-; $0018C1-$0018C1 DATA (bit masks) Unmapped data for now ; second refference to bit masks in 8 bit mode
+; $0018C1-$0018C1 DATA (bit masks) Unmapped data for now ; second refference to bit masks in 8 bit mode.
 {
     ; TODO: Duplicate data?
 }
 
-; $0018C7-$0018DF DATA something to do with the moving walls
+; $0018C7-$0018DF DATA something to do with the moving walls.
 {
     ; TODO: Duplicate data? either this is duplicate or the address is wrong. Uncommented for now.
     ; db $10, $00, $08, $00, $04, $00, $02, $00, $01, $80, $00, $40, $00, $20, $00, $10, $00, $08, $00, $04, $00, $02, $00, $01, $00
@@ -3364,7 +3360,7 @@ Dungeon_QuadrantOffsets:
     
     REP #$30
     
-    ; target offset is $7EB280, convert 3 tiles (upper halves of animated rupee tiles)
+    ; target offset is $7EB280, convert 3 tiles (upper halves of animated rupee tiles).
     LDA $00
     LDX.w #$2280
     LDY.w #$0003
@@ -3375,7 +3371,7 @@ Dungeon_QuadrantOffsets:
     
     PLA : CLC : ADC.w #$0180
     
-    ; convert 3 tiles again (lower halves of animated rupee tiles)
+    ; convert 3 tiles again (lower halves of animated rupee tiles).
     LDY.w #$0003
     
     JSR Do3To4HighAnimated_variable
@@ -3463,10 +3459,10 @@ DecompShieldGfx:
     
     REP #$21
     
-    ; Load Link's shield value
+    ; Load Link's shield value.
     LDA $7EF35A : ASL A : TAY
     
-    ; Load the index into $7E9000 to store the graphics to
+    ; Load the index into $7E9000 to store the graphics to.
     LDA $00 : ADC $D300, Y
 
     REP #$10
@@ -3493,7 +3489,7 @@ DecompShieldGfx:
 ; $005337-$005393 LONG JUMP LOCATION
 DecompDungAnimatedTiles:
 {
-    ; Decompress Animated Tiles for Dungeons
+    ; Decompress Animated Tiles for Dungeons.
     
     PHB : PHK : PLB
     
@@ -3501,7 +3497,7 @@ DecompDungAnimatedTiles:
     
     REP #$30
     
-    ; Sets up animated tiles for the dungeons
+    ; Sets up animated tiles for the dungeons.
     LDA $00
     LDY.w #$0030
     LDX.w #$1680
@@ -3551,7 +3547,7 @@ DecompDungAnimatedTiles:
 ; $005394-$0053C5 LONG JUMP LOCATION
 DecompOwAnimatedTiles:
 {
-    ; Decompress Animated Tiles for Overworld
+    ; Decompress Animated Tiles for Overworld.
     ; Parameters: Y
     
     PHB : PHK : PLB
@@ -3570,7 +3566,7 @@ DecompOwAnimatedTiles:
     
     SEP #$30
     
-    ; Decompress the next consecutive bg graphics pack (e.g. 0x44 -> 0x45)
+    ; Decompress the next consecutive bg graphics pack (e.g. 0x44 -> 0x45).
     PLY : INY
     
     JSR Decomp_bg_low
@@ -3583,7 +3579,7 @@ DecompOwAnimatedTiles:
     
     JSR Do3To4LowAnimated_variable
     
-    ; Set offset of animated tiles in vram to $3C00 (word)
+    ; Set offset of animated tiles in vram to $3C00 (word).
     LDA.w #$3C00 : STA $0134
     
     SEP #$30
@@ -3597,8 +3593,8 @@ DecompOwAnimatedTiles:
 
 ; $0053C6-$005406 LOCAL JUMP LOCATION
 {
-    ; Loads blue / orange block, bird / thief's chest, and star
-    ; animated tiles (in that order)
+    ; Loads blue / orange block, bird / thief's chest, and star animated tiles
+    ; (in that order).
     LDY.b #$0F
     
     JSR Decomp_bg_low
@@ -3660,7 +3656,7 @@ DecompOwAnimatedTiles:
 ; $005423-$005468 LONG JUMP LOCATION
 Tagalong_LoadGfx:
 {
-    ; Something of a tagalong graphics decompressor
+    ; Something of a tagalong graphics decompressor.
     
     PHB : PHK : PLB
     
@@ -3670,22 +3666,22 @@ Tagalong_LoadGfx:
     LDA $7EF3CC : CMP.b #$01 : BEQ .doDecomp
         LDY.b #$66
         
-        ; #$09 = Creepy middle aged guy
-        ; If less than the middle aged guy
+        ; #$09 = Creepy middle aged guy.
+        ; If less than the middle aged guy.
         LDA $7EF3CC : CMP.b #$09 : BCC .doDecomp
             LDY.b #$59
             
-            ; Otherwise if less then #$0C
+            ; Otherwise if less then #$0C.
             CMP.b #$0C : BCC .doDecomp
                 LDY.b #$58
 
     .doDecomp
 
-    ; Zelda and anything else less than 0x0C
+    ; Zelda and anything else less than 0x0C.
     
     JSR Decomp_spr_high
     
-    LDY.b #$65 ; Loads up graphics for the old man and maiden gfx
+    LDY.b #$65 ; Loads up graphics for the old man and maiden gfx.
     
     JSR Decomp_spr_low
     
@@ -3727,7 +3723,7 @@ Pool_GetAnimatedSpriteTile:
 GetAnimatedSpriteTile:
 {
     ; Inputs:
-    ; A - indexes into a table of offsets into $7E9000, X
+    ; A - indexes into a table of offsets into $7E9000, X.
     ; this tells the game where in the animated tiles buffer ($7E9000)
     ; to place the decompressed tiles. More explicitly, the parameter
     ; passed to A tells us to grab a specific graphic, and this routine
@@ -3747,7 +3743,7 @@ GetAnimatedSpriteTile:
     ; $0054ED ALTERNATE ENTRY POINT
     .variable
 
-    ; Input for this is the same as the main entry point
+    ; Input for this is the same as the main entry point.
     
     PHB : PHK : PLB
     
@@ -3769,14 +3765,14 @@ GetAnimatedSpriteTile:
 
     JSR Decomp_spr_high
     
-    ; always decompress spr graphics pack 0x5A into the low part of $7E4000
+    ; always decompress spr graphics pack 0x5A into the low part of $7E4000.
     LDY.b #$5A
     
     JSR Decomp_spr_low
 
     .copyToBuffer
 
-    ; copy the decompressed tiles to the animated tiles buffer in wram
+    ; copy the decompressed tiles to the animated tiles buffer in wram.
     
     PLA
     
@@ -3785,22 +3781,22 @@ GetAnimatedSpriteTile:
     AND.w #$00FF : ASL A : TAX
     
     ; time to determine where in the decompressed buffer the graphics will
-    ; be copied from
+    ; be copied from.
     LDA $00 : ADC $D469, X
     
     REP #$10
     
-    ; target address is $7EBD40, convert 2 tiles
+    ; target address is $7EBD40, convert 2 tiles.
     LDX.w #$2D40
     LDY.w #$0002
     PHA
     
     JSR Do3To4HighAnimated_variable
     
-    ; go to the next line
+    ; go to the next line.
     PLA : CLC : ADC.w #$0180
     
-    ; convert 2 tiles again
+    ; convert 2 tiles again.
     LDY.w #$0002
     
     JSR Do3To4HighAnimated_variable
@@ -3820,7 +3816,7 @@ GetAnimatedSpriteTile:
     
     STA $0A
     
-    ; Will always load a pointer to sprite graphics pack 0
+    ; Will always load a pointer to sprite graphics pack 0.
     LDY.b #$00
     
     LDA.w $CFF3, Y : STA $02 : STA $05
@@ -3879,8 +3875,8 @@ GetAnimatedSpriteTile:
 ; ==============================================================================
 
 ; $005585-$0055CA LOCAL JUMP LOCATION
-; This "unpacks" animated tiles
-; Unused 3BPP to WRAM 4BPP routine
+; This "unpacks" animated tiles.
+; Unused 3BPP to WRAM 4BPP routine.
 {
     LDY.w #$0008 : STY $0E
 
@@ -3958,13 +3954,13 @@ Do3To4LowAnimated:
 Do3To4HighAnimated:
 {
     ; Inputs:
-    ; A - local portion of the pointer to the data to be converted
-    ; X - offset into the animated tile buffer of WRAM (0x7E9000)
-    ; Y - Number of tiles to convert
+    ; A - local portion of the pointer to the data to be converted.
+    ; X - offset into the animated tile buffer of WRAM (0x7E9000).
+    ; Y - Number of tiles to convert.
     
     LDY.w #$0006
 
-    ; $00561C Alternate Entry Point
+    ; $00561C Alternate Entry Point.
     .variable
 
     STY $0E
@@ -3973,7 +3969,7 @@ Do3To4HighAnimated:
 
         STA $00
         
-        ; Addresses will be #$10 apart
+        ; Addresses will be #$10 apart.
         CLC : ADC.w #$0010 : STA $03
         
         LDY.w #$0007
@@ -3991,7 +3987,7 @@ Do3To4HighAnimated:
         
         LDA $03 : AND.w #$0078 : BNE .noAdjust
             ; Since we're most likely working with sprite gfx we have to adjust
-            ; by 0x10 tiles to get to the next line
+            ; by 0x10 tiles to get to the next line.
             LDA $03 : CLC : ADC.w #$0180 : STA $03
 
         .noAdjust
@@ -4198,8 +4194,8 @@ LoadTransAuxGfx:
 {
     PHB : PHK : PLB
     
-    ; target decompression address = $7E6000
-    ; Y = graphics pack to decompress
+    ; target decompression address = $7E6000.
+    ; Y = graphics pack to decompress.
     STZ   $00
     LDA.b #$60 : STA $01
     LDA.b #$7E : STA $02
@@ -4207,25 +4203,25 @@ LoadTransAuxGfx:
     
     JSR $E78F ; $00678F in Rom.
     
-    ; target decompression address = $7E6600
+    ; target decompression address = $7E6600.
     LDA $01 : CLC : ADC.b #$06 : STA $01
     LDA $7EC2F9 : TAY
     
     JSR $E78F ; $00678F in Rom.
     
-    ; target decompression address = $7E6C00
+    ; target decompression address = $7E6C00.
     LDA $01 : CLC : ADC.b #$06 : STA $01
     LDA $7EC2FA : TAY
     
     JSR $E78F ; $00678F in Rom.
     
-    ; target decompression address = $7E7200
+    ; target decompression address = $7E7200.
     LDA $01 : CLC : ADC.b #$06 : STA $01
     LDA $7EC2FB : TAY
     
     JSR $E78F ; $00678F in Rom.
     
-    ; target decompression address = $7E7800
+    ; target decompression address = $7E7800.
     STZ $00
     LDA.b #$78 : STA $01
     LDA.b #$7E : STA $02
@@ -4233,19 +4229,19 @@ LoadTransAuxGfx:
     
     JSR Decomp_spr_variable
     
-    ; target decompression address = $7E7E00
+    ; target decompression address = $7E7E00.
     LDA $01 : CLC : ADC.b #$06 : STA $01
     LDA $7EC2FD : TAY
     
     JSR Decomp_spr_variable
     
-    ; target decompression address = $7E8400
+    ; target decompression address = $7E8400.
     LDA $01 : CLC : ADC.b #$06 : STA $01
     LDA $7EC2FE : TAY
     
     JSR Decomp_spr_variable
     
-    ; target decompression address = $7E8A00
+    ; target decompression address = $7E8A00.
     LDA $01 : CLC : ADC.b #$06 : STA $01
     LDA $7EC2FF : TAY
     
@@ -4263,9 +4259,9 @@ LoadTransAuxGfx:
 ; $00580E-$005836 LON
 Attract_DecompressStoryGfx:
 {
-    ; This routine decompresses graphics packs 0x67 and 0x68
+    ; This routine decompresses graphics packs 0x67 and 0x68.
     ; Now the funny thing is that these are picture graphics for the intro
-    ; (module 0x14)
+    ; (module 0x14).
     ; I at first thought they were the game's text.
     ; graphics pack 0x68 is EMPTY, by the way.
     
@@ -4280,7 +4276,7 @@ Attract_DecompressStoryGfx:
     
     LDA.b #$67 : STA $0E
     
-    ; This loop decompresses sprite graphics packs 0x67 and 0x68
+    ; This loop decompresses sprite graphics packs 0x67 and 0x68.
 
     .loop
 
@@ -4288,7 +4284,7 @@ Attract_DecompressStoryGfx:
         
         JSR Decomp_spr_variable
         
-        ; $00[3] = 0x7F4800; set up the next transfer
+        ; $00[3] = 0x7F4800; set up the next transfer.
         LDA $01 : CLC : ADC.b #$08 : STA $01
         
         INC $0E
@@ -4301,24 +4297,24 @@ Attract_DecompressStoryGfx:
 
 ; ==============================================================================
 
-; $005837-$005854 Jump Table ; overworld mirror warp gfx decompression
+; $005837-$005854 Jump Table ; overworld mirror warp gfx decompression.
 Pool_AnimateMirrorWarp:
 {
     ; TODO: interleaved!
 
     meta .states
     dw $D892 ; = $005892*
-    dw $D8FE ; = $0058FE* ; gets ready to decompress typical graphics...
-    dw $D9B9 ; = $0059B9* ; more decompression...
-    dw $D9F8 ; = $0059F8* ; ""
-    dw $DA2C ; = $005A2C* ; ""
-    dw $D8A5 ; = $0058A5* ; load overlays and ... silence music? what?
+    dw $D8FE ; = $0058FE* gets ready to decompress typical graphics...
+    dw $D9B9 ; = $0059B9* more decompression...
+    dw $D9F8 ; = $0059F8* ""
+    dw $DA2C ; = $005A2C* ""
+    dw $D8A5 ; = $0058A5* load overlays and ... silence music? what?
     dw $D8C7 ; = $0058C7*
     dw $D8B3 ; = $0058B3*
     dw $D8BB ; = $0058BB*
     dw $D8C7 ; = $0058C7*
     dw $D8D5 ; = $0058D5*
-    dw $DA63 ; = $005A63* 
+    dw $DA63 ; = $005A63*
     dw $DABB ; = $005ABB*
     dw $DB1B ; = $005B1B*
     dw $D8CF ; = $0058CF*
@@ -4333,8 +4329,8 @@ Pool_AnimateMirrorWarp:
 ; $005864-$005891 LONG JUMP LOCATION
 AnimateMirrorWarp:
 {
-    ; Sets up the two low bytes of the decompression target address (0x4000)
-    ; The bank is determined in the subroutine that's called below
+    ; Sets up the two low bytes of the decompression target address (0x4000).
+    ; The bank is determined in the subroutine that's called below.
                   STZ $00
     LDA.b #$40 : STA $01
     
@@ -4554,7 +4550,7 @@ AnimateMirrorWarp:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0040, base target address is $7F0000
+    ; Source address is $7F4000, number of tiles is 0x0040, base target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
     LDA.w #$4000
@@ -4595,7 +4591,7 @@ AnimateMirrorWarp:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0040, base target address is $7F0000
+    ; Source address is $7F4000, number of tiles is 0x0040, base target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
     LDA.w #$4000
@@ -4637,7 +4633,7 @@ AnimateMirrorWarp:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0080, base target address is $7F0000
+    ; Source address is $7F4000, number of tiles is 0x0080, base target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0080
     LDA.w #$4000
@@ -4673,7 +4669,7 @@ AnimateMirrorWarp:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0080, base target address is $7F0000
+    ; Source address is $7F4000, number of tiles is 0x0080, base target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0080
     LDA.w #$4000
@@ -4722,7 +4718,7 @@ AnimateMirrorWarp:
         
     REP #$31
         
-    ; source address is determined above, number of tiles is 0x0040, base target address is $7F0000
+    ; source address is determined above, number of tiles is 0x0040, base target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
         
@@ -4836,7 +4832,7 @@ AnimateMirrorWarp:
 
 ; $005B57
 {
-    ; This table is indexed by $0AA3 * 4 (0x90 entries)
+    ; This table is indexed by $0AA3 * 4 (0x90 entries).
     db $00, $49, $00, $00
     db $46, $49, $0C, $1D
     db $48, $49, $13, $1D
@@ -4862,7 +4858,7 @@ AnimateMirrorWarp:
 
 ; $005D97
 {
-    ; This table is indexed by $0AA2 * 4 - (0x52 entries)
+    ; This table is indexed by $0AA2 * 4 - (0x52 entries).
     db $06, $00, $1F, $18
     db $08, $00, $22, $1B
     db $06, $00, $1F, $18
@@ -4939,10 +4935,10 @@ Graphics_IncrementalVramUpload:
 ; $005F1A-$005F4E LONG JUMP LOCATION
 PrepTransAuxGfx:
 {
-    ; Prepares the transition graphics to be transferred to VRAM during NMI
-    ; This could occur either during this frame or any subsequent frame
+    ; Prepares the transition graphics to be transferred to VRAM during NMI.
+    ; This could occur either during this frame or any subsequent frame.
     
-    ; Set bank for source address
+    ; Set bank for source address.
     LDA.b #$7E : STA $02 : STA $05
     
     REP #$31
@@ -4953,13 +4949,13 @@ PrepTransAuxGfx:
     LDY.w #$0040
     LDA.w #$6000
     
-    ; The first graphics pack always uses the higher 8 palette values
+    ; The first graphics pack always uses the higher 8 palette values.
     JSR Do3To4High16Bit
     
-    ; Number of tiles for next set is 0xC0
+    ; Number of tiles for next set is 0xC0.
     LDY #$00C0
     
-    ; If this branch is taken, all 3 graphics packs will use the lower 8
+    ; If this branch is taken, all 3 graphics packs will use the lower 8.
     ; palette values.
     LDA $0AA2 : AND.w #$00FF : CMP.w #$0020 : BCC .low
         ; $0AA2 >= 0x20, the first two graphics packs expand as high 8 palette
@@ -4989,13 +4985,13 @@ PrepTransAuxGfx:
 ; $005F4F-$005FB7 LOCAL JUMP LOCATION
 Do3To4High16Bit:
 {
-    ; Looks similar to Do3To4High, exept that it accepts more parameters
+    ; Looks similar to Do3To4High, exept that it accepts more parameters.
     ; Inputs:
     ; A - Used to set the low 2 bytes of $00[3] - source address for
     ;     already decompressed data.
     ; Y - number of 3bpp tiles to convert to 4bpp (using only the higher 8
-    ;     colors of the palette)
-    ; X - a starting offset into $7F0000
+    ;     colors of the palette).
+    ; X - a starting offset into $7F0000.
     
     STY $0C
 
@@ -5034,11 +5030,11 @@ Do3To4High16Bit:
 Do3To4Low16Bit:
 {
     ; Very similar to Do3To4Low, except that the routine is completely standalone, and remains in 16-bit
-    ; until after the routine is finished as well. (There are other differences)
+    ; until after the routine is finished as well. (There are other differences).
     ; Inputs:
     ; A - Used to set the low 2 bytes of $00[3] - source address for already decompressed data.
-    ; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8 colors of the palette)
-    ; X - a starting offset into $7F0000
+    ; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8 colors of the palette).
+    ; X - a starting offset into $7F0000.
     
     STY $0C
 
@@ -5050,8 +5046,8 @@ Do3To4Low16Bit:
 
         .nextHalf
 
-            ; each 12 bytes corresponds to half of the 24-byte 3bpp tile
-            ; The tile is being expanded from 3bpp to 4bpp, where it will use only the lower 8 colors of the palette
+            ; each 12 bytes corresponds to half of the 24-byte 3bpp tile.
+            ; The tile is being expanded from 3bpp to 4bpp, where it will use only the lower 8 colors of the palette.
             
             LDA [$00] : STA $7F0000, X : INC $00 : INC $00
             LDA [$03] : AND.w #$00FF : STA $7F0010, X : INC $03 : INX #2
