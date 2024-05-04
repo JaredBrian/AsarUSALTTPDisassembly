@@ -18,8 +18,8 @@ Pool_Dungeon_LoadCustomTileAttr:
     dw $0100, $0080, $0100, $0380, $0100
     
     .groups
-    ; This consists of customized tile behaviors based on the value of the current.
-    ; BG tileset ($0AA2)
+    ; This consists of customized tile behaviors based on the value of the
+    ; current BG tileset ($0AA2)
     db $02, $02, $02, $02, $02, $02, $6E, $6F
     db $01, $6C, $02, $01, $01, $01, $01, $01
     db $02, $02, $02, $02, $02, $02, $00, $00
@@ -176,8 +176,8 @@ Dungeon_LoadCustomTileAttr:
     
     .load_loop
     
-        LDA Pool_Dungeon_LoadCustomTileAttr_groups, Y       : STZ.l $7EFF40, X
-        LDA Pool_Dungeon_LoadCustomTileAttr_groups + $40, Y : STZ.l $7EFF80, X
+        LDA Pool_Dungeon_LoadCustomTileAttr_groups, Y       : STA.l $7EFF40, X
+        LDA Pool_Dungeon_LoadCustomTileAttr_groups + $40, Y : STA.l $7EFF80, X
         
         INY #2
     INX #2 : CPX.w #$0040 : BNE .load_loop
@@ -279,12 +279,12 @@ Init_LoadDefaultTileAttr:
     
     .loop
     
-        LDA Dungeon_DefaultAttr + $0000, X : STZ.l $7EFE00, X
-        LDA Dungeon_DefaultAttr + $0040, X : STZ.l $7EFE40, X
-        LDA Dungeon_DefaultAttr + $0080, X : STZ.l $7EFE80, X
-        LDA Dungeon_DefaultAttr + $0100, X : STZ.l $7EFEC0, X
-        LDA Dungeon_DefaultAttr + $0140, X : STZ.l $7EFF00, X
-        LDA Dungeon_DefaultAttr + $0180, X : STZ.l $7EFFC0, X
+        LDA Dungeon_DefaultAttr + $0000, X : STA.l $7EFE00, X
+        LDA Dungeon_DefaultAttr + $0040, X : STA.l $7EFE40, X
+        LDA Dungeon_DefaultAttr + $0080, X : STA.l $7EFE80, X
+        LDA Dungeon_DefaultAttr + $0100, X : STA.l $7EFEC0, X
+        LDA Dungeon_DefaultAttr + $0140, X : STA.l $7EFF00, X
+        LDA Dungeon_DefaultAttr + $0180, X : STA.l $7EFFC0, X
     DEX #2 : BPL .loop
         
     SEP #$30
@@ -316,45 +316,45 @@ Pool_Module_EndSequence:
     ; Specifically, the credits set against the Triforce spinning in the 
     ; air, overlooking the golden land.
         
-    dw Credits_LoadNextScene_Overworld    ; 00: = $071889 ; Hyrule Castle restored
-    dw Credits_ScrollScene_Overworld      ; 01: = $071958 ; 
-    dw Credits_LoadNextScene_Underworld   ; 02: = $071891 ; Priest Recovers
+    dw Credits_LoadNextScene_Overworld    ; 00: = $071889 Hyrule Castle restored
+    dw Credits_ScrollScene_Overworld      ; 01: = $071958 
+    dw Credits_LoadNextScene_Underworld   ; 02: = $071891 Priest Recovers
     dw Credits_ScrollScene_Underworld     ; 03: = $0719C5
-    dw Credits_LoadNextScene_Overworld    ; 04: = $071889 ; Sahasralah's Homecoming
+    dw Credits_LoadNextScene_Overworld    ; 04: = $071889 Sahasralah's Homecoming
     dw Credits_ScrollScene_Overworld      ; 05: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 06: = $071889 ; Vultures rule the desert
+    dw Credits_LoadNextScene_Overworld    ; 06: = $071889 Vultures rule the desert
     dw Credits_ScrollScene_Overworld      ; 07: = $071958
     
-    dw Credits_LoadNextScene_Overworld    ; 08: = $071889 ; The Bully makes a friend
+    dw Credits_LoadNextScene_Overworld    ; 08: = $071889 The Bully makes a friend
     dw Credits_ScrollScene_Overworld      ; 09: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 0A: = $071889 ; Uncle recovers
+    dw Credits_LoadNextScene_Overworld    ; 0A: = $071889 Uncle recovers
     dw Credits_ScrollScene_Overworld      ; 0B: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 0C: = $071889 ; Zora's Area Scene
+    dw Credits_LoadNextScene_Overworld    ; 0C: = $071889 Zora's Area Scene
     dw Credits_ScrollScene_Overworld      ; 0D: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 0E: = $071889 ; Witch and Assistant
+    dw Credits_LoadNextScene_Overworld    ; 0E: = $071889 Witch and Assistant
     dw Credits_ScrollScene_Overworld      ; 0F: = $071958
     
-    dw Credits_LoadNextScene_Overworld    ; 10: = $071889 ; Twin Lumberjacks
+    dw Credits_LoadNextScene_Overworld    ; 10: = $071889 Twin Lumberjacks
     dw Credits_ScrollScene_Overworld      ; 11: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 12: = $071889 ; Fluteboy plays again
+    dw Credits_LoadNextScene_Overworld    ; 12: = $071889 Fluteboy plays again
     dw Credits_ScrollScene_Overworld      ; 13: = $071958
-    dw Credits_LoadNextScene_Underworld   ; 14: = $071891 ; Venus, queen of Fairys (and herpes)
+    dw Credits_LoadNextScene_Underworld   ; 14: = $071891 Venus, queen of Fairys (and herpes)
     dw Credits_ScrollScene_Underworld     ; 15: = $0719C5
-    dw Credits_LoadNextScene_Underworld   ; 16: = $071891 ; Dwarven Swordsmiths
+    dw Credits_LoadNextScene_Underworld   ; 16: = $071891 Dwarven Swordsmiths
     dw Credits_ScrollScene_Underworld     ; 17: = $0719C5
     
-    dw Credits_LoadNextScene_Overworld    ; 18: = $071889 ; The Bug Catching Kid
+    dw Credits_LoadNextScene_Overworld    ; 18: = $071889 The Bug Catching Kid
     dw Credits_ScrollScene_Overworld      ; 19: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 1A: = $071889 ; The Lost Old Man
+    dw Credits_LoadNextScene_Overworld    ; 1A: = $071889 The Lost Old Man
     dw Credits_ScrollScene_Overworld      ; 1B: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 1C: = $071889 ; The Forest Thief
+    dw Credits_LoadNextScene_Overworld    ; 1C: = $071889 The Forest Thief
     dw Credits_ScrollScene_Overworld      ; 1D: = $071958
-    dw Credits_LoadNextScene_Overworld    ; 1E: = $071889 ; Master Sword Sleeps Again, Forever!
+    dw Credits_LoadNextScene_Overworld    ; 1E: = $071889 Master Sword Sleeps Again, Forever!
     dw Credits_ScrollScene_Overworld      ; 1F: = $071958
     
-    dw Credits_InitializeTheActualCredits ; 20: = $073C6D ; Sets up for mode 0x22. Various other things
-    dw Credits_BrightenTriangles          ; 21: = $07437C ; Light up the triforce and the screen
-    dw Credits_FadeColorAndBeginAnimating ; 22: = $073D8B ; Scrolls the credits, and number of deaths, etc.
+    dw Credits_InitializeTheActualCredits ; 20: = $073C6D Sets up for mode 0x22. Various other things
+    dw Credits_BrightenTriangles          ; 21: = $07437C Light up the triforce and the screen
+    dw Credits_FadeColorAndBeginAnimating ; 22: = $073D8B Scrolls the credits, and number of deaths, etc.
     dw Credits_StopCreditsScroll          ; 23: = $074391
     dw Credits_FadeAndDisperseTriangles   ; 24: = $0743B8
     dw Credits_FadeInTheEnd               ; 25: = $0743D5
@@ -406,8 +406,8 @@ Credits_LoadNextScene_Underworld:
 ; $071899-$0718B8 JUMP TABLE ; Seems to be prep functions
 Pool_Credits_PrepAndLoadSprites:
 {
-    dw Credits_LoadSprites_GenericOW ; $9CFE = $071CFE ; 
-    dw Credits_LoadSprites_GenericUW ; $9D84 = $071D84 ; Priest recovers
+    dw Credits_LoadSprites_GenericOW ; $9CFE = $071CFE 
+    dw Credits_LoadSprites_GenericUW ; $9D84 = $071D84 Priest recovers
     dw Credits_LoadSprites_Kakariko1 ; $9C27 = $071C27
     dw Credits_LoadSprites_Desert    ; $9C2F = $071C2F
     dw Credits_LoadSprites_GenericOW ; $9CFE = $071CFE
@@ -416,12 +416,12 @@ Pool_Credits_PrepAndLoadSprites:
     dw Credits_LoadSprites_Witch     ; $9CCA = $071CCA
     dw Credits_LoadSprites_GenericOW ; $9CFE = $071CFE
     dw Credits_LoadSprites_Grove     ; $9C5B = $071C5B
-    dw Credits_LoadSprites_Venus     ; $9D5C = $071D5C ; Venus, goddess of fairies
+    dw Credits_LoadSprites_Venus     ; $9D5C = $071D5C Venus, goddess of fairies
     dw Credits_LoadSprites_Smithy    ; $9D70 = $071D70
-    dw Credits_LoadSprites_Kakariko2 ; $9CD1 = $071CD1 ; The Bug-Catching Kid
-    dw Credits_LoadSprites_GenericOW ; $9CFE = $071CFE ; The Lost Old Man
-    dw Credits_LoadSprites_LostWoods ; $9C92 = $071C92 ; The Forest Thief
-    dw Credits_LoadSprites_Pedestal  ; $9CB4 = $071CB4 ; And the Master Sword sleeps again... 
+    dw Credits_LoadSprites_Kakariko2 ; $9CD1 = $071CD1 The Bug-Catching Kid
+    dw Credits_LoadSprites_GenericOW ; $9CFE = $071CFE The Lost Old Man
+    dw Credits_LoadSprites_LostWoods ; $9C92 = $071C92 The Forest Thief
+    dw Credits_LoadSprites_Pedestal  ; $9CB4 = $071CB4 And the Master Sword sleeps again... 
 }
 
 ; $0718B9-$0718D7 LONG JUMP LOCATION
@@ -442,7 +442,8 @@ Credits_PrepAndLoadSprites:
         
     LDA.b $11 : AND.b #$FE : TAX
         
-    JSR (Pool_Credits_PrepAndLoadSprites, X)  ; ($071899, X THAT IS) SEE JUMP TABLE
+    ; ($071899, X THAT IS) SEE JUMP TABLE
+    JSR (Pool_Credits_PrepAndLoadSprites, X)
         
     PLB
         
@@ -546,8 +547,8 @@ Credits_ScrollScene_Overworld:
         
     LDA.b $11 : AND.b #$FE : TAX
         
-    STZ $30
-    STZ $31
+    STZ.b $30
+    STZ.b $31
         
     REP #$20
         
@@ -587,8 +588,8 @@ Credits_ScrollScene_Overworld:
 ; $0719A5-$0719C4 LOCAL JUMP TABLE ; Actual run time functions.
 Pool_Credits_ScrollScene_Underworld:
 {
-    dw Credits_SpriteDraw_Castle        ; $9E9C = $071E9C ; Whew just one was a lot of work.
-    dw Credits_SpriteDraw_Sanctuary     ; $A9AD = $0729AD ; Priest recovers
+    dw Credits_SpriteDraw_Castle        ; $9E9C = $071E9C Whew just one was a lot of work.
+    dw Credits_SpriteDraw_Sanctuary     ; $A9AD = $0729AD Priest recovers
     dw Credits_SpriteDraw_Kakariko1     ; $A0E2 = $0720E2
     dw Credits_SpriteDraw_Desert        ; $A941 = $072941
     dw Credits_SpriteDraw_Hera          ; $9F53 = $071F53
@@ -647,7 +648,8 @@ Credits_ScrollScene_Underworld:
         
     JSR (Pool_Credits_ScrollScene_Underworld, X) ; SEE JUMP TABLE AT $0719A5
 
-    ; Why.... this just jumps to the function right after acomplishing literally nothing.
+    ; Why.... this just jumps to the function right after acomplishing
+    ; literally nothing.
     JMP Credits_HandleSceneFade ; $071A2A
 }
 
@@ -1121,7 +1123,7 @@ Credits_LoadSprites_Grove:
     ; $071C90 ALTERNATE ENTRY POINT
     .Bounce
   
-    BRA Credits_LoadSprites_GenericOW:
+    BRA Credits_LoadSprites_GenericOW
 }
     
 ; $071C92-$071CB3 LOCAL JUMP LOCATION
@@ -1140,7 +1142,7 @@ Credits_LoadSprites_LostWoods:
         LDA.b #$04 : STA.w $0D41, Y
     DEY : BPL .loop
         
-    BRA Credits_LoadSprites_GenericOW:
+    BRA Credits_LoadSprites_GenericOW
 }
 
 ; $071CB4-$071CC9 LOCAL JUMP LOCATION
@@ -1152,7 +1154,7 @@ Credits_LoadSprites_Pedestal:
         
     LDA.b #$40 : STA.w $0DF4
         
-    BRA Credits_LoadSprites_GenericOW:
+    BRA Credits_LoadSprites_GenericOW
 }
 
 ; $071CCA-$071CD0 LOCAL JUMP LOCATION
@@ -1160,7 +1162,7 @@ Credits_LoadSprites_Witch:
 {
     LDA.b #$FF : STA.w $0DF1
         
-    BRA Credits_LoadSprites_GenericOW:
+    BRA Credits_LoadSprites_GenericOW
 }
 
 ; $071CD1-$071CFD LOCAL JUMP LOCATION
@@ -1206,9 +1208,11 @@ Credits_LoadSprites_GenericOW:
         LDA.w #$FFFF : STA.w $0FBA
                        STA.w $0FB8
         
-        LDA.w $040A : ASL A :         XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA.b $00
+        LDA.w $040A : ASL A
+        XBA : AND.w #$0F00 : CLC : ADC ($04), Y : STA.b $00
         
-        LDA.w $040A : LSR A : LSR A : XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA.b $02
+        LDA.w $040A : LSR A : LSR A 
+        XBA : AND.w #$0E00 : CLC : ADC ($06), Y : STA.b $02
         
         SEP #$20
         
@@ -1484,7 +1488,8 @@ Pool_Credits_SpriteDraw_Hera:
     db  44,  43,  66,  32
     db  39,  40
 
-    db  46,  56,  58,  76,  50,  68 ; This seems to be the only part of the data that's used.
+    ; This seems to be the only part of the data that's used.
+    db  46,  56,  58,  76,  50,  68
 
     db  46,  47,  30,  40,  71,  53,  50,  48
 }
@@ -1646,7 +1651,7 @@ Credits_SpriteDraw_Kakariko1:
         
     LDX.b #$06
         
-    LDA $00001A : LSR #2 : AND.b #$01 : TAY
+    LDA.l $00001A : LSR #2 : AND.b #$01 : TAY
         
     ; Alternate the travel bird's graphics for flappage.
     LDA.w $A0DE, Y : STA.w $0AF4
@@ -1943,11 +1948,11 @@ Credits_SpriteDraw_Venus:
     LDA.w $0F00, X : BNE .BRANCH_ALPHA 
         JSL GetRandomInt : AND.b #$07 : TAX
             
-        LDA $06C309, X : CLC : ADC.w $0FD8 : PHA
+        LDA.l $06C309, X : CLC : ADC.w $0FD8 : PHA
             
         JSL GetRandomInt : AND.b #$07 : TAX
             
-        LDA $06C311, X : CLC : ADC.w $0FDA
+        LDA.l $06C311, X : CLC : ADC.w $0FDA
         
         PLX
         
@@ -2207,7 +2212,7 @@ Credits_SpriteDraw_ActivateAndRunSprite:
         
     LDA.b $11 : PHA
         
-    STZ $11
+    STZ.b $11
         
     LDA.b #$09 : STA.w $0DD0, X
         
@@ -2662,7 +2667,8 @@ Credits_SpriteDraw_Sanctuary:
         
     LDA.b #$10
         
-    JSR Credits_SpriteDraw_PreexistingSpriteDraw ; $0726B3 IN ROM ; Keep sprites alive?
+    ; Keep sprites alive?
+    JSR Credits_SpriteDraw_PreexistingSpriteDraw ; $0726B3 IN ROM
         
     PLX
         
@@ -3031,7 +3037,7 @@ Credits_SpriteDraw_LostWoods:
     .BRANCH_BETA
     
     DEX : BEQ .BRANCH_IOTA
-        JMP $ABF8   ; $072BF8 IN ROM
+        JMP $ABF8 ; $072BF8 IN ROM
     
     .BRANCH_IOTA
     
@@ -3422,7 +3428,7 @@ Credits_HandleCameraScrollControl:
               CPX.b #$9D : BEQ .BRANCH_DELTA
         LDA.b $04 : BEQ .BRANCH_DELTA
         
-        STZ $00
+        STZ.b $00
         
         LSR A : ROR.b $00
         
@@ -3492,7 +3498,7 @@ Credits_HandleCameraScrollControl:
     CPX.b #$9D : BEQ .BRANCH_MUNU
         LDA.b $04 : BEQ .BRANCH_MUNU
         
-        STZ $00
+        STZ.b $00
         
         LSR A : ROR.b $00
         
@@ -3564,8 +3570,8 @@ Credits_HandleCameraScrollControl:
 ; $072FF2-$073037 LOCAL JUMP LOCATION
 Credits_SingleCameraScrollControl:
 {
-    STZ $04
-    STZ $06
+    STZ.b $04
+    STZ.b $06
     
     .BRANCH_ALPHA
     
@@ -3600,7 +3606,8 @@ CreditsData:
 {
     ; Tile format:
     ; vhopppcc cccccccc
-    ; These are all the actual tiles themselves, all characters and their available color variants.
+    ; These are all the actual tiles themselves, all characters and their
+    ; available color variants.
     .TileData
     dw $38C7, $38C8, $38C9, $38CA, $38CB, $38CC, $38CD, $38CE
     dw $38CF, $38D7, $38D8, $38D9, $38DA, $38DB, $38DC, $38DD
@@ -4315,9 +4322,10 @@ CreditsData:
         
     ; $073C51-$073C6C DATA
     org $0EBC51
-    ; These are the line numbers where the game will draw the death counts for each dungeon.
-    ; once one is hit it will start looking for the next one but if doesn't find the first
-    ; one for example it will not show all of the following either.
+    ; These are the line numbers where the game will draw the death counts for
+    ; each dungeon. once one is hit it will start looking for the next one but
+    ; if doesn't  find the first one for example it will not show all of the
+    ; following either.
     .DeathCountLine
     dw $0290, $0298, $02A0, $02A8, $02B0, $02BA, $02C2, $02CA, $02D2, $02DA, $02E2, $02EA, $02F2, $0310
 
@@ -4351,10 +4359,10 @@ Credits_InitializeTheActualCredits:
     REP #$20
         
     ; Zero out the Hyrule Castle 2 death counter? why?
-    LDA.w #$0000 : STZ.l $7EF3EF
+    LDA.w #$0000 : STA.l $7EF3EF
         
     ; The counter for the number of times you've saved/died.
-    LDA $7EF403 : CLC : ADC $7EF401 : STZ.l $7EF401
+    LDA.l $7EF403 : CLC : ADC.l $7EF401 : STA.l $7EF401
         
     LDX.b #$18
 
@@ -4362,43 +4370,43 @@ Credits_InitializeTheActualCredits:
 
         ; Read values up to $7EF3FF (WORD)
         ; Cycle through all the dungeons.
-        CLC : ADC $7EF3E7, X : STZ.l $7EF405
+        CLC : ADC.l $7EF3E7, X : STA.l $7EF405
     DEX #2 : BPL .loop
         
     ; Zero out the overall life counter.
-    LDA.w #$0000 : STZ.l $7EF403
+    LDA.w #$0000 : STA.l $7EF403
         
     SEP #$20
         
     ; Find our max health and divide by 8.
     ; Gives us how many heart containers we have. 
     ; (Each heart container counts for 8 health)
-    LDA $7EF36C : LSR #3 : TAX
+    LDA.l $7EF36C : LSR #3 : TAX
         
     ; This is the table of how many hearts to give when you start up.
-    LDA $09F4AC, X : STZ.l $7EF36D
+    LDA.l $09F4AC, X : STA.l $7EF36D
         
     ; Puts us in the Dark World.
-    LDA.b #$40 : STZ.l $7EF3CA
+    LDA.b #$40 : STA.l $7EF3CA
         
     JSL Main_SaveGameFile
         
     REP #$20
         
-    LDA.w #$0000 : STZ.l $7EC34C : STZ.l $7EC54D
-    LDA.w #$0000 : STZ.l $7EC300 : STZ.l $7EC500
+    LDA.w #$0000 : STA.l $7EC34C : STA.l $7EC54D
+    LDA.w #$0000 : STA.l $7EC300 : STA.l $7EC500
 
     LDA.w #$0016 : STA.b $1C
     LDA.w #$6800 : STA.b $C8
         
-    STZ $CA
-    STZ $CC
+    STZ.b $CA
+    STZ.b $CC
         
     LDA.w #$FFB8 : STA.b $E8
     LDA.w #$0090 : STA.b $E2
         
-    STZ $EA
-    STZ $E4
+    STZ.b $EA
+    STZ.b $E4
         
     ; Draws the first row of tiles.
     JSR Credits_AddNextAttribution ; $073E24 IN ROM
@@ -4407,7 +4415,7 @@ Credits_InitializeTheActualCredits:
         
     LDA.b #$22 : STA.w $012C
         
-    STZ $99
+    STZ.b $99
         
     LDA.b #$A2 : STA.b $9A
         
@@ -4418,7 +4426,7 @@ Credits_InitializeTheActualCredits:
     LDA.b #$9F : STA.b $9E
     LDA.b #$40 : STA.b $B0
         
-    STZ $13
+    STZ.b $13
         
     LDX.b #$04
     
@@ -4514,13 +4522,15 @@ Credits_FadeColorAndBeginAnimating:
         INC.b $E2
         
         LDA.b $E2 : CMP.w #$0C00 : BNE .noTilemapAdjust
-            ; Adjust the tilemap size and locations of BG1 and BG2... not entirely clear yet as to why.
+            ; Adjust the tilemap size and locations of BG1 and BG2... not
+            ; entirely clear yet as to why.
             LDY.w #$1300 : STY.w $2107
         
         .noTilemapAdjust
     
         ; $0604 = BG2HOFS / 2, $0600 = BG2HOFS * 3 / 2, $0602 = BG2HOFS * 3 / 4
-        LSR A : STA.w $0604 : CLC : ADC.b $E2 : STA.w $0600 : LSR A : STA.w $0602
+        LSR A : STA.w $0604 : CLC : ADC.b $E2 : STA.w $0600
+        LSR A : STA.w $0602
         
         ; $0606 = BG2HOFS / 4
         LDA.w $0604 : LSR A : STA.w $0606
@@ -4609,7 +4619,8 @@ Credits_AddNextAttribution:
         
         INY
         
-        LDA.w CreditsData_LineData, Y : AND.w #$00FF : XBA : STA.w $1004, X ; $B178
+        ; $B178
+        LDA.w CreditsData_LineData, Y : AND.w #$00FF : XBA : STA.w $1004, X
         
         ; This gives us the number of tiles to grab after this byte.
         XBA : INC A : LSR A : STA.b $02
@@ -4663,7 +4674,8 @@ Credits_AddNextAttribution:
     PLX
         
     CMP.w #$03E8 : BCC .lessThanThousand
-        LDA.w #$0009 : CLC : ADC.b $CE : STA.w $1006, X : STA.w $1008, X : STA.w $100A, X
+        LDA.w #$0009 : CLC : ADC.b $CE
+        STA.w $1006, X : STA.w $1008, X : STA.w $100A, X
         
         BRA .BRANCH_THETA
     
@@ -5115,7 +5127,7 @@ Credits_AddEndingSequenceText:
             
             INX #2
         DEC.b $00 : BPL .loop2
-    LDY.b $02 : CPY $04 : BNE .loop1
+    LDY.b $02 : CPY.b $04 : BNE .loop1
         
     TXA : CLC : ADC.w #$0006 : STA.w $1000
         
@@ -5158,9 +5170,9 @@ Credits_StopCreditsScroll:
             
         STZ.w $0AA6
             
-        LDA.w #$0000 : STZ.l $7EC009 : STZ.l $7EC007
+        LDA.w #$0000 : STA.l $7EC009 : STA.l $7EC007
             
-        LDA.w #$001F : STZ.l $7EC00B
+        LDA.w #$001F : STA.l $7EC00B
             
         SEP #$20
             
@@ -5168,7 +5180,7 @@ Credits_StopCreditsScroll:
             
         LDA.b #$C0 : STA.b $C8
             
-        STZ $CA
+        STZ.b $CA
     
     .BRANCH_BETA
 
@@ -5184,7 +5196,7 @@ Credits_StopCreditsScroll:
         LDA.b $CA : BNE .BRANCH_GAMMA
             JSL PaletteFilter.doFiltering
             
-            LDA $7EC007 : BNE .loop
+            LDA.l $7EC007 : BNE .loop
                 INC.b $CA
         
         .BRANCH_GAMMA
@@ -5204,7 +5216,7 @@ Credits_FadeInTheEnd:
         ; Do some palette filtering.
         JSL Palette_Filter_SP5F
             
-        LDA $7EC007 : BNE .notDoneFiltering
+        LDA.l $7EC007 : BNE .notDoneFiltering
             INC.b $11
         
         .notDoneFiltering
@@ -5235,7 +5247,7 @@ Credits_DrawTheEnd:
         .writeTheEndWithSprites
         
             ; $0743EA, X THAT IS
-            LDA $0EC3EA, X : STA.w $0800, X
+            LDA.l $0EC3EA, X : STA.w $0800, X
         DEX #2 : BPL .writeTheEndWithSprites
             
         SEP #$20
@@ -5244,7 +5256,8 @@ Credits_DrawTheEnd:
             
         RTS
     
-    ; Once you reach this point, you'll have to turn off or reset the system to continue.
+    ; Once you reach this point, you'll have to turn off or reset the system to
+    ; continue.
     ; $07441A ALTERNATE ENTRY POINT
     HangForever:
     
@@ -5389,19 +5402,19 @@ Overworld_LoadPalettes:
         
     STZ.w $0AA9
         
-    LDA $0ED504, X : BMI .noPaletteChange1
+    LDA.l $0ED504, X : BMI .noPaletteChange1
         STA.w $0AB4
     
     .noPaletteChange1
     
     ; $075505, X THAT IS
-    LDA $0ED505, X : BMI .noPaletteChange2
+    LDA.l $0ED505, X : BMI .noPaletteChange2
         STA.w $0AB5
     
     .noPaletteChange2
     
     ; $075506, X THAT IS
-    LDA $0ED506, X : BMI .noPaletteChange3
+    LDA.l $0ED506, X : BMI .noPaletteChange3
         STA.w $0AB8
     
     .noPaletteChange3
@@ -5409,13 +5422,13 @@ Overworld_LoadPalettes:
     LDA.b $00 : ASL A : TAX
         
     ; $075580, X THAT IS
-    LDA $0ED580, X : BMI .noPaletteChange4
+    LDA.l $0ED580, X : BMI .noPaletteChange4
         STA.w $0AAD
     
     .noPaletteChange4
     
     ; $075581, X THAT IS
-    LDA $0ED581, X : BMI .noPaletteChange5
+    LDA.l $0ED581, X : BMI .noPaletteChange5
         STA.w $0AAE
     
     .noPaletteChange5
@@ -5443,10 +5456,10 @@ Palette_BgAndFixedColor:
     ; $0755F9 ALTERNATE ENTRY POINT
     .setBgColor
     
-    STZ.l $7EC500
-    STZ.l $7EC540
-    STZ.l $7EC300
-    STZ.l $7EC340
+    STA.l $7EC500
+    STA.l $7EC540
+    STA.l $7EC300
+    STA.l $7EC340
         
     SEP #$30
 
@@ -5554,10 +5567,10 @@ Palette_PerformTranslucencySwap:
     .swap_palettes
     
         ; e.g. $415 means $7EC415, for your reference
-        ; Description: the below swaps memory regions $7EC400-$7EC41F and $7EC4B0-
-        ; $7EC4BF with $7EC4E0-$7EC4FF and $7EC470-$7EC47F, respectively.
-        ; This suggests 3bpp since each 0x10 byte region could be considered
-        ; a full palette.
+        ; Description: the below swaps memory regions $7EC400-$7EC41F and
+        ; $7EC4B0-$7EC4BF with $7EC4E0-$7EC4FF and $7EC470-$7EC47F,
+        ; respectively. This suggests 3bpp since each 0x10 byte region could be 
+        ; considered a full palette.
         ; At the same time, it also copies this info in the Main palette 
         ; buffer and the Auxiliary palette buffer.
         
@@ -5565,31 +5578,31 @@ Palette_PerformTranslucencySwap:
         ; 0x7E to speed things up and save space.
         
         ; Swap SP0_L with SP7_L.
-        LDA $7EC400, X : PHA
+        LDA.l $7EC400, X : PHA
         
-        LDA $7EC4E0, X : STZ.l $7EC400, X
-                         STZ.l $7EC600, X
+        LDA.l $7EC4E0, X : STA.l $7EC400, X
+                         STA.l $7EC600, X
         
-        PLA : STZ.l $7EC4E0, X
-              STZ.l $7EC6E0, X
+        PLA : STA.l $7EC4E0, X
+              STA.l $7EC6E0, X
         
         ; Swap SP0_H with SP7_H.
-        LDA $7EC410, X : PHA
+        LDA.l $7EC410, X : PHA
         
-        LDA $7EC4F0, X : STZ.l $7EC410, X
-                         STZ.l $7EC610, X
+        LDA.l $7EC4F0, X : STA.l $7EC410, X
+                         STA.l $7EC610, X
         
-        PLA : STZ.l $7EC4F0, X
-              STZ.l $7EC6F0, X
+        PLA : STA.l $7EC4F0, X
+              STA.l $7EC6F0, X
         
         ; Swap SP5_H with SP3_H.
-        LDA $7EC4B0, X : PHA
+        LDA.l $7EC4B0, X : PHA
         
-        LDA $7EC470, X : STZ.l $7EC4B0, X
-                         STZ.l $7EC6B0, X
+        LDA.l $7EC470, X : STA.l $7EC4B0, X
+                         STA.l $7EC6B0, X
         
-        PLA : STZ.l $7EC470, X
-              STZ.l $7EC670, X
+        PLA : STA.l $7EC470, X
+              STA.l $7EC670, X
     INX #2 : CPX.b #$10 : BNE .swap_palettes
         
     SEP #$20
@@ -5605,7 +5618,7 @@ Palette_PerformTranslucencySwap:
 ; $0756B9-$0756BA LONG JUMP LOCATION
 Palette_RevertTranslucencySwap_ForcePlayerBg2:
 {
-    STZ $EE
+    STZ.b $EE
 
     ; Bleed into the next function.
 }
@@ -5629,10 +5642,10 @@ LoadActualGearPalettes:
     REP #$20
         
     ; Link's sword and shield value.
-    LDA $7EF359 : STA.b $0C
+    LDA.l $7EF359 : STA.b $0C
         
     ; Link's armor value.
-    LDA $7EF35B : AND.w #$00FF
+    LDA.l $7EF35B : AND.w #$00FF
         
     BRA LoadGearPalettes.variable
 }
@@ -5663,7 +5676,7 @@ LoadGearPalettes:
     REP #$20
         
     ; What type of sword and armor does Link have? (2 bytes).
-    LDA $7EF359 : STA.b $0C
+    LDA.l $7EF359 : STA.b $0C
         
     ; ....... ? .......
     LDA.w #$0303
@@ -5679,7 +5692,7 @@ LoadGearPalettes:
     LDX.b $0C
         
     ; A = #$0, #$0, #$6, #$C, or #$12.
-    LDA $1BEBB4, X : AND.w #$00FF : CLC : ADC.w #$D630
+    LDA.l $1BEBB4, X : AND.w #$00FF : CLC : ADC.w #$D630
         
     REP #$10
         
@@ -5694,7 +5707,7 @@ LoadGearPalettes:
     LDX.b $0D
         
     ; A = #$0, #$0, #$8, or #$10.
-    LDA $1BEBC1, X : AND.w #$00FF : CLC : ADC.w #$D648
+    LDA.l $1BEBC1, X : AND.w #$00FF : CLC : ADC.w #$D648
         
     REP #$10
         
@@ -5708,7 +5721,7 @@ LoadGearPalettes:
     ; Armor value
     LDX.b $0E
         
-    LDA $1BEC06, X : AND.w #$00FF : ASL A : CLC : ADC.w #$D308
+    LDA.l $1BEC06, X : AND.w #$00FF : ASL A : CLC : ADC.w #$D308
         
     REP #$10
         
@@ -5734,8 +5747,9 @@ LoadGearPalette:
 
     .nextColor
 
-        ; LDA from address $1BXXXX into auxiliary cgram buffer and normal cgram buffer. 
-        LDA [$00] : STZ.l $7EC300, X : STZ.l $7EC500, X
+        ; LDA from address $1BXXXX into auxiliary cgram buffer and normal cgra
+        ; buffer. 
+        LDA [$00] : STA.l $7EC300, X : STA.l $7EC500, X
 
         ; Y is the length of the palette in colors (words).
         INC.b $00 : INC.b $00
@@ -5757,18 +5771,18 @@ Filter_Majorly_Whiten_Bg:
     
     .next_color_in_each_palette
     
-        LDA $7EC340, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC540, X
-        LDA $7EC350, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC550, X
-        LDA $7EC360, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC560, X
-        LDA $7EC370, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC570, X
-        LDA $7EC380, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC580, X
-        LDA $7EC390, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC590, X
-        LDA $7EC3A0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5A0, X
-        LDA $7EC3B0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5B0, X
-        LDA $7EC3C0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5C0, X
-        LDA $7EC3D0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5D0, X
-        LDA $7EC3E0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5E0, X
-        LDA $7EC3F0, X : JSR Filter_Majorly_Whiten_Color : STZ.l $7EC5F0, X
+        LDA.l $7EC340, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC540, X
+        LDA.l $7EC350, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC550, X
+        LDA.l $7EC360, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC560, X
+        LDA.l $7EC370, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC570, X
+        LDA.l $7EC380, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC580, X
+        LDA.l $7EC390, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC590, X
+        LDA.l $7EC3A0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5A0, X
+        LDA.l $7EC3B0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5B0, X
+        LDA.l $7EC3C0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5C0, X
+        LDA.l $7EC3D0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5D0, X
+        LDA.l $7EC3E0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5E0, X
+        LDA.l $7EC3F0, X : JSR Filter_Majorly_Whiten_Color : STA.l $7EC5F0, X
     INX #2 : CPX.b #$10 : BEQ .finished_whitening_increment
         
     JMP .next_color_in_each_palette
@@ -5777,16 +5791,16 @@ Filter_Majorly_Whiten_Bg:
     
     REP #$10
         
-    LDA $7EC540 : TAY
+    LDA.l $7EC540 : TAY
         
-    LDA $7EC300 : BNE .non_black_backdrop_color
+    LDA.l $7EC300 : BNE .non_black_backdrop_color
         
         ; What this is saying is don't whiten or muck with a black backdrop,
         ; but other colors are fine to alter.
         TAY
     .non_black_backdrop_color
     
-    TYA : STZ.l $7EC500
+    TYA : STA.l $7EC500
         
     SEP #$30
         
@@ -5835,22 +5849,22 @@ Palette_Restore_BG_From_Flash:
     LDX.b #$00
     
     .restore_loop
-        LDA $7EC340, X : STZ.l $7EC540, X
-        LDA $7EC350, X : STZ.l $7EC550, X
-        LDA $7EC360, X : STZ.l $7EC560, X
-        LDA $7EC370, X : STZ.l $7EC570, X
-        LDA $7EC380, X : STZ.l $7EC580, X
-        LDA $7EC390, X : STZ.l $7EC590, X
-        LDA $7EC3A0, X : STZ.l $7EC5A0, X
-        LDA $7EC3B0, X : STZ.l $7EC5B0, X
-        LDA $7EC3C0, X : STZ.l $7EC5C0, X
-        LDA $7EC3D0, X : STZ.l $7EC5D0, X
-        LDA $7EC3E0, X : STZ.l $7EC5E0, X
-        LDA $7EC3F0, X : STZ.l $7EC5F0, X
+        LDA.l $7EC340, X : STA.l $7EC540, X
+        LDA.l $7EC350, X : STA.l $7EC550, X
+        LDA.l $7EC360, X : STA.l $7EC560, X
+        LDA.l $7EC370, X : STA.l $7EC570, X
+        LDA.l $7EC380, X : STA.l $7EC580, X
+        LDA.l $7EC390, X : STA.l $7EC590, X
+        LDA.l $7EC3A0, X : STA.l $7EC5A0, X
+        LDA.l $7EC3B0, X : STA.l $7EC5B0, X
+        LDA.l $7EC3C0, X : STA.l $7EC5C0, X
+        LDA.l $7EC3D0, X : STA.l $7EC5D0, X
+        LDA.l $7EC3E0, X : STA.l $7EC5E0, X
+        LDA.l $7EC3F0, X : STA.l $7EC5F0, X
         
     INX #2 : CPX.b #$10 : BNE .restore_loop
         
-    LDA $7EC540 : STZ.l $7EC500
+    LDA.l $7EC540 : STA.l $7EC500
         
     SEP #$30
     
@@ -5905,8 +5919,8 @@ Palette_Restore_BG_And_HUD:
     
     .next_color
     
-        LDA $7EC300, X : STZ.l $7EC500, X
-        LDA $7EC380, X : STZ.l $7EC580, X
+        LDA.l $7EC300, X : STA.l $7EC500, X
+        LDA.l $7EC380, X : STA.l $7EC580, X
     DEX #2 : BPL .next_color
         
     SEP #$20
@@ -5959,11 +5973,12 @@ PalaceMap_Backup:
         
     ; Cache the hdma setup for later when we're done with the map
     ; because EnableForceBlank turns off hdma.
-    LDA.b $9B : STZ.l $7EC229
+    LDA.b $9B : STA.l $7EC229
         
     JSL EnableForceBlank ; $00093D IN ROM
         
-    ; Move on to next step of the submodule, and initialize the initilization indicator ($020D).
+    ; Move on to next step of the submodule, and initialize the initilization
+    ; indicator ($020D).
     INC.w $0200 : STZ.w $020D
         
     ; Set the fixed color to neutral (a value of 0,0,0).
@@ -5973,36 +5988,40 @@ PalaceMap_Backup:
         
     REP #$20
         
-    ; Set's Link's graphics to a particular configuration useful during the palace map mode.
+    ; Set's Link's graphics to a particular configuration useful during the
+    ; palace map mode.
     LDA.w #$0250 : STA.w $0100
     
     LDX.b #$7E
     
     .cachePaletteBuffer
     
-        ; Store the CGRAM buffer away for safe keeping until we get back from map mode.
-        LDA $7EC500, X : STZ.l $7FDD80, X : LDA $7EC580, X : STZ.l $7FDE00, X
-        LDA $7EC600, X : STZ.l $7FDE80, X : LDA $7EC680, X : STZ.l $7FDF00, X
+        ; Store the CGRAM buffer away for safe keeping until we get back from
+        ; map mode.
+        LDA.l $7EC500, X : STA.l $7FDD80, X
+        LDA.l $7EC580, X : STA.l $7FDE00, X
+        LDA.l $7EC600, X : STA.l $7FDE80, X 
+        LDA.l $7EC680, X : STA.l $7FDF00, X
     DEX #2 : BPL .cachePaletteBuffer
         
     ; Cache BG scroll offset (for quaking and such).
-    LDA.w $011A : STZ.l $7EC221
-    LDA.w $011C : STZ.l $7EC223
+    LDA.w $011A : STA.l $7EC221
+    LDA.w $011C : STA.l $7EC223
         
     STZ.w $011A : STZ.w $011C
         
     ; Cache all BG scroll value.
-    LDA.b $E0 : STZ.l $7EC200
-    LDA.b $E2 : STZ.l $7EC202
-    LDA.b $E6 : STZ.l $7EC204
-    LDA.b $E8 : STZ.l $7EC206
+    LDA.b $E0 : STA.l $7EC200
+    LDA.b $E2 : STA.l $7EC202
+    LDA.b $E6 : STA.l $7EC204
+    LDA.b $E8 : STA.l $7EC206
         
     ; Zero all the BG scroll values after that.
-    STZ $E0 : STZ $E2 : STZ $E4
-    STZ $E6 : STZ $E8 : STZ $EA
+    STZ.b $E0 : STZ.b $E2 : STZ.b $E4
+    STZ.b $E6 : STZ.b $E8 : STZ.b $EA
         
     ; Cache CGWSEL register
-    LDA.b $99 : STZ.l $7EC225
+    LDA.b $99 : STA.l $7EC225
         
     ; Set cg +/- to be subscreen addition and turn on half color math
     ; (but enable it on no layers?).
@@ -6013,10 +6032,10 @@ PalaceMap_Backup:
     
     .writeLoop
     
-        STZ.l $7F0000, X : STZ.l $7F0100, X : STZ.l $7F0200, X : STZ.l $7F0300, X
-        STZ.l $7F0400, X : STZ.l $7F0500, X : STZ.l $7F0600, X : STZ.l $7F0700, X
-        STZ.l $7F0800, X : STZ.l $7F0900, X : STZ.l $7F0A00, X : STZ.l $7F0B00, X
-        STZ.l $7F0C00, X : STZ.l $7F0D00, X : STZ.l $7F0E00, X : STZ.l $7F0F00, X  
+        STA.l $7F0000, X : STA.l $7F0100, X : STA.l $7F0200, X : STA.l $7F0300, X
+        STA.l $7F0400, X : STA.l $7F0500, X : STA.l $7F0600, X : STA.l $7F0700, X
+        STA.l $7F0800, X : STA.l $7F0900, X : STA.l $7F0A00, X : STA.l $7F0B00, X
+        STA.l $7F0C00, X : STA.l $7F0D00, X : STA.l $7F0E00, X : STA.l $7F0F00, X  
     DEX #2 : BNE .writeLoop
         
     SEP #$20
@@ -6045,17 +6064,17 @@ PalaceMap_FadeMapToBlack:
         
         REP #$30
         
-        LDA $7EC225 : STA.b $99
-        LDA $7EC200 : STA.b $E0
-        LDA $7EC202 : STA.b $E2
-        LDA $7EC204 : STA.b $E6
-        LDA $7EC206 : STA.b $E8
+        LDA.l $7EC225 : STA.b $99
+        LDA.l $7EC200 : STA.b $E0
+        LDA.l $7EC202 : STA.b $E2
+        LDA.l $7EC204 : STA.b $E6
+        LDA.l $7EC206 : STA.b $E8
         
-        STZ $E4
-        STZ $EA
+        STZ.b $E4
+        STZ.b $EA
         
-        LDA $7EC221 : STA.w $011A
-        LDA $7EC223 : STA.w $011C
+        LDA.l $7EC221 : STA.w $011A
+        LDA.l $7EC223 : STA.w $011C
         
         SEP #$30
         
@@ -6077,15 +6096,15 @@ PalaceMap_LightenUpDungeon:
     LDA.b $13 : CMP.b #$0F : BNE .notDoneBrightening
         LDA.w $010C : STA.b $10
         
-        STZ $11
+        STZ.b $11
         STZ.w $0200
-        STZ $B0
+        STZ.b $B0
         
         ; Bring screen brightness to full.
         LDA.b #$0F : STA.b $13
     
         ; Restore hdma settings from before being in map mode.
-        LDA $7EC229 : STA.b $9B
+        LDA.l $7EC229 : STA.b $9B
     
     .notDoneBrightening
     
@@ -6290,9 +6309,9 @@ Overworld_Memorize_Map16_Change:
         CMP.w #$0DC9 : BEQ .dontRemember
             PHA : PHX : TXY
             
-            LDX.w $04AC : STZ.l $7EFA00, X
+            LDX.w $04AC : STA.l $7EFA00, X
             
-            TYA : STZ.l $7EF800, X : INX #2 : STX.w $04AC
+            TYA : STA.l $7EF800, X : INX #2 : STX.w $04AC
             
             PLX : PLA
     
@@ -6315,13 +6334,15 @@ LwTurtleRockPegPositions:
 HandlePegPuzzles:
 {
     LDA.b $8A : CMP.w #$0007 : BNE .notLwTurtleRock
-        LDA $7EF287 : AND.w #$0020 : BNE .warpAlreadyOpen
-            ; Y in this routine apparently contains the map16 address of the peg tile that Link hit.
+        LDA.l $7EF287 : AND.w #$0020 : BNE .warpAlreadyOpen
+            ; Y in this routine apparently contains the map16 address of the
+            ; peg tile that Link hit.
             STY.b $00
             
             LDX.w $04C8 : CPX.w #$FFFF : BEQ .puzzleFailed
-                ; As you all probably realize, the 3 pegs in this area have to be hit in a specific order
-                ; in order for the warp to open up. If you fail, you have to exit the screen and come back.
+                ; As you all probably realize, the 3 pegs in this area have t
+                ;  be hit in a specific order in order for the warp to open up.
+                ; If you fail, you have to exit the screen and come back.
                 ; That's what $04C8 being -1 (0xFFFF) indicates.
                 LDA LwTurtleRockPegPositions, X : CMP.b $00 : BNE .puzzleFailed
                     ; Play the successful puzzle step sound effect.
@@ -6334,7 +6355,7 @@ HandlePegPuzzles:
                         
                         ; Set a flag so that next time we enter this screen
                         ; The puzzle will already be complete.
-                        LDA $7EF287 : ORA.w #$0020 : STZ.l $7EF287
+                        LDA.l $7EF287 : ORA.w #$0020 : STA.l $7EF287
                         
                         SEP #$20
                         
@@ -6369,7 +6390,7 @@ HandlePegPuzzles:
             
             SEP #$20
             
-            LDA $7EF2E2 : ORA.b #$20 : STZ.l $7EF2E2
+            LDA.l $7EF2E2 : ORA.b #$20 : STA.l $7EF2E2
             
             LDA.b #$1B : STA.w $012F
             
@@ -6404,9 +6425,9 @@ HandleStakeField:
         
     REP #$30
         
-    LDA $7EC009 : CMP.w #$00FF : BNE .BRANCH_BETA
-        STZ.l $7EC007
-        STZ.l $7EC009
+    LDA.l $7EC009 : CMP.w #$00FF : BNE .BRANCH_BETA
+        STA.l $7EC007
+        STA.l $7EC009
         
         SEP #$30
         
@@ -6427,8 +6448,8 @@ Pool_Overworld_CheckForSpecialOverworldTrigger:
     .tile_type
     dw $0105, $01E4, $00AD, $00B9
         
-    ; Lost woods, Hyrule Castle Bridge, Entrance to Zora falls, and in Zora Falls...
-    ; (I think the last one is broken or a mistake).
+    ; Lost woods, Hyrule Castle Bridge, Entrance to Zora falls, and in Zora
+    ; Falls... (I think the last one is broken or a mistake).
     ; $075E31
     .screen_id
     dw $0000, $002D, $000F, $0081
@@ -6438,7 +6459,8 @@ Pool_Overworld_CheckForSpecialOverworldTrigger:
     .direction
     dw $0008, $0002, $0008, $0008
         
-    ; Exit value for the special area. In Hyrule Magic these are those White markers.
+    ; Exit value for the special area. In Hyrule Magic these are those White
+    ; markers.
     ; $075E41
     .special_id
     dw $0180, $0181, $0182, $0189
@@ -6447,15 +6469,16 @@ Pool_Overworld_CheckForSpecialOverworldTrigger:
 ; $075E49-$075E99 LONG JUMP LOCATION
 Overworld_CheckForSpecialOverworldTrigger:
 {
-    ; This routine specifically checks to see if Link will enter a special area (areas >= 0x80).
+    ; This routine specifically checks to see if Link will enter a special are
+    ; (areas >= 0x80).
         
     REP #$31
         
-    ; get the map16 address of Link's coordinates.
+    ; Get the map16 address of Link's coordinates.
     JSR GetMap16Tile ; $075E9A IN ROM
         
     ; Get the CHR at that location...
-    LDA $0F8000, X : AND.w #$01FF : STA.b $00
+    LDA.l $0F8000, X : AND.w #$01FF : STA.b $00
         
     LDX.w #$0008
     
@@ -6469,19 +6492,24 @@ Overworld_CheckForSpecialOverworldTrigger:
         
             ; We've run out of CHR types to check (there's only 4).
             BMI .return
-        ; Compare map8 CHR number to see if the scroll to the next area has triggered.
-        CMP $0EDE29, X : BNE .nextChrValue
-    ; Compare the area number, b/c only specific locations lead to the special OW areas.
-    ; The CHR value and the area number must match for a warp to occur. (this is bizarre, I know.)
-    LDA.b $8A : CMP $0EDE31, X : BNE .matchFailed
+        ; Compare map8 CHR number to see if the scroll to the next area has
+        ; triggered.
+        CMP.l $0EDE29, X : BNE .nextChrValue
+    ; Compare the area number, b/c only specific locations lead to the special
+    ; OW areas.
+    ; The CHR value and the area number must match for a warp to occur. (this
+    ; is bizarre, I know.)
+    LDA.b $8A : CMP.l $0EDE31, X : BNE .matchFailed
         
-    ; Loads the exit number to use (so that we can get to the proper destination).
-    LDA $0EDE41, X : STA.b $A0
+    ; Loads the exit number to use (so that we can get to the proper
+    ; destination).
+    LDA.l $0EDE41, X : STA.b $A0
         
     SEP #$20
         
-    ; Sets the direction Link will face when he comes in or out of the special area.
-    LDA $0EDE39, X : STA.b $67 : STA.w $0410 : STA.w $0416
+    ; Sets the direction Link will face when he comes in or out of the special
+    ; area.
+    LDA.l $0EDE39, X : STA.b $67 : STA.w $0410 : STA.w $0416
         
     LDX.w #$0004
     
@@ -6514,7 +6542,7 @@ GetMap16Tile:
     LDA.b $22 : CLC : ADC.w #$0008 : LSR #3 : STA.b $02
     SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06 : TAY : TAX
         
-    LDA $7E2000, X : ASL #3 : TAX
+    LDA.l $7E2000, X : ASL #3 : TAX
         
     RTS
 }
@@ -6529,7 +6557,8 @@ Pool_SpecialOverworld_CheckForReturnTrigger
         
     ; Master Sword grove, Under Hyrule bridge, Zora Falls.
     ; Note only 3 areas to warp back from whereas there were 4 areas to warp to.
-    ; However I think this just confirms that the last warp to special areas was something unfinished.
+    ; However I think this just confirms that the last warp to special area
+    ; was something unfinished.
     dw $0080, $0080, $0081
         
     ; Direction Link faces when getting back to the normal overworld area.
@@ -6551,13 +6580,14 @@ WeirdAssPlaceForAnExit:
 ; $075EE3-$075F2E LONG JUMP LOCATION
 SpecialOverworld_CheckForReturnTrigger:
 {
-    ; The reverse of $075E49, in that it detects tiles and area numbers that lead back to normal OW areas (from special areas).
+    ; The reverse of $075E49, in that it detects tiles and area numbers that
+    ; lead back to normal OW areas (from special areas).
         
     REP #$31
         
     JSR GetMap16Tile ; $075E9A IN ROM
         
-    LDA $0F8000, X : AND.w #$01FF : STA.b $00
+    LDA.l $0F8000, X : AND.w #$01FF : STA.b $00
         
     LDX.w #$0006
     
@@ -6569,14 +6599,15 @@ SpecialOverworld_CheckForReturnTrigger:
     
             DEX #2
             
-            ; Ends the routine (Link is not going back to the normal Overworld this frame.)
+            ; Ends the routine (Link is not going back to the normal Overworld
+            ; this frame.)
             BMI WeirdAssPlaceForAnExit
-        CMP $0EDECE, X : BNE .nextChrValue
-    LDA.b $8A : CMP $0EDED4, X : BNE .matchFailed
+        CMP.l $0EDECE, X : BNE .nextChrValue
+    LDA.b $8A : CMP.l $0EDED4, X : BNE .matchFailed
         
     SEP #$30
         
-    LDA $0EDEDA, X : STA.b $67
+    LDA.l $0EDEDA, X : STA.b $67
         
     LDX.b #$04
     
@@ -6607,8 +6638,8 @@ SpecialOverworld_CheckForReturnTrigger:
         
     LDA.b #$24 : STA.b $11
         
-    STZ $B0
-    STZ $A0
+    STZ.b $B0
+    STZ.b $A0
         
     RTL
 }
@@ -6618,19 +6649,20 @@ SpecialOverworld_CheckForReturnTrigger:
 ; $075F2F-$075F3F NULL
 NULL_0EDF2F:
 {
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 }
     
 ; ==============================================================================
 
 ; $075F40-$076E21 Remainder of the dialogue data (unmapped)
 {
-    ; ==============================================================================
+    ; ==========================================================================
     ; Thank you very much.
     ; Whenever you lose your shield,
     ; come back here again.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0167:
     db $E5, $27, $24, $59, $E3, $59, $DD, $32 ; [Tha]nk⎵[you]⎵[ver]y
     db $59, $BF, $1C, $21, $41 ; ⎵[mu]ch.
@@ -6643,11 +6675,11 @@ NULL_0EDF2F:
     db $59, $1A, $20, $8F, $41 ; ⎵ag[ain].
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Thank you very much.
     ; This is the Medicine of Life.
     ; It helps you recover your Life.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0168:
     db $E5, $27, $24, $59, $E3, $59, $DD, $32 ; [Tha]nk⎵[you]⎵[ver]y
     db $59, $BF, $1C, $21, $41 ; ⎵[mu]ch.
@@ -6661,11 +6693,11 @@ NULL_0EDF2F:
     db $E3, $2B, $59, $0B, $22, $1F, $1E, $41 ; [you]r⎵Life.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Thank you very much.
     ; These are Arrows.  You can't
     ; use them without a Bow.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0169:
     db $E5, $27, $24, $59, $E3, $59, $DD, $32 ; [Tha]nk⎵[you]⎵[ver]y
     db $59, $BF, $1C, $21, $41 ; ⎵[mu]ch.
@@ -6678,12 +6710,12 @@ NULL_0EDF2F:
     db $1A, $59, $01, $28, $30, $41 ; a⎵Bow.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; These are Bombs.
     ; Did you know you can pick up
     ; a Bomb you already placed ?
     ; (Press the Ⓐ Button).
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_016A:
     db $E6, $D0, $59, $8D, $01, $28, $26, $1B ; [The][se]⎵[are ]Bomb
     db $2C, $41 ; s.
@@ -6701,11 +6733,11 @@ NULL_0EDF2F:
     db $41 ; .
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Thank you very much.
     ; That is a Bee.  Don't ask me
     ; what it is used for, either.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_016B:
     db $E5, $27, $24, $59, $E3, $59, $DD, $32 ; [Tha]nk⎵[you]⎵[ver]y
     db $59, $BF, $1C, $21, $41 ; ⎵[mu]ch.
@@ -6719,10 +6751,10 @@ NULL_0EDF2F:
     db $41 ; .
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Thank you very much.
     ; You can recover one Heart.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_016C:
     db $E5, $27, $24, $59, $E3, $59, $DD, $32 ; [Tha]nk⎵[you]⎵[ver]y
     db $59, $BF, $1C, $21, $41 ; ⎵[mu]ch.
@@ -6731,11 +6763,11 @@ NULL_0EDF2F:
     db $C7, $1E, $59, $07, $A2, $2D, $41 ; [on]e⎵H[ear]t.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; No no no…  I can't sell the
     ; merchandise because you don't
     ; have an empty bottle.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_016D:
     db $0D, $28, $59, $27, $28, $59, $27, $28 ; No⎵no⎵no
     db $43, $8A, $08, $59, $1C, $93, $51, $2D ; …[  ]I⎵c[an]'t
@@ -6749,11 +6781,11 @@ NULL_0EDF2F:
     db $32, $59, $98, $2D, $2D, $25, $1E, $41 ; y⎵[bo]ttle.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; You can't carry any more
     ; now, but you may need
     ; some later!
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_016E:
     db $E8, $59, $1C, $93, $51, $2D, $59, $1C ; [You]⎵c[an]'t⎵c
     db $1A, $2B, $2B, $32, $59, $93, $32, $59 ; arry⎵[an]y⎵
@@ -6766,7 +6798,7 @@ NULL_0EDF2F:
     db $CF, $59, $BA, $D6, $3E ; [some]⎵[la][ter]!
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; I never imagined a boy like you
     ; could give me so much trouble.
     ; It's unbelievable that you
@@ -6777,7 +6809,7 @@ NULL_0EDF2F:
     ; and make my wish to conquer
     ; both Light and Dark Worlds
     ; come true without delay.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_016F:
     db $08, $59, $27, $A7, $A1, $22, $BD, $20 ; I⎵n[ev][er ]i[ma]g
     db $B4, $A4, $1A, $59, $98, $32, $59, $25 ; [in][ed ]a⎵[bo]y⎵l
@@ -6821,12 +6853,12 @@ NULL_0EDF2F:
     db $C5, $1D, $1E, $BA, $32, $41 ; [out ]de[la]y.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; You are doing well, lad.  But
     ; can you break through this
     ; secret technique of Darkness?
     ; En Garde!
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0170:
     db $E8, $59, $8D, $9F, $B3, $E0, $25, $25 ; [You]⎵[are ][do][ing ][we]ll
     db $42, $59, $BA, $1D, $41, $8A, $01, $2E ; ,⎵[la]d.[  ]Bu
@@ -6846,14 +6878,14 @@ NULL_0EDF2F:
     db $3E ; !
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Hey kid, this is a secret hide-
     ; out for a gang of thieves!
     ; Don't enter without permission!
     ; By the way, I heard that one
     ; of our ex-members is staying
     ; at the entrance to the Desert.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0171:
     db $07, $1E, $32, $59, $24, $22, $1D, $42 ; Hey⎵kid,
     db $59, $D9, $2C, $59, $B5, $59, $1A, $59 ; ⎵[thi]s⎵[is]⎵a⎵
@@ -6880,14 +6912,14 @@ NULL_0EDF2F:
     db $2B, $2D, $41 ; rt.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Yo [LINK]!  This house used
     ; to be a hideout for a gang of
     ; thieves.
     ; What was their leader's name…
     ; Oh yeah, his name was Blind and
     ; he hated bright light a lot.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0172:
     db $18, $28, $59, $6A, $3E, $8A, $E7, $2C ; Yo⎵[LINK]![  ][Thi]s
     db $59, $21, $28, $2E, $D0, $59, $2E, $D0 ; ⎵hou[se]⎵u[se]
@@ -6913,7 +6945,7 @@ NULL_0EDF2F:
     db $B2, $25, $B2, $1A, $59, $BB, $2D, $41 ; [ight ]l[ight ]a⎵[lo]t.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Welcome, [LINK]…
     ; I   am   the   Essence   Of   The
     ; Triforce.
@@ -6970,7 +7002,7 @@ NULL_0EDF2F:
     ; Now, touch it with a wish in
     ; your heart.
     ; …  …  …  …
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0173:
     db $7A, $02 ; set draw speed
     db $6D, $00 ; set window position
@@ -7188,16 +7220,16 @@ NULL_0EDF2F:
     db $43, $8A, $43, $8A, $43, $8A, $43 ; …[  ]…[  ]…[  ]…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; All right! Take it, thief!
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0174:
     db $00, $25, $25, $59, $2B, $22, $20, $21 ; All⎵righ
     db $2D, $3E, $59, $13, $1A, $24, $1E, $59 ; t!⎵Take⎵
     db $B6, $42, $59, $D9, $1E, $1F, $3E ; [it],⎵[thi]ef!
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Whoa…  I saw her.
     ; A very nice young lady at the
     ; Waterfall Of Wishing in the
@@ -7206,7 +7238,7 @@ NULL_0EDF2F:
     ; [LINK], you should meet her
     ; at least once.  I'm sure you will
     ; like her.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0175:
     db $16, $21, $28, $1A, $43, $8A, $08, $59 ; Whoa…[  ]I⎵
     db $2C, $1A, $30, $59, $AF, $41 ; saw⎵[her].
@@ -7236,11 +7268,11 @@ NULL_0EDF2F:
     db $25, $22, $24, $1E, $59, $AF, $41 ; like⎵[her].
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Take some Rupees, but don't
     ; tell anyone I gave them to you.
     ; Keep it between us, OK?
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0176:
     db $13, $1A, $24, $1E, $59, $CF, $59, $11 ; Take⎵[some]⎵R
     db $DC, $1E, $1E, $2C, $42, $59, $1B, $2E ; [up]ees,⎵bu
@@ -7255,11 +7287,11 @@ NULL_0EDF2F:
     db $0A, $3F ; K?
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Check out the cave east of
     ; Lake Hylia.  Strange and
     ; wonderful things live in it…
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0177:
     db $02, $21, $1E, $9C, $59, $C5, $D8, $59 ; Che[ck]⎵[out ][the]⎵
     db $1C, $1A, $2F, $1E, $59, $1E, $92, $59 ; cave⎵e[ast]⎵
@@ -7274,11 +7306,11 @@ NULL_0EDF2F:
     db $59, $B4, $59, $B6, $43 ; ⎵[in]⎵[it]…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; You can earn a lot of Rupees
     ; by defeating enemies.  It's
     ; the secret of my success…
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0178:
     db $E8, $59, $99, $A2, $27, $59, $1A, $59 ; [You]⎵[can ][ear]n⎵a⎵
     db $BB, $2D, $59, $C6, $59, $11, $DC, $1E ; [lo]t⎵[of]⎵R[up]e
@@ -7293,12 +7325,12 @@ NULL_0EDF2F:
     db $1E, $2C, $2C, $43 ; ess…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; [LINK], did you know that if
     ; you destroy frozen enemies
     ; with the Hammer, you will often
     ; get a Magic Decanter?
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0179:
     db $6A, $42, $59, $9E, $1D, $59, $E3, $59 ; [LINK],⎵[di]d⎵[you]⎵
     db $B8, $59, $D7, $2D, $59, $22, $1F ; [know]⎵[tha]t⎵if
@@ -7315,11 +7347,11 @@ NULL_0EDF2F:
     db $1C, $59, $03, $1E, $1C, $93, $D6, $3F ; c⎵Dec[an][ter]?
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Tra la la, look for
     ; Sahasrahla.
     ; …  …  …
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_017A:
     db $13, $2B, $1A, $59, $BA, $59, $BA, $42 ; Tra⎵[la]⎵[la],
     db $59, $BB, $28, $24, $59, $A8 ; ⎵[lo]ok⎵[for]
@@ -7329,11 +7361,11 @@ NULL_0EDF2F:
     db $43, $8A, $43, $8A, $43 ; …[  ]…[  ]…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Oh yah, you found Sahasrahla!
     ; …  …  …
     ; Good job la la!
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_017B:
     db $0E, $21, $59, $32, $1A, $21, $42, $59 ; Oh⎵yah,⎵
     db $E3, $59, $1F, $C4, $59, $12, $1A, $AE ; [you]⎵f[ound]⎵Sa[has]
@@ -7345,10 +7377,10 @@ NULL_0EDF2F:
     db $59, $BA, $59, $BA, $3E ; ⎵[la]⎵[la]!
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; I'm sorry, but you don't
     ; seem to have enough Rupees…
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_017C:
     db $08, $51, $26, $59, $D2, $2B, $2B, $32 ; I'm⎵[so]rry
     db $42, $59, $1B, $2E, $2D, $59, $E3, $59 ; ,⎵but⎵[you]⎵
@@ -7359,7 +7391,7 @@ NULL_0EDF2F:
     db $1E, $1E, $2C, $43 ; ees…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Cluck cluck…  What?!
     ; You turned me into a human.
     ; I can even speak!
@@ -7371,7 +7403,7 @@ NULL_0EDF2F:
     ; uncomfortable for me.
     ; Ahhh, I want to be a chicken
     ; again!  Cluck cluck…
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_017D:
     db $02, $25, $2E, $9C, $59, $1C, $25, $2E ; Clu[ck]⎵clu
     db $9C, $43, $8A, $16, $B1, $2D, $3F, $3E ; [ck]…[  ]W[ha]t?!
@@ -7417,14 +7449,14 @@ NULL_0EDF2F:
     db $9C, $59, $1C, $25, $2E, $9C, $43 ; [ck]⎵clu[ck]…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Pay me 20 Rupees and I'll let
     ; you open one chest.  You can
     ; keep what is inside.
     ; What will you do?
     ;     >  Open A Chest
     ;         Escape
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_017E:
     db $0F, $1A, $32, $59, $BE, $59, $36, $34 ; Pay⎵[me]⎵20
     db $59, $11, $DC, $1E, $1E, $2C, $59, $8C ; ⎵R[up]ees⎵[and ]
@@ -7447,10 +7479,10 @@ NULL_0EDF2F:
     db $68 ; choose 2 indented
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; All right!  Open the chest you
     ; like!
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_017F:
     db $00, $25, $25, $59, $2B, $22, $20, $21 ; All⎵righ
     db $2D, $3E, $8A, $0E, $29, $A0, $D8, $59 ; t![  ]Op[en ][the]⎵
@@ -7459,11 +7491,11 @@ NULL_0EDF2F:
     db $25, $22, $24, $1E, $3E ; like!
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Oh, I see…  Too bad.
     ; Drop by again after collecting
     ; Rupees.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0180:
     db $0E, $21, $42, $59, $08, $59, $D0, $1E ; Oh,⎵I⎵[se]e
     db $43, $8A, $13, $28, $28, $59, $96, $1D ; …[  ]Too⎵[ba]d
@@ -7476,14 +7508,14 @@ NULL_0EDF2F:
     db $11, $DC, $1E, $1E, $2C, $41 ; R[up]ees.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; For 100 Rupees, I'll let you
     ; open one chest and keep the
     ; treasure that is inside.
     ; What will you do?
     ;     >  Open A Chest
     ;         Escape
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0181:
     db $05, $C8, $59, $35, $34, $34, $59, $11 ; F[or]⎵100⎵R
     db $DC, $1E, $1E, $2C, $42, $59, $08, $51 ; [up]ees,⎵I'
@@ -7507,7 +7539,7 @@ NULL_0EDF2F:
     db $68 ; choose 2 indented
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Hi, [LINK].  Sorry about my
     ; yard.  It's a little over
     ; grown.  Thanks for visiting.
@@ -7520,7 +7552,7 @@ NULL_0EDF2F:
     ; The treasure of Zora can turn
     ; people into fish.  Heh heh heh.
     ; I'd love to see that.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0182:
     db $07, $22, $42, $59, $6A, $41, $8A, $12 ; Hi,⎵[LINK].[  ]S
     db $C8, $2B, $32, $59, $1A, $98, $2E, $2D ; [or]ry⎵a[bo]ut
@@ -7572,7 +7604,7 @@ NULL_0EDF2F:
     db $DA, $59, $D0, $1E, $59, $D7, $2D, $41 ; [to]⎵[se]e⎵[tha]t.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; I haven't had a chance to trim
     ; my hedges recently.  Thanks
     ; for visiting anyway…
@@ -7583,7 +7615,7 @@ NULL_0EDF2F:
     ; with him everywhere, but
     ; he went to the mountain and
     ; never returned.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0183:
     db $08, $59, $AD, $C0, $B1, $1D, $59, $1A ; I⎵[have][n't ][ha]d⎵a
     db $59, $1C, $B1, $27, $1C, $1E, $59, $DA ; ⎵c[ha]nce⎵[to]
@@ -7627,10 +7659,10 @@ NULL_0EDF2F:
     db $1E, $1D, $41 ; ed.
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; >Start From [LINK]'s House
     ;   Start From Sanctuary
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0184:
     db $6D, $00 ; set window position
     db $7A, $00 ; set draw speed
@@ -7644,11 +7676,11 @@ NULL_0EDF2F:
     db $72 ; choose 2 high
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; >Start From [LINK]'s House
     ;   Start From Sanctuary
     ;   Start From The Mountain Cave
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0185:
     db $6D, $00 ; set window position
     db $7A, $00 ; set draw speed
@@ -7667,10 +7699,10 @@ NULL_0EDF2F:
     db $71 ; choose 3
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; > Continue Game
     ;    Save and Quit
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0186:
     db $7A, $00 ; set draw speed
     db $44, $59, $02, $C7, $2D, $B4, $2E, $1E ; >⎵C[on]t[in]ue
@@ -7681,7 +7713,7 @@ NULL_0EDF2F:
     db $72 ; choose 2 high
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Welcome to the treasure field.
     ; The object is to dig as many
     ; holes as you can in 30 seconds.
@@ -7691,7 +7723,7 @@ NULL_0EDF2F:
     ; What do you say?
     ;     > I want to dig
     ;        I don't want to dig
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0187:
     db $16, $1E, $25, $9B, $1E, $59, $DA, $59 ; Wel[com]e⎵[to]⎵
     db $D8, $59, $DB, $1E, $1A, $2C, $2E, $CD ; [the]⎵[tr]easu[re ]
@@ -7729,12 +7761,12 @@ NULL_0EDF2F:
     db $68 ; choose 2 indented
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Then I will lend you a shovel.
     ; When you have it in your hand,
     ; start digging! (Press the
     ; ⓨ Button to dig.)
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0188:
     db $E6, $27, $59, $08, $59, $E2, $25, $25 ; [The]n⎵I⎵[wi]ll
     db $59, $25, $A5, $1D, $59, $E3, $59, $1A ; ⎵l[en]d⎵[you]⎵a
@@ -7753,10 +7785,10 @@ NULL_0EDF2F:
     db $DA, $59, $9E, $20, $41, $46 ; [to]⎵[di]g.)
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; I see.  Then I give up.  Save
     ; some Rupees and come back.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_0189:
     db $08, $59, $D0, $1E, $41, $8A, $E6, $27 ; I⎵[se]e.[  ][The]n
     db $59, $08, $59, $AA, $DC, $41, $8A, $12 ; ⎵I⎵[give ][up].[  ]S
@@ -7766,10 +7798,10 @@ NULL_0EDF2F:
     db $8C, $9B, $1E, $59, $96, $9C, $41 ; [and ][com]e⎵[ba][ck].
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; OK!  Time's up, game over.
     ; Come back again.  Good bye…
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_018A:
     db $0E, $0A, $3E, $8A, $13, $22, $BE, $8B ; OK![  ]Ti[me]['s ]
     db $DC, $42, $59, $20, $1A, $BE, $59, $28 ; [up],⎵ga[me]⎵o
@@ -7780,10 +7812,10 @@ NULL_0EDF2F:
     db $59, $1B, $32, $1E, $43 ; ⎵bye…
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; Come back again!
     ; I will be waiting for you.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_018B:
     db $02, $28, $BE, $59, $96, $9C, $59, $1A ; Co[me]⎵[ba][ck]⎵a
     db $20, $8F, $3E ; g[ain]!
@@ -7792,12 +7824,12 @@ NULL_0EDF2F:
     db $DF, $B6, $B3, $A8, $59, $E3, $41 ; [wa][it][ing ][for]⎵[you].
     db $7F ; end of message
 
-    ; ==============================================================================
+    ; ==========================================================================
     ; I can't tell you details, but
     ; it's not a convenient time for
     ; me now.  Come back here again.
     ; Sorry.
-    ; -------------------------------------------------------------------------------
+    ; --------------------------------------------------------------------------
     Message_018C:
     db $08, $59, $1C, $93, $51, $2D, $59, $2D ; I⎵c[an]'t⎵t
     db $1E, $25, $25, $59, $E3, $59, $1D, $1E ; ell⎵[you]⎵de
@@ -8034,27 +8066,28 @@ PaletteBlackAndWhiteSomething:
     
         .cache_colors_and_whiten_loop
     
-            ; This loop turns all the colors in the temporary palette buffer to white
-            ; It also saves them to a a temporary buffer (0x7FDD80[0x200]).
-            LDA $7EC300, X : STZ.l $7FDD80, X
-            LDA $7EC380, X : STZ.l $7FDE00, X
-            LDA $7EC400, X : STZ.l $7FDE80, X
-            LDA $7EC480, X : STZ.l $7FDF00, X
+            ; This loop turns all the colors in the temporary palette buffer to
+            ; white. It also saves them to a a temporary buffer
+            ; (0x7FDD80[0x200]).
+            LDA.l $7EC300, X : STA.l $7FDD80, X
+            LDA.l $7EC380, X : STA.l $7FDE00, X
+            LDA.l $7EC400, X : STA.l $7FDE80, X
+            LDA.l $7EC480, X : STA.l $7FDF00, X
             
-            LDA.w #$7FFF : STZ.l $7EC300, X
-                         STZ.l $7EC380, X
-                         STZ.l $7EC400, X
-                         STZ.l $7EC480, X
+            LDA.w #$7FFF : STA.l $7EC300, X
+                         STA.l $7EC380, X
+                         STA.l $7EC400, X
+                         STA.l $7EC480, X
         INX #2 : CPX.b #$80 : BNE .cache_colors_and_whiten_loop
         
         ; Save the background color to another area of the palette buffer.
-        LDA $7EC500 : STZ.l $7EC540
+        LDA.l $7EC500 : STA.l $7EC540
         
         ; Mosaic level is zero.
-        LDA.w #$0000 : STZ.l $7EC007
+        LDA.w #$0000 : STA.l $7EC007
         
         ; Turn on color filtering.
-        LDA.w #$0002 : STZ.l $7EC009
+        LDA.w #$0002 : STA.l $7EC009
         
         SEP #$20
         
@@ -8068,20 +8101,20 @@ PaletteBlackAndWhiteSomething:
         
     REP #$30
         
-    LDA $7EC009 : CMP.w #$00FF : BNE .RestorePalette
+    LDA.l $7EC009 : CMP.w #$00FF : BNE .RestorePalette
         LDX.w #$000E : LDA.w #$0000
     
         .BRANCH_DELTA
     
-            STZ.l $7EC3B0, X : STZ.l $7EC5B0, X
+            STA.l $7EC3B0, X : STA.l $7EC5B0, X
         DEX #2 : BPL .BRANCH_DELTA
         
-        STZ.l $7EC007
-        STZ.l $7EC009
+        STA.l $7EC007
+        STA.l $7EC009
         
         SEP #$20
         
-        STZ $11
+        STZ.b $11
         
         SEP #$30
         
@@ -8091,24 +8124,24 @@ PaletteBlackAndWhiteSomething:
     .RestorePalette
     
     CMP.w #$0000 : BNE .BRANCH_EPSILON
-        LDA $7EC007 : CMP.w #$001F : BNE .BRANCH_EPSILON
+        LDA.l $7EC007 : CMP.w #$001F : BNE .BRANCH_EPSILON
         
         LDX.w #$0000
     
         .restore_cached_colors_loop
     
-            LDA $7FDD80, X : STZ.l $7EC300, X
-            LDA $7FDDC0, X : STZ.l $7EC340, X
-            LDA $7FDE00, X : STZ.l $7EC380, X
-            LDA $7FDE40, X : STZ.l $7EC3C0, X
-            LDA $7FDE80, X : STZ.l $7EC400, X
-            LDA $7FDEC0, X : STZ.l $7EC440, X
-            LDA $7FDF00, X : STZ.l $7EC480, X
+            LDA.l $7FDD80, X : STA.l $7EC300, X
+            LDA.l $7FDDC0, X : STA.l $7EC340, X
+            LDA.l $7FDE00, X : STA.l $7EC380, X
+            LDA.l $7FDE40, X : STA.l $7EC3C0, X
+            LDA.l $7FDE80, X : STA.l $7EC400, X
+            LDA.l $7FDEC0, X : STA.l $7EC440, X
+            LDA.l $7FDF00, X : STA.l $7EC480, X
         INX #2 : CPX.w #$0040 : BNE .restore_cached_colors_loop
         
         SEP #$20
         
-        STZ $1D
+        STZ.b $1D
     
     .BRANCH_EPSILON
     
@@ -8126,7 +8159,8 @@ Overworld_DwDeathMountainPaletteAnimation_easyOut:
 }
 
 ; $077582-$077651 LONG JUMP LOCATION
-; This function controls the lighting flashing int he background of DW death mountain as well as the Ganon's tower palette cycling.
+; This function controls the lighting flashing int he background of DW death
+; mountain as well as the Ganon's tower palette cycling.
 Overworld_DwDeathMountainPaletteAnimation:
 {
     LDA.w $04C6 : BNE .easyOut
@@ -8152,11 +8186,11 @@ Overworld_DwDeathMountainPaletteAnimation:
                 LDX.b #$02
                     
                 .loop_1
-                    LDA $7EC360, X : STZ.l $7EC560, X
-                    LDA $7EC370, X : STZ.l $7EC570, X
-                    LDA $7EC390, X : STZ.l $7EC590, X
-                    LDA $7EC3E0, X : STZ.l $7EC5E0, X
-                    LDA $7EC3F0, X : STZ.l $7EC5F0, X
+                    LDA.l $7EC360, X : STA.l $7EC560, X
+                    LDA.l $7EC370, X : STA.l $7EC570, X
+                    LDA.l $7EC390, X : STA.l $7EC590, X
+                    LDA.l $7EC3E0, X : STA.l $7EC5E0, X
+                    LDA.l $7EC3F0, X : STA.l $7EC5F0, X
                         
                 INX #2 : CPX.b #$10 : BNE .loop_1
                         
@@ -8174,11 +8208,11 @@ Overworld_DwDeathMountainPaletteAnimation:
             LDY.b #$00
             
             .loop_2
-                LDA.w $F4EB, Y : STZ.l $7EC560, X
-                LDA.w $F4F9, Y : STZ.l $7EC570, X
-                LDA.w $F507, Y : STZ.l $7EC590, X
-                LDA.w $F515, Y : STZ.l $7EC5E0, X
-                LDA.w $F523, Y : STZ.l $7EC5F0, X
+                LDA.w $F4EB, Y : STA.l $7EC560, X
+                LDA.w $F4F9, Y : STA.l $7EC570, X
+                LDA.w $F507, Y : STA.l $7EC590, X
+                LDA.w $F515, Y : STA.l $7EC5E0, X
+                LDA.w $F523, Y : STA.l $7EC5F0, X
                 
                 INY #2
                 
@@ -8198,14 +8232,14 @@ Overworld_DwDeathMountainPaletteAnimation:
             
             .check_flag
             
-            LDA $7EF2C3 : AND.b #$20 : BNE .ganons_tower_opened
+            LDA.l $7EF2C3 : AND.b #$20 : BNE .ganons_tower_opened
                 LDA.b $1A : AND.b #$0C : ASL #2 : TAY
             
                 .do_palette_animation
                 .palette_write_loop
                     REP #$20
                     
-                    LDA.w $F531, Y : STZ.l $7EC5D0, X
+                    LDA.w $F531, Y : STA.l $7EC5D0, X
                     
                     INY #2
                 
@@ -8281,7 +8315,7 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_WeatherVane         ; $F7E4 = $0777E4
     dw OverworldOverlay_WeatherVane         ; $F7E4 = $0777E4
     
-    dw OverworldOverlay_WeatherVane         ; $F7E4 = $0777E4 ; Used in drawing over the weather vane after it has been exploded.
+    dw OverworldOverlay_WeatherVane         ; $F7E4 = $0777E4 Used in drawing over the weather vane after it has been exploded.
     dw OverworldOverlay_WeatherVane         ; $F7E4 = $0777E4
     dw OverworldOverlay_CastleGate          ; $F7FE = $0777FE
     dw OverworldOverlay_CastleGate          ; $F7FE = $0777FE
@@ -8308,7 +8342,7 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_CheckerBoardCave    ; $F82D = $07782D
     dw OverworldOverlay_CheckerBoardCave    ; $F82D = $07782D
     
-    dw OverworldOverlay_CheckerBoardCave    ; $F82D = $07782D ; to move weathervane, this may be need changing to match area $18.
+    dw OverworldOverlay_CheckerBoardCave    ; $F82D = $07782D to move weathervane, this may be need changing to match area $18.
     dw OverworldOverlay_CheckerBoardCave    ; $F82D = $07782D
     dw OverworldOverlay_IceRodThief         ; $F833 = $077833
     dw OverworldOverlay_IceRodThief         ; $F833 = $077833
@@ -8329,7 +8363,7 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_SkullWoods          ; $F9E6 = $0779E6
     dw OverworldOverlay_SkullWoods          ; $F9E6 = $0779E6
     dw OverworldOverlay_GanonsTower         ; $FA2E = $077A2E
-    dw OverworldOverlay_GanonsTower         ; $FA2E = $077A2E ; Ganon's Tower Overlay (opened tower stairs).
+    dw OverworldOverlay_GanonsTower         ; $FA2E = $077A2E Ganon's Tower Overlay (opened tower stairs).
     dw OverworldOverlay_GanonsTower         ; $FA2E = $077A2E
     dw OverworldOverlay_HookshotCave        ; $FA5B = $077A5B
     dw OverworldOverlay_HookshotCave        ; $FA5B = $077A5B
@@ -8356,7 +8390,7 @@ Overworld_EventOverlayTable:
     dw OverworldOverlay_GargoylesDomain     ; $FAB4 = $077AB4
     dw OverworldOverlay_GargoylesDomain     ; $FAB4 = $077AB4
     dw OverworldOverlay_PyramidHole         ; $FACF = $077ACF
-    dw OverworldOverlay_PyramidHole         ; $FACF = $077ACF ; Pyramid
+    dw OverworldOverlay_PyramidHole         ; $FACF = $077ACF Pyramid
     dw OverworldOverlay_PyramidHole         ; $FACF = $077ACF
     dw OverworldOverlay_POD                 ; $FAF6 = $077AF6
     dw OverworldOverlay_POD                 ; $FAF6 = $077AF6
@@ -8398,8 +8432,8 @@ Overworld_EventOverlayTable:
     dw NULL_0EFB64                          ; $FB64 = $077B64
     dw NULL_0EFB64                          ; $FB64 = $077B64
 
-    ; Note there is nothing here for the Master Sword resting place and Zora falls. 
-    ; Must be handled elsewhere.
+    ; Note there is nothing here for the Master Sword resting place and Zora
+    ; falls. Must be handled elsewhere.
 }
 
 ; $077764-$0777A9 LOCAL JUMP LOCATION
@@ -8535,7 +8569,9 @@ OverworldOverlay_DrainedDam:
     
     INC A : STA.w $23AE : STA.w $24A2
     INC A : STA.w $23B0 : STA.w $2438 : STA.w $24BA : STA.w $25AA : STA.w $273A
-    INC A : STA.w $2426 : STA.w $2428 : STA.w $242A : STA.w $2432 : STA.w $2434 : STA.w $2436
+    INC A : STA.w $2426 : STA.w $2428 : STA.w $242A : STA.w $2432 : STA.w $2434
+    STA.w $2436
+
     INC A : STA.w $242C : STA.w $24A4 : STA.w $2520 : STA.w $261E
     
     INC A
@@ -8639,14 +8675,14 @@ OverworldOverlay_SkullWoods:
 ; $077A2E-$077A5A LOCAL JUMP LOCATION
 OverworldOverlay_GanonsTower:
 {
-    LDA.w #$0E96 : STZ.l $7E245E
-    INC A        : STZ.l $7E2460
+    LDA.w #$0E96 : STA.l $7E245E
+    INC A        : STA.l $7E2460
     
-    LDA.w #$0E9C : STZ.l $7E24DE : STZ.l $7E255E
-    INC A        : STZ.l $7E24E0 : STZ.l $7E2560
+    LDA.w #$0E9C : STA.l $7E24DE : STA.l $7E255E
+    INC A        : STA.l $7E24E0 : STA.l $7E2560
     
-    LDA.w #$0E9A : STZ.l $7E25DE
-    INC A        : STZ.l $7E25E0
+    LDA.w #$0E9A : STA.l $7E25DE
+    INC A        : STA.l $7E25E0
     
     RTS
 }
@@ -8656,28 +8692,28 @@ OverworldOverlay_HookshotCave:
 {
     LDX.w #$0868
     
-    JMP $F7B4   ; $0777B4 IN ROM
+    JMP $F7B4 ; $0777B4 IN ROM
 }
 
 ; $077A61-$077AB3 LOCAL JUMP LOCATION
 OverworldOverlay_TurtleRock:
 {
-    LDA.w #$0E78 : STZ.l $7E299E
-    INC A        : STZ.l $7E29A0
-    INC A        : STZ.l $7E29A2
-    INC A        : STZ.l $7E29A4
-    INC A        : STZ.l $7E2A1E
-    INC A        : STZ.l $7E202A
-    INC A        : STZ.l $7E2A22
-    INC A        : STZ.l $7E2A24
-    INC A        : STZ.l $7E2A9E
-    INC A        : STZ.l $7E2AA0
-    INC A        : STZ.l $7E2AA2
-    INC A        : STZ.l $7E2AA4
-    INC A        : STZ.l $7E2B1E
-    INC A        : STZ.l $7E2B20
-    INC A        : STZ.l $7E2B22
-    INC A        : STZ.l $7E2B24
+    LDA.w #$0E78 : STA.l $7E299E
+    INC A        : STA.l $7E29A0
+    INC A        : STA.l $7E29A2
+    INC A        : STA.l $7E29A4
+    INC A        : STA.l $7E2A1E
+    INC A        : STA.l $7E202A
+    INC A        : STA.l $7E2A22
+    INC A        : STA.l $7E2A24
+    INC A        : STA.l $7E2A9E
+    INC A        : STA.l $7E2AA0
+    INC A        : STA.l $7E2AA2
+    INC A        : STA.l $7E2AA4
+    INC A        : STA.l $7E2B1E
+    INC A        : STA.l $7E2B20
+    INC A        : STA.l $7E2B22
+    INC A        : STA.l $7E2B24
     
     RTS
 }
@@ -8839,6 +8875,6 @@ NULL_0EFB64:
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 }
 
-warnpc $0F8000
-
 ; ==============================================================================
+
+warnpc $0F8000
