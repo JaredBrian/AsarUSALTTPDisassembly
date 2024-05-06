@@ -8735,7 +8735,7 @@ NULL_00CF46:
 
 ; ==============================================================================
 
-; $004FF3-$005230
+; $004FF3-$00521C DATA
 GFXSheetPointers:
 {
     ; TODO: Add .bin here.
@@ -8753,7 +8753,24 @@ GFXSheetPointers:
 
 ; ==============================================================================
 
+; $00521D-$005230 DATA
+Pool_LoadItemGFX:
+{
+    .offset
+    dw $0000 ; rods
+    dw $0108 ; hammer
+    dw $00C0 ; bow
+    dw $0390 ; shovel
+    dw $03F0 ; Zzz ♪
+    dw $0438 ; powder dust
+    dw $0330 ; hookshot
+    dw $0048 ; net
+    dw $0318 ; cane
+    dw $0450 ; book
+}
+
 ; $005231-$0052BD LONG JUMP LOCATION
+LoadItemGFXIntoWRAM4BPPBuffer:
 {  
     PHB : PHK : PLB
     
@@ -8870,11 +8887,14 @@ GFXSheetPointers:
 ; ==============================================================================
 
 ; $0052BE-$0052C7 DATA
+Pool_DecompressSwordGraphics:
 {
-    dw $0000, $0000, $0120, $0120, $0120 
+    dw $0000 ; none
+    dw $0000 ; fighter sword
+    dw $0120 ; master sword
+    dw $0120 ; tempered sword
+    dw $0120 ; gold sword
 }
-
-; ==============================================================================
 
 ; $0052C8-$0052FF LONG JUMP LOCATION
 DecompSwordGfx:
@@ -8920,8 +8940,13 @@ DecompSwordGfx:
 ; ==============================================================================
 
 ; $005300-$005307 DATA
+Pool_DecompressShieldGraphics:
 {
-    dw $0660, $0660, $06F0, $0900
+    .offset
+    dw $0660 ; none
+    dw $0660 ; fighter shield
+    dw $06F0 ; fire shield
+    dw $0900 ; mirror shield
 }
 
 ; ==============================================================================
@@ -9074,6 +9099,7 @@ DecompOwAnimatedTiles:
 ; ==============================================================================
 
 ; $0053C6-$005406 LOCAL JUMP LOCATION
+LoadItemGFX_Auxiliary:
 {
     ; Loads blue / orange block, bird / thief's chest, and star animated tiles
     ; (in that order).
@@ -9126,11 +9152,23 @@ DecompOwAnimatedTiles:
 ; ==============================================================================
 
 ; $005407-$005422 DATA
+Pool_LoadFollowerGraphics:
 {
-    db $00, $00, $00, $06, $00, $03, $00, $03
-    db $00, $03, $00, $00, $00, $00, $00, $09
-    db $00, $06, $00, $06, $00, $09, $00, $09
-    db $00, $06, $00, $09
+    .gfx_offset
+    dw $0000 ; 0x00 - No follower
+    dw $0600 ; 0x01 - Zelda
+    dw $0300 ; 0x02 - Old man that stops following you
+    dw $0300 ; 0x03 - Unused old man
+    dw $0300 ; 0x04 - Normal old man
+    dw $0000 ; 0x05 - Zelda rescue telepathy
+    dw $0000 ; 0x06 - Blind maiden
+    dw $0900 ; 0x07 - Frogsmith
+    dw $0600 ; 0x08 - Smithy
+    dw $0600 ; 0x09 - Locksmith
+    dw $0900 ; 0x0A - Kiki
+    dw $0900 ; 0x0B - Unused old man
+    dw $0600 ; 0x0C - Purple chest
+    dw $0900 ; 0x0D - Super bomb
 }
 
 ; ==============================================================================
@@ -9293,6 +9331,7 @@ GetAnimatedSpriteTile:
 ; ==============================================================================
 
 ; $005537-$005584 LOCAL JUMP LOCATION
+LoadItemGFX_sheet0:
 {
     ; Parameters: A
     
@@ -9359,6 +9398,7 @@ GetAnimatedSpriteTile:
 ; $005585-$0055CA LOCAL JUMP LOCATION
 ; This "unpacks" animated tiles.
 ; Unused 3BPP to WRAM 4BPP routine.
+UNREACHABLE_00D585:
 {
     LDY.w #$0008 : STY.b $0E
 
@@ -9673,6 +9713,7 @@ LoadTransAuxGfx:
 ; ==============================================================================
 
 ; $005788-$00580D LONG JUMP LOCATION
+ReloadPreviouslyLoadedSheets:
 {
     PHB : PHK : PLB
     
@@ -9840,6 +9881,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $005892-$0058A4 JUMP LOCATION (LONG)
+AnimateMirrorWarp_LoadPyramidIfAga:
 {
     INC.w $06BA : LDA.w $06BA : CMP.b #$20 : BEQ .ready
         STZ.w $0200
@@ -9857,6 +9899,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
+AnimateMirrorWarp_TriggerOverlayA_2:
 {
     JSL $02B2D4 ; $0132D4 IN ROM
     
@@ -9870,6 +9913,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0058B3-$0058BA JUMP LOCATION (LONG)
+AnimateMirrorWarp_DrawDestinationScreen:
 {
     JSL $02B2E6 ; $0132E6 IN ROM
     
@@ -9881,6 +9925,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0058BB-$0058C6 JUMP LOCATION (LONG)
+AnimateMirrorWarp_DoSpritesPalettes:
 {
     JSL $02B334 ; $013334 IN ROM
     
@@ -9892,6 +9937,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0058C7-$0058CE JUMP LOCATION (LONG)
+AnimateMirrorWarp_TriggerOverlayB:
 {
     LDA.b #$0D : STA.b $17 : STA.w $0710
     
@@ -9901,6 +9947,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0058CF-$0058D4 JUMP LOCATION (LONG)
+AnimateMirrorWarp_TriggerBGChar0:
 {
     LDA.b #$0E : STA.w $0200
     
@@ -9912,6 +9959,7 @@ AnimateMirrorWarp:
 ; $0058D5-$58ED JUMP LOCATION (LONG)
 ; Updates animated tiles durring mirror warp. May have other uses.
 ; ZS replaces this whole function. - ZS Custom Overworld
+AnimateMirrorWarp_DecompressAnimatedTiles:
 {
     LDY.b #$58
         
@@ -9933,15 +9981,38 @@ AnimateMirrorWarp:
 
 ; ==============================================================================
     
-; $0058EE-$0058FD DATA
+; $0058EE-$0058F3 DATA
+SheetsTable_Mirror:
 {
-    ; TODO: Doccument this.
-    db $3A, $3B, $3C, $3D, $3E, $5B, $01, $5A, $42, $43, $44, $45, $3F, $59, $0B, $5A
+    db $3A
+    db $3B
+    db $3C
+    db $3D
+    db $3E
+    db $5B
+}
+
+; ==============================================================================
+
+; $0058F4-$0058FD DATA
+SheetsTable_AA4:
+{
+    db $01
+    db $5A
+    db $42
+    db $43
+    db $44
+    db $45
+    db $3F
+    db $59
+    db $0B
+    db $5A
 }
 
 ; ==============================================================================
 
 ; $0058FE-$0059B8 JUMP LOCATION (LONG)
+AnimateMirrorWarp_DecompressNewTileSets:
 {
     PHB : PHK : PLB
     
@@ -10052,6 +10123,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0059B9-$0059F7 JUMP LOCATION (LONG)
+AnimateMirrorWarp_DecompressBackgroundsA:
 {
     PHB : PHK : PLB
     
@@ -10094,6 +10166,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $0059F8-$005A2B JUMP LOCATION (LONG)
+AnimateMirrorWarp_DecompressBackgroundsB:
 {
     PHB : PHK : PLB
     
@@ -10130,6 +10203,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $005A2C-$005A62 JUMP LOCATION (LONG)
+AnimateMirrorWarp_DecompressBackgroundsC:
 {
     PHB : PHK : PLB
     
@@ -10166,13 +10240,13 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $005A63-$005ABA JUMP LOCATION (LONG)
-; No name for this yet
 ; ZS replaces this whole function. - ZS Custom Overworld
+AnimateMirrorWarp_LoadSubscreen:
 {
     STZ.b $1D
         
     ; For areas with special overlays (fog, clouds, etc.) turn on BG1.
-    LDA.b $8A    : BEQ .subscreen
+    LDA.b $8A  : BEQ .subscreen
     CMP.b #$70 : BEQ .subscreen
     CMP.b #$40 : BEQ .subscreen
     CMP.b #$5B : BEQ .subscreen
@@ -10216,6 +10290,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $005ABB-$005B1A JUMP LOCATION (LONG)
+AnimateMirrorWarp_DecompressSpritesA:
 {
     PHB : PHK : PLB
     
@@ -10276,6 +10351,7 @@ AnimateMirrorWarp:
 ; ==============================================================================
 
 ; $005B1B-$005B56 JUMP LOCATION (LONG)
+AnimateMirrorWarp_DecompressSpritesB:
 {
     PHB : PHK : PLB
     
@@ -10312,85 +10388,285 @@ AnimateMirrorWarp:
 
 ; ==============================================================================
 
-; $005B57
+; $005B57-$005D96 DATA
+SheetsTable_AA3:
 {
     ; This table is indexed by $0AA3 * 4 (0x90 entries).
-    db $00, $49, $00, $00
-    db $46, $49, $0C, $1D
-    db $48, $49, $13, $1D
-    db $46, $49, $13, $0E
-    db $48, $49, $0C, $11
-    db $48, $49, $0C, $10
-    db $4F, $49, $4A, $50
-    db $0E, $49, $4A, $11
-    db $46, $49, $12, $00
-    db $00, $49, $00, $50
-    db $00, $49, $00, $11
-    db $48, $49, $0C, $00
-    db $00, $00, $37, $36
-    db $48, $49, $4C, $11
-    db $5D, $2C, $0C, $44
-    db $00, $00, $4E, $00
-    db $0F, $00, $12, $10
-    db $00, $00, $00, $4C
-    db $00, $0D, $17, $00
-    
-    ; .....
+    db $00, $49, $00, $00 ; 0x00
+    db $46, $49, $0C, $1D ; 0x01
+    db $48, $49, $13, $1D ; 0x02
+    db $46, $49, $13, $0E ; 0x03
+    db $48, $49, $0C, $11 ; 0x04
+    db $48, $49, $0C, $10 ; 0x05
+    db $4F, $49, $4A, $50 ; 0x06
+    db $0E, $49, $4A, $11 ; 0x07
+    db $46, $49, $12, $00 ; 0x08
+    db $00, $49, $00, $50 ; 0x09
+    db $00, $49, $00, $11 ; 0x0A
+    db $48, $49, $0C, $00 ; 0x0B
+    db $00, $00, $37, $36 ; 0x0C
+    db $48, $49, $4C, $11 ; 0x0D
+    db $5D, $2C, $0C, $44 ; 0x0E
+    db $00, $00, $4E, $00 ; 0x0F
+    db $0F, $00, $12, $10 ; 0x10
+    db $00, $00, $00, $4C ; 0x11
+    db $00, $0D, $17, $00 ; 0x12
+    db $16, $0D, $17, $1B ; 0x13
+    db $16, $0D, $17, $14 ; 0x14
+    db $15, $0D, $17, $15 ; 0x15
+    db $16, $0D, $18, $19 ; 0x16
+    db $16, $0D, $17, $19 ; 0x17
+    db $16, $0D, $00, $00 ; 0x18
+    db $16, $0D, $18, $1B ; 0x19
+    db $0F, $49, $4A, $11 ; 0x1A
+    db $4B, $2A, $5C, $15 ; 0x1B
+    db $16, $49, $17, $1D ; 0x1C
+    db $00, $00, $00, $15 ; 0x1D
+    db $16, $0D, $17, $10 ; 0x1E
+    db $16, $49, $12, $00 ; 0x1F
+    db $16, $49, $0C, $11 ; 0x20
+    db $00, $00, $12, $10 ; 0x21
+    db $16, $0D, $00, $11 ; 0x22
+    db $16, $49, $0C, $00 ; 0x23
+    db $16, $0D, $4C, $11 ; 0x24
+    db $0E, $0D, $4A, $11 ; 0x25
+    db $16, $1A, $17, $1B ; 0x26
+    db $4F, $34, $4A, $50 ; 0x27
+    db $35, $4D, $65, $36 ; 0x28
+    db $4A, $34, $4E, $00 ; 0x29
+    db $0E, $34, $4A, $11 ; 0x2A
+    db $51, $34, $5D, $59 ; 0x2B
+    db $4B, $49, $4C, $11 ; 0x2C
+    db $2D, $00, $00, $00 ; 0x2D
+    db $5D, $00, $12, $59 ; 0x2E
+    db $00, $00, $00, $00 ; 0x2F
+    db $00, $00, $00, $00 ; 0x30
+    db $00, $00, $00, $00 ; 0x31
+    db $00, $00, $00, $00 ; 0x32
+    db $00, $00, $00, $00 ; 0x33
+    db $00, $00, $00, $00 ; 0x34
+    db $00, $00, $00, $00 ; 0x35
+    db $00, $00, $00, $00 ; 0x36
+    db $00, $00, $00, $00 ; 0x37
+    db $00, $00, $00, $00 ; 0x38
+    db $00, $00, $00, $00 ; 0x39
+    db $00, $00, $00, $00 ; 0x3A
+    db $00, $00, $00, $00 ; 0x3B
+    db $00, $00, $00, $00 ; 0x3C
+    db $00, $00, $00, $00 ; 0x3D
+    db $00, $00, $00, $00 ; 0x3E
+    db $00, $00, $00, $00 ; 0x3F
+    db $47, $49, $2B, $2D ; 0x40 - 0x00 for underworld
+    db $46, $49, $1C, $52 ; 0x41 - 0x01 for underworld
+    db $00, $49, $1C, $52 ; 0x42 - 0x02 for underworld
+    db $5D, $49, $00, $52 ; 0x43 - 0x03 for underworld
+    db $46, $49, $13, $52 ; 0x44 - 0x04 for underworld
+    db $4B, $4D, $4A, $5A ; 0x45 - 0x05 for underworld
+    db $47, $49, $1C, $52 ; 0x46 - 0x06 for underworld
+    db $4B, $4D, $39, $36 ; 0x47 - 0x07 for underworld
+    db $1F, $2C, $2E, $52 ; 0x48 - 0x08 for underworld
+    db $1F, $2C, $2E, $1D ; 0x49 - 0x09 for underworld
+    db $2F, $2C, $2E, $52 ; 0x4A - 0x0A for underworld
+    db $2F, $2C, $2E, $31 ; 0x4B - 0x0B for underworld
+    db $1F, $1E, $30, $52 ; 0x4C - 0x0C for underworld
+    db $51, $49, $13, $00 ; 0x4D - 0x0D for underworld
+    db $4F, $49, $13, $50 ; 0x4E - 0x0E for underworld
+    db $4F, $4D, $4A, $50 ; 0x4F - 0x0F for underworld
+    db $4B, $49, $4C, $2B ; 0x50 - 0x10 for underworld
+    db $1F, $20, $22, $53 ; 0x51 - 0x11 for underworld
+    db $55, $3D, $42, $43 ; 0x52 - 0x12 for underworld
+    db $1F, $1E, $23, $52 ; 0x53 - 0x13 for underworld
+    db $1F, $1E, $39, $3A ; 0x54 - 0x14 for underworld
+    db $1F, $1E, $3A, $3E ; 0x55 - 0x15 for underworld
+    db $1F, $1E, $3C, $3D ; 0x56 - 0x16 for underworld
+    db $40, $1E, $27, $3F ; 0x57 - 0x17 for underworld
+    db $55, $1A, $42, $43 ; 0x58 - 0x18 for underworld
+    db $1F, $1E, $2A, $52 ; 0x59 - 0x19 for underworld
+    db $1F, $1E, $38, $52 ; 0x5A - 0x1A for underworld
+    db $1F, $20, $28, $52 ; 0x5B - 0x1B for underworld
+    db $1F, $20, $26, $52 ; 0x5C - 0x1C for underworld
+    db $1F, $2C, $25, $52 ; 0x5D - 0x1D for underworld
+    db $1F, $20, $27, $52 ; 0x5E - 0x1E for underworld
+    db $1F, $1E, $29, $52 ; 0x5F - 0x1F for underworld
+    db $1F, $2C, $3B, $52 ; 0x60 - 0x20 for underworld
+    db $46, $49, $24, $52 ; 0x61 - 0x21 for underworld
+    db $21, $41, $45, $33 ; 0x62 - 0x22 for underworld
+    db $1F, $2C, $28, $31 ; 0x63 - 0x23 for underworld
+    db $1F, $0D, $29, $52 ; 0x64 - 0x24 for underworld
+    db $1F, $1E, $27, $52 ; 0x65 - 0x25 for underworld
+    db $1F, $20, $27, $53 ; 0x66 - 0x26 for underworld
+    db $48, $49, $13, $52 ; 0x67 - 0x27 for underworld
+    db $0E, $1E, $4A, $50 ; 0x68 - 0x28 for underworld
+    db $1F, $20, $26, $53 ; 0x69 - 0x29 for underworld
+    db $15, $00, $00, $00 ; 0x6A - 0x2A for underworld
+    db $1F, $00, $2A, $52 ; 0x6B - 0x2B for underworld
+    db $00, $00, $00, $00 ; 0x6C - 0x2C for underworld
+    db $00, $00, $00, $00 ; 0x6D - 0x2D for underworld
+    db $00, $00, $00, $00 ; 0x6E - 0x2E for underworld
+    db $00, $00, $00, $00 ; 0x6F - 0x2F for underworld
+    db $00, $00, $00, $00 ; 0x70 - 0x30 for underworld
+    db $00, $00, $00, $00 ; 0x71 - 0x31 for underworld
+    db $00, $00, $00, $00 ; 0x72 - 0x32 for underworld
+    db $00, $00, $00, $00 ; 0x73 - 0x33 for underworld
+    db $00, $00, $00, $00 ; 0x74 - 0x34 for underworld
+    db $00, $00, $00, $00 ; 0x75 - 0x35 for underworld
+    db $00, $00, $00, $00 ; 0x76 - 0x36 for underworld
+    db $00, $00, $00, $00 ; 0x77 - 0x37 for underworld
+    db $00, $00, $00, $00 ; 0x78 - 0x38 for underworld
+    db $00, $00, $00, $00 ; 0x79 - 0x39 for underworld
+    db $00, $00, $00, $00 ; 0x7A - 0x3A for underworld
+    db $00, $00, $00, $00 ; 0x7B - 0x3B for underworld
+    db $00, $00, $00, $00 ; 0x7C - 0x3C for underworld
+    db $32, $00, $00, $08 ; 0x7D - 0x3D for underworld
+    db $5D, $49, $00, $52 ; 0x7E - 0x3E for underworld
+    db $55, $49, $42, $43 ; 0x7F - 0x3F for underworld
+    db $61, $62, $63, $50 ; 0x80 - 0x40 for underworld
+    db $61, $62, $63, $50 ; 0x81 - 0x41 for underworld
+    db $61, $62, $63, $50 ; 0x82 - 0x42 for underworld
+    db $61, $62, $63, $50 ; 0x83 - 0x43 for underworld
+    db $61, $62, $63, $50 ; 0x84 - 0x44 for underworld
+    db $61, $62, $63, $50 ; 0x85 - 0x45 for underworld
+    db $61, $56, $57, $50 ; 0x86 - 0x46 for underworld
+    db $61, $62, $63, $50 ; 0x87 - 0x47 for underworld
+    db $61, $62, $63, $50 ; 0x88 - 0x48 for underworld
+    db $61, $56, $57, $50 ; 0x89 - 0x49 for underworld
+    db $61, $56, $63, $50 ; 0x8A - 0x4A for underworld
+    db $61, $56, $57, $50 ; 0x8B - 0x4B for underworld
+    db $61, $56, $33, $50 ; 0x8C - 0x4C for underworld
+    db $61, $56, $57, $50 ; 0x8D - 0x4D for underworld
+    db $61, $62, $63, $50 ; 0x8E - 0x4E for underworld
+    db $61, $62, $63, $50 ; 0x8F - 0x4F for underworld
 }
 
-; $005D97
+; $005D97-$005EDE DATA
+SheetsTable_AA2:
 {
     ; This table is indexed by $0AA2 * 4 - (0x52 entries).
-    db $06, $00, $1F, $18
-    db $08, $00, $22, $1B
-    db $06, $00, $1F, $18
-    db $07, $00, $23, $1C
-    
-    db $07, $00, $21, $18
-    db $09, $00, $20, $19
-    db $0B, $00, $21, $1A
-    db $0C, $00, $24, $19
-    
-    db $08, $00, $22, $1B
-    db $0C, $00, $25, $1B
-    db $0C, $00, $26, $1B
-    db $0A, $00, $27, $1D
-    
-    db $0A, $00, $28, $1E
-    db $0B, $00, $29, $16
-    db $0D, $00, $2A, $18
-    
-    ; ......
-    
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    db $00, $00, $00, $00
-    
-    db $72, $71, $72, $71
-    db $17, $40, $41, $39
+    db $06, $00, $1F, $18 ; 0x00
+    db $08, $00, $22, $1B ; 0x01
+    db $06, $00, $1F, $18 ; 0x02
+    db $07, $00, $23, $1C ; 0x03
+    db $07, $00, $21, $18 ; 0x04
+    db $09, $00, $20, $19 ; 0x05
+    db $0B, $00, $21, $1A ; 0x06
+    db $0C, $00, $24, $19 ; 0x07
+    db $08, $00, $22, $1B ; 0x08
+    db $0C, $00, $25, $1B ; 0x09
+    db $0C, $00, $26, $1B ; 0x0A
+    db $0A, $00, $27, $1D ; 0x0B
+    db $0A, $00, $28, $1E ; 0x0C
+    db $0B, $00, $29, $16 ; 0x0D
+    db $0D, $00, $2A, $18 ; 0x0E
+    db $07, $00, $23, $1C ; 0x0F
+    db $07, $00, $04, $05 ; 0x10
+    db $07, $00, $04, $05 ; 0x11
+    db $09, $00, $20, $1B ; 0x12
+    db $09, $00, $2A, $17 ; 0x13
+    db $0B, $00, $21, $1C ; 0x14
+    db $09, $00, $20, $19 ; 0x15
+    db $0B, $00, $21, $1A ; 0x16
+    db $09, $00, $24, $1B ; 0x17
+    db $08, $00, $22, $1B ; 0x18
+    db $09, $00, $25, $1B ; 0x19
+    db $09, $00, $26, $1B ; 0x1A
+    db $0A, $00, $27, $1D ; 0x1B
+    db $09, $00, $28, $1E ; 0x1C
+    db $0C, $00, $29, $16 ; 0x1D
+    db $0D, $00, $2A, $17 ; 0x1E
+    db $72, $00, $2B, $5D ; 0x1F
+
+    db $00, $00, $00, $00 ; 0x20
+    db $00, $57, $4C, $00 ; 0x21
+    db $00, $56, $4F, $00 ; 0x22
+    db $00, $53, $4D, $00 ; 0x23
+    db $00, $52, $49, $00 ; 0x24
+    db $00, $55, $4A, $00 ; 0x25
+    db $00, $53, $54, $00 ; 0x26
+    db $00, $51, $4E, $00 ; 0x27
+    db $00, $00, $00, $00 ; 0x28
+    db $00, $50, $4B, $00 ; 0x29
+    db $00, $53, $4D, $00 ; 0x2A
+    db $00, $55, $54, $00 ; 0x2B
+    db $00, $00, $00, $00 ; 0x2C
+    db $00, $00, $00, $00 ; 0x2D
+    db $00, $00, $00, $00 ; 0x2E
+    db $00, $47, $48, $00 ; 0x2F
+    db $00, $00, $00, $00 ; 0x30
+    db $00, $57, $4C, $00 ; 0x31
+    db $00, $56, $4F, $00 ; 0x32
+    db $00, $53, $4D, $00 ; 0x33
+    db $00, $52, $49, $00 ; 0x34
+    db $00, $55, $4A, $00 ; 0x35
+    db $00, $53, $54, $00 ; 0x36
+    db $00, $51, $4E, $00 ; 0x37
+    db $00, $00, $00, $00 ; 0x38
+    db $00, $50, $4B, $00 ; 0x39
+    db $00, $53, $00, $00 ; 0x3A
+    db $00, $35, $36, $00 ; 0x3B
+    db $00, $60, $34, $00 ; 0x3C
+    db $00, $2B, $2C, $00 ; 0x3D
+    db $00, $2D, $2E, $00 ; 0x3E
+    db $00, $2F, $30, $00 ; 0x3F
+    db $00, $37, $38, $00 ; 0x40
+    db $00, $33, $34, $00 ; 0x41
+    db $00, $31, $32, $00 ; 0x42
+    db $00, $00, $00, $00 ; 0x43
+    db $00, $00, $00, $00 ; 0x44
+    db $00, $00, $00, $00 ; 0x45
+    db $00, $00, $00, $00 ; 0x46
+    db $00, $00, $00, $00 ; 0x47
+    db $00, $00, $00, $00 ; 0x48
+    db $00, $00, $00, $00 ; 0x49
+    db $00, $00, $00, $00 ; 0x4A
+    db $00, $00, $00, $00 ; 0x4B
+    db $00, $00, $00, $00 ; 0x4C
+    db $00, $00, $00, $00 ; 0x4D
+    db $00, $00, $00, $00 ; 0x4E
+    db $00, $00, $00, $00 ; 0x4F
+    db $72, $71, $72, $71 ; 0x50
+    db $17, $40, $41, $39 ; 0x51
 }
 
 ; $005EDF-$005EFE DATA
 Pool_Graphics_IncrementalVramUpload:
 {
     ; $005EDF
-    db $50, $51, $52, $53, $54, $55, $56, $57
-    db $58, $59, $5A, $5B, $5C, $5D, $5E, $5F
+    .vram_address_high
+    db $50 ; VRAM $A000
+    db $51 ; VRAM $A200
+    db $52 ; VRAM $A400
+    db $53 ; VRAM $A600
+    db $54 ; VRAM $A800
+    db $55 ; VRAM $AA00
+    db $56 ; VRAM $AC00
+    db $57 ; VRAM $AE00
+    db $58 ; VRAM $B000
+    db $59 ; VRAM $B200
+    db $5A ; VRAM $B400
+    db $5B ; VRAM $B600
+    db $5C ; VRAM $B800
+    db $5D ; VRAM $BA00
+    db $5E ; VRAM $BC00
+    db $5F ; VRAM $BE00
         
     ; $005EEF
-    db $00, $02, $04, $06, $08, $0A, $0C, $0E
-    db $10, $12, $14, $16, $18, $1A, $1C, $1E
+    .buffer_address_high
+    db $7F0000>>8 ; $50
+    db $7F0200>>8 ; $51
+    db $7F0400>>8 ; $52
+    db $7F0600>>8 ; $53
+    db $7F0800>>8 ; $54
+    db $7F0A00>>8 ; $55
+    db $7F0C00>>8 ; $56
+    db $7F0E00>>8 ; $57
+    db $7F1000>>8 ; $58
+    db $7F1200>>8 ; $59
+    db $7F1400>>8 ; $5A
+    db $7F1600>>8 ; $5B
+    db $7F1800>>8 ; $5C
+    db $7F1A00>>8 ; $5D
+    db $7F1C00>>8 ; $5E
+    db $7F1E00>>8 ; $5F
 }
     
 ; ==============================================================================
@@ -10603,46 +10879,54 @@ LoadNewSpriteGFXSet:
 
 ; ==============================================================================
 
-; $006073-$00619A primary and default BG tilesets contains 0x25 8-byte entries
-; indexed by $0AA1 * 8.
+; $006073-$00619A
+; Primary and default BG tilesets contains 0x25 8-byte entries indexed by
+; $0AA1 * 8.
+SheetsTable_AA1:
+{
+    ; Underworld
+    ; $006073
+    db $00, $01, $10, $06, $0E, $1F, $18, $0F ; 0x00
+    db $00, $01, $10, $08, $0E, $22, $1B, $0F ; 0x01
+    db $00, $01, $10, $06, $0E, $1F, $18, $0F ; 0x02
+    db $00, $01, $13, $07, $0E, $23, $1C, $0F ; 0x03
+    db $00, $01, $10, $07, $0E, $21, $18, $0F ; 0x04
+    db $00, $01, $10, $09, $0E, $20, $19, $0F ; 0x05
+    db $02, $03, $12, $0B, $0E, $21, $1A, $0F ; 0x06
+    db $00, $01, $11, $0C, $0E, $24, $1B, $0F ; 0x07
+    db $00, $01, $11, $08, $0E, $22, $1B, $0F ; 0x08
+    db $00, $01, $11, $0C, $0E, $25, $1A, $0F ; 0x09
+    db $00, $01, $11, $0C, $0E, $26, $1B, $0F ; 0x0A
+    db $00, $01, $14, $0A, $0E, $27, $1D, $0F ; 0x0B
+    db $00, $01, $11, $0A, $0E, $28, $1E, $0F ; 0x0C
+    db $02, $03, $12, $0B, $0E, $29, $16, $0F ; 0x0D
+    db $00, $01, $15, $0D, $0E, $2A, $18, $0F ; 0x0E
+    db $00, $01, $10, $07, $0E, $23, $1C, $0F ; 0x0F
+    db $00, $01, $13, $07, $0E, $04, $05, $0F ; 0x10
+    db $00, $01, $13, $07, $0E, $04, $05, $0F ; 0x11
+    db $00, $01, $10, $09, $0E, $20, $1B, $0F ; 0x12
+    db $00, $01, $10, $09, $0E, $2A, $17, $0F ; 0x13
+    db $02, $03, $12, $0B, $0E, $21, $1C, $0F ; 0x14
 
-db $00, $01, $10, $06, $0E, $1F, $18, $0F
-db $00, $01, $10, $08, $0E, $22, $1B, $0F
-db $00, $01, $10, $06, $0E, $1F, $18, $0F
-db $00, $01, $13, $07, $0E, $23, $1C, $0F
-db $00, $01, $10, $07, $0E, $21, $18, $0F
-db $00, $01, $10, $09, $0E, $20, $19, $0F
-db $02, $03, $12, $0B, $0E, $21, $1A, $0F
-db $00, $01, $11, $0C, $0E, $24, $1B, $0F
-db $00, $01, $11, $08, $0E, $22, $1B, $0F
-db $00, $01, $11, $0C, $0E, $25, $1A, $0F
-db $00, $01, $11, $0C, $0E, $26, $1B, $0F
-db $00, $01, $14, $0A, $0E, $27, $1D, $0F
-db $00, $01, $11, $0A, $0E, $28, $1E, $0F
-db $02, $03, $12, $0B, $0E, $29, $16, $0F
-db $00, $01, $15, $0D, $0E, $2A, $18, $0F
-db $00, $01, $10, $07, $0E, $23, $1C, $0F
-db $00, $01, $13, $07, $0E, $04, $05, $0F
-db $00, $01, $13, $07, $0E, $04, $05, $0F
-db $00, $01, $10, $09, $0E, $20, $1B, $0F
-db $00, $01, $10, $09, $0E, $2A, $17, $0F
-db $02, $03, $12, $0B, $0E, $21, $1C, $0F
-db $00, $08, $11, $1B, $22, $2E, $5D, $5B
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B
-db $42, $43, $44, $45, $20, $2B, $3F, $5D
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $00, $08, $10, $18, $20, $2B, $5D, $5B
-db $71, $72, $71, $72, $20, $2B, $5D, $5B
-db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B
-db $42, $43, $44, $45, $20, $2B, $3F, $59
-db $00, $72, $71, $72, $20, $2B, $5D, $0F
-db $16, $39, $1D, $17, $40, $41, $39, $1E
-db $00, $46, $39, $72, $40, $41, $39, $0F
+    db $00, $08, $11, $1B, $22, $2E, $5D, $5B ; 0x15
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x16
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x17
+
+    ; Overworld
+    ; $006133
+    db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B ; 0x18
+    db $42, $43, $44, $45, $20, $2B, $3F, $5D ; 0x19
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1A
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1B
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1C
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1D
+    db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1E
+    db $71, $72, $71, $72, $20, $2B, $5D, $5B ; 0x1F
+    db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B ; 0x20
+    db $42, $43, $44, $45, $20, $2B, $3F, $59 ; 0x21
+    db $00, $72, $71, $72, $20, $2B, $5D, $0F ; 0x22
+    db $16, $39, $1D, $17, $40, $41, $39, $1E ; 0x23
+    db $00, $46, $39, $72, $40, $41, $39, $0F ; 0x24
 }
 
 ; ==============================================================================
@@ -10932,6 +11216,7 @@ DecompAndDirectCopy:
 ; ==============================================================================
 
 ; $00636D-$006383 LONG JUMP LOCATION
+Attract_LoadBG3GFX:
 {
     PHB : PHK : PLB
     
@@ -11016,20 +11301,54 @@ CopyMode7Chr: ; Decent name?
 ; ==============================================================================
 
 ; $0063D2-$0063E5 DATA
+Pool_Graphics_LoadChrHalfSlot:
 {
     ; Sprite packs to use, $01 indicates that $0aa4 will be used
     ; instead, btw.
-    db $01, $01, $08, $08, $09, $09, $02, $02
-    db $02, $02, $03, $03, $04, $04, $05, $05
-    db $08, $08, $08, $08
-}
+    .sheet_id
+    db $01 ; 0x74 - Overworld common
+    db $01 ; 0x74 - Overworld common
+    db $08 ; 0x7B - Intro
+    db $08 ; 0x7B - Intro
+    db $09 ; 0x7C - Unused
+    db $09 ; 0x7C - Unused
+    db $02 ; 0x75 - Ether
+    db $02 ; 0x75 - Ether
+    db $02 ; 0x75 - Ether
+    db $02 ; 0x75 - Ether
+    db $03 ; 0x76 - Bombos
+    db $03 ; 0x76 - Bombos
+    db $04 ; 0x77 - Quake
+    db $04 ; 0x77 - Quake
+    db $05 ; 0x78 - Game over
+    db $05 ; 0x78 - Game over
+    db $08 ; 0x7B - Intro
+    db $08 ; 0x7B - Intro
+    db $08 ; 0x7B - Intro
+    db $08 ; 0x7B - Intro
 
-; Need to name this data table.
-; $0063E6-$0063F9 DATA TABLE
-{
-    db 10, -1,  3, -1, 0, -1, -1, -1
-    db  0, -1,  2, -1, 0, -1, -1, -1
-    db -1, -1, -1, -1
+    ; $0063E6
+    .palette_id
+    db $0A ; 0x74 - Overworld common
+    db $FF ; 0x74 - Overworld common
+    db $03 ; 0x7B - Intro
+    db $FF ; 0x7B - Intro
+    db $00 ; 0x7C - Unused
+    db $FF ; 0x7C - Unused
+    db $FF ; 0x75 - Ether
+    db $FF ; 0x75 - Ether
+    db $01 ; 0x75 - Ether
+    db $FF ; 0x75 - Ether
+    db $02 ; 0x76 - Bombos
+    db $FF ; 0x76 - Bombos
+    db $00 ; 0x77 - Quake
+    db $FF ; 0x77 - Quake
+    db $FF ; 0x78 - Game over
+    db $FF ; 0x78 - Game over
+    db $FF ; 0x7B - Intro
+    db $FF ; 0x7B - Intro
+    db $FF ; 0x7B - Intro
+    db $FF ; 0x7B - Intro
 }
 
 ; ==============================================================================
@@ -11038,9 +11357,6 @@ CopyMode7Chr: ; Decent name?
 ; tiles to one of two locations in the sprite region of VRAM - 
 ; 0x4400 or 0x4600. Generally I guess you could say that it's designed
 ; to load "half slots" or half graphics packs.
-
-; TODO: Verify the naming of this, but pretty confident that it's good
-; these days.
 
 ; $0063FA-$0064E8 LONG JUMP LOCATION
 Graphics_LoadChrHalfSlot:
@@ -11807,48 +12123,44 @@ Decomp:
 
 ; ==============================================================================
 
-; $006852-$00690B DATA
+; $006852-$00687F DATA
+NULL_00E852:
 {
-    ; $006880
+    #_00E852: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    #_00E85A: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    #_00E862: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    #_00E86A: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    #_00E872: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    #_00E87A: db $FF, $FF, $FF, $FF, $FF, $FF
+}
+
+; $006880-$00688B DATA
+PaletteFilterColorAdd:
+{
     dw $FFFF, $0001
-
     dw $FFE0, $0020
-
     dw $FC00, $0400
+}
 
-    ; $00688C
-    dw $FFFF, $FFFF
-    dw $FFFE, $FFFF
-    dw $7FFF, $7FFF
-    dw $7FDF, $FBFF
-    dw $7F7F, $7F7F
-    dw $7DF7, $EFBF
-    dw $7BDF, $7BDF
-    dw $77BB, $DDEF
-    dw $7777, $7777
-    dw $6EDD, $BB77
-    dw $6DB7, $6DB7
-    dw $5B6D, $B6DB
-    dw $5B5B, $5B5B
-    dw $56B6, $AD6B
-    dw $5555, $AD6B
-    dw $5555, $AAAB
-    dw $5555, $5555
-    dw $2A55, $5555
-    dw $2A55, $2A55
-    dw $294A, $5295
-    dw $2525, $2525
-    dw $2492, $4925
-    dw $1249, $1249
-    dw $1122, $4489
-    dw $1111, $1111
-    dw $0844, $2211
-    dw $0421, $0421
-    dw $0208, $1041
-    dw $0101, $0101
-    dw $0020, $0401
-    dw $0001, $0001
-    dw $0000, $0001
+; $00688C-$00690B DATA
+PaletteFilterColorMasks:
+{
+    dw $FFFF, $FFFF, $FFFE, $FFFF
+    dw $7FFF, $7FFF, $7FDF, $FBFF
+    dw $7F7F, $7F7F, $7DF7, $EFBF
+    dw $7BDF, $7BDF, $77BB, $DDEF
+    dw $7777, $7777, $6EDD, $BB77
+    dw $6DB7, $6DB7, $5B6D, $B6DB
+    dw $5B5B, $5B5B, $56B6, $AD6B
+    dw $5555, $AD6B, $5555, $AAAB
+    dw $5555, $5555, $2A55, $5555
+    dw $2A55, $2A55, $294A, $5295
+    dw $2525, $2525, $2492, $4925
+    dw $1249, $1249, $1122, $4489
+    dw $1111, $1111, $0844, $2211
+    dw $0421, $0421, $0208, $1041
+    dw $0101, $0101, $0020, $0401
+    dw $0001, $0001, $0000, $0001
 }
 
 ; ==============================================================================
@@ -12504,6 +12816,7 @@ PaletteFilter_Agahnim:
 ; ==============================================================================
 
 ; $006D19-$006D7B LOCAL JUMP LOCATION
+AgahnimWarpShadowFilter_filter_one:
 {
     LDY.w #$E88C
     
@@ -12552,6 +12865,7 @@ PaletteFilter_Agahnim:
 ; ==============================================================================
 
 ; $006D7C-$006DB0 LONG JUMP LOCATION
+IntroLogoPaletteFadeIn:
 {
     REP #$30
     
@@ -12566,6 +12880,7 @@ PaletteFilter_Agahnim:
     BRA .BRANCH_1
 
     ; $006D8F ALTERNATE ENTRY POINT
+    .IntroTitleCardPaletteFadeIn
     REP #$30
     
     LDX.w #$0040
@@ -12592,6 +12907,7 @@ PaletteFilter_Agahnim:
 ; ==============================================================================
 
 ; $006DB1-$006DC9 LONG JUMP LOCATION
+PaletteFilter_Restore:
 {
     REP #$30
     
@@ -12840,6 +13156,7 @@ PaletteFilter_BlindingWhite:
 ; ==============================================================================
 
 ; $006F8A-$006F96 LONG JUMP LOCATION
+PaletteFilter_BlindingWhiteTriforce:
 {
     REP #$30
     
@@ -13257,7 +13574,7 @@ PaletteFilter_IncreaseTrinexxBlue:
 
 ; ==============================================================================
 
-; *$007253-$00728A LONG JUMP LOCATION
+; $007253-$00728A LONG JUMP LOCATION
 PaletteFilter_RestoreTrinexxBlue:
 {
     LDA.w $04BF : BNE IncreaseTrinexxBlue_countdown
@@ -13535,6 +13852,7 @@ ResetSpotlightTable:
 ; ==============================================================================
 
 ; $0074CC-$00753D LOCAL JUMP LOCATION
+IrisSpotlight_CalculateCircleValue:
 {
     SEP #$30
     
@@ -13602,6 +13920,7 @@ ResetSpotlightTable:
 
 ; ==============================================================================
 
+; $00753E-$007565 DATA
 OrientLampData:
 {
     ; Data for the following routine.
@@ -13620,9 +13939,11 @@ OrientLampData:
 
     .maxima
     dw 128, 384, 160, 160
+}
 
-    .easyOut
-
+; $007566-$007566 LONG JUMP LOCATION
+OrientLampBg_easyOut:
+{
     RTL
 }
 
@@ -13635,9 +13956,9 @@ OrientLampBg:
     ; on it) to match Link's direction and movement.
     
     ; This variable is nonzero if Link has the lantern and the room is dark.
-    LDA.w $0458 : BEQ OrientLampData_easyOut
+    LDA.w $0458 : BEQ OrientLampBg_easyOut
     
-    LDA.b $11 : CMP.b #$14 : BEQ OrientLampData_easyOut
+    LDA.b $11 : CMP.b #$14 : BEQ OrientLampBg_easyOut
     
     REP #$30
     
@@ -13866,6 +14187,7 @@ Hdma_ConfigureWaterTable:
 ; ==============================================================================
 
 ; $007734-$0077DF LONG JUMP LOCATION
+FloodDam_PrepFloodHDMA:
 {
     !leftFinal  = $00
     !scanline   = $04
@@ -14098,6 +14420,7 @@ PrayingPlayer_FadeInScene:
 ; ==============================================================================
 
 ; $0078E9-$0078FA LONG JUMP LOCATION
+Module0E_06_Unused:
 {
     LDA.b $B0
     
@@ -14133,6 +14456,7 @@ RefillHeathFromRedPotion:
 ; ==============================================================================
 
 ; $007911-$007917 LONG JUMP LOCATION
+Module0E_08_GreenPotion:
 {
     JSL HUD.RefillMagicPower : BCS RefillHeathFromRedPotion_MoveOn
         RTL
@@ -14141,6 +14465,7 @@ RefillHeathFromRedPotion:
 ; ==============================================================================
 
 ; $007918-$00792C LONG JUMP LOCATION
+Module0E_09_BluePotion:
 {
     JSL HUD.RefillHealth : BCC .alpha
         LDA.b #$08 : STA.b $11
@@ -14158,13 +14483,38 @@ RefillHeathFromRedPotion:
 ; ==============================================================================
 
 ; $00792D-$007944 DATA
+; See ZScream "Dungeon Properties".
+Pool_PrepareDungeonExitFromBossFight:
 {
-    ; See ZScream "Dungeon Properties".
-    .EndRooms
-    db $C8, $33, $07, $20, $06, $5A, $29, $90, $DE, $A4, $AC, $0D
+    ; $00792D
+    .boss_room
+    db $C8 ; ROOM 00C8 - Armos→Eastern lobby
+    db $33 ; ROOM 0033 - Lanmolas→Desert 3
+    db $07 ; ROOM 0007 - Moldorm→Hera lobby
+    db $20 ; ROOM 0020 - Agahnim→self
+    db $06 ; ROOM 0006 - Arrghus→Swamp lobby
+    db $5A ; ROOM 005A - Helmasaur→PoD lobby
+    db $29 ; ROOM 0029 - Mothula→Skull 3
+    db $90 ; ROOM 0090 - Vitreous→Mire foyer
+    db $DE ; ROOM 00DE - Kholdstare→Ice 1
+    db $A4 ; ROOM 00A4 - Trinexx→TR foyer
+    db $AC ; ROOM 00AC - Blind→Thieves' lobby
+    db $0D ; ROOM 000D - Agahnim 2→self
         
-    .StartRooms
-    db $C9, $63, $77, $20, $28, $4A, $59, $98, $0E, $D6, $DB, $0D
+    ; $007939
+    .exit_room
+    db $C9 ; ROOM C9 - Armos→Eastern lobby
+    db $63 ; ROOM 63 - Lanmolas→Desert 3
+    db $77 ; ROOM 77 - Moldorm→Hera lobby
+    db $20 ; ROOM 20 - Agahnim→self
+    db $28 ; ROOM 28 - Arrghus→Swamp lobby
+    db $4A ; ROOM 4A - Helmasaur→PoD lobby
+    db $59 ; ROOM 59 - Mothula→Skull 3
+    db $98 ; ROOM 98 - Vitreous→Mire foyer
+    db $0E ; ROOM 0E - Kholdstare→Ice 1
+    db $D6 ; ROOM D6 - Trinexx→TR foyer
+    db $DB ; ROOM DB - Blind→Thieves' lobby
+    db $0D ; ROOM 0D - Agahnim 2→self
 }
 
 ; ==============================================================================
@@ -14190,11 +14540,11 @@ PrepDungeonExit:
 
         ; Cycle through all the registered boss rooms.
         ; If it's not the room we're in, branch.
-    DEX : CMP .EndRooms, X : BNE .next_room ; $00F92D
+    DEX : CMP .boss_room, X : BNE .next_room ; $00F92D
     
     ; Set the room to the entrance room of the palace (I'm guessing this is so we can use an exit object?).
     ; Are we in Agahnim's room?
-    LDA .StartRooms, X : STA.b $A0 : CMP.b #$20 : BNE .not_agahnim ; $00F939
+    LDA .exit_room, X : STA.b $A0 : CMP.b #$20 : BNE .not_agahnim ; $00F939
         ; After beating Agahnim the world state gets set to 3 ("second part").
         LDA.b #$03 : STA.l $7EF3C5
         
@@ -14297,6 +14647,7 @@ SavePalaceDeaths:
 ; ==============================================================================
     
 ; $0079FA-$007A40 JUMP LOCATION
+Module0E_0B_SaveMenu:
 {
     LDA.b $1B : BNE .indoors
         JSL Overworld_DwDeathMountainPaletteAnimation
@@ -14352,62 +14703,94 @@ SavePalaceDeaths:
     
 ; ==============================================================================
 
-; $007A41
+; $007A41-$007B40 DATA
 Sprite_GfxIndices:
 {
     ; Phase 0 / 1 (light world)
-    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
-    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $02, $02, $00, $00, $00
-    db $00, $00, $00, $02, $02, $00, $00, $00, $00, $00, $00, $02, $02, $00, $00, $00
-    db $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $02, $02, $00, $00, $00
+    db $00, $00, $00, $02, $02, $00, $00, $00
+    db $00, $00, $00, $02, $02, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
     
     ; Phase 2 (light world)
-    db $07, $07, $07, $10, $10, $10, $10, $10, $07, $07, $07, $10, $10, $10, $10, $04
-    db $06, $06, $00, $03, $03, $00, $0D, $0A, $06, $06, $01, $01, $01, $04, $05, $05
-    db $06, $06, $06, $01, $01, $04, $05, $05, $06, $09, $0F, $00, $00, $0B, $0B, $05
-    db $08, $08, $0A, $04, $04, $04, $04, $04, $08, $08, $0A, $04, $04, $04, $04, $04
+    db $07, $07, $07, $10, $10, $10, $10, $10
+    db $07, $07, $07, $10, $10, $10, $10, $04
+    db $06, $06, $00, $03, $03, $00, $0D, $0A
+    db $06, $06, $01, $01, $01, $04, $05, $05
+    db $06, $06, $06, $01, $01, $04, $05, $05
+    db $06, $09, $0F, $00, $00, $0B, $0B, $05
+    db $08, $08, $0A, $04, $04, $04, $04, $04
+    db $08, $08, $0A, $04, $04, $04, $04, $04
     
     ; Phase 3 (light world)
-    db $07, $07, $1A, $10, $10, $10, $10, $10, $07, $07, $1A, $10, $10, $10, $10, $04
-    db $06, $06, $00, $03, $03, $00, $0D, $0A, $06, $06, $1C, $1C, $1C, $02, $05, $05
-    db $06, $06, $06, $1C, $1C, $00, $05, $05, $06, $00, $0F, $00, $00, $23, $23, $05
-    db $1F, $1F, $0A, $20, $20, $20, $20, $20, $1F, $1F, $0A, $20, $20, $20, $20, $20
+    db $07, $07, $1A, $10, $10, $10, $10, $10
+    db $07, $07, $1A, $10, $10, $10, $10, $04
+    db $06, $06, $00, $03, $03, $00, $0D, $0A
+    db $06, $06, $1C, $1C, $1C, $02, $05, $05
+    db $06, $06, $06, $1C, $1C, $00, $05, $05
+    db $06, $00, $0F, $00, $00, $23, $23, $05
+    db $1F, $1F, $0A, $20, $20, $20, $20, $20
+    db $1F, $1F, $0A, $20, $20, $20, $20, $20
     
     ; All phases (dark world)
-    db $13, $13, $17, $14, $14, $14, $14, $14, $13, $13, $17, $14, $14, $14, $14, $16
-    db $15, $15, $12, $13, $13, $18, $16, $16, $15, $15, $13, $26, $26, $13, $17, $17
-    db $15, $15, $15, $26, $26, $13, $17, $17, $1B, $1D, $11, $13, $13, $18, $18, $17
-    db $16, $16, $13, $13, $13, $19, $19, $19, $16, $16, $18, $13, $18, $19, $19, $19
+    db $13, $13, $17, $14, $14, $14, $14, $14
+    db $13, $13, $17, $14, $14, $14, $14, $16
+    db $15, $15, $12, $13, $13, $18, $16, $16
+    db $15, $15, $13, $26, $26, $13, $17, $17
+    db $15, $15, $15, $26, $26, $13, $17, $17
+    db $1B, $1D, $11, $13, $13, $18, $18, $17
+    db $16, $16, $13, $13, $13, $19, $19, $19
+    db $16, $16, $18, $13, $18, $19, $19, $19
 }
     
 ; ==============================================================================
 
-; $007B41
+; $007B41-$007C40 DATA
 Sprite_PaletteIndices:
 {
     ; Phase 0 / 1 (light world)
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01,
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01,
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01,
+    db $01, $01, $01, $01, $01, $01, $01, $01
+    db $01, $01, $01, $01, $01, $01, $01, $01,
+    db $01, $01, $01, $01, $01, $01, $01, $01
     
     ; Phase 2 (light world)
-    db $05, $05, $06, $09, $09, $09, $09, $09, $05, $05, $06, $09, $09, $09, $09, $03
-    db $01, $01, $00, $02, $02, $00, $06, $03, $01, $01, $01, $03, $03, $03, $07, $07
-    db $01, $01, $01, $03, $03, $03, $07, $07, $01, $00, $01, $00, $00, $03, $03, $07
-    db $04, $04, $00, $03, $03, $03, $03, $03, $04, $04, $00, $03, $03, $03, $03, $03
+    db $05, $05, $06, $09, $09, $09, $09, $09
+    db $05, $05, $06, $09, $09, $09, $09, $03
+    db $01, $01, $00, $02, $02, $00, $06, $03
+    db $01, $01, $01, $03, $03, $03, $07, $07
+    db $01, $01, $01, $03, $03, $03, $07, $07
+    db $01, $00, $01, $00, $00, $03, $03, $07
+    db $04, $04, $00, $03, $03, $03, $03, $03
+    db $04, $04, $00, $03, $03, $03, $03, $03
     
     ; Phase 3 (light world)
-    db $05, $05, $06, $09, $09, $09, $09, $09, $05, $05, $06, $09, $09, $09, $09, $03
-    db $01, $01, $00, $02, $02, $00, $06, $03, $01, $01, $01, $01, $01, $03, $07, $07
-    db $01, $01, $01, $01, $01, $03, $07, $07, $01, $00, $01, $00, $00, $03, $03, $07
-    db $04, $04, $00, $03, $03, $03, $03, $03, $04, $04, $00, $03, $03, $03, $03, $03
+    db $05, $05, $06, $09, $09, $09, $09, $09
+    db $05, $05, $06, $09, $09, $09, $09, $03
+    db $01, $01, $00, $02, $02, $00, $06, $03
+    db $01, $01, $01, $01, $01, $03, $07, $07
+    db $01, $01, $01, $01, $01, $03, $07, $07
+    db $01, $00, $01, $00, $00, $03, $03, $07
+    db $04, $04, $00, $03, $03, $03, $03, $03
+    db $04, $04, $00, $03, $03, $03, $03, $03
     
     ; All phases (dark world)
-    db $0E, $0E, $10, $0C, $0C, $0C, $0C, $0C, $0E, $0E, $10, $0C, $0C, $0C, $0C, $0A
-    db $10, $10, $00, $0E, $0E, $00, $0D, $0A, $10, $10, $10, $0E, $0E, $0E, $0D, $0D
-    db $10, $10, $10, $0E, $0E, $0E, $0D, $0D, $12, $00, $0B, $0E, $0E, $0E, $0E, $0D
-    db $0F, $0F, $00, $0E, $0E, $0E, $0E, $0E, $0F, $0F, $00, $0E, $0E, $0E, $0E, $0E
+    db $0E, $0E, $10, $0C, $0C, $0C, $0C, $0C
+    db $0E, $0E, $10, $0C, $0C, $0C, $0C, $0A
+    db $10, $10, $00, $0E, $0E, $00, $0D, $0A
+    db $10, $10, $10, $0E, $0E, $0E, $0D, $0D
+    db $10, $10, $10, $0E, $0E, $0E, $0D, $0D
+    db $12, $00, $0B, $0E, $0E, $0E, $0E, $0D
+    db $0F, $0F, $00, $0E, $0E, $0E, $0E, $0E
+    db $0F, $0F, $00, $0E, $0E, $0E, $0E, $0E
 }
 
 ; ==============================================================================
@@ -14472,16 +14855,49 @@ Sprite_LoadGfxProperties:
 
 ; ==============================================================================
 
-; $007C9C-$007D1B DATA - auxiliary graphics index for overworld areas (0x80 entries).
+; $007C9C-$007D1B DATA
+; Auxiliary graphics index for overworld areas (0x80 entries).
+GFXAA2ValsOW:
 {
     db $21, $21, $21, $22, $22, $22, $22, $22
-    
-    ; ....
-    
+    db $21, $21, $21, $22, $22, $22, $22, $27
+    db $23, $23, $20, $29, $29, $20, $29, $29
+    db $23, $23, $20, $24, $24, $27, $25, $25
+    db $23, $23, $23, $24, $24, $20, $25, $25
+    db $23, $2A, $21, $20, $20, $27, $20, $25
+    db $2B, $2B, $20, $27, $27, $27, $27, $27
+    db $2B, $2B, $20, $27, $27, $27, $27, $27
+    db $3E, $3E, $3E, $41, $41, $41, $41, $3C
+    db $3E, $3E, $3E, $41, $41, $41, $41, $40
+    db $3F, $3F, $30, $40, $40, $30, $40, $30
+    db $3F, $3F, $30, $3B, $3B, $40, $3D, $3D
+    db $3F, $3F, $3F, $3B, $3B, $30, $3D, $3D
+    db $3F, $3F, $30, $30, $30, $40, $30, $3D
     db $42, $42, $30, $40, $40, $42, $42, $40
     db $42, $42, $30, $40, $40, $42, $42, $30
+}
 
-    ; 007D1C - overworld palette group data.
+; $007D1C-$007DA3 DATA
+; Overworld palette group data.
+OverworldPalettesScreenToSet:
+{
+    db $06, $06, $08, $07, $07, $07, $07, $07
+    db $06, $06, $08, $07, $07, $07, $07, $04
+    db $08, $08, $00, $01, $01, $00, $09, $00
+    db $08, $08, $00, $02, $02, $04, $09, $09
+    db $08, $08, $08, $02, $02, $00, $09, $09
+    db $08, $08, $01, $00, $00, $04, $00, $09
+    db $09, $00, $00, $04, $04, $04, $04, $04
+    db $09, $09, $00, $04, $04, $04, $04, $04
+    db $1B, $1B, $1E, $17, $17, $17, $17, $18
+    db $1B, $1B, $1E, $17, $17, $17, $17, $1D
+    db $1E, $1E, $10, $1E, $1E, $10, $1E, $10
+    db $1E, $1E, $10, $12, $12, $10, $1A, $1A
+    db $1E, $1E, $1E, $12, $12, $10, $1A, $1A
+    db $1E, $10, $12, $10, $10, $1D, $10, $1A
+    db $1C, $1C, $10, $1D, $1D, $1C, $1C, $1D
+    db $1C, $1C, $10, $1D, $1D, $1C, $1C, $10
+    db $0A, $0A, $0A, $0A, $02, $02, $02, $0A
 }
 
 ; ==============================================================================
@@ -14493,7 +14909,7 @@ Dungeon_InitStarTileChr:
     STZ.w $04BC
 
     ; $007DA7 ALTERNATE ENTRY POINT
-    Dungeon_RestoreStarTileChr:
+    .Dungeon_RestoreStarTileChr
 
     ; This entry point is used when we want to toggle the chr state of the
     ; star tiles, or if we need to restore it after coming back from
@@ -14697,6 +15113,7 @@ MirrorHDMA:
 
 ; $007F2F-$007FB6 JUMP LOCATION (LONG)
 ; ZS rewrites part of this function. - ZS Custom Overworld
+MirrorWarp_BuildDewavingHDMATable:
 {
     JSL $00EEE7 ; $006EE7 IN ROM
         
