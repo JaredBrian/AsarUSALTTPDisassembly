@@ -1,8 +1,8 @@
 ; ==============================================================================
 
 ; Bank 00
-org $008000 ; $000000-$00FFFF
-}
+; $000000-$00FFFF
+org $008000
 
 ; ==============================================================================
 
@@ -9779,7 +9779,7 @@ ReloadPreviouslyLoadedSheets:
 
 ; ==============================================================================
 
-; $00580E-$005836 LON
+; $00580E-$005836 LONG JUMP LOCATION
 Attract_DecompressStoryGfx:
 {
     ; This routine decompresses graphics packs 0x67 and 0x68.
@@ -9820,7 +9820,8 @@ Attract_DecompressStoryGfx:
 
 ; ==============================================================================
 
-; $005837-$005854 Jump Table ; Overworld mirror warp gfx decompression.
+; $005837-$005854 Jump Table
+; Overworld mirror warp gfx decompression.
 Pool_AnimateMirrorWarp:
 {
     ; TODO: interleaved!
@@ -15173,7 +15174,7 @@ MirrorWarp_BuildDewavingHDMATable:
 
 ; ==============================================================================
 
-; $007FB7-$007FBF Null
+; $007FB7-$007FBF NULL
 NULL_00FFB7:
 {
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
@@ -15202,3 +15203,4 @@ Internal_Rom_Header:
 
 ; ==============================================================================
 
+warnpc $018000
