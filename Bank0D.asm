@@ -4,6 +4,11 @@
 ; $068000-$06FFFF
 org $0D8000
 
+; Player OAM
+; Sound effects code
+; Misc sprite code
+; HUD control
+
 ; ==============================================================================
 
 incsrc "player_oam.asm"

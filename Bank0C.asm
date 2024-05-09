@@ -4,6 +4,12 @@
 ; $060000-$067FFF
 org $0C8000
 
+; Overworld map data
+; Title screen sequence
+; Intro cutscene sequence
+; 3D Triforce control
+; File select menu control
+
 ; ==============================================================================
 
 ; $060000-$0600D1 DATA

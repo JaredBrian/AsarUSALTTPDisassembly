@@ -4,6 +4,11 @@
 ; $070000-$077FFF
 org $0E8000
 
+; Dialog control and data
+; End cutscene
+; Credits
+; Overworld overlay cotrol and data
+
 ; ==============================================================================
 
 incbin "binary_files/font_gfx.bin" ; $070000-$070FFF

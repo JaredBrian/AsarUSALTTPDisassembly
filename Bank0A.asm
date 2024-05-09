@@ -4,6 +4,10 @@
 ; $050000-$057FFF
 org $0A8000
 
+; Bird travel
+; Overworld map control
+; Dungeon map control
+
 ; ==============================================================================
 
 ; $053730-$05374A LONG JUMP LOCATION

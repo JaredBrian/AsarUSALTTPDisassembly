@@ -4,6 +4,13 @@
 ; $000000-$00FFFF
 org $008000
 
+; ROM setup
+; GFX decompression
+; NMI control
+; APU setup
+; HDMA filters
+; Palette filterss
+
 ; ==============================================================================
 
 ; $000000-$000060 JUMP LOCATION
