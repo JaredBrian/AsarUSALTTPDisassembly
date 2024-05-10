@@ -861,22 +861,22 @@ Tagalong_CheckPlayerProximity:
 ; ==============================================================================
 
 ; $04A4C8-$04A59D DATA
-pool Tagalong_HandleTrigger:
+Tagalong_TriggerData:
 {
-    .rooms_with_special_text_1
-    dw $00F1
-    dw $0061
-    dw $0051
-    dw $0002
-    dw $00DB
-    dw $00AB
-    dw $0022
+    .room_id
+    dw $00F1 ; ROOM 00F1 - Old man cave 
+    dw $0061 ; ROOM 0061 - Zelda Castle Lobby
+    dw $0051 ; ROOM 0051 - Zelda Castle Throne
+    dw $0002 ; ROOM 0002 - Sanctuary
+    dw $00DB ; ROOM 00DB - TT Entrance 
+    dw $00AB ; ROOM 00AB - to TT attic
+    dw $0022 ; ROOM 0022 - Sewer Rats
     
     ; $04A4D6 to $4A54D
-    .room_data_1
-    ; ?
-    ; ?
-    ; ?
+    .dungeon_coordinates
+    ; x coordinates
+    ; y coordinates
+    ; direction facing
     ; text message number,
     ; tagalong number
     dw $1EF0, $0288, $0001, $0099, $0004
@@ -893,10 +893,10 @@ pool Tagalong_HandleTrigger:
     dw $05AC, $04FC, $0001, $0029, $0001
     
     ; $4A54E
-    .areas_with_special_text_1
-    dw $0003
-    dw $005E
-    dw $0000
+    .overworld_id
+    dw $0003 ; OW 03 
+    dw $005E ; OW 5E
+    dw $0000 ; OW 00
     
     ; $04A554 to $4A585
     .area_data_1
@@ -921,41 +921,29 @@ pool Tagalong_HandleTrigger:
 Tagalong_HandleTrigger:
 {
     LDA $11 : BNE .no_text_message
-    
-    REP #$30
-    
-    LDY #$0000
-    
-    LDA $1B : AND.w #$00FF : BEQ .check_areas
-    
-    INY
-    
-    LDX.w #$000C
-    
-    LDA $A0
-    
-    .check_next_room
-    
-    CMP $A4C8, X : BEQ .room_match
-    
-    DEX #2 : BPL .check_next_room
-    
-    BRA .no_text_message
-    
-    .check_areas
-    
-    LDX.w #$0004
-    
-    LDA $8A
-    
-    .check_next_area
-    
-    ; Select graphics based on certain areas maybe?
-    ; the areas mentioned in this array are the mountain, the forest,
-    ; and the maze in the dark world (i.e. ???, old man, and kiki)
-    CMP $A54E, X : BEQ .area_match
-    
-    DEX #2 : BPL .check_next_area
+      REP #$30
+      LDY #$0000
+      LDA $1B : AND.w #$00FF : BEQ .check_overworld_triggers
+        INY
+        LDX.w #$000C
+        LDA $A0
+        .check_next_room
+        CMP Tagalong_TriggerData_room_id, X : BEQ .room_match
+          DEX #2 : BPL .check_next_room
+        BRA .no_text_message
+      .check_overworld_triggers
+      
+      LDX.w #$0004
+      LDA.b $8A
+      
+      .check_next_area
+      
+      ; Select graphics based on certain areas maybe?
+      ; the areas mentioned in this array are the mountain, the forest,
+      ; and the maze in the dark world (i.e. ???, old man, and kiki)
+      CMP Tagalong_TriggerData_overworld_id, X : BEQ .area_match
+      
+      DEX #2 : BPL .check_next_area
     
     .no_text_message
     
@@ -963,9 +951,9 @@ Tagalong_HandleTrigger:
     
     .room_match
     
-    LDA.w $A588, X : STA $08
+    LDA.w Tagalong_TriggerData_room_data_boundaries_1+2, X : STA $08
     
-    LDA.w $A586, X : TAX
+    LDA.w Tagalong_TriggerData_room_data_boundaries_1, X : TAX
     
     .next_room_data_block
     
@@ -974,17 +962,16 @@ Tagalong_HandleTrigger:
     STZ $0A
     
     LDA $7EF3CC : AND.w #$00FF : CMP $A4DE, X : BNE .not_room_data_match
-    
-    LDA.w $A4D6, X : STA $00
-    LDA.w $A4D8, X : STA $02
-    LDA.w $A4DA, X : STA $06
-    LDA.w $A4DC, X : STA $04
-    
-    SEP #$30
-    
-    JSR Tagalong_CheckTextTriggerProximity : BCS .check_flags_and_proximity
-    
-    REP #$30
+      LDA.w Tagalong_TriggerData_dungeon_coordinates, X : STA $00
+      LDA.w Tagalong_TriggerData_dungeon_coordinates+2, X : STA $02
+      LDA.w Tagalong_TriggerData_dungeon_coordinates+4, X : STA $06
+      LDA.w Tagalong_TriggerData_dungeon_coordinates+8, X : STA $04
+      
+      SEP #$30
+      
+      JSR Tagalong_CheckTextTriggerProximity : BCS .check_flags_and_proximity
+      
+      REP #$30
     
     .not_room_data_match
     
@@ -996,8 +983,8 @@ Tagalong_HandleTrigger:
     
     .area_match
     
-    LDA.w $A598, X : STA $08
-    LDA.w $A596, X : TAX
+    LDA.w Tagalong_TriggerData_area_data_boundaries_1+2, X : STA $08
+    LDA.w Tagalong_TriggerData_area_data_boundaries_1, X : TAX
     
     .next_area_data_block
     
@@ -1006,10 +993,10 @@ Tagalong_HandleTrigger:
     
     LDA $7EF3CC : AND.w #$00FF : CMP $A55C, X : BNE .not_area_data_match
     
-    LDA.w $A554, X : STA $00
-    LDA.w $A556, X : STA $02
-    LDA.w $A558, X : STA $06
-    LDA.w $A55A, X : STA $04
+    LDA.w Tagalong_TriggerData_area_data_1, X : STA $00
+    LDA.w Tagalong_TriggerData_area_data_1+2, X : STA $02
+    LDA.w Tagalong_TriggerData_area_data_1+6, X : STA $06
+    LDA.w Tagalong_TriggerData_area_data_1+8, X : STA $04
     
     SEP #$30
     
@@ -1112,9 +1099,139 @@ Tagalong_HandleTrigger:
 
 ; $04A6CD-$04A906 DATA
 TagalongDraw_Drawing:
-{
-    ; \task Fill in data later and name these routines.
-    
+{    
+  .props
+    db $20, $C0, $00 ; up
+    db $00, $A0, $00 ; down
+    db $40, $60, $00 ; left
+    db $40, $60, $44 ; right
+
+    db $20, $C0, $04 ; up
+    db $00, $A0, $04 ; down
+    db $40, $80, $00 ; left
+    db $40, $80, $44 ; right
+
+    db $20, $E0, $00 ; up
+    db $00, $E0, $00 ; down
+    db $40, $E0, $00 ; left
+    db $40, $E0, $44 ; right
+
+    db $20, $E0, $04 ; up
+    db $00, $E0, $04 ; down
+    db $40, $E0, $04 ; left
+    db $40, $E0, $40 ; right
+
+  .char_offset
+    dw  -2,   0,   0,   0 ; up
+    dw  -2,   0,   0,   0
+    dw  -2,   0,   0,   0 ; down
+    dw  -2,   0,   0,   0
+    dw  -1,   0,   1,   0 ; left
+    dw  -1,   0,   1,   0
+    dw  -1,   0,   1,   0 ; right
+    dw  -1,   0,   1,   0
+
+    dw   0,   0,   0,   0 ; up
+    dw   0,   0,   0,   0
+    dw   0,   0,   0,   0 ; down
+    dw   0,   0,   0,   0
+    dw   1,   0,   0,   0 ; left
+    dw   1,   0,   0,   0
+    dw   1,   0,   0,   0 ; right
+    dw   1,   0,   0,   0
+
+    dw   0,   0,   0,   0 ; up
+    dw   0,   0,   0,   0
+    dw   0,  -3,   0,   0 ; down
+    dw   0,   3,   0,   0
+    dw   1,   0,   0,   0 ; left
+    dw   1,   0,   0,   0
+    dw   1,  -3,   1,   0 ; right
+    dw   1,   3,   1,   0
+
+    dw   0,   0,   0,   0 ; up
+    dw   0,   0,   0,   0
+    dw   0,   0,   0,   0 ; down
+    dw   0,   0,   0,   0
+    dw   0,   0,   1,   0 ; left
+    dw   0,   0,   1,   0
+    dw   0,   0,   1,   0 ; right
+    dw   0,   0,   1,   0
+
+    dw  -1,   0,   0,   0 ; up
+    dw  -1,   0,   0,   0
+    dw  -1,   0,   0,   0 ; down
+    dw  -1,   0,   0,   0
+    dw   0,   0,   1,   0 ; left
+    dw   0,   0,   1,   0
+    dw   0,   0,   1,   0 ; right
+    dw   0,   0,   1,   0
+
+    dw   0,   0,   0,   0 ; up
+    dw   0,   0,   0,   0
+    dw   0,   0,   0,   0 ; down
+    dw   0,   0,   0,   0
+    dw   0,   0,   0,   0 ; left
+    dw   0,   0,   0,   0
+    dw   0,   0,   0,   0 ; right
+    dw   0,   0,   0,   0
+
+    dw   2,   0,   0,   0 ; up
+    dw   2,   0,   0,   0
+    dw   2,  -1,   0,   0 ; down
+    dw   2,   1,   0,   0
+    dw   3,   0,   1,   0 ; left
+    dw   3,   0,   1,   0
+    dw   3,  -1,   1,   0 ; right
+    dw   3,   1,   1,   0
+
+  .char_data_offset
+    dw $0000 ; 0x00 - No follower
+    dw $0000 ; 0x01 - Zelda
+    dw $0080 ; 0x02 - Old man that stops following you
+    dw $0080 ; 0x03 - Unused old man
+    dw $0080 ; 0x04 - Normal old man
+    dw $0000 ; 0x05 - Zelda rescue telepathy
+    dw $0000 ; 0x06 - Blind maiden
+    dw $00C0 ; 0x07 - Frogsmith
+    dw $00C0 ; 0x08 - Smithy
+    dw $0100 ; 0x09 - Locksmith
+    dw $0180 ; 0x0A - Kiki
+    dw $0180 ; 0x0B - Unused old man
+    dw $0140 ; 0x0C - Purple chest
+    dw $0140 ; 0x0D - Super bomb
+
+  .head_body_char
+    db $D8, $24, $D8, $64
+    db $D9, $24, $D9, $64
+    db $DA, $24, $DA, $64
+    db $C8, $22, $C8, $62
+    db $C9, $22, $C9, $62
+    db $CA, $22, $CA, $62
+
+  .oam_region_offsets_a
+    dw $0170
+    dw $00C0
+
+  .oam_region_offsets_b
+    dw $01C0
+    dw $0110
+
+  .palette
+    db $00 ; 0x00 - No follower
+    db $04 ; 0x01 - Zelda
+    db $04 ; 0x02 - Old man that stops following you
+    db $04 ; 0x03 - Unused old man
+    db $04 ; 0x04 - Normal old man
+    db $00 ; 0x05 - Zelda rescue telepathy
+    db $07 ; 0x06 - Blind maiden
+    db $04 ; 0x07 - Frogsmith
+    db $04 ; 0x08 - Smithy
+    db $03 ; 0x09 - Locksmith
+    db $04 ; 0x0A - Kiki
+    db $04 ; 0x0B - Unused old man
+    db $04 ; 0x0C - Purple chest
+    db $04 ; 0x0D - Super bomb
 }
 
 ; ==============================================================================
@@ -1122,10 +1239,9 @@ TagalongDraw_Drawing:
 ; $04A907-$04ABF8 LOCAL JUMP LOCATION
 Tagalong_Draw:
 {
-    ; best guess so far: zero if your tagalong is transforming, nonzero
-    ; otherwise
+    ; check if tagalong is allowed to draw
     LDA $02F9 : BEQ .begin_draw
-      RTS
+      RTS ; a game mode check is required, so we don't draw
     .begin_draw
 
     PHX : PHY
@@ -1159,14 +1275,13 @@ Tagalong_Draw:
     
     LDA $1A64, X
     
-    BRA .Tagalong_AnimateMovement
+    BRA Tagalong_AnimateMovement
 
 ; $04A957 ALTERNATE ENTRY POINT
 Tagalong_AnimateMovement_Preserved:
     PHX : PHY
 
-.Tagalong_AnimateMovement
-
+Tagalong_AnimateMovement:
     STA $05 : AND.b #$20 : LSR #2 : TAY
     
     LDA $05 : AND.b #$03 : STA $04
@@ -1174,55 +1289,45 @@ Tagalong_AnimateMovement_Preserved:
     STZ $72
     
     CPY.b #$08 : BNE .low_priority
-    LDY.b #$00
-    LDA   $7EF3CC
-    
-    CMP.b #$06 : BEQ .not_blind_maiden
-      CMP.b #$01 : BNE .low_priority
-    .not_blind_maiden
+      LDY.b #$00
+      LDA   $7EF3CC
+      CMP.b #$06 : BEQ .not_blind_maiden
+        CMP.b #$01 : BNE .low_priority
+      .not_blind_maiden
 
-    LDY.b #$08
-    
-    LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ .no_collision
-    
-    LDA $1A : AND.b #$08 : LSR A
-    
-    BRA .TagalongDraw_Drawing
+      LDY.b #$08
+      
+      LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ .no_collision
+        LDA $1A : AND.b #$08 : LSR A
+        BRA TagalongDraw_Drawing
+      .no_collision
 
-.no_collision
+      LDA $1A : AND.b #$10 : LSR #2
+      BRA TagalongDraw_Drawing
 
-    LDA $1A : AND.b #$10 : LSR #2
-    BRA .TagalongDraw_Drawing
-
-.low_priority
+    .low_priority
 
     LDA $11
-    
     CMP.b #$0E : BEQ .check_dashing
     CMP.b #$08 : BEQ .check_dashing
     CMP.b #$10 : BEQ .check_dashing
     
     LDA $7EF3CC
-    
     CMP.b #$0B : BEQ .not_dashing
     CMP.b #$0D : BEQ .super_bomb
     CMP.b #$0C : BNE .not_purple_chest
 
-.super_bomb
-
+    .super_bomb
     LDA $7EF3D3 : BNE .immobile
 
-.not_purple_chest
+    .not_purple_chest
 
     LDA $02E4 : BNE .immobile
-    
     LDA $11 : CMP.b #$0A : BEQ .immobile
-    
     LDA $10 : CMP.b #$09 : BNE .not_overworld
-    
     LDA $11 : CMP.b #$23 : BEQ .immobile
 
-.not_overworld
+    .not_overworld
 
     LDA $10 : CMP.b #$0E : BNE .not_interface
     
@@ -1231,56 +1336,45 @@ Tagalong_AnimateMovement_Preserved:
     CMP.b #$01 : BEQ .immobile
     CMP.b #$02 : BEQ .immobile
 
-.not_interface
+    .not_interface
 
     LDA $30 : ORA $31 : BNE .check_dashing
 
-.immobile
+    .immobile
 
     LDA.b #$04 : STA $72
     
-    BRA .TagalongDraw_Drawing
+    BRA TagalongDraw_Drawing
 
-.check_dashing
+    .check_dashing
 
     LDA $0372 : BEQ .not_dashing
-    
-    LDA $1A : AND.b #$04
-    
-    BRA .TagalongDraw_Drawing
-
-.not_dashing
+      LDA $1A : AND.b #$04
+      BRA TagalongDraw_Drawing
+    .not_dashing
 
     LDA $1A : AND.b #$08 : LSR A
 
-.TagalongDraw_Drawing
-
+TagalongDraw_Drawing:
     CLC : ADC $04 : STA $04
-    
     TYA : CLC : ADC $04 : STA $04
     
     REP #$20
-    
     LDA $0FB3 : AND.w #$00FF : ASL A : TAY
-    
     LDA $20 : CMP $00 : BEQ .check_priority_for_region
-    
-    BCS .use_region_b
-    
-    BRA .use_region_a
-
-.check_priority_for_region
+                        BCS .use_region_b
+      BRA .use_region_a
+    .check_priority_for_region
 
     LDA $05 : AND.w #$0003 : BNE .use_region_b
-  .use_region_a
-    LDA.w $A8F1, Y
+    .use_region_a
+    LDA.w .oam_region_offsets_a, Y
     BRA   .set_region
 
-.use_region_b
+    .use_region_b
+    LDA.w .oam_region_offsets_b, Y
 
-    LDA.w $A8F5, Y
-
-.set_region
+    .set_region
 
     PHA
     
@@ -1306,13 +1400,13 @@ Tagalong_AnimateMovement_Preserved:
     
     BRA .not_girly_follower
 
-.girly_follower
+    .girly_follower
 
     LDA $05 : AND.b #$C0 : BNE .some_flip
     
     BRL .do_chars
 
-.some_flip
+    .some_flip
 
     LDA $05 : AND.b #$80 : BNE .not_girly_follower
     
@@ -1324,7 +1418,7 @@ Tagalong_AnimateMovement_Preserved:
     
     BRA .set_repri
 
-.not_girly_follower
+    .not_girly_follower
 
     LDA $1A : AND.b #$07 : BNE .dont_shimmy
     
@@ -1332,11 +1426,11 @@ Tagalong_AnimateMovement_Preserved:
     
     LDA.b #$00
 
-.set_repri
+    .set_repri
 
     STA $02D7
 
-.dont_shimmy
+    .dont_shimmy
 
     LDA $02D7 : ASL #2 : STA $05
     
@@ -1386,7 +1480,7 @@ Tagalong_AnimateMovement_Preserved:
     
     PLY
 
-.do_chars
+    .do_chars
 
     LDA $7EF3CC : TAX
     
@@ -1398,11 +1492,11 @@ Tagalong_AnimateMovement_Preserved:
     
     LDX.b #$00
 
-.no_trans_a
+    .no_trans_a
 
     TXA
 
-.not_link_palette_a
+    .not_link_palette_a
 
     ASL A : STA $72
     
@@ -1412,7 +1506,7 @@ Tagalong_AnimateMovement_Preserved:
     
     LDA $1A : AND.b #$07 : ASL A : STA $72
 
-.not_exploding_superbomb
+    .not_exploding_superbomb
 
     LDA $7EF3CC
     
