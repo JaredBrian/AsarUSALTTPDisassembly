@@ -157,37 +157,35 @@ Tagalong_MainHandlers:
     dw Tagalong_BasicMover     ; 0x01 - Princess Zelda 
     dw Tagalong_OldMountainMan ; 0x02 - Old man (unused alternate) 
     ; Dashing or jumping off a ledge will disconnect the Tagalong from moving with the player.
-    dw $A41F = $4A41F*         ; 0x03 - Old man (unused alternate) 
+    dw Tagalong_UnusedOldMan         ; 0x03 - Old man (unused alternate) 
     ; waiting around for player to pick them up.
     dw Tagalong_OldMountainMan ; 0x04 - Normal old man
     dw Tagalong_Telepathy      ; 0x05 - Zelda Rescue Telepathy
     dw Tagalong_BasicMover     ; 0x06 - Blind Maiden
     dw Tagalong_BasicMover     ; 0x07 - Frogsmith
     dw Tagalong_BasicMover     ; 0x08 - Smithy
-    dw Tagalong_BasicMover ; 0x09 - Locksmith
-    dw Tagalong_BasicMover ; 0x0A - Kiki
-    dw $A41F = $4A41F*     ; 0x0B - Unused old man
-    dw Tagalong_BasicMover ; 0x0C - Thief's chest
-    dw Tagalong_BasicMover ; 0x0D - Super Bomb
-    dw Tagalong_Telepathy  ; 0x0E - Master Sword Telepathy
+    dw Tagalong_BasicMover     ; 0x09 - Locksmith
+    dw Tagalong_BasicMover     ; 0x0A - Kiki
+    dw Tagalong_UnusedOldMan         ; 0x0B - Unused old man
+    dw Tagalong_BasicMover     ; 0x0C - Thief's chest
+    dw Tagalong_BasicMover     ; 0x0D - Super Bomb
+    dw Tagalong_Telepathy      ; 0x0E - Master Sword Telepathy
 }
 
 ; ==============================================================================
 
 ; $049FB5-$049FC3 DATA
-pool Tagalong_Main:
-{
-  .messaging_tagalongs
+Tagalong_MessageTagalongs:
     db $05 ; Zelda's rescue telepathy 
     db $09 ; Locksmith 
     db $0A ; Kiki
     
-  .message_timers
+Tagalong_MessageTimers:
     dw $0DF3, $06F9, $0DF3
-    
-  .message_ids
+  
+Tagalong_MessageIds:
     dw $0020, $0180, $011D
-}
+
 
 ; ==============================================================================
 
@@ -199,17 +197,16 @@ Tagalong_Main:
     .player_has_tagalong
     
     CMP.b #$0E : BNE .not_boss_victory
-      BRL   Tagalong_HandleTrigger
+      BRL Tagalong_HandleTrigger
     .not_boss_victory
     
     LDY.b #$02
     
     .next_tagalong
-    LDA $7EF3CC : CMP .message_tagalongs, Y : BEQ .tagalongWithTimer
+    LDA $7EF3CC : CMP Tagalong_MessageTagalongs, Y : BEQ .tagalong_with_timer
       DEY : BPL .next_tagalong
-    BRL .BRANCH_IOTA
-    
-    .tagalongWithTimer
+    BRL Tagalong_NoTimedMessage
+    .tagalong_with_timer
     
     ; Check if not in the default standard submodule
     LDA $11 : BNE Tagalong_Telepathy
@@ -235,8 +232,8 @@ Tagalong_Main:
       
       TYA : AND.w #$00FF : ASL A : TAY
       
-      LDA .message_timers, Y : STA $02CD
-      LDA .message_ids, Y : STA $1CF0
+      LDA Tagalong_MessageTimers, Y : STA $02CD
+      LDA Tagalong_MessageIds,    Y : STA $1CF0
       
       SEP #$20
       
@@ -246,7 +243,7 @@ Tagalong_Main:
     
 ; $04A024 ALTERNATE ENTRY POINT
 Tagalong_Telepathy:
-    SEP #$20
+    SEP   #$20
     CPY.b #$00 : BNE Tagalong_NoTimedMessage
       RTS
 
@@ -458,7 +455,7 @@ Tagalong_BasicMover:
             LDA.b #$00
           .no_index_wrap
           
-          JSL Kiki_AbandonDamagedPlayer
+          JSL   Kiki_AbandonDamagedPlayer
           LDA.b #$00 : STA $7EF3CC
           RTS
     .dont_scare_kiki
@@ -735,7 +732,7 @@ Tagalong_OldMountainMan:
     
     LDA $EE : STA $7EF3D2
     
-    BRA .BRANCH_$4A41F
+    BRA Tagalong_UnusedOldMan
     
     .BRANCH_LAMBDA
     
@@ -784,57 +781,60 @@ Tagalong_OldMountainMan:
 
 ; ==============================================================================
 
+; \scawful: Potential expansion point for the Tagalong system.
 ; $04A410-$04A41E DATA
-Tagalong_OldManUnused:
+Tagalong_ReplacementTagalongIds:
 {
-    ; Task name this pool / routine
-    .replacement_tagalong
-    db $00, $00, $00, $02, $00, $00, $00, $00
-    db $00, $00, $00, $00, $00, $00, $00
+    db $00 ; 0x00 - No tagalong
+    db $00 ; 0x01 - Zelda
+    db $00 ; 0x02 - Old man (unused alternate)
+    db $02 ; 0x03 - Unused old man
+    db $00 
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
 }
 
 ; ==============================================================================
 
 ; $04A41F-$04A48D JUMP LOCATION
-Tagalong_OldManUnused:
+Tagalong_UnusedOldMan:
 {
     ; Slow down the player...
     LDA.b #$10 : STA $5E
     
     ; Is Link dashing?
-    LDA $0372 : BNE .BRANCH_ALPHA
-    
-    LDA $4D : BNE .BRANCH_ALPHA
+    LDA $0372 : BNE Follower_DoLayers
+    LDA $4D : BNE Follower_DoLayers
     
     ; Is player swimming?
-    LDA $5D : CMP.b #$04 : BEQ .BRANCH_ALPHA
-    
-    STZ $5E
-    
+    LDA $5D : CMP.b #$04 : BEQ Follower_DoLayers
+      STZ $5E
+
     ; Is player in hookshot mode?
-    LDA $5D : CMP.b #$13 : BEQ .BRANCH_ALPHA
+    LDA $5D : CMP.b #$13 : BEQ Follower_DoLayers
+    JSR Tagalong_CheckPlayerProximity : BCS Follower_DoLayers
+      JSL Tagalong_Init
+      LDA $7EF3CC : TAX
+      LDA Tagalong_ReplacementTagalongIds, X : STA $7EF3CC
+      RTS
     
-    JSR Tagalong_CheckPlayerProximity : BCS .BRANCH_ALPHA
+; $04A450 ALTERNATE ENTRY POINT
+Follower_DoLayers:
     
-    JSL Tagalong_Init
+    LDA $7EF3D2 : TAX : CPX $EE : BNE .layer_mismatch
+      LDX $EE
+    .layer_mismatch
     
-    LDA $7EF3CC : TAX
-    
-    LDA .replacement_tagalong, X : STA $7EF3CC
-    
-    RTS
-    
-    ; $04A450 ALTERNATE ENTRY POINT
-    .BRANCH_ALPHA
-    
-    LDA $7EF3D2 : TAX : CPX $EE : BNE .BRANCH_BETA
-    
-    LDX $EE
-    
-    .BRANCH_BETA
-    
-    LDA Tagalong_Priorities, X : STA $65
-                                      STZ $64
+    LDA Tagalong_Priorities, X 
+    STA $65 : STZ $64
     
     LDA $7EF3CD : STA $00
     LDA $7EF3CE : STA $01
@@ -844,16 +844,14 @@ Tagalong_OldManUnused:
     
     LDX.b #$02
     
-    LDA $7EF3CC : CMP.b #$0D : BEQ .BRANCH_GAMMA
-                  CMP.b #$0C : BEQ .BRANCH_GAMMA
-    
-    LDX.b #$01
-    
-    .BRANCH_GAMMA
+    LDA $7EF3CC : CMP.b #$0D : BEQ .bomb_or_chest
+                  CMP.b #$0C : BEQ .bomb_or_chest
+      LDX.b #$01
+    .bomb_or_chest
     
     TXA
     
-    BRL .BRANCH_$4A957
+    BRL Tagalong_AnimateMovement_Preserved
 }
 
 ; ==============================================================================
@@ -1193,8 +1191,7 @@ Tagalong_Draw:
     BRA .Tagalong_AnimateMovement
 
 ; $04A957 ALTERNATE ENTRY POINT
-.Tagalong_AnimateMovement_Preserved
-
+Tagalong_AnimateMovement_Preserved:
     PHX : PHY
 
 .Tagalong_AnimateMovement
