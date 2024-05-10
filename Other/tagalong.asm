@@ -210,147 +210,117 @@ pool Tagalong_Main:
 Tagalong_Main:
 {
     LDA $7EF3CC : BNE .player_has_tagalong
-    
-    RTS
-    
+      RTS
     .player_has_tagalong
     
     CMP.b #$0E : BNE .not_boss_victory
-    
-    BRL .BRANCH_4A59E
-    
+      BRL   Tagalong_HandleTrigger
     .not_boss_victory
     
     LDY.b #$02
     
     .next_tagalong
-    
     LDA $7EF3CC : CMP .message_tagalongs, Y : BEQ .tagalongWithTimer
-    
-    DEY : BPL .next_tagalong
-    
+      DEY : BPL .next_tagalong
     BRL .BRANCH_IOTA
     
     .tagalongWithTimer
     
     ; Check if not in the default standard submodule
-    LDA $11 : BNE .BRANCH_EPSILON
+    LDA $11 : BNE Tagalong_Telepathy
     
     ; Special case for kiki
     CPY.b #$02 : BNE .not_kiki
-    
-    LDA $8A : AND.b #$40 : BNE .BRANCH_EPSILON
-    
+      LDA $8A : AND.b #$40 : BNE Tagalong_Telepathy
     .not_kiki
     
     REP #$20
     
     ; Tick down the timer until Zelda bitches at you again.
-    DEC $02CD : BPL .BRANCH_EPSILON
+    DEC $02CD : BPL Tagalong_Telepathy
+    
+      SEP #$20
+      JSL Tagalong_CanWeDisplayMessage : BCS .can_display
+        STZ $02CD : STZ $02CE
+        BRA Tagalong_Telepathy
+      .can_display
+      REP #$20
+      
+      PHY
+      
+      TYA : AND.w #$00FF : ASL A : TAY
+      
+      LDA .message_timers, Y : STA $02CD
+      LDA .message_ids, Y : STA $1CF0
+      
+      SEP #$20
+      
+      JSL Main_ShowTextMessage
+      
+      PLY
+    
+; $04A024 ALTERNATE ENTRY POINT
+Tagalong_Telepathy:
+    SEP #$20
+    CPY.b #$00 : BNE Tagalong_NoTimedMessage
+      RTS
+
+Tagalong_NoTimedMessage:
     
     SEP #$20
     
-    JSL Tagalong_CanWeDisplayMessage : BCS .can_display
-    
-    STZ $02CD : STZ $02CE
-    
-    BRA .BRANCH_EPSILON
-    
-    .can_display
-    
-    REP #$20
-    
-    PHY
-    
-    TYA : AND.w #$00FF : ASL A : TAY
-    
-    LDA .message_timers, Y : STA $02CD
-    
-    LDA .message_ids, Y : STA $1CF0
-    
-    SEP #$20
-    
-    JSL Main_ShowTextMessage
-    
-    PLY
-    
-    ; $04A024 ALTERNATE ENTRY POINT
-    .BRANCH_EPSILON
-    
-    SEP #$20
-    
-    CPY.b #$00 : BNE .BRANCH_IOTA
-    
-    RTS
-    
-    .BRANCH_IOTA
-    
-    SEP #$20
-    
+    ; Check if the super bomb is going off
     LDA $7EF3D3 : BEQ .super_bomb_not_going_off
-    
-    BRL .BRANCH_ALIF
-    
+      BRL .not_following_bounce
     .super_bomb_not_going_off
     
     ; Is if the thief's chest tagalong?
     LDA $7EF3CC : CMP.b #$0C : BNE .not_thief_chest
-    
-    LDA $4D : BNE .BRANCH_MU
-    
-    BRA .BRANCH_NU
-    
+      LDA $4D : BNE .not_default_game_mode
+      BRA .continue_a
     .not_thief_chest
     
-    LDA $7EF3CC : CMP.b #$0D : BEQ .BRANCH_XI
+    LDA $7EF3CC : CMP.b #$0D : BEQ .not_super_bomb_a
+      .not_default_game_mode
+      BRL Tagalong_CheckGameMode
+    .not_super_bomb_a
     
-    .BRANCH_MU
+    LDA $4D : CMP.b #$02 : BEQ .recoiling_or_falling
+    LDA $5B : CMP.b #$02 : BEQ .recoiling_or_falling
+  .continue_a
     
-    BRL .BRANCH_PI
+    LDA $11 : BNE .not_default_game_mode
     
-    .BRANCH_XI
-    
-    LDA $4D : CMP.b #$02 : BEQ .BRANCH_OMICRON
-    
-    LDA $5B : CMP.b #$02 : BEQ .BRANCH_OMICRON
-    
-    .BRANCH_NU
-    
-    LDA $11 : BNE .BRANCH_MU
-    
-    LDA $4D : CMP.b #$01 : BEQ .BRANCH_PI
-    
-    BIT $0308 : BMI .BRANCH_PI
-    
-    LDA $02F9 : BNE .BRANCH_PI
-    
-    LDA $02D0 : BNE .BRANCH_PI
+    LDA $4D : CMP.b #$01 : BEQ Tagalong_CheckGameMode
+               BIT $0308 : BMI Tagalong_CheckGameMode
+               LDA $02F9 : BNE Tagalong_CheckGameMode
+               LDA $02D0 : BNE Tagalong_CheckGameMode
     
     LDX $02CF
     
-    LDA $1A50, X : BEQ .BRANCH_RHO
-                   BPL .BRANCH_PI
+    LDA $1A50, X : BEQ .zero_altitude
+                   BPL Tagalong_CheckGameMode
     
-    .BRANCH_RHO
+    .zero_altitude
     
-    LDA $F6 : AND.b #$80 : BEQ .BRANCH_PI
+    LDA $F6 : AND.b #$80 : BEQ Tagalong_CheckGameMode
     
-    .BRANCH_OMICRON
+    .recoiling_or_falling
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_SIGMA
+    LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb_outdoors
     
-    LDA $1B : BNE .BRANCH_SIGMA
+    LDA $1B : BNE .not_superbomb_outdoors
     
     LDA $5D
     
-    CMP.b #$08 : BEQ .BRANCH_PI
-    CMP.b #$09 : BEQ .BRANCH_PI
-    CMP.b #$0A : BEQ .BRANCH_PI
+    CMP.b #$08 : BEQ Tagalong_CheckGameMode
+    CMP.b #$09 : BEQ Tagalong_CheckGameMode
+    CMP.b #$0A : BEQ Tagalong_CheckGameMode
     
     LDA.b #$03 : STA $04B4
     LDA.b #$BB : STA $04B5
     
-    .BRANCH_SIGMA
+    .not_superbomb_outdoors
     
     ; This occurs when the bomb is set to trigger by Link
     LDA.b #$80 : STA $7EF3D3
@@ -369,52 +339,52 @@ Tagalong_Main:
     
     LDA $1B : STA $7EF3D1
     
-    .BRANCH_ALIF
+    .not_following_bounce
     
-    BRL .BRANCH_4A2B2
+    BRL Tagalong_NotFollowing
     
-    .BRANCH_PI
+Tagalong_CheckGameMode:
     
     SEP #$20
     
-    LDA $02E4 : BNE .BRANCH_TAU
+    LDA $02E4 : BNE .dont_do_anything
     
     LDX $10
     
-    LDY $11 : CPY.b #$0A : BEQ .BRANCH_TAU
+    LDY $11 : CPY.b #$0A : BEQ .dont_do_anything
     
-    CPX.b #$09 : BNE .BRANCH_UPSILON
+    CPX.b #$09 : BNE .not_overworld
     
-    CPY.b #$23 : BEQ .BRANCH_TAU
+    CPY.b #$23 : BEQ .dont_do_anything
     
-    .BRANCH_UPSILON
+    .not_overworld
     
-    CPX.b #$0E : BNE .BRANCH_PHI
+    CPX.b #$0E : BNE .not_text_mode
     
-    CPY.b #$01 : BEQ .BRANCH_TAU
-    CPY.b #$02 : BNE .BRANCH_PHI
+    CPY.b #$01 : BEQ .dont_do_anything
+    CPY.b #$02 : BNE .not_text_mode
     
-    .BRANCH_TAU
+    .dont_do_anything
     
-    BRL .BRANCH_CHI
+    BRL Tagalong_ExecuteAI
     
-    .BRANCH_PHI
+    .not_text_mode
     
-    LDA $30 : ORA $31 : BEQ .BRANCH_CHI
+    LDA $30 : ORA $31 : BEQ Tagalong_ExecuteAI
     
-    LDX $02D3 : INX : CPX.b #$14 : BNE .BRANCH_PSI
+    LDX $02D3 : INX : CPX.b #$14 : BNE .dont_reset_movement_index
     
     LDX.b #$00
     
-    .BRANCH_PSI
+    .dont_reset_movement_index
     
     STX $02D3
     
-    LDA $24 : CMP.b #$F0 : BCC .BRANCH_OMEGA
+    LDA $24 : CMP.b #$F0 : BCC .use_links_altitude
     
     LDA.b #$00
     
-    .BRANCH_OMEGA
+    .use_links_altitude
     
     STA $00
     STZ $01
@@ -436,36 +406,36 @@ Tagalong_Main:
     
     LDY $EE
     
-    LDA Tagalong_Init.priorities, Y : LSR #2 : ORA $1A64, X : STA $1A64, X
+    LDA Tagalong_Priorities, Y : LSR #2 : ORA $1A64, X : STA $1A64, X
     
-    LDA $5D : CMP.b #$04 : BNE .BRANCH_ALTIMA
+    LDA $5D : CMP.b #$04 : BNE .not_swimming
     
     LDY.b #$20
     
-    BRA .BRANCH_ULTIMA
+    BRA .set_priority
     
-    .BRANCH_ALTIMA
+    .not_swimming
     
-    CMP.b #$13 : BNE .BRANCH_OPTIMUS
+    CMP.b #$13 : BNE .not_hookshot_drag
     
-    LDA $037E : BEQ .BRANCH_OPTIMUS
+    LDA $037E : BEQ .not_hookshot_drag
     
     LDA.b #$10 : ORA $1A64, X : STA $1A64, X
     
-    .BRANCH_OPTIMUS
+    .not_hookshot_drag
     
     LDY.b #$80
     
-    LDA $0351  : BEQ .BRANCH_CHI
-    CMP.b #$01 : BEQ .BRANCH_ULTIMA
+    LDA   $0351  : BEQ Tagalong_ExecuteAI
+    CMP.b #$01 : BEQ .set_priority
     
     LDY.b #$40
     
-    .BRANCH_ULTIMA
+    .set_priority
     
     TYA : ORA $1A64, X : STA $1A64, X
     
-    .BRANCH_CHI
+Tagalong_ExecuteAI:
     
     LDA $7EF3CC : DEC A : ASL A : TAX
     
