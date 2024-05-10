@@ -1228,12 +1228,12 @@ Tagalong_AnimateMovement_Preserved:
     
     LDA $11
     
-    CMP.b #$01 : BEQ .BRANCH_PI
-    CMP.b #$02 : BEQ .BRANCH_PI
+    CMP.b #$01 : BEQ .immobile
+    CMP.b #$02 : BEQ .immobile
 
 .not_interface
 
-    LDA $30 : ORA $31 : BNE .BRANCH_MU
+    LDA $30 : ORA $31 : BNE .check_dashing
 
 .immobile
 
