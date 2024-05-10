@@ -169,21 +169,22 @@ pool Tagalong_Main:
     
     .handlers
     
-    dw $A197 = $4A197* ; 0x01 - Princess Zelda 
-    dw Tagalong_OldMountainMan ; 0x02 - Old man (unused alternate) Dashing or jumping off a ledge will disconnect the Tagalong from moving with the player.
-    dw $A41F = $4A41F* ; 0x03 - Old man (unused alternate) waiting around for player to pick them up.
-    dw Tagalong_OldMountainMan ; 0x04 - Old man (the one that the game uses)
-    dw $A024 = $4A024* ; 0x05 - 
-    dw $A197 = $4A197* ; 0x06 - 
-    dw $A197 = $4A197* ; 0x07 - 
-    dw $A197 = $4A197* ; 0x08 - 
-    
-    dw $A197 = $4A197* ; 0x09 
-    dw $A197 = $4A197* ; 0x0A 
-    dw $A41F = $4A41F* ; 0x0B - same as (3) \unused Probably from an earlier design for the chest, much like the old man's earlier design.
-    dw $A197 = $4A197* ; 0x0C - Thief's chest
-    dw $A197 = $4A197* ; 0x0D - Super Bomb
-    dw $A024 = $4A024* ; 0x0E - Zelda screaming about Agahnim goons.
+    dw Tagalong_BasicMover     ; 0x01 - Princess Zelda 
+    dw Tagalong_OldMountainMan ; 0x02 - Old man (unused alternate) 
+    ; Dashing or jumping off a ledge will disconnect the Tagalong from moving with the player.
+    dw $A41F = $4A41F*         ; 0x03 - Old man (unused alternate) 
+    ; waiting around for player to pick them up.
+    dw Tagalong_OldMountainMan ; 0x04 - Normal old man
+    dw Tagalong_Telepathy      ; 0x05 - Zelda Rescue Telepathy
+    dw Tagalong_BasicMover     ; 0x06 - Blind Maiden
+    dw Tagalong_BasicMover     ; 0x07 - Frogsmith
+    dw Tagalong_BasicMover     ; 0x08 - Smithy
+    dw Tagalong_BasicMover ; 0x09 - Locksmith
+    dw Tagalong_BasicMover ; 0x0A - Kiki
+    dw $A41F = $4A41F*     ; 0x0B - Unused old man
+    dw Tagalong_BasicMover ; 0x0C - Thief's chest
+    dw Tagalong_BasicMover ; 0x0D - Super Bomb
+    dw Tagalong_Telepathy  ; 0x0E - Master Sword Telepathy
 }
 
 ; ==============================================================================
@@ -191,13 +192,15 @@ pool Tagalong_Main:
 ; $049FB5-$049FC3 DATA
 pool Tagalong_Main:
 {
-    .messaging_tagalongs
-    db $05, $09, $0A
+  .messaging_tagalongs
+    db $05 ; Zelda's rescue telepathy 
+    db $09 ; Locksmith 
+    db $0A ; Kiki
     
-    .message_timers
+  .message_timers
     dw $0DF3, $06F9, $0DF3
     
-    .message_ids
+  .message_ids
     dw $0020, $0180, $011D
 }
 
