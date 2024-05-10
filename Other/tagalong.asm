@@ -66,9 +66,8 @@ Tagalong_CheckBlindTriggerRegion:
 ; ==============================================================================
 
 ; $049EF8-$049EFB DATA
-pool Tagalong_Init:
+Tagalong_Priorities:
 {
-    .priorities
     db $20, $10, $30, $20
 }
 
@@ -80,11 +79,10 @@ Tagalong_Init:
     PHB : PHK : PLB
     
     ; Load Link's x and y coordinates byte by byte
-    LDA $20 : STA $1A00
-    LDA $21 : STA $1A14
-    
-    LDA $22 : STA $1A28
-    LDA $23 : STA $1A3C
+    LDA $20 : STA $1A00 ; FOLLOWERYL
+    LDA $21 : STA $1A14 ; FOLLOWERYH
+    LDA $22 : STA $1A28 ; FOLLOWERXL
+    LDA $23 : STA $1A3C ; FOLLOWERXH
     
     ; $00 = Link's direction
     LDA $2F : LSR A : STA $00
@@ -92,14 +90,14 @@ Tagalong_Init:
     LDY $EE
     
     ; Link's sprite priority?
-    LDA .priorities, Y : LSR #2 : ORA $00 : STA $1A64
+    LDA Tagalong_Priorities, Y : LSR #2 : ORA $00 : STA $1A64
     
     LDA.b #$40 : STA $02D2
     
-    STZ $02CF
-    STZ $02D3
-    STZ $02D0
-    STZ $02D6
+    STZ $02CF ; Follower animation read 0x00-0x13
+    STZ $02D3 ; Follower animation write 0x00-0x13
+    STZ $02D0 ; Follower hookshot flag 
+    STZ $02D6 ; Free follower ram
     
     STZ $5E
     
@@ -125,7 +123,7 @@ Tagalong_SpawnFromSprite:
     
     LDY $EE
     
-    LDA Tagalong_Init.priorities, Y : LSR #2 : ORA.b #$01 : STA $1A64
+    LDA Tagalong_Priorities, Y : LSR #2 : ORA.b #$01 : STA $1A64
     
     LDA #$40 : STA $02D2
     
