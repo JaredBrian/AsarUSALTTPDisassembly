@@ -147,7 +147,7 @@ Tagalong_MainLong:
 ; ==============================================================================
 
 ; $049F99-$049FB4 LOCAL JUMP TABLE
-pool Tagalong_Main:
+Tagalong_MainHandlers:
 {
     ; Tagalong Routines 1 (and only so far)
     ; Index into table is the value of $7EF3CC
@@ -424,7 +424,7 @@ Tagalong_ExecuteAI:
     
     LDA $7EF3CC : DEC A : ASL A : TAX
     
-    JMP (.handlers, X)
+    JMP (Tagalong_MainHandlers, X)
     
     .unused
     
@@ -1142,7 +1142,7 @@ Tagalong_HandleTrigger:
 ; ==============================================================================
 
 ; $04A6CD-$04A906 DATA
-FollowerDraw_Drawing:
+TagalongDraw_Drawing:
 {
     ; \task Fill in data later and name these routines.
     
@@ -1219,12 +1219,12 @@ Tagalong_Draw:
     
     LDA $1A : AND.b #$08 : LSR A
     
-    BRA .FollowerDraw_Drawing
+    BRA .TagalongDraw_Drawing
 
 .no_collision
 
     LDA $1A : AND.b #$10 : LSR #2
-    BRA .FollowerDraw_Drawing
+    BRA .TagalongDraw_Drawing
 
 .low_priority
 
@@ -1271,7 +1271,7 @@ Tagalong_Draw:
 
     LDA.b #$04 : STA $72
     
-    BRA .FollowerDraw_Drawing
+    BRA .TagalongDraw_Drawing
 
 .check_dashing
 
@@ -1279,13 +1279,13 @@ Tagalong_Draw:
     
     LDA $1A : AND.b #$04
     
-    BRA .FollowerDraw_Drawing
+    BRA .TagalongDraw_Drawing
 
 .not_dashing
 
     LDA $1A : AND.b #$08 : LSR A
 
-.FollowerDraw_Drawing
+.TagalongDraw_Drawing
 
     CLC : ADC $04 : STA $04
     
