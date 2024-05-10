@@ -152,13 +152,11 @@ Tagalong_MainHandlers:
     ; Tagalong Routines 1 (and only so far)
     ; Index into table is the value of $7EF3CC
     
-    .handlers
-    
     dw Tagalong_BasicMover     ; 0x01 - Princess Zelda 
     dw Tagalong_OldMountainMan ; 0x02 - Old man (unused alternate) 
-    ; Dashing or jumping off a ledge will disconnect the Tagalong from moving with the player.
-    dw Tagalong_UnusedOldMan         ; 0x03 - Old man (unused alternate) 
-    ; waiting around for player to pick them up.
+                               ; Dashing or jumping off a ledge will disconnect the Tagalong.
+    dw Tagalong_UnusedOldMan   ; 0x03 - Old man (unused alternate) 
+                               ; waiting around for player to pick them up.
     dw Tagalong_OldMountainMan ; 0x04 - Normal old man
     dw Tagalong_Telepathy      ; 0x05 - Zelda Rescue Telepathy
     dw Tagalong_BasicMover     ; 0x06 - Blind Maiden
@@ -166,7 +164,7 @@ Tagalong_MainHandlers:
     dw Tagalong_BasicMover     ; 0x08 - Smithy
     dw Tagalong_BasicMover     ; 0x09 - Locksmith
     dw Tagalong_BasicMover     ; 0x0A - Kiki
-    dw Tagalong_UnusedOldMan         ; 0x0B - Unused old man
+    dw Tagalong_UnusedOldMan   ; 0x0B - Old man (unused alternate) 
     dw Tagalong_BasicMover     ; 0x0C - Thief's chest
     dw Tagalong_BasicMover     ; 0x0D - Super Bomb
     dw Tagalong_Telepathy      ; 0x0E - Master Sword Telepathy
@@ -290,17 +288,15 @@ Tagalong_NoTimedMessage:
     .recoiling_or_falling
     
     LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb_outdoors
-    
-    LDA $1B : BNE .not_superbomb_outdoors
-    
-    LDA $5D
-    
-    CMP.b #$08 : BEQ Tagalong_CheckGameMode
-    CMP.b #$09 : BEQ Tagalong_CheckGameMode
-    CMP.b #$0A : BEQ Tagalong_CheckGameMode
-    
-    LDA.b #$03 : STA $04B4
-    LDA.b #$BB : STA $04B5
+      LDA $1B : BNE .not_superbomb_outdoors
+        LDA $5D
+        
+        CMP.b #$08 : BEQ Tagalong_CheckGameMode
+        CMP.b #$09 : BEQ Tagalong_CheckGameMode
+        CMP.b #$0A : BEQ Tagalong_CheckGameMode
+        
+        LDA.b #$03 : STA $04B4
+        LDA.b #$BB : STA $04B5
     
     .not_superbomb_outdoors
     
@@ -330,21 +326,15 @@ Tagalong_CheckGameMode:
     SEP #$20
     
     LDA $02E4 : BNE .dont_do_anything
-    
-    LDX $10
-    
-    LDY $11 : CPY.b #$0A : BEQ .dont_do_anything
-    
-    CPX.b #$09 : BNE .not_overworld
-    
-    CPY.b #$23 : BEQ .dont_do_anything
-    
-    .not_overworld
-    
-    CPX.b #$0E : BNE .not_text_mode
-    
-    CPY.b #$01 : BEQ .dont_do_anything
-    CPY.b #$02 : BNE .not_text_mode
+      LDX $10
+      LDY $11 : CPY.b #$0A : BEQ .dont_do_anything
+        CPX.b #$09 : BNE .not_overworld
+          CPY.b #$23 : BEQ .dont_do_anything
+        .not_overworld
+        
+        CPX.b #$0E : BNE .not_text_mode
+        CPY.b #$01 : BEQ .dont_do_anything
+        CPY.b #$02 : BNE .not_text_mode
     
     .dont_do_anything
     
@@ -355,17 +345,13 @@ Tagalong_CheckGameMode:
     LDA $30 : ORA $31 : BEQ Tagalong_ExecuteAI
     
     LDX $02D3 : INX : CPX.b #$14 : BNE .dont_reset_movement_index
-    
-    LDX.b #$00
-    
+      LDX.b #$00
     .dont_reset_movement_index
     
     STX $02D3
     
     LDA $24 : CMP.b #$F0 : BCC .use_links_altitude
-    
-    LDA.b #$00
-    
+      LDA.b #$00
     .use_links_altitude
     
     STA $00
@@ -387,35 +373,26 @@ Tagalong_CheckGameMode:
     LDA $2F : LSR A : STA $1A64, X
     
     LDY $EE
-    
     LDA Tagalong_Priorities, Y : LSR #2 : ORA $1A64, X : STA $1A64, X
     
     LDA $5D : CMP.b #$04 : BNE .not_swimming
-    
-    LDY.b #$20
-    
-    BRA .set_priority
-    
+      LDY.b #$20
+      BRA .set_priority
     .not_swimming
     
     CMP.b #$13 : BNE .not_hookshot_drag
-    
-    LDA $037E : BEQ .not_hookshot_drag
-    
-    LDA.b #$10 : ORA $1A64, X : STA $1A64, X
-    
+      LDA $037E : BEQ .not_hookshot_drag
+        LDA.b #$10 : ORA $1A64, X : STA $1A64, X
     .not_hookshot_drag
     
     LDY.b #$80
     
     LDA   $0351  : BEQ Tagalong_ExecuteAI
-    CMP.b #$01 : BEQ .set_priority
-    
-    LDY.b #$40
-    
-    .set_priority
-    
-    TYA : ORA $1A64, X : STA $1A64, X
+      CMP.b #$01 : BEQ .set_priority
+        LDY.b #$40
+      .set_priority
+      
+      TYA : ORA $1A64, X : STA $1A64, X
     
 Tagalong_ExecuteAI:
     
@@ -476,29 +453,29 @@ Tagalong_BasicMover:
     
     JSL Tagalong_CheckBlindTriggerRegion : BCC .blind_not_triggered
     
-  .blind_transform
-    LDX $02CF
-    
-    LDA $1A28, X : STA $00
-    LDA $1A3C, X : STA $01
-    
-    LDA $1A00, X : STA $02
-    LDA $1A14, X : STA $03
-    
-    LDA.b #$00 : STA $7EF3CC
-    
-    JSL Blind_SpawnFromMaidenTagalong
-    
-    INC $0468
-    
-    STZ $068E
-    STZ $0690
-    
-    LDA.b #$05 : STA $11
-    
-    LDA.b #$15 : STA $012C ; SONG 15
-    
-    RTS
+    .blind_transform
+      LDX $02CF
+      
+      LDA $1A28, X : STA $00
+      LDA $1A3C, X : STA $01
+      
+      LDA $1A00, X : STA $02
+      LDA $1A14, X : STA $03
+      
+      LDA.b #$00 : STA $7EF3CC
+      
+      JSL Blind_SpawnFromMaidenTagalong
+      
+      INC $0468
+      
+      STZ $068E
+      STZ $0690
+      
+      LDA.b #$05 : STA $11
+      
+      LDA.b #$15 : STA $012C ; SONG 15
+      
+      RTS
     
     .blind_not_triggered
     
@@ -507,14 +484,10 @@ Tagalong_BasicMover:
     LDY $5D
     
     LDA $02D0 : BNE .ignore_hook
-    
-    CPY.b #$13 : BNE .no_hookshot_dragging
-    
-    LDA $037E : BEQ .no_hookshot_dragging
-    
-    LDA.b #$01 : STA $02D0
-    
-    BRA .continue_from_hook
+      CPY.b #$13 : BNE .no_hookshot_dragging
+      LDA $037E : BEQ .no_hookshot_dragging
+        LDA.b #$01 : STA $02D0
+        BRA .continue_from_hook
     
     .ignore_hook
     
@@ -680,52 +653,47 @@ Tagalong_OldMountainMan:
     
     ; Is Link in a recoil state?
     LDA $5D : CMP.b #$06 : BNE .check_for_recoiling ; if not, then branch away
-    
-    LDA $02D3 : CMP $02CF : BNE .replace_that_follower
-    
-    DEX : STX $02CF : BPL .replace_that_follower
-    
-    LDA.b #$13 : STA $02CF
+      LDA $02D3 : CMP $02CF : BNE .replace_that_tagalong
+      DEX : STX $02CF : BPL .replace_that_tagalong
+        LDA.b #$13 : STA $02CF
     
     .check_for_recoiling
     
     LDA $4D : AND.b #$02 : BEQ .check_link_velocity
     
-    .replace_that_follower
-    
-    LDA $7EF3CC : TAX
-    
-    LDA .replacement_tagalong, X : STA $7EF3CC
-    
-    LDA.b #$40 : STA $02D2
-    
-    LDX $02CF
-    
-    LDA $1A00, X : STA $7EF3CD
-    LDA $1A14, X : STA $7EF3CE
-    
-    LDA $1A28, X : STA $7EF3CF
-    LDA $1A3C, X : STA $7EF3D0
-    
-    LDA $EE : STA $7EF3D2
-    
-    BRA Tagalong_UnusedOldMan
+    .replace_that_tagalong
+      
+      LDA $7EF3CC : TAX
+      
+      LDA .replacement_tagalong, X : STA $7EF3CC
+      
+      LDA.b #$40 : STA $02D2
+      
+      LDX $02CF
+      
+      LDA $1A00, X : STA $7EF3CD
+      LDA $1A14, X : STA $7EF3CE
+      
+      LDA $1A28, X : STA $7EF3CF
+      LDA $1A3C, X : STA $7EF3D0
+      
+      LDA $EE : STA $7EF3D2
+      
+      BRA Tagalong_UnusedOldMan
     
     .check_link_velocity
     
     LDA $30 : ORA $31 : BNE .link_moving
-    
-    LDA $1A : AND.b #$03 : BNE .just_draw
-    
-    LDA $02D3 : CMP $02CF : BEQ .just_draw
-    
-    SEC : SBC.b #$09 : BPL .no_back_wrap_a
-      CLC : ADC.b #$14
-    .no_back_wrap_a
-    
-    CMP $02CF : BNE .advance_movement_index
-    
-    BRL .just_draw
+      LDA $1A : AND.b #$03 : BNE .just_draw
+      LDA $02D3 : CMP $02CF : BEQ .just_draw
+      
+      SEC : SBC.b #$09 : BPL .no_back_wrap_a
+        CLC : ADC.b #$14
+      .no_back_wrap_a
+      
+      CMP $02CF : BNE .advance_movement_index
+      
+      BRL .just_draw
     
     .link_moving
     
@@ -758,19 +726,19 @@ Tagalong_ReplacementTagalongIds:
 {
     db $00 ; 0x00 - No tagalong
     db $00 ; 0x01 - Zelda
-    db $00 ; 0x02 - Old man (unused alternate)
+    db $00 ; 0x02 - Old man that stops following you
     db $02 ; 0x03 - Unused old man
-    db $00 
-    db $00
-    db $00
-    db $00
-    db $00
-    db $00
-    db $00
-    db $00
-    db $00
-    db $00
-    db $00
+    db $00 ; 0x04 - Normal old man 
+    db $00 ; 0x05 - Zelda rescue telepathy
+    db $00 ; 0x06 - Blind Maiden
+    db $00 ; 0x07 - Frogsmith
+    db $00 ; 0x08 - Smithy
+    db $00 ; 0x09 - Locksmith
+    db $00 ; 0x0A - Kiki
+    db $00 ; 0x0B - Unused
+    db $00 ; 0x0C - Thief's chest
+    db $00 ; 0x0D - Super Bomb
+    db $00 ; 0x0E - Master Sword Telepathy
 }
 
 ; ==============================================================================
@@ -1393,42 +1361,30 @@ TagalongDraw_Drawing:
     
     LDA $7EF3CC
     
-    CMP.b #$01 : BEQ .girly_follower
-    CMP.b #$06 : BEQ .girly_follower
-    
-    LDA $05 : AND.b #$20 : BEQ .girly_follower
-    
-    BRA .not_girly_follower
-
-    .girly_follower
+    CMP.b #$01 : BEQ .girly_tagalong
+      CMP.b #$06 : BEQ .girly_tagalong
+        LDA $05 : AND.b #$20 : BEQ .girly_tagalong
+          BRA .not_girly_tagalong
+    .girly_tagalong
 
     LDA $05 : AND.b #$C0 : BNE .some_flip
-    
-    BRL .do_chars
-
+      BRL .do_chars
     .some_flip
 
-    LDA $05 : AND.b #$80 : BNE .not_girly_follower
-    
-    LDX.b #$0C
-    
-    LDA $72 : BEQ .not_girly_follower
-    
-    LDA.b #$00
-    
-    BRA .set_repri
+    LDA $05 : AND.b #$80 : BNE .not_girly_tagalong
+      LDX.b #$0C
+      LDA $72 : BEQ .not_girly_tagalong
+        LDA.b #$00
+        BRA .set_repri
 
-    .not_girly_follower
+    .not_girly_tagalong
 
     LDA $1A : AND.b #$07 : BNE .dont_shimmy
-    
-    LDA $02D7 : INC A : CMP.b #$03 : BNE .set_repri
-    
-    LDA.b #$00
+      LDA $02D7 : INC A : CMP.b #$03 : BNE .set_repri
+        LDA.b #$00
+      .set_repri
 
-    .set_repri
-
-    STA $02D7
+      STA $02D7
 
     .dont_shimmy
 
@@ -1485,27 +1441,18 @@ TagalongDraw_Drawing:
     LDA $7EF3CC : TAX
     
     LDA.w $A8F9, X : CMP.b #$07 : BNE .not_link_palette_a
-    
-    TAX
-    
-    LDA $0ABD : BEQ .no_trans_a
-    
-    LDX.b #$00
-
-    .no_trans_a
-
-    TXA
-
+      TAX
+      LDA $0ABD : BEQ .no_trans_a
+        LDX.b #$00
+      .no_trans_a
+      TXA
     .not_link_palette_a
 
     ASL A : STA $72
     
     LDA $7EF3CC : CMP.b #$0D : BNE .not_exploding_superbomb
-    
-    LDA $04B4 : CMP.b #$01 : BNE .not_exploding_superbomb
-    
-    LDA $1A : AND.b #$07 : ASL A : STA $72
-
+      LDA $04B4 : CMP.b #$01 : BNE .not_exploding_superbomb
+        LDA $1A : AND.b #$07 : ASL A : STA $72
     .not_exploding_superbomb
 
     LDA $7EF3CC
@@ -1513,44 +1460,44 @@ TagalongDraw_Drawing:
     CMP.b #$0D : BEQ .bomb_or_chest
     CMP.b #$0C : BEQ .bomb_or_chest
     
-    REP #$30
-    
-    PHY
-    
-    LDA $04 : AND.w #$00FF : ASL #3 : TAY
-    
-    LDA $7EF3CC : AND.w #$00FF : ASL A : TAX
-    
-    TYA : CLC : ADC $A8BD, X : TAX
-    
-    LDA.w $A6FD, X : CLC : ADC $06 : STA $00
-    LDA.w $A6FF, X : CLC : ADC $08 : STA $02
-    
-    PLY
-    
-    SEP #$30
-    
-    JSR Tagalong_SetOam_XY
-    
-    LDA.b #$20 : STA ($90), Y
-    
-    INY
-    
-    LDA $04 : ASL A : CLC : ADC $04 : TAX
-    
-    LDA.w $A6CD, X : STA $0AE8
-    
-    LDA.w $A6CF, X : AND.b #$F0 : ORA $72 : ORA $65 : STA ($90), Y
-    
-    INY : PHY
-    
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA #$02 : ORA $75 : STA ($92), Y
-    
-    PLY
+      REP #$30
+      
+      PHY
+      
+      LDA $04 : AND.w #$00FF : ASL #3 : TAY
+      
+      LDA $7EF3CC : AND.w #$00FF : ASL A : TAX
+      
+      TYA : CLC : ADC $A8BD, X : TAX
+      
+      LDA.w $A6FD, X : CLC : ADC $06 : STA $00
+      LDA.w $A6FF, X : CLC : ADC $08 : STA $02
+      
+      PLY
+      
+      SEP #$30
+      
+      JSR Tagalong_SetOam_XY
+      
+      LDA.b #$20 : STA ($90), Y
+      
+      INY
+      
+      LDA $04 : ASL A : CLC : ADC $04 : TAX
+      
+      LDA.w $A6CD, X : STA $0AE8
+      
+      LDA.w $A6CF, X : AND.b #$F0 : ORA $72 : ORA $65 : STA ($90), Y
+      
+      INY : PHY
+      
+      TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+      
+      LDA #$02 : ORA $75 : STA ($92), Y
+      
+      PLY
 
-.bomb_or_chest
+    .bomb_or_chest
 
     REP #$30
     
