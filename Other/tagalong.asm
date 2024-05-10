@@ -17,49 +17,34 @@ Tagalong_CheckBlindTriggerRegion:
     STZ $0B
     
     LDA $1A50, X : STA $0A : BPL .non_negative_altitude
-    
-    LDA.b #$FF : STA $0B
-    
-    .non_negative_altitude
+      LDA.b #$FF : STA $0B
+  .non_negative_altitude
     
     REP #$20
     
     LDA $00 : CLC : ADC $0A : CLC : ADC.w #$000C : STA $00
-    
     LDA $02 : CLC : ADC.w #$0008 : STA $02
     
     LDA.w #$1568 : SEC : SBC $00 : BPL .non_negative_delta_x
-    
-    EOR.w #$FFFF : INC A
-    
-    .non_negative_delta_x
+      EOR.w #$FFFF : INC A
+  .non_negative_delta_x
     
     CMP.w #$0018 : BCS .out_of_range
     
     LDA.w #$1980 : SEC : SBC $02 : BPL .non_negative_delta_y
-    
-    EOR.w #$FFFF : INC A
-    
-    .non_negative_delta_y
+      EOR.w #$FFFF : INC A
+  .non_negative_delta_y
     
     CMP.w #$0018 : BCS .out_of_range
-    
-    SEP #$20
-    
+    SEP   #$20
     PLB
-    
     SEC
-    
     RTL
     
-    .out_of_range
-    
+  .out_of_range
     SEP #$20
-    
     PLB
-    
     CLC
-    
     RTL
 }
 
