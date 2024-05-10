@@ -1584,38 +1584,27 @@ Tagalong_CheckTextTriggerProximity:
     REP #$20
     
     LDA $00 : CLC : ADC $0A : CLC : ADC.w #$0008 : STA $00
-    
     LDA $02 : CLC : ADC.w #$0008 : STA $02
     
     LDA $20 : CLC : ADC.w #$000C : SEC : SBC $00 : BPL .positive_delta_y
-    
-    EOR.w #$FFFF : INC A
-    
+      EOR.w #$FFFF : INC A
     .positive_delta_y
     
     CMP.w #$001C : BCS .not_in_trigger
     
-    LDA $22 : CLC : ADC.w #$000C : SEC : SBC $02 : BPL .positive_delta_x
-    
-    EOR.w #$FFFF : INC A
-    
-    .positive_delta_x
-    
-    CMP.w #$0018 : BCS .not_in_trigger
-    
-    SEP #$20
-    
-    SEC
-    
-    RTS
+      LDA $22 : CLC : ADC.w #$000C : SEC : SBC $02 : BPL .positive_delta_x
+        EOR.w #$FFFF : INC A
+      .positive_delta_x
+      
+      CMP.w #$0018 : BCS .not_in_trigger
+        SEP #$20
+        SEC
+        RTS
     
     .not_in_trigger
-    
-    SEP #$20
-    
-    CLC
-    
-    RTS
+      SEP #$20
+      CLC
+      RTS
 }
 
 ; ==============================================================================
