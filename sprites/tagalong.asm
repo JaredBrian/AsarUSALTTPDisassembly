@@ -476,6 +476,7 @@ Tagalong_BasicMover:
     
     JSL Tagalong_CheckBlindTriggerRegion : BCC .blind_not_triggered
     
+  .blind_transform
     LDX $02CF
     
     LDA $1A28, X : STA $00
@@ -495,41 +496,41 @@ Tagalong_BasicMover:
     
     LDA.b #$05 : STA $11
     
-    LDA.b #$15 : STA $012C
+    LDA.b #$15 : STA $012C ; SONG 15
     
     RTS
     
-    .BRANCH_ZETA
+    .blind_not_triggered
     
     SEP #$20
     
     LDY $5D
     
-    LDA $02D0 : BNE .BRANCH_THETA
+    LDA $02D0 : BNE .ignore_hook
     
-    CPY.b #$13 : BNE .BRANCH_IOTA
+    CPY.b #$13 : BNE .no_hookshot_dragging
     
-    LDA $037E : BEQ .BRANCH_IOTA
+    LDA $037E : BEQ .no_hookshot_dragging
     
     LDA.b #$01 : STA $02D0
     
-    BRA .BRANCH_KAPPA
+    BRA .continue_from_hook
     
-    .BRANCH_THETA
+    .ignore_hook
     
-    CPY.b #$13 : BEQ .BRANCH_KAPPA
+    CPY.b #$13 : BEQ .continue_from_hook
     
-    LDA $02D1 : CMP $02CF : BNE .BRANCH_LAMBDA
+    LDA $02D1 : CMP $02CF : BNE .advance_movement_index
     
     STZ $02D0
     
-    .BRANCH_IOTA
+    .no_hookshot_dragging
     
     LDX $02CF
     
     LDA $1A50, X : BEQ .not_default_game_mode  BMI .not_default_game_mode
     
-    LDA $02D3 : CMP $02CF : BNE .BRANCH_LAMBDA
+    LDA $02D3 : CMP $02CF : BNE .advance_movement_index
     
     STZ $1A50, X
     
@@ -542,32 +543,29 @@ Tagalong_BasicMover:
 
     LDA $30 : ORA $31 : BEQ .proceed_to_draw
     
-    .BRANCH_KAPPA
+    .continue_from_hook
     
-    LDA $02D3 : SEC : SBC.b #$0F : BPL .BRANCH_XI
-    
-    CLC : ADC.b #$14
-    
-    .BRANCH_XI
+    LDA $02D3 : SEC : SBC.b #$0F : BPL .dont_wrap_index_a
+      CLC : ADC.b #$14
+    .dont_wrap_index_a
     
     CMP $02CF : BNE .proceed_to_draw
     
-    .BRANCH_LAMBDA
+    .advance_movement_index
     
-    LDX $02CF : INX : CPX.b #$14 : BNE .BRANCH_OMICRON
-    
-    LDX.b #$00
-    
-    .BRANCH_OMICRON
+    LDX $02CF : INX : CPX.b #$14 : BNE .dont_wrap_index_b
+      LDX.b #$00
+    .dont_wrap_index_b
     
     STX $02CF
     
     .proceed_to_draw
     
-    BRL .BRANCH_$4A907
+    BRL Tagalong_Draw
 }
 
 ; $04A2B1-$04A2B1 BRANCH LOCATION
+Tagalong_LocalExit:
 {
     RTS
 }
@@ -575,49 +573,39 @@ Tagalong_BasicMover:
 ; $04A2B2-$04A308 JUMP LOCATION
 Tagalong_NotFollowing:
 {
-    LDA $7EF3D1 : CMP $1B : BNE .BRANCH_$4A2B1 ; (RTS) ; if indoors, don't branch
+    LDA $7EF3D1 : CMP $1B : BNE Tagalong_LocalExit ; if indoors, don't branch
     
     ; Is Link dashing?
-    LDA $0372 : BNE .BRANCH_ALPHA ; Yes... branch to alpha
+    LDA $0372 : BNE .dont_reset_self ; Yes... branch to alpha
     
-    JSR Tagalong_CheckPlayerProximity : BCS .BRANCH_ALPHA
+    JSR Tagalong_CheckPlayerProximity : BCS .dont_reset_self
     
     JSL Tagalong_Init
     
     LDA $1B : STA $7EF3D1
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_BETA
-    
-    LDA.b #$FE : STA $04B4
-    
-    STZ $04B5
-    
-    .BRANCH_BETA
+    LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb
+      LDA.b #$FE : STA $04B4
+      STZ $04B5
+    .not_superbomb
     
     LDA.b #$00 : STA $7EF3D3
+    BRL Tagalong_Draw
     
-    BRL .BRANCH_$4A907
-    
-    .BRANCH_ALPHA
+    .dont_reset_self
     
     ; Is it a super bomb?
-    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA ; no, get out of here
+    LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb_exploding ; no, get out of here
+      ; Are we indoors?
+      LDA $1B : BNE .not_superbomb_exploding ; yes, get out of here >(
+      LDA $04B4 : BNE .not_superbomb_exploding
+        LDY.b #$00
+        LDA.b #$3A
+        JSL AddSuperBombExplosion
+        LDA.b #$00 : STA $7EF3D3
+    .not_superbomb_exploding
     
-    ; Are we indoors?
-    LDA $1B : BNE .BRANCH_GAMMA ; yes, get out of here >(
-    
-    LDA $04B4 : BNE .BRANCH_GAMMA
-    
-    LDY.b #$00
-    LDA.b #$3A
-    
-    JSL AddSuperBombExplosion
-    
-    LDA.b #$00 : STA $7EF3D3
-    
-    .BRANCH_GAMMA
-    
-    BRL .BRANCH_$4A450
+    BRL Tagalong_DoLayers
 }
 
 ; ==============================================================================
@@ -637,84 +625,73 @@ Tagalong_OldMountainMan:
     ; Old Man on the Mountain tagalong routine
     
     ; Can Link move?
-    LDA $02E4 : BNE .BRANCH_ALPHA
+    LDA $02E4 : BNE .proceed_to_just_draw
     
     ; Is Link coming out of a door into the overworld?
     LDX $10
     
-    LDY $11 : CPY.b #$0A : BEQ .BRANCH_ALPHA
+    LDY $11 : CPY.b #$0A : BEQ .proceed_to_just_draw
     
-    CPX.b #$09 : BNE .BRANCH_BETA
-    
-    ; Is the magic mirror being used?
-    CPY.b #$23 : BEQ .BRANCH_ALPHA
-    
-    .BRANCH_BETA
+    CPX.b #$09 : BNE .not_overworld
+      ; Is the magic mirror being used?
+      CPY.b #$23 : BEQ .proceed_to_just_draw
+    .not_overworld
     
     ; Are we in text mode?
-    CPX.b #$0E : BNE .BRANCH_GAMMA
+    CPX.b #$0E : BNE .not_textbox
     
-    CPY.b #$01 : BEQ .BRANCH_ALPHA
-    CPY.b #$02 : BNE .BRANCH_GAMMA ; Text message mode
+    CPY.b #$01 : BEQ .proceed_to_just_draw
+    CPY.b #$02 : BNE .not_textbox ; Text message mode
     
-    .BRANCH_ALPHA
+    .proceed_to_just_draw
     
-    BRL .BRANCH_NU
+    BRL .just_draw
     
-    .BRANCH_GAMMA
+    .not_textbox
     
     ; Make an exception for movement speeds. It's not dashing speed, so
     ; I'm not sure what speed type this is.
-    LDA $5E : CMP.b #$04 : BEQ .BRANCH_DELTA
-    
-    LDA.b #$0C : STA $5E
-    
-    .BRANCH_DELTA
+    LDA $5E : CMP.b #$04 : BEQ .dont_reset_link_speed
+      LDA.b #$0C : STA $5E
+    .dont_reset_link_speed
     
     JSR Tagalong_HandleTrigger ; $04A59E IN ROM
     
     SEP #$30
     
-    LDA $7EF3CC : BNE .BRANCH_EPSILON
+    LDA $7EF3CC : BNE .have_old_man_indeed
+      RTS
+    .have_old_man_indeed
     
-    RTS
+    CMP.b #$04 : BNE .not_normal_old_man
+      LDX $02CF
+      LDA $1A50, X : BEQ .proceed_to_check_velocity 
+                     BMI .proceed_to_check_velocity
+      
+      LDA $02CF : CMP $02D3 : BEQ .proceed_to_check_velocity
+        BRL .advance_movement_index
+      .proceed_to_check_velocity
+      
+      BRL .check_link_velocity
     
-    .BRANCH_EPSILON
+    .not_normal_old_man
     
-    CMP.b #$04
-    
-    .BRANCH_ZETA
-    
-    LDX $02CF
-    
-    LDA $1A50, X : BEQ .BRANCH_THETA  BMI .BRANCH_THETA
-    
-    LDA $02CF : CMP $02D3 : BEQ .BRANCH_THETA
-    
-    BRL .BRANCH_OMICRON
-    
-    .BRANCH_THETA
-    
-    BRL .BRANCH_LAMBDA
-    
-    .BRANCH_ZETA
-    
-    LDA $4D : AND.b #$01 : BEQ .BRANCH_IOTA
+    LDA $4D : AND.b #$01 : BEQ .check_for_recoiling
     
     ; Is Link in a recoil state?
-    LDA $5D : CMP.b #$06 : BNE .BRANCH_IOTA ; if not, then branch away
+    LDA $5D : CMP.b #$06 : BNE .check_for_recoiling ; if not, then branch away
     
-    LDA $02D3 : CMP $02CF : BNE .BRANCH_KAPPA
+    LDA $02D3 : CMP $02CF : BNE .replace_that_follower
     
-    DEX : STX $02CF : BPL .BRANCH_KAPPA
+    DEX : STX $02CF : BPL .replace_that_follower
     
     LDA.b #$13 : STA $02CF
     
-    .BRANCH_IOTA
+    .check_for_recoiling
     
-    LDA $4D : AND.b #$02 : BEQ .BRANCH_LAMBDA
+    LDA $4D : AND.b #$02 : BEQ .check_link_velocity
     
-    .BRANCH_KAPPA
+    .replace_that_follower
     
     LDA $7EF3CC : TAX
     
@@ -734,49 +711,43 @@ Tagalong_OldMountainMan:
     
     BRA Tagalong_UnusedOldMan
     
-    .BRANCH_LAMBDA
+    .check_link_velocity
     
-    LDA $30 : ORA $31 : BNE .BRANCH_MU
+    LDA $30 : ORA $31 : BNE .link_moving
     
-    LDA $1A : AND.b #$03 : BNE .BRANCH_NU
+    LDA $1A : AND.b #$03 : BNE .just_draw
     
-    LDA $02D3 : CMP $02CF : BEQ .BRANCH_NU
+    LDA $02D3 : CMP $02CF : BEQ .just_draw
     
-    SEC : SBC.b #$09 : BPL .BRANCH_XI
+    SEC : SBC.b #$09 : BPL .no_back_wrap_a
+      CLC : ADC.b #$14
+    .no_back_wrap_a
     
-    CLC : ADC.b #$14
+    CMP $02CF : BNE .advance_movement_index
     
-    .BRANCH_XI
+    BRL .just_draw
     
-    CMP $02CF : BNE .BRANCH_OMICRON
+    .link_moving
     
-    BRL .BRANCH_NU
+    LDA $02D3 : SEC : SBC.b #$14 : BPL .no_back_wrap_b
+      CLC : ADC.b #$14
+    .no_back_wrap_b
     
-    .BRANCH_MU
+    CMP $02CF : BNE .just_draw
     
-    LDA $02D3 : SEC : SBC.b #$14 : BPL .BRANCH_PI
+    .advance_movement_index
     
-    CLC : ADC.b #$14
-    
-    .BRANCH_PI
-    
-    CMP $02CF : BNE .BRANCH_NU
-    
-    .BRANCH_OMICRON
-    
-    LDX $02CF : INX : CPX.b #$14 : BCC .BRANCH_RHO
-    
-    LDX.b #$00
-    
-    .BRANCH_RHO
+    LDX $02CF : INX : CPX.b #$14 : BCC .no_wrap
+      LDX.b #$00
+    .no_wrap
     
     STX $02CF
     
-    .BRANCH_NU
+    .just_draw
     
-    BRL .BRANCH_4A907
+    BRL Tagalong_Draw
     
-    RTS
+    RTS ; Unreachable
 }
 
 ; ==============================================================================
@@ -811,23 +782,23 @@ Tagalong_UnusedOldMan:
     LDA.b #$10 : STA $5E
     
     ; Is Link dashing?
-    LDA $0372 : BNE Follower_DoLayers
-    LDA $4D : BNE Follower_DoLayers
+    LDA $0372 : BNE Tagalong_DoLayers
+    LDA $4D : BNE Tagalong_DoLayers
     
     ; Is player swimming?
-    LDA $5D : CMP.b #$04 : BEQ Follower_DoLayers
+    LDA $5D : CMP.b #$04 : BEQ Tagalong_DoLayers
       STZ $5E
 
     ; Is player in hookshot mode?
-    LDA $5D : CMP.b #$13 : BEQ Follower_DoLayers
-    JSR Tagalong_CheckPlayerProximity : BCS Follower_DoLayers
+    LDA $5D : CMP.b #$13 : BEQ Tagalong_DoLayers
+    JSR Tagalong_CheckPlayerProximity : BCS Tagalong_DoLayers
       JSL Tagalong_Init
       LDA $7EF3CC : TAX
       LDA Tagalong_ReplacementTagalongIds, X : STA $7EF3CC
       RTS
     
 ; $04A450 ALTERNATE ENTRY POINT
-Follower_DoLayers:
+Tagalong_DoLayers:
     
     LDA $7EF3D2 : TAX : CPX $EE : BNE .layer_mismatch
       LDX $EE
