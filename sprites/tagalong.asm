@@ -1,3 +1,13 @@
+; ==============================================================================
+; Tagalong Library 
+; 
+; $1A00 - Tagalong YL
+; $1A14 - Tagalong YH
+; $1A28 - Tagalong XL
+; $1A3C - Tagalong XH
+; $1A50 - Tagalong Altitude
+; $1A64 - Tagalong Priority Layer
+
 
 ; ==============================================================================
     
@@ -64,10 +74,10 @@ Tagalong_Init:
     PHB : PHK : PLB
     
     ; Load Link's x and y coordinates byte by byte
-    LDA $20 : STA $1A00 ; FOLLOWERYL
-    LDA $21 : STA $1A14 ; FOLLOWERYH
-    LDA $22 : STA $1A28 ; FOLLOWERXL
-    LDA $23 : STA $1A3C ; FOLLOWERXH
+    LDA $20 : STA $1A00
+    LDA $21 : STA $1A14
+    LDA $22 : STA $1A28
+    LDA $23 : STA $1A3C
     
     ; $00 = Link's direction
     LDA $2F : LSR A : STA $00
