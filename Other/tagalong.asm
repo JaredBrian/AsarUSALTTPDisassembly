@@ -591,11 +591,12 @@ Tagalong_BasicMover:
 }
     
 ; $04A2B2-$04A308 JUMP LOCATION
+Tagalong_NotFollowing:
 {
     LDA $7EF3D1 : CMP $1B : BNE .BRANCH_$4A2B1 ; (RTS) ; if indoors, don't branch
     
     ; Is Link dashing?
-    LDA $0372 : BNE .BRANCH_ALPHA; Yes... branch to alpha
+    LDA $0372 : BNE .BRANCH_ALPHA ; Yes... branch to alpha
     
     JSR Tagalong_CheckPlayerProximity : BCS .BRANCH_ALPHA
     
@@ -621,7 +622,7 @@ Tagalong_BasicMover:
     LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA ; no, get out of here
     
     ; Are we indoors?
-    LDA $1B : BNE .BRANCH_GAMMA; yes, get out of here >(
+    LDA $1B : BNE .BRANCH_GAMMA ; yes, get out of here >(
     
     LDA $04B4 : BNE .BRANCH_GAMMA
     
@@ -688,7 +689,7 @@ Tagalong_OldMountainMan:
     
     .BRANCH_DELTA
     
-    JSR $A59E ; $04A59E IN ROM
+    JSR Tagalong_HandleTrigger ; $04A59E IN ROM
     
     SEP #$30
     
@@ -799,6 +800,7 @@ Tagalong_OldMountainMan:
 ; ==============================================================================
 
 ; $04A410-$04A41E DATA
+Tagalong_OldManUnused:
 {
     ; Task name this pool / routine
     .replacement_tagalong
@@ -809,6 +811,7 @@ Tagalong_OldMountainMan:
 ; ==============================================================================
 
 ; $04A41F-$04A48D JUMP LOCATION
+Tagalong_OldManUnused:
 {
     ; Slow down the player...
     LDA.b #$10 : STA $5E
@@ -845,7 +848,7 @@ Tagalong_OldMountainMan:
     
     .BRANCH_BETA
     
-    LDA Tagalong_Init.priorities, X : STA $65
+    LDA Tagalong_Priorities, X : STA $65
                                       STZ $64
     
     LDA $7EF3CD : STA $00
@@ -904,6 +907,7 @@ Tagalong_CheckPlayerProximity:
 ; ==============================================================================
 
 ; $04A4C8-$04A59D DATA
+pool Tagalong_HandleTrigger:
 {
     .rooms_with_special_text_1
     dw $00F1
@@ -950,7 +954,7 @@ Tagalong_CheckPlayerProximity:
     
     ; $04A586 ($4A588 too, in a way)
     .room_data_boundaries_1
-    dw 0, 30, 60, 70, 90, 100, 110, 120, 
+    dw 0, 30, 60, 70, 90, 100, 110, 120,
     
     ; $4A596
     .area_data_boundaries_1
@@ -960,6 +964,7 @@ Tagalong_CheckPlayerProximity:
 ; ==============================================================================
 
 ; $04A59E-$04A6CC LOCAL JUMP LOCATION
+Tagalong_HandleTrigger:
 {
     LDA $11 : BNE .no_text_message
     
