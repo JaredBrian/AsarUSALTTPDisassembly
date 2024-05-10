@@ -447,51 +447,36 @@ Tagalong_ExecuteAI:
 }
 
 ; $04A197-$04A2B0 JUMP LOCATION
+Tagalong_BasicMover:
 {
-    LDA $02E4 : BNE .BRANCH_ALPHA
+    LDA $02E4 : BNE .not_in_cutscene
+      LDX $10
+      LDY $11 : CPY.b #$0A : BEQ .not_in_cutscene
+        CPX.b #$09 : BNE .not_overworld
+          CPY.b #$23 : BEQ .not_in_cutscene
+        .not_overworld
+        
+        CPX.b #$0E : BNE .not_text_mode
+          CPY.b #$01 : BEQ .not_in_cutscene
+            CPY.b #$02 : BNE .not_text_mode
+    .not_in_cutscene
+    BRL .proceed_to_draw
     
-    LDX $10
+    .not_text_mode
+    JSR Tagalong_HandleTrigger ; $04A59E IN ROM
     
-    LDY $11 : CPY.b #$0A : BEQ .BRANCH_ALPHA
-    
-    CPX.b #$09 : BNE .BRANCH_BETA
-    
-    CPY.b #$23 : BEQ .BRANCH_ALPHA
-    
-    .BRANCH_BETA
-    
-    CPX.b #$0E : BNE .BRANCH_GAMMA
-    
-    CPY.b #$01 : BEQ .BRANCH_ALPHA
-    CPY.b #$02 : BNE .BRANCH_GAMMA
-    
-    .BRANCH_ALPHA
-    
-    BRL .BRANCH_NU
-    
-    .BRANCH_GAMMA
-    
-    JSR $A59E ; $04A59E IN ROM
-    
-    LDA $7EF3CC : CMP.b #$0A : BNE .BRANCH_DELTA
-    
-    LDA $4D : BEQ .BRANCH_DELTA
-    
-    LDA $031F : BEQ .BRANCH_DELTA
-    
-    LDA $02CF : INC A : CMP.b #$14 : BNE .BRANCH_EPSILON
-    
-    LDA.b #$00
-    
-    .BRANCH_EPSILON
-    
-    JSL Kiki_AbandonDamagedPlayer
-    
-    LDA.b #$00 : STA $7EF3CC
-    
-    RTS
-    
-    .BRANCH_DELTA
+    LDA $7EF3CC : CMP.b #$0A : BNE .dont_scare_kiki
+      LDA $4D : BEQ .dont_scare_kiki
+        LDA $031F : BEQ .dont_scare_kiki
+          
+          LDA $02CF : INC A : CMP.b #$14 : BNE .no_index_wrap
+            LDA.b #$00
+          .no_index_wrap
+          
+          JSL Kiki_AbandonDamagedPlayer
+          LDA.b #$00 : STA $7EF3CC
+          RTS
+    .dont_scare_kiki
     
     ; Check if tagalong == Blind in disguise as maiden.
     LDA $7EF3CC : CMP.b #$06 : BNE .blind_not_triggered
@@ -560,7 +545,7 @@ Tagalong_ExecuteAI:
     
     LDX $02CF
     
-    LDA $1A50, X : BEQ .BRANCH_MU  BMI .BRANCH_MU
+    LDA $1A50, X : BEQ .not_default_game_mode  BMI .not_default_game_mode
     
     LDA $02D3 : CMP $02CF : BNE .BRANCH_LAMBDA
     
@@ -571,9 +556,9 @@ Tagalong_ExecuteAI:
     LDA $22 : STA $1A28, X
     LDA $23 : STA $1A3C, X
     
-    .BRANCH_MU
+    .not_default_game_mode
 
-    LDA $30 : ORA $31 : BEQ .BRANCH_NU
+    LDA $30 : ORA $31 : BEQ .proceed_to_draw
     
     .BRANCH_KAPPA
     
@@ -583,7 +568,7 @@ Tagalong_ExecuteAI:
     
     .BRANCH_XI
     
-    CMP $02CF : BNE .BRANCH_NU
+    CMP $02CF : BNE .proceed_to_draw
     
     .BRANCH_LAMBDA
     
@@ -595,7 +580,7 @@ Tagalong_ExecuteAI:
     
     STX $02CF
     
-    .BRANCH_NU
+    .proceed_to_draw
     
     BRL .BRANCH_$4A907
 }
