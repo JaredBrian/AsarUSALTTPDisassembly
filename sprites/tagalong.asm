@@ -594,9 +594,9 @@ Tagalong_NotFollowing:
 ; ==============================================================================
 
 ; $04A309-$04A317 DATA
-pool Tagalong_OldMountainMan:
+Tagalong_OldMountainMan_ReplacementIds:
 {
-    .replacement_tagalong
+    ; Map of replacement tagalongs
     db 0, 0, 3, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 }
 
@@ -675,7 +675,7 @@ Tagalong_OldMountainMan:
       
       LDA $7EF3CC : TAX
       
-      LDA .replacement_tagalong, X : STA $7EF3CC
+      LDA Tagalong_OldMountainMan_ReplacementIds, X : STA $7EF3CC
       
       LDA.b #$40 : STA $02D2
       
