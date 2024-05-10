@@ -1157,6 +1157,7 @@ Tagalong_HandleTrigger:
 ; ==============================================================================
 
 ; $04A6CD-$04A906 DATA
+FollowerDraw_Drawing:
 {
     ; \task Fill in data later and name these routines.
     
@@ -1165,48 +1166,36 @@ Tagalong_HandleTrigger:
 ; ==============================================================================
 
 ; $04A907-$04ABF8 LOCAL JUMP LOCATION
+Tagalong_Draw:
 {
     ; best guess so far: zero if your tagalong is transforming, nonzero
     ; otherwise
-    LDA $02F9 : BEQ .continue
-    
-    RTS
-
-.continue
+    LDA $02F9 : BEQ .begin_draw
+      RTS
+    .begin_draw
 
     PHX : PHY
     
     LDX $02CF
     
-    LDA $1A50, X : BEQ .BRANCH_BETA
-    
-    LDA $1B : BNE .BRANCH_BETA
-    
-    LDA.b #$20
-    
-    BRA .BRANCH_GAMMA
+    LDA $1A50, X : BEQ .not_floating_outdoors
+      LDA $1B : BNE .not_floating_outdoors
+        LDA.b #$20
+        BRA   .continue
+    .not_floating_outdoors
 
-.BRANCH_BETA
-
-    LDA $11 : CMP.b #$0E : BNE .BRANCH_DELTA
-    
-    LDY $EE : LDA Tagalong_Init.priorities, Y
-    
-    BRA .BRANCH_GAMMA
-
-.BRANCH_DELTA
+    LDA $11 : CMP.b #$0E : BNE .dont_copy_priority
+      LDY $EE : LDA Tagalong_Priorities, Y
+      BRA .continue
+    .dont_copy_priority
 
     LDA $1A64, X : AND.b #$0C : ASL #2
 
-.BRANCH_GAMMA
-
+    .continue
     STA $65 : STZ $64
-    
-    LDX $02CF : BPL .BRANCH_EPSILON
-    
-    LDX.b #$00
-
-.BRANCH_EPSILON
+    LDX $02CF : BPL .no_back_wrap
+      LDX.b #$00
+    .no_back_wrap
 
     LDA $1A00, X : STA $00
     LDA $1A14, X : STA $01
@@ -1216,13 +1205,14 @@ Tagalong_HandleTrigger:
     
     LDA $1A64, X
     
-    BRA .BRANCH_ZETA
+    BRA .Tagalong_AnimateMovement
 
 ; $04A957 ALTERNATE ENTRY POINT
+.Tagalong_AnimateMovement_Preserved
 
     PHX : PHY
 
-.BRANCH_ZETA
+.Tagalong_AnimateMovement
 
     STA $05 : AND.b #$20 : LSR #2 : TAY
     
@@ -1230,91 +1220,87 @@ Tagalong_HandleTrigger:
     
     STZ $72
     
-    CPY.b #$08 : BNE .BRANCH_THETA
-    
+    CPY.b #$08 : BNE .low_priority
     LDY.b #$00
+    LDA   $7EF3CC
     
-    LDA $7EF3CC
-    
-    CMP.b #$06 : BEQ .BRANCH_IOTA
-    CMP.b #$01 : BNE .BRANCH_THETA
-
-.BRANCH_IOTA
+    CMP.b #$06 : BEQ .not_blind_maiden
+      CMP.b #$01 : BNE .low_priority
+    .not_blind_maiden
 
     LDY.b #$08
     
-    LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ .BRANCH_KAPPA
+    LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ .no_collision
     
     LDA $1A : AND.b #$08 : LSR A
     
-    BRA .BRANCH_LAMBDA
+    BRA .FollowerDraw_Drawing
 
-.BRANCH_KAPPA
+.no_collision
 
     LDA $1A : AND.b #$10 : LSR #2
-    
-    BRA .BRANCH_LAMBDA
+    BRA .FollowerDraw_Drawing
 
-.BRANCH_THETA
+.low_priority
 
     LDA $11
     
-    CMP.b #$0E : BEQ .BRANCH_MU
-    CMP.b #$08 : BEQ .BRANCH_MU
-    CMP.b #$10 : BEQ .BRANCH_MU
+    CMP.b #$0E : BEQ .check_dashing
+    CMP.b #$08 : BEQ .check_dashing
+    CMP.b #$10 : BEQ .check_dashing
     
     LDA $7EF3CC
     
-    CMP.b #$0B : BEQ .BRANCH_NU
-    CMP.b #$0D : BEQ .BRANCH_XI
-    CMP.b #$0C : BNE .BRANCH_OMICRON
+    CMP.b #$0B : BEQ .not_dashing
+    CMP.b #$0D : BEQ .super_bomb
+    CMP.b #$0C : BNE .not_purple_chest
 
-.BRANCH_XI
+.super_bomb
 
-    LDA $7EF3D3 : BNE .BRANCH_PI
+    LDA $7EF3D3 : BNE .immobile
 
-.BRANCH_OMICRON
+.not_purple_chest
 
-    LDA $02E4 : BNE .BRANCH_OMICRON
+    LDA $02E4 : BNE .immobile
     
-    LDA $11 : CMP.b #$0A : BEQ .BRANCH_OMICRON
+    LDA $11 : CMP.b #$0A : BEQ .immobile
     
-    LDA $10 : CMP.b #$09 : BNE .BRANCH_RHO
+    LDA $10 : CMP.b #$09 : BNE .not_overworld
     
-    LDA $11 : CMP.b #$23 : BEQ .BRANCH_PI
+    LDA $11 : CMP.b #$23 : BEQ .immobile
 
-.BRANCH_RHO
+.not_overworld
 
-    LDA $10 : CMP.b #$0E : BNE .BRANCH_SIGMA
+    LDA $10 : CMP.b #$0E : BNE .not_interface
     
     LDA $11
     
     CMP.b #$01 : BEQ .BRANCH_PI
     CMP.b #$02 : BEQ .BRANCH_PI
 
-.BRANCH_SIGMA
+.not_interface
 
     LDA $30 : ORA $31 : BNE .BRANCH_MU
 
-.BRANCH_PI
+.immobile
 
     LDA.b #$04 : STA $72
     
-    BRA .BRANCH_LAMBDA
+    BRA .FollowerDraw_Drawing
 
-.BRANCH_MU
+.check_dashing
 
-    LDA $0372 : BEQ .BRANCH_NU
+    LDA $0372 : BEQ .not_dashing
     
     LDA $1A : AND.b #$04
     
-    BRA .BRANCH_LAMBDA
+    BRA .FollowerDraw_Drawing
 
-.BRANCH_NU
+.not_dashing
 
     LDA $1A : AND.b #$08 : LSR A
 
-.BRANCH_LAMBDA
+.FollowerDraw_Drawing
 
     CLC : ADC $04 : STA $04
     
@@ -1324,25 +1310,24 @@ Tagalong_HandleTrigger:
     
     LDA $0FB3 : AND.w #$00FF : ASL A : TAY
     
-    LDA $20 : CMP $00 : BEQ .BRANCH_TAU
+    LDA $20 : CMP $00 : BEQ .check_priority_for_region
     
-    BCS #$0E
+    BCS .use_region_b
     
-    BRA #$07
+    BRA .use_region_a
 
-.BRANCH_TAU
+.check_priority_for_region
 
-    LDA $05 : AND.w #$0003 : BNE .BRANCH_UPSILON
-    
+    LDA $05 : AND.w #$0003 : BNE .use_region_b
+  .use_region_a
     LDA.w $A8F1, Y
-    
-    BRA .BRANCH_PHI
+    BRA   .set_region
 
-.BRANCH_UPSILON
+.use_region_b
 
     LDA.w $A8F5, Y
 
-.BRANCH_PHI
+.set_region
 
     PHA
     
@@ -1361,44 +1346,44 @@ Tagalong_HandleTrigger:
     
     LDA $7EF3CC
     
-    CMP.b #$01 : BEQ .BRANCH_PSI
-    CMP.b #$06 : BEQ .BRANCH_PSI
+    CMP.b #$01 : BEQ .girly_follower
+    CMP.b #$06 : BEQ .girly_follower
     
-    LDA $05 : AND.b #$20 : BEQ .BRANCH_PSI
+    LDA $05 : AND.b #$20 : BEQ .girly_follower
     
-    BRA .BRANCH_CHI
+    BRA .not_girly_follower
 
-.BRANCH_PSI
+.girly_follower
 
-    LDA $05 : AND.b #$C0 : BNE .BRANCH_OMEGA
+    LDA $05 : AND.b #$C0 : BNE .some_flip
     
-    BRL .BRANCH_THEL
+    BRL .do_chars
 
-.BRANCH_OMEGA
+.some_flip
 
-    LDA $05 : AND.b #$80 : BNE .BRANCH_CHI
+    LDA $05 : AND.b #$80 : BNE .not_girly_follower
     
     LDX.b #$0C
     
-    LDA $72 : BEQ .BRANCH_CHI
+    LDA $72 : BEQ .not_girly_follower
     
     LDA.b #$00
     
-    BRA .BRANCH_ALTIMA
+    BRA .set_repri
 
-.BRANCH_CHI
+.not_girly_follower
 
-    LDA $1A : AND.b #$07 : BNE .BRANCH_ULTIMA
+    LDA $1A : AND.b #$07 : BNE .dont_shimmy
     
-    LDA $02D7 : INC A : CMP.b #$03 : BNE .BRANCH_ALTIMA
+    LDA $02D7 : INC A : CMP.b #$03 : BNE .set_repri
     
     LDA.b #$00
 
-.BRANCH_ALTIMA
+.set_repri
 
     STA $02D7
 
-.BRANCH_ULTIMA
+.dont_shimmy
 
     LDA $02D7 : ASL #2 : STA $05
     
@@ -1448,38 +1433,38 @@ Tagalong_HandleTrigger:
     
     PLY
 
-.BRANCH_THEL
+.do_chars
 
     LDA $7EF3CC : TAX
     
-    LDA.w $A8F9, X : CMP.b #$07 : BNE .BRANCH_OPTIMUS
+    LDA.w $A8F9, X : CMP.b #$07 : BNE .not_link_palette_a
     
     TAX
     
-    LDA $0ABD : BEQ .BRANCH_ALIF
+    LDA $0ABD : BEQ .no_trans_a
     
     LDX.b #$00
 
-.BRANCH_ALIF
+.no_trans_a
 
     TXA
 
-.BRANCH_OPTIMUS
+.not_link_palette_a
 
     ASL A : STA $72
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_BET
+    LDA $7EF3CC : CMP.b #$0D : BNE .not_exploding_superbomb
     
-    LDA $04B4 : CMP.b #$01 : BNE .BRANCH_BET
+    LDA $04B4 : CMP.b #$01 : BNE .not_exploding_superbomb
     
     LDA $1A : AND.b #$07 : ASL A : STA $72
 
-.BRANCH_BET
+.not_exploding_superbomb
 
     LDA $7EF3CC
     
-    CMP.b #$0D : BEQ .BRANCH_DEL
-    CMP.b #$0C : BEQ .BRANCH_DEL
+    CMP.b #$0D : BEQ .bomb_or_chest
+    CMP.b #$0C : BEQ .bomb_or_chest
     
     REP #$30
     
@@ -1518,7 +1503,7 @@ Tagalong_HandleTrigger:
     
     PLY
 
-.BRANCH_DEL
+.bomb_or_chest
 
     REP #$30
     
