@@ -736,7 +736,7 @@ Tagalong_OldMountainMan:
 
 ; ==============================================================================
 
-; \scawful: Potential expansion point for the Tagalong system.
+; \hack Potential expansion point for the Tagalong system.
 ; $04A410-$04A41E DATA
 Tagalong_ReplacementTagalongIds:
 {
