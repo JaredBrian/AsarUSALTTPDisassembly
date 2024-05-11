@@ -754,8 +754,8 @@ PreOverworld_LoadProperties:
     ; The value written here will take effect during NMI.
     STX.w $0132
 
-    JSL DecompOwAnimatedTiles       ; $5394 IN ROM
-    JSL InitTilesets                ; $619B IN ROM Decompress all other graphics.
+    JSL DecompOwAnimatedTiles       ; $005394 IN ROM
+    JSL InitTilesets                ; $00619B IN ROM Decompress all other graphics.
     JSR Overworld_LoadAreaPalettes  ; $014692 IN ROM Load palettes for overworld.
 
     LDX.b $8A
@@ -1079,7 +1079,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .deathMountain
 
-    JSL DecompOwAnimatedTiles ; $5394 IN ROM
+    JSL DecompOwAnimatedTiles ; $005394 IN ROM
 
     LDA.b $11 : LSR A : TAX
 
@@ -1103,7 +1103,7 @@ Credits_LoadScene_Overworld_PrepGFX:
     JSL Palette_Hud ; $0DEE52 IN ROM
 
     LDA.b $11 : BNE .BRANCH_4
-        JSL CopyFontToVram  ; $6556 IN ROM
+        JSL CopyFontToVram  ; $006556 IN ROM
 
     .BRANCH_4
 
@@ -1178,7 +1178,7 @@ Credits_LoadCoolBackground:
     LDA.b #$2D : STA.w $0AA3
 
     ; Using the parameters above, loads all the necessary tile sets.
-    JSL InitTilesets ; $619B IN ROM
+    JSL InitTilesets ; $00619B IN ROM
 
     ; Put us at the pyrmaid of power.
     LDX.b #$5B : STX.b $8A
@@ -1796,7 +1796,7 @@ Dungeon_InterRoomTrans_LoadNextRoom:
 
     JSL Dungeon_LoadRoom
     JSL Dungeon_InitStarTileChr
-    JSL $00D6F9 ; $56F9 IN ROM
+    JSL $00D6F9 ; $0056F9 IN ROM
 
     INC.b $B0
 
@@ -2423,7 +2423,7 @@ DungeonTransition_FatStairsEntryCache:
 ; $010E0F-$010E1C LOCAL JUMP LOCATION
 DungeonTransition_TriggerBGC34UpdateAndAdvance:
 {
-    JSL PrepTransAuxGfx ; $5F1A IN ROM
+    JSL PrepTransAuxGfx ; $005F1A IN ROM
 
     LDA.b #$09 : STA.b $17 : STA.w $0710
 
@@ -3642,7 +3642,7 @@ StraightStairs_9:
 
     DEC.b $B0
 
-    JSL LoadNewSpriteGFXSet ; $6031 IN ROM
+    JSL LoadNewSpriteGFXSet ; $006031 IN ROM
     JMP $A1E9 ; $0121E9 IN ROM
 }
 
@@ -3920,7 +3920,7 @@ Module07_15_04_SyncRoomPropsAndBuildOverlay:
     STY.b $1C
     STA.b $1D
 
-    JSL WaterFlood_BuildOneQuadrantForVRAM ; $11C4 IN ROM
+    JSL WaterFlood_BuildOneQuadrantForVRAM ; $0011C4 IN ROM
 
     INC.b $B0
 
@@ -4066,7 +4066,7 @@ Module07_16_UpdatePegs_Step1:
 ; $0117A9-$0117B1 LOCAL JUMP LOCATION
 Module07_16_UpdatePegs_FinishUp:
 {
-    JSL Dungeon_ToggleBarrierAttr ; $C22A IN ROM
+    JSL Dungeon_ToggleBarrierAttr ; $00C22A IN ROM
 
     STZ.b $B0
     STZ.b $11
@@ -5284,7 +5284,7 @@ SetTargetOverworldWarpToPyramid:
         LDY.b #$5A
 
         ; \task address naming of this routine.
-        JSL DecompOwAnimatedTiles ; $5394 IN ROM
+        JSL DecompOwAnimatedTiles ; $005394 IN ROM
 
         ; $011E6E ALTERNATE ENTRY POINT
 
@@ -5683,7 +5683,7 @@ TriforceRoom_Step3:
     LDA.b #$7D : STA.w $0AA3
     LDA.b #$51 : STA.w $0AA2
 
-    JSL InitTilesets ; $619B IN ROM
+    JSL InitTilesets ; $00619B IN ROM
 
     LDX.b #$04
 
@@ -6847,10 +6847,10 @@ Overworld_LoadTransGfx:
     ; Reset the water inside the swamp palace.
     LDA.l $7EF051 : AND.b #$FE : STA.l $7EF051
 
-    ; $566E IN ROM. Load the graphics that have changed during the screen transition.
+    ; $00566E IN ROM. Load the graphics that have changed during the screen transition.
     JSL LoadTransAuxGfx
 
-    ; $5F1A IN ROM. Convert those graphics to 4bpp while copying them into the buffer starting at $7F0000.
+    ; $005F1A IN ROM. Convert those graphics to 4bpp while copying them into the buffer starting at $7F0000.
     ; It's necessary to do it this way because we can't blank the screen (no screen fade / darkness).
     JSL PrepTransAuxGfx
 
@@ -7757,7 +7757,7 @@ Module09_1C:
 ; $013171-$013194 LOCAL JUMP LOCATION
 OverworldMosaicTransition_LoadSpriteGraphicsAndSetMosaic:
 {
-    JSL LoadNewSpriteGFXSet ; $6031 IN ROM
+    JSL LoadNewSpriteGFXSet ; $006031 IN ROM
 
     LDA.b #$0F : STA.b $13
     LDA.b #$80 : STA.b $9B
@@ -7964,7 +7964,7 @@ Overworld_FinishMirrorWarp:
 
     SEP #$20
 
-    JSL $00D788 ; $5788 IN ROM
+    JSL $00D788 ; $005788 IN ROM
     JSL Overworld_SetSongList
 
     LDA.b #$80 : STA.b $9B
@@ -8359,7 +8359,7 @@ Module09_2E_0C_FinalizeWarp:
 {
     LDA.b #$90 : STA.w $031F
 
-    JSL $00D788 ; $5788 IN ROM
+    JSL $00D788 ; $005788 IN ROM
 
     LDA.b #$80 : STA.b $9B
 
@@ -9839,7 +9839,7 @@ UnderworldTransition_ScrollRoom:
         STZ.w $0126
 
         LDA.b $11 : CMP.b #$02 : BNE .BRANCH_EPSILON
-            JSL WaterFlood_BuildOneQuadrantForVRAM ; $11C4 IN ROM
+            JSL WaterFlood_BuildOneQuadrantForVRAM ; $0011C4 IN ROM
 
             RTS
 
@@ -10762,10 +10762,10 @@ Dungeon_LoadAndDrawRoom:
 
     .next_quadrant
 
-        JSL TilemapPrep_NotWaterOnTag ; $11D3 IN ROM ; Draws the dungeons.
-        JSL NMI_UploadTilemap_long ; $10E3 IN ROM ; Since we are in forced v-blank
-        JSL Dungeon_PrepareNextRoomQuadrantUpload ; $113F IN ROM ; We can do these DMA transfers
-        JSL NMI_UploadTilemap_long ; $10E3 IN ROM
+        JSL TilemapPrep_NotWaterOnTag ; $0011D3 IN ROM ; Draws the dungeons.
+        JSL NMI_UploadTilemap_long ; $0010E3 IN ROM ; Since we are in forced v-blank
+        JSL Dungeon_PrepareNextRoomQuadrantUpload ; $00113F IN ROM ; We can do these DMA transfers
+        JSL NMI_UploadTilemap_long ; $0010E3 IN ROM
 
         ; Each iteration draws a quadrant on BG1 and BG2
         ; i.e. it draws the tilemaps, which are taken from WRAM.

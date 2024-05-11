@@ -2331,7 +2331,7 @@ TurtleRockEntrance_Main:
     
     LDA $C8 : AND.b #$07 : BNE .beta
     
-    JSL $00EDB1 ; $6DB1 IN ROM
+    JSL $00EDB1 ; $006DB1 IN ROM
     
     LDA.b #$02 : STA $012F
     
