@@ -11677,7 +11677,7 @@ DoorOpenSFXPan:
     
 ; ==============================================================================
 
-; $00CE70-$00CFEA LONG JUMP LOCATION
+; $00CE70-$00CFE9 LONG JUMP LOCATION
 Dungeon_ProcessTorchAndDoorInteractives:
 {
     LDA.b $1A : AND.b #$03 : BNE .skip_torch_logic
@@ -11875,7 +11875,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     ; Bleeds into the next function.
 }
 
-; $00CFEA-$00D1F3 JUMP LOCATION
+; $00CFEA-$00D1E2 JUMP LOCATION
 DontOpenDoor:
 {    
     SEP #$30
@@ -12009,7 +12009,7 @@ DontOpenDoor:
     
     CMP.w #$006C : BEQ .BRANCH_PSI
     
-    JMP $D18A ; $D18A IN ROM
+    JMP .not_vines ; $00D18A IN ROM
     
     .BRANCH_PSI
     
@@ -12065,12 +12065,14 @@ DontOpenDoor:
     BRA .BRANCH_OPTIMUS
     
     ; $00D18A ALTERNATE ENTRY POINT
+    .not_vines
     
     LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
     
     STX.w $068E
     
-    LDA.w $1980, Y : AND.w #$00FE : CMP.w #$0032 : BNE .BRANCH_ALIF
+    LDA.w $1980, Y : AND.w #$00FE
+    CMP.w #$0032 : BNE RoomDraw_CloseStripes_BRANCH_ALIF
     
     SEP #$20
     
@@ -12107,9 +12109,13 @@ DontOpenDoor:
     ORA.b #$1E : STA.w $012E
     
     REP #$30
-    
-    ; $00D1E3 ALTERNATE ENTRY POINT
-    
+
+    ; Bleeds into the next function.
+}
+
+; $00D1E3-$00D1F3 JUMP LOCATION
+RoomDraw_CloseStripes:
+{
     LDY.b $0C
     
     ; Finalizes the buffer for the future DMA transfer.
@@ -12226,6 +12232,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; ==============================================================================
 
 ; $00D2C9-$00D2E7 JUMP LOCATION (LONG)
+BlowOpenBombableFloor:
 {
     ; \hardcoded Obviously.
     LDA.b $A0 : CMP.w #$0065 : BNE .not_room_above_blind
@@ -12248,6 +12255,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; ==============================================================================
 
 ; $00D2E8-$00D310 LOCAL JUMP LOCATION
+DrawDoorOpening_Step1:
 {
     LDX.w $19A0, Y : STX.b $08
     
@@ -12279,6 +12287,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; ==============================================================================
 
 ; $00D311-$00D339 LOCAL JUMP LOCATION
+DrawShutterDoorSteps:
 {
     ; Load door's tilemap address
     LDX.w $19A0, Y : STX.b $08
@@ -12312,6 +12321,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; ==============================================================================
 
 ; $00D33A-$00D364 LOCAL JUMP LOCATION
+DrawEyeWatchDoor:
 {
     LDX.w $19A0, Y : STX.b $08
     
@@ -12343,6 +12353,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; ==============================================================================
 
 ; $00D365-$00D372 LOCAL JUMP LOCATION
+IndexAndClearCurtainDoor:
 {
     LDX.w $19A0, Y : STX.b $08
     
@@ -12354,6 +12365,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; ==============================================================================
 
 ; $00D373-$00D38E LOCAL JUMP LOCATION
+IndexAndClearExplodingWall:
 {
     STZ.w $045E
     STZ.b $0C
@@ -12953,70 +12965,73 @@ Dungeon_QueryIfTileLiftable:
 
 ; ==============================================================================
 
-; $00D7C0-$00D827 BRANCH LOCATION
-pool PushBlock_Handler:
+; $00D7C0-$00D827 DATA
+Pool_PushBlock_Main:
 {
     .move_distances
     dw -256, 256, -4, 4
+}
     
+; $00D7C8-$ JUMP LOCATION
+PushBlock_Main:
+{
     .check_for_active_block
     
-    LDA.w $0500, Y : BEQ .next_block
-    CMP.w #$0001 : BNE .not_block_phase_1
-    
-    JSR Dungeon_EraseInteractive2x2
-    
-    LDX.w $0474
-    
-    ; Move the block's tilemap position 2 tiles in the
-    ; appropriate direction.
-    LDA.w $0540, Y : CLC : ADC .move_distances, X : STA.w $0540, Y
-    
-    BRA .increment_object_state
-    
-    .not_block_phase_1
-    
-    CMP.w #$0002 : BNE .not_block_phase_2
-    
-    SEP #$30
-    
-    JSL $07EDB5 ; $03EDB5 IN ROM
-    
-    REP #$30
-    
-    LDY.w $042C
-    
-    LDA.w $0500, Y : CMP.w #$0003 : BNE .next_block
-    
-    JSR PushBlock_StoppedMoving
-    
-    BRA .increment_object_state
-    
-    .not_block_phase_2
-    
-    CMP.w #$0004 : BNE .next_block
-    
-    SEP #$20
-    
-    JSL $07EDF9 ; $03EDF9 IN ROM
-    
-    BRA .next_block
-    
-    .increment_object_state
-    
-    LDX.w $042C
-    
-    INC.w $0500, X
-    
-    .next_block
-    
-    INC.w $042C : INC.w $042C
-    
-    ; $00D81B MAIN ENTRY POINT
-PushBlock_Handler:
-    
-    REP #$30
-    
+        LDA.w $0500, Y : BEQ .next_block
+        CMP.w #$0001 : BNE .not_block_phase_1
+        
+        JSR Dungeon_EraseInteractive2x2
+        
+        LDX.w $0474
+        
+        ; Move the block's tilemap position 2 tiles in the
+        ; appropriate direction.
+        LDA.w $0540, Y : CLC : ADC .move_distances, X : STA.w $0540, Y
+        
+        BRA .increment_object_state
+        
+        .not_block_phase_1
+        
+        CMP.w #$0002 : BNE .not_block_phase_2
+        
+        SEP #$30
+        
+        JSL $07EDB5 ; $03EDB5 IN ROM
+        
+        REP #$30
+        
+        LDY.w $042C
+        
+        LDA.w $0500, Y : CMP.w #$0003 : BNE .next_block
+        
+        JSR PushBlock_StoppedMoving
+        
+        BRA .increment_object_state
+        
+        .not_block_phase_2
+        
+        CMP.w #$0004 : BNE .next_block
+        
+        SEP #$20
+        
+        JSL $07EDF9 ; $03EDF9 IN ROM
+        
+        BRA .next_block
+        
+        .increment_object_state
+        
+        LDX.w $042C
+        
+        INC.w $0500, X
+        
+        .next_block
+        
+        INC.w $042C : INC.w $042C
+        
+        ; $00D81B MAIN ENTRY POINT
+        PushBlock_Handler:
+        
+        REP #$30
     LDY.w $042C : CPY.w $0478 : BNE .check_for_active_block
     
     SEP #$30
@@ -13212,32 +13227,41 @@ Dungeon_GetInteractiveVramAddr:
 ; ==============================================================================
 
 ; $00D9BA-$00D9EB DATA
-pool Dungeon_RevealCoveredTiles:
-    ; \task Name this pool / routine.
+Pool_Dungeon_RevealCoveredTiles:
 {
-    ; $D9BA
+    ; $00D9BA
     .y_offsets
-    dw 3, 24, 14, 14
+    dw   3 ; up
+    dw  24 ; down
+    dw  14 ; left
+    dw  14 ; right
     
-    ; $D9C2
+    ; $00D9C2
     .x_offsets
-    dw 7,  7, -3, 16
+    dw   7 ; up
+    dw   7 ; down
+    dw  -3 ; left
+    dw  16 ; right
     
-    ; $D9CA
-      
+    ; $00D9CA
     ; Seems to be \unused ...
-    dw 0, -2, -128, -130
-    dw 0,  0, -128, -128
-    dw 0, -2,    0,   -2
+    .unused
+    dw $0000, $FFFE, $FF80, $FF7E
+    dw $0000, $0000, $FF80, $FF80
+    dw $0000, $FFFE, $0000, $FFFE
     
-    ; $D9E2
-    
-    dw $5252, $5050, $5454, $0000, $2323
+    ; $00D9E2
+    .tile_01d9e0
+    dw $5252 ; hammer pegs
+    dw $5050 ; pots
+    dw $5454
+    dw $0000
+    dw $2323
 }
     
 ; ==============================================================================
 
-; $00D9EC-$00DABA LONG JUMP LOCATION
+; $00D9EC-$00DA70 LONG JUMP LOCATION
 Dungeon_RevealCoveredTiles:
 {
     ; secrets
@@ -13298,15 +13322,18 @@ Dungeon_RevealCoveredTiles:
     
     .not_pot_tiles
     
-    CMP.w #$2020 : BNE .not_large_block
+    CMP.w #$2020 : BNE Pool_Dungeon_ToolAndTileInteraction
     
     LDA.w $0500, Y : AND.w #$000F : ASL A : STA.b $00
     
     TYA : SEC : SBC.b $00
+
+    ; Bleeds into the next function.
+}
     
-    ; $DA71 ALTERNATE ENTRY POINT
-    shared Dungeon_CustomIndexedRevealCoveredTiles:
-    
+; $00DA71-$00DAB5 JUMP LOCATION
+Dungeon_CustomIndexedRevealCoveredTiles:
+{
     STA.w $042C : PHA : TAY
     
     PHY
@@ -13344,12 +13371,13 @@ Dungeon_RevealCoveredTiles:
     SEP #$30
     
     RTL
-    
-    .not_large_block
-    
-    ; $DAB6 ALTERNATE ENTRY POINT
-pool Dungeon_ToolAndTileInteraction:
-    
+}
+
+; ==============================================================================
+
+; $00DAB6-$00DABA JUMP LOCATION
+Pool_Dungeon_ToolAndTileInteraction:
+{
     .easy_out
     
     SEP #$30
@@ -13358,8 +13386,6 @@ pool Dungeon_ToolAndTileInteraction:
     
     RTL
 }
-
-; ==============================================================================
 
 ; $00DABB-$00DB40 JUMP LOCATION
 Dungeon_ToolAndTileInteraction:
@@ -13455,8 +13481,2132 @@ Dungeon_GetUprootedTerrainSpawnCoords:
 ; ==============================================================================
 
 ; $00DB69-$00E6B1
+RoomData_PotItems_Pointers:
 {
-    ; Secrets data
+    #_01DB69: dw RoomData_PotItems_Room0000
+    #_01DB6B: dw RoomData_PotItems_Room0001
+    #_01DB6D: dw RoomData_PotItems_Room0002
+    #_01DB6F: dw RoomData_PotItems_Room0003
+    #_01DB71: dw RoomData_PotItems_Room0004
+    #_01DB73: dw RoomData_PotItems_Room0005
+    #_01DB75: dw RoomData_PotItems_Room0006
+    #_01DB77: dw RoomData_PotItems_Room0007
+    #_01DB79: dw RoomData_PotItems_Room0008
+    #_01DB7B: dw RoomData_PotItems_Room0009
+    #_01DB7D: dw RoomData_PotItems_Room000A
+    #_01DB7F: dw RoomData_PotItems_Room000B
+    #_01DB81: dw RoomData_PotItems_Room000C
+    #_01DB83: dw RoomData_PotItems_Room000D
+    #_01DB85: dw RoomData_PotItems_Room000E
+    #_01DB87: dw RoomData_PotItems_Room000F
+    #_01DB89: dw RoomData_PotItems_Room0010
+    #_01DB8B: dw RoomData_PotItems_Room0011
+    #_01DB8D: dw RoomData_PotItems_Room0012
+    #_01DB8F: dw RoomData_PotItems_Room0013
+    #_01DB91: dw RoomData_PotItems_Room0014
+    #_01DB93: dw RoomData_PotItems_Room0015
+    #_01DB95: dw RoomData_PotItems_Room0016
+    #_01DB97: dw RoomData_PotItems_Room0017
+    #_01DB99: dw RoomData_PotItems_Room0018
+    #_01DB9B: dw RoomData_PotItems_Room0019
+    #_01DB9D: dw RoomData_PotItems_Room001A
+    #_01DB9F: dw RoomData_PotItems_Room001B
+    #_01DBA1: dw RoomData_PotItems_Room001C
+    #_01DBA3: dw RoomData_PotItems_Room001D
+    #_01DBA5: dw RoomData_PotItems_Room001E
+    #_01DBA7: dw RoomData_PotItems_Room001F
+    #_01DBA9: dw RoomData_PotItems_Room0020
+    #_01DBAB: dw RoomData_PotItems_Room0021
+    #_01DBAD: dw RoomData_PotItems_Room0022
+    #_01DBAF: dw RoomData_PotItems_Room0023
+    #_01DBB1: dw RoomData_PotItems_Room0024
+    #_01DBB3: dw RoomData_PotItems_Room0025
+    #_01DBB5: dw RoomData_PotItems_Room0026
+    #_01DBB7: dw RoomData_PotItems_Room0027
+    #_01DBB9: dw RoomData_PotItems_Room0028
+    #_01DBBB: dw RoomData_PotItems_Room0029
+    #_01DBBD: dw RoomData_PotItems_Room002A
+    #_01DBBF: dw RoomData_PotItems_Room002B
+    #_01DBC1: dw RoomData_PotItems_Room002C
+    #_01DBC3: dw RoomData_PotItems_Room002D
+    #_01DBC5: dw RoomData_PotItems_Room002E
+    #_01DBC7: dw RoomData_PotItems_Room002F
+    #_01DBC9: dw RoomData_PotItems_Room0030
+    #_01DBCB: dw RoomData_PotItems_Room0031
+    #_01DBCD: dw RoomData_PotItems_Room0032
+    #_01DBCF: dw RoomData_PotItems_Room0033
+    #_01DBD1: dw RoomData_PotItems_Room0034
+    #_01DBD3: dw RoomData_PotItems_Room0035
+    #_01DBD5: dw RoomData_PotItems_Room0036
+    #_01DBD7: dw RoomData_PotItems_Room0037
+    #_01DBD9: dw RoomData_PotItems_Room0038
+    #_01DBDB: dw RoomData_PotItems_Room0039
+    #_01DBDD: dw RoomData_PotItems_Room003A
+    #_01DBDF: dw RoomData_PotItems_Room003B
+    #_01DBE1: dw RoomData_PotItems_Room003C
+    #_01DBE3: dw RoomData_PotItems_Room003D
+    #_01DBE5: dw RoomData_PotItems_Room003E
+    #_01DBE7: dw RoomData_PotItems_Room003F
+    #_01DBE9: dw RoomData_PotItems_Room0040
+    #_01DBEB: dw RoomData_PotItems_Room0041
+    #_01DBED: dw RoomData_PotItems_Room0042
+    #_01DBEF: dw RoomData_PotItems_Room0043
+    #_01DBF1: dw RoomData_PotItems_Room0044
+    #_01DBF3: dw RoomData_PotItems_Room0045
+    #_01DBF5: dw RoomData_PotItems_Room0046
+    #_01DBF7: dw RoomData_PotItems_Room0047
+    #_01DBF9: dw RoomData_PotItems_Room0048
+    #_01DBFB: dw RoomData_PotItems_Room0049
+    #_01DBFD: dw RoomData_PotItems_Room004A
+    #_01DBFF: dw RoomData_PotItems_Room004B
+    #_01DC01: dw RoomData_PotItems_Room004C
+    #_01DC03: dw RoomData_PotItems_Room004D
+    #_01DC05: dw RoomData_PotItems_Room004E
+    #_01DC07: dw RoomData_PotItems_Room004F
+    #_01DC09: dw RoomData_PotItems_Room0050
+    #_01DC0B: dw RoomData_PotItems_Room0051
+    #_01DC0D: dw RoomData_PotItems_Room0052
+    #_01DC0F: dw RoomData_PotItems_Room0053
+    #_01DC11: dw RoomData_PotItems_Room0054
+    #_01DC13: dw RoomData_PotItems_Room0055
+    #_01DC15: dw RoomData_PotItems_Room0056
+    #_01DC17: dw RoomData_PotItems_Room0057
+    #_01DC19: dw RoomData_PotItems_Room0058
+    #_01DC1B: dw RoomData_PotItems_Room0059
+    #_01DC1D: dw RoomData_PotItems_Room005A
+    #_01DC1F: dw RoomData_PotItems_Room005B
+    #_01DC21: dw RoomData_PotItems_Room005C
+    #_01DC23: dw RoomData_PotItems_Room005D
+    #_01DC25: dw RoomData_PotItems_Room005E
+    #_01DC27: dw RoomData_PotItems_Room005F
+    #_01DC29: dw RoomData_PotItems_Room0060
+    #_01DC2B: dw RoomData_PotItems_Room0061
+    #_01DC2D: dw RoomData_PotItems_Room0062
+    #_01DC2F: dw RoomData_PotItems_Room0063
+    #_01DC31: dw RoomData_PotItems_Room0064
+    #_01DC33: dw RoomData_PotItems_Room0065
+    #_01DC35: dw RoomData_PotItems_Room0066
+    #_01DC37: dw RoomData_PotItems_Room0067
+    #_01DC39: dw RoomData_PotItems_Room0068
+    #_01DC3B: dw RoomData_PotItems_Room0069
+    #_01DC3D: dw RoomData_PotItems_Room006A
+    #_01DC3F: dw RoomData_PotItems_Room006B
+    #_01DC41: dw RoomData_PotItems_Room006C
+    #_01DC43: dw RoomData_PotItems_Room006D
+    #_01DC45: dw RoomData_PotItems_Room006E
+    #_01DC47: dw RoomData_PotItems_Room006F
+    #_01DC49: dw RoomData_PotItems_Room0070
+    #_01DC4B: dw RoomData_PotItems_Room0071
+    #_01DC4D: dw RoomData_PotItems_Room0072
+    #_01DC4F: dw RoomData_PotItems_Room0073
+    #_01DC51: dw RoomData_PotItems_Room0074
+    #_01DC53: dw RoomData_PotItems_Room0075
+    #_01DC55: dw RoomData_PotItems_Room0076
+    #_01DC57: dw RoomData_PotItems_Room0077
+    #_01DC59: dw RoomData_PotItems_Room0078
+    #_01DC5B: dw RoomData_PotItems_Room0079
+    #_01DC5D: dw RoomData_PotItems_Room007A
+    #_01DC5F: dw RoomData_PotItems_Room007B
+    #_01DC61: dw RoomData_PotItems_Room007C
+    #_01DC63: dw RoomData_PotItems_Room007D
+    #_01DC65: dw RoomData_PotItems_Room007E
+    #_01DC67: dw RoomData_PotItems_Room007F
+    #_01DC69: dw RoomData_PotItems_Room0080
+    #_01DC6B: dw RoomData_PotItems_Room0081
+    #_01DC6D: dw RoomData_PotItems_Room0082
+    #_01DC6F: dw RoomData_PotItems_Room0083
+    #_01DC71: dw RoomData_PotItems_Room0084
+    #_01DC73: dw RoomData_PotItems_Room0085
+    #_01DC75: dw RoomData_PotItems_Room0086
+    #_01DC77: dw RoomData_PotItems_Room0087
+    #_01DC79: dw RoomData_PotItems_Room0088
+    #_01DC7B: dw RoomData_PotItems_Room0089
+    #_01DC7D: dw RoomData_PotItems_Room008A
+    #_01DC7F: dw RoomData_PotItems_Room008B
+    #_01DC81: dw RoomData_PotItems_Room008C
+    #_01DC83: dw RoomData_PotItems_Room008D
+    #_01DC85: dw RoomData_PotItems_Room008E
+    #_01DC87: dw RoomData_PotItems_Room008F
+    #_01DC89: dw RoomData_PotItems_Room0090
+    #_01DC8B: dw RoomData_PotItems_Room0091
+    #_01DC8D: dw RoomData_PotItems_Room0092
+    #_01DC8F: dw RoomData_PotItems_Room0093
+    #_01DC91: dw RoomData_PotItems_Room0094
+    #_01DC93: dw RoomData_PotItems_Room0095
+    #_01DC95: dw RoomData_PotItems_Room0096
+    #_01DC97: dw RoomData_PotItems_Room0097
+    #_01DC99: dw RoomData_PotItems_Room0098
+    #_01DC9B: dw RoomData_PotItems_Room0099
+    #_01DC9D: dw RoomData_PotItems_Room009A
+    #_01DC9F: dw RoomData_PotItems_Room009B
+    #_01DCA1: dw RoomData_PotItems_Room009C
+    #_01DCA3: dw RoomData_PotItems_Room009D
+    #_01DCA5: dw RoomData_PotItems_Room009E
+    #_01DCA7: dw RoomData_PotItems_Room009F
+    #_01DCA9: dw RoomData_PotItems_Room00A0
+    #_01DCAB: dw RoomData_PotItems_Room00A1
+    #_01DCAD: dw RoomData_PotItems_Room00A2
+    #_01DCAF: dw RoomData_PotItems_Room00A3
+    #_01DCB1: dw RoomData_PotItems_Room00A4
+    #_01DCB3: dw RoomData_PotItems_Room00A5
+    #_01DCB5: dw RoomData_PotItems_Room00A6
+    #_01DCB7: dw RoomData_PotItems_Room00A7
+    #_01DCB9: dw RoomData_PotItems_Room00A8
+    #_01DCBB: dw RoomData_PotItems_Room00A9
+    #_01DCBD: dw RoomData_PotItems_Room00AA
+    #_01DCBF: dw RoomData_PotItems_Room00AB
+    #_01DCC1: dw RoomData_PotItems_Room00AC
+    #_01DCC3: dw RoomData_PotItems_Room00AD
+    #_01DCC5: dw RoomData_PotItems_Room00AE
+    #_01DCC7: dw RoomData_PotItems_Room00AF
+    #_01DCC9: dw RoomData_PotItems_Room00B0
+    #_01DCCB: dw RoomData_PotItems_Room00B1
+    #_01DCCD: dw RoomData_PotItems_Room00B2
+    #_01DCCF: dw RoomData_PotItems_Room00B3
+    #_01DCD1: dw RoomData_PotItems_Room00B4
+    #_01DCD3: dw RoomData_PotItems_Room00B5
+    #_01DCD5: dw RoomData_PotItems_Room00B6
+    #_01DCD7: dw RoomData_PotItems_Room00B7
+    #_01DCD9: dw RoomData_PotItems_Room00B8
+    #_01DCDB: dw RoomData_PotItems_Room00B9
+    #_01DCDD: dw RoomData_PotItems_Room00BA
+    #_01DCDF: dw RoomData_PotItems_Room00BB
+    #_01DCE1: dw RoomData_PotItems_Room00BC
+    #_01DCE3: dw RoomData_PotItems_Room00BD
+    #_01DCE5: dw RoomData_PotItems_Room00BE
+    #_01DCE7: dw RoomData_PotItems_Room00BF
+    #_01DCE9: dw RoomData_PotItems_Room00C0
+    #_01DCEB: dw RoomData_PotItems_Room00C1
+    #_01DCED: dw RoomData_PotItems_Room00C2
+    #_01DCEF: dw RoomData_PotItems_Room00C3
+    #_01DCF1: dw RoomData_PotItems_Room00C4
+    #_01DCF3: dw RoomData_PotItems_Room00C5
+    #_01DCF5: dw RoomData_PotItems_Room00C6
+    #_01DCF7: dw RoomData_PotItems_Room00C7
+    #_01DCF9: dw RoomData_PotItems_Room00C8
+    #_01DCFB: dw RoomData_PotItems_Room00C9
+    #_01DCFD: dw RoomData_PotItems_Room00CA
+    #_01DCFF: dw RoomData_PotItems_Room00CB
+    #_01DD01: dw RoomData_PotItems_Room00CC
+    #_01DD03: dw RoomData_PotItems_Room00CD
+    #_01DD05: dw RoomData_PotItems_Room00CE
+    #_01DD07: dw RoomData_PotItems_Room00CF
+    #_01DD09: dw RoomData_PotItems_Room00D0
+    #_01DD0B: dw RoomData_PotItems_Room00D1
+    #_01DD0D: dw RoomData_PotItems_Room00D2
+    #_01DD0F: dw RoomData_PotItems_Room00D3
+    #_01DD11: dw RoomData_PotItems_Room00D4
+    #_01DD13: dw RoomData_PotItems_Room00D5
+    #_01DD15: dw RoomData_PotItems_Room00D6
+    #_01DD17: dw RoomData_PotItems_Room00D7
+    #_01DD19: dw RoomData_PotItems_Room00D8
+    #_01DD1B: dw RoomData_PotItems_Room00D9
+    #_01DD1D: dw RoomData_PotItems_Room00DA
+    #_01DD1F: dw RoomData_PotItems_Room00DB
+    #_01DD21: dw RoomData_PotItems_Room00DC
+    #_01DD23: dw RoomData_PotItems_Room00DD
+    #_01DD25: dw RoomData_PotItems_Room00DE
+    #_01DD27: dw RoomData_PotItems_Room00DF
+    #_01DD29: dw RoomData_PotItems_Room00E0
+    #_01DD2B: dw RoomData_PotItems_Room00E1
+    #_01DD2D: dw RoomData_PotItems_Room00E2
+    #_01DD2F: dw RoomData_PotItems_Room00E3
+    #_01DD31: dw RoomData_PotItems_Room00E4
+    #_01DD33: dw RoomData_PotItems_Room00E5
+    #_01DD35: dw RoomData_PotItems_Room00E6
+    #_01DD37: dw RoomData_PotItems_Room00E7
+    #_01DD39: dw RoomData_PotItems_Room00E8
+    #_01DD3B: dw RoomData_PotItems_Room00E9
+    #_01DD3D: dw RoomData_PotItems_Room00EA
+    #_01DD3F: dw RoomData_PotItems_Room00EB
+    #_01DD41: dw RoomData_PotItems_Room00EC
+    #_01DD43: dw RoomData_PotItems_Room00ED
+    #_01DD45: dw RoomData_PotItems_Room00EE
+    #_01DD47: dw RoomData_PotItems_Room00EF
+    #_01DD49: dw RoomData_PotItems_Room00F0
+    #_01DD4B: dw RoomData_PotItems_Room00F1
+    #_01DD4D: dw RoomData_PotItems_Room00F2
+    #_01DD4F: dw RoomData_PotItems_Room00F3
+    #_01DD51: dw RoomData_PotItems_Room00F4
+    #_01DD53: dw RoomData_PotItems_Room00F5
+    #_01DD55: dw RoomData_PotItems_Room00F6
+    #_01DD57: dw RoomData_PotItems_Room00F7
+    #_01DD59: dw RoomData_PotItems_Room00F8
+    #_01DD5B: dw RoomData_PotItems_Room00F9
+    #_01DD5D: dw RoomData_PotItems_Room00FA
+    #_01DD5F: dw RoomData_PotItems_Room00FB
+    #_01DD61: dw RoomData_PotItems_Room00FC
+    #_01DD63: dw RoomData_PotItems_Room00FD
+    #_01DD65: dw RoomData_PotItems_Room00FE
+    #_01DD67: dw RoomData_PotItems_Room00FF
+    #_01DD69: dw RoomData_PotItems_Room0100
+    #_01DD6B: dw RoomData_PotItems_Room0101
+    #_01DD6D: dw RoomData_PotItems_Room0102
+    #_01DD6F: dw RoomData_PotItems_Room0103
+    #_01DD71: dw RoomData_PotItems_Room0104
+    #_01DD73: dw RoomData_PotItems_Room0105
+    #_01DD75: dw RoomData_PotItems_Room0106
+    #_01DD77: dw RoomData_PotItems_Room0107
+    #_01DD79: dw RoomData_PotItems_Room0108
+    #_01DD7B: dw RoomData_PotItems_Room0109
+    #_01DD7D: dw RoomData_PotItems_Room010A
+    #_01DD7F: dw RoomData_PotItems_Room010B
+    #_01DD81: dw RoomData_PotItems_Room010C
+    #_01DD83: dw RoomData_PotItems_Room010D
+    #_01DD85: dw RoomData_PotItems_Room010E
+    #_01DD87: dw RoomData_PotItems_Room010F
+    #_01DD89: dw RoomData_PotItems_Room0110
+    #_01DD8B: dw RoomData_PotItems_Room0111
+    #_01DD8D: dw RoomData_PotItems_Room0112
+    #_01DD8F: dw RoomData_PotItems_Room0113
+    #_01DD91: dw RoomData_PotItems_Room0114
+    #_01DD93: dw RoomData_PotItems_Room0115
+    #_01DD95: dw RoomData_PotItems_Room0116
+    #_01DD97: dw RoomData_PotItems_Room0117
+    #_01DD99: dw RoomData_PotItems_Room0118
+    #_01DD9B: dw RoomData_PotItems_Room0119
+    #_01DD9D: dw RoomData_PotItems_Room011A
+    #_01DD9F: dw RoomData_PotItems_Room011B
+    #_01DDA1: dw RoomData_PotItems_Room011C
+    #_01DDA3: dw RoomData_PotItems_Room011D
+    #_01DDA5: dw RoomData_PotItems_Room011E
+    #_01DDA7: dw RoomData_PotItems_Room011F
+    #_01DDA9: dw RoomData_PotItems_Room0120
+    #_01DDAB: dw RoomData_PotItems_Room0121
+    #_01DDAD: dw RoomData_PotItems_Room0122
+    #_01DDAF: dw RoomData_PotItems_Room0123
+    #_01DDB1: dw RoomData_PotItems_Room0124
+    #_01DDB3: dw RoomData_PotItems_Room0125
+    #_01DDB5: dw RoomData_PotItems_Room0126
+    #_01DDB7: dw RoomData_PotItems_Room0127
+    #_01DDB9: dw RoomData_PotItems_Room0128
+    #_01DDBB: dw RoomData_PotItems_Room0129
+    #_01DDBD: dw RoomData_PotItems_Room012A
+    #_01DDBF: dw RoomData_PotItems_Room012B
+    #_01DDC1: dw RoomData_PotItems_Room012C
+    #_01DDC3: dw RoomData_PotItems_Room012D
+    #_01DDC5: dw RoomData_PotItems_Room012E
+    #_01DDC7: dw RoomData_PotItems_Room012F
+    #_01DDC9: dw RoomData_PotItems_Room0130
+    #_01DDCB: dw RoomData_PotItems_Room0131
+    #_01DDCD: dw RoomData_PotItems_Room0132
+    #_01DDCF: dw RoomData_PotItems_Room0133
+    #_01DDD1: dw RoomData_PotItems_Room0134
+    #_01DDD3: dw RoomData_PotItems_Room0135
+    #_01DDD5: dw RoomData_PotItems_Room0136
+    #_01DDD7: dw RoomData_PotItems_Room0137
+    #_01DDD9: dw RoomData_PotItems_Room0138
+    #_01DDDB: dw RoomData_PotItems_Room0139
+    #_01DDDD: dw RoomData_PotItems_Room013A
+    #_01DDDF: dw RoomData_PotItems_Room013B
+    #_01DDE1: dw RoomData_PotItems_Room013C
+    #_01DDE3: dw RoomData_PotItems_Room013D
+    #_01DDE5: dw RoomData_PotItems_Room013E
+    #_01DDE7: dw RoomData_PotItems_Room013F
+}
+
+RoomData_PotItems_Room0000:
+RoomData_PotItems_Room0001:
+RoomData_PotItems_Room0002:
+RoomData_PotItems_Room0003:
+{
+    #_01DDE9: dw $FFFF
+}
+
+RoomData_PotItems_Room0004:
+{
+    #_01DDEB: dw $13CC : db $0A ; Bomb         xyz:{ 0x130, 0x130, U }
+    #_01DDEE: dw $13F0 : db $0A ; Bomb         xyz:{ 0x1C0, 0x130, U }
+}
+
+RoomData_PotItems_Room0005:
+RoomData_PotItems_Room0006:
+RoomData_PotItems_Room0007:
+RoomData_PotItems_Room0008:
+{
+    #_01DDF1: dw $FFFF
+}
+
+RoomData_PotItems_Room0009:
+{
+    #_01DDF3: dw $040C : db $01 ; Green rupee  xyz:{ 0x030, 0x040, U }
+    #_01DDF6: dw $0430 : db $0B ; Heart        xyz:{ 0x0C0, 0x040, U }
+    #_01DDF9: dw $0C0C : db $88 ; Switch       xyz:{ 0x030, 0x0C0, U }
+    #_01DDFC: dw $FFFF
+}
+
+RoomData_PotItems_Room000A:
+{
+    #_01DDFE: dw $0860 : db $0B ; Heart        xyz:{ 0x180, 0x080, U }
+    #_01DE01: dw $0868 : db $0B ; Heart        xyz:{ 0x1A0, 0x080, U }
+    #_01DE04: dw $0BCC : db $88 ; Switch       xyz:{ 0x130, 0x0B0, U }
+    #_01DE07: dw $119C : db $0A ; Bomb         xyz:{ 0x070, 0x110, U }
+    #_01DE0A: dw $11A0 : db $09 ; 5 arrows     xyz:{ 0x080, 0x110, U }
+    #_01DE0D: dw $FFFF
+}
+
+RoomData_PotItems_Room000B:
+{
+    #_01DE0F: dw $03CA : db $0A ; Bomb         xyz:{ 0x128, 0x030, U }
+    #_01DE12: dw $0CCA : db $0A ; Bomb         xyz:{ 0x128, 0x0C0, U }
+}
+
+RoomData_PotItems_Room000C:
+RoomData_PotItems_Room000D:
+RoomData_PotItems_Room000E:
+RoomData_PotItems_Room000F:
+RoomData_PotItems_Room0010:
+{
+    #_01DE15: dw $FFFF
+}
+
+
+RoomData_PotItems_Room0011:
+{
+    #_01DE17: dw $0F90 : db $0B ; Heart        xyz:{ 0x040, 0x0F0, U }
+    #_01DE1A: dw $0FA0 : db $0B ; Heart        xyz:{ 0x080, 0x0F0, U }
+    #_01DE1D: dw $1390 : db $0B ; Heart        xyz:{ 0x040, 0x130, U }
+    #_01DE20: dw $13A0 : db $0B ; Heart        xyz:{ 0x080, 0x130, U }
+}
+
+RoomData_PotItems_Room0012:
+RoomData_PotItems_Room0013:
+RoomData_PotItems_Room0014:
+{
+    #_01DE23: dw $FFFF
+}
+
+RoomData_PotItems_Room0015:
+{
+    #_01DE25: dw $0460 : db $0A ; Bomb         xyz:{ 0x180, 0x040, U }
+    #_01DE28: dw $0464 : db $0C ; Small magic  xyz:{ 0x190, 0x040, U }
+    #_01DE2B: dw $0468 : db $0B ; Heart        xyz:{ 0x1A0, 0x040, U }
+    #_01DE2E: dw $046C : db $0C ; Small magic  xyz:{ 0x1B0, 0x040, U }
+    #_01DE31: dw $0470 : db $09 ; 5 arrows     xyz:{ 0x1C0, 0x040, U }
+    #_01DE34: dw $060C : db $01 ; Green rupee  xyz:{ 0x030, 0x060, U }
+    #_01DE37: dw $0610 : db $09 ; 5 arrows     xyz:{ 0x040, 0x060, U }
+    #_01DE3A: dw $0614 : db $07 ; Blue rupee   xyz:{ 0x050, 0x060, U }
+    #_01DE3D: dw $0B46 : db $0D ; Full magic   xyz:{ 0x118, 0x0B0, U }
+    #_01DE40: dw $FFFF
+}
+
+RoomData_PotItems_Room0016:
+{
+    #_01DE42: dw $03BC : db $0B ; Heart        xyz:{ 0x0F0, 0x030, U }
+    #_01DE45: dw $03C0 : db $0B ; Heart        xyz:{ 0x100, 0x030, U }
+    #_01DE48: dw $04BC : db $0C ; Small magic  xyz:{ 0x0F0, 0x040, U }
+    #_01DE4B: dw $04C0 : db $0C ; Small magic  xyz:{ 0x100, 0x040, U }
+    #_01DE4E: dw $05BC : db $09 ; 5 arrows     xyz:{ 0x0F0, 0x050, U }
+    #_01DE51: dw $05C0 : db $09 ; 5 arrows     xyz:{ 0x100, 0x050, U }
+    #_01DE54: dw $06BC : db $0A ; Bomb         xyz:{ 0x0F0, 0x060, U }
+    #_01DE57: dw $06C0 : db $0A ; Bomb         xyz:{ 0x100, 0x060, U }
+    #_01DE5A: dw $13F0 : db $08 ; Small key    xyz:{ 0x1C0, 0x130, U }
+    #_01DE5D: dw $FFFF
+}
+
+RoomData_PotItems_Room0017:
+{
+    #_01DE5F: dw $0D64 : db $0B ; Heart        xyz:{ 0x190, 0x0D0, U }
+    #_01DE62: dw $0E64 : db $0B ; Heart        xyz:{ 0x190, 0x0E0, U }
+    #_01DE65: dw $0F64 : db $0B ; Heart        xyz:{ 0x190, 0x0F0, U }
+    #_01DE68: dw $1064 : db $0B ; Heart        xyz:{ 0x190, 0x100, U }
+    #_01DE6B: dw $1164 : db $0B ; Heart        xyz:{ 0x190, 0x110, U }
+    #_01DE6E: dw $1264 : db $0B ; Heart        xyz:{ 0x190, 0x120, U }
+    #_01DE71: dw $0D68 : db $0B ; Heart        xyz:{ 0x1A0, 0x0D0, U }
+    #_01DE74: dw $0E68 : db $0B ; Heart        xyz:{ 0x1A0, 0x0E0, U }
+    #_01DE77: dw $0F68 : db $0B ; Heart        xyz:{ 0x1A0, 0x0F0, U }
+    #_01DE7A: dw $1068 : db $0B ; Heart        xyz:{ 0x1A0, 0x100, U }
+    #_01DE7D: dw $1168 : db $0B ; Heart        xyz:{ 0x1A0, 0x110, U }
+    #_01DE80: dw $1268 : db $0B ; Heart        xyz:{ 0x1A0, 0x120, U }
+}
+
+RoomData_PotItems_Room0018:
+RoomData_PotItems_Room0019:
+{
+    #_01DE83: dw $FFFF
+}
+
+RoomData_PotItems_Room001A:
+{
+    #_01DE85: dw $051C : db $0A ; Bomb         xyz:{ 0x070, 0x050, U }
+    #_01DE88: dw $0520 : db $0A ; Bomb         xyz:{ 0x080, 0x050, U }
+    #_01DE8B: dw $1B1C : db $0A ; Bomb         xyz:{ 0x070, 0x1B0, U }
+    #_01DE8E: dw $1B20 : db $0A ; Bomb         xyz:{ 0x080, 0x1B0, U }
+    #_01DE91: dw $FFFF
+}
+
+RoomData_PotItems_Room001B:
+{
+    #_01DE93: dw $1714 : db $09 ; 5 arrows     xyz:{ 0x050, 0x170, U }
+    #_01DE96: dw $1728 : db $09 ; 5 arrows     xyz:{ 0x0A0, 0x170, U }
+}
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room001C:
+RoomData_PotItems_Room001D:
+#_01DE99: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room001E:
+#_01DE9B: dw $0954 : db $0A ; Bomb         xyz:{ 0x150, 0x090, U }
+#_01DE9E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room001F:
+#_01DEA0: dw $191C : db $88 ; Switch       xyz:{ 0x070, 0x190, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0020:
+#_01DEA3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0021:
+#_01DEA5: dw $18A8 : db $0C ; Small magic  xyz:{ 0x0A0, 0x180, U }
+#_01DEA8: dw $1C30 : db $0B ; Heart        xyz:{ 0x0C0, 0x1C0, U }
+#_01DEAB: dw $1C52 : db $0C ; Small magic  xyz:{ 0x148, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0022:
+#_01DEAE: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0023:
+#_01DEB0: dw $1A56 : db $01 ; Green rupee  xyz:{ 0x158, 0x1A0, U }
+#_01DEB3: dw $1A5A : db $0B ; Heart        xyz:{ 0x168, 0x1A0, U }
+#_01DEB6: dw $1A5E : db $01 ; Green rupee  xyz:{ 0x178, 0x1A0, U }
+#_01DEB9: dw $1A62 : db $0A ; Bomb         xyz:{ 0x188, 0x1A0, U }
+#_01DEBC: dw $1A66 : db $01 ; Green rupee  xyz:{ 0x198, 0x1A0, U }
+#_01DEBF: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0024:
+#_01DEC1: dw $040C : db $07 ; Blue rupee   xyz:{ 0x030, 0x040, U }
+#_01DEC4: dw $0430 : db $0B ; Heart        xyz:{ 0x0C0, 0x040, U }
+#_01DEC7: dw $0C0C : db $0C ; Small magic  xyz:{ 0x030, 0x0C0, U }
+#_01DECA: dw $0C30 : db $01 ; Green rupee  xyz:{ 0x0C0, 0x0C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0025:
+#_01DECD: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0026:
+#_01DECF: dw $041C : db $0A ; Bomb         xyz:{ 0x070, 0x040, U }
+#_01DED2: dw $080C : db $0C ; Small magic  xyz:{ 0x030, 0x080, U }
+#_01DED5: dw $1396 : db $88 ; Switch       xyz:{ 0x058, 0x130, U }
+#_01DED8: dw $1A16 : db $07 ; Blue rupee   xyz:{ 0x058, 0x1A0, U }
+#_01DEDB: dw $1ADC : db $09 ; 5 arrows     xyz:{ 0x170, 0x1A0, U }
+#_01DEDE: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0027:
+#_01DEE0: dw $14A6 : db $0A ; Bomb         xyz:{ 0x098, 0x140, U }
+#_01DEE3: dw $15D6 : db $0B ; Heart        xyz:{ 0x158, 0x150, U }
+#_01DEE6: dw $1C28 : db $01 ; Green rupee  xyz:{ 0x0A0, 0x1C0, U }
+#_01DEE9: dw $1C2C : db $01 ; Green rupee  xyz:{ 0x0B0, 0x1C0, U }
+#_01DEEC: dw $1C50 : db $07 ; Blue rupee   xyz:{ 0x140, 0x1C0, U }
+#_01DEEF: dw $1C54 : db $07 ; Blue rupee   xyz:{ 0x150, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0028:
+RoomData_PotItems_Room0029:
+#_01DEF2: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room002A:
+#_01DEF4: dw $0C50 : db $01 ; Green rupee  xyz:{ 0x140, 0x0C0, U }
+#_01DEF7: dw $1350 : db $0B ; Heart        xyz:{ 0x140, 0x130, U }
+#_01DEFA: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room002B:
+#_01DEFC: dw $0510 : db $0B ; Heart        xyz:{ 0x040, 0x050, U }
+#_01DEFF: dw $052C : db $88 ; Switch       xyz:{ 0x0B0, 0x050, U }
+#_01DF02: dw $0610 : db $0B ; Heart        xyz:{ 0x040, 0x060, U }
+#_01DF05: dw $062C : db $0A ; Bomb         xyz:{ 0x0B0, 0x060, U }
+#_01DF08: dw $0710 : db $0B ; Heart        xyz:{ 0x040, 0x070, U }
+#_01DF0B: dw $072C : db $0A ; Bomb         xyz:{ 0x0B0, 0x070, U }
+#_01DF0E: dw $1592 : db $0A ; Bomb         xyz:{ 0x048, 0x150, U }
+#_01DF11: dw $15AA : db $09 ; 5 arrows     xyz:{ 0x0A8, 0x150, U }
+#_01DF14: dw $1692 : db $0A ; Bomb         xyz:{ 0x048, 0x160, U }
+#_01DF17: dw $16AA : db $09 ; 5 arrows     xyz:{ 0x0A8, 0x160, U }
+#_01DF1A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room002C:
+#_01DF1C: dw $186C : db $0B ; Heart        xyz:{ 0x1B0, 0x180, U }
+#_01DF1F: dw $1870 : db $0B ; Heart        xyz:{ 0x1C0, 0x180, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room002D:
+RoomData_PotItems_Room002E:
+#_01DF22: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room002F:
+#_01DF24: dw $071C : db $0B ; Heart        xyz:{ 0x070, 0x070, U }
+#_01DF27: dw $0720 : db $0B ; Heart        xyz:{ 0x080, 0x070, U }
+#_01DF2A: dw $091C : db $07 ; Blue rupee   xyz:{ 0x070, 0x090, U }
+#_01DF2D: dw $0920 : db $07 ; Blue rupee   xyz:{ 0x080, 0x090, U }
+#_01DF30: dw $13AC : db $07 ; Blue rupee   xyz:{ 0x0B0, 0x130, U }
+#_01DF33: dw $13B4 : db $07 ; Blue rupee   xyz:{ 0x0D0, 0x130, U }
+#_01DF36: dw $1B68 : db $0B ; Heart        xyz:{ 0x1A0, 0x1B0, U }
+#_01DF39: dw $1C68 : db $0B ; Heart        xyz:{ 0x1A0, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0030:
+#_01DF3C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0031:
+#_01DF3E: dw $1C5C : db $0A ; Bomb         xyz:{ 0x170, 0x1C0, U }
+#_01DF41: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0032:
+#_01DF43: dw $0D1C : db $0C ; Small magic  xyz:{ 0x070, 0x0D0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0033:
+#_01DF46: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0034:
+#_01DF48: dw $084E : db $07 ; Blue rupee   xyz:{ 0x138, 0x080, U }
+#_01DF4B: dw $085C : db $07 ; Blue rupee   xyz:{ 0x170, 0x080, U }
+#_01DF4E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0035:
+#_01DF50: dw $063C : db $08 ; Small key    xyz:{ 0x0F0, 0x060, U }
+#_01DF53: dw $0814 : db $07 ; Blue rupee   xyz:{ 0x050, 0x080, U }
+#_01DF56: dw $0818 : db $07 ; Blue rupee   xyz:{ 0x060, 0x080, U }
+#_01DF59: dw $081C : db $07 ; Blue rupee   xyz:{ 0x070, 0x080, U }
+#_01DF5C: dw $0820 : db $07 ; Blue rupee   xyz:{ 0x080, 0x080, U }
+#_01DF5F: dw $0824 : db $07 ; Blue rupee   xyz:{ 0x090, 0x080, U }
+#_01DF62: dw $1430 : db $0B ; Heart        xyz:{ 0x0C0, 0x140, U }
+#_01DF65: dw $1770 : db $0B ; Heart        xyz:{ 0x1C0, 0x170, U }
+#_01DF68: dw $1C4C : db $0B ; Heart        xyz:{ 0x130, 0x1C0, U }
+#_01DF6B: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0036:
+#_01DF6D: dw $046C : db $0A ; Bomb         xyz:{ 0x1B0, 0x040, U }
+#_01DF70: dw $0470 : db $07 ; Blue rupee   xyz:{ 0x1C0, 0x040, U }
+#_01DF73: dw $100A : db $0B ; Heart        xyz:{ 0x028, 0x100, U }
+#_01DF76: dw $1072 : db $08 ; Small key    xyz:{ 0x1C8, 0x100, U }
+#_01DF79: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0037:
+#_01DF7B: dw $063C : db $08 ; Small key    xyz:{ 0x0F0, 0x060, U }
+#_01DF7E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0038:
+#_01DF80: dw $0CA4 : db $0A ; Bomb         xyz:{ 0x090, 0x0C0, U }
+#_01DF83: dw $0DA4 : db $07 ; Blue rupee   xyz:{ 0x090, 0x0D0, U }
+#_01DF86: dw $12A4 : db $0A ; Bomb         xyz:{ 0x090, 0x120, U }
+#_01DF89: dw $13A4 : db $08 ; Small key    xyz:{ 0x090, 0x130, U }
+#_01DF8C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0039:
+#_01DF8E: dw $140C : db $0B ; Heart        xyz:{ 0x030, 0x140, U }
+#_01DF91: dw $1664 : db $0C ; Small magic  xyz:{ 0x190, 0x160, U }
+#_01DF94: dw $1A64 : db $09 ; 5 arrows     xyz:{ 0x190, 0x1A0, U }
+#_01DF97: dw $1C30 : db $09 ; 5 arrows     xyz:{ 0x0C0, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room003A:
+RoomData_PotItems_Room003B:
+#_01DF9A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room003C:
+#_01DF9C: dw $0818 : db $0C ; Small magic  xyz:{ 0x060, 0x080, U }
+#_01DF9F: dw $0C40 : db $07 ; Blue rupee   xyz:{ 0x100, 0x0C0, U }
+#_01DFA2: dw $0E14 : db $01 ; Green rupee  xyz:{ 0x050, 0x0E0, U }
+#_01DFA5: dw $1244 : db $07 ; Blue rupee   xyz:{ 0x110, 0x120, U }
+#_01DFA8: dw $1360 : db $0B ; Heart        xyz:{ 0x180, 0x130, U }
+#_01DFAB: dw $1440 : db $07 ; Blue rupee   xyz:{ 0x100, 0x140, U }
+#_01DFAE: dw $1A40 : db $07 ; Blue rupee   xyz:{ 0x100, 0x1A0, U }
+#_01DFB1: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room003D:
+#_01DFB3: dw $0C4C : db $0A ; Bomb         xyz:{ 0x130, 0x0C0, U }
+#_01DFB6: dw $0C70 : db $0A ; Bomb         xyz:{ 0x1C0, 0x0C0, U }
+#_01DFB9: dw $1618 : db $0B ; Heart        xyz:{ 0x060, 0x160, U }
+#_01DFBC: dw $1628 : db $09 ; 5 arrows     xyz:{ 0x0A0, 0x160, U }
+#_01DFBF: dw $1820 : db $0B ; Heart        xyz:{ 0x080, 0x180, U }
+#_01DFC2: dw $1A14 : db $07 ; Blue rupee   xyz:{ 0x050, 0x1A0, U }
+#_01DFC5: dw $1A24 : db $0D ; Full magic   xyz:{ 0x090, 0x1A0, U }
+#_01DFC8: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room003E:
+#_01DFCA: dw $0660 : db $0A ; Bomb         xyz:{ 0x180, 0x060, U }
+#_01DFCD: dw $0664 : db $0C ; Small magic  xyz:{ 0x190, 0x060, U }
+#_01DFD0: dw $0A58 : db $0B ; Heart        xyz:{ 0x160, 0x0A0, U }
+#_01DFD3: dw $0A5C : db $0C ; Small magic  xyz:{ 0x170, 0x0A0, U }
+#_01DFD6: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room003F:
+#_01DFD8: dw $190C : db $01 ; Green rupee  xyz:{ 0x030, 0x190, U }
+#_01DFDB: dw $1914 : db $01 ; Green rupee  xyz:{ 0x050, 0x190, U }
+#_01DFDE: dw $1A0C : db $0A ; Bomb         xyz:{ 0x030, 0x1A0, U }
+#_01DFE1: dw $1A14 : db $0A ; Bomb         xyz:{ 0x050, 0x1A0, U }
+#_01DFE4: dw $1B0C : db $88 ; Switch       xyz:{ 0x030, 0x1B0, U }
+#_01DFE7: dw $1B14 : db $0B ; Heart        xyz:{ 0x050, 0x1B0, U }
+#_01DFEA: dw $171C : db $08 ; Small key    xyz:{ 0x070, 0x170, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0040:
+#_01DFED: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0041:
+#_01DFEF: dw $0A64 : db $0B ; Heart        xyz:{ 0x190, 0x0A0, U }
+#_01DFF2: dw $0F34 : db $01 ; Green rupee  xyz:{ 0x0D0, 0x0F0, U }
+#_01DFF5: dw $1034 : db $0C ; Small magic  xyz:{ 0x0D0, 0x100, U }
+#_01DFF8: dw $1694 : db $0C ; Small magic  xyz:{ 0x050, 0x160, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0042:
+#_01DFFB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0043:
+#_01DFFD: dw $0442 : db $09 ; 5 arrows     xyz:{ 0x108, 0x040, U }
+#_01E000: dw $044E : db $0C ; Small magic  xyz:{ 0x138, 0x040, U }
+#_01E003: dw $0942 : db $0B ; Heart        xyz:{ 0x108, 0x090, U }
+#_01E006: dw $094E : db $0B ; Heart        xyz:{ 0x138, 0x090, U }
+#_01E009: dw $1470 : db $08 ; Small key    xyz:{ 0x1C0, 0x140, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0044:
+#_01E00C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0045:
+#_01E00E: dw $040C : db $09 ; 5 arrows     xyz:{ 0x030, 0x040, U }
+#_01E011: dw $0B6C : db $0B ; Heart        xyz:{ 0x1B0, 0x0B0, U }
+#_01E014: dw $0C30 : db $09 ; 5 arrows     xyz:{ 0x0C0, 0x0C0, U }
+#_01E017: dw $10DC : db $0C ; Small magic  xyz:{ 0x170, 0x100, U }
+#_01E01A: dw $10EC : db $0B ; Heart        xyz:{ 0x1B0, 0x100, U }
+#_01E01D: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0046:
+#_01E01F: dw $0560 : db $0B ; Heart        xyz:{ 0x180, 0x050, U }
+#_01E022: dw $1B1C : db $0B ; Heart        xyz:{ 0x070, 0x1B0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0047:
+RoomData_PotItems_Room0048:
+#_01E025: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0049:
+#_01E027: dw $0F68 : db $0C ; Small magic  xyz:{ 0x1A0, 0x0F0, U }
+#_01E02A: dw $1068 : db $0C ; Small magic  xyz:{ 0x1A0, 0x100, U }
+#_01E02D: dw $1390 : db $0C ; Small magic  xyz:{ 0x040, 0x130, U }
+#_01E030: dw $14AC : db $0B ; Heart        xyz:{ 0x0B0, 0x140, U }
+#_01E033: dw $1B90 : db $0B ; Heart        xyz:{ 0x040, 0x1B0, U }
+#_01E036: dw $1CAC : db $0C ; Small magic  xyz:{ 0x0B0, 0x1C0, U }
+#_01E039: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room004A:
+#_01E03B: dw $050E : db $88 ; Switch       xyz:{ 0x038, 0x050, U }
+#_01E03E: dw $0520 : db $0A ; Bomb         xyz:{ 0x080, 0x050, U }
+#_01E041: dw $055C : db $0A ; Bomb         xyz:{ 0x170, 0x050, U }
+#_01E044: dw $056E : db $88 ; Switch       xyz:{ 0x1B8, 0x050, U }
+#_01E047: dw $0838 : db $0A ; Bomb         xyz:{ 0x0E0, 0x080, U }
+#_01E04A: dw $0844 : db $0A ; Bomb         xyz:{ 0x110, 0x080, U }
+#_01E04D: dw $0B0E : db $0B ; Heart        xyz:{ 0x038, 0x0B0, U }
+#_01E050: dw $0B20 : db $01 ; Green rupee  xyz:{ 0x080, 0x0B0, U }
+#_01E053: dw $0B5C : db $01 ; Green rupee  xyz:{ 0x170, 0x0B0, U }
+#_01E056: dw $0B6E : db $0B ; Heart        xyz:{ 0x1B8, 0x0B0, U }
+#_01E059: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room004B:
+#_01E05B: dw $0614 : db $09 ; 5 arrows     xyz:{ 0x050, 0x060, U }
+#_01E05E: dw $0628 : db $0B ; Heart        xyz:{ 0x0A0, 0x060, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room004C:
+RoomData_PotItems_Room004D:
+#_01E061: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room004E:
+#_01E063: dw $0B8C : db $88 ; Switch       xyz:{ 0x030, 0x0B0, U }
+#_01E066: dw $0C1C : db $0B ; Heart        xyz:{ 0x070, 0x0C0, U }
+#_01E069: dw $0C70 : db $0C ; Small magic  xyz:{ 0x1C0, 0x0C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room004F:
+#_01E06C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0050:
+#_01E06E: dw $2660 : db $0B ; Heart        xyz:{ 0x180, 0x060, L }
+#_01E071: dw $2664 : db $0B ; Heart        xyz:{ 0x190, 0x060, L }
+
+RoomData_PotItems_Room0051:
+#_01E074: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0052:
+#_01E076: dw $038A : db $0B ; Heart        xyz:{ 0x028, 0x030, U }
+#_01E079: dw $1AC2 : db $0B ; Heart        xyz:{ 0x108, 0x1A0, U }
+#_01E07C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0053:
+#_01E07E: dw $0B5C : db $0B ; Heart        xyz:{ 0x170, 0x0B0, U }
+#_01E081: dw $0B60 : db $0C ; Small magic  xyz:{ 0x180, 0x0B0, U }
+#_01E084: dw $0B64 : db $08 ; Small key    xyz:{ 0x190, 0x0B0, U }
+#_01E087: dw $0B68 : db $0B ; Heart        xyz:{ 0x1A0, 0x0B0, U }
+#_01E08A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0054:
+#_01E08C: dw $19BA : db $07 ; Blue rupee   xyz:{ 0x0E8, 0x190, U }
+#_01E08F: dw $1ABA : db $0B ; Heart        xyz:{ 0x0E8, 0x1A0, U }
+#_01E092: dw $1BBA : db $0B ; Heart        xyz:{ 0x0E8, 0x1B0, U }
+#_01E095: dw $1CBA : db $0B ; Heart        xyz:{ 0x0E8, 0x1C0, U }
+#_01E098: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0055:
+#_01E09A: dw $18E6 : db $0C ; Small magic  xyz:{ 0x198, 0x180, U }
+#_01E09D: dw $19E6 : db $0C ; Small magic  xyz:{ 0x198, 0x190, U }
+#_01E0A0: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0056:
+#_01E0A2: dw $0614 : db $0C ; Small magic  xyz:{ 0x050, 0x060, U }
+#_01E0A5: dw $0628 : db $0C ; Small magic  xyz:{ 0x0A0, 0x060, U }
+#_01E0A8: dw $0718 : db $0C ; Small magic  xyz:{ 0x060, 0x070, U }
+#_01E0AB: dw $0724 : db $0C ; Small magic  xyz:{ 0x090, 0x070, U }
+#_01E0AE: dw $080C : db $0B ; Heart        xyz:{ 0x030, 0x080, U }
+#_01E0B1: dw $0830 : db $0B ; Heart        xyz:{ 0x0C0, 0x080, U }
+#_01E0B4: dw $0918 : db $0C ; Small magic  xyz:{ 0x060, 0x090, U }
+#_01E0B7: dw $0924 : db $0C ; Small magic  xyz:{ 0x090, 0x090, U }
+#_01E0BA: dw $0A14 : db $07 ; Blue rupee   xyz:{ 0x050, 0x0A0, U }
+#_01E0BD: dw $0A28 : db $07 ; Blue rupee   xyz:{ 0x0A0, 0x0A0, U }
+#_01E0C0: dw $140C : db $08 ; Small key    xyz:{ 0x030, 0x140, U }
+#_01E0C3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0057:
+#_01E0C5: dw $075C : db $0D ; Full magic   xyz:{ 0x170, 0x070, U }
+#_01E0C8: dw $140C : db $0C ; Small magic  xyz:{ 0x030, 0x140, U }
+#_01E0CB: dw $175C : db $0A ; Bomb         xyz:{ 0x170, 0x170, U }
+#_01E0CE: dw $1764 : db $0C ; Small magic  xyz:{ 0x190, 0x170, U }
+#_01E0D1: dw $1954 : db $07 ; Blue rupee   xyz:{ 0x150, 0x190, U }
+#_01E0D4: dw $1B4C : db $0B ; Heart        xyz:{ 0x130, 0x1B0, U }
+#_01E0D7: dw $1430 : db $0C ; Small magic  xyz:{ 0x0C0, 0x140, U }
+#_01E0DA: dw $161E : db $88 ; Switch       xyz:{ 0x078, 0x160, U }
+#_01E0DD: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0058:
+#_01E0DF: dw $0560 : db $0A ; Bomb         xyz:{ 0x180, 0x050, U }
+#_01E0E2: dw $0564 : db $0C ; Small magic  xyz:{ 0x190, 0x050, U }
+#_01E0E5: dw $070C : db $0C ; Small magic  xyz:{ 0x030, 0x070, U }
+#_01E0E8: dw $075C : db $0B ; Heart        xyz:{ 0x170, 0x070, U }
+#_01E0EB: dw $076C : db $0B ; Heart        xyz:{ 0x1B0, 0x070, U }
+#_01E0EE: dw $0810 : db $0C ; Small magic  xyz:{ 0x040, 0x080, U }
+#_01E0F1: dw $0964 : db $0C ; Small magic  xyz:{ 0x190, 0x090, U }
+#_01E0F4: dw $0968 : db $0A ; Bomb         xyz:{ 0x1A0, 0x090, U }
+#_01E0F7: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0059:
+#_01E0F9: dw $2B1A : db $0B ; Heart        xyz:{ 0x068, 0x0B0, L }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room005A:
+#_01E0FC: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room005B:
+#_01E0FE: dw $25DE : db $88 ; Switch       xyz:{ 0x178, 0x050, L }
+#_01E101: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room005C:
+#_01E103: dw $165E : db $0A ; Bomb         xyz:{ 0x178, 0x160, U }
+#_01E106: dw $1A5E : db $0D ; Full magic   xyz:{ 0x178, 0x1A0, U }
+#_01E109: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room005D:
+#_01E10B: dw $0510 : db $0A ; Bomb         xyz:{ 0x040, 0x050, U }
+#_01E10E: dw $052C : db $07 ; Blue rupee   xyz:{ 0x0B0, 0x050, U }
+#_01E111: dw $0B10 : db $01 ; Green rupee  xyz:{ 0x040, 0x0B0, U }
+#_01E114: dw $0B2C : db $09 ; 5 arrows     xyz:{ 0x0B0, 0x0B0, U }
+#_01E117: dw $140C : db $09 ; 5 arrows     xyz:{ 0x030, 0x140, U }
+#_01E11A: dw $1430 : db $0A ; Bomb         xyz:{ 0x0C0, 0x140, U }
+#_01E11D: dw $1C0C : db $0C ; Small magic  xyz:{ 0x030, 0x1C0, U }
+#_01E120: dw $1C30 : db $0A ; Bomb         xyz:{ 0x0C0, 0x1C0, U }
+#_01E123: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room005E:
+#_01E125: dw $045C : db $0C ; Small magic  xyz:{ 0x170, 0x040, U }
+#_01E128: dw $0460 : db $0C ; Small magic  xyz:{ 0x180, 0x040, U }
+#_01E12B: dw $084C : db $0B ; Heart        xyz:{ 0x130, 0x080, U }
+#_01E12E: dw $0870 : db $0B ; Heart        xyz:{ 0x1C0, 0x080, U }
+#_01E131: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room005F:
+#_01E133: dw $1B2C : db $88 ; Switch       xyz:{ 0x0B0, 0x1B0, U }
+#_01E136: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0060:
+#_01E138: dw $044C : db $0B ; Heart        xyz:{ 0x130, 0x040, U }
+#_01E13B: dw $0470 : db $0B ; Heart        xyz:{ 0x1C0, 0x040, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0061:
+#_01E13E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0062:
+#_01E140: dw $15D0 : db $0B ; Heart        xyz:{ 0x140, 0x150, U }
+#_01E143: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0063:
+#_01E145: dw $0830 : db $0B ; Heart        xyz:{ 0x0C0, 0x080, U }
+#_01E148: dw $0C0C : db $08 ; Small key    xyz:{ 0x030, 0x0C0, U }
+#_01E14B: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0064:
+#_01E14D: dw $160C : db $0A ; Bomb         xyz:{ 0x030, 0x160, U }
+#_01E150: dw $1610 : db $0A ; Bomb         xyz:{ 0x040, 0x160, U }
+#_01E153: dw $1614 : db $0A ; Bomb         xyz:{ 0x050, 0x160, U }
+#_01E156: dw $1C24 : db $0A ; Bomb         xyz:{ 0x090, 0x1C0, U }
+#_01E159: dw $1C28 : db $0C ; Small magic  xyz:{ 0x0A0, 0x1C0, U }
+#_01E15C: dw $1C2C : db $0C ; Small magic  xyz:{ 0x0B0, 0x1C0, U }
+#_01E15F: dw $1C30 : db $88 ; Switch       xyz:{ 0x0C0, 0x1C0, U }
+#_01E162: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0065:
+#_01E164: dw $1C64 : db $0A ; Bomb         xyz:{ 0x190, 0x1C0, U }
+#_01E167: dw $1C68 : db $0A ; Bomb         xyz:{ 0x1A0, 0x1C0, U }
+#_01E16A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0066:
+#_01E16C: dw $2530 : db $09 ; 5 arrows     xyz:{ 0x0C0, 0x050, L }
+#_01E16F: dw $2534 : db $0A ; Bomb         xyz:{ 0x0D0, 0x050, L }
+#_01E172: dw $2538 : db $07 ; Blue rupee   xyz:{ 0x0E0, 0x050, L }
+#_01E175: dw $0554 : db $0B ; Heart        xyz:{ 0x150, 0x050, U }
+#_01E178: dw $0568 : db $09 ; 5 arrows     xyz:{ 0x1A0, 0x050, U }
+#_01E17B: dw $2630 : db $09 ; 5 arrows     xyz:{ 0x0C0, 0x060, L }
+#_01E17E: dw $2634 : db $0A ; Bomb         xyz:{ 0x0D0, 0x060, L }
+#_01E181: dw $2638 : db $07 ; Blue rupee   xyz:{ 0x0E0, 0x060, L }
+#_01E184: dw $0654 : db $0B ; Heart        xyz:{ 0x150, 0x060, U }
+#_01E187: dw $0668 : db $0A ; Bomb         xyz:{ 0x1A0, 0x060, U }
+#_01E18A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0067:
+#_01E18C: dw $070C : db $09 ; 5 arrows     xyz:{ 0x030, 0x070, U }
+#_01E18F: dw $0730 : db $0C ; Small magic  xyz:{ 0x0C0, 0x070, U }
+#_01E192: dw $1360 : db $0B ; Heart        xyz:{ 0x180, 0x130, U }
+#_01E195: dw $144A : db $0C ; Small magic  xyz:{ 0x128, 0x140, U }
+#_01E198: dw $1712 : db $0C ; Small magic  xyz:{ 0x048, 0x170, U }
+#_01E19B: dw $1A12 : db $0B ; Heart        xyz:{ 0x048, 0x1A0, U }
+#_01E19E: dw $1C68 : db $0B ; Heart        xyz:{ 0x1A0, 0x1C0, U }
+#_01E1A1: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0068:
+#_01E1A3: dw $0740 : db $0B ; Heart        xyz:{ 0x100, 0x070, U }
+#_01E1A6: dw $0758 : db $0C ; Small magic  xyz:{ 0x160, 0x070, U }
+#_01E1A9: dw $1040 : db $0B ; Heart        xyz:{ 0x100, 0x100, U }
+#_01E1AC: dw $1840 : db $0C ; Small magic  xyz:{ 0x100, 0x180, U }
+#_01E1AF: dw $1940 : db $0B ; Heart        xyz:{ 0x100, 0x190, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0069:
+RoomData_PotItems_Room006A:
+#_01E1B2: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room006B:
+#_01E1B4: dw $051C : db $0B ; Heart        xyz:{ 0x070, 0x050, U }
+#_01E1B7: dw $082C : db $0C ; Small magic  xyz:{ 0x0B0, 0x080, U }
+#_01E1BA: dw $0B1C : db $0C ; Small magic  xyz:{ 0x070, 0x0B0, U }
+#_01E1BD: dw $1962 : db $09 ; 5 arrows     xyz:{ 0x188, 0x190, U }
+#_01E1C0: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room006C:
+#_01E1C2: dw $0614 : db $0B ; Heart        xyz:{ 0x050, 0x060, U }
+#_01E1C5: dw $0628 : db $09 ; 5 arrows     xyz:{ 0x0A0, 0x060, U }
+#_01E1C8: dw $0A14 : db $0A ; Bomb         xyz:{ 0x050, 0x0A0, U }
+#_01E1CB: dw $0A28 : db $0C ; Small magic  xyz:{ 0x0A0, 0x0A0, U }
+#_01E1CE: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room006D:
+#_01E1D0: dw $1A1C : db $0B ; Heart        xyz:{ 0x070, 0x1A0, U }
+#_01E1D3: dw $1A20 : db $0B ; Heart        xyz:{ 0x080, 0x1A0, U }
+#_01E1D6: dw $1B1C : db $0C ; Small magic  xyz:{ 0x070, 0x1B0, U }
+#_01E1D9: dw $1B20 : db $0C ; Small magic  xyz:{ 0x080, 0x1B0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room006E:
+RoomData_PotItems_Room006F:
+RoomData_PotItems_Room0070:
+RoomData_PotItems_Room0071:
+RoomData_PotItems_Room0072:
+#_01E1DC: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0073:
+#_01E1DE: dw $159A : db $09 ; 5 arrows     xyz:{ 0x068, 0x150, U }
+#_01E1E1: dw $159E : db $01 ; Green rupee  xyz:{ 0x078, 0x150, U }
+#_01E1E4: dw $1714 : db $88 ; Switch       xyz:{ 0x050, 0x170, U }
+#_01E1E7: dw $1724 : db $07 ; Blue rupee   xyz:{ 0x090, 0x170, U }
+#_01E1EA: dw $1890 : db $0B ; Heart        xyz:{ 0x040, 0x180, U }
+#_01E1ED: dw $18A8 : db $09 ; 5 arrows     xyz:{ 0x0A0, 0x180, U }
+#_01E1F0: dw $1A14 : db $0C ; Small magic  xyz:{ 0x050, 0x1A0, U }
+#_01E1F3: dw $1A24 : db $0B ; Heart        xyz:{ 0x090, 0x1A0, U }
+#_01E1F6: dw $1B9A : db $01 ; Green rupee  xyz:{ 0x068, 0x1B0, U }
+#_01E1F9: dw $1B9E : db $07 ; Blue rupee   xyz:{ 0x078, 0x1B0, U }
+#_01E1FC: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0074:
+#_01E1FE: dw $051E : db $0C ; Small magic  xyz:{ 0x078, 0x050, U }
+#_01E201: dw $053E : db $88 ; Switch       xyz:{ 0x0F8, 0x050, U }
+#_01E204: dw $055E : db $0C ; Small magic  xyz:{ 0x178, 0x050, U }
+#_01E207: dw $0B0E : db $0B ; Heart        xyz:{ 0x038, 0x0B0, U }
+#_01E20A: dw $0B2E : db $09 ; 5 arrows     xyz:{ 0x0B8, 0x0B0, U }
+#_01E20D: dw $0B4E : db $09 ; 5 arrows     xyz:{ 0x138, 0x0B0, U }
+#_01E210: dw $0B6E : db $0B ; Heart        xyz:{ 0x1B8, 0x0B0, U }
+#_01E213: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0075:
+#_01E215: dw $1694 : db $0C ; Small magic  xyz:{ 0x050, 0x160, U }
+#_01E218: dw $16A0 : db $09 ; 5 arrows     xyz:{ 0x080, 0x160, U }
+#_01E21B: dw $16AC : db $0B ; Heart        xyz:{ 0x0B0, 0x160, U }
+#_01E21E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0076:
+#_01E220: dw $0C70 : db $0B ; Heart        xyz:{ 0x1C0, 0x0C0, U }
+#_01E223: dw $1754 : db $0B ; Heart        xyz:{ 0x150, 0x170, U }
+#_01E226: dw $1760 : db $0B ; Heart        xyz:{ 0x180, 0x170, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0077:
+RoomData_PotItems_Room0078:
+RoomData_PotItems_Room0079:
+RoomData_PotItems_Room007A:
+#_01E229: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room007B:
+#_01E22B: dw $043C : db $0B ; Heart        xyz:{ 0x0F0, 0x040, U }
+#_01E22E: dw $0440 : db $08 ; Small key    xyz:{ 0x100, 0x040, U }
+#_01E231: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room007C:
+#_01E233: dw $041C : db $0B ; Heart        xyz:{ 0x070, 0x040, U }
+#_01E236: dw $0420 : db $0B ; Heart        xyz:{ 0x080, 0x040, U }
+#_01E239: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room007D:
+#_01E23B: dw $0670 : db $0B ; Heart        xyz:{ 0x1C0, 0x060, U }
+#_01E23E: dw $146C : db $09 ; 5 arrows     xyz:{ 0x1B0, 0x140, U }
+#_01E241: dw $1472 : db $0A ; Bomb         xyz:{ 0x1C8, 0x140, U }
+#_01E244: dw $1C4C : db $0A ; Bomb         xyz:{ 0x130, 0x1C0, U }
+#_01E247: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room007E:
+#_01E249: dw $0F56 : db $0B ; Heart        xyz:{ 0x158, 0x0F0, U }
+#_01E24C: dw $1A52 : db $0C ; Small magic  xyz:{ 0x148, 0x1A0, U }
+#_01E24F: dw $1A64 : db $88 ; Switch       xyz:{ 0x190, 0x1A0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room007F:
+#_01E252: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0080:
+#_01E254: dw $0430 : db $0B ; Heart        xyz:{ 0x0C0, 0x040, U }
+#_01E257: dw $0434 : db $0B ; Heart        xyz:{ 0x0D0, 0x040, U }
+#_01E25A: dw $0438 : db $0B ; Heart        xyz:{ 0x0E0, 0x040, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0081:
+#_01E25D: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0082:
+#_01E25F: dw $324C : db $0B ; Heart        xyz:{ 0x130, 0x120, L }
+#_01E262: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0083:
+#_01E264: dw $044C : db $09 ; 5 arrows     xyz:{ 0x130, 0x040, U }
+#_01E267: dw $0450 : db $01 ; Green rupee  xyz:{ 0x140, 0x040, U }
+#_01E26A: dw $1C4C : db $07 ; Blue rupee   xyz:{ 0x130, 0x1C0, U }
+#_01E26D: dw $1C50 : db $09 ; 5 arrows     xyz:{ 0x140, 0x1C0, U }
+#_01E270: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0084:
+#_01E272: dw $0718 : db $09 ; 5 arrows     xyz:{ 0x060, 0x070, U }
+#_01E275: dw $0764 : db $09 ; 5 arrows     xyz:{ 0x190, 0x070, U }
+#_01E278: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0085:
+#_01E27A: dw $1C2C : db $0B ; Heart        xyz:{ 0x0B0, 0x1C0, U }
+#_01E27D: dw $1C30 : db $09 ; 5 arrows     xyz:{ 0x0C0, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0086:
+#_01E280: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0087:
+#_01E282: dw $144C : db $0C ; Small magic  xyz:{ 0x130, 0x140, U }
+#_01E285: dw $1470 : db $0D ; Full magic   xyz:{ 0x1C0, 0x140, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0088:
+RoomData_PotItems_Room0089:
+RoomData_PotItems_Room008A:
+#_01E288: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room008B:
+#_01E28A: dw $0C70 : db $08 ; Small key    xyz:{ 0x1C0, 0x0C0, U }
+#_01E28D: dw $0920 : db $0C ; Small magic  xyz:{ 0x080, 0x090, U }
+#_01E290: dw $1C4C : db $0B ; Heart        xyz:{ 0x130, 0x1C0, U }
+#_01E293: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room008C:
+#_01E295: dw $0C4C : db $88 ; Switch       xyz:{ 0x130, 0x0C0, U }
+#_01E298: dw $0C70 : db $0C ; Small magic  xyz:{ 0x1C0, 0x0C0, U }
+#_01E29B: dw $144C : db $0A ; Bomb         xyz:{ 0x130, 0x140, U }
+#_01E29E: dw $145C : db $0A ; Bomb         xyz:{ 0x170, 0x140, U }
+#_01E2A1: dw $1564 : db $09 ; 5 arrows     xyz:{ 0x190, 0x150, U }
+#_01E2A4: dw $1A68 : db $0A ; Bomb         xyz:{ 0x1A0, 0x1A0, U }
+#_01E2A7: dw $1B58 : db $0A ; Bomb         xyz:{ 0x160, 0x1B0, U }
+#_01E2AA: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room008D:
+#_01E2AC: dw $0ECC : db $0D ; Full magic   xyz:{ 0x130, 0x0E0, U }
+#_01E2AF: dw $171C : db $0B ; Heart        xyz:{ 0x070, 0x170, U }
+#_01E2B2: dw $1724 : db $0B ; Heart        xyz:{ 0x090, 0x170, U }
+#_01E2B5: dw $1820 : db $0D ; Full magic   xyz:{ 0x080, 0x180, U }
+#_01E2B8: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room008E:
+#_01E2BA: dw $0550 : db $09 ; 5 arrows     xyz:{ 0x140, 0x050, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room008F:
+RoomData_PotItems_Room0090:
+#_01E2BD: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0091:
+#_01E2BF: dw $0454 : db $0B ; Heart        xyz:{ 0x150, 0x040, U }
+#_01E2C2: dw $0468 : db $0C ; Small magic  xyz:{ 0x1A0, 0x040, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0092:
+#_01E2C5: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0093:
+#_01E2C7: dw $071C : db $88 ; Switch       xyz:{ 0x070, 0x070, U }
+#_01E2CA: dw $0760 : db $0B ; Heart        xyz:{ 0x180, 0x070, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0094:
+RoomData_PotItems_Room0095:
+#_01E2CD: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0096:
+#_01E2CF: dw $1120 : db $0C ; Small magic  xyz:{ 0x080, 0x110, U }
+#_01E2D2: dw $1820 : db $0C ; Small magic  xyz:{ 0x080, 0x180, U }
+#_01E2D5: dw $154C : db $0B ; Heart        xyz:{ 0x130, 0x150, U }
+#_01E2D8: dw $1570 : db $0D ; Full magic   xyz:{ 0x1C0, 0x150, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0097:
+RoomData_PotItems_Room0098:
+#_01E2DB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0099:
+#_01E2DD: dw $1428 : db $0C ; Small magic  xyz:{ 0x0A0, 0x140, U }
+#_01E2E0: dw $1454 : db $0B ; Heart        xyz:{ 0x150, 0x140, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room009A:
+#_01E2E3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room009B:
+#_01E2E5: dw $0430 : db $0C ; Small magic  xyz:{ 0x0C0, 0x040, U }
+#_01E2E8: dw $0C30 : db $08 ; Small key    xyz:{ 0x0C0, 0x0C0, U }
+#_01E2EB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room009C:
+#_01E2ED: dw $0838 : db $0C ; Small magic  xyz:{ 0x0E0, 0x080, U }
+#_01E2F0: dw $0938 : db $09 ; 5 arrows     xyz:{ 0x0E0, 0x090, U }
+#_01E2F3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room009D:
+#_01E2F5: dw $044C : db $0A ; Bomb         xyz:{ 0x130, 0x040, U }
+#_01E2F8: dw $0454 : db $0C ; Small magic  xyz:{ 0x150, 0x040, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room009E:
+#_01E2FB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room009F:
+#_01E2FD: dw $138A : db $0B ; Heart        xyz:{ 0x028, 0x130, U }
+#_01E300: dw $13B2 : db $0B ; Heart        xyz:{ 0x0C8, 0x130, U }
+#_01E303: dw $1528 : db $88 ; Switch       xyz:{ 0x0A0, 0x150, U }
+#_01E306: dw $158A : db $08 ; Small key    xyz:{ 0x028, 0x150, U }
+#_01E309: dw $1B14 : db $0B ; Heart        xyz:{ 0x050, 0x1B0, U }
+#_01E30C: dw $1B8A : db $0B ; Heart        xyz:{ 0x028, 0x1B0, U }
+#_01E30F: dw $1CB2 : db $0B ; Heart        xyz:{ 0x0C8, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00A0:
+#_01E312: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00A1:
+#_01E314: dw $0696 : db $08 ; Small key    xyz:{ 0x058, 0x060, U }
+#_01E317: dw $0B64 : db $0C ; Small magic  xyz:{ 0x190, 0x0B0, U }
+#_01E31A: dw $0C68 : db $0B ; Heart        xyz:{ 0x1A0, 0x0C0, U }
+#_01E31D: dw $0D6C : db $0C ; Small magic  xyz:{ 0x1B0, 0x0D0, U }
+#_01E320: dw $0E70 : db $0B ; Heart        xyz:{ 0x1C0, 0x0E0, U }
+#_01E323: dw $1760 : db $0B ; Heart        xyz:{ 0x180, 0x170, U }
+#_01E326: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00A2:
+#_01E328: dw $1C0C : db $0D ; Full magic   xyz:{ 0x030, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00A3:
+RoomData_PotItems_Room00A4:
+RoomData_PotItems_Room00A5:
+RoomData_PotItems_Room00A6:
+RoomData_PotItems_Room00A7:
+#_01E32B: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00A8:
+#_01E32D: dw $138A : db $0B ; Heart        xyz:{ 0x028, 0x130, U }
+#_01E330: dw $181E : db $01 ; Green rupee  xyz:{ 0x078, 0x180, U }
+#_01E333: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00A9:
+#_01E335: dw $2B90 : db $09 ; 5 arrows     xyz:{ 0x040, 0x0B0, L }
+#_01E338: dw $2BEC : db $09 ; 5 arrows     xyz:{ 0x1B0, 0x0B0, L }
+#_01E33B: dw $2C90 : db $09 ; 5 arrows     xyz:{ 0x040, 0x0C0, L }
+#_01E33E: dw $2CEC : db $0B ; Heart        xyz:{ 0x1B0, 0x0C0, L }
+#_01E341: dw $1410 : db $0B ; Heart        xyz:{ 0x040, 0x140, U }
+#_01E344: dw $146C : db $0B ; Heart        xyz:{ 0x1B0, 0x140, U }
+#_01E347: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00AA:
+#_01E349: dw $05D4 : db $0B ; Heart        xyz:{ 0x150, 0x050, U }
+#_01E34C: dw $085E : db $88 ; Switch       xyz:{ 0x178, 0x080, U }
+#_01E34F: dw $376C : db $0B ; Heart        xyz:{ 0x1B0, 0x170, L }
+#_01E352: dw $386C : db $0B ; Heart        xyz:{ 0x1B0, 0x180, L }
+#_01E355: dw $396C : db $0B ; Heart        xyz:{ 0x1B0, 0x190, L }
+#_01E358: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00AB:
+#_01E35A: dw $1814 : db $08 ; Small key    xyz:{ 0x050, 0x180, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00AC:
+RoomData_PotItems_Room00AD:
+#_01E35D: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00AE:
+#_01E35F: dw $0C4C : db $88 ; Switch       xyz:{ 0x130, 0x0C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00AF:
+#_01E362: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B0:
+#_01E364: dw $1514 : db $0A ; Bomb         xyz:{ 0x050, 0x150, U }
+#_01E367: dw $151C : db $01 ; Green rupee  xyz:{ 0x070, 0x150, U }
+#_01E36A: dw $1520 : db $07 ; Blue rupee   xyz:{ 0x080, 0x150, U }
+#_01E36D: dw $1528 : db $09 ; 5 arrows     xyz:{ 0x0A0, 0x150, U }
+#_01E370: dw $1710 : db $07 ; Blue rupee   xyz:{ 0x040, 0x170, U }
+#_01E373: dw $172C : db $01 ; Green rupee  xyz:{ 0x0B0, 0x170, U }
+#_01E376: dw $1824 : db $0B ; Heart        xyz:{ 0x090, 0x180, U }
+#_01E379: dw $1910 : db $0B ; Heart        xyz:{ 0x040, 0x190, U }
+#_01E37C: dw $1B1C : db $09 ; 5 arrows     xyz:{ 0x070, 0x1B0, U }
+#_01E37F: dw $1B28 : db $0A ; Bomb         xyz:{ 0x0A0, 0x1B0, U }
+#_01E382: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B1:
+#_01E384: dw $044C : db $0B ; Heart        xyz:{ 0x130, 0x040, U }
+#_01E387: dw $0470 : db $01 ; Green rupee  xyz:{ 0x1C0, 0x040, U }
+#_01E38A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B2:
+#_01E38C: dw $2830 : db $01 ; Green rupee  xyz:{ 0x0C0, 0x080, L }
+#_01E38F: dw $284C : db $01 ; Green rupee  xyz:{ 0x130, 0x080, L }
+#_01E392: dw $294C : db $0B ; Heart        xyz:{ 0x130, 0x090, L }
+#_01E395: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B3:
+#_01E397: dw $140C : db $08 ; Small key    xyz:{ 0x030, 0x140, U }
+#_01E39A: dw $1430 : db $0C ; Small magic  xyz:{ 0x0C0, 0x140, U }
+#_01E39D: dw $1C30 : db $88 ; Switch       xyz:{ 0x0C0, 0x1C0, U }
+#_01E3A0: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B4:
+#_01E3A2: dw $1C2C : db $0D ; Full magic   xyz:{ 0x0B0, 0x1C0, U }
+#_01E3A5: dw $1C30 : db $0B ; Heart        xyz:{ 0x0C0, 0x1C0, U }
+#_01E3A8: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B5:
+#_01E3AA: dw $0470 : db $07 ; Blue rupee   xyz:{ 0x1C0, 0x040, U }
+#_01E3AD: dw $0F70 : db $0B ; Heart        xyz:{ 0x1C0, 0x0F0, U }
+#_01E3B0: dw $104C : db $88 ; Switch       xyz:{ 0x130, 0x100, U }
+#_01E3B3: dw $1070 : db $0D ; Full magic   xyz:{ 0x1C0, 0x100, U }
+#_01E3B6: dw $1170 : db $0B ; Heart        xyz:{ 0x1C0, 0x110, U }
+#_01E3B9: dw $1C70 : db $0A ; Bomb         xyz:{ 0x1C0, 0x1C0, U }
+#_01E3BC: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B6:
+#_01E3BE: dw $095E : db $0D ; Full magic   xyz:{ 0x178, 0x090, U }
+#_01E3C1: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B7:
+#_01E3C3: dw $051E : db $0C ; Small magic  xyz:{ 0x078, 0x050, U }
+#_01E3C6: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B8:
+#_01E3C8: dw $0D60 : db $88 ; Switch       xyz:{ 0x180, 0x0D0, U }
+#_01E3CB: dw $1058 : db $0B ; Heart        xyz:{ 0x160, 0x100, U }
+#_01E3CE: dw $1068 : db $0B ; Heart        xyz:{ 0x1A0, 0x100, U }
+#_01E3D1: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00B9:
+#_01E3D3: dw $125C : db $01 ; Green rupee  xyz:{ 0x170, 0x120, U }
+#_01E3D6: dw $1260 : db $07 ; Blue rupee   xyz:{ 0x180, 0x120, U }
+#_01E3D9: dw $1268 : db $07 ; Blue rupee   xyz:{ 0x1A0, 0x120, U }
+#_01E3DC: dw $126C : db $01 ; Green rupee  xyz:{ 0x1B0, 0x120, U }
+#_01E3DF: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00BA:
+#_01E3E1: dw $045E : db $01 ; Green rupee  xyz:{ 0x178, 0x040, U }
+#_01E3E4: dw $064C : db $0B ; Heart        xyz:{ 0x130, 0x060, U }
+#_01E3E7: dw $0670 : db $08 ; Small key    xyz:{ 0x1C0, 0x060, U }
+#_01E3EA: dw $0A4C : db $0B ; Heart        xyz:{ 0x130, 0x0A0, U }
+#_01E3ED: dw $0A70 : db $0C ; Small magic  xyz:{ 0x1C0, 0x0A0, U }
+#_01E3F0: dw $0C5E : db $01 ; Green rupee  xyz:{ 0x178, 0x0C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00BB:
+#_01E3F3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00BC:
+#_01E3F5: dw $038A : db $0A ; Bomb         xyz:{ 0x028, 0x030, U }
+#_01E3F8: dw $03B2 : db $88 ; Switch       xyz:{ 0x0C8, 0x030, U }
+#_01E3FB: dw $0456 : db $0B ; Heart        xyz:{ 0x158, 0x040, U }
+#_01E3FE: dw $0466 : db $08 ; Small key    xyz:{ 0x198, 0x040, U }
+#_01E401: dw $0C8A : db $0B ; Heart        xyz:{ 0x028, 0x0C0, U }
+#_01E404: dw $0CB2 : db $0A ; Bomb         xyz:{ 0x0C8, 0x0C0, U }
+#_01E407: dw $1430 : db $0A ; Bomb         xyz:{ 0x0C0, 0x140, U }
+#_01E40A: dw $151C : db $07 ; Blue rupee   xyz:{ 0x070, 0x150, U }
+#_01E40D: dw $1520 : db $07 ; Blue rupee   xyz:{ 0x080, 0x150, U }
+#_01E410: dw $1B1C : db $07 ; Blue rupee   xyz:{ 0x070, 0x1B0, U }
+#_01E413: dw $1B20 : db $07 ; Blue rupee   xyz:{ 0x080, 0x1B0, U }
+#_01E416: dw $1C0C : db $0A ; Bomb         xyz:{ 0x030, 0x1C0, U }
+#_01E419: dw $1C30 : db $0A ; Bomb         xyz:{ 0x0C0, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00BD:
+#_01E41C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00BE:
+#_01E41E: dw $195C : db $88 ; Switch       xyz:{ 0x170, 0x190, U }
+#_01E421: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00BF:
+#_01E423: dw $1428 : db $09 ; 5 arrows     xyz:{ 0x0A0, 0x140, U }
+#_01E426: dw $142C : db $0B ; Heart        xyz:{ 0x0B0, 0x140, U }
+#_01E429: dw $1430 : db $0A ; Bomb         xyz:{ 0x0C0, 0x140, U }
+#_01E42C: dw $1C28 : db $0C ; Small magic  xyz:{ 0x0A0, 0x1C0, U }
+#_01E42F: dw $1C2C : db $0C ; Small magic  xyz:{ 0x0B0, 0x1C0, U }
+#_01E432: dw $1C30 : db $0C ; Small magic  xyz:{ 0x0C0, 0x1C0, U }
+#_01E435: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C0:
+#_01E437: dw $0A30 : db $0A ; Bomb         xyz:{ 0x0C0, 0x0A0, U }
+#_01E43A: dw $0E0C : db $07 ; Blue rupee   xyz:{ 0x030, 0x0E0, U }
+#_01E43D: dw $1A0C : db $0B ; Heart        xyz:{ 0x030, 0x1A0, U }
+#_01E440: dw $1B1C : db $01 ; Green rupee  xyz:{ 0x070, 0x1B0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C1:
+#_01E443: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C2:
+#_01E445: dw $07B4 : db $88 ; Switch       xyz:{ 0x0D0, 0x070, U }
+#_01E448: dw $2E64 : db $0C ; Small magic  xyz:{ 0x190, 0x0E0, L }
+#_01E44B: dw $3044 : db $01 ; Green rupee  xyz:{ 0x110, 0x100, L }
+#_01E44E: dw $3440 : db $09 ; 5 arrows     xyz:{ 0x100, 0x140, L }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C3:
+#_01E451: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C4:
+#_01E453: dw $0954 : db $0A ; Bomb         xyz:{ 0x150, 0x090, U }
+#_01E456: dw $0E18 : db $0B ; Heart        xyz:{ 0x060, 0x0E0, U }
+#_01E459: dw $1138 : db $07 ; Blue rupee   xyz:{ 0x0E0, 0x110, U }
+#_01E45C: dw $1154 : db $0A ; Bomb         xyz:{ 0x150, 0x110, U }
+#_01E45F: dw $150C : db $09 ; 5 arrows     xyz:{ 0x030, 0x150, U }
+#_01E462: dw $174C : db $01 ; Green rupee  xyz:{ 0x130, 0x170, U }
+#_01E465: dw $1930 : db $0C ; Small magic  xyz:{ 0x0C0, 0x190, U }
+#_01E468: dw $1A0C : db $0B ; Heart        xyz:{ 0x030, 0x1A0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C5:
+#_01E46B: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C6:
+#_01E46D: dw $070C : db $0D ; Full magic   xyz:{ 0x030, 0x070, U }
+#_01E470: dw $190C : db $0B ; Heart        xyz:{ 0x030, 0x190, U }
+#_01E473: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C7:
+#_01E475: dw $0A0C : db $0B ; Heart        xyz:{ 0x030, 0x0A0, U }
+#_01E478: dw $0B0C : db $0D ; Full magic   xyz:{ 0x030, 0x0B0, U }
+#_01E47B: dw $160C : db $0C ; Small magic  xyz:{ 0x030, 0x160, U }
+#_01E47E: dw $1C0C : db $09 ; 5 arrows     xyz:{ 0x030, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C8:
+#_01E481: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00C9:
+#_01E483: dw $161E : db $01 ; Green rupee  xyz:{ 0x078, 0x160, U }
+#_01E486: dw $165E : db $01 ; Green rupee  xyz:{ 0x178, 0x160, U }
+#_01E489: dw $163C : db $88 ; Switch       xyz:{ 0x0F0, 0x160, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00CA:
+#_01E48C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00CB:
+#_01E48E: dw $1058 : db $0B ; Heart        xyz:{ 0x160, 0x100, U }
+#_01E491: dw $1C58 : db $07 ; Blue rupee   xyz:{ 0x160, 0x1C0, U }
+#_01E494: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00CC:
+#_01E496: dw $0424 : db $07 ; Blue rupee   xyz:{ 0x090, 0x040, U }
+#_01E499: dw $0470 : db $0B ; Heart        xyz:{ 0x1C0, 0x040, U }
+#_01E49C: dw $1C24 : db $07 ; Blue rupee   xyz:{ 0x090, 0x1C0, U }
+#_01E49F: dw $1C70 : db $0A ; Bomb         xyz:{ 0x1C0, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00CD:
+#_01E4A2: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00CE:
+#_01E4A4: dw $084C : db $0C ; Small magic  xyz:{ 0x130, 0x080, U }
+#_01E4A7: dw $0850 : db $0C ; Small magic  xyz:{ 0x140, 0x080, U }
+#_01E4AA: dw $0C6C : db $0A ; Bomb         xyz:{ 0x1B0, 0x0C0, U }
+#_01E4AD: dw $0C70 : db $09 ; 5 arrows     xyz:{ 0x1C0, 0x0C0, U }
+#_01E4B0: dw $0BCC : db $80 ; Hole         xyz:{ 0x130, 0x0B0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00CF:
+#_01E4B3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D0:
+#_01E4B5: dw $059E : db $0C ; Small magic  xyz:{ 0x078, 0x050, U }
+#_01E4B8: dw $0B8C : db $01 ; Green rupee  xyz:{ 0x030, 0x0B0, U }
+#_01E4BB: dw $0D2A : db $0C ; Small magic  xyz:{ 0x0A8, 0x0D0, U }
+#_01E4BE: dw $1030 : db $0B ; Heart        xyz:{ 0x0C0, 0x100, U }
+#_01E4C1: dw $14B0 : db $01 ; Green rupee  xyz:{ 0x0C0, 0x140, U }
+#_01E4C4: dw $1792 : db $07 ; Blue rupee   xyz:{ 0x048, 0x170, U }
+#_01E4C7: dw $1C0C : db $0B ; Heart        xyz:{ 0x030, 0x1C0, U }
+#_01E4CA: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D1:
+#_01E4CC: dw $0430 : db $0D ; Full magic   xyz:{ 0x0C0, 0x040, U }
+#_01E4CF: dw $044C : db $01 ; Green rupee  xyz:{ 0x130, 0x040, U }
+#_01E4D2: dw $0470 : db $09 ; 5 arrows     xyz:{ 0x1C0, 0x040, U }
+#_01E4D5: dw $07A8 : db $01 ; Green rupee  xyz:{ 0x0A0, 0x070, U }
+#_01E4D8: dw $0C70 : db $01 ; Green rupee  xyz:{ 0x1C0, 0x0C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D2:
+RoomData_PotItems_Room00D3:
+RoomData_PotItems_Room00D4:
+RoomData_PotItems_Room00D5:
+#_01E4DB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D6:
+#_01E4DD: dw $165C : db $0D ; Full magic   xyz:{ 0x170, 0x160, U }
+#_01E4E0: dw $1660 : db $0A ; Bomb         xyz:{ 0x180, 0x160, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D7:
+#_01E4E3: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D8:
+#_01E4E5: dw $08CA : db $0B ; Heart        xyz:{ 0x128, 0x080, U }
+#_01E4E8: dw $08F2 : db $09 ; 5 arrows     xyz:{ 0x1C8, 0x080, U }
+#_01E4EB: dw $0ACA : db $09 ; 5 arrows     xyz:{ 0x128, 0x0A0, U }
+#_01E4EE: dw $0AF2 : db $09 ; 5 arrows     xyz:{ 0x1C8, 0x0A0, U }
+#_01E4F1: dw $0CCA : db $09 ; 5 arrows     xyz:{ 0x128, 0x0C0, U }
+#_01E4F4: dw $0CF2 : db $0B ; Heart        xyz:{ 0x1C8, 0x0C0, U }
+#_01E4F7: dw $185C : db $0B ; Heart        xyz:{ 0x170, 0x180, U }
+#_01E4FA: dw $1860 : db $09 ; 5 arrows     xyz:{ 0x180, 0x180, U }
+#_01E4FD: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00D9:
+#_01E4FF: dw $145C : db $09 ; 5 arrows     xyz:{ 0x170, 0x140, U }
+#_01E502: dw $1C5C : db $0B ; Heart        xyz:{ 0x170, 0x1C0, U }
+#_01E505: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00DA:
+#_01E507: dw $1718 : db $09 ; 5 arrows     xyz:{ 0x060, 0x170, U }
+#_01E50A: dw $1724 : db $09 ; 5 arrows     xyz:{ 0x090, 0x170, U }
+#_01E50D: dw $1918 : db $88 ; Switch       xyz:{ 0x060, 0x190, U }
+#_01E510: dw $1924 : db $0B ; Heart        xyz:{ 0x090, 0x190, U }
+#_01E513: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00DB:
+#_01E515: dw $0470 : db $07 ; Blue rupee   xyz:{ 0x1C0, 0x040, U }
+#_01E518: dw $1058 : db $0B ; Heart        xyz:{ 0x160, 0x100, U }
+#_01E51B: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00DC:
+#_01E51D: dw $0438 : db $07 ; Blue rupee   xyz:{ 0x0E0, 0x040, U }
+#_01E520: dw $0470 : db $0A ; Bomb         xyz:{ 0x1C0, 0x040, U }
+#_01E523: dw $1044 : db $0B ; Heart        xyz:{ 0x110, 0x100, U }
+#_01E526: dw $1C0C : db $09 ; 5 arrows     xyz:{ 0x030, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00DD:
+RoomData_PotItems_Room00DE:
+RoomData_PotItems_Room00DF:
+#_01E529: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E0:
+#_01E52B: dw $0818 : db $0B ; Heart        xyz:{ 0x060, 0x080, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E1:
+RoomData_PotItems_Room00E2:
+#_01E52E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E3:
+#_01E530: dw $3964 : db $01 ; Green rupee  xyz:{ 0x190, 0x190, L }
+#_01E533: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E4:
+#_01E535: dw $0920 : db $07 ; Blue rupee   xyz:{ 0x080, 0x090, U }
+#_01E538: dw $0A70 : db $01 ; Green rupee  xyz:{ 0x1C0, 0x0A0, U }
+#_01E53B: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E5:
+#_01E53D: dw $0430 : db $01 ; Green rupee  xyz:{ 0x0C0, 0x040, U }
+#_01E540: dw $044C : db $01 ; Green rupee  xyz:{ 0x130, 0x040, U }
+#_01E543: dw $1070 : db $01 ; Green rupee  xyz:{ 0x1C0, 0x100, U }
+#_01E546: dw $1240 : db $07 ; Blue rupee   xyz:{ 0x100, 0x120, U }
+#_01E549: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E6:
+#_01E54B: dw $0C6C : db $09 ; 5 arrows     xyz:{ 0x1B0, 0x0C0, U }
+#_01E54E: dw $1058 : db $0B ; Heart        xyz:{ 0x160, 0x100, U }
+#_01E551: dw $1838 : db $01 ; Green rupee  xyz:{ 0x0E0, 0x180, U }
+#_01E554: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E7:
+#_01E556: dw $0544 : db $01 ; Green rupee  xyz:{ 0x110, 0x050, U }
+#_01E559: dw $0548 : db $01 ; Green rupee  xyz:{ 0x120, 0x050, U }
+#_01E55C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E8:
+#_01E55E: dw $0460 : db $0B ; Heart        xyz:{ 0x180, 0x040, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00E9:
+RoomData_PotItems_Room00EA:
+#_01E561: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00EB:
+#_01E563: dw $08CE : db $07 ; Blue rupee   xyz:{ 0x138, 0x080, U }
+#_01E566: dw $08D2 : db $07 ; Blue rupee   xyz:{ 0x148, 0x080, U }
+#_01E569: dw $0E58 : db $0C ; Small magic  xyz:{ 0x160, 0x0E0, U }
+#_01E56C: dw $0E5C : db $0B ; Heart        xyz:{ 0x170, 0x0E0, U }
+#_01E56F: dw $0E60 : db $0C ; Small magic  xyz:{ 0x180, 0x0E0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00EC:
+RoomData_PotItems_Room00ED:
+RoomData_PotItems_Room00EE:
+RoomData_PotItems_Room00EF:
+RoomData_PotItems_Room00F0:
+#_01E572: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00F1:
+#_01E574: dw $0540 : db $0B ; Heart        xyz:{ 0x100, 0x050, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00F2:
+RoomData_PotItems_Room00F3:
+RoomData_PotItems_Room00F4:
+RoomData_PotItems_Room00F5:
+RoomData_PotItems_Room00F6:
+RoomData_PotItems_Room00F7:
+#_01E577: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00F8:
+#_01E579: dw $0DF2 : db $0D ; Full magic   xyz:{ 0x1C8, 0x0D0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00F9:
+RoomData_PotItems_Room00FA:
+RoomData_PotItems_Room00FB:
+RoomData_PotItems_Room00FC:
+#_01E57C: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00FD:
+#_01E57E: dw $0658 : db $07 ; Blue rupee   xyz:{ 0x160, 0x060, U }
+#_01E581: dw $0664 : db $07 ; Blue rupee   xyz:{ 0x190, 0x060, U }
+#_01E584: dw $1754 : db $07 ; Blue rupee   xyz:{ 0x150, 0x170, U }
+#_01E587: dw $1854 : db $07 ; Blue rupee   xyz:{ 0x150, 0x180, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00FE:
+#_01E58A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room00FF:
+#_01E58C: dw $085C : db $0B ; Heart        xyz:{ 0x170, 0x080, U }
+#_01E58F: dw $0860 : db $0B ; Heart        xyz:{ 0x180, 0x080, U }
+#_01E592: dw $1C70 : db $01 ; Green rupee  xyz:{ 0x1C0, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0100:
+#_01E595: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0101:
+#_01E597: dw $140C : db $0B ; Heart        xyz:{ 0x030, 0x140, U }
+#_01E59A: dw $13E0 : db $0E ; Cucco        xyz:{ 0x180, 0x130, U }
+#_01E59D: dw $13E4 : db $0B ; Heart        xyz:{ 0x190, 0x130, U }
+#_01E5A0: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0102:
+#_01E5A2: dw $1392 : db $0B ; Heart        xyz:{ 0x048, 0x130, U }
+#_01E5A5: dw $1396 : db $0B ; Heart        xyz:{ 0x058, 0x130, U }
+#_01E5A8: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0103:
+#_01E5AA: dw $078C : db $0E ; Cucco        xyz:{ 0x030, 0x070, U }
+#_01E5AD: dw $0C0C : db $0B ; Heart        xyz:{ 0x030, 0x0C0, U }
+#_01E5B0: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0104:
+#_01E5B2: dw $15CA : db $0B ; Heart        xyz:{ 0x128, 0x150, U }
+#_01E5B5: dw $16CA : db $0B ; Heart        xyz:{ 0x128, 0x160, U }
+#_01E5B8: dw $17CA : db $0B ; Heart        xyz:{ 0x128, 0x170, U }
+#_01E5BB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0105:
+#_01E5BD: dw $141E : db $0B ; Heart        xyz:{ 0x078, 0x140, U }
+#_01E5C0: dw $151C : db $0B ; Heart        xyz:{ 0x070, 0x150, U }
+#_01E5C3: dw $1520 : db $0B ; Heart        xyz:{ 0x080, 0x150, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0106:
+#_01E5C6: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0107:
+#_01E5C8: dw $17D6 : db $0A ; Bomb         xyz:{ 0x158, 0x170, U }
+#_01E5CB: dw $17DE : db $09 ; 5 arrows     xyz:{ 0x178, 0x170, U }
+#_01E5CE: dw $17E6 : db $0A ; Bomb         xyz:{ 0x198, 0x170, U }
+#_01E5D1: dw $19D6 : db $01 ; Green rupee  xyz:{ 0x158, 0x190, U }
+#_01E5D4: dw $19E6 : db $01 ; Green rupee  xyz:{ 0x198, 0x190, U }
+#_01E5D7: dw $1BD6 : db $0A ; Bomb         xyz:{ 0x158, 0x1B0, U }
+#_01E5DA: dw $1BE6 : db $0A ; Bomb         xyz:{ 0x198, 0x1B0, U }
+#_01E5DD: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0108:
+#_01E5DF: dw $13A6 : db $0E ; Cucco        xyz:{ 0x098, 0x130, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0109:
+RoomData_PotItems_Room010A:
+RoomData_PotItems_Room010B:
+#_01E5E2: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room010C:
+#_01E5E4: dw $0E58 : db $0B ; Heart        xyz:{ 0x160, 0x0E0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room010D:
+RoomData_PotItems_Room010E:
+RoomData_PotItems_Room010F:
+RoomData_PotItems_Room0110:
+RoomData_PotItems_Room0111:
+RoomData_PotItems_Room0112:
+RoomData_PotItems_Room0113:
+#_01E5E7: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0114:
+#_01E5E9: dw $045C : db $0B ; Heart        xyz:{ 0x170, 0x040, U }
+#_01E5EC: dw $0460 : db $0B ; Heart        xyz:{ 0x180, 0x040, U }
+#_01E5EF: dw $055C : db $0A ; Bomb         xyz:{ 0x170, 0x050, U }
+#_01E5F2: dw $0560 : db $0A ; Bomb         xyz:{ 0x180, 0x050, U }
+#_01E5F5: dw $0A5C : db $09 ; 5 arrows     xyz:{ 0x170, 0x0A0, U }
+#_01E5F8: dw $0A60 : db $0B ; Heart        xyz:{ 0x180, 0x0A0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0115:
+RoomData_PotItems_Room0116:
+#_01E5FB: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0117:
+#_01E5FD: dw $038A : db $0B ; Heart        xyz:{ 0x028, 0x030, U }
+#_01E600: dw $038E : db $0B ; Heart        xyz:{ 0x038, 0x030, U }
+#_01E603: dw $03A6 : db $0B ; Heart        xyz:{ 0x098, 0x030, U }
+#_01E606: dw $03AA : db $0B ; Heart        xyz:{ 0x0A8, 0x030, U }
+#_01E609: dw $048A : db $0B ; Heart        xyz:{ 0x028, 0x040, U }
+#_01E60C: dw $048E : db $0B ; Heart        xyz:{ 0x038, 0x040, U }
+#_01E60F: dw $04A6 : db $0B ; Heart        xyz:{ 0x098, 0x040, U }
+#_01E612: dw $04AA : db $0B ; Heart        xyz:{ 0x0A8, 0x040, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0118:
+#_01E615: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0119:
+#_01E617: dw $1C2C : db $0B ; Heart        xyz:{ 0x0B0, 0x1C0, U }
+#_01E61A: dw $1C30 : db $01 ; Green rupee  xyz:{ 0x0C0, 0x1C0, U }
+#_01E61D: dw $1C4C : db $0B ; Heart        xyz:{ 0x130, 0x1C0, U }
+#_01E620: dw $1C50 : db $0B ; Heart        xyz:{ 0x140, 0x1C0, U }
+#_01E623: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room011A:
+#_01E625: dw $0AD6 : db $0B ; Heart        xyz:{ 0x158, 0x0A0, U }
+#_01E628: dw $0ADA : db $0B ; Heart        xyz:{ 0x168, 0x0A0, U }
+#_01E62B: dw $0AE2 : db $0B ; Heart        xyz:{ 0x188, 0x0A0, U }
+#_01E62E: dw $0AE6 : db $0B ; Heart        xyz:{ 0x198, 0x0A0, U }
+#_01E631: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room011B:
+#_01E633: dw $3618 : db $0B ; Heart        xyz:{ 0x060, 0x160, L }
+#_01E636: dw $3620 : db $0B ; Heart        xyz:{ 0x080, 0x160, L }
+#_01E639: dw $3628 : db $0B ; Heart        xyz:{ 0x0A0, 0x160, L }
+#_01E63C: dw $165C : db $0A ; Bomb         xyz:{ 0x170, 0x160, U }
+#_01E63F: dw $1660 : db $0B ; Heart        xyz:{ 0x180, 0x160, U }
+#_01E642: dw $3718 : db $0B ; Heart        xyz:{ 0x060, 0x170, L }
+#_01E645: dw $175C : db $0A ; Bomb         xyz:{ 0x170, 0x170, U }
+#_01E648: dw $1760 : db $0B ; Heart        xyz:{ 0x180, 0x170, U }
+#_01E64B: dw $381C : db $0B ; Heart        xyz:{ 0x070, 0x180, L }
+#_01E64E: dw $185C : db $0A ; Bomb         xyz:{ 0x170, 0x180, U }
+#_01E651: dw $1860 : db $0B ; Heart        xyz:{ 0x180, 0x180, U }
+#_01E654: dw $195C : db $0A ; Bomb         xyz:{ 0x170, 0x190, U }
+#_01E657: dw $1960 : db $0B ; Heart        xyz:{ 0x180, 0x190, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room011C:
+#_01E65A: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room011D:
+#_01E65C: dw $063C : db $07 ; Blue rupee   xyz:{ 0x0F0, 0x060, U }
+#_01E65F: dw $0640 : db $07 ; Blue rupee   xyz:{ 0x100, 0x060, U }
+#_01E662: dw $073C : db $07 ; Blue rupee   xyz:{ 0x0F0, 0x070, U }
+#_01E665: dw $0740 : db $07 ; Blue rupee   xyz:{ 0x100, 0x070, U }
+#_01E668: dw $083C : db $07 ; Blue rupee   xyz:{ 0x0F0, 0x080, U }
+#_01E66B: dw $0840 : db $07 ; Blue rupee   xyz:{ 0x100, 0x080, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room011E:
+#_01E66E: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room011F:
+#_01E670: dw $1CAE : db $0B ; Heart        xyz:{ 0x0B8, 0x1C0, U }
+#_01E673: dw $1CB2 : db $0B ; Heart        xyz:{ 0x0C8, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0120:
+RoomData_PotItems_Room0121:
+RoomData_PotItems_Room0122:
+RoomData_PotItems_Room0123:
+#_01E676: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0124:
+#_01E678: dw $1414 : db $07 ; Blue rupee   xyz:{ 0x050, 0x140, U }
+#_01E67B: dw $1428 : db $07 ; Blue rupee   xyz:{ 0x0A0, 0x140, U }
+#_01E67E: dw $1514 : db $07 ; Blue rupee   xyz:{ 0x050, 0x150, U }
+#_01E681: dw $1528 : db $07 ; Blue rupee   xyz:{ 0x0A0, 0x150, U }
+#_01E684: dw $1614 : db $07 ; Blue rupee   xyz:{ 0x050, 0x160, U }
+#_01E687: dw $1628 : db $07 ; Blue rupee   xyz:{ 0x0A0, 0x160, U }
+#_01E68A: dw $1818 : db $07 ; Blue rupee   xyz:{ 0x060, 0x180, U }
+#_01E68D: dw $181C : db $07 ; Blue rupee   xyz:{ 0x070, 0x180, U }
+#_01E690: dw $1820 : db $07 ; Blue rupee   xyz:{ 0x080, 0x180, U }
+#_01E693: dw $1824 : db $07 ; Blue rupee   xyz:{ 0x090, 0x180, U }
+#_01E696: dw $FFFF
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0125:
+#_01E698: dw $1918 : db $07 ; Blue rupee   xyz:{ 0x060, 0x190, U }
+#_01E69B: dw $191C : db $07 ; Blue rupee   xyz:{ 0x070, 0x190, U }
+#_01E69E: dw $1920 : db $07 ; Blue rupee   xyz:{ 0x080, 0x190, U }
+#_01E6A1: dw $1924 : db $07 ; Blue rupee   xyz:{ 0x090, 0x190, U }
+#_01E6A4: dw $1658 : db $0B ; Heart        xyz:{ 0x160, 0x160, U }
+#_01E6A7: dw $1664 : db $0B ; Heart        xyz:{ 0x190, 0x160, U }
+#_01E6AA: dw $1C58 : db $0B ; Heart        xyz:{ 0x160, 0x1C0, U }
+#_01E6AD: dw $1C64 : db $0B ; Heart        xyz:{ 0x190, 0x1C0, U }
+
+;---------------------------------------------------------------------------------------------------
+
+RoomData_PotItems_Room0126:
+RoomData_PotItems_Room0127:
+RoomData_PotItems_Room0128:
+RoomData_PotItems_Room0129:
+RoomData_PotItems_Room012A:
+RoomData_PotItems_Room012B:
+RoomData_PotItems_Room012C:
+RoomData_PotItems_Room012D:
+RoomData_PotItems_Room012E:
+RoomData_PotItems_Room012F:
+RoomData_PotItems_Room0130:
+RoomData_PotItems_Room0131:
+RoomData_PotItems_Room0132:
+RoomData_PotItems_Room0133:
+RoomData_PotItems_Room0134:
+RoomData_PotItems_Room0135:
+RoomData_PotItems_Room0136:
+RoomData_PotItems_Room0137:
+RoomData_PotItems_Room0138:
+RoomData_PotItems_Room0139:
+RoomData_PotItems_Room013A:
+RoomData_PotItems_Room013B:
+RoomData_PotItems_Room013C:
+RoomData_PotItems_Room013D:
+RoomData_PotItems_Room013E:
+RoomData_PotItems_Room013F:
+#_01E6B0: dw $FFFF
 }
 
 ; ==============================================================================

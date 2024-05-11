@@ -4240,12 +4240,14 @@ $0E30[0x10] -   (Sprite)            ; xxxyysss
 
 $0E40[0x10] -   (Sprite)
 
-    Bits 0-4: If zero, the sprite is invisible. Otherwise, visible.
+    abcooooo
+
+    o - If zero, the sprite is invisible. Otherwise, visible.
     (actually, it seems like this is the number of OAM sprite slots allocated to this sprite object)
     
-    Bit 5: Causes enemies to go towards the walls? strange...
-    Bit 6: No idea but the master sword ceremony sprites seem to use them....?
-    Bit 7: If set, enemy is harmless. Otherwise you take damage from contact.
+    c - Causes enemies to go towards the walls? strange...
+    b - No idea but the master sword ceremony sprites seem to use them....?
+    a - If set, enemy is harmless. Otherwise you take damage from contact.
 
 $0E50[0x10] -   (Sprite)
     
