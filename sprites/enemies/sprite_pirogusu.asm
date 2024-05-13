@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F273F-$0F2763 BRANCH LOCATION
-pool Sprite_Pirogusu:
+Pool_Sprite_Pirogusu:
 {
     .is_flying_tile
     
@@ -31,7 +31,7 @@ Sprite_Pirogusu:
 ; ==============================================================================
 
 ; $0F2764-$0F2767 DATA
-pool Pirogusu_WriggleInHole:
+Pool_Pirogusu_WriggleInHole:
 {
     .animation_states
     db $02, $03, $00, $01
@@ -62,7 +62,7 @@ Pirogusu_WriggleInHole:
 ; ==============================================================================
 
 ; $0F2782-$0F278F DATA
-pool Pirogusu_Emerge:
+Pool_Pirogusu_Emerge:
 {
     .animation_states
     db $09, $0B, $05, $07, $05, $0B, $07, $09
@@ -113,7 +113,7 @@ Pirogusu_Emerge:
 ; ==============================================================================
 
 ; $0F27CE-$0F27DB DATA
-pool Pirogusu_SplashIntoPlay:
+Pool_Pirogusu_SplashIntoPlay:
 {
     .animation_states
     db $10, $11, $12, $13, $0C, $0D, $0E, $0F
@@ -192,7 +192,7 @@ Sprite_SpawnSmallWaterSplash:
 ; ==============================================================================
 
 ; $0F284C-$0F2851 DATA
-pool Pirogusu_Swim:
+Pool_Pirogusu_Swim:
 {
     .x_speeds length 4
     db 24, -24
@@ -240,7 +240,7 @@ Pirogusu_Swim:
 ; ==============================================================================
 
 ; $0F2893-$0F2896 DATA
-pool Pirogusu_SpawnSplashGarnish:
+Pool_Pirogusu_SpawnSplashGarnish:
 {
     ; \task Name this routine / pool.
     .displacements
@@ -299,7 +299,7 @@ Pirogusu_SpawnSplashGarnish:
 ; ==============================================================================
 
 ; $0F2903-$0F293A DATA
-pool Pirogusu_Draw:
+Pool_Pirogusu_Draw:
 {
     .vh_flip
     db $00, $80, $40, $00, $00, $00, $00, $80

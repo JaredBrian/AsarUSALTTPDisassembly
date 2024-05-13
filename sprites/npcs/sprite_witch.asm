@@ -247,7 +247,7 @@ Witch_PlayerHandsMushroomOver:
 ; ==============================================================================
 
 ; $02E509-$02E55C DATA
-pool Witch_Draw:
+Pool_Witch_Draw:
 {
     .stirring_oam_groups
     db  -3,  8 : db $AE, $00

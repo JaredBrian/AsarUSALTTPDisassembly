@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B58D-$04B590 DATA
-pool Garnish_BlindLaserTrail:
+Pool_Garnish_BlindLaserTrail:
 {
     .chr
     db $61, $71, $70, $60

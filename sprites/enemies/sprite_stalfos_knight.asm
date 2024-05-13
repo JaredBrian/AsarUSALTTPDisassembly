@@ -378,7 +378,7 @@ StalfosKnight_Falling:
 ; ==============================================================================
 
 ; $0F2CEC-$0F2E03 DATA
-pool StalfosKnight_Draw:
+Pool_StalfosKnight_Draw:
 {
     .oam_groups
     dw -4, -8 : db $64, $00, $00, $00
@@ -462,7 +462,7 @@ StalfosKnight_Draw:
 
 ; $0F2E46-$0F2E4D DATA
 {
-    ; \task Name this pool / routine. Hint: Perhaps it's for the Stalfos knight
+    ; \task Name this Pool_/ routine. Hint: Perhaps it's for the Stalfos knight
     ; head?
     .chr
     db $66, $66, $46, $46

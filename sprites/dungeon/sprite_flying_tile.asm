@@ -138,7 +138,7 @@ FlyingTile_RiseUp:
 ; ==============================================================================
 
 ; $0F3C8A-$0F3CC9 DATA
-pool FlyingTile_Draw:
+Pool_FlyingTile_Draw:
 {
     .oam_groups
     dw 0, 0 : db $D3, $00, $00, $00

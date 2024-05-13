@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0441E4-$0441E9 DATA
-pool Ancilla_SwordChargeSpark:
+Pool_Ancilla_SwordChargeSpark:
 {
     .chr
     db $B7, $80, $83

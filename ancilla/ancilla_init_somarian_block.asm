@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $046068-$046077 DATA
-pool AddSomarianBlock:
+Pool_AddSomarianBlock:
 {
     .initial_collision_y_offsets
     dw -8, 31, 17, 17
@@ -141,7 +141,7 @@ AddSomarianBlock:
 ; ==============================================================================
 
 ; $046161-$046190 DATA
-pool SomarianBlock_CheckForTransitLine:
+Pool_SomarianBlock_CheckForTransitLine:
 {
     .y_offsets
     dw -16, -16, -16,  16,  16,  16

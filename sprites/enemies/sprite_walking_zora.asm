@@ -242,7 +242,7 @@ WalkingZora_Depressed:
 ; ==============================================================================
 
 ; $029EF0-$029F07 DATA
-pool WalkingZora_Draw:
+Pool_WalkingZora_Draw:
 {
     .head_chr
     db $CE, $CE, $A4, $EE
@@ -345,7 +345,7 @@ WalkingZora_Draw:
 ; ==============================================================================
 
 ; $029FAC-$029FDF DATA
-pool Sprite_DrawWaterRipple:
+Pool_Sprite_DrawWaterRipple:
 {
     .oam_groups
     dw 0, 10 : db $D8, $01, $00, $00

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $047169-$04718C DATA
-pool Ancilla_SuperBombExplosion:
+Pool_Ancilla_SuperBombExplosion:
 {
     .y_offsets
     dw   0, -16, -24, -16,   0,   0,  16,  24,  16

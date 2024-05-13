@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0451D4-$0451D7 DATA
-pool Ancilla_TravelBirdIntro:
+Pool_Ancilla_TravelBirdIntro:
 {
     .hflip_settings
     db $40, $00

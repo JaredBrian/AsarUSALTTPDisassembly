@@ -24,7 +24,7 @@
 ; =============================================================================
 
 ; $0F342A-$0F3432 DATA
-pool Sprite_Arrghus:
+Pool_Sprite_Arrghus:
 {
     .animation_states
     db $01, $01, $01, $02, $02, $01, $01, $00
@@ -585,7 +585,7 @@ Arrghus_Decelerate:
 ; ==============================================================================
 
 ; $0F3818-$0F383F DATA
-pool Arrghus_Draw:
+Pool_Arrghus_Draw:
 {
     .oam_groups
     dw -8, -4 : db $80, $00, $00, $02

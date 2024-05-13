@@ -251,7 +251,7 @@ Sprite_SomariaPlatform:
 
 ; $0F77E0-$0F785F DATA
 {
-    ; \task Name this pool / routine.
+    ; \task Name this Pool_/ routine.
     .oam_groups
     dw -16, -16 : db $AC, $00, $00, $02
     dw   0, -16 : db $AC, $40, $00, $02
@@ -839,7 +839,7 @@ Sprite_SomariaPlatform:
 
     ; \unused
 ; $0F7B78-$0F7B7D DATA
-pool Unused:
+Pool_Unused:
 {
     ; \note Perhaps these wwere speeds to be used for the player moving
     ; through the pipes?
@@ -947,7 +947,7 @@ Pipe_WaitForPlayer:
 ; ==============================================================================
 
 ; $0F7BF0-$0F7BF3 DATA
-pool Pipe:
+Pool_Pipe:
 {
     .player_direction
     db $08, $04, $02, $01

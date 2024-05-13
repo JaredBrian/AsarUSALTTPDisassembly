@@ -15,7 +15,7 @@
 ; ==============================================================================
 
 ; $0F38BC-$0F38C3 DATA
-pool Sprite_Arrgi:
+Pool_Sprite_Arrgi:
 {
     .animation_states
     db 0, 1, 2, 2, 2, 2, 2, 1

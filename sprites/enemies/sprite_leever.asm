@@ -90,7 +90,7 @@ Leever_UnderSand:
 ; ==============================================================================
 
 ; $034C03-$034C12 DATA
-pool Leever_Emerge:
+Pool_Leever_Emerge:
 {
     .animation_states
     db 10,  9,  8,  7,  6,  5,  4,  3
@@ -122,7 +122,7 @@ Leever_Emerge:
 ; ==============================================================================
 
 ; $034C37-$034C3B DATA
-pool Leever_AttackPlayer:
+Pool_Leever_AttackPlayer:
 {
     .animation_states length 4
     db 9, 10, 11
@@ -173,7 +173,7 @@ Leever_AttackPlayer:
 ; ==============================================================================
 
 ; $034C7A-$034C89 DATA
-pool Leever_Submerge:
+Pool_Leever_Submerge:
 {
     .animation_states
     db 10,  9,  8,  7,  6,  5,  4,  3
@@ -209,7 +209,7 @@ Leever_Submerge:
 ; ==============================================================================
 
 ; $034CAF-$034E44 DATA
-pool Leever_Draw:
+Pool_Leever_Draw:
 {
     ; \task fill in later.
     db  2,  0,  6,  0,  6,  0,  6,  0

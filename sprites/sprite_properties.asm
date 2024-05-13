@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $06B080-$06B817 DATA
-pool Sprite_LoadProperties:
+Pool_Sprite_LoadProperties:
 {
     ; $06B080
     ; $0E40 - OAM allocation and misc settings.

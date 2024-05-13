@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0356A2-$0356A9 DATA
-pool Sprite_Octoballoon:
+Pool_Sprite_Octoballoon:
 {
     .altitudes
     db 16, 17, 18, 19, 20, 19, 18, 17
@@ -122,7 +122,7 @@ Octoballoon_ApplyRecoilToPlayer:
 ; ==============================================================================
 
 ; $03573C-$035783 DATA
-pool Octoballoon_Draw:
+Pool_Octoballoon_Draw:
 {
     ; \task Fill in data.
 }
@@ -201,7 +201,7 @@ Octoballoon_Draw:
 ; ==============================================================================
 
 ; $035802-$03580D DATA
-pool Octoballoon_SpawnTheSpawn:
+Pool_Octoballoon_SpawnTheSpawn:
 {
     .x_speeds
     db  16,  11, -11, -16, -11,  11

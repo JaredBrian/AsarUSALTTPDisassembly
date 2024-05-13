@@ -389,7 +389,7 @@ Sprite_HelmasaurKing:
 ; ==============================================================================
 
 ; $0F029C-$0F029F DATA
-pool HelmasaurKing_Initialize:
+Pool_HelmasaurKing_Initialize:
 {
     db 0, 8, 16, 24
 }

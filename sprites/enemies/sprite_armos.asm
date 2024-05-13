@@ -108,7 +108,7 @@ Sprite_Armos:
 ; ==============================================================================
 
 ; $02B7DF-$02B7EE DATA
-pool Armos_Draw:
+Pool_Armos_Draw:
 {
     .oam_groups
     dw 0, -16 : db $C0, $00, $00, $02

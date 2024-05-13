@@ -348,7 +348,7 @@ Sidenexx_Breathe:
 ; ==============================================================================
 
 ; $0EBAE6-$0EBAE7 DATA
-pool SidenexxExhaleDanger:
+Pool_SidenexxExhaleDanger:
 {
     ; \task Name this routine / pool
     .x_accelerations

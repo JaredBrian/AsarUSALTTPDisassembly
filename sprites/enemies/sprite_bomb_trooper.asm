@@ -242,7 +242,7 @@ BombTrooper_Main:
 ; ==============================================================================
 
 ; $02BFB1-$02BFC0 DATA
-    pool 
+    Pool_
 {
     .x_offsets_low
     db $00, $01, $09, $F8
@@ -390,7 +390,7 @@ BombTrooper_DrawArm:
 ; ==============================================================================
 
 ; $02C0D3-$02C112 DATA
-pool EnemyBomb_DrawExplosion:
+Pool_EnemyBomb_DrawExplosion:
 {
     .x_offsets
     db -12, 12, -12, 12

@@ -81,7 +81,7 @@ Sprite_Oprhan1:
 ; ==============================================================================
 
 ; $02E063-$02E06A UNUSED DATA
-pool Oprhan1_State1:
+Pool_Oprhan1_State1:
 {
     .x_speeds
     db $00, $00, $F4, $0B
@@ -165,7 +165,7 @@ Orphan1_State2:
 ; ==============================================================================
 
 ; $02E0FF-$02E17E DATA
-pool QuarrelBros_Draw:
+Pool_QuarrelBros_Draw:
 {
     .animation_states
     dw 0, -12 : db $04, $00, $00, $02

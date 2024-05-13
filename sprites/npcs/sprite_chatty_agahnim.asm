@@ -120,7 +120,7 @@ ChattyAgahnim_Problab:
 ; ==============================================================================
 
 ; $0ED2A1-$0ED2A4 DATA
-pool ChattyAgahnim_LevitateZelda:
+Pool_ChattyAgahnim_LevitateZelda:
 {
     .animation_states
     db 2, 0, 3, 0
@@ -339,7 +339,7 @@ ChattyAgahnim_LingerThenTerminate:
 ; ==============================================================================
 
 ; $0ED3D1-$0ED450 DATA
-pool ChattyAgahnim_Draw:
+Pool_ChattyAgahnim_Draw:
 {
     .oam_groups
     dw -8, -8 : db $82, $0B, $00, $02
@@ -401,7 +401,7 @@ ChattyAgahnim_Draw:
 ; ==============================================================================
 
 ; $0ED48D-$0ED515 DATA
-pool ChattyAgahnim_DrawTelewarpSpell:
+Pool_ChattyAgahnim_DrawTelewarpSpell:
 {
     ; \task This looks like a pain. Finish the labeling later.
     
@@ -533,7 +533,7 @@ Sprite_AltarZelda:
 ; ==============================================================================
 
 ; $0ED581-$0ED5A0 DATA
-pool AltarZelda_Main:
+Pool_AltarZelda_Main:
 {
     .oam_groups
     dw -4, 0 : db $03, $01, $00, $02
@@ -586,7 +586,7 @@ AltarZelda_Main:
 ; ==============================================================================
 
 ; $0ED5D9-$0ED5E8 DATA
-pool AltarZelda_DrawBody:
+Pool_AltarZelda_DrawBody:
 {
     .xy_offsets
     db 4, 4, 3, 3, 2, 2, 1, 1
@@ -649,7 +649,7 @@ AltarZelda_DrawBody:
 ; ==============================================================================
 
 ; $0ED661-$0ED6B0 DATA
-pool AltarZelda_DrawWarpEffect:
+Pool_AltarZelda_DrawWarpEffect:
 {
     .oam_groups
     dw  4, 4 : db $80, $04, $00, $00

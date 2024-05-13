@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $046EDE-$046F99 DATA
-pool Ancilla_SkullWoodsFire:
+Pool_Ancilla_SkullWoodsFire:
 {
     .flame_y_offsets_low
     db 0, 0, 0, -3

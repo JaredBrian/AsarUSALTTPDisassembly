@@ -3,7 +3,7 @@
 
 ; $0428E3-$0428E4 JUMP LOCATION
 Ancilla_Unused_25:
-pool Ancilla_HitStars:
+Pool_Ancilla_HitStars:
 {
     .chr
     db $90, $91

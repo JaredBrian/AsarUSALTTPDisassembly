@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-pool Sprite_SpikeRoller:
+Pool_Sprite_SpikeRoller:
 ; $028DD8-$028DDD DATA
 {
     ; Note that the overlap is intentional, it's a space optimization.
@@ -53,7 +53,7 @@ Sprite_SpikeRoller:
 ; ==============================================================================
 
 ; $028E21-$028EE2 DATA
-pool SpikeRoller_Draw:
+Pool_SpikeRoller_Draw:
 {
     .x_spacing
     dw 0,  0,  0,  0,  0,  0,  0,   0

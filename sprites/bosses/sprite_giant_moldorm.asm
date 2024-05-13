@@ -40,7 +40,7 @@ Sprite_GiantMoldormLong:
 ; ==============================================================================
 
 ; $0ED6FE-$0ED74D DATA
-pool Sprite_GiantMoldorm:
+Pool_Sprite_GiantMoldorm:
 {
     .x_speeds
     db  24,  22,  17,   9,   0,   -9, -17, -22
@@ -335,7 +335,7 @@ GiantMoldorm_IncrementalSegmentExplosion:
 ; ==============================================================================
 
 ; $0ED913-$0ED992 DATA
-pool GiantMoldorm_DrawHead:
+Pool_GiantMoldorm_DrawHead:
 {
     .oam_groups
     dw -8, -8 : db $80, $00, $00, $02
@@ -382,7 +382,7 @@ GiantMoldorm_DrawHead:
 ; ==============================================================================
 
 ; $0ED9B8-$0ED9F7 DATA
-pool GiantMoldorm_DrawSegment_A:
+Pool_GiantMoldorm_DrawSegment_A:
 {
     .oam_groups
     dw -8, -8 : db $84, $00, $00, $02
@@ -461,7 +461,7 @@ GiantMoldorm_DrawSegment_B:
 ; ==============================================================================
 
 ; $0EDA5B-$0EDA5E DATA
-pool GiantMoldorm_DrawSegment_C:
+Pool_GiantMoldorm_DrawSegment_C:
 {
     .vh_flip
     db $00, $40, $C0, $80
@@ -586,7 +586,7 @@ GiantMoldorm_DrawTail:
 ; ==============================================================================
 
 ; $0EDB3E-$0EDB9D DATA
-pool GiantMoldorm_DrawEyeballs:
+Pool_GiantMoldorm_DrawEyeballs:
 {
     .x_offsets
     dw  16,  15,  12,   6,   0,  -6, -12, -13

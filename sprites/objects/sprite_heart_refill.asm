@@ -89,7 +89,7 @@ HeartRefill_BeginDescending:
 ; ==============================================================================
 
 ; $034F35-$034F36 DATA
-pool HeartRefill_GlideGroundward:
+Pool_HeartRefill_GlideGroundward:
 {
     db 10, -10
 }

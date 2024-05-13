@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B3E8-$04B3ED DATA
-pool Garnish_CannonPoof:
+Pool_Garnish_CannonPoof:
 {
     .chr
     db $8A, $86

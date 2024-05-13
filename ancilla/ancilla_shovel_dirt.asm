@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $042997-$0429A8 DATA
-pool Ancilla_ShovelDirt:
+Pool_Ancilla_ShovelDirt:
 {
     .xy_offsets
     dw 18, -13

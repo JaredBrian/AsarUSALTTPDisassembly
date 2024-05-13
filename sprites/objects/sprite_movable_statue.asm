@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0340DA-$0340E7 DATA
-pool Sprite_MovableStatue:
+Pool_Sprite_MovableStatue:
 {
     .directions
     db 4, 6, 0, 2
@@ -162,7 +162,7 @@ Sprite_MovableStatue:
 ; ==============================================================================
 
 ; $0341F7-$034202 DATA
-pool MovableStatue_CheckFullSwitchCovering:
+Pool_MovableStatue_CheckFullSwitchCovering:
 {
     .y_offsets
     db 3, 12,  3, 12
@@ -223,7 +223,7 @@ MovableStatue_CheckFullSwitchCovering:
 ; ==============================================================================
 
 ; $03424C-$034263 DATA
-pool MovableStatue_Draw:
+Pool_MovableStatue_Draw:
 {
     .oam_groups
     dw 0, -8 : db $C2, $00, $00, $00

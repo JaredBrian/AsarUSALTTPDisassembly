@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $041543-$041559 DATA
-pool Ancilla_Bomb:
+Pool_Ancilla_Bomb:
 {
     .interstate_intervals
     db 160, 6, 4, 4, 4, 4, 4, 6, 6, 6, 6
@@ -411,7 +411,7 @@ Ancilla_Bomb:
 ; ==============================================================================
 
 ; $0417B6-$0417BD DATA
-pool Ancilla_ConveyorBeltVelocityOverride:
+Pool_Ancilla_ConveyorBeltVelocityOverride:
 {
     .y_speeds
     db -8,  8,  0,  0
@@ -445,7 +445,7 @@ Ancilla_ConveyorBeltVelocityOverride:
 ; ==============================================================================
 
 ; $0417E2-$041814 DATA
-pool Bomb_CheckSpriteAndPlayerDamage:
+Pool_Bomb_CheckSpriteAndPlayerDamage:
 {
     .recoil_magnitudes
     db 32, 32, 32, 32, 32, 32, 28, 28
@@ -582,7 +582,7 @@ Bomb_CheckSpriteAndPlayerDamage:
 ; ==============================================================================
 
 ; $041913-$041975 DATA
-pool Ancilla_LiftableObjectLogic:
+Pool_Ancilla_LiftableObjectLogic:
 {
     .player_relative_y_offsets
     dw 16, 8, 4, 4
@@ -1202,8 +1202,8 @@ Bomb_GetGrossPlayerDistance:
 ; ==============================================================================
 
 ; $041D10-$041E9D DATA
-pool Bomb_Draw:
-    parallel pool Bomb_DrawExplosion:
+Pool_Bomb_Draw:
+    parallel Pool_Bomb_DrawExplosion:
 {
     .chr_and_properties
     .chr

@@ -53,7 +53,7 @@ Sprite_TroughBoy:
 ; ==============================================================================
 
 ; $02FF9F-$02FFDE LOCAL JUMP LOCATION
-pool TroughBoy_Draw:
+Pool_TroughBoy_Draw:
 {
     .oam_groups
     dw 0, -8 : db $82, $08, $00, $02

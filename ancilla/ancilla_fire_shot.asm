@@ -84,7 +84,7 @@ Ancilla_FireShot:
 ; ==============================================================================
 
 ; $040759-$04077B DATA
-pool FireShot_Draw:
+Pool_FireShot_Draw:
 {
     .x_offsets
     db 7, 0, 8, 0, 8, 4, 0, 0
@@ -155,7 +155,7 @@ FireShot_Draw:
 ; ==============================================================================
 
 ; $0407CB-$040852 BRANCH LOCATION
-pool Ancilla_ConsumingFire:
+Pool_Ancilla_ConsumingFire:
 {
     .self_terminate
     

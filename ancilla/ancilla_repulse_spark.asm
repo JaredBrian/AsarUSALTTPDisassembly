@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $040F82-$040F88 DATA
-pool Ancilla_RepulseSpark:
+Pool_Ancilla_RepulseSpark:
 {
     .chr
     db $93, $82, $81

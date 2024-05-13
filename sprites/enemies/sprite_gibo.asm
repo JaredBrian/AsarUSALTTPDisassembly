@@ -4,7 +4,7 @@
 ; ==============================================================================
 
 ; $0ECCDB-$0ECCDE DATA
-pool Sprite_GiboNucleus:
+Pool_Sprite_GiboNucleus:
 {
     .vh_flip
     db $00, $40, $C0, $80
@@ -13,7 +13,7 @@ pool Sprite_GiboNucleus:
 ; ==============================================================================
 
 ; $0ECCDF-$0ECCE0 DATA
-pool Gibo_Draw:
+Pool_Gibo_Draw:
 {
     .palettes
     db $0B, $07
@@ -96,7 +96,7 @@ Gibo_Main:
 ; ==============================================================================
 
 ; $0ECD62-$0ECD71 DATA
-pool Gibo_ExpelNucleus:
+Pool_Gibo_ExpelNucleus:
 {
     .x_speeds
     db  16,  16,   0, -16, -16, -16,   0,  16
@@ -257,7 +257,7 @@ Gibo_PursueNucleus:
 ; ==============================================================================
 
 ; $0ECE5E-$0ECF5D DATA
-pool Gibo_Draw:
+Pool_Gibo_Draw:
 {
     .oam_groups
     dw  4, -4 : db $8A, $40, $00, $02

@@ -189,7 +189,7 @@ Sprite_CannonTrooper:
 ; ==============================================================================
 
 ; $02AC63-$02AC7A DATA
-pool CannonTrooper_SpawnCannonBall:
+Pool_CannonTrooper_SpawnCannonBall:
 {
     .x_offsets_low
     db 16, -16,   0,   0

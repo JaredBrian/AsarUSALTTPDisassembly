@@ -21,8 +21,8 @@ Sprite_Pikit:
 ; ==============================================================================
 
 ; $0F0BD8-$0F0BDD DATA
-pool Pikit_Data:
-    parallel pool Sprite3_Shake:
+Pool_Pikit_Data:
+    parallel Pool_Sprite3_Shake:
 {
     .x_speeds length 4
     db $10, $F0
@@ -118,7 +118,7 @@ Pikit_FinishJumpThenAttack:
 ; ==============================================================================
 
 ; $0F0C72-$0F0CE1 DATA
-pool Pikit_AttemptItemGrab:
+Pool_Pikit_AttemptItemGrab:
 {
     .animation_states
     db $02, $02, $02, $02, $03, $03, $03, $03

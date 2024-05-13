@@ -40,7 +40,7 @@ Sprite_SweepingLady:
 ; ==============================================================================
 
 ; $06C4CB-$06C4EA DATA
-pool SweepingLady_Draw:
+Pool_SweepingLady_Draw:
 {
     .oam_groups
     dw 0, -7 : db $8E, $00, $00, $02

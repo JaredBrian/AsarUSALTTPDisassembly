@@ -153,7 +153,7 @@ SpriteActive3_Table:
 ; ==============================================================================
 
 ; $0F0BBB-$0F0BBE DATA
-pool Unused:
+Pool_Unused:
 {
     db $00, $00, $00, $00
 }
@@ -319,17 +319,13 @@ Sprite3_IsBelowPlayer:
 Sprite3_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
+        ; $0F7E7F ALTERNATE ENTRY POINT
+        .permissive
     
-    ; $0F7E7F ALTERNATE ENTRY POINT
-    .permissive
-    
-    LDA $0FC1 : BNE .inactive
-    
-    LDA $11 : BNE .inactive
-    
-    LDA $0CAA, X : BMI .active
-    
-    LDA $0F00, X : BEQ .active
+        LDA $0FC1 : BNE .inactive
+        LDA $11 : BNE .inactive
+            LDA $0CAA, X : BMI .active
+            LDA $0F00, X : BEQ .active
     
     .inactive
     
@@ -343,7 +339,7 @@ Sprite3_CheckIfActive:
 ; ==============================================================================
 
 ; $0F7E95-$0F7E9A DATA
-pool Sprite3_CheckIfRecoiling:
+Pool_Sprite3_CheckIfRecoiling:
 {
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
@@ -556,7 +552,7 @@ Sprite_DrawRippleIfInWater:
 ; ==============================================================================
 
 ; $0F7FDE-$0F7FFF NULL
-pool Empty:
+Pool_Empty:
 {
     fillbyte $FF
     

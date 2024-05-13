@@ -34,7 +34,7 @@ Sprite_KholdstareShell:
 ; ==============================================================================
 
 ; $0F149E-$0F14A1 DATA
-    pool KholdstareShell_ShakeFromDamage
+    Pool_KholdstareShell_ShakeFromDamage
 {
     .x_offsets
     db $01, $FF
@@ -264,7 +264,7 @@ Kholdstare_Accelerate:
 ; ==============================================================================
 
 ; $0F15DD-$0F15E4 DATA
-pool KholdStare_Decelerate:
+Pool_KholdStare_Decelerate:
 {
     .x_speed_limits
     db  16,  16, -16, -16
@@ -341,7 +341,7 @@ Kholdstare_Decelerate:
 ; ==============================================================================
 
 ; $0F1646-$0F164B
-pool Kholdstare_Triplicate:
+Pool_Kholdstare_Triplicate:
 {
     .x_speed_targets
     db  32, -32,   0
@@ -409,7 +409,7 @@ Kholdstare_DoNothing:
 ; ==============================================================================
 
 ; $0F1695-$0F16A4 DATA
-pool Kholdstare_SpawnNebuleGarnish:
+Pool_Kholdstare_SpawnNebuleGarnish:
 {
     .offsets_low
     db $F8, $FA, $FC, $FE, $00, $02, $04, $06
@@ -577,7 +577,7 @@ Sprite_IceBall:
 ; ==============================================================================
 
 ; $0F17BF-$0F17CE DATA
-pool IceBall_Quadruplicate:
+Pool_IceBall_Quadruplicate:
 {
     ; \note the split has two configurations that alternate between diagonal
     ; movement away from the center and movement that is parallel to the x and

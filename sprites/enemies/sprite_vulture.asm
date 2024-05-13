@@ -55,7 +55,7 @@ Vulture_Dormant:
 ; ==============================================================================
 
 ; $0EDCB5-$0EDCB8 DATA
-pool Vulture_Circling:
+Pool_Vulture_Circling:
 {
     .animation_states
     db 1, 2, 3, 2
@@ -110,7 +110,7 @@ Vulture_Circling:
 ; ==============================================================================
 
 ; $0EDD1E-$0EDD5D DATA
-pool Vulture_Draw:
+Pool_Vulture_Draw:
 {
     .oam_groups
     dw -8,  0 : db $86, $00, $00, $02

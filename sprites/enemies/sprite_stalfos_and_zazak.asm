@@ -28,7 +28,7 @@ Sprite_StalfosBone:
 ; ==============================================================================
 
 ; $0F1000-$0F103F DATA
-pool StalfosBone_Draw:
+Pool_StalfosBone_Draw:
 {
     .oam_groups
     dw -4, -2 : db $2F, $80, $00, $00
@@ -63,7 +63,7 @@ StalfosBone_Draw:
 ; ==============================================================================
 
 ; $0F105C-$0F106B DATA
-pool Stalfos:
+Pool_Stalfos:
 {
     .timers
     db $10, $20, $40, $20
@@ -124,7 +124,7 @@ Sprite_Stalfos:
 ; ==============================================================================
 
 ; $0F10B1-$0F10B4 DATA
-pool Stalfos_Visible:
+Pool_Stalfos_Visible:
 {
     db $03, $02, $01, $00
 }
@@ -357,7 +357,7 @@ Zazak_WalkThenTrackHead:
 ; ==============================================================================
 
 ; $0F1254-$0F125B DATA
-pool Zazak_HaltAndPickNextDirection:
+Pool_Zazak_HaltAndPickNextDirection:
 {
     .head_orientations
     db 2, 3, 2, 3, 0, 1, 0, 1
@@ -579,7 +579,7 @@ Stalfos_ThrowBoneAtPlayer:
 ; ==============================================================================
 
 ; $0F13C3-$0F1442 DATA
-pool FirePhlegm_Draw:
+Pool_FirePhlegm_Draw:
 {
     .oam_entries
     dw  0,  0 : db $C3, $00, $00, $00

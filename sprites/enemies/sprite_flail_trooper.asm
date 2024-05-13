@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02B019-$02B01A DATA (UNUSED)
-pool Sprite_ChainBallTrooper:
+Pool_Sprite_ChainBallTrooper:
 {
     .spin_speeds
     db $22, $10
@@ -97,8 +97,8 @@ FlailTrooper_ApproachPlayer:
 ; ==============================================================================
 
 ; $02B0C7-$02B0E6 DATA
-pool FlailTrooper_Animate:
-    parallel pool Sprite_PsychoTrooper:
+Pool_FlailTrooper_Animate:
+    parallel Pool_Sprite_PsychoTrooper:
 {
     .animation_states
     
@@ -129,7 +129,7 @@ FlailTrooper_ShortHalting:
 ; ==============================================================================
 
 ; $02B0F8-$02B0FB DATA
-pool FlailTrooper_Attack:
+Pool_FlailTrooper_Attack:
 {
     db $03, $01, $02, $00
 }
@@ -204,7 +204,7 @@ FlailTrooper_WindingDown:
 ; ==============================================================================
 
 ; $02B156-$02B15D DATA
-pool ChainBallTrooper_DrawHead:
+Pool_ChainBallTrooper_DrawHead:
 {
     .chr
     db $02, $02, $00, $04
@@ -257,7 +257,7 @@ ChainBallTrooper_DrawHead:
 ; ==============================================================================
 
 ; $02B1A3-$02B3CA DATA
-pool FlailTrooper_DrawBody:
+Pool_FlailTrooper_DrawBody:
 {
     .x_offsets
 

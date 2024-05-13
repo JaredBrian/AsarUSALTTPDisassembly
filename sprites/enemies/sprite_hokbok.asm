@@ -122,7 +122,7 @@ Hokbok_Main:
 ; ==============================================================================
 
 ; $0EC719-$0EC720 DATA
-pool Hokbok_ResetBounceVelocity:
+Pool_Hokbok_ResetBounceVelocity:
 {
     .spacing_amounts
     db $08, $07, $06, $05, $04, $05, $06, $07

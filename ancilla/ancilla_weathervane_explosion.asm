@@ -176,7 +176,7 @@ Ancilla_WeathervaneExplosion:
 ; ==============================================================================
 
 ; $045186-$045187 DATA
-pool WeathervaneExplosion_DrawWoodChunk:
+Pool_WeathervaneExplosion_DrawWoodChunk:
 {
     .chr
     db $4E, $4F

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0EDF45-$0EDF48 DATA
-pool Sprite_StandaloneItem:
+Pool_Sprite_StandaloneItem:
 {
     .bounce_z_speeds
     db $20, $10, $08, $00
@@ -216,7 +216,7 @@ GreatCatfish_RumbleBeforeEmergence:
 ; ==============================================================================
 
 ; $0EE07C-$0EE08B DATA
-pool GreatCatfish_Emerge:
+Pool_GreatCatfish_Emerge:
 {
     .animation_states
     db 1, 2, 2, 2, 2, 3, 3, 3
@@ -264,7 +264,7 @@ GreatCatfish_Emerge:
 ; ==============================================================================
 
 ; $0EE0BF-$0EE0D2 DATA
-pool GreatCatfish_ConversateThenSubmerge:
+Pool_GreatCatfish_ConversateThenSubmerge:
 {
     .animation_states
     db 0, 6, 7, 7, 7, 7, 7, 7
@@ -560,7 +560,7 @@ Sprite_SpawnWaterSplash:
 ; ==============================================================================
 
 ; $0EE240-$0EE31F DATA
-pool GreatCatfish_Draw:
+Pool_GreatCatfish_Draw:
 {
     .oam_groups
     dw -4,  4 : db $8C, $00, $00, $02
@@ -622,7 +622,7 @@ GreatCatfish_Draw:
 ; ==============================================================================
 
 ; $0EE33D-$0EE37C DATA
-pool Sprite_WaterSplash:
+Pool_Sprite_WaterSplash:
 {
     .oam_groups
     dw -8, -4 : db $80, $00, $00, $00

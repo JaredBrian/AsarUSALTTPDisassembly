@@ -104,7 +104,7 @@ Sprite_Bumper:
 ; ==============================================================================
 
 ; $0F2A4B-$0F2A8A DATA
-pool Bumper_Draw:
+Pool_Bumper_Draw:
 {
     .oam_groups
     dw -8, -8 : db $EC, $00, $00, $02

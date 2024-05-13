@@ -44,7 +44,7 @@ Sprite_Flame:
 ; ==============================================================================
 
 ; $0F42B4-$0F42D3 DATA
-pool Flame_Halted:
+Pool_Flame_Halted:
 {
     .animation_states
     db $05, $04, $03, $01, $02, $00, $03, $00
@@ -84,7 +84,7 @@ Flame_Halted:
 ; ==============================================================================
 
 ; $0F42FC-$0F435B DATA
-pool Flame_Draw:
+Pool_Flame_Draw:
 {
     .oam_groups
     dw 0,  0 : db $8E, $01, $00, $02

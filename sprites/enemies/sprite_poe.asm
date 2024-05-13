@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $031686-$031687 DATA
-pool Sprite_Poe:
+Pool_Sprite_Poe:
 {
     .h_flip
     db $40, $00
@@ -91,7 +91,7 @@ Sprite_Poe:
     dw Poe_SelectVerticalDirection
     dw Poe_Roaming
 
-    parallel pool Poe_Roaming:
+    parallel Pool_Poe_Roaming:
     
     .acceleration
     db 1, -1
@@ -143,7 +143,7 @@ Poe_SelectVerticalDirection:
 ; ==============================================================================
 
 ; $03173F-$031740 DATA
-pool Poe_Roaming:
+Pool_Poe_Roaming:
 {
     .y_speeds
     db 8, -8
@@ -183,7 +183,7 @@ Poe_Roaming:
 ; ==============================================================================
 
 ; $03177E-$031785 DATA
-pool Poe_Draw:
+Pool_Poe_Draw:
 {
     .x_offsets
     db 9, 0, -1, -1

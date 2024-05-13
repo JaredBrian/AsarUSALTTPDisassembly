@@ -49,7 +49,7 @@ BugNetKid_Resting:
 ; ==============================================================================
 
 ; $033991-$03399F DATA
-pool BugNetKid_PerkUp:
+Pool_BugNetKid_PerkUp:
 {
     .animation_states
     db 0,  1,  0,  1, 0, 1, 2, 255

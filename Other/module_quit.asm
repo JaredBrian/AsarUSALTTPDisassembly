@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04F79B-$04F79E Jump Table
-pool Module_Quit:
+Pool_Module_Quit:
 {
     .submodules
     dw Quit_IndicateHaltedState

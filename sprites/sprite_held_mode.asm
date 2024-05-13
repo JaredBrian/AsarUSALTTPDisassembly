@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $035E4D-$035E82 DATA
-pool SpriteHeld_Main:
+Pool_SpriteHeld_Main:
 {
     ; \task Fill in data and label.
 }
@@ -111,7 +111,7 @@ SpriteHeld_Main:
     .dont_leap_from_player_grip
     
     ; $035F5D ALTERNATE ENTRY POINT
-    parallel pool SpriteHeld_ThrowQuery:
+    parallel Pool_SpriteHeld_ThrowQuery:
     
     .easy_out
     
@@ -125,7 +125,7 @@ SpriteHeld_Main:
 ; ==============================================================================
 
 ; $035F61-$035F6C DATA
-pool SpriteHeld_ThrowQuery:
+Pool_SpriteHeld_ThrowQuery:
 {
     .x_speeds
     db 0, 0, -62, 63

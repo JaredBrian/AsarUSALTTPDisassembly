@@ -43,7 +43,7 @@ Sprite_MadBatterBolt:
 ; ==============================================================================
 
 ; $0F0ABB-$0F0ACA DATA
-pool MadBatterBolt_Active:
+Pool_MadBatterBolt_Active:
 {
     .x_offsets
     db 0, 4, 8, 12, 12, 4, 8, 0

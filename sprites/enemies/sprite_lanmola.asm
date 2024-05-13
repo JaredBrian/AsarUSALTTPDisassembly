@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02A377-$02A379 DATA
-pool Lanmola_FinishInitialization:
+Pool_Lanmola_FinishInitialization:
 {
     ; Seems hard coded for 3 Lanmolas... here at least.
     .starting_delay
@@ -44,7 +44,7 @@ Lanmola_FinishInitialization:
 ; ==============================================================================
 
 ; $02A3A0-$02A3A1 DATA (UNUSED)
-pool Sprite_Lanmola:
+Pool_Sprite_Lanmola:
 {
     .unused
     db 24, -24
@@ -94,7 +94,7 @@ Sprite_Lanmola:
 ; ==============================================================================
 
 ; $02A3D6-$02A3E5 DATA
-    pool Lanmola_Mound
+    Pool_Lanmola_Mound
 {
     .randXPos
     db $58, $50, $60, $70, $80, $90, $A0, $98
@@ -148,7 +148,7 @@ Sprite_Lanmola:
 ; ==============================================================================
 
 ; $02A42F-$02A430 DATA
-pool Lanmola_Fly:
+Pool_Lanmola_Fly:
 {
     .y_speed_slope
     db 2, -2
@@ -264,7 +264,7 @@ pool Lanmola_Fly:
     
     .wait
     
-    parallel pool Lanmola_Death:
+    parallel Pool_Lanmola_Death:
     
     .easy_out
     
@@ -367,7 +367,7 @@ Sprite_SpawnFallingItem:
 ; ==============================================================================
 
 ; $02A5DA-$02A649 DATA
-    shared pool Lanmola_FinishInitialization:
+    shared Pool_Lanmola_FinishInitialization:
 {
     .sprite_regions
     db $00, $40, $80, $C0
@@ -384,7 +384,7 @@ Sprite_SpawnFallingItem:
 ; ==============================================================================
 
 ; $02A5E2-$02A649 DATA
-pool Lanmola_Draw:
+Pool_Lanmola_Draw:
 {
     ; $2A5E2
     .chr1

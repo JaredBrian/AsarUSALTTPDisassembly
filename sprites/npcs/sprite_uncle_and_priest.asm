@@ -19,7 +19,7 @@ SpritePrep_UncleAndSageLong:
 ; ==============================================================================
 
 ; $02DA31-$02DA3C DATA
-pool SpritePrep_UncleAndSage:
+Pool_SpritePrep_UncleAndSage:
 {
     .x_offsets
     dw -6, -6, -6
@@ -144,7 +144,7 @@ SpritePrep_UncleAndSage:
 ; ==============================================================================
 
 ; $02DB23-$02DB26 DATA
-pool Sage_SpawnMantle:
+Pool_Sage_SpawnMantle:
 {
     .x_coord
     dw $04F0
@@ -391,7 +391,7 @@ SageMantle_SlidingRight:
 ; ==============================================================================
 
 ; $02DC6A-$02DC89 DATA
-pool SageMantle_Draw:
+Pool_SageMantle_Draw:
 {
     .animation_states
     db  0,  0 : db $2C, $16, $00, $02
@@ -459,7 +459,7 @@ Sprite_MakeBodyTrackHeadDirection:
 ; ==============================================================================
 
 ; $02DCDE-$02DCE5 DATA (UNUSED)
-pool Sprite_Sage:
+Pool_Sprite_Sage:
 {
     ; Probably unused because, to my knowledge, the priest never moves at
     ; all.
@@ -728,7 +728,7 @@ Sage_Terminate:
 ; ==============================================================================
 
 ; $02DE24-$02DE2B DATA
-pool Uncle_LeavingHouse:
+Pool_Uncle_LeavingHouse:
 {
     .x_speeds
     db $00, $00, $F4, $0C
@@ -852,7 +852,7 @@ Uncle_TellPlayerToStay:
 ; ==============================================================================
 
 ; $02DEB0-$02DEB3 DATA
-pool Uncle_LeavingHouse:
+Pool_Uncle_LeavingHouse:
 {
     .timers
     db $40, $E0

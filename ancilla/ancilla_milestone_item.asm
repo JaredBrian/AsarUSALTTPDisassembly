@@ -2,8 +2,8 @@
 ; ==============================================================================
 
 ; $044A85-$044A8B DATA
-pool Ancilla_MilestoneItem:
-    parallel pool Ancilla_ReceiveItem:
+Pool_Ancilla_MilestoneItem:
+    parallel Pool_Ancilla_ReceiveItem:
 {
     .ether_medallion
     db $10

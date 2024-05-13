@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02A031-$02A035 DATA
-pool Sprite_ArmosKnight:
+Pool_Sprite_ArmosKnight:
 {
     .death_animation_states
     db $05, $04, $03, $02, $01
@@ -217,7 +217,7 @@ ArmosKnight_ProjectSpeedTowardsTarget:
 ; ==============================================================================
 
 ; $02A1B4-$02A273 DATA
-pool ArmosKnight_Draw:
+Pool_ArmosKnight_Draw:
 {
     .x_offsets
     dw  -8,  8,  -8,  8

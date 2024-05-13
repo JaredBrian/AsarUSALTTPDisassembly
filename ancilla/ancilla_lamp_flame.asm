@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $046BE3-$046C12 DATA
-pool Ancilla_LampFlame:
+Pool_Ancilla_LampFlame:
 {
     .chr
     db $9C, $9C, $FF, $FF

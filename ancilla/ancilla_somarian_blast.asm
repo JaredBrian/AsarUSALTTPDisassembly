@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $040515-$04051A DATA
-pool Ancilla_SomarianBlast:
+Pool_Ancilla_SomarianBlast:
 {
     .delay_masks
     db $07, $03, $01, $00, $00, $00
@@ -63,7 +63,7 @@ Ancilla_SomarianBlast:
 ; ==============================================================================
 
 ; $040562-$040621 DATA
-pool SomarianBlast_Draw:
+Pool_SomarianBlast_Draw:
 {
     .chr_a
     db $50, $50, $44, $44, $52, $52
@@ -117,7 +117,7 @@ pool SomarianBlast_Draw:
 ; ==============================================================================
 
 ; $040622-$040629 POOL
-pool Ancilla_BoundsCheck:
+Pool_Ancilla_BoundsCheck:
 {
     .self_terminate
     
@@ -161,7 +161,7 @@ Ancilla_BoundsCheck:
 ; ==============================================================================
 
 ; $04064E-$04064F DATA
-pool SomarianBlast_Draw:
+Pool_SomarianBlast_Draw:
 {
     ; Interesting. Somarian blasts were designed to have more than one
     ; palette option?

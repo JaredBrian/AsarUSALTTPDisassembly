@@ -36,7 +36,7 @@ Debirando_UnderSand:
 ; ==============================================================================
 
 ; $028773-$028774 DATA
-pool Debirando_Emerge:
+Pool_Debirando_Emerge:
 {
     .animation_states
     db $01, $00
@@ -106,7 +106,7 @@ Debirando_ShootFireball:
 ; ==============================================================================
 
 ; $0287C8-$0287C9 DATA
-pool Debirando_Submerge:
+Pool_Debirando_Submerge:
 {
     .animation_states
     db $00, $01
@@ -139,7 +139,7 @@ Debirando_Submerge:
 ; ==============================================================================
 
 ; $0287E7-$028856 DATA
-pool Debirando_Draw:
+Pool_Debirando_Draw:
 {
     .x_offsets
     dw $0000, $0008, $0000, $0008, $0000, $0000, $0000, $0008

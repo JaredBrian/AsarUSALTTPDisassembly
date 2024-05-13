@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $042A32-$042A34 DATA
-pool Ancilla_BlastWallFireball:
+Pool_Ancilla_BlastWallFireball:
 {
     .chr
     db $9D, $9C, $8D

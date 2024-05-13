@@ -15,7 +15,7 @@ org $1B8000
 }
     
 ; $0DB29B-$0DB7FF - null bytes / empty space
-pool Null:
+Pool_Null:
 {
     ; \task Put in fillbyte / fill directives.
 }
@@ -23,7 +23,7 @@ pool Null:
 ; ==============================================================================
 
 ; $0DB800-$0DB85F DATA
-pool Overworld_Hole:
+Pool_Overworld_Hole:
 {
     ; $0DB800 - map16 coordinates for holes
     .map16
@@ -1521,7 +1521,7 @@ Overworld_DrawWarpTile:
 ; ==============================================================================
 
 ; $0DCABA-$0DCAC3 JUMP TABLE
-pool Overworld_EntranceSequence:
+Pool_Overworld_EntranceSequence:
 {
     .handlers
     dw DarkPalaceEntrance_Main
@@ -1552,7 +1552,7 @@ Overworld_EntranceSequence:
 ; ==============================================================================
 
 ; $0DCAD4-$0DCADD JUMP TABLE
-pool DarkPalaceEntrance_Main:
+Pool_DarkPalaceEntrance_Main:
 {
     .handlers
     dw $CAE5
@@ -1923,7 +1923,7 @@ DarkPalaceEntrance_Main:
 ; ==============================================================================
 
 ; $0DCCC8-$0DCCD3 JUMP TABLE
-pool MiseryMireEntrance_Main:
+Pool_MiseryMireEntrance_Main:
 {
     .handlers
     dw MiseryMireEntrance_PhaseOutRain
@@ -1963,7 +1963,7 @@ MiseryMireEntrance_Main:
 ; ==============================================================================
 
 ; $0DCCFA-$0DCD13 DATA
-pool MiseryMireEntrance_PhaseOutRain:
+Pool_MiseryMireEntrance_PhaseOutRain:
 {
     .phase_masks
     db $FF, $F7, $F7, $FB, $EE, $EE, $EE, $EE
@@ -2160,7 +2160,7 @@ MiseryMireEntrance_PhaseOutRain:
 ; ==============================================================================
 
 ; $0DCE16-$0DCE27 DATA
-pool TurtleRockEntrance_Main:
+Pool_TurtleRockEntrance_Main:
 {
     .handlers
     dW $CE48

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F4CD3-$0F4CE2 DATA
-pool CrystalMaiden_Configure:
+Pool_CrystalMaiden_Configure:
 {
     .palette
     dw $0000, $3821, $4463, $54A5, $5CE7, $6D29, $79AD, $7E10
@@ -322,7 +322,7 @@ CrystalMaiden_FilterPalette:
 ; ==============================================================================
 
 ; $0F4EBC-$0F4ECD DATA
-pool CrystalMaiden_ShowMessage:
+Pool_CrystalMaiden_ShowMessage:
 {
     .message_ids
     dw $0133, $0132, $0137, $0134, $0136, $0132, $0135, $0138

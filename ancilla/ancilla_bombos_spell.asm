@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $042F56-$042F65 DATA
-pool AddBombosSpell:
+Pool_AddBombosSpell:
 {
     .y_offsets
     dw   16,   24, -128,  -16
@@ -455,7 +455,7 @@ BombosSpell_WrapUpFlameColumns:
 ; ==============================================================================
 
 ; $043289-$043372 DATA
-pool BombosSpell_DrawFireColumn:
+Pool_BombosSpell_DrawFireColumn:
 {
 }
 
@@ -718,7 +718,7 @@ BombosSpell_ExecuteBlasts:
 ; ==============================================================================
 
 ; $043521-$0435E0 DATA
-pool BombosSpell_DrawBlast:
+Pool_BombosSpell_DrawBlast:
 {
     .chr
     db $60, $FF, $FF, $FF

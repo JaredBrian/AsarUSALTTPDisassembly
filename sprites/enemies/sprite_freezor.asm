@@ -97,7 +97,7 @@ Freezor_Awakening:
 ; ==============================================================================
 
 ; $0F18B8-$0F18D1 DATA
-pool Freezor_Moving:
+Pool_Freezor_Moving:
 {
     .x_speeds length 4
     db $08, $F8
@@ -176,7 +176,7 @@ Freezor_Moving:
 ; ==============================================================================
 
 ; $0F193E-$0F1941 DATA
-pool Freezor_Melting:
+Pool_Freezor_Melting:
 {
     .animation_states
     db $06, $05, $04, $07

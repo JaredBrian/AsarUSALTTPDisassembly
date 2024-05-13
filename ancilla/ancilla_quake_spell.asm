@@ -119,7 +119,7 @@ QuakeSpell_ShakeScreen:
 ; ==============================================================================
 
 ; $043713-$043717 DATA
-pool QuakeSpell_ExecuteBolts:
+Pool_QuakeSpell_ExecuteBolts:
 {
     .limits
     db 23, 22, 23, 22, 16
@@ -202,7 +202,7 @@ QuakeSpell_ExecuteBolts:
 ; ==============================================================================
 
 ; $04378E-$043792 DATA
-pool QuakeSpell_DrawFirstGroundBolts:
+Pool_QuakeSpell_DrawFirstGroundBolts:
 {
     .pointer_offsets
     db $00, $18, $00, $18, $2F
@@ -213,7 +213,7 @@ pool QuakeSpell_DrawFirstGroundBolts:
     ; \task Get deeper into the logic of this ancilla to get a better name
     ; for this, as we're still somewhat confused on how this spell progresses.
 ; $043793-$04384E LOCAL JUMP LOCATION
-pool QuakeSpell_DrawFirstGroundBolts:
+Pool_QuakeSpell_DrawFirstGroundBolts:
 {
     PHX
     
@@ -350,7 +350,7 @@ QuakeSpell_SpreadGroundBolts:
 ; ==============================================================================
 
 ; $043873-$043881 DATA
-pool QuakeSpell_DrawGroundBolts:
+Pool_QuakeSpell_DrawGroundBolts:
 {
     .chr
     db $40, $42, $44, $46, $48, $4A, $4C, $4E

@@ -40,7 +40,7 @@ DashBeeHive_WaitForDash:
 ; ==============================================================================
 
 ; $0F5C7B-$0F5C8E DATA
-pool Bee:
+Pool_Bee:
 {
     .speeds
     db $0F, $05, $FB, $F1, $14, $0A, $F6, $EC
@@ -152,7 +152,7 @@ PlayerItem_ReleaseBee:
 ; ==============================================================================
 
 ; $0F5D41-$0F5D44 DATA
-pool Bee_Normal:
+Pool_Bee_Normal:
 {
     .box_sizes
     db 0, 5, 10, 15
@@ -422,7 +422,7 @@ GoodBee_SpawnTangibleVersion:
 ; ==============================================================================
 
 ; $0F5ED0-$0F5ED1 DATA
-pool GoodBee_Activated:
+Pool_GoodBee_Activated:
 {
     .unknown_1
     db $0A, $14

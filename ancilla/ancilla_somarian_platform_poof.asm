@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $046A7F-$046A82 DATA
-pool Ancilla_SomarianPlatformPoof:
+Pool_Ancilla_SomarianPlatformPoof:
 {
     .directions
     db $01, $00, $03, $02

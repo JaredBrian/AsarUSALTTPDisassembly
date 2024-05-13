@@ -56,7 +56,7 @@ BottleVendor_DetectFish:
 ; ==============================================================================
 
 ; $030044-$030053 DATA
-pool BottleVendor_SpawnFishRewards:
+Pool_BottleVendor_SpawnFishRewards:
 {
     .x_speeds
     db $FA, $FD, $00, $04, $07
@@ -177,7 +177,7 @@ Boomerang_CheatWhenNoOnesLooking:
 ; ==============================================================================
 
 ; $0300E6-$0300F9 DATA
-pool Player_ApplyRumbleToSprites:
+Pool_Player_ApplyRumbleToSprites:
 {
     .x_offsets_low
     db -32, -32, -32, 16
@@ -379,7 +379,7 @@ Sprite_SpawnThrowableTerrain:
 ; ==============================================================================
 
 ; $030262-$030327 BRANCH LOCATION
-pool Sprite_SpawnSecret:
+Pool_Sprite_SpawnSecret:
 {
     .easy_out
     
@@ -621,7 +621,7 @@ EasterEgg_BageCodeTrampoline:
 ; ==============================================================================
 
 ; $0303C7-$0303D2 DATA
-pool Oam_ResetRegionBases:
+Pool_Oam_ResetRegionBases:
 {
     .bases
     db $0030, $01D0, $0000, $0030, $0120, $0140
@@ -972,7 +972,7 @@ SpriteExplode_Main:
 ; ==============================================================================
 
 ; $03054D-$03059B DATA
-pool SpriteDrown_Main:
+Pool_SpriteDrown_Main:
 {
     .oam_groups
     dw -7, -7 : db $80, $04, $00, $00
@@ -2080,17 +2080,13 @@ Sprite_InvertVertSpeed:
 Sprite_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
+        ; $0359F3 ALTERNATE ENTRY POINT
+        .permissive
     
-    ; $0359F3 ALTERNATE ENTRY POINT
-    .permissive
-    
-    LDA $0FC1 : BNE .inactive
-    
-    LDA $11 : BNE .inactive
-    
-    LDA $0CAA, X : BMI .active
-    
-    LDA $0F00, X : BEQ .active
+        LDA $0FC1 : BNE .inactive
+        LDA $11 : BNE .inactive
+            LDA $0CAA, X : BMI .active
+            LDA $0F00, X : BEQ .active
     
     .inactive
     
@@ -2303,7 +2299,7 @@ Sprite_DrawShadowLong:
 ; ==============================================================================
 
 ; $035C5C-$035C63 LONG JUMP LOCATION
-pool Sprite_DrawShadowLong:
+Pool_Sprite_DrawShadowLong:
 {
     .variable
     
@@ -3035,7 +3031,7 @@ Fish_SpawnLeapingFish:
 ; ==============================================================================
 
 ; $036343-$036392 DATA
-pool SpritePoof_Main:
+Pool_SpritePoof_Main:
 {
     .x_offsets
     db -6,  10,   1,  13
@@ -3274,7 +3270,7 @@ Sprite_CheckTileCollisionLong:
 ; ==============================================================================
 
 ; $0364A1-$0364DA BRANCH LOCATION
-pool Sprite_CheckTileCollision:
+Pool_Sprite_CheckTileCollision:
 {
     .restore_layer_property
     
@@ -3873,7 +3869,7 @@ Sprite_GetTileAttrLocal:
 ; ==============================================================================
 
 ; $0368D6-$0368F5 DATA
-pool Entity_CheckSlopedTileCollision:
+Pool_Entity_CheckSlopedTileCollision:
 {
     .subtile_boundaries
     db 7, 6, 5, 4, 3, 2, 1, 0
@@ -4184,7 +4180,7 @@ Sprite_ProjectSpeedTowardsEntityLong:
 ; ==============================================================================
 
 ; $036A2A-$036A2C BRANCH LOCATION
-pool Sprite_ProjectSpeedTowardsEntity:
+Pool_Sprite_ProjectSpeedTowardsEntity:
 {
     .return
     STZ $00
@@ -4666,7 +4662,7 @@ Medallion_CheckSpriteDamage:
 ; ==============================================================================
 
 ; $036C7E-$036CB6 DATA
-pool Ancilla_CheckSpriteDamage:
+Pool_Ancilla_CheckSpriteDamage:
 {
     .damage_classes ; see $0C4A in ram
     db 6,  1, 11,  0,  0,  0,  0,  8,  0,  6,  0, 12,  1,  0,  0,  0
@@ -6043,7 +6039,7 @@ Player_SetupActionHitBoxLong:
 ; ==============================================================================
 
 ; $037594-$0375DF LOCAL JUMP LOCATION
-pool Player_SetupActionHitBox:
+Pool_Player_SetupActionHitBox:
 {
     .spin_attack_hit_box
     
@@ -7228,7 +7224,7 @@ Sprite_CheckIfOnScreenY:
 ; ==============================================================================
 
 ; $037F6D-$037F71 UNUSED
-pool Unused:
+Pool_Unused:
 {
     JSL Sprite_SelfTerminate
     
@@ -7238,7 +7234,7 @@ pool Unused:
 ; ==============================================================================
 
 ; $037F72-$037F77 DATA
-pool Sprite_CheckIfRecoiling:
+Pool_Sprite_CheckIfRecoiling:
 {
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
@@ -7325,7 +7321,7 @@ Sprite_CheckIfRecoiling:
 ; ==============================================================================
 
 ; $037FF8-$037FFF NULL
-pool Null:
+Pool_Null:
 {
     pad $FF
     

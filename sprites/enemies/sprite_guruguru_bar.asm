@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F5012-$0F5019 DATA
-pool Sprite_GuruguruBar:
+Pool_Sprite_GuruguruBar:
 {
     .offsets_low
     db -2, 2

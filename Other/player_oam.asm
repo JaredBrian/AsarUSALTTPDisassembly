@@ -4691,7 +4691,7 @@ PlayerOam_DrawFootObject:
 
 ; \unused (Not sure if really unused yet.)
 ; $06AF9D-$06AFA5 DATA
-pool PlayerOam_Unused_0:
+Pool_PlayerOam_Unused_0:
 {
 .offsets
     db 0, 0, 0, 1, 0, 1, 1, 1

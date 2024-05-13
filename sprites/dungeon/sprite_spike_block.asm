@@ -63,7 +63,7 @@ Sprite_TransientSpikeBlock:
 ; ==============================================================================
 
 ; $0F3D4B-$0F3D4C DATA
-pool TransientSpikeBlock_Activated:
+Pool_TransientSpikeBlock_Activated:
 {
     .wiggle_x_speeds
     db 8, -8
@@ -101,7 +101,7 @@ TransientSpikeBlock_Activated:
 ; ==============================================================================
 
 ; $0F3D74-$0F3D7F DATA
-pool TransientSpikeBlock_InMotion:
+Pool_TransientSpikeBlock_InMotion:
 {
     .target_x_speeds
     db 32, -32
@@ -163,7 +163,7 @@ TransientSpikeBlock_InMotion:
 ; ==============================================================================
 
 ; $0F3DC8-$0F3DCF DATA
-pool TransientSpikeBlock_Retract:
+Pool_TransientSpikeBlock_Retract:
 {
     .x_speeds
     db -16,  16,   0,   0

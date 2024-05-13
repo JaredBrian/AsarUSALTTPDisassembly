@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04422F-$04425E DATA
-pool Ancilla_SwordCeremony:
+Pool_Ancilla_SwordCeremony:
 {
     .y_offsets
     dw 1, 1, 9, 9

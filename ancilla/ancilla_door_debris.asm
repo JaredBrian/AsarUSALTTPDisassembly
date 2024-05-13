@@ -27,7 +27,7 @@ Ancilla_DoorDebris:
 ; ==============================================================================
 
 ; $041FD1-$042090 DATA
-pool DoorDebris_Draw:
+Pool_DoorDebris_Draw:
 {
     .xy_offsets
     dw  4,  7,  3, 17,  8,  8,  7, 17

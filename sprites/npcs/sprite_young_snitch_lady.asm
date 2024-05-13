@@ -31,7 +31,7 @@ Sprite_YoungSnitchLady:
 ; ==============================================================================
 
 ; $02E2FF-$02E37E DATA
-pool YoungSnitchLady_Draw:
+Pool_YoungSnitchLady_Draw:
 {
     .oam_groups
     dw 0, -8 : db $26, $00, $00, $02

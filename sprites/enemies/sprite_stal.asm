@@ -77,7 +77,7 @@ Stal_Dormant:
 ; ==============================================================================
 
 ; $0E8198-$0E819C DATA
-pool Stal_Active:
+Pool_Stal_Active:
 {
     .animation_states
     db $02, $02, $01, $00, $01
@@ -127,7 +127,7 @@ Stal_Active:
 ; ==============================================================================
 
 ; $0E81DC-$0E820B DATA
-pool Stal_Draw:
+Pool_Stal_Draw:
 {
     .oam_groups
     dw 0,  0 : db $44, $00, $00, $02

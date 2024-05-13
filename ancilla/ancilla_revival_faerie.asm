@@ -12,7 +12,7 @@
 ; ==============================================================================
 
 ; $04727C-$047282 DATA
-pool Ancilla_RevivalFaerie:
+Pool_Ancilla_RevivalFaerie:
 {
     ; \note The first one probably isn't even used as it's the start state
     .timers

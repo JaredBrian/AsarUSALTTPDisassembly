@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02966A-$02967A DATA
-pool Sprite_ZoraAndFireball:
+Pool_Sprite_ZoraAndFireball:
 {
     .shield_x_offsets_low
     db $04, $04, $FC, $10
@@ -170,7 +170,7 @@ Sprite_Zora:
 ; ==============================================================================
 
 ; $02974A-$029759 DATA
-pool Zora_ChooseSurfacingLocation:
+Pool_Zora_ChooseSurfacingLocation:
 {
     .offsets_low
     db $E0, $E8, $F0, $F8, $08, $10, $18, $20
@@ -221,7 +221,7 @@ Zora_ChooseSurfacingLocation:
 ; ==============================================================================
 
 ; $0297B5-$0297C4 DATA
-pool Zora_Surfacing:
+Pool_Zora_Surfacing:
 {
     .animation_states
     db $04, $03, $02, $01, $02, $01, $02, $01
@@ -256,7 +256,7 @@ Zora_Surfacing:
 ; ==============================================================================
 
 ; $0297E9-$0297F0 DATA
-pool Zora_Attack:
+Pool_Zora_Attack:
 {
     .animation_states
     db $05, $05, $06, $0A, $06, $05, $05, $05
@@ -299,7 +299,7 @@ Zora_Attack:
 ; ==============================================================================
 
 ; $029818-$029823 DATA
-pool Zora_Submerging:
+Pool_Zora_Submerging:
 {
     .animation_states
     db $0C, $0B, $09, $08, $07, $00, $00, $00
@@ -332,7 +332,7 @@ Zora_Submerging:
 ; ==============================================================================
 
 ; $02983F-$0298F4 DATA
-pool Zora_Draw:
+Pool_Zora_Draw:
 {
     .x_offsets
     dw   4,   4,   0,   0,   0,   0,   0,   0

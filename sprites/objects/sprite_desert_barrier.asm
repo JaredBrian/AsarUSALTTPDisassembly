@@ -91,7 +91,7 @@ Sprite_DesertBarrier:
 ; ==============================================================================
 
 ; $0295FC-$029605 DATA
-pool Sprite_DesertBarrier:
+Pool_Sprite_DesertBarrier:
     shared Sprite_ArmosKnight:
     shared Sprite_Lanmolas:
 {
@@ -109,7 +109,7 @@ pool Sprite_DesertBarrier:
 ; ==============================================================================
 
 ; $029606-$029625 DATA
-pool DesertBarrier_Draw:
+Pool_DesertBarrier_Draw:
 {
     .subsprites
     dw -8, -8

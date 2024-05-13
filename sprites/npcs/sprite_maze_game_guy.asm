@@ -253,7 +253,7 @@ MazeGameGuy_NothingMoreToGive:
 ; ==============================================================================
 
 ; $06CD27-$06CDA6 DATA
-pool MazeGameGuy_Draw:
+Pool_MazeGameGuy_Draw:
 {
     .oam_groups
     dw 0, -10 : db $00, $00, $00, $02

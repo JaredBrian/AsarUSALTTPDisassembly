@@ -68,7 +68,7 @@ Apple_SpawnTangibleApple:
 ; ==============================================================================
 
 ; $0F757A-$0F757B DATA
-pool Sprite_Apple:
+Pool_Sprite_Apple:
 {
     .speeds
     db $FF, $01

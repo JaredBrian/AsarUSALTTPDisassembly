@@ -1468,7 +1468,7 @@ Palette_AgahnimClones:
 ; ==============================================================================
 
 ; $0DFFC0-$0DFFFF NULL
-pool Null:
+Pool_Null:
 {
     fillbyte $FF
     

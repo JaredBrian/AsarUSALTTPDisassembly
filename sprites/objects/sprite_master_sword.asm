@@ -210,7 +210,7 @@ MasterSword_Terminate:
 ; ==============================================================================
 
 ; $0289CA-$0289DB DATA
-pool Sprite_MasterLightFountain:
+Pool_Sprite_MasterLightFountain:
 {
     .animation_states
     db $00, $01, $01, $02, $02, $02, $01, $01, $00
@@ -278,7 +278,7 @@ Sprite_MasterLightWell:
 ; ==============================================================================
 
 ; $028A34-$028A93 DATA
-pool MasterSword_DrawLightBall:
+Pool_MasterSword_DrawLightBall:
 {
     .animation_states
     dw -6, 4 : db $82, $00, $00, $02
@@ -389,7 +389,7 @@ Sprite_MasterLightBeam:
 ; ==============================================================================
 
 ; $028B08-$028B1F DATA
-pool MasterSword_SpawnLightBeams:
+Pool_MasterSword_SpawnLightBeams:
 {
     .x_speeds_1
     db $00, $D0
@@ -780,7 +780,7 @@ MasterSwordPendant_FlyAway:
 ; ==============================================================================
 
 ; $028D96-$028DA7 DATA
-pool MasterSword_Draw:
+Pool_MasterSword_Draw:
 {
     .x_offsets
     db -8,  0, -8,  0, -8,  0

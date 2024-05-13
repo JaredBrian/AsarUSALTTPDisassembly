@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $032858-$032863 DATA
-pool Sprite_CoveredRupeeCrab:
+Pool_Sprite_CoveredRupeeCrab:
 {
     .animation_states
     db 3, 4, 5, 4
@@ -17,7 +17,7 @@ pool Sprite_CoveredRupeeCrab:
 ; ==============================================================================
 
 ; $032864-$03286B
-pool Sprite_RupeeCrab:
+Pool_Sprite_RupeeCrab:
 {
     .x_speeds
     db -16,  16, -16,  16
@@ -266,7 +266,7 @@ Sprite_CheckIfLiftedPermissiveWrapper:
 ; ==============================================================================
 
 ; $032A18-$032A47 DATA
-pool CoveredRupeeCrab_Draw:
+Pool_CoveredRupeeCrab_Draw:
 {
     .y_offsets
     dw  0,  0,  0, -3,  0, -5,  0, -6

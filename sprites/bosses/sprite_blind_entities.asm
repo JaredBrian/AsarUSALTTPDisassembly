@@ -191,7 +191,7 @@ BlindLaser_SpawnTrailGarnish:
 ; ==============================================================================
 
 ; $0EA110-$0EA117 DATA
-pool Sprite_BlindHead:
+Pool_Sprite_BlindHead:
 {
     ; \task Fill in data and label.
     
@@ -376,7 +376,7 @@ Blind_SpawnExtraHead:
 ; ==============================================================================
 
 ; $0EA23C-$0EA25B DATA
-pool Sprite_BlindLaser:
+Pool_Sprite_BlindLaser:
 {
     .animation_states
     db  7,  7,  8,  9, 10,  9,  8,  7
@@ -390,7 +390,7 @@ pool Sprite_BlindLaser:
 ; ==============================================================================
 
 ; $0EA25C-$0EA262 DATA
-pool Sprite_Blind:
+Pool_Sprite_Blind:
 {
     .animation_states
     db 20, 19, 18, 17, 16, 15, 15
@@ -640,7 +640,7 @@ Sprite_Blind:
 ; ==============================================================================
 
 ; $0EA3D4-$0EA3D7 DATA
-pool Blind_BehindTheCurtain:
+Pool_Blind_BehindTheCurtain:
 {
     .animation_states
     db 14, 13, 12, 10
@@ -689,7 +689,7 @@ Blind_BehindTheCurtain:
 ; ==============================================================================
 
 ; $0EA40B-$0EA40F DATA
-pool Blind_Rerobe:
+Pool_Blind_Rerobe:
 {
     .animation_states
     db 10, 11, 12, 13, 14
@@ -733,7 +733,7 @@ Blind_Rerobe:
 ; ==============================================================================
 
 ; $0EA445-$0EA464 DATA
-pool Blind_FireballReprisal:
+Pool_Blind_FireballReprisal:
 {
     .x_speeds
     db -32, -28, -25, -16,   0,  16,  24,  28
@@ -915,7 +915,7 @@ Blind_RetreatToBackWall:
 ; ==============================================================================
 
 ; $0EA567-$0EA56C DATA
-pool Blind_OscillateAlongWall:
+Pool_Blind_OscillateAlongWall:
 {
     .y_speed_limits
     db 18, -18
@@ -1015,7 +1015,7 @@ Blind_OscillateAlongWall:
 ; ==============================================================================
 
 ; $0EA602-$0EA607 DATA
-pool Blind_SwitchWalls:
+Pool_Blind_SwitchWalls:
 {
     .y_accellerations
     db 2, -2
@@ -1093,7 +1093,7 @@ Blind_SwitchWalls:
 ; ==============================================================================
 
 ; $0EA663-$0EA666 DATA
-    pool Blind_WhirlAround
+    Pool_Blind_WhirlAround
 {
     .animation_step_directions
     db -1, 1
@@ -1176,7 +1176,7 @@ Blind_CheckBumpDamage:
 ; ==============================================================================
 
 ; $0EA6CF-$0EA6EE DATA
-pool Blind_Animate:
+Pool_Blind_Animate:
 {
     .animation_states
     db 7, 8, 9, 8, 0, 1, 2, 1
@@ -1243,7 +1243,7 @@ Blind_Animate:
 ; ==============================================================================
 
 ; $0EA745-$0EA764 DATA
-pool Blind_SpawnLaser:
+Pool_Blind_SpawnLaser:
 {
     .x_speeds
     db -8, -8, -8, -4,  0,  4,  8,  8
@@ -1337,7 +1337,7 @@ BlindPoof_Draw:
 ; ==============================================================================
 
 ; $0EAC42-$0EAC6D DATA
-pool Blind_Draw:
+Pool_Blind_Draw:
 {
     .chr_patch_offsets
     db $12, $12, $12, $16, $16, $02, $02, $02

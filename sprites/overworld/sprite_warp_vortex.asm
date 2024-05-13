@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $02AF71-$02AF74 DATA
-pool Sprite_WarpVortex:
+Pool_Sprite_WarpVortex:
 {
     .vh_flip_states
     db $00, $40, $C0, $80

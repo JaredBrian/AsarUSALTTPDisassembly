@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $035363-$035376 DATA
-pool Sprite_Octorock:
+Pool_Sprite_Octorock:
 {
     .next_direction
     db   3,   2,   0,   1
@@ -159,7 +159,7 @@ Sprite_Octorock:
 ; ==============================================================================
 
 ; $035451-$03546E DATA
-pool Octorock_Normal:
+Pool_Octorock_Normal:
 {
     .unknown
     db 0, 2, 2, 2, 1, 1, 1, 0
@@ -170,7 +170,7 @@ pool Octorock_Normal:
 ; ==============================================================================
 
 ; $035465-$03546E DATA
-pool Octorock_FourShooter:
+Pool_Octorock_FourShooter:
 {
     .unknown
     db 2, 2, 2, 2 2, 2, 2, 2, 1, 0
@@ -201,7 +201,7 @@ Octorock_Normal:
 ; ==============================================================================
 
 ; $035486-$035489 DATA
-pool Octorock_FourShooter:
+Pool_Octorock_FourShooter:
 {
     .next_direction
     db 2, 3, 1, 0
@@ -244,7 +244,7 @@ Octorock_FourShooter:
 ; ==============================================================================
 
 ; $0354B5-$0354CC DATA
-pool Octorock_SpitOutRock:
+Pool_Octorock_SpitOutRock:
 {
     ; \task Label these sublabels.
     
@@ -304,7 +304,7 @@ Octorock_SpitOutRock:
 ; ==============================================================================
 
 ; $035514-$035549 DATA
-pool Octorock_Draw:
+Pool_Octorock_Draw:
 {
     .x_offsets
     dw  8,  0,  4,  8,  0,  4,  9, -1,  4

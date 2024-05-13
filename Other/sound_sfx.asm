@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $06BB5B-$06BB5D DATA TABLE
-pool Sound_SetSfxPan:
+Pool_Sound_SetSfxPan:
 {
     .pan_options
     dw $00, $80, $40
@@ -148,7 +148,7 @@ Sound_SetSfxPan:
 ; ==============================================================================
 
 ; $06BBC8-$06BBCF DATA
-pool Sound_GetFineSfxPan:
+Pool_Sound_GetFineSfxPan:
 {
     .settings
     db $80, $80, $80, $00, $00, $40, $40, $40

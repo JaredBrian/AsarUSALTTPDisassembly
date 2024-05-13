@@ -490,7 +490,7 @@ Sprite_ShopKeeper:
 ; ==============================================================================
 
 ; $0F71AD-$0F71B2 DATA
-pool ShopKeeper_SpawnInventoryItem:
+Pool_ShopKeeper_SpawnInventoryItem:
 {
     .x_offsets
     dw -44, 8, 60
@@ -865,7 +865,7 @@ ShopKeeper_TryToGetPaid:
 ; ==============================================================================
 
 ; $0F73B6-$0F74CD DATA
-pool ShopKeeper_DrawItemWithPrice:
+Pool_ShopKeeper_DrawItemWithPrice:
 {
     .oam_groups
     dw -4, 16 : db $31, $02, $00, $00

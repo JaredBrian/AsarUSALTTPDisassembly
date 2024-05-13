@@ -112,7 +112,7 @@ Sprite_Sahasrahla:
 ; ==============================================================================
 
 ; $02F15C-$02F15F DATA
-pool Sahasrahla_Dialogue:
+Pool_Sahasrahla_Dialogue:
 {
     ; "You are correct, young man! I am Sahasrahla, the village elder..."
     ; "Oh!? You got the Pendant Of Courage! Now I will tell you more..."

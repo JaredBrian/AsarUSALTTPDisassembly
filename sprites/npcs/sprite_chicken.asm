@@ -335,7 +335,7 @@ Chicken_Move_XY_AndCheckTileCollision:
 ; ==============================================================================
 
 ; $0327C3-$0327D2 DATA
-pool Sprite_DrawDistressMarker:
+Pool_Sprite_DrawDistressMarker:
 {
     ; \task Name this pool / routine.
     .x_offsets

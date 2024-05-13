@@ -20,7 +20,7 @@ Sprite_Gibdo:
 ; ==============================================================================
 
 ; $0F39C0-$0F39CB DATA
-pool Gibdo_ApproachTargetDirection:
+Pool_Gibdo_ApproachTargetDirection:
 {
     .target_direction length 8
     db $02, $06, $04, $00
@@ -72,7 +72,7 @@ Gibdo_ApproachTargetDirection:
 ; ==============================================================================
 
 ; $0F3A00-$0F3A11 DATA
-pool Gibdo_CanMove:
+Pool_Gibdo_CanMove:
 {
     .y_speeds length 8
     db -16,   0
@@ -139,7 +139,7 @@ Gibdo_CanMove:
 ; ==============================================================================
 
 ; $0F3A60-$0F3B1F DATA
-pool Gibdo_Draw:
+Pool_Gibdo_Draw:
 {
     .oam_groups
     dw 0, -9 : db $80, $00, $00, $02

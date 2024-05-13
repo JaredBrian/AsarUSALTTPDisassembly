@@ -103,7 +103,7 @@ DashKey_WaitForDashAttack:
 ; ==============================================================================
 
 ; $02FC7C-$02FC7D DATA
-pool DashKey_GiveToPlayer:
+Pool_DashKey_GiveToPlayer:
 {
     db $40, $20
 }

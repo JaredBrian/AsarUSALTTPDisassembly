@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0458F6-$0458FC DATA
-pool Ancilla_SpinSpark:
+Pool_Ancilla_SpinSpark:
 {
     .spark_chr
     db $D7, $B7, $80, $83

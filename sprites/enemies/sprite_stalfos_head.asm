@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $035DAF-$035DB6 DATA
-pool Sprite_StalfosHead:
+Pool_Sprite_StalfosHead:
 {
     .h_flip
     db $00, $00, $00, $40

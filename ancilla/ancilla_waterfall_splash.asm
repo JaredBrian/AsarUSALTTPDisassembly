@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $046C77-$046CAE DATA
-pool Ancilla_WaterfallSplash:
+Pool_Ancilla_WaterfallSplash:
 {
     
     .chr

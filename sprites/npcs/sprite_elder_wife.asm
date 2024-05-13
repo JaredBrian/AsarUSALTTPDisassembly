@@ -131,7 +131,7 @@ ElderWife_GoAwayFindTheOldMan:
 ; ==============================================================================
 
 ; $02F4E5-$02F504 DATA
-pool ElderWife_Draw:
+Pool_ElderWife_Draw:
 {
     .oam_groups
     dw 0, -5 : db $8E, $00, $00, $02

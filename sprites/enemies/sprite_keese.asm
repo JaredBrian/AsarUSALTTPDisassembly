@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $02AA87-$02AA8A DATA
-pool Sprite_Keese:
+Pool_Sprite_Keese:
 {
     .starting_speeds_indices
     db $02, $0A, $06, $0E
@@ -51,7 +51,7 @@ Sprite_Keese:
 ; ==============================================================================
 
 ; $02AAE2-$02AB03 DATA
-pool Keese_Agitated:
+Pool_Keese_Agitated:
 {
     .index_step
     db 1, -1

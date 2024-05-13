@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0EBE3C-$0EBE43 DATA
-pool SpritePrep_ChainChomp:
+Pool_SpritePrep_ChainChomp:
 {
     .extended_subsprite_offsets
     db $00, $10, $20, $30, $40, $50, $60, $70

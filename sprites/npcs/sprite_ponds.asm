@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $034309-$034318 DATA
-pool Sprite_WishPond:
+Pool_Sprite_WishPond:
 {
     .x_offsets
     db 0,  4,  8, 12, 16, 20, 24, 00
@@ -703,7 +703,7 @@ Sprite_HappinessPond:
 ; ==============================================================================
 
 ; $03476F-$03477A DATA
-pool HappinessPond_GrantLuckStatus:
+Pool_HappinessPond_GrantLuckStatus:
 {
     .message_ids_lower
     db $50, $51, $52, $53
@@ -1159,7 +1159,7 @@ GiveItemBack:
 ; ==============================================================================
 
 ; $0349BE-$0349C7 DATA
-pool ShowNewItemMessage:
+Pool_ShowNewItemMessage:
 {
     ; \task Name the routines that use these locations.
     .message_ids_low
@@ -1250,7 +1250,7 @@ StillNotMine:
 ; ==============================================================================
 
 ; $034A0E-$034B25 DATA
-pool FairyQueen_Draw:
+Pool_FairyQueen_Draw:
 {
     .x_offsets
     db  0, 16,  0,  8, 16, 24,  0,  8

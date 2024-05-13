@@ -1120,10 +1120,10 @@ Sprite5_CheckIfActive:
     ; Deactivates the sprite in certain situations
 
     LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
-        LDA.w $0FC1 : BNE .inactive
-            LDA.b $11 : BNE .inactive
-                LDA.w $0CAA, X : BMI .active
-                    LDA.w $0F00, X : BEQ .active
+    LDA.w $0FC1 : BNE .inactive
+    LDA.b $11 : BNE .inactive
+        LDA.w $0CAA, X : BMI .active
+        LDA.w $0F00, X : BEQ .active
     
     .inactive
     

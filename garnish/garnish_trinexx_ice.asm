@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B33F-$04B34E DATA
-pool Garnish_Trinexxice:
+Pool_Garnish_Trinexxice:
 {
     .chr
     db $e8, $e8, $E6, $E6, $E4, $E4, $E4, $E4

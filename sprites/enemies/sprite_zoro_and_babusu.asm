@@ -141,7 +141,7 @@ Babusu_Hiding:
 ; ==============================================================================
 
 ; $0F1C9D-$0F1CAC DATA
-pool Babusu_TerrorSprinkles:
+Pool_Babusu_TerrorSprinkles:
 {
     .animation_states
     db $05, $04, $03, $02, $01, $00
@@ -201,7 +201,7 @@ Babusu_TerrorSprinkles:
 ; ==============================================================================
 
 ; $0F1CE8-$0F1CEB DATA
-pool Babusu_ScurryAcross:
+Pool_Babusu_ScurryAcross:
 {
     .animation_states
     db $12, $0E, $0C, $10

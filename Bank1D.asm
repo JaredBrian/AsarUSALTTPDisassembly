@@ -7,7 +7,7 @@ org $1D8000
 ; ==============================================================================
 
 ; $0E8000-$0E800F DATA
-pool Sprite_ApplyConveyorAdjustment:
+Pool_Sprite_ApplyConveyorAdjustment:
 {
     .x_shake_values
     db  1, -1
@@ -358,14 +358,10 @@ Sprite4_IsBelowPlayer:
 Sprite4_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
-    
     LDA $0FC1 : BNE .inactive
-    
     LDA $11 : BNE .inactive
-    
-    LDA $0CAA, X : BMI .active
-    
-    LDA $0F00, X : BEQ .active
+        LDA $0CAA, X : BMI .active
+        LDA $0F00, X : BEQ .active
     
     .inactive
     
@@ -732,7 +728,7 @@ CacheSprite_ExecuteSingle:
 ; ==============================================================================
 
 ; $0EEB68-$0EEB83 DATA
-pool Sprite_SimulateSoldier:
+Pool_Sprite_SimulateSoldier:
 {
     ; \task Fill in data.
 }
@@ -833,7 +829,7 @@ Moldorm_Initialize:
 ; ==============================================================================
 
 ; $0EF2A5-$0EF394 DATA
-pool Sprite_DrawFourAroundOne:
+Pool_Sprite_DrawFourAroundOne:
 {
     ; \task Fill in data.
 }
@@ -939,7 +935,7 @@ Toppo_Flustered:
 ; ==============================================================================
 
 ; $0EF44D-$0EF588 DATA
-pool Goriya_Draw:
+Pool_Goriya_Draw:
 {
     ; \task Fill in data
     
@@ -1012,7 +1008,7 @@ Goriya_Draw:
 ; ==============================================================================
 
 ; $0EF5D4-$0EF613 DATA
-pool Sprite_ConvertVelocityToAngle:
+Pool_Sprite_ConvertVelocityToAngle:
 {
     .x_angles
     db  0,  0,  1,  1,  1,  2,  2,  2
@@ -1340,7 +1336,7 @@ incsrc "sprite_talking_tree.asm"
 ; ==============================================================================
 
 ; $0EFBCC-$0EFBD6 DATA
-pool PullForRupees_SpawnRupees:
+Pool_PullForRupees_SpawnRupees:
 {
     .x_speeds
     db -18, -12,  12,  18
@@ -1429,7 +1425,7 @@ incsrc "sprite_digging_game_guy.asm"
 ; ==============================================================================
 
 ; $0EFE6E-$0EFF0D DATA
-pool OldMountainMan_Draw:
+Pool_OldMountainMan_Draw:
 {
     .static_pose
     dw  0, 0 : db $AC, $00, $00, $02
@@ -1577,7 +1573,7 @@ SpriteBurn_Execute:
 ; ==============================================================================
 
 ; $0EFFBD-$0EFFC4 DATA
-pool SpriteFall_Draw:
+Pool_SpriteFall_Draw:
 {
     .chr
     db $83, $83, $83, $80, $80, $80, $B7, $B7
@@ -1617,7 +1613,7 @@ SpriteFall_Draw:
 ; ==============================================================================
 
 ; $0EFFF8-$0EFFFF NULL
-pool Empty:
+Pool_Empty:
 {
     fillbyte $FF
     

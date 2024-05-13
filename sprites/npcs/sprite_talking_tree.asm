@@ -331,7 +331,7 @@ Sprite_TalkingTree:
 ; ==============================================================================
 
 ; $0EFB86-$0EFB89 DATA
-pool TalkingTree_SpawnEyes:
+Pool_TalkingTree_SpawnEyes:
 {
     .x_offsets_low
     db $FC, $0E

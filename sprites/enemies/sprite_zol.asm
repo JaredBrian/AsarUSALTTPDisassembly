@@ -87,7 +87,7 @@ Zol_HidingUnseen:
 ; ==============================================================================
 
 ; $0F309F-$0F30AE DATA
-pool Zol_PoppingOut:
+Pool_Zol_PoppingOut:
 {
     .animation_states
     db $00, $01, $07, $07, $06, $06, $05, $05
@@ -124,7 +124,7 @@ Zol_PoppingOut:
 ; ==============================================================================
 
 ; $0F30D4-$0F30D5 DATA
-pool Zol_Falling:
+Pool_Zol_Falling:
 {
     .animation_states
     db $00, $01
@@ -254,7 +254,7 @@ Zol_Active:
 ; =============================================================================
 
 ; $0F31C1-$0F31C4 DATA
-pool Zol_Draw:
+Pool_Zol_Draw:
 {
     .hflip_states
     db $00, $00, $40, $40

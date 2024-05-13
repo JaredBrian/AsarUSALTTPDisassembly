@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $03374A-$033753 DATA
-pool Sprite_EnemyArrow:
+Pool_Sprite_EnemyArrow:
 {
     ; \wtf Was it supposed to have variable speed per frame originally?
     ; very unsual structure for a speed table.

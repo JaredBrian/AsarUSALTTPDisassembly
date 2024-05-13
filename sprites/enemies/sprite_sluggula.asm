@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0315C9-$0315D8 DATA
-pool Sprite_Sluggula:
+Pool_Sprite_Sluggula:
 {
     .animation_states
     db 0, 1, 0, 1, 2, 3, 4, 5
@@ -42,7 +42,7 @@ Sprite_Sluggula:
 ; ==============================================================================
 
 ; $031615-$03161A DATA
-pool Sluggula_Normal:
+Pool_Sluggula_Normal:
 {
     .x_speeds length 4
     db 16, -16

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B5B9-$04B5BA DATA
-pool Garnish_LaserBeamTrail:
+Pool_Garnish_LaserBeamTrail:
 {
     .chr
     ; \note One is horizontal, the other is vertical.

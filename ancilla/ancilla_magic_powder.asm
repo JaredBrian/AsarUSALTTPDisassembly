@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0438F4-$043AAF DATA
-pool Ancilla_MagicPowder:
+Pool_Ancilla_MagicPowder:
 {
     .animation_groups
     db 13, 14, 15,  0,  1,  2,  3,  4,  5,  6

@@ -231,7 +231,7 @@ BigFairy_Dormant:
 ; ==============================================================================
 
 ; $0EC550-$0EC5CF DATA
-pool BigFairy_Draw:
+Pool_BigFairy_Draw:
 {
     .oam_groups
     dw -4, -8 : db $8E, $00, $00, $02
@@ -276,7 +276,7 @@ BigFairy_Draw:
 ; ==============================================================================
 
 ; $0EC5EE-$0EC615 DATA
-pool FairyCloud_Draw:
+Pool_FairyCloud_Draw:
 {
     .xy_offsets_low
     db -12,  -6,   0,   6,  12,  18,  -9,  -3

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B3B9-$04B3BB DATA
-pool Garnish_RunningManDashDust:
+Pool_Garnish_RunningManDashDust:
 {
     .chr.
     db $DF, $CF, $A9

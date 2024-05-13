@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $042121-$042130 DATA
-pool Ancilla_Arrow:
+Pool_Ancilla_Arrow:
 {
     .y_offsets
     dw -4,  2,  0,  0
@@ -154,7 +154,7 @@ Ancilla_Arrow:
 ; ==============================================================================
 
 ; $04224E-$04236D DATA
-pool Arrow_Draw:
+Pool_Arrow_Draw:
 {
     .chr_and_properties
     db $2B, $A4

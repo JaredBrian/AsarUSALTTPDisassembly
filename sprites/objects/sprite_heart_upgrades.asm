@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02EEF9-$02EF00 DATA
-pool Sprite_HeartPiece:
+Pool_Sprite_HeartPiece:
 {
     .messages_low
     db $58, $55, $56, $57

@@ -16,7 +16,7 @@ Sprite_RavenLong:
 ; ==============================================================================
 
 ; $0EDD83-$0EDD84 DATA
-pool Sprite_SetHflip:
+Pool_Sprite_SetHflip:
 {
     .h_flip
     db $00, $40
@@ -48,7 +48,7 @@ Sprite_Raven:
 ; ==============================================================================
 
 ; $0EDDAC-$0EDDAD DATA
-pool Raven_Ascend:
+Pool_Raven_Ascend:
 {
     ; \task Name this routine / pool.
     .timers

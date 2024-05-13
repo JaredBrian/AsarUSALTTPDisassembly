@@ -15,7 +15,7 @@ org $1C8000
 
 ; $0E7F2A-$0E7FFF NULL
 ; ZScream uses this space as an extention of the dialog data block above.
-pool Null:
+Pool_Null:
 {
     padbyte $FF
     

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $048000-$048023 DATA
-pool AddHitStars:
+Pool_AddHitStars:
 {
     .xy_offsets
     dw 21, -11
@@ -169,7 +169,7 @@ AddLinksSleepZs:
 ; ==============================================================================
 
 ; $0480FF-$04811E DATA
-pool AddBlueBomb:
+Pool_AddBlueBomb:
 {
     .closer_y_offsets
     dw 4, 28, 12, 12
@@ -282,7 +282,7 @@ AddBlueBomb:
 ; ==============================================================================
 
 ; $0481B3-$04820E DATA
-pool AddBoomerang:
+Pool_AddBoomerang:
 {
     .speeds
     db $20, $18
@@ -551,7 +551,7 @@ AddBoomerang:
 ; ==============================================================================
 
 ; $04836C-$0485E7 DATA
-pool AddReceiveItem:
+Pool_AddReceiveItem:
 {
     .y_offsets
     db -5, -5, -5, -5, -5, -4, -4, -5
@@ -1309,7 +1309,7 @@ GiveBottledItem:
 ; ==============================================================================
 
 ; $04899A-$048A31 DATA
-pool AddWishPondItem:
+Pool_AddWishPondItem:
 {
     .y_offsets
     db -13, -13, -13, -13, -13, -12, -12, -13
@@ -1432,7 +1432,7 @@ AddWishPondItem:
 ; ==============================================================================
 
 ; $048ABA-$048ADF DATA
-pool AddHappinessPondRupees:
+Pool_AddHappinessPondRupees:
 {
     .z_speeds
     db  20,  20,  20,  20,  20,  16,  16,  16,  16,  16
@@ -1553,7 +1553,7 @@ AddHappinessPondRupees:
 ; ==============================================================================
 
 ; $048B90-$048BC0 DATA
-pool AddPendantOrCrystal:
+Pool_AddPendantOrCrystal:
 {
     .item_values
     .ether_medallion
@@ -1776,7 +1776,7 @@ AddChargedSpinAttackSparkle:
 ; ==============================================================================
 
 ; $048CD5-$048D10 DATA
-pool AddWeathervaneExplosion:
+Pool_AddWeathervaneExplosion:
 {
     .x_speeds
     db   8,  10,   9,   4,  11,  12, -10,  -8,   4,  -6, -10,  -4
@@ -2124,7 +2124,7 @@ AddCaneOfByrnaStart:
 ; ==============================================================================
 
 ; $048F0C-$048F1B DATA
-pool AddLampFlame:
+Pool_AddLampFlame:
 {
     .y_offsets
     dw -16, 24,   4,  4
@@ -2241,7 +2241,7 @@ AddSwordCeremony:
 ; ==============================================================================
 
 ; $048FAA-$048FB9 DATA
-pool AddDashingDust:
+Pool_AddDashingDust:
 {
     .y_offsets
     dw 20, 4, 16, 16
@@ -2319,7 +2319,7 @@ AddDashingDust:
 ; ==============================================================================
 
 ; $049011-$049030 DATA
-pool AddBlastWallFireball:
+Pool_AddBlastWallFireball:
 {
     .xy_speeds
     db -64,  0
@@ -2391,7 +2391,7 @@ AddBlastWallFireball:
 ; ==============================================================================
 
 ; $049088-$0490A3 DATA
-pool AddArrow:
+Pool_AddArrow:
 {
     .y_speeds
     db -30,  30,   0,   0
@@ -2745,7 +2745,7 @@ AddVictorySpinEffect:
 ; ==============================================================================
 
 ; $0492D0-$0492EF DATA
-pool AddMagicPowder:
+Pool_AddMagicPowder:
 {
     .y_offsets
     dw  1, 40, 22, 22
@@ -2839,7 +2839,7 @@ AddMagicPowder:
 ; ==============================================================================
 
 ; $049385-$049394 DATA
-pool AddWallTapSpark:
+Pool_AddWallTapSpark:
 {
     .y_offsets
     dw -4,  32,  17,  17
@@ -2915,7 +2915,7 @@ AddSwordSwingSparkles:
 ; ==============================================================================
 
 ; $0493E9-$0493F2 DATA
-pool AddDashTremor:
+Pool_AddDashTremor:
 {
     .axis
     db $02, $02, $00, $00
@@ -2990,7 +2990,7 @@ AddDashTremor:
 ; ==============================================================================
 
 ; $049448-$049477 DATA
-pool AddBoomerangWallHit:
+Pool_AddBoomerangWallHit:
 {
     .y_offsets
     dw 0,  8,  8,  8,  4,  8, 12,  8
@@ -3231,7 +3231,7 @@ AddQuakeSpell:
 ; ==============================================================================
 
 ; $0495FB-$04960A DATA
-pool AddSpinAttackStartSparkle:
+Pool_AddSpinAttackStartSparkle:
 {
     .y_offsets
     dw 32,  -8,  10,  20
@@ -3303,7 +3303,7 @@ AddSpinAttackStartSparkle:
 ; ==============================================================================
 
 ; $04965A-$049691 DATA
-pool AddBlastWall:
+Pool_AddBlastWall:
 {
     .xy_offsets
     dw  -8,   0
@@ -3497,7 +3497,7 @@ AddSwordChargeSpark:
 ; ==============================================================================
 
 ; $0497CE-$0497DD DATA
-pool AddSilverArrowSparkle:
+Pool_AddSilverArrowSparkle:
 {
     .y_offsets
     dw  0,  2, -4, -4
@@ -3576,7 +3576,7 @@ AddSilverArrowSparkle:
 ; ==============================================================================
 
 ; $04984B-$049862 DATA
-pool AddIceRodShot:
+Pool_AddIceRodShot:
 {
     .y_offsets
     dw -16, 24,   8,   8
@@ -3735,7 +3735,7 @@ AddTransitionSplash:
 ; ==============================================================================
 
 ; $04993A-$0499E8 DATA
-pool AddGravestone:
+Pool_AddGravestone:
 {
     .y_coordinates
     dw $0550, $0540, $0530, $0520, $0500, $04E0, $04C0, $04B0
@@ -3966,7 +3966,7 @@ AddGravestone:
 ; ==============================================================================
 
 ; $049AF8-$049B0F
-pool AddHookshot:
+Pool_AddHookshot:
 {
     .y_speeds
     db -64, 64,   0,  0
@@ -4475,7 +4475,7 @@ Ancilla_GetRidOfArrowInWall:
 ; ==============================================================================
 
 ; $049DA3-$049DD2 DATA
-pool Ancilla_CheckInitialTileCollision_Class_1:
+Pool_Ancilla_CheckInitialTileCollision_Class_1:
 {
     .y_offsets
     dw   8,   0
@@ -4565,7 +4565,7 @@ Ancilla_CheckInitialTileCollision_Class_1:
 ; ==============================================================================
 
 ; $049E24-$049E43 DATA
-pool Ancilla_CheckInitialTileCollision_Class2:
+Pool_Ancilla_CheckInitialTileCollision_Class2:
 {
     .y_offsets
     dw 15, 16

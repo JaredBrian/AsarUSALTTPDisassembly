@@ -133,7 +133,7 @@ Sprite_FireBat:
 ; ==============================================================================
 
 ; $0E8C90-$0E8CA8 DATA
-pool FireBat_Draw:
+Pool_FireBat_Draw:
 {
     .x_offsets
     db -8, 8

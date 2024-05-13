@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B284-$04B2B1 DATA
-pool Garnish_GanonBatFlame:
+Pool_Garnish_GanonBatFlame:
 {
     .chr
     db $AC, $AE, $66, $66, $8E, $A0, $A2

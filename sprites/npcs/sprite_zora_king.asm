@@ -21,7 +21,7 @@ Sprite_ZoraKing:
 ; ==============================================================================
 
 ; $029972-$029979 DATA (UNUSED?)
-pool Unknown:
+Pool_Unknown:
 {
     db $28, $78, $C8, $78, $60, $50, $70, $50
 }
@@ -85,7 +85,7 @@ ZoraKing_WaitingForPlayer:
 ; ==============================================================================
 
 ; $0299D5-$0299D8 DATA
-pool ZoraKing_RumblingGround:
+Pool_ZoraKing_RumblingGround:
 {
     .offsets_low
     db $01, $FF
@@ -129,7 +129,7 @@ ZoraKing_RumblingGround:
 ; ==============================================================================
 
 ; $029A07-$029A16 DATA
-pool ZoraKing_Surfacing:
+Pool_ZoraKing_Surfacing:
 {
     .animation_states
     db $00, $00, $00, $03, $09, $08, $07, $06
@@ -173,7 +173,7 @@ ZoraKing_Surfacing:
 ; ==============================================================================
 
 ; $029A3E-$029A45 DATA
-pool ZoraKing_Dialogue:
+Pool_ZoraKing_Dialogue:
 {
     .animation_states
     db $00, $00, $01, $02, $01, $02, $00, $00
@@ -294,7 +294,7 @@ ZoraKing_Dialogue:
 ; ==============================================================================
 
 ; $029ACF-$029AE3 DATA
-pool ZoraKing_Submerge:
+Pool_ZoraKing_Submerge:
 {
     .animation_states
     db $0C, $0C, $0C, $0C, $0C, $0C, $0B, $0B
@@ -340,7 +340,7 @@ ZoraKing_Submerge:
 
 
 ; $029B08-$029B37 DATA
-pool Sprite_SpawnSplashRing:
+Pool_Sprite_SpawnSplashRing:
 {
     .x_offsets_low
     db $F8, $FB, $04, $0D, $10, $0D, $04, $FB
@@ -429,7 +429,7 @@ Sprite_SpawnSplashRing:
 ; ==============================================================================
 
 ; $029BBB-$029CAA DATA
-pool ZoraKing_Draw:
+Pool_ZoraKing_Draw:
 {
     .x_offsets
     db $F8, $08, $F8, $08, $F8, $08, $F8, $08

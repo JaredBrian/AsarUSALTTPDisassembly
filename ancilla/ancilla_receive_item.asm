@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0442DD-$044389 DATA
-pool Ancilla_ReceiveItem:
+Pool_Ancilla_ReceiveItem:
 {
     .item_messages
     dw $FFFF, $0070, $0077, $0052, $FFFF, $0078, $0078, $0062

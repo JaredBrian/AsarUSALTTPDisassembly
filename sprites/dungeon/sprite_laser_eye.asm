@@ -104,7 +104,7 @@ SpritePrep_LaserEyeLong:
 ; ==============================================================================
 
 ; $0F24EF-$0F24F0 DATA
-pool SpritePrep_LaserEye:
+Pool_SpritePrep_LaserEye:
 {
     ; \note This explains why the exact same data was found near the 
     ; sprite prep routine in bank 0x06 (and is unused)
@@ -175,7 +175,7 @@ Sprite_LaserEye:
 ; ==============================================================================
 
 ; $0F255A-$0F255D DATA
-pool LaserEye_MonitorFiringZone:
+Pool_LaserEye_MonitorFiringZone:
 {
     .matching_directions
     db $02, $03, $00, $01
@@ -241,7 +241,7 @@ LaserEye_MonitorFiringZone:
 ; ==============================================================================
 
 ; $0F25B0-$0F25C1 DATA
-pool LaserEye_SpawnBeam:
+Pool_LaserEye_SpawnBeam:
 {
     .x_offsets_low length 4
     db  12, -12
@@ -334,7 +334,7 @@ LaserEye_SpawnBeam:
 ; ==============================================================================
 
 ; $0F2648-$0F2707 DATA
-pool LaserEye_Draw:
+Pool_LaserEye_Draw:
 {
     .oam_groups
     dw  8, -4 : db $C8, $40, $00, $00

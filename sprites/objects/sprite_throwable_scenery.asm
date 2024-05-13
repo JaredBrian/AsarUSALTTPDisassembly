@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $032ABE-$032ADF DATA
-pool Sprite_ThrowableScenery:
+Pool_Sprite_ThrowableScenery:
 {
     .chr
     db $42, $44, $46, $00, $46, $44, $42, $44
@@ -94,7 +94,7 @@ Sprite_ThrowableScenery:
 ; ==============================================================================
 
 ; $032B5A-$032B75 DATA
-pool ThrowableScenery_DrawLarge:
+Pool_ThrowableScenery_DrawLarge:
 {
     .x_offsets
     dw  -8,   8,  -8,   8
@@ -220,7 +220,7 @@ ThrowableScenery_DrawLarge:
 ; ==============================================================================
 
 ; $032C31-$032C40 DATA
-pool ThrowableScenery_ScatterIntoDebris:
+Pool_ThrowableScenery_ScatterIntoDebris:
 {
     .x_offsets_low
     db -8,  8, -8,  8

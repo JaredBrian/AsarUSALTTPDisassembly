@@ -72,7 +72,7 @@ Sprite_MovableMantle:
 ; ==============================================================================
 
 ; $0D7C9B-$0D7CB2 DATA
-pool MovableMantle_Draw:
+Pool_MovableMantle_Draw:
 {
     ; \task Fill in data.
 }

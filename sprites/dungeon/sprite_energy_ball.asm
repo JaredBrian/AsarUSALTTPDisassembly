@@ -155,7 +155,7 @@ Sprite_EnergyBall:
 ; ==============================================================================
 
 ; $0F5B44-$0F5B53 DATA
-pool EnergyBall_DrawTrail:
+Pool_EnergyBall_DrawTrail:
 {
     .animation_states
     db 2, 2, 2, 2, 2, 2, 2, 1
@@ -206,7 +206,7 @@ EnergyBall_DrawTrail:
 ; ==============================================================================
 
 ; $0F5B8A-$0F5B95 DATA
-pool SeekerEnergyBall_SplitIntoSixSmaller:
+Pool_SeekerEnergyBall_SplitIntoSixSmaller:
 {
     .x_speeds
     db   0,  24,  24,   0, -24, -24
@@ -264,7 +264,7 @@ SeekerEnergyBall_SplitIntoSixSmaller:
 ; ==============================================================================
 
 ; $0F5BFE-$0F5C3D DATA
-pool SeekerEnergyBall_Draw:
+Pool_SeekerEnergyBall_Draw:
 {
     .oam_groups
     dw  4, -3 : db $CE, $00, $00, $00

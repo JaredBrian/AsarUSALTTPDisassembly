@@ -176,7 +176,7 @@ Beamos_FireBeam:
 ; ==============================================================================
 
 ; $029062-$029067 DATA
-pool Beamos_Draw:
+Pool_Beamos_Draw:
 {
     .y_offsets
     dw -16,  0
@@ -260,7 +260,7 @@ Beamos_Draw:
 ; ==============================================================================
 
 ; $0290D1-$029150 DATA
-pool Beamos_DrawEyeBall:
+Pool_Beamos_DrawEyeBall:
 {
     .x_offsets
     db -1,  0,  1,  2,  3,  4,  5,  7
@@ -348,7 +348,7 @@ Beamos_DrawEyeball:
 ; ==============================================================================
 
 ; $0291B1-$0291B4 DATA
-pool Sprite_BeamosLaser:
+Pool_Sprite_BeamosLaser:
 {
     ; This segregates the space we're using for subsprites into 4 different
     ; regions in case we have more than one Beamos in play at a time.
@@ -526,7 +526,7 @@ BeamosLaser_Draw:
 ; ==============================================================================
 
 ; $0292C6-$0292D9 DATA
-pool Sprite_BeamosLaserHit:
+Pool_Sprite_BeamosLaserHit:
 {
     .x_offsets
     db -4, -1,  4,  0

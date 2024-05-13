@@ -194,7 +194,7 @@ LW_FortuneTeller_ReactToPlayerResponse:
 ; ==============================================================================
 
 ; $06C829-$06C848 DATA
-pool FortuneTeller_GiveReading:
+Pool_FortuneTeller_GiveReading:
 {
     .messages_low
     db $EA, $EB, $EC, $ED, $EE, $EF, $F0, $F1
@@ -659,7 +659,7 @@ DW_FortuneTeller_DeductPayment:
 ; ==============================================================================
 
 ; $06CAA1-$06CB00 DATA
-pool FortuneTeller_Draw:
+Pool_FortuneTeller_Draw:
 {
     .oam_groups
     dw  0, -48 : db $0C, $00, $00, $02

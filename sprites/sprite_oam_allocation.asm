@@ -56,7 +56,7 @@ OAM_AllocateFromRegionA:
 ; ==============================================================================
 
 ; $06BA9E-$06BB09 DATA TABLE
-pool OAM_GetBufferPosition:
+Pool_OAM_GetBufferPosition:
 {
     ; upper limits for each OAM region
     .limits

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F1A6B-$0F1A6C DATA
-pool FluteBoyAnimal:
+Pool_FluteBoyAnimal:
 {
     .vh_flip
     db $40, $00
@@ -52,7 +52,7 @@ FluteBoyRabbit_Chillin:
 ; ==============================================================================
 
 ; $0F1AAC-$0F1AAE DATA
-pool FluteBoyRabbit_RunAway:
+Pool_FluteBoyRabbit_RunAway:
 {
     .animation_states
     db 0, 1, 2

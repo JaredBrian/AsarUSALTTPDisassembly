@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0EC26D-$0EC274 DATA
-pool Tektite_Stationary:
+Pool_Tektite_Stationary:
 {
     .x_speeds
     db  16, -16,  16, -16
@@ -77,7 +77,7 @@ Sprite_Tektite:
 ; ==============================================================================
 
 ; $0EC2CE-$0EC2D1 DATA
-pool Tektite_Stationary:
+Pool_Tektite_Stationary:
 {
     .comparison_directions
     db 3, 2, 1, 0
@@ -227,7 +227,7 @@ Tektite_RepeatingHop:
 ; ==============================================================================
 
 ; $0EC3C5-$0EC3F4 DATA
-pool Tektite_Draw:
+Pool_Tektite_Draw:
 {
     .oam_groups
     dw -8,  0 : db $C8, $00, $00, $02

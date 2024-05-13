@@ -81,7 +81,7 @@ Hobo_Sleeping:
 ; ==============================================================================
 
 ; $033E2A-$033E38 DATA
-pool Hobo_WakeUp:
+Pool_Hobo_WakeUp:
 {
     .animation_states
     db 0, 1, 0, 1, 0, 1, 2, -1
@@ -199,7 +199,7 @@ Hobo_SpawnHobo:
     ; \unused Probably speeds. Maybe at one point the bubble bobbed up and down
     ; above the hobo's mouth?
 ; $033EB2-$033EB3 DATA
-pool Sprite_HoboBubble:
+Pool_Sprite_HoboBubble:
 {
     .unused
     db 1, -1
@@ -332,7 +332,7 @@ Hobo_SpawnCampfire:
 ; ==============================================================================
 
 ; $033F7D-$033F80 DATA
-pool Sprite_HoboSmoke:
+Pool_Sprite_HoboSmoke:
 {
     .vh_flip
     db $00, $40, $80, $C0

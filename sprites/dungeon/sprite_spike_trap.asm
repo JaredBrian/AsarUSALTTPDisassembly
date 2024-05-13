@@ -36,7 +36,7 @@ Sprite_SpikeTrap:
     
     RTS
     
-    parallel pool SpikeTrap_InMotion:
+    parallel Pool_SpikeTrap_InMotion:
     
     .x_speeds
     db  32, -32,   0,   0
@@ -103,7 +103,7 @@ SpikeTrap_InMotion:
 ; ==============================================================================
 
 ; $0F4FDF-$0F4FFE DATA
-pool SpikeTrap_Draw:
+Pool_SpikeTrap_Draw:
 {
     .oam_groups
     dw -8, -8 : db $C4, $00, $00, $02

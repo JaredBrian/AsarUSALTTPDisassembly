@@ -39,7 +39,7 @@ Sprite_Hover:
 ; ==============================================================================
 
 ; $0F4C43-$0F4C46 DATA
-pool Hover_Stopped:
+Pool_Hover_Stopped:
 {
     .vh_flip
     db $40, $00, $40, $00
@@ -79,7 +79,7 @@ Hover_Stopped:
 ; ==============================================================================
 
 ; $0F4C79-$0F4C88 DATA
-pool Hover_Moving:
+Pool_Hover_Moving:
 {
     .x_acceleration_step
     db $01, $FF, $01, $FF

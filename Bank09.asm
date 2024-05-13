@@ -189,7 +189,7 @@ AddSomarianBlockDivide:
 ; ==============================================================================
 
 ; $04AD67-$04AD6B DATA
-pool GiveRupeeGift:
+Pool_GiveRupeeGift:
 {
     .gift_amounts
     db 1, 5, 20, 100, 50
@@ -309,7 +309,7 @@ incsrc "ancilla_motive_dash_dust.asm"
 ; ==============================================================================
 
 ; $04AE3E-$04AE3F DATA
-pool Empty:
+Pool_Empty:
 {
     fillbyte $FF
     
@@ -380,7 +380,7 @@ Sprite_SpawnDummyDeathAnimation:
 ; ==============================================================================
 
 ; $04AEA0-$04AEA7 DATA
-pool Sprite_SpawnMadBatterBolts:
+Pool_Sprite_SpawnMadBatterBolts:
 {
     .x_speeds
     -8, -4,  4,  8
@@ -651,7 +651,7 @@ incsrc "overlord.asm"
 ; ==============================================================================
 
 ; $04C023-$04C02E DATA
-pool SpawnCrazyVillageSoldier:
+Pool_SpawnCrazyVillageSoldier:
 {
     ; \tcrf (verified)
     ; The inn keeper's data is unused because he's not a snitch, naturally.
@@ -732,7 +732,7 @@ SpawnCrazyVillageSoldier:
 ; ==============================================================================
 
 ; $04C088-$04C08C DATA
-pool Overlord_CheckInRangeStatus:
+Pool_Overlord_CheckInRangeStatus:
 {
     .offsets_low
     db $30, $C0
@@ -877,7 +877,7 @@ Dungeon_ResetSprites:
 ; ==============================================================================
 
 ; $04C175-$04C22E BRANCH LOCATION
-pool Dungeon_CacheTransSprites:
+Pool_Dungeon_CacheTransSprites:
 {
     .easy_out
     RTS
@@ -1960,7 +1960,7 @@ Overworld_LoadOverlord:
 ; ==============================================================================
 
 ; $04EC9F-$04ED9E DATA
-pool SpriteExplode_Execute:
+Pool_SpriteExplode_Execute:
 {
     .oam_groups
     dw  0,  0 : db $60, $00, $00, $02
@@ -2310,7 +2310,7 @@ Sprite_SchedulePeersForDeath:
 ; ==============================================================================
 
 ; $04EF8B-$04F0CA DATA
-pool Garnish_ScatterDebris:
+Pool_Garnish_ScatterDebris:
 {
     .x_offsets
     dw  0,  8,  0,  8, -2,  9, -1,  9
@@ -2456,7 +2456,7 @@ Garnish_ScatterDebris:
 ; ==============================================================================
 
 ; $04F15C-$04F197 DATA
-pool ScatterDebris_Draw:
+Pool_ScatterDebris_Draw:
 {
     .x_offsets
     dw -8,  8, 16, -5,  8, 15, -1,  7
@@ -2621,7 +2621,7 @@ incsrc "module_quit.asm"
 ; ==============================================================================
 
 ; $04F7C0-$04F7DD NULL
-pool Empty:
+Pool_Empty:
 {
 }
     

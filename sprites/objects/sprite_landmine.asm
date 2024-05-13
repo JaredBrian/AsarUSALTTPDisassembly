@@ -25,7 +25,7 @@ Sprite_Landmine:
 ; ==============================================================================
 
 ; $0E80BB-$0E80BE DATA
-pool Landmine_Detonating:
+Pool_Landmine_Detonating:
 {
     .palettes
     db $04, $02, $08, $02
@@ -73,7 +73,7 @@ Landmine_Detonating:
 ; ==============================================================================
 
 ; $0E80FC-$0E810B DATA
-pool Landmine_Draw:
+Pool_Landmine_Draw:
 {
     .oam_groups
     dw 0, 4 : db $70, $00, $00, $00

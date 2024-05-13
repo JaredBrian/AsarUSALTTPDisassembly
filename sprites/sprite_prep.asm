@@ -202,7 +202,7 @@ SpritePrep_Main:
     dw SpritePrep_BlindMaiden              ; 0xB7 - Blind disguised as a Maiden
     dw SpritePrep_DoNothing                ; 0xB8 - Dialogue Testing Sprite
     dw SpritePrep_BullyAndBallGuy          ; 0xB9 - Bully and Ball Guy
-    dw SpritePrep_Whirlpool                ; 0xBA - Whirlpool
+    dw SpritePrep_WhirlPool_               ; 0xBA - Whirlpool
     dw SpritePrep_ShopKeeper               ; 0xBB - Shopkeeper / Chest game guys
     dw SpritePrep_IgnoresProjectiles       ; 0xBC - Drunk in the Inn
     dw SpritePrep_Vitreous                 ; 0xBD - Vitreous
@@ -331,7 +331,7 @@ SpritePrep_DoNothing:
 ; ==============================================================================
 
 ; $030874-$030877
-pool SpritePrep_Rat:
+Pool_SpritePrep_Rat:
 {
     db $00, $05
     
@@ -355,7 +355,7 @@ SpritePrep_Rat:
 ; ==============================================================================
 
 ; $030888-$03088D DATA
-pool SpritePrep_Keese:
+Pool_SpritePrep_Keese:
 {
     .damage_class
     db $80, $85
@@ -386,7 +386,7 @@ SpritePrep_Keese:
 ; ==============================================================================
 
 ; $0308A4-$0308A9 DATA
-pool SpritePrep_Rope:
+Pool_SpritePrep_Rope:
 {
     .damage_class
     db 1, 5
@@ -448,7 +448,7 @@ SpritePrep_Ganon:
 ; ==============================================================================
 
 ; $0308D7-$0308DE DATA
-pool SpritePep_HokBok:
+Pool_SpritePep_HokBok:
 {
     .x_speeds
     db 16, -16,  16, -16
@@ -500,7 +500,7 @@ SpritePrep_Gibo:
 ; ==============================================================================
 
 ; $03090C-$03090F DATA
-pool SpritePrep_Octoballoon:
+Pool_SpritePrep_Octoballoon:
 {
     ; \tcrf(unconfirmed) Even though the octoballoon is only used once as a 
     ; single enemy throughout the whole game, this suggests that differentiated
@@ -580,7 +580,7 @@ SpritePrep_Vitreous:
 ; ==============================================================================
 
 ; $030963-$030968 DATA
-pool SpritePrep_Raven:
+Pool_SpritePrep_Raven:
 {
     .bump_damage
     db $81, $88
@@ -761,7 +761,7 @@ SpritePrep_ThiefChest:
     
     RTS
     
-    parallel pool SpritePrep_Dwarf:
+    parallel Pool_SpritePrep_Dwarf:
     
     .self_terminate
     
@@ -851,7 +851,7 @@ SpritePrep_Babusu:
 ; $030B01-$030B02 DATA
     ; \unused Was it at one point intended that the speed of the laser beam
     ; be variable or configured here?
-    pool SpritePrep_LaserEyeTrampoline
+    Pool_SpritePrep_LaserEyeTrampoline
 {
     ; an assumptive name
     .speeds
@@ -1103,7 +1103,7 @@ SpritePrep_GargoyleGrate:
 ; ==============================================================================
 
 ; $030BE4-$030BF0 DATA
-pool SpritePrep_ShopKeeper:
+Pool_SpritePrep_ShopKeeper:
 {
     .rooms
     db $0F, $10, $00, $06, $18, $12, $1E, $FF
@@ -1258,7 +1258,7 @@ SpritePrep_ShopKeeper:
 ; ==============================================================================
 
 ; $030C99-$030C9D DATA
-pool SpritePrep_StoryTeller_1:
+Pool_SpritePrep_StoryTeller_1:
 {
     .rooms
     db $0E, $0E, $12, $1A, $14
@@ -1298,7 +1298,7 @@ SpritePrep_StoryTeller_1:
 ; ==============================================================================
 
 ; $030CBE-$030CC0 DATA
-pool SpritePrep_HumanMulti_1_Trampoline:
+Pool_SpritePrep_HumanMulti_1_Trampoline:
 {
     .rooms
     db $03, $E1, $19
@@ -1507,7 +1507,7 @@ SpritePrep_BugNetKid:
 ; ==============================================================================
 
 ; $030D8E-$030D93 DATA
-pool SpritePrep_GanonHelpers:
+Pool_SpritePrep_GanonHelpers:
 {
     .palette
     db 9, 7
@@ -1592,7 +1592,7 @@ SpritePrep_FortuneTeller:
 ; ==============================================================================
 
 ; $030DE7-$030DE8 DATA
-pool SpritePrep_Leever:
+Pool_SpritePrep_Leever:
 {
     .palettes
     db $0A, $02
@@ -1731,7 +1731,7 @@ SpritePrep_Kodondo:
 ; ==============================================================================
 
 ; $030E89-$030EC0 DATA
-pool Unused:
+Pool_Unused:
 {
     ; \tcrf(unverified, but only in the sense that we don't know its
     ; purpose.) Seems pretty clear that it's unused. Are these speeds?
@@ -1796,7 +1796,7 @@ SpritePrep_LostWoodsBird:
 ; ==============================================================================
 
 ; $030EF0-$030EF1 DATA
-pool SpritePrep_Bubble:
+Pool_SpritePrep_Bubble:
 {
     .x_speeds
     db $10, $F0
@@ -1934,7 +1934,7 @@ SpritePrep_DesertBarrier:
 ; ==============================================================================
 
 ; $030F6D-$030F70 DATA
-pool SpritePrep_Octorock:
+Pool_SpritePrep_Octorock:
 {
     .bump_damage
     db 3, 5
@@ -2109,7 +2109,7 @@ SpritePrep_Soldier:
 ; ==============================================================================
 
 ; $03103B-$031042 DATA
-pool SpritePrep_TalkingTree:
+Pool_SpritePrep_TalkingTree:
 {
     ; \unused Not confirmed yet, but strongly suspected.
     .unknown_0
@@ -2282,7 +2282,7 @@ SpritePrep_KholdstareShell:
 ; ==============================================================================
 
 ; $031116-$031121 DATA
-pool SpritePrep_HardHatBeetle:
+Pool_SpritePrep_HardHatBeetle:
 {
     .palette
     db 6, 8
@@ -2413,7 +2413,7 @@ SpritePrep_GoodBee:
 ; ==============================================================================
 
 ; $031193-$031194 DATA
-pool SpritePrep_Agahnim:
+Pool_SpritePrep_Agahnim:
 {
     .palettes
     db $0B, $07

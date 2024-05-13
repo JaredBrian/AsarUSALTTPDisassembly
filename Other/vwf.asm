@@ -1388,7 +1388,7 @@ VWF_RenderSingle:
 }
 
 ; $074ADF-$074B5D DATA
-pool VWF_RenderCharacter:
+Pool_VWF_RenderCharacter:
 {
     .widths
     
@@ -2937,7 +2937,7 @@ Text_Positions:
 ; ==============================================================================
 
 ; $075395-$075398
-pool Text_Close:
+Pool_Text_Close:
 {
     .reg_config
     
@@ -2969,7 +2969,7 @@ Text_Command_7C_Data:
 ; ==============================================================================
 
 ; $0753A7-$0753AE DATA
-pool VWF_Command7B:
+Pool_VWF_Command7B:
 {
     .unknown
     ; For use with command 0x7B (looks like items if you look at vram)

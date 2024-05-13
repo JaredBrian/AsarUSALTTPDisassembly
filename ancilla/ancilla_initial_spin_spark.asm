@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $045704-$0457B1 DATA
-pool Ancilla_InitialSpinSpark:
+Pool_Ancilla_InitialSpinSpark:
 {
     .timers
     db 4, 2, 3, 3, 2, 1

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $043BF4-$043C91 DATA
-pool Ancilla_DashDust:
+Pool_Ancilla_DashDust:
 {
     .y_offsets
     dw -2,  0, -1

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0EE763-$0EE772 DATA
-pool Sprite_Vitreolus:
+Pool_Sprite_Vitreolus:
 {
     .x_offsets
     dw 1,  0, -1,  0

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F2192-$0F2195 DATA
-pool Sprite_Pengator:
+Pool_Sprite_Pengator:
 {
     .animation_states
     db $05, $00, $0A, $0F
@@ -78,7 +78,7 @@ Pengator_FacePlayer:
 ; ==============================================================================
 
 ; $0F21F5-$0F21FA DATA
-pool Pengator_SpeedUp:
+Pool_Pengator_SpeedUp:
 {
     .x_speeds length 4
     db 1, -1
@@ -130,7 +130,7 @@ Pengator_SpeedUp:
 ; ==============================================================================
 
 ; $0F2240-$0F2243 DATA
-pool Pengator_Jump:
+Pool_Pengator_Jump:
 {
     .animation_states
     db 4, 4, 3, 2
@@ -167,7 +167,7 @@ Pengator_Jump:
 ; ==============================================================================
 
 ; $0F2261-$0F2270 DATA
-pool Pengator_SlideAndSparkle:
+Pool_Pengator_SlideAndSparkle:
 {
     .random_x_offsets
     db  8, 10, 12, 14
@@ -219,7 +219,7 @@ Pengator_SlideAndSparkle:
 ; ==============================================================================
 
 ; $0F22B5-$0F2414 DATA
-pool Pengator_Draw:
+Pool_Pengator_Draw:
 {
     .oam_groups
     dw -1, -8 : db $82, $00, $00, $02

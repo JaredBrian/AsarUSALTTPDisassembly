@@ -43,7 +43,7 @@ Garnish_SpawnPyramidDebris:
 ; ==============================================================================
 
 ; $04B20F-$04B215 BRANCH LOCATION
-pool Garnish_PyramidDebris:
+Pool_Garnish_PyramidDebris:
 {
     .self_terminate
     

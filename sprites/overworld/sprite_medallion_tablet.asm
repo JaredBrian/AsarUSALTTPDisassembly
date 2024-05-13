@@ -75,7 +75,7 @@ Sprite_MedallionTablet:
 ; ==============================================================================
 
 ; $02F2A9-$02F2B1 DATA
-pool Sprite_DustCloud:
+Pool_Sprite_DustCloud:
 {
     .animation_states
     db $00, $01, $02, $03, $04, $05, $01, $00

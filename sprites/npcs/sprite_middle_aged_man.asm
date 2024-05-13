@@ -194,7 +194,7 @@ MiddleAgedMan_SilenceDueToOtherTagalong:
 ; ==============================================================================
 
 ; $033D9C-$033DAB DATA
-pool MiddleAgedMan_Draw:
+Pool_MiddleAgedMan_Draw:
 {
     .oam_groups
     dw 0, -8 : db $EA, $00, $00, $02

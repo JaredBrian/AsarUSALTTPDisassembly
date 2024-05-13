@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $044107-$044166 DATA
-pool Ancilla_VictorySparkle:
+Pool_Ancilla_VictorySparkle:
 {
     .y_offsets
     dw -7,  0,  0,  0, -11, -11, -3, -3

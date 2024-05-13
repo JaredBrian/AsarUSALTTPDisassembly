@@ -236,7 +236,7 @@ BadPullDownSwitch_Draw:
 ; ==============================================================================
 
 ; $02D856-$02D857 DATA
-pool BadPullUpSwitch_Draw:
+Pool_BadPullUpSwitch_Draw:
 {
     .chr
     db $A2, $A4
@@ -378,7 +378,7 @@ Sprite_GoodPullSwitch:
 ; ==============================================================================
 
 ; $02D945-$02D952 DATA
-pool GoodPullSwitch_Draw:
+Pool_GoodPullSwitch_Draw:
 {
     .y_offsets
     db 1, 1, 2, 3, 2, 3, 4, 5

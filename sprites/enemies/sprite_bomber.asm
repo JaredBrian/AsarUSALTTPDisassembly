@@ -67,7 +67,7 @@ BomberPellet_Exploding:
 ; ==============================================================================
 
 ; $0F0E29-$0F0E30 DATA
-pool Bomber_Main:
+Pool_Bomber_Main:
 {
     .z_speed_step
     db $01, $FF
@@ -178,7 +178,7 @@ Bomber_Dodge:
 ; ==============================================================================
 
 ; $0F0EE4-$0F0EF7 DATA
-pool Bomber_Hovering:
+Pool_Bomber_Hovering:
 {
     .x_speeds
     db $10, $0C
@@ -274,7 +274,7 @@ Bomber_Hovering:
 ; ==============================================================================
 
 ; $0F0F71-$0F0F80 DATA
-pool Bomber_SpawnPellet:
+Pool_Bomber_SpawnPellet:
 {
     .x_offsets_low
     db $0E, $FA, $04, $04

@@ -16,7 +16,7 @@ Sprite_LumberjacksLong:
 ; ==============================================================================
 
 ; $06C513-$06C51A DATA
-pool Sprite_Lumberjacks:
+Pool_Sprite_Lumberjacks:
 {
     .messages_low
     db $2C, $2D, $2E, $2D
@@ -84,7 +84,7 @@ Sprite_Lumberjacks:
 ; ==============================================================================
 
 ; $06C57F-$06C58E DATA
-pool Lumberjacks_CheckProximity:
+Pool_Lumberjacks_CheckProximity:
 {
     .x_lower_ranges
     dw 48, 52
@@ -127,7 +127,7 @@ Lumberjacks_CheckProximity:
 ; ==============================================================================
 
 ; $06C5B2-$06C6B9 DATA
-pool Lumberjacks_Draw:
+Pool_Lumberjacks_Draw:
 {
     .oam_groups
     dw -23,  5 : db $BE, $02, $00, $00

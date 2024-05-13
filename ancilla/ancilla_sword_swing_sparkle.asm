@@ -5,7 +5,7 @@
     ; Interestingly enough, I think the chr and properties are identical
     ; for all 3 directions. No surprise there, I guess.
 ; $045596-$045659 DATA
-pool Ancilla_SwordSwingSparkle:
+Pool_Ancilla_SwordSwingSparkle:
 {
     .chr
     db $B7, $B7, $FF

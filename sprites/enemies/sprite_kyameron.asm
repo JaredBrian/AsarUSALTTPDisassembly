@@ -85,7 +85,7 @@ Kyameron_PuddleUp:
 ; ==============================================================================
 
 ; $0F1F01-$0F1F10 DATA
-pool Kyameron_Coagulate:
+Pool_Kyameron_Coagulate:
 {
     .animation_states
     db $04, $07, $0E, $0D, $0C, $06, $06, $05
@@ -143,7 +143,7 @@ Kyameron_Coagulate:
 ; ==============================================================================
 
 ; $0F1F55-$0F1F58 DATA
-pool Kyameron_Moving:
+Pool_Kyameron_Moving:
 {
     .animation_states
     db $03, $02, $01, $00
@@ -303,7 +303,7 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
 ; ==============================================================================
 
 ; $0F206C-$0F2157 DATA
-pool Kyameron_Draw:
+Pool_Kyameron_Draw:
 {
     .oam_groups
     dw  1,   8 : db $B4, $00, $00, $00

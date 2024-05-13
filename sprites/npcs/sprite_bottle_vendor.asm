@@ -240,7 +240,7 @@ BottleVendor_DispenseRewardToPlayer:
 ; ==============================================================================
 
 ; $02EB87-$02EBA6 DATA
-pool BottleVendor_Draw:
+Pool_BottleVendor_Draw:
 {
     .animation_states
     dw 0, -7 : db $AC, $00, $00, $02

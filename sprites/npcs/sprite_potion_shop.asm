@@ -213,7 +213,7 @@ Sprite_MagicPowderItem:
 ; ==============================================================================
 
 ; $02F66B-$02F67A DATA
-pool MagicPowderItem_Draw:
+Pool_MagicPowderItem_Draw:
 {
     .oam_groups
     dw 0, 0 : db $E6, $04, $00, $02
@@ -312,7 +312,7 @@ Sprite_GreenPotionItem:
 ; ==============================================================================
 
 ; $02F700-$02F717 DATA
-pool GreenPotionItem_Draw:
+Pool_GreenPotionItem_Draw:
 {
     .oam_groups
     dw  0,  0 : db $C0, $08, $00, $02
@@ -409,7 +409,7 @@ Sprite_BluePotionItem:
 ; ==============================================================================
 
 ; $02F79D-$02F7BC DATA
-pool BluePotionItem_Draw:
+Pool_BluePotionItem_Draw:
 {
     .oam_groups
     dw  0,  0 : db $C0, $04, $00, $02
@@ -523,7 +523,7 @@ Sprite_RedPotionItem:
 ; ==============================================================================
 
 ; $02F84D-$02F86C DATA
-pool RedPotionItem_Draw:
+Pool_RedPotionItem_Draw:
 {
     .oam_groups
     dw  0,  0 : db $C0, $02, $00, $02
@@ -621,7 +621,7 @@ Sprite_WitchAssistant:
 ; ==============================================================================
 
 ; $02F8FB-$02F91A DATA
-pool Shopkeeper_Draw:
+Pool_Shopkeeper_Draw:
 {
     .oam_groups
     dw 0, -8 : db $00, $0C, $00, $02

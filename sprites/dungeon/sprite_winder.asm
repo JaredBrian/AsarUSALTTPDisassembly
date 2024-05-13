@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F51CD-$0F51D0 DATA
-pool Sprite_Winder:
+Pool_Sprite_Winder:
 {
     .vh_flip
     db $00, $40, $80, $C0    
@@ -40,7 +40,7 @@ Sprite_Winder:
 ; ==============================================================================
 
 ; $0F51FE-$0F5205 DATA
-pool Winder_DefaultState:
+Pool_Winder_DefaultState:
 {
     .x_speeds
     db $18, $E8, $00, $00

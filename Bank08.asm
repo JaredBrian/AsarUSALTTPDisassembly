@@ -276,7 +276,7 @@ AddFireRodShot:
 ; ==============================================================================
 
 ; $04019F-$0401A6 DATA
-pool SomarianBlast_SpawnCentrifugalQuad:
+Pool_SomarianBlast_SpawnCentrifugalQuad:
 {
     .x_offsets
     db  -8, -8, -9, -4
@@ -673,7 +673,7 @@ incsrc "ancilla_fire_shot.asm"
 ; ==============================================================================
 
 ; $040853-$04097A DATA
-pool Ancilla_CheckTileCollisionStaggered:
+Pool_Ancilla_CheckTileCollisionStaggered:
 {
     .collision_table
     db 0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0
@@ -918,7 +918,7 @@ Ancilla_CheckTileCollisionStaggered:
 ; ==============================================================================
 
 ; $040ABF-$040BCE DATA
-pool Ancilla_CheckTileCollision_Class2:
+Pool_Ancilla_CheckTileCollision_Class2:
 {
     ; Similar to the other collision routine's behavior table, this one
     ; opts to not interact with torches or chests, but interacts more
@@ -1192,7 +1192,7 @@ Ancilla_CheckSpriteCollisionLong:
 ; ==============================================================================
 
 ; $040DAA-$040DAD DATA
-pool Ancilla_CheckIndividualSpriteCollision:
+Pool_Ancilla_CheckIndividualSpriteCollision:
 {
     .opposing_sprite_directions
     db 2, 3, 0, 1
@@ -1348,7 +1348,7 @@ Ancilla_CheckIndividualSpriteCollision:
 ; ==============================================================================
 
 ; $040E7D-$040EAC DATA
-pool Ancilla_SetupHitBox:
+Pool_Ancilla_SetupHitBox:
 {
     db 4, 4, 4, 4
     db 3, 3, 2, 11
@@ -1964,8 +1964,8 @@ Ancilla_FindMatch:
 ; ==============================================================================
 
 ; $04766D-$047670 DATA
-pool Ancilla_PrepOamCoord:
-    parallel pool Ancilla_PrepAdjustedOamCoord:
+Pool_Ancilla_PrepOamCoord:
+    parallel Pool_Ancilla_PrepAdjustedOamCoord:
 {
     .priority
     db $20, $10, $30, $20
@@ -2133,7 +2133,7 @@ Ancilla_SetSafeOam_XY:
 ; ==============================================================================
 
 ; $04772F-$04776A DATA
-pool Ancilla_CheckPlayerCollision:
+Pool_Ancilla_CheckPlayerCollision:
 {
     .y_offsets
     db  0,  0,  8,  0,  8,  0,  8,  0,  0,  0
@@ -2265,7 +2265,7 @@ Hookshot_CheckChainLinkProximityToPlayer:
 ; ==============================================================================
 
 ; $047824-$047843 DATA
-pool Ancilla_CheckIfEntranceTriggered:
+Pool_Ancilla_CheckIfEntranceTriggered:
 {
     .trigger_coord_y
     dw $0D40, $0210, $0CFC, $0100
@@ -2329,7 +2329,7 @@ Ancilla_CheckIfEntranceTriggered:
 ; ==============================================================================
 
 ; $04787B-$047896 DATA
-pool Ancilla_DrawShadow:
+Pool_Ancilla_DrawShadow:
 {
     .chr
     db $6C, $6C
@@ -2907,7 +2907,7 @@ BeamHit_CheckOffscreen_Y:
 ; ==============================================================================
 
 ; $047BED-$047EE9 lots of mysterious data. needs investigation
-pool QuakeSpell_DrawFirstGroundBolts:
+Pool_QuakeSpell_DrawFirstGroundBolts:
 {
     ; \task name all of these??? I dunno.
     
@@ -3239,7 +3239,7 @@ pool QuakeSpell_DrawFirstGroundBolts:
     ; and vast amount of data.
     
 ; $047EEA-$047FDA DATA
-pool QuakeSpell_DrawFirstGroundBolts:
+Pool_QuakeSpell_DrawFirstGroundBolts:
 {
     .pointers
     dw $FBED, $FBF0, $FBF3, $FBF6, $FBF9, $FBFC, $FBFF, $FC02
@@ -3252,7 +3252,7 @@ pool QuakeSpell_DrawFirstGroundBolts:
     dw $FD73, $FD79, $FD7F, $FD88, $FD94, $FDA0, $FDAC, $FDB2
 }
     
-pool QuakeSpell_DrawGroundBolts:
+Pool_QuakeSpell_DrawGroundBolts:
 {
     .pointers
     dw $FDB2, $FDB5, $FDB8, $FDBB, $FDBE, $FDC1, $FDC4, $FDC7

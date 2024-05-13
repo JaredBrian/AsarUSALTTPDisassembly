@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $035030-$035031 DATA
-pool Sprite_Key:
+Pool_Sprite_Key:
     parallel pool Key_AbsorptionByPlayer:
     ; \task Another routine uses this data array, please name it.
 {
@@ -199,7 +199,7 @@ Sprite_HandleAbsorptionByPlayerLong:
 ; ==============================================================================
 
 ; $03512D-$03513B DATA
-pool Sprite_HandleAbsorptionByPlayer:
+Pool_Sprite_HandleAbsorptionByPlayer:
 {
     .sfx
     db $0B, $0A, $0A, $0A, $0B, $0B, $0B, $0B
@@ -312,7 +312,7 @@ Fairy_AbsorptionByPlayer:
 ; ==============================================================================
 
 ; $0351BB-$0351BD DATA
-pool GreenRupee_AbsorptionByPlayer:
+Pool_GreenRupee_AbsorptionByPlayer:
 {
     ; \task Name routines that use these locations.
     .rupee_quantities
@@ -342,7 +342,7 @@ GreenRupee_AbsorptionByPlayer:
 ; ==============================================================================
 
 ; $0351D5-$0351D7 DATA
-pool OneBombRefill_AbsorptionByPlayer:
+Pool_OneBombRefill_AbsorptionByPlayer:
 {
     .refill_quantities
     db 1, 4, 8
@@ -412,7 +412,7 @@ FiveArrowRefill_AbsorptionByPlayer:
 ; ==============================================================================
 
 ; $03520D-$03522E DATA
-pool Sprite_DrawTransientAbsorbable:
+Pool_Sprite_DrawTransientAbsorbable:
 {
     .unknown_0
     db 0, 1, 1, 1, 2, 2, 2, 0
@@ -512,7 +512,7 @@ Sprite_DrawNumberedAbsorbable:
     ; \wtf How exactly did this data array end up here and not closer
     ; to the octorock's code? Not that it hurts anything, it's just odd...
 ; $0352AE-$0352B1 DATA
-pool Sprite_Octorock:
+Pool_Sprite_Octorock:
 {
     .h_flip
     db $40, $00, $00, $00
@@ -521,7 +521,7 @@ pool Sprite_Octorock:
 ; ==============================================================================
 
 ; $0352B2-$0352F9 DATA
-pool Sprite_DrawNumberedAbsorbable:
+Pool_Sprite_DrawNumberedAbsorbable:
 {
     .y_offsets
     dw 0, 0, 8, 0, 0, 8, 0, 0

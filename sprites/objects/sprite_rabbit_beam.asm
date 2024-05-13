@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0E84F1-$0E8530 DATA
-pool ChimneySmoke_Draw:
+Pool_ChimneySmoke_Draw:
 {
     .oam_groups
     dw 0, 0 : db $86, $00, $00, $00
@@ -42,7 +42,7 @@ ChimneySmoke_Draw:
 ; ==============================================================================
 
 ; $0E854E-$0E854F DATA
-pool Sprite_ChimneySmoke:
+Pool_Sprite_ChimneySmoke:
     parallel pool Sprite_Chimney:
 {
     ; \task Name this routine / pool.
@@ -149,7 +149,7 @@ Sprite_RabbitBeam:
 ; ==============================================================================
 
 ; $0E85FA-$0E85FF DATA
-pool RabbitBeam_Active:
+Pool_RabbitBeam_Active:
 {
     .chr
     db $D7, $D7, $D7, $91, $91, $91

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B496-$04B49D DATA
-pool Garnish_BabusuFlash:
+Pool_Garnish_BabusuFlash:
 {
     .chr
     db $A8, $8A, $86, $86

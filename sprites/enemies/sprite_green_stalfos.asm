@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F528D-$0F5298 DATA
-pool Sprite_GreenStalfos:
+Pool_Sprite_GreenStalfos:
 {
     ,facing_direction
     db $04, $06, $00, $02

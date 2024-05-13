@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B613-$04B626 DATA
-pool Garnish_CrumbleTile:
+Pool_Garnish_CrumbleTile:
 {
     .chr
     db $80, $CC, $CC, $EA, $EA

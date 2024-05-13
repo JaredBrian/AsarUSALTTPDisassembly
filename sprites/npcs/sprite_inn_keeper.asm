@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02E3A3-$02E3A6 DATA
-pool Sprite_InnKeeper:
+Pool_Sprite_InnKeeper:
 {
     ; "There is a lake swimming with Zoras at the source of the river...".
     ; "...there was a boy in this village who could talk to animals ..."
@@ -51,7 +51,7 @@ Sprite_InnKeeper:
 ; ==============================================================================
 
 ; $02E3CC-$02E3DB DATA
-pool InnKeeper_Draw:
+Pool_InnKeeper_Draw:
 {
     .animation_states
     dw 0, -8 : db $C4, $00, $00, $02

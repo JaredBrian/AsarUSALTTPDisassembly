@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02BC8A-$02BCA1 DATA
-pool Sprite_Recruit:
+Pool_Sprite_Recruit:
 {
     .x_speeds
     db  12, -12,   0,   0
@@ -83,7 +83,7 @@ Sprite_Recruit:
 ; ==============================================================================
 
 ; $02BD16-$02BD1D DATA
-pool Recruit_Moving:
+Pool_Recruit_Moving:
 {
     .next_head_direction
     db 2, 3, 2, 3, 0, 1, 0, 1
@@ -132,7 +132,7 @@ Recruit_Moving:
 ; ==============================================================================
 
 ; $02BD56-$02BD7D DATA
-pool Recruit_Draw:
+Pool_Recruit_Draw:
 {
     
     .x_offsets

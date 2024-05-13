@@ -121,7 +121,7 @@ GerudoMan_Emerge:
 ; ==============================================================================
 
 ; $02B965-$02B966 DATA
-pool GerudoMan_PursuePlayer:
+Pool_GerudoMan_PursuePlayer:
 {
     db $04, $05
 }
@@ -129,7 +129,7 @@ pool GerudoMan_PursuePlayer:
 ; ==============================================================================
 
 ; $02B967-$02B96B DATA
-pool GerudoMan_Submerge:
+Pool_GerudoMan_Submerge:
 {
     db $00, $01, $02, $03, $03
 }
@@ -186,7 +186,7 @@ GerudoMan_Submerge:
 ; ==============================================================================
 
 ; $02B9A6-$02BA23 DATA
-pool GerudoMan_Draw:
+Pool_GerudoMan_Draw:
 {
     .x_offsets
     dw   4,  4,  4

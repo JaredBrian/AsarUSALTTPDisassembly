@@ -5,7 +5,7 @@
 ; ==============================================================================
 
 ; $0F4379-$0F437E DATA
-pool Sprite_YellowStalfos:
+Pool_Sprite_YellowStalfos:
 {
     .priority
     db $30, $00, $00, $00, $30, $00
@@ -155,7 +155,7 @@ YellowStalfos_FacePlayer:
 ; ==============================================================================
 
 ; $0F4457-$0F44B6 DATA
-pool YellowStalfos_PauseThenDetachHead:
+Pool_YellowStalfos_PauseThenDetachHead:
 {
     .animation_states
     db 8, 5, 1, 1, 8, 5, 1, 1
@@ -221,7 +221,7 @@ YellowStalfos_PauseThenDetachHead:
 ; ==============================================================================
 
 ; $0F44F7-$0F44FA DATA
-pool YellowStalfos_DelayBeforeAscending:
+Pool_YellowStalfos_DelayBeforeAscending:
 {
     .animation_states
     db 6, 3, 1, 1
@@ -356,7 +356,7 @@ YellowStalfos_DetachHead:
 ; ==============================================================================
 
 ; $0F45A5-$0F4654 DATA
-pool YellowStalfos_Draw:
+Pool_YellowStalfos_Draw:
 {
     .oam_groups
     dw 0, 0 : db $0A, $00, $00, $02
@@ -430,7 +430,7 @@ YellowStalfos_Draw:
 ; ==============================================================================
 
 ; $0F4692-$0F4699 DATA
-pool YellowStalfos_DrawHead:
+Pool_YellowStalfos_DrawHead:
 {
     .chr
     db $02, $02, $00, $04

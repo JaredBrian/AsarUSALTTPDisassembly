@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $02852D-$028530 DATA
-pool Sprite_DebirandoPit:
+Pool_Sprite_DebirandoPit:
 {
     .unknown_1
     db -1, 1
@@ -133,7 +133,7 @@ DebirandoPit_Closed:
 ; ==============================================================================
 
 ; $0285F1-$0285F4 DATA
-pool DebirandoPit_Opening:
+Pool_DebirandoPit_Opening:
 {
     .animation_states
     db 5, 4, 3, 3
@@ -189,7 +189,7 @@ DebirandoPit_Open:
 ; ==============================================================================
 
 ; $028630-$028633 DATA
-pool DebirandoPit_Closing:
+Pool_DebirandoPit_Closing:
 {
     .animation_states
     db 3, 3, 4, 5
@@ -220,7 +220,7 @@ DebirandoPit_Closing:
 ; ==============================================================================
 
 ; $02864E-$0286E3 DATA
-pool DebirandoPit_Draw:
+Pool_DebirandoPit_Draw:
 {
     .x_offsets
     dw -8,  8, -8,  8, -8,  8, -8,  8

@@ -5,7 +5,7 @@
 {set1 word j},
 {set2 word k}  => {states word i, j, k}
     
-pool foo1:
+Pool_foo1:
 {
     .set0
     dw a0
@@ -162,7 +162,7 @@ pool foo1:
                          {set1 word j},
                          {set2 word k}
     
-pool foo1:
+Pool_foo1:
 {
     .states
     dw a0, b0, c0

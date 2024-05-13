@@ -45,7 +45,7 @@ Sprite_UnusedTelepath:
 ; ==============================================================================
 
 ; $06C707-$06C736 DATA
-pool UnusedTelepath_Draw:
+Pool_UnusedTelepath_Draw:
 {
     .oam_groups
     dw 4, -14 : db $AE, $00, $00, $00

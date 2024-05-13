@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0338CE-$0338CF DATA
-pool Sprite_CrystalSwitch:
+Pool_Sprite_CrystalSwitch:
 {
     .palettes
     db $02, $04

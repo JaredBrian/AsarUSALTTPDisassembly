@@ -115,7 +115,7 @@ Garnish_ExecuteLowerSlots:
 ; ==============================================================================
 
 ; $04B0A0-$04B0B5 DATA
-pool Garnish_ExecuteSingle:
+Pool_Garnish_ExecuteSingle:
 {
     .oam_allocation
     db  4,  4,  4,  4,  4,  4,  4,  4

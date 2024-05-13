@@ -16,7 +16,7 @@ Sprite_HelmasaurFireballLong:
 ; ==============================================================================
 
 ; $0EEDDE-$0EEDE2 DATA
-pool Sprite_HelmasaurFireball:
+Pool_Sprite_HelmasaurFireball:
 {
     .chr
     db $CC, $CC, $CA
@@ -211,7 +211,7 @@ HelamsaurFireball_Move:
 ; ==============================================================================
 
 ; $0EEECD-$0EEED2 DATA
-pool HelmasaurFireball_TriSplit:
+Pool_HelmasaurFireball_TriSplit:
 {
     .x_speeds
     db   0,  28, -28

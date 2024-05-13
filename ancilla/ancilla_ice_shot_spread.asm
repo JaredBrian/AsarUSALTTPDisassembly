@@ -23,7 +23,7 @@ Ancilla_IceShotSpread:
 ; ==============================================================================
 
 ; $042551-$042570 DATA
-pool IceShotSpread_Draw:
+Pool_IceShotSpread_Draw:
 {
     .chr_and_properties
     db $CF, $24

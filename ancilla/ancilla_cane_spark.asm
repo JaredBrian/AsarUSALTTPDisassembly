@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $045A84-$045B23 DATA
-pool Ancilla_InitialCaneSpark:
+Pool_Ancilla_InitialCaneSpark:
 {
     .chr
     db $92, $FF, $FF, $FF
@@ -186,7 +186,7 @@ Ancilla_InitialCaneSpark:
 ; ==============================================================================
 
 ; $045C0E-$045C20 DATA
-pool CaneSpark_TransmuteInitialToNormal:
+Pool_CaneSpark_TransmuteInitialToNormal:
 {
     .initial_rotation_states
     db $34, $33, $32, $31

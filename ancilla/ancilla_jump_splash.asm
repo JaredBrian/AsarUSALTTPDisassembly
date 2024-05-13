@@ -8,7 +8,7 @@
     ; So perhaps 'incomplete' would be a better name than unused. Dunno.
 ; $04280D-$04280E DATA
 Ancilla_Unused_14:
-pool Ancilla_JumpSplash:
+Pool_Ancilla_JumpSplash:
 {
     .chr
     db $AC, $AE

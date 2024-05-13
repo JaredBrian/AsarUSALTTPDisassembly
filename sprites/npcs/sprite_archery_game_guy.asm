@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $028176-$028191 DATA
-pool SpritePrep_ArcheryGameGuy:
+Pool_SpritePrep_ArcheryGameGuy:
 {
     .x_offests
     db $00, $40, $80, $C0, $30, $60, $90, $C0
@@ -104,7 +104,7 @@ Sprite_ArcheryGameGuy:
 ; ==============================================================================
 
 ; $028213-$028216 DATA
-pool ArcheryGameGuy_Main:
+Pool_ArcheryGameGuy_Main:
 {
     .animation_states
     db 3, 4, 3, 2
@@ -364,7 +364,7 @@ ArcheryGameGuy_RunGame:
 ; ==============================================================================
 
 ; $0283CF-$0283D8 DATA
-pool Sprite_GoodArcheryTarget:
+Pool_Sprite_GoodArcheryTarget:
 {
     .prizes
     ; \tcrf (verified)
@@ -496,7 +496,7 @@ Sprite_GoodArcheryTarget:
 ; ==============================================================================
 
 ; $0284AF-$0284CE DATA
-pool GoodArcheryTarget_DrawPrize:
+Pool_GoodArcheryTarget_DrawPrize:
 {
     .x_offsets
     

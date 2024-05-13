@@ -33,7 +33,7 @@ Sprite_Terrorpin:
 ; =============================================================================
 
 ; $0F3297-$0F32A6 DATA
-pool Terrorpin_Upright:
+Pool_Terrorpin_Upright:
 {
     .x_speeds
     db $08, $F8, $00, $00

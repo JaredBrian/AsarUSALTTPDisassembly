@@ -4920,7 +4920,7 @@ Player_Sword:
     LDA $0DAC8D, X : STA $44
     LDA $0DACB1, X : STA $45
     
-parallel pool LinkItem_Rod:
+parallel Pool_LinkItem_Rod:
 
 .quick_return
 
@@ -5008,7 +5008,7 @@ LinkItem_Rod:
 ; ==============================================================================
 
 ; $039F59-$039F5C JUMP TABLE
-pool LinkItem_RodDiscriminator:
+Pool_LinkItem_RodDiscriminator:
 {
     .rods
     dw LinkItem_FireRod
@@ -5141,7 +5141,7 @@ LinkItem_Hammer:
 ; ==============================================================================
 
 ; $03A003-$03A005
-pool LinkItem_Bow:
+Pool_LinkItem_Bow:
 {
     ; \task Rename the LinkItem "namespace" to PlayerItem
     ; \task Label this data and apply in routine.
@@ -5477,7 +5477,7 @@ LinkItem_Boomerang:
 
     ; \unused Until proven otherwise...
 ; $03A24A-$03A24C DATA
-pool LinkItem_Lamp:
+Pool_LinkItem_Lamp:
 {
     db $18, $10, $00
 }
@@ -7201,7 +7201,7 @@ LinkItem_Mirror:
 ; ==============================================================================
 
 ; $03ADBE-$03ADC0 DATA
-pool LinkItem_Cape:
+Pool_LinkItem_Cape:
 {
     .mp_depletion_timers
     ; \note Higher timers mean it takes longer for a point of magic power
@@ -7457,7 +7457,7 @@ LinkItem_CaneOfSomaria:
 ; ==============================================================================
 
 ; $03AF3B-$03AF3D DATA
-pool PlayerItem_CaneOfByrna:
+Pool_PlayerItem_CaneOfByrna:
 {
     ; \task Confirm this is an accurate label.
     .animation_delays
@@ -15015,7 +15015,7 @@ TileDetect_Execute:
 ; ==============================================================================
 
 ; $03E227-$03E244 DATA
-    pool 
+    Pool_
 {
     .speed_table
     db $18
@@ -17187,7 +17187,7 @@ Player_InitPrayingScene_HDMA:
 ; ==============================================================================
 
 ; $03F0CB-$03F0D8
-    pool 
+    Pool_
 {
     ; Unused data?
     

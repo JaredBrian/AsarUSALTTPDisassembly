@@ -78,7 +78,7 @@ Gravestone_Move:
 ; ==============================================================================
 
 ; $046DF9-$046E00 DATA
-pool Ancilla_Gravestone:
+Pool_Ancilla_Gravestone:
 {
     .chr
     db $C8, $C8, $D8, $D8

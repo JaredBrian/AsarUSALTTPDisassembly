@@ -259,7 +259,7 @@ Sprite_StoryTeller_1:
 ; ==============================================================================
 
 ; $032ECA-$032F19 DATA
-pool StoryTeller_1_Draw:
+Pool_StoryTeller_1_Draw:
 {
     dw 0, 0 : db $4A, $0A, $00, $02
     dw 0, 0 : db $6E, $4A, $00, $02

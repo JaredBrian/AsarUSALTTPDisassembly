@@ -16,7 +16,7 @@ Ancilla_GameOverTextLong:
 ; ==============================================================================
 
 ; $0474D2-$0474D7 Jump Table
-pool Ancilla_GameOverText:
+Pool_Ancilla_GameOverText:
 {
     ; \task interleaved!
     
@@ -52,7 +52,7 @@ Ancilla_GameOverText:
 ; ==============================================================================
 
 ; $0474EE-$0474F5 DATA
-pool GameOverText_SweepLeft:
+Pool_GameOverText_SweepLeft:
 {
     .target_x_coords
     db 64
@@ -141,7 +141,7 @@ GameOverText_SweepLeft:
 ; ==============================================================================
 
 ; $047565-$04756C DATA
-pool GameOverText_UnfurlRight:
+Pool_GameOverText_UnfurlRight:
 {
     .target_x_coords
     db 88

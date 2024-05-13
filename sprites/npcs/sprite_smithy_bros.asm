@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $0331DE-$0331ED DATA
-pool Smithy_Main:
+Pool_Smithy_Main:
 {
     .animation_states
     db  0,  1,  2,  3,  3,  2,  1,  0
@@ -44,7 +44,7 @@ ReturningSmithy_Main:
 ; ==============================================================================
 
 ; $03320E-$03321A DATA
-pool ReturningSmithy_ApproachTheBench:
+Pool_ReturningSmithy_ApproachTheBench:
 {
     .timers
     db $68, $0C
@@ -177,7 +177,7 @@ SmithyFrog_Main:
 ; ==============================================================================
 
 ; $0332C0-$033307 DATA
-pool ReturningSmithy_Draw:
+Pool_ReturningSmithy_Draw:
 {
     .oam_groups
     dw 0, 0 : db $22, $41, $00, $02
@@ -226,7 +226,7 @@ ReturningSmithy_Draw:
 ; ==============================================================================
 
 ; $033331-$033338 DATA
-pool SmithyFrog_Draw:
+Pool_SmithyFrog_Draw:
 {
     .oam_groups
     dw 0, 0 : db $C8, $00, $00, $02
@@ -720,7 +720,7 @@ Smithy_SpawnOtherSmithy:
 ; ==============================================================================
 
 ; $0335D3-$033672 DATA
-pool Smithy_Draw:
+Pool_Smithy_Draw:
 {
     dw   1,   0 : db $40, $40, $00, $02
     dw -11, -10 : db $60, $40, $00, $02
@@ -775,7 +775,7 @@ Smithy_Draw:
 ; ==============================================================================
 
 ; $033696-$0336A2 DATA
-pool SmithySpark_Main:
+Pool_SmithySpark_Main:
 {
     .animation_states
     db 0, 1, 2, 1, 2, 1, -1
@@ -818,7 +818,7 @@ SmithySpark_Main:
 ; ==============================================================================
 
 ; $0336CB-$0336CC DATA
-pool SmithyBros_SpawnSmithySpark:
+Pool_SmithyBros_SpawnSmithySpark:
 {
     .x_offsets
     db 15, -15
@@ -855,7 +855,7 @@ SmithyBros_SpawnSmithySpark:
 ; ==============================================================================
 
 ; $0336FC-$03372B DATA
-pool SmithySpark_Draw:
+Pool_SmithySpark_Draw:
 {
     .oam_groups
     dw  0,  3 : db $AA, $41, $00, $02

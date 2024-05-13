@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0410DC-$0410FB DATA
-pool Ancilla_Boomerang:
+Pool_Ancilla_Boomerang:
 {
     .y_offsets
     dw -16,   6,   0,   0,  -8,   8,  -8,   8
@@ -365,7 +365,7 @@ Boomerang_SelfTerminateIfOffscreen:
 ; ==============================================================================
 
 ; $04131A-$041337 DATA
-pool Boomerang_Draw:
+Pool_Boomerang_Draw:
 {
     .properties
     db $A4, $E4, $64, $24, $A2, $E2, $62, $22

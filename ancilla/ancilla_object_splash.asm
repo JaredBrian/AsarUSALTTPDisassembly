@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $044987-$0449CC DATA
-pool Ancilla_TransmuteToObjectSplash:
+Pool_Ancilla_TransmuteToObjectSplash:
 {
 }
 

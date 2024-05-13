@@ -174,7 +174,7 @@ WallMaster_GrabAttempt:
 ; ==============================================================================
 
 ; $0F2FA4-$0F2FE3 DATA
-pool WallMaster_Draw:
+Pool_WallMaster_Draw:
 {
     .oam_groups
     

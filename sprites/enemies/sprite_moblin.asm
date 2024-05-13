@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0318E0-$0318E3 DATA
-pool Moblin_Walk:
+Pool_Moblin_Walk:
 {
     db 6, 4, 0, 2
 }
@@ -31,7 +31,7 @@ Sprite_Moblin:
 ; ==============================================================================
 
 ; $031903-$031906 DATA
-pool Moblin_SelectDirection:
+Pool_Moblin_SelectDirection:
 {
     .timers
     db 16, 32, 48, 64
@@ -64,7 +64,7 @@ Moblin_SelectDirection:
 ; ==============================================================================
 
 ; $031930-$031937 DATA
-pool Moblin_Walk:
+Pool_Moblin_Walk:
 {
     db 2, 3, 2, 3, 0, 1, 0, 1
 }
@@ -146,7 +146,7 @@ Moblin_Walk:
 ; ==============================================================================
 
 ; $0319A9-$0319B0 DATA
-pool Moblin_ThrowSpear:
+Pool_Moblin_ThrowSpear:
 {
     .animation_states
     db 11, 10,  8,  9
@@ -191,7 +191,7 @@ Moblin_ThrowSpear:
 ; ==============================================================================
 
 ; $0319D9-$0319EA DATA
-pool Moblin_SpawnThrownSpear:
+Pool_Moblin_SpawnThrownSpear:
 {
     .x_offsets_low
     db 11,  -2,  -3,  11
@@ -245,7 +245,7 @@ Moblin_SpawnThrownSpear:
 ; ==============================================================================
 
 ; $031A30-$031BC3 DATA
-pool Moblin_Draw:
+Pool_Moblin_Draw:
 {
     .oam_groups
     dw -2,   3 : db $91, $80, $00, $00

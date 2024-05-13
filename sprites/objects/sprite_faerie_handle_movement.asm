@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F7D12-$0F7D13 DATA
-pool Fairy_HandleMovement:
+Pool_Fairy_HandleMovement:
 {
     .z_speeds
     db 1, -1

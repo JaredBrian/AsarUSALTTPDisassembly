@@ -28,7 +28,7 @@ Sprite_EvilBarrierTrampoline:
 ; ==============================================================================
 
 ; $02D548-$02D54B DATA
-pool Sprite_TutorialEntities:
+Pool_Sprite_TutorialEntities:
 {
     .animation_states
     db $02, $01, $00, $03
@@ -114,7 +114,7 @@ Sprite_TutorialEntities:
 ; ==============================================================================
 
 ; $02D5BF-$02D64A DATA
-pool TutorialSoldier_Draw:
+Pool_TutorialSoldier_Draw:
 {
     .x_offsets
     dw  4,  0, -6, -6,  2,  0,  0, -7

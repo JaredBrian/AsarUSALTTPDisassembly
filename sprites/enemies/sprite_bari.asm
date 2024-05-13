@@ -4,7 +4,7 @@
 ; ==============================================================================
 
 ; $032213-$032234 DATA
-pool Sprite_RedBari:
+Pool_Sprite_RedBari:
 {
     .rotation_speeds
     db 1, -1
@@ -23,7 +23,7 @@ pool Sprite_RedBari:
 ; ==============================================================================
 
 ; $032235-$032238 DATA
-pool RedBari_Split:
+Pool_RedBari_Split:
 {
     .x_offsets
     db   0,   8
@@ -35,7 +35,7 @@ pool RedBari_Split:
 ; ==============================================================================
 
 ; $032239-$03223C DATA
-pool Sprite_RedBari:
+Pool_Sprite_RedBari:
 {
     .wiggle_x_speeds
     db 8, -8
@@ -260,7 +260,7 @@ RedBari_Split:
 ; ==============================================================================
 
 ; $03239C-$0323DB DATA
-pool RedBari_Draw:
+Pool_RedBari_Draw:
 {
     .oam_groups
     dw 0, 0 : db $22, $00, $00, $00

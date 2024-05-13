@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B559-$04B55C DATA
-pool Garnish_TrinexxLavaBubble:
+Pool_Garnish_TrinexxLavaBubble:
 {
     .chr
     db $83, $C7, $80, $9D

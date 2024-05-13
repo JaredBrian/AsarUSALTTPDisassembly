@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $035892-$035899 DATA
-pool Sprite_Buzzblob:
+Pool_Sprite_Buzzblob:
 {
     .animation_states
     db 0, 1, 0, 2
@@ -64,7 +64,7 @@ Sprite_Buzzblob:
 ; ==============================================================================
 
 ; $0358EE-$035905 DATA
-pool Buzzblob_SelectNewDirection:
+Pool_Buzzblob_SelectNewDirection:
 {
     .x_speeds
     db  3,  2, -2, -3, -2,  2,  0,  0
@@ -95,7 +95,7 @@ Buzzblob_SelectNewDirection:
 ; ==============================================================================
 
 ; $035920-$035952 DATA
-pool Buzzblob_Draw:
+Pool_Buzzblob_Draw:
 {
     .x_offsets
     dw 0, 8, 0

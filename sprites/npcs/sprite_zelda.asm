@@ -118,7 +118,7 @@ Zelda_TransitionFromTagalong:
 ; ==============================================================================
 
 ; $02EC8E-$02EC95 DATA
-pool Sprite_Zelda:
+Pool_Sprite_Zelda:
 {
     .x_speeds
     db $00, $00, $F7, $09
@@ -325,7 +325,7 @@ Zelda_EnteringSanctuary:
 ; ==============================================================================
 
 ; $02ED76-$02ED7D DATA
-pool Zelda_WalkTowardsPriest:
+Pool_Zelda_WalkTowardsPriest:
 {
     .timers
     db $26, $1A, $2C, $01
@@ -426,7 +426,7 @@ Zelda_BeCarefulOutThere:
 ; ==============================================================================
 
 ; $02EE06-$02EE0B DATA
-pool Zelda_AtSanctuary:
+Pool_Zelda_AtSanctuary:
 {
     .messages_lower
     

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B4C0-$04B4C5 DATA
-pool Garnish_Nebule:
+Pool_Garnish_Nebule:
 {
     .xy_offsets
     db -1, -1, 0

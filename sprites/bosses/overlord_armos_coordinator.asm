@@ -113,7 +113,7 @@ ArmosCoordinator_AwaitKnightsUnderCoercion:
 ; ==============================================================================
 
 ; $0EEC42-$0EEC47 DATA
-pool ArmosCoordinator_OrderKnightsToBackWall:
+Pool_ArmosCoordinator_OrderKnightsToBackWall:
 {
     .x_positions
     db $31, $4D, $69, $83, $9F, $BB
@@ -218,7 +218,7 @@ ArmosCoordinator_RadialDilation:
 ; ==============================================================================
 
 ; $0EECC0-$0EECCB DATA
-pool ArmosCoordinator_Rotate:
+Pool_ArmosCoordinator_Rotate:
 {
     ; \note Multiples of 0x0055, but not strictly in order.
     dw $0000, $01A9, $0154, $00FF, $00AA, $0055

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0E9C7A-$0E9C7F DATA
-pool Swamola_InitSegments:
+Pool_Swamola_InitSegments:
 {
     .ram_offsets
     db $00, $20, $40, $60, $80, $A0
@@ -42,7 +42,7 @@ Swamola_InitSegments:
 
     ; \unused This pool seems to be completely unused.
 ; $0E9CAD-$0E9CAF DATA
-pool Sprite_Swamola:
+Pool_Sprite_Swamola:
 {
     db $00, $10, $F0
 }
@@ -90,7 +90,7 @@ Sprite_Swamola:
 ; ==============================================================================
 
 ; $0E9CED-$0E9D18 DATA
-pool Swamola_Submerged:
+Pool_Swamola_Submerged:
 {
     .x_offsets_low
     db   0,   0,  32,  32,  32,   0, -32, -32
@@ -202,7 +202,7 @@ Swamola_Ascending:
 ; ==============================================================================
 
 ; $0E9DA3-$0E9DA6 DATA
-pool Swamola_WiggleTowardsTarget:
+Pool_Swamola_WiggleTowardsTarget:
 {
     .z_offsets
     db  2,  -2
@@ -382,7 +382,7 @@ Sprite_SwamolaRipples:
 ; ==============================================================================
 
 ; $0E9EDD-$0E9F1C DATA
-pool SwamolaRipples_Draw:
+Pool_SwamolaRipples_Draw:
 {
     .oam_groups
     dw 0, 4 : db $D8, $00, $00, $00
@@ -418,7 +418,7 @@ SwamolaRipples_Draw:
 ; ==============================================================================
 
 ; $0E9F3C-$0E9F63 DATA
-pool Swamola_Draw:
+Pool_Swamola_Draw:
 {
     .unknown_0
     db $08, $10, $16, $1A

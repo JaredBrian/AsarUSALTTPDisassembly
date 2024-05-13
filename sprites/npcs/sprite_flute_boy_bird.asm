@@ -115,7 +115,7 @@ FluteBoyBird_Falling:
 ; ==============================================================================
 
 ; $0F1B9A-$0F1B9B DATA
-pool FluteBoyBird_DrawBlink:
+Pool_FluteBoyBird_DrawBlink:
 {
     .x_offsets
     $08, $00

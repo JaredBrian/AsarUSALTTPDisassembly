@@ -11,7 +11,7 @@ org $048000
 ; ==============================================================================
 
 ; $026A00-$026A5F DATA
-pool Hobo_Draw:
+Pool_Hobo_Draw:
 {
     .oam_groups
     dw -5,   3 : db $A6, $00, $00, $02
@@ -240,7 +240,7 @@ Bomb_ProjectReflexiveSpeedOntoSpriteLong:
 ; ==============================================================================
 
 ; $026BB3-$026BE4 DATA
-pool Sprite_DrawLargeWaterTurbulence:
+Pool_Sprite_DrawLargeWaterTurbulence:
 {
     .oam_groups
     dw -10, 14 : db $C0, $00, $00, $02
@@ -292,7 +292,7 @@ Sprite_DrawLargeWaterTurbulence:
 ; ==============================================================================
 
 ; $026C1C-$026CBF EMPTY
-pool Empty:
+Pool_Empty:
 {
     ; \note Could use this for expansion.
     fillbyte $FF
@@ -303,7 +303,7 @@ pool Empty:
 ; ==============================================================================
 
 ; $026CC0-$027FFF DATA
-pool Dungeon_ApplyOverlay:
+Pool_Dungeon_ApplyOverlay:
 {
     .ptr_table 1BA1C9
     dl .overlay_0
@@ -582,7 +582,7 @@ pool Dungeon_ApplyOverlay:
 
 ; $026F2F-$026F46 DATA (more unmapped)
 {
-pool Dungeon_LoadRoom:
+Pool_Dungeon_LoadRoom:
 {
     .layout_ptrs
     dl $04EF47

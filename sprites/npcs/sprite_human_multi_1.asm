@@ -177,7 +177,7 @@ Sprite_FluteBoyFather:
 ; ==============================================================================
 
 ; $06C3B1-$06C3E0 DATA
-pool FluteBoyFather_Draw:
+Pool_FluteBoyFather_Draw:
 {
     .oam_groups
     dw 0, -7 : db $86, $00, $00, $02
@@ -212,7 +212,7 @@ FluteBoyFather_Draw:
 ; ==============================================================================
 
 ; $06C401-$06C480 DATA
-pool BlindHideoutGuy_Draw:
+Pool_BlindHideoutGuy_Draw:
 {
     .oam_groups
     dw 0, -8 : db $0C, $00, $00, $02

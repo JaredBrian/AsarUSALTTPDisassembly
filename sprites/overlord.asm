@@ -134,7 +134,7 @@ Overlord_ArmosCoordinator:
 ; ==============================================================================
 
 ; $04B7E1-$04B7F4 DATA
-pool Overlord_RedStalfosTrap:
+Pool_Overlord_RedStalfosTrap:
 {
     .x_offsets_low
     db   0,   0, -48,  48
@@ -247,7 +247,7 @@ Overlord_StalfosTrapTriggerWindow:
 ; ==============================================================================
 
 ; $04B8C1-$04B8D0 DATA
-pool Overlord_ZoroFactory:
+Pool_Overlord_ZoroFactory:
 {
     .x_offsets_low
     db $FC, $FE, $00, $02, $04, $06, $08, $0C
@@ -325,7 +325,7 @@ Overlord_ZoroFactory:
 ; ==============================================================================
 
 ; $04B972-$04B985 DATA
-pool Overlord_WizzrobeFactory:
+Pool_Overlord_WizzrobeFactory:
 {
     .x_offsets_low
     db 48, -48,   0,   0
@@ -445,7 +445,7 @@ Overlord_FlyingTileFactory:
 ; ==============================================================================
 
 ; $04BA2A-$04BA55 DATA
-pool Overlord_SpawnFlyingTile:
+Pool_Overlord_SpawnFlyingTile:
 {
     .x_coords_low
     db $70, $80, $60, $90, $90, $60, $70, $80
@@ -515,7 +515,7 @@ Overlord_PirogusuFactory:
 ; ==============================================================================
 
 ; $04BAC0-$04BAC3 DATA
-pool PirogusuFactory_Main:
+Pool_PirogusuFactory_Main:
 {
     .dirctions
     db 2, 3, 0, 1
@@ -584,7 +584,7 @@ PirogusuFactory_Main:
 ; ==============================================================================
 
 ; $04BB24-$04BBB1 DATA
-pool Overlord_CrumbleTilePath:
+Pool_Overlord_CrumbleTilePath:
 {
     ; Defines to make it easier to tell what the path looks like.
     !right = 0
@@ -944,8 +944,8 @@ Overlord_MovingFloor:
 ; ==============================================================================
 
 ; $04BD8D-$04BD9C DATA
-pool Overlord_ZolFactory:
-    parallel pool Overlord_StalfosFactory:
+Pool_Overlord_ZolFactory:
+    parallel Pool_Overlord_StalfosFactory:
 {
     .x_offsets_low
     db   0,   0, -48,  48
@@ -1039,7 +1039,7 @@ Overlord_PlayDropSfx:
 ; ==============================================================================
 
 ; $04BE07-$04BE0E DATA
-pool Overlord_StalfosTrap:
+Pool_Overlord_StalfosTrap:
 {
     .spawn_delays
     db $FF, $E0, $C0, $A0, $80, $60, $40, $20
@@ -1103,7 +1103,7 @@ Overlord_StalfosTrap:
 ; ==============================================================================
 
 ; $04BE6D-$04BE74 DATA
-pool Overlord_SnakeTrap:
+Pool_Overlord_SnakeTrap:
 {
     .spawn_delays
     db $20, $30, $40, $50, $60, $70, $80, $90
@@ -1170,7 +1170,7 @@ Overlord_SnakeTrap:
 ; ==============================================================================
 
 ; $04BED9-$04BF08 DATA
-pool Overlord_AllDirectionMetalBallFactory:
+Pool_Overlord_AllDirectionMetalBallFactory:
 {
     .coord_indices
     db 2, 2, 2, 2, 1, 1, 1, 1
@@ -1331,7 +1331,7 @@ Overlord_SpawnMetalBall:
 ; ==============================================================================
 
 ; $04C016-$04C01D DATA
-pool Overlord_SpawnMetalBall:
+Pool_Overlord_SpawnMetalBall:
 {
     .x_speeds
     db  24, -24,   0,   0

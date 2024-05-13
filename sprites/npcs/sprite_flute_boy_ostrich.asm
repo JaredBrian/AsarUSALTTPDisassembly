@@ -46,7 +46,7 @@ FluteBoyOstrich_Chillin:
 ; ==============================================================================
 
 ; $0F198D-$0F1990 DATA
-pool FluteBoyOstrich_RunAway:
+Pool_FluteBoyOstrich_RunAway:
 {
     .animation_states
      db $00, $01, $00, $02
@@ -92,7 +92,7 @@ FluteBoyOstrich_RunAway:
 ; ==============================================================================
 
 ; $0F19CB-$0F1A4A DATA
-pool FluteBoyOstrich_Draw:
+Pool_FluteBoyOstrich_Draw:
 {
     .oam_groups
     dw -4, -8 : db $80, $00, $00, $02

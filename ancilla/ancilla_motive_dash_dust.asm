@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04ADF1-$04ADF3 DATA
-pool Ancilla_MotiveDashDust:
+Pool_Ancilla_MotiveDashDust:
 {
     db $A9, $CF, $DF
 }

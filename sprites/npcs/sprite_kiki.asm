@@ -642,7 +642,7 @@ Kiki_AbandonDamagedPlayer:
 ; ==============================================================================
 
 ; $0F66E9-$0F6858 DATA
-pool Kiki_Draw:
+Pool_Kiki_Draw:
 {
     .source_offsets
     dw $C020, $C020, $A000, $A000, $8040, $6040, $8040, $6040

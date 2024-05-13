@@ -158,7 +158,7 @@ Eyegore_Main:
 ; ==============================================================================
 
 ; $0F4864-$0F4867 DATA
-pool Eyegore:
+Pool_Eyegore:
 {
     .timers
     db $60, $80, $A0, $80
@@ -190,7 +190,7 @@ Eyegore_WaitUntilPlayerNearby:
 ; ==============================================================================
 
 ; $0F488B-$0F4892 DATA
-pool Eyegore_OpeningEye:
+Pool_Eyegore_OpeningEye:
 {
     db $02, $02, $02, $02, $01, $01, $00, $00
 }
@@ -225,7 +225,7 @@ Eyegore_OpeningEye:
 ; ==============================================================================
 
 ; $0F48BB-$0F48CA DATA
-pool Eyegore_ChasePlayer:
+Pool_Eyegore_ChasePlayer:
 {
     .animation_states
     db $07, $05, $02, $09, $08, $06, $03, $0A
@@ -289,7 +289,7 @@ Eyegore_ChasePlayer:
 ; ==============================================================================
 
 ; $0F492E-$0F4935 DATA
-pool Eyegore_ClosingEye:
+Pool_Eyegore_ClosingEye:
 {
     .animation_states
     db $00, $00, $01, $01, $02, $02, $02, $02
@@ -320,7 +320,7 @@ Eyegore_ClosingEye:
 ; ==============================================================================
 
 ; $0F494F-$0F4ACE DATA
-pool Eyegore_Draw:
+Pool_Eyegore_Draw:
 {
     .oam_groups
     dw -4, -4 : db $A2, $00, $00, $02

@@ -83,7 +83,7 @@ Fish_PauseBeforeLeap:
 ; ==============================================================================
 
 ; $0E8290-$0E82A0 DATA
-pool Fish_Leaping:
+Pool_Fish_Leaping:
 {
     .animation_states
     db 5, 5, 6, 6, 5, 5, 4, 4
@@ -260,7 +260,7 @@ Fish_FlopAround:
 ; ==============================================================================
 
 ; $0E83B6-$0E8482 POOL
-pool Fish_Draw:
+Pool_Fish_Draw:
 {
     .oam_groups
     dw -4,  8 : db $5E, $04, $00, $00

@@ -51,7 +51,7 @@ Sprite_MetalBall:
 ; ==============================================================================
 
 ; $02B688-$02B6A3 DATA
-pool MetalBall_DrawLargerVariety:
+Pool_MetalBall_DrawLargerVariety:
 {
     .x_offsets
     dw -8,  8, -8,  8

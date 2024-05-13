@@ -19,7 +19,7 @@ Sprite_BombShopEntity:
 ; ==============================================================================
 
 ; $0F6120-$0F6133 DATA
-pool Sprite_BombShopGuy:
+Pool_Sprite_BombShopGuy:
 {
     .messages_low
     db $17, $18
@@ -188,7 +188,7 @@ Sprite_BombShopSuperBomb:
 ; ==============================================================================
 
 ; $0F6216-$0F6219 DATA
-pool Sprite_BombShopSnoutPuff:
+Pool_Sprite_BombShopSnoutPuff:
 {
     .properties
     db $04, $44, $C4, $84
@@ -255,7 +255,7 @@ BombShopGuy_SpawnSnoutPuff:
 ; ==============================================================================
 
 ; $0F6296-$0F62C5 DATA
-pool BombShopEntity_Draw:
+Pool_BombShopEntity_Draw:
 {
     .oam_groups
     db 0, 0, $48, $0A, $00, $02

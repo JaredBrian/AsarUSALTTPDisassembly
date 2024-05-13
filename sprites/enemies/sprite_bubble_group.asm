@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F4AF4-$0F4B0B DATA
-pool SpritePrep_BubbleGroup:
+Pool_SpritePrep_BubbleGroup:
 {
     .x_offets_low
     db $0A, $14, $0A
@@ -83,7 +83,7 @@ SpritePrep_BubbleGroup:
 ; ==============================================================================
 
 ; $0F4B8B-$0F4B96 DATA
-pool Sprite_BubbleGroup:
+Pool_Sprite_BubbleGroup:
 {
     .unused
     

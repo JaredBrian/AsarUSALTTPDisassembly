@@ -4,7 +4,7 @@
 ; ==============================================================================
 
 ; $0ECFC3-$0ECFCA DATA
-pool Boulder_Main:
+Pool_Boulder_Main:
 {
     ; \note The second number in the pairs on each line correspond to the
     ; value used if the boulder hit a solid tile on the previous frame.
@@ -136,7 +136,7 @@ Boulder_Main:
 ; ==============================================================================
 
 ; $0ED088-$0ED107 DATA
-pool Boulder_Draw:
+Pool_Boulder_Draw:
 {
     .oam_groups
     dw -8, -8 : db $CC, $01, $00, $02
@@ -163,7 +163,7 @@ pool Boulder_Draw:
 ; ==============================================================================
 
 ; $0ED108-$0ED184 DATA
-pool Sprite_DrawLargeShadow:
+Pool_Sprite_DrawLargeShadow:
 {
     .oam_groups
     dw -6, 19 : db $6C, $08, $00, $02

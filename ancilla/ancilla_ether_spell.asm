@@ -132,7 +132,7 @@ Ancilla_EtherSpell:
 
     ; \unused Doesn't seem referenced in the rom...
 ; $042B5B-$042B62 DATA
-pool EtherSpell_LightningDescends:
+Pool_EtherSpell_LightningDescends:
 {
     db $E0, $00, $E8, $E8, $00, $20, $18, $18
 }
@@ -398,7 +398,7 @@ EtherSpell_RadialStates:
 ; ==============================================================================
 
 ; $042CEB-$042CEC DATA
-pool EtherSpell_DrawBlitzBall:
+Pool_EtherSpell_DrawBlitzBall:
 {
     .chr
     db $68, $6A
@@ -463,7 +463,7 @@ EtherSpell_DrawBlitzBall:
 ; ==============================================================================
 
 ; $042D49-$042DC8 DATA
-pool EtherSpell_DrawSplittingBlitzSegment:
+Pool_EtherSpell_DrawSplittingBlitzSegment:
 {
     .chr
     db $40, $42
@@ -621,8 +621,8 @@ EtherSpell_DrawSplittingBlitzSegment:
 ; ==============================================================================
 
 ; $042E73-$042E86 DATA
-pool EtherSpell_DrawBlitzSegments:
-    parallel pool EtherSpell_DrawBlitzOrb:
+Pool_EtherSpell_DrawBlitzSegments:
+    parallel Pool_EtherSpell_DrawBlitzOrb:
 {
     .chr
     db $40, $42, $44, $46

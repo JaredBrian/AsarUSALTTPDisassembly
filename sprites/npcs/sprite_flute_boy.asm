@@ -181,7 +181,7 @@ FluteBoy_FullyPhasedOut:
     ; \covered($33019-$331DD)
 
 ; $033019-$03303F DATA
-pool FluteAardvark_Arborating:
+Pool_FluteAardvark_Arborating:
 {
     .animation_states
     db $01, $01, $01, $01, $02, $01, $02, $01
@@ -464,7 +464,7 @@ FluteBoy_CheckIfPlayerTooClose:
 ; ==============================================================================
 
 ; $033171-$033172 DATA
-pool Sprite_FluteNote:
+Pool_Sprite_FluteNote:
 {
     .directions
     db 1, -1

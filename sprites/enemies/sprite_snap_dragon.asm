@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $031C20-$031C23 DATA
-pool Sprite_SnapDragon:
+Pool_Sprite_SnapDragon:
 {
     .animation_state_bases
     db 4, 0, 6, 2
@@ -35,7 +35,7 @@ Sprite_SnapDragon:
 ; ==============================================================================
 
 ; $031C4B-$031C5A DATA
-pool SnapDragon_Attack:
+Pool_SnapDragon_Attack:
 {
     .x_speeds
     db  8,  -8,   8,  -8
@@ -49,7 +49,7 @@ pool SnapDragon_Attack:
 ; ==============================================================================
 
 ; $031C5B-$031C5E DATA
-pool SnapDragon_Resting:
+Pool_SnapDragon_Resting:
 {
     .timers
     db $20, $30, $40, $50
@@ -167,7 +167,7 @@ SnapDragon_Attack:
 ; ==============================================================================
 
 ; $031D02-$031E01 DATA
-pool SnapDragon_Draw:
+Pool_SnapDragon_Draw:
 {
     .oam_groups
     dw  4, -8 : db $8F, $00, $00, $00

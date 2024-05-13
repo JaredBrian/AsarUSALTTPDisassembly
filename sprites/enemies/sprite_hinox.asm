@@ -32,7 +32,7 @@ Sprite_Hinox:
 ; ==============================================================================
 
 ; $031F30-$031F49 DATA
-pool Hinox_ThrowBomb:
+Pool_Hinox_ThrowBomb:
 {
     .animation_states
     db 11, 10,  8,  9
@@ -117,7 +117,7 @@ Hinox_ThrowBomb:
 ; ==============================================================================
 
 ; $031FB6-$031FBB DATA
-pool Hinox_SetRandomDirection:
+Pool_Hinox_SetRandomDirection:
 {
     .x_speeds length 4
     db 8, -8
@@ -171,7 +171,7 @@ Hinox_SelectNextDirection:
 ; ==============================================================================
 
 ; $031FEF-$031FF6 DATA
-pool Hinox_SetRandomDirection:
+Pool_Hinox_SetRandomDirection:
 {
     .directions
     db 2, 3, 3, 2, 0, 1, 1, 0
@@ -210,7 +210,7 @@ Hinox_SetRandomDirection:
 ; ==============================================================================
 
 ; $032025-$032028 DATA
-pool Hinox_Walk:
+Pool_Hinox_Walk:
 {
     .animation_state_bases
     db 6, 4, 0, 2
@@ -262,7 +262,7 @@ Hinox_Walk:
 ; ==============================================================================
 
 ; $032065-$0321F8 DATA
-pool Hinox_Draw:
+Pool_Hinox_Draw:
 {
     .oam_groups
     dw   0, -13 : db $00, $06, $00, $02

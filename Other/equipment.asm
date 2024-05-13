@@ -2178,7 +2178,7 @@ CheckPalaceItemPossession:
 ; ==============================================================================
 
 ; $06EEDC-$06EEE0 JUMP LOCATION
-pool CheckPalaceItemPossession:
+Pool_CheckPalaceItemPossession:
 {
     .failure
     

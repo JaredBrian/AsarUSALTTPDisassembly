@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0F6E56-$0F6E59 DATA
-pool Sprite_Whirlpool:
+Pool_Sprite_Whirlpool:
 {
     .vh_flip
     db $00, $40, $C0, $80

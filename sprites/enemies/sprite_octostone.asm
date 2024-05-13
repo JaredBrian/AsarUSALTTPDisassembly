@@ -43,7 +43,7 @@ Sprite_Octostone:
 ; ==============================================================================
 
 ; $0355F3-$035642 DATA
-pool Octostone_DrawCrumbling:
+Pool_Octostone_DrawCrumbling:
 {
     .x_offsets
     dw   0,   8,   0,   8,  -8,  16,  -8,  16

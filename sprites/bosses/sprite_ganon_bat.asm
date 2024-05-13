@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $0E8906-$0E890D DATA
-pool Sprite_GanonBat:
+Pool_Sprite_GanonBat:
 {
     .animation_states
     db 0, 1, 2, 1
@@ -105,7 +105,7 @@ Sprite_GanonBat:
 ; ==============================================================================
 
 ; $0E89BB-$0E89EA DATA
-pool GanonBat_Draw:
+Pool_GanonBat_Draw:
 {
     .oam_groups
     dw -8, 0 : db $60, $05, $00, $02

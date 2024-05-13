@@ -23,7 +23,7 @@ Sprite_Kodondo:
 ; ==============================================================================
 
 ; $0F4120-$0F4127 DATA
-    pool Kodondo_ChooseDirection
+    Pool_Kodondo_ChooseDirection
 {
     .x_speeds
     db $01, $FF, $00, $00
@@ -77,7 +77,7 @@ Kodondo_ChooseDirection:
 ; ==============================================================================
 
 ; $0F4168-$0F4177 DATA
-pool Kodondo_Move:
+Pool_Kodondo_Move:
 {
     .animation_states
     db $02, $02, $00, $05, $03, $03, $00, $05
@@ -133,7 +133,7 @@ Kodondo_Move:
 ; ==============================================================================
 
 ; $0F41CE-$0F41D5 DATA
-pool Kodondo_BreatheFlames:
+Pool_Kodondo_BreatheFlames:
 {
     .animation_states
     db $02, $02, $00, $05
@@ -181,7 +181,7 @@ Kodondo_BreatheFlame:
 ; ==============================================================================
 
 ; $0F4205-$0F4222 DATA
-pool Kodondo_SpawnFlames:
+Pool_Kodondo_SpawnFlames:
 {
     .x_offsets_low
     db $08, $F8, $00, $00

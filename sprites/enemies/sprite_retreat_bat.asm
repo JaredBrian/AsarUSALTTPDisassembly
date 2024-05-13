@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-pool Sprite_RetreatBat:
+Pool_Sprite_RetreatBat:
 ; $0D75D5-$0D75D8 DATA
 {
     db  1, -1
@@ -229,7 +229,7 @@ GanonEmerges_SpawnRetreatBat:
 ; ==============================================================================
 
 ; $0D7730-$0D774F DATA
-pool RetreatBat_DrawSomethingElse:
+Pool_RetreatBat_DrawSomethingElse:
 {
     .oam_entries
     db $68, $97, $57, $01
@@ -306,7 +306,7 @@ RetreatBat_SpawnPyramidDebris:
 ; ==============================================================================
 
 ; $0D780A-$0D7832 DATA
-pool RetreatBat_Draw:
+Pool_RetreatBat_Draw:
 {
     .ptr_low_bytes
     db $00, $00, $08, $08, $10, $10, $18, $18

@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0EC8CC-$0EC8D7 DATA
-pool Thief:
+Pool_Thief:
 {
     .standing_animation_states
     db $0B, $08, $02, $05
@@ -488,7 +488,7 @@ Thief_DislodgePlayerItems:
 ; ==============================================================================
 
 ; $0ECBD6-$0ECC9D DATA
-pool Thief_Draw:
+Pool_Thief_Draw:
 {
     .oam_groups
     dw 0, -6 : db $00, $00, $00, $02

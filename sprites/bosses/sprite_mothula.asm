@@ -125,7 +125,7 @@ Mothula_Ascend:
 ; ==============================================================================
 
 ; $0F3F07-$0F3F12 DATA
-pool Mothula_FlyAbout:
+Pool_Mothula_FlyAbout:
 {
     .z_accelerations
     db 1, -1
@@ -221,7 +221,7 @@ Mothula_FlyAbout:
 ; ==============================================================================
 
 ; $0F3F9B-$0F3F9E DATA
-pool Mothula_FlapWings:
+Pool_Mothula_FlapWings:
 {
     .animation_states
     db 0, 1, 2, 1
@@ -331,7 +331,7 @@ Mothula_SpawnBeams:
 ; ==============================================================================
 
 ; $0F402E-$0F4087 DATA
-pool Mothula_ActivateMovingSpikeBlock:
+Pool_Mothula_ActivateMovingSpikeBlock:
 {
     .x_coords_low
     db $38, $48, $58, $68, $88, $98, $A8, $B8

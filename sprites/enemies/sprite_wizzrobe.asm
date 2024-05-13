@@ -3,7 +3,7 @@
 
     ; \unused Not certain yet, but seems to be the case.
 ; $0F1D17-$0F1D1A DATA
-pool Sprite_WizzrobeAndBeam:
+Pool_Sprite_WizzrobeAndBeam:
 {
     db $03, $43, $C3, $83
 }
@@ -89,7 +89,7 @@ Sprize_Wizzrobe:
 ; ==============================================================================
 
 ; $0F1D7A-$0F1D7D DATA
-pool Wizzrobe_Cloaked:
+Pool_Wizzrobe_Cloaked:
 {
     ; \task Name this routine / pool.
     .animation_states
@@ -151,7 +151,7 @@ Wizzrobe_PhasingIn:
 ; ==============================================================================
 
 ; $0F1DB8-$0F1DC3 DATA
-pool Wizzrobe_Attack:
+Pool_Wizzrobe_Attack:
 {
     .animation_states
     db 0, 1, 1, 1, 1, 1, 1, 0
@@ -228,7 +228,7 @@ Wizzrobe_PhasingOut:
 ; ==============================================================================
 
 ; $0F1E0F-$0F1E14 DATA
-pool Wizzrobe_SpawnBeam:
+Pool_Wizzrobe_SpawnBeam:
 {
     .x_speeds length 4
     db $20, $E0

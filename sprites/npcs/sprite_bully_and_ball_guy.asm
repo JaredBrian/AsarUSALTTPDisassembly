@@ -158,7 +158,7 @@ BallGuy_UpsideDown:
 ; ==============================================================================
 
 ; $0F6C4B-$0F6C4C DATA
-pool BallGuy_Friction:
+Pool_BallGuy_Friction:
 {
     .rates
     db $FE, $02
@@ -324,7 +324,7 @@ Bully_Waiting:
 ; ==============================================================================
 
 ; $0F6D5E-$0F6D9D DATA
-pool Bully_Draw:
+Pool_Bully_Draw:
 {
     .oam_groups
     dw 0, -7 : db $E0, $46, $00, $02
@@ -393,7 +393,7 @@ BullyAndBallGuy_SpawnBully:
 ; ==============================================================================
 
 ; $0F6DE4-$0F6DE7 DATA
-pool BallGuy_Dialogue:
+Pool_BallGuy_Dialogue:
 {
     .messages_low
     db $5B, $5C
@@ -439,7 +439,7 @@ BallGuy_Dialogue:
 ; ==============================================================================
 
 ; $0F6E21-$0F6E24 DATA
-pool Bully_Dialogue:
+Pool_Bully_Dialogue:
 {
     .messages_low
     db $5D, $5E

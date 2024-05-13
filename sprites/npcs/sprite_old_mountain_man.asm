@@ -316,7 +316,7 @@ OldMountainMan_MadeItInside:
 ; ==============================================================================
 
 ; $0F6AAD-$0F6AB2 DATA
-pool OldMountainMan_SittingAtHome:
+Pool_OldMountainMan_SittingAtHome:
 {
     .messages_low
     db $9E, $9F, $A0

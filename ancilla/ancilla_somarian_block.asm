@@ -16,7 +16,7 @@
 ; ==============================================================================
 
 ; $0462F9-$046364 DATA
-pool Ancilla_SomarianBlock:
+Pool_Ancilla_SomarianBlock:
 {
     .properties
     db $00, $40, $00, $C0
@@ -590,7 +590,7 @@ Ancilla_SomarianBlock:
 ; ==============================================================================
 
 ; $04674C-$04675B DATA
-    pool SomarianBlock_CheckCoveredTileTrigger
+    Pool_SomarianBlock_CheckCoveredTileTrigger
 {
     .y_offsets
     dw -4,  4,  0,  0
@@ -659,8 +659,8 @@ SomarianBlock_CheckCoveredTileTrigger:
 ; ==============================================================================
 
 ; $0467C0-$0467E5 DATA
-pool SomarianBlock_PlayerInteraction:
-    parallel pool SomarianBlock_InitDashBounce:
+Pool_SomarianBlock_PlayerInteraction:
+    parallel Pool_SomarianBlock_InitDashBounce:
 {
     .positive_push_speed
     db 16

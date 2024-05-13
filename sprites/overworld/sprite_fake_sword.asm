@@ -58,7 +58,7 @@ Sprite_FakeSword:
 ; ==============================================================================
 
 ; $02EED6-$02EEE5 DATA
-pool FakeSword_Draw:
+Pool_FakeSword_Draw:
 {
     .animation_states
     db $04, $00, $00, $00, $F4, $00, $00, $00

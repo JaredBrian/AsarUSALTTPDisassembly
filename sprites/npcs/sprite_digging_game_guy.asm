@@ -252,7 +252,7 @@ DiggingGameGuy_AttemptPrizeSpawn:
 ; ==============================================================================
 
 ; $0EFD82-$0EFD89 DATA
-pool DiggingGameGuy_GiveItem:
+Pool_DiggingGameGuy_GiveItem:
 {
     .x_speeds
     db $F0
@@ -340,7 +340,7 @@ DiggingGameGuy_GiveItem:
 ; ==============================================================================
 
 ; $0EFE03-$0EFE4A DATA
-pool DiggingGameGuy_Draw:
+Pool_DiggingGameGuy_Draw:
 {
     .oam_groups
     dw  0, -8 : db $40, $0A, $00, $02

@@ -142,7 +142,7 @@ Vitreous_SpewLightning:
 ; ==============================================================================
 
 ; $0EE589-$0EE58A DATA
-pool Vitreous_PursuePlayer:
+Pool_Vitreous_PursuePlayer:
 {
     .x_shake_speeds
     db 8, -8
@@ -227,7 +227,7 @@ Vitreous_SelectVitreolusToActivate:
 ; ==============================================================================
 
 ; $0EE602-$0EE611 DATA
-pool Sprite_SpawnLightning:
+Pool_Sprite_SpawnLightning:
 {
     .x_offsets_low
     db -8,  8,  8, -8,  8, -8, -8,  8
@@ -276,7 +276,7 @@ Sprite_SpawnLightning:
 ; ==============================================================================
 
 ; $0EE656-$0EE715 DATA
-pool Vitreous_Draw:
+Pool_Vitreous_Draw:
 {
     ; \task Fill in data.
 }

@@ -37,7 +37,7 @@ Sprite_Toppo:
 ; ==============================================================================
 
 ; $02BAB6-$02BAC5 DATA
-pool Toppo_PickNextGrassPlot:
+Pool_Toppo_PickNextGrassPlot:
 {
     .x_offsets_low
     db $E0, $20, $00, $00
@@ -201,7 +201,7 @@ Toppo_CheckLandingSiteForGrass:
 ; ==============================================================================
 
 ; $02BB96-$02BBFE DATA
-pool Toppo_Draw:
+Pool_Toppo_Draw:
 {
     ; \task Fill in data.
 }

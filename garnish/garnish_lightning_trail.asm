@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B419-$04B428 DATA
-pool Garnish_LightningTrail:
+Pool_Garnish_LightningTrail:
 {
     .chr
     db $CC, $EC, $CE, $EE, $CC, $EC, $CE, $EE

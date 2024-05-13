@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $040405-$040434 DATA
-pool Ancilla_IceShotSparkle:
+Pool_Ancilla_IceShotSparkle:
 {
     .x_offsets
     db 2, 7, 6, 1, 1, 7, 7,  1
@@ -111,7 +111,7 @@ Ancilla_IceShotSparkle:
 ; ==============================================================================
 
 ; $0404C0-$0404C7 DATA
-pool IceShotSparkle_Spawn:
+Pool_IceShotSparkle_Spawn:
 {
     .x_speeds
     db -4,  4,  0,  0

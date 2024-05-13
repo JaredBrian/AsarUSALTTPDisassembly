@@ -79,7 +79,7 @@ Sprite_EvilBarrier:
 ; ==============================================================================
 
 ; $0EF0E1-$0EF248 DATA
-pool EvilBarrier_Draw:
+Pool_EvilBarrier_Draw:
 {
     .oam_groups
     dw   0,  0 : db $E8, $00, $00, $02

@@ -89,7 +89,7 @@ MadBatter_WaitForSummoning:
 ; ==============================================================================
 
 ; $02FB3A-$02FB3B DATA
-pool MadBatter_RisingUp:
+Pool_MadBatter_RisingUp:
 {
     .x_speeds
     db -8,  7
@@ -138,7 +138,7 @@ MadBatter_RisingUp:
 ; ==============================================================================
 
 ; $02FB86-$02FB8D DATA
-pool MadBatter_PseudoAttackPlayer:
+Pool_MadBatter_PseudoAttackPlayer:
 {
     .palettes
     db $0A, $04, $02, $04, $02, $0A, $04, $02

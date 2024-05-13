@@ -1,7 +1,7 @@
 ; ==============================================================================
 
 ; $028084-$02808F DATA
-pool Sprite_WallCannon:
+Pool_Sprite_WallCannon:
 {
     .cannon_x_speeds
     db $00, $00

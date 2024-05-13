@@ -16,7 +16,7 @@
 ; ==============================================================================
 
 ; $045DD8-$045DE7 DATA
-pool Ancilla_TravelBird:
+Pool_Ancilla_TravelBird:
 {
     .chr
     db $0E, $00, $02

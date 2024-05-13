@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $04B150-$04B177 DATA
-pool Garnish_ArrghusSplash:
+Pool_Garnish_ArrghusSplash:
 {
     .y_offsets
     db -12,  20, -10,  10,  -8,   8,  -4,   4

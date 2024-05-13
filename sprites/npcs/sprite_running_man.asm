@@ -47,7 +47,7 @@ Sprite_RunningManLong:
 ; ==============================================================================
 
 ; $02E8AA-$02E8B1 DATA
-pool RunningMan_RunFullSpeed:
+Pool_RunningMan_RunFullSpeed:
 {
     .x_speeds
     db   0,   0, -54,  54
@@ -99,7 +99,7 @@ Sprite_RunningMan:
 ; ==============================================================================
 
 ; $02E8F5-$02E8F6 DATA
-pool RunningMan_Chillin:
+Pool_RunningMan_Chillin:
 {
     .x_speeds
     db $E8, $18
@@ -198,7 +198,7 @@ RunningMan_ResumeChillin:
 ; ==============================================================================
 
 ; $02E96C-$02E972 DATA
-pool RunningMan_WindingRunRight:
+Pool_RunningMan_WindingRunRight:
 {
     ; \task Label this data and the surrounding routines when time avails.
     .timers
@@ -282,7 +282,7 @@ RunningMan_RunFullSpeed:
 ; ==============================================================================
 
 ; $02E9CD-$02EA4C DATA
-pool RunningMan_Draw:
+Pool_RunningMan_Draw:
 {
     .oam_groups
     dw 0, -8 : db $2C, $00, $00, $02

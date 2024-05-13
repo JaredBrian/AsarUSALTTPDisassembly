@@ -68,7 +68,7 @@ incsrc "sprite_ganon_bat.asm"
 ; ==============================================================================
 
 ; $0E8A04-$0E8A83 DATA
-pool PhantomGanon_Draw:
+Pool_PhantomGanon_Draw:
 {
     .oam_groups
     dw -16, -8 : db $46, $0D, $00, $02

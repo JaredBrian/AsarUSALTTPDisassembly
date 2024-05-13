@@ -7,7 +7,7 @@ org $058000
 ; ==============================================================================
 
 ; $028000-$028007 DATA
-pool Sprite_SpawnSparkleGarnish:
+Pool_Sprite_SpawnSparkleGarnish:
 {
     .low_offset
     db $FC, $00, $04, $08
@@ -523,8 +523,8 @@ Soldier_Main:
 }
 
 ; $02C331-$02C3A0 DATA
-pool Probe:
-    parallel pool Soldier:
+Pool_Probe:
+    parallel Pool_Soldier:
 {
     .x_speeds
     db $08, $F8, $00, $00
@@ -693,7 +693,7 @@ pool Probe:
 ; ==============================================================================
 
 ; $02C470-$02C48F DATA
-pool Soldier:
+Pool_Soldier:
 {
     .head_looking_states
     db $00, $02, $02, $02, $00, $03, $03, $03
@@ -822,9 +822,9 @@ Sprite2_ZeroVelocity:
 ; ==============================================================================
 
 ; $02C53C-$02C541 DATA
-pool Probe_SetDirectionTowardsPlayer:
-    parallel pool Sprite_PsychoSpearSoldier:
-    parallel pool Sprite_PsychoTrooper:
+Pool_Probe_SetDirectionTowardsPlayer:
+    parallel Pool_Sprite_PsychoSpearSoldier:
+    parallel Pool_Sprite_PsychoTrooper:
 {
     .x_speeds length 4
     db $0E, $F2
@@ -1503,7 +1503,7 @@ Sprite2_MoveIfNotTouchingWall:
 ; ==============================================================================
 
 ; $02CDDD-$02CDE0 DATA
-pool Sprite_JavelinTrooper:
+Pool_Sprite_JavelinTrooper:
 {
     .animation_states
     db $0C, $00, $12, $08
@@ -1743,7 +1743,7 @@ JavelinTrooper_NoticedPlayer:
 ; ==============================================================================
 
 ; $02CF61-$02CF84 DATA
-pool JavelinTrooper_Agitated:
+Pool_JavelinTrooper_Agitated:
 {
     .x_offsets_low
     db $B0, $50, $00, $F8
@@ -1826,7 +1826,7 @@ JavelinTrooper_Agitated:
 ; ==============================================================================
 
 ; $02D001-$02D044 DATA
-pool JavelinTrooper_Attack:
+Pool_JavelinTrooper_Attack:
 {
     .animation_states
     
@@ -1905,7 +1905,7 @@ JavelinTrooper_Attack:
 ; ==============================================================================
 
 ; $02D08B-$02D0C4 DATA
-    pool JavelinTrooper_SpawnProjectile
+    Pool_JavelinTrooper_SpawnProjectile
 {
     .x_offsets_low
     db $10, $F8, $03, $0B
@@ -2349,7 +2349,7 @@ Sprite_BushJavelinSoldier:
 ; ==============================================================================
 
 ; $02D381-$02D38B DATA
-pool ArcherSoldier_Draw:
+Pool_ArcherSoldier_Draw:
 {
     ; \task come up with better names for these
     .oam_indices_0 length 4
@@ -2599,7 +2599,7 @@ incsrc "sprite_quarrel_bros.asm"
 ; ==============================================================================
 
 ; $02E1A3-$02E1A6 DATA
-pool Sprite_ShowSolicitedMessageIfPlayerFacing:
+Pool_Sprite_ShowSolicitedMessageIfPlayerFacing:
 {
     .facing_direction
     db $04, $06, $00, $02
@@ -2845,17 +2845,13 @@ Sprite2_IsBelowPlayer:
 Sprite2_CheckIfActive:
 {
     LDA $0DD0, X : CMP.b #$09 : BNE .inactive
+        ; $02F955 ALTERNATE ENTRY POINT
+        .permissive
     
-    ; $02F955 ALTERNATE ENTRY POINT
-    .permissive
-    
-    LDA $0FC1 : BNE .inactive
-    
-    LDA $11 : BNE .inactive
-    
-    LDA $0CAA, X : BMI .active
-    
-    LDA $0F00, X : BEQ .active
+        LDA $0FC1 : BNE .inactive
+        LDA $11 : BNE .inactive
+            LDA $0CAA, X : BMI .active
+            LDA $0F00, X : BEQ .active
     
     .inactive
     
@@ -2869,7 +2865,7 @@ Sprite2_CheckIfActive:
 ; ==============================================================================
 
 ; $02F96B-$02F970 DATA
-pool Sprite2_CheckIfRecoiling:
+Pool_Sprite2_CheckIfRecoiling:
 {
     .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03

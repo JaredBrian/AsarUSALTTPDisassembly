@@ -26,7 +26,7 @@ Sprite_Lynel:
 ; ==============================================================================
 
 ; $0E868A-$0E8697 DATA
-pool Lynel_TargetPlayer:
+Pool_Lynel_TargetPlayer:
 {
     ; \wtf These are out of the usual order... smart compiler or clever grunt?
     .x_offsets_low length 4
@@ -69,7 +69,7 @@ Lynel_TargetPlayer:
 ; ==============================================================================
 
 ; $0E86CD-$0E86D4 DATA
-pool Lynel_ApproachPlayer:
+Pool_Lynel_ApproachPlayer:
 {
     .animation_states
     db 3, 0, 6, 9, 4, 1, 7, 10
@@ -135,7 +135,7 @@ Lynel_ApproachPlayer:
 ; ==============================================================================
 
 ; $0E873C-$0E873F DATA
-pool Lynel_Attack:
+Pool_Lynel_Attack:
 {
     .animation_states
     db $05, $02, $08, $0A
@@ -180,7 +180,7 @@ Lynel_Attack:
 ; ==============================================================================
 
 ; $0E8778-$0E887F DATA
-pool Lynel_Draw:
+Pool_Lynel_Draw:
 {
     .oam_groups
     dw -5,  -5 : db $CC, $00, $00, $02

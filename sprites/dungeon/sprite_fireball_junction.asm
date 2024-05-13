@@ -2,7 +2,7 @@
 ; ==============================================================================
 
 ; $0EC853-$0EC868 JUMP LOCATION
-pool Sprite_FireballJunction:
+Pool_Sprite_FireballJunction:
 {
     .x_offsets_low
     db $0C, $F4, $00, $00
