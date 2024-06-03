@@ -7,7 +7,7 @@ org $1B8000
 ; SPC Data
 ; Entrance code
 ; Tile interatction
-; Palace of Darkness entrance opening
+; Special dungeon entrance animations (Palace of darkness, Skull Woods, Mire, etc.)
 
 ; ==============================================================================
 
@@ -2926,8 +2926,8 @@ Overworld_AlterTileHardcore:
     LDX.b $0C
     
     ; Load tile indices from ROM.
-    LDA.l $0F8000, X : STA.w $1006, Y ; Writes to the top left corner of the block.
-    LDA.l $0F8002, X : STA.w $1008, Y ; Writes the top right 8x8 tile of the block.
+    LDA.l $0F8000, X : STA.w $1006, Y ; The top left corner of the block.
+    LDA.l $0F8002, X : STA.w $1008, Y ; The top right 8x8 tile of the block.
     LDA.l $0F8004, X : STA.w $100E, Y ; The bottom left corner.
     LDA.l $0F8006, X : STA.w $1010, Y ; The bottom right corner.
     
@@ -3007,7 +3007,8 @@ Pool_Overworld_EntranceSequence:
 ; $0DCAC4-$0DCAD3 LONG JUMP LOCATION
 Overworld_EntranceSequence:
 {
-    ; The input to the function is which animation is currently ongoing ($04C6 I think)
+    ; The input to the function is which animation is currently ongoing
+    ; ($04C6 I think)
     
     STA.w $02E4 ; Link can't move.
     STA.w $0FC1 ; not sure...
@@ -3182,8 +3183,9 @@ AnimateEntrance_PoD_step5:
 ; ==============================================================================
 
 ; $0DCB9C-$0DCBA5 JUMP TABLE
-Pool_Overworld_AnimateEntrance_Skull
+Pool_Overworld_AnimateEntrance_Skull:
 {
+    .handlers
     dw AnimateEntrance_Skull_step1
     dw AnimateEntrance_Skull_step2
     dw AnimateEntrance_Skull_step3
@@ -3196,7 +3198,7 @@ Overworld_AnimateEntrance_Skull:
 {
     LDA.b $B0 : ASL A : TAX
     
-    JMP ($CB9C, X) ; $0DCB9C IN ROM
+    JMP (Pool_Overworld_AnimateEntrance_Skull_handlers, X)
 }
 
 ; ==============================================================================
@@ -3207,7 +3209,6 @@ AnimateEntrance_Skull_step1:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$04 : BNE .delay
-
         INC.b $B0
     
         STZ.b $C8
@@ -3359,41 +3360,41 @@ AnimateEntrance_Skull_step4:
 ; ==============================================================================
 
 ; $0DCC8C-$0DCCC7 JUMP LOCATION
+AnimateEntrance_Skull_step5:
 {
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
-    
-    INC.b $B0
-    
-    STZ.b $C8
-    
-    REP #$30
-    
-    LDX.w #$0590
-    LDA.w #$0E13
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0596
-    LDA.w #$0E14
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$0610
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$0692
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    JSR $CC12 ; $0DCC12 IN ROM
-    
-    JMP $CF40 ; $0DCF40 IN ROM
+        INC.b $B0
+        
+        STZ.b $C8
+        
+        REP #$30
+        
+        LDX.w #$0590
+        LDA.w #$0E13
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0596
+        LDA.w #$0E14
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$0610
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$0692
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        JSR $CC12 ; $0DCC12 IN ROM
+        
+        JMP $CF40 ; $0DCF40 IN ROM
 }
 
 ; ==============================================================================
@@ -3403,37 +3404,34 @@ Pool_MiseryMireEntrance_Main:
 {
     .handlers
     dw MiseryMireEntrance_PhaseOutRain
-    dw $CD41 ; = $DCD41*; Set up the rumbling noise 
-    dw $CD41 ; = $DCD41*; Do the first graphical change
-    dw $CDA9 ; = $DCDA9*; Do the second graphical change
-    dw $CDD7 ; = $DCDD7*; Do the third graphical change
-    dw $CE05 ; = $DCE05*
+    dw AnimateEntrance_Mire_step1 ; $0DCD41 Set up the rumbling noise 
+    dw AnimateEntrance_Mire_step2 ; $0DCD41 Do the first graphical change
+    dw AnimateEntrance_Mire_step3 ; $0DCDA9 Do the second graphical change
+    dw AnimateEntrance_Mire_step4 ; $0DCDD7 Do the third graphical change
+    dw AnimateEntrance_Mire_step5 ; $0DCE05
 }
-
-; ==============================================================================
 
 ; $0DCCD4-$0DCCF9 LOCAL JUMP LOCATION
 MiseryMireEntrance_Main:
 {
     ; if($B0 < 0x02)
     LDA.b $B0 : CMP.b #$02 : BCC .anoshake_screen
-    
-    REP #$20
-    
-    ; Load the frame counter.
-    LDA.b $1A : AND.w #$0001 : ASL A : TAX
-    
-    ; Shake the earth! This is the earthquake type effect.
-    LDA.l $01C961, X : STA.w $011A
-    LDA.l $01C965, X : STA.w $011C
-    
-    SEP #$20
+        REP #$20
+        
+        ; Load the frame counter.
+        LDA.b $1A : AND.w #$0001 : ASL A : TAX
+        
+        ; Shake the earth! This is the earthquake type effect.
+        LDA.l $01C961, X : STA.w $011A
+        LDA.l $01C965, X : STA.w $011C
+        
+        SEP #$20
     
     .anoshake_screen
     
     LDA.b $B0 : ASL A : TAX
     
-    JMP (.handlers, X)
+    JMP (Pool_MiseryMireEntrance_Main_handlers, X)
 }
 
 ; ==============================================================================
@@ -3460,32 +3458,29 @@ MiseryMireEntrance_PhaseOutRain:
     
     ; If $C8 <= #$20. Delay for 20 frames basically.
     LDA.b $C8 : CMP.b #$20 : BCC .delay
-    
-    ; ($C8 - 0x20) != 0xCF
-    SEC : SBC.b #$20 : CMP.b #$CF : BNE .not_next_step_yet
-    
-    ; After 0xEF frames have counted down, go on to the next step
-    ; And reset the substep index.
-    INC.b $B0
-    STZ.b $C8
-    
-    .not_next_step_yet
-    
-    PHA : AND.b #$07 : ASL A : TAY
-    
-    PLA : AND.b #$F8 : LSR #3 : TAX
-    
-    ; $98C1, Y THAT IS
-    LDA.w $98C1, Y
-    
-    STZ.b $1D
-    
-    AND.l .phase_masks, X : BEQ .no_rain
-    
-    ; turn the overlay back on if the two numbers share some bits
-    INC.b $1D
-    
-    .no_rain
+        ; ($C8 - 0x20) != 0xCF
+        SEC : SBC.b #$20 : CMP.b #$CF : BNE .not_next_step_yet
+            ; After 0xEF frames have counted down, go on to the next step
+            ; And reset the substep index.
+            INC.b $B0
+            STZ.b $C8
+        
+        .not_next_step_yet
+        
+        PHA : AND.b #$07 : ASL A : TAY
+        
+        PLA : AND.b #$F8 : LSR #3 : TAX
+        
+        ; $98C1, Y THAT IS
+        LDA.w $98C1, Y
+        
+        STZ.b $1D
+        
+        AND.l .phase_masks, X : BEQ .no_rain
+            ; turn the overlay back on if the two numbers share some bits
+            INC.b $1D
+        
+        .no_rain
     .delay
     
     RTS
@@ -3494,65 +3489,64 @@ MiseryMireEntrance_PhaseOutRain:
 ; ==============================================================================
 
 ; $0DCD41-$0DCDA8 JUMP LOCATION
+AnimateEntrance_Mire_step2:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$10 : BNE .delay
-    
-    ; On the 0x10th frame move to the next step.
-    INC.b $B0
-    
-    ; Play a sound effect.
-    LDY.b #$07 : STY.w $012D
+        ; On the 0x10th frame move to the next step.
+        INC.b $B0
+        
+        ; Play a sound effect.
+        LDY.b #$07 : STY.w $012D
     
     .delay
     
     ; If $C8 != 0x48, end the routine.
     CMP.b #$48 : BNE .return
-    
-    JSR $D00E ; $0DD00E IN ROM; SFX FOR THE ENTRANCE OPENING
-    
-    ; So, on the 0x48th frame, 
-    
-    ; Check off the fact that this has been opened.
-    LDX.b $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
-    
-    REP #$30
-    
-    ; A tile grid coordinate for the animation.
-    ; Add 0x80 to move down one block. Add #$02 to move over one block.
-    LDX.w #$0622
-    
-    ; An index into the set of tiles to use.
-    LDA.w #$0E48
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0624 : LDA.w #$0E49
-    
-    ; $0DCD75 ALTERNATE ENTRY POINT
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM Draw the next 3 tiles
-    
-    LDX.w #$06A2
-    
-    JSR $C9DE ; $0DC9DE IN ROM Draw the next 4 tiles
-    JSR $C9DE ; $0DC9DE IN ROM one line below
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$0722
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDA.w #$FFFF : STA.w $1012, Y
-    
-    SEP #$30
-    
-    LDA.b #$01 : STA.b $14
+        JSR $D00E ; $0DD00E IN ROM; SFX FOR THE ENTRANCE OPENING
+        
+        ; So, on the 0x48th frame, 
+        
+        ; Check off the fact that this has been opened.
+        LDX.b $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
+        
+        REP #$30
+        
+        ; A tile grid coordinate for the animation.
+        ; Add 0x80 to move down one block. Add #$02 to move over one block.
+        LDX.w #$0622
+        
+        ; An index into the set of tiles to use.
+        LDA.w #$0E48
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0624 : LDA.w #$0E49
+        
+        ; $0DCD75 ALTERNATE ENTRY POINT
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM Draw the next 3 tiles
+        
+        LDX.w #$06A2
+        
+        JSR $C9DE ; $0DC9DE IN ROM Draw the next 4 tiles
+        JSR $C9DE ; $0DC9DE IN ROM one line below
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$0722
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDA.w #$FFFF : STA.w $1012, Y
+        
+        SEP #$30
+        
+        LDA.b #$01 : STA.b $14
     
     ; $0DCDA8 ALTERNATE ENTRY POINT
     .return
@@ -3561,72 +3555,72 @@ MiseryMireEntrance_PhaseOutRain:
 }
 
 ; $0DCDA9-$0DCDD6 JUMP LOCATION
+AnimateEntrance_Mire_step3:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$48
-    
-    BNE .BRANCH_$DCDA8
-    
-    JSR $D00E   ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$05A2
-    LDA.w #$0E54
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$05A4
-    LDA.w #$0E55
-    
-    ; $0DCDC6 BRANCH LOCATION
-    
-    JSR $C9DE   ; $0DC9DE IN ROM
-    JSR $C9DE   ; $0DC9DE IN ROM
-    JSR $C9DE   ; $0DC9DE IN ROM
-    
-    LDX.w #$0622
-    
-    JSR $C9DE   ; $0DC9DE IN ROM
-    
-    BRA .BRANCH_$DCD75
+    LDA.b $C8 : CMP.b #$48 : BNE AnimateEntrance_Mire_step2_return
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$05A2
+        LDA.w #$0E54
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$05A4
+        LDA.w #$0E55
+        
+        ; $0DCDC6 BRANCH LOCATION
+        .continue_many_many_replacements
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$0622
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        BRA .BRANCH_$DCD75
 }
 
 ; $0DCDD7-$0DCE04 JUMP LOCATION
+AnimateEntrance_Mire_step4:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$50 : BNE .BRANCH_$DCDA8
-    
-    JSR $D00E   ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$0522
-    LDA.w #$0E64
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0524
-    LDA.w $0E65
-    
-    JSR $C9DE   ; $0DC9DE IN ROM
-    JSR $C9DE   ; $0DC9DE IN ROM
-    JSR $C9DE   ; $0DC9DE IN ROM
-    
-    LDX.w #$05A2
-    
-    JSR $C9DE   ; $0DC9DE IN ROM
-    
-    BRA .BRANCH_$DCDC6
+    INC.b $C8 : LDA.b $C8 : CMP.b #$50 : BNE AnimateEntrance_Mire_step2_return
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$0522
+        LDA.w #$0E64
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0524
+        LDA.w $0E65
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$05A2
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        BRA AnimateEntrance_Mire_step3_continue_many_many_replacements
 }
 
 ; $0DCE05-$0DCE15 JUMP LOCATION
+AnimateEntrance_Mire_step5:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$80 : BNE .BRANCH_ALPHA
-    
-    JSR $CF40 ; $0DCF40 IN ROM; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY
-    
-    LDA.b #$05 : STA.w $012D
+        ; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY.
+        JSR $CF40 ; $0DCF40 IN ROM
+        
+        LDA.b #$05 : STA.w $012D
     
     .BRANCH_ALPHA
     
@@ -3639,15 +3633,15 @@ MiseryMireEntrance_PhaseOutRain:
 Pool_TurtleRockEntrance_Main:
 {
     .handlers
-    dw $CE48
-    dw $CE5E
-    dw $CE62
-    dw $CE66
-    dw $CE8A
-    dw $CEAC
-    dw $CEF8
-    dw $CF17
-    dw $CF40
+    dw AnimateEntrance_TurtleRock_step1
+    dw AnimateEntrance_TurtleRock_step2
+    dw AnimateEntrance_TurtleRock_step3
+    dw AnimateEntrance_TurtleRock_step4
+    dw AnimateEntrance_TurtleRock_step5
+    dw AnimateEntrance_TurtleRock_step6
+    dw AnimateEntrance_TurtleRock_step7
+    dw AnimateEntrance_TurtleRock_step8
+    dw OverworldEntrance_PlayJingle
 }
 
 ; ==============================================================================
@@ -3672,7 +3666,8 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-; $0DCE48-$0DCE89 JUMP LOCATION
+; $0DCE48-$0DCE5D JUMP LOCATION
+AnimateEntrance_TurtleRock_step1:
 {
     LDX.b $8A
     
@@ -3684,25 +3679,32 @@ TurtleRockEntrance_Main:
     
     LDA.b #$10
     
-    BRA .BRANCH_DCE68
+    BRA AnimateEntrance_TurtleRock_step4_step_parameterized
+}
     
-    ; $0DCE5E ALTERNATE ENTRY POINT
-    
+; $0DCE5E-$0DCE61 JUMP LOCATION
+AnimateEntrance_TurtleRock_step2:
+{
     LDA.b #$14
     
-    BRA .BRANCH_DCE68
-    
-    ; $0DCE62 ALTERNATE ENTRY POINT
-    
+    BRA AnimateEntrance_TurtleRock_step4_step_parameterized
+}
+
+; $0DCE62-$0DCE65 JUMP LOCATION
+AnimateEntrance_TurtleRock_step3:
+{
     LDA.b #$18
     
-    BRA .BRANCH_DCE68
-    
-    ; $0DCE66 ALTERNATE ENTRY POINT
-    
+    BRA AnimateEntrance_TurtleRock_step4_step_parameterized
+}
+
+; $0DCE66-$0DCE89 JUMP LOCATION
+AnimateEntrance_TurtleRock_step4:
+{
     LDA.b #$1C
     
     ; $0DCE68 ALTERNATE ENTRY POINT
+    .step_parameterized
     
     STA.w $1002
     STZ.w $1003
@@ -3727,6 +3729,7 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 ; $0DCE8A-$0DCEAB JUMP LOCATION
+AnimateEntrance_TurtleRock_step5:
 {
     REP #$20
     
@@ -3736,9 +3739,8 @@ TurtleRockEntrance_Main:
     
     .loop
     
-    STA.l $7EC5B0, X
-    STA.l $7EC3D0, X
-    
+        STA.l $7EC5B0, X
+        STA.l $7EC3D0, X
     DEX #2 : BPL .loop
     
     LDA.b $E8 : STA.b $E6
@@ -3757,6 +3759,7 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 ; $0DCEAC-$0DCEF7 JUMP LOCATION
+AnimateEntrance_TurtleRock_step6:
 {
     JSR $CF60
     
@@ -3772,22 +3775,19 @@ TurtleRockEntrance_Main:
     
     .gamma
     
-    LDA.w $1002, X : ORA.w #$0010 : STA.w $1002, X
-    
-    LDA.w $1006, X : CMP.w #$08AA : BNE .alpha
-    
-    LDA.w #$01E3 : STA.w $1006, X
-    
-    .alpha
-    
-    LDA.w $1008, X : CMP.w #$08AA : BNE .beta
-    
-    LDA.w #$01E3 : STA.w $1008, X
-    
-    .beta
-    
-    INX #8
-    
+        LDA.w $1002, X : ORA.w #$0010 : STA.w $1002, X
+        
+        LDA.w $1006, X : CMP.w #$08AA : BNE .alpha
+            LDA.w #$01E3 : STA.w $1006, X
+        
+        .alpha
+        
+        LDA.w $1008, X : CMP.w #$08AA : BNE .beta
+            LDA.w #$01E3 : STA.w $1008, X
+        
+        .beta
+        
+        INX #8
     CPX.b $00 : BNE .gamma
     
     SEP #$30
@@ -3802,24 +3802,22 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 ; $0DCEF8-$0DCF16 JUMP LOCATION
+AnimateEntrance_TurtleRock_step7:
 {
-    LDA.b $1A : LSR A : BCS .alpha
+    LDA.b $1A : LSR A : BCS .exit
+        LDA.b $C8 : AND.b #$07 : BNE .skip_sfx7
+            JSL $00EDB1 ; $006DB1 IN ROM
+            
+            LDA.b #$02 : STA.w $012F
+        
+        .skip_sfx7
+        
+        DEC.b $C8 : BNE .exit
+            LDA.b #$30 : STA.b $C8
+            
+            INC.b $B0
     
-    LDA.b $C8 : AND.b #$07 : BNE .beta
-    
-    JSL $00EDB1 ; $006DB1 IN ROM
-    
-    LDA.b #$02 : STA.w $012F
-    
-    .beta
-    
-    DEC.b $C8 .alpha
-    
-    LDA.b #$30 : STA.b $C8
-    
-    INC.b $B0
-    
-    .alpha
+    .exit
     
     RTS
 }
@@ -3827,35 +3825,34 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 ; $0DCF17-$0DCF3F JUMP LOCATION
+AnimateEntrance_TurtleRock_step8:
 {
     LDA.b $1A : LSR A : BCS .alpha
-    
-    LDA.b $C8 : AND.b #$07 : BNE .alpha
-    
-    LDA.b #$02 : STA.w $012F
+        LDA.b $C8 : AND.b #$07 : BNE .alpha
+            LDA.b #$02 : STA.w $012F
     
     .alpha
     
-    DEC.b $C8 : BNE .BRANCH_DCF16
-    
-    JSR $CF60 ; $0DCF60 IN ROM
-    
-    STZ.b $1D
-    
-    LDA.b #$82 : STA.b $99
-    
-    LDA.b #$20 : STA.b $9A
-    
-    INC.b $B0
-    
-    LDA.b #$05 : STA.w $012D
-    
-    RTS
+    DEC.b $C8 : BNE AnimateEntrance_TurtleRock_step7_exit
+        JSR $CF60 ; $0DCF60 IN ROM
+        
+        STZ.b $1D
+        
+        LDA.b #$82 : STA.b $99
+        
+        LDA.b #$20 : STA.b $9A
+        
+        INC.b $B0
+        
+        LDA.b #$05 : STA.w $012D
+        
+        RTS
 }
 
 ; ==============================================================================
 
 ; $0DCF40-$0DCF5F LOCAL JUMP LOCATION
+OverworldEntrance_PlayJingle:
 {
     ; Pretty much puts a stop to any entrance animation
     
@@ -3880,6 +3877,7 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 ; $0DCF60-$0DCFBE JUMP LOCATION
+OverworldEntrance_DrawManyTR:
 {
     REP #$30
     
@@ -3930,32 +3928,35 @@ TurtleRockEntrance_Main:
 
 ; ==============================================================================
 
-
 ; $0DCFBF-$0DCFD8 JUMP TABLE
+Pool_Overworld_AnimateEntrance_GanonsTower:
 {
-    dw $CFE0 ; = $DCFE0
-    dw $CFE0 ; = $DCFE0
-    dw $CFF1 ; = $DCFF1
-    dw $D01D ; = $DD01D
-    dw $D062 ; = $DD062*
-    dw $D093 ; = $DD093*
-    dw $D0DE ; = $DD0DE*
-    dw $D107 ; = $DD107*
-    dw $D127 ; = $DD127*
-    dw $D14D ; = $DD14D*
-    dw $D16D ; = $DD16D* 
-    dw $D19F ; = $DD19F* ; place the last step of Ganon's Tower.
-    dw $D1C0 ; = $DD1C0* ; restore music, play some sfx, and let Link move again
+    .handlers
+    dw AnimateEntrance_GanonsTower_step01
+    dw AnimateEntrance_GanonsTower_step01
+    dw AnimateEntrance_GanonsTower_step02
+    dw AnimateEntrance_GanonsTower_step03
+    dw AnimateEntrance_GanonsTower_step04
+    dw AnimateEntrance_GanonsTower_step05
+    dw AnimateEntrance_GanonsTower_step06
+    dw AnimateEntrance_GanonsTower_step07
+    dw AnimateEntrance_GanonsTower_step08
+    dw AnimateEntrance_GanonsTower_step09
+    dw AnimateEntrance_GanonsTower_step10
+    dw AnimateEntrance_GanonsTower_step11 ; Place the last step of Ganon's Tower.
+    dw AnimateEntrance_GanonsTower_step12 ; Restore music, play some sfx, and let Link move again.
 }
 
-; $0DCFD9-$0DCFDF ????
+; $0DCFD9-$0DCFDF JUMP LOCATION
+Overworld_AnimateEntrance_GanonsTower:
 {
     LDA.b $B0 : ASL A : TAX
 
-    JMP ($CFBF, X) ; SEE JUMP TABLE AT $DCFBF
+    JMP (Pool_Overworld_AnimateEntrance_GanonsTower_handlers, X)
 }
 
 ; $0DCFE0-$0DCFF0 JUMP LOCATION
+AnimateEntrance_GanonsTower_step01:
 {
     LDX.b $8A
     
@@ -3967,24 +3968,23 @@ TurtleRockEntrance_Main:
 }
 
 ; $0DCFF1-$0DD00D JUMP LOCATION
+AnimateEntrance_GanonsTower_step02:
 {
     JSL $0EDDFC ; $075DFC IN ROM
     
     LDA.b $1D : BNE .BRANCH_BETA
-    
-    INC.b $1D
-    
-    INC.b $C8 : LDA.b $C8 : CMP.b #$03 : BNE .BRANCH_ALPHA
-    
-    STZ.b $C8
-    
-    LDA.b #$07 : STA.w $012D
-    
-    RTS
-    
-    .BRANCH_ALPHA
-    
-    STZ.b $B0
+        INC.b $1D
+        
+        INC.b $C8 : LDA.b $C8 : CMP.b #$03 : BNE .BRANCH_ALPHA
+            STZ.b $C8
+            
+            LDA.b #$07 : STA.w $012D
+            
+            RTS
+        
+        .BRANCH_ALPHA
+        
+        STZ.b $B0
     
     .BRANCH_BETA
     
@@ -3992,6 +3992,7 @@ TurtleRockEntrance_Main:
 }
 
 ; $0DD00E-$0DD01C LOCAL JUMP LOCATION
+OverworldEntrance_AdvanceAndBoom:
 {
     INC.b $B0
     
@@ -4004,288 +4005,289 @@ TurtleRockEntrance_Main:
 }
 
 ; $0DD01D-$0DD061 LOCAL JUMP LOCATION
+AnimateEntrance_GanonsTower_step03:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$30
-    
-    BNE .BRANCH_ALPHA
-    
-    JSR $D00E ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$045E
-    LDA.w #$0E88
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0460
-    LDA.w #$0E89
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$04DE
-    LDA.w #$0EA2
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDA.w #$0E8A
-    
-    ; $0DD04C ALTERNATE ENTRY POINT
-    
-    LDX.w #$055E
-    
-    ; $0DD04F ALTERNATE ENTRY POINT
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    ; $0DD052 ALTERNATE ENTRY POINT
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDA.w #$FFFF : STA.w $1012, Y
-    
-    SEP #$30
-    
-    LDA.b #$01 : STA.b $14
-    
+    LDA.b $C8 : CMP.b #$30 : BNE .exit_a
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$045E
+        LDA.w #$0E88
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0460
+        LDA.w #$0E89
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$04DE
+        LDA.w #$0EA2
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDA.w #$0E8A
+        
+        ; $0DD04C ALTERNATE ENTRY POINT
+        .draw_at_055E
+        
+        LDX.w #$055E
+        
+        ; $0DD04F ALTERNATE ENTRY POINT
+        .draw2_advance
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        ; $0DD052 ALTERNATE ENTRY POINT
+        .draw1_advance
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDA.w #$FFFF : STA.w $1012, Y
+        
+        SEP #$30
+        
+        LDA.b #$01 : STA.b $14
+        
     ; $0DD061 ALTERNATE ENTRY POINT
-    .BRANCH_ALPHA
+    .exit_a
     
     RTS
 }
 
 ; $0DD062-$0DD092 JUMP LOCATION
+AnimateEntrance_GanonsTower_step04:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$30 : BNE .BRANCH_$DD061; (RTS)
-    
-    JSR $D00E ; $0DD00E in Rom.
-    
-    REP #$30
-    
-    LDX.w #$045E
-    LDA.w #$0E8C
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0460
-    LDA.w #$0E8D
-    
-    JSR $C9DE ; $0DC9DE in Rom.
-    
-    LDX.w #$04DE
-    LDA.w #$0E8E
-    
-    JSR $C9DE ; $0DC9DE in Rom.
-    JSR $C9DE ; $0DC9DE in Rom.
-    
-    LDA.w #$0E90
-    
-    BRA .BRANCH_$DD04C
+    LDA.b $C8 : CMP.b #$30 : BNE AnimateEntrance_GanonsTower_step03_exit_a
+        JSR $D00E ; $0DD00E in Rom.
+        
+        REP #$30
+        
+        LDX.w #$045E
+        LDA.w #$0E8C
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0460
+        LDA.w #$0E8D
+        
+        JSR $C9DE ; $0DC9DE in Rom.
+        
+        LDX.w #$04DE
+        LDA.w #$0E8E
+        
+        JSR $C9DE ; $0DC9DE in Rom.
+        JSR $C9DE ; $0DC9DE in Rom.
+        
+        LDA.w #$0E90
+        
+        BRA AnimateEntrance_GanonsTower_step03_draw_at_055E
 }
 
 ; $0DD093-$0DD0DD JUMP LOCATION
+AnimateEntrance_GanonsTower_step05:
 {
 	INC.b $C8
 	
-	LDA.b $C8 : CMP.b #$34
-	
-	BNE .BRANCH_$DD0DD; (RTS)
-    
-	JSR $D00E ; $0DD00E IN ROM
-    
-	REP #$30
-	
-	LDX.w #$045E
-	LDA.w #$0E92
-	
-	JSL Overworld_DrawPersistentMap16
-    
-	LDX.w #$0460
-	LDA.w #$0E93
-	
-	JSR $C9DE ; $0DC9DE IN ROM
-    
-	LDX.w #$04DE
-	LDA.w #$0E94
-	
-	JSR $C9DE ; $0DC9DE in Rom.
-	
-	LDA.w #$0E94
-	
-	JSR $C9DE ; $0DC9DE in Rom.
-	
-	LDX.w #$055E
-	LDA.w #$0E95
-	
-	JSR $C9DE ; $0DC9DE in Rom.
-	
-	LDA.w #$0E95
-	
-	JSR $C9DE ; $0DC9DE in Rom.
-    
-	LDA.w #$FFFF : STA.w $1012, Y
-	
-	SEP #$30
-    
-	LDA.b #$01 : STA.b $14
+	LDA.b $C8 : CMP.b #$34 : BNE .exit
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$045E
+        LDA.w #$0E92
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0460
+        LDA.w #$0E93
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$04DE
+        LDA.w #$0E94
+        
+        JSR $C9DE ; $0DC9DE in ROM.
+        
+        LDA.w #$0E94
+        
+        JSR $C9DE ; $0DC9DE in ROM.
+        
+        LDX.w #$055E
+        LDA.w #$0E95
+        
+        JSR $C9DE ; $0DC9DE in ROM.
+        
+        LDA.w #$0E95
+        
+        JSR $C9DE ; $0DC9DE in ROM.
+        
+        LDA.w #$FFFF : STA.w $1012, Y
+        
+        SEP #$30
+        
+        LDA.b #$01 : STA.b $14
 
     ; $0DD0DD ALTERNATE ENTRY POINT
+    .exit
 
 	RTS
 }
 
 ; $0DD0DE-$0DD106 JUMP LOCATION
+AnimateEntrance_GanonsTower_step06:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD ; (RTS)
-    
-    JSR $D00E ; $DD00E
-    
-    REP #$30
-    
-    LDX.w #$045E
-    LDA.w #$0E9C
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0460
-    LDA.w #$0E97
-    
-    JSR $C9DE ; $0DC9DE in rom
-    
-    LDX.w #$04DE
-    LDA.w #$0E98
-    
-    JMP $D04F   ; $0DD04F IN ROM
+    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+        JSR $D00E ; $0DD00E
+        
+        REP #$30
+        
+        LDX.w #$045E
+        LDA.w #$0E9C
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0460
+        LDA.w #$0E97
+        
+        JSR $C9DE ; $0DC9DE in ROM
+        
+        LDX.w #$04DE
+        LDA.w #$0E98
+        
+        JMP $D04F ; $0DD04F IN ROM
 }
 
 ; $0DD107-$0DD126 JUMP LOCATION
+AnimateEntrance_GanonsTower_step07:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD; (RTS)
-    
-    JSR $D00E   ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$04DE
-    LDA.w #$0E9A
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$04E0
-    LDA.w #$0E9B
-    
-    JMP $D052   ; $0DD052 IN ROM
+    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$04DE
+        LDA.w #$0E9A
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$04E0
+        LDA.w #$0E9B
+        
+        JMP $D052 ; $0DD052 IN ROM
 }
 
 ; $0DD127-$0DD14C JUMP LOCATION
+AnimateEntrance_GanonsTower_step08:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_$DD0DD
-    
-    JSR $D00E   ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$04DE
-    LDA.w #$0E9C
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$04E0
-    LDA.w #$0E9D
-    
-    JSR $C9DE   ; $0DC9DE IN ROM
-    
-    LDA.w #$0E9E
-    
-    JMP $D04C   ; $0DD052 IN ROM
+    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$04DE
+        LDA.w #$0E9C
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$04E0
+        LDA.w #$0E9D
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDA.w #$0E9E
+        
+        JMP $D04C ; $0DD052 IN ROM
 }
 
 ; $0DD14D-$0DD16C JUMP LOCATION
+AnimateEntrance_GanonsTower_step09:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_DD0DD ; (RTS)
-    
-    JSR $D00E ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$055E
-    LDA.w #$0E9A
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0560
-    LDA.w #$0E9B
-    
-    JMP $D052   ; $0DD052 IN ROM
+    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$055E
+        LDA.w #$0E9A
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0560
+        LDA.w #$0E9B
+        
+        JMP $D052 ; $0DD052 IN ROM
 }
 
 ; $0DD16D-$0DD19E JUMP LOCATION
+AnimateEntrance_GanonsTower_step10:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20  BNE .BRANCH_DD1D7; (RTS)
-    
-    JSR $D00E ; $0DD00E in Rom.
-    
-    REP #$30
-    
-    LDX.w #$055E
-    LDA.w #$0E9C
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$0560
-    LDA.w #$0E9D
-    
-    JSR $C9DE ; $DC9DE
-    
-    LDX.w #$05DE
-    LDA.w #$0EA0
-    
-    JSR $C9DE ; $0DC9DE in Rom.
-    
-    LDA.w #$0EA1
-    LDX.w #$05E0
-    
-    JMP $D052 ; $0DD052 IN ROM.
+    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
+        JSR $D00E ; $0DD00E in Rom.
+        
+        REP #$30
+        
+        LDX.w #$055E
+        LDA.w #$0E9C
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$0560
+        LDA.w #$0E9D
+        
+        JSR $C9DE ; $DC9DE
+        
+        LDX.w #$05DE
+        LDA.w #$0EA0
+        
+        JSR $C9DE ; $0DC9DE in Rom.
+        
+        LDA.w #$0EA1
+        LDX.w #$05E0
+        
+        JMP $D052 ; $0DD052 IN ROM.
 }
 
 ; $0DD19F-$0DD1BF JUMP LOCATION
+AnimateEntrance_GanonsTower_step11:
 {
-    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_DD1D7 ; (RTS)
-    
-    LDA.b #$05 : STA.w $012D 
-    
-    JSR $D00E ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$05DE
-    LDA.w #$0E9A
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDA.w #$0E9B
-    
-    BRA .BRANCH_$DD199
+    INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
+        LDA.b #$05 : STA.w $012D 
+        
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$05DE
+        LDA.w #$0E9A
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDA.w #$0E9B
+        
+        BRA .BRANCH_$DD199
 }
 
 ; $0DD1C0-$0DD1D7 JUMP LOCATION
+AnimateEntrance_GanonsTower_step12:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$48 : BNE .waitForTimer
-    
-    JSR $CF40 ; $0DCF40 IN ROM; Play "you solved puzzle" sound
-    
-    STZ.b $C8
-    
-    ; Restore music to DW Death Mountain music.
-    LDA.b #$0D : STA.w $012C
-    
-    ; Rumble sound effect.
-    LDA.b #$09 : STA.w $012D
+        ; Play "you solved puzzle" sound.
+        JSR $CF40 ; $0DCF40 IN ROM
+        
+        STZ.b $C8
+        
+        ; Restore music to DW Death Mountain music.
+        LDA.b #$0D : STA.w $012C
+        
+        ; Rumble sound effect.
+        LDA.b #$09 : STA.w $012D
     
     ; $0DD1D7 ALTERNATE ENTRY POINT
     .waitForTimer
@@ -4296,15 +4298,37 @@ TurtleRockEntrance_Main:
 ; ==============================================================================
 
 ; $0DD1D8-$0DD217 NULL
+NULL_1BD1D8:
 {
-    fillbyte $FF
-    
-    fill $40
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 }
 
 ; ==============================================================================
 
+; $0DD218-$0DFFBF
 incsrc "palettes.asm"
+
+; ==============================================================================
+
+; $0DFFC0-$0DFFFF NULL
+Pool_Null:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+}
 
 ; ==============================================================================
 
