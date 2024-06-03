@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-    ; \unused(suspected, but not fully confirmed yet)
+; \unused(suspected, but not fully confirmed yet)
 ; $0D79E6-$0D7A0B LONG JUMP LOCATION
 Cukeman_Unused:
 {

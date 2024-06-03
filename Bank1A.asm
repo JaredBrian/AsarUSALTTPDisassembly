@@ -4,12 +4,23 @@
 ; $0D0000-$0D7FFF
 org $1A8000
 
+; SPC engine
+; Music data
+; Misc sprite draw
+
 ; ==============================================================================
 
+; The later half of the SPC engine is right here and spills over from bank 19.
+; TODO: Figure out how to represent that code.
+
+; ==============================================================================
+
+; $0D75A5-$0D75D4
 incsrc "sprite_waterfall.asm"
 
 ; ==============================================================================
 
+; $0D75D5-$0D785B
 incsrc "sprite_retreat_bat.asm"
 
 ; ==============================================================================
@@ -27,7 +38,6 @@ Pool_DrinkingGuy_Draw:
     dw 0,  0 : db $06, $00, $00, $02        
 }
 
-
 ; ==============================================================================
 
 ; $0D788C-$0D78AB LONG JUMP LOCATION
@@ -43,7 +53,7 @@ DrinkingGuy_Draw:
     LDA.b #$03 : STA.b $06
                  STZ.b $07
     
-    JMP $F94A ; $0D794A IN ROM
+    JMP Lady_Draw_DrinkingGuy_continue
 }
 
 ; ==============================================================================
@@ -66,6 +76,7 @@ Lady_Draw:
     LDA.b #$F8 : ADC.b #$00 : STA.b $09
     
     ; $0D794A ALTERNATE ENTRY POINT
+    .DrinkingGuy_continue
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong
@@ -158,6 +169,7 @@ Lanmola_SpawnShrapnel:
 
 ; ==============================================================================
 
+; $0D79E6-$0D7B2B
 incsrc "sprite_cukeman.asm"
 
 ; ==============================================================================
@@ -201,6 +213,7 @@ RunningMan_SpawnDashDustGarnish:
 ; $0D7B7B-$0D7BDA DATA
 Pool_Overworld_SubstituteAlternateSecret:
 {
+    ; $0D7B7B
     .AreaIndex
     db $00, $00, $00, $00, $00, $00, $00, $04
     db $00, $00, $00, $00, $00, $00, $00, $00
@@ -262,9 +275,8 @@ Overworld_SubstituteAlternateSecret:
                 
                 LDA.w $040A : AND.b #$3F : TAX
                 
-                ; $00FB7B $00FBBB
-                LDA .AreaIndex, X : AND .AreaMask, Y : BNE .BRANCH_EPSILON
-                    LDA .ItemPool, Y : STA.w $0B9C ; $00FBCB
+                LDA Pool_Overworld_SubstituteAlternateSecret_AreaIndex, X : AND .AreaMask, Y : BNE .BRANCH_EPSILON
+                    LDA Pool_Overworld_SubstituteAlternateSecret_ItemPool, Y : STA.w $0B9C
                 
                 .BRANCH_EPSILON
                 
@@ -279,6 +291,7 @@ Overworld_SubstituteAlternateSecret:
 
 ; ==============================================================================
 
+; $0D7C31-$0D7CEC
 incsrc "sprite_movable_mantle.asm"
 
 ; ==============================================================================
@@ -543,83 +556,81 @@ Pool_Player_SpawnSmallWaterSplashFromHammer:
 ; $0D7F3C-$0D7FFD LONG JUMP LOCATION
 Player_SpawnSmallWaterSplashFromHammer:
 {
-    LDA.b $11 : ORA.w $02E4 : ORA.w $0FC1 : BNE .easy_out
+    LDA.b $11 : ORA.w $02E4 : ORA.w $0FC1 : BNE Pool_Player_SpawnSmallWaterSplashFromHammer_easy_out
     
-    PHX : PHY
-    
-    LDY.b $2F
-    
-    REP #$20
-    
-    LDA.b $22 : CLC : ADC.l .x_offsets, X : STA.b $00
-    LDA.b $20 : CLC : ADC.l .y_offsets, X : STA.b $02
-    
-    SEP #$20
-    
-    LDA.b $EE : CMP.b #$01 : REP #$30 : STZ.b $05 : BCC .on_bg2
-    
-    LDA.w #$1000 : STA.b $05
-    
-    .on_bg2
-    
-    SEP #$20
-    
-    LDA.b $1B : REP #$20 : BEQ .outdoors
-    
-    LDA.b $00 : AND.w #$01FF : LSR #3 : STA.b $04
-    LDA.b $02 : AND.w #$01F8 : ASL #3 : CLC : ADC.b $04 : CLC : ADC.b $05 : TAX
-    
-    LDA.l $7F2000, X
-    
-    BRA .check_tile_type
-    
-    .outdoors
-    
-    LDA.b $02          : PHA
-    LDA.b $00 : LSR #3 : STA.b $02
-    PLA              : STA.b $00
-    
-    SEP #$30
-    
-    JSL Overworld_ReadTileAttr
-    
-    REP #$10
-    
-    .check_tile_type
-    
-    SEP #$30
-    
-    CMP.b #$08 : BEQ .water_tile
-    CMP.b #$09 : BNE .not_water_tile
-    
-    .water_tile
-    
-    JSL Sprite_SpawnSmallWaterSplash : BMI .spawn_failed
-    
-    LDY.b $2F
-    
-    LDA.b $20 : CLC : ADC.l .y_offsets, X : PHP : SEC : SBC.b #$10              : STA.w $0D00, Y
-    LDA.b $21 : SBC.b #$00          : PLP : ADC.l .y_offsets + 1, X : STA.w $0D20, Y
-    
-    LDA.b $22 : CLC : ADC.l .x_offsets, X : PHP : SEC : SBC.b #$08              : STA.w $0D10, Y
-    LDA.b $23 : SBC.b #$00          : PLP : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
-    
-    LDA.b $EE : STA.w $0F20, Y
-    
-    LDA.b #$00 : STA.w $0F70, Y
-    
-    PLX : PLY
-    
-    .spawn_failed
-    .water_tile
-    
-    RTL
+        PHX : PHY
+        
+        LDY.b $2F
+        
+        REP #$20
+        
+        LDA.b $22 : CLC : ADC.l .x_offsets, X : STA.b $00
+        LDA.b $20 : CLC : ADC.l .y_offsets, X : STA.b $02
+        
+        SEP #$20
+        
+        LDA.b $EE : CMP.b #$01 : REP #$30 : STZ.b $05 : BCC .on_bg2
+            LDA.w #$1000 : STA.b $05
+        
+        .on_bg2
+        
+        SEP #$20
+        
+        LDA.b $1B : REP #$20 : BEQ .outdoors
+            LDA.b $00 : AND.w #$01FF : LSR #3 : STA.b $04
+            LDA.b $02 : AND.w #$01F8 : ASL #3 : CLC : ADC.b $04 : CLC : ADC.b $05 : TAX
+            
+            LDA.l $7F2000, X
+            
+            BRA .check_tile_type
+        
+        .outdoors
+        
+        LDA.b $02          : PHA
+        LDA.b $00 : LSR #3 : STA.b $02
+        PLA              : STA.b $00
+        
+        SEP #$30
+        
+        JSL Overworld_ReadTileAttr
+        
+        REP #$10
+        
+        .check_tile_type
+        
+        SEP #$30
+        
+        CMP.b #$08 : BEQ .water_tile
+            CMP.b #$09 : BNE .not_water_tile
+                .water_tile
+                
+                JSL Sprite_SpawnSmallWaterSplash : BMI .spawn_failed
+                    LDY.b $2F
+                    
+                    LDA.b $20 : CLC : ADC.l .y_offsets, X : PHP : SEC : SBC.b #$10              : STA.w $0D00, Y
+                    LDA.b $21 : SBC.b #$00          : PLP : ADC.l .y_offsets + 1, X : STA.w $0D20, Y
+                    
+                    LDA.b $22 : CLC : ADC.l .x_offsets, X : PHP : SEC : SBC.b #$08              : STA.w $0D10, Y
+                    LDA.b $23 : SBC.b #$00          : PLP : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
+                    
+                    LDA.b $EE : STA.w $0F20, Y
+                    
+                    LDA.b #$00 : STA.w $0F70, Y
+                    
+                    PLX : PLY
+                
+                .spawn_failed
+        .not_water_tile
+        
+        RTL
 }
 
 ; ==============================================================================
 
 ; $0D7FFE-$0D7FFF NULL
+NULL_1AFFFE:
 {
+    db $FF, $FF
 }
 
 ; ==============================================================================

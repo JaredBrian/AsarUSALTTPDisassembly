@@ -1607,8 +1607,7 @@ Ancilla_MoveAltitude:
     LDY.b #$00
     
     LDA $0294, X : PHP : LSR #4 : PLP : BPL .moving_higher
-    
-    ORA.b #$F0
+        ORA.b #$F0
     
     .moving_higher
     
@@ -2044,11 +2043,11 @@ Ancilla_PrepOamCoordLong:
 
 ; ==============================================================================
 
-    ; \note Performs a basic bounds check before deciding to write OAM x and y
-    ; coordinates to the OAM buffer. While this routine is quite adequate
-    ; for just displaying special effects that are expected to be fully within
-    ; the framme of view, it is not quite correct for handling OAM sprites
-    ; that are partially on screen and partially off screen.
+; \note Performs a basic bounds check before deciding to write OAM x and y
+; coordinates to the OAM buffer. While this routine is quite adequate
+; for just displaying special effects that are expected to be fully within
+; the framme of view, it is not quite correct for handling OAM sprites
+; that are partially on screen and partially off screen.
 ; $0476E1-$0476FD LOCAL JUMP LOCATION
 Ancilla_SetOam_XY:
 {

@@ -74,8 +74,7 @@ Sprite_Lanmola:
 
 ; ==============================================================================
 
-; $02A3BF-$02A3D5 JUMP LOCATION
-    Lanmola_Wait: ; 0x00
+; $02A3BF-$02A3D5 JUMP LOCATIONLanmola_Wait: ; 0x00
 {
     LDA $0DF0, X : ORA $0F00, X : BNE .delay
     
@@ -94,7 +93,7 @@ Sprite_Lanmola:
 ; ==============================================================================
 
 ; $02A3D6-$02A3E5 DATA
-    Pool_Lanmola_Mound
+Pool_Lanmola_Mound
 {
     .randXPos
     db $58, $50, $60, $70, $80, $90, $A0, $98
@@ -107,7 +106,7 @@ Sprite_Lanmola:
 ; ==============================================================================
 
 ; $02A3E6-$02A42E JUMP LOCATION
-    Lanmola_Mound: ; 0x01
+Lanmola_Mound: ; 0x01
 {
     LDA $0DF0, X : BNE .alpha
     
@@ -157,7 +156,7 @@ Pool_Lanmola_Fly:
 ; ==============================================================================
 
 ; $02A431-$02A4CA JUMP LOCATION
-    Lanmola_Fly: ; 0x03
+Lanmola_Fly: ; 0x03
 {
     JSR Sprite2_CheckDamage
     JSR Sprite2_MoveAltitude
@@ -220,7 +219,7 @@ Pool_Lanmola_Fly:
 }
 
 ; $02A4CB-$02A4F1 JUMP LOCATION
-    Lanmola_Dive: ; 0x03
+Lanmola_Dive: ; 0x03
 {
     JSR Sprite2_CheckDamage
     JSR Sprite2_Move
@@ -248,7 +247,7 @@ Pool_Lanmola_Fly:
 ; ==============================================================================
 
 ; $02A4F2-$02A514 JUMP LOCATION
-    Lanmola_Reset: ; 0x04
+Lanmola_Reset: ; 0x04
 {
     LDA $0DF0, X : BNE .wait
     
@@ -303,7 +302,7 @@ Sprite_SpawnFallingItem:
 ; ==============================================================================
 
 ; $02A529-$02A5D9 JUMP LOCATION
-    Lanmola_Death: ; 0x05
+Lanmola_Death: ; 0x05
 {
     LDY $0DF0, X : BNE .alpha
     
@@ -367,7 +366,7 @@ Sprite_SpawnFallingItem:
 ; ==============================================================================
 
 ; $02A5DA-$02A649 DATA
-    shared Pool_Lanmola_FinishInitialization:
+shared Pool_Lanmola_FinishInitialization:
 {
     .sprite_regions
     db $00, $40, $80, $C0

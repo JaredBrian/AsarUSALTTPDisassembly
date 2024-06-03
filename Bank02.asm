@@ -611,7 +611,7 @@ Module_PreOverworld:
 ; =============================================
 
 ; $0103C7-$010569 LOCAL JUMP LOCATION
-; ZS overwrites most of this function.
+; ZS overwrites most of this function. - ZS Custom Overworld
 PreOverworld_LoadProperties:
 {
     ; Module 0x08.0x00, 0x0A.0x00
@@ -754,9 +754,15 @@ PreOverworld_LoadProperties:
     ; The value written here will take effect during NMI.
     STX.w $0132
 
-    JSL DecompOwAnimatedTiles       ; $005394 IN ROM
-    JSL InitTilesets                ; $00619B IN ROM Decompress all other graphics.
-    JSR Overworld_LoadAreaPalettes  ; $014692 IN ROM Load palettes for overworld.
+    ; This forces the game to update the animated tiles when going from one
+    ; area to another.
+    JSL DecompOwAnimatedTiles
+
+    ; Decompress all other graphics.
+    JSL InitTilesets
+
+    ; Load palettes for overworld.
+    JSR Overworld_LoadAreaPalettes
 
     LDX.b $8A
 
@@ -764,8 +770,8 @@ PreOverworld_LoadProperties:
 
     LDA.l $00FD1C, X
 
-    JSL Overworld_LoadPalettes      ; $0755A8 IN ROM Load some other palettes.
-    JSL Palette_SetOwBgColor_Long   ; $075618 IN ROM Sets the background color (changes depending on area).
+    JSL Overworld_LoadPalettes ; Load some other palettes.
+    JSL Palette_SetOwBgColor_Long ; Sets the background color (changes depending on area).
 
     LDA.b $10 : CMP.b #$08 : BNE .specialArea2
         ; $01465F IN ROM Copies $7EC300[0x200] to $7EC500[0x200].
@@ -780,7 +786,7 @@ PreOverworld_LoadProperties:
 
     .normalArea2
 
-    JSL $0BFE70 ; $05FE70 IN ROM; Sets fixed colors and scroll values.
+    JSL Overworld_SetFixedColorAndScroll ; Sets fixed colors and scroll values.
 
     ; Something fixed color related.
     LDA.b #$00 : STA.l $7EC017
@@ -1029,10 +1035,10 @@ Credits_LoadScene_Overworld_PrepGFX:
 ; ==============================================================================
 
 ; $010604-$010696 LOCAL JUMP LOCATION
-; ZS rewrites the latter half of this function.
+; ZS rewrites the latter half of this function. - ZS Custom Overworld
 Credits_LoadScene_Overworld_PrepGFX:
 {
-    JSL EnableForceBlank ; $00093D IN ROM; Sets the screen mode.
+    JSL EnableForceBlank ; Sets the screen mode.
     JSL Vram_EraseTilemaps.normal
 
     ; Activates subscreen color add/subtract mode.
@@ -1043,12 +1049,14 @@ Credits_LoadScene_Overworld_PrepGFX:
     ; Load the level 1 submodule index.
     LDX.b $11
 
-    ; $0105C2, X THAT IS; See the data table at $0105C2. Since this is called every other submodule,.
+    ; $0105C2, X THAT IS; See the data table at $0105C2. Since this is called
+    ; every other submodule,.
     LDA.l $0285C2, X : STA.b $A0
 
     SEP #$20
 
-    CPX.b #$0C : BEQ .specialArea ; If this is the seventh sequence in the ending.
+    ; If this is the seventh sequence in the ending.
+    CPX.b #$0C : BEQ .specialArea
     CPX.b #$1E : BEQ .specialArea
         JSR Overworld_LoadExitData
 
@@ -1056,8 +1064,8 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .specialArea
 
-    JSR $E851 ; $016851 IN ROM Needed for running sequence 0xC or 0x1E
-    ; This is because they are special outdoor areas (zora's domain and master sword).
+    JSR $E851 ; Needed for running sequence 0xC or 0x1E. This is because they
+    ; are special outdoor areas (zora's domain and master sword).
 
     .normalArea
 
@@ -1079,7 +1087,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .deathMountain
 
-    JSL DecompOwAnimatedTiles ; $005394 IN ROM
+    JSL DecompOwAnimatedTiles
 
     LDA.b $11 : LSR A : TAX
 
@@ -1087,8 +1095,8 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.l $0285F3, X : PHA
 
-    JSL InitTilesets               ; $00619B IN ROM
-    JSR Overworld_LoadAreaPalettes ; $014692 IN ROM Load Palettes.
+    JSL InitTilesets
+    JSR Overworld_LoadAreaPalettes ; Load Palettes.
 
     PLA : STA.b $00
 
@@ -1096,19 +1104,19 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     LDA.l $00FD1C, X
 
-    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
+    JSL Overworld_LoadPalettes
 
     LDA.b #$01 : STA.w $0AB2
 
-    JSL Palette_Hud ; $0DEE52 IN ROM
+    JSL Palette_Hud
 
     LDA.b $11 : BNE .BRANCH_4
-        JSL CopyFontToVram  ; $006556 IN ROM
+        JSL CopyFontToVram
 
     .BRANCH_4
 
-    JSR $C65F   ; $01465F IN ROM
-    JSL $0BFE70 ; $05FE70 IN ROM
+    JSR $C65F ; $01465F IN ROM
+    JSL Overworld_SetFixedColorAndScroll
 
     LDA.b $8A : CMP.b #$80 : BCC .BRANCH_5
         JSL Palette_SetOwBgColor_Long ; $075618 IN ROM
@@ -2270,7 +2278,7 @@ Dungeon_InitializeRoomFromSpecial: ; Dungeon_Load_From_Hole?
     JSR Dungeon_AdjustAfterSpiralStairs ; $0122F0 IN ROM
     JSL Dungeon_LoadRoom
     JSL Dungeon_InitStarTileChr
-    JSL LoadTransAuxGfx
+    JSL LoadTransAuxGFX
     JSL Dungeon_LoadCustomTileAttr
 
     LDA.b $A0 : STA.w $048E
@@ -2423,7 +2431,7 @@ DungeonTransition_FatStairsEntryCache:
 ; $010E0F-$010E1C LOCAL JUMP LOCATION
 DungeonTransition_TriggerBGC34UpdateAndAdvance:
 {
-    JSL PrepTransAuxGfx ; $005F1A IN ROM
+    JSL PrepTransAuxGFX
 
     LDA.b #$09 : STA.b $17 : STA.w $0710
 
@@ -3482,7 +3490,7 @@ Dungeon_StraightStairs_LoadAndPrepRoom:
     JSL PaletteFilter.doFiltering
     JSL Dungeon_LoadRoom
     JSL Dungeon_RestoreStarTileChr
-    JSL LoadTransAuxGfx
+    JSL LoadTransAuxGFX
     JSL Dungeon_LoadCustomTileAttr
     JSL Dungeon_AdjustForRoomLayout ; $0135DC IN ROM
     JSL Tagalong_Init
@@ -4496,7 +4504,7 @@ Dungeon_PrepExitWithSpotlight:
 }
 
 ; $011A19-$011AD2 LOCAL JUMP LOCATION
-; ZS rewrites part of this function.
+; ZS rewrites part of this function. - ZS Custom Overworld
 Spotlight_ConfigureTableAndControl:
 {
     JSL ConfigureSpotlightTable
@@ -5120,7 +5128,7 @@ Module15_05:
     SEP #$10
 
     JSL Main_ShowTextMessage
-    JSL $00D788 ; $005788 IN ROM
+    JSL ReloadPreviouslyLoadedSheets
     JSL HUD.RebuildIndoor
 
     LDA.b #$80 : STA.b $9B
@@ -5283,10 +5291,10 @@ SetTargetOverworldWarpToPyramid:
 
         LDY.b #$5A
 
-        ; \task address naming of this routine.
-        JSL DecompOwAnimatedTiles ; $005394 IN ROM
+        JSL DecompOwAnimatedTiles
 
         ; $011E6E ALTERNATE ENTRY POINT
+        .ResetAncillaAndCutscene
 
         JSL Ancilla_TerminateSelectInteractives
 
@@ -5674,7 +5682,7 @@ TriforceRoom_Step2:
 }
 
 ; $012065-$012088 LOCAL JUMP LOCATION
-; ZS overwrites part of this function.
+; ZS overwrites part of this function. - ZS Custom Overworld
 TriforceRoom_Step3:
 {
     ; Module 0x19.0x03
@@ -5683,18 +5691,18 @@ TriforceRoom_Step3:
     LDA.b #$7D : STA.w $0AA3
     LDA.b #$51 : STA.w $0AA2
 
-    JSL InitTilesets ; $00619B IN ROM
+    JSL InitTilesets
 
     LDX.b #$04
 
-    ; ZS writes here.
+    ; ZS writes here. - ZS Custom Overworld
     ; $01207A
-    JSR $C6AD   ; $0146AD IN ROM
+    JSR $C6AD ; $0146AD IN ROM
 
     LDA.b #$0E
 
-    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
-    JSR $C6EB                  ; $0146EB IN ROM
+    JSL Overworld_LoadPalettes
+    JSR $C6EB ; $0146EB IN ROM
 
     INC.b $B0
 
@@ -6204,54 +6212,54 @@ Dungeon_AdjustCoordsForLinkedRoom:
 Module_OverworldTable:
 {
     ; (Indexed by $11)
-    dw Overworld_PlayerControl              ; 0x00: Default mode.
-    dw Overworld_LoadTransGfx               ; 0x01: 1 through 8 seem to be screen transitioning.
-    dw Overworld_FinishTransGfx             ; 0x02: Blits the remainder of the bg / spr graphics to vram.
-    dw Overworld_LoadNewMapAndGfx           ; 0x03: Loads map32 data, event overlay, converts to map16 and map8.
-    dw Overworld_LoadNewSprites             ; 0x04: Loads new sprites.
-    dw Overworld_LoadNewSprites_justScroll  ; 0x05: Start Scroll Transition.
-    dw Overworld_RunScrollTransition        ; 0x06: Run scroll transition.
-    dw Overworld_EaseOffScrollTransition    ; 0x07: Ease off scroll transition.
-    dw Overworld_FinalizeEntryOntoScreen    ; 0x08: Referenced in relation to bombs.
-    dw Overworld_OpenBigDoorFromExiting     ; 0x09: Exiting a big door mode.
-    dw Overworld_WalkFromExiting_FaceDown   ; 0x0A: Positioning Link after coming out a door.
-    dw Overworld_WalkFromExiting_FaceUp     ; 0x0B:
-    dw Overworld_OpenBigFancyDoor           ; 0x0C: Submodule for opening fancy doors.
-    dw Overworld_StartMosaicTransition      ; 0x0D: Entering forest submodule (areas 0x40 or 0x00).
-    dw Overworld_LoadSubscreenAndSilenceSFX1; 0x0E: $012F19
-    dw Overworld_LoadTransGfx               ; 0x0F: AB88 = $012B88 ; Run when triggering a mosaic.
-    dw Overworld_FinishTransGfx             ; 0x10: referenced in relation to bombs.
-    dw Overworld_TransMapData               ; 0x11: ABC6 = $012BC6
-    dw Overworld_LoadNewSprites             ; 0x12: ABED = $012BED ; ???
-    dw Overworld_LoadNewSprites_justScroll  ; 0x13: AC27 = $012C27
-    dw Overworld_RunScrollTransition        ; 0x14:
-    dw Overworld_EaseOffScrollTransition    ; 0x15:
-    dw Overworld_FadeBackInFromMosaic       ; 0x16: $0130D2
-    dw Overworld_StartMosaicTransition      ; 0x17: #$17 - #$1C occurs entering Master Sword area.
-    dw Module09_18                          ; 0x18: Load exit data and palettes for special areas?
-    dw Module09_19                          ; 0x19: Loads map data for module B?
-    dw Overworld_LoadTransGfx               ; 0x1A: Starts loading new gfx on a module B scrolling transition ; Run when entering a special area.
-    dw Overworld_FinishTransGfx             ; 0x1B: Finishes loading new gfx.
-    dw Module09_1C                          ; 0x1C: $013150
-    dw Module09_1D                          ; 0x1D: $012ECE
-    dw Module09_1E                          ; 0x1E: $012EEA
-    dw Module09_1F                          ; 0x1F: $0142A4 - Coming out of Lost woods.
-    dw Overworld_ReloadSubscreenOverlay     ; 0x20: - Coming back from Overworld Map.... reloads subscreen overlay to wram?
-    dw Overworld_LoadAmbientOverlay         ; 0x21: - Coming back from Overworld Map.... sends command to reupload subscreen overlay to vram?
-    dw Overworld_BrightenScreen             ; 0x22: $0131BB - Brightens screen.
-    dw Overworld_MirrorWarp                 ; 0x23: - Magic Mirror routine (normal warp between worlds).
-    dw Overworld_StartMosaicTransition      ; 0x24: - Also part of magic mirror stuff?
-    dw OverworldLoadSubScreenOverlay        ; 0x25: - Occurs leaving Master Sword area.
-    dw Overworld_LoadTransGfx               ; 0x26: $012B88 - ; Run when leaving a special area.
-    dw Overworld_FinishTransGfx             ; 0x27: -
-    dw Overworld_LoadAndBuildScreen         ; 0x28: - Alt entry for LoadAmbientOverlay.
-    dw Overworld_FadeBackInFromMosaic       ; 0x29: -
-    dw Overworld_RecoverFromDrowning        ; 0x2A: - Recover Link from drowning without flippers.
-    dw Overworld_MasterSword                ; 0x2B: - Retrieving the master sword from its pedestal.
-    dw Overworld_MirrorWarp                 ; 0x2C: - Magic Mirror routine (warping back from a failed warp).
-    dw Overworld_WeathervaneExplosion       ; 0x2D: - Used for breaking open the weather vane (RTS!).
-    dw Overworld_Whirlpool                  ; 0x2E: - 0x2E and 0x2F are used for the whirlpool teleporters.
-    dw $B521 ; = $013521                    ; 0x2F: - Is jumped to from the previous submodule.
+    dw Overworld_PlayerControl              ; 0x00 Default mode.
+    dw Overworld_LoadTransGfx               ; 0x01 1 through 8 seem to be screen transitioning.
+    dw Overworld_FinishTransGfx             ; 0x02 Blits the remainder of the bg / spr graphics to vram.
+    dw Overworld_LoadNewMapAndGfx           ; 0x03 Loads map32 data, event overlay, converts to map16 and map8.
+    dw Overworld_LoadNewSprites             ; 0x04 Loads new sprites.
+    dw Overworld_LoadNewSprites_justScroll  ; 0x05 Start Scroll Transition.
+    dw Overworld_RunScrollTransition        ; 0x06 Run scroll transition.
+    dw Overworld_EaseOffScrollTransition    ; 0x07 Ease off scroll transition.
+    dw Overworld_FinalizeEntryOntoScreen    ; 0x08 Referenced in relation to bombs.
+    dw Overworld_OpenBigDoorFromExiting     ; 0x09 Exiting a big door mode.
+    dw Overworld_WalkFromExiting_FaceDown   ; 0x0A Positioning Link after coming out a door.
+    dw Overworld_WalkFromExiting_FaceUp     ; 0x0B
+    dw Overworld_OpenBigFancyDoor           ; 0x0C Submodule for opening fancy doors.
+    dw Overworld_StartMosaicTransition      ; 0x0D Entering forest submodule (areas 0x40 or 0x00).
+    dw Overworld_LoadSubscreenAndSilenceSFX1; 0x0E $012F19
+    dw Overworld_LoadTransGfx               ; 0x0F AB88 = $012B88 ; Run when triggering a mosaic.
+    dw Overworld_FinishTransGfx             ; 0x10 referenced in relation to bombs.
+    dw Overworld_TransMapData               ; 0x11 ABC6 = $012BC6
+    dw Overworld_LoadNewSprites             ; 0x12 ABED = $012BED ; ???
+    dw Overworld_LoadNewSprites_justScroll  ; 0x13 AC27 = $012C27
+    dw Overworld_RunScrollTransition        ; 0x14
+    dw Overworld_EaseOffScrollTransition    ; 0x15
+    dw Overworld_FadeBackInFromMosaic       ; 0x16 $0130D2
+    dw Overworld_StartMosaicTransition      ; 0x17 #$17 - #$1C occurs entering Master Sword area.
+    dw Module09_18                          ; 0x18 Load exit data and palettes for special areas?
+    dw Module09_19                          ; 0x19 Loads map data for module B?
+    dw Overworld_LoadTransGfx               ; 0x1A Starts loading new gfx on a module B scrolling transition ; Run when entering a special area.
+    dw Overworld_FinishTransGfx             ; 0x1B Finishes loading new gfx.
+    dw Module09_1C                          ; 0x1C $013150
+    dw Module09_1D                          ; 0x1D $012ECE
+    dw Module09_1E                          ; 0x1E $012EEA
+    dw Module09_1F                          ; 0x1F $0142A4 Coming out of Lost woods.
+    dw Overworld_ReloadSubscreenOverlay     ; 0x20 Coming back from Overworld Map.... reloads subscreen overlay to wram?
+    dw Overworld_LoadAmbientOverlay         ; 0x21 Coming back from Overworld Map.... sends command to reupload subscreen overlay to vram?
+    dw Overworld_BrightenScreen             ; 0x22 $0131BB - Brightens screen.
+    dw Overworld_MirrorWarp                 ; 0x23 Magic Mirror routine (normal warp between worlds).
+    dw Overworld_StartMosaicTransition      ; 0x24 Also part of magic mirror stuff?
+    dw OverworldLoadSubScreenOverlay        ; 0x25 Occurs leaving Master Sword area.
+    dw Overworld_LoadTransGfx               ; 0x26 $012B88 Run when leaving a special area.
+    dw Overworld_FinishTransGfx             ; 0x27
+    dw Overworld_LoadAndBuildScreen         ; 0x28 Alt entry for LoadAmbientOverlay.
+    dw Overworld_FadeBackInFromMosaic       ; 0x29
+    dw Overworld_RecoverFromDrowning        ; 0x2A Recover Link from drowning without flippers.
+    dw Overworld_MasterSword                ; 0x2B Retrieving the master sword from its pedestal.
+    dw Overworld_MirrorWarp                 ; 0x2C Magic Mirror routine (warping back from a failed warp).
+    dw Overworld_WeathervaneExplosion       ; 0x2D Used for breaking open the weather vane (RTS!).
+    dw Overworld_Whirlpool                  ; 0x2E 0x2E and 0x2F are used for the whirlpool teleporters.
+    dw Module09_2F                          ; 0x2F $013521 Is jumped to from the previous submodule.
 }
 
 ; $01246D-$012474 DATA TABLE
@@ -6267,7 +6275,7 @@ OWOverlay:
 }
 
 ; $012475-$01252C LONG JUMP LOCATION
-; ZS overwrites the latter half of this function.
+; ZS overwrites the latter half of this function. - ZS Custom Overworld
 Module_Overworld:
 {
     ; Module 0x09 - Beginning of Module 9 and Module B: Overworld Module.
@@ -6597,7 +6605,7 @@ Overworld_ActualScreenID:
 ; =============================================
 
 ; $0129C4-$012B07 LOCAL JUMP LOCATION
-; ZS modifies part of this function.
+; ZS modifies part of this function. - ZS Custom Overworld
 OverworldHandleTransitions:
 {
     ; Tells us which direction we're scrolling in.
@@ -6714,7 +6722,7 @@ OverworldHandleTransitions:
 
     PLA
 
-    ; ZS writes a jump here.
+    ; ZS writes a jump here. - ZS Custom Overworld
     ; $012ADB
     AND.b #$3F : BEQ .BRANCH_MU ; Area it was
         LDA.b $8A : AND.b #$BF : BNE .BRANCH_NU ; Area it is.
@@ -6829,7 +6837,6 @@ ScrollAndCheckForSOWExit:
 ; ==============================================================================
 
 ; $012B88-$012BC5 LOCAL JUMP LOCATION
-; ZS overwrites part of this function.
 Overworld_LoadTransGfx:
 {
     ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
@@ -6847,15 +6854,15 @@ Overworld_LoadTransGfx:
     ; Reset the water inside the swamp palace.
     LDA.l $7EF051 : AND.b #$FE : STA.l $7EF051
 
-    ; $00566E IN ROM. Load the graphics that have changed during the screen transition.
-    JSL LoadTransAuxGfx
+    ; Load the graphics that have changed during the screen transition.
+    JSL LoadTransAuxGFX
 
-    ; $005F1A IN ROM. Convert those graphics to 4bpp while copying them into the buffer starting at $7F0000.
-    ; It's necessary to do it this way because we can't blank the screen (no screen fade / darkness).
-    JSL PrepTransAuxGfx
+    ; Convert those graphics to 4bpp while copying them into the buffer
+    ; starting at $7F0000. It's necessary to do it this way because we can't
+    ; blank the screen (no screen fade / darkness).
+    JSL PrepTransAuxGFX
 
-    ; ZS starts writing here.
-    ; $012BB8
+    ; Trigger NMI module: NMI_UpdateBgChrSlots_3_to_4.
     LDA.b #$09
 
     BRA Overworld_FinishTransGfx_firstHalf
@@ -6863,18 +6870,22 @@ Overworld_LoadTransGfx:
 
 ; ==============================================================================
 
-; $012BBC ALTERNATE ENTRY POINT
+; $012BBC-$012BC5 JUMP LOCATION
+; ZS overwrites most of this function. - ZS Custom Overworld
 Overworld_FinishTransGfx:
 {
     ; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
     ; Also referenced one other place.
 
-    ; The purpose of this submodule is to finish blitting the rest of the graphics
-    ; that were decompressed in the previous module to vram (from the $7F0000 buffer).
+    ; The purpose of this submodule is to finish blitting the rest of the
+    ; graphics that were decompressed in the previous module to vram (from the
+    ; $7F0000 buffer).
 
+    ; Trigger NMI module: NMI_UpdateBgChrSlots_5_to_6.
     LDA.b #$0A
 
-    ; ALTERNATE ENTRY POINT
+    ; ZS starts writing here. - ZS Custom Overworld
+    ; $012BBE ALTERNATE ENTRY POINT
     .firstHalf
 
     ; Signal for a graphics transfer in the NMI routine later.
@@ -6889,6 +6900,7 @@ Overworld_FinishTransGfx:
 ; ==============================================================================
 
 ; $012BC6-$012BD9 LOCAL JUMP LOCATION
+Overworld_TransMapData:
 Overworld_LoadNewMapAndGfx:
 {
     ; Module 0x09.0x03, 0x09.0x11
@@ -6900,8 +6912,9 @@ Overworld_LoadNewMapAndGfx:
 
     INC.w $0710
 
-    ; This mess all looks like it does map16 to map8 conversion, and the subsequent one sets
-    ; up the system to blit it to vram during the next vblank.
+    ; This mess all looks like it does map16 to map8 conversion, and the
+    ; subsequent one sets up the system to blit it to vram during the next
+    ; vblank.
     ; $017031 IN ROM
     JSR Overworld_StartTransMapUpdate
 
@@ -6947,7 +6960,8 @@ Overworld_LoadNewSprites:
 
     JSL Sprite_OverworldReloadAll_justLoad  ; $04C49D IN ROM
 
-    ; Reset tile modification index (keeps track of modified tiles when warping between worlds).
+    ; Reset tile modification index (keeps track of modified tiles when warping
+    ; between worlds).
     STZ.w $04AC : STZ.w $04AD
 
     LDA.l $7EF3C5 : CMP.b #$02 : BCS .rescuedZeldaOnce
@@ -6957,32 +6971,33 @@ Overworld_LoadNewSprites:
 
     .rescuedZeldaOnce
 
+    ; What a jank branch.
     LDA.b $11 : CMP.b #$12 : BEQ .specialTransition
         ; Load bg color and other shit.
-        JSL $0BFE70 ; $05FE70 IN ROM
+        JSL Overworld_SetFixedColorAndScroll
 
-        .skipBgColor
+    .skipBgColor
 
-        ; $012C27 ALTERNATE ENTRY POINT
-        .justScroll
+    ; $012C27 ALTERNATE ENTRY POINT
+    .justScroll
 
-        INC.b $11
+    INC.b $11
 
-        ; Horizontal transitions apparently don't do this step...
-        LDX.w $0410 : CPX.b #$04 : BCC .notVerticalTransition
-            ; $012C30 ALTERNATE ENTRY POINT
-            OverworldTranScrollSet:
-            .alwaysScroll
+    ; Horizontal transitions apparently don't do this step...
+    LDX.w $0410 : CPX.b #$04 : BCC .notVerticalTransition
+        ; $012C30 ALTERNATE ENTRY POINT
+        OverworldTranScrollSet:
+        .alwaysScroll
 
-            STX.w $0416
+        STX.w $0416
 
-            JSR $F20E ; $01720E IN ROM
+        JSR $F20E ; $01720E IN ROM
 
-            STZ.w $0416
+        STZ.w $0416
 
-        .notVerticalTransition
+    .notVerticalTransition
 
-        RTS
+    RTS
 }
 
 ; =============================================
@@ -7400,7 +7415,7 @@ Module09_1E_02_FBlankAndLoadSPOW:
 ; ==============================================================================
 
 ; $012F0B-$0130D1 LOCAL JUMP LOCATION
-; ZS rewrites most of this function.
+; ZS rewrites most of this function. - ZS Custom Overworld
 OverworldLoadSubScreenOverlay:
 {
     JSL InitSpriteSlots
@@ -7552,8 +7567,6 @@ OverworldLoadSubScreenOverlay:
             ; The rain overlay.
             LDX.w #$009F
 
-    ; $01300B ALTERNATE ENTRY POINT
-    ; TODO: Verify this. If it is an alternate entry I can't find where it is reference anywhere.
     .loadSubScreenOverlay
 
     STY.b $84
@@ -7823,7 +7836,7 @@ Module09_18:
     LDA.b $10 : PHA ; Save module number
     LDA.b $11 : PHA ; Save submodule number
 
-    JSR OverworldLoadSubScreenOverlay ; $E851 ; $016851 IN ROM
+    JSR LoadSpecialOverworld
     JSR $AF0B ; $012F0B IN ROM
 
     PLA : INC A : STA.b $11 ; Move on to the next module (0x19)
@@ -7964,7 +7977,7 @@ Overworld_FinishMirrorWarp:
 
     SEP #$20
 
-    JSL $00D788 ; $005788 IN ROM
+    JSL ReloadPreviouslyLoadedSheets
     JSL Overworld_SetSongList
 
     LDA.b #$80 : STA.b $9B
@@ -8058,7 +8071,7 @@ Overworld_DrawScreenAtCurrentMirrorPosition:
 ; ==============================================================================
 
 ; $013334-$013409 LONG JUMP LOCATION
-; ZS rewrites part of this function.
+; ZS rewrites part of this function. - ZS Custom Overworld
 MirrorWarp_LoadSpritesAndColors:
 {
     LDA.b #$90 : STA.w $031F
@@ -8105,8 +8118,8 @@ MirrorWarp_LoadSpritesAndColors:
     LDA.l $00FD1C, X
 
     JSL $0ED5A8 ; $0755A8 IN ROM
-    JSL $0ED61D ; $07561D IN ROM
-    JSL $0BFE70 ; $05FE70 IN ROM
+    JSL Overworld_SetScreenBGColorCacheOnly
+    JSL Overworld_SetFixedColorAndScroll
 
     ; ZS starts writing here.
     ; $0133A1 - ZS Custom Overworld
@@ -8335,7 +8348,7 @@ Module09_2E_09_LoadPalettes:
 
     JSL Overworld_LoadPalettes      ; $0755A8 IN ROM
     JSL Palette_SetOwBgColor_Long   ; $075618 IN ROM
-    JSL $0BFE70                     ; $05FE70 IN ROM
+    JSL Overworld_SetFixedColorAndScroll
     JSL LoadNewSpriteGFXSet         ; $006031 IN ROM
 
     .BRANCH_DELTA
@@ -8359,7 +8372,7 @@ Module09_2E_0C_FinalizeWarp:
 {
     LDA.b #$90 : STA.w $031F
 
-    JSL $00D788 ; $005788 IN ROM
+    JSL ReloadPreviouslyLoadedSheets
 
     LDA.b #$80 : STA.b $9B
 
@@ -9452,7 +9465,7 @@ OverworldTransitionDirections:
 ; ==============================================================================
 
 ; $013B90-$013D61 LOCAL JUMP LOCATION
-; ZS rewrites part of this function.
+; ZS rewrites part of this function. - ZS Custom Overworld
 Overworld_OperateCameraScroll:
 {
     PHB : PHK : PLB
@@ -9978,7 +9991,7 @@ OverworldScrollTransition_dirty_exit:
 }
 
 ; $014001-$0140C2 LOCAL JUMP LOCATION
-; ZS rewrites part of this function.
+; ZS rewrites part of this function. - ZS Custom Overworld
 OverworldScrollTransition:
 {
     PHB : PHK : PLB
@@ -11232,15 +11245,18 @@ Dungeon_LoadEntrance:
 
     STZ.w $0600 : STZ.w $0602
 
-    LDA.b #$10 : STA.w $0604 : STA.w $0606 : STA.w $0608 : STA.w $060A : STA.w $060C : STA.w $060E
+    LDA.b #$10
+    STA.w $0604 : STA.w $0606 : STA.w $0608
+    STA.w $060A : STA.w $060C : STA.w $060E
 
     ; Make it so Link faces south (down) at most entrances.
     LDA.b #$02
 
     CPX.w #$0000 : BEQ .linkFacesSouth
-        ; One special cases where Link enters from the top. potential for an edit here ; )
+        ; One special cases where Link enters from the top. Potential for an
+        ; edit here ;)
         CPX.w #$0043 : BEQ .linkFacesSouth
-            LDA.b #$00 ; Make it so Link faces north
+            LDA.b #$00 ; Make it so Link faces north.
 
     .linkFacesSouth
 
@@ -12615,7 +12631,7 @@ UnderworldExitData:
 
 ; =============================================
 
-; $0164A3-$0165D3 LOCAL JUMP LOCATION
+; $0164A3-$0165D2 LOCAL JUMP LOCATION
 Overworld_LoadExitData:
 {
     ; Loads a bunch of exit data (e.g. Link's coordinates)
@@ -12684,16 +12700,16 @@ Overworld_LoadExitData:
     ; See the data document for details
     LDA.w $E0EF, X : STA.b $22
 
-    LDA.w $DE77, X                               : STA.b $84
+    LDA.w $DE77, X                                  : STA.b $84
     SEC : SBC.w #$0400 : AND.w #$0F80 : ASL A : XBA : STA.b $88
 
     LDA.b $84 : SEC : SBC.w #$0010 : AND.w #$003E : LSR A : STA.b $86
 
     LDA.w $E18D, X : STA.w $0618
-    DEC #2       : STA.w $061A
+    DEC #2         : STA.w $061A
 
     LDA.w $E22B, X : STA.w $061C
-    DEC #2       : STA.w $061E
+    DEC #2         : STA.w $061E
 
     ; Make Link face the downwards direction
     LDA.w #$0002 : STA.b $2F
@@ -12706,7 +12722,7 @@ Overworld_LoadExitData:
 
     SEP #$20
 
-    ; $15E28, X that is; These are the exits
+    ; $015E28, X that is; These are the exits
     LDA.w $DE28, X : STA.b $8A : STA.w $040A
 
     ; Zero out the upper byte of the area index
@@ -12733,11 +12749,15 @@ Overworld_LoadExitData:
 
     PLB
 
-    ; $01658B ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
 
-    ; $EC = -8. Will be used during tilemap calculations to provide granularity for
-    ; tile width. Here it's setting it so that tile calculations occur on an 8x8 pixel grid
-    ; (as it ought to, since the tiles are an 8x8 grid)
+; $0165D3-$01658B JUMP LOCATION
+Overworld_LoadNewScreenProperties
+{
+    ; $EC = -8. Will be used during tilemap calculations to provide granularity
+    ; for tile width. Here it's setting it so that tile calculations occur on
+    ; an 8x8 pixel grid (as it ought to, since the tiles are an 8x8 grid)
     LDA.w #$FFF8 : STA.b $EC
 
     SEP #$30
@@ -12761,7 +12781,8 @@ Overworld_LoadExitData:
 
     .largeOwMap
 
-    ; Sets up numerous boundaries ($06xx vars) but I don't know their exact function
+    ; Sets up numerous boundaries ($06xx vars) but I don't know their exact
+    ; function.
     JSR $C0C3 ; $0140C3 IN ROM
 
     SEP #$20
@@ -12861,7 +12882,82 @@ Overworld_SimpleExit:
     RTS
 }
 
-; =============================================
+; ==============================================================================
+
+; $0166E1-$016850 DATA
+Pool_LoadSpecialOverworld:
+{
+    ; $0166E1
+    .camera600
+    dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000
+    dw $0200, $0200, $0000, $0000, $0000, $0000, $0000, $0000
+
+    ; $016701
+    .camera602
+    dw $0120, $0020, $0320, $0020, $0000, $0000, $0320, $0320
+    dw $0320, $0220, $0000, $0000, $0000, $0000, $0320, $0320
+
+    ; $016721
+    .camera604
+    dw $0000, $0100, $0200, $0600, $0600, $0A00, $0C00, $0C00
+    dw $0000, $0100, $0200, $0600, $0600, $0A00, $0C00, $0C00
+
+    ; $016741
+    .camera606
+    dw $0000, $0100, $0500, $0600, $0600, $0A00, $0C00, $0C00
+    dw $0000, $0100, $0400, $0600, $0600, $0A00, $0C00, $0C00
+
+    ; $016761
+    .camera610
+    dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $FF20
+    dw $FF20, $FF20, $0120, $FF20, $FF20, $FF20, $FF20, $0120
+
+    ; $016781
+    .camera614
+    dw $FFFC, $0100, $0300, $0100, $0500, $0900, $0B00, $0B00
+    dw $FFFC, $0100, $0300, $0500, $0500, $0900, $0B00, $0B00
+
+    ; $0167A1
+    .camera612
+    dw $FF20, $FF20, $FF20, $FF20, $FF20, $FF20, $0400, $0400
+    dw $FF20, $FF20, $0120, $FF20, $FF20, $FF20, $0400, $0400
+
+    ; $0167C1
+    .camera616
+    dw $0004, $0104, $0300, $0100, $0500, $0900, $0B00, $0B00
+    dw $0004, $0104, $0300, $0100, $0500, $0900, $0B00, $0B00
+
+    ; $0167E1
+    .camera70C
+    dw $0000, $0000, $0200, $0600, $0600, $0A00, $0C00, $0C00
+    dw $0000, $0000, $0200, $0600, $0600, $0A00, $0C00, $0C00
+
+
+    ; $016801
+    .direction
+    db $00, $04, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+
+    ; $016811
+    .gfx_0AA3
+    db $0C, $0C, $0E, $0E, $0E, $10, $10, $10
+    db $0E, $0E, $0E, $0E, $10, $10, $10, $10
+
+    ; $016821
+    .gfx_0AA2
+    db $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F
+    db $2F, $2F, $2F, $2F, $2F, $2F, $2F, $2F
+
+    ; $016831
+    .palette_prop_a
+    db $0A, $0A, $0A, $0A, $02, $02, $02, $0A
+    db $02, $02, $0A, $02, $02, $02, $02, $0A
+
+    ; $016841
+    .palette_prop_b
+    db $01, $08, $08, $08, $00, $00, $00, $00
+    db $00, $00, $08, $00, $00, $00, $00, $02
+}
 
 ; $016851-$0169BB LOCAL JUMP LOCATION
 LoadSpecialOverworld:
@@ -12924,21 +13020,21 @@ LoadSpecialOverworld:
     LDA.b $A0 : PHA : SEC : SBC.b #$80 : STA.b $A0 : TAX
 
     ; Direction
-    LDA.l $02E801, X : STA.b $2F : STZ.w $0412
+    LDA.l Pool_LoadSpecialOverworld_direction, X : STA.b $2F : STZ.w $0412
 
     ; GFX $0AA3
-    LDA.l $02E811, X : STA.w $0AA3
+    LDA.l Pool_LoadSpecialOverworld_gfx_0AA3, X : STA.w $0AA3
 
     ; GFX $0AA2
-    LDA.l $02E821, X : STA.w $0AA2 : PHX
+    LDA.l Pool_LoadSpecialOverworld_gfx_0AA2, X : STA.w $0AA2 : PHX
 
     ; Palette property b
-    LDA.l $02E841, X : STA.b $00
+    LDA.l Pool_LoadSpecialOverworld_palette_prop_b, X : STA.b $00
 
     ; Property property a
-    LDA.l $02E831, X
+    LDA.l Pool_LoadSpecialOverworld_palette_prop_a, X
 
-    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
+    JSL Overworld_LoadPalettes
 
     PLX
 
@@ -12948,9 +13044,9 @@ LoadSpecialOverworld:
 
     LDA.b $A0 : AND.w #$003F : ASL A : TAX
 
-    LDA.l $02E6E1, X : STA.w $0708
+    LDA.l Pool_LoadSpecialOverworld_camera600, X : STA.w $0708
 
-    LDA.l $02E7E1, X : LSR #3 : STA.w $070C
+    LDA.l Pool_LoadSpecialOverworld_camera70C, X : LSR #3 : STA.w $070C
 
     LDA.b $00 : STA.w $070A
 
@@ -12960,14 +13056,14 @@ LoadSpecialOverworld:
 
     SEP #$10
 
-    LDA.w $E6E1, Y : STA.w $0600
-    LDA.w $E701, Y : STA.w $0602
-    LDA.w $E721, Y : STA.w $0604
-    LDA.w $E741, Y : STA.w $0606
-    LDA.w $E761, Y : STA.w $0610
-    LDA.w $E7A1, Y : STA.w $0612
-    LDA.w $E781, Y : STA.w $0614
-    LDA.w $E7C1, Y : STA.w $0616
+    LDA.w Pool_LoadSpecialOverworld_camera600, Y : STA.w $0600
+    LDA.w Pool_LoadSpecialOverworld_camera602, Y : STA.w $0602
+    LDA.w Pool_LoadSpecialOverworld_camera604, Y : STA.w $0604
+    LDA.w Pool_LoadSpecialOverworld_camera606, Y : STA.w $0606
+    LDA.w Pool_LoadSpecialOverworld_camera610, Y : STA.w $0610
+    LDA.w Pool_LoadSpecialOverworld_camera612, Y : STA.w $0612
+    LDA.w Pool_LoadSpecialOverworld_camera614, Y : STA.w $0614
+    LDA.w Pool_LoadSpecialOverworld_camera616, Y : STA.w $0616
 
     SEP #$20
 
@@ -12975,7 +13071,7 @@ LoadSpecialOverworld:
 
     PLB
 
-    JSL $0ED61D ; $07561D IN ROM
+    JSL Overworld_SetScreenBGColorCacheOnly
 
     RTS
 }
@@ -13032,8 +13128,8 @@ LoadOverworldFromSpecialOverworld:
     LDA.l $00FD1C, X
 
     ; Set palettes and background color
-    JSL Overworld_LoadPalettes ; $0755A8 IN ROM
-    JSL $0ED61D                ; $07561D IN ROM
+    JSL Overworld_LoadPalettes
+    JSL Overworld_SetScreenBGColorCacheOnly
 
     STZ.b $A9
 
@@ -14336,7 +14432,7 @@ Overworld_DrawHorizontalStrip:
 
 ; ==============================================================================
 
-; $017482-$017549 LOCAL JUMP LOCATION
+; $017482-$017509 LOCAL JUMP LOCATION
 Overworld_DrawVerticalStrip:
 {
     LDA.w $0416 : AND.w #$0004 : LSR A : TAX
@@ -14385,7 +14481,7 @@ Overworld_DrawVerticalStrip:
 
     LDA.l $02F889 ; $017889 IN ROM
 
-    JSR $F50A ; $01750A IN ROM
+    JSR CreateMap16Stripes_Vertical
 
     LDY.b $0E
 
@@ -14393,34 +14489,37 @@ Overworld_DrawVerticalStrip:
 
     LDA.l $02F88B ; $01788B IN ROM
 
-    ; $01750A ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
 
+; $01750A-$017549 JUMP LOCATION
+CreateMap16Stripes_Vertical:
+{
     STA.b $02
 
     LDA.w #$0010 : STA.b $06
 
     .nextMap16Tile
 
-    LDX.b $02
+        LDX.b $02
 
-    LDA.w $0500, X : INX #2 : STX.b $02 : ASL #3 : TAX
+        LDA.w $0500, X : INX #2 : STX.b $02 : ASL #3 : TAX
 
-    ; $78000, X Place the top left map8 tile
-    LDA.l $0F8000, X : STA.w $1100, Y
+        ; $78000, X Place the top left map8 tile
+        LDA.l $0F8000, X : STA.w $1100, Y
 
-    ; Place the bottom left map8 tile
-    LDA.l $0F8004, X : STA.w $1140, Y
+        ; Place the bottom left map8 tile
+        LDA.l $0F8004, X : STA.w $1140, Y
 
-    INY #2
+        INY #2
 
-    ; Place the top right map8 tile
-    LDA.l $0F8002, X : STA.w $1100, Y
+        ; Place the top right map8 tile
+        LDA.l $0F8002, X : STA.w $1100, Y
 
-    ; Place the bottom right map8 tile
-    LDA.l $0F8006, X : STA.w $1104, Y
+        ; Place the bottom right map8 tile
+        LDA.l $0F8006, X : STA.w $1104, Y
 
-    INY #2
-
+        INY #2
     DEC.b $06 : BNE .nextMap16Tile
 
     TYA : CLC : ADC.w #$0040 : STA.b $0E
@@ -14802,7 +14901,8 @@ LoadSubOverlayMap32:
     STZ.b $06 : STZ.b $0B
 
     .nextLine
-        ; By line, we mean a 32 x 512 pixel swath. 0x10 map32 tiles consists of exactly this
+        ; By line, we mean a 32 x 512 pixel swath. 0x10 map32 tiles consists of
+        ; exactly this.
 
         ; Set up a loop of 0x10 iterations
         LDA.w #$0010 : STA.b $0D
@@ -15103,7 +15203,8 @@ Map16ToMap8:
 Map16ChunkToMap8:
 {
     ; Converts Map16 data to Map8 data (normal tile data) 0x40 bytes at a time.
-    ; Also populates $7F4000 with the addresses of each of the resultant Map8 chunks.
+    ; Also populates $7F4000 with the addresses of each of the resultant Map8
+    ; chunks.
 
     !srcAddr    = $04
     !map16Buf   = $0500
@@ -15119,7 +15220,8 @@ Map16ChunkToMap8:
 
     .getMap16Chunk
 
-        ; Grab 0x20 map16 tiles (which is a 16 X 512 pixel swath) and populate the buffer with these tiles
+        ; Grab 0x20 map16 tiles (which is a 16 X 512 pixel swath) and populate
+        ; the buffer with these tiles.
 
         LDA [!srcAddr], Y : STA !map16Buf, X
 
@@ -15145,7 +15247,8 @@ Map16ChunkToMap8:
     ; $00 += ($02 * 0x40)
     LDA.b $02 : ASL #6 : CLC : ADC.b $00 : STA.b $00
 
-    ; Why they needed to use a long address for this, I don't know. LDA.w #$0000 would have sufficed.
+    ; Why they needed to use a long address for this, I don't know.
+    ; LDA.w #$0000 would have sufficed.
     LDA.l $02F889 ; $017889 IN ROM
 
     JSR .prepForUpload
@@ -15153,7 +15256,8 @@ Map16ChunkToMap8:
     ; $00 += 0x0400
     LDA.b $00 : CLC : ADC.w #$0400 : STA.b $00
 
-    ; Why they needed to use a long address for this, I don't know. LDA.w #$0020 would have sufficed.
+    ; Why they needed to use a long address for this, I don't know.
+    ; LDA.w #$0020 would have sufficed.
     LDA.l $02F88B ; $01788B IN ROM
 
     .prepForUpload

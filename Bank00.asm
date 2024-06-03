@@ -26,7 +26,8 @@ Vector_Reset:
     STZ.w $2142
     STZ.w $2143
 
-    ; Set brightness to zero and enable force blank (forced V-Blank all the time).
+    ; Set brightness to zero and enable force blank (forced V-Blank all the
+    ; time).
     LDA.b #$80 : STA.w $2100
 
     ; Switch to native mode.
@@ -410,7 +411,8 @@ Vector_IRQ:
     SEP #$30
     
     LDA.w $012A : BNE .BRANCH_3
-        ; Only d7 is significant in this register. If set, h/v counter has latched.
+        ; Only d7 is significant in this register. If set, h/v counter has
+        ; latched.
         LDA.w $4211 : BPL .BRANCH_2 ; So in other words, branch if the timer has NOT counted down.
             ; Not sure what this does...
             LDA.w $0128 : BEQ .BRANCH_2
@@ -488,7 +490,8 @@ Vram_EraseTilemaps:
     ; $00034B ALTERNATE ENTRY POINT
     .normal
 
-    ; Performs a tilemap blanking (filling with transparent tiles) for BG1, BG2, and BG3.
+    ; Performs a tilemap blanking (filling with transparent tiles) for BG1,
+    ; BG2, and BG3.
     
     REP #$20
     
@@ -508,16 +511,18 @@ Vram_EraseTilemaps:
     ; The VRAM target address is $0000 (word address).
     STZ.w $2116
     
-    ; Target register is $2118, write one register once mode, with fixed source address.
+    ; Target register is $2118, write one register once mode, with fixed source
+    ; address.
     LDA.w #$1808 : STA.w $4310
     
     ; Dma source address is $000000.
     STZ.w $4314
     LDA.w #$0000 : STA.w $4312
     
-    ; Will write 0x2000 bytes. since we're only writing to the low byte of each VRAM word address,
-    ; we will technically cover 0x4000 bytes worth of address space, but in terms of VRAM addresses it's 
-    ; still only VRAM address $0000 to $1FFF.
+    ; Will write 0x2000 bytes. since we're only writing to the low byte of each
+    ; VRAM word address, we will technically cover 0x4000 bytes worth of
+    ; address space, but in terms of VRAM addresses it's till only VRAM
+    ; address$0000 to $1FFF.
     LDA.w #$2000 : STA.w $4315
     
     ; Transfer the data on channel 1.
@@ -533,7 +538,8 @@ Vram_EraseTilemaps:
     ; Again write 0x2000 bytes.
     STA.w $4315
     
-    ; Dma target register is $2119, write one register once mode, with fixed address.
+    ; Dma target register is $2119, write one register once mode, with fixed
+    ; address.
     LDA.w #$1908 : STA.w $4310
     
     ; The DMA source address will now be $000001.
@@ -829,8 +835,10 @@ Main_PrepSpritesForNmi:
         
     SEP #$10
         
-    LDX.w $0107 : LDA.w $849C, X : STA.w $0AC0 : CLC : ADC.w #$0180 : STA.w $0AC2
-    LDX.w $0108 : LDA.w $84AC, X : STA.w $0AC4 : CLC : ADC.w #$00C0 : STA.w $0AC6
+    LDX.w $0107 : LDA.w $849C, X : STA.w $0AC0
+    CLC : ADC.w #$0180 : STA.w $0AC2
+    LDX.w $0108 : LDA.w $84AC, X : STA.w $0AC4
+    CLC : ADC.w #$00C0 : STA.w $0AC6
         
     LDA.w $0109 : AND.w #$00F8 : LSR #2 : TAY
         
@@ -1006,7 +1014,8 @@ Startup_InitializeMemory:
         STA.w $1000, X : STA.w $1400, X : STA.w $1800, X : STA.w $1C00, X
     DEX #2 : BNE .erase
     
-    STA.l $7EC500 : STA.l $701FFE ; Sets it so we have no memory of opening a save file.
+    ; Sets it so we have no memory of opening a save file.
+    STA.l $7EC500 : STA.l $701FFE
     
     ; Checks the checksum for the first save file.
     LDA.l $7003E5 : CMP.w #$55AA : BEQ .validSlot1Sram
@@ -1169,16 +1178,18 @@ Sound_LoadSongBank:
         
         REP #$20
         
-        LDA [$00], Y : INY #2 : TAX ; Number of bytes to transmit to the SPC.
+        ; Number of bytes to transmit to the SPC.
+        LDA [$00], Y : INY #2 : TAX
         
-        LDA [$00], Y : INY #2 : STA.w $2142 ; Location in memory to map the data to.
+        ; Location in memory to map the data to.
+        LDA [$00], Y : INY #2 : STA.w $2142
         
         SEP #$20
         
         CPX.w #$0001 ; If the number of bytes left to transfer > 0...
         
-        ; Then the carry bit will be set and rotated into the accumulator (A = #$01)
-        ; NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
+        ; Then the carry bit will be set and rotated into the accumulator
+        ; (A = #$01). NOTE ANTITRACK'S DOC IS WRONG ABOUT THIS!!!
         ; He mistook #$0001 to be #$0100.
         LDA.b #$00 : ROL A : STA.w $2141 : ADC.b #$7F
         
@@ -1239,26 +1250,28 @@ Sound_LoadLightWorldSongBank:
     CLI
     
     RTL
+}
 
-    ; $000925-$000930 ALTERNATE ENTRY POINT
-    Sound_LoadIndoorSongBank:
-
+; $000925-$000930 LONG JUMP LOCATION
+Sound_LoadIndoorSongBank:
+{
     ; $00[3] = $1B8000, which is $D8000 in ROM.
     LDA.b #$00 : STA.b $00
     LDA.b #$80 : STA.b $01
     LDA.b #$1B
     
-    BRA .do_load
+    BRA Sound_LoadLightWorldSongBank_do_load
+}
 
-    ; $000931-$00093C ALTERNATE ENTRY POINT
-    Sound_LoadEndingSongBank:
-
+; $000931-$00093C LONG JUMP LOCATION
+Sound_LoadEndingSongBank:
+{
     ; $00[3] = $1AD380, which is $D5380 in ROM.
     LDA.b #$80 : STA.b $00
     LDA.b #$D3 : STA.b $01
     LDA.b #$1A
     
-    BRA .do_load
+    BRA Sound_LoadLightWorldSongBank_do_load
 }
 
 ; ==============================================================================
@@ -1313,7 +1326,8 @@ Main_SaveGameFile:
 
     .calcChecksum
 
-        ; The checksum is a sum of 16-bit words of the first 0x4FE words of the save file.
+        ; The checksum is a sum of 16-bit words of the first 0x4FE words of the
+        ; save file.
         CLC : ADC.l $7EF000, X
     INX #2 : CPX.w #$04FE : BNE .calcChecksum
     
@@ -1323,13 +1337,15 @@ Main_SaveGameFile:
     ; Restore the index (0x0000, 0x0500, 0x0A00, ... ).
     PLY
     
-    ; Subtract the checksum from 0x5A5A, and store the result at a corresponding location in RAM.
-    ; Because the result is subtracted from 0x5A5A, I'm inclined to call it an "inverse" checksum.
+    ; Subtract the checksum from 0x5A5A, and store the result at a
+    ; corresponding location in RAM. Because the result is subtracted from
+    ; 0x5A5A, I'm inclined to call it an "inverse" checksum.
     LDA.w #$5A5A : SEC : SBC.b $00 : STA.l $7EF4FE
     
     TYX
     
-    ; Store the checksum at offset 0x4FE into the SRAM save game slot. (the last two bytes of the slot).
+    ; Store the checksum at offset 0x4FE into the SRAM save game slot. (the
+    ; last two bytes of the slot).
     STA.l $7004FE, X : STA.l $7013FE, X
     
     SEP #$30
@@ -1370,8 +1386,8 @@ NMI_DoUpdates:
     ; rupees, tagalongs, and optionally the bird's sprite gets updated
     ; (copied to VRAM).
     
-    ; Base dma register is $2118, write two registers once mode ($2118/$2119), with autoincrementing source addr.
-    ; Why isn't $4320 set????
+    ; Base dma register is $2118, write two registers once mode ($2118/$2119),
+    ; with autoincrementing source addr. Why isn't $4320 set????
     LDX.w #$1801 : STX.w $4300 : STX.w $4310 : STX.w $4320 : STX.w $4330 : STX.w $4340
     
     ; Sets the bank for the DMA source bank to $10.
@@ -1451,7 +1467,8 @@ NMI_DoUpdates:
     STX.w $4345 ; Store 64 bytes.
     
     ; 0x1F = 0b00011111
-    LDA.b #$1F : STA.w $420B ; Activate DMA channels 0 - 4 ; End of Volley 3 *****
+    ; Activate DMA channels 0 - 4 ; End of Volley 3 *****
+    LDA.b #$1F : STA.w $420B
     
     ; Target $8300 in VRAM.
     LDY.w #$4150 : STY.w $2116
@@ -1542,7 +1559,8 @@ NMI_DoUpdates:
     .skipCoreAnimatedTilesUpdate
 
     LDA.b $16 : BEQ .noBg3Update
-        ; Target VRAM address is determined by $0219, but I'd expect this to be somewhat... fixed in practice.
+        ; Target VRAM address is determined by $0219, but I'd expect this to be
+        ; somewhat... fixed in practice.
         LDX.w $0219 : STX.w $2116
         
         ; $7EC700 is the WRAM buffer for this data.
@@ -1586,7 +1604,8 @@ NMI_DoUpdates:
     ; Clear out $15-$16 and an OAM register.
     STZ.b $15 : STZ.w $2102
     
-    ; Will send data to $2104, write one register once mode, autoincrementing source address.
+    ; Will send data to $2104, write one register once mode, autoincrementing
+    ; source address.
     LDA.w #$0400 : STA.w $4300
     
     ; Source address will be $7E0800.
@@ -1621,7 +1640,8 @@ NMI_DoUpdates:
 
     ; What does $19 do?
     LDA.b $19 : BEQ .BRANCH_7
-        ; Apparently part of its function is to determine the upper byte of the target VRAM address.
+        ; Apparently part of its function is to determine the upper byte of the
+        ; target VRAM address.
         STA.w $2117
         
         REP #$10
@@ -1629,7 +1649,8 @@ NMI_DoUpdates:
         ; Update VRAM target address after writes to $2119.
         LDY.w #$0080 : STY.w $2115
         
-        ; Dma target address is $2118, write two registers once, autoincrement source address.
+        ; Dma target address is $2118, write two registers once, autoincrement
+        ; source address.
         LDX.w #$1801 : STX.w $4300
         
         ; Source address is ($7F0000 + $0118).
@@ -1655,7 +1676,8 @@ NMI_DoUpdates:
         
         REP #$20
         
-        ; Writing to $2118 / $2119 alternating, with autoincrementing addressing.
+        ; Writing to $2118 / $2119 alternating, with autoincrementing
+        ; addressing.
         LDA.w #$1801 : STA.w $4310
         
         REP #$10
@@ -1694,7 +1716,8 @@ NMI_DoUpdates:
     .BRANCH_9
 
     .NMI_UpdateChr_Bg2
-    ; This graphics variable is not a flag but an index for which specialized graphics routine to run this frame.
+    ; This graphics variable is not a flag but an index for which specialized
+    ; graphics routine to run this frame.
     LDA.b $17 : ASL A : TAX
     
     ; Disable the variable (meaning it will have to be reenabled next frame).
@@ -1703,34 +1726,31 @@ NMI_DoUpdates:
     JMP ($8C7E, X)
 
     ; $000C7E-$000CAF Jump Table
-    dw NMI_UploadTilemap_doNothing           ; (0x00)
-    dw NMI_UploadTilemap                     ; (0x01)
-    dw NMI_UploadBg3Text                     ; (0x02)
-    dw NMI_UpdateScrollingOwMap              ; (0x03)
-    dw NMI_UploadSubscreenOverlay            ; (0x04)
-    dw NMI_UploadBg3Unknown                  ; (0x05) this also appears to be unused... strange...
-    dw NMI_UploadBg3Unknown_doNothing        ; (0x06) also unused by extension
-    dw NMI_LightWorldMode7Tilemap            ; (0x07) Transfers mode 7 tilemap
-    
-    dw NMI_UpdateLeftBg2Tilemaps             ; (0x08) Transfers 0x1000 bytes from $7F0000 to VRAM $0000
-    dw NMI_UpdateBgChrSlots_3_to_4           ; (0x09) Transfers 0x1000 bytes from $7F0000 to VRAM $2C00
-    dw NMI_UpdateBgChrSlots_5_to_6           ; (0x0A) Transfers 0x1000 bytes from $7F1000 to VRAM $3400 
-    dw NMI_UpdateChrHalfSlot                 ; (0x0B) Transfers 0x400 bytes from $7F1000 to a VRAM address set by $0116 (sets the high byte)
-    dw NMI_UploadSubscreenOverlay.secondHalf ; (0x0C)
-    dw NMI_UploadSubscreenOverlay.firstHalf  ; (0x0D)
-    dw NMI_UpdateChr_Bg0                     ; (0x0E)
-    dw NMI_UpdateChr_Bg1                     ; (0x0F)
-    
-    dw NMI_UpdateChr_Bg2                     ; (0x10)
-    dw NMI_UpdateChr_Bg3                     ; (0x11)
-    dw NMI_UpdateChr_Spr0                    ; (0x12)
-    dw NMI_UpdateChr_Spr2                    ; (0x13)
-    dw NMI_UpdateChr_Spr3                    ; (0x14)
-    dw NMI_DarkWorldMode7Tilemap             ; (0x15)
-    dw NMI_UpdateBg3ChrForDeathMode          ; (0x16)
-    dw NMI_UpdateBarrierTileChr              ; (0x17)
-    
-    dw NMI_UpdateStarTiles                   ; (0x18)
+    dw NMI_UploadTilemap_doNothing           ; 0x00
+    dw NMI_UploadTilemap                     ; 0x01
+    dw NMI_UploadBg3Text                     ; 0x02
+    dw NMI_UpdateScrollingOwMap              ; 0x03
+    dw NMI_UploadSubscreenOverlay            ; 0x04
+    dw NMI_UpdateBG1Wall                     ; 0x05 Used in the moving wall code
+    dw NMI_DoNothing                         ; 0x06 Just and RTS ; Replaced by ZS - ZS Custom Overworld
+    dw NMI_LightWorldMode7Tilemap            ; 0x07 Transfers mode 7 tilemap
+    dw NMI_UpdateLeftBg2Tilemaps             ; 0x08 Transfers 0x1000 bytes from $7F0000 to VRAM $0000
+    dw NMI_UpdateBgChrSlots_3_to_4           ; 0x09 Transfers 0x1000 bytes from $7F0000 to VRAM $2C00
+    dw NMI_UpdateBgChrSlots_5_to_6           ; 0x0A Transfers 0x1000 bytes from $7F1000 to VRAM $3400
+    dw NMI_UpdateChrHalfSlot                 ; 0x0B Transfers 0x400 bytes from $7F1000 to a VRAM address set by $0116 (sets the high byte)
+    dw NMI_UploadSubscreenOverlay_secondHalf ; 0x0C
+    dw NMI_UploadSubscreenOverlay_firstHalf  ; 0x0D
+    dw NMI_UpdateChr_Bg0                     ; 0x0E Transfers 0x1000 bytes from $7F0000 to VRAM $2000
+    dw NMI_UpdateChr_Bg1                     ; 0x0F Transfers 0x1000 bytes from $7F0000 to VRAM $2800
+    dw NMI_UpdateChr_Bg2                     ; 0x10 Transfers 0x1000 bytes from $7F0000 to VRAM $3000
+    dw NMI_UpdateChr_Bg3                     ; 0x11 Transfers 0x1000 bytes from $7F0000 to VRAM $3800
+    dw NMI_UpdateChr_Spr0                    ; 0x12 Transfers 0x1000 bytes from $7F0000 to VRAM $4400
+    dw NMI_UpdateChr_Spr2                    ; 0x13 Transfers 0x1000 bytes from $7F0000 to VRAM $5000
+    dw NMI_UpdateChr_Spr3                    ; 0x14 Transfers 0x1000 bytes from $7F0000 to VRAM $5800
+    dw NMI_DarkWorldMode7Tilemap             ; 0x15
+    dw NMI_UpdateBg3ChrForDeathMode          ; 0x16
+    dw NMI_UpdateBarrierTileChr              ; 0x17
+    dw NMI_UpdateStarTiles                   ; 0x18
 }
 
 ; ==============================================================================
@@ -1749,10 +1769,12 @@ NMI_UploadTilemap:
     
     REP #$20
     
-    ; VRAM target address will auto update after writes to $2119. (lower byte of VRAM addr is also 0x00 now).
+    ; VRAM target address will auto update after writes to $2119. (lower byte
+    ; of VRAM addr is also 0x00 now).
     LDA.w #$0080 : STA.w $2115
     
-    ; Dma target register is $2118, write two registers once mode ($2118/$2119), autoincrement source address.
+    ; Dma target register is $2118, write two registers once mode
+    ; ($2118/$2119), autoincrement source address.
     LDA.w #$1801 : STA.w $4300
     
     ; Designates the source addr as $001000.
@@ -1789,7 +1811,8 @@ NMI_UploadBg3Text:
     ; Update target VRAM address after writes to $2119.
     LDA.b #$80 : STA.w $2115
     
-    ; Dma target address = $2118, write two registers once mode ($2118/$2119), autoincrement source address.
+    ; Dma target address = $2118, write two registers once mode ($2118/$2119),
+    ; autoincrement source address.
     LDX.w #$1801 : STX.w $4300
     
     ; Target VRAM address is $7C00 (word).
@@ -1990,8 +2013,8 @@ NMI_UploadSubscreenOverlay:
         
         LDA.b $00 : STA.w $420B
 
-    ; Note there was a REP #$31 earlier that reset the carry. Tricky bastards, eh?
-    ; Tells the next iteration to handle the next 4 packets specified in the $7F4000, X array.
+    ; Note there was a REP #$31 earlier that reset the carry. Tells the next
+    ; iteration to handle the next 4 packets specified in the $7F4000, X array.
     TXA : ADC.w #$0008 : TAX : CMP.b $02 : BNE .nextRound
     
     SEP #$30
@@ -2003,12 +2026,13 @@ NMI_UploadSubscreenOverlay:
 
 ; ==============================================================================
 
-; $000E09-$000E4B JUMP LOCATION
-NMI_UploadBg3Unknown:
+; $000E09-$000E4A JUMP LOCATION
+NMI_UpdateBG1Wall:
 {
     REP #$20
     
-    ; Target dma address is $2118, write two registers once mode, auto increment source address.
+    ; Target dma address is $2118, write two registers once mode, auto
+    ; increment source address.
     LDA.w #$1801 : STA.w $4300
     
     ; VRAM target address (word) = $0116.
@@ -2042,8 +2066,11 @@ NMI_UploadBg3Unknown:
     REP #$20
     
     RTS
+}
 
-    ; $000E4B ALTERNATE ENTRY POINT
+; $000E4B JUMP LOCATION
+NMI_DoNothing:
+{
     .doNothing
 
     RTS
@@ -2060,7 +2087,7 @@ Pool_NMI_UpdateLoadLightWorldMap
 
 ; ==============================================================================
 
-; $000E54-$EA8 JUMP LOCATION
+; $000E54-$000EA8 JUMP LOCATION
 NMI_LightWorldMode7Tilemap:
 {
     STZ.w $2115
@@ -2259,7 +2286,7 @@ NMI_UpdateChrHalfSlot:
 
 ; ==============================================================================
 
-; $000F72-$000FF2 JUMP LOCATION
+; $000F72-$000F78 JUMP LOCATION
 NMI_UpdateChr_Bg0:
 {
     REP #$20
@@ -2272,7 +2299,7 @@ NMI_UpdateChr_Bg0:
 
 ; ==============================================================================
 
-; $000F79 ALTERNATE ENTRY POINT
+; $000F79-$000F7F JUMP LOCATION
 NMI_UpdateChr_Bg1:
 {
     REP #$20
@@ -2285,7 +2312,7 @@ NMI_UpdateChr_Bg1:
 
 ; ==============================================================================
 
-; $000F80 ALTERNATE ENTRY POINT
+; $000F80-$000F86 JUMP LOCATION
 NMI_UpdateChr_Bg2:
 {
     REP #$20
@@ -2298,7 +2325,7 @@ NMI_UpdateChr_Bg2:
 
 ; ==============================================================================
 
-; $000F87 ALTERNATE ENTRY POINT
+; $000F87-$000F8D JUMP LOCATION
 NMI_UpdateChr_Bg3:
 {
     REP #$20
@@ -2311,7 +2338,7 @@ NMI_UpdateChr_Bg3:
 
 ; ==============================================================================
 
-; $000F8E ALTERNATE ENTRY POINT
+; $000F8E-$000FBC JUMP LOCATION
 NMI_UpdateChr_Spr0:
 {
     REP #$20
@@ -2345,7 +2372,7 @@ NMI_UpdateChr_Spr0:
 
 ; ==============================================================================
 
-; $000FBD ALTERNATE ENTRY POINT
+; $000FBD-$000FC3 JUMP LOCATION
 NMI_UpdateChr_Spr2:
 {
     REP #$20
@@ -2358,7 +2385,7 @@ NMI_UpdateChr_Spr2:
 
 ; ==============================================================================
 
-; $000FC4 ALTERNATE ENTRY POINT
+; $000FC4-$000FF2 JUMP LOCATION
 NMI_UpdateChr:
 {
     .Spr3
@@ -2456,6 +2483,7 @@ NMI_UpdateBg3ChrForDeathMode:
     ; Target VRAM addr is $7800 (word).
     LDA.w #$7800 : STA.w $2116
     
+    ; Source address is $7E2000.
     LDA.w #$2000 : STA.w $4302
     
     ; Increment VRAM addr on writes to $2119.
@@ -2476,6 +2504,7 @@ NMI_UpdateBg3ChrForDeathMode:
     ; Target VRAM addr is $7D00.
     LDA.w #$7D00 : STA.w $2116
     
+    ; Source address is $7E3400.
     LDA.w #$3400 : STA.w $4302
     
     ; Don't know why this was written again. The value hasn't changed.
@@ -2790,7 +2819,8 @@ HandleStripes14:
     ; or vertical fashion.
     INY : LDA [$00], Y : AND.b #$80 : ASL A : ROL A : STA.b $07
     
-    ; Check whether the source address will be fixed or incrmenting during the transfer.
+    ; Check whether the source address will be fixed or incrmenting during the
+    ; transfer.
     LDA [$00], Y : AND.b #$40 : STA.b $05
     
     ; This adds the "two registers, write once" setting.
@@ -2808,7 +2838,8 @@ HandleStripes14:
     ; (the amount stored in the buffer is the number of bytes minus one).
     LDA [$00], Y : XBA : AND.w #$3FFF : TAX : INX : STX.w $4315
     
-    ; Set the source address (which will be somewhere in the $1000[0x800] buffer.
+    ; Set the source address (which will be somewhere in the $1000[0x800]
+    ; buffer.
     INY #2 : TYA : CLC : ADC.b $00 : STA.w $4312
     
     ; A = #$40 or #$00.
@@ -8866,7 +8897,8 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     REP #$30
     
-    ; Target offset is $7EB280, convert 3 tiles (upper halves of animated rupee tiles).
+    ; Target offset is $7EB280, convert 3 tiles (upper halves of animated rupee
+    ; tiles).
     LDA.b $00
     LDX.w #$2280
     LDY.w #$0003
@@ -9338,10 +9370,11 @@ GetAnimatedSpriteTile:
 ; ==============================================================================
 
 ; $005537-$005584 LOCAL JUMP LOCATION
-LoadItemGFX_sheet0:
+LoadItemGFX:
 {
     ; Parameters: A
-    
+    .sheet0
+   
     STA.b $0A
     
     ; Will always load a pointer to sprite graphics pack 0.
@@ -9353,7 +9386,8 @@ LoadItemGFX_sheet0:
     
     BRA .expandTo4bpp
 
-    ; $00554E Alternate Entry Point
+    ; $00554E ALTERNATE ENTRY POINT
+    .arbitrary_sheet
 
     PHA
     
@@ -9361,7 +9395,8 @@ LoadItemGFX_sheet0:
     
     PLA
 
-    ; $005553 Alternate Entry Point
+    ; $005553 ALTERNATE ENTRY POINT
+    .current_sheet:
 
     STA.b $0A
     
@@ -9438,12 +9473,10 @@ UNREACHABLE_00D585:
 
 ; ==============================================================================
 
+; Isn't this just another 3bpp to 4bpp converter? They have like 8 different
+; routines for this. (update: they have at least 3). The main difference among
+; them is the target address base. ($7E9000 instead of $7F0000, for example)
 ; $0055CB-$005618 LOCAL JUMP LOCATION
-; Isn't this just another 3bpp to 4bpp converter?
-; Swear to God, they have like 8 different routines for this
-; (update: they have at least 3)
-; The main difference among them is the target address base
-; ($7E9000 instead of $7F0000, for example)
 Do3To4LowAnimated:
 {
     LDY.w #$0008
@@ -9529,26 +9562,29 @@ Do3To4HighAnimated:
 
 ; ==============================================================================
 
-; $00566E-$005787 LONG JUMP LOCATION
-LoadTransAuxGfx:
+; ZS Interupts this function. - ZS Custom Overworld
+; $00566E-$0056F8 LONG JUMP LOCATION
+LoadTransAuxGFX:
 {
     PHB : PHK : PLB
     
+    ; Setup the decompression buffer address.
     ; $00[3] = $7E6000
     STZ.b $00
+
+    ; ZS writes a call here.
+    ; $005673 - ZS Custom Overworld
     LDA.b #$60 : STA.b $01
     LDA.b #$7E : STA.b $02
     
     REP #$30
-    
     ; $0E = $0AA2 * 4
     LDA.w $0AA2 : AND.w #$00FF : ASL #2 : STA.b $0E
-    
     SEP #$20
     
+    ; Sheet 3 (variable 0)
     LDX.b $0E
-    
-    LDA.w $DD97, X : BEQ .noBgGfxChange0
+    LDA.w SheetsTable_0AA2_sheet0, X : BEQ .noBgGfxChange0
         STA.l $7EC2F8
         
         SEP #$10
@@ -9560,15 +9596,13 @@ LoadTransAuxGfx:
     .noBgGfxChange0
 
     SEP #$10
-    
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
-    
     REP #$10
     
+    ; Sheet 4 (variable 1)
     LDX.b $0E
-    
-    LDA.w $DD98, X : BEQ .noBgGfxChange1
+    LDA.w SheetsTable_0AA2_sheet1, X : BEQ .noBgGfxChange1
         STA.l $7EC2F9
         
         SEP #$10
@@ -9580,15 +9614,13 @@ LoadTransAuxGfx:
     .noBgGfxChange1
 
     SEP #$10
-    
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
-    
     REP #$10
     
+    ; Sheet 5 (variable 2)
     LDX.b $0E
-    
-    LDA.w $DD99, X : BEQ .noBgGfxChange2
+    LDA.w SheetsTable_0AA2_sheet2, X : BEQ .noBgGfxChange2
         STA.l $7EC2FA
         
         SEP #$10
@@ -9600,15 +9632,13 @@ LoadTransAuxGfx:
     .noBgGfxChange2
 
     SEP #$10
-    
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
-    
     REP #$10
     
+    ; Sheet 6 (variable 4)
     LDX.b $0E
-    
-    LDA.w $DD9A, X : BEQ .noBgGfxChange3
+    LDA.w SheetsTable_0AA2_sheet3, X : BEQ .noBgGfxChange3
         STA.l $7EC2FB
         
         SEP #$10
@@ -9620,20 +9650,22 @@ LoadTransAuxGfx:
     .noBgGfxChange3
 
     SEP #$10
-    
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     
-    BRA .continue
+    BRA LoadTransAuxGFX_sprite_continue
+}
 
-    ; $0056F9 ALTERNATE ENTRY POINT
-
+; $0056F9-$005787 LONG JUMP LOCATION
+LoadTransAuxGFX_sprite:
+{
     PHB : PHK : PLB
     
     STZ.b $00
     LDA.b #$78 : STA.b $01
     LDA.b #$7E : STA.b $02
 
+    ; $005706 ALTERNATE ENTRY POINT
     .continue
 
     REP #$30
@@ -9645,7 +9677,7 @@ LoadTransAuxGfx:
     
     LDX.b $0E
     
-    LDA.w $DB57, X : BEQ .noSprGfxChange0
+    LDA.w SheetsTable_0AA3_sheet0, X : BEQ .noSprGfxChange0
         STA.l $7EC2FC
 
     .noSprGfxChange0
@@ -9663,7 +9695,7 @@ LoadTransAuxGfx:
     
     LDX.b $0E
     
-    LDA.w $DB58, X : BEQ .noSprGfxChange1
+    LDA.w SheetsTable_0AA3_sheet1, X : BEQ .noSprGfxChange1
         STA.l $7EC2FD
 
     .noSprGfxChange1
@@ -9681,7 +9713,7 @@ LoadTransAuxGfx:
     
     LDX.b $0E
     
-    LDA.w $DB59, X : BEQ .noSprGfxChange2
+    LDA.w SheetsTable_0AA3_sheet2, X : BEQ .noSprGfxChange2
         STA.l $7EC2FE
 
     .noSprGfxChange2
@@ -9699,7 +9731,7 @@ LoadTransAuxGfx:
     
     LDX.b $0E
     
-    LDA.w $DB5A, X : BEQ .noSprGfxChange3
+    LDA.w SheetsTable_0AA3_sheet3, X : BEQ .noSprGfxChange3
         STA.l $7EC2FF
 
     .noSprGfxChange3
@@ -9834,24 +9866,23 @@ Pool_AnimateMirrorWarp:
     ; TODO: interleaved!
 
     meta .states
-    dw $D892 ; = $005892
-    dw $D8FE ; = $0058FE gets ready to decompress typical graphics...
-    dw $D9B9 ; = $0059B9 more decompression...
-    dw $D9F8 ; = $0059F8 ""
-    dw $DA2C ; = $005A2C ""
-    dw $D8A5 ; = $0058A5 load overlays and ... silence music? what?
-    dw $D8C7 ; = $0058C7
-    dw $D8B3 ; = $0058B3
-    dw $D8BB ; = $0058BB
-    dw $D8C7 ; = $0058C7
-    dw $D8D5 ; = $0058D5
-    dw $DA63 ; = $005A63
-    dw $DABB ; = $005ABB
-    dw $DB1B ; = $005B1B
-    dw $D8CF ; = $0058CF
+    dw AnimateMirrorWarp_LoadPyramidIfAga        ; $005892
+    dw AnimateMirrorWarp_DecompressNewTileSets   ; $0058FE gets ready to decompress typical graphics...
+    dw AnimateMirrorWarp_DecompressBackgroundsA  ; $0059B9 more decompression...
+    dw AnimateMirrorWarp_DecompressBackgroundsB  ; $0059F8
+    dw AnimateMirrorWarp_DecompressBackgroundsC  ; $005A2C
+    dw AnimateMirrorWarp_TriggerOverlayA_2       ; $0058A5 load overlays and ... silence music? what?
+    dw AnimateMirrorWarp_TriggerOverlayB         ; $0058C7
+    dw AnimateMirrorWarp_DrawDestinationScreen   ; $0058B3
+    dw AnimateMirrorWarp_DoSpritesPalettes       ; $0058BB
+    dw AnimateMirrorWarp_TriggerOverlayB         ; $0058C7
+    dw AnimateMirrorWarp_DecompressAnimatedTiles ; $0058D5
+    dw AnimateMirrorWarp_LoadSubscreen           ; $005A63
+    dw AnimateMirrorWarp_DecompressSpritesA      ; $005ABB
+    dw AnimateMirrorWarp_DecompressSpritesB      ; $005B1B
+    dw AnimateMirrorWarp_TriggerBGChar0          ; $0058CF
 
     ; $005855-$005863 DATA
-
     .next_tilemap
     db $00, $0E, $0F, $10, $11, $00, $00, $00
     db $00, $00, $00, $12, $13, $14, $00
@@ -9862,12 +9893,12 @@ AnimateMirrorWarp:
 {
     ; Sets up the two low bytes of the decompression target address (0x4000).
     ; The bank is determined in the subroutine that's called below.
-                  STZ.b $00
+                 STZ.b $00
     LDA.b #$40 : STA.b $01
     
     LDX.w $0200
     
-    LDA.l $00D855, X : STA.b $17 : STA.w $0710 ; 5855
+    LDA.l Pool_AnimateMirrorWarp_next_tilemap, X : STA.b $17 : STA.w $0710
     
     ; Determine which subroutine in the jump table to call.
     LDA.l $00D837, X : STA.b $0E ; 5837
@@ -9875,7 +9906,8 @@ AnimateMirrorWarp:
     
     LDX.b #$00
     
-    ; Loads the different cliffs and trees and such for the DW? needs to be confirmed.
+    ; Loads the different cliffs and trees and such for the DW? needs to be
+    ; confirmed.
     LDA.b $8A : AND.b #$40 : BEQ .lightWorld
         LDX.b #$08
 
@@ -9899,7 +9931,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
     .ready
 
     ; Loads overworld exit data and animated tiles. Initialization, mostly.
-    JSL $029E5F ; $011E5F IN ROM
+    JSL SetTargetOverworldWarpToPyramid
     
     RTL
 }
@@ -9964,15 +9996,15 @@ AnimateMirrorWarp_TriggerBGChar0:
 
 ; ==============================================================================
 
-; $0058D5-$58ED JUMP LOCATION (LONG)
+; $0058D5-$0058ED JUMP LOCATION (LONG)
 ; Updates animated tiles durring mirror warp. May have other uses.
 ; ZS replaces this whole function. - ZS Custom Overworld
 AnimateMirrorWarp_DecompressAnimatedTiles:
 {
     LDY.b #$58
         
-    ; Death mountain here denotes either the light world or the dark world version
-    ; bitwise AND with 0xBF masks out the 0x40 bit.
+    ; Death mountain here denotes either the light world or the dark world
+    ; version bitwise AND with 0xBF masks out the 0x40 bit.
     LDA.b $8A : AND.b #$BF
         
     CMP.b #$03 : BEQ .deathMountain
@@ -9982,43 +10014,76 @@ AnimateMirrorWarp_DecompressAnimatedTiles:
     
     .deathMountain
     
-    JSL DecompOwAnimatedTiles ; $005394 IN ROM
+    JSL DecompOwAnimatedTiles
         
     RTL
 }
 
 ; ==============================================================================
     
+; The next 4 tables are actually only 2 but the way the data is laid out is
+; weird. These values are loaded from functios where if X = 0 we are in the LW
+; and X = 8 if we are in the DW. So SheetsTable_Mirror and SheetsTable_0AA4
+; will be read from in the LW and SheetsTable_Mirror2 and SheetsTable_0AA4_2 in
+; the DW. So it was nice for them to lay it out this way so that they could
+; still use the same 0 or 8 value for both tables but it makes the data ugly
+; here.
 ; $0058EE-$0058F3 DATA
 SheetsTable_Mirror:
 {
+    ; $0058EE
+    .sheet0
     db $3A
+
+    ; $0058EF
+    .sheet1
     db $3B
+
+    ; $0058F0
+    .sheet2
     db $3C
+
+    ; $0058F1
+    .sheet3
     db $3D
+
+    ; $0058F2
+    .sheet4
     db $3E
+
+    ; $0058F3
+    .sheet5
     db $5B
 }
 
-; ==============================================================================
-
-; $0058F4-$0058FD DATA
-SheetsTable_AA4:
+; $0058F4-$0058F5 DATA
+SheetsTable_0AA4:
 {
     db $01
     db $5A
+}
+
+; $0058F6-$0058FB DATA
+SheetsTable_Mirror_2:
+{
     db $42
     db $43
     db $44
     db $45
     db $3F
     db $59
+}
+
+; $0058FC-$0058FD DATA
+SheetsTable_0AA4_2:
+{
     db $0B
     db $5A
 }
 
 ; ==============================================================================
 
+; ZS Overwrites part of this function. - ZS Custom Overworld
 ; $0058FE-$0059B8 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressNewTileSets:
 {
@@ -10028,36 +10093,37 @@ AnimateMirrorWarp_DecompressNewTileSets:
     
     REP #$30
     
+    ; $005904 ZS writes here. - ZS Custom Overworld
     LDA.w $0AA1 : AND.w #$00FF : ASL #3 : TAX
     LDA.w $0AA2 : AND.w #$00FF : ASL #2 : TAY
     
     SEP #$20
     
-    LDA.w $DD97, Y : BNE .override1
-        LDA.w $E076, X
+    LDA.w SheetsTable_0AA2_sheet0, Y : BNE .override0
+        LDA.w SheetsTable_0AA1_sheet3, X
 
-    .override1
+    .override0
 
     STA.l $7EC2F8
     
-    LDA.w $DD98, Y : BNE .override2
-        LDA.w $E077, X
+    LDA.w SheetsTable_0AA2_sheet1, Y : BNE .override1
+        LDA.w SheetsTable_0AA1_sheet4, X
 
-    .override2
+    .override1
 
     STA.l $7EC2F9
     
-    LDA.w $DD99, Y : BNE .override3
-        LDA.w $E078, X
+    LDA.w SheetsTable_0AA2_sheet2, Y : BNE .override2
+        LDA.w SheetsTable_0AA1_sheet5, X
 
-    .override3
+    .override2
 
     STA.l $7EC2FA
     
-    LDA.w $DD9A, Y : BNE .override4
-        LDA.w $E079, X
+    LDA.w SheetsTable_0AA2_sheet3, Y : BNE .override3
+        LDA.w SheetsTable_0AA1_sheet6, X
 
-    .override4
+    .override3
 
     STA.l $7EC2FB
     
@@ -10067,32 +10133,33 @@ AnimateMirrorWarp_DecompressNewTileSets:
     
     SEP #$20
     
-    LDA.w $DB57, Y : BEQ .noChange1
+    LDA.w SheetsTable_0AA3_sheet0, Y : BEQ .noChange0
         STA.l $7EC2FC
+
+    .noChange0
+
+    LDA.w SheetsTable_0AA3_sheet1, Y : BEQ .noChange1
+        STA.l $7EC2FD
 
     .noChange1
 
-    LDA.w $DB58, Y : BEQ .noChange2
-        STA.l $7EC2FD
+    LDA.w SheetsTable_0AA3_sheet2, Y : BEQ .noChange2
+        STA.l $7EC2FE
 
     .noChange2
 
-    LDA.w $DB59, Y : BEQ .noChange3
-        STA.l $7EC2FE
-
-    .noChange3
-
-    LDA.w $DB5A, Y : BEQ .noChange4
+    LDA.w SheetsTable_0AA3_sheet3, Y : BEQ .noChange3
         STA.l $7EC2FF
 
-    .noChange4
+    .noChange3
 
     SEP #$10
     
     PLX
     
-    LDA.l $00D8EF, X : STA.b $08
-    LDA.l $00D8EE, X : TAY
+    ; $00597D ZS writes here. - ZS Custom Overworld
+    LDA.l SheetsTable_Mirror_sheet1, X : STA.b $08
+    LDA.l SheetsTable_Mirror_sheet0, X : TAY
     
     ; Apparently the low 16 bits of the source address are found elsewhere...
     LDA.b #$7F
@@ -10111,7 +10178,8 @@ AnimateMirrorWarp_DecompressNewTileSets:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0040, base target address is $7F0000.
+    ; Source address is $7F4000, number of tiles is 0x0040, base target address
+    ; is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
     LDA.w #$4000
@@ -10130,13 +10198,15 @@ AnimateMirrorWarp_DecompressNewTileSets:
 
 ; ==============================================================================
 
+; ZS overwrites part of this function. - ZS Custom Overworld
 ; $0059B9-$0059F7 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressBackgroundsA:
 {
     PHB : PHK : PLB
     
-    LDA.l $00D8F1, X : STA.b $08
-    LDA.l $00D8F0, X : TAY
+    ; $0059BC ZS writes here. - ZS Custom Overworld
+    LDA.l SheetsTable_Mirror_sheet3, X : STA.b $08
+    LDA.l SheetsTable_Mirror_sheet2, X : TAY
     
     LDA.b #$7F
     
@@ -10153,7 +10223,8 @@ AnimateMirrorWarp_DecompressBackgroundsA:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0040, base target address is $7F0000.
+    ; Source address is $7F4000, number of tiles is 0x0040, base target address
+    ; is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
     LDA.w #$4000
@@ -10196,7 +10267,8 @@ AnimateMirrorWarp_DecompressBackgroundsB:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0080, base target address is $7F0000.
+    ; Source address is $7F4000, number of tiles is 0x0080, base target address
+    ; is $7F0000.
     LDX.w #$0000
     LDY.w #$0080
     LDA.w #$4000
@@ -10210,13 +10282,15 @@ AnimateMirrorWarp_DecompressBackgroundsB:
 
 ; ==============================================================================
 
+; ZS Interupts this function. - ZS Custom Overworld
 ; $005A2C-$005A62 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressBackgroundsC:
 {
     PHB : PHK : PLB
     
-    LDA.l $00D8F3, X : STA.b $08
-    LDA.l $00D8F2, X : TAY
+    ; $005A2F ZS writes here. - ZS Custom Overworld
+    LDA.l SheetsTable_Mirror_sheet5, X : STA.b $08
+    LDA.l SheetsTable_Mirror_sheet4, X : TAY
     
     LDA.b #$7F
     
@@ -10233,7 +10307,8 @@ AnimateMirrorWarp_DecompressBackgroundsC:
     
     REP #$31
     
-    ; Source address is $7F4000, number of tiles is 0x0080, base target address is $7F0000.
+    ; Source address is $7F4000, number of tiles is 0x0080, base target address
+    ; is $7F0000.
     LDX.w #$0000
     LDY.w #$0080
     LDA.w #$4000
@@ -10247,8 +10322,12 @@ AnimateMirrorWarp_DecompressBackgroundsC:
 
 ; ==============================================================================
 
-; $005A63-$005ABA JUMP LOCATION (LONG)
 ; ZS replaces this whole function. - ZS Custom Overworld
+; The first half of this function enables or disables BG1 for subscreen overlay
+; use depending on the area. The second half reloads global sprite #2 sheet
+; (rock vs skulls, different bush gfx, fish vs bone fish, etc.) based on what
+; world we are in.
+; $005A63-$005ABA JUMP LOCATION (LONG)
 AnimateMirrorWarp_LoadSubscreen:
 {
     STZ.b $1D
@@ -10270,9 +10349,11 @@ AnimateMirrorWarp_LoadSubscreen:
     .normal
     
     PHB : PHK : PLB
+    
+    ; X = 0 for LW, 8 for DW
+    LDA.l SheetsTable_0AA4, X : TAY
         
-    LDA.l $00D8F4, X : TAY
-        
+    ; Get the pointer for one of the 2 Global sprite #2 sheets.
     LDA.w $D1B1, Y : STA.b $00
     LDA.w $D0D2, Y : STA.b $01
     LDA.w $CFF3, Y : STA.b $02
@@ -10282,12 +10363,14 @@ AnimateMirrorWarp_LoadSubscreen:
         
     REP #$31
         
-    ; Source address is determined above, number of tiles is 0x0040, base target address is $7F0000.
+    ; Source address is determined above, number of tiles is 0x0040, base
+    ; target address is $7F0000.
     LDX.w #$0000
     LDY.w #$0040
         
     LDA.b $00
         
+    ; Convert the gfx to 4bpp.
     JSR Do3To4High16Bit
         
     SEP #$30
@@ -10396,11 +10479,29 @@ AnimateMirrorWarp_DecompressSpritesB:
 
 ; ==============================================================================
 
+; This is the "Sprites" blockset in the ZS Graphics Manager. This controls
+; sheets C, D, E, and F which are the "variable" sprite sheets. These sheets
+; can change from room to room or OW area to OW area. This table is indexed by
+; $0AA3 * 4 (0x90 entries).
 ; $005B57-$005D96 DATA
-SheetsTable_AA3:
+SheetsTable_0AA3:
 {
-    ; This table is indexed by $0AA3 * 4 (0x90 entries).
-    db $00, $49, $00, $00 ; 0x00
+    ; $005B57
+    .sheet0
+    db $00 ; 0x00 sheet 0
+
+    ; $005B58
+    .sheet1
+    db $49 ; 0x00 sheet 1
+
+    ; $005B59
+    .sheet2
+    db $00 ; 0x00 sheet 2
+
+    ; $005B5A
+    .sheet3
+    db $00 ; 0x00 sheet 3
+
     db $46, $49, $0C, $1D ; 0x01
     db $48, $49, $13, $1D ; 0x02
     db $46, $49, $13, $0E ; 0x03
@@ -10546,11 +10647,30 @@ SheetsTable_AA3:
     db $61, $62, $63, $50 ; 0x8F - 0x4F for underworld
 }
 
+; This is the "Rooms" blockset in the ZS Graphics Manager. Also the Overworld
+; GFX number. This controls sheets 3, 4, 5, and 6 which are the "variable"
+; dungeon and overworld tile sheets which These sheets can change from room to
+; room or OW area to OW area. This table is indexed by $0AA2 * 4 - (0x52
+; entries).
 ; $005D97-$005EDE DATA
-SheetsTable_AA2:
+SheetsTable_0AA2:
 {
-    ; This table is indexed by $0AA2 * 4 - (0x52 entries).
-    db $06, $00, $1F, $18 ; 0x00
+    ; $005D97
+    .sheet0
+    db $06 ; 0x00 sheet 0
+
+    ; $005D98
+    .sheet1
+    db $00 ; 0x00 sheet 1
+
+    ; $005D99
+    .sheet2
+    db $1F ; 0x00 sheet 2
+
+    ; $005D9A
+    .sheet3
+    db $18 ; 0x00 sheet 3
+
     db $08, $00, $22, $1B ; 0x01
     db $06, $00, $1F, $18 ; 0x02
     db $07, $00, $23, $1C ; 0x03
@@ -10635,6 +10755,8 @@ SheetsTable_AA2:
     db $17, $40, $41, $39 ; 0x51
 }
 
+; ==============================================================================
+
 ; $005EDF-$005EFE DATA
 Pool_Graphics_IncrementalVramUpload:
 {
@@ -10699,7 +10821,7 @@ Graphics_IncrementalVramUpload:
 ; ==============================================================================
 
 ; $005F1A-$005F4E LONG JUMP LOCATION
-PrepTransAuxGfx:
+PrepTransAuxGFX:
 {
     ; Prepares the transition graphics to be transferred to VRAM during NMI.
     ; This could occur either during this frame or any subsequent frame.
@@ -10748,6 +10870,9 @@ PrepTransAuxGfx:
 
 ; ==============================================================================
 
+; TODO: Come up with a better lable. The main difference in this function as
+; opposed to the Non-16bit version is that it stores to a buffer instead of
+; directly into VRAM.
 ; $005F4F-$005FB7 LOCAL JUMP LOCATION
 Do3To4High16Bit:
 {
@@ -10792,14 +10917,20 @@ Do3To4High16Bit:
 
 ; ==============================================================================
 
+; TODO: Come up with a better lable. The main difference in this function as
+; opposed to the Non-16bit version is that it stores to a buffer instead of
+; directly into VRAM.
 ; $005FB8-$006030 LOCAL JUMP LOCATION
 Do3To4Low16Bit:
 {
-    ; Very similar to Do3To4Low, except that the routine is completely standalone, and remains in 16-bit
-    ; until after the routine is finished as well. (There are other differences).
+    ; Very similar to Do3To4Low, except that the routine is completely
+    ; standalone, and remains in 16-bit until after the routine is finished as
+    ; well. (There are other differences).
     ; Inputs:
-    ; A - Used to set the low 2 bytes of $00[3] - source address for already decompressed data.
-    ; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8 colors of the palette).
+    ; A - Used to set the low 2 bytes of $00[3] - source address for already
+    ;     decompressed data.
+    ; Y - number of 3bpp tiles to convert to 4bpp (using only the lower 8
+    ;     colors of the palette).
     ; X - a starting offset into $7F0000.
     
     STY.b $0C
@@ -10812,8 +10943,9 @@ Do3To4Low16Bit:
 
         .nextHalf
 
-            ; Each 12 bytes corresponds to half of the 24-byte 3bpp tile.
-            ; The tile is being expanded from 3bpp to 4bpp, where it will use only the lower 8 colors of the palette.
+            ; Each 12 bytes corresponds to half of the 24-byte 3bpp tile. The
+            ; tile is being expanded from 3bpp to 4bpp, where it will use only
+            ; the lower 8 colors of the palette.
             
             LDA [$00] : STA.l $7F0000, X : INC.b $00 : INC.b $00
             LDA [$03] : AND.w #$00FF : STA.l $7F0010, X : INC.b $03 : INX #2
@@ -10887,14 +11019,47 @@ LoadNewSpriteGFXSet:
 
 ; ==============================================================================
 
-; $006073-$00619A
 ; Primary and default BG tilesets contains 0x25 8-byte entries indexed by
-; $0AA1 * 8.
-SheetsTable_AA1:
+; $0AA1 *8. This is the "Main" blockset in the ZS GFX Manager. This controls
+; sheets 0-7 of the dungeon and overworld tiles. 3-6 can be overwritten by the
+; SheetsTable_0AA2 table room to room or area to area but 0, 1, 2 will stay the
+; same. Sheet 7 will be overwritten by the "animated" sheet.
+; $006073-$00619A
+SheetsTable_0AA1:
 {
     ; Underworld
     ; $006073
-    db $00, $01, $10, $06, $0E, $1F, $18, $0F ; 0x00
+    .sheet0
+    db $00 ; 0x00 sheet 0
+
+    ; $006074
+    .sheet1
+    db $01 ; 0x00 sheet 1
+
+    ; $006075
+    .sheet2
+    db $10 ; 0x00 sheet 2
+
+    ; $006076
+    .sheet3
+    db $06 ; 0x00 sheet 3
+
+    ; $006077
+    .sheet4
+    db $0E ; 0x00 sheet 4
+
+    ; $006078
+    .sheet5
+    db $1F ; 0x00 sheet 5
+
+    ; $006079
+    .sheet6
+    db $18 ; 0x00 sheet 6
+
+    ; $00607A
+    .sheet7
+    db $0F ; 0x00 sheet 7
+
     db $00, $01, $10, $08, $0E, $22, $1B, $0F ; 0x01
     db $00, $01, $10, $06, $0E, $1F, $18, $0F ; 0x02
     db $00, $01, $13, $07, $0E, $23, $1C, $0F ; 0x03
@@ -10922,23 +11087,24 @@ SheetsTable_AA1:
 
     ; Overworld
     ; $006133
-    db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B ; 0x18
-    db $42, $43, $44, $45, $20, $2B, $3F, $5D ; 0x19
+    db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B ; 0x18 LW and SW 2
+    db $42, $43, $44, $45, $20, $2B, $3F, $5D ; 0x19 DW 2
     db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1A
     db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1B
     db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1C
     db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1D
     db $00, $08, $10, $18, $20, $2B, $5D, $5B ; 0x1E
     db $71, $72, $71, $72, $20, $2B, $5D, $5B ; 0x1F
-    db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B ; 0x20
-    db $42, $43, $44, $45, $20, $2B, $3F, $59 ; 0x21
+    db $3A, $3B, $3C, $3D, $53, $4D, $3E, $5B ; 0x20 LW and SW
+    db $42, $43, $44, $45, $20, $2B, $3F, $59 ; 0x21 DW
     db $00, $72, $71, $72, $20, $2B, $5D, $0F ; 0x22
     db $16, $39, $1D, $17, $40, $41, $39, $1E ; 0x23
-    db $00, $46, $39, $72, $40, $41, $39, $0F ; 0x24
+    db $00, $46, $39, $72, $40, $41, $39, $0F ; 0x24 Triforce Room
 }
 
 ; ==============================================================================
 
+; ZS overwrites part of this function. - ZS Custom Overworld
 ; $00619B-$0062CF LONG JUMP LOCATION
 InitTilesets:
 {
@@ -10955,7 +11121,7 @@ InitTilesets:
     STZ.w $2116
     LDA.b #$44 : STA.w $2117
     
-    JSR LoadCommonSprGfx ; $0066B7 in ROM.
+    JSR LoadCommonSprGfx
     
     REP #$30
     
@@ -10963,31 +11129,33 @@ InitTilesets:
     
     SEP #$20
     
-    LDA.w $DB57,Y : BEQ .skipSprSlot1
+    ; Only update the sprite sheets if the value is not 0. Meaning we will keep
+    ; the sheet from the previous area/room.
+    LDA.w SheetsTable_0AA3_sheet0, Y : BEQ .skipSprSlot0
         STA.l $7EC2FC
 
-    .skipSprSlot1
+    .skipSprSlot0
 
     LDA.l $7EC2FC : STA.b $09
     
-    LDA.w $DB58,Y : BEQ .skipSprSlot2
+    LDA.w SheetsTable_0AA3_sheet1, Y : BEQ .skipSprSlot1
         STA.l $7EC2FD
 
-    .skipSprSlot2
+    .skipSprSlot1
 
     LDA.l $7EC2FD : STA.b $08
     
-    LDA.w $DB59,Y : BEQ .skipSprSlot3
+    LDA.w SheetsTable_0AA3_sheet2, Y : BEQ .skipSprSlot2
         STA.l $7EC2FE
 
-    .skipSprSlot3
+    .skipSprSlot2
 
     LDA.l $7EC2FE : STA.b $07
     
-    LDA.w $DB5A,Y : BEQ .skipSprSlot4
+    LDA.w SheetsTable_0AA3_sheet3, Y : BEQ .skipSprSlot3
         STA.l $7EC2FF
 
-    .skipSprSlot4
+    .skipSprSlot3
 
     LDA.l $7EC2FF : STA.b $06
     
@@ -10995,8 +11163,9 @@ InitTilesets:
     
     LDY.b $09
     
-    ; This next section decompresses graphics to $7E7800, $7E7E00, $7E8400, and $7E8A00, successively.
-    ; Note that these are all 0x600 bytes apart, the size of the typical 3bpp graphics pack.
+    ; This next section decompresses graphics to $7E7800, $7E7E00, $7E8400, and
+    ; $7E8A00, successively. Note that these are all 0x600 bytes apart, the
+    ; size of the typical 3bpp graphics pack.
     LDA.b #$7E : STA.b $02
     
     LDX.b #$78
@@ -11017,47 +11186,54 @@ InitTilesets:
     
     REP #$30
     
-    ; This is the address for BG0 and BG1's graphics (Not tilemap, actual graphics).
+    ; This is the address for BG0 and BG1's graphics (Not tilemap, actual
+    ; graphics).
     LDA.w #$2000 : STA.w $2116
-    
+
+    ; ZS starts writing here.
+    ; $006221 - ZS Custom Overworld
     LDA.w $0AA1 : AND.w #$00FF : ASL #3 : TAY
     LDA.w $0AA2 : AND.w #$00FF : ASL #2 : TAX
     
     SEP #$20
     
-    LDA.w $E073, Y : STA.b $0D
-    LDA.w $E074, Y : STA.b $0C
-    LDA.w $E075, Y : STA.b $0B
+    ; Based on the "Main" (SheetsTable_0AA1) and "Rooms" (SheetsTable_0AA2
+    ; group sets, load the tile GFX for the next area.
+    LDA.w SheetsTable_0AA1_sheet0, Y : STA.b $0D
+    LDA.w SheetsTable_0AA1_sheet1, Y : STA.b $0C
+    LDA.w SheetsTable_0AA1_sheet2, Y : STA.b $0B
     
-    LDA.w $DD97, X : BNE .overrideDefaultBgSlot1
-        LDA.w $E076, Y
+    LDA.w SheetsTable_0AA2_sheet0, X : BNE .overrideDefaultBgSlot0
+        LDA.w SheetsTable_0AA1_sheet3, Y
 
-    .overrideDefaultBgSlot1
+    .overrideDefaultBgSlot0
 
     STA.l $7EC2F8 : STA.b $0A
     
-    LDA.w $DD98, X : BNE .overrideDefaultBgSlot2
-        LDA.w $E077, Y
+    LDA.w SheetsTable_0AA2_sheet1, X : BNE .overrideDefaultBgSlot1
+        LDA.w SheetsTable_0AA1_sheet4, Y
 
-    .overrideDefaultBgSlot2
+    .overrideDefaultBgSlot1
 
     STA.l $7EC2F9 : STA.b $09
     
-    LDA.w $DD99, X : BNE .overrideDefaultBgSlot3
-        LDA.w $E078, Y
+    LDA.w SheetsTable_0AA2_sheet2, X : BNE .overrideDefaultBgSlot2
+        LDA.w SheetsTable_0AA1_sheet5, Y
 
-    .overrideDefaultBgSlot3
+    .overrideDefaultBgSlot2
 
     STA.l $7EC2FA : STA.b $08
     
-    LDA.w $DD9A, X : BNE .overrideDefaultBgSlot4
-        LDA.w $E079, Y
+    LDA.w SheetsTable_0AA2_sheet3, X : BNE .overrideDefaultBgSlot3
+        LDA.w SheetsTable_0AA1_sheet6, Y
 
-    .overrideDefaultBgSlot4
+    .overrideDefaultBgSlot3
 
     STA.l $7EC2FB : STA.b $07
     
-    LDA.w $E07A, Y : STA.b $06
+    LDA.w SheetsTable_0AA1_sheet7, Y : STA.b $06
+
+    ; $006282 ZS Returns here. - ZS Custom Overworld
     
     SEP #$10
     
@@ -11065,49 +11241,49 @@ InitTilesets:
     
     LDY.b $0D
     
-    JSR LoadBgGfx
+    JSR LoadBgGFX
     
     DEC.b $0F
     
     LDY.b $0C
     
-    JSR LoadBgGfx
+    JSR LoadBgGFX
     
     DEC.b $0F
     
     LDY.b $0B
     
-    JSR LoadBgGfx
+    JSR LoadBgGFX
     
     DEC.b $0F
     
     LDY.b $0A : LDA.b #$7E : LDX.b #$60
     
-    JSR LoadBgGfx_variable
+    JSR LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $09 : LDA.b #$7E : LDX.b #$66
     
-    JSR LoadBgGfx_variable
+    JSR LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $08 : LDA.b #$7E : LDX.b #$6C
     
-    JSR LoadBgGfx_variable
+    JSR LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $07 : LDA.b #$7E : LDX.b #$72
     
-    JSR LoadBgGfx_variable
+    JSR LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $06
     
-    JSR LoadBgGfx
+    JSR LoadBgGFX
     
     PLB
     
@@ -11119,10 +11295,10 @@ InitTilesets:
 ; $0062D0-$00633A LONG JUMP LOCATION
 LoadDefaultGfx:
 {    
-    ; The subroutine loads some default sprite graphics into VRAM
-    ; miscellaneous stuff really like blobs, signs, keys, etc
-    ; probably just a holdover for the programmers to dick around with
-    ; though it also does load the default graphics for the HUD, which is far more useful.
+    ; The subroutine loads some default sprite graphics into VRAM miscellaneous
+    ; stuff really like blobs, signs, keys, etc probably just a holdover for
+    ; the programmers to dick around with though it also does load the default
+    ; graphics for the HUD, which is far more useful.
     PHB : PHK : PLB
     
     ; Increment VRAM target address when data is written to $2119.
@@ -11147,9 +11323,11 @@ LoadDefaultGfx:
 
         .writeLowBitplanes
 
-            ; Tiles are converted from 3bpp to 4bpp using only the latter 8 palette entries (See Do3To4High).
+            ; Tiles are converted from 3bpp to 4bpp using only the latter 8
+            ; palette entries (See Do3To4High).
             
-            ; The values will be written in reverse order from how they are in memory.
+            ; The values will be written in reverse order from how they are in
+            ; memory.
             LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
             
             INC.b $00 : INC.b $00
@@ -11164,7 +11342,8 @@ LoadDefaultGfx:
         DEX #2 : BPL .writeHighBitplanes
     DEY : BNE .nextTile
 
-    ; Now that Link's graphics are in VRAM we'll next load the tiles for the HUD.
+    ; Now that Link's graphics are in VRAM we'll next load the tiles for the
+    ; HUD.
     
     LDA.w #$7000 : STA.w $2116
     
@@ -11289,7 +11468,8 @@ CopyMode7Chr: ; Decent name?
     
     LDY.w #$0000
 
-    ; This loop only updates the upper bytes of the VRAM addresses that are being written to.
+    ; This loop only updates the upper bytes of the VRAM addresses that are
+    ; being written to.
     .writeChr
         
         LDA [$00], Y : STA.w $2119 : INY
@@ -11442,8 +11622,8 @@ Graphics_LoadChrHalfSlot:
 
     .dontUseDefault
 
-    ; Y = sprite graphics pack to load. Note that decompression will not be occuring,
-    ; just conversion to 4bpp from 3bpp.
+    ; Y = sprite graphics pack to load. Note that decompression will not be
+    ; occuring, just conversion to 4bpp from 3bpp.
     
     LDA.w $CFF3, Y : STA.b $02 : STA.b $05
     LDA.w $D0D2, Y : STA.b $01
@@ -11528,7 +11708,8 @@ LoadSelectScreenGfx:
     
     PHB : PHK : PLB     
     
-    ; Decompress sprite gfx pack 0x5E, which contains 0x40 tiles, and convert from 3bpp to 4bpp (high).
+    ; Decompress sprite gfx pack 0x5E, which contains 0x40 tiles, and convert
+    ; from 3bpp to 4bpp (high).
     LDY.b #$5E
     
     JSR Decomp_spr_low
@@ -11539,7 +11720,8 @@ LoadSelectScreenGfx:
     
     JSR Do3To4High
     
-    ; Decompress sprite gfx pack 0x5F, which contains 0x40 tiles, and convert from 3bpp to 4bpp (high).
+    ; Decompress sprite gfx pack 0x5F, which contains 0x40 tiles, and convert
+    ; from 3bpp to 4bpp (high).
     LDY.b #$5F
     
     JSR Decomp_spr_low
@@ -11582,7 +11764,8 @@ LoadSelectScreenGfx:
     
     PHB : PHK : PLB
     
-    ; Decompress spr graphics pack 0x6B and manually write it to VRAM address 0x7800 (word).
+    ; Decompress spr graphics pack 0x6B and manually write it to VRAM address
+    ; 0x7800 (word).
     LDY.b #$6B
     
     JSR Decomp_spr_low
@@ -11668,8 +11851,9 @@ LoadSprGfx:
     ; The graphics pack is assumed to contain 0x40 tiles (0x600 bytes).
     LDY.b #$3F
     
-    ; Depending on which graphics pack we decompressed, convert from 3bpp to 4bpp
-    ; using either the first 8 colors of the palette, or the second 8 colors.
+    ; Depending on which graphics pack we decompressed, convert from 3bpp to
+    ; 4bpp using either the first 8 colors of the palette, or the second 8
+    ; colors.
     PLX
     
     CPX.b #$52 : BEQ Do3To4High
@@ -11687,7 +11871,7 @@ LoadSprGfx:
 
 ; ==============================================================================
 
-; $0065AF ALTERNATE ENTRY POINT
+; $0065AF-$006608 JUMP LOCATION
 ; Write graphics to VRAM using the 3bpp to 4bpp high technique (latter 8 entries
 ; of the palette).
 Do3To4High:
@@ -11696,13 +11880,13 @@ Do3To4High:
 
         LDX.b #$0E
 
-        .writeLowBitplanEs
+        .writeLowBitplanes
 
             LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
-            INC.b $00   : INC.b $00   : DEX #2
+            INC.b $00 : INC.b $00 : DEX #2
             
             LDA [$00] : STA.w $2118 : XBA : ORA [$00] : AND.w #$00FF : STA.b $BF, X
-            INC.b $00   : INC.b $00
+            INC.b $00 : INC.b $00
         DEX #2 : BPL .writeLowBitplanes
         
         LDX.b #$0E
@@ -11710,7 +11894,7 @@ Do3To4High:
         .writeHighBitplanes
             
             LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
-            INC.b $00   : DEX #2
+            INC.b $00 : DEX #2
             
             LDA [$00] : AND.w #$00FF : STA.b $BD : ORA.b $BF, X : XBA : ORA.b $BD : STA.w $2118
             INC.b $00
@@ -11725,7 +11909,7 @@ Do3To4High:
 ; ==============================================================================
 
 ; $006609-$0066B6 LOCAL JUMP LOCATION
-LoadBgGfx:
+LoadBgGFX:
 {
     ; Inputs:
     ; $0F index of the graphics pack slot we're currently working on.
@@ -11734,9 +11918,9 @@ LoadBgGfx:
     LDA.b #$7F
     LDX.b #$40
 
-    .variable
     ; Uses a variable source data address rather than the fixed one above.
     ; $00660D ALTERNATE ENTRY POINT
+    .variable
 
     ; Going to decompress data to the address pointed at by [$00].
     STZ.b $00
@@ -11769,7 +11953,7 @@ LoadBgGfx:
   
 ; ==============================================================================
   
-; $00663C ALTERNATE ENTRY POINT
+; $00663C-$0066B6 JUMP LOCATION
 Do3To4Low:
 {
     ; Takes as input:
@@ -11917,7 +12101,8 @@ Decomp:
 
     STA.b $02 : STA.b $05
 
-    ; The caller sets the target address for the decompressed data with this version.
+    ; The caller sets the target address for the decompressed data with this
+    ; version.
     .spr_variable
 
     ; Set $C8[3], the indirect long source address.
@@ -11940,6 +12125,7 @@ Decomp:
 
     STA.b $02 : STA.b $05
 
+    ; $00678F ALTERNATE ENTRY POINT
     .bg_variable
 
     ; Type 2 graphics pointers (tiles).
@@ -12183,7 +12369,8 @@ PaletteFilter:
     
     SEP #$20
     
-    ; Perform the filtering it $1A (frame counter) is even, but don't if it's odd.
+    ; Perform the filtering it $1A (frame counter) is even, but don't if it's
+    ; odd.
     LDA.b $1A : LSR A : BCC .doFiltering
         RTL
 
@@ -12222,7 +12409,8 @@ PaletteFilter:
     ; Perform filtering on BP2-BP7, SP0-SP4, and SP6.
     JSR FilterColors
     
-    ; At this point filter the background color the same way the subroutine does.
+    ; At this point filter the background color the same way the subroutine
+    ; does.
     LDA.l $7EC500 : STA !color
     
     ; Obtain the red bits of the color.
@@ -12255,8 +12443,9 @@ PaletteFilter:
         LDA.l $7EC007 : INC A : STA.l $7EC007 : CMP.l $7EC00B : BNE .stillFiltering
             .switchDirection
 
-            ; We're going to switch the direction of the lightening / darkening process.
-            ; if we were lightening we will now be darkening, or vice versa.
+            ; We're going to switch the direction of the lightening / darkening
+            ; process. If we were lightening we will now be darkening, or vice
+            ; versa.
             
             LDA.l $7EC009 : EOR.w #$0002 : STA.l $7EC009
             
@@ -12352,10 +12541,10 @@ FilterColors:
 PaletteFilterUnused:
 {
     ; This routine and its companion routine below don't seem to be used in the
-    ; game at all but they could potentially be used, they are finished products,
-    ; it seems the key difference is that this routine doesn't skip SP5 and SP7,
-    ; like the ones above do. This could be a "first draft" of what the final
-    ; routine was originally designed to do.
+    ; game at all but they could potentially be used, they are finished
+    ; products, it seems the key difference is that this routine doesn't skip
+    ; SP5 and SP7, like the ones above do. This could be a "first draft" of
+    ; what the final routine was originally designed to do.
     
     REP #$30
     
@@ -12573,7 +12762,7 @@ PaletteFilter_WishPonds:
     BRA .continue
 
     ; $006BCF ALTERNATE ENTRY POINT
-    PaletteFilter_Crystal:
+    .Crystal:
 
     LDA.b #$01 : STA.b $1D
 
@@ -12581,7 +12770,7 @@ PaletteFilter_WishPonds:
 
     ; TODO: Best guess, rename if turns out incorrect.
     ; $006BD3 ALTERNATE ENTRY POINT
-    PaletteFilter_InitTheEndSprite:
+    .InitTheEndSprite:
 
     REP #$20
     
@@ -12590,7 +12779,8 @@ PaletteFilter_WishPonds:
 
     .zero_out_sp5
 
-        ; Zeroes out sprite palette 5 for use with the pond of wishing (seems like).
+        ; Zeroes out sprite palette 5 for use with the pond of wishing (seems
+        ; like).
     STA.l $7EC6A0, X : DEX #2 : BPL .zero_out_sp5
     
     STA.l $7EC007
@@ -12769,10 +12959,9 @@ Pool_PaletteFilter_Agahnim:
 ; $006CCA-$006D18 LONG JUMP LOCATION
 PaletteFilter_Agahnim:
 {
-    ; \parameters:
+    ; Input:
     ; X - index of the sprite to perform filtering for. How this works...
     ; I don't even...
-    ; 
     
     ; Does palette filtering for Agahnim sprite and sprites when there's 2
     ; or three of him.
@@ -13017,7 +13206,7 @@ RestorePaletteSubtractive:
 ; ==============================================================================
 
 ; $006E78-$006EDF JUMP LOCATION
-; ZS intercepts this function.
+; ZS intercepts this function. - ZS Custom Overworld
 Palette_InitWhiteFilter:
 {
     REP #$20
@@ -13028,8 +13217,10 @@ Palette_InitWhiteFilter:
 
     .whiteFill
 
-        STA.l $7EC300, X : STA.l $7EC340, X : STA.l $7EC380, X : STA.l $7EC3C0, X
-        STA.l $7EC400, X : STA.l $7EC440, X : STA.l $7EC480, X : STA.l $7EC4C0, X
+        STA.l $7EC300, X : STA.l $7EC340, X
+        STA.l $7EC380, X : STA.l $7EC3C0, X
+        STA.l $7EC400, X : STA.l $7EC440, X
+        STA.l $7EC480, X : STA.l $7EC4C0, X
     INX #2 : CPX.b #$40 : BNE .whiteFill
         
     LDA.l $7EC500 : STA.l $7EC540
@@ -13040,9 +13231,11 @@ Palette_InitWhiteFilter:
         
     ; ZS writes here.
     ; $006EBB - ZS Custom Overworld
-    ; If we are going to the pyramid area set the BG color to transparent so the background can appear there.
+    ; If we are going to the pyramid area set the BG color to transparent so
+    ; the background can appear there.
     LDA.b $8A : CMP.w #$001B : BNE .notHyruleCastle
-        LDA.w #$0000 : STA.l $7EC300 : STA.l $7EC340 : STA.l $7EC500 : STA.l $7EC540
+        LDA.w #$0000
+        STA.l $7EC300 : STA.l $7EC340 : STA.l $7EC500 : STA.l $7EC540
 
     .notHyruleCastle
 
@@ -13063,7 +13256,7 @@ MirrorGFXDecompress:
     ; Seems to be used exclusively during the mirror sequence to gradually
     ; decompress graphics.
     
-    JSL $00D864 ; $005864 IN ROM
+    JSL AnimateMirrorWarp
 
     ; $006EE4 ALTERNATE ENTRY POINT
     .return
@@ -13078,7 +13271,7 @@ MirrorGFXDecompress:
 ; $006EE7-$006EF0 LONG JUMP LOCATION
 MirrorWarp_RunAnimationSubmodules:
 {
-    DEC.w $06BB : BNE MirrorGFXDecompress_return
+    DEC.w $06BB : BNE MirrorGFXDecompress
         LDA.b #$02 : STA.w $06BB
 
         ; Bleeds into the next function.
@@ -13281,7 +13474,8 @@ WhirlpoolIsolateBlue:
 ; $00704A-$0070C6 LONG JUMP LOCATION
 WhirlpoolRestoreBlue:
 {
-    ; Restores the blue components in the palette colors to their original states.
+    ; Restores the blue components in the palette colors to their original
+    ; states.
     
     LDA.b $1A : LSR A : BCC .skipFrame
         REP #$30
@@ -13635,8 +13829,9 @@ Spotlight:
     
     STZ.w $420C
     
-    ; Target dma register is $2126 (WH0), Window 1 Left Position. $2127 (WH1) will also be written b/c of the mode.
-    ; Indirect HDMA is being used as well. transfer mode is write two registers once, ($2126 / $2127).
+    ; Target dma register is $2126 (WH0), Window 1 Left Position. $2127 (WH1)
+    ; will also be written b/c of the mode. Indirect HDMA is being used as
+    ; well. transfer mode is write two registers once, ($2126 / $2127).
     LDX.w #$2641 : STX.w $4360 : STX.w $4370
     
     ; The source address of the indirect hdma table.
@@ -13708,7 +13903,8 @@ ConfigureSpotlightTable:
     
     ; $0E = (Link's Y coordinate - BG2VOFS mirror + 0x0C).
     ; $0674 = $0E - $067C
-    LDA.b $20 : SEC : SBC.b $E8 : CLC : ADC.w #$000C : STA.b $0E : SEC : SBC.w $067C : STA.w $0674
+    LDA.b $20 : SEC : SBC.b $E8 : CLC : ADC.w #$000C : STA.b $0E
+    SEC : SBC.w $067C : STA.w $0674
     
     LDA.b $0E : CLC : ADC.w $067C : STA.w $0676
     
@@ -14001,14 +14197,17 @@ OrientLampBg:
     CPX.w #$0004 : BCS .facingLeftOrRight2
         LDA.b $22 : SEC : SBC.w #$0077 : STA.b $00
         
-        ; BG1HOFS mirror = BG2HOFS mirror - Link's X coordinate + 0x77 + $00F43E, X.
+        ; BG1HOFS mirror = BG2HOFS mirror - Link's X coordinate + 0x77 +
+        ; $00F43E, X.
         LDA.b $E2 : SEC : SBC.b $00 : CLC : ADC.l OrientLampData_horizontal, X : STA.b $E0
         
         LDA.b $20 : SEC : SBC.w #$0058 : STA.b $00
         
         ; A = BG2VOFS mirror - Link's Y coordinate + 0x58 + bunch of stuff.
-        LDA.b $E8 : SEC : SBC.b $00              : CLC : ADC.l OrientLampData_vertical, X 
-        CLC : ADC.l OrientLampData_adjustment, X : CLC : ADC.l OrientLampData_margin, X
+        LDA.b $E8 : SEC : SBC.b $00
+        CLC : ADC.l OrientLampData_vertical, X 
+        CLC : ADC.l OrientLampData_adjustment, X
+        CLC : ADC.l OrientLampData_margin, X
         
         BPL .positive
         
@@ -14034,13 +14233,16 @@ OrientLampBg:
     LDA.b $20 : SEC : SBC.w #$0072 : STA.b $00
     
     ; BG1VOFS mirror = BG2VOFS mirror - Link's Y coordinate + 0x72 + $00F546, X.
-    LDA.b $E8 : SEC : SBC.b $00 : CLC : ADC.l OrientLampData_vertical, X : STA.b $E6
+    LDA.b $E8 : SEC : SBC.b $00
+    CLC : ADC.l OrientLampData_vertical, X : STA.b $E6
     
     LDA.b $22 : SEC : SBC.w #$0058 : STA.b $00
     
     ; A = BG2HOFS mirror - Link's X coordinate + 0x58 + bunch of stuff...
-    LDA.b $E2 : SEC : SBC.b $00                  : CLC : ADC.l OrientLampData_horizontal, X 
-    CLC : ADC.l OrientLampData_adjustment, X : CLC : ADC.l OrientLampData_margin, X
+    LDA.b $E2 : SEC : SBC.b $00
+    CLC : ADC.l OrientLampData_horizontal, X 
+    CLC : ADC.l OrientLampData_adjustment, X
+    CLC : ADC.l OrientLampData_margin, X
     
     BPL .positive2
         LDA.w #$0000
@@ -14061,7 +14263,7 @@ OrientLampBg:
 
 ; ==============================================================================
 
-; $007649-$007733 LONG JUMP LOCATION
+; $007649-$00765F LONG JUMP LOCATION
 Hdma_ConfigureWaterTable:
 {
     REP #$30
@@ -14072,8 +14274,12 @@ Hdma_ConfigureWaterTable:
     
     LDA.b $0A : CLC : ADC.w $0684
 
-    ; $007660 ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
 
+; $007660-$007733 LONG JUMP LOCATION
+AdjustWaterHDMAWindow_Horizontal:
+{
     ; $0676 = $0A + $0684.
     STA.w $0676
     
@@ -14347,18 +14553,18 @@ Messaging_MainJumpTable:
     ; TODO: figure out interleaving syntax for tables like this.
     ; Parameterized by X:
     
-    dl $00F875 ; = $007875       X=0: RTL (do nothing).
-    dl $0DDD2A ; = $06DD2A       X=1: Link's item submenu (press start).
-    dl $0EC440 ; = $074440       X=2: Dialogue Mode.
-    dl $0AE0B0 ; = $0560B0       X=3: Dungeon Map Mode.
-    dl $00F8FB ; = $0078FB       X=4: Fills life (red potion).
-    dl Messaging_PrayingPlayer ; X=5: Link praying in front of desert palace before it opens.
-    dl $00F8E9 ; = $0078E9       X=6: unused? Agahnim 2 related code?
-    dl $0AB98B ; = $05398B       X=7: Overworld Map Mode.
-    dl $00F911 ; = $007911       X=8: Fill up all magic (green potion).
-    dl $00F918 ; = $007918       X=9: Fill up magic and life (blue potion).
-    dl $0AB730 ; = $053730       X=A: The bird (duck?) that flies you around.
-    dl $00F9FA ; = $0079FA       X=B: Continue/Save & Quit Mode.
+    dl Module_Messaging_doNothing ; X=0: RTL (do nothing).
+    dl Messaging_Equipment        ; X=1: Link's item submenu (press start).
+    dl Messaging_Text             ; X=2: Dialogue Mode.
+    dl Messaging_PalaceMap        ; X=3: Dungeon Map Mode.
+    dl RefillHeathFromRedPotion   ; X=4: Fills life (red potion).
+    dl Messaging_PrayingPlayer    ; X=5: Praying at desert palace before it opens.
+    dl Module0E_06_Unused         ; X=6: unused? Agahnim 2 related code?
+    dl Messaging_OverworldMap     ; X=7: Overworld Map Mode.
+    dl Module0E_08_GreenPotion    ; X=8: Fill up all magic (green potion).
+    dl Module0E_09_BluePotion     ; X=9: Fill up magic and life (blue potion).
+    dl Messaging_BirdTravel       ; X=A: The bird (duck?) that flies you around.
+    dl Module0E_0B_SaveMenu       ; X=B: Continue/Save & Quit Mode.
 }
 
 ; ==============================================================================
@@ -14386,7 +14592,7 @@ Messaging_PrayingPlayer:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl $02A2A5                        ; = $0122A5 (initialize overworld color filtering settings).
+    dl ResetTransitionPropsAndAdvance_ResetInterface_long ; (initialize overworld color filtering settings).
     dl PaletteFilter.doFiltering      ; Fade out before we set up the actual scene.
     dl PrayingPlayer_InitScene        ;
     dl PrayingPlayer_FadeInScene      ;
@@ -14491,7 +14697,7 @@ Module0E_09_BluePotion:
 ; ==============================================================================
 
 ; $00792D-$007944 DATA
-; See ZScream "Dungeon Properties".
+; See ZScream "Dungeon Properties". - ZS Custom Overworld
 Pool_PrepareDungeonExitFromBossFight:
 {
     ; $00792D
@@ -14550,13 +14756,14 @@ PrepDungeonExit:
         ; If it's not the room we're in, branch.
     DEX : CMP .boss_room, X : BNE .next_room ; $00F92D
     
-    ; Set the room to the entrance room of the palace (I'm guessing this is so we can use an exit object?).
-    ; Are we in Agahnim's room?
+    ; Set the room to the entrance room of the palace (I'm guessing this is so
+    ; we can use an exit object?). Are we in Agahnim's room?
     LDA .exit_room, X : STA.b $A0 : CMP.b #$20 : BNE .not_agahnim ; $00F939
         ; After beating Agahnim the world state gets set to 3 ("second part").
         LDA.b #$03 : STA.l $7EF3C5
         
-        ; Set up the lumber jack's pit tree overlay so that the tree looks different.
+        ; Set up the lumber jack's pit tree overlay so that the tree looks
+        ; different.
         LDA.l $7EF282 : ORA.b #$20 : STA.l $7EF282
         
         ; Put us in the Dark World.
@@ -14584,7 +14791,8 @@ PrepDungeonExit:
 
     ; Are we in Agahnim's second room in Ganon's tower?
     CMP.b #$0D : BNE .not_agahnim_2
-        ; If in Agahnim's second room, do the "Ganon pops out to say hi" sequence.
+        ; If in Agahnim's second room, do the "Ganon pops out to say hi"
+        ; sequence.
         LDA.b #$18 : STA.b $10
         
         STZ.b $11 : STZ.w $0200
@@ -14637,8 +14845,8 @@ SavePalaceDeaths:
     ; Load the dungeon index.
     LDX.w $040C
         
-    ; Store the running count of deaths and store it as the count for the dungeon we just completed.
-    ; If it's Hyrule Castle 2, then branch.
+    ; Store the running count of deaths and store it as the count for the
+    ; dungeon we just completed. If it's Hyrule Castle 2, then branch.
     LDA.l $7EF403 : STA.l $7EF3E7, X : CPX.b #$08 : BEQ .hyruleCastle
         ; Otherwise zero out the number of deaths.
         LDA.w #$0000 : STA.l $7EF403
@@ -14849,7 +15057,8 @@ Sprite_LoadGfxProperties:
 
     .lightWorldLoop
 
-        ; This array will be used to load values for $0AA3 and $0AB1 at a later time.
+        ; This array will be used to load values for $0AA3 and $0AB1 at a later
+        ; time.
         LDA Sprite_GfxIndices, Y     : STA.l $7EFCC0, X
         LDA Sprite_PaletteIndices, Y : STA.l $7EFD40, X
     DEY #2 : DEX #2 : BPL .lightWorldLoop
@@ -14875,6 +15084,7 @@ GFXAA2ValsOW:
     db $23, $2A, $21, $20, $20, $27, $20, $25
     db $2B, $2B, $20, $27, $27, $27, $27, $27
     db $2B, $2B, $20, $27, $27, $27, $27, $27
+
     db $3E, $3E, $3E, $41, $41, $41, $41, $3C
     db $3E, $3E, $3E, $41, $41, $41, $41, $40
     db $3F, $3F, $30, $40, $40, $30, $40, $30
@@ -14897,6 +15107,7 @@ OverworldPalettesScreenToSet:
     db $08, $08, $01, $00, $00, $04, $00, $09
     db $09, $00, $00, $04, $04, $04, $04, $04
     db $09, $09, $00, $04, $04, $04, $04, $04
+
     db $1B, $1B, $1E, $17, $17, $17, $17, $18
     db $1B, $1B, $1E, $17, $17, $17, $17, $1D
     db $1E, $1E, $10, $1E, $1E, $10, $1E, $10
@@ -14905,6 +15116,7 @@ OverworldPalettesScreenToSet:
     db $1E, $10, $12, $10, $10, $1D, $10, $1A
     db $1C, $1C, $10, $1D, $1D, $1C, $1C, $1D
     db $1C, $1C, $10, $1D, $1D, $1C, $1C, $10
+
     db $0A, $0A, $0A, $0A, $02, $02, $02, $0A
 }
 
@@ -15109,7 +15321,8 @@ MirrorHDMA:
 
     .BRANCH_THETA
 
-    TXA : CLC : ADC.b $E2 : STA.w $1B00 : STA.w $1B04 : STA.w $1B08 : STA.w $1B0C
+    TXA : CLC : ADC.b $E2
+    STA.w $1B00 : STA.w $1B04 : STA.w $1B08 : STA.w $1B0C
     
     SEP #$30
 
@@ -15136,7 +15349,8 @@ MirrorWarp_BuildDewavingHDMATable:
         
         .BRANCH_GAMMA
         
-            LDA.w $1B00, X : STA.w $1B00, Y : STA.w $1B04, Y : STA.w $1B08, Y : STA.w $1B0C, Y
+            LDA.w $1B00, X
+            STA.w $1B00, Y : STA.w $1B04, Y : STA.w $1B08, Y : STA.w $1B0C, Y
             
             TXA : SEC : SBC.w #$0010 : TAX
             
@@ -15162,9 +15376,10 @@ MirrorWarp_BuildDewavingHDMATable:
             
             INC.b $B0
             
-            JSL $0BFE70 ; $05FE70 IN ROM
+            JSL Overworld_SetFixedColorAndScroll
             
-            ; Check if area is the Hyrule Castle screen or pyramid of power screen.
+            ; Check if area is the Hyrule Castle screen or pyramid of power
+            ; screen.
             LDA.b $8A : AND.b #$3F : CMP.b #$1B : BEQ .dont_align_bgs
                 REP #$20
             
@@ -15204,8 +15419,10 @@ Internal_Rom_Header:
     dw $50F2 ; Game image checksum
     dw $AF0D ; Game image inverse checksum
         
-    dw $FFFF, $FFFF, Vector_NMI_return, $FFFF, Vector_NMI_return, Vector_NMI, Vector_Reset, Vector_IRQ
-    dw $FFFF, $FFFF, Vector_NMI_return, Vector_NMI_return, Vector_NMI_return, Vector_NMI_return, Vector_Reset, Vector_IRQ
+    dw $FFFF, $FFFF, Vector_NMI_return, $FFFF
+    dw Vector_NMI_return, Vector_NMI, Vector_Reset, Vector_IRQ
+    dw $FFFF, $FFFF, Vector_NMI_return, Vector_NMI_return
+    dw Vector_NMI_return, Vector_NMI_return, Vector_Reset, Vector_IRQ
 }
 
 ; ==============================================================================

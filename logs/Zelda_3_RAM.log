@@ -3019,20 +3019,23 @@ $06F8[0x08] -   free ram
 = Page 0x07 ================================================================================================================
 ============================================================================================================================
 
-$0700[0x02] -   Generally is equal to the area number you are in currently in times two.
-                Only bottom byte is used, and consists of the following pattern:
+$0700[0x02] -   Generally is equal to the area number you are in currently in 
+                times two.Only bottom byte is used, and consists of the
+                following pattern:
                 
                 yyyzxxx0
                 
-                y - obtained by masking Link's Y coordinate ($20) with 0x1E00, shifting left three times
-                x - obaained by masking Link's X coordinate ($22) with 0x1E00, and bitwise ORing it with the the y bits.
+                y - obtained by masking Link's Y coordinate ($20) with 0x1E00,
+                shifting left three times
+                x - obaained by masking Link's X coordinate ($22) with 0x1E00,
+                and bitwise ORing it with the the y bits.
                 z - this is the overlap of the x and y bits described above.
 
 $0702[0x06] -   free ram
 
-$0708[0x02] -   ???? I'm too lazy to document these 4 values, but essentially they're masks that determine
-$070A[0x02] -   ???? the size of each overworld "block"
-$070C[0x02] -   ????
+$0708[0x02] -   ???? I'm too lazy to document these 4 values, but essentially 
+$070A[0x02] -   ???? they're masks that determinethe size of each overworld 
+$070C[0x02] -   ???? "block"
 $070E[0x02] -   ????
 
 $0710[0x01] -   (NMI) Flag for disabling update of core sprite animation for
@@ -3057,7 +3060,8 @@ $0712[0x02] -   If nonzero, seems to indicate that it's a smaller overworld area
 
 $0714[0x02] -   Cache of previous dimension setting (from $0712)
 
-$0716[0x01] -   Forms right and bottom bounding value for where scroll activates for player?
+$0716[0x01] -   Forms right and bottom bounding value for where scroll
+                activates for player?
 
 $0717[0x01] -   ???? Overworld related for sure...
 
@@ -4955,6 +4959,26 @@ $1F5E[0x02] -   (Polyhedral)
     
     ????
 
+$2115: Video Port Control (1b/W)
+
+    i---ffrr  i: 0=increment when $2118 or $2139 is accessed
+                 1=increment when $2119 or $213A is accessed
+            f: full graphic (?)
+            r: increment rate:  00=Increment by 2 bytes   (1x1)
+                                01=Increment by 64 bytes  (32x32)
+                                10=Increment by 128 bytes (64x64)
+                                11=Increment by 256 bytes (128x128)
+
+    This register controls the way data is uploaded to VRAM.  The bits in here are a bit weird, but can be useful.  When you want to change only the high byte of a series of VRAM locations (register $2116 * 2 + 1), you should set i to 1.  When you want to change just the low byte, set i to 0.  When you want to write a whole word, you should set i to 0; otherwise, if i=1, writing a word will cause the high byte of the first location to be changed, followed by the low byte of the next location.
+
+    The r bits control the number of bytes by which the VRAM address pointer gets incremented upon a read or write (see table.) 
+
+$2118/$2119: VRAM data write (2b/W)
+
+    dddddddd dddddddd  d: data to write to VRAM
+
+    When written, this register writes a byte or word to VRAM.  The address is incremented (or not, as the case may be) according to register $2115. 
+
 ============================================================================================================================
 = Start of unmirrored WRAM ================================================================================================
 ============================================================================================================================
@@ -5020,9 +5044,9 @@ $7E4000[0x2000] - when loading dungeon graphics, contains the (map8) tilemap for
     $10C0 -> $1840
     etc.  -> etc.
 
-$7E6000[0x3000] -   Scratch space where decompressed data is stored temporarily
+$7E6000[0x3000] - Scratch space where decompressed data is stored temporarily
 
-$7E9000[0x2E00] -   Buffer for an assortment of tiles that need to change appearance
+$7E9000[0x2E00] - Buffer for an assortment of tiles that need to change appearance
 
     $7E9000[0x300] -    24 Sword tiles
     $7E9300[0x180] -    12 Shield tiles
@@ -5671,7 +5695,6 @@ $7F3000[0x1000] -   Tile Attribute table for BG1. Same as $7F2000 but for a diff
 $7F4000[0x800] -    Decompression buffer for.... sprite stats and perhaps other
                     crap too.
 $7F5000[0x800] -    free ram
-$7F5800[0x
 
 $7F5800[0x0C] - (HappinessPondRupees)
     

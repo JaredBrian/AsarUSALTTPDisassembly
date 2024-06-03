@@ -260,7 +260,7 @@ BirdTravel_LoadTargetArea:
     .death_mountain
     
     JSL DecompOwAnimatedTiles ; $005394 IN ROM
-    JSL $0BFE70 ; $05FE70 IN ROM
+    JSL Overworld_SetFixedColorAndScroll
         
     STZ.w $0AA9
     STZ.w $0AB2
@@ -821,8 +821,8 @@ OverworldMap_RestoreGfx:
         
     ; ZS writes here.
     ; $053C5A
-    ; $00619B IN ROM. Decompression routine.
-    JSL InitTilesets
+
+    JSL InitTilesets ; $00619B IN ROM.
         
     ; Update CGRAM this frame.
     INC.b $15
@@ -3505,11 +3505,11 @@ Messaging_PalaceMap:
 ; $0560D2-$0560DB Jump Table
 PalaceMap_InitJumpTable:
 {
-    dw PalaceMap_SetupGraphics   ; 0x00
-    dw PalaceMap_OptionalGraphic ; 0x01
-    dw $E1F3                     ; 0x02 = $0561F3
-    dw $E384                     ; 0x03 = $056384
-    dw $E823                     ; 0x04 = $056823
+    dw PalaceMap_SetupGraphics     ; 0x00
+    dw PalaceMap_OptionalGraphic   ; 0x01
+    dw $E1F3                       ; 0x02 = $0561F3
+    dw Module0E_03_01_03_DrawRooms ; 0x03 = $056384
+    dw $E823                       ; 0x04 = $056823
 }
 
 ; $0560DC-$0560E3 JUMP LOCATION (LONG)

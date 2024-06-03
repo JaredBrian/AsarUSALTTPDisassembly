@@ -708,7 +708,7 @@ Death_RestoreScreenPostRevival:
     
     LDA $7EC007 : CMP.b #$20 : BNE .not_done
     LDA $1B : BNE .indoors
-        JSL $0BFE70 ; $05FE70 IN ROM
+        JSL Overworld_SetFixedColorAndScroll
     
     .indoors
     

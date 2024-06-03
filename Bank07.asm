@@ -17951,25 +17951,22 @@ Player_IsPipeEnterable:
     
     .next_slot
     
-    LDA $0C4A, X : CMP.b #$31 : BNE .not_byrna_ancilla
-    
-    STZ $037A
-    STZ $50
-    STZ $0C4A, X
-    
-    BRA .byrna_ancilla_terminated
-    
-    .not_byrna_ancilla
-    
+        LDA $0C4A, X : CMP.b #$31 : BNE .not_byrna_ancilla
+            STZ $037A
+            STZ $50
+            STZ $0C4A, X
+            
+            BRA .byrna_ancilla_terminated
+        
+        .not_byrna_ancilla
     DEX : BPL .next_slot
     
     .byrna_ancilla_terminated
     
     LDA $0308 : AND.b #$80 : ORA $4D : BNE .in_special_state
-    
-    CLC
-    
-    RTL
+        CLC
+        
+        RTL
     
     .in_special_state
     

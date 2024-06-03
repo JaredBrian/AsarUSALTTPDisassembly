@@ -12,7 +12,7 @@ Pool_Sprite_RetreatBat:
 
 ; ==============================================================================
 
-    ; \note Ganon bat that crashes into the pyramid of power.
+; \note Ganon bat that crashes into the pyramid of power.
 
 ; $0D75D9-$0D763C JUMP LOCATION
 Sprite_RetreatBat:
