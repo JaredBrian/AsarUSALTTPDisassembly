@@ -7,6 +7,7 @@ org $1B8000
 ; SPC Data
 ; Entrance code
 ; Tile interatction
+; Palace of Darkness entrance opening
 
 ; ==============================================================================
 
@@ -1203,11 +1204,16 @@ Overworld_GetLinkMap16Coords:
 {
     LDA.b $2F : AND.w #$00FF : TAX
 
-    LDA.b $20    : CLC : ADC.l $07D365, X : AND.w #$FFF0  : STA.b $00
-    SEC : SBC.w $0708 : AND.w $070A       : ASL #3        : STA.b $06
+    LDA.b $20
+    CLC : ADC.l $07D365, X : AND.w #$FFF0 : STA.b $00
+    SEC : SBC.w $0708      : AND.w $070A  : ASL #3
+    STA.b $06
 
-    LDA.b $22 : CLC : ADC.l $07D36D, X : AND.w #$FFF0 : STA.b $02
-    LSR #3  : SEC : SBC.w $070C      : AND.w $070E    : CLC : ADC.b $06 : TAX
+    LDA.b $22
+    CLC : ADC.l $07D36D, X : AND.w #$FFF0 : STA.b $02
+    LSR #3
+    SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $06
+    TAX
     
     RTS
 }
@@ -1858,345 +1864,345 @@ OverworldData_HiddenItems:
 
 ; $0DC3F9-$0DC89B Overworld secrets data
 
-; $0DC3F9-0DC406
+; $0DC3F9-0DC406 DATA
 OverworldData_HiddenItems_Screen_00:
 {
-    #_1BC3F9: dw $036A : db $04 ; Random pack xy:{ 0x350, 0x060 }
-    #_1BC3FC: dw $1914 : db $04 ; Random pack xy:{ 0x0A0, 0x320 }
-    #_1BC3FF: dw $10E0 : db $80 ; Hole        xy:{ 0x300, 0x200 }
-    #_1BC402: dw $1AD0 : db $01 ; Green rupee xy:{ 0x280, 0x340 }
-    #_1BC405: dw $FFFF
+    dw $036A : db $04 ; Random pack xy:{ 0x350, 0x060 }
+    dw $1914 : db $04 ; Random pack xy:{ 0x0A0, 0x320 }
+    dw $10E0 : db $80 ; Hole        xy:{ 0x300, 0x200 }
+    dw $1AD0 : db $01 ; Green rupee xy:{ 0x280, 0x340 }
+    dw $FFFF
 }
 
-; $
+; $0DC407-$0DC414 DATA
 OverworldData_HiddenItems_Screen_02:
 {
-    #_1BC407: dw $04AE : db $01 ; Green rupee xy:{ 0x170, 0x080 }
-    #_1BC40A: dw $0D16 : db $03 ; Bee         xy:{ 0x0B0, 0x1A0 }
-    #_1BC40D: dw $0DA4 : db $01 ; Green rupee xy:{ 0x120, 0x1A0 }
-    #_1BC410: dw $0EA0 : db $01 ; Green rupee xy:{ 0x100, 0x1C0 }
-    #_1BC413: dw $FFFF
+    dw $04AE : db $01 ; Green rupee xy:{ 0x170, 0x080 }
+    dw $0D16 : db $03 ; Bee         xy:{ 0x0B0, 0x1A0 }
+    dw $0DA4 : db $01 ; Green rupee xy:{ 0x120, 0x1A0 }
+    dw $0EA0 : db $01 ; Green rupee xy:{ 0x100, 0x1C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC415-$0DC425 DATA
 OverworldData_HiddenItems_Screen_03:
 {
-    #_1BC415: dw $186A : db $05 ; Bomb        xy:{ 0x350, 0x300 }
-    #_1BC418: dw $1872 : db $05 ; Bomb        xy:{ 0x390, 0x300 }
-    #_1BC41B: dw $196E : db $04 ; Random pack xy:{ 0x370, 0x320 }
-    #_1BC41E: dw $1A6A : db $05 ; Bomb        xy:{ 0x350, 0x340 }
-    #_1BC421: dw $1A72 : db $05 ; Bomb        xy:{ 0x390, 0x340 }
-    #_1BC424: dw $FFFF
+    dw $186A : db $05 ; Bomb        xy:{ 0x350, 0x300 }
+    dw $1872 : db $05 ; Bomb        xy:{ 0x390, 0x300 }
+    dw $196E : db $04 ; Random pack xy:{ 0x370, 0x320 }
+    dw $1A6A : db $05 ; Bomb        xy:{ 0x350, 0x340 }
+    dw $1A72 : db $05 ; Bomb        xy:{ 0x390, 0x340 }
+    dw $FFFF
 }
 
-; $
+; $0DC426-$0DC428 DATA
 OverworldData_HiddenItems_Screen_05:
 {
-    #_1BC426: dw $1D4A : db $82 ; Warp        xy:{ 0x250, 0x3A0 }
+    dw $1D4A : db $82 ; Warp        xy:{ 0x250, 0x3A0 }
 }
 
-; $
+; $0DC429-$0DC42A DATA
 OverworldData_HiddenItems_Screen_07:
 {
-    #_1BC429: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC42B-$0DC42F DATA
 OverworldData_HiddenItems_Screen_0A:
 {
-    #_1BC42B: dw $0730 : db $02 ; Hoarder     xy:{ 0x180, 0x0E0 }
-    #_1BC42E: dw $FFFF
+    dw $0730 : db $02 ; Hoarder     xy:{ 0x180, 0x0E0 }
+    dw $FFFF
 }
 
-; $
+; $0DC430-$0DC434 DATA
 OverworldData_HiddenItems_Screen_0F:
 {
-    #_1BC430: dw $0618 : db $06 ; Heart       xy:{ 0x0C0, 0x0C0 }
-    #_1BC433: dw $FFFF
+    dw $0618 : db $06 ; Heart       xy:{ 0x0C0, 0x0C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC435-$0DC43C DATA
 OverworldData_HiddenItems_Screen_10:
 {
-    #_1BC435: dw $0B28 : db $04 ; Random pack xy:{ 0x140, 0x160 }
-    #_1BC438: dw $0B2E : db $82 ; Warp        xy:{ 0x170, 0x160 }
-    #_1BC43B: dw $FFFF
+    dw $0B28 : db $04 ; Random pack xy:{ 0x140, 0x160 }
+    dw $0B2E : db $82 ; Warp        xy:{ 0x170, 0x160 }
+    dw $FFFF
 }
 
-; $
+; $0DC43D-$0DC444 DATA
 OverworldData_HiddenItems_Screen_11:
 {
-    #_1BC43D: dw $0A34 : db $05 ; Bomb        xy:{ 0x1A0, 0x140 }
-    #_1BC440: dw $0D8E : db $06 ; Heart       xy:{ 0x070, 0x1A0 }
-    #_1BC443: dw $FFFF
+    dw $0A34 : db $05 ; Bomb        xy:{ 0x1A0, 0x140 }
+    dw $0D8E : db $06 ; Heart       xy:{ 0x070, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC445-$0DC44F DATA
 OverworldData_HiddenItems_Screen_12:
 {
-    #_1BC445: dw $0530 : db $06 ; Heart       xy:{ 0x180, 0x0A0 }
-    #_1BC448: dw $0808 : db $04 ; Random pack xy:{ 0x040, 0x100 }
-    #_1BC44B: dw $09B2 : db $06 ; Heart       xy:{ 0x190, 0x120 }
-    #_1BC44E: dw $FFFF
+    dw $0530 : db $06 ; Heart       xy:{ 0x180, 0x0A0 }
+    dw $0808 : db $04 ; Random pack xy:{ 0x040, 0x100 }
+    dw $09B2 : db $06 ; Heart       xy:{ 0x190, 0x120 }
+    dw $FFFF
 }
 
-; $
+; $0DC450-$0DC463 DATA
 OverworldData_HiddenItems_Screen_13:
 {
-    #_1BC450: dw $0506 : db $84 ; Staircase   xy:{ 0x030, 0x0A0 }
-    #_1BC453: dw $07A0 : db $03 ; Bee         xy:{ 0x100, 0x0E0 }
-    #_1BC456: dw $0834 : db $04 ; Random pack xy:{ 0x1A0, 0x100 }
-    #_1BC459: dw $08A8 : db $04 ; Random pack xy:{ 0x140, 0x100 }
-    #_1BC45C: dw $09A2 : db $06 ; Heart       xy:{ 0x110, 0x120 }
-    #_1BC45F: dw $09B6 : db $04 ; Random pack xy:{ 0x1B0, 0x120 }
-    #_1BC462: dw $FFFF
+    dw $0506 : db $84 ; Staircase   xy:{ 0x030, 0x0A0 }
+    dw $07A0 : db $03 ; Bee         xy:{ 0x100, 0x0E0 }
+    dw $0834 : db $04 ; Random pack xy:{ 0x1A0, 0x100 }
+    dw $08A8 : db $04 ; Random pack xy:{ 0x140, 0x100 }
+    dw $09A2 : db $06 ; Heart       xy:{ 0x110, 0x120 }
+    dw $09B6 : db $04 ; Random pack xy:{ 0x1B0, 0x120 }
+    dw $FFFF
 }
 
-; $
+; $0DC464-$0DC477 DATA
 OverworldData_HiddenItems_Screen_14:
 {
-    #_1BC464: dw $0490 : db $01 ; Green rupee xy:{ 0x080, 0x080 }
-    #_1BC467: dw $0492 : db $01 ; Green rupee xy:{ 0x090, 0x080 }
-    #_1BC46A: dw $071C : db $03 ; Bee         xy:{ 0x0E0, 0x0E0 }
-    #_1BC46D: dw $07B8 : db $04 ; Random pack xy:{ 0x1C0, 0x0E0 }
-    #_1BC470: dw $0A08 : db $04 ; Random pack xy:{ 0x040, 0x140 }
-    #_1BC473: dw $0A8C : db $03 ; Bee         xy:{ 0x060, 0x140 }
-    #_1BC476: dw $FFFF
+    dw $0490 : db $01 ; Green rupee xy:{ 0x080, 0x080 }
+    dw $0492 : db $01 ; Green rupee xy:{ 0x090, 0x080 }
+    dw $071C : db $03 ; Bee         xy:{ 0x0E0, 0x0E0 }
+    dw $07B8 : db $04 ; Random pack xy:{ 0x1C0, 0x0E0 }
+    dw $0A08 : db $04 ; Random pack xy:{ 0x040, 0x140 }
+    dw $0A8C : db $03 ; Bee         xy:{ 0x060, 0x140 }
+    dw $FFFF
 }
 
-; $
+; $0DC478-$0DC47F DATA
 OverworldData_HiddenItems_Screen_15:
 {
-    #_1BC478: dw $0390 : db $05 ; Bomb        xy:{ 0x080, 0x060 }
-    #_1BC47B: dw $0788 : db $80 ; Hole        xy:{ 0x040, 0x0E0 }
-    #_1BC47E: dw $FFFF
+    dw $0390 : db $05 ; Bomb        xy:{ 0x080, 0x060 }
+    dw $0788 : db $80 ; Hole        xy:{ 0x040, 0x0E0 }
+    dw $FFFF
 }
 
-; $
+; $0DC480-$0DC48D DATA
 OverworldData_HiddenItems_Screen_16:
 {
-    #_1BC480: dw $079C : db $01 ; Green rupee xy:{ 0x0E0, 0x0E0 }
-    #_1BC483: dw $0826 : db $03 ; Bee         xy:{ 0x130, 0x100 }
-    #_1BC486: dw $0928 : db $04 ; Random pack xy:{ 0x140, 0x120 }
-    #_1BC489: dw $09A8 : db $04 ; Random pack xy:{ 0x140, 0x120 }
-    #_1BC48C: dw $FFFF
+    dw $079C : db $01 ; Green rupee xy:{ 0x0E0, 0x0E0 }
+    dw $0826 : db $03 ; Bee         xy:{ 0x130, 0x100 }
+    dw $0928 : db $04 ; Random pack xy:{ 0x140, 0x120 }
+    dw $09A8 : db $04 ; Random pack xy:{ 0x140, 0x120 }
+    dw $FFFF
 }
 
-; $
+; $0DC48E-$0DC492 DATA
 OverworldData_HiddenItems_Screen_17:
 {
-    #_1BC48E: dw $0E1C : db $06 ; Heart       xy:{ 0x0E0, 0x1C0 }
-    #_1BC491: dw $FFFF
+    dw $0E1C : db $06 ; Heart       xy:{ 0x0E0, 0x1C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC493-$0DC4CA DATA
 OverworldData_HiddenItems_Screen_18:
 {
-    #_1BC493: dw $0AF8 : db $04 ; Random pack xy:{ 0x3C0, 0x140 }
-    #_1BC496: dw $0AFA : db $05 ; Bomb        xy:{ 0x3D0, 0x140 }
-    #_1BC499: dw $0EEE : db $01 ; Green rupee xy:{ 0x370, 0x1C0 }
-    #_1BC49C: dw $1112 : db $03 ; Bee         xy:{ 0x090, 0x220 }
-    #_1BC49F: dw $111E : db $04 ; Random pack xy:{ 0x0F0, 0x220 }
-    #_1BC4A2: dw $1216 : db $01 ; Green rupee xy:{ 0x0B0, 0x240 }
-    #_1BC4A5: dw $12A0 : db $01 ; Green rupee xy:{ 0x100, 0x240 }
-    #_1BC4A8: dw $1392 : db $01 ; Green rupee xy:{ 0x090, 0x260 }
-    #_1BC4AB: dw $139E : db $01 ; Green rupee xy:{ 0x0F0, 0x260 }
-    #_1BC4AE: dw $1A18 : db $04 ; Random pack xy:{ 0x0C0, 0x340 }
-    #_1BC4B1: dw $1A96 : db $04 ; Random pack xy:{ 0x0B0, 0x340 }
-    #_1BC4B4: dw $1A9A : db $05 ; Bomb        xy:{ 0x0D0, 0x340 }
-    #_1BC4B7: dw $1B14 : db $04 ; Random pack xy:{ 0x0A0, 0x360 }
-    #_1BC4BA: dw $1C0C : db $86 ; Bomb door   xy:{ 0x060, 0x380 }
-    #_1BC4BD: dw $1CB2 : db $03 ; Bee         xy:{ 0x190, 0x380 }
-    #_1BC4C0: dw $156A : db $06 ; Heart       xy:{ 0x350, 0x2A0 }
-    #_1BC4C3: dw $15E2 : db $04 ; Random pack xy:{ 0x310, 0x2A0 }
-    #_1BC4C6: dw $15EE : db $04 ; Random pack xy:{ 0x370, 0x2A0 }
-    #_1BC4C9: dw $FFFF
+    dw $0AF8 : db $04 ; Random pack xy:{ 0x3C0, 0x140 }
+    dw $0AFA : db $05 ; Bomb        xy:{ 0x3D0, 0x140 }
+    dw $0EEE : db $01 ; Green rupee xy:{ 0x370, 0x1C0 }
+    dw $1112 : db $03 ; Bee         xy:{ 0x090, 0x220 }
+    dw $111E : db $04 ; Random pack xy:{ 0x0F0, 0x220 }
+    dw $1216 : db $01 ; Green rupee xy:{ 0x0B0, 0x240 }
+    dw $12A0 : db $01 ; Green rupee xy:{ 0x100, 0x240 }
+    dw $1392 : db $01 ; Green rupee xy:{ 0x090, 0x260 }
+    dw $139E : db $01 ; Green rupee xy:{ 0x0F0, 0x260 }
+    dw $1A18 : db $04 ; Random pack xy:{ 0x0C0, 0x340 }
+    dw $1A96 : db $04 ; Random pack xy:{ 0x0B0, 0x340 }
+    dw $1A9A : db $05 ; Bomb        xy:{ 0x0D0, 0x340 }
+    dw $1B14 : db $04 ; Random pack xy:{ 0x0A0, 0x360 }
+    dw $1C0C : db $86 ; Bomb door   xy:{ 0x060, 0x380 }
+    dw $1CB2 : db $03 ; Bee         xy:{ 0x190, 0x380 }
+    dw $156A : db $06 ; Heart       xy:{ 0x350, 0x2A0 }
+    dw $15E2 : db $04 ; Random pack xy:{ 0x310, 0x2A0 }
+    dw $15EE : db $04 ; Random pack xy:{ 0x370, 0x2A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC4CB-$0DC4D5 DATA
 OverworldData_HiddenItems_Screen_1A:
 {
-    #_1BC4CB: dw $04AA : db $03 ; Bee         xy:{ 0x150, 0x080 }
-    #_1BC4CE: dw $0A98 : db $05 ; Bomb        xy:{ 0x0C0, 0x140 }
-    #_1BC4D1: dw $0DAA : db $04 ; Random pack xy:{ 0x150, 0x1A0 }
-    #_1BC4D4: dw $FFFF
+    dw $04AA : db $03 ; Bee         xy:{ 0x150, 0x080 }
+    dw $0A98 : db $05 ; Bomb        xy:{ 0x0C0, 0x140 }
+    dw $0DAA : db $04 ; Random pack xy:{ 0x150, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC4D6-$0DC52B DATA
 OverworldData_HiddenItems_Screen_1B:
 {
-    #_1BC4D6: dw $028C : db $01 ; Green rupee xy:{ 0x060, 0x040 }
-    #_1BC4D9: dw $040C : db $04 ; Random pack xy:{ 0x060, 0x080 }
-    #_1BC4DC: dw $040E : db $04 ; Random pack xy:{ 0x070, 0x080 }
-    #_1BC4DF: dw $0724 : db $03 ; Bee         xy:{ 0x120, 0x0E0 }
-    #_1BC4E2: dw $02EC : db $04 ; Random pack xy:{ 0x360, 0x040 }
-    #_1BC4E5: dw $0570 : db $80 ; Hole        xy:{ 0x380, 0x0A0 }
-    #_1BC4E8: dw $065C : db $06 ; Heart       xy:{ 0x2E0, 0x0C0 }
-    #_1BC4EB: dw $08F0 : db $01 ; Green rupee xy:{ 0x380, 0x100 }
-    #_1BC4EE: dw $09EC : db $06 ; Heart       xy:{ 0x360, 0x120 }
-    #_1BC4F1: dw $0E4A : db $01 ; Green rupee xy:{ 0x250, 0x1C0 }
-    #_1BC4F4: dw $0ED8 : db $01 ; Green rupee xy:{ 0x2C0, 0x1C0 }
-    #_1BC4F7: dw $0F5A : db $01 ; Green rupee xy:{ 0x2D0, 0x1E0 }
-    #_1BC4FA: dw $0FD8 : db $01 ; Green rupee xy:{ 0x2C0, 0x1E0 }
-    #_1BC4FD: dw $10B4 : db $03 ; Bee         xy:{ 0x1A0, 0x200 }
-    #_1BC500: dw $169C : db $04 ; Random pack xy:{ 0x0E0, 0x2C0 }
-    #_1BC503: dw $16A0 : db $01 ; Green rupee xy:{ 0x100, 0x2C0 }
-    #_1BC506: dw $16A2 : db $01 ; Green rupee xy:{ 0x110, 0x2C0 }
-    #_1BC509: dw $1C88 : db $01 ; Green rupee xy:{ 0x040, 0x380 }
-    #_1BC50C: dw $1D92 : db $04 ; Random pack xy:{ 0x090, 0x3A0 }
-    #_1BC50F: dw $10D4 : db $01 ; Green rupee xy:{ 0x2A0, 0x200 }
-    #_1BC512: dw $1554 : db $01 ; Green rupee xy:{ 0x2A0, 0x2A0 }
-    #_1BC515: dw $15DA : db $01 ; Green rupee xy:{ 0x2D0, 0x2A0 }
-    #_1BC518: dw $15DE : db $01 ; Green rupee xy:{ 0x2F0, 0x2A0 }
-    #_1BC51B: dw $1652 : db $01 ; Green rupee xy:{ 0x290, 0x2C0 }
-    #_1BC51E: dw $1666 : db $01 ; Green rupee xy:{ 0x330, 0x2C0 }
-    #_1BC521: dw $1D70 : db $05 ; Bomb        xy:{ 0x380, 0x3A0 }
-    #_1BC524: dw $1DDA : db $04 ; Random pack xy:{ 0x2D0, 0x3A0 }
-    #_1BC527: dw $1DE0 : db $06 ; Heart       xy:{ 0x300, 0x3A0 }
-    #_1BC52A: dw $FFFF
+    dw $028C : db $01 ; Green rupee xy:{ 0x060, 0x040 }
+    dw $040C : db $04 ; Random pack xy:{ 0x060, 0x080 }
+    dw $040E : db $04 ; Random pack xy:{ 0x070, 0x080 }
+    dw $0724 : db $03 ; Bee         xy:{ 0x120, 0x0E0 }
+    dw $02EC : db $04 ; Random pack xy:{ 0x360, 0x040 }
+    dw $0570 : db $80 ; Hole        xy:{ 0x380, 0x0A0 }
+    dw $065C : db $06 ; Heart       xy:{ 0x2E0, 0x0C0 }
+    dw $08F0 : db $01 ; Green rupee xy:{ 0x380, 0x100 }
+    dw $09EC : db $06 ; Heart       xy:{ 0x360, 0x120 }
+    dw $0E4A : db $01 ; Green rupee xy:{ 0x250, 0x1C0 }
+    dw $0ED8 : db $01 ; Green rupee xy:{ 0x2C0, 0x1C0 }
+    dw $0F5A : db $01 ; Green rupee xy:{ 0x2D0, 0x1E0 }
+    dw $0FD8 : db $01 ; Green rupee xy:{ 0x2C0, 0x1E0 }
+    dw $10B4 : db $03 ; Bee         xy:{ 0x1A0, 0x200 }
+    dw $169C : db $04 ; Random pack xy:{ 0x0E0, 0x2C0 }
+    dw $16A0 : db $01 ; Green rupee xy:{ 0x100, 0x2C0 }
+    dw $16A2 : db $01 ; Green rupee xy:{ 0x110, 0x2C0 }
+    dw $1C88 : db $01 ; Green rupee xy:{ 0x040, 0x380 }
+    dw $1D92 : db $04 ; Random pack xy:{ 0x090, 0x3A0 }
+    dw $10D4 : db $01 ; Green rupee xy:{ 0x2A0, 0x200 }
+    dw $1554 : db $01 ; Green rupee xy:{ 0x2A0, 0x2A0 }
+    dw $15DA : db $01 ; Green rupee xy:{ 0x2D0, 0x2A0 }
+    dw $15DE : db $01 ; Green rupee xy:{ 0x2F0, 0x2A0 }
+    dw $1652 : db $01 ; Green rupee xy:{ 0x290, 0x2C0 }
+    dw $1666 : db $01 ; Green rupee xy:{ 0x330, 0x2C0 }
+    dw $1D70 : db $05 ; Bomb        xy:{ 0x380, 0x3A0 }
+    dw $1DDA : db $04 ; Random pack xy:{ 0x2D0, 0x3A0 }
+    dw $1DE0 : db $06 ; Heart       xy:{ 0x300, 0x3A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC52C-$0DC531 DATA
 OverworldData_HiddenItems_Screen_1D:
 {
-    #_1BC52C: dw $0230 : db $01 ; Green rupee xy:{ 0x180, 0x040 }
-    #_1BC52F: dw $0234 : db $05 ; Bomb        xy:{ 0x1A0, 0x040 }
+    dw $0230 : db $01 ; Green rupee xy:{ 0x180, 0x040 }
+    dw $0234 : db $05 ; Bomb        xy:{ 0x1A0, 0x040 }
 }
 
-; $
+; $0DC532-$0DC533 DATA
 OverworldData_HiddenItems_Screen_1E:
 {
-    #_1BC532: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC534-$0DC544 DATA
 OverworldData_HiddenItems_Screen_22:
 {
-    #_1BC534: dw $0428 : db $05 ; Bomb        xy:{ 0x140, 0x080 }
-    #_1BC537: dw $0B0E : db $01 ; Green rupee xy:{ 0x070, 0x160 }
-    #_1BC53A: dw $0B10 : db $01 ; Green rupee xy:{ 0x080, 0x160 }
-    #_1BC53D: dw $0B16 : db $01 ; Green rupee xy:{ 0x0B0, 0x160 }
-    #_1BC540: dw $0C16 : db $04 ; Random pack xy:{ 0x0B0, 0x180 }
-    #_1BC543: dw $FFFF
+    dw $0428 : db $05 ; Bomb        xy:{ 0x140, 0x080 }
+    dw $0B0E : db $01 ; Green rupee xy:{ 0x070, 0x160 }
+    dw $0B10 : db $01 ; Green rupee xy:{ 0x080, 0x160 }
+    dw $0B16 : db $01 ; Green rupee xy:{ 0x0B0, 0x160 }
+    dw $0C16 : db $04 ; Random pack xy:{ 0x0B0, 0x180 }
+    dw $FFFF
 }
 
-; $
+; $0DC545-$0DC549 DATA
 OverworldData_HiddenItems_Screen_25:
 {
-    #_1BC545: dw $0908 : db $06 ; Heart       xy:{ 0x040, 0x120 }
-    #_1BC548: dw $FFFF
+    dw $0908 : db $06 ; Heart       xy:{ 0x040, 0x120 }
+    dw $FFFF
 }
 
-; $
+; $0DC54A-$0DC54E DATA
 OverworldData_HiddenItems_Screen_28:
 {
-    #_1BC54A: dw $072A : db $04 ; Random pack xy:{ 0x150, 0x0E0 }
-    #_1BC54D: dw $FFFF
+    dw $072A : db $04 ; Random pack xy:{ 0x150, 0x0E0 }
+    dw $FFFF
 }
 
-; $
+; $0DC54F-$0DC55A DATA
 OverworldData_HiddenItems_Screen_29:
 {
-    #_1BC54F: dw $0308 : db $01 ; Green rupee xy:{ 0x040, 0x060 }
-    #_1BC552: dw $0728 : db $03 ; Bee         xy:{ 0x140, 0x0E0 }
-    #_1BC555: dw $0808 : db $04 ; Random pack xy:{ 0x040, 0x100 }
-    #_1BC558: dw $0926 : db $04 ; Random pack xy:{ 0x130, 0x120 }
+    dw $0308 : db $01 ; Green rupee xy:{ 0x040, 0x060 }
+    dw $0728 : db $03 ; Bee         xy:{ 0x140, 0x0E0 }
+    dw $0808 : db $04 ; Random pack xy:{ 0x040, 0x100 }
+    dw $0926 : db $04 ; Random pack xy:{ 0x130, 0x120 }
 }
 
-; $
+; $0DC55B-$0DC55C DATA
 OverworldData_HiddenItems_Screen_2A:
 {
-    #_1BC55B: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC55D-$0DC573 DATA
 OverworldData_HiddenItems_Screen_2B:
 {
-    #_1BC55D: dw $031E : db $01 ; Green rupee xy:{ 0x0F0, 0x060 }
-    #_1BC560: dw $0330 : db $84 ; Staircase   xy:{ 0x180, 0x060 }
-    #_1BC563: dw $0C10 : db $01 ; Green rupee xy:{ 0x080, 0x180 }
-    #_1BC566: dw $0C18 : db $04 ; Random pack xy:{ 0x0C0, 0x180 }
-    #_1BC569: dw $0C1A : db $06 ; Heart       xy:{ 0x0D0, 0x180 }
-    #_1BC56C: dw $0C8E : db $01 ; Green rupee xy:{ 0x070, 0x180 }
-    #_1BC56F: dw $0C96 : db $01 ; Green rupee xy:{ 0x0B0, 0x180 }
-    #_1BC572: dw $FFFF
+    dw $031E : db $01 ; Green rupee xy:{ 0x0F0, 0x060 }
+    dw $0330 : db $84 ; Staircase   xy:{ 0x180, 0x060 }
+    dw $0C10 : db $01 ; Green rupee xy:{ 0x080, 0x180 }
+    dw $0C18 : db $04 ; Random pack xy:{ 0x0C0, 0x180 }
+    dw $0C1A : db $06 ; Heart       xy:{ 0x0D0, 0x180 }
+    dw $0C8E : db $01 ; Green rupee xy:{ 0x070, 0x180 }
+    dw $0C96 : db $01 ; Green rupee xy:{ 0x0B0, 0x180 }
+    dw $FFFF
 }
 
-; $
+; $0DC574-$0DC58B DATA
 OverworldData_HiddenItems_Screen_2C:
 {
-    #_1BC574: dw $0214 : db $01 ; Green rupee xy:{ 0x0A0, 0x040 }
-    #_1BC577: dw $089E : db $01 ; Green rupee xy:{ 0x0F0, 0x100 }
-    #_1BC57A: dw $0890 : db $01 ; Green rupee xy:{ 0x080, 0x100 }
-    #_1BC57D: dw $0906 : db $01 ; Green rupee xy:{ 0x030, 0x120 }
-    #_1BC580: dw $0984 : db $04 ; Random pack xy:{ 0x020, 0x120 }
-    #_1BC583: dw $0A1C : db $05 ; Bomb        xy:{ 0x0E0, 0x140 }
-    #_1BC586: dw $0AB4 : db $06 ; Heart       xy:{ 0x1A0, 0x140 }
-    #_1BC589: dw $0BB6 : db $01 ; Green rupee xy:{ 0x1B0, 0x160 }
+    dw $0214 : db $01 ; Green rupee xy:{ 0x0A0, 0x040 }
+    dw $089E : db $01 ; Green rupee xy:{ 0x0F0, 0x100 }
+    dw $0890 : db $01 ; Green rupee xy:{ 0x080, 0x100 }
+    dw $0906 : db $01 ; Green rupee xy:{ 0x030, 0x120 }
+    dw $0984 : db $04 ; Random pack xy:{ 0x020, 0x120 }
+    dw $0A1C : db $05 ; Bomb        xy:{ 0x0E0, 0x140 }
+    dw $0AB4 : db $06 ; Heart       xy:{ 0x1A0, 0x140 }
+    dw $0BB6 : db $01 ; Green rupee xy:{ 0x1B0, 0x160 }
 }
 
-; $
+; $0DC58C-$0DC58D DATA
 OverworldData_HiddenItems_Screen_2D:
 OverworldData_HiddenItems_Screen_2E:
 {
-    #_1BC58C: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC58E-$0DC595 DATA
 OverworldData_HiddenItems_Screen_2F:
 {
-    #_1BC58E: dw $0BB2 : db $82 ; Warp        xy:{ 0x190, 0x160 }
-    #_1BC591: dw $0D12 : db $05 ; Bomb        xy:{ 0x090, 0x1A0 }
-    #_1BC594: dw $FFFF
+    dw $0BB2 : db $82 ; Warp        xy:{ 0x190, 0x160 }
+    dw $0D12 : db $05 ; Bomb        xy:{ 0x090, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC596-$0DC5A3 DATA
 OverworldData_HiddenItems_Screen_30:
 {
-    #_1BC596: dw $0358 : db $84 ; Staircase   xy:{ 0x2C0, 0x060 }
-    #_1BC599: dw $0A50 : db $04 ; Random pack xy:{ 0x280, 0x140 }
-    #_1BC59C: dw $1406 : db $06 ; Heart       xy:{ 0x030, 0x280 }
-    #_1BC59F: dw $1D94 : db $82 ; Warp        xy:{ 0x0A0, 0x3A0 }
-    #_1BC5A2: dw $FFFF
+    dw $0358 : db $84 ; Staircase   xy:{ 0x2C0, 0x060 }
+    dw $0A50 : db $04 ; Random pack xy:{ 0x280, 0x140 }
+    dw $1406 : db $06 ; Heart       xy:{ 0x030, 0x280 }
+    dw $1D94 : db $82 ; Warp        xy:{ 0x0A0, 0x3A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC5A4-$0DC5AE DATA
 OverworldData_HiddenItems_Screen_32:
 {
-    #_1BC5A4: dw $051E : db $05 ; Bomb        xy:{ 0x0F0, 0x0A0 }
-    #_1BC5A7: dw $052A : db $04 ; Random pack xy:{ 0x150, 0x0A0 }
-    #_1BC5AA: dw $059C : db $05 ; Bomb        xy:{ 0x0E0, 0x0A0 }
-    #_1BC5AD: dw $FFFF
+    dw $051E : db $05 ; Bomb        xy:{ 0x0F0, 0x0A0 }
+    dw $052A : db $04 ; Random pack xy:{ 0x150, 0x0A0 }
+    dw $059C : db $05 ; Bomb        xy:{ 0x0E0, 0x0A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC5AF-$0DC5B6 DATA
 OverworldData_HiddenItems_Screen_33:
 {
-    #_1BC5AF: dw $02A8 : db $82 ; Warp        xy:{ 0x140, 0x040 }
-    #_1BC5B2: dw $0B14 : db $02 ; Hoarder     xy:{ 0x0A0, 0x160 }
-    #_1BC5B5: dw $FFFF
+    dw $02A8 : db $82 ; Warp        xy:{ 0x140, 0x040 }
+    dw $0B14 : db $02 ; Hoarder     xy:{ 0x0A0, 0x160 }
+    dw $FFFF
 }
 
-; $
+; $0DC5B7-$0DC5BE DATA
 OverworldData_HiddenItems_Screen_34:
 {
-    #_1BC5B7: dw $03B0 : db $86 ; Bomb door   xy:{ 0x180, 0x060 }
-    #_1BC5BA: dw $048C : db $04 ; Random pack xy:{ 0x060, 0x080 }
-    #_1BC5BD: dw $FFFF
+    dw $03B0 : db $86 ; Bomb door   xy:{ 0x180, 0x060 }
+    dw $048C : db $04 ; Random pack xy:{ 0x060, 0x080 }
+    dw $FFFF
 }
 
-; $
+; $$0DC5BF-$0DC5CF DATA
 OverworldData_HiddenItems_Screen_35:
 {
-    #_1BC5BF: dw $0A30 : db $04 ; Random pack xy:{ 0x180, 0x140 }
-    #_1BC5C2: dw $0C10 : db $06 ; Heart       xy:{ 0x080, 0x180 }
-    #_1BC5C5: dw $0F56 : db $82 ; Warp        xy:{ 0x2B0, 0x1E0 }
-    #_1BC5C8: dw $180C : db $86 ; Bomb door   xy:{ 0x060, 0x300 }
-    #_1BC5CB: dw $1CDE : db $03 ; Bee         xy:{ 0x2F0, 0x380 }
-    #_1BC5CE: dw $FFFF
+    dw $0A30 : db $04 ; Random pack xy:{ 0x180, 0x140 }
+    dw $0C10 : db $06 ; Heart       xy:{ 0x080, 0x180 }
+    dw $0F56 : db $82 ; Warp        xy:{ 0x2B0, 0x1E0 }
+    dw $180C : db $86 ; Bomb door   xy:{ 0x060, 0x300 }
+    dw $1CDE : db $03 ; Bee         xy:{ 0x2F0, 0x380 }
+    dw $FFFF
 }
 
-; $
+; $0DC5D0-$0DC5DA DATA
 OverworldData_HiddenItems_Screen_37:
 {
     #_1BC5D0: dw $0288 : db $86 ; Bomb door   xy:{ 0x040, 0x040 }
@@ -2205,135 +2211,135 @@ OverworldData_HiddenItems_Screen_37:
     #_1BC5D9: dw $FFFF
 }
 
-; $
+; $0DC5DB-$0DC5E5 DATA
 OverworldData_HiddenItems_Screen_3A:
 {
-    #_1BC5DB: dw $081E : db $02 ; Hoarder     xy:{ 0x0F0, 0x100 }
-    #_1BC5DE: dw $09AC : db $06 ; Heart       xy:{ 0x160, 0x120 }
-    #_1BC5E1: dw $0A1E : db $84 ; Staircase   xy:{ 0x0F0, 0x140 }
-    #_1BC5E4: dw $FFFF
+    dw $081E : db $02 ; Hoarder     xy:{ 0x0F0, 0x100 }
+    dw $09AC : db $06 ; Heart       xy:{ 0x160, 0x120 }
+    dw $0A1E : db $84 ; Staircase   xy:{ 0x0F0, 0x140 }
+    dw $FFFF
 }
 
-; $
+; $0DC5E6-$0DC5EA DATA
 OverworldData_HiddenItems_Screen_3B:
 {
-    #_1BC5E6: dw $061A : db $03 ; Bee         xy:{ 0x0D0, 0x0C0 }
-    #_1BC5E9: dw $FFFF
+    dw $061A : db $03 ; Bee         xy:{ 0x0D0, 0x0C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC5EB-$0DC5F2 DATA
 OverworldData_HiddenItems_Screen_3C:
 {
-    #_1BC5EB: dw $0696 : db $03 ; Bee         xy:{ 0x0B0, 0x0C0 }
-    #_1BC5EE: dw $0710 : db $04 ; Random pack xy:{ 0x080, 0x0E0 }
-    #_1BC5F1: dw $FFFF
+    dw $0696 : db $03 ; Bee         xy:{ 0x0B0, 0x0C0 }
+    dw $0710 : db $04 ; Random pack xy:{ 0x080, 0x0E0 }
+    dw $FFFF
 }
 
-; $
+; $0DC5F3-$0DC5F7 DATA
 OverworldData_HiddenItems_Screen_3F:
 {
-    #_1BC5F3: dw $0C28 : db $04 ; Random pack xy:{ 0x140, 0x180 }
-    #_1BC5F6: dw $FFFF
+    dw $0C28 : db $04 ; Random pack xy:{ 0x140, 0x180 }
+    dw $FFFF
 }
 
-; $
+; $0DC5F8-$$0DC617 DATA
 OverworldData_HiddenItems_Screen_40:
 {
-    #_1BC5F8: dw $0338 : db $04 ; Random pack xy:{ 0x1C0, 0x060 }
-    #_1BC5FB: dw $036A : db $01 ; Green rupee xy:{ 0x350, 0x060 }
-    #_1BC5FE: dw $0570 : db $03 ; Bee         xy:{ 0x380, 0x0A0 }
-    #_1BC601: dw $05F2 : db $04 ; Random pack xy:{ 0x390, 0x0A0 }
-    #_1BC604: dw $1914 : db $03 ; Bee         xy:{ 0x0A0, 0x320 }
-    #_1BC607: dw $1D38 : db $06 ; Heart       xy:{ 0x1C0, 0x3A0 }
-    #_1BC60A: dw $1DBC : db $05 ; Bomb        xy:{ 0x1E0, 0x3A0 }
-    #_1BC60D: dw $105E : db $04 ; Random pack xy:{ 0x2F0, 0x200 }
-    #_1BC610: dw $10E0 : db $80 ; Hole        xy:{ 0x300, 0x200 }
-    #_1BC613: dw $1162 : db $01 ; Green rupee xy:{ 0x310, 0x220 }
-    #_1BC616: dw $FFFF
+    dw $0338 : db $04 ; Random pack xy:{ 0x1C0, 0x060 }
+    dw $036A : db $01 ; Green rupee xy:{ 0x350, 0x060 }
+    dw $0570 : db $03 ; Bee         xy:{ 0x380, 0x0A0 }
+    dw $05F2 : db $04 ; Random pack xy:{ 0x390, 0x0A0 }
+    dw $1914 : db $03 ; Bee         xy:{ 0x0A0, 0x320 }
+    dw $1D38 : db $06 ; Heart       xy:{ 0x1C0, 0x3A0 }
+    dw $1DBC : db $05 ; Bomb        xy:{ 0x1E0, 0x3A0 }
+    dw $105E : db $04 ; Random pack xy:{ 0x2F0, 0x200 }
+    dw $10E0 : db $80 ; Hole        xy:{ 0x300, 0x200 }
+    dw $1162 : db $01 ; Green rupee xy:{ 0x310, 0x220 }
+    dw $FFFF
 }
 
-; $
+; $0DC618-$$0DC62E DATA
 OverworldData_HiddenItems_Screen_42:
 {
-    #_1BC618: dw $04AC : db $01 ; Green rupee xy:{ 0x160, 0x080 }
-    #_1BC61B: dw $05B4 : db $01 ; Green rupee xy:{ 0x1A0, 0x0A0 }
-    #_1BC61E: dw $090A : db $03 ; Bee         xy:{ 0x050, 0x120 }
-    #_1BC621: dw $0D98 : db $01 ; Green rupee xy:{ 0x0C0, 0x1A0 }
-    #_1BC624: dw $0DA4 : db $01 ; Green rupee xy:{ 0x120, 0x1A0 }
-    #_1BC627: dw $0E1E : db $01 ; Green rupee xy:{ 0x0F0, 0x1C0 }
-    #_1BC62A: dw $0EA8 : db $01 ; Green rupee xy:{ 0x140, 0x1C0 }
-    #_1BC62D: dw $FFFF
+    dw $04AC : db $01 ; Green rupee xy:{ 0x160, 0x080 }
+    dw $05B4 : db $01 ; Green rupee xy:{ 0x1A0, 0x0A0 }
+    dw $090A : db $03 ; Bee         xy:{ 0x050, 0x120 }
+    dw $0D98 : db $01 ; Green rupee xy:{ 0x0C0, 0x1A0 }
+    dw $0DA4 : db $01 ; Green rupee xy:{ 0x120, 0x1A0 }
+    dw $0E1E : db $01 ; Green rupee xy:{ 0x0F0, 0x1C0 }
+    dw $0EA8 : db $01 ; Green rupee xy:{ 0x140, 0x1C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC62F-$0DC64E DATA
 OverworldData_HiddenItems_Screen_43:
 {
-    #_1BC62F: dw $0A60 : db $04 ; Random pack xy:{ 0x300, 0x140 }
-    #_1BC632: dw $0BDA : db $04 ; Random pack xy:{ 0x2D0, 0x160 }
-    #_1BC635: dw $0BE6 : db $04 ; Random pack xy:{ 0x330, 0x160 }
-    #_1BC638: dw $0D60 : db $04 ; Random pack xy:{ 0x300, 0x1A0 }
-    #_1BC63B: dw $1920 : db $01 ; Green rupee xy:{ 0x100, 0x320 }
-    #_1BC63E: dw $1A04 : db $04 ; Random pack xy:{ 0x020, 0x340 }
-    #_1BC641: dw $17EE : db $06 ; Heart       xy:{ 0x370, 0x2E0 }
-    #_1BC644: dw $1968 : db $06 ; Heart       xy:{ 0x340, 0x320 }
-    #_1BC647: dw $1974 : db $06 ; Heart       xy:{ 0x3A0, 0x320 }
-    #_1BC64A: dw $1AEE : db $06 ; Heart       xy:{ 0x370, 0x340 }
-    #_1BC64D: dw $FFFF
+    dw $0A60 : db $04 ; Random pack xy:{ 0x300, 0x140 }
+    dw $0BDA : db $04 ; Random pack xy:{ 0x2D0, 0x160 }
+    dw $0BE6 : db $04 ; Random pack xy:{ 0x330, 0x160 }
+    dw $0D60 : db $04 ; Random pack xy:{ 0x300, 0x1A0 }
+    dw $1920 : db $01 ; Green rupee xy:{ 0x100, 0x320 }
+    dw $1A04 : db $04 ; Random pack xy:{ 0x020, 0x340 }
+    dw $17EE : db $06 ; Heart       xy:{ 0x370, 0x2E0 }
+    dw $1968 : db $06 ; Heart       xy:{ 0x340, 0x320 }
+    dw $1974 : db $06 ; Heart       xy:{ 0x3A0, 0x320 }
+    dw $1AEE : db $06 ; Heart       xy:{ 0x370, 0x340 }
+    dw $FFFF
 }
 
-; $
+; $0DC64F-$$0DC657 DATA
 OverworldData_HiddenItems_Screen_45:
 {
-    #_1BC64F: dw $0868 : db $84 ; Staircase   xy:{ 0x340, 0x100 }
-    #_1BC652: dw $13D8 : db $05 ; Bomb        xy:{ 0x2C0, 0x260 }
-    #_1BC655: dw $145A : db $05 ; Bomb        xy:{ 0x2D0, 0x280 }
+    dw $0868 : db $84 ; Staircase   xy:{ 0x340, 0x100 }
+    dw $13D8 : db $05 ; Bomb        xy:{ 0x2C0, 0x260 }
+    dw $145A : db $05 ; Bomb        xy:{ 0x2D0, 0x280 }
 }
 
-; $
+; $0DC658-$0DC659 DATA
 OverworldData_HiddenItems_Screen_47:
 OverworldData_HiddenItems_Screen_4A:
 {
-    #_1BC658: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC65A-$0DC66A DATA
 OverworldData_HiddenItems_Screen_4F:
 {
-    #_1BC65A: dw $06AE : db $05 ; Bomb        xy:{ 0x170, 0x0C0 }
-    #_1BC65D: dw $06B4 : db $05 ; Bomb        xy:{ 0x1A0, 0x0C0 }
-    #_1BC660: dw $0832 : db $06 ; Heart       xy:{ 0x190, 0x100 }
-    #_1BC663: dw $0A32 : db $06 ; Heart       xy:{ 0x190, 0x140 }
-    #_1BC666: dw $0B1C : db $06 ; Heart       xy:{ 0x0E0, 0x160 }
-    #_1BC669: dw $FFFF
+    dw $06AE : db $05 ; Bomb        xy:{ 0x170, 0x0C0 }
+    dw $06B4 : db $05 ; Bomb        xy:{ 0x1A0, 0x0C0 }
+    dw $0832 : db $06 ; Heart       xy:{ 0x190, 0x100 }
+    dw $0A32 : db $06 ; Heart       xy:{ 0x190, 0x140 }
+    dw $0B1C : db $06 ; Heart       xy:{ 0x0E0, 0x160 }
+    dw $FFFF
 }
 
-; $
+; $0DC66B-$0DC67E DATA
 OverworldData_HiddenItems_Screen_50:
 {
-    #_1BC66B: dw $040C : db $01 ; Green rupee xy:{ 0x060, 0x080 }
-    #_1BC66E: dw $0792 : db $01 ; Green rupee xy:{ 0x090, 0x0E0 }
-    #_1BC671: dw $0798 : db $04 ; Random pack xy:{ 0x0C0, 0x0E0 }
-    #_1BC674: dw $079E : db $04 ; Random pack xy:{ 0x0F0, 0x0E0 }
-    #_1BC677: dw $07A4 : db $01 ; Green rupee xy:{ 0x120, 0x0E0 }
-    #_1BC67A: dw $0A34 : db $01 ; Green rupee xy:{ 0x1A0, 0x140 }
-    #_1BC67D: dw $FFFF
+    dw $040C : db $01 ; Green rupee xy:{ 0x060, 0x080 }
+    dw $0792 : db $01 ; Green rupee xy:{ 0x090, 0x0E0 }
+    dw $0798 : db $04 ; Random pack xy:{ 0x0C0, 0x0E0 }
+    dw $079E : db $04 ; Random pack xy:{ 0x0F0, 0x0E0 }
+    dw $07A4 : db $01 ; Green rupee xy:{ 0x120, 0x0E0 }
+    dw $0A34 : db $01 ; Green rupee xy:{ 0x1A0, 0x140 }
+    dw $FFFF
 }
 
-; $
+; $0DC67F-$0DC698 DATA
 OverworldData_HiddenItems_Screen_51:
 {
-    #_1BC67F: dw $0716 : db $03 ; Bee         xy:{ 0x0B0, 0x0E0 }
-    #_1BC682: dw $092A : db $01 ; Green rupee xy:{ 0x150, 0x120 }
-    #_1BC685: dw $0A34 : db $05 ; Bomb        xy:{ 0x1A0, 0x140 }
-    #_1BC688: dw $0AA4 : db $01 ; Green rupee xy:{ 0x120, 0x140 }
-    #_1BC68B: dw $0B98 : db $01 ; Green rupee xy:{ 0x0C0, 0x160 }
-    #_1BC68E: dw $0C1A : db $01 ; Green rupee xy:{ 0x0D0, 0x180 }
-    #_1BC691: dw $0D18 : db $01 ; Green rupee xy:{ 0x0C0, 0x1A0 }
-    #_1BC694: dw $0D8E : db $04 ; Random pack xy:{ 0x070, 0x1A0 }
-    #_1BC697: dw $FFFF
+    dw $0716 : db $03 ; Bee         xy:{ 0x0B0, 0x0E0 }
+    dw $092A : db $01 ; Green rupee xy:{ 0x150, 0x120 }
+    dw $0A34 : db $05 ; Bomb        xy:{ 0x1A0, 0x140 }
+    dw $0AA4 : db $01 ; Green rupee xy:{ 0x120, 0x140 }
+    dw $0B98 : db $01 ; Green rupee xy:{ 0x0C0, 0x160 }
+    dw $0C1A : db $01 ; Green rupee xy:{ 0x0D0, 0x180 }
+    dw $0D18 : db $01 ; Green rupee xy:{ 0x0C0, 0x1A0 }
+    dw $0D8E : db $04 ; Random pack xy:{ 0x070, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC699-$0DC6AF DATA
 OverworldData_HiddenItems_Screen_52:
 {
     #_1BC699: dw $04B2 : db $06 ; Heart       xy:{ 0x190, 0x080 }
@@ -2346,266 +2352,266 @@ OverworldData_HiddenItems_Screen_52:
     #_1BC6AE: dw $FFFF
 }
 
-; $
+; $0DC6B0-$0DC6E1 DATA
 OverworldData_HiddenItems_Screen_53:
 {
-    #_1BC6B0: dw $0584 : db $05 ; Bomb        xy:{ 0x020, 0x0A0 }
-    #_1BC6B3: dw $05B8 : db $04 ; Random pack xy:{ 0x1C0, 0x0A0 }
-    #_1BC6B6: dw $0606 : db $05 ; Bomb        xy:{ 0x030, 0x0C0 }
-    #_1BC6B9: dw $0688 : db $05 ; Bomb        xy:{ 0x040, 0x0C0 }
-    #_1BC6BC: dw $070A : db $05 ; Bomb        xy:{ 0x050, 0x0E0 }
-    #_1BC6BF: dw $078C : db $05 ; Bomb        xy:{ 0x060, 0x0E0 }
-    #_1BC6C2: dw $07A0 : db $01 ; Green rupee xy:{ 0x100, 0x0E0 }
-    #_1BC6C5: dw $07B6 : db $03 ; Bee         xy:{ 0x1B0, 0x0E0 }
-    #_1BC6C8: dw $0822 : db $01 ; Green rupee xy:{ 0x110, 0x100 }
-    #_1BC6CB: dw $082E : db $01 ; Green rupee xy:{ 0x170, 0x100 }
-    #_1BC6CE: dw $08A6 : db $01 ; Green rupee xy:{ 0x130, 0x100 }
-    #_1BC6D1: dw $08B0 : db $01 ; Green rupee xy:{ 0x180, 0x100 }
-    #_1BC6D4: dw $0920 : db $04 ; Random pack xy:{ 0x100, 0x120 }
-    #_1BC6D7: dw $0928 : db $01 ; Green rupee xy:{ 0x140, 0x120 }
-    #_1BC6DA: dw $0934 : db $01 ; Green rupee xy:{ 0x1A0, 0x120 }
-    #_1BC6DD: dw $09B6 : db $01 ; Green rupee xy:{ 0x1B0, 0x120 }
-    #_1BC6E0: dw $FFFF
+    dw $0584 : db $05 ; Bomb        xy:{ 0x020, 0x0A0 }
+    dw $05B8 : db $04 ; Random pack xy:{ 0x1C0, 0x0A0 }
+    dw $0606 : db $05 ; Bomb        xy:{ 0x030, 0x0C0 }
+    dw $0688 : db $05 ; Bomb        xy:{ 0x040, 0x0C0 }
+    dw $070A : db $05 ; Bomb        xy:{ 0x050, 0x0E0 }
+    dw $078C : db $05 ; Bomb        xy:{ 0x060, 0x0E0 }
+    dw $07A0 : db $01 ; Green rupee xy:{ 0x100, 0x0E0 }
+    dw $07B6 : db $03 ; Bee         xy:{ 0x1B0, 0x0E0 }
+    dw $0822 : db $01 ; Green rupee xy:{ 0x110, 0x100 }
+    dw $082E : db $01 ; Green rupee xy:{ 0x170, 0x100 }
+    dw $08A6 : db $01 ; Green rupee xy:{ 0x130, 0x100 }
+    dw $08B0 : db $01 ; Green rupee xy:{ 0x180, 0x100 }
+    dw $0920 : db $04 ; Random pack xy:{ 0x100, 0x120 }
+    dw $0928 : db $01 ; Green rupee xy:{ 0x140, 0x120 }
+    dw $0934 : db $01 ; Green rupee xy:{ 0x1A0, 0x120 }
+    dw $09B6 : db $01 ; Green rupee xy:{ 0x1B0, 0x120 }
+    dw $FFFF
 }
 
-; $
+; $0DC6E2-$0DC6EF DATA
 OverworldData_HiddenItems_Screen_54:
 {
-    #_1BC6E2: dw $0490 : db $04 ; Random pack xy:{ 0x080, 0x080 }
-    #_1BC6E5: dw $0492 : db $04 ; Random pack xy:{ 0x090, 0x080 }
-    #_1BC6E8: dw $05AE : db $01 ; Green rupee xy:{ 0x170, 0x0A0 }
-    #_1BC6EB: dw $07B8 : db $03 ; Bee         xy:{ 0x1C0, 0x0E0 }
-    #_1BC6EE: dw $FFFF
+    dw $0490 : db $04 ; Random pack xy:{ 0x080, 0x080 }
+    dw $0492 : db $04 ; Random pack xy:{ 0x090, 0x080 }
+    dw $05AE : db $01 ; Green rupee xy:{ 0x170, 0x0A0 }
+    dw $07B8 : db $03 ; Bee         xy:{ 0x1C0, 0x0E0 }
+    dw $FFFF
 }
 
-; $
+; $0DC6F0-$0DC6F7 DATA
 OverworldData_HiddenItems_Screen_55:
 {
-    #_1BC6F0: dw $038A : db $05 ; Bomb        xy:{ 0x050, 0x060 }
-    #_1BC6F3: dw $0788 : db $04 ; Random pack xy:{ 0x040, 0x0E0 }
-    #_1BC6F6: dw $FFFF
+    dw $038A : db $05 ; Bomb        xy:{ 0x050, 0x060 }
+    dw $0788 : db $04 ; Random pack xy:{ 0x040, 0x0E0 }
+    dw $FFFF
 }
 
-; $
+; $0DC6F8-$0DC70E DATA
 OverworldData_HiddenItems_Screen_56:
 {
-    #_1BC6F8: dw $079C : db $04 ; Random pack xy:{ 0x0E0, 0x0E0 }
-    #_1BC6FB: dw $08A6 : db $01 ; Green rupee xy:{ 0x130, 0x100 }
-    #_1BC6FE: dw $0926 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
-    #_1BC701: dw $09A6 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
-    #_1BC704: dw $0A26 : db $01 ; Green rupee xy:{ 0x130, 0x140 }
-    #_1BC707: dw $0C98 : db $01 ; Green rupee xy:{ 0x0C0, 0x180 }
-    #_1BC70A: dw $0D1A : db $01 ; Green rupee xy:{ 0x0D0, 0x1A0 }
-    #_1BC70D: dw $FFFF
+    dw $079C : db $04 ; Random pack xy:{ 0x0E0, 0x0E0 }
+    dw $08A6 : db $01 ; Green rupee xy:{ 0x130, 0x100 }
+    dw $0926 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
+    dw $09A6 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
+    dw $0A26 : db $01 ; Green rupee xy:{ 0x130, 0x140 }
+    dw $0C98 : db $01 ; Green rupee xy:{ 0x0C0, 0x180 }
+    dw $0D1A : db $01 ; Green rupee xy:{ 0x0D0, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC70F-$0DC716 DATA
 OverworldData_HiddenItems_Screen_57:
 {
-    #_1BC70F: dw $0E1C : db $06 ; Heart       xy:{ 0x0E0, 0x1C0 }
-    #_1BC712: dw $0E20 : db $06 ; Heart       xy:{ 0x100, 0x1C0 }
-    #_1BC715: dw $FFFF
+    dw $0E1C : db $06 ; Heart       xy:{ 0x0E0, 0x1C0 }
+    dw $0E20 : db $06 ; Heart       xy:{ 0x100, 0x1C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC717-$0DC766 DATA
 OverworldData_HiddenItems_Screen_58:
 {
-    #_1BC717: dw $049A : db $04 ; Random pack xy:{ 0x0D0, 0x080 }
-    #_1BC71A: dw $0C96 : db $03 ; Bee         xy:{ 0x0B0, 0x180 }
-    #_1BC71D: dw $0654 : db $01 ; Green rupee xy:{ 0x2A0, 0x0C0 }
-    #_1BC720: dw $0656 : db $01 ; Green rupee xy:{ 0x2B0, 0x0C0 }
-    #_1BC723: dw $0AF8 : db $04 ; Random pack xy:{ 0x3C0, 0x140 }
-    #_1BC726: dw $0AFA : db $04 ; Random pack xy:{ 0x3D0, 0x140 }
-    #_1BC729: dw $0CD6 : db $01 ; Green rupee xy:{ 0x2B0, 0x180 }
-    #_1BC72C: dw $0E64 : db $01 ; Green rupee xy:{ 0x320, 0x1C0 }
-    #_1BC72F: dw $0F66 : db $01 ; Green rupee xy:{ 0x330, 0x1E0 }
-    #_1BC732: dw $1092 : db $01 ; Green rupee xy:{ 0x090, 0x200 }
-    #_1BC735: dw $10A0 : db $04 ; Random pack xy:{ 0x100, 0x200 }
-    #_1BC738: dw $1114 : db $01 ; Green rupee xy:{ 0x0A0, 0x220 }
-    #_1BC73B: dw $1212 : db $01 ; Green rupee xy:{ 0x090, 0x240 }
-    #_1BC73E: dw $121E : db $04 ; Random pack xy:{ 0x0F0, 0x240 }
-    #_1BC741: dw $1296 : db $01 ; Green rupee xy:{ 0x0B0, 0x240 }
-    #_1BC744: dw $199C : db $04 ; Random pack xy:{ 0x0E0, 0x320 }
-    #_1BC747: dw $1A14 : db $04 ; Random pack xy:{ 0x0A0, 0x340 }
-    #_1BC74A: dw $1A98 : db $04 ; Random pack xy:{ 0x0C0, 0x340 }
-    #_1BC74D: dw $1B1E : db $04 ; Random pack xy:{ 0x0F0, 0x360 }
-    #_1BC750: dw $1C34 : db $05 ; Bomb        xy:{ 0x1A0, 0x380 }
-    #_1BC753: dw $1CA6 : db $05 ; Bomb        xy:{ 0x130, 0x380 }
-    #_1BC756: dw $1AB6 : db $86 ; Bomb door   xy:{ 0x1B0, 0x340 }
-    #_1BC759: dw $14EC : db $01 ; Green rupee xy:{ 0x360, 0x280 }
-    #_1BC75C: dw $15E2 : db $01 ; Green rupee xy:{ 0x310, 0x2A0 }
-    #_1BC75F: dw $1A4A : db $04 ; Random pack xy:{ 0x250, 0x340 }
-    #_1BC762: dw $1B48 : db $03 ; Bee         xy:{ 0x240, 0x360 }
-    #_1BC765: dw $FFFF
+    dw $049A : db $04 ; Random pack xy:{ 0x0D0, 0x080 }
+    dw $0C96 : db $03 ; Bee         xy:{ 0x0B0, 0x180 }
+    dw $0654 : db $01 ; Green rupee xy:{ 0x2A0, 0x0C0 }
+    dw $0656 : db $01 ; Green rupee xy:{ 0x2B0, 0x0C0 }
+    dw $0AF8 : db $04 ; Random pack xy:{ 0x3C0, 0x140 }
+    dw $0AFA : db $04 ; Random pack xy:{ 0x3D0, 0x140 }
+    dw $0CD6 : db $01 ; Green rupee xy:{ 0x2B0, 0x180 }
+    dw $0E64 : db $01 ; Green rupee xy:{ 0x320, 0x1C0 }
+    dw $0F66 : db $01 ; Green rupee xy:{ 0x330, 0x1E0 }
+    dw $1092 : db $01 ; Green rupee xy:{ 0x090, 0x200 }
+    dw $10A0 : db $04 ; Random pack xy:{ 0x100, 0x200 }
+    dw $1114 : db $01 ; Green rupee xy:{ 0x0A0, 0x220 }
+    dw $1212 : db $01 ; Green rupee xy:{ 0x090, 0x240 }
+    dw $121E : db $04 ; Random pack xy:{ 0x0F0, 0x240 }
+    dw $1296 : db $01 ; Green rupee xy:{ 0x0B0, 0x240 }
+    dw $199C : db $04 ; Random pack xy:{ 0x0E0, 0x320 }
+    dw $1A14 : db $04 ; Random pack xy:{ 0x0A0, 0x340 }
+    dw $1A98 : db $04 ; Random pack xy:{ 0x0C0, 0x340 }
+    dw $1B1E : db $04 ; Random pack xy:{ 0x0F0, 0x360 }
+    dw $1C34 : db $05 ; Bomb        xy:{ 0x1A0, 0x380 }
+    dw $1CA6 : db $05 ; Bomb        xy:{ 0x130, 0x380 }
+    dw $1AB6 : db $86 ; Bomb door   xy:{ 0x1B0, 0x340 }
+    dw $14EC : db $01 ; Green rupee xy:{ 0x360, 0x280 }
+    dw $15E2 : db $01 ; Green rupee xy:{ 0x310, 0x2A0 }
+    dw $1A4A : db $04 ; Random pack xy:{ 0x250, 0x340 }
+    dw $1B48 : db $03 ; Bee         xy:{ 0x240, 0x360 }
+    dw $FFFF
 }
 
-; $
+; $0DC767-$0DC786 DATA
 OverworldData_HiddenItems_Screen_5A:
 {
-    #_1BC767: dw $041A : db $06 ; Heart       xy:{ 0x0D0, 0x080 }
-    #_1BC76A: dw $08B4 : db $01 ; Green rupee xy:{ 0x1A0, 0x100 }
-    #_1BC76D: dw $0A32 : db $01 ; Green rupee xy:{ 0x190, 0x140 }
-    #_1BC770: dw $0B32 : db $01 ; Green rupee xy:{ 0x190, 0x160 }
-    #_1BC773: dw $0C22 : db $01 ; Green rupee xy:{ 0x110, 0x180 }
-    #_1BC776: dw $0C26 : db $01 ; Green rupee xy:{ 0x130, 0x180 }
-    #_1BC779: dw $0C2C : db $01 ; Green rupee xy:{ 0x160, 0x180 }
-    #_1BC77C: dw $0C30 : db $01 ; Green rupee xy:{ 0x180, 0x180 }
-    #_1BC77F: dw $0C8E : db $05 ; Bomb        xy:{ 0x070, 0x180 }
-    #_1BC782: dw $0CB4 : db $01 ; Green rupee xy:{ 0x1A0, 0x180 }
-    #_1BC785: dw $FFFF
+    dw $041A : db $06 ; Heart       xy:{ 0x0D0, 0x080 }
+    dw $08B4 : db $01 ; Green rupee xy:{ 0x1A0, 0x100 }
+    dw $0A32 : db $01 ; Green rupee xy:{ 0x190, 0x140 }
+    dw $0B32 : db $01 ; Green rupee xy:{ 0x190, 0x160 }
+    dw $0C22 : db $01 ; Green rupee xy:{ 0x110, 0x180 }
+    dw $0C26 : db $01 ; Green rupee xy:{ 0x130, 0x180 }
+    dw $0C2C : db $01 ; Green rupee xy:{ 0x160, 0x180 }
+    dw $0C30 : db $01 ; Green rupee xy:{ 0x180, 0x180 }
+    dw $0C8E : db $05 ; Bomb        xy:{ 0x070, 0x180 }
+    dw $0CB4 : db $01 ; Green rupee xy:{ 0x1A0, 0x180 }
+    dw $FFFF
 }
 
-; $
+; $0DC787-$0DC79B DATA
 OverworldData_HiddenItems_Screen_5B:
 {
-    #_1BC787: dw $0E2E : db $86 ; Bomb door   xy:{ 0x170, 0x1C0 }
-    #_1BC78A: dw $1C88 : db $04 ; Random pack xy:{ 0x040, 0x380 }
-    #_1BC78D: dw $1E0E : db $01 ; Green rupee xy:{ 0x070, 0x3C0 }
-    #_1BC790: dw $1E12 : db $01 ; Green rupee xy:{ 0x090, 0x3C0 }
-    #_1BC793: dw $1DDA : db $01 ; Green rupee xy:{ 0x2D0, 0x3A0 }
-    #_1BC796: dw $1E60 : db $01 ; Green rupee xy:{ 0x300, 0x3C0 }
-    #_1BC799: dw $1E72 : db $03 ; Bee         xy:{ 0x390, 0x3C0 }
+    dw $0E2E : db $86 ; Bomb door   xy:{ 0x170, 0x1C0 }
+    dw $1C88 : db $04 ; Random pack xy:{ 0x040, 0x380 }
+    dw $1E0E : db $01 ; Green rupee xy:{ 0x070, 0x3C0 }
+    dw $1E12 : db $01 ; Green rupee xy:{ 0x090, 0x3C0 }
+    dw $1DDA : db $01 ; Green rupee xy:{ 0x2D0, 0x3A0 }
+    dw $1E60 : db $01 ; Green rupee xy:{ 0x300, 0x3C0 }
+    dw $1E72 : db $03 ; Bee         xy:{ 0x390, 0x3C0 }
 }
 
-; $
+; $0DC79C-$0DC79D DATA
 OverworldData_HiddenItems_Screen_5D:
 OverworldData_HiddenItems_Screen_5E:
 {
-    #_1BC79C: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC79E-$0DC7B1 DATA
 OverworldData_HiddenItems_Screen_62:
 {
-    #_1BC79E: dw $0428 : db $04 ; Random pack xy:{ 0x140, 0x080 }
-    #_1BC7A1: dw $0B92 : db $01 ; Green rupee xy:{ 0x090, 0x160 }
-    #_1BC7A4: dw $0C92 : db $01 ; Green rupee xy:{ 0x090, 0x180 }
-    #_1BC7A7: dw $0C96 : db $01 ; Green rupee xy:{ 0x0B0, 0x180 }
-    #_1BC7AA: dw $0D92 : db $01 ; Green rupee xy:{ 0x090, 0x1A0 }
-    #_1BC7AD: dw $0E10 : db $01 ; Green rupee xy:{ 0x080, 0x1C0 }
-    #_1BC7B0: dw $FFFF
+    dw $0428 : db $04 ; Random pack xy:{ 0x140, 0x080 }
+    dw $0B92 : db $01 ; Green rupee xy:{ 0x090, 0x160 }
+    dw $0C92 : db $01 ; Green rupee xy:{ 0x090, 0x180 }
+    dw $0C96 : db $01 ; Green rupee xy:{ 0x0B0, 0x180 }
+    dw $0D92 : db $01 ; Green rupee xy:{ 0x090, 0x1A0 }
+    dw $0E10 : db $01 ; Green rupee xy:{ 0x080, 0x1C0 }
+    dw $FFFF
 }
 
-; $
+; $0DC7B2-$0DC7B6 DATA
 OverworldData_HiddenItems_Screen_65:
 {
-    #_1BC7B2: dw $0908 : db $06 ; Heart       xy:{ 0x040, 0x120 }
-    #_1BC7B5: dw $FFFF
+    dw $0908 : db $06 ; Heart       xy:{ 0x040, 0x120 }
+    dw $FFFF
 }
 
-; $
+; $0DC7B7-$0DC7C4 DATA
 OverworldData_HiddenItems_Screen_68:
 {
-    #_1BC7B7: dw $0420 : db $01 ; Green rupee xy:{ 0x100, 0x080 }
-    #_1BC7BA: dw $0428 : db $01 ; Green rupee xy:{ 0x140, 0x080 }
-    #_1BC7BD: dw $0920 : db $03 ; Bee         xy:{ 0x100, 0x120 }
-    #_1BC7C0: dw $0AB2 : db $04 ; Random pack xy:{ 0x190, 0x140 }
-    #_1BC7C3: dw $FFFF
+    dw $0420 : db $01 ; Green rupee xy:{ 0x100, 0x080 }
+    dw $0428 : db $01 ; Green rupee xy:{ 0x140, 0x080 }
+    dw $0920 : db $03 ; Bee         xy:{ 0x100, 0x120 }
+    dw $0AB2 : db $04 ; Random pack xy:{ 0x190, 0x140 }
+    dw $FFFF
 }
 
-; $
+; $0DC7C5-$0DC7D6 DATA
 OverworldData_HiddenItems_Screen_69:
 {
-    #_1BC7C5: dw $0408 : db $01 ; Green rupee xy:{ 0x040, 0x080 }
-    #_1BC7C8: dw $040C : db $01 ; Green rupee xy:{ 0x060, 0x080 }
-    #_1BC7CB: dw $0728 : db $04 ; Random pack xy:{ 0x140, 0x0E0 }
-    #_1BC7CE: dw $0926 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
-    #_1BC7D1: dw $09A4 : db $01 ; Green rupee xy:{ 0x120, 0x120 }
-    #_1BC7D4: dw $09A6 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
+    dw $0408 : db $01 ; Green rupee xy:{ 0x040, 0x080 }
+    dw $040C : db $01 ; Green rupee xy:{ 0x060, 0x080 }
+    dw $0728 : db $04 ; Random pack xy:{ 0x140, 0x0E0 }
+    dw $0926 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
+    dw $09A4 : db $01 ; Green rupee xy:{ 0x120, 0x120 }
+    dw $09A6 : db $01 ; Green rupee xy:{ 0x130, 0x120 }
 }
 
-; $
+; $0DC7D7-$0DC7D8 DATA
 OverworldData_HiddenItems_Screen_6A:
 {
-    #_1BC7D7: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC7D9-$0DC7EC DATA
 OverworldData_HiddenItems_Screen_6B:
 {
-    #_1BC7D9: dw $0320 : db $04 ; Random pack xy:{ 0x100, 0x060 }
-    #_1BC7DC: dw $0330 : db $84 ; Staircase   xy:{ 0x180, 0x060 }
-    #_1BC7DF: dw $0C0E : db $01 ; Green rupee xy:{ 0x070, 0x180 }
-    #_1BC7E2: dw $0C12 : db $01 ; Green rupee xy:{ 0x090, 0x180 }
-    #_1BC7E5: dw $0C96 : db $01 ; Green rupee xy:{ 0x0B0, 0x180 }
-    #_1BC7E8: dw $0C9A : db $01 ; Green rupee xy:{ 0x0D0, 0x180 }
-    #_1BC7EB: dw $FFFF
+    dw $0320 : db $04 ; Random pack xy:{ 0x100, 0x060 }
+    dw $0330 : db $84 ; Staircase   xy:{ 0x180, 0x060 }
+    dw $0C0E : db $01 ; Green rupee xy:{ 0x070, 0x180 }
+    dw $0C12 : db $01 ; Green rupee xy:{ 0x090, 0x180 }
+    dw $0C96 : db $01 ; Green rupee xy:{ 0x0B0, 0x180 }
+    dw $0C9A : db $01 ; Green rupee xy:{ 0x0D0, 0x180 }
+    dw $FFFF
 }
 
-; $
+; $0DC7ED-$0DC80A DATA
 OverworldData_HiddenItems_Screen_6C:
 {
-    #_1BC7ED: dw $0226 : db $01 ; Green rupee xy:{ 0x130, 0x040 }
-    #_1BC7F0: dw $0890 : db $01 ; Green rupee xy:{ 0x080, 0x100 }
-    #_1BC7F3: dw $089C : db $01 ; Green rupee xy:{ 0x0E0, 0x100 }
-    #_1BC7F6: dw $0906 : db $01 ; Green rupee xy:{ 0x030, 0x120 }
-    #_1BC7F9: dw $0912 : db $01 ; Green rupee xy:{ 0x090, 0x120 }
-    #_1BC7FC: dw $091E : db $01 ; Green rupee xy:{ 0x0F0, 0x120 }
-    #_1BC7FF: dw $0984 : db $04 ; Random pack xy:{ 0x020, 0x120 }
-    #_1BC802: dw $0AB4 : db $04 ; Random pack xy:{ 0x1A0, 0x140 }
-    #_1BC805: dw $0B36 : db $04 ; Random pack xy:{ 0x1B0, 0x160 }
-    #_1BC808: dw $0BB8 : db $04 ; Random pack xy:{ 0x1C0, 0x160 }
+    dw $0226 : db $01 ; Green rupee xy:{ 0x130, 0x040 }
+    dw $0890 : db $01 ; Green rupee xy:{ 0x080, 0x100 }
+    dw $089C : db $01 ; Green rupee xy:{ 0x0E0, 0x100 }
+    dw $0906 : db $01 ; Green rupee xy:{ 0x030, 0x120 }
+    dw $0912 : db $01 ; Green rupee xy:{ 0x090, 0x120 }
+    dw $091E : db $01 ; Green rupee xy:{ 0x0F0, 0x120 }
+    dw $0984 : db $04 ; Random pack xy:{ 0x020, 0x120 }
+    dw $0AB4 : db $04 ; Random pack xy:{ 0x1A0, 0x140 }
+    dw $0B36 : db $04 ; Random pack xy:{ 0x1B0, 0x160 }
+    dw $0BB8 : db $04 ; Random pack xy:{ 0x1C0, 0x160 }
 }
 
-; $
+; $0DC80B-$0DC80C DATA
 OverworldData_HiddenItems_Screen_6D:
 OverworldData_HiddenItems_Screen_6E:
 {
     #_1BC80B: dw $FFFF
 }
 
-; $
+; $0DC80D-$0DC81A DATA
 OverworldData_HiddenItems_Screen_6F:
 {
-    #_1BC80D: dw $0B24 : db $05 ; Bomb        xy:{ 0x120, 0x160 }
-    #_1BC810: dw $0B8C : db $05 ; Bomb        xy:{ 0x060, 0x160 }
-    #_1BC813: dw $0B96 : db $05 ; Bomb        xy:{ 0x0B0, 0x160 }
-    #_1BC816: dw $0D12 : db $05 ; Bomb        xy:{ 0x090, 0x1A0 }
-    #_1BC819: dw $FFFF
+    dw $0B24 : db $05 ; Bomb        xy:{ 0x120, 0x160 }
+    dw $0B8C : db $05 ; Bomb        xy:{ 0x060, 0x160 }
+    dw $0B96 : db $05 ; Bomb        xy:{ 0x0B0, 0x160 }
+    dw $0D12 : db $05 ; Bomb        xy:{ 0x090, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC81B-$0DC822 DATA
 OverworldData_HiddenItems_Screen_70:
 {
-    #_1BC81B: dw $1406 : db $06 ; Heart       xy:{ 0x030, 0x280 }
-    #_1BC81E: dw $1486 : db $06 ; Heart       xy:{ 0x030, 0x280 }
-    #_1BC821: dw $FFFF
+    dw $1406 : db $06 ; Heart       xy:{ 0x030, 0x280 }
+    dw $1486 : db $06 ; Heart       xy:{ 0x030, 0x280 }
+    dw $FFFF
 }
 
-; $
+; $0DC823-$0DC83D DATA
 OverworldData_HiddenItems_Screen_72:
 {
-    #_1BC823: dw $051C : db $04 ; Random pack xy:{ 0x0E0, 0x0A0 }
-    #_1BC826: dw $051E : db $04 ; Random pack xy:{ 0x0F0, 0x0A0 }
-    #_1BC829: dw $059C : db $04 ; Random pack xy:{ 0x0E0, 0x0A0 }
-    #_1BC82C: dw $059E : db $04 ; Random pack xy:{ 0x0F0, 0x0A0 }
-    #_1BC82F: dw $0626 : db $03 ; Bee         xy:{ 0x130, 0x0C0 }
-    #_1BC832: dw $0A8C : db $01 ; Green rupee xy:{ 0x060, 0x140 }
-    #_1BC835: dw $0B90 : db $01 ; Green rupee xy:{ 0x080, 0x160 }
-    #_1BC838: dw $0C08 : db $01 ; Green rupee xy:{ 0x040, 0x180 }
-    #_1BC83B: dw $0D0C : db $01 ; Green rupee xy:{ 0x060, 0x1A0 }
+    dw $051C : db $04 ; Random pack xy:{ 0x0E0, 0x0A0 }
+    dw $051E : db $04 ; Random pack xy:{ 0x0F0, 0x0A0 }
+    dw $059C : db $04 ; Random pack xy:{ 0x0E0, 0x0A0 }
+    dw $059E : db $04 ; Random pack xy:{ 0x0F0, 0x0A0 }
+    dw $0626 : db $03 ; Bee         xy:{ 0x130, 0x0C0 }
+    dw $0A8C : db $01 ; Green rupee xy:{ 0x060, 0x140 }
+    dw $0B90 : db $01 ; Green rupee xy:{ 0x080, 0x160 }
+    dw $0C08 : db $01 ; Green rupee xy:{ 0x040, 0x180 }
+    dw $0D0C : db $01 ; Green rupee xy:{ 0x060, 0x1A0 }
 }
 
-; $
+; $0DC83E-$0DC83F DATA
 OverworldData_HiddenItems_Screen_73:
 {
-    #_1BC83E: dw $FFFF
+    dw $FFFF
 }
 
-; $
+; $0DC840-$0DC856 DATA
 OverworldData_HiddenItems_Screen_74:
 {
-    #_1BC840: dw $03B0 : db $86 ; Bomb door   xy:{ 0x180, 0x060 }
-    #_1BC843: dw $040C : db $01 ; Green rupee xy:{ 0x060, 0x080 }
-    #_1BC846: dw $0590 : db $01 ; Green rupee xy:{ 0x080, 0x0A0 }
-    #_1BC849: dw $0614 : db $01 ; Green rupee xy:{ 0x0A0, 0x0C0 }
-    #_1BC84C: dw $0728 : db $06 ; Heart       xy:{ 0x140, 0x0E0 }
-    #_1BC84F: dw $090A : db $01 ; Green rupee xy:{ 0x050, 0x120 }
-    #_1BC852: dw $0D9E : db $04 ; Random pack xy:{ 0x0F0, 0x1A0 }
-    #_1BC855: dw $FFFF
+    dw $03B0 : db $86 ; Bomb door   xy:{ 0x180, 0x060 }
+    dw $040C : db $01 ; Green rupee xy:{ 0x060, 0x080 }
+    dw $0590 : db $01 ; Green rupee xy:{ 0x080, 0x0A0 }
+    dw $0614 : db $01 ; Green rupee xy:{ 0x0A0, 0x0C0 }
+    dw $0728 : db $06 ; Heart       xy:{ 0x140, 0x0E0 }
+    dw $090A : db $01 ; Green rupee xy:{ 0x050, 0x120 }
+    dw $0D9E : db $04 ; Random pack xy:{ 0x0F0, 0x1A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC857-$0DC85E DATA
 OverworldData_HiddenItems_Screen_75:
 {
     #_1BC857: dw $0298 : db $06 ; Heart       xy:{ 0x0C0, 0x040 }
@@ -2613,55 +2619,56 @@ OverworldData_HiddenItems_Screen_75:
     #_1BC85D: dw $FFFF
 }
 
-; $
+; $0DC85F-$0DC86C DATA
 OverworldData_HiddenItems_Screen_77:
 {
-    #_1BC85F: dw $0288 : db $86 ; Bomb door   xy:{ 0x040, 0x040 }
-    #_1BC862: dw $03AA : db $06 ; Heart       xy:{ 0x150, 0x060 }
-    #_1BC865: dw $040C : db $84 ; Staircase   xy:{ 0x060, 0x080 }
-    #_1BC868: dw $0518 : db $05 ; Bomb        xy:{ 0x0C0, 0x0A0 }
-    #_1BC86B: dw $FFFF
+    dw $0288 : db $86 ; Bomb door   xy:{ 0x040, 0x040 }
+    dw $03AA : db $06 ; Heart       xy:{ 0x150, 0x060 }
+    dw $040C : db $84 ; Staircase   xy:{ 0x060, 0x080 }
+    dw $0518 : db $05 ; Bomb        xy:{ 0x0C0, 0x0A0 }
+    dw $FFFF
 }
 
-; $
+; $0DC86D-$0DC87A DATA
 OverworldData_HiddenItems_Screen_7A:
 {
-    #_1BC86D: dw $0526 : db $05 ; Bomb        xy:{ 0x130, 0x0A0 }
-    #_1BC870: dw $052A : db $05 ; Bomb        xy:{ 0x150, 0x0A0 }
-    #_1BC873: dw $052E : db $05 ; Bomb        xy:{ 0x170, 0x0A0 }
-    #_1BC876: dw $09AC : db $06 ; Heart       xy:{ 0x160, 0x120 }
-    #_1BC879: dw $FFFF
+    dw $0526 : db $05 ; Bomb        xy:{ 0x130, 0x0A0 }
+    dw $052A : db $05 ; Bomb        xy:{ 0x150, 0x0A0 }
+    dw $052E : db $05 ; Bomb        xy:{ 0x170, 0x0A0 }
+    dw $09AC : db $06 ; Heart       xy:{ 0x160, 0x120 }
+    dw $FFFF
 }
 
-; $0DC87B-$0DC885
+; $0DC87B-$0DC885 DATA
 OverworldData_HiddenItems_Screen_7B:
 {
-    #_1BC87B: dw $0420 : db $06 ; Heart       xy:{ 0x100, 0x080 }
-    #_1BC87E: dw $061A : db $04 ; Random pack xy:{ 0x0D0, 0x0C0 }
-    #_1BC881: dw $0696 : db $04 ; Random pack xy:{ 0x0B0, 0x0C0 }
-    #_1BC884: dw $FFFF
+    dw $0420 : db $06 ; Heart       xy:{ 0x100, 0x080 }
+    dw $061A : db $04 ; Random pack xy:{ 0x0D0, 0x0C0 }
+    dw $0696 : db $04 ; Random pack xy:{ 0x0B0, 0x0C0 }
+    dw $FFFF
 }
 
-; $0DC886-$0DC893
+; $0DC886-$0DC893 DATA
 OverworldData_HiddenItems_Screen_7C:
 {
-    #_1BC886: dw $02A8 : db $05 ; Bomb        xy:{ 0x140, 0x040 }
-    #_1BC889: dw $0316 : db $06 ; Heart       xy:{ 0x0B0, 0x060 }
-    #_1BC88C: dw $0698 : db $06 ; Heart       xy:{ 0x0C0, 0x0C0 }
-    #_1BC88F: dw $0714 : db $04 ; Random pack xy:{ 0x0A0, 0x0E0 }
-    #_1BC892: dw $FFFF
+    dw $02A8 : db $05 ; Bomb        xy:{ 0x140, 0x040 }
+    dw $0316 : db $06 ; Heart       xy:{ 0x0B0, 0x060 }
+    dw $0698 : db $06 ; Heart       xy:{ 0x0C0, 0x0C0 }
+    dw $0714 : db $04 ; Random pack xy:{ 0x0A0, 0x0E0 }
+    dw $FFFF
 }
 
-; $0DC894-$0DC89B
+; $0DC894-$0DC89B DATA
 OverworldData_HiddenItems_Screen_7F:
 {
-    #_1BC894: dw $02AE : db $04 ; Random pack xy:{ 0x170, 0x040 }
-    #_1BC897: dw $0C28 : db $04 ; Random pack xy:{ 0x140, 0x180 }
-    #_1BC89A: dw $FFFF
+    dw $02AE : db $04 ; Random pack xy:{ 0x170, 0x040 }
+    dw $0C28 : db $04 ; Random pack xy:{ 0x140, 0x180 }
+    dw $FFFF
 }
 
 ; ==============================================================================
 
+; $0DC89C-$0DC8A3 DATA
 Overworld_SecretTileType:
 {
     #_1BC89C: dw $0DCC ; hole
@@ -2682,76 +2689,66 @@ Overworld_RevealSecret:
     
     LDA.w $0B9C : AND.w #$FF00 : STA.w $0B9C
     
-    LDA.b $8A : CMP.w #$0080
-    
     ; special areas don't have secrets
-    BCS .failure
+    LDA.b $8A : CMP.w #$0080 : BCS .failure
     
-    ASL A : TAX
-    
-    ; Get pointer to secrets data for this area.
-    LDA.l $1BC2F9, X : STA.b $00
-    
-    ; Set source bank for data
-    LDA.w #$001B : STA.b $02
-    
-    LDY.w #$FFFD
-    
-    .nextSecret
-    
-    INY #3
-    
-    LDA [$00], Y : CMP.w #$FFFF : BEQ .failure
-    
-    AND.w #$7FFF : CMP.b $04 : BNE .nextSecret
-    
-    INY #2
-    
-    LDA [$00], Y : AND.w #$00FF : BEQ .emptySecret
-    
-    CMP.w #$0080 : BCS .extendedSecret
-    
-    TSB.w $0B9C
-    
-    .emptySecret
-    .extendedSecret
-    
-    AND.w #$00FF : CMP.w #$0080
-    
-    BCC .normalSecret
-    
-    PHA
-    
-    LDA.w $0B9C : ORA.w #$00FF : STA.w $0B9C
-    
-    PLA : CMP.w #$0084 : BEQ .notBurrow
-    
-    LDX.b $8A
-    
-    LDA.l $7EF280, X : AND.w #$0002 : BNE .overlayAlreadyActivated
-    
-    LDA.b $8A : CMP.w #$005B : BNE .notAtPyramidOfPower
-    
-    LDA.l $7EF3CC : AND.w #$00FF : CMP.w #$000D : BNE .failure
-    
-    .notAtPyramidOfPower
-    
-    SEP #$20
-    
-    LDA.b #$1B : STA.w $012F
-    
-    REP #$20
-    
-    .notBurrow
-    .overlayAlreadyActivated
-    
-    LDA [$00], Y : AND.w #$000F : TAX
-    
-    LDA.l $1BC89C, X : STA.b $0E
+        ASL A : TAX
+        
+        ; Get pointer to secrets data for this area.
+        LDA.l $1BC2F9, X : STA.b $00
+        
+        ; Set source bank for data
+        LDA.w #$001B : STA.b $02
+        
+        LDY.w #$FFFD
+        
+        .nextSecret
+        
+            INY #3
+            
+            LDA [$00], Y : CMP.w #$FFFF : BEQ .failure
+        
+        AND.w #$7FFF : CMP.b $04 : BNE .nextSecret
+        
+        INY #2
+        
+        LDA [$00], Y : AND.w #$00FF : BEQ .emptySecret
+            CMP.w #$0080 : BCS .extendedSecret
+                TSB.w $0B9C
+
+            .extendedSecret
+        .emptySecret
+        
+        AND.w #$00FF : CMP.w #$0080 : BCC .normalSecret
+            PHA
+        
+            LDA.w $0B9C : ORA.w #$00FF : STA.w $0B9C
+            
+            PLA : CMP.w #$0084 : BEQ .notBurrow
+                LDX.b $8A
+                
+                LDA.l $7EF280, X : AND.w #$0002 : BNE .overlayAlreadyActivated
+                    LDA.b $8A : CMP.w #$005B : BNE .notAtPyramidOfPower
+                        LDA.l $7EF3CC : AND.w #$00FF : CMP.w #$000D : BNE .failure
+                    
+                    .notAtPyramidOfPower
+                    
+                    SEP #$20
+                    
+                    LDA.b #$1B : STA.w $012F
+                    
+                    REP #$20
+                    
+                .overlayAlreadyActivated
+            .notBurrow
+            
+            LDA [$00], Y : AND.w #$000F : TAX
+            
+            LDA.l $1BC89C, X : STA.b $0E
     
     .failure
     
-    JSR $C943   ; $0DC943 IN ROM
+    JSR $C943 ; $0DC943 IN ROM
     
     LDX.b $04
     
@@ -2761,7 +2758,7 @@ Overworld_RevealSecret:
     
     .normalSecret
     
-    JSR $C943   ; $0DC943 IN ROM
+    JSR $C943 ; $0DC943 IN ROM
     
     LDX.b $04
     
@@ -2775,10 +2772,10 @@ Overworld_RevealSecret:
 ; ==============================================================================
 
 ; $0DC943-$0DC951 LOCAL JUMP LOCATION
+AdjustSecretForPowder:
 {
     LDA.w $0301 : AND.w #$0040 : BEQ .notUsingMagicPowder
-    
-    LDA.w #$0004 : STA.w $0B9C
+        LDA.w #$0004 : STA.w $0B9C
     
     .notUsingMagicPowder
     
@@ -2791,16 +2788,15 @@ Overworld_RevealSecret:
 Overworld_DrawWoodenDoor:
 {
     BCS .draw_closed_door
-    
-    ; The only other option is to, you guessed it your cleverness, an open
-    ; door.
-    LDA.w #$0DA4
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDA.w #$0DA6
-    
-    BRA .draw_right_half
+        ; The only other option is to, you guessed it your cleverness, an open
+        ; door.
+        LDA.w #$0DA4
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDA.w #$0DA6
+        
+        BRA .draw_right_half
     
     .draw_closed_door
     
@@ -2827,22 +2823,28 @@ Overworld_DrawWoodenDoor:
 
 ; ==============================================================================
 
-; $0DC97C-$0DC9DD LONG JUMP LOCATION
+; $0DC97C-$$0DC97F LONG JUMP LOCATION
 Overworld_DrawPersistentMap16:
 {
     STA.l $7E2000, X
-    
-    ; $0DC980 ALTERNATE ENTRY POINT
-    shared Overworld_DrawMap16:
-    
+
+    ; Bleeds into the next function.
+}
+
+; $0DC980-$0DC982 LONG JUMP LOCATION
+Overworld_DrawMap16:
+{
     LDY.w #$0000
-    
-    ; $0DC983 ALTERNATE ENTRY POINT
-    shared Overworld_DrawMap16_Anywhere
-    
+
+    ; Bleeds into the next function.
+}
+
+; $0DC983-$0DC9DD LONG JUMP LOCATION
+Overworld_DrawMap16_Anywhere
+{
     PHX
     
-    ; Store the index into the tiles to use in $0C
+    ; Store the index into the tiles to use in $0C.
     ASL #3 : STA.b $0C
     
     STY.b $00
@@ -2853,13 +2855,13 @@ Overworld_DrawPersistentMap16:
     
     LDY.w $1000
     
-    ; write the base vram (tilemap) address of the first two tiles
+    ; Write the base vram (tilemap) address of the first two tiles.
     LDA.b $02 : XBA : STA.w $1002, Y
     
-    ; write the base vram address of the second two tiles
+    ; Write the base vram address of the second two tiles.
     LDA.b $02 : CLC : ADC.w #$0020 : XBA : STA.w $100A, Y
     
-    ; probably indicates the number of tiles and some other information
+    ; Probably indicates the number of tiles and some other information.
     LDA.w #$0300 : STA.w $1004, Y : STA.w $100C, Y
     
     LDX.b $0C
@@ -2881,6 +2883,7 @@ Overworld_DrawPersistentMap16:
 ; ==============================================================================
 
 ; $0DC9DE-$0DCA68 LOCAL JUMP LOCATION
+Overworld_AlterTileHardcore:
 {
     ; Has to do with solidity of the tiles being written.
     PHA : STA.l $7E2000, X
@@ -2894,19 +2897,15 @@ Overworld_DrawPersistentMap16:
     
     STZ.b $02
     
-    AND.w #$003F : CMP.w #$0020
-    
-    BCC .BRANCH_ALPHA    ; $If A < #$20, then...
-    
-    LDA.w #$0400 : STA.b $02
+    ; $If A < #$20, then...
+    AND.w #$003F : CMP.w #$0020 : BCC .BRANCH_ALPHA    
+        LDA.w #$0400 : STA.b $02
     
     .BRANCH_ALPHA
     
-    LDA.b $00 : AND.w #$0FFF : CMP.w #$0800
-    
-    BCC .BRANCH_BETA     ; If A < #$800 then...
-    
-    LDA.b $02 : ADC.w #$07FF : STA.b $02
+    ; If A < #$800 then...
+    LDA.b $00 : AND.w #$0FFF : CMP.w #$0800 : BCC .BRANCH_BETA
+        LDA.b $02 : ADC.w #$07FF : STA.b $02
     
     .BRANCH_BETA
     
@@ -2927,10 +2926,10 @@ Overworld_DrawPersistentMap16:
     LDX.b $0C
     
     ; Load tile indices from ROM.
-    LDA.l $0F8000, X : STA.w $1006, Y   ; Writes to the top left corner of the block
-    LDA.l $0F8002, X : STA.w $1008, Y   ; Writes the top right 8x8 tile of the block
-    LDA.l $0F8004, X : STA.w $100E, Y   ; The bottom left corner.
-    LDA.l $0F8006, X : STA.w $1010, Y   ; The bottom right corner
+    LDA.l $0F8000, X : STA.w $1006, Y ; Writes to the top left corner of the block.
+    LDA.l $0F8002, X : STA.w $1008, Y ; Writes the top right 8x8 tile of the block.
+    LDA.l $0F8004, X : STA.w $100E, Y ; The bottom left corner.
+    LDA.l $0F8006, X : STA.w $1010, Y ; The bottom right corner.
     
     TYA : CLC : ADC.w #$0010 : STA.w $1000
     
@@ -2946,6 +2945,7 @@ Overworld_DrawPersistentMap16:
 ; ==============================================================================
 
 ; $0DCA69-$0DCA9E LOCAL JUMP LOCATION
+Overworld_FindMap16VRAMAddress:
 {
     ; I guess this calculates some sort of vram type address for an
     ; outdoor tile?
@@ -2953,14 +2953,12 @@ Overworld_DrawPersistentMap16:
     STZ.b $02
     
     LDA.b $00 : AND.w #$003F : CMP.w #$0020 : BCC .BRANCH_ALPHA
-    
-    LDA.w #$0400 : STA.b $02
+        LDA.w #$0400 : STA.b $02
     
     .BRANCH_ALPHA
     
     LDA.b $00 : AND.w #$0FFF : CMP.w #$0800 : BCC .BRANCH_BETA
-    
-    LDA.b $02 : ADC.w #$07FF : STA.b $02
+        LDA.b $02 : ADC.w #$07FF : STA.b $02
     
     .BRANCH_BETA
     
@@ -3006,8 +3004,6 @@ Pool_Overworld_EntranceSequence:
     dw $CFD9 ; = $DCFD9 ; Ganon's Tower Entrance Animation
 }
 
-; ==============================================================================
-
 ; $0DCAC4-$0DCAD3 LONG JUMP LOCATION
 Overworld_EntranceSequence:
 {
@@ -3019,7 +3015,7 @@ Overworld_EntranceSequence:
     
     DEC A : ASL A : TAX
     
-    JSR (.handlers, X)
+    JSR (Pool_Overworld_EntranceSequence_handlers, X)
     
     RTL
 }
@@ -3030,68 +3026,68 @@ Overworld_EntranceSequence:
 Pool_DarkPalaceEntrance_Main:
 {
     .handlers
-    dw $CAE5
-    dw $CB2B
-    dw $CB47
-    dw $CB6C
-    dw $CB91
+    dw AnimateEntrance_PoD_step1
+    dw AnimateEntrance_PoD_step2
+    dw AnimateEntrance_PoD_step3
+    dw AnimateEntrance_PoD_step4
+    dw AnimateEntrance_PoD_step5
 }
-
-; ==============================================================================
 
 ; $0DCADE-$0DCAE4 JUMP LOCATION
 DarkPalaceEntrance_Main:
 {
     LDA.b $B0 : ASL A : TAX
     
-    JMP (.handlers, X)
+    JMP (Pool_DarkPalaceEntrance_Main_handlers, X)
 }
 
 ; ==============================================================================
 
 ; $0DCAE5-$0DCB2A JUMP LOCATION
+AnimateEntrance_PoD_step1:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$40 : BNE .alpha
+    LDA.b $C8 : CMP.b #$40 : BNE .return
+        JSR $D00E ; $0DD00E IN ROM
     
-    JSR $D00E ; $0DD00E IN ROM
+        LDA.l $7EF2DE : ORA.b #$20 : STA.l $7EF2DE
+        
+        REP #$30
+        
+        LDX.w #$01E6
+        LDA.w #$0E31
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        ; $0DCB18 ALTERNATE ENTRY POINT
+        .modify_bottom_stair_part
+        
+        LDX.w #$02EA
+        
+        ; $0DCB1B ALTERNATE ENTRY POINT
+        .modify_specific_stair_part
+        
+        LDA.w #$0E30
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$026A
+        LDA.w #$0E26
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$02EA
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDA.w #$FFFF : STA.w $1012, X
+        
+        SEP #$30
+        
+        LDA.b #$01 : STA.b $14
     
-    LDA.l $7EF2DE : ORA.b #$20 : STA.l $7EF2DE
-    
-    REP #$30
-    
-    LDX.w #$01E6
-    LDA.w #$0E31
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    ; $0DCB18 ALTERNATE ENTRY POINT
-    
-    LDX.w #$02EA
-    
-    ; $0DCB1B ALTERNATE ENTRY POINT
-    
-    LDA.w #$0E30
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$026A
-    LDA.w #$0E26
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$02EA
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDA.w #$FFFF : STA.w $1012, X
-    
-    SEP #$30
-    
-    LDA.b #$01 : STA.b $14
-    
-    .alpha
+    .return
     
     RTS
 }
@@ -3099,104 +3095,104 @@ DarkPalaceEntrance_Main:
 ; ==============================================================================
 
 ; $0DCB2B-$0DCB46 JUMP LOCATION
+AnimateEntrance_PoD_step2:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
-    
-    JSR $D00E ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$026A
-    LDA.w #$0E28
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDA.w #$0E29
-    
-    BRA .BRANCH_DCB18
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1_return
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$026A
+        LDA.w #$0E28
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDA.w #$0E29
+        
+        BRA AnimateEntrance_PoD_step1_modify_bottom_stair_part
 }
 
 ; ==============================================================================
 
 ; $0DCB47-$0DCB6B JUMP LOCATION
+AnimateEntrance_PoD_step3:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
-    
-    JSR $D00E ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$026A
-    LDA.w #$0E2A
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$02EA
-    LDA.w #$0E2B
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$036A
-    
-    BRA .BRANCH_DCB1B
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1_return
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$026A
+        LDA.w #$0E2A
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$02EA
+        LDA.w #$0E2B
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$036A
+        
+        BRA AnimateEntrance_PoD_step1_modify_specific_stair_part
 }
 
 ; ==============================================================================
 
 ; $0DCB6C-$0DCB90 JUMP LOCATION
+AnimateEntrance_PoD_step4:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_DCB2B
-    
-    JSR $D00E ; $0DD00E IN ROM
-    
-    REP #$30
-    
-    LDX.w #$026A
-    LDA.w #$0E2D
-    
-    JSL Overworld_DrawPersistentMap16
-    
-    LDX.w #$02EA
-    LDA.w #$0E2E
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    LDX.w #$036A
-    
-    BRA .BRANCH_DCB1B
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step2
+        JSR $D00E ; $0DD00E IN ROM
+        
+        REP #$30
+        
+        LDX.w #$026A
+        LDA.w #$0E2D
+        
+        JSL Overworld_DrawPersistentMap16
+        
+        LDX.w #$02EA
+        LDA.w #$0E2E
+        
+        JSR $C9DE ; $0DC9DE IN ROM
+        
+        LDX.w #$036A
+        
+        BRA AnimateEntrance_PoD_step1_modify_specific_stair_part
 }
 
 ; ==============================================================================
 
 ; $0DCB91-$0DCB9B JUMP LOCATION
+AnimateEntrance_PoD_step5:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$20 : BNE .BRANCH_DCB2A
-    
-    JMP $CF40 ; $0DCF40 IN ROM
+    LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1
+        JMP $CF40 ; $0DCF40 IN ROM
 }
 
 ; ==============================================================================
 
 ; $0DCB9C-$0DCBA5 JUMP TABLE
+Pool_Overworld_AnimateEntrance_Skull
 {
-    dw $CBAD
-    dw $CBEE
-    dw $CC27
-    dw $CC4D
-    dw $CC8C
+    dw AnimateEntrance_Skull_step1
+    dw AnimateEntrance_Skull_step2
+    dw AnimateEntrance_Skull_step3
+    dw AnimateEntrance_Skull_step4
+    dw AnimateEntrance_Skull_step5
 }
 
-; ==============================================================================
-
 ; $0DCBA6-$0DCBAC JUMP LOCATION
+Overworld_AnimateEntrance_Skull:
 {
     LDA.b $B0 : ASL A : TAX
     
@@ -3206,40 +3202,41 @@ DarkPalaceEntrance_Main:
 ; ==============================================================================
 
 ; $0DCBAD-$0DCBED JUMP LOCATION
+AnimateEntrance_Skull_step1:
 {
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$04 : BNE .delay
+
+        INC.b $B0
     
-    INC.b $B0
+        STZ.b $C8
     
-    STZ.b $C8
+        REP #$30
     
-    REP #$30
+        LDX.w #$0812
+        LDA.w #$0E06
     
-    LDX.w #$0812
-    LDA.w #$0E06
+        JSL Overworld_DrawPersistentMap16
     
-    JSL Overworld_DrawPersistentMap16
+        LDX.w #$0814
+        LDA.w #$0E06
     
-    LDX.w #$0814
-    LDA.w #$0E06
+        JSR $C9DE ; $0DC9DE IN ROM
     
-    JSR $C9DE ; $0DC9DE IN ROM
+        LDA.w #$FFFF : STA.w $1012
     
-    LDA.w #$FFFF : STA.w $1012
+        SEP #$30
     
-    SEP #$30
+        LDX.b $8A
     
-    LDX.b $8A
+        LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
-    LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
+        SEP #$30
     
-    SEP #$30
+        LDA.b #$01 : STA.b $14
     
-    LDA.b #$01 : STA.b $14
-    
-    LDA.b #$16 : STA.w $012F
+        LDA.b #$16 : STA.w $012F
     
     ; $0DCBED ALTERNATE ENTRY POINT
     .delay
@@ -3249,31 +3246,35 @@ DarkPalaceEntrance_Main:
 
 ; ==============================================================================
 
-; $0DCBEE-$0DCC26 JUMP LOCATION
+; $0DCBEE-$0DCC11 JUMP LOCATION
+AnimateEntrance_Skull_step2:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
+    LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
+    	INC.b $B0
     
-    INC.b $B0
+    	STZ.b $C8
     
-    STZ.b $C8
+    	REP #$30
     
-    REP #$30
+    	LDX.w #$0790
+    	LDA.w #$0E07
     
-    LDX.w #$0790
-    LDA.w #$0E07
+    	JSL Overworld_DrawPersistentMap16
     
-    JSL Overworld_DrawPersistentMap16
+    	LDX.w #$0792
+    	LDA.w #$0E08
     
-    LDX.w #$0792
-    LDA.w #$0E08
-    
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    ; $0DCC12 ALTERNATE ENTRY POINT
-    
+    	JSR $C9DE ; $0DC9DE IN ROM
+    	JSR $C9DE ; $0DC9DE IN ROM
+
+    	; Bleeds into the next function.
+}
+
+; $0DCC12-$0DCC26 JUMP LOCATION
+OverworldEntrance_AdvanceAndThud:
+{
     JSR $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA.w $1012, X
@@ -3290,69 +3291,69 @@ DarkPalaceEntrance_Main:
 ; ==============================================================================
 
 ; $0DCC27-$0DCC4C JUMP LOCATION
+AnimateEntrance_Skull_step3:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
+    LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
+        INC.b $B0
     
-    INC.b $B0
+        STZ.b $C8
     
-    STZ.b $C8
+        REP #$30
     
-    REP #$30
+        LDX.w #$0710
+        LDA.w #$0E07
     
-    LDX.w #$0710
-    LDA.w #$0E07
+        JSL $1BC97C
     
-    JSL $1BC97C
+        LDX.w #$0712
+        LDA.w #$0E08
     
-    LDX.w #$0712
-    LDA.w #$0E08
+        JSR $C9DE ; $0DC9DE IN ROM
+        JSR $C9DE ; $0DC9DE IN ROM
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    BRA .BRANCH_DCC12
+        BRA OverworldEntrance_AdvanceAndThud
 }
 
 ; ==============================================================================
 
 ; $0DCC4D-$0DCC8B JUMP LOCATION
+AnimateEntrance_Skull_step4:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
+    LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
+       INC.b $B0
     
-    INC.b $B0
+       STZ.b $C8
     
-    STZ.b $C8
+       REP #$30
     
-    REP #$30
+       LDX.w #$0590
+       LDA.w #$0E11
     
-    LDX.w #$0590
-    LDA.w #$0E11
+       JSL Overworld_DrawPersistentMap16
     
-    JSL Overworld_DrawPersistentMap16
+       LDX.w #$0596
+       LDA.w #$0E12
     
-    LDX.w #$0596
-    LDA.w #$0E12
+       JSR $C9DE ; $0DC9DE IN ROM
     
-    JSR $C9DE ; $0DC9DE IN ROM
+       LDX.w #$0610
+       LDA.w #$0E0D
     
-    LDX.w #$0610
-    LDA.w #$0E0D
+       JSR $C9DE ; $0DC9DE IN ROM
+       JSR $C9DE ; $0DC9DE IN ROM
+       JSR $C9DE ; $0DC9DE IN ROM
+       JSR $C9DE ; $0DC9DE IN ROM
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+       LDX.w #$0692
+       LDA.w #$0E0B
     
-    LDX.w #$0692
-    LDA.w #$0E0B
+       JSR $C9DE ; $0DC9DE IN ROM
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    
-    JMP $CC12 ; $0DCC12 IN ROM
+       JMP $CC12 ; $0DCC12 IN ROM
 }
 
 ; ==============================================================================
