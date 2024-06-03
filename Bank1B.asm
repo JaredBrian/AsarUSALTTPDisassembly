@@ -3362,7 +3362,7 @@ AnimateEntrance_Skull_step4:
 {
     INC.b $C8
     
-    LDA.b $C8 : CMP.b #$0C : BNE .BRANCH_DCBED
+    LDA.b $C8 : CMP.b #$0C : BNE AnimateEntrance_Skull_step1_delay
     
     INC.b $B0
     
