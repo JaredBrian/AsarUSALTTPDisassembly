@@ -364,12 +364,18 @@ Sprite_HaltSpecialPlayerMovement:
 
 ; ==============================================================================
 
+; $0F7515-$0F7602
 incsrc "sprite_apple.asm"
+
+; $0F7603-$0F7631
 incsrc "sprite_drinking_guy.asm"
+
+; $0F7632-$0F7D11
 incsrc "sprite_transit_entities.asm"
     
     ; \covered($F7D12-$F7FFF)
 
+; $0F7D12-$0F7E68
 incsrc "sprite_fairy_handle_movement.asm"
 
 ; ==============================================================================

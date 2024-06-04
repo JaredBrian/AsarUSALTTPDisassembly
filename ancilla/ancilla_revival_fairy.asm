@@ -1,18 +1,18 @@
 
     ; \note This file makes use of three sort of 'pseduo'-ancilla objects,
     ; in that they make use of the Ancilla API, but don't really fit into
-    ; the normal framework of Ancillae. One of these is a faerie object,
+    ; the normal framework of Ancillae. One of these is a fairy object,
     ; the second is an invisible object that controls the player's altitude
     ; during revival, creating a sort of rising effect that later changes
     ; to a floating effect.
-    ; The third object (index 2) is the faerie dust object, which makes use
+    ; The third object (index 2) is the fairy dust object, which makes use
     ; of the existing magic powder ancillary object's drawing routine, though
     ; it uses a different sound effect.
 
 ; ==============================================================================
 
 ; $04727C-$047282 DATA
-Pool_Ancilla_RevivalFaerie:
+Pool_Ancilla_RevivalFairy:
 {
     ; \note The first one probably isn't even used as it's the start state
     .timers
@@ -24,21 +24,21 @@ Pool_Ancilla_RevivalFaerie:
 
 ; ==============================================================================
 
-; \note Looks like this animated the faeries during death mode.
+; \note Looks like this animated the fairies during death mode.
 ; $047283-$0473CE LONG JUMP LOCATION
-Ancilla_RevivalFaerie:
+Ancilla_RevivalFairy:
 {
     PHB : PHK : PLB
     
     LDX.b #$00
     
-    LDA $0C54, X : BEQ .faerie_emerging
+    LDA $0C54, X : BEQ .fairy_emerging
     CMP.b #$03   : BNE .already_emerged
                    BRL .return
     
-    .faerie_emerging
+    .fairy_emerging
     
-    DEC $039F, X : LDA $039F, X : BNE .faerie_rising
+    DEC $039F, X : LDA $039F, X : BNE .fairy_rising
     
     INC $0C54, X : LDY $0C54, X
     
@@ -49,7 +49,7 @@ Ancilla_RevivalFaerie:
     
     BRL .draw
     
-    .faerie_rising
+    .fairy_rising
     
     JSR Ancilla_MoveAltitude
     
@@ -57,7 +57,7 @@ Ancilla_RevivalFaerie:
     
     .already_emerged
     
-    CMP.b #$01 : BNE .faerie_flying_away
+    CMP.b #$01 : BNE .fairy_flying_away
     
     DEC $039F, X : LDA $039F, X : BNE .sprinkling_sequence_running
     
@@ -77,7 +77,7 @@ Ancilla_RevivalFaerie:
     
     INC $0385, X
     
-    ; Sprinkling faerie dust sound.
+    ; Sprinkling fairy dust sound.
     LDA.b #$31 : JSR Ancilla_DoSfx2
     
     .dont_initiate_sprinkle
@@ -128,7 +128,7 @@ Ancilla_RevivalFaerie:
     
     BRA .draw
     
-    .faerie_flying_away
+    .fairy_flying_away
     
     CMP.b #$02 : BNE .draw
     
@@ -181,18 +181,18 @@ Ancilla_RevivalFaerie:
     
     JSR Ancilla_SetOam_XY
     
-    LDA $0A : BEQ .faerie_just_flapping
+    LDA $0A : BEQ .fairy_just_flapping
     
     DEC A : CLC : ADC.b #$02 : TAX
     
-    BRA .faerie_just_flapping
+    BRA .fairy_just_flapping
     
-    .faerie_not_sprinkling_dust
+    .fairy_not_sprinkling_dust
     
-    ; Just alternate the faerie's chr every 4 frames
+    ; Just alternate the fairy's chr every 4 frames
     LDA $1A : AND.b #$04 : LSR #2 : TAX
     
-    .commit_faerie_chr
+    .commit_fairy_chr
     
     LDA .chr, X  : STA ($90), Y : INY
     LDA.b #$74   : STA ($90), Y
@@ -205,7 +205,7 @@ Ancilla_RevivalFaerie:
     
     LDY.b #$01
     
-    LDA ($90), Y : CMP.b #$F0 : BNE .faerie_not_off_screen
+    LDA ($90), Y : CMP.b #$F0 : BNE .fairy_not_off_screen
     
     LDA.b #$03 : STA $0C54, X
     
@@ -214,10 +214,10 @@ Ancilla_RevivalFaerie:
     LDA $7EC211 : STA $1C
     
     .return
-    .faerie_not_off_screen
+    .fairy_not_off_screen
     
-    JSR RevivalFaerie_Dust
-    JSR RevivalFaerie_MonitorPlayerRecovery
+    JSR RevivalFairy_Dust
+    JSR RevivalFairy_MonitorPlayerRecovery
     
     PLB
     
@@ -227,14 +227,14 @@ Ancilla_RevivalFaerie:
 ; ==============================================================================
 
 ; $0473CF-$04742F LOCAL JUMP LOCATION
-RevivalFaerie_Dust:
+RevivalFairy_Dust:
 {
-    LDA $0C54, X : BNE .possible_faerie_dust
+    LDA $0C54, X : BNE .possible_fairy_dust
     
-    ; If the faerie object is not at least in state 0x01, do nothing.
+    ; If the fairy object is not at least in state 0x01, do nothing.
     RTS
     
-    .possible_faerie_dust
+    .possible_fairy_dust
     
     LDX.b #$02
     
@@ -298,7 +298,7 @@ RevivalFaerie_Dust:
 ; ==============================================================================
 
 ; $047430-$0474C9 LOCAL JUMP LOCATION
-RevivalFaerie_MonitorPlayerRecovery:
+RevivalFairy_MonitorPlayerRecovery:
 {
     LDA $7EF36C : STA $00
     LDA $7EF36D : CMP $00 : BEQ .health_at_capacity

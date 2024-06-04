@@ -1008,7 +1008,7 @@ YesIThrewIt:
     ; Store the value for the new item message.
     LDA.b #$04 : STA $0EB0, X
     
-    ; You are an honest person. I like you. I will give you something important... These are the Silver Arrows. To give Ganon his last moment, you definitely need them!  I know I don't quite have the figure of a faerie. Ganon's cruel power is to blame! You must defeat Ganon!
+    ; You are an honest person. I like you. I will give you something important... These are the Silver Arrows. To give Ganon his last moment, you definitely need them!  I know I don't quite have the figure of a fairy. Ganon's cruel power is to blame! You must defeat Ganon!
     LDA.b #$4F
     LDY.b #$01
     
