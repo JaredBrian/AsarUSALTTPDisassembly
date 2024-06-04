@@ -4,13 +4,11 @@
 ; $0F0000-$0F7FFF
 org $1E8000
 
-; ==============================================================================
 
-; Yes the day finally has come, I have found code in the (next to :p) 
-; last bank of the rom.
 
 ; ==============================================================================
 
+; $0F0000-$0F0A84
 incsrc "sprite_helmasaur_king.asm"
     
 ; ==============================================================================
@@ -28,7 +26,8 @@ Sprite3_DivisionDelay:
 }
 
 ; ==============================================================================
-    
+
+; $0F0A8E-$0F0B10
 incsrc "sprite_mad_batter_bolt.asm"
 
 ; ==============================================================================
@@ -160,34 +159,82 @@ Pool_Unused:
 
 ; ==============================================================================
 
+; $0F0BBF-$0F0DD1
 incsrc "sprite_pikit.asm"
     
-    ; \covered($F0DD2-$F10B4)
-    
+; $0F0DD2-$0F0FDE
 incsrc "sprite_bomber.asm"
+
+; $0F0FDF-$0F145F
 incsrc "sprite_stalfos_and_zazak.asm"
+
+; $0F1460-$0F181C
 incsrc "sprite_kholdstare.asm"
+
+; $0F181D-$0F195A
 incsrc "sprite_freezor.asm"
+
+; $0F195B-$0F1A6A
 incsrc "sprite_flute_boy_ostrich.asm"
+
+; $0F1A6B-$0F1AEB
 incsrc "sprite_flute_boy_rabbit.asm"
+
+; $0F1AEC-$0F1BC7
 incsrc "sprite_flute_boy_bird.asm"
+
+; $0F1BC8-$0F1D16
 incsrc "sprite_zoro_and_babusu.asm"
+
+; $0F1D17-$0F1E7A
 incsrc "sprite_wizzrobe.asm"
+
+; $0F1E7B-$0F2191
 incsrc "sprite_kyameron.asm"
+
+; $0F2192-$0F2461
 incsrc "sprite_pengator.asm"
+
+; $0F2462-$0F273E
 incsrc "sprite_laser_eye.asm"
+
+; $0F273F-$0F297E
 incsrc "sprite_pirogusu.asm"
+
+; $0F297F-$0F2AA6
 incsrc "sprite_bumper.asm"
+
+; $0F2AA7-$0F2EA3
 incsrc "sprite_stalfos_knight.asm"
+
+; $0F2EA4-$0F3001
 incsrc "sprite_wall_master.asm"
+
+; $0F3002-$0F326E
 incsrc "sprite_zol.asm"
+
+; $0F326F-$0F3429
 incsrc "sprite_terrorpin.asm"
+
+; $0F38B4-$0F39A8
 incsrc "sprite_arrgi.asm"
+
+; $0F39A9-$0F3B41
 incsrc "sprite_gibdo.asm"
+
+; $0F3B42-$0F3BB8
 incsrc "sprite_mothula_beam.asm"
+
+; $0F3BB9-$0F3CE7
 incsrc "sprite_flying_tile.asm"
+
+; $0F3CE8-$0F3E7D
 incsrc "sprite_spike_block.asm"
+
+; $0F3E7E-$0F4102
 incsrc "sprite_mothula.asm"
+
+; $0F4103-$0F4266
 incsrc "sprite_kodondo.asm"
 
 ; ==============================================================================
@@ -207,31 +254,73 @@ Sprite3_CheckDamage:
 
 ; ==============================================================================
 
+; $0F4270-$0F4378
 incsrc "sprite_flame.asm"
+
+; $0F4379-$0F46FF
 incsrc "sprite_yellow_stalfos.asm"
+
+; $0F4700-$0F4AF3
 incsrc "sprite_eyegore_and_goriya.asm"
+
+; $0F4AF4-$0F4C01
 incsrc "sprite_bubble_group.asm"
+
+; $0F4C02-$0F4CD2
 incsrc "sprite_hover.asm"
+
+; $0F4CD3-$0F4F46
 incsrc "sprite_crystal_maiden.asm"
+
+; $0F4F47-$0F5011
 incsrc "sprite_spike_trap.asm"
+
+; $0F5012-$0F51CC
 incsrc "sprite_guruguru_bar.asm"
+
+; $0F51CD-$0F528C
 incsrc "sprite_winder.asm"
+
+; $0F528D-$0F530F
 incsrc "sprite_green_stalfos.asm"
+
+; $0F5310-$0F5A41
 incsrc "sprite_agahnim.asm"
+
+; $0F5A42-$0F5C5A
 incsrc "sprite_energy_ball.asm"
+
+; $0F5C5B-$0F603B
 incsrc "sprite_bees.asm"
     
-    ; \covered($F603C-$F62E8)
-    
+; $0F603C-$0F60DC
 incsrc "sprite_hylian_plaque.asm"
+
+; $0F60DD-$0F6110
 incsrc "sprite_thief_chest.asm"
+
+; $0F6111-$0F62E8
 incsrc "sprite_bomb_shop_entity.asm"
+
+; $0F62E9-$0F6859
 incsrc "sprite_kiki.asm"
+
+; $0F68B6-$0F68F1 ; TDOO: One of these 2 addresses is wrong, find out which.
 incsrc "sprite_blind_maiden.asm"
+
+; $0F68F1-$0F6AE6
 incsrc "sprite_old_mountain_man.asm"
+
+; $0F6AE7-$0F6B32
 incsrc "sprite_dialogue_tester.asm"
+
+; $0F6B33-$0F6E55
 incsrc "sprite_bully_and_ball_guy.asm"
+
+; $0F6E56-$0F6EEE 
 incsrc "sprite_whirlpool.asm"
+
+; $0F6EEF-$0F74F2
 incsrc "sprite_shopkeeper.asm"
 
 ; ==============================================================================
