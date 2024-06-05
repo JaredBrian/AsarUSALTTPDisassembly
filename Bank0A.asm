@@ -4,9 +4,364 @@
 ; $050000-$057FFF
 org $0A8000
 
+; Dungeon Room Data
 ; Bird travel
 ; Overworld map control
 ; Dungeon map control
+
+; ==============================================================================
+
+; $050000-$053729 DATA
+RoomDataBank0A:
+{
+    ; ==========================================================================
+    ; Link's house and uncle
+    ; ==========================================================================
+
+    ; $050000
+    RoomDataTiles_0104:
+    incbin "bin/rooms/room0104.bin" ; size: 0x0047
+
+    ; $050047
+    RoomDataTiles_0055:
+    incbin "bin/rooms/room0055.bin" ; size: 0x0127
+
+    ; ==========================================================================
+    ; Some caves
+    ; ==========================================================================
+
+    ; $0509A9
+    RoomDataTiles_00E1:
+    incbin "bin/rooms/room00E1.bin" ; size: 0x00D4
+
+    ; $050242
+    RoomDataTiles_00E3:
+    incbin "bin/rooms/room00E3.bin" ; size: 0x00F1
+
+    ; $050333
+    RoomDataTiles_00E2:
+    incbin "bin/rooms/room00E2.bin" ; size: 0x0137
+
+    ; ==========================================================================
+    ; Ganon
+    ; ==========================================================================
+
+    ; $05046A
+    RoomDataTiles_0000:
+    incbin "bin/rooms/room0000.bin" ; size: 0x004F
+
+    ; $0504B9
+    RoomDataTiles_0010:
+    incbin "bin/rooms/room0010.bin" ; size: 0x00E3
+
+    ; ==========================================================================
+    ; More caves
+    ; ==========================================================================
+
+    ; $05059C
+    RoomDataTiles_0008:
+    incbin "bin/rooms/room0008.bin" ; size: 0x00BD
+
+    ; $050659
+    RoomDataTiles_0018:
+    incbin "bin/rooms/room0018.bin" ; size: 0x0092
+
+    ; $0506EB
+    RoomDataTiles_002F:
+    incbin "bin/rooms/room002F.bin" ; size: 0x00EC
+
+    ; $0507D7
+    RoomDataTiles_002C:
+    incbin "bin/rooms/room002C.bin" ; size: 0x0104
+
+    ; $0508DB
+    RoomDataTiles_003C:
+    incbin "bin/rooms/room003C.bin" ; size: 0x00CE
+
+    ; $0509A9
+    RoomDataTiles_0003:
+    incbin "bin/rooms/room0003.bin" ; size: 0x002A
+
+    ; ==========================================================================
+    ; Sewers and Sanctuary
+    ; ==========================================================================
+
+    ; $0509D3
+    RoomDataTiles_0012:
+    incbin "bin/rooms/room0012.bin" ; size: 0x00D2
+
+    ; $050AA5
+    RoomDataTiles_0002:
+    incbin "bin/rooms/room0002.bin" ; size: 0x00FA
+
+    ; $050F19
+    RoomDataTiles_0011:
+    incbin "bin/rooms/room0011.bin" ; size: 0x00BB
+
+    ; $050C5A
+    RoomDataTiles_0021:
+    incbin "bin/rooms/room0021.bin" ; size: 0x00DC
+
+    ; $050D36
+    RoomDataTiles_0022:
+    incbin "bin/rooms/room0022.bin" ; size: 0x00A1
+
+    ; $050DD7
+    RoomDataTiles_0032:
+    incbin "bin/rooms/room0032.bin" ; size: 0x0078
+
+    ; $050E4F
+    RoomDataTiles_0042:
+    incbin "bin/rooms/room0042.bin" ; size: 0x0046
+
+    ; $050E95
+    RoomDataTiles_0041:
+    incbin "bin/rooms/room0041.bin" ; size: 0x0084
+
+    ; ==========================================================================
+    ; Hyrule Castle
+    ; ==========================================================================
+
+    ; $050F19
+    RoomDataTiles_0051:
+    incbin "bin/rooms/room0051.bin" ; size: 0x0116
+
+    ; $0516A1
+    RoomDataTiles_0050:
+    incbin "bin/rooms/room0050.bin" ; size: 0x00B3
+
+    ; $0510E2
+    RoomDataTiles_0001:
+    incbin "bin/rooms/room0001.bin" ; size: 0x008C
+
+    ; $05116E
+    RoomDataTiles_0052:
+    incbin "bin/rooms/room0052.bin" ; size: 0x00CA
+
+    ; $051238
+    RoomDataTiles_0060:
+    incbin "bin/rooms/room0060.bin" ; size: 0x00DF
+
+    ; $051317
+    RoomDataTiles_0061:
+    incbin "bin/rooms/room0061.bin" ; size: 0x014D
+
+    ; $051464
+    RoomDataTiles_0062:
+    incbin "bin/rooms/room0062.bin" ; size: 0x0121
+
+    ; ==========================================================================
+    ; Eastern Palace
+    ; ==========================================================================
+
+    ; $051585
+    RoomDataTiles_00C8:
+    incbin "bin/rooms/room00C8.bin" ; size: 0x0015
+
+    ; $05159A
+    RoomDataTiles_00D8:
+    incbin "bin/rooms/room00D8.bin" ; size: 0x005B
+
+    ; $0515F5
+    RoomDataTiles_00D9:
+    incbin "bin/rooms/room00D9.bin" ; size: 0x0082
+
+    ; $051677
+    RoomDataTiles_00DA:
+    incbin "bin/rooms/room00DA.bin" ; size: 0x002A
+
+    ; $0516A1
+    RoomDataTiles_0099:
+    incbin "bin/rooms/room0099.bin" ; size: 0x0091
+
+    ; $051732
+    RoomDataTiles_00A8:
+    incbin "bin/rooms/room00A8.bin" ; size: 0x0163
+
+    ; $051895
+    RoomDataTiles_00A9:
+    incbin "bin/rooms/room00A9.bin" ; size: 0x0142
+
+    ; $0519D7
+    RoomDataTiles_00AA:
+    incbin "bin/rooms/room00AA.bin" ; size: 0x0160
+
+    ; $051B37
+    RoomDataTiles_00B8:
+    incbin "bin/rooms/room00B8.bin" ; size: 0x0044
+
+    ; $051B7B
+    RoomDataTiles_00B9:
+    incbin "bin/rooms/room00B9.bin" ; size: 0x0198
+
+    ; $051D13
+    RoomDataTiles_00BA:
+    incbin "bin/rooms/room00BA.bin" ; size: 0x004C
+
+    ; $051D5F
+    RoomDataTiles_00C9:
+    incbin "bin/rooms/room00C9.bin" ; size: 0x0107
+
+    ; $051E66
+    RoomDataTiles_0089:
+    incbin "bin/rooms/room0089.bin" ; size: 0x0067
+
+    ; ==========================================================================
+    ; Hyrule Castle Dungeon
+    ; ==========================================================================
+
+    ; $051ECD
+    RoomDataTiles_0072:
+    incbin "bin/rooms/room0072.bin" ; size: 0x0111
+
+    ; $051FDE
+    RoomDataTiles_0082:
+    incbin "bin/rooms/room0082.bin" ; size: 0x0142
+
+    ; $052120
+    RoomDataTiles_0081:
+    incbin "bin/rooms/room0081.bin" ; size: 0x012F
+
+    ; $05224F
+    RoomDataTiles_0071:
+    incbin "bin/rooms/room0071.bin" ; size: 0x00FA
+
+    ; $052349
+    RoomDataTiles_0070:
+    incbin "bin/rooms/room0070.bin" ; size: 0x0034
+
+    ; $05237D
+    RoomDataTiles_0080:
+    incbin "bin/rooms/room0080.bin" ; size: 0x009D
+
+    ; ==========================================================================
+    ; Caves and houses
+    ; ==========================================================================
+
+    ; $05241A
+    RoomDataTiles_00F0:
+    incbin "bin/rooms/room00F0.bin" ; size: 0x0176
+
+    ; $052590
+    RoomDataTiles_00F1:
+    incbin "bin/rooms/room00F1.bin" ; size: 0x0179
+
+    ; $052709
+    RoomDataTiles_00F2:
+    incbin "bin/rooms/room00F2.bin" ; size: 0x0049
+
+    ; $052752
+    RoomDataTiles_00F3:
+    incbin "bin/rooms/room00F3.bin" ; size: 0x004F
+
+    ; $0527A1
+    RoomDataTiles_00F4:
+    incbin "bin/rooms/room00F4.bin" ; size: 0x003A
+
+    ; $0527DB
+    RoomDataTiles_00F5:
+    incbin "bin/rooms/room00F5.bin" ; size: 0x0040
+
+    ; $05281B
+    RoomDataTiles_00F8:
+    incbin "bin/rooms/room00F8.bin" ; size: 0x00E7
+
+    ; $052902
+    RoomDataTiles_00E8:
+    incbin "bin/rooms/room00E8.bin" ; size: 0x00D5
+
+    ; $0529D7
+    RoomDataTiles_00FD:
+    incbin "bin/rooms/room00FD.bin" ; size: 0x00DE
+
+    ; $052AB5
+    RoomDataTiles_00ED:
+    incbin "bin/rooms/room00ED.bin" ; size: 0x013B
+
+    ; $052BF0
+    RoomDataTiles_00FF:
+    incbin "bin/rooms/room00FF.bin" ; size: 0x00B2
+
+    ; $052CA2
+    RoomDataTiles_00EF:
+    incbin "bin/rooms/room00EF.bin" ; size: 0x009B
+
+    ; $052D3D
+    RoomDataTiles_00DF:
+    incbin "bin/rooms/room00DF.bin" ; size: 0x007B
+
+    ; $052DB8
+    RoomDataTiles_00EB:
+    incbin "bin/rooms/room00EB.bin" ; size: 0x0066
+
+    ; $052E1E
+    RoomDataTiles_00FB:
+    incbin "bin/rooms/room00FB.bin" ; size: 0x008A
+
+    ; $052EA8
+    RoomDataTiles_00EE:
+    incbin "bin/rooms/room00EE.bin" ; size: 0x00D2
+
+    ; $052F7A
+    RoomDataTiles_00FE:
+    incbin "bin/rooms/room00FE.bin" ; size: 0x007B
+
+    ; $053FF5
+    RoomDataTiles_00F9:
+    incbin "bin/rooms/room00F9.bin" ; size: 0x0069
+
+    ; $05305E
+    RoomDataTiles_00FA:
+    incbin "bin/rooms/room00FA.bin" ; size: 0x010B
+
+    ; $053169
+    RoomDataTiles_00EA:
+    incbin "bin/rooms/room00EA.bin" ; size: 0x0090
+
+    ; $0531F9
+    RoomDataTiles_00E6:
+    incbin "bin/rooms/room00E6.bin" ; size: 0x00FB
+
+    ; $0532F4
+    RoomDataTiles_00E7:
+    incbin "bin/rooms/room00E7.bin" ; size: 0x00E0
+
+    ; $0533D4
+    RoomDataTiles_00E4:
+    incbin "bin/rooms/room00E4.bin" ; size: 0x00E5
+
+    ; $0534B9
+    RoomDataTiles_00E5:
+    incbin "bin/rooms/room00E5.bin" ; size: 0x0107
+
+    ; ==========================================================================
+    ; Caves
+    ; ==========================================================================
+
+    ; $0535C0
+    RoomDataTiles_0124:
+    incbin "bin/rooms/room0124.bin" ; size: 0x003E
+
+    ; $0535FE
+    RoomDataTiles_0125:
+    incbin "bin/rooms/room0125.bin" ; size: 0x0053
+
+    ; $053651
+    RoomDataTiles_0126:
+    incbin "bin/rooms/room0126.bin" ; size: 0x0080
+
+    ; $0536D1
+    RoomDataTiles_0123:
+    incbin "bin/rooms/room0123.bin" ; size: 0x0059
+}
+
+; ==============================================================================
+
+; $05372A-$05372F
+NULL_0AB72A:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF
+}
 
 ; ==============================================================================
 
