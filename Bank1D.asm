@@ -265,7 +265,7 @@ SpriteActive4_Main:
 incsrc "sprite_tektite.asm"
 
 ; $0EC412-$0EC64E
-incsrc "sprite_big_fairy.asm" ; TODO: Rename this file.
+incsrc "sprite_big_fairy.asm"
 
 ; $0EC64F-$0EC7EA
 incsrc "sprite_hokbok.asm"
@@ -1709,7 +1709,7 @@ Moldorm_Draw:
         .on_screen_y
         
         LDA.b #$4D : INY : STA ($90), Y
-        LDA.b $05    : INY : STA ($90), Y
+        LDA.b $05  : INY : STA ($90), Y
         
         PHY
         

@@ -305,7 +305,7 @@ incsrc "sprite_bomb_shop_entity.asm"
 ; $0F62E9-$0F6859
 incsrc "sprite_kiki.asm"
 
-; $0F68B6-$0F68F1 ; TDOO: One of these 2 addresses is wrong, find out which.
+; $0F68B6-$0F68F0
 incsrc "sprite_blind_maiden.asm"
 
 ; $0F68F1-$0F6AE6
@@ -334,8 +334,7 @@ Sprite_PlayerCantPassThrough:
     
     ; Also, if bit 7 of $0E40, X is not set, it will hurt Link
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_contact
-    
-    JSR Sprite_HaltSpecialPlayerMovement
+        JSR Sprite_HaltSpecialPlayerMovement
     
     .no_contact
     
@@ -372,8 +371,6 @@ incsrc "sprite_drinking_guy.asm"
 
 ; $0F7632-$0F7D11
 incsrc "sprite_transit_entities.asm"
-    
-    ; \covered($F7D12-$F7FFF)
 
 ; $0F7D12-$0F7E68
 incsrc "sprite_fairy_handle_movement.asm"
@@ -446,71 +443,63 @@ Pool_Sprite3_CheckIfRecoiling:
 Sprite3_CheckIfRecoiling:
 {
     LDA $0EA0, X : BEQ .return
-    AND.b #$7F   : BEQ .recoil_finished
-    
-    LDA $0D40, X : PHA
-    LDA $0D50, X : PHA
-    
-    DEC $0EA0, X : BNE .not_halted_yet
-    
-    LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
-    
-    LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
-    
-    .too_fast_so_halt
-    
-    LDA.b #$90 : STA $0EA0, X
-    
-    .slow_enough
-    .not_halted_yet
-    
-    LDA $0EA0, X : BMI .halted
-    
-    LSR #2 : TAY
-    
-    LDA $1A : AND .frame_counter_masks, Y : BNE .halted
-    
-    LDA $0F30, X : STA $0D40, X
-    LDA $0F40, X : STA $0D50, X
-    
-    LDA $0CD2, X : BMI .no_wall_collision
-    
-    JSR Sprite3_CheckTileCollision
-    
-    AND.b #$0F : BEQ .no_wall_collision
-    CMP.b #$04 : BCS .y_axis_wall_collision
-    
-    STZ $0F40, X
-    STZ $0D50, X
-    
-    BRA .moving_on
-    
-    .y_axis_wall_collision
-    
-    STZ $0F30, X
-    STZ $0D40, X
-    
-    .moving_on
-    
-    BRA .halted
-    
-    .no_wall_collision
-    
-    JSR Sprite3_Move
-    
-    .halted
-    
-    PLA : STA $0D50, X
-    PLA : STA $0D40, X
-    
-    ; explicit check for Agahnim.
-    LDA $0E20, X : CMP.b #$7A : BEQ .return
-    
-    PLA : PLA
-    
-    .return
-    
-    RTS
+        AND.b #$7F : BEQ .recoil_finished
+            LDA $0D40, X : PHA
+            LDA $0D50, X : PHA
+            
+            DEC $0EA0, X : BNE .not_halted_yet
+                LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
+                    LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
+                
+                .too_fast_so_halt
+                
+                LDA.b #$90 : STA $0EA0, X
+                
+                .slow_enough
+            .not_halted_yet
+            
+            LDA $0EA0, X : BMI .halted
+                LSR #2 : TAY
+                
+                LDA $1A : AND .frame_counter_masks, Y : BNE .halted
+                    LDA $0F30, X : STA $0D40, X
+                    LDA $0F40, X : STA $0D50, X
+                    
+                    LDA $0CD2, X : BMI .no_wall_collision
+                        JSR Sprite3_CheckTileCollision
+                        
+                        AND.b #$0F : BEQ .no_wall_collision
+                            CMP.b #$04 : BCS .y_axis_wall_collision
+                                STZ $0F40, X
+                                STZ $0D50, X
+                                
+                                BRA .moving_on
+                            
+                            .y_axis_wall_collision
+                            
+                            STZ $0F30, X
+                            STZ $0D40, X
+                            
+                            .moving_on
+                            
+                            BRA .halted
+                    
+                    .no_wall_collision
+                    
+                    JSR Sprite3_Move
+            
+            .halted
+            
+            PLA : STA $0D50, X
+            PLA : STA $0D40, X
+            
+            ; Explicit check for Agahnim.
+            LDA $0E20, X : CMP.b #$7A : BEQ .return
+                PLA : PLA
+        
+        .return
+        
+        RTS
     
     .recoil_finished
     
@@ -521,14 +510,17 @@ Sprite3_CheckIfRecoiling:
 
 ; ==============================================================================
 
-; $0F7F1E-$0F7F27 LOCAL JUMP LOCATION
+; $0F7F1E-$0F7F20 LOCAL JUMP LOCATION
 Sprite3_MoveXyz:
 {
     JSR Sprite3_MoveAltitude
     
-    ; $0F7F21 ALTERNATE ENTRY POINT
-    shared Sprite3_Move:
-    
+    ; Bleeds into the next function.
+}
+
+; $0F7F21-$0F7F27 LOCAL JUMP LOCATION
+Sprite3_Move:
+{  
     JSR Sprite3_MoveHoriz
     JSR Sprite3_MoveVert
     
@@ -555,19 +547,18 @@ Sprite3_MoveHoriz:
 Sprite3_MoveVert:
 {
     LDA $0D40, X : BEQ .no_velocity
-    
-    ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
-    
-    LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
-    
-    ORA.b #$F0
-    
-    DEY
-    
-    .positive
-    
-          ADC $0D00, X : STA $0D00, X
-    TYA : ADC $0D20, X : STA $0D20, X
+        ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
+        
+        LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
+            ORA.b #$F0
+            
+            DEY
+        
+        .positive
+        
+        ADC $0D00, X : STA $0D00, X
+        TYA
+        ADC $0D20, X : STA $0D20, X
     
     .no_velocity
     
@@ -582,8 +573,7 @@ Sprite3_MoveAltitude:
     LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
     
     LDA $0F80, X : PHP : LSR #4 : PLP : BPL .positive
-    
-    ORA.b #$F0
+        ORA.b #$F0
     
     .positive
     
@@ -598,8 +588,7 @@ Sprite3_MoveAltitude:
 Sprite3_PrepOamCoord:
 {
     JSL Sprite_PrepOamCoordLong : BCC .renderable
-    
-    PLA : PLA
+        PLA : PLA
     
     .renderable
     
@@ -614,23 +603,22 @@ Sprite_DrawRippleIfInWater:
     LDA $7FF9C2, X
     
     CMP.b #$08 : BEQ .waterTile
-    CMP.b #$09 : BNE .notWaterTile
+        CMP.b #$09 : BNE .notWaterTile
     
     .waterTile
     
     LDA $0E60, X : AND.b #$20 : BEQ .dontAdjustX
-    
-    LDA $0FD8 : SEC : SBC.b #$04 : STA $0FD8
-    LDA $0FD9 : SBC.b #$00 : STA $0FD9
-    
-    ; Is it a small magic refill?
-    LDA $0E20, X : CMP.b #$DF : BNE .dontAdjustY
-    
-    LDA $0FDA : SEC : SBC.b #$07 : STA $0FDA
-    LDA $0FDB : SBC.b #$00 : STA $0FDB
+        LDA $0FD8 : SEC : SBC.b #$04 : STA $0FD8
+        LDA $0FD9 : SBC.b #$00 : STA $0FD9
+        
+        ; Is it a small magic refill?
+        LDA $0E20, X : CMP.b #$DF : BNE .dontAdjustY
+            LDA $0FDA : SEC : SBC.b #$07 : STA $0FDA
+            LDA $0FDB : SBC.b #$00 : STA $0FDB
+
+        .dontAdjustY
     
     .dontAdjustX
-    .dontAdjustY
     
     JSL Sprite_DrawWaterRipple
     JSL Sprite_Get_16_bit_CoordsLong
@@ -647,11 +635,13 @@ Sprite_DrawRippleIfInWater:
 ; ==============================================================================
 
 ; $0F7FDE-$0F7FFF NULL
-Pool_Empty:
+NULL_1EFFDE:
 {
-    fillbyte $FF
-    
-    fill $22
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF
 }
 
 ; ==============================================================================
