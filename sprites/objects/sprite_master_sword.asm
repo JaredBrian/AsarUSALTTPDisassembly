@@ -26,7 +26,7 @@ MasterSword_Main:
     
     LDX $8A
     
-    LDA $7EF280, X : PLX : AND.b #$40 : BEQ .hasnt_been_taken
+    LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .hasnt_been_taken
     
     JMP MasterSword_Terminate
     
@@ -68,7 +68,7 @@ MasterSword_ReadyAndWaiting:
     LDA $F6 : BPL .cant_pull
     
     ; (Don't have three pendants => fail)
-    LDA $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .cant_pull
+    LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .cant_pull
     
     ; play "retrieving the master sword" music
     LDA.b #$0A : STA $012C
@@ -174,7 +174,7 @@ MasterSword_GrantToPlayer:
     LDX $8A
     
     ; Make it so the Master Sword won't show up again here.
-    LDA $7EF280, X : ORA.b #$40 : STA $7EF280, X
+    LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
     
     LDY.b #$01
     
@@ -185,7 +185,7 @@ MasterSword_GrantToPlayer:
     PLX
     
     ; Change Overworld map icon set
-    LDA.b #$05 : STA $7EF3C7
+    LDA.b #$05 : STA.l $7EF3C7
     
     ; Disable this shit, whatever it was (probably player oam related).
     STZ $0377

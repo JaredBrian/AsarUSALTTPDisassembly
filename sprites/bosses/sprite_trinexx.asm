@@ -156,10 +156,10 @@ TrinexxHead_Initialize:
     
     INC $0E80, X : LDA $0E80, X : AND.b #$7F : TAX
     
-    LDA $0D10, Y : STA $7FFC00, X
-    LDA $0D00, Y : STA $7FFD00, X
-    LDA $0D30, Y : STA $7FFC80, X
-    LDA $0D20, Y : STA $7FFD80, X
+    LDA $0D10, Y : STA.l $7FFC00, X
+    LDA $0D00, Y : STA.l $7FFD00, X
+    LDA $0D30, Y : STA.l $7FFC80, X
+    LDA $0D20, Y : STA.l $7FFD80, X
     
     PLX
     
@@ -312,10 +312,10 @@ TrinexxHead_Initialize:
     
     LDA $0E80, X : SEC : SBC $AF24, Y : AND.b #$7F : TAX
     
-    LDA $7FFC00, X : STA $0FD8
-    LDA $7FFC80, X : STA $0FD9
-    LDA $7FFD00, X : STA $0FDA
-    LDA $7FFD80, X : STA $0FDB
+    LDA.l $7FFC00, X : STA $0FD8
+    LDA.l $7FFC80, X : STA $0FD9
+    LDA.l $7FFD00, X : STA $0FDA
+    LDA.l $7FFD80, X : STA $0FDB
     
     PLX
     

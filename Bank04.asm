@@ -93,24 +93,24 @@ EasterEgg_BageCode:
     ; these are to check if your name is 'BAGE' (US rom) or ... 'iayuo' (JP rom)
     ; neither one makes much sense to me
     ; 'BAGE' could be 'bad game' as has been suggested
-    LDA $7003D9 : CMP.w #$0001 : BNE .fail
-    LDA $7003DB : CMP.w #$0000 : BNE .fail
-    LDA $7003DD : CMP.w #$0006 : BNE .fail
-    LDA $7003DF : CMP.w #$0004 : BNE .fail
+    LDA.l $7003D9 : CMP.w #$0001 : BNE .fail
+    LDA.l $7003DB : CMP.w #$0000 : BNE .fail
+    LDA.l $7003DD : CMP.w #$0006 : BNE .fail
+    LDA.l $7003DF : CMP.w #$0004 : BNE .fail
     
     SEP #$20
     
     ; Grant 1/2 magic consumption.
-    LDA.b #$01 : STA $7EF37B
+    LDA.b #$01 : STA.l $7EF37B
     
     LDA $F6
     
     JSL .check_button_press
     
-    LDA $7EF359 : CMP.b #$04 : BNE .not_golden_sword
+    LDA.l $7EF359 : CMP.b #$04 : BNE .not_golden_sword
     
-    LDA.b #$03 : STA $7EF35A
-    DEC A      : STA $7EF35B
+    LDA.b #$03 : STA.l $7EF35A
+    DEC A      : STA.l $7EF35B
     
     .not_golden_sword
     
@@ -124,14 +124,14 @@ EasterEgg_BageCode:
     BIT $F4 : BVS .y_button_not_pressed
     
     ; refill all hearts, magic, bombs, and arrows
-    LDA.b #$FF : STA $7EF372 : STA $7EF373 : STA $7EF375 : STA $7EF376
+    LDA.b #$FF : STA.l $7EF372 : STA.l $7EF373 : STA.l $7EF375 : STA.l $7EF376
     
     ; add 255 rupees to the player's stash
-                  CLC : ADC $7EF360 : STA $7EF360
-    LDA $7EF361 : ADC.b #$00  : STA $7EF361
+                  CLC : ADC.l $7EF360 : STA.l $7EF360
+    LDA.l $7EF361 : ADC.b #$00  : STA.l $7EF361
     
     ; give the player 9 keys
-    LDA.b #$09 : STA $7EF36F
+    LDA.b #$09 : STA.l $7EF36F
     
     .y_button_not_pressed
     
@@ -151,29 +151,29 @@ EasterEgg_BageCode:
     
     BPL .return
     
-    LDA $7EF359 : INC A : CMP.b #$05 : BCC .valid_sword
+    LDA.l $7EF359 : INC A : CMP.b #$05 : BCC .valid_sword
     
     LDA.b #$01
     
     .valid_sword
     
-    STA $7EF359
+    STA.l $7EF359
     
-    LDA $7EF35B : INC A : CMP.b #$03 : BNE .valid_armor
+    LDA.l $7EF35B : INC A : CMP.b #$03 : BNE .valid_armor
     
     LDA.b #$00
     
     .valid_armor
     
-    STA $7EF35B
+    STA.l $7EF35B
     
-    LDA $7EF35A : INC A : CMP.b #$04 : BNE .valid_shield
+    LDA.l $7EF35A : INC A : CMP.b #$04 : BNE .valid_shield
     
     LDA.b #$01
     
     .valid_shield
     
-    STA $7EF35A
+    STA.l $7EF35A
     
     .return
     

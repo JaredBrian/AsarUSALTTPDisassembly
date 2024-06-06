@@ -3306,7 +3306,7 @@ AnimateEntrance_Skull_step3:
         LDX.w #$0710
         LDA.w #$0E07
     
-        JSL $1BC97C
+        JSL.l $1BC97C
     
         LDX.w #$0712
         LDA.w #$0E08
@@ -3806,7 +3806,7 @@ AnimateEntrance_TurtleRock_step7:
 {
     LDA.b $1A : LSR A : BCS .exit
         LDA.b $C8 : AND.b #$07 : BNE .skip_sfx7
-            JSL $00EDB1 ; $006DB1 IN ROM
+            JSL.l $00EDB1 ; $006DB1 IN ROM
             
             LDA.b #$02 : STA.w $012F
         
@@ -3962,7 +3962,7 @@ AnimateEntrance_GanonsTower_step01:
     
     LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
-    JSL $0EDDFC ; $075DFC IN ROM
+    JSL.l $0EDDFC ; $075DFC IN ROM
     
     RTS
 }
@@ -3970,7 +3970,7 @@ AnimateEntrance_GanonsTower_step01:
 ; $0DCFF1-$0DD00D JUMP LOCATION
 AnimateEntrance_GanonsTower_step02:
 {
-    JSL $0EDDFC ; $075DFC IN ROM
+    JSL.l $0EDDFC ; $075DFC IN ROM
     
     LDA.b $1D : BNE .BRANCH_BETA
         INC.b $1D

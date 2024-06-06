@@ -53,7 +53,7 @@ Sprite_StoryTeller_1:
 ; $032DB5-$032DBE JUMP LOCATION
 {
     ; Refill all hearts
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     STZ $0D80, X
     
@@ -237,9 +237,9 @@ Sprite_StoryTeller_1:
 {
     REP #$20
     
-    LDA $7EF360 : CMP.w #$0014 : BCC .notEnoughRupees
+    LDA.l $7EF360 : CMP.w #$0014 : BCC .notEnoughRupees
     
-    LDA $7EF360 : SEC : SBC.w #$0014 : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.w #$0014 : STA.l $7EF360
     
     SEP #$30
     

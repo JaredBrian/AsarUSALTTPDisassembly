@@ -249,7 +249,7 @@ Ancilla_TravelBirdIntro:
     STZ $11
     
     ; Give player the Flute 3 item.
-    LDA.b #$03 : STA $7EF34C
+    LDA.b #$03 : STA.l $7EF34C
     
     .bird_on_screen_x
     

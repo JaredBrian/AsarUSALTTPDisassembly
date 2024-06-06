@@ -409,7 +409,7 @@ BallGuy_Dialogue:
 {
     LDA $0F10, X : BNE .delay
     
-    LDA $7EF357 : AND.b #$01 : TAY
+    LDA.l $7EF357 : AND.b #$01 : TAY
     
     LDA .messages_low, Y        : XBA
     LDA .messages_high, Y : TAY : XBA
@@ -455,7 +455,7 @@ Bully_Dialogue:
 {
     LDA $0F10, X : BNE .delay
     
-    LDA $7EF357 : AND.b #$01 : TAY
+    LDA.l $7EF357 : AND.b #$01 : TAY
     
     LDA .messages_low, Y        : XBA
     LDA .messages_high, Y : TAY : XBA

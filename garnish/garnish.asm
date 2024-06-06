@@ -12,7 +12,7 @@ ZoraFireball_SpawnTailGarnish:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -24,16 +24,16 @@ ZoraFireball_SpawnTailGarnish:
     
     .empty_slot
     
-    LDA.b #$08 : STA $7FF800, X : STA $0FB4
-    LDA.b #$0B : STA $7FF90E, X
+    LDA.b #$08 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$0B : STA.l $7FF90E, X
     
-    LDA $0FD8 : STA $7FF83C, X
-    LDA $0FD9 : STA $7FF878, X
+    LDA $0FD8 : STA.l $7FF83C, X
+    LDA $0FD9 : STA.l $7FF878, X
     
-    LDA $0FDA : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0FDB : ADC.b #$00 : STA $7FF85A, X
+    LDA $0FDA : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0FDB : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA $0FA0 : STA $7FF92C, X
+    LDA $0FA0 : STA.l $7FF92C, X
     
     PLX
     
@@ -130,18 +130,18 @@ Garnish_ExecuteSingle:
 {
     STX $0FA0
     
-    LDA $7FF800, X : BEQ .return
+    LDA.l $7FF800, X : BEQ .return
     CMP.b #$05     : BEQ .ignore_submodule
     
     LDA $11 : ORA $0FC1 : BNE .dont_self_terminate
     
     .ignore_submodule
     
-    LDA $7FF90E, X : BEQ .dont_self_terminate
+    LDA.l $7FF90E, X : BEQ .dont_self_terminate
     
-    DEC A : STA $7FF90E, X : BNE .dont_self_terminate
+    DEC A : STA.l $7FF90E, X : BNE .dont_self_terminate
     
-    STA $7FF800, X
+    STA.l $7FF800, X
     
     BRA .return
     
@@ -149,9 +149,9 @@ Garnish_ExecuteSingle:
     
     LDY $0FB3 : BEQ .dont_sort_sprites
     
-    LDA $7FF968, X : BEQ .on_bg2
+    LDA.l $7FF968, X : BEQ .on_bg2
     
-    LDA $7FF800, X : TAY
+    LDA.l $7FF800, X : TAY
     
     LDA .oam_allocation-1, Y : JSL OAM_AllocateFromRegionF
     
@@ -159,7 +159,7 @@ Garnish_ExecuteSingle:
     
     .on_bg2
     
-    LDA $7FF800, X : TAY
+    LDA.l $7FF800, X : TAY
     
     LDA .oam_allocation-1, Y : JSL OAM_AllocateFromRegionD
     
@@ -167,13 +167,13 @@ Garnish_ExecuteSingle:
     
     .dont_sort_sprites
     
-    LDA $7FF800, X : TAY
+    LDA.l $7FF800, X : TAY
     
     LDA .oam_allocation-1, Y : JSL OAM_AllocateFromRegionA
     
     .execute_handler
     
-    LDA $7FF800, X : DEC A
+    LDA.l $7FF800, X : DEC A
     
     REP #$30
     
@@ -241,15 +241,15 @@ Garnish_Move_XY:
     ; 4B25C ALTERNATE ENTRY POINT 
     shared Garnish_MoveVert:
     
-    LDA $7FF896, X : ASL #4 : CLC : ADC $7FF8D2, X : STA $7FF8D2, X
+    LDA.l $7FF896, X : ASL #4 : CLC : ADC.l $7FF8D2, X : STA.l $7FF8D2, X
     
-    LDA $7FF896, X : PHP : LSR #4 : PLP : BPL .alpha
+    LDA.l $7FF896, X : PHP : LSR #4 : PLP : BPL .alpha
     
     ORA.b #$F0
     
     .alpha
     
-    ADC $7FF81E, X : STA $7FF81E, X
+    ADC.l $7FF81E, X : STA.l $7FF81E, X
     
     RTS
 }
@@ -274,13 +274,13 @@ incsrc "garnish_laser_beam_trail.asm"
 ; $04B5DE-$04B612 LOCAL JUMP LOCATION
 Garnish_PrepOamCoord:
 {
-    LDA $7FF83C, X : SEC : SBC $E2 : STA $00
-    LDA $7FF878, X : SBC $E3 : STA $01
+    LDA.l $7FF83C, X : SEC : SBC $E2 : STA $00
+    LDA.l $7FF878, X : SBC $E3 : STA $01
     
     BNE .off_screen
     
-    LDA $7FF81E, X : SEC : SBC $E8 : PHA
-    LDA $7FF85A, X : SBC $E9
+    LDA.l $7FF81E, X : SEC : SBC $E8 : PHA
+    LDA.l $7FF85A, X : SBC $E9
     
     BEQ .on_screen
     
@@ -289,7 +289,7 @@ Garnish_PrepOamCoord:
     .off_screen
     
     ; self terminate?
-    LDA.b #$00 : STA $7FF800, X
+    LDA.b #$00 : STA.l $7FF800, X
     
     PLA : PLA
     

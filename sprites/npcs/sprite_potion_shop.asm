@@ -37,7 +37,7 @@ PotionShop_SpawnMagicPowder:
 {
     LDA $0ABF : BEQ .must_leave_area_and_come_back
     
-    LDA $7EF344 : CMP.b #$02 : BEQ .has_magic_powder
+    LDA.l $7EF344 : CMP.b #$02 : BEQ .has_magic_powder
     
     PHX
     
@@ -48,7 +48,7 @@ PotionShop_SpawnMagicPowder:
     ; Hardcoded check for the potion shop room's flags (room 0x109)
     LDX.w #$0212
     
-    LDA $7EF000, X : AND.b #$80 : STA $00
+    LDA.l $7EF000, X : AND.b #$80 : STA $00
     
     SEP #$30
     
@@ -272,7 +272,7 @@ Sprite_GreenPotionItem:
     REP #$20
     
     ; does the player have 60 rupees?
-    LDA $7EF360 : CMP.w #$003C : SEP #$30 : BCC .delta
+    LDA.l $7EF360 : CMP.w #$003C : SEP #$30 : BCC .delta
     
     JSL Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
     
@@ -282,7 +282,7 @@ Sprite_GreenPotionItem:
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC.w #$003C : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.w #$003C : STA.l $7EF360
     
     SEP #$30
     
@@ -369,7 +369,7 @@ Sprite_BluePotionItem:
     REP #$20
     
     ; check if the player has 160 rupees
-    LDA $7EF360 : CMP.w #$00A0 : SEP #$30 : BCC .delta
+    LDA.l $7EF360 : CMP.w #$00A0 : SEP #$30 : BCC .delta
     
     JSL Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
     
@@ -379,7 +379,7 @@ Sprite_BluePotionItem:
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC.w #$00A0 : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.w #$00A0 : STA.l $7EF360
     
     SEP #$30
     
@@ -467,7 +467,7 @@ Sprite_RedPotionItem:
     REP #$20
     
     ; check if player has 120 rupees
-    LDA $7EF360 : CMP.w #$0078 : SEP #$30 : BCC .delta
+    LDA.l $7EF360 : CMP.w #$0078 : SEP #$30 : BCC .delta
     
     JSL Sprite_GetEmptyBottleIndex : BMI .player_has_no_empty_bottle
     
@@ -477,7 +477,7 @@ Sprite_RedPotionItem:
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC.w #$0078 : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.w #$0078 : STA.l $7EF360
     
     SEP #$30
     
@@ -553,7 +553,7 @@ RedPotionItem_Draw:
 ; $02F880-$02F892 LOCAL JUMP LOCATION
 WitchAssistant_CheckIfHaveAnyBottles:
 {
-    LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
+    LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
     
     ; Determines whether we have a bottle or not.
     CMP.b #$02
@@ -574,7 +574,7 @@ Sprite_WitchAssistant:
     
     LDA $0D80, X : BEQ .beta
     
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     STZ $0D80, X
     
@@ -582,13 +582,13 @@ Sprite_WitchAssistant:
     
     LDA $1A : LSR #5 : AND.b #$01 : STA $0DC0, X
     
-    LDA $7EF35C : CMP.b #$02 : BCS .gamma
+    LDA.l $7EF35C : CMP.b #$02 : BCS .gamma
     
-    LDA $7EF35D : CMP.b #$02 : BCS .gamma
+    LDA.l $7EF35D : CMP.b #$02 : BCS .gamma
     
-    LDA $7EF35E : CMP.b #$02 : BCS .gamma
+    LDA.l $7EF35E : CMP.b #$02 : BCS .gamma
     
-    LDA $7EF35F : CMP.b #$02 : BCS .gamma
+    LDA.l $7EF35F : CMP.b #$02 : BCS .gamma
     
     LDA $0ABF : BEQ .gamma
     

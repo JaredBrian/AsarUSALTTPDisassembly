@@ -569,7 +569,7 @@ Bomb_CheckSpriteAndPlayerDamage:
     LDA $0403 : AND.b #$80 : BNE .dont_damage_player
     
     ; Check his armor status
-    LDA $7EF35B : TAY
+    LDA.l $7EF35B : TAY
     
     ; Damage Link by this amount
     LDA .damage_quantities, Y : STA $0373

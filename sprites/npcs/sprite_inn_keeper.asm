@@ -38,7 +38,7 @@ Sprite_InnKeeper:
     JSR Sprite2_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $7EF356 : TAY
+    LDA.l $7EF356 : TAY
     
     LDA .messages_low, Y        : XBA
     LDA .messages_high, Y : TAY : XBA

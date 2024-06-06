@@ -158,11 +158,11 @@ Beamos_FireBeam:
     
     .init_subsprite_positions
     
-    LDA $0D10, Y : STA $7FFD80, X
-    LDA $0D30, Y : STA $7FFE00, X
+    LDA $0D10, Y : STA.l $7FFD80, X
+    LDA $0D30, Y : STA.l $7FFE00, X
     
-    LDA $0D00, Y : STA $7FFE80, X
-    LDA $0D20, Y : STA $7FFF00, X
+    LDA $0D00, Y : STA.l $7FFE80, X
+    LDA $0D20, Y : STA.l $7FFF00, X
     
     DEX
     
@@ -393,11 +393,11 @@ Sprite_BeamosLaser:
     
     ; Essentially, all this is to transfer the sprite's current coordinates
     ; to each subsprite's coordinates.
-    PLA : STA $7FFF00, X
-    PLA : STA $7FFE80, X
+    PLA : STA.l $7FFF00, X
+    PLA : STA.l $7FFE80, X
     
-    PLA : STA $7FFE00, X
-    PLA : STA $7FFD80, X
+    PLA : STA.l $7FFE00, X
+    PLA : STA.l $7FFD80, X
     
     PLX
     
@@ -489,10 +489,10 @@ BeamosLaser_Draw:
     
     .next_subsprite
     
-    LDA $7FFD80, X : STA $00
-    LDA $7FFE00, X : STA $01
-    LDA $7FFE80, X : STA $02
-    LDA $7FFF00, X : STA $03
+    LDA.l $7FFD80, X : STA $00
+    LDA.l $7FFE00, X : STA $01
+    LDA.l $7FFE80, X : STA $02
+    LDA.l $7FFF00, X : STA $03
     
     REP #$20
     

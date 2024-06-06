@@ -1742,7 +1742,7 @@ Palette_Sword:
     REP #$21
     
     ; Figure out what kind of sword Link has.
-    LDA $7EF359 : AND.w #$00FF : TAX
+    LDA.l $7EF359 : AND.w #$00FF : TAX
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D630 is the address for PaletteData_sword.
@@ -1772,7 +1772,7 @@ Palette_Shield:
     REP #$21
     
     ; Figure out what kind of shield Link has.
-    LDA $7EF35A : AND.w #$00FF : TAX
+    LDA.l $7EF35A : AND.w #$00FF : TAX
     
     LDA ShieldPaletteOffsets, X : AND.w #$00FF : ADC.w #$D648 : STA $00
     
@@ -1942,7 +1942,7 @@ Palette_ArmorAndGloves:
     REP #$21
     
     ; Check what Link's armor value is.
-    LDA $7EF35B : AND.w #$00FF : TAX
+    LDA.l $7EF35B : AND.w #$00FF : TAX
     
     LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL A : ADC.w #$D308 : STA $00
     
@@ -1960,10 +1960,10 @@ Palette_ArmorAndGloves:
     
     ; Check what type of Gloves Link has.
     ; If Link has no special gloves I guess you use a default?
-    LDA $7EF354 : AND.w #$00FF : BEQ .defaultGloveColor
+    LDA.l $7EF354 : AND.w #$00FF : BEQ .defaultGloveColor
         DEC A : ASL A : TAX
         
-        LDA Palettes_LinkGloveColors, X : STA $7EC4FA : STA $7EC6FA
+        LDA Palettes_LinkGloveColors, X : STA.l $7EC4FA : STA.l $7EC6FA
     
     .defaultGloveColor
     
@@ -2194,7 +2194,7 @@ Palette_SingleLoad:
     .copyPalette
 
         ; Since this is a long indirect, that's why #$1B was put in $02.
-        LDA [$00] : STA $7EC300, X
+        LDA [$00] : STA.l $7EC300, X
         
         INC $00 : INC $00
         
@@ -2234,7 +2234,7 @@ Palette_MultiLoad:
     
     .copyColors
         ; We're loading A from the address set up in the calling function.
-        LDA [$00] : STA $7EC300, X 
+        LDA [$00] : STA.l $7EC300, X 
         
         ; Increment the absolute portion of the address by two, and decrease
         ; the color count by one.
@@ -2273,7 +2273,7 @@ Palette_ArbitraryLoad:
     
     .loop
 
-        LDA [$00] : STA $7EC300, X : STA $7EC500, X
+        LDA [$00] : STA.l $7EC300, X : STA.l $7EC500, X
         
         INC $00 : INC $00
         
@@ -2301,22 +2301,22 @@ Palette_SelectScreen:
     LDX.w #$0000
     
     ; This tells us what kind of gloves link has.
-    LDA $700354 : STA $0C
+    LDA.l $700354 : STA $0C
     
     ; The value for your armor.
-    LDA $70035B
+    LDA.l $70035B
     
     JSR Palette_SelectScreenArmor
     
     LDX.w #$0000
     
-    LDA $700359
+    LDA.l $700359
     
     JSR Palette_SelectScreenSword
     
     LDX.w #$0000
     
-    LDA $70035A
+    LDA.l $70035A
     
     JSR Palette_SelectScreenShield
     
@@ -2325,22 +2325,22 @@ Palette_SelectScreen:
     LDX.w #$0040
     
     ; Again we need the palette for his gloves.
-    LDA $700854 : STA $0C
+    LDA.l $700854 : STA $0C
     
     ; The value for the armor.
-    LDA $70085B
+    LDA.l $70085B
     
     JSR Palette_SelectScreenArmor
     
     LDX.w #$0040
     
-    LDA $700859
+    LDA.l $700859
     
     JSR Palette_SelectScreenSword
     
     LDX.w #$0040
     
-    LDA $70085A
+    LDA.l $70085A
     
     JSR Palette_SelectScreenShield
     
@@ -2349,21 +2349,21 @@ Palette_SelectScreen:
     LDX.w #$0080
     
     ; Again we need the palette for his gloves.
-    LDA $700D54 : STA $0C
+    LDA.l $700D54 : STA $0C
     
-    LDA $700D5B
+    LDA.l $700D5B
     
     JSR Palette_SelectScreenArmor
     
     LDX.w #$0080
     
-    LDA $700D59
+    LDA.l $700D59
     
     JSR Palette_SelectScreenSword
     
     LDX.w #$0080
     
-    LDA $700D5A
+    LDA.l $700D5A
     
     JSR Palette_SelectScreenShield
     
@@ -2375,8 +2375,8 @@ Palette_SelectScreen:
         ; This section of code has to do with loading the fairy sprite used
         ; For selecting which game you're in.
         
-        LDA.w PaletteData_sprite_00_right, Y : STA $7EC4D0, X : STA $7EC6D0, X
-        LDA.w PaletteData_sprite_01_right, Y : STA $7EC4F0, X : STA $7EC6F0, X
+        LDA.w PaletteData_sprite_00_right, Y : STA.l $7EC4D0, X : STA.l $7EC6D0, X
+        LDA.w PaletteData_sprite_01_right, Y : STA.l $7EC4F0, X : STA.l $7EC6F0, X
         
         INY #2
         INX #2
@@ -2410,7 +2410,7 @@ Palette_SelectScreenArmor:
     .loadArmorPalette
     
         ; Load the fairys's palette data?
-        LDA.w PaletteData, Y : STA $7EC402, X : STA $7EC602, X
+        LDA.w PaletteData, Y : STA.l $7EC402, X : STA.l $7EC602, X
         
         INY #2
         
@@ -2426,7 +2426,7 @@ Palette_SelectScreenArmor:
         DEC A : ASL A : TAY
         
         ; X will be #$00, #$40, #$80...
-        LDA.w Palettes_LinkGloveColors, Y : STA $7EC41A, X : STA $7EC61A, X
+        LDA.w Palettes_LinkGloveColors, Y : STA.l $7EC41A, X : STA.l $7EC61A, X
     
     .defaultGloveColor
     
@@ -2450,7 +2450,7 @@ Palette_SelectScreenSword:
     
     .copyPalette
     
-        LDA.w PaletteData, Y : STA $7EC432, X : STA $7EC632, X
+        LDA.w PaletteData, Y : STA.l $7EC432, X : STA.l $7EC632, X
         
         INY #2
         
@@ -2480,7 +2480,7 @@ Palette_SelectScreenShield:
     
     .copyPalette
     
-        LDA.w PaletteData, Y : STA $7EC438, X : STA $7EC638, X
+        LDA.w PaletteData, Y : STA.l $7EC438, X : STA.l $7EC638, X
         
         INY #2
         
@@ -2532,7 +2532,7 @@ Palettes_LoadAgahnim:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA $1BEC00 : CLC : ADC.w #$D4E0 : STA $00
+    LDA.l $1BEC00 : CLC : ADC.w #$D4E0 : STA $00
     
     LDA.w #$01C2
     LDX.w #$0006

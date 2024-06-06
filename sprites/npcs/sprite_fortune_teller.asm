@@ -64,7 +64,7 @@ FortuneTeller_Main:
     JSR FortuneTeller_Draw
     JSR Sprite5_CheckIfActive
     
-    LDA $7EF3CA : ASL A : ROL #2 : AND.b #$01
+    LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -110,7 +110,7 @@ LW_FortuneTeller_WaitForInquiry:
     
     REP #$20
     
-    LDA $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
+    LDA.l $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
     
     INC $0D80, X
     
@@ -216,7 +216,7 @@ FortuneTeller_GiveReading:
     
     STZ $03
     
-    LDA $7EF3C7 : CMP.b #$03 : BCS .three_pendant_map_icons_or_better
+    LDA.l $7EF3C7 : CMP.b #$03 : BCS .three_pendant_map_icons_or_better
     
     STZ $00
     STZ $01
@@ -225,7 +225,7 @@ FortuneTeller_GiveReading:
     
     .three_pendant_map_icons_or_better
     
-    LDA $7EF34E : BNE .has_book_of_mudora
+    LDA.l $7EF34E : BNE .has_book_of_mudora
     
     LDA.b #$02
     
@@ -236,7 +236,7 @@ FortuneTeller_GiveReading:
     .also_load_next_1
     .has_book_of_mudora
     
-    LDA $7EF374 : AND.b #$02 : BNE .has_pendant_of_wisdom
+    LDA.l $7EF374 : AND.b #$02 : BNE .has_pendant_of_wisdom
     
     LDA.b #$01
     
@@ -247,7 +247,7 @@ FortuneTeller_GiveReading:
     .also_load_next_2
     .has_pendant_of_wisdom
     
-    LDA $7EF344 : CMP.b #$02 : BCS .has_magic_powder
+    LDA.l $7EF344 : CMP.b #$02 : BCS .has_magic_powder
     
     LDA.b #$03
     
@@ -258,7 +258,7 @@ FortuneTeller_GiveReading:
     .also_load_next_3
     .has_magic_powder
     
-    LDA $7EF356 : BNE .has_flippers
+    LDA.l $7EF356 : BNE .has_flippers
     
     LDA.b #$04
     
@@ -269,7 +269,7 @@ FortuneTeller_GiveReading:
     .also_load_next_4
     .has_flippers
     
-    LDA $7EF357 : BNE .has_moon_pearl
+    LDA.l $7EF357 : BNE .has_moon_pearl
     
     LDA.b #$05
     
@@ -277,7 +277,7 @@ FortuneTeller_GiveReading:
     
     .has_moon_pearl
     
-    LDA $7EF3C5 : CMP.b #$03 : BCS .beaten_agahnim
+    LDA.l $7EF3C5 : CMP.b #$03 : BCS .beaten_agahnim
     
     LDA.b #$06
     
@@ -285,7 +285,7 @@ FortuneTeller_GiveReading:
     
     .beaten_agahnim
     
-    LDA $7EF37B : BNE .has_halved_magic_usage
+    LDA.l $7EF37B : BNE .has_halved_magic_usage
     
     LDA.b #$07
     
@@ -293,7 +293,7 @@ FortuneTeller_GiveReading:
     
     .has_halved_magic_usage
     
-    LDA $7EF347 : BNE .has_bombos_medallion
+    LDA.l $7EF347 : BNE .has_bombos_medallion
     
     LDA.b #$08
     
@@ -301,7 +301,7 @@ FortuneTeller_GiveReading:
     
     .has_bombos_medallion
     
-    LDA $7EF3C9 : AND.b #$10 : BNE .opened_thieves_chest
+    LDA.l $7EF3C9 : AND.b #$10 : BNE .opened_thieves_chest
     
     LDA.b #$09
     
@@ -309,7 +309,7 @@ FortuneTeller_GiveReading:
     
     .opened_thieves_chest
     
-    LDA $7EF3C9 : AND.b #$20 : BNE .saved_smithy_frog
+    LDA.l $7EF3C9 : AND.b #$20 : BNE .saved_smithy_frog
     
     LDA.b #$0A
     
@@ -317,7 +317,7 @@ FortuneTeller_GiveReading:
     
     .saved_smithy_frog
     
-    LDA $7EF352 : BNE .has_magic_cape
+    LDA.l $7EF352 : BNE .has_magic_cape
     
     LDA.b #$0B
     
@@ -325,7 +325,7 @@ FortuneTeller_GiveReading:
     
     .has_magic_cape
     
-    LDA $7EF2DB : AND.b #$02 : BNE .bombed_open_pyramid
+    LDA.l $7EF2DB : AND.b #$02 : BNE .bombed_open_pyramid
     
     LDA.b #$0C
     
@@ -333,7 +333,7 @@ FortuneTeller_GiveReading:
     
     .bombed_open_pyramid
     
-    LDA $7EF359 : CMP.b #$04 : BCS .has_golden_sword
+    LDA.l $7EF359 : CMP.b #$04 : BCS .has_golden_sword
     
     LDA.b #$0D
     
@@ -353,7 +353,7 @@ FortuneTeller_GiveReading:
     
     ; Allows the fortune teller to alternate between two different messages
     ; within one group.
-    LDA $7EF3C6 : EOR.b #$40 : STA $7EF3C6
+    LDA.l $7EF3C6 : EOR.b #$40 : STA.l $7EF3C6
     
     AND.b #$40 : ROL #3 : AND.b #$01 : TAY
     
@@ -419,13 +419,13 @@ LW_FortuneTeller_DeductPayment:
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC FortuneTeller_Prices, Y : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC FortuneTeller_Prices, Y : STA.l $7EF360
     
     SEP #$30
     
     INC $0D80, X
     
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     STZ $02E4
     
@@ -465,7 +465,7 @@ DW_FortuneTeller_WaitForInquiry:
     
     REP #$20
     
-    LDA $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
+    LDA.l $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
     
     INC $0D80, X
     
@@ -640,13 +640,13 @@ DW_FortuneTeller_DeductPayment:
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC FortuneTeller_Prices, Y : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC FortuneTeller_Prices, Y : STA.l $7EF360
     
     SEP #$30
     
     INC $0D80, X
     
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     STZ $02E4
     
@@ -684,7 +684,7 @@ Pool_FortuneTeller_Draw:
 ; $06CB01-$06CB29 LOCAL JUMP LOCATION
 FortuneTeller_Draw:
 {
-    LDA $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA $00
+    LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA $00
     
     ASL A : ADC $00 : ADC $0DC0, X : ASL A : ADC $0DC0, X : ASL #3
     

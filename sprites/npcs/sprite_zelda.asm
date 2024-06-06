@@ -20,7 +20,7 @@ SpritePrep_ZeldaLong:
 ; $02EBCF-$02EC4B LOCAL JUMP LOCATION
 SpritePrep_Zelda:
 {
-    LDA $7EF359 : CMP.b #$02 : BCS .hasMasterSword
+    LDA.l $7EF359 : CMP.b #$02 : BCS .hasMasterSword
     
     INC $0BA0, X
     
@@ -28,9 +28,9 @@ SpritePrep_Zelda:
     
     STA $0EB0, X : STA $0DE0, X
     
-    LDA $7EF3CC : PHA
+    LDA.l $7EF3CC : PHA
     
-    LDA.b #$01 : STA $7EF3CC
+    LDA.b #$01 : STA.l $7EF3CC
     
     PHX
     
@@ -38,13 +38,13 @@ SpritePrep_Zelda:
     
     PLX
     
-    PLA : STA $7EF3CC
+    PLA : STA.l $7EF3CC
     
     LDA $A0 : CMP.b #$12 : BNE .notInSanctuary
     
     LDA.b #$02 : STA $0E80, X
     
-    LDA $7EF3C6 : AND.b #$04 : BNE .been_brought_to_sanctuary_already
+    LDA.l $7EF3C6 : AND.b #$04 : BNE .been_brought_to_sanctuary_already
     
     .hasMasterSword
     
@@ -67,9 +67,9 @@ SpritePrep_Zelda:
     
     LDA.b #$00 : STA $0E80, X
     
-    LDA $7EF3CC : CMP.b #$01 : BEQ .delta
+    LDA.l $7EF3CC : CMP.b #$01 : BEQ .delta
     
-    LDA $7EF3C6 : AND.b #$04 : BEQ .epsilon
+    LDA.l $7EF3C6 : AND.b #$04 : BEQ .epsilon
     
     .delta
     
@@ -104,7 +104,7 @@ Zelda_TransitionFromTagalong:
     
     LDA.b #$01 : STA $0E80, Y
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     LDA $0BA0, Y : INC A : STA $0BA0, Y
     
@@ -288,11 +288,11 @@ Zelda_TransitionToTagalong:
 {
     STZ $02E4
     
-    LDA.b #$02 : STA $7EF3C8
+    LDA.b #$02 : STA.l $7EF3C8
     
     JSL SavePalaceDeaths
     
-    LDA.b #$01 : STA $7EF3CC
+    LDA.b #$01 : STA.l $7EF3CC
     
     PHX
     
@@ -385,13 +385,13 @@ Zelda_RespondToPriest:
     
     INC $0D80, X
     
-    LDA.b #$02 : STA $7FFE01
+    LDA.b #$02 : STA.l $7FFE01
     
-    LDA.b #$01 : STA $7EF3C8
+    LDA.b #$01 : STA.l $7EF3C8
     
     JSL SavePalaceDeaths
     
-    LDA.b #$02 : STA $7EF3C5
+    LDA.b #$02 : STA.l $7EF3C5
     
     PHX
     
@@ -449,7 +449,7 @@ Zelda_AtSanctuary:
     
     LDY.b #$00
     
-    LDA $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .need_moar_pendants
+    LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .need_moar_pendants
     
     LDY.b #$02
     
@@ -457,7 +457,7 @@ Zelda_AtSanctuary:
     
     .need_moar_pendants
     
-    LDA $7EF3C7 : CMP.b #$03 : BCC .pick_message
+    LDA.l $7EF3C7 : CMP.b #$03 : BCC .pick_message
     
     LDY.b #$01
     
@@ -471,7 +471,7 @@ Zelda_AtSanctuary:
     STA $0DE0, X : STA $0EB0, X
     
     ; Restore player health completely.
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     .no_talky_talky
     

@@ -736,20 +736,20 @@ CrumbleTilePath_SpawnCrumbleTileGarnish:
     
     .next_slot
     
-    LDA $7FF800, X : BNE .non_empty_slot
+    LDA.l $7FF800, X : BNE .non_empty_slot
     
-    LDA.b #$03 : STA $7FF800, X
+    LDA.b #$03 : STA.l $7FF800, X
     
-    LDA $0B08, Y : STA $7FF83C, X
+    LDA $0B08, Y : STA.l $7FF83C, X
     
     JSL Sound_GetFineSfxPan : ORA.b #$1F : STA $012E
     
-    LDA $0B10, Y : STA $7FF878, X
+    LDA $0B10, Y : STA.l $7FF878, X
     
-    LDA $0B18, Y : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0B20, Y : ADC.b #$00 : STA $7FF85A, X
+    LDA $0B18, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0B20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$1F : STA $7FF90E, X
+    LDA.b #$1F : STA.l $7FF90E, X
                  STA $0FB4
     
     BRA .return

@@ -115,7 +115,7 @@ DashKey_GiveToPlayer:
 {
     ; Increase the number of Keys Link has.
     
-    LDA $7EF36F : INC A : STA $7EF36F
+    LDA.l $7EF36F : INC A : STA.l $7EF36F
     
     STZ $0DD0, X ; Kill the sprite
     

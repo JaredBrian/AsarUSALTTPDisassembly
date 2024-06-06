@@ -21,7 +21,7 @@ Garnish_BabusuFlash:
     LDA $00       : STA ($90), Y
     LDA $02 : INY : STA ($90), Y
     
-    LDA $7FF90E, X : LSR #3
+    LDA.l $7FF90E, X : LSR #3
     
     PHX
     

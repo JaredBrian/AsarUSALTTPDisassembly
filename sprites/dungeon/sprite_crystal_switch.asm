@@ -17,7 +17,7 @@ Sprite_CrystalSwitch:
     LDA $0F50, X : AND.b #$F1 : STA $0F50, X
     
     ; Blue / Orange barrier state
-    LDA $7EC172 : AND.b #$01 : TAY
+    LDA.l $7EC172 : AND.b #$01 : TAY
     
     ; Select the palette for the peg switch based on that state.
     LDA .palettes, Y : ORA $0F50, X : STA $0F50, X
@@ -67,7 +67,7 @@ Sprite_CrystalSwitch:
     DEC $0EA0, X : CMP.b #$0B : BNE .dont_switch_state
     
     ; Change the orange/blue barrier state
-    LDA $7EC172 : EOR.b #$01 : STA $7EC172
+    LDA.l $7EC172 : EOR.b #$01 : STA.l $7EC172
     
     LDA.b #$16 : STA $11
     

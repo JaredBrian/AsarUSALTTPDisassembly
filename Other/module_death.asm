@@ -53,8 +53,8 @@ Module_Death:
     ; $04F2A4 ALTERNATE ENTRY POINT
     
     ; ????
-    LDA $0130 : STA $7EC227
-    LDA $0131 : STA $7EC228
+    LDA $0130 : STA.l $7EC227
+    LDA $0131 : STA.l $7EC228
     
     ; Fade volume to nothing
     LDA.b #$F1 : STA $012C
@@ -71,8 +71,8 @@ Module_Death:
     REP #$20
     
     ; cache mosaic level settings in temporary variables
-    LDA $7EC007 : STA $7EC221
-    LDA $7EC009 : STA $7EC223
+    LDA.l $7EC007 : STA.l $7EC221
+    LDA.l $7EC009 : STA.l $7EC223
     
     LDX.b #$00
     
@@ -80,20 +80,20 @@ Module_Death:
     ; red to black after Link falls down
     .blackenAuxiliary
     
-    LDA $7EC300, X : STA $7FDD80, X
-    LDA $7EC340, X : STA $7FDDC0, X
-    LDA $7EC380, X : STA $7FDE00, X
-    LDA $7EC3C0, X : STA $7FDE40, X
+    LDA.l $7EC300, X : STA.l $7FDD80, X
+    LDA.l $7EC340, X : STA.l $7FDDC0, X
+    LDA.l $7EC380, X : STA.l $7FDE00, X
+    LDA.l $7EC3C0, X : STA.l $7FDE40, X
     
-    LDA.w #$0000 : STA $7EC340, X : STA $7EC380, X : STA $7EC3C0, X
+    LDA.w #$0000 : STA.l $7EC340, X : STA.l $7EC380, X : STA.l $7EC3C0, X
     
     INX #2 : CPX.b #$40 : BNE .blackenAuxiliary
     
-    STA $7EC007 : STA $7EC009
+    STA.l $7EC007 : STA.l $7EC009
     
     STZ $011A : STZ $011C
     
-    LDA $99 : STA $7EC225
+    LDA $99 : STA.l $7EC225
     
     SEP #$20
     
@@ -103,7 +103,7 @@ Module_Death:
     STZ $04A0
     
     ; Setting $04A0 to 0 turns off the display of the floor level indicator on bg3
-    JSL $0AFD0C ; $57D0C
+    JSL.l $0AFD0C ; $57D0C
     
     INC $16
     
@@ -139,8 +139,8 @@ Module_Death:
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
     
-    LDA $7EC540 : STA $7EC500
-    LDA $7EC541 : STA $7EC501
+    LDA.l $7EC540 : STA.l $7EC500
+    LDA.l $7EC541 : STA.l $7EC501
     
     LDA $10 : PHA
     
@@ -159,12 +159,12 @@ Module_Death:
     
     .fill_main_bg_palettes_with_red
     
-    STA $7EC540, X : STA $7EC560, X : STA $7EC580, X
-    STA $7EC5A0, X : STA $7EC5C0, X : STA $7EC5E0, X
+    STA.l $7EC540, X : STA.l $7EC560, X : STA.l $7EC580, X
+    STA.l $7EC5A0, X : STA.l $7EC5C0, X : STA.l $7EC5E0, X
     
     INX #2 : CPX.b #$20 : BNE .fill_main_bg_palettes_with_red
     
-    STA $7EC500 : STA $7EC540
+    STA.l $7EC500 : STA.l $7EC540
     
     SEP #$20
     
@@ -191,7 +191,7 @@ Module_Death:
     LDA.b #$20 : STA $9A
     LDA.b #$40 : STA $C8
     
-    LDA.b #$00 : STA $7EC007 : STA $7EC009
+    LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
     
     JSL Death_PrepFaint
     
@@ -208,31 +208,31 @@ Module_Death:
     
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
     
-    LDA $7EC540 : STA $7EC500
-    LDA $7EC541 : STA $7EC501
+    LDA.l $7EC540 : STA.l $7EC500
+    LDA.l $7EC541 : STA.l $7EC501
     
-    LDA $7EC009 : CMP.b #$FF : BNE .BRANCH_BETA
+    LDA.l $7EC009 : CMP.b #$FF : BNE .BRANCH_BETA
     
-    LDA.b #$00 : STA $7EC011
+    LDA.b #$00 : STA.l $7EC011
                  STA $0647
     
     LDA.b #$03 : STA $95
     
     LDX.b #$00
     
-    LDA.b #$06 : CMP $7EF35C : BEQ .hasBottledFairy
+    LDA.b #$06 : CMP.l $7EF35C : BEQ .hasBottledFairy
     
     INX
     
-    CMP $7EF35D : BEQ .hasBottledFairy
+    CMP.l $7EF35D : BEQ .hasBottledFairy
     
     INX
     
-    CMP $7EF35E : BEQ .hasBottledFairy
+    CMP.l $7EF35E : BEQ .hasBottledFairy
     
     INX
     
-    CMP $7EF35F : BEQ .hasBottledFairy
+    CMP.l $7EF35F : BEQ .hasBottledFairy
     
     ; has no bottled fairy
     STZ $05FC : STZ $05FD
@@ -254,7 +254,7 @@ Module_Death:
     .hasBottledFairy
     
     ; Empty that bottle.
-    LDA.b #$02 : STA $7EF35C, X
+    LDA.b #$02 : STA.l $7EF35C, X
     
     ; Switch to a different fricken submode of this module?
     LDA.b #$0C : STA $C8
@@ -395,15 +395,15 @@ Death_ShowSaveOptionsMenu:
     
     .BRANCH_ZETA
     
-    JSL $02856A ; $01056A IN ROM
+    JSL.l $02856A ; $01056A IN ROM
     
-    LDA $7EF3C5 : CMP.b #$03 : BCS .BRANCH_THETA
+    LDA.l $7EF3C5 : CMP.b #$03 : BCS .BRANCH_THETA
     
-    LDA.b #$00 : STA $7EF3CA
+    LDA.b #$00 : STA.l $7EF3CA
     
-    LDA $7EF357 : BNE .BRANCH_THETA
+    LDA.l $7EF357 : BNE .BRANCH_THETA
     
-    JSL $028570 ; $010570 IN ROM
+    JSL.l $028570 ; $010570 IN ROM
     
     .BRANCH_THETA
     
@@ -413,9 +413,9 @@ Death_ShowSaveOptionsMenu:
     
     .BRANCH_IOTA
     
-    JSL $0BFFBF ; $05FFBF IN ROM
+    JSL.l $0BFFBF ; $05FFBF IN ROM
     
-    LDA $7EF3CC
+    LDA.l $7EF3CC
     
     CMP.b #$06 : BEQ .BRANCH_KAPPA
     CMP.b #$0D : BEQ .BRANCH_KAPPA
@@ -424,13 +424,13 @@ Death_ShowSaveOptionsMenu:
     
     .BRANCH_KAPPA
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     .BRANCH_LAMBDA
 
-    LDA $7EF36C : LSR #3 : TAX
+    LDA.l $7EF36C : LSR #3 : TAX
     
-    LDA $09F4AC, X : STA $7EF36D : STA $04AA
+    LDA.l $09F4AC, X : STA.l $7EF36D : STA $04AA
     
     LDA $040C
     
@@ -443,7 +443,7 @@ Death_ShowSaveOptionsMenu:
     
     LSR A : TAX
     
-    LDA $7EF36F : STA $7EF37C, X
+    LDA.l $7EF36F : STA.l $7EF37C, X
     
     .BRANCH_MU
     
@@ -451,9 +451,9 @@ Death_ShowSaveOptionsMenu:
     
     REP #$20
     
-    LDA $7EF405 : CMP.w #$FFFF : BNE .playerHasDeaths
+    LDA.l $7EF405 : CMP.w #$FFFF : BNE .playerHasDeaths
     
-    LDA $7EF403 : INC A : STA $7EF403
+    LDA.l $7EF403 : INC A : STA.l $7EF403
     
     .playerHasDeaths
     
@@ -465,7 +465,7 @@ Death_ShowSaveOptionsMenu:
     
     LDA $1B : BEQ .BRANCH_PI
     
-    LDA $7EF3CC : CMP.b #$01 : BEQ .BRANCH_RHO
+    LDA.l $7EF3CC : CMP.b #$01 : BEQ .BRANCH_RHO
     
     LDA $040C : CMP.b #$FF : BEQ .BRANCH_SIGMA
     
@@ -481,14 +481,14 @@ Death_ShowSaveOptionsMenu:
     .BRANCH_PI
     
     ; Are we in the Dark World?
-    LDA $7EF3CA : BEQ .BRANCH_RHO
+    LDA.l $7EF3CA : BEQ .BRANCH_RHO
     
     ; Otherwise, make it so the dungeon room we were last in was Agahnim's first room.
     LDA.b #$20 : STA $A0 : STZ $A1
     
     .BRANCH_RHO
     
-    LDA $7EF3C5 : BEQ .BRANCH_TAU
+    LDA.l $7EF3C5 : BEQ .BRANCH_TAU
     
     LDA $B0 : BNE .BRANCH_UPSILON
     
@@ -506,21 +506,21 @@ Death_ShowSaveOptionsMenu:
     
     REP #$20
     
-    LDA $701FFE : TAX : DEX #2
+    LDA.l $701FFE : TAX : DEX #2
     
-    LDA $00848C, X : STA $00
+    LDA.l $00848C, X : STA $00
     
     SEP #$20
     
     STZ $010A
     
-    JSL $0CCFBB ; $064FBB IN ROM
+    JSL.l $0CCFBB ; $064FBB IN ROM
     
     RTS
     
     .handleSram
     
-    LDA $7EF3C5 : BEQ .dontSave
+    LDA.l $7EF3C5 : BEQ .dontSave
     
     JSL Main_SaveGameFile
     
@@ -530,7 +530,7 @@ Death_ShowSaveOptionsMenu:
     
     STZ $1B
     
-    JSL $0CF0E2 ; $0670E2 IN ROM
+    JSL.l $0CF0E2 ; $0670E2 IN ROM
     
     STZ $04AA : STZ $010A : STZ $0132
     
@@ -548,11 +548,11 @@ Death_ShowSaveOptionsMenu:
     
     .eraseSramBuffer
     
-    STA $7EF000, X
-    STA $7EF100, X
-    STA $7EF200, X
-    STA $7EF300, X
-    STA $7EF400, X
+    STA.l $7EF000, X
+    STA.l $7EF100, X
+    STA.l $7EF200, X
+    STA.l $7EF300, X
+    STA.l $7EF400, X
     
     INX #2 : CPX.w #$0100 : BNE .eraseSramBuffer
     
@@ -611,7 +611,7 @@ Death_ShowSaveOptionsMenu:
     JSL Ancilla_ConfigureRevivalObjects
     
     ; Restore the player's health by 7 hearts.
-    LDA.b #$38 : STA $7EF372
+    LDA.b #$38 : STA.l $7EF372
     
     INC $11
     
@@ -629,7 +629,7 @@ Death_ShowSaveOptionsMenu:
 
 ; $04F6B9-$04F71C LOCAL JUMP LOCATION
 {
-    LDA $7EF372 : BNE .refillHearts
+    LDA.l $7EF372 : BNE .refillHearts
     
     REP #$20
     
@@ -638,21 +638,21 @@ Death_ShowSaveOptionsMenu:
     .restore_cached_palettes_loop
     
     ; mess with the palette
-    LDA $7FDD80, X : STA $7EC300, X
-    LDA $7FDDC0, X : STA $7EC340, X
-    LDA $7FDE00, X : STA $7EC380, X
-    LDA $7FDE40, X : STA $7EC3C0, X
+    LDA.l $7FDD80, X : STA.l $7EC300, X
+    LDA.l $7FDDC0, X : STA.l $7EC340, X
+    LDA.l $7FDE00, X : STA.l $7EC380, X
+    LDA.l $7FDE40, X : STA.l $7EC3C0, X
     
-    LDA.w #$0000 : STA $7EC540, X : STA $7EC580, X : STA $7EC5C0, X
+    LDA.w #$0000 : STA.l $7EC540, X : STA.l $7EC580, X : STA.l $7EC5C0, X
     
     INX #2 : CPX.b #$40 : BNE .restore_cached_palettes_loop
     
-    STA $7EC500
+    STA.l $7EC500
     
-    LDA.w #$0000 : STA $7EC007
-    LDA.w #$0002 : STA $7EC009
+    LDA.w #$0000 : STA.l $7EC007
+    LDA.w #$0002 : STA.l $7EC009
     
-    LDA $7EC225 : STA $99
+    LDA.l $7EC225 : STA $99
     
     SEP #$20
     
@@ -678,7 +678,7 @@ Death_ShowSaveOptionsMenu:
     
     JSL Graphics_LoadChrHalfSlot
     
-    LDA $7EC017
+    LDA.l $7EC017
     
     JSL Dungeon_ApproachFixedColor.variable ; $FEC1 IN ROM
     
@@ -689,7 +689,7 @@ Death_ShowSaveOptionsMenu:
 {
     JSL Graphics_LoadChrHalfSlot
     
-    LDA $7EC212 : STA $1D
+    LDA.l $7EC212 : STA $1D
     
     INC $11
     
@@ -703,16 +703,16 @@ Death_RestoreScreenPostRevival:
 {
     JSL PaletteFilter_Restore_Strictly_Bg_Additive
     
-    LDA $7EC540 : STA $7EC500
-    LDA $7EC541 : STA $7EC501
+    LDA.l $7EC540 : STA.l $7EC500
+    LDA.l $7EC541 : STA.l $7EC501
     
-    LDA $7EC007 : CMP.b #$20 : BNE .not_done
+    LDA.l $7EC007 : CMP.b #$20 : BNE .not_done
     LDA $1B : BNE .indoors
         JSL Overworld_SetFixedColorAndScroll
     
     .indoors
     
-    LDA $7EC212 : STA $1D
+    LDA.l $7EC212 : STA $1D
     
     LDA $010C : STA $10
     
@@ -720,13 +720,13 @@ Death_RestoreScreenPostRevival:
     
     LDA.b #$90 : STA $031F
     
-    LDA $7EC227 : STA $012C
-    LDA $7EC228 : STA $012D
+    LDA.l $7EC227 : STA $012C
+    LDA.l $7EC228 : STA $012D
     
     REP #$20
     
-    LDA $7EC221 : STA $7EC007
-    LDA $7EC223 : STA $7EC009
+    LDA.l $7EC221 : STA.l $7EC007
+    LDA.l $7EC223 : STA.l $7EC009
     
     SEP #$20
     

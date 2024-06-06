@@ -432,7 +432,7 @@ Kholdstare_SpawnNebuleGarnish:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .available_slot
+    LDA.l $7FF800, X : BEQ .available_slot
     
     DEX : BPL .next_slot
     
@@ -442,23 +442,23 @@ Kholdstare_SpawnNebuleGarnish:
     
     .available_slot
     
-    LDA.b #$07 : STA $7FF800, X : STA $0FB4
+    LDA.b #$07 : STA.l $7FF800, X : STA $0FB4
     
-    LDA.b #$1F : STA $7FF90E, X
+    LDA.b #$1F : STA.l $7FF90E, X
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA $0FD8 : CLC : ADC .offsets_low, Y  : STA $7FF83C, X
-    LDA $0FD9 : ADC .offsets_high, Y : STA $7FF878, X
+    LDA $0FD8 : CLC : ADC .offsets_low, Y  : STA.l $7FF83C, X
+    LDA $0FD9 : ADC .offsets_high, Y : STA.l $7FF878, X
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
     LDA $0FDA : CLC : ADC .offsets_low, Y : PHP
-                CLC : ADC.b #$10          : STA $7FF81E, X
+                CLC : ADC.b #$10          : STA.l $7FF81E, X
     LDA $0FDB : ADC.b #$00          : PLP
-                ADC .offset_high, Y : STA $7FF85A, X
+                ADC .offset_high, Y : STA.l $7FF85A, X
     
-    LDA.b #$00 : STA $7FF968, X
+    LDA.b #$00 : STA.l $7FF968, X
     
     PLX
     

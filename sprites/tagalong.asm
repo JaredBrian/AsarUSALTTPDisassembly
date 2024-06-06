@@ -136,7 +136,7 @@ Tagalong_SpawnFromSprite:
     STZ $02F9
     
     ; Super bomb is no longer going off?
-    LDA.b #$00 : STA $7EF3D3
+    LDA.b #$00 : STA.l $7EF3D3
     
     JSL Tagalong_GetCloseToPlayer
     
@@ -213,7 +213,7 @@ Tagalong_MessageIds:
 ; $049FC4-$04A023 LOCAL JUMP LOCATION
 Tagalong_Main:
 {
-    LDA $7EF3CC : BNE .player_has_tagalong
+    LDA.l $7EF3CC : BNE .player_has_tagalong
         RTS
 
     .player_has_tagalong
@@ -227,7 +227,7 @@ Tagalong_Main:
     
     .next_tagalong
 
-        LDA $7EF3CC : CMP Tagalong_MessageTagalongs, Y : BEQ .tagalong_with_timer
+        LDA.l $7EF3CC : CMP Tagalong_MessageTagalongs, Y : BEQ .tagalong_with_timer
     DEY : BPL .next_tagalong
 
     BRL Tagalong_NoTimedMessage
@@ -285,19 +285,19 @@ Tagalong_NoTimedMessage:
     SEP #$20
     
     ; Check if the super bomb is going off
-    LDA $7EF3D3 : BEQ .super_bomb_not_going_off
+    LDA.l $7EF3D3 : BEQ .super_bomb_not_going_off
         BRL .not_following_bounce
 
     .super_bomb_not_going_off
     
     ; Is if the thief's chest tagalong?
-    LDA $7EF3CC : CMP.b #$0C : BNE .not_thief_chest
+    LDA.l $7EF3CC : CMP.b #$0C : BNE .not_thief_chest
         LDA $4D : BNE .not_default_game_mode
             BRA .continue_a
 
     .not_thief_chest
     
-    LDA $7EF3CC : CMP.b #$0D : BEQ .not_super_bomb_a
+    LDA.l $7EF3CC : CMP.b #$0D : BEQ .not_super_bomb_a
         .not_default_game_mode
 
         BRL Tagalong_CheckGameMode
@@ -326,7 +326,7 @@ Tagalong_NoTimedMessage:
     
     .recoiling_or_falling
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb_outdoors
+    LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb_outdoors
         LDA $1B : BNE .not_superbomb_outdoors
             LDA $5D
         
@@ -340,21 +340,21 @@ Tagalong_NoTimedMessage:
     .not_superbomb_outdoors
     
     ; This occurs when the bomb is set to trigger by Link
-    LDA.b #$80 : STA $7EF3D3
+    LDA.b #$80 : STA.l $7EF3D3
     
     LDA.b #$40 : STA $02D2
     
     LDX $02CF
     
-    LDA $1A00, X : STA $7EF3CD
-    LDA $1A14, X : STA $7EF3CE
+    LDA $1A00, X : STA.l $7EF3CD
+    LDA $1A14, X : STA.l $7EF3CE
     
-    LDA $1A28, X : STA $7EF3CF
-    LDA $1A3C, X : STA $7EF3D0
+    LDA $1A28, X : STA.l $7EF3CF
+    LDA $1A3C, X : STA.l $7EF3D0
     
-    LDA $EE : STA $7EF3D2
+    LDA $EE : STA.l $7EF3D2
     
-    LDA $1B : STA $7EF3D1
+    LDA $1B : STA.l $7EF3D1
     
     .not_following_bounce
     
@@ -447,7 +447,7 @@ Tagalong_CheckGameMode:
 ; $04A18C-$04A196
 Tagalong_ExecuteAI:
 {
-    LDA $7EF3CC : DEC A : ASL A : TAX
+    LDA.l $7EF3CC : DEC A : ASL A : TAX
     
     JMP (Tagalong_MainHandlers, X)
     
@@ -479,7 +479,7 @@ Tagalong_BasicMover:
     
     JSR Tagalong_HandleTrigger ; $04A59E IN ROM
     
-    LDA $7EF3CC : CMP.b #$0A : BNE .dont_scare_kiki
+    LDA.l $7EF3CC : CMP.b #$0A : BNE .dont_scare_kiki
         LDA $4D : BEQ .dont_scare_kiki
             LDA $031F : BEQ .dont_scare_kiki
                 LDA $02CF : INC A : CMP.b #$14 : BNE .no_index_wrap
@@ -488,21 +488,21 @@ Tagalong_BasicMover:
                 .no_index_wrap
               
                 JSL Kiki_AbandonDamagedPlayer
-                LDA.b #$00 : STA $7EF3CC
+                LDA.b #$00 : STA.l $7EF3CC
 
                 RTS
 
     .dont_scare_kiki
     
     ; Check if tagalong == Blind in disguise as maiden.
-    LDA $7EF3CC : CMP.b #$06 : BNE .blind_not_triggered
+    LDA.l $7EF3CC : CMP.b #$06 : BNE .blind_not_triggered
         REP #$20
         
         ; Check if it's Blind's boss room.
         LDA $A0 : CMP.w #$00AC : BNE .blind_not_triggered
             ; Check if the hole in the floor in the room above has been bombed 
             ; out in order to let light in from the window.
-            LDA $7EF0CA : AND.w #$0100 : BEQ .blind_not_triggered
+            LDA.l $7EF0CA : AND.w #$0100 : BEQ .blind_not_triggered
                 SEP #$20
                 
                 JSL Tagalong_CheckBlindTriggerRegion : BCC .blind_not_triggered
@@ -515,7 +515,7 @@ Tagalong_BasicMover:
                         LDA $1A00, X : STA $02
                         LDA $1A14, X : STA $03
                         
-                        LDA.b #$00 : STA $7EF3CC
+                        LDA.b #$00 : STA.l $7EF3CC
                         
                         JSL Blind_SpawnFromMaidenTagalong
                         
@@ -598,28 +598,28 @@ Tagalong_LocalExit:
 Tagalong_NotFollowing:
 {
     ; if indoors, don't branch
-    LDA $7EF3D1 : CMP $1B : BNE Tagalong_LocalExit
+    LDA.l $7EF3D1 : CMP $1B : BNE Tagalong_LocalExit
     
     ; Is Link dashing?
     LDA $0372 : BNE .dont_reset_self ; Yes... branch to alpha
         JSR Tagalong_CheckPlayerProximity : BCS .dont_reset_self
             JSL Tagalong_Init
             
-            LDA $1B : STA $7EF3D1
+            LDA $1B : STA.l $7EF3D1
             
-            LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb
+            LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb
                 LDA.b #$FE : STA $04B4
                 STZ $04B5
                 
             .not_superbomb
             
-            LDA.b #$00 : STA $7EF3D3
+            LDA.b #$00 : STA.l $7EF3D3
             BRL Tagalong_Draw
     
     .dont_reset_self
     
     ; Is it a super bomb?
-    LDA $7EF3CC : CMP.b #$0D : BNE .not_superbomb_exploding
+    LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb_exploding
         ; Are we indoors?
         LDA $1B : BNE .not_superbomb_exploding
         LDA $04B4 : BNE .not_superbomb_exploding
@@ -628,7 +628,7 @@ Tagalong_NotFollowing:
             LDA.b #$3A
             JSL AddSuperBombExplosion
 
-            LDA.b #$00 : STA $7EF3D3
+            LDA.b #$00 : STA.l $7EF3D3
 
     .not_superbomb_exploding
     
@@ -685,7 +685,7 @@ Tagalong_OldMountainMan:
     
     SEP #$30
     
-    LDA $7EF3CC : BNE .have_old_man_indeed
+    LDA.l $7EF3CC : BNE .have_old_man_indeed
         RTS
 
     .have_old_man_indeed
@@ -716,21 +716,21 @@ Tagalong_OldMountainMan:
     LDA $4D : AND.b #$02 : BEQ .check_link_velocity
         .replace_that_tagalong
         
-        LDA $7EF3CC : TAX
+        LDA.l $7EF3CC : TAX
             
-        LDA Tagalong_OldMountainMan_ReplacementIds, X : STA $7EF3CC
+        LDA Tagalong_OldMountainMan_ReplacementIds, X : STA.l $7EF3CC
             
         LDA.b #$40 : STA $02D2
             
         LDX $02CF
             
-        LDA $1A00, X : STA $7EF3CD
-        LDA $1A14, X : STA $7EF3CE
+        LDA $1A00, X : STA.l $7EF3CD
+        LDA $1A14, X : STA.l $7EF3CE
             
-        LDA $1A28, X : STA $7EF3CF
-        LDA $1A3C, X : STA $7EF3D0
+        LDA $1A28, X : STA.l $7EF3CF
+        LDA $1A3C, X : STA.l $7EF3D0
             
-        LDA $EE : STA $7EF3D2
+        LDA $EE : STA.l $7EF3D2
             
         BRA Tagalong_UnusedOldMan
     
@@ -816,8 +816,8 @@ Tagalong_UnusedOldMan:
                 JSR Tagalong_CheckPlayerProximity : BCS Tagalong_DoLayers
                     JSL Tagalong_Init
 
-                    LDA $7EF3CC : TAX
-                    LDA Tagalong_ReplacementTagalongIds, X : STA $7EF3CC
+                    LDA.l $7EF3CC : TAX
+                    LDA Tagalong_ReplacementTagalongIds, X : STA.l $7EF3CC
 
                     RTS
 
@@ -827,7 +827,7 @@ Tagalong_UnusedOldMan:
 ; $04A450-$04A48D JUMP LOCATION
 Tagalong_DoLayers:
 {
-    LDA $7EF3D2 : TAX : CPX $EE : BNE .layer_mismatch
+    LDA.l $7EF3D2 : TAX : CPX $EE : BNE .layer_mismatch
         LDX $EE
 
     .layer_mismatch
@@ -835,15 +835,15 @@ Tagalong_DoLayers:
     LDA Tagalong_Priorities, X 
     STA $65 : STZ $64
     
-    LDA $7EF3CD : STA $00
-    LDA $7EF3CE : STA $01
+    LDA.l $7EF3CD : STA $00
+    LDA.l $7EF3CE : STA $01
     
-    LDA $7EF3CF : STA $02
-    LDA $7EF3D0 : STA $03
+    LDA.l $7EF3CF : STA $02
+    LDA.l $7EF3D0 : STA $03
     
     LDX.b #$02
     
-    LDA $7EF3CC : CMP.b #$0D : BEQ .bomb_or_chest
+    LDA.l $7EF3CC : CMP.b #$0D : BEQ .bomb_or_chest
                   CMP.b #$0C : BEQ .bomb_or_chest
         LDX.b #$01
 
@@ -864,9 +864,9 @@ Tagalong_CheckPlayerProximity:
         
         REP #$20
         
-        LDA $7EF3CD : SEC : SBC.w #$0001 : CMP $20 : BCS .not_in_range
+        LDA.l $7EF3CD : SEC : SBC.w #$0001 : CMP $20 : BCS .not_in_range
                       CLC : ADC.w #$0014 : CMP $20 : BCC .not_in_range
-            LDA $7EF3CF : SEC : SBC.w #$0001 : CMP $22 : BCS .not_in_range
+            LDA.l $7EF3CF : SEC : SBC.w #$0001 : CMP $22 : BCS .not_in_range
                           CLC : ADC.w #$0014 : CMP $22 : BCC .not_in_range
                 SEP #$20
                 
@@ -991,7 +991,7 @@ Tagalong_HandleTrigger:
         
         STZ $0A
         
-        LDA $7EF3CC : AND.w #$00FF : CMP $A4DE, X : BNE .not_room_data_match
+        LDA.l $7EF3CC : AND.w #$00FF : CMP $A4DE, X : BNE .not_room_data_match
             LDA.w Tagalong_TriggerData_dungeon_coordinates, X   : STA $00
             LDA.w Tagalong_TriggerData_dungeon_coordinates+2, X : STA $02
             LDA.w Tagalong_TriggerData_dungeon_coordinates+4, X : STA $06
@@ -1019,7 +1019,7 @@ Tagalong_HandleTrigger:
         STX $0C
         STZ $0A
         
-        LDA $7EF3CC : AND.w #$00FF : CMP $A55C, X : BNE .not_area_data_match
+        LDA.l $7EF3CC : AND.w #$00FF : CMP $A55C, X : BNE .not_area_data_match
             LDA.w Tagalong_TriggerData_area_data_1, X   : STA $00
             LDA.w Tagalong_TriggerData_area_data_1+2, X : STA $02
             LDA.w Tagalong_TriggerData_area_data_1+4, X : STA $06
@@ -1055,7 +1055,7 @@ Tagalong_HandleTrigger:
                 CMP.w #$0028 : BNE .show_text_message
                     SEP #$20
                     
-                    LDA #$00 : STA $7EF3CC
+                    LDA #$00 : STA.l $7EF3CC
                     
                     BRA .show_text_message
                     
@@ -1102,7 +1102,7 @@ Tagalong_HandleTrigger:
         
         LDX $8A
         
-        LDA $7EF280, X : AND.b #$01 : BNE .return
+        LDA.l $7EF280, X : AND.b #$01 : BNE .return
             LDA $00
             
             JSL Kiki_InitiateFirstBeggingSequence
@@ -1344,12 +1344,12 @@ Tagalong_AnimateMovement:
     CMP.b #$0E : BEQ .check_dashing
     CMP.b #$08 : BEQ .check_dashing
     CMP.b #$10 : BEQ .check_dashing
-        LDA $7EF3CC
+        LDA.l $7EF3CC
         CMP.b #$0B : BEQ .not_dashing
             CMP.b #$0D : BEQ .super_bomb
                 CMP.b #$0C : BNE .not_purple_chest
                     .super_bomb
-                    LDA $7EF3D3 : BNE .immobile
+                    LDA.l $7EF3D3 : BNE .immobile
 
                 .not_purple_chest
 
@@ -1430,7 +1430,7 @@ TagalongDraw_Drawing:
     LDY.b #$00
     LDX.b #$00
     
-    LDA $7EF3CC
+    LDA.l $7EF3CC
     
     CMP.b #$01 : BEQ .girly_tagalong
         CMP.b #$06 : BEQ .girly_tagalong
@@ -1512,7 +1512,7 @@ TagalongDraw_Drawing:
 
     .do_chars
 
-    LDA $7EF3CC : TAX
+    LDA.l $7EF3CC : TAX
     
     LDA.w $A8F9, X : CMP.b #$07 : BNE .not_link_palette_a
         TAX
@@ -1527,13 +1527,13 @@ TagalongDraw_Drawing:
 
     ASL A : STA $72
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .not_exploding_superbomb
+    LDA.l $7EF3CC : CMP.b #$0D : BNE .not_exploding_superbomb
         LDA $04B4 : CMP.b #$01 : BNE .not_exploding_superbomb
             LDA $1A : AND.b #$07 : ASL A : STA $72
 
     .not_exploding_superbomb
 
-    LDA $7EF3CC
+    LDA.l $7EF3CC
     
     CMP.b #$0D : BEQ .bomb_or_chest
     CMP.b #$0C : BEQ .bomb_or_chest
@@ -1543,7 +1543,7 @@ TagalongDraw_Drawing:
         
         LDA $04 : AND.w #$00FF : ASL #3 : TAY
         
-        LDA $7EF3CC : AND.w #$00FF : ASL A : TAX
+        LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
         
         TYA : CLC : ADC $A8BD, X : TAX
         
@@ -1582,7 +1582,7 @@ TagalongDraw_Drawing:
     
     LDA $04 : AND.w #$00FF : ASL #3 : TAY
     
-    LDA $7EF3CC : AND.w #$00FF : ASL A : TAX
+    LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
     
     TYA : CLC : ADC $A8BD, X : TAX
     

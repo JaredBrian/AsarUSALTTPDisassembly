@@ -88,7 +88,7 @@ Sprite_Key:
     
     STA $0F80, X
     
-    LDA $7FF9C2, X : CMP.b #$08 : BEQ .water_tile
+    LDA.l $7FF9C2, X : CMP.b #$08 : BEQ .water_tile
                      CMP.b #$09 : BNE .not_water_tile
     
     .water_tile
@@ -244,7 +244,7 @@ Sprite_HandleAbsorptionByPlayer:
 ShieldPickup_AbsorptionByPlayer:
 {
     ; recoverable shield (from Pikit, etc)
-    LDA $0E30, X : STA $7EF35A
+    LDA $0E30, X : STA.l $7EF35A
     
     RTS
 }
@@ -269,7 +269,7 @@ BigKey_AbsorptionByPlayer:
     ; $035185 ALTERNATE ENTRY POINT
     shared Key_AbsorptionByPlayer:
     
-    LDA $7EF36F : INC A : STA $7EF36F
+    LDA.l $7EF36F : INC A : STA.l $7EF36F
     
     .set_event_flag
     
@@ -304,7 +304,7 @@ Fairy_AbsorptionByPlayer:
     
     .apply_refill_amount
     
-    CLC : ADC $7EF372 : STA $7EF372
+    CLC : ADC.l $7EF372 : STA.l $7EF372
     
     RTS
 }
@@ -332,7 +332,7 @@ GreenRupee_AbsorptionByPlayer:
     
     ; (actual useful values start at $351BB)
     ; Give us this many more rupees
-    LDA .rupee_quantities-$D9, Y : REP #$20 : CLC : ADC $7EF360 : STA $7EF360
+    LDA .rupee_quantities-$D9, Y : REP #$20 : CLC : ADC.l $7EF360 : STA.l $7EF360
     
     SEP #$20
     
@@ -358,7 +358,7 @@ OneBombRefill_AbsorptionByPlayer:
     LDY $0E20, X
     
     ; (actual useful values start at $351D5)
-    LDA.w $D0F9, Y : CLC : ADC $7EF375 : STA $7EF375
+    LDA.w $D0F9, Y : CLC : ADC.l $7EF375 : STA.l $7EF375
     
     RTS
 }
@@ -369,7 +369,7 @@ OneBombRefill_AbsorptionByPlayer:
 SmallMagicRefill_AbsorptionByPlayer:
 {
     ; small magic decanter
-    LDA $7EF373 : CLC : ADC.b #$10
+    LDA.l $7EF373 : CLC : ADC.b #$10
     
     BRA .apply_refill_amount
     
@@ -380,7 +380,7 @@ SmallMagicRefill_AbsorptionByPlayer:
     
     .apply_refill_amount
     
-    STA $7EF373
+    STA.l $7EF373
     
     RTS
 }
@@ -404,7 +404,7 @@ FiveArrowRefill_AbsorptionByPlayer:
     
     .apply_refill_amount
     
-    CLC : ADC $7EF376 : STA $7EF376
+    CLC : ADC.l $7EF376 : STA.l $7EF376
     
     RTS
 }

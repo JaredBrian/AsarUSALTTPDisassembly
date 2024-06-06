@@ -176,7 +176,7 @@ Player_SetSfxPan:
     INC $0CFC
     
     ; Link's health variable. Each full heart = #$08.
-    LDA $7EF36D
+    LDA.l $7EF36D
     
     ; This is damage from enemies/ weapons. Not falls.
     ; Subtract however much damage from Link.
@@ -189,8 +189,8 @@ Player_SetSfxPan:
     
     .linkIsDead
     
-    LDA $1C : STA $7EC211
-    LDA $1D : STA $7EC212
+    LDA $1C : STA.l $7EC211
+    LDA $1D : STA.l $7EC212
     
     ; Save the current mode so that the game knows what mode to go to after you've died
     LDA $10 : STA $010C
@@ -202,12 +202,12 @@ Player_SetSfxPan:
     LDA.b #$01 : STA $11
     
     ; Disable heart filling
-    LDA.b #$00 : STA $031F : STA $7EF372
+    LDA.b #$00 : STA $031F : STA.l $7EF372
     
     .linkNotDead
     
     ; Change Link's health accordingly
-    STA $7EF36D
+    STA.l $7EF36D
     
     .linkNotDamaged
     
@@ -355,7 +355,7 @@ Player_SetSfxPan:
     
     ; \hardcoded This is pretty unfair.
     ; \item Relates to ability to use the sword if you have one.
-    LDA $7EF3C5 : BEQ .cant_use_sword
+    LDA.l $7EF3C5 : BEQ .cant_use_sword
     
     JSR Player_Sword
     
@@ -490,9 +490,9 @@ Player_SetSfxPan:
 .BRANCH_PHI
 
     JSR $B64F   ; $03B64F IN ROM
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     JSR $B7C7   ; $03B7C7 IN ROM; Has to do with opening chests.
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     LDA $0377 : BEQ .BRANCH_PSI
     
@@ -633,7 +633,7 @@ Player_SetSfxPan:
     
     LDA.b #$00 : STA $5D
     
-    JSL $07F1FA ; $03F1FA IN ROM. Reinstates your abilities.
+    JSL.l $07F1FA ; $03F1FA IN ROM. Reinstates your abilities.
     
     STZ $03F7
     STZ $56
@@ -672,7 +672,7 @@ Player_SetSfxPan:
     
     LDA $4D : BEQ .BRANCH_DELTA
     
-    LDA $7EF357 : BEQ .BRANCH_GAMMA
+    LDA.l $7EF357 : BEQ .BRANCH_GAMMA
     
     STZ $02E0
     
@@ -683,7 +683,7 @@ Player_SetSfxPan:
     STZ $03F5
     STZ $03F6
     
-    LDA $7EF357 : BEQ .BRANCH_EPSILON
+    LDA.l $7EF357 : BEQ .BRANCH_EPSILON
     
     STZ $56
     STZ $4D
@@ -699,7 +699,7 @@ Player_SetSfxPan:
     ; Link hit a wall or an enemy hit him, making him go backwards.
     LDA.b #$02 : STA $5D
     
-    LDA $7EF357 : BEQ .BRANCH_ZETA
+    LDA.l $7EF357 : BEQ .BRANCH_ZETA
     
     LDA.b #$00 : STA $5D
     
@@ -772,9 +772,9 @@ Player_SetSfxPan:
     .BRANCH_LAMBDA
     
     JSR $B64F   ; $03B64F IN ROM
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     JSR $B7C7   ; $03B7C7 IN ROM
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
@@ -896,7 +896,7 @@ Player_SetSfxPan:
     
     .BRANCH_ZETA
     
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
@@ -1307,7 +1307,7 @@ Player_BombosSpell:
     
     LDA $72 : CMP.b #$02 : BEQ .BRANCH_TAU
     
-    LDA $7EF356 : BEQ .BRANCH_TAU
+    LDA.l $7EF356 : BEQ .BRANCH_TAU
     
     LDA.b #$01 : STA $EE
 
@@ -1413,7 +1413,7 @@ Player_BombosSpell:
 
 .BRANCH_DIALPHA
 
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
 
 .BRANCH_OMEGA
 
@@ -1551,7 +1551,7 @@ Player_BombosSpell:
 
 .BRANCH_THETA
 
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     BRL .BRANCH_$386B5 ; GO TO RECOIL MODE (Revision really recoil mode or just jumping?)
     
@@ -1649,7 +1649,7 @@ Player_BombosSpell:
     LDA.b #$02 : STA $00
     
     JSR $8946   ; $038946 IN ROM
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
     
     LDA $29 : BPL .BRANCH_BETA
     
@@ -1727,7 +1727,7 @@ Player_BombosSpell:
     
     JSR $8946 ; $038946 IN ROM
     
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
     
     LDA $29 : BMI .alpha
     
@@ -2228,7 +2228,7 @@ Player_BombosSpell:
     LDA.b #$02 : STA $00
     
     JSR $8932   ; $038932 IN ROM
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
     
     LDA $24 : BPL .BRANCH_ALPHA
     
@@ -2422,7 +2422,7 @@ Player_BombosSpell:
     LDX.b #$17
     
     ; change to permabunny b/c we don't have a moon pearl
-    LDA $7EF357 : BEQ .changeLinkMode
+    LDA.l $7EF357 : BEQ .changeLinkMode
     
     LDX.b #$1C
     
@@ -2546,7 +2546,7 @@ Player_BombosSpell:
     LDA.b #$02 : STA $5D
     
     BRL .BRANCH_$386BD ; GO TO RECOIL MODE. 
-    ; IF YOU ASK ME, THIS SHOULD GO TO $386B5. I THINK IT WAS AN ERROR.
+    ; IF YOU ASK ME, THIS SHOULD GO TO $0386B5. I THINK IT WAS AN ERROR.
     ; TESTING WOULD CONFIRM THIS THOUGH.
     
     .BRANCH_EPSILON
@@ -2573,9 +2573,9 @@ Player_BombosSpell:
     
     ; If the current tagalong is the (not used) alternate old man, change
     ; it to a Tagalong that is waiting for the player to come back (0x03).
-    LDA $7EF3CC : TAX : CMP $8F68, X : BNE .BRANCH_MU
+    LDA.l $7EF3CC : TAX : CMP $8F68, X : BNE .BRANCH_MU
     
-    LDA.w $8F77, X : STA $7EF3CC
+    LDA.w $8F77, X : STA.l $7EF3CC
     
     .BRANCH_MU
     
@@ -2635,7 +2635,7 @@ Player_BombosSpell:
     
     STZ $6B
     
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     LDA $20 : STA $00 : STA $3E
     LDA $22 : STA $01 : STA $3F
@@ -2647,7 +2647,7 @@ Player_BombosSpell:
     
     LDA $02F5 : BEQ .BRANCH_RHO
     
-    JSL $07E3DD ; $03E3DD IN ROM
+    JSL.l $07E3DD ; $03E3DD IN ROM
     
     .BRANCH_RHO
     
@@ -2681,7 +2681,7 @@ Player_BombosSpell:
     STZ $79
     
     ; LINK'S SWORD VALUE
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_PHI
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_PHI
     
     LDY.b #$07
     
@@ -2689,7 +2689,7 @@ Player_BombosSpell:
     
     .BRANCH_PHI
     
-    LDA $7EF3C5 : BEQ .BRANCH_CHI
+    LDA.l $7EF3C5 : BEQ .BRANCH_CHI
     
     LDA.b #$80 : TSB $3A
     LDA.b #$09 : STA $3C
@@ -2728,9 +2728,9 @@ Player_BombosSpell:
     STA $67 : STA $26
     
     JSR $B64F   ; $03B64F IN ROM
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     JSR $B7C7   ; $03B7C7 IN ROM
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
@@ -2771,7 +2771,7 @@ Player_BombosSpell:
     
     .BRANCH_GAMMA2
     
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     RTS
 }
@@ -3054,7 +3054,7 @@ Sprite_RepelDashAttackLong:
     
     LDY.b #$17
     
-    LDA $7EF357 : BEQ .BRANCH_THETA
+    LDA.l $7EF357 : BEQ .BRANCH_THETA
     
     LDY.b #$1C
     
@@ -3092,7 +3092,7 @@ Sprite_RepelDashAttackLong:
     
     LDY.b #$17
     
-    LDA $7EF357 : BEQ .BRANCH_MU
+    LDA.l $7EF357 : BEQ .BRANCH_MU
     
     LDY.b #$1C
     
@@ -3117,7 +3117,7 @@ Sprite_RepelDashAttackLong:
     
     LDA $5B : CMP.b #$02 : BEQ .BRANCH_OMICRON
     
-    LDA $7EF357 : BEQ .BRANCH_PI
+    LDA.l $7EF357 : BEQ .BRANCH_PI
     
     STZ $03F7
     STZ $56
@@ -3197,14 +3197,14 @@ Sprite_RepelDashAttackLong:
     
     .BRANCH_PSI
     
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     .BRANCH_OMEGA
     
     JSR $B64F   ; $03B64F IN ROM
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     JSR $B7C7   ; $03B7C7 IN ROM
-    JSL $07E9D3 ; $03E9D3 IN ROM
+    JSL.l $07E9D3 ; $03E9D3 IN ROM
     
     .BRANCH_ALTIMA
     
@@ -3231,7 +3231,7 @@ Sprite_RepelDashAttackLong:
     
     LDA.b #$09 : STA $5C
     
-    LDA $7EF3CC : CMP.b #$0D : BEQ .BRANCH_ULTIMA
+    LDA.l $7EF3CC : CMP.b #$0D : BEQ .BRANCH_ULTIMA
     
     CPX.b #$01 : BNE .BRANCH_ULTIMA
     
@@ -3280,7 +3280,7 @@ Sprite_RepelDashAttackLong:
     
     .BRANCH_BETA2
     
-    CMP $00990C, X : BEQ .BRANCH_ALPHA2
+    CMP.l $00990C, X : BEQ .BRANCH_ALPHA2
     
     DEX #2 : BPL .BRANCH_BETA2
     
@@ -3290,7 +3290,7 @@ Sprite_RepelDashAttackLong:
     
     LDA $A0 : STA $A2
     
-    LDA $7EC000 : STA $A0
+    LDA.l $7EC000 : STA $A0
     
     REP #$20
     
@@ -3326,9 +3326,9 @@ Sprite_RepelDashAttackLong:
     ; Hole / teleporter plane
     LDX $063C
     
-    LDA $01C31F, X : STA $0476
+    LDA.l $01C31F, X : STA $0476
     
-    LDA $01C322, X : STA $EE
+    LDA.l $01C322, X : STA $EE
     
     RTS
     
@@ -3340,10 +3340,10 @@ Sprite_RepelDashAttackLong:
     LDA.b #$14 : STA $11
     
     ; Subtract one heart from Link's HP. Could replace this with a BPL... maybe.
-    LDA $7EF36D : SEC : SBC.b #$08 : STA $7EF36D : CMP.b #$A8 : BCC .notDead
+    LDA.l $7EF36D : SEC : SBC.b #$08 : STA.l $7EF36D : CMP.b #$A8 : BCC .notDead
     
     ; Instakill if Link's HP is >= 0xA8. Kinda counter intuitive, but whatever.
-    LDA.b #$00 : STA $7EF36D
+    LDA.b #$00 : STA.l $7EF36D
     
     .notDead
     
@@ -3391,7 +3391,7 @@ Sprite_RepelDashAttackLong:
     
     LDA.b #$04 : STA $67
     
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     
     REP #$20
     
@@ -3424,14 +3424,14 @@ Sprite_RepelDashAttackLong:
     STZ $11
     STZ $037B
     
-    LDA $7EF3CC : BEQ .BRANCH_ZETA
+    LDA.l $7EF3CC : BEQ .BRANCH_ZETA
     CMP.b #$03  : BEQ .BRANCH_ZETA
     
     STZ $02F9
     
     CMP.b #$0D : BNE .BRANCH_THETA
     
-    LDA.b #$00 : STA $7EF3CC : STA $04B4 : STA $04B5 : STA $7EF3D3
+    LDA.b #$00 : STA.l $7EF3CC : STA $04B4 : STA $04B5 : STA.l $7EF3D3
     
     BRA .BRANCH_ZETA
     
@@ -3543,7 +3543,7 @@ Sprite_RepelDashAttackLong:
     STZ $0308
     STZ $0309
     
-    LDA $7EF356 : BNE .hasFlippers
+    LDA.l $7EF356 : BNE .hasFlippers
     
     RTS
     
@@ -3673,9 +3673,9 @@ Sprite_RepelDashAttackLong:
     .BRANCH_MU
     
     JSR $B64F   ; $03B64F IN ROM
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     JSR $B7C7   ; $03B7C7 IN ROM
-    JSL $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
     
     STZ $0302
     
@@ -3834,7 +3834,7 @@ Player_ResetSwimState:
     
     LDA $56 : BEQ .alpha
     
-    LDA $7EF357 : BNE .alpha
+    LDA.l $7EF357 : BNE .alpha
     
     LDY.b #$17
     
@@ -4337,7 +4337,7 @@ Player_Sword:
     LDA $0304 : CMP.b #$08 : BNE .BRANCH_ZETA
     
     ; Does Link have the flute?
-    LDA $7EF34C : AND.b #$02 : BEQ .BRANCH_ZETA
+    LDA.l $7EF34C : AND.b #$02 : BEQ .BRANCH_ZETA
     
     LDA $3A : AND.b #$BF : STA $3A
     
@@ -4489,7 +4489,7 @@ Player_Sword:
     .attemptAction
     
     ; Check to see if we have the capability for this action.
-    LDA.w $9BA2, X : AND $7EF379 : BEQ .cantDoAction
+    LDA.w $9BA2, X : AND.l $7EF379 : BEQ .cantDoAction
     
     ; Buffer $036C with the current action index.
     STX $036C
@@ -4556,12 +4556,12 @@ Player_Sword:
     
     ; Checks if we need to fire a sword beam
     ; if(actual health >= (goal health - 4))
-    LDA $7EF36C : SEC : SBC.b #$04 : CMP $7EF36D : BCS .cantShootBeam
+    LDA.l $7EF36C : SEC : SBC.b #$04 : CMP.l $7EF36D : BCS .cantShootBeam
     
     ; Check if we have a sword that can shoot teh beamz
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .cantShootBeam
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .cantShootBeam
     
-    LDA $7EF359 : CMP.b #$02 : BCC .cantShootBeam
+    LDA.l $7EF359 : CMP.b #$02 : BCC .cantShootBeam
     
     .nextSlot
     
@@ -4584,7 +4584,7 @@ Player_Sword:
     
     PHA
     
-    LDA $7EF359 : DEC A : TAX
+    LDA.l $7EF359 : DEC A : TAX
     
     PLA
     
@@ -4665,7 +4665,7 @@ Player_Sword:
     
     CPX.b #$05 : BNE .BRANCH_ZETA
     
-    LDA $7EF359 : BEQ .BRANCH_THETA
+    LDA.l $7EF359 : BEQ .BRANCH_THETA
     CMP.b #$01  : BEQ .BRANCH_THETA
     CMP.b #$FF  : BEQ .BRANCH_THETA
     
@@ -4678,7 +4678,7 @@ Player_Sword:
     
     LDY.b #$01
     
-    LDA $7EF359 : BEQ .BRANCH_DELTA
+    LDA.l $7EF359 : BEQ .BRANCH_DELTA
     CMP.b #$FF  : BEQ .BRANCH_DELTA
     CMP.b #$01  : BEQ .BRANCH_IOTA
     
@@ -4767,7 +4767,7 @@ Player_Sword:
     
     LDA $3C : INC A : CMP.b #$0D : BNE .BRANCH_KAPPA
     
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_LAMBDA
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_LAMBDA
     
     LDA $48 : AND.b #$09 : BEQ .BRANCH_LAMBDA
     
@@ -4822,7 +4822,7 @@ Player_Sword:
     
     LDA.b #$0C : STA $5E
     
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_ALPHA
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_ALPHA
     
     LDX.b #$04
 
@@ -4865,7 +4865,7 @@ Player_Sword:
 ; $039E63-$039EEB LOCAL JUMP LOCATION
 {
     ; sword
-    LDA $7EF359 : BEQ .BRANCH_39D84_BRANCH_ALPHA ; RTS
+    LDA.l $7EF359 : BEQ .BRANCH_39D84_BRANCH_ALPHA ; RTS
     CMP.b #$FF  : BEQ .BRANCH_39D84_BRANCH_ALPHA
     
     CMP.b #$02 : BCS .BRANCH_ALPHA
@@ -4888,16 +4888,16 @@ Player_Sword:
     
     LDA $2F : AND.w #$00FF : TAX
     
-    LDA $0DA030, X : STA $04
+    LDA.l $0DA030, X : STA $04
     
     TYA : AND.w #$00FF : ASL A : CLC : ADC $04 : TAX
     
-    LDA $0D9EF0, X : CLC : ADC $02 : TAX
+    LDA.l $0D9EF0, X : CLC : ADC $02 : TAX
     
     SEP #$20
     
-    LDA $0D98F3, X : STA $44
-    LDA $0D9AF2, X : STA $45
+    LDA.l $0D98F3, X : STA $44
+    LDA.l $0D9AF2, X : STA $45
     
     SEP #$10
     
@@ -4913,12 +4913,12 @@ Player_Sword:
     
     ASL #3 : CLC : ADC $0E : ASL A : CLC : ADC $04 : TAX
     
-    LDA $0DAC45, X : CMP.b #$FF : BEQ .BRANCH_DELTA
+    LDA.l $0DAC45, X : CMP.b #$FF : BEQ .BRANCH_DELTA
     
     TXA : LSR A : TAX
     
-    LDA $0DAC8D, X : STA $44
-    LDA $0DACB1, X : STA $45
+    LDA.l $0DAC8D, X : STA $44
+    LDA.l $0DACB1, X : STA $45
     
 parallel Pool_LinkItem_Rod:
 
@@ -5201,15 +5201,15 @@ LinkItem_Bow:
     
     DEC $0B99
     
-    LDA $7EF377 : INC #2 : STA $7EF377
+    LDA.l $7EF377 : INC #2 : STA.l $7EF377
     
     .BRANCH_DELTA
     
     LDA $0B9A : BNE .BRANCH_EPSILON
     
-    LDA $7EF377 : BEQ .BRANCH_EPSILON
+    LDA.l $7EF377 : BEQ .BRANCH_EPSILON
     
-    DEC A : STA $7EF377 : BNE .BRANCH_GAMMA
+    DEC A : STA.l $7EF377 : BNE .BRANCH_GAMMA
     
     JSL HUD.RefreshIconLong
     
@@ -5316,7 +5316,7 @@ LinkItem_Boomerang:
     
     LDA $6C : BNE .cantLayBomb
     
-    LDA $7EF3CC : CMP.b #$0D : BEQ .cantLayBomb
+    LDA.l $7EF3CC : CMP.b #$0D : BEQ .cantLayBomb
     
     JSR Link_CheckNewY_ButtonPress : BCC .cantLayBomb
     
@@ -5345,9 +5345,9 @@ LinkItem_Boomerang:
     LDA $3A : AND.b #$BF : STA $3A
     
     ; Check if we have a bottle or not
-    LDA $7EF34F : DEC A : TAX
+    LDA.l $7EF34F : DEC A : TAX
     
-    LDA $7EF35C, X : BEQ .BRANCH_$3A15A ; (RTS)
+    LDA.l $7EF35C, X : BEQ .BRANCH_$3A15A ; (RTS)
     CMP.b #$03     : BCC .BRANCH_ALPHA
     CMP.b #$03     : BEQ .BRANCH_BETA
     CMP.b #$04     : BEQ .BRANCH_GAMMA
@@ -5362,7 +5362,7 @@ LinkItem_Boomerang:
     
     .BRANCH_BETA
     
-    LDA $7EF36C : CMP $7EF36D : BNE .BRANCH_ZETA
+    LDA.l $7EF36C : CMP.l $7EF36D : BNE .BRANCH_ZETA
     
     .BRANCH_ALPHA
     
@@ -5370,7 +5370,7 @@ LinkItem_Boomerang:
     
     .BRANCH_ZETA
     
-    LDA.b #$02 : STA $7EF35C, X
+    LDA.b #$02 : STA.l $7EF35C, X
     
     STZ $0301
     
@@ -5388,13 +5388,13 @@ LinkItem_Boomerang:
     
     .BRANCH_GAMMA
     
-    LDA $7EF36E : CMP.b #$80 : BNE .BRANCH_THETA
+    LDA.l $7EF36E : CMP.b #$80 : BNE .BRANCH_THETA
     
     BRL .BRANCH_$3A955
     
     .BRANCH_THETA
     
-    LDA $02 : STA $7EF35C, X
+    LDA $02 : STA.l $7EF35C, X
     
     STZ $0301
     
@@ -5414,15 +5414,15 @@ LinkItem_Boomerang:
     
     .BRANCH_DELTA
     
-    LDA $7EF36C : CMP $7EF36D : BNE .useBluePotion
+    LDA.l $7EF36C : CMP.l $7EF36D : BNE .useBluePotion
     
-    LDA $7EF36E : CMP.b #$80 : BNE .useBluePotion
+    LDA.l $7EF36E : CMP.b #$80 : BNE .useBluePotion
     
     BRL .BRANCH_$3A955
     
     .useBluePotion
     
-    LDA.b #$02 : STA $7EF35C, X
+    LDA.b #$02 : STA.l $7EF35C, X
     
     STZ $0301
     
@@ -5448,7 +5448,7 @@ LinkItem_Boomerang:
     
     .BRANCH_NU
     
-    LDA.b #$02 : STA $7EF35C, X
+    LDA.b #$02 : STA.l $7EF35C, X
     
     JSL HUD.RebuildLong
     
@@ -5464,7 +5464,7 @@ LinkItem_Boomerang:
     
     .bee_spawn_success
     
-    LDA.b #$02 : STA $7EF35C, X
+    LDA.b #$02 : STA.l $7EF35C, X
     
     JSL HUD.RebuildLong
     
@@ -5492,7 +5492,7 @@ LinkItem_Lamp:
     JSR Link_CheckNewY_ButtonPress : BCC .no_input
     
     ; \item(Lamp)
-    LDA $7EF34A : BEQ .cant_use_lamp
+    LDA.l $7EF34A : BEQ .cant_use_lamp
     
     LDX.b #$06 : JSR LinkItem_EvaluateMagicCost : BCC .cant_use_lamp
     
@@ -5537,7 +5537,7 @@ LinkItem_MagicPowder:
     
     JSR Link_CheckNewY_ButtonPress : BCC .return
     
-    LDA $7EF344 : CMP.b #$02 : BEQ .isMagicPowder
+    LDA.l $7EF344 : CMP.b #$02 : BEQ .isMagicPowder
     
     LDA.b #$3C : JSR Player_DoSfx2
     
@@ -5614,7 +5614,7 @@ LinkItem_ShovelAndFlute:
     ; Play flute or use the shovel
     
     ; What is the state of the flute?
-    LDA $7EF34C : BEQ LinkItem_MagicPowder.return
+    LDA.l $7EF34C : BEQ LinkItem_MagicPowder.return
     CMP.b #$01  : BEQ LinkItem_Shovel
                   BRL LinkItem_Flute
 }
@@ -5780,7 +5780,7 @@ LinkItem_Flute:
     DEX : BPL .next_ancillary_slot
     
     ; Paul's weathervane stuff Do we have a normal flute (without bird)?
-    LDA $7EF34C : CMP.b #$02 : BNE .travel_bird_already_released
+    LDA.l $7EF34C : CMP.b #$02 : BNE .travel_bird_already_released
     
     REP #$20
     
@@ -5895,11 +5895,11 @@ LinkItem_EtherMedallion:
     
     LDA $0403 : AND.b #$80 : BNE .cant_cast_play_sound
     
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .cant_cast_play_sound
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .cant_cast_play_sound
     
-    LDA $7EF3D3 : BEQ .attempt_cast
+    LDA.l $7EF3D3 : BEQ .attempt_cast
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .attempt_cast
+    LDA.l $7EF3CC : CMP.b #$0D : BNE .attempt_cast
     
     .cant_cast_play_sound
     
@@ -6017,11 +6017,11 @@ LinkItem_EtherMedallion:
     
     LDA $0403 : AND.b #$80 : BNE .BRANCH_BETA
     
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_BETA
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_BETA
     
-    LDA $7EF3D3 : BEQ .BRANCH_GAMMA
+    LDA.l $7EF3D3 : BEQ .BRANCH_GAMMA
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
+    LDA.l $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
 
     .BRANCH_BETA
 
@@ -6125,11 +6125,11 @@ LinkItem_Quake:
     
     LDA $0403 : AND.b #$80 : BNE .BRANCH_BETA
     
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_BETA
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .BRANCH_BETA
     
-    LDA $7EF3D3 : BEQ .BRANCH_GAMMA
+    LDA.l $7EF3D3 : BEQ .BRANCH_GAMMA
     
-    LDA $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
+    LDA.l $7EF3CC : CMP.b #$0D : BNE .BRANCH_GAMMA
     
     .BRANCH_BETA
     
@@ -6188,7 +6188,7 @@ LinkItem_Quake:
     LDA.b #$02 : STA $00 : STA $4D
     
     JSR $8932   ; $038932 IN ROM
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
     
     LDA $29 : STA $0362
     
@@ -6405,7 +6405,7 @@ LinkItem_Quake:
     
     STZ $67 ; Not sure...
     
-    JSL $07E245 ; $03E245 IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
     JSR $B7C7   ; $03B7C7 IN ROM
     
     LDA.b #$03 : STA $5D
@@ -6513,7 +6513,7 @@ LinkItem_Mirror:
     JSR Link_CheckNewY_ButtonPress : BCC .BRANCH_$3A8EB
     
     ; Seems the Kiki tagalong prevents you from warping?
-    LDA $7EF3CC : CMP.b #$0A : BNE .BRANCH_ALPHA
+    LDA.l $7EF3CC : CMP.b #$0A : BNE .BRANCH_ALPHA
     
     REP #$20
     
@@ -6611,7 +6611,7 @@ LinkItem_Mirror:
 {
     ; Link Mode 0x14 MAGIC MIRROR (And / or Whirpool warping?)
     
-    JSL $07F1E6 ; $03F1E6 IN ROM
+    JSL.l $07F1E6 ; $03F1E6 IN ROM
     JSR $D6F4   ; $03D6F4 IN ROM
     
     LDA $8A : AND.b #$40 : CMP $7B : BNE .BRANCH_ALPHA
@@ -6667,7 +6667,7 @@ LinkItem_Mirror:
     
     CPY.b #$02 : BCC .BRANCH_KAPPA
     
-    LDA $7EF356 : BNE .haveFlippers
+    LDA.l $7EF356 : BNE .haveFlippers
     
     LDA $8A : AND.b #$40 : CMP $7B : BNE .BRANCH_GAMMA
     
@@ -6719,7 +6719,7 @@ LinkItem_Mirror:
     
     LDY.b #$00
     
-    LDA $7EF357 : BNE .playerHasMoonPearl
+    LDA.l $7EF357 : BNE .playerHasMoonPearl
     
     LDA $8A : AND.b #$40 : BEQ .inLightWorld
     
@@ -6781,7 +6781,7 @@ LinkItem_Mirror:
     
     STZ $2E
     
-    LDA $7EF3CC : CMP.b #$0C : BEQ .thiefChest
+    LDA.l $7EF3CC : CMP.b #$0C : BEQ .thiefChest
                   CMP.b #$0D : BNE .notSuperBomb
     
     LDA.b #$FE : STA $04B4
@@ -6791,31 +6791,31 @@ LinkItem_Mirror:
     .thiefChest
     
     ; Super bomb related
-    LDA $7EF3D3 : BEQ .checkPlayerPoofPotential
+    LDA.l $7EF3D3 : BEQ .checkPlayerPoofPotential
     
-    LDA.b #$00 : STA $7EF3D3
+    LDA.b #$00 : STA.l $7EF3D3
     
     BRA .terminateTagalong
     
     .notSuperBomb
     
-    LDA $7EF3CC : CMP.b #$09 : BEQ .terminateTagalong
+    LDA.l $7EF3CC : CMP.b #$09 : BEQ .terminateTagalong
                   CMP.b #$0A : BNE .preserveTagalong
     
     .terminateTagalong
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     BRA .checkPlayerPoofPotential
     
     .preserveTagalong
     
-    LDY.b #$07 : LDA $7EF3CC : CMP.b #$08 : BEQ .isDwarf
+    LDY.b #$07 : LDA.l $7EF3CC : CMP.b #$08 : BEQ .isDwarf
     LDY.b #$08               : CMP.b #$07 : BNE .checkPlayerPoofPotential
     
     .isDwarf
     
-    TYA : STA $7EF3CC
+    TYA : STA.l $7EF3CC
     
     JSL Tagalong_LoadGfx
     
@@ -6827,7 +6827,7 @@ LinkItem_Mirror:
     .checkPlayerPoofPotential
     
     ; moon pearl
-    LDA $7EF357 : BNE .hasMoonPearl
+    LDA.l $7EF357 : BNE .hasMoonPearl
     
     LDY.b #$04
     LDA.b #$23
@@ -7140,7 +7140,7 @@ LinkItem_Mirror:
 
 .BRANCH_PSI
 
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
     
     LDY.b #$05
     
@@ -7236,13 +7236,13 @@ LinkItem_Cape:
     
     LDA $3A : AND.b #$BF : STA $3A
     
-    LDA $7EF36E : BEQ .BRANCH_$3AE62
+    LDA.l $7EF36E : BEQ .BRANCH_$3AE62
     
     STZ $0300
     
     LDA.b #$01 : STA $55
     
-    LDA $7EF37B : TAY
+    LDA.l $7EF37B : TAY
     
     LDA.w $AEBE, Y : STA $4C
     
@@ -7270,13 +7270,13 @@ LinkItem_Cape:
     LDA $4C : BNE .BRANCH_GAMMA
     
     ; Load Link's magic power reserves.
-    LDA $7EF37B : TAY
+    LDA.l $7EF37B : TAY
     
     ; Load the next delay timer
     LDA .mp_depletion_timers, Y : STA $4C
     
     ; If the magic counter has totally depleted, branch.
-    LDA $7EF36E : DEC A : STA $7EF36E : BEQ .BRANCH_DELTA
+    LDA.l $7EF36E : DEC A : STA.l $7EF36E : BEQ .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
@@ -7367,13 +7367,13 @@ LinkItem_Cape:
     ; wrong.
     DEC $4C : LDA $4C : BNE .BRANCH_DELTA
     
-    LDA $7EF37B : TAY
+    LDA.l $7EF37B : TAY
     
     LDA LinkItem_Cape.mp_depletion_timers, Y : STA $4C
     
-    LDA $7EF36E : BEQ .BRANCH_DELTA
+    LDA.l $7EF36E : BEQ .BRANCH_DELTA
     
-    DEC A : STA $7EF36E : BNE .BRANCH_DELTA
+    DEC A : STA.l $7EF36E : BNE .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
@@ -7721,19 +7721,19 @@ LinkItem_EvaluateMagicCost:
     STX $02
     
     ; Load an index into the table below
-    LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC $7EF37B : TAX
+    LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC.l $7EF37B : TAX
     
     ; This tells us how much magic to deplete.
     LDA LinkItem_MagicCosts, X : STA $00
     
-    LDA $7EF36E : BEQ .notEnoughMagicPoints
+    LDA.l $7EF36E : BEQ .notEnoughMagicPoints
     
     ; Subtract the amount off of the magic meter.
     ; Check to see if the amount is negative.
     SEC : SBC $00 : CMP.b #$80 : BCS .notEnoughMagicPoints
     
     ; Otherwise just take it like a man.
-    STA $7EF36E
+    STA.l $7EF36E
     
     ; Indicates success
     SEC
@@ -7773,11 +7773,11 @@ LinkItem_ReturnUnusedMagic:
 {
     PHB : PHK : PLB
     
-    LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC $7EF37B : TAX
+    LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC.l $7EF37B : TAX
     
     LDA LinkItem_MagicCosts, X : STA $00
     
-    LDA $7EF36E : CLC : ADC $00 : STA $7EF36E
+    LDA.l $7EF36E : CLC : ADC $00 : STA.l $7EF36E
     
     PLB
     
@@ -8070,7 +8070,7 @@ Link_Lift:
     STZ $48
     STZ $6B
         
-    LDA $7EF3CC : TAX ; Get the follower ID in X
+    LDA.l $7EF3CC : TAX ; Get the follower ID in X
                                                 ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
     CMP $8F68, X : BNE .tagalong_not_enabled_for_this ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
         
@@ -8405,7 +8405,7 @@ Link_MovableStatue:
     
     .BRANCH_ZETA
     
-    JSL $07E370 ; $03E370 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
     
     .BRANCH_KAPPA
     
@@ -8434,7 +8434,7 @@ Link_Read:
     
     .outdoors
     
-    LDA $7EF3C5 : AND.w #$00FF : CMP.w #$0002 : BCS .savedZeldaOnce
+    LDA.l $7EF3C5 : AND.w #$00FF : CMP.w #$0002 : BCS .savedZeldaOnce
     
     ; Only use one message for all "beginning" signs.
     ; That is, "The King will give 100 Rupees to..." message
@@ -9416,7 +9416,7 @@ BRANCH_ULTIMA
     REP #$20
     
     ; Link gets 5 rupees... probably from rupee tiles in special rooms.
-    LDA $7EF360 : CLC : ADC.w #$0005 : STA $7EF360
+    LDA.l $7EF360 : CLC : ADC.w #$0005 : STA.l $7EF360
     
     ; This is intended to help calculate where to do the clearing update.
     LDA $20 : CLC : ADC $B9F7, Y : SEC : SBC $00 : STA $00
@@ -9674,7 +9674,7 @@ BRANCH_ULTIMA
 
     LDA $031F : BNE .BRANCH_OMEGA2
     
-    LDA $7EF35B : TAY
+    LDA.l $7EF35B : TAY
     
     LDA.w $BA07, Y : STA $0373
     
@@ -10020,7 +10020,7 @@ BRANCH_ULTIMA
     JSR $AE54 ; $03AE54 IN ROM
     
     ; Do we have the flippers?
-    LDA $7EF356 : BEQ .BRANCH_KAPPA
+    LDA.l $7EF356 : BEQ .BRANCH_KAPPA
     
     LDA $02E0 : BNE .BRANCH_THETA
     
@@ -10337,7 +10337,7 @@ BRANCH_ULTIMA
 
 .BRANCH_EIN
 
-    LDA $7EF35B : TAY
+    LDA.l $7EF35B : TAY
     
     LDA.w $BA07, Y : STA $0373
     
@@ -10956,7 +10956,7 @@ BRANCH_ULTIMA
     STZ $6C
     
     JSR $CB84   ; $03CB84 IN ROM
-    JML $07CB9F ; $03CB9F IN ROM
+    JML.l $07CB9F ; $03CB9F IN ROM
 
 .BRANCH_OMICRON
 
@@ -11047,7 +11047,7 @@ BRANCH_ULTIMA
     
     REP #$20
     
-    LDA $7EF360 : CLC : ADC.w #$0005 : STA $7EF360
+    LDA.l $7EF360 : CLC : ADC.w #$0005 : STA.l $7EF360
     
     ; Configure the address where the clearing of the rupee tile will occur.
     LDA $20 : CLC : ADC $B9F7, Y : SEC : SBC $00 : STA $00
@@ -11239,7 +11239,7 @@ BRANCH_ULTIMA
 
     LDA $031F : BNE .BRANCH_KESRA
     
-    LDA $7EF35B : TAY
+    LDA.l $7EF35B : TAY
     
     LDA.w $BA07, Y : STA $0373
     
@@ -11566,7 +11566,7 @@ BRANCH_ULTIMA
     
     JSR $AE54 ; $03AE54 IN ROM
     
-    LDA $7EF356 : BEQ .BRANCH_IOTA
+    LDA.l $7EF356 : BEQ .BRANCH_IOTA
     
     LDA $02E0 : BNE .BRANCH_ZETA
     
@@ -11860,7 +11860,7 @@ BRANCH_ULTIMA
 .notOn4PixelGrid
 
     ; use armor value to determine damage to be doled out
-    LDA $7EF35B : TAY
+    LDA.l $7EF35B : TAY
     
     LDA.w $BA07, Y : STA $0373
     
@@ -12580,7 +12580,7 @@ Player_TileDetectNearby:
     
     LDA $A0 : STA $A2
     
-    LDA $7EC000 : STA $A0
+    LDA.l $7EC000 : STA $A0
     
     JSR $94F1 ; $0394F1 IN ROM
     
@@ -12628,7 +12628,7 @@ Player_TileDetectNearby:
     
     LDA $02E0 : BNE .BRANCH_IOTA
     
-    LDA $7EF356 : BEQ .BRANCH_THETA
+    LDA.l $7EF356 : BEQ .BRANCH_THETA
     
     STZ $0345
     
@@ -12724,7 +12724,7 @@ Player_TileDetectNearby:
     STZ $03F6
     
     ; moon pearl
-    LDA $7EF357 : BEQ .doesntHaveMoonPearl
+    LDA.l $7EF357 : BEQ .doesntHaveMoonPearl
     
     STZ $56
     STZ $02E0
@@ -12732,7 +12732,7 @@ Player_TileDetectNearby:
     .doesntHaveMoonPearl
     
     ; armor level
-    LDA $7EF35B : TAY
+    LDA.l $7EF35B : TAY
     
     ; Determine how much damage the spike floor will do to Link.
     LDA.w $D06C, Y : STA $0373
@@ -12997,7 +12997,7 @@ Player_TileDetectNearby:
     .check_lift_strength
     
     ; Subtract glove strength.
-    LDA.w $D375, Y : SEC : SBC $7EF354 : BEQ .strongEnough : BPL .checkIfOpeningChest
+    LDA.w $D375, Y : SEC : SBC.l $7EF354 : BEQ .strongEnough : BPL .checkIfOpeningChest
     
     .strongEnough
     
@@ -13785,7 +13785,7 @@ TileDetect_Execute:
     TAX
     
     ; Are we figuring out what sort of tile this is
-    LDA $7F2000, X : PHA
+    LDA.l $7F2000, X : PHA
     
     LDA $037F : AND.w #$00FF
     
@@ -14476,7 +14476,7 @@ TileDetect_Execute:
     LDX $BD
     
     ; We need this distinction to know how to update the tilemap.
-    LDA $7F2040, X : AND.w #$00FF : CMP.w #$0060 : BNE .touched_lower_half
+    LDA.l $7F2040, X : AND.w #$00FF : CMP.w #$0060 : BNE .touched_lower_half
     
     ; Touched upper tile of the 16x8 rupee.
     LDA $0A : XBA : TSB $02F6
@@ -14536,7 +14536,7 @@ TileDetect_Execute:
     
     LDA $06 : STA $76
     
-    BRL $3DD6A_notBigKeyLock
+    BRL.l $3DD6A_notBigKeyLock
 }
 
 ; $03DE4F-$03DE5A JUMP LOCATION
@@ -14726,7 +14726,7 @@ TileDetect_Execute:
     
     TAX
     
-    LDA $7F2000, X : AND.w #$00FF : TAX
+    LDA.l $7F2000, X : AND.w #$00FF : TAX
     
     LDA.w $DF26, X : AND.w #$00FF
     
@@ -16116,11 +16116,11 @@ TileDetect_Execute:
     ; I'll deal with this routine later >:(
     LDA $6C : BEQ .notInDoorway
     
-    JML $07E901 ; $03E901 IN ROM
+    JML.l $07E901 ; $03E901 IN ROM
     
     .notInDoorway
     
-    JSL $07E9D3 ; $03E9D3 IN ROM
+    JSL.l $07E9D3 ; $03E9D3 IN ROM
     
     .return
     
@@ -16205,7 +16205,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B62E ; $01362E IN ROM ; Transition right
+    JSL.l $02B62E ; $01362E IN ROM ; Transition right
     
     RTS
     
@@ -16216,7 +16216,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B6CD ; $0136CD IN ROM ; Transition left
+    JSL.l $02B6CD ; $0136CD IN ROM ; Transition left
     
     RTS
     
@@ -16229,7 +16229,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B81C ; $01381C IN ROM
+    JSL.l $02B81C ; $01381C IN ROM
     
     RTS
     
@@ -16240,7 +16240,7 @@ TileDetect_Execute:
     STZ $0309
     STZ $0376
     
-    JSL $02B76E ; $01376E IN ROM
+    JSL.l $02B76E ; $01376E IN ROM
     
     .noVerticalMovement
     
@@ -16259,20 +16259,20 @@ TileDetect_Execute:
     LDA $69 : BEQ .noHorizontalMovement
               BMI .movedLeft
     
-    JSL $02B8BD ; $0138BD IN ROM
+    JSL.l $02B8BD ; $0138BD IN ROM
     
     BRA .noHorizontalMovement
     
     .movedLeft
     
-    JSL $02B8F9 ; $0138F9 IN ROM
+    JSL.l $02B8F9 ; $0138F9 IN ROM
     
     .noHorizontalMovement
     
     LDA $68 : BEQ .noVerticalMovement
               BPL .movedDown
     
-    JSL $02B919 ; $013919 IN ROM
+    JSL.l $02B919 ; $013919 IN ROM
     
     PLB
     
@@ -16280,7 +16280,7 @@ TileDetect_Execute:
     
     .movedDown
     
-    JSL $02B909 ; $013909 IN ROM
+    JSL.l $02B909 ; $013909 IN ROM
     
     .noVerticalMovement
     
@@ -16299,7 +16299,7 @@ Player_InitPrayingScene_HDMA:
     ; the spotlight effects of entering or leaving a dungeon. That can
     ; be found in bank 0x00.
     
-    JSL $02C7B8 ; $0147B8 IN ROM
+    JSL.l $02C7B8 ; $0147B8 IN ROM
     
     PHB : PHK : PLB
     
@@ -16311,7 +16311,7 @@ Player_InitPrayingScene_HDMA:
     
     STZ $067E
     
-    JSL $07EA27 ; $03EA27 IN ROM
+    JSL.l $07EA27 ; $03EA27 IN ROM
     
     INC $B0
     
@@ -17545,8 +17545,8 @@ Player_ResetState:
     
     .BRANCH_DELTA
     
-    JSL $07E370 ; $03E370 IN ROM
-    JSL $07E704 ; $03E704 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l $07E704 ; $03E704 IN ROM
     
     LDA $0371 : BNE .BRANCH_ZETA
     
@@ -17576,11 +17576,11 @@ Player_ResetState:
     
     REP #$20
     
-    JSL $02921A ; $01121A IN ROM
+    JSL.l $02921A ; $01121A IN ROM
     
     SEP #$20
     
-    LDA $7EF3CC : BEQ .BRANCH_IOTA
+    LDA.l $7EF3CC : BEQ .BRANCH_IOTA
     
     JSL Tagalong_Init
     
@@ -17680,8 +17680,8 @@ Player_ResetState:
     
     .BRANCH_GAMMA
     
-    JSL $07E370 ; $03E370 IN ROM
-    JSL $07E704 ; $03E704 IN ROM
+    JSL.l $07E370 ; $03E370 IN ROM
+    JSL.l $07E704 ; $03E704 IN ROM
     
     LDA $22 : CMP $53 : BNE .BRANCH_DELTA
     
@@ -17748,8 +17748,8 @@ Player_ResetState:
     
     STY $27
     
-    JSL $07E370 ; $03E370 in rom.
-    JSL $07E704 ; $03E704 in rom.
+    JSL.l $07E370 ; $03E370 in rom.
+    JSL.l $07E704 ; $03E704 in rom.
     
     PLB
     

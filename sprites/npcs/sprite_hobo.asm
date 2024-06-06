@@ -138,7 +138,7 @@ Hobo_GrantBottle:
     LDX $8A
     
     ; \event
-    LDA $7EF280, X : ORA.b #$20 : STA $7EF280, X
+    LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
     LDY.b #$16
     
@@ -149,7 +149,7 @@ Hobo_GrantBottle:
     JSL Link_ReceiveItem
     
     ; \event
-    LDA $7EF3C9 : ORA.b #$01 : STA $7EF3C9
+    LDA.l $7EF3C9 : ORA.b #$01 : STA.l $7EF3C9
     
     PLX
     

@@ -67,9 +67,9 @@ Sprite_BombShopGuy:
     
     LDY.b #$00
     
-    LDA $7EF37A : AND.b #$05 : CMP.b #$05 : BNE .dont_have_super_bomb
+    LDA.l $7EF37A : AND.b #$05 : CMP.b #$05 : BNE .dont_have_super_bomb
     
-    LDA $7EF3C9 : AND.b #$20 : BEQ .dont_have_super_bomb
+    LDA.l $7EF3C9 : AND.b #$20 : BEQ .dont_have_super_bomb
     
     ; Change dialogue to reflect that the Super Bomb is present. (Doesn't
     ; actually spawn the super bomb, though. That's done during this
@@ -98,9 +98,9 @@ Sprite_BombShopBomb:
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .didnt_solicit
     
-    LDA $7EF370 : PHX : TAX
+    LDA.l $7EF370 : PHX : TAX
     
-    LDA $0DDB48, X : PLX : CMP $7EF343 : BEQ .dont_need_any_bombs
+    LDA.l $0DDB48, X : PLX : CMP.l $7EF343 : BEQ .dont_need_any_bombs
     
     ; 
     LDA.b #$64
@@ -109,7 +109,7 @@ Sprite_BombShopBomb:
     ; $0F739E IN ROM
     JSR $F39E : BCC .player_cant_afford
     
-    LDA.b #$1B : STA $7EF375
+    LDA.b #$1B : STA.l $7EF375
     
     STZ $0DD0, X
     
@@ -158,7 +158,7 @@ Sprite_BombShopSuperBomb:
     ; $0F739E IN ROM
     JSR $F39E : BCC .player_cant_afford
     
-    LDA.b #$0D : STA $7EF3CC ; Super Bomb sprite
+    LDA.b #$0D : STA.l $7EF3CC ; Super Bomb sprite
     
     PHX
     

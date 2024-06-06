@@ -2864,7 +2864,7 @@ nothing_with_desert_cutscene
     
     LDA $1A : AND.b #$18 : LSR #3 : TAX
     
-    LDA $079635, X : STA $02
+    LDA.l $079635, X : STA $02
     
     BRL .PlayerOam_ContinueWithAnimation
 
@@ -3450,11 +3450,11 @@ PlayerOam_DrawShield:
     REP #$30
     
     ; Shield
-    LDA $7EF35A : AND.w #$00FF : BEQ .dontShowShield
+    LDA.l $7EF35A : AND.w #$00FF : BEQ .dontShowShield
     
     ; Check out progress indicator to see if Link's gotten the shield from his uncle yet.
     ; In other words, if Link has entered phase 1
-    LDA $7EF3C5 : AND.w #$00FF : BEQ .dontShowShield
+    LDA.l $7EF3C5 : AND.w #$00FF : BEQ .dontShowShield
     
     ; $06ABE6 IN ROM; affects graphics when carrying things?
     JSR PlayerOam_SetEquipmentVRAMOffsets : BCC .showShield
@@ -4325,7 +4325,7 @@ PlayerOam_DrawSwordSwingTip:
 
 .base_link_state
 
-    LDA $7EF359
+    LDA.l $7EF359
     
     AND.w #$00FF : BEQ .give_up
     CMP.w #$00FF : BEQ .give_up
@@ -4586,7 +4586,7 @@ PlayerOam_DrawFootObject:
 .dont_reset_foot_object
 
     ; See if Link has a shield
-    LDA $7EF35A : TAY
+    LDA.l $7EF35A : TAY
     
     ; See which direction Link is facing
     ; Probably positions the water/grass sprite appropriately

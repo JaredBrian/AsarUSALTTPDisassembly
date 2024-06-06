@@ -61,7 +61,7 @@ Sprite_Lumberjacks:
     
     LDA $22 : CMP $0D10, X : ROL A : AND.b #$01 : STA $00 : STZ $01
     
-    LDA $7EF359 : CMP.b #$02 : BCC .player_doesnt_have_master_sword
+    LDA.l $7EF359 : CMP.b #$02 : BCC .player_doesnt_have_master_sword
     
     LDA.b #$02 : STA $01
     

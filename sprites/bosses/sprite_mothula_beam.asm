@@ -32,7 +32,7 @@ Sprite_MothulaBeam:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -46,19 +46,19 @@ Sprite_MothulaBeam:
     
     ; \note Generate the mothula beam... garnish. Not sure what that looks
     ; like though.
-    LDA.b #$02 : STA $7FF800, X : STA $0FB4
+    LDA.b #$02 : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : STA $7FF81E, X
-    LDA $0D20, Y : STA $7FF85A, X
+    LDA $0D00, Y : STA.l $7FF81E, X
+    LDA $0D20, Y : STA.l $7FF85A, X
     
-    LDA.b #$10 : STA $7FF90E, X
+    LDA.b #$10 : STA.l $7FF90E, X
     
-    TYA : STA $7FF92C, X
+    TYA : STA.l $7FF92C, X
     
-    LDA $0F20, Y : STA $7FF968, X
+    LDA $0F20, Y : STA.l $7FF968, X
     
     PLX
     

@@ -161,11 +161,11 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     
     LDA $2F : ASL A : TAY
     
-    LDA .initial_rotation_states, Y : STA $7F5800
-    LDA .initial_rotation_states, Y : STA $7F5801
-    LDA .initial_rotation_states, Y : STA $7F5802
-    LDA .initial_rotation_states, Y : STA $7F5803
-                                      STA $7F5804
+    LDA .initial_rotation_states, Y : STA.l $7F5800
+    LDA .initial_rotation_states, Y : STA.l $7F5801
+    LDA .initial_rotation_states, Y : STA.l $7F5802
+    LDA .initial_rotation_states, Y : STA.l $7F5803
+                                      STA.l $7F5804
     
     LDA.b #$02 : STA $03B1, X
     LDA.b #$4C : STA $0C5E, X
@@ -176,14 +176,14 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     
     LDA.b #$FF : STA $03A4, X
     
-    LDA.b #$14 : STA $7F5808
+    LDA.b #$14 : STA.l $7F5808
     
     LDY $2F
     
     REP #$20
     
-    LDA $20 : CLC : ADC.w #$000C : STA $7F5810
-    LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
+    LDA $20 : CLC : ADC.w #$000C : STA.l $7F5810
+    LDA $22 : CLC : ADC.w #$0008 : STA.l $7F580E
     
     LDA $20 : CLC : ADC $D85D, Y : STA $00
     LDA $22 : CLC : ADC $D865, Y : STA $02

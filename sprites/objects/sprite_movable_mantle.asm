@@ -28,10 +28,10 @@ Sprite_MovableMantle:
     JSL Sprite_RepelDashAttackLong
     
     ; Only moves if Zelda is following you
-    LDA $7EF3CC : CMP.b #$01 : BNE .return
+    LDA.l $7EF3CC : CMP.b #$01 : BNE .return
     
     ; Only moves if you have the lamp
-    LDA $7EF34A : BEQ .return
+    LDA.l $7EF34A : BEQ .return
     
     ; Won't work if you're dashing
     LDA $0372 : BNE .return
@@ -43,7 +43,7 @@ Sprite_MovableMantle:
     LDA $28 : CMP.b #$18 : BMI .return
     
     ; Set a game state (numerical, not bitwise).
-    LDA.b #$04 : STA $7EF3C8
+    LDA.b #$04 : STA.l $7EF3C8
     
     INC $0E80, X : LDA $0E80, X : AND.b #$01 : BNE .delay_movement
     

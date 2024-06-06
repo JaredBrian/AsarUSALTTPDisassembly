@@ -145,12 +145,12 @@ Init:
     
     LDX.b #$12
     
-    LDA $7EF340
+    LDA.l $7EF340
     
     ; check if we have any equippable items available
     .itemCheck
     
-    ORA $7EF341, X : DEX
+    ORA.l $7EF341, X : DEX
     
     BPL .itemCheck
     
@@ -158,7 +158,7 @@ Init:
     
     BEQ .noEquipableItems
     
-    LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
+    LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
     
     BNE .haveBottleItems
     
@@ -166,7 +166,7 @@ Init:
     
     .haveBottleItems
     
-    LDA $7EF34F
+    LDA.l $7EF34F
     
     ; There is a difference between having bottled items and having 
     ; at least one bottle to put them in. $7EF34F acts as a flag for that.
@@ -175,17 +175,17 @@ Init:
     TAY
     
     INY
-    LDA $7EF35C
+    LDA.l $7EF35C
     
     BNE .selectThisBottle
     
     INY
-    LDA $7EF35D
+    LDA.l $7EF35D
     
     BNE .selectThisBottle
     
     INY
-    LDA $7EF35E
+    LDA.l $7EF35E
     
     BNE .selectThisBottle
     
@@ -197,7 +197,7 @@ Init:
     
     .haveNoBottles
     
-    STA $7EF34F
+    STA.l $7EF34F
     
     .hasBottleFlag
     
@@ -270,11 +270,11 @@ ChooseNextMode:
     
     LDX.b #$12
     
-    LDA $7EF340
+    LDA.l $7EF340
     
     .haveAnyEquippable
     
-    ORA $7EF341, X : DEX : BPL .haveAnyEquippable
+    ORA.l $7EF341, X : DEX : BPL .haveAnyEquippable
     
     CMP.b #$00 : BEQ .haveNone
     
@@ -325,7 +325,7 @@ DoWeHaveThisItem:
     LDX $0202
     
     ; Check to see if we have this item...
-    LDA $7EF33F, X : BNE .haveThisItem
+    LDA.l $7EF33F, X : BNE .haveThisItem
         CLC
         
         RTS
@@ -471,7 +471,7 @@ NormalMenu:
     ; Lots of punching would ensue.
     LDX $0202 
     
-    LDA.b #$00 : STA $7EF33F, X
+    LDA.b #$00 : STA.l $7EF33F, X
     
     ; unlike .movingOut, Anthony's Song.
     BRA .movingOn
@@ -567,7 +567,7 @@ UpdateHUD:
     ; gameplay. (Y button items, btw)
     LDX $0202 
     
-    LDA $0DFA15, X : STA $0303
+    LDA.l $0DFA15, X : STA $0303
     
     RTS
 }
@@ -817,7 +817,7 @@ BottleMenu:
     
     .haveUpDownInput
     
-    LDA $7EF34F : DEC A : STA $00 : STA $02
+    LDA.l $7EF34F : DEC A : STA $00 : STA $02
     
     LDA $F4 : AND.b #$08 : BEQ .haveUpInput
     
@@ -825,7 +825,7 @@ BottleMenu:
     
     LDA $00 : DEC A : AND.b #$03 : STA $00 : TAX
     
-    LDA $7EF35C, X : BEQ .selectPrevBottle
+    LDA.l $7EF35C, X : BEQ .selectPrevBottle
     
     BRA .bottleIsSelected
     
@@ -834,14 +834,14 @@ BottleMenu:
     
     LDA $00 : INC A : AND.b #$03 : STA $00 : TAX
     
-    LDA $7EF35C, X : BEQ .selectNextBottle
+    LDA.l $7EF35C, X : BEQ .selectNextBottle
     
     .bottleIsSelected
     
     LDA $00 : CMP $02 : BEQ .sameBottleWhoCares
     
     ; record which bottle was just selected
-    INC A : STA $7EF34F
+    INC A : STA.l $7EF34F
     
     ; If it's not the same bottle we play the 
     ; obligatory item switch sound effect
@@ -887,32 +887,32 @@ UpdateBottleMenu:
     
     ; Draw the 4 bottle icons (if we don't have that bottle it just draws blanks)
     LDA.w #$1372 : STA $00
-    LDA $7EF35C : AND.w #$00FF : STA $02
+    LDA.l $7EF35C : AND.w #$00FF : STA $02
     LDA.w #$F751 : STA $04
     
     JSR DrawItem
     
     LDA.w #$1472 : STA $00
-    LDA $7EF35D : AND.w #$00FF : STA $02
+    LDA.l $7EF35D : AND.w #$00FF : STA $02
     LDA.w #$F751 : STA $04
     
     JSR DrawItem
     
     LDA.w #$1572 : STA $00
-    LDA $7EF35E : AND.w #$00FF : STA $02
+    LDA.l $7EF35E : AND.w #$00FF : STA $02
     LDA.w #$F751 : STA $04
     
     JSR DrawItem
     
     LDA.w #$1672 : STA $00
-    LDA $7EF35F : AND.w #$00FF : STA $02
+    LDA.l $7EF35F : AND.w #$00FF : STA $02
     LDA.w #$F751 : STA $04
     
     JSR DrawItem
     
     LDA.w #$1408 : STA $00
     
-    LDA $7EF34F : AND.w #$00FF : TAX : BNE .haveBottleEquipped
+    LDA.l $7EF34F : AND.w #$00FF : TAX : BNE .haveBottleEquipped
     
     LDA.w #$0000
     
@@ -920,7 +920,7 @@ UpdateBottleMenu:
     
     .haveBottleEquipped
     
-    LDA $7EF35B, X : AND.w #$00FF
+    LDA.l $7EF35B, X : AND.w #$00FF
     
     .drawEquippedBottle
     
@@ -939,7 +939,7 @@ UpdateBottleMenu:
     LDA $0040, Y : STA $11F2
     LDA $0042, Y : STA $11F4
     
-    LDA $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
+    LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
     LDA.w $E177, Y : TAY
     
@@ -962,11 +962,11 @@ UpdateBottleMenu:
     ORA.w #$8000 : STA $136E, Y
     EOR.w #$4000 : STA $1368, Y
     
-    LDA $7EF34F : AND.w #$00FF : BEQ .noSelectedBottle
+    LDA.l $7EF34F : AND.w #$00FF : BEQ .noSelectedBottle
     
     TAX
     
-    LDA $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+    LDA.l $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
     
     LDY.w #$0000
     
@@ -1093,12 +1093,12 @@ SearchForEquippedItem:
     
     LDX.b #$12
     
-    LDA $7EF340
+    LDA.l $7EF340
     
     ; Go through all our equipable items, hoping to find at least one available
     .itemCheck
         ; Loop.
-    ORA $7EF341, X : DEX : BPL .itemCheck                     
+    ORA.l $7EF341, X : DEX : BPL .itemCheck                     
     
     CMP.b #$00 : BNE .equippableItemAvailable
         ; In this case we have no equippable items
@@ -1207,21 +1207,21 @@ DrawYButtonItems:
     
     ; Draw Bow and Arrow
     LDA.w #$11C8 : STA $00
-    LDA $7EF340 : AND.w #$00FF : STA $02
+    LDA.l $7EF340 : AND.w #$00FF : STA $02
     LDA.w #$F629 : STA $04
     
     JSR DrawItem
     
     ; Draw Boomerang
     LDA.w #$11CE : STA $00
-    LDA $7EF341 : AND.w #$00FF : STA $02
+    LDA.l $7EF341 : AND.w #$00FF : STA $02
     LDA.w #$F651 : STA $04
     
     JSR DrawItem
     
     ; Draw Hookshot
     LDA.w #$11D4 : STA $00
-    LDA $7EF342 : AND.w #$00FF : STA $02
+    LDA.l $7EF342 : AND.w #$00FF : STA $02
     LDA.w #$F669 : STA $04
     
     JSR DrawItem
@@ -1229,7 +1229,7 @@ DrawYButtonItems:
     ; Draw Bombs
     LDA.w #$11DA : STA $00
     
-    LDA $7EF343 : AND.w #$00FF : BEQ .gotNoBombs
+    LDA.l $7EF343 : AND.w #$00FF : BEQ .gotNoBombs
         LDA.w #$0001
     
     .gotNoBombs
@@ -1242,75 +1242,75 @@ DrawYButtonItems:
     
     ; Draw mushroom or magic powder
     LDA.w #$11E0 : STA $00
-    LDA $7EF344 : AND.w #$00FF : STA $02
+    LDA.l $7EF344 : AND.w #$00FF : STA $02
     LDA.w #$F689 : STA $04
     
     JSR DrawItem
     
     ; Draw Fire Rod
     LDA.w #$1288 : STA $00
-    LDA $7EF345 : AND.w #$00FF : STA $02
+    LDA.l $7EF345 : AND.w #$00FF : STA $02
     LDA.w #$F6A1 : STA $04
     
     JSR DrawItem
     
     ; Draw Ice Rod
     LDA.w #$128E : STA $00
-    LDA $7EF346 : AND.w #$00FF : STA $02
+    LDA.l $7EF346 : AND.w #$00FF : STA $02
     LDA.w #$F6B1 : STA $04
     
     JSR DrawItem
     
     ; Draw Bombos Medallion
     LDA.w #$1294 : STA $00
-    LDA $7EF347 : AND.w #$00FF : STA $02
+    LDA.l $7EF347 : AND.w #$00FF : STA $02
     LDA.w #$F6C1 : STA $04
     
     JSR DrawItem
     
     ; Draw Ether Medallion
     LDA.w #$129A : STA $00
-    LDA $7EF348 : AND.w #$00FF : STA $02
+    LDA.l $7EF348 : AND.w #$00FF : STA $02
     LDA.w #$F6D1 : STA $04
     
     JSR DrawItem
     
     ; Draw Quake Medallion
     LDA.w #$12A0 : STA $00
-    LDA $7EF349 : AND.w #$00FF : STA $02
+    LDA.l $7EF349 : AND.w #$00FF : STA $02
     LDA.w #$F6E1 : STA $04
     
     JSR DrawItem
     
     LDA.w #$1348 : STA $00
-    LDA $7EF34A : AND.w #$00FF : STA $02
+    LDA.l $7EF34A : AND.w #$00FF : STA $02
     LDA.w #$F6F1 : STA $04
     
     JSR DrawItem
     
     LDA.w #$134E : STA $00
-    LDA $7EF34B : AND.w #$00FF : STA $02
+    LDA.l $7EF34B : AND.w #$00FF : STA $02
     LDA.w #$F701 : STA $04
     
     JSR DrawItem
     
     ; Flute
     LDA.w #$1354 : STA $00
-    LDA $7EF34C : AND.w #$00FF : STA $02
+    LDA.l $7EF34C : AND.w #$00FF : STA $02
     LDA.w #$F711 : STA $04
     
     JSR DrawItem
     
     ; Bug Catching Net
     LDA.w #$135A : STA $00
-    LDA $7EF34D : AND.w #$00FF : STA $02
+    LDA.l $7EF34D : AND.w #$00FF : STA $02
     LDA.w #$F731 : STA $04
     
     JSR DrawItem
     
     ; Draw Book Of Mudora
     LDA.w #$1360 : STA $00
-    LDA $7EF34E : AND.w #$00FF : STA $02
+    LDA.l $7EF34E : AND.w #$00FF : STA $02
     LDA.w #$F741 : STA $04
     
     JSR DrawItem
@@ -1318,14 +1318,14 @@ DrawYButtonItems:
     LDA.w #$1408 : STA $00
     
     ; there is an active bottle
-    LDA $7EF34F : AND.w #$00FF : TAX : BNE .haveSelectedBottle
+    LDA.l $7EF34F : AND.w #$00FF : TAX : BNE .haveSelectedBottle
         LDA.w #$0000
         
         BRA .noSelectedBottle
     
     .haveSelectedBottle
     
-    LDA $7EF35B, X : AND.w #$00FF
+    LDA.l $7EF35B, X : AND.w #$00FF
     
     .noSelectedBottle
     
@@ -1336,25 +1336,25 @@ DrawYButtonItems:
     
     ; Draw Cane of Somaria
     LDA.w #$140E : STA $00
-    LDA $7EF350 : AND.w #$00FF : STA $02
+    LDA.l $7EF350 : AND.w #$00FF : STA $02
     LDA.w #$F799 : STA $04
     JSR DrawItem
     
     ; Draw Cane of Byrna
     LDA.w #$1414 : STA $00
-    LDA $7EF351 : AND.w #$00FF : STA $02
+    LDA.l $7EF351 : AND.w #$00FF : STA $02
     LDA.w #$F7A9 : STA $04
     JSR DrawItem
     
     ; Draw Magic Cape
     LDA.w #$141A : STA $00
-    LDA $7EF352 : AND.w #$00FF : STA $02
+    LDA.l $7EF352 : AND.w #$00FF : STA $02
     LDA.w #$F7B9 : STA $04
     JSR DrawItem
     
     ; Draw Magic Mirror
     LDA.w #$1420 : STA $00
-    LDA $7EF353 : AND.w #$00FF : STA $02
+    LDA.l $7EF353 : AND.w #$00FF : STA $02
     LDA.w #$F7C9 : STA $04
     JSR DrawItem
     
@@ -1437,7 +1437,7 @@ DrawAbilityText:
     DEY : BPL .drawBoxInterior
     
     ; get data from ability variable (set of flags for each ability)
-    LDA $7EF378 : AND.w #$FF00 : STA $02
+    LDA.l $7EF378 : AND.w #$FF00 : STA $02
     
     LDA.w #$0003 : STA $04
     
@@ -1520,26 +1520,26 @@ DrawAbilityIcons:
     REP #$30
     
     LDA.w #$16D0 : STA $00
-    LDA $7EF354 : AND.w #$00FF : STA $02
+    LDA.l $7EF354 : AND.w #$00FF : STA $02
     LDA.w #$F7E9 : STA $04
     
     JSR DrawItem
     
     LDA.w #$16C8 : STA $00
-    LDA $7EF355 : AND.w #$00FF : STA $02
+    LDA.l $7EF355 : AND.w #$00FF : STA $02
     LDA.w #$F801 : STA $04
     
     JSR DrawItem
     
     LDA.w #$16D8 : STA $00
-    LDA $7EF356 : AND.w #$00FF : STA $02
+    LDA.l $7EF356 : AND.w #$00FF : STA $02
     LDA.w #$F811 : STA $04
     
     JSR DrawItem
     
     ; modify the lift ability text if you have
     ; a glove item
-    LDA $7EF354
+    LDA.l $7EF354
     
     AND.w #$00FF : BEQ .finished
         CMP.w #$0001 : BNE .titansMitt
@@ -1634,7 +1634,7 @@ DrawGloveAbility:
 ; $06E9C8-$06EB39 LOCAL JUMP LOCATION
 DrawProgressIcons:
 {
-    LDA $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
+    LDA.l $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
         JMP .drawCrystals
     
     .beforeAgahnim
@@ -1657,7 +1657,7 @@ DrawProgressIcons:
     INX #2 : CPX.w #$0014 : BCC .initPendantDiagram
     
     LDA.w #$13B2               : STA $00
-    LDA $7EF374 : AND.w #$0001 : STA $02
+    LDA.l $7EF374 : AND.w #$0001 : STA $02
     LDA.w #$F8D1               : STA $04
     
     JSR DrawItem
@@ -1665,7 +1665,7 @@ DrawProgressIcons:
     LDA.w #$146E : STA $00
     STZ $02
     
-    LDA $7EF374 : AND.w #$0002 : BEQ .needWisdomPendant
+    LDA.l $7EF374 : AND.w #$0002 : BEQ .needWisdomPendant
         INC $02
     
     .needWisdomPendant
@@ -1677,7 +1677,7 @@ DrawProgressIcons:
     LDA.w #$1476 : STA $00
     STZ $02
     
-    LDA $7EF374 : AND.w #$0004 : BEQ .needPowerPendant
+    LDA.l $7EF374 : AND.w #$0004 : BEQ .needPowerPendant
         INC $02
     
     .needPowerPendant
@@ -1710,43 +1710,43 @@ DrawProgressIcons:
         LDA.w $E9B4, X : STA $14EA, X
     INX #2 : CPX.w #$0014 : BCC .initCrystalDiagram
     
-    LDA $7EF37A : AND.w #$0001 : BEQ .miseryMireNotDone
+    LDA.l $7EF37A : AND.w #$0001 : BEQ .miseryMireNotDone
         LDA.w #$2D44 : STA $13B0
         LDA.w #$2D45 : STA $13B2
     
     .miseryMireNotDone
     
-    LDA $7EF37A : AND.w #$0002 : BEQ .darkPalaceNotDone
+    LDA.l $7EF37A : AND.w #$0002 : BEQ .darkPalaceNotDone
         LDA.w #$2D44 : STA $13B4
         LDA.w #$2D45 : STA $13B6
     
     .darkPalaceNotDone
     
-    LDA $7EF37A : AND.w #$0004 : BEQ .icePalaceNotDone
+    LDA.l $7EF37A : AND.w #$0004 : BEQ .icePalaceNotDone
         LDA.w #$2D44 : STA $142E
         LDA.w #$2D45 : STA $1430
     
     .icePalaceNotDone
     
-    LDA $7EF37A : AND.w #$0008 : BEQ .turtleRockNotDone
+    LDA.l $7EF37A : AND.w #$0008 : BEQ .turtleRockNotDone
         LDA.w #$2D44 : STA $1432
         LDA.w #$2D45 : STA $1434
     
     .turtleRockNotDone
     
-    LDA $7EF37A : AND.w #$0010 : BEQ .swampPalaceNotDone
+    LDA.l $7EF37A : AND.w #$0010 : BEQ .swampPalaceNotDone
         LDA.w #$2D44 : STA $1436
         LDA.w #$2D45 : STA $1438
     
     .swampPalaceNotDone
     
-    LDA $7EF37A : AND.w #$0020 : BEQ .blindHideoutNotDone
+    LDA.l $7EF37A : AND.w #$0020 : BEQ .blindHideoutNotDone
         LDA.w #$2D44 : STA $14B0
         LDA.w #$2D45 : STA $14B2
     
     .blindHideoutNotDone
     
-    LDA $7EF37A : AND.w #$0040 : BEQ .skullWoodsNotDone
+    LDA.l $7EF37A : AND.w #$0040 : BEQ .skullWoodsNotDone
         LDA.w #$2D44 : STA $14B4
         LDA.w #$2D45 : STA $14B6
     
@@ -1793,10 +1793,10 @@ DrawSelectedYButtonItem:
     .dontUpdate
     
     LDA $0202 : AND.w #$00FF : CMP.w #$0010 : BNE .bottleNotSelected
-        LDA $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
+        LDA.l $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
             TAX
             
-            LDA $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+            LDA.l $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
             
             LDY.w #$0000
             
@@ -1816,7 +1816,7 @@ DrawSelectedYButtonItem:
     
     ; Magic Powder selected?
     LDA $0202 : AND.w #$00FF : CMP.w #$0005 : BNE .powderNotSelected
-        LDA $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
+        LDA.l $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
             DEC A : ASL #5 : TAX
             
             LDY.w #$0000
@@ -1834,7 +1834,7 @@ DrawSelectedYButtonItem:
     .powderNotSelected
     
     LDA $0202 : AND.w #$00FF : CMP.w #$0014 : BNE .mirrorNotSelected
-        LDA $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
+        LDA.l $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
             DEC A : ASL #5 : TAX
             
             LDY.w #$0000
@@ -1852,7 +1852,7 @@ DrawSelectedYButtonItem:
     .mirrorNotSelected
     
     LDA $0202 : AND.w #$00FF : CMP.w #$000D : BNE .fluteNotSelected
-        LDA $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
+        LDA.l $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
             DEC A : ASL #5 : TAX
             
             LDY.w #$0000
@@ -1870,7 +1870,7 @@ DrawSelectedYButtonItem:
     .fluteNotSelected
     
     LDA $0202 : AND.w #$00FF : CMP.w #$0001 : BNE .bowNotSelected
-        LDA $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
+        LDA.l $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
             DEC A : ASL #5 : TAX
             
             LDY.w #$0000
@@ -2028,7 +2028,7 @@ DrawEquipment:
     INX #2 : DEY : BPL .drawUnknown
     
     LDA.w #$16F2 : STA $00
-    LDA $7EF36B : AND.w #$00FF : STA $02
+    LDA.l $7EF36B : AND.w #$00FF : STA $02
     LDA.w #$F911 : STA $04
     
     JSR DrawItem
@@ -2039,7 +2039,7 @@ DrawEquipment:
     
     LDA.w #$15EC : STA $00
     
-    LDA $7EF359 : AND.w #$00FF : CMP.w #$00FF : BNE .hasSword
+    LDA.l $7EF359 : AND.w #$00FF : CMP.w #$00FF : BNE .hasSword
     LDA.w #$0000
     
     .hasSword
@@ -2062,7 +2062,7 @@ DrawShield:
     REP #$30
     
     LDA.w #$15F2                : STA $00
-    LDA $7EF35A  : AND.w #$00FF : STA $02
+    LDA.l $7EF35A  : AND.w #$00FF : STA $02
     LDA.w #$F861                : STA $04
     
     JSR DrawItem
@@ -2080,7 +2080,7 @@ DrawArmor:
     REP #$30
     
     LDA.w #$15F8                : STA $00
-    LDA $7EF35B  : AND.w #$00FF : STA $02
+    LDA.l $7EF35B  : AND.w #$00FF : STA $02
     LDA.w #$F881                : STA $04
     
     JSR DrawItem
@@ -2102,7 +2102,7 @@ DrawMapAndBigKey:
     LSR A : TAX
     
     ; Check if we have the big key in this palace
-    LDA $7EF366
+    LDA.l $7EF366
     
     .locateBigKeyFlag
     
@@ -2127,7 +2127,7 @@ DrawMapAndBigKey:
     LSR A : TAX
     
     ; Check if we have the map in this dungeon
-    LDA $7EF368
+    LDA.l $7EF368
     
     .locateMapFlag
     
@@ -2188,7 +2188,7 @@ Pool_CheckPalaceItemPossession:
     
     .bow
     
-    LDA $7EF340
+    LDA.l $7EF340
     
     .no_item
     .compare
@@ -2204,39 +2204,39 @@ Pool_CheckPalaceItemPossession:
     
     .power_glove
     
-    LDA $7EF354 : BRA .compare
+    LDA.l $7EF354 : BRA .compare
     
     .hookshot
     
-    LDA $7EF342 : BRA .compare
+    LDA.l $7EF342 : BRA .compare
     
     .hammer
     
-    LDA $7EF34B : BRA .compare
+    LDA.l $7EF34B : BRA .compare
     
     .cane_of_somaria
     
-    LDA $7EF350 : BRA .compare
+    LDA.l $7EF350 : BRA .compare
     
     .fire_rod
     
-    LDA $7EF345 : BRA .compare
+    LDA.l $7EF345 : BRA .compare
     
     .blue_mail
     
-    LDA $7EF35B : BRA .compare
+    LDA.l $7EF35B : BRA .compare
     
     .moon_pearl
     
-    LDA $7EF357 : BRA .compare
+    LDA.l $7EF357 : BRA .compare
     
     .titans_mitt
     
-    LDA $7EF354 : DEC A : BRA .compare
+    LDA.l $7EF354 : DEC A : BRA .compare
     
     .mirror_shield
     
-    LDA $7EF35A : CMP.b #$03 : BEQ .success
+    LDA.l $7EF35A : CMP.b #$03 : BEQ .success
     
     STZ $02
     STZ $03
@@ -2245,7 +2245,7 @@ Pool_CheckPalaceItemPossession:
     
     .red_mail
     
-    LDA $7EF35B : CMP.b #$02 : BEQ .success
+    LDA.l $7EF35B : CMP.b #$02 : BEQ .success
     
     STZ $02
     STZ $03
@@ -2264,7 +2264,7 @@ DrawCompass:
     
     LSR A : TAX
     
-    LDA $7EF364
+    LDA.l $7EF364
     
     .locateCompassFlag
 
@@ -2342,28 +2342,28 @@ DrawBottleMenu:
     
     ; Draw bottle 0
     LDA.w #$1372               : STA $00
-    LDA $7EF35C : AND.w #$00FF : STA $02
+    LDA.l $7EF35C : AND.w #$00FF : STA $02
     LDA.w #$F751               : STA $04
     
     JSR DrawItem
     
     ; Draw bottle 1
     LDA.w #$1472               : STA $00
-    LDA $7EF35D : AND.w #$00FF : STA $02
+    LDA.l $7EF35D : AND.w #$00FF : STA $02
     LDA.w #$F751               : STA $04
     
     JSR DrawItem
     
     ; Draw bottle 2
     LDA.w #$1572               : STA $00
-    LDA $7EF35E : AND.w #$00FF : STA $02
+    LDA.l $7EF35E : AND.w #$00FF : STA $02
     LDA.w #$F751               : STA $04
     
     JSR DrawItem
     
     ; Draw bottle 3
     LDA.w #$1672               : STA $00
-    LDA $7EF35F : AND.w #$00FF : STA $02
+    LDA.l $7EF35F : AND.w #$00FF : STA $02
     LDA.w #$F751               : STA $04
     
     JSR DrawItem
@@ -2371,9 +2371,9 @@ DrawBottleMenu:
     ; Draw the currently selected bottle
     LDA.w #$1408 : STA $00
     
-    LDA $7EF34F : AND.w #$00FF : TAX
+    LDA.l $7EF34F : AND.w #$00FF : TAX
     
-    LDA $7EF35B, X : AND.w #$00FF : STA $02
+    LDA.l $7EF35B, X : AND.w #$00FF : STA $02
     LDA.w #$F751                  : STA $04 ; loads $2837, $2838, $2CC3, $2CD3
     
     JSR DrawItem
@@ -2388,7 +2388,7 @@ DrawBottleMenu:
     LDA $0040, Y : STA $11F2
     LDA $0042, Y : STA $11F4
     
-    LDA $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
+    LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
     LDA.w $E177, Y : TAY
     

@@ -536,7 +536,7 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
-    LDA $7EF35A : BNE .BRANCH_BETA
+    LDA.l $7EF35A : BNE .BRANCH_BETA
     
     LDA.b #$32
     LDY.b #$00
@@ -581,7 +581,7 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
-    LDA $7EF35A : CMP.b #$02 : BCS .BRANCH_$F7221
+    LDA.l $7EF35A : CMP.b #$02 : BCS .BRANCH_$F7221
     
     LDA.b #$F4
     LDY.b #$01
@@ -628,7 +628,7 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
-    LDA $7EF36C : CMP $7EF36D : BEQ .BRANCH_BETA
+    LDA.l $7EF36C : CMP.l $7EF36D : BEQ .BRANCH_BETA
     
     LDA.b #$0A
     LDY.b #$00
@@ -663,13 +663,13 @@ ShopKeeper_SpawnInventoryItem:
     
     BCC .BRANCH_ALPHA
     
-    LDA $7EF371
+    LDA.l $7EF371
     
     PHX
     
     TAX
     
-    LDA $0DDB58, X : PLX : CMP $7EF377 : BEQ .BRANCH_BETA
+    LDA.l $0DDB58, X : PLX : CMP.l $7EF377 : BEQ .BRANCH_BETA
     
     LDA.b #$1E
     LDY.b #$00
@@ -709,15 +709,15 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
-    LDA $7EF370 : PHX
+    LDA.l $7EF370 : PHX
     
     TAX
     
-    LDA $0DDB48, X
+    LDA.l $0DDB48, X
     
     PLX
     
-    CMP $7EF343 : BEQ .BRANCH_F72E1
+    CMP.l $7EF343 : BEQ .BRANCH_F72E1
     
     LDA.b #$32
     LDY.b #$00
@@ -849,9 +849,9 @@ ShopKeeper_TryToGetPaid:
     
     REP #$20
     
-    LDA $7EF360 : CMP $00 : BCC .player_cant_afford
+    LDA.l $7EF360 : CMP $00 : BCC .player_cant_afford
     
-    SBC $00 : STA $7EF360
+    SBC $00 : STA.l $7EF360
     
     SEC
     

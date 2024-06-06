@@ -13,14 +13,14 @@ Pool_Garnish_Sparkle:
 ; $04B520-$04B558 JUMP LOCATION
 Garnish_Sparkle:
 {
-    LDA $7FF90E, X
+    LDA.l $7FF90E, X
     
     BRA .set_chr_index
     
     ; $04B526 ALTERNATE ENTRY POINT
     shared Garnish_SimpleSparkle:
     
-    LDA $7FF90E, X : LSR A
+    LDA.l $7FF90E, X : LSR A
     
     .set_chr_index
     
@@ -39,7 +39,7 @@ Garnish_Sparkle:
     
     PHY
     
-    LDA $7FF92C, X : TAY
+    LDA.l $7FF92C, X : TAY
     
     ; Copy palette and other oam properties from the parent sprite object.
     LDA $0F50, Y : ORA $0B89, Y : AND.b #$F0 : ORA.b #$04

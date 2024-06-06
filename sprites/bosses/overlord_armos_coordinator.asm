@@ -272,13 +272,13 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     LDA $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $04
+    LDA.l $04E800, X : STA $04
     
     LDA $00 : CLC : ADC.w #$0080 : STA $02
     
     AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $06
+    LDA.l $04E800, X : STA $06
     
     SEP #$30
     

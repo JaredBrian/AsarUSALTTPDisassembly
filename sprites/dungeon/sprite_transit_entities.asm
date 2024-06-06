@@ -1077,8 +1077,8 @@ Pipe_DragPlayerAlong:
     
     PHX
     
-    JSL $07E6A6 ; $03E6A6 IN ROM
-    JSL $07F42F ; $03F42F IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07F42F ; $03F42F IN ROM
     JSL Player_HaltDashAttackLong
     
     PLX
@@ -1123,9 +1123,9 @@ Pipe_DragPlayerAlong:
     
     STA $67 : STA $26
     
-    JSL $07E245 ; $03E245 IN ROM
-    JSL $07E6A6 ; $03E6A6 IN ROM
-    JSL $07F42F ; $03F42F IN ROM
+    JSL.l $07E245 ; $03E245 IN ROM
+    JSL.l $07E6A6 ; $03E6A6 IN ROM
+    JSL.l $07F42F ; $03F42F IN ROM
     
     PLX
     

@@ -207,10 +207,10 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA $2F : ASL A : TAY
     
-    LDA .initial_rotation_states+0, Y : STA $7F5800
-    LDA .initial_rotation_states+1, Y : STA $7F5801
-    LDA .initial_rotation_states+2, Y : STA $7F5802
-    LDA .initial_rotation_states+3, Y : STA $7F5803
+    LDA .initial_rotation_states+0, Y : STA.l $7F5800
+    LDA .initial_rotation_states+1, Y : STA.l $7F5801
+    LDA .initial_rotation_states+2, Y : STA.l $7F5802
+    LDA .initial_rotation_states+3, Y : STA.l $7F5803
     
     LDA.b #$17 : STA $03B1, X
     
@@ -226,7 +226,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA.b #$15 : STA $0C68, X
     
-    DEC A : STA $7F5808
+    DEC A : STA.l $7F5808
     
     LDA.b #$30 : JSR Ancilla_DoSfx3_NearPlayer
     
@@ -260,14 +260,14 @@ CaneSpark_TransmuteInitialToNormal:
     LDA.b #$01 : STA $03B1, X
     
     ; Does player have normal, 1/2, or 1/4 consumption?
-    LDA $7EF37B : TAY
+    LDA.l $7EF37B : TAY
     
     ; Table of magic depletion values for the cane effects. 
     ; Depletions are every 0x18 frames.
     LDA .mp_costs, Y : STA $00
     
     ; Reduce magic by this amount
-    LDA $7EF36E : BEQ .self_terminate
+    LDA.l $7EF36E : BEQ .self_terminate
     
     ; Would consuming that much magic would leave us in the red?
     SEC : SBC $00 : CMP.b #$80 : BCS .self_terminate
@@ -278,7 +278,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA.b #$17 : STA $0394, X
     
-    LDA $00 : STA $7EF36E
+    LDA $00 : STA.l $7EF36E
     
     .magic_depletion_delay
     
@@ -357,8 +357,8 @@ CaneSpark_TransmuteInitialToNormal:
     
     EOR.w #$FFFF : INC A
     
-    CLC : ADC $20 : CLC : ADC.w #$000C : STA $7F5810
-    LDA $22 : CLC : ADC.w #$0008 : STA $7F580E
+    CLC : ADC $20 : CLC : ADC.w #$000C : STA.l $7F5810
+    LDA $22 : CLC : ADC.w #$0008 : STA.l $7F580E
     
     SEP #$20
     
@@ -382,15 +382,15 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDA $11 : BNE .dont_increment_sparkle_rotation
     
-    LDA $7F5800, X : CLC : ADC.b #$03 : AND.b #$3F : STA $7F5800, X
+    LDA.l $7F5800, X : CLC : ADC.b #$03 : AND.b #$3F : STA.l $7F5800, X
     
     .dont_increment_sparkle_rotation
     
     PHX : PHY
     
-    LDA $7F5808 : STA $08
+    LDA.l $7F5808 : STA $08
     
-    LDA $7F5800, X
+    LDA.l $7F5800, X
     
     JSR Ancilla_GetRadialProjection
     JSL Sparkle_PrepOamCoordsFromRadialProjection

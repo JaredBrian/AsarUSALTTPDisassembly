@@ -28,8 +28,8 @@ Garnish_GanonBatFlameout:
     
     LDA $11 : ORA $0FC1 : BNE .pause_movement
     
-    LDA $7FF81E, X : SEC : SBC.b #$01 : STA $7FF81E, X
-    LDA $7FF85A, X : SBC.b #$00 : STA $7FF85A, X
+    LDA.l $7FF81E, X : SEC : SBC.b #$01 : STA.l $7FF81E, X
+    LDA.l $7FF85A, X : SBC.b #$00 : STA.l $7FF85A, X
     
     .pause_movement
     
@@ -62,9 +62,9 @@ Garnish_GanonBatFlame:
 {
     ; special animation 0x10
     
-    LDA $7FF90E, X : CMP.b #$08 : BNE .dont_transmute
+    LDA.l $7FF90E, X : CMP.b #$08 : BNE .dont_transmute
     
-    LDA.b #$11 : STA $7FF800, X
+    LDA.b #$11 : STA.l $7FF800, X
     
     .dont_transmute
     
@@ -73,7 +73,7 @@ Garnish_GanonBatFlame:
     LDA $00       : STA ($90), Y
     LDA $02 : INY : STA ($90), Y
     
-    LDA $7FF90E, X : LSR #3 : PHX : TAX
+    LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
     LDA .chr_indices, X : TAX
     

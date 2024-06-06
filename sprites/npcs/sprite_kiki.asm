@@ -193,7 +193,7 @@ Kiki_Fleeing:
     
     LDA $02F2 : AND.b #$FC : STA $02F2
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     INC $0D80, X
     
@@ -269,19 +269,19 @@ Kiki_LyingInWait:
     LDA $037B : ORA $031F : BNE .dont_appear
     
     ; If Kiki is already following you then do nothing.
-    LDA $7EF3CC : CMP.b #$0A : BEQ .dont_appear
+    LDA.l $7EF3CC : CMP.b #$0A : BEQ .dont_appear
     
     PHX
     
     LDX $8A
     
     ; If the Dark Palace has already been opened, then also do nothing.
-    LDA $7EF280, X : PLX : AND.b #$20 : BNE .dont_appear
+    LDA.l $7EF280, X : PLX : AND.b #$20 : BNE .dont_appear
     
     ; Detect if Link and Kiki collide within some space.
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_appear
     
-    LDA.b #$0A : STA $7EF3CC
+    LDA.b #$0A : STA.l $7EF3CC
     
     PHX
     
@@ -565,7 +565,7 @@ Kiki_InitiatePalaceOpeningProposal:
     
     LDA.b #$01 : STA $0E80, Y
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     RTL
 }
@@ -634,7 +634,7 @@ Kiki_AbandonDamagedPlayer:
     
     LDA.b #$03 : STA $0E80, Y
        
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     RTL
 }

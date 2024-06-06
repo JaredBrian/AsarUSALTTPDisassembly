@@ -28,7 +28,7 @@ Lanmola_FinishInitialization:
     
     .reset_extended_sprites
     
-    STA $7FFE00, X
+    STA.l $7FFE00, X
     
     INX
     
@@ -36,7 +36,7 @@ Lanmola_FinishInitialization:
     
     PLX
     
-    LDA.b #$07 : STA $7FF81E, X
+    LDA.b #$07 : STA.l $7FF81E, X
     
     RTL
 }
@@ -324,12 +324,12 @@ Lanmola_Death: ; 0x05
                    CMP.b #$A0 : BCS .easy_out
                    AND.b #$0F : BNE .easy_out
     
-    LDA $7FF81E, X : TAY
+    LDA.l $7FF81E, X : TAY
     
     LDA $0E80, X : SEC : SBC $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ; $A5DA
     
-    LDA $7FFC00, X : SEC : SBC $E2                  : STA $0A
-    LDA $7FFD00, X : SEC : SBC $7FFE00, X : SEC : SBC $E8 : STA $0B
+    LDA.l $7FFC00, X : SEC : SBC $E2                  : STA $0A
+    LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC $E8 : STA $0B
     
     PLX
     
@@ -353,9 +353,9 @@ Lanmola_Death: ; 0x05
     
     LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
-    LDA $7FF81E, X : BMI .beta
+    LDA.l $7FF81E, X : BMI .beta
     
-    DEC A : STA $7FF81E, X
+    DEC A : STA.l $7FF81E, X
     
     .spawn_failed
     .beta
@@ -458,10 +458,10 @@ Lanmola_Draw:
     
     CLC : ADC $04 : TAX
     
-    PLA : STA $7FFF00, X
-    PLA : STA $7FFE00, X
-    PLA : STA $7FFD00, X
-    PLA : STA $7FFC00, X
+    PLA : STA.l $7FFF00, X
+    PLA : STA.l $7FFE00, X
+    PLA : STA.l $7FFD00, X
+    PLA : STA.l $7FFC00, X
     
     PLX
     
@@ -475,7 +475,7 @@ Lanmola_Draw:
     
     LDA $0F50, X : ORA $0B89, X : STA $03
     
-    LDA $7FF81E, X : BPL .beta
+    LDA.l $7FF81E, X : BPL .beta
     
     RTS
     
@@ -503,17 +503,17 @@ Lanmola_Draw:
     
     LDA $02 : SEC : SBC.b #$08 : AND.b #$3F : STA $02
     
-    LDA $7FFC00, X : SEC : SBC $E2 : STA ($90), Y : INY
+    LDA.l $7FFC00, X : SEC : SBC $E2 : STA ($90), Y : INY
     
-    LDA $7FFE00, X : BMI .gamma
+    LDA.l $7FFE00, X : BMI .gamma
     
-    LDA $7FFD00, X : SEC : SBC $7FFE00, X : SEC : SBC $E8 : STA ($90), Y
+    LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC $E8 : STA ($90), Y
     
     .gamma
     
     PHY
     
-    LDA $7FFF00, X : TAX
+    LDA.l $7FFF00, X : TAX
     
     LDY $0D
     
@@ -560,13 +560,13 @@ Lanmola_Draw:
     
     LDA $05 : SEC : SBC.b #$08 : AND.b #$3F : STA $05
     
-    LDA $7FFC00, X : SEC : SBC $E2 : STA ($90), Y
+    LDA.l $7FFC00, X : SEC : SBC $E2 : STA ($90), Y
     
     INY
     
-    LDA $7FFE00, X : BMI .iota
+    LDA.l $7FFE00, X : BMI .iota
     
-    LDA $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC $E8 : STA ($90), Y
+    LDA.l $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC $E8 : STA ($90), Y
     
     .iota
     

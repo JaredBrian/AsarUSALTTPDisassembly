@@ -42,7 +42,7 @@ Sprite_SpawnSparkleGarnish:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -56,19 +56,19 @@ Sprite_SpawnSparkleGarnish:
     ; (update: more likely to be setting up a sparkle animation, as this
     ; has so far only been linked to good bees and something that also seems
     ; to be a good bee).
-    LDA.b #$12 : STA $7FF800, X
+    LDA.b #$12 : STA.l $7FF800, X
                  STA $0FB4
     
-    LDA $0D10, Y : CLC : ADC $00 : STA $7FF83C, X
-    LDA $0D30, Y : ADC $01 : STA $7FF878, X
+    LDA $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
+    LDA $0D30, Y : ADC $01 : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC $02 : STA $7FF81E, X
-    LDA $0D20, Y : ADC $03 : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC $02 : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC $03 : STA.l $7FF85A, X
     
     ; Set the associated sprite index for the garnish sprite?
-    TYA : STA $7FF92C, X
+    TYA : STA.l $7FF92C, X
     
-    LDA.b #$0F : STA $7FF90E, X
+    LDA.b #$0F : STA.l $7FF90E, X
     
     TXY
     
@@ -390,7 +390,7 @@ Soldier_Main:
     .not_falling_in_hole
     
     JSR Sprite2_CheckIfActive
-    JSL $06EB5E ; $036B5E IN ROM ; push sprite back from sword hit?
+    JSL.l $06EB5E ; $036B5E IN ROM ; push sprite back from sword hit?
     
     JSL Sprite_CheckDamageToPlayerLong : BCS .gamma
     
@@ -1273,7 +1273,7 @@ Sprite_PsychoSpearSoldier:
     JSR $C680   ; $02C680 IN ROM
     JSR Sprite2_CheckIfActive
     JSR PsychoSpearSoldier_PlayChaseMusic
-    JSL $06EB5E ; $036B5E IN ROM
+    JSL.l $06EB5E ; $036B5E IN ROM
     JSR Sprite2_CheckIfRecoiling
     JSR Sprite2_MoveIfNotTouchingWall
     JSR Sprite2_CheckTileCollision
@@ -1327,7 +1327,7 @@ PsychoSpearSoldier_PlayChaseMusic:
     
     LDA.b #$04 : JSL Sound_SetSfx3PanLong
     
-    LDA $7EF3C5 : CMP.b #$02 : BNE .no_change
+    LDA.l $7EF3C5 : CMP.b #$02 : BNE .no_change
     
     LDA $040A : CMP.b #$18 : BNE .no_change
     
@@ -1347,7 +1347,7 @@ Sprite_PsychoTrooper:
     JSR $CCD5   ; $02CCD5 IN ROM
     JSR Sprite2_CheckIfActive
     JSR $CC3C   ; $02CC3C IN ROM
-    JSL $06EB5E ; $036B5E IN ROM
+    JSL.l $06EB5E ; $036B5E IN ROM
     JSR Sprite2_CheckIfRecoiling
     JSR Sprite2_MoveIfNotTouchingWall
     JSR Sprite2_CheckTileCollision
@@ -1990,7 +1990,7 @@ JavelinTrooper_SpawnProjectile:
 
     STA $0D90, Y : BEQ .dont_disable_blockability
     
-    LDA $7EF35A : BNE .player_has_shield
+    LDA.l $7EF35A : BNE .player_has_shield
     
     ; Make the arrow unblockable by shield (which is dumb, because we
     ; alraedy verified that the player doesn't have a shield <___<.)
@@ -2166,7 +2166,7 @@ Sprite_BushJavelinSoldier:
 
 ; $02D223-$02D251 JUMP LOCATION
 {
-    JSL $06F2AA ; $0372AA IN ROM
+    JSL.l $06F2AA ; $0372AA IN ROM
     
     LDA $0DF0, X : BNE .delay
     
@@ -2577,13 +2577,13 @@ Sprite_DrawMultiple:
     
     LDA $0DD0, X : CMP.b #$0A : BNE .notCarriedSprite
     
-    LDA $7FFA2C, X
+    LDA.l $7FFA2C, X
     
     .notCarriedSprite
     
     CMP.b #$0B : BNE .notFrozenSprite
     
-    LDA $7FFA3C, X : STA $0CFE
+    LDA.l $7FFA3C, X : STA $0CFE
     
     .notFrozenSprite
     
@@ -3097,9 +3097,9 @@ Overworld_ReadTileAttr:
     
     LDA $02 : SEC : SBC $070C : AND $070E : ORA $06 : TAX
     
-    LDA $7E2000, X : TAX
+    LDA.l $7E2000, X : TAX
     
-    LDA $1BF110, X ; $DF110, X THAT IS
+    LDA.l $1BF110, X ; $DF110, X THAT IS
     
     SEP #$30
     

@@ -9,16 +9,16 @@ Ancilla_WeathervaneExplosion:
     REP #$20
     
     ; an initial timer. starts at 0x0280, counts down to zero.
-    LDA $7F58B6 : DEC A : STA $7F58B6 : BNE .return
+    LDA.l $7F58B6 : DEC A : STA.l $7F58B6 : BNE .return
     
     SEP #$20
     
-    INC A : STA $7F58B6
+    INC A : STA.l $7F58B6
     
-    LDA $7F58B8 : BNE .music_at_full_volume
+    LDA.l $7F58B8 : BNE .music_at_full_volume
     
     ; This code is executed once. after that, $7F58B8 is set
-    INC A : STA $7F58B8
+    INC A : STA.l $7F58B8
     
     ; Put the music back to full volume.
     LDA.b #$F3 : STA $012C
@@ -72,43 +72,43 @@ Ancilla_WeathervaneExplosion:
     
     .past_first_step
     
-    TXA : STA $7F5878
+    TXA : STA.l $7F5878
     
-    LDA.b #$00 : STA $7F5879
+    LDA.b #$00 : STA.l $7F5879
     
     LDX.b #$0B
     
     .next_chunk
     
-    LDA $7F586C, X : CMP.b #$FF : BNE .active_chunk
+    LDA.l $7F586C, X : CMP.b #$FF : BNE .active_chunk
     
     BRL .finished_this_chunk
     
     .active_chunk
     
-    LDA $7F5860, X : DEC A : STA $7F5860, X : BPL .chr_toggle_delay
+    LDA.l $7F5860, X : DEC A : STA.l $7F5860, X : BPL .chr_toggle_delay
     
-    LDA.b #$01 : STA $7F5860, X
+    LDA.b #$01 : STA.l $7F5860, X
     
     ; Alternate their appearance.
-    LDA $7F586C, X : EOR.b #$01 : STA $7F586C, X
+    LDA.l $7F586C, X : EOR.b #$01 : STA.l $7F586C, X
     
     .chr_toggle_delay
     
     PHX
     
-    LDA $7F5878 : TAY
+    LDA.l $7F5878 : TAY
     
-    LDA $7F586C, X : STA $0C5E, Y
-    LDA $7F5824, X : STA $0BFA, Y
-    LDA $7F5830, X : STA $0C0E, Y
-    LDA $7F583C, X : STA $0C04, Y
-    LDA $7F5848, X : STA $0C18, Y
-    LDA $7F5854, X : STA $029E, Y
-    LDA $7F5800, X : STA $0C22, Y
-    LDA $7F580C, X : STA $0C2C, Y
+    LDA.l $7F586C, X : STA $0C5E, Y
+    LDA.l $7F5824, X : STA $0BFA, Y
+    LDA.l $7F5830, X : STA $0C0E, Y
+    LDA.l $7F583C, X : STA $0C04, Y
+    LDA.l $7F5848, X : STA $0C18, Y
+    LDA.l $7F5854, X : STA $029E, Y
+    LDA.l $7F5800, X : STA $0C22, Y
+    LDA.l $7F580C, X : STA $0C2C, Y
     
-    LDA $7F5818, X : SEC : SBC.b #$01 : STA $7F5818, X : STA $0294, Y
+    LDA.l $7F5818, X : SEC : SBC.b #$01 : STA.l $7F5818, X : STA $0294, Y
     
     TYX
     
@@ -130,17 +130,17 @@ Ancilla_WeathervaneExplosion:
     
     LDA $74 : BPL .dont_deactivate_yet
     
-    STA $7F586C, X
+    STA.l $7F586C, X
     
     .dont_deactivate_yet
     
-    LDA $7F5878 : TAY
+    LDA.l $7F5878 : TAY
     
-    LDA $0BFA, Y : STA $7F5824, X
-    LDA $0C0E, Y : STA $7F5830, X
-    LDA $0C04, Y : STA $7F583C, X
-    LDA $0C18, Y : STA $7F5848, X
-    LDA $029E, Y : STA $7F5854, X
+    LDA $0BFA, Y : STA.l $7F5824, X
+    LDA $0C0E, Y : STA.l $7F5830, X
+    LDA $0C04, Y : STA.l $7F583C, X
+    LDA $0C18, Y : STA.l $7F5848, X
+    LDA $029E, Y : STA.l $7F5854, X
     
     .finished_this_chunk
     
@@ -151,13 +151,13 @@ Ancilla_WeathervaneExplosion:
     
     .executed_all_chunks
     
-    LDA $7F5878 : TAY
+    LDA.l $7F5878 : TAY
     
     LDX.b #$0B
     
     .find_active_wood_chunk
     
-    LDA $7F586C, X : CMP.b #$FF : BNE .at_least_one_active_chunk
+    LDA.l $7F586C, X : CMP.b #$FF : BNE .at_least_one_active_chunk
     
     DEX : BPL .find_active_wood_chunk
     
@@ -205,7 +205,7 @@ WeathervaneExplosion_DrawWoodChunk:
     
     PHX
     
-    LDA $7F5879 : TAY
+    LDA.l $7F5879 : TAY
     
     JSR Ancilla_SetOam_XY
     
@@ -214,7 +214,7 @@ WeathervaneExplosion_DrawWoodChunk:
     LDA .chr, X  : STA ($90), Y : INY
     LDA.b #$3C   : STA ($90), Y : INY
     
-    TYA : STA $7F5879
+    TYA : STA.l $7F5879
     
     SEC : SBC.b #$04 : LSR #2 : TAY
     

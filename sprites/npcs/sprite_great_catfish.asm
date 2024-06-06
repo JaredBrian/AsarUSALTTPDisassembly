@@ -324,7 +324,7 @@ GreatCatfish_ConversateThenSubmerge:
     LDY.b #$2A
     
     ; \item (Quake medallion)
-    LDA $7EF349 : BEQ .grant_quake_medallion_mesesage
+    LDA.l $7EF349 : BEQ .grant_quake_medallion_mesesage
     
     ; Show message indicating "don't waste my time, go away, I already
     ; gave you a medallion".
@@ -346,7 +346,7 @@ GreatCatfish_ConversateThenSubmerge:
     PHA
     
     ; \item (Quake medallion)
-    LDA $7EF349 : BEQ .spawn_quake_medallion
+    LDA.l $7EF349 : BEQ .spawn_quake_medallion
     
     JSL GetRandomInt : AND.b #$01 : BEQ .spawn_fireball
     

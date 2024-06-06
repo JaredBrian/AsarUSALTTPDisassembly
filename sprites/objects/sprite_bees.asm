@@ -111,9 +111,9 @@ PlayerItem_ReleaseBee:
     
     LDX $0202
     
-    LDA $7EF33F, X : TAX
+    LDA.l $7EF33F, X : TAX
     
-    LDA $7EF35B, X : CMP.b #$08 : BNE .not_good_bee
+    LDA.l $7EF35B, X : CMP.b #$08 : BNE .not_good_bee
     
     LDA.b #$01 : STA $0EB0, Y
     
@@ -263,7 +263,7 @@ Bee_PutInbottle:
     
     TYX
     
-    LDA.b #$07 : CLC : ADC $00 : STA $7EF35C, X
+    LDA.b #$07 : CLC : ADC $00 : STA.l $7EF35C, X
     
     JSL HUD.RefreshIconLong
     
@@ -300,7 +300,7 @@ Sprite_GetEmptyBottleIndex:
     
     .next_bottle
     
-    LDA $7EF35C, X : CMP.b #$02 : BEQ .empty_bottle
+    LDA.l $7EF35C, X : CMP.b #$02 : BEQ .empty_bottle
     
     INX : CPX.b #$04 : BCC .next_bottle
     
@@ -371,7 +371,7 @@ GoodBee_WaitingForDash:
     STZ $0DD0, X
     
     ; Apparently the good bee is designed to be 'unique'.
-    LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
+    LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
     
     ; \hardcoded Checking using this bit pattern is pretty hardcoded. If
     ; more bottled item types were available, this could present a problem.

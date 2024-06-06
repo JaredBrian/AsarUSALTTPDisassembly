@@ -36,7 +36,7 @@ HeartUpdgrade_CheckIfAlreadyObtained:
     
     LDA $8A : CMP.b #$3B : BNE .not_watergate_area
     
-    LDA $7EF2BB : AND.b #$20 : BEQ .self_terminate
+    LDA.l $7EF2BB : AND.b #$20 : BEQ .self_terminate
     
     .not_watergate_area
     
@@ -44,7 +44,7 @@ HeartUpdgrade_CheckIfAlreadyObtained:
     
     LDX $8A
     
-    LDA $7EF280, X : AND.b #$40 : BEQ .dont_self_terminate
+    LDA.l $7EF280, X : AND.b #$40 : BEQ .dont_self_terminate
     
     PLX
     
@@ -212,7 +212,7 @@ HeartContainer_Grant:
     
     LDX $8A
     
-    LDA $7EF280, X : ORA.b #$40 : STA $7EF280, X
+    LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
     
     PLX
     
@@ -320,7 +320,7 @@ Sprite_HeartPiece:
     .had_player_contact
     
     ; increment number of heart pieces acquired
-    LDA $7EF36B : INC A : AND.b #$03 : STA $7EF36B : BNE .got_4_piecese
+    LDA.l $7EF36B : INC A : AND.b #$03 : STA.l $7EF36B : BNE .got_4_piecese
     
     PHX
     
@@ -340,7 +340,7 @@ Sprite_HeartPiece:
     
     LDA.b #$2D : JSL Sound_SetSfx3PanLong
     
-    LDA $7EF36B : TAY
+    LDA.l $7EF36B : TAY
     
     LDA .messages_low, Y        : XBA
     LDA .messages_high, Y : TAY : XBA

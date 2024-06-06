@@ -31,9 +31,9 @@ Ancilla_BreakTowerSeal:
     ; it at Y coordinate 0x38 (that's what this code is for)
     LDA #$0038 : CLC : ADC $0122 : STA $00
     
-    CLC : ADC.w #$0008 : STA $7F5810
+    CLC : ADC.w #$0008 : STA.l $7F5810
     
-    LDA $02 : CLC : ADC.w #$0008 : STA $7F580E
+    LDA $02 : CLC : ADC.w #$0008 : STA.l $7F580E
     
     SEP #$20
     
@@ -75,19 +75,19 @@ Ancilla_BreakTowerSeal:
     LDA $0C04, X : STA $72
     LDA $0C18, X : STA $73
     
-    LDA $7F5808 : STA $0C04, X
+    LDA.l $7F5808 : STA $0C04, X
                   STZ $0C18, X
     
     JSR Ancilla_MoveHoriz
     
-    LDA $0C04, X : STA $7F5808
+    LDA $0C04, X : STA.l $7F5808
     
     LDA $72 : STA $0C04, X
     LDA $73 : STA $0C18, X
     
-    LDA $7F5808 : CMP.b #$30 : BCC .expansion_delay
+    LDA.l $7F5808 : CMP.b #$30 : BCC .expansion_delay
     
-    LDA.b #$30 : STA $7F5808
+    LDA.b #$30 : STA.l $7F5808
     
     INC $0C54, X
     
@@ -109,7 +109,7 @@ Ancilla_BreakTowerSeal:
     CMP.b #$01 : BEQ .move_and_draw_crystals
     CMP.b #$03 : BEQ .in_final_rotational_expansion
     
-    LDA $7F5812 : DEC A : STA $7F5812 : BNE .move_and_draw_crystals
+    LDA.l $7F5812 : DEC A : STA.l $7F5812 : BNE .move_and_draw_crystals
     
     ; Initiate the tile and palette manipulation portion of the tower
     ; opening sequence. This is handled by another part of the game code,
@@ -130,12 +130,12 @@ Ancilla_BreakTowerSeal:
     LDA $0C04, X : STA $72
     LDA $0C18, X : STA $73
     
-    LDA $7F5808 : STA $0C04, X
+    LDA.l $7F5808 : STA $0C04, X
                   STZ $0C18, X
     
     JSR Ancilla_MoveHoriz
     
-    LDA $0C04, X : STA $7F5808
+    LDA $0C04, X : STA.l $7F5808
     
     LDA $72 : STA $0C04, X
     LDA $73 : STA $0C18, X
@@ -144,7 +144,7 @@ Ancilla_BreakTowerSeal:
     ; 0xF0 units out, then it's time to shut down this object completely.
     ; The sequence to open the Tower will continue on after this object
     ; terminates, though.
-    LDA $7F5808 : CMP.b #$F0 : BCC .move_and_draw_crystals
+    LDA.l $7F5808 : CMP.b #$F0 : BCC .move_and_draw_crystals
     
     PHX
     
@@ -183,13 +183,13 @@ Ancilla_BreakTowerSeal:
     
     LDA $1A : AND.b #$01 : BNE .dont_increment_angle
     
-    LDA $7F5800, X : INC A : AND.b #$3F : STA $7F5800, X
+    LDA.l $7F5800, X : INC A : AND.b #$3F : STA.l $7F5800, X
     
     .dont_increment_angle
     
-    LDA $7F5808 : STA $08
+    LDA.l $7F5808 : STA $08
     
-    LDA $7F5800, X
+    LDA.l $7F5800, X
     
     JSR Ancilla_GetRadialProjection
     
@@ -205,7 +205,7 @@ Ancilla_BreakTowerSeal:
     
     .positive_y_projection
     
-    CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $0122 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $0122 : STA $00
     
     LDA $04
     
@@ -215,17 +215,17 @@ Ancilla_BreakTowerSeal:
     
     .positive_x_projection
     
-    CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $011E : STA $02
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $011E : STA $02
     
     PLY
     
     SEP #$20
     
-    LDA $00 : STA $7F5817, X
-    LDA $01 : STA $7F581F, X
+    LDA $00 : STA.l $7F5817, X
+    LDA $01 : STA.l $7F581F, X
     
-    LDA $02 : STA $7F5827, X
-    LDA $03 : STA $7F582F, X
+    LDA $02 : STA.l $7F5827, X
+    LDA $03 : STA.l $7F582F, X
     
     PHX
     
@@ -243,11 +243,11 @@ Ancilla_BreakTowerSeal:
     
     PLY
     
-    LDA $00 : STA $7F581E
-    LDA $01 : STA $7F5826
+    LDA $00 : STA.l $7F581E
+    LDA $01 : STA.l $7F5826
     
-    LDA $02 : STA $7F582E
-    LDA $03 : STA $7F5836
+    LDA $02 : STA.l $7F582E
+    LDA $03 : STA.l $7F5836
     
     JSR BreakTowerSeal_DrawCrystal
     
@@ -302,7 +302,7 @@ BreakTowerSeal_ActivateSingleSparkle:
     
     .check_next_sparkle
     
-    LDA $7F5837, X : CMP.b #$FF : BEQ .activate_sparkle
+    LDA.l $7F5837, X : CMP.b #$FF : BEQ .activate_sparkle
     
     DEX : BPL .check_next_sparkle
     
@@ -313,10 +313,10 @@ BreakTowerSeal_ActivateSingleSparkle:
     PHX
     
     ; Initialize animation state.
-    LDA.b #$00 : STA $7F5837, X
+    LDA.b #$00 : STA.l $7F5837, X
     
     ; Initialize animation delay countdown timer.
-    LDA.b #$04 : STA $7F58AF, X
+    LDA.b #$04 : STA.l $7F58AF, X
     
     ; Generate a random X and Y offset relative to a crystal location.
     ; This logic restricts the offsets in both dimensions to being
@@ -335,21 +335,21 @@ BreakTowerSeal_ActivateSingleSparkle:
     ; \bug Is the aforementioned a bug? Could be fun to test in debugger.
     TXA : AND.b #$07 : TAX
     
-    LDA $7F5817, X : CLC : ADC $08    : STA $00
-    LDA $7F581F, X : ADC.b #$00 : STA $01
+    LDA.l $7F5817, X : CLC : ADC $08    : STA $00
+    LDA.l $7F581F, X : ADC.b #$00 : STA $01
     
-    LDA $7F5827, X : CLC : ADC $09    : STA $02
-    LDA $7F582F, X : ADC.b #$00 : STA $03
+    LDA.l $7F5827, X : CLC : ADC $09    : STA $02
+    LDA.l $7F582F, X : ADC.b #$00 : STA $03
     
     PLX
     
     ; Set Y coordinate.
-    LDA $00 : STA $7F584F, X
-    LDA $01 : STA $7F5867, X
+    LDA $00 : STA.l $7F584F, X
+    LDA $01 : STA.l $7F5867, X
     
     ; Set X coordinate.
-    LDA $02 : STA $7F587F, X
-    LDA $03 : STA $7F5897, X
+    LDA $02 : STA.l $7F587F, X
+    LDA $03 : STA.l $7F5897, X
 
     .return
 
@@ -365,16 +365,16 @@ BreakTowerSeal_ExecuteSparkles:
     
     .check_next_sparkle
     
-    LDA $7F5837, X : CMP.b #$FF : BEQ .inactive_sparkle
+    LDA.l $7F5837, X : CMP.b #$FF : BEQ .inactive_sparkle
     
-    LDA $7F58AF, X : DEC A : STA $7F58AF, X : BPL .still_active
+    LDA.l $7F58AF, X : DEC A : STA.l $7F58AF, X : BPL .still_active
     
-    LDA.b #$04 : STA $7F58AF, X
+    LDA.b #$04 : STA.l $7F58AF, X
     
-    LDA $7F5837, X : INC A : STA $7F5837, X : CMP.b #$03 : BNE .still_active
+    LDA.l $7F5837, X : INC A : STA.l $7F5837, X : CMP.b #$03 : BNE .still_active
     
     ; Aw, poor sparkle. You're getting deactivated. Or reset. Whatever.
-    LDA.b #$FF : STA $7F5837, X
+    LDA.b #$FF : STA.l $7F5837, X
     
     BRA .inactive_sparkle
     
@@ -383,17 +383,17 @@ BreakTowerSeal_ExecuteSparkles:
     PHX
     
     ; Form 16-bit Y coordinate
-    LDA $7F584F, X : STA $00
-    LDA $7F5867, X : STA $01
+    LDA.l $7F584F, X : STA $00
+    LDA.l $7F5867, X : STA $01
     
     ; Form 16-bit X coordinate
-    LDA $7F587F, X : STA $02
-    LDA $7F5897, X : STA $03
+    LDA.l $7F587F, X : STA $02
+    LDA.l $7F5897, X : STA $03
     
     ; This line could actually be moved after the following subroutine
     ; call, as it has no useful effect on the outcome of calling the
     ; subroutine.
-    LDA $7F5837, X : TAX
+    LDA.l $7F5837, X : TAX
     
     JSR Ancilla_SetOam_XY
     

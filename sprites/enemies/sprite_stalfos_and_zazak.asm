@@ -503,7 +503,7 @@ Sprite_SpawnFirePhlegm:
     
     ; Seems counterintuive as the blockable code I thought handles shield
     ; levels on its own, unless this is just to save time.
-    LDA $7EF35A : CMP.b #$03 : BCC .unblockable
+    LDA.l $7EF35A : CMP.b #$03 : BCC .unblockable
     
     LDA.b #$20 : STA $0BE0, Y
     

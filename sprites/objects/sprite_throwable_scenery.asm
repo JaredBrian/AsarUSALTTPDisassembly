@@ -298,7 +298,7 @@ ThrowableScenery_ScatterIntoDebris:
     
     .find_empty_garnish_slot
     
-    LDA $7FF800, X : BEQ .empty_garnish_slot
+    LDA.l $7FF800, X : BEQ .empty_garnish_slot
     
     DEX : BPL .find_empty_garnish_slot
     
@@ -306,30 +306,30 @@ ThrowableScenery_ScatterIntoDebris:
     
     .empty_garnish_slot
     
-    LDA.b #$16 : STA $7FF800, X : STA $0FB4
+    LDA.b #$16 : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
     LDA $0D00, Y : SEC : SBC $0F70, Y
     
     PHP
     
-    CLC : ADC.b #$10 : STA $7FF81E, X
+    CLC : ADC.b #$10 : STA.l $7FF81E, X
     
     LDA $0D20, Y : ADC.b #$00
     
     PLP
     
-    SBC.b #$00 : STA $7FF85A, X
+    SBC.b #$00 : STA.l $7FF85A, X
     
-    LDA $05 : STA $7FF9FE, X
+    LDA $05 : STA.l $7FF9FE, X
     
-    LDA $0F20, Y : STA $7FF968, X
+    LDA $0F20, Y : STA.l $7FF968, X
     
-    LDA.b #$1F : STA $7FF90E, X
+    LDA.b #$1F : STA.l $7FF90E, X
     
-    LDA $0DB0, Y : STA $7FF92C, X
+    LDA $0DB0, Y : STA.l $7FF92C, X
     
     PLX
     

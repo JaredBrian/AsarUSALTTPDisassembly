@@ -59,7 +59,7 @@ Sprite_EnemyArrow:
     LDA $0E70, X : BEQ .BRANCH_DELTA
     LDY $0D90, X : BEQ .BRANCH_EPSILON
     
-    JSL $06EE60 ; $036E60 IN ROM
+    JSL.l $06EE60 ; $036E60 IN ROM
     
     RTS
     

@@ -60,15 +60,15 @@ Ancilla_SomarianPlatformPoof:
     
     STZ $06
     
-    LDA $7F1FC0, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
+    LDA.l $7F1FC0, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
     
     INC $06
     
-    LDA $7F2040, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
+    LDA.l $7F2040, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
     
     INC $06
     
-    LDA $7F1FFF, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
+    LDA.l $7F1FFF, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
     
     INC $06
     

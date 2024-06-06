@@ -9,24 +9,24 @@
     
     REP #$20
     
-    LDA $7003D9 : CMP.w #$00AF : BNE .fail
-    LDA $7003DB : CMP.w #$010A : BNE .fail
-    LDA $7003DD : CMP.w #$010A : BNE .fail
-    LDA $7003DF : CMP.w #$010A : BNE .fail
+    LDA.l $7003D9 : CMP.w #$00AF : BNE .fail
+    LDA.l $7003DB : CMP.w #$010A : BNE .fail
+    LDA.l $7003DD : CMP.w #$010A : BNE .fail
+    LDA.l $7003DF : CMP.w #$010A : BNE .fail
     
     SEP #$20
     
     ; \wtf 0x0A to this variable seems... bad. More research needed.
-    STA $7EF37B
+    STA.l $7EF37B
     
     LDA $F6
     
     JSL .check_button_press
     
-    LDA $7EF359 : CMP.b #$04 : BNE .not_golden_sword
+    LDA.l $7EF359 : CMP.b #$04 : BNE .not_golden_sword
     
-    LDA.b #$03 : STA $7EF35A
-    DEC A      : STA $7EF35B
+    LDA.b #$03 : STA.l $7EF35A
+    DEC A      : STA.l $7EF35B
     
     .not_golden_sword
     
@@ -39,16 +39,16 @@
     BIT $F4 : .y_button_not_pressed
     
     ; refill all hearts, magic, bombs, and arrows
-    LDA.w #$FF : STA $7EF372
-                STA $7EF373
-                STA $7EF375
-                STA $7EF376
+    LDA.w #$FF : STA.l $7EF372
+                STA.l $7EF373
+                STA.l $7EF375
+                STA.l $7EF376
     
-    CLC : ADC $7EF360 : STA $7EF360
+    CLC : ADC.l $7EF360 : STA.l $7EF360
     
-    LDA $7EF361 : ADC.b #$00 : STA $7EF361
+    LDA.l $7EF361 : ADC.b #$00 : STA.l $7EF361
     
-    LDA.b #$09 : STA $7EF36F
+    LDA.b #$09 : STA.l $7EF36F
     
     .y_button_not_pressed
     
@@ -62,25 +62,25 @@
     
     LDA $F7 : BPL .return
     
-    LDA $7EF359 : INC A : CMP.b #$05 : BCC .valid_sword
+    LDA.l $7EF359 : INC A : CMP.b #$05 : BCC .valid_sword
     
-    LDA.b #$01 : STA $7EF359
+    LDA.b #$01 : STA.l $7EF359
     
     .valid_sword
     
-    LDA $7EF35B : INC A : CMP.b #$03 : BNE .valid_armor
+    LDA.l $7EF35B : INC A : CMP.b #$03 : BNE .valid_armor
     
     LDA.b #$00
     
     .valid_armor
     
-    LDA $7EF35A : INC A : CMP.b #$04 : BNE .valid_shield
+    LDA.l $7EF35A : INC A : CMP.b #$04 : BNE .valid_shield
     
     LDA.b #$01
     
     .valid_shield
     
-    STA $7EF35A
+    STA.l $7EF35A
     
     .return
     

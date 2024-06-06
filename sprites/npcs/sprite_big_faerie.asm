@@ -66,7 +66,7 @@ FairyCloud_SeekPlayer:
     
     ; Add 20 hearts to the heart refill variable. This should fully heal
     ; the player no matter how many heart containers they have.
-    LDA.w #$00A0 : CLC : ADC $7EF372 : STA $7EF372
+    LDA.w #$00A0 : CLC : ADC.l $7EF372 : STA.l $7EF372
     
     SEP #$20
     
@@ -84,7 +84,7 @@ FairyCloud_SeekPlayer:
 ; $0EC489-$0EC49B JUMP LOCATION
 FairyCloud_AwaitFullPlayerHealth:
 {
-    LDA $7EF36D : CMP $7EF36C : BNE .player_hp_not_full_yet
+    LDA.l $7EF36D : CMP.l $7EF36C : BNE .player_hp_not_full_yet
     
     INC $0D80, X
     

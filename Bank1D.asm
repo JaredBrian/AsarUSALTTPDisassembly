@@ -1029,7 +1029,7 @@ Toppo_Flustered:
                 PHX : TYX : LDY.b #$06
                 
                 ; Transmute this thing to a prize?
-                JSL $06FA54 ; $37A54 IN ROM
+                JSL.l $06FA54 ; $37A54 IN ROM
                 
                 PLX
     
@@ -1988,7 +1988,7 @@ SpriteBurn_Execute:
     
     LDA.w $0DF0, X : DEC A : BNE .delay
         ; Do this when the timer is at 0x01.
-        JSL $06F917 ; $037917 IN ROM
+        JSL.l $06F917 ; $037917 IN ROM
         
         PLB
         

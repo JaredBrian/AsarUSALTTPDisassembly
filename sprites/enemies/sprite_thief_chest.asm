@@ -23,7 +23,7 @@ Sprite_ThiefChest:
     ; entirely, rather than being a prerequisite by design. After all, they
     ; don't really have much to do with one another, do they? In other
     ; words, there is no causal relationship there.
-    LDA $7EF3CC : BNE .already_have_tagalong
+    LDA.l $7EF3CC : BNE .already_have_tagalong
     
     INC $0D80, X
     
@@ -37,7 +37,7 @@ Sprite_ThiefChest:
     STZ $0DD0, X
     
     ; Thief's chest (at smithy house in DW) Set that as the tagalong sprite
-    LDA.b #$0C : STA $7EF3CC
+    LDA.b #$0C : STA.l $7EF3CC
     
     PHX
     

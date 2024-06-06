@@ -80,13 +80,13 @@ Ganon_Initialize:
     
     LDA $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $04
+    LDA.l $04E800, X : STA $04
     
     LDA $00 : CLC : ADC.w #$0080 : STA $02
     
     AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $06
+    LDA.l $04E800, X : STA $06
     
     SEP #$30
     
@@ -1160,9 +1160,9 @@ Sprite_Ganon:
     
     STA $0E30, X : TAY
     
-    LDA.w $94C5, Y : STA $7FFD5C
+    LDA.w $94C5, Y : STA.l $7FFD5C
     
-    LDA.w $94CD, Y : STA $7FFD68
+    LDA.w $94CD, Y : STA.l $7FFD68
     
     LDA.b $00 : STA $0D80, X
     
@@ -1195,10 +1195,10 @@ Sprite_Ganon:
     
     INC $0BA0, X
     
-    LDA $7FFD5C  : STA $04
+    LDA.l $7FFD5C  : STA $04
     LDA $0D30, X : STA $05
     
-    LDA $7FFD68  : STA $06
+    LDA.l $7FFD68  : STA $06
     LDA $0D20, X : STA $07
     
     JSR Ganon_CheckEntityProximity : BCS .BRANCH_E955F

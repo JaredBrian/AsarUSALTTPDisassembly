@@ -116,7 +116,7 @@ HylianPlaque_Desert:
     
     ; Call the routine that causes us to enter the desert palace opening
     ; submode of the player...
-    JSL $07866D ; $03866D IN ROM
+    JSL.l $07866D ; $03866D IN ROM
     
     .no_pose_needed
     

@@ -22,7 +22,7 @@ Garnish_CannonPoof:
     LDA $00       : STA ($90), Y
     LDA $02 : INY : STA ($90), Y
     
-    LDA $7FF90E, X : LSR #3 : PHX : TAX
+    LDA.l $7FF90E, X : LSR #3 : PHX : TAX
     
     LDA .chr, X : INY : STA ($90), Y
     
@@ -30,7 +30,7 @@ Garnish_CannonPoof:
     
     PHX
     
-    LDA $7FF92C, X : TAX
+    LDA.l $7FF92C, X : TAX
     
     LDA .properties, X : ORA.b #$04 : PLX
     

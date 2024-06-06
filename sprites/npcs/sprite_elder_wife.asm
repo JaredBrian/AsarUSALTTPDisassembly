@@ -39,7 +39,7 @@ Sprite_ElderWife:
 ; $02F48A-$02F4B4 JUMP LOCATION
 ElderWife_Initial:
 {
-    LDA $7EF359 : CMP.b #$02 : BCS .player_has_master_sword
+    LDA.l $7EF359 : CMP.b #$02 : BCS .player_has_master_sword
     
     ; "... Oh, it's you, [Name]!What can I do for you, young man?"
     LDA.b #$2B

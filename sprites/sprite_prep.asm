@@ -530,7 +530,7 @@ SpritePrep_EvilBarrier:
     
     LDX $8A
     
-    LDA $7EF280, X : PLX : AND.b #$40 : BEQ .not_dead
+    LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .not_dead
     
     LDA.b #$04 : STA $0DC0, X
     
@@ -635,14 +635,14 @@ SpritePrep_Raven:
 ; $03099C-$0309D2 JUMP LOCATION
 SpritePrep_BlindMaiden:
 {
-    LDA $7EF159 : AND.b #$08 : BNE .killSprite
+    LDA.l $7EF159 : AND.b #$08 : BNE .killSprite
     
     INC $0BA0, X
     
-    LDA $7EF3CC : CMP.b #$06 : BEQ .killSprite
+    LDA.l $7EF3CC : CMP.b #$06 : BEQ .killSprite
     
-    LDA.b #$06 : STA $7EF3CC
-    LDA.b #$00 : STA $7EF3D3
+    LDA.b #$06 : STA.l $7EF3CC
+    LDA.b #$00 : STA.l $7EF3D3
     
     PHX
     
@@ -653,7 +653,7 @@ SpritePrep_BlindMaiden:
     
     PLX
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     RTS
     
@@ -705,10 +705,10 @@ SpritePrep_BombShopEntity:
     .spawn_failed
     
     ; Make sure the Misery Mire and Ice Palace dungeons have been completed.
-    LDA $7EF37A : AND.b #$05 : CMP #$05 : BNE .dont_spawn_super_bomb
+    LDA.l $7EF37A : AND.b #$05 : CMP #$05 : BNE .dont_spawn_super_bomb
     
     ; make sure smithy partner has been saved
-    LDA $7EF3C9 : AND.b #$20 : BEQ .dont_spawn_super_bomb
+    LDA.l $7EF3C9 : AND.b #$20 : BEQ .dont_spawn_super_bomb
     
     ; spawn the super bomb
     LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
@@ -747,15 +747,15 @@ SpritePrep_ThiefChest:
     ; Purple Treasure chest initializer
     
     ; If Link already has the chest following him no reason to spawn another
-    LDA $7EF3CC : CMP.b #$0C : BEQ .self_terminate
+    LDA.l $7EF3CC : CMP.b #$0C : BEQ .self_terminate
     
     ; If chest has been opened already just kill next time it spawns.
-    LDA $7EF3C9 : AND.b #$10 : BNE .self_terminate
+    LDA.l $7EF3C9 : AND.b #$10 : BNE .self_terminate
     
     ; Chest hasn't been opened but Smithy also hasn't been saved...
     ; In other words, saving the smithy partner allows us to start on this
     ; side quest in the first place.
-    LDA $7EF3C9 : AND.b #$20 : BEQ .self_terminate
+    LDA.l $7EF3C9 : AND.b #$20 : BEQ .self_terminate
     
     INC $0BA0, X
     
@@ -777,13 +777,13 @@ SpritePrep_Dwarf:
 {
     INC $0BA0, X
     
-    LDA $7EF3CA : AND.w #$40 : BEQ .light_world
+    LDA.l $7EF3CA : AND.w #$40 : BEQ .light_world
     
     ; In Darkworld he's a smithy frog :D
     
-    LDA $7EF3C9 : AND.b #$20 : BNE .self_terminate
+    LDA.l $7EF3C9 : AND.b #$20 : BNE .self_terminate
     
-    LDA $7EF3CC : CMP.b #$00 : BNE .self_terminate
+    LDA.l $7EF3CC : CMP.b #$00 : BNE .self_terminate
     
     LDA.b #$02 : STA $0E80, X
     
@@ -797,7 +797,7 @@ SpritePrep_Dwarf:
     JSL Dwarf_SpawnDwarfSolidity
     
     ; in light world he can either be one or two dwarves?
-    LDA $7EF3C9 : AND.b #$20 : BNE .partner_has_been_saved
+    LDA.l $7EF3C9 : AND.b #$20 : BNE .partner_has_been_saved
     
     LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
     LDA $0D00, X : SEC : SBC.b #$03 : STA $0D00, X
@@ -820,7 +820,7 @@ SpritePrep_Dwarf:
     TYA : STA $0E90, X
     TXA : STA $0E90, Y
     
-    LDA $7EF3C9 : AND.b #$80 : BEQ .they_dont_have_player_sword
+    LDA.l $7EF3C9 : AND.b #$80 : BEQ .they_dont_have_player_sword
     
     LDA.b #$05 : STA $0D80, X : STA $0D80, Y
     
@@ -1059,7 +1059,7 @@ SpritePrep_FluteBoyAnimals:
     ; $030BB2 ALTERNATE ENTRY POINT
     shared SpritePrep_FluteBoyOstrich:
     
-    LDA $7EF34C : CMP.b #$02 : BCC .dont_have_flute
+    LDA.l $7EF34C : CMP.b #$02 : BCC .dont_have_flute
     
     STZ $0DD0, X
     
@@ -1083,7 +1083,7 @@ SpritePrep_DiggingGameGuyTrampoline:
 ; $030BC4-$030BE3 JUMP LOCATION
 SpritePrep_GargoyleGrate:
 {
-    LDA $7EF2D8 : AND.b #$20 : BEQ .gateNotOpened
+    LDA.l $7EF2D8 : AND.b #$20 : BEQ .gateNotOpened
     
     STZ $0DD0, X
     
@@ -1388,7 +1388,7 @@ SpritePrep_DashItem:
     LDA $A1 : CMP.b #$01 : BNE .key
     
     ; If in the library, do we already have the BoM?
-    LDA $7EF34E : BEQ .book_of_mudora
+    LDA.l $7EF34E : BEQ .book_of_mudora
     
     ; Otherwise, kill the sprite
     STZ $0DD0, X 
@@ -1446,7 +1446,7 @@ SpritePrep_Kiki:
     
     PHX
     
-    LDX $8A : LDA $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
+    LDX $8A : LDA.l $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
     
     ; Suicide if the entrance to the Dark Palace is opened.
     STZ $0DD0, X
@@ -1465,7 +1465,7 @@ SpritePrep_MiddleAgedMan:
     
     INC $0BA0, X
     
-    LDA $7EF3CC : CMP.b #$09 : BNE .not_already_followed
+    LDA.l $7EF3CC : CMP.b #$09 : BNE .not_already_followed
     
     STZ $0DD0, X
     
@@ -1480,7 +1480,7 @@ SpritePrep_MiddleAgedMan:
     
     .thief_chest_not_following
     
-    LDA $7EF3C9 : AND.b #$10 : BEQ .hasnt_opened_chest_yet
+    LDA.l $7EF3C9 : AND.b #$10 : BEQ .hasnt_opened_chest_yet
     
     LDA.b #$04 : STA $0D80, X
     
@@ -1494,7 +1494,7 @@ SpritePrep_MiddleAgedMan:
 ; $030D7F-$030D8D JUMP LOCATION
 SpritePrep_BugNetKid:
 {
-    LDA $7EF34D : BEQ .dont_have_net
+    LDA.l $7EF34D : BEQ .dont_have_net
     LDA.b #$03 : STA $0D80, X
     
     .dont_have_net
@@ -1643,7 +1643,7 @@ SpritePrep_HoboEntities:
     
     TXY
     
-    LDA $7EF3C9 : AND.b #$01 : BEQ .dont_have_hobo_bottle
+    LDA.l $7EF3C9 : AND.b #$01 : BEQ .dont_have_hobo_bottle
     
     LDA.b #$03 : STA $0D80
     
@@ -1833,7 +1833,7 @@ SpritePrep_IceBallGenerator:
 ; $030F0F-$030F1B JUMP LOCATION
 SpritePrep_ZoraKing:
 {
-    LDA $7EF356 : BEQ .noFlippers
+    LDA.l $7EF356 : BEQ .noFlippers
     
     STZ $0DD0, X
     
@@ -1869,7 +1869,7 @@ SpritePrep_Bosses:
     
     LDX $0E20, Y
     
-    LDA $0DB266, X
+    LDA.l $0DB266, X
     
     PLX
     
@@ -2137,7 +2137,7 @@ SpritePrep_TalkingTree:
 ; $031064-$031074 JUMP LOCATION
 SpritePrep_CrystalSwitch:
 {
-    LDA $7EC172 : AND.b #$01 : TAY
+    LDA.l $7EC172 : AND.b #$01 : TAY
     
     LDA.w $B8CE, Y : ORA $0F50, X : STA $0F50, X
     
@@ -2151,14 +2151,14 @@ SpritePrep_FluteBoy:
 {
     INC $0BA0, X
     
-    LDA $7EF3CA : ASL A : ROL #2
+    LDA.l $7EF3CA : ASL A : ROL #2
     
     AND.b #$01 : STA $0E80, X : BEQ .in_light_world
     
     ; See if the dark world flute boy has been arborated.
-    LDA $7EF3C9 : AND.b #$08 : BNE .already_arborated
+    LDA.l $7EF3C9 : AND.b #$08 : BNE .already_arborated
     
-    LDA $7EF34C : CMP.b #$02 : BCC .BRANCH_GAMMA
+    LDA.l $7EF34C : CMP.b #$02 : BCC .BRANCH_GAMMA
                                BEQ .BRANCH_DELTA
     
     .already_arborated
@@ -2183,7 +2183,7 @@ SpritePrep_FluteBoy:
     
     .in_light_world
     
-    LDA $7EF34C : CMP.b #$02 : BCC .BRANCH_EPSILON
+    LDA.l $7EF34C : CMP.b #$02 : BCC .BRANCH_EPSILON
     
     STZ $0DD0, X ; Kill the sprite if we already have the flute.
     
@@ -2395,7 +2395,7 @@ SpritePrep_Fairy:
 ; $031175-$031192 LOCAL JUMP LOCATION
 SpritePrep_GoodBee:
 {
-    LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
+    LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
     
     AND.b #$08 : BEQ .dont_have_good_bee
     
@@ -2558,7 +2558,7 @@ SpritePrep_Arrgi:
     
     LDX.b #$00
     
-    JSL $1EB8B4 ; $0F38B4 IN ROM
+    JSL.l $1EB8B4 ; $0F38B4 IN ROM
     
     PLX
     

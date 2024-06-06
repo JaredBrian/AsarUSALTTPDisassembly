@@ -57,27 +57,27 @@ RefreshIconLong:
     RefillLogic:    
 {
     ; check the refill magic indicator
-    LDA $7EF373
+    LDA.l $7EF373
 
     BEQ .doneWithMagicRefill
 
     ; Check the current magic power level we have.
     ; Is it full?
-    LDA $7EF36E : CMP.b #$80
+    LDA.l $7EF36E : CMP.b #$80
 
     BCC .magicNotFull
     
     ; If it is full, freeze it at 128 magic pts.
     ; And stop this refilling nonsense.
-    LDA.b #$80 : STA $7EF36E
-    LDA.b #$00 : STA $7EF373
+    LDA.b #$80 : STA.l $7EF36E
+    LDA.b #$00 : STA.l $7EF373
     
     BRA .doneWithMagicRefill
     
     .magicNotFull
     
-    LDA $7EF373 : DEC A : STA $7EF373
-    LDA $7EF36E : INC A : STA $7EF36E
+    LDA.l $7EF373 : DEC A : STA.l $7EF373
+    LDA.l $7EF36E : INC A : STA.l $7EF36E
     
     ; if((frame_counter % 4) != 0) don't refill this frame
     LDA $1A : AND.b #$03 : BNE .doneWithMagicRefill
@@ -98,13 +98,13 @@ RefreshIconLong:
     ; goal rupees are decreased by, say, 100, but it takes a while for the 
     ; current rupees indicator to catch up. When you get a gift of 300
     ; rupees, the goal increases, and current has to catch up in the other direction.
-    LDA $7EF362
+    LDA.l $7EF362
     
-    CMP $7EF360 : BEQ .doneWithRupeesRefill
+    CMP.l $7EF360 : BEQ .doneWithRupeesRefill
                   BMI .addRupees
     DEC A       : BPL .subtractRupees
     
-    LDA.w #$0000 : STA $7EF360
+    LDA.w #$0000 : STA.l $7EF360
     
     BRA .subtractRupees
     
@@ -114,11 +114,11 @@ RefreshIconLong:
     INC A : CMP.w #1000 : BCC .subtractRupees
     
     ; Otherwise just store 999 to the rupee amount
-    LDA.w #999 : STA $7EF360
+    LDA.w #999 : STA.l $7EF360
     
     .subtractRupees
     
-    STA $7EF362
+    STA.l $7EF362
     
     SEP #$30
     
@@ -140,45 +140,45 @@ RefreshIconLong:
     
     .skipRupeeSound
     
-    LDA $7EF375
+    LDA.l $7EF375
 
     BEQ .doneRefillingBombs
 
     ; decrease the bomb refill counter
-    LDA $7EF375 : DEC A : STA $7EF375
+    LDA.l $7EF375 : DEC A : STA.l $7EF375
 
     ; use the bomb upgrade index to know what max number of bombs Link can carry is
-    LDA $7EF370 : TAY
+    LDA.l $7EF370 : TAY
 
     ; if it matches the max, you can't have no more bombs, son. It's the law.
-    LDA $7EF343 : CMP $DB48, Y : BEQ .doneRefillingBombs
+    LDA.l $7EF343 : CMP $DB48, Y : BEQ .doneRefillingBombs
     
     ; You like bombs? I got lotsa bombs!
-    INC A : STA $7EF343
+    INC A : STA.l $7EF343
 
     .doneRefillingBombs
 
     ; check arrow refill counter
-    LDA $7EF376
+    LDA.l $7EF376
     
     BEQ .doneRefillingArrows
     
-    LDA $7EF376 : DEC A : STA $7EF376
+    LDA.l $7EF376 : DEC A : STA.l $7EF376
     
     ; check arrow upgrade index to see how our max limit on arrows, just like bombs.
-    LDA $7EF371 : TAY 
+    LDA.l $7EF371 : TAY 
     
-    LDA $7EF377 : CMP $DB58, Y
+    LDA.l $7EF377 : CMP $DB58, Y
     
     ; I reckon you get no more arrows, pardner.
     BEQ .arrowsAtMax
     
-    INC A : STA $7EF377
+    INC A : STA.l $7EF377
 
     .arrowsAtMax
 
     ; see if we even have the bow.
-    LDA $7EF340
+    LDA.l $7EF340
     
     BEQ .doneRefillingArrows
     
@@ -187,7 +187,7 @@ RefreshIconLong:
     BNE .doneRefillingArrows
     
     ; changes the icon from a bow without arrows to a bow with arrows.
-    LDA $7EF340 : INC A : STA $7EF340
+    LDA.l $7EF340 : INC A : STA.l $7EF340
     
     JSL RefreshIconLong
 
@@ -199,15 +199,15 @@ RefreshIconLong:
     BNE .doneWithWarningBeep
     
     ; if heart refill is in process, we don't beep
-    LDA $7EF372
+    LDA.l $7EF372
     
     BNE .doneWithWarningBeep
     
-    LDA $7EF36C : LSR #3 : TAX
+    LDA.l $7EF36C : LSR #3 : TAX
     
     ; checking current health against capacity health to see
     ; if we need to put on that annoying beeping noise.
-    LDA $7EF36D : CMP $DB60, X
+    LDA.l $7EF36D : CMP $DB60, X
     
     BCS .doneWithWarningBeep
     
@@ -237,27 +237,27 @@ RefreshIconLong:
     BNE .waitForHeartFillAnimation
     
     ; If no hearts need to be filled, branch
-    LDA $7EF372
+    LDA.l $7EF372
     
     BEQ .doneRefillingHearts
     
     ; check if actual health matches capacity health
-    LDA $7EF36D : CMP $7EF36C
+    LDA.l $7EF36D : CMP.l $7EF36C
     
     BCC .notAtFullHealth
     
     ; just set health to full in the event it overflowed past 0xA0 (20 hearts)
-    LDA $7EF36C : STA $7EF36D
+    LDA.l $7EF36C : STA.l $7EF36D
     
     ; done refilling health so deactivate the health refill variable
-    LDA.b #$00 : STA $7EF372
+    LDA.b #$00 : STA.l $7EF372
     
     BRA .doneRefillingHearts
 
     .notAtFullHealth
 
     ; refill health by one heart
-    LDA $7EF36D : CLC : ADC.b #$08 : STA $7EF36D
+    LDA.l $7EF36D : CLC : ADC.b #$08 : STA.l $7EF36D
     
     LDA $012F
     
@@ -270,16 +270,16 @@ RefreshIconLong:
 
     ; repeat the same logic from earlier, checking if health's at max and setting it to max
     ; if it overflowed
-    LDA $7EF36D : CMP $7EF36C
+    LDA.l $7EF36D : CMP.l $7EF36C
     
     BCC .healthDidntOverflow
     
-    LDA $7EF36C : STA $7EF36D
+    LDA.l $7EF36C : STA.l $7EF36D
 
     .healthDidntOverflow
 
     ; subtract a heart from the refill variable
-    LDA $7EF372 : SEC : SBC.b #$08 : STA $7EF372
+    LDA.l $7EF372 : SEC : SBC.b #$08 : STA.l $7EF372
     
     ; activate heart refill animation
     ; (which will cause a small delay for the next heart if we still need to fill some up.)
@@ -404,11 +404,11 @@ RefillHealth:
 {
     ; Check goal health versus actual health.
     ; if(actual < goal) then branch.
-    LDA $7EF36D : CMP $7EF36C : BCC .refillAllHealth
+    LDA.l $7EF36D : CMP.l $7EF36C : BCC .refillAllHealth
     
-    LDA $7EF36C : STA $7EF36D
+    LDA.l $7EF36C : STA.l $7EF36D
     
-    LDA.b #$00 : STA $7EF372
+    LDA.b #$00 : STA.l $7EF372
     
     ; ??? not sure what purpose this branch serves.
     LDA $020A : BNE .beta
@@ -420,7 +420,7 @@ RefillHealth:
     .refillAllHealth
     
     ; Fill up ze health.
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     .beta
     
@@ -446,7 +446,7 @@ AnimateHeartRefill:
     REP #$30
     
     ; Y = ( ( ( (current_health & 0x00F8) - 1) / 8 ) * 2)
-    LDA $7EF36D : AND.w #$00F8 : DEC A : LSR #3 : ASL A : TAY : CMP.w #$0014
+    LDA.l $7EF36D : AND.w #$00F8 : DEC A : LSR #3 : ASL A : TAY : CMP.w #$0014
     
     BCC .halfHealthOrLess
     
@@ -459,13 +459,13 @@ AnimateHeartRefill:
 
     SEP #$30
     
-    LDX $0209 : LDA $0DFA11, X : STA $0208
+    LDX $0209 : LDA.l $0DFA11, X : STA $0208
     
     TXA : ASL A : TAX
     
-    LDA $0DFA09, X : STA [$00], Y
+    LDA.l $0DFA09, X : STA [$00], Y
     
-    INY : LDA $0DFA0A, X : STA [$00], Y
+    INY : LDA.l $0DFA0A, X : STA [$00], Y
     
     LDA $0209 : INC A : AND.b #$03 : STA $0209
     
@@ -492,12 +492,12 @@ RefillMagicPower:
     SEP #$30
     
     ; Check if Link's magic meter is full
-    LDA $7EF36E : CMP.b #$80
+    LDA.l $7EF36E : CMP.b #$80
     
     BCS .itsFull
     
     ; Tell the magic meter to fill up until it's full.
-    LDA.b #$80 : STA $7EF373
+    LDA.b #$80 : STA.l $7EF373
     
     SEP #$30
     
@@ -682,10 +682,10 @@ RefillMagicPower:
 RestoreTorchBackground:
 {
     ; See if we have the torch...
-    LDA $7EF34A : BEQ .doNothing
+    LDA.l $7EF34A : BEQ .doNothing
     
     ; See if this room has the 'lights out' property.
-    LDA $7EC005 : BEQ .doNothing
+    LDA.l $7EC005 : BEQ .doNothing
     
     ; The rest of these variables, I'm not too sure about. Probably indicate
     ; that a torch bg object was place in the dungeon room.
@@ -727,7 +727,7 @@ RebuildLong:
 ; $06FA60-$06FA6F LONG JUMP LOCATION
 RebuildIndoor:
 {
-    LDA.b #$00 : STA $7EC017
+    LDA.b #$00 : STA.l $7EC017
     
     LDA.b #$FF
     
@@ -735,7 +735,7 @@ RebuildIndoor:
     .palace
     
     ; When the dungeon loads, tells us how many keys we have.
-    STA $7EF36F
+    STA.l $7EF36F
     
     shared RebuildLong2:
     
@@ -813,22 +813,22 @@ UpdateItemBox:
     SEP #$30
     
     ; Dost thou haveth the the bow?
-    LDA $7EF340 : BEQ .havethNoBow
+    LDA.l $7EF340 : BEQ .havethNoBow
     
     ; Dost thou haveth the silver arrows?
     ; (okay I'll stop soon)
     CMP.b #$03 : BCC .havethNoSilverArrows 
     
     ; Draw the arrow guage icon as silver rather than normal wood arrows.
-    LDA.b #$86 : STA $7EC71E
-    LDA.b #$24 : STA $7EC71F
-    LDA.b #$87 : STA $7EC720
-    LDA.b #$24 : STA $7EC721
+    LDA.b #$86 : STA.l $7EC71E
+    LDA.b #$24 : STA.l $7EC71F
+    LDA.b #$87 : STA.l $7EC720
+    LDA.b #$24 : STA.l $7EC721
     
     LDX.b #$04
     
     ; check how many arrows the player has
-    LDA $7EF377 : BNE .drawBowItemIcon
+    LDA.l $7EF377 : BNE .drawBowItemIcon
     
     LDX.b #$03
     
@@ -838,7 +838,7 @@ UpdateItemBox:
     
     LDX.b #$02
     
-    LDA $7EF377 : BNE .drawBowItemIcon
+    LDA.l $7EF377 : BNE .drawBowItemIcon
     
     LDX.b #$01
     
@@ -849,7 +849,7 @@ UpdateItemBox:
     ; 0x02 - normal bow with arrows
     ; 0x03 - silver bow with no silver arrows
     ; 0x04 - silver bow with silver arrows
-    TXA : STA $7EF340
+    TXA : STA.l $7EF340
     
     .havethNoBow
     
@@ -857,7 +857,7 @@ UpdateItemBox:
     
     LDX $0202 : BEQ .noEquippedItem
     
-    LDA $7EF33F, X : AND.w #$00FF
+    LDA.l $7EF33F, X : AND.w #$00FF
     
     CPX.w #$0004 : BNE .bombsNotEquipped
     
@@ -867,7 +867,7 @@ UpdateItemBox:
     
     CPX.w #$0010 : BNE .bottleNotEquipped
     
-    TXY : TAX : LDA $7EF35B, X : AND.w #$00FF : TYX
+    TXY : TAX : LDA.l $7EF35B, X : AND.w #$00FF : TYX
     
     .bottleNotEquipped
     
@@ -881,10 +881,10 @@ UpdateItemBox:
     LDA $02 : ASL #3 : TAY ; loads 08
     
     ; These addresses form the item box graphics. ; fire rod loads: 24B0, 24B1, 24C0, 24C1 ; ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1 
-    LDA ($04), Y : STA $7EC74A : INY #2
-    LDA ($04), Y : STA $7EC74C : INY #2
-    LDA ($04), Y : STA $7EC78A : INY #2
-    LDA ($04), Y : STA $7EC78C : INY #2
+    LDA ($04), Y : STA.l $7EC74A : INY #2
+    LDA ($04), Y : STA.l $7EC74C : INY #2
+    LDA ($04), Y : STA.l $7EC78A : INY #2
+    LDA ($04), Y : STA.l $7EC78C : INY #2
     
     .noEquippedItem
     
@@ -916,7 +916,7 @@ Update:
     REP #$30
     
     ; Load Capacity health.
-    LDA $7EF36C : AND.w #$00FF : STA $00 : STA $02 : STA $04
+    LDA.l $7EF36C : AND.w #$00FF : STA $00 : STA $02 : STA $04
     
     ; First, just draw all the empty hearts (capacity health)
     JSR UpdateHearts
@@ -932,21 +932,21 @@ Update:
     LDA.b #$7E : STA $09
     
     ; Branch if at full health
-    LDA $7EF36C : CMP $7EF36D : BEQ .healthUpdated
+    LDA.l $7EF36C : CMP.l $7EF36D : BEQ .healthUpdated
     
     ; Seems absurd to have a branch of zero bytes, right?
-    SEC : SBC.b #$04 : CMP $7EF36D : BCS .healthUpdated
+    SEC : SBC.b #$04 : CMP.l $7EF36D : BCS .healthUpdated
     
     .healthUpdated
     
     ; A = actual health + 0x03;
-    LDA $7EF36D : CLC : ADC.b #$03
+    LDA.l $7EF36D : CLC : ADC.b #$03
     
     REP #$30
     
     AND.w #$00FC : STA $00 : STA $04
     
-    LDA $7EF36C : AND.w #$00FF : STA $02
+    LDA.l $7EF36C : AND.w #$00FF : STA $02
     
     ; this time we're filling in the full and partially filled hearts (actual health)
     JSR UpdateHearts
@@ -957,57 +957,57 @@ Update:
     REP #$30
     
     ; Magic amount indicator (normal, 1/2, or 1/4)
-    LDA $7EF37B : AND.w #$00FF : CMP.w #$0001 : BCC .normalMagicMeter
+    LDA.l $7EF37B : AND.w #$00FF : CMP.w #$0001 : BCC .normalMagicMeter
     
     ; draws a 1/2 magic meter (note, we could add in the 1/4 magic meter here if 
     ; we really cared about that >_>
-    LDA.w #$28F7 : STA $7EC704
-    LDA.w #$2851 : STA $7EC706
-    LDA.w #$28FA : STA $7EC708
+    LDA.w #$28F7 : STA.l $7EC704
+    LDA.w #$2851 : STA.l $7EC706
+    LDA.w #$28FA : STA.l $7EC708
     
     .normalMagicMeter
     
     ; check how much magic power the player has at the moment (ranges from 0 to 0x7F)
     ; X = ((MP & 0xFF)) + 7) & 0xFFF8)
-    LDA $7EF36E : AND.w #$00FF : CLC : ADC.w #$0007 : AND.w #$FFF8 : TAX
+    LDA.l $7EF36E : AND.w #$00FF : CLC : ADC.w #$0007 : AND.w #$FFF8 : TAX
     
     ; these four writes draw the magic power bar based on how much MP you have    
-    LDA .mp_tilemap+0, X : STA $7EC746
-    LDA .mp_tilemap+2, X : STA $7EC786
-    LDA .mp_tilemap+4, X : STA $7EC7C6
-    LDA .mp_tilemap+6, X : STA $7EC806
+    LDA .mp_tilemap+0, X : STA.l $7EC746
+    LDA .mp_tilemap+2, X : STA.l $7EC786
+    LDA .mp_tilemap+4, X : STA.l $7EC7C6
+    LDA .mp_tilemap+6, X : STA.l $7EC806
     
     ; Load how many rupees the player has
-    LDA $7EF362
+    LDA.l $7EF362
     
     JSR HexToDecimal
     
     REP #$30
     
     ; The tile index for the first rupee digit
-    LDA $03 : AND.w #$00FF : ORA.w #$2400 : STA $7EC750
+    LDA $03 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC750
     
     ; The tile index for the second rupee digit
-    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA $7EC752
+    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC752
     
     ; The tile index for the third rupee digit
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA $7EC754
+    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC754
     
     ; Number of bombs Link has.
-    LDA $7EF343 : AND.w #$00FF
+    LDA.l $7EF343 : AND.w #$00FF
     
     JSR HexToDecimal
     
     REP #$30
     
     ; The tile index for the first bomb digit
-    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA $7EC758
+    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC758
     
     ; The tile index for the second bomb digit
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA $7EC75A
+    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75A
     
     ; Number of Arrows Link has.
-    LDA $7EF377 : AND.w #$00FF
+    LDA.l $7EF377 : AND.w #$00FF
     
     ; converts hex to up to 3 decimal digits
     JSR HexToDecimal
@@ -1015,15 +1015,15 @@ Update:
     REP #$30
     
     ; The tile index for the first arrow digit    
-    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA $7EC75E
+    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75E
     
     ; The tile index for the second arrow digit   
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA $7EC760
+    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC760
     
     LDA.w #$007F : STA $05
     
     ; Load number of Keys Link has
-    LDA $7EF36F : AND.w #$00FF : CMP.w #$00FF : BEQ .noKeys
+    LDA.l $7EF36F : AND.w #$00FF : CMP.w #$00FF : BEQ .noKeys
     
     JSR HexToDecimal
     
@@ -1033,12 +1033,12 @@ Update:
     
     ; The key digit, which is optionally drawn.
     ; Also check to see if the key spot is blank
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA $7EC764
+    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC764
     
     CMP.w #$247F : BNE .dontBlankKeyIcon
     
     ; If the key digit is blank, also blank out the key icon.
-    STA $7EC724
+    STA.l $7EC724
     
     .dontBlankKeyIcon
     

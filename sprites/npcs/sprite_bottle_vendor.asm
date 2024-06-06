@@ -95,7 +95,7 @@ BottleVendor_Base:
     .no_fish_or_good_bee
     .off_screen
     
-    LDA $7EF3C9 : AND.b #$02 : BNE BottleVendor_SoldOut
+    LDA.l $7EF3C9 : AND.b #$02 : BNE BottleVendor_SoldOut
     
     ; "... I've got one on sale for the low, low price of 100 rupees!..."
     LDA.b #$D1
@@ -120,7 +120,7 @@ BottleVendor_SellingBottle:
     REP #$20
     
     ; check if player has 100 rupees (bottle vendor?)
-    LDA $7EF360 : CMP.w #$0064 : SEP #$30 : BCC .player_cant_afford
+    LDA.l $7EF360 : CMP.w #$0064 : SEP #$30 : BCC .player_cant_afford
     
     ; "...Now, hold it above your head for the whole world to see, OK?..."
     LDA.b #$D2
@@ -162,11 +162,11 @@ BottleVendor_GiveBottle:
     
     PLX
     
-    LDA $7EF3C9 : ORA.b #$02 : STA $7EF3C9
+    LDA.l $7EF3C9 : ORA.b #$02 : STA.l $7EF3C9
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC.w #$0064 : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.w #$0064 : STA.l $7EF360
     
     SEP #$30
     

@@ -266,7 +266,7 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
     .search_for_slot
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -280,20 +280,20 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
     
     STX $0F
     
-    LDA.b #$05 : STA $7FF800, X : STA $0FB4
+    LDA.b #$05 : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0D10, Y : CLC : ADC $00 : STA $7FF83C, X
-    LDA $0D30, Y : ADC $01 : STA $7FF878, X
+    LDA $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
+    LDA $0D30, Y : ADC $01 : STA.l $7FF878, X
     
     ; WTF is this math here? Will take some sorting out with the PHP / PLPs...
-    LDA $0D00, Y : SEC : SBC $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA $7FF81E, X
-    LDA $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA $7FF85A, X
+    LDA $0D00, Y : SEC : SBC $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$1F : STA $7FF90E, X
+    LDA.b #$1F : STA.l $7FF90E, X
     
-    TYA : STA $7FF92C, X
+    TYA : STA.l $7FF92C, X
     
-    LDA $0F20, Y : STA $7FF968, X
+    LDA $0F20, Y : STA.l $7FF968, X
     
     PLX
     

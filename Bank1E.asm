@@ -600,7 +600,7 @@ Sprite3_PrepOamCoord:
 ; $0F7F8D-$0F7FDD LONG JUMP LOCATION
 Sprite_DrawRippleIfInWater:
 {
-    LDA $7FF9C2, X
+    LDA.l $7FF9C2, X
     
     CMP.b #$08 : BEQ .waterTile
         CMP.b #$09 : BNE .notWaterTile

@@ -131,7 +131,7 @@ Ancilla_SuperBombExplosion:
     
     PLX
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     .anomute_vulnerable_tiles
     

@@ -41,13 +41,13 @@ SpritePrep_UncleAndSage:
     
     JSR Sage_SpawnMantle
     
-    LDA $7EF3C5 : CMP.b #$03 : BCC .agahnim_not_defeated
+    LDA.l $7EF3C5 : CMP.b #$03 : BCC .agahnim_not_defeated
     
-    LDA $7EF3C6 : ORA.b #$02 : STA $7EF3C6
+    LDA.l $7EF3C6 : ORA.b #$02 : STA.l $7EF3C6
     
     .agahnim_not_defeated
     
-    LDA $7EF3C6 : AND.b #$02 : BEQ .priest_not_already_dead
+    LDA.l $7EF3C6 : AND.b #$02 : BEQ .priest_not_already_dead
     
     STZ $0DD0, X
     
@@ -61,7 +61,7 @@ SpritePrep_UncleAndSage:
     
     LDA.b #$03 : STA $0F60, X
     
-    LDA $7EF359 : CMP.b #$02 : BCC .dontHaveMasterSword
+    LDA.l $7EF359 : CMP.b #$02 : BCC .dontHaveMasterSword
     
     LDA.b #$04 : STA $0DE0, X
     
@@ -77,11 +77,11 @@ SpritePrep_UncleAndSage:
     
     STA $0EB0, X : STA $0DE0, X
     
-    LDA $7EF3CC : CMP.b #$01 : BNE .iota
+    LDA.l $7EF3CC : CMP.b #$01 : BNE .iota
     
-    LDA $7EF3C6 : ORA.b #$04 : STA $7EF3C6
+    LDA.l $7EF3C6 : ORA.b #$04 : STA.l $7EF3C6
     
-    LDA $7EF29B : ORA.b #$20 : STA $7EF29B
+    LDA.l $7EF29B : ORA.b #$20 : STA.l $7EF29B
     
     LDA.b #$AA : STA $0DF0, X
     
@@ -107,7 +107,7 @@ SpritePrep_UncleAndSage:
     
     INC $0BA0, X
     
-    LDA.b #$00 : STA $7FFE01
+    LDA.b #$00 : STA.l $7FFE01
     
     RTS
     
@@ -117,7 +117,7 @@ SpritePrep_UncleAndSage:
     
     ; Has your Uncle left to go get owned by two measley low rank green
     ; soldiers?
-    LDA $7EF3C6 : AND.b #$10 : BNE .self_terminate
+    LDA.l $7EF3C6 : AND.b #$10 : BNE .self_terminate
     
     LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
     
@@ -126,7 +126,7 @@ SpritePrep_UncleAndSage:
     .not_in_links_house
     
     ; Poor dying bastard already gave you his gear?
-    LDA $7EF3C6 : AND.b #$01 : BNE .self_terminate
+    LDA.l $7EF3C6 : AND.b #$01 : BNE .self_terminate
     
     LDA.b #$03 : STA $0DE0, X
     
@@ -527,7 +527,7 @@ Sage_DyingWords:
     
     INC $0DC0, X
     
-    LDA $7EF3C6 : ORA.b #$02 : STA $7EF3C6
+    LDA.l $7EF3C6 : ORA.b #$02 : STA.l $7EF3C6
     
     LDA.b #$80 : STA $0E10, X
     
@@ -606,13 +606,13 @@ Sage_Terminate:
     
     INC $0D80, X
     
-    LDA.b #$01 : STA $7FFE01
+    LDA.b #$01 : STA.l $7FFE01
     
     JSR Zelda_TransitionFromTagalong
     
     LDA.b #$01 : STA $02E4
     
-    LDA.b #$01 : STA $7EF3C7
+    LDA.b #$01 : STA.l $7EF3C7
     
     .alpha
     
@@ -623,7 +623,7 @@ Sage_Terminate:
 
 ; $02DD9F-$02DDB2 JUMP LOCATION
 {
-    LDA $7FFE01 : CMP.b #$02 : BNE .alpha
+    LDA.l $7FFE01 : CMP.b #$02 : BNE .alpha
     
     ; "I sense that a mighty force guides the wizard's actions an
     LDA.b #$18
@@ -696,7 +696,7 @@ Sage_Terminate:
     
     LDY.b #$00
     
-    LDA $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .need_moar_pendants
+    LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .need_moar_pendants
     
     LDY.b #$02
     
@@ -704,7 +704,7 @@ Sage_Terminate:
     
     .need_moar_pendants
     
-    LDA $7EF3C7 : CMP.b #$03 : BCC .beta
+    LDA.l $7EF3C7 : CMP.b #$03 : BCC .beta
     
     LDY.b #$01
     
@@ -718,7 +718,7 @@ Sage_Terminate:
     STA $0DE0, X
     STA $0EB0, X
     
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     .gamma
     
@@ -909,13 +909,13 @@ Uncle_LeavingHouse:
 Uncle_AttachZeldaTelepathTagalong:
 {
     ; Sets up Zelda to bitch at you to get into the castle.
-    LDA.b #$05 : STA $7EF3CC
+    LDA.b #$05 : STA.l $7EF3CC
     
     LDA.b #$F3 : STA $02CD
     LDA.b #$0D : STA $02CE
     
     ; Make it so Link's uncle never respawns in the house again.
-    LDA $7EF3C6 : ORA.b #$10 : STA $7EF3C6
+    LDA.l $7EF3C6 : ORA.b #$10 : STA.l $7EF3C6
     
     STZ $0DD0, X
     
@@ -956,7 +956,7 @@ Uncle_RemoveZeldaTelepathTagalong:
     JSL Sprite_ShowMessageFromPlayerContact : BCC .player_not_close_2
     
     ; Your Uncle frees you from Zelda's bitching >_<.
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     INC $0D80, X
     
@@ -982,11 +982,11 @@ Uncle_GiveSwordAndShield:
     
     LDA.b #$01 : STA $0DC0, X
     
-    LDA.b #$03 : STA $7EF3C8
+    LDA.b #$03 : STA.l $7EF3C8
     
-    LDA $7EF3C6 : ORA.b #$01 : STA $7EF3C6
+    LDA.l $7EF3C6 : ORA.b #$01 : STA.l $7EF3C6
     
-    LDA.b #$01 : STA $7EF3C5
+    LDA.b #$01 : STA.l $7EF3C5
     
     RTS
 }

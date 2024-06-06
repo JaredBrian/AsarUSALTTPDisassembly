@@ -1031,13 +1031,13 @@ Pool_HelmasaurKing_Initialize:
     
     LDA $06 : AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $0A
+    LDA.l $04E800, X : STA $0A
     
     LDA $06 : CLC : ADC.w #$0080 : STA $08
     
     AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $0C
+    LDA.l $04E800, X : STA $0C
     
     SEP #$30
     

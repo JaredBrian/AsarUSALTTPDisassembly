@@ -59,8 +59,8 @@ MazeGameGuy_ParseElapsedTime:
 {
     REP #$20
     
-    LDA $7FFE00 : STA $7FFE04
-    LDA $7FFE02 : STA $7FFE06
+    LDA.l $7FFE00 : STA.l $7FFE04
+    LDA.l $7FFE02 : STA.l $7FFE06
     
     STZ $00
     STZ $02
@@ -73,7 +73,7 @@ MazeGameGuy_ParseElapsedTime:
     ; and then immediately walk right over to the guy he'll give you the
     ; heart piece as this is a modulo operation which would loop at 100
     ; minutes.
-    LDA $7FFE04
+    LDA.l $7FFE04
     
     .modulo_6000_loop
     
@@ -154,7 +154,7 @@ MazeGameGuy_CheckPlayerQualification:
     
     LDX $8A
     
-    LDA $7EF280, X : TYX : AND.b #$40 : BEQ .heart_piece_not_acquired
+    LDA.l $7EF280, X : TYX : AND.b #$40 : BEQ .heart_piece_not_acquired
     
     INC $0D80, X : INC $0D80, X
     
@@ -168,8 +168,8 @@ MazeGameGuy_CheckPlayerQualification:
     
     .heart_piece_not_acquired
     
-    LDA $7FFE05              : BNE .player_took_too_long
-    LDA $7FFE04 : CMP.b #$10 : BCS .player_took_too_long
+    LDA.l $7FFE05              : BNE .player_took_too_long
+    LDA.l $7FFE04 : CMP.b #$10 : BCS .player_took_too_long
     
     INC $0D80, X
     

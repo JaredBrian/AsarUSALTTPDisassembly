@@ -25,7 +25,7 @@ Sprite_TroughBoy:
     
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
     
-    LDA $7EF3C7 : CMP.b #$03 : BCS .player_met_sahasralah
+    LDA.l $7EF3C7 : CMP.b #$03 : BCS .player_met_sahasralah
     
     ; "Hi [Name]! Elder?  Are you talking about the grandpa?"
     LDA.b #$47
@@ -33,7 +33,7 @@ Sprite_TroughBoy:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
     
-    LDA.b #$02 : STA $7EF3C7
+    LDA.b #$02 : STA.l $7EF3C7
     
     .didnt_converse
     

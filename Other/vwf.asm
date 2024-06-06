@@ -149,12 +149,12 @@ Text_LoadCharacterBuffer:
     LDA $1CF0 : ASL A : ADC $1CF0 : TAX
     
     ; Load the address for the text's data from WRAM.
-    LDA $7F71C0, X : STA $04
-    LDA $7F71C2, X : STA $06
+    LDA.l $7F71C0, X : STA $04
+    LDA.l $7F71C2, X : STA $06
     
     ; Initialize the beginning of the character buffer to the "terminate"
     ; message, in case we load no actual characters
-    LDA.w #$7F7F : STA $7F1200
+    LDA.w #$7F7F : STA.l $7F1200
     
     LDY.w #$0000 : TYX : STY $1CD9 : STY $1CDD
     
@@ -168,7 +168,7 @@ Text_LoadCharacterBuffer:
     CMP.b #$67   : BCS .commandByte
     
     ; Put text to buffer
-    STA $7F1200, X
+    STA.l $7F1200, X
     
     INY : STY $1CDD
     INX : STX $1CD9
@@ -201,7 +201,7 @@ Text_LoadCharacterBuffer:
     
     .endOfMessage
     
-    LDA.b #$7F : STA $7F1200, X
+    LDA.b #$7F : STA.l $7F1200, X
     
     SEP #$30
     
@@ -260,7 +260,7 @@ Text_IgnoreCommand:
     LDX $1CD9
     LDY $1CDD
     
-    LDA [$04], Y : STA $7F1200, X
+    LDA [$04], Y : STA.l $7F1200, X
     
     INY
     INX
@@ -281,7 +281,7 @@ Text_IgnoreParamCommand:
     LDX $1CD9
     LDY $1CDD
     
-    LDA [$04], Y : STA $7F1200, X
+    LDA [$04], Y : STA.l $7F1200, X
     
     INY #2
     INX #2
@@ -307,16 +307,16 @@ Text_WritePlayerName:
     REP #$30
     
     ; Check which file is active
-    LDA $701FFE : TAX
+    LDA.l $701FFE : TAX
     
     ; Get its offset in sram
-    LDA $00848A, X : TAX
+    LDA.l $00848A, X : TAX
     
     LDY.w #$0000
     
     .nextCharacter
     
-    LDA $7003D9, X : PHA : AND.w #$000F : STA $0008, Y
+    LDA.l $7003D9, X : PHA : AND.w #$000F : STA $0008, Y
     
     PLA : LSR A : AND.w #$FFF0 : ORA $0008, Y : STA $0008, Y
     
@@ -350,12 +350,12 @@ Text_WritePlayerName:
     SEP #$20
     
     ; Write player name to the text buffer
-    LDA $08 : STA $7F11FA, X
-    LDA $09 : STA $7F11FB, X
-    LDA $0A : STA $7F11FC, X
-    LDA $0B : STA $7F11FD, X
-    LDA $0C : STA $7F11FE, X
-    LDA $0D : STA $7F11FF, X
+    LDA $08 : STA.l $7F11FA, X
+    LDA $09 : STA.l $7F11FB, X
+    LDA $0A : STA.l $7F11FC, X
+    LDA $0B : STA.l $7F11FD, X
+    LDA $0C : STA.l $7F11FE, X
+    LDA $0D : STA.l $7F11FF, X
     
     LDY.w #$0005
     
@@ -471,7 +471,7 @@ Text_WritePreloadedNumber:
     
     .useLowerNybble
     
-    AND.w #$000F : CLC : ADC.w #$0004 : ORA.w #$0030 : STA $7F1200, X
+    AND.w #$000F : CLC : ADC.w #$0004 : ORA.w #$0030 : STA.l $7F1200, X
     
     INX : STX $1CD9
     
@@ -563,7 +563,7 @@ Text_DictionarySequence:
     
     .nextCharacter
     
-    LDA $0000, Y : STA $7F1200, X
+    LDA $0000, Y : STA.l $7F1200, X
     
     INX
     
@@ -1207,7 +1207,7 @@ Text_MessageHandler:
     
     ; Load a character (or maybe a command) from the text buffer
     ; (Dictionary doesn't matter here so AND with 0x7F)
-    LDA $7F1200, X : AND.w #$007F : SEC : SBC.w #$0066 : BPL .commandByte
+    LDA.l $7F1200, X : AND.w #$007F : SEC : SBC.w #$0066 : BPL .commandByte
     
     ; In this case it's a character
     LDA.w #$0000
@@ -1364,7 +1364,7 @@ VWF_RenderSingle:
     LDX $1CD9
     
     ; Is it a space (as in, " ")
-    LDA $7F1200, X : CMP.b #$59 : BEQ .blankCharacter
+    LDA.l $7F1200, X : CMP.b #$59 : BEQ .blankCharacter
     
     ; no, so make some noise bitch
     SEP #$30
@@ -1472,7 +1472,7 @@ VWF_RenderCharacter:
     
     LDX $1CD9
     
-    LDA $7F1200, X ; Load the character value
+    LDA.l $7F1200, X ; Load the character value
     
     SEP #$10
     
@@ -1481,7 +1481,7 @@ VWF_RenderCharacter:
     
     ; Take our current (H) position in the tile; add the width of the last character; store it as the our h pixel position on the line as a whole
     ; and then moves on to the next character's cumulative position index
-    LDX !cumulativePosIndex : CLC : ADC $7EC230, X : STA $7EC231, X
+    LDX !cumulativePosIndex : CLC : ADC.l $7EC230, X : STA.l $7EC231, X
     
     INX : STX !cumulativePosIndex
     
@@ -1497,7 +1497,7 @@ VWF_RenderCharacter:
     REP #$10
     
     ; $00[2] = the byte position in the vwfBuffer, I think
-    LDA $7EC22F, X : AND.w #$00FF : ASL A : STA $00
+    LDA.l $7EC22F, X : AND.w #$00FF : ASL A : STA $00
     
     LDX.w #$0000
     
@@ -1536,7 +1536,7 @@ VWF_RenderCharacter:
     ; If the bit is clear branch
     ASL !rowOfPixels : BCC .topHalf_unsetPlane0
     
-    LDA $7F0000, X : EOR .setMasks, Y : STA $7F0000, X
+    LDA.l $7F0000, X : EOR .setMasks, Y : STA.l $7F0000, X
     
     BRA .topHalf_doPlane1
     
@@ -1544,19 +1544,19 @@ VWF_RenderCharacter:
     
     ; Use masks to "erase" a dot
     ; Unset a bit in the bitmap
-    LDA $7F0000, X : AND .unsetMasks, Y : STA $7F0000, X
+    LDA.l $7F0000, X : AND .unsetMasks, Y : STA.l $7F0000, X
     
     .topHalf_doPlane1
     
     ASL !rowOfPixels+1 : BCC .topHalf_unsetPlane1
     
-    LDA $7F0001, X : EOR .setMasks, Y : STA $7F0001, X
+    LDA.l $7F0001, X : EOR .setMasks, Y : STA.l $7F0001, X
     
     BRA .topHalf_decWidthCounter
     
     .topHalf_unsetPlane1
     
-    LDA $7F0001, X : AND .unsetMasks, Y : STA $7F0001, X
+    LDA.l $7F0001, X : AND .unsetMasks, Y : STA.l $7F0001, X
     
     topHalf_decWidthCounter
     
@@ -1577,7 +1577,7 @@ VWF_RenderCharacter:
     
     LDA !rowOfPixels : BEQ .topHalf_noRemainingSetPixels
     
-    STA $7F0000, X
+    STA.l $7F0000, X
     
     .topHalf_noRemainingSetPixels
     
@@ -1603,7 +1603,7 @@ VWF_RenderCharacter:
     
     STX !charLinePos
     
-    LDX !cumulativePosIndex : LDA $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC $08 : TAY
+    LDX !cumulativePosIndex : LDA.l $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC $08 : TAY
     
     AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
     
@@ -1619,14 +1619,14 @@ VWF_RenderCharacter:
     ASL !rowOfPixels : BCC .bottomHalf_unsetPlane0
     
     ; Set a bit in the bitmap
-    LDA $7F0000, X : EOR .setMasks, Y : STA $7F0000, X
+    LDA.l $7F0000, X : EOR .setMasks, Y : STA.l $7F0000, X
     
     BRA .bottomHalf_doPlane1
     
     .bottomHalf_unsetPlane0
     
     ; Unset a bit in the bitmap
-    LDA $7F0000, X : AND .unsetMasks, Y : STA $7F0000, X
+    LDA.l $7F0000, X : AND .unsetMasks, Y : STA.l $7F0000, X
     
     .bottomHalf_doPlane1
     
@@ -1634,14 +1634,14 @@ VWF_RenderCharacter:
     ASL !rowOfPixels+1 : BCC .bottomHalf_unsetPlane1
     
     ; Set a bit in the bitmap
-    LDA $7F0001, X : EOR .setMasks, Y : STA $7F0001, X
+    LDA.l $7F0001, X : EOR .setMasks, Y : STA.l $7F0001, X
     
     BRA .bottomHalf_decWidthCounter
     
     .bottomHalf_unsetPlane1
     
     ; Unset a bit in the bitmap
-    LDA $7F0001, X : AND .unsetMasks, Y : STA $7F0001, X
+    LDA.l $7F0001, X : AND .unsetMasks, Y : STA.l $7F0001, X
     
     .bottomHalf_decWidthCounter
     
@@ -1665,7 +1665,7 @@ VWF_RenderCharacter:
     LDA !rowOfPixels : BEQ .bottomHalf_noRemainingSetPixels
     
     ; If there still is pixel data, the "remainder" will end up in the next tile
-    STA $7F0000, X
+    STA.l $7F0000, X
     
     .bottomHalf_noRemainingSetPixels
     
@@ -1723,7 +1723,7 @@ VWF_NextPicture:
     
     JSL PaletteFilterHistory
     
-    LDA $7EC007 : BNE .notDoneFiltering
+    LDA.l $7EC007 : BNE .notDoneFiltering
     
     .notInAttractMode
     
@@ -1882,13 +1882,13 @@ VWF_SelectPrevItem:
     
     CPX.b #$0F : BEQ .invalidSlot
     
-    LDA $7EF340, X : BMI .invalidValue : BNE VWF_ChangeItemTiles
+    LDA.l $7EF340, X : BMI .invalidValue : BNE VWF_ChangeItemTiles
     
     .invalidValue
     
     CPX.b #$20 : BNE .invalidSlot
     
-    LDA $7EF341, X : BNE VWF_ChangeItemTiles
+    LDA.l $7EF341, X : BNE VWF_ChangeItemTiles
     
     .invalidSlot
     
@@ -1913,13 +1913,13 @@ VWF_SelectNextItem:
     ; we have any bottles, not a tangible item.
     CPX.b #$0F : BEQ .invalidSlot
     
-    LDA $7EF340, X : BMI .invalidValue : BNE VWF_ChangeItemTiles
+    LDA.l $7EF340, X : BMI .invalidValue : BNE VWF_ChangeItemTiles
     
     .invalidValue
     
     CPX.b #$20 : BNE .invalidSlot
     
-    LDA $7EF341, X : BNE VWF_ChangeItemTiles
+    LDA.l $7EF341, X : BNE VWF_ChangeItemTiles
     
     .invalidSlot
     
@@ -1932,13 +1932,13 @@ VWF_ChangeItemTiles:
     ; Y = X, Y = X << 1, A is destroyed
     TXY : TXA : ASL A : TAX
     
-    LDA $0DFA93, X : STA $00
-    LDA $0DFA94, X : STA $01
+    LDA.l $0DFA93, X : STA $00
+    LDA.l $0DFA94, X : STA $01
     LDA.b #$0D     : STA $02
     
     TYX
     
-    LDA $7EF340, X
+    LDA.l $7EF340, X
     
     CPX.b #$20 : BEQ .isRupeesSlot
     CPX.b #$03 : BNE .notBombsSlot
@@ -1978,7 +1978,7 @@ VWF_IgnoreCommand:
     LDX $1CD9 : INX
     
     ; This determines how many lines to scroll up per frame
-    LDA $7F1200, X : STA $1CEA
+    LDA.l $7F1200, X : STA $1CEA
     
     ; Increment to the next byte in the stream
     INX : STX $1CD9
@@ -2248,13 +2248,13 @@ VWF_Scroll:
     ; (note this is unfiltered joypad 1 input) Look for A button presses
     LDA $F2 : AND.b #$80 : BEQ .A_ButtonNotHeld
     
-    LDA $001CEA ; Holding A down doesn't make any real difference
+    LDA.l $001CEA ; Holding A down doesn't make any real difference
     
     BRA .fuckingUselessAdditionalLogic
     
     .A_ButtonNotHeld
     
-    LDA $001CEA
+    LDA.l $001CEA
     
     .fuckingUselessAdditionalLogic
     
@@ -2311,7 +2311,7 @@ VWF_Scroll:
     
     SEP #$30
     
-    LDA $001CDF : CLC : ADC.b #$01 : STA $001CDF
+    LDA.l $001CDF : CLC : ADC.b #$01 : STA.l $001CDF
     
     AND.b #$0F : BNE .lineFinished
     
@@ -2320,20 +2320,20 @@ VWF_Scroll:
     REP #$30
     
     ; Move on to the next byte in the character stream
-    LDA $001CD9 : CLC : ADC.w #$0001 : STA $001CD9
+    LDA.l $001CD9 : CLC : ADC.w #$0001 : STA.l $001CD9
     
     ; Signify that we are on row 3 (figure head)
-    LDA.w #$0050 : STA $001CDD
+    LDA.w #$0050 : STA.l $001CDD
     
     ; Signify that we are on row 3 (actually does something)
-    LDA $0ED0C7 : STA $000722
+    LDA.l $0ED0C7 : STA.l $000722
     
     ; Signify that we need to draw a new line
-    LDA.w #$0001 : STA $000720
+    LDA.w #$0001 : STA.l $000720
     
     SEP #$30
     
-    LDA.b #$00 : STA $001CE6
+    LDA.b #$00 : STA.l $001CE6
     
     STZ $02
     
@@ -2369,7 +2369,7 @@ VWF_SetLine:
     LDX $1CD9
     
     ; Possible values are 0x74, 0x75, or 0x76
-    LDA $7F1200, X : AND.w #$0003 : ASL A : TAX
+    LDA.l $7F1200, X : AND.w #$0003 : ASL A : TAX
     
     LDA VWF_LinePositions, X : STA $1CDD
     
@@ -2408,7 +2408,7 @@ VWF_SetPalette:
     ; Sorry folks this is an abandoned feature - the command is useless, and probably rightly
     ; so in this VWF's design. The only way you could change color in this engine is to make sure
     ; you've started a new tile, which would be terribly inconvenient for a VWF.
-    LDA $7F1200, X : AND.b #$07 : ASL #2 : ORA $1CDC : STA $1CDC
+    LDA.l $7F1200, X : AND.b #$07 : ASL #2 : ORA $1CDC : STA $1CDC
     
     INX : STX $1CD9
     
@@ -2462,7 +2462,7 @@ VWF_WaitLoop:
     
     LDX $1CD9
     
-    LDA $7F1201, X : AND.w #$000F : ASL A : TAX
+    LDA.l $7F1201, X : AND.w #$000F : ASL A : TAX
     
     LDA Text_WaitDurations, X : STA $1CE0
     
@@ -2504,7 +2504,7 @@ VWF_PlaySound:
     LDX $1CD9 : INX
     
     ; Plays a sound effect
-    LDA $7F1200, X : STA $012F
+    LDA.l $7F1200, X : STA $012F
     
     INX : STX $1CD9
     
@@ -2525,7 +2525,7 @@ VWF_SetSpeed:
     LDX $1CD9 : INX
     
     ; Speed, also mirror location for speed
-    LDA $7F1200, X : STA $1CD6 : STA $1CD5
+    LDA.l $7F1200, X : STA $1CD6 : STA $1CD5
     
     ; Move to the next byte
     INX : STX $1CD9
@@ -2547,7 +2547,7 @@ VWF_Command7B:
     
     INC $1CD9 : LDX $1CD9
     
-    LDA $7F1200, X : AND.w #$007F : ASL #2 : TAX
+    LDA.l $7F1200, X : AND.w #$007F : ASL #2 : TAX
     
     LDY $1CDD
     
@@ -2578,7 +2578,7 @@ VWF_Command7C:
     
     INC $1CD9 : LDX $1CD9
     
-    LDA $7F1200, X : AND.w #$007F : ASL #3 : TAX
+    LDA.l $7F1200, X : AND.w #$007F : ASL #3 : TAX
     
     LDA.w #$0002 : STA $00
 
@@ -3034,10 +3034,10 @@ Text_GenerateMessagePointers:
     
     .nextPointer
     
-    LDA $00 : STA $7F71C0, X
+    LDA $00 : STA.l $7F71C0, X
     
     ; $7F71C0[3] = #$1C8000 on the first iteration
-    LDA $01 : STA $7F71C1, X
+    LDA $01 : STA.l $7F71C1, X
     
     INX #3
     

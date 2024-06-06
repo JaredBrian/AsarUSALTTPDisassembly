@@ -35,7 +35,7 @@ DiggingGameGuy_Introduction:
     ; If Link is not below this sprite.
     JSR Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
         ; Do we have a follower?
-        LDA $7EF3CC : BNE .freak_out_over_tagalong
+        LDA.l $7EF3CC : BNE .freak_out_over_tagalong
     
         ; "Welcome to the treasure field. The object is to dig as many..."
         LDA.b #$87
@@ -71,9 +71,9 @@ DiggingGameGuy_DoYouWantToPlay:
     REP #$20
     
     ; Do you have eighty rupees?
-    LDA $7EF360 : CMP.w #$0050 : BCC .player_cant_afford
+    LDA.l $7EF360 : CMP.w #$0050 : BCC .player_cant_afford
         ; Subtract the eighty rupees
-        SBC.w #$0050 : STA $7EF360
+        SBC.w #$0050 : STA.l $7EF360
         
         SEP #$30
         
@@ -90,7 +90,7 @@ DiggingGameGuy_DoYouWantToPlay:
         
         LDA.b #$50 : STA $0DF0, X
         
-        LDA.b #$00 : STA $7FFE00 : STA $7FFE01
+        LDA.b #$00 : STA.l $7FFE00 : STA.l $7FFE01
         
         LDA.b #$05 : STA $0E00, X
         
@@ -217,7 +217,7 @@ DiggingGameGuy_AttemptPrizeSpawnLong:
 {
     PHB : PHK : PLB
     
-    LDA $7FFE01 : INC A : STA $7FFE01
+    LDA.l $7FFE01 : INC A : STA.l $7FFE01
     
     JSR DiggingGameGuy_AttemptPrizeSpawn
     
@@ -294,13 +294,13 @@ DiggingGameGuy_GiveItem:
     ; limit of 35 holes per session which I find believable, but the spawn
     ; rate for the heart piece is also roughly 3%, which means it will
     ; likely take several attempts to get the heart piece.
-    LDA $7FFE01 : CMP.b #$19 : BCC .nothing
+    LDA.l $7FFE01 : CMP.b #$19 : BCC .nothing
     
-    LDA $7FFE00 : BNE .nothing
+    LDA.l $7FFE00 : BNE .nothing
     
     JSL GetRandomInt : AND.b #$03 : BNE .nothing
     
-    LDA.b #$EB : STA $7FFE00
+    LDA.b #$EB : STA.l $7FFE00
     
     .spawn_item
     

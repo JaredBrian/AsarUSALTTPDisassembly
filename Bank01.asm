@@ -9698,13 +9698,13 @@ Dungeon_DetectStaircase:
             CMP.b #$38 : BNE .mystery
                 ; Gets called when travelling up a straight inter-room
                 ; staircase.
-                JSL $02B81C ; $01381C IN ROM
+                JSL.l $02B81C ; $01381C IN ROM
                 
                 BRA .BRANCH_ZETA
                 
             .mystery
             
-            JSL $02B77A ; $01377A IN ROM
+            JSL.l $02B77A ; $01377A IN ROM
             
             .BRANCH_ZETA
             
@@ -9745,7 +9745,7 @@ Dungeon_DetectStaircase:
                     LDX.b #$13
                     
                     CMP.b #$39 : BEQ .BRANCH_KAPPA
-                        JSL $07F25A ; $03F25A IN ROM
+                        JSL.l $07F25A ; $03F25A IN ROM
                         
                         ; Going up or down stairs mode.
                         LDX.b #$0E : STX.b $11
@@ -9756,7 +9756,7 @@ Dungeon_DetectStaircase:
                 
                 STX.b $11
                 
-                JSL $07F3F3 ; $03F3F3 IN ROM
+                JSL.l $07F3F3 ; $03F3F3 IN ROM
                 
                 RTS
             
@@ -12691,7 +12691,7 @@ PushBlock_Main:
             CMP.w #$0002 : BNE .not_block_phase_2
                 SEP #$30
                 
-                JSL $07EDB5 ; $03EDB5 IN ROM
+                JSL.l $07EDB5 ; $03EDB5 IN ROM
                 
                 REP #$30
                 
@@ -12707,7 +12707,7 @@ PushBlock_Main:
             CMP.w #$0004 : BNE .next_block
                 SEP #$20
                 
-                JSL $07EDF9 ; $03EDF9 IN ROM
+                JSL.l $07EDF9 ; $03EDF9 IN ROM
                 
                 BRA .next_block
                 
@@ -16363,7 +16363,7 @@ DeleteSwampPoolWaterOverlay:
 ; $00F046-$00F062 JUMP LOCATION
 Underworld_FloodSwampWater_PrepTilemap:
 {
-    JSL $0091C4 ; $0011C4 IN ROM
+    JSL.l $0091C4 ; $0011C4 IN ROM
     
     LDA.w $045C : CLC : ADC.b #$04 : STA.w $045C
     
@@ -16549,7 +16549,7 @@ Underworld_FloodSwampWater_CoverFloor:
     LDA.w #$0688 : SEC : SBC.b $E8 : SEC : SBC.w $0684 : STA.w $0674
     CLC : ADC.w $068A : STA.b $0A
     
-    JSL $00F660 ; $007660 IN ROM
+    JSL.l $00F660 ; $007660 IN ROM
     
     RTL
 }
@@ -16582,7 +16582,7 @@ Underworld_FloodSwampWater_RiseInLevel:
             
             LDA.w #$0005 : STA.b $0E
             
-            JSL $01F0C9 ; $00F0C9 IN ROM
+            JSL.l $01F0C9 ; $00F0C9 IN ROM
             
             .BRANCH_DELTA
             
@@ -16695,7 +16695,7 @@ Watergate_MainJumpTable:
 ; $00F2FE-$00F30B LONG JUMP LOCATION
 Watergate_Main:
 {
-    JSL $00F734 ; $007734 IN ROM
+    JSL.l $00F734 ; $007734 IN ROM
     
     LDA.b $B0 : ASL : TAX
     
@@ -16792,7 +16792,7 @@ FloodDam_PrepTiles:
 {
     STZ.w $0418
     
-    JSL $0091C4 ; $0011C4 IN ROM
+    JSL.l $0091C4 ; $0011C4 IN ROM
     
     LDA.w $045C : CLC : ADC.b #$04 : STA.w $045C
     
@@ -18286,7 +18286,7 @@ Player_LedgeJumpInducedLayerChange:
     
     STZ.w $047A
     
-    JML $02B8CB ; $0138CB IN ROM
+    JML.l $02B8CB ; $0138CB IN ROM
 }
 
 ; ==============================================================================

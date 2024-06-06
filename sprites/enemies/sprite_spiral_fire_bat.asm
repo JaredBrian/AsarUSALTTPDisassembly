@@ -42,7 +42,7 @@ Sprite_SpiralFireBat:
     
     LDX $00
     
-    LDA.b #$10 : STA $7FF800, X
+    LDA.b #$10 : STA.l $7FF800, X
     
     LDA.b #$4F
     
@@ -52,7 +52,7 @@ Sprite_SpiralFireBat:
     
     .BRANCH_BETA
     
-    STA $7FF90E, X
+    STA.l $7FF90E, X
     
     PLX
     

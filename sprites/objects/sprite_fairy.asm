@@ -118,7 +118,7 @@ Fairy_HandleCapture:
     
     TAX
     
-    LDA.b #$06 : STA $7EF35C, X
+    LDA.b #$06 : STA.l $7EF35C, X
     
     JSL HUD.RefreshIconLong
     

@@ -14,7 +14,7 @@ Garnish_WinderTrail:
     
     PHY
     
-    LDA $7FF92C, X : TAY
+    LDA.l $7FF92C, X : TAY
     
     ; Copy palette and other property info from the parent sprite object.
     LDA $0F50, Y : ORA $0B89, Y

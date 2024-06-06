@@ -24,7 +24,7 @@ BugNetKid_Resting:
 {
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .dont_awaken
     JSR Sprite_CheckDamageToPlayer_same_layer : BCC .dont_awaken
-        LDA $7EF35C : ORA $7EF35D : ORA $7EF35E : ORA $7EF35F
+        LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
         CMP.b #$02 : BCC .gotsNoBottles
         
             INC $0D80, X

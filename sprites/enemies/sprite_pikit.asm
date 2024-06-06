@@ -217,9 +217,9 @@ Pikit_AttemptItemGrab:
     
     CMP.b #$01 : BNE .not_hungry_for_bombs
     
-    LDA $7EF343 : BEQ .player_has_none
+    LDA.l $7EF343 : BEQ .player_has_none
     
-    DEC A : STA $7EF343
+    DEC A : STA.l $7EF343
     
     RTS
     
@@ -236,9 +236,9 @@ Pikit_AttemptItemGrab:
     
     CMP.b #$02 : BNE .not_wanting_arrows
     
-    LDA $7EF377 : BEQ .player_has_none
+    LDA.l $7EF377 : BEQ .player_has_none
     
-    DEC A : STA $7EF377
+    DEC A : STA.l $7EF377
     
     RTS
     
@@ -249,9 +249,9 @@ Pikit_AttemptItemGrab:
     REP #$20
     
     ; Pikit steals a rupee, if any are available
-    LDA $7EF360 : BEQ .player_has_none
+    LDA.l $7EF360 : BEQ .player_has_none
     
-    DEC A : STA $7EF360
+    DEC A : STA.l $7EF360
     
     .return
     
@@ -262,13 +262,13 @@ Pikit_AttemptItemGrab:
     .not_wanting_rupees
     
     ; Can't take a shield Link doesn't have
-    LDA $7EF35A : STA $0E30, X : BEQ .player_has_none
+    LDA.l $7EF35A : STA $0E30, X : BEQ .player_has_none
     
     ; Can't take the Mirror Shield, thank Jebus.
     CMP.b #$03 : BEQ .cant_take_that_item
     
     ; Yo shield got took, asswipe.
-    LDA.b #$00 : STA $7EF35A
+    LDA.b #$00 : STA.l $7EF35A
     
     RTS
 }

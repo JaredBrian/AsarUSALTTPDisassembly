@@ -17,7 +17,7 @@ Garnish_SpawnPyramidDebris:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -25,15 +25,15 @@ Garnish_SpawnPyramidDebris:
     
     .empty_slot
     
-    LDA.b #$13 : STA $7FF800, X : STA $0FB4
+    LDA.b #$13 : STA.l $7FF800, X : STA $0FB4
     
-    LDA.b #$E8 : CLC : ADC $00 : STA $7FF83C, X
-    LDA.b #$60 : CLC : ADC $01 : STA $7FF81E, X
+    LDA.b #$E8 : CLC : ADC $00 : STA.l $7FF83C, X
+    LDA.b #$60 : CLC : ADC $01 : STA.l $7FF81E, X
     
-    LDA $02 : STA $7FF8B4, X
-    LDA $03 : STA $7FF896, X
+    LDA $02 : STA.l $7FF8B4, X
+    LDA $03 : STA.l $7FF896, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$30 : STA $7FF90E, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$30 : STA.l $7FF90E, X
     
     PLX
     
@@ -47,7 +47,7 @@ Pool_Garnish_PyramidDebris:
 {
     .self_terminate
     
-    LDA.b #$00 : STA $7FF800, X
+    LDA.b #$00 : STA.l $7FF800, X
     
     RTS
 }
@@ -61,17 +61,17 @@ Garnish_PyramidDebris:
     
     JSR Garnish_Move_XY
     
-    LDA $7FF896, X : CLC : ADC.b #$03 : STA $7FF896, X
+    LDA.l $7FF896, X : CLC : ADC.b #$03 : STA.l $7FF896, X
     
     LDY.b #$00
     
     ; Check if off screen (X)
-    LDA $7FF83C, X : SEC : SBC $E2 : CMP.b #$F8 : BCS .self_terminate
+    LDA.l $7FF83C, X : SEC : SBC $E2 : CMP.b #$F8 : BCS .self_terminate
     
     STA ($90), Y
     
     ; Check if off screen (Y)
-    LDA $7FF81E, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
+    LDA.l $7FF81E, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
     
                  INY : STA ($90), Y
     LDA.b #$5C : INY : STA ($90), Y

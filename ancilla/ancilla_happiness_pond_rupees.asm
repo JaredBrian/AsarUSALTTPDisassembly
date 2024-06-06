@@ -13,7 +13,7 @@ Ancilla_HappinessPondRupees:
     
     .next_rupee_slot
     
-    LDA $7F586C, X : BEQ .inactive_rupee
+    LDA.l $7F586C, X : BEQ .inactive_rupee
     
     PHX
     
@@ -21,9 +21,9 @@ Ancilla_HappinessPondRupees:
     
     PLX
     
-    LDA $7F58AA, X : CMP.b #$02 : BNE .dont_deactivate_rupee
+    LDA.l $7F58AA, X : CMP.b #$02 : BNE .dont_deactivate_rupee
     
-    LDA.b #$00 : STA $7F586C, X
+    LDA.b #$00 : STA.l $7F586C, X
     
     .inactive_rupee
     .dont_deactivate_rupee
@@ -34,7 +34,7 @@ Ancilla_HappinessPondRupees:
     
     .find_active_rupee_loop
     
-    LDA $7F586C, X : BNE .not_all_inactive
+    LDA.l $7F586C, X : BNE .not_all_inactive
     
     DEX : BPL .find_active_rupee_loop
     
@@ -148,31 +148,31 @@ HappinessPondRupees_LoadRupeeeState:
     ; apart, except there's a 2 byte gap between the arrays starting at
     ; $7F586C and $7F587A. Why?
     
-    LDA $7F5824, X : STA $0BFA, Y
-    LDA $7F5830, X : STA $0C0E, Y
+    LDA.l $7F5824, X : STA $0BFA, Y
+    LDA.l $7F5830, X : STA $0C0E, Y
     
-    LDA $7F583C, X : STA $0C04, Y
-    LDA $7F5848, X : STA $0C18, Y
+    LDA.l $7F583C, X : STA $0C04, Y
+    LDA.l $7F5848, X : STA $0C18, Y
     
-    LDA $7F5854, X : STA $029E, Y
+    LDA.l $7F5854, X : STA $029E, Y
     
-    LDA $7F5800, X : STA $0C22, Y
+    LDA.l $7F5800, X : STA $0C22, Y
     
-    LDA $7F580C, X : STA $0C2C, Y
+    LDA.l $7F580C, X : STA $0C2C, Y
     
-    LDA $7F5818, X : STA $0294, Y
+    LDA.l $7F5818, X : STA $0294, Y
     
-    LDA $7F5886, X : STA $0C36, Y
+    LDA.l $7F5886, X : STA $0C36, Y
     
-    LDA $7F5892, X : STA $0C40, Y
+    LDA.l $7F5892, X : STA $0C40, Y
     
-    LDA $7F589E, X : STA $02A8, Y
+    LDA.l $7F589E, X : STA $02A8, Y
     
-    LDA $7F587A, X : STA $0C5E, Y
+    LDA.l $7F587A, X : STA $0C5E, Y
     
-    LDA $7F58AA, X : STA $0C54, Y
+    LDA.l $7F58AA, X : STA $0C54, Y
     
-    LDA $7F5860, X : BEQ .timer_expired
+    LDA.l $7F5860, X : BEQ .timer_expired
     
     DEC A
     
@@ -188,31 +188,31 @@ HappinessPondRupees_LoadRupeeeState:
 ; $044924-$044986 LOCAL JUMP LOCATION
 HappinessPondRupees_StoreRupeeState:
 {
-    LDA $0BFA, Y : STA $7F5824, X
-    LDA $0C0E, Y : STA $7F5830, X
+    LDA $0BFA, Y : STA.l $7F5824, X
+    LDA $0C0E, Y : STA.l $7F5830, X
     
-    LDA $0C04, Y : STA $7F583C, X
-    LDA $0C18, Y : STA $7F5848, X
+    LDA $0C04, Y : STA.l $7F583C, X
+    LDA $0C18, Y : STA.l $7F5848, X
     
-    LDA $029E, Y : STA $7F5854, X
+    LDA $029E, Y : STA.l $7F5854, X
     
-    LDA $0C22, Y : STA $7F5800, X
+    LDA $0C22, Y : STA.l $7F5800, X
     
-    LDA $0C2C, Y : STA $7F580C, X
+    LDA $0C2C, Y : STA.l $7F580C, X
     
-    LDA $0294, Y : STA $7F5818, X
+    LDA $0294, Y : STA.l $7F5818, X
     
-    LDA $0C36, Y : STA $7F5886, X
+    LDA $0C36, Y : STA.l $7F5886, X
     
-    LDA $0C40, Y : STA $7F5892, X
+    LDA $0C40, Y : STA.l $7F5892, X
     
-    LDA $02A8, Y : STA $7F589E, X
+    LDA $02A8, Y : STA.l $7F589E, X
     
-    LDA $0C5E, Y : STA $7F587A, X
+    LDA $0C5E, Y : STA.l $7F587A, X
     
-    LDA $0C68, Y : STA $7F5860, X
+    LDA $0C68, Y : STA.l $7F5860, X
     
-    LDA $0C54, Y : STA $7F58AA, X
+    LDA $0C54, Y : STA.l $7F58AA, X
     
     RTS
 }

@@ -24,7 +24,7 @@ Ancilla_QuakeSpell:
     LDX.b #$04
     
     ; \bug Maybe? Note the short branch a few lines down.
-    LDA $7F5805, X : CMP $B713, X : BEQ .inactive_piece
+    LDA.l $7F5805, X : CMP $B713, X : BEQ .inactive_piece
     
     JSR QuakeSpell_DrawFirstGroundBolts
     
@@ -67,7 +67,7 @@ Ancilla_QuakeSpell:
     LDA $8A : CMP.b #$47 : BNE .not_turtle_rock_trigger
     
     ; Check event overlay flag for Turtle Rock (overworld)
-    LDA $7EF2C7 : AND.b #$20 : BNE .not_turtle_rock_trigger
+    LDA.l $7EF2C7 : AND.b #$20 : BNE .not_turtle_rock_trigger
     
     LDY.b #$03 : JSR Ancilla_CheckIfEntranceTriggered
     
@@ -103,10 +103,10 @@ QuakeSpell_ShakeScreen:
 {
     REP #$20
     
-    LDA $7F581E : STA $011C
+    LDA.l $7F581E : STA $011C
     
     ; Toggle rumble screen offset.
-    EOR.w #$FFFF : INC A : STA $7F581E
+    EOR.w #$FFFF : INC A : STA.l $7F581E
     
     SEP #$20
     
@@ -135,19 +135,19 @@ QuakeSpell_ExecuteBolts:
     
     ; Cache overall state variable here for now. It will be possibly
     ; modified but certainly written back by the end of the routine
-    LDA $0C54, X : STA $7F580F
+    LDA $0C54, X : STA.l $7F580F
     
-    LDA $7F580A : TAX
+    LDA.l $7F580A : TAX
     
     .next_component
     
-    LDA $7F5805, X : CMP .limits, X : BEQ .component_inactive
+    LDA.l $7F5805, X : CMP .limits, X : BEQ .component_inactive
     
-    LDA $7F5800, X : DEC A : STA $7F5800, X : BPL .draw_bolt
+    LDA.l $7F5800, X : DEC A : STA.l $7F5800, X : BPL .draw_bolt
     
-    LDA.b #$01 : STA $7F5800, X
+    LDA.b #$01 : STA.l $7F5800, X
     
-    LDA $7F5805, X : INC A : STA $7F5805, X
+    LDA.l $7F5805, X : INC A : STA.l $7F5805, X
     
     CMP .limits, X : BEQ .component_inactive
     
@@ -159,7 +159,7 @@ QuakeSpell_ExecuteBolts:
     LDA.b #$0C : JSR Ancilla_DoSfx2_NearPlayer
     
     ; Add an extra... something.
-    LDA.b #$01 : STA $7F580A
+    LDA.b #$01 : STA.l $7F580A
     
     BRA .draw_bolt
     
@@ -171,7 +171,7 @@ QuakeSpell_ExecuteBolts:
     CMP.b #$02 : BNE .dont_activate_third_state
     
     ; Switch to 5 somethings instead of 1?
-    LDA.b #$04 : STA $7F580A
+    LDA.b #$04 : STA.l $7F580A
     
     BRA .draw_bolt
     
@@ -182,7 +182,7 @@ QuakeSpell_ExecuteBolts:
     
     CMP.b #$07 : BNE .draw_bolt
     
-    LDA.b #$01 : STA $7F580F
+    LDA.b #$01 : STA.l $7F580F
     
     .draw_bolt
     
@@ -194,7 +194,7 @@ QuakeSpell_ExecuteBolts:
     
     PLX
     
-    LDA $7F580F : STA $0C54, X
+    LDA.l $7F580F : STA $0C54, X
     
     RTS
 }
@@ -217,7 +217,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
 {
     PHX
     
-    LDA $7F5805, X : CLC : ADC .pointer_offsets, X : ASL A : TAY
+    LDA.l $7F5805, X : CLC : ADC .pointer_offsets, X : ASL A : TAY
     
     ; Start pointer.
     LDA .pointers+0, Y : STA $72
@@ -249,7 +249,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     
     STA $02
     
-    LDA $7F580D : CLC : ADC $02 : SEC : SBC $E2 : STA $02
+    LDA.l $7F580D : CLC : ADC $02 : SEC : SBC $E2 : STA $02
     
     INX : TXY
     
@@ -261,7 +261,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     
     STA $00
     
-    LDA $7F580B : CLC : ADC $00 : SEC : SBC $E8 : STA $00
+    LDA.l $7F580B : CLC : ADC $00 : SEC : SBC $E8 : STA $00
     
     INX
     

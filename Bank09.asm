@@ -107,14 +107,14 @@ Tagalong_Disable:
 {
     ; Get rid of the tagalong following Link if it's
     ; Kiki the Monkey or the creepy Middle Aged dude with the sign.
-    LDA $7EF3CC
+    LDA.l $7EF3CC
     
     CMP.b #$0A : BEQ .kill_tagalong
     CMP.b #$09 : BNE .spare_tagalong
     
     .terminate_tagalong
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     .spare_tagalong
     
@@ -162,7 +162,7 @@ AddSomarianBlockDivide:
     
     PHX
     
-    TAX : LDA $08806F, X
+    TAX : LDA.l $08806F, X
     
     PLX
     
@@ -249,7 +249,7 @@ GiveRupeeGift:
     REP #$20
     
     ; Add this amount to my rupee collection.
-    LDA $7EF360 : CLC : ADC $00 : STA $7EF360
+    LDA.l $7EF360 : CLC : ADC $00 : STA.l $7EF360
     
     SEP #$20
     
@@ -562,11 +562,11 @@ Sprite_ReinitWarpVortex:
     
     .spawnSucceeded
     
-    LDA $001ABF : STA $0D10, Y
-    LDA $001ACF : STA $0D30, Y
+    LDA.l $001ABF : STA $0D10, Y
+    LDA.l $001ACF : STA $0D30, Y
     
-    LDA $001ADF : CLC : ADC.b #$08 : STA $0D00, Y
-    LDA $001AEF : ADC.b #$00 : STA $0D20, Y
+    LDA.l $001ADF : CLC : ADC.b #$08 : STA $0D00, Y
+    LDA.l $001AEF : ADC.b #$00 : STA $0D20, Y
     
     LDA.b #$00 : STA $0F20, Y : INC A : STA $0BA0, Y
     
@@ -860,7 +860,7 @@ Dungeon_ResetSprites:
     
     ; Tells the game that next time we enter that room the sprites need
     ; a complete fresh (e.g. if any have gotten killed)
-    LDA.w #$0000 : STA $7FDF80, X
+    LDA.w #$0000 : STA.l $7FDF80, X
     
     .nullEntry
     .alreadyInList
@@ -926,15 +926,15 @@ Dungeon_CacheTransSprites:
     LDA $0D80, X : STA $1DE0, X
     LDA $0E60, X : STA $1DF0, X
     
-    LDA $0DA0, X : STA $7FFA5C, X
-    LDA $0DB0, X : STA $7FFA6C, X
-    LDA $0E90, X : STA $7FFA7C, X
-    LDA $0E80, X : STA $7FFA8C, X
-    LDA $0F70, X : STA $7FFA9C, X
-    LDA $0DF0, X : STA $7FFAAC, X
+    LDA $0DA0, X : STA.l $7FFA5C, X
+    LDA $0DB0, X : STA.l $7FFA6C, X
+    LDA $0E90, X : STA.l $7FFA7C, X
+    LDA $0E80, X : STA.l $7FFA8C, X
+    LDA $0F70, X : STA.l $7FFA9C, X
+    LDA $0DF0, X : STA.l $7FFAAC, X
     
-    LDA $7FF9C2, X : STA $7FFACC, X
-    LDA $0BA0, X   : STA $7FFADC, X
+    LDA.l $7FF9C2, X : STA.l $7FFACC, X
+    LDA $0BA0, X   : STA.l $7FFADC, X
     
     .inactiveSprite
     
@@ -1009,7 +1009,7 @@ Sprite_DisableAll:
     .disableSpecialAnimations
 
     ; disable all the special animations currently ongoing
-    LDA.b #$00 : STA $7FF800, X
+    LDA.b #$00 : STA.l $7FF800, X
     
     DEX : BPL .disableSpecialAnimations
     
@@ -1116,7 +1116,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
     LDA $02 : ASL A : TAY
     
     ; Keep this fucker from respawning
-    LDA $7FDF80, X : ORA .flags, Y : STA $7FDF80, X
+    LDA.l $7FDF80, X : ORA .flags, Y : STA.l $7FDF80, X
     
     PLX
     
@@ -1187,7 +1187,7 @@ Dungeon_LoadSprite:
     ; Normal sprite, not an overlord.
     
     ; Checking for sprites with a special specific property
-    LDA $0DB725, X : AND.b #$01
+    LDA.l $0DB725, X : AND.b #$01
     
     BNE .notSpawnedYet
     
@@ -1202,7 +1202,7 @@ Dungeon_LoadSprite:
     LDA !spriteSlot : ASL A : TAY
     
     ; Apparently information on whether stuff has been loaded is stored for each room?
-    LDA $7FDF80, X : AND $C2D5, Y
+    LDA.l $7FDF80, X : AND $C2D5, Y
     
     PLX : PLY
     
@@ -1349,7 +1349,7 @@ Sprite_ResetAll:
     STZ $02F0 : STZ $0FC6 : STZ $0B6A
     STZ $0FB3
     
-    LDA $7EF3CC : CMP.b #$0D
+    LDA.l $7EF3CC : CMP.b #$0D
     
     ; branch if Link has the super bomb tagalong following him
     BEQ .superBomb
@@ -1365,7 +1365,7 @@ Sprite_ResetAll:
     
     .clearLocationBuffer
     
-    STA $7FDF80, X : DEX
+    STA.l $7FDF80, X : DEX
     
     BPL .clearLocationBuffer
     
@@ -1373,7 +1373,7 @@ Sprite_ResetAll:
     
     .clearDeathBuffer
     
-    STA $7FEF80, X : DEX
+    STA.l $7FEF80, X : DEX
     
     BPL .clearDeathBuffer
     
@@ -1438,7 +1438,7 @@ LoadOverworldSprites:
     SEP #$20
     
     ; load the game state variable
-    LDA $7EF3C5
+    LDA.l $7EF3C5
     
     CMP.b #$03 : BEQ .secondPart
     CMP.b #$02 : BEQ .firstPart
@@ -1498,7 +1498,7 @@ LoadOverworldSprites:
     LDA ($00), Y : AND.b #$0F : ORA $07 : STA $05
     
     ; The sprite / overlord index as stored as one plus it's normal index. Don't ask me why yet.
-    INY : LDA ($00), Y : LDX $05 : INC A : STA $7FDF80, X ; Load them into what I guess you might call a sprite map.
+    INY : LDA ($00), Y : LDX $05 : INC A : STA.l $7FDF80, X ; Load them into what I guess you might call a sprite map.
     
     ; Move on to the next sprite / overlord.
     INY
@@ -2362,11 +2362,11 @@ Garnish_ScatterDebris:
     
     JSR Garnish_PrepOamCoord
     
-    LDA $7FF9FE, X : STA $05
+    LDA.l $7FF9FE, X : STA $05
     
     LDA $0FC6 : CMP.b #$03 : BCS .BRANCH_ALPHA
     
-    LDA $7FF92C, X : CMP.b #$03 : BNE .BRANCH_BETA
+    LDA.l $7FF92C, X : CMP.b #$03 : BNE .BRANCH_BETA
     
     JSR ScatterDebris_Draw
     
@@ -2380,7 +2380,7 @@ Garnish_ScatterDebris:
     
     TAY
     
-    LDA $7FF90E, X : LSR #2 : EOR.b #$07 : ASL #2
+    LDA.l $7FF90E, X : LSR #2 : EOR.b #$07 : ASL #2
     
     CPY.b #$04 : BEQ .BRANCH_GAMMA
     CPY.b #$02 : BNE .BRANCH_DELTA
@@ -2481,9 +2481,9 @@ Pool_ScatterDebris_Draw:
 ; $04F198-$04F1F7 LOCAL JUMP LOCATION
 ScatterDebris_Draw:
 {
-    LDA $7FF90E, X : CMP.b #$10 : BNE .termination_delay
+    LDA.l $7FF90E, X : CMP.b #$10 : BNE .termination_delay
     
-    LDA.b #$00 : STA $7FF800, X
+    LDA.b #$00 : STA.l $7FF800, X
     
     .termination_delay
     
@@ -2573,7 +2573,7 @@ Sprite_SelfTerminate:
     
     LDA $00 : AND.b #$07 : TAX
     
-    LDA [$01] : AND $09F24B, X : STA [$01]
+    LDA [$01] : AND.l $09F24B, X : STA [$01]
     
     PLX
     

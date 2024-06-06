@@ -18,8 +18,8 @@ CrystalMaiden_Configure:
     ; Enable color addition on backdrop/obj/bg1/bg2
     LDA.b #$33 : STA $9A
     
-    LDA.b #$00 : STA $7EC007
-                 STA $7EC009
+    LDA.b #$00 : STA.l $7EC007
+                 STA.l $7EC009
     
     PHX
     
@@ -30,14 +30,14 @@ CrystalMaiden_Configure:
     
     REP #$20
     
-    LDA.l .palette + $00 : STA $7EC5E0
-    LDA.l .palette + $02 : STA $7EC5E2
-    LDA.l .palette + $04 : STA $7EC5E4
-    LDA.l .palette + $06 : STA $7EC5E6
-    LDA.l .palette + $08 : STA $7EC5E8
-    LDA.l .palette + $0A : STA $7EC5EA
-    LDA.l .palette + $0C : STA $7EC5EC
-    LDA.l .palette + $0E : STA $7EC5EE
+    LDA.l .palette + $00 : STA.l $7EC5E0
+    LDA.l .palette + $02 : STA.l $7EC5E2
+    LDA.l .palette + $04 : STA.l $7EC5E4
+    LDA.l .palette + $06 : STA.l $7EC5E6
+    LDA.l .palette + $08 : STA.l $7EC5E8
+    LDA.l .palette + $0A : STA.l $7EC5EA
+    LDA.l .palette + $0C : STA.l $7EC5EC
+    LDA.l .palette + $0E : STA.l $7EC5EE
     
     SEP #$30
     
@@ -109,7 +109,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     .load_tagalong_graphics
     
-    STA $7EF3CC
+    STA.l $7EF3CC
     
     PHX
     
@@ -117,7 +117,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     PLX
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     STZ $0428
     
@@ -302,7 +302,7 @@ CrystalMaiden_FilterPalette:
     
     PLX
     
-    LDA $7EC007 : BNE .filtering_not_finished
+    LDA.l $7EC007 : BNE .filtering_not_finished
     
     INC $0D80, X
     
@@ -337,9 +337,9 @@ CrystalMaiden_ShowMessage:
     ; Load the dungeon index. Is it the Dark Palace?
     LDA $040C : SEC : SBC.b #$0A : TAY : CPY.b #$02 : BNE .not_dark_palace
     
-    LDA $7EF3C7 : CMP.b #$07 : BCS .dont_update_map_icons
+    LDA.l $7EF3C7 : CMP.b #$07 : BCS .dont_update_map_icons
     
-    LDA.b #$07 : STA $7EF3C7
+    LDA.b #$07 : STA.l $7EF3C7
     
     .dont_update_map_icons
     .not_dark_palace
@@ -349,7 +349,7 @@ CrystalMaiden_ShowMessage:
     
     ; How many Crystals do we have?
     ; We have all the crystals.
-    LDA $7EF37A : AND.b #$7F : CMP.b #$7F : BEQ .have_all_crystals
+    LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BEQ .have_all_crystals
     
     LDY.b #$10 ; Otherwise Zelda says something different.
     
@@ -364,10 +364,10 @@ CrystalMaiden_ShowMessage:
     
     INC $0D80, X
     
-    LDA $7EF37A : AND.b #$7F : CMP.b #$7F : BNE .dont_have_all_crystals
+    LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BNE .dont_have_all_crystals
     
     ; Update the map icon to just be Ganon's Tower
-    LDA.b #$08 : STA $7EF3C7
+    LDA.b #$08 : STA.l $7EF3C7
     
     .dont_have_all_crystals
     

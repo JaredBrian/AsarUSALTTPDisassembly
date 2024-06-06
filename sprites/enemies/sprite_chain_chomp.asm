@@ -24,8 +24,8 @@ SpritePrep_ChainChomp:
     
     .next_slot
     
-    LDA $0FD8 : STA $7FFC00, X
-    LDA $0FDA : STA $7FFD00, X
+    LDA $0FD8 : STA.l $7FFC00, X
+    LDA $0FDA : STA.l $7FFD00, X
     
     INX #2
     
@@ -268,8 +268,8 @@ Sprite_ChainChomp:
     
     LDA.w $BE3C, X : TAX
     
-    LDA $7FFC00, X : SEC : SBC $00 : STA $04
-    LDA $7FFD00, X : SEC : SBC $02 : STA $05
+    LDA.l $7FFC00, X : SEC : SBC $00 : STA $04
+    LDA.l $7FFD00, X : SEC : SBC $02 : STA $05
     
     INX #2
 
@@ -350,23 +350,23 @@ Sprite_ChainChomp:
     
     REP #$20
     
-    LDA $7FFC00, X : CMP $08 : BEQ .BRANCH_EPSILON  BPL .BRANCH_ZETA
+    LDA.l $7FFC00, X : CMP $08 : BEQ .BRANCH_EPSILON  BPL .BRANCH_ZETA
     
     INC #2
 
     .BRANCH_ZETA
 
-    DEC A : STA $7FFC00, X
+    DEC A : STA.l $7FFC00, X
 
     .BRANCH_EPSILON
 
-    LDA $7FFD00, X : CMP $0A : BEQ .BRANCH_THETA  BPL .BRANCH_IOTA
+    LDA.l $7FFD00, X : CMP $0A : BEQ .BRANCH_THETA  BPL .BRANCH_IOTA
     
     INC #2
 
     .BRANCH_IOTA
 
-    DEC A : STA $7FFD00, X
+    DEC A : STA.l $7FFD00, X
 
     .BRANCH_THETA
 
@@ -395,38 +395,38 @@ Sprite_ChainChomp:
     
     STZ $00
     
-    LDA $0FD8 : STA $7FFC00, X
-    LDA $0FDA : STA $7FFD00, X
+    LDA $0FD8 : STA.l $7FFC00, X
+    LDA $0FDA : STA.l $7FFD00, X
     
     .BRANCH_EPSILON
     
-    LDA $7FFC00, X : SEC : SBC $7FFC02, X
+    LDA.l $7FFC00, X : SEC : SBC.l $7FFC02, X
     
     CMP.w #$0008 : BPL .BRANCH_ALPHA
     CMP.w #$FFF8 : BPL .BRANCH_BETA
     
-    LDA $7FFC00, X : CLC : ADC.w #$0008 : STA $7FFC02, X
+    LDA.l $7FFC00, X : CLC : ADC.w #$0008 : STA.l $7FFC02, X
     
     BRA .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    LDA $7FFC00, X : SEC : SBC.w #$0008 : STA $7FFC02, X
+    LDA.l $7FFC00, X : SEC : SBC.w #$0008 : STA.l $7FFC02, X
     
     .BRANCH_BETA
     
-    LDA $7FFD00, X : SEC : SBC $7FFD02, X
+    LDA.l $7FFD00, X : SEC : SBC.l $7FFD02, X
     
     CMP.w #$0008 : BPL .BRANCH_GAMMA
     CMP.w #$FFF8 : BPL .BRANCH_DELTA
     
-    LDA $7FFD00, X : CLC : ADC.w #$0008 : STA $7FFD02, X
+    LDA.l $7FFD00, X : CLC : ADC.w #$0008 : STA.l $7FFD02, X
     
     BRA .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
-    LDA $7FFD00, X : SEC : SBC.w #$0008 : STA $7FFD02, X
+    LDA.l $7FFD00, X : SEC : SBC.w #$0008 : STA.l $7FFD02, X
     
     .BRANCH_DELTA
     
@@ -480,11 +480,11 @@ Sprite_ChainChomp:
     
     REP #$20
     
-    LDA $7FFC00, X : CLC : ADC $08 : SEC : SBC $E2 : STA ($90), Y
+    LDA.l $7FFC00, X : CLC : ADC $08 : SEC : SBC $E2 : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
-    LDA $7FFD00, X : CLC : ADC $08 : SEC : SBC $E8 : INY : STA ($90), Y
+    LDA.l $7FFD00, X : CLC : ADC $08 : SEC : SBC $E8 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_ALPHA
     

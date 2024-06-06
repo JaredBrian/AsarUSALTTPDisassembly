@@ -211,7 +211,7 @@ Ancilla_RevivalFairy:
     
     INC $11
     
-    LDA $7EC211 : STA $1C
+    LDA.l $7EC211 : STA $1C
     
     .return
     .fairy_not_off_screen
@@ -300,8 +300,8 @@ RevivalFairy_Dust:
 ; $047430-$0474C9 LOCAL JUMP LOCATION
 RevivalFairy_MonitorPlayerRecovery:
 {
-    LDA $7EF36C : STA $00
-    LDA $7EF36D : CMP $00 : BEQ .health_at_capacity
+    LDA.l $7EF36C : STA $00
+    LDA.l $7EF36D : CMP $00 : BEQ .health_at_capacity
     
     CMP.b #$38 : BNE .below_seven_hearts
     

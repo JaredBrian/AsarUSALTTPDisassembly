@@ -54,7 +54,7 @@ Ancilla_TransmuteToRisingCrystal:
     LDA $040C : LSR A : TAX
     
     ; Give player the crystal associated with this dungeon
-    LDA $7EF37A : ORA.l MilestoneItem_Flags, X : STA $7EF37A
+    LDA.l $7EF37A : ORA.l MilestoneItem_Flags, X : STA.l $7EF37A
     
     LDA.b #$18 : STA $11
     
@@ -67,12 +67,12 @@ Ancilla_TransmuteToRisingCrystal:
     
     .zero_aux_bg_palettes
     
-    STA $7EC340, X : STA $7EC360, X : STA $7EC380, X 
-    STA $7EC3A0, X : STA $7EC3C0, X : STA $7EC3E0, X
+    STA.l $7EC340, X : STA.l $7EC360, X : STA.l $7EC380, X 
+    STA.l $7EC3A0, X : STA.l $7EC3C0, X : STA.l $7EC3E0, X
     
     INX #2 : CPX.b #$20 : BNE .zero_aux_bg_palettes
     
-    STA $7EC007 : STA $7EC009
+    STA.l $7EC007 : STA.l $7EC009
     
     SEP #$20
     

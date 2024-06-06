@@ -29,7 +29,7 @@ Sprite_StalfosKnight:
     STZ $0D50, X
     STZ $0D40, X
     
-    LDA.b #$02 : STA $7F6918
+    LDA.b #$02 : STA.l $7F6918
     
     .BRANCH_GAMMA
     
@@ -131,7 +131,7 @@ StalfosKnight_Falling:
 
 ; $0F2B5C-$0F2B95 JUMP LOCATION
 {
-    LDA.b #$00 : STA $7F6918
+    LDA.b #$00 : STA.l $7F6918
     
     JSR Sprite3_CheckDamage
     

@@ -6,15 +6,15 @@ Garnish_MothulaBeamTrail:
 {
     LDY.b #$00
     
-    LDA $7FF83C, X : SEC : SBC $E2                    : STA ($90), Y
-    LDA $7FF81E, X : SEC : SBC $E8 : INY              : STA ($90), Y
+    LDA.l $7FF83C, X : SEC : SBC $E2                    : STA ($90), Y
+    LDA.l $7FF81E, X : SEC : SBC $E8 : INY              : STA ($90), Y
                                INY : LDA.b #$AA : STA ($90), Y
     
-    LDA $7FF92C, X
+    LDA.l $7FF92C, X
     
     PHY
     
-    LDA $7FF92C, X : TAY
+    LDA.l $7FF92C, X : TAY
     
     ; Copy palette and other property info from the parent sprite object.
     LDA $0F50, Y : ORA $0B89, Y

@@ -49,7 +49,7 @@ Sprite_YellowStalfos:
     JSR YellowStalfos_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $7EF359 : CMP.b #$03 : BCC .sword_too_weak_to_cause_recoil
+    LDA.l $7EF359 : CMP.b #$03 : BCC .sword_too_weak_to_cause_recoil
     
     JSR Sprite3_CheckIfRecoiling
     

@@ -160,7 +160,7 @@ Lynel_Attack:
     
     JSL Sprite_SpawnFirePhlegm : BMI .spawn_failed
     
-    LDA $7EF35A : CMP.b #$03 : BEQ .blockable_projectile
+    LDA.l $7EF35A : CMP.b #$03 : BEQ .blockable_projectile
     
     LDA.b #$00 : STA $0BE0, Y
     

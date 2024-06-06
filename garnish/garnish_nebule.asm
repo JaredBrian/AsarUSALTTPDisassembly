@@ -22,7 +22,7 @@ Garnish_Nebule:
     
     PHX
     
-    LDA $7FF90E, X : LSR #2 : TAX
+    LDA.l $7FF90E, X : LSR #2 : TAX
     
     LDA $00 : CLC : ADC .xy_offsets, X       : STA ($90), Y
     LDA $02 : CLC : ADC .xy_offsets, X : INY : STA ($90), Y
@@ -33,7 +33,7 @@ Garnish_Nebule:
     
     PHY
     
-    LDA $7FF92C, X : TAY
+    LDA.l $7FF92C, X : TAY
     
     LDA $0F50, Y : ORA $0B89, Y : AND.W #$7AFE
     

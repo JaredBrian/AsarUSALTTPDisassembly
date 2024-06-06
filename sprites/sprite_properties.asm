@@ -393,11 +393,11 @@ Sprite_ResetProperties:
     STZ $0B58, X
     STZ $0CE2, X
     
-    LDA.b #$00 : STA $7FFA1C, X
-                 STA $7FFA2C, X
-                 STA $7FFA3C, X
-                 STA $7FFA4C, X
-                 STA $7FF9C2, X
+    LDA.b #$00 : STA.l $7FFA1C, X
+                 STA.l $7FFA2C, X
+                 STA.l $7FFA3C, X
+                 STA.l $7FFA4C, X
+                 STA.l $7FF9C2, X
     
     RTL
 }

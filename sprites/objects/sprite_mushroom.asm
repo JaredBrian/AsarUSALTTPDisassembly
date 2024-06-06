@@ -19,7 +19,7 @@ SpritePrep_MushroomLong:
 SpritePrep_Mushroom:
 {
     ; \item(Magic powder)
-    LDA $7EF344 : CMP.b #$02 : BCC .player_lacks_magic_powder
+    LDA.l $7EF344 : CMP.b #$02 : BCC .player_lacks_magic_powder
     
     STZ $0DD0, X
     

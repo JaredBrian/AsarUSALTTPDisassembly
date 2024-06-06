@@ -78,7 +78,7 @@ Ancilla_ReceiveItem:
                 
                 ; Instantiate the boss victory tagalong
                 ; (Sahasralah's disembodied voice in this case)
-                LDA.b #$0E : STA $7EF3CC
+                LDA.b #$0E : STA.l $7EF3CC
             
                 .times_up_2
             
@@ -144,7 +144,7 @@ Ancilla_ReceiveItem:
     
     LDA $0C5E, X : CMP.b #$17 : BNE .notPieceOfHeart
         ; Load the number of heart pieces collected so far
-        LDA $7EF36B : BNE .notGrantingHeartContainer
+        LDA.l $7EF36B : BNE .notGrantingHeartContainer
             PHX
             
             LDY.b #$26
@@ -171,27 +171,27 @@ Ancilla_ReceiveItem:
             STZ $02E4
             
             ; Check if capatity health is at max.
-            LDA $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
+            LDA.l $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
                 ; Give Link additional extra heart
-                CLC : ADC.b #$08 : STA $7EF36C
+                CLC : ADC.b #$08 : STA.l $7EF36C
                 
                 ; Fill in that one heart
-                LDA $7EF372 : CLC : ADC.b #$08 : STA $7EF372
+                LDA.l $7EF372 : CLC : ADC.b #$08 : STA.l $7EF372
                 
                 BRA .playHeartContainerSfx
     
     .heartContainerInChest
     
-    LDA $7EF36D : STA $00
+    LDA.l $7EF36D : STA $00
     
-    LDA $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
+    LDA.l $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
         ; Give Link an additional heart
-        CLC : ADC.b #$08 : STA $7EF36C
+        CLC : ADC.b #$08 : STA.l $7EF36C
         
         ; Put Link's actual health at maximum
         SEC : SBC $00 : STA $00
         
-        LDA $7EF372 : CLC : ADC $00 : STA $7EF372
+        LDA.l $7EF372 : CLC : ADC $00 : STA.l $7EF372
     
         .playHeartContainerSfx
     
@@ -205,7 +205,7 @@ Ancilla_ReceiveItem:
     
     CMP.b #$42 : BNE .notSingleHeartRefill
         ; Fill in one heart of actual health (using the heart refiller)
-        LDA $7EF372 : CLC : ADC.b #$08 : STA $7EF372
+        LDA.l $7EF372 : CLC : ADC.b #$08 : STA.l $7EF372
         
         BRA .objectFinished
     
@@ -213,7 +213,7 @@ Ancilla_ReceiveItem:
     
     CMP.b #$45 : BNE .notSmallMagicRefill
         ; Refill 1/8 of our magic power
-        LDA $7EF373 : CLC : ADC.b #$10 : STA $7EF373
+        LDA.l $7EF373 : CLC : ADC.b #$10 : STA.l $7EF373
         
         BRA .objectFinished
     
@@ -315,7 +315,7 @@ Ancilla_ReceiveItem:
     
     TAY
     
-    LDA $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .defaultTextHandler
+    LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .defaultTextHandler
         ; Determine which text message to play
         ; I assume this has something to do with the fact that if you haven't
         ; collected all 3 pendants, it tells you to go for the last one, or whatever.
@@ -333,7 +333,7 @@ Ancilla_ReceiveItem:
     LDA $0C54, X : CMP.b #$02 : BEQ .handleGraphics
     LDA $0C5E, X : CMP.b #$17 : BNE .defaultTextHandler
         ; Display a different text message depending on how many pieces of heart we have
-        LDA $7EF36B : ASL A : TAY
+        LDA.l $7EF36B : ASL A : TAY
         
         REP #$20
         

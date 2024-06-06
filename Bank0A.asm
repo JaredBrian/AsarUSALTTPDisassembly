@@ -626,7 +626,7 @@ BirdTravel_LoadTargetArea:
         
     STZ.b $B2
         
-    JSL $02B1F4 ; $0131F4 IN ROM
+    JSL.l $02B1F4 ; $0131F4 IN ROM
         
     ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA.w $012F
@@ -661,7 +661,7 @@ BirdTravel_LoadAmbientOverlay:
     SEP #$20
     
     ; Loads overworld map32 data (and subsequently map16, etc etc).
-    JSL $02B1F0 ; $0131F0 IN ROM
+    JSL.l $02B1F0 ; $0131F0 IN ROM
     
     REP #$20
     
@@ -5098,7 +5098,7 @@ DungeonMap_DrawRoomMarkers:
 ; $056954-$05695A JUMP LOCATION
 PalaceMap_3:
 {
-    JSL $0AE95B ; $05695B IN ROM
+    JSL.l $0AE95B ; $05695B IN ROM
     JMP $EAB2   ; $056AB2 IN ROM
 }
 
@@ -5111,7 +5111,7 @@ DungeonMap_HandleInput:
     
     ; Unless the depressed button is X, continue.
     LDA.b $F6 : AND.b #$40 : BNE .exitPalaceMapMode
-        JSL $0AE979 ; $056979 IN ROM
+        JSL.l $0AE979 ; $056979 IN ROM
         
         PLB
         
@@ -5141,7 +5141,7 @@ DungeonMap_PanValues:
 ; $056979-$056985 LONG JUMP LOCATION
 DungeonMap_HandleMovementInput:
 {
-    JSL $0AE986 ; $056986 IN ROM
+    JSL.l $0AE986 ; $056986 IN ROM
     
     LDA.w $0210 : BEQ .notScrolling
         JMP PalaceMap_Scroll
@@ -6028,10 +6028,10 @@ PalaceMap_RestoreGraphics:
 
     .drawQuadrants
 
-        JSL $0091C4 ; $0011C4 IN ROM
-        JSL $0090E3 ; $0010E3 IN ROM
-        JSL $00913F ; $00113F IN ROM
-        JSL $0090E3 ; $0010E3 IN ROM
+        JSL.l $0091C4 ; $0011C4 IN ROM
+        JSL.l $0090E3 ; $0010E3 IN ROM
+        JSL.l $00913F ; $00113F IN ROM
+        JSL.l $0090E3 ; $0010E3 IN ROM
     LDA.w $045C : CMP.b #$10 : BNE .drawQuadrants
     
     STZ.b $17
@@ -6061,7 +6061,7 @@ PalaceMap_RestoreGraphics:
     ; Bring volume back to full
     LDA.b #$F3 : STA.w $012C
     
-    JSL $0297B2 ; $0117B2 IN ROM
+    JSL.l $0297B2 ; $0117B2 IN ROM
     
     ; Refresh cgram this frame.
     INC.b $15

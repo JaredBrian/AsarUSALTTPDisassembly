@@ -85,7 +85,7 @@ Sprite_EnergyBall:
     LDA.b #$10
     LDX.b #$00
     
-    JSL $06EDC5 ; $036DC5 IN ROM
+    JSL.l $06EDC5 ; $036DC5 IN ROM
     
     PLX
     

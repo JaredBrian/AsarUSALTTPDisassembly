@@ -115,7 +115,7 @@ Sprite_FluteBoyFather:
     
     LDA $0D80, X : BNE .knows_what_happened_to_son
     
-    LDA $7EF34C : CMP.b #$02 : BCS .player_has_flute
+    LDA.l $7EF34C : CMP.b #$02 : BCS .player_has_flute
     
     ; "... My son really liked to play the flute, ..."
     LDA.b #$A1

@@ -14,29 +14,26 @@ Pool_Ancilla_BlastWallFireball:
 Ancilla_BlastWallFireball:
 {
     LDA $11 : BNE .just_draw
-    
-    LDA $0C5E, X : CLC : ADC.b #$02   : STA $0C5E, X
-                   CLC : ADC $0C22, X : STA $0C22, X
-    
-    JSR Ancilla_MoveVert
-    JSR Ancilla_MoveHoriz
-    
-    LDA $7F0040, X : DEC A : STA $7F0040, X : BPL .still_active
-    
-    STZ $0C4A, X
-    
-    RTS
-    
+        LDA $0C5E, X : CLC : ADC.b #$02   : STA $0C5E, X
+                       CLC : ADC $0C22, X : STA $0C22, X
+        
+        JSR Ancilla_MoveVert
+        JSR Ancilla_MoveHoriz
+        
+        LDA.l $7F0040, X : DEC A : STA.l $7F0040, X : BPL .still_active
+            STZ $0C4A, X
+            
+            RTS
+
+        .still_active
     .just_draw
-    .still_active
     
     LDA.b #$04
     
     LDY $0FB3 : BEQ .dont_sort_sprites
-    
-    JSL OAM_AllocateFromRegionD
-    
-    BRA .oam_allocation_determined
+        JSL OAM_AllocateFromRegionD
+        
+        BRA .oam_allocation_determined
     
     .dont_sort_sprites
     
@@ -46,16 +43,14 @@ Ancilla_BlastWallFireball:
     
     LDY.b #$00
     
-    LDA $7F0040, X : STA $06 : AND.b #$08 : BNE .just_first_chr
+    LDA.l $7F0040, X : STA $06 : AND.b #$08 : BNE .just_first_chr
+        LDY.b #$01
+        
+        LDA $06 : AND.b #$04 : BNE .use_second_chr
+            ; All that leaves is the third possible tile.
+            LDY.b #$02
     
-    LDY.b #$01
-    
-    LDA $06 : AND.b #$04 : BNE .use_second_chr
-    
-    ; All that leaves is the third possible tile.
-    LDY.b #$02
-    
-    .use_first_chr
+    .just_first_chr
     .use_second_chr
     
     LDA .chr, Y : STA $06

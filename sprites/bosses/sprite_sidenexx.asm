@@ -337,7 +337,7 @@ Sidenexx_Breathe:
     
     LDX $0F
     
-    LDA.b #$0E : STA $7FF800, X
+    LDA.b #$0E : STA.l $7FF800, X
     
     PLX
     
@@ -492,12 +492,12 @@ SpriteDraw_Sidenexx:
     
     LDA $06 : AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $0A
+    LDA.l $04E800, X : STA $0A
     
     LDA $06 : CLC : ADC.w #$0080 : STA $08
     AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $0C
+    LDA.l $04E800, X : STA $0C
     
     SEP #$30
     
@@ -730,7 +730,7 @@ AddIceGarnish:
     
     .BRANCH_GAMMA
     
-    LDA $7FF800, X : BEQ .BRANCH_BETA
+    LDA.l $7FF800, X : BEQ .BRANCH_BETA
     
     DEX : BPL .BRANCH_GAMMA
     
@@ -744,16 +744,16 @@ AddIceGarnish:
     
     .BRANCH_BETA
     
-    LDA.b #$0C : STA $7FF800, X : STA $0FB4
+    LDA.b #$0C : STA.l $7FF800, X : STA $0FB4
     
-    TYA : STA $7FF92C, X
+    TYA : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
+    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$7F : STA $7FF90E, X
+    LDA.b #$7F : STA.l $7FF90E, X
     
     PLX
     
@@ -787,7 +787,7 @@ AddFireGarnish:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .BRANCH_BETA
+    LDA.l $7FF800, X : BEQ .BRANCH_BETA
     
     DEX : BPL .next_slot
     
@@ -801,17 +801,17 @@ AddFireGarnish:
     
     .BRANCH_BETA
     
-    LDA.b #$10 : STA $7FF800, X : STA $0FB4
+    LDA.b #$10 : STA.l $7FF800, X : STA $0FB4
     
-    TYA : STA $7FF92C, X
+    TYA : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$7F : STA $7FF90E, X
+    LDA.b #$7F : STA.l $7FF90E, X
     
     STX $00
     

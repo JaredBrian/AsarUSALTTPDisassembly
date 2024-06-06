@@ -113,7 +113,7 @@ ReturningSmithy_CopiouslyThankful:
     LDA.b #$01 : STA $0DE0, X
     
     ; Smithy partner has been saved
-    LDA $7EF3C9 : ORA.b #$20 : STA $7EF3C9
+    LDA.l $7EF3C9 : ORA.b #$20 : STA.l $7EF3C9
     
     RTS
 }
@@ -160,7 +160,7 @@ SmithyFrog_Main:
     .transition_to_tagalong
     
     ; Set tagalong to missing dwarf in Dark World (smithy frog)
-    LDA.b #$07 : STA $7EF3CC
+    LDA.b #$07 : STA.l $7EF3CC
     
     PHX
     
@@ -340,7 +340,7 @@ Smithy_ConversationStart:
 {
     STZ $0DB0, X
     
-    LDA $7EF3CC : CMP.b #$08 : BEQ .no_returning_smithy_tagalong
+    LDA.l $7EF3CC : CMP.b #$08 : BEQ .no_returning_smithy_tagalong
     
     JSR Smithy_NearbyHammerUseListener : BCC .not_hammer_time
     
@@ -358,7 +358,7 @@ Smithy_ConversationStart:
     
     .not_hammer_time
     
-    LDA $7EF3C9 : AND.b #$20 : BEQ .partner_smithy_still_missing
+    LDA.l $7EF3C9 : AND.b #$20 : BEQ .partner_smithy_still_missing
     
     ; "Hey you! Welcome! Ask us to do anything!"
     LDA.b #$D8
@@ -466,7 +466,7 @@ Smithy_HandleTemperingChoice:
 {
     LDA $1CE8 : BNE .player_said_no
     
-    LDA $7EF359 : CMP.b #$03 : BCS .tempered_sword_or_better
+    LDA.l $7EF359 : CMP.b #$03 : BCS .tempered_sword_or_better
     
     ; "Tempered, eh? Are you sure? ..."
     LDA.b #$DA
@@ -524,7 +524,7 @@ Smithy_HandleTemperingCost:
     
     REP #$20
     
-    LDA $7EF360 : CMP.w #$000A : SEP #$30 : BCS .player_can_afford
+    LDA.l $7EF360 : CMP.w #$000A : SEP #$30 : BCS .player_can_afford
     
     ; "Drop by again any time you want to. Hi Ho!..."
     LDA.b #$DC
@@ -541,7 +541,7 @@ Smithy_HandleTemperingCost:
     REP #$20
     
     ; Take my 10 rupees you dirty bastard dwarves
-    LDA $7EF360 : SEC : SBC.w #$000A : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.w #$000A : STA.l $7EF360
     
     SEP #$30
     
@@ -559,9 +559,9 @@ Smithy_HandleTemperingCost:
     STZ $0ABF
     
     ; Make it so Link has no sword (until it gets tempered)
-    LDA.b #$FF : STA $7EF359
+    LDA.b #$FF : STA.l $7EF359
     
-    LDA $7EF3C9 : ORA.b #$80 : STA $7EF3C9
+    LDA.l $7EF3C9 : ORA.b #$80 : STA.l $7EF3C9
     
     RTS
 }
@@ -637,7 +637,7 @@ Smithy_GrantTemperedSword:
     
     PLX
     
-    LDA $7EF3C9 : AND.b #$7F : STA $7EF3C9
+    LDA.l $7EF3C9 : AND.b #$7F : STA.l $7EF3C9
     
     RTS
 }
@@ -671,7 +671,7 @@ Smithy_SpawnReturningSmithy:
     
     INC $0D80, X
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     LDA.b #$04 : STA $0DC0, X
     

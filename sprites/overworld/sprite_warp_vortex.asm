@@ -14,7 +14,7 @@ Sprite_WarpVortex:
 {
     ; Warp Vortex (Sprite 0x6C)
     
-    LDA $7EF3CA : BNE .self_terminate
+    LDA.l $7EF3CA : BNE .self_terminate
     
     LDA $8A : CMP.b #$80 : BCC .in_normal_area
     

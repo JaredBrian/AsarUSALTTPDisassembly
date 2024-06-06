@@ -31,7 +31,7 @@ Sprite_FakeSword:
     JSR FakeSword_Draw
     JSR Sprite2_CheckIfActive.permissive
     
-    LDA $7FFA1C, X : CMP.b #$03 : BNE .player_is_holding
+    LDA.l $7FFA1C, X : CMP.b #$03 : BNE .player_is_holding
     
     LDA $0DB0, X : BNE .ignore_message
     

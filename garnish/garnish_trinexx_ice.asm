@@ -19,17 +19,17 @@ Garnish_TrinexxIce:
 {
     ; special animation 0x0C
     
-    LDA $7FF90E, X : CMP.b #$50 : BNE .dont_update_tiles
+    LDA.l $7FF90E, X : CMP.b #$50 : BNE .dont_update_tiles
     
     LDA $11 : ORA $0FC1 : BNE .dont_update_tiles
     
     PHA
     
-    LDA $7FF83C, X : STA $00
-    LDA $7FF878, X : STA $01
+    LDA.l $7FF83C, X : STA $00
+    LDA.l $7FF878, X : STA $01
     
-    LDA $7FF81E, X : SEC : SBC.b #$10 : STA $02
-    LDA $7FF85A, X : SBC.b #$00 : STA $03
+    LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA $02
+    LDA.l $7FF85A, X : SBC.b #$00 : STA $03
     
     LDY.b #$12 : JSL Dungeon_SpriteInducedTilemapUpdate
     
@@ -37,7 +37,7 @@ Garnish_TrinexxIce:
     
     .dont_update_tiles
     
-    LDA $7FF90E, X : LSR #2 : AND.b #$03 : TAY
+    LDA.l $7FF90E, X : LSR #2 : AND.b #$03 : TAY
     
     LDA .properties, Y : STA $04
     
@@ -47,7 +47,7 @@ Garnish_TrinexxIce:
     LDA $02 : INY : STA ($90), Y
     
     ; \wtf NOP? hrm...
-    LDA $7FF90E, X : LSR #4 : NOP : PHX : TAX
+    LDA.l $7FF90E, X : LSR #4 : NOP : PHX : TAX
     
     LDA .chr, X : INY : STA ($90), Y
     

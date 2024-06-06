@@ -59,7 +59,7 @@ Sprite_SpawnPoofGarnish:
     .nextSlot
     
     ; Look for an empty special sprite slot
-    LDA $7FF800, X : BEQ .emptySlot
+    LDA.l $7FF800, X : BEQ .emptySlot
     
     DEX : BPL .nextSlot
     
@@ -68,17 +68,17 @@ Sprite_SpawnPoofGarnish:
     
     .emptySlot
     
-    LDA.b #$0A : STA $7FF800, X : STA $0FB4
+    LDA.b #$0A : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA $0F20, Y : STA $7FF92C, X
+    LDA $0F20, Y : STA.l $7FF92C, X
     
-    LDA.b #$0F : STA $7FF90E, X
+    LDA.b #$0F : STA.l $7FF90E, X
     
     TXY
     

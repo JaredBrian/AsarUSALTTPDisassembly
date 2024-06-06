@@ -27,7 +27,7 @@ Garnish_ArrghusSplash:
 {
     JSR Garnish_PrepOamCoord
     
-    LDA $7FF90E, X : LSR A : AND.b #$06 : STA $06
+    LDA.l $7FF90E, X : LSR A : AND.b #$06 : STA $06
     
     ; Number of sprites to draw (2)
     LDA.b #$01 : STA $07

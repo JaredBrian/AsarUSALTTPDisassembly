@@ -50,7 +50,7 @@ MazeGameLady_Startup:
     
     INC $0D80, X
     
-    LDA.b #$00 : STA $7FFE00 : STA $7FFE01 : STA $7FFE02 : STA $7FFE03
+    LDA.b #$00 : STA.l $7FFE00 : STA.l $7FFE01 : STA.l $7FFE02 : STA.l $7FFE03
     
     STZ $0D90, X
     
@@ -82,9 +82,9 @@ MazeGameLady_AccumulateTime:
     
     REP #$20
     
-    LDA $7FFE00 : INC A : STA $7FFE00 : BNE .dont_increment_minute_counter
+    LDA.l $7FFE00 : INC A : STA.l $7FFE00 : BNE .dont_increment_minute_counter
     
-    LDA $7FFE02 : INC A : STA $7FFE02
+    LDA.l $7FFE02 : INC A : STA.l $7FFE02
     
     .dont_increment_minute_counter
     

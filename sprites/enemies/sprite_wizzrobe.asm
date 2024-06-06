@@ -268,7 +268,7 @@ Wizzrobe_SpawnBeam:
     LDA.b #$02 : STA $0F50, Y
     
     ; \item
-    LDA $7EF35A : TAX
+    LDA.l $7EF35A : TAX
     
     LDA.b #$00
     

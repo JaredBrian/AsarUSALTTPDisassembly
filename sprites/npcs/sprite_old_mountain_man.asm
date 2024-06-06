@@ -28,9 +28,9 @@ SpritePrep_OldMountainMan:
     
     .not_at_home
     
-    LDA $7EF3CC : CMP.b #$00 : BNE .already_have_tagalong
+    LDA.l $7EF3CC : CMP.b #$00 : BNE .already_have_tagalong
     
-    LDA $7EF353 : CMP.b #$02 : BNE .dont_have_magic_mirror
+    LDA.l $7EF353 : CMP.b #$02 : BNE .dont_have_magic_mirror
     
     STZ $0DD0, X
     
@@ -38,7 +38,7 @@ SpritePrep_OldMountainMan:
     
     ; Temporarily set Link's tagalong status to that of the Old Man for
     ; the purpose of loading the tagalong graphics.
-    LDA.b #$04 : STA $7EF3CC
+    LDA.b #$04 : STA.l $7EF3CC
     
     PHX
     
@@ -46,7 +46,7 @@ SpritePrep_OldMountainMan:
     
     PLX
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     RTS
     
@@ -92,7 +92,7 @@ OldMountainMan_TransitionFromTagalong:
     
     PLX
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     STZ $5E
     
@@ -172,18 +172,18 @@ OldMountainMan_Supplicate:
 OldMountainMan_SwitchToTagalong:
 {
     ; Set up the old man on the mountain as the tagalong
-    LDA.b #$04 : STA $7EF3CC
+    LDA.b #$04 : STA.l $7EF3CC
     
     JSL Tagalong_SpawnFromSprite
     
-    LDA.b #$05 : STA $7EF3C8
+    LDA.b #$05 : STA.l $7EF3C8
     
     STZ $0DD0, X
     
     ; caches some dungeon values. Not sure if this is really necessary,
     ; but it might be ancitipating that you suck at this game and will
     ; die while the old man is with you?
-    JSL $0283B5 ; $0103B5 IN ROM
+    JSL.l $0283B5 ; $0103B5 IN ROM
     
     RTS
 }
@@ -219,7 +219,7 @@ OldMountainMan_GrantMagicMirror:
     
     JSL Link_ReceiveItem
     
-    LDA.b #$01 : STA $7EF3C8
+    LDA.b #$01 : STA.l $7EF3C8
     
     JSR OldMountainMan_FreezePlayer
     
@@ -334,7 +334,7 @@ OldMountainMan_SittingAtHome:
     
     LDA $0D80, X : BEQ .dont_activate_health_refill
     
-    LDA.b #$A0 : STA $7EF372
+    LDA.b #$A0 : STA.l $7EF372
     
     STZ $0D80, X
     
@@ -342,9 +342,9 @@ OldMountainMan_SittingAtHome:
     
     LDY.b #$02
     
-    LDA $7EF3C5 : CMP.b #$03 : BCS .player_beat_agahnim
+    LDA.l $7EF3C5 : CMP.b #$03 : BCS .player_beat_agahnim
     
-    LDA $7EF357 : TAY
+    LDA.l $7EF357 : TAY
     
     .player_beat_agahnim
     

@@ -268,7 +268,7 @@ Pirogusu_SpawnSplashGarnish:
     
     .find_open_garnish_slot
     
-    LDA $7FF800, X : BEQ .open_garnish_slot
+    LDA.l $7FF800, X : BEQ .open_garnish_slot
     
     DEX : BPL .find_open_garnish_slot
     
@@ -280,16 +280,16 @@ Pirogusu_SpawnSplashGarnish:
     
     .open_garnish_slot
     
-    LDA.b #$0B : STA $7FF800, X
+    LDA.b #$0B : STA.l $7FF800, X
                  STA $0FB4
     
-    LDA $0D10, Y : CLC : ADC $00    : STA $7FF83C, X
-    LDA $0D30, Y : ADC.b #$00 : STA $7FF878, X
+    LDA $0D10, Y : CLC : ADC $00    : STA.l $7FF83C, X
+    LDA $0D30, Y : ADC.b #$00 : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : PHP : CLC : ADC $01    : STA $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : PLP : ADC.b #$00 : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC.b #$10 : PHP : CLC : ADC $01    : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC.b #$00 : PLP : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$0F : STA $7FF90E, X
+    LDA.b #$0F : STA.l $7FF90E, X
     
     PLX
     

@@ -23,11 +23,11 @@ Swamola_InitSegments:
     
     .next_segment
     
-    LDA $0D10, Y : STA $7FFA5C, X
-    LDA $0D30, Y : STA $7FFB1C, X
+    LDA $0D10, Y : STA.l $7FFA5C, X
+    LDA $0D30, Y : STA.l $7FFB1C, X
     
-    LDA $0D00, Y : STA $7FFBDC, X
-    LDA $0D20, Y : STA $7FFC9C, X
+    LDA $0D00, Y : STA.l $7FFBDC, X
+    LDA $0D20, Y : STA.l $7FFC9C, X
     
     INX
     
@@ -126,11 +126,11 @@ Swamola_Emerge:
     
     TAY
     
-    LDA $0D90, X : CLC : ADC .x_offsets_low,  Y : STA $7FFD5C, X
-    LDA $0DA0, X : ADC .x_offsets_high, Y : STA $7FFD62, X
+    LDA $0D90, X : CLC : ADC .x_offsets_low,  Y : STA.l $7FFD5C, X
+    LDA $0DA0, X : ADC .x_offsets_high, Y : STA.l $7FFD62, X
     
-    LDA $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA $7FFD68, X
-    LDA $0EB0, X : ADC .y_offsets_high, Y : STA $7FFD6E, X
+    LDA $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA.l $7FFD68, X
+    LDA $0EB0, X : ADC .y_offsets_high, Y : STA.l $7FFD6E, X
     
     INC $0D80, X
     
@@ -231,11 +231,11 @@ Swamola_WiggleTowardsTarget:
     .anotoggle_wiggle_direction
     .never
     
-    LDA $7FFD5C, X : STA $04
-    LDA $7FFD62, X : STA $05
+    LDA.l $7FFD5C, X : STA $04
+    LDA.l $7FFD62, X : STA $05
     
-    LDA $7FFD68, X : STA $06
-    LDA $7FFD6E, X : STA $07
+    LDA.l $7FFD68, X : STA $06
+    LDA.l $7FFD6E, X : STA $07
     
     REP #$20
     
@@ -265,11 +265,11 @@ Swamola_WiggleTowardsTarget:
 ; $0E9E13-$0E9E31 LOCAL JUMP LOCATION
 Swamola_PursueTargetCoord:
 {
-    LDA $7FFD5C, X : STA $04
-    LDA $7FFD62, X : STA $05
+    LDA.l $7FFD5C, X : STA $04
+    LDA.l $7FFD62, X : STA $05
     
-    LDA $7FFD68, X : STA $06
-    LDA $7FFD6E, X : STA $07
+    LDA.l $7FFD68, X : STA $06
+    LDA.l $7FFD6E, X : STA $07
     
     LDA.b #$0F : JSL Sprite_ProjectSpeedTowardsEntityLong
     
@@ -458,11 +458,11 @@ Swamola_Draw:
     
     LDA $0E80, X : AND.b #$1F : CLC : ADC $9C7A, X : TAX
     
-    LDA $0D10, Y : STA $7FFA5C, X
-    LDA $0D30, Y : STA $7FFB1C, X
+    LDA $0D10, Y : STA.l $7FFA5C, X
+    LDA $0D30, Y : STA.l $7FFB1C, X
     
-    LDA $0D00, Y : STA $7FFBDC, X
-    LDA $0D20, Y : STA $7FFC9C, X
+    LDA $0D00, Y : STA.l $7FFBDC, X
+    LDA $0D20, Y : STA.l $7FFC9C, X
     
     PLX
     
@@ -494,11 +494,11 @@ Swamola_Draw:
     
     LDA $0E80, X : SEC : SBC .unknown_0, Y : AND.b #$1F : CLC : ADC $9C7A, X : TAX
     
-    LDA $7FFA5C, X : STA $0FD8
-    LDA $7FFB1C, X : STA $0FD9
+    LDA.l $7FFA5C, X : STA $0FD8
+    LDA.l $7FFB1C, X : STA $0FD9
     
-    LDA $7FFBDC, X : STA $0FDA
-    LDA $7FFC9C, X : STA $0FDB
+    LDA.l $7FFBDC, X : STA $0FDA
+    LDA.l $7FFC9C, X : STA $0FDB
     
     PLX
     

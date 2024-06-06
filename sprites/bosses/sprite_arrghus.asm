@@ -211,17 +211,17 @@ Arrghus_SwimFrantically:
     .use_full_range
     .try_another_index
     
-    LDA $7FF800, X : BNE .slot_in_use
+    LDA.l $7FF800, X : BNE .slot_in_use
     
-    LDA.b #$15 : STA $7FF800, X : STA $0FB4
+    LDA.b #$15 : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$18 : STA $7FF81E, X
-    LDA $0D20, Y              : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC.b #$18 : STA.l $7FF81E, X
+    LDA $0D20, Y              : STA.l $7FF85A, X
     
-    LDA.b #$0F : STA $7FF90E, X
+    LDA.b #$0F : STA.l $7FF90E, X
     
     PLX
     
@@ -494,11 +494,11 @@ Arrghus_Decelerate:
     
     LDA $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $04
+    LDA.l $04E800, X : STA $04
     
     LDA $00 : CLC : ADC.w #$0080 : STA $02 : AND.w #$00FF : ASL A : TAX
     
-    LDA $04E800, X : STA $06
+    LDA.l $04E800, X : STA $06
     
     SEP #$30
     

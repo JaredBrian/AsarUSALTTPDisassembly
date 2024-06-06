@@ -104,7 +104,7 @@ Witch_Main:
 {
     STZ $00
     
-    LDA $7EF344 : CMP.b #$01 : BNE .dont_have_mushroom
+    LDA.l $7EF344 : CMP.b #$01 : BNE .dont_have_mushroom
     
     INC $00
     
@@ -130,7 +130,7 @@ Witch_Main:
     ; \task Label this location.
 ; $02E47C-$02E4A6 JUMP LOCATION
 {
-    LDA $7EF344 : CMP.b #$02 : BNE .dont_have_magic_powder
+    LDA.l $7EF344 : CMP.b #$02 : BNE .dont_have_magic_powder
     
     .havent_given_mushroom
     
@@ -150,7 +150,7 @@ Witch_Main:
     
     LDX.w #$0212
     
-    LDA $7EF000, X
+    LDA.l $7EF000, X
     
     SEP #$30
     
@@ -179,7 +179,7 @@ Witch_PlayerHasMushroom:
     
     LDA $0202 : CMP.b #$05 : BNE .dont_give_mushroom
     
-    LDA $7EF344 : CMP.b #$01 : BNE .dont_give_mushroom
+    LDA.l $7EF344 : CMP.b #$01 : BNE .dont_give_mushroom
     
     JSR Witch_PlayerHandsMushroomOver
     
@@ -207,10 +207,10 @@ Witch_PlayerHandsMushroomOver:
     
     ; Does Link have the mushroom?
     ; \item(Mushroom)
-    LDA $7EF344 : CMP.b #$01 : BNE .not_haz_mushroom
+    LDA.l $7EF344 : CMP.b #$01 : BNE .not_haz_mushroom
     
     ; If so, take away the mushroom
-    LDA.b #$00 : STA $7EF344
+    LDA.b #$00 : STA.l $7EF344
     
     PHX
     
@@ -219,7 +219,7 @@ Witch_PlayerHandsMushroomOver:
     LDX.w #$0212
     
     ; Make it so the witch's assistant has the magic powder ready
-    LDA $7EF000, X : ORA.b #$80 : STA $7EF000, X
+    LDA.l $7EF000, X : ORA.b #$80 : STA.l $7EF000, X
     
     SEP #$30
     

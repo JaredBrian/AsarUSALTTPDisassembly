@@ -110,7 +110,7 @@ Blind_SpawnFromMaidenTagalong:
 ; $0EA081-$0EA0B0 LONG JUMP LOCATION
 Blind_Initialize:
 {
-    LDA $7EF3CC : CMP.b #$06 : BEQ .self_terminate
+    LDA.l $7EF3CC : CMP.b #$06 : BEQ .self_terminate
     
     ; Check if the floor above this room has been bombed out.
     ; \hardcoded
@@ -152,7 +152,7 @@ BlindLaser_SpawnTrailGarnish:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -167,19 +167,19 @@ BlindLaser_SpawnTrailGarnish:
     .empty_slot
     
     ; \task Name this value with an enumeration when it becomes available.
-    LDA.b #$0F : STA $7FF800, X : STA $0FB4
+    LDA.b #$0F : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0DC0, Y : STA $7FF9FE, X
+    LDA $0DC0, Y : STA.l $7FF9FE, X
     
-    TYA : STA $7FF92C, X
+    TYA : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$0A : STA $7FF90E, X
+    LDA.b #$0A : STA.l $7FF90E, X
     
     PLX
     

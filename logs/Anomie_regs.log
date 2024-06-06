@@ -43,7 +43,7 @@ the ROM (typically part of the opcode arguments or the indirect base address).
 Registers matching $21x4-6 or $21x8-A (where x is 0-2) return the last value
 read from any of the PPU1 registers $2134-6, $2138-A, or $213E. This is known
 as PPU1 Open Bus. Similarly, PPU2 Open Bus involves reading registers $213B-D
-or $213F (NOT $21xB-D though).
+or $213F (NOT.l $21xB-D though).
 
 Note that it may be possible to write registers anytime even if marked '-', but
 until we have proof '-' is a better guess.

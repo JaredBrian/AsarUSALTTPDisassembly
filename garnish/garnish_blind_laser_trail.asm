@@ -21,7 +21,7 @@ Garnish_BlindLaserTrail:
     PHY
     
     ; Get the chr index.
-    LDA $7FF9FE, X : TAY
+    LDA.l $7FF9FE, X : TAY
     
     ; I guess that this assumes that the chr *index*
     ; is at least 0x07?
@@ -29,7 +29,7 @@ Garnish_BlindLaserTrail:
     
     PHY
     
-    LDA $7FF92C, X : TAY
+    LDA.l $7FF92C, X : TAY
     
     ; Copy palette and other oam properties from the parent sprite object.
     LDA $0F50, Y : ORA $0B89, Y

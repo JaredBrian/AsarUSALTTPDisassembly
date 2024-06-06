@@ -323,7 +323,7 @@ Sprite_HappinessPond:
 {
     LDA $1CE8 : BNE .BRANCH_3455F
     
-    LDA $7EF370 : ORA $7EF371 : BEQ .no_bomb_or_arrow_upgrades_yet
+    LDA.l $7EF370 : ORA.l $7EF371 : BEQ .no_bomb_or_arrow_upgrades_yet
     
     LDA.b #$02
     
@@ -376,7 +376,7 @@ Sprite_HappinessPond:
     
     LDA.w $C523, Y : AND.w #$00FF : STA $00
     
-    LDA $7EF360 : CMP $00 : BCC .BRANCH_$3455D
+    LDA.l $7EF360 : CMP $00 : BCC .BRANCH_$3455D
     
     SEP #$30
     
@@ -397,11 +397,11 @@ Sprite_HappinessPond:
     
     REP #$20
     
-    LDA $7EF360 : SEC : SBC $00 : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC $00 : STA.l $7EF360
     
     SEP #$30
     
-    LDA $7EF36A : CLC : ADC $00 : STA $7EF36A
+    LDA.l $7EF36A : CLC : ADC $00 : STA.l $7EF36A
     
     PHX
     
@@ -411,9 +411,9 @@ Sprite_HappinessPond:
     
     PLX
     
-    LDA $7EF36A : CMP.b #$64 : BCC .BRANCH_ALPHA
+    LDA.l $7EF36A : CMP.b #$64 : BCC .BRANCH_ALPHA
     
-    SBC.b #$64 : STA $7EF36A
+    SBC.b #$64 : STA.l $7EF36A
     
     LDA.b #$05 : STA $0D80, X
     
@@ -421,7 +421,7 @@ Sprite_HappinessPond:
     
     .BRANCH_ALPHA
     
-    LDA $7EF36A
+    LDA.l $7EF36A
     
     STZ $02
     
@@ -508,7 +508,7 @@ Sprite_HappinessPond:
     
     PLX
     
-    LDA $7EC007 : BNE .BRANCH_ALPHA
+    LDA.l $7EC007 : BNE .BRANCH_ALPHA
     
     INC $0D80, X
     
@@ -553,15 +553,15 @@ Sprite_HappinessPond:
 {
     INC $0D80, X
     
-    LDA $7EF370 : CMP.b #$07 : BEQ .BRANCH_ALPHA
+    LDA.l $7EF370 : CMP.b #$07 : BEQ .BRANCH_ALPHA
     
-    INC A : STA $7EF370
+    INC A : STA.l $7EF370
     
     PHX
     
     TAX
     
-    LDA $0DDB40, X : STA $1CF2 : STA $7EF375
+    LDA.l $0DDB40, X : STA $1CF2 : STA.l $7EF375
     
     PLX
     
@@ -610,7 +610,7 @@ Sprite_HappinessPond:
     
     PLX
     
-    LDA $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
+    LDA.l $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
     
     LDA $0E90, X : TAY
     
@@ -649,15 +649,15 @@ Sprite_HappinessPond:
 {
     LDA.b #$09 : STA $0D80, X
     
-    LDA $7EF371 : CMP.b #$07 : BEQ .BRANCH_ALPHA
+    LDA.l $7EF371 : CMP.b #$07 : BEQ .BRANCH_ALPHA
     
-    INC A : STA $7EF371
+    INC A : STA.l $7EF371
     
     PHX
     
     TAX
     
-    LDA $0DDB50, X : STA $1CF2 : STA $7EF376
+    LDA.l $0DDB50, X : STA $1CF2 : STA.l $7EF376
     
     PLX
     
@@ -679,7 +679,7 @@ Sprite_HappinessPond:
     
     REP #$20
     
-    LDA $7EF360 : CLC : ADC.w #$0064 : STA $7EF360
+    LDA.l $7EF360 : CLC : ADC.w #$0064 : STA.l $7EF360
     
     SEP #$30
     
@@ -810,7 +810,7 @@ SpawnThrownItem:
     LDA .ItemPointer+1, Y : STA $01 ; $C3DE
     
     ; Save the state of the selected item.
-    LDA $7EF340, X : PHA
+    LDA.l $7EF340, X : PHA
     
     CPX.b #$20 : BEQ .BRANCH_ALPHA
     CPX.b #$03 : BNE .BRANCH_BETA
@@ -822,7 +822,7 @@ SpawnThrownItem:
     
     TAY
     
-    LDA.b #$00 : STA $7EF340, X
+    LDA.b #$00 : STA.l $7EF340, X
     
     ; Get the item from the pointer.
     LDA ($00), Y : PHA : TAX
@@ -909,7 +909,7 @@ FairyFadeIn:
     PLX
     
     ; If completely faded in:
-    LDA $7EC007 : BNE .BRANCH_ALPHA
+    LDA.l $7EC007 : BNE .BRANCH_ALPHA
         INC $0D80, X
         
         ; Hello there.  Did you drop this?
@@ -957,7 +957,7 @@ YesIThrewIt:
     INC $0D80, X
     
     ; Are we in the dark world?
-    LDA $7EF3CA : BNE .InDarkWorld
+    LDA.l $7EF3CA : BNE .InDarkWorld
     
     ; Figure out which item it is:
     ; Is it the blue boomerang?
@@ -1081,7 +1081,7 @@ SetupFadeOut:
     ; If its bombs don't give it back?
     ; Probably because we wouldn't want to replace the amount you have?
     CPX.b #$03 : BNE .BRANCH_ALPHA
-    STA $7EF340, X
+    STA.l $7EF340, X
     
     .BRANCH_ALPHA
     
@@ -1114,7 +1114,7 @@ FairyFadeOut:
     
     PLX
     
-    LDA $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
+    LDA.l $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
         LDA $0E90, X : TAY
     
         LDA.b #$00 : STA $0DD0, Y
@@ -1306,7 +1306,7 @@ Pool_FairyQueen_Draw:
 ; $034B26-$034BA1 LOCAL JUMP LOCATION
 FairyQueen_Draw:
 {
-    LDA $7EF3CA : BNE .in_dark_world
+    LDA.l $7EF3CA : BNE .in_dark_world
     
     JSR Sprite_PrepOamCoord
     

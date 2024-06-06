@@ -28,30 +28,30 @@ AddBombosSpell:
     
     LDA.b #$03
     
-    STA $7F5800 : STA $7F5801 : STA $7F5802 : STA $7F5803
-    STA $7F5804 : STA $7F5805 : STA $7F5806 : STA $7F5807
-    STA $7F5808 : STA $7F5809
+    STA.l $7F5800 : STA.l $7F5801 : STA.l $7F5802 : STA.l $7F5803
+    STA.l $7F5804 : STA.l $7F5805 : STA.l $7F5806 : STA.l $7F5807
+    STA.l $7F5808 : STA.l $7F5809
     
-    STA $7F5945 : STA $7F5946 : STA $7F5947 : STA $7F5948
-    STA $7F5949 : STA $7F594A : STA $7F594B : STA $7F594C
+    STA.l $7F5945 : STA.l $7F5946 : STA.l $7F5947 : STA.l $7F5948
+    STA.l $7F5949 : STA.l $7F594A : STA.l $7F594B : STA.l $7F594C
     
     LDA.b #$00
     
-    STA $7F5810 : STA $7F5811 : STA $7F5812 : STA $7F5813
-    STA $7F5814 : STA $7F5815 : STA $7F5816 : STA $7F5817
-    STA $7F5818 : STA $7F5819
+    STA.l $7F5810 : STA.l $7F5811 : STA.l $7F5812 : STA.l $7F5813
+    STA.l $7F5814 : STA.l $7F5815 : STA.l $7F5816 : STA.l $7F5817
+    STA.l $7F5818 : STA.l $7F5819
     
-    STA $7F5935 : STA $7F5936 : STA $7F5937 : STA $7F5938
-    STA $7F5939 : STA $7F593A : STA $7F593B : STA $7F593C
-    STA $7F5934
+    STA.l $7F5935 : STA.l $7F5936 : STA.l $7F5937 : STA.l $7F5938
+    STA.l $7F5939 : STA.l $7F593A : STA.l $7F593B : STA.l $7F593C
+    STA.l $7F5934
     
-    STA $7F5A56
+    STA.l $7F5A56
     
     ; Set an overall timer for the effect? \warning Set this below 0x40,
     ; and the game will go into an infinite loop due to particularities
     ; of this ancillary object's code.
-    LDA.b #$80 : STA $7F5A55
-    LDA.b #$10 : STA $7F5820
+    LDA.b #$80 : STA.l $7F5A55
+    LDA.b #$10 : STA.l $7F5820
     
     LDA.b #$0B : STA $0AAA
     
@@ -66,8 +66,8 @@ AddBombosSpell:
     
     LDY $1A
     
-    LDA $21 : STA $7F5956
-    LDA $23 : STA $7F59D6
+    LDA $21 : STA.l $7F5956
+    LDA $23 : STA.l $7F59D6
     
     ; \wtf this points to a nonexistent data table. Is this on purpose?
     ; (It points to the beginning of the boomerang ancilla code.
@@ -78,7 +78,7 @@ AddBombosSpell:
     
     .wtf
     
-    STA $7F5955 : STA $7F59D5
+    STA.l $7F5955 : STA.l $7F59D5
     
     LDX.b #$00 : STX $72
     
@@ -86,8 +86,8 @@ AddBombosSpell:
     
     REP #$20
     
-    LDA $20 : CLC : ADC .y_offsets, X : STA $7F5924, X
-    LDA $22 : CLC : ADC .x_offsets, X : STA $7F592C, X
+    LDA $20 : CLC : ADC .y_offsets, X : STA.l $7F5924, X
+    LDA $22 : CLC : ADC .x_offsets, X : STA.l $7F592C, X
     
     SEP #$20
     
@@ -95,9 +95,9 @@ AddBombosSpell:
     
     TXA : LSR A : TAX
     
-    LDA.b #$10 : STA $08 : STA $7F5A57
+    LDA.b #$10 : STA $08 : STA.l $7F5A57
     
-    LDA $7F5820, X
+    LDA.l $7F5820, X
     
     PLX
     
@@ -113,7 +113,7 @@ AddBombosSpell:
     
     .positive_x_projection
     
-    CLC : ADC $7F5924, X : STA $00
+    CLC : ADC.l $7F5924, X : STA $00
     
     LDA $04
     
@@ -123,7 +123,7 @@ AddBombosSpell:
     
     .positive_y_projection
     
-    CLC : ADC $7F592C, X : STA $04
+    CLC : ADC.l $7F592C, X : STA $04
     
     SEP #$20
     
@@ -131,11 +131,11 @@ AddBombosSpell:
     
     LDX $72
     
-    LDA $00 : STA $7F5824, X
-    LDA $01 : STA $7F5864, X
+    LDA $00 : STA.l $7F5824, X
+    LDA $01 : STA.l $7F5864, X
     
-    LDA $04 : STA $7F58A4, X
-    LDA $05 : STA $7F58E4, X
+    LDA $04 : STA.l $7F58A4, X
+    LDA $05 : STA.l $7F58E4, X
     
     PLX
     
@@ -157,7 +157,7 @@ AddBombosSpell:
 ; $0430CE-$043109 JUMP LOCATION
 Ancilla_BombosSpell:
 {
-    LDA $7F5934 : BNE .not_spawning_new_columns
+    LDA.l $7F5934 : BNE .not_spawning_new_columns
     
     LDA $11 : BNE .just_draw_flame_columns
     
@@ -178,7 +178,7 @@ Ancilla_BombosSpell:
     
     .not_spawning_new_columns
     
-    LDA $7F5934 : CMP.b #$02 : BEQ .in_blast_stage
+    LDA.l $7F5934 : CMP.b #$02 : BEQ .in_blast_stage
     
     LDA $11 : BNE .just_draw_flame_columns
     
@@ -224,7 +224,7 @@ Bombos_ExecuteFlameColumns:
     
     .next_column
     
-    LDA $7F5810, X : CMP.b #$0D : BNE .active_column
+    LDA.l $7F5810, X : CMP.b #$0D : BNE .active_column
     
     .inactive_column
     .done_activating_columns
@@ -233,7 +233,7 @@ Bombos_ExecuteFlameColumns:
     
     .active_column
     
-    LDA $7F5800, X : DEC A : STA $7F5800, X : BMI .timer_expired
+    LDA.l $7F5800, X : DEC A : STA.l $7F5800, X : BMI .timer_expired
     
     .dont_activate_another_column
     
@@ -241,9 +241,9 @@ Bombos_ExecuteFlameColumns:
     
     .timer_expired
     
-    LDA.b #$03 : STA $7F5800, X
+    LDA.b #$03 : STA.l $7F5800, X
     
-    LDA $7F5810, X : INC A : STA $7F5810, X
+    LDA.l $7F5810, X : INC A : STA.l $7F5810, X
     
     CMP.b #$0D : BEQ .inactive_column
     CMP.b #$02 : BNE .dont_activate_another_column
@@ -259,9 +259,9 @@ Bombos_ExecuteFlameColumns:
     
     .find_inactive_column_loop
     
-    LDA $7F5810, X : CMP.b #$0D : BNE .column_not_ready_for_reset
+    LDA.l $7F5810, X : CMP.b #$0D : BNE .column_not_ready_for_reset
     
-    LDA.b #$00 : STA $7F5810, X
+    LDA.b #$00 : STA.l $7F5810, X
     
     BRA .set_radial_distance_and_angle
     
@@ -288,15 +288,15 @@ Bombos_ExecuteFlameColumns:
     LDA $74 : LSR #4 : TAX
     
     ; (proj = projection)
-    LDA $7F5A57 : CLC : ADC.b #$03 : CMP.b #$D0 : BCC .proj_distance_not_maxed
+    LDA.l $7F5A57 : CLC : ADC.b #$03 : CMP.b #$D0 : BCC .proj_distance_not_maxed
     
     LDA.b #$CF
     
     .proj_distance_not_maxed
     
-    STA $7F5A57 : STA $08
+    STA.l $7F5A57 : STA $08
     
-    LDA $7F5820, X : CLC : ADC.b #$06 : STA $7F5820, X : AND.b #$3F
+    LDA.l $7F5820, X : CLC : ADC.b #$06 : STA.l $7F5820, X : AND.b #$3F
     
     JSR Ancilla_GetRadialProjection
     
@@ -314,7 +314,7 @@ Bombos_ExecuteFlameColumns:
     
     .positive_y_projection
     
-    CLC : ADC $7F5924, X : STA $00
+    CLC : ADC.l $7F5924, X : STA $00
     
     LDA $04
     
@@ -324,7 +324,7 @@ Bombos_ExecuteFlameColumns:
     
     .positive_x_projection
     
-    CLC : ADC $7F592C, X : STA $04
+    CLC : ADC.l $7F592C, X : STA $04
     
     PLY
     
@@ -332,11 +332,11 @@ Bombos_ExecuteFlameColumns:
     
     LDX $74
     
-    LDA $00 : STA $7F5824, X
-    LDA $01 : STA $7F5864, X
+    LDA $00 : STA.l $7F5824, X
+    LDA $01 : STA.l $7F5864, X
     
-    LDA $04 : STA $7F58A4, X
-    LDA $05 : STA $7F58E4, X
+    LDA $04 : STA.l $7F58A4, X
+    LDA $05 : STA.l $7F58E4, X
     
     ; \wtf Okay.... seriously I think that either the Bombos person was
     ; smoking crack rock or there was some earlier version of this
@@ -355,7 +355,7 @@ Bombos_ExecuteFlameColumns:
     
     LDA $04 : LSR #5 : TAX
     
-    LDA $09968A, X : ORA.b #$2A : STA $012E
+    LDA.l $09968A, X : ORA.b #$2A : STA $012E
     
     .no_flame_sfx
     
@@ -378,13 +378,13 @@ Bombos_ExecuteFlameColumns:
     ; Checks if the first column slot's angle ever exceeds or meets 0x80.
     ; If so, move on to the next state that will phase out the flame
     ; columns.
-    LDA $7F5820 : CMP.b #$80 : BCS .initiate_flame_column_wrap_up
+    LDA.l $7F5820 : CMP.b #$80 : BCS .initiate_flame_column_wrap_up
     
     BRA .update_active_column_count
     
     .initiate_flame_column_wrap_up
     
-    LDA.b #$01 : STA $7F5934
+    LDA.b #$01 : STA.l $7F5934
     
     .update_active_column_count
     
@@ -406,14 +406,14 @@ BombosSpell_WrapUpFlameColumns:
     
     .next_fire_column
     
-    LDA $7F5800, X : DEC A : STA $7F5800, X : BPL .delay
+    LDA.l $7F5800, X : DEC A : STA.l $7F5800, X : BPL .delay
     
-    LDA.b #$03 : STA $7F5800, X
+    LDA.b #$03 : STA.l $7F5800, X
     
-    LDA $7F5810, X : INC A : STA $7F5810, X : CMP.b #$0D : BCC .not_inactive
+    LDA.l $7F5810, X : INC A : STA.l $7F5810, X : CMP.b #$0D : BCC .not_inactive
     
     ; Keep the flame column inactive if it has already reached that state.
-    LDA.b #$0D : STA $7F5810, X
+    LDA.b #$0D : STA.l $7F5810, X
     
     .delay
     .not_inactive
@@ -426,14 +426,14 @@ BombosSpell_WrapUpFlameColumns:
     
     .find_active_column_loop
     
-    LDA $7F5810, X : CMP.b #$0D : BNE .not_all_inactive
+    LDA.l $7F5810, X : CMP.b #$0D : BNE .not_all_inactive
     
     DEX : BPL .find_active_column_loop
     
     STZ $72
     
     ; Increment the overall effect state to begin displaying blasts.
-    LDA.b #$02 : STA $7F5934
+    LDA.b #$02 : STA.l $7F5934
     
     PLX : PHX
     
@@ -476,9 +476,9 @@ BombosSpell_DrawFireColumn:
     
     PHX
     
-    LDA $7F5810, X : CMP.b #$0D : BEQ .inactive_flame_column
+    LDA.l $7F5810, X : CMP.b #$0D : BEQ .inactive_flame_column
     
-    ASL A : CLC : ADC $7F5810, X : CLC : ADC.b #$02 : TAX
+    ASL A : CLC : ADC.l $7F5810, X : CLC : ADC.b #$02 : TAX
     
     STZ $08
     
@@ -490,11 +490,11 @@ BombosSpell_DrawFireColumn:
     
     LDX $75
     
-    LDA $7F5824, X : STA $00
-    LDA $7F5864, X : STA $01
+    LDA.l $7F5824, X : STA $00
+    LDA.l $7F5864, X : STA $01
     
-    LDA $7F58A4, X : STA $02
-    LDA $7F58E4, X : STA $03
+    LDA.l $7F58A4, X : STA $02
+    LDA.l $7F58E4, X : STA $03
     
     PLX : PHX
     
@@ -559,9 +559,9 @@ BombosSpell_ExecuteBlasts:
     
     .next_blast
     
-    LDA $7F5935, X : CMP.b #$08 : BEQ .inactive_blast
+    LDA.l $7F5935, X : CMP.b #$08 : BEQ .inactive_blast
     
-    LDA $7F5945, X : DEC A : STA $7F5945, X : BMI .expired_delay_timer
+    LDA.l $7F5945, X : DEC A : STA.l $7F5945, X : BMI .expired_delay_timer
     
     .inactive_blast
     .dont_activate_new_blast
@@ -570,15 +570,15 @@ BombosSpell_ExecuteBlasts:
     
     .expired_delay_timer
     
-    LDA.b #$03 : STA $7F5945, X
+    LDA.b #$03 : STA.l $7F5945, X
     
-    LDA $7F5935, X : INC A : STA $7F5935, X
+    LDA.l $7F5935, X : INC A : STA.l $7F5935, X
     
     CMP.b #$01 : BNE .dont_activate_new_blast
     
     ; This flag indicates that the effect should absolutely not convert
     ; any more blasts to an active state.
-    LDA $7F5A56 : BNE .dont_activate_new_blast
+    LDA.l $7F5A56 : BNE .dont_activate_new_blast
     
     PHX
     
@@ -600,14 +600,14 @@ BombosSpell_ExecuteBlasts:
     
     .find_inactive_blast_loop
     
-    LDA $7F5935, X : CMP.b #$08 : BEQ .activate_another_blast
+    LDA.l $7F5935, X : CMP.b #$08 : BEQ .activate_another_blast
     
     DEX : BPL .find_inactive_blast_loop
     
     .activate_another_blast
     
-    LDA.b #$00 : STA $7F5935, X
-    LDA.b #$03 : STA $7F5945, X
+    LDA.b #$00 : STA.l $7F5935, X
+    LDA.b #$03 : STA.l $7F5945, X
     
     PHY
     
@@ -625,14 +625,14 @@ BombosSpell_ExecuteBlasts:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $E8 : STA $7F5955, X
-    LDA $02 : CLC : ADC $E2 : STA $7F59D5, X
+    LDA $00 : CLC : ADC $E8 : STA.l $7F5955, X
+    LDA $02 : CLC : ADC $E2 : STA.l $7F59D5, X
     
     SEP #$20
     
-    LDA $7F59D5, X : LSR #5 : TAX
+    LDA.l $7F59D5, X : LSR #5 : TAX
     
-    LDA $09968A, X : ORA.b #$0C : STA $012E
+    LDA.l $09968A, X : ORA.b #$0C : STA $012E
     
     PLY : PLX
     
@@ -650,7 +650,7 @@ BombosSpell_ExecuteBlasts:
     
     .find_active_blast_loop
     
-    LDA $7F5935, X : CMP.b #$08 : BNE .not_all_inactive
+    LDA.l $7F5935, X : CMP.b #$08 : BNE .not_all_inactive
     
     DEX : BPL .find_active_blast_loop
     
@@ -705,10 +705,10 @@ BombosSpell_ExecuteBlasts:
     
     .tick_blast_timer
     
-    LDA $7F5A55 : DEC A : STA $7F5A55 : BNE .not_expired
+    LDA.l $7F5A55 : DEC A : STA.l $7F5A55 : BNE .not_expired
     
-    LDA.b #$01 : STA $7F5A56
-                 STA $7F5A55
+    LDA.b #$01 : STA.l $7F5A56
+                 STA.l $7F5A55
     
     .not_expired
     
@@ -772,21 +772,21 @@ BombosSpell_DrawBlast:
     
     PHX : TXA : ASL A : TAX
     
-    LDA $7F5955, X : STA $08
-    LDA $7F5956, X : STA $09
+    LDA.l $7F5955, X : STA $08
+    LDA.l $7F5956, X : STA $09
     
-    LDA $7F59D5, X : STA $0A
-    LDA $7F59D6, X : STA $0B
+    LDA.l $7F59D5, X : STA $0A
+    LDA.l $7F59D6, X : STA $0B
     
     PLX
     
-    LDA $7F5935, X : CMP.b #$08 : BEQ .inactive_blast
+    LDA.l $7F5935, X : CMP.b #$08 : BEQ .inactive_blast
     
     LDA.b #$10 : JSR Ancilla_AllocateOam
     
     LDY.b #$00
     
-    LDA $7F5935, X : ASL #2 : CLC : ADC.b #$03 : STA $73 : TAX
+    LDA.l $7F5935, X : ASL #2 : CLC : ADC.b #$03 : STA $73 : TAX
     
     .next_oam_entry
     

@@ -533,7 +533,7 @@ Module_PreDungeon:
 
             LDA.b #$00 : STA.l $7EC005 : STA.l $7EC006
 
-            JSL $079A2C ; $039A2C IN ROM ; Puts Link into a sleep state at the beginning of the game.
+            JSL.l $079A2C ; $039A2C IN ROM ; Puts Link into a sleep state at the beginning of the game.
 
     .notOpeningScene
 
@@ -626,7 +626,7 @@ PreOverworld_LoadProperties:
 
     ; $01056A IN ROM
     ; LIf Link has moon pearl, load his default graphic states and otherwise.
-    JSL $02856A
+    JSL.l $02856A
 
     ; Special branch for if you are outside the normal
     ; overworld area e.g. Master Sword woods.
@@ -1163,7 +1163,7 @@ Credits_LoadScene_Overworld_LoadMap:
 ; $0106B3-$0106BF LONG JUMP LOCATION
 Credits_OperateScrollingAndTilemap:
 {
-    JSL $0EAEA6 ; $072EA6 IN ROM
+    JSL.l $0EAEA6 ; $072EA6 IN ROM
 
     LDA.w $0416 : BEQ .alpha
         JSR Overworld_ScrollMap ; $017273 IN ROM
@@ -1381,7 +1381,7 @@ Module_Dungeon:
 
     SEP #$20
 
-    JSL $07F0AC ; $03F0AC IN ROM. Handle the sprites of pushed blocks.
+    JSL.l $07F0AC ; $03F0AC IN ROM. Handle the sprites of pushed blocks.
     JSL Sprite_Main
 
     REP #$20
@@ -1804,7 +1804,7 @@ Dungeon_InterRoomTrans_LoadNextRoom:
 
     JSL Dungeon_LoadRoom
     JSL Dungeon_InitStarTileChr
-    JSL $00D6F9 ; $0056F9 IN ROM
+    JSL.l $00D6F9 ; $0056F9 IN ROM
 
     INC.b $B0
 
@@ -2589,7 +2589,7 @@ Dungeon_FallingTransition_FallingFadeIn:
 ; $010EE0-$010EF9 LOCAL JUMP LOCATION
 Dungeon_FallingTransition_LandLinkFromFalling:
 {
-    JSL $079520 ; $039520 IN ROM
+    JSL.l $079520 ; $039520 IN ROM
 
     LDA.b $11 : BNE .BRANCH_ALPHA
         LDA.b #$07 : STA.b $11
@@ -2887,7 +2887,7 @@ Dungeon_SpiralStaircase:
 
     .BRANCH_ALPHA
 
-    JSL $07F2C1 ; $03F2C1 IN ROM
+    JSL.l $07F2C1 ; $03F2C1 IN ROM
 
     LDA.b $B0
 
@@ -3824,7 +3824,7 @@ RecoverPositionAfterDrowning:
 
     STZ.w $037B
 
-    JSL $07984B ; $03984B IN ROM
+    JSL.l $07984B ; $03984B IN ROM
 
     STZ.w $02F9
 
@@ -4490,7 +4490,7 @@ Dungeon_PrepExitWithSpotlight:
 
     STZ.w $04A0
 
-    JSL $0AFD0C ; $057D0C IN ROM
+    JSL.l $0AFD0C ; $057D0C IN ROM
 
     INC.b $16
 
@@ -4529,7 +4529,7 @@ Spotlight_ConfigureTableAndControl:
         ; Force V-blank in preperation for Dungeon mode.
         JSL EnableForceBlank ; $00093D IN ROM
 
-        JSL $07B107 ; $03B107 IN ROM
+        JSL.l $07B107 ; $03B107 IN ROM
 
     .BRANCH_BETA
 
@@ -4846,7 +4846,7 @@ Module11_04_FadeAndLoadQuadrants:
     ; $011C1C ALTERNATE ENTRY POINT
     .notFullyBright
 
-    JSL $079520 ; $039520 IN ROM
+    JSL.l $079520 ; $039520 IN ROM
 
     LDA.b $11 : BNE .notDefaultSubmodule
         LDA.b #$07 : STA.b $10
@@ -5096,7 +5096,7 @@ Mirror_Init:
 
     SEP #$20
 
-    JSL $0BFFEE ; $05FFEE IN ROM
+    JSL.l $0BFFEE ; $05FFEE IN ROM
 
     RTS
 }
@@ -5211,7 +5211,7 @@ Module15_08:
 ; $011E06-$011E0E LOCAL JUMP LOCATION
 Module15_02_RunMirrorWarp_Part1:
 {
-    JSL $00FE5E ; $007E5E IN ROM
+    JSL.l $00FE5E ; $007E5E IN ROM
 
     INC.b $11
 
@@ -5223,12 +5223,12 @@ Module15_02_RunMirrorWarp_Part1:
 ; $011E0F-$011E21 LOCAL JUMP LOCATION
 Module15_03_RunMirrorWarp_Part2:
 {
-    JSL $00FE64 ; $007E64 IN ROM
+    JSL.l $00FE64 ; $007E64 IN ROM
 
     BRA .BRANCH_ALPHA
 
     ; $011E15 ALTERNATE ENTRY POINT
-    JSL $00FF2F ; $007F2F IN ROM
+    JSL.l $00FF2F ; $007F2F IN ROM
 
     .BRANCH_ALPHA
 
@@ -5246,7 +5246,7 @@ Module15_03_RunMirrorWarp_Part2:
 Module15_0C:
 {
     DEC.b $B0 : BNE .stillCountingDown
-        JSL $029E6E ; $011E6E IN ROM
+        JSL.l $029E6E ; $011E6E IN ROM
         JSL Overworld_SetSongList
 
         LDA.l $7EF29B : ORA.b #$20 : STA.l $7EF29B
@@ -5782,7 +5782,7 @@ TriforceRoom_Step6:
 ; $012100-$012120 LOCAL JUMP LOCATION
 TriforceRoom_Step7:
 {
-    JSL $0CCA54 ; $064A54 IN ROM
+    JSL.l $0CCA54 ; $064A54 IN ROM
 
     REP #$20
 
@@ -5804,7 +5804,7 @@ TriforceRoom_Step7:
 ; $012121-$012136 LOCAL JUMP LOCATION
 TriforceRoom_Step9:
 {
-    JSL $0CCAB1 ; $064AB1 IN ROM
+    JSL.l $0CCAB1 ; $064AB1 IN ROM
     JSL Messaging_Text
 
     LDA.b $11 : BNE .waitForTextToEnd
@@ -5822,7 +5822,7 @@ TriforceRoom_Step9:
 ; $012137-$012150 LOCAL JUMP LOCATION
 TriforceRoom_Step8And10:
 {
-    JSL $0CCAB1 ; $064AB1 IN ROM
+    JSL.l $0CCAB1 ; $064AB1 IN ROM
 
     LDA.b $B0 : CMP.b #$0B : BNE .BRANCH_ALPHA
         LDA.b #$21 : STA.w $012C
@@ -5844,7 +5844,7 @@ TriforceRoom_Step8And10:
 ; $012151-$012163 LOCAL JUMP LOCATION
 TriforceRoom_Step11:
 {
-    JSL $0CCAB1 ; $064AB1 IN ROM
+    JSL.l $0CCAB1 ; $064AB1 IN ROM
     JSL Player_ApproachTriforce
 
     LDA.b $B0 : CMP.b #$0C : BNE .alpha
@@ -5863,10 +5863,10 @@ TriforceRoom_Step12:
 {
     ; Submodule ??? of triforce room scene (fades screen to white after a time).
 
-    JSL $0CCAB1 ; $064AB1 IN ROM
+    JSL.l $0CCAB1 ; $064AB1 IN ROM
 
     DEC.b $C8 : BNE .alpha ; $C8 used as a timer here?
-        JSL $0EF404 ; $077404 IN ROM
+        JSL.l $0EF404 ; $077404 IN ROM
 
         INC.b $11
 
@@ -5881,8 +5881,8 @@ TriforceRoom_Step12:
 TriforceRoom_Step13:
 {
     ; Totally brighten the screen (manipulate almost all palettes to be fully white).
-    JSL $0CCAB1 ; $064AB1 IN ROM
-    JSL $00EF8A ; $006F8A IN ROM
+    JSL.l $0CCAB1 ; $064AB1 IN ROM
+    JSL.l $00EF8A ; $006F8A IN ROM
 
     LDA.l $7EC009 : CMP.b #$FF : BNE .alpha
         INC.b $B0
@@ -6455,7 +6455,7 @@ Overworld_PlayerControl:
     JSL Player_Main
 
     LDA.w $04B4 : CMP.b #$FF : BEQ .noSuperBombIndicator
-        JSL $0AFDA8 ; $057DA8 IN ROM Handles Super bomb countdown indicator on HUD.
+        JSL.l $0AFDA8 ; $057DA8 IN ROM Handles Super bomb countdown indicator on HUD.
 
     .noSuperBombIndicator
 
@@ -6648,7 +6648,7 @@ OverworldHandleTransitions:
         .BRANCH_DELTA
         .noDeltaX
 
-        JSL $0EDE49 ; $075E49 IN ROM
+        JSL.l $0EDE49 ; $075E49 IN ROM
 
         RTS
 
@@ -6829,7 +6829,7 @@ ScrollAndCheckForSOWExit:
     .alpha
 
     ; Checks for tiles that lead back to normal overworld.
-    JSL $0EDEE3 ; $075EE3 IN ROM
+    JSL.l $0EDEE3 ; $075EE3 IN ROM
 
     RTS
 }
@@ -7054,7 +7054,7 @@ Overworld_EaseOffScrollTransition:
 ; $012C8F-$012CC1 LOCAL JUMP LOCATION
 Overworld_WalkFromExiting_FaceDown:
 {
-    JSL $07E69D ; $03E69D IN ROM
+    JSL.l $07E69D ; $03E69D IN ROM
 
     REP #$20
 
@@ -8117,7 +8117,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     LDA.l $00FD1C, X
 
-    JSL $0ED5A8 ; $0755A8 IN ROM
+    JSL.l $0ED5A8 ; $0755A8 IN ROM
     JSL Overworld_SetScreenBGColorCacheOnly
     JSL Overworld_SetFixedColorAndScroll
 
@@ -8163,7 +8163,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     JSL Sprite_ResetAll
     JSL Sprite_OverworldReloadAll
-    JSL $07B107 ; $03B107 IN ROM
+    JSL.l $07B107 ; $03B107 IN ROM
     JSR $8B0C   ; $010B0C IN ROM
 
     LDA.b #$14 : STA.b $5D
@@ -8181,7 +8181,7 @@ Overworld_MasterSword:
 {
     ; Module 0x09.0x2B - making the screen flash white during the master sword retrieval
 
-    JSL $0EF400 ; $077400 IN ROM
+    JSL.l $0EF400 ; $077400 IN ROM
 
     Overworld_WeathervaneExplosion:
 
@@ -8277,7 +8277,7 @@ Module09_2E_03_FindDestination:
 
     STZ.b $B2
 
-    JSL $02B1F4 ; $0131F4 IN ROM
+    JSL.l $02B1F4 ; $0131F4 IN ROM
 
     LDA.b #$0C : STA.b $17
 
@@ -8857,7 +8857,7 @@ HandleEdgeTransitionMovementSouth:
             ; $0137AE ALTERNATE ENTRY POINT
 
             JSL Dungeon_SaveRoomData_justKeys ; $0121C7 IN ROM
-            JSL $02B8E5                       ; $0138E5 IN ROM
+            JSL.l $02B8E5                       ; $0138E5 IN ROM
 
             LDA.b #$08 : STA.w $010C
 

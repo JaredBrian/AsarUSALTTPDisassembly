@@ -152,9 +152,9 @@ Ancilla_TravelBird:
     
     PLX
     
-    LDA $7EF3CC : CMP.b #$09 : BNE .tagalong_not_middle_aged_sign_guy
+    LDA.l $7EF3CC : CMP.b #$09 : BNE .tagalong_not_middle_aged_sign_guy
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
                  STA $02F9
     
     .tagalong_not_middle_aged_sign_guy
@@ -231,14 +231,14 @@ Ancilla_TravelBird:
     
     LDA.b #$90 : STA $031F
     
-    LDA $7EF3CC
+    LDA.l $7EF3CC
     
     CMP.b #$0D : BEQ .super_bomb_or_chest_tagalong
     CMP.b #$0C : BNE .tagalong_neither_of_those
     
     .super_bomb_or_chest_tagalong
     
-    LDA $7EF3D3 : BNE .draw_logic
+    LDA.l $7EF3D3 : BNE .draw_logic
     
     .tagalong_neither_of_those
     

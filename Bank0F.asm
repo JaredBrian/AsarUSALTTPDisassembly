@@ -3814,7 +3814,7 @@ Sprite_NullifyHookshotDrag:
     
     ; This is what stops Link dead in his tracks when he collides with a
     ; sprite :/
-    JSL $07F42F ; $03F42F IN ROM; Does some stuff only relevant to indoors
+    JSL.l $07F42F ; $03F42F IN ROM; Does some stuff only relevant to indoors
     
     PLX
     
@@ -4513,7 +4513,7 @@ Death_PrepFaint:
     LDA.b #$00 : STA.l $7EF372
                  STA.l $7EF36D
     
-    JSL $07F1FA ; $03F1FA IN ROM
+    JSL.l $07F1FA ; $03F1FA IN ROM
     
     STZ.w $02F5 : STZ.w $0351 : STZ.w $02E0 : STZ.b $48
     STZ.w $02EC : STZ.b $4D   : STZ.b $46   : STZ.w $0373
@@ -4822,7 +4822,7 @@ Sprite_InitializeSecondaryItemMinigame:
     ; two known instances of this).
     STA.w $03FC
     
-    JSL $07F1FA ; $03F1FA IN ROM
+    JSL.l $07F1FA ; $03F1FA IN ROM
     
     LDX.b #$04
     

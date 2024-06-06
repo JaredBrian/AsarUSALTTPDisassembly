@@ -84,7 +84,7 @@ Sprite_ZoraAndFireball:
     
     ; Does Link have a level two shield or higher?
     ; Nope... so make him suffer
-    LDA $7EF35A : CMP.b #$02 : BCC .ignore_shield_collision
+    LDA.l $7EF35A : CMP.b #$02 : BCC .ignore_shield_collision
     
     ; Otherwise, the fireball might get blocked by the shield
     ; Are Link and the sprite on the same level?

@@ -70,7 +70,7 @@ FluteBoy_HumanForm:
 ; $032F93-$032FC0 JUMP LOCATION
 FluteBoy_Chillin:
 {
-    LDA $7EF34C : CMP.b #$02 : BCS .player_has_flute
+    LDA.l $7EF34C : CMP.b #$02 : BCS .player_has_flute
     
     JSR FluteBoy_CheckIfPlayerTooClose : BCS .player_not_too_close
     
@@ -114,7 +114,7 @@ FltueBoy_PrepPhaseOut:
     
     LDA.b #$30 : STA $9A
     
-    LDA.b #$00 : STA $7EC007 : STA $7EC009
+    LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
     
     PHX
     
@@ -147,7 +147,7 @@ FluteBoy_PhaseOut:
     
     PLX
     
-    LDA $7EC007 : BNE .filteringNotDone
+    LDA.l $7EC007 : BNE .filteringNotDone
     
     INC $0D80, X
     
@@ -221,7 +221,7 @@ Sprite_FluteAardvark:
 FluteAardvark_InitialStateFromFluteState:
 {
     ; Flute
-    LDA $7EF34C : AND.b #$03
+    LDA.l $7EF34C : AND.b #$03
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -414,7 +414,7 @@ FluteAardvark_FullyArborated:
     LDA.b #$03 : STA $0DC0, X
     
     ; Let us know that flute boy has been thoroughly arborated
-    LDA $7EF3C9 : ORA.b #$08 : STA $7EF3C9
+    LDA.l $7EF3C9 : ORA.b #$08 : STA.l $7EF3C9
     
     RTS
 }

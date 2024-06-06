@@ -102,7 +102,7 @@ Sprite_Apple:
     JSL Sound_SetSfx3PanLong
     
     ; Fill in the player's life meter by 8 points (1 heart)
-    LDA $7EF372 : CLC : ADC.b #$08 : STA $7EF372
+    LDA.l $7EF372 : CLC : ADC.b #$08 : STA.l $7EF372
     
     .expired_so_self_terminate
     

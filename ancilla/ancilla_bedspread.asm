@@ -30,10 +30,9 @@ Ancilla_BedSpread:
     PHX
     
     LDA $037D : BNE .player_eyes_not_shut
-    
-    LDA.b #$10 : JSL OAM_AllocateFromRegionB
-    
-    BRA .oam_allocation_set
+        LDA.b #$10 : JSL OAM_AllocateFromRegionB
+        
+        BRA .oam_allocation_set
     
     .player_eyes_not_shut
     
@@ -42,8 +41,7 @@ Ancilla_BedSpread:
     .oam_allocation_set
     
     LDA $037D : BEQ .player_eyes_shut
-    
-    LDA.b #$04
+        LDA.b #$04
     
     .player_eyes_shut
     
@@ -55,40 +53,38 @@ Ancilla_BedSpread:
     
     .next_oam_entry
     
-    JSR Ancilla_SetOam_XY
-    
-    LDA .chr, X : STA ($90), Y : INY
-    
-    LDA .properties, X : ORA.b #$0D : ORA $65 : STA ($90), Y : INY
-    
-    PHY
-    
-    TYA : SEC : SBC.b #$04 : LSR #2 : TAY
-    
-    LDA.b #$02 : STA ($92), Y
-    
-    PLY
-    
-    INX
-    
-    REP #$20
-    
-    LDA $06 : CLC : ADC.w #$0010 : STA $02
-    
-    SEP #$20
-    
-    DEC $0A : BMI .done_drawing
-    
-    LDA $0A : CMP.b #$01 : BNE .next_oam_entry
-    
-    REP #$20
-    
-    LDA $06 : STA $02
-    
-    LDA $04 : CLC : ADC.w #$0008 : STA $00
-    
-    SEP #$20
-    
+            JSR Ancilla_SetOam_XY
+            
+            LDA .chr, X : STA ($90), Y : INY
+            
+            LDA .properties, X : ORA.b #$0D : ORA $65 : STA ($90), Y : INY
+            
+            PHY
+            
+            TYA : SEC : SBC.b #$04 : LSR #2 : TAY
+            
+            LDA.b #$02 : STA ($92), Y
+            
+            PLY
+            
+            INX
+            
+            REP #$20
+            
+            LDA $06 : CLC : ADC.w #$0010 : STA $02
+            
+            SEP #$20
+            
+            DEC $0A : BMI .done_drawing
+        LDA $0A : CMP.b #$01 : BNE .next_oam_entry
+        
+        REP #$20
+        
+        LDA $06 : STA $02
+        
+        LDA $04 : CLC : ADC.w #$0008 : STA $00
+        
+        SEP #$20
     BRA .next_oam_entry
     
     .done_drawing

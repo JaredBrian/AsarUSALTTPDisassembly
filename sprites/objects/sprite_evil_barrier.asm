@@ -29,7 +29,7 @@ Sprite_EvilBarrier:
     JSL Sprite_CheckDamageFromPlayerLong : BCC .anozap_from_player_attack
     
     ; got master sword?
-    LDA $7EF359 : CMP.b #$02 : BCS .anozap_from_player_attack
+    LDA.l $7EF359 : CMP.b #$02 : BCS .anozap_from_player_attack
     
     ; no? yo' ass be gettin electrocuted, son
     STZ $0EF0, X

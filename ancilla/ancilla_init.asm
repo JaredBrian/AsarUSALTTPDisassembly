@@ -97,7 +97,7 @@ AddLinksBedSpread:
     
     PHX : TAX
     
-    LDA $08806F, X : STA $0E
+    LDA.l $08806F, X : STA $0E
     
     PLX
     
@@ -197,7 +197,7 @@ AddBlueBomb:
     JSR AddAncilla : BCS AddLinkSleepZs.no_open_slots
     
     ; Check our bomb stock.
-    LDA $7EF343 : BNE .player_has_bombs
+    LDA.l $7EF343 : BNE .player_has_bombs
     
     STZ $0C4A, X ; Otherwise forget it.
     
@@ -206,7 +206,7 @@ AddBlueBomb:
     .player_has_bombs
     
     ; Subtract from our bomb stock by one.
-    DEC A : STA $7EF343 : BNE .bombs_left_over
+    DEC A : STA.l $7EF343 : BNE .bombs_left_over
     
     PHX ; If we run out of bombs select a new item.
     
@@ -222,7 +222,7 @@ AddBlueBomb:
     STZ $0C5E, X : STZ $03C2, X : STZ $0385, X
     
     ; Load the timer value for the bomb (this value is the first entry into that table)
-    LDA $089543 : STA $039F, X
+    LDA.l $089543 : STA $039F, X
     
     ; seems like this memory is specific to bombs
     LDA.b #$07 : STA $03C0, X
@@ -341,7 +341,7 @@ AddBoomerang:
     LDA.b #$01 : STA $035F
     
     ; $0394, X = Which type of boomerang it is - normal or magic
-    LDA $7EF341 : DEC A : STA $0394, X : TAY
+    LDA.l $7EF341 : DEC A : STA $0394, X : TAY
     
     LDA .throw_distance, Y : STA $0C54, X
     
@@ -753,7 +753,7 @@ AddReceivedItem:
         .arePegasusBoots
     
         ; Add an ability to Ability flags location.
-        ORA $7EF379 : STA $7EF379
+        ORA.l $7EF379 : STA.l $7EF379
     
     .notFlippers
     
@@ -789,7 +789,7 @@ AddReceivedItem:
                     ; Are all the pendants filled in yet?
                     AND.b #$07 : CMP.b #$07 : BNE .dontHaveAllPendants
                         ; #$04 means we have all the pendants apparently, and can go get us some Master Sword action.
-                        LDA.b #$04 : STA $7EF3C7
+                        LDA.b #$04 : STA.l $7EF3C7
                 
                     .dontHaveAllPendants
         .notPendant
@@ -892,7 +892,7 @@ AddReceivedItem:
         ; Is it a mushroom / magic powder?
         CPY.b #$29 : BNE .notMagicPowder
             ; check if we have magic powder
-            LDA $7EF344 : CMP.b #$02 : BEQ .notMagicPowder
+            LDA.l $7EF344 : CMP.b #$02 : BEQ .notMagicPowder
                 ; if not, give the guy a mushroom instead
                 LDA.b #$01 : STA [$00]
                 
@@ -1014,7 +1014,7 @@ AddReceivedItem:
             
             LDA.b #$2B : STA $11
             
-            LDA.b #$00 : STA $7EC007
+            LDA.b #$00 : STA.l $7EC007
             
             PHX : PHY
             
@@ -1263,9 +1263,9 @@ GiveBottledItem:
     
         ; This loop searches to see if Link has an inventory slot that has no bottle (an empty bottle counts!)
         ; If so, Link acquires the item stored in variable $0C (along with a bottle)
-        LDA $7EF35C, X : CMP.b #$02 : BCS .checkNextBottleSlot
+        LDA.l $7EF35C, X : CMP.b #$02 : BCS .checkNextBottleSlot
             ; Give Link the bottle or bottled item
-            LDA $0C : STA $7EF35C, X                   ; JML written here to fix bottle bug
+            LDA $0C : STA.l $7EF35C, X                   ; JML written here to fix bottle bug
             
             ; And.... we're done in this routine.
             BRL .finished
@@ -1293,8 +1293,8 @@ GiveBottledItem:
     
     .findSlotForPotion
     
-        LDA $7EF35C, X : CMP.b #$02 : BNE .nonEmptyBottle
-            LDA $0C : STA $7EF35C, X
+        LDA.l $7EF35C, X : CMP.b #$02 : BNE .nonEmptyBottle
+            LDA $0C : STA.l $7EF35C, X
             
             BRA .finished
     
@@ -1497,7 +1497,7 @@ AddHappinessPondRupees:
     
     .init_rupee_slots
     
-    STA $7F586C, X : DEX : BPL .init_rupee_slots
+    STA.l $7F586C, X : DEX : BPL .init_rupee_slots
     
     ; an input to this function was an index to the number of rupees to throw
     ; which gets translated to a number of rupees to display on screen
@@ -1510,18 +1510,18 @@ AddHappinessPondRupees:
     
     .next_rupee_slot
     
-    LDA.b #$01 : STA $7F586C, X
+    LDA.b #$01 : STA.l $7F586C, X
     
-    LDA .z_speeds, Y : STA $7F5818, X
-    LDA .y_speeds, Y : STA $7F5800, X
-    LDA .x_speeds, Y : STA $7F580C, X
+    LDA .z_speeds, Y : STA.l $7F5818, X
+    LDA .y_speeds, Y : STA.l $7F5800, X
+    LDA .x_speeds, Y : STA.l $7F580C, X
     
-    LDA.b #$00 : STA $7F5854, X
-                 STA $7F58AA, X
+    LDA.b #$00 : STA.l $7F5854, X
+                 STA.l $7F58AA, X
     
-    LDA.b #$10 : STA $7F5860, X
+    LDA.b #$10 : STA.l $7F5860, X
     
-    LDA.b #$35 : STA $7F587A, X
+    LDA.b #$35 : STA.l $7F587A, X
     
     REP #$20
     
@@ -1531,11 +1531,11 @@ AddHappinessPondRupees:
     
     SEP #$20
     
-    LDA $00 : STA $7F5824, X
-    LDA $01 : STA $7F5830, X
+    LDA $00 : STA.l $7F5824, X
+    LDA $01 : STA.l $7F5830, X
     
-    LDA $02 : STA $7F583C, X
-    LDA $03 : STA $7F5848, X
+    LDA $02 : STA.l $7F583C, X
+    LDA $03 : STA.l $7F5848, X
     
     DEX
     
@@ -1701,7 +1701,7 @@ AddRecoveredFlute:
     
     STZ $0C54, X : STZ $029E, X
     
-    LDA $08CFA6 : STA $0294, X
+    LDA.l $08CFA6 : STA $0294, X
     
     LDY.b #$08
     
@@ -1825,13 +1825,13 @@ AddWeathervaneExplosion:
     LDA.b #$17 : STA $012D
     
     ; Um...?
-    LDA.b #$00 : STA $7F58B8
+    LDA.b #$00 : STA.l $7F58B8
     
     REP #$20
     
     ; Set up a timer at this location for the 
     ; weathervane to explode.
-    LDA.w #$0280 : STA $7F58B6
+    LDA.w #$0280 : STA.l $7F58B6
     
     SEP #$20
     
@@ -1839,25 +1839,25 @@ AddWeathervaneExplosion:
     
     .init_wood_chunks
     
-    LDA.b #$00 : STA $7F5800, X
+    LDA.b #$00 : STA.l $7F5800, X
     
-    LDA .x_speeds, X : STA $7F580C, X
+    LDA .x_speeds, X : STA.l $7F580C, X
     
-    LDA .z_speeds, X : STA $7F5818, X
+    LDA .z_speeds, X : STA.l $7F5818, X
     
     ; Y scroll data for the sprite.
-    LDA .y_coords, X : STA $7F5824, X
-    LDA.b #$07       : STA $7F5830, X
+    LDA .y_coords, X : STA.l $7F5824, X
+    LDA.b #$07       : STA.l $7F5830, X
     
     ; X scroll data for the sprite.
-    LDA .x_coords, X : STA $7F583C, X
-    LDA.b #$02       : STA $7F5848, X
+    LDA .x_coords, X : STA.l $7F583C, X
+    LDA.b #$02       : STA.l $7F5848, X
     
-    LDA .z_coords, X : STA $7F5854, X
+    LDA .z_coords, X : STA.l $7F5854, X
     
-    LDA.b #$01 : STA $7F5860, X
+    LDA.b #$01 : STA.l $7F5860, X
     
-    TXA : AND.b #$01 : STA $7F586C, X
+    TXA : AND.b #$01 : STA.l $7F586C, X
     
     DEX : BPL .init_wood_chunks
     
@@ -1964,7 +1964,7 @@ AddSuperBombExplosion:
     STZ $03EA, X : STZ $0C54, X
     STZ $03C2, X : STZ $0385, X
     
-    LDA $0895A4 : STA $039F, X
+    LDA.l $0895A4 : STA $039F, X
     
     LDA.b #$01 : STA $0C5E, X
     
@@ -2056,7 +2056,7 @@ Ancilla_ConfigureRevivalObjects:
 
 	LDA.l Ancilla_MagicPowder.animation_group_offsets, X : CLC : ADC $00 : TAX
 
-	LDA $08B8F4, X
+	LDA.l $08B8F4, X
     
     PLX
     
@@ -2359,7 +2359,7 @@ AddBlastWallFireball:
     ; store layer information for the object
     LDA $EE : STA $0C7C, X
     
-    LDA.b #$10 : STA $7F0040, X
+    LDA.b #$10 : STA.l $7F0040, X
     
     LDA $1A : AND.b #$0F : ASL A : TAY
     
@@ -2372,8 +2372,8 @@ AddBlastWallFireball:
     
     LDX $04
     
-    LDA $7F0020, X : CLC : ADC.w #$0008 : STA $00
-    LDA $7F0030, X : CLC : ADC.w #$0010 : STA $02
+    LDA.l $7F0020, X : CLC : ADC.w #$0008 : STA $00
+    LDA.l $7F0030, X : CLC : ADC.w #$0010 : STA $02
     
     PLX
     
@@ -2571,7 +2571,7 @@ AddDwarfTransformationCloud:
     ; A = #$40
     JSR AddAncilla : BCS .noOpenSlots
     
-    LDA $7EF3CC : CMP.b #$08 : BNE .notLightWorldDwarf
+    LDA.l $7EF3CC : CMP.b #$08 : BNE .notLightWorldDwarf
     
     JSL Sound_SetSfxPanWithPlayerCoords
     
@@ -2677,32 +2677,32 @@ AddEtherSpell:
     
     LDA.b #$7F : STA $0C22, X
     
-    LDA.b #$28 : STA $7F5808
+    LDA.b #$28 : STA.l $7F5808
     
     LDA.b #$09 : STA $0AAA
     
-    LDA.b #$40 : STA $7F5812
+    LDA.b #$40 : STA.l $7F5812
     
     JSL Sound_SetSfxPanWithPlayerCoords : ORA.b #$26 : STA $012F
     
-    LDA.b #$00 : STA $7F5800
-    LDA.b #$08 : STA $7F5801
-    LDA.b #$10 : STA $7F5802
-    LDA.b #$18 : STA $7F5803
-    LDA.b #$20 : STA $7F5804
-    LDA.b #$28 : STA $7F5805
-    LDA.b #$30 : STA $7F5806
-    LDA.b #$38 : STA $7F5807
+    LDA.b #$00 : STA.l $7F5800
+    LDA.b #$08 : STA.l $7F5801
+    LDA.b #$10 : STA.l $7F5802
+    LDA.b #$18 : STA.l $7F5803
+    LDA.b #$20 : STA.l $7F5804
+    LDA.b #$28 : STA.l $7F5805
+    LDA.b #$30 : STA.l $7F5806
+    LDA.b #$38 : STA.l $7F5807
     
     REP #$20
     
-    LDA $20 : STA $7F5813
+    LDA $20 : STA.l $7F5813
     
-    LDA.w #$FFF0 : CLC : ADC $E8 : STA $00 : AND.w #$00F0 : STA $7F580C
+    LDA.w #$FFF0 : CLC : ADC $E8 : STA $00 : AND.w #$00F0 : STA.l $7F580C
     
-    LDA $22 : STA $02 : STA $7F5815 : CLC : ADC.w #$0008 : STA $7F580E
+    LDA $22 : STA $02 : STA.l $7F5815 : CLC : ADC.w #$0008 : STA.l $7F580E
     
-    LDA $20 : SEC : SBC.w #$0010 : STA $7F580A : CLC : ADC.w #$0024 : STA $7F5810
+    LDA $20 : SEC : SBC.w #$0010 : STA.l $7F580A : CLC : ADC.w #$0024 : STA.l $7F5810
     
     SEP #$20
     
@@ -2723,7 +2723,7 @@ AddVictorySpinEffect:
     PHB : PHK : PLB
     
     ; Check if we have a sword
-    LDA $7EF359 : INC A : AND.b #$FE : BEQ .dontHaveSword
+    LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .dontHaveSword
     
     LDY.b #$00
     LDA.b #$3B
@@ -3196,28 +3196,28 @@ AddQuakeSpell:
     
     LDA.b #$35 : STA $012E
     
-    LDA.b #$00 : STA $7F5805
-                 STA $7F5806
-                 STA $7F5807
-                 STA $7F5808
-                 STA $7F5809
-                 STA $7F580A
+    LDA.b #$00 : STA.l $7F5805
+                 STA.l $7F5806
+                 STA.l $7F5807
+                 STA.l $7F5808
+                 STA.l $7F5809
+                 STA.l $7F580A
     
-    INC A : STA $7F5800
-            STA $7F5801
-            STA $7F5802
-            STA $7F5803
-            STA $7F5804 
+    INC A : STA.l $7F5800
+            STA.l $7F5801
+            STA.l $7F5802
+            STA.l $7F5803
+            STA.l $7F5804 
             STA $0112
     
     INC A : STA $0C68, X
     
     REP #$20
     
-    LDA $20 : CLC : ADC.w #$001A : STA $7F580B
-    LDA $22 : CLC : ADC.w #$0008 : STA $7F580D
+    LDA $20 : CLC : ADC.w #$001A : STA.l $7F580B
+    LDA $22 : CLC : ADC.w #$0008 : STA.l $7F580D
     
-    LDA.w #$0003 : STA $7F581E
+    LDA.w #$0003 : STA.l $7F581E
     
     SEP #$20
     
@@ -3353,29 +3353,29 @@ AddBlastWall:
     
     LDA $0476 : STA $03CA
     
-    LDA.b #$00 : STA $7F0010
-                 STA $7F0009
-                 STA $7F0001
-                 STA $7F0011
+    LDA.b #$00 : STA.l $7F0010
+                 STA.l $7F0009
+                 STA.l $7F0001
+                 STA.l $7F0011
     
-    INC A : STA $7F0000
+    INC A : STA.l $7F0000
             STA $0112
     
-    LDA.b #$03 : STA $7F0008
+    LDA.b #$03 : STA.l $7F0008
     
-    LDA $7F001C : TAY
+    LDA.l $7F001C : TAY
     
     REP #$20
     
-    LDA.w $967A, Y : CLC : ADC $7F0018 : STA $7F0018
-    LDA.w $9682, Y : CLC : ADC $7F001A : STA $7F001A
+    LDA.w $967A, Y : CLC : ADC.l $7F0018 : STA.l $7F0018
+    LDA.w $9682, Y : CLC : ADC.l $7F001A : STA.l $7F001A
     
     SEP #$20
     
     LDY.b #$00
     
     ; \task Figure out what's going on here.
-    LDA $7F001C : CMP.b #$04 : BCS .unknown
+    LDA.l $7F001C : CMP.b #$04 : BCS .unknown
     
     LDY.b #$10
     
@@ -3387,8 +3387,8 @@ AddBlastWall:
     
     REP #$20
     
-    LDA .xy_offsets+0, Y : CLC : ADC $7F0018 : STA $7F0020, X
-    LDA .xy_offsets+2, Y : CLC : ADC $7F001A : STA $7F0030, X
+    LDA .xy_offsets+0, Y : CLC : ADC.l $7F0018 : STA.l $7F0020, X
+    LDA .xy_offsets+2, Y : CLC : ADC.l $7F001A : STA.l $7F0030, X
     
     SEC : SBC $E2 : STA $00
     
@@ -3672,7 +3672,7 @@ AddIceRodShot:
     ; Make an ice rod shot explode on a wall.
     LDA.b #$11 : STA $0C4A, X : TAX
     
-    LDA $08806F, X
+    LDA.l $08806F, X
     
     PLX 
     
@@ -3895,7 +3895,7 @@ AddGravestone:
     
     ; save a flag in SRAM so that the path to the cape chest will be revealed next time
     ; this map loads
-    LDX $8A : LDA $7EF280, X : ORA.b #$20 : STA $7EF280, X
+    LDX $8A : LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
     
     PLX
 
@@ -4070,10 +4070,10 @@ AddBreakTowerSeal:
     LDA $0308 : AND.b #$80 : ORA $4D : BNE AddWaterfallSplash.no_open_slots
     
     ; Don't have enough crystals? return()
-    LDA $7EF37A : AND.b #$7F : CMP.b #$7F : BNE AddWaterfallSplash.no_open_slots
+    LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BNE AddWaterfallSplash.no_open_slots
     
     ; Ganon's tower already opened. return()
-    LDA $7EF2C3 : AND.b #$20 : BNE AddWaterfallSplash.no_open_slots
+    LDA.l $7EF2C3 : AND.b #$20 : BNE AddWaterfallSplash.no_open_slots
     
     JSL Ancilla_TerminateSparkleObjects
     
@@ -4105,7 +4105,7 @@ AddBreakTowerSeal:
     
     .next_sparkle
     
-    STA $7F5837, X
+    STA.l $7F5837, X
     
     DEX : BPL .next_sparkle
     
@@ -4131,16 +4131,16 @@ AddBreakTowerSeal:
     STZ $0C54, X
     
     ; Timer?
-    LDA.b #$F0 : STA $7F5812 
+    LDA.b #$F0 : STA.l $7F5812 
     
     ; These set the initial angles for the 6 rotating cyrstals.
     ; The last one is stationary and isn't rotated at all about a point.
-    LDA.b #$00 : STA $7F5800 : STA $7F5808
-    LDA.b #$0A : STA $7F5801
-    LDA.b #$16 : STA $7F5802
-    LDA.b #$20 : STA $7F5803
-    LDA.b #$2A : STA $7F5804
-    LDA.b #$36 : STA $7F5805
+    LDA.b #$00 : STA.l $7F5800 : STA.l $7F5808
+    LDA.b #$0A : STA.l $7F5801
+    LDA.b #$16 : STA.l $7F5802
+    LDA.b #$20 : STA.l $7F5803
+    LDA.b #$2A : STA.l $7F5804
+    LDA.b #$36 : STA.l $7F5805
     
     REP #$20
     
@@ -4217,30 +4217,30 @@ ConsumingFire_TransmuteToSkullWoodsFire:
     STZ $035F
     
     ; Set OAM allocation requirement.
-    TYX : LDA $08806F, X : STA $0C90
+    TYX : LDA.l $08806F, X : STA $0C90
     
     PLX
     
-    LDA.b #$FD : STA $7F0000
-    INC A      : STA $7F0001
-    INC A      : STA $7F0002
+    LDA.b #$FD : STA.l $7F0000
+    INC A      : STA.l $7F0001
+    INC A      : STA.l $7F0002
     
-    LDA.b #$00 : STA $7F0003
-                 STA $7F0010
+    LDA.b #$00 : STA.l $7F0003
+                 STA.l $7F0010
     
-    LDA.b #$05 : STA $7F0008
-                 STA $7F0009
-                 STA $7F000A
-                 STA $7F000B
+    LDA.b #$05 : STA.l $7F0008
+                 STA.l $7F0009
+                 STA.l $7F000A
+                 STA.l $7F000B
                  STA $03B1
     
     REP #$20
     
-    LDA.w #$0100 : STA $7F0018
-                   STA $7F0026
+    LDA.w #$0100 : STA.l $7F0018
+                   STA.l $7F0026
     
-    LDA.w #$0098 : STA $7F001A
-                   STA $7F0036
+    LDA.w #$0098 : STA.l $7F001A
+                   STA.l $7F0036
     
     SEP #$20
     
@@ -4306,7 +4306,7 @@ AddAncilla:
     TYX
     
     ; Load some extra information about the effect into $0E.
-    LDA $08806F, X : STA $0E
+    LDA.l $08806F, X : STA $0E
     
     ; Retrieve our spot in the effects array.
     PLX
@@ -4457,7 +4457,7 @@ Ancilla_GetRidOfArrowInWall:
     
     PHX : TYX
     
-    LDA $08806F, X : STA $0E
+    LDA.l $08806F, X : STA $0E
     
     PLX : LDA $0E : STA $0C90, X
     

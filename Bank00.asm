@@ -9941,7 +9941,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
 AnimateMirrorWarp_TriggerOverlayA_2:
 {
-    JSL $02B2D4 ; $0132D4 IN ROM
+    JSL.l $02B2D4 ; $0132D4 IN ROM
     
     DEC.b $11
     
@@ -9955,7 +9955,7 @@ AnimateMirrorWarp_TriggerOverlayA_2:
 ; $0058B3-$0058BA JUMP LOCATION (LONG)
 AnimateMirrorWarp_DrawDestinationScreen:
 {
-    JSL $02B2E6 ; $0132E6 IN ROM
+    JSL.l $02B2E6 ; $0132E6 IN ROM
     
     INC.w $0710
     
@@ -9967,7 +9967,7 @@ AnimateMirrorWarp_DrawDestinationScreen:
 ; $0058BB-$0058C6 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DoSpritesPalettes:
 {
-    JSL $02B334 ; $013334 IN ROM
+    JSL.l $02B334 ; $013334 IN ROM
     
     LDA.b #$0C : STA.b $17 : STA.w $0710
     
@@ -10472,7 +10472,7 @@ AnimateMirrorWarp_DecompressSpritesB:
     
     SEP #$30
     
-    JSL $07AAA2 ; $03AAA2 IN ROM
+    JSL.l $07AAA2 ; $03AAA2 IN ROM
     
     RTL
 }
@@ -13345,7 +13345,7 @@ PaletteFilter_BlindingWhite:
                     
                 LDX.b #$3E : LDA.w #$0778
                     
-                JSL $00FE3E ; $007E3E IN ROM
+                JSL.l $00FE3E ; $007E3E IN ROM
                     
                 INC.b $15
 
@@ -14514,7 +14514,7 @@ Module_Messaging:
         JSL PlayerOam_Main
         
         LDA.b $1B : BNE .indoors
-            JSL $02A4CD ; $0124CD IN ROM
+            JSL.l $02A4CD ; $0124CD IN ROM
 
         .indoors
 
@@ -14626,7 +14626,7 @@ PrayingPlayer_FadeInScene:
     ; $0078E4 ALTERNATE ENTRY POINT
     PrayingPlayer_AwaitButtonInput:
 
-    JSL $07EA27 ; $03EA27 IN ROM
+    JSL.l $07EA27 ; $03EA27 IN ROM
     
     RTL
 }
@@ -14744,7 +14744,7 @@ PrepDungeonExit:
     ; Indicate a boss has been killed in this room.
     LDA.w $0403 : ORA.b #$80 : STA.w $0403
     
-    JSL $02B929 ; $013929 IN ROM ; Save the room data as we exit.
+    JSL.l $02B929 ; $013929 IN ROM ; Save the room data as we exit.
     
     LDX.b #$0C
     
@@ -15241,7 +15241,7 @@ MirrorHDMA:
 
     ; $007E64 ALTERNATE ENTRY POINT
 
-    JSL $00EEE7 ; $006EE7 IN ROM
+    JSL.l $00EEE7 ; $006EE7 IN ROM
     
     ; Only do something every other frame.
     LDA.b $1A : LSR A : BCS Mirror_InitHdmaSettings.easy_out
@@ -15336,7 +15336,7 @@ MirrorHDMA:
 ; ZS rewrites part of this function. - ZS Custom Overworld
 MirrorWarp_BuildDewavingHDMATable:
 {
-    JSL $00EEE7 ; $006EE7 IN ROM
+    JSL.l $00EEE7 ; $006EE7 IN ROM
         
     LDA.b $1A : LSR A : BCS MirrorHDMA_return
         REP #$30

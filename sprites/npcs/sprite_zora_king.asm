@@ -239,9 +239,9 @@ ZoraKing_Dialogue:
     REP #$20
     
     ; check if the player has 500 or more rupees (for flippers)
-    LDA $7EF360 : SEC : SBC.w #$01F4 : BCC .cant_afford
+    LDA.l $7EF360 : SEC : SBC.w #$01F4 : BCC .cant_afford
     
-    STA $7EF360
+    STA.l $7EF360
     
     SEP #$20
     

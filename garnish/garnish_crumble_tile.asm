@@ -29,17 +29,17 @@ Garnish_CrumbleTile:
     
     ; Placing the pit tile is only intended to happen on the first
     ; frame that this garnish is active.
-    LDA $7FF90E, X : CMP.B #$1E : BNE .dont_place_pit_tile
+    LDA.l $7FF90E, X : CMP.B #$1E : BNE .dont_place_pit_tile
     
     LDA $11 : ORA $0FC1 : BNE .just_draw
     
     PHA
     
-    LDA $7FF83C, X : STA $00
-    LDA $7FF878, X : STA $01
+    LDA.l $7FF83C, X : STA $00
+    LDA.l $7FF878, X : STA $01
     
-    LDA $7FF81E, X : SEC : SBC.b #$10 : STA $02
-    LDA $7FF85A, X : SEC : SBC.b #$00 : STA $03
+    LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA $02
+    LDA.l $7FF85A, X : SEC : SBC.b #$00 : STA $03
     
     PHX
     
@@ -57,13 +57,13 @@ Garnish_CrumbleTile:
     LDA .properties, Y : STA $05
     LDA .oam_sizes, Y  : STA $06
     
-    LDA $7FF83C, X : SEC : SBC $E2    : PHP : CLC : ADC .xy_offsets, Y : STA $00
-    LDA $7FF878, X : ADC.b #$00 : PLP : SBC $E3
+    LDA.l $7FF83C, X : SEC : SBC $E2    : PHP : CLC : ADC .xy_offsets, Y : STA $00
+    LDA.l $7FF878, X : ADC.b #$00 : PLP : SBC $E3
     
     BNE .off_screen
     
-    LDA $7FF81E, X : SEC : SBC $E8    : PHP : CLC : ADC .xy_offsets, Y : STA $02
-    LDA $7FF85A, X : ADC.b #$00 : PLP : SBC $E9
+    LDA.l $7FF81E, X : SEC : SBC $E8    : PHP : CLC : ADC .xy_offsets, Y : STA $02
+    LDA.l $7FF85A, X : ADC.b #$00 : PLP : SBC $E9
     
     BEQ .on_screen
     

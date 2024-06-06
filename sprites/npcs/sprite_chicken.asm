@@ -127,9 +127,9 @@ Sprite_Chicken:
     
     TAX
     
-    LDA $05AAE4, X : STA $0D50, Y
+    LDA.l $05AAE4, X : STA $0D50, Y
     
-    LDA $05AAF4, X : STA $0D40, Y
+    LDA.l $05AAF4, X : STA $0D40, Y
     
     PLX
     

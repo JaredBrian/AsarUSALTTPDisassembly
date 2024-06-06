@@ -72,7 +72,7 @@ Sprite_Lightning:
     
     .next_slot
     
-    LDA $7FF800, X : BEQ .empty_slot
+    LDA.l $7FF800, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -86,17 +86,17 @@ Sprite_Lightning:
     
     .empty_slot
     
-    LDA.b #$09 : STA $7FF800, X : STA $0FB4
+    LDA.b #$09 : STA.l $7FF800, X : STA $0FB4
     
-    LDA $0D90, Y : STA $7FF92C, X
+    LDA $0D90, Y : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA $7FF83C, X
-    LDA $0D30, Y : STA $7FF878, X
+    LDA $0D10, Y : STA.l $7FF83C, X
+    LDA $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA $7FF85A, X
+    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA.b #$20 : STA $7FF90E, X
+    LDA.b #$20 : STA.l $7FF90E, X
     
     PLX
     

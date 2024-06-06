@@ -26,7 +26,7 @@ SpritePrep_MedallionTablet:
     
     LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
     
-    LDA $7EF347 : BEQ .dont_have_item
+    LDA.l $7EF347 : BEQ .dont_have_item
     
     LDA.b #$04 : STA $0DC0, X
     LDA.b #$03 : STA $0D80, X
@@ -35,7 +35,7 @@ SpritePrep_MedallionTablet:
     
     .ether_location
     
-    LDA $7EF348 : BEQ .dont_have_item
+    LDA.l $7EF348 : BEQ .dont_have_item
     
     LDA.b #$04 : STA $0DC0, X 
     LDA.b #$03 : STA $0D80, X
@@ -208,7 +208,7 @@ MedallionTablet_WaitForMudoraReader:
     ; Sword and to not prevent with the Golden Sword. It's difficult to test
     ; because the button presses have to come in on exactly the same frame,
     ; though.
-    LDA $7EF359 : CMP.b #$02 : BNE .gamma
+    LDA.l $7EF359 : CMP.b #$02 : BNE .gamma
     
     RTS
     
@@ -236,7 +236,7 @@ MedallionTablet_WaitForMudoraReader:
     
     STZ $012E
     
-    LDA $7EF359 : BMI .zeta
+    LDA.l $7EF359 : BMI .zeta
     CMP.b #$02  : BCC .zeta
     
     INC $0D80, X
@@ -270,7 +270,7 @@ MedallionTablet_WaitForEther:
     
     LDA $F4 : BPL .b_button_not_pressed
     
-    LDA $7EF359 : CMP.b #$02 : BNE .not_exactly_master_sword
+    LDA.l $7EF359 : CMP.b #$02 : BNE .not_exactly_master_sword
     
     RTS
     
@@ -299,7 +299,7 @@ MedallionTablet_WaitForEther:
     
     STZ $012E
     
-    LDA $7EF359 : BMI .show_hylian_script
+    LDA.l $7EF359 : BMI .show_hylian_script
     CMP.b #$02  : BCC .show_hylian_script
     
     INC $0D80, X

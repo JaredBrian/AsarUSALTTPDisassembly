@@ -21,7 +21,7 @@ Garnish_LaserBeamTrail:
     
     PHY
     
-    LDA $7FF9FE, X : TAY
+    LDA.l $7FF9FE, X : TAY
     
     LDA .chr, Y : PLY : INY : STA ($90), Y
     

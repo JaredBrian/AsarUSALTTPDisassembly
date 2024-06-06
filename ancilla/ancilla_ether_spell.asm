@@ -115,7 +115,7 @@ Ancilla_EtherSpell:
     .calm_before_ball_scatter
     
     ; ... Count down a timer before entering the final state of the spell.
-    LDA $7F5812 : DEC A : STA $7F5812 : BNE .radial_states
+    LDA.l $7F5812 : DEC A : STA.l $7F5812 : BNE .radial_states
     
     LDA.b #$05 : STA $0C54, X
     
@@ -148,9 +148,9 @@ EtherSpell_LightningDescends:
     LDA $0C0E, X : STA $01
     LDA $0BFA, X : STA $00
     
-    AND.b #$F0 : CMP $7F580C : BEQ .dont_add_lightning_segment
+    AND.b #$F0 : CMP.l $7F580C : BEQ .dont_add_lightning_segment
     
-    STA $7F580C
+    STA.l $7F580C
     
     ; Add another lightning segment.
     INC $03C2, X
@@ -163,11 +163,11 @@ EtherSpell_LightningDescends:
     ; or something to prematurely end the spell?
     LDA $00 : CMP.w #$E000 : BCS .delay
     
-    LDA $7F580A : CMP.w #$E000 : BCS .at_target_coord
+    LDA.l $7F580A : CMP.w #$E000 : BCS .at_target_coord
     
     ; Move on to the next state when the object's y coordinate is lower on
     ; the screen or exactly at the target point set during the init routine.
-    LDA $7F580A : CMP $00 : BEQ .at_target_coord
+    LDA.l $7F580A : CMP $00 : BEQ .at_target_coord
                             BCS .delay
     
     .at_target_coord
@@ -264,13 +264,13 @@ EtherSpell_RadialStates:
     
     LDA $0C54, X : CMP.b #$04 : BEQ .dont_increase_radius
     
-    LDA $7F5808 : STA $0C04, X
+    LDA.l $7F5808 : STA $0C04, X
                   STZ $0C18, X
     
     JSR Ancilla_MoveHoriz
     
     ; Wish I had a better name for this label... but ugh.
-    LDA $0C04, X : STA $7F5808 : CMP.b #$40 : BNE .not_ready_for_state_4
+    LDA $0C04, X : STA.l $7F5808 : CMP.b #$40 : BNE .not_ready_for_state_4
     
     LDA.b #$04 : STA $0C54, X
     
@@ -291,13 +291,13 @@ EtherSpell_RadialStates:
               CMP.b #$05 : BEQ .dont_rotate_ball
     
     ; Increment the angle of the piece.
-    LDA $7F5800, X : INC A : AND.b #$3F : STA $7F5800, X
+    LDA.l $7F5800, X : INC A : AND.b #$3F : STA.l $7F5800, X
     
     .dont_rotate_ball
     
-    LDA $7F5808 : STA $08
+    LDA.l $7F5808 : STA $08
     
-    LDA $7F5800, X
+    LDA.l $7F5800, X
     
     JSR Ancilla_GetRadialProjection
     
@@ -321,7 +321,7 @@ EtherSpell_RadialStates:
     
     ; The balls have been projected far out enough, so it's time to end this
     ; spell.
-    LDA $7F5808 : CMP.b #$F0 : BCS .self_terminate
+    LDA.l $7F5808 : CMP.b #$F0 : BCS .self_terminate
     
     LDY.b #$01
     
@@ -347,7 +347,7 @@ EtherSpell_RadialStates:
     LDA $8A : CMP.b #$70 : BNE .untriggered
     
     ; Checks whether the Misery Mire dungeon is revealed yet.
-    LDA $7EF2F0 : AND.b #$20 : BNE .untriggered
+    LDA.l $7EF2F0 : AND.b #$20 : BNE .untriggered
     
     ; We might reveal it, but you have to be in the trigger window.
     LDY.b #$02 : JSR Ancilla_CheckIfEntranceTriggered : BCC .untriggered
@@ -424,7 +424,7 @@ EtherSpell_DrawBlitzBall:
     
     STA $08
     
-    CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
     
     LDA $04
     
@@ -436,7 +436,7 @@ EtherSpell_DrawBlitzBall:
     
     STA $0A
     
-    CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
     
     PLY
     
@@ -560,7 +560,7 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     STA $08
     
-    CLC : ADC $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $E8 : STA $00
     
     LDA $04
     
@@ -572,7 +572,7 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     STA $0A
     
-    CLC : ADC $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02
     
     PLY
     
@@ -595,8 +595,8 @@ EtherSpell_DrawSplittingBlitzSegment:
     
     REP #$20
     
-    LDA $08 : CLC : ADC $7F5810 : CLC : ADC .y_offsets, X : SEC : SBC $E8 : STA $00
-    LDA $0A : CLC : ADC $7F580E : CLC : ADC .x_offsets, X : SEC : SBC $E2 : STA $02
+    LDA $08 : CLC : ADC.l $7F5810 : CLC : ADC .y_offsets, X : SEC : SBC $E8 : STA $00
+    LDA $0A : CLC : ADC.l $7F580E : CLC : ADC .x_offsets, X : SEC : SBC $E2 : STA $02
     
     SEP #$20
     
@@ -705,8 +705,8 @@ EtherSpell_DrawBlitzOrb:
 {
     REP #$20
     
-    LDA $7F5813 : CLC : ADC.w #$FFFF : SEC : SBC $E8 : STA $00
-    LDA $7F5815 : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02 : STA $04
+    LDA.l $7F5813 : CLC : ADC.w #$FFFF : SEC : SBC $E8 : STA $00
+    LDA.l $7F5815 : CLC : ADC.w #$FFF8 : SEC : SBC $E2 : STA $02 : STA $04
     
     STZ $08
     

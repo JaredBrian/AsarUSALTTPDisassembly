@@ -15,7 +15,7 @@ SpriteHeld_Main:
     ; Checks to see if the room we're in matches
     LDA $040A : STA $0C9A, X
     
-    LDA $7FFA1C, X : CMP.b #$03 : BEQ .fully_lifted
+    LDA.l $7FFA1C, X : CMP.b #$03 : BEQ .fully_lifted
     
     LDA $0DF0, X : BNE .delay_lift_state_transition
     
@@ -29,7 +29,7 @@ SpriteHeld_Main:
     
     STA $0DF0, X
     
-    LDA $7FFA1C, X : INC A : STA $7FFA1C, X
+    LDA.l $7FFA1C, X : INC A : STA.l $7FFA1C, X
     
     .delay_lift_state_transition
     
@@ -58,7 +58,7 @@ SpriteHeld_Main:
     
     .dont_x_wobble
     
-    LDA $2F : ASL A : CLC : ADC $7FFA1C, X : TAY
+    LDA $2F : ASL A : CLC : ADC.l $7FFA1C, X : TAY
     
     LDA $22 : CLC : ADC $DE4D, Y : PHP : ADC $00      : STA $0D10, X
     LDA $23 : ADC.b #$00   : PLP : ADC $DE5D, Y : STA $0D30, X
@@ -82,7 +82,7 @@ SpriteHeld_Main:
     JSR SpriteHeld_ThrowQuery
     JSR Sprite_Get_16_bit_Coords
     
-    LDA $7FFA2C, X : CMP.b #$0B : BEQ .frozen_sprite
+    LDA.l $7FFA2C, X : CMP.b #$0B : BEQ .frozen_sprite
     
     ; \task Presumably.... just does the drawing of the sprite? Find out
     ; what implications this has.
@@ -158,7 +158,7 @@ SpriteHeld_ThrowQuery:
     
     ORA $0345 : ORA $02E0 : ORA $02DA : BNE .coerced_throw
     
-    LDA $7FFA1C, X : CMP.b #$03 : BNE .dont_throw
+    LDA.l $7FFA1C, X : CMP.b #$03 : BNE .dont_throw
     
     LDA $F4 : ORA $F6 : BPL .dont_throw
     
@@ -174,17 +174,17 @@ SpriteHeld_ThrowQuery:
     
     ; This code gets called when some object flies out of Link's hand
     ; when he's falling into a pit
-    LDA $7FFA2C, X : STA $0DD0, X
+    LDA.l $7FFA2C, X : STA $0DD0, X
     
     STZ $0F80, X
     
-    LDA.b #$00 : STA $7FFA1C, X
+    LDA.b #$00 : STA.l $7FFA1C, X
     
     PHX
     
     LDA $0E20, X : TAX
     
-    LDA $0DB359, X : PLX : AND.b #$10 : STA $00
+    LDA.l $0DB359, X : PLX : AND.b #$10 : STA $00
     
     LDA $0E60, X : AND.b #$EF : ORA $00 : STA $0E60, X
     

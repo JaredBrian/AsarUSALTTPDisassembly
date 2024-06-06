@@ -75,7 +75,7 @@ SpritePrep_ArcheryGameGuy:
     PLX : INC $0BA0, X
     
     ; Cache number of arrows that Link has when he enters the room.
-    LDA $7EF377 : STA $0E30, X
+    LDA.l $7EF377 : STA $0E30, X
     
     PLB
     
@@ -90,7 +90,7 @@ Sprite_ArcheryGameGuy:
     ; Make sure arrows stay at the amount they started at when Link
     ; entered the shooting gallery. (This seems unelegant, but also
     ; seems to work well enough)
-    LDA $0E30, X : STA $7EF377
+    LDA $0E30, X : STA.l $7EF377
     
     LDA $0D90, X
     
@@ -202,7 +202,7 @@ ArcheryGameGuy_Main:
     
     REP #$20
     
-    LDA $7EF360 : CMP.w #$0014 : SEP #$20 : BCC .dont_got_the_cash
+    LDA.l $7EF360 : CMP.w #$0014 : SEP #$20 : BCC .dont_got_the_cash
     
     STZ $0EB0, X
     STZ $0B88
@@ -258,7 +258,7 @@ ArcheryGameGuy_RunGame:
     REP #$20
     
     ; Take 20 rupees as payment for the game.
-    LDA $7EF360 : SEC : SBC.b #$0014 : STA $7EF360
+    LDA.l $7EF360 : SEC : SBC.b #$0014 : STA.l $7EF360
     
     SEP #$20
     
@@ -419,7 +419,7 @@ Sprite_GoodArcheryTarget:
     
     LDA.b #$00 : XBA
     
-    LDA (.prizes-1), Y : REP #$20 : CLC : ADC $7EF360 : STA $7EF360
+    LDA (.prizes-1), Y : REP #$20 : CLC : ADC.l $7EF360 : STA.l $7EF360
     
     SEP #$20
     

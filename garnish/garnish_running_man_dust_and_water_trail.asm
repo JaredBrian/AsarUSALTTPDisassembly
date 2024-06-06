@@ -13,14 +13,14 @@ Pool_Garnish_RunningManDashDust:
 ; $04B3BC-$04B3E7 JUMP LOCATION
 Garnish_RunningManDashDust:
 {
-    LDA $7FF90E, X
+    LDA.l $7FF90E, X
     
     BRA .set_chr_index
     
     ; $04B3C2 ALTERNATE ENTRY POINT
     shared Garnish_WaterTrail:
     
-    LDA $7FF90E, X
+    LDA.l $7FF90E, X
     
     LSR A
     

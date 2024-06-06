@@ -26,7 +26,7 @@ Sprite_BlindMaiden:
     STZ $0DD0, X
     
     ; Set "Blind the Thief (maiden)" as the tagalong
-    LDA.b #$06 : STA $7EF3CC
+    LDA.b #$06 : STA.l $7EF3CC
     
     PHX
     

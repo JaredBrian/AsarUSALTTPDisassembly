@@ -800,10 +800,10 @@ Intro_LoadTitleGraphics:
 ; $06425C-$064283 JUMP LOCATION
 Intro_FadeLogoIn:
 {
-    JSL $0CC404 ; $064404
+    JSL.l $0CC404 ; $064404
     
     LDA.b $1A : LSR A : BCC .evenFrame
-        JSL $00ED7C ; $006D7C
+        JSL.l $00ED7C ; $006D7C
         
         LDA.l $7EC007 : BNE .BRANCH_2
             LDA.b #$2A : STA.b $B0
@@ -834,11 +834,11 @@ Intro_FadeLogoIn:
 Intro_PopSubtitleCard:
 {
     JSR $FE56   ; $067E56
-    JSL $0CC404 ; $064404
+    JSL.l $0CC404 ; $064404
     
     LDA.l $7EC007 : BEQ .alpha
         LDA.b $1A : LSR A : BCC .dontAdvanceYet
-            JML $00ED8F ; $006D8F
+            JML.l $00ED8F ; $006D8F
     
     .alpha
     
@@ -860,7 +860,7 @@ Intro_PopSubtitleCard:
 ; $0642AE-$0642D3 JUMP LOCATION
 Intro_SwordStab:
 {
-    JSL $0CC404 ; $064404
+    JSL.l $0CC404 ; $064404
     
     STZ.w $1F00
     STZ.w $012A
@@ -887,7 +887,7 @@ Intro_SwordStab:
 ; $0642D4-$0642EF JUMP LOCATION 
 Intro_TrianglesBeforeAttract:
 {
-    JSL $0CC404 ; $064404
+    JSL.l $0CC404 ; $064404
     
     STZ.w $1F00
     STZ.w $012A
@@ -2602,7 +2602,7 @@ FileSelect_Main:
     
     PHB : PHK : PLB
     
-    JSL $0CCEDC ; ($064EDC) Main logic for the select screen.
+    JSL.l $0CCEDC ; ($064EDC) Main logic for the select screen.
     JMP $D09C   ; ($06509C) Sets the tile map update flag and exits.
 }
 
@@ -4169,7 +4169,7 @@ Module_NamePlayer:
 ; $06589C-$065910 JUMP LOCATION
 NameFile_EraseSave:
 {
-    JSL $0CCDF9 ; $064DF9
+    JSL.l $0CCDF9 ; $064DF9
     
     LDA.b #$01 : STA.w $0128
     
@@ -4881,7 +4881,7 @@ Attract_Fade:
     ; Module 0x14.0x00
     ; Keeps the title screen status quo running while we darken the screen.
     
-    JSL $0CC404 ; $064404
+    JSL.l $0CC404 ; $064404
     
     STZ.w $1F00
     STZ.w $012A
@@ -4923,7 +4923,7 @@ Attract_InitGraphics:
     DEX : BPL .zeroVars
     
     JSL Vram_EraseTilemaps_normal
-    JSL $00E36D ; $00636D
+    JSL.l $00E36D ; $00636D
     
     LDA.b #$04 : STA.w $0AB3
     LDA.b #$01 : STA.w $0AB2

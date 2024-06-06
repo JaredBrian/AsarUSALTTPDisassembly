@@ -92,15 +92,15 @@ Ancilla_SpinSpark:
     
     LDA $11 : BNE .dont_advance_spark_rotation
     
-    LDA $7F5800, X : CLC : ADC.b #$04 : AND.b #$3F : STA $7F5800, X
+    LDA.l $7F5800, X : CLC : ADC.b #$04 : AND.b #$3F : STA.l $7F5800, X
     
     .dont_advance_spark_rotation
     
     PHX : PHY
     
-    LDA $7F5808 : STA $08
+    LDA.l $7F5808 : STA $08
     
-    LDA $7F5800, X
+    LDA.l $7F5800, X
     
     JSR Ancilla_GetRadialProjection
     JSL Sparkle_PrepOamCoordsFromRadialProjection
@@ -134,7 +134,7 @@ Ancilla_SpinSpark:
     
     CMP.b #$03 : BNE .extra_spark_rotation_delay
     
-    LDA $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA $7F5804
+    LDA.l $7F5804 : CLC : ADC.b #$09 : AND.b #$3F : STA.l $7F5804
     
     .skip_extra_spark_logic
     .extra_spark_rotation_delay
@@ -143,9 +143,9 @@ Ancilla_SpinSpark:
     
     PHY
     
-    LDA $7F5808 : STA $08
+    LDA.l $7F5808 : STA $08
     
-    LDA $7F5804
+    LDA.l $7F5804
     
     JSR Ancilla_GetRadialProjection
     JSL Sparkle_PrepOamCoordsFromRadialProjection
@@ -199,7 +199,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
     
     .positive_y_projection
     
-    CLC : ADC $7F5810 : CLC : ADC.w #$FFFC : SEC : SBC $E8 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFFC : SEC : SBC $E8 : STA $00
     
     LDA $04
     
@@ -209,7 +209,7 @@ Sparkle_PrepOamCoordsFromRadialProjection:
     
     .positive_x_projection
     
-    CLC : ADC $7F580E : CLC : ADC.w #$FFFC : SEC : SBC $E2 : STA $02
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFFC : SEC : SBC $E2 : STA $02
     
     SEP #$20
     

@@ -35,10 +35,10 @@ Sprite_Elder:
 Sprite_Aginah:
 {
     ; Guarantees that this is the first thing he says
-    LDA $7EF3C6 : AND.b #$20 : BEQ .alpha
+    LDA.l $7EF3C6 : AND.b #$20 : BEQ .alpha
     
     ; If you don't have the master sword (or better)
-    LDA $7EF359 : CMP.b #$02 : BCC .beta
+    LDA.l $7EF359 : CMP.b #$02 : BCC .beta
     
     LDA.b #$28
     LDY.b #$01
@@ -49,7 +49,7 @@ Sprite_Aginah:
     
     .beta
     
-    LDA $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .delta
+    LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .delta
     
     LDA.b #$26
     LDY.b #$01
@@ -71,7 +71,7 @@ Sprite_Aginah:
     
     .epsilon
     
-    LDA $7EF34E : BEQ .alpha
+    LDA.l $7EF34E : BEQ .alpha
     
     LDA.b #$27
     LDY.b #$01
@@ -87,7 +87,7 @@ Sprite_Aginah:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    LDA $7EF3C6 : ORA.b #$20 : STA $7EF3C6
+    LDA.l $7EF3C6 : ORA.b #$20 : STA.l $7EF3C6
     
     .gamma
     
@@ -128,7 +128,7 @@ Pool_Sahasrahla_Dialogue:
 ; $02F160-$02F1E8 JUMP LOCATION
 Sahasrahla_Dialogue:
 {
-    LDA $7EF374 : AND.b #$04 : BNE .has_third_pendant
+    LDA.l $7EF374 : AND.b #$04 : BNE .has_third_pendant
     
     ; I am, indeed, Sahasrahla, the village elder and a descendent of..."
     LDA.b #$32
@@ -144,9 +144,9 @@ Sahasrahla_Dialogue:
     
     .has_third_pendant
     
-    LDA $7EF355 : BNE .has_boots
+    LDA.l $7EF355 : BNE .has_boots
     
-    LDA $7EF3C7 : CMP.b #$03 : ROL A : AND.b #$01 : TAY
+    LDA.l $7EF3C7 : CMP.b #$03 : ROL A : AND.b #$01 : TAY
     
     LDA .messages_low, Y  : XBA
     LDA .messages_high, Y : TAY : XBA
@@ -161,7 +161,7 @@ Sahasrahla_Dialogue:
     
     .has_boots
     
-    LDA $7EF346 : BNE .has_ice_rod
+    LDA.l $7EF346 : BNE .has_ice_rod
     
     ; "A helpful item is hidden in the cave on the east side (...) Get it!"
     LDA.b #$37
@@ -173,7 +173,7 @@ Sahasrahla_Dialogue:
     
     .has_ice_rod
     
-    LDA $7EF374 : AND.b #$07 : CMP.b #$07 : BEQ .has_all_pendants
+    LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BEQ .has_all_pendants
     
     ; ...relatives of the wise men are hiding (...) should find them."
     LDA.b #$34
@@ -185,7 +185,7 @@ Sahasrahla_Dialogue:
     
     .has_all_pendants
     
-    LDA $7EF359 : CMP.b #$02 : BCS .has_master_sword
+    LDA.l $7EF359 : CMP.b #$02 : BCS .has_master_sword
     
     ; Incredible! ... Now, you should go to the Lost Woods..."
     LDA.b #$30
@@ -226,7 +226,7 @@ Sahasrahla_MarkMap:
     
     STZ $0D80, X
     
-    LDA.b #$03 : STA $7EF3C7
+    LDA.b #$03 : STA.l $7EF3C7
     
     RTS
 }
@@ -244,7 +244,7 @@ Sahasrahla_GrantBoots:
     
     INC $0D80, X
     
-    LDA.b #$03 : STA $7EF3C7
+    LDA.b #$03 : STA.l $7EF3C7
     
     RTS
 }

@@ -45,7 +45,7 @@ MiddleAgedMan_Chillin:
     
     INC $0D80, X
     
-    LDA $7EF3CC : CMP.b #$00 : BEQ .player_lacks_tagalong
+    LDA.l $7EF3CC : CMP.b #$00 : BEQ .player_lacks_tagalong
     
     LDA.b #$05 : STA $0D80, X
     
@@ -62,7 +62,7 @@ MiddleAgedMan_Chillin:
 ; $033D01-$033D1F JUMP LOCATION
 MiddleAgedMan_TransitionToTagalong:
 {
-    LDA.b #$09 : STA $7EF3CC
+    LDA.b #$09 : STA.l $7EF3CC
     
     PHX
     
@@ -90,7 +90,7 @@ MiddleAgedMan_OfferChestOpening:
     
     ; \optimize He says the same thing regardless of whether the chest
     ; is close by.
-    LDA $7EF3D3 : BEQ .chest_connected_to_player
+    LDA.l $7EF3D3 : BEQ .chest_connected_to_player
     
     LDA.b #$09  ; Message from the middle aged man saying he'll open
     LDY.b #$01  ; the chest for you.
@@ -122,7 +122,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
 {
     LDA $1CE8 : BNE .angry_reply
     
-    LDA $7EF3D3 : BEQ .chest_directly_connected_to_player
+    LDA.l $7EF3D3 : BEQ .chest_directly_connected_to_player
     
     LDA #$0C
     LDY #$01
@@ -142,11 +142,11 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     
     JSL Link_ReceiveItem
     
-    LDA $7EF3C9 : ORA.b #$10 : STA $7EF3C9
+    LDA.l $7EF3C9 : ORA.b #$10 : STA.l $7EF3C9
     
     INC $0D80, X
     
-    LDA.b #$00 : STA $7EF3CC
+    LDA.b #$00 : STA.l $7EF3CC
     
     RTS
     

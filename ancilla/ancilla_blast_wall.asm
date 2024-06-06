@@ -10,11 +10,11 @@ Ancilla_BlastWall:
 {
     LDA $11 : BNE .state_logic_finished
     
-    LDA $7F0000, X : BEQ .inactive_component
+    LDA.l $7F0000, X : BEQ .inactive_component
     
-    LDA $7F0008, X : DEC A : STA $7F0008, X : BNE .state_logic_finished
+    LDA.l $7F0008, X : DEC A : STA.l $7F0008, X : BNE .state_logic_finished
     
-    LDA $7F0000, X : INC A : STA $7F0000, X : BEQ .anospawn_fireball
+    LDA.l $7F0000, X : INC A : STA.l $7F0000, X : BEQ .anospawn_fireball
                              CMP.b #$09     : BCS .anospawn_fireball
     
     PHX
@@ -30,9 +30,9 @@ Ancilla_BlastWall:
     
     .anospawn_fireball
     
-    LDA $7F0000, X : CMP.b #$0B : BNE .anoreset_component_state
+    LDA.l $7F0000, X : CMP.b #$0B : BNE .anoreset_component_state
     
-    LDA.b #$00 : STA $7F0000, X : STA $7F0008, X
+    LDA.b #$00 : STA.l $7F0000, X : STA.l $7F0008, X
     
     BRA .state_logic_finished
     
@@ -41,7 +41,7 @@ Ancilla_BlastWall:
     ; \wtf This instruction doesn't appear to serve any useful purpose.
     TAY
     
-    LDA.b #$03 : STA $7F0008, X
+    LDA.b #$03 : STA.l $7F0008, X
     
     .state_logic_finished
     
@@ -52,9 +52,9 @@ Ancilla_BlastWall:
     ; Switch to the other slot? Why?
     TXA : EOR.b #$01 : TAX
     
-    LDA $7F0000, X : CMP.b #$06 : BNE .state_logic_finished
+    LDA.l $7F0000, X : CMP.b #$06 : BNE .state_logic_finished
     
-    LDA $7F0008, X : CMP.b #$02 : BNE .state_logic_finished
+    LDA.l $7F0008, X : CMP.b #$02 : BNE .state_logic_finished
     
     ; \wtf(confirmed) Was the blast wall designed to have more than one
     ; spawn point? Multiple blast wall objects working at once?
@@ -68,8 +68,8 @@ Ancilla_BlastWall:
     
     STA $0C5E
     
-    LDA.b #$01 : STA $7F0000, X
-    LDA.b #$03 : STA $7F0008, X
+    LDA.b #$01 : STA.l $7F0000, X
+    LDA.b #$03 : STA.l $7F0008, X
     
     PHX
     
@@ -92,7 +92,7 @@ Ancilla_BlastWall:
     ; \task Check if this branch ever is taken. How many blast walls are
     ; in the game? Skull Woods and Ganon's Tower are all I can think of
     ; at the moment.
-    LDA $7F001C : CMP.b #$04 : BCS .diverge_vertically
+    LDA.l $7F001C : CMP.b #$04 : BCS .diverge_vertically
     
     ; (Diverge horizontally in this case.)
     LDX.b #$02
@@ -118,8 +118,8 @@ Ancilla_BlastWall:
     
     REP #$20
     
-    LDA $7F0020, X : CLC : ADC $00 : STA $7F0020, X
-    LDA $7F0030, X : CLC : ADC $02 : STA $7F0030, X
+    LDA.l $7F0020, X : CLC : ADC $00 : STA.l $7F0020, X
+    LDA.l $7F0030, X : CLC : ADC $02 : STA.l $7F0030, X
     
     SEC : SBC $E2 : STA $72
     
@@ -144,7 +144,7 @@ Ancilla_BlastWall:
     
     LDX $0380
     
-    LDA $7F0000, X : BEQ .dont_draw_component
+    LDA.l $7F0000, X : BEQ .dont_draw_component
     
     LDY.b #$07
     
@@ -164,8 +164,8 @@ Ancilla_BlastWall:
     
     REP #$20
     
-    LDA $7F0020, X : STA $00
-    LDA $7F0030, X : STA $02
+    LDA.l $7F0020, X : STA $00
+    LDA.l $7F0030, X : STA $02
     
     SEP #$20
     
@@ -185,7 +185,7 @@ Ancilla_BlastWall:
     
     .find_active_component
     
-    LDA $7F0000, X : BNE .return
+    LDA.l $7F0000, X : BNE .return
     
     DEX : BPL .find_active_component
     
@@ -216,7 +216,7 @@ BlastWall_DrawExplosion:
     LDA.b #$30 : STA $65
                  STZ $64
     
-    LDA $7F0000, X : TAY
+    LDA.l $7F0000, X : TAY
     
     LDA Bomb_Draw.num_oam_entries, Y : STA $08
     

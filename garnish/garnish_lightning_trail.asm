@@ -23,7 +23,7 @@ Garnish_LightningTrail:
     LDA $00       : STA ($90), Y
     LDA $02 : INY : STA ($90), Y
     
-    LDA $7FF92C, X : PHX : TAX
+    LDA.l $7FF92C, X : PHX : TAX
     
     LDA .chr, X : PHX
     

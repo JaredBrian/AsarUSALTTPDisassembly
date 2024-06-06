@@ -326,7 +326,7 @@ Thief_AttemptBootyGrab:
     
     LDA $0E20, Y : SEC : SBC.b #$D8 : TAX
     
-    LDA $06D12D, X : JSL Sound_SetSfx3PanLong
+    LDA.l $06D12D, X : JSL Sound_SetSfx3PanLong
     
     PLX
     
@@ -401,7 +401,7 @@ Thief_DislodgePlayerItems:
     ; Otherwise target rupees
     REP #$20
     
-    LDA $7EF360
+    LDA.l $7EF360
     
     SEP #$20
     
@@ -409,13 +409,13 @@ Thief_DislodgePlayerItems:
     
     .target_arrows
     
-    LDA $7EF377
+    LDA.l $7EF377
     
     BRA .test_quantity
     
     .target_bombs
     
-    LDA $7EF343
+    LDA.l $7EF343
     
     .test_quantity
     
@@ -434,7 +434,7 @@ Thief_DislodgePlayerItems:
     
     REP #$20
     
-    LDA $7EF360 : DEC A : STA $7EF360
+    LDA.l $7EF360 : DEC A : STA.l $7EF360
     
     SEP #$20
     
@@ -442,13 +442,13 @@ Thief_DislodgePlayerItems:
     
     .extract_arrow
     
-    LDA $7EF377 : DEC A : STA $7EF377
+    LDA.l $7EF377 : DEC A : STA.l $7EF377
     
     BRA .spawn_extracted_item
     
     .extract_bomb
     
-    LDA $7EF343 : DEC A : STA $7EF343
+    LDA.l $7EF343 : DEC A : STA.l $7EF343
     
     .spawn_extracted_item
     

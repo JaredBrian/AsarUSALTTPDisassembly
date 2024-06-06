@@ -219,7 +219,7 @@ AddFireRodShot:
     ; Does this mean we should only be here if we have the Master Sword
     ; or better? This makes somaria shots move at different speeds depending
     ; on which sword we have. But it seems unused for some reason?
-    LDA $7EF359 : DEC #2 : ASL #2 : STA $0F
+    LDA.l $7EF359 : DEC #2 : ASL #2 : STA $0F
     
     TXA : CLC : ADC $0F : TAX
     
@@ -1236,7 +1236,7 @@ Ancilla_CheckIndividualSpriteCollision:
     .not_arrow_vs_enemy_arrow
     
     ; Do we have Silver Arrows?
-    LDA $7EF340 : CMP.b #$03 : BCC .not_silver_arrows
+    LDA.l $7EF340 : CMP.b #$03 : BCC .not_silver_arrows
     
     JSR .undeflected_silver_arrow
     
@@ -1890,7 +1890,7 @@ Ancilla_SetSfxPan_NearEntity:
     
     LSR #5 : TAX
     
-    LDA $09968A, X
+    LDA.l $09968A, X
     
     PLX
     
@@ -2619,7 +2619,7 @@ Hookshot_IsCollisionCheckFutile:
     
     LDA $0C72, X : AND.w #$0002 : BNE .moving_horizontally
     
-    LDX $0700 : LDA $00 : SEC : SBC $02A8C4, X : CMP.w #$0004 : BCC .off_screen
+    LDX $0700 : LDA $00 : SEC : SBC.l $02A8C4, X : CMP.w #$0004 : BCC .off_screen
     
     CMP $0716 : BCS .off_screen
     
@@ -2627,7 +2627,7 @@ Hookshot_IsCollisionCheckFutile:
     
     .moving_horizontally
     
-    LDX $0700 : LDA $02 : SEC : SBC $02A944, X : CMP.w #$0006 : BCC .off_screen
+    LDX $0700 : LDA $02 : SEC : SBC.l $02A944, X : CMP.w #$0006 : BCC .off_screen
     
     CMP $0716 : BCC .not_at_screen_edge
     
@@ -2713,11 +2713,11 @@ Ancilla_GetRadialProjection:
     
     TAX
     
-    LDA $0FFC02, X : STA $4202
+    LDA.l $0FFC02, X : STA $4202
     LDA $08        : STA $4203
     
     ; Sign of the projected distance.
-    LDA $0FFC42, X : STA $02
+    LDA.l $0FFC42, X : STA $02
                      STZ $03
     
     ; Get Y projected distance?
@@ -2725,11 +2725,11 @@ Ancilla_GetRadialProjection:
     LDA $4217 : ADC.b #$00 : STA $00
                              STZ $01
     
-    LDA $0FFBC2, X : STA $4202
+    LDA.l $0FFBC2, X : STA $4202
     LDA $08        : STA $4203
     
     ; Sign of the projected distance.
-    LDA $0FFC82, X : STA $06
+    LDA.l $0FFC82, X : STA $06
                      STZ $07
     
     ; Get X projected distance?

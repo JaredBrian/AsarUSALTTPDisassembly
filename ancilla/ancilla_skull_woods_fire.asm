@@ -54,7 +54,7 @@ Pool_Ancilla_SkullWoodsFire:
 ; $046F9A-$047168 JUMP LOCATION
 Ancilla_SkullWoodsFire:
 {
-    LDA $7F0010 : BEQ .blast_inactive
+    LDA.l $7F0010 : BEQ .blast_inactive
     
     LDA $0C5E, X : CMP.b #$04 : BEQ .blast_inactive
     
@@ -72,7 +72,7 @@ Ancilla_SkullWoodsFire:
     
     .execute_next_flame
     
-    LDA $7F0008, X : DEC A : STA $7F0008, X
+    LDA.l $7F0008, X : DEC A : STA.l $7F0008, X
     
     BMI .reset_flame_animation_index
     
@@ -83,21 +83,21 @@ Ancilla_SkullWoodsFire:
     
     .reset_flame_animation_index
     
-    LDA.b #$05 : STA $7F0008, X
+    LDA.b #$05 : STA.l $7F0008, X
     
-    LDA $7F0000, X : CMP.b #$80 : BEQ .flame_permanently_inactive
+    LDA.l $7F0000, X : CMP.b #$80 : BEQ .flame_permanently_inactive
     
-    INC A : STA $7F0000, X : BEQ .flame_control_state_reset
+    INC A : STA.l $7F0000, X : BEQ .flame_control_state_reset
     
     CMP.b #$04 : BNE .dont_reset_flame_control_index
     
-    LDA.b #$00 : STA $7F0000, X
+    LDA.b #$00 : STA.l $7F0000, X
     
     .flame_control_state_reset
     
     REP #$20
     
-    LDA $7F0018 : SEC : SBC.w #$0008 : STA $7F0018
+    LDA.l $7F0018 : SEC : SBC.w #$0008 : STA.l $7F0018
     
     CMP.w #$00C8 : BCS .dont_play_thud_sfx
     
@@ -105,10 +105,10 @@ Ancilla_SkullWoodsFire:
     
     SEP #$20
     
-    LDA $7F0010 : CMP.b #$01 : BEQ .dont_play_thud_sfx
+    LDA.l $7F0010 : CMP.b #$01 : BEQ .dont_play_thud_sfx
     
     ; Activate the blast component of this object.
-    LDA.b #$01 : STA $7F0010
+    LDA.b #$01 : STA.l $7F0010
     
     LDA $00 : JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA $012E
     
@@ -116,16 +116,16 @@ Ancilla_SkullWoodsFire:
     
     REP #$20
     
-    LDA $7F0018 : CMP.w #$00A8 : BCS .dont_permadeativate_flame
+    LDA.l $7F0018 : CMP.w #$00A8 : BCS .dont_permadeativate_flame
     
-    LDA $7F0000, X : AND.w #$FF00 : ORA.w #$0080 : STA $7F0000, X
+    LDA.l $7F0000, X : AND.w #$FF00 : ORA.w #$0080 : STA.l $7F0000, X
     
     .dont_permadeativate_flame
     
     PHX : TXA : ASL A : TAX
     
-    LDA $7F001A : STA $7F0030, X
-    LDA $7F0018 : STA $7F0020, X
+    LDA.l $7F001A : STA.l $7F0030, X
+    LDA.l $7F0018 : STA.l $7F0020, X
     
     PLX
     
@@ -133,7 +133,7 @@ Ancilla_SkullWoodsFire:
     
     LDA $012E : BNE .sfx2_already_set
     
-    LDA $7F001A : SEC : SBC $E2
+    LDA.l $7F001A : SEC : SBC $E2
     
     JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA $012E
     
@@ -144,7 +144,7 @@ Ancilla_SkullWoodsFire:
     
     PHX
     
-    LDA $7F0000, X : BPL .active_flame
+    LDA.l $7F0000, X : BPL .active_flame
     
     BRL .inactive_flame
     
@@ -163,9 +163,9 @@ Ancilla_SkullWoodsFire:
     
     REP #$20
     
-    LDA $7F0020, X : SEC : SBC $E8 : CLC : ADC $04 : STA $00
+    LDA.l $7F0020, X : SEC : SBC $E8 : CLC : ADC $04 : STA $00
     
-    LDA $7F0030, X : SEC : SBC $E2 : STA $02
+    LDA.l $7F0030, X : SEC : SBC $E2 : STA $02
     
     CLC : ADC.w #$0008 : STA $08
     
@@ -223,7 +223,7 @@ Ancilla_SkullWoodsFire:
     
     .find_active_flame_loop
     
-    LDA $7F0000, X : BPL .flames_not_all_inactive
+    LDA.l $7F0000, X : BPL .flames_not_all_inactive
     
     DEX : BPL .find_active_flame_loop
     
@@ -237,7 +237,7 @@ Ancilla_SkullWoodsFire:
     
     LDX $0FA0
     
-    LDA $7F0010 : BEQ .blast_logic_inactive
+    LDA.l $7F0010 : BEQ .blast_logic_inactive
     
     LDA $0C5E, X : CMP.b #$04 : BEQ .blast_logic_inactive
     

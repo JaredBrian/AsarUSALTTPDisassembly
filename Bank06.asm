@@ -338,7 +338,7 @@ Sprite_SpawnThrowableTerrain:
     
     LDA.w $AACA, Y : STA $0F50, X
     
-    LDA.b #$09 : STA $7FFA2C, X
+    LDA.b #$09 : STA.l $7FFA2C, X
     
     LDA.b #$02 : STA $0314
                  STA $0FB2
@@ -513,7 +513,7 @@ Sprite_Main:
     
     LDY.b #$00
     
-    LDA $7EF3CA : BEQ .in_light_world
+    LDA.l $7EF3CA : BEQ .in_light_world
     
     ; $7E0FFF = 0 if in LW, 1 otherwise
     INY
@@ -2330,7 +2330,7 @@ Sprite_DrawShadow:
     ; Is the sprite disabled ("paused", you might say)
     LDA $0F00, X : BNE .dontDrawShadow
     LDA $0DD0, X : CMP.b #$0A : BNE .notBeingCarried
-        LDA $7FFA1C, X : CMP.b #$03 : BEQ .dontDrawShadow
+        LDA.l $7FFA1C, X : CMP.b #$03 : BEQ .dontDrawShadow
     
     .notBeingCarried
     
@@ -2571,7 +2571,7 @@ SpriteStunned_Main:
     
     LDA $0E20, X : TAX
     
-    LDA $0DB359, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
+    LDA.l $0DB359, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
     
     LDA $0E60, X : ORA.b #$10 : STA $0E60, X
     
@@ -2722,7 +2722,7 @@ SpriteStunned_Main:
     
     LDA $0DD0, X : CMP.b #$0B : BNE .BRANCH_TAU
     
-    LDA $7FFA3C, X : BEQ .BRANCH_UPSILON
+    LDA.l $7FFA3C, X : BEQ .BRANCH_UPSILON
     
     .BRANCH_TAU
     
@@ -2969,7 +2969,7 @@ Fish_SpawnLeapingFish:
     
     JSR SpriteActive_Main
     
-    LDA $7FFA3C, X : BEQ .BRANCH_ALPHA
+    LDA.l $7FFA3C, X : BEQ .BRANCH_ALPHA
     
     LDA $0DF0, X : CMP.b #$20 : BCS .BRANCH_BETA
     
@@ -3303,7 +3303,7 @@ Sprite_CheckTileCollision:
     
     JSR Sprite_CheckTileCollisionSingleLayer
     
-    LDA $0FA5 : STA $7FFABC, X
+    LDA $0FA5 : STA.l $7FFABC, X
     
     RTS
 }
@@ -3394,7 +3394,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     JSR $E73C ; $03673C IN ROM
     
-    LDA $0FA5 : STA $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
+    LDA $0FA5 : STA.l $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
     
     LDY $0FB3 : BEQ .BRANCH_OMICRON
     
@@ -3442,7 +3442,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$0C : BNE .not_mothula_moving_floor
     
-    LDA $7FFABC, X : CMP.b #$1C : BNE .BRANCH_PHI
+    LDA.l $7FFABC, X : CMP.b #$1C : BNE .BRANCH_PHI
     
     JSR $E624 ; $036624 IN ROM
     
@@ -3713,7 +3713,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     TYX
     
-    LDA $1DF6CF, X
+    LDA.l $1DF6CF, X
     
     PLX
     
@@ -3847,7 +3847,7 @@ Sprite_GetTileAttrLocal:
     TAX
     
     ; Retrieve tile type
-    LDA $7F2000, X : PLX : SEP #$30 : STA $0FA5
+    LDA.l $7F2000, X : PLX : SEP #$30 : STA $0FA5
     
     RTS
     
@@ -4583,7 +4583,7 @@ Sprite_DirectionToFaceEntity:
     CMP.b #$7A : BEQ .attempt_electrocution
     CMP.b #$0D : BNE .not_buzzblob
     
-    LDA $7EF359 : CMP.b #$04 : BCC .attempt_electrocution
+    LDA.l $7EF359 : CMP.b #$04 : BCC .attempt_electrocution
     
     .not_buzzblob
     
@@ -4628,7 +4628,7 @@ Sprite_DirectionToFaceEntity:
     LDA $00 : EOR.b #$FF : INC A : STA $0F30, X
     LDA $01 : EOR.b #$FF : INC A : STA $0F40, X
     
-    JSL $06ED3F ; $036D3F IN ROM
+    JSL.l $06ED3F ; $036D3F IN ROM
     
     RTS
 }
@@ -4697,7 +4697,7 @@ Ancilla_CheckSpriteDamage:
     CMP.b #$06 : BNE .not_arrow_damage_class                                ; check for 6
     
     ; Do we have silver arrows?
-    PHA : LDA $7EF340 : CMP.b #$03
+    PHA : LDA.l $7EF340 : CMP.b #$03
     PLA :               BCC .not_arrow_damage_class
     
     ; Is this Ganon?
@@ -4794,12 +4794,12 @@ Ancilla_CheckSpriteDamage:
     
     .notImpervious
     
-    LDA $0372 : STA $7FFA4C, X
+    LDA $0372 : STA.l $7FFA4C, X
     
     PHX
     
     ; Load Link's sword type.
-    LDA $7EF359 : DEC A
+    LDA.l $7EF359 : DEC A
     
     LDX $0372 : BNE .notStabbingDamageType
     
@@ -4824,7 +4824,7 @@ Ancilla_CheckSpriteDamage:
     TAX
     
     ; Set the damage class.
-    LDA $06ED33, X : STA $0CF2
+    LDA.l $06ED33, X : STA $0CF2
     
     ; not sure which item types this indicates
     LDA $0301 : AND.b #$0A : BEQ .not_poised_with_hammer
@@ -4864,7 +4864,7 @@ Ancilla_CheckSpriteDamage:
     
     SEP #$20
     
-    LDA $7F6000, X : STA $02                        ; loads Selected Sprite Damage in Advanced Damage Editor
+    LDA.l $7F6000, X : STA $02                        ; loads Selected Sprite Damage in Advanced Damage Editor
     
     SEP #$10
     
@@ -4872,7 +4872,7 @@ Ancilla_CheckSpriteDamage:
     LDA $0CF2 : ASL #3 : ORA $02 : TAX              ;
     
     ; Get the damage value for that monster for that damage class... bah...
-    LDA $0DB8F1, X                                  ; loads Selected Damage Table in Advanced Damage Editor located in sprite_properties.asm
+    LDA.l $0DB8F1, X                                  ; loads Selected Damage Table in Advanced Damage Editor located in sprite_properties.asm
     
     PLX
     
@@ -4903,7 +4903,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$8F
     
-    JSL $06EDCB ; $036DCB IN ROM
+    JSL.l $06EDCB ; $036DCB IN ROM
     
     LDA.b #$02 : STA $0D80, X
     
@@ -5082,7 +5082,7 @@ Ancilla_CheckSpriteDamage:
     
     .BRANCH_GAMMA
     
-    TYA : STA $7FFA3C, X : BEQ .BRANCH_DELTA
+    TYA : STA.l $7FFA3C, X : BEQ .BRANCH_DELTA
     
     LDA $0CAA, X : ORA.b #$08 : STA $0CAA, X
     
@@ -5144,9 +5144,9 @@ Ancilla_CheckSpriteDamage:
     
     .BRANCH_DELTA
     
-    LDA $7FFA4C, X : BEQ .BRANCH_GAMMA
+    LDA.l $7FFA4C, X : BEQ .BRANCH_GAMMA
     
-    LDA.b #$00 : STA $7FFA4C, X
+    LDA.b #$00 : STA.l $7FFA4C, X
     
     STZ $0BE0, X
     
@@ -5164,7 +5164,7 @@ Ancilla_CheckSpriteDamage:
     
     LDX $8A
     
-    LDA $7EF280, X : ORA.b #$40 : STA $7EF280, X
+    LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
     
     PLX
     
@@ -5532,7 +5532,7 @@ Sprite_CheckDamageToPlayer:
     LDA $0BE0, X : AND.b #$20 : BEQ .cant_be_blocked_by_shield
     
     ; LINK'S SHIELD LEVEL
-    LDA $7EF35A : BEQ .BRANCH_ZETA
+    LDA.l $7EF35A : BEQ .BRANCH_ZETA
     
     STZ $0DD0, X
     
@@ -5700,12 +5700,12 @@ Sprite_CheckIfLifted:
         ; Play pick up object sound.
         LDA.b #$1D : JSL Sound_SetSfx2PanLong
         
-        LDA $0DD0, X : STA $7FFA2C, X
+        LDA $0DD0, X : STA.l $7FFA2C, X
         
         LDA.b #$0A : STA $0DD0, X
         LDA.b #$10 : STA $0DF0, X
         
-        LDA.b #$00 : STA $7FFA1C, X : STA $7FF9C2, X
+        LDA.b #$00 : STA.l $7FFA1C, X : STA.l $7FF9C2, X
         
         JSR Sprite_DirectionToFacePlayer
         
@@ -5770,7 +5770,7 @@ Sprite_CheckDamageFromPlayer:
     ; Is the enemy frozen?
     LDA $0DD0, X : CMP #$0B : BNE .not_frozen_kill
     
-    LDA $7FFA3C, X : BEQ .not_frozen_kill
+    LDA.l $7FFA3C, X : BEQ .not_frozen_kill
     
     ; I guess this puts it into poofing mode (when a frozen enemy gets hit
     ; by the hammer... or apparently an arrow??, it puts them into a special
@@ -5937,7 +5937,7 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
     LDA.b #$01 : STA $4D
     
     ; determine damage for Link based on his armor value
-    LDA $0CD2, X : AND.b #$0F : STA $00 : ASL A : ADC $00 : CLC : ADC $7EF35B : TAY
+    LDA $0CD2, X : AND.b #$0F : STA $00 : ASL A : ADC $00 : CLC : ADC.l $7EF35B : TAY
     
     LDA Bump_Damage_Table, Y : STA $0373
     
@@ -6618,7 +6618,7 @@ SpriteDeath_Main:
     LDA $0E20, X : CMP.b #$45 : BNE .BRANCH_DELTA
     
     ; If so, are we in the "first part" (on OW)
-    LDA $7EF3C5 : CMP.b #$02 : BNE .BRANCH_DELTA
+    LDA.l $7EF3C5 : CMP.b #$02 : BNE .BRANCH_DELTA
     
     LDA $040A : CMP.b #$18 : BNE .BRANCH_DELTA
     

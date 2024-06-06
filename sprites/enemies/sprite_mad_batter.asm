@@ -52,7 +52,7 @@ Sprite_MadBatter:
 ; $02FAFF-$02FB39 JUMP LOCATION
 MadBatter_WaitForSummoning:
 {
-    LDA $7EF37B : CMP.b #$01 : BCS .magic_already_doubled
+    LDA.l $7EF37B : CMP.b #$01 : BCS .magic_already_doubled
     ; The sprite doesn't actually damage the player, this is just to detect
     ; contact.
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .not_close_to_player
@@ -194,7 +194,7 @@ MadBatter_DoublePlayerMagicPower:
     INC $0D80, X
     
     ; Reduce the magic power consumption by 1/2.
-    LDA.b #$01 : STA $7EF37B
+    LDA.b #$01 : STA.l $7EF37B
     
     JSL HUD.RefreshIconLong
     

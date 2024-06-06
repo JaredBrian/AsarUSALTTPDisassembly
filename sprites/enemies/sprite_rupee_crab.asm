@@ -76,7 +76,7 @@ Sprite_CoveredRupeeCrab:
     LDA $0E20, X : CMP.b #$3E : BNE .not_rock_covered_crab
     
     ; can't pick up the rock off of the crab...
-    LDA $7EF354 : CMP.b #$01 : BCC .puny_girly_man
+    LDA.l $7EF354 : CMP.b #$01 : BCC .puny_girly_man
     
     .not_rock_covered_crab
     
