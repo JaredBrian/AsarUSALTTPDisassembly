@@ -6,8 +6,8 @@
 ; $0447DE-$044818 JUMP LOCATION
 Ancilla_HappinessPondRupees:
 {
-    LDA.b #$02 : STA $0309
-                 STZ $0308
+    LDA.b #$02 : STA.w $0309
+                 STZ.w $0308
     
     LDX.b #$09
     
@@ -38,9 +38,9 @@ Ancilla_HappinessPondRupees:
     
     DEX : BPL .find_active_rupee_loop
     
-    LDX $0FA0
+    LDX.w $0FA0
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -62,23 +62,23 @@ HappinessPondRupees_ExecuteRupee:
     
     PHX
     
-    LDY $0FA0
+    LDY.w $0FA0
     
     JSR HappinessPondRupee_LoadRupeeeState
     
     TYX
     
-    LDA $0C54, X : BEQ .not_in_splash_state
+    LDA.w $0C54, X : BEQ .not_in_splash_state
     
     LDA $11 : BNE .just_draw_splash
     
-    LDA $0C68, X : BNE .just_draw_splash
+    LDA.w $0C68, X : BNE .just_draw_splash
     
-    LDA.b #$06 : STA $0C68, X
+    LDA.b #$06 : STA.w $0C68, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$05 : BNE .just_draw_splash
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$05 : BNE .just_draw_splash
     
-    INC $0C54, X
+    INC.w $0C54, X
     
     BRL .return
     
@@ -92,39 +92,39 @@ HappinessPondRupees_ExecuteRupee:
     
     LDA $11 : BNE .just_draw_item
     
-    LDA $0C68, X : BNE .just_draw_item
+    LDA.w $0C68, X : BNE .just_draw_item
     
-    LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
+    LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     JSR Ancilla_MoveAltitude
     
-    LDA $029E, X : BPL .just_draw_item
+    LDA.w $029E, X : BPL .just_draw_item
     CMP.b #$E4   : BCS .just_draw_item
     
-    LDA.b #$E4 : STA $029E, X
+    LDA.b #$E4 : STA.w $029E, X
     
-    LDA $0BFA, X : CLC : ADC.b #$1E : STA $0BFA, X
-    LDA $0C0E, X : ADC.b #$00 : STA $0C0E, X
+    LDA.w $0BFA, X : CLC : ADC.b #$1E : STA.w $0BFA, X
+    LDA.w $0C0E, X : ADC.b #$00 : STA.w $0C0E, X
     
-    LDA $0C04, X : CLC : ADC.b #$FC : STA $0C04, X
-    LDA $0C18, X : ADC.b #$FF : STA $0C18, X
+    LDA.w $0C04, X : CLC : ADC.b #$FC : STA.w $0C04, X
+    LDA.w $0C18, X : ADC.b #$FF : STA.w $0C18, X
     
-    STZ $0C5E, X
+    STZ.w $0C5E, X
     
-    LDA.b #$06 : STA $0C68, X
+    LDA.b #$06 : STA.w $0C68, X
     
     LDA.b #$28 : JSR Ancilla_DoSfx2
     
-    INC $0C54, X
+    INC.w $0C54, X
     
     BRA .return
     
     .just_draw_item
     
-    LDA.b #$02 : STA $0BF0, X
-    LDA.b #$00 : STA $0C7C, X
+    LDA.b #$02 : STA.w $0BF0, X
+    LDA.b #$00 : STA.w $0C7C, X
     
     JSR Ancilla_WishPondItem.draw
     
@@ -148,29 +148,29 @@ HappinessPondRupees_LoadRupeeeState:
     ; apart, except there's a 2 byte gap between the arrays starting at
     ; $7F586C and $7F587A. Why?
     
-    LDA.l $7F5824, X : STA $0BFA, Y
-    LDA.l $7F5830, X : STA $0C0E, Y
+    LDA.l $7F5824, X : STA.w $0BFA, Y
+    LDA.l $7F5830, X : STA.w $0C0E, Y
     
-    LDA.l $7F583C, X : STA $0C04, Y
-    LDA.l $7F5848, X : STA $0C18, Y
+    LDA.l $7F583C, X : STA.w $0C04, Y
+    LDA.l $7F5848, X : STA.w $0C18, Y
     
-    LDA.l $7F5854, X : STA $029E, Y
+    LDA.l $7F5854, X : STA.w $029E, Y
     
-    LDA.l $7F5800, X : STA $0C22, Y
+    LDA.l $7F5800, X : STA.w $0C22, Y
     
-    LDA.l $7F580C, X : STA $0C2C, Y
+    LDA.l $7F580C, X : STA.w $0C2C, Y
     
-    LDA.l $7F5818, X : STA $0294, Y
+    LDA.l $7F5818, X : STA.w $0294, Y
     
-    LDA.l $7F5886, X : STA $0C36, Y
+    LDA.l $7F5886, X : STA.w $0C36, Y
     
-    LDA.l $7F5892, X : STA $0C40, Y
+    LDA.l $7F5892, X : STA.w $0C40, Y
     
-    LDA.l $7F589E, X : STA $02A8, Y
+    LDA.l $7F589E, X : STA.w $02A8, Y
     
-    LDA.l $7F587A, X : STA $0C5E, Y
+    LDA.l $7F587A, X : STA.w $0C5E, Y
     
-    LDA.l $7F58AA, X : STA $0C54, Y
+    LDA.l $7F58AA, X : STA.w $0C54, Y
     
     LDA.l $7F5860, X : BEQ .timer_expired
     
@@ -178,7 +178,7 @@ HappinessPondRupees_LoadRupeeeState:
     
     .timer_expired
     
-    STA $0C68, Y
+    STA.w $0C68, Y
     
     RTS
 }
@@ -188,31 +188,31 @@ HappinessPondRupees_LoadRupeeeState:
 ; $044924-$044986 LOCAL JUMP LOCATION
 HappinessPondRupees_StoreRupeeState:
 {
-    LDA $0BFA, Y : STA.l $7F5824, X
-    LDA $0C0E, Y : STA.l $7F5830, X
+    LDA.w $0BFA, Y : STA.l $7F5824, X
+    LDA.w $0C0E, Y : STA.l $7F5830, X
     
-    LDA $0C04, Y : STA.l $7F583C, X
-    LDA $0C18, Y : STA.l $7F5848, X
+    LDA.w $0C04, Y : STA.l $7F583C, X
+    LDA.w $0C18, Y : STA.l $7F5848, X
     
-    LDA $029E, Y : STA.l $7F5854, X
+    LDA.w $029E, Y : STA.l $7F5854, X
     
-    LDA $0C22, Y : STA.l $7F5800, X
+    LDA.w $0C22, Y : STA.l $7F5800, X
     
-    LDA $0C2C, Y : STA.l $7F580C, X
+    LDA.w $0C2C, Y : STA.l $7F580C, X
     
-    LDA $0294, Y : STA.l $7F5818, X
+    LDA.w $0294, Y : STA.l $7F5818, X
     
-    LDA $0C36, Y : STA.l $7F5886, X
+    LDA.w $0C36, Y : STA.l $7F5886, X
     
-    LDA $0C40, Y : STA.l $7F5892, X
+    LDA.w $0C40, Y : STA.l $7F5892, X
     
-    LDA $02A8, Y : STA.l $7F589E, X
+    LDA.w $02A8, Y : STA.l $7F589E, X
     
-    LDA $0C5E, Y : STA.l $7F587A, X
+    LDA.w $0C5E, Y : STA.l $7F587A, X
     
-    LDA $0C68, Y : STA.l $7F5860, X
+    LDA.w $0C68, Y : STA.l $7F5860, X
     
-    LDA $0C54, Y : STA.l $7F58AA, X
+    LDA.w $0C54, Y : STA.l $7F58AA, X
     
     RTS
 }

@@ -31,7 +31,7 @@ Garnish_CrumbleTile:
     ; frame that this garnish is active.
     LDA.l $7FF90E, X : CMP.B #$1E : BNE .dont_place_pit_tile
     
-    LDA $11 : ORA $0FC1 : BNE .just_draw
+    LDA $11 : ORA.w $0FC1 : BNE .just_draw
     
     PHA
     

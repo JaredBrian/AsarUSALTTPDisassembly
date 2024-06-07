@@ -21,7 +21,7 @@ Garnish_TrinexxIce:
     
     LDA.l $7FF90E, X : CMP.b #$50 : BNE .dont_update_tiles
     
-    LDA $11 : ORA $0FC1 : BNE .dont_update_tiles
+    LDA $11 : ORA.w $0FC1 : BNE .dont_update_tiles
     
     PHA
     

@@ -14,14 +14,14 @@ Pool_Ancilla_BlastWallFireball:
 Ancilla_BlastWallFireball:
 {
     LDA $11 : BNE .just_draw
-        LDA $0C5E, X : CLC : ADC.b #$02   : STA $0C5E, X
-                       CLC : ADC $0C22, X : STA $0C22, X
+        LDA.w $0C5E, X : CLC : ADC.b #$02   : STA.w $0C5E, X
+                       CLC : ADC.w $0C22, X : STA.w $0C22, X
         
         JSR Ancilla_MoveVert
         JSR Ancilla_MoveHoriz
         
         LDA.l $7F0040, X : DEC A : STA.l $7F0040, X : BPL .still_active
-            STZ $0C4A, X
+            STZ.w $0C4A, X
             
             RTS
 
@@ -30,7 +30,7 @@ Ancilla_BlastWallFireball:
     
     LDA.b #$04
     
-    LDY $0FB3 : BEQ .dont_sort_sprites
+    LDY.w $0FB3 : BEQ .dont_sort_sprites
         JSL OAM_AllocateFromRegionD
         
         BRA .oam_allocation_determined

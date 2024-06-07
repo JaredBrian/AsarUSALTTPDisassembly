@@ -19,7 +19,7 @@ RefillLogicLong:
 {
     PHB : PHK : PLB
 
-    LDA $0200
+    LDA.w $0200
 
     BEQ RefillLogic
 
@@ -44,7 +44,7 @@ RefreshIconLong:
 
     SEP #$30
 
-    STZ $0200
+    STZ.w $0200
 
     PLB
 
@@ -83,10 +83,10 @@ RefreshIconLong:
     LDA $1A : AND.b #$03 : BNE .doneWithMagicRefill
     
     ; Is this sound channel in use?
-    LDA $012E : BNE .doneWithMagicRefill
+    LDA.w $012E : BNE .doneWithMagicRefill
     
     ; Play the magic refill sound effect
-    LDA.b #$2D : STA $012E
+    LDA.b #$2D : STA.w $012E
     
     .doneWithMagicRefill
     
@@ -122,13 +122,13 @@ RefreshIconLong:
     
     SEP #$30
     
-    LDA $012E : BNE .doneWithRupeesRefill
+    LDA.w $012E : BNE .doneWithRupeesRefill
     
     ; looks like a delay counter of some sort between
     ; invocations of the rupee fill sound effect
-    LDA $0CFD : INC $0CFD : AND.b #$07 : BNE .skipRupeeSound
+    LDA.w $0CFD : INC.w $0CFD : AND.b #$07 : BNE .skipRupeeSound
     
-    LDA.b #$29 : STA $012E
+    LDA.b #$29 : STA.w $012E
     
     BRA .skipRupeeSound
     
@@ -136,7 +136,7 @@ RefreshIconLong:
     
     SEP #$30
     
-    STZ $0CFD
+    STZ.w $0CFD
     
     .skipRupeeSound
     
@@ -151,7 +151,7 @@ RefreshIconLong:
     LDA.l $7EF370 : TAY
 
     ; if it matches the max, you can't have no more bombs, son. It's the law.
-    LDA.l $7EF343 : CMP $DB48, Y : BEQ .doneRefillingBombs
+    LDA.l $7EF343 : CMP.w $DB48, Y : BEQ .doneRefillingBombs
     
     ; You like bombs? I got lotsa bombs!
     INC A : STA.l $7EF343
@@ -168,7 +168,7 @@ RefreshIconLong:
     ; check arrow upgrade index to see how our max limit on arrows, just like bombs.
     LDA.l $7EF371 : TAY 
     
-    LDA.l $7EF377 : CMP $DB58, Y
+    LDA.l $7EF377 : CMP.w $DB58, Y
     
     ; I reckon you get no more arrows, pardner.
     BEQ .arrowsAtMax
@@ -194,7 +194,7 @@ RefreshIconLong:
     .doneRefillingArrows
 
     ; a frozen Link is an impervious Link, so don't beep.
-    LDA $02E4
+    LDA.w $02E4
     
     BNE .doneWithWarningBeep
     
@@ -207,32 +207,32 @@ RefreshIconLong:
     
     ; checking current health against capacity health to see
     ; if we need to put on that annoying beeping noise.
-    LDA.l $7EF36D : CMP $DB60, X
+    LDA.l $7EF36D : CMP.w $DB60, X
     
     BCS .doneWithWarningBeep
     
-    LDA $04CA
+    LDA.w $04CA
     
     BNE .decrementBeepTimer
     
     ; beep incessantly when life is low
-    LDA $012E
+    LDA.w $012E
     
     BNE .doneWithWarningBeep
     
-    LDA.b #$20 : STA $04CA
-    LDA.b #$2B : STA $012E
+    LDA.b #$20 : STA.w $04CA
+    LDA.b #$2B : STA.w $012E
     
     .decrementBeepTimer
     
     ; Timer for the low life beep sound
-    DEC $04CA
+    DEC.w $04CA
 
     .doneWithWarningBeep
 
     ; if nonzero, indicates that a heart is being "flipped" over
     ; as in, filling up, currently
-    LDA $020A
+    LDA.w $020A
     
     BNE .waitForHeartFillAnimation
     
@@ -259,12 +259,12 @@ RefreshIconLong:
     ; refill health by one heart
     LDA.l $7EF36D : CLC : ADC.b #$08 : STA.l $7EF36D
     
-    LDA $012F
+    LDA.w $012F
     
     BNE .soundChannelInUse
     
     ; play heart refill sound effect
-    LDA.b #$0D : STA $012F
+    LDA.b #$0D : STA.w $012F
 
     .soundChannelInUse
 
@@ -283,9 +283,9 @@ RefreshIconLong:
     
     ; activate heart refill animation
     ; (which will cause a small delay for the next heart if we still need to fill some up.)
-    INC $020A
+    INC.w $020A
     
-    LDA.b #$07 : STA $0208
+    LDA.b #$07 : STA.w $0208
 
     .waitForHeartFillAnimation
     
@@ -343,7 +343,7 @@ HexToDecimal:
     
     REP #$30
     
-    STZ $0003
+    STZ.w $0003
     
     ; The objects mentioned could be rupees, arrows, bombs, or keys.
     LDX.w #$0000
@@ -352,11 +352,11 @@ HexToDecimal:
     .nextDigit
     
     ; If number of objects left < 100, 10
-    CMP $F9F9, Y : BCC .nextLowest10sPlace
+    CMP.w $F9F9, Y : BCC .nextLowest10sPlace
     
     ; Otherwise take off another 100 objects from the total and increment $03
     ; $6F9F9, Y THAT IS, 100, 10
-    SEC : SBC $F9F9, Y
+    SEC : SBC.w $F9F9, Y
     INC $03, X
     
     BRA .nextDigit
@@ -411,7 +411,7 @@ RefillHealth:
     LDA.b #$00 : STA.l $7EF372
     
     ; ??? not sure what purpose this branch serves.
-    LDA $020A : BNE .beta
+    LDA.w $020A : BNE .beta
     
     SEC
     
@@ -441,7 +441,7 @@ AnimateHeartRefill:
     LDA.b #$C7 : STA $01
     LDA.b #$7E : STA $02
     
-    DEC $0208 : BNE .return
+    DEC.w $0208 : BNE .return
     
     REP #$30
     
@@ -459,7 +459,7 @@ AnimateHeartRefill:
 
     SEP #$30
     
-    LDX $0209 : LDA.l $0DFA11, X : STA $0208
+    LDX.w $0209 : LDA.l $0DFA11, X : STA.w $0208
     
     TXA : ASL A : TAX
     
@@ -467,7 +467,7 @@ AnimateHeartRefill:
     
     INY : LDA.l $0DFA0A, X : STA [$00], Y
     
-    LDA $0209 : INC A : AND.b #$03 : STA $0209
+    LDA.w $0209 : INC A : AND.b #$03 : STA.w $0209
     
     BNE .return
     
@@ -475,7 +475,7 @@ AnimateHeartRefill:
     
     JSR Rebuild
     
-    STZ $020A
+    STZ.w $020A
 
     .return
 
@@ -689,13 +689,13 @@ RestoreTorchBackground:
     
     ; The rest of these variables, I'm not too sure about. Probably indicate
     ; that a torch bg object was place in the dungeon room.
-    LDA $0458 : BNE .doNothing
+    LDA.w $0458 : BNE .doNothing
     
-    LDA $045A : BNE .doNothing
+    LDA.w $045A : BNE .doNothing
     
-    INC $0458
+    INC.w $0458
     
-    LDA $0414 : CMP.b #$02 : BEQ .doNothing
+    LDA.w $0414 : CMP.b #$02 : BEQ .doNothing
     
     LDA.b #$01 : STA $1D
     
@@ -855,7 +855,7 @@ UpdateItemBox:
     
     REP #$30
     
-    LDX $0202 : BEQ .noEquippedItem
+    LDX.w $0202 : BEQ .noEquippedItem
     
     LDA.l $7EF33F, X : AND.w #$00FF
     

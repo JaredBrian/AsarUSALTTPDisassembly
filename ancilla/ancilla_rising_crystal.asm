@@ -9,49 +9,49 @@
 Ancilla_TransmuteToRisingCrystal:
 {
     ; Start up 3D crystal effect
-    LDA.b #$3E : STA $0C4A, X
+    LDA.b #$3E : STA.w $0C4A, X
     
-    STZ $0C22, X
-    STZ $0C2C, X
-    STZ $0C36, X
+    STZ.w $0C22, X
+    STZ.w $0C2C, X
+    STZ.w $0C36, X
     
     ; $044BF2 ALTERNATE ENTRY POINT
     shared Ancilla_RisingCrystal:
     
-    STZ $029E, X
+    STZ.w $029E, X
     
     JSR Ancilla_AddSwordChargeSpark
     
-    LDA $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .ascent_speed_maxed
+    LDA.w $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .ascent_speed_maxed
     
     LDA.b #$F0
     
     .ascent_speed_maxed
     
-    STA $0C22, X
+    STA.w $0C22, X
     
     JSR Ancilla_MoveVert
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
     REP #$20
     
-    LDA $00 : SEC : SBC $0122 : CMP.w #$0049 : BCS .below_target_y_position
+    LDA $00 : SEC : SBC.w $0122 : CMP.w #$0049 : BCS .below_target_y_position
     
     ; Keep position fixed at 0x0049
-    LDA.w #$0049 : CLC : ADC $0122 : STA $00
+    LDA.w #$0049 : CLC : ADC.w $0122 : STA $00
     
     SEP #$20
     
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
     LDA $11 : BNE .delay_giving_crystal
     
     PHX
     
-    LDA $040C : LSR A : TAX
+    LDA.w $040C : LSR A : TAX
     
     ; Give player the crystal associated with this dungeon
     LDA.l $7EF37A : ORA.l MilestoneItem_Flags, X : STA.l $7EF37A

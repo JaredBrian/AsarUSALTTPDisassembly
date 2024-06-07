@@ -21,7 +21,7 @@ Ancilla_TerminateSelectInteractives:
     .nextObject
     
     ; check for 3D crystal
-    LDA $0C4A, X : CMP.b #$3E : BNE .not3DCrystal
+    LDA.w $0C4A, X : CMP.b #$3E : BNE .not3DCrystal
     
     TXY
     
@@ -30,9 +30,9 @@ Ancilla_TerminateSelectInteractives:
     .not3DCrystal
     
     ; checks if any cane of somaria blocks are in play?
-    LDA $0C4A, X : CMP.b #$2C : BNE .checkIfCarryingObject
+    LDA.w $0C4A, X : CMP.b #$2C : BNE .checkIfCarryingObject
     
-    STZ $0646
+    STZ.w $0646
     
     LDA $48 : AND.b #$80 : BEQ .checkIfCarryingObject
     
@@ -41,47 +41,47 @@ Ancilla_TerminateSelectInteractives:
     
     .checkIfCarryingObject
     
-    LDA $0308 : BPL .notCarryingAnything
+    LDA.w $0308 : BPL .notCarryingAnything
     
-    TXA : INC A : CMP $02EC : BEQ .spareObject
+    TXA : INC A : CMP.w $02EC : BEQ .spareObject
     
     BRA .terminateObject
     
     .notCarryingAnything
     
-    TXA : INC A : CMP $02EC : BNE .terminateObject
+    TXA : INC A : CMP.w $02EC : BNE .terminateObject
     
-    STZ $02EC
+    STZ.w $02EC
     
     .terminateObject
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .spareObject
     
     DEX : BPL .nextObject
     
-    LDA $037A : AND.b #$10 : BEQ .theta
+    LDA.w $037A : AND.b #$10 : BEQ .theta
     
     STZ $46
-    STZ $037A
+    STZ.w $037A
     
     .theta
     
     ; Reset flute playing interval timer.
-    STZ $03F0
+    STZ.w $03F0
     
     ; Reset tagalong detatchment timer.
-    STZ $02F2
+    STZ.w $02F2
     
     ; Only place this is written to. Never read.
-    STZ $02F3
-    STZ $035F
-    STZ $03FC
+    STZ.w $02F3
+    STZ.w $035F
+    STZ.w $03FC
     
-    STZ $037B
-    STZ $03FD
-    STZ $0360
+    STZ.w $037B
+    STZ.w $03FD
+    STZ.w $0360
     
     LDA $5D : CMP.b #$13 : BNE .notUsingHookshot
     
@@ -89,9 +89,9 @@ Ancilla_TerminateSelectInteractives:
     
     LDA $3A   : AND.b #$BF : STA $3A
     LDA $50   : AND.b #$FE : STA $50
-    LDA $037A : AND.b #$FB : STA $037A
+    LDA.w $037A : AND.b #$FB : STA.w $037A
     
-    STZ $037E
+    STZ.w $037E
     
     .notUsingHookshot
     
@@ -126,11 +126,11 @@ Tagalong_Disable:
 ; $04AD06-$04AD1A LOCAL JUMP LOCATION
 Ancilla_SetCoords:
 {
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
-    LDA $02 : STA $0C04, X
-    LDA $03 : STA $0C18, X
+    LDA $02 : STA.w $0C04, X
+    LDA $03 : STA.w $0C18, X
     
     RTS
 }
@@ -140,11 +140,11 @@ Ancilla_SetCoords:
 ; $04AD1B-$04AD2F LOCAL JUMP LOCATION
 Ancilla_GetCoords:
 {
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     RTS
 }
@@ -158,7 +158,7 @@ AddSomarianBlockDivide:
 {
     PHB : PHK : PLB
     
-    LDA.b #$2E : STA $0C4A, X
+    LDA.b #$2E : STA.w $0C4A, X
     
     PHX
     
@@ -166,20 +166,20 @@ AddSomarianBlockDivide:
     
     PLX
     
-    STA $0C90, X
+    STA.w $0C90, X
     
-    LDA.b #$03 : STA $03B1, X
+    LDA.b #$03 : STA.w $03B1, X
     
-    STZ $0C54, X
-    STZ $0C5E, X
-    STZ $039F, X
-    STZ $03A4, X
-    STZ $03EA, X
-    STZ $0280, X
+    STZ.w $0C54, X
+    STZ.w $0C5E, X
+    STZ.w $039F, X
+    STZ.w $03A4, X
+    STZ.w $03EA, X
+    STZ.w $0280, X
     
-    STZ $0646
+    STZ.w $0646
     
-    JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA $012F
+    JSL Sound_SfxPanObjectCoords : ORA.b #$01 : STA.w $012F
     
     PLB
     
@@ -204,7 +204,7 @@ GiveRupeeGift:
     
     PHB : PHK : PLB
     
-    LDA $0C5E, X
+    LDA.w $0C5E, X
     
     CMP.b #$34 : BEQ .lowSize
     CMP.b #$35 : BEQ .lowSize
@@ -279,7 +279,7 @@ Ancilla_TerminateSparkleObjects:
     
     .next_slot
     
-    LDA $0C4A, X
+    LDA.w $0C4A, X
     
     CMP.b #$2A : BEQ .terminate_object
     CMP.b #$2B : BEQ .terminate_object
@@ -291,7 +291,7 @@ Ancilla_TerminateSparkleObjects:
     
     .terminate_object
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .dont_terminate
     
@@ -325,26 +325,26 @@ Sprite_SpawnSuperficialBombBlast:
     ; platform uses during creation? Magic powder tossed on green altar?)
     LDA.b #$4A : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$06 : STA $0DD0, Y
+    LDA.b #$06 : STA.w $0DD0, Y
     
-    LDA.b #$1F : STA $0E00, Y
+    LDA.b #$1F : STA.w $0E00, Y
     
-    LDA #$03 : STA $0DB0, Y : STA $0E40, Y
+    LDA #$03 : STA.w $0DB0, Y : STA.w $0E40, Y
     
-    INC A : STA $0F50, Y
+    INC A : STA.w $0F50, Y
     
     LDA.b #$15 : JSL Sound_SetSfx2PanLong
     
     ; $04AE64 ALTERNATE ENTRY POINT
     shared Sprite_SetSpawnedCoords:
     
-    LDA $00 : STA $0D10, Y
-    LDA $01 : STA $0D30, Y
+    LDA $00 : STA.w $0D10, Y
+    LDA $01 : STA.w $0D30, Y
     
-    LDA $02 : STA $0D00, Y
-    LDA $03 : STA $0D20, Y
+    LDA $02 : STA.w $0D00, Y
+    LDA $03 : STA.w $0D20, Y
     
-    LDA $04 : STA $0F70, Y
+    LDA $04 : STA.w $0F70, Y
     
     .spawn_failed
     
@@ -363,14 +363,14 @@ Sprite_SpawnDummyDeathAnimation:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$06 : STA $0DD0, Y
+    LDA.b #$06 : STA.w $0DD0, Y
     
-    LDA.b #$0F : STA $0DF0, Y
+    LDA.b #$0F : STA.w $0DF0, Y
     
     LDA.b #$14 : JSL Sound_SetSfx2PanLong
     
     ; Ensure the spawned death sprite is visible by giving it high priority.
-    LDA.b #$02 : STA $0F20, Y
+    LDA.b #$02 : STA.w $0F20, Y
     
     .spawn_failed
     
@@ -408,38 +408,38 @@ Sprite_SpawnMadBatterBolts:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$0C : PHP : SEC : SBC $0F70, X : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : PLP : ADC.b #$00   : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$0C : PHP : SEC : SBC.w $0F70, X : STA.w $0D00, Y
+    LDA $03 : SBC.b #$00 : PLP : ADC.b #$00   : STA.w $0D20, Y
     
-    LDA.b #$00 : STA $0F70, Y
+    LDA.b #$00 : STA.w $0F70, Y
     
-    LDA.b #$18 : STA $0D40, Y : STA $0EB0, Y : STA $0BA0, Y
+    LDA.b #$18 : STA.w $0D40, Y : STA.w $0EB0, Y : STA.w $0BA0, Y
     
-    LDA.b #$80 : STA $0E40, Y
+    LDA.b #$80 : STA.w $0E40, Y
     
-    LDA.b #$03 : STA $0E60, Y
-    AND.b #$03 : STA $0F50, Y
+    LDA.b #$03 : STA.w $0E60, Y
+    AND.b #$03 : STA.w $0F50, Y
     
-    LDA.b #$20 : STA $0DF0, Y
+    LDA.b #$20 : STA.w $0DF0, Y
     
-    LDA.b #$02 : STA $0DC0, Y
+    LDA.b #$02 : STA.w $0DC0, Y
     
     PHX
     
-    LDA $0ED0, X : TAX
+    LDA.w $0ED0, X : TAX
     
-    LDA.l .x_speeds, X : STA $0D50, Y
+    LDA.l .x_speeds, X : STA.w $0D50, Y
     
-    LDA.l .initial_cycling_states, X : STA $0E80, Y
+    LDA.l .initial_cycling_states, X : STA.w $0E80, Y
     
-    LDA.b #$02 : STA $0F20, Y
+    LDA.b #$02 : STA.w $0F20, Y
     
     PLX
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .spawnFailed
     
@@ -457,19 +457,19 @@ Sprite_VerifyAllOnScreenDefeated:
     
     .next_sprite
     
-    LDA $0DD0, X : BEQ .dead
+    LDA.w $0DD0, X : BEQ .dead
     
     ; check if the sprite is always considered dead for these purposes
     ; (some sprites have this property set at load and some dynamically)
-    LDA $0F60, X : AND.b #$40 : BNE .dead
+    LDA.w $0F60, X : AND.b #$40 : BNE .dead
     
     ; In these cases Dead apparently means offscreen.
-    LDA $0D10, X : CMP $E2
-    LDA $0D30, X : SBC $E3 : BNE .dead
+    LDA.w $0D10, X : CMP $E2
+    LDA.w $0D30, X : SBC $E3 : BNE .dead
     
     ; In these cases Dead apparently means offscreen.
-    LDA $0D00, X : CMP $E8
-    LDA $0D20, X : SBC $E9 : BNE .dead
+    LDA.w $0D00, X : CMP $E8
+    LDA.w $0D20, X : SBC $E9 : BNE .dead
     
     PLX
     
@@ -494,10 +494,10 @@ Sprite_VerifyAllOnScreenDefeated:
     .next_sprite_2
     
     ; Is the sprite alive?
-    LDA $0DD0, X : BEQ .dead_2
+    LDA.w $0DD0, X : BEQ .dead_2
     
     ; It's alive, but not in this room... i.e. good as dead.
-    LDA $0F60, X : AND.b #$40 : BNE .dead_2
+    LDA.w $0F60, X : AND.b #$40 : BNE .dead_2
     
     .failure
     
@@ -518,7 +518,7 @@ Sprite_VerifyAllOnScreenDefeated:
     .next_overlord
     
     ; Now check to see if there are any overlords "alive"
-    LDA $0B00, X
+    LDA.w $0B00, X
     
     CMP.b #$14 : BEQ .failure
     CMP.b #$18 : BEQ .failure
@@ -545,11 +545,11 @@ Sprite_ReinitWarpVortex:
     
     .nextSprite
     
-        LDA $0DD0, X : BEQ .dead
+        LDA.w $0DD0, X : BEQ .dead
             ; Trying to kill the warp vortex
-            LDA $0E20, X : CMP.b #$6C : BNE .notWarpVortex
+            LDA.w $0E20, X : CMP.b #$6C : BNE .notWarpVortex
                 ; Kill the warp vortex!
-                STZ $0DD0, X
+                STZ.w $0DD0, X
             
             .notWarpVortex
         .dead
@@ -562,13 +562,13 @@ Sprite_ReinitWarpVortex:
     
     .spawnSucceeded
     
-    LDA.l $001ABF : STA $0D10, Y
-    LDA.l $001ACF : STA $0D30, Y
+    LDA.l $001ABF : STA.w $0D10, Y
+    LDA.l $001ACF : STA.w $0D30, Y
     
-    LDA.l $001ADF : CLC : ADC.b #$08 : STA $0D00, Y
-    LDA.l $001AEF : ADC.b #$00 : STA $0D20, Y
+    LDA.l $001ADF : CLC : ADC.b #$08 : STA.w $0D00, Y
+    LDA.l $001AEF : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$00 : STA $0F20, Y : INC A : STA $0BA0, Y
+    LDA.b #$00 : STA.w $0F20, Y : INC A : STA.w $0BA0, Y
     
     PLB
     
@@ -586,9 +586,9 @@ InitSpriteSlots:
     
     .nextSprite
     
-    LDA $0DD0, X : BEQ .deadSprite
+    LDA.w $0DD0, X : BEQ .deadSprite
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
     ; carrying something
     CMP.b #$0A : BNE .notCarrying
@@ -600,7 +600,7 @@ InitSpriteSlots:
     CPY.b #$D2 : BEQ .ignoreSprite
     
     ; if it's not one of those two things you're carrying, you lose it
-    STZ $0309 : STZ $0308
+    STZ.w $0309 : STZ.w $0308
     
     BRA .killSprite
     
@@ -610,11 +610,11 @@ InitSpriteSlots:
     CPY.b #$6C : BEQ .ignoreSprite
     
     ; ignore the sprite if the area that it was loaded in is the same as the area we're in
-    LDA $0C9A, X : CMP $040A : BEQ .ignoreSprite
+    LDA.w $0C9A, X : CMP.w $040A : BEQ .ignoreSprite
     
     .killSprite
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .deadSprite
     .ignoreSprite
@@ -626,12 +626,12 @@ InitSpriteSlots:
     .nextOverlord
     
     ; There's no overlord loaded in that slot to begin with
-    LDA $0B00, X : BEQ .noOverlord
+    LDA.w $0B00, X : BEQ .noOverlord
     
     ; ignore the overlord b/c it matches the area we're already in
-    LDA $0CCA, X : CMP $040A : BEQ .ignoreOverlord
+    LDA.w $0CCA, X : CMP.w $040A : BEQ .ignoreOverlord
     
-    STZ $0B00, X
+    STZ.w $0B00, X
     
     .noOverlord
     .ignoreOverlord
@@ -688,7 +688,7 @@ SpawnCrazyVillageSoldier:
     
     PHX
     
-    LDA $0E20, X
+    LDA.w $0E20, X
     
     LDX.b #$00
     
@@ -704,23 +704,23 @@ SpawnCrazyVillageSoldier:
     
     .place_soldier
     
-    LDA .x_offsets_low,  X :             STA $0D10, Y
-    LDA .x_offsets_high, X : CLC : ADC $0FBD : STA $0D30, Y
+    LDA .x_offsets_low,  X :             STA.w $0D10, Y
+    LDA .x_offsets_high, X : CLC : ADC.w $0FBD : STA.w $0D30, Y
     
-    LDA .y_offsets_low,  X :             STA $0D00, Y
-    LDA .y_offsets_high, X : CLC : ADC $0FBF : STA $0D20, Y
+    LDA .y_offsets_low,  X :             STA.w $0D00, Y
+    LDA .y_offsets_high, X : CLC : ADC.w $0FBF : STA.w $0D20, Y
     
     PLX
     
-    LDA.b #$00 : STA $0F20, Y
+    LDA.b #$00 : STA.w $0F20, Y
     
-    LDA.b #$04 : STA $0E50, Y
+    LDA.b #$04 : STA.w $0E50, Y
     
-    LDA.b #$80 : STA $0CAA, Y
+    LDA.b #$80 : STA.w $0CAA, Y
     
-    LDA.b #$90 : STA $0BE0, Y
+    LDA.b #$90 : STA.w $0BE0, Y
     
-    LDA.b #$0B : STA $0F50, Y
+    LDA.b #$0B : STA.w $0F50, Y
     
     .spawn_failed
     
@@ -760,8 +760,8 @@ Overlord_CheckInRangeStatus:
     
     ; \optimize This would be so much faster in 16-bit code, even if
     ; this code isn't used very often, if at all.
-    LDA $E2 : CLC : ADC .offsets_low, Y : ROL $00 : CMP $0B08, X         : PHP
-    LDA $E3                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC $0B10, X : STA $00
+    LDA $E2 : CLC : ADC .offsets_low, Y : ROL $00 : CMP.w $0B08, X         : PHP
+    LDA $E3                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC.w $0B10, X : STA $00
     
     ; We want the upper byte of the absolute difference between the
     ; offset from the scroll value to the overlord. Since that offset
@@ -774,8 +774,8 @@ Overlord_CheckInRangeStatus:
     
     LDA $00 : BMI .terminate
     
-    LDA $E8 : CLC : ADC .offsets_low, Y : ROL $00 : CMP $0B18, X         : PHP
-    LDA $E9                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC $0B20, X : STA $00
+    LDA $E8 : CLC : ADC .offsets_low, Y : ROL $00 : CMP.w $0B18, X         : PHP
+    LDA $E9                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC.w $0B20, X : STA $00
     
     ; See previous comment regarding sign normalization.
     LSR $02 : BCC .sign_normalize_dy
@@ -789,13 +789,13 @@ Overlord_CheckInRangeStatus:
     .terminate
     
     ; Terminate the overlord.
-    STZ $0B00, X
+    STZ.w $0B00, X
     
     TXA : ASL A : TAY
     
     REP #$20
     
-    LDA $0B48, Y : STA $00 : CMP.w #$FFFF : PHP
+    LDA.w $0B48, Y : STA $00 : CMP.w #$FFFF : PHP
     
     LSR #3 : CLC : ADC.w #$EF80 : STA $01
     
@@ -806,7 +806,7 @@ Overlord_CheckInRangeStatus:
     
     LDA $00 : AND.b #$07 : TAY
     
-    LDA [$01] : AND $F24B, Y : STA [$01]
+    LDA [$01] : AND.w $F24B, Y : STA [$01]
     
     .in_range_xy
     .not_participating_in_death_buffer
@@ -827,30 +827,30 @@ Dungeon_ResetSprites:
     JSR Dungeon_CacheTransSprites
     
     ; Make Link drop whatever he's carrying.
-    STZ $0309 : STZ $0308
+    STZ.w $0309 : STZ.w $0308
     
     ; $04C22F IN ROM; Zeroes out and disables a number of memory locations.
     JSL Sprite_DisableAll
     
     REP #$20
     
-    LDA.w #$FFFF : STA $0FBA : STA $0FB8
+    LDA.w #$FFFF : STA.w $0FBA : STA.w $0FB8
     
     LDX.b #$00
     
-    LDA $048E
+    LDA.w $048E
     
     .updateRecentRoomsList
     
-    CMP $0B80, X : BEQ .alreadyInList
+    CMP.w $0B80, X : BEQ .alreadyInList
     
     INX #2 : CPX.b #$07 : BCC .updateRecentRoomsList
     
-    LDA $0B86 : STA $00
-    LDA $0B84 : STA $0B86
-    LDA $0B82 : STA $0B84
-    LDA $0B80 : STA $0B82
-    LDA $048E : STA $0B80
+    LDA.w $0B86 : STA $00
+    LDA.w $0B84 : STA.w $0B86
+    LDA.w $0B82 : STA.w $0B84
+    LDA.w $0B80 : STA.w $0B82
+    LDA.w $048E : STA.w $0B80
     
     REP #$10
     
@@ -890,7 +890,7 @@ Dungeon_CacheTransSprites:
     LDA $1B : BEQ .easy_out
     
     ; Use $0FFA as a place holder.
-    STA $0FFA
+    STA.w $0FFA
     
     ; We're going to cycle through all 16 sprites.
     LDX.b #$0F
@@ -898,43 +898,43 @@ Dungeon_CacheTransSprites:
     .nextSprite
     
     ; Transfer sprite data to an extended region
-    STZ $1D00, X
+    STZ.w $1D00, X
     
-    LDA $0E20, X : STA $1D10, X
-    LDA $0D10, X : STA $1D20, X
-    LDA $0DC0, X : STA $1D60, X
-    LDA $0D30, X : STA $1D30, X
-    LDA $0D00, X : STA $1D40, X
-    LDA $0D20, X : STA $1D50, X
+    LDA.w $0E20, X : STA.w $1D10, X
+    LDA.w $0D10, X : STA.w $1D20, X
+    LDA.w $0DC0, X : STA.w $1D60, X
+    LDA.w $0D30, X : STA.w $1D30, X
+    LDA.w $0D00, X : STA.w $1D40, X
+    LDA.w $0D20, X : STA.w $1D50, X
     
-    LDA $0F00, X : BNE .inactiveSprite
+    LDA.w $0F00, X : BNE .inactiveSprite
     
-    LDA $0DD0, X : CMP.b #$04 : BEQ .inactiveSprite
+    LDA.w $0DD0, X : CMP.b #$04 : BEQ .inactiveSprite
     
     ; frozen
     CMP.b #$0A : BEQ .inactiveSprite
     
-    STA $1D00, X
+    STA.w $1D00, X
     
-    LDA $0D90, X : STA $1D70, X
-    LDA $0EB0, X : STA $1D80, X
-    LDA $0F50, X : STA $1D90, X
-    LDA $0B89, X : STA $1DA0, X
-    LDA $0DE0, X : STA $1DB0, X
-    LDA $0E40, X : STA $1DC0, X
-    LDA $0F20, X : STA $1DD0, X
-    LDA $0D80, X : STA $1DE0, X
-    LDA $0E60, X : STA $1DF0, X
+    LDA.w $0D90, X : STA.w $1D70, X
+    LDA.w $0EB0, X : STA.w $1D80, X
+    LDA.w $0F50, X : STA.w $1D90, X
+    LDA.w $0B89, X : STA.w $1DA0, X
+    LDA.w $0DE0, X : STA.w $1DB0, X
+    LDA.w $0E40, X : STA.w $1DC0, X
+    LDA.w $0F20, X : STA.w $1DD0, X
+    LDA.w $0D80, X : STA.w $1DE0, X
+    LDA.w $0E60, X : STA.w $1DF0, X
     
-    LDA $0DA0, X : STA.l $7FFA5C, X
-    LDA $0DB0, X : STA.l $7FFA6C, X
-    LDA $0E90, X : STA.l $7FFA7C, X
-    LDA $0E80, X : STA.l $7FFA8C, X
-    LDA $0F70, X : STA.l $7FFA9C, X
-    LDA $0DF0, X : STA.l $7FFAAC, X
+    LDA.w $0DA0, X : STA.l $7FFA5C, X
+    LDA.w $0DB0, X : STA.l $7FFA6C, X
+    LDA.w $0E90, X : STA.l $7FFA7C, X
+    LDA.w $0E80, X : STA.l $7FFA8C, X
+    LDA.w $0F70, X : STA.l $7FFA9C, X
+    LDA.w $0DF0, X : STA.l $7FFAAC, X
     
     LDA.l $7FF9C2, X : STA.l $7FFACC, X
-    LDA $0BA0, X   : STA.l $7FFADC, X
+    LDA.w $0BA0, X   : STA.l $7FFADC, X
     
     .inactiveSprite
     
@@ -957,18 +957,18 @@ Sprite_DisableAll:
     .nextSprite
     
     ; sprite is deactivated already, ignore it
-    LDA $0DD0, X : BEQ .ignoreSprite
+    LDA.w $0DD0, X : BEQ .ignoreSprite
     
     ; Are we indoors?
     LDA $1B : BNE .indoors
     
     ; Is it a warp vortex? (created my mirror)
-    LDA $0E20, X : CMP.b #$6C : BEQ .ignoreSprite
+    LDA.w $0E20, X : CMP.b #$6C : BEQ .ignoreSprite
 
     .indoors
 
     ; kill the sprite momentarily
-    STZ $0DD0, X
+    STZ.w $0DD0, X
 
     .ignoreSprite
 
@@ -980,27 +980,27 @@ Sprite_DisableAll:
     .deactivateEffects
 
     ; Deactivate all special effects
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     DEX : BPL .deactivateEffects
     
-    STZ $02EC
+    STZ.w $02EC
     
-    STZ $0B6A : STZ $0B9B : STZ $0B88 : STZ $0B99
+    STZ.w $0B6A : STZ.w $0B9B : STZ.w $0B88 : STZ.w $0B99
     
-    STZ $0FB4
+    STZ.w $0FB4
     
-    STZ $0B9E : STZ $0CF4
+    STZ.w $0B9E : STZ.w $0CF4
     
-    STZ $0FF9 : STZ $0FF8 : STZ $0FFB : STZ $0FFC : STZ $0FFD : STZ $0FC6
+    STZ.w $0FF9 : STZ.w $0FF8 : STZ.w $0FFB : STZ.w $0FFC : STZ.w $0FFD : STZ.w $0FC6
     
-    STZ $03FC
+    STZ.w $03FC
     
     LDX.b #$07
 
     .deactivateOverlords
 
-    STZ $0B00, X
+    STZ.w $0B00, X
     
     DEX : BPL .deactivateOverlords
     
@@ -1031,26 +1031,26 @@ Dungeon_LoadSprites:
     
     REP #$30
     
-    LDA $048E : ASL A : TAY
+    LDA.w $048E : ASL A : TAY
     
     ; (update: Black Magic ended up hooking $4C16E)
     ; $04D62E is the pointer table for the sprite data in each room.
     LDA.w $D62E, Y : STA !dataPtr
     
     ; Load the room index again. Divide by 8. why... I'm not sure.
-    LDA $048E : LSR #3
+    LDA.w $048E : LSR #3
     
     SEP #$30
     
     ; Used to offset the high byte of pixel addresses in rooms. (X coord)
-    AND.b #$FE : STA $0FB1
+    AND.b #$FE : STA.w $0FB1
     
     ; Load the room index yet again.
     ; Used to offset the high byte of pixel addresses in rooms. (Y coord)
-    LDA $048E : AND.b #$0F : ASL A : STA $0FB0
+    LDA.w $048E : AND.b #$0F : ASL A : STA.w $0FB0
     
     ; Not sure what this does yet...
-    LDA (!dataPtr) : STA $0FB3
+    LDA (!dataPtr) : STA.w $0FB3
     
     LDA.b #$01 : STA !dataOffset
     
@@ -1100,9 +1100,9 @@ Dungeon_ManuallySetSpriteDeathFlag:
     
     LDA $1B : BEQ .return
     
-    LDA $0CAA, X : LSR A : BCS .return
+    LDA.w $0CAA, X : LSR A : BCS .return
     
-    LDA $0BC0, X : BMI .return
+    LDA.w $0BC0, X : BMI .return
     
     STA $02
     STZ $03
@@ -1111,7 +1111,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
     
     PHX
     
-    LDA $048E : ASL A : TAX
+    LDA.w $048E : ASL A : TAX
     
     LDA $02 : ASL A : TAY
     
@@ -1150,10 +1150,10 @@ Dungeon_LoadSprite:
     ; If it's 16 pixels higher than that, drop a big key
     CMP.b #$FD : BNE .notOverlord
     
-    JSR $C345 ; $04C345 IN ROM
+    JSR.w $C345 ; $04C345 IN ROM
     
     ; Set $0CBA to 0x02 (means it's a big key)
-    INC $0CBA, X 
+    INC.w $0CBA, X 
     
     RTS
     
@@ -1162,7 +1162,7 @@ Dungeon_LoadSprite:
     
     DEC !spriteSlot
     
-    LDX !spriteSlot : LDA.b #$01 : STA $0CBA, X
+    LDX !spriteSlot : LDA.b #$01 : STA.w $0CBA, X
     
     RTS
     
@@ -1196,13 +1196,13 @@ Dungeon_LoadSprite:
     PHY : PHX
     
     ; Load the room index, multiply by 2.
-    LDA $048E : ASL A : TAX
+    LDA.w $048E : ASL A : TAX
     
     ; $02 is the current slot in $0E20, X to load into.
     LDA !spriteSlot : ASL A : TAY
     
     ; Apparently information on whether stuff has been loaded is stored for each room?
-    LDA.l $7FDF80, X : AND $C2D5, Y
+    LDA.l $7FDF80, X : AND.w $C2D5, Y
     
     PLX : PLY
     
@@ -1222,51 +1222,51 @@ Dungeon_LoadSprite:
     DEY #2
     
     ; Send the sprite an initialization message.
-    LDA #$08 : STA $0DD0, X
+    LDA #$08 : STA.w $0DD0, X
     
     ; Examine the Y coordinate for the sprite. (Buffer at $0FB5)
-    LDA (!dataPtr), Y : STA $0FB5 
+    LDA (!dataPtr), Y : STA.w $0FB5 
     
     ; Use the MSB of the Y coordinate to determine the floor the sprite is on.
-    AND.b #$80 : ASL A : ROL A : STA $0F20, X
+    AND.b #$80 : ASL A : ROL A : STA.w $0F20, X
     
     ; Load the sprite's Y coordinate, multiply by 16 to give it's in-game Y coordinate. (In terms of pixels)
-    LDA ($00), Y : ASL #4 : STA $0D00, X
+    LDA ($00), Y : ASL #4 : STA.w $0D00, X
     
-    LDA $0FB1 : ADC.b #$00 : STA $0D20, X
+    LDA.w $0FB1 : ADC.b #$00 : STA.w $0D20, X
     
     ; Next load the X coordinate, and convert to Pixel coordinates.
     INY
     
-    LDA (!dataPtr), Y : STA $0FB6 : ASL #4 : STA $0D10, X
+    LDA (!dataPtr), Y : STA.w $0FB6 : ASL #4 : STA.w $0D10, X
     
     ; And set the upper byte of the X coordinate, of course.
-    LDA $0FB0 : ADC.b #$00 : STA $0D30, X
+    LDA.w $0FB0 : ADC.b #$00 : STA.w $0D30, X
     
     ; Looking at the sprite type now.
     INY
     
     ; Set the sprite type.
-    LDA (!dataPtr), Y : STA $0E20, X
+    LDA (!dataPtr), Y : STA.w $0E20, X
     
     ; Set the subtype to zero.
-    STZ $0E30, X
+    STZ.w $0E30, X
     
     ; Examine bits 5 and 6 of the Y (block) coordinate.
-    LDA $0FB5 : AND.b #$60 : LSR #2 : STA $0FB5
+    LDA.w $0FB5 : AND.b #$60 : LSR #2 : STA.w $0FB5
     
     ; Provides the lower three bits of the subtype. 
     ; But since all three bits cannot be set for us to be here, it follows only certain subtypes will arise.
-    LDA $0FB6 : LSR #5
+    LDA.w $0FB6 : LSR #5
     
     ; Determine a subtype, if necessary.
-    ORA $0FB5 : STA $0E30, X
+    ORA.w $0FB5 : STA.w $0E30, X
     
     ; Store slot information into this array.
-    LDA $02 : STA $0BC0, X
+    LDA $02 : STA.w $0BC0, X
     
     ; Zero out the sprite drop variable (what it drops when killed).
-    STZ $0CBA, X
+    STZ.w $0CBA, X
     
     RTS
 }
@@ -1283,7 +1283,7 @@ Dungeon_LoadOverlord:
     .nextSlot
     
     ; Are there any overlords in this slot?
-    LDA $0B00, X : BEQ .emptySlot
+    LDA.w $0B00, X : BEQ .emptySlot
     
     DEX : BPL .nextSlot
     
@@ -1292,36 +1292,36 @@ Dungeon_LoadOverlord:
     .emptySlot
     
     ; Fill the overlord slot into $0B00, X
-    LDA (!dataPtr), Y : NOP : STA $0B00, X
+    LDA (!dataPtr), Y : NOP : STA.w $0B00, X
     
     DEY #2
     
     ; Now examine the Y coordinate.
     ; Store it's floor status here.
-    LDA (!dataPtr), Y : AND.b #$80 : ASL A : ROL A : STA $0B40, X
+    LDA (!dataPtr), Y : AND.b #$80 : ASL A : ROL A : STA.w $0B40, X
     
     ; Convert the Y coordinate to a pixel address, and store it here.
-    LDA (!dataPtr), Y : ASL #4 : STA $0B18, X
+    LDA (!dataPtr), Y : ASL #4 : STA.w $0B18, X
     
-    LDA $0FB1 : ADC.b #$00 : STA $0B20, X
+    LDA.w $0FB1 : ADC.b #$00 : STA.w $0B20, X
     
     INY
     
     ; Now convert the X coordinates to pixels.
-    LDA (!dataPtr), Y : ASL #4 : STA $0B08, X
+    LDA (!dataPtr), Y : ASL #4 : STA.w $0B08, X
     
-    LDA $0FB0 : ADC.b #$00 : STA $0B10, X
+    LDA.w $0FB0 : ADC.b #$00 : STA.w $0B10, X
     
     JSR Overworld_LoadOverlord_misc
     
     ; Load the overlord type and check for various special cases.
-    LDA $0B00, X : CMP.b #$0A : BEQ .needsTimer
+    LDA.w $0B00, X : CMP.b #$0A : BEQ .needsTimer
                    CMP.b #$0B : BEQ .needsTimer
                    CMP.b #$03 : BNE .noAdjustment
     
-    LDA.b #$FF : STA $0B30, X
+    LDA.b #$FF : STA.w $0B30, X
     
-    LDA $0B08, X : SEC : SBC.b #$08 : STA $0B08, X
+    LDA.w $0B08, X : SEC : SBC.b #$08 : STA.w $0B08, X
     
     .noAdjustment
     
@@ -1330,7 +1330,7 @@ Dungeon_LoadOverlord:
     .needsTimer
     
     ; Set up a timer
-    LDA.b #$A0 : STA $0B30, X
+    LDA.b #$A0 : STA.w $0B30, X
     
     RTS
 }
@@ -1345,16 +1345,16 @@ Sprite_ResetAll:
     ; $04C452 ALTERNATE ENTRY POINT
     .justBuffers
     
-    STZ $0FDD : STZ $0FDC : STZ $0FFD
-    STZ $02F0 : STZ $0FC6 : STZ $0B6A
-    STZ $0FB3
+    STZ.w $0FDD : STZ.w $0FDC : STZ.w $0FFD
+    STZ.w $02F0 : STZ.w $0FC6 : STZ.w $0B6A
+    STZ.w $0FB3
     
     LDA.l $7EF3CC : CMP.b #$0D
     
     ; branch if Link has the super bomb tagalong following him
     BEQ .superBomb
     
-    LDA.b #$FE : STA $04B4
+    LDA.b #$FE : STA.w $04B4
     
     .superBomb
     
@@ -1384,7 +1384,7 @@ Sprite_ResetAll:
     
     .clearRecentRoomsList
     
-    STA $0B80, Y : DEY
+    STA.w $0B80, Y : DEY
     
     BPL .clearRecentRoomsList
     
@@ -1405,7 +1405,7 @@ Sprite_OverworldReloadAll:
     PHB : PHK : PLB
     
     JSR LoadOverworldSprites
-    JSR $C55E ; $04C55E IN ROM
+    JSR.w $C55E ; $04C55E IN ROM
     
     PLB
     
@@ -1420,20 +1420,20 @@ LoadOverworldSprites:
     ; Loads overworld sprite information into memory ($7FDF80, X is one such array)
     
     ; calculate lower bounds for X coordinates in this map
-    LDA $040A : AND.b #$07 : ASL A : STZ $0FBC : STA $0FBD
+    LDA.w $040A : AND.b #$07 : ASL A : STZ.w $0FBC : STA.w $0FBD
     
     ; calculate lower bounds for Y coordinates in this map
-    LDA $040A : AND.b #$3F : LSR #2 : AND.b #$0E : STA $0FBF : STZ $0FBE
+    LDA.w $040A : AND.b #$3F : LSR #2 : AND.b #$0E : STA.w $0FBF : STZ.w $0FBE
     
-    LDA $040A : TAY
+    LDA.w $040A : TAY
     
-    LDX.w $C635, Y : STX $0FB9 : STZ $0FB8 
-    STX $0FBB    : STZ $0FBA
+    LDX.w $C635, Y : STX.w $0FB9 : STZ.w $0FB8 
+    STX.w $0FBB    : STZ.w $0FBA
     
     REP #$30
     
     ; What Overworld area are we in?
-    LDA $040A : ASL A : TAY
+    LDA.w $040A : ASL A : TAY
     
     SEP #$20
     
@@ -1480,7 +1480,7 @@ LoadOverworldSprites:
     LDA ($00), Y : DEY #2 : CMP.b #$F4 : BNE .notFallingRocks
     
     ; Set a "falling rocks" flag for the area and skip past this sprite
-    INC $0FFD
+    INC.w $0FFD
     
     INY #3
     
@@ -1519,9 +1519,9 @@ LoadOverworldSprites:
     LDA $E2 : PHA
     LDA $E3 : PHA
     
-    LDA $069F : PHA
+    LDA.w $069F : PHA
     
-    LDA.b #$FF : STA $069F
+    LDA.b #$FF : STA.w $069F
     
     LDY.b #$15
     
@@ -1529,7 +1529,7 @@ LoadOverworldSprites:
     
     PHY
     
-    JSR $C5BB ; $04C5BB IN ROM
+    JSR.w $C5BB ; $04C5BB IN ROM
     
     PLY
     
@@ -1539,7 +1539,7 @@ LoadOverworldSprites:
     
     DEY : BPL .loop
     
-    PLA : STA $069F
+    PLA : STA.w $069F
     
     PLA : STA $E3
     PLA : STA $E2
@@ -1556,8 +1556,8 @@ Sprite_RangeBasedActivation:
     
     LDA $11 : BEQ .alpha
     
-    JSR $C5BB ; $04C5BB IN ROM
-    JSR $C5FA ; $04C5FA IN ROM
+    JSR.w $C5BB ; $04C5BB IN ROM
+    JSR.w $C5FA ; $04C5FA IN ROM
     
     PLB
     
@@ -1565,19 +1565,19 @@ Sprite_RangeBasedActivation:
     
     .alpha
     
-    LDA $0FB7 : AND.b #$01 : BNE .beta
+    LDA.w $0FB7 : AND.b #$01 : BNE .beta
     
-    JSR $C5BB ; $04C5BB IN ROM
+    JSR.w $C5BB ; $04C5BB IN ROM
     
     .beta
     
-    LDA $0FB7 : AND.b #$01 : BEQ .gamma
+    LDA.w $0FB7 : AND.b #$01 : BEQ .gamma
     
-    JSR $C5FA ; $04C5FA IN ROM
+    JSR.w $C5FA ; $04C5FA IN ROM
     
     .gamma
     
-    INC $0FB7
+    INC.w $0FB7
     
     PLB
     
@@ -1601,7 +1601,7 @@ Sprite_RangeBasedActivation:
     LDY.b #$00
     
     ; Related to bombs? (i.e. no fucking clue)
-    LDA $069F : BEQ .return
+    LDA.w $069F : BEQ .return
                 BPL .beta
     
     INY
@@ -1609,8 +1609,8 @@ Sprite_RangeBasedActivation:
     .beta
     
     ; If $069F is negative, this subtracts 0x0010, otherwise it adds 0x0110
-    LDA $E2 : CLC : ADC $C5B7, Y : STA $0E
-    LDA $E3 : ADC $C5B9, Y : STA $0F
+    LDA $E2 : CLC : ADC.w $C5B7, Y : STA $0E
+    LDA $E3 : ADC.w $C5B9, Y : STA $0F
     
     ; $0C[0x2] = BG2VOFS - 0x30
     LDA $E8 : SEC : SBC.b #$30 : STA $0C
@@ -1620,7 +1620,7 @@ Sprite_RangeBasedActivation:
     
     .vertical_loop
     
-    JSR $C6F5 ; $04C6F5 IN ROM
+    JSR.w $C6F5 ; $04C6F5 IN ROM
     
     REP #$20
     
@@ -1652,15 +1652,15 @@ Sprite_RangeBasedActivation:
 {
     LDY.b #$00
     
-    LDA $069E : BEQ .return
+    LDA.w $069E : BEQ .return
                 BPL .beta
     
     INY
     
     .beta
     
-    LDA $E8 : CLC : ADC $C5F6, Y : STA $0C
-    LDA $E9 : ADC $C5F8, Y : STA $0D
+    LDA $E8 : CLC : ADC.w $C5F6, Y : STA $0C
+    LDA $E9 : ADC.w $C5F8, Y : STA $0D
     
     LDA $E2 : SEC : SBC.b #$30 : STA $0E
     LDA $E3 : SBC.b #$00 : STA $0F
@@ -1669,7 +1669,7 @@ Sprite_RangeBasedActivation:
     
     .horizontalLoop
     
-    JSR $C6F5 ; $04C6F5 IN ROM
+    JSR.w $C6F5 ; $04C6F5 IN ROM
     
     REP #$20
     
@@ -1725,11 +1725,11 @@ Sprite_RangeBasedActivation:
 {
     REP #$20
     
-    LDA $0E : SEC : SBC $0FBC : CMP $0FB8 : BCS .outOfRange
+    LDA $0E : SEC : SBC.w $0FBC : CMP.w $0FB8 : BCS .outOfRange
     
     XBA : STA $00
     
-    LDA $0C : SEC : SBC $0FBE : CMP $0FBA : BCS .outOfRange
+    LDA $0C : SEC : SBC.w $0FBE : CMP.w $0FBA : BCS .outOfRange
     
     SEP #$20
     
@@ -1743,7 +1743,7 @@ Sprite_RangeBasedActivation:
     
     PHX
     
-    JSR $C739 ; $04C739 IN ROM
+    JSR.w $C739 ; $04C739 IN ROM
     
     PLX
     
@@ -1787,7 +1787,7 @@ Sprite_RangeBasedActivation:
     
     LDA $00 : AND.b #$07 : TAY
     
-    LDA [$02] : AND $C731, Y : BNE .alpha
+    LDA [$02] : AND.w $C731, Y : BNE .alpha
     
     JSR Overworld_LoadSprite
     
@@ -1833,11 +1833,11 @@ Overworld_LoadSprite:
     .slotLimited
     .nextSlot
     
-    LDA $0DD0, X : BEQ .emptySlot
+    LDA.w $0DD0, X : BEQ .emptySlot
     
-    LDA $0E20, X : CMP.b #$41 : BNE .notSoldier
+    LDA.w $0E20, X : CMP.b #$41 : BNE .notSoldier
     
-    LDA $0DB0, X : BNE .emptySlot
+    LDA.w $0DB0, X : BNE .emptySlot
     
     .notSoldier
     
@@ -1847,7 +1847,7 @@ Overworld_LoadSprite:
     
     .emptySlot
     
-    LDA [$02] : ORA $C731, Y : STA [$02]
+    LDA [$02] : ORA.w $C731, Y : STA [$02]
     
     PHX
     
@@ -1855,25 +1855,25 @@ Overworld_LoadSprite:
     
     REP #$20
     
-    LDA $00 : STA $0BC0, X
+    LDA $00 : STA.w $0BC0, X
     
     SEP #$20
     
-    PLX : LDA [$05] : DEC A : STA $0E20, X ; Load up a sprite here
+    PLX : LDA [$05] : DEC A : STA.w $0E20, X ; Load up a sprite here
     
-    LDA.b #$08 : STA $0DD0, X
+    LDA.b #$08 : STA.w $0DD0, X
     
-    LDA $00 : ASL #4 : STA $0D10, X
+    LDA $00 : ASL #4 : STA.w $0D10, X
     
-    LDA $00 : AND.b #$F0 : STA $0D00, X
-    LDA $01 : AND.b #$03 : STA $0D30, X
+    LDA $00 : AND.b #$F0 : STA.w $0D00, X
+    LDA $01 : AND.b #$03 : STA.w $0D30, X
     
-    LDA $01 : LSR #2 : STA $0D20, X
+    LDA $01 : LSR #2 : STA.w $0D20, X
     
-    LDA $0D30, X : CLC : ADC $0FBD : STA $0D30, X
-    LDA $0D20, X : CLC : ADC $0FBF : STA $0D20, X
+    LDA.w $0D30, X : CLC : ADC.w $0FBD : STA.w $0D30, X
+    LDA.w $0D20, X : CLC : ADC.w $0FBF : STA.w $0D20, X
     
-    STZ $0F20, X : STZ $0E30, X : STZ $0CBA, X
+    STZ.w $0F20, X : STZ.w $0E30, X : STZ.w $0CBA, X
     
     RTS
 }
@@ -1889,7 +1889,7 @@ Overworld_LoadOverlord:
     
     .nextSlot
     
-    LDA $0B00, X : BEQ .openSlot
+    LDA.w $0B00, X : BEQ .openSlot
     
     DEX : BPL .nextSlot
     
@@ -1898,7 +1898,7 @@ Overworld_LoadOverlord:
     .openSlot
     
     ; Make the overlord appear alive in the "death" buffer. aka alive buffer
-    LDA [$02] : ORA $C731, Y : STA [$02]
+    LDA [$02] : ORA.w $C731, Y : STA [$02]
     
     PHX
     
@@ -1907,14 +1907,14 @@ Overworld_LoadOverlord:
     REP #$20
     
     ; Store the offset into $7FDF80 that this overlord uses
-    LDA $00 : STA $0B48, X
+    LDA $00 : STA.w $0B48, X
     
     SEP #$20
     
     PLX
     
     ; Overlord's type number = the original data value - 0xF3
-    LDA [$05] : SEC : SBC.b #$F3 : STA $0B00, X : PHA
+    LDA [$05] : SEC : SBC.b #$F3 : STA.w $0B00, X : PHA
     
     LDA $00 : ASL #4
     
@@ -1924,26 +1924,26 @@ Overworld_LoadOverlord:
     
     .gamma
     
-    STA $0B08, X
+    STA.w $0B08, X
     
-    LDA $00 : AND.b #$F0 : STA $0B18, X
-    LDA $01 : AND.b #$03 : STA $0B10, X
+    LDA $00 : AND.b #$F0 : STA.w $0B18, X
+    LDA $01 : AND.b #$03 : STA.w $0B10, X
     
-    LDA $01 : LSR #2 : STA $0B20, X
+    LDA $01 : LSR #2 : STA.w $0B20, X
     
-    LDA $0B10, X : CLC : ADC $0FBD : STA $0B10, X
-    LDA $0B20, X : CLC : ADC $0FBF : STA $0B20, X
-    STZ $0B40, X
+    LDA.w $0B10, X : CLC : ADC.w $0FBD : STA.w $0B10, X
+    LDA.w $0B20, X : CLC : ADC.w $0FBF : STA.w $0B20, X
+    STZ.w $0B40, X
     
     ; $04C871 ALTERNATE ENTRY POINT
     .misc
     
     ; The area the overlord is residing in
-    LDA $040A : STA $0CCA, X
+    LDA.w $040A : STA.w $0CCA, X
     
-    STZ $0B30, X
-    STZ $0B28, X
-    STZ $0B38, X
+    STZ.w $0B30, X
+    STZ.w $0B28, X
+    STZ.w $0B38, X
     
     RTS
 }
@@ -2025,26 +2025,26 @@ SpriteExplode_ExecuteLong:
 SpriteExplode_Execute:
 {
     ; 0 = explodes. > 0 = doesn't explode. :p
-    LDA $0D90, X : BEQ .BRANCH_$4EE0F
+    LDA.w $0D90, X : BEQ .BRANCH_$4EE0F
     
-    LDA $0DF0, X : BNE .draw
+    LDA.w $0DF0, X : BNE .draw
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDY.b #$0F
     
     .find_other_exploding_sprites_loop
     
-    LDA $0DD0, Y : CMP.b #$04 : BEQ .found_one
+    LDA.w $0DD0, Y : CMP.b #$04 : BEQ .found_one
     
     DEY : BPL .find_other_exploding_sprites_loop
     
-    LDY.b #$01 : STY $0AAA
+    LDY.b #$01 : STY.w $0AAA
     
     JSL Sprite_VerifyAllOnScreenDefeated : BCS .found_one ; BRANCH_BETA
     
     ; Restore menu functionality. Bit of a \hack, imo.
-    STZ $0FFC
+    STZ.w $0FFC
     
     .found_one
     
@@ -2087,25 +2087,25 @@ SpriteExplode_Execute:
 ; $04EE0F-$04EF55 LOCAL JUMP LOCATION
 {
     ; Force sprite to high priority (to make sure it's visible).
-    LDA.b #$02 : STA $0F20, X
+    LDA.b #$02 : STA.w $0F20, X
     
-    LDA $0DF0, X : CMP.b #$20 : BEQ .check_heart_container_spawn
+    LDA.w $0DF0, X : CMP.b #$20 : BEQ .check_heart_container_spawn
     
-    JMP $EEAD ; $04EEAD IN ROM
+    JMP.w $EEAD ; $04EEAD IN ROM
     
     .check_heart_container_spawn
     
     ; Kill the sprite.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     LDA $5B : CMP.b #$02 : BEQ .cant_spawn_heart_container
     
     JSL Sprite_VerifyAllOnScreenDefeated : BCC .cant_spawn_heart_container
     
     ; Is this sprite Ganon?
-    LDY $0E20, X : CPY.b #$D6 : BCS .victory_over_ganon
+    LDY.w $0E20, X : CPY.b #$D6 : BCS .victory_over_ganon
     
     ; Is it Agahnim?
     CPY.b #$7A : BNE .not_victory_over_agahnim
@@ -2119,18 +2119,18 @@ SpriteExplode_Execute:
     
     .cant_spawn_heart_container
     
-    JMP $EEAD ; $04EEAD IN ROM
+    JMP.w $EEAD ; $04EEAD IN ROM
     
     .victory_over_ganon
     
     ; Play the victory song (yay you killed Ganon)
-    LDA.b #$13 : STA $012C
+    LDA.b #$13 : STA.w $012C
     
-    JMP $EEAD ; $04EEAD IN ROM
+    JMP.w $EEAD ; $04EEAD IN ROM
     
     .not_victory_over_agahnim
     
-    STY $0FB5
+    STY.w $0FB5
     
     LDA.b #$EA
     LDY.b #$0E
@@ -2138,9 +2138,9 @@ SpriteExplode_Execute:
     JSL Sprite_SpawnDynamically.arbitrary
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$20 : STA $0F80, Y
+    LDA.b #$20 : STA.w $0F80, Y
     
-    LDA $EE : STA $0F20, Y
+    LDA $EE : STA.w $0F20, Y
     
     LDA.b #$02
     
@@ -2150,15 +2150,15 @@ SpriteExplode_Execute:
     
     .was_giant_moldorm
     
-    STA $0D90, Y
+    STA.w $0D90, Y
     
-    LDA $02 : CLC : ADC.b #$03 : STA $0D00, Y
-    LDA $03 : ADC.b #$00 : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$03 : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA $0FB5 : CMP.b #$CE : BNE .wasnt_blind_the_thief
+    LDA.w $0FB5 : CMP.b #$CE : BNE .wasnt_blind_the_thief
     
-    LDA $02 : CLC : ADC.b #$10 : STA $0D00, Y
-    LDA $03 : ADC.b #$00 : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$10 : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
     
     RTS
     
@@ -2168,11 +2168,11 @@ SpriteExplode_Execute:
     
     ; Put the heart container in the middle of the room. Probably done
     ; because Trinexx can go wildly off screen.
-    LDA.b #$78 : STA $0D10, Y
-                 STA $0D00, Y
+    LDA.b #$78 : STA.w $0D10, Y
+                 STA.w $0D00, Y
     
-    LDA $23 : STA $0D30, Y
-    LDA $21 : STA $0D20, Y
+    LDA $23 : STA.w $0D30, Y
+    LDA $21 : STA.w $0D20, Y
     
     .wasnt_trinexx
     
@@ -2195,13 +2195,13 @@ SpriteExplode_Execute:
     
     LDA.b #$07 : STA $0E
     
-    LDA $0E20, X : STA $0F : CMP.b #$92 : BNE .not_helmasaur_king
+    LDA.w $0E20, X : STA $0F : CMP.b #$92 : BNE .not_helmasaur_king
     
     LSR $0E
     
     .not_helmasaur_king
     
-    LDA $0DF0, X : CMP.b #$C0 : BCC .generate_explosion_sfx_and_sprites
+    LDA.w $0DF0, X : CMP.b #$C0 : BCC .generate_explosion_sfx_and_sprites
     
     RTS
     
@@ -2221,13 +2221,13 @@ SpriteExplode_Execute:
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$0B : STA $0AAA
+    LDA.b #$0B : STA.w $0AAA
     
-    LDA.b #$04 : STA $0DD0, Y
+    LDA.b #$04 : STA.w $0DD0, Y
     
-    LDA.b #$03 : STA $0E40, Y
+    LDA.b #$03 : STA.w $0E40, Y
     
-    LDA.b #$0C : STA $0F50, Y
+    LDA.b #$0C : STA.w $0F50, Y
     
     PHX
     
@@ -2239,8 +2239,8 @@ SpriteExplode_Execute:
     
     .use_normal_x_offsets
     
-    LDA $00 : CLC : ADC $EDEF, X : STA $0D10, Y
-    LDA $01 : ADC $EDFF, X : STA $0D30, Y
+    LDA $00 : CLC : ADC.w $EDEF, X : STA.w $0D10, Y
+    LDA $01 : ADC.w $EDFF, X : STA.w $0D30, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
@@ -2250,21 +2250,21 @@ SpriteExplode_Execute:
     
     .use_normal_y_offsets
     
-    LDA $02 : CLC : ADC $EDEF, X
+    LDA $02 : CLC : ADC.w $EDEF, X
     
     PHP
     
-    SEC : SBC $04 : STA $0D00, Y
+    SEC : SBC $04 : STA.w $0D00, Y
     
     LDA $03 : SBC.b #$00
     
     PLP
     
-    ADC $EDFF, X : STA $0D20, Y
+    ADC.w $EDFF, X : STA.w $0D20, Y
     
     PLX
     
-    LDA.b #$1F : STA $0DF0, Y : STA $0D90, Y
+    LDA.b #$1F : STA.w $0DF0, Y : STA.w $0D90, Y
     
     .anospawn_explosion_sprite
     .spawn_failed
@@ -2284,21 +2284,21 @@ Sprite_SchedulePeersForDeath:
     .next_sprite
     
     ; ignore comparison with self
-    CPY $0FA0 : BEQ .ignore_sprite
+    CPY.w $0FA0 : BEQ .ignore_sprite
     
-    LDA $0DD0, Y : BEQ .ignore_sprite
+    LDA.w $0DD0, Y : BEQ .ignore_sprite
     
-    LDA $0CAA, Y : AND.b #$02 : BNE .ignore_sprite
+    LDA.w $0CAA, Y : AND.b #$02 : BNE .ignore_sprite
     
     ; check if sprite is Agahnim
-    LDA $0E20, Y : CMP.b #$7A : BEQ .ignore_sprite
+    LDA.w $0E20, Y : CMP.b #$7A : BEQ .ignore_sprite
     
-    LDA.b #$06 : STA $0DD0, Y
-    LDA.b #$0F : STA $0DF0, Y
-    LDA.b #$00 : STA $0E60, Y
-                 STA $0BE0, Y
+    LDA.b #$06 : STA.w $0DD0, Y
+    LDA.b #$0F : STA.w $0DF0, Y
+    LDA.b #$00 : STA.w $0E60, Y
+                 STA.w $0BE0, Y
     
-    LDA.b #$03 : STA $0E40, Y
+    LDA.b #$03 : STA.w $0E40, Y
     
     .ignore_sprite
     
@@ -2364,7 +2364,7 @@ Garnish_ScatterDebris:
     
     LDA.l $7FF9FE, X : STA $05
     
-    LDA $0FC6 : CMP.b #$03 : BCS .BRANCH_ALPHA
+    LDA.w $0FC6 : CMP.b #$03 : BCS .BRANCH_ALPHA
     
     LDA.l $7FF92C, X : CMP.b #$03 : BNE .BRANCH_BETA
     
@@ -2376,7 +2376,7 @@ Garnish_ScatterDebris:
     
     .BRANCH_BETA
     
-    STA $0FB5
+    STA.w $0FB5
     
     TAY
     
@@ -2411,7 +2411,7 @@ Garnish_ScatterDebris:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $EF8B, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $EF8B, X : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
@@ -2419,9 +2419,9 @@ Garnish_ScatterDebris:
     
     PLX
     
-    LDA $02 : CLC : ADC $F00B, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $F00B, X : INY : STA ($90), Y
     
-    LDA $0FB5 : BNE .BRANCH_EPSILON
+    LDA.w $0FB5 : BNE .BRANCH_EPSILON
     
     LDA.b #$4E
     
@@ -2538,7 +2538,7 @@ ScatterDebris_Draw:
 Sprite_SelfTerminate:
 {
     ; erase the sprite if this bit is set
-    LDA $0CAA, X : AND.b #$40 : BNE .erase_sprite
+    LDA.w $0CAA, X : AND.b #$40 : BNE .erase_sprite
     
     ; Are we in a dungeon? sprites leaving the screen are handled differently
     LDA $1B : BNE .indoors
@@ -2546,7 +2546,7 @@ Sprite_SelfTerminate:
     .erase_sprite
     
     ; If this flag is set, just kill the sprite?
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     TXA : ASL A : TAY
     
@@ -2554,7 +2554,7 @@ Sprite_SelfTerminate:
     
     ; basically the BCS later on is a BEQ in effect
     ; checks if($0BC0, Y == 0xFFFF) 
-    LDA $0BC0, Y : STA $00 : CMP.w #$FFFF
+    LDA.w $0BC0, Y : STA $00 : CMP.w #$FFFF
     
     PHP
     
@@ -2583,13 +2583,13 @@ Sprite_SelfTerminate:
     
     TXA : ASL A : TAY
     
-    LDA.b #$FF : STA $0BC0, Y : STA $0BC1, Y
+    LDA.b #$FF : STA.w $0BC0, Y : STA.w $0BC1, Y
     
     RTL
     
     .indoors_2
     
-    LDA.b #$FF : STA $0BC0, X
+    LDA.b #$FF : STA.w $0BC0, X
     
     .indoors
     

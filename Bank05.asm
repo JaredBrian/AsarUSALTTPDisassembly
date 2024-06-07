@@ -57,13 +57,13 @@ Sprite_SpawnSparkleGarnish:
     ; has so far only been linked to good bees and something that also seems
     ; to be a good bee).
     LDA.b #$12 : STA.l $7FF800, X
-                 STA $0FB4
+                 STA.w $0FB4
     
-    LDA $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
-    LDA $0D30, Y : ADC $01 : STA.l $7FF878, X
+    LDA.w $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
+    LDA.w $0D30, Y : ADC $01 : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC $02 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC $03 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC $02 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC $03 : STA.l $7FF85A, X
     
     ; Set the associated sprite index for the garnish sprite?
     TYA : STA.l $7FF92C, X
@@ -147,7 +147,7 @@ SpriteActive2_Main:
 {
     ; This routine is meant to handle sprites with IDs 0x41 to 0x70.
     
-    LDA $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$41 : REP #$30 : AND.w #$00FF : ASL A : TAY
     
     LDA .sprite_routines, Y : DEC A : PHA
     
@@ -232,7 +232,7 @@ incsrc "sprite_recruit.asm"
 ; $02C155-$02C226 LOCAL JUMP LOCATION
 Sprite_Soldier:
 {
-    LDA $0DB0, X : BNE .is_probe
+    LDA.w $0DB0, X : BNE .is_probe
     
     JMP Soldier_Main
     
@@ -244,7 +244,7 @@ Sprite_Soldier:
     LDY.b #$00
     
     ; Is the sprite moving right? Yes, so skip the decrement of Y
-    LDA $0D50, X : BPL .moving_right
+    LDA.w $0D50, X : BPL .moving_right
     
     ; Sprite is moving left, so we have to make sure subtraction is done smoothly
     DEY
@@ -252,86 +252,86 @@ Sprite_Soldier:
     .moving_right
     
     ; This code moves the soldier left or right, depending on $0D50, X
-          CLC : ADC $0D10, X : STA $0D10, X
-    TYA : ADC $0D30, X : STA $0D30, X
+          CLC : ADC.w $0D10, X : STA.w $0D10, X
+    TYA : ADC.w $0D30, X : STA.w $0D30, X
     
     LDY.b #$00
     
     ; Same as above but for Y coordinate of the soldier
-    LDA $0D40, X : BPL .moving_down
+    LDA.w $0D40, X : BPL .moving_down
     
     DEY
     
     .moving_down
     
-          CLC : ADC $0D00, X : STA $0D00, X
-    TYA : ADC $0D00, X : STA $0D20, X
+          CLC : ADC.w $0D00, X : STA.w $0D00, X
+    TYA : ADC.w $0D00, X : STA.w $0D20, X
     
     ; Usually 0. Otherwise the soldier's invisible.
-    LDY $0DB0, X
+    LDY.w $0DB0, X
     
     ; Is this soldier (Link locator) belonging to Blind?
-    LDA $0E1F, Y : CMP.b #$CE : BNE .parent_not_blind_the_thief
+    LDA.w $0E1F, Y : CMP.b #$CE : BNE .parent_not_blind_the_thief
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010
     
     CMP.w #$0020 : SEP #$20 : BCS .player_not_close
     
     REP #$20
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0018
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0018
     
     CMP.w #$0020 : SEP #$20 : BCS .player_not_close
     
-    JMP $C1F6 ; $02C1F6 IN ROM
+    JMP.w $C1F6 ; $02C1F6 IN ROM
     
     .player_not_close
     
-    JMP $C21A       ; $02C21A IN ROM
+    JMP.w $C21A       ; $02C21A IN ROM
     
     .parent_not_blind_the_thief
     
     ; Check the tile attr that the sprite is interacting with
     JSL Probe_CheckTileSolidity : BCC .zeta
     
-    LDA $0FA5 : CMP.b #$09 : BNE .theta
+    LDA.w $0FA5 : CMP.b #$09 : BNE .theta
     
     .zeta
     
     ; Is Link invisible and invincible? (magic cape)
-    LDA $0055 : BNE .theta
+    LDA.w $0055 : BNE .theta
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CMP.w #$0010 : SEP #$20 : BCS .iota
+    LDA.w $0FD8 : SEC : SBC $22 : CMP.w #$0010 : SEP #$20 : BCS .iota
     
     REP #$20
     
-    LDA $0FDA : SEC : SBC $20 : CMP.w #$0010 : SEP #$20 : BCS .iota
+    LDA.w $0FDA : SEC : SBC $20 : CMP.w #$0010 : SEP #$20 : BCS .iota
     
     ; Are Link and the soldier on the same floor?
-    LDA $0F20, X : CMP $EE : BNE .iota
+    LDA.w $0F20, X : CMP $EE : BNE .iota
     
     ; $02C1F6 ALTERNATE ENTRY POINT
     
-    LDA $0DB0, X : DEC A
+    LDA.w $0DB0, X : DEC A
     
     PHX
     
     TAX
     
-    LDA $0D80, X : CMP.b #$03 : BEQ .kappa
+    LDA.w $0D80, X : CMP.b #$03 : BEQ .kappa
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     ; Is the sprite Blind the Thief?
-    LDA $0E20, X : CMP.b #$CE : BEQ .kappa ; Yes...
+    LDA.w $0E20, X : CMP.b #$CE : BEQ .kappa ; Yes...
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     .kappa
     
@@ -348,7 +348,7 @@ Sprite_Soldier:
     
     .theta
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .return
     
@@ -360,32 +360,32 @@ Sprite_Soldier:
 ; $02C227-$02C2CF JUMP LOCATION
 Soldier_Main:
 {
-    LDA $0DC0, X : PHA
+    LDA.w $0DC0, X : PHA
     
-    LDY $0DE0, X : PHY
+    LDY.w $0DE0, X : PHY
     
     ; This is actually used.
-    LDA $0E00, X : BEQ .direction_lock_inactive
+    LDA.w $0E00, X : BEQ .direction_lock_inactive
     
-    LDA Soldier_DirectionLockSettings.directions, Y : STA $0DE0, X
+    LDA Soldier_DirectionLockSettings.directions, Y : STA.w $0DE0, X
     
-    LDA Soldier_DirectionLockSettings.animation_states, Y : STA $0DC0, X
+    LDA Soldier_DirectionLockSettings.animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive
     
     ; Looks like a "draw soldier" function...
-    JSR $C680 ; $02C680 IN ROM
+    JSR.w $C680 ; $02C680 IN ROM
     
-    PLA : STA $0DE0, X
-    PLA : STA $0DC0, X
+    PLA : STA.w $0DE0, X
+    PLA : STA.w $0DC0, X
     
-    LDA $0DD0, X : CMP.b #$05 : BNE .not_falling_in_hole
+    LDA.w $0DD0, X : CMP.b #$05 : BNE .not_falling_in_hole
     
     LDA $11 : BNE Sprite_Soldier.return
     
     ; ticking animation clock and state...
-    JSR $C535 ; $02C535 IN ROM
-    JMP $C535 ; $02C535 IN ROM
+    JSR.w $C535 ; $02C535 IN ROM
+    JMP.w $C535 ; $02C535 IN ROM
     
     .not_falling_in_hole
     
@@ -394,13 +394,13 @@ Soldier_Main:
     
     JSL Sprite_CheckDamageToPlayerLong : BCS .gamma
     
-    LDA $0FDC : BEQ .delta
+    LDA.w $0FDC : BEQ .delta
     
     .gamma
     
-    LDA $0D80, X : CMP.b #$03 : BCS .delta
+    LDA.w $0D80, X : CMP.b #$03 : BCS .delta
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     LDA.b #$20
     
@@ -408,27 +408,27 @@ Soldier_Main:
     
     .delta
     
-    LDA $0EA0, X : BEQ .zeta
+    LDA.w $0EA0, X : BEQ .zeta
     
     CMP.b #$04 : BCC .zeta
     
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
     LDA.b #$80
     
     .epsilon
     
-    JSR $C4D7 ; $02C4D7 IN ROM
+    JSR.w $C4D7 ; $02C4D7 IN ROM
     
     .zeta
     
     JSR Sprite2_CheckIfRecoiling
     
-    LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .theta
+    LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .theta
     
-    LDA $0E70, X : BNE .iota
+    LDA.w $0E70, X : BNE .iota
     
-    JSR $F9EB ; $02F9EB IN ROM
+    JSR.w $F9EB ; $02F9EB IN ROM
     
     .iota
     
@@ -442,9 +442,9 @@ Soldier_Main:
     
     .kappa
     
-    LDA $0D80, X : CMP.b #$04 : BEQ .nu
+    LDA.w $0D80, X : CMP.b #$04 : BEQ .nu
     
-    STZ $0ED0, X
+    STZ.w $0ED0, X
     
     .nu
     
@@ -479,42 +479,42 @@ Soldier_Main:
 {
     JSR Sprite2_ZeroVelocity
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA $0E30, X : BEQ .beta
+    LDA.w $0E30, X : BEQ .beta
     
     AND.b #$07 : CMP.b #$05 : BCS .beta
     
-    LDA $0E30, X : LSR #3 : AND.b #$03 : TAY
+    LDA.w $0E30, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA.w $C2D0, Y : STA $0DF0, X
+    LDA.w $C2D0, Y : STA.w $0DF0, X
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     BRA .gamma
     
     .beta
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$28 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$28 : STA.w $0DF0, X
     
-    LDA $0DE0, X : PHA
+    LDA.w $0DE0, X : PHA
     
-    JSL GetRandomInt : AND.b #$03 : STA $0DE0, X
+    JSL GetRandomInt : AND.b #$03 : STA.w $0DE0, X
     
-    PLA : CMP $0DE0, X : BEQ .alpha
+    PLA : CMP.w $0DE0, X : BEQ .alpha
     
-    EOR $0DE0, X : AND.b #$02 : BNE .alpha
+    EOR.w $0DE0, X : AND.b #$02 : BNE .alpha
     
     ; $02C32B ALTERNATE ENTRY POINT
     shared Soldier_EnableDirectionLock:
     
     .gamma
     
-    LDA.b #$0C : STA $0E00, X
+    LDA.b #$0C : STA.w $0E00, X
     
     .alpha
     .delay
@@ -583,109 +583,109 @@ Pool_Probe:
 
 ; $02C3A1-$02C402 JUMP LOCATION
 {
-    LDY $0DA0, X
+    LDY.w $0DA0, X
     
-    LDA.w $C359, Y : STA $0D50, X
+    LDA.w $C359, Y : STA.w $0D50, X
     
-    LDA.w $C361, Y : STA $0D40, X
+    LDA.w $C361, Y : STA.w $0D40, X
     
     JSR Sprite2_CheckTileCollision
     
-    LDA $0E10, X : BEQ .alpha
+    LDA.w $0E10, X : BEQ .alpha
     CMP.b #$2C   : BNE .beta
     
-    LDY $0DA0, X
+    LDY.w $0DA0, X
     
-    LDA.w $C399, Y : STA $0DA0, X
+    LDA.w $C399, Y : STA.w $0DA0, X
     
     BRA .beta
     
     .alpha
     
-    LDY $0DA0, X
+    LDY.w $0DA0, X
     
-    LDA $0E70, Y : AND $C389, Y : BNE .beta
+    LDA.w $0E70, Y : AND.w $C389, Y : BNE .beta
     
-    LDA.b #$58 : STA $0E10, X
+    LDA.b #$58 : STA.w $0E10, X
     
     .beta
     
-    LDY $0DA0, X
+    LDY.w $0DA0, X
     
-    LDA $0E70, Y : AND $C381, Y : BEQ .gamma
+    LDA.w $0E70, Y : AND.w $C381, Y : BEQ .gamma
     
-    LDA.w $C391, Y : STA $0DA0, X
+    LDA.w $C391, Y : STA.w $0DA0, X
     
     .gamma
     
-    LDY $0DA0, X
+    LDY.w $0DA0, X
     
-    LDA Soldier.chase_x_speeds, Y : STA $0D50, X
+    LDA Soldier.chase_x_speeds, Y : STA.w $0D50, X
     
-    LDA Soldier.chase_y_speeds, Y : STA $0D40, X
+    LDA Soldier.chase_y_speeds, Y : STA.w $0D40, X
     
-    LDA.w $C379, Y : STA $0DE0, X : STA $0EB0, X
+    LDA.w $C379, Y : STA.w $0DE0, X : STA.w $0EB0, X
     
-    JMP $C454 ; $02C454 IN ROM
+    JMP.w $C454 ; $02C454 IN ROM
 }
 
 ; $02C403-$02C46F JUMP LOCATION
 {
     JSR Sprite_SpawnProbeStaggered
     
-    LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCC .alpha
+    LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCC .alpha
     
-    JMP $C3A1 ; $02C3A1 IN ROM
+    JMP.w $C3A1 ; $02C3A1 IN ROM
     
     .alpha
     
-    LDA $0DF0, X : BNE .beta
+    LDA.w $0DF0, X : BNE .beta
     
     ; $02C417 ALTERNATE ENTRY POINT
     
     JSR Sprite2_ZeroVelocity
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$A0 : STA $0DF0, X
+    LDA.b #$A0 : STA.w $0DF0, X
     
     RTS
 
     .beta
 
-    LDA $0E80, X : AND.b #$01 : BNE .gamma
+    LDA.w $0E80, X : AND.b #$01 : BNE .gamma
     
-    INC $0DF0, X
+    INC.w $0DF0, X
 
     .gamma
 
-    LDA $0E70, X : AND.b #$0F : BEQ .delta
+    LDA.w $0E70, X : AND.b #$0F : BEQ .delta
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     JSR Soldier_EnableDirectionLock
 
     .delta
 
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA Soldier.x_speeds, Y : STA $0D50, X
+    LDA Soldier.x_speeds, Y : STA.w $0D50, X
     
-    LDA Soldier.y_speeds, Y : STA $0D40, X
+    LDA Soldier.y_speeds, Y : STA.w $0D40, X
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
-    INC $0E80, X
+    INC.w $0E80, X
 
 ; $02C454-$02C46F ALTERNATE ENTRY POINT
 
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #3 : AND.b #$03 : STA $00
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA $00
     
-    LDA $0DE0, X : ASL #2 : ADC $00 : TAY
+    LDA.w $0DE0, X : ASL #2 : ADC $00 : TAY
     
-    LDA Soldier.animation_states, Y : STA $0DC0, X
+    LDA Soldier.animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -709,11 +709,11 @@ Pool_Soldier:
     JSR Sprite2_ZeroVelocity
     JSR Sprite_SpawnProbeStaggered
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    LDA.b #$00 : STA $0D80, X
+    LDA.b #$00 : STA.w $0D80, X
     
     RTS
     
@@ -723,9 +723,9 @@ Pool_Soldier:
     
     LSR #3 : AND.b #$07 : STA $00
     
-    LDA $0DE0, X : ASL #3 : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL #3 : ORA $00 : TAY
     
-    LDA Soldier.head_looking_states, Y : STA $0EB0, X
+    LDA Soldier.head_looking_states, Y : STA.w $0EB0, X
     
     .beta	
     
@@ -738,21 +738,21 @@ Pool_Soldier:
     
     JSR Sprite2_ZeroVelocity
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
     LDA.b #$FF
     
     ; $02C4D7 ALTERNATE ENTRY POINT
     
-    STA $0DF0, X
+    STA.w $0DF0, X
     
-    STZ $0E30, X
+    STZ.w $0E30, X
     
-    LDA $0B6B, X : AND.b #$0F : ORA.b #$60 : STA $0B6B, X
+    LDA.w $0B6B, X : AND.b #$0F : ORA.b #$60 : STA.w $0B6B, X
     
     .alpha
     
@@ -761,11 +761,11 @@ Pool_Soldier:
 
 ; $02C4E8-$02C4F8 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_$2C500
+    LDA.w $0DF0, X : BNE .BRANCH_$2C500
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA JavelinTrooper_Attack.scan_anbles, X : STA $0EC0, X
+    LDA JavelinTrooper_Attack.scan_anbles, X : STA.w $0EC0, X
     
     BRL .BRANCH_2C417
 }
@@ -776,8 +776,8 @@ Pool_Soldier:
 Sprite2_ZeroVelocity:
 {
     ; Stop horizontal and vertical velocities
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
     RTS
 }
@@ -788,23 +788,23 @@ Sprite2_ZeroVelocity:
 {
     TYA : EOR $1A : AND.b #$1F : BNE .alpha
     
-    LDA $0ED0, X : BNE .beta
+    LDA.w $0ED0, X : BNE .beta
     
     LDA.b #$04 : JSL Sound_SetSfx3PanLong
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .beta
     
     TXA : AND.b #$03 : TAY
     
-    LDA $0E20, X : CMP.b #$42 : BEQ .gamma
+    LDA.w $0E20, X : CMP.b #$42 : BEQ .gamma
     
     .gamma
     
     LDA.w $C566, X : JSL Sprite_ApplySpeedTowardsPlayerLong
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0DE0, X : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
     .alpha
     
@@ -812,9 +812,9 @@ Sprite2_ZeroVelocity:
     
     ; $02C535 ALTERNATE ENTRY POINT
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    JSR $C454 ; $02C454 IN ROM
+    JSR.w $C454 ; $02C454 IN ROM
     
     RTS
 }
@@ -840,7 +840,7 @@ Probe_SetDirectionTowardsPlayer:
 {
     PHB : PHK : PLB
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     AND.b #$03   : BEQ .no_horiz_collision
     
     JSR Sprite2_IsBelowPlayer : INY #2 : BRA .moving_on
@@ -851,9 +851,9 @@ Probe_SetDirectionTowardsPlayer:
     
     .moving_on
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     .no_tile_collision
     
@@ -913,13 +913,13 @@ Sprite_SpawnProbeStaggered:
     ; overwritten later before even being used.
     TXA : CLC : ADC $1A : STA $0F
     
-    AND.b #$03 : ORA $0F00, X : BNE .spawn_failed
+    AND.b #$03 : ORA.w $0F00, X : BNE .spawn_failed
     
-    LDA $0EC0, X : INC $0EC0, X
+    LDA.w $0EC0, X : INC.w $0EC0, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    CLC : AND.b #$1F : ADC $C5EE, Y : AND.b #$3F : STA $0F
+    CLC : AND.b #$1F : ADC.w $C5EE, Y : AND.b #$3F : STA $0F
     
     ; $02C612 ALTERNATIVE ENTRY POINT
     shared Sprite_SpawnProbeAlways:
@@ -929,11 +929,11 @@ Sprite_SpawnProbeStaggered:
     
     JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
     
-    LDA $00 : CLC : ADC.b #$08 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
-    LDA $03 : ADC.b #$00 : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
     
     PHX
     
@@ -941,23 +941,23 @@ Sprite_SpawnProbeStaggered:
     ; that the feeler will travel in.
     LDX $0F
     
-    TXA : STA $0DE0, Y
+    TXA : STA.w $0DE0, Y
     
-    LDA.w $C56E, X : STA $0D50, Y
+    LDA.w $C56E, X : STA.w $0D50, Y
     
-    LDA.w $C5AE, X : STA $0D40, Y
+    LDA.w $C5AE, X : STA.w $0D40, Y
     
-    LDA $0E40, Y : AND.b #$F0 : ORA.b #$A0 : STA $0E40, Y
+    LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$A0 : STA.w $0E40, Y
     
     PLX
     
-    TXA : INC A : STA $0DB0, Y
-                  STA $0BA0, Y
+    TXA : INC A : STA.w $0DB0, Y
+                  STA.w $0BA0, Y
     
-    LDA.b #$40 : STA $0F60, Y
-                 STA $0E60, Y
+    LDA.b #$40 : STA.w $0F60, Y
+                 STA.w $0E60, Y
     
-    LDA.b #$02 : STA $0CAA, Y
+    LDA.b #$02 : STA.w $0CAA, Y
     
     .spawn_failed
     
@@ -987,7 +987,7 @@ Soldier_AnimateMarionetteTempLong:
     
     PHX
     
-    JSR $C680 ; $02C680 IN ROM
+    JSR.w $C680 ; $02C680 IN ROM
     
     PLX
     
@@ -999,15 +999,15 @@ Soldier_AnimateMarionetteTempLong:
 ; $02C680-$02C6A2 LOCAL JUMP LOCATION
 {
     JSR Sprite2_PrepOamCoord
-    JSR $C6DE ; $02C6DE IN ROM
-    JSR $CA09 ; $02CA09 IN ROM
-    JSR $CB64 ; $02CB64 IN ROM
+    JSR.w $C6DE ; $02C6DE IN ROM
+    JSR.w $CA09 ; $02CA09 IN ROM
+    JSR.w $CB64 ; $02CB64 IN ROM
     
     ; $02C68C ALTERNATE ENTRY POINT
     
-    LDA $0E60, X : AND.b #$10 : BEQ .alpha
+    LDA.w $0E60, X : AND.b #$10 : BEQ .alpha
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA .shadow_types, Y
     
@@ -1054,9 +1054,9 @@ Soldier_AnimateMarionetteTempLong:
     
     PHX
     
-    LDA $0DC0, X : ASL A : STA $0D
+    LDA.w $0DC0, X : ASL A : STA $0D
     
-    LDA $0EB0, X : TAX
+    LDA.w $0EB0, X : TAX
     
     REP #$20
     
@@ -1069,7 +1069,7 @@ Soldier_AnimateMarionetteTempLong:
     SEC
     
     LDY $0D
-    SBC $C6AA, Y
+    SBC.w $C6AA, Y
     
     PLY : INY
     
@@ -1097,14 +1097,14 @@ Soldier_AnimateMarionetteTempLong:
 
 ; $02CA09-$02CAB7 LOCAL JUMP LOCATION
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA.w $CA05, Y : TAY
     
     ; $02CA10 ALTERNATE ENTRY POINT
     
-    LDA $0DC0, X : ASL #2 : STA $07
-    LDA $0E20, X          : STA $08
+    LDA.w $0DC0, X : ASL #2 : STA $07
+    LDA.w $0E20, X          : STA $08
     
     PHX
     
@@ -1134,11 +1134,11 @@ Soldier_AnimateMarionetteTempLong:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $C72D, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $C72D, X : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
-    LDA $02 : CLC : ADC $C7FD, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $C7FD, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .gamma
     
@@ -1188,7 +1188,7 @@ Soldier_AnimateMarionetteTempLong:
     
     PLX : DEX : BMI .theta
     
-    JMP $CA1F ; $02CA1F IN ROM
+    JMP.w $CA1F ; $02CA1F IN ROM
     
     .theta
     
@@ -1199,11 +1199,11 @@ Soldier_AnimateMarionetteTempLong:
 
 ; $02CB64-$02CBDF LOCAL JUMP LOCATION
 {
-    LDA $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA $06
     
-    LDA $0E20, X : SEC : SBC.b #$41 : STA $08
+    LDA.w $0E20, X : SEC : SBC.b #$41 : STA $08
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA.w $CB60, Y : TAY
     
@@ -1235,8 +1235,8 @@ Soldier_AnimateMarionetteTempLong:
     
     SEP #$20
     
-    LDA.w $CAB8, X : STA $0FAB
-    LDA.w $CAF0, X : STA $0FAA
+    LDA.w $CAB8, X : STA.w $0FAB
+    LDA.w $CAF0, X : STA.w $0FAA
     
     PLX
     
@@ -1270,7 +1270,7 @@ Soldier_AnimateMarionetteTempLong:
 ; $02CBE0-$02CC3B JUMP LOCATION
 Sprite_PsychoSpearSoldier:
 {
-    JSR $C680   ; $02C680 IN ROM
+    JSR.w $C680   ; $02C680 IN ROM
     JSR Sprite2_CheckIfActive
     JSR PsychoSpearSoldier_PlayChaseMusic
     JSL.l $06EB5E ; $036B5E IN ROM
@@ -1281,7 +1281,7 @@ Sprite_PsychoSpearSoldier:
     
     TXA : EOR $1A : AND.b #$0F : BNE .no_direction_change
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0EB0, X : STA $0DE0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X : STA.w $0DE0, X
     
     TXA : AND.b #$03 : TAY
     
@@ -1289,7 +1289,7 @@ Sprite_PsychoSpearSoldier:
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     
-    LDA $0E70, X : BEQ .no_direction_change
+    LDA.w $0E70, X : BEQ .no_direction_change
     AND.b #$03   : BEQ .horizontal_tile_collision
     
     JSR Sprite2_IsBelowPlayer
@@ -1304,15 +1304,15 @@ Sprite_PsychoSpearSoldier:
     
     .gamma
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     .no_direction_change
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    JSR $C454 ; $02C454 IN ROM
+    JSR.w $C454 ; $02C454 IN ROM
     
     RTS
 }
@@ -1322,16 +1322,16 @@ Sprite_PsychoSpearSoldier:
 ; $02CC3C-$02CC64 LOCAL JUMP LOCATION
 PsychoSpearSoldier_PlayChaseMusic:
 {
-    LDA $0ED0, X : CMP.b #$10 : BEQ .no_change
-    INC $0ED0, X : CMP.b #$0F : BNE .no_change
+    LDA.w $0ED0, X : CMP.b #$10 : BEQ .no_change
+    INC.w $0ED0, X : CMP.b #$0F : BNE .no_change
     
     LDA.b #$04 : JSL Sound_SetSfx3PanLong
     
     LDA.l $7EF3C5 : CMP.b #$02 : BNE .no_change
     
-    LDA $040A : CMP.b #$18 : BNE .no_change
+    LDA.w $040A : CMP.b #$18 : BNE .no_change
     
-    LDA.b #$0C : STA $012C
+    LDA.b #$0C : STA.w $012C
     
     .alpha
     .no_change
@@ -1344,9 +1344,9 @@ PsychoSpearSoldier_PlayChaseMusic:
 ; $02CC65-$02CCD4 JUMP LOCATION
 Sprite_PsychoTrooper:
 {
-    JSR $CCD5   ; $02CCD5 IN ROM
+    JSR.w $CCD5   ; $02CCD5 IN ROM
     JSR Sprite2_CheckIfActive
-    JSR $CC3C   ; $02CC3C IN ROM
+    JSR.w $CC3C   ; $02CC3C IN ROM
     JSL.l $06EB5E ; $036B5E IN ROM
     JSR Sprite2_CheckIfRecoiling
     JSR Sprite2_MoveIfNotTouchingWall
@@ -1355,7 +1355,7 @@ Sprite_PsychoTrooper:
     
     TXA : EOR $1A : AND.v #$0F : BNE .alpha
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0EB0, X : STA $0DE0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X : STA.w $0DE0, X
     
     TXA : AND.b #$03 : TAY
     
@@ -1363,7 +1363,7 @@ Sprite_PsychoTrooper:
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     
-    LDA $0E70, X : BEQ .alpha
+    LDA.w $0E70, X : BEQ .alpha
     AND.b #$03   : BEQ .beta
     
     JSR Sprite2_IsBelowPlayer
@@ -1378,17 +1378,17 @@ Sprite_PsychoTrooper:
     
     .gamma
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     .alpha
     
-    LDA $0DE0, X : ASL #3 : STA $00
+    LDA.w $0DE0, X : ASL #3 : STA $00
     
-    INC $0E80, X : LDA $0E80, X : LSR A : AND.b #$07 : ORA $00 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$07 : ORA $00 : TAY
     
-    LDA.w $B0C7, Y : STA $0DC0, X
+    LDA.w $B0C7, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -1399,12 +1399,12 @@ Sprite_PsychoTrooper:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDY.b #$0C : JSR $B160 ; $02B160 IN ROM
+    LDY.b #$0C : JSR.w $B160 ; $02B160 IN ROM
     
-    LDY.b #$08 : JSR $B3CD  ; $02B3CD IN ROM
+    LDY.b #$08 : JSR.w $B3CD  ; $02B3CD IN ROM
     
-    JSR $CD4F  ; $02CD4F IN ROM
-    JMP $C68C ; $02C68C IN ROM
+    JSR.w $CD4F  ; $02CD4F IN ROM
+    JMP.w $C68C ; $02C68C IN ROM
 }
 
 ; $02CD48-$02CDD3 LOCAL JUMP LOCATION
@@ -1413,13 +1413,13 @@ Sprite_PsychoTrooper:
     
     ; $02CD4A ALTERNATE ENTRY POINT
     
-    LDA $0D90, X
+    LDA.w $0D90, X
     
     BRA .alpha
     
     ; $02CD4F ALTERNATE ENTRY POINT
     
-    LDA $0D90, X
+    LDA.w $0D90, X
     
     LDY.b #$00
     
@@ -1427,9 +1427,9 @@ Sprite_PsychoTrooper:
     
     EOR.b #$01 : ASL A : AND.b #$02 : STA $06
     
-    LDA $0E20, X : STA $08
+    LDA.w $0E20, X : STA $08
     
-    LDA $0DE0, X : ASL #2 : ORA $06 : STA $06
+    LDA.w $0DE0, X : ASL #2 : ORA $06 : STA $06
     
     PHX
     
@@ -1457,8 +1457,8 @@ Sprite_PsychoTrooper:
     
     SEP #$20
     
-    LDA.w $CCE8, X : STA $0FAB
-    LDA.w $CD08, X : STA $0FAA
+    LDA.w $CCE8, X : STA.w $0FAB
+    LDA.w $CD08, X : STA.w $0FAA
     
     PLX
     
@@ -1491,7 +1491,7 @@ Sprite_PsychoTrooper:
 ; $02CDD4-$02CDDC LOCAL JUMP LOCATION
 Sprite2_MoveIfNotTouchingWall:
 {
-    LDA $0E70, X : BNE .alpha
+    LDA.w $0E70, X : BNE .alpha
     
     JMP Sprite2_Move
     
@@ -1514,14 +1514,14 @@ Pool_Sprite_JavelinTrooper:
 ; $02CDE1-$02CE73 JUMP LOCATION
 Sprite_JavelinTrooper:
 {
-    LDA $0DC0, X : PHA
-    LDY $0DE0, X : PHY
+    LDA.w $0DC0, X : PHA
+    LDY.w $0DE0, X : PHY
     
-    LDA $0E00, X : BEQ .direction_lock_inactive
+    LDA.w $0E00, X : BEQ .direction_lock_inactive
     
-    LDA Soldier_DirectionLockSettings.directions, Y : STA $0DE0, X
+    LDA Soldier_DirectionLockSettings.directions, Y : STA.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive
     
@@ -1532,14 +1532,14 @@ Sprite_JavelinTrooper:
     ; $02CDFF ALTERNATE ENTRY POINT
     shared Sprite_ArcherSoldier:
     
-    LDA $0DC0, X : PHA
-    LDY $0DE0, X : PHY
+    LDA.w $0DC0, X : PHA
+    LDY.w $0DE0, X : PHY
     
-    LDA $0E00, X : BEQ .direction_lock_inactive_2
+    LDA.w $0E00, X : BEQ .direction_lock_inactive_2
     
-    LDA Soldier_DirectionLockSettings.directions, Y : STA $0DE0, X
+    LDA Soldier_DirectionLockSettings.directions, Y : STA.w $0DE0, X
     
-    LDA Soldier_DirectionLockSettings.animation_states, Y : STA $0DC0, X
+    LDA Soldier_DirectionLockSettings.animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive_2
     
@@ -1547,25 +1547,25 @@ Sprite_JavelinTrooper:
     
     .beta
     
-    PLA : STA $0DE0, X
-    PLA : STA $0DC0, X
+    PLA : STA.w $0DE0, X
+    PLA : STA.w $0DC0, X
     
     JSR Sprite2_CheckIfActive
     
     JSR Sprite2_CheckDamage : BCS .gamma
     
-    LDA $0FDC : BEQ .delta
+    LDA.w $0FDC : BEQ .delta
     
     .gamma
     
-    LDA $0D80, X : CMP.b #$03 : BCS .delta
+    LDA.w $0D80, X : CMP.b #$03 : BCS .delta
     
-    LDA.b #$03 : STA $0D80, X
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$03 : STA.w $0D80, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .delta
     
-    LDA $0EA0, X : BEQ .not_recoiling
+    LDA.w $0EA0, X : BEQ .not_recoiling
     CMP.b #$04   : BCC .not_recoiling ; questionable label name
     
     JSR JavelinTrooper_NoticedPlayer.no_delay
@@ -1576,7 +1576,7 @@ Sprite_JavelinTrooper:
     JSR Sprite2_MoveIfNotTouchingWall
     JSR Sprite2_CheckTileCollision
     
-    LDA $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
     
     ; Hidden table! gah!!!
     LDA .states, Y : DEC A : PHA
@@ -1602,21 +1602,21 @@ JavelinTrooper_Resting:
 {
     JSR Sprite2_ZeroVelocity
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$7F : ADC.b #$50 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$7F : ADC.b #$50 : STA.w $0DF0, X
     
-    LDA $0DE0, X : PHA
+    LDA.w $0DE0, X : PHA
     
-    JSL GetRandomInt : AND.b #$03 : STA $0DE0, X
+    JSL GetRandomInt : AND.b #$03 : STA.w $0DE0, X
     
-    PLA : CMP $0DE0, X : BEQ .no_direction_change
+    PLA : CMP.w $0DE0, X : BEQ .no_direction_change
     
-    EOR $0DE0, X : AND.b #$02 : BNE .no_direction_lock
+    EOR.w $0DE0, X : AND.b #$02 : BNE .no_direction_lock
     
-    LDA.b #$0C : STA $0E00, X
+    LDA.b #$0C : STA.w $0E00, X
     
     .no_direction_lock
     .no_direction_change
@@ -1630,11 +1630,11 @@ JavelinTrooper_Resting:
 ; $02CEAA-$02CF12 LOCAL JUMP LOCATION
 JavelinTrooper_WalkingAround:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$A0 : STA $0DF0, X
+    LDA.b #$A0 : STA.w $0DF0, X
     
     RTS
     
@@ -1642,36 +1642,36 @@ JavelinTrooper_WalkingAround:
     
     JSR Sprite_SpawnProbeStaggered
     
-    LDA $0E70, X : AND.b #$0F : BEQ .no_tile_collision
+    LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     JSR Soldier_EnableDirectionLock
     
     .no_tile_collision
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA Soldier.x_speeds, Y : STA $0D50, X
+    LDA Soldier.x_speeds, Y : STA.w $0D50, X
     
-    LDA Soldier.y_speeds, Y : STA $0D40, X
+    LDA Soldier.y_speeds, Y : STA.w $0D40, X
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
     ; $02CEE2 ALTERNATE ENTRY POINT
     shared JavelinTrooper_Animate:
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$0F : BNE .gamma
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0F : BNE .gamma
     
-    INC $0D90, X : LDA $0D90, X : CMP.b #$02 : BNE .gamma
+    INC.w $0D90, X : LDA.w $0D90, X : CMP.b #$02 : BNE .gamma
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     .gamma
     
-    LDA $0DE0, X : ASL #2 : ADC $0D90, X
+    LDA.w $0DE0, X : ASL #2 : ADC.w $0D90, X
     
-    LDY $0E20, X : CPY.b #$48 : BNE .is_archer
+    LDY.w $0E20, X : CPY.b #$48 : BNE .is_archer
     
     CLC : ADC.b #$10
     
@@ -1679,7 +1679,7 @@ JavelinTrooper_WalkingAround:
     
     TAY
     
-    LDA Soldier.animation_states, Y : STA $0DC0, X
+    LDA Soldier.animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -1692,11 +1692,11 @@ JavelinTrooper_LookingAround:
     JSR Sprite2_ZeroVelocity
     JSR Sprite_SpawnProbeStaggered
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    LDA.b #$00 : STA $0D80, X
+    LDA.b #$00 : STA.w $0D80, X
     
     RTS
     
@@ -1706,9 +1706,9 @@ JavelinTrooper_LookingAround:
     
     LSR #3 : AND.b #$07 : STA $00
     
-    LDA $0DE0, X : ASL #3 : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL #3 : ORA $00 : TAY
     
-    LDA Soldier.head_looking_states, Y : STA $0EB0, X
+    LDA Soldier.head_looking_states, Y : STA.w $0EB0, X
     
     .mucho_time_left
     
@@ -1722,18 +1722,18 @@ JavelinTrooper_NoticedPlayer:
 {
     JSR Sprite2_ZeroVelocity
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     ; $02CF53 ALTERNATE ENTRY POINT
     .no_delay
     
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
-    LDA.b #$3C : STA $0DF0, X
+    LDA.b #$3C : STA.w $0DF0, X
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     .delay:
     
@@ -1770,17 +1770,17 @@ Pool_JavelinTrooper_Agitated:
 ; $02CF85-$02D000 LOCAL JUMP LOCATION
 JavelinTrooper_Agitated:
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0E70, X : AND .tile_collision_masks, Y : BNE .collided
+    LDA.w $0E70, X : AND .tile_collision_masks, Y : BNE .collided
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     .collided
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$18 : STA $0DF0, X
+    LDA.b #$18 : STA.w $0DF0, X
     
     RTS
     
@@ -1788,9 +1788,9 @@ JavelinTrooper_Agitated:
     
     TXA : EOR $1A : AND.b #$07 : BNE .delay_facing_player
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0DE0, X : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
-    LDA $0E20, X : CMP.b #$48 : BNE .is_archer
+    LDA.w $0E20, X : CMP.b #$48 : BNE .is_archer
     
     INY #4
     
@@ -1806,9 +1806,9 @@ JavelinTrooper_Agitated:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     LDA $0E : CLC : ADC.b #$06 : CMP.b #$0C : BCS .delay_facing_player
     
@@ -1816,7 +1816,7 @@ JavelinTrooper_Agitated:
     
     .delay_facing_player
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR JavelinTrooper_Animate
     
@@ -1855,23 +1855,23 @@ Pool_JavelinTrooper_Attack:
 ; $02D045-$02D08A LOCAL JUMP LOCATION
 JavelinTrooper_Attack:
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .scan_angles, Y : STA $0EC0, X
+    LDA .scan_angles, Y : STA.w $0EC0, X
     
     JSR Sprite2_ZeroVelocity
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    JMP $C417 ; $02C417 IN ROM
+    JMP.w $C417 ; $02C417 IN ROM
     
     .delay
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     CMP.b #$28 : BCC .beta
     
-    DEC $0E80, X
+    DEC.w $0E80, X
     
     .beta
     
@@ -1887,9 +1887,9 @@ JavelinTrooper_Attack:
     
     LSR #3 : STA $00
     
-    LDA $0DE0, X : ASL #3 : ORA $00
+    LDA.w $0DE0, X : ASL #3 : ORA $00
     
-    LDY $0E20, X : CPY.b #$48 : BNE .is_archer
+    LDY.w $0E20, X : CPY.b #$48 : BNE .is_archer
     
     CLC : ADC.b #$20
     
@@ -1897,7 +1897,7 @@ JavelinTrooper_Attack:
     
     TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -1956,7 +1956,7 @@ JavelinTrooper_SpawnProjectile:
     
     PHX
     
-    LDA $0E20, X : CMP.b #$48 : LDA $0DE0, X : BCC .is_archer
+    LDA.w $0E20, X : CMP.b #$48 : LDA.w $0DE0, X : BCC .is_archer
     
     CLC : ADC.b #$04
     
@@ -1964,37 +1964,37 @@ JavelinTrooper_SpawnProjectile:
     
     TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    TXA : AND.b #$03 : STA $0DE0, Y : TAX
+    TXA : AND.b #$03 : STA.w $0DE0, Y : TAX
     
-    LDA .hit_boxes, X : STA $0F60, Y
+    LDA .hit_boxes, X : STA.w $0F60, Y
     
-    LDA.b #$00 : STA $0F70, Y
+    LDA.b #$00 : STA.w $0F70, Y
     
     PLX
     
-    LDA $0E20, X : CMP.b #$48 : LDA.b #$00 : BCC .is_archer_2
+    LDA.w $0E20, X : CMP.b #$48 : LDA.b #$00 : BCC .is_archer_2
     
     INC A
 
     .is_archer_2
 
-    STA $0D90, Y : BEQ .dont_disable_blockability
+    STA.w $0D90, Y : BEQ .dont_disable_blockability
     
     LDA.l $7EF35A : BNE .player_has_shield
     
     ; Make the arrow unblockable by shield (which is dumb, because we
     ; alraedy verified that the player doesn't have a shield <___<.)
-    LDA $0BE0, Y : AND.b #$DF : STA $0BE0, Y
+    LDA.w $0BE0, Y : AND.b #$DF : STA.w $0BE0, Y
 
     .player_has_shield
     .dont_disable_blockability
@@ -2008,15 +2008,15 @@ JavelinTrooper_SpawnProjectile:
 ; $02D141-$02D191 LOCAL JUMP LOCATION
 BushJavelinSoldier_Draw:
 {
-    LDA $0DC0, X : PHA
+    LDA.w $0DC0, X : PHA
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    LDA $0F50, X : PHA : AND.b #$F1 : ORA.b #$02 : STA $0F50, X
+    LDA.w $0F50, X : PHA : AND.b #$F1 : ORA.b #$02 : STA.w $0F50, X
     
     REP #$20
     
-    LDA $0FDA : PHA : CLC : ADC.w #$0008 : STA $0FDA
+    LDA.w $0FDA : PHA : CLC : ADC.w #$0008 : STA.w $0FDA
     
     SEP #$20
     
@@ -2024,32 +2024,32 @@ BushJavelinSoldier_Draw:
     
     REP #$20
     
-    PLA : STA $0FDA
+    PLA : STA.w $0FDA
     
     SEP #$20
     
-    PLA : STA $0F50, X
-    PLA : STA $0DC0, X
+    PLA : STA.w $0F50, X
+    PLA : STA.w $0DC0, X
     
     JSR Sprite2_PrepOamCoord
     
     LDY.b #$10
     
-    JSR $C6E0 ; $02C6E0 IN ROM
+    JSR.w $C6E0 ; $02C6E0 IN ROM
     
     LDY.b #$0C
     
-    JSR $B3CD ; $02B3CD IN ROM
+    JSR.w $B3CD ; $02B3CD IN ROM
     
-    LDA $0DC0, X : CMP.b #$14 : BCS .alpha
+    LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
     
     LDY.b #$04
     
-    JSR $CD4A ; $02CD4A IN ROM
+    JSR.w $CD4A ; $02CD4A IN ROM
 
     .alpha
 
-    JMP $C68C ; $02C68C IN ROM
+    JMP.w $C68C ; $02C68C IN ROM
 }
 
 ; ==============================================================================
@@ -2061,19 +2061,19 @@ JavelinTrooper_Draw:
     
     LDY.b #$0C
     
-    JSR $B160 ; $02B160 IN ROM
+    JSR.w $B160 ; $02B160 IN ROM
     
     LDY.b #$08
     
-    JSR $B3CD ; $02B3CD IN ROM
+    JSR.w $B3CD ; $02B3CD IN ROM
     
-    LDA $0DC0, X : CMP.b #$14 : BCS .alpha
+    LDA.w $0DC0, X : CMP.b #$14 : BCS .alpha
     
-    JSR $CD48 ; $02CD48 IN ROM
+    JSR.w $CD48 ; $02CD48 IN ROM
 
     .alpha
 
-    JMP $C68C ; $02C68C IN ROM
+    JMP.w $C68C ; $02C68C IN ROM
 }
 
 ; ==============================================================================
@@ -2081,7 +2081,7 @@ JavelinTrooper_Draw:
 ; $02D1AC-$02D1F4 JUMP LOCATION
 Sprite_BushJavelinSoldier:
 {
-    LDA $0D80, X : BEQ .alpha
+    LDA.w $0D80, X : BEQ .alpha
     CMP.b #$02   : BNE .beta
     
     JSR BushJavelinSoldier_Draw
@@ -2090,7 +2090,7 @@ Sprite_BushJavelinSoldier:
     
     .beta
     
-    JSR $D321 ; $02D321 IN ROM
+    JSR.w $D321 ; $02D321 IN ROM
     
     .alpha
     
@@ -2099,9 +2099,9 @@ Sprite_BushJavelinSoldier:
     ; $02D1BF ALTERNATE ENTRY POINT
     shared Sprite_BushArcherSoldier:
     
-    LDA $0D80, X : BEQ .gamma
+    LDA.w $0D80, X : BEQ .gamma
     
-    LDA $0DC0, X : CMP.b #$0E : BCC .delta
+    LDA.w $0DC0, X : CMP.b #$0E : BCC .delta
     
     JSR ArcherSoldier_Draw
     
@@ -2109,15 +2109,15 @@ Sprite_BushJavelinSoldier:
     
     .delta
     
-    JSR $D321 ; $02D321 IN ROM
+    JSR.w $D321 ; $02D321 IN ROM
     
     .gamma
     
     JSR Sprite2_CheckIfActive
     
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     REP #$30
     
@@ -2140,11 +2140,11 @@ Sprite_BushJavelinSoldier:
 
 ; $02D1F5-$02D202 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     .delay
     
@@ -2168,15 +2168,15 @@ Sprite_BushJavelinSoldier:
 {
     JSL.l $06F2AA ; $0372AA IN ROM
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
-    JSR $F93F ; $02F93F IN ROM
+    JSR.w $F93F ; $02F93F IN ROM
     
-    TYA : STA $0DE0, X : STA $0EB0, X
+    TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
     RTS
     
@@ -2186,11 +2186,11 @@ Sprite_BushJavelinSoldier:
     
     PHA
     
-    JSR $D252 ; $02D252 IN ROM
+    JSR.w $D252 ; $02D252 IN ROM
     
     PLA : LSR #2 : TAY
     
-    LDA.w $D203, Y : STA $0DC0, X
+    LDA.w $D203, Y : STA.w $0DC0, X
     
     RTS
     
@@ -2204,13 +2204,13 @@ Sprite_BushJavelinSoldier:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$06 : STA $0DD0, Y
+    LDA.b #$06 : STA.w $0DD0, Y
     
-    LDA.b #$20 : STA $0DF0, Y
+    LDA.b #$20 : STA.w $0DF0, Y
     
-    LDA $0E40, Y : CLC : ADC.b #$03 : STA $0E40, Y
+    LDA.w $0E40, Y : CLC : ADC.b #$03 : STA.w $0E40, Y
     
-    LDA.b #$02 : STA $0DB0, Y
+    LDA.b #$02 : STA.w $0DB0, Y
     
     .spawn_failed
     
@@ -2219,25 +2219,25 @@ Sprite_BushJavelinSoldier:
 
 ; $02D277-$02D2BD JUMP LOCATION
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     BRA .BRANCH_$2D2CE
 
     .BRANCH_ALPHA
 
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     CMP.b #$28 : BCS .BRANCH_BETA
     
-    DEC $0D90, X
+    DEC.w $0D90, X
 
     .BRANCH_BETA
 
@@ -2253,9 +2253,9 @@ Sprite_BushJavelinSoldier:
 
     LSR #3 : STA $00
     
-    LDA $0DE0, X : ASL #3 : ORA $00
+    LDA.w $0DE0, X : ASL #3 : ORA $00
     
-    LDY $0E20, X : CPY.b #$49 : BNE .BRANCH_DELTA
+    LDY.w $0E20, X : CPY.b #$49 : BNE .BRANCH_DELTA
     
     CLC : ADC.b #$20
 
@@ -2263,7 +2263,7 @@ Sprite_BushJavelinSoldier:
 
     TAY
     
-    LDA JavelinTrooper_Attack.animation_states, Y : STA $0DC0, X
+    LDA JavelinTrooper_Attack.animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -2272,11 +2272,11 @@ Sprite_BushJavelinSoldier:
 {
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     RTS
     
@@ -2284,7 +2284,7 @@ Sprite_BushJavelinSoldier:
     
     LSR #2 : TAY
     
-    LDA.w $D2BE, Y : STA $0DC0, X
+    LDA.w $D2BE, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -2293,7 +2293,7 @@ Sprite_BushJavelinSoldier:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA $06
     
     PHX
     
@@ -2311,7 +2311,7 @@ Sprite_BushJavelinSoldier:
     
     AND.w #$0100 : STA $0E
     
-    LDA $02 : CLC : ADC $D2E9, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $D2E9, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
     
@@ -2369,35 +2369,35 @@ ArcherSoldier_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA .oam_indices_1, Y : TAY
     
-    JSR $C6E0   ; $02C6E0 IN ROM
+    JSR.w $C6E0   ; $02C6E0 IN ROM
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA .oam_indices_2, Y : TAY
     
-    JSR $CA10   ; $02CA10 IN ROM
+    JSR.w $CA10   ; $02CA10 IN ROM
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA .oam_indices_0, Y : TAY
     
-    JSR $D4D4   ; $02D4D4 IN ROM
-    JMP $C68C   ; $02C68C IN ROM
+    JSR.w $D4D4   ; $02D4D4 IN ROM
+    JMP.w $C68C   ; $02C68C IN ROM
 }
 
 ; ==============================================================================
 
 ; $02D4D4-$02D53A LOCAL JUMP LOCATION
 {
-    LDA $0DC0, X : SEC : SBC.b #$0E : BCS .alpha
+    LDA.w $0DC0, X : SEC : SBC.b #$0E : BCS .alpha
     
     PHY
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA.w $D4D0, Y
     
@@ -2421,11 +2421,11 @@ ArcherSoldier_Draw:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $D3B0, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $D3B0, X : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
-    LDA $02 : CLC : ADC $D410, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $D410, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .beta
     
@@ -2473,14 +2473,14 @@ Sprite_DrawMultiple:
     ; $02DF70 ALTERNATE ENTRY POINT
     .quantity_preset
     
-    JSR $DFE9 ; $02DFE9 IN ROM
+    JSR.w $DFE9 ; $02DFE9 IN ROM
     
     BRA .moving_on
     
     ; $02DF75 ALTERNATE ENTRY POINT
     .player_deferred
     
-    JSR $DFE5 ; $02DFE5 IN ROM
+    JSR.w $DFE5 ; $02DFE5 IN ROM
     
     .moving_on
     
@@ -2496,25 +2496,25 @@ Sprite_DrawMultiple:
     
     LDY.w #$0000
     
-    LDX $0090
+    LDX.w $0090
     
     .next_oam_entry
     
-    LDA ($08), Y : CLC : ADC $00 : STA $0000, X : AND.w #$0100 : STA $0C
+    LDA ($08), Y : CLC : ADC $00 : STA.w $0000, X : AND.w #$0100 : STA $0C
     
     INY #2
     
-    LDA ($08), Y : CLC : ADC $02 : STA $0001, X
+    LDA ($08), Y : CLC : ADC $02 : STA.w $0001, X
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     
-    LDA.w #$00F0 : STA $0001, X
+    LDA.w #$00F0 : STA.w $0001, X
     
     .on_screen_y
     
     INY #2
     
-    LDA $0CFE : CMP.w #$0001
+    LDA.w $0CFE : CMP.w #$0001
     
     LDA ($08), Y : EOR $04 : BCC .dont_override_palette
     
@@ -2523,7 +2523,7 @@ Sprite_DrawMultiple:
     
     .dont_override_palette
     
-    STA $0002, X
+    STA.w $0002, X
     
     PHX
     
@@ -2533,7 +2533,7 @@ Sprite_DrawMultiple:
     
     INY #3
     
-    LDA ($08), Y : ORA $0D : STA $0A20, X
+    LDA ($08), Y : ORA $0D : STA.w $0A20, X
     
     PLX
     
@@ -2572,10 +2572,10 @@ Sprite_DrawMultiple:
     ; Preserves the CLC or SEC status
     PHP
     
-    STZ $0CFE
-    STZ $0CFF
+    STZ.w $0CFE
+    STZ.w $0CFF
     
-    LDA $0DD0, X : CMP.b #$0A : BNE .notCarriedSprite
+    LDA.w $0DD0, X : CMP.b #$0A : BNE .notCarriedSprite
     
     LDA.l $7FFA2C, X
     
@@ -2583,7 +2583,7 @@ Sprite_DrawMultiple:
     
     CMP.b #$0B : BNE .notFrozenSprite
     
-    LDA.l $7FFA3C, X : STA $0CFE
+    LDA.l $7FFA3C, X : STA.w $0CFE
     
     .notFrozenSprite
     
@@ -2612,8 +2612,8 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
 {
     ; Handles text messages
     
-    STA $1CF0
-    STY $1CF1
+    STA.w $1CF0
+    STY.w $1CF1
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
@@ -2621,7 +2621,7 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
     
     LDA $F6 : BPL .alpha
     
-    LDA $0F10, X : BNE .alpha
+    LDA.w $0F10, X : BNE .alpha
     
     LDA $4D : CMP.b #$02 : BEQ .alpha
     
@@ -2633,12 +2633,12 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
     
     PHY
     
-    LDA $1CF0
-    LDY $1CF1
+    LDA.w $1CF0
+    LDY.w $1CF1
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$40 : STA $0F10, X
+    LDA.b #$40 : STA.w $0F10, X
     
     PLA : EOR.b #$03
     
@@ -2649,7 +2649,7 @@ Sprite_ShowSolicitedMessageIfPlayerFacing:
     .not_facing_each_other
     .alpha
     
-    LDA $0DE0, X
+    LDA.w $0DE0, X
     
     CLC
     
@@ -2667,15 +2667,15 @@ Sprite_ShowMessageFromPlayerContact:
     ; discern any significant difference, other than that this one
     ; reports a direction as a return value in the accumulator.
     
-    STA $1CF0
-    STY $1CF1
+    STA.w $1CF0
+    STY.w $1CF1
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show
     
     LDA $4D : CMP.b #$02 : BEQ .dont_show
     
-    LDA $1CF0
-    LDY $1CF1
+    LDA.w $1CF0
+    LDY.w $1CF1
     
     JSL Sprite_ShowMessageUnconditional
     
@@ -2687,7 +2687,7 @@ Sprite_ShowMessageFromPlayerContact:
     
     .dont_show
     
-    LDA $0DE0, X
+    LDA.w $0DE0, X
     
     CLC
     
@@ -2704,15 +2704,15 @@ Sprite_ShowMessageUnconditional:
     ; A = low byte of message ID to use.
     ; Y = high byte of message ID to use.
     
-    STA $1CF0
-    STY $1CF1
+    STA.w $1CF0
+    STY.w $1CF1
     
-    STZ $0223
-    STZ $1CD8
+    STZ.w $0223
+    STZ.w $1CD8
     
     LDA.b #$02 : STA $11
     
-    LDA $10 : STA $010C
+    LDA $10 : STA.w $010C
     
     LDA.b #$0E : STA $10
     
@@ -2754,7 +2754,7 @@ Sprite2_TrendHorizSpeedToZero:
 {
     ; Appears to be unsued, or orphaned code for now...
     
-    LDA $0D50, X : BEQ .at_rest : BPL .positive_velocity
+    LDA.w $0D50, X : BEQ .at_rest : BPL .positive_velocity
     
     INC A
     
@@ -2767,7 +2767,7 @@ Sprite2_TrendHorizSpeedToZero:
     .moving_on
     .at_rest
     
-    STA $0D50, X
+    STA.w $0D50, X
     
     RTL
 }
@@ -2777,7 +2777,7 @@ Sprite2_TrendHorizSpeedToZero:
 ; $02E666-$02E674 LONG UNUSED
 Sprite2_TrendVertSpeedToZero:
 {
-    LDA $0D40, X : BEQ .at_rest : BPL .positive_velocity
+    LDA.w $0D40, X : BEQ .at_rest : BPL .positive_velocity
     
     INC A
     
@@ -2790,7 +2790,7 @@ Sprite2_TrendVertSpeedToZero:
     .moving_on
     .at_rest
     
-    STA $0D40, X
+    STA.w $0D40, X
     
     RTL
 }
@@ -2844,14 +2844,14 @@ Sprite2_IsBelowPlayer:
 ; $02F94E-$02F96A LOCAL JUMP LOCATION
 Sprite2_CheckIfActive:
 {
-    LDA $0DD0, X : CMP.b #$09 : BNE .inactive
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
         ; $02F955 ALTERNATE ENTRY POINT
         .permissive
     
-        LDA $0FC1 : BNE .inactive
+        LDA.w $0FC1 : BNE .inactive
         LDA $11 : BNE .inactive
-            LDA $0CAA, X : BMI .active
-            LDA $0F00, X : BEQ .active
+            LDA.w $0CAA, X : BMI .active
+            LDA.w $0F00, X : BEQ .active
     
     .inactive
     
@@ -2876,50 +2876,50 @@ Pool_Sprite2_CheckIfRecoiling:
 ; $02F971-$02F9EC LOCAL JUMP LOCATION
 Sprite2_CheckIfRecoiling:
 {
-    LDA $0EA0, X : BEQ .return
+    LDA.w $0EA0, X : BEQ .return
     AND.b #$7F   : BEQ .recoil_finished
     
-    LDA $0D40, X : PHA
-    LDA $0D50, X : PHA
+    LDA.w $0D40, X : PHA
+    LDA.w $0D50, X : PHA
     
-    DEC $0EA0, X : BNE .not_halted_yet
+    DEC.w $0EA0, X : BNE .not_halted_yet
     
-    LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
+    LDA.w $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
     
-    LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
+    LDA.w $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
     
     .too_fast_so_halt
     
-    LDA.b #$90 : STA $0EA0, X
+    LDA.b #$90 : STA.w $0EA0, X
     
     .slow_enough
     .not_halted_yet
     
-    LDA $0EA0, X : BMI .halted
+    LDA.w $0EA0, X : BMI .halted
     
     LSR #2 : TAY
     
     LDA $1A : AND .frame_counter_masks, Y : BNE .halted
     
-    LDA $0F30, X : STA $0D40, X
-    LDA $0F40, X : STA $0D50, X
+    LDA.w $0F30, X : STA.w $0D40, X
+    LDA.w $0F40, X : STA.w $0D50, X
     
-    LDA $0CD2, X : BMI .no_wall_collision
+    LDA.w $0CD2, X : BMI .no_wall_collision
     
     JSR Sprite2_CheckTileCollision
     
     AND.b #$0F : BEQ .no_wall_collision
     CMP.b #$04 : BCS .y_axis_wall_collision
     
-    STZ $0F40, X
-    STZ $0D50, X
+    STZ.w $0F40, X
+    STZ.w $0D50, X
     
     BRA .moving_on
     
     .y_axis_wall_collision
     
-    STZ $0F30, X
-    STZ $0D40, X
+    STZ.w $0F30, X
+    STZ.w $0D40, X
     
     .moving_on
     
@@ -2931,8 +2931,8 @@ Sprite2_CheckIfRecoiling:
     
     .halted
     
-    PLA : STA $0D50, X
-    PLA : STA $0D40, X
+    PLA : STA.w $0D50, X
+    PLA : STA.w $0D40, X
     
     PLA : PLA
     
@@ -2942,7 +2942,7 @@ Sprite2_CheckIfRecoiling:
     
     .recoil_finished
     
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
     RTS
 }
@@ -2967,7 +2967,7 @@ Sprite2_MoveHoriz:
     
     JSR Sprite2_MoveVert
     
-    LDX $0FA0
+    LDX.w $0FA0
     
     RTS
 }
@@ -2977,11 +2977,11 @@ Sprite2_MoveHoriz:
 ; $02FA00-$02FA2D LOCAL JUMP LOCATION
 Sprite2_MoveVert:
 {
-    LDA $0D40, X : BEQ .no_velocity
+    LDA.w $0D40, X : BEQ .no_velocity
     
-    ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
+    ASL #4 : CLC : ADC.w $0D60, X : STA.w $0D60, X
     
-    LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
+    LDA.w $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
     
     ORA.b #$F0
     
@@ -2989,8 +2989,8 @@ Sprite2_MoveVert:
     
     .positive
     
-          ADC $0D00, X : STA $0D00, X
-    TYA : ADC $0D20, X : STA $0D20, X
+          ADC.w $0D00, X : STA.w $0D00, X
+    TYA : ADC.w $0D20, X : STA.w $0D20, X
     
     .no_velocity
     
@@ -3002,15 +3002,15 @@ Sprite2_MoveVert:
 ; $02FA2E-$02FA4F LOCAL JUMP LOCATION
 Sprite2_MoveAltitude:
 {
-    LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
+    LDA.w $0F80, X : ASL #4 : CLC : ADC.w $0F90, X : STA.w $0F90, X
     
-    LDA $0F80, X : PHP : LSR #4 : PLP : BPL .positive
+    LDA.w $0F80, X : PHP : LSR #4 : PLP : BPL .positive
     
     ORA.b #$F0
     
     .positive
     
-    ADC $0F70, X : STA $0F70, X
+    ADC.w $0F70, X : STA.w $0F70, X
     
     RTS
 }
@@ -3036,23 +3036,23 @@ Sprite2_PrepOamCoord:
 ; $02FA59-$02FAA1 LONG JUMP LOCATION
 Sprite_ShowMessageIfPlayerTouching:
 {
-    STA $1CF0
-    STY $1CF1
+    STA.w $1CF0
+    STY.w $1CF1
     
-    LDA $0E40, X : PHA
+    LDA.w $0E40, X : PHA
     
-    LDA.b #$80 : STA $0E40, X
+    LDA.b #$80 : STA.w $0E40, X
     
-    LDA $0F60, X : PHA
+    LDA.w $0F60, X : PHA
     
     ; Alter the hit detection box for the purposes of seeing if the player
     ; wants to talk.
-    LDA.b #$07 : STA $0F60, X
+    LDA.b #$07 : STA.w $0F60, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong
     
-    PLA : STA $0F60, X
-    PLA : STA $0E40, X
+    PLA : STA.w $0F60, X
+    PLA : STA.w $0E40, X
     
     BCC .dontShowDialogue
     
@@ -3062,7 +3062,7 @@ Sprite_ShowMessageIfPlayerTouching:
     
     PLP
     
-    STZ $0372
+    STZ.w $0372
     STZ $5E
     
     LDA $4D : BNE .dontShowDialogue
@@ -3070,12 +3070,12 @@ Sprite_ShowMessageIfPlayerTouching:
     ; $02FA8E ALTERNATE ENTRY POINT
     shared Sprite_ShowMessageMinimal:
     
-    STZ $0223
-    STZ $1CD8
+    STZ.w $0223
+    STZ.w $1CD8
     
     LDA.b #$02 : STA $11
     
-    LDA $10 : STA $010C
+    LDA $10 : STA.w $010C
     
     LDA.b #$0E : STA $10
     
@@ -3093,9 +3093,9 @@ Overworld_ReadTileAttr:
     ; seems more like a map16 attr reader than a map8 reader. Fixme!
     REP #$30
     
-    LDA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $06
+    LDA $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA $06
     
-    LDA $02 : SEC : SBC $070C : AND $070E : ORA $06 : TAX
+    LDA $02 : SEC : SBC.w $070C : AND.w $070E : ORA $06 : TAX
     
     LDA.l $7E2000, X : TAX
     

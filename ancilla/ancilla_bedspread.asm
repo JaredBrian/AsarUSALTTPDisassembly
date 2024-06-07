@@ -29,7 +29,7 @@ Ancilla_BedSpread:
     
     PHX
     
-    LDA $037D : BNE .player_eyes_not_shut
+    LDA.w $037D : BNE .player_eyes_not_shut
         LDA.b #$10 : JSL OAM_AllocateFromRegionB
         
         BRA .oam_allocation_set
@@ -40,7 +40,7 @@ Ancilla_BedSpread:
     
     .oam_allocation_set
     
-    LDA $037D : BEQ .player_eyes_shut
+    LDA.w $037D : BEQ .player_eyes_shut
         LDA.b #$04
     
     .player_eyes_shut

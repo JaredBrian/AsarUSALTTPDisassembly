@@ -1119,7 +1119,7 @@ Dungeon_DrawFloors:
     ; Y = 0 here always, Floor 2 in Hyrule Magic.
     LDA [$B7], Y : PHA : AND.w #$00F0 : STA.w $0490 : TAX
     
-    JSR $8A1F ; $008A1F IN ROM; Draws a 32 x 32 block of tiles to screen.
+    JSR.w $8A1F ; $008A1F IN ROM; Draws a 32 x 32 block of tiles to screen.
     
     LDX.w #$001E
     
@@ -1148,7 +1148,7 @@ Dungeon_DrawFloors:
             LDA.w #$0008
             
             ; Tells the game to draw a 4 x 32 tile block across the screen.
-            JSR $8A44 ; $008A44 IN ROM
+            JSR.w $8A44 ; $008A44 IN ROM
             
             ADC.w #$01C0 : TAY
         ; This loops 8 times. Thus, this draws a 32 x 32 tile block.
@@ -1402,7 +1402,7 @@ RoomDraw_DiagonalCeilingTopLeftA:
     
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         ADC.w #$0080 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1423,7 +1423,7 @@ RoomDraw_DiagonalCeilingBottomLeftA:
     
         LDA.b $B4
         
-        JSR $B2D0 ; $00B2D0 IN ROM
+        JSR.w $B2D0 ; $00B2D0 IN ROM
         
         ADC.w #$0080 : STA.b $08 : TAY
         
@@ -1442,7 +1442,7 @@ RoomDraw_DiagonalCeilingTopRightA:
     
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         ADC.w #$0082 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1459,7 +1459,7 @@ RoomDraw_DiagonalCeilingBottomRightA:
     
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         SEC : SBC.w #$007E : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1508,7 +1508,7 @@ RoomDraw_DiagonalAcute_1to16:
     
     ; In reality, the width will range from 6 to 21, because of preincrementing
     ; in this destination.
-    JMP $B2AA ; $00B2AA IN ROM
+    JMP.w $B2AA ; $00B2AA IN ROM
 }
 
 ; $008C61-$008C69 JUMP LOCATION
@@ -1521,7 +1521,7 @@ RoomDraw_DiagonalGrave_1to16:
     
     ; In reality, the width will range from 6 to 21, because of preincrementing
     ; in this destination.
-    JMP $B29C ; $00B29C IN ROM
+    JMP.w $B29C ; $00B29C IN ROM
 }
 
 ; $008C6A-$008CB8 JUMP LOCATION
@@ -1577,7 +1577,7 @@ RoomDraw_ClosedChestPlatform:
     
     INC.b $B4
     
-    JSR $8D47 ; $008D47 IN ROM
+    JSR.w $8D47 ; $008D47 IN ROM
     
     STX.w $0006
     
@@ -1618,7 +1618,7 @@ RoomDraw_ClosedChestPlatform:
     
     LDA.b $B2 : STA.b $0A
     
-    JSR $8D47 ; $008D47 IN ROM
+    JSR.w $8D47 ; $008D47 IN ROM
     
     LDA.w #$FF80
     
@@ -1641,7 +1641,7 @@ RoomDraw_ClosedChestPlatform:
 ; $008D47-$008D5C LOCAL JUMP LOCATION
 RoomDraw_ChestPlatformHorizontalWallWithCorners:
 {
-    JSR $9216 ; $009216 IN ROM
+    JSR.w $9216 ; $009216 IN ROM
     
     .next_block
     
@@ -1652,7 +1652,7 @@ RoomDraw_ChestPlatformHorizontalWallWithCorners:
         TXA : SEC : SBC.w #$000C : TAX
     DEC.b $0A : BNE .next_block
     
-    JMP $9211 ; $009211 IN ROM
+    JMP.w $9211 ; $009211 IN ROM
 }
 
 ; $008D5D-$008D7F JUMP LOCATION
@@ -1748,7 +1748,7 @@ Object_Hole:
     ; This loop draws the transparent portion.
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         STA.b $0C
         
@@ -1833,7 +1833,7 @@ RoomDraw_DiagonalCeilingTopLeftB:
     
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         ADC.w #$0080 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1854,7 +1854,7 @@ RoomDraw_DiagonalCeilingBottomLeftB:
     
         LDA.b $B4
         
-        JSR $B2D0 ; $00B2D0 IN ROM
+        JSR.w $B2D0 ; $00B2D0 IN ROM
         
         ADC.w #$0080 : STA.b $08 : TAY
         
@@ -1873,7 +1873,7 @@ RoomDraw_DiagonalCeilingTopRightB:
     
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         ADC.w #$0082 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1890,7 +1890,7 @@ RoomDraw_DiagonalCeilingBottomRightB:
     
     .nextRow
     
-        JSR $B2CE ; $00B2CE IN ROM
+        JSR.w $B2CE ; $00B2CE IN ROM
         
         SEC : SBC.w #$007E : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1918,7 +1918,7 @@ RoomDraw_DownwardsHasEdge1x1_1to16_plus3:
     LDA.w #$00E3
     
     ; $00B191 IN ROM
-    JSR $B191 : BCC .dontOverwrite
+    JSR.w $B191 : BCC .dontOverwrite
         LDA.w $9B52, X : STA [$BF], Y
     
     .dontOverwrite
@@ -1956,13 +1956,13 @@ Object_HorizontalRail:
     LDA.w #$00E2
     
     ; $00B191 IN ROM
-    JSR $B191 : BCC .beta
+    JSR.w $B191 : BCC .beta
         ; If the current tile CHR is not equal to 0x00E2, draw this tile.
         LDA.w $9B52, X : STA [$BF], Y
     
     .beta
     
-    JSR $B2CA ; $00B2CA IN ROM
+    JSR.w $B2CA ; $00B2CA IN ROM
     
     LDA.w $9B54, X : STA [$BF], Y
     
@@ -2035,7 +2035,7 @@ RoomDraw_RightwardsHasEdge1x1_1to16_plus2:
     
     ; $00B191 IN ROM
     ; If(grabbed byte == 0x01DB)
-    JSR $B191 : BCC .BRANCH_ALPHA
+    JSR.w $B191 : BCC .BRANCH_ALPHA
         CMP.w #$01A6 : BEQ .BRANCH_ALPHA
         CMP.w #$01DD : BEQ .BRANCH_ALPHA
         CMP.w #$01FC : BEQ .BRANCH_ALPHA
@@ -2043,7 +2043,7 @@ RoomDraw_RightwardsHasEdge1x1_1to16_plus2:
     
     .BRANCH_ALPHA
     
-    JSR $B2CA ; $00B2CA IN ROM
+    JSR.w $B2CA ; $00B2CA IN ROM
     
     LDA.w $9B54, X : STA [$BF], Y
     
@@ -2091,7 +2091,7 @@ RoomDraw_4x4FloorIn4x4SuperSquare:
     
     LDA.b $B2
     
-        JSR $8A44 ; $008A44 IN ROM
+        JSR.w $8A44 ; $008A44 IN ROM
         
         LDA.b $08 : CLC : ADC.w #$0200 : STA.b $08 : TAY
     DEC.b $B4 : BNE .next_block
@@ -2274,7 +2274,7 @@ RoomDraw_RightwardsEdge1x1_1to16plus7:
     
     JSR Object_Size_N_to_N_plus_15
     
-    JMP $B2CE ; $00B2CE IN ROM
+    JMP.w $B2CE ; $00B2CE IN ROM
 }
 
 ; $0090E2-$0090F7 JUMP LOCATION
@@ -2359,7 +2359,7 @@ RoomDraw_Rightwards1x1Solid_1to16_plus3:
     LDA.w #$0004
     
     JSR Object_Size_N_to_N_plus_15
-    JMP $B2CE ; $00B2CE IN ROM
+    JMP.w $B2CE ; $00B2CE IN ROM
 }
 
 ; $00913F-$00918E JUMP LOCATION
@@ -2396,7 +2396,7 @@ RoomDraw_DoorSwitcherer:
         LDA.w #$0003 : STA.b $0E
         
         ; Draw a 4x3 region of tiles.
-        JSR $AC1A ; $00AC1A IN ROM
+        JSR.w $AC1A ; $00AC1A IN ROM
         
         ; This load of Y is also ignored.
         LDY.w #$0052
@@ -2415,7 +2415,7 @@ RoomDraw_DoorSwitcherer:
         
         ; I'm fairly certain that his is overwriting the 4x3 region
         ; we drew earlier... wtf?
-        JSR $AB78 ; $00AB78 IN ROM
+        JSR.w $AB78 ; $00AB78 IN ROM
         
         RTS
     
@@ -2439,7 +2439,7 @@ Object_HiddenWallRight:
     ; Hidden wall (facing right)
     
     ; $009298 IN ROM
-    JSR $9298 : BCS .drawWall
+    JSR.w $9298 : BCS .drawWall
         RTS
     
     .drawWall
@@ -2492,13 +2492,13 @@ Object_HiddenWallRight:
     
     PLA : DEC #2 : STA.b $06 : TAY
     
-    JSR $92D1 ; $0092D1 IN ROM 
+    JSR.w $92D1 ; $0092D1 IN ROM 
     
     LDY.b $08
     
     LDX.w #$072A
     
-    JSR $9216 ; $009216 IN ROM
+    JSR.w $9216 ; $009216 IN ROM
     
     PLA : STA.b $0E
     
@@ -2544,7 +2544,7 @@ Object_HiddenWallLeft:
     ; Hidden wall (facing left)
     
     ; $009298 IN ROM
-    JSR $9298 : BCS .drawWall
+    JSR.w $9298 : BCS .drawWall
         RTS
     
     .drawWall
@@ -2555,7 +2555,7 @@ Object_HiddenWallLeft:
     
     LDX.w #$075A
     
-    JSR $9216 ; $009216 IN ROM
+    JSR.w $9216 ; $009216 IN ROM
     
     LDA.b $B2 : ASL A : TAY
     
@@ -2570,7 +2570,7 @@ Object_HiddenWallLeft:
         TYA : CLC : ADC.w #$0100 : TAY
     DEC.b $0E : BNE .BRANCH_BETA
     
-    JSR $9210 ; $009210 IN ROM
+    JSR.w $9210 ; $009210 IN ROM
     
     PLA : ASL A : ADC.w #$0004 : STA.b $0E
     
@@ -2604,7 +2604,7 @@ Object_HiddenWallLeft:
     
     LDY.b $06
     
-    JMP $92D1 ; $0092D1 IN ROM
+    JMP.w $92D1 ; $0092D1 IN ROM
 }
 
 ; ==============================================================================
@@ -2911,16 +2911,16 @@ RoomDraw_TableRock4x4_1to16:
     ; = 1 to 7
     ASL.b $B4 : INC.b $B4
     
-    JSR $93FF ; $0093FF IN ROM
+    JSR.w $93FF ; $0093FF IN ROM
     
     INX #8
     
     .loop
     
-        JSR $93FF ; $0093FF IN ROM
+        JSR.w $93FF ; $0093FF IN ROM
     DEC.b $B4 : BNE .loop
     
-    JSR $93F7 ; $0093F7 IN ROM
+    JSR.w $93F7 ; $0093F7 IN ROM
     
     ; $0093F7 ALTERNATE ENTRY POINT
     .draw_rock_segment_with_advance
@@ -3224,7 +3224,7 @@ RoomTag_WaterOff_AdjustWater:
     
         LDA.b $B2
         
-        JSR $8A44 ; $008A44 IN ROM
+        JSR.w $8A44 ; $008A44 IN ROM
         
         LDA.b $08 : CLC : ADC.w #$0200 : STA.b $08 : TAY
     DEC.b $B4 : BNE .loop2
@@ -3331,7 +3331,7 @@ RoomDraw_RightwardsLine1x1_1to16plus1:
     
     INC.b $B2
     
-    JMP $B2CE ; $00B2CE IN ROM
+    JMP.w $B2CE ; $00B2CE IN ROM
 }
 
 ; ==============================================================================
@@ -3442,12 +3442,12 @@ RoomDraw_OpenChestPlatform:
     
     .BRANCH_DELTA
     
-        JSR $975C ; $00975C IN ROM
+        JSR.w $975C ; $00975C IN ROM
     DEC.b $B4 : BNE .BRANCH_DELTA
     
     INY #2
     
-    JSR $975C ; $00975C IN ROM
+    JSR.w $975C ; $00975C IN ROM
     
     INY #2
     
@@ -4307,14 +4307,14 @@ RoomDraw_DownwardsCannonHole3x4_1to16:
 {
     JSR Object_Size1to16
     
-    JSR $9D04 ; $009D04 IN ROM
+    JSR.w $9D04 ; $009D04 IN ROM
     
     DEC.b $B2 : BEQ .alpha
         .loop
         
             PHX
             
-            JSR $9D04 ; $009D04 IN ROM
+            JSR.w $9D04 ; $009D04 IN ROM
             
             PLX
         DEC.b $B2 : BNE .loop
@@ -4873,7 +4873,7 @@ Object_EntireFloorIsPit:
     
     LDX.w #$00E0
     
-    JMP $8A1F ; $008A1F IN ROM
+    JMP.w $8A1F ; $008A1F IN ROM
 }
 
 ; ==============================================================================
@@ -5631,7 +5631,7 @@ RoomDraw_StraightInterroomStairsGoingDownSouthLower:
     
     LDA.b $08 : CLC : ADC.w #$0200
     
-    JMP $A6EE ; $00A6EE IN ROM
+    JMP.w $A6EE ; $00A6EE IN ROM
 }
 
 ; $00A7A3-$00A7B5 JUMP LOCATION
@@ -5723,13 +5723,13 @@ Object_Draw10x20_With4x4:
 {
     LDA.w #$0005
     
-    JSR $8A44 ; $008A44 IN ROM
+    JSR.w $8A44 ; $008A44 IN ROM
     
     LDA.b $08 : CLC : ADC.w #$0200 : TAY
     
     LDA.w #$0005
     
-    JMP $8A44 ; $008A44 IN ROM
+    JMP.w $8A44 ; $008A44 IN ROM
 }
 
 ; ==============================================================================
@@ -5762,7 +5762,7 @@ Door_Up:
     .BRANCH_GAMMA
     
     CMP.w #$0006 : BNE .BRANCH_DELTA
-        JMP $AF7F ; $00AF7F IN ROM
+        JMP.w $AF7F ; $00AF7F IN ROM
     
     .BRANCH_DELTA
     
@@ -5780,7 +5780,7 @@ Door_Up:
     TYA : AND.w #$F07F
     
     JSR Door_Prioritize7x4
-    JMP $A90F ; $00A90F IN ROM
+    JMP.w $A90F ; $00A90F IN ROM
     
     .BRANCH_ZETA
     
@@ -5796,7 +5796,7 @@ Door_Up:
     .notExitDoor
     
     CMP.w #$0008 : BNE .BRANCH_IOTA
-        JSR $A90F ; $00A90F IN ROM
+        JSR.w $A90F ; $00A90F IN ROM
         
         BRA .BRANCH_KAPPA
     
@@ -5875,7 +5875,7 @@ RoomDraw_ChangeTilemapAddressToLowerLayer:
     
     ; Branch on default and type < 0x40
     CMP.w #$0040 : BCC RoomDraw_NormalRangedDoors_North
-        JMP $AD41 ; $00AD41 IN ROM
+        JMP.w $AD41 ; $00AD41 IN ROM
 }
     
 ; $00A90F-$00A983 JUMP LOCATION
@@ -5894,7 +5894,7 @@ RoomDraw_NormalRangedDoors_North:
         
         LDA.b $04
         
-        JSR $AA66 ; $00AA66 IN ROM
+        JSR.w $AA66 ; $00AA66 IN ROM
         
         PLA : STA.w $0460
         
@@ -5989,7 +5989,7 @@ Door_Down:
     .notExitDoor
     
     CMP.w #$0040 : BCC .notTopOnBg1Door
-        JMP $ADD4 ; $00ADD4 IN ROM
+        JMP.w $ADD4 ; $00ADD4 IN ROM
     
     .notTopOnBg1Door
     
@@ -6076,7 +6076,7 @@ RoomDraw_HighPriorityExitLight:
         
         ORA.w #$2000 : STA.b $08 : TAY
         
-        JSR $AA2F ; $00AA2F IN ROM
+        JSR.w $AA2F ; $00AA2F IN ROM
         
         PHA
         
@@ -6104,8 +6104,8 @@ RoomDraw_CheckIfLowerLayerDoors_Vertical:
     .BRANCH_XI
     
     CMP.w #$0008 : BNE .notWaterfallDoor
-        JSR $AA80 ; $00AA80 IN ROM
-        JMP $A8FA ; $00A8FA IN ROM
+        JSR.w $AA80 ; $00AA80 IN ROM
+        JMP.w $A8FA ; $00A8FA IN ROM
 
     .notWaterfallDoor
 
@@ -6179,7 +6179,7 @@ Door_Left:
     .notFloorToggleProperty
     
     CMP.w #$0006 : BNE .notPrioritizeProperty
-        JMP $B00D ; $00B00D IN ROM
+        JMP.w $B00D ; $00B00D IN ROM
     
     .notPrioritizeProperty
     
@@ -6200,13 +6200,13 @@ Door_Left:
     .BRANCH_DELTA
     
     CMP.w #$0008 : BNE .BRANCH_ZETA
-        JSR $AB1F ; $00AB1F IN ROM
-        JMP $A8FA ; $00A8FA IN ROM
+        JSR.w $AB1F ; $00AB1F IN ROM
+        JMP.w $A8FA ; $00A8FA IN ROM
     
     .BRANCH_ZETA
     
     CMP.w #$0040 : BCC .BRANCH_EPSILON
-        JMP $AE40 ; $00AE40 IN ROM
+        JMP.w $AE40 ; $00AE40 IN ROM
     
     .BRANCH_EPSILON ; Default behavior
 }
@@ -6225,7 +6225,7 @@ RoomDraw_NormalRangedDoors_West:
         
         LDA.b $04
         
-        JSR $ABC8 ; $00ABC8 IN ROM
+        JSR.w $ABC8 ; $00ABC8 IN ROM
         
         PLA : STA.w $0460
         
@@ -6308,7 +6308,7 @@ Door_Right:
     .notFloorToggleProperty
     
     CMP.w #$0006 : BNE .BRANCH_KAPPA
-        JMP $B050 ; $00B050 IN ROM
+        JMP.w $B050 ; $00B050 IN ROM
     
     .BRANCH_KAPPA
     
@@ -6321,7 +6321,7 @@ Door_Right:
     
     ; If less than #$0040, branch.
     CMP.w #$0040 : BCC .BRANCH_THETA
-        JMP $AEF0 ; $00AEF0 IN ROM
+        JMP.w $AEF0 ; $00AEF0 IN ROM
 
     .BRANCH_THETA
 
@@ -6341,8 +6341,8 @@ RoomDraw_NormalRangedDoors_East:
     .BRANCH_ALPHA
     
     CMP.w #$0008 : BNE .BRANCH_BETA
-        JSR $ABE2 ; $00ABE2 IN ROM
-        JMP $A8FA ; $00A8FA IN ROM
+        JSR.w $ABE2 ; $00ABE2 IN ROM
+        JMP.w $A8FA ; $00A8FA IN ROM
     
     .BRANCH_BETA
 
@@ -6501,7 +6501,7 @@ Door_BlastWall:
         
         LDX.w $CE06, Y
         
-        JSR $ACE4 ; $00ACE4 IN ROM
+        JSR.w $ACE4 ; $00ACE4 IN ROM
         
         PLA : CLC : ADC.w #$0300 : STA.b $08
         
@@ -6523,7 +6523,7 @@ RoomDraw_ExplodingWallSegment:
     
     LDY.b $08
     
-    JSR $AD25 ; $00AD25 IN ROM
+    JSR.w $AD25 ; $00AD25 IN ROM
     
     LDA.b $08 : CLC : ADC.w #$0004 : STA.b $08
     
@@ -6589,7 +6589,7 @@ RoomDraw_HighRangeDoor_North:
             
             LDY.w $998A, X
             
-            JSR $ADD4 ; $00ADD4 IN ROM
+            JSR.w $ADD4 ; $00ADD4 IN ROM
             
             PLA : STA.w $0460
     
@@ -6640,7 +6640,7 @@ RoomDraw_HighRangeDoor_North:
     LDA.b $04 : CMP.w #$0046 : BEQ .BRANCH_EPSILON
         LDA.b $08
         
-        JSR $AF8B ; $00AF8B IN ROM
+        JSR.w $AF8B ; $00AF8B IN ROM
     
     .BRANCH_EPSILON
     
@@ -6727,7 +6727,7 @@ RoomDraw_HighRangeDoor_West:
         
         LDY.w $99BA, X
         
-        JSR $AEF0 ; $00AEF0 IN ROM
+        JSR.w $AEF0 ; $00AEF0 IN ROM
         
         PLA : STA.w $0460
         
@@ -6788,7 +6788,7 @@ RoomDraw_HighRangeDoor_West:
     
     LDA.b $08
     
-    JSR $B017 ; $00B017 IN ROM
+    JSR.w $B017 ; $00B017 IN ROM
     
     LDX.w $0460
     
@@ -6854,7 +6854,7 @@ RoomDraw_OneSidedLowerShutters_East:
     
     LDA.b $08 : CLC : ADC.w #$0008
     
-    JSR $B05C ; $00B05C IN ROM
+    JSR.w $B05C ; $00B05C IN ROM
     
     LDX.w $0460
     
@@ -8964,8 +8964,8 @@ Dungeon_LoadDoorAttr:
         .skipDoor
     INY #2 : CPY.w #$0020 : BNE .nextDoor
     
-    JSR $D51F ; $00D51F IN ROM; Load door tile attributes
-    JSR $C1BA ; $00C1BA IN ROM; Random ass routine for an unfinished object
+    JSR.w $D51F ; $00D51F IN ROM; Load door tile attributes
+    JSR.w $C1BA ; $00C1BA IN ROM; Random ass routine for an unfinished object
     
     INC.w $0200
     
@@ -8994,7 +8994,7 @@ Dungeon_LoadSingleDoorAttr:
                     CMP.w #$0008 : BNE .BRANCH_GAMMA ; Everything else...
                         .BRANCH_BETA
     
-                        JMP $C0B8 ; $00C0B8 IN ROM
+                        JMP.w $C0B8 ; $00C0B8 IN ROM
                     
                     .BRANCH_GAMMA
     
@@ -9004,7 +9004,7 @@ Dungeon_LoadSingleDoorAttr:
         .notBlastWall
         
         CMP.w #$0040 : BCC .BRANCH_EPSILON
-            JMP $C085 ; $00C085 IN ROM
+            JMP.w $C085 ; $00C085 IN ROM
         
         .BRANCH_EPSILON
         
@@ -9853,7 +9853,7 @@ RoomTag_SouthTrigger:
             CMP.b #$29 : BCC .checkIfBlockMoved
                 ; Check if sprites are all dead.
                 JSL Sprite_VerifyAllOnScreenDefeated : BCC .dontShowChest
-                    JSR $C7D8 ; $00C7D8 IN ROM
+                    JSR.w $C7D8 ; $00C7D8 IN ROM
                 
                 .dontShowChest
                 
@@ -9921,7 +9921,7 @@ RoomTag_RoomTrigger:
         
         JSL Sprite_CheckIfAllDefeated : BCC .return
         
-        JSR $C7D8 ; $00C7D8 IN ROM
+        JSR.w $C7D8 ; $00C7D8 IN ROM
         
         .return
         
@@ -10043,7 +10043,7 @@ RoomTag_SwitchTrigger_HoldDoor:
         LDA.w $0646 : AND.w #$00FF : BNE .testAgainstDoorState
             LDA.w $0642 : AND.w #$00FF : BNE .testAgainstDoorState
                 ; $00CDCC IN ROM
-                JSR $CDCC : LDX.w #$0000 : BCS .testAgainstDoorState
+                JSR.w $CDCC : LDX.w #$0000 : BCS .testAgainstDoorState
                     INX
     
     .testAgainstDoorState
@@ -10082,7 +10082,7 @@ RoomTag_SwitchTrigger_ToggleDoor:
     
     LDA.w $0430 : BNE .checkIfStandingOnSwitch
         ; $00CD39 IN ROM
-        JSR $CD39 : BCC .notStandingOnSwitch
+        JSR.w $CD39 : BCC .notStandingOnSwitch
             STZ.w $068E
             STZ.w $0690
             
@@ -10093,7 +10093,7 @@ RoomTag_SwitchTrigger_ToggleDoor:
             LDA.b #$05
             
             ; Toggle the opened / closed status of the trap doors in the room.
-            JSR $C5CF ; $00C5CF IN ROM
+            JSR.w $C5CF ; $00C5CF IN ROM
             
             LDA.w $0468 : EOR.b #$01 : STA.w $0468
             
@@ -10106,7 +10106,7 @@ RoomTag_SwitchTrigger_ToggleDoor:
     ; This code is waiting for Link to step off the switch before it can be
     ; pressed again.
     ; $00CD39 IN ROM
-    JSR $CD39 : BCS .stillStandingOnSwitch
+    JSR.w $CD39 : BCS .stillStandingOnSwitch
         STZ.w $0430
         
     .stillStandingOnSwitch
@@ -10222,7 +10222,7 @@ RoomTag_Switch_ExplodingWall:
     REP #$30
     
     ; $00CD39 IN ROM
-    JSR $CD39 : BCC RoomTag_PullSwitchExplodingWall_return
+    JSR.w $CD39 : BCC RoomTag_PullSwitchExplodingWall_return
         REP #$30
         
         BRA RoomTag_PullSwitchExplodingWall_checkForBombableWall
@@ -10465,7 +10465,7 @@ RoomTag_TriggerChest:
         REP #$30
         
         ; $00CD39 IN ROM
-        JSR $CD39 : BCC RoomTag_KillRoomBlock_exit
+        JSR.w $CD39 : BCC RoomTag_KillRoomBlock_exit
 
     ; Bleeds into the next function.
 }
@@ -10584,7 +10584,7 @@ RoomTag_TorchPuzzleChest:
     LDX.w #$0001
     
     LDA.b $00 : CMP.w #$0004 : BCC .dontShowChest
-        JSR $C7D8 ; $00C7D8 IN ROM
+        JSR.w $C7D8 ; $00C7D8 IN ROM
     
     .dontShowChest
     
@@ -10599,7 +10599,7 @@ RoomTag_MovingWall_East:
     REP #$20
     
     LDA.w $041A : BNE .horizontalMovement
-        JSR $CA17 ; $00CA17 IN ROM
+        JSR.w $CA17 ; $00CA17 IN ROM
         
         BRA .beta
         
@@ -10607,11 +10607,11 @@ RoomTag_MovingWall_East:
     
     LDY.b #$01 : STY.w $0FC1
     
-    JSR $C969 ; $00C969 IN ROM
+    JSR.w $C969 ; $00C969 IN ROM
     
     LDA.w #$FFFF
     
-    JSR $CA66 ; $00CA66 IN ROM
+    JSR.w $CA66 ; $00CA66 IN ROM
     
     .beta
     
@@ -10625,7 +10625,7 @@ RoomTag_MovingWall_East:
         LDX.w $041E
         
         LDA.w $0422 : CMP.w $9B1A, X : BCS .BRANCH_DELTA
-            JSR $CA75 ; $00CA75 IN ROM
+            JSR.w $CA75 ; $00CA75 IN ROM
             
             LDA.w $0422 : CMP.w $9B1A, X : BCS .BRANCH_DELTA
                 ; Play the puzzle solved sound.
@@ -10697,7 +10697,7 @@ RoomTag_MovingWall_West:
     REP #$20
     
     LDA.w $041A : BNE .wallIsMoving
-        JSR $CA17 ; $00CA17 IN ROM
+        JSR.w $CA17 ; $00CA17 IN ROM
         
         BRA .BRANCH_BETA
     
@@ -10705,11 +10705,11 @@ RoomTag_MovingWall_West:
     
     LDY.b #$01 : STY.w $0FC1
     
-    JSR $C969 ; $00C969 IN ROM
+    JSR.w $C969 ; $00C969 IN ROM
     
     LDA.w #$0001
     
-    JSR $CA66 ; $00CA66 IN ROM
+    JSR.w $CA66 ; $00CA66 IN ROM
     
     .BRANCH_BETA
     
@@ -10722,7 +10722,7 @@ RoomTag_MovingWall_West:
         LDX.w $041E
         
         LDA.w $0422 : CMP.w $9B2A, X : BCC .BRANCH_DELTA
-            JSR $CA75 ; $00CA75 IN ROM
+            JSR.w $CA75 ; $00CA75 IN ROM
             
             LDA.w $0422 : CMP.w $9B2A, X : BCC .BRANCH_DELTA
                 ; Play the puzzle solved sound
@@ -10889,7 +10889,7 @@ RoomTag_WaterOff:
         
         LDX.b $08
         
-        JSR $95A0 ; $0095A0 IN ROM
+        JSR.w $95A0 ; $0095A0 IN ROM
         JSR Dungeon_PrepOverlayDma.tilemapAlreadyUpdated
         
         LDY.b $0C : LDA.w #$FFFF : STA.w $1100, Y
@@ -11106,7 +11106,7 @@ RoomTag_TriggerHoles:
     REP #$30
     
     ; $00CDCC IN ROM
-    JSR $CDCC : BCC .BRANCH_GAMMA
+    JSR.w $CDCC : BCC .BRANCH_GAMMA
         SEP #$30
         
         TYA : CLC : ADC.b $0A : CMP.w $04BA : BEQ .BRANCH_GAMMA
@@ -11197,7 +11197,7 @@ RoomTag_Holes2:
     REP #$30
     
     ; $00CDCC IN ROM
-    JSR $CDCC : BCC RoomTag_OperateChestHoles_chestNotOpened ; (SEP #$30, RTS)
+    JSR.w $CDCC : BCC RoomTag_OperateChestHoles_chestNotOpened ; (SEP #$30, RTS)
         LDY.w #$0005
         
         BRA RoomTag_OperateChestHoles_TriggerChestHoles
@@ -11290,7 +11290,7 @@ RoomTag_MaybeCheckShutters:
 {
     LDA.w $02E4 : AND.w #$00FF : BNE .matchFailed
         LDA.b $4D : AND.w #$00FF : BNE .matchFailed
-            JSR $CDA5 ; $00CDA5 IN ROM
+            JSR.w $CDA5 ; $00CDA5 IN ROM
             
             LDA.l $7F2000, X
             
@@ -11366,7 +11366,7 @@ RoomTag_CheckForPressedSwitch:
 {
     LDA.w $02E4 : AND.w #$00FF : BNE RoomTag_MaybeCheckShutters_matchFailed
         LDA.b $4D : AND.w #$00FF : BNE RoomTag_MaybeCheckShutters_matchFailed
-            JSR $CDA5 ; $00CDA5 IN ROM
+            JSR.w $CDA5 ; $00CDA5 IN ROM
             
             LDY.w #$0000
             
@@ -11493,7 +11493,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     .skip_torch_logic
     
     LDA.w $02E4 : BEQ .player_not_immobilized
-        JMP $CFEA ; $00CFEA IN ROM
+        JMP.w $CFEA ; $00CFEA IN ROM
     
     .player_not_immobilized
     
@@ -11563,13 +11563,13 @@ Dungeon_ProcessTorchAndDoorInteractives:
                         
                         .skipDoorProcessing
                         
-                        JMP $CFEA ; $00CFEA IN ROM
+                        JMP.w $CFEA ; $00CFEA IN ROM
                 
                 .not_openable_door
                 
                 STZ.w $04B8
                 
-                JMP $CFEA ; $00CFEA IN ROM
+                JMP.w $CFEA ; $00CFEA IN ROM
         
             .notBigKeyDoor
             
@@ -11689,12 +11689,12 @@ DontOpenDoor:
                     
                     LDA.w $0437 : AND.w #$00FF : TAY
                     
-                    JSR $D33A ; $00D33A IN ROM
+                    JSR.w $D33A ; $00D33A IN ROM
                     JSR Dungeon_PrepOverlayDma_nextPrep
                     
                     LDY.w $0460
                     
-                    JSR $D51C ; $00D51C IN ROM
+                    JSR.w $D51C ; $00D51C IN ROM
                     
                     LDY.b $0C
                     
@@ -11844,11 +11844,11 @@ DontOpenDoor:
                 
                 STZ.w $0692
                 
-                JSR $D365 ; $00D365 IN ROM
+                JSR.w $D365 ; $00D365 IN ROM
                 
                 LDY.w $0460
                 
-                JSR $D51C ; $00D51C IN ROM
+                JSR.w $D51C ; $00D51C IN ROM
                 
                 .BRANCH_OPTIMUS
                 
@@ -11934,7 +11934,7 @@ Bomb_CheckForVulnerableTileObjects:
           BMI .BRANCH_EPSILON
         .BRANCH_BETA
         
-        JMP $D2C9 ; $00D2C9 IN ROM
+        JMP.w $D2C9 ; $00D2C9 IN ROM
         
         .BRANCH_GAMMA
         
@@ -12009,22 +12009,22 @@ DrawDoorOpening_Step1:
     STY.w $0694
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
-        JMP $FA54 ; $00FA54 IN ROM
+        JMP.w $FA54 ; $00FA54 IN ROM
     
     .not_up
     
     CMP.w #$0001 : BNE .not_down
-        JMP $FB15 ; $00FB15 IN ROM
+        JMP.w $FB15 ; $00FB15 IN ROM
     
     .not_down
     
     CMP.w #$0002 : BNE .not_left
-        JMP $FBCC ; $00FBCC IN ROM
+        JMP.w $FBCC ; $00FBCC IN ROM
     
     .not_left
     
     ; Must be right then, directionally...
-    JMP $FC8A ; $00FC8A IN ROM
+    JMP.w $FC8A ; $00FC8A IN ROM
 }
 
 ; ==============================================================================
@@ -12040,23 +12040,23 @@ DrawShutterDoorSteps:
     STY.w $0694
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
-        JMP $FA4A ; $00FA4A IN ROM
+        JMP.w $FA4A ; $00FA4A IN ROM
     
     .not_up
     
     CMP.w #$0001 : BNE .not_down
 
-        JMP $FB0B ; $00FB0B IN ROM
+        JMP.w $FB0B ; $00FB0B IN ROM
     
     .not_down
     
     CMP.w #$0002 : BNE .not_left
-        JMP $FBC2 ; $00FBC2 IN ROM
+        JMP.w $FBC2 ; $00FBC2 IN ROM
     
     .not_left
     
     ; The direction must be to the right then.
-    JMP $FC80 ; $00FC80 IN ROM
+    JMP.w $FC80 ; $00FC80 IN ROM
 }
 
 ; ==============================================================================
@@ -12071,21 +12071,21 @@ DrawEyeWatchDoor:
     STY.w $0694
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
-        JMP $FAD7 ; $00FAD7 IN ROM
+        JMP.w $FAD7 ; $00FAD7 IN ROM
     
     .not_up
     
     CMP.w #$0001 : BNE .not_down
-        JMP $FB8E ; $00FB8E IN ROM
+        JMP.w $FB8E ; $00FB8E IN ROM
     
     .not_down
     
     CMP.w #$0002 : BNE .not_left
-        JMP $FC45 ; $00FC45 IN ROM
+        JMP.w $FC45 ; $00FC45 IN ROM
     
     .not_left
     
-    JMP $FD03 ; $00FD03 IN ROM
+    JMP.w $FD03 ; $00FD03 IN ROM
 }
 
 ; ==============================================================================
@@ -12097,7 +12097,7 @@ IndexAndClearCurtainDoor:
     
     STY.w $0460 : STY.w $0694
     
-    JMP $FD3E ; $00FD3E IN ROM
+    JMP.w $FD3E ; $00FD3E IN ROM
 }
 
 ; ==============================================================================
@@ -12117,7 +12117,7 @@ IndexAndClearExplodingWall:
     
     TXA : STA.w $19A0, Y
     
-    JMP $FD92 ; $00FD92 IN ROM
+    JMP.w $FD92 ; $00FD92 IN ROM
 }
 
 ; ==============================================================================
@@ -12223,13 +12223,13 @@ Dungeon_AnimateTrapDoors:
                 
                 .BRANCH_THETA
                 
-                JSR $D311 ; $00D311 IN ROM; Called in opening and closing doors
+                JSR.w $D311 ; $00D311 IN ROM; Called in opening and closing doors
                 JSR Dungeon_PrepOverlayDma_nextPrep
                 
                 LDA.w $0690 : CMP.w #$0008 : BNE .BRANCH_EPSILON
                     LDY.w $068E
                     
-                    JSR $D51C ; $00D51C IN ROM
+                    JSR.w $D51C ; $00D51C IN ROM
             
             .BRANCH_EPSILON
     .aint_trap_door
@@ -12316,7 +12316,7 @@ Dungeon_AnimateOpeningLockedDoor:
     
     LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
     
-    JSR $D2E8 ; $00D2E8 IN ROM
+    JSR.w $D2E8 ; $00D2E8 IN ROM
     JSR Dungeon_PrepOverlayDma_nextPrep
     
     LDY.b $0C
@@ -12335,7 +12335,7 @@ Dungeon_AnimateOpeningLockedDoor:
     
     LDA.w $0690 : CMP.w #$0010 : BNE .notFullyOpen
         ; $00D510 IN ROM; Blow open bombable wall, open key door
-        JSR $D510
+        JSR.w $D510
         
         LDX.w $068E
         
@@ -12544,8 +12544,8 @@ Door_BlastWallExploding:
     LDA.b #$06 : STA.w $02E4 : STA.w $0FC1 : CMP.l $7F0000 : BNE .BRANCH_ALPHA
         REP #$30
         
-        JSR $D373 ; $00D373 IN ROM
-        JSR $F811 ; $00F811 IN ROM
+        JSR.w $D373 ; $00D373 IN ROM
+        JSR.w $F811 ; $00F811 IN ROM
         
         LDA.w #$FFFF : STA.w $1100, Y : STA.w $0710
         
@@ -16769,12 +16769,12 @@ FloodDam_Expand:
             
             LDA.w #$0881 : STA.b $06
             
-            JSR $F77C ; $00F77C IN ROM
+            JSR.w $F77C ; $00F77C IN ROM
             
             PLA : CLC : ADC.w #$0006 : STA.b $08
         DEC.b $0E : BNE .BRANCH_GAMMA
         
-        JMP $D1E3 ; $00D1E3 IN ROM
+        JMP.w $D1E3 ; $00D1E3 IN ROM
 }
 
 ; ==============================================================================
@@ -17059,7 +17059,7 @@ Dungeon_ElevateStaircasePriority:
     JSR Dungeon_PrepOverlayDma_nextPrep
     
     ; Finalizes oam buffer...
-    JMP $D1E3 ; $00D1E3 IN ROM
+    JMP.w $D1E3 ; $00D1E3 IN ROM
 }
 
 ; ==============================================================================
@@ -17089,7 +17089,7 @@ Dungeon_DecreaseStaircasePriority:
     PLA : CLC : ADC.w #$0008 : STA.b $08
     
     JSR Dungeon_PrepOverlayDma_nextPrep
-    JMP $D1E3 ; $00D1E3 IN ROM
+    JMP.w $D1E3 ; $00D1E3 IN ROM
 }
 
 ; ==============================================================================
@@ -17160,7 +17160,7 @@ Object_OpenGanonDoor:
         
         LDY.b $0C
         
-        JSR $F77C ; $00F77C IN ROM
+        JSR.w $F77C ; $00F77C IN ROM
         
         LDY.b $0C
         
@@ -17620,7 +17620,7 @@ DoorDoorStep1_North:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR $FB61 ; $00FB61 IN ROM
+        JSR.w $FB61 ; $00FB61 IN ROM
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17670,7 +17670,7 @@ GetDoorDrawDataIndex_North:
 ; $00FAD7-$00FB0A ALTERNATE ENTRY POINT
 DrawDoorToTilemap_North:
 {
-    JSR $FD79 ; $00FD79 IN ROM
+    JSR.w $FD79 ; $00FD79 IN ROM
     
     LDY.w $CD9E, X
     
@@ -17728,7 +17728,7 @@ DoorDoorStep1_South:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR $FAA0 ; $00FAA0 IN ROM
+        JSR.w $FAA0 ; $00FAA0 IN ROM
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17775,7 +17775,7 @@ GetDoorDrawDataIndex_South:
 ; $00FB8E-$00FBC1 JUMP LOCATION
 DrawDoorToTilemap_South:
 {
-    JSR $FD79 ; $00FD79 IN ROM
+    JSR.w $FD79 ; $00FD79 IN ROM
     
     LDY.w $CE06, X
     
@@ -17832,7 +17832,7 @@ DoorDoorStep1_West:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR $FCD6 ; $00FCD6 IN ROM
+        JSR.w $FCD6 ; $00FCD6 IN ROM
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17879,7 +17879,7 @@ GetDoorDrawDataIndex_West:
 ; $00FC45-$00FC7F JUMP LOCATION
 DrawDoorToTilemap_West:
 {
-    JSR $FD79 ; $00FD79 IN ROM
+    JSR.w $FD79 ; $00FD79 IN ROM
     
     LDY.w $CE66, X
     
@@ -17935,7 +17935,7 @@ DoorDoorStep1_East:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR $FC18 ; $00FC18 IN ROM
+        JSR.w $FC18 ; $00FC18 IN ROM
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17982,7 +17982,7 @@ GetDoorDrawDataIndex_East:
 ; $00FD03-$00FD3D JUMP LOCATION
 DrawDoorToTilemap_East:
 {
-    JSR $FD79 ; $00FD79 IN ROM
+    JSR.w $FD79 ; $00FD79 IN ROM
     
     LDY.w $CEC6, X
     
@@ -18075,7 +18075,7 @@ ClearExplodingWallFromTilemap:
     
     LDY.w #$31EA
     
-    JSR $FDDB ; $00FDDB IN ROM
+    JSR.w $FDDB ; $00FDDB IN ROM
     
     LDA.w $0454 : DEC A : STA.b $0E : BEQ .skip
     

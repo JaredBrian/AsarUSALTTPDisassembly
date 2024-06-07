@@ -41,12 +41,12 @@ Ancilla_ReceiveItem:
     ; Items that we receive from various sources
     
     ; Usually induced by an instance of this object that is a crystal
-    LDA $02E4 : CMP.b #$02 : BEQ .justDoGraphics
+    LDA.w $02E4 : CMP.b #$02 : BEQ .justDoGraphics
     LDA $11    : BEQ .allowedSubmodule
     CMP.b #$2B : BEQ .allowedSubmodule
     CMP.b #$09 : BEQ .allowedSubmodule
     CMP.b #$02 : BNE .justDoGraphics
-        LDA.b #$10 : STA $0C68, X
+        LDA.b #$10 : STA.w $0C68, X
     
     .justDoGraphics
     
@@ -54,25 +54,25 @@ Ancilla_ReceiveItem:
     
     .allowedSubmodule
     
-    INC $0FC1
+    INC.w $0FC1
     
-    LDA $0C54, X : BEQ .fromTextOrObject
+    LDA.w $0C54, X : BEQ .fromTextOrObject
     CMP.b #$03   : BEQ .fromTextOrObject
     BRL .from_chest_or_sprite
     
     .fromTextOrObject
     
-    LDA $0C5E, X : CMP.b #$01 : BNE .notMasterSword
+    LDA.w $0C5E, X : CMP.b #$01 : BNE .notMasterSword
     ; This should never happen, the way this is coded so far... >_<'''''''
     ; Fuck spaghetti code in the anushole
-    LDA $0C54, X : CMP.b #$02 : BEQ .masterSwordFromSprite
-        LDA $0C68, X : BEQ .timerFinished
+    LDA.w $0C54, X : CMP.b #$02 : BEQ .masterSwordFromSprite
+        LDA.w $0C68, X : BEQ .timerFinished
             CMP.b #$11 : BNE .timerWait
                 REP #$20
                 
                 ; Begin a timer.... presumably to activate Sahsralah telling you good
                 ; job and shit.
-                LDA.w #$0DF3 : STA $02CD
+                LDA.w #$0DF3 : STA.w $02CD
                 
                 SEP #$20
                 
@@ -87,16 +87,16 @@ Ancilla_ReceiveItem:
     .masterSwordFromSprite
     .notMasterSword
     
-    DEC $03B1, X : LDA $03B1, X : BEQ .timerFinished
+    DEC.w $03B1, X : LDA.w $03B1, X : BEQ .timerFinished
                CMP.b #$01   : BNE .timerWait
-    LDA $0C5E, X : CMP.b #$37 : BEQ .isPendant
+    LDA.w $0C5E, X : CMP.b #$37 : BEQ .isPendant
                    CMP.b #$38 : BEQ .isPendant
                    CMP.b #$39 : BNE .not_pendant
         .isPendant
     
         ; Wait for the music to stop ( I think )
-        LDA $2140 : BEQ .wait_for_music
-            INC $03B1, X
+        LDA.w $2140 : BEQ .wait_for_music
+            INC.w $03B1, X
             
             BRA .timerWait
         .wait_for_music
@@ -111,19 +111,19 @@ Ancilla_ReceiveItem:
     
     .timerFinished
     
-    LDA $0C5E, X : CMP.b #$01 : BNE .notMasterSword2
-    LDA $0C54, X : BNE .notFromText
+    LDA.w $0C5E, X : CMP.b #$01 : BNE .notMasterSword2
+    LDA.w $0C54, X : BNE .notFromText
         ; Since we got the master sword, 
         ; restore the main overworld song and the disable ambient sound effects
-        LDA.b #$05 : STA $012D
-        LDA.b #$02 : STA $012C
+        LDA.b #$05 : STA.w $012D
+        LDA.b #$02 : STA.w $012C
     
     .notFromText
     .notMasterSword2
     
     LDY.b #$00
     
-    LDA $0345 : BEQ .notInWater
+    LDA.w $0345 : BEQ .notInWater
     ; Restore Link to his swimming state
     LDY.b #$04
     
@@ -131,18 +131,18 @@ Ancilla_ReceiveItem:
     
     STY $5D
     
-    STZ $02D8
-    STZ $02DA
-    STZ $037B
+    STZ.w $02D8
+    STZ.w $02DA
+    STZ.w $037B
     
     JSL GiveRupeeGift ; $04AD6C IN ROM
     
     ; needs real name
     .optimus
     
-    STZ $02E9
+    STZ.w $02E9
     
-    LDA $0C5E, X : CMP.b #$17 : BNE .notPieceOfHeart
+    LDA.w $0C5E, X : CMP.b #$17 : BNE .notPieceOfHeart
         ; Load the number of heart pieces collected so far
         LDA.l $7EF36B : BNE .notGrantingHeartContainer
             PHX
@@ -154,9 +154,9 @@ Ancilla_ReceiveItem:
             
             PLX
             
-            STZ $0C4A, X
+            STZ.w $0C4A, X
             
-            STZ $0FC1
+            STZ.w $0FC1
             
             RTS
     
@@ -168,7 +168,7 @@ Ancilla_ReceiveItem:
     CMP.b #$3F : BEQ .heartContainerInChest
         ; The type of heart container typically found on the ground after a boss fight
         CMP.b #$3E : BNE .notHeartContainer
-            STZ $02E4
+            STZ.w $02E4
             
             ; Check if capatity health is at max.
             LDA.l $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
@@ -231,14 +231,14 @@ Ancilla_ReceiveItem:
     
     .objectFinished
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    STZ $0FC1
+    STZ.w $0FC1
     
-    LDA $0C54, X : CMP.b #$03 : BNE .noDefaultVictorySequence
+    LDA.w $0C54, X : CMP.b #$03 : BNE .noDefaultVictorySequence
         ; ether medallion
         ; bombos medallion
-        LDY $0C5E, X : CPY .ether_medallion  : BEQ .noDefaultVictorySequence
+        LDY.w $0C5E, X : CPY .ether_medallion  : BEQ .noDefaultVictorySequence
                        CPY .bombos_medallion : BEQ .noDefaultVictorySequence
                        CPY .heart_container  : BEQ .noDefaultVictorySequence
                        CPY .crystal          : BEQ .noDefaultVictorySequence
@@ -252,7 +252,7 @@ Ancilla_ReceiveItem:
     .noDefaultVictorySequence
     
     CMP.b #$02 : BEQ .fromSprite
-        STZ $02E4
+        STZ.w $02E4
     
     .fromSprite
     
@@ -261,7 +261,7 @@ Ancilla_ReceiveItem:
     .from_chest_or_sprite
     
     ; Check timer
-    DEC $03B1, X : LDA $03B1, X : BPL .stillInMotion
+    DEC.w $03B1, X : LDA.w $03B1, X : BPL .stillInMotion
     BRL .optimus
     
     .stillInMotion
@@ -270,10 +270,10 @@ Ancilla_ReceiveItem:
     ; Give a rupee gift when the timer reaches value 0x28
     CMP.b #$28 : BNE .dontGiveRupees
         ; Check if item came from sprite
-        LDA $0C54, X : CMP.b #$02 : BEQ .dontGiveRupees
+        LDA.w $0C54, X : CMP.b #$02 : BEQ .dontGiveRupees
             ; $04AD6C IN ROM
             JSL GiveRupeeGift : BCS .rupeesGiven
-                LDA $0C5E, X : CMP.b #$17 : BNE .noSoundEffect
+                LDA.w $0C5E, X : CMP.b #$17 : BNE .noSoundEffect
     
     .dontGiveRupees
     
@@ -309,7 +309,7 @@ Ancilla_ReceiveItem:
     
     SEP #$20
     
-    LDA $0C5E, X : CMP.b #$38 : BEQ .checkIfLastPendant
+    LDA.w $0C5E, X : CMP.b #$38 : BEQ .checkIfLastPendant
                CMP.b #$39 : BNE .notPendant
     .checkIfLastPendant
     
@@ -323,22 +323,22 @@ Ancilla_ReceiveItem:
         
         REP #$20
         
-        LDA .pendant_encouragement_message, Y : STA $1CF0
+        LDA .pendant_encouragement_message, Y : STA.w $1CF0
             SEP #$20
             
             BRA .doTextMessage
     
     .notPendant
     
-    LDA $0C54, X : CMP.b #$02 : BEQ .handleGraphics
-    LDA $0C5E, X : CMP.b #$17 : BNE .defaultTextHandler
+    LDA.w $0C54, X : CMP.b #$02 : BEQ .handleGraphics
+    LDA.w $0C5E, X : CMP.b #$17 : BNE .defaultTextHandler
         ; Display a different text message depending on how many pieces of heart we have
         LDA.l $7EF36B : ASL A : TAY
         
         REP #$20
         
         LDA .piece_of_heart_messages, Y : CMP.w #$FFFF : BEQ .handleGraphics
-            STA $1CF0
+            STA.w $1CF0
             
             SEP #$20
             
@@ -346,17 +346,17 @@ Ancilla_ReceiveItem:
     
     .defaultTextHandler
     
-    LDA $0C5E, X : ASL A : TAY
+    LDA.w $0C5E, X : ASL A : TAY
         
     REP #$20
         
     LDA .item_messages, Y : CMP.w #$FFFF : BEQ .handleGraphics
         ; Check if it's Sahasralah's speech after getting the master sword
-        STA $1CF0 : CMP.w #$0070 : BNE .notGeezerSpeech
+        STA.w $1CF0 : CMP.w #$0070 : BNE .notGeezerSpeech
             SEP #$20
         
             ; Play the telepathic noise during the Sahasralah speech
-            LDA.b #$09 : STA $012D
+            LDA.b #$09 : STA.w $012D
     
         .notGeezerSpeech
     
@@ -370,13 +370,13 @@ Ancilla_ReceiveItem:
     
     .handleMovement
     
-    LDA $03B1, X : CMP.b #$18 : BCC .handleGraphics
+    LDA.w $03B1, X : CMP.b #$18 : BCC .handleGraphics
     ; A = ($0C22, X) - 1
-    LDA $0C22, X : CLC : ADC.b #$FF : CMP.b #$F8
+    LDA.w $0C22, X : CLC : ADC.b #$FF : CMP.b #$F8
             
     ; if(A < 0xF8)
     BCC .stopAccelerating
-        STA $0C22, X
+        STA.w $0C22, X
         
     .stopAccelerating
         
@@ -389,15 +389,15 @@ Ancilla_ReceiveItem:
     SEP #$20
     
     ; Is the item we wish to grant a Crystal?
-    LDA $0C5E, X : CMP.b #$20 : BNE .dont_add_sparkle
+    LDA.w $0C5E, X : CMP.b #$20 : BNE .dont_add_sparkle
     ; Set a timer to zero.
-    STZ $029E, X 
+    STZ.w $029E, X 
     
     JSR Ancilla_AddSwordChargeSpark
     
-    LDA $2140 : BNE .waitForSilence
+    LDA.w $2140 : BNE .waitForSilence
         ; Play the boss victory tune.
-        LDA.b #$1A : STA $012C
+        LDA.b #$1A : STA.w $012C
         
         ; Replace this 0x22 object with the 0x3E object (which is the 3D version of the crystal)
         BRL Ancilla_TransmuteToRisingCrystal
@@ -407,16 +407,16 @@ Ancilla_ReceiveItem:
     
     SEP #$20
     
-    LDA $0C5E, X : CMP.b #$01 : BNE .checkIfRupee
-    LDA .default_oam_properties : STA $0BF0, X
+    LDA.w $0C5E, X : CMP.b #$01 : BNE .checkIfRupee
+    LDA .default_oam_properties : STA.w $0BF0, X
     
-    LDA $0C54, X : CMP.b #$02 : BEQ .dontAnimateMasterSword
-        LDA $0C68, X : CMP.b #$10 : BCC .waitAnimateMasterSword
-            DEC $039F, X : BPL .dontAnimateMasterSword
+    LDA.w $0C54, X : CMP.b #$02 : BEQ .dontAnimateMasterSword
+        LDA.w $0C68, X : CMP.b #$10 : BCC .waitAnimateMasterSword
+            DEC.w $039F, X : BPL .dontAnimateMasterSword
             
-            LDA.b #$02 : STA $039F, X
+            LDA.b #$02 : STA.w $039F, X
             
-            LDA $03A4, X : INC A : CMP.b #$03 : BNE .dontResetSwordAnimation
+            LDA.w $03A4, X : INC A : CMP.b #$03 : BNE .dontResetSwordAnimation
     
         .waitAnimateMasterSword
     
@@ -424,30 +424,30 @@ Ancilla_ReceiveItem:
     
         .dontResetSwordAnimation
     
-        STA $03A4, X : TAY
+        STA.w $03A4, X : TAY
     
-        LDA .default_oam_properties, Y : STA $0BF0, X
+        LDA .default_oam_properties, Y : STA.w $0BF0, X
     
     .dontAnimateMasterSword
     .checkIfRupee
     
-    LDA $0C5E, X
+    LDA.w $0C5E, X
     
     CMP.b #$34 : BEQ .animatedRupeeSprite
     CMP.b #$35 : BEQ .animatedRupeeSprite
     CMP.b #$36 : BNE .dontAnimateSprite
     .animatedRupeeSprite
     
-    DEC $039F, X : BPL .dontAnimateSprite
-        INC $03A4, X : LDA $03A4, X : CMP.b #$03 : BNE .dontResetAnimation
-            LDA.b #$00 : STA $03A4, X
+    DEC.w $039F, X : BPL .dontAnimateSprite
+        INC.w $03A4, X : LDA.w $03A4, X : CMP.b #$03 : BNE .dontResetAnimation
+            LDA.b #$00 : STA.w $03A4, X
     
     .dontResetAnimation
     
     TAY
         
     ; Set a new countdown timer for the amount of time it takes to get to the next animation step.
-    LDA .animation_timers, Y : STA $039F, X
+    LDA .animation_timers, Y : STA.w $039F, X
         
     PHX
         
@@ -472,9 +472,9 @@ Ancilla_ReceiveItem:
     
     PHX
     
-    LDA $0BF0, X : STA $74
+    LDA.w $0BF0, X : STA $74
     
-    LDA $0C5E, X : TAX
+    LDA.w $0C5E, X : TAX
     
     LDY.b #$00
     

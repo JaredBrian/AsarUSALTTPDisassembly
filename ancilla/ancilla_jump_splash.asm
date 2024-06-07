@@ -21,30 +21,30 @@ Ancilla_JumpSplash:
 {
     LDA $11 : BNE .draw
     
-    DEC $03B1, X : BPL .animation_delay
+    DEC.w $03B1, X : BPL .animation_delay
     
-    STZ $03B1, X
+    STZ.w $03B1, X
     
-    LDA.b #$01 : STA $0C5E, X
+    LDA.b #$01 : STA.w $0C5E, X
     
     .animation_delay
     
-    LDA $0C5E, X : BEQ .draw
+    LDA.w $0C5E, X : BEQ .draw
     
-    LDA $0C22, X : CLC : ADC.b #$FC : STA $0C22, X : STA $0C2C, X
+    LDA.w $0C22, X : CLC : ADC.b #$FC : STA.w $0C22, X : STA.w $0C2C, X
     
     CMP.b #$E8 : BCS .speed_not_maxed
     
     ; Self terminate once the splash reaches a certain 'speed'.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    LDA $02E0 : BNE .player_is_bunny
+    LDA.w $02E0 : BNE .player_is_bunny
     
     LDA $5D : CMP.b #$04 : BNE .not_swimming
     
     .player_is_bunny
     
-    LDA $0345 : BEQ .not_touching_deep_water
+    LDA.w $0345 : BEQ .not_touching_deep_water
     
     PHX
     
@@ -66,8 +66,8 @@ Ancilla_JumpSplash:
     
     JSR Ancilla_PrepOamCoord
     
-    LDA $0C04, X : STA $06
-    LDA $0C18, X : STA $07
+    LDA.w $0C04, X : STA $06
+    LDA.w $0C18, X : STA $07
     
     REP #$20
     
@@ -80,7 +80,7 @@ Ancilla_JumpSplash:
     
     PHX
     
-    LDA $0C5E, X : STA $0A : TAX
+    LDA.w $0C5E, X : STA $0A : TAX
     
     LDA.b #$01 : STA $72
     

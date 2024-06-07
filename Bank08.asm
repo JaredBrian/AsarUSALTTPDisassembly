@@ -12,7 +12,7 @@ org $088000
 ; $040000-$040006 LOCAL 
 Ancilla_DoSfx1_NearPlayer:
 {
-    JSR Ancilla_SetSfxPan_NearPlayer : STA $012D
+    JSR Ancilla_SetSfxPan_NearPlayer : STA.w $012D
     
     RTS
 }
@@ -22,7 +22,7 @@ Ancilla_DoSfx1_NearPlayer:
 ; $040007-$04000D LOCAL JUMP LOCATION
 Ancilla_DoSfx2_NearPlayer:
 {
-    JSR Ancilla_SetSfxPan_NearPlayer : STA $012E
+    JSR Ancilla_SetSfxPan_NearPlayer : STA.w $012E
     
     RTS
 }
@@ -32,7 +32,7 @@ Ancilla_DoSfx2_NearPlayer:
 ; $04000E-$040014 LOCAL JUMP LOCATION
 Ancilla_DoSfx3_NearPlayer:
 {
-    JSR Ancilla_SetSfxPan_NearPlayer : STA $012F
+    JSR Ancilla_SetSfxPan_NearPlayer : STA.w $012F
     
     RTS
 }
@@ -42,9 +42,9 @@ Ancilla_DoSfx3_NearPlayer:
 ; $040015-$04001F LOCAL JUMP LOCATION
 Ancilla_SetSfxPan_NearPlayer:
 {
-    STA $0CF8
+    STA.w $0CF8
     
-    JSL Sound_SetSfxPanWithPlayerCoords : ORA $0CF8
+    JSL Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
     
     RTS
 }
@@ -55,7 +55,7 @@ Ancilla_SetSfxPan_NearPlayer:
 ; $040020-$040026 LOCAL JUMP LOCATION
 Ancilla_DoSfx1:
 {
-    JSR Ancilla_SetSfxPan : STA $012D
+    JSR Ancilla_SetSfxPan : STA.w $012D
     
     RTS
 }
@@ -65,7 +65,7 @@ Ancilla_DoSfx1:
 ; $040027-$04002D LOCAL JUMP LOCATION
 Ancilla_DoSfx2:
 {
-    JSR Ancilla_SetSfxPan : STA $012E
+    JSR Ancilla_SetSfxPan : STA.w $012E
     
     RTS
 }
@@ -75,7 +75,7 @@ Ancilla_DoSfx2:
 ; $04002E-$040034 LOCAL JUMP LOCATION
 Ancilla_DoSfx3:
 {
-    JSR Ancilla_SetSfxPan : STA $012F
+    JSR Ancilla_SetSfxPan : STA.w $012F
     
     RTS
 }
@@ -85,9 +85,9 @@ Ancilla_DoSfx3:
 ; $040035-$04003F LOCAL JUMP LOCATION
 Ancilla_SetSfxPan:
 {
-    STA $0CF8
+    STA.w $0CF8
     
-    JSL Sound_SfxPanObjectCoords : ORA $0CF8
+    JSL Sound_SfxPanObjectCoords : ORA.w $0CF8
     
     RTS
 }
@@ -180,15 +180,15 @@ AddFireRodShot:
     
     .dont_play_sound_effect
     
-    LDA $00 : STA $0C4A, Y : TAX
+    LDA $00 : STA.w $0C4A, Y : TAX
     
-    LDA.w $806F, X : STA $0C90, Y
+    LDA.w $806F, X : STA.w $0C90, Y
     
-    LDA.b #$03 : STA $0C68, Y
+    LDA.b #$03 : STA.w $0C68, Y
     
-    LDA.b #$00 : STA $0C54, Y : STA $0C5E, Y : STA $0280, Y : STA $028A, Y
+    LDA.b #$00 : STA.w $0C54, Y : STA.w $0C5E, Y : STA.w $0280, Y : STA.w $028A, Y
     
-    LDA $2F : LSR A : STA $0C72, Y : TAX
+    LDA $2F : LSR A : STA.w $0C72, Y : TAX
     
     PHY : PHX : TYX
     
@@ -201,15 +201,15 @@ AddFireRodShot:
     
     BCS .initialize_in_spread_state
     
-    LDA $0022 : CLC : ADC $8040, X : STA $0C04, Y
-    LDA $0023 : ADC $8044, X : STA $0C18, Y
+    LDA.w $0022 : CLC : ADC.w $8040, X : STA.w $0C04, Y
+    LDA.w $0023 : ADC.w $8044, X : STA.w $0C18, Y
     
-    LDA $0020 : CLC : ADC $8048, X : STA $0BFA, Y
-    LDA $0021 : ADC $804C, X : STA $0C0E, Y
+    LDA.w $0020 : CLC : ADC.w $8048, X : STA.w $0BFA, Y
+    LDA.w $0021 : ADC.w $804C, X : STA.w $0C0E, Y
     
-    LDA $0C4A, Y : CMP.b #$01 : BEQ .sword_determines_speed
+    LDA.w $0C4A, Y : CMP.b #$01 : BEQ .sword_determines_speed
     
-    LDA.w $8068, X : STA $0C2C, Y
+    LDA.w $8068, X : STA.w $0C2C, Y
     LDA.w $806C, X
     
     BRA .speed_has_been_determined
@@ -223,19 +223,19 @@ AddFireRodShot:
     
     TXA : CLC : ADC $0F : TAX
     
-    LDA.w $8050, X : STA $0C2C, Y
+    LDA.w $8050, X : STA.w $0C2C, Y
     
     LDA.w $805C, X
     
     .speed_has_been_determined
     
-    STA $0C22, Y
+    STA.w $0C22, Y
     
     ; Floor matches that of the player.
-    LDA $00EE : STA $0C7C, Y
+    LDA.w $00EE : STA.w $0C7C, Y
     
     ; Pseudo floor matches that of the player.
-    LDA $0476 : STA $03CA, Y
+    LDA.w $0476 : STA.w $03CA, Y
     
     PLX
     
@@ -247,20 +247,20 @@ AddFireRodShot:
     
     .initialize_in_spread_state
     
-    LDA $0C4A, Y : CMP.b #$01 : BNE .not_somarian_blast
+    LDA.w $0C4A, Y : CMP.b #$01 : BNE .not_somarian_blast
     
     ; Again, the somarian blast gets shafted in the sound effect department.
-    LDA.b #$04 : STA $0C4A, Y
-    LDA.b #$07 : STA $0C68, Y
-    LDA.b #$10 : STA $0C90, Y
+    LDA.b #$04 : STA.w $0C4A, Y
+    LDA.b #$07 : STA.w $0C68, Y
+    LDA.b #$10 : STA.w $0C90, Y
     
     BRA .return_2
     
     .not_somarian_blast
     
-    LDA.b #$01 : STA $0C54, Y
-    LDA.b #$1F : STA $0C68, Y
-    LDA.b #$08 : STA $0C90, Y
+    LDA.b #$01 : STA.w $0C54, Y
+    LDA.b #$1F : STA.w $0C68, Y
+    LDA.b #$08 : STA.w $0C90, Y
     
     LDA.b #$2A : JSR Ancilla_DoSfx2
     
@@ -290,9 +290,9 @@ Pool_SomarianBlast_SpawnCentrifugalQuad:
 ; $0401A7-$040241 LOCAL JUMP LOCATION
 SomarianBlast_SpawnCentrifugalQuad:
 {
-    LDA.b #$03 : STA $0FB5
+    LDA.b #$03 : STA.w $0FB5
     
-    LDA $029E, X : CMP.b #$FF : BNE .altitude_okay
+    LDA.w $029E, X : CMP.b #$FF : BNE .altitude_okay
     
     LDA.b #$00
     
@@ -300,15 +300,15 @@ SomarianBlast_SpawnCentrifugalQuad:
     
     STA $05
     
-    LDA $0C04, X : STA $00
-    LDA $0C18, X : STA $01
+    LDA.w $0C04, X : STA $00
+    LDA.w $0C18, X : STA $01
     
-    LDA $0BFA, X : SEC : SBC $05    : STA $02
-    LDA $0C0E, X : SBC.b #$00 : STA $03
+    LDA.w $0BFA, X : SEC : SBC $05    : STA $02
+    LDA.w $0C0E, X : SBC.b #$00 : STA $03
     
     ; Attempt to spawn four somarian blasts all moving in directions
     ; away from a central point (the location of the former somarian block).
-    LDA $0C7C, X : STA $04
+    LDA.w $0C7C, X : STA $04
     
     .attempt_next_spawn
     
@@ -319,35 +319,35 @@ SomarianBlast_SpawnCentrifugalQuad:
     
     PHX
     
-    LDA.b #$01 : STA $0C4A, Y : TAX
+    LDA.b #$01 : STA.w $0C4A, Y : TAX
     
-    LDA.w $806F, X : STA $0C90, Y
+    LDA.w $806F, X : STA.w $0C90, Y
     
-    LDA.b #$04 : STA $0C54, Y
-    LDA.b #$00 : STA $0C5E, Y : STA $0280, Y
+    LDA.b #$04 : STA.w $0C54, Y
+    LDA.b #$00 : STA.w $0C5E, Y : STA.w $0280, Y
     
-    LDX $0FB5 : TXA : STA $0C72, Y
+    LDX.w $0FB5 : TXA : STA.w $0C72, Y
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA $0C04, Y
-    LDA $01 : ADC.b #$FF   : STA $0C18, Y
+    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0C04, Y
+    LDA $01 : ADC.b #$FF   : STA.w $0C18, Y
     
-    LDA $02 : CLC : ADC .y_offsets, X : STA $0BFA, Y
-    LDA $03 : ADC.b #$FF   : STA $0C0E, Y
+    LDA $02 : CLC : ADC .y_offsets, X : STA.w $0BFA, Y
+    LDA $03 : ADC.b #$FF   : STA.w $0C0E, Y
     
     JSL Ancilla_TerminateIfOffscreen
     
-    LDA.w $8050, X : STA $0C2C, Y
-    LDA.w $805C, X : STA $0C22, Y
+    LDA.w $8050, X : STA.w $0C2C, Y
+    LDA.w $805C, X : STA.w $0C22, Y
     
-    LDA $04 : STA $0C7C, Y
+    LDA $04 : STA.w $0C7C, Y
     
-    LDA $0476 : STA $03CA, Y
+    LDA.w $0476 : STA.w $03CA, Y
     
     PLX
     
     .spawn_failed
     
-    DEC $0FB5 : BPL .attempt_next_spawn
+    DEC.w $0FB5 : BPL .attempt_next_spawn
     
     RTS
 }
@@ -375,27 +375,27 @@ Bomb_ProjectReflexiveSpeedOntoSprite:
     ; This routine subs in an object's coordinates for the
     ; player's and uses a player routine to calculate a collision or some
     ; such.
-    LDA $0022 : PHA
-    LDA $0023 : PHA
+    LDA.w $0022 : PHA
+    LDA.w $0023 : PHA
     
-    LDA $0020 : PHA
-    LDA $0021 : PHA
+    LDA.w $0020 : PHA
+    LDA.w $0021 : PHA
     
-    LDA $04 : STA $0022
-    LDA $05 : STA $0023
+    LDA $04 : STA.w $0022
+    LDA $05 : STA.w $0023
     
-    LDA $06 : STA $0020
-    LDA $07 : STA $0021
+    LDA $06 : STA.w $0020
+    LDA $07 : STA.w $0021
     
     TYA
     
     JSL Bomb_ProjectReflexiveSpeedOntoSpriteLong
     
-    PLA : STA $0021
-    PLA : STA $0020
+    PLA : STA.w $0021
+    PLA : STA.w $0020
     
-    PLA : STA $0023
-    PLA : STA $0022
+    PLA : STA.w $0023
+    PLA : STA.w $0022
     
     RTS
 }
@@ -414,7 +414,7 @@ Bomb_CheckSpriteDamage:
     
     TYA : EOR $1A : AND.b #$03
     
-    ORA $0EF0, Y : ORA $0BA0, Y : BEQ .proceed_with_damage_check
+    ORA.w $0EF0, Y : ORA.w $0BA0, Y : BEQ .proceed_with_damage_check
     
     .different_floors
     
@@ -422,23 +422,23 @@ Bomb_CheckSpriteDamage:
     
     .proceed_with_damage_check
     
-    LDA $0F20, Y : CMP $0C7C, X : BNE .different_floors
+    LDA.w $0F20, Y : CMP.w $0C7C, X : BNE .different_floors
     
     ; won't work if the sprite is not "alive"
-    LDA $0DD0, Y : CMP.b #$09 : BCC .sprite_undamaged
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .sprite_undamaged
     
     ; setting up variables for use with collision detection
     
-    LDA $0C04, X : SEC : SBC.b #$18 : STA $00
-    LDA $0C18, X : SBC.b #$00 : STA $08
+    LDA.w $0C04, X : SEC : SBC.b #$18 : STA $00
+    LDA.w $0C18, X : SBC.b #$00 : STA $08
     
-    LDA $0BFA, X : SEC : SBC.b #$18
+    LDA.w $0BFA, X : SEC : SBC.b #$18
     
     PHP
     
-    SEC : SBC $029E, X : STA $01
+    SEC : SBC.w $029E, X : STA $01
     
-    LDA $0C0E, X : SBC.b #$00
+    LDA.w $0C0E, X : SBC.b #$00
     
     PLP
     
@@ -454,22 +454,22 @@ Bomb_CheckSpriteDamage:
     
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .sprite_undamaged
     
-    LDA $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king
+    LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king
     
     ; Only certain parts of the HK are vulnerable.   ; only the stage where he still has his mask
-    LDA $0DB0, Y : CMP.b #$03 : BCS .sprite_undamaged
+    LDA.w $0DB0, Y : CMP.b #$03 : BCS .sprite_undamaged
     
     .not_helmasaur_king
     
-    LDA $0C04, X : STA $04
-    LDA $0C18, X : STA $05
+    LDA.w $0C04, X : STA $04
+    LDA.w $0C18, X : STA $05
     
-    LDA $0BFA, X : STA $06
-    LDA $0C0E, X : STA $07
+    LDA.w $0BFA, X : STA $06
+    LDA.w $0C0E, X : STA $07
     
     PHX : PHY
     
-    LDA $0C4A, X
+    LDA.w $0C4A, X
     
     TYX
     
@@ -483,8 +483,8 @@ Bomb_CheckSpriteDamage:
     ; Reverse those speeds so that we are projecting the speed away from
     ; the Ancilla. In other words, we are causing the sprite to recoil from
     ; some damage.
-    LDA $00 : EOR.b #$FF : INC A : STA $0F30, Y
-    LDA $01 : EOR.b #$FF : INC A : STA $0F40, Y
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0F30, Y
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0F40, Y
     
     .sprite_undamaged
     
@@ -506,10 +506,10 @@ Ancilla_ExecuteObjects:
     
     .next_object
     
-    STX $0FA0
+    STX.w $0FA0
     
     ; The type of effect in play. 0 designates no effect.
-    LDA $0C4A, X : BEQ .inactive_object
+    LDA.w $0C4A, X : BEQ .inactive_object
     
     JSR Ancilla_ExecuteObject
     
@@ -532,13 +532,13 @@ Ancilla_ExecuteObject:
     CPX.b #$06 : BCS .ignore_oam_allocation
     
     ; This is the number of sprites allocated for the s.o. at init.
-    LDA $0C90, X
+    LDA.w $0C90, X
     
     ; If "sort sprites" is in effect, things are slightly different.
-    LDY $0FB3 : BEQ .sort_sprites
+    LDY.w $0FB3 : BEQ .sort_sprites
     
     ; If the special effect is on a different floor use a different section of the OAM buffer (probably also changes priority)
-    LDY $0C7C, X : BNE .on_bg1
+    LDY.w $0C7C, X : BNE .on_bg1
     
     ; floor 1 sprites...
     JSL OAM_AllocateFromRegionD
@@ -559,7 +559,7 @@ Ancilla_ExecuteObject:
     .record_starting_oam_position
     
     ; The starting place in the OAM Buffer for the special effect
-    TYA : STA $0C86, X
+    TYA : STA.w $0C86, X
     
     .ignore_oam_allocation
     
@@ -567,9 +567,9 @@ Ancilla_ExecuteObject:
     LDY $11 : BNE .dont_tick_timer
     
     ; I'm not seeing this as terribly useful
-    LDY $0C68, X : BEQ .timer_at_rest
+    LDY.w $0C68, X : BEQ .timer_at_rest
     
-    DEC $0C68, X
+    DEC.w $0C68, X
     
     .timer_at_rest
     .dont_tick_timer
@@ -715,9 +715,9 @@ Ancilla_CheckTileCollisionStaggered:
     ; If indoors branch here
     LDA $1B : BNE .indoors
     
-    LDA $0280, X : BEQ .base_priority
+    LDA.w $0280, X : BEQ .base_priority
     
-    STZ $03E4, X
+    STZ.w $03E4, X
     
     .skip_even_frames
     
@@ -731,7 +731,7 @@ Ancilla_CheckTileCollisionStaggered:
     
     ; Check collision properties of the room
     ; default collision with one BG ("one" in HM)
-    LDA $046C : BEQ .check_basic_collision
+    LDA.w $046C : BEQ .check_basic_collision
     
     CMP.b #$03 : REP #$20 : BCC .difference_between_bg_scrolls
     
@@ -749,23 +749,23 @@ Ancilla_CheckTileCollisionStaggered:
     
     SEP #$20
     
-    LDA $0C04, X : PHA : CLC : ADC $00 : STA $0C04, X
-    LDA $0C18, X : PHA : ADC $01 : STA $0C18, X
+    LDA.w $0C04, X : PHA : CLC : ADC $00 : STA.w $0C04, X
+    LDA.w $0C18, X : PHA : ADC $01 : STA.w $0C18, X
     
-    LDA $0BFA, X : PHA : CLC : ADC $02 : STA $0BFA, X
-    LDA $0C0E, X : PHA : ADC $03 : STA $0C0E, X
+    LDA.w $0BFA, X : PHA : CLC : ADC $02 : STA.w $0BFA, X
+    LDA.w $0C0E, X : PHA : ADC $03 : STA.w $0C0E, X
     
-    LDA.b #$01 : STA $0C7C, X
+    LDA.b #$01 : STA.w $0C7C, X
     
     JSR .check_basic_collision
     
-    STZ $0C7C, X
+    STZ.w $0C7C, X
     
-    PLA : STA $0C0E, X
-    PLA : STA $0BFA, X
+    PLA : STA.w $0C0E, X
+    PLA : STA.w $0BFA, X
     
-    PLA : STA $0C18, X
-    PLA : STA $0C04, X
+    PLA : STA.w $0C18, X
+    PLA : STA.w $0C04, X
     
     LDY.b #$01
     
@@ -794,13 +794,13 @@ Ancilla_CheckTileCollisionStaggered:
     
     ; Normal Collision checking for just one BG
     
-    LDY $0C72, X
+    LDY.w $0C72, X
     
-    LDA $0BFA, X : CLC : ADC .y_offsets, Y : STA $00
-    LDA $0C0E, X : ADC.b #$00        : STA $01
+    LDA.w $0BFA, X : CLC : ADC .y_offsets, Y : STA $00
+    LDA.w $0C0E, X : ADC.b #$00        : STA $01
     
-    LDA $0C04, X : CLC : ADC .x_offsets, Y : STA $02
-    LDA $0C18, X : ADC.b #$00        : STA $03
+    LDA.w $0C04, X : CLC : ADC .x_offsets, Y : STA $02
+    LDA.w $0C18, X : ADC.b #$00        : STA $03
     
     ; $040A26 ALTERNATE ENTRY POINT
     shared Ancilla_CheckTargetedTileCollision:
@@ -832,19 +832,19 @@ Ancilla_CheckTileCollisionStaggered:
     .check_indoor_collision
     
     ; Floor selector for special effects apparently :)
-    LDA $0C7C, X
+    LDA.w $0C7C, X
     
     ; Retrieves tile type that the bomb is sitting on.
     JSL Entity_GetTileAttr
     
     .store_tile_interaction_result
     
-    STA $03E4, X : TAY
+    STA.w $03E4, X : TAY
     
     LDA .collision_table, Y : STA $0F
     
     ; Checks the special effect type
-    LDA $0C4A, X : CMP #$02 : BNE .not_fire_rod_shot
+    LDA.w $0C4A, X : CMP #$02 : BNE .not_fire_rod_shot
     
     ; Perhaps looking for a door type tile?
     TYA : AND.b #$F0 : CMP.b #$C0 : BNE .not_torch_collision
@@ -855,7 +855,7 @@ Ancilla_CheckTileCollisionStaggered:
     .not_fire_rod_shot
     .not_torch_collision
     
-    LDA $0280, X : BNE .forced_high_priority
+    LDA.w $0280, X : BNE .forced_high_priority
     
     LDA $0F    : BEQ .tile_type_not_collision_candidate
     CMP.b #$01 : BEQ .collided
@@ -869,7 +869,7 @@ Ancilla_CheckTileCollisionStaggered:
     
     CMP.b #$03 : BNE .not_attr_3
     
-    LDY $03CA, X : BNE .collided
+    LDY.w $03CA, X : BNE .collided
     
     .ignore_off_screen_collision_y
     
@@ -881,15 +881,15 @@ Ancilla_CheckTileCollisionStaggered:
     ; Educated guess: This looks like an attempt to get the object out
     ; of high priority status that resulted from hitting certain tiles
     ; in earlier frames, like ledges.
-    DEC $028A, X : BPL .no_collision
+    DEC.w $028A, X : BPL .no_collision
     
-    STZ $028A, X
+    STZ.w $028A, X
     
     LDA $0F : CMP.b #$04 : BNE .no_collision
     
-    LDA.b #$06 : STA $028A, X
+    LDA.b #$06 : STA.w $028A, X
     
-    LDA $0280, X : EOR.b #$01 : STA $0280, X
+    LDA.w $0280, X : EOR.b #$01 : STA.w $0280, X
     
     BRA .no_collision
     
@@ -910,7 +910,7 @@ Ancilla_CheckTileCollisionStaggered:
     shared Ancilla_AlertSprites:
     
     ; This seems to activate enemies that "listen" for sounds
-    LDA.b #$03 : STA $0FDC
+    LDA.b #$03 : STA.w $0FDC
     
     RTS
 }
@@ -963,7 +963,7 @@ Ancilla_CheckTileCollision_Class2:
     ; Does collision detection for a number of entities, bombs being one of them
     
     ; "Collision" in Hyrule Magic. Do only collision on BG2
-    LDA $046C : BEQ .check_basic_collision
+    LDA.w $046C : BEQ .check_basic_collision
     
     ; Is it the "moving floor" collision type?
     ; if it's collision with 2 BGs then branch
@@ -989,23 +989,23 @@ Ancilla_CheckTileCollision_Class2:
     
     SEP #$20
     
-    LDA $0C04, X : PHA : CLC : ADC $00 : STA $0C04, X
-    LDA $0C18, X : PHA : ADC $01 : STA $0C18, X
+    LDA.w $0C04, X : PHA : CLC : ADC $00 : STA.w $0C04, X
+    LDA.w $0C18, X : PHA : ADC $01 : STA.w $0C18, X
     
-    LDA $0BFA, X : PHA : CLC : ADC $02 : STA $0BFA, X
-    LDA $0C0E, X : PHA : ADC $03 : STA $0C0E, X
+    LDA.w $0BFA, X : PHA : CLC : ADC $02 : STA.w $0BFA, X
+    LDA.w $0C0E, X : PHA : ADC $03 : STA.w $0C0E, X
     
-    LDA.b #$01 : STA $0C7C, X
+    LDA.b #$01 : STA.w $0C7C, X
     
     JSR .check_basic_collision
     
-    STZ $0C7C, X
+    STZ.w $0C7C, X
     
-    PLA : STA $0C0E, X
-    PLA : STA $0BFA, X
+    PLA : STA.w $0C0E, X
+    PLA : STA.w $0BFA, X
     
-    PLA : STA $0C18, X
-    PLA : STA $0C04, X
+    PLA : STA.w $0C18, X
+    PLA : STA.w $0C04, X
     
     LDY.b #$00
     
@@ -1031,15 +1031,15 @@ Ancilla_CheckTileCollision_Class2:
     ; Next set of operations compute Ycoord + direction dependent value, as well as for the Xcoord of the object
     
     ; direction of the bomb.... I guess... kind of a dumb way to handle this if you ask me.
-    LDY $0C72, X
+    LDY.w $0C72, X
     
     ; $00.w = Ycoord + directionValue
-    LDA $0BFA, X : CLC : ADC .y_offsets_low,  Y : STA $00
-    LDA $0C0E, X : ADC .y_offsets_high, Y : STA $01
+    LDA.w $0BFA, X : CLC : ADC .y_offsets_low,  Y : STA $00
+    LDA.w $0C0E, X : ADC .y_offsets_high, Y : STA $01
     
     ; $02.w = Xcoord + directionValue
-    LDA $0C04, X : CLC : ADC .x_offsets_low,  Y : STA $02
-    LDA $0C18, X : ADC .x_offsets_high, Y : STA $03
+    LDA.w $0C04, X : CLC : ADC .x_offsets_low,  Y : STA $02
+    LDA.w $0C18, X : ADC .x_offsets_high, Y : STA $03
     
     REP #$20
     
@@ -1071,7 +1071,7 @@ Ancilla_CheckTileCollision_Class2:
     .check_indoor_collision
     
     ; Tells us what floor the bomb is on and is an input to the next function
-    LDA $0C7C, X
+    LDA.w $0C7C, X
     
     JSL Entity_GetTileAttr
     
@@ -1079,9 +1079,9 @@ Ancilla_CheckTileCollision_Class2:
     
     ; Store the retrieved tile value for further reference
     ; \task Figure out when and where attribute 3 tile are actually used.
-    STA $03E4, X : CMP.b #$03 : BNE .not_attr_3
+    STA.w $03E4, X : CMP.b #$03 : BNE .not_attr_3
     
-    LDY $03CA, X : BNE .ignore_collision_on_pseudo_bg
+    LDY.w $03CA, X : BNE .ignore_collision_on_pseudo_bg
     
     .not_attr_3
     
@@ -1103,9 +1103,9 @@ Ancilla_CheckTileCollision_Class2:
     ; is on a pseudo-bg?
     CMP.b #$04 : BNE .not_ledge_tile
     
-    LDA $03CA, X : BNE .collided
+    LDA.w $03CA, X : BNE .collided
     
-    LDA.b #$01 : STA $0280, X
+    LDA.b #$01 : STA.w $0280, X
     
     BRA .no_collision
     
@@ -1113,7 +1113,7 @@ Ancilla_CheckTileCollision_Class2:
     
     CMP.b #$03 : BNE .collided
     
-    LDY $03CA, X : BNE .collided
+    LDY.w $03CA, X : BNE .collided
     
     .ignore_off_screen_collision
     .ignore_collision_on_pseudo_bg
@@ -1145,24 +1145,24 @@ Ancilla_CheckSpriteCollision:
     
     .next_sprite
     
-    LDA $0C4A, X
+    LDA.w $0C4A, X
     
     CMP.b #$09 : BEQ .arrow_or_hookshot
     CMP.b #$1F : BEQ .arrow_or_hookshot
     
-    TYA : EOR $1A : AND.b #$03 : ORA $0F00, Y : BNE .ignore_sprite
+    TYA : EOR $1A : AND.b #$03 : ORA.w $0F00, Y : BNE .ignore_sprite
     
     .arrow_or_hookshot
     
-    LDA $0DD0, Y : CMP.b #$09 : BCC .ignore_sprite
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .ignore_sprite
     
-    LDA $0CAA, Y : AND.b #$02 : BNE .ignore_priority_differences
+    LDA.w $0CAA, Y : AND.b #$02 : BNE .ignore_priority_differences
     
-    LDA $0280, X : BNE .ignore_sprite
+    LDA.w $0280, X : BNE .ignore_sprite
     
     .ignore_priority_differences
     
-    LDA $0C7C, X : CMP $0F20, Y : BNE .ignore_sprite
+    LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .ignore_sprite
     
     JSR Ancilla_CheckIndividualSpriteCollision
     
@@ -1219,11 +1219,11 @@ Ancilla_CheckIndividualSpriteCollision:
     
     .hit_box_overlap
     
-    LDA $0B6B, Y : AND.b #$08 : BEQ .doesnt_deflect_arrows
+    LDA.w $0B6B, Y : AND.b #$08 : BEQ .doesnt_deflect_arrows
     
-    LDA $0C4A, X : CMP.b #$09 : BNE .not_arrow_ancilla
+    LDA.w $0C4A, X : CMP.b #$09 : BNE .not_arrow_ancilla
     
-    LDA $0E20, Y : CMP.b #$1B : BEQ .not_arrow_vs_enemy_arrow
+    LDA.w $0E20, Y : CMP.b #$1B : BEQ .not_arrow_vs_enemy_arrow
     
     .create_deflected_arrow
     
@@ -1253,64 +1253,64 @@ Ancilla_CheckIndividualSpriteCollision:
     .not_arrow_ancilla
     .undeflected_silver_arrow
     
-    LDA $0CAA, Y : AND.b #$10 : BEQ .doesnt_absorb_ancilla
+    LDA.w $0CAA, Y : AND.b #$10 : BEQ .doesnt_absorb_ancilla
     
     ; Check if the ancilla hit the sprite from the 'front', meaning
     ; that they have opposing orientations.
-    LDA $0C72, X : AND.b #$03 : STA $0C72, X
+    LDA.w $0C72, X : AND.b #$03 : STA.w $0C72, X
     
     PHY
     
-    LDA $0DE0, Y : TAY
+    LDA.w $0DE0, Y : TAY
     
     LDA .opposing_sprite_directions, Y
     
     PLY
     
-    CMP $0C72, X : BEQ .collision_immunity
+    CMP.w $0C72, X : BEQ .collision_immunity
     
     .doesnt_absorb_ancilla
     
-    LDA $0C4A, X : CMP.b #$05 : BEQ .boomerang_ancilla
+    LDA.w $0C4A, X : CMP.b #$05 : BEQ .boomerang_ancilla
                    CMP.b #$1F : BNE .not_hookshot_ancilla
     
-    LDA $0E20, Y : CMP.b #$8D : BEQ .is_arrghus_spawn
+    LDA.w $0E20, Y : CMP.b #$8D : BEQ .is_arrghus_spawn
     
     .boomerang_ancilla
     
     ; Can't collide because the sprite has begun dying.
-    LDA $0EF0, Y : BNE .collision_immunity
+    LDA.w $0EF0, Y : BNE .collision_immunity
     
-    LDA $0CAA, Y : AND.b #$02 : BEQ .not_draggable_sprite
+    LDA.w $0CAA, Y : AND.b #$02 : BEQ .not_draggable_sprite
     
     .is_arrghus_spawn
     
     ; Initiate dragging the sprite with the hookshot or boomerang?
-    TXA : INC A : STA $0DA0, Y
+    TXA : INC A : STA.w $0DA0, Y
     
     BRA .indicate_dragging_ancilla
     
     .not_hookshot_ancilla
     .not_draggable_sprite
     
-    LDA $0BA0, Y : BNE .no_collision
+    LDA.w $0BA0, Y : BNE .no_collision
     
-    LDA $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
+    LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
     
-    LDA $0DB0, Y : CMP.b #$03 : BCC .collision_immunity
+    LDA.w $0DB0, Y : CMP.b #$03 : BCC .collision_immunity
     
     .not_helmasaur_king_component
     
     PHX
     
-    LDA $0C72, X : AND.b #$03 : TAX 
+    LDA.w $0C72, X : AND.b #$03 : TAX 
     
-    LDA .sprite_recoil_x, X : STA $0F40, Y
-    LDA .sprite_recoil_y, X : STA $0F30, Y
+    LDA .sprite_recoil_x, X : STA.w $0F40, Y
+    LDA .sprite_recoil_y, X : STA.w $0F30, Y
     
     PLX : PHX
     
-    LDA $0C4A, X : STX $0FB6
+    LDA.w $0C4A, X : STX.w $0FB6
     
     TYX : PHY
     
@@ -1320,7 +1320,7 @@ Ancilla_CheckIndividualSpriteCollision:
     
     .indicate_dragging_ancilla
     
-    LDA $0C4A, X : STA $0BB0, Y
+    LDA.w $0C4A, X : STA.w $0BB0, Y
     
     .collision_immunity
     
@@ -1384,9 +1384,9 @@ Ancilla_SetupHitBox:
     
     PHY
     
-    LDY $0C72, X
+    LDY.w $0C72, X
     
-    LDA $0C4A, X : CMP.b #$0C : BNE .not_sword_beam
+    LDA.w $0C4A, X : CMP.b #$0C : BNE .not_sword_beam
     
     DEC $09
     
@@ -1398,11 +1398,11 @@ Ancilla_SetupHitBox:
     
     .not_sword_beam
     
-    LDA $0C04, X : CLC : ADC $8E7D, Y : STA $00
-    LDA $0C18, X : ADC $09      : STA $08
+    LDA.w $0C04, X : CLC : ADC.w $8E7D, Y : STA $00
+    LDA.w $0C18, X : ADC $09      : STA $08
     
-    LDA $0BFA, X : CLC : ADC $8E95, Y : STA $01
-    LDA $0C0E, X : ADC $09      : STA $09
+    LDA.w $0BFA, X : CLC : ADC.w $8E95, Y : STA $01
+    LDA.w $0C0E, X : ADC $09      : STA $09
     
     LDA.w $8E89, Y : STA $02
     LDA.w $8EA1, Y : STA $03
@@ -1521,8 +1521,8 @@ Ancilla_IsToRightOfPlayer:
 {
     LDY.b #$00
     
-    LDA $22 : SEC : SBC $0C04, X : STA $0F
-    LDA $23 : SBC $0C18, X : BPL .object_leftward_of_player
+    LDA $22 : SEC : SBC.w $0C04, X : STA $0F
+    LDA $23 : SBC.w $0C18, X : BPL .object_leftward_of_player
     
     ; Object is rightward of player
     INY
@@ -1539,8 +1539,8 @@ Ancilla_IsBelowPlayer:
 {
     LDY.b #$00
     
-    LDA $20 : SEC : SBC $0BFA, X : STA $0E
-    LDA $21 : SBC $0C0E, X : BPL .object_upward_of_player
+    LDA $20 : SEC : SBC.w $0BFA, X : STA $0E
+    LDA $21 : SBC.w $0C0E, X : BPL .object_upward_of_player
     
     ; Object is downward of player
     INY
@@ -1574,14 +1574,14 @@ Ancilla_MoveHoriz:
 ; $04108B-$0410B6 LOCAL JUMP LOCATION
 Ancilla_MoveVert:
 {
-    LDA $0C22, X : ASL #4 : CLC : ADC $0C36, X : STA $0C36, X
+    LDA.w $0C22, X : ASL #4 : CLC : ADC.w $0C36, X : STA.w $0C36, X
     
     LDY.b #$00
     
     ; upper 4 bits are pixels per frame. lower 4 bits are 1/16ths of a pixel per frame.
     ; store the carry result of adding to $0C36, X
     ; check if the y pixel change per frame is negative
-    LDA $0C22, X : PHP : LSR #4 : PLP : BPL .moving_down
+    LDA.w $0C22, X : PHP : LSR #4 : PLP : BPL .moving_down
     
     ; sign extend from 4-bits to 8-bits
     ORA.b #$F0
@@ -1591,8 +1591,8 @@ Ancilla_MoveVert:
     .moving_down
     
     ; modifies the y coordinates of the special object
-          ADC $0BFA, X : STA $0BFA, X
-    TYA : ADC $0C0E, X : STA $0C0E, X
+          ADC.w $0BFA, X : STA.w $0BFA, X
+    TYA : ADC.w $0C0E, X : STA.w $0C0E, X
     
     RTS
 }
@@ -1602,16 +1602,16 @@ Ancilla_MoveVert:
 ; $0410B7-$0410DB LOCAL JUMP LOCATION
 Ancilla_MoveAltitude:
 {
-    LDA $0294, X : ASL #4 : CLC : ADC $02A8, X : STA $02A8, X
+    LDA.w $0294, X : ASL #4 : CLC : ADC.w $02A8, X : STA.w $02A8, X
     
     LDY.b #$00
     
-    LDA $0294, X : PHP : LSR #4 : PLP : BPL .moving_higher
+    LDA.w $0294, X : PHP : LSR #4 : PLP : BPL .moving_higher
         ORA.b #$F0
     
     .moving_higher
     
-    ADC $029E, X : STA $029E, X
+    ADC.w $029E, X : STA.w $029E, X
     
     RTS
 }
@@ -1702,7 +1702,7 @@ Ancilla_SwordFullChargeSpark:
     
     JSR Ancilla_AllocateOam
     
-    TYA : STA $0C86, X
+    TYA : STA.w $0C86, X
     
     JSL SwordFullChargeSpark
     
@@ -1725,25 +1725,25 @@ Ancilla_CheckBasicSpriteCollision:
     
     ; This staggers out collision detection so only some fraction of the
     ; prites are being checked for collision with the object.
-    TYA : EOR $1A : AND.b #$03 : ORA $0F00, Y : ORA $0EF0, Y
+    TYA : EOR $1A : AND.b #$03 : ORA.w $0F00, Y : ORA.w $0EF0, Y
     
     BNE .no_collision
     
-    LDA $0DD0, Y : CMP.b #$09 : BCC .no_collision
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .no_collision
     
-    LDA $0CAA, Y : AND.b #$02 : BNE .sprite_ignores_priority
+    LDA.w $0CAA, Y : AND.b #$02 : BNE .sprite_ignores_priority
     
-    LDA $0280, X : BNE .no_collision
+    LDA.w $0280, X : BNE .no_collision
     
     .sprite_ignores_priority
     
-    LDA $0C7C, X : CMP $0F20, Y : BNE .no_collision
+    LDA.w $0C7C, X : CMP.w $0F20, Y : BNE .no_collision
     
-    LDA $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
+    LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
     
     ; Crystal switches ignore interaction with somarian blocks apparently.
     ; (But when they are transmuted to blasts, this is no longer the case.)
-    LDA $0E20, Y : CMP.b #$1E : BEQ .no_collision
+    LDA.w $0E20, Y : CMP.b #$1E : BEQ .no_collision
     
     CMP.b #$90 : BEQ .no_collision
     
@@ -1778,31 +1778,31 @@ Ancilla_CheckSingleBasicSpriteCollision:
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
     
     ; Helmasaur king check...
-    LDA $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
+    LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king_component
     
-    LDA $0DB0, Y : CMP.b #$03 : BCC .not_helmasaur_king_mask
+    LDA.w $0DB0, Y : CMP.b #$03 : BCC .not_helmasaur_king_mask
     
     .not_helmasaur_king_component
     
     ; Only make the sprite change direction if it's a Winder. At that,
     ; only somarian blocks and fire rod shots call here anyways, afaik.
-    LDA $0E20, Y : CMP.b #$80 : BNE .dont_repulse_sprite
+    LDA.w $0E20, Y : CMP.b #$80 : BNE .dont_repulse_sprite
     
-    LDA $0F10, Y : BNE .dont_repulse_sprite
+    LDA.w $0F10, Y : BNE .dont_repulse_sprite
     
-    LDA.b #$18 : STA $0F10, Y
+    LDA.b #$18 : STA.w $0F10, Y
     
-    LDA $0DE0, Y : EOR.b #$01 : STA $0DE0, Y
+    LDA.w $0DE0, Y : EOR.b #$01 : STA.w $0DE0, Y
     
     .dont_repulse_sprite
     
-    LDA $0BA0, Y : BNE .no_collision
+    LDA.w $0BA0, Y : BNE .no_collision
     
-    LDA $0C04, X : SEC : SBC.b #$08 : STA $04
-    LDA $0C18, X : SBC.b #$00 : STA $05
+    LDA.w $0C04, X : SEC : SBC.b #$08 : STA $04
+    LDA.w $0C18, X : SBC.b #$00 : STA $05
     
-    LDA $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC $029E, X : STA $06
-    LDA $0C0E, X : SBC.b #$00 : PLP : SBC.b #$00   : STA $07
+    LDA.w $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC.w $029E, X : STA $06
+    LDA.w $0C0E, X : SBC.b #$00 : PLP : SBC.b #$00   : STA $07
     
     LDA.b #$50
     
@@ -1814,12 +1814,12 @@ Ancilla_CheckSingleBasicSpriteCollision:
     
     PLX : PLY
     
-    LDA $00 : EOR.b #$FF : STA $0F30, Y
-    LDA $01 : EOR.b #$FF : STA $0F40, Y
+    LDA $00 : EOR.b #$FF : STA.w $0F30, Y
+    LDA $01 : EOR.b #$FF : STA.w $0F40, Y
     
     PHX
     
-    LDA $0C4A, X
+    LDA.w $0C4A, X
     
     TYX
     
@@ -1853,11 +1853,11 @@ Ancilla_CheckSingleBasicSpriteCollision:
 ; $0462CA-$0462F8 LOCAL JUMP LOCATION
 Ancilla_SetupBasicHitBox:
 {
-    LDA $0C04, X : SEC : SBC.b #$08 : STA $00
-    LDA $0C18, X : SBC.b #$00 : STA $08
+    LDA.w $0C04, X : SEC : SBC.b #$08 : STA $00
+    LDA.w $0C18, X : SBC.b #$00 : STA $08
     
-    LDA $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC $029E, X : STA $01
-    LDA $0C0E, X : SBC.b #$00 : PLP : SBC.b #$00   : STA $09
+    LDA.w $0BFA, X : SEC : SBC.b #$08 : PHP : SEC : SBC.w $029E, X : STA $01
+    LDA.w $0C0E, X : SBC.b #$00 : PLP : SBC.b #$00   : STA $09
     
     LDA.b #$0F : STA $02
     LDA.b #$0F : STA $03
@@ -1910,16 +1910,16 @@ Ancilla_Spawn:
     
     TYX : BMI .no_open_slots
     
-    STA $0C4A, X : TAY
+    STA.w $0C4A, X : TAY
     
-    LDA.w $806F, Y : STA $0C90, X
-    LDA $EE      : STA $0C7C, X
-    LDA $0476    : STA $03CA, X
+    LDA.w $806F, Y : STA.w $0C90, X
+    LDA $EE      : STA.w $0C7C, X
+    LDA.w $0476    : STA.w $03CA, X
     
-    STZ $0C22, X
-    STZ $0C2C, X
-    STZ $0280, X
-    STZ $028A, X
+    STZ.w $0C22, X
+    STZ.w $0C2C, X
+    STZ.w $0280, X
+    STZ.w $028A, X
     
     CLC
     
@@ -1945,7 +1945,7 @@ Ancilla_FindMatch:
     
     .next_slot
     
-    CMP $0C4A, X : BEQ .match
+    CMP.w $0C4A, X : BEQ .match
     
     DEX : BPL .next_slot
     
@@ -1975,16 +1975,16 @@ Pool_Ancilla_PrepOamCoord:
 ; $047671-$0476A3 LOCAL JUMP LOCATION
 Ancilla_PrepOamCoord:
 {
-    LDY $0C7C, X
+    LDY.w $0C7C, X
     
     LDA .priority, Y : STA $65
                        STZ $64
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     REP #$20
     
@@ -2005,22 +2005,22 @@ Ancilla_PrepAdjustedOamCoord:
     ; the adjusted screen coordinates ($0122 and $011e) which can be
     ; manipulated via effects and.... moving floors maybe.
     
-    LDY $0C7C, X
+    LDY.w $0C7C, X
     
     LDA .priority, Y : STA $65
                        STZ $64
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     REP #$20
     
-    LDA $00 : SEC : SBC $0122 : STA $00
+    LDA $00 : SEC : SBC.w $0122 : STA $00
     
-    LDA $02 : SEC : SBC $011E : STA $02 : STA $04
+    LDA $02 : SEC : SBC.w $011E : STA $02 : STA $04
     
     SEP #$20
     
@@ -2164,17 +2164,17 @@ Ancilla_CheckPlayerCollision:
     TYA : ASL A : TAY
     
     ; $00 = Y coordinate
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
     ; $02 = X coordinate
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     STZ $0B
     
     ; $0A = "altitude"
-    LDA $029E, X : STA $0A : BPL .sign_ext_z_coord
+    LDA.w $029E, X : STA $0A : BPL .sign_ext_z_coord
     
     LDA.b #$FF : STA $0B
     
@@ -2412,7 +2412,7 @@ Ancilla_DrawShadow:
 ; $04790A-$047919 LOCAL JUMP LOCATION
 Ancilla_AllocateOam_B_or_E:
 {
-    LDY $0FB3 : BNE .sort_sprites
+    LDY.w $0FB3 : BNE .sort_sprites
     
     JSL OAM_AllocateFromRegionB
     
@@ -2436,21 +2436,21 @@ Tagalong_GetCloseToPlayer:
     
     .need_to_get_closer_to_player
     
-    LDX $02D3
+    LDX.w $02D3
     
-    LDA $1A00, X : STA $0C03
-    LDA $1A14, X : STA $0C17
+    LDA.w $1A00, X : STA.w $0C03
+    LDA.w $1A14, X : STA.w $0C17
     
-    LDA $1A28, X : STA $0C0D
-    LDA $1A3C, X : STA $0C21
+    LDA.w $1A28, X : STA.w $0C0D
+    LDA.w $1A3C, X : STA.w $0C21
     
     LDX.b #$09
     LDA.b #$18
     
     JSR Ancilla_ProjectSpeedTowardsPlayer
     
-    LDA $00 : STA $0C22, X
-    LDA $01 : STA $0C2C, X
+    LDA $00 : STA.w $0C22, X
+    LDA $01 : STA.w $0C2C, X
     
     JSR Ancilla_MoveVert
     
@@ -2460,11 +2460,11 @@ Tagalong_GetCloseToPlayer:
     
     PLX
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     REP #$20
     
@@ -2490,19 +2490,19 @@ Tagalong_GetCloseToPlayer:
     
     ; Try up to 0x12 times to get closer to the player but give up after
     ; that.
-    INC $02D3 : LDX $02D3 : CPX.b #$12 : BEQ .exhausted_attempts
+    INC.w $02D3 : LDX.w $02D3 : CPX.b #$12 : BEQ .exhausted_attempts
     
-    LDA $00 : STA $1A00, X
-    LDA $01 : STA $1A14, X
+    LDA $00 : STA.w $1A00, X
+    LDA $01 : STA.w $1A14, X
     
-    LDA $02 : STA $1A28, X
-    LDA $03 : STA $1A3C, X
+    LDA $02 : STA.w $1A28, X
+    LDA $03 : STA.w $1A3C, X
     
     LDY $EE
     
     LDA Ancilla_PrepOamCoord.priority, Y
     
-    LSR #2 : ORA.b #$01 : STA $1A64, X
+    LSR #2 : ORA.b #$01 : STA.w $1A64, X
     
     BRL .need_to_get_closer_to_player
     
@@ -2527,7 +2527,7 @@ Ancilla_CustomAllocateOam:
     
     TYA : AND.w #$00FF : CLC : ADC $90
     
-    LDX $0FB3 : BEQ .unsorted_sprites
+    LDX.w $0FB3 : BEQ .unsorted_sprites
     
     ; Is it in the second half of the oam buffer?
     CMP.w #$0900 : BCS .upper_region
@@ -2579,7 +2579,7 @@ HitStars_UpdateOamBufferPosition:
     
     TYA : AND.w #$00FF : CLC : ADC $90
     
-    LDX $0FB3 : BNE .sort_sprites
+    LDX.w $0FB3 : BNE .sort_sprites
     
     CMP.w #$09D0 : BCC .dont_reset_oam_pointer
     
@@ -2607,29 +2607,29 @@ Hookshot_IsCollisionCheckFutile:
     ; Only the Hookshot calls this.
     PHX : PHY
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     LDA $1B : BNE .indoors
     
     REP #$20
     
-    LDA $0C72, X : AND.w #$0002 : BNE .moving_horizontally
+    LDA.w $0C72, X : AND.w #$0002 : BNE .moving_horizontally
     
-    LDX $0700 : LDA $00 : SEC : SBC.l $02A8C4, X : CMP.w #$0004 : BCC .off_screen
+    LDX.w $0700 : LDA $00 : SEC : SBC.l $02A8C4, X : CMP.w #$0004 : BCC .off_screen
     
-    CMP $0716 : BCS .off_screen
+    CMP.w $0716 : BCS .off_screen
     
     BRA .not_at_screen_edge
     
     .moving_horizontally
     
-    LDX $0700 : LDA $02 : SEC : SBC.l $02A944, X : CMP.w #$0006 : BCC .off_screen
+    LDX.w $0700 : LDA $02 : SEC : SBC.l $02A944, X : CMP.w #$0006 : BCC .off_screen
     
-    CMP $0716 : BCC .not_at_screen_edge
+    CMP.w $0716 : BCC .not_at_screen_edge
     
     .off_screen
     
@@ -2655,7 +2655,7 @@ Hookshot_IsCollisionCheckFutile:
     
     REP #$20
     
-    LDA $0C72, X : AND.w #$0002 : BNE .moving_indoors_horizontally
+    LDA.w $0C72, X : AND.w #$0002 : BNE .moving_indoors_horizontally
     
     LDA $00 : AND.w #$01FF : CMP.w #$0004 : BCC .off_screen
     
@@ -2713,28 +2713,28 @@ Ancilla_GetRadialProjection:
     
     TAX
     
-    LDA.l $0FFC02, X : STA $4202
-    LDA $08        : STA $4203
+    LDA.l $0FFC02, X : STA.w $4202
+    LDA $08        : STA.w $4203
     
     ; Sign of the projected distance.
     LDA.l $0FFC42, X : STA $02
                      STZ $03
     
     ; Get Y projected distance?
-    LDA $4216 : ASL A
-    LDA $4217 : ADC.b #$00 : STA $00
+    LDA.w $4216 : ASL A
+    LDA.w $4217 : ADC.b #$00 : STA $00
                              STZ $01
     
-    LDA.l $0FFBC2, X : STA $4202
-    LDA $08        : STA $4203
+    LDA.l $0FFBC2, X : STA.w $4202
+    LDA $08        : STA.w $4203
     
     ; Sign of the projected distance.
     LDA.l $0FFC82, X : STA $06
                      STZ $07
     
     ; Get X projected distance?
-    LDA $4216 : ASL A
-    LDA $4217 : ADC.b #$00 : STA $04
+    LDA.w $4216 : ASL A
+    LDA.w $4217 : ADC.b #$00 : STA $04
                              STZ $05
     
     PLX
@@ -2761,7 +2761,7 @@ Ancilla_GetRadialProjectionLong:
 ; $047B2B-$047B43 LOCAL JUMP LOCATION
 Ancilla_AllocateOam:
 {
-    LDY $0FB3 : BNE .sorted_sprites
+    LDY.w $0FB3 : BNE .sorted_sprites
     
     JSL OAM_AllocateFromRegionA
     
@@ -2769,7 +2769,7 @@ Ancilla_AllocateOam:
     
     .sorted_sprites
     
-    LDY $0C7C, X : BNE .on_bg1
+    LDY.w $0C7C, X : BNE .on_bg1
     
     JSL OAM_AllocateFromRegionD
     
@@ -2864,10 +2864,10 @@ BeamHit_GetCoords:
     STY $0B
     STA $08
     
-    LDA $0BFA, X : STA $00 : SEC : SBC $E8 : STA $06
-    LDA $0C0E, X : STA $01
-    LDA $0C04, X : STA $02 : SEC : SBC $E2 : STA $07
-    LDA $0C18, X : STA $03
+    LDA.w $0BFA, X : STA $00 : SEC : SBC $E8 : STA $06
+    LDA.w $0C0E, X : STA $01
+    LDA.w $0C04, X : STA $02 : SEC : SBC $E2 : STA $07
+    LDA.w $0C18, X : STA $03
     
     RTS
 }

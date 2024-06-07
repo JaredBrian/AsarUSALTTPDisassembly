@@ -8,16 +8,16 @@ Ancilla_DoorDebris:
     
     JSR DoorDebris_Draw
     
-    DEC $03C0, X : BPL .delay
+    DEC.w $03C0, X : BPL .delay
     
-    LDA.b #$07 : STA $03C0, X
+    LDA.b #$07 : STA.w $03C0, X
     
-    INC $03C2, X
+    INC.w $03C2, X
     
-    LDA $03C2, X : CMP.b #$04 : BNE .delay
+    LDA.w $03C2, X : CMP.b #$04 : BNE .delay
     
     ; Self-terminate at this point.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .delay
     
@@ -61,8 +61,8 @@ DoorDebris_Draw:
     
     REP #$20
     
-    LDA $03BA, Y : SEC : SBC $E8 : STA $0C
-    LDA $03B6, Y : SEC : SBC $E2 : STA $0E
+    LDA.w $03BA, Y : SEC : SBC $E8 : STA $0C
+    LDA.w $03B6, Y : SEC : SBC $E2 : STA $0E
     
     SEP #$20
     
@@ -70,9 +70,9 @@ DoorDebris_Draw:
     
     STZ $06
     
-    LDA $03C2, X : ASL #2 : STA $04 : STA $08
+    LDA.w $03C2, X : ASL #2 : STA $04 : STA $08
     
-    LDA $03BE, X : ASL #4 : STA $0A
+    LDA.w $03BE, X : ASL #4 : STA $0A
     
     CLC : ADC $04 : TAX
     

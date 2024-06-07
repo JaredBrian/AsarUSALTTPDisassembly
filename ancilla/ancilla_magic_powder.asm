@@ -93,33 +93,33 @@ Ancilla_MagicPowder:
     
     JSR MagicPowder_ApplySpriteDamage
     
-    DEC $03B1, X : BPL .just_draw
+    DEC.w $03B1, X : BPL .just_draw
     
-    LDA.b #$01 : STA $03B1, X
+    LDA.b #$01 : STA.w $03B1, X
     
-    LDY $0C72, X
+    LDY.w $0C72, X
     
     LDA .animation_group_offsets, Y : STA $00
     
-    LDA $0C5E, X : INC A : CMP.b #$0A : BNE .dont_self_terminate
+    LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .dont_self_terminate
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    STZ $0333
+    STZ.w $0333
     
     RTS
     
     .dont_self_terminate
     
-    STA $0C5E, X
+    STA.w $0C5E, X
     
     CLC : ADC $00 : TAY
     
-    LDA .animation_groups, Y : STA $03C2, X
+    LDA .animation_groups, Y : STA.w $03C2, X
     
     .just_draw
     
-    LDA $0C90, X : JSR Ancilla_AllocateOam_B_or_E
+    LDA.w $0C90, X : JSR Ancilla_AllocateOam_B_or_E
     
     ; $043AEB ALTERNATE ENTRY POINT
     shared MagicPowder_Draw:
@@ -134,7 +134,7 @@ Ancilla_MagicPowder:
     LDA $02 : STA $08
     LDA $03 : STA $09
     
-    LDA $03C2, X : STA $0C
+    LDA.w $03C2, X : STA $0C
     
     ASL #2 : STA $0A
     
@@ -142,7 +142,7 @@ Ancilla_MagicPowder:
     
     ; Committing 4 sprite entries.
     ; \optimize use direct page instead.
-    LDA.b #$03 : STA $0072
+    LDA.b #$03 : STA.w $0072
     
     LDY.b #$00
     
@@ -197,9 +197,9 @@ MagicPowder_ApplySpriteDamage:
     
     TYA : EOR $1A : AND.b #$03 : BNE .no_collision
     
-    LDA $0DD0, Y : CMP.b #$09 : BNE .no_collision
+    LDA.w $0DD0, Y : CMP.b #$09 : BNE .no_collision
     
-    LDA $0CD2, Y : AND.b #$20 : BNE .no_collision
+    LDA.w $0CD2, Y : AND.b #$20 : BNE .no_collision
     
     JSR Ancilla_SetupBasicHitBox
     
@@ -213,11 +213,11 @@ MagicPowder_ApplySpriteDamage:
     
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .no_collision
     
-    LDA $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
+    LDA.w $0E20, Y : CMP.b #$0B : BNE .not_transformable_chicken
     
     LDA $1B : BEQ .not_transformable_chicken
     
-    LDA $048E : DEC A : BNE .not_transformable_chicken
+    LDA.w $048E : DEC A : BNE .not_transformable_chicken
 
     BRA .transformable_sprite
     
@@ -225,11 +225,11 @@ MagicPowder_ApplySpriteDamage:
     
     CMP.b #$0D : BNE .not_buzzblob
     
-    LDA $0EB0, Y : BNE .no_collision
+    LDA.w $0EB0, Y : BNE .no_collision
     
     .transformable_sprite
     
-    LDA.b #$01 : STA $0EB0, Y
+    LDA.b #$01 : STA.w $0EB0, Y
     
     PHX : PHY
     

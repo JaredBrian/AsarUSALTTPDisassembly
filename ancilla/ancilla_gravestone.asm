@@ -9,16 +9,16 @@ Gravestone_Move:
     
     LDA $11 : BNE .return
     
-    LDA.b #$F8 : STA $0C22, X
+    LDA.b #$F8 : STA.w $0C22, X
     
     JSR Ancilla_MoveVert
     JSR Gravestone_RepelPlayerAdvance
     
-    LDA $038A, X : STA $00
-    LDA $038F, X : STA $01
+    LDA.w $038A, X : STA $00
+    LDA.w $038F, X : STA $01
     
-    LDA $0BFA, X : STA $02
-    LDA $0C0E, X : STA $03
+    LDA.w $0BFA, X : STA $02
+    LDA.w $0C0E, X : STA $03
     
     REP #$20
     
@@ -27,17 +27,17 @@ Gravestone_Move:
     ; like there would be a sudden change in the underlying tiles.
     LDA $02 : CMP $00 : SEP #$20 : BCS .return
     
-    STZ $0C4A, X
-    STZ $03E9
+    STZ.w $0C4A, X
+    STZ.w $03E9
     
     LDA $48 : AND.b #$FB : STA $48
     
-    LDA $03BA, X : STA $72
-    LDA $03B6, X : STA $73
+    LDA.w $03BA, X : STA $72
+    LDA.w $03B6, X : STA $73
     
     REP #$20
     
-    LDA $72 : STA $0698
+    LDA $72 : STA.w $0698
     
     ; This accomplishes the second part of the map16 update (which
     ; actually updates a 32x32 region)
@@ -55,7 +55,7 @@ Gravestone_Move:
     
     .not_particular_addresses
     
-    TYA : AND.w #$00FF : STA $0692
+    TYA : AND.w #$00FF : STA.w $0692
     
     SEP #$20
     
@@ -151,11 +151,11 @@ Ancilla_Gravestone:
 ; $046E57-$046EDD LOCAL JUMP LOCATION
 Gravestone_RepelPlayerAdvance:
 {
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     REP #$20
     

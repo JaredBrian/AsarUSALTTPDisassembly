@@ -18,17 +18,17 @@ Ancilla_SuperBombExplosion:
 {
     LDA $11 : BNE .draw
     
-    DEC $039F, X : LDA $039F, X : BNE .draw
+    DEC.w $039F, X : LDA.w $039F, X : BNE .draw
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$02 : BNE .blast_sfx_delay
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .blast_sfx_delay
     
     LDA.b #$0C : JSR Ancilla_DoSfx2
     
     .blast_sfx_delay
     
-    LDA $0C5E, X : CMP.b #$0B : BNE .not_fully_exploded
+    LDA.w $0C5E, X : CMP.b #$0B : BNE .not_fully_exploded
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -36,7 +36,7 @@ Ancilla_SuperBombExplosion:
     
     TAY
     
-    LDA Ancilla_Bomb.interstate_intervals, Y : STA $039F, X
+    LDA Ancilla_Bomb.interstate_intervals, Y : STA.w $039F, X
     
     .draw
     
@@ -48,7 +48,7 @@ Ancilla_SuperBombExplosion:
     
     LDA.b #$32 : STA $0B
     
-    LDA $0C5E, X : TAY
+    LDA.w $0C5E, X : TAY
     
     LDA Bomb_Draw.num_oam_entries, Y : STA $08
     
@@ -59,7 +59,7 @@ Ancilla_SuperBombExplosion:
     ASL A : STA $04
             STZ $05
     
-    TYA : STA $0C54, X
+    TYA : STA.w $0C54, X
     
     LDY.b #$00
     
@@ -67,11 +67,11 @@ Ancilla_SuperBombExplosion:
     
     PHX : PHY
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     LDA $09 : ASL A : TAY
     
@@ -84,7 +84,7 @@ Ancilla_SuperBombExplosion:
     
     PLY
     
-    LDA $0C54, X : TAX
+    LDA.w $0C54, X : TAX
     
     LDA $01 : BNE .off_screen
     
@@ -115,15 +115,15 @@ Ancilla_SuperBombExplosion:
     
     DEC $09 : BPL .next_blast
     
-    LDA $0C5E, X : CMP.b #$03 : BNE .anomute_vulnerable_tiles
+    LDA.w $0C5E, X : CMP.b #$03 : BNE .anomute_vulnerable_tiles
     
-    LDA $039F, X : CMP.b #$01 : BNE .anomute_vulnerable_tiles
+    LDA.w $039F, X : CMP.b #$01 : BNE .anomute_vulnerable_tiles
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     PHX
     

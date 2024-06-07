@@ -100,13 +100,13 @@ Pool_Ancilla_SwordSwingSparkle:
 ; $04565A-$045703 JUMP LOCATION
 Ancilla_SwordSwingSparkle:
 {
-    DEC $03B1, X : BPL .termination_delay
+    DEC.w $03B1, X : BPL .termination_delay
     
-    LDA.b #$00 : STA $03B1, X
+    LDA.b #$00 : STA.w $03B1, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$04 : BNE .termination_delay
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .termination_delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -114,11 +114,11 @@ Ancilla_SwordSwingSparkle:
     
     PHX
     
-    LDA $20 : STA $0BFA, X
-    LDA $21 : STA $0C0E, X
+    LDA $20 : STA.w $0BFA, X
+    LDA $21 : STA.w $0C0E, X
     
-    LDA $22 : STA $0C04, X
-    LDA $23 : STA $0C18, X
+    LDA $22 : STA.w $0C04, X
+    LDA $23 : STA.w $0C18, X
     
     JSR Ancilla_PrepOamCoord
     
@@ -132,9 +132,9 @@ Ancilla_SwordSwingSparkle:
     ; Number of sprites to draw
     LDA.b #$02 : STA $08
     
-    LDY $0C72, X
+    LDY.w $0C72, X
     
-    LDA $0C5E, X : ASL A : CLC : ADC $0C5E, X : CLC : ADC .directed_oam_group, Y : TAX
+    LDA.w $0C5E, X : ASL A : CLC : ADC.w $0C5E, X : CLC : ADC .directed_oam_group, Y : TAX
     
     LDY.b #$00
     

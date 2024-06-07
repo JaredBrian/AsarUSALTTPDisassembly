@@ -26,18 +26,18 @@ Pool_MorphPoof_Draw:
 ; $0453BC-$0453FC JUMP LOCATION
 Ancilla_MorphPoof:
 {
-    DEC $03B1, X : BPL MorphPoof_Draw
+    DEC.w $03B1, X : BPL MorphPoof_Draw
     
-    LDA.b #$07 : STA $03B1, X
+    LDA.b #$07 : STA.w $03B1, X
     
     ; Tick the animation index and self terminate if at index 3.
-    LDA $0C5E, X : INC A : STA $0C5E, X : CMP.b #$03 : BNE MorphPoof_Draw
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$03 : BNE MorphPoof_Draw
     
-    STZ $0C4A, X
-    STZ $02E1
+    STZ.w $0C4A, X
+    STZ.w $02E1
     STZ $50
     
-    LDA $0C54, X : BNE .return
+    LDA.w $0C54, X : BNE .return
         STZ $2E
         STZ $4B
         
@@ -49,7 +49,7 @@ Ancilla_MorphPoof:
         
         .in_light_world
         
-        STY $02E0 : STY $56 : BEQ .using_normal_player_graphics
+        STY.w $02E0 : STY $56 : BEQ .using_normal_player_graphics
             JSL LoadGearPalettes.bunny
         
             BRA .return
@@ -68,12 +68,12 @@ Ancilla_MorphPoof:
 ; $0453FD-$045499 ALTERNATE ENTRY POINT
 MorphPoof_Draw:
     
-    LDA $0FB3 : BEQ .unsorted_sprites
+    LDA.w $0FB3 : BEQ .unsorted_sprites
     
-    LDA $0C7C, X : BEQ .use_default_oam_region
+    LDA.w $0C7C, X : BEQ .use_default_oam_region
     
     ; \wtf Why would we care if the boomerang is in play?
-    LDA $035F : BEQ .no_boomerang_in_play
+    LDA.w $035F : BEQ .no_boomerang_in_play
     
     LDA $1A : AND.b #$01 : BNE .use_default_oam_region
     
@@ -100,7 +100,7 @@ MorphPoof_Draw:
     
     PHX
     
-    LDY $0C5E, X
+    LDY.w $0C5E, X
     
     LDA .oam_size, Y : STA $08
     

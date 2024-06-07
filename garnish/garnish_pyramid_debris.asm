@@ -4,10 +4,10 @@
 ; $04B1BD-$04B20E LONG JUMP LOCATION
 Garnish_SpawnPyramidDebris:
 {
-    LDA.b #$03 : STA $012F
-    LDA.b #$1F : STA $012E
+    LDA.b #$03 : STA.w $012F
+    LDA.b #$1F : STA.w $012E
     
-    LDA.b #$05 : STA $012D ; play a sound effect
+    LDA.b #$05 : STA.w $012D ; play a sound effect
     
     PHX
     
@@ -25,7 +25,7 @@ Garnish_SpawnPyramidDebris:
     
     .empty_slot
     
-    LDA.b #$13 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$13 : STA.l $7FF800, X : STA.w $0FB4
     
     LDA.b #$E8 : CLC : ADC $00 : STA.l $7FF83C, X
     LDA.b #$60 : CLC : ADC $01 : STA.l $7FF81E, X

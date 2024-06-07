@@ -49,11 +49,11 @@ Ancilla_InitialCaneSpark:
 {
     LDA $11 : BNE .transmute_delay
     
-    DEC $03B1, X : BPL .transmute_delay
+    DEC.w $03B1, X : BPL .transmute_delay
     
-    LDA.b #$01 : STA $03B1, X
+    LDA.b #$01 : STA.w $03B1, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X
     
     CMP.b #$11 : BNE .transmute_delay
     
@@ -62,7 +62,7 @@ Ancilla_InitialCaneSpark:
     .transmute_delay
     
     ; Apparently, do nothing for the first state.
-    LDA $0C5E, X : BNE .active
+    LDA.w $0C5E, X : BNE .active
     
     BRL .return
     
@@ -70,11 +70,11 @@ Ancilla_InitialCaneSpark:
     
     LDA $2F : ASL #2 : STA $00
     
-    LDA $0300 : CMP.b #$02 : BNE .not_final_cast_pose
+    LDA.w $0300 : CMP.b #$02 : BNE .not_final_cast_pose
     
     TAY
     
-    LDA $039F, X : DEC A : BPL .not_final_chr_group
+    LDA.w $039F, X : DEC A : BPL .not_final_chr_group
     
     ; Reset the delay for using the final player relative position.
     ; Thus, all frames after this should use this position if $0300 stays
@@ -85,7 +85,7 @@ Ancilla_InitialCaneSpark:
     
     .not_final_chr_group
     
-    STA $039F, X
+    STA.w $039F, X
     
     TYA
     
@@ -100,11 +100,11 @@ Ancilla_InitialCaneSpark:
     
     SEP #$20
     
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
-    LDA $02 : STA $0C04, X
-    LDA $03 : STA $0C18, X
+    LDA $02 : STA.w $0C04, X
+    LDA $03 : STA.w $0C18, X
     
     JSR Ancilla_PrepOamCoord
     
@@ -120,7 +120,7 @@ Ancilla_InitialCaneSpark:
     STZ $0A
     
     ; If we branch here, chr group is 0x00
-    LDA $0C5E, X : DEC A : AND.b #$0F : BEQ .use_first_chr_group
+    LDA.w $0C5E, X : DEC A : AND.b #$0F : BEQ .use_first_chr_group
     
     CMP.b #$0F : BEQ .use_last_chr_group
     
@@ -203,7 +203,7 @@ Pool_CaneSpark_TransmuteInitialToNormal:
 ; $045C21-$045DC4 LONG BRANCH LOCATION
 CaneSpark_TransmuteInitialToNormal:
 {
-    LDA.b #$31 : STA $0C4A, X
+    LDA.b #$31 : STA.w $0C4A, X
     
     LDA $2F : ASL A : TAY
     
@@ -212,19 +212,19 @@ CaneSpark_TransmuteInitialToNormal:
     LDA .initial_rotation_states+2, Y : STA.l $7F5802
     LDA .initial_rotation_states+3, Y : STA.l $7F5803
     
-    LDA.b #$17 : STA $03B1, X
+    LDA.b #$17 : STA.w $03B1, X
     
-    STZ $0394, X
-    STZ $0C5E, X
+    STZ.w $0394, X
+    STZ.w $0C5E, X
     
-    LDA.b #$08 : STA $039F, X
+    LDA.b #$08 : STA.w $039F, X
     
-    STZ $0C54, X
-    STZ $0385, X
+    STZ.w $0C54, X
+    STZ.w $0385, X
     
-    LDA.b #$02 : STA $03A4, X
+    LDA.b #$02 : STA.w $03A4, X
     
-    LDA.b #$15 : STA $0C68, X
+    LDA.b #$15 : STA.w $0C68, X
     
     DEC A : STA.l $7F5808
     
@@ -248,16 +248,16 @@ CaneSpark_TransmuteInitialToNormal:
     
     .execute
     
-    LDA $0303 : CMP.b #$0D : BNE .self_terminate
+    LDA.w $0303 : CMP.b #$0D : BNE .self_terminate
     
     ; Make player invincible.
-    LDA.b #$01 : STA $037B
+    LDA.b #$01 : STA.w $037B
     
     ; Delay counter. (waits 0x18 frames to deplete magic)
-    DEC $03B1, X : LDA $03B1, X : BNE .maintain_invulnerability
+    DEC.w $03B1, X : LDA.w $03B1, X : BNE .maintain_invulnerability
     
     ; If this... timer has counted down. Reset it to one.
-    LDA.b #$01 : STA $03B1, X
+    LDA.b #$01 : STA.w $03B1, X
     
     ; Does player have normal, 1/2, or 1/4 consumption?
     LDA.l $7EF37B : TAY
@@ -274,9 +274,9 @@ CaneSpark_TransmuteInitialToNormal:
     
     STA $00
     
-    DEC $0394, X : BPL .magic_depletion_delay
+    DEC.w $0394, X : BPL .magic_depletion_delay
     
-    LDA.b #$17 : STA $0394, X
+    LDA.b #$17 : STA.w $0394, X
     
     LDA $00 : STA.l $7EF36E
     
@@ -290,22 +290,22 @@ CaneSpark_TransmuteInitialToNormal:
     PLX
     
     ; Make player vulnerable again.
-    STZ $037B
+    STZ.w $037B
     
     ; Self terminate this object.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    STZ $0373 ; Make it so Link takes no damage I guess.
+    STZ.w $0373 ; Make it so Link takes no damage I guess.
     
     RTS
     
     .maintain_invulnerability
     
-    LDA $0C54, X : CMP.b #$03 : BEQ .all_sparkles_visible
+    LDA.w $0C54, X : CMP.b #$03 : BEQ .all_sparkles_visible
     
     LDY.b #$00
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$04 : BCC .not_all_visible
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BCC .not_all_visible
     
     LDY.b #$03
     
@@ -326,13 +326,13 @@ CaneSpark_TransmuteInitialToNormal:
     .set_new_visible_quantity
     .not_three_visible
     
-    TYA : STA $0C54, X
+    TYA : STA.w $0C54, X
     
     .all_sparkles_visible
     
-    DEC $03A4, X : BPL .draw
+    DEC.w $03A4, X : BPL .draw
     
-    LDA.b #$02 : STA $03A4, X
+    LDA.b #$02 : STA.w $03A4, X
     
     ; Override to a different palette in this situation (blue?)
     LDA.b #$04 : STA $73
@@ -362,9 +362,9 @@ CaneSpark_TransmuteInitialToNormal:
     
     SEP #$20
     
-    LDA $0C68, X : BNE .sfx_delay
+    LDA.w $0C68, X : BNE .sfx_delay
     
-    LDA.b #$15 : STA $0C68, X
+    LDA.b #$15 : STA.w $0C68, X
     
     LDA.b #$30 : JSR Ancilla_DoSfx3_NearPlayer
     
@@ -374,7 +374,7 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDY.b #$00
     
-    LDA $0C54, X : TAX
+    LDA.w $0C54, X : TAX
     
     .next_oam_entry
     
@@ -417,13 +417,13 @@ CaneSpark_TransmuteInitialToNormal:
     
     LDX $74
     
-    LDA $04 : STA $0BFA, X
-    LDA $05 : STA $0C0E, X
+    LDA $04 : STA.w $0BFA, X
+    LDA $05 : STA.w $0C0E, X
     
-    LDA $06 : STA $0C04, X
-    LDA $07 : STA $0C18, X
+    LDA $06 : STA.w $0C04, X
+    LDA $07 : STA.w $0C18, X
     
-    STZ $0C72, X
+    STZ.w $0C72, X
     
     JSR Ancilla_CheckSpriteCollision
     

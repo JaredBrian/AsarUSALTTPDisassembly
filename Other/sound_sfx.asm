@@ -13,8 +13,8 @@ Pool_Sound_SetSfxPan:
 ; $06BB5E-$06BB66 LONG JUMP LOCATION
 Sound_SfxPanObjectCoords:
 {
-    LDA $0C18, X : XBA
-    LDA $0C04, X
+    LDA.w $0C18, X : XBA
+    LDA.w $0C04, X
     
     BRA Sound_SetSfxPan.useArbitraryCoords
 }
@@ -37,11 +37,11 @@ Sound_SetSfx1PanLong:
 {
     PHY
     
-    LDY $012D : BNE .channelInUse
+    LDY.w $012D : BNE .channelInUse
     
     JSR Sound_AddSfxPan
     
-    STA $012D
+    STA.w $012D
     
     .channelInUse
     
@@ -57,11 +57,11 @@ Sound_SetSfx2PanLong:
 {
     PHY
     
-    LDY $012E : BEQ .channelInUse
+    LDY.w $012E : BEQ .channelInUse
     
     JSR Sound_AddSfxPan
     
-    STA $012E
+    STA.w $012E
     
     .channelInUse
     
@@ -78,12 +78,12 @@ Sound_SetSfx3PanLong:
     PHY
     
     ; Is there a sound effect playing on this channel?
-    LDY $012F : BNE .channelInUse
+    LDY.w $012F : BNE .channelInUse
     
     JSR Sound_AddSfxPan
     
     ; Picked a sound effect, play it.
-    STA $012F
+    STA.w $012F
     
     .channelInUse
     
@@ -112,8 +112,8 @@ Sound_SetSfxPan:
     ; For example, if a bomb is more towards the left of the screen, the sound will mostly
     ; come out of the left speaker. The sound engine knows how to handle these inputs
     
-    LDA $0D30, X : XBA
-    LDA $0D10, X
+    LDA.w $0D30, X : XBA
+    LDA.w $0D10, X
     
     ; $06BBA8 BRANCH LOCATION
     .useArbitraryCoords

@@ -4,14 +4,14 @@
 ; $0413E8-$04141E JUMP LOCATION
 Ancilla_WallHit:
 {
-    DEC $039F, X : BPL .delay
+    DEC.w $039F, X : BPL .delay
     
-    LDA $0C5E, X : INC A : CMP.b #$05 : BEQ .self_terminate
+    LDA.w $0C5E, X : INC A : CMP.b #$05 : BEQ .self_terminate
     
-    STA $0C5E, X
+    STA.w $0C5E, X
     
     ; Reset the countdown tiemr to 1.
-    LDA.b #$01 : STA $039F, X
+    LDA.b #$01 : STA.w $039F, X
     
     BRA .delay
     
@@ -20,14 +20,14 @@ Ancilla_WallHit:
     
     JSR Ancilla_AlertSprites
     
-    DEC $03B1, X : BPL .delay
+    DEC.w $03B1, X : BPL .delay
     
-    LDA $0C5E, X : INC A : CMP.b #$08 : BEQ .self_terminate
+    LDA.w $0C5E, X : INC A : CMP.b #$08 : BEQ .self_terminate
     
-    STA $0C5E, X
+    STA.w $0C5E, X
     
     ; Reset the countdown timer to 1.
-    LDA.b #$01 : STA $03B1, X
+    LDA.b #$01 : STA.w $03B1, X
     
     BRA .delay
     
@@ -88,7 +88,7 @@ WallHit_Draw:
     
     PHX
     
-    LDA $0C5E, X : ASL #2 : TAX
+    LDA.w $0C5E, X : ASL #2 : TAX
     
     LDY.b #$00
     

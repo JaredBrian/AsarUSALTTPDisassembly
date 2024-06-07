@@ -4,13 +4,13 @@
 ; $046B3E-$046BE2 JUMP LOCATION
 Ancilla_SomarianBlockDivide:
 {
-    DEC $03B1, X : BPL .full_divide_delay
+    DEC.w $03B1, X : BPL .full_divide_delay
     
-    LDA.b #$03 : STA $03B1, X
+    LDA.b #$03 : STA.w $03B1, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X : CMP.b #$02 : BNE .full_divide_delay
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$02 : BNE .full_divide_delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     PHX
     
@@ -28,7 +28,7 @@ Ancilla_SomarianBlockDivide:
     
     ; \wtf Where is this variable actually initialized or  set for this
     ; object?
-    LDA $0380, X : CMP.b #$03 : BNE .unsigned_player_altitude
+    LDA.w $0380, X : CMP.b #$03 : BNE .unsigned_player_altitude
     
     LDA $24 : CMP.b #$FF : BNE .positive_player_altitude
     
@@ -38,7 +38,7 @@ Ancilla_SomarianBlockDivide:
     
     .positive_player_altitude
     
-    CLC : ADC $029E, X : STA $04 : BPL .positive_object_altitude
+    CLC : ADC.w $029E, X : STA $04 : BPL .positive_object_altitude
     
     LDY.b #$FF
     
@@ -56,7 +56,7 @@ Ancilla_SomarianBlockDivide:
     
     PHX
     
-    LDA $0C5E, X : ASL #3 : TAX
+    LDA.w $0C5E, X : ASL #3 : TAX
     
     LDY.b #$00 : STY $08
     

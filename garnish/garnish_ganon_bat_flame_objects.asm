@@ -26,7 +26,7 @@ Garnish_GanonBatFlameout:
 {
     ; special animation 0x11
     
-    LDA $11 : ORA $0FC1 : BNE .pause_movement
+    LDA $11 : ORA.w $0FC1 : BNE .pause_movement
     
     LDA.l $7FF81E, X : SEC : SBC.b #$01 : STA.l $7FF81E, X
     LDA.l $7FF85A, X : SBC.b #$00 : STA.l $7FF85A, X
@@ -39,16 +39,16 @@ Garnish_GanonBatFlameout:
     
     LDY $90
     
-    LDA $00     : STA $0000, Y
-    CLC : ADC.b #$08  : STA $0004, Y
-    LDA $02     : STA $0001, Y : STA $0005, Y
-    LDA.b #$A4  : STA $0002, Y
-    INC A       : STA $0006, Y
-    LDA.b #$22  : STA $0003, Y : STA $0007, Y 
+    LDA $00     : STA.w $0000, Y
+    CLC : ADC.b #$08  : STA.w $0004, Y
+    LDA $02     : STA.w $0001, Y : STA.w $0005, Y
+    LDA.b #$A4  : STA.w $0002, Y
+    INC A       : STA.w $0006, Y
+    LDA.b #$22  : STA.w $0003, Y : STA.w $0007, Y 
     
     LDY $92
     
-    LDA.b #$00 : STA $0000, Y : STA $0001, Y
+    LDA.b #$00 : STA.w $0000, Y : STA.w $0001, Y
     
     SEP #$10
     

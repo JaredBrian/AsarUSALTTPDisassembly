@@ -1651,17 +1651,17 @@ Overworld_AlterGargoyleEntrance:
     LDX.w #$0D40
     LDA.w #$0E1C
     
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0DBE
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0E3E
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA.w $1012, Y
     
@@ -1694,20 +1694,20 @@ Overworld_CreatePyramidHole:
     LDX.w #$03BE
     LDA.w #$0E40
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$043C
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$04BC
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA.w $1012, Y
     
@@ -2748,7 +2748,7 @@ Overworld_RevealSecret:
     
     .failure
     
-    JSR $C943 ; $0DC943 IN ROM
+    JSR.w $C943 ; $0DC943 IN ROM
     
     LDX.b $04
     
@@ -2758,7 +2758,7 @@ Overworld_RevealSecret:
     
     .normalSecret
     
-    JSR $C943 ; $0DC943 IN ROM
+    JSR.w $C943 ; $0DC943 IN ROM
     
     LDX.b $04
     
@@ -2851,7 +2851,7 @@ Overworld_DrawMap16_Anywhere
     
     TXA : CLC : ADC.b $00 : STA.b $00
     
-    JSR $CA69 ; $0DCA69 IN ROM
+    JSR.w $CA69 ; $0DCA69 IN ROM
     
     LDY.w $1000
     
@@ -3050,7 +3050,7 @@ AnimateEntrance_PoD_step1:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$40 : BNE .return
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
     
         LDA.l $7EF2DE : ORA.b #$20 : STA.l $7EF2DE
         
@@ -3071,16 +3071,16 @@ AnimateEntrance_PoD_step1:
         
         LDA.w #$0E30
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$026A
         LDA.w #$0E26
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$02EA
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDA.w #$FFFF : STA.w $1012, X
         
@@ -3101,7 +3101,7 @@ AnimateEntrance_PoD_step2:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1_return
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -3123,7 +3123,7 @@ AnimateEntrance_PoD_step3:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1_return
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -3135,7 +3135,7 @@ AnimateEntrance_PoD_step3:
         LDX.w #$02EA
         LDA.w #$0E2B
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$036A
         
@@ -3150,7 +3150,7 @@ AnimateEntrance_PoD_step4:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step2
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -3162,7 +3162,7 @@ AnimateEntrance_PoD_step4:
         LDX.w #$02EA
         LDA.w #$0E2E
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$036A
         
@@ -3177,7 +3177,7 @@ AnimateEntrance_PoD_step5:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_PoD_step1
-        JMP $CF40 ; $0DCF40 IN ROM
+        JMP.w $CF40 ; $0DCF40 IN ROM
 }
 
 ; ==============================================================================
@@ -3223,7 +3223,7 @@ AnimateEntrance_Skull_step1:
         LDX.w #$0814
         LDA.w #$0E06
     
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
     
         LDA.w #$FFFF : STA.w $1012
     
@@ -3267,8 +3267,8 @@ AnimateEntrance_Skull_step2:
     	LDX.w #$0792
     	LDA.w #$0E08
     
-    	JSR $C9DE ; $0DC9DE IN ROM
-    	JSR $C9DE ; $0DC9DE IN ROM
+    	JSR.w $C9DE ; $0DC9DE IN ROM
+    	JSR.w $C9DE ; $0DC9DE IN ROM
 
     	; Bleeds into the next function.
 }
@@ -3276,7 +3276,7 @@ AnimateEntrance_Skull_step2:
 ; $0DCC12-$0DCC26 JUMP LOCATION
 OverworldEntrance_AdvanceAndThud:
 {
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA.w $1012, X
     
@@ -3311,8 +3311,8 @@ AnimateEntrance_Skull_step3:
         LDX.w #$0712
         LDA.w #$0E08
     
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
     
         BRA OverworldEntrance_AdvanceAndThud
 }
@@ -3339,22 +3339,22 @@ AnimateEntrance_Skull_step4:
        LDX.w #$0596
        LDA.w #$0E12
     
-       JSR $C9DE ; $0DC9DE IN ROM
+       JSR.w $C9DE ; $0DC9DE IN ROM
     
        LDX.w #$0610
        LDA.w #$0E0D
     
-       JSR $C9DE ; $0DC9DE IN ROM
-       JSR $C9DE ; $0DC9DE IN ROM
-       JSR $C9DE ; $0DC9DE IN ROM
-       JSR $C9DE ; $0DC9DE IN ROM
+       JSR.w $C9DE ; $0DC9DE IN ROM
+       JSR.w $C9DE ; $0DC9DE IN ROM
+       JSR.w $C9DE ; $0DC9DE IN ROM
+       JSR.w $C9DE ; $0DC9DE IN ROM
     
        LDX.w #$0692
        LDA.w #$0E0B
     
-       JSR $C9DE ; $0DC9DE IN ROM
+       JSR.w $C9DE ; $0DC9DE IN ROM
     
-       JMP $CC12 ; $0DCC12 IN ROM
+       JMP.w $CC12 ; $0DCC12 IN ROM
 }
 
 ; ==============================================================================
@@ -3379,22 +3379,22 @@ AnimateEntrance_Skull_step5:
         LDX.w #$0596
         LDA.w #$0E14
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$0610
         
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$0692
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
-        JSR $CC12 ; $0DCC12 IN ROM
+        JSR.w $CC12 ; $0DCC12 IN ROM
         
-        JMP $CF40 ; $0DCF40 IN ROM
+        JMP.w $CF40 ; $0DCF40 IN ROM
 }
 
 ; ==============================================================================
@@ -3502,7 +3502,7 @@ AnimateEntrance_Mire_step2:
     
     ; If $C8 != 0x48, end the routine.
     CMP.b #$48 : BNE .return
-        JSR $D00E ; $0DD00E IN ROM; SFX FOR THE ENTRANCE OPENING
+        JSR.w $D00E ; $0DD00E IN ROM; SFX FOR THE ENTRANCE OPENING
         
         ; So, on the 0x48th frame, 
         
@@ -3524,23 +3524,23 @@ AnimateEntrance_Mire_step2:
         
         ; $0DCD75 ALTERNATE ENTRY POINT
         
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM Draw the next 3 tiles
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM Draw the next 3 tiles
         
         LDX.w #$06A2
         
-        JSR $C9DE ; $0DC9DE IN ROM Draw the next 4 tiles
-        JSR $C9DE ; $0DC9DE IN ROM one line below
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM Draw the next 4 tiles
+        JSR.w $C9DE ; $0DC9DE IN ROM one line below
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$0722
         
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDA.w #$FFFF : STA.w $1012, Y
         
@@ -3560,7 +3560,7 @@ AnimateEntrance_Mire_step3:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$48 : BNE AnimateEntrance_Mire_step2_return
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -3575,13 +3575,13 @@ AnimateEntrance_Mire_step3:
         ; $0DCDC6 BRANCH LOCATION
         .continue_many_many_replacements
         
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$0622
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         BRA .BRANCH_$DCD75
 }
@@ -3590,7 +3590,7 @@ AnimateEntrance_Mire_step3:
 AnimateEntrance_Mire_step4:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$50 : BNE AnimateEntrance_Mire_step2_return
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -3602,13 +3602,13 @@ AnimateEntrance_Mire_step4:
         LDX.w #$0524
         LDA.w $0E65
         
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$05A2
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         BRA AnimateEntrance_Mire_step3_continue_many_many_replacements
 }
@@ -3618,7 +3618,7 @@ AnimateEntrance_Mire_step5:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$80 : BNE .BRANCH_ALPHA
         ; CLEAN UP, PLAY A SOUND AND RETURN NORMALCY.
-        JSR $CF40 ; $0DCF40 IN ROM
+        JSR.w $CF40 ; $0DCF40 IN ROM
         
         LDA.b #$05 : STA.w $012D
     
@@ -3761,7 +3761,7 @@ AnimateEntrance_TurtleRock_step5:
 ; $0DCEAC-$0DCEF7 JUMP LOCATION
 AnimateEntrance_TurtleRock_step6:
 {
-    JSR $CF60
+    JSR.w $CF60
     
     LDA.b #$01 : STA.b $1D
     
@@ -3834,7 +3834,7 @@ AnimateEntrance_TurtleRock_step8:
     .alpha
     
     DEC.b $C8 : BNE AnimateEntrance_TurtleRock_step7_exit
-        JSR $CF60 ; $0DCF60 IN ROM
+        JSR.w $CF60 ; $0DCF60 IN ROM
         
         STZ.b $1D
         
@@ -3889,30 +3889,30 @@ OverworldEntrance_DrawManyTR:
     LDX.w #$09A0
     LDA.w #$0E79
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0A1E
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0A9E
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDX.w #$0B1E
     
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
-    JSR $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
+    JSR.w $C9DE ; $0DC9DE IN ROM
     
     LDA.w #$FFFF : STA.w $1012, Y
     
@@ -4010,7 +4010,7 @@ AnimateEntrance_GanonsTower_step03:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$30 : BNE .exit_a
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -4022,13 +4022,13 @@ AnimateEntrance_GanonsTower_step03:
         LDX.w #$0460
         LDA.w #$0E89
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$04DE
         LDA.w #$0EA2
         
-        JSR $C9DE ; $0DC9DE IN ROM
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDA.w #$0E8A
         
@@ -4040,12 +4040,12 @@ AnimateEntrance_GanonsTower_step03:
         ; $0DD04F ALTERNATE ENTRY POINT
         .draw2_advance
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         ; $0DD052 ALTERNATE ENTRY POINT
         .draw1_advance
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDA.w #$FFFF : STA.w $1012, Y
         
@@ -4065,7 +4065,7 @@ AnimateEntrance_GanonsTower_step04:
     INC.b $C8
     
     LDA.b $C8 : CMP.b #$30 : BNE AnimateEntrance_GanonsTower_step03_exit_a
-        JSR $D00E ; $0DD00E in Rom.
+        JSR.w $D00E ; $0DD00E in Rom.
         
         REP #$30
         
@@ -4077,13 +4077,13 @@ AnimateEntrance_GanonsTower_step04:
         LDX.w #$0460
         LDA.w #$0E8D
         
-        JSR $C9DE ; $0DC9DE in Rom.
+        JSR.w $C9DE ; $0DC9DE in Rom.
         
         LDX.w #$04DE
         LDA.w #$0E8E
         
-        JSR $C9DE ; $0DC9DE in Rom.
-        JSR $C9DE ; $0DC9DE in Rom.
+        JSR.w $C9DE ; $0DC9DE in Rom.
+        JSR.w $C9DE ; $0DC9DE in Rom.
         
         LDA.w #$0E90
         
@@ -4096,7 +4096,7 @@ AnimateEntrance_GanonsTower_step05:
 	INC.b $C8
 	
 	LDA.b $C8 : CMP.b #$34 : BNE .exit
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -4108,25 +4108,25 @@ AnimateEntrance_GanonsTower_step05:
         LDX.w #$0460
         LDA.w #$0E93
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDX.w #$04DE
         LDA.w #$0E94
         
-        JSR $C9DE ; $0DC9DE in ROM.
+        JSR.w $C9DE ; $0DC9DE in ROM.
         
         LDA.w #$0E94
         
-        JSR $C9DE ; $0DC9DE in ROM.
+        JSR.w $C9DE ; $0DC9DE in ROM.
         
         LDX.w #$055E
         LDA.w #$0E95
         
-        JSR $C9DE ; $0DC9DE in ROM.
+        JSR.w $C9DE ; $0DC9DE in ROM.
         
         LDA.w #$0E95
         
-        JSR $C9DE ; $0DC9DE in ROM.
+        JSR.w $C9DE ; $0DC9DE in ROM.
         
         LDA.w #$FFFF : STA.w $1012, Y
         
@@ -4144,7 +4144,7 @@ AnimateEntrance_GanonsTower_step05:
 AnimateEntrance_GanonsTower_step06:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
-        JSR $D00E ; $0DD00E
+        JSR.w $D00E ; $0DD00E
         
         REP #$30
         
@@ -4156,19 +4156,19 @@ AnimateEntrance_GanonsTower_step06:
         LDX.w #$0460
         LDA.w #$0E97
         
-        JSR $C9DE ; $0DC9DE in ROM
+        JSR.w $C9DE ; $0DC9DE in ROM
         
         LDX.w #$04DE
         LDA.w #$0E98
         
-        JMP $D04F ; $0DD04F IN ROM
+        JMP.w $D04F ; $0DD04F IN ROM
 }
 
 ; $0DD107-$0DD126 JUMP LOCATION
 AnimateEntrance_GanonsTower_step07:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -4180,14 +4180,14 @@ AnimateEntrance_GanonsTower_step07:
         LDX.w #$04E0
         LDA.w #$0E9B
         
-        JMP $D052 ; $0DD052 IN ROM
+        JMP.w $D052 ; $0DD052 IN ROM
 }
 
 ; $0DD127-$0DD14C JUMP LOCATION
 AnimateEntrance_GanonsTower_step08:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -4199,18 +4199,18 @@ AnimateEntrance_GanonsTower_step08:
         LDX.w #$04E0
         LDA.w #$0E9D
         
-        JSR $C9DE ; $0DC9DE IN ROM
+        JSR.w $C9DE ; $0DC9DE IN ROM
         
         LDA.w #$0E9E
         
-        JMP $D04C ; $0DD052 IN ROM
+        JMP.w $D04C ; $0DD052 IN ROM
 }
 
 ; $0DD14D-$0DD16C JUMP LOCATION
 AnimateEntrance_GanonsTower_step09:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step05_exit
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -4222,14 +4222,14 @@ AnimateEntrance_GanonsTower_step09:
         LDX.w #$0560
         LDA.w #$0E9B
         
-        JMP $D052 ; $0DD052 IN ROM
+        JMP.w $D052 ; $0DD052 IN ROM
 }
 
 ; $0DD16D-$0DD19E JUMP LOCATION
 AnimateEntrance_GanonsTower_step10:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
-        JSR $D00E ; $0DD00E in Rom.
+        JSR.w $D00E ; $0DD00E in Rom.
         
         REP #$30
         
@@ -4241,17 +4241,17 @@ AnimateEntrance_GanonsTower_step10:
         LDX.w #$0560
         LDA.w #$0E9D
         
-        JSR $C9DE ; $DC9DE
+        JSR.w $C9DE ; $DC9DE
         
         LDX.w #$05DE
         LDA.w #$0EA0
         
-        JSR $C9DE ; $0DC9DE in Rom.
+        JSR.w $C9DE ; $0DC9DE in Rom.
         
         LDA.w #$0EA1
         LDX.w #$05E0
         
-        JMP $D052 ; $0DD052 IN ROM.
+        JMP.w $D052 ; $0DD052 IN ROM.
 }
 
 ; $0DD19F-$0DD1BF JUMP LOCATION
@@ -4260,7 +4260,7 @@ AnimateEntrance_GanonsTower_step11:
     INC.b $C8 : LDA.b $C8 : CMP.b #$20 : BNE AnimateEntrance_GanonsTower_step12_waitForTimer
         LDA.b #$05 : STA.w $012D 
         
-        JSR $D00E ; $0DD00E IN ROM
+        JSR.w $D00E ; $0DD00E IN ROM
         
         REP #$30
         
@@ -4279,7 +4279,7 @@ AnimateEntrance_GanonsTower_step12:
 {
     INC.b $C8 : LDA.b $C8 : CMP.b #$48 : BNE .waitForTimer
         ; Play "you solved puzzle" sound.
-        JSR $CF40 ; $0DCF40 IN ROM
+        JSR.w $CF40 ; $0DCF40 IN ROM
         
         STZ.b $C8
         

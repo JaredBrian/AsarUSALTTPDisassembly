@@ -637,7 +637,7 @@ PreOverworld_LoadProperties:
 
     .specialArea
 
-    JSR $E9BC ; $0169BC IN ROM
+    JSR.w $E9BC ; $0169BC IN ROM
 
     .normalArea
 
@@ -775,14 +775,14 @@ PreOverworld_LoadProperties:
 
     LDA.b $10 : CMP.b #$08 : BNE .specialArea2
         ; $01465F IN ROM Copies $7EC300[0x200] to $7EC500[0x200].
-        JSR $C65F
+        JSR.w $C65F
 
         BRA .normalArea2
 
     .specialArea2
 
     ; Apparently special overworld handles palettes a bit differently?
-    JSR $C6EB ; $0146EB IN ROM
+    JSR.w $C6EB ; $0146EB IN ROM
 
     .normalArea2
 
@@ -838,7 +838,7 @@ PreOverworld_LoadProperties:
     STZ.w $0351
 
     ; Reinitialize many of Link's gameplay variables.
-    JSR $8B0C ; $010B0C IN ROM
+    JSR.w $8B0C ; $010B0C IN ROM
 
     LDA.l $7EF357 : BNE .notBunny
         LDA.l $7EF3CA : BEQ .notBunny
@@ -1064,7 +1064,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .specialArea
 
-    JSR $E851 ; Needed for running sequence 0xC or 0x1E. This is because they
+    JSR.w $E851 ; Needed for running sequence 0xC or 0x1E. This is because they
     ; are special outdoor areas (zora's domain and master sword).
 
     .normalArea
@@ -1115,7 +1115,7 @@ Credits_LoadScene_Overworld_PrepGFX:
 
     .BRANCH_4
 
-    JSR $C65F ; $01465F IN ROM
+    JSR.w $C65F ; $01465F IN ROM
     JSL Overworld_SetFixedColorAndScroll
 
     LDA.b $8A : CMP.b #$80 : BCC .BRANCH_5
@@ -1353,7 +1353,7 @@ Module_Dungeon:
                 ; Is Link standing in a door way?
                 LDA.b $6C : BNE .standingInDoorway
                     ; Check if the player triggered an inter-room transition this frame.
-                    JSR $885E ; $01085E IN ROM
+                    JSR.w $885E ; $01085E IN ROM
 
                 .standingInDoorway
     .enteredNonDefaultSubmodule
@@ -1790,7 +1790,7 @@ Dungeon_InterRoomTrans_Init:
 {
     LDA.w $0458 : PHA
 
-    JSR $8CAC ; $010CAC IN ROM
+    JSR.w $8CAC ; $010CAC IN ROM
 
     PLA : STA.w $0458
 
@@ -1900,7 +1900,7 @@ Dungeon_02_0C:
 {
     LDA.b $11 : CMP.b #$02 : BNE .BRANCH_ALPHA
         LDA.w $0200 : CMP.b #$05 : BNE .return
-            JSR $C12C ; $01412C IN ROM; Ugh... wtf does this do.
+            JSR.w $C12C ; $01412C IN ROM; Ugh... wtf does this do.
 
             LDA.l $7EC005 : ORA.l $7EC006 : BEQ .BRANCH_ALPHA
                 JSL PaletteFilter.doFiltering
@@ -2017,7 +2017,7 @@ Dungeon_02_07:
 
     .notDarkTransition
 
-    JSR $A1E9 ; $0121E9 IN ROM
+    JSR.w $A1E9 ; $0121E9 IN ROM
 
     RTS
 }
@@ -2261,7 +2261,7 @@ Dungeon_0E_01_HandleMusicAndResetProps:
 
     ; Performs a lot of resetting of Link's game engine variables.
     ; $010B0C IN ROM
-    JSR $8B0C
+    JSR.w $8B0C
 
     JSR Overworld_CgramAuxToMain
 
@@ -2312,7 +2312,7 @@ DungeonTransition_LoadSpriteGFX:
 {
     JSL LoadNewSpriteGFXSet ; $006031 IN ROM ; Prep some graphics for loading.
     JSL Dungeon_ResetSprites
-    JMP $8B67 ; $010B67 IN ROM
+    JMP.w $8B67 ; $010B67 IN ROM
 }
 
 ; ==============================================================================
@@ -2554,7 +2554,7 @@ Dungeon_FallingTransition_FallingFadeIn:
 
         STA.b $52
 
-        JSR $9165   ; $011165 IN ROM
+        JSR.w $9165   ; $011165 IN ROM
 
         LDA.b $A0
 
@@ -2612,7 +2612,7 @@ Dungeon_FallingTransition_CacheRoomAndSetMusic:
 {
     LDA.w $0200 : CMP.b #$05 : BNE .BRANCH_ALPHA
         JSR ResetThenCacheRoomEntryProperties ; $010D71 IN ROM
-        JSR $8BD7 ; $010BD7 IN ROM
+        JSR.w $8BD7 ; $010BD7 IN ROM
         JSL Graphics_LoadChrHalfSlot
 
     .BRANCH_ALPHA
@@ -2986,7 +2986,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 
     LDA.l $01C322, X : STA.b $EE
 
-    JSR $92B1 ; $0112B1 IN ROM
+    JSR.w $92B1 ; $0112B1 IN ROM
 
     PLA : STA.b $EE
 
@@ -3047,7 +3047,7 @@ Dungeon_SyncBackgroundsFromSpiralStairs:
 ; $01115B-$01119A LOCAL JUMP LOCATION
 Dungeon_AdvanceThenSetBossMusicUnorthodox:
 {
-    JSR $8B0C ; $010B0C IN ROM
+    JSR.w $8B0C ; $010B0C IN ROM
 
     LDA.b #$38 : STA.w $0464
 
@@ -3506,7 +3506,7 @@ Dungeon_StraightStairs_LoadAndPrepRoom:
 StraightStairs_3:
 {
     JSL PaletteFilter.doFiltering
-    JSR $8E0F ; $010E0F IN ROM
+    JSR.w $8E0F ; $010E0F IN ROM
 
     RTS
 }
@@ -3517,7 +3517,7 @@ StraightStairs_3:
 StraightStairs_4:
 {
     JSL PaletteFilter.doFiltering
-    JSR $8E1D ; $010E1D IN ROM
+    JSR.w $8E1D ; $010E1D IN ROM
 
     LDA.b $A0 : STA.w $048E
 
@@ -3651,7 +3651,7 @@ StraightStairs_9:
     DEC.b $B0
 
     JSL LoadNewSpriteGFXSet ; $006031 IN ROM
-    JMP $A1E9 ; $0121E9 IN ROM
+    JMP.w $A1E9 ; $0121E9 IN ROM
 }
 
 ; ==============================================================================
@@ -4097,7 +4097,7 @@ RecoverPegGFXFromMapping:
 
     .BRANCH_ALPHA
 
-    JSR $9773 ; $011773 IN ROM
+    JSR.w $9773 ; $011773 IN ROM
 
     RTL
 }
@@ -4313,7 +4313,7 @@ Module0C_Unused:
     ; Beginning of Module #$C, ???? Mode.
 
     JSR Overworld_ResetMosaic
-    JSR $9922 ; $011922 IN ROM
+    JSR.w $9922 ; $011922 IN ROM
 
     RTL
 }
@@ -4351,8 +4351,8 @@ Module0D_Unused:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $0142F6 IN ROM
-    JSR $9951 ; $011951 IN ROM
+    JSR.w $C2F6 ; $0142F6 IN ROM
+    JSR.w $9951 ; $011951 IN ROM
 
     RTL
 }
@@ -4912,7 +4912,7 @@ Module_BossVictory_Heal:
     LDA.w $0200 : BNE .reset_module
         LDA.b $3A : AND.b #$BF : STA.b $3A
 
-        JSR $8B0C ; $010B0C IN ROM
+        JSR.w $8B0C ; $010B0C IN ROM
 
         LDA.b #$02 : STA.b $2F
 
@@ -5367,7 +5367,7 @@ Module16_04_FadeAndEnd:
 
         STZ.b $11 : STZ.b $B0
 
-        JMP $9A37 ; $011A37 IN ROM
+        JMP.w $9A37 ; $011A37 IN ROM
 }
 
 ; ==============================================================================
@@ -5673,7 +5673,7 @@ TriforceRoom_Step2:
 
     JSL Vram_EraseTilemaps.normal
     JSL Palette_RevertTranslucencySwap
-    JSR $E851 ; $016851 IN ROM
+    JSR.w $E851 ; $016851 IN ROM
     JSR Overworld_ReloadSubscreenOverlay ; $012F1E IN ROM
 
     INC.b $B0
@@ -5697,12 +5697,12 @@ TriforceRoom_Step3:
 
     ; ZS writes here. - ZS Custom Overworld
     ; $01207A
-    JSR $C6AD ; $0146AD IN ROM
+    JSR.w $C6AD ; $0146AD IN ROM
 
     LDA.b #$0E
 
     JSL Overworld_LoadPalettes
-    JSR $C6EB ; $0146EB IN ROM
+    JSR.w $C6EB ; $0146EB IN ROM
 
     INC.b $B0
 
@@ -5714,7 +5714,7 @@ TriforceRoom_Step4:
 {
     LDA.b $B0 : PHA
 
-    JSR $EDB9 ; $016DB9 IN ROM
+    JSR.w $EDB9 ; $016DB9 IN ROM
 
     PLA : INC A : STA.b $B0
 
@@ -5773,7 +5773,7 @@ TriforceRoom_Step6:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $0142F6 IN ROM
+    JSR.w $C2F6 ; $0142F6 IN ROM
     JSL PaletteFilter.doFiltering
 
     RTS
@@ -6110,7 +6110,7 @@ ResetTransitionPropsAndAdvance_ResetInterface_long:
 Underworld_HandleTranslucencyAndPalettes_long:
 {
     ; Only known reference is from a seemingly unused submodule of module 0x0E (submodule 0x06).
-    JSR $A1E9 ; $0121E9 IN ROM
+    JSR.w $A1E9 ; $0121E9 IN ROM
 
     RTL
 }
@@ -6118,7 +6118,7 @@ Underworld_HandleTranslucencyAndPalettes_long:
 ; $0122AD-$0122B0 LONG JUMP LOCATION
 UnusedInterfacePaletteRecovery_long:
 {
-    JSR $A281 ; $012281 IN ROM
+    JSR.w $A281 ; $012281 IN ROM
 
     RTL
 }
@@ -6240,10 +6240,10 @@ Module_OverworldTable:
     dw Module09_19                          ; 0x19 Loads map data for module B?
     dw Overworld_LoadTransGfx               ; 0x1A Starts loading new gfx on a module B scrolling transition ; Run when entering a special area.
     dw Overworld_FinishTransGfx             ; 0x1B Finishes loading new gfx.
-    dw Module09_1C                          ; 0x1C $013150
-    dw Module09_1D                          ; 0x1D $012ECE
-    dw Module09_1E                          ; 0x1E $012EEA
-    dw Module09_1F                          ; 0x1F $0142A4 Coming out of Lost woods.
+    dw Module09_1C                          ; 0x1C.w $013150
+    dw Module09_1D                          ; 0x1D.w $012ECE
+    dw Module09_1E                          ; 0x1E.w $012EEA
+    dw Module09_1F                          ; 0x1F.w $0142A4 Coming out of Lost woods.
     dw Overworld_ReloadSubscreenOverlay     ; 0x20 Coming back from Overworld Map.... reloads subscreen overlay to wram?
     dw Overworld_LoadAmbientOverlay         ; 0x21 Coming back from Overworld Map.... sends command to reupload subscreen overlay to vram?
     dw Overworld_BrightenScreen             ; 0x22 $0131BB - Brightens screen.
@@ -6259,7 +6259,7 @@ Module_OverworldTable:
     dw Overworld_MirrorWarp                 ; 0x2C Magic Mirror routine (warping back from a failed warp).
     dw Overworld_WeathervaneExplosion       ; 0x2D Used for breaking open the weather vane (RTS!).
     dw Overworld_Whirlpool                  ; 0x2E 0x2E and 0x2F are used for the whirlpool teleporters.
-    dw Module09_2F                          ; 0x2F $013521 Is jumped to from the previous submodule.
+    dw Module09_2F                          ; 0x2F.w $013521 Is jumped to from the previous submodule.
 }
 
 ; $01246D-$012474 DATA TABLE
@@ -6662,7 +6662,7 @@ OverworldHandleTransitions:
 
     STY.b $02 : STZ.b $03
 
-    JSR $8B0C ; $010B0C IN ROM
+    JSR.w $8B0C ; $010B0C IN ROM
 
     REP #$31
 
@@ -6991,7 +6991,7 @@ Overworld_LoadNewSprites:
 
         STX.w $0416
 
-        JSR $F20E ; $01720E IN ROM
+        JSR.w $F20E ; $01720E IN ROM
 
         STZ.w $0416
 
@@ -7010,7 +7010,7 @@ Overworld_EaseOffScrollTransition:
     LDA .overworldScreenSize, X : BEQ .largeArea
         LDX.w $0410 : STX.w $0416
 
-        JSR $F20E ; $01720E IN ROM
+        JSR.w $F20E ; $01720E IN ROM
 
         STZ.w $0416
 
@@ -7156,7 +7156,7 @@ UNREACHABLE_02AD63:
 {
     REP #$30
 
-    JSR $AD87 ; $012D87 IN ROM Involved in picking up large rocks.
+    JSR.w $AD87 ; $012D87 IN ROM Involved in picking up large rocks.
 
     STZ.w $0692
 
@@ -7343,7 +7343,7 @@ OverworldMosaicTransition_HandleScreensAndLoadShroom:
     .lostWoods
 
     LDA.b $11 : CMP.b #$24 : BNE .BRANCH_GAMMA
-        JSR $E9BC ; $0169BC IN ROM
+        JSR.w $E9BC ; $0169BC IN ROM
 
         ; $012EBF - ZS Custom Overworld? - loads some sort of animated tile, needs more investigation.
         LDA.b $8A : AND.b #$3F : BNE .BRANCH_GAMMA 
@@ -7402,7 +7402,7 @@ Module09_1E_02_FBlankAndLoadSPOW:
 {
     LDA.b #$80 : STA.b $13
 
-    JSR $E9BC ; $0169BC IN ROM
+    JSR.w $E9BC ; $0169BC IN ROM
 
     LDA.b #$09 : STA.b $10
     LDA.b #$0F : STA.b $11
@@ -7678,7 +7678,7 @@ Module09_FadeBackInFromMosaic:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $0142F6 IN ROM
+    JSR.w $C2F6 ; $0142F6 IN ROM
 
     LDA.b $B0
 
@@ -7756,7 +7756,7 @@ Module09_1C:
 
     .BRANCH_ALPHA
 
-    JSR $C2F6 ; $0142F6 IN ROM
+    JSR.w $C2F6 ; $0142F6 IN ROM
 
     LDA.b $B0
 
@@ -7837,7 +7837,7 @@ Module09_18:
     LDA.b $11 : PHA ; Save submodule number
 
     JSR LoadSpecialOverworld
-    JSR $AF0B ; $012F0B IN ROM
+    JSR.w $AF0B ; $012F0B IN ROM
 
     PLA : INC A : STA.b $11 ; Move on to the next module (0x19)
     PLA :         STA.b $10
@@ -7853,7 +7853,7 @@ Module09_19:
     LDA.b $10 : PHA
     LDA.b $11 : PHA
 
-    JSR $EDB9 ; $016DB9 IN ROM
+    JSR.w $EDB9 ; $016DB9 IN ROM
 
     PLA : INC A : STA.b $11
     PLA : STA.b $10
@@ -8164,7 +8164,7 @@ MirrorWarp_LoadSpritesAndColors:
     JSL Sprite_ResetAll
     JSL Sprite_OverworldReloadAll
     JSL.l $07B107 ; $03B107 IN ROM
-    JSR $8B0C   ; $010B0C IN ROM
+    JSR.w $8B0C   ; $010B0C IN ROM
 
     LDA.b #$14 : STA.b $5D
 
@@ -8528,7 +8528,7 @@ Dungeon_AdjustForRoomLayout:
 
     SEP #$30
 
-    JSR $BA27 ; $013A27 IN ROM; Set $A8 to a composite of quadrants we're in
+    JSR.w $BA27 ; $013A27 IN ROM; Set $A8 to a composite of quadrants we're in
 
     STZ.b $A6
 
@@ -8611,27 +8611,27 @@ HandleEdgeTransitionMovementEast_RightBy8:
 
     LDA.b $A9 : EOR.b #$01 : STA.b $A9
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B968 ; $013968 IN ROM
-    JSR $B947 ; $013947 IN ROM
+    JSR.w $B968 ; $013968 IN ROM
+    JSR.w $B947 ; $013947 IN ROM
 
     LDA.b $A9
 
-    JSR $BDC8 ; $013DC8 IN ROM
+    JSR.w $BDC8 ; $013DC8 IN ROM
 
     LDY.b #$02
 
-    JSR $B9DC ; $0139DC IN ROM
+    JSR.w $B9DC ; $0139DC IN ROM
 
     INC.b $11
 
     LDA.b $A9 : BNE .BRANCH_ALPHA
         LDX.b #$08
 
-        JSR $B981 ; $013981 IN ROM
+        JSR.w $B981 ; $013981 IN ROM
 
         LDA.b $A0 : STA.b $A2
 
@@ -8719,27 +8719,27 @@ HandleEdgeTransitionMovementWest_LeftBy8:
 
     LDA.b $A9 : EOR.b #$01 : STA.b $A9
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B99A ; $01399A IN ROM
-    JSR $B947 ; $013947 IN ROM
+    JSR.w $B99A ; $01399A IN ROM
+    JSR.w $B947 ; $013947 IN ROM
 
     LDA.b $A9 : EOR.b #$01
 
-    JSR $BDC8 ; $013DC8 IN ROM
+    JSR.w $BDC8 ; $013DC8 IN ROM
 
     LDY.b #$03
 
-    JSR $B9DC ; $0139DC IN ROM
+    JSR.w $B9DC ; $0139DC IN ROM
 
     INC.b $11
 
     LDA.b $A9 : BNE .BRANCH_ALPHA
         LDX.b #$08
 
-        JSR $B9B3 ; $0139B3 IN ROM
+        JSR.w $B9B3 ; $0139B3 IN ROM
 
         LDA.b $A0 : STA.b $A2
 
@@ -8829,27 +8829,27 @@ HandleEdgeTransitionMovementSouth:
     ; Alternate between being in the lower half and the upper half of the room.
     LDA.b $AA : EOR #$02 : STA.b $AA
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
-    JSR $B968 ; $013968 IN ROM
-    JSR $B947 ; $013947 IN ROM
+    JSR.w $B968 ; $013968 IN ROM
+    JSR.w $B947 ; $013947 IN ROM
 
     LDA.b $AA
 
-    JSR $BDE2 ; $013DE2 IN ROM
+    JSR.w $BDE2 ; $013DE2 IN ROM
 
     LDY.b #$00
 
-    JSR $B9DC ; $0139DC IN ROM
+    JSR.w $B9DC ; $0139DC IN ROM
 
     INC.b $11
 
     LDA.b $AA : BNE .inRoomLowerHalf
         LDX.b #$00
 
-        JSR $B981 ; $013981 IN ROM
+        JSR.w $B981 ; $013981 IN ROM
 
         LDA.b $A0 : STA.b $A2
 
@@ -8867,7 +8867,7 @@ HandleEdgeTransitionMovementSouth:
             STZ.b $11
             STZ.b $B0
 
-            JSR $8B0C ; $010B0C IN ROM
+            JSR.w $8B0C ; $010B0C IN ROM
 
             PLB
 
@@ -8934,32 +8934,32 @@ HandleEdgeTransitionMovementNorth:
 
     LDA.b $AA : EOR.b #$02 : STA.b $AA
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
-    JSR $B99A ; $01399A IN ROM
-    JSR $B947 ; $013947 IN ROM
+    JSR.w $B99A ; $01399A IN ROM
+    JSR.w $B947 ; $013947 IN ROM
 
     LDA.b $AA : EOR.b #$02
 
-    JSR $BDE2 ; $013DE2 IN ROM
+    JSR.w $BDE2 ; $013DE2 IN ROM
 
     LDY.b #$01
 
-    JSR $B9DC ; $0139DC IN ROM
+    JSR.w $B9DC ; $0139DC IN ROM
 
     INC.b $11
 
     LDA.b $AA : BEQ .inRoomUpperHalf
         LDX.b #$00
 
-        JSR $B9B3 ; $0139B3 IN ROM
+        JSR.w $B9B3 ; $0139B3 IN ROM
 
         LDA.b $A0 : STA.b $A2
 
         LDA.w $0114 : CMP.b #$8E : BNE .notGoingToOverworld
-            JMP $B7AE ; $0137AE IN ROM
+            JMP.w $B7AE ; $0137AE IN ROM
 
         .notGoingToOverworld
 
@@ -9037,11 +9037,11 @@ AdjustQuadrantAndCamera_right:
 {
     LDA.b $A9 : EOR #$01 : STA.b $A9
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B968 ; $013968 IN ROM
+    JSR.w $B968 ; $013968 IN ROM
 
     ; Bleeds into the next function.
 }
@@ -9077,11 +9077,11 @@ AdjustQuadrantAndCamera_left:
 {
     LDA.b $A9 : EOR #$01 : STA.b $A9
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$08
 
-    JSR $B99A ; $01399A IN ROM
+    JSR.w $B99A ; $01399A IN ROM
 
     BRA SetAndSaveVisitedQuadrantFlags
 }
@@ -9091,12 +9091,12 @@ AdjustQuadrantAndCamera_down:
 {
     LDA.b $AA : EOR.b #$02 : STA.b $AA
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
     ; Moving down...
-    JSR $B968 ; $013968 IN ROM
+    JSR.w $B968 ; $013968 IN ROM
 
     BRA SetAndSaveVisitedQuadrantFlags
 }
@@ -9106,12 +9106,12 @@ AdjustQuadrantAndCamera_up:
 {
     LDA.b $AA : EOR.b #$02 : STA.b $AA
 
-    JSR $BA27 ; $013A27 IN ROM
+    JSR.w $BA27 ; $013A27 IN ROM
 
     LDX.b #$00
 
     ; Moving up...
-    JSR $B99A ; $01399A IN ROM
+    JSR.w $B99A ; $01399A IN ROM
 
     BRA SetAndSaveVisitedQuadrantFlags
 }
@@ -9139,7 +9139,7 @@ Dungeon_SaveRoomQuadrantData:
     ; These determine the quadrants Link has seen in this room.
     LDA.l $02B5CC, X : ORA.w $0408 : STA.w $0408
 
-    JSR $B947 ; $013947 IN ROM ; Save the room data and exit.
+    JSR.w $B947 ; $013947 IN ROM ; Save the room data and exit.
 
     RTL
 }
@@ -9485,7 +9485,7 @@ Overworld_OperateCameraScroll:
     LDA.w #$0001 : STA.b $00
 
     LDA.b $30 : AND.w #$00FF : BNE .BRANCH_BETA
-        JMP $BC60 ; $013C60 IN ROM
+        JMP.w $BC60 ; $013C60 IN ROM
 
     .BRANCH_BETA
 
@@ -9519,7 +9519,7 @@ Overworld_OperateCameraScroll:
 
                     LDX.b #$06
 
-                    JSR $BD62 ; $013D62 IN ROM
+                    JSR.w $BD62 ; $013D62 IN ROM
 
             .BRANCH_EPSILON
     DEC.b $02 : BNE .BRANCH_THETA
@@ -9579,7 +9579,7 @@ Overworld_OperateCameraScroll:
     LDA.w #$0001 : STA.b $00
 
     LDA.b $31 : AND.w #$00FF : BNE .BRANCH_XI
-        JMP $BCFB ; $013CFB IN ROM
+        JMP.w $BCFB ; $013CFB IN ROM
 
     .BRANCH_XI
 
@@ -9610,7 +9610,7 @@ Overworld_OperateCameraScroll:
 
         LDX.b #$00
 
-        JSR $BD62 ; $013D62 IN ROM
+        JSR.w $BD62 ; $013D62 IN ROM
 
         .BRANCH_RHO
 
@@ -10082,7 +10082,7 @@ OverworldScrollTransition:
 
     LDA.w $0700 : CLC : ADC.w $A83C, Y : TAY ; $01283C IN ROM
 
-    JSR $C0C3 ; $0140C3 IN ROM
+    JSR.w $C0C3 ; $0140C3 IN ROM
 
     PLX
 
@@ -10163,8 +10163,8 @@ UnderworldTransitionLandingCoordinate:
 UnderworldTransition_FindTransitionLanding:
 {
     ; This routine apparently positions link after the transition has occurred?
-    JSR $8B0C   ; $010B0C IN ROM ; Erases special effects and resets dash status
-    JSR $C12C   ; $01412C IN ROM
+    JSR.w $8B0C   ; $010B0C IN ROM ; Erases special effects and resets dash status
+    JSR.w $C12C   ; $01412C IN ROM
 
     INC.b $B0
 
@@ -10189,7 +10189,7 @@ IntraroomTransitionCalculateLanding:
 
     PHA
 
-    JSR $C1E5 ; $0141E5 IN ROM
+    JSR.w $C1E5 ; $0141E5 IN ROM
 
     LDX.w $0418
 
@@ -10244,7 +10244,7 @@ Module07_02_0D:
     JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
 
     ; $014191 IN ROM
-    JSR $C191 : BCC .BRANCH_BETA
+    JSR.w $C191 : BCC .BRANCH_BETA
         LDX.b $4E
 
         CPX.b #$02 : BEQ .BRANCH_GAMMA
@@ -12783,7 +12783,7 @@ Overworld_LoadNewScreenProperties
 
     ; Sets up numerous boundaries ($06xx vars) but I don't know their exact
     ; function.
-    JSR $C0C3 ; $0140C3 IN ROM
+    JSR.w $C0C3 ; $0140C3 IN ROM
 
     SEP #$20
 
@@ -13022,10 +13022,10 @@ LoadSpecialOverworld:
     ; Direction
     LDA.l Pool_LoadSpecialOverworld_direction, X : STA.b $2F : STZ.w $0412
 
-    ; GFX $0AA3
+    ; GFX.w $0AA3
     LDA.l Pool_LoadSpecialOverworld_gfx_0AA3, X : STA.w $0AA3
 
-    ; GFX $0AA2
+    ; GFX.w $0AA2
     LDA.l Pool_LoadSpecialOverworld_gfx_0AA2, X : STA.w $0AA2 : PHX
 
     ; Palette property b
@@ -13235,7 +13235,7 @@ BirdTravel_LoadTargetAreaData:
 
     STZ.w $04AC
 
-    ASL $1AF0
+    ASL.w $1AF0
 
     LDX.w $1AF0
 
@@ -13269,13 +13269,13 @@ BirdTravel_LoadTargetAreaData:
 
     PLB
 
-    JSR $E58B ; $01658B IN ROM
+    JSR.w $E58B ; $01658B IN ROM
     JSL Sprite_ResetAll
     JSL Sprite_OverworldReloadAll
 
     STZ.b $6C
 
-    JSR $8B0C ; $010B0C IN ROM
+    JSR.w $8B0C ; $010B0C IN ROM
 
     RTL
 }
@@ -13295,7 +13295,7 @@ BirdTravel_LoadTargetAreaPalettes:
 
     JSL Overworld_LoadPalettes
     JSL Palette_SetOwBgColor_Long
-    JSR $C65F ; $01465F IN ROM
+    JSR.w $C65F ; $01465F IN ROM
 
     RTL
 }
@@ -14002,7 +14002,7 @@ BuildFullStripeDuringTransition_North:
 
     STZ.b $0E
 
-    JSR $F2F1 ; $0172F1 IN ROM
+    JSR.w $F2F1 ; $0172F1 IN ROM
 
     ; Bleeds into the next function.
 }
@@ -14033,7 +14033,7 @@ BuildFullStripeDuringTransition_South:
 
     STZ.b $0E
 
-    JSR $F325 ; $017325 IN ROM
+    JSR.w $F325 ; $017325 IN ROM
 
     BRA OverworldTransitionScrollAndLoadMap_BuildStripe
 }
@@ -14045,7 +14045,7 @@ BuildFullStripeDuringTransition_West:
 
     STZ.b $0E
 
-    JSR $F363 ; $017363 IN ROM
+    JSR.w $F363 ; $017363 IN ROM
 
     BRA OverworldTransitionScrollAndLoadMap_BuildStripe
 }
@@ -14057,7 +14057,7 @@ BuildFullStripeDuringTransition_East:
 
     STZ.b $0E
 
-    JSR $F39D ; $01739D IN ROM
+    JSR.w $F39D ; $01739D IN ROM
 
     BRA OverworldTransitionScrollAndLoadMap_BuildStripe
 }
@@ -14132,7 +14132,7 @@ Overworld_TransError:
 ; $0172A5-$0172AB LOCAL JUMP LOCATION
 Overworld_ScrollRight:
 {
-    JSR $F37F ; $01737F IN ROM
+    JSR.w $F37F ; $01737F IN ROM
 
     STZ.w $0416
 
@@ -14144,7 +14144,7 @@ Overworld_ScrollRight:
 ; $0172AC-$0172B2 LOCAL JUMP LOCATION
 Overworld_ScrollLeft:
 {
-    JSR $F345 ; $017345 IN ROM
+    JSR.w $F345 ; $017345 IN ROM
 
     STZ.w $0416
 
@@ -14156,7 +14156,7 @@ Overworld_ScrollLeft:
 ; $0172B3-$0172B9 LOCAL JUMP LOCATION
 Overworld_ScrollUp:
 {
-    JSR $F311 ; $017311 IN ROM
+    JSR.w $F311 ; $017311 IN ROM
 
     STZ.w $0416
 
@@ -14168,7 +14168,7 @@ Overworld_ScrollUp:
 ; $0172BA-$0172C7 LOCAL JUMP LOCATION
 MapScroll_SouthAndClear:
 {
-    JSR $F311 ; $017311 IN ROM
+    JSR.w $F311 ; $017311 IN ROM
 
     SEP #$30
 
@@ -14180,7 +14180,7 @@ MapScroll_SouthAndClear:
 ; $0172C8-$0172CE LOCAL JUMP LOCATION
 Overworld_ScrollDown:
 {
-    JSR $F2DD ; $0172DD IN ROM
+    JSR.w $F2DD ; $0172DD IN ROM
 
     STZ.w $0416
 
@@ -14190,7 +14190,7 @@ Overworld_ScrollDown:
 ; $0172CF-$0172DC LOCAL JUMP LOCATION
 MapScroll_NorthAndClear:
 {
-    JSR $F2DD ; $0172DD IN ROM
+    JSR.w $F2DD ; $0172DD IN ROM
 
     SEP #$30
 
@@ -14391,7 +14391,7 @@ Overworld_DrawHorizontalStrip:
 
     LDA.l $02F889 ; $017889 IN ROM
 
-    JSR $F435 ; $017435 IN ROM
+    JSR.w $F435 ; $017435 IN ROM
 
     LDA.b $0C : STA.b $00
 
@@ -15445,7 +15445,7 @@ Overworld_Decomp:
             ASL A : BPL .BRANCH_REPEATING ; Provided nothing shifted into the MSB [001]
                 ; If it was negative, shift again.
                 ASL A : BPL .BRANCH_REPEATINGWORD ; [010]
-                    JSR $FF5F ; And of course the last case, [011]
+                    JSR.w $FF5F ; And of course the last case, [011]
 
                     LDX.b $CB
 
@@ -15462,7 +15462,7 @@ Overworld_Decomp:
 
     .BRANCH_NONREPEATING
 
-        JSR $FF5F ; Get the next value.
+        JSR.w $FF5F ; Get the next value.
 
         ; Store it at TargetAddress, Y
         STA.b [$00], Y
@@ -15477,7 +15477,7 @@ Overworld_Decomp:
 
     .BRANCH_REPEATING
 
-    JSR $FF5F ; Get the next value.
+    JSR.w $FF5F ; Get the next value.
 
     LDX.b $CB ; Get the 5 LSB plus one.
 
@@ -15517,7 +15517,7 @@ Overworld_Decomp:
 
     .BRANCH_OUTOFBYTES
 
-    JMP $FEC0 ; $017EC0 IN ROM.
+    JMP.w $FEC0 ; $017EC0 IN ROM.
 
     .BRANCH_COPY
 
@@ -15552,7 +15552,7 @@ Overworld_Decomp:
         REP #$20
     DEC.b $CB : SEP #$20 : BNE .BRANCH_LOOPBACK2
 
-    JMP $FEC0 ; $17EC0 IN ROM. SAME EXPLANATION AS BEFORE.
+    JMP.w $FEC0 ; $17EC0 IN ROM. SAME EXPLANATION AS BEFORE.
 }
 
 ; ==============================================================================

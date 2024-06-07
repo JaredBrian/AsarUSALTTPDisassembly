@@ -37,9 +37,9 @@ Ancilla_LampFlame:
     
     LDY.b #$00
     
-    LDA $0C68, X : BNE .termination_delay
+    LDA.w $0C68, X : BNE .termination_delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     

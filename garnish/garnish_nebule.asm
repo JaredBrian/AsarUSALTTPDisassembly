@@ -35,7 +35,7 @@ Garnish_Nebule:
     
     LDA.l $7FF92C, X : TAY
     
-    LDA $0F50, Y : ORA $0B89, Y : AND.W #$7AFE
+    LDA.w $0F50, Y : ORA.w $0B89, Y : AND.W #$7AFE
     
     JMP Garnish_SetOamPropsAndSmallSize
 }

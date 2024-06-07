@@ -15,17 +15,17 @@ Ancilla_EtherSpell:
     
     ; This designates a step in the animation
     ; Is it the first step? (yes)
-    LDA $0C54, X : BEQ .no_palette_manipulation
+    LDA.w $0C54, X : BEQ .no_palette_manipulation
     
-    LDA $031D : BNE .lightning_finished_descending
+    LDA.w $031D : BNE .lightning_finished_descending
     
-    INC $0BF0, X : LDA $0BF0, X : AND.b #$04 : BEQ .flash_bgs_white
+    INC.w $0BF0, X : LDA.w $0BF0, X : AND.b #$04 : BEQ .flash_bgs_white
     
     BRA .undo_bgs_whitening
     
     .lightning_finished_descending
     
-    LDA $031D : CMP.b #$0B : BNE .check_timer
+    LDA.w $031D : CMP.b #$0B : BNE .check_timer
     
     .flash_bgs_white
     
@@ -51,56 +51,56 @@ Ancilla_EtherSpell:
     .rotation_query
     
     ; Only rotate the balls during state 2?
-    LDA $0C54, X : CMP.b #$02 : BNE .check_timer
+    LDA.w $0C54, X : CMP.b #$02 : BNE .check_timer
     
-    DEC $03B1, X : BPL .delay
+    DEC.w $03B1, X : BPL .delay
     
     ; Cause a minor delay before the ether balls form.
-    LDA.b #$02 : STA $03B1, X
+    LDA.b #$02 : STA.w $03B1, X
     
     ; Has to do with the tile set for the effect.
-    LDA $0C5E, X : INC A : STA $0C5E, X : CMP.b #$02 : BNE .delay
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$02 : BNE .delay
     
     ; Set it back down to #$01
-    DEC $0C5E, X
+    DEC.w $0C5E, X
     
     ; Set it so that the balls are going outward.
-    LDA.b #$10 : STA $0C2C, X
+    LDA.b #$10 : STA.w $0C2C, X
     
     ; Set it to ball rotation state.
-    LDA.b #$03 : STA $0C54, X
+    LDA.b #$03 : STA.w $0C54, X
     
     .delay
     
     ; Increment the (speed counter?)
-    LDA $0C2C, X : CLC : ADC.b #$01 : STA $0C2C, X
+    LDA.w $0C2C, X : CLC : ADC.b #$01 : STA.w $0C2C, X
     
     BRL EtherSpell_RadialStates
     
     .check_timer
     
-    DEC $03B1, X : BPL .dont_toggle_ball_chr
+    DEC.w $03B1, X : BPL .dont_toggle_ball_chr
     
-    LDA.b #$02 : STA $03B1, X
+    LDA.b #$02 : STA.w $03B1, X
     
     ; switch the tile set between one or the other.
-    LDA $0C5E, X : EOR.b #$01 : STA $0C5E, X
+    LDA.w $0C5E, X : EOR.b #$01 : STA.w $0C5E, X
     
     .dont_toggle_ball_chr
     
-    LDA $0C54, X : BEQ .lightning_descends
+    LDA.w $0C54, X : BEQ .lightning_descends
     CMP.b #$01   : BEQ .pulsing_blitz_orb
     CMP.b #$03   : BEQ .radial_states
     CMP.b #$04   : BEQ .calm_before_ball_scatter
     
-    LDA $0C2C, X : CLC : ADC.b #$10 : BPL .radial_speed_not_maxed
+    LDA.w $0C2C, X : CLC : ADC.b #$10 : BPL .radial_speed_not_maxed
     
     LDA.b #$7F
     
     .radial_speed_not_maxed
     
     ; Reset it back to 0x7F if it's positive.
-    STA $0C2C, X
+    STA.w $0C2C, X
     
     BRL .radial_states
     
@@ -117,7 +117,7 @@ Ancilla_EtherSpell:
     ; ... Count down a timer before entering the final state of the spell.
     LDA.l $7F5812 : DEC A : STA.l $7F5812 : BNE .radial_states
     
-    LDA.b #$05 : STA $0C54, X
+    LDA.b #$05 : STA.w $0C54, X
     
     .radial_states
     
@@ -145,15 +145,15 @@ EtherSpell_LightningDescends:
 {
     JSR Ancilla_MoveVert
     
-    LDA $0C0E, X : STA $01
-    LDA $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
     
     AND.b #$F0 : CMP.l $7F580C : BEQ .dont_add_lightning_segment
     
     STA.l $7F580C
     
     ; Add another lightning segment.
-    INC $03C2, X
+    INC.w $03C2, X
     
     .dont_add_lightning_segment
     
@@ -174,7 +174,7 @@ EtherSpell_LightningDescends:
     
     SEP #$20
     
-    LDA.b #$01 : STA $0C54, X
+    LDA.b #$01 : STA.w $0C54, X
     
     .delay
     
@@ -188,15 +188,15 @@ EtherSpell_LightningDescends:
 ; $042BA7-$042BEE BRANCH LOCATION
 EtherSpell_PulsingBlitzOrb:
     
-    LDA $03C2, X : BMI .segments_all_terminated
+    LDA.w $03C2, X : BMI .segments_all_terminated
     
-    DEC $039F, X : BPL .draw_segments
+    DEC.w $039F, X : BPL .draw_segments
     
-    LDA.b #$03 : STA $039F, X
+    LDA.b #$03 : STA.w $039F, X
     
-    DEC $03C2, X : BPL .draw_segments
+    DEC.w $03C2, X : BPL .draw_segments
     
-    LDA.b #$09 : STA $039F, X
+    LDA.b #$09 : STA.w $039F, X
     
     BRA .segments_all_terminated
     
@@ -206,22 +206,22 @@ EtherSpell_PulsingBlitzOrb:
     
     .segments_all_terminated
     
-    DEC $039F, X : BPL .state_change_delay
+    DEC.w $039F, X : BPL .state_change_delay
     
-    LDA.b #$02 : STA $0C54, X
+    LDA.b #$02 : STA.w $0C54, X
     
-    STZ $0C22, X
+    STZ.w $0C22, X
     
-    LDA.b #$10 : STA $0C2C, X
+    LDA.b #$10 : STA.w $0C2C, X
     
-    STZ $0C5E, X
+    STZ.w $0C5E, X
     
-    LDA.b #$02 : STA $03B1, X
+    LDA.b #$02 : STA.w $03B1, X
     
     ; Um.... why would this ever happen? It appears to me that the
     ; ether medallion keeps this at a nonzero value until the effect
     ; is completely over...
-    LDA $031D : BEQ .dont_damage_sprites
+    LDA.w $031D : BEQ .dont_damage_sprites
     
     PHX
     
@@ -242,7 +242,7 @@ EtherSpell_PulsingBlitzOrb:
 ; $042BEF-$042CEA BRANCH LOCATION
 EtherSpell_RadialStates:
 {
-    LDA $0C54, X : CMP.b #$04 : BNE .no_sound_effect
+    LDA.w $0C54, X : CMP.b #$04 : BNE .no_sound_effect
     
     LDY.b #$2A
     
@@ -258,29 +258,29 @@ EtherSpell_RadialStates:
     
     .play_sound_effect
     
-    STY $012F
+    STY.w $012F
     
     .no_sound_effect
     
-    LDA $0C54, X : CMP.b #$04 : BEQ .dont_increase_radius
+    LDA.w $0C54, X : CMP.b #$04 : BEQ .dont_increase_radius
     
-    LDA.l $7F5808 : STA $0C04, X
-                  STZ $0C18, X
+    LDA.l $7F5808 : STA.w $0C04, X
+                  STZ.w $0C18, X
     
     JSR Ancilla_MoveHoriz
     
     ; Wish I had a better name for this label... but ugh.
-    LDA $0C04, X : STA.l $7F5808 : CMP.b #$40 : BNE .not_ready_for_state_4
+    LDA.w $0C04, X : STA.l $7F5808 : CMP.b #$40 : BNE .not_ready_for_state_4
     
-    LDA.b #$04 : STA $0C54, X
+    LDA.b #$04 : STA.w $0C54, X
     
     .dont_increase_radius
     .not_ready_for_state_4
     
     PHX
     
-    LDA $0C54, X : STA $72
-    LDA $0C5E, X : STA $73
+    LDA.w $0C54, X : STA $72
+    LDA.w $0C5E, X : STA $73
     
     LDY.b #$00
     LDX.b #$07
@@ -333,15 +333,15 @@ EtherSpell_RadialStates:
     
     .self_terminate
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    LDA.b #$01 : STA $0AAA
+    LDA.b #$01 : STA.w $0AAA
     
-    STZ $0324
-    STZ $031C
-    STZ $031D
+    STZ.w $0324
+    STZ.w $031C
+    STZ.w $031D
     STZ $50
-    STZ $0FC1
+    STZ.w $0FC1
     
     ; Checks if we're in the Swamp of Evil.
     LDA $8A : CMP.b #$70 : BNE .untriggered
@@ -353,7 +353,7 @@ EtherSpell_RadialStates:
     LDY.b #$02 : JSR Ancilla_CheckIfEntranceTriggered : BCC .untriggered
     
     ; Do the 3rd animation for opening entrances
-    LDA.b #$03 : STA $04C6
+    LDA.b #$03 : STA.w $04C6
     
     STZ $B0 ; reset the sub submodule index
     STZ $C8 ; reset this other index.
@@ -381,7 +381,7 @@ EtherSpell_RadialStates:
     STZ $5E
     
     ; Debug variable. Has no effect.
-    STZ $0325
+    STZ.w $0325
     
     PHX
     
@@ -644,13 +644,13 @@ EtherSpell_DrawBlitzSegments:
 {
     JSR Ancilla_PrepOamCoord
     
-    LDA $0C5E, X : STA $06
+    LDA.w $0C5E, X : STA $06
     
     STZ $08
     
     PHX
     
-    LDA $03C2, X : TAX
+    LDA.w $03C2, X : TAX
     
     LDY.b #$00
     
@@ -693,7 +693,7 @@ EtherSpell_DrawBlitzSegments:
     
     PLX
     
-    LDA $0C54, X : CMP.b #$01 : BEQ EtherSpell_DrawBlitzOrb
+    LDA.w $0C54, X : CMP.b #$01 : BEQ EtherSpell_DrawBlitzOrb
     
     RTS
 }
@@ -714,7 +714,7 @@ EtherSpell_DrawBlitzOrb:
     
     PHX
     
-    LDA $0C5E, X : ASL #2 : STA $06
+    LDA.w $0C5E, X : ASL #2 : STA $06
     
     .next_oam_entry
     

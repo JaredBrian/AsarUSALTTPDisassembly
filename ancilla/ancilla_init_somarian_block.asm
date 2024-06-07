@@ -32,15 +32,15 @@ AddSomarianBlock:
     
     CPX $00 : BEQ .ignore_slot
     
-    LDA $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
+    LDA.w $0C4A, X : CMP.b #$2C : BNE .not_somarian_block
     
     STX $02
     
-    LDA $02EC : DEC A : CMP $02 : BNE .not_closest_carryable_ancilla
+    LDA.w $02EC : DEC A : CMP $02 : BNE .not_closest_carryable_ancilla
     
     ; Zero that index anyways so the player can't pick it up (it's 
     ; being terminated anyways)
-    STZ $02EC
+    STZ.w $02EC
     
     .not_closest_carryable_ancilla
     
@@ -48,8 +48,8 @@ AddSomarianBlock:
     
     PLX
     
-    STZ $0C4A, X
-    STZ $0646
+    STZ.w $0C4A, X
+    STZ.w $0646
     
     LDA $5E : CMP.b #$12 : BNE .dont_reset_player_speed
     
@@ -69,29 +69,29 @@ AddSomarianBlock:
     
     LDA.b #$2A : JSR Ancilla_DoSfx3_NearPlayer
     
-    STZ $0C54, X
-    STZ $0C22, X
-    STZ $0C2C, X
-    STZ $0C5E, X
-    STZ $03B1, X
-    STZ $039F, X
-    STZ $03A4, X
-    STZ $03C5, X
+    STZ.w $0C54, X
+    STZ.w $0C22, X
+    STZ.w $0C2C, X
+    STZ.w $0C5E, X
+    STZ.w $03B1, X
+    STZ.w $039F, X
+    STZ.w $03A4, X
+    STZ.w $03C5, X
     
-    LDA.b #$0C : STA $0394, X
-    LDA.b #$12 : STA $0C68, X
+    LDA.b #$0C : STA.w $0394, X
+    LDA.b #$12 : STA.w $0C68, X
     
-    STZ $0385, X
-    STZ $029E, X
-    STZ $0380, X
-    STZ $03EA, X
-    STZ $0BF0, X
+    STZ.w $0385, X
+    STZ.w $029E, X
+    STZ.w $0380, X
+    STZ.w $03EA, X
+    STZ.w $0BF0, X
     
-    LDA.b #$09 : STA $03A9, X
+    LDA.b #$09 : STA.w $03A9, X
     
-    STZ $03D5, X
+    STZ.w $03D5, X
     
-    LDA $2F : LSR A : STA $0C72, X
+    LDA $2F : LSR A : STA.w $0C72, X
     
     JSL Ancilla_CheckInitialTileCollision_Class2 : BCC .enough_space
     
@@ -105,11 +105,11 @@ AddSomarianBlock:
     
     SEP #$20
     
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
-    LDA $02 : STA $0C04, X
-    LDA $03 : STA $0C18, X
+    LDA $02 : STA.w $0C04, X
+    LDA $03 : STA.w $0C18, X
     
     BRA .return
     
@@ -117,11 +117,11 @@ AddSomarianBlock:
     
     LDY $2F
     
-    LDA $20 : CLC : ADC .initial_collision_y_offsets+0, Y : STA $0BFA, X
-    LDA $21 : ADC .initial_collision_y_offsets+1, Y : STA $0C0E, X
+    LDA $20 : CLC : ADC .initial_collision_y_offsets+0, Y : STA.w $0BFA, X
+    LDA $21 : ADC .initial_collision_y_offsets+1, Y : STA.w $0C0E, X
     
-    LDA $22 : CLC : ADC .initial_collision_x_offsets+0, Y : STA $0C04, X
-    LDA $23 : ADC .initial_collision_y_offsets+1, Y : STA $0C18, X
+    LDA $22 : CLC : ADC .initial_collision_x_offsets+0, Y : STA.w $0C04, X
+    LDA $23 : ADC .initial_collision_y_offsets+1, Y : STA.w $0C18, X
     
     JSR SomarianBlock_CheckForTransitLine
     
@@ -158,29 +158,29 @@ Pool_SomarianBlock_CheckForTransitLine:
 SomarianBlock_CheckForTransitLine:
 {
     ; If there are no transit lines, we need not even worry about this.
-    LDA $03F4 : BEQ .return
+    LDA.w $03F4 : BEQ .return
     
     LDY.b #$16
     
     .next_offset
     
-    LDA $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
-    LDA $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
+    LDA.w $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
+    LDA.w $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
     
-    LDA $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
-    LDA $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
+    LDA.w $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
+    LDA.w $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
     
     PHY
     
-    LDA $0280, X : PHA
+    LDA.w $0280, X : PHA
     
     JSR Ancilla_CheckTargetedTileCollision
     
-    PLA : STA $0280, X
+    PLA : STA.w $0280, X
     
     PLY
     
-    LDA $03E4, X : CMP.b #$B6 : BEQ .transit_node
+    LDA.w $03E4, X : CMP.b #$B6 : BEQ .transit_node
                    CMP.b #$BC : BEQ .transit_node
     
     DEY #2 : BPL .next_offset
@@ -189,11 +189,11 @@ SomarianBlock_CheckForTransitLine:
     
     .transit_node
     
-    LDA $72 : STA $0BFA, X
-    LDA $73 : STA $0C0E, X
+    LDA $72 : STA.w $0BFA, X
+    LDA $73 : STA.w $0C0E, X
     
-    LDA $74 : STA $0C04, X
-    LDA $75 : STA $0C18, X
+    LDA $74 : STA.w $0C04, X
+    LDA $75 : STA.w $0C18, X
     
     JSL AddSomarianPlatformPoof
     

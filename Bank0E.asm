@@ -3043,7 +3043,7 @@ Credits_SpriteDraw_LostWoods:
     .BRANCH_BETA
     
     DEX : BEQ .BRANCH_IOTA
-        JMP $ABF8 ; $072BF8 IN ROM
+        JMP.w $ABF8 ; $072BF8 IN ROM
     
     .BRANCH_IOTA
     
@@ -3401,7 +3401,7 @@ Credits_HandleCameraScrollControl:
     LDA.w #$0001 : STA.b $00
         
     LDA.b $30 : AND.w #$00FF : BNE .BRANCH_ALPHA
-        JMP $AF1E   ; $072F1E IN ROM
+        JMP.w $AF1E   ; $072F1E IN ROM
     
     .BRANCH_ALPHA
     
@@ -3470,7 +3470,7 @@ Credits_HandleCameraScrollControl:
     LDA.w #$0001 : STA.b $00
         
     LDA.b $31 : AND.w #$00FF : BNE .BRANCH_THETA
-        JMP $AF91   ; $072F91 IN ROM
+        JMP.w $AF91   ; $072F91 IN ROM
     
     .BRANCH_THETA
     
@@ -5933,7 +5933,7 @@ Palette_Restore_BG_And_HUD:
         
     INC.b $15
         
-    JMP $D8AE ; $0758AE IN ROM
+    JMP.w $D8AE ; $0758AE IN ROM
 }
 
 ; ==============================================================================
@@ -8538,7 +8538,7 @@ OverworldOverlay_LinksHouseBonkRocks:
 {
     LDX.w #$0330
     
-    JMP $F7B4 ; $0777B4 IN ROM
+    JMP.w $F7B4 ; $0777B4 IN ROM
 }
 
 ; $07782D-$077832 LOCAL JUMP LOCATION
@@ -8546,7 +8546,7 @@ OverworldOverlay_CheckerBoardCave:
 {
     LDX.w #$0358
     
-    JMP $F7B4 ; $0777B4 IN ROM
+    JMP.w $F7B4 ; $0777B4 IN ROM
 }
 
 ; $077833-$077838 LOCAL JUMP LOCATION
@@ -8554,7 +8554,7 @@ OverworldOverlay_IceRodThief:
 {
     LDX.w #$040C
     
-    JMP $F7B4 ; $0777B4 IN ROM
+    JMP.w $F7B4 ; $0777B4 IN ROM
 }
 
 ; $077839-$07783E LOCAL JUMP LOCATION
@@ -8562,7 +8562,7 @@ OverworldOverlay_DesertThief:
 {
     LDX.w #$0A1E
     
-    JMP $F7B4 ; $0777B4
+    JMP.w $F7B4 ; $0777B4
 }
 
 ; $07783F-$0779E5 LOCAL JUMP LOCATION
@@ -8698,7 +8698,7 @@ OverworldOverlay_HookshotCave:
 {
     LDX.w #$0868
     
-    JMP $F7B4 ; $0777B4 IN ROM
+    JMP.w $F7B4 ; $0777B4 IN ROM
 }
 
 ; $077A61-$077AB3 LOCAL JUMP LOCATION
@@ -8771,7 +8771,7 @@ OverworldOverlay_PegPuzzle:
 {
     LDX.w #$0D20
     
-    JMP $F7B4 ; $0777B4 IN ROM
+    JMP.w $F7B4 ; $0777B4 IN ROM
 }
 
 ; $077B11-$077B63 LOCAL JUMP LOCATION

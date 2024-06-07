@@ -32,20 +32,20 @@ Ancilla_RevivalFairy:
     
     LDX.b #$00
     
-    LDA $0C54, X : BEQ .fairy_emerging
+    LDA.w $0C54, X : BEQ .fairy_emerging
     CMP.b #$03   : BNE .already_emerged
                    BRL .return
     
     .fairy_emerging
     
-    DEC $039F, X : LDA $039F, X : BNE .fairy_rising
+    DEC.w $039F, X : LDA.w $039F, X : BNE .fairy_rising
     
-    INC $0C54, X : LDY $0C54, X
+    INC.w $0C54, X : LDY.w $0C54, X
     
-    LDA .timers, Y : STA $039F, X
+    LDA .timers, Y : STA.w $039F, X
     
-    STZ $0380, X
-    STZ $0294, X
+    STZ.w $0380, X
+    STZ.w $0294, X
     
     BRL .draw
     
@@ -59,12 +59,12 @@ Ancilla_RevivalFairy:
     
     CMP.b #$01 : BNE .fairy_flying_away
     
-    DEC $039F, X : LDA $039F, X : BNE .sprinkling_sequence_running
+    DEC.w $039F, X : LDA.w $039F, X : BNE .sprinkling_sequence_running
     
-    INC $0C54, X
+    INC.w $0C54, X
     
-    STZ $0294, X
-    STZ $0C2C, X
+    STZ.w $0294, X
+    STZ.w $0C2C, X
     
     BRL .draw
     
@@ -75,25 +75,25 @@ Ancilla_RevivalFairy:
     
     .initiate_sprinkle
     
-    INC $0385, X
+    INC.w $0385, X
     
     ; Sprinkling fairy dust sound.
     LDA.b #$31 : JSR Ancilla_DoSfx2
     
     .dont_initiate_sprinkle
     
-    LDA $0385, X : BEQ .no_sprinkle_animation
+    LDA.w $0385, X : BEQ .no_sprinkle_animation
     
-    DEC $0394, X : BPL .sprinkle_animation_delay
+    DEC.w $0394, X : BPL .sprinkle_animation_delay
     
-    LDA.b #$05 : STA $0394, X
+    LDA.b #$05 : STA.w $0394, X
     
-    INC $0C5E, X
+    INC.w $0C5E, X
     
-    LDA $0C5E, X : CMP.b #$03 : BNE .sprinkle_animation_incomplete
+    LDA.w $0C5E, X : CMP.b #$03 : BNE .sprinkle_animation_incomplete
     
-    STZ $0C5E, X
-    STZ $0385, X
+    STZ.w $0C5E, X
+    STZ.w $0385, X
     
     .no_sprinkle_animation
     .sprinkle_animation_delay
@@ -101,7 +101,7 @@ Ancilla_RevivalFairy:
     
     LDY.b #$FF
     
-    LDA $0380, X : BEQ .float_descending
+    LDA.w $0380, X : BEQ .float_descending
     
     ; and conversely, ascending
     LDY.b #$01
@@ -110,7 +110,7 @@ Ancilla_RevivalFairy:
     
     STY $00
     
-    LDA $0294, X : CLC : ADC $00 : STA $0294, X : BPL .positive_z_velocity
+    LDA.w $0294, X : CLC : ADC $00 : STA.w $0294, X : BPL .positive_z_velocity
     
     ; Basically, don't allow the velocity to become negative?
     ; \wtf Does this logic actually work properly in the game?
@@ -120,7 +120,7 @@ Ancilla_RevivalFairy:
     
     CMP.b #$08 : BNE .dont_toggle_float_direction
     
-    LDA $0380, X : EOR.b #$01 : STA $0380, X
+    LDA.w $0380, X : EOR.b #$01 : STA.w $0380, X
     
     .dont_toggle_float_direction
     
@@ -132,15 +132,15 @@ Ancilla_RevivalFairy:
     
     CMP.b #$02 : BNE .draw
     
-    LDA $0294, X : CMP.b #$18 : BCS .z_velocity_maxed
+    LDA.w $0294, X : CMP.b #$18 : BCS .z_velocity_maxed
     
-    CLC : ADC.b #$01 : STA $0294, X
+    CLC : ADC.b #$01 : STA.w $0294, X
     
     .z_velocity_maxed
     
-    LDA $0C2C, X : CMP.b #$10 : BCS .x_velocity_maxed
+    LDA.w $0C2C, X : CMP.b #$10 : BCS .x_velocity_maxed
     
-    CLC : ADC.b #$01 : STA $0C2C, X
+    CLC : ADC.b #$01 : STA.w $0C2C, X
     
     .x_velocity_maxed
     
@@ -157,11 +157,11 @@ Ancilla_RevivalFairy:
     
     STZ $0A
     
-    LDA $0C54, X : CMP.b #$01 : BNE .not_sprinkling_dust
+    LDA.w $0C54, X : CMP.b #$01 : BNE .not_sprinkling_dust
     
-    LDA $0385, X : BEQ .not_sprinkling_dust
+    LDA.w $0385, X : BEQ .not_sprinkling_dust
     
-    LDA $0C5E, X : INC A : STA $0A
+    LDA.w $0C5E, X : INC A : STA $0A
     
     .not_sprinkling_dust
     
@@ -169,7 +169,7 @@ Ancilla_RevivalFairy:
     
     REP #$20
     
-    LDA $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_altitude
+    LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_altitude
     
     ORA.w #$FF00
     
@@ -207,7 +207,7 @@ Ancilla_RevivalFairy:
     
     LDA ($90), Y : CMP.b #$F0 : BNE .fairy_not_off_screen
     
-    LDA.b #$03 : STA $0C54, X
+    LDA.b #$03 : STA.w $0C54, X
     
     INC $11
     
@@ -229,7 +229,7 @@ Ancilla_RevivalFairy:
 ; $0473CF-$04742F LOCAL JUMP LOCATION
 RevivalFairy_Dust:
 {
-    LDA $0C54, X : BNE .possible_fairy_dust
+    LDA.w $0C54, X : BNE .possible_fairy_dust
     
     ; If the fairy object is not at least in state 0x01, do nothing.
     RTS
@@ -238,15 +238,15 @@ RevivalFairy_Dust:
     
     LDX.b #$02
     
-    LDA $0C54, X : CMP.b #$02 : BEQ .return
+    LDA.w $0C54, X : CMP.b #$02 : BEQ .return
     
-    DEC $039F, X : BPL .return
+    DEC.w $039F, X : BPL .return
     
-    STZ $039F, X
+    STZ.w $039F, X
     
     LDA.b #$10
     
-    LDY $0FB3 : BNE .sort_sprites
+    LDY.w $0FB3 : BNE .sort_sprites
     
     JSL OAM_AllocateFromRegionA
     
@@ -258,33 +258,33 @@ RevivalFairy_Dust:
     
     .oam_allocated
     
-    DEC $03B1, X : BPL .animation_delay
+    DEC.w $03B1, X : BPL .animation_delay
     
-    LDA.b #$03 : STA $03B1, X
+    LDA.b #$03 : STA.w $03B1, X
     
     LDY.b #$03
     
     ; probably chr or a grouping state?
     LDA Ancilla_MagicPowder.animation_group_offsets, Y : STA $00
     
-    LDA $0C5E, X : INC A : CMP.b #$0A : BNE .powder_not_fully_dispersed
+    LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .powder_not_fully_dispersed
     
-    LDA.b #$20 : STA $039F, X
+    LDA.b #$20 : STA.w $039F, X
     
-    INC $0C54, X
+    INC.w $0C54, X
     
-    LDA.b #$02 : STA $0C5E, X
+    LDA.b #$02 : STA.w $0C5E, X
     
     BRA .return
     
     .powder_not_fully_dispersed
     
-    STA $0C5E, X
+    STA.w $0C5E, X
     
     CLC : ADC $00 : TAY
     
     ; oam group? or something else...
-    LDA.w $B8F4, Y : STA $03C2, X
+    LDA.w $B8F4, Y : STA.w $03C2, X
     
     .animation_delay
     
@@ -307,15 +307,15 @@ RevivalFairy_MonitorPlayerRecovery:
     
     .health_at_capacity
     
-    LDA $020A : BNE .health_refill_animation_active
+    LDA.w $020A : BNE .health_refill_animation_active
     
     LDY.b #$00
     
-    LDA $0345 : BEQ .not_swimming
+    LDA.w $0345 : BEQ .not_swimming
     
     LDY.b #$04
     
-    LDA.b #$04 : STA $0340
+    LDA.b #$04 : STA.w $0340
     
     BRA .set_player_state
     
@@ -325,7 +325,7 @@ RevivalFairy_MonitorPlayerRecovery:
     
     LDY.b #$17
     
-    LDA.b #$01 : STA $02E0
+    LDA.b #$01 : STA.w $02E0
     
     .not_bunny
     .set_player_state
@@ -333,16 +333,16 @@ RevivalFairy_MonitorPlayerRecovery:
     STY $5D
     
     STZ $4D
-    STZ $036B
-    STZ $030D
-    STZ $030A
+    STZ.w $036B
+    STZ.w $030D
+    STZ.w $030A
     STZ $24
     STZ $46
-    STZ $0C4A
-    STZ $0C4B
-    STZ $0C4C
-    STZ $0C4D
-    STZ $0C4E
+    STZ.w $0C4A
+    STZ.w $0C4B
+    STZ.w $0C4C
+    STZ.w $0C4D
+    STZ.w $0C4E
     
     RTS
     
@@ -351,21 +351,21 @@ RevivalFairy_MonitorPlayerRecovery:
     
     LDX.b #$01
     
-    LDA $0C54, X : BNE .player_floating
+    LDA.w $0C54, X : BNE .player_floating
     
-    DEC $039F, X : LDA $039F, X : BNE .delay_altitude_increase
+    DEC.w $039F, X : LDA.w $039F, X : BNE .delay_altitude_increase
     
-    INC $039F, X
+    INC.w $039F, X
     
-    LDA.b #$04 : STA $0294, X
+    LDA.b #$04 : STA.w $0294, X
     
     JSR Ancilla_MoveAltitude
     
-    LDA $029E, X : CMP.b #$10 : BCC .altitude_not_at_target
+    LDA.w $029E, X : CMP.b #$10 : BCC .altitude_not_at_target
     
-    INC $0C54, X
+    INC.w $0C54, X
     
-    LDA.b #$02 : STA $0294, X
+    LDA.b #$02 : STA.w $0294, X
     
     .delay_altitude_increase
     .altitude_not_at_target
@@ -374,11 +374,11 @@ RevivalFairy_MonitorPlayerRecovery:
     
     .player_floating
     
-    DEC $0380, X : BPL .delay_float_direction_toggle
+    DEC.w $0380, X : BPL .delay_float_direction_toggle
     
-    LDA.b #$20 : STA $0380, X
+    LDA.b #$20 : STA.w $0380, X
     
-    LDA $0294, X : EOR.b #$FF : INC A : STA $0294, X
+    LDA.w $0294, X : EOR.b #$FF : INC A : STA.w $0294, X
     
     .delay_float_direction_toggle
     
@@ -386,7 +386,7 @@ RevivalFairy_MonitorPlayerRecovery:
     
     .set_player_altitude
     
-    LDA $029E, X : STA $24
+    LDA.w $029E, X : STA $24
     
     RTS
 }

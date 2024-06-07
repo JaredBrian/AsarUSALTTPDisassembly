@@ -24,9 +24,9 @@ Ancilla_IceShotSparkle:
 {
     !numSprites = $05
     
-    LDA $0C68, X : BNE .still_alive
+    LDA.w $0C68, X : BNE .still_alive
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .still_alive
     
@@ -44,13 +44,13 @@ Ancilla_IceShotSparkle:
     
     .next_slot
     
-    CMP $0C4A, Y : BEQ .match
+    CMP.w $0C4A, Y : BEQ .match
     
     DEY : BPL .next_slot
     
     .match
     
-    LDA $0280, Y : BEQ .normal_priority
+    LDA.w $0280, Y : BEQ .normal_priority
     
     LDA.b #$30 : STA $04
     
@@ -58,9 +58,9 @@ Ancilla_IceShotSparkle:
     
     LDA.b #$10
     
-    LDY $0FB3 : BEQ .sort_sprites
+    LDY.w $0FB3 : BEQ .sort_sprites
     
-    LDY $0C7C, X : BNE .other_floor
+    LDY.w $0C7C, X : BNE .other_floor
     
     JSL OAM_AllocateFromRegionD
     
@@ -82,7 +82,7 @@ Ancilla_IceShotSparkle:
     
     LDA.b #$03 : STA !numSprites
     
-    LDA $0C68, X : AND.b #$1C : STA $06
+    LDA.w $0C68, X : AND.b #$1C : STA $06
     
     PHX
     
@@ -129,15 +129,15 @@ IceShotSparkle_Spawn:
     
     LDA $11 : BNE .return
     
-    DEC $0BF0, X : BPL .return
+    DEC.w $0BF0, X : BPL .return
     
-    LDA.b #$05 : STA $0BF0, X
+    LDA.b #$05 : STA.w $0BF0, X
     
     LDY.b #$09
     
     .nextSlot
     
-    LDA $0C4A, Y : BEQ .emptySlot
+    LDA.w $0C4A, Y : BEQ .emptySlot
     
     DEY : BPL .nextSlot
     
@@ -147,28 +147,28 @@ IceShotSparkle_Spawn:
     
     .emptySlot
     
-    LDA.b #$13 : STA $0C4A, Y
-    LDA.b #$0F : STA $0C68, Y
+    LDA.b #$13 : STA.w $0C4A, Y
+    LDA.b #$0F : STA.w $0C68, Y
     
-    LDA $0C72, X
+    LDA.w $0C72, X
     
     PHX
     
     TAX
     
-    LDA .y_speeds, X : STA $0C2C, Y
+    LDA .y_speeds, X : STA.w $0C2C, Y
     
-    LDA .x_speeds, X : STA $0C22, Y
+    LDA .x_speeds, X : STA.w $0C22, Y
     
     PLX
     
-    LDA $0C04, X : STA $0C04, Y
+    LDA.w $0C04, X : STA.w $0C04, Y
     
-    LDA $0BFA, X : STA $0BFA, Y
+    LDA.w $0BFA, X : STA.w $0BFA, Y
     
-    LDA $0C7C, X : STA $0C7C, Y
+    LDA.w $0C7C, X : STA.w $0C7C, Y
     
-    LDA.b #$00 : STA $0C90, Y
+    LDA.b #$00 : STA.w $0C90, Y
     
     RTS
 }

@@ -47,7 +47,7 @@ Ancilla_WaterfallSplash:
     
     JSR Ancilla_CheckIfEntranceTriggered : BCS .do_splash_sequence
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -61,7 +61,7 @@ Ancilla_WaterfallSplash:
     
     .no_sound_effect
     
-    LDA.b #$01 : STA $0351
+    LDA.b #$01 : STA.w $0351
     
     ; \wtf .... why would this be necessary?
     LDA $2E : SEC : SBC.b #$06 : BMI .dont_reset_player_animation
@@ -70,11 +70,11 @@ Ancilla_WaterfallSplash:
     
     .dont_reset_player_animation
     
-    LDA $0C68, X : BNE .animation_delay
+    LDA.w $0C68, X : BNE .animation_delay
     
-    LDA.b #$02 : STA $0C68, X
+    LDA.b #$02 : STA.w $0C68, X
     
-    LDA $0C5E, X : INC A : AND.b #$03 : STA $0C5E, X
+    LDA.w $0C5E, X : INC A : AND.b #$03 : STA.w $0C5E, X
     
     .animation_delay
     
@@ -82,20 +82,20 @@ Ancilla_WaterfallSplash:
     
     LDA $20 : CMP.b #$38 : BCS .set_y_coord
     
-    LDA.b #$38 : STA $0BFA, X
-    LDA.b #$0D : STA $0C0E, X
+    LDA.b #$38 : STA.w $0BFA, X
+    LDA.b #$0D : STA.w $0C0E, X
     
     BRA .set_x_coord
     
     .set_y_coord
     
-    LDA $20 : STA $0BFA, X
-    LDA $21 : STA $0C0E, X
+    LDA $20 : STA.w $0BFA, X
+    LDA $21 : STA.w $0C0E, X
     
     .set_x_coord
     
-    LDA $22 : STA $0C04, X
-    LDA $23 : STA $0C18, X
+    LDA $22 : STA.w $0C04, X
+    LDA $23 : STA.w $0C18, X
     
     JSR Ancilla_PrepAdjustedOamCoord
     
@@ -111,7 +111,7 @@ Ancilla_WaterfallSplash:
     
     SEP #$20
     
-    LDA $0C5E, X : ASL A : TAX
+    LDA.w $0C5E, X : ASL A : TAX
     
     LDY.b #$00
     

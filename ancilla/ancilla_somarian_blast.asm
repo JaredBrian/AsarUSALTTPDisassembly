@@ -17,7 +17,7 @@ Ancilla_SomarianBlast:
     
     LDA $11 : BNE .just_draw
     
-    LDY $0C54, X
+    LDY.w $0C54, X
     
     ; For the first three states, this will slow the object down.
     LDA $1A : AND .delay_masks, Y : BNE .movement_delay
@@ -27,19 +27,19 @@ Ancilla_SomarianBlast:
     
     .movement_delay
     
-    LDA $0C68, X : BNE .delay
+    LDA.w $0C68, X : BNE .delay
     
     ; Reset the delay countdown timer to 3.
-    LDA.b #$03 : STA $0C68, X
+    LDA.b #$03 : STA.w $0C68, X
     
-    LDA $0C54, X : INC A : CMP.b #$06 : BCC .not_last_state
+    LDA.w $0C54, X : INC A : CMP.b #$06 : BCC .not_last_state
     
     ; Eventually the object will toggle between states 4 and 5.
     LDA.b #$04
     
     .not_last_state
     
-    STA $0C54, X
+    STA.w $0C54, X
     
     .delay
     
@@ -50,9 +50,9 @@ Ancilla_SomarianBlast:
     .collided
     
     ; Transmute into another object type (sword beam spreading out?)
-    LDA.b #$04 : STA $0C4A, X
-    LDA.b #$07 : STA $0C68, X
-    LDA.b #$10 : STA $0C90, X
+    LDA.b #$04 : STA.w $0C4A, X
+    LDA.b #$07 : STA.w $0C68, X
+    LDA.b #$10 : STA.w $0C90, X
     
     .no_collision
     .just_draw
@@ -123,7 +123,7 @@ Pool_Ancilla_BoundsCheck:
     
     PLA : PLA
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -137,20 +137,20 @@ Pool_Ancilla_BoundsCheck:
 Ancilla_BoundsCheck:
 {
     ; Load a value based on which floor the special object is on.
-    LDY $0C7C, X
+    LDY.w $0C7C, X
     
     LDA .unknown, Y : STA $04
     
-    LDY $0C86, X
+    LDY.w $0C86, X
     
     ; If the object is close to the edge of the screen, make it
     ; self-terminate.
-    LDA $0C04, X : SEC : SBC $E2 : CMP.b #$F4 : BCS .self_terminate
+    LDA.w $0C04, X : SEC : SBC $E2 : CMP.b #$F4 : BCS .self_terminate
     
     ; Get the x coordinate for OAM
     STA $00
     
-    LDA $0BFA, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
+    LDA.w $0BFA, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
     
     ; Get the y coordinate for OAM
     STA $01
@@ -177,11 +177,11 @@ SomarianBlast_Draw:
 {
     JSR Ancilla_BoundsCheck
     
-    LDY $0C5E, X
+    LDY.w $0C5E, X
     
     LDA $04 : ORA .palettes, Y : STA $04
     
-    LDA $0280, X : BEQ .normal_priority
+    LDA.w $0280, X : BEQ .normal_priority
     
     LDA.b #$30 : TSB $04
     
@@ -190,7 +190,7 @@ SomarianBlast_Draw:
     LDY.b #$00
     
     ; X = (direction * 6) + state_index
-    LDA $0C72, X : ASL #2 : ADC $0C72, X : ADC $0C72, X : ADC $0C54, X : TAX
+    LDA.w $0C72, X : ASL #2 : ADC.w $0C72, X : ADC.w $0C72, X : ADC.w $0C54, X : TAX
     
     LDA .x_offsets_a, X : CLC : ADC $00              : STA ($90), Y
     LDA .x_offsets_b, X : CLC : ADC $00 : LDY.b #$04 : STA ($90), Y

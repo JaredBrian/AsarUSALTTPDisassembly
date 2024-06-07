@@ -14,28 +14,28 @@ Ancilla_WishPondItem:
     
     .execute
     
-        LDA $0C68, X : BNE .draw
+        LDA.w $0C68, X : BNE .draw
     
-    LDA.b #$02 : STA $0309
+    LDA.b #$02 : STA.w $0309
     
-    STZ $0308
+    STZ.w $0308
     
     ; Begin z-deceleation (i.e. simulating gravity).
-    LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
+    LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
     JSR Ancilla_MoveAltitude
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     
-    LDA $029E, X : BPL .draw
+    LDA.w $029E, X : BPL .draw
     CMP.b #$E4   : BCS .draw
     
-    LDA.b #$E4 : STA $029E, X
+    LDA.b #$E4 : STA.w $029E, X
     
-    LDY $0C5E, X
+    LDY.w $0C5E, X
     
-    LDA $0BFA, X : CLC : ADC.b #$12 : STA $0BFA, X
-    LDA $0C0E, X : ADC.b #$00 : STA $0C0E, X
+    LDA.w $0BFA, X : CLC : ADC.b #$12 : STA.w $0BFA, X
+    LDA.w $0C0E, X : ADC.b #$00 : STA.w $0C0E, X
     
     LDA.b #$08 : STA $00
     
@@ -50,8 +50,8 @@ Ancilla_WishPondItem:
     
     .dont_use_4_pixel_offset
     
-    LDA $0C04, X : CLC : ADC $00    : STA $0C04, X
-    LDA $0C18, X : ADC.b #$00 : STA $0C18, X
+    LDA.w $0C04, X : CLC : ADC $00    : STA.w $0C04, X
+    LDA.w $0C18, X : ADC.b #$00 : STA.w $0C18, X
     
     BRL Ancilla_TransmuteToObjectSplash
     
@@ -64,15 +64,15 @@ Ancilla_WishPondItem:
     ; Looks like this is making a special exception for the master sword
     ; (level 2 only), but I can't say for sure what the purpose of this
     ; is...
-    LDA $0C5E, X : CMP.b #$01 : BNE .unknown
+    LDA.w $0C5E, X : CMP.b #$01 : BNE .unknown
     
-    LDA.w $C37B : STA $0BF0, X
+    LDA.w $C37B : STA.w $0BF0, X
     
     .unknown
     
     REP #$20
     
-    LDA $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
+    LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
     
     ORA.w #$FF00
     
@@ -89,16 +89,16 @@ Ancilla_WishPondItem:
     JSR Ancilla_ReceiveItem.draw
     
     ; Done throwing?
-    LDA $0309 : CMP.b #$02 : BNE .return
+    LDA.w $0309 : CMP.b #$02 : BNE .return
     
-    LDA $0294, X : BMI .shadow_draw
+    LDA.w $0294, X : BMI .shadow_draw
     CMP.b #$02   : BCS .return
     
     .draw_shadow
     
     PHX
     
-    LDA $0C5E, X : TAX
+    LDA.w $0C5E, X : TAX
     
     ; \bug(confirmed) Same bug, different part of the routine.
     LDA.w $8450, X : TAX

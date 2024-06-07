@@ -50,21 +50,21 @@ Ancilla_InitialSpinSpark:
 {
     LDA $11 : BNE .draw
     
-    DEC $03B1, X : BPL .draw
+    DEC.w $03B1, X : BPL .draw
     
-    STZ $03B1, X
+    STZ.w $03B1, X
     
-    LDA $0C68, X : BNE .draw
+    LDA.w $0C68, X : BNE .draw
     
-    LDA $0C5E, X : INC A : STA $0C5E, X : TAY
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : TAY
     
-    LDA .timers, Y : STA $0C68, X
+    LDA .timers, Y : STA.w $0C68, X
     
     CPY.b #$05 : BNE .draw
     
     ; \wtf When is this branch ever taken? Perhaps this was test code,
     ; as the sword beam graphics are similar if not identical a spin attack.
-    LDA $0C54, X : BNE .spawn_sword_beam
+    LDA.w $0C54, X : BNE .spawn_sword_beam
     
     BRL InitialSpinSpark_TransmuteToNormalSpinSpark
     
@@ -76,7 +76,7 @@ Ancilla_InitialSpinSpark:
     
     .draw
     
-    LDA $0C5E, X : BEQ .first_state_invisible
+    LDA.w $0C5E, X : BEQ .first_state_invisible
     
     JSR Ancilla_PrepOamCoord
     
@@ -91,7 +91,7 @@ Ancilla_InitialSpinSpark:
     
     LDY.b #$00 : STY $04
     
-    LDA $0C5E, X : DEC A : ASL #2 : TAX
+    LDA.w $0C5E, X : DEC A : ASL #2 : TAX
     
     ; $045802 ALTERNATE ENTRY POINT
     .oam_commit_loop
@@ -104,8 +104,8 @@ Ancilla_InitialSpinSpark:
     
     PHX : TXA : ASL A : TAX
     
-    LDA $06 : CLC : ADC $D742, X : STA $00
-    LDA $08 : CLC : ADC $D77A, X : STA $02
+    LDA $06 : CLC : ADC.w $D742, X : STA $00
+    LDA $08 : CLC : ADC.w $D77A, X : STA $02
     
     PLX
     
@@ -157,7 +157,7 @@ Ancilla_InitialSpinSpark:
 ; $04586D-$0458F5 LONG BRANCH LOCATION
 InitialSpinSpark_TransmuteToNormalSpinSpark:
 {
-    LDA.b #$2B : STA $0C4A, X
+    LDA.b #$2B : STA.w $0C4A, X
     
     LDA $2F : ASL A : TAY
     
@@ -167,14 +167,14 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     LDA .initial_rotation_states, Y : STA.l $7F5803
                                       STA.l $7F5804
     
-    LDA.b #$02 : STA $03B1, X
-    LDA.b #$4C : STA $0C5E, X
-    LDA.b #$08 : STA $039F, X
+    LDA.b #$02 : STA.w $03B1, X
+    LDA.b #$4C : STA.w $0C5E, X
+    LDA.b #$08 : STA.w $039F, X
     
-    STZ $0C54, X
-    STZ $0385, X
+    STZ.w $0C54, X
+    STZ.w $0385, X
     
-    LDA.b #$FF : STA $03A4, X
+    LDA.b #$FF : STA.w $03A4, X
     
     LDA.b #$14 : STA.l $7F5808
     
@@ -185,16 +185,16 @@ InitialSpinSpark_TransmuteToNormalSpinSpark:
     LDA $20 : CLC : ADC.w #$000C : STA.l $7F5810
     LDA $22 : CLC : ADC.w #$0008 : STA.l $7F580E
     
-    LDA $20 : CLC : ADC $D85D, Y : STA $00
-    LDA $22 : CLC : ADC $D865, Y : STA $02
+    LDA $20 : CLC : ADC.w $D85D, Y : STA $00
+    LDA $22 : CLC : ADC.w $D865, Y : STA $02
     
     SEP #$20
     
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
-    LDA $02 : STA $0C04, X
-    LDA $03 : STA $0C18, X
+    LDA $02 : STA.w $0C04, X
+    LDA $03 : STA.w $0C18, X
     
     BRA Ancilla_SpinSpark
 }

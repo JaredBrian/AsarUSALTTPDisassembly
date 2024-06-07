@@ -743,11 +743,11 @@ until we have proof '-' is a better guess.
 
         So basically, to set an orange you'd do something along the lines of:
             LDA #$3f
-            STA $2132
+            STA.w $2132
             LDA #$4f
-            STA $2132
+            STA.w $2132
             LDA #$80
-            STA $2132
+            STA.w $2132
 
         See the sections "BACKGROUNDS" and "WINDOWS" below for details.
 
@@ -831,8 +831,8 @@ until we have proof '-' is a better guess.
         scanline then you will get no effect.
 
         Even if there is no visible effect, the overscan setting still
-        affects VRAM writes. In particular, executing "LDA #'-' / STA $2118
-        / LDA r2133 / STA $2133 / LDA #'+' / STA $2118" during the E1-F0
+        affects VRAM writes. In particular, executing "LDA #'-' / STA.w $2118
+        / LDA r2133 / STA.w $2133 / LDA #'+' / STA.w $2118" during the E1-F0
         period will write only + or only - to VRAM, depending on whether the
         overscan bit was set to 0 or 1.
 
@@ -2515,39 +2515,39 @@ latch the H and V Counters by setting IOBit to 0.
 
 Auto Joypad Read, when enabled by bit 0 of $4200, effectively does the
 following (in pseudo-ASM):
-  LDA $4212
+  LDA.w $4212
   ORA #$01
-  STA $4212  ; pretend it's writable
+  STA.w $4212  ; pretend it's writable
   
   LDA #$01
-  STA $4016
+  STA.w $4016
   ; There may be a delay here
-  STZ $4016
+  STZ.w $4016
   
   LDX #$0010
   loop:
-      LDA $4016
+      LDA.w $4016
       REP #$20
       LSR
-      ROL $4218
+      ROL.w $4218
       LSR
-      ROL $421C
+      ROL.w $421C
       SEP #$20
 
-      LDA $4017
+      LDA.w $4017
       REP #$20
       LSR
-      ROL $421A
+      ROL.w $421A
       LSR
-      ROL $421E
+      ROL.w $421E
       SEP #$20
       
       DEX
   BNE loop
   
-  LDA $4212
+  LDA.w $4212
   AND #$7E
-  STA $4212  ; pretend it's writable again
+  STA.w $4212  ; pretend it's writable again
 
 
 "Open Port"

@@ -56,13 +56,13 @@ Ancilla_SkullWoodsFire:
 {
     LDA.l $7F0010 : BEQ .blast_inactive
     
-    LDA $0C5E, X : CMP.b #$04 : BEQ .blast_inactive
+    LDA.w $0C5E, X : CMP.b #$04 : BEQ .blast_inactive
     
-    DEC $03B1, X : BPL .blast_state_delay
+    DEC.w $03B1, X : BPL .blast_state_delay
     
-    LDA.b #$05 : STA $03B1, X
+    LDA.b #$05 : STA.w $03B1, X
     
-    INC $0C5E, X
+    INC.w $0C5E, X
     
     .blast_state_delay
     .blast_inactive
@@ -110,7 +110,7 @@ Ancilla_SkullWoodsFire:
     ; Activate the blast component of this object.
     LDA.b #$01 : STA.l $7F0010
     
-    LDA $00 : JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA $012E
+    LDA $00 : JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
     
     .dont_play_thud_sfx
     
@@ -131,11 +131,11 @@ Ancilla_SkullWoodsFire:
     
     SEP #$20
     
-    LDA $012E : BNE .sfx2_already_set
+    LDA.w $012E : BNE .sfx2_already_set
     
     LDA.l $7F001A : SEC : SBC $E2
     
-    JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA $012E
+    JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA.w $012E
     
     .sfx2_already_set
     .draw_flames_logic
@@ -227,19 +227,19 @@ Ancilla_SkullWoodsFire:
     
     DEX : BPL .find_active_flame_loop
     
-    LDX $0FA0
+    LDX.w $0FA0
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
     .flames_not_all_inactive
     
-    LDX $0FA0
+    LDX.w $0FA0
     
     LDA.l $7F0010 : BEQ .blast_logic_inactive
     
-    LDA $0C5E, X : CMP.b #$04 : BEQ .blast_logic_inactive
+    LDA.w $0C5E, X : CMP.b #$04 : BEQ .blast_logic_inactive
     
     TAX
     

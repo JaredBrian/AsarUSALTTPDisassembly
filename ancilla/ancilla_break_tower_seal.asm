@@ -4,32 +4,32 @@
 ; $044CA0-$044EA9 JUMP LOCATION
 Ancilla_BreakTowerSeal:
 {
-    LDA $0C54, X : BNE .not_first_state
+    LDA.w $0C54, X : BNE .not_first_state
     
     ; The first state is just a single crystal and no fancypants stuff.
-    LDA $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .crystal_not_full_speed
+    LDA.w $0C22, X : CLC : ADC.b #$FF : CMP.b #$F0 : BCS .crystal_not_full_speed
     
     LDA.b #$F0
     
     .crystal_not_full_speed
     
-    STA $0C22, X
+    STA.w $0C22, X
     
     JSR Ancilla_MoveVert
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     REP #$20
     
-    LDA $00 : SEC : SBC $0122 : CMP.w #$0038 : BCS .crystal_not_at_rendezvous
+    LDA $00 : SEC : SBC.w $0122 : CMP.w #$0038 : BCS .crystal_not_at_rendezvous
     
     ; If the crystal somehow ends up higher than we wanted it to, snap
     ; it at Y coordinate 0x38 (that's what this code is for)
-    LDA #$0038 : CLC : ADC $0122 : STA $00
+    LDA #$0038 : CLC : ADC.w $0122 : STA $00
     
     CLC : ADC.w #$0008 : STA.l $7F5810
     
@@ -37,22 +37,22 @@ Ancilla_BreakTowerSeal:
     
     SEP #$20
     
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
     ; Move to the next state
-    INC $0C54, X
+    INC.w $0C54, X
     
     ; Turn off ambient sfx.
-    LDA.b #$05 : STA $012D
+    LDA.b #$05 : STA.w $012D
     
     ; Fade out music.
-    LDA.b #$F1 : STA $012C
+    LDA.b #$F1 : STA.w $012C
     
     REP #$20
     
     ; Show the text message of the crystal maidens being all gung-ho.
-    LDA.w #$013B : STA $1CF0
+    LDA.w #$013B : STA.w $1CF0
     
     SEP #$20
     
@@ -66,37 +66,37 @@ Ancilla_BreakTowerSeal:
     
     .not_first_state
     
-    LDA $0C54, X : CMP.b #$01 : BNE .not_first_expansion
+    LDA.w $0C54, X : CMP.b #$01 : BNE .not_first_expansion
     
     LDA $11 : BNE .expansion_delay
     
-    LDA.b #$10 : STA $0C2C, X
+    LDA.b #$10 : STA.w $0C2C, X
     
-    LDA $0C04, X : STA $72
-    LDA $0C18, X : STA $73
+    LDA.w $0C04, X : STA $72
+    LDA.w $0C18, X : STA $73
     
-    LDA.l $7F5808 : STA $0C04, X
-                  STZ $0C18, X
+    LDA.l $7F5808 : STA.w $0C04, X
+                  STZ.w $0C18, X
     
     JSR Ancilla_MoveHoriz
     
-    LDA $0C04, X : STA.l $7F5808
+    LDA.w $0C04, X : STA.l $7F5808
     
-    LDA $72 : STA $0C04, X
-    LDA $73 : STA $0C18, X
+    LDA $72 : STA.w $0C04, X
+    LDA $73 : STA.w $0C18, X
     
     LDA.l $7F5808 : CMP.b #$30 : BCC .expansion_delay
     
     LDA.b #$30 : STA.l $7F5808
     
-    INC $0C54, X
+    INC.w $0C54, X
     
     .not_first_expansion
     .expansion_delay
     
     LDA $11 : BNE .move_and_draw_crystals
     
-    LDA $0C54, X : BNE .draw_multiple_crystals
+    LDA.w $0C54, X : BNE .draw_multiple_crystals
     
     .draw_single_crystal_prep
     
@@ -114,31 +114,31 @@ Ancilla_BreakTowerSeal:
     ; Initiate the tile and palette manipulation portion of the tower
     ; opening sequence. This is handled by another part of the game code,
     ; though that will begin to run in parallel with this object's code.
-    LDA.b #$05 : STA $04C6
+    LDA.b #$05 : STA.w $04C6
     
     STZ $B0
     STZ $C8
     
-    INC $0C54, X
+    INC.w $0C54, X
     
     BRA .move_and_draw_crystals
     
     .in_final_rotational_expansion
     
-    LDA.b #$30 : STA $0C2C, X
+    LDA.b #$30 : STA.w $0C2C, X
     
-    LDA $0C04, X : STA $72
-    LDA $0C18, X : STA $73
+    LDA.w $0C04, X : STA $72
+    LDA.w $0C18, X : STA $73
     
-    LDA.l $7F5808 : STA $0C04, X
-                  STZ $0C18, X
+    LDA.l $7F5808 : STA.w $0C04, X
+                  STZ.w $0C18, X
     
     JSR Ancilla_MoveHoriz
     
-    LDA $0C04, X : STA.l $7F5808
+    LDA.w $0C04, X : STA.l $7F5808
     
-    LDA $72 : STA $0C04, X
-    LDA $73 : STA $0C18, X
+    LDA $72 : STA.w $0C04, X
+    LDA $73 : STA.w $0C18, X
     
     ; Project the cyrstals out while rotating them until they are
     ; 0xF0 units out, then it's time to shut down this object completely.
@@ -148,8 +148,8 @@ Ancilla_BreakTowerSeal:
     
     PHX
     
-    LDA.b #$00 : STA $0AB1
-    LDA.b #$02 : STA $0AA9
+    LDA.b #$00 : STA.w $0AB1
+    LDA.b #$02 : STA.w $0AA9
     
     JSL Palette_MiscSpr.justSP6
     
@@ -157,7 +157,7 @@ Ancilla_BreakTowerSeal:
     
     PLX
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -165,7 +165,7 @@ Ancilla_BreakTowerSeal:
     
     LDY.b #$00
     
-    LDA $0C54, X : STA $72 : BEQ .no_sparkles_yet
+    LDA.w $0C54, X : STA $72 : BEQ .no_sparkles_yet
     
     JSR BreakTowerSeal_ExecuteSparkles
     
@@ -205,7 +205,7 @@ Ancilla_BreakTowerSeal:
     
     .positive_y_projection
     
-    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC $0122 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFF8 : SEC : SBC.w $0122 : STA $00
     
     LDA $04
     
@@ -215,7 +215,7 @@ Ancilla_BreakTowerSeal:
     
     .positive_x_projection
     
-    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC $011E : STA $02
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFF8 : SEC : SBC.w $011E : STA $02
     
     PLY
     
@@ -235,7 +235,7 @@ Ancilla_BreakTowerSeal:
     
     .draw_single_crystal
     
-    LDX $0FA0
+    LDX.w $0FA0
     
     PHY
     
@@ -251,9 +251,9 @@ Ancilla_BreakTowerSeal:
     
     JSR BreakTowerSeal_DrawCrystal
     
-    LDX $0FA0
+    LDX.w $0FA0
     
-    LDA $0C54, X : BNE .stop_spawning_sparkles
+    LDA.w $0C54, X : BNE .stop_spawning_sparkles
     
     JSR Ancilla_AddSwordChargeSpark
     
@@ -265,7 +265,7 @@ Ancilla_BreakTowerSeal:
     
     JSR BreakTowerSeal_ActivateSingleSparkle
     
-    LDX $0FA0
+    LDX.w $0FA0
     
     .return
     

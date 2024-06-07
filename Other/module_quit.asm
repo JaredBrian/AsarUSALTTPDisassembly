@@ -44,7 +44,7 @@ Quit_IndicateHaltedState:
     
     LDA.b #$01 : STA $B0
     
-    JMP $F50F ; $04F50F IN ROM
+    JMP.w $F50F ; $04F50F IN ROM
 }
 
 ; ==============================================================================

@@ -15,21 +15,21 @@ Ancilla_SomarianPlatformPoof:
 {
     ; Special Object 0x39 - Cane of Somaria platform creating poof
     
-    DEC $03B1, X : BMI .initiate_poof
+    DEC.w $03B1, X : BMI .initiate_poof
     
     RTS
     
     .initiate_poof
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    LDA $0BFA, X : STA $72
-    LDA $0C0E, X : STA $73
+    LDA.w $0BFA, X : STA $72
+    LDA.w $0C0E, X : STA $73
     
-    LDA $0C04, X : STA $74
-    LDA $0C18, X : STA $75
+    LDA.w $0C04, X : STA $74
+    LDA.w $0C18, X : STA $75
     
-    LDA $0C7C, X : STA $BD
+    LDA.w $0C7C, X : STA $BD
     
     PHX
     
@@ -40,13 +40,13 @@ Ancilla_SomarianPlatformPoof:
     
     .spawn_succeeded
     
-    STZ $02F5
+    STZ.w $02F5
     
-    LDA $72 : AND.b #$F8 : ORA.b #$04 : STA $0D00, Y : STA $72
-    LDA $73                           : STA $0D20, Y
+    LDA $72 : AND.b #$F8 : ORA.b #$04 : STA.w $0D00, Y : STA $72
+    LDA $73                           : STA.w $0D20, Y
     
-    LDA $74 : AND.b #$F8 : ORA.b #$04 : STA $0D10, Y : STA $74
-    LDA $75                           : STA $0D30, Y
+    LDA $74 : AND.b #$F8 : ORA.b #$04 : STA.w $0D10, Y : STA $74
+    LDA $75                           : STA.w $0D30, Y
     
     LDA $BD : CMP.b #$01 : REP #$30 : STZ $06 : BCC .on_bg2
     
@@ -78,9 +78,9 @@ Ancilla_SomarianPlatformPoof:
     
     LDX $06
     
-    LDA .directions, X : STA $0DE0, Y
+    LDA .directions, X : STA.w $0DE0, Y
     
-    LDA.b #$00 : STA $0F20, Y
+    LDA.b #$00 : STA.w $0F20, Y
     
     BRA .return
     

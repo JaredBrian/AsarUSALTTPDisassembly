@@ -2621,7 +2621,7 @@ PlayerOam_Main:
     
     LDY.b #$00
     
-    LDA $0462 : AND.b #$04 : BEQ .is_straight_up_staircase
+    LDA.w $0462 : AND.b #$04 : BEQ .is_straight_up_staircase
     
     LDY.b #$0C
 
@@ -2659,7 +2659,7 @@ PlayerOam_Main:
     LDX.b #$00
     
     ; Check if we need to draw grass or water around Link (he'd be standing in one of those)
-    LDA $0351 : BEQ .not_in_water_or_grass
+    LDA.w $0351 : BEQ .not_in_water_or_grass
     
     LDX.b #$01
 
@@ -2690,7 +2690,7 @@ PlayerOam_Main:
     
     LDY.b #$1F
     
-    LDA $037D : CMP.b #$02 : BEQ .notInBed
+    LDA.w $037D : CMP.b #$02 : BEQ .notInBed
     
     STA $02
     
@@ -2698,25 +2698,25 @@ PlayerOam_Main:
 
 .notInBed
 
-    LDA $03EF : BEQ .notHoldingUpSword
+    LDA.w $03EF : BEQ .notHoldingUpSword
     
     LDY.b #$24
     
     STZ $02
     
-    LDA $2F : STA $0323
+    LDA $2F : STA.w $0323
     
     BRL .PlayerOam_ContinueWithAnimation
 
 .notHoldingUpSword
 
-    LDA $02E0 : BEQ .not_transforming
+    LDA.w $02E0 : BEQ .not_transforming
     
     LDY.b #$21
     
     LDA $2E : AND.b #$03 : STA $02
     
-    LDA $2F : STA $0323
+    LDA $2F : STA.w $0323
     
     BRL .PlayerOam_ContinueWithAnimation
 
@@ -2724,7 +2724,7 @@ PlayerOam_Main:
 
     LDY.b #$00
     
-    LDA $0351 : BEQ .not_in_water_or_grass_2
+    LDA.w $0351 : BEQ .not_in_water_or_grass_2
     
     LDY.b #$0A
 
@@ -2750,7 +2750,7 @@ PlayerOam_Main:
     
     LDY.b #$19
     
-    LDA $0462 : AND.b #$04 : BEQ .is_up_spiral_staircase
+    LDA.w $0462 : AND.b #$04 : BEQ .is_up_spiral_staircase
     
     LDY.b #$1A
     
@@ -2758,11 +2758,11 @@ PlayerOam_Main:
 
 .BRANCH_MU
 
-    LDA $0376 : AND.b #$03 : BEQ .notGrabbingWall
+    LDA.w $0376 : AND.b #$03 : BEQ .notGrabbingWall
     
     LDY.b #$18
     
-    LDA $030A : STA $02
+    LDA.w $030A : STA $02
     
     BRA .BRANCH_XI
 
@@ -2784,9 +2784,9 @@ PlayerOam_Main:
 .is_up_spiral_staircase
 .BRANCH_XI
 
-    LDA $2F : STA $0323
+    LDA $2F : STA.w $0323
     
-    LDA $0345 : BEQ .not_in_deep_water
+    LDA.w $0345 : BEQ .not_in_deep_water
     
     ; Force to priority level 2 if we're in deep water.
     LDA.b #$20 : STA $65 : STZ $64
@@ -2806,17 +2806,17 @@ PlayerOam_Main:
 
 .skip_stroke_check
 
-    LDA $033C : ORA $033D : ORA $033E : ORA $033F : BEQ .no_swim_accel
+    LDA.w $033C : ORA.w $033D : ORA.w $033E : ORA.w $033F : BEQ .no_swim_accel
 
 .swim_strokes
 
     LDY.b #$13
     
-    LDA $02CC : STA $02
+    LDA.w $02CC : STA $02
 
 .no_swim_accel
 
-    LDA $032A : BEQ .not_stroking_hard
+    LDA.w $032A : BEQ .not_stroking_hard
     
     DEC A : STA $02
     
@@ -2828,7 +2828,7 @@ PlayerOam_Main:
 
 .not_swimming
 
-    LDA $02DA : BEQ .not_in_hold_item_pose
+    LDA.w $02DA : BEQ .not_in_hold_item_pose
     
     STZ $02
     
@@ -2846,9 +2846,9 @@ PlayerOam_Main:
 
     ; Has something to do with the death module. Perhaps the player sprite
     ; lying down?
-    LDA $036B : AND.b #$01 : BEQ nothing_with_desert_cutscene
+    LDA.w $036B : AND.b #$01 : BEQ nothing_with_desert_cutscene
     
-    LDA $030A : STA $02
+    LDA.w $030A : STA $02
     
     LDY.b #$1B
     
@@ -2872,7 +2872,7 @@ nothing_with_desert_cutscene
 
     LDA $5D : CMP.b #$05 : BNE .notOnSomariaPlatform
     
-    LDA $034E : BNE .dont_somaria_priority
+    LDA.w $034E : BNE .dont_somaria_priority
     
     LDA.b #$30 : STA $65 : STZ $64
 
@@ -2889,11 +2889,11 @@ nothing_with_desert_cutscene
     
     LDY.b #$05
     
-    LDA $0360 : BEQ .no_electroction_flag
+    LDA.w $0360 : BEQ .no_electroction_flag
     
     LDY.b #$14
     
-    LDA $0300 : AND.b #$03
+    LDA.w $0300 : AND.b #$03
 
 .no_electroction_flag
 
@@ -2909,8 +2909,8 @@ nothing_with_desert_cutscene
     
     ; Use an offset of 0x0000 in the OAM buffer when the player is falling
     ; into a hole or to the floor below?
-    LDA PlayerOam_OAMBufferOffset+4 : STA $0352
-    LDA PlayerOam_OAMBufferOffset+5 : STA $0353
+    LDA PlayerOam_OAMBufferOffset+4 : STA.w $0352
+    LDA PlayerOam_OAMBufferOffset+5 : STA.w $0353
 
 .not_fully_falling
 
@@ -2926,7 +2926,7 @@ nothing_with_desert_cutscene
 
 .no_slip_drawing
 
-    LDA $0308 : BEQ .not_carrying_something
+    LDA.w $0308 : BEQ .not_carrying_something
     
     JSR PlayerOam_GetHighestSetBit
     
@@ -2936,19 +2936,19 @@ nothing_with_desert_cutscene
     CPX.b #$06 : BCS .keep_lift_direction
     
     ; Force player to face down...? Why?
-    LDA.b #$02 : STA $0323
+    LDA.b #$02 : STA.w $0323
 
 .keep_lift_direction
 
     LDY.w $A148, X : CPY.b #$0D : BCC .check_desert_step_counter
     
-    LDA $0309 : AND.b #$02 : BEQ .not_throwing_object
+    LDA.w $0309 : AND.b #$02 : BEQ .not_throwing_object
     
     INY
 
 .not_throwing_object
 
-    LDA $0309 : AND.b #$01 : BEQ .not_lifting_object
+    LDA.w $0309 : AND.b #$01 : BEQ .not_lifting_object
     
     LDY.b #$10
     
@@ -2956,19 +2956,19 @@ nothing_with_desert_cutscene
 
 .not_lifting_object
 
-    LDA $0308 : AND.b #$80 : BEQ .check_desert_step_counter
+    LDA.w $0308 : AND.b #$80 : BEQ .check_desert_step_counter
     
     BRL .PlayerOam_ContinueWithAnimation
 
 .check_desert_step_counter
 
-    LDA $030A
+    LDA.w $030A
     
     BRA .set_item_use_anim
 
 .not_carrying_something
 
-    LDA $0377 : BEQ .not_grabbing_at_all
+    LDA.w $0377 : BEQ .not_grabbing_at_all
     
     DEC A
     
@@ -2978,7 +2978,7 @@ nothing_with_desert_cutscene
 
 .not_grabbing_at_all
 
-    LDA $0301 : BEQ .not_using_items_a
+    LDA.w $0301 : BEQ .not_using_items_a
     
     JSR PlayerOam_GetHighestSetBit
     
@@ -2988,7 +2988,7 @@ nothing_with_desert_cutscene
 
 .not_using_items_a
 
-    LDA $037A : BEQ .not_using_items_b
+    LDA.w $037A : BEQ .not_using_items_b
     
     JSR PlayerOam_GetHighestSetBit
     
@@ -2996,7 +2996,7 @@ nothing_with_desert_cutscene
 
 .continue_with_items_a
 
-    LDA $0300
+    LDA.w $0300
 
 .set_item_use_anim
 
@@ -3027,7 +3027,7 @@ nothing_with_desert_cutscene
 
 .continue_with_medallion
 
-    LDA $031C : STA $02
+    LDA.w $031C : STA $02
     
     BRA .PlayerOam_ContinueWithAnimation
 
@@ -3058,10 +3058,10 @@ nothing_with_desert_cutscene
 
 .PlayerOam_ContinueWithAnimation
 
-    STY $0354 : CPY.b #$05 : BEQ .not_recoiling
+    STY.w $0354 : CPY.b #$05 : BEQ .not_recoiling
     
-    LDA $64 : STA $035D
-    LDA $65 : STA $035E
+    LDA $64 : STA.w $035D
+    LDA $65 : STA.w $035E
 
 .not_recoiling
 
@@ -3084,23 +3084,23 @@ nothing_with_desert_cutscene
     
     LDA PlayerOam_Priority, Y : AND.w #$00FF : STA $04
     
-    LDA.w #$0E00 : STA $0346
+    LDA.w #$0E00 : STA.w $0346
     
-    LDA $0ABD : BEQ .not_alternate_palette
+    LDA.w $0ABD : BEQ .not_alternate_palette
     
     ; Use palette SP0 instead of SP7
-    STZ $0346
+    STZ.w $0346
 
 .not_alternate_palette
 
-    STZ $0102
-    STZ $0104
+    STZ.w $0102
+    STZ.w $0104
     
     LDX.w #$000C
 
  .check_next
 
-    LDA $0354 : AND.w #$00FF : CMP PlayerOam_AnimationsWithAuxParts, X : BEQ .match
+    LDA.w $0354 : AND.w #$00FF : CMP PlayerOam_AnimationsWithAuxParts, X : BEQ .match
     
     DEX #2 : BPL  .check_next
     
@@ -3120,7 +3120,7 @@ nothing_with_desert_cutscene
 
 .continue_aux1
 
-    ASL A : STA $0102
+    ASL A : STA.w $0102
     
     LDX $72
     
@@ -3128,7 +3128,7 @@ nothing_with_desert_cutscene
     
     LDY $04
     
-    LDA ($0A), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($0A), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     LDY $74
     
@@ -3167,11 +3167,11 @@ nothing_with_desert_cutscene
 
 .dont_shift_aux1
 
-    TYA : AND.w #$C000 : ORA $64 : ORA $0346 : ORA.w #$0004 : STA $0802, X
+    TYA : AND.w #$C000 : ORA $64 : ORA.w $0346 : ORA.w #$0004 : STA.w $0802, X
     
     TXA : LSR #2 : TAX
     
-    LDA $0A20, X : AND.w #$FF00 : STA $0A20, X
+    LDA.w $0A20, X : AND.w #$FF00 : STA.w $0A20, X
 
 .no_aux1
 
@@ -3191,7 +3191,7 @@ nothing_with_desert_cutscene
     
     LDY $04
     
-    LDA ($0A), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($0A), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     LDY $74
     
@@ -3213,9 +3213,9 @@ nothing_with_desert_cutscene
 
     STA $0F : STZ $0E
     
-    LDA PlayerOam_Aux2Offset_Y, Y : CLC : ADC $01 : SEC : SBC $0F : STA $0801, X
+    LDA PlayerOam_Aux2Offset_Y, Y : CLC : ADC $01 : SEC : SBC $0F : STA.w $0801, X
     
-    LDA PlayerOam_Aux2Offset_X, Y : CLC : ADC $00 : STA $0800, X
+    LDA PlayerOam_Aux2Offset_X, Y : CLC : ADC $00 : STA.w $0800, X
     
     REP #$20
     
@@ -3231,15 +3231,15 @@ nothing_with_desert_cutscene
 
 .dont_shift_aux2
 
-    TYA : AND.w #$C000 : ORA $64 : ORA $0346 : ORA.w #$0014 : STA $0802, X
+    TYA : AND.w #$C000 : ORA $64 : ORA.w $0346 : ORA.w #$0014 : STA.w $0802, X
     
     TXA : LSR #2 : TAX
     
-    LDA $0A20, X : AND.w #$FF00 : STA $0A20, X
+    LDA.w $0A20, X : AND.w #$FF00 : STA.w $0A20, X
 
 PlayerOam_NoAux
 
-    LDA $0309 : AND.w #$0004 : BEQ .always_taken
+    LDA.w $0309 : AND.w #$0004 : BEQ .always_taken
     
     JSR PlayerOam_UnusedWeaponSettings ; $06ADB6 IN ROM
     
@@ -3255,15 +3255,15 @@ PlayerOam_NoAux
     CMP.w #$0003 : BEQ .is_spinning_mode
     CMP.w #$001E : BEQ .is_spinning_mode
     
-    LDA $0308 : AND.w #$00FF : BNE .holding_hands_up
+    LDA.w $0308 : AND.w #$00FF : BNE .holding_hands_up
     
-    LDA $03EF : ORA $0360 : AND.w #$00FF : BNE .holding_hands_up
+    LDA.w $03EF : ORA.w $0360 : AND.w #$00FF : BNE .holding_hands_up
     
-    LDA $0301 : AND.w #$0040 : BNE .skip_sword_vram
+    LDA.w $0301 : AND.w #$0040 : BNE .skip_sword_vram
     
-    LDA $037A : AND.w #$003D : BNE .using_some_item
+    LDA.w $037A : AND.w #$003D : BNE .using_some_item
     
-    LDA $0301 : AND.w #$0093 : BNE .using_some_item
+    LDA.w $0301 : AND.w #$0093 : BNE .using_some_item
     
     LDA $3A : AND.w #$0080 : BEQ .skip_sword_vram
 
@@ -3307,9 +3307,9 @@ PlayerOam_NoAux
     
     LDA $00 : CLC : ADC PlayerOam_SwordOffsetX, Y : STA $0A : STA $08
     
-    LDA $0301 : AND.b #$02 : BEQ .not_hammer
+    LDA.w $0301 : AND.b #$02 : BEQ .not_hammer
     
-    LDA $0300 : CMP.b #$02 : BNE .skip_hitbox
+    LDA.w $0300 : CMP.b #$02 : BNE .skip_hitbox
     
     LDA $3D : CMP.b #$0F : BNE .skip_hitbox
     
@@ -3317,7 +3317,7 @@ PlayerOam_NoAux
 
 .not_hammer
 
-    LDA $0301 : AND.b #$05 : BNE .skip_hitbox
+    LDA.w $0301 : AND.b #$05 : BNE .skip_hitbox
 
 .set_hitbox_offset
 
@@ -3329,17 +3329,17 @@ PlayerOam_NoAux
     STZ $0E
     STZ $0F
     
-    LDA $0301 : AND.b #$05 : BEQ .rodding
+    LDA.w $0301 : AND.b #$05 : BEQ .rodding
     
-    LDY $0307 : DEY
+    LDY.w $0307 : DEY
     
     LDA PlayerOam_RodTypeID, Y : STA $0F
 
 .rodding
 
-    LDA $037A : AND.b #$08 : BEQ .not_caning
+    LDA.w $037A : AND.b #$08 : BEQ .not_caning
     
-    LDA $0303 : CMP.b #$0D : BNE .not_caning
+    LDA.w $0303 : CMP.b #$0D : BNE .not_caning
     
     LDA.b #$04 : STA $0F
 
@@ -3359,7 +3359,7 @@ PlayerOam_NoAux
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     PLY
     
@@ -3375,23 +3375,23 @@ PlayerOam_NoAux
     
     LDA PlayerOam_WeaponTiles, Y : CMP.w #$FFFF : BEQ .no_weapons
     
-    AND.w #$CFFF : ORA $64 : STA $0802, X
+    AND.w #$CFFF : ORA $64 : STA.w $0802, X
     
     AND.w #$0E00 : CMP.w #$0200 : BEQ .ignore_palette_adjustments
     
-    LDA $0346 : BNE .ignore_palette_adjustments
+    LDA.w $0346 : BNE .ignore_palette_adjustments
     
-    LDA $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA $0802, X
+    LDA.w $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0802, X
 
 .ignore_palette_adjustments
 
     LDA $0E : BEQ .ignore_palette_adjustments_2
     
-    LDA $0802, X : AND.w #$F1FF : ORA $0E : STA $0802, X
+    LDA.w $0802, X : AND.w #$F1FF : ORA $0E : STA.w $0802, X
 
 .ignore_palette_adjustments_2
 
-    LDA $0A : STA $0800, X
+    LDA $0A : STA.w $0800, X
     
     AND.w #$00FF : STA $74
     
@@ -3413,7 +3413,7 @@ PlayerOam_NoAux
     
     SEP #$20
     
-    LDA $0C : STA $0A20, X
+    LDA $0C : STA.w $0A20, X
     
     AND.b #$FE : STA $0C
     
@@ -3499,7 +3499,7 @@ PlayerOam_DrawShield:
     LDA.b #$0A : STA $0F
     
     ; Branch if the player sprite is using palette 7, which is typical.
-    LDA $0347 : BNE .leave_shield_palette
+    LDA.w $0347 : BNE .leave_shield_palette
     
     LDA.b #$06 : STA $0F
 
@@ -3519,7 +3519,7 @@ PlayerOam_DrawShield:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     PLY
 
@@ -3531,9 +3531,9 @@ PlayerOam_DrawShield:
     
     LDA.w $8563, Y : CMP.w #$FFFF : BEQ .no_shield_to_draw
     
-    AND.w #$C1FF : ORA $0E : ORA $64 : STA $0802, X
+    AND.w #$C1FF : ORA $0E : ORA $64 : STA.w $0802, X
     
-    LDA $0A : STA $0800, X
+    LDA $0A : STA.w $0800, X
     
     PHX
     
@@ -3542,7 +3542,7 @@ PlayerOam_DrawShield:
     SEP #$20
     
     ; Or in the 9th bit of the X coordinate
-    LDA $0C : ORA $03FA : STA $0A20, X
+    LDA $0C : ORA.w $03FA : STA.w $0A20, X
     
     PLX : INX #4
 
@@ -3580,10 +3580,10 @@ PlayerOam_DrawShadow:
 
     LDA $5D : CMP.b #$16 : BEQ .proceed_to_pose
     
-    LDA $0354 : CMP.b #$05 : BEQ .recoil_check
+    LDA.w $0354 : CMP.b #$05 : BEQ .recoil_check
     
     ; See if Link is standing in water.
-    LDA $0351 : BEQ .recoil_check
+    LDA.w $0351 : BEQ .recoil_check
     
     JSR PlayerOam_DrawFootObject ; $06AED1 IN ROM; Draws water/grass sprites around Link
     
@@ -3624,7 +3624,7 @@ PlayerOam_DrawShadow:
     STY $0A
     STZ $0B
     
-    LDA $0323 : LSR A : TAY
+    LDA.w $0323 : LSR A : TAY
     
     REP #$20
     
@@ -3653,29 +3653,29 @@ PlayerOam_DrawShadow:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     LDA $0A : ASL #2 : TAY
     
-    LDA PlayerOam_ShadowTiles, Y : AND.w #$CFFF : ORA $035D : STA $0802, X
+    LDA PlayerOam_ShadowTiles, Y : AND.w #$CFFF : ORA.w $035D : STA.w $0802, X
     
-    AND.w #$3FFF : ORA.w #$4000 : STA $0806, X
+    AND.w #$3FFF : ORA.w #$4000 : STA.w $0806, X
     
-    LDA $06 : STA $0800, X
+    LDA $06 : STA.w $0800, X
     
-    XBA : CLC : ADC.w #$0800 : XBA : STA $0804, X
+    XBA : CLC : ADC.w #$0800 : XBA : STA.w $0804, X
     
-    LDA $0346 : BNE .no_palette_adjustment
+    LDA.w $0346 : BNE .no_palette_adjustment
     
-    LDA $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA $0802, X
+    LDA.w $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0802, X
     
-    LDA $0806, X : AND.w #$F1FF : ORA.w #$0600 : STA $0806, X
+    LDA.w $0806, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0806, X
 
 .no_palette_adjustment
 
     TXA : LSR #2 : TAX
     
-    STZ $0A20, X
+    STZ.w $0A20, X
     
     SEP #$30
 
@@ -3690,13 +3690,13 @@ PlayerOam_DrawPose:
     LDY $04
     
     ; Determine the finalized offset into the OAM buffer?
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     LDA $02 : ASL A : TAY
     
     LDA PlayerOam_AnimationSteps, Y : STA $0E
     
-    ASL A : STA $0100
+    ASL A : STA.w $0100
     
     CLC : ADC $0E : TAY
     
@@ -3734,11 +3734,11 @@ PlayerOam_DrawPose:
     
     AND.w #$F000 : CMP.w #$F000 : BEQ .no_draw
     
-    ORA $64 : ORA $0346 : STA $0802, X
+    ORA $64 : ORA.w $0346 : STA.w $0802, X
     
     STZ $02
     
-    LDA $0A : STA $0800, X
+    LDA $0A : STA.w $0800, X
     
     AND.w #$00FF : CMP.w #$00F8 : BCC .on_screen_x
     
@@ -3750,7 +3750,7 @@ PlayerOam_DrawPose:
     
     TXA : LSR #2 : TAX
     
-    LDA $0A20, X : AND.w #$FF00 : ORA $02 : ORA.w #$0002 : STA $0A20, X
+    LDA.w $0A20, X : AND.w #$FF00 : ORA $02 : ORA.w #$0002 : STA.w $0A20, X
     
     PLX
 
@@ -3758,13 +3758,13 @@ PlayerOam_DrawPose:
 
     LDA $06 : AND.w #$0F00 : CMP.w #$0F00 : BEQ PlayerOam_RunFinalAdjustments
     
-    ASL #4 : ORA $64 : ORA $0346 : ORA.w #$0002 : STA $0806, X
+    ASL #4 : ORA $64 : ORA.w $0346 : ORA.w #$0002 : STA.w $0806, X
     
-    LDA $00 : SEC : SBC $0E : CLC : ADC.w #$0800 : STA $0804, X
+    LDA $00 : SEC : SBC $0E : CLC : ADC.w #$0800 : STA.w $0804, X
     
     TXA : LSR #2 : TAX
     
-    LDA $0A21, X : AND.w #$FF00 : ORA.w #$0002 : STA $0A21, X
+    LDA.w $0A21, X : AND.w #$FF00 : ORA.w #$0002 : STA.w $0A21, X
 
 PlayerOam_RunFinalAdjustments:
 
@@ -3794,9 +3794,9 @@ PlayerOam_RunFinalAdjustments:
     
     LDA $11 : BNE .check_stair_visibility
     
-    LDA $031F : BEQ .check_stair_visibility
+    LDA.w $031F : BEQ .check_stair_visibility
     
-    DEC A : STA $031F
+    DEC A : STA.w $031F
     
     CMP.b #$04 : BCC .check_stair_visibility
     AND.b #$01 : BEQ .looks_invisible
@@ -3811,10 +3811,10 @@ PlayerOam_RunFinalAdjustments:
 
     REP #$30
     
-    LDA $0352 : LSR #2 : TAX
+    LDA.w $0352 : LSR #2 : TAX
     
-    LDA.w #$0101 : STA $0A20, X : STA $0A22, X : STA $0A24, X
-               STA $0A26, X : STA $0A28, X : STA $0A2A, X
+    LDA.w #$0101 : STA.w $0A20, X : STA.w $0A22, X : STA.w $0A24, X
+               STA.w $0A26, X : STA.w $0A28, X : STA.w $0A2A, X
     
     LDA $4B : AND.w #$00FF : CMP.w #$000C : BEQ .check_position_restoration
     
@@ -3826,9 +3826,9 @@ PlayerOam_RunFinalAdjustments:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : LSR #2 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : LSR #2 : TAX
     
-    STZ $0A20, X
+    STZ.w $0A20, X
 
 .check_position_restoration:
 
@@ -4077,7 +4077,7 @@ PlayerOam_SetWeaponVRAMOffsets:
 
     TYA : AND.w #$00FF : STA $0A
     
-    LDA $0109 : AND.w #$FF00 : ORA $0A : STA $0109
+    LDA.w $0109 : AND.w #$FF00 : ORA $0A : STA.w $0109
     
     BRA .succeed
 
@@ -4085,7 +4085,7 @@ PlayerOam_SetWeaponVRAMOffsets:
 
     TYA : AND.w #$00FF : STA $0A
     
-    LDA $0107 : AND.w #$FF00 : ORA $0A : STA $0107
+    LDA.w $0107 : AND.w #$FF00 : ORA $0A : STA.w $0107
 
 .succeed
 
@@ -4128,7 +4128,7 @@ PlayerOam_SetEquipmentVRAMOffsets:
     
     STA $06 : TAX : LDY.w EquipmentVRAMOffsets_shield_id, X : AND.w #$00F8 : BEQ .is_shield
     
-    LDA $0301 : AND.w #$0005 : BEQ .not_rod
+    LDA.w $0301 : AND.w #$0005 : BEQ .not_rod
     
     TXA : SEC : SBC.w #$0008 : TAX
     
@@ -4137,7 +4137,7 @@ PlayerOam_SetEquipmentVRAMOffsets:
 .not_rod
 
     TYA       : AND.w #$00FF : STA $0A
-    LDA $0109 : AND.w #$FF00 : ORA $0A : STA $0109
+    LDA.w $0109 : AND.w #$FF00 : ORA $0A : STA.w $0109
     
     AND.w #$0007 : BEQ .dont_invert
     
@@ -4147,7 +4147,7 @@ PlayerOam_SetEquipmentVRAMOffsets:
 
     TYA : AND.w #$00FF : STA $0A
     
-    LDA $0108 : AND.w #$FF00 : ORA $0A : STA $0108
+    LDA.w $0108 : AND.w #$FF00 : ORA $0A : STA.w $0108
 
 .dont_invert
 
@@ -4343,11 +4343,11 @@ PlayerOam_DrawSwordSwingTip:
     
     LDA PlayerOam_SwordSwingTipTile, Y : CMP.w #$FFFF : BEQ .reset_and_exit
     
-    AND.w #$CFFF : ORA $64 : STA $0802, X
+    AND.w #$CFFF : ORA $64 : STA.w $0802, X
     
-    LDA $0346 : BNE .no_palette_adjust
+    LDA.w $0346 : BNE .no_palette_adjust
     
-    LDA $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA $0802, X
+    LDA.w $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0802, X
 
 .no_palette_adjust
 
@@ -4365,7 +4365,7 @@ PlayerOam_DrawSwordSwingTip:
     
     REP #$20
     
-    LDA $0A : STA $0800, X
+    LDA $0A : STA.w $0800, X
     
     INX #4
     
@@ -4374,7 +4374,7 @@ PlayerOam_DrawSwordSwingTip:
     TXA : SEC : SBC.w #$0004 : LSR #2 : TAX
     
     ; Or in the 9th bit of the X coordinate
-    LDA.w #$0000 : ORA $03FA : STA $0A20, X
+    LDA.w #$0000 : ORA.w $03FA : STA.w $0A20, X
     
     PLX
 
@@ -4398,9 +4398,9 @@ PlayerOam_UnusedWeaponSettings:
     
     JSR PlayerOam_GetHighestSetBit
     
-    LDA.w $ADB4, X : CLC : ADC $030E : ASL #2 : STA $06 : STZ $07
+    LDA.w $ADB4, X : CLC : ADC.w $030E : ASL #2 : STA $06 : STZ $07
     
-    LDA.b #$42 : STA $0109
+    LDA.b #$42 : STA.w $0109
     
     REP #$30
     
@@ -4410,7 +4410,7 @@ PlayerOam_UnusedWeaponSettings:
     
     LDA $04 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     LDY $06
     
@@ -4420,8 +4420,8 @@ BRANCH_BETA:
 
     SEP #$20
     
-    LDA $01 : CLC : ADC $AD94, Y : STA $0B
-    LDA $00 : CLC : ADC $ADA4, Y : STA $0A
+    LDA $01 : CLC : ADC.w $AD94, Y : STA $0B
+    LDA $00 : CLC : ADC.w $ADA4, Y : STA $0A
     
     PHY
     
@@ -4431,9 +4431,9 @@ BRANCH_BETA:
     
     AND.w #$00FF : TAY
     
-    LDA.w $AD82, Y : AND.w #$CFFF : ORA $64 : STA $0802, X
+    LDA.w $AD82, Y : AND.w #$CFFF : ORA $64 : STA.w $0802, X
     
-    LDA $0A : STA $0800, X
+    LDA $0A : STA.w $0800, X
     
     PHX
     
@@ -4441,7 +4441,7 @@ BRANCH_BETA:
     
     SEP #$20
     
-    STZ $0A20, X
+    STZ.w $0A20, X
     
     PLX : INX #4
 
@@ -4509,7 +4509,7 @@ PlayerOam_DungeonFallShadow:
     
     LDA $03 : AND.w #$00FF : TAY
     
-    LDA ($74), Y : AND.w #$00FF : CLC : ADC $0352 : TAX
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
     
     PLY
 
@@ -4519,9 +4519,9 @@ PlayerOam_DungeonFallShadow:
     
     LDA PlayerOam_ShadowTiles, Y : CMP.w #$FFFF : BEQ .give_up
     
-    AND.w #$CFFF : ORA $035D : STA $0802, X
+    AND.w #$CFFF : ORA.w $035D : STA.w $0802, X
     
-    LDA $06 : STA $0800, X
+    LDA $06 : STA.w $0800, X
 
 .give_up:
 
@@ -4531,7 +4531,7 @@ PlayerOam_DungeonFallShadow:
     
     SEP #$20
     
-    STZ $0A20, X
+    STZ.w $0A20, X
     
     PLX
     
@@ -4571,17 +4571,17 @@ PlayerOam_DrawFootObject:
     
     ; Seems like a timer to control how often to change the sprite's frame
     ; If frame counter < 9
-    LDA $0356 : INC A : AND.b #$0F : STA $0356
+    LDA.w $0356 : INC A : AND.b #$0F : STA.w $0356
     
     CMP.b #$09 : BCC .dont_reset_foot_object
     
-    STZ $0356
+    STZ.w $0356
     
-    LDA $0355 : INC A : AND.b #$03 : STA $0355
+    LDA.w $0355 : INC A : AND.b #$03 : STA.w $0355
     
     CMP.b #$03 : BNE .dont_reset_foot_object
     
-    STZ $0355
+    STZ.w $0355
 
 .dont_reset_foot_object
 
@@ -4590,13 +4590,13 @@ PlayerOam_DrawFootObject:
     
     ; See which direction Link is facing
     ; Probably positions the water/grass sprite appropriately
-    LDA $0323 : LSR A : CLC : ADC FootObject_shield_direction, Y : TAY
+    LDA.w $0323 : LSR A : CLC : ADC FootObject_shield_direction, Y : TAY
     
     LDA $01 : CLC : ADC PlayerOam_ShadowOffset_Y, Y : STA $07
     LDA $00 : CLC : ADC PlayerOam_ShadowOffset_X, Y : STA $06
     
     ; $8D = secondary timer * 4
-    LDA $0355 : ASL #2 : STA $8D
+    LDA.w $0355 : ASL #2 : STA $8D
     
     PHY
     
@@ -4614,13 +4614,13 @@ PlayerOam_DrawFootObject:
     
     ; See if Link is standing in grass
     ; Nope... standing in water
-    LDA $0351 : CMP.b #$02 : BNE .not_tall_grass
+    LDA.w $0351 : CMP.b #$02 : BNE .not_tall_grass
     
     LDY.b #$06
 
 .check_next
 
-    LDA .aux_check, Y : CMP $0354 : BNE .wrong
+    LDA .aux_check, Y : CMP.w $0354 : BNE .wrong
     
     STZ $8D
     
@@ -4658,29 +4658,29 @@ PlayerOam_DrawFootObject:
     TYA : AND.w #$00FF : TAY
 
     ; Get the offset of where to put the OAM.
-    TXA : AND.w #$00FF : CLC : ADC $0352 : TAX
+    TXA : AND.w #$00FF : CLC : ADC.w $0352 : TAX
         
     ; Char and property bytes for the left half of the grass/splash.
-    LDA PlayerOam_ShadowTiles+0, Y : AND.w #$CFFF : ORA $035D : STA $0802, X
+    LDA PlayerOam_ShadowTiles+0, Y : AND.w #$CFFF : ORA.w $035D : STA.w $0802, X
         
     ; Char and property bytes for the right half of the grass/splash.
     ; Because this is separate from the other half this leads to a stupid bug in vanilla 
     ; where if you have water under a bridge in a dungeon, the right half will appear
     ; incorrectly on top of the bridge.
-    LDA PlayerOam_ShadowTiles+2, Y : ORA $035D : STA $0806, X
+    LDA PlayerOam_ShadowTiles+2, Y : ORA.w $035D : STA.w $0806, X
         
     ; X and Y pos for left half.
-    LDA $06 : STA $0800, X
+    LDA $06 : STA.w $0800, X
     
     ; X and Y pos for right half by just adding 8 to the x pos.
     ; Why tf are you switching bytes and then adding #$0800? why not just add #$0080 and
     ; skip flipping A and B??
-    XBA : CLC : ADC.w #$0800 : XBA : STA $0804, X
+    XBA : CLC : ADC.w #$0800 : XBA : STA.w $0804, X
         
     TXA : LSR #2 : TAX
     
     ; Write the size and extra x bytes.
-    STZ $0A20, X
+    STZ.w $0A20, X
     
     SEP #$30
     
@@ -4708,7 +4708,7 @@ PlayerOam_Unused_0:
     
     LDX $2E
     
-    LDA $0354 : CMP.b #$19 : BNE .alpha
+    LDA.w $0354 : CMP.b #$19 : BNE .alpha
         LDA.w $A131, X : TAX
 
     .alpha
@@ -4737,7 +4737,7 @@ PlayerOam_GetRelativeHighBit:
 
     .positive
 
-    CLC : ADC $22 : SEC : SBC $E2 : XBA : AND.w #$0001 : STA $03FA
+    CLC : ADC $22 : SEC : SBC $E2 : XBA : AND.w #$0001 : STA.w $03FA
     
     SEP #$20
     

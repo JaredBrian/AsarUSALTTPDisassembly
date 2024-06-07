@@ -53,20 +53,20 @@ Module_Death:
     ; $04F2A4 ALTERNATE ENTRY POINT
     
     ; ????
-    LDA $0130 : STA.l $7EC227
-    LDA $0131 : STA.l $7EC228
+    LDA.w $0130 : STA.l $7EC227
+    LDA.w $0131 : STA.l $7EC228
     
     ; Fade volume to nothing
-    LDA.b #$F1 : STA $012C
+    LDA.b #$F1 : STA.w $012C2C
     
     ; turn off ambient sound effect (rumbling, etc)
-    LDA.b #$05 : STA $012D
+    LDA.b #$05 : STA.w $012D
     
     ; not sure of the interpretation of this, though
-    STA $0200
+    STA.w $0200
     
     ; turn off cape ($55), and two other things that I don't understand
-    STZ $03F3 : STZ $0322 : STZ $55
+    STZ.w $03F3 : STZ.w $0322 : STZ $55
     
     REP #$20
     
@@ -91,7 +91,7 @@ Module_Death:
     
     STA.l $7EC007 : STA.l $7EC009
     
-    STZ $011A : STZ $011C
+    STZ.w $011A : STZ.w $011C
     
     LDA $99 : STA.l $7EC225
     
@@ -100,7 +100,7 @@ Module_Death:
     ; Set a timer for 32 frames
     LDA.b #$20 : STA $C8
     
-    STZ $04A0
+    STZ.w $04A0
     
     ; Setting $04A0 to 0 turns off the display of the floor level indicator on bg3
     JSL.l $0AFD0C ; $57D0C
@@ -108,7 +108,7 @@ Module_Death:
     INC $16
     
     ; silences the sound effect on first channel    
-    LDA #$05 : STA $012D
+    LDA #$05 : STA.w $012D
     
     INC $11
     
@@ -214,7 +214,7 @@ Module_Death:
     LDA.l $7EC009 : CMP.b #$FF : BNE .BRANCH_BETA
     
     LDA.b #$00 : STA.l $7EC011
-                 STA $0647
+                 STA.w $0647
     
     LDA.b #$03 : STA $95
     
@@ -235,9 +235,9 @@ Module_Death:
     CMP.l $7EF35F : BEQ .hasBottledFairy
     
     ; has no bottled fairy
-    STZ $05FC : STZ $05FD
+    STZ.w $05FC : STZ.w $05FD
     
-    LDA.b #$16 : STA $17 : STA $0710
+    LDA.b #$16 : STA $17 : STA.w $0710
     
     INC $11
     
@@ -259,12 +259,12 @@ Module_Death:
     ; Switch to a different fricken submode of this module?
     LDA.b #$0C : STA $C8
     
-    LDA.b #$0F : STA $0AAA
+    LDA.b #$0F : STA.w $0AAA
     
     ; Grab a half pack of graphics and expand to 4bpp.
     JSL Graphics_LoadChrHalfSlot
     
-    STZ $0AAA
+    STZ.w $0AAA
     
     LDA.b #$0A : STA $11
     
@@ -274,14 +274,14 @@ Module_Death:
 ; $04F458-$04F482 LOCAL JUMP LOCATION
 {
     LDA.b #$0C : STA $C8
-    LDA.b #$0F : STA $0AAA
+    LDA.b #$0F : STA.w $0AAA
     
     JSL Graphics_LoadChrHalfSlot
     
-    STZ $0AAA
+    STZ.w $0AAA
     
-    LDA.b #$05 : STA $0AB1
-    LDA.b #$02 : STA $0AA9
+    LDA.b #$05 : STA.w $0AB1
+    LDA.b #$02 : STA.w $0AA9
     
     JSL Palette_MiscSpr.justSP6
     JSL Palette_MainSpr
@@ -310,7 +310,7 @@ Death_ShowSaveOptionsMenu:
     LDA $10 : PHA
     LDA $11 : PHA
     
-    LDA.b #$02 : STA $1CD8
+    LDA.b #$02 : STA.w $1CD8
     
     JSL Messaging_Text
     
@@ -321,7 +321,7 @@ Death_ShowSaveOptionsMenu:
     LDA.b #$02 : STA $C8
     
     ; Play the fountain music?
-    LDA.b #$0B : STA $012C
+    LDA.b #$0B : STA.w $012C
     
     RTS
 }
@@ -340,9 +340,9 @@ Death_ShowSaveOptionsMenu:
 
 ; $04F4C1-$04F674 LOCAL JUMP LOCATION
 {
-    JSR $F67A ; $04F67A IN ROM
+    JSR.w $F67A ; $04F67A IN ROM
     
-    LDA $0C4A : BEQ .alpha
+    LDA.w $0C4A : BEQ .alpha
     
     JSL Ancilla_GameOverTextLong
     
@@ -377,17 +377,17 @@ Death_ShowSaveOptionsMenu:
     
     LDA.b #$0C : STA $C8
     
-    LDA.b #$20 : STA $012F
+    LDA.b #$20 : STA.w $012F
     
     .BRANCH_GAMMA
     
     LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ .BRANCH_$4F4AB ; (RTS)
     
-    LDA.b #$2C : STA $012E
+    LDA.b #$2C : STA.w $012E
     
     ; $04F50F ALTERNATE ENTRY POINT
     
-    LDA.b #$F1 : STA $012C
+    LDA.b #$F1 : STA.w $012C
     
     LDA $1B : BEQ .BRANCH_ZETA
     
@@ -430,9 +430,9 @@ Death_ShowSaveOptionsMenu:
 
     LDA.l $7EF36C : LSR #3 : TAX
     
-    LDA.l $09F4AC, X : STA.l $7EF36D : STA $04AA
+    LDA.l $09F4AC, X : STA.l $7EF36D : STA.w $04AA
     
-    LDA $040C
+    LDA.w $040C
     
     CMP.b #$FF : BEQ .BRANCH_MU
     CMP.b #$02 : BNE .BRANCH_NU
@@ -459,7 +459,7 @@ Death_ShowSaveOptionsMenu:
     
     SEP #$20
     
-    INC $010A
+    INC.w $010A
     
     LDA $B0 : CMP.b #$01 : BEQ .handleSram
     
@@ -467,15 +467,15 @@ Death_ShowSaveOptionsMenu:
     
     LDA.l $7EF3CC : CMP.b #$01 : BEQ .BRANCH_RHO
     
-    LDA $040C : CMP.b #$FF : BEQ .BRANCH_SIGMA
+    LDA.w $040C : CMP.b #$FF : BEQ .BRANCH_SIGMA
     
-    STZ $04AA
+    STZ.w $04AA
     
     BRA .BRANCH_RHO
     
     .BRANCH_SIGMA
     
-    STZ $0132
+    STZ.w $0132
     STZ $1B
     
     .BRANCH_PI
@@ -512,7 +512,7 @@ Death_ShowSaveOptionsMenu:
     
     SEP #$20
     
-    STZ $010A
+    STZ.w $010A
     
     JSL.l $0CCFBB ; $064FBB IN ROM
     
@@ -532,17 +532,17 @@ Death_ShowSaveOptionsMenu:
     
     JSL.l $0CF0E2 ; $0670E2 IN ROM
     
-    STZ $04AA : STZ $010A : STZ $0132
+    STZ.w $04AA : STZ.w $010A : STZ.w $0132
     
     SEI
     
-    STZ $4200 : STZ $420C
+    STZ.w $4200 : STZ.w $420C
     
     REP #$30
     
     STZ $E0 : STZ $E2 : STZ $E4 : STZ $E6 : STZ $E8 : STZ $EA
     
-    STZ $0120 : STZ $011E : STZ $0124 : STZ $0122
+    STZ.w $0120 : STZ.w $011E : STZ.w $0124 : STZ.w $0122
     
     LDX.w #$0000 : TXA
     
@@ -558,13 +558,13 @@ Death_ShowSaveOptionsMenu:
     
     SEP #$30
     
-    STZ $0136
+    STZ.w $0136
     
-    LDA.b #$FF : STA $2140
+    LDA.b #$FF : STA.w $2140
     
     JSL Sound_LoadLightWorldSongBank
     
-    LDA #$81 : STA $4200
+    LDA #$81 : STA.w $4200
     
     RTS
 }
@@ -586,16 +586,16 @@ Death_ShowSaveOptionsMenu:
     
     LDX $B0
     
-    LDA.b #$34 : STA $0850
+    LDA.b #$34 : STA.w $0850
     
-    LDA.w $F677, X : STA $0851
+    LDA.w $F677, X : STA.w $0851
     
     LDA $1A : AND.b #$08 : LSR #3 : TAX
     
-    LDA.w $F675, X : STA $0852
+    LDA.w $F675, X : STA.w $0852
     
-    LDA.b #$78 : STA $0853
-    LDA.b #$02 : STA $0A34
+    LDA.b #$78 : STA.w $0853
+    LDA.b #$02 : STA.w $0A34
     
     PLB
     
@@ -615,7 +615,7 @@ Death_ShowSaveOptionsMenu:
     
     INC $11
     
-    STZ $0200
+    STZ.w $0200
     
     RTS
 }
@@ -672,9 +672,9 @@ Death_ShowSaveOptionsMenu:
 
 ; $04F71D-$04F734 LOCAL JUMP LOCATION
 {
-    LDA $020A : BNE .BRANCH_$4F714
+    LDA.w $020A : BNE .BRANCH_$4F714
     
-    LDA #$01 : STA $0AAA
+    LDA #$01 : STA.w $0AAA
     
     JSL Graphics_LoadChrHalfSlot
     
@@ -714,14 +714,14 @@ Death_RestoreScreenPostRevival:
     
     LDA.l $7EC212 : STA $1D
     
-    LDA $010C : STA $10
+    LDA.w $010C : STA $10
     
     STZ $11
     
-    LDA.b #$90 : STA $031F
+    LDA.b #$90 : STA.w $031F
     
-    LDA.l $7EC227 : STA $012C
-    LDA.l $7EC228 : STA $012D
+    LDA.l $7EC227 : STA.w $012C
+    LDA.l $7EC228 : STA.w $012D
     
     REP #$20
     

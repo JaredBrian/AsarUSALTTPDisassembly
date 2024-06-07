@@ -51,11 +51,11 @@ Pool_Ancilla_SomarianBlock:
 ; $046365-$04674B JUMP LOCATION
 Ancilla_SomarianBlock:
 {
-    DEC $0394, X : BPL Ancilla_SetupBasicHitBox.return
+    DEC.w $0394, X : BPL Ancilla_SetupBasicHitBox.return
     
-    STZ $0394, X
+    STZ.w $0394, X
     
-    LDA $03C5, X : BNE .bouncing
+    LDA.w $03C5, X : BNE .bouncing
     
     LDA $11    : BEQ .full_execute
     CMP.b #$08 : BEQ .full_execute
@@ -69,9 +69,9 @@ Ancilla_SomarianBlock:
     
     .partial_execute
     
-    TXA : INC A : CMP $02EC : BNE .pretrigger_logic
+    TXA : INC A : CMP.w $02EC : BNE .pretrigger_logic
     
-    LDA $0380, X : BEQ .pretrigger_logic
+    LDA.w $0380, X : BEQ .pretrigger_logic
     CMP.b #$03   : BEQ .assert_fully_held_position
     
     LDY.b #$03
@@ -79,7 +79,7 @@ Ancilla_SomarianBlock:
     JSR Ancilla_PegCoordsToPlayer
     JSR Ancilla_PegAltitudeAbovePlayer
     
-    LDA.b #$03 : STA $0380, X
+    LDA.b #$03 : STA.w $0380, X
     
     .assert_fully_held_position
     
@@ -89,20 +89,20 @@ Ancilla_SomarianBlock:
     
     LDA $1B : BEQ .outdoors
     
-    LDA $0380, X : BNE .unset_trigger_if_player_holding
+    LDA.w $0380, X : BNE .unset_trigger_if_player_holding
     
-    BIT $0308 : BMI .unset_trigger_if_player_holding
+    BIT.w $0308 : BMI .unset_trigger_if_player_holding
     
-    LDA $029E, X : BEQ .trigger_logic
+    LDA.w $029E, X : BEQ .trigger_logic
     
     CMP.b #$FF : BEQ .trigger_logic
     
     .bouncing
     .unset_trigger_if_player_holding
     
-    TXA : INC A : CMP $02EC : BNE .anounset_trigger_tile
+    TXA : INC A : CMP.w $02EC : BNE .anounset_trigger_tile
     
-    STZ $0646
+    STZ.w $0646
     
     .outdoors
     .anounset_trigger_tile
@@ -114,30 +114,30 @@ Ancilla_SomarianBlock:
     ; \wtf What this indicates to me is that using a somarian block
     ; as a platform generator and as a tile trigger cover is mutually
     ; exclusive in a given room.
-    LDA $03F4 : BEQ .no_tranit_tiles_available
+    LDA.w $03F4 : BEQ .no_tranit_tiles_available
     
     LDA $1A : AND.b #$03 : ASL A : TAY
     
     .find_transit_node_nearby
     
-    LDA $0BFA, X : CLC : ADC .node_check_y_offsets+0, Y : STA $00 : STA $72
-    LDA $0C0E, X : ADC .node_check_y_offsets+1, Y : STA $01 : STA $73
+    LDA.w $0BFA, X : CLC : ADC .node_check_y_offsets+0, Y : STA $00 : STA $72
+    LDA.w $0C0E, X : ADC .node_check_y_offsets+1, Y : STA $01 : STA $73
     
-    LDA $0C04, X : CLC : ADC .node_check_x_offsets+0, Y : STA $02 : STA $74
-    LDA $0C18, X : ADC .node_check_x_offsets+1, Y : STA $03 : STA $75
+    LDA.w $0C04, X : CLC : ADC .node_check_x_offsets+0, Y : STA $02 : STA $74
+    LDA.w $0C18, X : ADC .node_check_x_offsets+1, Y : STA $03 : STA $75
     
     PHY
     
-    LDA $0280, X : PHA
+    LDA.w $0280, X : PHA
     
     JSR Ancilla_CheckTargetedTileCollision
     
-    PLA : STA $0280, X
+    PLA : STA.w $0280, X
     
     PLY
     
     ; These are the '?' transit tile nodes.
-    LDA $03E4, X : CMP.b #$B6 : BEQ .attempt_platform_spawn
+    LDA.w $03E4, X : CMP.b #$B6 : BEQ .attempt_platform_spawn
                    CMP.b #$BC : BEQ .attempt_platform_spawn
     
     TYA : CLC : ADC.b #$08 : TAY : CPY.b #$18 : BCS .tile_collision_logic
@@ -146,17 +146,17 @@ Ancilla_SomarianBlock:
     
     .attempt_platform_spawn
     
-    LDA $72 : STA $0BFA, X
-    LDA $73 : STA $0C0E, X
+    LDA $72 : STA.w $0BFA, X
+    LDA $73 : STA.w $0C0E, X
     
-    LDA $74 : STA $0C04, X
-    LDA $75 : STA $0C18, X
+    LDA $74 : STA.w $0C04, X
+    LDA $75 : STA.w $0C18, X
     
     JSL AddSomarianPlatformPoof
     
-    TXA : INC A : CMP $02EC : BNE .reset_nearest_flag_near_platform
+    TXA : INC A : CMP.w $02EC : BNE .reset_nearest_flag_near_platform
     
-    STZ $02EC
+    STZ.w $02EC
     
     .reset_nearest_flag_near_platform
     
@@ -169,21 +169,21 @@ Ancilla_SomarianBlock:
     ; (or whatever 0x3b is?)
     JSR SomarianBlock_CheckCoveredTileTrigger : BCS .tile_collision_logic
     
-    LDA $029E, X : BEQ .set_tile_trigger_flag
+    LDA.w $029E, X : BEQ .set_tile_trigger_flag
     CMP.b #$FF   : BNE .tile_collision_logic
     
     .set_tile_trigger_flag
     
-    INC $0646
+    INC.w $0646
     
     .tile_collision_logic
     
     JSR Ancilla_Adjust_Y_CoordByAltitude
     
-    LDA $0C72, X : STA $74
-    LDA $0280, X : STA $75
+    LDA.w $0C72, X : STA $74
+    LDA.w $0280, X : STA $75
     
-    STZ $0280, X
+    STZ.w $0280, X
     
     JSR Ancilla_CheckTileCollision_Class2
     
@@ -191,11 +191,11 @@ Ancilla_SomarianBlock:
     
     LDA $1B : BEQ .dont_transition_to_bg1
     
-    LDA $0385, X : BEQ .dont_transition_to_bg1
+    LDA.w $0385, X : BEQ .dont_transition_to_bg1
     
-    LDA $03E4, X : CMP.b #$1C : BNE .dont_transition_to_bg1
+    LDA.w $03E4, X : CMP.b #$1C : BNE .dont_transition_to_bg1
     
-    LDA.b #$01 : STA $03D5, X
+    LDA.b #$01 : STA.w $03D5, X
     
     .dont_transition_to_bg1
     
@@ -205,26 +205,26 @@ Ancilla_SomarianBlock:
     
     ; If we reach this point the somarian block is touching a wall tile and
     ; requires collision handling
-    BIT $0308 : BPL .not_being_held_so_can_bounce
+    BIT.w $0308 : BPL .not_being_held_so_can_bounce
     
-    LDA $0309 : BEQ .no_tile_collision
+    LDA.w $0309 : BEQ .no_tile_collision
     
     .not_being_held_so_can_bounce
     
     ; super priority means ignore all collision.
     LDA $75 : BNE .end_tile_collision_logic
     
-    LDA $0BF0, X : BNE .end_tile_collision_logic
+    LDA.w $0BF0, X : BNE .end_tile_collision_logic
     
-    LDA $029E, X : BEQ .end_tile_collision_logic
+    LDA.w $029E, X : BEQ .end_tile_collision_logic
     
-    LDA.b #$01 : STA $0BF0, X
+    LDA.b #$01 : STA.w $0BF0, X
     
     LDA.b #$04 : STA $0E
     
     ; What is the obsession with the down direction? It uses less of
     ; a wall bounce magnitude.
-    LDA $0C72, X : CMP.b #$01 : BNE .use_small_bounce_magnitude
+    LDA.w $0C72, X : CMP.b #$01 : BNE .use_small_bounce_magnitude
     
     LDA.b #$10 : STA $0E
     
@@ -238,35 +238,35 @@ Ancilla_SomarianBlock:
     
     .check_vertical_speed
     
-    LDA $0C22, X : BEQ .at_rest_y
+    LDA.w $0C22, X : BEQ .at_rest_y
                    BPL .bounce_upward
     
     LDY $0E
     
     .bounce_upward
     
-    TYA : STA $0C22, X
+    TYA : STA.w $0C22, X
     
     .at_rest_y
     
     LDY.b #$FC
     
-    LDA $0C2C, X : BEQ .at_rest_x
+    LDA.w $0C2C, X : BEQ .at_rest_x
                    BPL .bounce_leftward
     
     LDY.b #$04
     
     .bounce_leftward
     
-    TYA : STA $0C2C, X
+    TYA : STA.w $0C2C, X
     
     .at_rest_x
     
-    LDA $0C72, X : CMP.b #$01 : BNE .end_tile_collision_logic
+    LDA.w $0C72, X : CMP.b #$01 : BNE .end_tile_collision_logic
     
-    INC A : STA $0385, X
+    INC A : STA.w $0385, X
     
-    LDA.b #$FC : STA $0C22, X
+    LDA.b #$FC : STA.w $0C22, X
     
     .end_tile_collision_logic
     .dont_process_ground_touch_logic
@@ -275,22 +275,22 @@ Ancilla_SomarianBlock:
     
     .no_tile_collision
     
-    BIT $0308 : BMI .end_tile_collision_logic
+    BIT.w $0308 : BMI .end_tile_collision_logic
     
-    LDA $029E, X : BEQ .touching_ground
+    LDA.w $029E, X : BEQ .touching_ground
     CMP.b #$FF   : BNE .dont_process_ground_touch_logic
     
     .transit_tiles
     
-    LDA.b #$10 : STA $0C72, X
+    LDA.b #$10 : STA.w $0C72, X
     
-    LDA $0280, X : PHA
+    LDA.w $0280, X : PHA
     
     JSR Ancilla_CheckTileCollision
     
-    PLA : STA $0280, X
+    PLA : STA.w $0280, X
     
-    LDA $03E4, X
+    LDA.w $03E4, X
     
     CMP.b #$26 : BEQ .in_floor_staircase_boundary
     CMP.b #$0C : BEQ .niche_collision_tiles
@@ -321,11 +321,11 @@ Ancilla_SomarianBlock:
     
     .transit_tiles
     
-    STZ $0C68, X
+    STZ.w $0C68, X
     
-    LDA $0385, X : ORA $03C5, X : BNE .bouncing_and_or_airborn
+    LDA.w $0385, X : ORA.w $03C5, X : BNE .bouncing_and_or_airborn
     
-    LDA.b #$02 : STA $0C68, X
+    LDA.b #$02 : STA.w $0C68, X
     
     .delay_reckoning
     .bouncing_and_or_airborn
@@ -335,40 +335,40 @@ Ancilla_SomarianBlock:
     .deep_water_tile
     
     ; If a bomb falls into deep water it disappears and makes a splash
-    TXA : INC A : CMP $02EC : BNE .water_tile_reset_player_proximity
+    TXA : INC A : CMP.w $02EC : BNE .water_tile_reset_player_proximity
     
-    STZ $02EC
+    STZ.w $02EC
     
     .water_tile_reset_player_proximity
     
-    LDA $0C68, X : BNE .delay_reckoning
+    LDA.w $0C68, X : BNE .delay_reckoning
     
-    LDA $0BFA, X : CLC : ADC.b #$E8 : STA $0BFA, X
-    LDA $0C0E, X : ADC.b #$FF : STA $0C0E, X
+    LDA.w $0BFA, X : CLC : ADC.b #$E8 : STA.w $0BFA, X
+    LDA.w $0C0E, X : ADC.b #$FF : STA.w $0C0E, X
     
     BRL Ancilla_TransmuteToObjectSplash
     
     .niche_collision_tiles
     
-    LDA $046C : CMP.b #$03 : BEQ .moving_floor_collision
+    LDA.w $046C : CMP.b #$03 : BEQ .moving_floor_collision
     
-    LDA $0C7C, X : BNE .damage_logic
+    LDA.w $0C7C, X : BNE .damage_logic
     
-    LDA $029E, X : BEQ .damage_logic
+    LDA.w $029E, X : BEQ .damage_logic
     CMP.b #$FF   : BEQ .damage_logic
     
-    LDA.b #$01 : STA $0C7C, X
+    LDA.b #$01 : STA.w $0C7C, X
     
     BRL .damage_logic
     
     .moving_floor_collision
     
     ; Handle bomb on a moving floor
-    LDA $0BFA, X : CLC : ADC $0310 : STA $72
-    LDA $0C0E, X : ADC $0311 : STA $73
+    LDA.w $0BFA, X : CLC : ADC.w $0310 : STA $72
+    LDA.w $0C0E, X : ADC.w $0311 : STA $73
     
-    LDA $0C04, X : CLC : ADC $0312 : STA $0C04, X
-    LDA $0C18, X : ADC $0313 : STA $0C18, X
+    LDA.w $0C04, X : CLC : ADC.w $0312 : STA.w $0C04, X
+    LDA.w $0C18, X : ADC.w $0313 : STA.w $0C18, X
     
     BRA .damage_logic
     
@@ -380,15 +380,15 @@ Ancilla_SomarianBlock:
     
     .pit_tile_logic
     
-    LDA $0308 : BMI .damage_logic
+    LDA.w $0308 : BMI .damage_logic
     
-    TXA : INC A : CMP $02EC : BNE .pit_tile_reset_player_proximity
+    TXA : INC A : CMP.w $02EC : BNE .pit_tile_reset_player_proximity
     
-    STZ $02EC
+    STZ.w $02EC
     
     .pit_tile_reset_player_proximity
     
-    LDA $0C68, X : BNE .damage_logic
+    LDA.w $0C68, X : BNE .damage_logic
     
     LDA $5E : CMP.b #$12 : BNE Ancilla_SelfTerminate
     
@@ -398,63 +398,63 @@ Ancilla_SomarianBlock:
     ; $0465D8 ALTERNATE ENTRY POINT
     shared Ancilla_SelfTerminate:
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
     .damage_logic
     
-    LDA $75 : ORA $0280, X : STA $75
+    LDA $75 : ORA.w $0280, X : STA $75
     
-    LDA $0308 : BMI .dont_fizzle
+    LDA.w $0308 : BMI .dont_fizzle
     
-    DEC $03A9, X : LDA $03A9, X : BNE .dont_fizzle
+    DEC.w $03A9, X : LDA.w $03A9, X : BNE .dont_fizzle
     
-    INC $03A9, X
+    INC.w $03A9, X
     
-    STZ $0280, X
+    STZ.w $0280, X
     
     JSR Ancilla_CheckBasicSpriteCollision : BCC .dont_fizzle
     
-    LDA.b #$07 : STA $03A9, X
+    LDA.b #$07 : STA.w $03A9, X
     
-    LDA $0C54, X : INC A : STA $0C54, X : CMP.b #$05 : BNE .dont_fizzle
+    LDA.w $0C54, X : INC A : STA.w $0C54, X : CMP.b #$05 : BNE .dont_fizzle
     
     BRL Ancilla_TransmuteToSomarianBlockFizzle
     
     .dont_fizzle
     
-    LDA $74 : STA $0C72, X
-    LDA $75 : STA $0280, X
+    LDA $74 : STA.w $0C72, X
+    LDA $75 : STA.w $0280, X
     
     JSR Ancilla_Set_Y_Coord
     
     ; $04661B ALTERNATE ENTRY POINT
     shared SomarianBlock_Draw:
     
-    TXY : INY : CPY $02EC : BNE .no_special_oam_allocation
+    TXY : INY : CPY.w $02EC : BNE .no_special_oam_allocation
     
-    LDA $0308 : BPL .no_special_oam_allocation
+    LDA.w $0308 : BPL .no_special_oam_allocation
     
-    LDA $0380, X : CMP.b #$03 : BEQ .no_special_oam_allocation
+    LDA.w $0380, X : CMP.b #$03 : BEQ .no_special_oam_allocation
     
     LDA $2F : BNE .no_special_oam_allocation
     
-    LDA $0C90, X : JSR Ancilla_AllocateOam_B_or_E
+    LDA.w $0C90, X : JSR Ancilla_AllocateOam_B_or_E
     
     BRA .prep_coords
     
     .no_special_oam_allocation
     
-    LDA $0FB3 : BEQ .prep_coords
+    LDA.w $0FB3 : BEQ .prep_coords
     
-    LDA $0C7C, X : BEQ .prep_coords
+    LDA.w $0C7C, X : BEQ .prep_coords
     
-    LDA $0385, X : BNE .other_special_allocation_if_airborn
+    LDA.w $0385, X : BNE .other_special_allocation_if_airborn
     
-    TXY : INY : CPY $02EC : BNE .prep_coords
+    TXY : INY : CPY.w $02EC : BNE .prep_coords
     
-    LDA $0308 : BPL .prep_coords
+    LDA.w $0308 : BPL .prep_coords
     
     .other_special_allocation_if_airborn
     
@@ -471,7 +471,7 @@ Ancilla_SomarianBlock:
     
     REP #$20
     
-    LDA $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
+    LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
     
     ORA.w #$FF00
     
@@ -482,10 +482,10 @@ Ancilla_SomarianBlock:
     CMP.w #$FFFF : BEQ .anoset_max_priority
     
     ; \optimize Use bit instruction instead?
-    LDA $0380, X : AND.w #$00FF : CMP.w #$0003 : BEQ .anoset_max_priority
+    LDA.w $0380, X : AND.w #$00FF : CMP.w #$0003 : BEQ .anoset_max_priority
     
     ; \optimize Use bit instruction instead?
-    LDA $0280, X : AND.w #$00FF : BEQ .anoset_max_priority
+    LDA.w $0280, X : AND.w #$00FF : BEQ .anoset_max_priority
     
     LDA.w #$3000 : STA $64
     
@@ -503,7 +503,7 @@ Ancilla_SomarianBlock:
     
     LDA.b #$02 : STA $72
     
-    LDA $03A4, X : ASL #2 : TAX
+    LDA.w $03A4, X : ASL #2 : TAX
     
     LDY.b #$00
     
@@ -544,7 +544,7 @@ Ancilla_SomarianBlock:
     PLX
     
     ; Don't self terminate if in the player's hands.
-    LDA $0380, X : CMP.b #$03 : BEQ .return
+    LDA.w $0380, X : CMP.b #$03 : BEQ .return
     
     LDY.b #$01
     
@@ -568,19 +568,19 @@ Ancilla_SomarianBlock:
     
     .terminate_per_off_screen
     
-    STZ $0646
+    STZ.w $0646
     
     ; The block self terminates and unsets the 'switch set' status variable.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    TXA : INC A : CMP $02EC : BNE .return
+    TXA : INC A : CMP.w $02EC : BNE .return
     
-    STZ $02EC
+    STZ.w $02EC
     
-    LDA $0308 : AND.b #$80 : BEQ .return
+    LDA.w $0308 : AND.b #$80 : BEQ .return
     
     ; Reset player carrying status.
-    STZ $0308
+    STZ.w $0308
     
     .return
     
@@ -604,31 +604,31 @@ Ancilla_SomarianBlock:
 ; $04675C-$0467BF LOCAL JUMP LOCATION
 SomarianBlock_CheckCoveredTileTrigger:
 {
-    STZ $0646
+    STZ.w $0646
     
-    STZ $03DB, X
+    STZ.w $03DB, X
     
     LDY.b #$06
     
     .next_offset
     
-    LDA $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
-    LDA $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
+    LDA.w $0BFA, X : CLC : ADC .y_offsets+0, Y : STA $00 : STA $72
+    LDA.w $0C0E, X : ADC .y_offsets+1, Y : STA $01 : STA $73
     
-    LDA $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
-    LDA $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
+    LDA.w $0C04, X : CLC : ADC .x_offsets+0, Y : STA $02 : STA $74
+    LDA.w $0C18, X : ADC .x_offsets+1, Y : STA $03 : STA $75
     
     PHY
     
-    LDA $0280, X : PHA
+    LDA.w $0280, X : PHA
     
     JSR Ancilla_CheckTargetedTileCollision
     
-    PLA : STA $0280, X
+    PLA : STA.w $0280, X
     
     PLY
     
-    LDA $03E4, X
+    LDA.w $03E4, X
     
     CMP.b #$23 : BEQ .recognized_tile_attr
     CMP.b #$24 : BEQ .recognized_tile_attr
@@ -637,13 +637,13 @@ SomarianBlock_CheckCoveredTileTrigger:
     
     .recognized_tile_attr
     
-    INC $03DB, X
+    INC.w $03DB, X
     
     .ignored_tile_attr
     
     DEY #2 : BPL .next_offset
     
-    LDA $03DB, X : CMP.b #$04 : BNE .not_full_covering
+    LDA.w $03DB, X : CMP.b #$04 : BNE .not_full_covering
     
     CLC
     
@@ -698,11 +698,11 @@ SomarianBlock_PlayerInteraction:
     PHB : PHK : PLB
     
     ; Index into the SFX arrays
-    STX $0FA0
+    STX.w $0FA0
     
-    LDA $0394, X : BNE .end_push_logic
+    LDA.w $0394, X : BNE .end_push_logic
     
-    LDA $03C5, X : BEQ .not_dash_airborn
+    LDA.w $03C5, X : BEQ .not_dash_airborn
     
     BRL SomarianBlock_ContinueDashBounce
     
@@ -710,28 +710,28 @@ SomarianBlock_PlayerInteraction:
     
     LDA $4D : BNE .end_push_logic
     
-    LDA $0308 : AND.b #$01 : BNE .end_push_logic
+    LDA.w $0308 : AND.b #$01 : BNE .end_push_logic
     
-    LDA $029E, X : BEQ .ground_touch
+    LDA.w $029E, X : BEQ .ground_touch
     
     CMP.b #$FF : BNE .end_push_logic
     
     .ground_touch
     
-    LDA $0380, X : BNE .end_push_logic
+    LDA.w $0380, X : BNE .end_push_logic
     
-    LDA $0385, X : BNE .end_push_logic
+    LDA.w $0385, X : BNE .end_push_logic
     
     LDA $F0 : AND.b #$0F : BNE .dpad_pressed
     
     ; Setting these to zero has the affect of not making the player look
     ; like they're pushing anything.
-    STA $039F, X
+    STA.w $039F, X
     STA $48
     
-    LDA.b #$FF : STA $038A, X
+    LDA.b #$FF : STA.w $038A, X
     
-    LDA $0372 : BNE .check_player_collision
+    LDA.w $0372 : BNE .check_player_collision
     
     STZ $5E
     
@@ -741,7 +741,7 @@ SomarianBlock_PlayerInteraction:
     
     .dpad_pressed
     
-    CMP $039F, X : BNE .different_directions_from_prev_frame
+    CMP.w $039F, X : BNE .different_directions_from_prev_frame
     
     LDA $5E : CMP.b #$12 : BNE .check_player_collision
     
@@ -752,7 +752,7 @@ SomarianBlock_PlayerInteraction:
     .different_directions_from_prev_frame
     
     ; Refresh button directional input?
-    STA $039F, X
+    STA.w $039F, X
     
     STZ $5E
     
@@ -762,15 +762,15 @@ SomarianBlock_PlayerInteraction:
     
     JSR Ancilla_CheckPlayerCollision : BCC .end_push_logic
     
-    LDA $0C7C, X : CMP $EE : BNE .end_push_logic
+    LDA.w $0C7C, X : CMP $EE : BNE .end_push_logic
     
-    LDA $0372 : BEQ .not_dash_bounce
+    LDA.w $0372 : BEQ .not_dash_bounce
     
-    LDA $02F1 : CMP.b #$40 : BEQ .not_dash_bounce
+    LDA.w $02F1 : CMP.b #$40 : BEQ .not_dash_bounce
     
-    TXA : INC A : CMP $02EC : BNE .disable_nearby_status
+    TXA : INC A : CMP.w $02EC : BNE .disable_nearby_status
     
-    STZ $02EC
+    STZ.w $02EC
     
     .disable_nearby_status
     
@@ -782,10 +782,10 @@ SomarianBlock_PlayerInteraction:
     
     .not_dash_bounce
     
-    STZ $0C2C, X
-    STZ $0C22, X
+    STZ.w $0C2C, X
+    STZ.w $0C22, X
     
-    LDA $F0 : AND.b #$0F : STA $039F, X
+    LDA $F0 : AND.b #$0F : STA.w $039F, X
     
     AND.b #$03 : BEQ .vertical_push
     
@@ -797,7 +797,7 @@ SomarianBlock_PlayerInteraction:
     
     .left_push
     
-    TYA : STA $0C2C, X
+    TYA : STA.w $0C2C, X
     
     LDY.b #$02
     
@@ -817,7 +817,7 @@ SomarianBlock_PlayerInteraction:
     
     .upward_push
     
-    TYA : STA $0C22, X
+    TYA : STA.w $0C22, X
     
     LDY.b #$00
     
@@ -827,7 +827,7 @@ SomarianBlock_PlayerInteraction:
     
     .set_direction_indicator
     
-    TYA : STA $0C72, X
+    TYA : STA.w $0C72, X
     
     ; \task Or does this mean movement in general?
     LDA $27 : BEQ .no_player_recoil
@@ -846,9 +846,9 @@ SomarianBlock_PlayerInteraction:
     ; \task Also, investigate why throwing a block and then dashing before
     ; it stops bouncing slows down the player's dash speed to that of
     ; holding a block and walking.)
-    LDA $0308 : AND.b #$80 : BNE .no_push_sfx
+    LDA.w $0308 : AND.b #$80 : BNE .no_push_sfx
     
-    INC $038A, X : STA $038A, X : AND.b #$07 : BNE .no_push_sfx
+    INC.w $038A, X : STA.w $038A, X : AND.b #$07 : BNE .no_push_sfx
     
     LDA $22 : JSR Ancilla_DoSfx2
     
@@ -877,30 +877,30 @@ SomarianBlock_InitDashBounce:
     ; \note Send the Somarian block flying from the impact of the dash
     ; attack.
     
-    LDA $2F : LSR A : STA $0C72, X : TAY
+    LDA $2F : LSR A : STA.w $0C72, X : TAY
     
-    LDA .launch_y_speeds, Y : STA $0C22, X
+    LDA .launch_y_speeds, Y : STA.w $0C22, X
     
-    LDA .launch_x_speeds, Y : STA $0C2C, X
+    LDA .launch_x_speeds, Y : STA.w $0C2C, X
     
     ; Not indexed, used the maximum rise available in the array.
-    LDA .bounce_rebound_z_speeds : STA $0294, X
+    LDA .bounce_rebound_z_speeds : STA.w $0294, X
     
-    LDA.b #$01 : STA $03C5, X
+    LDA.b #$01 : STA.w $03C5, X
     
-    STZ $029E, X
+    STZ.w $029E, X
     
     shared SomarianBlock_ContinueDashBounce:
     .bounce_logic
     
     ; Simulate gravity.
-    LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
+    LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     JSR Ancilla_MoveAltitude
     
-    LDA $029E, X : BEQ .hit_ground
+    LDA.w $029E, X : BEQ .hit_ground
     CMP.b #$FC   : BCC .return
     
     .hit_ground
@@ -909,14 +909,14 @@ SomarianBlock_InitDashBounce:
     LDA.b #$21 : JSR Ancilla_DoSfx2
     
     ; Force altitude to zero.
-    STZ $029E, X
+    STZ.w $029E, X
     
-    LDA $03C5, X : INC A : STA $03C5, X
+    LDA.w $03C5, X : INC A : STA.w $03C5, X
     
     CMP.b #$04 : BNE .bounces_maxed_out
     
-    STZ $0BF0, X
-    STZ $03C5, X
+    STZ.w $0BF0, X
+    STZ.w $03C5, X
     
     BRA .return
     
@@ -927,7 +927,7 @@ SomarianBlock_InitDashBounce:
     DEX
     
     ; Get different resultant altitude speeds for each bounce.
-    LDA .bounce_rebound_z_speeds, Y : STA $0294, X
+    LDA .bounce_rebound_z_speeds, Y : STA.w $0294, X
     
     LDA $2F : LSR A : STA $00
     
@@ -935,7 +935,7 @@ SomarianBlock_InitDashBounce:
     
     LDY.b #$00
     
-    LDA $0C22, X : BPL .abs_y_speed
+    LDA.w $0C22, X : BPL .abs_y_speed
     
     LDY.b #$01
     
@@ -952,11 +952,11 @@ SomarianBlock_InitDashBounce:
     
     .restore_y_speed_sign
     
-    STA $0C22, X
+    STA.w $0C22, X
     
     LDY.b #$00
     
-    LDA $0C2C, X : BPL .abs_x_speed
+    LDA.w $0C2C, X : BPL .abs_x_speed
     
     LDY.b #$01
     
@@ -973,7 +973,7 @@ SomarianBlock_InitDashBounce:
     
     .restore_x_speed_sign
     
-    STA $0C2C, X
+    STA.w $0C2C, X
     
     .return
     

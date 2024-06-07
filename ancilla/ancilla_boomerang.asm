@@ -21,7 +21,7 @@ Ancilla_Boomerang:
     .next_object_slot
     
     ; See if any "received item sprite" objects are active
-    LDA $0C4A, Y : CMP.b #$22 : BEQ .just_draw
+    LDA.w $0C4A, Y : CMP.b #$22 : BEQ .just_draw
     
     DEY : BPL .next_object_slot
     
@@ -35,14 +35,14 @@ Ancilla_Boomerang:
     
     .no_whirling_sound
     
-    LDA $03B1, X : BNE .position_already_set
+    LDA.w $03B1, X : BNE .position_already_set
     
     LDA $3C : CMP.b #$09 : BCS .init_position
     
-    LDA $0300 : BNE .init_position
+    LDA.w $0300 : BNE .init_position
     
     ; terminate the boomerang if Link turned into a rabbit
-    LDA $02E0 : BNE .bunny_link
+    LDA.w $02E0 : BNE .bunny_link
     
     ; terminate the boomerang if Link is in another special state...?
     LDA $4D : BEQ .just_draw
@@ -57,7 +57,7 @@ Ancilla_Boomerang:
     
     .init_position
     
-    LDA $03CF, X : TAY
+    LDA.w $03CF, X : TAY
     
     REP #$20
     
@@ -67,18 +67,18 @@ Ancilla_Boomerang:
     
     SEP #$20
     
-    LDA $00 : STA $0BFA, X
-    LDA $01 : STA $0C0E, X
+    LDA $00 : STA.w $0BFA, X
+    LDA $01 : STA.w $0C0E, X
     
-    LDA $02 : STA $0C04, X
-    LDA $03 : STA $0C18, X
+    LDA $02 : STA.w $0C04, X
+    LDA $03 : STA.w $0C18, X
     
-    INC $03B1, X
+    INC.w $03B1, X
     
     .position_already_set
     
     ; 0 - normal, 1 - magic boomerang
-    LDA $0394, X : BEQ .no_sparkle
+    LDA.w $0394, X : BEQ .no_sparkle
     
     ; Generate a sparkle every other frame
     LDA $1A : AND.b #$01 : BNE .no_sparkle
@@ -92,11 +92,11 @@ Ancilla_Boomerang:
     .no_sparkle
     
     ; 0 - moving away from Link, 1 - moving towards Link
-    LDA $0C5E, X : BEQ .move_away_from_link
+    LDA.w $0C5E, X : BEQ .move_away_from_link
     
-    LDA $0380, X : BEQ .not_recovering_from_deceleration
+    LDA.w $0380, X : BEQ .not_recovering_from_deceleration
     
-    INC A : STA $0380, X
+    INC A : STA.w $0380, X
     
     .not_recovering_from_deceleration
     
@@ -105,41 +105,41 @@ Ancilla_Boomerang:
     ; \bug While probably mostly harmless... this writes a 16-bit value
     ; to an 8-bit location. Not a great thing to do!
     ; Cache the player's Y coordinate in a temporary variable.
-    LDA $20 : STA $038A, X
+    LDA $20 : STA.w $038A, X
     
     CLC : ADC.w #$0008 : STA $20
     
     SEP #$20
     
-    LDA $03C5, X : JSR Ancilla_ProjectSpeedTowardsPlayer
+    LDA.w $03C5, X : JSR Ancilla_ProjectSpeedTowardsPlayer
     
     JSL Boomerang_CheatWhenNoOnesLooking
     
-    LDA $00 : STA $0C22, X
-    LDA $01 : STA $0C2C, X
+    LDA $00 : STA.w $0C22, X
+    LDA $01 : STA.w $0C2C, X
     
     REP #$20
     
     ; Restore the player's Y coordinate.
-    LDA $038A, X : STA $20
+    LDA.w $038A, X : STA $20
     
     SEP #$20
     
     .move_away_from_link
     
     ; at rest in y axis
-    LDA $0C22, X : BEQ .y_speed_at_rest
+    LDA.w $0C22, X : BEQ .y_speed_at_rest
     
-    CLC : ADC $0380, X : STA $0C22, X
+    CLC : ADC.w $0380, X : STA.w $0C22, X
     
     .y_speed_at_rest
     
     JSR Ancilla_MoveVert
     
     ; at rest in x axis
-    LDA $0C2C, X : BEQ .x_speed_at_rest
+    LDA.w $0C2C, X : BEQ .x_speed_at_rest
     
-    CLC : ADC $0380, X : STA $0C2C, X
+    CLC : ADC.w $0380, X : STA.w $0C2C, X
     
     .y_speed_at_rest
     
@@ -155,7 +155,7 @@ Ancilla_Boomerang:
     
     .no_sprite_collision
     
-    LDA $0C5E, X : BNE .cant_reverse_seek_polarity_twice
+    LDA.w $0C5E, X : BNE .cant_reverse_seek_polarity_twice
     
     CPY.b #$01 : BEQ .reverse_seek_polarity
     
@@ -171,7 +171,7 @@ Ancilla_Boomerang:
     
     ; \wtf So only makes a different noise for the first key door? What
     ; happens when there are 2+ key doors in a room?
-    LDA $03E4, X : CMP.b #$F0 : BEQ .not_key_door
+    LDA.w $03E4, X : CMP.b #$F0 : BEQ .not_key_door
     
     LDY.b #$05
     
@@ -187,34 +187,34 @@ Ancilla_Boomerang:
     ; flip polarity and go back to the player.
     JSR Boomerang_CheckForScreenEdgeReversal : BCS .reverse_seek_polarity
     
-    DEC $0C54, X : LDA $0C54, X : BEQ .reverse_seek_polarity
+    DEC.w $0C54, X : LDA.w $0C54, X : BEQ .reverse_seek_polarity
     
     CMP.b #$05 : BCS .draw
     
     ; \wtf Is this an incomplete feature? Why is it necessary to speed
     ; up on certain frames, and the variable that controls this
     ; is not bounds checked in any way.
-    DEC $0380, X
+    DEC.w $0380, X
     
     BRA .draw
     
     .reverse_seek_polarity
     
-    LDA $0C5E, X : EOR.b #$01 : STA $0C5E, X
+    LDA.w $0C5E, X : EOR.b #$01 : STA.w $0C5E, X
     
     BRA .draw
     
     .cant_reverse_seek_polarity_twice
     
-    LDA $0280, X : PHA
-    LDA $0C7C, X : PHA
+    LDA.w $0280, X : PHA
+    LDA.w $0C7C, X : PHA
     
-    STZ $0C7C, X
+    STZ.w $0C7C, X
     
     JSR Ancilla_CheckTileCollision
     
-    PLA : STA $0C7C, X
-    PLA : STA $0280, X
+    PLA : STA.w $0C7C, X
+    PLA : STA.w $0280, X
     
     JSR Boomerang_SelfTerminateIfOffscreen
     
@@ -256,17 +256,17 @@ Ancilla_CheckTileCollision_Class2_Long:
 ; $04124B-$0412AA LOCAL JUMP LOCATION
 Boomerang_CheckForScreenEdgeReversal:
 {
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     REP #$30
     
     LDY.w #$0000
     
-    LDA $039D : AND.w #$0003 : BEQ .no_horizontal_component
+    LDA.w $039D : AND.w #$0003 : BEQ .no_horizontal_component
                 AND.w #$0001 : BEQ .leftward_throw
     
     LDY.w #$0010
@@ -281,7 +281,7 @@ Boomerang_CheckForScreenEdgeReversal:
     
     LDY.w #$0000
     
-    LDA $039D : AND.w #$000C : BEQ .dont_reverse
+    LDA.w $039D : AND.w #$000C : BEQ .dont_reverse
                 AND.w #$0004 : BEQ .upward_throw
     
     LDY.w #$0010
@@ -312,11 +312,11 @@ Boomerang_CheckForScreenEdgeReversal:
 ; $0412AB-$041319 LOCAL JUMP LOCATION
 Boomerang_SelfTerminateIfOffscreen:
 {
-    LDA $0BFA, X : STA $04
-    LDA $0C0E, X : STA $05
+    LDA.w $0BFA, X : STA $04
+    LDA.w $0C0E, X : STA $05
     
-    LDA $0C04, X : STA $06
-    LDA $0C18, X : STA $07
+    LDA.w $0C04, X : STA $06
+    LDA.w $0C18, X : STA $07
     
     REP #$20
     
@@ -339,13 +339,13 @@ Boomerang_SelfTerminateIfOffscreen:
     
     SEP #$20
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    STZ $035F
+    STZ.w $035F
     
-    LDA $0301 : AND.b #$80 : BEQ .not_in_throw_pose
+    LDA.w $0301 : AND.b #$80 : BEQ .not_in_throw_pose
     
-    STZ $0301
+    STZ.w $0301
     
     ; Cancel any further Y button input this frame
     LDA $3A : AND.b #$BF : STA $3A : AND.b #$80 : BNE .b_button_held
@@ -390,15 +390,15 @@ Boomerang_Draw:
 {
     JSR Ancilla_PrepOamCoord
     
-    LDA $0C5E, X : BEQ .moving_away
+    LDA.w $0C5E, X : BEQ .moving_away
     
-    LDA $EE : STA $0C7C, X : TAY
+    LDA $EE : STA.w $0C7C, X : TAY
     
     LDA.w $F66D, Y : STA $65
     
     .moving_away
     
-    LDA $0280, X : BEQ .normal_priority
+    LDA.w $0280, X : BEQ .normal_priority
     
     LDA.b #$30 : STA $65
     
@@ -406,19 +406,19 @@ Boomerang_Draw:
     
     LDA $11 : BNE .leave_rotation_state_alone
     
-    LDA $03B1, X : BEQ .leave_rotation_state_alone
+    LDA.w $03B1, X : BEQ .leave_rotation_state_alone
     
-    DEC $039F, X : BPL .leave_rotation_state_alone
+    DEC.w $039F, X : BPL .leave_rotation_state_alone
     
-    LDY $0394, X
+    LDY.w $0394, X
     
-    LDA .rotation_speed, Y : STA $039F, X
+    LDA .rotation_speed, Y : STA.w $039F, X
     
-    LDY $03A4, X
+    LDY.w $03A4, X
     
     ; The boomerang 'spins' in opposing directions depending on whether
     ; it was thrown to the left or to the right.
-    LDA $03A9, X : BEQ .left_throw
+    LDA.w $03A9, X : BEQ .left_throw
     
     DEY
     
@@ -431,15 +431,15 @@ Boomerang_Draw:
     .set_rotation_state
     
     ; Rotation state of the boomerang
-    TYA : AND.b #$03 : STA $03A4, X
+    TYA : AND.b #$03 : STA.w $03A4, X
     
     .leave_rotation_state_alone
     
     PHX
     
-    LDA $0394, X : ASL #2 : STA $72
+    LDA.w $0394, X : ASL #2 : STA $72
     
-    LDA $03A4, X : ASL #2 : TAY
+    LDA.w $03A4, X : ASL #2 : TAY
     
     REP #$20
     
@@ -450,9 +450,9 @@ Boomerang_Draw:
     LDA .xy_offsets+0, Y : CLC : ADC $00           : STA $00
     LDA .xy_offsets+2, Y : CLC : ADC $02 : STA $02 : STA $04
     
-    LDA $03B1, X : AND.w #$00FF : BNE .use_general_oam_base
+    LDA.w $03B1, X : AND.w #$00FF : BNE .use_general_oam_base
     
-    LDA $0FB3 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0FB3 : AND.w #$00FF : ASL A : TAX
     
     LDA .oam_base, X : PHA
     

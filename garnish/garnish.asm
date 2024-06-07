@@ -24,16 +24,16 @@ ZoraFireball_SpawnTailGarnish:
     
     .empty_slot
     
-    LDA.b #$08 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$08 : STA.l $7FF800, X : STA.w $0FB4
     LDA.b #$0B : STA.l $7FF90E, X
     
-    LDA $0FD8 : STA.l $7FF83C, X
-    LDA $0FD9 : STA.l $7FF878, X
+    LDA.w $0FD8 : STA.l $7FF83C, X
+    LDA.w $0FD9 : STA.l $7FF878, X
     
-    LDA $0FDA : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0FDB : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0FDA : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0FDB : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA $0FA0 : STA.l $7FF92C, X
+    LDA.w $0FA0 : STA.l $7FF92C, X
     
     PLX
     
@@ -49,7 +49,7 @@ Garnish_ExecuteUpperSlotsLong:
     ; here?
     JSL Filter_MajorWhitenMain
     
-    LDA $0FB4 : BEQ .no_spawned_garnishes
+    LDA.w $0FB4 : BEQ .no_spawned_garnishes
     
     PHB : PHK : PLB
     
@@ -67,7 +67,7 @@ Garnish_ExecuteUpperSlotsLong:
 ; $04B07F-$04B08B LONG JUMP LOCATION
 Garnish_ExecuteLowerSlotsLong:
 {
-    LDA $0FB4 : BEQ .no_spawned_garnishes
+    LDA.w $0FB4 : BEQ .no_spawned_garnishes
     
     PHB : PHK : PLB
     
@@ -128,12 +128,12 @@ Pool_Garnish_ExecuteSingle:
 ; $04B0B6-$04B14F LOCAL JUMP LOCATION
 Garnish_ExecuteSingle:
 {
-    STX $0FA0
+    STX.w $0FA0
     
     LDA.l $7FF800, X : BEQ .return
     CMP.b #$05     : BEQ .ignore_submodule
     
-    LDA $11 : ORA $0FC1 : BNE .dont_self_terminate
+    LDA $11 : ORA.w $0FC1 : BNE .dont_self_terminate
     
     .ignore_submodule
     
@@ -147,7 +147,7 @@ Garnish_ExecuteSingle:
     
     .dont_self_terminate
     
-    LDY $0FB3 : BEQ .dont_sort_sprites
+    LDY.w $0FB3 : BEQ .dont_sort_sprites
     
     LDA.l $7FF968, X : BEQ .on_bg2
     

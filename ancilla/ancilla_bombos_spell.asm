@@ -53,12 +53,12 @@ AddBombosSpell:
     LDA.b #$80 : STA.l $7F5A55
     LDA.b #$10 : STA.l $7F5820
     
-    LDA.b #$0B : STA $0AAA
+    LDA.b #$0B : STA.w $0AAA
     
-    LDA.b #$01 : STA $0112
+    LDA.b #$01 : STA.w $0112
     
-    STZ $0C54, X
-    STZ $0C5E, X
+    STZ.w $0C54, X
+    STZ.w $0C5E, X
     
     LDA.b #$2A : JSR Ancilla_DoSfx2_NearPlayer
     
@@ -192,7 +192,7 @@ Ancilla_BombosSpell:
     
     PHX
     
-    LDA $0C54, X : TAX
+    LDA.w $0C54, X : TAX
     
     .draw_next_blast
     
@@ -216,9 +216,9 @@ Bombos_ExecuteFlameColumns:
 {
     PHX
     
-    LDA $0C5E, X : STA $73
+    LDA.w $0C5E, X : STA $73
     
-    LDA $0C54, X : STA $72 : TAX
+    LDA.w $0C54, X : STA $72 : TAX
     
     LDY.b #$00
     
@@ -355,7 +355,7 @@ Bombos_ExecuteFlameColumns:
     
     LDA $04 : LSR #5 : TAX
     
-    LDA.l $09968A, X : ORA.b #$2A : STA $012E
+    LDA.l $09968A, X : ORA.b #$2A : STA.w $012E
     
     .no_flame_sfx
     
@@ -388,7 +388,7 @@ Bombos_ExecuteFlameColumns:
     
     .update_active_column_count
     
-    LDA $72 : STA $0C54, X
+    LDA $72 : STA.w $0C54, X
     
     RTS
 }
@@ -400,7 +400,7 @@ BombosSpell_WrapUpFlameColumns:
 {
     PHX
     
-    LDA $0C54, X : TAX
+    LDA.w $0C54, X : TAX
     
     LDY.b #$00
     
@@ -441,7 +441,7 @@ BombosSpell_WrapUpFlameColumns:
     
     PLX
     
-    STZ $0C54, X
+    STZ.w $0C54, X
     
     RTS
     
@@ -502,8 +502,8 @@ BombosSpell_DrawFireColumn:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $B2D7, X : SEC : SBC $E8 : STA $00
-    LDA $02 : CLC : ADC $B325, X : SEC : SBC $E2 : STA $02
+    LDA $00 : CLC : ADC.w $B2D7, X : SEC : SBC $E8 : STA $00
+    LDA $02 : CLC : ADC.w $B325, X : SEC : SBC $E2 : STA $02
     
     SEP #$20
     
@@ -555,7 +555,7 @@ BombosSpell_ExecuteBlasts:
     
     ; Essentially operates as the number of active blasts in play at
     ; the moment.
-    LDA $0C54, X : STA $72 : TAX
+    LDA.w $0C54, X : STA $72 : TAX
     
     .next_blast
     
@@ -632,7 +632,7 @@ BombosSpell_ExecuteBlasts:
     
     LDA.l $7F59D5, X : LSR #5 : TAX
     
-    LDA.l $09968A, X : ORA.b #$0C : STA $012E
+    LDA.l $09968A, X : ORA.b #$0C : STA.w $012E
     
     PLY : PLX
     
@@ -659,15 +659,15 @@ BombosSpell_ExecuteBlasts:
     
     PLX
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
-    LDA.b #$01 : STA $0AAA
+    LDA.b #$01 : STA.w $0AAA
     
-    STZ $0324
-    STZ $031C
-    STZ $031D
+    STZ.w $0324
+    STZ.w $031C
+    STZ.w $031D
     STZ $50
-    STZ $0FC1
+    STZ.w $0FC1
     
     LDA $5D : CMP.b #$1A : BEQ .player_in_bombos_mode
     
@@ -693,7 +693,7 @@ BombosSpell_ExecuteBlasts:
     .player_in_bombos_mode
     
     STZ $5E
-    STZ $0325
+    STZ.w $0325
     
     BRA .tick_blast_timer
     
@@ -701,7 +701,7 @@ BombosSpell_ExecuteBlasts:
     
     PLX
     
-    LDA $72 : STA $0C54, X
+    LDA $72 : STA.w $0C54, X
     
     .tick_blast_timer
     

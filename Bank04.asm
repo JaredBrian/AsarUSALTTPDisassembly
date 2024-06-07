@@ -40,7 +40,7 @@ Hobo_Draw:
     LDA.b #$04 : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #5
+    LDA.w $0DC0, X : ASL #5
     
     ADC.b #.oam_groups                 : STA $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
@@ -57,7 +57,7 @@ Hobo_Draw:
 ; $026A81-$026A9C LONG JUMP LOCATION
 Landmine_CheckDetonationFromHammer:
 {
-    LDA $0301 : AND.b #$0A : BEQ .player_not_using_hammer
+    LDA.w $0301 : AND.b #$0A : BEQ .player_not_using_hammer
     
     LDA $44 : CMP.b #$80 : BEQ .cant_check
     
@@ -117,7 +117,7 @@ EasterEgg_BageCode:
     LDA $F4 : BPL .b_button_not_pressed
     
     ; turn on walk through walls code
-    LDA $037F : EOR.b #$01 : STA $037F
+    LDA.w $037F : EOR.b #$01 : STA.w $037F
     
     .b_button_not_pressed
     
@@ -187,33 +187,33 @@ Bomb_ProjectSpeedTowardsPlayer:
 {
     LDX.b #$00
     
-    LDA $0D10, X : PHA
-    LDA $0D30, X : PHA
+    LDA.w $0D10, X : PHA
+    LDA.w $0D30, X : PHA
     
-    LDA $0D00, X : PHA
-    LDA $0D20, X : PHA
+    LDA.w $0D00, X : PHA
+    LDA.w $0D20, X : PHA
     
-    LDA $0F70, X : PHA
+    LDA.w $0F70, X : PHA
     
-    LDA $00 : STA $0D10, X
-    LDA $01 : STA $0D30, X
+    LDA $00 : STA.w $0D10, X
+    LDA $01 : STA.w $0D30, X
     
-    LDA $02 : STA $0D00, X
-    LDA $03 : STA $0D20, X
+    LDA $02 : STA.w $0D00, X
+    LDA $03 : STA.w $0D20, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     TYA
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    PLA : STA $0F70, X
+    PLA : STA.w $0F70, X
     
-    PLA : STA $0D20, X
-    PLA : STA $0D00, X
+    PLA : STA.w $0D20, X
+    PLA : STA.w $0D00, X
     
-    PLA : STA $0D30, X
-    PLA : STA $0D10, X
+    PLA : STA.w $0D30, X
+    PLA : STA.w $0D10, X
     
     RTL
 }
@@ -261,16 +261,16 @@ Sprite_DrawLargeWaterTurbulence:
 {
     PHB : PHK : PLB
     
-    LDA $0F50, X : PHA
+    LDA.w $0F50, X : PHA
     
-    LDA $0E80, X : LSR A : AND.b #$01 : TAY
+    LDA.w $0E80, X : LSR A : AND.b #$01 : TAY
     
-    LDA .properties, Y : STA $0F50, X
+    LDA .properties, Y : STA.w $0F50, X
     
     ; \bug Why is this load not used?
     LDA.b #$18
     
-    LDA $0B89, X : AND.b #$F0 : STA $0B89, X
+    LDA.w $0B89, X : AND.b #$F0 : STA.w $0B89, X
     
     JSL OAM_AllocateFromRegionC
     
@@ -282,7 +282,7 @@ Sprite_DrawLargeWaterTurbulence:
     
     LDA.b #$06 : JSL Sprite_DrawMultiple
     
-    PLA : STA $0F50, X
+    PLA : STA.w $0F50, X
     
     PLB
     

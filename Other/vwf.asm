@@ -20,7 +20,7 @@ Messaging_Text:
 ; $074448-$074454 LOCAL JUMP LOCATION
 Text_Local:
 {
-    LDA $1CD8
+    LDA.w $1CD8
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -36,17 +36,17 @@ Text_PostDeathSaveOptions:
 {
     ; "Load the save & continue, save & quit, do not save or quit" dialog box
     ; that appears after you've died and the game wants you to decide what to do next.
-    LDA.b #$03 : STA $1CF0
-    LDA.b #$00 : STA $1CF1
+    LDA.b #$03 : STA.w $1CF0
+    LDA.b #$00 : STA.w $1CF1F1F1
     
     LDX.b #$00
     
     JSR Text_Initialize.initModuleStateLoop
     
     ; Manually sets the .... position? Window type?
-    LDA.b #$E8 : STA $1CD2
-    LDA.b #$61 : STA $1CD3
-    LDA.b #$02 : STA $1CD4
+    LDA.b #$E8 : STA.w $1CD2D2
+    LDA.b #$61 : STA.w $1CD3
+    LDA.b #$02 : STA.w $1CD4
     
     ; The first call sets up the border, the second sets up the vwf tilemap
     ; the third, fourth, and fifth calls render one line of text each, with the
@@ -90,7 +90,7 @@ Text_Initialize:
     ; Assign predetermined initial states for many of the text variables
     ; It should be noted that this is the mechanism that increments $1CD8 into the next submodule :/
     ; (It would be hard to spot unless you examined the above array in a hex editor)
-    LDA Text_InitializationData, X : STA $1CD0, X
+    LDA Text_InitializationData, X : STA.w $1CD0, X
     
     INX : CPX.b #$20 : BCC .initModuleStateLoop
     
@@ -102,7 +102,7 @@ Text_Initialize:
     ; (why is this all manually done? Probably due to using an assembler and not a compiler.
     ; This gives us a hint that some of these were probably compile time constants which could be
     ; considered variables in some sense.)
-    LDA.w #$387F : AND.w #$FF00 : ORA.w #$0180 : STA $1CE2
+    LDA.w #$387F : AND.w #$FF00 : ORA.w #$0180 : STA.w $1CE2
     
     SEP #$30
     
@@ -111,12 +111,12 @@ Text_Initialize:
     
     REP #$30
     
-    STZ $1CD9
+    STZ.w $1CD9
     
     SEP #$30
     
     ; Lets NMI routine know to copy $7F0000[0x7E0] to the BG2 tilemap
-    LDA.b #$02 : STA $17 : STA $0710
+    LDA.b #$02 : STA $17 : STA.w $0710
     
     RTS
 }
@@ -126,14 +126,14 @@ Text_Initialize:
 ; $0744C9-$0744E1 LOCAL JUMP LOCATION
 Text_InitVwfState:
 {
-    STZ $0722
-    STZ $0723
-    STZ $0720
-    STZ $0721
-    STZ $0724
-    STZ $0725
-    STZ $0726
-    STZ $0727
+    STZ.w $0722
+    STZ.w $0723
+    STZ.w $0720
+    STZ.w $0721
+    STZ.w $0724
+    STZ.w $072525
+    STZ.w $0726
+    STZ.w $0727
     
     RTS
 }
@@ -146,7 +146,7 @@ Text_LoadCharacterBuffer:
     REP #$30
     
     ; X = $1CF0 * 3
-    LDA $1CF0 : ASL A : ADC $1CF0 : TAX
+    LDA.w $1CF0 : ASL A : ADC.w $1CF0 : TAX
     
     ; Load the address for the text's data from WRAM.
     LDA.l $7F71C0, X : STA $04
@@ -156,7 +156,7 @@ Text_LoadCharacterBuffer:
     ; message, in case we load no actual characters
     LDA.w #$7F7F : STA.l $7F1200
     
-    LDY.w #$0000 : TYX : STY $1CD9 : STY $1CDD
+    LDY.w #$0000 : TYX : STY.w $1CD9 : STY.w $1CDD
     
     SEP #$20
     
@@ -170,8 +170,8 @@ Text_LoadCharacterBuffer:
     ; Put text to buffer
     STA.l $7F1200, X
     
-    INY : STY $1CDD
-    INX : STX $1CD9
+    INY : STY.w $1CDD
+    INX : STX.w $1CD9
     
     BRA .nextByte
     
@@ -182,8 +182,8 @@ Text_LoadCharacterBuffer:
     
     JSR Text_Command
     
-    LDX $1CD9
-    LDY $1CDD
+    LDX.w $1CD9
+    LDY.w $1CDD
     
     BRA .nextByte
     
@@ -194,8 +194,8 @@ Text_LoadCharacterBuffer:
     
     JSR Text_DictionarySequence
     
-    LDX $1CD9
-    LDY $1CDD
+    LDX.w $1CD9
+    LDY.w $1CDD
     
     BRA .nextByte
     
@@ -257,16 +257,16 @@ Text_IgnoreCommand:
 {
     REP #$10
     
-    LDX $1CD9
-    LDY $1CDD
+    LDX.w $1CD9
+    LDY.w $1CDD
     
     LDA [$04], Y : STA.l $7F1200, X
     
     INY
     INX
     
-    STX $1CD9
-    STY $1CDD
+    STX.w $1CD9
+    STY.w $1CDD
     
     RTS
 }
@@ -278,16 +278,16 @@ Text_IgnoreParamCommand:
 {
     REP #$30
     
-    LDX $1CD9
-    LDY $1CDD
+    LDX.w $1CD9
+    LDY.w $1CDD
     
     LDA [$04], Y : STA.l $7F1200, X
     
     INY #2
     INX #2
     
-    STX $1CD9
-    STY $1CDD
+    STX.w $1CD9
+    STY.w $1CDD
     
     SEP #$20
     
@@ -316,9 +316,9 @@ Text_WritePlayerName:
     
     .nextCharacter
     
-    LDA.l $7003D9, X : PHA : AND.w #$000F : STA $0008, Y
+    LDA.l $7003D9, X : PHA : AND.w #$000F : STA.w $0008, Y
     
-    PLA : LSR A : AND.w #$FFF0 : ORA $0008, Y : STA $0008, Y
+    PLA : LSR A : AND.w #$FFF0 : ORA.w $0008, Y : STA.w $0008, Y
     
     INX #2
     
@@ -331,21 +331,21 @@ Text_WritePlayerName:
     .nextCharacter2
     
     ; Now that the name is in memory check it for spaces
-    LDA $0008, Y
+    LDA.w $0008, Y
     
     JSR Text_FilterPlayerNameCharacters
     
-    STA $0008, Y
+    STA.w $0008, Y
     
     INY : CPY.w #$0006 : BCC .nextCharacter2
     
     REP #$30
     
     ; Target Buffer position ($1CD9), 
-    LDA $1CD9 : CLC : ADC.w #$0006 : TAX
+    LDA.w $1CD9 : CLC : ADC.w #$0006 : TAX
     
     ; Source Buffer position ($1CDD)
-    INC $1CDD
+    INC.w $1CDD
     
     SEP #$20
     
@@ -362,7 +362,7 @@ Text_WritePlayerName:
     .nextCharacter3
     
     ; Now the length for spaces
-    LDA $0008, Y : CMP.b #$59 : BNE .notSpaceCharacter
+    LDA.w $0008, Y : CMP.b #$59 : BNE .notSpaceCharacter
     
     DEX
     
@@ -370,7 +370,7 @@ Text_WritePlayerName:
     
     .notSpaceCharacter
     
-    STX $1CD9
+    STX.w $1CD9
     
     RTS
 }
@@ -418,16 +418,16 @@ Text_SetWindowType:
     
     REP #$10
     
-    LDY $1CDD : INY
+    LDY.w $1CDD : INY
     
     ; This modifies the second level module controller, but ... why?
     ; Maybe that changes which window type is displayed by changing the pointer to different code?
     ; You could, in theory, end the message with this command by setting it to 4, crash the game by setting it to
     ; 5 or more, and.... this makes my head hurt, honestly. Probably could use a rewrite to be more safe!!!
-    LDA [$04], Y : STA $1CD4
+    LDA [$04], Y : STA.w $1CD4
     
     ; $1CDD is incremented by two bytes b/c this command has an argument
-    INY : STY $1CDD
+    INY : STY.w $1CDD
     
     RTS
 } 
@@ -445,14 +445,14 @@ Text_WritePreloadedNumber:
     
     REP #$30
     
-    LDX $1CD9
-    LDY $1CDD
+    LDX.w $1CD9
+    LDY.w $1CDD
     
     ; The lower byte of this load is the command byte, and the upper is the parameter to
     ; use to determine the number to write.
     LDA [$04], Y
     
-    INY #2 : STY $1CDD
+    INY #2 : STY.w $1CDD
     
     XBA : AND.w #$00FF : LSR A
     
@@ -463,7 +463,7 @@ Text_WritePreloadedNumber:
     ; Since the expected parameter is only 0 to 3 inclusive, this means
     ; that Y here is expected to be 0 or 1, grabbing one of two bytes
     ; further down, one of two nybbles will be selected from one of these two bytes
-    LDA $1CF2, Y
+    LDA.w $1CF2, Y
     
     PLP : BCC .useLowerNybble
     
@@ -473,7 +473,7 @@ Text_WritePreloadedNumber:
     
     AND.w #$000F : CLC : ADC.w #$0004 : ORA.w #$0030 : STA.l $7F1200, X
     
-    INX : STX $1CD9
+    INX : STX.w $1CD9
     
     SEP #$20
     
@@ -493,14 +493,14 @@ Text_SetWindowPos:
     
     REP #$30
     
-    LDY $1CDD : INY
+    LDY.w $1CDD : INY
     
     LDA [$04], Y : AND.w #$00FF : ASL A : TAX
     
     ; Chooses from one of two preset window positions (high or low, basically)
-    LDA Text_Positions, X : STA $1CD2
+    LDA Text_Positions, X : STA.w $1CD2
     
-    INY : STY $1CDD
+    INY : STY.w $1CDD
     
     SEP #$20
     
@@ -520,7 +520,7 @@ Text_SetColor:
     
     REP #$30
     
-    LDY $1CDD
+    LDY.w $1CDD
     
     ; Why are they ANDing with 0x3c00? That would seem to give the illusion that you
     ; could specify the priority bit, but the code below begs otherwise, unless it was something
@@ -532,9 +532,9 @@ Text_SetColor:
     ; then provides it with a starting CHR of 0x0180, with palette, hflip, and vflip all zero.
     ; The palette provided by [Color XX] here XX ranges from 0 to 7, is then inserted
     ; $1CE2 is therefore the template tilemap entry for all text characters
-    LDA.w #$387F : AND.w #$E300 : ORA.w #$0180 : ORA $00 : STA $1CE2
+    LDA.w #$387F : AND.w #$E300 : ORA.w #$0180 : ORA $00 : STA.w $1CE2
     
-    INY #2 : STY $1CDD
+    INY #2 : STY.w $1CDD
     
     SEP #$20
     
@@ -552,9 +552,9 @@ Text_DictionarySequence:
     
     REP #$30
     
-    INC $1CDD ; Position in the $7F1200, X buffer >_>
+    INC.w $1CDD ; Position in the $7F1200, X buffer >_>
     
-    LDX $1CD9 : ASL A : AND.w #$00FF : TAY
+    LDX.w $1CD9 : ASL A : AND.w #$00FF : TAY
     
     LDA Text_DictionaryPointers+2, Y : STA $00
     LDA Text_DictionaryPointers, Y   : TAY
@@ -563,13 +563,13 @@ Text_DictionarySequence:
     
     .nextCharacter
     
-    LDA $0000, Y : STA.l $7F1200, X
+    LDA.w $0000, Y : STA.l $7F1200, X
     
     INX
     
     INY : CPY $00 : BCC .nextCharacter
     
-    STX $1CD9
+    STX.w $1CD9
     
     RTS
 }
@@ -983,7 +983,7 @@ DictionaryEntries:
 ; $0748D9-$0748E9 JUMP LOCATION
 Text_Render:
 {
-    LDA $1CD4 ; (second level controller for text mode submodules)
+    LDA.w $1CD4 ; (second level controller for text mode submodules)
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -1021,7 +1021,7 @@ Text_DrawBorder:
     
     JSR Text_DrawBorderRow
     
-    LDA.w #$FFFF : STA $1002, X
+    LDA.w #$FFFF : STA.w $1002, X
     
     SEP #$30
     
@@ -1029,7 +1029,7 @@ Text_DrawBorder:
     LDA.b #$01 : STA $14
     
     ; Skip the second routine and begin drawing the text. (Then what does $1CD4 = 0x01 mean?)
-    LDA.b #$02 : STA $1CD4
+    LDA.b #$02 : STA.w $1CD4
     
     RTS
 }
@@ -1048,7 +1048,7 @@ Text_DrawBorderIncremenal:
     ; they wanted to save 12 bytes by not including extra entries in the jump table for the 6 middle rows, (just one row).
     ; The irony here is that the code they added to do this completely negated to a
     ; whopping net savings of zero(!) bytes, whilst incurring additional, unnecessary CPU cycles.
-    LDA $1CD7  : BEQ .alpha
+    LDA.w $1CD7  : BEQ .alpha
     CMP.b #$07 : BCC .beta
     LDA.b #$02 : BRA .alpha
     
@@ -1075,11 +1075,11 @@ Text_DrawTopBorderRow:
     JSR Text_InitBorderOffsets
     JSR Text_DrawBorderRow
     
-    LDA.w #$FFFF : STA $1002, X
+    LDA.w #$FFFF : STA.w $1002, X
     
     SEP #$30
     
-    INC $1CD7
+    INC.w $1CD7
     
     RTS
 } 
@@ -1096,11 +1096,11 @@ Text_DrawMiddleBorderRow:
     
     JSR Text_DrawBorderRow
     
-    LDA.w #$FFFF : STA $1002, X
+    LDA.w #$FFFF : STA.w $1002, X
     
     SEP #$30
     
-    INC $1CD7
+    INC.w $1CD7
     
     RTS
 }
@@ -1117,13 +1117,13 @@ Text_DrawBottomBorderRow:
     
     JSR Text_DrawBorderRow
     
-    LDA.w #$FFFF : STA $1002, X
+    LDA.w #$FFFF : STA.w $1002, X
     
     SEP #$30
     
-    INC $1CD7
+    INC.w $1CD7
     
-    LDA.b #$02 : STA $1CD4
+    LDA.b #$02 : STA.w $1CD4
     
     RTS
 }
@@ -1135,7 +1135,7 @@ Text_CharacterTilemap:
 {
     JSR Text_BuildCharacterTilemap
     
-    INC $1CD4
+    INC.w $1CD4
     
     RTS
 }
@@ -1150,12 +1150,12 @@ Text_MessageHandler:
     REP #$30
     
     ; if $1CDD < 0x63
-    LDA $1CDD : LDY.w #$0000 : CMP.w #$0063 : BCC .alpha
+    LDA.w $1CDD : LDY.w #$0000 : CMP.w #$0063 : BCC .alpha
     
     ; else
     LDA.w #$0000
     
-    STY $1CE6 ; $1CE6 = 0
+    STY.w $1CE6 ; $1CE6 = 0
     
     BRA .beta
     
@@ -1168,7 +1168,7 @@ Text_MessageHandler:
     ; if( ($1CDD >= 0x3B) && ($1CDD < 0x50) )
     LDA.w #$0050
     
-    STY $1CE6 ; $1CE6 = 0
+    STY.w $1CE6 ; $1CE6 = 0
     
     BRA .beta
     
@@ -1177,15 +1177,15 @@ Text_MessageHandler:
     CMP.w #$0013 : BCC .beta
     CMP.w #$0028 : BCS .beta
     
-    ; if($1CDD >= 0x0013 && $1CDD < 0x0028) STY $1CE6
+    ; if($1CDD >= 0x0013 && $1CDD < 0x0028) STY.w $1CE6
     LDA.w #$0028
     
-    STY $1CE6
+    STY.w $1CE6
     
     .beta
     
     ; Maybe $1CDD in this case is something different? (also some kind of positioner?)
-    STA $1CDD
+    STA.w $1CDD
     
     CMP.w #$0012 : BEQ .gamma
     CMP.w #$003A : BEQ .gamma
@@ -1193,17 +1193,17 @@ Text_MessageHandler:
     
     .gamma
     
-    LDA $1CE6 : AND.w #$0007 : CMP.w #$0006 : BCC .loadNextByte
+    LDA.w $1CE6 : AND.w #$0007 : CMP.w #$0006 : BCC .loadNextByte
     
     ; I don't think this location is ever reached, therefore I hypothesize
     ; that this variable is never changed during VWF rendering
-    INC $1CDD
+    INC.w $1CDD
     
     BRA .epsilon
     
     .loadNextByte
     
-    LDX $1CD9
+    LDX.w $1CD9
     
     ; Load a character (or maybe a command) from the text buffer
     ; (Dictionary doesn't matter here so AND with 0x7F)
@@ -1218,7 +1218,7 @@ Text_MessageHandler:
     
     JSR VWF_CharacterOrCommand
     
-    LDA.b #$02 : STA $17 : STA $0710
+    LDA.b #$02 : STA $17 : STA.w $0710
     
     RTS
 }
@@ -1273,21 +1273,21 @@ Text_Close:
     
     REP #$30
     
-    LDA $1CD0 : XBA : STA $1002, X : INX #2
-    LDA .reg_config : STA $1002, X : INX #2
-    LDA .data       : STA $1002, X : INX #2
+    LDA.w $1CD0 : XBA : STA.w $1002, X : INX #2
+    LDA .reg_config : STA.w $1002, X : INX #2
+    LDA .data       : STA.w $1002, X : INX #2
     
-    LDA.w #$FFFF : STA $1002, X
+    LDA.w #$FFFF : STA.w $1002, X
     
     SEP #$30
     
     LDA.b #$01 : STA $14
     
-    STZ $1CD8
+    STZ.w $1CD8
     STZ $11
     
     ; Restore us to whatever mode we came from.
-    LDA $010C : STA $10
+    LDA.w $010C : STA $10
     
     RTS
 }
@@ -1298,7 +1298,7 @@ Text_Close:
 VWF_Render:
 {
     ; Which line the text is currently printing to?
-    LDA $1CD5 : CMP.b #$02 : BCC .validSpeed
+    LDA.w $1CD5 : CMP.b #$02 : BCC .validSpeed
     
     LDA.b #$02
     
@@ -1333,7 +1333,7 @@ VWF_RenderRecursive:
     
     REP #$30
     
-    LDA $1CDD
+    LDA.w $1CDD
     
     ; basically, branch if $1CDD = 19, 59, or 99 (why?)
     CMP.w #$0013 : BEQ .BRANCH_ALPHA
@@ -1343,7 +1343,7 @@ VWF_RenderRecursive:
     SEP #$30
     
     ; This is recursion, son. Fear it (stack overflows are possible)
-    JMP $C984 ; $074984 IN ROM
+    JMP.w $C984 ; $074984 IN ROM
 
     .BRANCH_ALPHA
 
@@ -1361,7 +1361,7 @@ VWF_RenderSingle:
     
     REP #$10
     
-    LDX $1CD9
+    LDX.w $1CD9
     
     ; Is it a space (as in, " ")
     LDA.l $7F1200, X : CMP.b #$59 : BEQ .blankCharacter
@@ -1369,20 +1369,20 @@ VWF_RenderSingle:
     ; no, so make some noise bitch
     SEP #$30
     
-    LDA.b #$0C : STA $012F
+    LDA.b #$0C : STA.w $012F
     
     .blankCharacter
     
     REP #$30
     
     ; There's no point to this.... X's value is destroyed in the callee below.
-    LDA $1CDD : ASL A : TAX
+    LDA.w $1CDD : ASL A : TAX
     
     SEP #$30
     
     JSR VWF_RenderCharacter
     
-    LDA $1CD6 : STA $1CD5
+    LDA.w $1CD6 : STA.w $1CD5
     
     RTS
 }
@@ -1470,7 +1470,7 @@ VWF_RenderCharacter:
     
     STZ !charWidthCounter
     
-    LDX $1CD9
+    LDX.w $1CD9
     
     LDA.l $7F1200, X ; Load the character value
     
@@ -1678,7 +1678,7 @@ VWF_RenderCharacter:
     .characterFinished
     
     ; After all that bullshit... move on to the next character!
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
@@ -1701,7 +1701,7 @@ VWF_InvalidSpeed:
 {
     ._1
     
-    DEC $1CD5
+    DEC.w $1CD5
     
     RTS
     
@@ -1732,7 +1732,7 @@ VWF_NextPicture:
     
     REP #$30
     
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
@@ -1752,11 +1752,11 @@ VWF_Select2Or3_Indented_messages:
 ; $074D1A-$074D87 JUMP LOCATION
     VWF_Select2Or3_Indented:    
 {
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BNE .return
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
     
-    LDA.b #$24 : STA $012F
+    LDA.b #$24 : STA.w $012F
     
     BRA .return
     
@@ -1775,32 +1775,32 @@ VWF_Select2Or3_Indented_messages:
     
     .upPushed
     
-    LDA $1CE8 : BEQ .return
+    LDA.w $1CE8 : BEQ .return
     
-    STZ $1CE8
+    STZ.w $1CE8
     
     BRA .moveChoiceArrow
     
     .downPushed
     
-    LDA $1CE8 : DEC A : BEQ .return
+    LDA.w $1CE8 : DEC A : BEQ .return
     
-    LDA.b #$01 : STA $1CE8
+    LDA.b #$01 : STA.w $1CE8
     
     .moveChoiceArrow
     
-    LDA.b #$20 : STA $012F
+    LDA.b #$20 : STA.w $012F
     
-    LDA $1CE8 : ASL A : TAX
+    LDA.w $1CE8 : ASL A : TAX
     
-    LDA VWF_Select2Or3_Indented_messages, X   : STA $1CF0
-    LDA VWF_Select2Or3_Indented_messages+1, X : STA $1CF1
+    LDA VWF_Select2Or3_Indented_messages, X   : STA.w $1CF0
+    LDA VWF_Select2Or3_Indented_messages+1, X : STA.w $1CF1
     
     JSR Text_LoadCharacterBuffer
     
-    STZ $1CE6
-    STZ $1CD9
-    STZ $1CDA
+    STZ.w $1CE6
+    STZ.w $1CD9
+    STZ.w $1CDA
     
     JSR Text_InitVwfState
     
@@ -1809,10 +1809,10 @@ VWF_Select2Or3_Indented_messages:
     .playerHasChosen
     
     ; Play a sound.
-    LDA.b #$2B : STA $012E
+    LDA.b #$2B : STA.w $012E
     
     ; Move on to the final step of 0x0E.0x02.0x00
-    LDA.b #$04 : STA $1CD4
+    LDA.b #$04 : STA.w $1CD4
     
     RTS
 }
@@ -1823,9 +1823,9 @@ VWF_Select2Or3_Indented_messages:
 VWF_SelectItem:
 {
     ; [Item] command
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BEQ VWF_SelectNextItem
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BEQ VWF_SelectNextItem
     
     BRA .return
     
@@ -1835,7 +1835,7 @@ VWF_SelectItem:
     
     LDA $F4 : AND.b #$05 : BEQ .noDownOrLeftInput
     
-    INC $1CE8
+    INC.w $1CE8
     
     BRA .BRANCH_EPSILON
     
@@ -1843,7 +1843,7 @@ VWF_SelectItem:
     
     LDA $F4 : AND.b #$0A : BEQ .noDownOrRightInput
     
-    DEC $1CE8
+    DEC.w $1CE8
     
     JSR VWF_SelectPrevItem
     JSR Text_DrawCharacterTilemap
@@ -1862,7 +1862,7 @@ VWF_SelectItem:
     
     .playerHasChosen
     
-    LDA.b #$04 : STA $1CD4
+    LDA.b #$04 : STA.w $1CD4
     
     RTS
 }
@@ -1874,9 +1874,9 @@ VWF_SelectPrevItem:
 {
     .tryPrevSlot
     
-    LDX $1CE8 : BPL .inRange
+    LDX.w $1CE8 : BPL .inRange
     
-    LDX.b #$1F : STX $1CE8
+    LDX.b #$1F : STX.w $1CE8
     
     .inRange
     
@@ -1892,7 +1892,7 @@ VWF_SelectPrevItem:
     
     .invalidSlot
     
-    DEC $1CE8 : BRA .tryPrevSlot
+    DEC.w $1CE8 : BRA .tryPrevSlot
 }
 
 ; ==============================================================================
@@ -1902,10 +1902,10 @@ VWF_SelectNextItem:
 {
     .tryNextSlot
     
-    LDX $1CE8 : CPX.b #$20 : BCC .inRange
+    LDX.w $1CE8 : CPX.b #$20 : BCC .inRange
     
     ; Wrap around back to 0x00 (so valid range is 0x00 to 0x1f)
-    LDX.b #$00 : STX $1CE8
+    LDX.b #$00 : STX.w $1CE8
     
     .inRange
     
@@ -1923,7 +1923,7 @@ VWF_SelectNextItem:
     
     .invalidSlot
     
-    INC $1CE8 : BRA .tryNextSlot
+    INC.w $1CE8 : BRA .tryNextSlot
 }
     
 ; $074E14-$074E6A
@@ -1952,14 +1952,14 @@ VWF_ChangeItemTiles:
     ASL #3 : TAY
     
     ; Loads the 4 tilemap entries for the currently selected item type.
-    LDA [$00], Y : STA $13C2 : INY
-    LDA [$00], Y : STA $13C3 : INY
-    LDA [$00], Y : STA $13C4 : INY
-    LDA [$00], Y : STA $13C5 : INY
-    LDA [$00], Y : STA $13EC : INY
-    LDA [$00], Y : STA $13ED : INY
-    LDA [$00], Y : STA $13EE : INY
-    LDA [$00], Y : STA $13EF
+    LDA [$00], Y : STA.w $13C2 : INY
+    LDA [$00], Y : STA.w $13C3 : INY
+    LDA [$00], Y : STA.w $13C4 : INY
+    LDA [$00], Y : STA.w $13C5 : INY
+    LDA [$00], Y : STA.w $13EC : INY
+    LDA [$00], Y : STA.w $13ED : INY
+    LDA [$00], Y : STA.w $13EE : INY
+    LDA [$00], Y : STA.w $13EF
     
     RTS
 }
@@ -1975,13 +1975,13 @@ VWF_IgnoreCommand:
     REP #$10
     
     ; Get position in character stream
-    LDX $1CD9 : INX
+    LDX.w $1CD9 : INX
     
     ; This determines how many lines to scroll up per frame
-    LDA.l $7F1200, X : STA $1CEA
+    LDA.l $7F1200, X : STA.w $1CEA
     
     ; Increment to the next byte in the stream
-    INX : STX $1CD9
+    INX : STX.w $1CD9
     
     SEP #$30
     
@@ -2005,11 +2005,11 @@ VWF_Select2Or3:
     ; It's worth noting that there are no clear distinctions between this command
     ; and [Choose], other than the difference in the positions of the subsequent options
     ; it brings up
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BNE .return
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
     
-    LDA.b #$24 : STA $012F
+    LDA.b #$24 : STA.w $012F
     
     BRA .return
     
@@ -2028,32 +2028,32 @@ VWF_Select2Or3:
     
     .upPushed
     
-    LDA $1CE8 : BEQ .return
+    LDA.w $1CE8 : BEQ .return
     
-    STZ $1CE8
+    STZ.w $1CE8
     
     BRA .moveChoiceArrow
     
     .downPushed
     
-    LDA $1CE8 : DEC A : BEQ .return
+    LDA.w $1CE8 : DEC A : BEQ .return
     
-    LDA.b #$01 : STA $1CE8
+    LDA.b #$01 : STA.w $1CE8
     
     .moveChoiceArrow
     
-    LDA.b #$20 : STA $012F
+    LDA.b #$20 : STA.w $012F
     
-    LDA $1CE8 : ASL A : TAX
+    LDA.w $1CE8 : ASL A : TAX
     
-    LDA VWF_Select2Or3_messages, X   : STA $1CF0
-    LDA VWF_Select2Or3_messages+1, X : STA $1CF1
+    LDA VWF_Select2Or3_messages, X   : STA.w $1CF0
+    LDA VWF_Select2Or3_messages+1, X : STA.w $1CF1
     
     JSR Text_LoadCharacterBuffer
     
-    STZ $1CE6
-    STZ $1CD9
-    STZ $1CDA
+    STZ.w $1CE6
+    STZ.w $1CD9
+    STZ.w $1CDA
     
     JSR Text_InitVwfState
     
@@ -2062,10 +2062,10 @@ VWF_Select2Or3:
     .playerHasChosen
     
     ; Play a sound
-    LDA.b #$2B : STA $012E
+    LDA.b #$2B : STA.w $012E
     
     ; Move on to the final step of 0x0E.0x02.0x00
-    LDA.b #$04 : STA $1CD4
+    LDA.b #$04 : STA.w $1CD4
     
     RTS
 }
@@ -2084,12 +2084,12 @@ VWF_Choose3_ArrowDialogs:
 ; $074EF7-$074F6D JUMP LOCATION
 VWF_Choose3:
 {
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BNE .return
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
     
     ; Play flutey sound effect
-    LDA.b #$24 : STA $012F
+    LDA.b #$24 : STA.w $012F
     
     BRA .return
     
@@ -2107,40 +2107,40 @@ VWF_Choose3:
     
     .upPushed
     
-    LDA $1CE8 : DEC A : CMP.b #$FF : BNE .didntUnderflow
+    LDA.w $1CE8 : DEC A : CMP.b #$FF : BNE .didntUnderflow
     
     LDA.b #$02
     
     .didntUnderflow
     
-    STA $1CE8
+    STA.w $1CE8
     
     BRA .moveChoiceArrow
     
     .downPushed
     
-    LDA $1CE8 : INC A : CMP.b #$03 : BNE .didntOverflow
+    LDA.w $1CE8 : INC A : CMP.b #$03 : BNE .didntOverflow
     
     LDA.b #$00
     
     .didntOverflow
     
-    STA $1CE8
+    STA.w $1CE8
     
     .moveChoiceArrow
     
-    LDA.b #$20 : STA $012F
+    LDA.b #$20 : STA.w $012F
     
-    LDA $1CE8 : ASL A : TAX
+    LDA.w $1CE8 : ASL A : TAX
     
-    LDA VWF_Choose3_ArrowDialogs, X   : STA $1CF0
-    LDA VWF_Choose3_ArrowDialogs+1, X : STA $1CF1
+    LDA VWF_Choose3_ArrowDialogs, X   : STA.w $1CF0
+    LDA VWF_Choose3_ArrowDialogs+1, X : STA.w $1CF1
     
     JSR Text_LoadCharacterBuffer
     
-    STZ $1CE6
-    STZ $1CD9
-    STZ $1CDA
+    STZ.w $1CE6
+    STZ.w $1CD9
+    STZ.w $1CDA
     
     JSR Text_InitVwfState
     
@@ -2148,9 +2148,9 @@ VWF_Choose3:
     
     .playerHasChosen
     
-    LDA.b #$2B : STA $012E
+    LDA.b #$2B : STA.w $012E
     
-    LDA.b #$04 : STA $1CD4
+    LDA.b #$04 : STA.w $1CD4
     
     RTS
 }
@@ -2173,12 +2173,12 @@ VWF_Choose1Or2:
     ; accepts the Start button as a valid affirmative input. (And the messages it
     ; links to for choice arrows)
     
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BNE .return
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
     
     ; Play flutey sound effect
-    LDA.b #$24 : STA $012F
+    LDA.b #$24 : STA.w $012F
     
     BRA .return
     
@@ -2197,32 +2197,32 @@ VWF_Choose1Or2:
     
     .upPushed
     
-    LDA $1CE8 : BEQ .return
+    LDA.w $1CE8 : BEQ .return
     
-    STZ $1CE8
+    STZ.w $1CE8
     
     BRA .moveChoiceArrow
     
     .downPushed
     
-    LDA $1CE8 : DEC A : BEQ .return
+    LDA.w $1CE8 : DEC A : BEQ .return
     
-    LDA.b #$01 : STA $1CE8
+    LDA.b #$01 : STA.w $1CE8
     
     .moveChoiceArrow
     
-    LDA.b #$20 : STA $012F
+    LDA.b #$20 : STA.w $012F
     
-    LDA $1CE8 : ASL A : TAX
+    LDA.w $1CE8 : ASL A : TAX
     
-    LDA VWF_Choose1Or2_messages, X   : STA $1CF0
-    LDA VWF_Choose1Or2_messages+1, X : STA $1CF1
+    LDA VWF_Choose1Or2_messages, X   : STA.w $1CF0
+    LDA VWF_Choose1Or2_messages+1, X : STA.w $1CF1
     
     JSR Text_LoadCharacterBuffer
     
-    STZ $1CE6
-    STZ $1CD9
-    STZ $1CDA
+    STZ.w $1CE6
+    STZ.w $1CD9
+    STZ.w $1CDA
     
     JSR Text_InitVwfState
     
@@ -2230,8 +2230,8 @@ VWF_Choose1Or2:
     
     .playerHasChosen
     
-    LDA.b #$2B : STA $012E
-    LDA.b #$04 : STA $1CD4
+    LDA.b #$2B : STA.w $012E
+    LDA.b #$04 : STA.w $1CD4
     
     RTS
 }
@@ -2272,14 +2272,14 @@ VWF_Scroll:
     
     LDX $00
     
-    LDA $0002, X : STA $0000, X ; Line 0 = the old Line 1
-    LDA $0004, X : STA $0002, X ; Line 1 = the old Line 2, and so on
-    LDA $0006, X : STA $0004, X
-    LDA $0008, X : STA $0006, X
-    LDA $000A, X : STA $0008, X
-    LDA $000C, X : STA $000A, X
-    LDA $000E, X : STA $000C, X
-    LDA $0150, X : STA $000E, X ; Line 7 = the old Line 1 from the tile that is "below" this tile
+    LDA.w $0002, X : STA.w $0000, X ; Line 0 = the old Line 1
+    LDA.w $0004, X : STA.w $0002, X ; Line 1 = the old Line 2, and so on
+    LDA.w $0006, X : STA.w $0004, X
+    LDA.w $0008, X : STA.w $0006, X
+    LDA.w $000A, X : STA.w $0008, X
+    LDA.w $000C, X : STA.w $000A, X
+    LDA.w $000E, X : STA.w $000C, X
+    LDA.w $0150, X : STA.w $000E, X ; Line 7 = the old Line 1 from the tile that is "below" this tile
     
     ; hence the scrolling effect
     
@@ -2287,27 +2287,27 @@ VWF_Scroll:
     
     CMP.w #$07E0 : BCC .moveTileUpOnePixel
     
-    STZ $07DE
-    STZ $07CE
-    STZ $07BE
-    STZ $07AE
-    STZ $079E
-    STZ $078E
-    STZ $077E
-    STZ $076E
-    STZ $075E
-    STZ $074E
-    STZ $073E
-    STZ $072E
-    STZ $071E
-    STZ $070E
-    STZ $06FE
-    STZ $06EE
-    STZ $06DE
-    STZ $06CE
-    STZ $06BE
-    STZ $06AE
-    STZ $069E
+    STZ.w $07DE
+    STZ.w $07CE
+    STZ.w $07BE
+    STZ.w $07AE
+    STZ.w $079E
+    STZ.w $078E
+    STZ.w $077E
+    STZ.w $076E
+    STZ.w $075E
+    STZ.w $074E
+    STZ.w $073E
+    STZ.w $072E
+    STZ.w $071E
+    STZ.w $070E
+    STZ.w $06FE
+    STZ.w $06EE
+    STZ.w $06DE
+    STZ.w $06CE
+    STZ.w $06BE
+    STZ.w $06AE
+    STZ.w $069E
     
     SEP #$30
     
@@ -2366,24 +2366,24 @@ VWF_SetLine:
     REP #$30
     
     ; X = next character in the buffer
-    LDX $1CD9
+    LDX.w $1CD9
     
     ; Possible values are 0x74, 0x75, or 0x76
     LDA.l $7F1200, X : AND.w #$0003 : ASL A : TAX
     
-    LDA VWF_LinePositions, X : STA $1CDD
+    LDA VWF_LinePositions, X : STA.w $1CDD
     
-    LDA VWF_RowPositions, X : STA $0722
+    LDA VWF_RowPositions, X : STA.w $0722
     
     ; Signal the need for a new line
-    LDA.w #$0001 : STA $0720
+    LDA.w #$0001 : STA.w $0720
     
     ; Move to the next character in the buffer
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
-    STZ $1CE6
+    STZ.w $1CE6
     
     RTS
 }
@@ -2399,18 +2399,18 @@ VWF_SetPalette:
     REP #$10
     
     ; 0b11100011 (presumably this is to preserve vflip, hflip, priority, and the chr bits)
-    LDA $1CDC : AND.b #$E3 : STA $1CDC
+    LDA.w $1CDC : AND.b #$E3 : STA.w $1CDC
     
-    LDX $1CD9 : INX
+    LDX.w $1CD9 : INX
     
     ; Sets the tile palette, or rather, it would...
     ; If this variable was actually used anywhere else in rendering.
     ; Sorry folks this is an abandoned feature - the command is useless, and probably rightly
     ; so in this VWF's design. The only way you could change color in this engine is to make sure
     ; you've started a new tile, which would be terribly inconvenient for a VWF.
-    LDA.l $7F1200, X : AND.b #$07 : ASL #2 : ORA $1CDC : STA $1CDC
+    LDA.l $7F1200, X : AND.b #$07 : ASL #2 : ORA.w $1CDC : STA.w $1CDC
     
-    INX : STX $1CD9
+    INX : STX.w $1CD9
     
     SEP #$30
     
@@ -2438,7 +2438,7 @@ VWF_Wait:
     
     REP #$30
     
-    LDA $1CE0 : CMP.w #$0002 : BCC .runWaitProcedure
+    LDA.w $1CE0 : CMP.w #$0002 : BCC .runWaitProcedure
     
     LDA.w #$0002
     
@@ -2460,18 +2460,18 @@ VWF_WaitLoop:
     
     REP #$30
     
-    LDX $1CD9
+    LDX.w $1CD9
     
     LDA.l $7F1201, X : AND.w #$000F : ASL A : TAX
     
-    LDA Text_WaitDurations, X : STA $1CE0
+    LDA Text_WaitDurations, X : STA.w $1CE0
     
     ; $07514C ALTERNATE ENTRY POINT
     .decCounter
     
     REP #$30
     
-    DEC $1CE0 ; decrement the loop counter
+    DEC.w $1CE0 ; decrement the loop counter
     
     SEP #$30
     
@@ -2484,12 +2484,12 @@ VWF_EndWait:
     REP #$30
     
     ; Moves on to the next command or character.
-    INC $1CD9
-    INC $1CD9
+    INC.w $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
-    STZ $1CE0
+    STZ.w $1CE0
     
     RTS
 }
@@ -2501,12 +2501,12 @@ VWF_PlaySound:
     
     REP #$10
     
-    LDX $1CD9 : INX
+    LDX.w $1CD9 : INX
     
     ; Plays a sound effect
-    LDA.l $7F1200, X : STA $012F
+    LDA.l $7F1200, X : STA.w $012F
     
-    INX : STX $1CD9
+    INX : STX.w $1CD9
     
     SEP #$30
     
@@ -2522,13 +2522,13 @@ VWF_SetSpeed:
     
     REP #$10
     
-    LDX $1CD9 : INX
+    LDX.w $1CD9 : INX
     
     ; Speed, also mirror location for speed
-    LDA.l $7F1200, X : STA $1CD6 : STA $1CD5
+    LDA.l $7F1200, X : STA.w $1CD6 : STA.w $1CD5
     
     ; Move to the next byte
-    INX : STX $1CD9
+    INX : STX.w $1CD9
     
     SEP #$30
     
@@ -2545,27 +2545,27 @@ VWF_Command7B:
     ; selected from a list to screen, not sure though.
     REP #$30
     
-    INC $1CD9 : LDX $1CD9
+    INC.w $1CD9 : LDX.w $1CD9
     
     LDA.l $7F1200, X : AND.w #$007F : ASL #2 : TAX
     
-    LDY $1CDD
+    LDY.w $1CDD
     
-    LDA .unknown, X : STA $12D8, Y
+    LDA .unknown, X : STA.w $12D8, Y
     
     INX #2
     
-    LDA .unknown, X : STA $1300, Y
+    LDA .unknown, X : STA.w $1300, Y
     
     INY #2
     
-    STY $1CDD
+    STY.w $1CDD
     
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
-    JMP $C984 ; $074984 IN ROM
+    JMP.w $C984 ; $074984 IN ROM
 }
 
 ; ==============================================================================
@@ -2576,21 +2576,21 @@ VWF_Command7C:
     ; Command 0x7C (unused)
     REP #$30
     
-    INC $1CD9 : LDX $1CD9
+    INC.w $1CD9 : LDX.w $1CD9
     
     LDA.l $7F1200, X : AND.w #$007F : ASL #3 : TAX
     
     LDA.w #$0002 : STA $00
 
-    LDY $1CDD
+    LDY.w $1CDD
     
     .alpha
     
-    LDA Text_Command_7C_Data, X : STA $12D8, Y
+    LDA Text_Command_7C_Data, X : STA.w $12D8, Y
     
     INX #2
     
-    LDA Text_Command_7C_Data, X : STA $1300, Y
+    LDA Text_Command_7C_Data, X : STA.w $1300, Y
     
     INX #2
     
@@ -2598,13 +2598,13 @@ VWF_Command7C:
     
     DEC $00 : BNE .alpha
     
-    STY $1CDD
+    STY.w $1CDD
     
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
-    JMP $C984 ; $074984 IN ROM
+    JMP.w $C984 ; $074984 IN ROM
 }
 
 ; ==============================================================================
@@ -2625,21 +2625,21 @@ VWF_ClearBuffer:
 
     .zeroLoop
 
-    STZ $0000, X : STZ $0002, X : STZ $0004, X : STZ $0006, X
-    STZ $0008, X : STZ $000A, X : STZ $000C, X : STZ $000E, X
+    STZ.w $0000, X : STZ.w $0002, X : STZ.w $0004, X : STZ.w $0006, X
+    STZ.w $0008, X : STZ.w $000A, X : STZ.w $000C, X : STZ.w $000E, X
     
     SEC : SBC.w #$0010 : TAX : BPL .zeroLoop
     
     PLB
     
     ; Initialize the text buffer positions
-    STZ $1CDD
+    STZ.w $1CDD
     
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
-    STZ $1CE6
+    STZ.w $1CE6
     
     RTS
 }
@@ -2653,29 +2653,29 @@ VWF_WaitKey:
     ; waits for ... duh... someone to press a button
     
     ; Note this is set to 0x1C when the game enters text mode
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BNE .return
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
     
     ; Play that flutey sound effect.
-    LDA.b #$24 : STA $012F
+    LDA.b #$24 : STA.w $012F
     
     BRA .return
     
     .readyForInput
     
     ; SNES equivalent to "press any key to continue", checks for A, B, X, and Y presses
-    LDA $00F4 : ORA $00F6 : AND.b #$C0 : BEQ .return
+    LDA.w $00F4 : ORA.w $00F6 : AND.b #$C0 : BEQ .return
     
     ; If a key is pressed, move on to the next character or command
     REP #$30
     
-    INC $1CD9
+    INC.w $1CD9
     
     SEP #$30
     
     ; Reset the delay timer (almost half a second)
-    LDA.b #$1C : STA $1CE9
+    LDA.b #$1C : STA.w $1CE9
     
     .return
     
@@ -2689,12 +2689,12 @@ VWF_EndMessage:
 {
     ; [End] Command
     
-    LDA $1CE9 : BEQ .readyForInput
+    LDA.w $1CE9 : BEQ .readyForInput
     
-    DEC A : STA $1CE9 : CMP.b #$01 : BNE .return
+    DEC A : STA.w $1CE9 : CMP.b #$01 : BNE .return
     
     ; Play flutey sound effect
-    LDA.b #$24 : STA $012F
+    LDA.b #$24 : STA.w $012F
     
     BRA .return
     
@@ -2705,8 +2705,8 @@ VWF_EndMessage:
     LDA $F4 : ORA $F6 : BEQ .return
     
     ; Exit Text mode
-    LDA.b #$04 : STA $1CD4
-    LDA.b #$1C : STA $1CE9
+    LDA.b #$04 : STA.w $1CD4
+    LDA.b #$1C : STA.w $1CE9
     
     .return
     
@@ -2728,7 +2728,7 @@ Text_SetDefaultWindowPos:
     LDA $20 : SEC : SBC $E8 : CMP.w #$0078 : ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
     
     ; Ultimately, a vram address gets stored here, so the system knows where to draw the tiles
-    LDA Text_Positions, X : STA $1CD2
+    LDA Text_Positions, X : STA.w $1CD2
     
     SEP #$30
     
@@ -2742,7 +2742,7 @@ Text_InitBorderOffsets:
 {
     REP #$30
     
-    LDA $1CD2 : STA $1CD0
+    LDA.w $1CD2 : STA.w $1CD0
     
     LDX.w #$0000 : TXY
     
@@ -2759,17 +2759,17 @@ Text_DrawBorderRow:
     REP #$30
     
     ; Store the big endian version of the base VRAM address
-    LDA $1CD0 : XBA : STA $1002, X
+    LDA.w $1CD0 : XBA : STA.w $1002, X
     
     INX #2
     
     ; Our vram address will be moving "down", so increment by 32 words
-    XBA : CLC : ADC.w #$0020 : STA $1CD0
+    XBA : CLC : ADC.w #$0020 : STA.w $1CD0
     
     ; Write 0x30 bytes, use incrementing dma mode, increment on writes to $2119
-    LDA.w #$2F00 : STA $1002, X : INX #2
+    LDA.w #$2F00 : STA.w $1002, X : INX #2
     
-    LDA Text_BorderTiles, Y : STA $1002, X : INX #2
+    LDA Text_BorderTiles, Y : STA.w $1002, X : INX #2
     
     INY #2
     
@@ -2779,7 +2779,7 @@ Text_DrawBorderRow:
     
     .repeatTile
     
-    STA $1002, X
+    STA.w $1002, X
     
     INX #2
     
@@ -2787,7 +2787,7 @@ Text_DrawBorderRow:
     
     INY #2
     
-    LDA Text_BorderTiles, Y : STA $1002, X
+    LDA Text_BorderTiles, Y : STA.w $1002, X
     
     INX #2
     
@@ -2811,9 +2811,9 @@ Text_BuildCharacterTilemap:
     ; 0x27b. Later on, the VWF will be constructing 
     .buildLoop
     
-    LDA $1CE2 : STA $1300, X
+    LDA.w $1CE2 : STA.w $1300, X
     
-    INC $1CE2
+    INC.w $1CE2
     
     INX #2 : CPX.w #$00FC : BCC .buildLoop
     
@@ -2847,20 +2847,20 @@ Text_DrawCharacterTilemap:
     
     ; Move vram target address down one tile and to the right one tile from the upper left
     ; corner of the message box's border address in vram.
-    LDA $1CD0 : CLC : ADC.w #$0021 : STA $1CD0
+    LDA.w $1CD0 : CLC : ADC.w #$0021 : STA.w $1CD0
     
     .nextRow
     
     ; Store vram address (big endian, not sure why they felt like it was good to do that)
-    LDA $1CD0 : XBA : STA $1002, X
+    LDA.w $1CD0 : XBA : STA.w $1002, X
     
     ; Make it so the dma will start one row down from this one (adding 0x20 to a vram address
     ; typically accopmlishes this if you can be sure that you'll remain in the same tilemap)
-    XBA : CLC : ADC.w #$0020 : STA $1CD0
+    XBA : CLC : ADC.w #$0020 : STA.w $1CD0
     
     ; dma will transfer 0x2a bytes (which is twice 0x15 or 21). Each row is 21 tiles,
     ; so this makes sense.
-    INX #2 : LDA.w #$2900 : STA $1002, X
+    INX #2 : LDA.w #$2900 : STA.w $1002, X
     INX #2
     
     LDA.w #$0015 : STA !num_columns
@@ -2870,7 +2870,7 @@ Text_DrawCharacterTilemap:
     .nextColumn
     
     ; Store consecutive tilemap entries from the buffer we generated just prior this subroutine call
-    LDA $1300, Y : STA $1002, X
+    LDA.w $1300, Y : STA.w $1002, X
     
     INX #2
     INY #2
@@ -2878,7 +2878,7 @@ Text_DrawCharacterTilemap:
     DEC !num_columns : BNE .nextColumn
     DEC !num_rows    : BNE .nextRow
     
-    LDA.w #$FFFF : STA $1002, X
+    LDA.w #$FFFF : STA.w $1002, X
     
     SEP #$30
     

@@ -28,23 +28,23 @@ Ancilla_SwordCeremony:
 {
     ; Special object 0x35 - Master Sword Ceremony
     
-    LDA $0C68, X : BNE .delay
+    LDA.w $0C68, X : BNE .delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
     .delay
     
-    DEC $03B1, X : BPL .dont_advance_animation_index
+    DEC.w $03B1, X : BPL .dont_advance_animation_index
     
-    LDA $0C5E, X : INC A : CMP.b #$03 : BNE .dont_reset_animation_index
+    LDA.w $0C5E, X : INC A : CMP.b #$03 : BNE .dont_reset_animation_index
     
     LDA.b #$00
     
     .dont_reset_animation_index
     
-    STA $0C5E, X
+    STA.w $0C5E, X
     
     .dont_advance_animation_index
     
@@ -61,7 +61,7 @@ Ancilla_SwordCeremony:
     
     STZ $08
     
-    LDA $0C5E, X : BEQ .nothing_to_draw
+    LDA.w $0C5E, X : BEQ .nothing_to_draw
     
     DEC A : ASL #2 : TAX
     

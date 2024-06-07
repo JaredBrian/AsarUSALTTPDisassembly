@@ -4,14 +4,14 @@
 ; $042536-$042550 JUMP LOCATION
 Ancilla_IceShotSpread:
     
-    DEC $03B1, X : BPL .delay
+    DEC.w $03B1, X : BPL .delay
     
-    LDA.b #$07 : STA $03B1, X
+    LDA.b #$07 : STA.w $03B1, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$02 : BNE .delay
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .delay
     
     ; The ice shot self-terminates after it's done spreading.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -53,11 +53,11 @@ IceShotSpread_Draw:
     PHX
     
     ; Load the amount of OAM ram this object needs.
-    LDA $0C90, X
+    LDA.w $0C90, X
     
     JSR Ancilla_AllocateOam
     
-    LDA $0C5E, X : ASL #3 : TAX
+    LDA.w $0C5E, X : ASL #3 : TAX
     
     LDY.b #$00
     
@@ -144,7 +144,7 @@ IceShotSpread_Draw:
     LDA ($90), Y : CMP.b #$F0 : BNE .not_off_screen
     
     ; Self terminate off screen.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .not_off_screen
     

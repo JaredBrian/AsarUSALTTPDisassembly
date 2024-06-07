@@ -1621,7 +1621,7 @@ Palette_SpriteAux3:
     REP #$21
     
     ; Palette 1
-    LDX $0AAC
+    LDX.w $0AAC
     
     LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D39E : STA $00
     
@@ -1631,7 +1631,7 @@ Palette_SpriteAux3:
     LDA.w #$0102
     
     ; Depending on this flag, use different palette areas.
-    LDX $0ABD : BEQ .useSP0
+    LDX.w $0ABD : BEQ .useSP0
         ; Target SP-7 (first half) instead
         LDA.w #$01E2
     
@@ -1692,7 +1692,7 @@ Palette_SpriteAux1:
     REP #$31
     
     ; Load sprite palette 2 value
-    LDA $0AAD : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AAD : AND.w #$00FF : ASL A : TAX
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
@@ -1716,13 +1716,13 @@ Palette_SpriteAux2:
     REP #$31
     
     ; Load sprite palette 3 value
-    LDA $0AAE : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AAE : AND.w #$00FF : ASL A : TAX
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
     LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA $00
     
-    LDA $01C2    ; Target SP-6 (first half)
+    LDA.w $01C2    ; Target SP-6 (first half)
     LDX.w #$0006 ; Palette has 7 colors
     
     JSR Palette_SingleLoad
@@ -1801,7 +1801,7 @@ Palette_Unused:
     
     REP #$21
     
-    LDX $0AB0
+    LDX.w $0AB0
     
     LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA $00
     
@@ -1830,7 +1830,7 @@ Palette_MiscSpr:
         
         REP #$21
         
-        LDX $0AB1
+        LDX.w $0AB1
         
         LDA PaletteIDtoOffset, X : AND.w #$00FF
         
@@ -1872,7 +1872,7 @@ Palette_MiscSpr:
     LDA.w #$0112
     
     ; Not sure but it's definitely palette related.
-    LDX $0ABD : BEQ .useSP0
+    LDX.w $0ABD : BEQ .useSP0
         LDA.w #$01F2 ; Target SP-7 (second half) instead
     
     .useSP0
@@ -2008,7 +2008,7 @@ Palette_Hud:
 {
     REP #$21
     
-    LDX $0AB2
+    LDX.w $0AB2
     
     LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF : ADC.w #$D660 : STA $00
     
@@ -2038,7 +2038,7 @@ Palette_DungBgMain:
     REP #$21
     
     ; This is the palette index for a certain background
-    LDX $0AB6
+    LDX.w $0AB6
     
     LDA PaletteIDtoOffset_UW, X : ADC.w #$D734 : STA $00 : PHA
     
@@ -2060,7 +2060,7 @@ Palette_DungBgMain:
     LDA.w #$0112
     
     ; Unknown variable
-    LDX $0ABD : BEQ .useSP0
+    LDX.w $0ABD : BEQ .useSP0
         ; Target SP-7 (second half)
         LDA.w #$01F2
     
@@ -2082,7 +2082,7 @@ Palette_OverworldBgAux3:
 {
     REP #$21
     
-    LDX $0AB8
+    LDX.w $0AB8
     
     LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$E604 : STA $00
     
@@ -2105,7 +2105,7 @@ Palette_OverworldBgMain:
 {
     REP #$21
     
-    LDA $0AB3 : ASL A : TAX
+    LDA.w $0AB3 : ASL A : TAX
     
     LDA PaletteIDtoOffset_OW2, X : ADC.w #$E6C8 : STA $00
     
@@ -2132,7 +2132,7 @@ Palette_OverworldBgAux1:
 {
     REP #$21
     
-    LDA $0AB4 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AB4 : AND.w #$00FF : ASL A : TAX
     
     LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA $00
     
@@ -2156,7 +2156,7 @@ Palette_OverworldBgAux2:
 {
     REP #$21
     
-    LDA $0AB5 : AND.w #$00FF : ASL A : TAX
+    LDA.w $0AB5 : AND.w #$00FF : ASL A : TAX
     
     LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA $00
     
@@ -2186,7 +2186,7 @@ Palette_SingleLoad:
     
     ; Ensures the counter is saved
     ; Generally the place to look for this value is $0AA9 (high byte)
-    TXY : CLC : ADC $0AA8 : TAX
+    TXY : CLC : ADC.w $0AA8 : TAX
     
     ; Ensure the data bank being drawn from is 1B = #$D in Rom
     LDA.w #$001B : STA $02
@@ -2228,7 +2228,7 @@ Palette_MultiLoad:
     
     .nextPalette
     ; $0AA8 + A parameter will be the X value.
-    LDA $0AA8 : CLC : ADC $04 : TAX
+    LDA.w $0AA8 : CLC : ADC $04 : TAX
     
     LDY $06 ; Tell me how long the palette is.
     

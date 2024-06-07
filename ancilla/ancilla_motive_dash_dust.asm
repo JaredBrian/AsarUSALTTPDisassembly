@@ -14,13 +14,13 @@ Ancilla_MotiveDashDust:
 {
     PHB : PHK : PLB
     
-    LDA $0C68, X : BNE .delay
+    LDA.w $0C68, X : BNE .delay
     
-    LDA #$03 : STA $0C68, X
+    LDA #$03 : STA.w $0C68, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$03 : BNE .delay
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$03 : BNE .delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     BRA .return
     
@@ -36,7 +36,7 @@ Ancilla_MotiveDashDust:
     
     PHX
     
-    LDA $0C5E, X : TAX
+    LDA.w $0C5E, X : TAX
     
     LDY.b #$00
     

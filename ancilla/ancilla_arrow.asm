@@ -21,7 +21,7 @@ Ancilla_Arrow:
     
     .normal_submode
     
-    DEC $0C5E, X : LDA $0C5E, X : BMI .timer_elapsed
+    DEC.w $0C5E, X : LDA.w $0C5E, X : BMI .timer_elapsed
         CMP.b #$04 : BCC .begin_moving
             ; The object doesn't even start being drawn until this timer counts
             ; down.
@@ -29,7 +29,7 @@ Ancilla_Arrow:
     
     .timer_elapsed
     
-    LDA.b #$FF : STA $0C5E, X
+    LDA.b #$FF : STA.w $0C5E, X
     
     .begin_moving
     
@@ -46,7 +46,7 @@ Ancilla_Arrow:
     
     .dont_spawn_sparkle
     
-    LDA.b #$FF : STA $03A9, X
+    LDA.b #$FF : STA.w $03A9, X
     
     JSR Ancilla_CheckSpriteCollision : BCS .sprite_collision
         JSR Ancilla_CheckTileCollision : BCS .tile_collision
@@ -54,81 +54,81 @@ Ancilla_Arrow:
         
         .tile_collision
         
-        TYA : STA $03C5, X
+        TYA : STA.w $03C5, X
         
-        LDA $0C72, X : AND.b #$03 : ASL A : TAY
+        LDA.w $0C72, X : AND.b #$03 : ASL A : TAY
         
-        LDA .y_offsets+0, Y : CLC : ADC $0BFA, X : STA $0BFA, X
-        LDA .y_offsets+1, Y : ADC $0C0E, X : STA $0C0E, X
+        LDA .y_offsets+0, Y : CLC : ADC.w $0BFA, X : STA.w $0BFA, X
+        LDA .y_offsets+1, Y : ADC.w $0C0E, X : STA.w $0C0E, X
         
-        LDA .x_offsets+0, Y : CLC : ADC $0C04, X : STA $0C04, X
-        LDA .x_offsets+1, Y : ADC $0C18, X : STA $0C18, X
+        LDA .x_offsets+0, Y : CLC : ADC.w $0C04, X : STA.w $0C04, X
+        LDA .x_offsets+1, Y : ADC.w $0C18, X : STA.w $0C18, X
         
-        STZ $0B88
+        STZ.w $0B88
         
         BRA .transmute_to_halted_arrow
     
     .sprite_collision
     
-    LDA $0C04, X : SEC : SBC $0D10, Y : STA $0C2C, X
+    LDA.w $0C04, X : SEC : SBC.w $0D10, Y : STA.w $0C2C, X
     
-    LDA $0BFA, X : SEC : SBC $0D00, Y : CLC : ADC $0F70, Y : STA $0C22, X
+    LDA.w $0BFA, X : SEC : SBC.w $0D00, Y : CLC : ADC.w $0F70, Y : STA.w $0C22, X
     
-    TYA : STA $03A9, X
+    TYA : STA.w $03A9, X
     
-    LDA $0E20, Y : CMP.b #$65 : BNE .not_archery_game_sprite
-        LDA $0D90, Y : CMP.b #$01 : BNE .not_archery_target_mop
-            LDA.b #$2D : STA $012F
+    LDA.w $0E20, Y : CMP.b #$65 : BNE .not_archery_game_sprite
+        LDA.w $0D90, Y : CMP.b #$01 : BNE .not_archery_target_mop
+            LDA.b #$2D : STA.w $012F
             
             ; Set a delay for the archery game proprietor and set a timer for
             ; the target that was hit (indicating it was hit)
-            LDA.b #$80 : STA $0E10, Y : STA $0F10
+            LDA.b #$80 : STA.w $0E10, Y : STA.w $0F10
             
             ; \tcrf In conjunction with the ArcheryGameGuy sprite code, this is
             ; another lead the suggested that there were 9 game prize values
             ; instead of just the normal 5.
-            LDA $0B88 : CMP.b #$09 : BCS .prize_index_maxed_out
-                INC $0B88
+            LDA.w $0B88 : CMP.b #$09 : BCS .prize_index_maxed_out
+                INC.w $0B88
             
             .prize_index_maxed_out
             
-            LDA $0B88 : STA $0DA0, Y
+            LDA.w $0B88 : STA.w $0DA0, Y
             
-            LDA $0ED0, Y : INC A : STA $0ED0, Y
+            LDA.w $0ED0, Y : INC A : STA.w $0ED0, Y
             
             BRA .transmute_to_halted_arrow
         
         .not_archery_target_mop
         
-        LDA.b #$04 : STA $0EE0, Y
+        LDA.b #$04 : STA.w $0EE0, Y
     
     .not_archery_game_sprite
     
-    STZ $0B88
+    STZ.w $0B88
     
     .transmute_to_halted_arrow
     
-    LDA $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_sfx
+    LDA.w $0E20, Y : CMP.b #$1B : BEQ .hit_enemy_arrow_no_sfx
         LDA.b #$08 : JSR Ancilla_DoSfx2
     
     .hit_enemy_arrow_no_sfx
     
-    STZ $0C5E, X
+    STZ.w $0C5E, X
     
-    LDA.b #$0A : STA $0C4A, X
-    LDA.b #$01 : STA $03B1, X
+    LDA.b #$0A : STA.w $0C4A, X
+    LDA.b #$01 : STA.w $03B1, X
     
-    LDA $03C5, X : BEQ .draw
+    LDA.w $03C5, X : BEQ .draw
     
     REP #$20
     
-    LDA $E0 : SEC : SBC $E2 : CLC : ADC $0C04, X : STA $00
-    LDA $E6 : SEC : SBC $E8 : CLC : ADC $0BFA, X : STA $02
+    LDA $E0 : SEC : SBC $E2 : CLC : ADC.w $0C04, X : STA $00
+    LDA $E6 : SEC : SBC $E8 : CLC : ADC.w $0BFA, X : STA $02
     
     SEP #$20
     
-    LDA $00 : STA $0C04, X
-    LDA $02 : STA $0BFA, X
+    LDA $00 : STA.w $0C04, X
+    LDA $02 : STA.w $0BFA, X
     
     BRA .draw
     
@@ -254,7 +254,7 @@ Arrow_Draw:
 {
     JSR Ancilla_PrepAdjustedOamCoord
     
-    LDA $0280, X : BEQ .normal_priority
+    LDA.w $0280, X : BEQ .normal_priority
         LDA.b #$30 : STA $65
     
     .normal_priority
@@ -264,7 +264,7 @@ Arrow_Draw:
     LDA $00 : STA $0C
     LDA $02 : STA $0E : STA $04
     
-    LDA $03C5, X : AND.w #$00FF : BEQ .basic_collision
+    LDA.w $03C5, X : AND.w #$00FF : BEQ .basic_collision
         ; Seems like this does special handling for more complex collision
         ; modes.
         LDA $E8 : SEC : SBC $E6 : CLC : ADC $0C : STA $0C
@@ -274,12 +274,12 @@ Arrow_Draw:
     
     SEP #$20
     
-    LDA $0C5E, X : STA $07
+    LDA.w $0C5E, X : STA $07
     
-    LDA $0C72, X : AND.b #$FB : TAY
+    LDA.w $0C72, X : AND.b #$FB : TAY
     
-    LDA $0C4A, X : CMP.b #$0A : BNE .not_halted_arrow
-        LDA $0C5E, X : AND.b #$08 : BEQ .use_wiggling_frames
+    LDA.w $0C4A, X : CMP.b #$0A : BNE .not_halted_arrow
+        LDA.w $0C5E, X : AND.b #$08 : BEQ .use_wiggling_frames
             ; During this frame draw as a straight arrow
             LDA.b #$01
             
@@ -287,7 +287,7 @@ Arrow_Draw:
         
         .use_wiggling_frames
         
-        LDA $0C5E, X : AND.b #$03
+        LDA.w $0C5E, X : AND.b #$03
         
         .chr_index_determined
         
@@ -299,7 +299,7 @@ Arrow_Draw:
     
     .not_halted_arrow
     
-    LDA $0C5E, X : BMI .determine_palette
+    LDA.w $0C5E, X : BMI .determine_palette
         TYA : ORA.b #$04 : TAY
     
     .determine_palette

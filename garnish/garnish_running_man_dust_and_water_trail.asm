@@ -26,7 +26,7 @@ Garnish_RunningManDashDust:
     
     .set_chr_index
     
-    LSR #2 : STA $0FB5
+    LSR #2 : STA.w $0FB5
     
     JSR Garnish_PrepOamCoord
     
@@ -35,7 +35,7 @@ Garnish_RunningManDashDust:
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
     LDA .chr, X : INY : STA ($90), Y
     

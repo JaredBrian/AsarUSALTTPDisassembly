@@ -15,32 +15,32 @@ Pool_Ancilla_HitStars:
 Ancilla_HitStars:
     
     ; Special object 0x16 - hammer stars
-    DEC $039F, X : BMI .begin_doing_stuff
+    DEC.w $039F, X : BMI .begin_doing_stuff
     
     ; Do nothing for the first couple frames, not even drawing.
     RTS
     
     .begin_doing_stuff
     
-    STZ $039F, X
+    STZ.w $039F, X
     
     LDA $11 : BNE .just_draw
     
-    DEC $03B1, X : BPL .delay
+    DEC.w $03B1, X : BPL .delay
     
-    STZ $03B1, X
+    STZ.w $03B1, X
     
-    LDA.b #$01 : STA $0C5E, X
+    LDA.b #$01 : STA.w $0C5E, X
     
     .delay
     
-    LDA $0C5E, X : BEQ .just_draw
+    LDA.w $0C5E, X : BEQ .just_draw
     
-    LDA $0C22, X : CLC : ADC.b #$FC : STA $0C22, X : STA $0C2C, X
+    LDA.w $0C22, X : CLC : ADC.b #$FC : STA.w $0C22, X : STA.w $0C2C, X
     
     CMP.b #$E8 : BCS .dont_self_terminate
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -53,11 +53,11 @@ Ancilla_HitStars:
     
     JSR Ancilla_PrepOamCoord
     
-    LDA $0C04, X : STA $06
-    LDA $0C18, X : STA $07
+    LDA.w $0C04, X : STA $06
+    LDA.w $0C18, X : STA $07
     
-    LDA $038A, X : STA $72
-    LDA $038F, X : STA $73
+    LDA.w $038A, X : STA $72
+    LDA.w $038F, X : STA $73
     
     REP #$20
     
@@ -67,7 +67,7 @@ Ancilla_HitStars:
     
     SEP #$20
     
-    LDA $0C54, X : CMP.b #$02 : BNE .dont_alter_oam_allocation
+    LDA.w $0C54, X : CMP.b #$02 : BNE .dont_alter_oam_allocation
     
     LDA.b #$08 : JSR Ancilla_AllocateOam_B_or_E
     
@@ -77,7 +77,7 @@ Ancilla_HitStars:
     
     LDA.b #$01 : STA $72
     
-    LDA $0C5E, X : TAX
+    LDA.w $0C5E, X : TAX
     
     LDY.b #$00 : STY $73
     

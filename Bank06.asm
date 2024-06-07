@@ -15,9 +15,9 @@ BottleVendor_DetectFish:
     
     .nextSprite
     
-        LDA $0DD0, Y : BEQ .inactiveSprite
+        LDA.w $0DD0, Y : BEQ .inactiveSprite
             ; Literally!
-            LDA $0E20, Y : CMP.b #$D2 : BEQ .isFishOutOfWater
+            LDA.w $0E20, Y : CMP.b #$D2 : BEQ .isFishOutOfWater
         
         .inactiveSprite
     DEY : BPL .nextSprite
@@ -28,12 +28,12 @@ BottleVendor_DetectFish:
     
     .isFishOutOfWater
     
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $08
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $08
     LDA.b #$10   : STA $02
     
-    LDA $0D00, X : STA $01
-    LDA $0D20, X : STA $09
+    LDA.w $0D00, X : STA $01
+    LDA.w $0D20, X : STA $09
     LDA.b #$10   : STA $03
     
     PHX : TYX
@@ -44,7 +44,7 @@ BottleVendor_DetectFish:
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .delta
         ; If the fish is close enough to the merchant, indicate as such.
-        TYA : ORA.b #$80 : STA $0E90, X
+        TYA : ORA.b #$80 : STA.w $0E90, X
     
     .delta
     
@@ -81,34 +81,34 @@ BottleVendor_SpawnFishRewards:
     
     LDA.b #$13 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$04 : STA $0FB5
+    LDA.b #$04 : STA.w $0FB5
     
     .nextItem
     
-    LDY $0FB5
+    LDY.w $0FB5
     
     LDA .item_types, Y : JSL Sprite_SpawnDynamically : BMI .spawnFailed
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
+        LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         
-        LDA.b #$FF : STA $0B58, Y
+        LDA.b #$FF : STA.w $0B58, Y
         
         PHX
         
-        LDX $0FB5
+        LDX.w $0FB5
         
-        LDA .x_speeds, X : STA $0D50, Y
+        LDA .x_speeds, X : STA.w $0D50, Y
         
-        LDA .y_speeds, X : STA $0D40, Y
+        LDA .y_speeds, X : STA.w $0D40, Y
         
-        LDA.b #$20 : STA $0F80, Y : STA $0F10, Y
+        LDA.b #$20 : STA.w $0F80, Y : STA.w $0F10, Y
         
         PLX
     
     .spawnFailed
     
-    DEC $0FB5 : BPL .nextItem
+    DEC.w $0FB5 : BPL .nextItem
     
     PLB
     
@@ -129,11 +129,11 @@ BottleVendor_SpawnFishRewards:
 ; $03009F-$0300E5 LONG JUMP LOCATION
 Boomerang_CheatWhenNoOnesLooking:
 {
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
-    LDA $0BFA, X : STA $04
-    LDA $0C0E, X : STA $05
+    LDA.w $0BFA, X : STA $04
+    LDA.w $0C0E, X : STA $05
     
     REP #$20
     
@@ -232,21 +232,21 @@ Player_ApplyRumbleToSprites:
 ; $03012D-$03014A LONG JUMP LOCATION
 Sprite_SpawnImmediatelySmashedTerrain:
 {
-    LDY $0314 : PHY
-    LDY $0FB2 : PHY
+    LDY.w $0314 : PHY
+    LDY.w $0FB2 : PHY
     
     PHB : PHK : PLB
     
     JSL Sprite_SpawnThrowableTerrainSilently : BMI .spawn_failed
     
-    JSR $E239 ; $036239 IN ROM
+    JSR.w $E239 ; $036239 IN ROM
     
     .spawn_failed
     
     PLB
     
-    PLA : STA $0FB2
-    PLA : STA $0314
+    PLA : STA.w $0FB2
+    PLA : STA.w $0314
     
     RTL
 }
@@ -270,7 +270,7 @@ Sprite_SpawnThrowableTerrain:
     
     JSL Sound_SetSfxPanWithPlayerCoords
     
-    ORA.b #$1D : STA $012E
+    ORA.b #$1D : STA.w $012E
     
     PLA
     
@@ -282,7 +282,7 @@ Sprite_SpawnThrowableTerrain:
     .next_slot
     
     ; look for dead sprites
-    LDY $0DD0, X : BEQ .empty_slot
+    LDY.w $0DD0, X : BEQ .empty_slot
     
     DEX : BPL .next_slot
     
@@ -294,27 +294,27 @@ Sprite_SpawnThrowableTerrain:
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     PHA
     
-    LDA.b #$0A : STA $0DD0, X
+    LDA.b #$0A : STA.w $0DD0D0, X
     
     ; Make a bush/pot/etc. sprite appear
-    LDA.b #$EC : STA $0E20, X
+    LDA.b #$EC : STA.w $0E20, X
     
-    LDA $00 : STA $0D10, X
-    LDA $01 : STA $0D30, X
+    LDA $00 : STA.w $0D10, X
+    LDA $01 : STA.w $0D30, X
     
-    LDA $02 : STA $0D00, X
-    LDA $03 : STA $0D20, X
+    LDA $02 : STA.w $0D0000, X
+    LDA $03 : STA.w $0D20, X
     
     JSL Sprite_LoadProperties
     
     ; Set the floor level to whichever the player is on.
-    LDA $EE : STA $0F20, X
+    LDA $EE : STA.w $0F20, X
     
-    PLA : STA $0DB0, X : CMP.b #$06 : BCC .not_heavy_object
+    PLA : STA.w $0DB0, X : CMP.b #$06 : BCC .not_heavy_object
     
     PHA
     
-    LDA.b #$A6 : STA $0E40, X
+    LDA.b #$A6 : STA.w $0E40, X
     
     PLA
     
@@ -326,7 +326,7 @@ Sprite_SpawnThrowableTerrain:
     
     ; This doesn't seem to do anything because it gets overwritten just
     ; a few lines down anyways!
-    LDA.b #$80 : STA $0F50, X
+    LDA.b #$80 : STA.w $0F50, X
     
     .notBushOrPot
     .outdoors
@@ -336,34 +336,34 @@ Sprite_SpawnThrowableTerrain:
     
     TAY
     
-    LDA.w $AACA, Y : STA $0F50, X
+    LDA.w $AACA, Y : STA.w $0F50, X
     
     LDA.b #$09 : STA.l $7FFA2C, X
     
-    LDA.b #$02 : STA $0314
-                 STA $0FB2
+    LDA.b #$02 : STA.w $0314
+                 STA.w $0FB2
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
-    LDA $EE : STA $0F20, X
+    LDA $EE : STA.w $0F20, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    LDA $0B9C : CMP.b #$FF : BEQ .invalid_secret
+    LDA.w $0B9C : CMP.b #$FF : BEQ .invalid_secret
     
     ORA $1B : BNE .dont_substitute
     
-    LDA $0DB0, X : DEC #2 : CMP.b #$02 : BCC .dont_substitute
+    LDA.w $0DB0, X : DEC #2 : CMP.b #$02 : BCC .dont_substitute
     
     JSL Overworld_SubstituteAlternateSecret
     
     .dont_substitute
     
-    LDA $0B9C : BPL .normal_secret
+    LDA.w $0B9C : BPL .normal_secret
     
-    AND.b #$7F : STA $0DC0, X
+    AND.b #$7F : STA.w $0DC0, X
     
-    STZ $0B9C
+    STZ.w $0B9C
     
     .normal_secret
     
@@ -396,7 +396,7 @@ Sprite_SpawnSecret:
     
     .indoors
     
-    LDY $0B9C  : BEQ .easy_out
+    LDY.w $0B9C  : BEQ .easy_out
     CPY.b #$04 : BNE .not_random
     
     JSL GetRandomInt : AND.b #$03 : CLC : ADC.b #$13 : TAY
@@ -414,29 +414,29 @@ Sprite_SpawnSecret:
     
     LDX $0D
     
-    LDA.w $8209, X : STA $0D80, Y
-    LDA.w $8235, X : STA $0BA0, Y
-    LDA.w $824B, X : STA $0F80, Y
+    LDA.w $8209, X : STA.w $0D80, Y
+    LDA.w $8235, X : STA.w $0BA0, Y
+    LDA.w $824B, X : STA.w $0F80, Y
     
-    LDA $00 : CLC : ADC $821F, X : STA $0D10, Y
-    LDA $01 : ADC.b #$00   : STA $0D30, Y
+    LDA $00 : CLC : ADC.w $821F, X : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00   : STA.w $0D3030, Y
     
-    LDA $02 : STA $0D00, Y
-    LDA $03 : STA $0D20, Y
+    LDA $02 : STA.w $0D00, Y
+    LDA $03 : STA.w $0D20, Y
     
-    LDA $04 : STA $0F70, Y
+    LDA $04 : STA.w $0F70, Y
     
-    LDA.b #$00 : STA $0DC0, Y
-    LDA.b #$20 : STA $0F10, Y
-    LDA.b #$30 : STA $0E10, Y
+    LDA.b #$00 : STA.w $0DC0, Y
+    LDA.b #$20 : STA.w $0F10, Y
+    LDA.b #$30 : STA.w $0E10, Y
     
-    LDX $0E20, Y : CPX.b #$E4 : BNE .not_key
+    LDX.w $0E20, Y : CPX.b #$E4 : BNE .not_key
     
     PHX
     
     TYX
     
-    JSR $9262 ; $031262 IN ROM
+    JSR.w $9262 ; $031262 IN ROM
     
     PLX
     
@@ -445,11 +445,11 @@ Sprite_SpawnSecret:
     CPX.b #$0B : BNE .not_chicken
     
     ; Make a chicken noise
-    LDA #$30 : STA $012E
+    LDA #$30 : STA.w $012E
     
-    LDA $048E : CMP.b #$01 : BNE .BRANCH_DELTA
+    LDA.w $048E : CMP.b #$01 : BNE .BRANCH_DELTA
     
-    STA $0E30, Y
+    STA.w $0E30, Y
     
     .BRANCH_DELTA
     .not_chicken
@@ -458,30 +458,30 @@ Sprite_SpawnSecret:
     CPX.b #$41 : BEQ .is_soldier
     CPX.b #$3E : BNE .not_rock_crab
     
-    LDA.b #$09 : STA $0F50, Y
+    LDA.b #$09 : STA.w $0F50, Y
     
     BRA .return
     
     .is_soldier
     
     ; Play the "pissed off soldier" sound effect
-    LDA.b #$04 : STA $012F
+    LDA.b #$04 : STA.w $012F
     
-    LDA.b #$00 : STA $0CE2, Y
+    LDA.b #$00 : STA.w $0CE2, Y
     
-    LDA.b #$A0 : STA $0EF0, Y
+    LDA.b #$A0 : STA.w $0EF0, Y
     
     BRA .carry_on
     
     .not_rock_crab
     
-    LDA.b #$FF : STA $0B58, Y
+    LDA.b #$FF : STA.w $0B58, Y
     
     .carry_on
     
     CPX.b #$79 : BNE .return
     
-    LDA.b #$20 : STA $0D90, Y
+    LDA.b #$20 : STA.w $0D90, Y
     
     .return
     
@@ -500,8 +500,8 @@ Sprite_Main:
     ; ARE WE INDOORS
     LDA $1B : BNE .indoors
     
-    STZ $0C7C : STZ $0C7D : STZ $0C7E : STZ $0C7F
-    STZ $0C80
+    STZ.w $0C7C : STZ.w $0C7D : STZ.w $0C7E : STZ.w $0C7F
+    STZ.w $0C80
     
     ; Looks like this might load or unload sprites as we scroll during
     ; the overworld... Not certain of this yet.
@@ -521,17 +521,17 @@ Sprite_Main:
     .in_light_World
     
     ; Darkworld/Lightworld indicator
-    STY $0FFF
+    STY.w $0FFF
     
     LDA $11 : BNE .dont_reset_player_dragging
     
     ; \wtf Wait, so the dragging of the player is reset under normal
     ; circumstances, but not in another submodule? Does not compute.
-    STZ $0B7C
-    STZ $0B7D
+    STZ.w $0B7C
+    STZ.w $0B7D
     
-    STZ $0B7E
-    STZ $0B7F
+    STZ.w $0B7E
+    STZ.w $0B7F
     
     .dont_reset_player_dragging
     
@@ -539,11 +539,11 @@ Sprite_Main:
     JSL Garnish_ExecuteUpperSlotsLong
     JSL Tagalong_MainLong
     
-    LDA $0314 : STA $0FB2
+    LDA.w $0314 : STA.w $0FB2
     
-    STZ $0314
+    STZ.w $0314
     
-    LDA.b #$80 : STA $0FAB
+    LDA.b #$80 : STA.w $0FAB
     
     ; Is this a delay counter between repulse sparks for sprites?
     LDA $47 : AND.b #$7F : BEQ .done_counting
@@ -558,26 +558,26 @@ Sprite_Main:
     
     .still_counting
     
-    STZ $0379
-    STZ $0377
-    STZ $037B
+    STZ.w $0379
+    STZ.w $0377
+    STZ.w $037B
     
-    LDA $0FDC : BEQ .projectileCounterDone
+    LDA.w $0FDC : BEQ .projectileCounterDone
     
-    DEC $0FDC
+    DEC.w $0FDC
     
     .projectileCounterDone
     
     JSL Ancilla_Main
     JSL Overlord_Main
     
-    STZ $0B9A
+    STZ.w $0B9A
     
     LDX.b #$0F
     
     .next_sprite
     
-    STX $0FA0
+    STX.w $0FA0
     
     JSR Sprite_ExecuteSingle
     
@@ -585,16 +585,16 @@ Sprite_Main:
     
     JSL Garnish_ExecuteLowerSlotsLong
     
-    STZ $069F
-    STZ $069E
+    STZ.w $069F
+    STZ.w $069E
     
     PLB
     
     JSL CacheSprite_ExecuteAll
     
-    LDA $0AAA : BEQ .iota
+    LDA.w $0AAA : BEQ .iota
     
-    STA $0FC6
+    STA.w $0FC6
     
     .iota
     
@@ -641,7 +641,7 @@ Oam_ResetRegionBases:
     
     .next_oam_region
     
-    LDA .bases, Y : STA $0FE0, Y
+    LDA .bases, Y : STA.w $0FE0, Y
     
     INY #2 : CPY.b #$0B : BCC .next_oam_region
     
@@ -680,11 +680,11 @@ Sprite_SetupHitBoxLong:
 {
     JSR Sprite_Get_16_bit_Coords
     
-    LDA $0E40, X : AND.b #$1F : INC A : ASL #2
+    LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
     
-    LDY $0FB3 : BEQ .dontSortSprites
+    LDY.w $0FB3 : BEQ .dontSortSprites
     
-    LDY $0F20, X : BEQ .onBG2
+    LDY.w $0F20, X : BEQ .onBG2
     
     JSL OAM_AllocateFromRegionF : BRA .doneAllocatingOamSlot
     
@@ -701,40 +701,40 @@ Sprite_SetupHitBoxLong:
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ; checking for oddball modes
     ; typically branches along this path
-    LDA $11 : ORA $0FC1 : BEQ .normalGameMode
+    LDA $11 : ORA.w $0FC1 : BEQ .normalGameMode
     
-    JMP $84A4 ; $0304A4 IN ROM
+    JMP.w $84A4 ; $0304A4 IN ROM
     
     .normalGameMode
     
     ; this section decrements the sprite's 4 general purpose timers (if nonzero)
-    LDA $0DF0, X : BEQ .timer_0_expired
+    LDA.w $0DF0, X : BEQ .timer_0_expired
     
-    DEC $0DF0, X
+    DEC.w $0DF0, X
     
     .timer_0_expired
     
-    LDA $0E00, X : BEQ .timer_1_expired
+    LDA.w $0E00, X : BEQ .timer_1_expired
     
-    DEC $0E00, X
+    DEC.w $0E00, X
     
     .timer_1_expired
     
-    LDA $0E10, X : BEQ .timer_2_expired
+    LDA.w $0E10, X : BEQ .timer_2_expired
     
-    DEC $0E10, X
+    DEC.w $0E10, X
     
     .timer_2_expired
     
-    LDA $0EE0, X : BEQ .timer_3_expired
+    LDA.w $0EE0, X : BEQ .timer_3_expired
     
-    DEC $0EE0, X
+    DEC.w $0EE0, X
     
     .timer_3_expired
     
-    LDA $0EF0, X : AND.b #$7F : BEQ .death_timer_inactive
+    LDA.w $0EF0, X : AND.b #$7F : BEQ .death_timer_inactive
     
-    LDY $0DD0, X : CPY.b #$09 : BCC .sprite_inactive
+    LDY.w $0DD0, X : CPY.b #$09 : BCC .sprite_inactive
     
     ; on the 0x1F tick of the damage timer we...
     CMP.b #$1F : BNE .BRANCH_MU
@@ -742,20 +742,20 @@ Sprite_SetupHitBoxLong:
     PHA
     
     ; Is the sprite Agahnim?
-    LDA $0E20, X : CMP.b #$7A : BNE .not_agahnim_bitching
+    LDA.w $0E20, X : CMP.b #$7A : BNE .not_agahnim_bitching
     
     ; branch if in the dark world
-    LDA $0FFF : BNE .not_agahnim_bitching
+    LDA.w $0FFF : BNE .not_agahnim_bitching
     
     ; subtract off damage from agahnim
-    LDA $0E50, X : SEC : SBC $0CE2, X : BEQ .agahnim_bitches
+    LDA.w $0E50, X : SEC : SBC.w $0CE2, X : BEQ .agahnim_bitches
                                   BCS .not_agahnim_bitching
     
     .agahnim_bitches
     
     ; Agahnim bitching about you beating him in the Light world
-    LDA.b #$40 : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$40 : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -767,31 +767,31 @@ Sprite_SetupHitBoxLong:
     
     CMP.b #$18 : BNE .BRANCH_LAMBDA
     
-    JSR $EEC8 ; $036EC8 IN ROM
+    JSR.w $EEC8 ; $036EC8 IN ROM
     
     .BRANCH_LAMBDA
     .sprite_inactive
     
-    LDA $0CE2, X : CMP.b #$FB : BCS .BRANCH_XI
+    LDA.w $0CE2, X : CMP.b #$FB : BCS .BRANCH_XI
     
-    LDA $0EF0, X : ASL A : AND.b #$0E : STA $0B89, X
+    LDA.w $0EF0, X : ASL A : AND.b #$0E : STA.w $0B89, X
     
     .BRANCH_XI
     
-    DEC $0EF0, X
+    DEC.w $0EF0, X
     
     BRA .BRANCH_OMICRON
     
     .death_timer_inactive
     
-    STZ $0EF0, X
-    STZ $0B89, X
+    STZ.w $0EF0, X
+    STZ.w $0B89, X
     
     .BRANCH_OMICRON
     
-    LDA $0F10, X : BEQ .aux_timer_4_expired
+    LDA.w $0F10, X : BEQ .aux_timer_4_expired
     
-    DEC $0F10, X
+    DEC.w $0F10, X
     
     .aux_timer_4_expired
     
@@ -801,11 +801,11 @@ Sprite_SetupHitBoxLong:
     ; follow? \task Investigate this.
     LDY $EE : CPY.b #$03 : BEQ .player_using_super_priority
     
-    LDY $0F20, X
+    LDY.w $0F20, X
     
     .player_using_super_priority
     
-    LDA $0B89, X : AND.b #$CF : ORA .priority, Y : STA $0B89, X
+    LDA.w $0B89, X : AND.b #$CF : ORA .priority, Y : STA.w $0B89, X
     
     RTS
     
@@ -829,11 +829,11 @@ Sprite_Get_16_bit_CoordsLong:
 Sprite_Get_16_bit_Coords:
 {
     ; $0FD8 = sprite's X coordinate, $0FDA = sprite's Y coordinate
-    LDA $0D10, X : STA $0FD8
-    LDA $0D30, X : STA $0FD9
+    LDA.w $0D10, X : STA.w $0FD8
+    LDA.w $0D30, X : STA.w $0FD9
     
-    LDA $0D00, X : STA $0FDA
-    LDA $0D20, X : STA $0FDB
+    LDA.w $0D00, X : STA.w $0FDA
+    LDA.w $0D20, X : STA.w $0FDB
     
     RTS
 }
@@ -857,11 +857,11 @@ Sprite_ExecuteSingleLong:
 ; $0304E2-$030525 LOCAL JUMP LOCATION
 Sprite_ExecuteSingle:
 {
-    LDA $0DD0, X : BEQ .inactiveSprite
+    LDA.w $0DD0, X : BEQ .inactiveSprite
     
     PHA
     
-    JSR $83F2 ; $0303F2 IN ROM; Loads some sprite data into common addresses.
+    JSR.w $83F2 ; $0303F2 IN ROM; Loads some sprite data into common addresses.
     
     PLA
     
@@ -901,13 +901,13 @@ Sprite_ExecuteSingle:
     
     TXA : ASL A
     
-    LDA.b #$FF : STA $0BC0, Y : STA $0BC1, Y
+    LDA.b #$FF : STA.w $0BC0, Y : STA.w $0BC1, Y
     
     RTS
     
     .indoors
     
-    LDA.b #$FF : STA $0BC0, X
+    LDA.b #$FF : STA.w $0BC0, X
     
     RTS
 }
@@ -933,9 +933,9 @@ SpriteFall_Main:
 {
     ; Sprite mode for falling into a hole
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL Dungeon_ManuallySetSpriteDeathFlag
     
@@ -1002,26 +1002,26 @@ SpriteDrown_Main:
 {
     ; Sprite Mode 0x03
     
-    LDA $0D80, X : BEQ .alpha
+    LDA.w $0D80, X : BEQ .alpha
     
-    LDA $0D90, X : CMP.b #$06 : BNE .BRANCH_BETA
+    LDA.w $0D90, X : CMP.b #$06 : BNE .BRANCH_BETA
     
     LDA.b #$08 : JSL OAM_AllocateFromRegionC
     
     .BRANCH_BETA
     
-    LDA $0E60, X : EOR.b #$10 : STA $0E60, X
+    LDA.w $0E60, X : EOR.b #$10 : STA.w $0E60, X
     
     JSR Sprite_PrepAndDrawSingleLarge
     
-    LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
+    LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
     
     ; Load hflip and vflip settings
     LDA .vh_flip, Y : STA $05
     
-    LDA $0DF0, X : CMP.b #$01 : BNE .notLastTimerTick
+    LDA.w $0DF0, X : CMP.b #$01 : BNE .notLastTimerTick
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .notLastTimerTick
     
@@ -1029,7 +1029,7 @@ SpriteDrown_Main:
     
     LDA.b #$8A : BCC .timerExpired
     
-    LDA $0DF0, X : LSR A : TAX
+    LDA.w $0DF0, X : LSR A : TAX
     
     STZ $05
     
@@ -1043,26 +1043,26 @@ SpriteDrown_Main:
     
     PLX
     
-    LDA $0DF0, X : BNE .BRANCH_EPSILON
+    LDA.w $0DF0, X : BNE .BRANCH_EPSILON
     
     JSR Sprite_CheckIfActive.permissive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite_Move
     JSR Sprite_MoveAltitude
     
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .BRANCH_EPSILON
+    LDA.w $0F70, X : BPL .BRANCH_EPSILON
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$12 : STA $0DF0, X
+    LDA.b #$12 : STA.w $0DF0, X
     
     ; $030612 ALTERNATE ENTRY POINT
     
-    LDA $0E60, X : AND.b #$EF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$EF : STA.w $0E60, X
     
     .BRANCH_EPSILON
     
@@ -1074,19 +1074,19 @@ SpriteDrown_Main:
     
     LDA $1A : AND.b #$01 : BNE .BRANCH_ZETA
     
-    INC $0DF0, X
+    INC.w $0DF0, X
     
     .BRANCH_ZETA
     
-    STZ $0F50, X
+    STZ.w $0F50, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     LDA.b #$00 : XBA
     
-    LDA $0DF0, X : BNE .BRANCH_THETA
+    LDA.w $0DF0, X : BNE .BRANCH_THETA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_THETA
     
@@ -1113,7 +1113,7 @@ SpriteActive_Table:
     ; SPRITE ROUTINES 1
     
     ; This is the table for all sprite objects used in the game
-    ; PARAMETER $0E20, X
+    ; PARAMETER.w $0E20, X
     
     ; This is an unusual jump table. The jump values were fed onto the stack, and an RTS was used to jump there. In the above routine you will notice that the accumulator was decremented (DEC A). That was intentional, since after an RTS, the processor pulls an address off the stack and increments it by one, thereby allowing it to travel to the addresses you see.
     
@@ -1433,11 +1433,11 @@ Entity_ApplyRumbleToSprites:
     
     .next_sprite
     
-    LDA $0CAA, Y : AND.b #$02 : BEQ .skip_sprite
+    LDA.w $0CAA, Y : AND.b #$02 : BEQ .skip_sprite
     
-    LDA $0E90, Y : BEQ .skip_sprite
+    LDA.w $0E90, Y : BEQ .skip_sprite
     
-    LDA $0FC6 : CMP.b #$0E : BEQ .collision_guaranteed
+    LDA.w $0FC6 : CMP.b #$0E : BEQ .collision_guaranteed
     
     PHX
     
@@ -1455,21 +1455,21 @@ Entity_ApplyRumbleToSprites:
     
     ; Maybe other sprites react to this, but primarily the apple sprites
     ; hidden in trees split when this variable is set low.
-    LDA.b #$00 : STA $0E90, Y
+    LDA.b #$00 : STA.w $0E90, Y
     
-    LDA.b #$30 : STA $012F
+    LDA.b #$30 : STA.w $012F
     
-    LDA.b #$30 : STA $0F80, Y
-    LDA.b #$10 : STA $0D50, X
-    LDA.b #$30 : STA $0EE0, Y
-    LDA.b #$FF : STA $0B58, Y
+    LDA.b #$30 : STA.w $0F80, Y
+    LDA.b #$10 : STA.w $0D50, X
+    LDA.b #$30 : STA.w $0EE0, Y
+    LDA.b #$FF : STA.w $0B58, Y
     
     ; \note Interestingly enough, this is not really a heart refill,
     ; but a trigger for a bomb to be knocked out of a tree.
     ; What a mess this game's sprites system is. assassin17 knows it too,
     ; and I've known it for somewhat longer, but it still manages to
     ; surprise me now and then.
-    LDA $0E20, Y : CMP.b #$D8 : BNE .not_single_heart_refill
+    LDA.w $0E20, Y : CMP.b #$D8 : BNE .not_single_heart_refill
     
     JSL Sprite_TransmuteToEnemyBomb
     
@@ -1486,12 +1486,12 @@ Entity_ApplyRumbleToSprites:
 ; $032D50-$032D6E LONG JUMP LOCATION
 Sprite_TransmuteToEnemyBomb:
 {
-    LDA.b #$4A : STA $0E20, X
-    LDA.b #$01 : STA $0DB0, X
-    LDA.b #$FF : STA $0E00, X
-    LDA.b #$18 : STA $0E60, X
-    LDA.b #$08 : STA $0F50, X
-    LDA.b #$00 : STA $0E50, X
+    LDA.b #$4A : STA.w $0E20, X
+    LDA.b #$01 : STA.w $0DB0, X
+    LDA.b #$FF : STA.w $0E00, X
+    LDA.b #$18 : STA.w $0E60, X
+    LDA.b #$08 : STA.w $0F50, X
+    LDA.b #$00 : STA.w $0E50, X
     
     RTL
 }
@@ -2032,13 +2032,13 @@ incsrc "sprite_buzzblob.asm"
 ; $0359C0-$0359D4 LOCAL JUMP LOCATION
 Sprite_WallInducedSpeedInversion:
 {
-    LDA $0E70, X : AND.b #$03 : BEQ .no_horiz_collision
+    LDA.w $0E70, X : AND.b #$03 : BEQ .no_horiz_collision
     
     JSR Sprite_InvertHorizSpeed
     
     .no_horiz_collision
     
-    LDA $0E70, X : AND.b #$0C : BEQ .no_vert_collision
+    LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
     
     JSR Sprite_InvertVertSpeed
     
@@ -2058,7 +2058,7 @@ Sprite_Invert_XY_Speeds:
     shared Sprite_InvertHorizSpeed:
     
     ; Flip sign of X velocity
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
     RTS
 }
@@ -2069,7 +2069,7 @@ Sprite_Invert_XY_Speeds:
 Sprite_InvertVertSpeed:
 {
     ; Flip sign of Y velocity
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
     RTS
 }
@@ -2079,14 +2079,14 @@ Sprite_InvertVertSpeed:
 ; $0359EC-$035A08 LOCAL JUMP LOCATION
 Sprite_CheckIfActive:
 {
-    LDA $0DD0, X : CMP.b #$09 : BNE .inactive
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
         ; $0359F3 ALTERNATE ENTRY POINT
         .permissive
     
-        LDA $0FC1 : BNE .inactive
+        LDA.w $0FC1 : BNE .inactive
         LDA $11 : BNE .inactive
-            LDA $0CAA, X : BMI .active
-            LDA $0F00, X : BEQ .active
+            LDA.w $0CAA, X : BMI .active
+            LDA.w $0F00, X : BEQ .active
     
     .inactive
     
@@ -2264,9 +2264,9 @@ Sprite_PrepAndDrawSingleLarge:
     
     PHY
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
-    LDA.w $DB04, Y : CLC : ADC $0DC0, X : TAY
+    LDA.w $DB04, Y : CLC : ADC.w $0DC0, X : TAY
     
     LDA.w $DA09, Y : PLY : INY : STA ($90), Y
     LDA $05            : INY : STA ($90), Y
@@ -2277,7 +2277,7 @@ Sprite_PrepAndDrawSingleLarge:
 Sprite_DrawShadowRedundant:
     
     ; Optinally draw a shadow for the sprite if this flag is set.
-    LDA $0E60, X : AND.b #$10 : BNE Sprite_DrawShadow
+    LDA.w $0E60, X : AND.b #$10 : BNE Sprite_DrawShadow
     
     RTS
 }
@@ -2324,12 +2324,12 @@ Sprite_DrawShadow:
     ; $035C66 ALTERNATE ENTRY POINT
     .variable
     
-               CLC : ADC $0D00, X : STA $02
-    LDA $0D20, X : ADC.b #$00   : STA $03
+               CLC : ADC.w $0D00, X : STA $02
+    LDA.w $0D20, X : ADC.b #$00   : STA $03
     
     ; Is the sprite disabled ("paused", you might say)
-    LDA $0F00, X : BNE .dontDrawShadow
-    LDA $0DD0, X : CMP.b #$0A : BNE .notBeingCarried
+    LDA.w $0F00, X : BNE .dontDrawShadow
+    LDA.w $0DD0, X : CMP.b #$0A : BNE .notBeingCarried
         LDA.l $7FFA1C, X : CMP.b #$03 : BEQ .dontDrawShadow
     
     .notBeingCarried
@@ -2339,11 +2339,11 @@ Sprite_DrawShadow:
     LDA $02 : SEC : SBC $E8 : STA $02
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .offScreenY
-        LDA $0E40, X : AND.b #$1F : ASL #2 : TAY
+        LDA.w $0E40, X : AND.b #$1F : ASL #2 : TAY
         
         LDA $00 : STA ($90), Y
         
-        LDA $0E60, X : AND.b #$20 : BEQ .delta
+        LDA.w $0E60, X : AND.b #$20 : BEQ .delta
             INY
             
             ; This instruction doesn't seem to belong here, as it doesn't do anything
@@ -2406,16 +2406,16 @@ Sprite_PrepAndDrawSingleSmall:
     
     PHY
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
-    LDA.w $DB04, Y : CLC : ADC $0DC0, X : TAY
+    LDA.w $DB04, Y : CLC : ADC.w $0DC0, X : TAY
     
     LDA.w $DA09, Y : PLY : INY : STA ($90), Y
     LDA $05            : INY : STA ($90), Y
     
     .BRANCH_ALPHA
     
-    LDA $0E60, X : AND.b #$10 : BEQ .BRANCH_BETA
+    LDA.w $0E60, X : AND.b #$10 : BEQ .BRANCH_BETA
     
     LDA.b #$02
     
@@ -2481,9 +2481,9 @@ Sprite_DrawKey:
     
     SEP #$20
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
-    LDA.w $DB04, Y : CLC : ADC $0DC0, X : TAY
+    LDA.w $DB04, Y : CLC : ADC.w $0DC0, X : TAY
     
     LDA.w $DA09, Y : LDY.b #$02 : STA ($90), Y
     CLC : ADC.b #$10   : LDY.b #$06 : STA ($90), Y
@@ -2516,13 +2516,13 @@ ThrownSprite_TileAndPeerInteractionLong:
 ; $035FFA-$036163 JUMP LOCATION
 SpriteStunned_Main:
 {
-    JSR $E2B6 ; $0362B6 IN ROM
+    JSR.w $E2B6 ; $0362B6 IN ROM
     JSR Sprite_CheckIfActive.permissive
     
-    LDA $0EA0, X : BEQ .not_recoiling
+    LDA.w $0EA0, X : BEQ .not_recoiling
                    BPL .recoil_timer_ticking
     
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
     .recoil_timer_ticking
     
@@ -2532,7 +2532,7 @@ SpriteStunned_Main:
     
     ; Even though the sprite is stunned, there is still a 32 frame delay
     ; before it can be damaged.
-    LDA $0DF0, X : CMP.b #$20 : BCS .delay_vulnerability
+    LDA.w $0DF0, X : CMP.b #$20 : BCS .delay_vulnerability
     
     JSR Sprite_CheckDamageFromPlayer
     
@@ -2541,20 +2541,20 @@ SpriteStunned_Main:
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_Move
     
-    LDA $0E90, X : BNE .skip_tile_collision_logic
+    LDA.w $0E90, X : BNE .skip_tile_collision_logic
     
     JSR Sprite_CheckTileCollision
     
-    LDA $0DD0, X : BEQ .BRANCH_EPSILON
+    LDA.w $0DD0, X : BEQ .BRANCH_EPSILON
     
     ; $03602A ALTERNATE ENTRY POINT
     shared ThrownSprite_TileAndPeerInteraction:
     
-    LDA $0E70, X : AND.b #$0F : BEQ .no_tile_collision
+    LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
-    JSR $E229 ; $036229 IN ROM
+    JSR.w $E229 ; $036229 IN ROM
     
-    LDA $0DD0, X : CMP.b #$0B : BNE .not_frozen
+    LDA.w $0DD0, X : CMP.b #$0B : BNE .not_frozen
     
     ; Play clink sound because frozen sprite hit a wall.
     LDA.b #$05 : JSL Sound_SetSfx2PanLong
@@ -2565,49 +2565,49 @@ SpriteStunned_Main:
     
     ; Check collision against boundary of the area we're in? (not solid
     ; tiles, the actual border of the area / room).
-    LDY.b #$68 : JSR $E73C ; $03673C IN ROM
+    LDY.b #$68 : JSR.w $E73C ; $03673C IN ROM
     
     PHX
     
-    LDA $0E20, X : TAX
+    LDA.w $0E20, X : TAX
     
     LDA.l $0DB359, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
     
-    LDA $0E60, X : ORA.b #$10 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
     
-    LDA $0FA5 : CMP.b #$20 : BNE .BRANCH_ZETA
+    LDA.w $0FA5 : CMP.b #$20 : BNE .BRANCH_ZETA
     
     ; Just unsets draw shadow flag (no reason to when over a pit)
-    JSR $8612 ; $030612 IN ROM
+    JSR.w $8612 ; $030612 IN ROM
     
     .BRANCH_ZETA
     
     JSR Sprite_MoveAltitude
     
     ; Applies gravity to the sprite
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : DEC A : CMP.b #$F0 : BCS .BRANCH_THETA
+    LDA.w $0F70, X : DEC A : CMP.b #$F0 : BCS .BRANCH_THETA
     
-    JMP $E149 ; $036149 IN ROM
+    JMP.w $E149 ; $036149 IN ROM
     
     .BRANCH_THETA
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0E20, X : CMP.b #$E8 : BNE .not_fake_master_sword
+    LDA.w $0E20, X : CMP.b #$E8 : BNE .not_fake_master_sword
     
-    LDA $0F80, X : CMP.b #$E8 : BPL .BRANCH_IOTA
+    LDA.w $0F80, X : CMP.b #$E8 : BPL .BRANCH_IOTA
     
     ; Fake master sword has a special death animation where it sort of...
     ; poofs.
-    LDA.b #$06 : STA $0DD0, X
+    LDA.b #$06 : STA.w $0DD0, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
     ; $036095 ALTERNATE ENTRY POINT
     
-    LDA.b #$03 : STA $0E40, X
+    LDA.b #$03 : STA.w $0E40, X
     
     .BRANCH_EPSILON
     
@@ -2617,11 +2617,11 @@ SpriteStunned_Main:
     .not_fake_master_sword
     
     ; Only applies to throwable scenery.
-    JSR $E22F ; $03622F IN ROM
+    JSR.w $E22F ; $03622F IN ROM
     
-    LDA $0FA5 : CMP.b #$20 : BNE .BRANCH_KAPPA
+    LDA.w $0FA5 : CMP.b #$20 : BNE .BRANCH_KAPPA
     
-    LDA $0B6B, X : LSR A : BCS .BRANCH_KAPPA
+    LDA.w $0B6B, X : LSR A : BCS .BRANCH_KAPPA
     
     ; $0360AB ALTERNATE ENTRY POINT
     
@@ -2629,10 +2629,10 @@ SpriteStunned_Main:
     ; indoors? Double and triple check this as it alters the necessary
     ; naming scheme.
     ; Set it so the object is falling into a pit
-    LDA.b #$01 : STA $0DD0, X
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$01 : STA.w $0DD0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
-    STZ $012E
+    STZ.w $012E
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
@@ -2642,7 +2642,7 @@ SpriteStunned_Main:
     
     CMP.b #$09 : BNE .BRANCH_LAMBDA
     
-    LDA $0F80, X : STZ $0F80, X : CMP.b #$F0 : BPL .BRANCH_MU
+    LDA.w $0F80, X : STZ.w $0F80, X : CMP.b #$F0 : BPL .BRANCH_MU
     
     LDA.b #$EC
     
@@ -2654,7 +2654,7 @@ SpriteStunned_Main:
     
     TYX
     
-    JSR $E0F6 ; $0360F6 IN ROM
+    JSR.w $E0F6 ; $0360F6 IN ROM
     
     PLX
     
@@ -2664,7 +2664,7 @@ SpriteStunned_Main:
     
     CMP.b #$08 : BNE .BRANCH_MU
     
-    LDA $0E20, X : CMP.b #$D2 : BEQ .is_flopping_fish
+    LDA.w $0E20, X : CMP.b #$D2 : BEQ .is_flopping_fish
     
     JSL GetRandomInt : LSR A : BCC .anospawn_leaping_fish
     
@@ -2676,21 +2676,21 @@ SpriteStunned_Main:
     
     ; $0360F6 ALTERNATE ENTRY POINT
     
-    JSL Sound_SetSfxPan : ORA.b #$28 : STA $012E
+    JSL Sound_SetSfxPan : ORA.b #$28 : STA.w $012E
     
-    LDA.b #$03 : STA $0DD0, X
+    LDA.b #$03 : STA.w $0DD0, X
     
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     JSL GetRandomInt : AND.b #$01
     
-    JMP $E095 ; $036095 IN ROM
+    JMP.w $E095 ; $036095 IN ROM
     
     .BRANCH_MU
     
-    LDA $0F80, X : BPL .BRANCH_OMICRON
+    LDA.w $0F80, X : BPL .BRANCH_OMICRON
     
     EOR.b #$FF : INC A : LSR A : CMP.b #$09 : BCS .BRANCH_PI
     
@@ -2698,29 +2698,29 @@ SpriteStunned_Main:
     
     .BRANCH_PI
     
-    STA $0F80, X
+    STA.w $0F80, X
     
     .BRANCH_OMICRON
     
     ; Is this arithmetic shift right? Clever, if so.
-    LDA $0D50, X : ASL A : ROR $0D50, X
+    LDA.w $0D50, X : ASL A : ROR.w $0D50, X
     
-    LDA $0D50, X : CMP.b #$FF : BNE .BRANCH_RHO
+    LDA.w $0D50, X : CMP.b #$FF : BNE .BRANCH_RHO
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
     .BRANCH_RHO
     
-    LDA $0D40, X : ASL A : ROR $0D40, X
+    LDA.w $0D40, X : ASL A : ROR.w $0D40, X
     
-    LDA $0D40, X : CMP.b #$FF : BNE .BRANCH_SIGMA
+    LDA.w $0D40, X : CMP.b #$FF : BNE .BRANCH_SIGMA
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     ; $036149 ALTERNATE ENTRY POINT
     .BRANCH_SIGMA
     
-    LDA $0DD0, X : CMP.b #$0B : BNE .BRANCH_TAU
+    LDA.w $0DD0, X : CMP.b #$0B : BNE .BRANCH_TAU
     
     LDA.l $7FFA3C, X : BEQ .BRANCH_UPSILON
     
@@ -2728,7 +2728,7 @@ SpriteStunned_Main:
     
     JSR Sprite_CheckIfLifted
     
-    LDA $0E20, X : CMP.b #$4A : BEQ .BRANCH_UPSILON
+    LDA.w $0E20, X : CMP.b #$4A : BEQ .BRANCH_UPSILON
     
     JSR ThrownSprite_CheckDamageToPeers
     
@@ -2744,7 +2744,7 @@ ThrowableScenery_InteractWithSpritesAndTiles:
 {
     JSR Sprite_Move
     
-    LDA $0E90, X : BNE .skip_tile_collision
+    LDA.w $0E90, X : BNE .skip_tile_collision
     
     JSR Sprite_CheckTileCollision
     
@@ -2760,9 +2760,9 @@ ThrowableScenery_InteractWithSpritesAndTiles:
 ; $036172-$0361B1 LOCAL JUMP LOCATION
 ThrownSprite_CheckDamageToPeers:
 {
-    LDA $0F10, X : BNE .delay_damaging_others
+    LDA.w $0F10, X : BNE .delay_damaging_others
     
-    LDA $0D50, X : ORA $0D40, X : BEQ .no_momentum
+    LDA.w $0D50, X : ORA.w $0D40, X : BEQ .no_momentum
     
     LDY.b #$0F
     
@@ -2770,16 +2770,16 @@ ThrownSprite_CheckDamageToPeers:
     
     PHY
     
-    CPY $0FA0 : BEQ .cant_damage_self
+    CPY.w $0FA0 : BEQ .cant_damage_self
     
-    LDA $0E20, X : CMP.b #$D2 : BEQ .cant_damage
+    LDA.w $0E20, X : CMP.b #$D2 : BEQ .cant_damage
     
-    LDA $0DD0, Y : CMP.b #$09 : BCC .cant_damage
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .cant_damage
     
-    TYA : EOR $1A : AND.b #$03 : ORA $0BA0, Y
-                                 ORA $0EF0, Y : BNE .cant_damage
+    TYA : EOR $1A : AND.b #$03 : ORA.w $0BA0, Y
+                                 ORA.w $0EF0, Y : BNE .cant_damage
     
-    LDA $0F20, X : CMP $0F20, Y : BNE .cant_damage
+    LDA.w $0F20, X : CMP.w $0F20, Y : BNE .cant_damage
     
     JSR ThrownSprite_CheckDamageToSinglePeer
     
@@ -2799,13 +2799,13 @@ ThrownSprite_CheckDamageToPeers:
 ; $0361B2-$03626D LOCAL JUMP LOCATION
 ThrownSprite_CheckDamageToSinglePeer:
 {
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $08
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $08
     
     LDA.b #$0F : STA $02
     
-    LDA $0D00, X : SEC : SBC $0F70, X : PHP : CLC : ADC.b #$08 : STA $01
-    LDA $0D20, X : ADC.b #$00   : PLP : SBC.b #$00 : STA $09
+    LDA.w $0D00, X : SEC : SBC.w $0F70, X : PHP : CLC : ADC.b #$08 : STA $01
+    LDA.w $0D2020, X : ADC.b #$00   : PLP : SBC.b #$00 : STA $09
     
     LDA.b #$08 : STA $03
     
@@ -2819,7 +2819,7 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_361B1 ; (RTS)
     
-    LDA $0E20, Y : CMP.b #$3F : BNE .notTutorialSoldier
+    LDA.w $0E20, Y : CMP.b #$3F : BNE .notTutorialSoldier
     
     JSL Sprite_PlaceRupulseSpark
     
@@ -2829,9 +2829,9 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     LDA.b #$03 : PHA
     
-    LDA $0E20, X : CMP.b #$EC : BNE .BRANCH_GAMMA
+    LDA.w $0E20, X : CMP.b #$EC : BNE .BRANCH_GAMMA
     
-    LDA $0DB0, X : CMP.b #$02 : BNE .BRANCH_GAMMA
+    LDA.w $0DB0, X : CMP.b #$02 : BNE .BRANCH_GAMMA
     
     LDA $1B : BNE .BRANCH_GAMMA
     
@@ -2851,10 +2851,10 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     PLY : PLX
     
-    LDA $0D50, X : ASL A : STA $0F40, Y
-    LDA $0D40, X : ASL A : STA $0F30, Y
+    LDA.w $0D50, X : ASL A : STA.w $0F40, Y
+    LDA.w $0D40, X : ASL A : STA.w $0F30, Y
     
-    LDA.b #$10 : STA $0F10, X
+    LDA.b #$10 : STA.w $0F10, X
     
     ; $036229 ALTERNATE ENTRY POINT
     .BRANCH_BETA
@@ -2865,23 +2865,23 @@ ThrownSprite_CheckDamageToSinglePeer:
     ; $03622F ALTERNATE ENTRY POINT
     
     ; Not a bush...
-    LDA $0E20, X : CMP.b #$EC : BNE .BRANCH_DELTA
+    LDA.w $0E20, X : CMP.b #$EC : BNE .BRANCH_DELTA
     
-    STZ $0FAC
+    STZ.w $0FAC
     
     ; $036239 ALTERNATE ENTRY POINT
     
-    LDA $0DC0, X : BEQ .BRANCH_EPSILON
+    LDA.w $0DC0, X : BEQ .BRANCH_EPSILON
     
-    STA $0B9C
+    STA.w $0B9C
     
     JSR Sprite_SpawnSecret
     
-    STZ $0B9C
+    STZ.w $0B9C
     
     .BRANCH_EPSILON
     
-    LDY $0DB0, X
+    LDY.w $0DB0, X
     
     LDA $1B : BEQ .BRANCH_ZETA
     
@@ -2889,7 +2889,7 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     .BRANCH_ZETA
     
-    STZ $012E
+    STZ.w $012E
     
     LDA.w $E272, Y : JSL Sound_SetSfx2PanLong
     
@@ -2901,12 +2901,12 @@ ThrownSprite_CheckDamageToSinglePeer:
     ; $03625C ALTERNATE ENTRY POINT
     shared Sprite_CustomTimedScheduleForBreakage:
     
-    STA $0DF0, Y
+    STA.w $0DF0, Y
     
     ; Break this pot...
-    LDA.b #$06 : STA $0DD0, X
+    LDA.b #$06 : STA.w $0DD0, X
     
-    LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
+    LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
     
     .BRANCH_DELTA
     
@@ -2920,13 +2920,13 @@ Sprite_Halve_XY_Speeds:
 {
     ; This sequence does an arithmetic (not logical!) shift right on
     ; the x and y speeds, which effectively reduces them by
-    LDA $0D50, X : ASL A
+    LDA.w $0D50, X : ASL A
     
-    ROR $0D50, X
+    ROR.w $0D50, X
     
-    LDA $0D40, X : ASL A
+    LDA.w $0D40, X : ASL A
     
-    ROR $0D40, X
+    ROR.w $0D40, X
     
     RTS
 }
@@ -2943,17 +2943,17 @@ Fish_SpawnLeapingFish:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$02 : STA $0D80, Y
+    LDA.b #$02 : STA.w $0D80, Y
     
-    LDA.b #$30 : STA $0DF0, Y
+    LDA.b #$30 : STA.w $0DF0, Y
     
-    LDA $0E20, X : CMP.b #$D2 : BNE .not_spawned_from_other_fish
+    LDA.w $0E20, X : CMP.b #$D2 : BNE .not_spawned_from_other_fish
     
     ; \task Give a 20 rupee reward? Is that what this controls?
     ; Only make a grateful fish leap up if it was one rescued from water,
     ; not a fish that was perturbed by something else being thrown into
     ; the water, like a skull rock / bush / frozen sprite.
-    STA $0D90, Y
+    STA.w $0D90, Y
     
     .not_spawned_from_other_fish
     .spawn_failed
@@ -2971,16 +2971,16 @@ Fish_SpawnLeapingFish:
     
     LDA.l $7FFA3C, X : BEQ .BRANCH_ALPHA
     
-    LDA $0DF0, X : CMP.b #$20 : BCS .BRANCH_BETA
+    LDA.w $0DF0, X : CMP.b #$20 : BCS .BRANCH_BETA
     
     ; \note Think this sets a blue palette?
-    LDA $0F50, X : AND.b #$F1 : ORA.b #$04 : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$F1 : ORA.b #$04 : STA.w $0F50, X
     
     .BRANCH_BETA
     
-    LDA $0DF0, X : LSR #4 : TAY
+    LDA.w $0DF0, X : LSR #4 : TAY
     
-    TXA : ASL #4 : EOR $1A : ORA $11 : AND $E2AF, Y : BNE .BRANCH_GAMMA
+    TXA : ASL #4 : EOR $1A : ORA $11 : AND.w $E2AF, Y : BNE .BRANCH_GAMMA
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
@@ -3000,14 +3000,14 @@ Fish_SpawnLeapingFish:
     
     .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$01 : ORA $11 : ORA $0FC1 : BNE .BRANCH_DELTA
+    LDA $1A : AND.b #$01 : ORA $11 : ORA.w $0FC1 : BNE .BRANCH_DELTA
     
-    LDA $0B58, X              : BEQ .BRANCH_EPSILON
-    DEC $0B58, X : CMP.b #$38 : BCS .BRANCH_DELTA
+    LDA.w $0B58, X              : BEQ .BRANCH_EPSILON
+    DEC.w $0B58, X : CMP.b #$38 : BCS .BRANCH_DELTA
     
     AND.b #$01 : TAY
     
-    LDA .wiggle_x_speeds, Y : STA $0D50, X
+    LDA .wiggle_x_speeds, Y : STA.w $0D50, X
     
     JSR Sprite_MoveHoriz
     
@@ -3017,10 +3017,10 @@ Fish_SpawnLeapingFish:
     
     .BRANCH_EPSILON
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    STZ $0F40, X
-    STZ $0F30, X
+    STZ.w $0F40, X
+    STZ.w $0F30, X
     
     RTS
     
@@ -3072,44 +3072,44 @@ SpritePoof_Main:
     ; Sprite state 0x02
     
     ; Check this timer
-    LDA $0DF0, X : BNE .just_draw
+    LDA.w $0DF0, X : BNE .just_draw
     
     ; See if the enemy is a buzzblob
-    LDA $0E20, X : CMP.b #$0D : BNE .not_tranny_buzzblob
+    LDA.w $0E20, X : CMP.b #$0D : BNE .not_tranny_buzzblob
     
     ; Thinking this is a transformed buzz blob exception.
-    LDY $0EB0, X : BEQ .not_tranny_buzzblob
+    LDY.w $0EB0, X : BEQ .not_tranny_buzzblob
     
-    LDY $0D10, X : PHY
-    LDY $0D30, X : PHY
+    LDY.w $0D10, X : PHY
+    LDY.w $0D30, X : PHY
     
-    JSR $F9D1 ; $0379D1 IN ROM
+    JSR.w $F9D1 ; $0379D1 IN ROM
     
-    PLA : STA $0D30, X
-    PLA : STA $0D10, X
+    PLA : STA.w $0D30, X
+    PLA : STA.w $0D10, X
     
-    STZ $0F80, X
-    STZ $0BA0, X
+    STZ.w $0F80, X
+    STZ.w $0BA0, X
     
     RTS
     
     .not_tranny_buzzblob
     
-    LDA $0CBA, X : BNE .has_specific_drop_item
+    LDA.w $0CBA, X : BNE .has_specific_drop_item
     
     LDY.b #$02
     
-    JMP $F9BC ; $0379BC IN ROM
+    JMP.w $F9BC ; $0379BC IN ROM
     
     .has_specific_drop_item
     
-    JMP $F923 ; $037923 IN ROM
+    JMP.w $F923 ; $037923 IN ROM
     
     .just_draw
     
     JSR Sprite_PrepOamCoord
     
-    LDA $0DF0, X : LSR A : AND.b #$FC : STA $00
+    LDA.w $0DF0, X : LSR A : AND.b #$FC : STA $00
     
     PHX
     
@@ -3121,8 +3121,8 @@ SpritePoof_Main:
     
     TXA : CLC : ADC $00 : TAX
     
-    LDA $0FA8 : CLC : ADC .x_offsets, X        : STA ($90), Y
-    LDA $0FA9 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
+    LDA.w $0FA8 : CLC : ADC .x_offsets, X        : STA ($90), Y
+    LDA.w $0FA9 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
                 LDA .chr, X        : INY : STA ($90), Y
                 LDA .properties, X : INY : STA ($90), Y
     
@@ -3177,25 +3177,25 @@ Sprite_PrepOamCoordSafeWrapper:
 Sprite_PrepOamCoord:
 {
     ; Enable the sprite to move.
-    STZ $0F00, X
+    STZ.w $0F00, X
     
     REP #$20
     
     ; X coordinate for the sprite
-    LDA $0FD8 : SEC : SBC $E2 : STA $00
+    LDA.w $0FD8 : SEC : SBC $E2 : STA $00
     
     ; A = (Sprite's X coord - far left of screen X coord) + 0x40
     ; Y coordinate is at most 255, so make 8 bit.
     ; If A >= 0x170 don't display at all
     CLC : ADC.w #$0040 : CMP.w #$0170 : SEP #$20 : BCS .x_out_of_bounds
     ; How high off the ground is the object?
-    LDA $0F70, X : STA $04
+    LDA.w $0F70, X : STA $04
     STZ $05
     
     REP #$20
     
     ; Link's Y coord. Subtract the Y coordinate of the camera.
-    LDA $0FDA : SEC : SBC $E8 : PHA
+    LDA.w $0FDA : SEC : SBC $E8 : PHA
     
     ; Offset by how far the object is off the ground, to be fair.
     SEC : SBC $04 : STA $02
@@ -3205,7 +3205,7 @@ Sprite_PrepOamCoord:
     ; If sufficiently off screen don't render at all
     PLA : CLC : ADC.w #$0040 : CMP.w #$0170 : SEP #$20 : BCC .y_inbounds
         ; Not sure what $0F60, X does yet... (room relevance?)
-        LDA $0F60, X : AND.b #$20 : BEQ .immobilize_sprite
+        LDA.w $0F60, X : AND.b #$20 : BEQ .immobilize_sprite
     
     .y_inbounds
     
@@ -3216,11 +3216,11 @@ Sprite_PrepOamCoord:
     
     ; What palette is the sprite using?
     ; Xor it with sprite priority
-    LDA $0F50, X : EOR $0B89, X : STA $05
+    LDA.w $0F50, X : EOR.w $0B89, X : STA $05
                                   STZ $04
     
-    LDA $00 : STA $0FA8
-    LDA $02 : STA $0FA9
+    LDA $00 : STA.w $0FA8
+    LDA $02 : STA.w $0FA9
     
     LDY.b #$00
     
@@ -3230,16 +3230,16 @@ Sprite_PrepOamCoord:
     
     REP #$20
     
-    LDA $0FDA : SEC : SBC $E8 : SEC : SBC $04 : STA $02
+    LDA.w $0FDA : SEC : SBC $E8 : SEC : SBC $04 : STA $02
     
     SEP #$20
     
     .immobilize_sprite
     
     ; Make the sprite immobile.
-    INC $0F00, X
+    INC.w $0F00, X
     
-    LDA $0CAA, X : BMI .dont_kill
+    LDA.w $0CAA, X : BMI .dont_kill
     JSL Sprite_SelfTerminate
     
     .dont_kill
@@ -3262,7 +3262,7 @@ Sprite_CheckTileCollisionLong:
     
     PLB
     
-    LDA $0E70, X
+    LDA.w $0E70, X
     
     RTL
 }
@@ -3274,7 +3274,7 @@ Pool_Sprite_CheckTileCollision:
 {
     .restore_layer_property
     
-    LDA $0FB6 : STA $0F20, X
+    LDA.w $0FB6 : STA.w $0F20, X
     
     RTS
     
@@ -3285,25 +3285,25 @@ Pool_Sprite_CheckTileCollision:
     ; $0364AB MAIN ENTRY POINT
 Sprite_CheckTileCollision:
     
-    STZ $0E70, X
+    STZ.w $0E70, X
     
-    LDA $0F60, X : BMI .restrict_to_same_layer
+    LDA.w $0F60, X : BMI .restrict_to_same_layer
     
-    LDA $046C : BEQ .restrict_to_same_layer
+    LDA.w $046C : BEQ .restrict_to_same_layer
     
-    LDA $0F20, X : STA $0FB6
+    LDA.w $0F20, X : STA.w $0FB6
     
-    LDA.b #$01 : STA $0F20, X
-    
-    JSR Sprite_CheckTileCollisionSingleLayer
-    
-    LDA $046C : CMP.b #$04 : BEQ .restore_layer_property
-    
-    STZ $0F20, X
+    LDA.b #$01 : STA.w $0F20, X
     
     JSR Sprite_CheckTileCollisionSingleLayer
     
-    LDA $0FA5 : STA.l $7FFABC, X
+    LDA.w $046C : CMP.b #$04 : BEQ .restore_layer_property
+    
+    STZ.w $0F20, X
+    
+    JSR Sprite_CheckTileCollisionSingleLayer
+    
+    LDA.w $0FA5 : STA.l $7FFABC, X
     
     RTS
 }
@@ -3313,14 +3313,14 @@ Sprite_CheckTileCollision:
 ; $0364DB-$0365B7 LOCAL JUMP LOCATION
 Sprite_CheckTileCollisionSingleLayer:
 {
-    LDA $0E40, X : AND.b #$20 : BEQ .BRANCH_ALPHA
+    LDA.w $0E40, X : AND.b #$20 : BEQ .BRANCH_ALPHA
     
     LDY.b #$6A
     
     ; $03673C IN ROM
-    JSR $E73C : BCC .BRANCH_BETA
+    JSR.w $E73C : BCC .BRANCH_BETA
     
-    INC $0E70, X
+    INC.w $0E70, X
     
     .BRANCH_BETA
     
@@ -3328,33 +3328,33 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_ALPHA
     
-    LDA $0F60, X : BMI .BRANCH_GAMMA
+    LDA.w $0F60, X : BMI .BRANCH_GAMMA
     
-    LDA $046C : BNE .BRANCH_DELTA
+    LDA.w $046C : BNE .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
     LDY.b #$00
     
-    LDA $0D40, X : BEQ .BRANCH_EPSILON  BMI .BRANCH_ZETA
+    LDA.w $0D40, X : BEQ .BRANCH_EPSILON  BMI .BRANCH_ZETA
     
     INY
     
     .BRANCH_ZETA
     
-    JSR $E5EE   ; $0365EE IN ROM
+    JSR.w $E5EE   ; $0365EE IN ROM
     
     .BRANCH_EPSILON
     
     LDY.b #$02
     
-    LDA $0D50, X : BEQ .BRANCH_THETA  BMI .BRANCH_IOTA
+    LDA.w $0D50, X : BEQ .BRANCH_THETA  BMI .BRANCH_IOTA
     
     INY
     
     .BRANCH_IOTA
     
-    JSR $E5B8   ; $0365B8 IN ROM
+    JSR.w $E5B8   ; $0365B8 IN ROM
     
     .BRANCH_THETA
     
@@ -3366,7 +3366,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_LAMBDA
     
-    JSR $E5EE   ; $0365EE IN ROM
+    JSR.w $E5EE   ; $0365EE IN ROM
     
     DEY : BPL .BRANCH_LAMBDA
     
@@ -3374,15 +3374,15 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_MU
     
-    JSR $E5B8   ; $0365B8 IN ROM
+    JSR.w $E5B8   ; $0365B8 IN ROM
     
     DEY : CPY.b #$01 : BNE .BRANCH_MU
     
     .BRANCH_KAPPA
     
-    LDA $0BE0, X : BMI .BRANCH_NU
+    LDA.w $0BE0, X : BMI .BRANCH_NU
     
-    LDA $0F70, X : BEQ .BRANCH_XI
+    LDA.w $0F70, X : BEQ .BRANCH_XI
     
     .BRANCH_NU
     
@@ -3392,17 +3392,17 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDY.b #$68
     
-    JSR $E73C ; $03673C IN ROM
+    JSR.w $E73C ; $03673C IN ROM
     
-    LDA $0FA5 : STA.l $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
+    LDA.w $0FA5 : STA.l $7FF9C2, X : CMP.b #$1C : BNE .BRANCH_OMICRON
     
-    LDY $0FB3 : BEQ .BRANCH_OMICRON
+    LDY.w $0FB3 : BEQ .BRANCH_OMICRON
     
     ; Is the enemy frozen?
     ; Nope
-    LDY $0DD0, X : CPY.b #$0B : BNE .BRANCH_OMICRON
+    LDY.w $0DD0, X : CPY.b #$0B : BNE .BRANCH_OMICRON
     
-    LDA.b #$01 : STA $0F20, X
+    LDA.b #$01 : STA.w $0F20, X
     
     RTS
     
@@ -3410,31 +3410,31 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$20 : BNE .BRANCH_PI
     
-    LDA $0B6B, X : AND.b #$01 : BEQ .BRANCH_RHO
+    LDA.w $0B6B, X : AND.b #$01 : BEQ .BRANCH_RHO
     
     LDA $1B : BNE .BRANCH_SIGMA
     
-    JMP $E0AB ; $0360AB IN ROM
+    JMP.w $E0AB ; $0360AB IN ROM
     
     .BRANCH_SIGMA
     
-    LDA.b #$05 : STA $0DD0, X
+    LDA.b #$05 : STA.w $0DD0, X
     
     LDA.b #$5F
     
     ; is it a helmasaur?
-    LDY $0E20, X : CPY.b #$13 : BEQ .BRANCH_TAU
+    LDY.w $0E20, X : CPY.b #$13 : BEQ .BRANCH_TAU
                    CPY.b #$26 : BNE .BRANCH_UPSILON
     
     .BRANCH_TAU
     
-    LSR $0F50, X : ASL $0F50, X
+    LSR.w $0F50, X : ASL.w $0F50, X
     
     LDA.b #$3F
     
     .BRANCH_UPSILON
     
-    STA $0DF0, X
+    STA.w $0DF0, X
     
     RTS
     
@@ -3444,9 +3444,9 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA.l $7FFABC, X : CMP.b #$1C : BNE .BRANCH_PHI
     
-    JSR $E624 ; $036624 IN ROM
+    JSR.w $E624 ; $036624 IN ROM
     
-    LDA $0E70, X : ORA.b #$20 : STA $0E70, X
+    LDA.w $0E70, X : ORA.b #$20 : STA.w $0E70, X
     
     RTS
     
@@ -3468,7 +3468,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$08 : BNE .BRANCH_PHI
     
-    LDA $046C : CMP.b #$04 : BNE .BRANCH_PHI
+    LDA.w $046C : CMP.b #$04 : BNE .BRANCH_PHI
     
     ; I think this indicates that flowing water makes sprites move to the
     ; left in the same way a conveyor belt would.
@@ -3484,13 +3484,13 @@ Sprite_CheckTileCollisionSingleLayer:
 ; $0365B8-$0365ED LOCAL JUMP LOCATION
 {
     ; $03672F IN ROM
-    JSR $E72F : BCC .BRANCH_ALPHA
+    JSR.w $E72F : BCC .BRANCH_ALPHA
     
-    LDA.w $E723, Y : ORA $0E70, X : STA $0E70, X
+    LDA.w $E723, Y : ORA.w $0E70, X : STA.w $0E70, X
     
-    LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .BRANCH_ALPHA
+    LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .BRANCH_ALPHA
     
-    LDA $0EA0, X : BEQ .BRANCH_BETA
+    LDA.w $0EA0, X : BEQ .BRANCH_BETA
     
     ; \optimize If this code is reached, it's bound to be pretty damn slow.
     ; Mainly, it's calling the same code 3 times to do 3 additions, so
@@ -3500,8 +3500,8 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .add_offset
     
-    LDA $0D10, X : CLC : ADC $E727, Y : STA $0D10, X
-    LDA $0D30, X : ADC $E72B, Y : STA $0D30, X
+    LDA.w $0D10, X : CLC : ADC.w $E727, Y : STA.w $0D10, X
+    LDA.w $0D30, X : ADC.w $E72B, Y : STA.w $0D30, X
     
     .BRANCH_ALPHA
     
@@ -3511,13 +3511,13 @@ Sprite_CheckTileCollisionSingleLayer:
 ; $0365EE-$036623 LOCAL JUMP LOCATION
 {
     ; $03672F IN ROM
-    JSR $E72F : BCC .return
+    JSR.w $E72F : BCC .return
     
-    LDA.w $E723, Y : ORA $0E70, X : STA $0E70, X
+    LDA.w $E723, Y : ORA.w $0E70, X : STA.w $0E70, X
     
-    LDA $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .return
+    LDA.w $0E30, X : AND.b #$07 : CMP.b #$05 : BCS .return
     
-    LDA $0EA0, X : BEQ .add_offset
+    LDA.w $0EA0, X : BEQ .add_offset
     
     ; \optimize If this code is reached, it's bound to be pretty damn slow.
     ; Mainly, it's calling the same code 3 times to do 3 additions, so
@@ -3528,8 +3528,8 @@ Sprite_CheckTileCollisionSingleLayer:
     ; $036610 ALTERNATE ENTRY POINT
     .add_offset
     
-    LDA $0D00, X : CLC : ADC $E727, Y : STA $0D00, X
-    LDA $0D20, X : ADC $E72B, Y : STA $0D20, X
+    LDA.w $0D00, X : CLC : ADC.w $E727, Y : STA.w $0D00, X
+    LDA.w $0D20, X : ADC.w $E72B, Y : STA.w $0D20, X
     
     .return
     
@@ -3538,10 +3538,10 @@ Sprite_CheckTileCollisionSingleLayer:
 
 ; $036624-$03664A LOCAL JUMP LOCATION
 {
-    LDA $0310 : CLC : ADC $0D00, X : STA $0D00, X
-    LDA $0311 : ADC $0D20, X : STA $0D20, X
-    LDA $0312 : CLC : ADC $0D10, X : STA $0D10, X
-    LDA $0313 : ADC $0D30, X : STA $0D30, X
+    LDA.w $0310 : CLC : ADC.w $0D00, X : STA.w $0D00, X
+    LDA.w $0311 : ADC.w $0D20, X : STA.w $0D20, X
+    LDA.w $0312 : CLC : ADC.w $0D10, X : STA.w $0D10, X
+    LDA.w $0313 : ADC.w $0D30, X : STA.w $0D30, X
     
     RTS
 }
@@ -3587,7 +3587,7 @@ Sprite_CheckTileCollisionSingleLayer:
     ; to check collision in... Pretty sure anyways.
     STY $08
     
-    LDA $0B6B, X : AND.b #$F0 : LSR #2 : ADC $08 : ASL A : TAY
+    LDA.w $0B6B, X : AND.b #$F0 : LSR #2 : ADC $08 : ASL A : TAY
     
     ; $03673C ALTERNATE ENTRY POINT
     
@@ -3596,12 +3596,12 @@ Sprite_CheckTileCollisionSingleLayer:
     REP #$20
     
     ; Load Y coordinate of sprite
-    LDA $0FDA : CLC : ADC.w #8 : AND.w #$01FF : CLC : ADC $E6B7, Y
+    LDA.w $0FDA : CLC : ADC.w #8 : AND.w #$01FF : CLC : ADC.w $E6B7, Y
     
     SEC : SBC.w #8 : STA $00 : CMP.w #$0200 : BCS .out_of_bounds
     
     ; Load X coordinate of sprite
-    LDA $0FD8 : ADC.w #8 : AND.w #$01FF : CLC : ADC $E64B, Y
+    LDA.w $0FD8 : ADC.w #8 : AND.w #$01FF : CLC : ADC.w $E64B, Y
     
     SEC : SBC.w #8 : STA $02 : CMP.w #$0200
     
@@ -3612,20 +3612,20 @@ Sprite_CheckTileCollisionSingleLayer:
     ; Overworld handling of collision (against perimeter?)
     REP #$20
     
-    LDA $0FDA : CLC : ADC $E6B7, Y : STA $00
+    LDA.w $0FDA : CLC : ADC.w $E6B7, Y : STA $00
     
-    SEC : SBC $0FBE : CMP $0FBA : BCS .out_of_bounds
+    SEC : SBC.w $0FBE : CMP.w $0FBA : BCS .out_of_bounds
     
-    LDA $0FD8 : CLC : ADC $E64B, Y : STA $02
+    LDA.w $0FD8 : CLC : ADC.w $E64B, Y : STA $02
     
-    SEC : SBC $0FBC : CMP $0FB8
+    SEC : SBC.w $0FBC : CMP.w $0FB8
     
     .out_of_bounds
     .check_if_inbounds
     
     SEP #$20 : BCC .inbounds
     
-    JMP $E852 ; $036852 IN ROM
+    JMP.w $E852 ; $036852 IN ROM
     
     .inbounds
     
@@ -3633,7 +3633,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     TAY
     
-    LDA $0CAA, X : AND.b #$08 : BEQ .dont_use_simplified_tile_collision
+    LDA.w $0CAA, X : AND.b #$08 : BEQ .dont_use_simplified_tile_collision
     
     PHX
     
@@ -3648,33 +3648,33 @@ Sprite_CheckTileCollisionSingleLayer:
     CMP.b #$04 : BEQ .BRANCH_EPSILON
     CMP.b #$01 : BCC .BRANCH_ZETA
     
-    LDA $0FA5
+    LDA.w $0FA5
     
     CMP.b #$10 : BCC .not_sloped_tile
     CMP.b #$14 : BCS .not_sloped_tile
     
     JSR Entity_CheckSlopedTileCollision
-    JMP $E878 ; $036878 IN ROM
+    JMP.w $E878 ; $036878 IN ROM
     
     .not_sloped_tile
     
-    JMP $E872 ; $036872 IN ROM
+    JMP.w $E872 ; $036872 IN ROM
     
     .BRANCH_EPSILON
     
     LDY $1B : BNE .BRANCH_ZETA
     
-    STA $0E90, X
+    STA.w $0E90, X
     
     .BRANCH_ZETA
     
-    JMP $E877 ; $036877 IN ROM
+    JMP.w $E877 ; $036877 IN ROM
     
     .dont_use_simplified_tile_collision
     
-    LDA $0BE0, X : ASL A : BPL .BRANCH_IOTA
+    LDA.w $0BE0, X : ASL A : BPL .BRANCH_IOTA
     
-    LDA $0E20, X : CMP.b #$D2 : BEQ .flopping_fish
+    LDA.w $0E20, X : CMP.b #$D2 : BEQ .flopping_fish
                    CMP.b #$8A : BNE .not_moving_spike_block
     
     .flopping_fish
@@ -3685,7 +3685,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$94 : BNE .not_pirogusu
     
-    LDA $0E90, X : BEQ .BRANCH_XI
+    LDA.w $0E90, X : BEQ .BRANCH_XI
     
     BRA .BRANCH_IOTA
     
@@ -3721,7 +3721,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$00 : BEQ .BRANCH_OMICRON
     
-    LDA $0FA5
+    LDA.w $0FA5
     
     CMP.b #$10 : BCC .BRANCH_RHO
     CMP.b #$14 : BCS .BRANCH_RHO
@@ -3734,17 +3734,17 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$44 : BNE .not_spike_tile
     
-    LDA $0EA0, X : BEQ .BRANCH_PI
+    LDA.w $0EA0, X : BEQ .BRANCH_PI
     
-    LDA $0CE2, X : BMI .BRANCH_UPSILON
+    LDA.w $0CE2, X : BMI .BRANCH_UPSILON
     
     LDA.b #$04 : JSL Ancilla_CheckSpriteDamage.preset_class
     
-    LDA $0EF0, X : BEQ .BRANCH_UPSILON
+    LDA.w $0EF0, X : BEQ .BRANCH_UPSILON
     
-    LDA.b #$99 : STA $0EF0, X
+    LDA.b #$99 : STA.w $0EF0, X
     
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
     .BRANCH_UPSILON
     
@@ -3752,11 +3752,11 @@ Sprite_CheckTileCollisionSingleLayer:
     
     ; $036852 ALTERNATE ENTRY POINT
     
-    JSR $E872 ; $036872 IN ROM
+    JSR.w $E872 ; $036872 IN ROM
     
-    LDA $0E40, X : ASL A : BPL .BRANCH_PHI
+    LDA.w $0E40, X : ASL A : BPL .BRANCH_PHI
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     CLC
     
@@ -3772,9 +3772,9 @@ Sprite_CheckTileCollisionSingleLayer:
     
     CMP.b #$20 : BNE .not_pit_tile
     
-    LDA $0B6B, X : AND.b #$01 : BEQ .BRANCH_PI
+    LDA.w $0B6B, X : AND.b #$01 : BEQ .BRANCH_PI
     
-    LDA $0EA0, X : BNE .BRANCH_OMICRON
+    LDA.w $0EA0, X : BNE .BRANCH_OMICRON
     
     ; $036872 ALTERNATE ENTRY POINT
     .not_pit_tile
@@ -3823,7 +3823,7 @@ Sprite_GetTileAttrLocal:
     ; $00[0x02] - Entity Y coordinate
     ; $02[0x03] - Entity X coordinate
     
-    LDA $0F20, X ; Floor selector for sprites
+    LDA.w $0F20, X ; Floor selector for sprites
     
     ; $036886 ALTERNATE ENTRY POINT
     shared Entity_GetTileAttrLocal:
@@ -3847,7 +3847,7 @@ Sprite_GetTileAttrLocal:
     TAX
     
     ; Retrieve tile type
-    LDA.l $7F2000, X : PLX : SEP #$30 : STA $0FA5
+    LDA.l $7F2000, X : PLX : SEP #$30 : STA.w $0FA5
     
     RTS
     
@@ -3859,7 +3859,7 @@ Sprite_GetTileAttrLocal:
     
     PHX : PHY
     
-    JSL Overworld_GetTileAttrAtLocation : SEP #$30 : STA $0FA5
+    JSL Overworld_GetTileAttrAtLocation : SEP #$30 : STA.w $0FA5
     
     PLY : PLX
     
@@ -3911,7 +3911,7 @@ Entity_CheckSlopedTileCollision:
     ; \bug Maybe a bug.... what tile attributes are supposed to be used
     ; with this routine? Inspection suggests 0x18 through 0x1b, but this
     ; routine seems designed for 0x10 through 0x13. Hardly comforting...
-    LDA $0FA5 : SEC : SBC.b #$10 : STA $06
+    LDA.w $0FA5 : SEC : SBC.b #$10 : STA $06
     
     ; Y = ($06 << 3) + $05
     ASL #3 : CLC : ADC $05 : TAY
@@ -3954,7 +3954,7 @@ Sprite_Move:
     JSR Sprite_MoveVert
     
     ; Reset sprite index so that we can do the Y position adjustment next.
-    LDX $0FA0
+    LDX.w $0FA0
     
     RTS
     
@@ -3963,11 +3963,11 @@ Sprite_Move:
 ; $03693E-$03696B LOCAL JUMP LOCATION
     shared Sprite_MoveVert:
     
-    LDA $0D40, X : BEQ .return
+    LDA.w $0D40, X : BEQ .return
     
-    ASL #4 : CLC : ADC $0D60, X : STA $0D60, X
+    ASL #4 : CLC : ADC.w $0D60, X : STA.w $0D60, X
     
-    LDA $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
+    LDA.w $0D40, X : PHP : LSR #4 : LDY.b #$00 : PLP : BPL .positive
     
     ORA.b #$F0
     
@@ -3975,8 +3975,8 @@ Sprite_Move:
     
     .positive
     
-          ADC $0D00, X : STA $0D00, X
-    TYA : ADC $0D20, X : STA $0D20, X
+          ADC.w $0D00, X : STA.w $0D00, X
+    TYA : ADC.w $0D20, X : STA.w $0D20, X
     
     .return
     
@@ -3990,15 +3990,15 @@ Sprite_MoveAltitude:
 {
     ; Do... altitude adjustment...?
     
-    LDA $0F80, X : ASL #4 : CLC : ADC $0F90, X : STA $0F90, X
+    LDA.w $0F80, X : ASL #4 : CLC : ADC.w $0F90, X : STA.w $0F90, X
     
-    LDA $0F80, X : PHP : LSR #4 : PLP : BPL .positive
+    LDA.w $0F80, X : PHP : LSR #4 : PLP : BPL .positive
     
     ORA.b #$F0
     
     .positive
     
-    ADC $0F70, X : STA $0F70, X
+    ADC.w $0F70, X : STA.w $0F70, X
     
     RTS
 }
@@ -4129,8 +4129,8 @@ Sprite_ApplySpeedTowardsPlayer:
 {
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : STA $0D40, X
-    LDA $01 : STA $0D50, X
+    LDA $00 : STA.w $0D40, X
+    LDA $01 : STA.w $0D50, X
     
     RTS
 }
@@ -4308,7 +4308,7 @@ Sprite_DirectionToFacePlayer:
     
     .positive_1
     
-    STA $0FB5
+    STA.w $0FB5
     
     LDA $0F : BPL .positive_2
     
@@ -4317,7 +4317,7 @@ Sprite_DirectionToFacePlayer:
     .positive_2
     
     ; Compares absolute values of dx and dy
-    CMP $0FB5 : BCC .dy_is_bigger
+    CMP.w $0FB5 : BCC .dy_is_bigger
     
     LDY $00
     
@@ -4348,8 +4348,8 @@ Sprite_IsToRightOfPlayer:
     LDY.b #$00
     
     ; Link X - Sprite X
-    LDA $22 : SEC : SBC $0D10, X : STA $0F
-    LDA $23 : SBC $0D30, X : BPL .same_or_to_left
+    LDA $22 : SEC : SBC.w $0D10, X : STA $0F
+    LDA $23 : SBC.w $0D30, X : BPL .same_or_to_left
     
     ; If Link is to the left of the sprite, Y = 1, otherwise Y = 0.
     INY
@@ -4381,13 +4381,13 @@ Sprite_IsBelowPlayer:
     ; The additional 8 pixels I'm sure is to help simulate relative
     ; perspective. The altitude of the sprite is also factored in.
     LDA $20 : CLC : ADC.b #$08   : PHP 
-              CLC : ADC $0F70, X : PHP
-              SEC : SBC $0D00, X : STA $0E
+              CLC : ADC.w $0F70, X : PHP
+              SEC : SBC.w $0D00, X : STA $0E
     
     ; The higher byte of Link's Y coordinate
     ; The difference in their higher bytes. 
     ; Offset if Link is crossing a 0x0100 pixel boundary.
-    LDA $21 : SBC $0D20, X
+    LDA $21 : SBC.w $0D20, X
     PLP     : ADC.b #$00
     PLP     : ADC.b #$00   : BPL .same_or_above
     
@@ -4409,8 +4409,8 @@ Sprite_IsToRightOfEntity:
     
     LDY.b #$00
     
-    LDA $04 : SEC : SBC $0D10, X : STA $0F
-    LDA $05 : SBC $0D30, X : BPL .same_or_to_left
+    LDA $04 : SEC : SBC.w $0D10, X : STA $0F
+    LDA $05 : SBC.w $0D30, X : BPL .same_or_to_left
     
     INY
     
@@ -4428,8 +4428,8 @@ Sprite_IsBelowEntity:
     
     LDY.b #$00
     
-    LDA $06 : SEC : SBC $0D00, X : STA $0E
-    LDA $07 : SBC $0D20, X : BPL .entityIsBelow
+    LDA $06 : SEC : SBC.w $0D00, X : STA $0E
+    LDA $07 : SBC.w $0D20, X : BPL .entityIsBelow
     
     INY
     
@@ -4454,7 +4454,7 @@ Sprite_DirectionToFaceEntity:
     
     .positive_1
     
-    STA $0FB5
+    STA.w $0FB5
     
     LDA $0F : BPL .positive_2
     
@@ -4463,7 +4463,7 @@ Sprite_DirectionToFaceEntity:
     .positive_2
     
     ; Compares absolute values of dx and dy
-    CMP $0FB5 : BCC .dy_is_bigger
+    CMP.w $0FB5 : BCC .dy_is_bigger
     
     LDY $00
     
@@ -4484,7 +4484,7 @@ Sprite_DirectionToFaceEntity:
 {
     PHB : PHK : PLB
     
-    JSR $EB76 ; $036B76 IN ROM
+    JSR.w $EB76 ; $036B76 IN ROM
     
     PLB
     
@@ -4501,18 +4501,18 @@ Sprite_DirectionToFaceEntity:
 {
     ; Exclusively called by soldier like enemies... but not sure why...?
     
-    LDA $EE : CMP $0F20, X : BNE .not_on_player_layer
+    LDA $EE : CMP.w $0F20, X : BNE .not_on_player_layer
     
     LDA $46 : ORA $4D
     
     .not_on_player_layer
     
                    BNE .return
-    LDA $0EF0, X : BMI .return
+    LDA.w $0EF0, X : BMI .return
     
-    JSR $F645 ; $037645 IN ROM
+    JSR.w $F645 ; $037645 IN ROM
     
-    LDA $037A : AND.b #$10 : BNE .BRANCH_GAMMA
+    LDA.w $037A : AND.b #$10 : BNE .BRANCH_GAMMA
     
     LDA $44 : CMP.b #$80 : BEQ .BRANCH_GAMMA
     
@@ -4522,12 +4522,12 @@ Sprite_DirectionToFaceEntity:
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_DELTA
     
-    LDA $0E20, X : CMP.b #$6A : BEQ .BRANCH_EPSILON
+    LDA.w $0E20, X : CMP.b #$6A : BEQ .BRANCH_EPSILON
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
     ; 36B66 IN ROM
-    LDA .recoilTimes, Y : STA $0EA0, X ; $EB66
+    LDA .recoilTimes, Y : STA.w $0EA0, X ; $EB66
     
     .BRANCH_EPSILON
     
@@ -4545,8 +4545,8 @@ Sprite_DirectionToFaceEntity:
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0F30, X
-    LDA $01 : EOR.b #$FF : INC A : STA $0F40, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0F30, X
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0F40, X
     
     LDA.b #$10
     
@@ -4578,7 +4578,7 @@ Sprite_DirectionToFaceEntity:
     ; $036C02 ALTERNATE ENTRY POINT
     .BRANCH_IOTA
     
-    LDA $0E20, X
+    LDA.w $0E20, X
     
     CMP.b #$7A : BEQ .attempt_electrocution
     CMP.b #$0D : BNE .not_buzzblob
@@ -4594,19 +4594,19 @@ Sprite_DirectionToFaceEntity:
     
     .is_bari_or_biri
     
-    LDA $0DF0, X : BEQ .cant_electrocute
+    LDA.w $0DF0, X : BEQ .cant_electrocute
     
     .attempt_electrocution
     
     ; But if the sprite's not active, it can't electrocute.
-    LDA $0DD0, X : CMP.b #$09 : BNE .cant_electrocute
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .cant_electrocute
     
-    LDA $031F : BNE .player_blinking_invulnerable
+    LDA.w $031F : BNE .player_blinking_invulnerable
     
-    LDA.b #$40 : STA $0E00, X
-                 STA $0360
+    LDA.b #$40 : STA.w $0E00, X
+                 STA.w $0360
     
-    JSR $F3DB ; $0373DB IN ROM
+    JSR.w $F3DB ; $0373DB IN ROM
     
     .player_blinking_invulnerable
     
@@ -4625,8 +4625,8 @@ Sprite_DirectionToFaceEntity:
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0F30, X
-    LDA $01 : EOR.b #$FF : INC A : STA $0F40, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0F30, X
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0F40, X
     
     JSL.l $06ED3F ; $036D3F IN ROM
     
@@ -4640,17 +4640,17 @@ Medallion_CheckSpriteDamage:
 {
     ; Exclusively called by Medallion code
     
-    LDA $0C4A, X : STA $0FB5
+    LDA.w $0C4A, X : STA.w $0FB5
     
     LDX.b #$0F
     
     .next_sprite
     
-    LDA $0DD0, X : CMP.b #$09 : BCC .inactive_sprite
+    LDA.w $0DD0, X : CMP.b #$09 : BCC .inactive_sprite
     
-    LDA $0BA0, X : ORA $0F00, X : BNE .inactive_sprite
+    LDA.w $0BA0, X : ORA.w $0F00, X : BNE .inactive_sprite
     
-    LDA $0FB5 : JSL Ancilla_CheckSpriteDamage.override
+    LDA.w $0FB5 : JSL Ancilla_CheckSpriteDamage.override
     
     .inactive_sprite
     
@@ -4676,7 +4676,7 @@ Pool_Ancilla_CheckSpriteDamage:
 ; $036CB7-$036D32 LONG JUMP LOCATION
 Ancilla_CheckSpriteDamage:
 {
-    LDY $0EF0, X : BPL .sprite_not_already_dying
+    LDY.w $0EF0, X : BPL .sprite_not_already_dying
     
     RTL
     
@@ -4703,10 +4703,10 @@ Ancilla_CheckSpriteDamage:
     ; Is this Ganon?
     ; \task Go back and check if this means he's invincible, or just
     ; arrow prone (to deathing).
-    LDA $0E20, X : CMP.b #$D7 : BNE .not_invincible_ganon
+    LDA.w $0E20, X : CMP.b #$D7 : BNE .not_invincible_ganon
     
     ; Set damage timer? (In the event it's the arrow-vulnerable Ganon)
-    LDA.b #$20 : STA $0F10, X
+    LDA.b #$20 : STA.w $0F10, X
     
     .not_invincible_ganon
     
@@ -4721,7 +4721,7 @@ Ancilla_CheckSpriteDamage:
     
     CMP.b #$0F : BNE .not_quake_spell                                       ; check for 15
     
-    LDY $0F70, X : BEQ .quake_only_affects_enemy_on_ground
+    LDY.w $0F70, X : BEQ .quake_only_affects_enemy_on_ground
     
     ; Dem's tha breaks, kiddo.
     RTL
@@ -4736,21 +4736,21 @@ Ancilla_CheckSpriteDamage:
     
     JSL .apply_damage
     
-    LDA $0CE2, X : BNE .dont_spawn_repulse_spark
+    LDA.w $0CE2, X : BNE .dont_spawn_repulse_spark
     
-    LDA $0FAC : BNE .dont_spawn_repulse_spark
+    LDA.w $0FAC : BNE .dont_spawn_repulse_spark
     
-    LDA.b #$05 : STA $0FAC
+    LDA.b #$05 : STA.w $0FAC
     
-    LDY $0FB6
+    LDY.w $0FB6
     
-    LDA $0C04, Y : ADC.b #$04 : STA $0FAD
+    LDA.w $0C04, Y : ADC.b #$04 : STA.w $0FAD
     
-    LDA $0BFA, Y : STA $0FAE
+    LDA.w $0BFA, Y : STA.w $0FAE
     
-    LDA $EE : STA $0B68
+    LDA $EE : STA.w $0B68
     
-    STZ $012E
+    STZ.w $012E
     
     LDA.b #$05 : JSL Sound_SetSfx2PanLong
 
@@ -4762,7 +4762,7 @@ Ancilla_CheckSpriteDamage:
     .apply_damage
     .not_boomerang_or_hookshot
 
-    STA $0CF2 : TAY
+    STA.w $0CF2 : TAY
     
     LDA.b #$20
     
@@ -4788,20 +4788,20 @@ Ancilla_CheckSpriteDamage:
 ; $036D3F-$036EC0 LONG JUMP LOCATION
 {
     ; If bit 6 is set, sprite is invincible.
-    LDA $0E60, X : AND.b #$40 : BEQ .notImpervious
+    LDA.w $0E60, X : AND.b #$40 : BEQ .notImpervious
     
     RTL
     
     .notImpervious
     
-    LDA $0372 : STA.l $7FFA4C, X
+    LDA.w $0372 : STA.l $7FFA4C, X
     
     PHX
     
     ; Load Link's sword type.
     LDA.l $7EF359 : DEC A
     
-    LDX $0372 : BNE .notStabbingDamageType
+    LDX.w $0372 : BNE .notStabbingDamageType
     
     BRA .checkSwordCharging
     
@@ -4824,17 +4824,17 @@ Ancilla_CheckSpriteDamage:
     TAX
     
     ; Set the damage class.
-    LDA.l $06ED33, X : STA $0CF2
+    LDA.l $06ED33, X : STA.w $0CF2
     
     ; not sure which item types this indicates
-    LDA $0301 : AND.b #$0A : BEQ .not_poised_with_hammer
+    LDA.w $0301 : AND.b #$0A : BEQ .not_poised_with_hammer
     
-    LDA.b #$03 : STA $0CF2
+    LDA.b #$03 : STA.w $0CF2
     
     .not_poised_with_hammer
     
     ; Set a timer
-    LDA.b #$04 : STA $02E3
+    LDA.b #$04 : STA.w $02E3
     
     PLX
     
@@ -4846,13 +4846,13 @@ Ancilla_CheckSpriteDamage:
     
     STA $00
     
-    STZ $0CF3 ; THIS IS NOT USELESS!!! removing this line makes it impossible to hit anything with your sword.
+    STZ.w $0CF3 ; THIS IS NOT USELESS!!! removing this line makes it impossible to hit anything with your sword.
     
-    LDA $0E60, X : AND.b #$40 : BNE .impervious
+    LDA.w $0E60, X : AND.b #$40 : BNE .impervious
     
     LDA.b #$00 : XBA
     
-    LDA $0E20, X : CMP.b #$D8 : BCC .notItemSprite
+    LDA.w $0E20, X : CMP.b #$D8 : BCC .notItemSprite
     
     .impervious
     
@@ -4860,7 +4860,7 @@ Ancilla_CheckSpriteDamage:
     
     .notItemSprite
     
-    REP #$20 : ASL #4 : ORA $0CF2 : PHX : REP #$10 : TAX
+    REP #$20 : ASL #4 : ORA.w $0CF2 : PHX : REP #$10 : TAX
     
     SEP #$20
     
@@ -4869,7 +4869,7 @@ Ancilla_CheckSpriteDamage:
     SEP #$10
     
     ; (Damage class << 3) | monster
-    LDA $0CF2 : ASL #3 : ORA $02 : TAX              ;
+    LDA.w $0CF2 : ASL #3 : ORA $02 : TAX              ;
     
     ; Get the damage value for that monster for that damage class... bah...
     LDA.l $0DB8F1, X                                  ; loads Selected Damage Table in Advanced Damage Editor located in sprite_properties.asm
@@ -4885,16 +4885,16 @@ Ancilla_CheckSpriteDamage:
     
     ; $036DCB ALTERNATE ENTRY POINT
     
-    STA $0E20, X
+    STA.w $0E20, X
     
     JSL Sprite_LoadProperties ; $0DB818
     JSL Sprite_SpawnPoofGarnish
     
-    STZ $012F
+    STZ.w $012F
     
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
     
-    JMP $EEC1   ; $036EC1 IN ROM
+    JMP.w $EEC1   ; $036EC1 IN ROM
     
     .dontMakeIntoFairy
     
@@ -4905,40 +4905,40 @@ Ancilla_CheckSpriteDamage:
     
     JSL.l $06EDCB ; $036DCB IN ROM
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$08 : STA $0F50, X
+    LDA.b #$08 : STA.w $0F50, X
     
-    STZ $0EA0, X
-    STZ $0EF0, X
-    STZ $0E50, X
+    STZ.w $0EA0, X
+    STZ.w $0EF0, X
+    STZ.w $0E50, X
     
-    LDA.b #$01 : STA $0CD2, X : STA $0BE0, X
+    LDA.b #$01 : STA.w $0CD2, X : STA.w $0BE0, X
     
     RTL
     
     .dontMakeIntoBlob
     
-    CMP $0CE2, X : BCC .ifNewDamageLessIgnore 
+    CMP.w $0CE2, X : BCC .ifNewDamageLessIgnore 
     
     ; if(calc_dmg < base_dmg) dmg = base_dmg
-    STA $0CE2, X                             ; ---------------------------------------------------adds damage
+    STA.w $0CE2, X                             ; ---------------------------------------------------adds damage
     
     .ifNewDamageLessIgnore
     
     CMP.b #$00 : BNE .notZeroDamageType
     
-    LDA $0CF2 : CMP.b #$0A : BEQ .BRANCH_THETA
+    LDA.w $0CF2 : CMP.b #$0A : BEQ .BRANCH_THETA
     
-    LDA $0B6B, X : AND.b #$04 : BNE .BRANCH_IOTA
+    LDA.w $0B6B, X : AND.b #$04 : BNE .BRANCH_IOTA
     
-    STZ $02E3
+    STZ.w $02E3
     
     .BRANCH_THETA
     
-    JMP $EEC1 ; $036EC1 IN ROM; dont deal damage/dont kill sprite?
+    JMP.w $EEC1 ; $036EC1 IN ROM; dont deal damage/dont kill sprite?
     
     .notZeroDamageType
     
@@ -4946,20 +4946,20 @@ Ancilla_CheckSpriteDamage:
     CMP.b #$FE : BCC .BRANCH_KAPPA
     
     ; Is sprite frozen? if so, do nothing
-    LDA $0DD0, X : CMP.b #$0B : BEQ .BRANCH_THETA
+    LDA.w $0DD0, X : CMP.b #$0B : BEQ .BRANCH_THETA
     
     .BRANCH_KAPPA
     
     ; Is it a water bubble (in swamp palace)
-    LDA $0E20, X : CMP.b #$9A : BNE .not_water_bubble
+    LDA.w $0E20, X : CMP.b #$9A : BNE .not_water_bubble
     
-    LDY $0CE2, X : CPY.b #$F0 : BCS .BRANCH_LAMBDA
+    LDY.w $0CE2, X : CPY.b #$F0 : BCS .BRANCH_LAMBDA
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
@@ -4983,36 +4983,36 @@ Ancilla_CheckSpriteDamage:
     
     PHA
     
-    LDA $00 : STA $0EF0, X
+    LDA $00 : STA.w $0EF0, X
     
     PLA : CMP.b #$92 : BNE .not_helmasaur_king
     
-    LDA $0DB0, X : CMP.b #$03 : BCC .no_sound_effect
+    LDA.w $0DB0, X : CMP.b #$03 : BCC .no_sound_effect
     
     LDY.b #$21
     
-    LDA $0B6B, X : AND.b #$02 : BNE .boss_damage_sound
+    LDA.w $0B6B, X : AND.b #$02 : BNE .boss_damage_sound
     
     .not_helmasaur_king
     
     LDY.b #$08
     
-    LDA $0BE0, X : AND.b #$10 : BEQ .minor_damage_sound
+    LDA.w $0BE0, X : AND.b #$10 : BEQ .minor_damage_sound
     
     LDY.b #$1C
     
     .minor_damage_sound
     .boss_damage_sound
     
-    STY $01 : JSL Sound_SetSfxPan : ORA $01 : STA $012F
+    STY $01 : JSL Sound_SetSfxPan : ORA $01 : STA.w $012F
     
     .no_sound_effect
     
     LDA.b #$00
     
-    LDY $0CF2 : CPY.b #$0D : BCS .medallion_damage_class
+    LDY.w $0CF2 : CPY.b #$0D : BCS .medallion_damage_class
     
-    LDY $0E20, X : LDA.b #$14 : CPY.b #$09 : BEQ .giant_moldorm
+    LDY.w $0E20, X : LDA.b #$14 : CPY.b #$09 : BEQ .giant_moldorm
                    LDA.b #$0F : CPY.b #$53 : BEQ .armos_knight
                                 CPY.b #$18 : BNE .not_moldorm
     
@@ -5024,15 +5024,15 @@ Ancilla_CheckSpriteDamage:
     .not_moldorm
     .medallion_damage_class
     
-    STA $0EA0, X
+    STA.w $0EA0, X
     
     RTL
 }
 
 ; $036EC1-$036EC7 LONG JUMP LOCATION
 {
-    STZ $0EF0, X
-    STZ $0CE2, X
+    STZ.w $0EF0, X
+    STZ.w $0CE2, X
     
     RTL
 }
@@ -5040,24 +5040,24 @@ Ancilla_CheckSpriteDamage:
 ; $036EC8-$036F60 LOCAL JUMP LOCATION
 {
     ; Is the sprite alive?
-    LDA $0DD0, X : CMP.b #$09 : BCC .not_fully_active_sprite
+    LDA.w $0DD0, X : CMP.b #$09 : BCC .not_fully_active_sprite
     
     ; Store this value in a temporary location.
-    STA $0FB5
+    STA.w $0FB5
     
-    LDA $0CE2, X : CMP.b #$FD : BNE .not_burn_damage
+    LDA.w $0CE2, X : CMP.b #$FD : BNE .not_burn_damage
     
-    STZ $0CE2, X
+    STZ.w $0CE2, X
     
     LDA.b #$09 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$07 : STA $0DD0, X
+    LDA.b #$07 : STA.w $0DD0, X
     
-    LDA.b #$70 : STA $0DF0, X
+    LDA.b #$70 : STA.w $0DF0, X
     
-    LDA $0E40, X : INC #2 : STA $0E40, X
+    LDA.w $0E40, X : INC #2 : STA.w $0E40, X
     
-    STZ $0CE2, X
+    STZ.w $0CE2, X
     
     .not_fully_active_sprite
     .BRANCH_ALPHA
@@ -5068,11 +5068,11 @@ Ancilla_CheckSpriteDamage:
     
     CMP.b #$FB : BCC .BRANCH_36F61 ; damage routine
     
-    STZ $0CE2, X
+    STZ.w $0CE2, X
     
     STA $00
     
-    LDY $0DD0, X : CPY.b #$0B : BEQ .BRANCH_ALPHA
+    LDY.w $0DD0, X : CPY.b #$0B : BEQ .BRANCH_ALPHA
     
     LDY.b #$00
     
@@ -5084,38 +5084,38 @@ Ancilla_CheckSpriteDamage:
     
     TYA : STA.l $7FFA3C, X : BEQ .BRANCH_DELTA
     
-    LDA $0CAA, X : ORA.b #$08 : STA $0CAA, X
+    LDA.w $0CAA, X : ORA.b #$08 : STA.w $0CAA, X
     
-    ASL $0BE0, X : LSR $0BE0, X
+    ASL.w $0BE0, X : LSR.w $0BE0, X
     
     LDA.b #$0F : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$18 : STA $0F80, X
+    LDA.b #$18 : STA.w $0F80, X
     
-    ASL $0CD2, X : LSR $0CD2, X
+    ASL.w $0CD2, X : LSR.w $0CD2, X
     
     JSR Sprite_Zero_XY_Velocity
     
     .BRANCH_DELTA
     
-    LDA.b #$0B : STA $0DD0, X
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$0B : STA.w $0DD0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     LDA $00 : CLC : ADC.b #$05 : TAY
     
     ; \bug(unconfirmed) This seems destined for failure, unless I'm missing
     ; something.
-    LDA .stun_timer_amounts, Y : STA $0B58, X
+    LDA .stun_timer_amounts, Y : STA.w $0B58, X
     
-    LDA $0E20, X : CMP.b #$23 : BNE .BRANCH_EPSILON
+    LDA.w $0E20, X : CMP.b #$23 : BNE .BRANCH_EPSILON
     
     ; \task Figure out what the hell this means? Stunning a blue onoff makes
     ; them turn into a red one? What?
-    INC A : STA $0E20, X
+    INC A : STA.w $0E20, X
     
     .BRANCH_EPSILON
     
-    JMP $EFE7 ; $036FE7 IN ROM (RTS)
+    JMP.w $EFE7 ; $036FE7 IN ROM (RTS)
     
     .stun_timer_amounts
     db 32, 128,  0,  0, 255
@@ -5125,22 +5125,22 @@ Ancilla_CheckSpriteDamage:
 
 ; $036F61-$0370AB BRANCH LOCATION
 {
-    LDA $0E50, X : STA $00
+    LDA.w $0E50, X : STA $00
     
     ; Subtract off an amount from the enemies HP.
-    SEC : SBC $0CE2, X : STA $0E50, X
+    SEC : SBC.w $0CE2, X : STA.w $0E50, X
     
-    STZ $0CE2, X
+    STZ.w $0CE2, X
     
     BEQ .BRANCH_ALPHA  BCS .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    LDA $0CBA, X : BNE .BRANCH_GAMMA
+    LDA.w $0CBA, X : BNE .BRANCH_GAMMA
     
-    LDA $0DD0, X : CMP.b #$0B : BNE .BRANCH_DELTA
+    LDA.w $0DD0, X : CMP.b #$0B : BNE .BRANCH_DELTA
     
-    LDA.b #$03 : STA $0CBA, X
+    LDA.b #$03 : STA.w $0CBA, X
     
     .BRANCH_DELTA
     
@@ -5148,11 +5148,11 @@ Ancilla_CheckSpriteDamage:
     
     LDA.b #$00 : STA.l $7FFA4C, X
     
-    STZ $0BE0, X
+    STZ.w $0BE0, X
     
     .BRANCH_GAMMA
     
-    LDY $0E20, X : CPY.b #$1B : BEQ .BRANCH_EPSILON
+    LDY.w $0E20, X : CPY.b #$1B : BEQ .BRANCH_EPSILON
     
     LDA.b #$09 : JSL Sound_SetSfx3PanLong
     
@@ -5172,32 +5172,32 @@ Ancilla_CheckSpriteDamage:
     
     TYA : CMP.b #$EC : BNE .BRANCH_THETA
     
-    LDY $0DB0, X : CPY.b #$02 : BNE .BRANCH_BETA
+    LDY.w $0DB0, X : CPY.b #$02 : BNE .BRANCH_BETA
     
-    JMP $E239 ; $036239 IN ROM
+    JMP.w $E239 ; $036239 IN ROM
     
     .BRANCH_THETA
     
     PHA
     
-    LDA $0DD0, X : CMP.b #$0A : BNE .BRANCH_IOTA
+    LDA.w $0DD0, X : CMP.b #$0A : BNE .BRANCH_IOTA
     
-    STZ $0308
-    STZ $0309
+    STZ.w $0308
+    STZ.w $0309
     
     .BRANCH_IOTA
     
-    LDA.b #$06 : STA $0DD0, X
+    LDA.b #$06 : STA.w $0DD0, X
     
     PLA : CMP.b #$0C : BNE .BRANCH_KAPPA
     
     ; $036FDA ALTERNATE ENTRY POINT
     shared Sprite_ScheduleForDeath:
     
-    LDA.b #$06 : STA $0DD0, X
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$06 : STA.w $0DD0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
-    JSR $E095 ; $036095 IN ROM
+    JSR.w $E095 ; $036095 IN ROM
     
     .BRANCH_BETA
     
@@ -5209,9 +5209,9 @@ Ancilla_CheckSpriteDamage:
     
     JSL Sprite_SchedulePeersForDeath
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    JMP $F087 ; $037087 IN ROM
+    JMP.w $F087 ; $037087 IN ROM
     
     .BRANCH_LAMBDA
     
@@ -5245,17 +5245,17 @@ Ancilla_CheckSpriteDamage:
     ; $037025 ALTERNATE ENTRY POINT
     shared Octoballoon_ScheduleForDeath:
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
     RTS
     
     .BRANCH_UPSILON
     
-    LDA $0B6B, X : AND.b #$02 : BNE .BRANCH_PHI
+    LDA.w $0B6B, X : AND.b #$02 : BNE .BRANCH_PHI
     
-    LDA $0EF0, X : ASL A
+    LDA.w $0EF0, X : ASL A
     
     LDA.b #$0F : BCC .BRANCH_CHI
     
@@ -5263,46 +5263,46 @@ Ancilla_CheckSpriteDamage:
     
     .BRANCH_CHI
     
-    STA $0DF0, X
+    STA.w $0DF0, X
     
-    JMP $F10B ; $03710B IN ROM
+    JMP.w $F10B ; $03710B IN ROM
     
     RTS
     
     .BRANCH_RHO
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
-    LDA.b #$A0 : STA $0F10, X
+    LDA.b #$A0 : STA.w $0F10, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
     BRA .BRANCH_PSI
     
     .BRANCH_PHI
     
     ; Check if it's Kholdstare
-    LDA $0E20, X : CMP.b #$A2 : BEQ .BRANCH_OMEGA
+    LDA.w $0E20, X : CMP.b #$A2 : BEQ .BRANCH_OMEGA
     
     JSL Sprite_SchedulePeersForDeath
     
     .BRANCH_OMEGA
     
-    LDA.b #$04 : STA $0DD0, X
+    LDA.b #$04 : STA.w $0DD0, X
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     LDA.b #$FF
     
     .BRANCH_ALTIMA
     
-    STA $0DF0, X : STA $0EF0, X
+    STA.w $0DF0, X : STA.w $0EF0, X
     
     BRA .BRANCH_PSI
     
     .BRANCH_PI
     
-    LDA.b #$05 : STA $0D80, X
+    LDA.b #$05 : STA.w $0D80, X
     
     LDA.b #$C0
     
@@ -5310,20 +5310,20 @@ Ancilla_CheckSpriteDamage:
     
     .BRANCH_OMICRON
     
-    LDA.b #$23 : STA $0DF0, X
+    LDA.b #$23 : STA.w $0DF0, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     BRA .BRANCH_ULTIMA
     
     ; $037087 ALTERNATE ENTRY POINT
     .BRANCH_PSI
     
-    INC $0FFC
+    INC.w $0FFC
     
     .BRANCH_ULTIMA
     
-    STZ $012F
+    STZ.w $012F
     
     LDA.b #$22 : JSL Sound_SetSfx3PanLong
     
@@ -5332,19 +5332,19 @@ Ancilla_CheckSpriteDamage:
     .red_bari
     
     ; If nonzero, can't split again because it's a small red bari.
-    LDA $0DB0, X : BNE .BRANCH_UPSILON
+    LDA.w $0DB0, X : BNE .BRANCH_UPSILON
     
     ; Initiate splitting process.
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     ; Splitting timer.
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     ; Make sure Bari stays alive, otherwise it will not be able to
     ; complete the split.
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     RTS
 }
@@ -5354,11 +5354,11 @@ Ancilla_CheckSpriteDamage:
 ; $0370AC-$037120 JUMP LOCATION
 Trinexx_ScheduleSideHeadForDeath:
 {
-    LDA.b #$80 : STA $0D80, X
+    LDA.b #$80 : STA.w $0D80, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
     ; consider merging this routine with the previous one, or splitting
     ; the one above into smaller parts.
@@ -5367,11 +5367,11 @@ Trinexx_ScheduleSideHeadForDeath:
     ; $0370BD ALTERNATE ENTRY POINT
     shared Trinexx_ScheduleMainHeadForDeath:
     
-    LDA.b #$80 : STA $0D80, X
+    LDA.b #$80 : STA.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
     BRA .BRANCH_$37087
     
@@ -5380,40 +5380,40 @@ Trinexx_ScheduleSideHeadForDeath:
     
     JSL Sprite_SchedulePeersForDeath
     
-    LDA.b #$09 : STA $0DD0, X
-                 STA $0BA0, X
+    LDA.b #$09 : STA.w $0DD0, X
+                 STA.w $0BA0, X
     
-    LDA $0FFF : BNE .in_dark_world
+    LDA.w $0FFF : BNE .in_dark_world
     
-    LDA.b #$0A : STA $0D80, X
+    LDA.b #$0A : STA.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    JMP $F087 ; $037087 IN ROM
+    JMP.w $F087 ; $037087 IN ROM
     
     .in_dark_world
     
-    LDA.b #255 : STA $0DF0, X
+    LDA.b #255 : STA.w $0DF0, X
     
-    LDA.b #$08 : STA $0D80, X
+    LDA.b #$08 : STA.w $0D80, X
     
-    INC A : STA $0D81
-            STA $0D82
+    INC A : STA.w $0D81
+            STA.w $0D82
     
-    STZ $0DC1
-    STZ $0DC2
+    STZ.w $0DC1
+    STZ.w $0DC2
     
-    JMP $F087 ; $036087 IN ROM
+    JMP.w $F087 ; $036087 IN ROM
     
     ; $03710B ALTERNATE ENTRY POINT
     
-    LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
+    LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
     
-    LDA $0FB5 : CMP.b #$0B : BNE .BRANCH_BETA
+    LDA.w $0FB5 : CMP.b #$0B : BNE .BRANCH_BETA
     
-    LDA.b #$01 : STA $0BE0, X
+    LDA.b #$01 : STA.w $0BE0, X
     
     .BRANCH_BETA
     
@@ -5482,7 +5482,7 @@ Sprite_CheckDamageToPlayer:
     ; Return value SEC = damaged
     
     ; Is Link untouchable?
-    LDA $037B : BNE .no_damage
+    LDA.w $037B : BNE .no_damage
     
     ; $03714A ALTERNATE ENTRY POINT
     .stagger
@@ -5492,20 +5492,20 @@ Sprite_CheckDamageToPlayer:
     
     ; Since for a sentry it's usually 0
     ; It wasn't the right frame to hit on?
-    ORA $0EF0, X : BNE .no_damage
+    ORA.w $0EF0, X : BNE .no_damage
     
     ; $037154 ALTERNATE ENTRY POINT
     .same_layer
     
     ; Is the sprite on the same floor as Link?
     ; Nope, he doesn't get hit.
-    LDA $00EE : CMP $0F20, X : BNE .BRANCH_BETA
+    LDA.w $00EE : CMP.w $0F20, X : BNE .BRANCH_BETA
     
     ; $03715C ALTERNATE ENTRY POINT
     .ignore_layer
     
     ; Is the sprite deactivated?
-    LDA $0F60, X : BEQ .BRANCH_GAMMA
+    LDA.w $0F60, X : BEQ .BRANCH_GAMMA
     
     JSR Player_SetupHitBox_ignoreImmunity ; $F70A ; $03770A IN ROM; Puts Link's X / Y coords into memory
     JSR Sprite_SetupHitBox
@@ -5515,26 +5515,26 @@ Sprite_CheckDamageToPlayer:
     
     .BRANCH_GAMMA
     
-    JSR $F1F6 ; $0371F6 IN ROM
+    JSR.w $F1F6 ; $0371F6 IN ROM
     
     .BRANCH_DELTA
     
     ; If the 0x80 bit is set, it's a harmless sprite
-    LDA $0E40, X : BMI .BRANCH_EPSILON
+    LDA.w $0E40, X : BMI .BRANCH_EPSILON
                    BCC .BRANCH_BETA
     
     LDA $4D : BNE .BRANCH_BETA
     
-    LDA $02E0 : BNE .BRANCH_ZETA
+    LDA.w $02E0 : BNE .BRANCH_ZETA
     
-    LDA $0308 : BMI .BRANCH_ZETA
+    LDA.w $0308 : BMI .BRANCH_ZETA
     
-    LDA $0BE0, X : AND.b #$20 : BEQ .cant_be_blocked_by_shield
+    LDA.w $0BE0, X : AND.b #$20 : BEQ .cant_be_blocked_by_shield
     
     ; LINK'S SHIELD LEVEL
     LDA.l $7EF35A : BEQ .BRANCH_ZETA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDA $2F
     
@@ -5548,16 +5548,16 @@ Sprite_CheckDamageToPlayer:
     
     .BRANCH_THETA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    CMP $F141, Y : BNE .BRANCH_ZETA
+    CMP.w $F141, Y : BNE .BRANCH_ZETA
     
     LDA.b #$06 : JSL Sound_SetSfx2PanLong
     
     JSL Sprite_PlaceRupulseSpark.coerce
     
     ; Check if it's one of those laser eyes
-    LDA $0E20, X : CMP.b #$95 : BNE .not_laser_eye
+    LDA.w $0E20, X : CMP.b #$95 : BNE .not_laser_eye
     
     LDA.b #$26 : JSL Sound_SetSfx3PanLong
     
@@ -5575,11 +5575,11 @@ Sprite_CheckDamageToPlayer:
     
     JSR Sprite_Invert_XY_Speeds
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
     .BRANCH_BETA
     
@@ -5597,9 +5597,9 @@ Sprite_CheckDamageToPlayer:
     .cant_be_blocked_by_shield
     .BRANCH_ZETA
     
-    JSR $F3DB ; $0373DB IN ROM
+    JSR.w $F3DB ; $0373DB IN ROM
     
-    LDA $0E20, X : CMP.b #$0C : BNE .not_octorock_stone
+    LDA.w $0E20, X : CMP.b #$0C : BNE .not_octorock_stone
     
     .octorock_stone
     
@@ -5624,15 +5624,15 @@ Sprite_CheckDamageToPlayer:
 ; $0371F6-$037227 LOCAL JUMP LOCATION
 {
     ; Load the sprite's Z component
-    LDA $0F70, X : STA $0C
+    LDA.w $0F70, X : STA $0C
                    STZ $0D
     
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$000B
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$000B
                             CMP.w #$0017 : BCS .no_collision
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC $0C : CLC : ADC.w #$0010
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC $0C : CLC : ADC.w #$0010
                             CMP.w #$0018 : BCS .no_collision
     
     SEP #$20
@@ -5655,39 +5655,39 @@ Sprite_CheckDamageToPlayer:
 ; $037228-$0372A9 LOCAL JUMP LOCATION
 Sprite_CheckIfLifted:
 {
-    LDA $11 : ORA $3C : ORA $0FC1 : BNE .return
-    LDA $EE : CMP $0F20, X : BNE .return
+    LDA $11 : ORA $3C : ORA.w $0FC1 : BNE .return
+    LDA $EE : CMP.w $0F20, X : BNE .return
         LDY.b #$0F
     
     .next_sprite
     
         ; See if any enemies are in Link's hands
         ; yes, an enemy is being held
-        LDA $0DD0, X : CMP.b #$0A : BEQ .return 
+        LDA.w $0DD0, X : CMP.b #$0A : BEQ .return 
     DEY : BPL .next_sprite
         
     ; Ths bombs we speak of are enemy bombs, not Link's bombs.
-    LDA $0E20, X : CMP.b #$0B : BEQ .is_chicken_or_bomb
+    LDA.w $0E20, X : CMP.b #$0B : BEQ .is_chicken_or_bomb
                    CMP.b #$4A : BEQ .is_chicken_or_bomb
         ; Return if the sprite's velocity is nonzero
-        LDA $0D50, X : ORA $0D40, X : BNE .return
+        LDA.w $0D50, X : ORA.w $0D40, X : BNE .return
     
     .is_chicken_or_bomb
     
     ; $037257 ALTERNATE ENTRY POINT
     shared Sprite_CheckIfLiftedPermissive:
     
-    LDA $0372 : BNE .return
+    LDA.w $0372 : BNE .return
         ; check if the current sprite is the same one Link is touching.
-        LDA $02F4 : DEC A : CMP $0FA0 : BEQ .player_picks_up_sprite
+        LDA.w $02F4 : DEC A : CMP.w $0FA0 : BEQ .player_picks_up_sprite
             ; Set up player's hit box.
             ; $037705 IN ROM
             JSR Player_SetupHitBox ; $F705
             JSR Sprite_SetupHitBox
                 
             JSR Utility_CheckIfHitBoxesOverlap : BCC .return
-                TXA : INC A : STA $0314
-                              STA $0FB2
+                TXA : INC A : STA.w $0314
+                              STA.w $0FB2
                     
                 RTS
     
@@ -5695,15 +5695,15 @@ Sprite_CheckIfLifted:
     
         STZ $F6
         
-        STZ $0E90, X
+        STZ.w $0E90, X
         
         ; Play pick up object sound.
         LDA.b #$1D : JSL Sound_SetSfx2PanLong
         
-        LDA $0DD0, X : STA.l $7FFA2C, X
+        LDA.w $0DD0, X : STA.l $7FFA2C, X
         
-        LDA.b #$0A : STA $0DD0, X
-        LDA.b #$10 : STA $0DF0, X
+        LDA.b #$0A : STA.w $0DD0, X
+        LDA.b #$10 : STA.w $0DF0, X
         
         LDA.b #$00 : STA.l $7FFA1C, X : STA.l $7FF9C2, X
         
@@ -5741,9 +5741,9 @@ Sprite_CheckDamageFromPlayerLong:
 ; $0372B4-$0373C9 LOCAL JUMP LOCATION
 Sprite_CheckDamageFromPlayer:
 {
-    LDA $0EF0, X : AND.b #$80 : BNE .just_began_death_sequence
+    LDA.w $0EF0, X : AND.b #$80 : BNE .just_began_death_sequence
     
-    LDA $EE : CMP $0F20, X
+    LDA $EE : CMP.w $0F20, X
     
     ; (no there is nothing missing here)
     .just_began_death_sequence
@@ -5757,29 +5757,29 @@ Sprite_CheckDamageFromPlayer:
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .no_collision
     
-    STZ $0047
+    STZ.w $0047
     
-    LDA $037A : AND.b #$10 : BNE Sprite_CheckIfLifted.return
+    LDA.w $037A : AND.b #$10 : BNE Sprite_CheckIfLifted.return
     
     ; Is Link using the hammer or an item that's not in the game?
-    LDA $0301 : AND.b #$0A : BEQ .not_frozen_kill
+    LDA.w $0301 : AND.b #$0A : BEQ .not_frozen_kill
     
     ; Can't kill Ganon with a hammer ;)
-    LDA $0E20, X : CMP.b #$D6 : BCS .no_collision
+    LDA.w $0E20, X : CMP.b #$D6 : BCS .no_collision
     
     ; Is the enemy frozen?
-    LDA $0DD0, X : CMP #$0B : BNE .not_frozen_kill
+    LDA.w $0DD0, X : CMP #$0B : BNE .not_frozen_kill
     
     LDA.l $7FFA3C, X : BEQ .not_frozen_kill
     
     ; I guess this puts it into poofing mode (when a frozen enemy gets hit
     ; by the hammer... or apparently an arrow??, it puts them into a special
     ; mode where they're more likely to yield magic decanters.)
-    LDA.b #$02 : STA $0DD0, X
+    LDA.b #$02 : STA.w $0DD0, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    LDA $0E40, X : AND.b #$E0 : ORA.b #$03 : STA $0E40, X
+    LDA.w $0E40, X : AND.b #$E0 : ORA.b #$03 : STA.w $0E40, X
     
     LDA.b #$1F
     
@@ -5792,7 +5792,7 @@ Sprite_CheckDamageFromPlayer:
     .not_frozen_kill
     
     ; Is it an Agahnim energy blast? (not a dud)
-    LDA $0E20, X : CMP.b #$7B : BNE .not_agahnim_energy_ball
+    LDA.w $0E20, X : CMP.b #$7B : BNE .not_agahnim_energy_ball
     
     LDA $3C : CMP.b #$09 : BMI .spin_attack_charging
     
@@ -5802,53 +5802,53 @@ Sprite_CheckDamageFromPlayer:
     
     .spin_attack_charging
     
-    JMP $F3A2 ; $0373A2 IN ROM
+    JMP.w $F3A2 ; $0373A2 IN ROM
     
     .is_baby_helmasaur
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $2F : CMP $F141, Y : BNE .direction_mismatch
+    LDA $2F : CMP.w $F141, Y : BNE .direction_mismatch
     
     .is_flying_stalfos_head
     
-    JSR $F33D ; $03733D IN ROM
+    JSR.w $F33D ; $03733D IN ROM
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     JSR Player_PlaceRepulseSpark
-    JMP $F3C7 ; $0373C7 IN ROM
+    JMP.w $F3C7 ; $0373C7 IN ROM
     
     ; $03733D ALTERNATE ENTRY POINT
     .direction_mismatch
     .is_hardhat_bettle
     
-    JSR $EC02 ; $036C02 IN ROM
+    JSR.w $EC02 ; $036C02 IN ROM
     
     LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
     
     LDA.b #$10 : STA $47 : STA $46
     
-    JMP $F3C7 ; $0373C7 IN ROM
+    JMP.w $F3C7 ; $0373C7 IN ROM
     
     .not_agahnim_energy_ball
     
     CMP.b #$09 : BNE .not_giant_moldorm
     
-    LDA $0D90, X : BNE .sorry_youre_not_special
+    LDA.w $0D90, X : BNE .sorry_youre_not_special
     
-    JSR $F445 ; $037445 IN ROM
+    JSR.w $F445 ; $037445 IN ROM
     
     ; I don't think this would play a sound at all, actually...
-    LDA.b #$32 : JSL Sound_SetSfxPan : STA $012F
+    LDA.b #$32 : JSL Sound_SetSfxPan : STA.w $012F
     
-    JMP $F3C2 ; $0373C2 IN ROM
+    JMP.w $F3C2 ; $0373C2 IN ROM
     
     .not_giant_moldorm
     
     CMP.b #$92 : BNE .not_helmasaur_king
     
-    JMP $F460 ; $037460 IN ROM
+    JMP.w $F460 ; $037460 IN ROM
     
     .not_helmasaur_king
     
@@ -5874,9 +5874,9 @@ Sprite_CheckDamageFromPlayer:
     ; $0373A2 ALTERNATE ENTRY POINT
     .sorry_youre_not_special
     
-    LDA $0CAA, X : AND.b #$04 : BNE .okay_maybe_you_are
+    LDA.w $0CAA, X : AND.b #$04 : BNE .okay_maybe_you_are
     
-    JSR $EC02 ; $036C02 IN ROM
+    JSR.w $EC02 ; $036C02 IN ROM
     
     SEC
     
@@ -5920,7 +5920,7 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 {
     TXA : EOR $1A : LSR A : BCS .delay_player_damage
     
-    JSR $F645 ; $037645 IN ROM
+    JSR.w $F645 ; $037645 IN ROM
     JSR Player_SetupHitBox ; $F705 ; $037705 IN ROM
     
     JSR Utility_CheckIfHitBoxesOverlap : BCS .dont_damage_player
@@ -5928,7 +5928,7 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
     ; $0373DB ALTERNATE ENTRY POINT
     shared Sprite_AttemptDamageToPlayerPlusRecoil:
     
-    LDA $031F : ORA $037B : BNE .dont_damage_player
+    LDA.w $031F : ORA.w $037B : BNE .dont_damage_player
     
     LDA.b #$13 : STA $46
     
@@ -5937,18 +5937,18 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
     LDA.b #$01 : STA $4D
     
     ; determine damage for Link based on his armor value
-    LDA $0CD2, X : AND.b #$0F : STA $00 : ASL A : ADC $00 : CLC : ADC.l $7EF35B : TAY
+    LDA.w $0CD2, X : AND.b #$0F : STA $00 : ASL A : ADC $00 : CLC : ADC.l $7EF35B : TAY
     
-    LDA Bump_Damage_Table, Y : STA $0373
+    LDA Bump_Damage_Table, Y : STA.w $0373
     
-    LDA $0E20, X : CMP.b #$61 : BNE .not_beamos_laser
+    LDA.w $0E20, X : CMP.b #$61 : BNE .not_beamos_laser
     
-    LDA $0DB0, X : BEQ .not_beamos_laser
+    LDA.w $0DB0, X : BEQ .not_beamos_laser
     
     ; Double the recoil amount to the player for the beamos laser beam.
-    LDA $0D50, X : ASL A : STA $28
+    LDA.w $0D50, X : ASL A : STA $28
     
-    LDA $0D40, X : ASL A : STA $27
+    LDA.w $0D40, X : ASL A : STA $27
     
     .not_beamos_laser
     .dont_damage_player
@@ -6000,20 +6000,20 @@ Bump_Damage_Table:
     
     LDA.b #$21 : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$30 : STA $0E00, X
+    LDA.b #$30 : STA.w $0E00, X
     
-    JMP $F3C7 ; $0373C7 IN ROM
+    JMP.w $F3C7 ; $0373C7 IN ROM
 }
 
 ; $037460-$03746C LOCAL JUMP LOCATION
 {
-    LDA $0DB0, X : CMP #$03 : BCS .alpha
+    LDA.w $0DB0, X : CMP #$03 : BCS .alpha
     
-    JMP $F3B2 ; $0373B2 IN ROM
+    JMP.w $F3B2 ; $0373B2 IN ROM
     
     .alpha
     
-    JMP $F395 ; $037395 IN ROM
+    JMP.w $F395 ; $037395 IN ROM
 }
 
 ; $037571-$03757D DATA
@@ -6060,11 +6060,11 @@ Pool_Player_SetupActionHitBox:
     
     LDA $2F : LSR A : TAY
     
-    LDA $22 : CLC : ADC $F588, Y : STA $00
-    LDA $23 : ADC $F58C, Y : STA $08
+    LDA $22 : CLC : ADC.w $F588, Y : STA $00
+    LDA $23 : ADC.w $F58C, Y : STA $08
     
-    LDA $20 : CLC : ADC $F590, Y : STA $01
-    LDA $21 : ADC $F586, Y : STA $09
+    LDA $20 : CLC : ADC.w $F590, Y : STA $01
+    LDA $21 : ADC.w $F586, Y : STA $09
     
     LDA.b #$10 : STA $02 : STA $03
     
@@ -6076,15 +6076,15 @@ Pool_Player_SetupActionHitBox:
 ; $0375E0-$037644 LOCAL JUMP LOCATION
 Player_SetupActionHitBox:
 {
-    LDA $0372 : BNE .dash_hit_box
+    LDA.w $0372 : BNE .dash_hit_box
     
     PHX
     
     LDX.b #$00
     
-    LDA $0301 : AND.b #$0A : BNE .special_pose
+    LDA.w $0301 : AND.b #$0A : BNE .special_pose
     
-    LDA $037A : AND.b #$10 : BNE .special_pose
+    LDA.w $037A : AND.b #$10 : BNE .special_pose
     
     LDY $3C : BMI .spin_attack_hit_box
     
@@ -6097,7 +6097,7 @@ Player_SetupActionHitBox:
     
     LDY.b #$00
     
-    LDA $45 : CLC : ADC $F46D, X : BPL .positive
+    LDA $45 : CLC : ADC.w $F46D, X : BPL .positive
     
     DEY
     
@@ -6108,7 +6108,7 @@ Player_SetupActionHitBox:
     
     LDY.b #$00
     
-    LDA $44 : CLC : ADC $F4EF, X : BPL .positive_2
+    LDA $44 : CLC : ADC.w $F4EF, X : BPL .positive_2
     
     DEY
     
@@ -6141,30 +6141,30 @@ Player_SetupActionHitBox:
 {
     LDY.b #$00
     
-    LDA $0FAB : CMP.b #$80 : BEQ .BRANCH_ALPHA
+    LDA.w $0FAB : CMP.b #$80 : BEQ .BRANCH_ALPHA
     CMP.b #$00             : BPL .BRANCH_BETA
     
     DEY
     
     .BRANCH_BETA
     
-          CLC : ADC $0D10, X : STA $04
-    TYA : ADC $0D30, X : STA $0A
+          CLC : ADC.w $0D10, X : STA $04
+    TYA : ADC.w $0D30, X : STA $0A
     
     LDY.b #$00
     
-    LDA $0FAA : BPL .BRANCH_GAMMA
+    LDA.w $0FAA : BPL .BRANCH_GAMMA
     
     DEY
     
     .BRANCH_GAMMA
     
-          CLC : ADC $0D00, X : STA $05
-    TYA : ADC $0D20, X : STA $0B
+          CLC : ADC.w $0D00, X : STA $05
+    TYA : ADC.w $0D20, X : STA $0B
     
     LDA.b #$03
     
-    LDY $0E20, X : CPY.b #$6A : BNE .BRANCH_DELTA
+    LDY.w $0E20, X : CPY.b #$6A : BNE .BRANCH_DELTA
     
     LDA.b #$10
     
@@ -6206,19 +6206,19 @@ Sprite_ApplyRecoilToPlayer:
 ; $03769F-$0376C9 LOCAL JUMP LOCATION
 Player_PlaceRepulseSpark:
 {
-    LDA $0FAC : BNE .respulse_spark_already_active
+    LDA.w $0FAC : BNE .respulse_spark_already_active
     
-    LDA.b #$05 : STA $0FAC
+    LDA.b #$05 : STA.w $0FAC
     
-    LDA $0022 : ADC $0045 : STA $0FAD
-    LDA $0020 : ADC $0044 : STA $0FAE
+    LDA.w $0022 : ADC.w $0045 : STA.w $0FAD
+    LDA.w $0020 : ADC.w $0044 : STA.w $0FAE
     
-    LDA $EE : STA $0B68
+    LDA $EE : STA.w $0B68
     
     JSL Sound_SetSfxPanWithPlayerCoords
     
     ; Make "clink" against wall noise
-    ORA.b #$05 : STA $012E
+    ORA.b #$05 : STA.w $012E
     
     .respulse_spark_already_active
     
@@ -6230,7 +6230,7 @@ Player_PlaceRepulseSpark:
 ; $0376CA-$037704 LONG JUMP LOCATION
 Sprite_PlaceRupulseSpark:
 {
-    LDA $0FAC : BNE .dont_place
+    LDA.w $0FAC : BNE .dont_place
     
     LDA.b #$05 : JSL Sound_SetSfx2PanLong
     
@@ -6239,18 +6239,18 @@ Sprite_PlaceRupulseSpark:
     ; $0376D5 ALTERNATE ENTRY POINT
     .coerce
     
-    LDA $0D10, X : CMP $E2
-    LDA $0D30, X : SBC $E3 : BNE .off_screen
+    LDA.w $0D10, X : CMP $E2
+    LDA.w $0D30, X : SBC $E3 : BNE .off_screen
     
-    LDA $0D00, X : CMP $E8
-    LDA $0D20, X : SBC $E9 : BNE .off_screen
+    LDA.w $0D00, X : CMP $E8
+    LDA.w $0D20, X : SBC $E9 : BNE .off_screen
     
-    LDA $0D10, X : STA $0FAD
-    LDA $0D00, X : STA $0FAE
+    LDA.w $0D10, X : STA.w $0FAD
+    LDA.w $0D00, X : STA.w $0FAE
     
-    LDA.b #$05 : STA $0FAC
+    LDA.b #$05 : STA.w $0FAC
     
-    LDA $0F20, X : STA $0B68
+    LDA.w $0F20, X : STA.w $0B68
     
     .off_screen
     .dont_place
@@ -6263,7 +6263,7 @@ Sprite_PlaceRupulseSpark:
 ; $037705-$03772E LOCAL JUMP LOCATION
 Player_SetupHitBox:
 {
-    LDA $037B : BNE .no_player_interaction_with_sprites
+    LDA.w $037B : BNE .no_player_interaction_with_sprites
     
     ; $03770A ALTERNATE ENTRY POINT
     .ignoreImmunity
@@ -6343,20 +6343,20 @@ Player_SetupHitBox:
 Sprite_SetupHitBox:
 {
     ; Check the height value of the sprite.
-    LDA $0F70, X : BMI .out_of_view
+    LDA.w $0F70, X : BMI .out_of_view
     
     PHY
     
     ; Get the index for the sprite's hit detection box.
-    LDA $0F60, X : AND.b #$1F : TAY
+    LDA.w $0F60, X : AND.b #$1F : TAY
     
     ; Add an offset to the sprites X pos (lower byte)
     ; Store an offset X pos (high byte) to $0A.
-    LDA $0D10, X : CLC : ADC .x_offsets_low,  Y : STA $04
-    LDA $0D30, X : ADC .x_offsets_high, Y : STA $0A
+    LDA.w $0D10, X : CLC : ADC .x_offsets_low,  Y : STA $04
+    LDA.w $0D30, X : ADC .x_offsets_high, Y : STA $0A
     
-    LDA $0D00, X : CLC : ADC .y_offsets_low, Y : PHP : SEC : SBC $0F70, X  : STA $05
-    LDA $0D20, X : SBC.b #$00   : PLP : ADC .y_offsets_high, Y : STA $0B
+    LDA.w $0D00, X : CLC : ADC .y_offsets_low, Y : PHP : SEC : SBC.w $0F70, X  : STA $05
+    LDA.w $0D20, X : SBC.b #$00   : PLP : ADC .y_offsets_high, Y : STA $0B
     
     ; Box... widths? right? ; yes it is the width
     LDA .unknown_0, Y : STA $06
@@ -6451,7 +6451,7 @@ OAM_AllocateDeferToPlayer:
     ; for the sprite.
     
     ; Is the sprite on the same floor as the player?
-    LDA $0F20, X : CMP $EE : BNE .return
+    LDA.w $0F20, X : CMP $EE : BNE .return
     JSR Sprite_IsToRightOfPlayer
     
     ; Proceed only if the difference between the sprite's X coordinate
@@ -6462,7 +6462,7 @@ OAM_AllocateDeferToPlayer:
         ; Proceed if the difference in the Y coordinates satisfies:
         ; [ -32 <= dY < 40 ]
         LDA $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
-            LDA $0E40, X : AND.b #$1F : INC A : ASL #2
+            LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
             
             ; The sprite will request a different OAM range
             ; depending on player's relative position.
@@ -6486,7 +6486,7 @@ SpriteDeath_Main:
     ; Death routine for sprites
     ; (bushes and grass are exceptions)
     
-    LDA $0E20, X : CMP.b #$EC : BNE .notBushOrGrass
+    LDA.w $0E20, X : CMP.b #$EC : BNE .notBushOrGrass
     
     JSR ThrowableScenery_ScatterIntoDebris
     
@@ -6502,27 +6502,27 @@ SpriteDeath_Main:
     ; Red Bomb soldier?
     CMP.b #$4A : BNE .notBombSoldier
     
-    LDA $0DB0, X : CMP.b #$02 : BCS .draw_normally
+    LDA.w $0DB0, X : CMP.b #$02 : BCS .draw_normally
     
     .notBombSoldier
     
-    LDA $0DF0, X : BEQ .BRANCH_37923
+    LDA.w $0DF0, X : BEQ .BRANCH_37923
     
     ; $0378C9 ALTERNATE ENTRY POINT
     
-    LDA $0E60, X : BMI .draw_normally
+    LDA.w $0E60, X : BMI .draw_normally
     
-    LDA $1A : AND.b #$03 : ORA $11 : ORA $0FC1 : BNE .delay_finality
+    LDA $1A : AND.b #$03 : ORA $11 : ORA.w $0FC1 : BNE .delay_finality
     
-    INC $0DF0, X
+    INC.w $0DF0, X
     
     .delay_finality
     
     JSR SpriteDeath_DrawPerishingOverlay
     
-    LDA $0E20, X : CMP.b #$40 : BEQ .is_evil_barrier
+    LDA.w $0E20, X : CMP.b #$40 : BEQ .is_evil_barrier
     
-    LDA $0DF0, X : CMP.b #$0A : BCC .stop_drawing_sprite
+    LDA.w $0DF0, X : CMP.b #$0A : BCC .stop_drawing_sprite
     
     .is_evil_barrier
     
@@ -6534,13 +6534,13 @@ SpriteDeath_Main:
     
     SEP #$20
     
-    LDA $0E40, X : PHA
+    LDA.w $0E40, X : PHA
     
-    SEC : SBC.b #$04 : STA $0E40, X
+    SEC : SBC.b #$04 : STA.w $0E40, X
     
     JSR SpriteActive_Main
     
-    PLA : STA $0E40, X
+    PLA : STA.w $0E40, X
     
     .stop_drawing_sprite
     
@@ -6559,7 +6559,7 @@ SpriteDeath_Main:
 {
     PHB : PHK : PLB
     
-    JSR $F923 ; $037923 IN ROM
+    JSR.w $F923 ; $037923 IN ROM
     
     PLB
     
@@ -6581,33 +6581,33 @@ SpriteDeath_Main:
 ; $037923-$037A53 LOCAL JUMP LOCATION
 {
     ; Is it a Vitreous small eyeball?
-    LDA $0E20, X : CMP.b #$BE : BNE .not_small_vitreous_eyeball
+    LDA.w $0E20, X : CMP.b #$BE : BNE .not_small_vitreous_eyeball
     
     ; \hardcoded This is how Vitreous knows whether to come out of his
     ; slime pool.
-    DEC $0ED0
+    DEC.w $0ED0
     
     .not_small_vitreous_eyeball
     
     ; Is it a Pikit
     CMP #$AA : BNE .not_a_pikit
     
-    LDY $0E90, X : BEQ .BRANCH_BETA
+    LDY.w $0E90, X : BEQ .BRANCH_BETA
     
     LDA .pikit_drop_items-1, Y
     
-    LDY $0E30, X : PHY
+    LDY.w $0E30, X : PHY
     
-    JSR $F9D1 ; $0379D1 IN ROM
+    JSR.w $F9D1 ; $0379D1 IN ROM
     
-    PLA : STA $0E30, X : DEC A : BNE .BRANCH_GAMMA
+    PLA : STA.w $0E30, X : DEC A : BNE .BRANCH_GAMMA
     
-    LDA.b #$09 : STA $0F50, X
-    LDA.b #$F0 : STA $0E60, X
+    LDA.b #$09 : STA.w $0F50, X
+    LDA.b #$F0 : STA.w $0E60, X
     
     .BRANCH_GAMMA
     
-    INC $0EB0, X
+    INC.w $0EB0, X
     
     RTS
     
@@ -6615,24 +6615,24 @@ SpriteDeath_Main:
     .BRANCH_BETA
     
     ; Is it a crazy red spear soldier?
-    LDA $0E20, X : CMP.b #$45 : BNE .BRANCH_DELTA
+    LDA.w $0E20, X : CMP.b #$45 : BNE .BRANCH_DELTA
     
     ; If so, are we in the "first part" (on OW)
     LDA.l $7EF3C5 : CMP.b #$02 : BNE .BRANCH_DELTA
     
-    LDA $040A : CMP.b #$18 : BNE .BRANCH_DELTA
+    LDA.w $040A : CMP.b #$18 : BNE .BRANCH_DELTA
     
     ; Resets the music in the village when the crazy green guards are killed.
-    LDA.b #$07 : STA $012C
+    LDA.b #$07 : STA.w $012C
     
     .BRANCH_DELTA
     
     ; Does it have a drop item?
-    LDY $0CBA, X : BEQ .BRANCH_EPSILON
+    LDY.w $0CBA, X : BEQ .BRANCH_EPSILON
     
-    LDA $0BC0, X : STA $0E30, X
+    LDA.w $0BC0, X : STA.w $0E30, X
     
-    LDA.b #$FF : STA $0BC0, X
+    LDA.b #$FF : STA.w $0BC0, X
     
     ; Small key
     LDA.b #$E4
@@ -6652,19 +6652,19 @@ SpriteDeath_Main:
     .BRANCH_EPSILON
     
     ; Determine prize packs...
-    LDA $0BE0, X : AND.b #$0F : BEQ .BRANCH_THETA
+    LDA.w $0BE0, X : AND.b #$0F : BEQ .BRANCH_THETA
     
     DEC A : PHA
     
     ; Check luck status
     ; If no special luck, proceed as normal
-    LDY $0CF9 : BEQ .BRANCH_IOTA
+    LDY.w $0CF9 : BEQ .BRANCH_IOTA
     
     ; Increase lucky (or unlucky) drop counter
     ; Once we reach 10 drops of a type we reset luck.
-    INC $0CFA : LDA $0CFA : CMP.b #$0A : BCC .BRANCH_KAPPA
+    INC.w $0CFA : LDA.w $0CFA : CMP.b #$0A : BCC .BRANCH_KAPPA
     
-    STZ $0CF9 ; Reset luck. (per above)
+    STZ.w $0CF9 ; Reset luck. (per above)
     
     .BRANCH_KAPPA
     
@@ -6680,7 +6680,7 @@ SpriteDeath_Main:
     .BRANCH_IOTA ; how prize packs normally drop
     
     ; Reload the prize pack #
-    JSL GetRandomInt : PLY  : AND $FA5C, Y : BNE .BRANCH_MU
+    JSL GetRandomInt : PLY  : AND.w $FA5C, Y : BNE .BRANCH_MU
     
     ; $0379BC ALTERNATE ENTRY POINT
     
@@ -6688,9 +6688,9 @@ SpriteDeath_Main:
     
     .BRANCH_LAMBDA ; if this is branched to, the prize is guaranteed.
     
-    ASL #3 : ORA $0FC7, Y : PHA
+    ASL #3 : ORA.w $0FC7, Y : PHA
     
-    LDA $0FC7, Y : INC A : AND.b #$07 : STA $0FC7, Y
+    LDA.w $0FC7, Y : INC A : AND.b #$07 : STA.w $0FC7, Y
     
     PLY
     
@@ -6700,7 +6700,7 @@ SpriteDeath_Main:
     .BRANCH_ZETA
     
     ; Is the sprite we've dropped a big key?
-    STA $0E20, X : CMP.b #$E5 : BNE .BRANCH_NU
+    STA.w $0E20, X : CMP.b #$E5 : BNE .BRANCH_NU
     
     JSR SpritePrep_LoadBigKeyGfx
     
@@ -6715,37 +6715,37 @@ SpriteDeath_Main:
     
     .BRANCH_XI
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    LDA $0F70, X : PHA
+    LDA.w $0F70, X : PHA
     
     JSL Sprite_LoadProperties
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
     LDA.w $F98B, Y : PHA
     
-    AND.b #$F0 : STA $0F80, X
+    AND.b #$F0 : STA.w $0F80, X
     
-    PLA : AND.b #$0F : CLC : ADC $0D10, X : STA $0D10, X
-    LDA $0D30, X     : ADC.b #$00   : STA $0D30, X
+    PLA : AND.b #$0F : CLC : ADC.w $0D10, X : STA.w $0D10, X
+    LDA.w $0D30, X     : ADC.b #$00   : STA.w $0D30, X
     
-    PLA : STA $0F70, X
+    PLA : STA.w $0F70, X
     
-    LDA.b #$15 : STA $0F10, X
-    LDA.b #$FF : STA $0B58, X
+    LDA.b #$15 : STA.w $0F10, X
+    LDA.b #$FF : STA.w $0B58, X
     
     BRA .BRANCH_OMICRON
     
     .BRANCH_MU
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_OMICRON
     
-    LDA $0E20, X : CMP.b #$A2 : BNE .not_kholdstare
+    LDA.w $0E20, X : CMP.b #$A2 : BNE .not_kholdstare
     
     JSL Sprite_VerifyAllOnScreenDefeated : BCC .anospawn_crystal
     
@@ -6756,15 +6756,15 @@ SpriteDeath_Main:
     
     JSL Dungeon_ManuallySetSpriteDeathFlag
     
-    INC $0CFB
+    INC.w $0CFB
     
-    LDA $0E20, X : CMP.b #$40 : BNE .not_evil_barrier
+    LDA.w $0E20, X : CMP.b #$40 : BNE .not_evil_barrier
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    LDA.b #$04 : STA $0DC0, X
+    LDA.b #$04 : STA.w $0DC0, X
     
-    JMP $F8C9 ; $0378C9 IN ROM
+    JMP.w $F8C9 ; $0378C9 IN ROM
     
     .not_evil_barrier
     
@@ -6777,7 +6777,7 @@ SpriteDeath_Main:
 {
     PHB : PHK : PLB
     
-    JSR $F9BC  ;  $379BC IN ROM
+    JSR.w $F9BC  ;  $379BC IN ROM
     
     PLB
     
@@ -6813,21 +6813,21 @@ SpriteDeath_Main:
 ; $037B2A-$037B95 LOCAL JUMP LOCATION
 SpriteDeath_DrawPerishingOverlay:
 {
-    LDA $046C : CMP.b #$04 : BNE .dont_use_super_priority
+    LDA.w $046C : CMP.b #$04 : BNE .dont_use_super_priority
     
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     .dont_use_super_priority
     
     JSR Sprite_PrepOamCoord
     
-    LDA $0E60, X : AND.b #$20 : LSR #3 : STA $0C
+    LDA.w $0E60, X : AND.b #$20 : LSR #3 : STA $0C
     
     PHX
     
     LDA.b #$03 : STA $00
     
-    LDA $0DF0, X : AND.b #$1C : EOR.b #$1C : CLC : ADC $00 : TAX
+    LDA.w $0DF0, X : AND.b #$1C : EOR.b #$1C : CLC : ADC $00 : TAX
     
     .next_oam_entry
     
@@ -6836,9 +6836,9 @@ SpriteDeath_DrawPerishingOverlay:
     LDA.w $FAEA, X : BEQ .skip_entry
     
                                             INY #2 : STA ($90), Y
-    LDA $0FA9 : SEC : SBC $0C    : CLC : ADC $FACA, X : DEY    : STA ($90), Y
-    LDA $0FA8 : SEC : SBC $0C    : CLC : ADC $FAAA, X : DEY    : STA ($90), Y
-    LDA $05   : AND.b #$30 : ORA $FB0A, X : INY #3 : STA ($90), Y
+    LDA.w $0FA9 : SEC : SBC $0C    : CLC : ADC.w $FACA, X : DEY    : STA ($90), Y
+    LDA.w $0FA8 : SEC : SBC $0C    : CLC : ADC.w $FAAA, X : DEY    : STA ($90), Y
+    LDA $05   : AND.b #$30 : ORA.w $FB0A, X : INY #3 : STA ($90), Y
     
     .skip_entry
     
@@ -6863,9 +6863,9 @@ SpriteDeath_DrawPerishingOverlay:
 ; $037BEA-$037CB6 JUMP LOCATION
 SpriteCustomFall_Main:
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL Dungeon_ManuallySetSpriteDeathFlag
     
@@ -6875,15 +6875,15 @@ SpriteCustomFall_Main:
     
     CMP.b #$40 : BCC .BRANCH_BETA
     
-    LDA $0F50, X : CMP.b #$05 : BNE .BRANCH_GAMMA
+    LDA.w $0F50, X : CMP.b #$05 : BNE .BRANCH_GAMMA
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
     BRA .BRANCH_BETA
     
     .BRANCH_GAMMA
     
-    LDA $0DF0, X : AND.b #$07 : ORA $11 : ORA $0FC1 : BNE .BRANCH_LAMBDA
+    LDA.w $0DF0, X : AND.b #$07 : ORA $11 : ORA.w $0FC1 : BNE .BRANCH_LAMBDA
     
     LDA.b #$31 : JSL Sound_SetSfx3PanLong
     
@@ -6895,7 +6895,7 @@ SpriteCustomFall_Main:
     LDA $02 : SEC : SBC.b #$08 : STA $02
     LDA $03 : SEC : SBC.b #$00 : STA $03
     
-    LDA $0DF0, X : CLC : ADC.b #$14 : STA $06
+    LDA.w $0DF0, X : CLC : ADC.b #$14 : STA $06
     
     JSL Sprite_CustomTimedDrawDistressMarker
     
@@ -6915,16 +6915,16 @@ SpriteCustomFall_Main:
     
     LSR A : TAY
     
-    LDA $0E20, X
+    LDA.w $0E20, X
     
     CMP.b #$26 : BEQ .BRANCH_EPSILON
     CMP.b #$13 : BNE .BRANCH_ZETA
     
     .BRANCH_EPSILON
     
-    LDA.w $FBB6, Y : STA $0DC0, X
+    LDA.w $FBB6, Y : STA.w $0DC0, X
     
-    JSR $FD17   ; $037D17 IN ROM
+    JSR.w $FD17   ; $037D17 IN ROM
     
     BRA .BRANCH_THETA
     
@@ -6932,40 +6932,40 @@ SpriteCustomFall_Main:
     
     LDA.w $FB96, Y : CMP.b #$0C : BCS .BRANCH_MU
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    CLC : ADC $FBE6, Y
+    CLC : ADC.w $FBE6, Y
     
     .BRANCH_MU
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    JSR $FE5B   ; $037E5B IN ROM
+    JSR.w $FE5B   ; $037E5B IN ROM
     
     .BRANCH_THETA
     
-    LDA $0DF0, X : LSR #3 : TAY
+    LDA.w $0DF0, X : LSR #3 : TAY
     
-    LDA $1A : AND $FBD6, Y : ORA $11 : BNE .BRANCH_IOTA
+    LDA $1A : AND.w $FBD6, Y : ORA $11 : BNE .BRANCH_IOTA
     
     LDY.b #$68
     
-    JSR $E73C   ; $03673C IN ROM
+    JSR.w $E73C   ; $03673C IN ROM
     
-    LDA $0FA5 : CMP.b #$20 : BEQ .BRANCH_KAPPA
+    LDA.w $0FA5 : CMP.b #$20 : BEQ .BRANCH_KAPPA
     
-    STZ $0F30, X
-    STZ $0F40, X
+    STZ.w $0F30, X
+    STZ.w $0F40, X
     
     .BRANCH_KAPPA
     
-    LDA $0F30, X : STA $0D40, X
+    LDA.w $0F30, X : STA.w $0D40, X
     
-    ASL A : PHP : ROR $0D40, X : PLP : ROR $0D40, X
+    ASL A : PHP : ROR.w $0D40, X : PLP : ROR.w $0D40, X
     
-    LDA $0F40, X : STA $0D50, X
+    LDA.w $0F40, X : STA.w $0D50, X
     
-    ASL A : PHP : ROR $0D50, X : PLP : ROR $0D50, X
+    ASL A : PHP : ROR.w $0D50, X : PLP : ROR.w $0D50, X
     
     JSR Sprite_Move
     
@@ -6976,9 +6976,9 @@ SpriteCustomFall_Main:
 
 ; $037D17-$037D42 LOCAL JUMP LOCATION
 {
-    LDA $0E20, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
+    LDA.w $0E20, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
     
-    LDA $0DC0, X : ASL #3 : ADC.b #$B7 : STA $08
+    LDA.w $0DC0, X : ASL #3 : ADC.b #$B7 : STA $08
     
     LDA.b #$FC
     
@@ -6992,7 +6992,7 @@ SpriteCustomFall_Main:
     
     .BRANCH_ALPHA
     
-    LDA $0DC0, X : ASL #3 : ADC.b #$E7 : STA $08
+    LDA.w $0DC0, X : ASL #3 : ADC.b #$E7 : STA $08
     
     LDA.b #$FC
     
@@ -7012,7 +7012,7 @@ SpriteCustomFall_Main:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $0DC0, X : PHA
+    LDA.w $0DC0, X : PHA
     
     ASL #2 : STA $06
     
@@ -7037,8 +7037,8 @@ SpriteCustomFall_Main:
     
     TXA : CLC : ADC $06 : TAX
     
-    LDA $00      : CLC : ADC $FD43, X       : STA ($90), Y
-    LDA $02      : CLC : ADC $FD7B, X : INY : STA ($90), Y
+    LDA $00      : CLC : ADC.w $FD43, X       : STA ($90), Y
+    LDA $02      : CLC : ADC.w $FD7B, X : INY : STA ($90), Y
     LDA.w $FDB3, X                : INY : STA ($90), Y
     LDA.w $FDEB, X : EOR $05      : INY : STA ($90), Y
     
@@ -7177,13 +7177,13 @@ Sprite_GetScreenRelativeCoords:
     
     STA $08
     
-    LDA $0D00, X : STA $00
+    LDA.w $0D00, X : STA $00
     SEC : SBC $E8      : STA $06
-    LDA $0D20, X : STA $01
+    LDA.w $0D20, X : STA $01
     
-    LDA $0D10, X : STA $02
+    LDA.w $0D10, X : STA $02
     SEC : SBC $E2      : STA $07
-    LDA $0D30, X : STA $03
+    LDA.w $0D30, X : STA $03
     
     RTS
 }
@@ -7245,52 +7245,52 @@ Pool_Sprite_CheckIfRecoiling:
 ; $037F78-$037FF7 LOCAL JUMP LOCATION
 Sprite_CheckIfRecoiling:
 {
-    LDA $0EA0, X : BEQ .return
+    LDA.w $0EA0, X : BEQ .return
     AND.b #$7F   : BEQ .recoil_finished
     
-    LDA $0D40, X : PHA
-    LDA $0D50, X : PHA
+    LDA.w $0D40, X : PHA
+    LDA.w $0D50, X : PHA
     
-    DEC $0EA0, X : BNE .not_halted_yet
+    DEC.w $0EA0, X : BNE .not_halted_yet
     
-    LDA $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
+    LDA.w $0F40, X : CLC : ADC.b #$20 : CMP.b #$40 : BCS .too_fast_so_halt
     
-    LDA $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
+    LDA.w $0F30, X : CLC : ADC.b #$20 : CMP.b #$40 : BCC .slow_enough
     
     .too_fast_so_halt
     
-    LDA.b #$90 : STA $0EA0, X
+    LDA.b #$90 : STA.w $0EA0, X
     
     .slow_enough
     .not_halted_yet
     
-    LDA $0EA0, X : BMI .halted
+    LDA.w $0EA0, X : BMI .halted
     
     LSR #2 : TAY
     
     LDA $1A : AND .frame_counter_masks, Y : BNE .halted
     
-    LDA $0F30, X : STA $0D40, X
-    LDA $0F40, X : STA $0D50, X
+    LDA.w $0F30, X : STA.w $0D40, X
+    LDA.w $0F40, X : STA.w $0D50, X
     
-    LDA $0CD2, X : BMI .no_wall_collision
+    LDA.w $0CD2, X : BMI .no_wall_collision
     
     JSL Sprite_CheckTileCollisionLong
     
-    LDA $0E70, X
+    LDA.w $0E70, X
     
     AND.b #$0F : BEQ .no_wall_collision
     CMP.b #$04 : BCS .y_axis_wall_collision
     
-    STZ $0F40, X
-    STZ $0D50, X
+    STZ.w $0F40, X
+    STZ.w $0D50, X
     
     BRA .moving_on
     
     .y_axis_wall_collision
     
-    STZ $0F30, X
-    STZ $0D40, X
+    STZ.w $0F30, X
+    STZ.w $0D40, X
     
     .moving_on
     
@@ -7302,8 +7302,8 @@ Sprite_CheckIfRecoiling:
     
     .halted
     
-    PLA : STA $0D50, X
-    PLA : STA $0D40, X
+    PLA : STA.w $0D50, X
+    PLA : STA.w $0D40, X
     
     PLA : PLA
     
@@ -7313,7 +7313,7 @@ Sprite_CheckIfRecoiling:
     
     .recoil_finished
     
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
     RTS
 }

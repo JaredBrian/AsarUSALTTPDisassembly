@@ -21,7 +21,7 @@ Ancilla_WeathervaneExplosion:
     INC A : STA.l $7F58B8
     
     ; Put the music back to full volume.
-    LDA.b #$F3 : STA $012C
+    LDA.b #$F3 : STA.w $012C
     
     BRA .music_at_full_volume
     
@@ -36,27 +36,27 @@ Ancilla_WeathervaneExplosion:
     ; Start ticking down the timer for the explosion to occur.
     ; How much time left on the timer?
     ; Still time left, quit the routine.
-    DEC $0394, X : LDA $0394, X : BNE .return
+    DEC.w $0394, X : LDA.w $0394, X : BNE .return
     
     ; Otherwise, put one frame back on the timer.
-    INC A : STA $0394, X
+    INC A : STA.w $0394, X
     
-    LDA $039F, X : BNE .explosion_sfx_already_played
+    LDA.w $039F, X : BNE .explosion_sfx_already_played
     
     ; This code should only get executed once?
-    INC A : STA $039F, X
+    INC A : STA.w $039F, X
     
     LDA.b #$0C : JSR Ancilla_DoSfx2_NearPlayer
     
     .explosion_sfx_already_played
     
     ; Which step of the effect are we in?
-    LDA $0C54, X : BNE .past_first_step
+    LDA.w $0C54, X : BNE .past_first_step
     
-    DEC $03B1, X : BPL .past_first_step
+    DEC.w $03B1, X : BPL .past_first_step
     
     ; Switch to the second step of the effect.
-    LDA.b #$01 : STA $0C54, X
+    LDA.b #$01 : STA.w $0C54, X
     
     PHX
     
@@ -99,16 +99,16 @@ Ancilla_WeathervaneExplosion:
     
     LDA.l $7F5878 : TAY
     
-    LDA.l $7F586C, X : STA $0C5E, Y
-    LDA.l $7F5824, X : STA $0BFA, Y
-    LDA.l $7F5830, X : STA $0C0E, Y
-    LDA.l $7F583C, X : STA $0C04, Y
-    LDA.l $7F5848, X : STA $0C18, Y
-    LDA.l $7F5854, X : STA $029E, Y
-    LDA.l $7F5800, X : STA $0C22, Y
-    LDA.l $7F580C, X : STA $0C2C, Y
+    LDA.l $7F586C, X : STA.w $0C5E, Y
+    LDA.l $7F5824, X : STA.w $0BFA, Y
+    LDA.l $7F5830, X : STA.w $0C0E, Y
+    LDA.l $7F583C, X : STA.w $0C04, Y
+    LDA.l $7F5848, X : STA.w $0C18, Y
+    LDA.l $7F5854, X : STA.w $029E, Y
+    LDA.l $7F5800, X : STA.w $0C22, Y
+    LDA.l $7F580C, X : STA.w $0C2C, Y
     
-    LDA.l $7F5818, X : SEC : SBC.b #$01 : STA.l $7F5818, X : STA $0294, Y
+    LDA.l $7F5818, X : SEC : SBC.b #$01 : STA.l $7F5818, X : STA.w $0294, Y
     
     TYX
     
@@ -118,7 +118,7 @@ Ancilla_WeathervaneExplosion:
     
     STZ $74
     
-    LDA $029E, X : CMP.b #$F0 : BCC .not_below_ground_enough
+    LDA.w $029E, X : CMP.b #$F0 : BCC .not_below_ground_enough
     
     LDA.b #$FF : STA $74
     
@@ -136,11 +136,11 @@ Ancilla_WeathervaneExplosion:
     
     LDA.l $7F5878 : TAY
     
-    LDA $0BFA, Y : STA.l $7F5824, X
-    LDA $0C0E, Y : STA.l $7F5830, X
-    LDA $0C04, Y : STA.l $7F583C, X
-    LDA $0C18, Y : STA.l $7F5848, X
-    LDA $029E, Y : STA.l $7F5854, X
+    LDA.w $0BFA, Y : STA.l $7F5824, X
+    LDA.w $0C0E, Y : STA.l $7F5830, X
+    LDA.w $0C04, Y : STA.l $7F583C, X
+    LDA.w $0C18, Y : STA.l $7F5848, X
+    LDA.w $029E, Y : STA.l $7F5854, X
     
     .finished_this_chunk
     
@@ -164,7 +164,7 @@ Ancilla_WeathervaneExplosion:
     TYX
     
     ; Self terminate, naturally, if there are no chunks left.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .at_least_one_active_chunk
     
@@ -191,7 +191,7 @@ WeathervaneExplosion_DrawWoodChunk:
     
     REP #$20
     
-    LDA $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
+    LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
     
     ORA.w #$FF00
     
@@ -201,7 +201,7 @@ WeathervaneExplosion_DrawWoodChunk:
     
     SEP #$20
     
-    LDA $0C5E, X : STA $72 : BMI .inactive_component
+    LDA.w $0C5E, X : STA $72 : BMI .inactive_component
     
     PHX
     

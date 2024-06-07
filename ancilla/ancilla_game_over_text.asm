@@ -33,7 +33,7 @@ Ancilla_GameOverText:
     ; It looks as though these routines do ancillary objects of the death
     ; world. Maybe fairys and powder that they scatter on the player.
     ; Either way, it seems to utilize the existing Ancilla framework a bit.
-    LDX $0C4A : BEQ .no_active_objects
+    LDX.w $0C4A : BEQ .no_active_objects
     
     DEX
     
@@ -70,7 +70,7 @@ Pool_GameOverText_SweepLeft:
 ; $0474F6-$047564 JUMP LOCATION
 GameOverText_SweepLeft:
 {
-    LDX $035F : STX $0FA0
+    LDX.w $035F : STX.w $0FA0
     
     ; \wtf(odd, but not really a big deal)
     ; The result is the same regardless for the value of Y.
@@ -83,29 +83,29 @@ GameOverText_SweepLeft:
     .useless
     
     ; Rapidly move the object off screen? (The boomerang, I assume.)
-    TYA : STA $0C2C, X
+    TYA : STA.w $0C2C, X
     
     JSR Ancilla_MoveHoriz
     
-    LDA $0C18, X                : BNE .to_right_of_target
-    LDA $0C04, X : CMP $F4EE, X : BCS .to_right_of_target
+    LDA.w $0C18, X                : BNE .to_right_of_target
+    LDA.w $0C04, X : CMP.w $F4EE, X : BCS .to_right_of_target
     
-    LDA .target_x_coords, X : STA $0C04, X
+    LDA .target_x_coords, X : STA.w $0C04, X
     
     ; Add another letter, and move on if we've got all the letters in
     ; place.
-    INX : STX $035F : CPX.b #$08 : BNE .not_time_to_unfurl
+    INX : STX.w $035F : CPX.b #$08 : BNE .not_time_to_unfurl
     
-    LDA.b #$07 : STA $035F
+    LDA.b #$07 : STA.w $035F
     
     ; Move on to the next phase and unfurl the letters back to the right
     ; and to their final resting positions.
-    INC $0C4A
+    INC.w $0C4A
     
-    STZ $039D
+    STZ.w $039D
     
     ; Agahnim's lightning sound.
-    LDA.b #$26 : STA $012F
+    LDA.b #$26 : STA.w $012F
     
     BRA .draw
     
@@ -114,24 +114,24 @@ GameOverText_SweepLeft:
     
     CPX.b #$07 : BNE .draw
     
-    LDY.b #$06 : CPY $039D : BEQ .dont_do_tandem_move_yet
+    LDY.b #$06 : CPY.w $039D : BEQ .dont_do_tandem_move_yet
     
     .follow_leading_letter
     
-    LDA $0C04, X : STA $0C04, Y
+    LDA.w $0C04, X : STA.w $0C04, Y
     
     ; Only move the letters that have been 'picked up' thus far.
-    DEY : CPY $039D : BNE .follow_leading_letter
+    DEY : CPY.w $039D : BNE .follow_leading_letter
     
     .dont_do_tandem_move_yet
     
-    LDA $0C18, X : BNE .draw
+    LDA.w $0C18, X : BNE .draw
     
-    LDA $0C04, X : LDX $039D : CMP .target_x_coords, X : BCS .draw
+    LDA.w $0C04, X : LDX.w $039D : CMP .target_x_coords, X : BCS .draw
     
     ; When the lead letter touches or cross to the left of one of the other
     ; letters, pick up that letter and make it follow the lead letter ('R').
-    DEC $039D
+    DEC.w $039D
     
     .draw
     
@@ -159,22 +159,22 @@ Pool_GameOverText_UnfurlRight:
 ; $04756D-$0475B3 LOCAL JUMP LOCATION
 GameOverText_UnfurlRight:
 {
-    LDX $035F : STX $0FA0
+    LDX.w $035F : STX.w $0FA0
     
-    LDA.b #$60 : STA $0C2C, X
+    LDA.b #$60 : STA.w $0C2C, X
     
     JSR Ancilla_MoveHoriz
     
-    LDY $039D
+    LDY.w $039D
     
-    LDA $0C04, X : CMP .target_x_coords, Y : BCC .left_of_limit
+    LDA.w $0C04, X : CMP .target_x_coords, Y : BCC .left_of_limit
     
-    LDA .target_x_coords, Y : STA $0C04, Y
+    LDA .target_x_coords, Y : STA.w $0C04, Y
     
-    INC $039D : LDA $039D : CMP.b #$08 : BNE .not_all_letters_in_position
+    INC.w $039D : LDA.w $039D : CMP.b #$08 : BNE .not_all_letters_in_position
     
     INC $11
-    INC $0C4A
+    INC.w $0C4A
     
     BRA .draw
     
@@ -183,13 +183,13 @@ GameOverText_UnfurlRight:
     
     ; As letters drop into position, less of them will be following the
     ; lead letter (which is 'R', as in the last letter of 'Game Over' )
-    LDA $039D : DEC A : STA $00
+    LDA.w $039D : DEC A : STA $00
     
-    LDX $035F : TXY
+    LDX.w $035F : TXY
     
     .follow_leading_letter
     
-    LDA $0C04, X : STA $0C04, Y
+    LDA.w $0C04, X : STA.w $0C04, Y
     
     DEY : CPY $00 : BNE .follow_leading_letter
     
@@ -226,7 +226,7 @@ GameOverText_Draw:
     LDA.b #$20 : STA $92
     LDA.b #$0A : STA $93
     
-    LDX $035F
+    LDX.w $035F
     
     LDY.b #$00
     
@@ -236,8 +236,8 @@ GameOverText_Draw:
     
     LDA.b #$57 : STA $00 : STZ $01
     
-    LDA $0C04, X : STA $02
-    LDA $0C18, X : STA $03
+    LDA.w $0C04, X : STA $02
+    LDA.w $0C18, X : STA $03
     
     JSR Ancilla_SetOam_XY
     

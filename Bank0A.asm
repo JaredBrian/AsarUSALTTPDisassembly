@@ -493,7 +493,7 @@ BirdTravel_Main:
     
     LDA.b $1A : AND.b #$10 : BEQ .BRANCH_ZETA
         ; $05439F IN ROM
-        JSR $C39F : BCC .BRANCH_ZETA
+        JSR.w $C39F : BCC .BRANCH_ZETA
             LDA.b $0E : SEC : SBC.b #$04 : STA.b $0E
             LDA.b $0F : SEC : SBC.b #$04 : STA.b $0F
             
@@ -503,7 +503,7 @@ BirdTravel_Main:
             
             LDX.b #$10
             
-            JSR $C51C ; $05451C IN ROM
+            JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_ZETA
 
@@ -523,7 +523,7 @@ BirdTravel_Main:
         
         PHX
         
-        JSR $C39F ; $05439F IN ROM
+        JSR.w $C39F ; $05439F IN ROM
         
         PLX
         
@@ -536,7 +536,7 @@ BirdTravel_Main:
             
             PHX
             
-            JSR $C51C ; $05451C IN ROM
+            JSR.w $C51C ; $05451C IN ROM
             
             PLX
             
@@ -551,7 +551,7 @@ BirdTravel_Main:
     
     PHX
     
-    JSR $C39F ; $05439F IN ROM
+    JSR.w $C39F ; $05439F IN ROM
     
     PLX
     
@@ -563,14 +563,14 @@ BirdTravel_Main:
         
         PHX
         
-        JSR $C51C ; $05451C IN ROM
+        JSR.w $C51C ; $05451C IN ROM
         
         PLX
 
     .BRANCH_IOTA
 
     DEX : BMI .BRANCH_KAPPA
-        JMP $B813 ; $053813 IN ROM
+        JMP.w $B813 ; $053813 IN ROM
 
     .BRANCH_KAPPA
 
@@ -823,7 +823,7 @@ OverworldMap_InitGfx:
                  STZ.b $1D
     
     JSL WriteMode7Chr ; $006399 IN ROM
-    JSR $BC96         ; $053C96 IN ROM (configures hdma for map mode)
+    JSR.w $BC96         ; $053C96 IN ROM (configures hdma for map mode)
     
     ; Set data bank to 0x0A
     PHB : LDA.b #$0A : PHA : PLB
@@ -1089,7 +1089,7 @@ OverworldMap_Main:
 
     .BRANCH_KAPPA
 
-    JSR $BF66 ; $053F66 IN ROM
+    JSR.w $BF66 ; $053F66 IN ROM
 
     .easyOut
 
@@ -1725,7 +1725,7 @@ WorldMap_HandleSprites:
 {
     LDA.b $1A : AND.b #$10 : BEQ .BRANCH_ALPHA
         ; $05439F IN ROM
-        JSR $C39F : BCC .BRANCH_ALPHA
+        JSR.w $C39F : BCC .BRANCH_ALPHA
             LDA.b $0E : SEC : SBC.b #$04 : STA.b $0E
             LDA.b $0F : SEC : SBC.b #$04 : STA.b $0F
             
@@ -1735,7 +1735,7 @@ WorldMap_HandleSprites:
             
             LDX.b #$00
             
-            JSR $C51C ; $05451C IN ROM
+            JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_ALPHA
 
@@ -1759,7 +1759,7 @@ WorldMap_HandleSprites:
             LDA.w $1AE0, X : STA.l $7EC109
             
             ; $05439F IN ROM
-            JSR $C39F : BCC .BRANCH_BETA
+            JSR.w $C39F : BCC .BRANCH_BETA
                 LDA.b #$6A : STA.b $0D
                 
                 LDA.b $1A : LSR A : AND.b #$03 : TAX
@@ -1770,7 +1770,7 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$0F
                 
-                JSR $C51C ; $05451C IN ROM
+                JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_BETA
 
@@ -1780,7 +1780,7 @@ WorldMap_HandleSprites:
 
     .BRANCH_DELTA
 
-    JMP $C38A ; $05438A IN ROM
+    JMP.w $C38A ; $05438A IN ROM
 
     .lightWorldSprites
 
@@ -1806,14 +1806,14 @@ WorldMap_HandleSprites:
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZETA
                             .BRANCH_IOTA
 
-                            JSR $C589 ; $054589 IN ROM
+                            JSR.w $C589 ; $054589 IN ROM
 
                 .BRANCH_THETA
 
                 LDX.b #$0E
                 
                 ; $05439F IN ROM
-                JSR $C39F : BCC .BRANCH_ZETA
+                JSR.w $C39F : BCC .BRANCH_ZETA
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                     
@@ -1840,16 +1840,16 @@ WorldMap_HandleSprites:
                     
                     LDX.b #$0E
                     
-                    JSR $C51C ; $05451C IN ROM
+                    JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_ZETA
 
     LDX.b #$01
     
     ; $0545A9 IN ROM
-    JSR $C5A9 : BCS .BRANCH_MU
+    JSR.w $C5A9 : BCS .BRANCH_MU
         ; $0545C6 IN ROM
-        JSR $C5C6 : BCS .BRANCH_MU
+        JSR.w $C5C6 : BCS .BRANCH_MU
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
@@ -1866,12 +1866,12 @@ WorldMap_HandleSprites:
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_MU
                             .BRANCH_XI
 
-                            JSR $C589 ; $054589 IN ROM
+                            JSR.w $C589 ; $054589 IN ROM
 
                 .BRANCH_NU
 
                 ; $05439F IN ROM
-                JSR $C39F : BCC .BRANCH_MU
+                JSR.w $C39F : BCC .BRANCH_MU
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                             
@@ -1898,16 +1898,16 @@ WorldMap_HandleSprites:
                             
                     LDX.b #$0D
                             
-                    JSR $C51C ; $05451C IN ROM
+                    JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_MU
 
     LDX.b #$02
     
     ; $0545A9 IN ROM
-    JSR $C5A9 : BCS .BRANCH_RHO
+    JSR.w $C5A9 : BCS .BRANCH_RHO
         ; $0545C6 IN ROM
-        JSR $C5C6 : BCS .BRANCH_RHO
+        JSR.w $C5C6 : BCS .BRANCH_RHO
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
@@ -1923,14 +1923,14 @@ WorldMap_HandleSprites:
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_RHO
                             .BRANCH_TAU
 
-                            JSR $C589 ; $054589 IN ROM
+                            JSR.w $C589 ; $054589 IN ROM
 
                 .BRANCH_SIGMA
 
                 LDX.b #$0C
                             
                 ; $05439F IN ROM
-                JSR $C39F : BCC .BRANCH_RHO
+                JSR.w $C39F : BCC .BRANCH_RHO
                      ; X = (map sprites indictaor << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                                 
@@ -1959,14 +1959,14 @@ WorldMap_HandleSprites:
                                 
                     LDX.b #$0C
                                 
-                    JSR $C51C ; $05451C IN ROM
+                    JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_RHO
 
     LDX.b #$03
     
     ; $0545C6 IN ROM
-    JSR $C5C6 : BCS .BRANCH_CHI
+    JSR.w $C5C6 : BCS .BRANCH_CHI
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL A : TAX
         
@@ -1982,14 +1982,14 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_CHI
                         .BRANCH_OMEGA
 
-                        JSR $C589 ; $054589 IN ROM
+                        JSR.w $C589 ; $054589 IN ROM
 
             .BRANCH_PSI
 
             LDX.b #$0B
             
             ; $05439F IN ROM
-            JSR $C39F : BCC .BRANCH_CHI
+            JSR.w $C39F : BCC .BRANCH_CHI
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
@@ -2016,14 +2016,14 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$0B
                 
-                JSR $C51C ; $05451C IN ROM
+                JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_CHI
 
     LDX.b #$04
     
     ; $0545C6 IN ROM
-    JSR $C5C6 : BCS .BRANCH_OPTIMUS
+    JSR.w $C5C6 : BCS .BRANCH_OPTIMUS
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL A : TAX
         
@@ -2039,14 +2039,14 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
                         .BRANCH_BET
 
-                        JSR $C589 ; $054589 IN ROM
+                        JSR.w $C589 ; $054589 IN ROM
 
             .BRANCH_ALIF
 
             LDX.b #$0A
             
             ; $05439F IN ROM
-            JSR $C39F : BCC .BRANCH_OPTIMUS
+            JSR.w $C39F : BCC .BRANCH_OPTIMUS
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
@@ -2074,14 +2074,14 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$0A
                 
-                JSR $C51C ; $05451C IN ROM
+                JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_OPTIMUS
 
     LDX.b #$05
     
     ; $0545C6 IN ROM
-    JSR $C5C6 : BCS .BRANCH_SIN
+    JSR.w $C5C6 : BCS .BRANCH_SIN
         LDA.l $7EF3C7 : ASL A : TAX
         
         LDA.l $0ABE99, X : BMI .BRANCH_SIN
@@ -2096,14 +2096,14 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_SIN
                         .BRANCH_SOD
 
-                        JSR $C589 ; $054589 IN ROM
+                        JSR.w $C589 ; $054589 IN ROM
 
             .BRANCH_SHIN
 
             LDX.b #$09
             
             ; $05439F IN ROM
-            JSR $C39F : BCC .BRANCH_SIN
+            JSR.w $C39F : BCC .BRANCH_SIN
                 LDA.l $7EF3C7 : ASL A : TAX
                 
                 LDA.l $0ABF3B, X : BEQ .BRANCH_DOD
@@ -2130,14 +2130,14 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$09
                 
-                JSR $C51C ; $05451C IN ROM
+                JSR.w $C51C ; $05451C IN ROM
 
     .BRANCH_SIN
 
     LDX.b #$06
     
     ; $0545C6 IN ROM
-    JSR $C5C6 : BCS .BRANCH_ZOD
+    JSR.w $C5C6 : BCS .BRANCH_ZOD
         LDA.l $7EF3C7 : ASL A : TAX
         
         LDA.l $0ABEBD, X : BMI .BRANCH_ZOD
@@ -2152,14 +2152,14 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZOD
                         .BRANCH_KESRA
 
-                        JSR $C589 ; $054589 IN ROM
+                        JSR.w $C589 ; $054589 IN ROM
 
             .BRANCH_FATHA
 
             LDX.b #$08
             
             ; $05439F IN ROM
-            JSR $C39F : BCC .BRANCH_ZOD
+            JSR.w $C39F : BCC .BRANCH_ZOD
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
@@ -2187,7 +2187,7 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$08
                 
-                JSR $C51C ; $05451C IN ROM
+                JSR.w $C51C ; $05451C IN ROM
 
     ; $05438A ALTERNATE ENTRY POINT
     .BRANCH_ZOD
@@ -2220,8 +2220,8 @@ WorldMap_CalculateOAMCoordinates:
         
         LDA.b #$0D
         
-        JSR $C56D ; $05456D IN ROM
-        JSR $C580 ; $054580 IN ROM
+        JSR.w $C56D ; $05456D IN ROM
+        JSR.w $C580 ; $054580 IN ROM
         
         STA.b $0F
         
@@ -2249,13 +2249,13 @@ WorldMap_CalculateOAMCoordinates:
         
         LDA.b #$54
         
-        JSR $C56D ; $05456D
+        JSR.w $C56D ; $05456D
         
         XBA : CLC : ADC.b #$B2 : XBA
         
         PLA
         
-        JSR $C56D ; $05456D IN ROM
+        JSR.w $C56D ; $05456D IN ROM
         
         XBA
         
@@ -2277,7 +2277,7 @@ WorldMap_CalculateOAMCoordinates:
         LDA.b $0E : CLC : ADC.b #$80 : STA.b $0E
         LDA.b $0F : CLC : ADC.b #$0C : STA.b $0F
         
-        JMP $C50D ; $05450D IN ROM
+        JMP.w $C50D ; $05450D IN ROM
 
     .BRANCH_ALPHA
 
@@ -2286,7 +2286,7 @@ WorldMap_CalculateOAMCoordinates:
     LDA.l $7EC108 : LSR #4
     EOR.w #$FFFF : INC A
     CLC : ADC.w $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
-        JMP $C511 ; $054511 IN ROM
+        JMP.w $C511 ; $054511 IN ROM
 
     .BRANCH_ZETA
 
@@ -2296,13 +2296,13 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.b #$25
     
-    JSR $C56D ; $05456D IN ROM
-    JSR $C580 ; $054580 IN ROM
+    JSR.w $C56D ; $05456D IN ROM
+    JSR.w $C580 ; $054580 IN ROM
     
     REP #$10
     
     TAX : CPX.w #$014D : BCC .BRANCH_THETA
-        JMP $C511 ; $054511 IN ROM
+        JMP.w $C511 ; $054511 IN ROM
 
     .BRANCH_THETA
 
@@ -2333,13 +2333,13 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.b #$54
     
-    JSR $C56D ; $05456D IN ROM
+    JSR.w $C56D ; $05456D IN ROM
     
     XBA : CLC : ADC.b #$B2 : STA.b $00 : XBA
     
     PLA
     
-    JSR $C56D ; $05456D IN ROM
+    JSR.w $C56D ; $05456D IN ROM
     
     XBA : STA.b $01
     
@@ -2347,7 +2347,7 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.b $00
     
-    JSR $C56D ; $05456D IN ROM
+    JSR.w $C56D ; $05456D IN ROM
     
     CLC : ADC.b $01 : XBA : ADC.b #$00 : XBA
     
@@ -2377,7 +2377,7 @@ WorldMap_CalculateOAMCoordinates:
 
     LDA.b #$2D
 
-    JSR $C56D ; $05456D IN ROM
+    JSR.w $C56D ; $05456D IN ROM
 
     XBA : STA.b $00
 
@@ -2385,7 +2385,7 @@ WorldMap_CalculateOAMCoordinates:
 
     LDA.b #$2D
 
-    JSR $C56D ; $05456D IN ROM
+    JSR.w $C56D ; $05456D IN ROM
 
     CLC : ADC.b $00 : XBA : ADC.b #$00 : XBA
 
@@ -4148,7 +4148,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     PLX
     
-    JSR $E2F5 ; $0562F5 IN ROM
+    JSR.w $E2F5 ; $0562F5 IN ROM
     
     REP #$10
     
@@ -4296,9 +4296,9 @@ Module0E_03_01_03_DrawRooms:
 
     .BRANCH_DELTA
 
-    JSR $E4F9 ; $0564F9 IN ROM
-    JSR $E449 ; $056449 IN ROM
-    JSR $E579 ; $056579 IN ROM
+    JSR.w $E4F9 ; $0564F9 IN ROM
+    JSR.w $E449 ; $056449 IN ROM
+    JSR.w $E579 ; $056579 IN ROM
     
     DEC.w $020E
     
@@ -4322,9 +4322,9 @@ Module0E_03_01_03_DrawRooms:
 
     .BRANCH_THETA
 
-    JSR $E4F9 ; $0564F9 IN ROM
-    JSR $E449 ; $056449 IN ROM
-    JSR $E579 ; $056579 IN ROM
+    JSR.w $E4F9 ; $0564F9 IN ROM
+    JSR.w $E449 ; $056449 IN ROM
+    JSR.w $E579 ; $056579 IN ROM
     
     REP #$30
     
@@ -4521,7 +4521,7 @@ DungeonMap_DrawDungeonLayout:
         
         LDA.w $E56F, X : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
-        JSR $E5BC ; $0565BC IN ROM
+        JSR.w $E5BC ; $0565BC IN ROM
         
         INC.b $00
     LDA.b $00 : CMP.w #$0005 : BNE .nextRow
@@ -5099,7 +5099,7 @@ DungeonMap_DrawRoomMarkers:
 PalaceMap_3:
 {
     JSL.l $0AE95B ; $05695B IN ROM
-    JMP $EAB2   ; $056AB2 IN ROM
+    JMP.w $EAB2   ; $056AB2 IN ROM
 }
 
 ; ==============================================================================
@@ -5169,7 +5169,7 @@ DungeonMap_HandleFloorSelect:
 
     .BRANCH_ALPHA
 
-    JMP $EA75 ; $056A75 IN ROM
+    JMP.w $EA75 ; $056A75 IN ROM
 
     .BRANCH_BETA
 
@@ -5181,7 +5181,7 @@ DungeonMap_HandleFloorSelect:
         REP #$30
         
         LDX.w $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP.w $020E : BNE .BRANCH_DELTA
-            JMP $EA75 ; $056A75 IN ROM
+            JMP.w $EA75 ; $056A75 IN ROM
 
         .BRANCH_DELTA
 
@@ -5235,9 +5235,9 @@ DungeonMap_HandleFloorSelect:
 
         SEP #$20
         
-        JSR $E4F9 ; $0564F9 IN ROM
-        JSR $E449 ; $056449 IN ROM
-        JSR $E579 ; $056579 IN ROM
+        JSR.w $E4F9 ; $0564F9 IN ROM
+        JSR.w $E449 ; $056449 IN ROM
+        JSR.w $E579 ; $056579 IN ROM
         
         SEP #$20
         
@@ -5334,18 +5334,18 @@ DungeonMap_DrawSprites:
 
     .BRANCH_ALPHA
 
-        JSR $EBA8 ; $056BA8 IN ROM
+        JSR.w $EBA8 ; $056BA8 IN ROM
         
         INC.b $0E
     LDA.b $00 : CMP.b #$09 : BNE .BRANCH_ALPHA
     
-    JSR $EB50 ; $056B50 IN ROM
+    JSR.w $EB50 ; $056B50 IN ROM
     
     INC.b $00
     
-    JSR $EDE4 ; $056DE4 IN ROM
-    JSR $EC0A ; $056C0A IN ROM
-    JSR $ECCF ; $056CCF IN ROM
+    JSR.w $EDE4 ; $056DE4 IN ROM
+    JSR.w $EC0A ; $056C0A IN ROM
+    JSR.w $ECCF ; $056CCF IN ROM
     
     PLB
     

@@ -51,9 +51,9 @@ Ancilla_Hookshot:
     LDA $11 : BNE .just_draw
     
     ; branch if no sound effect this frame...
-    LDA $0C68, X : BNE .chain_sfx_delay
+    LDA.w $0C68, X : BNE .chain_sfx_delay
     
-    LDA.b #$07 : STA $0C68, X
+    LDA.b #$07 : STA.w $0C68, X
     
     LDA.b #$0A : JSR Ancilla_DoSfx2
     
@@ -62,16 +62,16 @@ Ancilla_Hookshot:
     ; In this situation, the player module is moving the player towards
     ; a location so we don't actually have to move the head of the
     ; hookshot.
-    LDA $037E : BNE .just_draw
+    LDA.w $037E : BNE .just_draw
     
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     
     ; In the protracting state? Branch.
     ; If retracting, continue on.
-    LDA $0C54, X : BEQ .protracting
+    LDA.w $0C54, X : BEQ .protracting
     
-    DEC $0C5E, X : BMI .terminate_after_full_retraction
+    DEC.w $0C5E, X : BMI .terminate_after_full_retraction
     
     .just_draw
     
@@ -80,23 +80,23 @@ Ancilla_Hookshot:
     .terminate_after_full_retraction
     .self_terminate
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
     .protracting
     
     ; If not at fully protracted state yet, don't begin retracting.
-    LDA $0C5E, X : INC A : STA $0C5E, X
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X
     
     CMP.b #$20 : BNE .protraction_not_maxed
     
     ; Begin retracting
-    LDA.b #$01 : STA $0C54, X
+    LDA.b #$01 : STA.w $0C54, X
     
     ; And reverse direction of the hookshot head.
-    LDA $0C22, X : EOR.b #$FF : INC A : STA $0C22, X
-    LDA $0C2C, X : EOR.b #$FF : INC A : STA $0C2C, X
+    LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
+    LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
     
     .protraction_not_maxed
     
@@ -106,20 +106,20 @@ Ancilla_Hookshot:
     
     .perform_collision_checks
     
-    LDA $0385, X : BNE .ignore_sprite_collision
+    LDA.w $0385, X : BNE .ignore_sprite_collision
     
     ; \wtf why all these checks of the protracting state? We already
     ; know if we're here that it can't be retracting.
-    LDA $0C54, X : BNE .ignore_sprite_collision
+    LDA.w $0C54, X : BNE .ignore_sprite_collision
     
     JSR Ancilla_CheckSpriteCollision : BCC .no_tile_collision
     
-    LDA $0C54, X : BNE .ignore_sprite_collision
+    LDA.w $0C54, X : BNE .ignore_sprite_collision
     
-    LDA.b #$01 : STA $0C54, X
+    LDA.b #$01 : STA.w $0C54, X
     
-    LDA $0C22, X : EOR.b #$FF : INC A : STA $0C22, X
-    LDA $0C2C, X : EOR.b #$FF : INC A : STA $0C2C, X
+    LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
+    LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
     
     BRA .check_tile_collision
     
@@ -141,9 +141,9 @@ Ancilla_Hookshot:
     
     LDY.b #$01
     
-    LDA $0C72, X : AND.b #$02 : BNE .indoor_horiz_ledge_interaction
+    LDA.w $0C72, X : AND.b #$02 : BNE .indoor_horiz_ledge_interaction
     
-    LDA $036D : LSR #4 : STA $00
+    LDA.w $036D : LSR #4 : STA $00
     
     LDY.b #$00
     
@@ -151,25 +151,25 @@ Ancilla_Hookshot:
     
     ; Helps us get across bodies of water without being
     ; stopped.
-    LDA $036D, Y : ORA $00
+    LDA.w $036D, Y : ORA $00
                    AND.b #$03 : STA $00 : BEQ .not_ledge_collision
     
     BRA .ledge_collision
     
     .outdoor_ledge_interaction
     
-    LDA $036E : AND.b #$03
-                ORA $036D
-                ORA $0370
+    LDA.w $036E : AND.b #$03
+                ORA.w $036D
+                ORA.w $0370
                 AND.b #$33 : BEQ .not_ledge_collision
     
     .ledge_collision
     
-    DEC $0394, X : BPL .hit_ledge_on_previous_frames
+    DEC.w $0394, X : BPL .hit_ledge_on_previous_frames
     
     ; If you're here, it means that the guard for ledge collision is still
     ; up.
-    LDY $0380, X : BEQ .last_tile_interaction_passable
+    LDY.w $0380, X : BEQ .last_tile_interaction_passable
     
     ; (As opposed to an outdoor ledge)
     LDA $00 : AND.b #$03 : BNE .hit_indoor_ledge_tile
@@ -179,11 +179,11 @@ Ancilla_Hookshot:
     
     .hit_indoor_ledge_tile
     
-    LDA.b #$02 : STA $0394, X
+    LDA.b #$02 : STA.w $0394, X
     
-    DEC $0385, X : BPL .ignore_ledges_for_now
+    DEC.w $0385, X : BPL .ignore_ledges_for_now
     
-    STZ $0385, X
+    STZ.w $0385, X
     
     BRA .resume_normal_extra_collision
     
@@ -191,22 +191,22 @@ Ancilla_Hookshot:
     
     ; This seems to happen when you hit a ledge tile for starters, and
     ; then it gets set low later.
-    INC $0385, X
+    INC.w $0385, X
     
-    LDA $76 : STA $0380, X
+    LDA $76 : STA.w $0380, X
     
-    LDA.b #$01 : STA $0394, X
+    LDA.b #$01 : STA.w $0394, X
     
     .ignore_ledges_for_now
     .not_ledge_collision
     .hit_ledge_on_previous_frames
     .resume_normal_extra_collision
     
-    LDA $0385, X : BNE .extra_collision_logic_overrided
+    LDA.w $0385, X : BNE .extra_collision_logic_overrided
     
-    LDA $0394, X : BMI .extra_collision_logic
+    LDA.w $0394, X : BMI .extra_collision_logic
     
-    DEC $0394, X
+    DEC.w $0394, X
     
     .extra_collision_logic_overrided
     
@@ -219,16 +219,16 @@ Ancilla_Hookshot:
                        ORA $0C
                        AND.b #$03 : BEQ .no_extra_tile_collision
     
-    LDA $0C54, X : BNE .no_extra_tile_collision
+    LDA.w $0C54, X : BNE .no_extra_tile_collision
     
-    LDA.b #$01 : STA $0C54, X
+    LDA.b #$01 : STA.w $0C54, X
     
-    LDA $0C22, X : EOR.b #$FF : INC A : STA $0C22, X
-    LDA $0C2C, X : EOR.b #$FF : INC A : STA $0C2C, X
+    LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
+    LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
     
     ; \note I really like this typo 'grabblable', it sounds ridiculous.
     ; Not a tile collision in this case, but it hit something grabblable.
-    LDA $02F6 : AND.b #$03 : BNE .no_extra_tile_collision
+    LDA.w $02F6 : AND.b #$03 : BNE .no_extra_tile_collision
     
     PHX
     
@@ -242,7 +242,7 @@ Ancilla_Hookshot:
     ; Use a different sound if it hit a key door.
     LDY.b #$06
     
-    LDA $02F6 : AND.b #$30 : BNE .hit_key_door
+    LDA.w $02F6 : AND.b #$30 : BNE .hit_key_door
     
     LDY #$05
     
@@ -252,7 +252,7 @@ Ancilla_Hookshot:
     
     .no_extra_tile_collision
     
-    LDA $02F6 : AND.b #$03 : BEQ .draw
+    LDA.w $02F6 : AND.b #$03 : BEQ .draw
     
     ; \note Though this label says unused, it just means that the branch
     ; origin is unreachable in this case.
@@ -260,21 +260,21 @@ Ancilla_Hookshot:
     
     ; If the drag collision occurred close enough, just terminate
     ; the hookshot and don't drag the player.
-    LDA $0C5E, X : CMP.b #$04 : BCS .drag_actually_required
+    LDA.w $0C5E, X : CMP.b #$04 : BCS .drag_actually_required
     
     BRL .self_terminate
     
     .drag_actually_required
     
-    LDA.b #$01 : STA $037E
+    LDA.b #$01 : STA.w $037E
     
-    STX $039D
+    STX.w $039D
     
     .draw
     
     JSR Ancilla_PrepOamCoord
     
-    LDA $0385, X : BEQ .max_priority_not_required
+    LDA.w $0385, X : BEQ .max_priority_not_required
     
     LDA.b #$30 : STA $65
     
@@ -289,7 +289,7 @@ Ancilla_Hookshot:
     
     PHX
     
-    LDA $0C72, X : STA $08
+    LDA.w $0C72, X : STA $08
     
     ; X and $0A = $0C72, X * 6
     ASL A : CLC : ADC $08 : STA $0A : TAX
@@ -342,7 +342,7 @@ Ancilla_Hookshot:
     STZ $0C
     STZ $0D
     
-    LDA $0C5E, X : LSR A : CMP.b #$07 : BCC .link_scaling_not_needed
+    LDA.w $0C5E, X : LSR A : CMP.b #$07 : BCC .link_scaling_not_needed
     
     ; At extension state >= 7, use this as the base displacement between
     ; chain links. Otherwise, the distance between them is fixed per
@@ -361,7 +361,7 @@ Ancilla_Hookshot:
     
     .at_least_one_chain_link_renderable
     
-    LDA $0C72, X : AND.b #$01 : BEQ .tracting_up_or_left
+    LDA.w $0C72, X : AND.b #$01 : BEQ .tracting_up_or_left
     
     ; tracting down or right, so multiply the base offset by -1?
     ; It appears that this is done because the links are drawn
@@ -380,7 +380,7 @@ Ancilla_Hookshot:
     
     REP #$20
     
-    LDA $0C72, X : ASL A : AND.b #$00FF : TAX
+    LDA.w $0C72, X : ASL A : AND.b #$00FF : TAX
     
     LDA .chain_y_speeds, X : BNE .use_actual_y_displacement
     

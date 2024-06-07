@@ -49,7 +49,7 @@ Pool_Ancilla_DashDust:
 ; $043C92-$043D4B JUMP LOCATION
 Ancilla_DashDust:
 {
-    LDA $0C54, X : BEQ .stationary_dust
+    LDA.w $0C54, X : BEQ .stationary_dust
     
     JSL Ancilla_MotiveDashDust
     
@@ -57,14 +57,14 @@ Ancilla_DashDust:
     
     .stationary_dust
     
-    LDA $0C68, X : BNE .delay
+    LDA.w $0C68, X : BNE .delay
     
-    LDA.b #$03 : STA $0C68, X
+    LDA.b #$03 : STA.w $0C68, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X : CMP.b #$05 : BEQ .return
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$05 : BEQ .return
                                           CMP.b #$06 : BNE .delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .return
     
@@ -72,7 +72,7 @@ Ancilla_DashDust:
     
     .delay
     
-    LDA $0C5E, X : CMP.b #$05 : BEQ .return
+    LDA.w $0C5E, X : CMP.b #$05 : BEQ .return
     
     JSR Ancilla_PrepOamCoord
     
@@ -91,7 +91,7 @@ Ancilla_DashDust:
     
     LDY.b #$00
     
-    LDA $0351 : CMP.b #$01 : BNE .not_standing_in_water
+    LDA.w $0351 : CMP.b #$01 : BNE .not_standing_in_water
     
     LDY.b #$05
     
@@ -99,7 +99,7 @@ Ancilla_DashDust:
     
     STY $04
     
-    LDA $0C5E, X : CLC : ADC $04 : STA $04
+    LDA.w $0C5E, X : CLC : ADC $04 : STA $04
     
     ASL A : CLC : ADC $04 : STA $04
     

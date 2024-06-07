@@ -36,9 +36,9 @@ Local:
 {
     ; Appears to be a simple debug frame counter (8-bit) for this submodule
     ; Of course, it loops back every 256 frames
-    INC $0206
+    INC.w $0206
     
-    LDA $0200
+    LDA.w $0200
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -76,14 +76,14 @@ ClearTilemap:
     
     .clearVramBuffer
     
-    STA $1000, X : STA $1080, X
-    STA $1100, X : STA $1180, X
-    STA $1200, X : STA $1280, X
-    STA $1300, X : STA $1380, X
-    STA $1400, X : STA $1480, X
-    STA $1500, X : STA $1580, X
-    STA $1600, X : STA $1680, X
-    STA $1700, X : STA $1780, X
+    STA.w $1000, X : STA.w $1080, X
+    STA.w $1100, X : STA.w $1180, X
+    STA.w $1200, X : STA.w $1280, X
+    STA.w $1300, X : STA.w $1380, X
+    STA.w $1400, X : STA.w $1480, X
+    STA.w $1500, X : STA.w $1580, X
+    STA.w $1600, X : STA.w $1680, X
+    STA.w $1700, X : STA.w $1780, X
     
     INX #2 : CPX.b #$80
     
@@ -92,16 +92,16 @@ ClearTilemap:
     SEP #$20
     
     ; play sound effect for opening item menu
-    LDA.b #$11 : STA $012F
+    LDA.b #$11 : STA.w $012F
     
     ; tell NMI to update tilemap
     LDA.b #$01 : STA $17
     
     ; the region of tilemap to update is word address $6800 (this value 0x22 indexes into a table in NMI)
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     ; move to next step of the submodule
-    INC $0200
+    INC.w $0200
     
     RTS
 }
@@ -212,7 +212,7 @@ Init:
     JSR DrawSelectedYButtonItem
     
     ; Does the player have a bottle equipped currently?
-    LDA $0202 : CMP.b #$10                 ; initial draw
+    LDA.w $0202 : CMP.b #$10                 ; initial draw
     
     BNE .equippedItemIsntBottle
     
@@ -225,16 +225,16 @@ Init:
     .noEquipableItems
     
     ; Start a timer
-    LDA.b #$10 : STA $0207
+    LDA.b #$10 : STA.w $0207
     
     ; Make NMI update BG3 tilemap
     LDA.b #$01 : STA $17
     
     ; update vram address $6800 (word)
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     ; move on to next step of the submodule
-    INC $0200
+    INC.w $0200
     
     RTS
 }
@@ -252,7 +252,7 @@ BringMenuDown:
     
     BNE .notDoneScrolling 
     
-    INC $0200
+    INC.w $0200
     
     .notDoneScrolling
     
@@ -280,7 +280,7 @@ ChooseNextMode:
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     JSR DoWeHaveThisItem : BCS .weHaveIt
     
@@ -291,13 +291,13 @@ ChooseNextMode:
     JSR DrawSelectedYButtonItem
     
     ; Move to the next step of the submodule
-    LDA.b #$04 : STA $0200
+    LDA.b #$04 : STA.w $0200
     
-    LDA $0202 : CMP.b #$10 : BNE .notOnBottleMenu
+    LDA.w $0202 : CMP.b #$10 : BNE .notOnBottleMenu
     
     ; switch to the step of this submodule that handles when the
     ; bottle submenu is up
-    LDA.b #$0A : STA $0200
+    LDA.b #$0A : STA.w $0200
     
     .notOnBottleMenu
     
@@ -308,7 +308,7 @@ ChooseNextMode:
     ; BYSTudlr
     LDA $F4 : BEQ .noButtonPress
     
-    LDA.b #$05 : STA $0200
+    LDA.b #$05 : STA.w $0200
     
     RTS
     
@@ -322,7 +322,7 @@ ChooseNextMode:
 ; $06DEB0-$06DEBC LOCAL JUMP LOCATION
 DoWeHaveThisItem:
 {
-    LDX $0202
+    LDX.w $0202
     
     ; Check to see if we have this item...
     LDA.l $7EF33F, X : BNE .haveThisItem
@@ -342,12 +342,12 @@ DoWeHaveThisItem:
 ; $06DEBD-$06DECA LOCAL JUMP LOCATION
 GoToPrevItem:
 {
-    LDA $0202 : DEC A : CMP.b #$01 : BCS .dontReset
+    LDA.w $0202 : DEC A : CMP.b #$01 : BCS .dontReset
         LDA.b #$14
     
     .dontReset
     
-    STA $0202
+    STA.w $0202
     
     RTS
 } 
@@ -359,13 +359,13 @@ GotoNextItem:
 {
     ; Load our currently equipped item, and move to the next one
     ; If we reach our limit (21), set it back to the bow and arrow slot.
-    LDA $0202 : INC A : CMP.b #$15 : BCC .dontReset
+    LDA.w $0202 : INC A : CMP.b #$15 : BCC .dontReset
         LDA.b #$01
     
     .dontReset
     
     ; Otherwise try to equip the item in the next slot
-    STA $0202
+    STA.w $0202
     
     RTS
 }
@@ -435,7 +435,7 @@ TryEquipItemBelow:
 ; $06DF15-$06DFA8 JUMP LOCATION
 NormalMenu:
 {
-    INC $0207
+    INC.w $0207
     
     ; BYSTudlr
     LDA $F0 : BNE .inputReceived
@@ -449,8 +449,8 @@ NormalMenu:
     LDA $F4 : AND.b #$10 : BEQ .dontLeaveMenu
     
     ; bring the menu back up and play the vvvvoooop sound as it comes up.
-    LDA.b #$05 : STA $0200
-    LDA.b #$12 : STA $012F
+    LDA.b #$05 : STA.w $0200
+    LDA.b #$12 : STA.w $012F
     
     RTS
     
@@ -461,7 +461,7 @@ NormalMenu:
     ; aren't holding any of those buttons.
     LDA $BD : BNE .didntChange
     
-    LDA $0202 : STA $00
+    LDA.w $0202 : STA $00
     
     ; Joypad 2.... interesting. It's checking the R button.
     LDA $F7 : AND.b #$10 : BEQ .dontBeAJackass
@@ -469,7 +469,7 @@ NormalMenu:
     ; Apparently pressing R on Joypad 2 (if it's enabled) deletes your currently selected item.
     ; Imagine playing the game with your friend constantly trying to delete your items
     ; Lots of punching would ensue.
-    LDX $0202 
+    LDX.w $0202 
     
     LDA.b #$00 : STA.l $7EF33F, X
     
@@ -520,11 +520,11 @@ NormalMenu:
     LDA $F4 : STA $BD
     
     ; check if the currently equipped item changed
-    LDA $0202 : CMP.b $00 : BEQ .didntChange
+    LDA.w $0202 : CMP.b $00 : BEQ .didntChange
     
     ; Reset a timer and play a sound effect
-    LDA.b #$10 : STA $0207
-    LDA.b #$20 : STA $012F
+    LDA.b #$10 : STA.w $0207
+    LDA.b #$20 : STA.w $012F
     
     .didntChange
     
@@ -535,16 +535,16 @@ NormalMenu:
     JSR DrawSelectedYButtonItem
     
     ; check if we ended up selecting a bottle this frame
-    LDA $0202 : CMP.b #$10 : BNE .didntSelectBottle
+    LDA.w $0202 : CMP.b #$10 : BNE .didntSelectBottle
     
     ; switch to the bottle submenu handler
-    LDA.b #$07 : STA $0200
+    LDA.b #$07 : STA.w $0200
     
     .didntSelectBottle
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     RTS
 }
@@ -555,7 +555,7 @@ NormalMenu:
 UpdateHUD:
 {
     ; Move on to next step.
-    INC $0200
+    INC.w $0200
     
     JSR HUD.Rebuild.updateOnly
     
@@ -565,9 +565,9 @@ UpdateHUD:
     ; Using the item selected in the item menu,
     ; set a value that tells us what item to use during actual
     ; gameplay. (Y button items, btw)
-    LDX $0202 
+    LDX.w $0202 
     
-    LDA.l $0DFA15, X : STA $0303
+    LDA.l $0DFA15, X : STA.w $0303
     
     RTS
 }
@@ -587,11 +587,11 @@ CloseMenu:
     JSR HUD.Rebuild
     
     ; reset submodule and subsubmodule indices
-    STZ $0200
+    STZ.w $0200
     STZ $11
     
     ; Go back to the module we came from
-    LDA $010C : STA $10
+    LDA.w $010C : STA $10
     
     ; Why this is checked, I dunno. notice the huge whopping STZ $11 up above? Yeah, I thought so.
     LDA $11 : BEQ .noSpecialSubmode
@@ -603,14 +603,14 @@ CloseMenu:
     
     .noSpecialSubmode
     
-    LDA $0303
+    LDA.w $0303
     
     CMP.b #$05 : BEQ .fireRod
     CMP.b #$06 : BEQ .iceRod
     
-    LDA.b #$02 : STA $034B
+    LDA.b #$02 : STA.w $034B
     
-    STZ $020B
+    STZ.w $020B
     
     BRA .return
 
@@ -621,9 +621,9 @@ CloseMenu:
     ; abstract, it actually positions the HUD up by 8 pixels higher than
     ; it would normally be if you select one of the rods and this variable
     ; $020B is also set. That's it.
-    LDA $020B : BNE .scroll_up_additional_8_pixels
+    LDA.w $020B : BNE .scroll_up_additional_8_pixels
     
-    STZ $034B
+    STZ.w $034B
     
     .notDoneScrolling
     .return
@@ -636,8 +636,8 @@ CloseMenu:
 ; $06DFFB-$06E001 JUMP LOCATION
 GotoBottleMenu:
 {
-    STZ $0205
-    INC $0200
+    STZ.w $0205
+    INC.w $0200
     
     RTS
 } 
@@ -649,28 +649,28 @@ InitBottleMenu:
 {
     REP #$30
     
-    LDA $0205 : AND.w #$00FF : ASL #6 : TAX
+    LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX
     
     LDA.w #$207F 
-    STA $12EA, X : STA $12EC, X : STA $12EE, X : STA $12F0, X
-    STA $12F2, X : STA $12F4, X : STA $12F6, X : STA $12F8, X
-    STA $12FA, X : STA $12FC, X
+    STA.w $12EA, X : STA.w $12EC, X : STA.w $12EE, X : STA.w $12F0, X
+    STA.w $12F2, X : STA.w $12F4, X : STA.w $12F6, X : STA.w $12F8, X
+    STA.w $12FA, X : STA.w $12FC, X
     
     SEP #$30
     
-    INC $0205
+    INC.w $0205
     
-    LDA $0205 : CMP.b #$13 : BNE .notDoneErasing
+    LDA.w $0205 : CMP.b #$13 : BNE .notDoneErasing
     
-    INC $0200
+    INC.w $0200
     
-    LDA.b #$11 : STA $0205
+    LDA.b #$11 : STA.w $0205
     
     .notDoneErasing
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     RTS
 }
@@ -702,13 +702,13 @@ ExpandBottleMenu:
     
     REP #$30
     
-    LDA $0205 : AND.w #$00FF : ASL #6 : TAX : PHX
+    LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX : PHX
     
     LDY.w #$0012
     
     .drawBottleMenuTop
     
-    LDA.w $E050, Y : STA $12FC, X
+    LDA.w $E050, Y : STA.w $12FC, X
     
     DEX #2 : DEY #2 : BPL .drawBottleMenuTop
     
@@ -720,7 +720,7 @@ ExpandBottleMenu:
     ; from the previous frame until fully expanded
     .eraseOldTop
     
-    LDA.w $E064, Y : STA $133C, X
+    LDA.w $E064, Y : STA.w $133C, X
     
     DEX #2
     
@@ -732,21 +732,21 @@ ExpandBottleMenu:
     ; step of the submodule
     .drawBottleMenuBottom
     
-    LDA.w $E078, X : STA $176A, X
+    LDA.w $E078, X : STA.w $176A, X
     
     DEX #2 : BPL .drawBottleMenuBottom
     
     SEP #$30
     
-    DEC $0205 : LDA $0205 : BPL .notDoneDrawing
+    DEC.w $0205 : LDA.w $0205 : BPL .notDoneDrawing
     
-    INC $0200
+    INC.w $0200
     
     .notDoneDrawing
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     RTS
 }
@@ -756,14 +756,14 @@ ExpandBottleMenu:
 ; $06E0DF-$06E176 JUMP LOCATION
 BottleMenu:
 {
-    INC $0207
+    INC.w $0207
     
     ; Check if the start button was pressed this frame
     LDA $F4 : AND.b #$10 : BEQ .dontCloseMenu
     
     ; close the item menu and play the vvvoooop sound as it goes up
-    LDA.b #$12 : STA $012F
-    LDA.b #$05 : STA $0200
+    LDA.b #$12 : STA.w $012F
+    LDA.b #$05 : STA.w $0200
     
     BRA .lookAtUpDownInput
     
@@ -788,8 +788,8 @@ BottleMenu:
     
     ; play sound effect and start a timer to keep
     ; us from switching items for 16 frames.
-    LDA.b #$10 : STA $0207
-    LDA.b #$20 : STA $012F
+    LDA.b #$10 : STA.w $0207
+    LDA.b #$20 : STA.w $012F
     
     LDA.b #$01
     
@@ -799,9 +799,9 @@ BottleMenu:
     
     ; Since left or right was pressed, we're exiting the bottle menu
     ; and going back to the normal menu.
-    INC $0200
+    INC.w $0200
     
-    STZ $0205
+    STZ.w $0205
     
     RTS
     
@@ -845,8 +845,8 @@ BottleMenu:
     
     ; If it's not the same bottle we play the 
     ; obligatory item switch sound effect
-    LDA.b #$10 : STA $0207
-    LDA.b #$20 : STA $012F
+    LDA.b #$10 : STA.w $0207
+    LDA.b #$20 : STA.w $012F
     
     .sameBottleWhoCares
     
@@ -871,15 +871,15 @@ UpdateBottleMenu:
     
     .erase
     
-    STA $132C, X : STA $136C, X
-    STA $13AC, X : STA $13EC, X
-    STA $142C, X : STA $146C, X
-    STA $14AC, X : STA $14EC, X
-    STA $152C, X : STA $156C, X
-    STA $15AC, X : STA $15EC, X
-    STA $162C, X : STA $166C, X
-    STA $16AC, X : STA $16EC, X
-    STA $172C, X 
+    STA.w $132C, X : A.w $136C6C, X
+    STA.w $13AC, X : A.w $13ECEC, X
+    STA.w $142C, X : A.w $146C6C, X
+    STA.w $14AC, X : A.w $14ECEC, X
+    STA.w $152C, X : A.w $156C6C, X
+    STA.w $15AC, X : A.w $15ECEC, X
+    STA.w $162C, X : A.w $166C6C, X
+    STA.w $16AC, X : A.w $16ECEC, X
+    STA.w $172C, X 
     
     INX #2
     
@@ -930,37 +930,37 @@ UpdateBottleMenu:
     
     JSR DrawItem
     
-    LDA $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
     LDY.w $FAD5, X
     
-    LDA $0000, Y : STA $11B2
-    LDA $0002, Y : STA $11B4
-    LDA $0040, Y : STA $11F2
-    LDA $0042, Y : STA $11F4
+    LDA.w $0000, Y : A.w $11B2B2
+    LDA.w $0002, Y : A.w $11B4B4
+    LDA.w $0040, Y : A.w $11F2F2
+    LDA.w $0042, Y : A.w $11F4F4
     
     LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
     LDA.w $E177, Y : TAY
     
-    LDA $0207 : AND.w #$0010 : BEQ .return
+    LDA.w $0207 : AND.w #$0010 : BEQ .return
     
-    LDA.w #$3C61 : STA $12AA, Y
-    ORA.w #$4000 : STA $12AC, Y
+    LDA.w #$3C61 : STA.w $12AA, Y
+    ORA.w #$4000 : STA.w $12AC, Y
     
-    LDA.w #$3C70 : STA $12E8, Y
-    ORA.w #$4000 : STA $12EE, Y
+    LDA.w #$3C70 : STA.w $12E8, Y
+    ORA.w #$4000 : STA.w $12EE, Y
     
-    LDA.w #$BC70 : STA $1328, Y
-    ORA.w #$4000 : STA $132E, Y
+    LDA.w #$BC70 : STA.w $1328, Y
+    ORA.w #$4000 : STA.w $132E, Y
     
-    LDA.w #$BC61 : STA $136A, Y
-    ORA.w #$4000 : STA $136C, Y
+    LDA.w #$BC61 : STA.w $136A, Y
+    ORA.w #$4000 : STA.w $136C, Y
     
-    LDA.w #$3C60 : STA $12A8, Y
-    ORA.w #$4000 : STA $12AE, Y
-    ORA.w #$8000 : STA $136E, Y
-    EOR.w #$4000 : STA $1368, Y
+    LDA.w #$3C60 : STA.w $12A8, Y
+    ORA.w #$4000 : STA.w $12AE, Y
+    ORA.w #$8000 : STA.w $136E, Y
+    EOR.w #$4000 : STA.w $1368, Y
     
     LDA.l $7EF34F : AND.w #$00FF : BEQ .noSelectedBottle
     
@@ -972,8 +972,8 @@ UpdateBottleMenu:
     
     .writeBottleDescription
     
-    LDA.w $F449, X : STA $122C, Y
-    LDA.w $F459, X : STA $126C, Y
+    LDA.w $F449, X : STA.w $122C, Y
+    LDA.w $F459, X : STA.w $126C, Y
     
     INX #2
     INY #2 : CPY.w #$0010
@@ -987,7 +987,7 @@ UpdateBottleMenu:
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     RTS
 } 
@@ -1000,27 +1000,27 @@ EraseBottleMenu:
     REP #$30
     
     ; erase the bottle menu
-    LDA $0205 : AND.w #$00FF : ASL #6 : TAX
+    LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX
     
     LDA.w #$207F
-    STA $12EA, X : STA $12EC, X : STA $12EE, X : STA $12F0, X
-    STA $12F2, X : STA $12F4, X : STA $12F6, X : STA $12F8, X
-    STA $12FA, X : STA $12FC, X
+    STA.w $12EA, X : A.w $12ECEC, X A.w $12EE12EE, A.w $12F0 $12F0, X
+    STA.w $12F2, X : A.w $12F4F4, X A.w $12F612F6, A.w $12F8 $12F8, X
+    STA.w $12FA, X : A.w $12FCFC, X
     
     SEP #$30
     
-    INC $0205
+    INC.w $0205
     
-    LDA $0205 : CMP.b #$13 : BNE .notDoneErasing
+    LDA.w $0205 : CMP.b #$13 : BNE .notDoneErasing
     
     ; move on to the next step of the submodule
-    INC $0200
+    INC.w $0200
     
     .notDoneErasing
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     RTS
 }
@@ -1047,11 +1047,11 @@ RestoreNormalMenu:
     JSR DrawCompass
     
     ; Switch to the normal menu submode.
-    LDA.b #$04 : STA $0200
+    LDA.b #$04 : STA.w $0200
     
     ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
     LDA.b #$01 : STA $17
-    LDA.b #$22 : STA $0116
+    LDA.b #$22 : STA.w $0116
     
     RTS
 }
@@ -1065,10 +1065,10 @@ DrawItem:
     
     LDX $00
     
-             LDA ($04), Y : STA $0000, X
-    INY #2 : LDA ($04), Y : STA $0002, X 
-    INY #2 : LDA ($04), Y : STA $0040, X 
-    INY #2 : LDA ($04), Y : STA $0042, X
+             LDA ($04), Y : STA.w $0000, X
+    INY #2 : LDA ($04), Y : STA.w $0002, X 
+    INY #2 : LDA ($04), Y : STA.w $0040, X 
+    INY #2 : LDA ($04), Y : STA.w $0042, X
     
     RTS
 } 
@@ -1102,7 +1102,7 @@ SearchForEquippedItem:
     
     CMP.b #$00 : BNE .equippableItemAvailable
         ; In this case we have no equippable items
-        STZ $0202 : STZ $0203 : STZ $0204
+        STZ.w $0202 : Z.w $020303 Z.w $02040204
         
         .weHaveThatItem
         
@@ -1111,9 +1111,9 @@ SearchForEquippedItem:
     .equippableItemAvailable
     
     ; Is there an item currently equipped (in the HUD slot)?
-    LDA $0202 : BNE .alreadyEquipped
+    LDA.w $0202 : BNE .alreadyEquipped
         ; If not, set the equipped item to the Bow and Arrow (even if we don't actually have it)
-        LDA.b #$01 : STA $0202
+        LDA.b #$01 : STA.w $0202
     
     .alreadyEquipped
     
@@ -1156,18 +1156,18 @@ DrawYButtonItems:
     REP #$30
     
     ; draw 4 corners of a box (for the equippable item section)
-    LDA.w #$3CFB : AND $00 : STA $1142
-    ORA.w #$8000 : STA $14C2
-    ORA.w #$4000 : STA $14E6
-    EOR.w #$8000 : STA $1166
+    LDA.w #$3CFB : AND $00 : STA.w $1142
+    ORA.w #$8000 : STA.w $14C2
+    ORA.w #$4000 : STA.w $14E6
+    EOR.w #$8000 : STA.w $1166
     
     LDX.w #$0000
     LDY.w #$000C
     
     .drawVerticalEdges
     
-        LDA.w #$3CFC : AND $00 : STA $1182, X
-        ORA.w #$4000 : STA $11A6, X
+        LDA.w #$3CFC : AND $00 : STA.w $1182, X
+        ORA.w #$4000 : STA.w $11A6, X
         
         TXA : CLC : ADC.w #$0040 : TAX
     DEY : BPL .drawVerticalEdges
@@ -1177,8 +1177,8 @@ DrawYButtonItems:
     
     .drawHorizontalEdges
     
-        LDA.w #$3CF9 : AND $00 : STA $1144, X
-        ORA.w #$8000 : STA $14C4, X
+        LDA.w #$3CF9 : AND $00 : STA.w $1144, X
+        ORA.w #$8000 : STA.w $14C4, X
         
         INX #2
     DEY : BPL .drawHorizontalEdges
@@ -1189,21 +1189,21 @@ DrawYButtonItems:
     
     .drawBoxInterior
     
-        STA $1184, X : STA $11C4, X : STA $1204, X : STA $1244, X
-        STA $1284, X : STA $12C4, X : STA $1304, X : STA $1344, X
-        STA $1384, X : STA $13C4, X : STA $1404, X : STA $1444, X
-        STA $1484, X
+        STA.w $1184, X : A.w $11C4C4, X A.w $12041204, A.w $1244 $1244, X
+        STA.w $1284, X : A.w $12C4C4, X A.w $13041304, A.w $1344 $1344, X
+        STA.w $1384, X : A.w $13C4C4, X A.w $14041404, A.w $1444 $1444, X
+        STA.w $1484, X
         
         INX #2
     DEY : BPL .drawBoxInterior
     
     ; Draw 'Y' button Icon
-    LDA.w #$3CF0 : STA $1184
-    LDA.w #$3CF1 : STA $11C4
+    LDA.w #$3CF0 : STA.w $1184
+    LDA.w #$3CF1 : STA.w $11C4
 
     ; The "ITEM" at the top
-    LDA.w #$246E : STA $1146
-    LDA.w #$246F : STA $1148
+    LDA.w #$246E : STA.w $1146
+    LDA.w #$246F : STA.w $1148
     
     ; Draw Bow and Arrow
     LDA.w #$11C8 : STA $00
@@ -1371,10 +1371,10 @@ DrawSelectedItemBox:
     REP #$30
     
     ; draw 4 corners of a box
-    LDA.w #$3CFB : AND $00 : STA $116A
-    ORA.w #$8000 : STA $12AA
-    ORA.w #$4000 : STA $12BC
-    EOR.w #$8000 : STA $117C
+    LDA.w #$3CFB : AND $00 : STA.w $116A
+    ORA.w #$8000 : STA.w $12AA
+    ORA.w #$4000 : STA.w $12BC
+    EOR.w #$8000 : STA.w $117C
     
     LDX.w #$0000 
     LDY.w #$0003
@@ -1382,8 +1382,8 @@ DrawSelectedItemBox:
     ; the lines these tiles make are vertical
     .drawBoxVerticalSides
     
-        LDA.w #$3CFC : AND $00 : STA $11AA, X
-        ORA.w #$4000 : STA $11BC, X
+        LDA.w #$3CFC : AND $00 : STA.w $11AA, X
+        ORA.w #$4000 : STA.w $11BC, X
         
         TXA : CLC : ADC.w #$0040 : TAX
     DEY : BPL .drawBoxVerticalSides
@@ -1394,8 +1394,8 @@ DrawSelectedItemBox:
     ; I say horizontal b/c the lines the sides make are horizontal
     .drawBoxHorizontalSides
     
-        LDA.w #$3CF9 : AND $00 : STA $116C, X
-        ORA.w #$8000 : STA $12AC, X
+        LDA.w #$3CF9 : AND $00 : STA.w $116C, X
+        ORA.w #$8000 : STA.w $12AC, X
         
         INX #2
     DEY : BPL .drawBoxHorizontalSides
@@ -1406,7 +1406,7 @@ DrawSelectedItemBox:
     
     .drawBoxInterior
     
-        STA $11AC, X : STA $11EC, X : STA $122C, X : STA $126C, X ; init description draw
+        STA.w $11AC, X : A.w $11ECEC, X A.w $122C122C, A.w $126C.w $126C, X ; init description draw
         
         INX #2
     DEY : BPL .drawBoxInterior
@@ -1429,11 +1429,11 @@ DrawAbilityText:
     
     .drawBoxInterior
     
-        STA $1584, X : STA $15C4, X
-        STA $1604, X : STA $1644, X
-        STA $1684, X : STA $16C4, X
+        STA.w $1584, X : A.w $15C4C4, X
+        STA.w $1604, X : A.w $164444, X
+        STA.w $1684, X : A.w $16C4C4, X
         
-        STA $1704, X : INX #2
+        STA.w $1704, X : INX #2
     DEY : BPL .drawBoxInterior
     
     ; get data from ability variable (set of flags for each ability)
@@ -1452,16 +1452,16 @@ DrawAbilityText:
             ASL $02 : BCC .lacksAbility
                 ; Draws the ability strings if Link has the ability
                 ; (2 x 5 tile rectangle for each ability)
-                LDA.w $F959, X : STA $1588, Y
-                LDA.w $F95B, X : STA $158A, Y
-                LDA.w $F95D, X : STA $158C, Y
-                LDA.w $F95F, X : STA $158E, Y
-                LDA.w $F961, X : STA $1590, Y
-                LDA.w $F963, X : STA $15C8, Y
-                LDA.w $F965, X : STA $15CA, Y
-                LDA.w $F967, X : STA $15CC, Y
-                LDA.w $F969, X : STA $15CE, Y
-                LDA.w $F96B, X : STA $15D0, Y
+                LDA.w $F959, X : STA.w $1588, Y
+                LDA.w $F95B, X : STA.w $158A, Y
+                LDA.w $F95D, X : STA.w $158C, Y
+                LDA.w $F95F, X : STA.w $158E, Y
+                LDA.w $F961, X : STA.w $1590, Y
+                LDA.w $F963, X : STA.w $15C8, Y
+                LDA.w $F965, X : STA.w $15CA, Y
+                LDA.w $F967, X : STA.w $15CC, Y
+                LDA.w $F969, X : STA.w $15CE, Y
+                LDA.w $F96B, X : STA.w $15D0, Y
             
             .lacksAbility
             
@@ -1473,18 +1473,18 @@ DrawAbilityText:
     DEC $04 : BNE .nextLine
     
     ; draw the 4 corners of the box containing the ability tiles
-    LDA.w #$24FB : AND $00 : STA $1542
-    ORA.w #$8000 : STA $1742
-    ORA.w #$4000 : STA $1766
-    EOR.w #$8000 : STA $1566
+    LDA.w #$24FB : AND $00 : STA.w $1542
+    ORA.w #$8000 : STA.w $1742
+    ORA.w #$4000 : STA.w $1766
+    EOR.w #$8000 : STA.w $1566
     
     LDX.w #$0000
     LDY.w #$0006
     
     .drawVerticalEdges
     
-        LDA.w #$24FC : AND $00 : STA $1582, X
-        ORA.w #$4000 : STA $15A6, X
+        LDA.w #$24FC : AND $00 : STA.w $1582, X
+        ORA.w #$4000 : STA.w $15A6, X
         
         TXA : CLC : ADC.w #$0040 : TAX
     
@@ -1495,17 +1495,17 @@ DrawAbilityText:
     
     .drawHorizontalEdges
     
-        LDA.w #$24F9 : AND $00 : STA $1544, X
-        ORA.w #$8000 : STA $1744, X
+        LDA.w #$24F9 : AND $00 : STA.w $1544, X
+        ORA.w #$8000 : STA.w $1744, X
         
         INX #2
     DEY : BPL .drawHorizontalEdges
     
     ; Draw 'A' button icon
-    LDA.w #$A4F0 : STA $1584
-    LDA.w #$24F2 : STA $15C4
-    LDA.w #$2482 : STA $1546
-    LDA.w #$2483 : STA $1548
+    LDA.w #$A4F0 : STA.w $1584
+    LDA.w #$24F2 : STA.w $15C4
+    LDA.w #$2482 : STA.w $1546
+    LDA.w #$2483 : STA.w $1548
     
     SEP #$30
     
@@ -1570,16 +1570,16 @@ DrawGloveAbility:
     STA $00 
     ASL #2 : ADC $00 : ASL #2 : TAX
     
-    LDA.w $F931, X : STA $1588
-    LDA.w $F933, X : STA $158A
-    LDA.w $F935, X : STA $158C
-    LDA.w $F937, X : STA $158E
-    LDA.w $F939, X : STA $1590
-    LDA.w $F93B, X : STA $15C8
-    LDA.w $F93D, X : STA $15CA
-    LDA.w $F93F, X : STA $15CC
-    LDA.w $F941, X : STA $15CE
-    LDA.w $F943, X : STA $15D0
+    LDA.w $F931, X : STA.w $1588
+    LDA.w $F933, X : STA.w $158A
+    LDA.w $F935, X : STA.w $158C
+    LDA.w $F937, X : STA.w $158E
+    LDA.w $F939, X : STA.w $1590
+    LDA.w $F93B, X : STA.w $15C8
+    LDA.w $F93D, X : STA.w $15CA
+    LDA.w $F93F, X : STA.w $15CC
+    LDA.w $F941, X : STA.w $15CE
+    LDA.w $F943, X : STA.w $15D0
     
     RTS
 }
@@ -1645,15 +1645,15 @@ DrawProgressIcons:
     
     .initPendantDiagram
     
-        LDA.w $E860, X : STA $12EA, X
-        LDA.w $E874, X : STA $132A, X
-        LDA.w $E888, X : STA $136A, X
-        LDA.w $E89C, X : STA $13AA, X
-        LDA.w $E8B0, X : STA $13EA, X
-        LDA.w $E8C4, X : STA $142A, X
-        LDA.w $E8D8, X : STA $146A, X
-        LDA.w $E8EC, X : STA $14AA, X
-        LDA.w $E900, X : STA $14EA, X
+        LDA.w $E860, X : STA.w $12EA, X
+        LDA.w $E874, X : STA.w $132A, X
+        LDA.w $E888, X : STA.w $136A, X
+        LDA.w $E89C, X : STA.w $13AA, X
+        LDA.w $E8B0, X : STA.w $13EA, X
+        LDA.w $E8C4, X : STA.w $142A, X
+        LDA.w $E8D8, X : STA.w $146A, X
+        LDA.w $E8EC, X : STA.w $14AA, X
+        LDA.w $E900, X : STA.w $14EA, X
     INX #2 : CPX.w #$0014 : BCC .initPendantDiagram
     
     LDA.w #$13B2               : STA $00
@@ -1699,56 +1699,56 @@ DrawProgressIcons:
     
     .initCrystalDiagram
     
-        LDA.w $E914, X : STA $12EA, X
-        LDA.w $E928, X : STA $132A, X
-        LDA.w $E93C, X : STA $136A, X
-        LDA.w $E950, X : STA $13AA, X
-        LDA.w $E964, X : STA $13EA, X
-        LDA.w $E978, X : STA $142A, X
-        LDA.w $E98C, X : STA $146A, X
-        LDA.w $E9A0, X : STA $14AA, X
-        LDA.w $E9B4, X : STA $14EA, X
+        LDA.w $E914, X : STA.w $12EA, X
+        LDA.w $E928, X : STA.w $132A, X
+        LDA.w $E93C, X : STA.w $136A, X
+        LDA.w $E950, X : STA.w $13AA, X
+        LDA.w $E964, X : STA.w $13EA, X
+        LDA.w $E978, X : STA.w $142A, X
+        LDA.w $E98C, X : STA.w $146A, X
+        LDA.w $E9A0, X : STA.w $14AA, X
+        LDA.w $E9B4, X : STA.w $14EA, X
     INX #2 : CPX.w #$0014 : BCC .initCrystalDiagram
     
     LDA.l $7EF37A : AND.w #$0001 : BEQ .miseryMireNotDone
-        LDA.w #$2D44 : STA $13B0
-        LDA.w #$2D45 : STA $13B2
+        LDA.w #$2D44 : STA.w $13B0
+        LDA.w #$2D45 : STA.w $13B2
     
     .miseryMireNotDone
     
     LDA.l $7EF37A : AND.w #$0002 : BEQ .darkPalaceNotDone
-        LDA.w #$2D44 : STA $13B4
-        LDA.w #$2D45 : STA $13B6
+        LDA.w #$2D44 : STA.w $13B4
+        LDA.w #$2D45 : STA.w $13B6
     
     .darkPalaceNotDone
     
     LDA.l $7EF37A : AND.w #$0004 : BEQ .icePalaceNotDone
-        LDA.w #$2D44 : STA $142E
-        LDA.w #$2D45 : STA $1430
+        LDA.w #$2D44 : STA.w $142E
+        LDA.w #$2D45 : STA.w $1430
     
     .icePalaceNotDone
     
     LDA.l $7EF37A : AND.w #$0008 : BEQ .turtleRockNotDone
-        LDA.w #$2D44 : STA $1432
-        LDA.w #$2D45 : STA $1434
+        LDA.w #$2D44 : STA.w $1432
+        LDA.w #$2D45 : STA.w $1434
     
     .turtleRockNotDone
     
     LDA.l $7EF37A : AND.w #$0010 : BEQ .swampPalaceNotDone
-        LDA.w #$2D44 : STA $1436
-        LDA.w #$2D45 : STA $1438
+        LDA.w #$2D44 : STA.w $1436
+        LDA.w #$2D45 : STA.w $1438
     
     .swampPalaceNotDone
     
     LDA.l $7EF37A : AND.w #$0020 : BEQ .blindHideoutNotDone
-        LDA.w #$2D44 : STA $14B0
-        LDA.w #$2D45 : STA $14B2
+        LDA.w #$2D44 : STA.w $14B0
+        LDA.w #$2D45 : STA.w $14B2
     
     .blindHideoutNotDone
     
     LDA.l $7EF37A : AND.w #$0040 : BEQ .skullWoodsNotDone
-        LDA.w #$2D44 : STA $14B4
-        LDA.w #$2D45 : STA $14B6
+        LDA.w #$2D44 : STA.w $14B4
+        LDA.w #$2D45 : STA.w $14B6
     
     .skullWoodsNotDone
     
@@ -1764,35 +1764,35 @@ DrawSelectedYButtonItem:
 {
     REP #$30
     
-    LDA $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
     LDY.w $FAD5, X
-    LDA $0000, Y : STA $11B2
-    LDA $0002, Y : STA $11B4
-    LDA $0040, Y : STA $11F2
-    LDA $0042, Y : STA $11F4
+    LDA.w $0000, Y : A.w $11B2B2
+    LDA.w $0002, Y : A.w $11B4B4
+    LDA.w $0040, Y : A.w $11F2F2
+    LDA.w $0042, Y : A.w $11F4F4
     
-    LDA $0207 : AND.w #$0010 : BEQ .dontUpdate
-        LDA.w #$3C61 : STA $FFC0, Y
-        ORA.w #$4000 : STA $FFC2, Y
+    LDA.w $0207 : AND.w #$0010 : BEQ .dontUpdate
+        LDA.w #$3C61 : STA.w $FFC0, Y
+        ORA.w #$4000 : STA.w $FFC2, Y
         
-        LDA.w #$3C70 : STA $FFFE, Y
-        ORA.w #$4000 : STA $0004, Y
+        LDA.w #$3C70 : STA.w $FFFE, Y
+        ORA.w #$4000 : STA.w $0004, Y
         
-        LDA.w #$BC70 : STA $003E, Y
-        ORA.w #$4000 : STA $0044, Y
+        LDA.w #$BC70 : STA.w $003E, Y
+        ORA.w #$4000 : STA.w $0044, Y
         
-        LDA.w #$BC61 : STA $0080, Y
-        ORA.w #$4000 : STA $0082, Y
+        LDA.w #$BC61 : STA.w $0080, Y
+        ORA.w #$4000 : STA.w $0082, Y
         
-        LDA.w #$3C60 : STA $FFBE, Y
-        ORA.w #$4000 : STA $FFC4, Y
-        ORA.w #$8000 : STA $0084, Y
-        EOR.w #$4000 : STA $007E, Y
+        LDA.w #$3C60 : STA.w $FFBE, Y
+        ORA.w #$4000 : STA.w $FFC4, Y
+        ORA.w #$8000 : STA.w $0084, Y
+        EOR.w #$4000 : STA.w $007E, Y
     
     .dontUpdate
     
-    LDA $0202 : AND.w #$00FF : CMP.w #$0010 : BNE .bottleNotSelected
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0010 : BNE .bottleNotSelected
         LDA.l $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
             TAX
             
@@ -1802,8 +1802,8 @@ DrawSelectedYButtonItem:
             
             .drawBottleDescription
             
-            LDA.w $F449, X : STA $122C, Y ; loads 24F5, 
-            LDA.w $F459, X : STA $126C, Y ; loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,   
+            LDA.w $F449, X : STA.w $122C, Y ; loads 24F5, 
+            LDA.w $F459, X : STA.w $126C, Y ; loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,   
             
             INX #2
             INY #2 : CPY.w #$0010
@@ -1815,7 +1815,7 @@ DrawSelectedYButtonItem:
     .bottleNotSelected
     
     ; Magic Powder selected?
-    LDA $0202 : AND.w #$00FF : CMP.w #$0005 : BNE .powderNotSelected
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0005 : BNE .powderNotSelected
         LDA.l $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
             DEC A : ASL #5 : TAX
             
@@ -1823,8 +1823,8 @@ DrawSelectedYButtonItem:
             
             .writePowderDescription
             
-                LDA.w $F549, X : STA $122C, Y
-                LDA.w $F559, X : STA $126C, Y
+                LDA.w $F549, X : STA.w $122C, Y
+                LDA.w $F559, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writePowderDescription
@@ -1833,7 +1833,7 @@ DrawSelectedYButtonItem:
     
     .powderNotSelected
     
-    LDA $0202 : AND.w #$00FF : CMP.w #$0014 : BNE .mirrorNotSelected
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0014 : BNE .mirrorNotSelected
         LDA.l $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
             DEC A : ASL #5 : TAX
             
@@ -1841,8 +1841,8 @@ DrawSelectedYButtonItem:
             
             .writeMirrorDescription
             
-                LDA.w $F5A9, X : STA $122C, Y
-                LDA.w $F5B9, X : STA $126C, Y
+                LDA.w $F5A9, X : STA.w $122C, Y
+                LDA.w $F5B9, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeMirrorDescription
@@ -1851,7 +1851,7 @@ DrawSelectedYButtonItem:
     
     .mirrorNotSelected
     
-    LDA $0202 : AND.w #$00FF : CMP.w #$000D : BNE .fluteNotSelected
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$000D : BNE .fluteNotSelected
         LDA.l $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
             DEC A : ASL #5 : TAX
             
@@ -1859,8 +1859,8 @@ DrawSelectedYButtonItem:
             
             .writeFluteDescription
             
-                LDA.w $F569, X : STA $122C, Y
-                LDA.w $F579, X : STA $126C, Y
+                LDA.w $F569, X : STA.w $122C, Y
+                LDA.w $F579, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeFluteDescription
@@ -1869,7 +1869,7 @@ DrawSelectedYButtonItem:
         
     .fluteNotSelected
     
-    LDA $0202 : AND.w #$00FF : CMP.w #$0001 : BNE .bowNotSelected
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0001 : BNE .bowNotSelected
         LDA.l $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
             DEC A : ASL #5 : TAX
             
@@ -1877,8 +1877,8 @@ DrawSelectedYButtonItem:
             
             .writeBowDescription
             
-                LDA.w $F5C9, X : STA $122C, Y
-                LDA.w $F5D9, X : STA $126C, Y
+                LDA.w $F5C9, X : STA.w $122C, Y
+                LDA.w $F5D9, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeBowDescription
@@ -1893,8 +1893,8 @@ DrawSelectedYButtonItem:
     
     .writeDefaultDescription
     
-        LDA.w $F1C9, X : STA $122C, Y
-        LDA.w $F1D9, X : STA $126C, Y
+        LDA.w $F1C9, X : STA.w $122C, Y
+        LDA.w $F1D9, X : STA.w $126C, Y
         
         INX #2
     INY #2 : CPY.w #$0010 : BCC .writeDefaultDescription
@@ -1957,17 +1957,17 @@ DrawEquipment:
     REP #$30
     
     ; draw the 4 corners of the border for this section
-    LDA.w #$28FB : AND $00 : STA $156A
-    ORA.w #$8000 : STA $176A
-    ORA.w #$4000 : STA $177C
-    EOR.w #$8000 : STA $157C
+    LDA.w #$28FB : AND $00 : STA.w $156A
+    ORA.w #$8000 : STA.w $176A
+    ORA.w #$4000 : STA.w $177C
+    EOR.w #$8000 : STA.w $157C
     
     LDX.w #$0000
     LDY.w #$0006
     
     .drawVerticalEdges
-    LDA.w #$28FC : AND $00 : STA $15AA, X
-    ORA.w #$4000 : STA $15BC, X
+    LDA.w #$28FC : AND $00 : STA.w $15AA, X
+    ORA.w #$4000 : STA.w $15BC, X
     
     TXA : CLC : ADC.w #$0040 : TAX
     
@@ -1977,8 +1977,8 @@ DrawEquipment:
     LDY.w #$0007
     
     .drawHorizontalEdges
-    LDA.w #$28F9 : AND $00 : STA $156C, X
-    ORA.w #$8000 : STA $176C, X
+    LDA.w #$28F9 : AND $00 : STA.w $156C, X
+    ORA.w #$8000 : STA.w $176C, X
     
     INX #2 : DEY : BPL .drawHorizontalEdges
     
@@ -1987,8 +1987,8 @@ DrawEquipment:
     LDA.w #$24F5
     
     .drawBoxInterior
-    STA $15AC, X : STA $15EC, X : STA $162C, X : STA $166C, X
-    STA $16AC, X : STA $16EC, X : STA $172C, X
+    STA.w $15AC, X : STA.w $15EC, X : STA.w $162C, X : STA.w $166C, X
+    STA.w $16AC, X : STA.w $16EC, X : STA.w $172C, X
     
     INX #2 : DEY : BPL .drawBoxInterior
     
@@ -1998,7 +1998,7 @@ DrawEquipment:
     LDA.w #$28D7 : AND $00
     
     .drawDashedSeparator
-    STA $166C, X
+    STA.w $166C, X
     
     INX #2 : DEY : BPL .drawDashedSeparator
     
@@ -2007,23 +2007,23 @@ DrawEquipment:
     
     .drawBoxTitle
     ; Draw the "EQUIPMENT" text.
-    LDA .equipmentChars, X : AND $00 : STA $15AC, X ; $ED09
+    LDA .equipmentChars, X : AND $00 : STA.w $15AC, X ; $ED09
 
     ; Draw the "DUNGEON ITEM" text.
-    LDA .dungeonChars, X   : AND $00 : STA $16AC, X ; $ED19
+    LDA .dungeonChars, X   : AND $00 : STA.w $16AC, X ; $ED19
     
     INX #2 : DEY : BPL .drawBoxTitle
     
     ; check if we're in a real dungeon (palace) as opposed to just some
     ; house or cave
-    LDA $040C : AND.w #$00FF : CMP.w #$00FF : BNE .inSpecificDungeon
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BNE .inSpecificDungeon
     
     LDX.w #$0000
     LDY.w #$0007
     LDA.w #$24F5
     
     .drawUnknown
-        STA $16AC, X
+        STA.w $16AC, X
     
     INX #2 : DEY : BPL .drawUnknown
     
@@ -2097,7 +2097,7 @@ DrawMapAndBigKey:
 {
     REP #$30
     
-    LDA $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
     
     LSR A : TAX
     
@@ -2122,7 +2122,7 @@ DrawMapAndBigKey:
     .dontHaveBigKey
     .notInPalace
     
-    LDA $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalaceAgain
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalaceAgain
     
     LSR A : TAX
     
@@ -2154,7 +2154,7 @@ CheckPalaceItemPossession:
 {
     SEP #$30
     
-    LDA $040C : LSR A
+    LDA.w $040C : LSR A
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -2260,7 +2260,7 @@ DrawCompass:
 {
     REP #$30
     
-    LDA $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
     
     LSR A : TAX
     
@@ -2292,18 +2292,18 @@ DrawBottleMenu:
 {
     REP #$30
     
-    LDA.w #$28FB : AND $00 : STA $12EA
-    ORA.w #$8000           : STA $176A
-    ORA.w #$4000           : STA $177C
-    EOR.w #$8000           : STA $12FC
+    LDA.w #$28FB : AND $00 : STA.w $12EA
+    ORA.w #$8000           : STA.w $176A
+    ORA.w #$4000           : STA.w $177C
+    EOR.w #$8000           : STA.w $12FC
     
     LDX.w #$0000
     LDY.w #$0010
     
     .drawVerticalEdges
     
-    LDA.w #$28FC : AND $00 : STA $132A, X
-    ORA.w #$4000           : STA $133C, X
+    LDA.w #$28FC : AND $00 : STA.w $132A, X
+    ORA.w #$4000           : STA.w $133C, X
     
     TXA : CLC : ADC.w #$0040 : TAX
     
@@ -2314,8 +2314,8 @@ DrawBottleMenu:
     
     .drawHorizontalEdges
     
-    LDA.w #$28F9 : AND $00 : STA $12EC, X
-    ORA.w #$8000           : STA $176C, X
+    LDA.w #$28F9 : AND $00 : STA.w $12EC, X
+    ORA.w #$8000           : STA.w $176C, X
     
     INX #2
     
@@ -2328,11 +2328,11 @@ DrawBottleMenu:
     ; fills in a region of 0x11 by 0x07 tiles with one tilemap value
     .drawBoxInterior
     
-    STA $132C, X : STA $136C, X : STA $13AC, X : STA $13EC, X
-    STA $142C, X : STA $146C, X : STA $14AC, X : STA $14EC, X
-    STA $152C, X : STA $156C, X : STA $15AC, X : STA $15EC, X
-    STA $162C, X : STA $166C, X : STA $16AC, X : STA $16EC, X
-    STA $172C, X
+    STA.w $132C, X : STA.w $136C, X : STA.w $13AC, X : STA.w $13EC, X
+    STA.w $142C, X : STA.w $146C, X : STA.w $14AC, X : STA.w $14EC, X
+    STA.w $152C, X : STA.w $156C, X : STA.w $15AC, X : STA.w $15EC, X
+    STA.w $162C, X : STA.w $166C, X : STA.w $16AC, X : STA.w $16EC, X
+    STA.w $172C, X
     
     INX #2
     
@@ -2379,14 +2379,14 @@ DrawBottleMenu:
     JSR DrawItem
     
     ; Take the currently selected item, and draw something with it, perhaps on the main menu region
-    LDA $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
     LDY.w $FAD5, X 
     
-    LDA $0000, Y : STA $11B2
-    LDA $0002, Y : STA $11B4
-    LDA $0040, Y : STA $11F2
-    LDA $0042, Y : STA $11F4
+    LDA.w $0000, Y : STA.w $11B2
+    LDA.w $0002, Y : STA.w $11B4
+    LDA.w $0040, Y : STA.w $11F2
+    LDA.w $0042, Y : STA.w $11F4
     
     LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
@@ -2394,29 +2394,29 @@ DrawBottleMenu:
     
     ; appears to be an extraneous load, perhaps something that was unfinished
     ; or meant to be taken out but it just never happened
-    LDA $0207
+    LDA.w $0207
     
-    LDA.w #$3C61 : STA $12AA, Y
-    ORA.w #$4000 : STA $12AC, Y
+    LDA.w #$3C61 : STA.w $12AA, Y
+    ORA.w #$4000 : STA.w $12AC, Y
     
-    LDA.w #$3C70 : STA $12E8, Y
-    ORA.w #$4000 : STA $12EE, Y
+    LDA.w #$3C70 : STA.w $12E8, Y
+    ORA.w #$4000 : STA.w $12EE, Y
     
-    LDA.w #$BC70 : STA $1328, Y
-    ORA.w #$4000 : STA $132E, Y
+    LDA.w #$BC70 : STA.w $1328, Y
+    ORA.w #$4000 : STA.w $132E, Y
     
-    LDA.w #$BC61 : STA $136A, Y
-    ORA.w #$4000 : STA $136C, Y
+    LDA.w #$BC61 : STA.w $136A, Y
+    ORA.w #$4000 : STA.w $136C, Y
     
     ; Draw the corners of the bottle submenu
-    LDA.w #$3C60 : STA $12A8, Y
-    ORA.w #$4000 : STA $12AE, Y
-    ORA.w #$8000 : STA $136E, Y
-    EOR.w #$4000 : STA $1368, Y
+    LDA.w #$3C60 : STA.w $12A8, Y
+    ORA.w #$4000 : STA.w $12AE, Y
+    ORA.w #$8000 : STA.w $136E, Y
+    EOR.w #$4000 : STA.w $1368, Y
     
     SEP #$30
     
-    LDA.b #$10 : STA $0207
+    LDA.b #$10 : STA.w $0207
     
     RTS
 }

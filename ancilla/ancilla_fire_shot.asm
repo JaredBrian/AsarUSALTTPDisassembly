@@ -4,7 +4,7 @@
 ; $0406D2-$040758 JUMP LOCATION
 Ancilla_FireShot:
 {
-    LDA $0C54, X : BEQ .traveling_shot
+    LDA.w $0C54, X : BEQ .traveling_shot
     
     JMP Ancilla_ConsumingFire
     
@@ -12,56 +12,56 @@ Ancilla_FireShot:
     
     LDA $11 : BNE .just_draw
     
-    STZ $0385, X
+    STZ.w $0385, X
     
     JSR Ancilla_MoveHoriz
     JSR Ancilla_MoveVert
     
     JSR Ancilla_CheckSpriteCollision : BCS .collided
     
-    LDA $0C72, X : ORA.b #$08 : STA $0C72, X
+    LDA.w $0C72, X : ORA.b #$08 : STA.w $0C72, X
     
     JSR Ancilla_CheckTileCollision
     
     PHP
     
-    LDA $03E4, X : STA $0385, X
+    LDA.w $03E4, X : STA.w $0385, X
     
     PLP : BCS .collided
     
-    LDA $0C72, X : ORA.b #$0C : STA $0C72, X
+    LDA.w $0C72, X : ORA.b #$0C : STA.w $0C72, X
     
-    LDA $028A, X : STA $74
+    LDA.w $028A, X : STA $74
     
     JSR Ancilla_CheckTileCollision
     
     PHP
     
-    LDA $74 : STA $028A, X
+    LDA $74 : STA.w $028A, X
     
     PLP : BCC .no_collision
     
     .collided
     
-    INC $0C54, X
+    INC.w $0C54, X
     
-    LDA.b #$1F : STA $0C68, X
+    LDA.b #$1F : STA.w $0C68, X
     
-    LDA.b #$08 : STA $0C90, X
+    LDA.b #$08 : STA.w $0C90, X
     
     LDA.b #$2A : JSR Ancilla_DoSfx2
     
     .no_collision
     
-    INC $0C5E, X
+    INC.w $0C5E, X
     
-    LDA $0C72, X : AND.b #$F3 : STA $0C72, X
+    LDA.w $0C72, X : AND.b #$F3 : STA.w $0C72, X
     
-    LDA $0385, X : STA $0333
+    LDA.w $0385, X : STA.w $0333
     
     AND.b #$F0 : CMP.b #$C0 : BEQ .try_to_light_torch
     
-    LDA $03E4, X : STA $0333
+    LDA.w $03E4, X : STA.w $0333
     
     AND.b #$F0 : CMP.b #$C0 : BNE .ignore_torch
     
@@ -105,13 +105,13 @@ FireShot_Draw:
 {
     JSR Ancilla_BoundsCheck
     
-    LDA $0280, X : BEQ .default_priority
+    LDA.w $0280, X : BEQ .default_priority
     
     LDA.b #$30 : TSB $04
     
     .default_priority
     
-    LDA $0C5E, X : AND.b #$0C : STA $02
+    LDA.w $0C5E, X : AND.b #$0C : STA $02
     
     PHX
     
@@ -160,13 +160,13 @@ Pool_Ancilla_ConsumingFire:
     .self_terminate
     
     ; Check if it was a torch flame (not fire rod)
-    LDA $0C4A, X : STZ $0C4A, X : CMP.b #$2F : BEQ .dont_burn_skull
+    LDA.w $0C4A, X : STZ.w $0C4A, X : CMP.b #$2F : BEQ .dont_burn_skull
     
     ; Check if it's Skull Woods area (0x40)
     LDA $8A : CMP.b #$40 : BNE .dont_burn_skull
     
     ; Check if it's the right tile type (0x43)
-    LDA $03E4, X : CMP.b #$43 : BNE .dont_burn_skull
+    LDA.w $03E4, X : CMP.b #$43 : BNE .dont_burn_skull
     
     PHX
     
@@ -191,7 +191,7 @@ Ancilla_ConsumingFire:
     
     LDY.b #$00
     
-    LDA $0C68, X : BEQ .self_terminate
+    LDA.w $0C68, X : BEQ .self_terminate
     LSR #3       : BEQ .flaming_out
     
     TAX

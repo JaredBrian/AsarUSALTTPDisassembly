@@ -6,14 +6,14 @@ Ancilla_DashTremor:
 {
     LDA $11 : BNE .just_alert_sprites
     
-    DEC $0C5E, X : BPL .delay
+    DEC.w $0C5E, X : BPL .delay
     
-    STZ $011A
-    STZ $011B
-    STZ $011C
-    STZ $011D
+    STZ.w $011A
+    STZ.w $011B
+    STZ.w $011C
+    STZ.w $011D
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -21,12 +21,12 @@ Ancilla_DashTremor:
     
     JSL DashTremor_TwiddleOffset
     
-    LDA $00 : STA $011A, Y
-    LDA $01 : STA $011B, Y
+    LDA $00 : STA.w $011A, Y
+    LDA $01 : STA.w $011B, Y
     
     TYA : LSR A : EOR.b #$01 : TAY
     
-    LDA $0030, Y : CLC : ADC $00 : STA $0030, Y
+    LDA.w $0030, Y : CLC : ADC $00 : STA.w $0030, Y
     
     .just_alert_sprites
     

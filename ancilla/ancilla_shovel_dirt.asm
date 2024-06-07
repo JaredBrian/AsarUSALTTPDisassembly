@@ -21,20 +21,20 @@ Ancilla_ShovelDirt:
 {
     JSR Ancilla_PrepOamCoord
     
-    LDA $0C68, X : BNE .delay
+    LDA.w $0C68, X : BNE .delay
     
-    LDA.b #$08 : STA $0C68, X
+    LDA.b #$08 : STA.w $0C68, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$02 : BNE .delay
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$02 : BNE .delay
     
     ; Eventually self-terminate.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
     .delay
     
-    LDA $0C5E, X : STA $0A
+    LDA.w $0C5E, X : STA $0A
     
     ASL #2 : STA $08
     

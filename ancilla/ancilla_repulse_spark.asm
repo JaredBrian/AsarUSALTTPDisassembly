@@ -20,24 +20,24 @@ Pool_Ancilla_RepulseSpark:
 ; $040F89-$04107F LOCAL JUMP LOCATION
 Ancilla_RepulseSpark:
 {
-    LDA $0FAC : BEQ Ancilla_IsBelowPlayer.return
+    LDA.w $0FAC : BEQ Ancilla_IsBelowPlayer.return
     
     ; Activate enemies that are listening for sounds?
-    LDA.b #$02 : STA $0FDC
+    LDA.b #$02 : STA.w $0FDC
     
-    DEC $0FAF : BPL .dont_decrement_state
+    DEC.w $0FAF : BPL .dont_decrement_state
     
-    DEC $0FAC
+    DEC.w $0FAC
     
-    LDA.b #$01 : STA $0FAF
+    LDA.b #$01 : STA.w $0FAF
     
     .dont_decrement_state
     
     LDA.b #$10
     
-    LDY $0FB3 : BEQ .dont_sort_sprites
+    LDY.w $0FB3 : BEQ .dont_sort_sprites
     
-    LDY $0B68 : BNE .on_bg1
+    LDY.w $0B68 : BNE .on_bg1
     
     JSL OAM_AllocateFromRegionD
     
@@ -55,15 +55,15 @@ Ancilla_RepulseSpark:
     
     .check_if_on_screen
     
-    LDA $0FAD : SEC : SBC $00E2 : CMP.b #$F8 : BCS .off_screen
+    LDA.w $0FAD : SEC : SBC.w $00E2 : CMP.b #$F8 : BCS .off_screen
     
     STA $00
     
-    LDA $0FAE : SEC : SBC $00E8 : CMP.b #$F0 : BCS .off_screen
+    LDA.w $0FAE : SEC : SBC.w $00E8 : CMP.b #$F0 : BCS .off_screen
     
     STA $01
     
-    LDA $0FAC : CMP.b #$03 : BCC .later_states
+    LDA.w $0FAC : CMP.b #$03 : BCC .later_states
     
     LDY.b #$00
     
@@ -72,7 +72,7 @@ Ancilla_RepulseSpark:
     
     LDA.b #$80
     
-    LDX $0FAC : CPX.b #$09 : BCS .use_different_chr
+    LDX.w $0FAC : CPX.b #$09 : BCS .use_different_chr
     
     LDA.b #$92
     
@@ -80,7 +80,7 @@ Ancilla_RepulseSpark:
     
     INY : STA ($90), Y
     
-    LDX $0B68
+    LDX.w $0B68
     
     LDA.l .properties, X : INY : STA ($90), Y
     
@@ -93,7 +93,7 @@ Ancilla_RepulseSpark:
     .off_screen
     
     ; Self terminate because the object went off screen.
-    STZ $0FAC
+    STZ.w $0FAC
     
     RTS
     
@@ -111,14 +111,14 @@ Ancilla_RepulseSpark:
     CLC : ADC.b #$08           : LDY.b #$09 : STA ($90), Y
                            LDY.b #$0D : STA ($90), Y
     
-    LDX $0B68
+    LDX.w $0B68
     
     LDA.l .properties, X : LDY.b #$03 : STA ($90), Y
     ORA.b #$40           : LDY.b #$07 : STA ($90), Y
     ORA.b #$80           : LDY.b #$0F : STA ($90), Y
     EOR.b #$40           : LDY.b #$0B : STA ($90), Y
     
-    LDX $0FAC
+    LDX.w $0FAC
     
     LDA .chr, X : LDY.b #$02 : STA ($90), Y
                   LDY.b #$06 : STA ($90), Y

@@ -14,17 +14,17 @@ Ancilla_TransmuteToObjectSplash:
     ; turn the current effect into a splash effect (0x3D)
     ; the rest of the routine initializes the new effect
     
-    LDA.b #$3D : STA $0C4A, X
+    LDA.b #$3D : STA.w $0C4A, X
     
-    STZ $0C5E, X
+    STZ.w $0C5E, X
     
-    LDA.b #$06 : STA $0C68, X
+    LDA.b #$06 : STA.w $0C68, X
     
-    LDA $0BFA, X : CLC : ADC.b #$0C : STA $0BFA, X
-    LDA $0C0E, X : ADC.b #$00 : STA $0C0E, X
+    LDA.w $0BFA, X : CLC : ADC.b #$0C : STA.w $0BFA, X
+    LDA.w $0C0E, X : ADC.b #$00 : STA.w $0C0E, X
     
-    LDA $0C04, X : CLC : ADC.b #$F8 : STA $0C04, X
-    LDA $0C18, X : ADC.b #$FF : STA $0C18, X
+    LDA.w $0C04, X : CLC : ADC.b #$F8 : STA.w $0C04, X
+    LDA.w $0C18, X : ADC.b #$FF : STA.w $0C18, X
     
     LDA.b #$28 : JSR Ancilla_DoSfx2
     
@@ -37,13 +37,13 @@ Ancilla_TransmuteToObjectSplash:
     
     LDA $11 : BNE .draw
     
-    LDA $0C68, X : BNE .draw
+    LDA.w $0C68, X : BNE .draw
     
-    LDA.b #$06 : STA $0C68, X
+    LDA.b #$06 : STA.w $0C68, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$05 : BNE .draw
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$05 : BNE .draw
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -65,7 +65,7 @@ Ancilla_TransmuteToObjectSplash:
     
     STZ $0C
     
-    LDA $0C5E, X : ASL A : TAX
+    LDA.w $0C5E, X : ASL A : TAX
     
     .next_oam_entry
     

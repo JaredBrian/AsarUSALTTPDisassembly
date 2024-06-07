@@ -6,7 +6,7 @@ Ancilla_QuakeSpell:
 {
     LDA $11 : BNE .just_draw
     
-    LDA $0C54, X : CMP.b #$02 : BEQ .wrap_up_state
+    LDA.w $0C54, X : CMP.b #$02 : BEQ .wrap_up_state
     
     JSR QuakeSpell_ShakeScreen
     JSR QuakeSpell_ExecuteBolts
@@ -24,7 +24,7 @@ Ancilla_QuakeSpell:
     LDX.b #$04
     
     ; \bug Maybe? Note the short branch a few lines down.
-    LDA.l $7F5805, X : CMP $B713, X : BEQ .inactive_piece
+    LDA.l $7F5805, X : CMP.w $B713, X : BEQ .inactive_piece
     
     JSR QuakeSpell_DrawFirstGroundBolts
     
@@ -46,23 +46,23 @@ Ancilla_QuakeSpell:
     
     PLX
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     LDA.b #$00 : STA $5D
     
-    LDA.b #$01 : STA $0AAA
+    LDA.b #$01 : STA.w $0AAA
     
-    STZ $0324
-    STZ $031C
-    STZ $031D
+    STZ.w $0324
+    STZ.w $031C
+    STZ.w $031D
     STZ $50
     STZ $3D
     
-    STZ $0FC1
-    STZ $011A
-    STZ $011B
-    STZ $011C
-    STZ $011D
+    STZ.w $0FC1
+    STZ.w $011A
+    STZ.w $011B
+    STZ.w $011C
+    STZ.w $011D
     
     LDA $8A : CMP.b #$47 : BNE .not_turtle_rock_trigger
     
@@ -73,7 +73,7 @@ Ancilla_QuakeSpell:
     
     BCC .not_turtle_rock_trigger
     
-    LDA.b #$04 : STA $04C6
+    LDA.b #$04 : STA.w $04C6
     
     STZ $B0
     STZ $C8
@@ -91,7 +91,7 @@ Ancilla_QuakeSpell:
     STY $3A
     
     STZ $5E
-    STZ $0325
+    STZ.w $0325
     
     RTS
 }
@@ -103,7 +103,7 @@ QuakeSpell_ShakeScreen:
 {
     REP #$20
     
-    LDA.l $7F581E : STA $011C
+    LDA.l $7F581E : STA.w $011C
     
     ; Toggle rumble screen offset.
     EOR.w #$FFFF : INC A : STA.l $7F581E
@@ -111,7 +111,7 @@ QuakeSpell_ShakeScreen:
     SEP #$20
     
     ; Make this move the player too, slightly?
-    LDA $30 : CLC : ADC $011C : STA $30
+    LDA $30 : CLC : ADC.w $011C : STA $30
     
     RTS
 }
@@ -135,7 +135,7 @@ QuakeSpell_ExecuteBolts:
     
     ; Cache overall state variable here for now. It will be possibly
     ; modified but certainly written back by the end of the routine
-    LDA $0C54, X : STA.l $7F580F
+    LDA.w $0C54, X : STA.l $7F580F
     
     LDA.l $7F580A : TAX
     
@@ -194,7 +194,7 @@ QuakeSpell_ExecuteBolts:
     
     PLX
     
-    LDA.l $7F580F : STA $0C54, X
+    LDA.l $7F580F : STA.w $0C54, X
     
     RTS
 }
@@ -326,17 +326,17 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
 ; $04384F-$043872 LONG BRANCH LOCATION
 QuakeSpell_SpreadGroundBolts:
 {
-    LDA $0C54, X : CMP.b #$01 : BNE .not_second_state
+    LDA.w $0C54, X : CMP.b #$01 : BNE .not_second_state
     
-    LDA $0C68, X : BNE .second_state_still_progressing
+    LDA.w $0C68, X : BNE .second_state_still_progressing
     
-    LDA.b #$02 : STA $0C68, X
+    LDA.b #$02 : STA.w $0C68, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X
     
     CMP.b #$37 : BNE .second_state_still_progressing
     
-    LDA.b #$02 : STA $0C54, X
+    LDA.b #$02 : STA.w $0C54, X
     
     .not_second_state
     
@@ -364,7 +364,7 @@ QuakeSpell_DrawGroundBolts:
 {
     PHX
     
-    LDA $0C5E, X : ASL A : TAY
+    LDA.w $0C5E, X : ASL A : TAY
     
     ; \bug(unconfirmed)
     ; Wouldn't this be a buffer overrun? There's only enough data there

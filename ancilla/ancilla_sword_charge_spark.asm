@@ -18,13 +18,13 @@ Ancilla_SwordChargeSpark:
 {
     LDA $11 : BNE .draw
     
-    LDA $0C68, X : BNE .draw
+    LDA.w $0C68, X : BNE .draw
     
-    LDA.b #$04 : STA $0C68, X
+    LDA.b #$04 : STA.w $0C68, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$03 : BNE .dont_self_terminate
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$03 : BNE .dont_self_terminate
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -37,11 +37,11 @@ Ancilla_SwordChargeSpark:
     
     JSR Ancilla_AllocateOam
     
-    TYA : STA $0C86, X
+    TYA : STA.w $0C86, X
     
     JSR Ancilla_PrepOamCoord
     
-    LDA $0C5E, X : TAX
+    LDA.w $0C5E, X : TAX
     
     LDY.b #$00
     

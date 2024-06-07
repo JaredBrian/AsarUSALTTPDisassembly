@@ -36,7 +36,7 @@ Ancilla_BeamHit:
 {
     JSR Ancilla_BoundsCheck
     
-    LDA $0C68, X : BNE .delay
+    LDA.w $0C68, X : BNE .delay
         BRL Ancilla_SelfTerminate
     
     .delay
@@ -61,7 +61,7 @@ Ancilla_BeamHit:
         INY
     LDX $03 : DEX : BPL .next_oam_entry
     
-    LDX $0FA0
+    LDX.w $0FA0
     
     LDY.b #$00
     LDA.b #$03

@@ -17,7 +17,7 @@ Garnish_MothulaBeamTrail:
     LDA.l $7FF92C, X : TAY
     
     ; Copy palette and other property info from the parent sprite object.
-    LDA $0F50, Y : ORA $0B89, Y
+    LDA.w $0F50, Y : ORA.w $0B89, Y
     
     PLY
     

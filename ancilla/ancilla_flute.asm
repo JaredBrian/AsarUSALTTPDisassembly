@@ -15,22 +15,22 @@ Ancilla_Flute:
 {
     LDA $11 : BNE .dont_check_player_collision
     
-    LDA $0C54, X : CMP.b #$03 : BEQ .check_player_collision
+    LDA.w $0C54, X : CMP.b #$03 : BEQ .check_player_collision
     
-    LDA $0294, X : SEC : SBC.b #$02 : STA $0294, X
+    LDA.w $0294, X : SEC : SBC.b #$02 : STA.w $0294, X
     
     JSR Ancilla_MoveHoriz
     JSR Ancilla_MoveAltitude
     
-    LDA $029E, X : BPL .dont_check_player_collision
+    LDA.w $029E, X : BPL .dont_check_player_collision
     
     CMP.b #$F0 : BCC .dont_check_player_collision
     
-    INC $0C54, X : LDY $0C54, X
+    INC.w $0C54, X : LDY.w $0C54, X
     
-    LDA.w $CFA6, Y : STA $0294, X
+    LDA.w $CFA6, Y : STA.w $0294, X
     
-    STZ $029E, X
+    STZ.w $029E, X
     
     .dont_check_player_collision
     
@@ -42,14 +42,14 @@ Ancilla_Flute:
     
     JSR Ancilla_CheckPlayerCollision : BCC .player_didnt_acquire
     
-    LDA $037E : BNE .player_didnt_acquire
+    LDA.w $037E : BNE .player_didnt_acquire
     
     LDA $4D : BNE .player_didnt_acquire
     
     PHX
     
-    STZ $0C4A, X
-    STZ $02E9
+    STZ.w $0C4A, X
+    STZ.w $02E9
     
     LDY.b #$14 : JSL Link_ReceiveItem
     
@@ -64,7 +64,7 @@ Ancilla_Flute:
     
     REP #$20
     
-    LDA $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
+    LDA.w $029E, X : AND.w #$00FF : CMP.w #$0080 : BCC .sign_ext_z_coord
     
     ORA.w #$FF00
     
@@ -89,7 +89,7 @@ Ancilla_Flute:
     
     LDY.b #$01 : LDA ($90), Y : CMP.b #$F0 : BNE .on_screen_y
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .on_screen_y
     .return

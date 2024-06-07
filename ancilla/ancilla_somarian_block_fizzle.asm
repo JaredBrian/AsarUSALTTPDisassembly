@@ -29,35 +29,35 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     .player_not_slowed_down
     
-    STZ $0646
+    STZ.w $0646
     
-    LDA.b #$2D : STA $0C4A, X
+    LDA.b #$2D : STA.w $0C4A, X
     
-    STZ $03B1, X
-    STZ $0C54, X
-    STZ $0C5E, X
-    STZ $039F, X
-    STZ $03A4, X
-    STZ $03EA, X
+    STZ.w $03B1, X
+    STZ.w $0C54, X
+    STZ.w $0C5E, X
+    STZ.w $039F, X
+    STZ.w $03A4, X
+    STZ.w $03EA, X
     
-    TXA : INC A : CMP $02EC : BNE .player_wasnt_carrying_block
+    TXA : INC A : CMP.w $02EC : BNE .player_wasnt_carrying_block
     
-    STZ $02EC
+    STZ.w $02EC
     
-    LDA $0308 : AND.b #$80 : STA $0308
+    LDA.w $0308 : AND.b #$80 : STA.w $0308
     
     .player_wasnt_carrying_block
     
     ; $0469E8 ALTERNATE ENTRY POINT
     shared Ancilla_SomarianBlockFizzle:
     
-    DEC $03B1, X : BPL .animation_delay
+    DEC.w $03B1, X : BPL .animation_delay
     
-    LDA.b #$03 : STA $03B1, X
+    LDA.b #$03 : STA.w $03B1, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X : CMP.b #$03 : BNE .animation_delay
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$03 : BNE .animation_delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -67,7 +67,7 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     LDY.b #$00
     
-    LDA $029E, X : CMP.b #$FF : BNE .coerce_above_ground
+    LDA.w $029E, X : CMP.b #$FF : BNE .coerce_above_ground
     
     LDA.b #$00
     
@@ -91,7 +91,7 @@ Ancilla_TransmuteToSomarianBlockFizzle:
     
     PHX
     
-    LDA $0C5E, X : ASL A : TAX
+    LDA.w $0C5E, X : ASL A : TAX
     
     LDY.b #$00 : STY $08
     

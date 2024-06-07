@@ -46,13 +46,13 @@ Pool_Ancilla_BushPoof:
 ; $045519-$045595 JUMP LOCATION
 Ancilla_BushPoof:
 {
-    LDA $0C68, X : BNE .draw
+    LDA.w $0C68, X : BNE .draw
     
-    LDA.b #$07 : STA $0C68, X
+    LDA.b #$07 : STA.w $0C68, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$04 : BNE .draw
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .draw
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     RTS
     
@@ -68,7 +68,7 @@ Ancilla_BushPoof:
     
     LDY.b #$00
     
-    LDA $0C5E, X : ASL #2 : TAX
+    LDA.w $0C5E, X : ASL #2 : TAX
     
     .next_oam_entry
     

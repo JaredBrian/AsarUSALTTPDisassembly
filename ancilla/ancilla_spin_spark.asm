@@ -16,7 +16,7 @@ Pool_Ancilla_SpinSpark:
 ; $0458FD-$045A16 JUMP LOCATION
 Ancilla_SpinSpark:
 {
-    LDA $0385, X : BEQ .multi_spark_in_progress
+    LDA.w $0385, X : BEQ .multi_spark_in_progress
     
     BRL SpinSpark_ExecuteClosingSpark
     
@@ -32,16 +32,16 @@ Ancilla_SpinSpark:
     ; By default, only draw the lead spark.
     LDY.b #$00
     
-    LDA $0C5E, X : SEC : SBC.b #$03 : STA $0C5E, X
+    LDA.w $0C5E, X : SEC : SBC.b #$03 : STA.w $0C5E, X
     
     CMP.b #$0D : BCS .dont_transition_to_closing_spark
     
     PLX
     
-    LDA.b #$01 : STA $03B1, X
-                 STA $0385, X
+    LDA.b #$01 : STA.w $03B1, X
+                 STA.w $0385, X
     
-    STZ $0C5E, X
+    STZ.w $0C5E, X
     
     BRL SpinSpark_ExecuteClosingSpark
     
@@ -70,21 +70,21 @@ Ancilla_SpinSpark:
     .dont_draw_three_sparks
     .set_spark_draw_count
     
-    TYA : STA $0C54, X
+    TYA : STA.w $0C54, X
     
-    DEC $03B1, X : BPL .not_alternate_palette
+    DEC.w $03B1, X : BPL .not_alternate_palette
     
     ; Use palette 2 for the sparks on this frame.
     LDA.b #$04 : STA $73
     
-    LDA.b #$02 : STA $03B1, X
+    LDA.b #$02 : STA.w $03B1, X
     
     .skip_state_logic
     .not_alternate_palette
     
     LDY.b #$00
     
-    LDA $0C54, X : TAX
+    LDA.w $0C54, X : TAX
     
     .next_spark
     
@@ -126,11 +126,11 @@ Ancilla_SpinSpark:
     
     LDA $11 : BNE .skip_extra_spark_logic
     
-    DEC $039F, X : BPL .extra_spark_delay
+    DEC.w $039F, X : BPL .extra_spark_delay
     
-    LDA.b #$00 : STA $039F, X
+    LDA.b #$00 : STA.w $039F, X
     
-    LDA $03A4, X : INC A : AND.b #$03 : STA $03A4, X
+    LDA.w $03A4, X : INC A : AND.b #$03 : STA.w $03A4, X
     
     CMP.b #$03 : BNE .extra_spark_rotation_delay
     
@@ -139,7 +139,7 @@ Ancilla_SpinSpark:
     .skip_extra_spark_logic
     .extra_spark_rotation_delay
     
-    LDA $03A4, X : STA $72 : CMP.b #$03 : BEQ .anodraw_extra_spark
+    LDA.w $03A4, X : STA $72 : CMP.b #$03 : BEQ .anodraw_extra_spark
     
     PHY
     
@@ -168,7 +168,7 @@ Ancilla_SpinSpark:
     
     PLX : PHX
     
-    LDA $0C5E, X : TAX : CPX.b #$07 : BNE .never
+    LDA.w $0C5E, X : TAX : CPX.b #$07 : BNE .never
     
     ; \wtf(confirmed that this never seems to execute)
     ; Possibly debug code or a dev dicking around that was never taken
@@ -221,15 +221,15 @@ Sparkle_PrepOamCoordsFromRadialProjection:
 ; $045A4C-$045A83 LONG BRANCH LOCATION
 SpinSpark_ExecuteClosingSpark:
 {
-    DEC $03B1, X : BPL .animation_delay
+    DEC.w $03B1, X : BPL .animation_delay
     
-    LDA.b #$01 : STA $03B1, X
+    LDA.b #$01 : STA.w $03B1, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X
     
     CMP.b #$03 : BNE .termination_delay
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .animation_delay
     .termination_delay
@@ -247,7 +247,7 @@ SpinSpark_ExecuteClosingSpark:
     
     LDY.b #$00 : STY $04
     
-    LDA $0C5E, X : CLC : ADC.b #$04 : ASL #2 : TAX
+    LDA.w $0C5E, X : CLC : ADC.b #$04 : ASL #2 : TAX
     
     BRL Ancilla_InitialSpinSpark.oam_commit_loop
 }

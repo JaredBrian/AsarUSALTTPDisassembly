@@ -419,7 +419,7 @@ Vector_IRQ:
 
             .BRANCH_1
 
-            BIT $4212 : BVC .BRANCH_1 ; Wait for hBlank.
+            BIT.w $4212 : BVC .BRANCH_1 ; Wait for hBlank.
             
             LDA.w $0630 : STA.w $2111
             LDA.w $0631 : STA.w $2111
@@ -2609,7 +2609,7 @@ NMI_UpdateOWScroll_long:
 {
     ; Unused???
     
-    JSR $8D13 ; $000D13 IN ROM
+    JSR.w $8D13 ; $000D13 IN ROM
     
     RTL
 }
@@ -2625,7 +2625,7 @@ UNREACHABLE_0090EB:
     LDA.w $9383, Y : STA.b $01
     LDA.w $938C, Y : STA.b $02
     
-    JSR $92A1 ; $0012A1 in Rom
+    JSR.w $92A1 ; $0012A1 in Rom
     
     LDA.b $14 : CMP.b #$01 : BNE .alpha
         STZ.w $1000 : STZ.w $1001
@@ -8823,48 +8823,48 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     ; Load ice rod tiles?
     LDA.b #$07
     
-    JSR $D537 ; $005537 IN ROM
+    JSR.w $D537 ; $005537 IN ROM
     
     ; Load fire rod tiles?
     LDA.b #$07
     
-    JSR $D537 ; $005537 in Rom.
+    JSR.w $D537 ; $005537 in Rom.
     
     ; Load hammer tiles?
     LDA.b #$03
     
-    JSR $D537 ; $005537 in Rom.
+    JSR.w $D537 ; $005537 in Rom.
     
     LDY.b #$5F
     LDA.b #$04
     
-    JSR $D54E ; $00554E IN ROM
+    JSR.w $D54E ; $00554E IN ROM
     
     LDA.b #$03
     
-    JSR $D553 ; $005553 IN ROM
+    JSR.w $D553 ; $005553 IN ROM
     
     LDA.b #$01
     
-    JSR $D553 ; $005553 in Rom.
+    JSR.w $D553 ; $005553 in Rom.
     
     LDA.b #$04
     
-    JSR $D537 ; $005537 in Rom.
+    JSR.w $D537 ; $005537 in Rom.
     
     LDY.b #$60
     LDA.b #$0E
     
-    JSR $D54E ; $00554E in Rom.
+    JSR.w $D54E ; $00554E in Rom.
     
     LDA.b #$07
     
-    JSR $D553 ; $005553 in Rom.
+    JSR.w $D553 ; $005553 in Rom.
     
     LDY.b #$5F
     LDA.b #$02
     
-    JSR $D54E ; $00554E in Rom.
+    JSR.w $D54E ; $00554E in Rom.
     
     LDY.b #$54
     
@@ -8916,7 +8916,7 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     SEP #$30
     
-    JSR $D3C6 ; $0053C6
+    JSR.w $D3C6 ; $0053C6
     
     PLB
     
@@ -9763,25 +9763,25 @@ ReloadPreviouslyLoadedSheets:
     LDA.b #$7E : STA.b $02
     LDA   $7EC2F8 : TAY
     
-    JSR $E78F ; $00678F in Rom.
+    JSR.w $E78F ; $00678F in Rom.
     
     ; Target decompression address = $7E6600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2F9 : TAY
     
-    JSR $E78F ; $00678F in Rom.
+    JSR.w $E78F ; $00678F in Rom.
     
     ; Target decompression address = $7E6C00.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FA : TAY
     
-    JSR $E78F ; $00678F in Rom.
+    JSR.w $E78F ; $00678F in Rom.
     
     ; Target decompression address = $7E7200.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FB : TAY
     
-    JSR $E78F ; $00678F in Rom.
+    JSR.w $E78F ; $00678F in Rom.
     
     ; Target decompression address = $7E7800.
     STZ.b $00
@@ -12981,10 +12981,10 @@ PaletteFilter_Agahnim:
     
     REP #$10
     
-    JSR $ED19 ; $006D19 IN ROM
+    JSR.w $ED19 ; $006D19 IN ROM
     
     LDA.l $7EC007 : BEQ .done_filtering
-        JSR $ED19 ; $006D19 IN ROM
+        JSR.w $ED19 ; $006D19 IN ROM
 
     .done_filtering
 
@@ -13936,7 +13936,7 @@ ConfigureSpotlightTable:
 
         .BRANCH_GAMMA
 
-        JSR $F4CC ; $0074CC IN ROM
+        JSR.w $F4CC ; $0074CC IN ROM
 
     .BRANCH_BETA
 
@@ -13958,7 +13958,7 @@ ConfigureSpotlightTable:
         INC.b $04
         DEC.b $06
         
-        JMP $F361 ; $007361 IN ROM
+        JMP.w $F361 ; $007361 IN ROM
 
     .BRANCH_ZETA
 

@@ -27,7 +27,7 @@ Garnish_LightningTrail:
     
     LDA .chr, X : PHX
     
-    LDX $048E : CPX.b #$20 : BNE .not_agahnim_1_room
+    LDX.w $048E : CPX.b #$20 : BNE .not_agahnim_1_room
     
     ; \wtf Is this a kludge having to do with the tileset being loaded into
     ; a different slot in Agahnim's room?
@@ -49,8 +49,8 @@ Garnish_LightningTrail:
     shared Garnish_CheckPlayerCollision:
     
     TXA : EOR $1A : AND.b #$07
-                    ORA $031F
-                    ORA $037B : BNE .no_collision
+                    ORA.w $031F
+                    ORA.w $037B : BNE .no_collision
     
     LDA $22 : SBC $E2 : SBC $00 : ADC.b #$0C
                                   CMP.b #$18 : BCS .no_collision
@@ -60,7 +60,7 @@ Garnish_LightningTrail:
     
     LDA.b #$01 : STA $4D
     
-    LDA.b #$10 : STA $46 : STA $0373
+    LDA.b #$10 : STA $46 : STA.w $0373
     
     LDA $28 : EOR.b #$FF : STA $28
     LDA $27 : EOR.b #$FF : STA $27

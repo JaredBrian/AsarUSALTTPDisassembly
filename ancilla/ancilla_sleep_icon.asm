@@ -15,20 +15,20 @@ Ancilla_SleepIcon:
 {
     ; Special object 0x21 (Link's Zs while he's sleeping)
     
-    DEC $03B1, X : BPL .delay
+    DEC.w $03B1, X : BPL .delay
     
     ; Don't increment the object's state beyond the value 2.
-    LDA $0C5E, X : INC A : CMP.b #$03 : BEQ .at_last_state
+    LDA.w $0C5E, X : INC A : CMP.b #$03 : BEQ .at_last_state
     
-    STA $0C5E, X
+    STA.w $0C5E, X
     
     .at_last_state
     
-    LDA.b #$07 : STA $03B1, X
+    LDA.b #$07 : STA.w $03B1, X
     
     .delay
     
-    LDA $0C2C, X : CLC : ADC $0C54, X : STA $0C2C, X : BPL .positive_x_speed
+    LDA.w $0C2C, X : CLC : ADC.w $0C54, X : STA.w $0C2C, X : BPL .positive_x_speed
     
     EOR.b #$FF : INC A
     
@@ -36,15 +36,15 @@ Ancilla_SleepIcon:
     
     CMP.b #$08 : BCC .dont_reverse_x_acceleration
     
-    LDA $0C54, X : EOR.b #$FF : INC A : STA $0C54, X
+    LDA.w $0C54, X : EOR.b #$FF : INC A : STA.w $0C54, X
     
     .dont_reverse_x_acceleration:
     
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     
-    LDA $0BFA, X : STA $00
-    LDA $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA $00
+    LDA.w $0C0E, X : STA $01
     
     REP #$20
     
@@ -53,18 +53,18 @@ Ancilla_SleepIcon:
     SEP #$20
     
     ; Self terminate if the Z gets too far away from the player.
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .still_close_enough_to_player
     
     SEP #$20
     
-    LDY $0C5E, X
+    LDY.w $0C5E, X
     
     ; This variable is used every NMI to update a small portion of the
     ; tiles available in vram. This essentially causes the 'Z's to
     ; cycle through different animation states.
-    LDA .tileset, Y : STA $0109
+    LDA .tileset, Y : STA.w $0109
     
     JSR Ancilla_PrepOamCoord
     

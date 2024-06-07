@@ -4,14 +4,14 @@
 ; $04549A-$0454B8 JUMP LOCATION
 Ancilla_DwarfPoof:
 {
-    DEC $03B1, X : BPL .draw
+    DEC.w $03B1, X : BPL .draw
     
-    LDA.b #$07 : STA $03B1, X
+    LDA.b #$07 : STA.w $03B1, X
     
-    LDA $0C5E, X : INC A : STA $0C5E, X : CMP.b #$03 : BNE .draw
+    LDA.w $0C5E, X : INC A : STA.w $0C5E, X : CMP.b #$03 : BNE .draw
     
-    STZ $0C4A, X
-    STZ $02F9
+    STZ.w $0C4A, X
+    STZ.w $02F9
     
     RTS
     

@@ -32,7 +32,7 @@
     
     LDA $F4 : BPL .b_button_not_pressed
     
-    LDA $037F : EOR.b #$01 : STA $037F
+    LDA.w $037F : EOR.b #$01 : STA.w $037F
     
     .b_button_not_pressed
     

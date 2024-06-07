@@ -58,15 +58,15 @@ Ancilla_BlastWall:
     
     ; \wtf(confirmed) Was the blast wall designed to have more than one
     ; spawn point? Multiple blast wall objects working at once?
-    LDX $0380
+    LDX.w $0380
     
-    LDA $0C5E : INC A : CMP.b #$07 : BCC .reset_inactive_component
+    LDA.w $0C5E : INC A : CMP.b #$07 : BCC .reset_inactive_component
     
     BRL .draw
     
     .reset_inactive_component
     
-    STA $0C5E
+    STA.w $0C5E
     
     LDA.b #$01 : STA.l $7F0000, X
     LDA.b #$03 : STA.l $7F0008, X
@@ -130,7 +130,7 @@ Ancilla_BlastWall:
     
     LDA $72
     
-    JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA $012E
+    JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
     
     .anoplay_explosion_sfx
     
@@ -142,7 +142,7 @@ Ancilla_BlastWall:
     
     .draw
     
-    LDX $0380
+    LDX.w $0380
     
     LDA.l $7F0000, X : BEQ .dont_draw_component
     
@@ -179,7 +179,7 @@ Ancilla_BlastWall:
     
     .dont_draw_component
     
-    LDA $0C5E : CMP.b #$06 : BNE .return
+    LDA.w $0C5E : CMP.b #$06 : BNE .return
     
     LDX.b #$01
     
@@ -190,18 +190,18 @@ Ancilla_BlastWall:
     DEX : BPL .find_active_component
     
     ; Self terminate when there are no active components left.
-    STZ $0C4A
+    STZ.w $0C4A
     
-    STZ $0C4B
+    STZ.w $0C4B
     
-    STZ $0112
+    STZ.w $0112
     
     ; $042752 ALTERNATE ENTRY POINT
     shared Ancilla_RestoreIndex:
     
     .return
     
-    LDX $0FA0
+    LDX.w $0FA0
     
     RTS
 }
@@ -236,7 +236,7 @@ BlastWall_DrawExplosion:
     
     LDA.b #$18
     
-    LDY $0FB3 : BEQ .dont_sort_sprites
+    LDY.w $0FB3 : BEQ .dont_sort_sprites
     
     JSL OAM_AllocateFromRegionD
     

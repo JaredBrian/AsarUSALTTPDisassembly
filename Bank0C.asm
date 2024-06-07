@@ -622,7 +622,7 @@ Module_Intro:
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .noPressedButtons
         ; If ABXY, or Start is pressed, then go to the file selection menu
         ; module.
-        JMP $C2F0
+        JMP.w $C2F0
     
     .noPressedButtons
     .dontCheckInput
@@ -810,7 +810,7 @@ Intro_FadeLogoIn:
             
             INC.b $11
             
-            JSR $FE45 ; $067E45
+            JSR.w $FE45 ; $067E45
     
     .evenFrame
     
@@ -833,7 +833,7 @@ Intro_FadeLogoIn:
 ; $064284-$0642AD JUMP LOCATION
 Intro_PopSubtitleCard:
 {
-    JSR $FE56   ; $067E56
+    JSR.w $FE56   ; $067E56
     JSL.l $0CC404 ; $064404
     
     LDA.l $7EC007 : BEQ .alpha
@@ -843,7 +843,7 @@ Intro_PopSubtitleCard:
     .alpha
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .waitForButtonPress
-        JMP $C2F0 ; $0642F0
+        JMP.w $C2F0 ; $0642F0
     
     .waitForButtonPress
     
@@ -865,7 +865,7 @@ Intro_SwordStab:
     STZ.w $1F00
     STZ.w $012A
     
-    JSR $FE56 ; $067E56
+    JSR.w $FE56 ; $067E56
     
     DEC.b $B0 : BNE .BRANCH_1
         INC.b $11
@@ -892,7 +892,7 @@ Intro_TrianglesBeforeAttract:
     STZ.w $1F00
     STZ.w $012A
     
-    JSR $FE56 ; $067E56
+    JSR.w $FE56 ; $067E56
     
     DEC.b $B0 : BNE .BRANCH_1
         ; Note that this instruction does nothing since
@@ -975,7 +975,7 @@ Intro_InitGfx:
     LDA.b #$08 : STA.w $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $006384
-    JSR $C36F ; $06436F
+    JSR.w $C36F ; $06436F
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
     LDA.b #$00 : STA.w $1E18 : STA.w $1E19 : STA.w $1E1A
@@ -997,7 +997,7 @@ Intro_InitGfx:
 TriforceInitializePolyhedralModule:
 {
     JSL Polyhedral_InitThread
-    JSR $C3BD ; $0643BD
+    JSR.w $C3BD ; $0643BD
     
     ; Set vertical IRQ trigger scanline.
     LDA.b #$90 : STA.b $FF
@@ -1058,8 +1058,8 @@ Intro_HandleAllTriforceAnimations:
     
     INC.w $1E0A
     
-    JSR $C435 ; $064435
-    JSR $C412 ; $064412
+    JSR.w $C435 ; $064435
+    JSR.w $C412 ; $064412
     
     PLB
     
@@ -1078,7 +1078,7 @@ Scene_AnimateEverySprite:
     
     .loop
     
-        JSR $C534 ; $064534
+        JSR.w $C534 ; $064534
     DEX : BPL .loop
     
     RTS
@@ -1103,7 +1103,7 @@ Intro_AnimateTriforce:
     
     ; Is this some sort of "IRQ busy" flag?
     LDA.w $1F00 : BNE .waitForTriforceThread
-        JSR $C448 ; $064448
+        JSR.w $C448 ; $064448
         
         LDA.b #$01 : STA.w $1F00
     
@@ -1345,8 +1345,8 @@ InitializeSceneSprite_Triangle:
 ; $0645B1-$0645C9 JUMP LOCATION
 AnimateSceneSprite_Triangle:
 {
-    JSR $C70F ; $06470F
-    JSR $C9F1 ; $0649F1
+    JSR.w $C70F ; $06470F
+    JSR.w $C9F1 ; $0649F1
     
     LDA.w $1E00
     
@@ -1464,7 +1464,7 @@ AnimateSceneSprite_DrawTriangle:
     
     .BRANCH_2
     
-    JSR $C972 ; $064972
+    JSR.w $C972 ; $064972
     
     RTS
 }
@@ -1488,7 +1488,7 @@ AnimateSceneSprite_DrawTriforceRoomTriangle:
     
     .BRANCH_2
     
-    JSR $C972 ; $064972
+    JSR.w $C972 ; $064972
     
     RTS
 }
@@ -1518,7 +1518,7 @@ InitializeSceneSprite_Copyright:
 ; $064864-$064867 JUMP LOCATION
 AnimateSceneSprite_Copyright:
 {
-    JSR $C8D0 ; $0648D0
+    JSR.w $C8D0 ; $0648D0
     
     RTS
 }
@@ -1549,7 +1549,7 @@ AnimateSceneSprite_DrawCopyright:
     LDA.b #$68 : STA.b $08
     LDA.b #$C8 : STA.b $09
     
-    JSR $C972 ; $064972
+    JSR.w $C972 ; $064972
     
     RTS
 }
@@ -1586,7 +1586,7 @@ Pool_AnimateSceneSprite_Sparkle:
 ; $06490D-$064935 JUMP LOCATION
 AnimateSceneSprite_Sparkle:
 {
-    JSR $C956 ; $064956
+    JSR.w $C956 ; $064956
     
     LDA.w $1E0A : LSR #2 : AND.b #$03 : TAY
     
@@ -1616,7 +1616,7 @@ AnimateSceneSprite_DrawSparkle:
         
         LDA.b #$C9 : ADC.b #$00 : STA.b $09
         
-        JSR $C972 ; $064972
+        JSR.w $C972 ; $064972
     
     .BRANCH_1
     
@@ -1763,7 +1763,7 @@ TriforceRoom_PrepGFXSlotForPoly:
     LDA.b #$08 : STA.w $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $006384
-    JSR $C36F   ; $06436F
+    JSR.w $C36F   ; $06436F
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
     LDA.b #$04 : STA.w $1E18
@@ -1785,7 +1785,7 @@ Credits_InitializePolyhedral:
     LDA.b #$08 : STA.w $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $006384
-    JSR $C36F ; $06436F MAKES SURE THE TRIFORCES ARE SET UP.
+    JSR.w $C36F ; $06436F MAKES SURE THE TRIFORCES ARE SET UP.
     
     STZ.w $1F02
     
@@ -1808,8 +1808,8 @@ AdvancePolyhedral:
 {
     PHB : PHK : PLB
     
-    JSR $CABC ; $064ABC
-    JSR $C412 ; $064412
+    JSR.w $CABC ; $064ABC
+    JSR.w $C412 ; $064412
     
     PLB
     
@@ -1825,7 +1825,7 @@ AdvancePolyhedral_do_advance:
                  STA.w $1E02
     
     LDA.w $1F00 : BNE .alpha
-        JSR $CAD8 ; $064AD8
+        JSR.w $CAD8 ; $064AD8
         
         LDA.b #$01 : STA.w $1F00
         
@@ -1965,8 +1965,8 @@ Credits_AnimateTheTriangles:
     
     INC.w $1E0A
     
-    JSR $CBB0 ; $064BB0
-    JSR $C412 ; $064412
+    JSR.w $CBB0 ; $064BB0
+    JSR.w $C412 ; $064412
     
     PLB
     
@@ -1981,7 +1981,7 @@ CreditsTriangle_HandleRotation:
     LDA.b #$01 : STA.w $012A
     
     LDA.w $1F00 : BNE .BRANCH_ALPHA
-        JSR $CBC3 ; $04CBC3
+        JSR.w $CBC3 ; $04CBC3
         
         LDA.b #$01 : STA.w $1F00
     
@@ -2053,9 +2053,9 @@ InitializeSceneSprite_TriforceRoomTriangle:
 ; $064C13-$064C2C JUMP LOCATION
 AnimateSceneSprite_TriforceRoomTriangle:
 {
-    JSR $C82F ; $06482F
-    JSR $CA4C ; $064A4C
-    JSR $C9F1 ; $0649F1
+    JSR.w $C82F ; $06482F
+    JSR.w $CA4C ; $064A4C
+    JSR.w $C9F1 ; $0649F1
     
     LDA.w $1E00
     
@@ -2151,7 +2151,7 @@ Pool_AnimateTriforceRoomTriangle_Contract:
 AnimateTriforceRoomTriangle_Contract:
 {
     LDA.w $1E0A : AND.b #$03 : BNE .BRANCH_1
-        JSR $CCB0 ; $064CB0
+        JSR.w $CCB0 ; $064CB0
     
     .BRANCH_1
     
@@ -2310,9 +2310,9 @@ Pool_AnimateSceneSprite_CreditsTriangle:
 ; $064D3E-$064D6F JUMP LOCATION
 AnimateSceneSprite_CreditsTriangle:
 {
-    JSR $C3BD ; $0643BD
-    JSR $C82F ; $06482F
-    JSR $C9F1 ; $0649F1
+    JSR.w $C3BD ; $0643BD
+    JSR.w $C82F ; $06482F
+    JSR.w $C9F1 ; $0649F1
     
     LDA.b $11 : CMP.b #$24 : BNE .BRANCH_2
         LDA.w $1E20, X : CMP.b #$50 : BEQ .BRANCH_1
@@ -2510,7 +2510,7 @@ FileSelect_UploadFancyBackground:
     
     REP #$30
     
-    JSR $CE1B ; $064E1B
+    JSR.w $CE1B ; $064E1B
     
     LDY.w #$00DE ; Y's usage is an index in what follows (for a loop).
     
@@ -2562,7 +2562,7 @@ FileSelect_UploadFancyBackground:
     
     INC.b $11 ; Increment the submodule index.
     
-    JMP $D09C ; $06509C
+    JMP.w $D09C ; $06509C
 }
 
 ; ==============================================================================
@@ -2584,7 +2584,7 @@ FileSelect_TriggerStripesAndAdvance:
 ; $064EB1-$064EBC
 FileSelect_TriggerNameStripesAndAdvance:
 {
-    JSR $CEC7 ; $064EC7
+    JSR.w $CEC7 ; $064EC7
         
     LDA.b #$0F : STA.b $13
         
@@ -2603,7 +2603,7 @@ FileSelect_Main:
     PHB : PHK : PLB
     
     JSL.l $0CCEDC ; ($064EDC) Main logic for the select screen.
-    JMP $D09C   ; ($06509C) Sets the tile map update flag and exits.
+    JMP.w $D09C   ; ($06509C) Sets the tile map update flag and exits.
 }
 
 ; ==============================================================================
@@ -2673,15 +2673,15 @@ FileSelect_HandleInput:
         PHX ; Save the SRAM offset.
         
         ; Set OAM for Link's shield and sword (mainly).
-        JSR $D6AF ; $0656AF
+        JSR.w $D6AF ; $0656AF
         
         ; Set number of deaths OAM.
-        JSR $D7DB ; $0657DB
+        JSR.w $D7DB ; $0657DB
         
         PLX ; Restore the SRAM offset.
         
         ; Draw hearts and player's name for this file.
-        JSR $D63C ; $06563C
+        JSR.w $D63C ; $06563C
         
         .invalidSaveFile
     ; If there's more files to look at, go back to .BRANCH_2.
@@ -2890,7 +2890,7 @@ CopyFile_FindFileIndices:
     ; $065070 ALTERNATE ENTRY POINT
     .KILLFile_FindFileIndices
     
-    JSR $C52E ; $06452E
+    JSR.w $C52E ; $06452E
     
     LDA.b #$0F : STA.b $13
     
@@ -2915,11 +2915,11 @@ CopyFile_ChooseSelection:
 {
     PHB : PHK : PLB
     
-    JSR $D13F ; $06513F
+    JSR.w $D13F ; $06513F
     
     LDA.b $11 : CMP.b #$03 : BNE .BRANCH_1
         LDA.b $1A : AND.b #$30 : BNE .BRANCH_1
-            JSR $D0C6 ; $0650C6
+            JSR.w $D0C6 ; $0650C6
     
     .BRANCH_1
 
@@ -2938,11 +2938,11 @@ CopyFile_ChooseSelection:
     
     PHB : PHK : PLB
     
-    JSR $D27B ; $06527B
+    JSR.w $D27B ; $06527B
     
     LDA.b $11 : CMP.b #$04 : BNE .BRANCH_2
         LDA.b $1A : AND.b #$30 : BNE .BRANCH_1
-            JSR $D0C6 ; $0650C6
+            JSR.w $D0C6 ; $0650C6
     
     .BRANCH_2
     
@@ -2956,8 +2956,8 @@ CopyFile_ConfirmSelection:
 {
     PHB : PHK : PLB
     
-    JSR $D371 ; $065371
-    JMP $D09C ; $06509C
+    JSR.w $D371 ; $065371
+    JMP.w $D09C ; $06509C
 }
 
 ; ==============================================================================
@@ -3351,7 +3351,7 @@ CopyFile_TargetSelectionAndBlink:
         
         .BRANCH_12
         
-        JSR $D22D ; $06522D
+        JSR.w $D22D ; $06522D
         
         .BRANCH_13
         
@@ -3415,7 +3415,7 @@ CopyFile_HandleConfirmation:
             LDX.b $CA : LDA.l $00848C, X : TAY
             LDX.b $CC : LDA.l $00848C, X : TAX
             
-            JSR $D3DC ; $0653DC
+            JSR.w $D3DC ; $0653DC
             
             LDX.b $CA
             
@@ -3425,7 +3425,7 @@ CopyFile_HandleConfirmation:
         
         .BRANCH_3
         
-        JSR $D22D ; $06522D
+        JSR.w $D22D ; $06522D
         
         STZ.b $C8
     
@@ -3493,7 +3493,7 @@ KILLFile_SetUp:
 {
     LDA.b #$08
     
-    JMP $D070 ; $065070
+    JMP.w $D070 ; $065070
 }
 
 ; $06549F-$0654B0 JUMP LOCATION
@@ -3507,8 +3507,8 @@ KILLFile_HandleSelection:
     
     .alpha
     
-    JSR $D4BA ; $0654BA
-    JMP $D09C ; $06509C
+    JSR.w $D4BA ; $0654BA
+    JMP.w $D09C ; $06509C
 }
 
 ; ==============================================================================
@@ -3518,8 +3518,8 @@ KILLFile_HandleConfirmation:
 {
     PHB : PHK : PLB
     
-    JSR $D599 ; $065599
-    JMP $D09C ; $06509C
+    JSR.w $D599 ; $065599
+    JMP.w $D09C ; $06509C
 }
 
 ; ==============================================================================
@@ -3547,7 +3547,7 @@ KILLFile_ChooseTarget:
         LDA.b $BF, X : AND.w #$0001 : BEQ .BRANCH_3
             LDA.l $00848C, X : TAX
             
-            JSR $D63C ; $6563C
+            JSR.w $D63C ; $6563C
         
         .BRANCH_3
     LDX.b $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_2
@@ -3645,7 +3645,7 @@ KILLFile_ChooseTarget:
         
         SEP #$30
         
-        JSR $D22D ; $06522D
+        JSR.w $D22D ; $06522D
     
     .BRANCH_13
     
@@ -3731,7 +3731,7 @@ KILLFile_VerifyDeletion:
         
         .BRANCH_5
         
-        JSR $D22D ; $06522D
+        JSR.w $D22D ; $06522D
         
         STZ.b $B0
     
@@ -4234,7 +4234,7 @@ NameFile_FillBackground:
     
     REP #$30
     
-    JSR $CE1B ; $064E1B
+    JSR.w $CE1B ; $064E1B
     
     LDA.w #$FFFF : STA.w $1006, X
     
@@ -4244,7 +4244,7 @@ NameFile_FillBackground:
     
     LDA.b #$01
     
-    JSR $C52E ; $06452E
+    JSR.w $C52E ; $06452E
     
     RTL
 }
@@ -4254,7 +4254,7 @@ NameFile_MakeScreenVisible:
 {
     LDA.b #$05
     
-    JSR $C52E ; $06452E
+    JSR.w $C52E ; $06452E
     
     LDA.b #$0F : STA.b $13
     
@@ -4375,7 +4375,7 @@ NameFile_DoTheNaming:
         
             .BRANCH_3
         
-            JSR $DC8C ; $065C8C
+            JSR.w $DC8C ; $065C8C
             
             BRA .BRANCH_1
         
@@ -4400,7 +4400,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_6
     
-    JSR $DC8C ; $065C8C
+    JSR.w $DC8C ; $065C8C
     
     .BRANCH_7
     
@@ -4412,7 +4412,7 @@ NameFile_DoTheNaming:
         LDA.w $0B11 : CMP.l $0CDA01, X : BNE .BRANCH_8
             STZ.w $0B14
             
-            JSR $DCBF ; $065CBF
+            JSR.w $DCBF ; $065CBF
             
             BRA .BRANCH_7
         
@@ -4429,7 +4429,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_10
     
-    JSR $DCBF ; $065CBF.
+    JSR.w $DCBF ; $065CBF.
     
     .BRANCH_11
     
@@ -4471,7 +4471,7 @@ NameFile_DoTheNaming:
     
     LDA.w $0B13 : ORA.w $0B14 : BNE .BRANCH_14
         LDA.b $F4 : AND.b #$10 : BEQ .BRANCH_13
-            JMP $DBB1 ; $065BB1
+            JMP.w $DBB1 ; $065BB1
         
         .BRANCH_13
         
@@ -4480,7 +4480,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_14
     
-    JMP $DBD9 ; $065BB9
+    JMP.w $DBD9 ; $065BB9
     
     .BRANCH_15
     
@@ -4541,7 +4541,7 @@ NameFile_DoTheNaming:
     
     LDA.b $00 : AND.w #$FFF0 : ASL A : ORA.b $02 : STA.l $7003D9, X
     
-    JSR $DD30 ; $065D30
+    JSR.w $DD30 ; $065D30
     
     BRA .BRANCH_18
     
@@ -4661,7 +4661,7 @@ NameFile_DoTheNaming:
     
     PLB
     
-    JSR $D22D ; $06522D
+    JSR.w $D22D ; $06522D
     
     LDA.b #$FF : STA.w $0128
     
@@ -4886,7 +4886,7 @@ Attract_Fade:
     STZ.w $1F00
     STZ.w $012A
     
-    JSR $FE56 ; $067E56
+    JSR.w $FE56 ; $067E56
     
     LDA.b $13 : BEQ .fullyDark
         ; Decrease screen brightness.
@@ -4945,7 +4945,7 @@ Attract_InitGraphics:
     
     LDA.b #$14 : STA.b $EA
     
-    JSR $F7E6 ; $0677E6
+    JSR.w $F7E6 ; $0677E6
     
     REP #$10
     
@@ -5295,7 +5295,7 @@ Attract_PrepZeldaPrison:
     
     SEP #$20
     
-    JMP $EFC0 ; $066FC0
+    JMP.w $EFC0 ; $066FC0
 }
 
 ; ==============================================================================
@@ -5367,7 +5367,7 @@ Attract_PrepMaidenWarp:
     
     SEP #$20
     
-    JMP $EFC0 ; $066FC0
+    JMP.w $EFC0 ; $066FC0
 }
 
 ; ==============================================================================
@@ -5710,7 +5710,7 @@ Attract_ZeldaPrison:
     JSR Atract_DrawZelda
     
     LDA.b $25 : CMP.b #$C0 : BCS .BRANCH_BETA
-        JMP $F319 ; $067319
+        JMP.w $F319 ; $067319
     
     .BRANCH_BETA
     
@@ -5730,7 +5730,7 @@ Attract_ZeldaPrison:
     
     .BRANCH_DELTA
     
-    JSR $FA30 ; $067A30
+    JSR.w $FA30 ; $067A30
     
     LDX.b #$01
     
@@ -6300,7 +6300,7 @@ Attract_Exit:
         
         SEP #$20
         
-        JMP $C2F0 ; $0642F0
+        JMP.w $C2F0 ; $0642F0
     
     .stillDarkening
     
@@ -6454,7 +6454,7 @@ Attract_BuildBackgrounds:
     
     LDA.w #$1000 : STA.b $30
     
-    JSR $F879 ; $067879
+    JSR.w $F879 ; $067879
 
     REP #$30
 
@@ -6482,7 +6482,7 @@ Attract_BuildBackgrounds:
     
     LDA.w #$0000 : STA.b $30
     
-    JSR $F879 ; $067879
+    JSR.w $F879 ; $067879
     
     SEP #$30
     

@@ -30,19 +30,19 @@ Ancilla_VictorySparkle:
     
     !numSprites = $06
     
-    LDA $03B1, X : BNE .delay
+    LDA.w $03B1, X : BNE .delay
     
-    DEC $039F, X : BPL .active
+    DEC.w $039F, X : BPL .active
     
-    LDA.b #$01 : STA $039F, X
+    LDA.b #$01 : STA.w $039F, X
     
-    INC $0C5E, X : LDA $0C5E, X : CMP.b #$04 : BNE .active
+    INC.w $0C5E, X : LDA.w $0C5E, X : CMP.b #$04 : BNE .active
     
-    STZ $0C4A, X
+    STZ.w $0C4A, X
     
     .delay
     
-    DEC $03B1, X
+    DEC.w $03B1, X
     
     RTS
     
@@ -54,7 +54,7 @@ Ancilla_VictorySparkle:
     
     LDA.b #$03 : STA !numSprites
     
-    LDA $0C5E, X : ASL #2 : TAX
+    LDA.w $0C5E, X : ASL #2 : TAX
     
     LDY.b #$00
     
