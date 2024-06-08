@@ -5423,149 +5423,149 @@ WaterOverlayData:
 SpecialUnderworldObjects_pushable_block:
 {
     ;           roomID, tilemap index
-    #_04F1DE: dw $010B, $193A ; ROOM 010B
-    #_04F1E2: dw $010B, $193E
+    dw $010B, $193A ; ROOM 010B
+    dw $010B, $193E
 
-    #_04F1E6: dw $00A8, $36E0 ; ROOM 00A8
+    dw $00A8, $36E0 ; ROOM 00A8
 
-    #_04F1EA: dw $0063, $162A ; ROOM 0063
+    dw $0063, $162A ; ROOM 0063
 
-    #_04F1EE: dw $0083, $1514 ; ROOM 0083
+    dw $0083, $1514 ; ROOM 0083
 
-    #_04F1F2: dw $00CA, $56B2 ; ROOM 00CA
-    #_04F1F6: dw $00CA, $56BA
+    dw $00CA, $56B2 ; ROOM 00CA
+    dw $00CA, $56BA
 
-    #_04F1FA: dw $0034, $5722 ; ROOM 0034
-    #_04F1FE: dw $0034, $572A
-    #_04F202: dw $0034, $5826
-    #_04F206: dw $0034, $5926
+    dw $0034, $5722 ; ROOM 0034
+    dw $0034, $572A
+    dw $0034, $5826
+    dw $0034, $5926
 
-    #_04F20A: dw $0054, $482A ; ROOM 0054
-    #_04F20E: dw $0054, $484A
-    #_04F212: dw $0054, $542A
+    dw $0054, $482A ; ROOM 0054
+    dw $0054, $484A
+    dw $0054, $542A
 
-    #_04F216: dw $0066, $383C ; ROOM 0066
+    dw $0066, $383C ; ROOM 0066
 
-    #_04F21A: dw $0011, $465E ; ROOM 0011
+    dw $0011, $465E ; ROOM 0011
 
-    #_04F21E: dw $002C, $2814 ; ROOM 002C
+    dw $002C, $2814 ; ROOM 002C
 
-    #_04F222: dw $002A, $1328 ; ROOM 002A
+    dw $002A, $1328 ; ROOM 002A
 
-    #_04F226: dw $010B, $1942 ; ROOM 010B
+    dw $010B, $1942 ; ROOM 010B
 
-    #_04F22A: dw $001F, $5B52 ; ROOM 001F
+    dw $001F, $5B52 ; ROOM 001F
 
-    #_04F22E: dw $0019, $100C ; ROOM 0019
+    dw $0019, $100C ; ROOM 0019
 
-    #_04F232: dw $010D, $4718 ; ROOM 010D
-    #_04F236: dw $010D, $4724
-    #_04F23A: dw $010D, $4918
-    #_04F23E: dw $010D, $491C
-    #_04F242: dw $010D, $4924
-    #_04F246: dw $010D, $4A18
-    #_04F24A: dw $010D, $4A20
+    dw $010D, $4718 ; ROOM 010D
+    dw $010D, $4724
+    dw $010D, $4918
+    dw $010D, $491C
+    dw $010D, $4924
+    dw $010D, $4A18
+    dw $010D, $4A20
 
-    #_04F24E: dw $001E, $585E ; ROOM 001E
+    dw $001E, $585E ; ROOM 001E
 
-    #_04F252: dw $009E, $13A4 ; ROOM 009E
-    #_04F256: dw $009E, $1858
-    #_04F25A: dw $009E, $179C
-    #_04F25E: dw $009E, $1CA4
+    dw $009E, $13A4 ; ROOM 009E
+    dw $009E, $1858
+    dw $009E, $179C
+    dw $009E, $1CA4
 
-    #_04F262: dw $0097, $5418 ; ROOM 0097
-    #_04F266: dw $0097, $5424
-    #_04F26A: dw $0097, $4A18
-    #_04F26E: dw $0097, $4A24
-    #_04F272: dw $0097, $4B18
-    #_04F276: dw $0097, $4B24
-    #_04F27A: dw $0097, $4C18
-    #_04F27E: dw $0097, $4C24
+    dw $0097, $5418 ; ROOM 0097
+    dw $0097, $5424
+    dw $0097, $4A18
+    dw $0097, $4A24
+    dw $0097, $4B18
+    dw $0097, $4B24
+    dw $0097, $4C18
+    dw $0097, $4C24
 
-    #_04F282: dw $0126, $5868 ; ROOM 0126
+    dw $0126, $5868 ; ROOM 0126
 
-    #_04F286: dw $001F, $5A52 ; ROOM 001F
+    dw $001F, $5A52 ; ROOM 001F
 
-    #_04F28A: dw $008D, $4AEE ; ROOM 008D
+    dw $008D, $4AEE ; ROOM 008D
 
-    #_04F28E: dw $0004, $5A5E ; ROOM 0004
+    dw $0004, $5A5E ; ROOM 0004
 
-    #_04F292: dw $000B, $5760 ; ROOM 000B
+    dw $000B, $5760 ; ROOM 000B
 
-    #_04F296: dw $004B, $4960 ; ROOM 004B
+    dw $004B, $4960 ; ROOM 004B
 
-    #_04F29A: dw $00F8, $4522 ; ROOM 00F8
-    #_04F29E: dw $00F8, $449E
-    #_04F2A2: dw $00F8, $4B1E
-    #_04F2A6: dw $00F8, $4B22
-    #_04F2AA: dw $00F8, $4AEE
-    #_04F2AE: dw $00F8, $4BE6
-    #_04F2B2: dw $00F8, $4BEA
-    #_04F2B6: dw $00F8, $4CEE
+    dw $00F8, $4522 ; ROOM 00F8
+    dw $00F8, $449E
+    dw $00F8, $4B1E
+    dw $00F8, $4B22
+    dw $00F8, $4AEE
+    dw $00F8, $4BE6
+    dw $00F8, $4BEA
+    dw $00F8, $4CEE
 
-    #_04F2BA: dw $0046, $0624 ; ROOM 0046
+    dw $0046, $0624 ; ROOM 0046
 
-    #_04F2BE: dw $00C0, $0710 ; ROOM 00C0
+    dw $00C0, $0710 ; ROOM 00C0
 
-    #_04F2C2: dw $00D0, $1C16 ; ROOM 00D0
+    dw $00D0, $1C16 ; ROOM 00D0
 
-    #_04F2C6: dw $007D, $0938 ; ROOM 007D
+    dw $007D, $0938 ; ROOM 007D
 
-    #_04F2CA: dw $00B2, $175E ; ROOM 00B2
+    dw $00B2, $175E ; ROOM 00B2
 
-    #_04F2CE: dw $00FF, $5A60 ; ROOM 00FF
+    dw $00FF, $5A60 ; ROOM 00FF
 
-    #_04F2D2: dw $009E, $5764 ; ROOM 009E
+    dw $009E, $5764 ; ROOM 009E
 
-    #_04F2D6: dw $008B, $0860 ; ROOM 008B
+    dw $008B, $0860 ; ROOM 008B
 
-    #_04F2DA: dw $00B6, $0A96 ; ROOM 00B6
+    dw $00B6, $0A96 ; ROOM 00B6
 
-    #_04F2DE: dw $008D, $5718 ; ROOM 008D
+    dw $008D, $5718 ; ROOM 008D
 
-    #_04F2E2: dw $006B, $060C ; ROOM 006B
+    dw $006B, $060C ; ROOM 006B
 
-    #_04F2E6: dw $009D, $4914 ; ROOM 009D
+    dw $009D, $4914 ; ROOM 009D
 
-    #_04F2EA: dw $008C, $5414 ; ROOM 008C
+    dw $008C, $5414 ; ROOM 008C
 
-    #_04F2EE: dw $00B6, $0AA6 ; ROOM 00B6
+    dw $00B6, $0AA6 ; ROOM 00B6
 
-    #_04F2F2: dw $008D, $5720 ; ROOM 008D
-    #_04F2F6: dw $008D, $5824
-    #_04F2FA: dw $008D, $5918
-    #_04F2FE: dw $008D, $5920
+    dw $008D, $5720 ; ROOM 008D
+    dw $008D, $5824
+    dw $008D, $5918
+    dw $008D, $5920
 
-    #_04F302: dw $003A, $4E60 ; ROOM 003A
+    dw $003A, $4E60 ; ROOM 003A
 
-    #_04F306: dw $011D, $583C ; ROOM 011D
-    #_04F30A: dw $011D, $5840
-    #_04F30E: dw $011D, $5A34
-    #_04F312: dw $011D, $5A38
-    #_04F316: dw $011D, $5A3C
-    #_04F31A: dw $011D, $5A44
-    #_04F31E: dw $011D, $5A48
-    #_04F322: dw $011D, $5B40
-    #_04F326: dw $011D, $5B44
+    dw $011D, $583C ; ROOM 011D
+    dw $011D, $5840
+    dw $011D, $5A34
+    dw $011D, $5A38
+    dw $011D, $5A3C
+    dw $011D, $5A44
+    dw $011D, $5A48
+    dw $011D, $5B40
+    dw $011D, $5B44
 
-    #_04F32A: dw $0097, $5518 ; ROOM 0097
-    #_04F32E: dw $0097, $5524
-    #_04F332: dw $0097, $5618
-    #_04F336: dw $0097, $5624
+    dw $0097, $5518 ; ROOM 0097
+    dw $0097, $5524
+    dw $0097, $5618
+    dw $0097, $5624
 
-    #_04F33A: dw $0126, $5460 ; ROOM 0126
-    #_04F33E: dw $0126, $5468
-    #_04F342: dw $0126, $555C
-    #_04F346: dw $0126, $5860
-    #_04F34A: dw $0126, $556C
-    #_04F34E: dw $0126, $5660
-    #_04F352: dw $0126, $5668
-    #_04F356: dw $0126, $5670
-    #_04F35A: dw $0126, $575C
+    dw $0126, $5460 ; ROOM 0126
+    dw $0126, $5468
+    dw $0126, $555C
+    dw $0126, $5860
+    dw $0126, $556C
+    dw $0126, $5660
+    dw $0126, $5668
+    dw $0126, $5670
+    dw $0126, $575C
 
-    #_04F35E: dw $004D, $5BA0 ; ROOM 004D
-    #_04F362: dw $004D, $5BB0
-    #_04F366: dw $004D, $5CA8
+    dw $004D, $5BA0 ; ROOM 004D
+    dw $004D, $5BB0
+    dw $004D, $5CA8
 }
 
 ; ==============================================================================
@@ -5574,35 +5574,35 @@ SpecialUnderworldObjects_pushable_block:
 SpecialUnderworldObjects_torch:
 {
     ;         dw  room : dw tilemap index, ...                : terminator
-    #_04F36A: dw $0043 : dw $03AA, $03B6, $09AA, $09B6        : dw $FFFF ; ROOM 0043
-    #_04F376: dw $00CA : dw $14B2, $16AA, $18B2               : dw $FFFF ; ROOM 00CA
-    #_04F380: dw $0099 : dw $13BE, $1CAA, $1CD2               : dw $FFFF ; ROOM 0099
-    #_04F38A: dw $0000 : dw $8CCA, $8CF2                      : dw $FFFF ; ROOM 0000
-    #_04F392: dw $0074 : dw $07B8, $07C4                      : dw $FFFF ; ROOM 0074
-    #_04F39A: dw $008D : dw $0470, $0E72, $1970, $1B4C        : dw $FFFF ; ROOM 008D
-    #_04F3A6: dw $0021 : dw $0C92, $0CEA, $138A, $1C8A        : dw $FFFF ; ROOM 0021
-    #_04F3B2: dw $0022 : dw $13CC, $1CCC                      : dw $FFFF ; ROOM 0022
-    #_04F3BA: dw $0053 : dw $08E2, $1368, $1864               : dw $FFFF ; ROOM 0053
-    #_04F3C4: dw $0073 : dw $0C8A, $0CB2                      : dw $FFFF ; ROOM 0073
-    #_04F3CC: dw $000B : dw $1814, $1828, $1854, $1864        : dw $FFFF ; ROOM 000B
-    #_04F3D8: dw $0032 : dw $0B8A, $0BF2, $0FF2               : dw $FFFF ; ROOM 0032
-    #_04F3E2: dw $0042 : dw $07B6, $07F2                      : dw $FFFF ; ROOM 0042
-    #_04F3EA: dw $0083 : dw $1914, $191E, $1928               : dw $FFFF ; ROOM 0083
-    #_04F3F4: dw $006A : dw $03CA, $03F2                      : dw $FFFF ; ROOM 006A
-    #_04F3FC: dw $00C0 : dw $06D8, $06E4, $0D24, $1518, $1A10 : dw $FFFF ; ROOM 00C0
-    #_04F40A: dw $00D0 : dw $0A1E, $0D24, $1012               : dw $FFFF ; ROOM 00D0
-    #_04F414: dw $0055 : dw $1850                             : dw $FFFF ; ROOM 0055
-    #_04F41A: dw $0041 : dw $053E, $0E70, $1590               : dw $FFFF ; ROOM 0041
-    #_04F424: dw $0049 : dw $055C, $0FCE, $0FEE, $1870        : dw $FFFF ; ROOM 0049
-    #_04F430: dw $0087 : dw $1850, $186C, $1B50, $1B6C        : dw $FFFF ; ROOM 0087
-    #_04F43C: dw $00C7 : dw $0932, $094A, $0DB2, $0DCA        : dw $FFFF ; ROOM 00C7
-    #_04F448: dw $0096 : dw $0420, $0B0C, $0B32, $1220        : dw $FFFF ; ROOM 0096
-    #_04F454: dw $FFFF                                        : dw $FFFF ; Deleted
-    #_04F458: dw $00C1 : dw $140C, $1430, $1C0C, $1C30        : dw $FFFF ; ROOM 00C1
-    #_04F464: dw $0097 : dw $0C0C, $0C30, $140C, $1430        : dw $FFFF ; ROOM 0097
-    #_04F470: dw $009C : dw $0550                             : dw $FFFF ; ROOM 009C
-    #_04F476: dw $009D : dw $150C, $1668                      : dw $FFFF ; ROOM 009D
-    #_04F47E: dw $003D : dw $154C, $1570, $1C50, $1C6C        : dw $FFFF ; ROOM 003D
+    dw $0043 : dw $03AA, $03B6, $09AA, $09B6        : dw $FFFF ; ROOM 0043
+    dw $00CA : dw $14B2, $16AA, $18B2               : dw $FFFF ; ROOM 00CA
+    dw $0099 : dw $13BE, $1CAA, $1CD2               : dw $FFFF ; ROOM 0099
+    dw $0000 : dw $8CCA, $8CF2                      : dw $FFFF ; ROOM 0000
+    dw $0074 : dw $07B8, $07C4                      : dw $FFFF ; ROOM 0074
+    dw $008D : dw $0470, $0E72, $1970, $1B4C        : dw $FFFF ; ROOM 008D
+    dw $0021 : dw $0C92, $0CEA, $138A, $1C8A        : dw $FFFF ; ROOM 0021
+    dw $0022 : dw $13CC, $1CCC                      : dw $FFFF ; ROOM 0022
+    dw $0053 : dw $08E2, $1368, $1864               : dw $FFFF ; ROOM 0053
+    dw $0073 : dw $0C8A, $0CB2                      : dw $FFFF ; ROOM 0073
+    dw $000B : dw $1814, $1828, $1854, $1864        : dw $FFFF ; ROOM 000B
+    dw $0032 : dw $0B8A, $0BF2, $0FF2               : dw $FFFF ; ROOM 0032
+    dw $0042 : dw $07B6, $07F2                      : dw $FFFF ; ROOM 0042
+    dw $0083 : dw $1914, $191E, $1928               : dw $FFFF ; ROOM 0083
+    dw $006A : dw $03CA, $03F2                      : dw $FFFF ; ROOM 006A
+    dw $00C0 : dw $06D8, $06E4, $0D24, $1518, $1A10 : dw $FFFF ; ROOM 00C0
+    dw $00D0 : dw $0A1E, $0D24, $1012               : dw $FFFF ; ROOM 00D0
+    dw $0055 : dw $1850                             : dw $FFFF ; ROOM 0055
+    dw $0041 : dw $053E, $0E70, $1590               : dw $FFFF ; ROOM 0041
+    dw $0049 : dw $055C, $0FCE, $0FEE, $1870        : dw $FFFF ; ROOM 0049
+    dw $0087 : dw $1850, $186C, $1B50, $1B6C        : dw $FFFF ; ROOM 0087
+    dw $00C7 : dw $0932, $094A, $0DB2, $0DCA        : dw $FFFF ; ROOM 00C7
+    dw $0096 : dw $0420, $0B0C, $0B32, $1220        : dw $FFFF ; ROOM 0096
+    dw $FFFF                                        : dw $FFFF ; Deleted
+    dw $00C1 : dw $140C, $1430, $1C0C, $1C30        : dw $FFFF ; ROOM 00C1
+    dw $0097 : dw $0C0C, $0C30, $140C, $1430        : dw $FFFF ; ROOM 0097
+    dw $009C : dw $0550                             : dw $FFFF ; ROOM 009C
+    dw $009D : dw $150C, $1668                      : dw $FFFF ; ROOM 009D
+    dw $003D : dw $154C, $1570, $1C50, $1C6C        : dw $FFFF ; ROOM 003D
 }
 
 ; ==============================================================================
@@ -5611,129 +5611,129 @@ SpecialUnderworldObjects_torch:
 DefaultSaveFileItems:
 {
     .bage
-    #_04F48A: db $01 ; $x340 - bow (normal)
-    #_04F48B: db $01 ; $x341 - blue boom
-    #_04F48C: db $01 ; $x342 - hookshot
-    #_04F48D: db $32 ; $x343 - 50 bombs
-    #_04F48E: db $02 ; $x344 - powder
-    #_04F48F: db $01 ; $x345 - fire rod
-    #_04F490: db $01 ; $x346 - ice rod
-    #_04F491: db $01 ; $x347 - bombos
-    #_04F492: db $01 ; $x348 - ether
-    #_04F493: db $01 ; $x349 - quake
-    #_04F494: db $01 ; $x34A - lamp
-    #_04F495: db $01 ; $x34B - hammer
-    #_04F496: db $03 ; $x34C - active flute
-    #_04F497: db $01 ; $x34D - bug net
-    #_04F498: db $01 ; $x34E - book
-    #_04F499: db $03 ; $x34F - bottle 3 selected
-    #_04F49A: db $01 ; $x350 - somaria
-    #_04F49B: db $01 ; $x351 - byrna
-    #_04F49C: db $01 ; $x352 - cape
-    #_04F49D: db $02 ; $x353 - mirror
-    #_04F49E: db $02 ; $x354 - titan's mitt
-    #_04F49F: db $01 ; $x355 - boots
-    #_04F4A0: db $01 ; $x356 - flippers
-    #_04F4A1: db $01 ; $x357 - pearl
-    #_04F4A2: db $00 ; $x358 - unused
-    #_04F4A3: db $01 ; $x359 - fighter sword
-    #_04F4A4: db $01 ; $x35A - fighter shield
-    #_04F4A5: db $00 ; $x35B - green mail
-    #_04F4A6: db $06 ; $x35C - bottle 1: fairy
-    #_04F4A7: db $03 ; $x35D - bottle 2: red potion
-    #_04F4A8: db $04 ; $x35E - bottle 3: green potion
-    #_04F4A9: db $05 ; $x35F - bottle 4: blue potion
-    #_04F4AA: db $FF ; $x360 - 255 rupees
-    #_04F4AB: db $00 ; $x361 - ditto
-    #_04F4AC: db $FF ; $x362 - ditto
-    #_04F4AD: db $00 ; $x363 - ditto
-    #_04F4AE: db $00 ; $x364 - no compasses
-    #_04F4AF: db $00 ; $x365 - no compasses
-    #_04F4B0: db $00 ; $x366 - no big keys here
-    #_04F4B1: db $80 ; $x367 - hyrule big key
-    #_04F4B2: db $00 ; $x368 - no maps
-    #_04F4B3: db $00 ; $x369 - no maps
-    #_04F4B4: db $00 ; $x36A - donated rupees
-    #_04F4B5: db $00 ; $x36B - heart pieces
-    #_04F4B6: db $78 ; $x36C - 15 hearts max
-    #_04F4B7: db $78 ; $x36D - 15 hearts current
-    #_04F4B8: db $80 ; $x36E - full (128) magic
-    #_04F4B9: db $00 ; $x36F - 0 keys
-    #_04F4BA: db $07 ; $x370 - max bomb capacity
-    #_04F4BB: db $07 ; $x371 - max arrow capacity
-    #_04F4BC: db $00 ; $x372 - no heals
-    #_04F4BD: db $00 ; $x373 - no damage
-    #_04F4BE: db $00 ; $x374 - no pendants
-    #_04F4BF: db $00 ; $x375 - bomb filler
-    #_04F4C0: db $00 ; $x376 - arrow filler
-    #_04F4C1: db $32 ; $x377 - 50 arrows
-    #_04F4C2: db $00 ; $x378 - unused
-    #_04F4C3: db $FE ; $x379 - abilities: everything except the unused prayer
-    #_04F4C4: db $00 ; $x37A - no crystals
-    #_04F4C5: db $00 ; $x37B - normal magic consumption
+    db $01 ; $x340 - bow (normal)
+    db $01 ; $x341 - blue boom
+    db $01 ; $x342 - hookshot
+    db $32 ; $x343 - 50 bombs
+    db $02 ; $x344 - powder
+    db $01 ; $x345 - fire rod
+    db $01 ; $x346 - ice rod
+    db $01 ; $x347 - bombos
+    db $01 ; $x348 - ether
+    db $01 ; $x349 - quake
+    db $01 ; $x34A - lamp
+    db $01 ; $x34B - hammer
+    db $03 ; $x34C - active flute
+    db $01 ; $x34D - bug net
+    db $01 ; $x34E - book
+    db $03 ; $x34F - bottle 3 selected
+    db $01 ; $x350 - somaria
+    db $01 ; $x351 - byrna
+    db $01 ; $x352 - cape
+    db $02 ; $x353 - mirror
+    db $02 ; $x354 - titan's mitt
+    db $01 ; $x355 - boots
+    db $01 ; $x356 - flippers
+    db $01 ; $x357 - pearl
+    db $00 ; $x358 - unused
+    db $01 ; $x359 - fighter sword
+    db $01 ; $x35A - fighter shield
+    db $00 ; $x35B - green mail
+    db $06 ; $x35C - bottle 1: fairy
+    db $03 ; $x35D - bottle 2: red potion
+    db $04 ; $x35E - bottle 3: green potion
+    db $05 ; $x35F - bottle 4: blue potion
+    db $FF ; $x360 - 255 rupees
+    db $00 ; $x361 - ditto
+    db $FF ; $x362 - ditto
+    db $00 ; $x363 - ditto
+    db $00 ; $x364 - no compasses
+    db $00 ; $x365 - no compasses
+    db $00 ; $x366 - no big keys here
+    db $80 ; $x367 - hyrule big key
+    db $00 ; $x368 - no maps
+    db $00 ; $x369 - no maps
+    db $00 ; $x36A - donated rupees
+    db $00 ; $x36B - heart pieces
+    db $78 ; $x36C - 15 hearts max
+    db $78 ; $x36D - 15 hearts current
+    db $80 ; $x36E - full (128) magic
+    db $00 ; $x36F - 0 keys
+    db $07 ; $x370 - max bomb capacity
+    db $07 ; $x371 - max arrow capacity
+    db $00 ; $x372 - no heals
+    db $00 ; $x373 - no damage
+    db $00 ; $x374 - no pendants
+    db $00 ; $x375 - bomb filler
+    db $00 ; $x376 - arrow filler
+    db $32 ; $x377 - 50 arrows
+    db $00 ; $x378 - unused
+    db $FE ; $x379 - abilities: everything except the unused prayer
+    db $00 ; $x37A - no crystals
+    db $00 ; $x37B - normal magic consumption
 
     ; $0274C6
     .normal
-    #_04F4C6: db $00 ; $x340 - no bow
-    #_04F4C7: db $00 ; $x341 - no boom
-    #_04F4C8: db $00 ; $x342 - no hookshot
-    #_04F4C9: db $00 ; $x343 - 0 bombs
-    #_04F4CA: db $00 ; $x344 - no powder
-    #_04F4CB: db $00 ; $x345 - no fire rod
-    #_04F4CC: db $00 ; $x346 - no ice rod
-    #_04F4CD: db $00 ; $x347 - no bombos
-    #_04F4CE: db $00 ; $x348 - no ether
-    #_04F4CF: db $00 ; $x349 - no quake
-    #_04F4D0: db $00 ; $x34A - no lamp
-    #_04F4D1: db $00 ; $x34B - no hammer
-    #_04F4D2: db $00 ; $x34C - no flute
-    #_04F4D3: db $00 ; $x34D - no bug net
-    #_04F4D4: db $00 ; $x34E - no book
-    #_04F4D5: db $00 ; $x34F - no bottles
-    #_04F4D6: db $00 ; $x350 - no somaria
-    #_04F4D7: db $00 ; $x351 - no byrna
-    #_04F4D8: db $00 ; $x352 - no cape
-    #_04F4D9: db $00 ; $x353 - no mirror
-    #_04F4DA: db $00 ; $x354 - lift 1
-    #_04F4DB: db $00 ; $x355 - no boots
-    #_04F4DC: db $00 ; $x356 - no flippers
-    #_04F4DD: db $00 ; $x357 - no pearl
-    #_04F4DE: db $00 ; $x358 - unused
-    #_04F4DF: db $00 ; $x359 - no sword
-    #_04F4E0: db $00 ; $x35A - green mail
-    #_04F4E1: db $00 ; $x35B - no shield
-    #_04F4E2: db $00 ; $x35C - no bottle 1
-    #_04F4E3: db $00 ; $x35D - no bottle 2
-    #_04F4E4: db $00 ; $x35E - no bottle 3
-    #_04F4E5: db $00 ; $x35F - no bottle 4
-    #_04F4E6: db $00 ; $x360 - no rupees
-    #_04F4E7: db $00 ; $x361 - no rupees
-    #_04F4E8: db $00 ; $x362 - no rupees
-    #_04F4E9: db $00 ; $x363 - no rupees
-    #_04F4EA: db $00 ; $x364 - no compasses
-    #_04F4EB: db $00 ; $x365 - no compasses
-    #_04F4EC: db $00 ; $x366 - no big keys
-    #_04F4ED: db $00 ; $x367 - no big keys
-    #_04F4EE: db $00 ; $x368 - no maps
-    #_04F4EF: db $00 ; $x369 - no maps
-    #_04F4F0: db $00 ; $x36A - donated rupees
-    #_04F4F1: db $00 ; $x36B - heart pieces
-    #_04F4F2: db $18 ; $x36C - 3 hearts max
-    #_04F4F3: db $18 ; $x36D - 3 hearts current
-    #_04F4F4: db $00 ; $x36E - 0 magic
-    #_04F4F5: db $00 ; $x36F - 0 keys
-    #_04F4F6: db $00 ; $x370 - max bomb capacity
-    #_04F4F7: db $00 ; $x371 - max arrow capacity
-    #_04F4F8: db $00 ; $x372 - no heals
-    #_04F4F9: db $00 ; $x373 - no damage
-    #_04F4FA: db $00 ; $x374 - no pendants
-    #_04F4FB: db $00 ; $x375 - bomb filler
-    #_04F4FC: db $00 ; $x376 - arrow filler
-    #_04F4FD: db $00 ; $x377 - no arrows
-    #_04F4FE: db $00 ; $x378 - unused
-    #_04F4FF: db $F8 ; $x379 - abilities: lift, read, talk, unused, pull
-    #_04F500: db $00 ; $x37A - no crystals
-    #_04F501: db $00 ; $x37B - normal magic consumption
+    db $00 ; $x340 - no bow
+    db $00 ; $x341 - no boom
+    db $00 ; $x342 - no hookshot
+    db $00 ; $x343 - 0 bombs
+    db $00 ; $x344 - no powder
+    db $00 ; $x345 - no fire rod
+    db $00 ; $x346 - no ice rod
+    db $00 ; $x347 - no bombos
+    db $00 ; $x348 - no ether
+    db $00 ; $x349 - no quake
+    db $00 ; $x34A - no lamp
+    db $00 ; $x34B - no hammer
+    db $00 ; $x34C - no flute
+    db $00 ; $x34D - no bug net
+    db $00 ; $x34E - no book
+    db $00 ; $x34F - no bottles
+    db $00 ; $x350 - no somaria
+    db $00 ; $x351 - no byrna
+    db $00 ; $x352 - no cape
+    db $00 ; $x353 - no mirror
+    db $00 ; $x354 - lift 1
+    db $00 ; $x355 - no boots
+    db $00 ; $x356 - no flippers
+    db $00 ; $x357 - no pearl
+    db $00 ; $x358 - unused
+    db $00 ; $x359 - no sword
+    db $00 ; $x35A - green mail
+    db $00 ; $x35B - no shield
+    db $00 ; $x35C - no bottle 1
+    db $00 ; $x35D - no bottle 2
+    db $00 ; $x35E - no bottle 3
+    db $00 ; $x35F - no bottle 4
+    db $00 ; $x360 - no rupees
+    db $00 ; $x361 - no rupees
+    db $00 ; $x362 - no rupees
+    db $00 ; $x363 - no rupees
+    db $00 ; $x364 - no compasses
+    db $00 ; $x365 - no compasses
+    db $00 ; $x366 - no big keys
+    db $00 ; $x367 - no big keys
+    db $00 ; $x368 - no maps
+    db $00 ; $x369 - no maps
+    db $00 ; $x36A - donated rupees
+    db $00 ; $x36B - heart pieces
+    db $18 ; $x36C - 3 hearts max
+    db $18 ; $x36D - 3 hearts current
+    db $00 ; $x36E - 0 magic
+    db $00 ; $x36F - 0 keys
+    db $00 ; $x370 - max bomb capacity
+    db $00 ; $x371 - max arrow capacity
+    db $00 ; $x372 - no heals
+    db $00 ; $x373 - no damage
+    db $00 ; $x374 - no pendants
+    db $00 ; $x375 - bomb filler
+    db $00 ; $x376 - arrow filler
+    db $00 ; $x377 - no arrows
+    db $00 ; $x378 - unused
+    db $F8 ; $x379 - abilities: lift, read, talk, unused, pull
+    db $00 ; $x37A - no crystals
+    db $00 ; $x37B - normal magic consumption
 }
 
 ; ==============================================================================
@@ -5741,365 +5741,365 @@ DefaultSaveFileItems:
 ; $027502-$027782 DATA
 RoomHeader_RoomToPointer:
 {
-    #_04F502: dw RoomHeader_Room0000
-    #_04F504: dw RoomHeader_Room0001
-    #_04F506: dw RoomHeader_Room0002
-    #_04F508: dw RoomHeader_Room0003 ; Shared { 0003, 002F }
-    #_04F50A: dw RoomHeader_Room0004
-    #_04F50C: dw RoomHeader_Room0005 ; Shared { 0005, 0006}
-    #_04F50E: dw RoomHeader_Room0006 ; Shared { 0005, 0006}
-    #_04F510: dw RoomHeader_Room0007
+    dw RoomHeader_Room0000
+    dw RoomHeader_Room0001
+    dw RoomHeader_Room0002
+    dw RoomHeader_Room0003 ; Shared { 0003, 002F }
+    dw RoomHeader_Room0004
+    dw RoomHeader_Room0005 ; Shared { 0005, 0006}
+    dw RoomHeader_Room0006 ; Shared { 0005, 0006}
+    dw RoomHeader_Room0007
 
-    #_04F512: dw RoomHeader_Room0008
-    #_04F514: dw RoomHeader_Room0009
-    #_04F516: dw RoomHeader_Room000A
-    #_04F518: dw RoomHeader_Room000B
-    #_04F51A: dw RoomHeader_Room000C
-    #_04F51C: dw RoomHeader_Room000D
-    #_04F51E: dw RoomHeader_Room000E
-    #_04F520: dw RoomHeader_Room000F ; Shared { 000F, 0010 }
+    dw RoomHeader_Room0008
+    dw RoomHeader_Room0009
+    dw RoomHeader_Room000A
+    dw RoomHeader_Room000B
+    dw RoomHeader_Room000C
+    dw RoomHeader_Room000D
+    dw RoomHeader_Room000E
+    dw RoomHeader_Room000F ; Shared { 000F, 0010 }
 
-    #_04F522: dw RoomHeader_Room0010 ; Shared { 000F, 0010 }
-    #_04F524: dw RoomHeader_Room0011
-    #_04F526: dw RoomHeader_Room0012
-    #_04F528: dw RoomHeader_Room0013 ; Shared { 0013, 0023 }
-    #_04F52A: dw RoomHeader_Room0014
-    #_04F52C: dw RoomHeader_Room0015
-    #_04F52E: dw RoomHeader_Room0016
-    #_04F530: dw RoomHeader_Room0017
+    dw RoomHeader_Room0010 ; Shared { 000F, 0010 }
+    dw RoomHeader_Room0011
+    dw RoomHeader_Room0012
+    dw RoomHeader_Room0013 ; Shared { 0013, 0023 }
+    dw RoomHeader_Room0014
+    dw RoomHeader_Room0015
+    dw RoomHeader_Room0016
+    dw RoomHeader_Room0017
 
-    #_04F532: dw RoomHeader_Room0018 ; Shared { 0018, 002C, 0114, 0115 }
-    #_04F534: dw RoomHeader_Room0019
-    #_04F536: dw RoomHeader_Room001A
-    #_04F538: dw RoomHeader_Room001B
-    #_04F53A: dw RoomHeader_Room001C
-    #_04F53C: dw RoomHeader_Room001D
-    #_04F53E: dw RoomHeader_Room001E
-    #_04F540: dw RoomHeader_Room001F
+    dw RoomHeader_Room0018 ; Shared { 0018, 002C, 0114, 0115 }
+    dw RoomHeader_Room0019
+    dw RoomHeader_Room001A
+    dw RoomHeader_Room001B
+    dw RoomHeader_Room001C
+    dw RoomHeader_Room001D
+    dw RoomHeader_Room001E
+    dw RoomHeader_Room001F
 
-    #_04F542: dw RoomHeader_Room0020
-    #_04F544: dw RoomHeader_Room0021 ; Shared { 0021, 0022 }
-    #_04F546: dw RoomHeader_Room0022 ; Shared { 0021, 0022 }
-    #_04F548: dw RoomHeader_Room0023 ; Shared { 0013, 0023 }
-    #_04F54A: dw RoomHeader_Room0024
-    #_04F54C: dw RoomHeader_Room0025 ; Shared { 0025, 0026 }
-    #_04F54E: dw RoomHeader_Room0026 ; Shared { 0025, 0026 }
-    #_04F550: dw RoomHeader_Room0027
+    dw RoomHeader_Room0020
+    dw RoomHeader_Room0021 ; Shared { 0021, 0022 }
+    dw RoomHeader_Room0022 ; Shared { 0021, 0022 }
+    dw RoomHeader_Room0023 ; Shared { 0013, 0023 }
+    dw RoomHeader_Room0024
+    dw RoomHeader_Room0025 ; Shared { 0025, 0026 }
+    dw RoomHeader_Room0026 ; Shared { 0025, 0026 }
+    dw RoomHeader_Room0027
 
-    #_04F552: dw RoomHeader_Room0028
-    #_04F554: dw RoomHeader_Room0029
-    #_04F556: dw RoomHeader_Room002A
-    #_04F558: dw RoomHeader_Room002B
-    #_04F55A: dw RoomHeader_Room002C ; Shared { 0018, 002C, 0114, 0115 }
-    #_04F55C: dw RoomHeader_Room002D ; Shared { 002D, 002E }
-    #_04F55E: dw RoomHeader_Room002E ; Shared { 002D, 002E }
-    #_04F560: dw RoomHeader_Room002F ; Shared { 0003, 002F }
+    dw RoomHeader_Room0028
+    dw RoomHeader_Room0029
+    dw RoomHeader_Room002A
+    dw RoomHeader_Room002B
+    dw RoomHeader_Room002C ; Shared { 0018, 002C, 0114, 0115 }
+    dw RoomHeader_Room002D ; Shared { 002D, 002E }
+    dw RoomHeader_Room002E ; Shared { 002D, 002E }
+    dw RoomHeader_Room002F ; Shared { 0003, 002F }
 
-    #_04F562: dw RoomHeader_Room0030
-    #_04F564: dw RoomHeader_Room0031
-    #_04F566: dw RoomHeader_Room0032
-    #_04F568: dw RoomHeader_Room0033
-    #_04F56A: dw RoomHeader_Room0034
-    #_04F56C: dw RoomHeader_Room0035 ; Shared { 0035, 0037 }
-    #_04F56E: dw RoomHeader_Room0036
-    #_04F570: dw RoomHeader_Room0037 ; Shared { 0035, 0037 }
+    dw RoomHeader_Room0030
+    dw RoomHeader_Room0031
+    dw RoomHeader_Room0032
+    dw RoomHeader_Room0033
+    dw RoomHeader_Room0034
+    dw RoomHeader_Room0035 ; Shared { 0035, 0037 }
+    dw RoomHeader_Room0036
+    dw RoomHeader_Room0037 ; Shared { 0035, 0037 }
 
-    #_04F572: dw RoomHeader_Room0038
-    #_04F574: dw RoomHeader_Room0039
-    #_04F576: dw RoomHeader_Room003A
-    #_04F578: dw RoomHeader_Room003B
-    #_04F57A: dw RoomHeader_Room003C
-    #_04F57C: dw RoomHeader_Room003D
-    #_04F57E: dw RoomHeader_Room003E
-    #_04F580: dw RoomHeader_Room003F
+    dw RoomHeader_Room0038
+    dw RoomHeader_Room0039
+    dw RoomHeader_Room003A
+    dw RoomHeader_Room003B
+    dw RoomHeader_Room003C
+    dw RoomHeader_Room003D
+    dw RoomHeader_Room003E
+    dw RoomHeader_Room003F
 
-    #_04F582: dw RoomHeader_Room0040
-    #_04F584: dw RoomHeader_Room0041
-    #_04F586: dw RoomHeader_Room0042
-    #_04F588: dw RoomHeader_Room0043
-    #_04F58A: dw RoomHeader_Room0044
-    #_04F58C: dw RoomHeader_Room0045
-    #_04F58E: dw RoomHeader_Room0046
-    #_04F590: dw RoomHeader_Room0047 ; Shared { 0047, 0048, 0049 }
+    dw RoomHeader_Room0040
+    dw RoomHeader_Room0041
+    dw RoomHeader_Room0042
+    dw RoomHeader_Room0043
+    dw RoomHeader_Room0044
+    dw RoomHeader_Room0045
+    dw RoomHeader_Room0046
+    dw RoomHeader_Room0047 ; Shared { 0047, 0048, 0049 }
 
-    #_04F592: dw RoomHeader_Room0048 ; Shared { 0047, 0048, 0049 }
-    #_04F594: dw RoomHeader_Room0049 ; Shared { 0047, 0048, 0049 }
-    #_04F596: dw RoomHeader_Room004A
-    #_04F598: dw RoomHeader_Room004B
-    #_04F59A: dw RoomHeader_Room004C
-    #_04F59C: dw RoomHeader_Room004D
-    #_04F59E: dw RoomHeader_Room004E
-    #_04F5A0: dw RoomHeader_Room004F
+    dw RoomHeader_Room0048 ; Shared { 0047, 0048, 0049 }
+    dw RoomHeader_Room0049 ; Shared { 0047, 0048, 0049 }
+    dw RoomHeader_Room004A
+    dw RoomHeader_Room004B
+    dw RoomHeader_Room004C
+    dw RoomHeader_Room004D
+    dw RoomHeader_Room004E
+    dw RoomHeader_Room004F
 
-    #_04F5A2: dw RoomHeader_Room0050
-    #_04F5A4: dw RoomHeader_Room0051
-    #_04F5A6: dw RoomHeader_Room0052
-    #_04F5A8: dw RoomHeader_Room0053
-    #_04F5AA: dw RoomHeader_Room0054
-    #_04F5AC: dw RoomHeader_Room0055
-    #_04F5AE: dw RoomHeader_Room0056
-    #_04F5B0: dw RoomHeader_Room0057
+    dw RoomHeader_Room0050
+    dw RoomHeader_Room0051
+    dw RoomHeader_Room0052
+    dw RoomHeader_Room0053
+    dw RoomHeader_Room0054
+    dw RoomHeader_Room0055
+    dw RoomHeader_Room0056
+    dw RoomHeader_Room0057
 
-    #_04F5B2: dw RoomHeader_Room0058
-    #_04F5B4: dw RoomHeader_Room0059
-    #_04F5B6: dw RoomHeader_Room005A
-    #_04F5B8: dw RoomHeader_Room005B
-    #_04F5BA: dw RoomHeader_Room005C
-    #_04F5BC: dw RoomHeader_Room005D
-    #_04F5BE: dw RoomHeader_Room005E
-    #_04F5C0: dw RoomHeader_Room005F
+    dw RoomHeader_Room0058
+    dw RoomHeader_Room0059
+    dw RoomHeader_Room005A
+    dw RoomHeader_Room005B
+    dw RoomHeader_Room005C
+    dw RoomHeader_Room005D
+    dw RoomHeader_Room005E
+    dw RoomHeader_Room005F
 
-    #_04F5C2: dw RoomHeader_Room0060 ; Shared { 0060, 0062 }
-    #_04F5C4: dw RoomHeader_Room0061
-    #_04F5C6: dw RoomHeader_Room0062 ; Shared { 0060, 0062 }
-    #_04F5C8: dw RoomHeader_Room0063
-    #_04F5CA: dw RoomHeader_Room0064
-    #_04F5CC: dw RoomHeader_Room0065
-    #_04F5CE: dw RoomHeader_Room0066
-    #_04F5D0: dw RoomHeader_Room0067
+    dw RoomHeader_Room0060 ; Shared { 0060, 0062 }
+    dw RoomHeader_Room0061
+    dw RoomHeader_Room0062 ; Shared { 0060, 0062 }
+    dw RoomHeader_Room0063
+    dw RoomHeader_Room0064
+    dw RoomHeader_Room0065
+    dw RoomHeader_Room0066
+    dw RoomHeader_Room0067
 
-    #_04F5D2: dw RoomHeader_Room0068
-    #_04F5D4: dw RoomHeader_Room0069 ; Shared { 0069, 006A }
-    #_04F5D6: dw RoomHeader_Room006A ; Shared { 0069, 006A }
-    #_04F5D8: dw RoomHeader_Room006B
-    #_04F5DA: dw RoomHeader_Room006C
-    #_04F5DC: dw RoomHeader_Room006D
-    #_04F5DE: dw RoomHeader_Room006E
-    #_04F5E0: dw RoomHeader_Room006F ; Shared { 006F, 0070 }
+    dw RoomHeader_Room0068
+    dw RoomHeader_Room0069 ; Shared { 0069, 006A }
+    dw RoomHeader_Room006A ; Shared { 0069, 006A }
+    dw RoomHeader_Room006B
+    dw RoomHeader_Room006C
+    dw RoomHeader_Room006D
+    dw RoomHeader_Room006E
+    dw RoomHeader_Room006F ; Shared { 006F, 0070 }
 
-    #_04F5E2: dw RoomHeader_Room0070 ; Shared { 006F, 0070 }
-    #_04F5E4: dw RoomHeader_Room0071
-    #_04F5E6: dw RoomHeader_Room0072
-    #_04F5E8: dw RoomHeader_Room0073
-    #_04F5EA: dw RoomHeader_Room0074
-    #_04F5EC: dw RoomHeader_Room0075
-    #_04F5EE: dw RoomHeader_Room0076
-    #_04F5F0: dw RoomHeader_Room0077
+    dw RoomHeader_Room0070 ; Shared { 006F, 0070 }
+    dw RoomHeader_Room0071
+    dw RoomHeader_Room0072
+    dw RoomHeader_Room0073
+    dw RoomHeader_Room0074
+    dw RoomHeader_Room0075
+    dw RoomHeader_Room0076
+    dw RoomHeader_Room0077
 
-    #_04F5F2: dw RoomHeader_Room0078 ; Shared { 0078, 0079, 007A, 007B }
-    #_04F5F4: dw RoomHeader_Room0079 ; Shared { 0078, 0079, 007A, 007B }
-    #_04F5F6: dw RoomHeader_Room007A ; Shared { 0078, 0079, 007A, 007B }
-    #_04F5F8: dw RoomHeader_Room007B ; Shared { 0078, 0079, 007A, 007B }
-    #_04F5FA: dw RoomHeader_Room007C
-    #_04F5FC: dw RoomHeader_Room007D
-    #_04F5FE: dw RoomHeader_Room007E
-    #_04F600: dw RoomHeader_Room007F
+    dw RoomHeader_Room0078 ; Shared { 0078, 0079, 007A, 007B }
+    dw RoomHeader_Room0079 ; Shared { 0078, 0079, 007A, 007B }
+    dw RoomHeader_Room007A ; Shared { 0078, 0079, 007A, 007B }
+    dw RoomHeader_Room007B ; Shared { 0078, 0079, 007A, 007B }
+    dw RoomHeader_Room007C
+    dw RoomHeader_Room007D
+    dw RoomHeader_Room007E
+    dw RoomHeader_Room007F
 
-    #_04F602: dw RoomHeader_Room0080
-    #_04F604: dw RoomHeader_Room0081 ; Shared { 0081, 0082 }
-    #_04F606: dw RoomHeader_Room0082 ; Shared { 0081, 0082 }
-    #_04F608: dw RoomHeader_Room0083
-    #_04F60A: dw RoomHeader_Room0084
-    #_04F60C: dw RoomHeader_Room0085
-    #_04F60E: dw RoomHeader_Room0086 ; Shared { 0086, 0087 }
-    #_04F610: dw RoomHeader_Room0087 ; Shared { 0086, 0087 }
+    dw RoomHeader_Room0080
+    dw RoomHeader_Room0081 ; Shared { 0081, 0082 }
+    dw RoomHeader_Room0082 ; Shared { 0081, 0082 }
+    dw RoomHeader_Room0083
+    dw RoomHeader_Room0084
+    dw RoomHeader_Room0085
+    dw RoomHeader_Room0086 ; Shared { 0086, 0087 }
+    dw RoomHeader_Room0087 ; Shared { 0086, 0087 }
 
-    #_04F612: dw RoomHeader_Room0088 ; Shared { 0088, 0089 }
-    #_04F614: dw RoomHeader_Room0089 ; Shared { 0088, 0089 }
-    #_04F616: dw RoomHeader_Room008A ; Shared { 008A, 008B }
-    #_04F618: dw RoomHeader_Room008B ; Shared { 008A, 008B }
-    #_04F61A: dw RoomHeader_Room008C
-    #_04F61C: dw RoomHeader_Room008D
-    #_04F61E: dw RoomHeader_Room008E
-    #_04F620: dw RoomHeader_Room008F ; Shared { 008F, 0090 }
+    dw RoomHeader_Room0088 ; Shared { 0088, 0089 }
+    dw RoomHeader_Room0089 ; Shared { 0088, 0089 }
+    dw RoomHeader_Room008A ; Shared { 008A, 008B }
+    dw RoomHeader_Room008B ; Shared { 008A, 008B }
+    dw RoomHeader_Room008C
+    dw RoomHeader_Room008D
+    dw RoomHeader_Room008E
+    dw RoomHeader_Room008F ; Shared { 008F, 0090 }
 
-    #_04F622: dw RoomHeader_Room0090 ; Shared { 008F, 0090 }
-    #_04F624: dw RoomHeader_Room0091
-    #_04F626: dw RoomHeader_Room0092
-    #_04F628: dw RoomHeader_Room0093
-    #_04F62A: dw RoomHeader_Room0094 ; Shared { 0094, 0095 }
-    #_04F62C: dw RoomHeader_Room0095 ; Shared { 0094, 0095 }
-    #_04F62E: dw RoomHeader_Room0096
-    #_04F630: dw RoomHeader_Room0097
+    dw RoomHeader_Room0090 ; Shared { 008F, 0090 }
+    dw RoomHeader_Room0091
+    dw RoomHeader_Room0092
+    dw RoomHeader_Room0093
+    dw RoomHeader_Room0094 ; Shared { 0094, 0095 }
+    dw RoomHeader_Room0095 ; Shared { 0094, 0095 }
+    dw RoomHeader_Room0096
+    dw RoomHeader_Room0097
 
-    #_04F632: dw RoomHeader_Room0098
-    #_04F634: dw RoomHeader_Room0099
-    #_04F636: dw RoomHeader_Room009A ; Shared { 009A, 009B }
-    #_04F638: dw RoomHeader_Room009B ; Shared { 009A, 009B }
-    #_04F63A: dw RoomHeader_Room009C
-    #_04F63C: dw RoomHeader_Room009D
-    #_04F63E: dw RoomHeader_Room009E
-    #_04F640: dw RoomHeader_Room009F
+    dw RoomHeader_Room0098
+    dw RoomHeader_Room0099
+    dw RoomHeader_Room009A ; Shared { 009A, 009B }
+    dw RoomHeader_Room009B ; Shared { 009A, 009B }
+    dw RoomHeader_Room009C
+    dw RoomHeader_Room009D
+    dw RoomHeader_Room009E
+    dw RoomHeader_Room009F
 
-    #_04F642: dw RoomHeader_Room00A0
-    #_04F644: dw RoomHeader_Room00A1 ; Shared { 00A1, 00A3 }
-    #_04F646: dw RoomHeader_Room00A2
-    #_04F648: dw RoomHeader_Room00A3 ; Shared { 00A1, 00A3 }
-    #_04F64A: dw RoomHeader_Room00A4
-    #_04F64C: dw RoomHeader_Room00A5
-    #_04F64E: dw RoomHeader_Room00A6
-    #_04F650: dw RoomHeader_Room00A7
+    dw RoomHeader_Room00A0
+    dw RoomHeader_Room00A1 ; Shared { 00A1, 00A3 }
+    dw RoomHeader_Room00A2
+    dw RoomHeader_Room00A3 ; Shared { 00A1, 00A3 }
+    dw RoomHeader_Room00A4
+    dw RoomHeader_Room00A5
+    dw RoomHeader_Room00A6
+    dw RoomHeader_Room00A7
 
-    #_04F652: dw RoomHeader_Room00A8
-    #_04F654: dw RoomHeader_Room00A9
-    #_04F656: dw RoomHeader_Room00AA
-    #_04F658: dw RoomHeader_Room00AB
-    #_04F65A: dw RoomHeader_Room00AC
-    #_04F65C: dw RoomHeader_Room00AD ; Shared { 00AD, 00AE }
-    #_04F65E: dw RoomHeader_Room00AE ; Shared { 00AD, 00AE }
-    #_04F660: dw RoomHeader_Room00AF
+    dw RoomHeader_Room00A8
+    dw RoomHeader_Room00A9
+    dw RoomHeader_Room00AA
+    dw RoomHeader_Room00AB
+    dw RoomHeader_Room00AC
+    dw RoomHeader_Room00AD ; Shared { 00AD, 00AE }
+    dw RoomHeader_Room00AE ; Shared { 00AD, 00AE }
+    dw RoomHeader_Room00AF
 
-    #_04F662: dw RoomHeader_Room00B0
-    #_04F664: dw RoomHeader_Room00B1
-    #_04F666: dw RoomHeader_Room00B2
-    #_04F668: dw RoomHeader_Room00B3
-    #_04F66A: dw RoomHeader_Room00B4
-    #_04F66C: dw RoomHeader_Room00B5
-    #_04F66E: dw RoomHeader_Room00B6
-    #_04F670: dw RoomHeader_Room00B7 ; Shared { 00B7, 00C6, 00D6 }
+    dw RoomHeader_Room00B0
+    dw RoomHeader_Room00B1
+    dw RoomHeader_Room00B2
+    dw RoomHeader_Room00B3
+    dw RoomHeader_Room00B4
+    dw RoomHeader_Room00B5
+    dw RoomHeader_Room00B6
+    dw RoomHeader_Room00B7 ; Shared { 00B7, 00C6, 00D6 }
 
-    #_04F672: dw RoomHeader_Room00B8
-    #_04F674: dw RoomHeader_Room00B9
-    #_04F676: dw RoomHeader_Room00BA
-    #_04F678: dw RoomHeader_Room00BB
-    #_04F67A: dw RoomHeader_Room00BC
-    #_04F67C: dw RoomHeader_Room00BD ; Shared { 00BD, 00BE }
-    #_04F67E: dw RoomHeader_Room00BE ; Shared { 00BD, 00BE }
-    #_04F680: dw RoomHeader_Room00BF
+    dw RoomHeader_Room00B8
+    dw RoomHeader_Room00B9
+    dw RoomHeader_Room00BA
+    dw RoomHeader_Room00BB
+    dw RoomHeader_Room00BC
+    dw RoomHeader_Room00BD ; Shared { 00BD, 00BE }
+    dw RoomHeader_Room00BE ; Shared { 00BD, 00BE }
+    dw RoomHeader_Room00BF
 
-    #_04F682: dw RoomHeader_Room00C0
-    #_04F684: dw RoomHeader_Room00C1
-    #_04F686: dw RoomHeader_Room00C2
-    #_04F688: dw RoomHeader_Room00C3
-    #_04F68A: dw RoomHeader_Room00C4
-    #_04F68C: dw RoomHeader_Room00C5 ; Shared { 00C5, 00D5 }
-    #_04F68E: dw RoomHeader_Room00C6 ; Shared { 00B7, 00C6, 00D6 }
-    #_04F690: dw RoomHeader_Room00C7
+    dw RoomHeader_Room00C0
+    dw RoomHeader_Room00C1
+    dw RoomHeader_Room00C2
+    dw RoomHeader_Room00C3
+    dw RoomHeader_Room00C4
+    dw RoomHeader_Room00C5 ; Shared { 00C5, 00D5 }
+    dw RoomHeader_Room00C6 ; Shared { 00B7, 00C6, 00D6 }
+    dw RoomHeader_Room00C7
 
-    #_04F692: dw RoomHeader_Room00C8
-    #_04F694: dw RoomHeader_Room00C9
-    #_04F696: dw RoomHeader_Room00CA ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    #_04F698: dw RoomHeader_Room00CB ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    #_04F69A: dw RoomHeader_Room00CC ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    #_04F69C: dw RoomHeader_Room00CD ; Shared { 00CD, 00CE }
-    #_04F69E: dw RoomHeader_Room00CE ; Shared { 00CD, 00CE }
-    #_04F6A0: dw RoomHeader_Room00CF ; Shared { 00CF, 00D0 }
+    dw RoomHeader_Room00C8
+    dw RoomHeader_Room00C9
+    dw RoomHeader_Room00CA ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
+    dw RoomHeader_Room00CB ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
+    dw RoomHeader_Room00CC ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
+    dw RoomHeader_Room00CD ; Shared { 00CD, 00CE }
+    dw RoomHeader_Room00CE ; Shared { 00CD, 00CE }
+    dw RoomHeader_Room00CF ; Shared { 00CF, 00D0 }
 
-    #_04F6A2: dw RoomHeader_Room00D0 ; Shared { 00CF, 00D0 }
-    #_04F6A4: dw RoomHeader_Room00D1
-    #_04F6A6: dw RoomHeader_Room00D2
-    #_04F6A8: dw RoomHeader_Room00D3 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-    #_04F6AA: dw RoomHeader_Room00D4 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-    #_04F6AC: dw RoomHeader_Room00D5 ; Shared { 00C5, 00D5 }
-    #_04F6AE: dw RoomHeader_Room00D6 ; Shared { 00B7, 00C6, 00D6 }
-    #_04F6B0: dw RoomHeader_Room00D7 ; Shared { 00D3, 00D4, 00D7, 00D8 }
+    dw RoomHeader_Room00D0 ; Shared { 00CF, 00D0 }
+    dw RoomHeader_Room00D1
+    dw RoomHeader_Room00D2
+    dw RoomHeader_Room00D3 ; Shared { 00D3, 00D4, 00D7, 00D8 }
+    dw RoomHeader_Room00D4 ; Shared { 00D3, 00D4, 00D7, 00D8 }
+    dw RoomHeader_Room00D5 ; Shared { 00C5, 00D5 }
+    dw RoomHeader_Room00D6 ; Shared { 00B7, 00C6, 00D6 }
+    dw RoomHeader_Room00D7 ; Shared { 00D3, 00D4, 00D7, 00D8 }
 
-    #_04F6B2: dw RoomHeader_Room00D8 ; Shared { 00D3, 00D4, 00D7, 00D8 }
-    #_04F6B4: dw RoomHeader_Room00D9
-    #_04F6B6: dw RoomHeader_Room00DA
-    #_04F6B8: dw RoomHeader_Room00DB ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    #_04F6BA: dw RoomHeader_Room00DC ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
-    #_04F6BC: dw RoomHeader_Room00DD ; Shared { 00DD, 00DE }
-    #_04F6BE: dw RoomHeader_Room00DE ; Shared { 00DD, 00DE }
-    #_04F6C0: dw RoomHeader_Room00DF
+    dw RoomHeader_Room00D8 ; Shared { 00D3, 00D4, 00D7, 00D8 }
+    dw RoomHeader_Room00D9
+    dw RoomHeader_Room00DA
+    dw RoomHeader_Room00DB ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
+    dw RoomHeader_Room00DC ; Shared { 00CA, 00CB, 00CC, 00DB, 00DC }
+    dw RoomHeader_Room00DD ; Shared { 00DD, 00DE }
+    dw RoomHeader_Room00DE ; Shared { 00DD, 00DE }
+    dw RoomHeader_Room00DF
 
-    #_04F6C2: dw RoomHeader_Room00E0
-    #_04F6C4: dw RoomHeader_Room00E1
-    #_04F6C6: dw RoomHeader_Room00E2
-    #_04F6C8: dw RoomHeader_Room00E3
-    #_04F6CA: dw RoomHeader_Room00E4 ; Shared { 00E4, 00E5 }
-    #_04F6CC: dw RoomHeader_Room00E5 ; Shared { 00E4, 00E5 }
-    #_04F6CE: dw RoomHeader_Room00E6 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-    #_04F6D0: dw RoomHeader_Room00E7 ; Shared { 00E6, 00E7, 00F0, 00F1 }
+    dw RoomHeader_Room00E0
+    dw RoomHeader_Room00E1
+    dw RoomHeader_Room00E2
+    dw RoomHeader_Room00E3
+    dw RoomHeader_Room00E4 ; Shared { 00E4, 00E5 }
+    dw RoomHeader_Room00E5 ; Shared { 00E4, 00E5 }
+    dw RoomHeader_Room00E6 ; Shared { 00E6, 00E7, 00F0, 00F1 }
+    dw RoomHeader_Room00E7 ; Shared { 00E6, 00E7, 00F0, 00F1 }
 
-    #_04F6D2: dw RoomHeader_Room00E8
-    #_04F6D4: dw RoomHeader_Room00E9 ; Shared { 00E9, 00EA }
-    #_04F6D6: dw RoomHeader_Room00EA ; Shared { 00E9, 00EA }
-    #_04F6D8: dw RoomHeader_Room00EB
-    #_04F6DA: dw RoomHeader_Room00EC ; Shared { 00EC, 00ED }
-    #_04F6DC: dw RoomHeader_Room00ED ; Shared { 00EC, 00ED }
-    #_04F6DE: dw RoomHeader_Room00EE
-    #_04F6E0: dw RoomHeader_Room00EF
+    dw RoomHeader_Room00E8
+    dw RoomHeader_Room00E9 ; Shared { 00E9, 00EA }
+    dw RoomHeader_Room00EA ; Shared { 00E9, 00EA }
+    dw RoomHeader_Room00EB
+    dw RoomHeader_Room00EC ; Shared { 00EC, 00ED }
+    dw RoomHeader_Room00ED ; Shared { 00EC, 00ED }
+    dw RoomHeader_Room00EE
+    dw RoomHeader_Room00EF
 
-    #_04F6E2: dw RoomHeader_Room00F0 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-    #_04F6E4: dw RoomHeader_Room00F1 ; Shared { 00E6, 00E7, 00F0, 00F1 }
-    #_04F6E6: dw RoomHeader_Room00F2 ; Shared { 00F2, 00F3 }
-    #_04F6E8: dw RoomHeader_Room00F3 ; Shared { 00F2, 00F3 }
-    #_04F6EA: dw RoomHeader_Room00F4 ; Shared { 00F4, 00F5 }
-    #_04F6EC: dw RoomHeader_Room00F5 ; Shared { 00F4, 00F5 }
-    #_04F6EE: dw RoomHeader_Room00F6 ; Shared { 00F6, 00F7, 00F8 }
-    #_04F6F0: dw RoomHeader_Room00F7 ; Shared { 00F6, 00F7, 00F8 }
+    dw RoomHeader_Room00F0 ; Shared { 00E6, 00E7, 00F0, 00F1 }
+    dw RoomHeader_Room00F1 ; Shared { 00E6, 00E7, 00F0, 00F1 }
+    dw RoomHeader_Room00F2 ; Shared { 00F2, 00F3 }
+    dw RoomHeader_Room00F3 ; Shared { 00F2, 00F3 }
+    dw RoomHeader_Room00F4 ; Shared { 00F4, 00F5 }
+    dw RoomHeader_Room00F5 ; Shared { 00F4, 00F5 }
+    dw RoomHeader_Room00F6 ; Shared { 00F6, 00F7, 00F8 }
+    dw RoomHeader_Room00F7 ; Shared { 00F6, 00F7, 00F8 }
 
-    #_04F6F2: dw RoomHeader_Room00F8 ; Shared { 00F6, 00F7, 00F8 }
-    #_04F6F4: dw RoomHeader_Room00F9 ; Shared { 00F9, 00FE }
-    #_04F6F6: dw RoomHeader_Room00FA
-    #_04F6F8: dw RoomHeader_Room00FB
-    #_04F6FA: dw RoomHeader_Room00FC ; Shared { 00FC, 00FD }
-    #_04F6FC: dw RoomHeader_Room00FD ; Shared { 00FC, 00FD }
-    #_04F6FE: dw RoomHeader_Room00FE ; Shared { 00F9, 00FE }
-    #_04F700: dw RoomHeader_Room00FF
+    dw RoomHeader_Room00F8 ; Shared { 00F6, 00F7, 00F8 }
+    dw RoomHeader_Room00F9 ; Shared { 00F9, 00FE }
+    dw RoomHeader_Room00FA
+    dw RoomHeader_Room00FB
+    dw RoomHeader_Room00FC ; Shared { 00FC, 00FD }
+    dw RoomHeader_Room00FD ; Shared { 00FC, 00FD }
+    dw RoomHeader_Room00FE ; Shared { 00F9, 00FE }
+    dw RoomHeader_Room00FF
 
-    #_04F702: dw RoomHeader_Room0100
-    #_04F704: dw RoomHeader_Room0101
-    #_04F706: dw RoomHeader_Room0102
-    #_04F708: dw RoomHeader_Room0103 ; Shared { 0103, 0118 }
-    #_04F70A: dw RoomHeader_Room0104
-    #_04F70C: dw RoomHeader_Room0105
-    #_04F70E: dw RoomHeader_Room0106
-    #_04F710: dw RoomHeader_Room0107
+    dw RoomHeader_Room0100
+    dw RoomHeader_Room0101
+    dw RoomHeader_Room0102
+    dw RoomHeader_Room0103 ; Shared { 0103, 0118 }
+    dw RoomHeader_Room0104
+    dw RoomHeader_Room0105
+    dw RoomHeader_Room0106
+    dw RoomHeader_Room0107
 
-    #_04F712: dw RoomHeader_Room0108
-    #_04F714: dw RoomHeader_Room0109
-    #_04F716: dw RoomHeader_Room010A
-    #_04F718: dw RoomHeader_Room010B
-    #_04F71A: dw RoomHeader_Room010C
-    #_04F71C: dw RoomHeader_Room010D
-    #_04F71E: dw RoomHeader_Room010E
-    #_04F720: dw RoomHeader_Room010F ; Shared { 010F, 0110, 011C }
+    dw RoomHeader_Room0108
+    dw RoomHeader_Room0109
+    dw RoomHeader_Room010A
+    dw RoomHeader_Room010B
+    dw RoomHeader_Room010C
+    dw RoomHeader_Room010D
+    dw RoomHeader_Room010E
+    dw RoomHeader_Room010F ; Shared { 010F, 0110, 011C }
 
-    #_04F722: dw RoomHeader_Room0110 ; Shared { 010F, 0110, 011C }
-    #_04F724: dw RoomHeader_Room0111 ; Shared { 0111, 0121, 0122 }
-    #_04F726: dw RoomHeader_Room0112
-    #_04F728: dw RoomHeader_Room0113
-    #_04F72A: dw RoomHeader_Room0114 ; Shared { 0018, 002C, 0114, 0115 }
-    #_04F72C: dw RoomHeader_Room0115 ; Shared { 0018, 002C, 0114, 0115 }
-    #_04F72E: dw RoomHeader_Room0116
-    #_04F730: dw RoomHeader_Room0117
+    dw RoomHeader_Room0110 ; Shared { 010F, 0110, 011C }
+    dw RoomHeader_Room0111 ; Shared { 0111, 0121, 0122 }
+    dw RoomHeader_Room0112
+    dw RoomHeader_Room0113
+    dw RoomHeader_Room0114 ; Shared { 0018, 002C, 0114, 0115 }
+    dw RoomHeader_Room0115 ; Shared { 0018, 002C, 0114, 0115 }
+    dw RoomHeader_Room0116
+    dw RoomHeader_Room0117
 
-    #_04F732: dw RoomHeader_Room0118 ; Shared { 0103, 0118 }
-    #_04F734: dw RoomHeader_Room0119
-    #_04F736: dw RoomHeader_Room011A
-    #_04F738: dw RoomHeader_Room011B
-    #_04F73A: dw RoomHeader_Room011C ; Shared { 010F, 0110, 011C }
-    #_04F73C: dw RoomHeader_Room011D
-    #_04F73E: dw RoomHeader_Room011E ; Shared { 011E, 0127 }
-    #_04F740: dw RoomHeader_Room011F
+    dw RoomHeader_Room0118 ; Shared { 0103, 0118 }
+    dw RoomHeader_Room0119
+    dw RoomHeader_Room011A
+    dw RoomHeader_Room011B
+    dw RoomHeader_Room011C ; Shared { 010F, 0110, 011C }
+    dw RoomHeader_Room011D
+    dw RoomHeader_Room011E ; Shared { 011E, 0127 }
+    dw RoomHeader_Room011F
 
-    #_04F742: dw RoomHeader_Room0120
-    #_04F744: dw RoomHeader_Room0121 ; Shared { 0111, 0121, 0122 }
-    #_04F746: dw RoomHeader_Room0122 ; Shared { 0111, 0121, 0122 }
-    #_04F748: dw RoomHeader_Room0123
-    #_04F74A: dw RoomHeader_Room0124 ; Shared { 0124, 0125, 0126 }
-    #_04F74C: dw RoomHeader_Room0125 ; Shared { 0124, 0125, 0126 }
-    #_04F74E: dw RoomHeader_Room0126 ; Shared { 0124, 0125, 0126 }
-    #_04F750: dw RoomHeader_Room0127 ; Shared { 011E, 0127 }
+    dw RoomHeader_Room0120
+    dw RoomHeader_Room0121 ; Shared { 0111, 0121, 0122 }
+    dw RoomHeader_Room0122 ; Shared { 0111, 0121, 0122 }
+    dw RoomHeader_Room0123
+    dw RoomHeader_Room0124 ; Shared { 0124, 0125, 0126 }
+    dw RoomHeader_Room0125 ; Shared { 0124, 0125, 0126 }
+    dw RoomHeader_Room0126 ; Shared { 0124, 0125, 0126 }
+    dw RoomHeader_Room0127 ; Shared { 011E, 0127 }
 
-    #_04F752: dw RoomHeader_Room0128 ; Shared { 0128–013F }
-    #_04F754: dw RoomHeader_Room0129 ; Shared { 0128–013F }
-    #_04F756: dw RoomHeader_Room012A ; Shared { 0128–013F }
-    #_04F758: dw RoomHeader_Room012B ; Shared { 0128–013F }
-    #_04F75A: dw RoomHeader_Room012C ; Shared { 0128–013F }
-    #_04F75C: dw RoomHeader_Room012D ; Shared { 0128–013F }
-    #_04F75E: dw RoomHeader_Room012E ; Shared { 0128–013F }
-    #_04F760: dw RoomHeader_Room012F ; Shared { 0128–013F }
+    dw RoomHeader_Room0128 ; Shared { 0128–013F }
+    dw RoomHeader_Room0129 ; Shared { 0128–013F }
+    dw RoomHeader_Room012A ; Shared { 0128–013F }
+    dw RoomHeader_Room012B ; Shared { 0128–013F }
+    dw RoomHeader_Room012C ; Shared { 0128–013F }
+    dw RoomHeader_Room012D ; Shared { 0128–013F }
+    dw RoomHeader_Room012E ; Shared { 0128–013F }
+    dw RoomHeader_Room012F ; Shared { 0128–013F }
 
-    #_04F762: dw RoomHeader_Room0130 ; Shared { 0128–013F }
-    #_04F764: dw RoomHeader_Room0131 ; Shared { 0128–013F }
-    #_04F766: dw RoomHeader_Room0132 ; Shared { 0128–013F }
-    #_04F768: dw RoomHeader_Room0133 ; Shared { 0128–013F }
-    #_04F76A: dw RoomHeader_Room0134 ; Shared { 0128–013F }
-    #_04F76C: dw RoomHeader_Room0135 ; Shared { 0128–013F }
-    #_04F76E: dw RoomHeader_Room0136 ; Shared { 0128–013F }
-    #_04F770: dw RoomHeader_Room0137 ; Shared { 0128–013F }
+    dw RoomHeader_Room0130 ; Shared { 0128–013F }
+    dw RoomHeader_Room0131 ; Shared { 0128–013F }
+    dw RoomHeader_Room0132 ; Shared { 0128–013F }
+    dw RoomHeader_Room0133 ; Shared { 0128–013F }
+    dw RoomHeader_Room0134 ; Shared { 0128–013F }
+    dw RoomHeader_Room0135 ; Shared { 0128–013F }
+    dw RoomHeader_Room0136 ; Shared { 0128–013F }
+    dw RoomHeader_Room0137 ; Shared { 0128–013F }
 
-    #_04F772: dw RoomHeader_Room0138 ; Shared { 0128–013F }
-    #_04F774: dw RoomHeader_Room0139 ; Shared { 0128–013F }
-    #_04F776: dw RoomHeader_Room013A ; Shared { 0128–013F }
-    #_04F778: dw RoomHeader_Room013B ; Shared { 0128–013F }
-    #_04F77A: dw RoomHeader_Room013C ; Shared { 0128–013F }
-    #_04F77C: dw RoomHeader_Room013D ; Shared { 0128–013F }
-    #_04F77E: dw RoomHeader_Room013E ; Shared { 0128–013F }
-    #_04F780: dw RoomHeader_Room013F ; Shared { 0128–013F }
+    dw RoomHeader_Room0138 ; Shared { 0128–013F }
+    dw RoomHeader_Room0139 ; Shared { 0128–013F }
+    dw RoomHeader_Room013A ; Shared { 0128–013F }
+    dw RoomHeader_Room013B ; Shared { 0128–013F }
+    dw RoomHeader_Room013C ; Shared { 0128–013F }
+    dw RoomHeader_Room013D ; Shared { 0128–013F }
+    dw RoomHeader_Room013E ; Shared { 0128–013F }
+    dw RoomHeader_Room013F ; Shared { 0128–013F }
 }
 
 ; ==============================================================================
@@ -11328,6 +11328,8 @@ RoomHeader_Room0126:
 ; STAIRS2   0xFF => ROOM 01FF
 ; STAIRS3   0xFF => ROOM 01FF
 
+; Technically null but the last 24 unused room's header data points here.
+; $027FEF-$027FFF
 RoomHeader_Room0128:
 RoomHeader_Room0129:
 RoomHeader_Room012A:
@@ -11352,13 +11354,11 @@ RoomHeader_Room013C:
 RoomHeader_Room013D:
 RoomHeader_Room013E:
 RoomHeader_Room013F:
-; Technically null but the last 24 unused room's header data points here.
-; $027FEF-$027FFF
 NULL_04FFEF:
 {
-    #_04FFEF: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_04FFF7: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_04FFFF: db $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF
 }
 
 ; ==============================================================================
