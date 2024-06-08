@@ -11,9 +11,9 @@ Sprite_DiggingGameGuy:
     JSL Sprite_PlayerCantPassThrough
     JSR Sprite4_Move
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -31,7 +31,7 @@ Sprite_DiggingGameGuy:
 DiggingGameGuy_Introduction:
 {
     ; If player is more than 7 pixels away...
-    LDA $0D00, X : CLC : ADC.b #$07 : CMP $20 : BCS .return 
+    LDA.w $0D00, X : CLC : ADC.b #$07 : CMP $20 : BCS .return 
     ; If Link is not below this sprite.
     JSR Sprite4_DirectionToFacePlayer : CPY.b #$02 : BNE .return
         ; Do we have a follower?
@@ -42,7 +42,7 @@ DiggingGameGuy_Introduction:
         LDY.b #$01
     
         JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .return
-            INC $0D80, X
+            INC.w $0D80, X
     
     .return
     
@@ -67,7 +67,7 @@ DiggingGameGuy_Introduction:
 ; $0EFC89-$0EFCDF JUMP LOCATION
 DiggingGameGuy_DoYouWantToPlay:
 {
-    LDA $1CE8 : BNE .player_has_no_selected
+    LDA.w $1CE8 : BNE .player_has_no_selected
     REP #$20
     
     ; Do you have eighty rupees?
@@ -84,22 +84,22 @@ DiggingGameGuy_DoYouWantToPlay:
         JSL Sprite_ShowMessageUnconditional
         
         ; Increase the AI pointer
-        INC $0D80, X
+        INC.w $0D80, X
         
-        LDA.b #$01 : STA $0DC0, X
+        LDA.b #$01 : STA.w $0DC0, X
         
-        LDA.b #$50 : STA $0DF0, X
+        LDA.b #$50 : STA.w $0DF0, X
         
         LDA.b #$00 : STA.l $7FFE00 : STA.l $7FFE01
         
-        LDA.b #$05 : STA $0E00, X
+        LDA.b #$05 : STA.w $0E00, X
         
         LDA.b #$01
         
         JSL Sprite_InitializeSecondaryItemMinigame
         
         ; Play the game time music.
-        LDA.b #$0E : STA $012C
+        LDA.b #$0E : STA.w $012C
         
         RTS
     
@@ -116,7 +116,7 @@ DiggingGameGuy_DoYouWantToPlay:
     JSL Sprite_ShowMessageUnconditional
     
     ; Reset the sprite back to it's original state.
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -126,25 +126,25 @@ DiggingGameGuy_DoYouWantToPlay:
 ; $0EFCE0-$0EFD09 JUMP LOCATION
 DiggingGameGuy_MoveOuttaTheWay:
 {
-    LDA $0DF0, X : BNE .wait_for_next_state
+    LDA.w $0DF0, X : BNE .wait_for_next_state
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     RTS
     
     .wait_for_next_state
     
-    LDA $0E00, X : BNE .wait_to_move
+    LDA.w $0E00, X : BNE .wait_to_move
     
-    LDA $0DC0, X : EOR.b #$03 : STA $0DC0, X : AND.b #$01 : BEQ .move_not
+    LDA.w $0DC0, X : EOR.b #$03 : STA.w $0DC0, X : AND.b #$01 : BEQ .move_not
     
-    LDA.b #$F0 : STA $0D50, X
+    LDA.b #$F0 : STA.w $0D50, X
     
     .move_not
     
-    LDA.b #$05 : STA $0E00, X
+    LDA.b #$05 : STA.w $0E00, X
     
     .wait_to_move
     
@@ -156,11 +156,11 @@ DiggingGameGuy_MoveOuttaTheWay:
 ; $0EFD0A-$0EFD17 JUMP LOCATION
 DiggingGameGuy_StartMinigameTimer:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Sets up a timer for the mini game.
-    LDA.b #$00 : STA $04B5
-    LDA.b #$1E : STA $04B4
+    LDA.b #$00 : STA.w $04B5
+    LDA.b #$1E : STA.w $04B4
     
     RTS
 }
@@ -170,26 +170,26 @@ DiggingGameGuy_StartMinigameTimer:
 ; $0EFD18-$0EFD41 JUMP LOCATION
 DiggingGameGuy_TerminateMinigame:
 {
-    LDA $04B4 : BEQ .timer_elapsed
+    LDA.w $04B4 : BEQ .timer_elapsed
                 BMI .timer_elapsed
     
     RTS
     
     .timer_elapsed
     
-    LDA $037A : AND.b #$01 : BNE .wait_till_shoveling_finished
+    LDA.w $037A : AND.b #$01 : BNE .wait_till_shoveling_finished
     
-    LDA.b #$09 : STA $012C
+    LDA.b #$09 : STA.w $012C
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $03FC
+    STZ.w $03FC
     
     ; "OK! Time's up, game over. Come back again. Good bye..."
-    LDA.b #$8A :  STA $1CF0
+    LDA.b #$8A :  STA.w $1CF0
     LDA.b #$01 :  JSR Sprite4_ShowMessageMinimal
     
-    LDA.b #$FE : STA $04B4
+    LDA.b #$FE : STA.w $04B4
     
     .wait_till_shoveling_finished
     
@@ -314,21 +314,21 @@ DiggingGameGuy_GiveItem:
     
     .player_facing_left
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA.b #$00 : STA $0D40, Y
-    LDA.b #$18 : STA $0F80, Y
-    LDA.b #$FF : STA $0B58, Y
-    LDA.b #$30 : STA $0F10, Y
+    LDA.b #$00 : STA.w $0D40, Y
+    LDA.b #$18 : STA.w $0F80, Y
+    LDA.b #$FF : STA.w $0B58, Y
+    LDA.b #$30 : STA.w $0F10, Y
     
     LDA $22 : CLC : ADC .x_offsets, X
-                              AND.b #$F0 : STA $0D10, Y
-    LDA $23 : ADC.b #$00                : STA $0D30, Y
+                              AND.b #$F0 : STA.w $0D10, Y
+    LDA $23 : ADC.b #$00                : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC.b #$16 : AND.b #$F0 : STA $0D00, Y
-    LDA $21 : ADC.b #$00              : STA $0D20, Y
+    LDA $20 : CLC : ADC.b #$16 : AND.b #$F0 : STA.w $0D00, Y
+    LDA $21 : ADC.b #$00              : STA.w $0D20, Y
     
-    LDA.b #$00 : STA $0F20, Y
+    LDA.b #$00 : STA.w $0F20, Y
     
     TYX
     
@@ -365,7 +365,7 @@ DiggingGameGuy_Draw:
                  STZ $07
     
     ; ptr = 0xFE03 + (i*24);
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : ASL #3
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
     ADC.b #.oam_groups                 : STA $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09

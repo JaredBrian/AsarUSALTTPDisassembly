@@ -50,7 +50,7 @@ HeartUpdgrade_CheckIfAlreadyObtained:
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -62,11 +62,11 @@ HeartUpdgrade_CheckIfAlreadyObtained:
     
     .indoors
     
-    LDA $0D30, X : AND.b #$01 : TAY
+    LDA.w $0D30, X : AND.b #$01 : TAY
     
-    LDA $0403 : AND HeartUpgrade_IndoorAcquiredMasks, Y : BEQ .dont_self_terminate_2
+    LDA.w $0403 : AND HeartUpgrade_IndoorAcquiredMasks, Y : BEQ .dont_self_terminate_2
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_self_terminate_2
     
@@ -92,15 +92,15 @@ Sprite_HeartContainerLong:
 ; $02EF47-$02EFC5 LOCAL JUMP LOCATION
 Sprite_HeartContainer:
 {
-    LDA $040C : CMP.b #$1A : BNE .not_in_ganons_tower
+    LDA.w $040C : CMP.b #$1A : BNE .not_in_ganons_tower
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .not_in_ganons_tower
     
-    LDA $0ED0, X : STA $0BA0, X : BNE .beta
+    LDA.w $0ED0, X : STA.w $0BA0, X : BNE .beta
     
     LDA.b #$03
     
@@ -112,13 +112,13 @@ Sprite_HeartContainer:
     
     JSL Sprite_Get_16_bit_CoordsLong
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .beta
     
-    LDA $048E : CMP.b #$06 : BNE .dont_draw_water_ripple
+    LDA.w $048E : CMP.b #$06 : BNE .dont_draw_water_ripple
     
-    LDA $0F70, X : BNE .dont_draw_water_ripple
+    LDA.w $0F70, X : BNE .dont_draw_water_ripple
     
     JSL Sprite_AutoIncDrawWaterRippleLong
     
@@ -127,23 +127,23 @@ Sprite_HeartContainer:
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite2_CheckIfActive
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
     JSR Sprite2_MoveAltitude
     
-    LDA $0F70, X : BPL .delta
+    LDA.w $0F70, X : BPL .delta
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA $0F80, X
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
     
-    LDA $048E : CMP.b #$06 : BNE .delta
+    LDA.w $048E : CMP.b #$06 : BNE .delta
     
-    LDA $0E30, X : BNE .delta
+    LDA.w $0E30, X : BNE .delta
     
-    LDA $0E40, X : CLC : ADC.b #$02 : STA $0E40, X
+    LDA.w $0E40, X : CLC : ADC.b #$02 : STA.w $0E40, X
     
-    INC $0E30, X
+    INC.w $0E30, X
     
     JSL Sprite_SpawnWaterSplashLong
     
@@ -168,7 +168,7 @@ HeartContainer_GrantFromSprite:
     PHX
     
     ; \item
-    LDA.b #$02 : STA $02E9
+    LDA.b #$02 : STA.w $02E9
     
     LDY.b #$3E
     
@@ -176,7 +176,7 @@ HeartContainer_GrantFromSprite:
     
     PLX
     
-    LDA $0403 : ORA.b #$80 : STA $0403
+    LDA.w $0403 : ORA.b #$80 : STA.w $0403
     
     RTS
 }
@@ -186,9 +186,9 @@ HeartContainer_GrantFromSprite:
 ; $02EFDC-$02F005 BRANCH LOCATION
 HeartContainer_Grant:
 {
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA $0D90, X : BNE HeartContainer_GrantFromSprite
+    LDA.w $0D90, X : BNE HeartContainer_GrantFromSprite
     
     PHX
     
@@ -196,7 +196,7 @@ HeartContainer_Grant:
     
     LDY.b #$26
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -233,9 +233,9 @@ HeartUpgrade_IndoorAcquiredMasks:
 ; $02F008-$02F017 BRANCH LOCATION
 HeartUpgrade_SetIndoorAcquiredFlag:
 {
-    LDA $0D30, X : AND.b #$01 : TAY
+    LDA.w $0D30, X : AND.b #$01 : TAY
     
-    LDA $0403 : ORA HeartUpgrade_IndoorAcquiredMasks, Y : STA $0403
+    LDA.w $0403 : ORA HeartUpgrade_IndoorAcquiredMasks, Y : STA.w $0403
     
     RTS
 }
@@ -259,13 +259,13 @@ Sprite_HeartPieceLong:
 ; $02F020-$02F0CC LOCAL JUMP LOCATION
 Sprite_HeartPiece:
 {
-    LDA $0D80, X : BNE .skip_acquisition_check
+    LDA.w $0D80, X : BNE .skip_acquisition_check
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSR HeartUpdgrade_CheckIfAlreadyObtained
     
-    LDA $0DD0, X : BEQ .return
+    LDA.w $0DD0, X : BEQ .return
     
     .check_acquisition_check
     
@@ -276,7 +276,7 @@ Sprite_HeartPiece:
     
     JSR Sprite2_CheckTileCollision
     
-    LDA $0E70, X : AND.b #$03 : BEQ .no_horiz_tile_collision
+    LDA.w $0E70, X : AND.b #$03 : BEQ .no_horiz_tile_collision
     
     ; \tcrf (verified)
     ; Curious, I didn't think that heart pieces and containers
@@ -286,30 +286,30 @@ Sprite_HeartPiece:
     ; seemed that moving the heart piece too fast in the horizontal
     ; directions could get it stuck in walls. Not exactly Newtonian physics
     ; here I guess...
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
     .no_horiz_tile_collision
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
     JSR Sprite2_MoveAltitude
     JSR Sprite2_Move
     
-    LDA $0F70, X : BPL .no_bounce
+    LDA.w $0F70, X : BPL .no_bounce
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : AND.b #$F8 : LSR A : STA $0F80, X
+    LDA.w $0F80, X : EOR.b #$FF : AND.b #$F8 : LSR A : STA.w $0F80, X
     
-    LDA $0D50, X : BEQ .no_bounce
+    LDA.w $0D50, X : BEQ .no_bounce
     
-    CMP.b #$7F : ROR A : STA $0D50, X : CMP.b #$FF : BNE .no_bounce
+    CMP.b #$7F : ROR A : STA.w $0D50, X : CMP.b #$FF : BNE .no_bounce
     
-    INC $0D50, X
+    INC.w $0D50, X
     
     .no_bounce
     
-    LDA $0F10, X : BNE .return
+    LDA.w $0F10, X : BNE .return
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCS .had_player_contact
     
@@ -328,7 +328,7 @@ Sprite_HeartPiece:
     
     LDY.b #$26
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -349,7 +349,7 @@ Sprite_HeartPiece:
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDA $1B : BEQ .outdoors
     

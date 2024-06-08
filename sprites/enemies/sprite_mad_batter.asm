@@ -20,14 +20,14 @@ Sprite_MadBatterLong:
 ; $02FAD2-$02FAFE LOCAL JUMP LOCATION
 Sprite_MadBatter:
 {
-    LDA $0EB0, X : BEQ .not_thunderbolt
+    LDA.w $0EB0, X : BEQ .not_thunderbolt
     JSL Sprite_MadBatterBoltLong
     
     RTS
     
     .not_thunderbolt
     
-    LDA $0D80, X : BEQ .dont_draw
+    LDA.w $0D80, X : BEQ .dont_draw
     JSL Sprite_PrepAndDrawSingleLargeLong
     
     .dont_draw
@@ -36,7 +36,7 @@ Sprite_MadBatter:
     JSR Sprite2_Move
     JSR Sprite2_MoveAltitude
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -60,7 +60,7 @@ MadBatter_WaitForSummoning:
         LDY.b #$04
     
         .next_object
-            LDA $0C4A, Y : CMP.b #$1A : BEQ .magic_powder
+            LDA.w $0C4A, Y : CMP.b #$1A : BEQ .magic_powder
         
         DEY : BPL .next_object
         
@@ -72,13 +72,13 @@ MadBatter_WaitForSummoning:
         
         LDA.b #$0D : JSL Sound_SetSfx1PanLong
         
-        INC $0D80, X
+        INC.w $0D80, X
         
-        LDA.b #$14 : STA $0D90, X
+        LDA.b #$14 : STA.w $0D90, X
         
-        LDA.b #$01 : STA $02E4
+        LDA.b #$01 : STA.w $02E4
         
-        LDA $0F50, X : ORA.b #$20 : STA $0F50, X
+        LDA.w $0F50, X : ORA.b #$20 : STA.w $0F50, X
     
     .not_close_to_player
     .magic_already_doubled
@@ -100,15 +100,15 @@ Pool_MadBatter_RisingUp:
 ; $02FB3C-$02FB85 JUMP LOCATION
 MadBatter_RisingUp:
 {
-    LDA $0DF0, X : BNE .delay
-    DEC $0D90, X : LDA $0D90, X : STA $0DF0, X : CMP.b #$01 : BEQ .ready
-        LSR #2 : STA $0F80, X
+    LDA.w $0DF0, X : BNE .delay
+    DEC.w $0D90, X : LDA.w $0D90, X : STA.w $0DF0, X : CMP.b #$01 : BEQ .ready
+        LSR #2 : STA.w $0F80, X
         
-        LDA $0D90, X : AND.b #$01 : TAY
+        LDA.w $0D90, X : AND.b #$01 : TAY
         
-        LDA .x_speeds, Y : CLC : ADC $0D50, X : STA $0D50, X
+        LDA .x_speeds, Y : CLC : ADC.w $0D50, X : STA.w $0D50, X
         
-        LDA $0DC0, X : EOR.b #$01 : STA $0DC0, X
+        LDA.w $0DC0, X : EOR.b #$01 : STA.w $0DC0, X
     
     .delay
     
@@ -122,15 +122,15 @@ MadBatter_RisingUp:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
 }
@@ -149,20 +149,20 @@ Pool_MadBatter_PseudoAttackPlayer:
 ; $02FB8E-$02FBB8 JUMP LOCATION
 MadBatter_PseudoAttackPlayer:
 {
-    LDA $0DF0, X : BNE .delay
-    INC $0D80, X
+    LDA.w $0DF0, X : BNE .delay
+    INC.w $0D80, X
     
-    LDA.b #$40 : STA $0E00, X
+    LDA.b #$40 : STA.w $0E00, X
     
-    LDA $0DF0, X
+    LDA.w $0DF0, X
     
     .delay
     
     LSR A : AND.b #$07 : TAY
     
-    LDA $0F50, X : AND.b #$F1 : ORA .palettes, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$F1 : ORA .palettes, Y : STA.w $0F50, X
     
-    LDA $0DF0, X : CMP.b #$F0 : BNE .delay_2
+    LDA.w $0DF0, X : CMP.b #$F0 : BNE .delay_2
     JSL Sprite_SpawnMadBatterBolts
     
     .delay_2
@@ -175,7 +175,7 @@ MadBatter_PseudoAttackPlayer:
 ; $02FBB9-$02FBE3 JUMP LOCATION
 MadBatter_DoublePlayerMagicPower:
 {
-    LDA $0E00, X : BNE .delay
+    LDA.w $0E00, X : BNE .delay
     ; "...I laugh at your misfortune! Now your magic power will drop..."
     LDA.b #$11
     LDY.b #$01
@@ -191,7 +191,7 @@ MadBatter_DoublePlayerMagicPower:
     
     PLX
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Reduce the magic power consumption by 1/2.
     LDA.b #$01 : STA.l $7EF37B
@@ -203,7 +203,7 @@ MadBatter_DoublePlayerMagicPower:
     .delay
     
     CMP.b #$10 : BNE .dont_flash_screen
-    STA $0FF9
+    STA.w $0FF9
     
     .dont_flash_screen
     
@@ -217,9 +217,9 @@ MadBatter_LaterBitches:
 {
     JSL Sprite_SpawnDummyDeathAnimation
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }

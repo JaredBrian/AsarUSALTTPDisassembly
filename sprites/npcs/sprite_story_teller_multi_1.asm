@@ -8,13 +8,13 @@ Sprite_StoryTeller_1:
     JSR Sprite_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0DF0, X : BNE .countingDown
+    LDA.w $0DF0, X : BNE .countingDown
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     .countingDown
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -27,7 +27,7 @@ Sprite_StoryTeller_1:
 
 ; $032D9A-$032DA6 JUMP LOCATION
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -43,7 +43,7 @@ Sprite_StoryTeller_1:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -55,17 +55,17 @@ Sprite_StoryTeller_1:
     ; Refill all hearts
     LDA.b #$A0 : STA.l $7EF372
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
 
 ; $032DBF-$032DE0 JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8 : BNE .BRANCH_ALPHA
     
     ; $032EAB IN ROM
-    JSR $AEAB : BCC .BRANCH_ALPHA
+    JSR.w $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$FF
     LDY.b #$00
@@ -74,7 +74,7 @@ Sprite_StoryTeller_1:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -85,14 +85,14 @@ Sprite_StoryTeller_1:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
 
 ; $032DE1-$032DED JUMP LOCATION
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -103,10 +103,10 @@ Sprite_StoryTeller_1:
 
 ; $032DEE-$032E09 JUMP TABLE
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8 : BNE .BRANCH_ALPHA
     
     ; $032EAB IN ROM
-    JSR $AEAB : BCC .BRANCH_ALPHA
+    JSR.w $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$01
     LDY.b #$01
@@ -120,14 +120,14 @@ Sprite_StoryTeller_1:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
 
 ; $032E0A-$032E16 JUMP LOCATION
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -138,15 +138,15 @@ Sprite_StoryTeller_1:
 
 ; $032E17-$032E33 JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8 : BNE .BRANCH_ALPHA
     
     ; $032EAB IN ROM
-    JSR $AEAB : BCC .BRANCH_ALPHA
+    JSR.w $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$02
     LDY.b #$01
     
-    JMP $ADCD ; $032DCD IN ROM
+    JMP.w $ADCD ; $032DCD IN ROM
     
     .BRANCH_ALPHA
     
@@ -155,24 +155,24 @@ Sprite_StoryTeller_1:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
 
 ; $032E34-$032E5A JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     LDA $1A : AND.b #$3F : BNE .BRANCH_BETA
     
-    LDA $0F50, X : EOR.b #$40 : STA $0F50, X
+    LDA.w $0F50, X : EOR.b #$40 : STA.w $0F50, X
     
     .BRANCH_BETA
     
     JSL GetRandomInt : BNE .BRANCH_ALPHA
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
@@ -186,21 +186,21 @@ Sprite_StoryTeller_1:
 
 ; $032E5B-$032E8D JUMP LOCATION
 {
-    LDA $1A : LSR A : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     JSR Sprite_MoveAltitude
     
-    LDA $0F70, X : BPL .BRANCH_ALPHA
+    LDA.w $0F70, X : BPL .BRANCH_ALPHA
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     .BRANCH_ALPHA
     
-    LDA $0F70, X : CMP.b #$04 : ROL A : AND.b #$01 : TAY
+    LDA.w $0F70, X : CMP.b #$04 : ROL A : AND.b #$01 : TAY
     
-    LDA $0F80, X : CLC : ADC $A213, Y : STA $0F80, X
+    LDA.w $0F80, X : CLC : ADC.w $A213, Y : STA.w $0F80, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -211,15 +211,15 @@ Sprite_StoryTeller_1:
 
 ; $032E8E-$032EAA JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8 : BNE .BRANCH_ALPHA
     
     ; $032EAB IN ROM
-    JSR $AEAB : BCC .BRANCH_ALPHA
+    JSR.w $AEAB : BCC .BRANCH_ALPHA
     
     LDA.b #$03
     LDY.b #$01
     
-    JMP $ADCD   ; $032DCD IN ROM
+    JMP.w $ADCD   ; $032DCD IN ROM
     
     .BRANCH_ALPHA
     
@@ -228,7 +228,7 @@ Sprite_StoryTeller_1:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -278,7 +278,7 @@ Pool_StoryTeller_1_Draw:
 ; $032F1A-$032F3A LOCAL JUMP LOCATION
 StoryTeller_1_Draw:
 {
-    LDA $0E80, X : ASL A : ADC $0DC0, X : ASL #3
+    LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
     
     ADC.b #.oam_groups                 : STA $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09

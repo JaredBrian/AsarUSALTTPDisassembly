@@ -6,12 +6,12 @@ Sprite_Octostone:
 {
     ; Octorock rocks sprite.
     
-    LDA $0DD0, X : CMP.b #$06 : BNE .not_crumbling
+    LDA.w $0DD0, X : CMP.b #$06 : BNE .not_crumbling
     
     JSR Octostone_DrawCrumbling
     JSR Sprite_CheckIfActive.permissive
     
-    LDA $0DF0, X : CMP.b #$1E : BNE .dont_play_crumble_sfx
+    LDA.w $0DF0, X : CMP.b #$1E : BNE .dont_play_crumble_sfx
     
     LDA.b #$1F : JSL Sound_SetSfx2PanLong
     
@@ -30,7 +30,7 @@ Sprite_Octostone:
     
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
     JSR Sprite_ScheduleForDeath
     
@@ -69,7 +69,7 @@ Octostone_DrawCrumbling:
     
     LDA.b #$03 : STA $06
     
-    LDA $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : CLC : ADC $06 : TAX
+    LDA.w $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : CLC : ADC $06 : TAX
     
     .next_oam_entry
     

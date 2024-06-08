@@ -14,9 +14,9 @@ Pool_Lanmola_FinishInitialization:
 ; $02A37A-$02A39F LONG JUMP LOCATION
 Lanmola_FinishInitialization:
 {
-    LDA.l .starting_delay, X : STA $0DF0, X
+    LDA.l .starting_delay, X : STA.w $0DF0, X
     
-    LDA.b #$FF : STA $0F70, X
+    LDA.b #$FF : STA.w $0F70, X
     
     PHX
     
@@ -59,7 +59,7 @@ Sprite_Lanmola:
     JSR Lanmola_Draw
     JSR Sprite2_CheckIfActive.permissive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -76,11 +76,11 @@ Sprite_Lanmola:
 
 ; $02A3BF-$02A3D5 JUMP LOCATIONLanmola_Wait: ; 0x00
 {
-    LDA $0DF0, X : ORA $0F00, X : BNE .delay
+    LDA.w $0DF0, X : ORA.w $0F00, X : BNE .delay
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Play rumbling sound
     LDA.b #$35 : JSL Sound_SetSfx2PanLong
@@ -108,34 +108,34 @@ Pool_Lanmola_Mound
 ; $02A3E6-$02A42E JUMP LOCATION
 Lanmola_Mound: ; 0x01
 {
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
     JSL Lanmola_SpawnShrapnel
     
-    LDA.b #$13 : STA $012D
+    LDA.b #$13 : STA.w $012D
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA .randXPos, Y : STA $0DA0, X ; $A3D6
+    LDA .randXPos, Y : STA.w $0DA0, X ; $A3D6
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA .randYPos, Y : STA $0DB0, X ; $A3DE
+    LDA .randYPos, Y : STA.w $0DB0, X ; $A3DE
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$18 : STA $0F80, X
+    LDA.b #$18 : STA.w $0F80, X
     
-    STZ $0EC0, X
-    STZ $0ED0, X
+    STZ.w $0EC0, X
+    STZ.w $0ED0, X
     
     ; $02A41C ALTERNATE ENTRY POINT
     shared Lanmola_SetScatterSandPosition:
     
-    LDA $0D10, X : STA $0DE0, X
-    LDA $0D00, X : STA $0E70, X
+    LDA.w $0D10, X : STA.w $0DE0, X
+    LDA.w $0D00, X : STA.w $0E70, X
     
-    LDA.b #$4A : STA $0E00, X
+    LDA.b #$4A : STA.w $0E00, X
     
     RTS
     
@@ -162,11 +162,11 @@ Lanmola_Fly: ; 0x03
     JSR Sprite2_MoveAltitude
     
     ; Slowly decrease the Y speed when first coming out of the ground
-    LDA $0EC0, X : BNE .alpha
+    LDA.w $0EC0, X : BNE .alpha
     
-    LDA $0F80, X : SEC : SBC.b #$01 : STA $0F80, X : BNE .beta
+    LDA.w $0F80, X : SEC : SBC.b #$01 : STA.w $0F80, X : BNE .beta
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     .beta
     
@@ -177,22 +177,22 @@ Lanmola_Fly: ; 0x03
     ; Use the Y speed to bob up and down
     LDA $1A : AND.b #$01 : BNE .dontSwitchDirections ; Every other frame.
     
-    LDA $0ED0, X : AND.b #$01 : TAY
+    LDA.w $0ED0, X : AND.b #$01 : TAY
     
-    LDA $0F80, X : CLC : ADC .y_speed_slope, Y : STA $0F80, X : CMP $95FC, Y : BNE .dontSwitchDirections
+    LDA.w $0F80, X : CLC : ADC .y_speed_slope, Y : STA.w $0F80, X : CMP.w $95FC, Y : BNE .dontSwitchDirections
     
-    INC $0ED0, X ; Switch direction
+    INC.w $0ED0, X ; Switch direction
     
     .dontSwitchDirections
     
-    LDA $0DA0, X : STA $04
-    LDA $0D30, X : STA $05
-    LDA $0DB0, X : STA $06
-    LDA $0D20, X : STA $07
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $01
-    LDA $0D00, X : STA $02
-    LDA $0D20, X : STA $03
+    LDA.w $0DA0, X : STA $04
+    LDA.w $0D30, X : STA $05
+    LDA.w $0DB0, X : STA $06
+    LDA.w $0D20, X : STA $07
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $01
+    LDA.w $0D00, X : STA $02
+    LDA.w $0D20, X : STA $03
     
     REP #$20
     
@@ -200,7 +200,7 @@ Lanmola_Fly: ; 0x03
     LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
     LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .notCloseEnough
     
@@ -210,8 +210,8 @@ Lanmola_Fly: ; 0x03
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
-    LDA $01 : STA $0D50, X
+    LDA $00 : STA.w $0D40, X
+    LDA $01 : STA.w $0D50, X
     
     JSR Sprite2_Move
     
@@ -225,17 +225,17 @@ Lanmola_Dive: ; 0x03
     JSR Sprite2_Move
     JSR Sprite2_MoveAltitude
     
-    LDA $0F80, X : CMP.b #$EC : BMI .alpha
+    LDA.w $0F80, X : CMP.b #$EC : BMI .alpha
     
-    SEC : SBC.b #$01 : STA $0F80, X
+    SEC : SBC.b #$01 : STA.w $0F80, X
     
     .alpha
     
-    LDA $0F70, X : BPL .notUnderGroundYet
+    LDA.w $0F70, X : BPL .notUnderGroundYet
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     JSR Lanmola_SetScatterSandPosition
     
@@ -249,17 +249,17 @@ Lanmola_Dive: ; 0x03
 ; $02A4F2-$02A514 JUMP LOCATION
 Lanmola_Reset: ; 0x04
 {
-    LDA $0DF0, X : BNE .wait
+    LDA.w $0DF0, X : BNE .wait
     
-    STZ $0D80, X
-    
-    JSL GetRandomInt : AND.b #$07 : TAY
-    
-    LDA Lanmola_Mound_randXPos, Y : STA $0D10, X ; $A3D6
+    STZ.w $0D80, X
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA Lanmola_Mound_randYPos, Y : STA $0D00, X ; $A3DE
+    LDA Lanmola_Mound_randXPos, Y : STA.w $0D10, X ; $A3D6
+    
+    JSL GetRandomInt : AND.b #$07 : TAY
+    
+    LDA Lanmola_Mound_randYPos, Y : STA.w $0D00, X ; $A3DE
     
     .wait
     
@@ -304,9 +304,9 @@ Sprite_SpawnFallingItem:
 ; $02A529-$02A5D9 JUMP LOCATION
 Lanmola_Death: ; 0x05
 {
-    LDY $0DF0, X : BNE .alpha
+    LDY.w $0DF0, X : BNE .alpha
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL Sprite_VerifyAllOnScreenDefeated : BCC .alpha
     
@@ -315,18 +315,18 @@ Lanmola_Death: ; 0x05
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$20 : STA $0F80, Y
-    LDA.b #$03 : STA $0D90, Y
+    LDA.b #$20 : STA.w $0F80, Y
+    LDA.b #$03 : STA.w $0D90, Y
     
     .alpha
     
-    LDA $0DF0, X : CMP.b #$20 : BCC .easy_out
+    LDA.w $0DF0, X : CMP.b #$20 : BCC .easy_out
                    CMP.b #$A0 : BCS .easy_out
                    AND.b #$0F : BNE .easy_out
     
     LDA.l $7FF81E, X : TAY
     
-    LDA $0E80, X : SEC : SBC $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ; $A5DA
+    LDA.w $0E80, X : SEC : SBC.w $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ; $A5DA
     
     LDA.l $7FFC00, X : SEC : SBC $E2                  : STA $0A
     LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC $E8 : STA $0B
@@ -336,20 +336,20 @@ Lanmola_Death: ; 0x05
     ; Spawn a sprite that instantly dies as a boss explosion?
     LDA.b #$00 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$0B : STA $0AAA
+    LDA.b #$0B : STA.w $0AAA
     
-    LDA.b #$04 : STA $0DD0, Y
+    LDA.b #$04 : STA.w $0DD0, Y
     
-    LDA.b #$1F : STA $0DF0, Y : STA $0D90, Y
+    LDA.b #$1F : STA.w $0DF0, Y : STA.w $0D90, Y
     
-    LDA $0A : CLC : ADC $E2    : STA $0D10, Y
-    LDA $E3 : ADC.b #$00 : STA $0D30, Y
-    LDA $0B : CLC : ADC $E8    : STA $0D00, Y
-    LDA $E9 : ADC.b #$00 : STA $0D20, Y
+    LDA $0A : CLC : ADC $E2    : STA.w $0D10, Y
+    LDA $E3 : ADC.b #$00 : STA.w $0D30, Y
+    LDA $0B : CLC : ADC $E8    : STA.w $0D00, Y
+    LDA $E9 : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$03 : STA $0E40, Y
+    LDA.b #$03 : STA.w $0E40, Y
     
-    LDA.b #$0C : STA $0F50, Y
+    LDA.b #$0C : STA.w $0F50, Y
     
     LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
@@ -440,21 +440,21 @@ Lanmola_Draw:
     
     SEP #$20
     
-    LDA $0D40, X : SEC : SBC $0F80, X : STA $00
-    LDA $0D50, X                : STA $01
+    LDA.w $0D40, X : SEC : SBC.w $0F80, X : STA $00
+    LDA.w $0D50, X                : STA $01
     
-    JSL Sprite_ConvertVelocityToAngle : STA $0DC0, X
+    JSL Sprite_ConvertVelocityToAngle : STA.w $0DC0, X
     
     LDA Lanmola_FinishInitialization_sprite_regions, X : STA $04 ; $A5DA
     
     PHX
     
-    LDA $0D10, X : PHA
-    LDA $0D00, X : PHA
-    LDA $0F70, X : PHA
-    LDA $0DC0, X : PHA
+    LDA.w $0D10, X : PHA
+    LDA.w $0D00, X : PHA
+    LDA.w $0F70, X : PHA
+    LDA.w $0DC0, X : PHA
     
-    LDA $0E80, X : STA $02 : STA $05
+    LDA.w $0E80, X : STA $02 : STA $05
     
     CLC : ADC $04 : TAX
     
@@ -465,15 +465,15 @@ Lanmola_Draw:
     
     PLX
     
-    LDA $0DD0, X : CMP.b #$09 : BNE .notActive
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .notActive
     
-    LDA $11 : ORA $0FC1 : BNE .notActive
+    LDA $11 : ORA.w $0FC1 : BNE .notActive
     
-    LDA $0E80, X : INC A : AND.b #$3F : STA $0E80, X
+    LDA.w $0E80, X : INC A : AND.b #$3F : STA.w $0E80, X
     
     .notActive
     
-    LDA $0F50, X : ORA $0B89, X : STA $03
+    LDA.w $0F50, X : ORA.w $0B89, X : STA $03
     
     LDA.l $7FF81E, X : BPL .beta
     
@@ -485,7 +485,7 @@ Lanmola_Draw:
     
     PHA : STA $0E
     
-    LDA $0D40, X : ASL A : ROL A : AND.b #$01 : TAX
+    LDA.w $0D40, X : ASL A : ROL A : AND.b #$01 : TAX
     
     LDA .data2, X : STA $0C ; $A5E0
     
@@ -583,7 +583,7 @@ Lanmola_Draw:
     
     PLX
     
-    LDA $0D80, X : CMP.b #$01 : BNE .lambda
+    LDA.w $0D80, X : CMP.b #$01 : BNE .lambda
     
     JMP Lanmola_DrawMound
     
@@ -591,11 +591,11 @@ Lanmola_Draw:
     
     CMP.b #$05 : BEQ .mu
     
-    LDA $0E00, X : BEQ .mu
+    LDA.w $0E00, X : BEQ .mu
     
     PHA
     
-    LDA $0D40, X : ASL A : ROL A : ASL A : EOR $0D80, X : AND.b #$02 : BEQ .nu
+    LDA.w $0D40, X : ASL A : ROL A : ASL A : EOR.w $0D80, X : AND.b #$02 : BEQ .nu
     
     LDA.b #$08 : JSL OAM_AllocateFromRegionB
     
@@ -611,8 +611,8 @@ Lanmola_Draw:
     
     PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL A : STA $06
     
-    LDA $0DE0, X : SEC : SBC $E2 : STA $00
-    LDA $0E70, X : SEC : SBC $E8 : STA $02
+    LDA.w $0DE0, X : SEC : SBC $E2 : STA $00
+    LDA.w $0E70, X : SEC : SBC $E8 : STA $02
     
     PHX
     
@@ -650,10 +650,10 @@ Lanmola_DrawMound:
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
     
-    LDA $0D10, X : SEC : SBC $E2 : STA $00
-    LDA $0D00, X : SEC : SBC $E8 : STA $02
+    LDA.w $0D10, X : SEC : SBC $E2 : STA $00
+    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
     
-    LDA $0DF0, X : LSR #3 : TAY
+    LDA.w $0DF0, X : LSR #3 : TAY
     
     PHX
     

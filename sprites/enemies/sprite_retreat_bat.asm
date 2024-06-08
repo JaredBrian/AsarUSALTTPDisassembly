@@ -22,41 +22,41 @@ Sprite_RetreatBat:
     JSL Sprite_MoveLong
     JSR RetreatBat_DrawSomethingElse
     
-    STZ $011C
-    STZ $011D
+    STZ.w $011C
+    STZ.w $011D
     
-    LDA $0EE0, X : BEQ .BRANCH_ALPHA 
+    LDA.w $0EE0, X : BEQ .BRANCH_ALPHA 
     
     DEC A : BNE .BRANCH_BETA
     
-    LDY.b #$05 : STY $012D
+    LDY.b #$05 : STY.w $012D
     
     .BRANCH_BETA
     
     AND.b #$01 : TAY
     
-    LDA.w $F5D5, Y : STA $011C
-    LDA.w $F5D7, Y : STA $011D
+    LDA.w $F5D5, Y : STA.w $011C
+    LDA.w $F5D7, Y : STA.w $011D
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_GAMMA
+    LDA.w $0DF0, X : BNE .BRANCH_GAMMA
     
-    LDA $0DC0, X : INC A : AND.b #$03 : STA $0DC0, X : BNE .BRANCH_DELTA
+    LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X : BNE .BRANCH_DELTA
     
-    LDA $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
+    LDA.w $0D80, X : CMP.b #$02 : BCS .BRANCH_DELTA
     
     LDA.b #$03 : JSL Sound_SetSfx2PanLong
     
     .BRANCH_DELTA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $F5A0, Y : STA $0DF0, X
+    LDA.w $F5A0, Y : STA.w $0DF0, X
     
     .BRANCH_GAMMA
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -68,24 +68,24 @@ Sprite_RetreatBat:
 
 ; $0D763D-$0D7683 JUMP LOCATION
 {
-    LDA $0D90, X : ASL A : TAY
+    LDA.w $0D90, X : ASL A : TAY
     
     REP #$20
     
-    LDA.w $F590, Y : CMP $0FD8
+    LDA.w $F590, Y : CMP.w $0FD8
     
     SEP #$30 : BCS .BRANCH_ALPHA
     
     CPY.b #$04 : BCC .BRANCH_BETA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$D0 : STA $0E00, X
+    LDA.b #$D0 : STA.w $0E00, X
     
     .BRANCH_BETA
     
-    INC $0D90, X
-    INC $0DE0, X
+    INC.w $0D90, X
+    INC.w $0DE0, X
     
     ; $0D7660 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
@@ -94,21 +94,21 @@ Sprite_RetreatBat:
     
     REP #$20
     
-    LDA.w $F598, Y : CMP $0FDA : SEP #$30 : BCC .BRANCH_DELTA
+    LDA.w $F598, Y : CMP.w $0FDA : SEP #$30 : BCC .BRANCH_DELTA
     
-    INC $0D40, X
+    INC.w $0D40, X
     
     BRA .BRANCH_GAMMA
     
     .BRANCH_DELTA
     
-    DEC $0D40, X
+    DEC.w $0D40, X
     
     .BRANCH_GAMMA
     
     LDA $1A : AND.b #$0F : BNE .BRANCH_EPSILON
     
-    INC $0D50, X
+    INC.w $0D50, X
     
     .BRANCH_EPSILON
     
@@ -117,23 +117,23 @@ Sprite_RetreatBat:
 
 ; $0D7684-$0D76C7 JUMP LOCATION
 {
-    LDA $0E00, X : BNE .BRANCH_ALPHA
+    LDA.w $0E00, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$26 : JSL Sound_SetSfx3PanLong
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
-    LDA.b #$E8 : STA $0D10, X
-    LDA.b #$07 : STA $0D30, X
-    LDA.b #$E0 : STA $0D00, X
-    LDA.b #$05 : STA $0D20, X
+    LDA.b #$E8 : STA.w $0D10, X
+    LDA.b #$07 : STA.w $0D30, X
+    LDA.b #$E0 : STA.w $0D00, X
+    LDA.b #$05 : STA.w $0D20, X
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    LDA.b #$40 : STA $0D40, X
-    LDA.b #$2D : STA $0E00, X
+    LDA.b #$40 : STA.w $0D40, X
+    LDA.b #$2D : STA.w $0E00, X
     
     RTS
     
@@ -141,29 +141,29 @@ Sprite_RetreatBat:
     
     LDA $1A : AND.b #$03 : BNE .BRANCH_BETA
     
-    DEC $0D50, X
+    DEC.w $0D50, X
     
     .BRANCH_BETA
     
-    LDA $0D90, X : ASL A : TAY
+    LDA.w $0D90, X : ASL A : TAY
     
-    JMP $F660 ; $0D7660 IN ROM
+    JMP.w $F660 ; $0D7660 IN ROM
 }
 
 
 ; $0D76C8-$0D76E8 JUMP LOCATION
 {
-    LDA $0E00, X : BNE .advancement_delay
+    LDA.w $0E00, X : BNE .advancement_delay
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
-    LDA.b #$60 : STA $0E00, X
+    LDA.b #$60 : STA.w $0E00, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .advancement_delay
     
-    LDA $0E00, X : CMP.b #$09 : BNE .smash_delay
+    LDA.w $0E00, X : CMP.b #$09 : BNE .smash_delay
     
     JSR RetreatBat_SpawnPyramidDebris
     
@@ -183,13 +183,13 @@ Sprite_RetreatBat:
 ; $0D76E9-$0D76F4 JUMP LOCATION
 RetreatBat_FinishUp:
 {
-    LDA $0E00, X : BNE .delay
+    LDA.w $0E00, X : BNE .delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; This allows the GanonEmerges module to continue on and let the player
     ; land on the pyramid.
-    INC $0200
+    INC.w $0200
 
     .delay
 
@@ -205,23 +205,23 @@ GanonEmerges_SpawnRetreatBat:
     
     LDA.b #$37 : JSL Sprite_SpawnDynamically
     
-    LDA.b #$00 : STA $0D40, Y
-                 STA $0DA0, Y
-                 STA $0DE0, Y
-                 STA $0F20, Y
+    LDA.b #$00 : STA.w $0D40, Y
+                 STA.w $0DA0, Y
+                 STA.w $0DE0, Y
+                 STA.w $0F20, Y
     
-    INC A : STA $0E80, Y
-            STA $0E40, Y
-            STA $0E60, Y
-            STA $0F50, Y
+    INC A : STA.w $0E80, Y
+            STA.w $0E40, Y
+            STA.w $0E60, Y
+            STA.w $0F50, Y
     
-    LDA.b #$CC : STA $0D10, Y
-    LDA.b #$07 : STA $0D30, Y
+    LDA.b #$CC : STA.w $0D10, Y
+    LDA.b #$07 : STA.w $0D30, Y
     
-    LDA.b #$32 : STA $0D00, Y
-    LDA.b #$06 : STA $0D20, Y
+    LDA.b #$32 : STA.w $0D00, Y
+    LDA.b #$06 : STA.w $0D20, Y
     
-    LDA.b #$80 : STA $0CAA, Y
+    LDA.b #$80 : STA.w $0CAA, Y
     
     RTL
 }
@@ -257,7 +257,7 @@ RetreatBat_DrawSomethingElse:
     
     .write_oam_low_buffer_entries
     
-    LDA .oam_entries - 2, Y : STA $092E, Y
+    LDA .oam_entries - 2, Y : STA.w $092E, Y
     
     DEY #2 : BNE .write_oam_low_buffer_entries
     
@@ -268,7 +268,7 @@ RetreatBat_DrawSomethingElse:
     
     .write_oam_high_buffer_entries
     
-    STA $0A6C, Y
+    STA.w $0A6C, Y
     
     DEY #2 : BPL .write_oam_high_buffer_entries
     
@@ -298,7 +298,7 @@ RetreatBat_SpawnPyramidDebris:
     
     PLY : DEY : BPL .spawn_another
     
-    LDA.b #$20 : STA $0EE0, X
+    LDA.b #$20 : STA.w $0EE0, X
     
     RTS
 }
@@ -334,7 +334,7 @@ RetreatBat_Draw:
     
     SEP #$20
     
-    LDA $0DE0, X : ASL #2 : ADC $0DC0, X : TAY
+    LDA.w $0DE0, X : ASL #2 : ADC.w $0DC0, X : TAY
     
     LDA .ptr_low_bytes, Y : STA $08
     LDA .ptr_high_byte    : STA $09

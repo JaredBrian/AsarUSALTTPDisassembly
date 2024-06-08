@@ -20,7 +20,7 @@ Sprite_DeadRock:
 {
     ; Deadrock code (Sprite 0x27)
     
-    LDA $0E10, X : BEQ .petrification_inactive
+    LDA.w $0E10, X : BEQ .petrification_inactive
     AND.b #$04   : BNE .use_normal_animation_state
     
     .use_petrified_animation_state
@@ -31,26 +31,26 @@ Sprite_DeadRock:
     
     .petrification_inactive
     
-    LDA $0D80, X : CMP.b #$02 : BEQ .use_petrified_animation_state
+    LDA.w $0D80, X : CMP.b #$02 : BEQ .use_petrified_animation_state
     
     .use_normal_animation_state
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     .write_animation_state
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
     JSR Sprite_PrepAndDrawSingleLarge
     JSR Sprite_CheckIfActive
     
-    LDA $0EA0, X : BNE .anoplay_sfx
+    LDA.w $0EA0, X : BNE .anoplay_sfx
     
     JSR Sprite_CheckDamageFromPlayer : BCC .anoplay_sfx
     
-    LDA $012E : BNE .anoplay_sfx
+    LDA.w $012E : BNE .anoplay_sfx
     
     LDA.b #$0B : JSL Sound_SetSfx2PanLong
     
@@ -63,19 +63,19 @@ Sprite_DeadRock:
     
     .no_player_collision
     
-    LDA $0EA0, X : CMP.b #$0E : BNE .dont_activate_petrification
+    LDA.w $0EA0, X : CMP.b #$0E : BNE .dont_activate_petrification
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$FF : STA $0E00, X
+    LDA.b #$FF : STA.w $0E00, X
     
-    LDA.b #$40 : STA $0E10, X
+    LDA.b #$40 : STA.w $0E10, X
     
     .dont_activate_petrification
     
     JSR Sprite_CheckIfRecoiling
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -96,21 +96,21 @@ Sprite_DeadRock:
 ; $031506-$031558 JUMP LOCATION
 DeadRock_PickDirection:
 {
-    LDA $0DF0, X : BNE .wait
+    LDA.w $0DF0, X : BNE .wait
     
-    ASL $0E40, X : LSR $0E40, X
+    ASL.w $0E40, X : LSR.w $0E40, X
     
-    LDA $0CAA, X : AND.b #$FB : STA $0CAA, X
+    LDA.w $0CAA, X : AND.b #$FB : STA.w $0CAA, X
     
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
-    INC $0DA0, X : LDA $0DA0, X : CMP.b #$04 : BNE .use_random_direction
+    INC.w $0DA0, X : LDA.w $0DA0, X : CMP.b #$04 : BNE .use_random_direction
     
-    STZ $0DA0, X
+    STZ.w $0DA0, X
     
     JSR Sprite_DirectionToFacePlayer
     
@@ -127,10 +127,10 @@ DeadRock_PickDirection:
     ; $031548 ALTERNATE ENTRY POINT
     shared DeadRock_SetDirectionAndSpeed:
     
-    STA $0DE0, X : TAY
+    STA.w $0DE0, X : TAY
     
-    LDA.w $9500, Y : STA $0D50, X
-    LDA.w $9502, Y : STA $0D40, X
+    LDA.w $9500, Y : STA.w $0D50, X
+    LDA.w $9502, Y : STA.w $0D40, X
     
     .wait
     
@@ -142,11 +142,11 @@ DeadRock_PickDirection:
 ; $031559-$03158E JUMP LOCATION
 DeadRock_Walk:
 {
-    LDA $0DF0, X : BNE .try_to_move
+    LDA.w $0DF0, X : BNE .try_to_move
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
@@ -155,17 +155,17 @@ DeadRock_Walk:
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .no_wall_collision
+    LDA.w $0E70, X : BEQ .no_wall_collision
     
-    LDA $0DE0, X : EOR.b #$01
+    LDA.w $0DE0, X : EOR.b #$01
     
     BRA DeadRock_SetDirectionAndSpeed
     
     .no_wall_collision
     
-    INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$01 : STA $00
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA $00
     
-    LDA $0DE0, X : ASL A : ORA $00 : STA $0D90, X
+    LDA.w $0DE0, X : ASL A : ORA $00 : STA.w $0D90, X
     
     RTS
 }
@@ -175,19 +175,19 @@ DeadRock_Walk:
 ; $03158F-$0315C8 JUMP LOCATION
 DeadRock_Petrified:
 {
-    LDA $0E40, X : ORA.b #$80 : STA $0E40, X
+    LDA.w $0E40, X : ORA.b #$80 : STA.w $0E40, X
     
-    LDA $0CAA, X : ORA.b #$04 : STA $0CAA, X
+    LDA.w $0CAA, X : ORA.b #$04 : STA.w $0CAA, X
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
     LDA $1A : AND.b #$01 : BNE .skip
     
-    LDA $0E00, X : BNE .dont_revert
+    LDA.w $0E00, X : BNE .dont_revert
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     RTS
     
@@ -195,7 +195,7 @@ DeadRock_Petrified:
     
     CMP.b #$20 : BNE .gamma
     
-    LDA.b #$40 : STA $0E10, X
+    LDA.b #$40 : STA.w $0E10, X
     
     .gamma
     
@@ -203,7 +203,7 @@ DeadRock_Petrified:
     
     .skip
     
-    INC $0E00, X
+    INC.w $0E00, X
     
     RTS
 }

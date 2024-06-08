@@ -49,23 +49,23 @@ SpritePrep_UncleAndSage:
     
     LDA.l $7EF3C6 : AND.b #$02 : BEQ .priest_not_already_dead
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .priest_not_already_dead
     
-    LDA.b #$01 : STA $0E90, X
+    LDA.b #$01 : STA.w $0E90, X
     
-    LDA $0E40, X : AND.b #$F0 : ORA.b #$02 : STA $0E40, X
+    LDA.w $0E40, X : AND.b #$F0 : ORA.b #$02 : STA.w $0E40, X
     
-    LDA.b #$03 : STA $0F60, X
+    LDA.b #$03 : STA.w $0F60, X
     
     LDA.l $7EF359 : CMP.b #$02 : BCC .dontHaveMasterSword
     
-    LDA.b #$04 : STA $0DE0, X
+    LDA.b #$04 : STA.w $0DE0, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     LDA.b #$00
     
@@ -75,7 +75,7 @@ SpritePrep_UncleAndSage:
     
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03
     
-    STA $0EB0, X : STA $0DE0, X
+    STA.w $0EB0, X : STA.w $0DE0, X
     
     LDA.l $7EF3CC : CMP.b #$01 : BNE .iota
     
@@ -83,7 +83,7 @@ SpritePrep_UncleAndSage:
     
     LDA.l $7EF29B : ORA.b #$20 : STA.l $7EF29B
     
-    LDA.b #$AA : STA $0DF0, X
+    LDA.b #$AA : STA.w $0DF0, X
     
     LDA.b #$01
     
@@ -95,17 +95,17 @@ SpritePrep_UncleAndSage:
     
     .epsilon
     
-    STA $0E80, X
+    STA.w $0E80, X
     
     ASL A : TAY
     
-    LDA .x_offsets + 0, Y : CLC : ADC $0D10, X : STA $0D10, X
-    LDA .x_offsets + 1, Y : ADC $0D30, X : STA $0D30, X
+    LDA .x_offsets + 0, Y : CLC : ADC.w $0D10, X : STA.w $0D10, X
+    LDA .x_offsets + 1, Y : ADC.w $0D3030, X : STA.w $0D3030, X
     
-    LDA .y_offsets + 0, Y : CLC : ADC $0D00, X : STA $0D00, X
-    LDA .y_offsets + 1, Y : ADC $0D20, X : STA $0D20, X
+    LDA .y_offsets + 0, Y : CLC : ADC.w $0D00000000, X : STA.w $0D00, X
+    LDA .y_offsets + 1, Y : ADC.w $0D20, X : STA.w $0D20, X
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA.b #$00 : STA.l $7FFE01
     
@@ -119,7 +119,7 @@ SpritePrep_UncleAndSage:
     ; soldiers?
     LDA.l $7EF3C6 : AND.b #$10 : BNE .self_terminate
     
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     RTS
     
@@ -128,15 +128,15 @@ SpritePrep_UncleAndSage:
     ; Poor dying bastard already gave you his gear?
     LDA.l $7EF3C6 : AND.b #$01 : BNE .self_terminate
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
-    LSR A : STA $0E80, X
+    LSR A : STA.w $0E80, X
     
     RTS
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }
@@ -158,40 +158,40 @@ Pool_Sage_SpawnMantle:
 ; $02DB27-$02DB85 LOCAL JUMP LOCATION
 Sage_SpawnMantle:
 {
-    INC $0DDF
+    INC.w $0DDF
     
     ; Create Sage... actually create the mantle behind him.
     LDA.b #$73
     
     JSL Sprite_SpawnDynamically
     
-    STZ $0DDF
+    STZ.w $0DDF
     
-    LDA $0E40, Y : AND.b #$F0 : ORA.b #$03 : STA $0E40, Y
+    LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$03 : STA.w $0E40, Y
     
-    LDA .x_coord     : STA $0D10, Y
-    LDA .x_coord + 1 : STA $0D30, Y
+    LDA .x_coord     : STA.w $0D10, Y
+    LDA .x_coord + 1 : STA.w $0D30, Y
     
-    LDA .y_coord     : STA $0D00, Y
-    LDA .y_coord + 1 : STA $0D20, Y
+    LDA .y_coord     : STA.w $0D00, Y
+    LDA .y_coord + 1 : STA.w $0D20, Y
     
-    LDA.b #$02 : STA $0E90, Y
+    LDA.b #$02 : STA.w $0E90, Y
     
-    LDA.b #$0B : STA $0F60, Y
+    LDA.b #$0B : STA.w $0F60, Y
     
-    LDA $0CAA, Y : ORA.b #$20 : STA $0CAA, Y
+    LDA.w $0CAA, Y : ORA.b #$20 : STA.w $0CAA, Y
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
-    LDA $0D00, Y : STA $00
-    LDA $0D20, Y : STA $01
+    LDA.w $0D00, Y : STA $00
+    LDA.w $0D20, Y : STA $01
     
     REP #$30
     
     LDA $20 : CMP $00 : SEP #$30 : BCS .player_below_mantle
     
     ; Otherwise initialize it as moving to the right (opening up).
-    LDA.b #$01 : STA $0DB0, Y
+    LDA.b #$01 : STA.w $0DB0, Y
     
     .player_below_mantle
     
@@ -219,7 +219,7 @@ Sprite_UncleAndSageLong:
 ; $02DB8E-$02DB9A LOCAL JUMP LOCATION
 Sprite_UncleAndSage:
 {
-    LDA $0E90, X
+    LDA.w $0E90, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -236,7 +236,7 @@ Sprite_SageMantle:
     JSR SageMantle_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0DB0, X : BNE SageMantle_SlidingRight
+    LDA.w $0DB0, X : BNE SageMantle_SlidingRight
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong  
     
@@ -248,18 +248,18 @@ Sprite_SageMantle:
     
     JSL Sprite_RepelDashAttackLong
     
-    LDA.b #$07 : STA $0E00, X
+    LDA.b #$07 : STA.w $0E00, X
     
     ; $02DBBB ALTERNATE ENTRY POINT
     shared SageMantle_RecentPlayerContact:
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     LDA.b #$81 : STA $48
     
     LDA.b #$08 : STA $5E
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -275,9 +275,9 @@ SageMantle_NoPlayerCollision:
 {
     ; \task These label names just suck, but they'll do for now.
     ; namenate this whole file better.
-    LDA $0E00, X : BNE SageMantle_RecentPlayerContact
+    LDA.w $0E00, X : BNE SageMantle_RecentPlayerContact
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -290,9 +290,9 @@ SageMantle_NoPlayerCollision:
 ; $02DBE3-$02DBF4 BRANCH LOCATION
 SageMantle_SlidingRight:
 {
-    LDA.b #$40 : STA $0D90, X
+    LDA.b #$40 : STA.w $0D90, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -305,13 +305,13 @@ SageMantle_SlidingRight:
 
 ; $02DBF5-$02DBFF JUMP LOCATION
 {
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     STZ $48
     
     STZ $5E
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     ; $02DBFF ALTERNATE ENTRY POINT
     shared SageMantle_DoNothing:
@@ -323,26 +323,26 @@ SageMantle_SlidingRight:
 
 ; $02DC00-$02DC38 JUMP LOCATION
 {
-    LDA $0D10, X : PHA : CLC : ADC.b #$13 : STA $0D10, X
-    LDA $0D30, X : PHA : ADC.b #$00 : STA $0D30, X
+    LDA.w $0D10, X : PHA : CLC : ADC.b #$13 : STA.w $0D10, X
+    LDA.w $0D30, X : PHA : ADC.b #$00 : STA.w $0D30, X
     
     JSR Sprite2_DirectionToFacePlayer
     
-    PLA : STA $0D30, X
-    PLA : STA $0D10, X
+    PLA : STA.w $0D30, X
+    PLA : STA.w $0D10, X
     
     CPY.b #$03 : BEQ .alpha
     CPY.b #$01 : BNE .beta
     
     .alpha
     
-    INC $0D90, X
+    INC.w $0D90, X
     
-    LDA $0D90, X : CMP.b #$40 : BCC .beta
+    LDA.w $0D90, X : CMP.b #$40 : BCC .beta
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     .beta
     
@@ -355,13 +355,13 @@ SageMantle_SlidingRight:
 {
     LDA.b #$18 : JSL Sound_SetSfx3PanLong
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$A8 : STA $0DF0, X
+    LDA.b #$A8 : STA.w $0DF0, X
     
-    LDA.b #$03 : STA $0D50, X
+    LDA.b #$03 : STA.w $0D50, X
     
-    LDA.b #$02 : STA $0E00, X
+    LDA.b #$02 : STA.w $0E00, X
     
     RTS
 }
@@ -372,18 +372,18 @@ SageMantle_SlidingRight:
 {
     JSR Sprite2_Move
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    STZ $02E4
+    STZ.w $02E4
     
-    STZ $0D50, X
-    STZ $0DB0, X
+    STZ.w $0D50, X
+    STZ.w $0DB0, X
     
     RTS
     
     .alpha
     
-    LDA.b #$02 : STA $0E00, X
+    LDA.b #$02 : STA.w $0E00, X
     
     RTS
 }
@@ -409,7 +409,7 @@ SageMantle_Draw:
     LDA.b (.animation_states >> 0) : STA $08
     LDA.b (.animation_states >> 8) : STA $09
     
-    LDA $0DB0, X : BNE .moving
+    LDA.w $0DB0, X : BNE .moving
     
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
@@ -425,21 +425,21 @@ SageMantle_Draw:
 ; $02DCA2-$02DCDD LONG JUMP LOCATION
 Sprite_MakeBodyTrackHeadDirection:
 {
-    LDA $0DE0, X : CMP $0EB0, X : BEQ .set_body_to_head_dir
+    LDA.w $0DE0, X : CMP.w $0EB0, X : BEQ .set_body_to_head_dir
     
     LDA $1A : AND.b #$1F : BNE .frame_not_multiple_of_32
     
     ; If only one of them is facing left or right, make the body match.
-    LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BNE .set_body_to_head_dir
+    LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BNE .set_body_to_head_dir
     
     ; This seems like an attempt to semi-randomly set the body orientation
     ; to left or right, possibly to recover from an unusual state?
-    TXA : EOR $1A : LSR #5 : ORA.b #$02 : AND.b #$03 : STA $0DE0, X
+    TXA : EOR $1A : LSR #5 : ORA.b #$02 : AND.b #$03 : STA.w $0DE0, X
     
     ; If the head is facing up or down, this has no effect.
     ; Otherwise, it will force the body to a direction perpendicular to
     ; the head.
-    LDA $0EB0, X : AND.b #$02 : EOR $0DE0, X : STA $0DE0, X
+    LDA.w $0EB0, X : AND.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     .frame_not_multiple_of_32
     
@@ -449,7 +449,7 @@ Sprite_MakeBodyTrackHeadDirection:
     
     .set_body_to_head_dir
     
-    LDA $0EB0, X : STA $0DE0, X
+    LDA.w $0EB0, X : STA.w $0DE0, X
     
     SEC
     
@@ -476,7 +476,7 @@ Pool_Sprite_Sage:
 ; $02DCE6-$02DD09 JUMP LOCATION
 Sprite_Sage:
 {
-    LDA $0D90, X : BNE .dont_draw
+    LDA.w $0D90, X : BNE .dont_draw
     
     JSL Priest_Draw
     
@@ -487,7 +487,7 @@ Sprite_Sage:
     JSL Sprite_MakeBodyTrackHeadDirection
     JSR Sprite2_Move
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -501,9 +501,9 @@ Sprite_Sage:
 ; $02DD0A-$02DD1E JUMP LOCATION
 Sage_MortallyWounded:
 {
-    LDA.b #$04 : STA $0EB0, X : STA $0DE0, X
+    LDA.b #$04 : STA.w $0EB0, X : STA.w $0DE0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -523,13 +523,13 @@ Sage_DyingWords:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .textNotTriggered
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     LDA.l $7EF3C6 : ORA.b #$02 : STA.l $7EF3C6
     
-    LDA.b #$80 : STA $0E10, X
+    LDA.b #$80 : STA.w $0E10, X
     
     .textNotTriggered
     
@@ -543,18 +543,18 @@ Sage_DeathFlash:
 {
     ; Because we all know people flash when they die, right?
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    LDA $0E10, X : BNE .wait
+    LDA.w $0E10, X : BNE .wait
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .wait
     
     ; Only draw the sprite every other frame (b/c he's dying).
-    LDA $1A : AND.b #$02 : STA $0D90, X
+    LDA $1A : AND.b #$02 : STA.w $0D90, X
     
-    LDA $0E10, X : AND.b #$07 : BNE .dont_play_sound
+    LDA.w $0E10, X : AND.b #$07 : BNE .dont_play_sound
     
     LDA.b #$33 : JSL Sound_SetSfx2PanLong
     
@@ -571,7 +571,7 @@ Sage_Terminate:
     ; Well this is pretty pointless, why didn't we just kill him off
     ; in the previous AI state?
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }
@@ -580,7 +580,7 @@ Sage_Terminate:
 
 ; $02DD63-$02DD71 JUMP LOCATION
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -594,9 +594,9 @@ Sage_Terminate:
 
 ; $02DD72-$02DD9E JUMP LOCATION
 {
-    LDA.b #$00 : STA $0EB0, X : STA $0DE0, X
+    LDA.b #$00 : STA.w $0EB0, X : STA.w $0DE0, X
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
     ; "Princess Zelda, you are safe! Is this your doing, [Name]?" message
     LDA.b #$17
@@ -604,13 +604,13 @@ Sage_Terminate:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$01 : STA.l $7FFE01
     
     JSR Zelda_TransitionFromTagalong
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     LDA.b #$01 : STA.l $7EF3C7
     
@@ -631,7 +631,7 @@ Sage_Terminate:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .alpha
     
@@ -642,17 +642,17 @@ Sage_Terminate:
 
 ; $02DDB3-$02DDC4 JUMP LOCATION
 {
-    LDA $1CE8 : BNE .alpha
+    LDA.w $1CE8 : BNE .alpha
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
     
     .alpha
     
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     RTS
 }
@@ -661,7 +661,7 @@ Sage_Terminate:
 
 ; $02DDC5-$02DDDE JUMP LOCATION
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.b #$16
     LDY.b #$00
@@ -669,8 +669,8 @@ Sage_Terminate:
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .alpha
     
     ; "Meet the elder of the village and get the master sword" message
-    STA $0DE0, X
-    STA $0EB0, X
+    STA.w $0DE0, X
+    STA.w $0EB0, X
     
     .alpha
     
@@ -692,7 +692,7 @@ Sage_Terminate:
 
 ; $02DDE5-$02DE23 JUMP LOCATION
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDY.b #$00
     
@@ -715,8 +715,8 @@ Sage_Terminate:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .gamma
     
-    STA $0DE0, X
-    STA $0EB0, X
+    STA.w $0DE0, X
+    STA.w $0EB0, X
     
     LDA.b #$A0 : STA.l $7EF372
     
@@ -745,7 +745,7 @@ Sprite_Uncle:
     JSL Uncle_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -760,7 +760,7 @@ Uncle_AtHome:
 {
     JSR Sprite2_Move
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -777,11 +777,11 @@ Uncle_AtHome:
 Uncle_TelepathicZeldaPlea:
 {
     ; Set Link's coordinates to this specific position.
-    LDA.b #$40 : STA $0FC2
-    LDA.b #$09 : STA $0FC3
+    LDA.b #$40 : STA.w $0FC2
+    LDA.b #$09 : STA.w $0FC3
     
-    LDA.b #$5A : STA $0FC4
-    LDA.b #$21 : STA $0FC5
+    LDA.b #$5A : STA.w $0FC4
+    LDA.b #$21 : STA.w $0FC5
     
     ; "Help me... Please help me...  I am a prisoner in the dungeon of the
     ; castle..."
@@ -790,7 +790,7 @@ Uncle_TelepathicZeldaPlea:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -815,15 +815,15 @@ Uncle_WakeUpPlayer:
     
     .colorTargetReached
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    INC $037D
-    INC $037C
+    INC.w $037D
+    INC.w $037C
     
     LDA.b #$57 : STA $20
     LDA.b #$21 : STA $21
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     RTS
 }
@@ -839,12 +839,12 @@ Uncle_TellPlayerToStay:
     ; [Name], I'm going out for a while. I'll be back by morning..." message
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Play music
-    LDA.b #$03 : STA $012C
+    LDA.b #$03 : STA.w $012C
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -866,39 +866,39 @@ Pool_Uncle_LeavingHouse:
 ; $02DEB4-$02DEF7 JUMP LOCATION
 Uncle_LeavingHouse:
 {
-    LDA $0DF0, X : BNE .moving
+    LDA.w $0DF0, X : BNE .moving
     
-    LDY $0D90, X : BNE .already_stood_up
+    LDY.w $0D90, X : BNE .already_stood_up
     
     ; Do a one time y coord adjustment that basically is your uncle
     ; standing up to leave.
-    LDA $0D00, X : SEC : SBC #$02 : STA $0D00, X
+    LDA.w $0D00, X : SEC : SBC #$02 : STA.w $0D00, X
     
     .already_stood_up
     
-    LDA .data_timers, Y : STA $0DF0, X
+    LDA .data_timers, Y : STA.w $0DF0, X
     
-    LDA .data_directions, Y : STA $0DE0, X : TAY
+    LDA .data_directions, Y : STA.w $0DE0, X : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     ; \bug Confirmed that this is a bug in that it reads past the end of its
     ; designated arrays (.timer, .directions, .x_speeds, .y_speeds) by one
     ; right before the Uncle sprite self terminates. Other than that, it
     ; shouldn't have any negative impact. I'd recommend rewriting it to
     ; avoid this problem, though.
-    LDA $0D90, X : CMP.b #$03 : BNE .hasnt_fully_left_yet
+    LDA.w $0D90, X : CMP.b #$03 : BNE .hasnt_fully_left_yet
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .moving
     .hasnt_fully_left_yet
     
     ; Change animation state every 8 frames...
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -911,15 +911,15 @@ Uncle_AttachZeldaTelepathTagalong:
     ; Sets up Zelda to bitch at you to get into the castle.
     LDA.b #$05 : STA.l $7EF3CC
     
-    LDA.b #$F3 : STA $02CD
-    LDA.b #$0D : STA $02CE
+    LDA.b #$F3 : STA.w $02CD
+    LDA.b #$0D : STA.w $02CE
     
     ; Make it so Link's uncle never respawns in the house again.
     LDA.l $7EF3C6 : ORA.b #$10 : STA.l $7EF3C6
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }
@@ -929,7 +929,7 @@ Uncle_AttachZeldaTelepathTagalong:
 ; $02DF19-$02DF25 JUMP LOCATION
 Uncle_InSecretPassage:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -958,7 +958,7 @@ Uncle_RemoveZeldaTelepathTagalong:
     ; Your Uncle frees you from Zelda's bitching >_<.
     LDA.b #$00 : STA.l $7EF3CC
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .player_not_close_2
     
@@ -974,13 +974,13 @@ Uncle_GiveSwordAndShield:
 {
     LDY.b #$00
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     LDA.b #$03 : STA.l $7EF3C8
     

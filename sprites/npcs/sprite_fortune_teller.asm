@@ -20,7 +20,7 @@ Sprite_FortuneTellerLong:
 ; $06C762-$06C76C LOCAL JUMP LOCATION
 Sprite_FortuneTeller:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -77,7 +77,7 @@ FortuneTeller_Main:
 ; $06C79A-$06C7B0 JUMP LOCATION
 FortuneTeller_LightWorld:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -104,21 +104,21 @@ FortuneTeller_Prices:
 ; $06C7B9-$06C7DD JUMP LOCATION
 LW_FortuneTeller_WaitForInquiry:
 {
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    JSL GetRandomInt : AND.b #$03 : ASL A : STA $0D90, X : TAY
+    JSL GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
     
     REP #$20
     
     LDA.l $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .has_enough
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     RTS
 }
@@ -148,11 +148,11 @@ LW_FortuneTeller_AskIfPlayerWantsReading:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     .didnt_speak
     
@@ -164,15 +164,15 @@ LW_FortuneTeller_AskIfPlayerWantsReading:
 ; $06C7FF-$06C828 JUMP LOCATION
 LW_FortuneTeller_ReactToPlayerResponse:
 {
-    LDA $1CE8 : BNE .player_said_no
+    LDA.w $1CE8 : BNE .player_said_no
     
-    LDA $0DF0, X : BNE .delay_and_animate
+    LDA.w $0DF0, X : BNE .delay_and_animate
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay_and_animate
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
     
@@ -184,9 +184,9 @@ LW_FortuneTeller_ReactToPlayerResponse:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }
@@ -210,9 +210,9 @@ Pool_FortuneTeller_GiveReading:
 ; $06C849-$06C952 JUMP LOCATION
 FortuneTeller_GiveReading:
 {
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     STZ $03
     
@@ -357,7 +357,7 @@ FortuneTeller_GiveReading:
     
     AND.b #$40 : ROL #3 : AND.b #$01 : TAY
     
-    LDA $0000, Y : TAY
+    LDA.w $0000, Y : TAY
     
     LDA .messages_low, Y        : XBA
     LDA .messages_high, Y : TAY : XBA
@@ -378,7 +378,7 @@ FortuneTeller_PopulateNextMessageSlot:
     ; slot, but never the first. However, the above logic pretty much
     ; guarantees that this subroutine is always called exactly twice per
     ; reading.
-    STA $0000, Y
+    STA.w $0000, Y
     
     INY : CPY.b #$02 : BCS .both_slots_filled
     
@@ -394,7 +394,7 @@ FortuneTeller_PopulateNextMessageSlot:
 ; $06C960-$06C975 LOCAL JUMP LOCATION
 LW_FortuneTeller_ShowCostMessage:
 {
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     REP #$20
     
@@ -403,7 +403,7 @@ LW_FortuneTeller_ShowCostMessage:
     STZ $04
     STZ $06
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     LDA FortuneTeller_Prices, Y
     
@@ -415,7 +415,7 @@ LW_FortuneTeller_ShowCostMessage:
 ; $06C976-$06C995 LOCAL JUMP LOCATION
 LW_FortuneTeller_DeductPayment:
 {
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     REP #$20
     
@@ -423,11 +423,11 @@ LW_FortuneTeller_DeductPayment:
     
     SEP #$30
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$A0 : STA.l $7EF372
     
-    STZ $02E4
+    STZ.w $02E4
     
     ; $06C995 ALTERNATE ENTRY POINT
     shared LW_FortuneTeller_DoNothing:
@@ -440,7 +440,7 @@ LW_FortuneTeller_DeductPayment:
 ; $06C996-$06C9AC JUMP LOCATION
 FortuneTeller_DarkWorld:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -459,21 +459,21 @@ FortuneTeller_DarkWorld:
 ; $06C9AD-$06C9D1 JUMP LOCATION
 DW_FortuneTeller_WaitForInquiry:
 {
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    JSL GetRandomInt : AND.b #$03 : ASL A : STA $0D90, X : TAY
+    JSL GetRandomInt : AND.b #$03 : ASL A : STA.w $0D90, X : TAY
     
     REP #$20
     
     LDA.l $7EF360 : CMP FortuneTeller_Prices, Y : SEP #$30 : BCS .has_enough
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .has_enough
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     RTS
 }
@@ -503,11 +503,11 @@ DW_FortuneTeller_AskIfPlayerWantsReading:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     .didnt_speak
     
@@ -519,13 +519,13 @@ DW_FortuneTeller_AskIfPlayerWantsReading:
 ; $06C9F3-$06CA1C JUMP LOCATION
 DW_FortuneTeller_ReactToPlayerResponse:
 {
-    LDA $1CE8 : BNE .player_said_no
+    LDA.w $1CE8 : BNE .player_said_no
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
@@ -538,9 +538,9 @@ DW_FortuneTeller_ReactToPlayerResponse:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }
@@ -558,7 +558,7 @@ DW_FortuneTeller_ShowCostMessage:
     STZ $04
     STZ $06
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     LDA FortuneTeller_Prices, Y
     
@@ -616,9 +616,9 @@ DW_FortuneTeller_ShowCostMessage:
     
     SEP #$30
     
-    LDA $00 : ASL #4 : ORA $02 : STA $1CF2
+    LDA $00 : ASL #4 : ORA $02 : STA.w $1CF2
     
-    LDA $06 : ASL #4 : ORA $04 : STA $1CF3
+    LDA $06 : ASL #4 : ORA $04 : STA.w $1CF3
     
     ; "Now I will take (amount) Rupees. (...) Yeehah ha hah!"
     LDA.b #$F4
@@ -626,7 +626,7 @@ DW_FortuneTeller_ShowCostMessage:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -636,7 +636,7 @@ DW_FortuneTeller_ShowCostMessage:
 ; $06CA81-$06CAA0 JUMP LOCATION
 DW_FortuneTeller_DeductPayment:
 {
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     REP #$20
     
@@ -644,11 +644,11 @@ DW_FortuneTeller_DeductPayment:
     
     SEP #$30
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$A0 : STA.l $7EF372
     
-    STZ $02E4
+    STZ.w $02E4
     
     ; $6CAA0
     shared DW_FortuneTeller_DoNothing:
@@ -686,7 +686,7 @@ FortuneTeller_Draw:
 {
     LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA $00
     
-    ASL A : ADC $00 : ADC $0DC0, X : ASL A : ADC $0DC0, X : ASL #3
+    ASL A : ADC $00 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
     ; $6CAA1
     ADC.b #(.oam_groups >> 0)              : STA $08
@@ -704,17 +704,17 @@ Dwarf_SpawnDwarfSolidity:
 {
     LDA.b #$31 : JSL Sprite_SpawnDynamically
     
-    LDA $00 : STA $0D10, Y
-    LDA $01 : STA $0D30, Y
+    LDA $00 : STA.w $0D10, Y
+    LDA $01 : STA.w $0D30, Y
     
-    LDA $02 : STA $0D00, Y
-    LDA $03 : STA $0D20, Y
+    LDA $02 : STA.w $0D00, Y
+    LDA $03 : STA.w $0D20, Y
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
-    LDA.b #$00 : STA $0F60, Y
+    LDA.b #$00 : STA.w $0F60, Y
     
-    LDA.b #$01 : STA $0BA0, Y
+    LDA.b #$01 : STA.w $0BA0, Y
     
     RTL
 }

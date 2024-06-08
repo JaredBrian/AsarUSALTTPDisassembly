@@ -26,17 +26,17 @@ Sprite_GargoyleGrate:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_near
     
-    LDA.b #$01 : STA $03F8 : STA $0D90, X
+    LDA.b #$01 : STA.w $03F8 : STA.w $0D90, X
     
     RTS
     
     .player_not_near
     
-    LDA $0D90, X : BEQ .dont_open
+    LDA.w $0D90, X : BEQ .dont_open
     
-    STZ $03F8
+    STZ.w $03F8
     
-    LDA $0308 : AND.b #$01 : BEQ .dont_open
+    LDA.w $0308 : AND.b #$01 : BEQ .dont_open
     
     LDA.b #$1F : JSL Sound_SetSfx2PanLong
     
@@ -48,13 +48,13 @@ Sprite_GargoyleGrate:
     
     JSR MedallionTablet_SpawnDustCloud
     
-    LDA $0D10, X : STA $0D10, Y
-    LDA $0D30, X : STA $0D30, Y
+    LDA.w $0D10, X : STA.w $0D10, Y
+    LDA.w $0D30, X : STA.w $0D30, Y
     
-    LDA $0D00, X : STA $0D00, Y
-    LDA $0D20, X : STA $0D20, Y
+    LDA.w $0D00, X : STA.w $0D00, Y
+    LDA.w $0D20, X : STA.w $0D20, Y
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_open
     

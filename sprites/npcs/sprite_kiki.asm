@@ -16,7 +16,7 @@
 ; $0F62EF-$0F62FD JUMP LOCATION
 Sprite_Kiki:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -34,13 +34,13 @@ Kiki_Fleeing:
     JSR Kiki_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0F70, X : BNE .in_air
+    LDA.w $0F70, X : BNE .in_air
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC.w #$0C98 : CMP.w #$00D0 : BCS .too_far_away
+    LDA.w $0FD8 : SEC : SBC.w #$0C98 : CMP.w #$00D0 : BCS .too_far_away
     
-    LDA $0FDA : SEC : SBC.w #$06A5 : CMP.w #$00D0 : BCS .too_far_away
+    LDA.w $0FDA : SEC : SBC.w #$06A5 : CMP.w #$00D0 : BCS .too_far_away
     
     LDA.w #$FFFF : STA $01
     
@@ -52,19 +52,19 @@ Kiki_Fleeing:
     ; \bug How is $03 relevant here? This seems well... not good.
     LDA $01 : ORA $03 : BEQ .dont_self_terminate_yet
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_self_terminate_yet
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
     JSR Sprite3_MoveXyz
     
-    LDA $0F70, X : BPL .no_ground_bounce
+    LDA.w $0F70, X : BPL .no_ground_bounce
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    JSL GetRandomInt : AND.b #$0F : ORA.b #$10 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$0F : ORA.b #$10 : STA.w $0F80, X
     
     .no_ground_bounce
     
@@ -76,11 +76,11 @@ Kiki_Fleeing:
     
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : ASL A : STA $0D40, X
+    LDA $00 : ASL A : STA.w $0D40, X
     
-    LDA $01 : ASL A : STA $0D50, X
+    LDA $01 : ASL A : STA.w $0D50, X
     
-    LDA $02F2 : AND.b #$FC : STA $02F2
+    LDA.w $02F2 : AND.b #$FC : STA.w $02F2
     
     LDA $00 : BPL .x_speed_positive
     
@@ -96,19 +96,19 @@ Kiki_Fleeing:
     
     CMP $00 : BCC .x_speed_larger
     
-    LDA $0D50, X : ROL #2 : AND.b #$01 : EOR.b #$03
+    LDA.w $0D50, X : ROL #2 : AND.b #$01 : EOR.b #$03
     
     BRA .animate
     
     .x_speed_larger
     
-    LDA $0D40, X : ROL #2 : AND.b #$01 : EOR.b #$01
+    LDA.w $0D40, X : ROL #2 : AND.b #$01 : EOR.b #$01
     
     .animate
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -117,7 +117,7 @@ Kiki_Fleeing:
 
 ; $0F63AF-$0F63E7 JUMP LOCATION
 {
-    LDA $0D80, X : DEC #2 : BMI .BRANCH_ALPHA
+    LDA.w $0D80, X : DEC #2 : BMI .BRANCH_ALPHA
     
     JSR Kiki_Draw
     
@@ -126,18 +126,18 @@ Kiki_Fleeing:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_MoveXyz
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .BRANCH_BETA
+    LDA.w $0F70, X : BPL .BRANCH_BETA
     
-    STZ $0F80, X
-    STZ $0F70, X
+    STZ.w $0F80, X
+    STZ.w $0F70, X
     
     .BRANCH_BETA
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -155,20 +155,20 @@ Kiki_Fleeing:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
 
 ; $0F63F4-$0F6432 JUMP LOCATION
 {
-    LDA $1CE8 : BNE .player_declined
+    LDA.w $1CE8 : BNE .player_declined
     
     LDA.b #$0A
     LDY.b #$00
     
     ; $0F739E IN ROM
-    JSR $F39E : BCC .cant_afford
+    JSR.w $F39E : BCC .cant_afford
     
     ; "Ki ki ki ki! Good choice! I will accompany you for a while..."
     LDA.b #$1F
@@ -176,9 +176,9 @@ Kiki_Fleeing:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA $02F2 : ORA.b #$03 : STA $02F2
+    LDA.w $02F2 : ORA.b #$03 : STA.w $02F2
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -191,20 +191,20 @@ Kiki_Fleeing:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA $02F2 : AND.b #$FC : STA $02F2
+    LDA.w $02F2 : AND.b #$FC : STA.w $02F2
     
     LDA.b #$00 : STA.l $7EF3CC
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    INC $02E4
+    INC.w $02E4
     
     RTS
 }
 
 ; $0F6433-$0F6464 JUMP LOCATION
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$F5 : STA $04
     LDA.b #$0C : STA $05
@@ -214,25 +214,25 @@ Kiki_Fleeing:
     
     LDA.b #$09 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
-    ASL A : ROL A : AND.b #$01 : EOR.b #$03 : STA $0DE0, X
+    ASL A : ROL A : AND.b #$01 : EOR.b #$03 : STA.w $0DE0, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
 }
 
 ; $0F6465-$0F6475 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$10 : STA $0F80, X
-                 STA $0DF0, X
+    LDA.b #$10 : STA.w $0F80, X
+                 STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
@@ -241,13 +241,13 @@ Kiki_Fleeing:
 
 ; $0F6476-$0F6486 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA $0F70, X : BNE .BRANCH_ALPHA
+    LDA.w $0F70, X : BNE .BRANCH_ALPHA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     .BRANCH_ALPHA
     
@@ -263,10 +263,10 @@ Kiki_LyingInWait:
     JSR Sprite3_CheckIfActive
     
     ; See if Link is a bunny.
-    LDA $02E0 : BNE .dont_appear
+    LDA.w $02E0 : BNE .dont_appear
     
     ; If Link is invincible don't show up either.
-    LDA $037B : ORA $031F : BNE .dont_appear
+    LDA.w $037B : ORA.w $031F : BNE .dont_appear
     
     ; If Kiki is already following you then do nothing.
     LDA.l $7EF3CC : CMP.b #$0A : BEQ .dont_appear
@@ -285,7 +285,7 @@ Kiki_LyingInWait:
     
     PHX
     
-    STZ $02F9
+    STZ.w $02F9
     
     JSL Tagalong_LoadGfx
     JSL Tagalong_Init
@@ -305,16 +305,16 @@ Kiki_LyingInWait:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_MoveXyz
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .BRANCH_ALPHA
+    LDA.w $0F70, X : BPL .BRANCH_ALPHA
     
-    STZ $0F80, X
-    STZ $0F70, X
+    STZ.w $0F80, X
+    STZ.w $0F70, X
     
     .BRANCH_ALPHA
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -338,14 +338,14 @@ Kiki_LyingInWait:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
 
 ; $0F6509-$0F6536 JUMP LOCATION
 {
-    LDA $1CE8 : BEQ .player_agreed
+    LDA.w $1CE8 : BEQ .player_agreed
     
     .cant_afford
     
@@ -354,7 +354,7 @@ Kiki_LyingInWait:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$03 : STA $0E80, X
+    LDA.b #$03 : STA.w $0E80, X
     
     RTS
     
@@ -364,18 +364,18 @@ Kiki_LyingInWait:
     LDY.b #$00
     
     ; $0F739E IN ROM
-    JSR $F39E : BCC .cant_afford
+    JSR.w $F39E : BCC .cant_afford
     
     LDA.b #$1D
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $02E4
+    INC.w $02E4
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0DE0, X
+    STZ.w $0DE0, X
     
     RTS
 }
@@ -393,23 +393,23 @@ Kiki_LyingInWait:
 
 ; $0F6539-$0F6575 JUMP LOCATION
 {
-    LDA $0E00, X : BNE .BRANCH_ALPHA
+    LDA.w $0E00, X : BNE .BRANCH_ALPHA
     
-    LDA $0D80, X : INC $0D80, X : LSR A : AND.b #$01 : TAY
+    LDA.w $0D80, X : INC.w $0D80, X : LSR A : AND.b #$01 : TAY
     
-    LDA .jump_heights, Y : STA $0F80, X
+    LDA .jump_heights, Y : STA.w $0F80, X
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
-    LDA $0D80, X : LSR A : AND.b #$01 : ORA.b #$04 : STA $0DE0, X
+    LDA.w $0D80, X : LSR A : AND.b #$01 : ORA.b #$04 : STA.w $0DE0, X
     
     RTS
     
     .BRANCH_ALPHA
     
-    LDA $0D80, X : LSR A : AND.b #$01 : ORA.b #$06 : STA $0DE0, X
+    LDA.w $0D80, X : LSR A : AND.b #$01 : ORA.b #$06 : STA.w $0DE0, X
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -429,20 +429,20 @@ Kiki_LyingInWait:
 
 ; $0F6582-$0F65E8 JUMP LOCATION
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0D80, X : SEC : SBC.b #$02 : TAY
+    LDA.w $0D80, X : SEC : SBC.b #$02 : TAY
     
-    LDA.w $E57C, Y : SEC : SBC $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
+    LDA.w $E57C, Y : SEC : SBC.w $0D10, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
     
-    LDA.w $E576, Y : SEC : SBC $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
+    LDA.w $E576, Y : SEC : SBC.w $0D00, X : CLC : ADC.b #$02 : CMP.b #$04 : BCS .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0D40, X
-    STZ $0D50, X
+    STZ.w $0D40, X
+    STZ.w $0D50, X
     
-    LDA.b #$20 : STA $0E00, X
+    LDA.b #$20 : STA.w $0E00, X
     
     LDA.b #$21 : JSL Sound_SetSfx2PanLong
     
@@ -458,9 +458,9 @@ Kiki_LyingInWait:
     
     LDA.b #$09 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     RTS
 }
@@ -481,27 +481,27 @@ Kiki_LyingInWait:
 
 ; $0F65EE-$0F663F JUMP LOCATION
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0F70, X : BNE .BRANCH_ALPHA
+    LDA.w $0F70, X : BNE .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA $0D90, X : TAY
+    LDA.w $0D90, X : TAY
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     LDA .directions, Y : BMI .BRANCH_BETA
     
-    PHA : STA $0DE0, X
+    PHA : STA.w $0DE0, X
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
     PLA : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     .BRANCH_ALPHA
     
@@ -509,43 +509,43 @@ Kiki_LyingInWait:
     
     .BRANCH_BETA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
-    LDA.b #$01 : STA $04C6
+    LDA.b #$01 : STA.w $04C6
     
     STZ $B0
     STZ $C8
     
-    STZ $0DE0, X
+    STZ.w $0DE0, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }
 
 ; $0F6640-$0F6656 JUMP LOCATION
 {
-    LDA.b #$08 : STA $0DE0, X
+    LDA.b #$08 : STA.w $0DE0, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0F80, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
 
 ; $0F6657-$0F666A JUMP LOCATION
 {
-    LDA $0F80, X : BPL .BRANCH_ALPHA
+    LDA.w $0F80, X : BPL .BRANCH_ALPHA
     
-    LDA $0F70, X : BNE .BRANCH_ALPHA
+    LDA.w $0F70, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$25 : JSL Sound_SetSfx3PanLong
     
@@ -563,7 +563,7 @@ Kiki_InitiatePalaceOpeningProposal:
 {
     JSR Kiki_TransitionFromTagalong
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
     LDA.b #$00 : STA.l $7EF3CC
     
@@ -583,18 +583,18 @@ Kiki_TransitionFromTagalong:
     
     TAX
     
-    LDA $1A64, X : AND.b #$03 : STA $0EB0, Y : STA $0DE0, Y
+    LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y : STA.w $0DE0, Y
     
-    LDA $1A00, X : CLC : ADC.b #$02 : STA $0D00, Y
-    LDA $1A14, X : ADC.b #$00 : STA $0D20, Y
+    LDA.w $1A00, X : CLC : ADC.b #$02 : STA.w $0D00, Y
+    LDA.w $1A14, X : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA $1A28, X : CLC : ADC.b #$02 : STA $0D10, Y
-    LDA $1A3C, X : ADC.b #$00 : STA $0D30, Y
+    LDA.w $1A28, X : CLC : ADC.b #$02 : STA.w $0D10, Y
+    LDA.w $1A3C, X : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $EE    : STA $0F20, Y
+    LDA $EE    : STA.w $0F20, Y
     
-    LDA.b #$01 : STA $0BA0, Y
-    INC A      : STA $0F20, Y
+    LDA.b #$01 : STA.w $0BA0, Y
+    INC A      : STA.w $0F20, Y
     
     STZ $5E
     
@@ -616,7 +616,7 @@ Kiki_InitiateFirstBeggingSequence:
 {
     JSR Kiki_TransitionFromTagalong
     
-    LDA.b #$02 : STA $0E80, Y
+    LDA.b #$02 : STA.w $0E80, Y
     
     RTL
 }
@@ -628,11 +628,11 @@ Kiki_AbandonDamagedPlayer:
 {
     JSR Kiki_TransitionFromTagalong
     
-    LDA.b #$01 : STA $0F70, Y
+    LDA.b #$01 : STA.w $0F70, Y
     
-    LDA.b #$10 : STA $0F80, Y
+    LDA.b #$10 : STA.w $0F80, Y
     
-    LDA.b #$03 : STA $0E80, Y
+    LDA.b #$03 : STA.w $0E80, Y
        
     LDA.b #$00 : STA.l $7EF3CC
     
@@ -702,12 +702,12 @@ Pool_Kiki_Draw:
 Kiki_Draw:
 {
     ; \task Figure out the symantics of $0DE0 for this sprite.
-    LDA $0DE0, X : CMP.b #$08 : BCS .unknown
+    LDA.w $0DE0, X : CMP.b #$08 : BCS .unknown
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL A : TAY
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL A : TAY
     
-    LDA .source_offsets + 0, Y : STA $0AE8
-    LDA .source_offsets + 1, Y : STA $0AEA
+    LDA .source_offsets + 0, Y : STA.w $0AE8
+    LDA .source_offsets + 1, Y : STA.w $0AEA
     
     TYA : ASL #3
     
@@ -716,7 +716,7 @@ Kiki_Draw:
     
     LDA.b #$02 : JSR Sprite3_DrawMultiple
     
-    LDA $0F00, X : BNE .paused
+    LDA.w $0F00, X : BNE .paused
     
     JSL Sprite_DrawShadowLong
     
@@ -726,7 +726,7 @@ Kiki_Draw:
     
     .unknown
     
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups_2 >> 0)              : STA $08
     LDA.b #(.oam_groups_2 >> 8) : ADC.b #$00 : STA $09
@@ -735,7 +735,7 @@ Kiki_Draw:
     
     JSR Sprite3_DrawMultiple
     
-    LDA $0F00, X : BNE .paused_2
+    LDA.w $0F00, X : BNE .paused_2
     
     JSL Sprite_DrawShadowLong
     

@@ -23,7 +23,7 @@ Sprite_TroughBoy:
     JSL Sprite_PlayerCantPassThrough
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA.l $7EF3C7 : CMP.b #$03 : BCS .player_met_sahasralah
     
@@ -77,7 +77,7 @@ TroughBoy_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DE0, X : ASL #4
+    LDA.w $0DE0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09

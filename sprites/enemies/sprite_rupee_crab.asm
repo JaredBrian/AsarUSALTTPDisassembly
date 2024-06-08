@@ -31,7 +31,7 @@ Pool_Sprite_RupeeCrab:
 ; $03286C-$03291C JUMP LOCATION
 Sprite_CoveredRupeeCrab:
 {
-    LDA $0D80, X : BEQ .still_covered
+    LDA.w $0D80, X : BEQ .still_covered
     
     JMP Sprite_RupeeCrab
     
@@ -40,24 +40,24 @@ Sprite_CoveredRupeeCrab:
     JSR CoveredRupeeCrab_Draw
     JSR Sprite_CheckIfActive
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     JSR Sprite_DirectionToFacePlayer
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
     LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .BRANCH_GAMMA
     LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .BRANCH_GAMMA
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .BRANCH_BETA
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA $0E70, X : BNE .tile_collision
+    LDA.w $0E70, X : BNE .tile_collision
     
     JSR Sprite_Move
     
@@ -66,14 +66,14 @@ Sprite_CoveredRupeeCrab:
     JSR Sprite_CheckTileCollision
     JSR Sprite_CheckDamageFromPlayer
     
-    INC $0E80, X : LDA $0E80, X : LSR A : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
     ; The only real alternative is probably a bush covered crab.
-    LDA $0E20, X : CMP.b #$3E : BNE .not_rock_covered_crab
+    LDA.w $0E20, X : CMP.b #$3E : BNE .not_rock_covered_crab
     
     ; can't pick up the rock off of the crab...
     LDA.l $7EF354 : CMP.b #$01 : BCC .puny_girly_man
@@ -84,33 +84,33 @@ Sprite_CoveredRupeeCrab:
     
     .puny_girly_man
     
-    LDA $0DD0, X : CMP.b #$09 : BEQ .sprite_still_active
+    LDA.w $0DD0, X : CMP.b #$09 : BEQ .sprite_still_active
     
     LDA.b #$01
     
-    LDY $0E20, X : CPY.b #$17 : BNE .BRANCH_IOTA
+    LDY.w $0E20, X : CPY.b #$17 : BNE .BRANCH_IOTA
     
     INC A
     
     .BRANCH_IOTA
     
-    STA $0DB0, X
+    STA.w $0DB0, X
     
-    LDA.b #$EC : STA $0E20, X
+    LDA.b #$EC : STA.w $0E20, X
     
-    LSR $0F50, X : ASL $0F50, X
+    LSR.w $0F50, X : ASL.w $0F50, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     LDA.b #$3E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $0E40, Y : ASL A : LSR A : STA $0E40, Y
+    LDA.w $0E40, Y : ASL A : LSR A : STA.w $0E40, Y
     
-    LDA.b #$80 : STA $0E10, Y
+    LDA.b #$80 : STA.w $0E10, Y
     
-    LDA.b #$09 : STA $0F50, Y : STA $0D80, Y
+    LDA.b #$09 : STA.w $0F50, Y : STA.w $0D80, Y
     
     .spawn_failed
     .sprite_still_active
@@ -128,27 +128,27 @@ Sprite_RupeeCrab:
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_CheckDamageFromPlayer
     
-    LDA $0E10, X : BNE .BRANCH_ALPHA
+    LDA.w $0E10, X : BNE .BRANCH_ALPHA
     
     JSR Sprite_CheckDamageToPlayer
     
     .BRANCH_ALPHA
     
-    INC $0E80, X : LDA $0E80, X : LSR A : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA $AA08, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.w $AA08, Y : STA.w $0F50, X
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
-    LDA.b #$10 : STA $0F10, X
+    LDA.b #$10 : STA.w $0F10, X
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     BRA .dont_move
     
@@ -160,23 +160,23 @@ Sprite_RupeeCrab:
     
     JSR Sprite_CheckTileCollision
     
-    LDA $0F10, X : BNE .BRANCH_DELTA
+    LDA.w $0F10, X : BNE .BRANCH_DELTA
     
     TXA : EOR $1A : AND.b #$1F : BNE .BRANCH_DELTA
     
     LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0D40, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA $01 : EOR.b #$FF : INC A : STA $0D50, X
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
     .BRANCH_DELTA
     
     LDA $1A : AND.b #$01 : BNE .BRANCH_EPSILON
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
-    LDA $0ED0, X : CMP.b #$C0 : BNE .BRANCH_ZETA
+    LDA.w $0ED0, X : CMP.b #$C0 : BNE .BRANCH_ZETA
     
     LDA.b #$0F : JSR Sprite_CustomTimedScheduleForBreakage
     
@@ -186,11 +186,11 @@ Sprite_RupeeCrab:
     
     .BRANCH_ZETA
     
-    LDA $0ED0, X : AND.b #$0F : BNE .BRANCH_EPSILON
+    LDA.w $0ED0, X : AND.b #$0F : BNE .BRANCH_EPSILON
     
     LDY.b #$00
     
-    LDA $0EB0, X : CMP.b #$06 : BNE .spawn_green_rupee
+    LDA.w $0EB0, X : CMP.b #$06 : BNE .spawn_green_rupee
     
     LDA.b #$DB : BRA .red_rupee
     
@@ -202,16 +202,16 @@ Sprite_RupeeCrab:
     
     JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
         
-    INC $0EB0, X
+    INC.w $0EB0, X
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$08 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA.b #$20 : STA $0F80, Y
+    LDA.b #$20 : STA.w $0F80, Y
     
-    LDA.b #$10 : STA $0F10, Y
+    LDA.b #$10 : STA.w $0F10, Y
     
     PHX
     
@@ -219,9 +219,9 @@ Sprite_RupeeCrab:
     
     LDA.b #$10 : JSR Sprite_ApplySpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : STA $0D40, X
+    LDA $00 : EOR.b #$FF : STA.w $0D40, X
     
-    LDA $01 : EOR.b #$FF : STA $0D50, X
+    LDA $01 : EOR.b #$FF : STA.w $0D50, X
     
     PLX
     
@@ -288,17 +288,17 @@ CoveredRupeeCrab_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
     STZ $07
     
-    LDA $0E20, X : CMP.b #$17 : BNE .under_rock
+    LDA.w $0E20, X : CMP.b #$17 : BNE .under_rock
     
     LDA.b #$02 : STA $07
     
     .under_rock
     
-    LDA $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA $06
     
     PHX
     

@@ -21,9 +21,9 @@ Sprite_DialogueTester:
     
     ; Next set up the graphics state for next frame?
     
-    LDA $0D90, X : AND.b #$03 : STA $0DE0, X
+    LDA.w $0D90, X : AND.b #$03 : STA.w $0DE0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -38,20 +38,20 @@ Sprite_DialogueTester:
 DialogueTester_Initialize:
 {
     ; Set it to the 0th text message
-    STZ $0D90, X
-    STZ $0DA0, X
+    STZ.w $0D90, X
+    STZ.w $0DA0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; $0F6B0C ALTERNATE ENTRY POINT
     shared DialogueTester_ShowMessage:
     
-    LDA $0D90, X
-    LDY $0DA0, X
+    LDA.w $0D90, X
+    LDY.w $0DA0, X
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .didnt_speak
     
@@ -64,11 +64,11 @@ DialogueTester_Initialize:
 DialogueTester_IncrementMessageIndex:
 {
     ; Move to the next message
-    LDA $0D90, X : CLC : ADC.b #$01 : STA $0D90, X
+    LDA.w $0D90, X : CLC : ADC.b #$01 : STA.w $0D90, X
     
-    LDA $0DA0, X : ADC.b #$00 : STA $0DA0, X
+    LDA.w $0DA0, X : ADC.b #$00 : STA.w $0DA0, X
     
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     RTS
 }

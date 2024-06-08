@@ -4,7 +4,7 @@
 ; $0F6EEF-$0F6F11 JUMP LOCATION
 Sprite_ShopKeeper:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -26,39 +26,39 @@ Sprite_ShopKeeper:
 
 ; $0F6F12-$0F6F6C JUMP LOCATION
 {
-    LDA $0FFF : BEQ .in_light_world
+    LDA.w $0FFF : BEQ .in_light_world
     
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
-    LDA $0F50, X : AND.b #$3F : STA $00
+    LDA.w $0F50, X : AND.b #$3F : STA $00
     
-    LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA $0F50, X
+    LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA.w $0F50, X
     
     .BRANCH_BETA
     
     JSL Sprite_PlayerCantPassThrough
     
-    LDY $0FFF
+    LDY.w $0FFF
     
     LDA.w $EF69, Y       : XBA
     LDA.w $EF6B, Y : TAY : XBA
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    LDA $0D80, X : BEQ .BRANCH_F6F6D
+    LDA.w $0D80, X : BEQ .BRANCH_F6F6D
     
     BRA .BRANCH_F6F8F ; (RTS)
     
     .in_light_world
     
-    LDA.b #$07 : STA $0F50, X
+    LDA.b #$07 : STA.w $0F5050, X
     
     JSL Shopkeeper_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0C0, X
     
     BRA .BRANCH_BETA
     
@@ -75,16 +75,16 @@ Sprite_ShopKeeper:
 {
     REP #$20
     
-    LDA $0FDA : CLC : ADC.w #$0060 : CMP $20 : SEP #$30 : BCC .BRANCH_ALPHA
+    LDA.w $0FDADA : CLC : ADC.w #$0060 : CMP $20 : SEP #$30 : BCC .BRANCH_ALPHA
     
-    LDY $0FFF
+    LDY.w $0FFFFF
     
     LDA.w $EF69, Y       : XBA
     LDA.w $EF6B, Y : TAY : XBA
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D8080, X
     
     .BRANCH_ALPHA
     
@@ -98,11 +98,11 @@ Sprite_ShopKeeper:
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0F50, X : AND.b #$3F : STA $00
+    LDA.w $0F5050, X : AND.b #$3F : STA $00
     
-    LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA $0F50, X
+    LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA.w $0F50, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -113,14 +113,14 @@ Sprite_ShopKeeper:
 
 ; $0F6FBF-$0F6FD4 JUMP LOCATION
 {
-    LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
+    LDA.w $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
     
     LDA.b #$60
     LDY.b #$01
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -129,21 +129,21 @@ Sprite_ShopKeeper:
 
 ; $0F6FD5-$0F6FFF JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8 : BNE .BRANCH_ALPHA
     
     LDA.b #$1E
     LDY.b #$00
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_ALPHA
     
-    LDA.b #$02 : STA $04C4
+    LDA.b #$02 : STA.w $04C4
     
     LDA.b #$64
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -154,14 +154,14 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
 
 ; $0F7000-$0F7016 JUMP LOCATION
 {
-    LDA $04C4 : BNE .BRANCH_ALPHA
+    LDA.w $04C4 : BNE .BRANCH_ALPHA
     
     LDA.b #$63
     LDY.b #$01
@@ -184,7 +184,7 @@ Sprite_ShopKeeper:
 {
     LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -194,7 +194,7 @@ Sprite_ShopKeeper:
     
     .BRANCH_BETA
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
     .BRANCH_ALPHA
     
@@ -206,11 +206,11 @@ Sprite_ShopKeeper:
 
 ; $0F7038-$0F704E JUMP LOCATION
 {
-    JSR $F017 ; $0F7017 IN ROM
+    JSR.w $F017 ; $0F7017 IN ROM
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -226,7 +226,7 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -235,18 +235,18 @@ Sprite_ShopKeeper:
 
 ; $0F705D-$0F7077 JUMP LOCATION
 {
-    LDA $0403 : AND.b #$40 : BNE .BRANCH_ALPHA
+    LDA.w $0403 : AND.b #$40 : BNE .BRANCH_ALPHA
     
-    LDA $0403 : ORA.b #$40 : STA $0403
+    LDA.w $0403 : ORA.b #$40 : STA.w $0403
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDY.b #$46 : JMP $F366 ; $0F7366 IN ROM
+    LDY.b #$46 : JMP.w $F366 ; $0F7366 IN ROM
     
     ; $0F7074 ALTERNATE ENTRY PONT
     .BRANCH_ALPHA
     
-    STZ $0D80, X
+    STZ.w $0D8080, X
     
     RTS
 }
@@ -255,15 +255,15 @@ Sprite_ShopKeeper:
 {
     JSR Sprite3_DirectionToFacePlayer
     
-    TYA : EOR.b #$03 : STA $0DE0, X
+    TYA : EOR.b #$03 : STA.w $0DE0, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     JSL MazeGameGuy_Draw
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -274,7 +274,7 @@ Sprite_ShopKeeper:
 
 ; $0F709C-$0F70B1 JUMP LOCATION
 {
-    LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
+    LDA.w $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_ALPHA
     
     ; "Pay me 20 Rupees and I'll let you open one chest. ...
     LDA.b #$7E
@@ -282,7 +282,7 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -291,21 +291,21 @@ Sprite_ShopKeeper:
 
 ; $0F70B2-$0F70DC JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8E8 : BNE .BRANCH_ALPHA
     
     LDA.b #$14
     LDY.b #$00
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_ALPHA
     
-    LDA.b #$01 : STA $04C4
+    LDA.b #$01 : STA.w $04C4
     
     LDA.b #$7F
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -316,7 +316,7 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -335,7 +335,7 @@ Sprite_ShopKeeper:
 
 ; $0F70E1-$0F70F2 JUMP LOCATION
 {
-    LDA $04C4 : TAY
+    LDA.w $04C4 : TAY
     
     ; \bug Maybe? Don't see how the second message could ever occur so far.
     LDA.w $F0DD, Y       : XBA
@@ -348,11 +348,11 @@ Sprite_ShopKeeper:
 
 ; $0F70F3-$0F7109 JUMP LOCATION
 {
-    JSR $F017 ; $0F7017 IN ROM
+    JSR.w $F017 ; $0F7017 IN ROM
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -364,7 +364,7 @@ Sprite_ShopKeeper:
 ; $0F710A-$0F711F JUMP LOCATION
 {
     ; \bug Maybe? More like unnecessary given the structure of the minigame?
-    LDA $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_$F70B1 ; (RTS)
+    LDA.w $04C4 : DEC A : CMP.b #$02 : BCC .BRANCH_$F70B1 ; (RTS)
     
     ; "For 100 Rupees, I'll let you open one chest and keep the treasure..."
     LDA.b #$81
@@ -372,7 +372,7 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .didnt_speak
     
@@ -381,14 +381,14 @@ Sprite_ShopKeeper:
 
 ; $0F7120-$0F714A JUMP LOCATION
 {
-    LDA $1CE8 : BNE .player_declined
+    LDA.w $1CE8 : BNE .player_declined
     
     LDA.b #$64
     LDY.b #$00
     
     JSR ShopKeeper_TryToGetPaid : BCC .cant_afford
     
-    LDA.b #$01 : STA $04C4
+    LDA.b #$01 : STA.w $04C4
     
     ; "All right! Open the chest you like!"
     LDA.b #$7F
@@ -396,7 +396,7 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -409,7 +409,7 @@ Sprite_ShopKeeper:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -427,11 +427,11 @@ Sprite_ShopKeeper:
 
 ; $0F714F-$0F716D JUMP LOCATION
 {
-    JSR $F017   ; $0F7017 IN ROM
+    JSR.w $F017   ; $0F7017 IN ROM
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0E80, X : SEC : SBC.b #$05 : TAY
+    LDA.w $0E80, X : SEC : SBC.b #$05 : TAY
     
     LDA.w $F14B, Y : XBA
     LDA.w $F14D, Y : TAY : XBA
@@ -457,9 +457,9 @@ Sprite_ShopKeeper:
     
     JSR ShopKeeper_TryToGetPaid : BCC .player_cant_afford
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$2E : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$2E : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -471,7 +471,7 @@ Sprite_ShopKeeper:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A ; $0F738A IN ROM
+    JSR.w $F38A ; $0F738A IN ROM
     
     RTS
     
@@ -482,7 +482,7 @@ Sprite_ShopKeeper:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A ; $0F738A IN ROM
+    JSR.w $F38A ; $0F738A IN ROM
     
     RTS
 }
@@ -508,17 +508,17 @@ ShopKeeper_SpawnInventoryItem:
     
     JSL Sprite_SpawnDynamically.arbitrary
     
-    PLA : STA $0E80, Y : STA $0BA0, Y
+    PLA : STA.w $0E80, Y : STA.w $0BA0, Y
     
     PLA : PHX : ASL A : TAX
     
-    LDA $00 : CLC : ADC.l .x_offsets + 0, X : STA $0D10, Y
-    LDA $01 : ADC.l .x_offsets + 1, X : STA $0D30, Y
+    LDA $00 : CLC : ADC.l .x_offsets + 0, X : STA.w $0D10, Y
+    LDA $01 : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$27 : STA $0D00, Y
-    LDA $03              : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$27 : STA.w $0D00, Y
+    LDA $03              : STA.w $0D20, Y
     
-    LDA $0E40, Y : ORA.b #$04 : STA $0E40, Y
+    LDA.w $0E40, Y : ORA.b #$04 : STA.w $0E40, Y
     
     PLX
     
@@ -532,7 +532,7 @@ ShopKeeper_SpawnInventoryItem:
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
-    JSR $F261 ; $0F7261 IN ROM
+    JSR.w $F261 ; $0F7261 IN ROM
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
@@ -543,13 +543,13 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$04 : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$04 : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
-    LDA.b #$1C : STA $0F60, X
+    LDA.b #$1C : STA.w $0F60, X
     
     RTS
     
@@ -562,14 +562,14 @@ ShopKeeper_SpawnInventoryItem:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A   ; $0F738A IN ROM
+    JSR.w $F38A   ; $0F738A IN ROM
     
     RTS
     
     ; $0F722D ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $0F71A1 IN ROM
+    JMP.w $F1A1 ; $0F71A1 IN ROM
 }
 
 ; $0F7230-$0F7260 JUMP LOCATION
@@ -577,7 +577,7 @@ ShopKeeper_SpawnInventoryItem:
     JSR ShopKeeper_DrawItemWithPrice
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
-    JSR $F261   ; $0F7261 IN ROM
+    JSR.w $F261   ; $0F7261 IN ROM
     
     JSR ShopKeeper_CheckPlayerSolicitedDamage : BCC .BRANCH_ALPHA
     
@@ -588,13 +588,13 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_$F722D
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$05 : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$05 : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
-    LDA.b #$1C : STA $0F60, X
+    LDA.b #$1C : STA.w $0F60, X
     
     RTS
 }
@@ -603,17 +603,17 @@ ShopKeeper_SpawnInventoryItem:
 
 ; $0F7261-$0F727C LOCAL JUMP LOCATION
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    LDA.b #$08 : STA $0B6B, X
+    LDA.b #$08 : STA.w $0B6B, X
     
-    LDA.b #$04 : STA $0CAA, X
+    LDA.b #$04 : STA.w $0CAA, X
     
-    LDA.b #$1C : STA $0F60, X
+    LDA.b #$1C : STA.w $0F60, X
     
     JSL Sprite_CheckDamageFromPlayerLong
     
-    LDA.b #$0A : STA $0F60, X
+    LDA.b #$0A : STA.w $0F60, X
     
     RTS
 }
@@ -635,9 +635,9 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$42 : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$42 : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -645,13 +645,13 @@ ShopKeeper_SpawnInventoryItem:
     
     .BRANCH_BETA
     
-    JSR $F38A ; $0F738A IN ROM
+    JSR.w $F38A ; $0F738A IN ROM
     
     RTS
     
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $0F71A1 IN ROM
+    JMP.w $F1A1 ; $0F71A1 IN ROM
 }
 
 ; $0F72AF-$0F72EF JUMP LOCATION
@@ -676,9 +676,9 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$44 : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$44 : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -691,14 +691,14 @@ ShopKeeper_SpawnInventoryItem:
     LDY.b #$01
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
-    JSR $F38A   ; $0F738A IN ROM
+    JSR.w $F38A   ; $0F738A IN ROM
     
     RTS
     
     ; $0F72ED ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $0F71A1 IN ROM
+    JMP.w $F1A1 ; $0F71A1 IN ROM
 }
 
 ; $0F72F0-$0F7321 JUMP LOCATION
@@ -724,9 +724,9 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_$F72ED
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$31 : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$31 : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -748,9 +748,9 @@ ShopKeeper_SpawnInventoryItem:
     
     JSR ShopKeeper_TryToGetPaid : BCC .BRANCH_GAMMA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDY.b #$0E : JSR $F366 ; $0F7366 IN ROM
+    LDY.b #$0E : JSR.w $F366 ; $0F7366 IN ROM
     
     .BRANCH_ALPHA
     
@@ -762,13 +762,13 @@ ShopKeeper_SpawnInventoryItem:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A   ; $0F738A IN ROM
+    JSR.w $F38A   ; $0F738A IN ROM
     
     RTS
     
     .BRANCH_GAMMA
     
-    JMP $F1A1 ; $0F71A1 IN ROM
+    JMP.w $F1A1 ; $0F71A1 IN ROM
 }
 
 ; ==============================================================================
@@ -788,7 +788,7 @@ ShopKeeper_SpawnInventoryItem:
 {
     ; Subroutine grants the player an item parameterized by the A register.
     
-    STZ $02E9
+    STZ.w $02E9
     
     PHX
     
@@ -796,7 +796,7 @@ ShopKeeper_SpawnInventoryItem:
     
     PLX
     
-    LDA $0E80, X : SEC : SBC.b #$07 : BMI .BRANCH_ALPHA
+    LDA.w $0E80, X : SEC : SBC.b #$07 : BMI .BRANCH_ALPHA
     
     TAY
     
@@ -916,7 +916,7 @@ Pool_ShopKeeper_DrawItemWithPrice:
 ; $0F74CE-$0F74F2 LOCAL JUMP LOCATION
 ShopKeeper_DrawItemWithPrice:
 {
-    LDA $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA $00
+    LDA.w $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA $00
                                            ASL #2       : ADC $00 : ASL #3
     
     ADC.w #.oam_groups : STA $08

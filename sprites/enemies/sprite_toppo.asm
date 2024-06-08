@@ -6,9 +6,9 @@ Sprite_Toppo:
 {
     ; Asshole bunny
     
-    LDA $0D80, X : BEQ .not_visible
+    LDA.w $0D80, X : BEQ .not_visible
     
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSR Toppo_Draw
     
@@ -16,7 +16,7 @@ Sprite_Toppo:
     
     JSR Sprite2_CheckIfActive
     
-    LDA $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
     
     ; Hidden table! gah!!!
     LDA .states, Y : DEC A : PHA
@@ -57,19 +57,19 @@ Pool_Toppo_PickNextGrassPlot:
 ; $02BAC6-$02BB00 JUMP LOCATION
 Toppo_PickNextGrassPlot:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $0D90, X : CLC : ADC .x_offsets_low,  Y : STA $0D10, X
-    LDA $0DA0, X : ADC .x_offsets_high, Y : STA $0D30, X
+    LDA.w $0D90, X : CLC : ADC .x_offsets_low,  Y : STA.w $0D10, X
+    LDA.w $0DA0, X : ADC .x_offsets_high, Y : STA.w $0D30, X
     
-    LDA $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA $0D00, X
-    LDA $0EB0, X : ADC .y_offsets_high, Y : STA $0D20, X
+    LDA.w $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA.w $0D00, X
+    LDA.w $0EB0, X : ADC .y_offsets_high, Y : STA.w $0D20, X
     
     .delay
     
@@ -81,17 +81,17 @@ Toppo_PickNextGrassPlot:
 ; $02BB01-$02BB19 JUMP LOCATION
 Toppo_ChillBeforeJump:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     RTS
     
     .delay
     
-    LSR #2 : AND.b #$01 : STA $0DC0, X
+    LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     JSR Toppo_CheckLandingSiteForGrass
     
@@ -103,15 +103,15 @@ Toppo_ChillBeforeJump:
 ; $02BB1A-$02BB2F JUMP LOCATION
 Toppo_WaitThenJump:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$40 : STA $0F80, X
+    LDA.b #$40 : STA.w $0F80, X
     
     .delay
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     JSR Toppo_CheckLandingSiteForGrass
     
@@ -127,15 +127,15 @@ Toppo_RiseAndFall:
     JSR Sprite2_MoveAltitude
     
     ; Simulate gravity.
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .delay
+    LDA.w $0F70, X : BPL .delay
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     JSR Toppo_CheckLandingSiteForGrass
     
@@ -149,17 +149,17 @@ Toppo_RiseAndFall:
 ; $02BB53-$02BB6C JUMP LOCATION
 Toppo_ChillAfterJump:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     BRA .moving_on
     
     .delay
     
-    LSR #2 : AND.b #$01 : STA $0DC0, X
+    LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     .moving_on
     
@@ -183,15 +183,15 @@ Toppo_FlusteredTrampoline:
 ; $02BB72-$02BB95 LOCAL JUMP LOCATION
 Toppo_CheckLandingSiteForGrass:
 {
-    LDA $0D00, X : STA $00
-    LDA $0D20, X : STA $01
+    LDA.w $0D00, X : STA $00
+    LDA.w $0D20, X : STA $01
     
-    LDA $0D10, X : STA $02
-    LDA $0D30, X : STA $03
+    LDA.w $0D10, X : STA $02
+    LDA.w $0D30, X : STA $03
     
     LDA.b #$00 : JSL Entity_GetTileAttr : CMP.b #$40 : BEQ .is_thick_grass
     
-    LDA.b #$05 : STA $0D80, X
+    LDA.b #$05 : STA.w $0D80, X
     
     .is_thick_grass
     
@@ -213,10 +213,10 @@ Toppo_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0D00, X : SEC : SBC $E8 : STA $06
-    LDA $0D20, X : SEC : SBC $E9 : STA $07
+    LDA.w $0D00, X : SEC : SBC $E8 : STA $06
+    LDA.w $0D20, X : SEC : SBC $E9 : STA $07
     
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $08
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA $08
     
     PHX
     
@@ -232,7 +232,7 @@ Toppo_Draw:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $BB96, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $BB96, X : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
@@ -248,7 +248,7 @@ Toppo_Draw:
     
     .alpha
     
-    CLC : ADC $BBB4, X : INY : STA ($90), Y
+    CLC : ADC.w $BBB4, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .beta
     

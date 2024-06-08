@@ -6,7 +6,7 @@ Sprite_Armos:
 {
     JSR Armos_Draw
     
-    LDA $0EA0, X : BEQ .not_recoiling
+    LDA.w $0EA0, X : BEQ .not_recoiling
     
     JSR Sprite2_ZeroVelocity
     
@@ -15,36 +15,36 @@ Sprite_Armos:
     JSR Sprite2_CheckIfActive
     JSR Sprite2_MoveAltitude
     
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .beta
+    LDA.w $0F70, X : BPL .beta
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
     JSR Sprite2_ZeroVelocity
     
     .beta
     
-    LDA $0D80, X : BEQ .gamma
+    LDA.w $0D80, X : BEQ .gamma
     
     JMP .active
     
     .gamma
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
-    LDY $0DF0, X : CPY.b #$01 : BNE .delta
+    LDY.w $0DF0, X : CPY.b #$01 : BNE .delta
     
-    AND.b #$BF : STA $0E60, X
+    AND.b #$BF : STA.w $0E60, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    ASL $0E40, X : LSR $0E40, X
+    ASL.w $0E40, X : LSR.w $0E40, X
     
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
-    LDA.b #$0B : STA $0F50, X
+    LDA.b #$0B : STA.w $0F50, X
     
     RTS
     
@@ -54,15 +54,15 @@ Sprite_Armos:
     
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
     
-    LDA $20 : CLC : ADC.w #$0008 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
+    LDA $20 : CLC : ADC.w #$0008 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
     
     SEP #$20
     
-    LDA $0DF0, X : BNE .epsilon
+    LDA.w $0DF0, X : BNE .epsilon
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
@@ -77,9 +77,9 @@ Sprite_Armos:
     
     .zeta
     
-    LDA $0DF0, X : BEQ .theta
+    LDA.w $0DF0, X : BEQ .theta
     
-    LSR A : AND.b #$0E : EOR $0F50, X : STA $0F50, X
+    LSR A : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
     
     .theta
     
@@ -92,11 +92,11 @@ Sprite_Armos:
     JSR Sprite2_Move
     JSR Sprite2_CheckTileCollision
     
-    LDA $0DF0, X : ORA $0F70, X : BNE .iota
+    LDA.w $0DF0, X : ORA.w $0F70, X : BNE .iota
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
     LDA.b #$0C : JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -122,7 +122,7 @@ Armos_Draw:
 {
     ; \task Find out why it would only prep sometimes. Does it use a
     ; different oam region when it's not fully activated?
-    LDA $0D80, X : BNE .use_low_priority_oam_region
+    LDA.w $0D80, X : BNE .use_low_priority_oam_region
     
     JSR Sprite2_PrepOamCoord
     

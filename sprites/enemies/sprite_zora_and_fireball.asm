@@ -34,16 +34,16 @@ Sprite_ZoraAndFireball:
 {
     ; Fireball sprite (from Zora or similar)
     
-    LDA $0E90, X : BNE Sprite_Fireball
+    LDA.w $0E90, X : BNE Sprite_Fireball
     
     JMP Sprite_Zora
     
     ; \note Only here for informational purposes.
     shared Sprite_Fireball:
     
-    STA $0BA0, X
+    STA.w $0BA0, X
     
-    LDA $0DF0, X : BEQ .dont_allocate_oam
+    LDA.w $0DF0, X : BEQ .dont_allocate_oam
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionC
     
@@ -57,7 +57,7 @@ Sprite_ZoraAndFireball:
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -67,7 +67,7 @@ Sprite_ZoraAndFireball:
     
     LDA $1B : BEQ .ignore_tile_collision
     
-    LDA $0E00, X : BNE .ignore_tile_collision
+    LDA.w $0E00, X : BNE .ignore_tile_collision
     
     TXA : EOR $1A : AND.b #$03 : BNE .ignore_tile_collision
     
@@ -78,9 +78,9 @@ Sprite_ZoraAndFireball:
     ; What we really mean is to ignore *further* player collision detection.
     ; We already checked earlier if there was a collision for this. So
     ; in effect we are explicitly checking for shield collision here.
-    LDA $02E0 : ORA $037B : BNE .ignore_shield_collision
+    LDA.w $02E0 : ORA.w $037B : BNE .ignore_shield_collision
     
-    LDA $0308 : BMI .ignore_shield_collision
+    LDA.w $0308 : BMI .ignore_shield_collision
     
     ; Does Link have a level two shield or higher?
     ; Nope... so make him suffer
@@ -89,7 +89,7 @@ Sprite_ZoraAndFireball:
     ; Otherwise, the fireball might get blocked by the shield
     ; Are Link and the sprite on the same level?
     ; No... so don�t hurt him.
-    LDA $EE : CMP $0F20, X : BNE .ignore_shield_collision
+    LDA $EE : CMP.w $0F20, X : BNE .ignore_shield_collision
     
     JSL Sprite_SetupHitBoxLong
     
@@ -123,7 +123,7 @@ Sprite_ZoraAndFireball:
     JSL Sprite_PlaceRupulseSpark.coerce
     
     ; Kill off the sprite.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDA.b #$06 : JSL Sound_SetSfx2PanLong
     
@@ -138,7 +138,7 @@ Sprite_ZoraAndFireball:
 ; $029725-$029749 BRANCH LOCATION
 Sprite_Zora:
 {
-    LDA $0D80, X : BNE .draw_sprite
+    LDA.w $0D80, X : BNE .draw_sprite
     
     JSL Sprite_PrepOamCoordLong
     
@@ -152,7 +152,7 @@ Sprite_Zora:
     
     JSR Sprite2_CheckIfActive
     
-    LDA $0D80, X : BEQ Zora_ChooseSurfacingLocation
+    LDA.w $0D80, X : BEQ Zora_ChooseSurfacingLocation
     DEC A        : BEQ .surfacing
     DEC A        : BEQ .attack
     
@@ -184,7 +184,7 @@ Pool_Zora_ChooseSurfacingLocation:
 ; $02975A-$0297B4 BRANCH LOCATION
 Zora_ChooseSurfacingLocation:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
     ; Attempt to find a location for the Zora to spawn at, but it has
     ; to be in deep water. Note that Zora will not follow you, as this
@@ -193,24 +193,24 @@ Zora_ChooseSurfacingLocation:
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA $0D90, X : CLC : ADC .offsets_low, Y  : STA $0D10, X
-    LDA $0DA0, X : ADC .offsets_high, Y : STA $0D30, X
+    LDA.w $0D90, X : CLC : ADC .offsets_low, Y  : STA.w $0D10, X
+    LDA.w $0DA0, X : ADC .offsets_high, Y : STA.w $0D30, X
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA $0DB0, X : CLC : ADC .offsets_low, Y  : STA $0D00, X
-    LDA $0EB0, X : ADC .offsets_high, Y : STA $0D20, X
+    LDA.w $0DB0, X : CLC : ADC .offsets_low, Y  : STA.w $0D00, X
+    LDA.w $0EB0, X : ADC .offsets_high, Y : STA.w $0D20, X
     
     JSL Sprite_Get_16_bit_CoordsLong
     JSR Sprite2_CheckTileCollision
     
-    LDA $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
+    LDA.w $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
     .not_in_deep_water
     .delay
@@ -233,14 +233,14 @@ Pool_Zora_Surfacing:
 ; $0297C5-$0297E8 LOCAL JUMP LOCATION
 Zora_Surfacing:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     ; Sprite is no longer impervious.
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
     RTS
     
@@ -248,7 +248,7 @@ Zora_Surfacing:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -269,11 +269,11 @@ Zora_Attack:
 {
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$17 : STA $0DF0, X
+    LDA.b #$17 : STA.w $0DF0, X
     
     RTS
     
@@ -291,7 +291,7 @@ Zora_Attack:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -311,12 +311,12 @@ Pool_Zora_Submerging:
 ; $029824-$02983E LOCAL JUMP LOCATION
 Zora_Submerging:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
-    STZ $0DC0, X
-    STZ $0D80, X
+    STZ.w $0DC0, X
+    STZ.w $0D80, X
     
     RTS
     
@@ -324,7 +324,7 @@ Zora_Submerging:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -372,7 +372,7 @@ Zora_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA $06
     
     PHX
     

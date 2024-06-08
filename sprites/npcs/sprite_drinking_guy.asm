@@ -10,15 +10,15 @@ Sprite_DrinkingGuy:
     
     JSL GetRandomInt : BNE .dont_set_timer
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .dont_set_timer
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    LDA $0DF0, X : BEQ .not_other_animation_state
+    LDA.w $0DF0, X : BEQ .not_other_animation_state
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     .not_other_animation_state
     
@@ -28,7 +28,7 @@ Sprite_DrinkingGuy:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .didnt_speak
     

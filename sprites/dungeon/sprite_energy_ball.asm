@@ -4,9 +4,9 @@
 ; $0F5A42-$0F5B43 JUMP LOCATION
 Sprite_EnergyBall:
 {
-    LDA $0DA0, X : BEQ .repulsable_energy_ball ; --
+    LDA.w $0DA0, X : BEQ .repulsable_energy_ball ; --
     
-    LDA $0DF0, X : BEQ .stop_tracking_player
+    LDA.w $0DF0, X : BEQ .stop_tracking_player
     
     LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -22,15 +22,15 @@ Sprite_EnergyBall:
     
     .set_palette
     
-    STA $0F50, X
+    STA.w $0F50, X
     
-    LDA $0D80, X : BEQ .BRANCH_DELTA ; --
+    LDA.w $0D80, X : BEQ .BRANCH_DELTA ; --
     
     JMP EnergyBall_DrawTrail
     
     .BRANCH_DELTA
     
-    LDA $0DA0, X : BEQ .not_seeker_2 ; --
+    LDA.w $0DA0, X : BEQ .not_seeker_2 ; --
     
     JSR SeekerEnergyBall_Draw
     
@@ -44,29 +44,29 @@ Sprite_EnergyBall:
     
     JSR Sprite3_CheckIfActive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite3_Move
     
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision ; --
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA $0DA0, X : BNE .is_seeker
+    LDA.w $0DA0, X : BNE .is_seeker
     
     .no_tile_collision
     
-    LDA $0D90, X : BEQ .BRANCH_KAPPA  ; --
+    LDA.w $0D90, X : BEQ .BRANCH_KAPPA  ; --
     
-    LDA $0BA0 : BNE .BRANCH_KAPPA
+    LDA.w $0BA0 : BNE .BRANCH_KAPPA
     
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $08
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $08
     
     LDA.b #$0F : STA $02 : STA $03
     
-    LDA $0D00, X : STA $01
-    LDA $0D20, X : STA $09
+    LDA.w $0D00, X : STA $01
+    LDA.w $0D20, X : STA $09
     
     PHX
     
@@ -89,11 +89,11 @@ Sprite_EnergyBall:
     
     PLX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA $0D50, X : STA $0F40
+    LDA.w $0D50, X : STA.w $0F40
     
-    LDA $0D40, X : STA $0F30
+    LDA.w $0D40, X : STA.w $0F30
     
     .didnt_hit_agahnim
     
@@ -105,9 +105,9 @@ Sprite_EnergyBall:
     
     JSL Sprite_CheckDamageFromPlayerLong : BCC .no_player_damage ; --
     
-    LDA $0DA0, X : BEQ .not_seeker_3
+    LDA.w $0DA0, X : BEQ .not_seeker_3
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .is_seeker
     
@@ -127,24 +127,24 @@ Sprite_EnergyBall:
     
     ; Because the sword hits it, invert the speed and make it faster,
     ; hopefully sending it into Agahnim's dumb face.
-    LDA $01 : EOR.b #$FF : INC A : STA $0D50, X
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0D40, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .no_player_damage
     
-    TXA : EOR $1A : AND.b #$03 : ORA $0DA0, X : BNE .BRANCH_NU ; --
+    TXA : EOR $1A : AND.b #$03 : ORA.w $0DA0, X : BNE .BRANCH_NU ; --
     
     LDA.b #$7B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$0F : STA $0DF0, Y
-                 STA $0D80, Y
+    LDA.b #$0F : STA.w $0DF0, Y
+                 STA.w $0D80, Y
     
-    LDA $0DA0, X : STA $0DA0, Y
+    LDA.w $0DA0, X : STA.w $0DA0, Y
     
     .spawn_failed
     .BRANCH_NU
@@ -167,7 +167,7 @@ Pool_EnergyBall_DrawTrail:
 ; $0F5B54-$0F5B89 LOCAL JUMP LOCATION
 EnergyBall_DrawTrail:
 {
-    LDA $0DC0, X : CMP.b #$02 : BEQ .is_small
+    LDA.w $0DC0, X : CMP.b #$02 : BEQ .is_small
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -181,9 +181,9 @@ EnergyBall_DrawTrail:
     
     JSR Sprite3_CheckIfActive
     
-    LDA $0DF0, X : STA $0BA0, X : BNE .ano_self_terminate
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .ano_self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .ano_self_terminate
     
@@ -191,14 +191,14 @@ EnergyBall_DrawTrail:
     
     ; \task Figure out what the hell is going on here. Is this
     ; a quick and dirty way to get the trail off screen?
-    LDA.b #$40 : STA $0D50, X
-                 STA $0D40, X
+    LDA.b #$40 : STA.w $0D50, X
+                 STA.w $0D40, X
     
     JSR Sprite3_Move
     
     .dont_move
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -222,37 +222,37 @@ SeekerEnergyBall_SplitIntoSixSmaller:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$05 : STA $0FB5
+    LDA.b #$05 : STA.w $0FB5
     
     .spawn_next
     
     JSR .spawn_smaller
     
-    DEC $0FB5 : BNE .spawn_next
+    DEC.w $0FB5 : BNE .spawn_next
     
     .spawn_smaller
     
     LDA.b #$55 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA $0D00, Y
-    LDA $03 : ADC.b #$00 : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA $0E60, Y : AND.b #$FE : ORA.b #$40 : STA $0E60, Y
+    LDA.w $0E60, Y : AND.b #$FE : ORA.b #$40 : STA.w $0E60, Y
     
-    LDA.b #$04 : STA $0F50, Y : STA $0E00, Y
+    LDA.b #$04 : STA.w $0F50, Y : STA.w $0E00, Y
     
-    LDA.b #$14 : STA $0F60, Y : STA $0DB0, Y : STA $0E90, Y
+    LDA.b #$14 : STA.w $0F60, Y : STA.w $0DB0, Y : STA.w $0E90, Y
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -284,7 +284,7 @@ Pool_SeekerEnergyBall_Draw:
 SeekerEnergyBall_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0E80, X : LSR #2 : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0E80, X : LSR #2 : AND.b #$01 : REP #$20 : ASL #5
     
     ADC.w #.oam_groups : STA $08
     

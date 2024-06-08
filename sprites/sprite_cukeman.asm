@@ -13,14 +13,14 @@ Cukeman_Unused:
     
     .sign_extend
     
-          CLC : ADC $0FDA : STA $0FDA
-    TYA : ADC $0FDB : STA $0FDB
+          CLC : ADC.w $0FDA : STA.w $0FDA
+    TYA : ADC.w $0FDB : STA.w $0FDB
     
-    LDA $0F50, X : PHA
+    LDA.w $0F50, X : PHA
     
     JSL Sprite_Cukeman
     
-    PLA : STA $0F50, X
+    PLA : STA.w $0F50, X
     
     JSL Sprite_Get_16_bit_CoordsLong
     
@@ -32,26 +32,26 @@ Cukeman_Unused:
 ; $0D7A0C-$0D7A7D LONG JUMP LOCATION
 Sprite_Cukeman:
 {
-    LDA $0EB0, X : BEQ .not_transformed
+    LDA.w $0EB0, X : BEQ .not_transformed
     
-    LDA $0DD0, X : CMP.b #$09 : BNE .dont_speak
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .dont_speak
     
-    LDA $11 : ORA $0FC1 : BNE .dont_speak
+    LDA $11 : ORA.w $0FC1 : BNE .dont_speak
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
     
     SEP #$20
     
     LDA $F6 : BPL .dont_speak
     
-    LDA $0E30, X : INC $0E30, X : AND.b #$01
+    LDA.w $0E30, X : INC.w $0E30, X : AND.b #$01
     
-    CLC : ADC.b #$7A : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    CLC : ADC.b #$7A : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -61,13 +61,13 @@ Sprite_Cukeman:
     
     PHB : PHK : PLB
     
-    LDA $0F50, X : AND.b #$F0 : PHA
+    LDA.w $0F50, X : AND.b #$F0 : PHA
     
-    ORA.b #$08 : STA $0F50, X
+    ORA.b #$08 : STA.w $0F50, X
     
     JSR Cukeman_Draw
     
-    PLA : ORA.b #$0D : STA $0F50, X
+    PLA : ORA.b #$0D : STA.w $0F50, X
     
     LDA.b #$10 : JSL OAM_AllocateFromRegionA
     
@@ -117,7 +117,7 @@ Cukeman_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #3 : STA $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00
     
     ASL A : ADC $00 : ADC.w #.oam_groups : STA $08
     

@@ -19,7 +19,7 @@ Sprite_Moblin:
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -42,19 +42,19 @@ Pool_Moblin_SelectDirection:
 ; $031907-$03192F JUMP LOCATION
 Moblin_SelectDirection:
 {
-    LDA $0DF0, X : BNE .direction_change_delay
+    LDA.w $0DF0, X : BNE .direction_change_delay
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA $0EB0, X : STA $0DE0, X : TAY
+    LDA.w $0EB0, X : STA.w $0DE0, X : TAY
     
-    LDA.w $9615, Y : STA $0D50, X
+    LDA.w $9615, Y : STA.w $0D50, X
     
-    LDA.w $9617, Y : STA $0D40, X
+    LDA.w $9617, Y : STA.w $0D40, X
     
     .direction_change_delay
     
@@ -74,26 +74,26 @@ Pool_Moblin_Walk:
 ; $031938-$0319A8 JUMP LOCATION
 Moblin_Walk:
 {
-    LDA $0E80, X : AND.b #$01
+    LDA.w $0E80, X : AND.b #$01
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    CLC : ADC .animation_states, Y : STA $0DC0, X
+    CLC : ADC .animation_states, Y : STA.w $0DC0, X
     
     LDA.b #$0C
     
-    LDY $0E70, X : BNE .tile_collision
+    LDY.w $0E70, X : BNE .tile_collision
     
-    LDA $0DF0, X : BNE .direction_logic_delay
+    LDA.w $0DF0, X : BNE .direction_logic_delay
     
     JSR Sprite_DirectionToFacePlayer
     
-    TYA : CMP $0DE0, X : BNE .not_already_facing_player
+    TYA : CMP.w $0DE0, X : BNE .not_already_facing_player
     
     ; Chuck a spear at the poor player if the moblin is facing them.
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     BRA .skip_direction_change_logic
     
@@ -103,25 +103,25 @@ Moblin_Walk:
     
     .tile_collision
     
-    STA $0DF0, X
+    STA.w $0DF0, X
     
     JSL GetRandomInt : AND.b #$01 : STA $00
     
-    LDA $0DE0, X : ASL A : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL A : ORA $00 : TAY
     
-    LDA.w $9930, Y : STA $0EB0, X
+    LDA.w $9930, Y : STA.w $0EB0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    INC $0DB0, X : LDA $0DB0, X : CMP.b #$04 : BNE .anoface_player
+    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$04 : BNE .anoface_player
     
     ; After however many random selections of a new direction, explicitly
     ; face the player.
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
     JSR Sprite_DirectionToFacePlayer
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
     .anoface_player
     .skip_direction_change_logic
@@ -132,11 +132,11 @@ Moblin_Walk:
     
     .direction_logic_delay
     
-    DEC $0E90, X : BPL .animation_tick_delay
+    DEC.w $0E90, X : BPL .animation_tick_delay
     
-    LDA.b #$0B : STA $0E90, X
+    LDA.b #$0B : STA.w $0E90, X
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     .animation_tick_delay
     
@@ -158,11 +158,11 @@ Pool_Moblin_ThrowSpear:
 ; $0319B1-$0319D8 JUMP LOCATION
 Moblin_ThrowSpear:
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0DF0, X : BNE .reset_ai_state_delay
+    LDA.w $0DF0, X : BNE .reset_ai_state_delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .reset_ai_state_delay
     
@@ -175,7 +175,7 @@ Moblin_ThrowSpear:
     
     PLY
     
-    LDA.b #$20 : STA $0E00, X
+    LDA.b #$20 : STA.w $0E00, X
     
     .anothrow_spear
     
@@ -183,7 +183,7 @@ Moblin_ThrowSpear:
     
     .just_animate
     
-    LDA.w $99A9, Y : STA $0DC0, X
+    LDA.w $99A9, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -216,24 +216,24 @@ Moblin_SpawnThrownSpear:
 {
     LDA.b #$1B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$03 : STA $0D90, Y
+    LDA.b #$03 : STA.w $0D90, Y
     
     PHX
     
-    LDA $0DE0, X : STA $0DE0, Y : TAX
+    LDA.w $0DE0, X : STA.w $0DE0, Y : TAX
     
     ; \note Using data from another sprite is legal, but seems kind of
     ; dumb considering all the other space saving measures they could have
     ; done.
-    LDA $00 : CLC : ADC .x_offsets_low, X       : STA $0D10, Y
-    LDA $01 : ADC Hinox.x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low, X       : STA.w $0D10, Y
+    LDA $01 : ADC Hinox.x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     PLX
 
@@ -326,7 +326,7 @@ Moblin_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X
+    LDA.w $0DC0, X
     
     REP #$20
     
@@ -336,9 +336,9 @@ Moblin_Draw:
     
     LDA.b #$04 : JSL Sprite_DrawMultiple
     
-    LDA $0F00, X : BNE .sprite_is_paused
+    LDA.w $0F00, X : BNE .sprite_is_paused
     
-    LDA $0E00, X : BEQ .not_throwing_spear
+    LDA.w $0E00, X : BEQ .not_throwing_spear
     
     LDY.b #$03
     
@@ -366,13 +366,13 @@ Moblin_Draw:
     
     .not_throwing_spear
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
     LDA .oam_buffer_offsets, Y : TAY
     
     PHX
     
-    LDA $0EB0, X : TAX
+    LDA.w $0EB0, X : TAX
     
     LDA .chr, X : INY #2 : STA ($90), Y
     

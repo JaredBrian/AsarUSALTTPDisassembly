@@ -22,12 +22,12 @@ Sprite_EnemyArrow:
     JSR EnemyArrow_Draw
     JSR Sprite_CheckIfActive.permissive
     
-    LDA $0DD0, X : CMP.b #$09 : BNE .BRANCH_337C7
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .BRANCH_337C7
     
-    LDA $0DF0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
     DEC A        : BNE .BRANCH_BETA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -36,11 +36,11 @@ Sprite_EnemyArrow:
     CMP.b #$20 : BCC .BRANCH_GAMMA
     AND.b #$01 : BNE .BRANCH_GAMMA
     
-    LDA $1A : ASL A : AND.b #$04 : ORA $0DE0, X : TAY
+    LDA $1A : ASL A : AND.b #$04 : ORA.w $0DE0, X : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite_Move
     
@@ -52,12 +52,12 @@ Sprite_EnemyArrow:
     
     JSR Sprite_CheckDamageToPlayer_same_layer
     
-    LDA $0E90, X : BNE .BRANCH_DELTA
+    LDA.w $0E90, X : BNE .BRANCH_DELTA
     
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .BRANCH_DELTA
-    LDY $0D90, X : BEQ .BRANCH_EPSILON
+    LDA.w $0E70, X : BEQ .BRANCH_DELTA
+    LDY.w $0D90, X : BEQ .BRANCH_EPSILON
     
     JSL.l $06EE60 ; $036E60 IN ROM
     
@@ -65,9 +65,9 @@ Sprite_EnemyArrow:
     
     .BRANCH_EPSILON
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
-    LDA.b #$02 : STA $0D90, X
+    LDA.b #$02 : STA.w $0D90, X
     
     LDA.b #$08 : JSL Sound_SetSfx2PanLong
     
@@ -75,7 +75,7 @@ Sprite_EnemyArrow:
     
     ; \task Why is there no branch to this location?
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL Sprite_PlaceRupulseSpark
     
@@ -96,32 +96,32 @@ Sprite_EnemyArrow:
 
 ; $0337C7-$033805 BRANCH LOCATION
 {
-    LDA $0D80, X : BNE .prepped_for_fall_already
+    LDA.w $0D80, X : BNE .prepped_for_fall_already
     
-    JSR $E229   ; $036229 IN ROM
+    JSR.w $E229   ; $036229 IN ROM
     
-    LDA.b #$18 : STA $0F80, X
+    LDA.b #$18 : STA.w $0F80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     .prepped_for_fall_already
     
-    LDA $0DF0, X : LSR #3 : AND.b #$03 : TAY
+    LDA.w $0DF0, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA.w $B7C3, Y : STA $0DE0, X
+    LDA.w $B7C3, Y : STA.w $0DE0, X
     
     JSR Sprite_MoveAltitude
     JSR Sprite_Move
     
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .hasnt_hit_ground
+    LDA.w $0F70, X : BPL .hasnt_hit_ground
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .hasnt_hit_ground
     
@@ -196,9 +196,9 @@ EnemyArrow_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $0DE0, X : ASL A : STA $06
+    LDA.w $0DE0, X : ASL A : STA $06
     
-    LDA $0D90, X : ASL #3 : STA $07
+    LDA.w $0D90, X : ASL #3 : STA $07
     
     PHX
     

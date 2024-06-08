@@ -16,22 +16,22 @@ Pool_Sprite_Sluggula:
 ; $0315D9-$031614 JUMP LOCATION
 Sprite_Sluggula:
 {
-    LDA $0E80, X : AND.b #$08 : LSR #3 : STA $00
+    LDA.w $0E80, X : AND.b #$08 : LSR #3 : STA $00
     
-    LDA $0DE0, X : ASL A : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL A : ORA $00 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
     JSR Sprite_PrepAndDrawSingleLarge
     JSR Sprite_CheckIfActive
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_CheckDamage
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -56,21 +56,21 @@ Pool_Sluggula_Normal:
 ; $03161B-$031672 JUMP LOCATION
 Sluggula_Normal:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0DF0, X
     
-    AND.b #$03 : STA $0DE0, X
+    AND.b #$03 : STA.w $0DE0, X
     
     .set_speed
     
     TAY
     
-    LDA.w $9615, Y : STA $0D50, X
+    LDA.w $9615, Y : STA.w $0D50, X
     
-    LDA.w $9617, Y : STA $0D40, X
+    LDA.w $9617, Y : STA.w $0D40, X
     
     RTS
     
@@ -85,20 +85,20 @@ Sluggula_Normal:
     ; $03164F ALTERNATE ENTRY POINT
     shared Sluggula_BreakFromBombing:
     
-    LDA $0DF0, X : BNE .delay_resumption_of_bombing
+    LDA.w $0DF0, X : BNE .delay_resumption_of_bombing
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .delay_resumption_of_bombing
     
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .return
+    LDA.w $0E70, X : BEQ .return
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     JMP .set_speed
     

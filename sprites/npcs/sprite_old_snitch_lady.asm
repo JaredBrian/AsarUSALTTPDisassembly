@@ -20,14 +20,14 @@ SpritePrep_SnitchesLong:
 ; $02E67D-$02E699 LOCAL JUMP LOCATION
 SpritePrep_Snitches:
 {
-    LDA.b #$02 : STA $0DE0, X : STA $0EB0, X
+    LDA.b #$02 : STA.w $0DE0, X : STA.w $0EB0, X
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDA $0D10, X : STA $0D90, X
-    LDA $0D30, X : STA $0DA0, X
+    LDA.w $0D10, X : STA.w $0D90, X
+    LDA.w $0D30, X : STA.w $0DA0, X
     
-    LDA.b #$F7 : STA $0D50, X
+    LDA.b #$F7 : STA.w $0D50, X
     
     RTS
 }
@@ -66,7 +66,7 @@ Sprite_OldSnitchLadyLong:
 ; $02E6AA-$02E705 LOCAL JUMP LOCATION
 Sprite_OldSnitchLady:
 {
-    LDA $0E30, X : BEQ .not_indoor_chicken_lady
+    LDA.w $0E30, X : BEQ .not_indoor_chicken_lady
     
     JSL Sprite_ChickenLadyLong
     
@@ -74,7 +74,7 @@ Sprite_OldSnitchLady:
     
     .not_indoor_chicken_lady
     
-    LDA $0D80, X : CMP.b #$03 : BCS .not_visible
+    LDA.w $0D80, X : CMP.b #$03 : BCS .not_visible
     
     ; Draws the old lady...
     JSL Lady_Draw
@@ -86,13 +86,13 @@ Sprite_OldSnitchLady:
     
     JSR Sprite2_CheckIfActive
     
-    LDA $0D80, X : CMP.b #$03 : BCS .gamma
+    LDA.w $0D80, X : CMP.b #$03 : BCS .gamma
     
     LDA $1B : BEQ .outdoors
     
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     ; \tcrf (verified), submitted)
     ; You can place this sprite indoors and it behaves as a old lady
@@ -114,7 +114,7 @@ Sprite_OldSnitchLady:
     
     .outdoors
     
-    LDA $0D80, X : BNE .skip_player_collision_logic
+    LDA.w $0D80, X : BNE .skip_player_collision_logic
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCS Snitch_FacePlayer
     
@@ -129,7 +129,7 @@ Sprite_OldSnitchLady:
     ; $02E6F7 ALTERNATE ENTRY POINT
     shared Snitch_RunStateHandler:
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -144,12 +144,12 @@ Sprite_OldSnitchLady:
 ; $02E706-$02E715 BRANCH LOCATION
 Snitch_FacePlayer:
 {
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0DE0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
     
     ; $02E70F ALTERNATE ENTRY POINT
     shared Snitch_SetShortTimer:
     
-    LDA.b #$01 : STA $0DF0, X
+    LDA.b #$01 : STA.w $0DF0, X
     
     BRA Snitch_RunStateHandler
 }
@@ -169,31 +169,31 @@ Snitch_FacePlayer:
 
 ; $02E71A-$02E78C JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    LDY $0DB0, X
+    LDY.w $0DB0, X
     
-    LDA $0D90, X : CLC : ADC $E716, Y : CMP $0D10, X : BNE .alpha
+    LDA.w $0D90, X : CLC : ADC.w $E716, Y : CMP.w $0D10, X : BNE .alpha
     
-    LDA $0D90, X : CLC : ADC $E716, Y
+    LDA.w $0D90, X : CLC : ADC.w $E716, Y
     
-    LDA $0DA0, X : ADC $E718, Y : CMP $0D30, X : BNE .alpha
+    LDA.w $0DA0, X : ADC.w $E718, Y : CMP.w $0D30, X : BNE .alpha
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0EB0, X : TAY
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0EB0, X : TAY
     
-    LDA.w $E6A2, Y : STA $0D50, X
+    LDA.w $E6A2, Y : STA.w $0D50, X
     
-    LDA.w $E6A6, Y : STA $0D40, X
+    LDA.w $E6A6, Y : STA.w $0D40, X
     
-    LDA $0DB0, X : EOR.b #$01 : STA $0DB0, X
+    LDA.w $0DB0, X : EOR.b #$01 : STA.w $0DB0, X
     
     .alpha
     
-    TXA : EOR $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0F60, X : PHA
+    LDA.w $0F60, X : PHA
     
-    LDA.b #$03 : STA $0F60, X
+    LDA.b #$03 : STA.w $0F60, X
     
     ; "Hey! Here is [Name], the wanted man! Soldiers! Anyone! Come quickly!"
     LDA.b #$2F
@@ -203,13 +203,13 @@ Snitch_FacePlayer:
     
     TAY
     
-    PLA : STA $0F60, X : BCC .beta
+    PLA : STA.w $0F60, X : BCC .beta
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     JSL SpawnCrazyVillageSoldier
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .beta
     
@@ -218,37 +218,37 @@ Snitch_FacePlayer:
 
 ; $02E78D-$02E830 JUMP LOCATION
 {
-    STZ $0EB0, X
+    STZ.w $0EB0, X
     
-    LDY $0FDE
+    LDY.w $0FDE
     
-    LDA $0B18, Y : STA $00
-    LDA $0B20, Y : STA $01
+    LDA.w $0B18, Y : STA $00
+    LDA.w $0B20, Y : STA $01
     
-    LDA $0D00, X : STA $02
-    LDA $0D20, X : STA $03
+    LDA.w $0D00, X : STA $02
+    LDA.w $0D20, X : STA $03
     
     REP #$20
     
     LDA $00 : CMP $02 : SEP #$30 : BCC .alpha
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
-    LDA.b #$02 : STA $0F60, X
+    LDA.b #$02 : STA.w $0F60, X
     
-    LDA $0B08, Y : STA $02
-    LDA $0B10, Y : STA $03
+    LDA.w $0B08, Y : STA $02
+    LDA.w $0B10, Y : STA $03
     
     PHX
     
     REP #$30
     
-    LDA $00 : SEC : SBC $0708 : AND $070A : ASL #3 : STA $04
+    LDA $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA $04
     
-    LDA $02 : LSR #3 : SEC : SBC $070C : AND $070E : CLC : ADC $04 : TAX
+    LDA $02 : LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC $04 : TAX
     
     CLC
     
@@ -256,54 +256,54 @@ Snitch_FacePlayer:
     
     PLX
     
-    LDA.w #$10 : STA $0DF0, X
+    LDA.w #$10 : STA.w $0DF0, X
     
     RTS
     
     .alpha
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
-    LDA $0B08, Y : STA $04
-    LDA $0B10, Y : STA $05
+    LDA.w $0B08, Y : STA $04
+    LDA.w $0B10, Y : STA $05
     
-    LDA $0B18, Y : STA $06
-    LDA $0B20, Y : STA $07
+    LDA.w $0B18, Y : STA $06
+    LDA.w $0B20, Y : STA $07
     
     LDA.b #$40
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
-    LDA $01 : STA $0D50, X
+    LDA $00 : STA.w $0D40, X
+    LDA $01 : STA.w $0D50, X
     
-    STZ $0DE0, X
-    STZ $0EB0, X
+    STZ.w $0DE0, X
+    STZ.w $0EB0, X
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
 
 ; $02E831-$02E886 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    LDY $0FDE
+    LDY.w $0FDE
     
-    LDA $0B18, Y : STA $0D00, X : STA $00
-    LDA $0B20, Y : STA $0D20, X : STA $01
+    LDA.w $0B18, Y : STA.w $0D00, X : STA $00
+    LDA.w $0B20, Y : STA.w $0D20, X : STA $01
     
-    LDA $0B08, Y : STA $0D10, X : STA $02
-    LDA $0B10, Y : STA $0D30, X : STA $03
+    LDA.w $0B08, Y : STA.w $0D10, X : STA $02
+    LDA.w $0B10, Y : STA.w $0D30, X : STA $03
     
     PHX
     
     REP #$30
     
-    LDA $00          : SEC : SBC $0708 : AND $070A : ASL #3  : STA $04
+    LDA $00          : SEC : SBC.w $0708 : AND.w $070A : ASL #3  : STA $04
     
-    LDA $02 : LSR #3 : SEC : SBC $070C : AND $070E : CLC : ADC $04 : TAX
+    LDA $02 : LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC $04 : TAX
     
     SEC
     
@@ -311,7 +311,7 @@ Snitch_FacePlayer:
     
     PLX
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .alpha
     
@@ -322,8 +322,8 @@ Snitch_FacePlayer:
 
 ; $02E887-$02E88D JUMP LOCATION
 {
-    STZ $0DD0, X
-    STZ $02E4
+    STZ.w $0DD0, X
+    STZ.w $02E4
     
     RTS
 }

@@ -23,7 +23,7 @@ ChimneySmoke_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0DC0, X : AND.b #$01 : REP #$20 : ASL #5
     
     ADC.w #.oam_groups : STA $08
     
@@ -55,30 +55,30 @@ Pool_Sprite_ChimneySmoke:
 ; $0E8550-$0E858A BRANCH LOCATION
 Sprite_ChimneySmoke:
 {
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     JSR ChimneySmoke_Draw
     JSR Sprite4_CheckIfActive
     JSR Sprite4_Move
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$07 : BNE .speed_adjust_delay
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$07 : BNE .speed_adjust_delay
     
-    LDA $0DE0, X : AND.b #$01 : TAY
+    LDA.w $0DE0, X : AND.b #$01 : TAY
     
-    LDA $0D50, X
+    LDA.w $0D50, X
     
-    CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA $0D50, X
+    CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA.w $0D50, X
     
     CMP .x_speed_targets, Y : BNE .anoswitch_direction
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
     .anoswitch_direction
     .speed_adjust_delay
     
-    LDA $0E80, X : AND.b #$1F : BNE .anoincrement_animation_state
+    LDA.w $0E80, X : AND.b #$1F : BNE .anoincrement_animation_state
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     .anoincrement_animation_state
     
@@ -93,31 +93,31 @@ Sprite_ChimneyAndRabbitBeam:
 {
     LDA $1B : BNE Sprite_RabbitBeam
     
-    LDA.b #$40 : STA $0E60, X : STA $0BA0, X
+    LDA.b #$40 : STA.w $0E60, X : STA.w $0BA0, X
     
-    LDA $0D80, X : BNE Sprite_ChimneySmoke
+    LDA.w $0D80, X : BNE Sprite_ChimneySmoke
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0DF0, X : BNE .spawn_delay
+    LDA.w $0DF0, X : BNE .spawn_delay
     
-    LDA.b #$43 : STA $0DF0, X
+    LDA.b #$43 : STA.w $0DF0, X
     
     LDA.b #$D1 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$08 : STA $0D10, Y
+    LDA $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
     
-    LDA $02 : ADC.b #$04 : STA $0D00, Y
+    LDA $02 : ADC.b #$04 : STA.w $0D00, Y
     
-    LDA.b #$04 : STA $0F50, Y : STA $0D80, Y
+    LDA.b #$04 : STA.w $0F50, Y : STA.w $0D80, Y
     
-    LDA.b #$43 : STA $0E40, Y : STA $0E60, Y
+    LDA.b #$43 : STA.w $0E40, Y : STA.w $0E60, Y
     
-    LDA .x_speed_targets+1 : STA $0D50, Y
+    LDA .x_speed_targets+1 : STA.w $0D50, Y
     
-    LDA.b #-6 : STA $0D40, Y
+    LDA.b #-6 : STA.w $0D40, Y
     
     .spawn_delay
     .spawn_failed
@@ -130,16 +130,16 @@ Sprite_ChimneyAndRabbitBeam:
 ; $0E85E0-$0E85F9 BRANCH LOCATION
 Sprite_RabbitBeam:
 {
-    LDA $0D80, X : BNE RabbitBeam_Active
+    LDA.w $0D80, X : BNE RabbitBeam_Active
     
     JSL Sprite_PrepOamCoordLong
     JSR Sprite4_CheckIfActive
     
     JSR Sprite4_CheckTileCollision : BNE .no_tile_collision
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     .no_tile_collision
     
@@ -162,9 +162,9 @@ RabbitBeam_Active:
 {
     JSL Sprite_DrawFourAroundOne
     
-    LDA $0F00, X : BNE .sprite_is_paused
+    LDA.w $0F00, X : BNE .sprite_is_paused
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
     LDA .chr, Y : STA $00
     
@@ -183,28 +183,28 @@ RabbitBeam_Active:
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0DF0, X : BNE .cant_move_yet
+    LDA.w $0DF0, X : BNE .cant_move_yet
     
-    LDA.b #$30 : STA $0CD2, X
+    LDA.b #$30 : STA.w $0CD2, X
     
     ; The hunter is alive, but didn't get link yet.
     JSL Sprite_CheckDamageToPlayerLong : BCC .no_player_collision
     
     ; The hunter is dead, and it got Link to turn into a bunny.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; This useless load probably indicates a commented out store to the 
     ; countdown timer that would use 0x180 frames instead of 0x100.
     LDA.b #$80
     
     ; Set the tempbunny countdown timer to 0x100 frames.
-                 STZ $03F5
-    LDA.b #$01 : STA $03F6
+                 STZ.w $03F5
+    LDA.b #$01 : STA.w $03F6
     
     .no_player_collision
     
     ; Only adjust trajectory if player is on the same layer.
-    LDA $EE : CMP $0F20, X : BNE .cant_track_player
+    LDA $EE : CMP.w $0F20, X : BNE .cant_track_player
     
     LDA.b #$10
     
@@ -217,7 +217,7 @@ RabbitBeam_Active:
     JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision
     
     ; The transformer ran into a wall and died.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL Sprite_SpawnPoofGarnish
     

@@ -21,9 +21,9 @@ Sprite_Witch:
     JSR Witch_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0F60, X : PHA
+    LDA.w $0F60, X : PHA
     
-    LDA.b #$02 : STA $0F60, X
+    LDA.b #$02 : STA.w $0F60, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
     
@@ -39,15 +39,15 @@ Sprite_Witch:
     
     .player_not_close
     
-    PLA : STA $0F60, X
+    PLA : STA.w $0F60, X
     
     LDA $1A : BNE .dont_change_stir_speed
     
-    JSL GetRandomInt : AND.b #$01 : CLC : ADC.b #$02 : STA $0D90, X
+    JSL GetRandomInt : AND.b #$01 : CLC : ADC.b #$02 : STA.w $0D90, X
     
     .dont_change_stir_speed
     
-    LDA $0D90, X : STA $00
+    LDA.w $0D90, X : STA $00
     
     LDA $1A
     
@@ -58,7 +58,7 @@ Sprite_Witch:
     
     DEC $00 : BPL .shift_right_n_times
     
-    AND.b #$07 : STA $0DC0, X
+    AND.b #$07 : STA.w $0DC0, X
     
     JSL Sprite_CheckIfPlayerPreoccupied : BCC .not_preoccupied
     
@@ -66,7 +66,7 @@ Sprite_Witch:
     
     .not_preoccupied
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -86,11 +86,11 @@ Witch_GrantCaneOfByrna:
     ; AI pointer ($0D80, X) to a value of 1. Under normal circumstances,
     ; it always remains zero.
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     LDY.b #$18
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -177,7 +177,7 @@ Witch_PlayerHasMushroom:
     ; Check if the player is giving the mushroom to the Witch.
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_mushroom
     
-    LDA $0202 : CMP.b #$05 : BNE .dont_give_mushroom
+    LDA.w $0202 : CMP.b #$05 : BNE .dont_give_mushroom
     
     LDA.l $7EF344 : CMP.b #$01 : BNE .dont_give_mushroom
     
@@ -223,7 +223,7 @@ Witch_PlayerHandsMushroomOver:
     
     SEP #$30
     
-    STZ $012E
+    STZ.w $012E
     
     JSL HUD.RefreshIconLong
     
@@ -239,7 +239,7 @@ Witch_PlayerHandsMushroomOver:
     
     .not_haz_mushroom
     
-    STZ $0ABF
+    STZ.w $0ABF
     
     RTS
 }
@@ -296,7 +296,7 @@ Witch_Draw:
     JSR Sprite2_PrepOamCoord
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
-    LDA $0DC0, X : STA $00
+    LDA.w $0DC0, X : STA $00
                    STZ $01
     
     PHX
@@ -307,17 +307,17 @@ Witch_Draw:
     
     LDY $90
     
-    LDA .stirring_oam_groups+0, X : CLC : ADC $0FA8 : STA $0000, Y
+    LDA .stirring_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0000, Y
     
-    LDA .stirring_oam_groups+1, X : CLC : ADC $0FA9 : STA $0001, Y
+    LDA .stirring_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0001, Y
     
-    LDA .stirring_oam_groups+2, X : ORA $04 : STA $0002, Y
+    LDA .stirring_oam_groups+2, X : ORA $04 : STA.w $0002, Y
     
-    LDA .stirring_oam_groups+4, X : CLC : ADC $0FA8 : STA $0004, Y
+    LDA .stirring_oam_groups+4, X : CLC : ADC.w $0FA8 : STA.w $0004, Y
     
-    LDA .stirring_oam_groups+5, X : CLC : ADC $0FA9 : STA $0005, Y
+    LDA .stirring_oam_groups+5, X : CLC : ADC.w $0FA9 : STA.w $0005, Y
     
-    LDA .stirring_oam_groups+6, X : ORA $04 : STA $0006, Y
+    LDA .stirring_oam_groups+6, X : ORA $04 : STA.w $0006, Y
     
     LDX.w #$0000
     
@@ -325,11 +325,11 @@ Witch_Draw:
     
     .draw_body_and_cauldron
     
-    LDA .body_and_cauldron_oam_groups+0, X : CLC : ADC $0FA8 : STA $0008, Y
+    LDA .body_and_cauldron_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0008, Y
     
-    LDA .body_and_cauldron_oam_groups+1, X : ADC $0FA9 : STA $0009, Y
+    LDA .body_and_cauldron_oam_groups+1, X : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA .body_and_cauldron_oam_groups+2, X : EOR $04 : STA $000A, Y
+    LDA .body_and_cauldron_oam_groups+2, X : EOR $04 : STA.w $000A, Y
     
     INX #4
     
@@ -349,17 +349,17 @@ Witch_Draw:
     
     .draw_cloak
     
-    LDA .cloak_oam_groups+0, X : CLC : ADC $0FA8 : STA $0008, Y
+    LDA .cloak_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0008, Y
     
-    LDA .cloak_oam_groups+1, X : CLC : ADC $0FA9 : STA $0009, Y
+    LDA .cloak_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA .cloak_oam_groups+2, X : ORA $04 : STA $000A, Y
+    LDA .cloak_oam_groups+2, X : ORA $04 : STA.w $000A, Y
     
     LDY $92
     
     ; Set oam sizes (8x8 vs. 16x16)
-    LDA.w #$0000 : STA $0000, Y
-    LDA.w #$0202 : STA $0002, Y : STA $0004, Y
+    LDA.w #$0000 : STA.w $0000, Y
+    LDA.w #$0202 : STA.w $0002, Y : STA.w $0004, Y
     
     SEP #$30
     

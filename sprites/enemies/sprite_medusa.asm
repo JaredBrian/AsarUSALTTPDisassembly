@@ -14,25 +14,25 @@ Sprite_Medusa:
     ; \note These are apparently triggers for Poes on the overworld. When
     ; a gravestone is pushed into them, they appear as if from inside the
     ; gravestone.
-    LDA.b #$FF : STA $0D50, X : STA $0E30, X
+    LDA.b #$FF : STA.w $0D50, X : STA.w $0E30, X
     
     JSR Sprite4_CheckTileCollision : BEQ .didnt_collide
     
     JSR Sprite4_CheckIfActive
     
-    LDA.b #$19 : STA $0E20, X
+    LDA.b #$19 : STA.w $0E20, X
     
     JSL Sprite_LoadProperties
     
-    INC $0E90, X
+    INC.w $0E90, X
     
-    LDA $0D10, X : ADC.b #$08 : STA $0D10, X
+    LDA.w $0D10, X : ADC.b #$08 : STA.w $0D10, X
     
-    LDA $0D00, X : SBC.b #$07 : STA $0D00, X
+    LDA.w $0D00, X : SBC.b #$07 : STA.w $0D00, X
     
     LDA.b #$19 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$80 : STA $0CAA, X
+    LDA.b #$80 : STA.w $0CAA, X
     
     .didnt_collide
     
@@ -42,18 +42,18 @@ Sprite_Medusa:
     
     JSR Sprite4_CheckIfActive
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$7F : BNE .dont_spawn
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$7F : BNE .dont_spawn
     
-    LDA $0F20, X : CMP $EE : BNE .dont_spawn
+    LDA.w $0F20, X : CMP $EE : BNE .dont_spawn
     
     JSL Sprite_SpawnFireball : BMI .spawn_failed
     
     ; $0EC845 ALTERNATE ENTRY POINT
     shared Medusa_ConfigFireballProperties:
     
-    LDA $0CAA, Y : ORA.b #$08 : STA $0CAA, Y
+    LDA.w $0CAA, Y : ORA.b #$08 : STA.w $0CAA, Y
     
-    LDA.b #$04 : STA $0CD2, Y
+    LDA.b #$04 : STA.w $0CD2, Y
     
     .spawn_failed
     .dont_spawn

@@ -6,7 +6,7 @@ Sprite_FlameTrailBat:
 {
     JSR FireBat_Draw
     JSR Sprite4_CheckIfActive
-    JMP $8B90   ; $0E8B90 IN ROM
+    JMP.w $8B90   ; $0E8B90 IN ROM
 }
 
 ; ==============================================================================

@@ -18,11 +18,11 @@ Sprite_GanonHelpers:
 {
     ; Tektite / Ganon's firebats and pitchfork code
     
-    LDA $0EC0, X : BEQ Sprite_Tektite
+    LDA.w $0EC0, X : BEQ Sprite_Tektite
     
-    STA $0BA0, X : PHA
+    STA.w $0BA0, X : PHA
     
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     PLA : DEC A
     
@@ -42,9 +42,9 @@ Sprite_Tektite:
 {
     ; Code for Tektites
     
-    LDA $0E00, X : BEQ .anoforce_default_animation_state
+    LDA.w $0E00, X : BEQ .anoforce_default_animation_state
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .anoforce_default_animation_state
     
@@ -56,16 +56,16 @@ Sprite_Tektite:
     JSR Sprite4_BounceFromTileCollision
     
     ; Simulates gravity for the sprite.
-    LDA $0F80, X : SEC : SBC.b #$01 : STA $0F80, X
+    LDA.w $0F8080, X : SEC : SBC.b #$01 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
     .aloft
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -97,9 +97,9 @@ Tektite_Stationary:
     ; Is this checking for a sword attack? Maybe.
     LDA $44 : CMP.b #$80 : BEQ .dont_dodge
     
-    LDA $0F70, X : ORA $0F00, X : BNE .dont_dodge
+    LDA.w $0F70, X : ORA.w $0F00, X : BNE .dont_dodge
     
-    LDA $EE : CMP $0F20, X : BNE .dont_dodge
+    LDA $EE : CMP.w $0F20, X : BNE .dont_dodge
     
     STY $00
     
@@ -111,34 +111,34 @@ Tektite_Stationary:
     
     LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $01 : EOR.b #$FF : INC A : STA $0D50, X
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0D40, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .dont_dodge
     
-    LDA $0DF0, X : BNE .just_animate
+    LDA.w $0DF0, X : BNE .just_animate
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
-    LDA $0DA0, X : CMP.b #$04 : BNE .select_random_direction
+    LDA.w $0DA0, X : CMP.b #$04 : BNE .select_random_direction
     
     ; Otherwise select a direction towards the player.
-    STZ $0DA0, X
+    STZ.w $0DA0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$30 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$30 : STA.w $0DF0, X
     
-    LDA.b #$0C : STA $0F80, X
+    LDA.b #$0C : STA.w $0F80, X
     
     JSR Sprite4_IsBelowPlayer
     
@@ -152,7 +152,7 @@ Tektite_Stationary:
     
     .select_random_direction
     
-    JSL GetRandomInt : AND.b #$07 : ADC.b #$18 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$07 : ADC.b #$18 : STA.w $0F80, X
     
     JSL GetRandomInt : AND.b #$03
     
@@ -160,15 +160,15 @@ Tektite_Stationary:
     
     TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     RTS
     
     .just_animate
     
-    LSR #4 : AND.b #$01 : STA $0DC0, X
+    LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -178,26 +178,26 @@ Tektite_Stationary:
 ; $0EC388-$0EC3A7 JUMP LOCATION
 Tektite_Aloft:
 {
-    LDA $0F70, X : BNE .aloft
+    LDA.w $0F70, X : BNE .aloft
     
     ; $0EC38D ALTERNATE ENTRY POINT
     shared Tektite_RevertToStationary:
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$48 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$48 : STA.w $0DF0, X
     
     ; $0EC39B ALTERNATE ENTRY POINT
     shared Sprite4_Zero_XY_Velocity:
     
-    STZ $0D40, X
-    STZ $0D50, X
+    STZ.w $0D40, X
+    STZ.w $0D50, X
     
     RTS
     
     .aloft
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     RTS
 }
@@ -207,19 +207,19 @@ Tektite_Aloft:
 ; $0EC3A8-$0EC3C4 JUMP LOCATION
 Tektite_RepeatingHop:
 {
-    LDA $0DF0, X : BEQ Tektite_RevertToStationary
+    LDA.w $0DF0, X : BEQ Tektite_RevertToStationary
     
-    LDA $0F70, X : BNE .aloft
+    LDA.w $0F70, X : BNE .aloft
     
-    LDA.b #$0C : STA $0F80, X
+    LDA.b #$0C : STA.w $0F80, X
     
-    INC $0F70, X
+    INC.w $0F70, X
     
-    LDA.b #$08 : STA $0E00, X
+    LDA.b #$08 : STA.w $0E00, X
     
     .aloft
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     RTS
 }
@@ -243,7 +243,7 @@ Pool_Tektite_Draw:
 Tektite_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     

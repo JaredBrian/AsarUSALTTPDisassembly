@@ -9,13 +9,13 @@ Sprite_Landmine:
     
     JSL Landmine_CheckDetonationFromHammer : BCS Landmine_InstantDetonation
     
-    LDA $0DF0, X : BNE Landmine_Detonating
+    LDA.w $0DF0, X : BNE Landmine_Detonating
     
-    LDA.b #$04 : STA $0F50, X
+    LDA.b #$04 : STA.w $0F50, X
     
     JSL Sprite_CheckDamageToPlayerLong : BCC .player_didnt_touch
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
     .player_didnt_touch
     
@@ -41,21 +41,21 @@ Landmine_Detonating:
     ; $0E80C3 ALTERNATE ENTRY POINT
     shared Landmine_InstantDetonation:
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSR Sprite_SpawnBomb : BMI .spawn_failed
     
-    LDA.b #$06 : STA $0DD0, Y
+    LDA.b #$06 : STA.w $0DD0, Y
     
-    LDA.b #$02 : STA $0DB0, Y : STA $0F50, Y
+    LDA.b #$02 : STA.w $0DB0, Y : STA.w $0F50, Y
     
-    LDA.b #$09 : STA $0F60, Y
+    LDA.b #$09 : STA.w $0F60, Y
     
-    LDA.b #$1F : STA $0E00, Y
+    LDA.b #$1F : STA.w $0E00, Y
     
-    LDA.b #$03 : STA $0E40, Y
+    LDA.b #$03 : STA.w $0E40, Y
     
-    JSL Sound_SetSfxPan : ORA.b #$0C : STA $012E
+    JSL Sound_SetSfxPan : ORA.b #$0C : STA.w $012E
     
     .spawn_failed
     
@@ -65,7 +65,7 @@ Landmine_Detonating:
     
     LSR A : AND.b #$03 : TAY
     
-    LDA .palettes, Y : STA $0F50, X
+    LDA .palettes, Y : STA.w $0F50, X
     
     RTS
 }
@@ -87,7 +87,7 @@ Landmine_Draw:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionB
     
-    LDA $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
     REP #$20
     

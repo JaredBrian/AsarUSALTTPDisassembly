@@ -7,7 +7,7 @@ Sprite_PullSwitch:
     ; Switch / Lever (0x04, 0x05, 0x06, 0x07) That can be pulled in puzzles.
     PHB : PHK : PLB
     
-    LDA $0E20, X
+    LDA.w $0E20, X
     
     CMP.b #$07 : BEQ .bad_switches
     CMP.b #$05 : BNE .good_switch
@@ -34,36 +34,36 @@ Sprite_PullSwitch:
 ; $02D6D4-$02D72E LOCAL JUMP LOCATION
 Sprite_BadPullSwitch:
 {
-    JSR $D743 ; $02D743 IN ROM
+    JSR.w $D743 ; $02D743 IN ROM
     
-    LDY $0DC0, X : BEQ .alpha
+    LDY.w $0DC0, X : BEQ .alpha
     CPY.b #$0B   : BEQ .alpha
     
-    LDA.w $D738, Y : STA $0377
+    LDA.w $D738, Y : STA.w $0377
     
-    LDA $0D00, X : SEC : SBC.b #$13 : STA $20
-    LDA $0D20, X : SBC.b #$00 : STA $21
+    LDA.w $0D00, X : SEC : SBC.b #$13 : STA $20
+    LDA.w $0D20, X : SBC.b #$00 : STA $21
     
-    LDA $0D10, X : STA $22
-    LDA $0D30, X : STA $23
+    LDA.w $0D10, X : STA $22
+    LDA.w $0D30, X : STA $23
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    INC $0DC0, X : LDY $0DC0, X : CPY.b #$0B : BNE .beta
+    INC.w $0DC0, X : LDY.w $0DC0, X : CPY.b #$0B : BNE .beta
     
-    LDA.b #$1B : STA $012F
+    LDA.b #$1B : STA.w $012F
     
-    LDA.b #$01 : STA $0642
+    LDA.b #$01 : STA.w $0642
     
     .beta
     
-    LDA.w $D72D, Y : STA $0DF0, X
+    LDA.w $D72D, Y : STA.w $0DF0, X
     
     BRA .alpha
     
     .alpha
     
-    LDA $0E20, X : CMP.b #$07 : BEQ .up_facing_switch
+    LDA.w $0E20, X : CMP.b #$07 : BEQ .up_facing_switch
     
     JSR BadPullDownSwitch_Draw
     
@@ -96,21 +96,21 @@ Sprite_BadPullSwitch:
     
     STZ $48
     
-    LDA $0020 : SEC : SBC $0D00, X : CMP.b #$02 : BPL .beta
+    LDA.w $0020 : SEC : SBC.w $0D00, X : CMP.b #$02 : BPL .beta
     
     CMP.b #$F4 : BMI .gamma
     
-    LDA $0022 : CMP $0D10, X : BPL .delta
+    LDA.w $0022 : CMP.w $0D10, X : BPL .delta
     
-    LDA $0D10, X : SEC : SBC.b #$10 : STA $22
-    LDA $0D30, X : SBC.b #$00 : STA $23
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $22
+    LDA.w $0D30, X : SBC.b #$00 : STA $23
 
     RTS
     
     .delta
     
-    LDA $0D10, X : CLC : ADC.b #$0E : STA $22
-    LDA $0D30, X : ADC.b #$00 : STA $23
+    LDA.w $0D10, X : CLC : ADC.b #$0E : STA $22
+    LDA.w $0D30, X : ADC.b #$00 : STA $23
     
     .alpha
     
@@ -118,31 +118,31 @@ Sprite_BadPullSwitch:
     
     .gamma
     
-    INC $0379
+    INC.w $037979
     
     LDA $F2 : BPL .epsilon
     
     LDA $F0 : AND.b #$03 : BNE .epsilon
     
-    LDA $0DC0, X : BNE .epsilon
+    LDA.w $0DC0C0, X : BNE .epsilon
     
-    INC $0DC0, X
+    INC.w $0DC0C0, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0F0, X
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
     .epsilon
     
-    LDA $0D00, X : SEC : SBC.b #$15 : STA $20
-    LDA $0D20, X : SBC.b #$00 : STA $21
+    LDA.w $0D0000, X : SEC : SBC.b #$15 : STA $20
+    LDA.w $0D2020, X : SBC.b #$00 : STA $21
     
     RTS
     
     .beta
     
-    LDA $0D00, X : CLC : ADC.b #$09 : STA $20
-    LDA $0D20, X : ADC.b #$00 : STA $21
+    LDA.w $0D00, X : CLC : ADC.b #$09 : STA $20
+    LDA.w $0D20, X : ADC.b #$00 : STA $21
     
     RTS
 } 
@@ -187,7 +187,7 @@ BadPullDownSwitch_Draw:
     JSR Sprite2_PrepOamCoord
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
-    LDY $0DC0, X
+    LDY.w $0DC0C0, X
     
     LDA .additional_handle_y_indices, Y : TAY
     
@@ -200,8 +200,8 @@ BadPullDownSwitch_Draw:
     
     .next_oam_entry
     
-    LDA $00 : CLC : ADC $D7CA, X          : STA ($90), Y
-    LDA $02 : CLC : ADC $D7D0, X    : INY : STA ($90), Y
+    LDA $00 : CLC : ADC.w $D7CA, X          : STA ($90), Y
+    LDA $02 : CLC : ADC.w $D7D0, X    : INY : STA ($90), Y
     LDA .chr, X                 : INY : STA ($90), Y
     LDA .h_flip, X : ORA.b #$21 : INY : STA ($90), Y
     
@@ -250,7 +250,7 @@ BadPullUpSwitch_Draw:
     JSR Sprite2_PrepOamCoord
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
     LDA .additional_handle_y_indices, Y : TAY
     
@@ -307,44 +307,44 @@ BadPullUpSwitch_Draw:
 ; $02D8B5-$02D944 LOCAL JUMP LOCATION
 Sprite_GoodPullSwitch:
 {
-    JSR $D999 ; $02D999 IN ROM
+    JSR.w $D999 ; $02D999 IN ROM
     
-    LDY $0DC0, X : BEQ .alpha
+    LDY.w $0DC0, X : BEQ .alpha
     CPY.b #$0D   : BEQ .alpha
     
-    LDA .player_pull_poses-1, Y : STA $0377
+    LDA .player_pull_poses-1, Y : STA.w $0377
     
-    LDA $0D00, X : CLC : ADC .player_y_offsets-1, Y : STA $20
-    LDA $0D20, X : ADC.b #$00                 : STA $21
+    LDA.w $0D00, X : CLC : ADC .player_y_offsets-1, Y : STA $20
+    LDA.w $0D20, X : ADC.b #$00                 : STA $21
     
-    LDA $0D10, X : STA $22
-    LDA $0D30, X : STA $23
+    LDA.w $0D10, X : STA $22
+    LDA.w $0D30, X : STA $23
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
-    INC $0DC0, X : LDY $0DC0, X : CPY.b #$0D : BNE .set_delay_timer
+    INC.w $0DC0, X : LDY.w $0DC0, X : CPY.b #$0D : BNE .set_delay_timer
     
-    LDA $0E20, X : CMP.b #$06 : BNE .not_trap_switch
+    LDA.w $0E20, X : CMP.b #$06 : BNE .not_trap_switch
     
     ; tell bomb / snake traps in the room to trigger 
-    LDA.b #$01 : STA $0CF4
+    LDA.b #$01 : STA.w $0CF4
     
     ; play error noise
-    LDA.b #$3C : STA $012E
+    LDA.b #$3C : STA.w $012E
     
     BRA .set_delay_timer
     
     .not_trap_switch
     
     ; indicates the correct switch was pulled
-    LDA.b #$01 : STA $0642
+    LDA.b #$01 : STA.w $0642
     
     ; play puzzle solved noise
-    LDA.b #$1B : STA $012F
+    LDA.b #$1B : STA.w $012F
     
     .set_delay_timer
     
-    LDA .timers-1, Y : STA $0DF0, X
+    LDA .timers-1, Y : STA.w $0DF0, X
     
     BRA .alpha
     
@@ -352,9 +352,9 @@ Sprite_GoodPullSwitch:
     
     JSR GoodPUllSwitch_Draw
     
-    LDA $0F00, X : BEQ .delta
+    LDA.w $0F00, X : BEQ .delta
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .delta
     
@@ -393,7 +393,7 @@ GoodPUllSwitch_Draw:
     JSR Sprite2_PrepOamCoord
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
     LDA .y_offsets, Y : STA $06
     
@@ -429,14 +429,14 @@ GoodPUllSwitch_Draw:
     
     STZ $48
     
-    LDA $0020 : SEC : SBC $0D00, X : CMP.b #$02 : BPL .beta
+    LDA.w $0020 : SEC : SBC.w $0D00, X : CMP.b #$02 : BPL .beta
     
     CMP.b #$F4 : BMI .A_button_held
     
-    LDA $0022 : CMP $0D10, X : BPL .delta
+    LDA.w $0022 : CMP.w $0D10, X : BPL .delta
     
-    LDA $0D10, X : SEC : SBC.b #$10 : STA $22
-    LDA $0D30, X : SBC.b #$00 : STA $23
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $22
+    LDA.w $0D30, X : SBC.b #$00 : STA $23
     
     .no_player_collision
     
@@ -444,42 +444,42 @@ GoodPUllSwitch_Draw:
     
     .delta
     
-    LDA $0D10, X : CLC : ADC.b #$0E : STA $22
-    LDA $0D30, X : ADC.b #$00 : STA $23
+    LDA.w $0D10, X : CLC : ADC.b #$0E : STA $22
+    LDA.w $0D30, X : ADC.b #$00 : STA $23
     
     RTS
     
     .A_button_held
     
-    LDA $0D00, X : SEC : SBC.b #$15 : STA $20
-    LDA $0D20, X : SBC.b #$00 : STA $21
+    LDA.w $0D00, X : SEC : SBC.b #$15 : STA $20
+    LDA.w $0D20, X : SBC.b #$00 : STA $21
     
     RTS
     
     .beta
     
-    INC $0379
+    INC.w $0379
     
     LDA $F2 : BPL .epsilon
     
     LDA $F0 : AND.b #$03 : BNE .epsilon
     
-    INC $0377
+    INC.w $0377
     
     LDA $F0 : AND.b #$04 : BEQ .epsilon
     
-    LDA $0DC0, X : BNE .epsilon
+    LDA.w $0DC0, X : BNE .epsilon
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
-    LDA.b #$0C : STA $0DF0, X
+    LDA.b #$0C : STA.w $0DF0, X
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
     .epsilon
     
-    LDA $0D00, X : CLC : ADC.b #$09 : STA $20
-    LDA $0D20, X : ADC.b #$00 : STA $21
+    LDA.w $0D00, X : CLC : ADC.b #$09 : STA $20
+    LDA.w $0D20, X : ADC.b #$00 : STA $21
     
     RTS
 }

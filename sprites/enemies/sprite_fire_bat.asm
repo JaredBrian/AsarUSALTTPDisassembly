@@ -18,7 +18,7 @@ Sprite_FireBat:
     JSR Sprite4_CheckIfActive
     JSL Sprite_CheckDamageToPlayerLong
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -31,13 +31,13 @@ Sprite_FireBat:
 
 ; $0E8BEE-$0E8C16 LOCAL JUMP LOCATION
 {
-    LDY $0DE0
+    LDY.w $0DE0
     
-    LDA $0B10, X : CLC : ADC $8BD1, Y : STA $0D10, X
-    LDA $0B20, X : ADC $8BD3, Y : STA $0D30, X
+    LDA.w $0B10, X : CLC : ADC.w $8BD1, Y : STA.w $0D10, X
+    LDA.w $0B20, X : ADC.w $8BD3, Y : STA.w $0D30, X
     
-    LDA $0B30, X : CLC : ADC $8BD5, Y : STA $0D00, X
-    LDA $0B40, X : ADC.b #$FF   : STA $0D20, X
+    LDA.w $0B30, X : CLC : ADC.w $8BD5, Y : STA.w $0D00, X
+    LDA.w $0B40, X : ADC.b #$FF   : STA.w $0D20, X
     
     RTS
 }
@@ -46,18 +46,18 @@ Sprite_FireBat:
 
 ; $0E8C17-$0E8C2A JUMP LOCATION
 {
-    JSR $8BEE   ; $0E8BEE IN ROM
+    JSR.w $8BEE   ; $0E8BEE IN ROM
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     ; $0E8C23 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
-    AND.b #$04 : LSR #2 : STA $0DC0, X
+    AND.b #$04 : LSR #2 : STA.w $0DC0, X
     
     RTS
 }
@@ -75,18 +75,18 @@ Sprite_FireBat:
 
 ; $0E8C38-$0E8C42 JUMP LOCATION
 {
-    JSR $8BEE   ; $0E8BEE IN ROM
+    JSR.w $8BEE   ; $0E8BEE IN ROM
     
-    INC $0E80, X : LDA $0E80, X
+    INC.w $0E80, X : LDA.w $0E80, X
     
     BRA .BRANCH_$E8C23
 }
 
 ; $0E8C43-$0E8C54 LOCAL JUMP LOCATION
 {
-    INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA.w $8C34, Y : STA $0DC0, X
+    LDA.w $8C34, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -95,23 +95,23 @@ Sprite_FireBat:
 {
     JSR Sprite4_Move
     
-    LDA.b #$40 : STA $0CAA, X
+    LDA.b #$40 : STA.w $0CAA, X
     
-    LDA $0E00, X : BEQ .BRANCH_ALPHA
+    LDA.w $0E00, X : BEQ .BRANCH_ALPHA
     CMP.b #$01   : BEQ .BRANCH_BETA
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BEQ .BRANCH_GAMMA
+    LDA.w $0DF0, X : BEQ .BRANCH_GAMMA
     DEC A        : BNE .BRANCH_$E8C23
     
-    LDA.b #$23 : STA $0E00, X
+    LDA.b #$23 : STA.w $0E00, X
     
     BRA .BRANCH_E8C23
     
@@ -125,7 +125,7 @@ Sprite_FireBat:
     
     .BRANCH_GAMMA
     
-    JSR $8C43   ; $0E8C43 IN ROM
+    JSR.w $8C43   ; $0E8C43 IN ROM
     
     BRA .BRANCH_E8C43
 }
@@ -167,7 +167,7 @@ FireBat_Draw:
 {
     JSR Sprite4_PrepOamCoord
     
-    LDA $0DC0, X : STA $07
+    LDA.w $0DC0, X : STA $07
     
     ASL A : STA $06
     

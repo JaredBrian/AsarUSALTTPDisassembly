@@ -13,21 +13,21 @@ Pool_SpriteHeld_Main:
 SpriteHeld_Main:
 {
     ; Checks to see if the room we're in matches
-    LDA $040A : STA $0C9A, X
+    LDA.w $040A : STA.w $0C9A, X
     
     LDA.l $7FFA1C, X : CMP.b #$03 : BEQ .fully_lifted
     
-    LDA $0DF0, X : BNE .delay_lift_state_transition
+    LDA.w $0DF0, X : BNE .delay_lift_state_transition
     
     LDA.b #$04
     
-    LDY $0DB0, X : CPY.b #$06 : BNE .not_large
+    LDY.w $0DB0, X : CPY.b #$06 : BNE .not_large
     
     LDA.b #$08
     
     .not_large
     
-    STA $0DF0, X
+    STA.w $0DF0, X
     
     LDA.l $7FFA1C, X : INC A : STA.l $7FFA1C, X
     
@@ -38,7 +38,7 @@ SpriteHeld_Main:
     .fully_lifted
     
     ; unset the "draw shadow" flag for items we're holding 
-    LDA $0E60, X : AND.b #$EF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$EF : STA.w $0E60, X
     
     .x_wobble_logic
     
@@ -51,7 +51,7 @@ SpriteHeld_Main:
     ; \optimize Use of the bit instruction and not decrementing, plus
     ; changing the order the branches are presented in would save
     ; a byte of space and a cycle or two of execution.
-    LDA $0F10, X : DEC A : CMP.b #$3F : BCS .dont_x_wobble
+    LDA.w $0F10, X : DEC A : CMP.b #$3F : BCS .dont_x_wobble
     AND.b #$02                        : BEQ .dont_x_wobble
     
     INC $00
@@ -60,10 +60,10 @@ SpriteHeld_Main:
     
     LDA $2F : ASL A : CLC : ADC.l $7FFA1C, X : TAY
     
-    LDA $22 : CLC : ADC $DE4D, Y : PHP : ADC $00      : STA $0D10, X
-    LDA $23 : ADC.b #$00   : PLP : ADC $DE5D, Y : STA $0D30, X
+    LDA $22 : CLC : ADC.w $DE4D, Y : PHP : ADC $00      : STA.w $0D10, X
+    LDA $23 : ADC.b #$00   : PLP : ADC.w $DE5D, Y : STA.w $0D30, X
     
-    LDA.w $DE6D, Y : STA $0F70, X
+    LDA.w $DE6D, Y : STA.w $0F70, X
     
     LDY $2E : CPY.b #$06 : BCC .not_last_animation_step
     
@@ -71,13 +71,13 @@ SpriteHeld_Main:
     
     .not_last_animation_step
     
-    LDA $24 : CLC : ADC.b #$01 : PHP : CLC : ADC $DE7D, Y : STA $00
+    LDA $24 : CLC : ADC.b #$01 : PHP : CLC : ADC.w $DE7D, Y : STA $00
     LDA $25 : ADC.b #$00 : PLP : ADC.b #$00   : STA $0E
     
-    LDA $20 : SEC : SBC $00    : PHP : CLC : ADC.b #$08 : STA $0D00, X
-    LDA $21 : ADC.b #$00 : PLP : SBC $0E    : STA $0D20, X
+    LDA $20 : SEC : SBC $00    : PHP : CLC : ADC.b #$08 : STA.w $0D00, X
+    LDA $21 : ADC.b #$00 : PLP : SBC $0E    : STA.w $0D20, X
     
-    LDA $EE : AND.b #$01 : STA $0F20, X
+    LDA $EE : AND.b #$01 : STA.w $0F20, X
     
     JSR SpriteHeld_ThrowQuery
     JSR Sprite_Get_16_bit_Coords
@@ -88,7 +88,7 @@ SpriteHeld_Main:
     ; what implications this has.
     JSR SpriteActive_Main
     
-    LDA $0F10, X : DEC A : BNE .dont_leap_from_player_grip
+    LDA.w $0F10, X : DEC A : BNE .dont_leap_from_player_grip
     
     ; \unused The code bracketed by the above branch label.
     ; \task Upon inspection, it would be interesting to know of any time
@@ -96,17 +96,17 @@ SpriteHeld_Main:
     ; anything in my experience. It's like the player has picked up a
     ; stunned enemy (\tcrf(unconfirmed) maybe?) and it eventually wakes
     ; up and leaps out of the player's hands.
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    STZ $0DA0, X
+    STZ.w $0DA0, X
     
-    LDA.b #$60 : STA $0F10, X
+    LDA.b #$60 : STA.w $0F10, X
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    LDA $0E60, X : ORA.b #$10 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
     
-    LDA.b #$02 : STA $0309
+    LDA.b #$02 : STA.w $0309
     
     .dont_leap_from_player_grip
     
@@ -119,7 +119,7 @@ SpriteHeld_Main:
     
     .frozen_sprite
     
-    JMP $E2BA ; $0362BA IN ROM
+    JMP.w $E2BA ; $0362BA IN ROM
 }
 
 ; ==============================================================================
@@ -143,20 +143,20 @@ Pool_SpriteHeld_ThrowQuery:
 SpriteHeld_ThrowQuery:
 {
     ; in text mode, so do nothing...
-    LDA $0010 : CMP.b #$0E : BEQ .easy_out
+    LDA.w $0010 : CMP.b #$0E : BEQ .easy_out
     
     LDA $5B : CMP.b #$02 : BEQ .coerced_throw
     
     LDA $4D : AND.b #$01
     
-    LDY $037B : BNE .player_ignores_sprite_collisions
+    LDY.w $037B : BNE .player_ignores_sprite_collisions
     
     ; Being hit causes the player to release a held sprite.
-    ORA $0046
+    ORA.w $0046
     
     .player_ignores_sprite_collisions
     
-    ORA $0345 : ORA $02E0 : ORA $02DA : BNE .coerced_throw
+    ORA.w $0345 : ORA.w $02E0 : ORA.w $02DA : BNE .coerced_throw
     
     LDA.l $7FFA1C, X : CMP.b #$03 : BNE .dont_throw
     
@@ -170,33 +170,33 @@ SpriteHeld_ThrowQuery:
     
     LDA.b #$13 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$02 : STA $0309
+    LDA.b #$02 : STA.w $0309
     
     ; This code gets called when some object flies out of Link's hand
     ; when he's falling into a pit
-    LDA.l $7FFA2C, X : STA $0DD0, X
+    LDA.l $7FFA2C, X : STA.w $0DD0, X
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
     LDA.b #$00 : STA.l $7FFA1C, X
     
     PHX
     
-    LDA $0E20, X : TAX
+    LDA.w $0E20, X : TAX
     
     LDA.l $0DB359, X : PLX : AND.b #$10 : STA $00
     
-    LDA $0E60, X : AND.b #$EF : ORA $00 : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$EF : ORA $00 : STA.w $0E60, X
     
     LDA $2F : LSR A : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA .z_speeds, Y : STA $0F80, X
+    LDA .z_speeds, Y : STA.w $0F80, X
     
-    LDA.b #$00 : STA $0F10, X
+    LDA.b #$00 : STA.w $0F10, X
     
     .dont_throw
     

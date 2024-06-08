@@ -53,34 +53,34 @@ Sprite_RedBari:
     LDA !bari_substate, X : BEQ .not_confined
                             BPL Sprite_Biri
     
-    LDA $0EB0, X : CMP.b #$10 : BNE .delay_collision_logic
+    LDA.w $0EB0, X : CMP.b #$10 : BNE .delay_collision_logic
     
     ; \wtf What effect does $0E30, X have here. Update: It seems to affect
     ; collision by.... not moving the sprite's coordinates around...
-    LDA.b #-1 : STA $0D50, X
-                STA $0E30, X
+    LDA.b #-1 : STA.w $0D50, X
+                STA.w $0E30, X
     
     JSR Sprite_CheckTileCollision
     
-    STZ $0E30, X
+    STZ.w $0E30, X
     
-    LDA $0FA5 : BNE .collided
+    LDA.w $0FA5 : BNE .collided
     
     STZ !bari_substate, X
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JMP .set_new_electrication_delay
     
     .collided
     
-    STA $0BA0, X
+    STA.w $0BA0, X
     
     RTS
     
     .delay_collision_logic
     
-    INC $0EB0, X
+    INC.w $0EB0, X
     
     RTS
     
@@ -92,7 +92,7 @@ Sprite_RedBari:
     
     .not_confined
     
-    LDA $0DC0, X : CMP.b #$02 : BCC .not_electric_animation_state
+    LDA.w $0DC0, X : CMP.b #$02 : BCC .not_electric_animation_state
     
     JSR Sprite_PrepAndDrawSingleLarge
     
@@ -109,24 +109,24 @@ Sprite_RedBari:
     
     ; \note Only impacts Biri as the other related sprites here don't
     ; set this variable.
-    LDA $0E10, X : BNE .recoiling_from_split_process
+    LDA.w $0E10, X : BNE .recoiling_from_split_process
     
-    LDA $0D80, X : CMP.b #$02 : BNE .not_splitting
+    LDA.w $0D80, X : CMP.b #$02 : BNE .not_splitting
     
-    STA $0BA0, X
+    STA.w $0BA0, X
     
     LDA $1A : LSR A : AND.b #$01 : TAY
     
     ; wiggle wiggle wiggle wiggle, yeah!
-    LDA .wiggle_x_speeds, Y : STA $0D50, X
+    LDA .wiggle_x_speeds, Y : STA.w $0D50, X
     
     JSR Sprite_MoveHoriz
     
-    LDA $0DF0, X : BNE .delay_splitting
+    LDA.w $0DF0, X : BNE .delay_splitting
     
     JSR RedBari_Split
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay_splitting
     
@@ -138,30 +138,30 @@ Sprite_RedBari:
     
     TXA : EOR $1A : AND.b #$0F : BNE .rotation_increment_delay
     
-    LDA $0DA0, X : AND.b #$01 : TAY
+    LDA.w $0DA0, X : AND.b #$01 : TAY
     
-    LDA $0D90, X : CLC : ADC .rotation_speeds, Y : STA $0D90, X
+    LDA.w $0D90, X : CLC : ADC .rotation_speeds, Y : STA.w $0D90, X
     
     JSL GetRandomInt : AND.b #$03 : BNE .dont_toggle_rotation_polarity
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
     .dont_toggle_rotation_polarity
     .rotation_increment_delay
     
-    LDA $0D90, X : AND.b #$0F : TAY
+    LDA.w $0D90, X : AND.b #$0F : TAY
     
-    LDA .drift_x_speeds, Y : STA $0D50, X
+    LDA .drift_x_speeds, Y : STA.w $0D50, X
     
-    LDA .drift_y_speeds, Y : STA $0D40, X
+    LDA .drift_y_speeds, Y : STA.w $0D40, X
     
-    TXA : EOR $1A : AND.b #$03 : ORA $0DF0, X
+    TXA : EOR $1A : AND.b #$03 : ORA.w $0DF0, X
     
     BNE .electrification_prevents_movement
     
     .recoiling_from_split_process
     
-    LDA $0E70, X : BNE .no_tile_collision
+    LDA.w $0E70, X : BNE .no_tile_collision
     
     JSR Sprite_Move
     
@@ -175,13 +175,13 @@ Sprite_RedBari:
     
     LDA $1A : LSR #3 : AND.b #$01
     
-    CLC : ADC .animation_state_bases, Y : STA $0DC0, X
+    CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
-    LDA $0D80, X : BEQ .not_electrified
+    LDA.w $0D80, X : BEQ .not_electrified
     
-    LDA $0DF0, X : BNE .delay_nonelectrified_transition
+    LDA.w $0DF0, X : BNE .delay_nonelectrified_transition
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .set_new_electrification_delay
     
@@ -189,26 +189,26 @@ Sprite_RedBari:
     
     LDA $1A : LSR A : AND.b #$02
     
-    CLC : ADC .animation_state_bases, Y : STA $0DC0, X
+    CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
     RTS
     
     .not_electrified
     
-    LDA $0E00, X : BNE .delay_electrification_selection
+    LDA.w $0E00, X : BNE .delay_electrification_selection
     
     JSL GetRandomInt : AND.b #$01 : BNE .set_new_electrication_delay
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     ; Enter the electrified state.
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .set_new_electrication_delay
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$80 : STA $0E00, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$80 : STA.w $0E00, X
     
     .delay_electrification_selection
     
@@ -220,7 +220,7 @@ Sprite_RedBari:
 ; $03234E-$03239B LOCAL JUMP LOCATION
 RedBari_Split:
 {
-    LDA.b #$01 : STA $0FB5
+    LDA.b #$01 : STA.w $0FB5
     
     .spawn_next
     
@@ -228,31 +228,31 @@ RedBari_Split:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$33 : STA $0E60, Y
+    LDA.b #$33 : STA.w $0E60, Y
     
-    LDA.b #$03 : STA $0F50, Y
+    LDA.b #$03 : STA.w $0F50, Y
     
-    LDA.b #$01 : STA $0F60, Y
+    LDA.b #$01 : STA.w $0F60, Y
                  STA !bari_substate, Y
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
-    LDA $01 : ADC.b #$00        : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00        : STA.w $0D30, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA.b #$08 : STA $0E10, Y
+    LDA.b #$08 : STA.w $0E10, Y
     
-    LDA.b #$40 : STA $0E00, Y
+    LDA.b #$40 : STA.w $0E00, Y
     
     PLX
     
     .spawn_failed
     
-    DEC $0FB5 : BPL .spawn_next
+    DEC.w $0FB5 : BPL .spawn_next
     
     RTS
 }
@@ -281,7 +281,7 @@ RedBari_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     

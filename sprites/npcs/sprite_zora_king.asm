@@ -7,7 +7,7 @@ Sprite_ZoraKing:
     JSR ZoraKing_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -33,36 +33,36 @@ ZoraKing_WaitingForPlayer:
 {
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
     
     SEP #$20
     
     ; Stop any process of Link dashing, moving, etc.
     JSL Player_HaltDashAttackLong
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     ; Make rumbly noise
-    LDA.b #$35 : STA $012E
+    LDA.b #$35 : STA.w $012E
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDY.b #$0F
     
     .next_sprite
     
-    CPY $0FA0 : BEQ .ignore_sprite
+    CPY.w $0FA0 : BEQ .ignore_sprite
     
-    LDA $0CAA, Y : BMI .ignore_sprite
+    LDA.w $0CAA, Y : BMI .ignore_sprite
     
     PHX : TYX : PHY
     
-    LDA $0DD0, X : CMP.b #$0A : BNE .sprite_not_being_carried
+    LDA.w $0DD0, X : CMP.b #$0A : BNE .sprite_not_being_carried
     
-    STZ $0308
-    STZ $0309
+    STZ.w $0308
+    STZ.w $0309
     
     .sprite_not_being_carried
     
@@ -99,16 +99,16 @@ Pool_ZoraKing_RumblingGround:
 ; $0299D9-$029A06 JUMP LOCATION
 ZoraKing_RumblingGround:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    STZ $011A
-    STZ $011B ; stop the shaking
+    STZ.w $011A
+    STZ.w $011B ; stop the shaking
     
-    LDA.b #$04 : STA $0DC0, X
+    LDA.b #$04 : STA.w $0DC0, X
     
     RTS
     
@@ -117,11 +117,11 @@ ZoraKing_RumblingGround:
     ; Make the ground rumble while counting down
     AND.b #$01 : TAY
     
-    LDA .offsets_low, Y  : STA $011A
-    LDA .offsets_high, Y : STA $011B
+    LDA .offsets_low, Y  : STA.w $011A
+    LDA .offsets_high, Y : STA.w $011B
     
     ; Link can't move
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     RTS
 }
@@ -141,11 +141,11 @@ Pool_ZoraKing_Surfacing:
 ; $029A17-$029A3D JUMP LOCATION
 ZoraKing_Surfacing:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     RTS
     
@@ -155,7 +155,7 @@ ZoraKing_Surfacing:
     
     PHA
     
-    LDA.b #$0F : STA $0E10, X
+    LDA.b #$0F : STA.w $0E10, X
     
     JSR Sprite_SpawnSplashRing
     
@@ -165,7 +165,7 @@ ZoraKing_Surfacing:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -184,11 +184,11 @@ Pool_ZoraKing_Dialogue:
 ; $029A46-$029ACE JUMP LOCATION
 ZoraKing_Dialogue:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$24 : STA $0DF0, X
+    LDA.b #$24 : STA.w $0DF0, X
     
     RTS
     
@@ -196,9 +196,9 @@ ZoraKing_Dialogue:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X ; $9A3E IN ROM
+    LDA .animation_states, Y : STA.w $0DC0, X ; $9A3E IN ROM
     
-    LDA $0DF0, X : CMP.b #$50 : BEQ .initial_message
+    LDA.w $0DF0, X : CMP.b #$50 : BEQ .initial_message
     
     CMP.b #$4F : BEQ .check_if_buying_flippers
     CMP.b #$4E : BEQ .check_if_can_afford
@@ -213,9 +213,9 @@ ZoraKing_Dialogue:
     
     .show_message
     
-    STA $1CF0
+    STA.w $1CF0
     
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -223,7 +223,7 @@ ZoraKing_Dialogue:
     
     .check_if_buying_flippers
     
-    LDA $1CE8 : BNE .player_says_just_came_to_visit
+    LDA.w $1CE8 : BNE .player_says_just_came_to_visit
     
     ; ...But I don't just give flippers away for free. I sell them..."
     LDA.b #$43
@@ -234,7 +234,7 @@ ZoraKing_Dialogue:
     
     .check_if_can_afford
     
-    LDA $1CE8 : BNE .not_buying
+    LDA.w $1CE8 : BNE .not_buying
     
     REP #$20
     
@@ -250,7 +250,7 @@ ZoraKing_Dialogue:
     
     JSR .show_message
     
-    INC $0E90, X
+    INC.w $0E90, X
     
     RTS
     
@@ -261,7 +261,7 @@ ZoraKing_Dialogue:
     
     JSR .show_message
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     RTS
     
@@ -275,13 +275,13 @@ ZoraKing_Dialogue:
     
     JSR .show_message
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     RTS
     
     .maybe_give_flippers
     
-    LDA $0E90, X : BEQ .didnt_pay_for_flippers
+    LDA.w $0E90, X : BEQ .didnt_pay_for_flippers
       
     ; Spawn the flippers and toss them at Link
     JSL Sprite_SpawnFlippersItem
@@ -307,11 +307,11 @@ Pool_ZoraKing_Submerge:
 ; $029AE4-$029B07 JUMP LOCATION
 ZoraKing_Submerge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     JSL Sprite_SelfTerminate
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
     
@@ -321,7 +321,7 @@ ZoraKing_Submerge:
     
     PHA
     
-    LDA.b #$0F : STA $0E10, X
+    LDA.b #$0F : STA.w $0E10, X
     
     JSR Sprite_SpawnSplashRing
     
@@ -331,7 +331,7 @@ ZoraKing_Submerge:
     
     LSR A : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -392,30 +392,30 @@ Sprite_SpawnSplashRing:
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$03 : STA $0DD0, Y
+    LDA.b #$03 : STA.w $0DD0, Y
     
     PHX
     
     LDX $0D
     
-    LDA .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $00   : STA $0D10, Y
-    LDA $01               : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $00   : STA.w $0D10, Y
+    LDA $01               : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $02   : STA $0D00, Y
-    LDA $03               : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $02   : STA.w $0D00, Y
+    LDA $03               : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    TXA : STA $0D90, Y
+    TXA : STA.w $0D90, Y
     
-    PHY : JSL GetRandomInt : PLY : AND.b #$0F : ADC.b #$18 : STA $0F80, Y
+    PHY : JSL GetRandomInt : PLY : AND.b #$0F : ADC.b #$18 : STA.w $0F80, Y
     
-    LDA.b #$01 : STA $0D80, Y
-    LDA.b #$00 : STA $0F70, Y
+    LDA.b #$01 : STA.w $0D80, Y
+    LDA.b #$00 : STA.w $0F70, Y
     
-    LDA $0E60, Y : ORA.b #$40 : STA $0E60, Y : STA $0BA0, Y
+    LDA.w $0E60, Y : ORA.b #$40 : STA.w $0E60, Y : STA.w $0BA0, Y
     
     PLX
     
@@ -499,9 +499,9 @@ ZoraKing_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0D80, X : CMP.b #$02 : BCC .draw_whirlpool_instead
+    LDA.w $0D80, X : CMP.b #$02 : BCC .draw_whirlpool_instead
     
-    LDA $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA $06
     
     PHX
     
@@ -542,7 +542,7 @@ ZoraKing_Draw:
     
     .draw_whirlpool_instead
     
-    LDA $0E10, X : BEQ .return
+    LDA.w $0E10, X : BEQ .return
     
     LSR A : AND.b #$04 : STA $06
     

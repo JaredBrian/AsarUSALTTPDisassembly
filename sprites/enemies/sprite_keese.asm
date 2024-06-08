@@ -12,7 +12,7 @@ Pool_Sprite_Keese:
 ; $02AA8B-$02AAE1 JUMP LOCATION
 Sprite_Keese:
 {
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite2_CheckIfActive
@@ -20,9 +20,9 @@ Sprite_Keese:
     JSR Sprite2_CheckDamage
     JSR Sprite2_Move
     
-    LDA $0D80, X : BNE Keese_Agitated
+    LDA.w $0D80, X : BNE Keese_Agitated
     
-    TXA : EOR $1A : AND.b #$03 : ORA $0DF0, X : BNE .delay
+    TXA : EOR $1A : AND.b #$03 : ORA.w $0DF0, X : BNE .delay
     
     JSR Sprite2_DirectionToFacePlayer
     
@@ -33,14 +33,14 @@ Sprite_Keese:
     LDA.b #$1E : JSL Sound_SetSfx3PanLong
     
     ; Keese gets mad when you invade its personal space :(.
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
-                 STA $0DA0, X
+    LDA.b #$40 : STA.w $0DF0, X
+                 STA.w $0DA0, X
     
     JSR Sprite2_DirectionToFacePlayer
     
-    LDA .starting_speeds_indices, Y : STA $0D90, X
+    LDA .starting_speeds_indices, Y : STA.w $0D90, X
     
     .player_not_close
     .delay
@@ -71,13 +71,13 @@ Pool_Keese_Agitated:
 Keese_Agitated:
     shared Keese_JimmiesRustled:
 {
-    LDA $0DF0, X : BNE .still_agitated
+    LDA.w $0DF0, X : BNE .still_agitated
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     JSR Sprite2_ZeroVelocity
     
@@ -87,23 +87,23 @@ Keese_Agitated:
     
     AND.b #$07 : BNE .beta
     
-    LDA $0DA0, X : AND.b #$01 : TAY
+    LDA.w $0DA0, X : AND.b #$01 : TAY
     
-    LDA $0D90, X : CLC : ADC .index_step, Y : STA $0D90, X
+    LDA.w $0D90, X : CLC : ADC .index_step, Y : STA.w $0D90, X
     
     JSL GetRandomInt : AND.b #$03 : BNE .beta
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
     .beta
     
-    LDA $0D90, X : AND.b #$0F : TAY
+    LDA.w $0D90, X : AND.b #$0F : TAY
     
-    LDA .random_x_speeds, Y : STA $0D50, X
+    LDA .random_x_speeds, Y : STA.w $0D50, X
     
-    LDA .random_y_speeds, Y : STA $0D40, X
+    LDA .random_y_speeds, Y : STA.w $0D40, X
     
-    LDA $1A : LSR #2 : AND.b #$01 : INC A : STA $0DC0, X
+    LDA $1A : LSR #2 : AND.b #$01 : INC A : STA.w $0DC0, X
     
     RTS
 }

@@ -18,18 +18,18 @@ Sprite_WishPond:
 {
     ; Pond of Wishing AI
     
-    LDA $0D90, X : BNE .BRANCH_ALPHA
+    LDA.w $0D90, X : BNE .BRANCH_ALPHA
     
-    LDA $0DA0, X : BNE .BRANCH_BETA
+    LDA.w $0DA0, X : BNE .BRANCH_BETA
     
     JSR Sprite_PrepOamCoordSafeWrapper
-    JMP $C41D ; $03441D IN ROM
+    JMP.w $C41D ; $03441D IN ROM
     
     .BRANCH_BETA
     
     JSR FairyQueen_Draw
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     LDA $1A : AND.b #$0F : BNE .BRANCH_GAMMA
     
@@ -39,24 +39,24 @@ Sprite_WishPond:
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
-    LDA $01 : ADC.b #$00        : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00        : STA.w $0D30, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA $02 : CLC : ADC .y_offsets, X : STA $0D00, Y
-    LDA $03 : ADC.b #$00        : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets, X : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00        : STA.w $0D20, Y
     
-    LDA.b #$1F : STA $0DB0, Y
-                 STA $0D90, Y
+    LDA.b #$1F : STA.w $0DB0, Y
+                 STA.w $0D90, Y
     
     JSR Sprite_ZeroOamAllocation
     
-    LDA.b #$48 : STA $0E60, Y
+    LDA.b #$48 : STA.w $0E60, Y
     
-    AND.b #$0F : STA $0F50, Y
+    AND.b #$0F : STA.w $0F50, Y
     
-    LDA.b #$01 : STA $0DA0, Y
+    LDA.b #$01 : STA.w $0DA0, Y
     
     PLX
     
@@ -66,13 +66,13 @@ Sprite_WishPond:
     
     .BRANCH_ALPHA
     
-    DEC $0DB0, X : BNE .BRANCH_DELTA
+    DEC.w $0DB0, X : BNE .BRANCH_DELTA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_DELTA
     
-    LDA $0DB0, X : LSR #3 : STA $0DC0, X
+    LDA.w $0DB0, X : LSR #3 : STA.w $0DC0, X
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionC
     
@@ -156,11 +156,11 @@ Sprite_WishPond:
 ; $03441D-$03444B LOCAL JUMP LOCATION
 FairyPondTriggerMain:
 {
-    JSR $C4B5 ; $0344B5 IN ROM
+    JSR.w $C4B5 ; $0344B5 IN ROM
     JSR Sprite_CheckIfActive
     
     LDA $A0 : CMP.b #$15 : BEQ Sprite_HappinessPond
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -186,7 +186,7 @@ FairyPondTriggerMain:
 ; $03444C-$034470 BRANCH LOCATION
 Sprite_HappinessPond:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -234,7 +234,7 @@ Sprite_HappinessPond:
     ; No items returned at happiness pond.
     LDA $A0 : CMP.b #$15 : BEQ .return
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     CMP.b #$05 : BEQ .show_returned_item
     CMP.b #$06 : BEQ .show_returned_item
@@ -247,7 +247,7 @@ Sprite_HappinessPond:
     
     PHX : TXY
     
-    LDA $0DC0, Y : TAX
+    LDA.w $0DC0, Y : TAX
     
     LDA AddReceiveItem.properties, X
     
@@ -260,7 +260,7 @@ Sprite_HappinessPond:
     
     .valid_upper_properties
     
-    AND.b #$07 : ASL A : STA $0F50, Y
+    AND.b #$07 : ASL A : STA.w $0F50, Y
     
     LDA AddReceiveItem.wide_item_flag, X : TAY
     
@@ -282,9 +282,9 @@ Sprite_HappinessPond:
 
 ; $0344FD-$034522 JUMP LOCATION
 {
-    STZ $02E4
+    STZ.w $02E4
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
     
@@ -293,7 +293,7 @@ Sprite_HappinessPond:
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSL Player_ResetState
     JSL Ancilla_TerminateSparkleObjects
@@ -321,7 +321,7 @@ Sprite_HappinessPond:
 
 ; $03452B-$03455C JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_3455F
+    LDA.w $1CE8 : BNE .BRANCH_3455F
     
     LDA.l $7EF370 : ORA.l $7EF371 : BEQ .no_bomb_or_arrow_upgrades_yet
     
@@ -329,19 +329,19 @@ Sprite_HappinessPond:
     
     .no_bomb_or_arrow_upgrades_yet
     
-    STA $0DC0, X : TAY
+    STA.w $0DC0, X : TAY
     
-    LDA.w $C527, Y : STA $1CF2
-    LDA.w $C528, Y : STA $1CF3
+    LDA.w $C527, Y : STA.w $1CF2
+    LDA.w $C528, Y : STA.w $1CF3
     
     LDA.b #$4E
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D8080, X
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4E4E4
     
     RTS
 }
@@ -359,18 +359,18 @@ Sprite_HappinessPond:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D8080, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0F0, X
     
     RTS
 }
 
 ; $034570-$03459E JUMP LOCATION
 {
-    LDA $1CE8 : CLC : ADC $0DC0, X : TAY
+    LDA.w $1CE8E8 : CLC : ADC.w $0DC0C0, X : TAY
     
-    LDA.w $C527, Y : STA $1CF3
+    LDA.w $C527, Y : STA.w $1CF3
     
     REP #$20
     
@@ -380,20 +380,20 @@ Sprite_HappinessPond:
     
     SEP #$30
     
-    LDA $00 : STA $0DE0, X
+    LDA $00 : STA.w $0DE0, X
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
 
 ; $03459F-$034602 JUMP LOCATION
 {
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
-    LDA $0DE0, X : STA $00 : STZ $01
+    LDA.w $0DE0, X : STA $00 : STZ $01
     
     REP #$20
     
@@ -405,7 +405,7 @@ Sprite_HappinessPond:
     
     PHX
     
-    LDA $0EB0, X
+    LDA.w $0EB0, X
     
     JSL AddHappinessPondRupees
     
@@ -415,7 +415,7 @@ Sprite_HappinessPond:
     
     SBC.b #$64 : STA.l $7EF36A
     
-    LDA.b #$05 : STA $0D80, X
+    LDA.b #$05 : STA.w $0D80, X
     
     RTS
     
@@ -439,21 +439,21 @@ Sprite_HappinessPond:
     
     ASL $02 : ASL $02 : ASL $02 : ASL $02
     
-    ORA $02 : STA $1CF2 : INC $0D80, X
+    ORA $02 : STA.w $1CF2 : INC.w $0D80, X
     
     RTS
 }
 
 ; $034603-$034615 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     LDA.b #$94
     LDY.b #$00
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$0D : STA $0D80, X
+    LDA.b #$0D : STA.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -462,27 +462,27 @@ Sprite_HappinessPond:
 
 ; $034616-$034664 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     LDA.b #$72
     
     JSL Sprite_SpawnDynamically
     
-    LDA.b #$1B : STA $012C
+    LDA.b #$1B : STA.w $012C
     
-    STZ $0133
+    STZ.w $0133
     
-    LDA $00 : SEC : SBC $C83A  : STA $0D10, Y
-    LDA $01 : SBC.b #$00 : STA $0D30, Y
+    LDA $00 : SEC : SBC.w $C83A  : STA.w $0D10, Y
+    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC $C83B  : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : STA $0D20, Y
+    LDA $02 : SEC : SBC.w $C83B  : STA.w $0D00, Y
+    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$01 : STA $0DA0, Y
+    LDA.b #$01 : STA.w $0DA0, Y
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     PHX
     
@@ -491,7 +491,7 @@ Sprite_HappinessPond:
     
     PLX
     
-    TYA : STA $0E90, X
+    TYA : STA.w $0E90, X
     
     .delay
     
@@ -510,7 +510,7 @@ Sprite_HappinessPond:
     
     LDA.l $7EC007 : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$95
     LDY.b #$00
@@ -536,22 +536,22 @@ Sprite_HappinessPond:
 
 ; $034691-$03469F JUMP LOCATION
 {
-    LDA $1CE8 : BNE .BRANCH_ALPHA
+    LDA.w $1CE8 : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .BRANCH_ALPHA
     
-    LDA.b #$0C : STA $0D80, X
+    LDA.b #$0C : STA.w $0D80, X
     
     RTS
 }
 
 ; $0346A0-$0346D1 JUMP LOCATION
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.l $7EF370 : CMP.b #$07 : BEQ .BRANCH_ALPHA
     
@@ -561,7 +561,7 @@ Sprite_HappinessPond:
     
     TAX
     
-    LDA.l $0DDB40, X : STA $1CF2 : STA.l $7EF375
+    LDA.l $0DDB40, X : STA.w $1CF2F2 : STA.l $7EF375
     
     PLX
     
@@ -578,12 +578,12 @@ Sprite_HappinessPond:
     LDY.b #$00
     
     JSL Sprite_ShowMessageUnconditional
-    JMP $C752   ; $034752 IN ROM
+    JMP.w $C752   ; $034752 IN ROM
 }
 
 ; $0346D2-$0346E6 JUMP LOCATION
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     PHX
     
@@ -593,7 +593,7 @@ Sprite_HappinessPond:
     
     LDA.b #$30 : STA $9A
     
-    INC $0015
+    INC.w $0015
     
     PLX
     
@@ -612,9 +612,9 @@ Sprite_HappinessPond:
     
     LDA.l $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
     
-    LDA $0E90, X : TAY
+    LDA.w $0E90, X : TAY
     
-    LDA.b #$00 : STA $0DD0, Y
+    LDA.b #$00 : STA.w $0DD0, Y
     
     BRA .BRANCH_ALPHA
     
@@ -622,7 +622,7 @@ Sprite_HappinessPond:
     
     CMP.b #$00 : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -638,16 +638,16 @@ Sprite_HappinessPond:
     
     PLX
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
 }
 
 ; $034721-$034762 JUMP LOCATION
 {
-    LDA.b #$09 : STA $0D80, X
+    LDA.b #$09 : STA.w $0D80, X
     
     LDA.l $7EF371 : CMP.b #$07 : BEQ .BRANCH_ALPHA
     
@@ -657,7 +657,7 @@ Sprite_HappinessPond:
     
     TAX
     
-    LDA.l $0DDB50, X : STA $1CF2 : STA.l $7EF376
+    LDA.l $0DDB50, X : STA.w $1CF2 : STA.l $7EF376
     
     PLX
     
@@ -695,7 +695,7 @@ Sprite_HappinessPond:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -722,17 +722,17 @@ HappinessPond_GrantLuckStatus:
 {
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .luck_statuses, Y : STA $0CF9
-                            STZ $0CFA
+    LDA .luck_statuses, Y : STA.w $0CF9
+                            STZ.w $0CFA
     
     LDA .message_ids_lower, Y       : XBA
     LDA .message_ids_upper, Y : TAY : XBA
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
 }
@@ -742,9 +742,9 @@ HappinessPond_GrantLuckStatus:
 ; $0347A1-$0347C5 JUMP LOCATION
 WaitingForPlayerContact:
 {
-    STZ $02E4
+    STZ.w $02E4
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .BRANCH_ALPHA
     ; -Mysterious Pond- Won't you throw something in?
@@ -752,12 +752,12 @@ WaitingForPlayerContact:
     LDY.b #$01
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .BRANCH_ALPHA
-        INC $0D80, X
+        INC.w $0D80, X
         
         JSL Player_ResetState
         
         STZ $2F
-        STZ $0EB0, X
+        STZ.w $0EB0, X
     
     .BRANCH_ALPHA
     
@@ -768,16 +768,16 @@ WaitingForPlayerContact:
 DecideToThrowItemOrNot:
 {
     ; If the player selected
-    LDA $1CE8 : BNE .dontDoIt
+    LDA.w $1CE8 : BNE .dontDoIt
     ; Select an item using the Control Pad and throw it using the [Y] Button.
     LDA.b #$8A
     LDY.b #$00
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     RTS
     
@@ -790,9 +790,9 @@ DecideToThrowItemOrNot:
     JSL Sprite_ShowMessageUnconditional
     
     ; Go back to waiting for contact.
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
 }
@@ -800,10 +800,10 @@ DecideToThrowItemOrNot:
 ; $0347ED-$034839 JUMP LOCATION
 SpawnThrownItem:
 {
-    INC $0D80, X : PHX
+    INC.w $0D80, X : PHX
     
     ; Get the item selected.
-    LDA $1CE8 : STA $0DB0, X : TAX
+    LDA.w $1CE8 : STA.w $0DB0, X : TAX
     ASL A : TAY
     
     LDA .ItemPointer, Y   : STA $00 ; $C3DD
@@ -836,11 +836,11 @@ SpawnThrownItem:
     PLA : PLY : PLX
     
     ; Save the item.
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
 }
@@ -864,24 +864,24 @@ SpawnThrownItem:
 ; $03483C-$03488A JUMP LOCATION
 WaitToSpawnGreatFairy:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     LDA.b #$72 : JSL Sprite_SpawnDynamically
     
-    LDA.b #$1B : STA $012C
+    LDA.b #$1B : STA.w $012C
     
-    STZ $0133
+    STZ.w $0133
     
-    LDA $00 : SEC : SBC $C83A  : STA $0D10, Y
-    LDA $01 : SBC.b #$00 : STA $0D30, Y
+    LDA $00 : SEC : SBC.w $C83A  : STA.w $0D10, Y
+    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC $C83B  : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : STA $0D20, Y
+    LDA $02 : SEC : SBC.w $C83B  : STA.w $0D00, Y
+    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$01 : STA $0DA0, Y
+    LDA.b #$01 : STA.w $0DA0A0, Y
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     PHX
     
@@ -890,7 +890,7 @@ WaitToSpawnGreatFairy:
     
     PLX
     
-    TYA : STA $0E90, X
+    TYA : STA.w $0E90, X
     
     .delay
     
@@ -910,7 +910,7 @@ FairyFadeIn:
     
     ; If completely faded in:
     LDA.l $7EC007 : BNE .BRANCH_ALPHA
-        INC $0D80, X
+        INC.w $0D80, X
         
         ; Hello there.  Did you drop this?
         LDA.b #$8B
@@ -939,14 +939,14 @@ FairyFadeIn:
 DecideToDrop:
 {
     ; If player selected "Yes"
-    LDA $1CE8 : BNE .wasntMe
-    INC $0D80, X
+    LDA.w $1CE8 : BNE .wasntMe
+    INC.w $0D80, X
     
     RTS
     
     .wasntMe
     
-    LDA #$0B : STA $0D80, X
+    LDA #$0B : STA.w $0D80, X
     
     RTS
 }
@@ -954,19 +954,19 @@ DecideToDrop:
 ; $0348C6-$034951 JUMP LOCATION
 YesIThrewIt:
 {
-    INC $0D80, X
+    INC.w $0D8080, X
     
     ; Are we in the dark world?
     LDA.l $7EF3CA : BNE .InDarkWorld
     
     ; Figure out which item it is:
     ; Is it the blue boomerang?
-    LDA $0DC0, X : CMP.b #$0C : BNE .NotBlueBoomerang
+    LDA.w $0DC0, X : CMP.b #$0C : BNE .NotBlueBoomerang
     ; Give back the red boomerang.
-    LDA.b #$2A : STA $0DC0, X
+    LDA.b #$2A : STA.w $0DC0, X
     
     ; Store the value for the new item message.
-    LDA.b #$01 : STA $0EB0, X
+    LDA.b #$01 : STA.w $0EB0, X
     
     BRA .GiveNewItem
     
@@ -975,10 +975,10 @@ YesIThrewIt:
     ; Is it shield 1?
     CMP.b #$04 : BNE .NotShield1
     ; Give shield 2
-    LDA.b #$05 : STA $0DC0, X
+    LDA.b #$05 : STA.w $0DC0, X
 
     ; Store the value for the new item message.
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$02 : STA.w $0EB0, X
     
     BRA .GiveNewItem
     
@@ -987,10 +987,10 @@ YesIThrewIt:
     ; Is it an empty bottle?
     CMP #$16 : BNE .NotEmptyBottle1
     ; Give green potion
-    LDA.b #$2C : STA $0DC0, X
+    LDA.b #$2C : STA.w $0DC0, X
 
     ; Store the value for the new item message.
-    LDA.b #$03 : STA $0EB0, X
+    LDA.b #$03 : STA.w $0EB0, X
     
     BRA .GiveNewItem
     
@@ -1001,12 +1001,12 @@ YesIThrewIt:
     .InDarkWorld
     
     ; Is it the bow?
-    LDA $0DC0, X : CMP.b #$3A : BNE .NotBow
+    LDA.w $0DC0, X : CMP.b #$3A : BNE .NotBow
     ; Give silver arrows
-    LDA.b #$3B : STA $0DC0, X
+    LDA.b #$3B : STA.w $0DC0, X
 
     ; Store the value for the new item message.
-    LDA.b #$04 : STA $0EB0, X
+    LDA.b #$04 : STA.w $0EB0, X
     
     ; You are an honest person. I like you. I will give you something important... These are the Silver Arrows. To give Ganon his last moment, you definitely need them!  I know I don't quite have the figure of a fairy. Ganon's cruel power is to blame! You must defeat Ganon!
     LDA.b #$4F
@@ -1021,10 +1021,10 @@ YesIThrewIt:
     ; Is it the tempered sword?
     CMP.b #$02 : BNE .NotSword3
     ; Give sword 4
-    LDA.b #$03 : STA $0DC0, X
+    LDA.b #$03 : STA.w $0DC0, X
 
     ; Store the value for the new item message.
-    LDA.b #$05 : STA $0EB0, X
+    LDA.b #$05 : STA.w $0EB0, X
     
     BRA .GiveNewItem
     
@@ -1033,10 +1033,10 @@ YesIThrewIt:
     ; Is it an empty bottle?
     CMP #$16 : BNE .NotEmptyBottle2
     ; Give green potion
-    LDA.b #$2C : STA $0DC0, X
+    LDA.b #$2C : STA.w $0DC0, X
 
     ; Store the value for the new item message.
-    LDA.b #$03 : STA $0EB0, X
+    LDA.b #$03 : STA.w $0EB0, X
     
     BRA .GiveNewItem
     
@@ -1068,9 +1068,9 @@ YesIThrewIt:
 ; $034952-$034979 JUMP LOCATION
 SetupFadeOut:
 {
-    LDA $0DE0, X : TAY
+    LDA.w $0DE0, X : TAY
     
-    LDA $0DB0, X
+    LDA.w $0DB0, X
     
     PHX
     
@@ -1087,7 +1087,7 @@ SetupFadeOut:
     
     PLX
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     PHX
     
@@ -1097,7 +1097,7 @@ SetupFadeOut:
     
     LDA.b #$30 : STA $9A
     
-    INC $0015
+    INC.w $0015
     
     PLX
     
@@ -1115,9 +1115,9 @@ FairyFadeOut:
     PLX
     
     LDA.l $7EC007 : CMP.b #$1E : BNE .BRANCH_BETA
-        LDA $0E90, X : TAY
+        LDA.w $0E90, X : TAY
     
-        LDA.b #$00 : STA $0DD0, Y
+        LDA.b #$00 : STA.w $0DD0, Y
     
         BRA .BRANCH_ALPHA
     
@@ -1125,7 +1125,7 @@ FairyFadeOut:
     
     CMP.b #$00 : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -1135,7 +1135,7 @@ FairyFadeOut:
 ; $0349A1-$0349BD JUMP LOCATION
 GiveItemBack:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     PHX
     
@@ -1145,9 +1145,9 @@ GiveItemBack:
     PLX
     PHX
     
-    LDA.b #$02 : STA $02E9
+    LDA.b #$02 : STA.w $02E9
     
-    LDA $0DC0, X : TAY
+    LDA.w $0DC0, X : TAY
     
     JSL Link_ReceiveItem
     
@@ -1181,7 +1181,7 @@ Pool_ShowNewItemMessage:
 ShowNewItemMessage:
 {
     ; Check if we need to show a new item message:
-    LDA $0EB0, X : BEQ .NotNewItem
+    LDA.w $0EB0, X : BEQ .NotNewItem
     DEC A : TAY
     
     LDA .message_ids_low, Y        : XBA
@@ -1192,9 +1192,9 @@ ShowNewItemMessage:
     .NotNewItem
     
     ; Reset AI Stage.
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
 }
@@ -1204,7 +1204,7 @@ ShowNewItemMessage:
 ; $0349E5-$0349F0 JUMP LOCATION
 NopeNotMine:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Are you sure this is not yours? > Really, it isn't To tell the truth, it is
     LDA.b #$8D
@@ -1220,15 +1220,15 @@ NopeNotMine:
 ; $0349F1-$0349FF JUMP LOCATION
 OkayYeahItIsMine:
 {
-    LDA $1CE8 : BNE .StillNotMine
-    INC $0D80, X
+    LDA.w $1CE8 : BNE .StillNotMine
+    INC.w $0D80, X
     
     RTS
     
     .StillNotMine
     
     ; Go to YesIThrewIt
-    LDA.b #$06 : STA $0D80, X
+    LDA.b #$06 : STA.w $0D80, X
     
     RTS
 }
@@ -1242,7 +1242,7 @@ StillNotMine:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$07 : STA $0D80, X
+    LDA.b #$07 : STA.w $0D80, X
     
     RTS
 }
@@ -1310,9 +1310,9 @@ FairyQueen_Draw:
     
     JSR Sprite_PrepOamCoord
     
-    LDA $0DC0, X : ASL #2 : STA $0D
+    LDA.w $0DC0, X : ASL #2 : STA $0D
     
-    LDA $0DC0, X : ASL #3 : ADC $0D : STA $06
+    LDA.w $0DC0, X : ASL #3 : ADC $0D : STA $06
     
     PHX
     
@@ -1324,8 +1324,8 @@ FairyQueen_Draw:
     
     TXA : CLC : ADC $06 : TAX
     
-    LDA $00 : CLC : ADC $CA0E, X       : STA ($90), Y
-    LDA $02 : CLC : ADC $CA26, X : INY : STA ($90), Y
+    LDA $00 : CLC : ADC.w $CA0E, X       : STA ($90), Y
+    LDA $02 : CLC : ADC.w $CA26, X : INY : STA ($90), Y
     
     LDA.w $CA3E, X            : INY : STA ($90), Y
     LDA.w $CA56, X : ORA $05  : INY : STA ($90), Y
@@ -1354,7 +1354,7 @@ FairyQueen_Draw:
     LDA.b #$0A : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #2 : ADC $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL #4
     
     ; references $34A86
     ADC.b #.oam_groups                 : STA $08

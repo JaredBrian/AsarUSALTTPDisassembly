@@ -9,10 +9,10 @@ Sprite_SpawnPhantomGanon:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$02 : STA $0E40, Y
-                 STA $0BA0, Y
-    DEC A      : STA $0EC0, Y
-    DEC A      : STA $0F50, Y
+    LDA.b #$02 : STA.w $0E40, Y
+                 STA.w $0BA0, Y
+    DEC A      : STA.w $0EC0, Y
+    DEC A      : STA.w $0F50, Y
     
     RTL
 }
@@ -22,26 +22,26 @@ Sprite_SpawnPhantomGanon:
 ; $0E88BC-$0E8905 JUMP LOCATION
 Sprite_PhantomGanon:
 {
-    LDA $0D80, X : BNE Sprite_GanonBat
+    LDA.w $0D80, X : BNE Sprite_GanonBat
     
     JSR PhantomGanon_Draw
     JSR Sprite4_CheckIfActive
     JSR Sprite4_MoveVert
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : AND.b #$1F : BNE .delay
+    LDA.w $0E80, X : AND.b #$1F : BNE .delay
     
-    DEC $0D40, X
+    DEC.w $0D40, X
     
-    LDA $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
+    LDA.w $0D40, X : CMP.b #$FC : BNE .BRANCH_BETA
     
     PHA
     
     JSR Blind_SpawnPoof
     
-    LDA $0D00, Y : SEC : SBC.b #$14 : STA $0D00, Y
-    LDA $0D20, Y : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, Y : SEC : SBC.b #$14 : STA.w $0D00, Y
+    LDA.w $0D20, Y : SBC.b #$00 : STA.w $0D20, Y
     
     PLA
     
@@ -49,11 +49,11 @@ Sprite_PhantomGanon:
     
     CMP.b #$FB : BNE .dont_transform
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    LDA.b #$FC : STA $0D40, X
+    LDA.b #$FC : STA.w $0D40, X
     
     .dont_transform
     .delay
@@ -96,7 +96,7 @@ Pool_PhantomGanon_Draw:
 PhantomGanon_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA $08
     
     LDA.w #$0950 : STA $90
     

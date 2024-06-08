@@ -18,7 +18,7 @@ Sprite_TalkingTreeLong:
 ; $0EF94B-$0EF955 LOCAL JUMP LOCATION
 Sprite_TalkingTree:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -30,12 +30,12 @@ Sprite_TalkingTree:
 
 ; $0EF956-$0EF96D JUMP LOCATION
 {
-    JSR $FADB ; $0EFADB IN ROM
+    JSR.w $FADB ; $0EFADB IN ROM
     JSR Sprite4_CheckIfActive
     
-    STZ $0F60, X
+    STZ.w $0F60, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -49,7 +49,7 @@ Sprite_TalkingTree:
 
 ; $0EF96E-$0EF99B JUMP LOCATION
 {
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .BRANCH_ALPHA
     
@@ -66,9 +66,9 @@ Sprite_TalkingTree:
     
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
@@ -77,15 +77,15 @@ Sprite_TalkingTree:
 
 ; $0EF99C-$0EF9AF JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
-    LSR A : AND.b #$03 : STA $0DC0, X
+    LSR A : AND.b #$03 : STA.w $0DC0, X
 
     RTS
 }
@@ -104,19 +104,19 @@ Sprite_TalkingTree:
 
 ; $0EF9B4-$0EF9D1 JUMP LOCATION
 {
-    LDA $0DF0, X : LSR A : TAY
+    LDA.w $0DF0, X : LSR A : TAY
     
-    LDA .animation_states, X : STA $0DC0, X
+    LDA .animation_states, X : STA.w $0DC0, X
     
-    LDA $0DF0, X : CMP.b #$07 : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : CMP.b #$07 : BNE .BRANCH_ALPHA
     
-    JSR $FA4E ; $0EFA4E IN ROM
+    JSR.w $FA4E ; $0EFA4E IN ROM
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_BETA
     
@@ -140,15 +140,15 @@ Sprite_TalkingTree:
 
 ; $0EF9E2-$0EFA00 JUMP LOCATION
 {
-    JSR $FA03 ; $0EFA03 IN ROM
+    JSR.w $FA03 ; $0EFA03 IN ROM
     
-    LDA $0DF0, X : BNE .countingDown
+    LDA.w $0DF0, X : BNE .countingDown
     
-    LDA $0DA0, X : INC A : AND.b #$07 : STA $0DA0, X : TAY
+    LDA.w $0DA0, X : INC A : AND.b #$07 : STA.w $0DA0, X : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
     .countingDown
     
@@ -168,18 +168,18 @@ Sprite_TalkingTree:
 
 ; $0EFA03-$0EFA2A LOCAL JUMP LOCATION
 {
-    LDA.b #$07 : STA $0F60, X
+    LDA.b #$07 : STA.w $0F6060, X
     
-    LDA $0D90, X : BNE .BRANCH_EFA33
+    LDA.w $0D9090, X : BNE .BRANCH_EFA33
     
-    LDA $0D10, X : LSR #4 : AND.b #$01 : EOR.b #$01 : STA $0D90, X : TAY
+    LDA.w $0D10, X : LSR #4 : AND.b #$01 : EOR.b #$01 : STA.w $0D90, X : TAY
     
     LDA .message_ids, Y
     LDY.b #$00
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCS .didnt_solicit
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     .didnt_solicit
     
@@ -223,7 +223,7 @@ Sprite_TalkingTree:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     RTS
 }
@@ -240,11 +240,11 @@ Sprite_TalkingTree:
     LDA $02 : CLC : ADC.b #$28 : STA $08
     LDA $03 : ADC.b #$00 : STA $03
     
-    LDA.b #$40 : STA $0E00, Y
+    LDA.b #$40 : STA.w $0E00, Y
     
-    LDA.b #$18 : STA $0D40, Y
+    LDA.b #$18 : STA.w $0D40, Y
     
-    LDA.b #$12 : STA $0F80, Y
+    LDA.b #$12 : STA.w $0F80, Y
     
     .spawn_failed
     
@@ -255,7 +255,7 @@ Sprite_TalkingTree:
 
 ; $0EFADB-$0EFAFA LOCAL JUMP LOCATION
 {
-    LDA $0DC0, X : DEC A : BMI .BRANCH_ALPHA
+    LDA.w $0DC0, X : DEC A : BMI .BRANCH_ALPHA
     
     ASL #5     : ADC.b #$7B : STA $08
     LDA.b #$FA : ADC.b #$00 : STA $09
@@ -289,13 +289,13 @@ Sprite_TalkingTree:
     JSL Sprite_PrepAndDrawSingleSmallLong
     JSR Sprite4_CheckIfActive
     
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
-    LDA $0D90, X : CLC : ADC $FAFB, Y : STA $0D10, X
-    LDA $0DA0, X : ADC $FAFD, Y : STA $0D30, X
+    LDA.w $0D90, X : CLC : ADC.w $FAFB, Y : STA.w $0D10, X
+    LDA.w $0DA0, X : ADC.w $FAFD, Y : STA.w $0D30, X
     
-    LDA $0DB0, X : STA $0D00, X
-    LDA $0E90, X : STA $0D20, X
+    LDA.w $0DB0, X : STA.w $0D00, X
+    LDA.w $0E90, X : STA.w $0D20, X
     
     LDA.b #$02
     
@@ -303,27 +303,27 @@ Sprite_TalkingTree:
     
     LDA $00 : BMI .BRANCH_ALPHA
     
-    LDA $01 : CLC : ADC.b #$02 : STA $0DE0, X
+    LDA $01 : CLC : ADC.b #$02 : STA.w $0DE0, X
     
     BRA .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    LDA $0DE0, X : CMP.b #$02 : BEQ .BRANCH_BETA
+    LDA.w $0DE0, X : CMP.b #$02 : BEQ .BRANCH_BETA
     
     ROL A : AND.b #$01 : TAY
     
-    LDA $0DE0, X : CLC : ADC $8000, Y : STA $0DE0, X
+    LDA.w $0DE0, X : CLC : ADC.w $8000, Y : STA.w $0DE0, X
     
     .BRANCH_BETA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0D90, X : CLC : ADC $FAFF, Y : STA $0D10, X
-    LDA $0DA0, X : ADC $FB04, Y : STA $0D30, X
+    LDA.w $0D90, X : CLC : ADC.w $FAFF, Y : STA.w $0D10, X
+    LDA.w $0DA0, X : ADC.w $FB04, Y : STA.w $0D30, X
     
-    LDA $0DB0, X : CLC : ADC $FB05, Y : STA $0D00, X
-    LDA $0E90, X : ADC $FB05, Y : STA $0D20, X
+    LDA.w $0DB0, X : CLC : ADC.w $FB05, Y : STA.w $0D00, X
+    LDA.w $0E90, X : ADC.w $FB05, Y : STA.w $0D20, X
     
     RTS
 }
@@ -351,15 +351,15 @@ TalkingTree_SpawnEyes:
     
     JSL Sprite_SpawnDynamically
     
-    PLA : STA $0EB0, Y : TAX
+    PLA : STA.w $0EB0, Y : TAX
     
-    LDA $00 : CLC : ADC.l .x_offsets_low, X  : STA $0D10, Y : STA $0D90, Y
-    LDA $01 : ADC.l .x_offsets_high, X : STA $0D30, Y : STA $0DA0, Y
+    LDA $00 : CLC : ADC.l .x_offsets_low, X  : STA.w $0D10, Y : STA.w $0D90, Y
+    LDA $01 : ADC.l .x_offsets_high, X : STA.w $0D30, Y : STA.w $0DA0, Y
     
-    LDA $02 : CLC : ADC.b #$F5 : STA $0D00, Y : STA $0DB0, Y
-    LDA $03 : ADC.b #$FF : STA $0D20, Y : STA $0E90, Y
+    LDA $02 : CLC : ADC.b #$F5 : STA.w $0D00, Y : STA.w $0DB0, Y
+    LDA $03 : ADC.b #$FF : STA.w $0D20, Y : STA.w $0E90, Y
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
     PLX
     

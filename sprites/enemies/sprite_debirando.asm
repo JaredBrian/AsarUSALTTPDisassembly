@@ -7,7 +7,7 @@ Sprite_Debirando:
     JSR Debirando_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -22,11 +22,11 @@ Sprite_Debirando:
 ; $028762-$028772 JUMP LOCATION
 Debirando_UnderSand:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .wait
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .wait
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
     .wait
     
@@ -49,11 +49,11 @@ Debirando_Emerge:
 {
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     RTS
     
@@ -61,7 +61,7 @@ Debirando_Emerge:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -73,11 +73,11 @@ Debirando_ShootFireball:
 {
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -85,10 +85,10 @@ Debirando_ShootFireball:
     
     ; Blue debirando have $0ED0 set nonzero, so they can't shoot fireballs.
     AND.b #$1F
-    ORA $0ED0, X
+    ORA.w $0ED0, X
     ORA $11
-    ORA $0F00, X
-    ORA $0FC1
+    ORA.w $0F00, X
+    ORA.w $0FC1
     
     BNE .dont_shoot_fireball
     
@@ -96,9 +96,9 @@ Debirando_ShootFireball:
     
     .dont_shoot_fireball
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #3 : AND.b #$01 : CLC : ADC.b #$02 : STA $0DC0, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$01 : CLC : ADC.b #$02 : STA.w $0DC0, X
     
     RTS
 }
@@ -119,11 +119,11 @@ Debirando_Submerge:
 {
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$DF : STA $0DF0, X
+    LDA.b #$DF : STA.w $0DF0, X
     
     RTS
     
@@ -131,7 +131,7 @@ Debirando_Submerge:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -168,11 +168,11 @@ Pool_Debirando_Draw:
 Debirando_Draw:
 {
     ; Don't draw if the sprite's hidden.
-    LDA $0D80, X : BEQ .return
+    LDA.w $0D80, X : BEQ .return
     
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA $06
     
     PHX
     

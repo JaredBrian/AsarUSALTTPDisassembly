@@ -21,7 +21,7 @@ Sprite_Elder:
     JSR Sprite2_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -99,7 +99,7 @@ Sprite_Aginah:
 ; $02F14D-$02F15B JUMP LOCATION
 Sprite_Sahasrahla:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -136,7 +136,7 @@ Sahasrahla_Dialogue:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .dont_show
     
@@ -153,7 +153,7 @@ Sahasrahla_Dialogue:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .dont_show_2
     
-    INC $0D80, X : INC $0D80, X
+    INC.w $0D80, X : INC.w $0D80, X
     
     .dont_show_2
     
@@ -208,7 +208,7 @@ Sahasrahla_Dialogue:
     
     .advance_animation_state
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -224,7 +224,7 @@ Sahasrahla_MarkMap:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     LDA.b #$03 : STA.l $7EF3C7
     
@@ -238,11 +238,11 @@ Sahasrahla_GrantBoots:
 {
     LDY.b #$4B
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$03 : STA.l $7EF3C7
     
@@ -260,7 +260,7 @@ Sahasrahla_ShamelesslyPromoteIceRod:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -287,7 +287,7 @@ Elder_Draw:
     
     LDA.b #$02 : STA $06 : STZ $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ; $2F21A
     ADC.b #$1A              : STA $08

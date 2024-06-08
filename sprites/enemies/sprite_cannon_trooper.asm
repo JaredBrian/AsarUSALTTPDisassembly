@@ -7,7 +7,7 @@ Sprite_CannonBall:
     JSR Sprite2_CheckIfActive
     JSR Sprite2_Move
     
-    LDA $0DF0, X : CMP.b #$1E : BNE .dont_poof
+    LDA.w $0DF0, X : CMP.b #$1E : BNE .dont_poof
     
     PHA
     
@@ -21,10 +21,10 @@ Sprite_CannonBall:
     
     JSR Sprite2_CheckTileCollision : BEQ .no_tile_collision
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA $0D10, X : CLC : ADC.b #$04 : STA $0D10, X
-    LDA $0D00, X : CLC : ADC.b #$04 : STA $0D00, X
+    LDA.w $0D1010, X : CLC : ADC.b #$04 : STA.w $0D10, X
+    LDA.w $0D00, X : CLC : ADC.b #$04 : STA.w $0D00, X
     
     JSL Sprite_PlaceRupulseSpark.coerce
     
@@ -68,15 +68,15 @@ Sprite_SpawnPoofGarnish:
     
     .emptySlot
     
-    LDA.b #$0A : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$0A : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
-    LDA $0F20, Y : STA.l $7FF92C, X
+    LDA.w $0F20, Y : STA.l $7FF92C, X
     
     LDA.b #$0F : STA.l $7FF90E, X
     
@@ -94,28 +94,28 @@ Sprite_CannonTrooper:
 {
     ; Cannon soldier AI (unused in original game)
     
-    LDA $0DB0, X : BEQ .not_cannon_ball
+    LDA.w $0DB0, X : BEQ .not_cannon_ball
     
     JMP Sprite_CannonBall
     
     .not_cannon_ball
     
-    LDY $0DE0, X : PHY
+    LDY.w $0DE0, X : PHY
     
-    LDA $0E00, X : BEQ .beta
+    LDA.w $0E00, X : BEQ .beta
     
-    LDA.w $B5CB, Y : STA $0DE0, X
+    LDA.w $B5CB, Y : STA.w $0DE0, X
     
     .beta
     
     JSR CannonTrooper_Draw
     
-    PLA : STA $0DE0, X
+    PLA : STA.w $0DE0, X
     
     JSR Sprite2_CheckIfActive
     JSR Sprite2_CheckDamage
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     REP #$30
     
@@ -140,26 +140,26 @@ Sprite_CannonTrooper:
 
 ; $02AC24-$02AC51 LOCAL JUMP LOCATION
 {
-    STZ $0D90, X
+    STZ.w $0D90, X
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
     ; $02AC34 ALTERNATE ENTRY POINT
     shared Trooper_FacePlayer:
     
-    LDA $0DE0, X : PHA
+    LDA.w $0DE0, X : PHA
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0DE0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
-    PLA : CMP $0DE0, X : BEQ .already_facing
+    PLA : CMP.w $0DE0, X : BEQ .already_facing
     
-    EOR $0DE0, X : AND.b #$02 : BNE .direction_lock_not_necessary
+    EOR.w $0DE0, X : AND.b #$02 : BNE .direction_lock_not_necessary
     
-    LDA.b #$0C : STA $0E00, X
+    LDA.b #$0C : STA.w $0E00, X
     
     .delay
     .direction_lock_not_necessary
@@ -174,14 +174,14 @@ Sprite_CannonTrooper:
 {
     LDA.b #$00
     
-    LDY $0DF0, X : BEQ CannonTrooper_SpawnCannonBall
+    LDY.w $0DF0, X : BEQ CannonTrooper_SpawnCannonBall
     CPY.b #$30   : BCS .delay
     
     LDA.b #$02
     
     .delay
     
-    STA $0D90, X
+    STA.w $0D90, X
     
     RTS
 }
@@ -215,34 +215,34 @@ Pool_CannonTrooper_SpawnCannonBall:
 ; $02AC7B-$02ACE9 LOCAL JUMP LOCATION
 CannonTrooper_SpawnCannonBall:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$04 : STA $0DF0, X
+    LDA.b #$04 : STA.w $0DF0, X
     
     LDA.b #$6B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     LDA.b #$07 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$01 : STA $0DB0, Y
+    LDA.b #$01 : STA.w $0DB0, Y
     
-    LDA $0DE0, X : PHX : TAX
+    LDA.w $0DE0, X : PHX : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    LDA $0E40, Y : AND.b #$F0 : ORA.b #$01 : STA $0E40, Y
+    LDA.w $0E40, Y : AND.b #$F0 : ORA.b #$01 : STA.w $0E40, Y
     
-    LDA $0E60, Y : ORA.b #$47 : STA $0E60, Y
-    LDA $0CAA, Y : ORA.b #$44 : STA $0CAA, Y
+    LDA.w $0E60, Y : ORA.b #$47 : STA.w $0E60, Y
+    LDA.w $0CAA, Y : ORA.b #$44 : STA.w $0CAA, Y
     
-    LDA.b #$20 : STA $0DF0, Y
+    LDA.b #$20 : STA.w $0DF0, Y
     
     PLX
     
@@ -266,19 +266,19 @@ CannonTrooper_SpawnCannonBall:
 
 ; $02ACF2-$02AD11 LOCAL JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .delay
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite2_Move
     
@@ -289,11 +289,11 @@ CannonTrooper_SpawnCannonBall:
 
 ; $02AD12-$02AD1F LOCAL JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     .delay
     
@@ -316,23 +316,23 @@ CannonTrooper_SpawnCannonBall:
 
 ; $02AD28-$02AD50 LOCAL JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay_ai_state_reset
+    LDA.w $0DF0, X : BNE .delay_ai_state_reset
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     .delay_ai_state_reset
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite2_Move
     
-    LDA $1A : LSR #2 : AND.b #$01 : STA $0D90, X
+    LDA $1A : LSR #2 : AND.b #$01 : STA.w $0D90, X
     
     RTS
 }
@@ -351,9 +351,9 @@ CannonTrooper_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $AEF5, Y : CLC : ADC $0D90, X : STA $06
+    LDA.w $AEF5, Y : CLC : ADC.w $0D90, X : STA $06
     
     ASL #2 : ADC $06 : STA $06
     
@@ -370,11 +370,11 @@ CannonTrooper_Draw:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $AD51, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $AD51, X : STA ($90), Y
     
     AND.w #$0100 : STA $0E
     
-    LDA $02 : CLC : ADC $ADC9, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $ADC9, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
     

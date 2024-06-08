@@ -7,20 +7,20 @@ Sprite_Hinox:
     JSR Hinox_Draw
     JSR Sprite_CheckIfActive
     
-    LDA $0EA0, X : BEQ .not_recoiling
+    LDA.w $0EA0, X : BEQ .not_recoiling
     
     JSR Hinox_FacePlayer
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     .not_recoiling
     
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_CheckDamage
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -59,11 +59,11 @@ Pool_Hinox_ThrowBomb:
 ; $031F4A-$031FB5 JUMP LOCATION
 Hinox_ThrowBomb:
 {
-    LDA $0DF0, X : BNE .delay_ai_state_reset
+    LDA.w $0DF0, X : BNE .delay_ai_state_reset
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$02 : STA $0DF0, X
+    LDA.b #$02 : STA.w $0DF0, X
     
     RTS
     
@@ -75,25 +75,25 @@ Hinox_ThrowBomb:
     
     JSL Sprite_TransmuteToEnemyBomb
     
-    LDA.b #$40 : STA $0E00, Y
+    LDA.b #$40 : STA.w $0E00, Y
     
     PHX
     
-    LDA $0DE0, X : TAX
+    LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X : STA $0D00, Y
-    LDA $03 : ADC.b #-1             : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
+    LDA $03 : ADC.b #-1             : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
-    LDA.b #$28 : STA $0F80, Y
+    LDA.b #$28 : STA.w $0F80, Y
     
     .spawn_failed
     
@@ -101,7 +101,7 @@ Hinox_ThrowBomb:
     
     .anothrow_bomb
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     BCS .dont_use_throwing_animation_states
     
@@ -109,7 +109,7 @@ Hinox_ThrowBomb:
     
     .dont_use_throwing_animation_states
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -131,25 +131,25 @@ Pool_Hinox_SetRandomDirection:
 ; $031FBC-$031FEE JUMP LOCATION
 Hinox_SelectNextDirection:
 {
-    LDA $0DF0, X : BNE Hinox_Delay
+    LDA.w $0DF0, X : BNE Hinox_Delay
     
     JSL GetRandomInt : AND.b #$03 : BNE .change_direction
     
     ; If we got a 0, just throw another bomb while facing the same
     ; direction.
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     RTS
     
     .change_direction
     
-    INC $0DB0, X
+    INC.w $0DB0, X
     
-    LDA $0DB0, X : CMP.b #$04 : BNE Hinox_SetRandomDirection
+    LDA.w $0DB0, X : CMP.b #$04 : BNE Hinox_SetRandomDirection
     
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
     ; $031FE1 ALTERNATE ENTRY POINT
     shared Hinox_FacePlayer:
@@ -161,9 +161,9 @@ Hinox_SelectNextDirection:
     JSR Hinox_SetExplicitDirection
     
     ; Speed this motha up.
-    ASL $0D50, X
+    ASL.w $0D50, X
     
-    ASL $0D40, X
+    ASL.w $0D40, X
     
     RTS
 }
@@ -182,24 +182,24 @@ Pool_Hinox_SetRandomDirection:
 ; $031FF7-$032024 BRANCH LOCATION
 Hinox_SetRandomDirection:
 {
-    JSL GetRandomInt : LSR A : LDA $0DE0, X : ROL A : TAY
+    JSL GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
     
     LDA .directions, Y
     
     ; $032004 ALTERNATE ENTRY POINT
     shared Hinox_SetExplicitDirection:
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$60 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
 
     ; $032024 ALTERNATE ENTRY POINT
     shared Hinox_Delay:
@@ -221,40 +221,40 @@ Pool_Hinox_Walk:
 ; $032029-$032064 JUMP LOCATION
 Hinox_Walk:
 {
-    LDA $0DF0, X : BNE .delay_ai_state_reset
+    LDA.w $0DF0, X : BNE .delay_ai_state_reset
     
     .reset_ai_state
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
     
     .delay_ai_state_reset
     
-    DEC $0D90, X : BPL .delay_animation_counter_tick
+    DEC.w $0D90, X : BPL .delay_animation_counter_tick
     
-    LDA.b #$0B : STA $0D90, X
+    LDA.b #$0B : STA.w $0D90, X
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     .delay_animation_counter_tick
     
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
     BRA .reset_ai_state
     
     .no_tile_collision
     
-    LDA $0E80, X : AND.b #$01 : STA $00
+    LDA.w $0E80, X : AND.b #$01 : STA $00
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_state_bases, Y : CLC : ADC $00 : STA $0DC0, X
+    LDA .animation_state_bases, Y : CLC : ADC $00 : STA.w $0DC0, X
     
     RTS
 }
@@ -337,7 +337,7 @@ Pool_Hinox_Draw:
 ; $0321F9-$032212 LOCAL JUMP LOCATION
 Hinox_Draw:
 {
-    LDA $0DC0, X : PHA
+    LDA.w $0DC0, X : PHA
     
     ASL A : TAY
     

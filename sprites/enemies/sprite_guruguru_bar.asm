@@ -21,20 +21,20 @@ Sprite_GuruguruBar:
     JSR GuruguruBar_Main
     JSR Sprite3_CheckIfActive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E20, X : SEC : SBC.b #$7E : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$7E : TAY
     
     ; \hardcoded
-    LDA $040C : CMP.b #$12 : BNE .not_in_ice_palace
+    LDA.w $040C : CMP.b #$12 : BNE .not_in_ice_palace
     
     INY #2
     
     .not_in_ice_palace
     
-    LDA $0D90, X : CLC : ADC .offsets_low, Y               : STA $0D90, X
+    LDA.w $0D90, X : CLC : ADC .offsets_low, Y               : STA.w $0D90, X
     
-    LDA $0DA0, X : ADC .offsets_high, Y : AND.b #$01 : STA $0DA0, X
+    LDA.w $0DA0, X : ADC .offsets_high, Y : AND.b #$01 : STA.w $0DA0, X
     
     RTS
 }
@@ -46,15 +46,15 @@ GuruguruBar_Main:
 {
     JSR Sprite3_PrepOamCoord
     
-    LDA $05 : STA $0FB6
+    LDA $05 : STA.w $0FB6
     
-    LDA $00 : STA $0FA8
+    LDA $00 : STA.w $0FA8
     
-    LDA $02 : STA $0FA9
+    LDA $02 : STA.w $0FA9
     
-    LDA $0D90, X : STA $00
+    LDA.w $0D90, X : STA $00
     
-    LDA $0DA0, X : STA $01
+    LDA.w $0DA0, X : STA $01
     
     LDA.b #$40 : STA $0F
     
@@ -78,19 +78,19 @@ GuruguruBar_Main:
     
     PLX
     
-    LDA $04 : STA $4202
+    LDA $04 : STA.w $4202
     
     LDA $0F
     
     LDY $05 : BNE .BRANCH_ALPHA
     
-    STA $4203
+    STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_ALPHA
     
@@ -104,19 +104,19 @@ GuruguruBar_Main:
     
     STA $04
     
-    LDA $06 : STA $4202
+    LDA $06 : STA.w $4202
     
     LDA $0F
     
     LDY $07 : BNE .BRANCH_GAMMA
     
-    STA $4203
+    STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_GAMMA
     
@@ -130,13 +130,13 @@ GuruguruBar_Main:
     
     STA $06
     
-    LDA $0E80, X : ASL #4 : AND.b #$C0 : ORA $0FB6 : STA $0D
+    LDA.w $0E80, X : ASL #4 : AND.b #$C0 : ORA.w $0FB6 : STA $0D
     
     LDY.b #$00
     
     ; Draw base segment.
-    LDA $04    : CLC : ADC $0FA8       : STA ($90), Y
-    LDA $06    : CLC : ADC $0FA9 : INY : STA ($90), Y
+    LDA $04    : CLC : ADC.w $0FA8       : STA ($90), Y
+    LDA $06    : CLC : ADC.w $0FA9 : INY : STA ($90), Y
     LDA.b #$28             : INY : STA ($90), Y
     LDA $0D                : INY : STA ($90), Y
     
@@ -150,31 +150,31 @@ GuruguruBar_Main:
     
     .draw_segments_loop
     
-    LDA $0E             : STA $4202
-    LDA .multipliers, X : STA $4203
+    LDA $0E             : STA.w $4202
+    LDA .multipliers, X : STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    LDA $04 : ASL A : LDA $4217 : BCC .BRANCH_EPSILON
+    LDA $04 : ASL A : LDA.w $4217 : BCC .BRANCH_EPSILON
     
     EOR.b #$FF : INC A
     
     .BRANCH_EPSILON
     
-    CLC : ADC $0FA8 : STA ($90), Y
+    CLC : ADC.w $0FA8 : STA ($90), Y
     
-    LDA $0F             : STA $4202
-    LDA .multipliers, X : STA $4203
+    LDA $0F             : STA.w $4202
+    LDA .multipliers, X : STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    LDA $06 : ASL A : LDA $4217 : BCC .BRANCH_ZETA
+    LDA $06 : ASL A : LDA.w $4217 : BCC .BRANCH_ZETA
     
     EOR.b #$FF : INC A
     
     .BRANCH_ZETA
     
-    CLC : ADC $0FA9  : INY : STA ($90), Y
+    CLC : ADC.w $0FA9  : INY : STA ($90), Y
     LDA.b #$28 : INY : STA ($90), Y
     LDA $0D    : INY : STA ($90), Y
     
@@ -194,7 +194,7 @@ GuruguruBar_Main:
     JSL Sprite_CorrectOamEntriesLong
     
     TXA : EOR $1A : AND.b #$03 : ORA $11
-                                 ORA $0FC1 : BNE .damage_to_player_inhibit
+                                 ORA.w $0FC1 : BNE .damage_to_player_inhibit
     
     LDY.b #$00
     

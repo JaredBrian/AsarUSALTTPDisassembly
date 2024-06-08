@@ -10,7 +10,7 @@ Sprite_MiddleAgedMan:
     JSR Sprite_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -33,26 +33,26 @@ MiddleAgedMan_Chillin:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    LDA $0D10, X : PHA
+    LDA.w $0D10, X : PHA
     
-    SEC : SBC.b #$10 : STA $0D10, X
+    SEC : SBC.b #$10 : STA.w $0D10, X
     
     JSR Sprite_Get_16_bit_Coords
     
-    LDA.b #$01 : STA $0D50, X : STA $0D40, X
+    LDA.b #$01 : STA.w $0D50, X : STA.w $0D40, X
     
     JSL Sprite_CheckTileCollisionLong : BNE .sign_wasnt_taken
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.l $7EF3CC : CMP.b #$00 : BEQ .player_lacks_tagalong
     
-    LDA.b #$05 : STA $0D80, X
+    LDA.b #$05 : STA.w $0D80, X
     
     .player_lacks_tagalong
     .sign_wasnt_taken
     
-    PLA : STA $0D10, X
+    PLA : STA.w $0D10, X
     
     RTS
 }
@@ -66,17 +66,17 @@ MiddleAgedMan_TransitionToTagalong:
     
     PHX
     
-    STZ $02F9
+    STZ.w $02F9
     
     JSL Tagalong_LoadGfx
     JSL Tagalong_Init
     
     PLX
     
-    LDA.b #$40 : STA $02CD
-                 STZ $02CE
+    LDA.b #$40 : STA.w $02CD
+                 STZ.w $02CE
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }
@@ -108,7 +108,7 @@ MiddleAgedMan_OfferChestOpening:
     
     .advance_ai_state
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .return
     
@@ -120,7 +120,7 @@ MiddleAgedMan_OfferChestOpening:
 ; $033D46-$033D89 JUMP LOCATION
 MiddleAgedMan_ReactToSecretKeepingResponse:
 {
-    LDA $1CE8 : BNE .angry_reply
+    LDA.w $1CE8 : BNE .angry_reply
     
     LDA.l $7EF3D3 : BEQ .chest_directly_connected_to_player
     
@@ -129,7 +129,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     RTS
     
@@ -138,13 +138,13 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     ; Give Link an empty bottle... but from who? Middle aged guy?
     LDY.b #$16
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
     LDA.l $7EF3C9 : ORA.b #$10 : STA.l $7EF3C9
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$00 : STA.l $7EF3CC
     
@@ -158,7 +158,7 @@ MiddleAgedMan_ReactToSecretKeepingResponse:
     
     JSL Sprite_ShowMessageUnconditional
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     RTS
 }

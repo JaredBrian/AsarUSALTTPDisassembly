@@ -7,7 +7,7 @@ Sprite_ThiefChest:
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
-    LDA $0D80, X : BNE .transition_to_tagalong
+    LDA.w $0D80, X : BNE .transition_to_tagalong
     
     ; "... the key is locked inside this chest, you can never open it...."
     LDA.b #$16
@@ -25,7 +25,7 @@ Sprite_ThiefChest:
     ; words, there is no causal relationship there.
     LDA.l $7EF3CC : BNE .already_have_tagalong
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .already_have_tagalong
     .didnt_touch
@@ -34,7 +34,7 @@ Sprite_ThiefChest:
     
     .transition_to_tagalong
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; Thief's chest (at smithy house in DW) Set that as the tagalong sprite
     LDA.b #$0C : STA.l $7EF3CC

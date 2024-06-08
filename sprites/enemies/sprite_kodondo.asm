@@ -9,9 +9,9 @@ Sprite_Kodondo:
     JSR Sprite3_CheckIfRecoiling
     JSR Sprite3_CheckDamage
     
-    STZ $0B6B, X
+    STZ.w $0B6B, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -37,23 +37,23 @@ Sprite_Kodondo:
 ; $0F4128-$0F4167 JUMP LOCATION
 Kodondo_ChooseDirection:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$03 : STA $0DE0, X
+    JSL GetRandomInt : AND.b #$03 : STA.w $0DE0, X
     
-    LDA.b #$B0 : STA $0B6B, X
+    LDA.b #$B0 : STA.w $0B6B, X
     
     .try_another_direction
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
-    LDA $0DE0, X : INC A : AND.b #$03 : STA $0DE0, X
+    LDA.w $0DE0, X : INC A : AND.b #$03 : STA.w $0DE0, X
     
     ; \bug I'm thinking this could potentially crash the game... (in the
     ; sense that it would be stuck in this loop, not go off the rails
@@ -65,11 +65,11 @@ Kodondo_ChooseDirection:
     ; $0F4158 ALTERNATE ENTRY POINT
     shared Kodondo_SetSpeed:
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA Sprite3_Shake.x_speeds, Y : STA $0D50, X
+    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
     
-    LDA Sprite3_Shake.y_speeds, Y : STA $0D40, X
+    LDA Sprite3_Shake.y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -95,7 +95,7 @@ Kodondo_Move:
     
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     JSR Kodondo_SetSpeed
     
@@ -105,27 +105,27 @@ Kodondo_Move:
     ; can potentially breath flames. It's still semi random as indicated
     ; below, though.
     
-    LDA $0D10, X : AND.b #$1F : CMP.b #$04 : BNE .dont_breathe_flame
+    LDA.w $0D10, X : AND.b #$1F : CMP.b #$04 : BNE .dont_breathe_flame
     
-    LDA $0D00, X : AND.b #$1F : CMP.b #$1B : BNE .dont_breathe_flame
+    LDA.w $0D00, X : AND.b #$1F : CMP.b #$1B : BNE .dont_breathe_flame
     
     JSL GetRandomInt : AND.b #$03 : BNE .dont_breathe_flame
     
-    LDA.b #$6F : STA $0DF0, X
+    LDA.b #$6F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     .dont_breathe_flame
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : AND.b #$04 : ORA $0DE0, X : TAY
+    LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA .vh_flip_override, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip_override, Y : STA.w $0F50, X
     
     RTS
 }
@@ -145,9 +145,9 @@ Pool_Kodondo_BreatheFlames:
 ; $0F41D6-$0F4204 JUMP LOCATION
 Kodondo_BreatheFlame:
 {
-    LDA $0DF0, X : BNE .dont_revert_yet
+    LDA.w $0DF0, X : BNE .dont_revert_yet
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .dont_revert_yet
     
@@ -161,7 +161,7 @@ Kodondo_BreatheFlame:
     
     CPY.b #$04 : BNE .dont_spawn_flame
     
-    LDA $0DF0, X : AND.b #$0F : BNE .dont_spawn_flame
+    LDA.w $0DF0, X : AND.b #$0F : BNE .dont_spawn_flame
     
     PHY
     
@@ -171,9 +171,9 @@ Kodondo_BreatheFlame:
     
     ,dont_spawn_flame
     
-    TYA : ORA $0DE0, X : TAY
+    TYA : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -218,19 +218,19 @@ Kodondo_SpawnFlames:
     
     PHX
     
-    LDA $0DE0, X : TAX
+    LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    LDA.b #$01 : STA $0BA0, Y
+    LDA.b #$01 : STA.w $0BA0, Y
     
     PLX
     

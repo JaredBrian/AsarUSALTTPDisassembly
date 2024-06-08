@@ -24,11 +24,11 @@ Pool_Sprite_ThrowableScenery:
 Sprite_ThrowableScenery:
 {
 		; if($0FC6 >= 0x03)
-    LDA $0FC6 : CMP.b #$03 : BCS .cant_draw
+    LDA.w $0FC6 : CMP.b #$03 : BCS .cant_draw
     
-    LDA $0FB3 : BEQ .dont_use_reserved_oam_slots
+    LDA.w $0FB3 : BEQ .dont_use_reserved_oam_slots
     
-    LDA $0F20, X : BEQ .dont_use_reserved_oam_slots
+    LDA.w $0F20, X : BEQ .dont_use_reserved_oam_slots
     
     TXA : AND.b #$03 : ASL A : TAY
     
@@ -42,10 +42,10 @@ Sprite_ThrowableScenery:
     
     .dont_use_reserved_oam_slots
     
-    LDA $0DD0, X : STA $0BA0, X
+    LDA.w $0DD0, X : STA.w $0BA0, X
     
     ; if(object != bigass_object)
-    LDA $0DB0, X : CMP.b #$06 : BCC .not_bigass_scenery
+    LDA.w $0DB0, X : CMP.b #$06 : BCC .not_bigass_scenery
     
     JSR ThrowableScenery_DrawLarge
     
@@ -58,9 +58,9 @@ Sprite_ThrowableScenery:
     PHX
     
     ; (checks to see if you're indoors in the dark world)
-    LDA $1B : CLC : ADC $0FFF : CMP.b #$02
+    LDA $1B : CLC : ADC.w $0FFF : CMP.b #$02
     
-    LDA $0DB0, X : PHA : BCC .not_indoors_in_dark_world
+    LDA.w $0DB0, X : PHA : BCC .not_indoors_in_dark_world
     
     ADC.b #$05
     
@@ -70,18 +70,18 @@ Sprite_ThrowableScenery:
     
     LDA.w $AABE, X : LDY.b #$02 : STA ($90), Y : INY
     
-    LDA ($90), Y : AND.b #$F0 : PLX : ORA $AACA, X : STA ($90), Y
+    LDA ($90), Y : AND.b #$F0 : PLX : ORA.w $AACA, X : STA ($90), Y
     
     PLX
     
     AND.b #$0F : STA $00
     
-    LDA $0F50, X : AND.b #$C0 : ORA $00 : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$C0 : ORA $00 : STA.w $0F50, X
     
     .done_drawing
     .cant_draw
     
-    LDA $0DD0, X : CMP.b #$09 : BNE .skip_collision_logic
+    LDA.w $0DD0, X : CMP.b #$09 : BNE .skip_collision_logic
     
     JSR Sprite_CheckIfActive
     JSR ThrowableScenery_InteractWithSpritesAndTiles
@@ -117,11 +117,11 @@ Pool_ThrowableScenery_DrawLarge:
 ; $032B76-$032C30 LOCAL JUMP LOCATION
 ThrowableScenery_DrawLarge:
 {
-    LDY $0DB0, X
+    LDY.w $0DB0, X
     
     ; \note They did it this way because it's assumed that $0DB0, X is
     ; >= 0x06 here.
-    LDA .palettes-$06, Y : STA $0F50, X
+    LDA .palettes-$06, Y : STA.w $0F50, X
     
     JSR Sprite_PrepOamCoord
     
@@ -170,8 +170,8 @@ ThrowableScenery_DrawLarge:
     
     LDY.b #$00
     
-    LDA $0D00, X : SEC : SBC $E8 : STA $02
-    LDA $0D20, X : SBC $E9 : STA $03
+    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
+    LDA.w $0D20, X : SBC $E9 : STA $03
     
     PHX
     
@@ -240,7 +240,7 @@ Pool_ThrowableScenery_ScatterIntoDebris:
 ; $032C41-$032D02 LOCAL JUMP LOCATION
 ThrowableScenery_ScatterIntoDebris:
 {
-    LDA $0DB0, X : BMI .smaller_scenery
+    LDA.w $0DB0, X : BMI .smaller_scenery
     CMP.b #$06   : BCC .smaller_scenery
     
     LDA.b #$03 : STA $0D
@@ -249,19 +249,19 @@ ThrowableScenery_ScatterIntoDebris:
     
     LDA.b #$EC : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $0F70, X : STA $0F70, Y
+    LDA.w $0F70, X : STA.w $0F70, Y
     
     PHX
     
     LDX $0D
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA.b #$01 : STA $0DB0, Y
+    LDA.b #$01 : STA.w $0DB0, Y
     
     TYX
     
@@ -269,26 +269,26 @@ ThrowableScenery_ScatterIntoDebris:
     
     PLX
     
-    LDA $0DB0, X : CMP.b #$07 : LDA.b #$00 : BCS .use_default_palette
+    LDA.w $0DB0, X : CMP.b #$07 : LDA.b #$00 : BCS .use_default_palette
     
     ; 0x06 type scenery uses a palette ot 6 (12 >> 1).
     LDA.b #$0C
     
     .use_default_palette
     
-    STA $0F50, Y
+    STA.w $0F50, Y
     
     .spawn_failed
     
     DEC $0D : BPL .spawn_next_smaller_scenery
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .smaller_scenery
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSR Sprite_PrepOamCoord
     
@@ -306,18 +306,18 @@ ThrowableScenery_ScatterIntoDebris:
     
     .empty_garnish_slot
     
-    LDA.b #$16 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$16 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : SEC : SBC $0F70, Y
+    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y
     
     PHP
     
     CLC : ADC.b #$10 : STA.l $7FF81E, X
     
-    LDA $0D20, Y : ADC.b #$00
+    LDA.w $0D20, Y : ADC.b #$00
     
     PLP
     
@@ -325,11 +325,11 @@ ThrowableScenery_ScatterIntoDebris:
     
     LDA $05 : STA.l $7FF9FE, X
     
-    LDA $0F20, Y : STA.l $7FF968, X
+    LDA.w $0F20, Y : STA.l $7FF968, X
     
     LDA.b #$1F : STA.l $7FF90E, X
     
-    LDA $0DB0, Y : STA.l $7FF92C, X
+    LDA.w $0DB0, Y : STA.l $7FF92C, X
     
     PLX
     

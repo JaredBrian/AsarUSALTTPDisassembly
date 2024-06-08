@@ -4,16 +4,16 @@
 ; $0F3BB9-$0F3BDA JUMP LOCATION
 Sprite_FlyingTile:
 {
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     JSR FlyingTile_Draw
     JSR Sprite3_CheckIfActive.permissive
     
-    LDA $0EF0, X : BNE FlyingTile_Shatter
+    LDA.w $0EF0, X : BNE FlyingTile_Shatter
     
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -27,17 +27,17 @@ Sprite_FlyingTile:
 ; $0F3BDB-$0F3C00 JUMP LOCATION
 FlyingTile_EraseTilemapEntries:
 {
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $01
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $01
     
-    LDA $0D00, X : CLC : ADC.b #$08 : STA $02
-    LDA $0D20, X              : STA $03
+    LDA.w $0D00, X : CLC : ADC.b #$08 : STA $02
+    LDA.w $0D20, X              : STA $03
     
     LDY.b #$06 : JSL Dungeon_SpriteInducedTilemapUpdate
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     RTS
 }
@@ -47,11 +47,11 @@ FlyingTile_EraseTilemapEntries:
 ; $0F3C01-$0F3C4E JUMP LOCATION
 FlyingTile_CareenTowardsPlayer:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     ; \note This is why the tiles give up after a short while. These could
     ; be made really nasty with some adjustments...
-    LDA $0DF0, X : BEQ .dont_refresh_player_tracking
+    LDA.w $0DF0, X : BEQ .dont_refresh_player_tracking
     AND.b #$03   : BNE .dont_refresh_player_tracking
     
     JSR FlyingTile_TrackPlayer
@@ -62,8 +62,8 @@ FlyingTile_CareenTowardsPlayer:
     
     JSR Sprite3_Move
     
-    LDA $0FDA : SEC : SBC $0F70, X : STA $0FDA
-    LDA $0FDB : SBC.b #$00   : STA $0FDB
+    LDA.w $0FDA : SEC : SBC.w $0F70, X : STA.w $0FDA
+    LDA.w $0FDB : SBC.b #$00   : STA.w $0FDB
     
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
@@ -74,15 +74,15 @@ FlyingTile_CareenTowardsPlayer:
     
     LDA.b #$1F : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$06 : STA $0DD0, X
+    LDA.b #$06 : STA.w $0DD0, X
     
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
-    LDA.b #$EC : STA $0E20, X
+    LDA.b #$EC : STA.w $0E20, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA.b #$80 : STA $0DB0, X
+    LDA.b #$80 : STA.w $0DB0, X
     
     RTS
     
@@ -96,11 +96,11 @@ FlyingTile_CareenTowardsPlayer:
 ; $0F3C4F-$0F3C89 JUMP LOCATION
 FlyingTile_RiseUp:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     ; $0F3C5C ALTERNATE ENTRY POINT
     shared FlyingTile_TrackPlayer:
@@ -115,7 +115,7 @@ FlyingTile_RiseUp:
     
     CMP.b #$40 : BCC .stop_rising
     
-    LDA.b #$04 : STA $0F80, X
+    LDA.b #$04 : STA.w $0F80, X
     
     JSR Sprite3_MoveAltitude
     
@@ -124,7 +124,7 @@ FlyingTile_RiseUp:
     ; $0F3C6F ALTERNATE ENTRY POINT
     shared FlyingTile_NoisilyAnimate:
     
-    INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$01 : STA $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     TXA : EOR $1A : AND.b #$07 : BNE .delay_sfx
     
@@ -158,7 +158,7 @@ Pool_FlyingTile_Draw:
 FlyingTile_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
     
     SEP #$20
     

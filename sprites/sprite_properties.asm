@@ -306,28 +306,28 @@ Sprite_LoadProperties:
     
     PHB : PHK : PLB
     
-    LDY $0E20, X ; What kind of sprite is it?
+    LDY.w $0E20, X ; What kind of sprite is it?
     
-    LDA.w $B080, Y : STA $0E40, X
+    LDA.w $B080, Y : STA.w $0E40, X
     
-    LDA.w $B173, Y : STA $0E50, X ; Load its HP.
-    LDA.w $B44C, Y : STA $0F60, X ; ????
-    LDA.w $B632, Y : STA $0BE0, X
-    LDA.w $B725, Y : STA $0CAA, X
-    LDA.w $B266, Y : STA $0CD2, X ; Load how much damage the sprite can do.
-    LDA.w $B53F, Y : STA $0B6B, X
+    LDA.w $B173, Y : STA.w $0E50, X ; Load its HP.
+    LDA.w $B44C, Y : STA.w $0F60, X ; ????
+    LDA.w $B632, Y : STA.w $0BE0, X
+    LDA.w $B725, Y : STA.w $0CAA, X
+    LDA.w $B266, Y : STA.w $0CD2, X ; Load how much damage the sprite can do.
+    LDA.w $B53F, Y : STA.w $0B6B, X
     
     ; Load the outdoor area number.
-    LDA $040A
+    LDA.w $040A
     
     LDY $1B : BEQ .outdoors
         ; If indoors, instead load the room number. (in this case, the lower byte)
-        LDA $048E
+        LDA.w $048E
     
     .outdoors
     
     ; And store that index here.
-    STA $0C9A, X
+    STA.w $0C9A, X
     
     PLB
     
@@ -341,9 +341,9 @@ Sprite_LoadProperties:
     PHB : PHK : PLB
     
     ; Again, tell us what sprite it is
-    LDY $0E20, X
+    LDY.w $0E20, X
     
-    LDA.w $B359, Y : STA $0E60, X : AND.b #$0F : STA $0F50, X
+    LDA.w $B359, Y : STA.w $0E60, X : AND.b #$0F : STA.w $0F50, X
     
     PLB
     
@@ -357,41 +357,41 @@ Sprite_LoadProperties:
 ; $06B871-$06B8F0 LONG JUMP LOCATION
 Sprite_ResetProperties:
 {
-    STZ $0F00, X
-    STZ $0E90, X
-    STZ $0D50, X
-    STZ $0D40, X
-    STZ $0F80, X
-    STZ $0D70, X
-    STZ $0D60, X
-    STZ $0F90, X
-    STZ $0D80, X
-    STZ $0DC0, X
-    STZ $0DE0, X
-    STZ $0DF0, X
-    STZ $0E00, X
-    STZ $0E10, X
-    STZ $0F10, X
-    STZ $0EB0, X
-    STZ $0EC0, X
-    STZ $0ED0, X
-    STZ $0EF0, X
-    STZ $0E70, X
-    STZ $0F70, X
-    STZ $0E50, X
-    STZ $0EA0, X
-    STZ $0F40, X
-    STZ $0F30, X
-    STZ $0D90, X
-    STZ $0DA0, X
-    STZ $0DB0, X
-    STZ $0BB0, X
-    STZ $0E80, X
-    STZ $0BA0, X
-    STZ $0B89, X
-    STZ $0F50, X
-    STZ $0B58, X
-    STZ $0CE2, X
+    STZ.w $0F00, X
+    STZ.w $0E90, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
+    STZ.w $0F80, X
+    STZ.w $0D70, X
+    STZ.w $0D60, X
+    STZ.w $0F90, X
+    STZ.w $0D80, X
+    STZ.w $0DC0, X
+    STZ.w $0DE0, X
+    STZ.w $0DF0, X
+    STZ.w $0E00, X
+    STZ.w $0E10, X
+    STZ.w $0F10, X
+    STZ.w $0EB0, X
+    STZ.w $0EC0, X
+    STZ.w $0ED0, X
+    STZ.w $0EF0, X
+    STZ.w $0E70, X
+    STZ.w $0F70, X
+    STZ.w $0E50, X
+    STZ.w $0EA0, X
+    STZ.w $0F40, X
+    STZ.w $0F30, X
+    STZ.w $0D90, X
+    STZ.w $0DA0, X
+    STZ.w $0DB0, X
+    STZ.w $0BB0, X
+    STZ.w $0E80, X
+    STZ.w $0BA0, X
+    STZ.w $0B89, X
+    STZ.w $0F50
+    STZ.w $0B58, X
+    STZ.w $0CE2, X
     
     LDA.b #$00 : STA.l $7FFA1C, X
                  STA.l $7FFA2C, X

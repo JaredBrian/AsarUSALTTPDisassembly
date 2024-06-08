@@ -21,23 +21,23 @@ Sprite_Vitreolus:
     ; correct me if I'm wrong, anyone.
     
     ; Allows even numbers from 0 to 6 inclusive.
-    LDA $0E80, X : LSR #3 : AND.b #$06 : TAY
+    LDA.w $0E80, X : LSR #3 : AND.b #$06 : TAY
     
     REP #$20
     
-    LDA $0FD8 : CLC : ADC .x_offsets, Y : STA $0FD8
+    LDA.w $0FD8 : CLC : ADC .x_offsets, Y : STA.w $0FD8
     
-    LDA $0FDA : CLC : ADC .y_offsets, Y : STA $0FDA
+    LDA.w $0FDA : CLC : ADC .y_offsets, Y : STA.w $0FDA
     
     SEP #$20
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite4_CheckIfActive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     ; \note Interesting... active status indicated by its animation state?
-    LDA $0DC0, X : BEQ .active
+    LDA.w $0DC0, X : BEQ .active
     
     RTS
     
@@ -46,14 +46,14 @@ Sprite_Vitreolus:
     JSL Sprite_CheckDamageFromPlayerLong
     JSL Sprite_CheckDamageToPlayerLong
     
-    LDA $0EA0, X : CMP.b #$0E : BNE .shorten_recoil_time
+    LDA.w $0EA0, X : CMP.b #$0E : BNE .shorten_recoil_time
     
-    LDA.b #$05 : STA $0EA0, X
+    LDA.b #$05 : STA.w $0EA0, X
     
     .shorten_recoil_time
     
     ; \optimize comparison with 0x01 could be changed to "dec a".
-    LDA $0D80, X : BEQ Vitreolus_TargetPlayerPosition
+    LDA.w $0D80, X : BEQ Vitreolus_TargetPlayerPosition
     CMP.b #$01   : BEQ Vitreolus_PursueTargetPosition
     
     JMP Vitreolus_ReturnToOrigin
@@ -64,11 +64,11 @@ Sprite_Vitreolus:
 ; $0EE7C4-$0EE7D8 BRANCH LOCATION
 Vitreolus_TargetPlayerPosition:
 {
-    LDA $22 : STA $0ED0, X
-    LDA $23 : STA $0EB0, X
+    LDA $22 : STA.w $0ED0, X
+    LDA $23 : STA.w $0EB0, X
     
-    LDA $20 : STA $0EC0, X
-    LDA $21 : STA $0E30, X
+    LDA $20 : STA.w $0EC0, X
+    LDA $21 : STA.w $0E30, X
     
     RTS
 }
@@ -82,29 +82,29 @@ Vitreolus_PursueTargetPosition:
     
     TXA : EOR $1A : AND.b #$01 : BNE .stagger_retargeting
     
-    LDA $0ED0, X : STA $04
-    LDA $0EB0, X : STA $05
+    LDA.w $0ED0, X : STA $04
+    LDA.w $0EB0, X : STA $05
     
-    LDA $0EC0, X : STA $06
-    LDA $0E30, X : STA $07
+    LDA.w $0EC0, X : STA $06
+    LDA.w $0E30, X : STA $07
     
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     .stagger_retargeting
     
     JSR Sprite4_Move
     
-    LDA $0ED0, X : SEC : SBC $0D10, X
+    LDA.w $0ED0, X : SEC : SBC.w $0D10, X
                    CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
     
-    LDA $0EC0, X : SEC : SBC $0D00, X
+    LDA.w $0EC0, X : SEC : SBC.w $0D00, X
                    CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .not_at_target_position
     
@@ -120,35 +120,35 @@ Vitreolus_ReturnToOrigin:
     
     TXA : EOR $1A : AND.b #$01 : BNE .stagger_retargeting
     
-    LDA $0D90, X : STA $04
-    LDA $0DA0, X : STA $05
+    LDA.w $0D90, X : STA $04
+    LDA.w $0DA0, X : STA $05
     
-    LDA $0DB0, X : STA $06
-    LDA $0DE0, X : STA $07
+    LDA.w $0DB0, X : STA $06
+    LDA.w $0DE0, X : STA $07
     
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     .stagger_retargeting
     
     JSR Sprite4_Move
     
-    LDA $0D90, X : SEC : SBC $0D10, X
+    LDA.w $0D90, X : SEC : SBC.w $0D10, X
                    CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
     
-    LDA $0DB0, X : SEC : SBC $0D00, X
+    LDA.w $0DB0, X : SEC : SBC.w $0D00, X
                    CLC : ADC.b #$04 : CMP.b #$08 : BCS .not_at_target_position
     
-    LDA $0D90, X : STA $0D10, X
-    LDA $0DA0, X : STA $0D30, X
+    LDA.w $0D90, X : STA.w $0D10, X
+    LDA.w $0DA0, X : STA.w $0D30, X
     
-    LDA $0DB0, X : STA $0D00, X
-    LDA $0DE0, X : STA $0D20, X
+    LDA.w $0DB0, X : STA.w $0D00, X
+    LDA.w $0DE0, X : STA.w $0D20, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_at_target_position
     

@@ -4,7 +4,7 @@
 ; $0F6B33-$0F6B3F JUMP LOCATION
 Sprite_BullyAndBallGuy:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -23,16 +23,16 @@ Sprite_BallGuy:
     JSR Sprite3_CheckIfActive
     JSR BallGuy_Dialogue
     
-    LDA $0F50, X : AND.b #$7F : ORA $0EB0, X : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$7F : ORA.w $0EB0, X : STA.w $0F50, X
     
     JSR Sprite3_MoveXyz
     
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     AND.b #$03                     : BNE .horiz_tile_collision
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA $0E90, X : BEQ .not_kicked
+    LDA.w $0E90, X : BEQ .not_kicked
     
     JSR BallGuy_PlayBounceNoise
     
@@ -41,9 +41,9 @@ Sprite_BallGuy:
     .not_kicked
     .horiz_tile_collision
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $0E90, X : BEQ .not_kicked_2
+    LDA.w $0E90, X : BEQ .not_kicked_2
     
     JSR BallGuy_PlayBounceNoise
     
@@ -51,13 +51,13 @@ Sprite_BallGuy:
     .no_tile_collision
     .moving_on
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .not_z_bouncing
+    LDA.w $0F70, X : BPL .not_z_bouncing
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA $0F80, X
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
     
     AND.b #$FC : BEQ .dont_play_sfx
     
@@ -69,9 +69,9 @@ Sprite_BallGuy:
     
     .not_z_bouncing
     
-    LDA $0E90, X : BNE .kicked_by_bully
+    LDA.w $0E90, X : BNE .kicked_by_bully
     
-    LDA $0EB0, X : BEQ .right_side_up
+    LDA.w $0EB0, X : BEQ .right_side_up
     
     JMP BallGuy_UpsideDown
     
@@ -81,7 +81,7 @@ Sprite_BallGuy:
     
     TXA : EOR $1A : PHA
     
-    LSR #3 : AND.b #$01 : STA $0DC0, X
+    LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     PLA : AND.b #$3F : BNE .dont_pick_new_direction
     
@@ -98,36 +98,36 @@ Sprite_BallGuy:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $01 : STA $0DA0, X
+    LDA $01 : STA.w $0DA0, X
     
-    LDA $00 : STA $0D90, X : BEQ .target_location_vertical
+    LDA $00 : STA.w $0D90, X : BEQ .target_location_vertical
     
-    LDA $0F50, X : ORA.b #$40 : STA $0F50, X
+    LDA.w $0F50, X : ORA.b #$40 : STA.w $0F50, X
     
-    LDA $0D50, X : LSR A : AND.b #$40 : EOR $0F50, X : STA $0F50, X
+    LDA.w $0D50, X : LSR A : AND.b #$40 : EOR.w $0F50, X : STA.w $0F50, X
     
     .target_location_vertical
     .dont_pick_new_direction
     
-    LDA $0DA0, X : STA $0D50, X
+    LDA.w $0DA0, X : STA.w $0D50, X
     
-    LDA $0D90, X : STA $0D40, X
+    LDA.w $0D90, X : STA.w $0D40, X
     
     RTS
     
     .kicked_by_bully
     
-    LDA $0D50, X : ORA $0D40, X : BNE .not_at_full_stop_yet
+    LDA.w $0D50, X : ORA.w $0D40, X : BNE .not_at_full_stop_yet
     
-    STZ $0E90, X
+    STZ.w $0E90, X
     
     RTS
     
     .not_at_full_stop_yet
     
-    TXA : EOR $1A : PHA : LSR #2 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : PHA : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    PLA : ASL #2 : AND.b #$80 : STA $0EB0, X
+    PLA : ASL #2 : AND.b #$80 : STA.w $0EB0, X
     
     RTS
 }
@@ -141,16 +141,16 @@ BallGuy_UpsideDown:
     
     TXA : EOR $1A : BEQ .turn_right_side_up
     
-    LSR #2 : AND.b #$01 : STA $0DC0, X
+    LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
     RTS
     
     .turn_right_side_up
     
-    STZ $0EB0, X
+    STZ.w $0EB0, X
     
     RTS
 }
@@ -169,19 +169,19 @@ Pool_BallGuy_Friction:
 ; $0F6C4D-$0F6C73 LOCAL JUMP LOCATION
 BallGuy_Friction:
 {
-    LDA $0D50, X : BEQ .zero_x_velocity
+    LDA.w $0D50, X : BEQ .zero_x_velocity
     
     PHA : ASL A : ROL A : AND.b #$01 : TAY
     
-    PLA : CLC : ADC .rates, Y : STA $0D50, X
+    PLA : CLC : ADC .rates, Y : STA.w $0D50, X
     
     .zero_x_velocity
     
-    LDA $0D40, X : BEQ .zero_y_velocity
+    LDA.w $0D40, X : BEQ .zero_y_velocity
     
     PHA : ASL A : ROL A : AND.b #$01 : TAY
     
-    PLA : CLC : ADC .rates, Y : STA $0D40, X
+    PLA : CLC : ADC .rates, Y : STA.w $0D40, X
     
     .zero_y_velocity
     
@@ -212,18 +212,18 @@ Sprite_Bully:
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     AND.b #$03                     : BNE .horiz_tile_collision
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
     BRA .moving_on
     
     .horiz_tile_collision
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
     .moving_on
     .no_tile_collision
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -239,39 +239,39 @@ Bully_ChaseBallGuy:
 {
     ; Bully State 0
     
-    TXA : EOR $1A : PHA : LSR #3 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : PHA : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     PLA : AND.b #$1F : BNE .delay
     
-    LDA $0EB0, X : TAY
+    LDA.w $0EB0, X : TAY
     
-    LDA $0D10, Y : STA $04
-    LDA $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA $04
+    LDA.w $0D30, Y : STA $05
     
-    LDA $0D00, Y : STA $06
-    LDA $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA $06
+    LDA.w $0D20, Y : STA $07
     
     ; Makes the Bully go towards the Ball Guy
     LDA.b #$0E : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X : BEQ .dont_change_orientation
+    LDA $01 : STA.w $0D50, X : BEQ .dont_change_orientation
     
-    LDA $0D50, X : ASL A : ROL A : AND.b #$01 : STA $0DE0, X
+    LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : STA.w $0DE0, X
     
     .dont_change_orientation
     .delay
     
-    LDA $0EB0, X : TAY
+    LDA.w $0EB0, X : TAY
     
-    LDA $0F70, Y : BNE .cant_kick
+    LDA.w $0F70, Y : BNE .cant_kick
     
-    LDA $0D10, X : SEC : SBC $0D10, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
+    LDA.w $0D10, X : SEC : SBC.w $0D10, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
     
-    LDA $0D00, X : SEC : SBC $0D00, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
+    LDA.w $0D00, X : SEC : SBC.w $0D00, Y : CLC : ADC.b #$08 : CMP.b #$10 : BCS .cant_kick
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSR BallGuy_PlayBounceNoise
     
@@ -285,24 +285,24 @@ Bully_ChaseBallGuy:
 ; $0F6D23-$0F6D54 JUMP LOCATION
 Bully_KickBallGuy:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA $0EB0, X : TAY
+    LDA.w $0EB0, X : TAY
     
     ; Specifies Ball Guy's new velocity as being double that of the bully's
     ; when he kicks him. However, this isn't arithmetically safe I guess.
-    LDA $0D50, X : ASL A : STA $0D50, Y
+    LDA.w $0D50, X : ASL A : STA.w $0D50, Y
     
-    LDA $0D40, X : ASL A : STA $0D40, Y
+    LDA.w $0D40, X : ASL A : STA.w $0D40, Y
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
-    JSL GetRandomInt : AND.b #$1F : STA $0F80, Y
+    JSL GetRandomInt : AND.b #$1F : STA.w $0F80, Y
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
-    LDA.b #$01 : STA $0DC0, X : STA $0E90, Y
+    LDA.b #$01 : STA.w $0DC0, X : STA.w $0E90, Y
     
     RTS
 }
@@ -312,9 +312,9 @@ Bully_KickBallGuy:
 ; $0F6D55-$0F6D5D JUMP LOCATION
 Bully_Waiting:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .delay
     
@@ -348,7 +348,7 @@ Bully_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
@@ -378,12 +378,12 @@ BullyAndBallGuy_SpawnBully:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$02 : STA $0E80, Y
+    LDA.b #$02 : STA.w $0E80, Y
     
     ; Tells the Bully the index of the Ball Guy so he can harass him.
-    TXA : STA $0EB0, Y
+    TXA : STA.w $0EB0, Y
     
-    LDA.b #$01 : STA $0BA0, Y
+    LDA.b #$01 : STA.w $0BA0, Y
     
     .spawn_failed
     
@@ -407,7 +407,7 @@ Pool_BallGuy_Dialogue:
 ; $0F6DE8-$0F6E20 JUMP LOCATION
 BallGuy_Dialogue:
 {
-    LDA $0F10, X : BNE .delay
+    LDA.w $0F10, X : BNE .delay
     
     LDA.l $7EF357 : AND.b #$01 : TAY
     
@@ -418,17 +418,17 @@ BallGuy_Dialogue:
     
     ; \bug um... usually you increment after doing this. Assuming for now
     ; that it's a bug unless some point to this is found.
-    LDA $0D50, X : EOR.b #$FF : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : STA.w $0D50, X
     
-    LDA $0D40, X : EOR.b #$FF : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : STA.w $0D40, X
     
-    LDA $0E90, X : BEQ .dont_play_sfx
+    LDA.w $0E90, X : BEQ .dont_play_sfx
     
     JSR BallGuy_PlayBounceNoise
     
     .dont_play_sfx
     
-    LDA.b #$40 : STA $0F10, X
+    LDA.b #$40 : STA.w $0F10, X
     
     .didnt_speak
     .delay
@@ -453,7 +453,7 @@ Pool_Bully_Dialogue:
 ; $0F6E25-$0F6E55 LOCAL JUMP LOCATION
 Bully_Dialogue:
 {
-    LDA $0F10, X : BNE .delay
+    LDA.w $0F10, X : BNE .delay
     
     LDA.l $7EF357 : AND.b #$01 : TAY
     
@@ -462,11 +462,11 @@ Bully_Dialogue:
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
-    LDA $0D50, X : EOR.b #$FF : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : STA.w $0D50, X
     
-    LDA $0D40, X : EOR.b #$FF : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : STA.w $0D40, X
     
-    LDA.b #$40 : STA $0F10, X
+    LDA.b #$40 : STA.w $0F10, X
     
     .didnt_speak
     .delay

@@ -4,7 +4,7 @@
 ; $0F2AA7-$0F2AF3 JUMP LOCATION
 Sprite_StalfosKnight:
 {
-    LDA $0D80, X : BNE .visible
+    LDA.w $0D80, X : BNE .visible
     
     JSL Sprite_PrepOamCoordLong
     
@@ -18,16 +18,16 @@ Sprite_StalfosKnight:
     
     JSR Sprite3_CheckIfActive
     
-    LDA $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE .BRANCH_GAMMA
+    LDA.w $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE .BRANCH_GAMMA
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA.b #$06 : STA $0D80, X
+    LDA.b #$06 : STA.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
     LDA.b #$02 : STA.l $7F6918
     
@@ -35,7 +35,7 @@ Sprite_StalfosKnight:
     
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -54,26 +54,26 @@ Sprite_StalfosKnight:
 ; $0F2AF4-$0F2B26 JUMP LOCATION
 StalfosKnight_WaitingForPlayer:
 {
-    LDA.b #$09 : STA $0F60, X : STA $0BA0, X
+    LDA.b #$09 : STA.w $0F60, X : STA.w $0BA0, X
     
     ; Temporarily make the sprite harmless since it's not technically
     ; on screen yet.
-    LDA $0E40, X : PHA
-    ORA.b #$80   : STA $0E40, X
+    LDA.w $0E4040, X : PHA
+    ORA.b #$80   : STA.w $0E40, X
     
     JSR Sprite3_CheckDamageToPlayer
     
-    PLA : STA $0E40, X : BCC .didnt_touch
+    PLA : STA.w $0E40, X : BCC .didnt_touch
     
     ; As soon as Link gets close enough, the Stalfos knight reveals itself
     ; by falling from the ceiling.
-    LDA.b #$90 : STA $0F70, X
+    LDA.b #$90 : STA.w $0F70, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$02 : STA.w $0EB0, X
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
@@ -87,31 +87,31 @@ StalfosKnight_WaitingForPlayer:
 ; $0F2B27-$0F2B59 JUMP LOCATION
 StalfosKnight_Falling:
 {
-    LDA $0F70, X : PHA
+    LDA.w $0F70, X : PHA
     
     JSR Sprite3_MoveAltitude
     
-    LDA $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
+    LDA.w $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
     
-    SEC : SBC.b #$03 : STA $0F80, X
+    SEC : SBC.b #$03 : STA.w $0F80, X
     
     .at_terminal_falling_speed
     
-    PLA : EOR $0F70, X : BPL .not_sign_change
+    PLA : EOR.w $0F70, X : BPL .not_sign_change
     
-    LDA $0F70, X : BPL .in_air
+    LDA.w $0F70, X : BPL .in_air
     
     ; $0F2B46 ALTERNATE ENTRY POINT
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
     .in_air
     .no_sign_change
@@ -135,13 +135,13 @@ StalfosKnight_Falling:
     
     JSR Sprite3_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : STA $0DA0, X
+    JSL GetRandomInt : AND.b #$3F : STA.w $0DA0, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     RTS
     
@@ -149,11 +149,11 @@ StalfosKnight_Falling:
     
     LSR #5 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA .animation_states, Y : STA $0DB0, X
+    LDA .animation_states, Y : STA.w $0DB0, X
     
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$02 : STA.w $0EB0, X
     
     RTS
 }
@@ -173,15 +173,15 @@ StalfosKnight_Falling:
 {
     JSR Sprite3_CheckDamage
     
-    LDA $0DF0, X : CMP $0DA0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : CMP.w $0DA0, X : BNE .BRANCH_ALPHA
     
     JSR Sprite3_IsToRightOfPlayer
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
@@ -189,11 +189,11 @@ StalfosKnight_Falling:
     
     LSR #3 : TAY
     
-    LDA.w $AB96, Y : STA $0EB0, X
+    LDA.w $AB96, Y : STA.w $0EB0, X
     
-    LDA.b #$00 : STA $0DB0, X
+    LDA.b #$00 : STA.w $0DB0, X
     
-    LDA.b #$00 : STA $0DC0, X
+    LDA.b #$00 : STA.w $0DC0, X
     
     RTS
 }
@@ -202,19 +202,19 @@ StalfosKnight_Falling:
 {
     JSR Sprite3_CheckDamage
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    LDA.b #$20 : STA $0E00, X
+    LDA.b #$20 : STA.w $0E00, X
     
     ; $0F2BEB ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
-    LDA.b #$01 : STA $0DB0, X
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DB0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -223,17 +223,17 @@ StalfosKnight_Falling:
 {
     JSR Sprite3_CheckDamage
     
-    LDA $0E00, X : BEQ .BRANCH_ALPHA
+    LDA.w $0E00, X : BEQ .BRANCH_ALPHA
     DEC A        : BNE .BRANCH_BETA
     
-    LDA.b #$30 : STA $0F80, X
+    LDA.b #$30 : STA.w $0F80, X
     
     LDA.b #$10
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     JSR Sprite3_IsToRightOfPlayer
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
     LDA.b #$13 : JSL Sound_SetSfx3PanLong
     
@@ -246,36 +246,36 @@ StalfosKnight_Falling:
     JSR Sprite3_MoveXyz
     JSR Sprite3_CheckTileCollision
     
-    LDA $0F80, X : CMP.b #$C0 : BMI .BRANCH_GAMMA
+    LDA.w $0F80, X : CMP.b #$C0 : BMI .BRANCH_GAMMA
     
-    SEC : SBC.b #$02 : STA $0F80, X
+    SEC : SBC.b #$02 : STA.w $0F80, X
     
     .BRANCH_GAMMA
     
-    LDA $0F70, X : DEC A : BPL .BRANCH_DELTA
+    LDA.w $0F70, X : DEC A : BPL .BRANCH_DELTA
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
-    LDA $0DF0, X : BNE .BRANCH_EPSILON
+    LDA.w $0DF0, X : BNE .BRANCH_EPSILON
     
-    JMP $AB46 ; $0F2B46 IN ROM
+    JMP.w $AB46 ; $0F2B46 IN ROM
     
     .BRANCH_EPSILON
     
-    LDA.b #$10 : STA $0E00, X
+    LDA.b #$10 : STA.w $0E00, X
     
     .BRANCH_DELTA
     
     LDY.b #$02
     
-    LDA $0F80, X : CMP.b #$18 : BMI .BRANCH_ZETA
+    LDA.w $0F80, X : CMP.b #$18 : BMI .BRANCH_ZETA
     
     LDY.b #$00
     
     .BRANCH_ZETA
     
-    TYA : STA $0DC0, X
+    TYA : STA.w $0DC0, X
     
     RTS
 }
@@ -298,31 +298,31 @@ StalfosKnight_Falling:
     JSR Sprite3_MoveXyz
     JSR Sprite3_CheckTileCollision
     
-    LDA $0F80, X : CMP.b #$C0 : BMI .BRANCH_ALPHA
+    LDA.w $0F80, X : CMP.b #$C0 : BMI .BRANCH_ALPHA
     
-    SEC : SBC.b #$02 : STA $0F80, X
+    SEC : SBC.b #$02 : STA.w $0F80, X
     
     .BRANCH_ALPHA
     
-    LDA $0F70, X : DEC A : BPL .BRANCH_BETA
+    LDA.w $0F70, X : DEC A : BPL .BRANCH_BETA
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
     .BRANCH_BETA
     
-    LDA $0DF0, X : BNE .BRANCH_GAMMA
+    LDA.w $0DF0, X : BNE .BRANCH_GAMMA
     
     JSL GetRandomInt : AND.b #$01 : BNE .BRANCH_DELTA
     
-    LDA.b #$07 : STA $0D80, X
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$07 : STA.w $0D80, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     RTS
     
     .BRANCH_DELTA
     
-    JMP $AB46 ; $0F2B46 IN ROM
+    JMP.w $AB46 ; $0F2B46 IN ROM
     
     .BRANCH_GAMMA
     
@@ -340,11 +340,11 @@ StalfosKnight_Falling:
     
     LSR #3 : TAY
     
-    LDA.w $AC57, Y : STA $0DB0, X
+    LDA.w $AC57, Y : STA.w $0DB0, X
     
-    LDA.b #$03 : STA $0DC0, X
+    LDA.b #$03 : STA.w $0DC0, X
     
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$02 : STA.w $0EB0, X
     
     RTS
 }
@@ -362,15 +362,15 @@ StalfosKnight_Falling:
 
 ; $0F2CD8-$0F2CEB JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    JMP $AB46 ; $0F2B46 IN ROM
+    JMP.w $AB46 ; $0F2B46 IN ROM
     
     .delay
     
     LSR #2 : AND.b #$01 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -430,10 +430,10 @@ Pool_StalfosKnight_Draw:
 StalfosKnight_Draw:
 {
     JSR Sprite3_PrepOamCoord
-    JSR $AE4E ; $0F2E4E IN ROM
+    JSR.w $AE4E ; $0F2E4E IN ROM
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL #2 : ADC $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL #2 : ADC $00
     
     ADC.w #.oam_groups : STA $08
     
@@ -475,16 +475,16 @@ StalfosKnight_Draw:
 
 ; $0F2E4E-$0F2EA3 LOCAL
 {
-    LDA $0DC0, X : CMP.b #$02 : BEQ .dont_draw
+    LDA.w $0DC0, X : CMP.b #$02 : BEQ .dont_draw
     
-    LDA $0DB0, X : STA $06
+    LDA.w $0DB0, X : STA $06
                    STZ $07
     
     LDY.b #$00
     
     PHX
     
-    LDA $0EB0, X : TAX
+    LDA.w $0EB0, X : TAX
     
     REP #$20
     

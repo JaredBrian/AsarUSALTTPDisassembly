@@ -18,7 +18,7 @@ Sprite_HumanMulti_1_Long:
 ; $06C2D9-$06C2E5 LOCAL JUMP LOCATION
 Sprite_HumanMulti_1:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -37,7 +37,7 @@ Sprite_BlindHideoutGuy:
     JSL Sprite_PlayerCantPassThrough
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    STZ $0EB0, X
+    STZ.w $0EB0, X
     
     ; "Yo [Name]! This house used to be a hideout for a gang of thieves..."
     LDA.b #$72
@@ -45,8 +45,8 @@ Sprite_BlindHideoutGuy:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    STA $0DE0, X
-    STA $0EB0, X
+    STA.w $0DE0, X
+    STA.w $0EB0, X
     
     .didnt_speak
     
@@ -60,7 +60,7 @@ Sprite_ThiefHideoutGuy:
 {
     LDA $1A : AND.b #$03 : BNE .delay_head_direction_change
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     JSL Sprite_DirectionToFacePlayerLong : CPY.b #$03 : BNE .not_up
     
@@ -68,11 +68,11 @@ Sprite_ThiefHideoutGuy:
     
     .not_up
     
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
     .delay_head_direction_change
     
-    LDA.b #$0F : STA $0F50, X
+    LDA.b #$0F : STA.w $0F50, X
     
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     JSL Thief_Draw
@@ -85,7 +85,7 @@ Sprite_ThiefHideoutGuy:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     RTS
 }
@@ -111,9 +111,9 @@ Sprite_FluteBoyFather:
     
     .not_dozing
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    LDA $0D80, X : BNE .knows_what_happened_to_son
+    LDA.w $0D80, X : BNE .knows_what_happened_to_son
     
     LDA.l $7EF34C : CMP.b #$02 : BCS .player_has_flute
     
@@ -139,7 +139,7 @@ Sprite_FluteBoyFather:
     
     .didnt_speak_2
     
-    LDA $0202 : CMP.b #$0D : BNE .flute_usage_undetected
+    LDA.w $0202 : CMP.b #$0D : BNE .flute_usage_undetected
     
     BIT $F0 : BVC .flute_usage_not_detected
     
@@ -153,9 +153,9 @@ Sprite_FluteBoyFather:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     .flute_usage_not_detected
     
@@ -169,7 +169,7 @@ Sprite_FluteBoyFather:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     RTS
 }
@@ -198,7 +198,7 @@ FluteBoyFather_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
@@ -248,7 +248,7 @@ BlindHideoutGuy_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09

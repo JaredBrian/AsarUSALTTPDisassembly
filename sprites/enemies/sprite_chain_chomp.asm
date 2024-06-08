@@ -24,8 +24,8 @@ SpritePrep_ChainChomp:
     
     .next_slot
     
-    LDA $0FD8 : STA.l $7FFC00, X
-    LDA $0FDA : STA.l $7FFD00, X
+    LDA.w $0FD8 : STA.l $7FFC00, X
+    LDA.w $0FDA : STA.l $7FFD00, X
     
     INX #2
     
@@ -35,11 +35,11 @@ SpritePrep_ChainChomp:
     
     PLX
     
-    LDA $0D10, X : STA $0D90, X
-    LDA $0D30, X : STA $0DA0, X
+    LDA.w $0D10, X : STA.w $0D90, X
+    LDA.w $0D30, X : STA.w $0DA0, X
     
-    LDA $0D00, X : STA $0DB0, X
-    LDA $0D20, X : STA $0ED0, X
+    LDA.w $0D00, X : STA.w $0DB0, X
+    LDA.w $0D20, X : STA.w $0ED0, X
     
     RTL
 }
@@ -49,61 +49,61 @@ SpritePrep_ChainChomp:
 ; $0EBE7D-$0EBF09 JUMP LOCATION
 Sprite_ChainChomp:
 {
-    JSR $C192 ; $0EC192 IN ROM
+    JSR.w $C192 ; $0EC192 IN ROM
     JSR Sprite4_CheckIfActive
     JSR Sprite4_CheckDamage
-    JSR $C0F2 ; $0EC0F2 IN ROM
+    JSR.w $C0F2 ; $0EC0F2 IN ROM
     
     TXA : EOR $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
-    LDA $0D50, X : STA $01
+    LDA.w $0D50, X : STA $01
     
-    LDA $0D40, X : STA $00 : ORA $01 : BEQ .BRANCH_ALPHA
+    LDA.w $0D40, X : STA $00 : ORA $01 : BEQ .BRANCH_ALPHA
     
-    JSL Sprite_ConvertVelocityToAngle : AND.b #$0F : STA $0DE0, X
+    JSL Sprite_ConvertVelocityToAngle : AND.b #$0F : STA.w $0DE0, X
     
     .BRANCH_ALPHA
     
     JSR Sprite4_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .didnt_bounce
+    LDA.w $0F70, X : BPL .didnt_bounce
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
     .didnt_bounce
     
     JSL Sprite_Get_16_bit_CoordsLong
     
-    LDA $0D90, X : STA $00
-    LDA $0DA0, X : STA $01
+    LDA.w $0D90, X : STA $00
+    LDA.w $0DA0, X : STA $01
     
-    LDA $0DB0, X : STA $02
-    LDA $0ED0, X : STA $03
+    LDA.w $0DB0, X : STA $02
+    LDA.w $0ED0, X : STA $03
     
-    STZ $0EC0, X
+    STZ.w $0EC0, X
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0030
+    LDA.w $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0030
     
     CMP.w #$0060 : BCS .too_far_from_origin
     
-    LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$0030
+    LDA.w $0FDA : SEC : SBC $02 : CLC : ADC.w #$0030
     
     CMP.w #$0060 : BCS .too_far_from_origin
     
     SEP #$20
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     .too_far_from_origin
     
     SEP #$20
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -116,19 +116,19 @@ Sprite_ChainChomp:
 
 ; $0EBF2C-$0EBF94 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0E80, X : LDA $0E80, X : CMP.b #$04 : BNE .BRANCH_BETA
+    INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$04 : BNE .BRANCH_BETA
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA.w $BF0C, Y : ASL #2 : STA $0D50, X
+    LDA.w $BF0C, Y : ASL #2 : STA.w $0D50, X
     
-    LDA.w $BF1C, Y : ASL #2 : STA $0D40, X
+    LDA.w $BF1C, Y : ASL #2 : STA.w $0D40, X
     
     JSL GetRandomInt : AND.b #$00 : BNE .BRANCH_GAMMA
     
@@ -144,15 +144,15 @@ Sprite_ChainChomp:
     
     .BRANCH_BETA
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA.w $BF0C, Y : STA $0D50, X
+    LDA.w $BF0C, Y : STA.w $0D50, X
     
-    LDA.w $BF1C, Y : STA $0D40, X
+    LDA.w $BF1C, Y : STA.w $0D40, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -165,44 +165,44 @@ Sprite_ChainChomp:
 
 ; $0EBF95-$0EBFE4 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .BRANCH_ALPHA
     
     AND.b #$0F : BNE .BRANCH_BETA
     
-    JSR $C02A   ; $0EC02A IN ROM
+    JSR.w $C02A   ; $0EC02A IN ROM
     
     .BRANCH_BETA
     
-    LDA $0F70, X : BNE .BRANCH_GAMMA
+    LDA.w $0F70, X : BNE .BRANCH_GAMMA
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
     .BRANCH_GAMMA
     
-    LDA $0EC0, X : BNE .BRANCH_DELTA
+    LDA.w $0EC0, X : BNE .BRANCH_DELTA
     
-    LDA $0D90, X : STA $04
-    LDA $0DA0, X : STA $05
-    LDA $0DB0, X : STA $06
-    LDA $0ED0, X : STA $07
+    LDA.w $0D90, X : STA $04
+    LDA.w $0DA0, X : STA $05
+    LDA.w $0DB0, X : STA $06
+    LDA.w $0ED0, X : STA $07
     
     LDA.b #$10
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     JSR Sprite4_Move
     
-    LDA.b #$0C : STA $0DF0, X
+    LDA.b #$0C : STA.w $0DF0, X
     
     .BRANCH_DELTA
     
@@ -211,18 +211,18 @@ Sprite_ChainChomp:
 
 ; $0EBFE5-$0EC01F JUMP LOCATION
 {
-    LDA $0EC0, X : BNE .BRANCH_ALPHA
+    LDA.w $0EC0, X : BNE .BRANCH_ALPHA
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
     JSR Sprite4_Move
     JSR Sprite4_Zero_XY_Velocity
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$30 : STA $0E00, X
+    LDA.b #$30 : STA.w $0E00, X
     
     .BRANCH_ALPHA
     
@@ -230,16 +230,16 @@ Sprite_ChainChomp:
     
     ; $0EC00C ALTERNATE ENTRY POINT
     
-    LDA $0E00, X : BNE .BRANCH_BETA
+    LDA.w $0E00, X : BNE .BRANCH_BETA
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     .BRANCH_BETA
     
-    JSR $C02A   ; $0EC02A IN ROM
-    JSR $C02A   ; $0EC02A IN ROM
+    JSR.w $C02A   ; $0EC02A IN ROM
+    JSR.w $C02A   ; $0EC02A IN ROM
     
     RTS
 }
@@ -256,11 +256,11 @@ Sprite_ChainChomp:
 
 ; $0EC02A-$0EC0F1 LOCAL JUMP LOCATION
 {
-    LDA $0D90, X : STA $00
-    LDA $0DA0, X : STA $01
+    LDA.w $0D90, X : STA $00
+    LDA.w $0DA0, X : STA $01
     
-    LDA $0DB0, X : STA $02
-    LDA $0ED0, X : STA $03
+    LDA.w $0DB0, X : STA $02
+    LDA.w $0ED0, X : STA $03
     
     PHX
     
@@ -286,17 +286,17 @@ Sprite_ChainChomp:
 
     .BRANCH_ALPHA
 
-    STA $4202
+    STA.w $4202
     
     PHX : TXA : AND.b #$0F : TAX
     
-    LDA.w $C01E, X : STA $4203
+    LDA.w $C01E, X : STA.w $4203
     
     PLX
     
     NOP #7
     
-    LDA $4217
+    LDA.w $4217
     
     LDY.b #$00
     
@@ -321,19 +321,19 @@ Sprite_ChainChomp:
 
     .BRANCH_GAMMA
 
-    STA $4202
+    STA.w $4202
     
     PHX
     
     TXA : AND.b #$0F : TAX
     
-    LDA.w $C01E, X : STA $4203
+    LDA.w $C01E, X : STA.w $4203
     
     PLX
     
     NOP #7
     
-    LDA $4217
+    LDA.w $4217
     
     LDY.b #$00
     
@@ -376,7 +376,7 @@ Sprite_ChainChomp:
     
     DEC $0D : BMI .BRANCH_KAPPA
     
-    JMP $C05B ; $0EC05B IN ROM
+    JMP.w $C05B ; $0EC05B IN ROM
 
     .BRANCH_KAPPA
 
@@ -395,8 +395,8 @@ Sprite_ChainChomp:
     
     STZ $00
     
-    LDA $0FD8 : STA.l $7FFC00, X
-    LDA $0FDA : STA.l $7FFD00, X
+    LDA.w $0FD8 : STA.l $7FFC00, X
+    LDA.w $0FDA : STA.l $7FFD00, X
     
     .BRANCH_EPSILON
     
@@ -458,15 +458,15 @@ Sprite_ChainChomp:
 
 ; $0EC192-$0EC210 LOCAL JUMP LOCATION
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$3F : ORA .h_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .h_flip, Y : STA.w $0F50, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    LDA $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA $08 : STZ $09
+    LDA.w $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA $08 : STZ $09
     
     LDA.b #$05 : STA $0D
     

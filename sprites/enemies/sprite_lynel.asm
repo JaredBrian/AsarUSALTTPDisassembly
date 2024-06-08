@@ -10,11 +10,11 @@ Sprite_Lynel:
     JSR Sprite4_CheckIfActive
     JSR Sprite4_CheckIfRecoiling
     
-    JSR Sprite4_DirectionToFacePlayer : TYA : STA $0DE0, X
+    JSR Sprite4_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
     JSR Sprite4_CheckDamage
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -47,19 +47,19 @@ Pool_Lynel_TargetPlayer:
 ; $0E8698-$0E86CC JUMP LOCATION
 Lynel_TargetPlayer:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_offsets_low,  Y : CLC : ADC $22 : STA $0D90, X
-    LDA .x_offsets_high, Y : ADC $23 : STA $0DA0, X
+    LDA .x_offsets_low,  Y : CLC : ADC $22 : STA.w $0D90, X
+    LDA .x_offsets_high, Y : ADC $23 : STA.w $0DA0, X
     
-    LDA .y_offsets_low,  Y : CLC : ADC $20 : STA $0DB0, X
-    LDA .y_offsets_high, Y : ADC $21 : STA $0E90, X
+    LDA .y_offsets_low,  Y : CLC : ADC $20 : STA.w $0DB0, X
+    LDA .y_offsets_high, Y : ADC $21 : STA.w $0E90, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     .delay
     
@@ -80,7 +80,7 @@ Pool_Lynel_ApproachPlayer:
 ; $0E86D5-$0E873B JUMP LOCATION
 Lynel_ApproachPlayer:
 {
-    LDA $0DF0, X : BEQ .prepare_attack
+    LDA.w $0DF0, X : BEQ .prepare_attack
     
     TXA : EOR $1A : AND.b #$03 : BNE .anoadjust_direction
     
@@ -88,17 +88,17 @@ Lynel_ApproachPlayer:
     
     REP #$20
     
-    LDA $04 : SEC : SBC $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
+    LDA $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
     
-    LDA $06 : SEC : SBC $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
+    LDA $06 : SEC : SBC.w $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
     
     .prepare_attack
     
     SEP #$20
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
@@ -110,9 +110,9 @@ Lynel_ApproachPlayer:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     .anoadjust_direction
     
@@ -120,14 +120,14 @@ Lynel_ApproachPlayer:
     
     JSR Sprite4_CheckTileCollision : BNE .prepare_attack
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     ; $0E872C ALTERNATE ENTRY POINT
     shared Lynel_AnimationController:
     
-    LDA $0E80, X : AND.b #$04 : ORA $0DE0, X : TAY
+    LDA.w $0E80, X : AND.b #$04 : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -146,11 +146,11 @@ Pool_Lynel_Attack:
 ; $0E8740-$0E8777 JUMP LOCATION
 Lynel_Attack:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
     
@@ -162,15 +162,15 @@ Lynel_Attack:
     
     LDA.l $7EF35A : CMP.b #$03 : BEQ .blockable_projectile
     
-    LDA.b #$00 : STA $0BE0, Y
+    LDA.b #$00 : STA.w $0BE0, Y
     
     .blockable_projectile
     .spawn_failed
     .anospawn_projectile
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     JSR Sprite4_CheckTileCollision
     
@@ -234,7 +234,7 @@ Pool_Lynel_Draw:
 Lynel_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL A : ADC $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL A : ADC $00
     
     ADC.w #.oam_groups : STA $08
     

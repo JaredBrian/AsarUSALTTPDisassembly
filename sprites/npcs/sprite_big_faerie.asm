@@ -27,17 +27,17 @@ Sprite_BigFairy:
     JSL Sprite_PrepOamCoordLong
     JSR Sprite4_CheckIfActive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR FairyCloud_Draw 
     
-    LDA $0E80, X : AND.b #$1F : BNE .delay_healing_sfx
+    LDA.w $0E80, X : AND.b #$1F : BNE .delay_healing_sfx
     
     LDA.b #$31 : JSL Sound_SetSfx2PanLong
     
     .delay_healing_sfx
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -51,7 +51,7 @@ Sprite_BigFairy:
 ; $0EC443-$0EC488 JUMP LOCATION
 FairyCloud_SeekPlayer:
 {
-    LDA.b #$00 : STA $0D90, X
+    LDA.b #$00 : STA.w $0D90, X
     
     LDA.b #$08 : JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -60,9 +60,9 @@ FairyCloud_SeekPlayer:
     
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
     
     ; Add 20 hearts to the heart refill variable. This should fully heal
     ; the player no matter how many heart containers they have.
@@ -70,7 +70,7 @@ FairyCloud_SeekPlayer:
     
     SEP #$20
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .player_too_far
     
@@ -86,7 +86,7 @@ FairyCloud_AwaitFullPlayerHealth:
 {
     LDA.l $7EF36D : CMP.l $7EF36C : BNE .player_hp_not_full_yet
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; \task Find out if this assumes that the big fairy is always in slot
     ; 0. I think it does, just not positive. \hardcoded (confirmed) 
@@ -102,24 +102,24 @@ FairyCloud_AwaitFullPlayerHealth:
 ; $0EC49C-$0EC4BE JUMP LOCATION
 FairyCloud_FadeOut:
 {
-    LDA $0E80, X : AND.b #$0F : BNE .delay_self_termination
+    LDA.w $0E80, X : AND.b #$0F : BNE .delay_self_termination
     
     ; \bug I don't think there's ever an occasion where this branch
     ; will be taken, as it self terminates immediately when this variable
     ; becomes negative (see code a few lines down).
-    LDA $0D90, X : BMI .never
+    LDA.w $0D90, X : BMI .never
     
-    SEC : ROL $0D90, X
+    SEC : ROL.w $0D90, X
     
     ; \optimize Is this really necessary? I think you could just check
     ; $0D90 for positivity (BPL) right after the ROL above.
-    LDA $0D90, X : CMP.b #$80 : BCC .delay_self_termination
+    LDA.w $0D90, X : CMP.b #$80 : BCC .delay_self_termination
     
-    LDA.b #$FF : STA $0D90, X
+    LDA.b #$FF : STA.w $0D90, X
     
-    STZ $02E4
+    STZ.w $02E4
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .never
     .delay_self_termination
@@ -139,7 +139,7 @@ BigFairy_Main:
     DEC A           : BNE .blinking_draw
     
     ; Self termiantes once the timer ticks down.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .blinking_draw
     
@@ -160,15 +160,15 @@ BigFairy_Main:
     LDA.b #$05 : STA !animation_timer, X
     
     ; Whenever !animation_timer counts down, change the graphics
-    LDA $0DC0, X : INC A : AND.b #$03 : STA $0DC0, X
+    LDA.w $0DC0, X : INC A : AND.b #$03 : STA.w $0DC0, X
     
     .animation_delay
     
     JSR Sprite4_CheckIfActive
     
-    INC $0E80, X ; Sometimes a subtype, in this case it's a timer.
+    INC.w $0E80, X ; Sometimes a subtype, in this case it's a timer.
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -183,7 +183,7 @@ BigFairy_AwaitClosePlayer:
 {
     JSR FairyCloud_Draw
     
-    LDA.b #$01 : STA $0D90, X
+    LDA.b #$01 : STA.w $0D90, X
     
     JSR Sprite4_DirectionToFacePlayer
     
@@ -193,15 +193,15 @@ BigFairy_AwaitClosePlayer:
     
     JSL Player_HaltDashAttackLong
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Big Fairy's text "let me heal wounds..."
-    LDA.b #$5A : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$5A : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
-    LDA.b #$01 : STA $02E4 ; Make it so Link can't move
+    LDA.b #$01 : STA.w $02E4 ; Make it so Link can't move
     
     ; Create the Fairy Dust cloud
     ; \note It's not checked whether the spawn was successful.
@@ -211,9 +211,9 @@ BigFairy_AwaitClosePlayer:
     
     LDA.b #$01 : STA !is_fairy_cloud, Y
     
-    LDA $0D00, Y : SEC : SBC $0F70, X : STA $0D00, Y
+    LDA.w $0D00, Y : SEC : SBC.w $0F70, X : STA.w $0D00, Y
     
-    LDA.b #$00 : STA $0F70, Y
+    LDA.b #$00 : STA.w $0F70, Y
     
     .player_too_far
     
@@ -261,7 +261,7 @@ Pool_BigFairy_Draw:
 BigFairy_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     
@@ -307,11 +307,11 @@ FairyCloud_Draw:
     ; It's not draw in a literal sense, but it spawns garnish entities
     ; that themselves draw sparkles via oam.
     
-    LDA $0D90, X : BMI .spawn_inhibited
+    LDA.w $0D90, X : BMI .spawn_inhibited
     
     ; As $0D90 accumulates bits, less and less sparkle garnishes will be
     ; generated over time.
-    AND $0E80, X : BNE .spawn_masked_this_frame
+    AND.w $0E80, X : BNE .spawn_masked_this_frame
     
     JSL GetRandomInt : AND.b #$07 : TAY
     

@@ -6,7 +6,7 @@ Sprite_FluteBoy:
 {
     ; Flute Boy's Code
     
-    LDA $0EB0, X
+    LDA.w $0EB0, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -20,7 +20,7 @@ Sprite_FluteBoy:
 FluteBoy_Humanoid:
 {
     ; In this situation, determines light world / darkworld behavior
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -33,29 +33,29 @@ FluteBoy_Humanoid:
 ; $032F51-$032F92 JUMP LOCATION
 FluteBoy_HumanForm:
 {
-    LDA $0D80, X : CMP.b #$03 : BEQ .invisible
+    LDA.w $0D80, X : CMP.b #$03 : BEQ .invisible
     
     JSL FluteBoy_Draw
     
     ; what exactly is going on here...?
-    LDA $01 : ORA $03 : STA $0DB0, X
+    LDA $01 : ORA $03 : STA.w $0DB0, X
     
     .invisible
     
     JSR Sprite_CheckIfActive
     
-    LDA $0DB0, X : BNE .delay_playing_flute_ditty
+    LDA.w $0DB0, X : BNE .delay_playing_flute_ditty
     
-    LDA $0DA0, X : BNE .delay_playing_flute_ditty
+    LDA.w $0DA0, X : BNE .delay_playing_flute_ditty
     
-    LDA.b #$0B : STA $012D
-                 STA $0DA0, X
+    LDA.b #$0B : STA.w $012D
+                 STA.w $0DA0, X
     
     .delay_playing_flute_ditty
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -76,23 +76,23 @@ FluteBoy_Chillin:
     
     .player_has_flute
     
-    INC $0D80, X
+    INC.w $0D8080, X
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
     ; \task Why increment this? What effect does it have?
-    INC $0FDD
+    INC.w $0FDD
     
-    LDA.b #$B0 : STA $0DF0, X
+    LDA.b #$B0 : STA.w $0DF0, X
     
     ; Halt player because he got too close. Flute boy is zapping out.
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4E4
     
     .player_not_too_close
     
-    LDA $0DF0, X : BNE .spawn_note_delay
+    LDA.w $0DF0, X : BNE .spawn_note_delay
     
-    LDA.b #$19 : STA $0DF0, X
+    LDA.b #$19 : STA.w $0DF0, X
     
     JSR FluteBoy_SpawnFluteNote
     
@@ -106,9 +106,9 @@ FluteBoy_Chillin:
 ; $032FC1-$032FF1 JUMP LOCATION
 FltueBoy_PrepPhaseOut:
 {
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     LDA.b #$02 : STA $1D
     
@@ -122,10 +122,10 @@ FltueBoy_PrepPhaseOut:
     
     PLX
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; .... What? \task Does this quiet sfx1 down?
-    LDA.b #$80 : STA $012D
+    LDA.b #$80 : STA.w $012D
     
     LDA.b #$33 : JSL Sound_SetSfx2PanLong
     
@@ -149,7 +149,7 @@ FluteBoy_PhaseOut:
     
     LDA.l $7EC007 : BNE .filteringNotDone
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .onlyEvery16Frames
     .filteringNotDone
@@ -169,9 +169,9 @@ FluteBoy_FullyPhasedOut:
     
     PLX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }`
@@ -203,7 +203,7 @@ Sprite_FluteAardvark:
     JSL FluteAardvark_Draw
     JSR Sprite_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -242,7 +242,7 @@ FluteAardvark_Supplicate:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .didnt_speak
     
@@ -268,7 +268,7 @@ FluteAardvark_GetMeMyDamnFlute:
 ; $033083-$033097 JUMP LOCATION
 FluteAardvark_ThanksButYouKeepIt:
 {
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     ; "Thank you, [Name]. (...) Please take it. ..."
     LDA.b #$E9
@@ -276,7 +276,7 @@ FluteAardvark_ThanksButYouKeepIt:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     .didnt_speak
     
@@ -288,7 +288,7 @@ FluteAardvark_ThanksButYouKeepIt:
 ; $033098-$03309D JUMP LOCATION
 FluteAardvark_AlreadyArborated:
 {
-    LDA.b #$03 : STA $0DC0, X
+    LDA.b #$03 : STA.w $0DC0, X
     
     RTS
 }
@@ -298,7 +298,7 @@ FluteAardvark_AlreadyArborated:
 ; $03309E-$0330BA JUMP LOCATION
 FluteAardvark_ReactToSupplicationResponse:
 {
-    LDA $1CE8 : BNE .player_declined
+    LDA.w $1CE8 : BNE .player_declined
     
     ; "Then I will lend you my shovel. Good luck!"
     LDA.b #$E6
@@ -306,7 +306,7 @@ FluteAardvark_ReactToSupplicationResponse:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -318,7 +318,7 @@ FluteAardvark_ReactToSupplicationResponse:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -328,7 +328,7 @@ FluteAardvark_ReactToSupplicationResponse:
 ; $0330BB-$0330C9 JUMP LOCATION
 FluteAardvark_GrantShovel:
 {
-    STZ $02E9
+    STZ.w $02E9
     
     ; Give Link the shovel.
     LDY.b #$13
@@ -339,7 +339,7 @@ FluteAardvark_GrantShovel:
     
     PLX
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -349,19 +349,19 @@ FluteAardvark_GrantShovel:
 ; $0330CA-$0330E8 JUMP LOCATION
 FluteAardvark_WaitForPlayerMusic:
 {
-    LDA $0202 : CMP.b #$0D : BNE .flute_not_equipped
+    LDA.w $0202 : CMP.b #$0D : BNE .flute_not_equipped
     
     BIT $F0 : BVC .y_button_not_held
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$F2 : STA $012C
+    LDA.b #$F2 : STA.w $012C
     
-    STZ $012E
+    STZ.w $012E
     
-    LDA.b #$17 : STA $012D
+    LDA.b #$17 : STA.w $012D
     
-    INC $02E4
+    INC.w $02E4
     
     .y_button_not_held
     .flute_not_equipped
@@ -374,21 +374,21 @@ FluteAardvark_WaitForPlayerMusic:
 ; $0330E9-$03311D JUMP LOCATION
 FluteAardvark_Arborating:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA $0D90, X : CMP.b #$03 : BCC .anoplay_sfx
+    LDA.w $0D90, X : CMP.b #$03 : BCC .anoplay_sfx
     
     LDA.b #$33 : JSL Sound_SetSfx2PanLong
     
     .anoplay_sfx
     
-    LDA $0D90, X : TAY : INC A : STA $0D90, X
+    LDA.w $0D90, X : TAY : INC A : STA.w $0D90, X
     
     LDA .animation_states, Y : BMI .invalid_state
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
     .delay
     
@@ -397,11 +397,11 @@ FluteAardvark_Arborating:
     .invalid_state
     
     ; Go music back to full volume.
-    LDA.b #$F3 : STA $012C
+    LDA.b #$F3 : STA.w $012C
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }
@@ -411,7 +411,7 @@ FluteAardvark_Arborating:
 ; $03311E-$03312D JUMP LOCATION
 FluteAardvark_FullyArborated:
 {
-    LDA.b #$03 : STA $0DC0, X
+    LDA.b #$03 : STA.w $0DC0, X
     
     ; Let us know that flute boy has been thoroughly arborated
     LDA.l $7EF3C9 : ORA.b #$08 : STA.l $7EF3C9
@@ -424,11 +424,11 @@ FluteAardvark_FullyArborated:
 ; $03312E-$033170 LOCAL JUMP LOCATION
 FluteBoy_CheckIfPlayerTooClose:
 {
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $01
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $01
     
-    LDA $0D00, X : STA $02
-    LDA $0D20, X : STA $03
+    LDA.w $0D00, X : STA $02
+    LDA.w $0D20, X : STA $03
     
     REP #$30
     
@@ -480,17 +480,17 @@ Sprite_FluteNote:
     JSR Sprite_Move
     JSR Sprite_MoveAltitude
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay
     
     LDA $1A : AND.b #$01 : BNE .odd_frame
     
-    LDA $1A : LSR #5 : EOR $0FA0 : AND.b #$01 : TAY
+    LDA $1A : LSR #5 : EOR.w $0FA0 : AND.b #$01 : TAY
     
-    LDA $0D50, X : CLC : ADC .directions, Y : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC .directions, Y : STA.w $0D50, X
     
     .odd_frame
     
@@ -504,17 +504,17 @@ FluteBoy_SpawnFluteNote:
 {
     LDA.b #$2E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.b #$04 : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : STA $0D20, Y
+    LDA $02 : SEC : SBC.b #$04 : STA.w $0D00, Y
+    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$01 : STA $0EB0, Y
+    LDA.b #$01 : STA.w $0EB0, Y
     
-    LDA.b #$08 : STA $0F80, Y
+    LDA.b #$08 : STA.w $0F80, Y
     
-    LDA.b #$60 : STA $0DF0, Y : STA $0BA0, Y
+    LDA.b #$60 : STA.w $0DF0, Y : STA.w $0BA0, Y
     
     .spawn_failed
     

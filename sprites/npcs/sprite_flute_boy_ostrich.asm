@@ -7,7 +7,7 @@ Sprite_FluteBoyOstrich:
     JSR FluteBoyOstrich_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -28,15 +28,15 @@ FluteBoyOstrich_Chillin:
     
     .default_animation_state
     
-    TYA : STA $0DC0, X
+    TYA : STA.w $0DC0, X
     
-    LDA $0FDD : BEQ .dont_run_away
+    LDA.w $0FDD : BEQ .dont_run_away
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$F8 : STA $0D40, X
+    LDA.b #$F8 : STA.w $0D40, X
     
-    LDA.b #$F0 : STA $0D50, X
+    LDA.b #$F0 : STA.w $0D50, X
     
     .dont_run_away
     
@@ -59,32 +59,32 @@ FluteBoyOstrich_RunAway:
 {
     JSR Sprite3_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .dont_hop_yet
+    LDA.w $0F70, X : BPL .dont_hop_yet
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     .dont_hop_yet
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$07 : BNE .delay_animation_tick
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$07 : BNE .delay_animation_tick
     
-    LDA $0D90, X : CMP.b #$03 : BEQ .animation_counter_maxed
+    LDA.w $0D90, X : CMP.b #$03 : BEQ .animation_counter_maxed
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .animation_counter_maxed
     .delay_animation_tick
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -123,7 +123,7 @@ Pool_FluteBoyOstrich_Draw:
 FluteBoyOstrich_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
     
     SEP #$20
     

@@ -15,11 +15,11 @@ Sprite_DesertBarrier:
     
     PLP
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA $0D80, X : BMI .deactivated : BNE .moving
+    LDA.w $0D80, X : BMI .deactivated : BNE .moving
     
-    LDA $02F0 : BNE .activate
+    LDA.w $02F0 : BNE .activate
     
     .delay
     .deactivated
@@ -28,12 +28,12 @@ Sprite_DesertBarrier:
     
     .activate
     
-    STA $0D80, X
+    STA.w $0D80, X
     
     ; Initiate a delay for the next frame.
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
-    LDA.b #$07 : STA $012D
+    LDA.b #$07 : STA.w $012D
     
     .moving
     
@@ -53,34 +53,34 @@ Sprite_DesertBarrier:
     
     .no_collision_2
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite2_Move
     
     JSR Sprite2_CheckTileCollision : BEQ .no_collision
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     ; Effects a counterclockwise adhesion to walls.
-    LDA .next_direction, Y : STA $0DE0, X
+    LDA .next_direction, Y : STA.w $0DE0, X
     
     .no_collision
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$01 : BNE .skip_frame
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$01 : BNE .skip_frame
     
-    INC $0ED0, X : LDA $0ED0, X : CMP.b #$82 : BNE .dont_deactivate
+    INC.w $0ED0, X : LDA.w $0ED0, X : CMP.b #$82 : BNE .dont_deactivate
     
     ; The barrier (and its cousins) have moved enough, time to deactivate.
     ; Love the hard codedness? I don't!
-    LDA.b #$80 : STA $0D80, X
+    LDA.b #$80 : STA.w $0D80, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     .dont_deactivate
     .skip_frame
@@ -130,16 +130,16 @@ Pool_DesertBarrier_Draw:
 ; $029626-$029669 LOCAL JUMP LOCATION
 DesertBarrier_Draw:
 {
-    LDA $0DF0, X : CMP.b #$01 : BNE .no_sound_effect
+    LDA.w $0DF0, X : CMP.b #$01 : BNE .no_sound_effect
     
     ; Play puzzle solved sound.
-    LDY.b #$1B : STY $012F
+    LDY.b #$1B : STY.w $012F
     
-    LDY.b #$05 : STY $012D
+    LDY.b #$05 : STY.w $012D
     
     .no_sound_effect
     
-    LSR A : AND.b #$01 : CLC : ADC $0FD8 : STA $0FD8
+    LSR A : AND.b #$01 : CLC : ADC.w $0FD8 : STA.w $0FD8
     
     JSR Sprite2_DirectionToFacePlayer
     

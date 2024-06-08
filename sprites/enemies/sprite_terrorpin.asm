@@ -9,7 +9,7 @@ Sprite_Terrorpin:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $0E10, X : BNE .invulnerable
+    LDA.w $0E10, X : BNE .invulnerable
     
     JSL Sprite_CheckDamageFromPlayerLong
     
@@ -18,7 +18,7 @@ Sprite_Terrorpin:
     JSR Terrorpin_CheckHammerHitNearby
     JSR Sprite3_MoveXyz
     
-    LDA $0DA0, X
+    LDA.w $0DA0, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -49,11 +49,11 @@ Pool_Terrorpin_Upright:
 ; $0F32A7-$0F330D JUMP LOCATION
 Terrorpin_Upright:
 {
-    LDA $0F10, X : BNE .delay
+    LDA.w $0F10, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA $0F10, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA.w $0F10, X
     
-    AND.b #$03 : STA $0DE0, X
+    AND.b #$03 : STA.w $0DE0, X
     
     ; \note Label so named because it clearly can never happen if there
     ; was a logical and with 0x03 immediately preceding this.
@@ -61,39 +61,39 @@ Terrorpin_Upright:
     
     JSR Sprite3_DirectionToFacePlayer
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     .never_branch
     .delay
     
-    LDA $0DE0, X : CLC : ADC $0ED0, X : TAY
+    LDA.w $0DE0, X : CLC : ADC.w $0ED0, X : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA $0F80, X : DEC #2 : STA $0F80, X
+    LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .in_air
+    LDA.w $0F70, X : BPL .in_air
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
     .in_air
     
     LDA $1A
     
-    LDY $0ED0, X : BNE .moving_faster
+    LDY.w $0ED0, X : BNE .moving_faster
     
     LSR A
     
     .moving_faster
     
-    LSR #2 : AND.b #$01 : STA $0DC0, X
+    LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
-    LDA.b #$04 : STA $0CAA, X
+    LDA.b #$04 : STA.w $0CAA, X
     
     JSR Sprite3_CheckDamageToPlayer
     
@@ -106,30 +106,30 @@ Terrorpin_Upright:
 Terrorpin_Overturned:
 {
     ; Remove invulnerability.
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
     ; Don't make little hit effect when hit by hammer and sword.
-    STZ $0CAA, X
+    STZ.w $0CAA, X
     
-    LDA $0F10, X : BNE .delay
+    LDA.w $0F10, X : BNE .delay
     
-    STZ $0DA0, X
+    STZ.w $0DA0, X
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$40 : STA $0F10, X
+    LDA.b #$40 : STA.w $0F10, X
     
     RTS
     
     .delay
     
-    LDA $0F80, X : DEC #2 : STA $0F80, X
+    LDA.w $0F80, X : DEC #2 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .in_air
+    LDA.w $0F70, X : BPL .in_air
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR A
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR A
     
     CMP.b #$09 : BCS .bounced
     
@@ -137,42 +137,42 @@ Terrorpin_Overturned:
     
     .bounced
     
-    STA $0F80, X
+    STA.w $0F80, X
     
     ; This operation arithmetically shifts right to reduce the x velocity.
-    LDA $0D50, X : ASL A : ROR $0D50, X
+    LDA.w $0D50, X : ASL A : ROR.w $0D50, X
     
-    LDA $0D50, X : CMP.b #$FF : BNE .dont_zero_x_speed
+    LDA.w $0D50, X : CMP.b #$FF : BNE .dont_zero_x_speed
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
     .dont_zero_x_speed
     
     ; This operation arithmetically shifts right to reduce the y velocity.
-    LDA $0D40, X : ASL A : ROR $0D40, X
+    LDA.w $0D40, X : ASL A : ROR.w $0D40, X
     
-    LDA $0D40, X : CMP.b #$FF : BNE .dont_zero_y_speed
+    LDA.w $0D40, X : CMP.b #$FF : BNE .dont_zero_y_speed
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     .dont_zero_x_speed
     .in_air
     
-    LDA $0F10, X : CMP.b #$40 : BCS .not_struggling_hard_yet
+    LDA.w $0F10, X : CMP.b #$40 : BCS .not_struggling_hard_yet
     
     LSR A : AND.b #$01 : TAY
     
-    LDA .shake_x_speeds, Y : STA $0D50, X
+    LDA .shake_x_speeds, Y : STA.w $0D50, X
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     .not_struggling_hard_yet
     
-    INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$01 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : TAY
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
     RTS
     
@@ -188,29 +188,29 @@ Terrorpin_Overturned:
 ; $0F33A3-$0F3404 LOCAL JUMP LOCATION
 Terrorpin_CheckHammerHitNearby:
 {
-    LDA $0F70, X : ORA $0E10, X : BNE .cant_overturn
+    LDA.w $0F70, X : ORA.w $0E10, X : BNE .cant_overturn
     
-    LDA $EE : CMP $0F20, X : BNE .cant_overturn
+    LDA $EE : CMP.w $0F20, X : BNE .cant_overturn
     
-    LDA $0044 : CMP.b #$80 : BEQ .cant_overturn
-    LDA $0301 : AND.b #$0A : BEQ .cant_overturn
+    LDA.w $0044 : CMP.b #$80 : BEQ .cant_overturn
+    LDA.w $0301 : AND.b #$0A : BEQ .cant_overturn
     
     JSL Player_SetupActionHitBoxLong
     JSR Terrorpin_FormHammerHitBox
     
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .didnt_hit_within_box
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA.b #$20 : STA $0E10, X
+    LDA.b #$20 : STA.w $0E10, X
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$04 : STA $0ED0, X
+    LDA.b #$04 : STA.w $0ED0, X
     
-    LDA $0DA0, X : EOR.b #$01 : STA $0DA0, X
+    LDA.w $0DA0, X : EOR.b #$01 : STA.w $0DA0, X
     
     CMP.b #$01 : LDA.b #$FF : BCS .to_overturned_state
     
@@ -218,12 +218,12 @@ Terrorpin_CheckHammerHitNearby:
     
     .to_overturned_state
     
-    STA $0F10, X
+    STA.w $0F10, X
     
     .didnt_hit_within_box
     .cant_overturn
     
-    STZ $0EB0, X
+    STZ.w $0EB0, X
     
     RTS
 }
@@ -233,11 +233,11 @@ Terrorpin_CheckHammerHitNearby:
 ; $0F3405-$0F3429 LOCAL JUMP LOCATION
 Terrorpin_FormHammerHitBox:
 {
-    LDA $0D10, X : SEC : SBC.b #$10 : STA $04
-    LDA $0D30, X : SBC.b #$00 : STA $0A
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $04
+    LDA.w $0D30, X : SBC.b #$00 : STA $0A
     
-    LDA $0D00, X : SEC : SBC.b #$10 : STA $05
-    LDA $0D20, X : SBC.b #$00 : STA $0B
+    LDA.w $0D00, X : SEC : SBC.b #$10 : STA $05
+    LDA.w $0D20, X : SBC.b #$00 : STA $0B
     
     LDA.b #$30 : STA $06
                  STA $07

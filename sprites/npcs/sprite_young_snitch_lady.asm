@@ -19,7 +19,7 @@ Sprite_YoungSnitchLadyLong:
 ; $02E2F2-$02E2FE LOCAL JUMP LOCATION
 Sprite_YoungSnitchLady:
 {
-    LDA $0D80, X : CMP.b #$02 : BCS .not_visible
+    LDA.w $0D80, X : CMP.b #$02 : BCS .not_visible
     
     JSR YoungSnitchLady_Draw
     
@@ -60,7 +60,7 @@ YoungSnitchLady_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam-groups >> 8) : ADC.b #$00 : STA $09

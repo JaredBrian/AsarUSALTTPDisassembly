@@ -6,9 +6,9 @@ Ganon_CheckEntityProximity:
 {
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
-    LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
     .BRANCH_ALPHA
     
@@ -24,13 +24,13 @@ Ganon_Initialize:
 {
     PHB : PHK : PLB
     
-    JSR $9443   ; $0E9443 IN ROM
+    JSR.w $9443   ; $0E9443 IN ROM
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
-    LDA.b #$02 : STA $0C9A, X
+    LDA.b #$02 : STA.w $0C9A, X
     
-    LDA.b #$1E : STA $012C
+    LDA.b #$1E : STA.w $012C
     
     PLB
     
@@ -41,38 +41,38 @@ Ganon_Initialize:
 
 ; $0E8D70-$0E8E74 LOCAL JUMP LOCATION
 {
-    LDA.b #$FC : CLC : ADC $0B08 : STA $0B08
-    LDA.b #$FF : ADC $0B09 : STA $0B09
+    LDA.b #$FC : CLC : ADC.w $0B08 : STA.w $0B08
+    LDA.b #$FF : ADC.w $0B09 : STA.w $0B09
     
-    STZ $0FB5
+    STZ.w $0FB5
     
     PHX
     
     ; $0E8D85 ALTERNATE ENTRY POINT
     
-    LDA $0FB5 : TAX : ASL A : TAY
+    LDA.w $0FB5 : TAX : ASL A : TAY
     
     REP #$20
     
-    LDA $0B08 : CLC : ADC $8D40, Y : AND.w #$01FF : STA $00 : LSR #5 : TAY
+    LDA.w $0B08 : CLC : ADC.w $8D40, Y : AND.w #$01FF : STA $00 : LSR #5 : TAY
     
     SEP #$20
     
-    LDA $0D81, X : CMP.b #$02 : BEQ .BRANCH_ALPHA
+    LDA.w $0D81, X : CMP.b #$02 : BEQ .BRANCH_ALPHA
     
     TYA : SEC : SBC.b #$04 : AND.b #$0F : TAY
     
-    LDA.w $8D50, Y : STA $0D51, X
+    LDA.w $8D50, Y : STA.w $0D51, X
     
-    ASL A : PHP : ROR $0D51, X : PLP : ROR $0D51, X
+    ASL A : PHP : ROR.w $0D51, X : PLP : ROR.w $0D51, X
     
-    LDA.w $8D60, Y : STA $0D41, X
+    LDA.w $8D60, Y : STA.w $0D41, X
     
-    ASL A : PHP : ROR $0D41, X : PLP : ROR $0D41, X
+    ASL A : PHP : ROR.w $0D41, X : PLP : ROR.w $0D41, X
     
     .BRANCH_ALPHA
     
-    LDA $0B0A : STA $0F
+    LDA.w $0B0A : STA $0F
     
     PHX
     
@@ -92,19 +92,19 @@ Ganon_Initialize:
     
     PLX
     
-    LDA $04 : STA $4202
+    LDA $04 : STA.w $4202
     
     LDA $0F
     
     LDY $05 : BNE .BRANCH_BETA
     
-    STA $4203
+    STA.w $4203
     
-    JSR $8E75   ; $0E8E75 IN ROM
+    JSR.w $8E75   ; $0E8E75 IN ROM
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_BETA
     
@@ -122,22 +122,22 @@ Ganon_Initialize:
     
     .BRANCH_DELTA
     
-    CLC : ADC $0D10 : STA $0B11, X
-    LDA $0D30 : ADC $0A : STA $0B21, X
+    CLC : ADC.w $0D10 : STA.w $0B11, X
+    LDA.w $0D30 : ADC $0A : STA.w $0B21, X
     
-    LDA $06 : STA $4202
+    LDA $06 : STA.w $4202
     
     LDA $0F
     
     LDY $07 : BNE .BRANCH_EPSILON
     
-    STA $4203
+    STA.w $4203
     
-    JSR $8E75   ; $0E8E75 IN ROM
+    JSR.w $8E75   ; $0E8E75 IN ROM
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_EPSILON
     
@@ -155,12 +155,12 @@ Ganon_Initialize:
     
     .BRANCH_THETA
     
-    CLC : ADC $0D00           : STA $0B31, X
-     LDA $0D20 : ADC $0A : STA $0B41, X
+    CLC : ADC.w $0D00           : STA.w $0B31, X
+     LDA.w $0D20 : ADC $0A : STA.w $0B41, X
     
-    INC $0FB5 : LDA $0FB5 : CMP.b #$08 : BEQ .BRANCH_IOTA
+    INC.w $0FB5 : LDA.w $0FB5 : CMP.b #$08 : BEQ .BRANCH_IOTA
     
-    JMP $8D85   ; $0E8D85 IN ROM
+    JMP.w $8D85   ; $0E8D85 IN ROM
     
     .BRANCH_IOTA
     
@@ -185,16 +185,16 @@ Ganon_Initialize:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$04 : STA $0EC0, Y
-    LDA.b #$03 : STA $0F50, Y
-    LDA.b #$40 : STA $0E60, Y
-    LDA.b #$01 : STA $0E40, Y
-    LDA.b #$80 : STA $0CAA, Y : STA $0D20, Y
-    LDA.b #$30 : STA $0DF0, Y
+    LDA.b #$04 : STA.w $0EC0, Y
+    LDA.b #$03 : STA.w $0F50, Y
+    LDA.b #$40 : STA.w $0E60, Y
+    LDA.b #$01 : STA.w $0E40, Y
+    LDA.b #$80 : STA.w $0CAA, Y : STA.w $0D20, Y
+    LDA.b #$30 : STA.w $0DF0, Y
     
     ; $0E8EAB ALTERNATE ENTRY POINT
     
-    LDA.b #$07 : STA $0CD2, Y : STA $0BA0, Y
+    LDA.b #$07 : STA.w $0CD2, Y : STA.w $0BA0, Y
     
     .BRANCH_ALPHA
     
@@ -208,20 +208,20 @@ Sprite_Ganon:
     
     ; Load the AI pointer
     ; If >= 0, branch to another routine.
-    LDA $0D80, X : BPL .BRANCH_$E8ECF
+    LDA.w $0D80, X : BPL .BRANCH_$E8ECF
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     ; Kill Ganon
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_ALPHA
     
     LSR A : BCS .BRANCH_BETA
     
-    JSR $9ADF ; $0E9ADF IN ROM; Routine that draws Ganon to screen.
+    JSR.w $9ADF ; $0E9ADF IN ROM; Routine that draws Ganon to screen.
     
     .BRANCH_BETA
     
@@ -235,40 +235,40 @@ Sprite_Ganon:
 
 ; $0E8ECF-$0E8F89 BRANCH LOCATION
 {
-    LDA $0F10, X : BEQ .BRANCH_ALPHA
+    LDA.w $0F10, X : BEQ .BRANCH_ALPHA
     
     ; If 0, Ganon faces down, if 1, Ganon faces up.
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     ; $E8ECD, Y THAT IS (DIFFERENT POSES FOR GANON)
-    LDA.w $8ECD, Y : STA $0DC0, X
+    LDA.w $8ECD, Y : STA.w $0DC0, X
     
     .BRANCH_ALPHA
     
     ; A state having to do with whether Ganon can be hit. Also affects translucency.
     ; 2 means he is hittable and fully visible.
-    LDA $04C5 : CMP.b #$02 : BNE .BRANCH_BETA; // basically, we can't hit ganon.
+    LDA.w $04C5 : CMP.b #$02 : BNE .BRANCH_BETA; // basically, we can't hit ganon.
     
-    CMP $0C9A, X : BEQ .BRANCH_BETA
+    CMP.w $0C9A, X : BEQ .BRANCH_BETA
     
     PHA
     
     ; Another delay timer. For Ganon, this occurs when you "turn the lights on and he puts his cape over his face for a few seconds."
-    LDA.b #$40 : STA $0E00, X
+    LDA.b #$40 : STA.w $0E00, X
     
     PLA
     
     .BRANCH_BETA
     
-    STA $0C9A, X
+    STA.w $0C9A, X
     
-    JSR $9ADF ; $0E9ADF IN ROM; Routine that draws Ganon to screen.
+    JSR.w $9ADF ; $0E9ADF IN ROM; Routine that draws Ganon to screen.
     
-    LDA $0E00, X : BEQ .BRANCH_GAMMA
+    LDA.w $0E00, X : BEQ .BRANCH_GAMMA
     
-    LDA.b #$0F : STA $0DC0, X
+    LDA.b #$0F : STA.w $0DC0, X
     
-    JSR $8FFA ; $0E8FFA IN ROM; Causes Gannon to be vulnerable to silver arrows.
+    JSR.w $8FFA ; $0E8FFA IN ROM; Causes Gannon to be vulnerable to silver arrows.
     
     JMP Sprite4_CheckDamage
     
@@ -276,7 +276,7 @@ Sprite_Ganon:
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0E10, X : BEQ .BRANCH_DELTA
+    LDA.w $0E10, X : BEQ .BRANCH_DELTA
     CMP.b #$10   : BEQ .BRANCH_EPSILON
     CMP.b #$01   : BNE .BRANCH_DELTA
     
@@ -306,31 +306,31 @@ Sprite_Ganon:
     
     .BRANCH_ZETA
     
-    STA $0EB0, X
+    STA.w $0EB0, X
     
-    LDA $0F10, X : BEQ .BRANCH_THETA
+    LDA.w $0F10, X : BEQ .BRANCH_THETA
     
-    STA $0BA0, X
+    STA.w $0BA0, X
     
     JSR Sprite4_CheckIfRecoiling
     
-    STZ $0DF0, X
+    STZ.w $0DF0, X
     
     RTS
     
     .BRANCH_THETA
     
-    LDA $0BA0, X : ORA $02E4 : BNE .BRANCH_IOTA
+    LDA.w $0BA0, X : ORA.w $02E4 : BNE .BRANCH_IOTA
     
-    LDA $04C5 : CMP.b #$02 : BNE .BRANCH_IOTA
+    LDA.w $04C5 : CMP.b #$02 : BNE .BRANCH_IOTA
     
     JSR Sprite4_CheckDamage
     
     .BRANCH_IOTA
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    LDA $0D80, X ; Load the AI pointer, the main control for Ganon.
+    LDA.w $0D80, X ; Load the AI pointer, the main control for Ganon.
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -376,28 +376,28 @@ Sprite_Ganon:
 
 ; $0E8F8C-$0E8FB7 LOCAL JUMP LOCATION ; 0x13
 {
-    LDA.b #$05 : STA $0F50, X
-    LDA.b #$02 : STA $0B6B, X
+    LDA.b #$05 : STA.w $0F50, X
+    LDA.b #$02 : STA.w $0B6B, X
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA.b #$01 : STA $0F50, X
+    LDA.b #$01 : STA.w $0F50, X
     
     LDA.b #$12
     
-    JSR $947F ; $0E947F IN ROM
+    JSR.w $947F ; $0E947F IN ROM
     
-    LDA.b #$D6 : STA $0E20, X
+    LDA.b #$D6 : STA.w $0E20, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     RTS
     
     .BRANCH_ALPHA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -415,15 +415,15 @@ Sprite_Ganon:
 
 ; $0E8FBC-$0E9015 JUMP LOCATION ; 0x11
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     LDA.b #$12
     
-    JSR $947F   ; $0E947F IN ROM
+    JSR.w $947F   ; $0E947F IN ROM
     
     RTS
     
@@ -431,43 +431,43 @@ Sprite_Ganon:
     
     CMP.b #$34 : PHP : BNE .BRANCH_BETA
     
-    JSR $915C   ; $0E915C IN ROM
+    JSR.w $915C   ; $0E915C IN ROM
     
     .BRANCH_BETA
     
     PLP : BCS .BRANCH_GAMMA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $8FBA, Y : STA $0DC0, X
+    LDA.w $8FBA, Y : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
-    LDA $0DF0, X
+    LDA.w $0DF0, X
     
     CMP.b #$48 : BCS .BRANCH_DELTA
     CMP.b #$28 : BCS .BRANCH_EPSILON
     
     .BRANCH_DELTA
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LSR A : BCC .BRANCH_EPSILON
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
     
     ; *$E8FFA ALTERNATE ENTRY POINT
     .BRANCH_EPSILON
     
-    LDA $0EF0, X : AND.b #$7F : CMP.b #$1A : BNE .BRANCH_ZETA
+    LDA.w $0EF0, X : AND.b #$7F : CMP.b #$1A : BNE .BRANCH_ZETA
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA.b #$13 : STA $0D80, X
+    LDA.b #$13 : STA.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    LDA.b #$D7 : STA $0E20, X
+    LDA.b #$D7 : STA.w $0E20, X
 
     .BRANCH_ZETA
 
@@ -486,12 +486,12 @@ Sprite_Ganon:
 
 ; $0E9018-$0E9041 JUMP LOCATION ; 0x0F
 {
-    LDA $0DF0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
     DEC A        : BNE .BRANCH_BETA
     
-    LDA.b #$10 : STA $0D80, X
+    LDA.b #$10 : STA.w $0D80, X
     
-    LDA.b #$A0 : STA $0F80, X
+    LDA.b #$A0 : STA.w $0F80, X
     
     RTS
     
@@ -499,15 +499,15 @@ Sprite_Ganon:
     
     JSR Sprite4_MoveAltitude
     
-    DEC $0F80, X : BNE .BRANCH_BETA
+    DEC.w $0F80, X : BNE .BRANCH_BETA
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .BRANCH_BETA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -525,39 +525,39 @@ Sprite_Ganon:
 
 ; $0E9044-$0E90C3 JUMP LOCATION ; 0x10
 {
-    STZ $011C
-    STZ $011D
+    STZ.w $011C
+    STZ.w $011D
     
-    LDA $0DF0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
     DEC A        : BNE .BRANCH_BETA
     
-    LDA.b #$05 : STA $012D
+    LDA.b #$05 : STA.w $012D
     
     LDA.b #$0D
     
-    JSR $947F   ; $0E947F IN ROM
+    JSR.w $947F   ; $0E947F IN ROM
     
-    STZ $02E4
+    STZ.w $02E4
     
-    JSR $90D0   ; $0E90D0 IN ROM
+    JSR.w $90D0   ; $0E90D0 IN ROM
     
-    LDA $0EC0, X : CMP.b #$04 : BCC .BRANCH_GAMMA
+    LDA.w $0EC0, X : CMP.b #$04 : BCC .BRANCH_GAMMA
     
     LDA.b #$0A
     
-    JSR $947F   ; $0E947F IN ROM
+    JSR.w $947F   ; $0E947F IN ROM
     
-    LDA.b #$60 : STA $0E50, X
+    LDA.b #$60 : STA.w $0E50, X
     
-    LDA.b #$E0 : STA $0E10, X
+    LDA.b #$E0 : STA.w $0E10, X
     
-    LDA.b #$70 : STA $1CF0 ; You are doing well, lad. But can you break through 
+    LDA.b #$70 : STA.w $1CF0 ; You are doing well, lad. But can you break through 
     LDA.b #$01             ; this secret technique of Darkness? En Garde!
     
     ; $0E907F ALTERNATE ENTRY POINT ; Is it alternate entry point? i don't see it referenced anywhere else..
     shared Sprite4_ShowMessageMinimal:
     
-                 STA $1CF1
+                 STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -569,10 +569,10 @@ Sprite_Ganon:
     
     AND.b #$01 : TAY
     
-    LDA.w $8000, Y : STA $011C
-    LDA.w $8002, Y : STA $011D
+    LDA.w $8000, Y : STA.w $011C
+    LDA.w $8002, Y : STA.w $011D
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     RTS
     
@@ -580,22 +580,22 @@ Sprite_Ganon:
     
     JSR Sprite4_MoveAltitude
     
-    LDA $0F70, X : BPL .BRANCH_DELTA
+    LDA.w $0F70, X : BPL .BRANCH_DELTA
     
-    STZ $0F80, X
-    STZ $0F70, X
+    STZ.w $0F80, X
+    STZ.w $0F70, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
-    LDA.b #$07 : STA $012D
+    LDA.b #$07 : STA.w $012D
     
     LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
     .BRANCH_DELTA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $9042, Y : STA $0DC0, X
+    LDA.w $9042, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -606,7 +606,7 @@ Sprite_Ganon:
     
     .BRANCH_BETA
     
-    LDA $0B00, Y : BEQ .BRANCH_ALPHA
+    LDA.w $0B00, Y : BEQ .BRANCH_ALPHA
     
     DEY : BPL .BRANCH_BETA
     
@@ -614,22 +614,22 @@ Sprite_Ganon:
     
     .BRANCH_ALPHA
     
-    LDA $0EC0, X : CMP.b #$04 : BCS .BRANCH_GAMMA
+    LDA.w $0EC0, X : CMP.b #$04 : BCS .BRANCH_GAMMA
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     PHX
     
     TAX
     
-    LDA.w $90C4, X : STA $0B00, Y
-    LDA.w $90C8, X : STA $0B08, Y
+    LDA.w $90C4, X : STA.w $0B00, Y
+    LDA.w $90C8, X : STA.w $0B08, Y
     
-    LDA $23      : STA $0B10, Y
-    LDA.w $90CC, X : STA $0B18, Y
+    LDA $23      : STA.w $0B10, Y
+    LDA.w $90CC, X : STA.w $0B18, Y
     
-    LDA $21    : STA $0B20, Y
-    LDA.b #$00 : STA $0B28, Y : STA $0B30, Y
+    LDA $21    : STA.w $0B20, Y
+    LDA.b #$00 : STA.w $0B28, Y : STA.w $0B30, Y
     
     PLX
     
@@ -640,13 +640,13 @@ Sprite_Ganon:
 
 ; $0E9113-$0E9157 JUMP LOCATION ; 0x0C
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     ; $0E9118 ALTERNATE ENTRY POINT
     
     LDA.b #$0D
     
-    JSR $947F   ; $0E947F IN ROM
+    JSR.w $947F   ; $0E947F IN ROM
     
     RTS
     
@@ -663,7 +663,7 @@ Sprite_Ganon:
     
     PHY
     
-    JSR $9160   ; $0E9160 IN ROM
+    JSR.w $9160   ; $0E9160 IN ROM
     
     PLY
     
@@ -673,21 +673,21 @@ Sprite_Ganon:
     
     .BRANCH_BETA
     
-    LDA $0DE0, X : BEQ .BRANCH_DELTA
+    LDA.w $0DE0, X : BEQ .BRANCH_DELTA
     
     INY #3
     
     .BRANCH_DELTA
     
-    LDA.w $910D, Y : STA $0DC0, X
+    LDA.w $910D, Y : STA.w $0DC0, X
     
-    LDA $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE .BRANCH_EPSILON
+    LDA.w $0EF0, X : AND.b #$7F : CMP.b #$01 : BNE .BRANCH_EPSILON
     
-    LDA.b #$0F : STA $0D80, X
+    LDA.b #$0F : STA.w $0D80, X
     
-    LDA.b #$18 : STA $0F80, X
+    LDA.b #$18 : STA.w $0F80, X
     
-    STZ $0DF0, X
+    STZ.w $0DF0, X
     
     .BRANCH_EPSILON
     
@@ -719,7 +719,7 @@ Sprite_Ganon:
     
     .BRANCH_ALPHA
     
-    STA $0FB5
+    STA.w $0FB5
     
     LDA.b #$C9
     LDY.b #$08
@@ -730,20 +730,20 @@ Sprite_Ganon:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $0FB5 : STA $0EC0, Y : STA $0BA0, Y
+    LDA.w $0FB5 : STA.w $0EC0, Y : STA.w $0BA0, Y
     
-    LDA.b #$03 : STA $0F50, Y
-    LDA.b #$40 : STA $0E60, Y
-    LDA.b #$21 : STA $0E40, Y
-    LDA.b #$40 : STA $0CAA, Y
+    LDA.b #$03 : STA.w $0F50, Y
+    LDA.b #$40 : STA.w $0E60, Y
+    LDA.b #$21 : STA.w $0E40, Y
+    LDA.b #$40 : STA.w $0CAA, Y
     
     PHX
     
-    LDA $0DE0, X : TAX
+    LDA.w $0DE0, X : TAX
     
-    LDA $02 : CLC : ADC $9158, X : STA $0D00, Y
+    LDA $02 : CLC : ADC.w $9158, X : STA.w $0D00, Y
     
-    LDA $03 : ADC $915A, X : STA $0D20, Y
+    LDA $03 : ADC.w $915A, X : STA.w $0D20, Y
     
     TYX
     
@@ -753,14 +753,14 @@ Sprite_Ganon:
     
     PLX
     
-    LDA.b #$10 : STA $0DF0, Y
+    LDA.b #$10 : STA.w $0DF0, Y
     
-    LDA $0D10 : STA $0D90, Y
-    LDA $0D30 : STA $0DA0, Y
-    LDA $0D00 : STA $0DB0, Y
-    LDA $0D20 : STA $0E90, Y
+    LDA.w $0D10 : STA.w $0D90, Y
+    LDA.w $0D30 : STA.w $0DA0, Y
+    LDA.w $0D00 : STA.w $0DB0, Y
+    LDA.w $0D20 : STA.w $0E90, Y
     
-    JMP $8EAB ; $0E8EAB IN ROM
+    JMP.w $8EAB ; $0E8EAB IN ROM
     
     .spawn_failed
     
@@ -769,23 +769,23 @@ Sprite_Ganon:
 
 ; $0E91D5-$0E9202 JUMP LOCATION ; 0x0E
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    JSR $9443   ; $0E9443 IN ROM
+    JSR.w $9443   ; $0E9443 IN ROM
     
-    STZ $0ED0, X
+    STZ.w $0ED0, X
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     JSL GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
     
-    JMP $9118   ; $0E9118 IN ROM
+    JMP.w $9118   ; $0E9118 IN ROM
     
     .BRANCH_BETA
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    LDA.b #$0C : STA $0D80, X
+    LDA.b #$0C : STA.w $0D80, X
     
     RTS
     
@@ -793,7 +793,7 @@ Sprite_Ganon:
     
     AND.b #$01 : BEQ .BRANCH_GAMMA
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
@@ -802,19 +802,19 @@ Sprite_Ganon:
 
 ; $0E9203-$0E9230 JUMP LOCATION ; 0x07
 {
-    LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$A0 : STA $0E50, X
+    LDA.b #$A0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDA.b #$28 : STA $0B0A
+    LDA.b #$28 : STA.w $0B0A
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
-    LDA.b #$08 : STA $0D80, X
+    LDA.b #$08 : STA.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
     
@@ -823,7 +823,7 @@ Sprite_Ganon:
     CMP.b #$C0 : BCS .BRANCH_GAMMA
     AND.b #$0F : BNE .BRANCH_GAMMA
     
-    JSR $8E7C   ; $0E8E7C IN ROM
+    JSR.w $8E7C   ; $0E8E7C IN ROM
     
     .BRANCH_GAMMA
     
@@ -832,27 +832,27 @@ Sprite_Ganon:
 
 ; $0E9248-$0E928E JUMP LOCATION ; 0x08
 {
-    LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$A0 : STA $0E50, X
+    LDA.b #$A0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
-    LDA.b #$09 : STA $0D80, X
+    LDA.b #$09 : STA.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    JSR $9443   ; $0E9443 IN ROM
+    JSR.w $9443   ; $0E9443 IN ROM
     
     LDY.b #$08
     
     .BRANCH_GAMMA
     
-    LDA.b #$02 : STA $0D80, Y
+    LDA.b #$02 : STA.w $0D80, Y
     
-    LDA.w $9240, Y : STA $0DF0, Y
+    LDA.w $9240, Y : STA.w $0DF0, Y
     
     DEY : BNE .BRANCH_GAMMA
     
@@ -862,52 +862,52 @@ Sprite_Ganon:
     
     LSR #4 : AND.b #$0F : TAY
     
-    LDA $0B0A : CLC : ADC $9231, Y : STA $0B0A
+    LDA.w $0B0A : CLC : ADC.w $9231, Y : STA.w $0B0A
     
     ; $0E9288 ALTERNATE ENTRY POINT
     
-    JSR $93DB   ; $0E93DB IN ROM
-    JSR $8D70   ; $0E8D70 IN ROM
+    JSR.w $93DB   ; $0E93DB IN ROM
+    JSR.w $8D70   ; $0E8D70 IN ROM
     
     RTS
 }
 
 ; $0E928F-$0E92A9 JUMP LOCATION ; 0x09
 {
-    LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$A1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$A0 : STA $0E50, X
+    LDA.b #$A0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
     LDA.b #$0A
     
-    JSR $947F   ; $0E947F IN ROM
+    JSR.w $947F   ; $0E947F IN ROM
     
     RTS
     
     .BRANCH_BETA
     
-    JSR $94BA   ; $0E94BA IN ROM
+    JSR.w $94BA   ; $0E94BA IN ROM
     
     RTS
 }
 
 ; $0E92AA-$0E92C9 JUMP LOCATION ; 0x0B
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    JSR $9443   ; $0E9443 IN ROM
+    JSR.w $9443   ; $0E9443 IN ROM
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     ; $0E92B5 ALTERNATE ENTRY POINT
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    LDA.b #$07 : STA $0D80, X
+    LDA.b #$07 : STA.w $0D80, X
     
     RTS
     
@@ -915,7 +915,7 @@ Sprite_Ganon:
     
     AND.b #$01 : BEQ .BRANCH_BETA
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
     
     .BRANCH_BETA
     
@@ -925,15 +925,15 @@ Sprite_Ganon:
 ; $0E92CA-$0E92F6 LOCAL JUMP LOCATION ; 0x00
 {
     ; Is the timer still going?
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     ; $0E92CF ALTERNATE ENTRY POINT
     
     ; Otherwise jump to the next step in the AI table.
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     ; Set up a delay of #$80 frames till the next mode activates. (little over 1 s)
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     RTS
     
@@ -943,8 +943,8 @@ Sprite_Ganon:
     CMP.b #$20 : BEQ .BRANCH_BETA
     CMP.b #$40 : BNE .BRANCH_GAMMA ; On the 0x40th frame (in the countdown)
     
-    LDA.b #$6F : STA $1CF0 ; I never imagined a boy like you could give me so much trouble...
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$6F : STA.w $1CF0 ; I never imagined a boy like you could give me so much trouble...
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -955,7 +955,7 @@ Sprite_Ganon:
     .BRANCH_BETA
     
     ; Play the song, "Ganondorf the Thief"
-    LDA.b #$1F : STA $012C
+    LDA.b #$1F : STA.w $012C
     
     RTS
 }
@@ -966,30 +966,30 @@ Sprite_Ganon:
     
     LDA.b #$05
     
-    JMP $947F   ; $0E947F IN ROM
+    JMP.w $947F   ; $0E947F IN ROM
     
     .BRANCH_ALPHA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $933F, Y : STA $0DC0, X
+    LDA.w $933F, Y : STA.w $0DC0, X
     
     RTS
 }
 
 ; $0E9354-$0E93FA JUMP LOCATION ; 0x01
 {
-    LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
     ; Once Gannon takes enough damage fix his health at #$D0.
-    LDA.b #$D0 : STA $0E50, X
+    LDA.b #$D0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
     ; If the timer has >= 0x40 frames, then spin ze trident.
-    LDA $0DF0, X : CMP.b #$40 : BCS .BRANCH_E9341  BNE .BRANCH_BETA
+    LDA.w $0DF0, X : CMP.b #$40 : BCS .BRANCH_E9341  BNE .BRANCH_BETA
     
-    STZ $0ED0, X
+    STZ.w $0ED0, X
     
     LDA.b #$C9
     
@@ -997,13 +997,13 @@ Sprite_Ganon:
     
     PHX
     
-    LDA $0DE0, X : TAX
+    LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC $9317, X : STA $0D10, Y
-    LDA $01 : ADC $9319, X : STA $0D30, Y
+    LDA $00 : CLC : ADC.w $9317, X : STA.w $0D10, Y
+    LDA $01 : ADC.w $9319, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC $931B, X : STA $0D00, Y
-    LDA $03 : ADC $931D, X : STA $0D20, Y
+    LDA $02 : CLC : ADC.w $931B, X : STA.w $0D00, Y
+    LDA $03 : ADC.w $931D, X : STA.w $0D20, Y
     
     PLX
     
@@ -1013,32 +1013,32 @@ Sprite_Ganon:
     
     JSL Sprite_ConvertVelocityToAngle : PLY : SEC : SBC.b #$02 : AND.b #$0F : TAX
     
-    LDA.w $931F, X : STA $0D50, Y
+    LDA.w $931F, X : STA.w $0D50, Y
     
-    LDA.w $932F, X : STA $0D40, Y
+    LDA.w $932F, X : STA.w $0D40, Y
     
     PLX
     
-    LDA.b #$70 : STA $0DF0, Y
+    LDA.b #$70 : STA.w $0DF0, Y
     
-    LDA.b #$02 : STA $0EC0, Y
+    LDA.b #$02 : STA.w $0EC0, Y
     
-    LDA.b #$01 : STA $0F50, Y
+    LDA.b #$01 : STA.w $0F50, Y
     
-    LDA.b #$04 : STA $0E40, Y
+    LDA.b #$04 : STA.w $0E40, Y
     
-    LDA.b #$84 : STA $0CAA, Y
+    LDA.b #$84 : STA.w $0CAA, Y
     
-    LDA.b #$02 : STA $0DE0, Y
+    LDA.b #$02 : STA.w $0DE0, Y
     
-    JMP $8EAB   ; $0E8EAB IN ROM
+    JMP.w $8EAB   ; $0E8EAB IN ROM
     
     ; $0E93DB ALTERNATE ENTRY POINT
     .BRANCH_BETA
     
-    LDA $0DF0, X : LSR #2 : AND.b #$07
+    LDA.w $0DF0, X : LSR #2 : AND.b #$07
     
-    LDY $0DE0, X : BEQ .BRANCH_GAMMA
+    LDY.w $0DE0, X : BEQ .BRANCH_GAMMA
     
     CLC : ADC.b #$08
     
@@ -1046,9 +1046,9 @@ Sprite_Ganon:
     
     TAY
     
-    LDA.w $92F7, Y : STA $0ED0, X
+    LDA.w $92F7, Y : STA.w $0ED0, X
     
-    LDA.w $9307, Y : STA $0DC0, X
+    LDA.w $9307, Y : STA.w $0DC0, X
     
     JSR Sprite_PeriodicWhirringSfx
     
@@ -1068,23 +1068,23 @@ Sprite_Ganon:
 
 ; $0E93FD-$0E9423 JUMP LOCATION ; 0x02
 {
-    LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$D0 : STA $0E50, X
+    LDA.b #$D0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $93FB, Y : STA $0DC0, X
+    LDA.w $93FB, Y : STA.w $0DC0, X
     
-    LDA $0DF0, X : BEQ .BRANCH_BETA
+    LDA.w $0DF0, X : BEQ .BRANCH_BETA
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     AND.b #$01 : BEQ .BRANCH_BETA
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
 
     .BRANCH_BETA
 
@@ -1103,48 +1103,48 @@ Sprite_Ganon:
 
 ; $0E9428-$0E9459 JUMP LOCATION ; 0x03
 {
-    LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$D0 : STA $0E50, X
+    LDA.b #$D0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
-    LDA.b #$06 : STA $0D80, X
+    LDA.b #$06 : STA.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     ; $0E9443 ALTERNATE ENTRY POINT
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $9424, Y : STA $0ED0, X
+    LDA.w $9424, Y : STA.w $0ED0, X
     
     ; $0E944C ALTERNATE ENTRY POINT
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $9426, Y : STA $0DC0, X
+    LDA.w $9426, Y : STA.w $0DC0, X
     
     RTS
     
     .BRANCH_BETA
     
-    JSR $93DB   ; $0E93DB IN ROM
+    JSR.w $93DB   ; $0E93DB IN ROM
     
     RTS
 }
 
 ; $0E946C-$0E94C4 JUMP LOCATION ; 0x04
 {
-    LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$D0 : STA $0E50, X
+    LDA.b #$D0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
     LDA.b #$05
     
@@ -1152,23 +1152,23 @@ Sprite_Ganon:
     
     STA $00
     
-    LDA $0E30, X : ASL #2 : STA $01
+    LDA.w $0E30, X : ASL #2 : STA $01
     
     JSL GetRandomInt : AND.b #$03 : ORA $01 : TAY
     
     LDA.w $94D5, Y
     
-    STA $0E30, X : TAY
+    STA.w $0E30, X : TAY
     
     LDA.w $94C5, Y : STA.l $7FFD5C
     
     LDA.w $94CD, Y : STA.l $7FFD68
     
-    LDA.b $00 : STA $0D80, X
+    LDA.b $00 : STA.w $0D80, X
     
     JSR Sprite4_Zero_XY_Velocity
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     LDA.b #$28 : JSL Sound_SetSfx3PanLong
     
@@ -1179,7 +1179,7 @@ Sprite_Ganon:
     
     LSR #3 : TAY
     
-    LDA.w $945A, Y : STA $0EB0, X
+    LDA.w $945A, Y : STA.w $0EB0, X
     
     RTS
 }
@@ -1189,55 +1189,55 @@ Sprite_Ganon:
 ; $0E94F5-$0E955E JUMP LOCATION ; 0x0D
 {
     ; Reset health for lights out phase
-    LDA.b #$64 : STA $0E50, X
+    LDA.b #$64 : STA.w $0E50, X
     
     ; $0E94FA ALTERNATE ENTRY POINT  ; 0x05, 0x0A, 0x12
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA.l $7FFD5C  : STA $04
-    LDA $0D30, X : STA $05
+    LDA.w $0D30, X : STA $05
     
     LDA.l $7FFD68  : STA $06
-    LDA $0D20, X : STA $07
+    LDA.w $0D20, X : STA $07
     
     JSR Ganon_CheckEntityProximity : BCS .BRANCH_E955F
     
-    LDA $0E30, X : LSR #2 : STA $0DE0, X
+    LDA.w $0E30, X : LSR #2 : STA.w $0DE0, X
     
-    LDA $0D80, X : CMP.b #$05 : BEQ .BRANCH_ALPHA
+    LDA.w $0D80, X : CMP.b #$05 : BEQ .BRANCH_ALPHA
     
-    LDA $0E50, X : CMP.b #$A1 : BCS .BRANCH_BETA
+    LDA.w $0E50, X : CMP.b #$A1 : BCS .BRANCH_BETA
     
     CMP.b #$61 : BCS .BRANCH_GAMMA
     
-    LDA.b #$11 : STA $0D80, X
+    LDA.b #$11 : STA.w $0D80, X
     
-    LDA.b #$68 : STA $0DF0, X
+    LDA.b #$68 : STA.w $0DF0, X
     
     RTS
     
     .BRANCH_BETA
     
-    LDA.b #$0B : STA $0D80, X
+    LDA.b #$0B : STA.w $0D80, X
     
-    LDA.b #$28 : STA $0DF0, X
+    LDA.b #$28 : STA.w $0DF0, X
     
     RTS
     
     .BRANCH_GAMMA
     
-    LDA.b #$0E : STA $0D80, X
+    LDA.b #$0E : STA.w $0D80, X
     
-    LDA.b #$28 : STA $0DF0, X
+    LDA.b #$28 : STA.w $0DF0, X
     
     RTS
     
     .BRANCH_ALPHA
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
@@ -1253,20 +1253,20 @@ Sprite_Ganon:
     LDA.b #$20
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
-    JSR $8AE4   ; $0E8AE4 IN ROM
+    JSR.w $8AE4   ; $0E8AE4 IN ROM
     JSR Sprite4_Move
     
-    LDA $0DF0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
     
     LDA $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
-    JSR $944C   ; $0E944C IN ROM
+    JSR.w $944C   ; $0E944C IN ROM
     
     BRA .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
     
     RTS
     
@@ -1280,13 +1280,13 @@ Sprite_Ganon:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$18 : STA $0BA0, Y : STA $0DF0, Y
+    LDA.b #$18 : STA.w $0BA0, Y : STA.w $0DF0, Y
     
-    LDA.b #$FF : STA $0D80, Y
+    LDA.b #$FF : STA.w $0D80, Y
     
-    LDA $0DC0, X : STA $0DC0, Y
+    LDA.w $0DC0, X : STA.w $0DC0, Y
     
-    LDA $0EB0, X : STA $0EB0, Y
+    LDA.w $0EB0, X : STA.w $0EB0, Y
     
     .BRANCH_GAMMA
     
@@ -1295,25 +1295,25 @@ Sprite_Ganon:
 
 ; $0E95AD-$0E95CD JUMP LOCATION ; 0x06
 {
-    LDA $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
+    LDA.w $0E50, X : CMP.b #$D1 : BCS .BRANCH_ALPHA
     
-    LDA.b #$D0 : STA $0E50, X
+    LDA.b #$D0 : STA.w $0E50, X
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
-    LDA $0E50, X : CMP.b #$D1 : BCC .BRANCH_GAMMA
+    LDA.w $0E50, X : CMP.b #$D1 : BCC .BRANCH_GAMMA
     
-    JMP $92CF  ; $0E92CF IN ROM
+    JMP.w $92CF  ; $0E92CF IN ROM
     
     .BRANCH_GAMMA
     
-    JMP $92B5   ; $0E92B5 IN ROM
+    JMP.w $92B5   ; $0E92B5 IN ROM
     
     .BRANCH_BETA
     
-    JMP $94BA   ; $0E94BA IN ROM
+    JMP.w $94BA   ; $0E94BA IN ROM
 }
 
 ; ==============================================================================
@@ -1337,13 +1337,13 @@ Sprite_Ganon:
 
 ; $0E9ADF-$0E9C1B LOCAL JUMP LOCATION
 {
-    LDA $0DC0, X : BMI .BRANCH_$E9ADB
+    LDA.w $0DC0, X : BMI .BRANCH_$E9ADB
     
-    LDA $0D80, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
+    LDA.w $0D80, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
     
-    LDA $0F10, X : BNE .BRANCH_ALPHA
+    LDA.w $0F10, X : BNE .BRANCH_ALPHA
     
-    LDA $04C5 : BEQ .BRANCH_$E9ADB
+    LDA.w $04C5 : BEQ .BRANCH_$E9ADB
     
     .BRANCH_ALPHA
     
@@ -1352,9 +1352,9 @@ Sprite_Ganon:
     
     ; There are much better combinations of instructions that produce
     ; multiplication by 12, guys...
-    LDA $0DC0, X : ASL #3
+    LDA.w $0DC0, X : ASL #3
     
-    ADC $0DC0, X : ADC $0DC0, X : ADC $0DC0, X : ADC $0DC0, X : STA $06
+    ADC.w $0DC0, X : ADC.w $0DC0, X : ADC.w $0DC0, X : ADC.w $0DC0, X : STA $06
     
     PHX
     
@@ -1367,8 +1367,8 @@ Sprite_Ganon:
     
     TXA : CLC : ADC $06 : TAX
     
-    LDA $00      : CLC : ADC $95CE, X       : STA ($90), Y
-    LDA $02      : CLC : ADC $969A, X : INY : STA ($90), Y
+    LDA $00      : CLC : ADC.w $95CE, X       : STA ($90), Y
+    LDA $02      : CLC : ADC.w $969A, X : INY : STA ($90), Y
     LDA.w $9766, X                 : INY : STA ($90), Y
     
     LDA $05 : AND.b #$0F : CMP.b #$05 : LDA.w $9843, X : BCC .BRANCH_BETA
@@ -1389,7 +1389,7 @@ Sprite_Ganon:
     
     PLX
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
     LDA.w $9832, Y : CMP.b #$0F : BEQ .BRANCH_DELTA
     
@@ -1397,9 +1397,9 @@ Sprite_Ganon:
     
     PHX : PHY
     
-    LDA $0EB0, X : ASL A
+    LDA.w $0EB0, X : ASL A
     
-    LDY $0DE0, X : BEQ .BRANCH_EPSILON
+    LDY.w $0DE0, X : BEQ .BRANCH_EPSILON
     
     CLC : ADC.b #$06
     
@@ -1411,7 +1411,7 @@ Sprite_Ganon:
     
     LDA.w $9AB3, X : STA ($90), Y : INY
     
-    LDA ($90), Y : AND.b #$3F : ORA $9ABF, X : STA ($90), Y
+    LDA ($90), Y : AND.b #$3F : ORA.w $9ABF, X : STA ($90), Y
     
     INY #3
     
@@ -1419,7 +1419,7 @@ Sprite_Ganon:
     
     INY
     
-    LDA ($90), Y : AND.b #$3F : ORA $9AC0, X : STA ($90), Y
+    LDA ($90), Y : AND.b #$3F : ORA.w $9AC0, X : STA ($90), Y
     
     PLX
     
@@ -1434,7 +1434,7 @@ Sprite_Ganon:
     
     .BRANCH_ZETA
     
-    LDA $0ED0, X : CMP.b #$09 : BNE .BRANCH_THETA
+    LDA.w $0ED0, X : CMP.b #$09 : BNE .BRANCH_THETA
     
     REP #$20
     
@@ -1452,7 +1452,7 @@ Sprite_Ganon:
     
     .BRANCH_THETA
     
-    LDA $0F70, X : SEC : SBC.b #$01 : STA $0E
+    LDA.w $0F70, X : SEC : SBC.b #$01 : STA $0E
     LDA.b #$00   : SBC.b #$00 : STA $0F
     
     LSR #3 : TAY : CPY.b #$04 : BCC .BRANCH_IOTA
@@ -1465,7 +1465,7 @@ Sprite_Ganon:
     
     REP #$20
     
-    LDA $0FDA : CLC : ADC $0E : STA $0FDA
+    LDA.w $0FDA : CLC : ADC $0E : STA.w $0FDA
     
     LDA.w #$09F4 : STA $90
     
@@ -1475,17 +1475,17 @@ Sprite_Ganon:
     
     SEP #$20
     
-    LDA $0F50, X : PHA
+    LDA.w $0F50, X : PHA
     
-    STZ $0F50, X
+    STZ.w $0F50, X
     
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     LDA.b #$03
     
     JSR Sprite4_DrawMultiple
     
-    PLA : STA $0F50, X
+    PLA : STA.w $0F50, X
     
     JSL Sprite_Get_16_bit_CoordsLong
     
@@ -1499,7 +1499,7 @@ Trident_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0ED0, X : BEQ .dont_draw
+    LDA.w $0ED0, X : BEQ .dont_draw
     
     DEC A : REP #$20 : ASL #3 : STA $00
     
@@ -1507,26 +1507,26 @@ Trident_Draw:
     
     SEP #$20
     
-    LDY.b #$06 : LDA $0ED0, X : CMP.b #$09 : BEQ .BRANCH_BETA
+    LDY.b #$06 : LDA.w $0ED0, X : CMP.b #$09 : BEQ .BRANCH_BETA
     LDY.b #$08                             : BCS .BRANCH_BETA
     
-    LDA $0DE0, X : ASL A : TAY
+    LDA.w $0DE0, X : ASL A : TAY
     
     .BRANCH_BETA
     
     REP #$20
     
-    LDA $0FD8 : CLC : ADC $9A9F, Y : STA $0FD8
+    LDA.w $0FD8 : CLC : ADC.w $9A9F, Y : STA.w $0FD8
     
-    LDA $0FDA : CLC : ADC $9AA9, Y : STA $0FDA
+    LDA.w $0FDA : CLC : ADC.w $9AA9, Y : STA.w $0FDA
     
     SEP #$20
     
-    LDA $0B89, X : PHA : AND.b #$F0 : STA $0B89, X
+    LDA.w $0B89, X : PHA : AND.b #$F0 : STA.w $0B89, X
     
     LDA.b #$05 : JSR Sprite4_DrawMultiple
     
-    PLA : STA $0B89, X
+    PLA : STA.w $0B89, X
     
     JSL Sprite_Get_16_bit_CoordsLong
     

@@ -7,7 +7,7 @@ Sprite_BugNetKid:
     JSL BugNetKid_Draw
     JSR Sprite_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -27,9 +27,9 @@ BugNetKid_Resting:
         LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
         CMP.b #$02 : BCC .gotsNoBottles
         
-            INC $0D80, X
+            INC.w $0D80, X
             
-            INC $02E4
+            INC.w $02E4
     
     .dont_awaken
     
@@ -63,17 +63,17 @@ Pool_BugNetKid_PerkUp:
 ; $0339A0-$0339C5 JUMP LOCATION
 BugNetKid_PerkUp:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     LDA .animation_states, Y : BMI .invalid_animation_state
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    LDA .delay_timers, Y : STA $0DF0, X
+    LDA .delay_timers, Y : STA.w $0DF0, X
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .delay
     
@@ -87,7 +87,7 @@ BugNetKid_PerkUp:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -100,7 +100,7 @@ BugNetKid_GrantBugNet:
     ; Give Link the Bug catching net
     LDY.b #$21
     
-    STZ $02E9
+    STZ.w $02E9
     
     PHX
     
@@ -108,9 +108,9 @@ BugNetKid_GrantBugNet:
     
     PLX
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $02E4
+    STZ.w $02E4
     
     RTS
 }
@@ -120,7 +120,7 @@ BugNetKid_GrantBugNet:
 ; $0339D8-$0339E5 JUMP LOCATION
 BugNetKid_BackToResting:
 {
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     ; "Sniffle... I hope I get well soon. Cough cough."
     LDA.b #$06

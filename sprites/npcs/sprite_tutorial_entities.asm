@@ -40,34 +40,34 @@ Pool_Sprite_TutorialEntities:
 Sprite_TutorialEntities:
 {
     ; check if it's the hyrule castle electric fence
-    LDA $0E20, X : CMP.b #$40 : BEQ Sprite_EvilBarrierTrampoline_2
+    LDA.w $0E20, X : CMP.b #$40 : BEQ Sprite_EvilBarrierTrampoline_2
     
-    LDY $0DE0, X : PHY
+    LDY.w $0DE0, X : PHY
     
-    LDA $0E00, X : BEQ .direction_lock_inactive
+    LDA.w $0E00, X : BEQ .direction_lock_inactive
     
-    LDA.w $B5CB, Y : STA $0DE0, X
+    LDA.w $B5CB, Y : STA.w $0DE0, X
     
     .direction_lock_inactive
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     ; draw the soldier's sprites
     JSR TutorialSoldier_Draw
     
-    PLA : STA $0DE0, X
+    PLA : STA.w $0DE0, X
     
     JSR Sprite2_CheckIfActive ; checks if sprite is inactive (in which case it forces us out of this routine)
     JSL Sprite_CheckDamageFromPlayerLong
     
-    LDA $040A : CMP.b #$1B : BNE .use_default_tutorial_messages
+    LDA.w $040A : CMP.b #$1B : BNE .use_default_tutorial_messages
     
     ; "...I suppose it's only a matter of time before I'm affected, too."
     LDA.b #$B2
     
-    LDY $0D00, X : CPY.b #$50 : BEQ .guy_on_rampart
+    LDY.w $0D00, X : CPY.b #$50 : BEQ .guy_on_rampart
     
     ; "...You're not allowed in the castle, son! Go home..."
     LDA.b #$B3   : CPY.b #$90 : BNE .use_default_tutorial_messages
@@ -82,7 +82,7 @@ Sprite_TutorialEntities:
     
     .use_default_tutorial_messages
     
-    LDA $0B69 : PHA : CLC : ADC.b #$0F
+    LDA.w $0B69 : PHA : CLC : ADC.b #$0F
     LDY.b #$00
     
     JSL Sprite_ShowMessageIfPlayerTouching
@@ -96,7 +96,7 @@ Sprite_TutorialEntities:
     .no_message_index_reset
     .message_not_shown
     
-    STA $0B69
+    STA.w $0B69
     
     .moving_on
     
@@ -150,7 +150,7 @@ TutorialSoldier_Draw:
     JSR Sprite2_PrepOamCoord
     
     ; $06 = ($0DC0, X * 5)
-    LDA $0DC0, X : ASL #2 : ADC $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : STA $06
     
     PHX
     

@@ -29,9 +29,9 @@ SpritePrep_ArcheryGameGuy:
     
     PHB : PHK : PLB
     
-    STZ $0B88
+    STZ.w $0B88
     
-    LDA $0D00, X : SEC : SBC.b #$08 : STA $0D00, X
+    LDA.w $0D00, X : SEC : SBC.b #$08 : STA.w $0D00, X
     
     PHX
     
@@ -44,38 +44,38 @@ SpritePrep_ArcheryGameGuy:
     
     .next_sprite
     
-    LDA.b #$65 : STA $0E20, X
+    LDA.b #$65 : STA.w $0E20, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
     JSL Sprite_LoadProperties
     
-    LDA $23           : STA $0D30, X
-    LDA .x_offsets, X : STA $0D10, X
+    LDA $23           : STA.w $0D30, X
+    LDA .x_offsets, X : STA.w $0D10, X
     
-    LDA $21           : STA $0D20, X
-    LDA .y_offsets, X : STA $0D00, X
+    LDA $21           : STA.w $0D20, X
+    LDA .y_offsets, X : STA.w $0D00, X
     
-    LDA .subtypes, X : STA $0D90, X
+    LDA .subtypes, X : STA.w $0D90, X
     
-    DEC A : STA $0DC0, X : TAY
+    DEC A : STA.w $0DC0, X : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .hit_boxes, Y : STA $0F60, X
+    LDA .hit_boxes, Y : STA.w $0F60, X
     
-    LDA.b #$0D : STA $0F50, X
+    LDA.b #$0D : STA.w $0F50, X
     
-    LDA $EE : STA $0F20, X
+    LDA $EE : STA.w $0F20, X
     
-    JSL GetRandomInt : STA $0E80, X
+    JSL GetRandomInt : STA.w $0E80, X
     
     DEX : BNE .next_sprite
     
-    PLX : INC $0BA0, X
+    PLX : INC.w $0BA0, X
     
     ; Cache number of arrows that Link has when he enters the room.
-    LDA.l $7EF377 : STA $0E30, X
+    LDA.l $7EF377 : STA.w $0E30, X
     
     PLB
     
@@ -90,9 +90,9 @@ Sprite_ArcheryGameGuy:
     ; Make sure arrows stay at the amount they started at when Link
     ; entered the shooting gallery. (This seems unelegant, but also
     ; seems to work well enough)
-    LDA $0E30, X : STA.l $7EF377
+    LDA.w $0E30, X : STA.l $7EF377
     
-    LDA $0D90, X
+    LDA.w $0D90, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -115,17 +115,17 @@ Pool_ArcheryGameGuy_Main:
 ; $028217-$0282D3 JUMP LOCATION
 ArcheryGameGuy_Main:
 {
-    LDA $0B99 : BNE .have_minigame_arrows
+    LDA.w $0B99 : BNE .have_minigame_arrows
     
     ; Disallows firing of arrows if you have no "minigame" arrows left.
-    INC $0B9A
+    INC.w $0B9A
     
     .have_minigame_arrows
     
     JSL ArcheryGameGuy_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA.b #$00 : STA $0F60, X
+    LDA.b #$00 : STA.w $0F60, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
@@ -137,18 +137,18 @@ ArcheryGameGuy_Main:
     
     .no_player_collision
     
-    LDA $0DF0, X : BEQ .not_banging_his_drum
+    LDA.w $0DF0, X : BEQ .not_banging_his_drum
     AND.b #$07   : BNE .sound_effect_delay
     
     LDA.b #$11 : JSL Sound_SetSfx2PanLong
     
     .sound_effect_delay
     
-    LDA $0DF0, X : AND.b #$04 : LSR #2 : BRA .set_animation_state
+    LDA.w $0DF0, X : AND.b #$04 : LSR #2 : BRA .set_animation_state
     
     .not_banging_his_drum
     
-    LDA $0D80, X : BEQ .in_ground_state
+    LDA.w $0D80, X : BEQ .in_ground_state
     
     ; I think this is what animtes the proprietor when you hit a target.
     LDA $1A : LSR #5 : AND.b #$03
@@ -161,23 +161,23 @@ ArcheryGameGuy_Main:
     
     .set_animation_state
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     CMP.b #$02 : BEQ ArcheryGameGuy_RunGame
     CMP.b #$01 : BEQ .check_if_player_wants_to_play
     CMP.b #$03 : BNE .in_ground_state_2
     
-    LDA $1CE8 : BNE .player_not_interested
+    LDA.w $1CE8 : BNE .player_not_interested
     
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     BRA .restart_minigame
     
     .in_ground_state_2
     
-    LDA.b #$0A : STA $0F60, X
+    LDA.b #$0A : STA.w $0F60, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_contact_2
     
@@ -187,7 +187,7 @@ ArcheryGameGuy_Main:
     
     JSR .show_message
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .a_button_not_pressed
     .no_player_contact_2
@@ -196,7 +196,7 @@ ArcheryGameGuy_Main:
     
     .check_if_player_wants_to_play
     
-    LDA $1CE8 : BNE .player_not_interested
+    LDA.w $1CE8 : BNE .player_not_interested
     
     .restart_minigame
     
@@ -204,34 +204,34 @@ ArcheryGameGuy_Main:
     
     LDA.l $7EF360 : CMP.w #$0014 : SEP #$20 : BCC .dont_got_the_cash
     
-    STZ $0EB0, X
-    STZ $0B88
+    STZ.w $0EB0, X
+    STZ.w $0B88
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$86 : BRA .show_message
     
     .player_not_interested
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     ; "Well little partner, you can just turn yourself right around and..."
     LDA.b #$87
     
     .show_message
     
-    STA $1CF0
-    STZ $1CF1
+    STA.w $1CF0
+    STZ.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
-    STZ $0DF0, X
+    STZ.w $0DF0, X
     
     RTS
     
     .dont_got_the_cash
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     ; "Well little partner, you can just turn yourself right around and..."
     LDA.b #$87
@@ -244,16 +244,16 @@ ArcheryGameGuy_Main:
 ; $0282D4-$0283CE BRANCH LOCATION
 ArcheryGameGuy_RunGame:
 {
-    LDA $0EB0, X : BNE .arrows_already_laid_out
+    LDA.w $0EB0, X : BNE .arrows_already_laid_out
     
-    LDA.b #$05 : STA $0B99
+    LDA.b #$05 : STA.w $0B99
     
     LDA.b #$02
     
     JSL Sprite_InitializeSecondaryItemMinigame
     
     ; Start a delay counter to populate the counter with arrows.
-    LDA.b #$27 : STA $0E00, X
+    LDA.b #$27 : STA.w $0E00, X
     
     REP #$20
     
@@ -262,7 +262,7 @@ ArcheryGameGuy_RunGame:
     
     SEP #$20
     
-    INC $0EB0, X
+    INC.w $0EB0, X
     
     .arrow_already_laid_out
     
@@ -270,9 +270,9 @@ ArcheryGameGuy_RunGame:
     
     JSR Sprite2_PrepOamCoord
     
-    LDY $0B99 : STY $0D
+    LDY.w $0B99 : STY $0D
     
-    LDA $0E00, X : BEQ .arrow_stagger_finished
+    LDA.w $0E00, X : BEQ .arrow_stagger_finished
     
     ; This code is in play when the arrows on the counter are being
     ; populated one by one.
@@ -307,19 +307,19 @@ ArcheryGameGuy_RunGame:
     
     PLX
     
-    LDA $0B99
-    ORA $0F10, X
-    ORA $0C4A
-    ORA $0C4B
-    ORA $0C4C
-    ORA $0C4D
-    ORA $0C4E
+    LDA.w $0B99
+    ORA.w $0F10, X
+    ORA.w $0C4A
+    ORA.w $0C4B
+    ORA.w $0C4C
+    ORA.w $0C4D
+    ORA.w $0C4E
     
     BNE .game_in_progress
     
     ; Expand hit box for the proprietor, so that if we just get close to him
     ; he'll ask us if we want to play the minigame again.
-    LDA.b #$0A : STA $0F60, X
+    LDA.b #$0A : STA.w $0F60, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_retry_minigame
     
@@ -330,7 +330,7 @@ ArcheryGameGuy_RunGame:
     
     JSR ArcheryGameGuy_Main.show_message
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .no_retry_minigame
     .game_in_progress
@@ -379,33 +379,33 @@ Pool_Sprite_GoodArcheryTarget:
 ; $0283D9-$0284AE JUMP LOCATION
 Sprite_GoodArcheryTarget:
 {
-    LDA $0ED0, X : CMP.b #$05 : BCC .prize_index_in_range
+    LDA.w $0ED0, X : CMP.b #$05 : BCC .prize_index_in_range
     
-    LDA.b #$06 : STA $0DA0, X
+    LDA.b #$06 : STA.w $0DA0, X
     
     .prize_index_in_range
     
-    LDA $0E40, X : AND.b #$E0 : STA $0E40, X
+    LDA.w $0E40, X : AND.b #$E0 : STA.w $0E40, X
     
-    LDA $0E10, X : BNE .arrow_sticking_out
+    LDA.w $0E10, X : BNE .arrow_sticking_out
     
-    LDA $0E80, X : LSR #3
+    LDA.w $0E80, X : LSR #3
     
     .arrow_sticking_out
     
     AND.b #$04 : ASL #4 : STA $00
     
-    LDA $0F50, X : AND.b #$BF : ORA $00 : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA $00 : STA.w $0F50, X
     
-    LDA $0FDA : SEC : SBC.b #$03 : STA $0FDA
+    LDA.w $0FDA : SEC : SBC.b #$03 : STA.w $0FDA
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    LDA $0E10, X : BEQ .no_arrow_sticking_out
+    LDA.w $0E10, X : BEQ .no_arrow_sticking_out
     
     PHA
     
-    LDA $0E40, X : ORA.b #$05 : STA $0E40, X
+    LDA.w $0E40, X : ORA.b #$05 : STA.w $0E40, X
     
     PLA : CMP.b #$60 : BNE .dont_grant_rupees_this_frame
     
@@ -413,9 +413,9 @@ Sprite_GoodArcheryTarget:
     
     ; Make the proprietor go nuts and start banging a drum, or some other
     ; type of noise making thing.
-    LDA.b #$70 : STA $0DF0
+    LDA.b #$70 : STA.w $0DF0
     
-    LDY $0DA0, X
+    LDY.w $0DA0, X
     
     LDA.b #$00 : XBA
     
@@ -434,9 +434,9 @@ Sprite_GoodArcheryTarget:
     ; $02844E ALTERNATE ENTRY POINT
     shared Sprite_BadArcheryTarget:
     
-    LDA $0E40, X : AND.b #$E0 : STA $0E40, X
+    LDA.w $0E40, X : AND.b #$E0 : STA.w $0E40, X
     
-    LDA $0FDA : CLC : ADC.b #$03 : STA $0FDA
+    LDA.w $0FDA : CLC : ADC.b #$03 : STA.w $0FDA
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -444,27 +444,27 @@ Sprite_GoodArcheryTarget:
     
     JSR Sprite2_CheckIfActive
     
-    LDA $0EE0, X : DEC A : BNE .no_error_sound
+    LDA.w $0EE0, X : DEC A : BNE .no_error_sound
     
     ; Play error noise if we hit a bad target (a "hand").
-    LDA.b #$3C : STA $012E
+    LDA.b #$3C : STA.w $012E
     
     .no_error_sound
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite2_MoveHoriz
     
-    LDA $0E00, X : BNE .dont_initiate_x_reset
+    LDA.w $0E00, X : BNE .dont_initiate_x_reset
     
-    LDA $0DF0, X : STA $0BA0, X : BNE .reset_x_coordinate
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .reset_x_coordinate
     
     JSR Sprite2_CheckTileCollision : BEQ .dont_initiate_x_reset
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     ; Remove the arrow
-    STZ $0E10, X
+    STZ.w $0E10, X
     
     .dont_initiate_x_reset
     
@@ -478,15 +478,15 @@ Sprite_GoodArcheryTarget:
     
     CMP.b #$01 : BNE .delay
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
-    LDA .respawn_values, Y : STA $0D10, X
-    LDA $23                : STA $0D30, X
+    LDA .respawn_values, Y : STA.w $0D10, X
+    LDA $23                : STA.w $0D30, X
     
-    LDA.b #$20 : STA $0E00, X
+    LDA.b #$20 : STA.w $0E00, X
     
     ; Reset prize indicator (probably not entirely necessary?)
-    STZ $0ED0, X
+    STZ.w $0ED0, X
     
     .delay
     
@@ -530,7 +530,7 @@ GoodArcheryTarget_DrawPrize:
     
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DA0, X : STA $06
+    LDA.w $0DA0, X : STA $06
     
     PHX
     

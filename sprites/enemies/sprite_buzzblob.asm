@@ -16,41 +16,41 @@ Pool_Sprite_Buzzblob:
 ; $03589A-$0358ED JUMP LOCATION
 Sprite_Buzzblob:
 {
-    LDA $0E00, X : BEQ .not_buzzing
+    LDA.w $0E00, X : BEQ .not_buzzing
     
     LSR A : AND.b #$03 : TAY
     
-    LDA $0B89, X : AND.b #$F1 : ORA $D896, Y : STA $0B89, X
+    LDA.w $0B89, X : AND.b #$F1 : ORA.w $D896, Y : STA.w $0B89, X
     
     .not_buzzing
     
     JSL Sprite_Cukeman
     JSR BuzzBlob_Draw
     
-    LDA $0E80, X : LSR #3 : AND.b #$03 : TAY
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
     
     LDA .animation_states, Y
     
-    LDY $0E00, X : BEQ .use_nonbuzzing_animation_states
+    LDY.w $0E00, X : BEQ .use_nonbuzzing_animation_states
     
     INC #3
     
     .use_nonbuzzing_animation_states
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
     JSR Sprite_CheckIfActive
     JSR Sprite_CheckIfRecoiling
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0DF0, X : BNE .change_direction_delay
+    LDA.w $0DF0, X : BNE .change_direction_delay
     
     JSR Buzzblob_SelectNewDirection
     
     .change_direction_delay
     
-    LDA $0E00, X : BNE .cant_move_when_buzzing
+    LDA.w $0E00, X : BNE .cant_move_when_buzzing
     
     JSR Sprite_Move
     
@@ -83,11 +83,11 @@ Buzzblob_SelectNewDirection:
 {
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA.w $D8EE, Y : STA $0D50, X
+    LDA.w $D8EE, Y : STA.w $0D50, X
     
-    LDA.w $D8F6, Y : STA $0D40, X
+    LDA.w $D8F6, Y : STA.w $0D40, X
     
-    LDA.w $D8FE, Y : STA $0DF0, X
+    LDA.w $D8FE, Y : STA.w $0DF0, X
     
     RTS
 }
@@ -132,7 +132,7 @@ BuzzBlob_Draw:
     
     PHX
     
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA $06
     
     LDX.b #$02
     

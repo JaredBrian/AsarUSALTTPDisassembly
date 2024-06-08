@@ -7,7 +7,7 @@ Sprite_Beamos:
     ; Code for handling a statue sentry.
     
     ; Usually/always zero? Can't tell
-    LDA $0DB0, X : BEQ .is_beamos_station
+    LDA.w $0DB0, X : BEQ .is_beamos_station
     CMP.b #$01   : BNE .is_collided_laser_sprite
     
     JMP Sprite_BeamosLaser
@@ -25,17 +25,17 @@ Sprite_Beamos:
     
     ; Is the eyeball revolving?
     ; (I.e. the sentry is in the ground state.)
-    LDA $0D80, X : BEQ .search_state
+    LDA.w $0D80, X : BEQ .search_state
     
     ; Is the statue sentry in fire mode?
     CMP.b #$03 : BNE .delta ; Nope, either in mode 1,2, or 4
     
     ; Load the inactivity timer, has it expired? (We're in firing mode btw)
-    LDA $0DF0, X : BNE .epsilon ; No, the timer is still going.
+    LDA.w $0DF0, X : BNE .epsilon ; No, the timer is still going.
     
-    INC $0D80, X ; basically, go to mode 4.
+    INC.w $0D80, X ; basically, go to mode 4.
     
-    LDA.b #$50 : STA $0DF0, X ; Wait #$50 frames or so to start up again.
+    LDA.b #$50 : STA.w $0DF0, X ; Wait #$50 frames or so to start up again.
     
     JSL Sprite_LoadPalette
     
@@ -55,7 +55,7 @@ Sprite_Beamos:
     .dont_fire_beam
     
     ; Change the palette to the next in the cycle
-    LSR A : AND.b #$0E : EOR $0F50, X : STA $0F50, X
+    LSR A : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
     
     RTS
     
@@ -63,10 +63,10 @@ Sprite_Beamos:
     .delta
     
     ; Has the timer for the blaster counted down yet?
-    LDA $0DF0, X : BNE .theta ; No the timer is still going.
+    LDA.w $0DF0, X : BNE .theta ; No the timer is still going.
     
     ; If so, put the Statue Sentry back in ground state so it can start  moving again. (moving its eyeball anyways)
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .theta
     
@@ -81,16 +81,16 @@ Sprite_Beamos:
     TXA : EOR $1A : AND.b #$03 : BNE .no_rotation_this_frame
     
     ; What angular state are we rotated to (0x00 - 0x3F)?
-    LDA $0DE0, X : STA $0F
+    LDA.w $0DE0, X : STA $0F
     
     JSR Sprite_SpawnProbeAlways
     
-    INC $0DE0, X ; Increment the Statue sentry's rotation.
+    INC.w $0DE0, X ; Increment the Statue sentry's rotation.
     
     .no_rotation_this_frame
     
     ; If the rotation exceeds step 0x3F, set it back to zero.
-    LDA $0DE0, X : AND.b #$3F : STA $0DE0, X
+    LDA.w $0DE0, X : AND.b #$3F : STA.w $0DE0, X
     
     ; $028FC1 ALTERNATE ENTRY POINT
     .easy_out
@@ -103,7 +103,7 @@ Sprite_Beamos:
 ; $028FC2-$029061 LOCAL JUMP LOCATION
 Beamos_FireBeam:
 {
-    LDA $0B6A : CMP.b #$04 : BCS Sprite_Beamos_easy_out
+    LDA.w $0B6A : CMP.b #$04 : BCS Sprite_Beamos_easy_out
     
     LDA.b #$61 : JSL Sprite_SpawnDynamically : BMI Sprite_Beamos_easy_out
     
@@ -113,25 +113,25 @@ Beamos_FireBeam:
     
     LDX.b #$00
     
-    LDA $0FA8 : BPL .positive_x
+    LDA.w $0FA8 : BPL .positive_x
     
     DEX
     
     .positive_x
     
-          CLC : ADC $00 : STA $0D10, Y
-    TXA : ADC $01 : STA $0D30, Y
+          CLC : ADC $00 : STA.w $0D10, Y
+    TXA : ADC $01 : STA.w $0D30, Y
     
     LDX.b #$00
     
-    LDA $0FA9 : BPL .positive_y
+    LDA.w $0FA9 : BPL .positive_y
     
     DEX
     
     .positive_y
     
-          CLC : ADC $02 : STA $0D00, Y
-    TXA : ADC $03 : STA $0D20, Y
+          CLC : ADC $02 : STA.w $0D00, Y
+    TXA : ADC $03 : STA.w $0D20, Y
     
     TYX
     
@@ -139,30 +139,30 @@ Beamos_FireBeam:
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     
-    LDA.b #$3F : STA $0E40, Y
-    LDA.b #$54 : STA $0F60, Y
-    LDA.b #$01 : STA $0DB0, Y
-    LDA.b #$48 : STA $0CAA, Y
+    LDA.b #$3F : STA.w $0E40, Y
+    LDA.b #$54 : STA.w $0F60, Y
+    LDA.b #$01 : STA.w $0DB0, Y
+    LDA.b #$48 : STA.w $0CAA, Y
     
     ; The palette for the laser beam
-    LDA.b #$03 : STA $0F50, Y
-    LDA.b #$04 : STA $0CD2, Y
-    LDA.b #$0C : STA $0E00, Y
+    LDA.b #$03 : STA.w $0F50, Y
+    LDA.b #$04 : STA.w $0CD2, Y
+    LDA.b #$0C : STA.w $0E00, Y
     
-    LDA $0B6A : STA $0DC0, Y
+    LDA.w $0B6A : STA.w $0DC0, Y
     
-    INC $0B6A
+    INC.w $0B6A
     
     LDA.b #$1F : STA $00
-                 LDX $0DC0, Y : CLC : ADC Sprite_BeamosLaser.slots, X : TAX
+                 LDX.w $0DC0, Y : CLC : ADC Sprite_BeamosLaser.slots, X : TAX
     
     .init_subsprite_positions
     
-    LDA $0D10, Y : STA.l $7FFD80, X
-    LDA $0D30, Y : STA.l $7FFE00, X
+    LDA.w $0D10, Y : STA.l $7FFD80, X
+    LDA.w $0D30, Y : STA.l $7FFE00, X
     
-    LDA $0D00, Y : STA.l $7FFE80, X
-    LDA $0D20, Y : STA.l $7FFF00, X
+    LDA.w $0D00, Y : STA.l $7FFE80, X
+    LDA.w $0D20, Y : STA.l $7FFF00, X
     
     DEX
     
@@ -197,7 +197,7 @@ Beamos_Draw:
     ; The step for the Statue Sentry's eyeball (rotation state thereof)
     ; Is it at the far right? (rotation ranges from 0x00 to 0x3F)
     ; Nope, it's farther around (counter clockwise)
-    LDA $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
+    LDA.w $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
     
     ; In this case the eyeball appears on top of the statue.
     LDA.b #$0C : JSL OAM_AllocateFromRegionB
@@ -297,7 +297,7 @@ Beamos_DrawEyeball:
     
     ; What part of the sentry's rotation are we in?
     ; Is is >= 0x20?
-    LDA $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
+    LDA.w $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
     
     ; If not, zero out y.
     LDY.b #$00
@@ -315,14 +315,14 @@ Beamos_DrawEyeball:
     TAX
     
     ; Load the eyeball's relative x position
-    LDA .x_offsets, X : SEC : SBC.b #$03 : STA $0FA8
+    LDA .x_offsets, X : SEC : SBC.b #$03 : STA.w $0FA8
     
     CLC : ADC $00 : STA ($90), Y
     
     ; Load the eyeball's relative y position
     ; $29111, X THAT IS. Tells us which eyeball graphic to use.
     ; $29131, X THAT IS. Tells us which way to flip the eyeball.
-    LDA .y_offsets, X : SEC : SBC.b #$12 : STA $0FA9
+    LDA .y_offsets, X : SEC : SBC.b #$12 : STA.w $0FA9
     CLC : ADC $02                                          : INY : STA ($90), Y
     LDA .chr, X                                       : INY : STA ($90), Y
     LDA $05 : AND.b #$31 : ORA .hflip, X : ORA.b #$0A : INY : STA ($90), Y
@@ -363,13 +363,13 @@ Pool_Sprite_BeamosLaser:
 ; $0291B5-$029256 LOCAL JUMP LOCATION
 Sprite_BeamosLaser:
 {
-    LDA $0E00, X : BNE .wait
+    LDA.w $0E00, X : BNE .wait
     
     JSR BeamosLaser_Draw
     
-    LDA $0DD0, X : BNE .still_active
+    LDA.w $0DD0, X : BNE .still_active
     
-    DEC $0B6A
+    DEC.w $0B6A
     
     RTS
     
@@ -383,13 +383,13 @@ Sprite_BeamosLaser:
     
     PHY : PHX
     
-    LDA $0D10, X : PHA
-    LDA $0D30, X : PHA
+    LDA.w $0D10, X : PHA
+    LDA.w $0D30, X : PHA
     
-    LDA $0D00, X : PHA
-    LDA $0D20, X : PHA
+    LDA.w $0D00, X : PHA
+    LDA.w $0D20, X : PHA
     
-    LDA $0E80, X : AND.b #$1F : LDY $0DC0, X : CLC : ADC .slots, Y : TAX
+    LDA.w $0E80, X : AND.b #$1F : LDY.w $0DC0, X : CLC : ADC .slots, Y : TAX
     
     ; Essentially, all this is to transfer the sprite's current coordinates
     ; to each subsprite's coordinates.
@@ -401,7 +401,7 @@ Sprite_BeamosLaser:
     
     PLX
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     ; Since we are moving the main sprite 4 times per frame, this
     ; is what gives the laser its staggered look, as the updated coordinate
@@ -412,13 +412,13 @@ Sprite_BeamosLaser:
     
     PLY : DEY : BPL .move_next_subsprite
     
-    LDA $0DF0, X : BEQ .capable_of_damage_now
+    LDA.w $0DF0, X : BEQ .capable_of_damage_now
     DEC A        : BNE .wait
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; Make a slot available since the beam has been destroyed.
-    INC $0B6A
+    INC.w $0B6A
     
     .wait
     
@@ -434,7 +434,7 @@ Sprite_BeamosLaser:
     
     LDA.b #$26 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     JSR Sprite2_ZeroVelocity
     
@@ -445,14 +445,14 @@ Sprite_BeamosLaser:
     JSL Sprite_SetSpawnedCoords
     
     ; Set the timer at #$10.
-    LDA.b #$10 : STA $0DF0, Y
-    LDA.b #$03 : STA $0E40, Y
-    LDA.b #$02 : STA $0DB0, Y
-    LDA.b #$40 : STA $0E60, Y
+    LDA.b #$10 : STA.w $0DF0, Y
+    LDA.b #$03 : STA.w $0E40, Y
+    LDA.b #$02 : STA.w $0DB0, Y
+    LDA.b #$40 : STA.w $0E60, Y
     
     .spawn_failed
     
-    LDA.b #$80 : STA $0D20, Y
+    LDA.b #$80 : STA.w $0D20, Y
     
     .no_collision
     
@@ -483,7 +483,7 @@ BeamosLaser_Draw:
     PHX
     
     LDA.b #$1F : STA $0D
-                 LDY $0DC0, X : CLC : ADC Sprite_BeamosLaser_slots, Y : TAX
+                 LDY.w $0DC0, X : CLC : ADC Sprite_BeamosLaser_slots, Y : TAX
     
     LDY.b #$00
     
@@ -547,10 +547,10 @@ Sprite_BeamosLaserHit:
 {
     ; Load the inactivity timer.
     ; The timer is still counting down.
-    LDA $0DF0, X : BNE .countingDown
+    LDA.w $0DF0, X : BNE .countingDown
     
     ; Terminate the hit sprite, as its time has expired.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .countingDown
     

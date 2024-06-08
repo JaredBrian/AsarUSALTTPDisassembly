@@ -20,16 +20,16 @@ SpritePrep_MedallionTabletLong:
 ; $02F262-$02F295 LOCAL JUMP LOCATION
 SpritePrep_MedallionTablet:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA $8A : CMP.b #$03 : BEQ .ether_location
     
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     LDA.l $7EF347 : BEQ .dont_have_item
     
-    LDA.b #$04 : STA $0DC0, X
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$04 : STA.w $0DC0, X
+    LDA.b #$03 : STA.w $0D80, X
     
     RTS
     
@@ -37,8 +37,8 @@ SpritePrep_MedallionTablet:
     
     LDA.l $7EF348 : BEQ .dont_have_item
     
-    LDA.b #$04 : STA $0DC0, X 
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$04 : STA.w $0DC0, X 
+    LDA.b #$03 : STA.w $0D80, X
     
     .dont_have_item
     
@@ -64,7 +64,7 @@ Sprite_MedallionTabletLong:
 ; $02F29E-$02F2A8 LOCAL JUMP LOCATION
 Sprite_MedallionTablet:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -90,23 +90,23 @@ Sprite_DustCloud:
     JSL DustCloud_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$05 : STA $0DF0, X
+    LDA.b #$05 : STA.w $0DF0, X
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     LDA .animation_states, Y : BPL .valid_animation_state
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .valid_animation_state
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .delay
     
@@ -132,7 +132,7 @@ MedallionTablet_SpawnDustCloud:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
     .spawn_failed
     
@@ -148,9 +148,9 @@ MedallionTablet_Main:
     JSR Sprite2_CheckIfActive
     
     ; Turn off a certain pose for the player?
-    LDA $037A : AND.b #$DF : STA $037A
+    LDA.w $037A : AND.b #$DF : STA.w $037A
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
@@ -160,7 +160,7 @@ MedallionTablet_Main:
     
     JSL Sprite_RepelDashAttackLong
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .no_player_collision
     
@@ -170,7 +170,7 @@ MedallionTablet_Main:
     
     .nope
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -193,7 +193,7 @@ MedallionTablet_WaitForMudoraReader:
     
     REP #$20
     
-    LDA $0FDA : CLC : ADC.w #$0010 : CMP $20 : SEP #$30 : BCC .beta
+    LDA.w $0FDA : CLC : ADC.w #$0010 : CMP $20 : SEP #$30 : BCC .beta
     
     LDA $F4 : BPL .gamma
     
@@ -214,7 +214,7 @@ MedallionTablet_WaitForMudoraReader:
     
     .gamma
     
-    LDA $0202 : CMP.b #$0F : BNE .delta
+    LDA.w $0202 : CMP.b #$0F : BNE .delta
     
     LDY.b #$01
     
@@ -230,20 +230,20 @@ MedallionTablet_WaitForMudoraReader:
     
     CPY.b #$00 : BEQ .zeta
     
-    STZ $0300
+    STZ.w $0300
     
-    LDA.b #$20 : STA $037A
+    LDA.b #$20 : STA.w $037A
     
-    STZ $012E
+    STZ.w $012E
     
     LDA.l $7EF359 : BMI .zeta
     CMP.b #$02  : BCC .zeta
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSL Player_InitiateFirstBombosSpell
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     .zeta
     
@@ -266,7 +266,7 @@ MedallionTablet_WaitForEther:
     
     JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .return
     
-    LDA $0D00, X : CLC : ADC.b #$10 : CMP $20 : BCC .return
+    LDA.w $0D00, X : CLC : ADC.b #$10 : CMP $20 : BCC .return
     
     LDA $F4 : BPL .b_button_not_pressed
     
@@ -277,7 +277,7 @@ MedallionTablet_WaitForEther:
     .not_exactly_master_sword
     .b_button_not_pressed
     
-    LDA $0202 : CMP.b #$0F : BNE .book_of_mudora_not_equipped
+    LDA.w $0202 : CMP.b #$0F : BNE .book_of_mudora_not_equipped
     
     LDY.b #$01
     
@@ -293,20 +293,20 @@ MedallionTablet_WaitForEther:
     
     CPY.b #$00 : BEQ .show_hylian_script
     
-    STZ $0300
+    STZ.w $0300
     
-    LDA.b #$20 : STA $037A
+    LDA.b #$20 : STA.w $037A
     
-    STZ $012E
+    STZ.w $012E
     
     LDA.l $7EF359 : BMI .show_hylian_script
     CMP.b #$02  : BCC .show_hylian_script
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSL Player_InitiateFirstEtherSpell
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     .show_hylian_script
     
@@ -325,11 +325,11 @@ MedallionTablet_WaitForEther:
 ; $02F42E-$02F43B JUMP LOCATION
 MedallionTablet_ExtendedDelay:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     .delay
     
@@ -341,11 +341,11 @@ MedallionTablet_ExtendedDelay:
 ; $02F43C-$02F462 JUMP LOCATION
 MedallionTablet_Crumbling:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$F0 : STA $0DF0, X
+    LDA.b #$F0 : STA.w $0DF0, X
     
     RTS
     
@@ -357,7 +357,7 @@ MedallionTablet_Crumbling:
     
     .increment_animation_state
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     .do_not
     
@@ -375,7 +375,7 @@ MedallionTablet_Crumbling:
 ; $02F463-$02F468 JUMP LOCATION
 MedallionTablet_FinalAnimationState:
 {
-    LDA.b #$04 : STA $0DC0, X
+    LDA.b #$04 : STA.w $0DC0, X
     
     RTS
 }

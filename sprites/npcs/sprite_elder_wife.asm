@@ -24,7 +24,7 @@ Sprite_ElderWife:
     JSR Sprite2_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -47,14 +47,14 @@ ElderWife_Initial:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .animate
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .animate
     
     ; $02F49F ALTERNATE ENTRY POINT
     shared ElderWife_UpdateAnimationState:
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
     
@@ -80,7 +80,7 @@ ElderWife_TellLegend:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -90,9 +90,9 @@ ElderWife_TellLegend:
 ; $02F4C1-$02F4DA JUMP LOCATION
 ElderWife_LoopUntilPlayerNotDumb:
 {
-    LDA $1CE8 : BNE .player_requested_repeat
+    LDA.w $1CE8 : BNE .player_requested_repeat
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Anyway, look for the elder. There must be someone in the village..."
     LDA.b #$2D
@@ -149,7 +149,7 @@ ElderWife_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ADC.b ( (.oam_groups >> 0 & $FF) )              : STA $08
     LDA.b ( (.oam_groups >> 8 & $FF) ) : ADC.b #$00 : STA $09

@@ -30,15 +30,15 @@ Pool_Sprite_HelmasaurFireball:
 ; $0EEDE3-$0EEE9B LOCAL JUMP LOCATION
 Sprite_HelmasaurFireball:
 {
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #2 : AND.b #$01 : TAY
+    LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
     
     LDA .properties, Y : STA $05
     
     LDY.b #$00
     
-    LDA $0D10, X : SEC : SBC $E2 : STA ($90), Y
+    LDA.w $0D10, X : SEC : SBC $E2 : STA ($90), Y
     
     ; \note These two branches check if the fireball is with in 32 pixels
     ; of the edge of the screen horizontally, and 16 pixels of the top of
@@ -48,13 +48,13 @@ Sprite_HelmasaurFireball:
     ; screen.
     CLC : ADC.b #$20 : CMP.b #$40 : BCC .too_close_to_screen_edge
     
-    LDA $0D00, X : SEC : SBC $E8 : INY : STA ($90), Y
+    LDA.w $0D00, X : SEC : SBC $E8 : INY : STA ($90), Y
     
     CLC : ADC.b #$10 : CMP.b #$20 : BCS .in_range
     
     .too_close_to_screen_edge
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -62,7 +62,7 @@ Sprite_HelmasaurFireball:
     
     PHX
     
-    LDA $0DC0, X : TAX
+    LDA.w $0DC0, X : TAX
     
     LDA .chr, X
     
@@ -78,10 +78,10 @@ Sprite_HelmasaurFireball:
     
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8
+    LDA $22 : SEC : SBC.w $0FD8
               CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .anodamage_player
     
-    LDA $20 : SEC : SBC $0FDA
+    LDA $20 : SEC : SBC.w $0FDA
               CLC : ADC.w #$0010 : CMP.w #$0010 : BCS .anodamage_player
     
     SEP #$20
@@ -92,7 +92,7 @@ Sprite_HelmasaurFireball:
     
     SEP #$20
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     ; \optimize Zero distance jump instruction. is a dumb. Just remove it.
     ; In fact, this whole section might be faster overall as a jump table.
@@ -117,9 +117,9 @@ HelmasaurFireball_PreMigrateDown:
     
     LDA.b #$12 : STA !timer_0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$24 : STA $0D40, X
+    LDA.b #$24 : STA.w $0D40, X
     
     .delay_ai_state_transition
     
@@ -133,14 +133,14 @@ HelmasaurFireball_MigrateDown:
 {
     LDA !timer_0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$1F : STA !timer_0, X
     
     .delay
     
     ; Slow down a bit each frame.
-    DEC $0D40, X : DEC $0D40, X
+    DEC.w $0D40, X : DEC.w $0D40, X
     
     JSR Sprite4_MoveVert
     
@@ -169,7 +169,7 @@ HelmasaurFireball_DelayThenTriSplit:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -185,9 +185,9 @@ HelmasaurFireball_DelayThenQuadSplit:
     
     .delay
     
-    LDA $0EB0, X : CMP.b #$14 : BCS .delay_movement
+    LDA.w $0EB0, X : CMP.b #$14 : BCS .delay_movement
     
-    INC $0EB0, X
+    INC.w $0EB0, X
     
     JSR Sprite4_Move
     
@@ -227,10 +227,10 @@ HelmasaurFireball_TriSplit:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA.b #$02       : STA $0FB5
-    JSL GetRandomInt : STA $0FB6
+    LDA.b #$02       : STA.w $0FB5
+    JSL GetRandomInt : STA.w $0FB6
     
     .spawn_next
     
@@ -242,28 +242,28 @@ HelmasaurFireball_TriSplit:
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    LDA.b #$03 : STA $0D80, Y
-                 STA $0BA0, Y
+    LDA.b #$03 : STA.w $0D80, Y
+                 STA.w $0BA0, Y
     
-    LDA $0FB6 : AND.b #$03 : CLC : ADC $0FB5 : TAX
+    LDA.w $0FB6 : AND.b #$03 : CLC : ADC.w $0FB5 : TAX
     
     LDA .timers, X : STA !timer_0, Y
     
-    LDA.b #$00 : STA $0EB0, Y
+    LDA.b #$00 : STA.w $0EB0, Y
     
-    LDA.b #$01 : STA $0DC0, Y
+    LDA.b #$01 : STA.w $0DC0, Y
     
     PLX
     
     .spawn_failed
     
-    DEC $0FB5 : BPL .spawn_next
+    DEC.w $0FB5 : BPL .spawn_next
     
     RTS
     
@@ -290,9 +290,9 @@ HelmasaurFireball_QuadSplit:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA.b #$03 : STA $0FB5
+    LDA.b #$03 : STA.w $0FB5
     
     .spawn_next
     
@@ -304,20 +304,20 @@ HelmasaurFireball_QuadSplit:
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
-    LDA.b #$04 : STA $0D80, Y
-                 STA $0BA0, Y
+    LDA.b #$04 : STA.w $0D80, Y
+                 STA.w $0BA0, Y
     
     .spawn_failed
     
-    DEC $0FB5 : BPL .spawn_next
+    DEC.w $0FB5 : BPL .spawn_next
     
     RTS
 }

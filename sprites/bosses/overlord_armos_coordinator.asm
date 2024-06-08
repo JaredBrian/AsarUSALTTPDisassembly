@@ -70,7 +70,7 @@ ArmosCoordinator_AwaitKnightActivation:
 {
     ; Or rather, wait for the first one to ativate, but I think they all
     ; activate at the same time (rumble then start moving).
-    LDA $0D90 : BEQ .wait_for_knights_to_activate
+    LDA.w $0D90 : BEQ .wait_for_knights_to_activate
     
     LDA.b #$78 : STA !overlord_x_low, X
     
@@ -250,15 +250,15 @@ ArmosCoordinator_TimedRotateThenTransition:
           CLC : ADC !coordinator_angle   : STA !coordinator_angle
     TYA : ADC !coordinator_angle+1 : STA !coordinator_angle+1
     
-    STZ $0FB5
+    STZ.w $0FB5
     
     .next_knight
     
-    LDA $0FB5 : PHA : ASL A : TAY
+    LDA.w $0FB5 : PHA : ASL A : TAY
     
     REP #$20
     
-    LDA !coordinator_angle : CLC : ADC $ECC0, Y : STA $00
+    LDA !coordinator_angle : CLC : ADC.w $ECC0, Y : STA $00
     
     SEP #$20
     
@@ -284,22 +284,22 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     PLX
     
-    LDA $04 : STA $4202
+    LDA $04 : STA.w $4202
     
     LDA $0F
     
     LDY $05 : BNE .BRANCH_GAMMA
     
-    STA $4203
+    STA.w $4203
     
     NOP #8
     
     ; \bug(maybe) Is $4216 readable? What is the actual point of this?
     ; Whatever is read out is open bus so it would be the value from
     ; $4203, I think...
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_GAMMA
     
@@ -317,23 +317,23 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     .BRANCH_EPSILON
     
-    CLC : ADC !overlord_x_low,  X : LDY $0FB5 : STA !puppet_x_low,  Y
+    CLC : ADC !overlord_x_low,  X : LDY.w $0FB5 : STA !puppet_x_low,  Y
     LDA !overlord_x_high, X : ADC $0A   : STA !pupper_x_high, Y
     
-    LDA $06 : STA $4202
+    LDA $06 : STA.w $4202
     
     LDA $0F
     
     LDY $07 : BNE .BRANCH_ZETA
     
-    STA $4203
+    STA.w $4203
     
     NOP #8
     
     ; \bug(maybe) Scroll up and read.
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_ZETA
     
@@ -351,12 +351,12 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     .BRANCH_IOTA
     
-    CLC : ADC !overlord_y_low, X  : LDY $0FB5 : STA !puppet_y_low,  Y
+    CLC : ADC !overlord_y_low, X  : LDY.w $0FB5 : STA !puppet_y_low,  Y
     LDA !overlord_y_high, X : ADC $0A   : STA !puppet_y_high, Y
     
-    INC $0FB5
+    INC.w $0FB5
     
-    LDA $0FB5 : CMP.b #$06 : BEQ .return
+    LDA.w $0FB5 : CMP.b #$06 : BEQ .return
     
     JMP .next_knight
     
@@ -374,9 +374,9 @@ ArmosCoordinator_AreAllActiveKnightsSubmissive:
     
     .next_knight
     
-    LDA $0DD0, Y : BEQ .dead_knight
+    LDA.w $0DD0, Y : BEQ .dead_knight
     
-    LDA $0D80, Y : BNE .submissive_knight
+    LDA.w $0D80, Y : BNE .submissive_knight
     
     ; If we find a non submissive knight (which means not in position yet),
     ; return a fail status.
@@ -405,7 +405,7 @@ ArmosCoordinator_DisableKnights_XY_Coercion:
     
     .next_knight
     
-    LDA.b #$00 : STA $0D80, Y
+    LDA.b #$00 : STA.w $0D80, Y
     
     DEY : BPL .next_knight
     

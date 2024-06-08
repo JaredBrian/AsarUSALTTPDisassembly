@@ -13,10 +13,10 @@
 ; $0339FA-$033A0E JUMP LOCATION
 Sprite_PushSwitch:
 {
-    JSR $BB22   ; $033B22 IN ROM
+    JSR.w $BB22   ; $033B22 IN ROM
     JSR Sprite_CheckIfActive
     
-    LDA $0D80, X : CMP.b #$02 : BEQ PushSwitch_Inert
+    LDA.w $0D80, X : CMP.b #$02 : BEQ PushSwitch_Inert
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -36,11 +36,11 @@ PushSwitch_Inert:
 
 ; $033A10-$033A32 JUMP LOCATION
 {
-    LDA $0DB0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0DB0, X : BEQ .BRANCH_ALPHA
     
-    DEC $0DA0, X : LDA $0DA0, X : BNE .BRANCH_BETA
+    DEC.w $0DA0, X : LDA.w $0DA0, X : BNE .BRANCH_BETA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_BETA
     
@@ -54,20 +54,20 @@ PushSwitch_Inert:
     
     .BRANCH_ALPHA
     
-    LDA.b #$30 : STA $0DA0, X
+    LDA.b #$30 : STA.w $0DA0, X
     
     RTS
 }
 
 ; $033A33-$033A61 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    INC $0D90, X : LDY $0D90, X : CPY.b #$0A : BNE .BRANCH_BETA
+    INC.w $0D909090, X : LDY.w $0D909090, X : CPY.b #$0A : BNE .BRANCH_BETA
     
-    INC $0D80, X
+    INC.w $0D8080, X
     
-    INC $0642
+    INC.w $0642
     
     LDA.b #$25 : JSL Sound_SetSfx3PanLong
     
@@ -75,9 +75,9 @@ PushSwitch_Inert:
     
     .BRANCH_BETA
     
-    LDA.w $B9E6, Y : STA $0DF0, X
+    LDA.w $B9E6, Y : STA.w $0DF0, X
     
-    LDA.w $B9F0, Y : STA $0DE0, X
+    LDA.w $B9F0, Y : STA.w $0DE0, X
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
@@ -91,9 +91,9 @@ PushSwitch_Inert:
     JSR OAM_AllocateDeferToPlayer
     JSR Sprite_PrepOamCoord
     
-    LDA $0F50, X
+    LDA.w $0F50, X
     
-    LDY $0ABD : BEQ .BRANCH_ALPHA
+    LDY.w $0ABD : BEQ .BRANCH_ALPHA
     
     ORA.b #$0E
     
@@ -105,13 +105,13 @@ PushSwitch_Inert:
     
     .BRANCH_BETA
     
-    STA $0F50, X : STA $02
+    STA.w $0F50, X : STA $02
     
-    LDA $0DA0, X : LSR #2 : AND.b #$03 : STA $01
+    LDA.w $0DA0, X : LSR #2 : AND.b #$03 : STA $01
     
     LDA.b #$00 : XBA
     
-    LDA $0DE0, X : ASL A
+    LDA.w $0DE0E0, X : ASL A
     
     PHX
     
@@ -137,31 +137,31 @@ PushSwitch_Inert:
     
     LDY $90
     
-    LDA $01 : EOR.b #$FF : INC A : CLC : ADC $0FA8 : TAX
+    LDA $01 : EOR.b #$FF : INC A : CLC : ADC.w $0FA8A8 : TAX
     
-          CLC : ADC $0000, Y : STA $0000, Y
-    TXA : CLC : ADC $0004, Y : STA $0004, Y
-    TXA : CLC : ADC $0008, Y : STA $0008, Y
-    TXA : CLC : ADC $000C, Y : STA $000C, Y
+          CLC : ADC.w $000000, Y : STA.w $000000, Y
+    TXA : CLC : ADC.w $000404, Y : STA.w $000404, Y
+    TXA : CLC : ADC.w $000808, Y : STA.w $000808, Y
+    TXA : CLC : ADC.w $000C0C, Y : STA.w $000C, Y
     
-    LDA $0FA8 : CLC : ADC $0010, Y : STA $0010, Y
+    LDA.w $0FA8 : CLC : ADC.w $0010, Y : STA.w $0010, Y
     
     LSR $01
     
-    LDA $0FA9 : SEC : SBC $01 : TAX
+    LDA.w $0FA9 : SEC : SBC $01 : TAX
     
-          CLC : ADC $0001, Y : STA $0001, Y
-    TXA : CLC : ADC $0005, Y : STA $0005, Y
-    TXA : CLC : ADC $0009, Y : STA $0009, Y
-    TXA : CLC : ADC $000D, Y : STA $000D, Y
+          CLC : ADC.w $0001, Y : STA.w $0001, Y
+    TXA : CLC : ADC.w $0005, Y : STA.w $0005, Y
+    TXA : CLC : ADC.w $0009, Y : STA.w $0009, Y
+    TXA : CLC : ADC.w $000D, Y : STA.w $000D, Y
     
-    LDA $0FA9 : CLC : ADC $0011, Y : STA $0011, Y
+    LDA.w $0FA9 : CLC : ADC.w $0011, Y : STA.w $0011, Y
     
-    LDA $02 : ORA $0003, Y : STA $0003, Y
-    LDA $02 : ORA $0007, Y : STA $0007, Y
-    LDA $02 : ORA $000B, Y : STA $000B, Y
-    LDA $02 : ORA $000F, Y : STA $000F, Y
-    LDA $02 : ORA $0013, Y : STA $0013, Y
+    LDA $02 : ORA.w $0003, Y : STA.w $0003, Y
+    LDA $02 : ORA.w $0007, Y : STA.w $0007, Y
+    LDA $02 : ORA.w $000B, Y : STA.w $000B, Y
+    LDA $02 : ORA.w $000F, Y : STA.w $000F, Y
+    LDA $02 : ORA.w $0013, Y : STA.w $0013, Y
     
     REP #$31
     
@@ -182,17 +182,17 @@ PushSwitch_Inert:
     
     JSR Sprite_CorrectOamEntries
     
-    LDA $0F20, X : CMP $EE : BEQ .BRANCH_GAMMA
+    LDA.w $0F20, X : CMP $EE : BEQ .BRANCH_GAMMA
     
-    JMP $BCAB   ; $033CAB IN ROM
+    JMP.w $BCAB   ; $033CAB IN ROM
     
     .BRANCH_GAMMA
     
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
-    LDA $0DE0, X : ASL #4 : TAY
+    LDA.w $0DE0, X : ASL #4 : TAY
     
-    LDA.w $BA62, Y : CLC : ADC $0D10, X : STA $04
+    LDA.w $BA62, Y : CLC : ADC.w $0D10, X : STA $04
     
     STZ $0A
     
@@ -202,9 +202,9 @@ PushSwitch_Inert:
     
     .BRANCH_DELTA
     
-    LDA $0A : ADC $0D30, X : STA $0A
+    LDA $0A : ADC.w $0D30, X : STA $0A
     
-    LDA.w $BA63, Y : CLC : ADC $0D00, X : STA $05
+    LDA.w $BA63, Y : CLC : ADC.w $0D00, X : STA $05
     
     STZ $0B
     
@@ -214,30 +214,30 @@ PushSwitch_Inert:
     
     .BRANCH_EPSILON
     
-    LDA $0B : ADC $0D20, X : STA $0B
+    LDA $0B : ADC.w $0D20, X : STA $0B
     
-    LDA $0DE0, X : ASL A : TAY
+    LDA.w $0DE0, X : ASL A : TAY
     
     LDA.w $BB02, Y : STA $06
     LDA.w $BB03, Y : STA $07
     
-    JSR $F70A   ; $03770A IN ROM
+    JSR.w $F70A   ; $03770A IN ROM
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_ZETA
     
-    LDA $0D00, X : PHA : CLC : ADC.b #$13 : STA $0D00, X
-    LDA $0D20, X : PHA : ADC.b #$00 : STA $0D20, X
+    LDA.w $0D00, X : PHA : CLC : ADC.b #$13 : STA.w $0D00, X
+    LDA.w $0D20, X : PHA : ADC.b #$00 : STA.w $0D20, X
     
     JSR Sprite_DirectionToFacePlayer
     
-    PLA : STA $0D20, X
-    PLA : STA $0D00, X
+    PLA : STA.w $0D20, X
+    PLA : STA.w $0D00, X
     
     CPY.b #$00 : BNE .BRANCH_THETA
     
     LDA $2F : CMP.b #$04 : BNE .BRANCH_THETA
     
-    INC $0DB0, X
+    INC.w $0DB0, X
     
     BRA .BRANCH_THETA
     

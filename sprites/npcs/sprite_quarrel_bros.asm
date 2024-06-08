@@ -22,7 +22,7 @@ Sprite_QuarrelBros:
     JSR Sprite2_CheckIfActive
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     LDA $A0 : AND.b #$01 : BNE .is_right_hand_brother
     
@@ -36,7 +36,7 @@ Sprite_QuarrelBros:
     
     .is_right_hand_brother
     
-    LDA $0401 : BNE .door_bombed_open
+    LDA.w $0401 : BNE .door_bombed_open
     
     ; Yeah [Name], now I'm quarreling with my younger brother. I sealed..."
     LDA.b #$2F
@@ -70,7 +70,7 @@ Sprite_Oprhan1:
     
     JSR Sprite2_CheckTileCollision
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -95,33 +95,33 @@ Pool_Oprhan1_State1:
 ; $02E06B-$02E0B5 UNUSED JUMP LOCATION
 Orphan1_State1:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$40 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$40 : STA.w $0DF0, X
     
     ; Picks a sort of new random direction that will be different from
     ; the previous direction.
-    LDA $1A : AND.b #$01 : ORA.b #$02 : EOR $0DE0, X : STA $0DE0, X
+    LDA $1A : AND.b #$01 : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     .delay
     
-    LDA $0E70, X : AND.b #$0F : BEQ .no_wall_collision
+    LDA.w $0E70, X : AND.b #$0F : BEQ .no_wall_collision
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
     .no_wall_collision
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    TYA : STA $0D90, X
+    TYA : STA.w $0D90, X
     
     RTS
 }
@@ -131,33 +131,33 @@ Orphan1_State1:
 ; $02E0B6-$02E0FE UNUSED JUMP LOCATION
 Orphan1_State2:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : CLC : ADC.b #$60 : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     ; Picks a sort of new random direction that will be different from
     ; the previous direction.
-    LDA $1A : AND.b #$01 : ORA.b #$02 : EOR $0DE0, X : STA $0DE0, X
+    LDA $1A : AND.b #$01 : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     .delay
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     TXA : EOR $1A : LSR #5 : AND.b #03 : STA $00
     
     AND.b #$01 : BNE .skip
     
-    LDA $00 : LSR A : ORA.b #$02 : EOR $0DE0, X : STA $0DE0, X
+    LDA $00 : LSR A : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     RTS
     
     .skip
     
-    LDA $0DE0, X : STA $0D90, X
+    LDA.w $0DE0, X : STA.w $0D90, X
     
     RTS
 }
@@ -196,7 +196,7 @@ QuarrelBros_Draw:
     
     ; This is using the table at $E0FF / $2E0FF, just in case I get
     ; distracted and have to come back to this.
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #4 : ADC.b #$FF : STA $08
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4 : ADC.b #$FF : STA $08
     LDA.b #$E0                                   : ADC.b #$00 : STA $09
     
     JSL Sprite_DrawMultiple.player_deferred

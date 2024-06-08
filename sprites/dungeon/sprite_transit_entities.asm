@@ -5,9 +5,9 @@
 Pipe_LocateTransitTile:
 {
     ; Not really certain whether this is necessary <___<.
-    LDA.b #$FF : STA $1DE0
+    LDA.b #$FF : STA.w $1DE0
     
-    LDA $0E20, X : SEC : SBC.b #$AE : STA $0DE0, X
+    LDA.w $0E20, X : SEC : SBC.b #$AE : STA.w $0DE0, X
     
     ; $0F7640 ALTERNATE ENTRY POINT
     shared SomariaPlatform_LocateTransitTile:
@@ -15,17 +15,17 @@ Pipe_LocateTransitTile:
     .try_another_tile
     
     ; $0F77C2 IN ROM ; Get the tile type the sprite interacted with.
-    JSR $F7C2 : STA $0E90, X
+    JSR.w $F7C2 : STA.w $0E90, X
     
     SEC : SBC.b #$B0 : BCS .is_upper_tile
     
     .not_pipe_tile
     
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
-    LDA $0D30, X : ADC.b #$00 : STA $0D30, X
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
+    LDA.w $0D30, X : ADC.b #$00 : STA.w $0D30, X
     
-    LDA $0D00, X : CLC : ADC.b #$08 : STA $0D00, X
-    LDA $0D20, X : ADC.b #$00 : STA $0D20, X
+    LDA.w $0D00, X : CLC : ADC.b #$08 : STA.w $0D00, X
+    LDA.w $0D20, X : ADC.b #$00 : STA.w $0D20, X
     
     ; \bug This seems to have the potential to crash the game if the pipe
     ; sprite is used in a room it should be used in.
@@ -37,21 +37,21 @@ Pipe_LocateTransitTile:
     
     ; Reaching this address means that we were able to find a special tile
     ; (0xB0 to 0xBE) to bind to, somewhere in the map.
-    LDA $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $0D10, X
+    LDA.w $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA.w $0D10, X
     
-    LDA $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $0D00, X
+    LDA.w $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA.w $0D00, X
     
-    LDA $0DE0, X : STA $0EB0, X
+    LDA.w $0DE0, X : STA.w $0EB0, X
     
-    JSR $F7AF ; $0F77AF IN ROM
+    JSR.w $F7AF ; $0F77AF IN ROM
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    STZ $02F5
+    STZ.w $02F5
     
-    LDA.b #$0E : STA $0F10, X
+    LDA.b #$0E : STA.w $0F10, X
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     RTS
 }
@@ -111,7 +111,7 @@ Sprite_SomariaPlatform:
 {
     ; sprite types 0xED, 0xEF, $F0, and $F1 (cane of somaria platform)
     
-    LDA $0DC0, X
+    LDA.w $0DC0, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -127,12 +127,12 @@ Sprite_SomariaPlatform:
     JSL Sprite_SpawnSuperficialBombBlast
     
     ; x coordinate -= 0x08
-    LDA $0D10, Y : SEC : SBC.b #$08 : STA $0D10, Y
-    LDA $0D30, Y : SBC.b #$00 : STA $0D30, Y
+    LDA.w $0D10, Y : SEC : SBC.b #$08 : STA.w $0D10, Y
+    LDA.w $0D30, Y : SBC.b #$00 : STA.w $0D30, Y
     
     ; y coordinate -= 0x08
-    LDA $0D00, Y : SEC : SBC.b #$08 : STA $0D00, Y
-    LDA $0D20, Y : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, Y : SEC : SBC.b #$08 : STA.w $0D00, Y
+    LDA.w $0D20, Y : SBC.b #$00 : STA.w $0D20, Y
     
     RTS
 }
@@ -141,14 +141,14 @@ Sprite_SomariaPlatform:
 
 ; $0F7709-$0F77C1 JUMP LOCATION
 {
-    JSR $F860 ; $0F7860 IN ROM
+    JSR.w $F860 ; $0F7860 IN ROM
     JSR Sprite3_CheckIfActive
     
-    LDA $0B7C : ORA $0B7D : ORA $0B7E : ORA $0B7F : BEQ .BRANCH_ALPHA
+    LDA.w $0B7C : ORA.w $0B7D : ORA.w $0B7E : ORA.w $0B7F : BEQ .BRANCH_ALPHA
     
     .BRANCH_BETA
     
-    JMP $F7A3 ; $0F77A3 IN ROM
+    JMP.w $F7A3 ; $0F77A3 IN ROM
     
     .BRANCH_ALPHA
     
@@ -156,7 +156,7 @@ Sprite_SomariaPlatform:
     
     JSL Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
     
-    LDA.b #$01 : STA $0DB0, X
+    LDA.b #$01 : STA.w $0DB0, X
     
     JSL Player_HaltDashAttackLong
     
@@ -165,53 +165,53 @@ Sprite_SomariaPlatform:
     CMP.b #$13 : BEQ .BRANCH_GAMMA
     CMP.b #$03 : BEQ .BRANCH_GAMMA
     
-    LDA $0D80, X : BNE .BRANCH_DELTA
+    LDA.w $0D80, X : BNE .BRANCH_DELTA
     
-    INC $0D90, X
+    INC.w $0D90, X
     
-    LDA.b #$02 : STA $02F5
+    LDA.b #$02 : STA.w $02F5
     
-    LDA $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
+    LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_EPSILON
     
-    JSR $F7C2 ; $0F77C2 IN ROM
+    JSR.w $F7C2 ; $0F77C2 IN ROM
     
-    CMP $0E90, X : BEQ .BRANCH_EPSILON
+    CMP.w $0E90, X : BEQ .BRANCH_EPSILON
     
-    STA $0E90, X
+    STA.w $0E90, X
     
-    LDA $0DE0, X : STA $0EB0, X
+    LDA.w $0DE0, X : STA.w $0EB0, X
     
-    JSR $F7AF ; $0F77AF IN ROM
-    JSR $F901 ; $0F7901 IN ROM
+    JSR.w $F7AF ; $0F77AF IN ROM
+    JSR.w $F901 ; $0F7901 IN ROM
     
     .BRANCH_EPSILON
     
     LDA $A0 : CMP.b #$24 : BEQ .BRANCH_ZETA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $F6BD, Y : CLC : ADC $0B7C : STA $0B7C
-    LDA.w $F6B8, Y : ADC $0B7D : STA $0B7D
+    LDA.w $F6BD, Y : CLC : ADC.w $0B7C : STA.w $0B7C
+    LDA.w $F6B8, Y : ADC.w $0B7D : STA.w $0B7D
     
-    LDA.w $F6C4, Y : CLC : ADC $0B7E : STA $0B7E
-    LDA.w $F6CC, Y : ADC $0B7F : STA $0B7F
+    LDA.w $F6C4, Y : CLC : ADC.w $0B7E : STA.w $0B7E
+    LDA.w $F6CC, Y : ADC.w $0B7F : STA.w $0B7F
     
     JSR Sprite3_Move
-    JSR $FB49 ; $0F7B49 IN ROM
+    JSR.w $FB49 ; $0F7B49 IN ROM
     
     RTS
     
     .BRANCH_ZETA
     
-    JMP $FB34 ; $0F7B34 IN ROM
+    JMP.w $FB34 ; $0F7B34 IN ROM
     
     ; $0F77A3 ALTERNATE ENTRY POINT
     .BRANCH_GAMMA
     
-    LDA $0DB0, X : BEQ .BRANCH_THETA
+    LDA.w $0DB0, X : BEQ .BRANCH_THETA
     
-    STZ $02F5
-    STZ $0DB0, X
+    STZ.w $02F5
+    STZ.w $0DB0, X
     
     .BRANCH_THETA
     
@@ -220,29 +220,29 @@ Sprite_SomariaPlatform:
     ; $0F77AF ALTERNATE ENTRY POINT
     .BRANCH_DELTA
     
-    JSR $F87D ; $0F787D IN ROM
+    JSR.w $F87D ; $0F787D IN ROM
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $F6A9, Y : STA $0D50, X
+    LDA.w $F6A9, Y : STA.w $0D50, X
     
-    LDA.w $F6B0, Y : STA $0D40, X
+    LDA.w $F6B0, Y : STA.w $0D40, X
     
     RTS
 }
 
 ; $0F77C2-$0F77DF LOCAL JUMP LOCATION
 {
-    LDA $0D00, X : STA $00
-    LDA $0D20, X : STA $01
+    LDA.w $0D00, X : STA $00
+    LDA.w $0D20, X : STA $01
     
-    LDA $0D10, X : STA $02
-    LDA $0D30, X : STA $03
+    LDA.w $0D10, X : STA $02
+    LDA.w $0D30, X : STA $03
     
     ; Forced to check on bg2 (the main bg).
     LDA.b #$00 : JSL Entity_GetTileAttr
     
-    LDA $0FA5
+    LDA.w $0FA5
     
     RTS
 }
@@ -280,7 +280,7 @@ Sprite_SomariaPlatform:
 {
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
-    LDA $0F10, X : AND.b #$0C : ASL #3
+    LDA.w $0F10, X : AND.b #$0C : ASL #3
     
     ADC.b #.oam_groups                 : STA $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
@@ -292,7 +292,7 @@ Sprite_SomariaPlatform:
 
 ; $0F787D-$0F78AC LOCAL JUMP LOCATION
 {
-    LDA $0E90, X : SEC : SBC.b #$B0 : BCS .is_upper_tile
+    LDA.w $0E90, X : SEC : SBC.b #$B0 : BCS .is_upper_tile
     
     RTS
     
@@ -325,19 +325,19 @@ Sprite_SomariaPlatform:
 
 ; $0F78AD-$0F78D6 LOCAL JUMP LOCATION
 {
-    LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
+    LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
-    LDA $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
+    LDA.w $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
     
-    SEC : SBC $0D10, X : BEQ .BRANCH_ALPHA
+    SEC : SBC.w $0D10, X : BEQ .BRANCH_ALPHA
     
-    STA $0B7C : BPL .BRANCH_BETA
+    STA.w $0B7C : BPL .BRANCH_BETA
     
-    LDA.b #$FF : STA $0B7D
+    LDA.b #$FF : STA.w $0B7D
     
     .BRANCH_BETA
     
-    LDA $00 : STA $0D10, X
+    LDA $00 : STA.w $0D10, X
     
     .BRANCH_ALPHA
     
@@ -346,19 +346,19 @@ Sprite_SomariaPlatform:
 
 ; $0F78D7-$0F7900 LOCAL JUMP LOCATION
 {
-    LDA $0DE0, X : EOR $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
+    LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
-    LDA $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
+    LDA.w $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
     
-    SEC : SBC $0D00, X : BEQ .BRANCH_ALPHA
+    SEC : SBC.w $0D00, X : BEQ .BRANCH_ALPHA
     
-    STA $0B7E : BPL .BRANCH_BETA
+    STA.w $0B7E : BPL .BRANCH_BETA
     
-    LDA.b #$FF : STA $0B7F
+    LDA.b #$FF : STA.w $0B7F
     
     .BRANCH_BETA
     
-    LDA $00 : STA $0D00, X
+    LDA $00 : STA.w $0D00, X
     
     .BRANCH_ALPHA
     
@@ -367,8 +367,8 @@ Sprite_SomariaPlatform:
 
 ; $0F7901-$0F7907 LOCAL JUMP LOCATION
 {
-    JSR $F8AD ; $0F78AD IN ROM
-    JSR $F8D7 ; $0F78D7 IN ROM
+    JSR.w $F8AD ; $0F78AD IN ROM
+    JSR.w $F8D7 ; $0F78D7 IN ROM
     
     RTS
 }
@@ -381,7 +381,7 @@ Sprite_SomariaPlatform:
 ; $0F7909-$0F7911 JUMP LOCATION
 {
     ; zig zag along y = x line. Zig zag rising slope?
-    LDA $0DE0, X : EOR.b #$03 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$03 : STA.w $0DE0, X
     
     RTS
 }
@@ -389,7 +389,7 @@ Sprite_SomariaPlatform:
 ; $0F7912-$0F791A JUMP LOCATION
 {
     ; zig zag along y = -x line. zig zag falling slope?
-    LDA $0DE0, X : EOR.b #$02 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$02 : STA.w $0DE0, X
     
     RTS
 }
@@ -403,23 +403,23 @@ Sprite_SomariaPlatform:
 {
     ; Transit tile that allows you to invert your direction?
     
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     LDA $4D : BNE .BRANCH_ALPHA
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $F91B, Y : BEQ .BRANCH_ALPHA
+    LDA $F0 : AND.w $F91B, Y : BEQ .BRANCH_ALPHA
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     .BRANCH_ALPHA
     
     STZ $4B
     
-    JMP $FB34 ; $0F7B34 IN ROM
+    JMP.w $FB34 ; $0F7B34 IN ROM
 }
 
 ; ==============================================================================
@@ -433,15 +433,15 @@ Sprite_SomariaPlatform:
 
 ; $0F7946-$0F799E JUMP LOCATION
 {
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $F942, Y : STA $00 : AND.b #$08 : BEQ .always
+    LDA $F0 : AND.w $F942, Y : STA $00 : AND.b #$08 : BEQ .always
     
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -449,9 +449,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$04 : BEQ .no_pressing_down
     
-    LDA.b #$01 : STA $0DE0, X
+    LDA.b #$01 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -459,9 +459,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$02 : BEQ .not_pressing_left
     
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -469,21 +469,21 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$01 : BEQ .not_pressing_right
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_pressing_right
     
-    LDA $0DE0, X : BNE .not_going_up
+    LDA.w $0DE0, X : BNE .not_going_up
     
     ; If we are going up, automatically head left once we hit the T
     ; intersection.
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
     .not_going_up
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .return
     
@@ -501,15 +501,15 @@ Sprite_SomariaPlatform:
 
 ; $0F79A3-$0F79FD JUMP LOCATION
 {
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $F99F, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    LDA $F0 : AND.w $F99F, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
     
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -517,9 +517,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$04 : BEQ .always
     
-    LDA.b #$01 : STA $0DE0, X
+    LDA.b #$01 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -527,9 +527,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$02 : BEQ .not_pressing_left
     
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -537,20 +537,20 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$01 : BEQ .not_pressing_right
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_pressing_right
     
-    LDA $0DE0, X : CMP.b #$01 : BNE .not_going_down
+    LDA.w $0DE0, X : CMP.b #$01 : BNE .not_going_down
     
     ; Automatically choose left as the next direction
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
     .not_going_down
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .return
     
@@ -568,15 +568,15 @@ Sprite_SomariaPlatform:
 
 ; $0F7A02-$0F7A5C JUMP LOCATION
 {
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $F9FE, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    LDA $F0 : AND.w $F9FE, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
     
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -584,9 +584,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$04 : BEQ .not_pressing_up
     
-    LDA.b #$01 : STA $0DE0, X
+    LDA.b #$01 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -594,9 +594,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$02 : BEQ .always
     
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -604,20 +604,20 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$01 : BEQ .not_pressing_right
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_pressing_right
     
-    LDA $0DE0, X : CMP.b #$02 : BNE .not_heading_left
+    LDA.w $0DE0, X : CMP.b #$02 : BNE .not_heading_left
     
     ; Force heading to going up.
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
     .not_going_left
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .return
     
@@ -635,15 +635,15 @@ Sprite_SomariaPlatform:
 
 ; $0F7A61-$0F7ABB JUMP LOCATION
 {
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $FA5D, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    LDA $F0 : AND.w $FA5D, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
     
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -651,9 +651,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$04 : BEQ .not_pressing_down
     
-    LDA.b #$01 : STA $0DE0, X
+    LDA.b #$01 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -661,9 +661,9 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$02 : BEQ .not_pressing_left
     
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     BRA .return
     
@@ -671,20 +671,20 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$01 : BEQ .always
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .always
     
-    LDA $0DE0, X : CMP.b #$03 : BNE .not_going_right
+    LDA.w $0DE0, X : CMP.b #$03 : BNE .not_going_right
     
     ; Default heading in reaction to this tile is going up.
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
     .not_going_right
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .return
     
@@ -702,11 +702,11 @@ Sprite_SomariaPlatform:
 
 ; $0F7AC0-$0F7AFA JUMP LOCATION
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $FABC, Y : STA $00 : AND.b #$08 : BEQ .BRANCH_ALPHA
+    LDA $F0 : AND.w $FABC, Y : STA $00 : AND.b #$08 : BEQ .BRANCH_ALPHA
     
-    LDA.b #$00 : STA $0DE0, X
+    LDA.b #$00 : STA.w $0DE0, X
     
     BRA .BRANCH_BETA
     
@@ -714,7 +714,7 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$04 : BEQ .BRANCH_GAMMA
     
-    LDA.b #$01 : STA $0DE0, X
+    LDA.b #$01 : STA.w $0DE0, X
     
     BRA .BRANCH_BETA
     
@@ -722,7 +722,7 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$02 : BEQ .BRANCH_DELTA
     
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
     BRA .BRANCH_BETA
     
@@ -730,7 +730,7 @@ Sprite_SomariaPlatform:
     
     LDA $00 : AND.b #$01 : BEQ .BRANCH_BETA
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
     .BRANCH_BETA
     
@@ -748,11 +748,11 @@ Sprite_SomariaPlatform:
 
 ; $0F7AFF-$0F7B39 JUMP LOCATION
 {
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $F0 : AND $FAFB, Y : BEQ .not_pressing_any_directions
+    LDA $F0 : AND.w $FAFB, Y : BEQ .not_pressing_any_directions
     
     STA $00 : AND.b #$08 : BEQ .not_pressing_up
     
@@ -776,24 +776,24 @@ Sprite_SomariaPlatform:
     
     .set_direction
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_pressing_any_directions
     
     ; $0F7B34 ALTERNATE ENTRY POINT
     
-    LDA.b #$01 : STA $02F5
+    LDA.b #$01 : STA.w $02F5
     
     RTS
 }
 
 ; $0F7B3A-$0F7B48 JUMP LOCATION
 {
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     STZ $4B
     
@@ -804,29 +804,29 @@ Sprite_SomariaPlatform:
 {
     REP #$20
     
-    LDA $0FD8 : SEC : SBC.w #$0008 : CMP $22 : BEQ .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC.w #$0008 : CMP $22 : BEQ .BRANCH_ALPHA
                                          BPL .BRANCH_BETA
     
-    DEC $0B7C
+    DEC.w $0B7C
     
     BRA .BRANCH_ALPHA
     
     .BRANCH_BETA
     
-    INC $0B7C
+    INC.w $0B7C
     
     .BRANCH_ALPHA
     
-    LDA $0FDA : SEC : SBC.w #$0010 : CMP $20 : BEQ .BRANCH_GAMMA
+    LDA.w $0FDA : SEC : SBC.w #$0010 : CMP $20 : BEQ .BRANCH_GAMMA
                                          BPL .BRANCH_DELTA
     
-    DEC $0B7E
+    DEC.w $0B7E
     
     BRA .BRANCH_GAMMA
     
     .BRANCH_DELTA
     
-    INC $0B7E
+    INC.w $0B7E
     
     .BRANCH_GAMMA
     
@@ -855,7 +855,7 @@ Sprite_Pipe:
 {
     JSR Sprite3_CheckIfActive
     
-    LDA $0DC0, X
+    LDA.w $0DC0, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -875,26 +875,26 @@ Pipe_LocateTransitEndpoint:
     ; $0F77C2 IN ROM ; Get tile attribute at sprite's current location.
     ; I'm thinking this is the starting tile for the pipe? Or perhaps
     ; represents an endpoint...
-    JSR $F7C2 : CMP.b #$BE : BNE .not_the_tile_youre_looking_for
+    JSR.w $F7C2 : CMP.b #$BE : BNE .not_the_tile_youre_looking_for
     
-    STA $0E90, X
+    STA.w $0E90, X
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     ; switch direction polarity... I guess so the player can go through it?
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     .not_the_tile_youre_looking_for
     
-    CMP $0E90, X : BEQ .beta
+    CMP.w $0E90, X : BEQ .beta
     
-    STA $0E90, X
+    STA.w $0E90, X
     
     .beta
     
-    LDA $0DE0, X : STA $0EB0, X
+    LDA.w $0DE0, X : STA.w $0EB0, X
     
-    JSR $F7AF ; $0F77AF IN ROM
+    JSR.w $F7AF ; $0F77AF IN ROM
     JSR Sprite3_Move
     
     RTS
@@ -911,7 +911,7 @@ Pipe_WaitForPlayer:
     ; This was confirmed directly by modifying the player's coordinates in
     ; a memory editor. Clearly this design limitation dictated the layout
     ; of the rooms the pipes appear in.
-    LDA $1DE0 : CMP.b #$FF : BNE .cant_enter
+    LDA.w $1DE0 : CMP.b #$FF : BNE .cant_enter
     
     JSL Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .cant_enter
     
@@ -923,15 +923,15 @@ Pipe_WaitForPlayer:
     
     BCS .cant_pass_through
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
-    LDA.b #$04 : STA $0E00, X
+    LDA.b #$04 : STA.w $0E00, X
     
     JSL Player_ResetState
     
-    LDA.b #$01 : STA $02E4 : STA $037B
+    LDA.b #$01 : STA.w $02E4 : STA.w $037B
     
-    TXA : STA $1DE0
+    TXA : STA.w $1DE0
     
     .cant_enter
     
@@ -939,7 +939,7 @@ Pipe_WaitForPlayer:
     
     .cant_pass_through
     
-    JSR $F508 ; $0F7508 IN ROM
+    JSR.w $F508 ; $0F7508 IN ROM
     
     RTS
 }
@@ -958,9 +958,9 @@ Pool_Pipe:
 ; $0F7BF4-$0F7C12 JUMP LOCATION
 Pipe_DrawPlayerInward:
 {
-    LDA $0E00, X : BNE .delay
+    LDA.w $0E00, X : BNE .delay
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
     ; Makes the player invisible.
     LDA.b #$0C : STA $4B
@@ -970,13 +970,13 @@ Pipe_DrawPlayerInward:
     .delay
     
     ; Halt the player, but also take care of some of their functions?
-    LDA.b #$01 : STA $02E4 : STA $037B
+    LDA.b #$01 : STA.w $02E4 : STA.w $037B
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA Pipe.player_direction, Y
     
-    JSR $FCFF ; $0F7CFF IN ROM
+    JSR.w $FCFF ; $0F7CFF IN ROM
     
     RTS
 }
@@ -986,7 +986,7 @@ Pipe_DrawPlayerInward:
 ; $0F7C13-$0F7CD2 JUMP LOCATION
 Pipe_DragPlayerAlong:
 {
-    LDA.b #$03 : STA $0E80, X
+    LDA.b #$03 : STA.w $0E80, X
     
     LDA $22 : STA $3F
     LDA $23 : STA $41
@@ -996,11 +996,11 @@ Pipe_DragPlayerAlong:
     
     .lambda
     
-    INC $0D90, X
+    INC.w $0D90, X
     
-    LDA $0D90, X : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.w $0D90, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
-    JSR $F7C2 ; $0F77C2 IN ROM
+    JSR.w $F7C2 ; $0F77C2 IN ROM
     
     PHA : CMP.b #$B2 : BCC .BRANCH_BETA
           CMP.b #$B6 : BCS .BRANCH_BETA
@@ -1009,30 +1009,30 @@ Pipe_DragPlayerAlong:
     
     .BRANCH_BETA
     
-    PLA : CMP $0E90, X : BEQ .BRANCH_ALPHA
+    PLA : CMP.w $0E90, X : BEQ .BRANCH_ALPHA
     
-    STA $0E90, X : CMP.b #$BE : BNE .not_endpoint_node
+    STA.w $0E90, X : CMP.b #$BE : BNE .not_endpoint_node
     
-    INC $0DC0, X
+    INC.w $0DC0, X
     
-    LDA.b #$18 : STA $0E00, X
+    LDA.b #$18 : STA.w $0E00, X
     
     .not_endpoint_node
     
-    LDA $0DE0, X : STA $0EB0, X
+    LDA.w $0DE0, X : STA.w $0EB0, X
     
-    JSR $F7AF ; $0F77AF IN ROM
-    JSR $F901 ; $0F7901 IN ROM
+    JSR.w $F7AF ; $0F77AF IN ROM
+    JSR.w $F901 ; $0F7901 IN ROM
     
     .BRANCH_ALPHA
     
     JSR Sprite3_Move
     
-    LDA $0D10, X : SEC : SBC.b #$08 : STA $00
-    LDA $0D30, X : SBC.b #$00 : STA $01
+    LDA.w $0D10, X : SEC : SBC.b #$08 : STA $00
+    LDA.w $0D30, X : SBC.b #$00 : STA $01
     
-    LDA $0D00, X : SEC : SBC.b #$0E : STA $02
-    LDA $0D20, X : SBC.b #$00 : STA $03
+    LDA.w $0D00, X : SEC : SBC.b #$0E : STA $02
+    LDA.w $0D20, X : SBC.b #$00 : STA $03
     
     REP #$20
     
@@ -1062,7 +1062,7 @@ Pipe_DragPlayerAlong:
     
     SEP #$30
     
-    DEC $0E80, X : BEQ .BRANCH_IOTA
+    DEC.w $0E80, X : BEQ .BRANCH_IOTA
     
     JMP .lambda
     
@@ -1071,7 +1071,7 @@ Pipe_DragPlayerAlong:
     LDA $22 : SEC : SBC $3F : STA $31
     LDA $20 : SEC : SBC $3E : STA $30
 
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     LDA Pipe.player_direction, Y : STA $26
     
@@ -1088,28 +1088,28 @@ Pipe_DragPlayerAlong:
 
 ; $0F7CD3-$0F7CFE JUMP LOCATION
 {
-    LDA $0E00, X : BNE .delay
+    LDA.w $0E00, X : BNE .delay
     
-    STZ $02E4
-    STZ $02F5
-    STZ $037B
+    STZ.w $02E4
+    STZ.w $02F5
+    STZ.w $037B
     STZ $4B
     STZ $31
     STZ $30
     
-    LDA.b #$FF : STA $1DE0
+    LDA.b #$FF : STA.w $1DE0
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     RTS
     
     .delay
     
-    LDA $0DE0, X : EOR.b #$01 : TAY
+    LDA.w $0DE0, X : EOR.b #$01 : TAY
     
     LDA Pipe.player_direction, Y
     
-    JSR $FCFF ; $0F7CFF IN ROM
+    JSR.w $FCFF ; $0F7CFF IN ROM
     
     RTS
 }

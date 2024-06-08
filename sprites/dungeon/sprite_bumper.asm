@@ -23,7 +23,7 @@ Sprite_Bumper:
     
     JSL Player_HaltDashAttackLong
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
@@ -52,30 +52,30 @@ Sprite_Bumper:
     
     .next_sprite
     
-    TYA : EOR $1A : AND.b #$03 : ORA $0F70, Y : BNE .no_sprite_collision
+    TYA : EOR $1A : AND.b #$03 : ORA.w $0F70, Y : BNE .no_sprite_collision
     
-    LDA $0DD0, Y : CMP.b #$09 : BCC .no_sprite_collision
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .no_sprite_collision
     
-    LDA $0E60, Y : ORA $0F60, Y : AND.b #$40 : BNE .no_sprite_collision
+    LDA.w $0E60, Y : ORA.w $0F60, Y : AND.b #$40 : BNE .no_sprite_collision
     
-    LDA $0D10, Y : STA $04
-    LDA $0D30, Y : STA $05
-    LDA $0D00, Y : STA $06
-    LDA $0D20, Y : STA $07
+    LDA.w $0D10, Y : STA $04
+    LDA.w $0D30, Y : STA $05
+    LDA.w $0D00, Y : STA $06
+    LDA.w $0D20, Y : STA $07
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0010
+    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0010
     
     CMP.w #$0020 : BCS .no_sprite_collision
     
-    LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0010
+    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0010
     
     CMP.w #$0020 : BCS .no_sprite_collision
     
     SEP #$20
     
-    LDA.b #$0F : STA $0EA0, Y
+    LDA.b #$0F : STA.w $0EA0, Y
     
     PHY
     
@@ -85,10 +85,10 @@ Sprite_Bumper:
     
     PLY
     
-    LDA $00 : STA $0F30, Y
-    LDA $01 : STA $0F40, Y
+    LDA $00 : STA.w $0F30, Y
+    LDA $01 : STA.w $0F40, Y
     
-    LDA #$20 : STA $0DF0, X
+    LDA #$20 : STA.w $0DF0, X
     
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
     
@@ -124,7 +124,7 @@ Pool_Bumper_Draw:
 Bumper_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DF0, X : LSR A : AND.b #$01 : REP #$20 : ASL #5
+    LDA.w $0DF0, X : LSR A : AND.b #$01 : REP #$20 : ASL #5
     
     ADC.w #(.oam_groups) : STA $08
     

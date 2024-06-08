@@ -6,7 +6,7 @@ Sprite_BombShopEntity:
 {
     ; Bomb Shop Guy
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -42,15 +42,15 @@ Sprite_BombShopGuy:
     JSR BombShopEntity_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA $0E90, X : TAY
+    LDA.w $0E90, X : TAY
     
-    INC A : AND.b #$07 : STA $0E90, X
+    INC A : AND.b #$07 : STA.w $0E90, X
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
-    LDA .animation_states, Y : STA $0DC0, X : BNE .play_breathe_in_sound
+    LDA .animation_states, Y : STA.w $0DC0, X : BNE .play_breathe_in_sound
     
     LDA.b #$11 : JSL Sound_SetSfx3PanLong
     
@@ -107,11 +107,11 @@ Sprite_BombShopBomb:
     LDY.b #$00
     
     ; $0F739E IN ROM
-    JSR $F39E : BCC .player_cant_afford
+    JSR.w $F39E : BCC .player_cant_afford
     
     LDA.b #$1B : STA.l $7EF375
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDA.b #$19
     LDY.b #$01
@@ -120,7 +120,7 @@ Sprite_BombShopBomb:
     
     LDY.b #$28
     
-    JSR $F366 ; $0F7366 IN ROM
+    JSR.w $F366 ; $0F7366 IN ROM
     
     .didnt_solicit
     
@@ -132,13 +132,13 @@ Sprite_BombShopBomb:
     LDY.b #$01
     
     JSL Sprite_ShowMessageUnconditional
-    JSR $F38A   ; $0F738A IN ROM
+    JSR.w $F38A   ; $0F738A IN ROM
     
     RTS
     
     .player_cant_afford
     
-    JMP $F1A1 ; $0F71A1 IN ROM
+    JMP.w $F1A1 ; $0F71A1 IN ROM
 }
 
 ; ==============================================================================
@@ -156,7 +156,7 @@ Sprite_BombShopSuperBomb:
     LDY.b #$00
     
     ; $0F739E IN ROM
-    JSR $F39E : BCC .player_cant_afford
+    JSR.w $F39E : BCC .player_cant_afford
     
     LDA.b #$0D : STA.l $7EF3CC ; Super Bomb sprite
     
@@ -169,7 +169,7 @@ Sprite_BombShopSuperBomb:
     JSL Tagalong_LoadGfx
     JSL Tagalong_SpawnFromSprite
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDA.b #$1A
     LDY.b #$01
@@ -182,7 +182,7 @@ Sprite_BombShopSuperBomb:
     
     .player_cant_afford
     
-    JMP $F1A1 ; $0F71A1 IN ROM
+    JMP.w $F1A1 ; $0F71A1 IN ROM
 }
 
 ; ==============================================================================
@@ -204,23 +204,23 @@ Sprite_BombShopSnoutPuff:
     JSL Sprite_PrepAndDrawSingleSmallLong
     JSR Sprite3_CheckIfActive
     
-    LDA $0F50, X : AND.b #$30 : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$30 : STA.w $0F50, X
     
     LDA $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA $0F50, X : ORA .properties, Y : STA $0F50, X
+    LDA.w $0F50, X : ORA .properties, Y : STA.w $0F50, X
     
-    INC $0F80, X
+    INC.w $0F80, X
     
     JSR Sprite3_MoveAltitude
     
-    LDA $0DF0, X : BNE .dont_self_terminate
+    LDA.w $0DF0, X : BNE .dont_self_terminate
 
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_self_terminate
     
-    LSR #3 : AND.b #$03 : STA $0DC0, X
+    LSR #3 : AND.b #$03 : STA.w $0DC0, X
     
     RTS
 }
@@ -233,21 +233,21 @@ BombShopGuy_SpawnSnoutPuff:
     ; Spawn Bomb salesman or his bombs?
     LDA.b #$B5 : JSL Sprite_SpawnDynamically
     
-    LDA.b #$03 : STA $0E80, Y : STA $0BA0, Y
+    LDA.b #$03 : STA.w $0E80, Y : STA.w $0BA0, Y
     
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    LDA $01              : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA $01              : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$10 : STA $0D00, Y
-    LDA $03              : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$10 : STA.w $0D00, Y
+    LDA $03              : STA.w $0D20, Y
     
-    LDA.b #$04 : STA $0F70, Y
+    LDA.b #$04 : STA.w $0F70, Y
     
-    LDA.b #$F4 : STA $0F80, Y
+    LDA.b #$F4 : STA.w $0F80, Y
     
-    LDA.b #$17 : STA $0DF0, Y
+    LDA.b #$17 : STA.w $0DF0, Y
     
-    LDA $0E60, Y : AND.b #$EE : STA $0E60, Y
+    LDA.w $0E60, Y : AND.b #$EE : STA.w $0E60, Y
     
     RTS
 }
@@ -283,7 +283,7 @@ BombShopEntity_Draw:
     LDA.b #$01 : STA $06
                  STZ $07
     
-    LDA $0E80, X : ASL A : ADC $0DC0, X : ASL #3
+    LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09

@@ -6,23 +6,23 @@
 ; $0ED1FD-$0ED233 LONG JUMP LOCATION
 ChattyAgahnim_SpawnZeldaOnAltar:
 {
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
-    LDA $0D00, X : CLC : ADC.b #$06 : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC.b #$06 : STA.w $0D00, X
     
     ; Spawn the Zelda companion sprite so Agahnim has something to teleport.
     LDA.b #$C1 : JSL Sprite_SpawnDynamically
     
     LDA.b #$01 : STA !is_altar_zelda, Y
-                 STA $0BA0, Y
+                 STA.w $0BA0, Y
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : CLC : ADC.b #$28 : STA $0D00, Y
+    LDA $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
     
-    LDA.b #$00 : STA $0E40, Y
+    LDA.b #$00 : STA.w $0E40, Y
     
-    LDA.b #$0C : STA $0F50, Y
+    LDA.b #$0C : STA.w $0F50, Y
     
     RTL
 }
@@ -45,11 +45,11 @@ Sprite_ChattyAgahnim:
 ; $0ED23F-$0ED284 JUMP LOCATION
 ChattyAgahnim_Main:
 {
-    LDA $0DB0, X : BEQ .not_afterimage
+    LDA.w $0DB0, X : BEQ .not_afterimage
     
     LDA !timer_0, X : BNE .delay_self_termination
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay_self_termination
     
@@ -70,11 +70,11 @@ ChattyAgahnim_Main:
     ; Update: This gives the player time enough to walk up the stairs to see
     ; Zelda. Otherwise Agahnim would just start blabbing right away and
     ; begin the teleport sequence. \task Add telewarp to the list. heh.
-    LDA $0F00, X : BEQ .not_paused
+    LDA.w $0F00, X : BEQ .not_paused
     
-    STZ $0D80, X
-    STZ $0DA0, X
-    STZ $0DC0, X
+    STZ.w $0D80, X
+    STZ.w $0DA0, X
+    STZ.w $0DC0, X
     
     LDA.b #$40 : STA !timer_0, X
     
@@ -82,7 +82,7 @@ ChattyAgahnim_Main:
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -102,15 +102,15 @@ ChattyAgahnim_Problab:
 {
     LDA !timer_0, X : BNE .delay_message
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     ; "Ahah... [Name]! I have been waiting for you! Heh heh heh..."
-    LDA.b #$3D : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$3D : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay_message
     
@@ -131,39 +131,39 @@ Pool_ChattyAgahnim_LevitateZelda:
 ; $0ED2A5-$0ED2EE JUMP LOCATION
 ChattyAgahnim_LevitateZelda:
 {
-    INC $0DA0, X : LDA $0DA0, X : PHA : LSR #5 : AND.b #$03 : TAY
+    INC.w $0DA0, X : LDA.w $0DA0, X : PHA : LSR #5 : AND.b #$03 : TAY
     
     LDA .animation_states, Y
     
     ; \hardcoded This Agahnim sprite is laboring under the assumption that
     ; the altar zelda sprite is in slot 0x0F. While this works, adding
     ; even one more sprite to the room would break it.
-    LDY $0F7F : CPY.b #$10 : BCC .use_variable_animation_state
+    LDY.w $0F7F : CPY.b #$10 : BCC .use_variable_animation_state
     
     LDA.b #$01
     
     .use_variable_animation_state
     
-    STA $0DC0, X
+    STA.w $0DC0, X
     
     PLA : AND.b #$0F : BNE .anoincrement_zelda_altitude
     
     ; Set Zelda's animation state a certain way.
     ; \hardcoded Same as above.
-    LDA.b #$01 : STA $0DCF
+    LDA.b #$01 : STA.w $0DCF
     
     ; \hardcoded Same as above.
-    INC $0F7F : LDA $0F7F : CMP.b #$16 : BNE .delay_telewarp_spell
+    INC.w $0F7F : LDA.w $0F7F : CMP.b #$16 : BNE .delay_telewarp_spell
     
-    LDY.b #$27 : STY $012F
+    LDY.b #$27 : STY.w $012F
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$FF : STA !timer_0, X
     
-    LDA.b #$02 : STA $0E80, X
+    LDA.b #$02 : STA.w $0E80, X
     
-    LDA.b #$FF : STA $0E30, X
+    LDA.b #$FF : STA.w $0E30, X
     
     .delay_telewarp_spell
     .anoincrement_zelda_altitude
@@ -181,11 +181,11 @@ ChattyAgahnim_DoTelewarpSpell:
     CMP.b #$80      : BCS .anoplay_spell_sfx
     AND.b #$03      : BNE .anoplay_spell_sfx
     
-    LDA.b #$2B : STA $012F
+    LDA.b #$2B : STA.w $012F
     
-    LDA $0E80, X : CMP.b #$0E : BEQ .anoplay_spell_sfx
+    LDA.w $0E80, X : CMP.b #$0E : BEQ .anoplay_spell_sfx
     
-    CLC : ADC.b #$04 : STA $0E80, X
+    CLC : ADC.b #$04 : STA.w $0E80, X
     
     .anoplay_spell_sfx
     
@@ -193,13 +193,13 @@ ChattyAgahnim_DoTelewarpSpell:
     
     .start_flash_effect
     
-    LDA.b #$78 : STA $0FF9
+    LDA.b #$78 : STA.w $0FF9
     
     RTS
     
     .advance_ai_state
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$50 : STA !timer_0, X
     
@@ -214,24 +214,24 @@ ChattyAgahnim_CompleteTelewarpSpell:
     LDA !timer_0, X : BEQ .finish_warping_zelda
     AND.b #$03      : BNE .return
     
-    LDA $0E30, X : CMP.b #$09 : BEQ .return
+    LDA.w $0E30, X : CMP.b #$09 : BEQ .return
     
-    CLC : ADC.b #$02 : STA $0E30, X
+    CLC : ADC.b #$02 : STA.w $0E30, X
     
     RTS
     
     .finish_warping_zelda
     
     ; \hardcoded Starts Zelda's timer to make her into a warping sprite.
-    LDA.b #$13 : STA $0DFF
+    LDA.b #$13 : STA.w $0DFF
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$50 : STA !timer_0, X
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
-    LDA.b #$33 : STA $012E
+    LDA.b #$33 : STA.w $012E
     
     .return
     
@@ -246,12 +246,12 @@ ChattyAgahnim_Epiblab:
     LDA !timer_0, X : BNE .delay_message
     
     ; "... With this, the seal of the seven wise men is at last broken..."
-    LDA.b #$3E : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$3E : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$02 : STA !timer_0, X
     
@@ -267,20 +267,20 @@ ChattyAgahnim_TeleportTowardCurtains:
 {
     LDA !timer_0, X : DEC A : BNE .delay_sfx
     
-    LDA.b #$28 : STA $012F
+    LDA.b #$28 : STA.w $012F
     
     .delay_sfx
     
-    LDA.b #$E0 : STA $0D40, X
+    LDA.b #$E0 : STA.w $0D40, X
     
     JSR Sprite4_MoveVert
     
-    LDA $0D00, X : CMP.b #$30 : BCS .spawn_afterimage
+    LDA.w $0D00, X : CMP.b #$30 : BCS .spawn_afterimage
     
     ; Set a timer to remain near the entrance for a bit once he reaches it.
-    LDA.b #$42 : STA $0F10, X
+    LDA.b #$42 : STA.w $0F10, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .spawn_afterimage
     
@@ -302,11 +302,11 @@ Sprite_SpawnAgahnimAfterImage:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $0DC0, X : STA $0DC0, Y
+    LDA.w $0DC0, X : STA.w $0DC0, Y
     
     LDA.b #$20 : STA !timer_0, Y
-                 STA $0BA0, Y
-                 STA $0DB0, Y
+                 STA.w $0BA0, Y
+                 STA.w $0DB0, Y
     
     .spawn_delay
     .spawn_failed
@@ -321,15 +321,15 @@ Sprite_SpawnAgahnimAfterImage:
 ; $0ED3B9-$0ED3D0 JUMP LOCATION
 ChattyAgahnim_LingerThenTerminate:
 {
-    LDA $0F10, X : BNE .delay_self_termination
+    LDA.w $0F10, X : BNE .delay_self_termination
     
-    STZ $02E4
+    STZ.w $02E4
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL Dungeon_ManuallySetSpriteDeathFlag
     
-    LDA $0403 : ORA.b #$40 : STA $0403
+    LDA.w $0403 : ORA.b #$40 : STA.w $0403
     
     .delay_self_termination
     
@@ -368,14 +368,14 @@ Pool_ChattyAgahnim_Draw:
 ; $0ED451-$0ED48C LOCAL JUMP LOCATION
 ChattyAgahnim_Draw:
 {
-    LDA $0F10, X : AND.b #$01 : BNE .dont_draw
+    LDA.w $0F10, X : AND.b #$01 : BNE .dont_draw
     
-    LDA $0DB0, X : STA $00
+    LDA.w $0DB0, X : STA $00
                    STZ $01
     
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
     
     LDA $00 : BNE .typical_oam_positioning
     
@@ -471,9 +471,9 @@ ChattyAgahnim_DrawTelewarpSpell:
     
     SEP #$20
     
-    LDA $0E80, X : BEQ .dont_draw_spell_at_all
+    LDA.w $0E80, X : BEQ .dont_draw_spell_at_all
     
-    LDY $0E30, X
+    LDY.w $0E30, X
     
     STY $0D
     
@@ -557,7 +557,7 @@ AltarZelda_Main:
     
     PLA : CMP.b #$01 : BNE .delay_self_termination
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay_self_termination
     
@@ -572,7 +572,7 @@ AltarZelda_Main:
     
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     
@@ -600,7 +600,7 @@ AltarZelda_DrawBody:
 {
     LDA.b #$08 : JSL OAM_AllocateFromRegionA
     
-    LDA $0F70, X : CMP.b #$1F : BCC .z_coord_not_maxed
+    LDA.w $0F70, X : CMP.b #$1F : BCC .z_coord_not_maxed
     
     ; \unused The code never allows Zelda's altitude to get this high.
     ; \optimize Therefore, could take out this whole check.
@@ -613,8 +613,8 @@ AltarZelda_DrawBody:
     LDA .xy_offsets, Y : STA $07
     
     ; Get 16-bit Y coordinate.
-    LDA $0D00, X : SEC : SBC $E8 : STA $02
-    LDA $0D20, X : SBC $E9 : STA $03
+    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
+    LDA.w $0D20, X : SBC $E9 : STA $03
     
     LDY.b #$00
     

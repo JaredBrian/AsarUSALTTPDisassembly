@@ -8082,7 +8082,7 @@ Link_Lift:
     ; \bug This is not cool, bro. Writing to bank 0x07?
     ; \tcrf Perhaps mentionable enough that maybe they wanted the player to
     ; lose the old man here?
-    ; This is a mistake and was ment to write to SRM. ex: STA $7EF3CD.
+    ; This is a mistake and was ment to write to SRM. ex: STA.l $7EF3CD.
     ; See tagalong.asm line 363.
     LDA $1A00, X : STA $F3CD ; Grabbing Y Position (position to grab it back)
     LDA $1A14, X : STA $F3CE

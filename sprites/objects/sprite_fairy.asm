@@ -8,19 +8,19 @@ Sprite_HandleDraggingByAncilla:
     ; hookshot. I can't think of any others that induce this sort of
     ; behavior.
     
-    LDA $0DA0, X : BEQ .not_ancilla_slave
+    LDA.w $0DA0, X : BEQ .not_ancilla_slave
     
     TAY : DEY
     
-    LDA $0C4A, Y : BEQ .ancilla_not_active
+    LDA.w $0C4A, Y : BEQ .ancilla_not_active
     
-    LDA $0C04, Y : STA $0D10, X
-    LDA $0C18, Y : STA $0D30, X
+    LDA.w $0C04, Y : STA.w $0D10, X
+    LDA.w $0C18, Y : STA.w $0D30, X
     
-    LDA $0BFA, Y : STA $0D00, X
-    LDA $0C0E, Y : STA $0D20, X
+    LDA.w $0BFA, Y : STA.w $0D00, X
+    LDA.w $0C0E, Y : STA.w $0D20, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     .terminate_caller
     
@@ -42,13 +42,13 @@ Sprite_HandleDraggingByAncilla:
 ; $034F94-$034FBA JUMP LOCATION
 Sprite_Fairy:
 {
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X : BNE .being_captured
+    LDA.w $0D80, X : BNE .being_captured
     
     LDA $1B : BNE .indoors
     
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     .indoors
     
@@ -59,7 +59,7 @@ Sprite_Fairy:
     JSR Fairy_CheckForTemporaryUntouchability
     JSR Sprite_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -72,7 +72,7 @@ Sprite_Fairy:
 ; $034FBB-$034FE3 JUMP LOCATION
 Fairy_Normal:
 {
-    LDA $0F10, X : BNE .cant_touch_this
+    LDA.w $0F10, X : BNE .cant_touch_this
     
     JSR Sprite_CheckDamageToPlayer : BCC .no_player_collision
     
@@ -84,7 +84,7 @@ Fairy_Normal:
     
     JSR Sprite_CheckDamageFromPlayer : BEQ .not_bugnetted
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; "You caught a fairy! What will you do?"
     ; " > Keep it in a bottle..."
@@ -110,7 +110,7 @@ Fairy_Normal:
 ; $034FE4-$035010 LOCAL JUMP LOCATION
 Fairy_HandleCapture:
 {
-    LDA $1CE8 : BNE .was_released
+    LDA.w $1CE8 : BNE .was_released
     
     JSL Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
     
@@ -125,7 +125,7 @@ Fairy_HandleCapture:
     PLX
     
     ; Apparently indicates this bottle is full.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -139,9 +139,9 @@ Fairy_HandleCapture:
     
     .was_released
     
-    LDA.b #$30 : STA $0F10, X
+    LDA.b #$30 : STA.w $0F10, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -155,14 +155,14 @@ Fairy_CheckForTemporaryUntouchability:
     
     REP #$20
     
-    LDA $1CF0 : CMP.w #$00C9 : BEQ .grant_untouchability
+    LDA.w $1CF0 : CMP.w #$00C9 : BEQ .grant_untouchability
                 CMP.w #$00CA : BNE .still_touchable
     
     .grant_untouchability
     
     SEP #$30
     
-    LDA.b #$28 : STA $0F10, X
+    LDA.b #$28 : STA.w $0F10, X
     
     .still_touchable
     .not_in_text_mode

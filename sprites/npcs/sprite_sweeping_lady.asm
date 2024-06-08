@@ -32,7 +32,7 @@ Sprite_SweepingLady:
     
     ; Next section of code simply changes her graphic index
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -60,7 +60,7 @@ SweepingLady_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09

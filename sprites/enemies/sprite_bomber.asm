@@ -4,11 +4,11 @@
 ; $0F0DD2-$0F0DE6 JUMP LOCATION
 Sprite_Bomber:
 {
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
-    LDA $0D90, X : BEQ Bomber_Main
+    LDA.w $0D90, X : BEQ Bomber_Main
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -26,17 +26,17 @@ BomberPellet_Falling:
     JSR Sprite3_Move
     JSR Sprite3_MoveAltitude
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$13 : STA $0DF0, X
+    LDA.b #$13 : STA.w $0DF0, X
     
-    INC $0E40, X
+    INC.w $0E40, X
     
     LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
@@ -55,7 +55,7 @@ BomberPellet_Exploding:
     
     LDA $1A : AND.b #$03 : BNE .dont_rewind_timer
     
-    INC $0DF0, X
+    INC.w $0DF0, X
     
     .dont_rewind_timer
     
@@ -84,21 +84,21 @@ Pool_Bomber_Main:
 ; $0F0E31-$0F0ED1 BRANCH LOCATION
 Bomber_Main:
 {
-    LDA $0E00, X : BEQ .direction_lock_inactive
+    LDA.w $0E00, X : BEQ .direction_lock_inactive
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     .direction_lock_inactive
     
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSL Bomber_Draw
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $0E00, X : CMP.b #$08 : BNE .direction_lock_active
+    LDA.w $0E00, X : CMP.b #$08 : BNE .direction_lock_active
     
     JSR Bomber_SpawnPellet
     
@@ -108,14 +108,14 @@ Bomber_Main:
     
     LDA $1A : AND.b #$01 : BNE .delay
     
-    LDA $0ED0, X : AND.b #$01 : TAY
+    LDA.w $0ED0, X : AND.b #$01 : TAY
     
-    LDA $0F80, X : CLC : ADC .z_speed_step, Y : STA $0F80, X
+    LDA.w $0F80, X : CLC : ADC .z_speed_step, Y : STA.w $0F80, X
     
     CMP .z_speed_limit, Y : BNE .not_at_speed_limit
     
     ; invert polarity of motion in the z axis. (gives an undulation effect.)
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .not_at_speed_limit
     .delay
@@ -129,7 +129,7 @@ Bomber_Main:
     
     LDA $44 : CMP.b #$80 : BEQ .player_not_attacking
     
-    LDA $0372 : BNE .dodge_player_attack
+    LDA.w $0372 : BNE .dodge_player_attack
     
     LDA $3C : CMP.b #$09 : BPL .player_not_attacking
     
@@ -137,18 +137,18 @@ Bomber_Main:
     
     LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $01 : EOR.b #$FF : INC A : STA $0D50, X
+    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0D40, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     .player_not_attacking
     .player_not_close
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -162,13 +162,13 @@ Bomber_Main:
 ; $0F0ED2-$0F0EE3 JUMP LOCATION
 Bomber_Dodge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .delay
     
-    INC $0E80, X : INC $0E80, X
+    INC.w $0E80, X : INC.w $0E80, X
     
     JSR Bomber_MoveAndAnimate
     
@@ -201,15 +201,15 @@ Pool_Bomber_Hovering:
 ; $0F0EF8-$0F0F70 JUMP LOCATION
 Bomber_Hovering:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    INC $0DA0, X : LDA $0DA0, X : CMP.b #$03 : BNE .choose_random_direction
+    INC.w $0DA0, X : LDA.w $0DA0, X : CMP.b #$03 : BNE .choose_random_direction
     
-    STZ $0DA0, X
+    STZ.w $0DA0, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -221,15 +221,15 @@ Bomber_Hovering:
     
     .choose_random_direction
     
-    JSL GetRandomInt : AND.b #$1F : ORA.b #$20 : STA $0DF0, X : AND.b #$07
+    JSL GetRandomInt : AND.b #$1F : ORA.b #$20 : STA.w $0DF0, X : AND.b #$07
     
     .approach_player
     
     TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     .delay
     
@@ -238,16 +238,16 @@ Bomber_Hovering:
     ; $0F0F36 ALTERNATE ENTRY POINT
     shared Bomber_Moving:
     
-    LDA $0DF0, X : BNE .delay_2
+    LDA.w $0DF0, X : BNE .delay_2
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$0A : STA $0DF0, X
+    LDA.b #$0A : STA.w $0DF0, X
     
-    LDY $0E20, X : CPY.b #$A8 : BNE .cant_spawn_pellet
+    LDY.w $0E20, X : CPY.b #$A8 : BNE .cant_spawn_pellet
     
     ; Only the green bombers can do that, apparently.
-    LDA.b #$10 : STA $0E00, X
+    LDA.b #$10 : STA.w $0E00, X
     
     .cant_spawn_pellet
     
@@ -262,11 +262,11 @@ Bomber_Hovering:
     
     .just_face_and_animate
     
-    JSR Sprite3_DirectionToFacePlayer : TYA : STA $0DE0, X
+    JSR Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
-    INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$01 : STA $00
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA $00
     
-    LDA $0DE0, X : ASL A : ORA $00 : STA $0DC0, X
+    LDA.w $0DE0, X : ASL A : ORA $00 : STA.w $0DC0, X
     
     RTS
 }
@@ -298,31 +298,31 @@ Bomber_SpawnPellet:
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
-    LDA $04 : STA $0F70, Y
+    LDA $04 : STA.w $0F70, Y
     
     PHX
     
-    LDX $0DE0, Y
+    LDX.w $0DE0, Y
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_hiwh, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_hiwh, X : STA.w $0D20, Y
     
-    LDA Sprite3_Shake.x_speeds, X : STA $0D50, Y
+    LDA Sprite3_Shake.x_speeds, X : STA.w $0D50, Y
     
-    LDA Sprite3_Shake.y_speeds, X : STA $0D40, Y
+    LDA Sprite3_Shake.y_speeds, X : STA.w $0D40, Y
     
     PLX
     
-    LDA.b #$01 : STA $0D90, Y : STA $0BA0, Y
+    LDA.b #$01 : STA.w $0D90, Y : STA.w $0BA0, Y
     
-    LDA.b #$09 : STA $0F60, Y
+    LDA.b #$09 : STA.w $0F60, Y
     
-    LDA.b #$33 : STA $0E60, Y
+    LDA.b #$33 : STA.w $0E60, Y
     
-    AND.b #$0F : STA $0F50, Y
+    AND.b #$0F : STA.w $0F50, Y
 
     .spawn-failed
 

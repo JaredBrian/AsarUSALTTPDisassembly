@@ -13,13 +13,13 @@ Pool_FluteBoyAnimal:
 ; $0F1A6D-$0F1A89 JUMP LOCATION
 Sprite_FluteBoyRabbit:
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA FluteBoyAnimal.vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA FluteBoyAnimal.vh_flip, Y : STA.w $0F50, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -32,17 +32,17 @@ Sprite_FluteBoyRabbit:
 ; $0F1A8A-$0F1AAB JUMP LOCATION
 FluteBoyRabbit_Chillin:
 {
-    LDA.b #$03 : STA $0DC0, X
+    LDA.b #$03 : STA.w $0DC0, X
     
-    LDA $0FDD : BEQ .dont_run_away
+    LDA.w $0FDD : BEQ .dont_run_away
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X : TAY
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA $0D50, X
+    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
     
-    LDA.b #$F8 : STA $0D40, X
+    LDA.b #$F8 : STA.w $0D40, X
     
     .dont_run_away
     
@@ -65,33 +65,33 @@ FluteBoyRabbit_RunAway:
 {
     JSR Sprite3_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
     ; Hop again!
-    LDA.b #$18 : STA $0F80, X
+    LDA.b #$18 : STA.w $0F80, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     .aloft
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$03 : BNE .delay_animation_tick
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$03 : BNE .delay_animation_tick
     
-    LDA $0D90, X : CMP.b #$02 : BEQ .animation_counter_maxed
+    LDA.w $0D90, X : CMP.b #$02 : BEQ .animation_counter_maxed
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .animation_counter_maxed
     .delay_animation_tick
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }

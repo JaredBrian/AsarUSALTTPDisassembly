@@ -31,7 +31,7 @@ Sprite_FireballJunction:
     JSL Sprite_PrepOamCoordLong
     JSR Sprite4_CheckIfActive
     
-    LDA $0DF0, X : BEQ .check_for_player_sword_usage
+    LDA.w $0DF0, X : BEQ .check_for_player_sword_usage
     CMP #$18     : BNE .dont_spawn
     
     JSL Sprite_SpawnFireball : BMI .spawn_failed
@@ -44,15 +44,15 @@ Sprite_FireballJunction:
     
     JSR Sprite4_DirectionToFacePlayer
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA $0D10, X : CLC : ADC .x_offsets_low, Y  : STA $0D10, X
-    LDA $0D30, X : ADC .x_offsets_high, Y : STA $0D30, X
+    LDA.w $0D10, X : CLC : ADC .x_offsets_low, Y  : STA.w $0D10, X
+    LDA.w $0D30, X : ADC .x_offsets_high, Y : STA.w $0D30, X
     
-    LDA $0D00, X : CLC : ADC .y_offsets_low, Y  : STA $0D00, X
-    LDA $0D20, X : ADC .y_offsets_high, Y : STA $0D20, X
+    LDA.w $0D00, X : CLC : ADC .y_offsets_low, Y  : STA.w $0D00, X
+    LDA.w $0D20, X : ADC .y_offsets_high, Y : STA.w $0D20, X
     
     PLX
     
@@ -65,9 +65,9 @@ Sprite_FireballJunction:
     
     LDA $3C : BEQ .dont_initiate_spawn
     
-    LDA $0F20, X : CMP $EE : BNE .dont_initiate_spawn
+    LDA.w $0F20, X : CMP $EE : BNE .dont_initiate_spawn
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .dont_initiate_spawn
     

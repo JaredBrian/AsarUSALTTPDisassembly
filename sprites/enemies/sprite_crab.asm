@@ -24,23 +24,23 @@ Sprite_Crab:
     
     JSR Sprite2_CheckTileCollision : BNE .collided
     
-    LDA $0DF0, X : BNE .dont_change_direction
+    LDA.w $0DF0, X : BNE .dont_change_direction
     
     .collided
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$20 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$20 : STA.w $0DF0, X
     
-    AND.b #$03 : STA $0DE0, X
+    AND.b #$03 : STA.w $0DE0, X
     
     .dont_change_direction
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    INC $0E80, X : LDA $0E80, X : LSR A
+    INC.w $0E80, X : LDA.w $0E80, X : LSR A
     
     CPY.b #$02 : BCC .moving_horizontally
     
@@ -48,7 +48,7 @@ Sprite_Crab:
     
     .moving_horizontally
     
-    AND.b #$01 : STA $0DC0, X
+    AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -81,7 +81,7 @@ Crab_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA $06
     
     PHX
     

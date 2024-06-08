@@ -13,14 +13,14 @@
 ; $0F4274-$0F42B3 JUMP LOCATION
 Sprite_Flame:
 {
-    LDA $0DF0, X : BNE Flame_Halted
+    LDA.w $0DF0, X : BNE Flame_Halted
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
     LDA $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     JSR Sprite3_CheckDamageToPlayer : BCS .hit_something
     
@@ -32,9 +32,9 @@ Sprite_Flame:
     
     .hit_something
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    LDA $0F50, X : AND.b #$3F : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
     
     LDA.b #$2A : JSL Sound_SetSfx2PanLong
     
@@ -61,21 +61,21 @@ Flame_Halted:
     ; \task figure out if this can even happen. (player damaging flame)
     JSL Sprite_CheckDamageFromPlayerLong : BCC .player_didnt_damage
     
-    DEC $0DF0, X : BEQ .self_terminate
+    DEC.w $0DF0, X : BEQ .self_terminate
     
     .player_didnt_damage
     
-    LDA $0DF0, X : DEC A : BNE .still_burning
+    LDA.w $0DF0, X : DEC A : BNE .still_burning
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .still_burning
     
-    LDA $0DF0, X : LSR #3 : TAY
+    LDA.w $0DF0, X : LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     JSL Flame_Draw
     JMP Sprite3_CheckDamageToPlayer
@@ -114,7 +114,7 @@ Flame_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA $08
     
     SEP #$20
     

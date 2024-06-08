@@ -6,10 +6,10 @@ Sprite_Vitreous:
 {
     ; VITREOUS' CODE
     
-    LDA $0F10, X : BEQ .not_blastin_with_lightning
+    LDA.w $0F10, X : BEQ .not_blastin_with_lightning
     
     ; Just hanging out in green slime, right?
-    LDA.b #$03 : STA $0DC0, X
+    LDA.b #$03 : STA.w $0DC0, X
     
     .not_blastin_with_lightning
     
@@ -18,7 +18,7 @@ Sprite_Vitreous:
     JSR Vitreous_SelectVitreolusToActivate
     JSR Sprite4_CheckDamage
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -32,34 +32,34 @@ Sprite_Vitreous:
 ; $0EE4EB-$0EE53C JUMP LOCATION
 Vitreous_Dormant:
 {
-    STZ $0FF8
+    STZ.w $0FF8
     
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
     ; Impervious to everything in this state.
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
     LDA $1A : AND.b #$01 : BNE .dont_prep_lightning
     
-    DEC $0D90, X : BNE .dont_prep_lightning
+    DEC.w $0D90, X : BNE .dont_prep_lightning
     
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
-    LDA.b #$10 : STA $0F10, X
+    LDA.b #$10 : STA.w $0F10, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
-    LDA $0ED0, X : BNE .dont_dislodge
+    LDA.w $0ED0, X : BNE .dont_dislodge
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    LDA.b #$35 : STA $012E
+    LDA.b #$35 : STA.w $012E
     
     RTS
     
@@ -74,7 +74,7 @@ Vitreous_Dormant:
     
     .pulsate_in_slime
     
-    TYA : STA $0DC0, X
+    TYA : STA.w $0DC0, X
     
     RTS
 }
@@ -95,19 +95,19 @@ Vitreous_Dormant:
 ; $0EE549-$0EE588 JUMP LOCATION
 Vitreous_SpewLightning:
 {
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
-    LDA $0DF0, X : BNE .check_lightning
+    LDA.w $0DF0, X : BNE .check_lightning
     
-    LDA.b #$10 : STA $0F10, X
+    LDA.b #$10 : STA.w $0F10, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     ; Indexed off of how many homies we have left. Less means lightning
     ; more frequently.
-    LDY $0ED0, X
+    LDY.w $0ED0, X
     
-    LDA .lightning_timers, Y : STA $0D90, X
+    LDA .lightning_timers, Y : STA.w $0D90, X
 
     RTS
     
@@ -126,13 +126,13 @@ Vitreous_SpewLightning:
     
     .dont_lightning
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     JSR Sprite4_IsToRightOfPlayer
     
     LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCC .set_animation_state
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     .set_animation_state
     
@@ -160,12 +160,12 @@ Vitreous_PursuePlayer:
     JSR Vitreous_Animate
     JSR Sprite4_CheckIfRecoiling
     
-    LDA $0DF0, X : BEQ .bouncing_around
+    LDA.w $0DF0, X : BEQ .bouncing_around
     
     ; Shake a bit before coming out to face the player.
     AND.b #$02 : LSR A : TAY
     
-    LDA .x_shake_speeds, Y : STA $0D50, X
+    LDA .x_shake_speeds, Y : STA.w $0D50, X
     
     JSR Sprite4_MoveHoriz
     
@@ -176,13 +176,13 @@ Vitreous_PursuePlayer:
     JSR Sprite4_MoveXyz
     JSR Sprite4_CheckTileCollision
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
     LDA.b #$10
     
@@ -200,17 +200,17 @@ Vitreous_PursuePlayer:
 ; $0EE5DA-$0EE601 LOCAL JUMP LOCATION
 Vitreous_SelectVitreolusToActivate:
 {
-    INC $0E80, X : LDA $0E80, X : AND.b #$3F : BNE .delay
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$3F : BNE .delay
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
     LDA.w $E5CA, Y : TAY
-    LDA $0D80, Y : BNE .already_activated
+    LDA.w $0D80, Y : BNE .already_activated
     
     
-    INC A : STA $0D80, Y
+    INC A : STA.w $0D80, Y
     
-    LDA.b #$15 : STA $012E
+    LDA.b #$15 : STA.w $012E
     
     .delay
     
@@ -219,7 +219,7 @@ Vitreous_SelectVitreolusToActivate:
     .already_activated
     
     ; Decrease this counter by one so we can try again on the next frame.
-    DEC $0E80, X
+    DEC.w $0E80, X
     
     RTS
 }
@@ -245,26 +245,26 @@ Sprite_SpawnLightning:
     
     LDA.b #$BF : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA.b #$26 : STA $012F
+    LDA.b #$26 : STA.w $012F
     
     JSL Sprite_SetSpawnedCoords
     
-    JSL GetRandomInt : AND.b #$07 : STA $0D90, Y
+    JSL GetRandomInt : AND.b #$07 : STA.w $0D90, Y
     
     PHX
     
     TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : ADC.b #$0C : STA $0D00, Y
+    LDA $02 : ADC.b #$0C : STA.w $0D00, Y
     
     PLX
     
-    LDA.b #$02 : STA $0DF0, Y
+    LDA.b #$02 : STA.w $0DF0, Y
     
-    LDA.b #$20 : STA $0FF9
+    LDA.b #$20 : STA.w $0FF9
     
     .spawn_failed
     
@@ -288,11 +288,11 @@ Vitreous_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #$E656 : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$E656 : STA $08
     
-    LDA $0D80, X : AND.w #$00FF : CMP.w #2 : BNE .use_standard_oam_region
+    LDA.w $0D80, X : AND.w #$00FF : CMP.w #2 : BNE .use_standard_oam_region
     
-    LDA $0DD0, X : AND.w #$00FF : CMP.w #9 : BNE .use_standard_oam_region
+    LDA.w $0DD0, X : AND.w #$00FF : CMP.w #9 : BNE .use_standard_oam_region
     
     ; This is a high priority oam region (start of oam is like that!).
     LDA.w #$0800 : STA $90
@@ -305,11 +305,11 @@ Vitreous_Draw:
     
     LDA.b #$04 : JSR Sprite4_DrawMultiple
     
-    LDA $0D80, X : CMP.b #$02 : BNE .not_bouncing
+    LDA.w $0D80, X : CMP.b #$02 : BNE .not_bouncing
     
     ; If vitreous is out and bouncing around, use a different palette.
     ;
-    LDA $0B89, X : AND.b #$F1 : STA $0B89, X
+    LDA.w $0B89, X : AND.b #$F1 : STA.w $0B89, X
     
     JSL Sprite_DrawVariableSizedShadow
     

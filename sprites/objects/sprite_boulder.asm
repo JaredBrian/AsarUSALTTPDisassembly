@@ -31,7 +31,7 @@ Sprite_Boulder:
     LDA $1B : BEQ Boulder_Main
     
     ; Check if we can draw.
-    LDA $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
     JSL Sprite_PrepAndDrawSingleSmallLong ; $06DBF8
     
@@ -39,7 +39,7 @@ Sprite_Boulder:
     
     JSR Sprite4_CheckIfActive ; $E8A2
     
-    LDA $1A : ASL #2 : AND.b #$C0 : ORA.b #$00 : STA $0F50, X
+    LDA $1A : ASL #2 : AND.b #$C0 : ORA.b #$00 : STA.w $0F50, X
     
     JSR Sprite4_MoveXyz ; $E948
     
@@ -47,11 +47,11 @@ Sprite_Boulder:
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0004
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0004
     
     CMP.w #$0010 : BCS .player_not_close
     
-    LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$FFFC
+    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$FFFC
     
     CMP.w #$000C : BCS .player_not_close
     
@@ -67,7 +67,7 @@ Sprite_Boulder:
     
     JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision ; $8094
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .no_tile_collision
     .delay
@@ -81,37 +81,37 @@ Sprite_Boulder:
 Boulder_Main:
 {
     ; Uses super priority for oam.
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     JSR Boulder_Draw
     JSR Sprite4_CheckIfActive
     
-    LDA $0E80, X : SEC : SBC !animation_step_polarity, X : STA $0E80, X
+    LDA.w $0E80, X : SEC : SBC !animation_step_polarity, X : STA.w $0E80, X
     
     JSR Sprite4_CheckDamage
     JSR Sprite4_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
     ; Once the boulder hits the ground, we have to select new xyz speeds
     ; for it (in other words, it bounces or tumbles periodically).
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     JSR Sprite4_CheckTileCollision
     
     LDY.b #$00
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
     INY
     
     .no_tile_collision
     
-    LDA .z_speeds, Y : STA $0F80, X
+    LDA .z_speeds, Y : STA.w $0F80, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSL GetRandomInt : AND.b #$01 : BEQ .bounce_right
     
@@ -120,7 +120,7 @@ Boulder_Main:
     
     .bounce_right
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
     ; Choose the next polarity for the animation counter to step (Could
     ; end up the same as previous. It's random.)
@@ -197,7 +197,7 @@ Pool_Sprite_DrawLargeShadow:
 Boulder_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0E80, X : LSR #3 : AND.b #$03 : REP #$20 : ASL #5
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : REP #$20 : ASL #5
     
     ADC.w #(.oam_groups) : STA $08
     
@@ -225,7 +225,7 @@ Sprite_DrawLargeShadow:
     
     PHB : PHK : PLB
     
-    LDA $0F70, X : LSR #3 : TAY
+    LDA.w $0F70, X : LSR #3 : TAY
     
     CPY.b #$04 : BCC .dont_use_smallest
     
@@ -233,7 +233,7 @@ Sprite_DrawLargeShadow:
     
     .dont_use_smallest
     
-    LDA $0F70, X : STA $0E
+    LDA.w $0F70, X : STA $0E
                    STZ $0F
     
     LDA .multiples_of_24, Y : STA $00
@@ -241,7 +241,7 @@ Sprite_DrawLargeShadow:
     
     REP #$20
     
-    LDA $0FDA : CLC : ADC $0E : STA $0FDA
+    LDA.w $0FDA : CLC : ADC $0E : STA.w $0FDA
     
     LDA $90 : CLC : ADC.w #$0010 : STA $90
     

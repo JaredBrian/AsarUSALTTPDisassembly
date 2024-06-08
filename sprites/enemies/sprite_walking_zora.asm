@@ -12,23 +12,23 @@ Sprite_WalkingZora:
 {
     ; Walking Zora
     
-    LDA $0EA0, X : BEQ .not_recoiling
+    LDA.w $0EA0, X : BEQ .not_recoiling
     
     ; Overrides the recoiling logic that many sprites would typically use.
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
-    LDA.b #$03 : STA $0DA0, X
-    LDA.b #$C0 : STA $0ED0, X
+    LDA.b #$03 : STA.w $0DA0, X
+    LDA.b #$C0 : STA.w $0ED0, X
     
-    LDA $0F40, X : STA $0D50, X
-    ASL A        : ROR $0D50, X
+    LDA.w $0F40, X : STA.w $0D50, X
+    ASL A        : ROR.w $0D50, X
     
-    LDA $0F30, X : STA $0D40, X
-    ASL A        : ROR $0D40, X
+    LDA.w $0F30, X : STA.w $0D40, X
+    ASL A        : ROR.w $0D40, X
     
     .not_recoiling
     
-    LDA $0DA0, X
+    LDA.w $0DA0, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -46,13 +46,13 @@ WalkingZora_Waiting:
     JSL Sprite_PrepOamCoordLong
     JSR Sprite2_CheckIfActive
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
     .delay
     
@@ -67,17 +67,17 @@ WalkingZora_Surfacing:
     JSR Zora_Draw
     JSR Sprite2_CheckIfActive
     
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
-    LDA.b #$30 : STA $0F80, X
+    LDA.b #$30 : STA.w $0F80, X
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0DE0, X : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
     RTS
     
@@ -85,7 +85,7 @@ WalkingZora_Surfacing:
     
     LSR #3 : TAY
     
-    LDA Zora_Surfacing.animation_states, Y : STA $0DC0, X
+    LDA Zora_Surfacing.animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -95,20 +95,20 @@ WalkingZora_Surfacing:
 ; $029DD6-$029E65 JUMP LOCATION
 WalkingZora_Ambulating:
 {
-    LDA $0E80, X : AND.b #$08 : LSR A : ADC $0DE0, X : TAY
+    LDA.w $0E80, X : AND.b #$08 : LSR A : ADC.w $0DE0, X : TAY
     
-    LDA Sprite_Recruit.animation_states, Y : STA $0DC0, X
+    LDA Sprite_Recruit.animation_states, Y : STA.w $0DC0, X
     
     JSR WalkingZora_Draw
     JSR Sprite2_CheckIfActive
     JSR Sprite2_CheckDamage
     JSR Sprite2_MoveAltitude
     
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA $0F70, X : DEC A : BPL .in_air
+    LDA.w $0F70, X : DEC A : BPL .in_air
     
-    LDA $0F80, X : CMP.b #$F0 : BPL .beta
+    LDA.w $0F80, X : CMP.b #$F0 : BPL .beta
     
     ; Hold x / y velocities at zero while the Zora is popping out of the
     ; water.
@@ -116,16 +116,16 @@ WalkingZora_Ambulating:
     
     .beta
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
     TXA : EOR $1A : AND.b #$0F : BNE .delay
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
     
     TXA : EOR $1A : AND.b #$1F : BNE .delay
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     LDA.b #$08 : JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -135,22 +135,22 @@ WalkingZora_Ambulating:
     JSR Sprite2_Move
     JSR Sprite2_CheckTileCollision
     
-    LDA $0F70, X : DEC A : BPL .in_air_2
+    LDA.w $0F70, X : DEC A : BPL .in_air_2
     
     JSR WalkingZora_DetermineShadowStatus
     
-    LDA $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
+    LDA.w $0FA5 : CMP.b #$08 : BNE .not_in_deep_water
     
     JSL Sprite_SelfTerminate
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$03 : STA $0DD0, X
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$03 : STA.w $0DD0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$03 : STA $0E40, X
+    LDA.b #$03 : STA.w $0E40, X
     
     .not_in_deep_water
     .in_air_2
@@ -172,47 +172,47 @@ WalkingZora_Depressed:
     LDA $1A : AND.b #$03 : BNE .delay
     
     ; Decrement the depression timer...
-    DEC $0ED0, X : BNE .delay
+    DEC.w $0ED0, X : BNE .delay
     
-    LDA.b #$02 : STA $0DA0, X
+    LDA.b #$02 : STA.w $0DA0, X
     
-    LDY $0DD0, X
+    LDY.w $0DD0, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
     CPY.b #$0A : BNE .not_being_carried
     
-    STZ $0308
-    STZ $0309
+    STZ.w $0308
+    STZ.w $0309
     
     .not_being_carried
     .delay
     
-    LDA $0ED0, X : CMP.b #$30 : BCS .beta
+    LDA.w $0ED0, X : CMP.b #$30 : BCS .beta
     
     LDA $1A : AND.b #$01 : BNE .beta
     
     LDA $1A : LSR A : AND.b #$01 : TAY
     
     ; Kind of a bit incestual data referencing there, amirite? >8^/
-    LDA ZoraKing_RumblingGround.offsets_low, Y : CLC : ADC $0D10, X : STA $0D10, X
-    LDA .offsets_x_high, Y                     : ADC $0D30, X : STA $0D30, X
+    LDA ZoraKing_RumblingGround.offsets_low, Y : CLC : ADC.w $0D10, X : STA.w $0D10, X
+    LDA .offsets_x_high, Y                     : ADC.w $0D30, X : STA.w $0D30, X
     
     .beta
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    STZ $0E70, X
+    STZ.w $0E70, X
     
     JSR WalkingZora_DrawWaterRipple
     
-    DEC $0E40, X : DEC $0E40, X
+    DEC.w $0E40, X : DEC.w $0E40, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    INC $0E40, X : INC $0E40, X
+    INC.w $0E40, X : INC.w $0E40, X
     
-    STZ $0EC0, X
+    STZ.w $0EC0, X
     
     JSR Sprite2_CheckIfActive
     JSR Sprite2_CheckIfRecoiling
@@ -222,13 +222,13 @@ WalkingZora_Depressed:
     ; $029EDB ALTERNATE ENTRY POINT
     shared WalkingZora_DetermineShadowStatus:
     
-    STZ $0EC0, X
+    STZ.w $0EC0, X
     
-    LDA $0F70, X : BNE .in_the_air
+    LDA.w $0F70, X : BNE .in_the_air
     
-    LDA $0FA5 : CMP.b #$09 : BNE .not_in_shallow_water
+    LDA.w $0FA5 : CMP.b #$09 : BNE .not_in_shallow_water
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     .not_in_shallow_water
     .in_the_air
@@ -267,7 +267,7 @@ WalkingZora_Draw:
     
     LDY.b #$00
     
-    LDA $0DC0, X : STA $06 : CMP.b #$04 : BCS .certain_animation_frame
+    LDA.w $0DC0, X : STA $06 : CMP.b #$04 : BCS .certain_animation_frame
     
     LSR A
     
@@ -281,7 +281,7 @@ WalkingZora_Draw:
     
     PHX
     
-    LDA $0EB0, X : TAX
+    LDA.w $0EB0, X : TAX
     
     REP #$20
     
@@ -333,7 +333,7 @@ WalkingZora_Draw:
     
     ; Flag being set means we're in shallow water... and the ripples are
     ; probably drawn instead?
-    LDA $0EC0, X : BNE .dont_draw_shadow
+    LDA.w $0EC0, X : BNE .dont_draw_shadow
     
     JSL Sprite_DrawShadowLong
     
@@ -366,7 +366,7 @@ Pool_Sprite_DrawWaterRipple:
 ; $029FE0-$029FF9 LOCAL JUMP LOCATION
 WalkingZora_DrawWaterRipple:
 {
-    LDA $0EC0, X : BEQ .not_in_shallow_water
+    LDA.w $0EC0, X : BEQ .not_in_shallow_water
     
     ; $029FE5 ALTERNATE ENTRY POINT
     shared Sprite_AutoIncDrawWaterRipple:

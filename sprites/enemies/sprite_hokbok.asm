@@ -4,7 +4,7 @@
 ; $0EC64F-$0EC699 JUMP LOCATION
 Sprite_Hokbok:
 {
-    LDA $0DB0, X : BEQ Hokbok_Main
+    LDA.w $0DB0, X : BEQ Hokbok_Main
     
     ; \note Label is purely informative.
     shared Sprite_Ricochet:
@@ -14,13 +14,13 @@ Sprite_Hokbok:
     JSR Sprite4_CheckDamage
     JSR Sprite4_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .no_ground_bounce
+    LDA.w $0F70, X : BPL .no_ground_bounce
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     .no_ground_bounce
     
@@ -30,13 +30,13 @@ Sprite_Hokbok:
     
     .no_tile_collision
     
-    LDA $0ED0, X : CMP.b #$03 : BCC .not_quite_dead
+    LDA.w $0ED0, X : CMP.b #$03 : BCC .not_quite_dead
     
-    LDA.b #$06 : STA $0DD0, X
+    LDA.b #$06 : STA.w $0DD0, X
     
-    LDA.b #$0A : STA $0DF0, X
+    LDA.b #$0A : STA.w $0DF0, X
     
-    STZ $0BE0, X
+    STZ.w $0BE0, X
     
     LDA.b #$1E : JSL Sound_SetSfx2PanLong
     
@@ -56,54 +56,54 @@ Hokbok_Main:
     JSR Hokbok_Draw
     JSR Sprite4_CheckIfActive
     
-    LDA $0EA0, X : BEQ .dont_remove_segment
+    LDA.w $0EA0, X : BEQ .dont_remove_segment
     
-    LDY $0D90, X : BEQ .dont_remove_segment
+    LDY.w $0D90, X : BEQ .dont_remove_segment
     
     CMP.b #$0F : BNE .dont_remove_segment
     
-    LDA.b #$06 : STA $0EA0, X
+    LDA.b #$06 : STA.w $0EA0, X
     
-    LDA $0F70, X : CLC : ADC $0DA0, X : STA $0F70, X
+    LDA.w $0F70, X : CLC : ADC.w $0DA0, X : STA.w $0F70, X
     
-    DEC $0D90, X : BNE .dont_reset_head_hp
+    DEC.w $0D90, X : BNE .dont_reset_head_hp
     
     ; \note Apparently, the sprite's health gets restored to full once
     ; all of the other segments are picked off. This is somewhat analogous
     ; to how the last Armos Knight gets a health refill when they turn red.
-    LDA.b #$11 : STA $0E50, X
+    LDA.b #$11 : STA.w $0E50, X
     
     .dont_reset_head_hp
     
-    LDA $0D50, X : BPL .positive_x_speed
+    LDA.w $0D50, X : BPL .positive_x_speed
     
     SEC : SBC.b #$08
     
     .positive_x_speed
     
-    CLC : ADC.b #$04 : STA $0D50, X
+    CLC : ADC.b #$04 : STA.w $0D50, X
     
-    LDA $0D40, X : BPL .positive_y_speed
+    LDA.w $0D40, X : BPL .positive_y_speed
     
     SEC : SBC.b #$08
     
     .positive_y_speed
     
-    CLC : ADC.b #$04 : STA $0D40, X
+    CLC : ADC.b #$04 : STA.w $0D40, X
     
     ; Spawn a Ricochet sprite since a segment was knocked off of the Hokbok.
     LDA.b #$C7 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$01 : STA $0DB0, Y
-                 STA $0E50, Y
+    LDA.b #$01 : STA.w $0DB0, Y
+                 STA.w $0E50, Y
     
-    LDA $0F40, X : STA $0D50, Y
+    LDA.w $0F40, X : STA.w $0D50, Y
     
-    LDA $0F30, X : STA $0D40, Y
+    LDA.w $0F30, X : STA.w $0D40, Y
     
-    LDA.b #$40 : STA $0CAA, Y
+    LDA.b #$40 : STA.w $0CAA, Y
     
     .spawn_failed
     .dont_remove_segment
@@ -111,7 +111,7 @@ Hokbok_Main:
     JSR Sprite4_CheckIfRecoiling
     JSR Sprite4_CheckDamage
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -133,11 +133,11 @@ Pool_Hokbok_ResetBounceVelocity:
 ; $0EC721-$0EC737 JUMP LOCATION
 Hokbok_ResetBounceVelocity:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
     RTS
     
@@ -145,7 +145,7 @@ Hokbok_ResetBounceVelocity:
     
     LSR A : TAY
     
-    LDA .spacing_amounts, Y : STA $0DA0, X
+    LDA .spacing_amounts, Y : STA.w $0DA0, X
     
     RTS
 }
@@ -157,15 +157,15 @@ Hokbok_Moving:
 {
     JSR Sprite4_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .no_ground_bounce
+    LDA.w $0F70, X : BPL .no_ground_bounce
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
     .no_ground_bounce
     
@@ -174,17 +174,17 @@ Hokbok_Moving:
     
     JSR Sprite4_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .no_horiz_collision
     
-    LDA $0E70, X : AND.b #$0C : BEQ .no_vert_collision
+    LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .no_vert_collision
     
@@ -212,12 +212,12 @@ Hokbok_Draw:
 {
     JSR Sprite4_PrepOamCoord
     
-    LDA $0DA0, X : STA $06
+    LDA.w $0DA0, X : STA $06
                    STZ $07
     
     PHX
     
-    LDA $0D90, X : TAX
+    LDA.w $0D90, X : TAX
     
     TYA : CLC : ADC.b #$0C : TAY
     

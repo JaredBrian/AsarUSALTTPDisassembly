@@ -138,19 +138,19 @@ OAM_GetBufferPosition:
     ; Hidden argument? (Not sure?) It is either 0 or 1, based on input from $0FB3 (sort sprites variable)
     
     STA $0E
-    STZ $000F
+    STZ.w $000F
     
     REP #$20
     
     ; ($0FE0[0x10] is some kind of OAM allocator table)
-    LDA $0FE0, Y : STA $90 : CLC : ADC $0E : CMP .limits, Y : BCC .within_limit
+    LDA.w $0FE0, Y : STA $90 : CLC : ADC $0E : CMP .limits, Y : BCC .within_limit
     ; (Sprite overflow, doesn't happen very often)
     ; (I think what happens is it resets the OAM buffer)
     STY $0C
     STZ $0D
     
     ; wtf...
-    LDA $0FEC, Y : PHA : INC A : STA $0FEC, Y
+    LDA.w $0FEC, Y : PHA : INC A : STA.w $0FEC, Y
     
     PLA : AND.w #$0007 : ASL A : STA $0E
     
@@ -169,7 +169,7 @@ OAM_GetBufferPosition:
     
     .within_limit
     
-    STA $0FE0, Y ; Store the new position in the OAM region
+    STA.w $0FE0, Y ; Store the new position in the OAM region
     
     .moving_on
     

@@ -18,21 +18,21 @@ Sprite_Agahnim:
 {
     JSR AgahDraw ; $D978 ; $0F5978 IN ROM
     
-    LDA $0F00, X : BEQ .BRANCH_ALPHA
-    LDA.b #$20 : STA $0DF0, X
+    LDA.w $0F00, X : BEQ .BRANCH_ALPHA
+    LDA.b #$20 : STA.w $0DF0, X
     
-    LDA.b #$00 : STA $0DC0, X
+    LDA.b #$00 : STA.w $0DC0, X
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
     .BRANCH_ALPHA
     
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -62,12 +62,12 @@ Sprite_Agahnim:
 
 ; $0F5376-$0F53D9 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA ; Is the timer still going?
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA ; Is the timer still going?
     
     ; Time is done. Kill Agahnim.
     PHX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL PrepDungeonExit
     
@@ -76,7 +76,7 @@ Sprite_Agahnim:
     .BRANCH_ALPHA
     
     ; If Timer > #$10, branch
-    LDA $0DF0, X : CMP.b #$10 : BCS .BRANCH_BETA
+    LDA.w $0DF0, X : CMP.b #$10 : BCS .BRANCH_BETA
     
     LDA.b #$7F : STA $9A
     
@@ -91,27 +91,27 @@ Sprite_Agahnim:
     
     .BRANCH_BETA
     
-    LDA $0DF0, X : AND.b #$00 : BNE .BRANCH_GAMMA
+    LDA.w $0DF0, X : AND.b #$00 : BNE .BRANCH_GAMMA
     
-    LDA $0F80, X : CMP.b #$FF : BEQ .BRANCH_GAMMA
+    LDA.w $0F80, X : CMP.b #$FF : BEQ .BRANCH_GAMMA
     
-    CLC : ADC.b #$01 : STA $0F80, X
+    CLC : ADC.b #$01 : STA.w $0F80, X
     
     .BRANCH_GAMMA
     
-    LDA $0F90, X : CLC : ADC $0F80, X : STA $0F90, X : BCC .BRANCH_DELTA
+    LDA.w $0F90, X : CLC : ADC.w $0F80, X : STA.w $0F90, X : BCC .BRANCH_DELTA
     
-    INC $0E80, X : LDA $0E80, X : CMP.b #$07 : BNE .BRANCH_DELTA
+    INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$07 : BNE .BRANCH_DELTA
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     LDA.b #$04 : JSL Sound_SetSfx2PanLong
     
     .BRANCH_DELTA
     
-    LDY $0E80, X
+    LDY.w $0E80, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -120,13 +120,13 @@ Sprite_Agahnim:
 
 ; $0F53DA-$0F5407 JUMP LOCATION
 {
-    LDA.b #$02 : STA $0FFC
+    LDA.b #$02 : STA.w $0FFC
     
-    STZ $0EB0, X
+    STZ.w $0EB0, X
     
-    LDA $0DF0, X : CMP.b #$40 : BCC .BRANCH_ALPHA
+    LDA.w $0DF0, X : CMP.b #$40 : BCC .BRANCH_ALPHA
     
-    LDA $0EF0, X : ORA.b #$E0 : STA $0EF0, X
+    LDA.w $0EF0, X : ORA.b #$E0 : STA.w $0EF0, X
     
     RTS
     
@@ -136,36 +136,36 @@ Sprite_Agahnim:
     
     JSL Sprite_SpawnPhantomGanon
     
-    LDA.b #$1D : STA $012C
+    LDA.b #$1D : STA.w $012C
     
     .BRANCH_BETA
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA.b #$11 : STA $0DC0, X
+    LDA.b #$11 : STA.w $0DC0, X
     
     RTS
 }
 
 ; $0F5408-$0F545D JUMP LOCATION
 {
-    STZ $0EB0, X
+    STZ.w $0EB0, X
     
-    LDA $0D10 : STA $04
-    LDA $0D30 : STA $05
+    LDA.w $0D10 : STA $04
+    LDA.w $0D30 : STA $05
     
-    LDA $0D00 : STA $06
-    LDA $0D20 : STA $07
+    LDA.w $0D00 : STA $06
+    LDA.w $0D20 : STA $07
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
-    LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
     SEP #$20
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_ALPHA
     
@@ -175,9 +175,9 @@ Sprite_Agahnim:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     JSR Sprite3_Move
     JSL Sprite_SpawnAgahnimAfterImage
@@ -189,18 +189,18 @@ Sprite_Agahnim:
 
 ; $0F545E-$0F5479 JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     ; "I'm very happy to see you again... but you better believe we will"
     ; "will not have a third meeting! ..."
-    LDA.b #$41 : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$41 : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     .delay
     
@@ -219,26 +219,26 @@ Sprite_Agahnim:
 
 ; $0F547C-$0F54A6 JUMP LOCATION
 {
-    LDA $0EC0, X : BEQ .BRANCH_$F54A9
+    LDA.w $0EC0, X : BEQ .BRANCH_$F54A9
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    JMP $D509 ; $0F5509 IN ROM
+    JMP.w $D509 ; $0F5509 IN ROM
     
     .BRANCH_ALPHA
     
     ; Each of the clones has its own x speed at the start... I guess
     ; that's what is going on here.
-    LDA.w $D479, X : STA $0D50, X
+    LDA.w $D479, X : STA.w $0D50, X
     
     ; And speed up the y velocity.
-    LDA $0D40, X : CLC : ADC.b #$02 : STA $0D40, X
+    LDA.w $0D40, X : CLC : ADC.b #$02 : STA.w $0D40, X
     
     JSR Sprite3_Move
     
     JSL Sprite_SpawnAgahnimAfterImage : BMI .BRANCH_BETA
     
-    LDA.b #$04 : STA $0F50, Y
+    LDA.b #$04 : STA.w $0F50, Y
     
     .BRANCH_BETA
     
@@ -258,17 +258,17 @@ Sprite_Agahnim:
 
 ; $0F54A9-$0F54E9 BRANCH LOCATION
 {
-    LDA $0DF0, X : BNE .ai_transition_delay
+    LDA.w $0DF0, X : BNE .ai_transition_delay
     
-    JMP $D509 ; $0F5509 IN ROM
+    JMP.w $D509 ; $0F5509 IN ROM
     
     .ai_transition_delay
     
     CMP.b #$40 : BNE .cloning_delay
     
-    LDA.b #$28 : STA $012F
+    LDA.b #$28 : STA.w $012F
     
-    LDA.b #$01 : STA $0FB5
+    LDA.b #$01 : STA.w $0FB5
     
     .clone_spawn_loop
     
@@ -278,15 +278,15 @@ Sprite_Agahnim:
     JSL Sprite_SpawnDynamically.arbitrary
     JSL Sprite_SetSpawnedCoords
     
-    LDA .special_properties, Y : STA $0E60, Y
+    LDA .special_properties, Y : STA.w $0E60, Y
     
-    AND.b #$0F : STA $0F50, Y : STA $0EC0, Y
+    AND.b #$0F : STA.w $0F50, Y : STA.w $0EC0, Y
     
-    LDA $0D80, X : STA $0D80, Y
+    LDA.w $0D80, X : STA.w $0D80, Y
     
-    LDA.b #$20 : STA $0DF0, Y
+    LDA.b #$20 : STA.w $0DF0, Y
     
-    DEC $0FB5 : BPL .clone_spawn_loop
+    DEC.w $0FB5 : BPL .clone_spawn_loop
     
     .cloning_delay
     
@@ -307,9 +307,9 @@ Sprite_Agahnim:
 Agah1or2:
 {
     ; Check if we are in the LW or DW. If dark world go to agah 2 instead.
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA .ai_states, Y : STA $0D80, X
+    LDA .ai_states, Y : STA.w $0D80, X
     
     RTS
 }
@@ -317,27 +317,27 @@ Agah1or2:
 ; $0F54F6-$0F551E JUMP LOCATION
 Agah1Inro:
 {
-    LDA $0DF0, X : BNE .dontShowIntroMessage ; (RTS)
+    LDA.w $0DF0, X : BNE .dontShowIntroMessage ; (RTS)
     
     ; Oh, so?...  You mean to say you would like to be totally destroyed?  Well, I can make your wish come true!
-    LDA.b #$3F : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$3F : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
     ; $0F5509 ALTERNATE ENTRY POINT
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
 
 ; $0F5514-$0F551E LOCAL JUMP LOCATION
 
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    LDA.b #$27 : STA $0DF0, X
+    LDA.b #$27 : STA.w $0DF0, X
     
     .dontShowIntroMessage
     RTS
@@ -357,12 +357,12 @@ Agah1Inro:
 ; $0F5524-$0F553F JUMP LOCATION
 WaitToAttack:
 {
-    STZ $0FF8
+    STZ.w $0FF8
     
-    LDA $0DF0, X : BNE .delay
-    INC $0D80, X
+    LDA.w $0DF0, X : BNE .delay
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
     
@@ -370,7 +370,7 @@ WaitToAttack:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -397,7 +397,7 @@ WaitToAttack:
 ; $0F5566-$0F560A JUMP LOCATION
 AttachThenFadeToBlack:
 {
-    LDA $0DF0, X : CMP.b #$C0 : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : CMP.b #$C0 : BNE .BRANCH_ALPHA
     PHA
     
     LDA.b #$27 : JSL Sound_SetSfx3PanLong
@@ -430,14 +430,14 @@ AttachThenFadeToBlack:
     TXA : BNE .BRANCH_EPSILON
         JSR Sprite3_CheckDamage
     
-        STZ $0BA0, X
+        STZ.w $0BA0, X
     
     .BRANCH_EPSILON
     
-    LDA $0DF0, X : BNE .BRANCH_ZETA
-    INC $0D80, X
+    LDA.w $0DF0, X : BNE .BRANCH_ZETA
+    INC.w $0D80, X
     
-    LDA.b #$27 : STA $0DF0, X
+    LDA.b #$27 : STA.w $0DF0, X
     
     RTS
     
@@ -456,12 +456,12 @@ AttachThenFadeToBlack:
         
     ASL #2 : ADC $02 : ADC.b #$02 : CLC : ADC $01 : TAY
         
-    LDA.w $D310, Y : STA $0DE0, X
+    LDA.w $D310, Y : STA.w $0DE0, X
         
     LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
         
-    LDA $0E30, X : CMP.b #$04 : BNE .BRANCH_IOTA
-        LDA.b #$03 : STA $0DE0, X
+    LDA.w $0E30, X : CMP.b #$04 : BNE .BRANCH_IOTA
+        LDA.b #$03 : STA.w $0DE0, X
     
     .BRANCH_IOTA
     
@@ -480,22 +480,22 @@ AttachThenFadeToBlack:
     
     LSR #4 : TAY
     
-    LDA.w $D540, Y : STA $0D90, X
+    LDA.w $D540, Y : STA.w $0D90, X
     
     LDA.w $D550, Y : BEQ .BRANCH_LAMBDA
     CLC
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    ADC $D560, Y
+    ADC.w $D560, Y
     
     .BRANCH_LAMBDA
     
-    STA $0EB0, X
+    STA.w $0EB0, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA.w $D329, Y : CLC : ADC $0D90, X : STA $0DC0, X
+    LDA.w $D329, Y : CLC : ADC.w $0D90, X : STA.w $0DC0, X
     
     RTS
 }
@@ -524,20 +524,20 @@ AttachThenFadeToBlack:
 ; $0F5630-$0F5667 JUMP LOCATION
 SetTargetPos:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay 
-    INC $0D80, X
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay 
+    INC.w $0D80, X
         
     LDY.b #$04
         
-    LDA $0E30, X : CMP.b #$04 : BEQ .BRANCH_BETA
+    LDA.w $0E30, X : CMP.b #$04 : BEQ .BRANCH_BETA
         JSL GetRandomInt : AND.b #$0F : TAY
     
     .BRANCH_BETA
     
-    LDA .targetXPos, Y : STA $0DB0, X
-    LDA .targetYPos, Y : STA $0E90, X
+    LDA .targetXPos, Y : STA.w $0DB0, X
+    LDA .targetYPos, Y : STA.w $0E90, X
         
-    LDA.b #$08 : STA $0ED0, X
+    LDA.b #$08 : STA.w $0ED0, X
         
     RTS
     
@@ -545,7 +545,7 @@ SetTargetPos:
     
     LSR #3 : TAY
     
-    LDA.w $D60B, Y : STA $0DC0, X
+    LDA.w $D60B, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -572,21 +572,21 @@ DoLightningAttack:
 {
     CPX.b #$00 : BNE .BRANCH_ALPHA
     
-    INC $0E30, X
+    INC.w $0E30, X
     
-    LDA $0FFF : BEQ .BRANCH_ALPHA
+    LDA.w $0FFF : BEQ .BRANCH_ALPHA
     
-    LDA $0E30, X : AND.b #$03 : STA $0E30, X
+    LDA.w $0E30, X : AND.b #$03 : STA.w $0E30, X
     
     .BRANCH_ALPHA
     
-    LDA $0E30, X : CMP.b #$05 : BNE .BRANCH_BETA
+    LDA.w $0E30, X : CMP.b #$05 : BNE .BRANCH_BETA
     
-    STZ $0E30, X
+    STZ.w $0E30, X
     
     LDA.b #$26 : JSL Sound_SetSfx3PanLong
     
-    JSR $D6A1 ; $0F56A1 IN ROM
+    JSR.w $D6A1 ; $0F56A1 IN ROM
     
     ; $0F56A1 ALTERNATE ENTRY POINT
     
@@ -605,26 +605,26 @@ DoLightningAttack:
     
     PHX
     
-    LDA $0DE0, X : TAX
+    LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X : STA $0D00, Y
-    LDA $03 : ADC.b #$FF   : STA $0D20, Y
-                             STA $0BA0, Y
+    LDA $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
+    LDA $03 : ADC.b #$FF   : STA.w $0D20, Y
+                             STA.w $0BA0, Y
     
     PLX
     
-    LDA $0D50, X : STA $0D50, Y
-    LDA $0D40, X : STA $0D40, Y
+    LDA.w $0D50, X : STA.w $0D50, Y
+    LDA.w $0D40, X : STA.w $0D40, Y
     
-    LDA $0E30, X : CMP.b #$02 : BCC .BRANCH_GAMMA
+    LDA.w $0E30, X : CMP.b #$02 : BCC .BRANCH_GAMMA
     
     JSL GetRandomInt : AND.b #$01 : BNE .BRANCH_GAMMA
     
-    LDA.b #$01 : STA $0DA0, Y
-    LDA.b #$20 : STA $0DF0, Y
+    LDA.b #$01 : STA.w $0DA0, Y
+    LDA.b #$20 : STA.w $0DF0, Y
     
     .BRANCH_GAMMA
     .spawn_failed
@@ -635,18 +635,18 @@ DoLightningAttack:
 ; $0F5708-$0F577E JUMP LOCATION
 ShadowSneak:
 {
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D10, X : STA $00
-    LDA $0D30, X : STA $01
+    LDA.w $0D10, X : STA $00
+    LDA.w $0D30, X : STA $01
                STA $05
     
-    LDA $0D00, X : STA $02
-    LDA $0D20, X : STA $03
+    LDA.w $0D00, X : STA $02
+    LDA.w $0D20, X : STA $03
                STA $07
     
-    LDA $0DB0, X : STA $04
-    LDA $0E90, X : STA $06
+    LDA.w $0DB0, X : STA $04
+    LDA.w $0E90, X : STA $06
     
     REP #$20
     
@@ -654,25 +654,25 @@ ShadowSneak:
     LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
         SEP #$20
     
-        LDA $0DB0, X : STA $0D10, X
-        LDA $0E90, X : STA $0D00, X
+        LDA.w $0DB0, X : STA.w $0D10, X
+        LDA.w $0E90, X : STA.w $0D00, X
     
-        JMP $D514 ; $0F5514 IN ROM
+        JMP.w $D514 ; $0F5514 IN ROM
     
     .BRANCH_ALPHA
     
     SEP #$20
     
-    LDA $0ED0, X
+    LDA.w $0ED0, X
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
-    LDA $0ED0, X : CMP.b #$40 : BCS .BRANCH_BETA
-    INC $0ED0, X
+    LDA.w $0ED0, X : CMP.b #$40 : BCS .BRANCH_BETA
+    INC.w $0ED0, X
     
     .BRANCH_BETA
     
@@ -696,7 +696,7 @@ AgahDraw:
 {
     JSR Sprite3_PrepOamCoord
     
-    LDA $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA $06
     
     PHX
     
@@ -708,8 +708,8 @@ AgahDraw:
     
     TXA : CLC : ADC $06 : TAX
     
-    LDA $00      : CLC : ADC $D77F, X       : STA ($90), Y
-    LDA $02      : CLC : ADC $D7C7, X : INY : STA ($90), Y
+    LDA $00      : CLC : ADC.w $D77F, X       : STA ($90), Y
+    LDA $02      : CLC : ADC.w $D7C7, X : INY : STA ($90), Y
     LDA.w $D80F, X                : INY : STA ($90), Y
     LDA.w $D857, X : ORA $05      : INY : STA ($90), Y
     
@@ -732,7 +732,7 @@ AgahDraw:
     
     PLX
     
-    LDA $0DC0, X : CMP.b #$0C : BCS .BRANCH_GAMMA
+    LDA.w $0DC0, X : CMP.b #$0C : BCS .BRANCH_GAMMA
     
     LDA.b #$12
     
@@ -753,7 +753,7 @@ AgahDraw:
     
     LDA.b #$08
     
-    LDY $0DE0, X : BEQ .BRANCH_EPSILON
+    LDY.w $0DE0, X : BEQ .BRANCH_EPSILON
     
     JSL OAM_AllocateFromRegionC
     
@@ -767,7 +767,7 @@ AgahDraw:
     
     LDY.b #$00
     
-    LDA $0EB0, X : BEQ .BRANCH_THETA
+    LDA.w $0EB0, X : BEQ .BRANCH_THETA
     
     DEC A : STA $0C
     
@@ -785,8 +785,8 @@ AgahDraw:
     
     TXA : CLC : ADC $06 : TAX
     
-    LDA $00 : CLC : ADC $D89F, X       : STA ($90), Y
-    LDA $02 : CLC : ADC $D8E7, X : INY : STA ($90), Y
+    LDA $00 : CLC : ADC.w $D89F, X       : STA ($90), Y
+    LDA $02 : CLC : ADC.w $D8E7, X : INY : STA ($90), Y
     
     LDX $0C
     

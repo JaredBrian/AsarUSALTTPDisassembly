@@ -23,11 +23,11 @@ Swamola_InitSegments:
     
     .next_segment
     
-    LDA $0D10, Y : STA.l $7FFA5C, X
-    LDA $0D30, Y : STA.l $7FFB1C, X
+    LDA.w $0D10, Y : STA.l $7FFA5C, X
+    LDA.w $0D30, Y : STA.l $7FFB1C, X
     
-    LDA $0D00, Y : STA.l $7FFBDC, X
-    LDA $0D20, Y : STA.l $7FFC9C, X
+    LDA.w $0D00, Y : STA.l $7FFBDC, X
+    LDA.w $0D20, Y : STA.l $7FFC9C, X
     
     INX
     
@@ -52,7 +52,7 @@ Pool_Sprite_Swamola:
 ; $0E9CB0-$0E9CEC JUMP LOCATION
 Sprite_Swamola:
 {
-    LDA $0D80, X : BEQ .dont_draw
+    LDA.w $0D80, X : BEQ .dont_draw
                    BPL .not_ripples
     
     JMP Sprite_SwamolaRipples
@@ -66,17 +66,17 @@ Sprite_Swamola:
     JSL Sprite_Get_16_bit_CoordsLong
     JSR Sprite4_CheckIfActive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite4_CheckDamage
     
-    LDA $0D40, X : PHA : CLC : ADC $0F80, X : STA $0D40, X
+    LDA.w $0D40, X : PHA : CLC : ADC.w $0F80, X : STA.w $0D40, X
     
     JSR Sprite4_Move
     
-    PLA : STA $0D40, X
+    PLA : STA.w $0D40, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -117,26 +117,26 @@ Pool_Swamola_Submerged:
 ; $0E9D19-$0E9D66 JUMP LOCATION
 Swamola_Emerge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
     ; Seems like a staggering mechanism.
-    LDA .directions, Y : CMP $0DE0, X : BEQ .direction_mismatch
+    LDA .directions, Y : CMP.w $0DE0, X : BEQ .direction_mismatch
     
     TAY
     
-    LDA $0D90, X : CLC : ADC .x_offsets_low,  Y : STA.l $7FFD5C, X
-    LDA $0DA0, X : ADC .x_offsets_high, Y : STA.l $7FFD62, X
+    LDA.w $0D90, X : CLC : ADC .x_offsets_low,  Y : STA.l $7FFD5C, X
+    LDA.w $0DA0, X : ADC .x_offsets_high, Y : STA.l $7FFD62, X
     
-    LDA $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA.l $7FFD68, X
-    LDA $0EB0, X : ADC .y_offsets_high, Y : STA.l $7FFD6E, X
+    LDA.w $0DB0, X : CLC : ADC .y_offsets_low,  Y : STA.l $7FFD68, X
+    LDA.w $0EB0, X : ADC .y_offsets_high, Y : STA.l $7FFD6E, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSR Sprite4_Zero_XY_Velocity
     
-    LDA.b #$F1 : STA $0F80, X
+    LDA.b #$F1 : STA.w $0F80, X
     
     JSR Swamola_SpawnRipples
     
@@ -151,46 +151,46 @@ Swamola_Emerge:
 ; $0E9D67-$0E9DA2 JUMP LOCATION
 Swamola_Ascending:
 {
-    LDA $0E80, X : AND.b #$03 : BNE .delay_upward_acceleration
+    LDA.w $0E80, X : AND.b #$03 : BNE .delay_upward_acceleration
     
-    INC $0F80, X : BNE .delay_state_transition
+    INC.w $0F80, X : BNE .delay_state_transition
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay_state_transition
     .delay_upward_acceleration
     
-    LDA $0E80, X : AND.b #$03 : BNE .delay_speed_checks
+    LDA.w $0E80, X : AND.b #$03 : BNE .delay_speed_checks
     
     JSR Swamola_PursueTargetCoord
     
     ; $0E9D80 ALTERNATE ENTRY POINT
     shared Swamola_ApproachPursuitSpeed:
     
-    LDA $0D40, X : CMP $00 : BEQ .at_target_y_speed
+    LDA.w $0D40, X : CMP $00 : BEQ .at_target_y_speed
                              BPL .above_target_y_speed
     
-    INC $0D40, X
+    INC.w $0D40, X
     
     BRA .check_x_speed
     
     .above_target_y_speed
     
-    DEC $0D40, X
+    DEC.w $0D40, X
     
     .at_target_y_speed
     .check_x_speed
     
-    LDA $0D50, X : CMP $01 : BEQ .at_target_x_speed
+    LDA.w $0D50, X : CMP $01 : BEQ .at_target_x_speed
                              BPL .above_target_x_speed
     
-    INC $0D50, X
+    INC.w $0D50, X
     
     BRA .return
     
     .above_target_x_speed
     
-    DEC $0D50, X
+    DEC.w $0D50, X
     
     .return
     .at_target_x_speed
@@ -218,15 +218,15 @@ Swamola_WiggleTowardsTarget:
 {
     ; \unused The branch can never be taken (though we will end up there
     ; eventually).
-    LDA $0E80, X : AND.b #$00 : BNE .never
+    LDA.w $0E80, X : AND.b #$00 : BNE .never
     
-    LDA $0ED0, X : AND.b #$01 : TAY
+    LDA.w $0ED0, X : AND.b #$01 : TAY
     
-    LDA $0F80, X : CLC : ADC .z_offsets, Y : STA $0F80, X
+    LDA.w $0F80, X : CLC : ADC .z_offsets, Y : STA.w $0F80, X
     
     CMP .z_offset_limits, Y : BNE .anotoggle_wiggle_direction
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .anotoggle_wiggle_direction
     .never
@@ -239,13 +239,13 @@ Swamola_WiggleTowardsTarget:
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
     
-    LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
     
     SEP #$20
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .not_at_target
     
@@ -253,9 +253,9 @@ Swamola_WiggleTowardsTarget:
     
     JSR Swamola_PursueTargetCoord
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     RTS
 }
@@ -281,23 +281,23 @@ Swamola_PursueTargetCoord:
 ; $0E9E32-$0E9E61 JUMP LOCATION
 Swamola_Descending:
 {
-    LDA $0E80, X : AND.b #$03 : BNE .delay_altitude_check
+    LDA.w $0E80, X : AND.b #$03 : BNE .delay_altitude_check
     
-    INC $0F80, X : LDA $0F80, X : CMP.b #$10 : BNE .continue_descent
+    INC.w $0F80, X : LDA.w $0F80, X : CMP.b #$10 : BNE .continue_descent
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSR Swamola_SpawnRipples
     
     ; Puts the sprite out of harm's way and can't damage the player.
-    LDA.b #$80 : STA $0D20, X
+    LDA.b #$80 : STA.w $0D20, X
     
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     .continue_descent
     .delay_altitude_check
     
-    LDA $0E80, X : AND.b #$03 : BNE .delay_speed_adjustment
+    LDA.w $0E80, X : AND.b #$03 : BNE .delay_speed_adjustment
     
     STZ $00
     STZ $01
@@ -314,25 +314,25 @@ Swamola_Descending:
 ; $0E9E62-$0E9EA9 JUMP LOCATION
 Swamola_Submerge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA Swamola_Emerge.directions, Y : STA $0DE0, X : TAY
+    LDA Swamola_Emerge.directions, Y : STA.w $0DE0, X : TAY
     
-    LDA $0D90, X : CLC : ADC Swamola_Emerge.x_offsets_low,  Y : STA $0D10, X
-    LDA $0DA0, X : ADC Swamola_Emerge.x_offsets_high, Y : STA $0D30, X
+    LDA.w $0D90, X : CLC : ADC Swamola_Emerge.x_offsets_low,  Y : STA.w $0D10, X
+    LDA.w $0DA0, X : ADC Swamola_Emerge.x_offsets_high, Y : STA.w $0D30, X
     
-    LDA $0DB0, X : CLC : ADC Swamola_Emerge.y_offsets_low,  Y : STA $0D00, X
-    LDA $0EB0, X : ADC Swamola_Emerge.y_offsets_high, Y : STA $0D20, X
+    LDA.w $0DB0, X : CLC : ADC Swamola_Emerge.y_offsets_low,  Y : STA.w $0D00, X
+    LDA.w $0EB0, X : ADC Swamola_Emerge.y_offsets_high, Y : STA.w $0D20, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
     JSR Sprite4_Zero_XY_Velocity
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
     .delay
     
@@ -348,14 +348,14 @@ Swamola_SpawnRipples:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$80 : STA $0D80, Y
+    LDA.b #$80 : STA.w $0D80, Y
     
-    LDA.b #$20 : STA $0DF0, Y
+    LDA.b #$20 : STA.w $0DF0, Y
     
-    LDA.b #$04 : STA $0F50, Y
-                 STA $0BA0, Y
+    LDA.b #$04 : STA.w $0F50, Y
+                 STA.w $0BA0, Y
     
-    LDA.b #$00 : STA $0E40, Y
+    LDA.b #$00 : STA.w $0E40, Y
     
     .spawn_failed
     
@@ -370,9 +370,9 @@ Sprite_SwamolaRipples:
     JSR SwamolaRipples_Draw
     JSR Sprite4_CheckIfActive
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay
     
@@ -406,7 +406,7 @@ SwamolaRipples_Draw:
     LDA.b #$08 : JSL OAM_AllocateFromRegionB
     
     LDA.b #$00   : XBA
-    LDA $0DF0, X : AND.b #$0C : REP #$20 : ASL #2
+    LDA.w $0DF0, X : AND.b #$0C : REP #$20 : ASL #2
     
     CLC : ADC.w #.oam_groups : STA $08
     
@@ -441,28 +441,28 @@ Pool_Swamola_Draw:
 ; $0E9F64-$0EA03B LOCAL JUMP LOCATION
 Swamola_Draw:
 {
-    LDA $0D50, X : STA $01
+    LDA.w $0D50, X : STA $01
     
-    LDA $0D40, X : CLC : ADC $0F80, X : STA $00
+    LDA.w $0D40, X : CLC : ADC.w $0F80, X : STA $00
     
     JSL Sprite_ConvertVelocityToAngle : TAY
     
-    LDA .head_animation_states, Y : STA $0DC0, X
+    LDA .head_animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$3F : ORA .head_vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .head_vh_flip, Y : STA.w $0F50, X
     
     ; Draw the head portion.
     JSL Sprite_PrepAndDrawSingleLargeLong
     
     PHX : TXY
     
-    LDA $0E80, X : AND.b #$1F : CLC : ADC $9C7A, X : TAX
+    LDA.w $0E80, X : AND.b #$1F : CLC : ADC.w $9C7A, X : TAX
     
-    LDA $0D10, Y : STA.l $7FFA5C, X
-    LDA $0D30, Y : STA.l $7FFB1C, X
+    LDA.w $0D10, Y : STA.l $7FFA5C, X
+    LDA.w $0D30, Y : STA.l $7FFB1C, X
     
-    LDA $0D00, Y : STA.l $7FFBDC, X
-    LDA $0D20, Y : STA.l $7FFC9C, X
+    LDA.w $0D00, Y : STA.l $7FFBDC, X
+    LDA.w $0D20, Y : STA.l $7FFC9C, X
     
     PLX
     
@@ -470,7 +470,7 @@ Swamola_Draw:
     
     LDA.w #$0000
     
-    LDY $0D40, X : BPL .moving_downward
+    LDY.w $0D40, X : BPL .moving_downward
     
     LDA.w #$0014
     
@@ -482,27 +482,27 @@ Swamola_Draw:
     
     SEP #$20
     
-    LDA.b #$00 : STA $0FB6
+    LDA.b #$00 : STA.w $0FB6
     
     .segment_draw_loop
     
-    LDY $0FB6
+    LDY.w $0FB6
     
-    LDA .segment_animation_states, Y : STA $0DC0, X
+    LDA .segment_animation_states, Y : STA.w $0DC0, X
     
     PHX
     
-    LDA $0E80, X : SEC : SBC .unknown_0, Y : AND.b #$1F : CLC : ADC $9C7A, X : TAX
+    LDA.w $0E80, X : SEC : SBC .unknown_0, Y : AND.b #$1F : CLC : ADC.w $9C7A, X : TAX
     
-    LDA.l $7FFA5C, X : STA $0FD8
-    LDA.l $7FFB1C, X : STA $0FD9
+    LDA.l $7FFA5C, X : STA.w $0FD8
+    LDA.l $7FFB1C, X : STA.w $0FD9
     
-    LDA.l $7FFBDC, X : STA $0FDA
-    LDA.l $7FFC9C, X : STA $0FDB
+    LDA.l $7FFBDC, X : STA.w $0FDA
+    LDA.l $7FFC9C, X : STA.w $0FDB
     
     PLX
     
-    LDA $0D40, X : BPL .moving_downward_2
+    LDA.w $0D40, X : BPL .moving_downward_2
     
     REP #$20
     
@@ -527,7 +527,7 @@ Swamola_Draw:
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    INC $0FB6 : LDA $0FB6 : CMP.b #$04 : BNE .segment_draw_loop
+    INC.w $0FB6 : LDA.w $0FB6 : CMP.b #$04 : BNE .segment_draw_loop
     
     RTS
 }

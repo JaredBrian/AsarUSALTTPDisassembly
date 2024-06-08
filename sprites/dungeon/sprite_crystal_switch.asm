@@ -14,13 +14,13 @@ Pool_Sprite_CrystalSwitch:
 Sprite_CrystalSwitch:
 {
     ; And the palette value with 0xF1
-    LDA $0F50, X : AND.b #$F1 : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$F1 : STA.w $0F50, X
     
     ; Blue / Orange barrier state
     LDA.l $7EC172 : AND.b #$01 : TAY
     
     ; Select the palette for the peg switch based on that state.
-    LDA .palettes, Y : ORA $0F50, X : STA $0F50, X
+    LDA .palettes, Y : ORA.w $0F50, X : STA.w $0F50, X
     
     JSR OAM_AllocateDeferToPlayer
     JSR Sprite_PrepAndDrawSingleLarge
@@ -36,7 +36,7 @@ Sprite_CrystalSwitch:
     
     .no_player_collision
     
-    LDA $0DF0, X : BNE .skipSparkleGeneration
+    LDA.w $0DF0, X : BNE .skipSparkleGeneration
     
     LDA $1A : AND.b #$07 : STA $00
                            STZ $01
@@ -48,11 +48,11 @@ Sprite_CrystalSwitch:
     JSL Sprite_SpawnSimpleSparkleGarnish
     
     ; Restart sparkle countdown timer.
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
     .skipSparkleGeneration
     
-    LDA $0EA0, X : BNE .switching_already_scheduled
+    LDA.w $0EA0, X : BNE .switching_already_scheduled
     
     LDA $3C : DEC A : CMP.b #$08 : BPL .ignore_player_poke_attack
     
@@ -64,7 +64,7 @@ Sprite_CrystalSwitch:
     
     .switching_already_scheduled
     
-    DEC $0EA0, X : CMP.b #$0B : BNE .dont_switch_state
+    DEC.w $0EA0, X : CMP.b #$0B : BNE .dont_switch_state
     
     ; Change the orange/blue barrier state
     LDA.l $7EC172 : EOR.b #$01 : STA.l $7EC172

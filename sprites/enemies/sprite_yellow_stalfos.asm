@@ -18,33 +18,33 @@ Sprite_YellowStalfos:
 {
     ; Yellow Stalfos
     
-    LDA $0D90, X : BNE .initial_collision_check_complete
+    LDA.w $0D90, X : BNE .initial_collision_check_complete
     
-    LDA.b #$01 : STA $0D50, X
-                 STA $0D40, X
+    LDA.b #$01 : STA.w $0D50, X
+                 STA.w $0D40, X
     
     JSR Sprite3_CheckTileCollision : BEQ .dont_self_terminate
     
     ; Self terminate if the sprite would fall onto a solid tile.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .dont_self_terminate
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     LDA.b #$0A : STA !head_y_offset, X
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
     .initial_collision_check_complete
     
-    LDY $0D80, X
+    LDY.w $0D80, X
     
-    LDA $0B89, X : ORA .priority, Y : STA $0B89, X
+    LDA.w $0B89, X : ORA .priority, Y : STA.w $0B89, X
     
     JSR YellowStalfos_Draw
     JSR Sprite3_CheckIfActive
@@ -57,24 +57,24 @@ Sprite_YellowStalfos:
     
     .sword_too_weak_to_cause_recoil
     
-    LDA $0D80, X : CMP.b #$05 : BEQ .neutralized
+    LDA.w $0D80, X : CMP.b #$05 : BEQ .neutralized
     
-    LDA $0EF0, X : BEQ .not_recoiling
+    LDA.w $0EF0, X : BEQ .not_recoiling
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     ; Stalfos is unable to move after being recoiled...? I think so.
-    LDA.b #$05 : STA $0D80, X
+    LDA.b #$05 : STA.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     .neutralized
     .not_recoiling
     .run_ai_handler
     
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -92,28 +92,28 @@ Sprite_YellowStalfos:
 YellowStalfos_Descend:
 {
     ; Head always faces down during this step.
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$02 : STA.w $0EB0, X
     
-    LDA $0F70, X : PHA
+    LDA.w $0F70, X : PHA
     
     JSR Sprite3_MoveAltitude
     
-    LDA $0F80, X : CMP.b #$C0 : BMI .fall_speed_maxed
+    LDA.w $0F80, X : CMP.b #$C0 : BMI .fall_speed_maxed
     
-    SEC : SBC.b #$03 : STA $0F80, X
+    SEC : SBC.b #$03 : STA.w $0F80, X
     
     .fall_speed_maxed
     
-    PLA : EOR $0F70, X : BPL .aloft
+    PLA : EOR.w $0F70, X : BPL .aloft
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0F70, X
-    STZ $0F80, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     JSR YellowStalfos_Animate
     
@@ -127,19 +127,19 @@ YellowStalfos_Descend:
 ; $0F4431-$0F4456 JUMP LOCATION
 YellowStalfos_FacePlayer:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSR Sprite3_CheckDamage
     JSR Sprite3_DirectionToFacePlayer
     
-    TYA : STA $0DE0, X
-          STA $0EB0, X
+    TYA : STA.w $0DE0, X
+          STA.w $0EB0, X
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     .delay
     
@@ -147,7 +147,7 @@ YellowStalfos_FacePlayer:
     shared YellowStalfos_LowerShields:
     
     ; Disable invulnerability.
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
     RTS
 }
@@ -181,15 +181,15 @@ Pool_YellowStalfos_PauseThenDetachHead:
 ; $0F44B7-$0F44F6 JUMP LOCATION
 YellowStalfos_PauseThenDetachHead:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSR Sprite3_CheckDamage
     
-    LDA $0DF0, X : BNE .delay_ai_state_change
+    LDA.w $0DF0, X : BNE .delay_ai_state_change
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     RTS
     
@@ -205,11 +205,11 @@ YellowStalfos_PauseThenDetachHead:
     
     .anodetach_head
     
-    LSR #2 : AND.b #$FC : ORA $0DE0, X : TAY
+    LSR #2 : AND.b #$FC : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0DF0, X : LSR #2 : TAY
+    LDA.w $0DF0, X : LSR #2 : TAY
     
     LDA .head_x_offsets, Y : STA !head_x_offset, X
     
@@ -232,22 +232,22 @@ Pool_YellowStalfos_DelayBeforeAscending:
 ; $0F44FB-$0F4514 JUMP LOCATION
 YellowStalfos_DelayBeforeAscending:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSR Sprite3_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
     ; $0F4509 ALTERNATE ENTRY POINT
     shared YellowStalfos_Animate:
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     JMP YellowStalfos_LowerShields
 }
@@ -257,26 +257,26 @@ YellowStalfos_DelayBeforeAscending:
 ; $0F4515-$0F453E JUMP LOCATION
 YellowStalfos_Ascend:
 {
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$02 : STA.w $0EB0, X
     
-    LDA $0F70, X : PHA
+    LDA.w $0F70, X : PHA
     
     JSR Sprite3_MoveAltitude
     
-    LDA $0F80, X : CMP.b #$40 : BPL .ascend_speed_maxed
+    LDA.w $0F80, X : CMP.b #$40 : BPL .ascend_speed_maxed
     
-    INC #2 : STA $0F80, X
+    INC #2 : STA.w $0F80, X
     
     .ascend_speed_maxed
     
-    PLA : EOR $0F70, X : BPL .dont_self_terminate
+    PLA : EOR.w $0F70, X : BPL .dont_self_terminate
     
-    LDA $0F70, X : BMI .dont_self_terminate
+    LDA.w $0F70, X : BMI .dont_self_terminate
     
     ; Only when the stalfos rises high enough does it terminate.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_self_terminate
     
@@ -302,19 +302,19 @@ YellowStalfos_Neutralized:
 ; $0F455F-$0F457F JUMP LOCATION
 	YellowStalfos_Neutralized:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSL Sprite_CheckDamageFromPlayerLong
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    DEC $0D80, X
+    DEC.w $0D80, X
     
     .delay
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     LDA .head_y_offsets, Y : STA !head_y_offset, X
     
@@ -334,7 +334,7 @@ YellowStalfos_DetachHead:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$0D : STA $0F70, Y
+    LDA.b #$0D : STA.w $0F70, Y
     
     PHX
     
@@ -344,9 +344,9 @@ YellowStalfos_DetachHead:
     
     PLX
     
-    LDA.b #$FF : STA $0DF0, Y
+    LDA.b #$FF : STA.w $0DF0, Y
     
-    LDA.b #$20 : STA $0E00, Y
+    LDA.b #$20 : STA.w $0E00, Y
     
     .spawn_failed
     
@@ -399,7 +399,7 @@ Pool_YellowStalfos_Draw:
 YellowStalfos_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
     
     LDA $90 : CLC : ADC.w #$0004 : STA $90
     
@@ -417,7 +417,7 @@ YellowStalfos_Draw:
     
     SEP #$20
     
-    LDA $0F00, X : BNE .anodraw_shadow
+    LDA.w $0F00, X : BNE .anodraw_shadow
     
     JSR YellowStalfos_DrawHead
     JSL Sprite_DrawShadowLong
@@ -444,7 +444,7 @@ Pool_YellowStalfos_DrawHead:
 ; $0F469A-$0F46FF LOCAL JUMP LOCATION
 YellowStalfos_DrawHead:
 {
-    LDA $0DC0, X : CMP.b #$0A : BEQ .return
+    LDA.w $0DC0, X : CMP.b #$0A : BEQ .return
     
     ; This constant means don't draw the head this frame.
     LDA !head_x_offset, X : STZ $0D : CMP.b #$80 : BEQ .return
@@ -462,7 +462,7 @@ YellowStalfos_DrawHead:
     
     PHX
     
-    LDA $0EB0, X : TAX
+    LDA.w $0EB0, X : TAX
     
     REP #$20
     

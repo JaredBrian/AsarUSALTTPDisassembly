@@ -34,10 +34,10 @@ Sprite_MovableMantle:
     LDA.l $7EF34A : BEQ .return
     
     ; Won't work if you're dashing
-    LDA $0372 : BNE .return
+    LDA.w $0372 : BNE .return
     
     ; (for the mantle, this is how many pixels it has moved right)
-    LDA $0ED0, X : CMP.b #$90 : BEQ .return
+    LDA.w $0ED0, X : CMP.b #$90 : BEQ .return
     
     ; Recoil can't induce mantle movement.
     LDA $28 : CMP.b #$18 : BMI .return
@@ -45,22 +45,22 @@ Sprite_MovableMantle:
     ; Set a game state (numerical, not bitwise).
     LDA.b #$04 : STA.l $7EF3C8
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$01 : BNE .delay_movement
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$01 : BNE .delay_movement
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .delay_movement
     
     ; Start playing dragging sound after 8 pixels of movement.
-    LDA $0ED0, X : CMP.b #$08 : BCC .return
+    LDA.w $0ED0, X : CMP.b #$08 : BCC .return
     
-    LDA $012E : BNE .sfx_slot_in_use
+    LDA.w $012E : BNE .sfx_slot_in_use
     
-    LDA.b #$22 : STA $012E
+    LDA.b #$22 : STA.w $012E
     
     .sfx_slot_in_use
     
-    LDA.b #$02 : STA $0D50, X
+    LDA.b #$02 : STA.w $0D50, X
     
     JSL Sprite_MoveLong
     
@@ -92,8 +92,8 @@ MovableMantle_Draw:
     
     .next_subsprite
     
-    LDA $00      : CLC : ADC $FC9B, X       : STA ($90), Y
-    LDA $02      : CLC : ADC $FCA1, X : INY : STA ($90), Y
+    LDA $00      : CLC : ADC.w $FC9B, X       : STA ($90), Y
+    LDA $02      : CLC : ADC.w $FCA1, X : INY : STA ($90), Y
     LDA.w $FCA7, X                : INY : STA ($90), Y
     LDA.w $FCAD, X                : INY : STA ($90), Y : INY
     

@@ -4,21 +4,21 @@
 ; $0F4C02-$0F4C42 JUMP LOCATION
 Sprite_Hover:
 {
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
-    LDA $0EA0, X : BEQ .not_in_recoil
+    LDA.w $0EA0, X : BEQ .not_in_recoil
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_in_recoil
     
     JSR Sprite3_CheckIfRecoiling
     JSR Sprite3_CheckDamage
     
-    LDA $0E70, X : BNE .collided_with_tile
+    LDA.w $0E70, X : BNE .collided_with_tile
     
     JSR Sprite3_Move
     
@@ -26,9 +26,9 @@ Sprite_Hover:
     
     JSR Sprite3_CheckTileCollision
     
-    INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$02 : STA $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$02 : STA.w $0DC0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -50,9 +50,9 @@ Pool_Hover_Stopped:
 ; $0F4C47-$0F4C78 JUMP LOCATION
 Hover_Stopped:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; \note $0DE0, X is used atypically here as a bitfield rather than
     ; a discrete direction. This allows it to move in both directions at
@@ -63,11 +63,11 @@ Hover_Stopped:
     
     JSR Sprite3_IsBelowPlayer
     
-    TYA : ASL A : ORA $0C : STA $0DE0, X : TAY
+    TYA : ASL A : ORA $0C : STA.w $0DE0, X : TAY
     
-    LDA $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$0C : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$0F : ADC.b #$0C : STA.w $0DF0, X
     
     JSR Sprite3_Zero_XY_Velocity
     
@@ -99,31 +99,31 @@ Pool_Hover_Moving:
 ; $0F4C89-$0F4CD2 JUMP LOCATION
 Hover_Moving:
 {
-    LDA $0DF0, X : BEQ .timer_elapsed
+    LDA.w $0DF0, X : BEQ .timer_elapsed
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     ; Accelerate until timer elapses.
-    LDA $0D50, X : CLC : ADC $CC79, Y : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC.w $CC79, Y : STA.w $0D50, X
     
-    LDA $0D40, X : CLC : ADC $CC7D, Y : STA $0D40, X
+    LDA.w $0D40, X : CLC : ADC.w $CC7D, Y : STA.w $0D40, X
     
-    LDA $0E80, X : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
     
     .timer_elapsed
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     ; Decelerate until stopped.
-    LDA $0D50, X : CLC : ADC $CC81, Y : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC.w $CC81, Y : STA.w $0D50, X
     
-    LDA $0D40, X : CLC : ADC $CC85, Y : STA $0D40, X : BNE .still_decelerating
+    LDA.w $0D40, X : CLC : ADC.w $CC85, Y : STA.w $0D40, X : BNE .still_decelerating
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     .still_declerating
     

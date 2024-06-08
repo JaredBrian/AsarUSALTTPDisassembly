@@ -20,17 +20,17 @@ Sprite_Winder:
     
     LDA $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    LDA $0D90, X : BEQ Winder_DefaultState
+    LDA.w $0D90, X : BEQ Winder_DefaultState
     
     ; \tcrf (unverified)
     ; The existence of this bit of code seems to suggest that there might
     ; have been a way to defeat Winders at one point, or that they died
     ; spontaneously...
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay
     
@@ -57,7 +57,7 @@ Winder_DefaultState:
     JSR Sprite3_CheckDamage
     JSR Winder_SpawnFireballGarnish
     
-    LDA $0E70, X : BNE .tile_collision_prev_frame
+    LDA.w $0E70, X : BNE .tile_collision_prev_frame
     
     JSR Sprite3_Move
     
@@ -66,17 +66,17 @@ Winder_DefaultState:
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision_this_frame
     
     ; Pick a new direction at random
-    JSL GetRandomInt : LSR A : LDA $0DE0, X : ROL A : TAY
+    JSL GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA.w $9254, Y : STA $0DE0, X
+    LDA.w $9254, Y : STA.w $0DE0, X
     
     .no_tile_collision_this_frame
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -104,19 +104,19 @@ Winder_SpawnFireballGarnish:
     
     .empty_slot
     
-    LDA.b #$01 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$01 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$20 : STA.l $7FF90E, X
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0F20, Y : STA.l $7FF968, X
+    LDA.w $0F20, Y : STA.l $7FF968, X
     
     PLX
     

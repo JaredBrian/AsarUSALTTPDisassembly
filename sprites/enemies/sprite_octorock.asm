@@ -57,7 +57,7 @@ Sprite_Octorock:
     
     LDA !oam_4, X : AND.b #$BF
     
-    ORA $D2AE, Y : ORA !force_hflip : STA !oam_4, X
+    ORA.w $D2AE, Y : ORA !force_hflip : STA !oam_4, X
     
     JSR Octorock_Draw
     
@@ -72,9 +72,9 @@ Sprite_Octorock:
     
     LDA !direction, X : AND.b #$02 : ASL A : STA !gfx_vert
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #3 : AND.b #$03 : ORA !gfx_vert : STA !graphic, X
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : ORA !gfx_vert : STA !graphic, X
     
     LDA !timer_0, X : BNE .wait_1
     
@@ -92,12 +92,12 @@ Sprite_Octorock:
     LDY !direction, X
     
     ; Make this little bugger move.
-    LDA .x_speed, Y : STA $0D50, X
-    LDA .y_speed, Y : STA $0D40, X
+    LDA .x_speed, Y : STA.w $0D50, X
+    LDA .y_speed, Y : STA.w $0D40, X
     
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .epsilon
+    LDA.w $0E70, X : BEQ .epsilon
     
     LDA !direction, X : EOR.b #$01 : STA !direction, X
     
@@ -193,7 +193,7 @@ Octorock_Normal:
     
     LSR #3 : TAY
     
-    LDA .unknown, Y : STA $0DB0, X
+    LDA .unknown, Y : STA.w $0DB0, X
     
     RTS
 }
@@ -236,7 +236,7 @@ Octorock_FourShooter:
     
     PLA : LSR #4 : TAY
     
-    LDA .unknown, Y : STA $0DB0, X
+    LDA .unknown, Y : STA.w $0DB0, X
     
     RTS
 }
@@ -283,16 +283,16 @@ Octorock_SpitOutRock:
     ; direction that the Octorok is currently facing.
     LDA !direction, X : TAX
     
-    LDA $00 : CLC : ADC $D4B5, X : STA $0D10, Y
-    LDA $01 : ADC $D4B9, X : STA $0D30, Y
+    LDA $00 : CLC : ADC.w $D4B5, X : STA.w $0D10, Y
+    LDA $01 : ADC.w $D4B9, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC $D4BD, X : STA $0D00, Y
-    LDA $03 : ADC $D4C1, X : STA $0D20, Y
+    LDA $02 : CLC : ADC.w $D4BD, X : STA.w $0D00, Y
+    LDA $03 : ADC.w $D4C1, X : STA.w $0D20, Y
     
     LDA !direction, Y : TAX
     
-    LDA.w $D4C5, X : STA $0D50, Y
-    LDA.w $D4C9, X : STA $0D40, Y
+    LDA.w $D4C5, X : STA.w $0D50, Y
+    LDA.w $D4C9, X : STA.w $0D40, Y
     
     PLX
     
@@ -333,7 +333,7 @@ Octorock_Draw:
     LDA !direction, X : CMP.b #$03 : BEQ .dont_draw_this_part
     
     ; $07 = [3 * $0DB0, X] + !direction
-    LDA $0DB0, X : ASL A : ADC $0DB0, X : ADC !direction, X : STA $07
+    LDA.w $0DB0, X : ASL A : ADC.w $0DB0, X : ADC !direction, X : STA $07
     
     PHX : PHA
     
@@ -373,13 +373,13 @@ Octorock_Draw:
     
     SEP #$20
     
-    DEC $0E40, X
+    DEC.w $0E40, X
     
     LDY.b #$00
     
     JSR Sprite_PrepAndDrawSingleLarge.just_draw
     
-    INC $0E40, X
+    INC.w $0E40, X
     
     RTS
 }

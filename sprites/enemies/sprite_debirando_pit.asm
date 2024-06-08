@@ -31,21 +31,21 @@ Sprite_DebirandoPit:
     JSR DebirandoPit_Draw
     JSR Sprite2_CheckIfActive
     
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
-    LDA $0DD0, Y : CMP.b #$06 : BNE .cosprite_not_dying
+    LDA.w $0DD0, Y : CMP.b #$06 : BNE .cosprite_not_dying
     
-    STA $0DD0, X
+    STA.w $0DD0, X
     
-    LDA $0DF0, Y : STA $0DF0, X
+    LDA.w $0DF0, Y : STA.w $0DF0, X
     
-    LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
+    LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
     
     RTS
     
     .cosprite_not_dying
     
-    LDA $0DC0, X : CMP.b #$03 : BCS .not_open
+    LDA.w $0DC0, X : CMP.b #$03 : BCS .not_open
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_contact
     
@@ -58,7 +58,7 @@ Sprite_DebirandoPit:
     LDA $F6 : AND.b #$10 : BNE .cheat_code
     
     ; Without tapping that, you're stuck. 
-    LDA.b #$01 : STA $0B7B
+    LDA.b #$01 : STA.w $0B7B
     
     .cheat_code
     
@@ -76,10 +76,10 @@ Sprite_DebirandoPit:
     
     .epsilon
     
-    CLC : ADC $0D90, X : STA $0D90, X : BCC .zeta
+    CLC : ADC.w $0D90, X : STA.w $0D90, X : BCC .zeta
     
-    LDA.w $852D, Y : STA $0B7E
-    LDA.w $852F, Y : STA $0B7F
+    LDA.w $852D, Y : STA.w $0B7E
+    LDA.w $852F, Y : STA.w $0B7F
     
     .zeta
     
@@ -93,16 +93,16 @@ Sprite_DebirandoPit:
     
     .theta
     
-    CLC : ADC $0DA0, X : STA $0DA0, X : BCC .gamma
+    CLC : ADC.w $0DA0, X : STA.w $0DA0, X : BCC .gamma
     
-    LDA.w $852D, Y : STA $0B7C
-    LDA.w $852F, Y : STA $0B7D
+    LDA.w $852D, Y : STA.w $0B7C
+    LDA.w $852F, Y : STA.w $0B7D
     
     .gamma
     .no_player_contact
     .not_open
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -117,13 +117,13 @@ Sprite_DebirandoPit:
 ; $0285DE-$0285F0 JUMP LOCATION
 DebirandoPit_Closed:
 {
-    LDA.b #$06 : STA $0DC0, X
+    LDA.b #$06 : STA.w $0DC0, X
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
     .delay
     
@@ -144,11 +144,11 @@ Pool_DebirandoPit_Opening:
 ; $0285F5-$02860E JUMP LOCATION
 DebirandoPit_Opening:
 {
-    LDA $0DF0, X : BNE .delay_ai_state_transition
+    LDA.w $0DF0, X : BNE .delay_ai_state_transition
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
     RTS
     
@@ -156,7 +156,7 @@ DebirandoPit_Opening:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -168,18 +168,18 @@ DebirandoPit_Open:
 {
     LDA $1A : AND.b #$0F : BNE .skip_frame
     
-    INC $0DC0, X : LDA $0DC0, X : CMP.b #$03 : BCC .no_modulus
+    INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$03 : BCC .no_modulus
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .no_modulus
     .skip_frame
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
@@ -200,11 +200,11 @@ Pool_DebirandoPit_Closing:
 ; $028634-$02864D JUMP LOCATION
 DebirandoPit_Closing:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
@@ -212,7 +212,7 @@ DebirandoPit_Closing:
     
     LSR #4 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -254,7 +254,7 @@ DebirandoPit_Draw:
     JSR Sprite2_PrepOamCoord
     
     ; The pit is not at all open right now, so don't draw it.
-    LDA $0DC0, X : CMP.b #$06 : BEQ .return
+    LDA.w $0DC0, X : CMP.b #$06 : BEQ .return
     
     PHX
     

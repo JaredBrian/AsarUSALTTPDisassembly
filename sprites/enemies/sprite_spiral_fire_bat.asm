@@ -12,31 +12,31 @@ Sprite_SpiralFireBat:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
-    LDA $01 : STA $0D50, X
+    LDA $00 : STA.w $0D40, X
+    LDA $01 : STA.w $0D50, X
     
     LDA.b #$50
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $0D50, X : EOR.b #$FF : INC A : CLC : ADC $00 : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : CLC : ADC $00 : STA.w $0D50, X
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $00
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA $00
     
-    LDA $01 : EOR.b #$FF : INC A : CLC : ADC $00 : STA $0D40, X
+    LDA $01 : EOR.b #$FF : INC A : CLC : ADC $00 : STA.w $0D40, X
     
     ; $0E8B90 ALTERNATE ENTRY POINT
     
-    JSR $8C43 ; $0E8C43 IN ROM
+    JSR.w $8C43 ; $0E8C43 IN ROM
     JSR Sprite4_Move
     
-    LDA $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
     LDA.b #$0E
     
-    JSR $BDE8 ; $0EBDE8 IN ROM
+    JSR.w $BDE8 ; $0EBDE8 IN ROM
     
-    LDY $0EC0, X
+    LDY.w $0EC0, X
     
     PHX
     
@@ -69,11 +69,11 @@ Sprite_SpiralFireBat:
 ; $0E8BBC-$0E8BD0 LOCAL JUMP LOCATION
 Sprite4_Load_16bit_AuxCoord:
 {
-    LDA $0D90, X : STA $04
-    LDA $0DA0, X : STA $05
+    LDA.w $0D90, X : STA $04
+    LDA.w $0DA0, X : STA $05
     
-    LDA $0DB0, X : STA $06
-    LDA $0E90, X : STA $07
+    LDA.w $0DB0, X : STA $06
+    LDA.w $0E90, X : STA $07
     
     RTS
 }

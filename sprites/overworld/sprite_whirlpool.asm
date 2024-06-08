@@ -24,17 +24,17 @@ Sprite_Whirlpool:
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0040
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0040
     
     CMP.w #$0051 : BCS .player_not_close_enough
-        LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$000F
+        LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$000F
     
         CMP.w #$0012 : BCS .player_not_close_enough
             SEP #$30
             
             LDA.b #$23 : STA $11
             
-            LDA.b #$01 : STA $02DB
+            LDA.b #$01 : STA.w $02DB
             
             STZ $B0
             STZ $27
@@ -52,17 +52,17 @@ Sprite_Whirlpool:
     
     .not_world_warp_gate
     
-    LDA $0F50, X : AND.b #$3F : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : STA.w $0F50, X
     
     LDA $1A : LSR #3 : AND.b #$03 : TAY
     
-    LDA .vh_flip, Y : ORA $0F50, X : STA $0F50, X
+    LDA .vh_flip, Y : ORA.w $0F50, X : STA.w $0F50, X
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC.w #$0005 : STA $0FD8
+    LDA.w $0FD8 : SEC : SBC.w #$0005 : STA.w $0FD8
     
     SEP #$30
     
@@ -72,7 +72,7 @@ Sprite_Whirlpool:
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_touch
     ; \task Note sure if this name is right, or how this variable could
     ; be set...?
-    LDA $0D90, X : BNE .temporarily_disabled
+    LDA.w $0D90, X : BNE .temporarily_disabled
         LDA.b #$2E : STA $11
         
         STZ $B0
@@ -83,7 +83,7 @@ Sprite_Whirlpool:
     
     .didnt_touch
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     RTS
 }

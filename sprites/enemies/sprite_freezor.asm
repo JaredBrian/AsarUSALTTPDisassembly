@@ -8,27 +8,27 @@ Sprite_Freezor:
     
     ; Essentially this is to find out if it was hit with a fire
     ; attack and make it melt instantly in that event.
-    LDA $0DD0, X : CMP.b #$09 : BEQ .in_basic_active_state
+    LDA.w $0DD0, X : CMP.b #$09 : BEQ .in_basic_active_state
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
-    LDA.b #$1F : STA $0DF0, X : STA $0BA0, X
+    LDA.b #$1F : STA.w $0DF0, X : STA.w $0BA0, X
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     .in_basic_active_state
     
     JSR Sprite3_CheckIfActive
     
-    LDA $0D80, X : CMP.b #$03 : BEQ .ignore_recoil_if_melting
+    LDA.w $0D80, X : CMP.b #$03 : BEQ .ignore_recoil_if_melting
     
     JSR Sprite3_CheckIfRecoiling
     
     .ignore_recoil_if_melting
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -43,15 +43,15 @@ Sprite_Freezor:
 ; $0F1859-$0F1870 JUMP LOCATION
 Freezor_Stasis:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     JSR Sprite3_IsToRightOfPlayer
     
     LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .player_not_in_horiz_range
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .player_not_in_horiz_range
     
@@ -63,23 +63,23 @@ Freezor_Stasis:
 ; $0F1871-$0F18B7 JUMP LOCATION
 Freezor_Awakening:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .shaking
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .shaking
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA $0D10, X : SEC : SBC.b #$05 : STA $00
-    LDA $0D30, X : SEC : SBC.b #$00 : STA $01
+    LDA.w $0D10, X : SEC : SBC.b #$05 : STA $00
+    LDA.w $0D30, X : SEC : SBC.b #$00 : STA $01
     
-    LDA $0D00, X : STA $02
-    LDA $0D20, X : STA $03
+    LDA.w $0D00, X : STA $02
+    LDA.w $0D20, X : STA $03
     
     LDY.b #$08 : JSL Dungeon_SpriteInducedTilemapUpdate
     
-    LDA.b #$60 : STA $0E00, X
+    LDA.b #$60 : STA.w $0E00, X
     
-    LDA.b #$02 : STA $0DE0, X
+    LDA.b #$02 : STA.w $0DE0, X
     
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     RTS
     
@@ -87,7 +87,7 @@ Freezor_Awakening:
     
     AND.b #$01 : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA $0D50, X
+    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
     
     JSR Sprite3_MoveHoriz
     
@@ -125,11 +125,11 @@ Freezor_Moving:
     ; $0372AA IN ROM
     JSL Sprite_CheckDamageFromPlayerLong : BCC .no_damage_contact
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     .no_damage_contact
     
-    LDA $0E00, X : BEQ .dont_spawn_sparkle
+    LDA.w $0E00, X : BEQ .dont_spawn_sparkle
     
     TXA : EOR $1A : AND.b #$07 : BNE .dont_spawn_sparkle
     
@@ -145,20 +145,20 @@ Freezor_Moving:
     
     .dont_spawn_sparkle
     
-    LDA $0DF0, X : BNE .dont_track_player_yet
+    LDA.w $0DF0, X : BNE .dont_track_player_yet
     
-    JSR Sprite3_DirectionToFacePlayer : TYA : STA $0DE0, X
+    JSR Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
     .dont_track_player_yet
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
     ; \note The Y speeds are faster than the X speeds.
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA $0E70, X : AND.b #$0F : BNE .tile_collision_occurred
+    LDA.w $0E70, X : AND.b #$0F : BNE .tile_collision_occurred
     
     JSR Sprite3_Move
     
@@ -168,7 +168,7 @@ Freezor_Moving:
     
     TXA : EOR $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -187,13 +187,13 @@ Pool_Freezor_Melting:
 ; $0F1942-$0F195A JUMP LOCATION
 Freezor_Melting:
 {
-    LDA $0DF0, X : BNE .not_dead_yet
+    LDA.w $0DF0, X : BNE .not_dead_yet
     
     PHA
     
     JSL Dungeon_ManuallySetSpriteDeathFlag
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     PLA
     
@@ -201,7 +201,7 @@ Freezor_Melting:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }

@@ -22,43 +22,43 @@ Pool_Sprite_Rope:
 ; $02A973-$02AA2F JUMP LOCATION
 Sprite_Rope:
 {
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     ; Determine which graphic to use
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite2_CheckIfActive
     
-    LDA $0E90, X : BEQ .on_ground
+    LDA.w $0E90, X : BEQ .on_ground
     
     LDY.b #$03
     
     ; Modify character index
     LDA ($90), Y : ORA.b #$30 : STA ($90), Y
     
-    LDA $0F70, X : PHA
+    LDA.w $0F70, X : PHA
     
     JSR Sprite2_MoveAltitude
     
-    LDA $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
+    LDA.w $0F80, X : CMP.b #$C0 : BMI .at_terminal_falling_speed
     
     ; terminal altitude velocity?
-    SEC : SBC.b #$02 : STA $0F80, X
+    SEC : SBC.b #$02 : STA.w $0F80, X
     
     .at_terminal_falling_speed
     
-    PLA : EOR $0F70, X : BPL .in_air
+    PLA : EOR.w $0F70, X : BPL .in_air
     
-    LDA $0F70, X : BPL .in_air
+    LDA.w $0F70, X : BPL .in_air
     
-    STZ $0F70, X
-    STZ $0F80, X
-    STZ $0E90, X
+    STZ.w $0F70, X
+    STZ.w $0F80, X
+    STZ.w $0E90, X
     
-    LDA $0E60, X : AND.b #$EF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$EF : STA.w $0E60, X
     
     .in_air
     
@@ -66,26 +66,26 @@ Sprite_Rope:
     
     .on_ground
     
-    STZ $0E40, X
+    STZ.w $0E40, X
     
     JSR Sprite2_CheckIfRecoiling
     JSR Sprite2_CheckDamage
     JSR Sprite2_Move
     JSR Sprite2_CheckTileCollision
     
-    LDA $0D80, X : BNE Rope_Moving
+    LDA.w $0D80, X : BNE Rope_Moving
     
     JSR Sprite2_ZeroVelocity
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0ED0, X
+    STZ.w $0ED0, X
     
-    JSL GetRandomInt : PHA : AND.b #$03 : STA $0DE0, X
+    JSL GetRandomInt : PHA : AND.b #$03 : STA.w $0DE0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    PLA : AND.b #$7F : ADC.b #$40 : STA $0DF0, X
+    PLA : AND.b #$7F : ADC.b #$40 : STA.w $0DF0, X
     
     JSR Sprite2_DirectionToFacePlayer
     
@@ -95,16 +95,16 @@ Sprite_Rope:
     
     .player_on_sightline
     
-    LDA.b #$04 : STA $0ED0, X
+    LDA.b #$04 : STA.w $0ED0, X
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     .player_not_on_sightline
     .delay
     
-    LDA $1A : LSR #4 : LDA $0DE0, X : ROL A : TAY
+    LDA $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .animation_control, Y : STA $0D90, X
+    LDA .animation_control, Y : STA.w $0D90, X
     
     RTS
 }
@@ -131,27 +131,27 @@ Pool_Rope_Moving:
 ; $02AA44-$02AA86 BRANCH LOCATION
 Rope_Moving:
 {
-    LDA $0DF0, X : BNE delay
+    LDA.w $0DF0, X : BNE delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     .delay
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
-    LDA.w $AA40, Y : STA $0DE0, X : TAY
+    LDA.w $AA40, Y : STA.w $0DE0, X : TAY
     
     .no_tile_collision
     
-    TYA : CLC : ADC $0ED0, X : TAY
+    TYA : CLC : ADC.w $0ED0, X : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     LDA $1A
     
@@ -161,9 +161,9 @@ Rope_Moving:
     
     .moving_fast
     
-    LSR #2 : LDA $0DE0, X : ROL A : TAY
+    LSR #2 : LDA.w $0DE0, X : ROL A : TAY
     
-    LDA .animation_control, Y : STA $0D90, X
+    LDA .animation_control, Y : STA.w $0D90, X
     
     RTS
 }

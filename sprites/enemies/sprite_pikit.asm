@@ -9,7 +9,7 @@ Sprite_Pikit:
     JSR Sprite3_CheckIfRecoiling
     JSR Sprite3_CheckDamage
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -36,13 +36,13 @@ Pool_Pikit_Data:
 ; $0F0BDE-$0F0C24 LOCAL JUMP LOCATION
 Pikit_SetNextVelocity:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    INC $0DB0, X : LDA $0DB0, X : CMP.b #$04 : BNE .pick_random_direction
+    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$04 : BNE .pick_random_direction
     
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -54,18 +54,18 @@ Pikit_SetNextVelocity:
     
     .set_speed
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    JSL GetRandomInt : AND.b #$07 : ADC.b #$13 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$07 : ADC.b #$13 : STA.w $0F80, X
     
     .delay
     
     ; $0F0C16 ALTERNATE ENTRY POINT
     shared Pikit_Animate:
     
-    INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$01 : STA $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -78,13 +78,13 @@ Pikit_FinishJumpThenAttack:
     JSR Sprite3_MoveXyz
     JSR Sprite3_CheckTileCollision
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .in_air
+    LDA.w $0F70, X : BPL .in_air
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -92,23 +92,23 @@ Pikit_FinishJumpThenAttack:
     
     LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$1F
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    JSL Sprite_ConvertVelocityToAngle : LSR A : STA $0DE0, X
+    JSL Sprite_ConvertVelocityToAngle : LSR A : STA.w $0DE0, X
     
-    LDA.b #$5F : STA $0DF0, X
+    LDA.b #$5F : STA.w $0DF0, X
     
     RTS
     
     .dont_activate_tongue
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     .in_air
     
@@ -148,15 +148,15 @@ Pool_Pikit_AttemptItemGrab:
 ; $0F0CE2-$0F0DC9 JUMP LOCATION
 Pikit_AttemptItemGrab:
 {
-    LDA $0DF0, X : BNE .tongue_still_out
+    LDA.w $0DF0, X : BNE .tongue_still_out
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
-    STZ $0D90, X
-    STZ $0DA0, X
-    STZ $0ED0, X
+    STZ.w $0D90, X
+    STZ.w $0DA0, X
+    STZ.w $0ED0, X
     
     RTS
     
@@ -164,15 +164,15 @@ Pikit_AttemptItemGrab:
     
     LSR #2 : PHA : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     TYA
     
-    LDY $0DE0, X : PHY
+    LDY.w $0DE0, X : PHY
     
-    CLC : ADC $8CD2, Y : TAY
+    CLC : ADC.w $8CD2, Y : TAY
     
-    LDA.w $8C8A, Y : STA $0D90, X : STA $04
+    LDA.w $8C8A, Y : STA.w $0D90, X : STA $04
                                   STZ $05
     
     BPL .sign_extend_x_offset
@@ -183,10 +183,10 @@ Pikit_AttemptItemGrab:
     
     PLY
     
-    PLA : CLC : ADC $8CDA, Y : TAY
+    PLA : CLC : ADC.w $8CDA, Y : TAY
     
     ; Two STZs in a row?
-    LDA.w $8C8A, Y : STA $0DA0, X : STA $06
+    LDA.w $8C8A, Y : STA.w $0DA0, X : STA $06
                                   STZ $07
                                   STZ $07
     
@@ -196,24 +196,24 @@ Pikit_AttemptItemGrab:
     
     .sign_extend_y_offset
     
-    LDA $0ED0, X : BNE .return
+    LDA.w $0ED0, X : BNE .return
     
     REP #$20
     
-    LDA $0FD8 : CLC : ADC $04 : SEC : SBC $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
+    LDA.w $0FD8 : CLC : ADC $04 : SEC : SBC $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
     
-    LDA $0FDA : CLC : ADC $06 : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
+    LDA.w $0FDA : CLC : ADC $06 : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
     
     SEP #$20
     
-    LDA $0DF0, X : CMP.b #$2E : BCS .return
+    LDA.w $0DF0, X : CMP.b #$2E : BCS .return
     
     JSL Sound_SetSfxPanWithPlayerCoords
     
-    ORA.b #$26 : STA $012E
+    ORA.b #$26 : STA.w $012E
     
-    JSL GetRandomInt : AND.b #$03 : INC A : STA $0ED0, X
-                                            STA $0E90, X
+    JSL GetRandomInt : AND.b #$03 : INC A : STA.w $0ED0, X
+                                            STA.w $0E90, X
     
     CMP.b #$01 : BNE .not_hungry_for_bombs
     
@@ -228,7 +228,7 @@ Pikit_AttemptItemGrab:
     
     SEP #$20
     
-    STZ $0ED0, X
+    STZ.w $0ED0, X
     
     RTS
     
@@ -262,7 +262,7 @@ Pikit_AttemptItemGrab:
     .not_wanting_rupees
     
     ; Can't take a shield Link doesn't have
-    LDA.l $7EF35A : STA $0E30, X : BEQ .player_has_none
+    LDA.l $7EF35A : STA.w $0E30, X : BEQ .player_has_none
     
     ; Can't take the Mirror Shield, thank Jebus.
     CMP.b #$03 : BEQ .cant_take_that_item

@@ -18,7 +18,7 @@ Sprite_VultureLong:
 ; $0EDC7A-$0EDC9B LOCAL JUMP LOCATION
 Sprite_Vulture:
 {
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSR Vulture_Draw
     JSR Sprite4_CheckIfActive
@@ -26,7 +26,7 @@ Sprite_Vulture:
     JSR Sprite4_CheckDamage
     JSR Sprite4_Move
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -39,13 +39,13 @@ Sprite_Vulture:
 ; $0EDC9C-$0EDCB4 JUMP LOCATION
 Vulture_Dormant:
 {
-    INC $0E80, X : LDA $0E80, X : CMP.b #$A0 : BNE .activation_delay
+    INC.w $0E80, X : LDA.w $0E80, X : CMP.b #$A0 : BNE .activation_delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$1E : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     .activation_delay
     
@@ -68,11 +68,11 @@ Vulture_Circling:
 {
     LDA $1A : LSR A : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0DF0, X : BEQ .finished_ascending
+    LDA.w $0DF0, X : BEQ .finished_ascending
     
-    INC $0F70, X
+    INC.w $0F70, X
     
     RTS
     
@@ -84,9 +84,9 @@ Vulture_Circling:
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : EOR.b #$FF : INC A : STA $0D50, X
+    LDA $00 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $01 : STA $0D40, X
+    LDA $01 : STA.w $0D40, X
     
     LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
     
@@ -100,9 +100,9 @@ Vulture_Circling:
     
     ; This mess o' logic keep the vulture from going too far from the
     ; player by apparently reversing somewhat...
-    LDA $00 : ASL $00 : PHP : ROR A : PLP : ROR A : CLC : ADC $0D40, X : STA $0D40, X
+    LDA $00 : ASL $00 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
-    LDA $01 : ASL $01 : PHP : ROR A : PLP : ROR A : CLC : ADC $0D50, X : STA $0D50, X
+    LDA $01 : ASL $01 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
 }
@@ -133,7 +133,7 @@ Vulture_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     

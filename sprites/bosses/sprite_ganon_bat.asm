@@ -20,11 +20,11 @@ Sprite_GanonBat:
 {
     JSR GanonBat_Draw
     
-    LDA $0F00, X : BEQ .BRANCH_ALPHA
+    LDA.w $0F00, X : BEQ .BRANCH_ALPHA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA $0403 : ORA.b #$80 : STA $0403
+    LDA.w $0403 : ORA.b #$80 : STA.w $0403
     
     .BRANCH_ALPHA
     
@@ -32,25 +32,25 @@ Sprite_GanonBat:
     
     LDA $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0DF0, X : BEQ .BRANCH_BETA
+    LDA.w $0DF0, X : BEQ .BRANCH_BETA
     CMP #$D0     : BCS .BRANCH_GAMMA
     
-    LDA $0EB0, X : AND.b #$01 : TAY
+    LDA.w $0EB0, X : AND.b #$01 : TAY
     
     ; Is this the kind of ganon bat that spirals out?
-    LDA $0D40, X : CLC : ADC $8000, Y : STA $0D40, X
+    LDA.w $0D40, X : CLC : ADC.w $8000, Y : STA.w $0D40, X
     
     CMP .y_speed_limits, Y : BNE .BRANCH_DELTA
     
-    INC $0EB0, X
+    INC.w $0EB0, X
     
     .BRANCH_DELTA
     
-    LDA $0DE0, X : AND.b #$01 : TAY
+    LDA.w $0DE0, X : AND.b #$01 : TAY
     
-    LDA $0D50, X : CLC : ADC $8000, Y : STA $0D50, X : BNE .BRANCH_EPSILON
+    LDA.w $0D50, X : CLC : ADC.w $8000, Y : STA.w $0D50, X : BNE .BRANCH_EPSILON
     
     PHA
     
@@ -62,7 +62,7 @@ Sprite_GanonBat:
     
     CMP .x_speed_limits, Y : BNE .BRANCH_GAMMA
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
     .BRANCH_GAMMA
     
@@ -76,14 +76,14 @@ Sprite_GanonBat:
     
     LDA.b #$05 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $0D50, X : PHA : CLC : ADC $01 : STA $0D50, X
+    LDA.w $0D50, X : PHA : CLC : ADC $01 : STA.w $0D50, X
     
-    LDA $0D40, X : PHA : CLC : ADC $00 : STA $0D40, X
+    LDA.w $0D40, X : PHA : CLC : ADC $00 : STA.w $0D40, X
     
     JSR Sprite4_Move
     
-    PLA : STA $0D40, X
-    PLA : STA $0D50, X
+    PLA : STA.w $0D40, X
+    PLA : STA.w $0D50, X
     
     RTS
     
@@ -91,11 +91,11 @@ Sprite_GanonBat:
     
     JSR Sprite4_Move
     
-    LDA $0D50, X : CMP.b #$40 : BEQ .BRANCH_ZETA
+    LDA.w $0D50, X : CMP.b #$40 : BEQ .BRANCH_ZETA
     
-    INC $0D50, X
+    INC.w $0D50, X
     
-    DEC $0D40, X
+    DEC.w $0D40, X
     
     .BRANCH_ZETA
     
@@ -125,7 +125,7 @@ GanonBat_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     

@@ -33,9 +33,9 @@ Sprite_FakeSword:
     
     LDA.l $7FFA1C, X : CMP.b #$03 : BNE .player_is_holding
     
-    LDA $0DB0, X : BNE .ignore_message
+    LDA.w $0DB0, X : BNE .ignore_message
     
-    INC $0DB0, X
+    INC.w $0DB0, X
     
     ; "This is it! The Master Sword! (...) No, this can't be it..."
     LDA.b #$6F

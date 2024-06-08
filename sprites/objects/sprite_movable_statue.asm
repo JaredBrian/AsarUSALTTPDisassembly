@@ -24,9 +24,9 @@ Sprite_MovableStatue:
 {
     ; Movable Statue
     
-    LDA $0DE0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0DE0, X : BEQ .BRANCH_ALPHA
     
-    STZ $0DE0, X
+    STZ.w $0DE0, X
     
     STZ $5E
     
@@ -34,9 +34,9 @@ Sprite_MovableStatue:
     
     .BRANCH_ALPHA
     
-    LDA $0DF0, X : BEQ .BRANCH_BETA
+    LDA.w $0DF0, X : BEQ .BRANCH_BETA
     
-    LDA.b #$01 : STA $0DE0, X
+    LDA.b #$01 : STA.w $0DE0, X
     
     LDA.b #$81 : STA $48
     
@@ -46,13 +46,13 @@ Sprite_MovableStatue:
     
     JSR MovableStatue_Draw
     JSR Sprite_CheckIfActive
-    JSR $C277 ; $034277 IN ROM
+    JSR.w $C277 ; $034277 IN ROM
     
-    STZ $0642
+    STZ.w $0642
     
     JSR MovableStatue_CheckFullSwitchCovering : BCC .BRANCH_GAMMA
     
-    LDA.b #$01 : STA $0642
+    LDA.b #$01 : STA.w $0642
     
     .BRANCH_GAMMA
     
@@ -63,33 +63,33 @@ Sprite_MovableStatue:
     
     JSR Sprite_CheckDamageToPlayer_same_layer : BCC .BRANCH_DELTA
     
-    LDA.b #$07 : STA $0DF0, X
+    LDA.b #$07 : STA.w $0DF0, X
     
     JSL Sprite_RepelDashAttackLong
     
-    LDA $0E00, X : BNE .BRANCH_EPSILON
+    LDA.w $0E00, X : BNE .BRANCH_EPSILON
     
     JSR Sprite_DirectionToFacePlayer
     
-    LDA.w $C0E2, Y : STA $0D50, X
+    LDA.w $C0E2, Y : STA.w $0D50, X
     
-    LDA.w $C0E4, Y : STA $0D40, X
+    LDA.w $C0E4, Y : STA.w $0D40, X
     
     ; $03414A ALTERNATE ENTRY POINT
     
-    LDA $0376 : AND.b #$02 : BNE .BRANCH_ZETA
+    LDA.w $0376 : AND.b #$02 : BNE .BRANCH_ZETA
     
     JSL Sprite_NullifyHookshotDrag
     
     .BRANCH_ZETA
     
-    LDA $0E70, X : AND.b #$0F : BNE .BRANCH_THETA
+    LDA.w $0E70, X : AND.b #$0F : BNE .BRANCH_THETA
     
-    LDA $0F10, X : BNE .BRANCH_THETA
+    LDA.w $0F10, X : BNE .BRANCH_THETA
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$08 : STA $0F10, X
+    LDA.b #$08 : STA.w $0F10, X
     
     .BRANCH_THETA
     
@@ -103,16 +103,16 @@ Sprite_MovableStatue:
     
     .BRANCH_DELTA
     
-    LDA $0DF0, X : BNE .BRANCH_IOTA
+    LDA.w $0DF0, X : BNE .BRANCH_IOTA
     
-    LDA.b #$0D : STA $0E00, X
+    LDA.b #$0D : STA.w $0E00, X
     
     .BRANCH_IOTA
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS .BRANCH_KAPPA
-    LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_KAPPA
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS .BRANCH_KAPPA
+    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_KAPPA
     
     SEP #$30
     
@@ -120,14 +120,14 @@ Sprite_MovableStatue:
     
     LDA $2F : CMP .directions, Y : BNE .BRANCH_KAPPA
     
-    LDA $0372 : BNE .BRANCH_KAPPA
+    LDA.w $0372 : BNE .BRANCH_KAPPA
     
     ; Seems to be the key to action 6...
-    LDA.b #$01 : STA $02FA
+    LDA.b #$01 : STA.w $02FAFA
     
-    LDA.b #$01 : STA $0D90, X
+    LDA.b #$01 : STA.w $0D90, X
     
-    LDA $0376 : AND.b #$02 : BEQ .BRANCH_LAMBDA
+    LDA.w $0376 : AND.b #$02 : BEQ .BRANCH_LAMBDA
     
     LDA $F0 : AND .button_masks, Y : BEQ .BRANCH_LAMBDA
     
@@ -135,22 +135,22 @@ Sprite_MovableStatue:
     
     TYA : EOR.b #$01 : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    JMP $C14A ; $03414A IN ROM
+    JMP.w $C14A ; $03414A IN ROM
     
     .BRANCH_KAPPA
     
     SEP #$30
     
-    LDA $0D90, X : BEQ .BRANCH_LAMBDA
+    LDA.w $0D90, X : BEQ .BRANCH_LAMBDA
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     STZ $5E
-    STZ $0376
-    STZ $02FA
+    STZ.w $0376
+    STZ.w $02FA
     
     LDA $50 : AND.b #$FE : STA $50
     
@@ -184,13 +184,13 @@ MovableStatue_CheckFullSwitchCovering:
     
     .next_tile
     
-    LDA $0D00, X : CLC : ADC $C1FB, Y : STA $00
-    LDA $0D20, X : ADC.b #$00   : STA $01
+    LDA.w $0D00, X : CLC : ADC.w $C1FB, Y : STA $00
+    LDA.w $0D20, X : ADC.b #$00   : STA $01
        
-    LDA $0D10, X : CLC : ADC $C1F7, Y : STA $02
-    LDA $0D30, X : ADC.b #$00   : STA $03
+    LDA.w $0D10, X : CLC : ADC.w $C1F7, Y : STA $02
+    LDA.w $0D30, X : ADC.b #$00   : STA $03
     
-    LDA $0F20, X
+    LDA.w $0F20, X
     
     PHY
     
@@ -198,12 +198,12 @@ MovableStatue_CheckFullSwitchCovering:
     
     PLY
     
-    LDA $0FA5
+    LDA.w $0FA5
     
-    CMP $C1FF : BEQ .partial_switch_covering
-    CMP $C200 : BEQ .partial_switch_covering
-    CMP $C201 : BEQ .partial_switch_covering
-    CMP $C202 : BNE .failure
+    CMP.w $C1FF : BEQ .partial_switch_covering
+    CMP.w $C200 : BEQ .partial_switch_covering
+    CMP.w $C201 : BEQ .partial_switch_covering
+    CMP.w $C202 : BNE .failure
     
     .partial_switch_covering
     
@@ -257,29 +257,29 @@ MovableStatue_Draw:
     
     .BRANCH_BETA
     
-    LDA $0E20, Y : CMP.b #$1C : BEQ .BRANCH_ALPHA
+    LDA.w $0E20, Y : CMP.b #$1C : BEQ .BRANCH_ALPHA
       
-    CPY $0FA0 : BEQ .BRANCH_ALPHA
+    CPY.w $0FA0 : BEQ .BRANCH_ALPHA
     
     TYA : EOR $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
-    LDA $0DD0, Y : CMP.b #$09 : BCC .BRANCH_ALPHA
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .BRANCH_ALPHA
     
-    LDA $0D10, Y : STA $04
-    LDA $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA $04
+    LDA.w $0D30, Y : STA $05
     
-    LDA $0D00, Y : STA $06
-    LDA $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA $06
+    LDA.w $0D20, Y : STA $07
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .BRANCH_ALPHA
     
-    LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_ALPHA
+    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_ALPHA
     
     SEP #$20
     
-    LDA.b #$04 : STA $0EA0, Y
+    LDA.b #$04 : STA.w $0EA0, Y
     
     PHY
     
@@ -289,8 +289,8 @@ MovableStatue_Draw:
     
     PLY
     
-    LDA $00 : STA $0F30, Y
-    LDA $01 : STA $0F40, Y
+    LDA $00 : STA.w $0F30, Y
+    LDA $01 : STA.w $0F40, Y
     
     .BRANCH_ALPHA
     

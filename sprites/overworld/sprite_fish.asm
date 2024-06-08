@@ -5,24 +5,24 @@
 Sprite_Fish:
 {
     ; Check if if the right graphics are loaded to be able to draw.
-    LDA $0FC6 : CMP.b #$03 : BCS .improper_gfx_pack_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_gfx_pack_loaded
     
     JSR Fish_Draw
     
     .improper_gfx_pack_loaded
     
-    LDA $0DD0, X : CMP.b #$0A : BNE .not_held_by_player
+    LDA.w $0DD0, X : CMP.b #$0A : BNE .not_held_by_player
     
     ; Can only wriggle while being held.
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
-    LDA $1A : LSR #3 : AND.b #$02 : LSR A : ADC.b #$03 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$02 : LSR A : ADC.b #$03 : STA.w $0DC0, X
     
     .not_held_by_player
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -38,10 +38,10 @@ Sprite_Fish:
 ; $0E826C-$0E827D JUMP LOCATION
 Fish_Wriggle:
 {
-    LDA $0F70, X : BNE .aloft
+    LDA.w $0F70, X : BNE .aloft
     
     ; Go back to flopping when you hit the ground.
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D8080, X
     
     .aloft
     
@@ -62,13 +62,13 @@ Fish_Wriggle:
 ; $0E827E-$0E828F JUMP LOCATION
 Fish_PauseBeforeLeap:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0F0, X : BNE .delay
     
     ; Transition to leaping state.
-    INC $0D80, X
+    INC.w $0D8080, X
     
     ; Determine the Z speed of the leap.
-    LDA.b #$30 : STA $0F80, X
+    LDA.b #$30 : STA.w $0F8080, X
     
     ; $0E828B ALTERNATE ENTRY POINT
     shared Fish_SpawnSmallWaterSplash:
@@ -98,37 +98,37 @@ Fish_Leaping:
 {
     JSR Sprite4_MoveAltitude
     
-    DEC $0F80, X : DEC $0F80, X : BNE .still_ascending
+    DEC.w $0F8080, X : DEC.w $0F8080, X : BNE .still_ascending
     
     ; Recall that leaping fish are only grateful if they were on land
     ; and helped into water by a helpful little elf man or woman throwing
     ; them back in.
-    LDY $0D90, X : BEQ .ungrateful
+    LDY.w $0D9090, X : BEQ .ungrateful
     
-    LDA.b #$76 : STA $1CF0
+    LDA.b #$76 : STA.w $1CF0
     LDA.b #$01 : JSR Sprite4_ShowMessageMinimal
     
     .ungrateful
     .still_ascending
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F7070, X : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     JSR Fish_SpawnSmallWaterSplash
     
-    LDA $0D90, X : BEQ .no_rupees_for_you
+    LDA.w $0D90, X : BEQ .no_rupees_for_you
     
     LDA.b #$DB : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA.b #$FF : STA $0B58, Y
+    LDA.b #$FF : STA.w $0B5858, Y
     
-    LDA.b #$30 : STA $0F80, Y : STA $0EE0, Y
+    LDA.b #$30 : STA.w $0F80, Y : STA.w $0EE0, Y
     
     PHX
     
@@ -141,13 +141,13 @@ Fish_Leaping:
     .spawn_failed
     .no_rupees_for_you
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .aloft
     
-    INC $0E80, X : LDA $0E80, X : LSR #2 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -159,17 +159,17 @@ Fish_PreliminaryDeepWaterCheck:
 {
     JSR Sprite4_CheckTileCollision
     
-    LDA $0FA5 : CMP.b #$08 : BNE .not_deep_water
+    LDA.w $0FA5 : CMP.b #$08 : BNE .not_deep_water
     
     ; Fell into deep water, time to skidaddle.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
     .not_deep_water
     
     ; Move on, otherwise.
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -201,17 +201,17 @@ Fish_FlopAround:
     JSR Sprite4_BounceFromTileCollision
     JSR Sprite4_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0FA5 : CMP.b #$09 : BEQ .touched_shallow_water
+    LDA.w $0FA5 : CMP.b #$09 : BEQ .touched_shallow_water
                 CMP.b #$08 : BNE .didnt_touch_deep_water
     
     ; Time to swim with the fishes. (I.e. your brothers).
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .touched_shallow_water
     
@@ -219,40 +219,40 @@ Fish_FlopAround:
     
     .didnt_touch_deep_water
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$0F : ADC.b #$10 : STA.w $0F80, X
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
-    LDA.b #$03 : STA $0E80, X
+    LDA.b #$03 : STA.w $0E80, X
     
     .aloft
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     ; \note The way they simulate a flopping fish is quite impressive.
     ; Just kind of... awed by it. It could be more detailed but it's
     ; pretty damn good the way it is.
-    LDA $0E80, X : AND.b #$07 : BNE .delay_animation_base_adjustment
+    LDA.w $0E80, X : AND.b #$07 : BNE .delay_animation_base_adjustment
     
-    LDA $0DE0, X : AND.b #$01 : TAY
+    LDA.w $0DE0, X : AND.b #$01 : TAY
     
     ; \note The index for the animation fluctates between 0 and 2 inclusive.
-    LDA $0D90, X : CMP .boundary_limits, Y : BEQ .at_boundary_already
+    LDA.w $0D90, X : CMP .boundary_limits, Y : BEQ .at_boundary_already
     
-    CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA $0D90, X
+    CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA.w $0D90, X
     
     .at_boundary_already
     .delay_animation_base_adjustment
     
-    LDA $1A : LSR #3 : AND.b #$01 : LDY $0D90, X
+    LDA $1A : LSR #3 : AND.b #$01 : LDY.w $0D90, X
     
-    CLC : ADC .animation_state_bases, Y : STA $0DC0, X
+    CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -313,7 +313,7 @@ Pool_Fish_Draw:
 Fish_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : BEQ .dont_draw
+    LDA.w $0DC0, X : BEQ .dont_draw
     
     DEC A
     
@@ -321,18 +321,18 @@ Fish_Draw:
     
     ASL #4 : ADC.w #(.oam_groups) : STA $08
     
-    LDA $0FD8 : CLC : ADC.w #$0004 : STA $0FD8
+    LDA.w $0FD8 : CLC : ADC.w #$0004 : STA.w $0FD8
     
     SEP #$20
     
     LDA.b #$02 : JSL Sprite_DrawMultiple
     
-    LDA $0FDA : CLC : ADC $0F70, X : STA $0FDA
-    LDA $0FDB : ADC.b #$00   : STA $0FDB
+    LDA.w $0FDA : CLC : ADC.w $0F70, X : STA.w $0FDA
+    LDA.w $0FDB : ADC.b #$00   : STA.w $0FDB
     
     LDA.b #$00 : XBA
     
-    LDA $0F70, X : LSR #2 : CMP.b #$02 : BCC .shadow_oam_groups
+    LDA.w $0F70, X : LSR #2 : CMP.b #$02 : BCC .shadow_oam_groups
     
     ; Use the smallest shadow oam group if the sprite is way up.
     LDA.b #$02

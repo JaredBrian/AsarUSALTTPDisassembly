@@ -29,50 +29,50 @@ Fairy_HandleMovementLong:
 ; $0F7D1C-$0F7E32 LOCAL JUMP LOCATION
 Fairy_HandleMovement:
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     ; Interesting... the outdoor fairys have no regard for walls.
     LDA $1B : BEQ .no_wall_bounce_detection
     
-    LDA $0E00, X : BNE .dont_invert_speeds
+    LDA.w $0E00, X : BNE .dont_invert_speeds
     
     JSR Sprite3_CheckTileCollision
     
     AND.b #$03 : BEQ .dont_invert_x_speed
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $0DE0, X : EOR.b #$FF : INC A : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$FF : INC A : STA.w $0DE0, X
     
-    LDA.b #$20 : STA $0E00, X
+    LDA.b #$20 : STA.w $0E00, X
     
     .dont_invert_x_speed
     
-    LDA $0E70, X : AND.b #$0C : BEQ .dont_invert_y_speed
+    LDA.w $0E70, X : AND.b #$0C : BEQ .dont_invert_y_speed
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA $0D90, X : EOR.b #$FF : INC A : STA $0D90, X
+    LDA.w $0D90, X : EOR.b #$FF : INC A : STA.w $0D90, X
     
-    LDA.b #$20 : STA $0E00, X
+    LDA.b #$20 : STA.w $0E00, X
     
     .dont_invert_y_speed
     .no_wall_bounce_detection
     
-    LDA $0D50, X : BEQ .x_speed_at_zero
+    LDA.w $0D50, X : BEQ .x_speed_at_zero
                    BPL .positive_x_speed
     
-    LDA $0F50, X : AND.b #$BF
+    LDA.w $0F50, X : AND.b #$BF
     
     BRA .set_hflip
     
     .positive_x_speed
     
-    LDA $0F50, X : ORA.b #$40
+    LDA.w $0F50, X : ORA.b #$40
     
     .set_hflip
     
-    STA $0F50, X
+    STA.w $0F50, X
     
     .x_speed_at_zero
     
@@ -90,8 +90,8 @@ Fairy_HandleMovement:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D90, X
-    LDA $01 : STA $0DE0, X
+    LDA $00 : STA.w $0D90, X
+    LDA $01 : STA.w $0DE0, X
     
     .direction_change_delay
     
@@ -100,13 +100,13 @@ Fairy_HandleMovement:
     LDA.b #$FF : STA $01
                  STA $03
     
-    LDA $0D90, X : STA $00 : BMI .negative_y_target_speed
+    LDA.w $0D90, X : STA $00 : BMI .negative_y_target_speed
     
     STZ $01
     
     .negative_y_target_speed
     
-    LDA $0D40, X : STA $02 : BMI .negative_y_speed
+    LDA.w $0D40, X : STA $02 : BMI .negative_y_speed
     
     STZ $03
     
@@ -115,18 +115,18 @@ Fairy_HandleMovement:
     REP #$21
     
     ; average the two speeds?
-    LDA $00 : ADC $02 : LSR A : SEP #$30 : STA $0D40, X
+    LDA $00 : ADC $02 : LSR A : SEP #$30 : STA.w $0D40, X
     
     LDA.b #$FF : STA $01
                  STA $03
     
-    LDA $0DE0, X : STA $00 : BMI .negative_x_target_speed
+    LDA.w $0DE0, X : STA $00 : BMI .negative_x_target_speed
     
     STZ $01
     
     .negative_x_target_speed
     
-    LDA $0D50, X : STA $02 : BMI .negative_x_speed
+    LDA.w $0D50, X : STA $02 : BMI .negative_x_speed
     
     STZ $03
     
@@ -134,7 +134,7 @@ Fairy_HandleMovement:
     
     REP #$21
     
-    LDA $00 : ADC $02 : LSR A : SEP #$30 : STA $0D50, X
+    LDA $00 : ADC $02 : LSR A : SEP #$30 : STA.w $0D50, X
     
     .delay_speed_averaging
     
@@ -142,9 +142,9 @@ Fairy_HandleMovement:
     
     JSL GetRandomInt : AND.b #$01 : TAY
     
-    LDA .z_speeds, Y : CLC : ADC $0F80, X : STA $0F80, X
+    LDA .z_speeds, Y : CLC : ADC.w $0F80, X : STA.w $0F80, X
     
-    LDA $0F70, X
+    LDA.w $0F70, X
     
     LDY.b #$08
     
@@ -154,9 +154,9 @@ Fairy_HandleMovement:
     
     CMP.b #$18 : BCC .not_too_elevated
     
-    TYA : STA $0F70, X
+    TYA : STA.w $0F70, X
     
-    LDA.b #$FB : STA $0F80, X
+    LDA.b #$FB : STA.w $0F80, X
     
     .not_too_elevated
     
@@ -164,9 +164,9 @@ Fairy_HandleMovement:
     
     .too_close_to_ground
     
-    TYA : STA $0F70, X
+    TYA : STA.w $0F70, X
     
-    LDA.b #$05 : STA $0F80, X
+    LDA.b #$05 : STA.w $0F80, X
     
     RTS
 }
@@ -178,16 +178,16 @@ PlayerItem_SpawnFairy:
 {
     LDA.b #$E3 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $EE : STA $0F20, Y
+    LDA $EE : STA.w $0F20, Y
     
-    LDA $22 : CLC : ADC.b #$08 : STA $0D10, Y
-    LDA $23 : ADC.b #$00 : STA $0D30, Y
+    LDA $22 : CLC : ADC.b #$08 : STA.w $0D10, Y
+    LDA $23 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC.b #$10 : STA $0D00, Y
-    LDA $21 : ADC.b #$00 : STA $0D20, Y
+    LDA $20 : CLC : ADC.b #$10 : STA.w $0D00, Y
+    LDA $21 : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$00 : STA $0DE0, Y
-    LDA.b #$60 : STA $0F10, Y
+    LDA.b #$00 : STA.w $0DE0, Y
+    LDA.b #$60 : STA.w $0F10, Y
     
     .spawn_failed
     

@@ -18,11 +18,11 @@ SpritePrep_OldMountainManLong:
 ; $0F68F9-$0F6937 LOCAL JUMP LOCATION
 SpritePrep_OldMountainMan:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA $A0 : CMP.b #$E4 : BNE .not_at_home
     
-    LDA.b #$02 : STA $0E80, X
+    LDA.b #$02 : STA.w $0E80, X
     
     RTS
     
@@ -32,7 +32,7 @@ SpritePrep_OldMountainMan:
     
     LDA.l $7EF353 : CMP.b #$02 : BNE .dont_have_magic_mirror
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_have_magic_mirror
     
@@ -52,7 +52,7 @@ SpritePrep_OldMountainMan:
     
     .already_have_tagalong
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     PHX
     
@@ -74,19 +74,19 @@ OldMountainMan_TransitionFromTagalong:
     
     PLA : PHX : TAX
     
-    LDA $1A64, X : AND.b #$03 : STA $0EB0, Y
-                                STA $0DE0, Y
+    LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y
+                                STA.w $0DE0, Y
     
-    LDA $1A00, X : CLC : ADC.b #$02 : STA $0D00, Y
-    LDA $1A14, X : ADC.b #$00 : STA $0D20, Y
+    LDA.w $1A00, X : CLC : ADC.b #$02 : STA.w $0D00, Y
+    LDA.w $1A14, X : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA $1A28, X : CLC : ADC.b #$02 : STA $0D10, Y
-    LDA $1A3C, X : ADC.b #$00 : STA $0D30, Y
+    LDA.w $1A28, X : CLC : ADC.b #$02 : STA.w $0D10, Y
+    LDA.w $1A3C, X : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $EE : STA $0F20, Y
+    LDA $EE : STA.w $0F20, Y
     
-    LDA.b #$01 : STA $0BA0, Y
-                 STA $0E80, Y
+    LDA.b #$01 : STA.w $0BA0, Y
+                 STA.w $0E80, Y
     
     JSR OldMountainMan_FreezePlayer
     
@@ -104,8 +104,8 @@ OldMountainMan_TransitionFromTagalong:
 ; $0F6989-$0F6991 LOCAL JUMP LOCATION
 OldMountainMan_FreezePlayer:
 {
-    LDA.b #$01 : STA $02E4
-                 STA $037B
+    LDA.b #$01 : STA.w $02E4
+                 STA.w $037B
     
     RTS
 }
@@ -118,7 +118,7 @@ Sprite_OldMountainMan:
     JSL OldMountainMan_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -132,7 +132,7 @@ Sprite_OldMountainMan:
 ; $0F69A6-$0F69B0 JUMP LOCATION
 OldMountainMan_Lost:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -148,7 +148,7 @@ OldMountainMan_Supplicate:
     JSL Sprite_MakeBodyTrackHeadDirection
     JSR Sprite3_DirectionToFacePlayer
     
-    TYA : EOR.b #$03 : STA $0EB0, X
+    TYA : EOR.b #$03 : STA.w $0EB0, X
     
     ; "I lost my lamp, blah blah blah"
     LDA.b #$9C
@@ -156,10 +156,10 @@ OldMountainMan_Supplicate:
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
-    STA $0DE0, X
-    STA $0EB0, X
+    STA.w $0DE0, X
+    STA.w $0EB0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .didnt_speak
     
@@ -178,7 +178,7 @@ OldMountainMan_SwitchToTagalong:
     
     LDA.b #$05 : STA.l $7EF3C8
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; caches some dungeon values. Not sure if this is really necessary,
     ; but it might be ancitipating that you suck at this game and will
@@ -195,7 +195,7 @@ OldMountainMan_EnteringDomicile:
 {
     JSR Sprite3_Move
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -210,12 +210,12 @@ OldMountainMan_EnteringDomicile:
 ; $0F69FC-$0F6A27 JUMP LOCATION
 OldMountainMan_GrantMagicMirror:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Grant the magic mirror...
     LDY.b #$1A
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -223,13 +223,13 @@ OldMountainMan_GrantMagicMirror:
     
     JSR OldMountainMan_FreezePlayer
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
-    LDA.b #$08 : STA $0D50, X
+    LDA.b #$08 : STA.w $0D50, X
     
-    LSR A : STA $0D40, X
+    LSR A : STA.w $0D40, X
     
-    LDA.b #$03 : STA $0EB0, X : STA $0DE0, X
+    LDA.b #$03 : STA.w $0EB0, X : STA.w $0DE0, X
     
     RTS
 }
@@ -241,13 +241,13 @@ OldMountainMan_ShuffleAway:
 {
     JSR OldMountainMan_FreezePlayer
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -257,43 +257,43 @@ OldMountainMan_ShuffleAway:
 ; $0F6A3F-$0F6AA2 JUMP LOCATION
 OldMountainMan_ApproachDoor:
 {
-    STZ $0EB0, X
-    STZ $0DE0, X
+    STZ.w $0EB0, X
+    STZ.w $0DE0, X
     
-    LDY $0FDE
+    LDY.w $0FDE
     
-    LDA $0B18, Y : STA $00
-    LDA $0B20, Y : STA $01
+    LDA.w $0B18, Y : STA $00
+    LDA.w $0B20, Y : STA $01
     
-    LDA $0D00, X : STA $02
-    LDA $0D20, X : STA $03
+    LDA.w $0D00, X : STA $02
+    LDA.w $0D20, X : STA $03
     
     REP #$20
     
     LDA $00 : CMP $02 : SEP #$30 : BCC .not_north_enough_yet
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
     RTS
     
     .not_north_enough_yet
     
-    LDA $0B08, Y : STA $04
-    LDA $0B10, Y : STA $05
+    LDA.w $0B08, Y : STA $04
+    LDA.w $0B10, Y : STA $05
     
-    LDA $0B18, Y : STA $06
-    LDA $0B20, Y : STA $07
+    LDA.w $0B18, Y : STA $06
+    LDA.w $0B20, Y : STA $07
     
     LDA.b #$08 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     JSR OldMountainMan_FreezePlayer
     
@@ -305,10 +305,10 @@ OldMountainMan_ApproachDoor:
 ; $0F6AA3-$0F6AAC JUMP LOCATION
 OldMountainMan_MadeItInside:
 {
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    STZ $02E4
-    STZ $037B
+    STZ.w $02E4
+    STZ.w $037B
     
     RTS
 }
@@ -332,11 +332,11 @@ OldMountainMan_SittingAtHome:
 {
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0D80, X : BEQ .dont_activate_health_refill
+    LDA.w $0D80, X : BEQ .dont_activate_health_refill
     
     LDA.b #$A0 : STA.l $7EF372
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .dont_activate_health_refill
     
@@ -353,7 +353,7 @@ OldMountainMan_SittingAtHome:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_speak
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .didnt_speak
     

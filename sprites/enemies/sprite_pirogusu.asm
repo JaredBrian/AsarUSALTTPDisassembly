@@ -11,14 +11,14 @@ Pool_Sprite_Pirogusu:
     ; $0F2742 MAIN ENTRY POINT
 Sprite_Pirogusu:
     
-    LDA $0E90, X : BNE .is_flying_tile
+    LDA.w $0E90, X : BNE .is_flying_tile
     
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSR Pirogusu_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -42,19 +42,19 @@ Pool_Pirogusu_WriggleInHole:
 ; $0F2768-$0F2781 JUMP LOCATION
 Pirogusu_WriggleInHole:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
     .delay
     
-    STA $0BA0, X
+    STA.w $0BA0, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .animation_states, Y : STA $0D90, X
+    LDA .animation_states, Y : STA.w $0D90, X
     
     RTS
 }
@@ -79,13 +79,13 @@ Pool_Pirogusu_Emerge:
 ; $0F2790-$0F27CD JUMP LOCATION
 Pirogusu_Emerge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSR Sprite3_Zero_XY_Velocity
     
@@ -93,17 +93,17 @@ Pirogusu_Emerge:
     
     .delay
     
-    LDA $0DE0, X : ASL A : STA $00
+    LDA.w $0DE0, X : ASL A : STA $00
     
-    LDA $0DF0, X : LSR #3 : AND.b #$01 : ORA $00 : TAY
+    LDA.w $0DF0, X : LSR #3 : AND.b #$01 : ORA $00 : TAY
     
-    LDA .animation_states, Y : STA $0D90, X
+    LDA .animation_states, Y : STA.w $0D90, X
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite3_Move
     
@@ -133,30 +133,30 @@ Pirogusu_SplashIntoPlay:
     JSR Sprite3_CheckDamage
     JSR Sprite3_Move
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0D50, X : CLC : ADC .x_acceleration, Y : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC .x_acceleration, Y : STA.w $0D50, X
     
-    LDA $0D40, X : CLC : ADC .y_acceleration, Y : STA $0D40, X
+    LDA.w $0D40, X : CLC : ADC .y_acceleration, Y : STA.w $0D40, X
     
-    LDA $0DF0, X : BNE .splash_delay
+    LDA.w $0DF0, X : BNE .splash_delay
     
     JSL Sprite_SpawnSmallWaterSplash
     
-    LDA.b #$10 : STA $0E00, X
+    LDA.b #$10 : STA.w $0E00, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .splash_delay
     
     ; $0F280A ALTERNATE ENTRY POINT
     shared Pirogusu_Animate:
     
-    LDA $0DE0, X : ASL A : STA $00
+    LDA.w $0DE0, X : ASL A : STA $00
     
     LDA $1A : AND.b #$04 : LSR #2 : ORA $00 : TAY
     
-    LDA .animation_states, Y : STA $0D90, X
+    LDA .animation_states, Y : STA.w $0D90, X
     
     RTS
 }
@@ -174,15 +174,15 @@ Sprite_SpawnSmallWaterSplash:
     
     JSL Sprite_SetSpawnedCoords
     
-    STZ $012E
+    STZ.w $012E
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$03 : STA $0DD0, Y
+    LDA.b #$03 : STA.w $0DD0, Y
     
-    LDA.b #$0F : STA $0DF0, Y
-    LDA.b #$00 : STA $0D80, Y
-    LDA.b #$03 : STA $0E40, Y
+    LDA.b #$0F : STA.w $0DF0, Y
+    LDA.b #$00 : STA.w $0D80, Y
+    LDA.b #$03 : STA.w $0E40, Y
     
     .spawn_failed
     
@@ -210,27 +210,27 @@ Pirogusu_Swim:
     JSR Sprite3_CheckDamage
     JSR Pirogusu_Animate
     
-    CLC : ADC.b #$08 : STA $0D90, X
+    CLC : ADC.b #$08 : STA.w $0D90, X
     
-    LDA $0E00, X : BNE .swim_logic_delay
+    LDA.w $0E00, X : BNE .swim_logic_delay
     
     JSR Pirogusu_SpawnSplashGarnish
     JSR Sprite3_Move
     
     JSR Sprite3_CheckTileCollision : AND.b #$0F : BEQ .anochange_direction
     
-    JSL GetRandomInt : LSR A : LDA $0DE0, X : ROL A : TAY
+    JSL GetRandomInt : LSR A : LDA.w $0DE0, X : ROL A : TAY
     
     ; \task Needs to be named.
-    LDA.w $9254, Y : STA $0DE0, X
+    LDA.w $9254, Y : STA.w $0DE0, X
     
     .anochange_direction
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     .swim_logic_delay
     
@@ -281,13 +281,13 @@ Pirogusu_SpawnSplashGarnish:
     .open_garnish_slot
     
     LDA.b #$0B : STA.l $7FF800, X
-                 STA $0FB4
+                 STA.w $0FB4
     
-    LDA $0D10, Y : CLC : ADC $00    : STA.l $7FF83C, X
-    LDA $0D30, Y : ADC.b #$00 : STA.l $7FF878, X
+    LDA.w $0D10, Y : CLC : ADC $00    : STA.l $7FF83C, X
+    LDA.w $0D30, Y : ADC.b #$00 : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : PHP : CLC : ADC $01    : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : PLP : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : PHP : CLC : ADC $01    : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : PLP : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$0F : STA.l $7FF90E, X
     
@@ -319,19 +319,19 @@ Pool_Pirogusu_Draw:
 ; $0F293B-$0F297E LOCAL JUMP LOCATION
 Pirogusu_Draw:
 {
-    LDY $0D90, X
+    LDY.w $0D90, X
     
-    LDA $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     CPY.b #$04 : BCS .fully_visible
     
-    LDA $0FD8 : CLC : ADC.b #$04 : STA $0FD8
-    LDA $0FD9 : ADC.b #$00 : STA $0FD9
+    LDA.w $0FD8 : CLC : ADC.b #$04 : STA.w $0FD8
+    LDA.w $0FD9 : ADC.b #$00 : STA.w $0FD9
     
-    LDA $0FDA : CLC : ADC.b #$04 : STA $0FDA
-    LDA $0FDB : ADC.b #$00 : STA $0FDB
+    LDA.w $0FDA : CLC : ADC.b #$04 : STA.w $0FDA
+    LDA.w $0FDB : ADC.b #$00 : STA.w $0FDB
     
     JSL Sprite_PrepAndDrawSingleSmallLong
     

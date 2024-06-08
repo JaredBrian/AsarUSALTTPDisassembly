@@ -25,7 +25,7 @@ SpritePrep_PotionShop:
     JSR PotionShop_SpawnBluePotion
     JSR PotionShop_SpawnRedPotion
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -35,7 +35,7 @@ SpritePrep_PotionShop:
 ; $02F539-$02F58D LOCAL JUMP LOCATION
 PotionShop_SpawnMagicPowder:
 {
-    LDA $0ABF : BEQ .must_leave_area_and_come_back
+    LDA.w $0ABF : BEQ .must_leave_area_and_come_back
     
     LDA.l $7EF344 : CMP.b #$02 : BEQ .has_magic_powder
     
@@ -58,13 +58,13 @@ PotionShop_SpawnMagicPowder:
     
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
-    LDA $0D00, X : SEC : SBC.b #$00 : STA $0D00, Y
-    LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, X : SEC : SBC.b #$00 : STA.w $0D00, Y
+    LDA.w $0D20, X : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA $0D10, X : SEC : SBC.b #$10 : STA $0D10, Y
-    LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA.w $0D10, Y
+    LDA.w $0D30, X : SBC.b #$00 : STA.w $0D30, Y
     
     JMP PotionShop_SetPlayerInteractivity
     
@@ -82,13 +82,13 @@ PotionShop_SpawnGreenPotion:
 {
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
     
-    LDA.b #$02 : STA $0E80, Y
+    LDA.b #$02 : STA.w $0E80, Y
     
-    LDA $0D00, X : SEC : SBC.b #$48 : STA $0D00, Y
-    LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, X : SEC : SBC.b #$48 : STA.w $0D00, Y
+    LDA.w $0D20, X : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA $0D10, X : SEC : SBC.b #$28 : STA $0D10, Y
-    LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
+    LDA.w $0D10, X : SEC : SBC.b #$28 : STA.w $0D10, Y
+    LDA.w $0D30, X : SBC.b #$00 : STA.w $0D30, Y
     
     JMP PotionShop_SetPlayerInteractivity
     
@@ -104,13 +104,13 @@ PotionShop_SpawnBluePotion:
 {
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
     
-    LDA.b #$03 : STA $0E80, Y
+    LDA.b #$03 : STA.w $0E80, Y
     
-    LDA $0D00, X : SEC : SBC.b #$48 : STA $0D00, Y
-    LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, X : SEC : SBC.b #$48 : STA.w $0D00, Y
+    LDA.w $0D20, X : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, Y
-    LDA $0D30, X : ADC.b #$00 : STA $0D30, Y
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, Y
+    LDA.w $0D30, X : ADC.b #$00 : STA.w $0D30, Y
     
     JMP PotionShop_SetPlayerInteractivity
     
@@ -128,20 +128,20 @@ PotionShop_SpawnRedPotion:
     
     JSL Sprite_SpawnDynamically
     
-    LDA.b #$04 : STA $0E80, Y
+    LDA.b #$04 : STA.w $0E80, Y
     
-    LDA $0D00, X : SEC : SBC.b #$48 : STA $0D00, Y
-    LDA $0D20, X : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, X : SEC : SBC.b #$48 : STA.w $0D00, Y
+    LDA.w $0D20, X : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA $0D10, X : SEC : SBC.b #$58 : STA $0D10, Y
-    LDA $0D30, X : SBC.b #$00 : STA $0D30, Y
+    LDA.w $0D10, X : SEC : SBC.b #$58 : STA.w $0D10, Y
+    LDA.w $0D30, X : SBC.b #$00 : STA.w $0D30, Y
     
     ; $02F61D ALTERNATE ENTRY POINT
     shared PotionShop_SetPlayerInteractivity:
     
-    LDA.b #$03 : STA $0F60, Y
+    LDA.b #$03 : STA.w $0F60, Y
     
-    LDA $0CAA, Y : ORA.b #$20 : STA $0CAA, Y
+    LDA.w $0CAA, Y : ORA.b #$20 : STA.w $0CAA, Y
     
     RTS
 }
@@ -167,7 +167,7 @@ Sprite_PotionShopLong:
 ; $02F633-$02F643 LOCAL JUMP LOCATION
 Sprite_PotionShop:
 {
-    LDA $0E80, X
+    LDA.w $0E80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -197,13 +197,13 @@ Sprite_MagicPowderItem:
     
     LDY.b #$0D
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
     PLX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_give_item
     
@@ -247,7 +247,7 @@ Sprite_GreenPotionItem:
     JSR Sprite2_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
     JSR WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
     
@@ -278,7 +278,7 @@ Sprite_GreenPotionItem:
     
     LDA.b #$1D : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     REP #$20
     
@@ -288,7 +288,7 @@ Sprite_GreenPotionItem:
     
     LDY.b #$2F
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -306,7 +306,7 @@ Sprite_GreenPotionItem:
     
     .delta
     
-    JMP $F83E   ; $02F83E IN ROM
+    JMP.w $F83E   ; $02F83E IN ROM
 }
 
 ; ==============================================================================
@@ -345,7 +345,7 @@ Sprite_BluePotionItem:
     JSR Sprite2_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
     JSR WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
     
@@ -375,7 +375,7 @@ Sprite_BluePotionItem:
     
     LDA.b #$1D : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     REP #$20
     
@@ -385,7 +385,7 @@ Sprite_BluePotionItem:
     
     LDY.b #$30
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -403,7 +403,7 @@ Sprite_BluePotionItem:
     
     .delta
     
-    JMP $F83E   ; $02F83E IN ROM
+    JMP.w $F83E   ; $02F83E IN ROM
 }
 
 ; ==============================================================================
@@ -443,7 +443,7 @@ Sprite_RedPotionItem:
     JSR Sprite2_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $0DF0, X : BNE .alpha
+    LDA.w $0DF0, X : BNE .alpha
     
     JSR WitchAssistant_CheckIfHaveAnyBottles : BCS .beta
     
@@ -473,7 +473,7 @@ Sprite_RedPotionItem:
     
     LDA.b #$1D : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     REP #$20
     
@@ -483,7 +483,7 @@ Sprite_RedPotionItem:
     
     LDY.b #$2E
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
@@ -572,15 +572,15 @@ Sprite_WitchAssistant:
     
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .alpha
     
-    LDA $0D80, X : BEQ .beta
+    LDA.w $0D80, X : BEQ .beta
     
     LDA.b #$A0 : STA.l $7EF372
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .beta
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.l $7EF35C : CMP.b #$02 : BCS .gamma
     
@@ -590,7 +590,7 @@ Sprite_WitchAssistant:
     
     LDA.l $7EF35F : CMP.b #$02 : BCS .gamma
     
-    LDA $0ABF : BEQ .gamma
+    LDA.w $0ABF : BEQ .gamma
     
     ; You should buy a bottle to put the potion in, hehehe."
     LDA.b #$4D
@@ -602,7 +602,7 @@ Sprite_WitchAssistant:
     
     BCC .alpha
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .alpha
     
@@ -641,7 +641,7 @@ Shopkeeper_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09

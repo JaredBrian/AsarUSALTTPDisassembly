@@ -28,7 +28,7 @@ Sprite_LaserBeam:
     
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDA.b #$26 : JSL Sound_SetSfx3PanLong
     
@@ -55,32 +55,32 @@ LaserBeam_Draw:
     
     DEX : BPL .next_slot
     
-    DEC $0FF8 : BPL .no_underflow
+    DEC.w $0FF8 : BPL .no_underflow
     
-    LDA.b #$1D : STA $0FF8
+    LDA.b #$1D : STA.w $0FF8
     
     .no_underflow
     
-    LDX $0FF8
+    LDX.w $0FF8
     
     .empty_slot
     
     ; laser garnish...?
-    LDA.b #$04 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$04 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$10 : STA.l $7FF90E, X
     
-    LDA $0DC0, Y : STA.l $7FF9FE, X
+    LDA.w $0DC0, Y : STA.l $7FF9FE, X
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0F20, Y : STA.l $7FF968, X
+    LDA.w $0F20, Y : STA.l $7FF968, X
     
     PLX
     
@@ -118,18 +118,18 @@ Pool_SpritePrep_LaserEye:
 ; $0F24F1-$0F2540 LOCAL JUMP LOCATION
 SpritePrep_LaserEye:
 {
-    LDA $0E20, X : CMP.b #$97 : BCC .horizontal
+    LDA.w $0E20, X : CMP.b #$97 : BCC .horizontal
     
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     ; Sets the direction to 2 or 3.
-    LDA $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
     
-    LDA $0D10, X : AND.b #$10 : EOR.b #$10 : STA !requires_facing, X
+    LDA.w $0D10, X : AND.b #$10 : EOR.b #$10 : STA !requires_facing, X
     
     BNE .dont_adjust_y
     
-    LDA $0D00, X : CLC : ADC .offsets-2, Y : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC .offsets-2, Y : STA.w $0D00, X
     
     .dont_adjust_y
     
@@ -137,13 +137,13 @@ SpritePrep_LaserEye:
     
     .horizontal
     
-    LDA $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$95 : STA !laser_eye_direction, X : TAY
     
-    LDA $0D00, X : AND.b #$10 : STA !requires_facing, X
+    LDA.w $0D00, X : AND.b #$10 : STA !requires_facing, X
     
     BNE .dont_adjust_x
     
-    LDA $0D10, X : CLC : ADC .offsets, Y : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC .offsets, Y : STA.w $0D10, X
     
     .dont_adjust_x
     
@@ -155,7 +155,7 @@ SpritePrep_LaserEye:
 ; $0F2541-$0F2559 JUMP LOCATION
 Sprite_LaserEye:
 {
-    LDA $0D90, X : BEQ .not_beam
+    LDA.w $0D90, X : BEQ .not_beam
     
     JMP Sprite_LaserBeam
     
@@ -164,7 +164,7 @@ Sprite_LaserEye:
     JSR LaserEye_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -188,9 +188,9 @@ LaserEye_MonitorFiringZone:
 {
     REP #$20
     
-    LDA $20 : SEC : SBC $0FDA : STA $0C
+    LDA $20 : SEC : SBC.w $0FDA : STA $0C
     
-    LDA $22 : SEC : SBC $0FD8 : STA $0E
+    LDA $22 : SEC : SBC.w $0FD8 : STA $0E
     
     SEP #$20
     
@@ -227,13 +227,13 @@ LaserEye_MonitorFiringZone:
     
     STA !timer_0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .not_in_zone
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     RTS
 }
@@ -267,11 +267,11 @@ Pool_LaserEye_SpawnBeam:
 ; $0F25C2-$0F25D7 JUMP LOCATION
 LaserEye_FiringBeam:
 {
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     LDA !timer_0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     JSR LaserEye_SpawnBeam
     
@@ -293,23 +293,23 @@ LaserEye_SpawnBeam:
     
     LDA !laser_eye_direction, X : TAX
     
-    AND.b #$02 : LSR A : STA $0DC0, Y
+    AND.b #$02 : LSR A : STA.w $0DC0, Y
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA $0D30, Y
+    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low,  X : STA $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA $0D20, Y
+    LDA $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    LDA.b #$20 : STA $0E40, Y : STA $0D90, Y
+    LDA.b #$20 : STA.w $0E40, Y : STA.w $0D90, Y
     
-    LDA.b #$05 : STA $0F50, Y
+    LDA.b #$05 : STA.w $0F50, Y
     
-    LDA.b #$48 : STA $0CAA, Y : STA $0BA0, Y
+    LDA.b #$48 : STA.w $0CAA, Y : STA.w $0BA0, Y
     
     LDA.b #$05 : STA !timer_0, Y
     
@@ -318,7 +318,7 @@ LaserEye_SpawnBeam:
     ; \note Again, this pattern... why even bother writing code to
     ; make sprites blockable if you're just going to ... eh... just a bit
     ; annoying is all.
-    LDA.b #$20 : STA $0BE0, Y
+    LDA.b #$20 : STA.w $0BE0, Y
     
     .not_blockable
     
@@ -377,21 +377,21 @@ LaserEye_Draw:
 {
     LDA !requires_facing, X : BEQ .open_by_default
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     LDA !timer_4, X : BEQ .closed_when_not_firing
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .closed_when_not_firing
     .open_by_default
     
     ; Always draw with super priority.
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     LDA.b #$00 : XBA
     
-    LDA !laser_eye_direction, X : ASL A : ADC $0DC0, X
+    LDA !laser_eye_direction, X : ASL A : ADC.w $0DC0, X
     
     REP #$20
     

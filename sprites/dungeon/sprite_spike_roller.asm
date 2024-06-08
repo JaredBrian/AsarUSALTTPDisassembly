@@ -19,33 +19,33 @@ Sprite_SpikeRoller:
 {
     ; These things are surprisingly simple...
     
-    LDA $0DE0, X : AND.b #$02 : STA $00
+    LDA.w $0DE0, X : AND.b #$02 : STA $00
     
     ; Animation logic
-    LDA $0E80, X : LSR A : AND.b #$01 : ORA $00 : STA $0DC0, X
+    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA $00 : STA.w $0DC0, X
     
     JSR SpikeRoller_Draw
     JSR Sprite2_CheckIfActive
     JSR Sprite2_CheckDamage
     
-    LDA $0DF0, X : BNE .dont_change_direction
+    LDA.w $0DF0, X : BNE .dont_change_direction
     
-    LDA.b #$70 : STA $0DF0, X
+    LDA.b #$70 : STA.w $0DF0, X
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
     .dont_change_direction
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite2_Move
     
     ; Step the animation counter
-    INC $0E80, X
+    INC.w $0E80, X
     
     RTS
 }
@@ -88,14 +88,14 @@ SpikeRoller_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL #3 : STA $06 : TAY
+    LDA.w $0DC0, X : ASL #3 : STA $06 : TAY
     
     LDA .chr, Y : STA $08
     
     PHX
     
     ; Appears that this is the size selector for the spike roller.
-    LDY $0D80, X
+    LDY.w $0D80, X
     
     LDX .num_subsprites, Y
     

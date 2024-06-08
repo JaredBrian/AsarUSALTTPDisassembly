@@ -22,9 +22,9 @@ Sprite_MazeGameLady:
     JSR Sprite5_CheckIfActive
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    JSL Sprite_DirectionToFacePlayerLong : TYA : EOR.b #$03 : STA $0EB0, X
+    JSL Sprite_DirectionToFacePlayerLong : TYA : EOR.b #$03 : STA.w $0EB0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -38,7 +38,7 @@ Sprite_MazeGameLady:
 ; $06CB7E-$06CBB9 JUMP LOCATION
 MazeGameLady_Startup:
 {
-    LDA $0D10, X : CMP $22 : BCS .yous_a_cheater
+    LDA.w $0D10, X : CMP $22 : BCS .yous_a_cheater
     
     ; "... reach the goal within 15 seconds, we will give you something..."
     LDA.b #$CC
@@ -46,15 +46,15 @@ MazeGameLady_Startup:
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
     
-    STA $0EB0, X : STA $0DE0, X
+    STA.w $0EB0, X : STA.w $0DE0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$00 : STA.l $7FFE00 : STA.l $7FFE01 : STA.l $7FFE02 : STA.l $7FFE03
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
-    STZ $0ABF
+    STZ.w $0ABF
     
     .didnt_speak
     
@@ -76,9 +76,9 @@ MazeGameLady_Startup:
 ; $06CBBA-$06CBDF JUMP LOCATION
 MazeGameLady_AccumulateTime:
 {
-    INC $0D90, X : LDA $0D90, X : CMP.b #$3F : BNE .no_reset_frame_counter
+    INC.w $0D90, X : LDA.w $0D90, X : CMP.b #$3F : BNE .no_reset_frame_counter
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     REP #$20
     
@@ -102,7 +102,7 @@ MazeGameLady_PlayStartingNoise:
 {
     LDA.b #$07 : JSL Sound_SetSfx3PanLong
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }

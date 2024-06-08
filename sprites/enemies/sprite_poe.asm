@@ -14,15 +14,15 @@ Pool_Sprite_Poe:
 Sprite_Poe:
 {
     ; Derive orientation (for h_flip) from the sign of the x velocity.
-    LDA $0D50, X : ASL A : ROL A : AND.b #$01 : STA $0DE0, X : TAY
+    LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : STA.w $0DE0, X : TAY
     
-    LDA $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
     ; If this branch is taken, it means that the Poe is rising from a
     ; grave in the light world.
-    LDA $0E90, X : BNE .dont_use_super_priority
+    LDA.w $0E90, X : BNE .dont_use_super_priority
     
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     .dont_use_super_priority
     
@@ -36,24 +36,24 @@ Sprite_Poe:
     
     SEP #$20
     
-    DEC $0E40, X
+    DEC.w $0E40, X
     
     JSR Sprite_PrepAndDrawSingleLarge
     
-    INC $0E40, X
+    INC.w $0E40, X
     
     JSR Sprite_CheckIfActive
     JSR Sprite_CheckIfRecoiling
     
-    LDA $0E90, X : BEQ .not_rising_from_grave
+    LDA.w $0E90, X : BEQ .not_rising_from_grave
     
     ; The Poe can't do anything else while it is rising from a grave. It
     ; just gets drawn and rises until it reaches a height of 12 pixels.
-    INC $0F70, X
+    INC.w $0F70, X
     
-    LDA $0F70, X : CMP.b #12 : BNE .not_at_target_altitude
+    LDA.w $0F70, X : CMP.b #12 : BNE .not_at_target_altitude
     
-    STZ $0E90, X
+    STZ.w $0E90, X
     
     .not_at_target_altitude
     
@@ -63,28 +63,28 @@ Sprite_Poe:
     
     JSR Sprite_CheckDamage
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite_Move
     
     LDA $1A : LSR A : BCS .z_speed_adjustment_delay
     
-    LDA $0ED0, X : AND.b #$01 : TAY
+    LDA.w $0ED0, X : AND.b #$01 : TAY
     
-    LDA $0F80, X : CLC : ADC .acceleration, Y : STA $0F80, X
+    LDA.w $0F80, X : CLC : ADC .acceleration, Y : STA.w $0F80, X
     
     CMP .z_speed_limits, Y : BNE .z_speed_not_at_max
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
     .z_speed_not_at_max
     .z_speed_adjustment_delay
     
     JSR Sprite_MoveAltitude
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -112,9 +112,9 @@ Sprite_Poe:
 ; $03171F-$03173E JUMP LOCATION
 Poe_SelectVerticalDirection:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Generate one random int and check its bit content.
     JSL GetRandomInt : AND.b #$0C : BNE .flip_a_coin
@@ -133,7 +133,7 @@ Poe_SelectVerticalDirection:
     
     .set_y_direction
     
-    STA $0EB0, X
+    STA.w $0EB0, X
     
     .delay
     
@@ -154,28 +154,28 @@ Pool_Poe_Roaming:
 ; $031741-$03177D JUMP LOCATION
 Poe_Roaming:
 {
-    LDA $001A : LSR A : BCS .adjust_speed_delay
+    LDA.w $001A : LSR A : BCS .adjust_speed_delay
     
     ; Why are we adding the light world / dark world distinctifier?
-    LDA $0EC0, X : AND.b #$01 : CLC : ADC $0FFF : ADC $0FFF : TAY
+    LDA.w $0EC0, X : AND.b #$01 : CLC : ADC.w $0FFF : ADC.w $0FFF : TAY
     
-    LDA $0D50, X : CLC : ADC .acceleration, Y : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC .acceleration, Y : STA.w $0D50, X
     
     CMP .x_speed_limits, Y : BNE .x_speed_maxed_out
     
     ; Speed limit reached, time to switch direction.
-    INC $0EC0, X
+    INC.w $0EC0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$10 : STA.w $0DF0, X
     
     .adjust_speed_delay
     .x_speed_maxed_out
     
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -199,9 +199,9 @@ Poe_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $0E80, X : LSR #3 : AND.b #$03 : STA $06
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA $06
     
-    LDA $0DE0, X : ASL A : PHX : TAX
+    LDA.w $0DE0, X : ASL A : PHX : TAX
     
     REP #$20
     

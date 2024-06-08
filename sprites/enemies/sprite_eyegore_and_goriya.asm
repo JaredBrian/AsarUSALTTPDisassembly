@@ -4,7 +4,7 @@
 ; $0F4700-$0F4720 LONG JUMP LOCATION
 SpritePrep_Eyegore:
 {
-    LDA $048E
+    LDA.w $048E
     
     CMP.b #$0C : BEQ .is_goriya
     CMP.b #$1B : BEQ .is_goriya
@@ -13,12 +13,12 @@ SpritePrep_Eyegore:
     
     .is_goriya:
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
-    LDA $0E20, X : CMP.b #$83 : BNE .not_red_goriya
+    LDA.w $0E20, X : CMP.b #$83 : BNE .not_red_goriya
     
     ; Disable some of the invulnerability properties.
-    STZ $0CAA, X
+    STZ.w $0CAA, X
     
     .not_red_goriya
     .not_goriya
@@ -37,7 +37,7 @@ SpritePrep_Eyegore:
 ; $0F4791-$0F479A BRANCH LOCATION
 Goriya_StayStill:
 {
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     JSR Sprite3_CheckDamage
     JSR Sprite3_CheckTileCollision
@@ -50,7 +50,7 @@ Goriya_StayStill:
 ; $0F479B-$0F4838 JUMP LOCATION
 Sprite_Eyegore:
 {
-    LDA $0DA0, X : BNE Sprite_Goriya
+    LDA.w $0DA0, X : BNE Sprite_Goriya
     
     JMP Eyegore_Main
     
@@ -60,7 +60,7 @@ Sprite_Goriya:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $0E00, X : BEQ .phlegm_inhibit
+    LDA.w $0E00, X : BEQ .phlegm_inhibit
     CMP.b #$08   : BNE .phlegm_delay
     
     JSL Sprite_SpawnFirePhlegm
@@ -69,9 +69,9 @@ Sprite_Goriya:
     .phlegm_inhibit
     
     ; Ignore the player just pressing against a wall
-    LDA $0048 : CMP.b #$00 : BNE Goriya_StayStill
+    LDA.w $0048 : CMP.b #$00 : BNE Goriya_StayStill
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
     LDA $F0 : AND.b #$0F : BEQ Goriya_StayStill
     
@@ -83,13 +83,13 @@ Sprite_Goriya:
     
     TAY
     
-    LDA.w $C761, Y : STA $0DE0, X
+    LDA.w $C761, Y : STA.w $0DE0, X
     
-    LDA.w $C721, Y : STA $0D50, X
+    LDA.w $C721, Y : STA.w $0D50, X
     
-    LDA.w $C741, Y : STA $0D40, X
+    LDA.w $C741, Y : STA.w $0D40, X
     
-    LDA $0E70, X : BNE .tile_collision
+    LDA.w $0E70, X : BNE .tile_collision
     
     JSR Sprite3_Move
     
@@ -98,11 +98,11 @@ Sprite_Goriya:
     JSR Sprite3_CheckDamage
     JSR Sprite3_CheckTileCollision
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$0C : ORA $0DE0, X : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0C : ORA.w $0DE0, X : TAY
     
-    LDA.w $C781, Y : STA $0DC0, X
+    LDA.w $C781, Y : STA.w $0DC0, X
     
-    LDA $0E20, X : CMP.b #$84 : BNE .no_fire_phlegm_logic
+    LDA.w $0E20, X : CMP.b #$84 : BNE .no_fire_phlegm_logic
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -111,15 +111,15 @@ Sprite_Goriya:
     
     .in_firing_line
     
-    TYA : CMP $0DE0, X : BNE .not_facing_player
+    TYA : CMP.w $0DE0, X : BNE .not_facing_player
     
-    LDA $0D90, X : AND.b #$1F : BNE .phlegm_charge_counter_not_maxed
+    LDA.w $0D90, X : AND.b #$1F : BNE .phlegm_charge_counter_not_maxed
     
-    LDA.b #$10 : STA $0E00, X
+    LDA.b #$10 : STA.w $0E00, X
     
     .phlegm_charge_counter_not_maxed
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     RTS
     
@@ -127,7 +127,7 @@ Sprite_Goriya:
     .not_in_firing_line
     .no_fire_phlegm_logic
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
     RTS
 }
@@ -142,10 +142,10 @@ Eyegore_Main:
     JSR Sprite3_CheckIfRecoiling
     JSR Sprite3_CheckDamage
     
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
-    LDA $0CAA, X : ORA.b #$04 : STA $0CAA, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
+    LDA.w $0CAA, X : ORA.b #$04 : STA.w $0CAA, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -169,7 +169,7 @@ Pool_Eyegore:
 ; $0F4868-$0F488A JUMP LOCATION
 Eyegore_WaitUntilPlayerNearby:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -177,9 +177,9 @@ Eyegore_WaitUntilPlayerNearby:
     
     LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
     .player_not_close
     .delay
@@ -200,15 +200,15 @@ Pool_Eyegore_OpeningEye:
 ; $0F4893-$0F48BA JUMP LOCATION
 Eyegore_OpeningEye:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    JSR Sprite3_DirectionToFacePlayer : TYA : STA $0DE0, X
+    JSR Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA Eyegore.timers, Y : STA $0DF0, X
+    LDA Eyegore.timers, Y : STA.w $0DF0, X
     
     RTS
     
@@ -216,7 +216,7 @@ Eyegore_OpeningEye:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -237,21 +237,21 @@ Pool_Eyegore_ChasePlayer:
 ; $0F48CB-$0F492D JUMP LOCATION
 Eyegore_ChasePlayer:
 {
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
-    LDA $0E20, X : CMP.b #$84 : BEQ .is_red_eyegore
+    LDA.w $0E20, X : CMP.b #$84 : BEQ .is_red_eyegore
     
-    LDA $0CAA, X : AND.b #$FB : STA $0CAA, X
+    LDA.w $0CAA, X : AND.b #$FB : STA.w $0CAA, X
     
     .is_red_eyegore
     
-    LDA $0DF0, X : BNE .close_eye_delay
+    LDA.w $0DF0, X : BNE .close_eye_delay
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     RTS
     
@@ -261,17 +261,17 @@ Eyegore_ChasePlayer:
     
     JSR Sprite3_DirectionToFacePlayer
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     .face_player_delay
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA Sprite3_Shake.x_speeds, Y : STA $0D50, X
+    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
     
-    LDA Sprite3_Shake.y_speeds, Y : STA $0D40, X
+    LDA Sprite3_Shake.y_speeds, Y : STA.w $0D40, X
     
-    LDA $0E70, X : BNE .collided_with_tile
+    LDA.w $0E70, X : BNE .collided_with_tile
     
     JSR Sprite3_Move
     
@@ -279,9 +279,9 @@ Eyegore_ChasePlayer:
     
     JSR Sprite3_CheckTileCollision
     
-    INC $0E80, X : LDA $0E80, X : AND.b #$0C : ORA $0DE0, X : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0C : ORA.w $0DE0, X : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -300,11 +300,11 @@ Pool_Eyegore_ClosingEye:
 ; $0F4936-$0F494E JUMP LOCATION
 Eyegore_ClosingEye:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
     RTS
     
@@ -312,7 +312,7 @@ Eyegore_ClosingEye:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -390,7 +390,7 @@ Pool_Eyegore_Draw:
 Eyegore_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
     
     SEP #$20
     
@@ -398,7 +398,7 @@ Eyegore_Draw:
     
     ; \note I don't get this. Most other sprites don't have this check,
     ; do they?
-    LDA $0F00, X : BNE .dont_draw_shadow
+    LDA.w $0F00, X : BNE .dont_draw_shadow
     
     LDA.b #$0E : JSL Sprite_DrawShadowLong.variable
     

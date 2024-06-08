@@ -26,7 +26,7 @@ Sprite_BottleVendor:
     
     JSR BottleVendor_Draw
     
-    LDA $03 : ORA $01 : STA $0D90, X
+    LDA $03 : ORA $01 : STA.w $0D90, X
     
     JSR Sprite2_CheckIfActive
     JSL BottleVendor_DetectFish
@@ -40,19 +40,19 @@ Sprite_BottleVendor:
     
     JSL GetRandomInt : BNE .dont_reset_timer
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
-    LDA.b #$14 : STA $0DF0, X
+    LDA.b #$14 : STA.w $0DF0, X
     
     .dont_reset_timer
     
-    LDA $0DF0, X : BNE .wait
+    LDA.w $0DF0, X : BNE .wait
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .wait
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -84,11 +84,11 @@ BottleVendor_Base:
 {
     ; \task Find out why it would check this... What is $0D90 really, for
     ; this sprite?
-    LDA $0D90, X : BNE .off_screen
+    LDA.w $0D90, X : BNE .off_screen
     
-    LDA $0E90, X : BEQ .no_fish_or_good_bee
+    LDA.w $0E90, X : BEQ .no_fish_or_good_bee
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     RTS
     
@@ -103,7 +103,7 @@ BottleVendor_Base:
     
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing : BCC .didnt_converse
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .didnt_converse
     
@@ -115,7 +115,7 @@ BottleVendor_Base:
 ; $02EAED-$02EB16 JUMP LOCATION
 BottleVendor_SellingBottle:
 {
-    LDA $1CE8 : BNE .no_selected
+    LDA.w $1CE8 : BNE .no_selected
     
     REP #$20
     
@@ -128,7 +128,7 @@ BottleVendor_SellingBottle:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -141,7 +141,7 @@ BottleVendor_SellingBottle:
     
     JSL Sprite_ShowMessageUnconditional
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -154,7 +154,7 @@ BottleVendor_GiveBottle:
     ; \item(Bottle)
     LDY.b #$16
     
-    STZ $02E9
+    STZ.w $02E9
     
     PHX
     
@@ -170,7 +170,7 @@ BottleVendor_GiveBottle:
     
     SEP #$30
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -180,7 +180,7 @@ BottleVendor_GiveBottle:
 ; $02EB40-$02EB5C JUMP LOCATION
 BottleVendor_BuyingFromPlayer:
 {
-    LDA $0E90, X : BMI .player_has_fish
+    LDA.w $0E90, X : BMI .player_has_fish
     
     ; "Wow! I've never seen such a rare bug! I'll buy it for 100 rupees..."
     LDA.b #$D5
@@ -188,7 +188,7 @@ BottleVendor_BuyingFromPlayer:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -200,7 +200,7 @@ BottleVendor_BuyingFromPlayer:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -210,16 +210,16 @@ BottleVendor_BuyingFromPlayer:
 ; $02EB5D-$02EB86 JUMP LOCATION
 BottleVendor_DispenseRewardToPlayer:
 {
-    LDY $0E90, X : BMI .player_has_fish
+    LDY.w $0E90, X : BMI .player_has_fish
     
     DEY
     
-    LDA.b #$00 : STA $0DD0, Y
+    LDA.b #$00 : STA.w $0DD0, Y
     
     JSL BottleVendor_PayForGoodBee
     
-    STZ $0E90, X
-    STZ $0D80, X
+    STZ.w $0E90, X
+    STZ.w $0D80, X
     
     RTS
     
@@ -227,12 +227,12 @@ BottleVendor_DispenseRewardToPlayer:
     
     TYA : AND.b #$0F : TAY
     
-    LDA.b #$00 : STA $0DD0, Y
+    LDA.b #$00 : STA.w $0DD0, Y
     
     JSL BottleVendor_SpawnFishRewards
     
-    STZ $0E90, X
-    STZ $0D80, X
+    STZ.w $0E90, X
+    STZ.w $0D80, X
     
     RTS
 }
@@ -258,7 +258,7 @@ BottleVendor_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ; $02EB87 = .animation_states
     ADC.b #$87              : STA $08

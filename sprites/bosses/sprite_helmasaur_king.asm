@@ -6,30 +6,30 @@
 ; $0F0000-$0F0038 LONG JUMP LOCATION
 HelmasaurKing_Initialize:
 {
-    LDA.b #$30 : STA $0B2F
+    LDA.b #$30 : STA.w $0B2F
     
-    LDA.b #$80 : STA $0B2D
+    LDA.b #$80 : STA.w $0B2D
     
-    STZ $0B2E
-    STZ $0B30
-    STZ $0B33
-    STZ $0B31
-    STZ $0B32
+    STZ.w $0B2E
+    STZ.w $0B30
+    STZ.w $0B33
+    STZ.w $0B31
+    STZ.w $0B32
 
     ; $0F0019 ALTERNATE ENTRY POINT
     shared HelmasaurKing_Reinitialize:
 
     PHB : PHK : PLB : PHX
     
-    LDA $0E80, X : STA $00 ; jump here
+    LDA.w $0E80, X : STA $00 ; jump here
     
     LDY.b #$03
     
     .next_whatever
     
-    LDA $00 : CLC : ADC $829C, Y : AND.b #$1F : TAX
+    LDA $00 : CLC : ADC.w $829C, Y : AND.b #$1F : TAX
     
-    LDA.w $827C, X : STA $0B08, Y
+    LDA.w $827C, X : STA.w $0B08, Y
     
     DEY : BPL .next_whatever
     
@@ -43,35 +43,35 @@ HelmasaurKing_Initialize:
 ; $0F0039-$0F0109 JUMP LOCATION
 Sprite_HelmasaurKing:
 {
-    LDA $0DB0, X : BPL .BRANCH_ALPHA
+    LDA.w $0DB0, X : BPL .BRANCH_ALPHA
     
-    LDA $0DF0, X : BEQ .BRANCH_BETA
+    LDA.w $0DF0, X : BEQ .BRANCH_BETA
     DEC A        : BNE .BRANCH_BETA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_BETA
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
-    LDA $1A : AND.b #$07 : ORA $0E00, X : BNE .BRANCH_GAMMA
+    LDA $1A : AND.b #$07 : ORA.w $0E00, X : BNE .BRANCH_GAMMA
     
-    LDA $0F50, X : EOR.b #$40 : STA $0F50, X
+    LDA.w $0F50, X : EOR.b #$40 : STA.w $0F50, X
     
     .BRANCH_GAMMA
     
     JSR Sprite3_MoveXyz
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .BRANCH_DELTA
+    LDA.w $0F70, X : BPL .BRANCH_DELTA
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$0C : STA $0DF0, X
-    LDA.b #$18 : STA $0F80, X
-    LDA.b #$06 : STA $0DC0, X
+    LDA.b #$0C : STA.w $0DF0, X
+    LDA.b #$18 : STA.w $0F80, X
+    LDA.b #$06 : STA.w $0DC0, X
     
     .BRANCH_DELTA
     
@@ -81,30 +81,30 @@ Sprite_HelmasaurKing:
     
     CMP.b #$03 : BCS .BRANCH_EPSILON
     
-    LDA $0B89, X : AND.b #$F1 : STA $0B89, X
+    LDA.w $0B89, X : AND.b #$F1 : STA.w $0B89, X
     
-    LDA.b #$0A : STA $0B6B, X
+    LDA.b #$0A : STA.w $0B6B, X
     
     BRA .BRANCH_ZETA
     
     .BRANCH_EPSILON
     
-    LDA.b #$1F : STA $0F60, X
-    LDA.b #$02 : STA $0B6B, X
+    LDA.b #$1F : STA.w $0F60, X
+    LDA.b #$02 : STA.w $0B6B, X
     
     .BRANCH_ZETA
     
-    JSR $853B   ; $0F053B IN ROM
+    JSR.w $853B   ; $0F053B IN ROM
     
-    LDA $0DD0, X : CMP.b #$06 : BNE .BRANCH_$F0117
+    LDA.w $0DD0, X : CMP.b #$06 : BNE .BRANCH_$F0117
     
-    LDA $0DF0, X : BNE .BRANCH_THETA
+    LDA.w $0DF0, X : BNE .BRANCH_THETA
     
-    LDA.b #$04 : STA $0DD0, X
+    LDA.b #$04 : STA.w $0DD0, X
     
-    STZ $0D90, X
+    STZ.w $0D90, X
     
-    LDA.b #$E0 : STA $0DF0, X
+    LDA.b #$E0 : STA.w $0DF0, X
     
     RTS
     
@@ -112,39 +112,39 @@ Sprite_HelmasaurKing:
     
     PHA
     
-    ORA.b #$F0 : STA $0EF0, X
+    ORA.b #$F0 : STA.w $0EF0, X
     
     PLA : CMP.b #$80 : BCS .BRANCH_IOTA
     
     AND.b #$07 : BNE .BRANCH_IOTA
     
-    LDY $0B33 : CPY.b #$10 : BEQ .BRANCH_IOTA
+    LDY.w $0B33 : CPY.b #$10 : BEQ .BRANCH_IOTA
     
-    INC $0B33
+    INC.w $0B33
     
     STZ $00
     
-    LDA $0B0D, Y : BPL .BRANCH_KAPPA
+    LDA.w $0B0D, Y : BPL .BRANCH_KAPPA
     
     DEC $00
     
     .BRANCH_KAPPA
     
-    CLC : ADC $0D10, X : STA $0FD8
+    CLC : ADC.w $0D10, X : STA.w $0FD8
     
-    LDA $0D30, X : ADC $00 : STA $0FD9
+    LDA.w $0D30, X : ADC $00 : STA.w $0FD9
     
     STZ $00
     
-    LDA $0B1D, Y : BPL .BRANCH_LAMBDA
+    LDA.w $0B1D, Y : BPL .BRANCH_LAMBDA
     
     DEC $00
     
     .BRANCH_LAMBDA
     
-    CLC : ADC $0D00, X : STA $0FDA
+    CLC : ADC.w $0D00, X : STA.w $0FDA
     
-    LDA $0D20, X : ADC $00 : STA $0FDB
+    LDA.w $0D20, X : ADC $00 : STA.w $0FDB
     
     JSL Sprite_MakeBossDeathExplosion
     
@@ -168,54 +168,54 @@ Sprite_HelmasaurKing:
 {
     JSR Sprite3_CheckIfActive
     
-    LDA $0E50, X : LSR #2 : TAY
+    LDA.w $0E50, X : LSR #2 : TAY
     
-    LDA.w $810A, Y : STA $0DB0, X : CMP.b #$03 : BNE .BRANCH_ALPHA
+    LDA.w $810A, Y : STA.w $0DB0, X : CMP.b #$03 : BNE .BRANCH_ALPHA
     
-    CMP $0E90, X : BEQ .BRANCH_BETA
+    CMP.w $0E90, X : BEQ .BRANCH_BETA
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    JSR $848C ; $0F048C IN ROM
+    JSR.w $848C ; $0F048C IN ROM
     
     BRA .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    CMP $0E90, X : BEQ .BRANCH_BETA
+    CMP.w $0E90, X : BEQ .BRANCH_BETA
     
-    JSR $847E ; $0F047E IN ROM
+    JSR.w $847E ; $0F047E IN ROM
     
     .BRANCH_BETA
     
-    LDA $0DB0, X : STA $0E90, X
+    LDA.w $0DB0, X : STA.w $0E90, X
     
     JSL Sprite_CheckDamageFromPlayerLong
-    JSR $82A0 ; $0F02A0 IN ROM
-    JSR $83EB ; $0F03EB IN ROM
-    JSR $8385 ; $0F0385 IN ROM
+    JSR.w $82A0 ; $0F02A0 IN ROM
+    JSR.w $83EB ; $0F03EB IN ROM
+    JSR.w $8385 ; $0F0385 IN ROM
     
-    LDA $0E00, X : BEQ .BRANCH_GAMMA
+    LDA.w $0E00, X : BEQ .BRANCH_GAMMA
     CMP.b #$60   : BEQ .BRANCH_DELTA
     
     RTS
     
     .BRANCH_GAMMA
     
-    LDA $0E10, X : BEQ .BRANCH_EPSILON
+    LDA.w $0E10, X : BEQ .BRANCH_EPSILON
     CMP.b #$40   : BNE .BRANCH_ZETA
     
-    JSR $8517 ; $0F0517 IN ROM
+    JSR.w $8517 ; $0F0517 IN ROM
     
-    LDA $0DB0, X : CMP.b #$03 : BCC .BRANCH_ZETA
+    LDA.w $0DB0, X : CMP.b #$03 : BCC .BRANCH_ZETA
     
     .BRANCH_DELTA
     
-    LDA $0EC0, X : BNE .BRANCH_ZETA
+    LDA.w $0EC0, X : BNE .BRANCH_ZETA
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
-    LDA.b #$20 : STA $0EE0, X
+    LDA.b #$20 : STA.w $0EE0, X
     
     .BRANCH_ZETA
     
@@ -223,7 +223,7 @@ Sprite_HelmasaurKing:
     
     .BRANCH_EPSILON
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -235,31 +235,31 @@ Sprite_HelmasaurKing:
 
 ; $0F019C-$0F01D4 JUMP LOCATION
 {
-    LDA $0EF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0EF0, X : BNE .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    JSR $8253 ; $0F0253 IN ROM
+    JSR.w $8253 ; $0F0253 IN ROM
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA.w $818C, Y : STA $0D50, X
-    LDA.w $8194, Y : STA $0D40, X
+    LDA.w $818C, Y : STA.w $0D50, X
+    LDA.w $8194, Y : STA.w $0D40, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
-    LDA $0DB0, X : CMP.b #$03 : BCC .BRANCH_GAMMA
+    LDA.w $0DB0, X : CMP.b #$03 : BCC .BRANCH_GAMMA
     
-    ASL $0D50, X
-    ASL $0D40, X
+    ASL.w $0D50, X
+    ASL.w $0D40, X
     
-    LSR $0DF0, X
+    LSR.w $0DF0, X
     
     .BRANCH_GAMMA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_BETA
     
@@ -268,13 +268,13 @@ Sprite_HelmasaurKing:
 
 ; $0F01D5-$0F01E5 JUMP LOCATION
 {
-    JSR $81E6 ; $0F01E6 IN ROM
+    JSR.w $81E6 ; $0F01E6 IN ROM
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_ALPHA
     
@@ -284,17 +284,17 @@ Sprite_HelmasaurKing:
 
 ; $0F01E6-$0F01FF LOCAL JUMP LOCATION
 {
-    JSR $8200 ; $0F0200 IN ROM
+    JSR.w $8200 ; $0F0200 IN ROM
     
     LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
-    JSR $8200 ; $0F0200 IN ROM
+    JSR.w $8200 ; $0F0200 IN ROM
     
     .BRANCH_ALPHA
     
-    LDA $0DB0, X : CMP.b #$03 : BCC .BRANCH_BETA
+    LDA.w $0DB0, X : CMP.b #$03 : BCC .BRANCH_BETA
     
-    JSR $8200 ; $0F0200 IN ROM
+    JSR.w $8200 ; $0F0200 IN ROM
     
     .BRANCH_BETA
     
@@ -306,9 +306,9 @@ Sprite_HelmasaurKing:
 
 ; $0F0200-$0F020F LOCAL JUMP LOCATION
 {
-    INC $0E80, X : LDA $0E80, X : AND.b #$0F : BNE .BRANCH_ALPHA
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$0F : BNE .BRANCH_ALPHA
     
-    LDA.b #$21 : STA $012E
+    LDA.b #$21 : STA.w $012E
     
     .BRANCH_ALPHA
     
@@ -317,27 +317,27 @@ Sprite_HelmasaurKing:
 
 ; $0F0210-$0F0241 JUMP LOCATION
 {
-    LDA $0EF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0EF0, X : BNE .BRANCH_ALPHA
     
-    LDA $0DF0, X : BNE .BRANCH_BETA
+    LDA.w $0DF0, X : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
-    JSR $8253 ; $0F0253 IN ROM
+    JSR.w $8253 ; $0F0253 IN ROM
     
-    LDA #$40 : STA $0DF0, X
+    LDA #$40 : STA.w $0DF0, X
     
-    LDA $0E90, X : CMP.b #$03 : BCC .BRANCH_GAMMA
+    LDA.w $0E90, X : CMP.b #$03 : BCC .BRANCH_GAMMA
     
-    LSR $0DF0, X
+    LSR.w $0DF0, X
     
     .BRANCH_GAMMA
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .BRANCH_BETA
     
@@ -346,13 +346,13 @@ Sprite_HelmasaurKing:
 
 ; $0F0242-$0F0252 JUMP LOCATION
 {
-    JSR $81E6 ; $0F01E6 IN ROM
+    JSR.w $81E6 ; $0F01E6 IN ROM
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
@@ -361,17 +361,17 @@ Sprite_HelmasaurKing:
 
 ; $0F0253-$0F027B LOCAL JUMP LOCATION
 {
-    INC $0E30, X
+    INC.w $0E30, X
     
-    LDA $0E30, X : CMP.b #$04 : BNE .BRANCH_ALPHA
+    LDA.w $0E30, X : CMP.b #$04 : BNE .BRANCH_ALPHA
     
     PLA : PLA
     
-    STZ $0E30, X
+    STZ.w $0E30, X
     
     JSL GetRandomInt : AND.b #$01 : BEQ .BRANCH_BETA
     
-    LDA.b #$7F : STA $0E10, X
+    LDA.b #$7F : STA.w $0E10, X
     
     LDA.b #$2A : JSL Sound_SetSfx3PanLong
     
@@ -379,7 +379,7 @@ Sprite_HelmasaurKing:
     
     .BRANCH_BETA
     
-    LDA.b #$A0 : STA $0E00, X
+    LDA.b #$A0 : STA.w $0E00, X
     
     .BRANCH_ALPHA
     
@@ -398,13 +398,13 @@ Pool_HelmasaurKing_Initialize:
 
 ; $0F02A0-$0F0326 LOCAL JUMP LOCATION
 {
-    INC $0B0C
+    INC.w $0B0C
     
     JSL HelmasaurKing_Reinitialize
     
     LDA.b #$01
     
-    LDY $0EC0, X : BEQ .BRANCH_ALPHA
+    LDY.w $0EC0, X : BEQ .BRANCH_ALPHA
     
     LDA.b #$00
     
@@ -412,54 +412,54 @@ Pool_HelmasaurKing_Initialize:
     
     AND $1A : BNE .BRANCH_BETA
     
-    LDA $0DE0, X : AND.b #$01 : TAY
+    LDA.w $0DE0, X : AND.b #$01 : TAY
     
-    LDA $0B30 : CLC : ADC $8383, Y : STA $0B30
+    LDA.w $0B30 : CLC : ADC.w $8383, Y : STA.w $0B30
     
     CMP Sprite3_Shake.x_speeds, Y : BNE .BRANCH_GAMMA
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
     .BRANCH_GAMMA
     
     LDY.b #$00
     
-    LDA $0B30 : BPL .BRANCH_DELTA
+    LDA.w $0B30 : BPL .BRANCH_DELTA
     
     DEY
     
     .BRANCH_DELTA
     
-    CLC : ADC $0B2D : STA $0B2D
+    CLC : ADC.w $0B2D : STA.w $0B2D
     
-    TYA : ADC $0B2E : AND.b #$FF : STA $0B2E
+    TYA : ADC.w $0B2E : AND.b #$FF : STA.w $0B2E
     
     .BRANCH_BETA
     
-    LDA $0EC0, X : BEQ .BRANCH_EPSILON
+    LDA.w $0EC0, X : BEQ .BRANCH_EPSILON
     
-    LDA $0B30 : BNE .BRANCH_ZETA
+    LDA.w $0B30 : BNE .BRANCH_ZETA
     
     LDA.b #$06 : JSL Sound_SetSfx3PanLong
     
     .BRANCH_ZETA
     
-    LDA $0EC0, X
+    LDA.w $0EC0, X
     
     CMP.b #$02 : BEQ .BRANCH_$F032D
     CMP.b #$03 : BEQ .BRANCH_$F0357
     
-    LDA $0B30 : ORA $0EE0, X : BNE .BRANCH_$F0382 ; (RTS)
+    LDA.w $0B30 : ORA.w $0EE0, X : BNE .BRANCH_$F0382 ; (RTS)
     
-    LDA $0B2E : AND.b #$01 : STA $0EB0, X
+    LDA.w $0B2E : AND.b #$01 : STA.w $0EB0, X
     
     JSR Sprite3_IsToRightOfPlayer
     
-    TYA : EOR.b #$01 : CMP $0EB0, X : BNE .BRANCH_EPSILON
+    TYA : EOR.b #$01 : CMP.w $0EB0, X : BNE .BRANCH_EPSILON
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
-    JSL Sound_SetSfxPan : ORA.b #$26 : STA $012F
+    JSL Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
     
     .BRANCH_EPSILON
     
@@ -468,36 +468,36 @@ Pool_HelmasaurKing_Initialize:
 
 ; $0F032D-$0F0356 BRANCH LOCATION
 {
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
-    LDA $0B31 : CLC : ADC $8327, Y : STA $0B31 : PHA
-    LDA $0B32 : ADC $8329, Y  : STA $0B32
+    LDA.w $0B31 : CLC : ADC.w $8327, Y : STA.w $0B31 : PHA
+    LDA.w $0B32 : ADC.w $8329, Y  : STA.w $0B32
     
-    PLA : CMP $832B, Y : BNE .BRANCH_ALPHA
+    PLA : CMP.w $832B, Y : BNE .BRANCH_ALPHA
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     .BRANCH_ALPHA
     
-    LDA $0B2F : CLC : ADC.b #$03 : STA $0B2F
+    LDA.w $0B2F : CLC : ADC.b #$03 : STA.w $0B2F
     
     RTS
 }
 
 ; $0F0357-$0F0382 BRANCH LOCATION
 {
-    LDA $0EB0, X : EOR.b #$01 : TAY
+    LDA.w $0EB0, X : EOR.b #$01 : TAY
     
-    LDA $0B31 : CLC : ADC $8327, Y : STA $0B31 : PHA
-    LDA $0B32 : ADC $8329, Y : STA $0B32
+    LDA.w $0B31 : CLC : ADC.w $8327, Y : STA.w $0B31 : PHA
+    LDA.w $0B32 : ADC.w $8329, Y : STA.w $0B32
     
     PLA : CMP.b #$00 : BNE .BRANCH_ALPHA
     
-    STZ $0EC0, X
+    STZ.w $0EC0, X
     
     .BRANCH_ALPHA
     
-    LDA $0B2F : SEC : SBC.b #$03 : STA $0B2F
+    LDA.w $0B2F : SEC : SBC.b #$03 : STA.w $0B2F
     
     RTS
 }
@@ -515,25 +515,25 @@ Pool_HelmasaurKing_Initialize:
 
 ; $0F0385-$0F03EA LOCAL JUMP LOCATION
 {
-    LDA $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
+    LDA.w $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
     
-    LDA $0301 : AND.b #$0A : BEQ .BRANCH_ALPHA
+    LDA.w $0301 : AND.b #$0A : BEQ .BRANCH_ALPHA
     
     LDA $44 : CMP.b #$80 : BEQ .BRANCH_ALPHA
     
     JSL Player_SetupActionHitBoxLong
     
-    LDA $0D00, X : PHA : CLC : ADC.b #$08 : STA $0D00, X
+    LDA.w $0D00, X : PHA : CLC : ADC.b #$08 : STA.w $0D00, X
     
     JSL Sprite_SetupHitBoxLong
     
-    PLA : STA $0D00, X
+    PLA : STA.w $0D00, X
     
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
     
-    DEC $0E50, X
+    DEC.w $0E50, X
     
-    LDA.b #$21 : STA $012F
+    LDA.b #$21 : STA.w $012F
     
     LDA.b #$30
     
@@ -542,14 +542,14 @@ Pool_HelmasaurKing_Initialize:
     LDA $00 : STA $27
     LDA $01 : STA $28
     
-    LDA.b #$08 : STA $0046
+    LDA.b #$08 : STA.w $0046
     
-    LDA $0FAC : BNE .BRANCH_BETA
+    LDA.w $0FAC : BNE .BRANCH_BETA
     
-    LDA $00 : STA $0FAD
-    LDA $01 : STA $0FAE
+    LDA $00 : STA.w $0FAD
+    LDA $01 : STA.w $0FAE
     
-    LDA.b #$05 : STA $0FAC
+    LDA.b #$05 : STA.w $0FAC
     
     .BRANCH_BETA
     
@@ -566,9 +566,9 @@ Pool_HelmasaurKing_Initialize:
     
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0024 : CMP.w #$0048 : BCS .BRANCH_ALPHA
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0024 : CMP.w #$0048 : BCS .BRANCH_ALPHA
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0028 : CMP.w #$0040 : BCS .BRANCH_ALPHA
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0028 : CMP.w #$0040 : BCS .BRANCH_ALPHA
     
     SEP #$20
     
@@ -583,9 +583,9 @@ Pool_HelmasaurKing_Initialize:
 
 ; $0F047E-$0F04A9 LOCAL JUMP LOCATION
 {
-    LDA $0DB0, X : CLC : ADC.b #$07 : STA $0FB5
+    LDA.w $0DB0, X : CLC : ADC.b #$07 : STA.w $0FB5
     
-    JSR $84AA ; $0F04AA IN ROM
+    JSR.w $84AA ; $0F04AA IN ROM
     
     BRA .BRANCH_ALPHA
     
@@ -596,17 +596,17 @@ Pool_HelmasaurKing_Initialize:
     
     .BRANCH_BETA
     
-    STA $0DD0, Y
+    STA.w $0DD0, Y
     
     DEY : BNE .BRANCH_BETA
     
-    LDA.b #$07 : STA $0FB5
+    LDA.b #$07 : STA.w $0FB5
     
     .BRANCH_GAMMA
     
-    JSR $84AA ; $0F04AA IN ROM
+    JSR.w $84AA ; $0F04AA IN ROM
     
-    DEC $0FB5 : BPL .BRANCH_GAMMA
+    DEC.w $0FB5 : BPL .BRANCH_GAMMA
     
     .BRANCH_ALPHA
     
@@ -623,29 +623,29 @@ Pool_HelmasaurKing_Initialize:
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA $00 : CLC : ADC $842E, X : STA $0D10, Y
-    LDA $01 : ADC $8438, X : STA $0D30, Y
+    LDA $00 : CLC : ADC.w $842E, X : STA.w $0D10, Y
+    LDA $01 : ADC.w $8438, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC $841A, X : STA $0D00, Y
-    LDA $03 : ADC $8424, X : STA $0D20, Y
+    LDA $02 : CLC : ADC.w $841A, X : STA.w $0D00, Y
+    LDA $03 : ADC.w $8424, X : STA.w $0D20, Y
     
-    LDA.w $8442, X : STA $0F70, Y
-    LDA.w $844C, X : STA $0D50, Y
-    LDA.w $8456, X : STA $0D40, Y
-    LDA.w $8460, X : STA $0F80, Y
+    LDA.w $8442, X : STA.w $0F70, Y
+    LDA.w $844C, X : STA.w $0D50, Y
+    LDA.w $8456, X : STA.w $0D40, Y
+    LDA.w $8460, X : STA.w $0F80, Y
     
-    LDA.w $846A, X : ORA.b #$0D : STA $0F50, Y
+    LDA.w $846A, X : ORA.b #$0D : STA.w $0F50, Y
     
-    LDA.w $8474, X : STA $0DC0, Y
+    LDA.w $8474, X : STA.w $0DC0, Y
     
-    LDA.b #$80 : STA $0DB0, Y
-    ASL A      : STA $0E40, Y
+    LDA.b #$80 : STA.w $0DB0, Y
+    ASL A      : STA.w $0E40, Y
     
-    LDA.b #$0C : STA $0E00, Y : STA $0BA0, Y
+    LDA.b #$0C : STA.w $0E00, Y : STA.w $0BA0, Y
     
-    LDA $0FB5 : STA $0E30, Y
+    LDA.w $0FB5 : STA.w $0E30, Y
     
     PLX
     
@@ -661,10 +661,10 @@ Pool_HelmasaurKing_Initialize:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : CLC : ADC.b #$1C : STA $0D00, Y
-    LDA $03 : ADC.b #$00 : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$1C : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$20 : STA $0DF0, Y : STA $0BA0, Y
+    LDA.b #$20 : STA.w $0DF0, Y : STA.w $0BA0, Y
     
     .spawn_failed
     
@@ -681,12 +681,12 @@ Pool_HelmasaurKing_Initialize:
     SEP #$20
     
     JSR Sprite3_PrepOamCoord
-    JSR $8920 ; $0F0920 IN ROM
-    JSR $856B ; $0F056B IN ROM
-    JSR $8686 ; $0F0686 IN ROM
-    JSR $87E5 ; $0F07E5 IN ROM
-    JSR $8805 ; $0F0805 IN ROM
-    JSR $88BC ; $0F08BC IN ROM
+    JSR.w $8920 ; $0F0920 IN ROM
+    JSR.w $856B ; $0F056B IN ROM
+    JSR.w $8686 ; $0F0686 IN ROM
+    JSR.w $87E5 ; $0F07E5 IN ROM
+    JSR.w $8805 ; $0F0805 IN ROM
+    JSR.w $88BC ; $0F08BC IN ROM
     
     RTS
 }
@@ -729,7 +729,7 @@ Pool_HelmasaurKing_Initialize:
     LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
     LDA $02 : CLC : ADC.b #$14        : INY : STA ($90), Y
     
-    LDA $0B0C : LSR #2 : AND.b #$07 : TAX
+    LDA.w $0B0C : LSR #2 : AND.b #$07 : TAX
     
     LDA .chr, X : INY : STA ($90), Y
     
@@ -765,7 +765,7 @@ Pool_HelmasaurKing_Initialize:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DB0, X
+    LDA.w $0DB0, X
     
     REP #$20
     
@@ -777,7 +777,7 @@ Pool_HelmasaurKing_Initialize:
     
     SEP #$20
     
-    LDA $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
+    LDA.w $0DB0, X : CMP.b #$03 : BCS .BRANCH_ALPHA
     
     LDA.b #$08
     
@@ -790,7 +790,7 @@ Pool_HelmasaurKing_Initialize:
     
     SEP #$20
     
-    LDA $0F10, X : BEQ .BRANCH_BETA
+    LDA.w $0F10, X : BEQ .BRANCH_BETA
     
     .BRANCH_ALPHA
     
@@ -802,11 +802,11 @@ Pool_HelmasaurKing_Initialize:
     
     .nextSlot
     
-    LDA $0C4A, Y : CMP.b #$07 : BNE .notBomb
+    LDA.w $0C4A, Y : CMP.b #$07 : BNE .notBomb
     
-    LDA $0C2C, Y : ORA $0C22, Y : BEQ .BRANCH_GAMMA
+    LDA.w $0C2C, Y : ORA.w $0C22, Y : BEQ .BRANCH_GAMMA
     
-    JSR $86E5   ; $0F06E5 IN ROM
+    JSR.w $86E5   ; $0F06E5 IN ROM
     
     .notBomb
     .BRANCH_GAMMA
@@ -822,32 +822,32 @@ Pool_HelmasaurKing_Initialize:
     
     JSL Sprite_SetupHitBoxLong
     
-    LDA $0C04, Y : CLC : ADC.b #$06 : STA $00
-    LDA $0C18, Y : ADC.b #$00 : STA $08
+    LDA.w $0C04, Y : CLC : ADC.b #$06 : STA $00
+    LDA.w $0C18, Y : ADC.b #$00 : STA $08
     
-    LDA $0BFA, Y : SEC : SBC $029E, Y : STA $01
-    LDA $0C0E, Y : SBC.b #$00   : STA $09
+    LDA.w $0BFA, Y : SEC : SBC.w $029E, Y : STA $01
+    LDA.w $0C0E, Y : SBC.b #$00   : STA $09
     
     LDA.b #$02 : STA $02
     LDA.b #$0F : STA $03
     
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .BRANCH_ALPHA
     
-    LDA $0C2C, Y : EOR.b #$FF : INC A : STA $0C2C, Y
-    LDA $0C22, Y : EOR.b #$FF : INC A : STA $00
+    LDA.w $0C2C, Y : EOR.b #$FF : INC A : STA.w $0C2C, Y
+    LDA.w $0C22, Y : EOR.b #$FF : INC A : STA $00
     
-    ASL $00 : ROR A : STA $0C22, Y
+    ASL $00 : ROR A : STA.w $0C22, Y
     
-    LDA.b #$20 : STA $0F10, X
+    LDA.b #$20 : STA.w $0F10, X
     
-    LDA.b #$05 : STA $0FAC
+    LDA.b #$05 : STA.w $0FAC
     
-    LDA $0C04, Y : STA $0FAD
+    LDA.w $0C04, Y : STA.w $0FAD
     
-    LDA $0BFA, Y : SEC : SBC $029E, Y : STA $0FAE
+    LDA.w $0BFA, Y : SEC : SBC.w $029E, Y : STA.w $0FAE
     
     ; Make "clink against wall" noise
-    LDA.b #$05 : STA $012E
+    LDA.b #$05 : STA.w $012E
     
     .BRANCH_ALPHA
     
@@ -886,15 +886,15 @@ Pool_HelmasaurKing_Initialize:
     
     LDY.b #$00
     
-    LDA.b #$03 : STA $0FB5
+    LDA.b #$03 : STA.w $0FB5
     
     .BRANCH_ALPHA
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA $00 : CLC : ADC $87F5, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $87F5, X : STA ($90), Y
     
-    LDA $02 : CLC : ADC $87F9, X : CLC : ADC $0B08, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $87F9, X : CLC : ADC.w $0B08, X : INY : STA ($90), Y
     LDA.w $87FD, X                          : INY : STA ($90), Y
     LDA.w $8801, X : EOR $05                : INY : STA ($90), Y
     
@@ -906,9 +906,9 @@ Pool_HelmasaurKing_Initialize:
     
     PLY : INY
     
-    LDA $00 : CLC : ADC $87F5, X : STA ($90), Y
+    LDA $00 : CLC : ADC.w $87F5, X : STA ($90), Y
     
-    LDA $02 : CLC : ADC $87F9, X : CLC : ADC.b #$10 : CLC : ADC $0B08, X : INY : STA ($90), Y
+    LDA $02 : CLC : ADC.w $87F9, X : CLC : ADC.b #$10 : CLC : ADC.w $0B08, X : INY : STA ($90), Y
     LDA.w $87FD, X : CLC : ADC.b #$02                          : INY : STA ($90), Y
     LDA.w $8801, X : EOR $05                             : INY : STA ($90), Y
     
@@ -920,7 +920,7 @@ Pool_HelmasaurKing_Initialize:
     
     PLY : INY
     
-    DEC $0FB5 : BPL .BRANCH_ALPHA
+    DEC.w $0FB5 : BPL .BRANCH_ALPHA
     
     PLX
     
@@ -939,7 +939,7 @@ Pool_HelmasaurKing_Initialize:
 
 ; $0F08BC-$0F08EF LOCAL JUMP LOCATION
 {
-    LDA $0E10, X : BEQ .BRANCH_ALPHA
+    LDA.w $0E10, X : BEQ .BRANCH_ALPHA
     
     LSR #2 : TAY
     
@@ -972,13 +972,13 @@ Pool_HelmasaurKing_Initialize:
 
 ; $0F0920-$0F0A84 LOCAL JUMP LOCATION
 {
-    STZ $0FB5
+    STZ.w $0FB5
     
     ; $0F0923 ALTERNATE ENTRY POINT
     
-    LDY $0FB5 : PHY
+    LDY.w $0FB5 : PHY
     
-    LDA $0EC0, X : BEQ .BRANCH_ALPHA
+    LDA.w $0EC0, X : BEQ .BRANCH_ALPHA
     
     TYA : CLC : ADC.b #$10 : TAY
     
@@ -986,7 +986,7 @@ Pool_HelmasaurKing_Initialize:
     
     REP #$20
     
-    LDA $0B2D : CLC : ADC $0B31 : STA $0D
+    LDA.w $0B2D : CLC : ADC.w $0B31 : STA $0D
     
     SEP #$20
     
@@ -1000,13 +1000,13 @@ Pool_HelmasaurKing_Initialize:
     
     .BRANCH_BETA
     
-    STA $4202
+    STA.w $4202
     
-    LDA.w $88F0, Y : STA $4203
+    LDA.w $88F0, Y : STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    LDA $4217 : PLP : BPL .BRANCH_GAMMA
+    LDA.w $4217 : PLP : BPL .BRANCH_GAMMA
     
     EOR.b #$FF
     
@@ -1018,12 +1018,12 @@ Pool_HelmasaurKing_Initialize:
     
     PLY
     
-    LDA $0B2F    : STA $4202
-    LDA.w $8910, Y : STA $4203
+    LDA.w $0B2F    : STA.w $4202
+    LDA.w $8910, Y : STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    LDA $4217 : STA $0F
+    LDA.w $4217 : STA $0F
     
     PHX
     
@@ -1043,19 +1043,19 @@ Pool_HelmasaurKing_Initialize:
     
     PLX
     
-    LDA $0A : STA $4202
+    LDA $0A : STA.w $4202
     
     LDA $0F
     
     LDY $0B : BNE .BRANCH_DELTA
     
-    STA $4203
+    STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_DELTA
     
@@ -1065,23 +1065,23 @@ Pool_HelmasaurKing_Initialize:
     
     .BRANCH_EPSILON
     
-    LDY $0FB5
+    LDY.w $0FB5
     
-    STA $0B0D, Y
+    STA.w $0B0D, Y
     
-    LDA $0C : STA $4202
+    LDA $0C : STA.w $4202
     
     LDA $0F
     
     LDY $0D : BNE .BRANCH_ZETA
     
-    STA $4203
+    STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_ZETA
     
@@ -1091,30 +1091,30 @@ Pool_HelmasaurKing_Initialize:
     
     .BRANCH_THETA
     
-    LDY $0FB5
+    LDY.w $0FB5
     
-    SEC : SBC.b #$28 : STA $0B1D, Y
+    SEC : SBC.b #$28 : STA.w $0B1D, Y
     
-    INC $0FB5 : LDA $0FB5 : CMP.b #$10 : BEQ .BRANCH_IOTA
+    INC.w $0FB5 : LDA.w $0FB5 : CMP.b #$10 : BEQ .BRANCH_IOTA
     
-    JMP $8923 ; $0F0923 IN ROM
+    JMP.w $8923 ; $0F0923 IN ROM
     
     .BRANCH_IOTA
     
-    LDA $0EC0, X : STA $0A
+    LDA.w $0EC0, X : STA $0A
     
     STZ $0F
     
     PHX
     
-    LDX $0B33 : CPX.b #$10 : BEQ .BRANCH_KAPPA
+    LDX.w $0B33 : CPX.b #$10 : BEQ .BRANCH_KAPPA
     
     LDY.b #$00
     
     .BRANCH_NU
     
-    LDA $00 : CLC : ADC $0B0D, X       : STA ($90), Y : STA $08
-    LDA $02 : CLC : ADC $0B1D, X : INY : STA ($90), Y : STA $09
+    LDA $00 : CLC : ADC.w $0B0D, X       : STA ($90), Y : STA $08
+    LDA $02 : CLC : ADC.w $0B1D, X : INY : STA ($90), Y : STA $09
     
     LDA.b #$AC
     
@@ -1129,7 +1129,7 @@ Pool_HelmasaurKing_Initialize:
     
     INY
     
-    TXA : EOR $1A : AND.b #$00 : ORA $031F : BNE .BRANCH_MU
+    TXA : EOR $1A : AND.b #$00 : ORA.w $031F : BNE .BRANCH_MU
     
     LDA $0A : BEQ .BRANCH_MU
     
@@ -1158,7 +1158,7 @@ Pool_HelmasaurKing_Initialize:
     
     LDA $0F : BEQ .BRANCH_XI
     
-    LDA $0FFC : BNE .BRANCH_XI
+    LDA.w $0FFC : BNE .BRANCH_XI
     
     JSL Sprite_AttemptDamageToPlayerPlusRecoilLong
     

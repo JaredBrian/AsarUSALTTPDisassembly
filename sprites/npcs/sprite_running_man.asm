@@ -20,10 +20,10 @@ SpritePrep_RunningManLong:
 ; $02E896-$02E8A1 LOCAL JUMP LOCATION
 SpritePrep_RunningMan:
 {
-    LDA.b #$02 : STA $0EB0, X
-                 STA $0DE0, X
+    LDA.b #$02 : STA.w $0EB0, X
+                 STA.w $0DE0, X
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -68,25 +68,25 @@ Sprite_RunningMan:
     JSL Sprite_MakeBodyTrackHeadDirection
     JSL Sprite_PlayerCantPassThrough
     
-    LDA.b #$FF : STA $0E30, X ; wtf is this line? changes his own subtype to seemingly never look at it again?
+    LDA.b #$FF : STA.w $0E30, X ; wtf is this line? changes his own subtype to seemingly never look at it again?
     
     JSR Sprite2_CheckTileCollision
     
-    LDA $0F60, X : PHA
+    LDA.w $0F60, X : PHA
     
-    LDA.b #$07 : STA $0F60, X
+    LDA.b #$07 : STA.w $0F60, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
-    LDA $0D80, X : STA $0DB0, X
+    LDA.w $0D80, X : STA.w $0DB0, X
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     .no_player_collision
     
-    PLA : STA $0F60, X
+    PLA : STA.w $0F60, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -112,29 +112,29 @@ RunningMan_Chillin:
 {
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_not_close
     
     JSL Player_HaltDashAttackLong
     
-    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0DE0, X
+    JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0DE0, X
     
-    EOR.b #$01 : ORA.b #$02 : STA $0EB0, X : TAY
+    EOR.b #$01 : ORA.b #$02 : STA.w $0EB0, X : TAY
     
-    AND.b #$01 : INC A : STA $0D80, X
+    AND.b #$01 : INC A : STA.w $0D80, X
     
-    LDA .x_speeds - 2, Y : STA $0D50, X
+    LDA .x_speeds - 2, Y : STA.w $0D50, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
     .player_not_close
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     RTS
 }
@@ -144,7 +144,7 @@ RunningMan_Chillin:
 ; $02E938-$02E945 BRANCH LOCATION
 RunningMan_AnimateAndRun:
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     JSR Sprite2_Move
     
@@ -156,15 +156,15 @@ RunningMan_AnimateAndRun:
 ; $02E946-$02E964 JUMP LOCATION
 RunningMan_RunLeft:
 {
-    LDA $0DF0, X : BNE RunningMan_AnimateAndRun
+    LDA.w $0DF0, X : BNE RunningMan_AnimateAndRun
     
     JSR RunningMan_AnimateAndMakeDust
     JSR RunningMan_RunFullSpeed
     
-    LDA $0D90, X : BNE .tick_run_countdown_timer
+    LDA.w $0D90, X : BNE .tick_run_countdown_timer
     
-    LDA.b #$FF : STA $0D90, X
-    LDA.b #$02 : STA $0EB0, X
+    LDA.b #$FF : STA.w $0D90, X
+    LDA.b #$02 : STA.w $0EB0, X
     
     RTS
 
@@ -173,7 +173,7 @@ RunningMan_RunLeft:
     ; $02E961 ALTERNATE ENTRY POINT
 RunningMan_TickRunCountdownTimer:
 
-    DEC $0D90, X
+    DEC.w $0D90, X
     
     RTS
 }
@@ -189,8 +189,8 @@ RunningMan_ResumeChillin:
     ; left or right though. Perhaps originally he was supposed to mock
     ; you.
     
-    STZ $0D80, X
-    STZ $0E80, X
+    STZ.w $0D80, X
+    STZ.w $0E80, X
     
     RTS
 }
@@ -214,20 +214,20 @@ Pool_RunningMan_WindingRunRight:
 ; $02E973-$02E997 JUMP LOCATION
 RunningMan_WindingRunRight:
 {
-    LDA $0DF0, X : BNE RunningMan_AnimateAndRun
+    LDA.w $0DF0, X : BNE RunningMan_AnimateAndRun
     
     JSR RunningMan_AnimateAndMakeDust
     JSR RunningMan_RunFullSpeed
     
-    LDA $0D90, X : BNE RunningMan_TickRunCountdownTimer
+    LDA.w $0D90, X : BNE RunningMan_TickRunCountdownTimer
     
-    LDY $0DA0, X : INC $0DA0, X
+    LDY.w $0DA0, X : INC.w $0DA0, X
     
-    LDA .timers, Y : STA $0D90, X
+    LDA .timers, Y : STA.w $0D90, X
     
     LDA .direction, Y : BMI RunningMan_ResumeChillin
     
-    STA $0EB0, X
+    STA.w $0EB0, X
     
     RTS
 }
@@ -242,11 +242,11 @@ RunningMan_GotCaught:
     
     JSL Sprite_ShowMessageUnconditional : BCC 
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
     .didnt_speak
     
-    LDA $0DB0, X : STA $0D80, X
+    LDA.w $0DB0, X : STA.w $0D80, X
     
     RTS
 }
@@ -258,7 +258,7 @@ RunningMan_AnimateAndMakeDust:
 {
     JSL RunningMan_SpawnDashDustGarnish
     
-    LDA $1A : LSR #2 : AND.b #$01 : STA $0DC0, X
+    LDA $1A : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -268,11 +268,11 @@ RunningMan_AnimateAndMakeDust:
 ; $02E9BA-$02E9CC LOCAL JUMP LOCATION
 RunningMan_RunFullSpeed:
 {
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite2_Move
     
@@ -319,7 +319,7 @@ RunningMan_Draw:
     LDA.b #$02 : STA $06
                  STZ $07
     
-    LDA $0DE0, X : ASL A : ADC $0DC0, X : ASL #4
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
     ADC.b #(.oam_groups >> 0)              : STA $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09

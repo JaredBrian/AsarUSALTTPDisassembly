@@ -4,7 +4,7 @@
 ; $034BA2-$034BD7 JUMP LOCATION
 Sprite_Leever:
 {
-    LDA $0D80, X : BEQ .dont_draw
+    LDA.w $0D80, X : BEQ .dont_draw
     
     JSR Leever_Draw
     
@@ -16,17 +16,17 @@ Sprite_Leever:
     
     .respawn_logic
     
-    LDA $0F00, X : BEQ .dont_respawn
+    LDA.w $0F00, X : BEQ .dont_respawn
     
     ; \task Find out if this ever executes. Would be interesting to know.
-    LDA.b #$08 : STA $0DD0, X
+    LDA.b #$08 : STA.w $0DD0, X
     
     .dont_respawn
     
     JSR Sprite_CheckIfActive
     JSR Sprite_CheckIfRecoiling
     
-    LDA $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
+    LDA.w $0D80, X : REP #$30 : AND.w #$00FF : ASL A : TAY
     
     LDA .handlers, Y : PHA
     
@@ -50,11 +50,11 @@ Sprite_Leever:
 ; $034BD8-$034BF4 JUMP LOCATION
 Leever_UnderSand:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     RTS
     
@@ -76,11 +76,11 @@ Leever_UnderSand:
     ; (Leever_UnderSand).
 ; $034BF5-$034C02 LOCAL JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     .delay
     
@@ -102,11 +102,11 @@ Pool_Leever_Emerge:
 ; $034C13-$034C36 JUMP LOCATION
 Leever_Emerge:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$A0 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$A0 : STA.w $0DF0, X
     
     JMP Sprite_Zero_XY_Velocity
     
@@ -114,7 +114,7 @@ Leever_Emerge:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }    
@@ -138,21 +138,21 @@ Leever_AttackPlayer:
 {
     JSR Sprite_CheckDamage
     
-    LDA $0DF0, X : BNE .submersion_delay
+    LDA.w $0DF0, X : BNE .submersion_delay
     
     .tile_collision
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     RTS
     
     .submersion_delay
     
-    LDA $0E80, X : AND.b #$07 : BNE .tracking_delay
+    LDA.w $0E80, X : AND.b #$07 : BNE .tracking_delay
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     LDA .speeds, Y : JSR Sprite_ApplySpeedTowardsPlayer
     
@@ -161,11 +161,11 @@ Leever_AttackPlayer:
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BNE .tile_collision
+    LDA.w $0E70, X : BNE .tile_collision
     
-    INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -185,11 +185,11 @@ Pool_Leever_Submerge:
 ; $034C8A-$034CAE JUMP LOCATION
 Leever_Submerge:
 {
-    LDA $0DF0, X : STA $0BA0, X : BNE .delay
+    LDA.w $0DF0, X : STA.w $0BA0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$40 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0DF0, X
     
     RTS
     
@@ -197,7 +197,7 @@ Leever_Submerge:
     
     LSR #3 : EOR.b #$0F : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -281,7 +281,7 @@ Leever_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $0DC0, X : TAY : ASL #2 : STA $06
+    LDA.w $0DC0, X : TAY : ASL #2 : STA $06
     
     PHX
     

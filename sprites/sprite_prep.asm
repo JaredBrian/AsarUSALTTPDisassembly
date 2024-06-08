@@ -10,9 +10,9 @@ SpritePrep_Main:
     
     JSL Sprite_LoadProperties
     
-    INC $0DD0, X
+    INC.w $0DD0, X
     
-    LDA $0E20, X
+    LDA.w $0E20, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -266,12 +266,12 @@ SpritePrep_Main:
 ; $030841-$030853 JUMP LOCATION
 SpritePrep_MovableMantle:
 {
-    LDA $0D00, X : CLC : ADC.b #$03 : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC.b #$03 : STA.w $0D00, X
     
     ; $03084A ALTERNATE ENTRY POINT
     shared SpritePrep_MoveRightOneTile:
     
-    LDA $0D10, X : CLC : ADC.b #$08 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     RTS
 }
@@ -291,7 +291,7 @@ SpritePrep_MedallionTableTrampoline:
 ; $030859-$03086D JUMP LOCATION
 SpritePrep_GoodSwitch:
 {
-    LDA $048E
+    LDA.w $048E
     
     ; Are there only three rooms where these switches work? 0_o.
     
@@ -301,7 +301,7 @@ SpritePrep_GoodSwitch:
     
     .BRANCH_ALPHA
     
-    LDA.b #$0D : STA $0F50, X
+    LDA.b #$0D : STA.w $0F50, X
     
     ; $03086D ALTERNATE ENTRY POINT
     shared SpritePrep_SwitchFacingUp:
@@ -343,11 +343,11 @@ Pool_SpritePrep_Rat:
 ; $030878-$030887 JUMP LOCATION
 SpritePrep_Rat:
 {
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA.w $8874, Y : STA $0CD2, X
+    LDA.w $8874, Y : STA.w $0CD2, X
     
-    LDA.w $8876, Y : STA $0E50, X
+    LDA.w $8876, Y : STA.w $0E50, X
     
     RTS
 }
@@ -372,13 +372,13 @@ Pool_SpritePrep_Keese:
 ; $03088E-$0308A3 JUMP LOCATION
 SpritePrep_Keese:
 {
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA .damage_class, Y : STA $0CD2, X
+    LDA .damage_class, Y : STA.w $0CD2, X
     
-    LDA .hp, Y : STA $0E50, X
+    LDA .hp, Y : STA.w $0E50, X
     
-    LDA .prize_pack, Y : STA $0BE0, X
+    LDA .prize_pack, Y : STA.w $0BE0, X
     
     RTS
 }
@@ -403,13 +403,13 @@ Pool_SpritePrep_Rope:
 ; $0308AA-$0308BF JUMP LOCATION
 SpritePrep_Rope:
 {
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA .damage_class, Y : STA $0CD2, X
+    LDA .damage_class, Y : STA.w $0CD2, X
     
-    LDA .hp, Y : STA $0E50, X
+    LDA .hp, Y : STA.w $0E50, X
     
-    LDA .prize_pack, Y : STA $0BE0, X
+    LDA .prize_pack, Y : STA.w $0BE0, X
     
     RTS
 }
@@ -462,15 +462,15 @@ Pool_SpritePep_HokBok:
 ; $0308DF-$0308FC JUMP LOCATION
 SpritePrep_Hokbok:
 {
-    LDA.b #$03 : STA $0D90, X
+    LDA.b #$03 : STA.w $0D90, X
     
-    LDA.b #$08 : STA $0DA0, X
+    LDA.b #$08 : STA.w $0DA0, X
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -490,9 +490,9 @@ SpritePrep_Vitreolus:
 ; $030901-$03090B JUMP LOCATION
 SpritePrep_Gibo:
 {
-    LDA.b #$10 : STA $0F70, X
+    LDA.b #$10 : STA.w $0F70, X
     
-    LDA.b #$08 : STA $0ED0, X
+    LDA.b #$08 : STA.w $0ED0, X
     
     RTS
 }
@@ -516,7 +516,7 @@ SpritePrep_Octoballoon:
 {
     TXA : AND.b #$03 : TAY
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
     RTS
 }
@@ -532,7 +532,7 @@ SpritePrep_EvilBarrier:
     
     LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .not_dead
     
-    LDA.b #$04 : STA $0DC0, X
+    LDA.b #$04 : STA.w $0DC0, X
     
     ; $03092C ALTERNATE ENTRY POINT
     shared SpritePrep_GreatCatfish:
@@ -541,7 +541,7 @@ SpritePrep_EvilBarrier:
     
     JSR SpritePrep_MoveDownOneRightTwoTiles
     
-    LDA $0D00, X : SEC : SBC.b #$0C : STA $0D00, X
+    LDA.w $0D00, X : SEC : SBC.b #$0C : STA.w $0D00, X
     
     JMP SpritePrep_IgnoresProjectiles
 }
@@ -551,9 +551,9 @@ SpritePrep_EvilBarrier:
 ; $03093B-$03094C JUMP LOCATION
 SpritePrep_ChattyAgahnim:
 {
-    LDA $0403 : AND.b #$40 : BEQ .not_triggered
+    LDA.w $0403 : AND.b #$40 : BEQ .not_triggered
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -571,7 +571,7 @@ SpritePrep_Vitreous:
     JSR SpritePrep_Bosses
     JSR SpritePrep_MoveDownOneRightTwoTiles
     
-    LDA $0D00, X : SEC : SBC.b #$10 : STA $0D00, X
+    LDA.w $0D00, X : SEC : SBC.b #$10 : STA.w $0D00, X
     
     JSL Vitreous_SpawnSmallerEyesLong
     JMP SpritePrep_IgnoresProjectiles
@@ -597,32 +597,32 @@ Pool_SpritePrep_Raven:
 ; $030969-$03099B JUMP LOCATION
 SpritePrep_Raven:
 {
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA .bump_damage, Y : STA $0CD2, X
+    LDA .bump_damage, Y : STA.w $0CD2, X
     
-    LDA .hp, Y : STA $0E50, X
+    LDA .hp, Y : STA.w $0E50, X
     
-    LDA .prize_pack, Y : STA $0BE0, X
+    LDA .prize_pack, Y : STA.w $0BE0, X
     
     ; $03097E ALTERNATE ENTRY POINT
     shared SpritePrep_Vulture:
     
-    LDA.b #$00 : STA $0F70, X
+    LDA.b #$00 : STA.w $0F70, X
     
-    LDA $0D10, X : AND.b #$10 : LSR #4 : STA $0D90, X
+    LDA.w $0D10, X : AND.b #$10 : LSR #4 : STA.w $0D90, X
     
     BRA .setSubtype
     
     ; $030991 ALTERNATE ENTRY POINT
     shared SpritePrep_Poe:
     
-    LDA.b #$0C : STA $0F70, X
+    LDA.b #$0C : STA.w $0F70, X
     
     ; $030996 ALTERNATE ENTRY POINT
     .setSubtype
     
-    LDA.b #$FE : STA $0E30, X
+    LDA.b #$FE : STA.w $0E30, X
     
     ; $03099B ALTERNATE ENTRY POINT
     shared SpritePrep_Pikit:
@@ -637,7 +637,7 @@ SpritePrep_BlindMaiden:
 {
     LDA.l $7EF159 : AND.b #$08 : BNE .killSprite
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA.l $7EF3CC : CMP.b #$06 : BEQ .killSprite
     
@@ -646,7 +646,7 @@ SpritePrep_BlindMaiden:
     
     PHX
     
-    STZ $02F9
+    STZ.w $02F9
     
     JSL Tagalong_LoadGfx
     JSL Tagalong_Init
@@ -659,7 +659,7 @@ SpritePrep_BlindMaiden:
     
     .killSprite
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }
@@ -679,7 +679,7 @@ SpritePrep_Moldorm:
 ; $0309D8-$0309DE JUMP LOCATION
 SpritePrep_Bomber:
 {
-    LDA.b #$10 : STA $0F70, X
+    LDA.b #$10 : STA.w $0F70, X
     
     BRA SpritePrep_Poe.setSubtype
 }
@@ -689,18 +689,18 @@ SpritePrep_Bomber:
 ; $0309DF-$030A50 JUMP LOCATION
 SpritePrep_BombShopEntity:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     ; spawn a normal set of bombs for sale
     LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : SEC : SBC.b #$18 : STA $0D10, Y
-    LDA $01 : SBC.b #$00 : STA $0D30, Y
+    LDA $00 : SEC : SBC.b #$18 : STA.w $0D10, Y
+    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.b #$18 : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : STA $0D20, Y
+    LDA $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
+    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$01 : STA $0E80, Y : STA $0BA0, Y
+    LDA.b #$01 : STA.w $0E80, Y : STA.w $0BA0, Y
     
     .spawn_failed
     
@@ -713,13 +713,13 @@ SpritePrep_BombShopEntity:
     ; spawn the super bomb
     LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
     
-    LDA $00 : SEC : SBC.b #$38 : STA $0D10, Y
-    LDA $01 : SBC.b #$00 : STA $0D30, Y
+    LDA $00 : SEC : SBC.b #$38 : STA.w $0D10, Y
+    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.b #$18 : STA $0D00, Y
-    LDA $03 : SBC.b #$00 : STA $0D20, Y
+    LDA $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
+    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$02 : STA $0E80, Y : STA $0BA0, Y
+    LDA.b #$02 : STA.w $0E80, Y : STA.w $0BA0, Y
     
     .super_bomb_spawn_failed
     .dont_spawn_super_bomb
@@ -734,7 +734,7 @@ SpritePrep_BullyAndBallGuy:
 {
     JSL BullyAndBallGuy_SpawnBully
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -757,7 +757,7 @@ SpritePrep_ThiefChest:
     ; side quest in the first place.
     LDA.l $7EF3C9 : AND.b #$20 : BEQ .self_terminate
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
     
@@ -765,7 +765,7 @@ SpritePrep_ThiefChest:
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }
@@ -775,7 +775,7 @@ SpritePrep_ThiefChest:
 ; $030A79-$030AEF JUMP LOCATION
 SpritePrep_Dwarf:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA.l $7EF3CA : AND.w #$40 : BEQ .light_world
     
@@ -785,7 +785,7 @@ SpritePrep_Dwarf:
     
     LDA.l $7EF3CC : CMP.b #$00 : BNE .self_terminate
     
-    LDA.b #$02 : STA $0E80, X
+    LDA.b #$02 : STA.w $0E80, X
     
     RTS
     
@@ -799,15 +799,15 @@ SpritePrep_Dwarf:
     ; in light world he can either be one or two dwarves?
     LDA.l $7EF3C9 : AND.b #$20 : BNE .partner_has_been_saved
     
-    LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
-    LDA $0D00, X : SEC : SBC.b #$03 : STA $0D00, X
+    LDA.w $0D10, X : CLC : ADC.b #$02 : STA.w $0D10, X
+    LDA.w $0D00, X : SEC : SBC.b #$03 : STA.w $0D00, X
     
     RTS
     
     .partner_has_been_saved
     
-    LDA $0D10, X : CLC : ADC.b #$02 : STA $0D10, X
-    LDA $0D00, X : SEC : SBC.b #$03 : STA $0D00, X
+    LDA.w $0D10, X : CLC : ADC.b #$02 : STA.w $0D10, X
+    LDA.w $0D00, X : SEC : SBC.b #$03 : STA.w $0D00, X
     
     JSR Smithy_SpawnOtherSmithy
     
@@ -817,12 +817,12 @@ SpritePrep_Dwarf:
     
     PLY : PLX 
     
-    TYA : STA $0E90, X
-    TXA : STA $0E90, Y
+    TYA : STA.w $0E90, X
+    TXA : STA.w $0E90, Y
     
     LDA.l $7EF3C9 : AND.b #$80 : BEQ .they_dont_have_player_sword
     
-    LDA.b #$05 : STA $0D80, X : STA $0D80, Y
+    LDA.b #$05 : STA.w $0D80, X : STA.w $0D80, Y
     
     .they_dont_have_player_sword
     
@@ -839,9 +839,9 @@ SpritePrep_Babusu:
     ; $030AF3 ALTERNATE ENTRY POINT
     shared SpritePrep_Zoro:
     
-    LDA $0E20, X : SEC : SBC.b #$9C : ASL A : STA $0DE0, X
+    LDA.w $0E20, X : SEC : SBC.b #$9C : ASL A : STA.w $0DE0, X
     
-    DEC $0DC0, X
+    DEC.w $0DC0, X
     
     RTS
 }
@@ -884,7 +884,7 @@ SpritePrep_Popo:
     
     .set_var
     
-    STA $0DA0, X
+    STA.w $0DA0, X
     
     RTS
 }
@@ -894,7 +894,7 @@ SpritePrep_Popo:
 ; $030B12-$030B1B JUMP LOCATION
 SpritePrep_MovableStatue:
 {
-    LDA $0D00, X : CLC : ADC.b #$07 : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC.b #$07 : STA.w $0D00, X
     
     RTS
 }
@@ -905,17 +905,17 @@ SpritePrep_MovableStatue:
 SpritePrep_Bari:
 {
     ; Height starts out at 6.
-    LDA.b #$06 : STA $0F70, X
+    LDA.b #$06 : STA.w $0F70, X
     
     ; \hardcoded In this room the bari are confined until a large block
     ; is lifted.
-    LDA $048E : CMP.b #$CE : BNE .not_that_one_ice_palace_room
+    LDA.w $048E : CMP.b #$CE : BNE .not_that_one_ice_palace_room
     
-    DEC $0DB0, X
+    DEC.w $0DB0, X
     
     .not_that_one_ice_palace_room
     
-    JMP $A342 ; $032342 IN ROM
+    JMP.w $A342 ; $032342 IN ROM
 }
     
 ; ==============================================================================
@@ -923,7 +923,7 @@ SpritePrep_Bari:
 ; $030B2E-$030B33 JUMP LOCATIONAN
     shared SpritePrep_GreenStalfos:
     
-    LDA.b #$09 : STA $0F70, X
+    LDA.b #$09 : STA.w $0F70, X
     
     RTS
 }
@@ -933,7 +933,7 @@ SpritePrep_Bari:
 ; $030B34-$030B3D JUMP LOCATION
 SpritePrep_PushSwitch:
 {
-    LDA $0D00, X : CLC : ADC.b #$05 : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC.b #$05 : STA.w $0D00, X
     
     RTS
 }
@@ -943,11 +943,11 @@ SpritePrep_PushSwitch:
 ; $030B3E-$030B80 JUMP LOCATION
 SpritePrep_FireDebirando:
 {
-    LDA.b #$63 : STA $0E20, X
+    LDA.b #$63 : STA.w $0E20, X
     
     JSL Sprite_LoadProperties
     
-    DEC $0ED0, X
+    DEC.w $0ED0, X
     
     ; \note Hyrule magic was telling the truth. 0x63 is blue, 0x64 is red.
     ; 0x63 is really the pit, but both of end up with a 0x63 (pit) and a 0x64
@@ -957,11 +957,11 @@ SpritePrep_FireDebirando:
     ; $030B4A ALTERNATE ENTRY POINT
     shared SpritePrep_Debirando:
     
-    INC $0ED0, X
+    INC.w $0ED0, X
     
-    LDA.b #$00 : STA $0DF0, X
+    LDA.b #$00 : STA.w $0DF0, X
     
-    LDA.b #$06 : STA $0DC0, X
+    LDA.b #$06 : STA.w $0DC0, X
     
     JSR SpritePrep_IgnoresProjectiles
     
@@ -969,20 +969,20 @@ SpritePrep_FireDebirando:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$60 : STA $0DF0, Y
+    LDA.b #$60 : STA.w $0DF0, Y
     
     ; Give the pit the index of the actual debirando that was spawned.
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
     ; Presumably discriminates between red and blue debirando.
-    LDA $0ED0, X : STA $0ED0, Y
+    LDA.w $0ED0, X : STA.w $0ED0, Y
     
     PHX
     
     TAX
     
     ; Well that just confirms the above.
-    LDA .palettes, X : STA $0F50, Y
+    LDA .palettes, X : STA.w $0F50, Y
     
     PLX
     
@@ -1004,10 +1004,10 @@ SpritePrep_Recruit:
     
     ; Pick a starting body direction and match it up with the starting head
     ; direction
-    JSL GetRandomInt : AND.b #$03 : STA $0DE0, X : STA $0EB0, X
+    JSL GetRandomInt : AND.b #$03 : STA.w $0DE0, X : STA.w $0EB0, X
     
     ; Start it on a 16 second timer
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     RTS
 }
@@ -1017,9 +1017,9 @@ SpritePrep_Recruit:
 ; $030B93-$030BA1 JUMP LOCATION
 SpritePrep_WallCannon:
 {
-    LDA $0E20, X : SEC : SBC.b #$66 : STA $0DE0, X
+    LDA.w $0E20, X : SEC : SBC.b #$66 : STA.w $0DE0, X
     
-    AND.b #$02 : STA $0D90, X
+    AND.b #$02 : STA.w $0D90, X
     
     RTS
 }
@@ -1042,7 +1042,7 @@ SpritePrep_IgnoresProjectiles:
     ; Many nonhostile sprites use this as their initialization routine
     ; e.g. the sweeping lady
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -1054,14 +1054,14 @@ SpritePrep_FluteBoyAnimals:
 {
     JSR Sprite_IsToRightOfPlayer
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     ; $030BB2 ALTERNATE ENTRY POINT
     shared SpritePrep_FluteBoyOstrich:
     
     LDA.l $7EF34C : CMP.b #$02 : BCC .dont_have_flute
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_have_flute
     
@@ -1085,17 +1085,17 @@ SpritePrep_GargoyleGrate:
 {
     LDA.l $7EF2D8 : AND.b #$20 : BEQ .gateNotOpened
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; $030BCF ALTERNATE ENTRY POINT
     shared SpritePrep_PullForRupees:
     
     .gateNotOpened
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDA $0D10, X : SEC : SBC.b #$08 : STA $0D10, X
-    LDA $0D30, X : SBC.b #$00 : STA $0D30, X
+    LDA.w $0D10, X : SEC : SBC.b #$08 : STA.w $0D10, X
+    LDA.w $0D30, X : SBC.b #$00 : STA.w $0D30, X
     
     RTS
 }
@@ -1115,13 +1115,13 @@ Pool_SpritePrep_ShopKeeper:
 ; $030BF1-$030C36 JUMP LOCATION
 SpritePrep_ShopKeeper:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDA $0E40, X : ORA.b #$02 : STA $0E40, X
+    LDA.w $0E40, X : ORA.b #$02 : STA.w $0E40, X
     
-    LDA $0F50, X : ORA.b #$0C : STA $0F50, X
+    LDA.w $0F50, X : ORA.b #$0C : STA.w $0F50, X
     
-    LDA $0E60, X : ORA.b #$10 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
     
     LDA $A0 
     
@@ -1194,7 +1194,7 @@ SpritePrep_ShopKeeper:
     
     ; $030C60 ALTERNATE ENTRY POINT
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     BRA .BRANCH_BETA
 
@@ -1204,9 +1204,9 @@ SpritePrep_ShopKeeper:
 
     .BRANCH_BETA
 
-    STA $0E80, X
+    STA.w $0E80, X
     
-    LDA.b #$FF : STA $04C4
+    LDA.b #$FF : STA.w $04C4
     
     RTS
     
@@ -1238,7 +1238,7 @@ SpritePrep_ShopKeeper:
     
     .BRANCH_GAMMA
     
-    STA $0E80, X
+    STA.w $0E80, X
     
     RTS
 
@@ -1269,7 +1269,7 @@ Pool_SpritePrep_StoryTeller_1:
 ; $030C9E-$030CBD JUMP LOCATION
 SpritePrep_StoryTeller_1:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA $A0
     
@@ -1283,11 +1283,11 @@ SpritePrep_StoryTeller_1:
     
     .room_match
     
-    TYA : STA $0E80, X : BNE .not_first_room
+    TYA : STA.w $0E80, X : BNE .not_first_room
     
-    LDA $0D30, X : AND.b #$01 : BEQ .left_half_of_room
+    LDA.w $0D30, X : AND.b #$01 : BEQ .left_half_of_room
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     .left_helf_of_room
     .not_first_room
@@ -1309,7 +1309,7 @@ Pool_SpritePrep_HumanMulti_1_Trampoline:
 ; $030CC1-$030CD4 JUMP LOCATION
 SpritePrep_HumanMulti_1:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA $A0
     
@@ -1323,7 +1323,7 @@ SpritePrep_HumanMulti_1:
     
     .room_match
     
-    TYA : STA $0E80, X
+    TYA : STA.w $0E80, X
     
     RTS
 }
@@ -1333,9 +1333,9 @@ SpritePrep_HumanMulti_1:
 ; $030CD5-$030CDD JUMP LOCATION
 SpritePrep_Whirlpool:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDA.b #$01 : STA $0D90, X
+    LDA.b #$01 : STA.w $0D90, X
     
     RTS
 }
@@ -1345,14 +1345,14 @@ SpritePrep_Whirlpool:
 ; $030CDE-$030CEF JUMP LOCATION
 SpritePrep_Elder:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA $A0 : CMP.b #$0A : BNE .notAginah
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     ; Basically changes him to Aginah rather than Sahasralah
-    LDA.b #$0B : STA $0F50, X
+    LDA.b #$0B : STA.w $0F50, X
     
     .notAginah
     
@@ -1379,7 +1379,7 @@ SpritePrep_DashItem:
     ; If no, make it a dashable treetop.
     LDA $1B : BEQ .fake_tree_top
     
-    LDA.b #$02 : STA $0F20, X
+    LDA.b #$02 : STA.w $0F20, X
     
     LDA $A0 : CMP.b #$07 : BNE .key
     
@@ -1391,7 +1391,7 @@ SpritePrep_DashItem:
     LDA.l $7EF34E : BEQ .book_of_mudora
     
     ; Otherwise, kill the sprite
-    STZ $0DD0, X 
+    STZ.w $0DD0, X 
     
     RTS
     
@@ -1409,28 +1409,28 @@ SpritePrep_DashItem:
     
     .key
     
-    LDA $0B9B : STA $0CBA, X : TAY
+    LDA.w $0B9B : STA.w $0CBA, X : TAY
     
-    INC $0B9B
+    INC.w $0B9B
     
-    LDA $0403 : AND .event_masks, Y : BEQ .key_not_grabbed
+    LDA.w $0403 : AND .event_masks, Y : BEQ .key_not_grabbed
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .key_not_grabbed
     
     ; Make this into a key item
-    INC $0DC0, X
+    INC.w $0DC0, X
     
-    LDA.b #$08 : STA $0F50, X
+    LDA.b #$08 : STA.w $0F50, X
     
-    LDA $0E60, X : ORA.b #$20 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$20 : STA.w $0E60, X
     
     RTS
     
     .fake_tree_top
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
     RTS
 }
@@ -1442,14 +1442,14 @@ SpritePrep_Kiki:
 {
     ; Kiki initialization routine
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     PHX
     
     LDX $8A : LDA.l $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
     
     ; Suicide if the entrance to the Dark Palace is opened.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .entranceNotOpen
     
@@ -1463,11 +1463,11 @@ SpritePrep_MiddleAgedMan:
 {
     ; Middle-aged Desert Guy initializer
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA.l $7EF3CC : CMP.b #$09 : BNE .not_already_followed
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -1476,13 +1476,13 @@ SpritePrep_MiddleAgedMan:
     CMP.b #$0C : BNE .thief_chest_not_following
     
     ; Put him into a mode where he'll open the chest
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
     .thief_chest_not_following
     
     LDA.l $7EF3C9 : AND.b #$10 : BEQ .hasnt_opened_chest_yet
     
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
     .hasnt_opened_chest_yet
     
@@ -1495,11 +1495,11 @@ SpritePrep_MiddleAgedMan:
 SpritePrep_BugNetKid:
 {
     LDA.l $7EF34D : BEQ .dont_have_net
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     .dont_have_net
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -1524,19 +1524,19 @@ Pool_SpritePrep_GanonHelpers:
 ; $030D94-$030DC0 JUMP LOCATION
 SpritePrep_GanonHelpers:
 {
-    LDA $0D10, X : LSR #4 : AND.b #$01 : STA $0D90, X : TAY
+    LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
     
-    LDA .palette, Y : STA $0F50, X
+    LDA .palette, Y : STA.w $0F50, X
     
-    LDA .hp, Y : STA $0E50, X
+    LDA .hp, Y : STA.w $0E50, X
     
-    LDA .bump_damage, Y : STA $0CD2, X
+    LDA .bump_damage, Y : STA.w $0CD2, X
     
     LDA.b #$10 : JSR Sprite_ApplySpeedTowardsPlayer
     
-    LDA #$20 : STA $0F80, X
+    LDA #$20 : STA.w $0F80, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -1556,7 +1556,7 @@ SpritePrep_ChainChompTrampoline:
 ; $030DC6-$030DD0 JUMP LOCATION
 SpritePrep_BigFairy:
 {
-    LDA.b #$18 : STA $0F70, X
+    LDA.b #$18 : STA.w $0F70, X
     
     JSR SpritePrep_MoveDownOneRightTwoTiles
     JMP SpritePrep_IgnoresProjectiles
@@ -1567,7 +1567,7 @@ SpritePrep_BigFairy:
 ; $030DD1-$030DDF JUMP LOCATION
 SpritePrep_ElderWife:
 {
-    LDA $0D00, X : CLC : ADC.b #$08 : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC.b #$08 : STA.w $0D00, X
     
     ; $030DDA ALTERNATE ENTRY POINT
     shared SpritePrep_Lumberjacks:
@@ -1584,7 +1584,7 @@ SpritePrep_FortuneTeller:
 {
     JSR SpritePrep_MoveDownOneRightTwoTiles
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -1603,9 +1603,9 @@ Pool_SpritePrep_Leever:
 ; $030DE9-$030DFC JUMP LOCATION
 SpritePrep_Leever:
 {
-    LDA $0D10, X : LSR #4 : AND.b #$01 : STA $0D90, X : TAY
+    LDA.w $0D10, X : LSR #4 : AND.b #$01 : STA.w $0D90, X : TAY
     
-    LDA .palettes, Y : STA $0F50, X
+    LDA .palettes, Y : STA.w $0F50, X
     
     RTS
 }
@@ -1631,9 +1631,9 @@ SpritePrep_HoboEntities:
     
     .terminate_next_hobo
     
-    LDA $0E20, Y : CMP.b #$2B : BNE .not_a_hobo
+    LDA.w $0E20, Y : CMP.b #$2B : BNE .not_a_hobo
     
-    LDA.b #$00 : STA $0DD0, Y
+    LDA.b #$00 : STA.w $0DD0, Y
     
     .not_a_hobo
     
@@ -1645,13 +1645,13 @@ SpritePrep_HoboEntities:
     
     LDA.l $7EF3C9 : AND.b #$01 : BEQ .dont_have_hobo_bottle
     
-    LDA.b #$03 : STA $0D80
+    LDA.b #$03 : STA.w $0D80
     
     .dont_have_hobo_bottle
     
     TYX
     
-    LDA.b #$01 : STA $0BA0
+    LDA.b #$01 : STA.w $0BA0
     
     RTS
 }
@@ -1661,8 +1661,8 @@ SpritePrep_HoboEntities:
 ; $030E30-$030E41 JUMP LOCATION
 SpritePrep_MasterSword:
 {
-    LDA $0D10, X : CLC : ADC.b #$06 : STA $0D10, X
-    LDA $0D00, X : ADC.b #$06 : STA $0D00, X
+    LDA.w $0D10, X : CLC : ADC.b #$06 : STA.w $0D10, X
+    LDA.w $0D00, X : ADC.b #$06 : STA.w $0D00, X
     
     RTS
 }
@@ -1681,7 +1681,7 @@ SpritePrep_RollerRightLeft:
     
     .moving_on_horiz
     
-    LDA $0D10, X : EOR.b #$10 : BRA .set_length
+    LDA.w $0D10, X : EOR.b #$10 : BRA .set_length
     
     ; $030E4F ALTERNATE ENTRY POINT
     shared SpritePrep_RollerDownUp:
@@ -1695,17 +1695,17 @@ SpritePrep_RollerRightLeft:
     
     .moving_on_vert
     
-    LDA $0D00, X
+    LDA.w $0D00, X
     
     .set_length
     
-    AND.b #$10 : LSR #4 : STA $0D80, X : BEQ .short
+    AND.b #$10 : LSR #4 : STA.w $0D80, X : BEQ .short
     
-    INC $0F60, X
+    INC.w $0F60, X
     
     .short
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     RTS
 }
@@ -1715,15 +1715,15 @@ SpritePrep_RollerRightLeft:
 ; $030E6B-$030E88 JUMP LOCATION
 SpritePrep_Kodondo:
 {
-    LDA $0D10, X : CLC : ADC.b #$04 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$04 : STA.w $0D10, X
     
-    LDA $0D00, X : SEC : SBC.b #$05 : STA $0D00, X
-    LDA $0D20, X : SBC.b #$00 : STA $0D20, X
+    LDA.w $0D00, X : SEC : SBC.b #$05 : STA.w $0D00, X
+    LDA.w $0D20, X : SBC.b #$00 : STA.w $0D20, X
     
     ; $030E85 ALTERNATE ENTRY POINT
     shared SpritePrep_Spark:
     
-    DEC $0E30, X
+    DEC.w $0E30, X
     
     RTS
 }
@@ -1760,9 +1760,9 @@ Pool_Unused:
 ; $030EC1-$030EEF JUMP LOCATION
 SpritePrep_LostWoodsBird:
 {
-    JSL GetRandomInt : AND.b #$1F : SEC : SBC.b #$10 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$1F : SEC : SBC.b #$10 : STA.w $0F80, X
     
-    LDA.b #$40 : STA $0F70, X
+    LDA.b #$40 : STA.w $0F70, X
     
     ; $030ED2 ALTERNATE ENTRY POINT
     shared SpritePrep_LostWoodsSquirrel:
@@ -1777,18 +1777,18 @@ SpritePrep_LostWoodsBird:
     
     .BRANCH_ALPHA
     
-    STA $0D50, X
+    STA.w $0D50, X
     
     LDA.b #$FC
     
-    LDY $069E : BPL .BRANCH_BETA
+    LDY.w $069E : BPL .BRANCH_BETA
     
     LDA.b #$04
     
     .BRANCH_BETA
     
-    STA $0D40, X
-    STA $0BA0, X
+    STA.w $0D40, X
+    STA.w $0BA0, X
     
     RTS
 }
@@ -1807,11 +1807,11 @@ Pool_SpritePrep_Bubble:
 ; $030EF2-$030F07 JUMP LOCATION
 SpritePrep_Bubble:
 {
-    LDA $0D10, X : LSR #4 : AND.b #$01 : TAY
+    LDA.w $0D10, X : LSR #4 : AND.b #$01 : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA.b #$F0 : STA $0D40, X
+    LDA.b #$F0 : STA.w $0D40, X
     
     RTS
 }
@@ -1823,7 +1823,7 @@ SpritePrep_IceBallGenerator:
 {
     JSR SpritePrep_Bosses
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -1835,7 +1835,7 @@ SpritePrep_ZoraKing:
 {
     LDA.l $7EF356 : BEQ .noFlippers
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -1849,13 +1849,13 @@ SpritePrep_ZoraKing:
 ; $030F1C-$030F3E LOCAL JUMP LOCATION
 SpritePrep_Bosses:
 {
-    LDA $0403 : BPL .bossNotDeadInHere
+    LDA.w $0403 : BPL .bossNotDeadInHere
     
     ; If a heart piece has been obtained in this room do not spawn
     
     PLA : PLA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -1867,7 +1867,7 @@ SpritePrep_Bosses:
     
     PHX
     
-    LDX $0E20, Y
+    LDX.w $0E20, Y
     
     LDA.l $0DB266, X
     
@@ -1875,7 +1875,7 @@ SpritePrep_Bosses:
     
     AND.b #$10 : BNE .dontKillSprite
     
-    LDA.b #$00 : STA $0DD0, Y
+    LDA.b #$00 : STA.w $0DD0, Y
     
     .dontKillSprite
     
@@ -1891,9 +1891,9 @@ SpritePrep_ArmosKnight:
 {
     JSR SpritePrep_Bosses
     
-    LDA.b #$FF : STA $0DF0, X
+    LDA.b #$FF : STA.w $0DF0, X
     
-    INC $0FF8
+    INC.w $0FF8
     
     JMP SpritePrep_MoveDownOneRightTwoTiles
 }
@@ -1905,13 +1905,13 @@ SpritePrep_DesertBarrier:
 {
     ; Desert Palace barriers
     
-    LDA $0B6A : STA $0D90, X
+    LDA.w $0B6A : STA.w $0D90, X
     
-    INC $0B6A
+    INC.w $0B6A
     
     JSR SpritePrep_MoveDownOneRightTwoTiles
     
-    LDA $0D10, X : LDY.b #$01 : CMP.b #$30 : BCC .set_direction
+    LDA.w $0D10, X : LDY.b #$01 : CMP.b #$30 : BCC .set_direction
     
     ; Y = 0x02
     INY
@@ -1923,7 +1923,7 @@ SpritePrep_DesertBarrier:
     
     .set_direction
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
     ; $030F6C ALTERNATE ENTRY POINT
     shared SpritePrep_Armos:
@@ -1948,13 +1948,13 @@ Pool_SpritePrep_Octorock:
 ; $030F71-$030F89 JUMP LOCATION
 SpritePrep_Octorock:
 {
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA .hp, Y : STA $0E50, X
+    LDA .hp, Y : STA.w $0E50, X
     
-    LDA .bump_damage, Y : STA $0CD2, X
+    LDA .bump_damage, Y : STA.w $0CD2, X
     
-    JSL GetRandomInt : AND.b #$7F : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$7F : STA.w $0DF0, X
     
     RTS
 }
@@ -1966,7 +1966,7 @@ SpritePrep_GiantMoldorm:
 {
     JSR SpritePrep_Bosses
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     JSL Sprite_InitializedSegmented
     
@@ -1996,12 +1996,12 @@ SpritePrep_SpikeTrap:
     ; $030FA2 ALTERNATE ENTRY POINT
     shared SpritePrep_ZoraAndFireball:
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     ; $030FA7 ALTERNATE ENTRY POINT
     shared SpritePrep_GerudoMan:
     
-    LDA.b #$08 : CLC : ADC $0D10, X : STA $0D10, X
+    LDA.b #$08 : CLC : ADC.w $0D10, X : STA.w $0D10, X
     
     ; $030FB0 ALTERNATE ENTRY POINT
     shared SpritePrep_Toppo:
@@ -2011,11 +2011,11 @@ SpritePrep_SpikeTrap:
     .cache_coords
     
     ; Cache the starting coordinates so we can use them for reference.
-    LDA $0D10, X : STA $0D90, X
-    LDA $0D30, X : STA $0DA0, X
+    LDA.w $0D10, X : STA.w $0D90, X
+    LDA.w $0D30, X : STA.w $0DA0, X
     
-    LDA $0D00, X : STA $0DB0, X
-    LDA $0D20, X : STA $0EB0, X
+    LDA.w $0D00, X : STA.w $0DB0, X
+    LDA.w $0D20, X : STA.w $0EB0, X
     
     RTS
 }
@@ -2025,7 +2025,7 @@ SpritePrep_SpikeTrap:
 ; $030FC9-$030FCE JUMP LOCATION
 SpritePrep_WalkingZora:
 {
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
     RTS
 }
@@ -2034,7 +2034,7 @@ SpritePrep_WalkingZora:
 
 ; $030FCF-$030FD5 BRANCH LOCATION
 {
-    ASL $0BE0, X : LSR $0BE0, X
+    ASL.w $0BE0, X : LSR.w $0BE0, X
     
     RTS
 }
@@ -2044,25 +2044,25 @@ SpritePrep_WalkingZora:
 ; $030FD6-$03103A JUMP LOCATION
 SpritePrep_Soldier:
 {
-    LDA $0E30, X : BEQ .BRANCH_ALPHA
+    LDA.w $0E30, X : BEQ .BRANCH_ALPHA
     
     LDY.b #$00
     
     AND.b #$07 : CMP.b #$05 : BCS .BRANCH_BETA
     
-    DEC A : EOR.b #$01 : STA $0DE0, X
+    DEC A : EOR.b #$01 : STA.w $0DE0, X
     
     .BRANCH_ALPHA
     
     LDA $1B : BNE .BRANCH_30FCF
     
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
-    LDA.b #$70 : STA $0DF0, X
+    LDA.b #$70 : STA.w $0DF0, X
     
     JSR Sprite_DirectionToFacePlayer
     
-    TYA : STA $0DE0, X : STA $0EB0, X
+    TYA : STA.w $0DE0, X : STA.w $0EB0, X
     
     ; $031001 ALTERNATE ENTRY POINT
     shared SpritePrep_TrooperAndArcherSoldier:
@@ -2077,13 +2077,13 @@ SpritePrep_Soldier:
     
     .BRANCH_DELTA
     
-    LDA $0E30, X : LSR #3 : AND.b #$03 : STA $00
+    LDA.w $0E30, X : LSR #3 : AND.b #$03 : STA $00
     
     TYA : ORA $00 : TAY
     
-    LDA .unknown, Y : STA $0DA0, X
+    LDA .unknown, Y : STA.w $0DA0, X
     
-    LDA $0B6B, X : AND.b #$0F : ORA #$50 : STA $0B6B, X
+    LDA.w $0B6B, X : AND.b #$0F : ORA #$50 : STA.w $0B6B, X
     
     .BRANCH_GAMMA
     
@@ -2091,12 +2091,12 @@ SpritePrep_Soldier:
     
     STZ $11
     
-    SEC : ROR $0CAA, X
+    SEC : ROR.w $0CAA, X
     
     JSR SpriteActive_Main
     JSR SpriteActive_Main
     
-    ASL $0CAA, X
+    ASL.w $0CAA, X
     
     PLA : STA $11
     
@@ -2121,10 +2121,10 @@ Pool_SpritePrep_TalkingTree:
 ; $031043-$031063 JUMP LOCATION
 SpritePrep_TalkingTree:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDA $0D10, X : SEC : SBC.b #$08 : STA $0D10, X
-    LDA $0D30, X : SBC.b #$00 : STA $0D30, X
+    LDA.w $0D10, X : SEC : SBC.b #$08 : STA.w $0D10, X
+    LDA.w $0D30, X : SBC.b #$00 : STA.w $0D30, X
     
     LDA.b #$00 : JSL TalkingTree_SpawnEyes
     LDA.b #$01 : JSL TalkingTree_SpawnEyes
@@ -2139,7 +2139,7 @@ SpritePrep_CrystalSwitch:
 {
     LDA.l $7EC172 : AND.b #$01 : TAY
     
-    LDA.w $B8CE, Y : ORA $0F50, X : STA $0F50, X
+    LDA.w $B8CE, Y : ORA.w $0F50, X : STA.w $0F50, X
     
     RTS
 }
@@ -2149,11 +2149,11 @@ SpritePrep_CrystalSwitch:
 ; $031075-$0310CB JUMP LOCATION
 SpritePrep_FluteBoy:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA.l $7EF3CA : ASL A : ROL #2
     
-    AND.b #$01 : STA $0E80, X : BEQ .in_light_world
+    AND.b #$01 : STA.w $0E80, X : BEQ .in_light_world
     
     ; See if the dark world flute boy has been arborated.
     LDA.l $7EF3C9 : AND.b #$08 : BNE .already_arborated
@@ -2163,21 +2163,21 @@ SpritePrep_FluteBoy:
     
     .already_arborated
     
-    LDA.b #$03 : STA $0DC0, X ; Put him in his tree form initially
+    LDA.b #$03 : STA.w $0DC0, X ; Put him in his tree form initially
     
-    LDA.b #$05 : STA $0D80, X; Set his AI pointer to do nothing?
+    LDA.b #$05 : STA.w $0D80, X; Set his AI pointer to do nothing?
     
     BRA .BRANCH_GAMMA
     
     .BRANCH_DELTA
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     .BRANCH_GAMMA
     
     JSR SpritePrep_MoveRightOneTile
     
-    LDA $0D00, X : SEC : SBC.b #$08 : STA $0D00, X
+    LDA.w $0D00, X : SEC : SBC.b #$08 : STA.w $0D00, X
     
     RTS
     
@@ -2185,7 +2185,7 @@ SpritePrep_FluteBoy:
     
     LDA.l $7EF34C : CMP.b #$02 : BCC .BRANCH_EPSILON
     
-    STZ $0DD0, X ; Kill the sprite if we already have the flute.
+    STZ.w $0DD0, X ; Kill the sprite if we already have the flute.
     
     RTS
     
@@ -2194,7 +2194,7 @@ SpritePrep_FluteBoy:
     ; $0310C2 ALTERNATE ENTRY POINT
     shared SpritePrep_MoveRightSevenPixels:
     
-    LDA $0D10, X : CLC : ADC.b #$07 : STA $0D10, X
+    LDA.w $0D10, X : CLC : ADC.b #$07 : STA.w $0D10, X
     
     RTS
 }
@@ -2204,7 +2204,7 @@ SpritePrep_FluteBoy:
 ; $0310CC-$0310D5 JUMP LOCATION
 SpritePrep_MoveDownOneTile:
 {
-    LDA $0D00, X : CLC : ADC.b #$08 : STA $0D00, X
+    LDA.w $0D00, X : CLC : ADC.b #$08 : STA.w $0D00, X
     
     ; $0310D5 ALTERNATE ENTRY POINT
     shared SpritePrep_Zazakku:
@@ -2217,7 +2217,7 @@ SpritePrep_MoveDownOneTile:
 ; $0310D6-$0310DF JUMP LOCATION
 SpritePrep_HylianPlaque:
 {
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     LDA $8A : CMP.b #$30 : BEQ SpritePrep_MoveRightSevenPixels
     
@@ -2229,9 +2229,9 @@ SpritePrep_HylianPlaque:
 ; $0310E0-$0310EF JUMP LOCATION
 SpritePrep_Stalfos:
 {
-    LDA $0D10, X : AND.b #$10 : STA $0E30, X : BEQ .is_red_stalfos
+    LDA.w $0D10, X : AND.b #$10 : STA.w $0E30, X : BEQ .is_red_stalfos
     
-    LDA.b #$07 : STA $0F50, X
+    LDA.b #$07 : STA.w $0F50, X
     
     .is_red_stalfos
     
@@ -2245,7 +2245,7 @@ SpritePrep_KholdstareShell:
 {
     JSR SpritePrep_Bosses
     
-    LDA.b #$C0 : STA $0E00, X
+    LDA.b #$C0 : STA.w $0E00, X
     
     BRA .down_one_right_two_tiles
     
@@ -2254,7 +2254,7 @@ SpritePrep_KholdstareShell:
     
     JSR SpritePrep_Bosses
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     JSR SpritePrep_IgnoresProjectiles
     
@@ -2314,23 +2314,23 @@ SpritePrep_HardHatBeetle:
     
     ; Depending on whether the X coordinate is odd or even (in multiples
     ; of 16 pixels), configure it as a red or a blue hardhat beetle.
-    LDA $0D10, X : AND.b #$10 : BEQ .BRANCH_ALPHA
+    LDA.w $0D10, X : AND.b #$10 : BEQ .BRANCH_ALPHA
     
     INY
     
     .BRANCH_ALPHA
     
-    LDA .palette, Y : STA $0F50, X
+    LDA .palette, Y : STA.w $0F50, X
     
-    LDA .hp, Y : STA $0E50, X
+    LDA .hp, Y : STA.w $0E50, X
     
-    LDA .unknown_0, Y : STA $0D90, X
+    LDA .unknown_0, Y : STA.w $0D90, X
     
-    LDA .ai_state, Y : STA $0D80, X
+    LDA .ai_state, Y : STA.w $0D80, X
     
-    LDA .unknown_1, Y : STA $0BE0, X
+    LDA .unknown_1, Y : STA.w $0BE0, X
     
-    LDA .bump_damage, Y : STA $0CD2, X
+    LDA .bump_damage, Y : STA.w $0CD2, X
     
     RTS
 }
@@ -2341,10 +2341,10 @@ SpritePrep_HardHatBeetle:
 SpritePrep_Helmasaur:
 {
     ; Effectively is the speed of the sprite.
-    LDA.b #$10 : STA $0D90, X
+    LDA.b #$10 : STA.w $0D90, X
     
     ; 
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     RTS
 }
@@ -2356,9 +2356,9 @@ SpritePrep_Fairy:
 {
     JSL GetRandomInt : AND.b #$01
     
-    STA $0D90, X
+    STA.w $0D90, X
     
-    EOR.b #$01 : STA $0DE0, X
+    EOR.b #$01 : STA.w $0DE0, X
     
     ; $03116A ALTERNATE ENTRY POINT
     shared SpritePrep_HeartRefill:
@@ -2378,9 +2378,9 @@ SpritePrep_Fairy:
     ; $03116E ALTERNATE ENTRY POINT
     shared SpritePrep_DashTriggeredSprite:
     
-    INC $0E90, X
+    INC.w $0E90, X
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     .indoors
     
@@ -2399,13 +2399,13 @@ SpritePrep_GoodBee:
     
     AND.b #$08 : BEQ .dont_have_good_bee
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_have_good_bee
     
-    INC $0E90, X
+    INC.w $0E90, X
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
     RTS
 }
@@ -2426,15 +2426,15 @@ SpritePrep_Agahnim:
 {
     JSR SpritePrep_Bosses
     
-    LDA.b #$00 : STA $0DC0, X
+    LDA.b #$00 : STA.w $0DC0, X
     
-    LDA.b #$03 : STA $0DE0, X
+    LDA.b #$03 : STA.w $0DE0, X
     
     JSR SpritePrep_MoveDownOneRightTwoTiles
     
-    LDY $0FFF
+    LDY.w $0FFF
     
-    LDA.w $9193, Y : STA $0F50, X
+    LDA.w $9193, Y : STA.w $0F50, X
     
     ; $0311AE ALTERNATE ENTRY POINT
     shared SpritePrep_DoNothing_2:
@@ -2457,7 +2457,7 @@ SpritePrep_EyegoreTrampoline:
 ; $0311B4-$0311B9 JUMP LOCATION
 SpritePrep_GuruGuruBar:
 {
-    INC $0DA0, X
+    INC.w $0DA0, X
     
     JMP SpritePrep_IgnoresProjectiles
 }
@@ -2490,7 +2490,7 @@ SpritePrep_HelmasaurKing:
     
     .termination_loop
     
-    STA $1D00, Y
+    STA.w $1D00, Y
     
     DEY : BPL .termination_loop
     
@@ -2502,16 +2502,16 @@ SpritePrep_HelmasaurKing:
 ; $0311D7-$0311E7 JUMP LOCATION
 SpritePrep_SpikeBlock:
 {
-    LDA.b #$20 : STA $0D50, X
+    LDA.b #$20 : STA.w $0D50, X
     
     ; $0311DC ALTERNATE ENTRY POINT
     shared SpritePrep_Stal:
     
-    LDA.b #-16 : STA $0D40, X
+    LDA.b #-16 : STA.w $0D40, X
     
     JSR Sprite_MoveVert
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     RTS
 }
@@ -2521,7 +2521,7 @@ SpritePrep_SpikeBlock:
 ; $0311E8-$0311F0 JUMP LOCATION
 SpritePrep_Terrorpin:
 {
-    LDA.b #$04 : STA $0DC0, X
+    LDA.b #$04 : STA.w $0DC0, X
     
     JSR SpritePrep_IgnoresProjectiles
     
@@ -2535,7 +2535,7 @@ SpritePrep_Arghus:
 {
     JSR SpritePrep_Bosses
     
-    LDA.b #$18 : STA $0F70, X
+    LDA.b #$18 : STA.w $0F70, X
     
     RTS
 }
@@ -2547,12 +2547,12 @@ SpritePrep_Arrgi:
 {
     JSR SpritePrep_Bosses
     
-    JSL GetRandomInt : STA $0E80, X
+    JSL GetRandomInt : STA.w $0E80, X
     
     CPX.b #$0D : BNE .BRANCH_ALPHA
     
-    STZ $0B0A
-    STZ $0B0B
+    STZ.w $0B0A
+    STZ.w $0B0B
     
     PHX
     
@@ -2564,11 +2564,11 @@ SpritePrep_Arrgi:
     
     .BRANCH_ALPHA
     
-    LDA $0B0F, X : STA $0D10, X
-    LDA $0B1F, X : STA $0D30, X
+    LDA.w $0B0F, X : STA.w $0D10, X
+    LDA.w $0B1F, X : STA.w $0D30, X
     
-    LDA $0B2F, X : STA $0D00, X
-    LDA $0B3F, X : STA $0D20, X
+    LDA.w $0B2F, X : STA.w $0D00, X
+    LDA.w $0B3F, X : STA.w $0D20, X
     
     RTS
 }
@@ -2580,15 +2580,15 @@ SpritePrep_Mothula:
 {
     JSR SpritePrep_Bosses
     
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
-    INC $0BA0, X
+    INC.w $0BA0, X
     
-    LDA.b #$02 : STA $0DC0, X
+    LDA.b #$02 : STA.w $0DC0, X
     
-    INC $041A
+    INC.w $041A
     
-    LDA.b #$70 : STA $0DB0, X
+    LDA.b #$70 : STA.w $0DB0, X
     
     RTS
 }
@@ -2618,7 +2618,7 @@ SpritePrep_BigKey:
 {
     JSR SpritePrep_MoveRightOneTile
     
-    LDA.b #$FF : STA $0E30, X
+    LDA.b #$FF : STA.w $0E30, X
 
     ; $031256 ALTERNATE ENTRY POINT
     shared SpritePrep_LoadBigKeyGfx:
@@ -2636,16 +2636,16 @@ SpritePrep_BigKey:
     ; $031262 ALTERNATE ENTRY POINT
     shared SpritePrep_Key:
     
-    LDA.b #$FF : STA $0E30, X
+    LDA.b #$FF : STA.w $0E30, X
     
     ; $031267 ALTERNATE ENTRY POINT
     .set_item_drop
     
     ; \wtf Why is this necessary? Big keys and keys shouldn't drop anything
     ; after they die. Maybe we'll know some day.
-    LDA $0B9B : STA $0CBA, X
+    LDA.w $0B9B : STA.w $0CBA, X
     
-    INC $0B9B
+    INC.w $0B9B
     
     RTS
 }
@@ -2655,7 +2655,7 @@ SpritePrep_BigKey:
 ; $031271-$031282 LOCAL JUMP LOCATION
 SpriteActive_Main:
 {
-    LDA $0E20, X
+    LDA.w $0E20, X
     
     REP #$30
     

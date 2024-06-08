@@ -5,15 +5,15 @@
 Sprite_Zoro:
     shared Sprite_Babusu:
 {
-    LDA $0E90, X : BNE .is_zoro
+    LDA.w $0E90, X : BNE .is_zoro
     
     JMP Babusu_Main
     
     .is_zoro
     
-    LDA $0DB0, X : BNE .initialized
+    LDA.w $0DB0, X : BNE .initialized
     
-    INC $0DB0, X
+    INC.w $0DB0, X
     
     JSR Sprite3_IsBelowPlayer
     
@@ -24,7 +24,7 @@ Sprite_Zoro:
     ; is sprite is below player during the initialization phase, we just
     ; self terminate. This would be after the player enters the door
     ; and enters a different quadrant.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -35,23 +35,23 @@ Sprite_Zoro:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckDamage
     
-    INC $0E80, X : LDA $0E80, X : LSR A : AND.b #$01 : STA $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR A : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0E80, X : LSR #2 : AND.b #$01 : TAY
+    LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
     
-    LDA Sprite3_Shake.x_speeds, Y : STA $0D50, X
+    LDA Sprite3_Shake.x_speeds, Y : STA.w $0D50, X
     
     JSR Sprite3_Move
     
-    LDA $0DF0, X : BNE .dont_self_terminate
+    LDA.w $0DF0, X : BNE .dont_self_terminate
     
     JSR Sprite3_CheckTileCollision : BEQ .dont_self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_self_terminate
     
-    LDA $0E80, X : AND.b #$03 : BNE .spawn_delay
+    LDA.w $0E80, X : AND.b #$03 : BNE .spawn_delay
     
     PHX : TXY
     
@@ -71,19 +71,19 @@ Sprite_Zoro:
     
     .spawn_zoro_garnish
     
-    LDA.b #$06 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$06 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$0A : STA.l $7FF90E, X
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0F20, Y : STA.l $7FF968, X
+    LDA.w $0F20, Y : STA.l $7FF968, X
     
     PLX
     
@@ -98,7 +98,7 @@ Babusu_Main:
     JSL Babusu_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -113,11 +113,11 @@ Babusu_Main:
 ; $0F1C81-$0F1C8E JUMP LOCATION
 Babusu_Reset:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
     
     RTS
 }
@@ -127,11 +127,11 @@ Babusu_Reset:
 ; $0F1C8F-$0F1C9C JUMP LOCATION
 Babusu_Hiding:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$37 : STA $0DF0, X
+    LDA.b #$37 : STA.w $0DF0, X
     
     .delay
     
@@ -162,21 +162,21 @@ Pool_Babusu_TerrorSprinkles:
 ; $0F1CAD-$0F1CE7 JUMP LOCATION
 Babusu_TerrorSprinkles:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     PHA
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; \task investigate whether these things can move left or right, and
     ; whether they have any understanding
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     PLA
     
@@ -187,13 +187,13 @@ Babusu_TerrorSprinkles:
     SBC.b #$20 : LSR #2 : TAY
     
                    LDA .animation_states, Y      
-    LDY $0DE0, X : CLC : ADC .animation_adjustments, Y : STA $0DC0, X
+    LDY.w $0DE0, X : CLC : ADC .animation_adjustments, Y : STA.w $0DC0, X
     
     RTS
     
     .still_hidden
     
-    LDA.b #$FF : STA $0DC0, X
+    LDA.b #$FF : STA.w $0DC0, X
     
     RTS
 }
@@ -217,17 +217,17 @@ Babusu_ScurryAcross:
     
     LDA $1A : LSR A : AND.b #$01
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    CLC : ADC .animation_states, Y : STA $0DC0, X
+    CLC : ADC .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0DF0, X : BNE .cant_collide
+    LDA.w $0DF0, X : BNE .cant_collide
     
     JSR Sprite3_CheckTileCollision : BEQ .didnt_collide
     
-    LDA $0DE0, X : EOR.b #$01 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
 
     .didnt_collide
     .cant_collide

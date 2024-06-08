@@ -16,12 +16,12 @@ Pool_Sprite_Key:
 Sprite_Key:
     shared Sprite_BigKey:
 {
-    LDY $0CBA, X
+    LDY.w $0CBA, X
     
-    LDA $0403 : AND $D030, Y : BEQ .keyNotObtainedYet
+    LDA.w $0403 : AND.w $D030, Y : BEQ .keyNotObtainedYet
     
     ; Kill the key, as it's already been obtained
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -65,18 +65,18 @@ Sprite_Key:
     .skip_tile_collision_logic
     
     ; Simulates gravity for the sprite.
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     ; Is this equivalent to an arithmetic shift right? Interesting.
-    LDA $0D50, X : ASL A : ROR $0D50, X
+    LDA.w $0D50, X : ASL A : ROR.w $0D50, X
     
-    LDA $0D40, X : ASL A : ROR $0D40, X
+    LDA.w $0D40, X : ASL A : ROR.w $0D40, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR A
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR A
     
     CMP.b #$09 : BCS .enough_z_speed_for_bounce
     
@@ -86,33 +86,33 @@ Sprite_Key:
     
     .enough_z_speed_for_bounce
     
-    STA $0F80, X
+    STA.w $0F80, X
     
     LDA.l $7FF9C2, X : CMP.b #$08 : BEQ .water_tile
                      CMP.b #$09 : BNE .not_water_tile
     
     .water_tile
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
     JSL Sprite_SpawnSmallWaterSplash : BMI .finished_bounce_logic
     
-    LDA $0E60, X : AND.b #$20 : BEQ .finished_bounce_logic
+    LDA.w $0E60, X : AND.b #$20 : BEQ .finished_bounce_logic
     
     ; Adjust water splash coordinates, but only if this flag is set?
     ; \task Investigate, and if this is true, document it in ram doc.
-    LDA $0D10, Y : SBC.b #$04 : STA $0D10, Y
-    LDA $0D30, Y : SBC.b #$00 : STA $0D30, Y
+    LDA.w $0D10, Y : SBC.b #$04 : STA.w $0D10, Y
+    LDA.w $0D30, Y : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $0D00, Y : SBC.b #$04 : STA $0D00, Y
-    LDA $0D20, Y : SBC.b #$00 : STA $0D20, Y
+    LDA.w $0D00, Y : SBC.b #$04 : STA.w $0D00, Y
+    LDA.w $0D20, Y : SBC.b #$00 : STA.w $0D20, Y
     
     BRA .finished_bounce_logic
     
     .not_water_tile
     
     ; Is the sprite an item or other upper echelon sprite?
-    LDA $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_sfx
+    LDA.w $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_sfx
     
     LDA $1B : BEQ .dont_play_clink_sfx
     
@@ -133,19 +133,19 @@ Sprite_Key:
 ; $0350ED-$035115 LOCAL JUMP LOCATION
 Sprite_HandleBlinkingPhaseOut:
 {
-    LDA $0B58, X : BEQ .phase_out_not_scheduled
+    LDA.w $0B58, X : BEQ .phase_out_not_scheduled
     
-    LDA $11 : ORA $0FC1 : BNE .dont_blink_at_all
+    LDA $11 : ORA.w $0FC1 : BNE .dont_blink_at_all
     
     LDA $1A : LSR A : BCS .decrement_blink_timer_delay
     
-    DEC $0B58, X
+    DEC.w $0B58, X
     
     .decrement_blink_timer_delay
     
-    LDA $0B58, X : BNE .self_termination_delay
+    LDA.w $0B58, X : BNE .self_termination_delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .self_termination_delay
     
@@ -170,7 +170,7 @@ Sprite_HandleBlinkingPhaseOut:
 ; $035116-$035124 LOCAL JUMP LOCATION
 Sprite_CheckAbsorptionByPlayer:
 {
-    LDA $0F10, X : BNE .sprite_is_paused
+    LDA.w $0F10, X : BNE .sprite_is_paused
     
     JSR Sprite_CheckDamageToPlayer.stagger : BCC .no_player_collision
     
@@ -211,9 +211,9 @@ Pool_Sprite_HandleAbsorptionByPlayer:
 ; $03513C-$03516F LOCAL JUMP LOCATION
 Sprite_HandleAbsorptionByPlayer:
 {
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
-    LDA $0E20, X : SEC : SBC.b #$D8 : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$D8 : TAY
     
     LDA .sfx, Y : JSL Sound_SetSfx3PanLong
     
@@ -244,7 +244,7 @@ Sprite_HandleAbsorptionByPlayer:
 ShieldPickup_AbsorptionByPlayer:
 {
     ; recoverable shield (from Pikit, etc)
-    LDA $0E30, X : STA.l $7EF35A
+    LDA.w $0E30, X : STA.l $7EF35A
     
     RTS
 }
@@ -254,7 +254,7 @@ ShieldPickup_AbsorptionByPlayer:
 ; $035178-$0351A4 JUMP LOCATION
 BigKey_AbsorptionByPlayer:
 {
-    STZ $02E9
+    STZ.w $02E9
     
     LDY.b #$32
     
@@ -273,12 +273,12 @@ BigKey_AbsorptionByPlayer:
     
     .set_event_flag
     
-    LDA $0E30, X : STA $0BC0, X
+    LDA.w $0E30, X : STA.w $0BC0, X
     
     ; Hopefully this is 0 or 1 or else things don't make much sense
-    LDY $0CBA, X
+    LDY.w $0CBA, X
     
-    LDA $0403 : ORA $D030, Y : STA $0403
+    LDA.w $0403 : ORA.w $D030, Y : STA.w $0403
     
     JSL Dungeon_ManuallySetSpriteDeathFlag
     
@@ -326,7 +326,7 @@ GreenRupee_AbsorptionByPlayer:
     shared BlueRupee_AbsorptionByPlayer:
     shared RedRupee_AbsorptionByPlayer:
 {
-    LDY $0E20, X
+    LDY.w $0E20, X
     
     LDA.b #$00 : XBA
     
@@ -355,7 +355,7 @@ OneBombRefill_AbsorptionByPlayer:
     shared FourBombRefill_AbsorptionByPlayer:
     shared EightBombRefill_AbsorptionByPlayer:
 {
-    LDY $0E20, X
+    LDY.w $0E20, X
     
     ; (actual useful values start at $351D5)
     LDA.w $D0F9, Y : CLC : ADC.l $7EF375 : STA.l $7EF375
@@ -391,7 +391,7 @@ SmallMagicRefill_AbsorptionByPlayer:
 FiveArrowRefill_AbsorptionByPlayer:
 {
     ; Number of arrows is stored as a property for this sprite
-    LDA $0EB0, X : BNE .apply_refill_amount
+    LDA.w $0EB0, X : BNE .apply_refill_amount
     
     LDA.b #$05 ; if zero, give Link 5
     
@@ -436,26 +436,26 @@ Sprite_DrawTransientAbsorbable:
     ; $035232 ALTERNATE ENTRY POINT
     shared Sprite_DrawAbsorbable:
     
-    LDA $0FB3 : BNE .dont_use_super_priority
+    LDA.w $0FB3 : BNE .dont_use_super_priority
     
     LDA $1B : BEQ .dont_use_super_priority
     
-    LDA.b #$30 : STA $0B89, X
+    LDA.b #$30 : STA.w $0B89, X
     
     .dont_use_super_priority
     
-    LDA $0FC6 : CMP.b #$03 : BCS .improper_graphics_pack_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_graphics_pack_loaded
     
-    LDA $0E10, X : BEQ .dont_use_special_oam_region
+    LDA.w $0E10, X : BEQ .dont_use_special_oam_region
     
     LDA.b #$0C : JSL OAM_AllocateFromRegionC
     
     .dont_use_special_oam_region
     
     ; \task find out under which circumstances this branch would be taken.
-    LDA $0E90, X : BNE .easly_return_caller
+    LDA.w $0E90, X : BNE .easly_return_caller
     
-    LDY $0E20, X
+    LDY.w $0E20, X
     
     LDA .unknown_1-$D8, Y : BEQ .not_suffixed_with_number
     
@@ -471,12 +471,12 @@ Sprite_DrawTransientAbsorbable:
     
     CMP.b #$02 : BNE .is_thin_and_tall
     
-    LDA $0E20, X : CMP.b #$E6 : BNE .not_shield_pickup
+    LDA.w $0E20, X : CMP.b #$E6 : BNE .not_shield_pickup
     
-    LDA $0E30, X : CMP.b #$01 : BEQ .is_fighter_shield
+    LDA.w $0E30, X : CMP.b #$01 : BEQ .is_fighter_shield
     
     ; Hero shield (as opposed to fighter shield)?
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
     .not_shield_pickup
     
@@ -553,7 +553,7 @@ Sprite_DrawNumberedAbsorbable:
     
     PHX
     
-    LDA $0EB0, X : CMP.b #$01 : LDX.b #$02 : BCC .has_number
+    LDA.w $0EB0, X : CMP.b #$01 : LDX.b #$02 : BCC .has_number
     
     ; Think this means that it doesn't have a number (like a single arrow
     ; refill such as one spawned by a thief or a pikit dying). \task

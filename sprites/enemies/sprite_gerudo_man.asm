@@ -4,7 +4,7 @@
 ; $02B8B3-$02B8DF JUMP LOCATION
 Sprite_GerudoMan:
 {
-    LDA $0D80, X : CMP.b #$02 : BCS .draw
+    LDA.w $0D80, X : CMP.b #$02 : BCS .draw
     
     ; (Don't draw, just prep)
     JSL Sprite_PrepOamCoordLong
@@ -20,9 +20,9 @@ Sprite_GerudoMan:
     JSR Sprite2_CheckIfActive
     JSR Sprite2_CheckIfRecoiling
     
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     REP #$30
     
@@ -49,15 +49,15 @@ Sprite_GerudoMan:
 ; $02B8EA-$02B90A JUMP LOCATION
 GerudoMan_ReturnToOrigin:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA $0D90, X : STA $0D10, X
-    LDA $0DA0, X : STA $0D30, X
+    LDA.w $0D90, X : STA.w $0D10, X
+    LDA.w $0DA0, X : STA.w $0D30, X
     
-    LDA $0DB0, X : STA $0D00, X
-    LDA $0EB0, X : STA $0D20, X
+    LDA.w $0DB0, X : STA.w $0D00, X
+    LDA.w $0EB0, X : STA.w $0D20, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
@@ -73,15 +73,15 @@ GerudoMan_AwaitPlayer:
     
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
     
     SEP #$20
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
     .not_close
     .delay
@@ -96,11 +96,11 @@ GerudoMan_AwaitPlayer:
 ; $02B93F-$02B964 JUMP LOCATION
 GerudoMan_Emerge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
     LDA.b #$10 : JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -110,7 +110,7 @@ GerudoMan_Emerge:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -139,13 +139,13 @@ Pool_GerudoMan_Submerge:
 ; $02B96C-$02B98E JUMP LOCATION
 GerudoMan_PursuePlayer:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
     RTS
     
@@ -153,7 +153,7 @@ GerudoMan_PursuePlayer:
     
     LSR #2 : AND.b #$01 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     JSR Sprite2_CheckDamage
     JSR Sprite2_Move
@@ -166,11 +166,11 @@ GerudoMan_PursuePlayer:
 ; $02B98F-$02B9A5 JUMP LOCATION
 GerudoMan_Submerge:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     RTS
     
@@ -178,7 +178,7 @@ GerudoMan_Submerge:
     
     LSR A : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -236,7 +236,7 @@ GerudoMan_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL A : ADC $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA $06
     
     PHX
     

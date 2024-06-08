@@ -9,21 +9,21 @@ Sprite_Bot:
     JSR Sprite2_CheckIfActive
     JSR Sprite2_CheckIfRecoiling
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #4 : AND.b #$03 : STA $0D90, X
+    LDA.w $0E80, X : LSR #4 : AND.b #$03 : STA.w $0D90, X
     
     JSR Sprite2_CheckDamage
     
-    LDA $0D80, X : CMP.b #$02 : BEQ .alpha
+    LDA.w $0D80, X : CMP.b #$02 : BEQ .alpha
     
     CMP.b #$01 : BEQ .beta
     
-    LDA $0DF0, X : BNE .gamma
+    LDA.w $0DF0, X : BNE .gamma
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$69 : STA $0DF0, X
+    LDA.b #$69 : STA.w $0DF0, X
     
     .gamma
     
@@ -31,18 +31,18 @@ Sprite_Bot:
     
     .beta
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0DF0, X : BNE .delta
+    LDA.w $0DF0, X : BNE .delta
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$80 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$80 : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSL GetRandomInt : AND.b #$0F : TAY
     
-    LDA.w $AAE4, Y : ASL #2 : STA $0D50, X
-    LDA.w $AAF4, Y : ASL #2 : STA $0D40, X
+    LDA.w $AAE4, Y : ASL #2 : STA.w $0D50, X
+    LDA.w $AAF4, Y : ASL #2 : STA.w $0D40, X
     
     .delta
     
@@ -50,25 +50,25 @@ Sprite_Bot:
     
     .alpha
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0DF0, X : BNE .epsilon
+    LDA.w $0DF0, X : BNE .epsilon
     
     .theta
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$50 : STA $0DF0, X
+    LDA.b #$50 : STA.w $0DF0, X
     
     RTS
     
     .epsilon
     
-    TXA : EOR $1A : AND $0DA0, X : BNE .zeta
+    TXA : EOR $1A : AND.w $0DA0, X : BNE .zeta
     
     JSR Sprite2_Move
     
-    LDA $0E70, X : BNE .theta
+    LDA.w $0E70, X : BNE .theta
     
     ; $02B88D ALTERNATE ENTRY POINT
     .zeta
@@ -96,11 +96,11 @@ Sprite_Bot:
 ; $02B89A-$02B8B2 LOCAL JUMP LOCATION
 Bot_Draw:
 {
-    LDY $0D90, X
+    LDY.w $0D90, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     

@@ -4,7 +4,7 @@
 ; $0F5C5B-$0F5C67 JUMP LOCATION
 Sprite_DashBeeHive:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -18,9 +18,9 @@ Sprite_DashBeeHive:
 ; $0F5C68-$0F5C7A JUMP LOCATION
 DashBeeHive_WaitForDash:
 {
-    LDA $0E90, X : BNE .not_dashed_into_yet
+    LDA.w $0E90, X : BNE .not_dashed_into_yet
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     LDY.b #$0B
     
@@ -66,22 +66,22 @@ DashBeeHive_SpawnBee:
     
     PHX
     
-    LDA.b #$01 : STA $0D80, Y
+    LDA.b #$01 : STA.w $0D80, Y
     
     TYA : AND.b #$03 : TAX
     
-    LDA .timers, X : STA $0DF0, Y
-                     STA $0D90, Y
+    LDA .timers, X : STA.w $0DF0, Y
+                     STA.w $0D90, Y
     
-    LDA.b #$60 : STA $0F10, Y
-    
-    JSL GetRandomInt : AND.b #$07 : TAX
-    
-    LDA Bee.speeds, X : STA $0D50, Y
+    LDA.b #$60 : STA.w $0F10, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA Bee.speeds, X : STA $0D40, Y
+    LDA Bee.speeds, X : STA.w $0D50, Y
+    
+    JSL GetRandomInt : AND.b #$07 : TAX
+    
+    LDA Bee.speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -99,23 +99,23 @@ PlayerItem_ReleaseBee:
     
     LDA.b #$B2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $EE : STA $0F20, Y
+    LDA $EE : STA.w $0F20, Y
     
-    LDA $22 : CLC : ADC.b #$08 : STA $0D10, X
-    LDA $23 : CLC : ADC.b #$00 : STA $0D30, X
+    LDA $22 : CLC : ADC.b #$08 : STA.w $0D10, X
+    LDA $23 : CLC : ADC.b #$00 : STA.w $0D30, X
     
-    LDA $20 : CLC : ADC.b #$10 : STA $0D00, X
-    LDA $21 : CLC : ADC.b #$00 : STA $0D20, X
+    LDA $20 : CLC : ADC.b #$10 : STA.w $0D00, X
+    LDA $21 : CLC : ADC.b #$00 : STA.w $0D20, X
     
     PHX
     
-    LDX $0202
+    LDX.w $0202
     
     LDA.l $7EF33F, X : TAX
     
     LDA.l $7EF35B, X : CMP.b #$08 : BNE .not_good_bee
     
-    LDA.b #$01 : STA $0EB0, Y
+    LDA.b #$01 : STA.w $0EB0, Y
     
     .not_good_bee
     
@@ -123,14 +123,14 @@ PlayerItem_ReleaseBee:
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA Bee.half_speeds, X : STA $0D50, Y
+    LDA Bee.half_speeds, X : STA.w $0D50, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA Bee.half_speeds, X : STA $0D40, Y
+    LDA Bee.half_speeds, X : STA.w $0D40, Y
     
-    LDA.b #$40 : STA $0DF0, Y
-                 STA $0D90, Y
+    LDA.b #$40 : STA.w $0DF0, Y
+                 STA.w $0D90, Y
     
     PLX
     
@@ -169,7 +169,7 @@ Bee_Normal:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $0EB0, X : BEQ .not_good_bee
+    LDA.w $0EB0, X : BEQ .not_good_bee
     
     JSL Sprite_SpawnSparkleGarnish
     
@@ -178,9 +178,9 @@ Bee_Normal:
     JSR Bee_Buzz
     JSR Sprite3_Move
     
-    TXA : EOR $1A : LSR A : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $0F10, X : BNE .anointeract_with_player
+    LDA.w $0F10, X : BNE .anointeract_with_player
     
     JSR Sprite3_CheckDamageToPlayer
     
@@ -194,7 +194,7 @@ Bee_Normal:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -202,13 +202,13 @@ Bee_Normal:
     
     LDA $1A : BNE .dont_adjust_timer_supplement
     
-    LDA $0D90, X : CMP.b #$10 : BEQ .dont_adjust_timer_supplement
+    LDA.w $0D90, X : CMP.b #$10 : BEQ .dont_adjust_timer_supplement
     
-    SEC : SBC.b #$08 : STA $0D90, X
+    SEC : SBC.b #$08 : STA.w $0D90, X
     
     .dont_adjust_timer_supplement
     
-    LDA $0DF0, X : BNE .delay_direction_change
+    LDA.w $0DF0, X : BNE .delay_direction_change
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
@@ -222,23 +222,23 @@ Bee_Normal:
     
     LDA.b #$14 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X : BPL .set_h_flip_on
+    LDA $01 : STA.w $0D50, X : BPL .set_h_flip_on
     
-    LDA $0F50, X : AND.b #$BF
+    LDA.w $0F50, X : AND.b #$BF
     
     BRA .store_h_flip_status
     
     .set_h_flip_on
     
-    LDA $0F50, X : ORA.b #$40
+    LDA.w $0F50, X : ORA.b #$40
     
     .store_h_flip_status
     
-    STA $0F50, X
+    STA.w $0F50, X
     
-    TXA : CLC : ADC $0D90, X : STA $0DF0, X
+    TXA : CLC : ADC.w $0D90, X : STA.w $0DF0, X
     
     .delay_direction_change
     
@@ -253,11 +253,11 @@ Bee_PutInbottle:
     JSR Bee_DetermineInteractionStatus
     JSR Sprite3_CheckIfActive
     
-    LDA $1CE8 : BNE .was_set_free
+    LDA.w $1CE8 : BNE .was_set_free
     
     JSL Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
     
-    LDA $0EB0, X : STA $00
+    LDA.w $0EB0, X : STA $00
     
     PHX
     
@@ -269,7 +269,7 @@ Bee_PutInbottle:
     
     PLX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -282,9 +282,9 @@ Bee_PutInbottle:
     
     .was_set_free:
     
-    LDA.b #$40 : STA $0F10, X
+    LDA.b #$40 : STA.w $0F10, X
     
-    LDA.b #$01 : STA $0D80, X
+    LDA.b #$01 : STA.w $0D80, X
     
     RTS
 }
@@ -326,7 +326,7 @@ Bee_DetermineInteractionStatus:
     
     REP #$20
     
-    LDA $1CF0 : CMP.w #$00C8 : BEQ .player_didnt_capture_bee
+    LDA.w $1CF0 : CMP.w #$00C8 : BEQ .player_didnt_capture_bee
                 CMP.w #$00CA : BNE .player_captured_bee
     
     .player_didnt_capture_bee
@@ -335,7 +335,7 @@ Bee_DetermineInteractionStatus:
     
     ; Set an 'ignore interaction' variable for the bee so it can't damage
     ; the player or be caught again for several frames.
-    LDA.b #$28 : STA $0F10, X
+    LDA.b #$28 : STA.w $0F10, X
     
     .player_captured_bee
     .not_in_text_mode
@@ -352,7 +352,7 @@ Bee_DetermineInteractionStatus:
 ; $0F5E63-$0F5E6F JUMP LOCATION
 Sprite_GoodBee:
 {
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -366,9 +366,9 @@ Sprite_GoodBee:
 ; $0F5E70-$0F5E8F JUMP LOCATION
 GoodBee_WaitingForDash:
 {
-    LDA $0E90, X : BNE .not_dashed_into_yet
+    LDA.w $0E90, X : BNE .not_dashed_into_yet
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; Apparently the good bee is designed to be 'unique'.
     LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
@@ -394,23 +394,23 @@ GoodBee_SpawnTangibleVersion:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$01 : STA $0D80, Y
+    LDA.b #$01 : STA.w $0D80, Y
     
-    LDA.b #$40 : STA $0DF0, Y
-                 STA $0D90, Y
+    LDA.b #$40 : STA.w $0DF0, Y
+                 STA.w $0D90, Y
     
-    LDA.b #$60 : STA $0F10, Y
-    LDA.b #$01 : STA $0EB0, Y
+    LDA.b #$60 : STA.w $0F10, Y
+    LDA.b #$01 : STA.w $0EB0, Y
     
     PHX
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA Bee.speeds, X : STA $0D50, Y
+    LDA Bee.speeds, X : STA.w $0D50, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA Bee.speeds, X : STA $0D40, Y
+    LDA Bee.speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -435,7 +435,7 @@ Pool_GoodBee_Activated:
 ; $0F5ED2-$0F5F89 JUMP LOCATION
 GoodBee_Activated:
 {
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
     JSR Bee_SetAltitude
     JSL Sprite_PrepAndDrawSingleSmallLong
@@ -444,11 +444,11 @@ GoodBee_Activated:
     JSR Bee_Buzz
     JSR Sprite3_Move
     
-    TXA : EOR $1A : LSR A : AND.b #$01 : STA $0DC0, X
+    TXA : EOR $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     ; \wtf It's almost like the devs hadn't decided that only a good bee
     ; could appear in this fashion (as a single bee) from dashing.
-    LDA $0EB0, X : BEQ .not_good_bee
+    LDA.w $0EB0, X : BEQ .not_good_bee
     
     JSL Sprite_SpawnSparkleGarnish
     
@@ -457,15 +457,15 @@ GoodBee_Activated:
     ; \unused Unless we can find an instance of this variable changing
     ; for the bee / good bee, I'd currently label this logic as unused.
     ; And therefore \optimize (remove it).
-    LDA $0DA0, X : LDY $0EB0, X : CMP .unknown_1, Y : BCC .unknown_0
+    LDA.w $0DA0, X : LDY.w $0EB0, X : CMP .unknown_1, Y : BCC .unknown_0
     
-    LDA.b #$40 : STA $0CAA, X
+    LDA.b #$40 : STA.w $0CAA, X
     
     RTS
     
     .unknown_0
     
-    LDA $0F10, X : BNE .return
+    LDA.w $0F10, X : BNE .return
     
     JSL Sprite_CheckDamageFromPlayerLong : BEQ .not_caught_by_player
     
@@ -475,7 +475,7 @@ GoodBee_Activated:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -505,21 +505,21 @@ GoodBee_Activated:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X : BPL .pursuing_rightward
+    LDA $01 : STA.w $0D50, X : BPL .pursuing_rightward
     
-    LDA $0F50, X : AND.b #$BF
+    LDA.w $0F50, X : AND.b #$BF
     
     BRA .set_h_flip_status
     
     .pursuing_rightward
     
-    LDA $0F50, X : ORA.b #$40
+    LDA.w $0F50, X : ORA.b #$40
     
     .set_h_flip_status
     
-    STA $0F50, X
+    STA.w $0F50, X
     
     .return
     
@@ -531,15 +531,15 @@ GoodBee_Activated:
 ; $0F5F8A-$0F5FAA LOCAL JUMP LOCATION
 Bee_SetAltitude:
 {
-    LDA.b #$10 : STA $0F70, X
+    LDA.b #$10 : STA.w $0F70, X
     
-    LDA $0EB0, X : BEQ .not_good_bee
+    LDA.w $0EB0, X : BEQ .not_good_bee
     
     ; \note Now this is interesting... It seems to set the bee's properties
     ; byte using some magic formula... \wtf Is this?
-    LDA $0F50, X : AND.b #$F1 : STA $00
+    LDA.w $0F50, X : AND.b #$F1 : STA $00
     
-    LDA $1A : LSR #4 : AND.b #$03 : INC A : ASL A : ORA $00 : STA $0F50, X
+    LDA $1A : LSR #4 : AND.b #$03 : INC A : ASL A : ORA $00 : STA.w $0F50, X
     
     .not_good_bee
     
@@ -557,19 +557,19 @@ GoodBee_ScanForTargetableSprites:
     
     .next_sprite
     
-    CPY $0FA0 : BEQ .skip_sprite
+    CPY.w $0FA0 : BEQ .skip_sprite
     
-    LDA $0DD0, Y : CMP.b #$09 : BCC .skip_sprite
+    LDA.w $0DD0, Y : CMP.b #$09 : BCC .skip_sprite
     
-    LDA $0F00, Y : BNE .skip_sprite
+    LDA.w $0F00, Y : BNE .skip_sprite
     
-    LDA $0E40, Y : BMI .is_npc_sprite
+    LDA.w $0E40, Y : BMI .is_npc_sprite
     
-    LDA $0F20, Y : CMP $0F20, X : BNE .skip_sprite
+    LDA.w $0F20, Y : CMP.w $0F20, X : BNE .skip_sprite
     
-    LDA $0F60, Y : AND.b #$40 : BNE .skip_sprite
+    LDA.w $0F60, Y : AND.b #$40 : BNE .skip_sprite
     
-    LDA $0BA0, Y : BEQ .attack_sprite
+    LDA.w $0BA0, Y : BEQ .attack_sprite
     
     BRA .skip_sprite
     
@@ -577,9 +577,9 @@ GoodBee_ScanForTargetableSprites:
     
     ; \wtf Again, a check of a good bee. Do normal bees ever attack other
     ; sprites? I don't think so?
-    LDA $0EB0, X : BEQ .skip_sprite
+    LDA.w $0EB0, X : BEQ .skip_sprite
     
-    LDA $0CD2, Y : AND.b #$40 : BNE .attack_sprite
+    LDA.w $0CD2, Y : AND.b #$40 : BNE .attack_sprite
     
     .skip_sprite
     
@@ -599,13 +599,13 @@ GoodBee_ScanForTargetableSprites:
     
     JSL GetRandomInt : AND.b #$03 : TAX
     
-    LDA $0D10, Y : CLC : ADC .box_sizes, X : STA $04
-    LDA $0D30, Y : ADC.b #$00        : STA $05
+    LDA.w $0D10, Y : CLC : ADC .box_sizes, X : STA $04
+    LDA.w $0D30, Y : ADC.b #$00        : STA $05
     
     JSL GetRandomInt : AND.b #$03 : TAX
     
-    LDA $0D00, Y : CLC : ADC .box_sizes, X : STA $06
-    LDA $0D20, Y : ADC.b #$00        : STA $07
+    LDA.w $0D00, Y : CLC : ADC .box_sizes, X : STA $06
+    LDA.w $0D20, Y : ADC.b #$00        : STA $07
     
     PLX
     

@@ -1338,7 +1338,7 @@ $0221[0x02] -   Assigned a value of 0xFFFF (-1) in Bank 0x0C, never seems to be 
 
 $0223[0x01] -   (????)
     
-    There's a few STZ $0223's that pop up in the rom but other than that it's
+    There's a few STZ.w $0223's that pop up in the rom but other than that it's
     not clear if it was ever intended to be used for anything.
 
 $0224[0x0C] -   free ram? -  Nope! causes some funky faded effects and a lack of an overworld.

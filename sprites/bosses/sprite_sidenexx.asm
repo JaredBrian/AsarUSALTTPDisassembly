@@ -6,7 +6,7 @@ Sprite_Sidenexx:
 {
     ; One of the two side heads?
 Sprite_CC_TrinexxBreath_FireHead:
-    LDA $0E90, X : BEQ Sidenexx
+    LDA.w $0E90, X : BEQ Sidenexx
     
     JMP TrinexxBreath_fire ; $0EBDC6 IN ROM
     
@@ -14,54 +14,54 @@ Sprite_CC_TrinexxBreath_FireHead:
     Sprite_CD_TrinexxBreath_IceHead
     ; One of the two side heads?
     
-    LDA $0E90, X : BEQ Sidenexx
+    LDA.w $0E90, X : BEQ Sidenexx
     
     JMP TrinexxBreath_ice ; $0EBD28 IN ROM
     
 Sidenexx:
     
-    LDA $0E20, X : SEC : SBC.b #$CC : TAY
+    LDA.w $0E20, X : SEC : SBC.b #$CC : TAY
     
-    LDA $0D90 : CLC : ADC $B88A, Y : STA $0D90, X
-    LDA $0DA0 : ADC $B88C, Y : STA $0DA0, X
+    LDA.w $0D90 : CLC : ADC.w $B88A, Y : STA.w $0D90, X
+    LDA.w $0DA0 : ADC.w $B88C, Y : STA.w $0DA0, X
     
-    LDA $0DB0 : SEC : SBC.b #$20 : STA $0DB0, X
+    LDA.w $0DB0 : SEC : SBC.b #$20 : STA.w $0DB0, X
     
-    LDA $0ED0 : SBC.b #$00 : STA $0ED0, X
+    LDA.w $0ED0 : SBC.b #$00 : STA.w $0ED0, X
     
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
-    JSR $BB70 ; $0EBB70 IN ROM
+    JSR.w $BB70 ; $0EBB70 IN ROM
     JSR Sprite4_CheckIfActive
     
-    LDA $0D80, X : BPL .BRANCH_BETA
+    LDA.w $0D80, X : BPL .BRANCH_BETA
     
-    STA $0BA0, X
+    STA.w $0BA0, X
     
-    JMP $BB3F ; $0EBB3F IN ROM
+    JMP.w $BB3F ; $0EBB3F IN ROM
     
     .BRANCH_BETA
     
-    LDA $0EF0, X : BEQ .BRANCH_GAMMA
+    LDA.w $0EF0, X : BEQ .BRANCH_GAMMA
     
-    LDA $0D80, X : CMP.b #$04 : BEQ .BRANCH_GAMMA
+    LDA.w $0D80, X : CMP.b #$04 : BEQ .BRANCH_GAMMA
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA.b #$80 : STA $0DF0, X
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$80 : STA.w $0DF0, X
+    LDA.b #$04 : STA.w $0D80, X
     
-    LDA $0F50, X : STA $0F80, X
+    LDA.w $0F50, X : STA.w $0F80, X
     
-    LDA.b #$03 : STA $0F50, X
+    LDA.b #$03 : STA.w $0F50, X
     
     .BRANCH_GAMMA
     
     JSR Sprite4_CheckDamage
     
-    LDA $0CAA, X : ORA.b #$04 : STA $0CAA, X
+    LDA.w $0CAA, X : ORA.b #$04 : STA.w $0CAA, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -75,20 +75,20 @@ Sidenexx:
 ; $0EB92B-$0EB985 JUMP LOCATION
 Sidenexx_Stunned:
 {
-    LDA $0CAA, X : AND.b #$FB : STA $0CAA, X
+    LDA.w $0CAA, X : AND.b #$FB : STA.w $0CAA, X
     
-    STZ $0E30, X
+    STZ.w $0E30, X
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
     PHA
     
-    LDA.b #$01 : STA $0D80, X
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$01 : STA.w $0D80, X
+    LDA.b #$20 : STA.w $0DF0, X
     
-    LDA $0F80, X : STA $0F50, X
+    LDA.w $0F80, X : STA.w $0F50, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     PLA
 
@@ -98,7 +98,7 @@ Sidenexx_Stunned:
     CMP.b #$4E : BCS .BRANCH_GAMMA
     CMP.b #$3F : BCC .BRANCH_GAMMA
     
-    LDA $0E20, X : CMP.b #$CD : BNE .BRANCH_DELTA
+    LDA.w $0E20, X : CMP.b #$CD : BNE .BRANCH_DELTA
     
     PHX
     
@@ -122,7 +122,7 @@ Sidenexx_Stunned:
 
     .BRANCH_BETA
 
-    LDA $0E20, X : CMP.b #$CD : BNE .BRANCH_EPSILON
+    LDA.w $0E20, X : CMP.b #$CD : BNE .BRANCH_EPSILON
     
     PHX
     
@@ -146,14 +146,14 @@ Sidenexx_Stunned:
 ; $0EB986-$0EB9A5 JUMP LOCATION
 Sidenexx_Dormant:
 {
-    LDA $0E60, X : ORA.b #$40 : STA $0E60, X
+    LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA.b #$02 : STA $0D80, X
-    LDA.b #$09 : STA $0E80, X
+    LDA.b #$02 : STA.w $0D80, X
+    LDA.b #$09 : STA.w $0E80, X
     
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
     .BRANCH_ALPHA
     
@@ -163,33 +163,33 @@ Sidenexx_Dormant:
 ; $0EB9A6-$0EB9F1 JUMP LOCATION
 Sidenexx_Move:
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA $0DE0, X : STA $00
+    LDA.w $0DE0, X : STA $00
     
     JSL GetRandomInt : AND.b #$07 : INC A : CMP.b #$05 : BCS .BRANCH_ALPHA
     
-    CMP $0DE0, X : BEQ .BRANCH_ALPHA
+    CMP.w $0DE0, X : BEQ .BRANCH_ALPHA
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA $00 : CMP.b #$01 : BNE .BRANCH_ALPHA
     
     JSL GetRandomInt : LSR A : BCS .BRANCH_ALPHA
     
-    LDA $0D80 : CMP.b #$02 : BCS .BRANCH_ALPHA
+    LDA.w $0D80 : CMP.b #$02 : BCS .BRANCH_ALPHA
     
-    INC $0DC0, X : LDA $0DC0, X : CMP.b #$06
+    INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$06
     
     NOP #2
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
-    LDA.b #$7F : STA $0DF0, X
+    LDA.b #$7F : STA.w $0DF0, X
     
     .BRANCH_ALPHA
     
@@ -201,7 +201,7 @@ Sidenexx_Think:
 {
     STZ $01
     
-    LDA $0DE0, X : ASL #3 : ADC $0DE0, X : TAY
+    LDA.w $0DE0, X : ASL #3 : ADC.w $0DE0, X : TAY
     
     LDA.w $BB6D, X : PHX : TAX
     
@@ -209,9 +209,9 @@ Sidenexx_Think:
     
     .BRANCH_IOTA
     
-    LDA $1D10, X : CMP $B830, Y : BEQ .BRANCH_ALPHA  BPL .BRANCH_BETA
+    LDA.w $1D10, X : CMP.w $B830, Y : BEQ .BRANCH_ALPHA  BPL .BRANCH_BETA
     
-    INC $1D10, X
+    INC.w $1D10, X
     
     INC $01
     
@@ -219,15 +219,15 @@ Sidenexx_Think:
     
     .BRANCH_BETA
     
-    DEC $1D10, X
+    DEC.w $1D10, X
     
     INC $01
     
     .BRANCH_ALPHA
     
-    LDA $1D10, X : CMP $B830, Y : BEQ .BRANCH_GAMMA  BPL .BRANCH_DELTA
+    LDA.w $1D10, X : CMP.w $B830, Y : BEQ .BRANCH_GAMMA  BPL .BRANCH_DELTA
     
-    INC $1D10, X
+    INC.w $1D10, X
     
     INC $01
     
@@ -235,7 +235,7 @@ Sidenexx_Think:
     
     .BRANCH_DELTA
     
-    DEC $1D10, X
+    DEC.w $1D10, X
     
     INC $01
     
@@ -243,9 +243,9 @@ Sidenexx_Think:
     
     LDA $1A : AND.b #$00 : BNE .BRANCH_EPSILON
     
-    LDA $1D50, X : CMP $B85D, Y : BEQ .BRANCH_ZETA  BPL .BRANCH_THETA
+    LDA.w $1D50, X : CMP.w $B85D, Y : BEQ .BRANCH_ZETA  BPL .BRANCH_THETA
     
-    INC $1D50, X
+    INC.w $1D50, X
     
     INC $01
     
@@ -253,7 +253,7 @@ Sidenexx_Think:
     
     .BRANCH_THETA
     
-    DEC $1D50, X
+    DEC.w $1D50, X
     
     .BRANCH_EPSILON
     
@@ -271,9 +271,9 @@ Sidenexx_Think:
     
     LDA $01 : BNE .BRANCH_KAPPA
     
-    DEC $0D80, X
+    DEC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$0F : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$0F : STA.w $0DF0, X
     
     .BRANCH_KAPPA
     
@@ -283,11 +283,11 @@ Sidenexx_Think:
 ; $0EBA70-$0EBAE5 JUMP LOCATION
 Sidenexx_Breathe:
 {
-    LDA $0DF0, X : BNE .breathe_yes
+    LDA.w $0DF0, X : BNE .breathe_yes
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA.b #$20 : STA $0DF0, X
+    LDA.b #$20 : STA.w $0DF0, X
     
     RTS
     
@@ -306,17 +306,17 @@ Sidenexx_Breathe:
     CMP.b #$08              : BCC .continue
     CMP.b #$79 : LDA.b #$08 : BCC .continue
     
-    LDA $0DF0, X : CLC : ADC.b #$80 : EOR.b #$FF
+    LDA.w $0DF0, X : CLC : ADC.b #$80 : EOR.b #$FF
     
     .continue
-    STA $0E30, X
+    STA.w $0E30, X
     
-    LDA $0DF0, X : CMP.b #$40 : BCC .BRANCH_DELTA
+    LDA.w $0DF0, X : CMP.b #$40 : BCC .BRANCH_DELTA
     
 
     SEC : SBC.b #$40 : LSR #3 : TAY
     
-    LDA $1A : AND $BA68, Y : BNE .exit
+    LDA $1A : AND.w $BA68, Y : BNE .exit
     
     JSL GetRandomInt : AND.b #$0F : LDY.b #$00 : SEC : SBC.b #$03
                                                   STA $00 : BPL .positive
@@ -331,7 +331,7 @@ Sidenexx_Breathe:
     
     JSL Sprite_SpawnSimpleSparkleGarnish
     
-    LDA $0E20, X : CMP.b #$CC : BNE .exit
+    LDA.w $0E20, X : CMP.b #$CC : BNE .exit
     
     PHX
     
@@ -360,13 +360,13 @@ Pool_SidenexxExhaleDanger:
 ; $0EBAE8-$0EBB3E LOCAL JUMP LOCATION
 Sidenexx_ExhaleDanger:
 {
-    LDA $0E20, X : CMP.b #$CD : BNE .breathe_fire
+    LDA.w $0E20, X : CMP.b #$CD : BNE .breathe_fire
     
-    STZ $0FB6
+    STZ.w $0FB6
     
     JSR .breathe_ice ; $0EBAFA IN ROM
     
-    INC $0FB6
+    INC.w $0FB6
     
     LDA.b #$CD
     
@@ -379,9 +379,9 @@ Sidenexx_ExhaleDanger:
     
     PHX
     
-    LDX $0FB6
+    LDX.w $0FB6
     
-    LDA .x_accelerations, X : STA $0DB0, Y
+    LDA .x_accelerations, X : STA.w $0DB0, Y
     
     PLX
     
@@ -399,14 +399,14 @@ Sidenexx_ExhaleDanger:
     
     .final_adjustments
     
-    LDA.b #$01 : STA $0E90, Y
-                 STA $0BA0, Y
+    LDA.b #$01 : STA.w $0E90, Y
+                 STA.w $0BA0, Y
     
-    LDA.b #$18 : STA $0D40, Y
+    LDA.b #$18 : STA.w $0D40, Y
     
-    LDA.b #$00 : STA $0E40, Y
+    LDA.b #$00 : STA.w $0E40, Y
     
-    LDA.b #$40 : STA $0E60, Y
+    LDA.b #$40 : STA.w $0E60, Y
     
     .spawn_failed
     
@@ -415,21 +415,21 @@ Sidenexx_ExhaleDanger:
 
 ; $0EBB3F-$0EBB6C LOCAL JUMP LOCATION
 {
-    LDA $0DF0, X : BNE .BRANCH_ALPHA
+    LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA.b #$0C : STA $0DF0, X
+    LDA.b #$0C : STA.w $0DF0, X
     
-    LDA $0E80, X : CMP.b #$01 : BNE .BRANCH_BETA
+    LDA.w $0E80, X : CMP.b #$01 : BNE .BRANCH_BETA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_BETA
     
-    DEC $0E80, X
+    DEC.w $0E80, X
     
-    LDA $0FD8 : CLC : ADC $E2 : STA $0FD8
+    LDA.w $0FD8 : CLC : ADC $E2 : STA.w $0FD8
     
-    LDA $0FDA : CLC : ADC $E8 : STA $0FDA
+    LDA.w $0FDA : CLC : ADC $E8 : STA.w $0FDA
     
     JSL Sprite_MakeBossDeathExplosion
     
@@ -451,25 +451,25 @@ Sidenexx_ExhaleDanger:
 ; $0EBB70-$0EBC8B LOCAL JUMP LOCATION
 SpriteDraw_Sidenexx:
 {
-    LDA $0D90, X : STA $0D10, X
+    LDA.w $0D90, X : STA.w $0D10, X
     
-    LDA $0DA0, X : STA $0D30, X
+    LDA.w $0DA0, X : STA.w $0D30, X
     
-    LDA $0DB0, X : STA $0D00, X
+    LDA.w $0DB0, X : STA.w $0D00, X
     
-    LDA $0ED0, X : STA $0D20, X
+    LDA.w $0ED0, X : STA.w $0D20, X
     
     JSL Sprite_Get_16_bit_CoordsLong
     JSR Sprite4_PrepOamCoord
     
-    STZ $0FB5
-    STZ $0FB6
+    STZ.w $0FB5
+    STZ.w $0FB6
     
     ; $0EBB95 ALTERNATE ENTRY POINT
     
-    LDY $0FB5
+    LDY.w $0FB5
     
-    TYA : CLC : ADC $BB6D, X : TAY
+    TYA : CLC : ADC.w $BB6D, X : TAY
     
     CPX.b #$02 : BEQ .BRANCH_ALPHA
     
@@ -480,11 +480,11 @@ SpriteDraw_Sidenexx:
     
     .BRANCH_ALPHA
     
-    LDA $1D10, Y : STA $06 : STZ $07
+    LDA.w $1D10, Y : STA $06 : STZ $07
     
     .BRANCH_BETA
     
-    LDA $1D50, Y : STA $0F
+    LDA.w $1D50, Y : STA $0F
     
     PHX
     
@@ -503,19 +503,19 @@ SpriteDraw_Sidenexx:
     
     PLX
     
-    LDA $0A : STA $4202
+    LDA $0A : STA.w $4202
     
     LDA $0F
     
     LDY $0B : BNE .BRANCH_GAMMA
     
-    STA $4203
+    STA.w $4203
     
     NOP #8
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_GAMMA
     
@@ -525,21 +525,21 @@ SpriteDraw_Sidenexx:
     
     .BRANCH_DELTA
     
-    STA $0FA8
+    STA.w $0FA8
     
-    LDA $0C : STA $4202
+    LDA $0C : STA.w $4202
     
     LDA $0F
     
     LDY $0D : BNE .BRANCH_EPSILON
     
-    STA $4203
+    STA.w $4203
     
     NOP #8
     
-    ASL $4216
+    ASL.w $4216
     
-    LDA $4217 : ADC.b #$00
+    LDA.w $4217 : ADC.b #$00
     
     .BRANCH_EPSILON
     
@@ -549,18 +549,18 @@ SpriteDraw_Sidenexx:
     
     .BRANCH_ZETA
     
-    STA $0FA9
+    STA.w $0FA9
     
-    LDA $0FB5 : BNE .BRANCH_THETA
+    LDA.w $0FB5 : BNE .BRANCH_THETA
     
-    JSR $BCA0 ; $0EBCA0 IN ROM
+    JSR.w $BCA0 ; $0EBCA0 IN ROM
     
     BRA .BRANCH_IOTA
     
     .BRANCH_THETA
     
-    LDA   $00 : CLC : ADC $0FA8 : LDY $0FB6 : STA ($90), Y : STA $0FD8
-    LDA   $0FA9 : CLC : ADC $02 : LDY $0FB6 : INY : STA ($90), Y : STA $0FDA
+    LDA   $00 : CLC : ADC.w $0FA8 : LDY.w $0FB6 : STA ($90), Y : STA.w $0FD8
+    LDA   $0FA9 : CLC : ADC $02 : LDY.w $0FB6 : INY : STA ($90), Y : STA.w $0FDA
     LDA.b #$08 : INY : STA ($90),   Y
     LDA   $05 : INY : STA ($90), Y
     
@@ -568,13 +568,13 @@ SpriteDraw_Sidenexx:
     
     LDA.b #$02 : STA ($92), Y
     
-    PLY : INY : STY $0FB6
+    PLY : INY : STY.w $0FB6
     
     .BRANCH_IOTA
     
-    INC $0FB5 : LDA $0FB5 : CMP $0E80, X : BEQ .BRANCH_KAPPA
+    INC.w $0FB5 : LDA.w $0FB5 : CMP.w $0E80, X : BEQ .BRANCH_KAPPA
     
-    JMP $BB95 ; $0EBB95 IN ROM
+    JMP.w $BB95 ; $0EBB95 IN ROM
 
     .BRANCH_KAPPA
     
@@ -604,23 +604,23 @@ SpriteDraw_Sidenexx:
 
 ; $0EBCA0-$0EBD25 LOCAL JUMP LOCATION
 {
-    LDA $0E30, X : STA $08
+    LDA.w $0E30, X : STA $08
     
     PHX
     
     LDX.b #$00
     
-    LDY $0FB6
+    LDY.w $0FB6
     
     .BRANCH_BETA
     
-    LDA $0FA8 : CLC : ADC $00 : STA $0FD8
+    LDA.w $0FA8 : CLC : ADC $00 : STA.w $0FD8
     
-    CLC : ADC $BC8C, X : STA ($90), Y
+    CLC : ADC.w $BC8C, X : STA ($90), Y
     
-    LDA $0FA9 : CLC : ADC $02 : STA $0FDA
+    LDA.w $0FA9 : CLC : ADC $02 : STA.w $0FDA
     
-    CLC : ADC $BC91, X
+    CLC : ADC.w $BC91, X
     
     CPX.b #$04 : BNE .BRANCH_ALPHA
     
@@ -630,7 +630,7 @@ SpriteDraw_Sidenexx:
     
                                   INY : STA ($90), Y
     LDA.w $BC96, X                : INY : STA ($90), Y
-    LDA $05      : ORA $BC9B, X : INY : STA ($90), Y
+    LDA $05      : ORA.w $BC9B, X : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -642,29 +642,29 @@ SpriteDraw_Sidenexx:
     
     PLX
     
-    LDA $0FB6 : CLC : ADC.b #$14 : STA $0FB6
+    LDA.w $0FB6 : CLC : ADC.b #$14 : STA.w $0FB6
     
     LDY.b #$00
     
-    LDA $0FA8 : BPL .BRANCH_GAMMA
+    LDA.w $0FA8 : BPL .BRANCH_GAMMA
     
     DEY
     
     .BRANCH_GAMMA
     
-    CLC : ADC $0D90, X : STA $0D10, X
-    TYA : ADC $0DA0, X : STA $0D30, X
+    CLC : ADC.w $0D90, X : STA.w $0D10, X
+    TYA : ADC.w $0DA0, X : STA.w $0D30, X
     
     LDY.b #$00
     
-    LDA $0FA9 : BPL .BRANCH_DELTA
+    LDA.w $0FA9 : BPL .BRANCH_DELTA
     
     DEY
     
     .BRANCH_DELTA
     
-    CLC : ADC $0DB0, X : STA $0D00, X
-    TYA : ADC $0ED0, X : STA $0D20, X
+    CLC : ADC.w $0DB0, X : STA.w $0D00, X
+    TYA : ADC.w $0ED0, X : STA.w $0D20, X
     
     RTS
 }
@@ -686,11 +686,11 @@ TrinexxBreath_ice:
     JSL Sprite_PrepOamCoordLong
     JSR Sprite4_CheckIfActive
     
-    LDA $0D50, X : PHA : CLC : ADC $0DB0, X : STA $0D50, X
+    LDA.w $0D50, X : PHA : CLC : ADC.w $0DB0, X : STA.w $0D50, X
     
     JSR Sprite4_Move
     
-    PLA : STA $0D50, X
+    PLA : STA.w $0D50, X
     
     JSR AddIceGarnish ; $0EBD65 IN ROM
     
@@ -700,15 +700,15 @@ TrinexxBreath_ice:
     
     JSR Sprite4_IsToRightOfPlayer
     
-    LDA $0D50, X : CMP .x_speed_targets, Y : BEQ .no_shake
+    LDA.w $0D50, X : CMP .x_speed_targets, Y : BEQ .no_shake
     
-    CLC : ADC.w $8000, Y : STA $0D50, X
+    CLC : ADC.w $8000, Y : STA.w $0D50, X
     
     .no_shake:
     
     JSR Sprite4_CheckTileCollision : BEQ .BRANCH_BETA
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .BRANCH_BETA
     
@@ -718,9 +718,9 @@ TrinexxBreath_ice:
 ; $0EBD65-$0EBDC5 LOCAL JUMP LOCATION
 AddIceGarnish:
 {
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
     LDA.b #$14 : JSL Sound_SetSfx3PanLong
     
@@ -734,24 +734,24 @@ AddIceGarnish:
     
     DEX : BPL .BRANCH_GAMMA
     
-    DEC $0FF8 : BPL .BRANCH_DELTA
+    DEC.w $0FF8 : BPL .BRANCH_DELTA
     
-    LDA.b #$1D : STA $0FF8
+    LDA.b #$1D : STA.w $0FF8
     
     .BRANCH_DELTA
     
-    LDX $0FF8
+    LDX.w $0FF8
     
     .BRANCH_BETA
     
-    LDA.b #$0C : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$0C : STA.l $7FF800, X : STA.w $0FB4
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$7F : STA.l $7FF90E, X
     
@@ -769,11 +769,11 @@ TrinexxBreath_fire:
     JSR Sprite4_CheckIfActive
     JSR Sprite4_Move
     JSR AddFireGarnish          ; $0EBDD6 IN ROM
-    JMP $BD44                   ; $0EBD44 IN ROM
+    JMP.w $BD44                   ; $0EBD44 IN ROM
     
     ; $0EBDD6 ALTERNATE ENTRY POINT
 AddFireGarnish:
-    INC $0E80, X : LDA $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
+    INC.w $0E80, X : LDA.w $0E80, X : AND.b #$07 : BNE .BRANCH_ALPHA
     
     LDA.b #$2A : JSL Sound_SetSfx2PanLong
     
@@ -791,25 +791,25 @@ AddFireGarnish:
     
     DEX : BPL .next_slot
     
-    DEC $0FF8 : BPL .use_search_index
+    DEC.w $0FF8 : BPL .use_search_index
     
-    LDA $00 : STA $0FF8
+    LDA $00 : STA.w $0FF8
     
     .use_search_index
     
-    LDX $0FF8
+    LDX.w $0FF8
     
     .BRANCH_BETA
     
-    LDA.b #$10 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$10 : STA.l $7FF800, X : STA.w $0FB4
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$7F : STA.l $7FF90E, X
     

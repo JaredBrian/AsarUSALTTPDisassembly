@@ -60,7 +60,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     .kill_next_sprite
     
     ; Kill all normal sprites on screen.
-    STA $0DD0, Y
+    STA.w $0DD0, Y
     
     DEY : BPL .kill_next_sprite
     
@@ -68,19 +68,19 @@ CrystalMaiden_SpawnAndConfigMaiden:
     LDA.b #$AB : JSL Sprite_SpawnDynamically
     
     ; Give the maiden the same upper byte coordinates as Link.
-    LDA $23 : STA $0D30, Y
+    LDA $23 : STA.w $0D30, Y
     
-    LDA $21 : STA $0D20, Y
+    LDA $21 : STA.w $0D20, Y
     
-    LDA.b #$78 : STA $0D10, Y
+    LDA.b #$78 : STA.w $0D10, Y
     
-    LDA.b #$7C : STA $0D00, Y
+    LDA.b #$7C : STA.w $0D00, Y
     
-    LDA.b #$01 : STA $0DE0, Y
+    LDA.b #$01 : STA.w $0DE0, Y
     
-    LDA.b #$0B : STA $0F50, Y
+    LDA.b #$0B : STA.w $0F50, Y
     
-    LDA.b #$00 : STA $0E80, Y : STA $0F20, Y
+    LDA.b #$00 : STA.w $0E80, Y : STA.w $0F20, Y
     
     PHY
     
@@ -88,14 +88,14 @@ CrystalMaiden_SpawnAndConfigMaiden:
     ; hookshot or carrying extensions.
     JSL Ancilla_TerminateSelectInteractives
     
-    STZ $02E9
+    STZ.w $02E9
     
-    TYA : PLY : STA $0D90, Y
+    TYA : PLY : STA.w $0D90, Y
     
-    LDA $040C : CMP.b #$18 : BNE .not_in_turtle_rock
+    LDA.w $040C : CMP.b #$18 : BNE .not_in_turtle_rock
     
     ; Zelda has a special palette.
-    LDA.b #$09 : STA $0F50, Y
+    LDA.b #$09 : STA.w $0F50, Y
     
     ; Use a Zelda tagalong
     LDA.b #$01
@@ -119,7 +119,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     LDA.b #$00 : STA.l $7EF3CC
     
-    STZ $0428
+    STZ.w $0428
     
     REP #$20
     
@@ -127,15 +127,15 @@ CrystalMaiden_SpawnAndConfigMaiden:
     ; the normal way to get the negative of a number in 2's complement
     ; is to xor all the bits (0xffff) and then add 1. This is just doing it
     ; by way of the addition. So it is in fact a pure add of 0x0079, really.
-    LDA $22 : SEC : SBC $E2 : EOR.w #$FFFF : SEC : ADC.w #$0079 : STA $0422
+    LDA $22 : SEC : SBC $E2 : EOR.w #$FFFF : SEC : ADC.w #$0079 : STA.w $0422
     
     LDA $E6 : AND.w #$00FF : STA $00
     
-    LDA.w #$0030 : SEC : SBC $00 : STA $0424
+    LDA.w #$0030 : SEC : SBC $00 : STA.w $0424
     
     SEP #$30
     
-    LDA.b #$01 : STA $0428 ; Set a special flag.
+    LDA.b #$01 : STA.w $0428 ; Set a special flag.
     
     RTS
 }
@@ -145,19 +145,19 @@ CrystalMaiden_SpawnAndConfigMaiden:
 ; $0F4DD9-$0F4E02 LOCAL JUMP LOCATION
 CrystalMaiden_InitPolyhedral:
 {
-    LDA.b #$9C : STA $1F02
+    LDA.b #$9C : STA.w $1F02
     
-    LDA.b #$01 : STA $1F01
-                 STA $012A
-                 STA $1F00
+    LDA.b #$01 : STA.w $1F01
+                 STA.w $012A
+                 STA.w $1F00
     
-    LDA.b #$20 : STA $1F06
-                 STA $1F07
-                 STA $1F08
+    LDA.b #$20 : STA.w $1F06
+                 STA.w $1F07
+                 STA.w $1F08
     
-    STZ $1F03
+    STZ.w $1F03
     
-    LDA.b #$10 : STA $1F04
+    LDA.b #$10 : STA.w $1F04
     
     STZ $1D
     
@@ -175,24 +175,24 @@ Sprite_CrystalMaiden:
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $0422 : STA $0FD8
-    LDA $0FDA : SEC : SBC $0424 : STA $0FDA
+    LDA.w $0FD8 : SEC : SBC.w $0422 : STA.w $0FD8
+    LDA.w $0FDA : SEC : SBC.w $0424 : STA.w $0FDA
     
     SEP #$30
     
-    LDA $0D80, X : CMP.b #$03 : BCC .not_visible
+    LDA.w $0D80, X : CMP.b #$03 : BCC .not_visible
     
     JSL CrystalMaiden_Draw
     
     .not_visible
     
-    LDA.b #$01 : STA $012A
+    LDA.b #$01 : STA.w $012A
     
-    LDA $1F00 : BNE .polyhedral_thread_sync
+    LDA.w $1F00 : BNE .polyhedral_thread_sync
     
     JSR CrystalMaiden_Main
     
-    LDA.b #$01 : STA $1F00
+    LDA.b #$01 : STA.w $1F00
     
     .polyhedral_thread_sync
     
@@ -204,9 +204,9 @@ Sprite_CrystalMaiden:
 ; $0F4E39-$0F4E62 LOCAL JUMP LOCATION
 CrystalMaiden_Main:
 {
-    INC $0E90, X
+    INC.w $0E90, X
     
-    LDA $1F05 : CLC : ADC.b #$06 : STA $1F05
+    LDA.w $1F05 : CLC : ADC.b #$06 : STA.w $1F05
     
     LDA $11 : BEQ .basic_submodule
     
@@ -214,7 +214,7 @@ CrystalMaiden_Main:
     
     .basic_submodule
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -236,7 +236,7 @@ CrystalMaiden_DisableSubscreen:
 {
     STZ $1D
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -248,7 +248,7 @@ CrystalMaiden_EnableSubscreen:
 {
     LDA.b #$01 : STA $1D
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -258,21 +258,21 @@ CrystalMaiden_EnableSubscreen:
 ; $0F4E71-$0F4E92 JUMP LOCATION
 CrystalMaiden_GenerateSparkles:
 {
-    LDA $1F02 : CMP.b #$06 : BCS .delay
+    LDA.w $1F02 : CMP.b #$06 : BCS .delay
     
-    STZ $1F02
+    STZ.w $1F02
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
     .delay
     
-    SBC.b #$03 : STA $1F02 : CMP.b #$40 : BCC .delay_2
+    SBC.b #$03 : STA.w $1F02 : CMP.b #$40 : BCC .delay_2
     
     PHX
     
-    LDA $0D90, X : TAX
+    LDA.w $0D90, X : TAX
     
     JSL Sprite_SpawnSparkleAncilla
     
@@ -288,12 +288,12 @@ CrystalMaiden_GenerateSparkles:
 ; $0F4E93-$0F4EBB JUMP LOCATION
 CrystalMaiden_FilterPalette:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; $0F4E96 ALTERNATE ENTRY POINT
     .finish
     
-    LDA $0E90, X : AND.b #$01 : BNE .delay
+    LDA.w $0E90, X : AND.b #$01 : BNE .delay
     
     PHX
     
@@ -304,12 +304,12 @@ CrystalMaiden_FilterPalette:
     
     LDA.l $7EC007 : BNE .filtering_not_finished
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
-    STZ $02D8
-    STZ $02DA
+    STZ.w $02D8
+    STZ.w $02DA
     STZ $2E
     STZ $2F
     
@@ -335,7 +335,7 @@ Pool_CrystalMaiden_ShowMessage:
 CrystalMaiden_ShowMessage:
 {
     ; Load the dungeon index. Is it the Dark Palace?
-    LDA $040C : SEC : SBC.b #$0A : TAY : CPY.b #$02 : BNE .not_dark_palace
+    LDA.w $040C : SEC : SBC.b #$0A : TAY : CPY.b #$02 : BNE .not_dark_palace
     
     LDA.l $7EF3C7 : CMP.b #$07 : BCS .dont_update_map_icons
     
@@ -362,7 +362,7 @@ CrystalMaiden_ShowMessage:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.l $7EF37A : AND.b #$7F : CMP.b #$7F : BNE .dont_have_all_crystals
     
@@ -387,7 +387,7 @@ CrystalMaiden_ReadingComprehensionExam:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -397,9 +397,9 @@ CrystalMaiden_ReadingComprehensionExam:
 ; $0F4F24-$0F4F3A JUMP LOCATION
 CrystalMaiden_MayTheWayOfTheHero:
 {
-    LDA $1CE8 : BEQ .player_said_yes
+    LDA.w $1CE8 : BEQ .player_said_yes
     
-    LDA.b #$05 : STA $0D80, X
+    LDA.b #$05 : STA.w $0D80, X
     
     RTS
     
@@ -411,7 +411,7 @@ CrystalMaiden_MayTheWayOfTheHero:
     
     JSL Sprite_ShowMessageUnconditional
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -429,7 +429,7 @@ CrystalMaiden_InitiateDungeonExit:
     
     PLX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }

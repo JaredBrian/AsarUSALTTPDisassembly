@@ -4,9 +4,9 @@
 ; $035853-$035891 JUMP LOCATION
 Sprite_Octospawn:
 {
-    LDA $0E80, X : BNE .still_alive
+    LDA.w $0E80, X : BNE .still_alive
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .still_alive
     
@@ -21,19 +21,19 @@ Sprite_Octospawn:
     
     JSR Sprite_CheckIfActive
     
-    DEC $0E80, X
+    DEC.w $0E80, X
     
     JSR Sprite_CheckIfRecoiling
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
     JSR Sprite_MoveAltitude
     
-    LDA $0F70, X : BPL .not_grounded
+    LDA.w $0F70, X : BPL .not_grounded
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
     .not_grounded
     

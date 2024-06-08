@@ -24,7 +24,7 @@ Sprite_WarpVortex:
     
     LDA $11 : CMP.b #$23 : BEQ .gamma
     
-    LDA $0FC6 : CMP.b #$03 : BCS .gamma
+    LDA.w $0FC6 : CMP.b #$03 : BCS .gamma
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -34,21 +34,21 @@ Sprite_WarpVortex:
     
     LDA $1A : LSR #2 : AND.b #$03 : TAY
     
-    LDA $0F50, X : AND.b #$3F : ORA .vh_flip_states, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip_states, Y : STA.w $0F50, X
     
     JSL Sprite_CheckIfPlayerPreoccupied : BCS .delta
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .epsilon
     
-    LDA $0D90, X : BEQ .zeta
+    LDA.w $0D90, X : BEQ .zeta
     
-    LDA $037B : ORA $031F : BNE .zeta
+    LDA.w $037B : ORA.w $031F : BNE .zeta
     
-    LDA $02E4 : BNE .zeta
+    LDA.w $02E4 : BNE .zeta
     
     LDA.b #$23 : STA $11
     
-    LDA.b #$01 : STA $02DB
+    LDA.b #$01 : STA.w $02DB
     
     STZ $B0
     STZ $27
@@ -60,29 +60,29 @@ Sprite_WarpVortex:
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     BRA .zeta
     
     .epsilon
     
-    LDA.b #$01 : STA $0D90, X
+    LDA.b #$01 : STA.w $0D90, X
     
-    LDA $0F50, X : AND.b #$FF : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$FF : STA.w $0F50, X
     
     .zeta
     
-    INC $0DA0, X : BNE .theta
+    INC.w $0DA0, X : BNE .theta
     
-    LDA.b #$01 : STA $0D90, X
+    LDA.b #$01 : STA.w $0D90, X
     
     .theta
     
-    LDA $1ABF : STA $0D10, X
-    LDA $1ACF : STA $0D30, X
+    LDA.w $1ABF : STA.w $0D10, X
+    LDA.w $1ACF : STA.w $0D30, X
     
-    LDA $1ADF : CLC : ADC.b #$08 : STA $0D00, X
-    LDA $1AEF : ADC.b #$00 : STA $0D20, X
+    LDA.w $1ADF : CLC : ADC.b #$08 : STA.w $0D00, X
+    LDA.w $1AEF : ADC.b #$00 : STA.w $0D20, X
     
     .delta
     

@@ -24,7 +24,7 @@ Pool_Gibo_Draw:
 ; $0ECCE1-$0ECD11 JUMP LOCATION
 Sprite_Gibo:
 {
-    LDA $0DA0, X : BEQ Gibo_Main
+    LDA.w $0DA0, X : BEQ Gibo_Main
     
     shared Sprite_GiboNucleus:
     
@@ -32,11 +32,11 @@ Sprite_Gibo:
     JSR Sprite4_CheckIfActive
     JSR Sprite4_CheckDamage
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #2 : AND.b #$03 : TAY
+    LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     LDA !timer_0, X : BEQ .halt_movement
     
@@ -56,35 +56,35 @@ Gibo_Main:
     JSR Gibo_Draw
     JSR Sprite4_CheckIfActive
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
-    LDA $0DD0, Y : CMP.b #$06 : BNE .nucleus_not_dying
+    LDA.w $0DD0, Y : CMP.b #$06 : BNE .nucleus_not_dying
     
-    STA $0DD0, X
+    STA.w $0DD0, X
     
     LDA !timer_0, Y : STA !timer_0, X
     
-    LDA $0E40, X : CLC : ADC.b #$04 : STA $0E40, X
+    LDA.w $0E40, X : CLC : ADC.b #$04 : STA.w $0E40, X
     
     RTS
     
     .nucleus_not_dying
     
-    LDA $1A : LSR #3 : AND.b #$03 : STA $0E80, X
+    LDA $1A : LSR #3 : AND.b #$03 : STA.w $0E80, X
     
     LDA $1A : AND.b #$3F : BNE .dont_pursue_player
     
     JSR Sprite4_IsToRightOfPlayer
     
-    TYA : ASL #2 : STA $0DE0, X
+    TYA : ASL #2 : STA.w $0DE0, X
     
     .dont_pursue_player
     
     JSL Sprite_CheckDamageToPlayerLong
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -112,7 +112,7 @@ Gibo_ExpelNucleus:
 {
     LDA !timer_0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$30 : STA !timer_0, X
     
@@ -126,26 +126,26 @@ Gibo_ExpelNucleus:
     JSL Sprite_SetSpawnedCoords
     
     ; Store the index of the spawned child sprite (Gibo nucleus).
-    TYA : STA $0EB0, X
+    TYA : STA.w $0EB0, X
     
-    LDA.b #$01 : STA $0E40, Y
-                 STA $0DA0, Y
+    LDA.b #$01 : STA.w $0E40, Y
+                 STA.w $0DA0, Y
     
-    LDA.b #$10 : STA $0E60, Y
+    LDA.b #$10 : STA.w $0E60, Y
     
-    LDA $0ED0, X : STA $0E50, Y
+    LDA.w $0ED0, X : STA.w $0E50, Y
     
-    LDA.b #$07 : STA $0F50, Y
+    LDA.b #$07 : STA.w $0F50, Y
     
     LDA.b #$30 : STA !timer_0, Y
     
     PHX
     
-    INC $0DB0, X : LDA $0DB0, X : CMP.b #$03 : BNE .pick_random_direction
+    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$03 : BNE .pick_random_direction
     
     ; Otherwise pursue the player? \task confirm that it's not fleeing
     ; in this case.
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
     PHY
     
@@ -161,9 +161,9 @@ Gibo_ExpelNucleus:
     
     .set_xy_speeds
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
@@ -190,7 +190,7 @@ Gibo_DelayPursuit:
 {
     LDA !timer_0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
@@ -206,31 +206,31 @@ Gibo_PursueNucleus:
     
     ; \note Y was preloaded with the index of the nucleus before calling
     ; this.
-    LDA $0D10, Y : STA $04
-    LDA $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA $04
+    LDA.w $0D30, Y : STA $05
     
-    LDA $0D00, Y : STA $06
-    LDA $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA $06
+    LDA.w $0D20, Y : STA $07
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
     
-    LDA $0FDA : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
     
     SEP #$20
     
-    LDY $0EB0, X
+    LDY.w $0EB0, X
     
     ; Terminate the nucleus now that we've recombined (another will spawn
     ; soon).
-    LDA.b #$00 : STA $0DD0, Y
+    LDA.b #$00 : STA.w $0DD0, Y
     
     STZ !is_nucleus_expelled, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    LDA $0E50, Y : STA $0ED0, X
+    LDA.w $0E50, Y : STA.w $0ED0, X
     
     JSL GetRandomInt : AND.b #$1F : ADC.b #$20 : STA !timer_0, X
     
@@ -243,9 +243,9 @@ Gibo_PursueNucleus:
     ; Go towards the nucleus.
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, X
+    LDA $00 : STA.w $0D40, X
     
-    LDA $01 : STA $0D50, X
+    LDA $01 : STA.w $0D50, X
     
     .stagger_retargeting
     
@@ -308,32 +308,32 @@ Gibo_Draw:
 {
     LDA !is_nucleus_expelled, X : BNE .is_currently_expelled
     
-    LDA $0E40, X : PHA
+    LDA.w $0E40, X : PHA
     
-    LDA.b #$01 : STA $0E40, X
+    LDA.b #$01 : STA.w $0E40, X
     
     LDA !timer_1, X : AND.b #$04 : LSR #2 : STA $00
     
-    LDA $0EC0, X : LSR #2 : AND.b #$03 : TAY
+    LDA.w $0EC0, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA $0F50, X : PHA
+    LDA.w $0F50, X : PHA
     
     LDA Sprite_GiboNucleus.vh_flip, Y
     
     LDY $00
     
-    ORA .palettes, Y : STA $0F50, X
+    ORA .palettes, Y : STA.w $0F50, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    PLA : STA $0F50, X
-    PLA : STA $0E40, X
+    PLA : STA.w $0F50, X
+    PLA : STA.w $0E40, X
     
     .is_currently_expelled
     
     LDA.b #$00 : XBA
     
-    LDA $0E80, X : CLC : ADC $0DE0, X
+    LDA.w $0E80, X : CLC : ADC.w $0DE0, X
     
     REP #$20
     

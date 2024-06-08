@@ -21,7 +21,7 @@ Sprite_DashItem:
     ; Based on the item's appearance, different code is
     ; executed >_>.
     
-    LDA $0DC0, X
+    LDA.w $0DC0, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -40,23 +40,23 @@ Sprite_DashKey:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     .alpha
     
     JSR Sprite2_Move
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
     JSR Sprite2_MoveAltitude
     
-    LDA $0F70, X : BPL .beta
+    LDA.w $0F70, X : BPL .beta
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA $0F80, X
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
     
     AND.b #$FE : BEQ .beta
     
@@ -64,7 +64,7 @@ Sprite_DashKey:
     
     .beta
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -84,13 +84,13 @@ DashKey_WaitForDashAttack:
     ; If the player gets close enough while the screen is shaking (from
     ; a dash attack), make the sprite drop.
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
     
-    LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
+    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
     
-    LDA $011A : ORA $011C : BEQ .screen_not_shaking
+    LDA.w $011A : ORA.w $011C : BEQ .screen_not_shaking
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .screen_not_shaking
     .not_close
@@ -117,11 +117,11 @@ DashKey_GiveToPlayer:
     
     LDA.l $7EF36F : INC A : STA.l $7EF36F
     
-    STZ $0DD0, X ; Kill the sprite
+    STZ.w $0DD0, X ; Kill the sprite
     
-    LDA $0CBA, X : TAY
+    LDA.w $0CBA, X : TAY
     
-    LDA $0403 : ORA $FC7C, Y : STA $0403
+    LDA.w $0403 : ORA.w $FC7C, Y : STA.w $0403
     
     LDA.b #$2F : JSL Sound_SetSfx3PanLong
     
@@ -140,28 +140,28 @@ Sprite_DashBookOfMudora:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
-    LDA.b #$03 : STA $0D80, X
+    LDA.b #$03 : STA.w $0D80, X
     
     .alpha
     
     JSR Sprite2_Move
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
     JSR Sprite2_MoveAltitude
     
-    LDA $0F70, X : BPL .beta
+    LDA.w $0F70, X : BPL .beta
     
-    STZ $0D40, X
-    STZ $0F70, X
+    STZ.w $0D40, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA $0F80, X : AND.b #$FE : BEQ .beta
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X : AND.b #$FE : BEQ .beta
     
     LDA.b #$21 : JSL Sound_SetSfx2PanLong
     
     .beta
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -176,17 +176,17 @@ Sprite_DashBookOfMudora:
 ; $02FCE8-$02FD1A JUMP LOCATION
 DashBookOfMudora_WaitForDashAttack:
 {
-    LDA $002F : BNE .must_be_facing_north
+    LDA.w $002F : BNE .must_be_facing_north
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
     
-    LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
+    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
     
-    LDA $011A : ORA $011C : BEQ .screen_not_shaking
+    LDA.w $011A : ORA.w $011C : BEQ .screen_not_shaking
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .screen_not_shaking
     .not_close
@@ -202,13 +202,13 @@ DashBookOfMudora_WaitForDashAttack:
 ; $02FD1B-$02FD2D JUMP LOCATION
 DashItem_BeginFalling:
 {
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$FB : STA $0D40, X
+    LDA.b #$FB : STA.w $0D40, X
     
-    INC $0D80, X
+    INC.w $0D8080, X
     
-    LDA.b #$1B : STA $012F
+    LDA.b #$1B : STA.w $012F2F
     
     RTS
 }
@@ -218,10 +218,10 @@ DashItem_BeginFalling:
 ; $02FD2E-$02FD39 JUMP LOCATION
 DashItem_WaitTillTouchingGround:
 {
-    LDA $0F70, X : BNE .not_on_ground
+    LDA.w $0F70, X : BNE .not_on_ground
     
     ; Set sprite to same layer as player.
-    LDA $00EE : STA $0F20, X
+    LDA.w $00EE : STA.w $0F20, X
     
     .not_on_ground
     
@@ -239,13 +239,13 @@ DashBookOfMudora_GiveToPlayer:
     
     LDY.b #$1D
     
-    STZ $02E9
+    STZ.w $02E9
     
     JSL Link_ReceiveItem
     
     PLX
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
 }
@@ -256,8 +256,8 @@ DashBookOfMudora_GiveToPlayer:
 Sprite_DashTreetop:
 {
     ; Dashable treetop (dashable after beating Agahnim)
-    LDA.b #$8F : STA $0E40, X
-    LDA.b #$47 : STA $0F60, X
+    LDA.b #$8F : STA.w $0E40, X
+    LDA.b #$47 : STA.w $0F60, X
     
     JSR DashTreeTop_Draw
     JSR Sprite2_CheckIfActive
@@ -278,19 +278,19 @@ Sprite_DashTreetop:
     
     JSR Sprite2_Move
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
     JSR Sprite2_MoveAltitude
     
-    LDA $0F70, X : BPL .beta
+    LDA.w $0F70, X : BPL .beta
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA $0F80, X
+    LDA.w $0F80, X : EOR.b #$FF : INC A : LSR #2 : STA.w $0F80, X
     
     .beta
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -304,21 +304,21 @@ Sprite_DashTreetop:
 ; $02FD98-$02FDCF JUMP LOCATION
 DashTreeTop_WaitForDashAttack:
 {
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     REP #$20
     
-    LDA $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
+    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
     
-    LDA $0FDA : SEC : SBC $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
+    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
     
     SEP #$30
     
-    LDA $011A : ORA $011C : BEQ .screen_not_shaking
+    LDA.w $011A : ORA.w $011C : BEQ .screen_not_shaking
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$14 : STA $0F80, X
+    LDA.b #$14 : STA.w $0F80, X
     
     .screen_not_shaking
     .not_close
@@ -334,27 +334,27 @@ DashTreeTop_WaitForDashAttack:
 DashTreeTop_SpawnLeaves:
 {
     ; Is this a useful ... test?
-    LDA $0F70, X : BNE .not_on_ground
+    LDA.w $0F70, X : BNE .not_on_ground
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$1B : STA $012F
+    LDA.b #$1B : STA.w $012F
     
-    LDA.b #$FC : STA $0D50, X : STA $0D40, X
-    
-    JSR DashTreeTop_SpawnLeafCluster
-    
-    LDA.b #$05 : STA $0D50, Y : STA $0D40, Y
+    LDA.b #$FC : STA.w $0D50, X : STA.w $0D40, X
     
     JSR DashTreeTop_SpawnLeafCluster
     
-    LDA.b #$05 : STA $0D50, Y
-    LDA.b #$FC : STA $0D40, Y
+    LDA.b #$05 : STA.w $0D50, Y : STA.w $0D40, Y
     
     JSR DashTreeTop_SpawnLeafCluster
     
-    LDA.b #$FC : STA $0D50, Y
-    LDA.b #$04 : STA $0D40, Y
+    LDA.b #$05 : STA.w $0D50, Y
+    LDA.b #$FC : STA.w $0D40, Y
+    
+    JSR DashTreeTop_SpawnLeafCluster
+    
+    LDA.b #$FC : STA.w $0D50, Y
+    LDA.b #$04 : STA.w $0D40, Y
     
     .not_on_ground
     
@@ -366,17 +366,17 @@ DashTreeTop_SpawnLeaves:
 ; $02FE0B-$02FE22 JUMP LOCATION
 DashTreeTop_DancingLeaves:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
-    LDA $0E80, X : CMP.b #$06 : BNE .animation_clock_not_expired
+    LDA.w $0E80, X : CMP.b #$06 : BNE .animation_clock_not_expired
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .animation_clock_not_expired
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     .delay
     
@@ -390,12 +390,12 @@ DashTreeTop_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0FA8 : SEC : SBC.b #$20 : STA $0FA8
-    LDA $0FA9 : SEC : SBC.b #$20 : STA $0FA9
+    LDA.w $0FA8 : SEC : SBC.b #$20 : STA.w $0FA8
+    LDA.w $0FA9 : SEC : SBC.b #$20 : STA.w $0FA9
     
     PHX
     
-    LDA $0E80, X : BNE .alpha
+    LDA.w $0E80, X : BNE .alpha
     
     REP #$10
     
@@ -403,7 +403,7 @@ DashTreeTop_Draw:
     
     LDA.b #$03 : STA $00
     
-    LDA $0FA8
+    LDA.w $0FA8
     
     .beta
     
@@ -417,7 +417,7 @@ DashTreeTop_Draw:
     
     LDX $90
     
-    LDA $0FA9  : STA $01, X : STA $05, X : STA $09, X : STA $0D, X
+    LDA.w $0FA9  : STA $01, X : STA $05, X : STA $09, X : STA $0D, X
     CLC : ADC.b #$10 : STA $11, X : STA $15, X : STA $19, X : STA $1D, X
     CLC : ADC.b #$10 : STA $21, X : STA $25, X : STA $29, X : STA $2D, X
     CLC : ADC.b #$10 : STA $31, X : STA $35, X : STA $39, X : STA $3D, X
@@ -447,7 +447,7 @@ DashTreeTop_Draw:
     
     .alpha
     
-    LDA $0E80, X : DEC A : STA $00 : STZ $01
+    LDA.w $0E80, X : DEC A : STA $00 : STZ $01
     
     REP #$10
     
@@ -457,11 +457,11 @@ DashTreeTop_Draw:
     
     .delta
     
-    LDA $0FA8 : CLC : ADC $FE43, Y : STA $00, X
+    LDA.w $0FA8 : CLC : ADC.w $FE43, Y : STA $00, X
     
     INX
     
-    LDA $0FA9 : CLC : ADC $FE53, Y : STA $00, X
+    LDA.w $0FA9 : CLC : ADC.w $FE53, Y : STA $00, X
     
     INX
     
@@ -498,15 +498,15 @@ DashTreeTop_SpawnLeafCluster:
 {
     LDA.b #$3B : JSL Sprite_SpawnDynamically
     
-    LDA.b #$02 : STA $0DC0, Y
+    LDA.b #$02 : STA.w $0DC0, Y
     
-    LDA $0F80, X : STA $0F80, Y
+    LDA.w $0F80, X : STA.w $0F80, Y
     
-    LDA.b #$01 : STA $0E80, Y
+    LDA.b #$01 : STA.w $0E80, Y
     
-    LDA.b #$02 : STA $0D80, Y
+    LDA.b #$02 : STA.w $0D80, Y
     
-    LDA.b #$08 : STA $0DF0, Y
+    LDA.b #$08 : STA.w $0DF0, Y
     
     JSL Sprite_SetSpawnedCoords
     

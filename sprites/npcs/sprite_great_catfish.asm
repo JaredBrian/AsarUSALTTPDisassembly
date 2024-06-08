@@ -15,7 +15,7 @@ Sprite_GreatCatfish:
 {
     ; ILL OMEN MONSTER / QUAKE MEDALLION
     
-    LDA $0D90, X : BPL .not_water_splash
+    LDA.w $0D90, X : BPL .not_water_splash
     
     JSR Sprite_WaterSplash
     
@@ -28,7 +28,7 @@ Sprite_GreatCatfish:
     ; \note Here for informational purposes.
     shared Sprite_StandaloneItem:
     
-    LDA $0F70, X : BNE .aloft
+    LDA.w $0F70, X : BNE .aloft
     
     JSL Sprite_AutoIncDrawWaterRippleLong
     
@@ -36,10 +36,10 @@ Sprite_GreatCatfish:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_grant_item
     
-    STZ $0DD0, X
-    STZ $02E9
+    STZ.w $0DD0, X
+    STZ.w $02E9
     
-    LDY $0D90, X
+    LDY.w $0D90, X
     
     PHX
     
@@ -62,30 +62,30 @@ Sprite_GreatCatfish:
     JSR Sprite4_MoveXyz
     
     ; Simulate gravity for the sprite.
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .not_bouncing
+    LDA.w $0F70, X : BPL .not_bouncing
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     ; Halve x and y speeds upon bounce.
-    LDA $0D50, X : ASL A : ROR $0D50, X
+    LDA.w $0D50, X : ASL A : ROR.w $0D50, X
     
-    LDA $0D40, X : ASL A : ROR $0D40, X
+    LDA.w $0D40, X : ASL A : ROR.w $0D40, X
     
-    LDY $0D80, X : CPY.b #$04 : BNE .not_final_bounce
+    LDY.w $0D80, X : CPY.b #$04 : BNE .not_final_bounce
     
-    STZ $0D50, X
-    STZ $0D40, X
-    STZ $0F80, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
+    STZ.w $0F80, X
     
     BRA .return
     
     .not_final_bounce
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA .bounce_z_speeds, Y : STA $0F80, X
+    LDA .bounce_z_speeds, Y : STA.w $0F80, X
     
     CPY.b #$02 : BCS .dont_splash_from_bounce
     
@@ -109,7 +109,7 @@ GreatCatfish_Main:
     JSR GreatCatfish_Draw
     JSR Sprite4_CheckIfActive
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -128,29 +128,29 @@ GreatCatfish_AwaitSpriteThrownInCircle:
     
     .drowning_sprite_in_circle_search
     
-    CPY $0FA0 : BEQ .next_sprite
+    CPY.w $0FA0 : BEQ .next_sprite
     
-    LDA $0DD0, Y : CMP.b #$03 : BNE .next_sprite
+    LDA.w $0DD0, Y : CMP.b #$03 : BNE .next_sprite
     
-    LDA $0D10, Y : STA $00
-    LDA $0D30, Y : STA $01
+    LDA.w $0D10, Y : STA $00
+    LDA.w $0D30, Y : STA $01
     
-    LDA $0D00, Y : STA $02
-    LDA $0D20, Y : STA $03
+    LDA.w $0D00, Y : STA $02
+    LDA.w $0D20, Y : STA $03
     
     REP #$20
     
     ; Check proximity of drowning sprite to the catfish.
-    LDA $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+    LDA.w $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
     
-    LDA $0FDA : SEC : SBC $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+    LDA.w $0FDA : SEC : SBC $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
     
     SEP #$20
     
     ; $0EE02A ALTERNATE ENTRY POINT
     shared GreatCatfish_AdvanceState:
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$FF : STA !timer_0, X
     
@@ -175,15 +175,15 @@ GreatCatfish_RumbleBeforeEmergence:
     JSR GreatCatfish_AdvanceState
     
     ; Stop shaking the screen.
-    STZ $011A
-    STZ $011B
+    STZ.w $011A
+    STZ.w $011B
     
     ; Halt the rumbling sound.
-    LDA.b #$05 : STA $012D
+    LDA.b #$05 : STA.w $012D
     
-    LDA.b #$30 : STA $0F80, X
+    LDA.b #$30 : STA.w $0F80, X
     
-    LDA.b #$00 : STA $0D50, X
+    LDA.b #$00 : STA.w $0D50, X
     
     JSR GreatCatfish_SpawnImmediatelyDrownedSprite
     
@@ -195,18 +195,18 @@ GreatCatfish_RumbleBeforeEmergence:
     
     CMP.b #$BF : BNE .anostart_rumble_ambient
     
-    LDY.b #$07 : STY $012D
+    LDY.b #$07 : STY.w $012D
     
     .anostart_rumble_ambient
     
     AND.b #$01 : TAY
     
     ; Shake the screen.
-    LDA.w $8000, Y : STA $011A
+    LDA.w $8000, Y : STA.w $011A
     
-    LDA.w $8002, Y : STA $011B
+    LDA.w $8002, Y : STA.w $011B
     
-    LDA.b #$01 : STA $02E4
+    LDA.b #$01 : STA.w $02E4
     
     .delay_rumbling
     
@@ -228,11 +228,11 @@ Pool_GreatCatfish_Emerge:
 ; $0EE08C-$0EE0BE JUMP LOCATION
 GreatCatfish_Emerge:
 {
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite4_MoveXyz
     
-    LDA $0F80, X : SEC : SBC.b #$02 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$02 : STA.w $0F80, X
     
     ; Spawn a small splash (drowning sprite, technically) when the catfish's
     ; z velocity becomes this negative.
@@ -242,21 +242,21 @@ GreatCatfish_Emerge:
     
     .anospawn_splash
     
-    LDA $0F70, X : BPL .aloft
+    LDA.w $0F70, X : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     ; \optimizze Makes you wonder, why didn't they JSR to
     ; GreatCatfish_AdvanceState in this case too? (For space, not speed.)
-    INC $0D80, X
+    INC.w $0D80, X
     
     LDA.b #$FF : STA !timer_0, X
     
     .aloft
     
-    LDA $0E80, X : LSR #2 : TAY
+    LDA.w $0E80, X : LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -279,7 +279,7 @@ GreatCatfish_ConversateThenSubmerge:
 {
     LDA !timer_0, X : BNE .delay_self_termination
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -319,7 +319,7 @@ GreatCatfish_ConversateThenSubmerge:
     
     CMP.b #$60 : BNE .not_conversating
     
-    STZ $02E4
+    STZ.w $02E4
     
     LDY.b #$2A
     
@@ -332,8 +332,8 @@ GreatCatfish_ConversateThenSubmerge:
     
     .grant_quake_medallion_mesesage
     
-                 STY $1CF0
-    LDA.b #$01 : STA $1CF1
+                 STY.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -369,7 +369,7 @@ GreatCatfish_ConversateThenSubmerge:
     ; animate.
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -386,9 +386,9 @@ Sprite_SpawnBomb:
     
     LDA.b #$50 : STA !timer_1, Y
     
-    LDA.b #$18 : STA $0D50, Y
+    LDA.b #$18 : STA.w $0D50, Y
     
-    LDA.b #$30 : STA $0F80, Y
+    LDA.b #$30 : STA.w $0F80, Y
 
     .spawn_failed
 
@@ -420,20 +420,20 @@ GreatCatfish_SpawnQuakeMedallion:
     
     PHX : TYX
     
-    LDA.b #$18 : STA $0D50, X
+    LDA.b #$18 : STA.w $0D50, X
     
-    LDA.b #$30 : STA $0F80, X
+    LDA.b #$30 : STA.w $0F80, X
     
-    LDA.b #$11 : STA $0D90, X
+    LDA.b #$11 : STA.w $0D90, X
     
     ; play a sound effect
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$83 : STA $0E40, X
+    LDA.b #$83 : STA.w $0E40, X
     
-    LDA.b #$58 : STA $0E60, X
+    LDA.b #$58 : STA.w $0E60, X
     
-    AND.b #$0F : STA $0F50, X
+    AND.b #$0F : STA.w $0F50, X
     
     PLX
     
@@ -463,19 +463,19 @@ Sprite_SpawnFlippersItem:
     
     TYX
     
-    LDA.b #$20 : STA $0F80, X
+    LDA.b #$20 : STA.w $0F80, X
     
-    LDA.b #$10 : STA $0D40, X
+    LDA.b #$10 : STA.w $0D40, X
     
-    LDA.b #$1E : STA $0D90, X
+    LDA.b #$1E : STA.w $0D90, X
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$83 : STA $0E40, X
+    LDA.b #$83 : STA.w $0E40, X
     
-    LDA.b #$54 : STA $0E60, X
+    LDA.b #$54 : STA.w $0E60, X
     
-    AND.b #$0F : STA $0F50, X
+    AND.b #$0F : STA.w $0F50, X
     
     LDA.b #$30 : STA !timer_3, X
     
@@ -504,12 +504,12 @@ GreatCatfish_SpawnImmediatelyDrownedSprite:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$03 : STA $0DD0, Y
+    LDA.b #$03 : STA.w $0DD0, Y
     
     LDA.b #$0F : STA !timer_0, Y
     
-    LDA.b #$00 : STA $0D80, Y
-    LDA.b #$03 : STA $0E40, Y
+    LDA.b #$00 : STA.w $0D80, Y
+    LDA.b #$03 : STA.w $0E40, Y
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
@@ -543,12 +543,12 @@ Sprite_SpawnWaterSplash:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$80 : STA $0D90, Y
+    LDA.b #$80 : STA.w $0D90, Y
     
-    LDA.b #$02 : STA $0E40, Y
-                 STA $0BA0, Y
+    LDA.b #$02 : STA.w $0E40, Y
+                 STA.w $0BA0, Y
     
-    LDA.b #$04 : STA $0F50, Y
+    LDA.b #$04 : STA.w $0F50, Y
     
     LDA.b #$1F : STA !timer_0, Y
     
@@ -606,7 +606,7 @@ GreatCatfish_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : BEQ .dont_draw
+    LDA.w $0DC0, X : BEQ .dont_draw
     
     DEC A : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
     
@@ -647,7 +647,7 @@ Sprite_WaterSplash:
     
     LDA !timer_0, X : BNE .self_termination_delay
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .self_termination_delay
     

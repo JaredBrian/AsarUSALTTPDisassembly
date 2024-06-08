@@ -4,7 +4,7 @@
 ; $0F1E7B-$0F1EA4 JUMP LOCATION
 Sprite_Kyameron:
 {
-    LDA $0D80, X : BNE .visible
+    LDA.w $0D80, X : BNE .visible
     
     JSL Sprite_PrepOamCoordLong
     
@@ -19,9 +19,9 @@ Sprite_Kyameron:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -37,21 +37,21 @@ Sprite_Kyameron:
 ; $0F1EA5-$0F1EDA JUMP LOCATION
 Kyameron_Reset:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    JSL GetRandomInt : AND.b #$3F : ADC.b #$60 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$3F : ADC.b #$60 : STA.w $0DF0, X
     
-    LDA $0D90, X : STA $0D10, X
-    LDA $0DA0, X : STA $0D30, X
+    LDA.w $0D90, X : STA.w $0D10, X
+    LDA.w $0DA0, X : STA.w $0D30, X
     
-    LDA $0DB0, X : STA $0D00, X
-    LDA $0EB0, X : STA $0D20, X
+    LDA.w $0DB0, X : STA.w $0D00, X
+    LDA.w $0EB0, X : STA.w $0D20, X
     
-    LDA.b #$05 : STA $0E80, X
+    LDA.b #$05 : STA.w $0E80, X
     
-    LDA.b #$08 : STA $0DC0, X
+    LDA.b #$08 : STA.w $0DC0, X
     
     .delay
     
@@ -63,19 +63,19 @@ Kyameron_Reset:
 ; $0F1EDB-$0F1F00 JUMP LOCATION
 Kyameron_PuddleUp:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$1F : STA $0DF0, X
+    LDA.b #$1F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
-    DEC $0E80, X : BPL .animation_delay
+    DEC.w $0E80, X : BPL .animation_delay
     
-    LDA.b #$05 : STA $0E80, X
+    LDA.b #$05 : STA.w $0E80, X
     
-    INC $0DC0, X : LDA $0DC0, X : AND.b #$03 : CLC : ADC.b #$08 : STA $0DC0, X
+    INC.w $0DC0, X : LDA.w $0DC0, X : AND.b #$03 : CLC : ADC.b #$08 : STA.w $0DC0, X
     
     .animation_delay
     
@@ -102,9 +102,9 @@ Pool_Kyameron_Coagulate:
 ; $0F1F11-$0F1F54 JUMP LOCATION
 Kyameron_Coagulate:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSR Sprite3_IsBelowPlayer
     
@@ -114,9 +114,9 @@ Kyameron_Coagulate:
     
     TYA : ORA $00 : TAY
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     RTS
     
@@ -126,8 +126,8 @@ Kyameron_Coagulate:
     
     PHA
     
-    LDA $0D00, X : SEC : SBC.b #$1D : STA $0D00, X
-    LDA $0D20, X : SBC.b #$00 : STA $0D20, X
+    LDA.w $0D00, X : SEC : SBC.b #$1D : STA.w $0D00, X
+    LDA.w $0D20, X : SBC.b #$00 : STA.w $0D20, X
     
     PLA
     
@@ -135,7 +135,7 @@ Kyameron_Coagulate:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -154,7 +154,7 @@ Pool_Kyameron_Moving:
 ; $0F1F59-$0F1FE2 JUMP LOCATION
 Kyameron_Moving:
 {
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     JSR Sprite3_CheckDamage : BCS .took_damage
     
@@ -162,38 +162,38 @@ Kyameron_Moving:
     
     JSR Sprite3_CheckTileCollision : AND.b #$03 : BEQ .no_horiz_collision
     
-    LDA $0D50, X : EOR.b #$FF : INC A : STA $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : STA.w $0D50, X
     
     ; After accumulating 3 
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     BRA .no_horiz_collision
     
     .no_horiz_collision
     
-    LDA $0E70, X : AND.b #$0C : BEQ .no_vert_collision
+    LDA.w $0E70, X : AND.b #$0C : BEQ .no_vert_collision
     
-    LDA $0D40, X : EOR.b #$FF : INC A : STA $0D40, X
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    INC $0EC0, X
+    INC.w $0EC0, X
     
     .no_vert_collision
     
-    LDA $0EC0, X : CMP.b #$03 : BCC .not_enough_tile_collisions
+    LDA.w $0EC0, X : CMP.b #$03 : BCC .not_enough_tile_collisions
     
     .took_damage
     
-    LDA.b #$04 : STA $0D80, X
+    LDA.b #$04 : STA.w $0D80, X
     
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
     .not_enough_tile_collisions
     
-    INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$03 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$03 : TAY
     
-    LDA.w $9F55, Y : STA $0DC0, X
+    LDA.w $9F55, Y : STA.w $0DC0, X
     
     TXA : EOR $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
     
@@ -217,16 +217,16 @@ Kyameron_Moving:
 ; $0F1FE3-$0F2000 JUMP LOCATION
 Kyameron_Disperse:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    STZ $0EC0, X
+    STZ.w $0EC0, X
     
     ; Go back to the reset state.
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     RTS
     
@@ -234,7 +234,7 @@ Kyameron_Disperse:
     
     LSR #2 : TAY
     
-    CLC : ADC.b #$0F : STA $0DC0, X
+    CLC : ADC.b #$0F : STA.w $0DC0, X
     
     RTS
 }
@@ -280,20 +280,20 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
     
     STX $0F
     
-    LDA.b #$05 : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$05 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
-    LDA $0D30, Y : ADC $01 : STA.l $7FF878, X
+    LDA.w $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
+    LDA.w $0D30, Y : ADC $01 : STA.l $7FF878, X
     
     ; WTF is this math here? Will take some sorting out with the PHP / PLPs...
-    LDA $0D00, Y : SEC : SBC $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$1F : STA.l $7FF90E, X
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0F20, Y : STA.l $7FF968, X
+    LDA.w $0F20, Y : STA.l $7FF968, X
     
     PLX
     
@@ -351,17 +351,17 @@ Pool_Kyameron_Draw:
 ; $0F2158-$0F2191 LOCAL JUMP LOCATION
 Kyameron_Draw:
 {
-    LDA $0DC0, X : CMP.b #$0C : BCS .dispersing
+    LDA.w $0DC0, X : CMP.b #$0C : BCS .dispersing
     
-    LDY $0DC0, X
+    LDY.w $0DC0, X
     
-    LDA $0F50, X : PHA
+    LDA.w $0F50, X : PHA
     
-    AND.b #$3F : ORA .vh_flip, Y : STA $0F50, X
+    AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    PLA : STA $0F50, X
+    PLA : STA.w $0F50, X
     
     RTS
     

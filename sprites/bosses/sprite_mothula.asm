@@ -21,7 +21,7 @@ Mothula_Main:
 {
     JSL Mothula_DrawLong
     
-    LDA $0DD0, X : CMP.b #$0B : BNE .not_stunned
+    LDA.w $0DD0, X : CMP.b #$0B : BNE .not_stunned
     
     ; \tcrf(confirmed) I can't get this to ever execute. If you do
     ; force Mothula to a stunned state, it will drop to the floor (like
@@ -32,35 +32,35 @@ Mothula_Main:
     ; use of the fire rod or another special weapon. This is just
     ; speculation, though. It also suggests that they couldn't get it to
     ; work properly.
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_stunned
     
     JSR Sprite3_CheckIfActive
     
-    STZ $0E60, X
+    STZ.w $0E60, X
     
-    LDA $0EE0, X : BEQ .vulnerable
+    LDA.w $0EE0, X : BEQ .vulnerable
     
     ; Make sprite impervious (while the above timer ticks down).
-    LDA.b #$40 : STA $0E60, X
+    LDA.b #$40 : STA.w $0E60, X
     
     .vulnerable
     
-    LDA $0EA0, X            : BEQ .not_recoiling
+    LDA.w $0EA0, X            : BEQ .not_recoiling
     AND.b #$7F : CMP.b #$06 : BNE .early_recover_delay
     
     ; Mothula apparently recovers slightly earlier from recoil than typical
     ; sprites.
-    STZ $0EA0, X
+    STZ.w $0EA0, X
     
     ; Make sprite impervious for about a half second.
-    LDA.b #$20 : STA $0EE0, X
+    LDA.b #$20 : STA.w $0EE0, X
     
     ; And use this AI pointer.
-    LDA.b #$02 : STA $0D80, X
+    LDA.b #$02 : STA.w $0D80, X
     
-    STZ $0DF0, X
+    STZ.w $0DF0, X
     
     LDA.b #$40 : STA !beam_timer, X
     
@@ -69,7 +69,7 @@ Mothula_Main:
     
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -84,9 +84,9 @@ Mothula_Main:
 ; $0F3ED8-$0F3EE0 JUMP LOCATION
 Mothula_Delay:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
@@ -98,22 +98,22 @@ Mothula_Delay:
 ; $0F3EE1-$0F3F06 JUMP LOCATION
 Mothula_Ascend:
 {
-    LDA.b #$08 : STA $0F80, X
+    LDA.b #$08 : STA.w $0F80, X
     
     JSR Sprite3_MoveAltitude
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
-    LDA $0F70, X : CMP.b #$18 : BCC .below_target_altitude
+    LDA.w $0F70, X : CMP.b #$18 : BCC .below_target_altitude
     
     LDA.b #$80 : STA !beam_timer, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     ; Make vulnerable to projectiles again (like the fire rod shot).
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     .below_target_altitude
     
@@ -144,9 +144,9 @@ Mothula_FlyAbout:
 {
     LDA !beam_timer, X : BNE .delay_beam_firing_mode
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
     
@@ -156,21 +156,21 @@ Mothula_FlyAbout:
     
     JSR Mothula_FlapWings
     
-    LDA $0D90, X : AND.b #$01 : TAY
+    LDA.w $0D90, X : AND.b #$01 : TAY
     
-    LDA $0F80, X : CLC : ADC .z_accelerations, Y : STA $0F80, X
+    LDA.w $0F80, X : CLC : ADC .z_accelerations, Y : STA.w $0F80, X
     
     CMP Sprite3_Shake.x_speeds, Y : BNE .anotoggle_z_acceleration_polarity
     
-    INC $0D90, X
+    INC.w $0D90, X
     
     .anotoggle_z_acceleration_polarity
     
-    LDA $0DF0, X : BNE .delay_xy_speed_adjustment
+    LDA.w $0DF0, X : BNE .delay_xy_speed_adjustment
     
-    INC $0DB0, X : LDA $0DB0, X : CMP.b #$07 : BNE .use_random_xy_speeds
+    INC.w $0DB0, X : LDA.w $0DB0, X : CMP.b #$07 : BNE .use_random_xy_speeds
     
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
     BRA .go_towards_player
     
@@ -179,11 +179,11 @@ Mothula_FlyAbout:
     JSL GetRandomInt : AND.b #$07 : TAY
     
     ; speeds are randomly selected.
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
-    JSL GetRandomInt : AND.b #$1F : ADC.b #$40 : STA $0DF0, X
+    JSL GetRandomInt : AND.b #$1F : ADC.b #$40 : STA.w $0DF0, X
     
     BRA .tile_collision_logic
     
@@ -191,12 +191,12 @@ Mothula_FlyAbout:
     
     LDA.b #$20 : JSL Sprite_ApplySpeedTowardsPlayerLong
     
-    LDA.b #$80 : STA $0DF0, X
+    LDA.b #$80 : STA.w $0DF0, X
     
     .delay_xy_speed_adjustment
     .tile_collision_logic
     
-    LDA $0E70, X : BNE .move_if_no_tile_collision
+    LDA.w $0E70, X : BNE .move_if_no_tile_collision
     
     JSR Sprite3_Move
     
@@ -207,13 +207,13 @@ Mothula_FlyAbout:
     JSR Sprite3_CheckTileCollision : BEQ .no_tile_collision
     
     ; Immediately do a speed adjustment next frame if we hit a solid tile.
-    STZ $0DF0, X
+    STZ.w $0DF0, X
     
     .no_tile_collision
     
     JSR Sprite3_CheckDamage
     
-    INC $0E80, X : INC $0E80, X
+    INC.w $0E80, X : INC.w $0E80, X
     
     RTS
 }
@@ -232,15 +232,15 @@ Pool_Mothula_FlapWings:
 ; $0F3F9F-$0F3FB8 LOCAL JUMP LOCATION
 Mothula_FlapWings:
 {
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : LSR #2 : AND.b #$03 : TAY : BNE .sfx_delay
+    LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY : BNE .sfx_delay
     
     LDA.b #$02 : JSL Sound_SetSfx3PanLong
     
     .sfx_delay
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -252,9 +252,9 @@ Mothula_FireBeams:
 {
     JSR Sprite3_CheckDamage
     
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    DEC $0D80, X
+    DEC.w $0D80, X
     
     JSL GetRandomInt : AND.b #$1F : ORA.b #$40 : STA !beam_timer, X
     
@@ -292,7 +292,7 @@ Mothula_SpawnBeams:
 {
     LDA.b #$36 : JSL Sound_SetSfx3PanLong
     
-    LDA.b #$02 : STA $0FB5
+    LDA.b #$02 : STA.w $0FB5
     
     .spawn_next_beam
     
@@ -302,28 +302,28 @@ Mothula_SpawnBeams:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : SEC : SBC $04 : CLC : ADC.b #$03 : STA $0D00, Y
+    LDA $02 : SEC : SBC $04 : CLC : ADC.b #$03 : STA.w $0D00, Y
     
-    LDA.b #$10 : STA $0DF0, Y
-                 STA $0BA0, Y
+    LDA.b #$10 : STA.w $0DF0, Y
+                 STA.w $0BA0, Y
     
     PHX
     
-    LDX $0FB5
+    LDX.w $0FB5
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA $0D10, Y
+    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
-    LDA.b #$00 : STA $0F70, Y
+    LDA.b #$00 : STA.w $0F70, Y
     
     PLX
     
     .spawn_failed
     
-    DEC $0FB5 : BPL .spawn_next_beam
+    DEC.w $0FB5 : BPL .spawn_next_beam
     
     RTS
 }
@@ -374,20 +374,20 @@ Mothula_ActivateMovingSpikeBlock:
     
     TAX
     
-    LDA .x_coords_low, X : STA $0D10, Y
-                           STA $0D90, Y
+    LDA .x_coords_low, X : STA.w $0D10, Y
+                           STA.w $0D90, Y
     
-    LDA .y_coords_low, X : DEC A : STA $0D00, Y
-                                   STA $0DA0, Y
+    LDA .y_coords_low, X : DEC A : STA.w $0D00, Y
+                                   STA.w $0DA0, Y
     
-    LDA .directions, X : STA $0DE0, Y
+    LDA .directions, X : STA.w $0DE0, Y
     
     ; \note Differentiates it from a standard spike block as it will
     ; melt back into the scenery when it collides with tiles.
-    LDA.b #$01 : STA $0E90, Y
+    LDA.b #$01 : STA.w $0E90, Y
     
-                 CLC : ADC $0FB0 : STA $0D30, Y
-    LDA.b #$01 : CLC : ADC $0FB1 : STA $0D20, Y
+                 CLC : ADC.w $0FB0 : STA.w $0D30, Y
+    LDA.b #$01 : CLC : ADC.w $0FB1 : STA.w $0D20, Y
     
     TYX
     
@@ -395,23 +395,23 @@ Mothula_ActivateMovingSpikeBlock:
     ; position, which is potentially in the upper left of a bg based
     ; spike block. So it's checking for collision with a spike block
     ; "underneath" it, so to speak.
-    LDA.b #$01 : STA $0D50, X
+    LDA.b #$01 : STA.w $0D50, X
     
     JSL Sprite_Get_16_bit_CoordsLong
     JSR Sprite3_CheckTileCollision
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    LDA $0D90, X : STA $0D10, X
+    LDA.w $0D90, X : STA.w $0D10, X
     
-    LDA $0DA0, X : STA $0D00, X
+    LDA.w $0DA0, X : STA.w $0D00, X
     
-    LDA $0E70, X : BNE .spawning_atop_spike_block
+    LDA.w $0E70, X : BNE .spawning_atop_spike_block
     
     ; Essentially this code is to prevent the transient spike block from
     ; materializing from thin air / from the floor, however you want to
     ; look at it.
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     PLX
     

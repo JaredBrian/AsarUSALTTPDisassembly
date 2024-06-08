@@ -7,14 +7,14 @@ Sprite_DashApple:
     ; This is the apple sprite embedded in trees. Afaik, it starts off
     ; invisible, but will split into a random number of other apples when the 
     ; player bashes into a tree containing one of these.
-    LDA $0D80, X : BNE Sprite_Apple
+    LDA.w $0D80, X : BNE Sprite_Apple
     
     ; \note: The code that would set this variable low is not part of
     ; the sprite logic itself. Rather, it is done by the player code when
     ; the player actually hits something and bounces back.
-    LDA $0E90, X : BNE .not_dashed_into_yet
+    LDA.w $0E90, X : BNE .not_dashed_into_yet
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; Spawn 2 to 5 apples.
     JSL GetRandomInt : AND.b #$03 : CLC : ADC.b #$02 : TAY
@@ -41,13 +41,13 @@ Apple_SpawnTangibleApple:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$01 : STA $0D80, Y
+    LDA.b #$01 : STA.w $0D80, Y
     
-    LDA.b #$FF : STA $0D90, Y
+    LDA.b #$FF : STA.w $0D90, Y
     
-    LDA.b #$08 : STA $0F70, Y
+    LDA.b #$08 : STA.w $0F70, Y
     
-    LDA.b #$16 : STA $0F80, Y
+    LDA.b #$16 : STA.w $0F80, Y
     
     JSL GetRandomInt : STA $04
     LDA $01          : STA $05
@@ -57,8 +57,8 @@ Apple_SpawnTangibleApple:
     
     LDA.b #$0A : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA $0D40, Y
-    LDA $01 : STA $0D50, Y
+    LDA $00 : STA.w $0D40, Y
+    LDA $01 : STA.w $0D50, Y
     
     .spawn_failed
     
@@ -79,7 +79,7 @@ Pool_Sprite_Apple:
 ; $0F757C-$0F7602 BRANCH LOCATION
 Sprite_Apple:
 {
-    LDA $0D90, X : CMP.b #$10 : BCS .dont_blink
+    LDA.w $0D90, X : CMP.b #$10 : BCS .dont_blink
     
     LDA $1A : AND.b #$02 : BEQ .blink
     
@@ -91,7 +91,7 @@ Sprite_Apple:
     
     JSR Sprite3_CheckIfActive
     
-    LDA $0D90, X : BEQ .expired_so_self_terminate
+    LDA.w $0D90, X : BEQ .expired_so_self_terminate
     
     JSR Sprite3_MoveXyz
     
@@ -106,7 +106,7 @@ Sprite_Apple:
     
     .expired_so_self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTS
     
@@ -114,39 +114,39 @@ Sprite_Apple:
     
     LDA $1A : AND.b #$01 : BNE .delay_expiration_timer_tick
     
-    DEC $0D90, X
+    DEC.w $0D90, X
     
     .delay_expiration_timer_tick
     
-    LDA $0F70, X : DEC A : BPL .aloft
+    LDA.w $0F70, X : DEC A : BPL .aloft
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0F80, X : BMI .hit_ground_this_frame
+    LDA.w $0F80, X : BMI .hit_ground_this_frame
     
     LDA.b #$00
     
     .hit_ground_this_frame
     
-    EOR.b #$FF : INC A : LSR A : STA $0F80, X
+    EOR.b #$FF : INC A : LSR A : STA.w $0F80, X
     
-    LDA $0D50, X : BEQ .x_speed_at_rest
+    LDA.w $0D50, X : BEQ .x_speed_at_rest
     
     PHA
     
     ASL A : LDA.b #$00 : ROL A : TAY
     
-    PLA : CLC : ADC .speeds, Y : STA $0D50, X
+    PLA : CLC : ADC .speeds, Y : STA.w $0D50, X
     
     .x_speed_at_rest
     
-    LDA $0D40, X : BEQ .y_speed_at_rest
+    LDA.w $0D40, X : BEQ .y_speed_at_rest
     
     PHA
     
     ASL A : LDA.b #$00 : ROL A : TAY
     
-    PLA : CLC : ADC .speeds, Y : STA $0D40, X
+    PLA : CLC : ADC .speeds, Y : STA.w $0D40, X
     
     .y_speed_at_rest
     
@@ -154,7 +154,7 @@ Sprite_Apple:
     
     .aloft
     
-    LDA $0F80, X : SEC : SBC.b #$01 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$01 : STA.w $0F80, X
     
     RTS
 }

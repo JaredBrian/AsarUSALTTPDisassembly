@@ -15,17 +15,17 @@ Sprite_Helmasaur:
 ; $032409-$0324D1 JUMP LOCATION
 Sprite_Helmasaur:
 {
-    LDA $0DE0, X : ASL A : STA $00
+    LDA.w $0DE0, X : ASL A : STA $00
     
-    LDA $0E80, X : LSR #2 : AND.b #$01 : ORA $00 : TAY
+    LDA.w $0E80, X : LSR #2 : AND.b #$01 : ORA $00 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
     TXA : EOR $1A : AND.b #$0F : BNE .delay_direction_selection_logic
     
-    LDA $0D50, X : BPL .abs_x_speed
+    LDA.w $0D50, X : BPL .abs_x_speed
     
     EOR.b #$FF : INC A
 
@@ -33,7 +33,7 @@ Sprite_Helmasaur:
 
     STA $00
     
-    LDA $0D40, X : BPL .abs_y_speed
+    LDA.w $0D40, X : BPL .abs_y_speed
     
     EOR.b #$FF : INC A
 
@@ -45,13 +45,13 @@ Sprite_Helmasaur:
     
     LDA.b #$00
     
-    LDY $0D50, X
+    LDY.w $0D50, X
     
     BCS .x_speed_magnitude_greater_or_equal
     
     LDA.b #$02
     
-    LDY $0D40, X
+    LDY.w $0D40, X
     
     .x_speed_magnitude_greater_or_equal
     
@@ -61,7 +61,7 @@ Sprite_Helmasaur:
     
     .winning_speed_is_not_negative
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
     .delay_direction_selection_logic
     
@@ -72,7 +72,7 @@ Sprite_Helmasaur:
     ; $032460 ALTERNATE ENTRY POINT
     shared Sprite_HardHatBeetle:
     
-    LDA $0E80, X : LSR #2 : AND.b #$01 : STA $0DC0, X
+    LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     JSR HardHatBeetle_Draw
 
@@ -80,22 +80,22 @@ Sprite_Helmasaur:
 
     JSR Sprite_CheckIfActive
     
-    INC $0E80, X
+    INC.w $0E80, X
     
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_CheckDamage
     
-    LDA $0E70, X : AND.b #$0F : BEQ .no_tile_collision
+    LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
     AND.b #$03 : BEQ .no_horizontal_tile_collision
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
     .no_horizontal_tile_collision
     
     ; \wtf Seems like not really a bug, but a quirk. If it hit tiles it
     ; always zeroes its y velocity, but conditionally zeroes the x velocity.
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     BRA .dont_move
     
@@ -109,39 +109,39 @@ Sprite_Helmasaur:
     
     TXA : EOR $1A : AND.b #$1F : BNE .project_speed_delay
     
-    LDA $0D90, X
+    LDA.w $0D90, X
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : STA $0DA0, X
+    LDA $00 : STA.w $0DA0, X
     
-    LDA $01 : STA $0DB0, X
+    LDA $01 : STA.w $0DB0, X
     
     .project_speed_delay
     
-    TXA : EOR $1A : AND $0D80, X : BNE .acceleration_delay
+    TXA : EOR $1A : AND.w $0D80, X : BNE .acceleration_delay
     
-    LDA $0D40, X : CMP $0DA0, X : BPL .y_speed_maxed
+    LDA.w $0D40, X : CMP.w $0DA0, X : BPL .y_speed_maxed
     
-    INC $0D40, X
+    INC.w $0D40, X
     
     BRA .check_x_speed
     
     .y_speed_maxed
     
-    DEC $0D40, X
+    DEC.w $0D40, X
     
     .check_x_speed
     
-    LDA $0D50, X : CMP $0DB0, X : BPL .x_speed_maxed
+    LDA.w $0D50, X : CMP.w $0DB0, X : BPL .x_speed_maxed
     
-    INC $0D50, X
+    INC.w $0D50, X
     
     BRA .return
     
     .x_speed_maxed
     
-    DEC $0D50, X
+    DEC.w $0D50, X
     
     .return
     .acceleration_delay
@@ -166,7 +166,7 @@ Sprite_Helmasaur:
 ; $0324F2-$03250B LOCAL JUMP LOCATION
 HardHatBeetle_Draw:
 {
-    LDA $0DC0, X : ASL #4
+    LDA.w $0DC0, X : ASL #4
     
     ADC.b #.oam_groups                 : STA $08
     LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09

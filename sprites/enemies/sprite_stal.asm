@@ -4,9 +4,9 @@
 ; $0E8129-$0E814E JUMP LOCATION
 Sprite_Stal:
 {
-    LDA $0FC6 : CMP.b #$03 : BCS .improper_gfx_set_loaded
+    LDA.w $0FC6 : CMP.b #$03 : BCS .improper_gfx_set_loaded
     
-    LDA $0D80, X : BNE .ignore_player_oam_overlap
+    LDA.w $0D80, X : BNE .ignore_player_oam_overlap
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
     
@@ -19,7 +19,7 @@ Sprite_Stal:
     JSR Sprite4_CheckIfActive
     JSR Sprite4_CheckIfRecoiling
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -32,26 +32,26 @@ Sprite_Stal:
 ; $0E814F-$0E8197 JUMP LOCATION
 Stal_Dormant:
 {
-    LDA.b #$01 : STA $0BA0, X
+    LDA.b #$01 : STA.w $0BA0, X
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .player_didnt_bump
     
     JSL Sprite_NullifyHookshotDrag
     JSL Sprite_RepelDashAttackLong
     
-    LDA $0DF0, X : BNE .still_activating
+    LDA.w $0DF0, X : BNE .still_activating
     
-    LDA.b #$40 : STA $0DF0, X
+    LDA.b #$40 : STA.w $0DF0, X
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
     .still_activating
     .player_didnt_bump
     
-    LDA $0DF0, X : BEQ .never_bumped
+    LDA.w $0DF0, X : BEQ .never_bumped
     DEC A        : BEQ .fully_activated
     
-    ORA.b #$40 : STA $0EF0, X
+    ORA.b #$40 : STA.w $0EF0, X
     
     .never_bumped
     
@@ -59,17 +59,17 @@ Stal_Dormant:
     
     .fully_activated
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
-    LDA $0E60, X : AND.b #$BF : STA $0E60, X
+    LDA.w $0E60, X : AND.b #$BF : STA.w $0E60, X
     
     ; Unse the top bit of this variable so that it can start damaging
     ; the player from contact.
-    ASL $0E40, X : LSR $0E40, X
+    ASL.w $0E40, X : LSR.w $0E40, X
     
     RTS
 }
@@ -92,13 +92,13 @@ Stal_Active:
     JSR Sprite4_Move
     JSR Sprite4_CheckTileCollision
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .not_grounded
+    LDA.w $0F70, X : BPL .not_grounded
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$10 : STA $0F80, X
+    LDA.b #$10 : STA.w $0F80, X
     
     LDA.b #$0C
     
@@ -108,18 +108,18 @@ Stal_Active:
     
     LDA $1A : AND.b #$03 : BNE .anotick_animation_timer
     
-    INC $0E80, X
+    INC.w $0E80, X
     
-    LDA $0E80, X : CMP.b #$05 : BNE .anoreset_animation_timer
+    LDA.w $0E80, X : CMP.b #$05 : BNE .anoreset_animation_timer
     
-    STZ $0E80, X
+    STZ.w $0E80, X
     
     .anoreset_animation_timer
     .anotick_animation_timer
     
-    LDY $0E80, X
+    LDY.w $0E80, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -147,13 +147,13 @@ Stal_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #$81DC : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #$81DC : STA $08
     
     SEP #$20
     
     LDA.b #$02
     
-    LDY $0D80, X : BNE .active
+    LDY.w $0D80, X : BNE .active
     
     DEC A
     
@@ -161,7 +161,7 @@ Stal_Draw:
     
     JSL Sprite_DrawMultiple
     
-    LDA $0D80, X : BEQ .dormant
+    LDA.w $0D80, X : BEQ .dormant
     
     JSL Sprite_DrawShadowLong
     

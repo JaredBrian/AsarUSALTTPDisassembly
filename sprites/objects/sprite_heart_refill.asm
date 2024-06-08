@@ -11,25 +11,25 @@ Sprite_HeartRefill:
     JSR Sprite_Move
     JSR Sprite_MoveAltitude
     
-    LDA $0F70, X : BPL .no_ground_collision
+    LDA.w $0F70, X : BPL .no_ground_collision
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    STZ $0DC0, X
+    STZ.w $0DC0, X
     
     .no_ground_collision
     
-    LDA $0F50, X : AND.b #$BF : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : STA.w $0F50, X
     
-    LDA $0D50, X : BMI .moving_left
+    LDA.w $0D50, X : BMI .moving_left
     
-    LDA $0F50, X : EOR.b #$40 : STA $0F50, X
+    LDA.w $0F50, X : EOR.b #$40 : STA.w $0F50, X
     
     .moving_left
     
-    LDA $0D80, X : CMP.b #$03 : BCC .ai_state_not_maxed
+    LDA.w $0D80, X : CMP.b #$03 : BCC .ai_state_not_maxed
     
     ; \note This ensures that we never run an AI handler that is beyond the
     ; given jump table. This is kind of good to do, but most components
@@ -51,15 +51,15 @@ Sprite_HeartRefill:
 ; $034F0A-$034F1F JUMP LOCATION
 HeartRefill_InitializeAscent:
 {
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$12 : STA $0DF0, X
+    LDA.b #$12 : STA.w $0DF0, X
     
-    LDA.b #$14 : STA $0F80, X
+    LDA.b #$14 : STA.w $0F80, X
     
-    LDA.b #$01 : STA $0DC0, X
+    LDA.b #$01 : STA.w $0DC0, X
     
-    STZ $0DE0, X
+    STZ.w $0DE0, X
     
     RTS
 }
@@ -69,19 +69,19 @@ HeartRefill_InitializeAscent:
 ; $034F20-$034F34 JUMP LOCATION
 HeartRefill_BeginDescending:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
-    LDA.b #$FD : STA $0F80, X
+    LDA.b #$FD : STA.w $0F80, X
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
     RTS
     
     .delay
     
-    DEC $0F80, X
+    DEC.w $0F80, X
     
     RTS
 }
@@ -99,17 +99,17 @@ Pool_HeartRefill_GlideGroundward:
 ; $034F37-$034F59 JUMP LOCATION
 HeartRefill_GlideGroundward:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    LDA $0DE0, X : AND.b #$01 : TAY
+    LDA.w $0DE0, X : AND.b #$01 : TAY
     
-    LDA $0D50, X : CLC : ADC $A213, Y : STA $0D50, X
+    LDA.w $0D50, X : CLC : ADC.w $A213, Y : STA.w $0D50, X
     
-    CMP $CF35, Y : BNE .anoswitch_direction
+    CMP.w $CF35, Y : BNE .anoswitch_direction
     
-    INC $0DE0, X
+    INC.w $0DE0, X
     
-    LDA.b #$08 : STA $0DF0, X
+    LDA.b #$08 : STA.w $0DF0, X
     
     .delay
     .anoswitch_direction
@@ -123,13 +123,13 @@ HeartRefill_GlideGroundward:
 HeartRefill_Grounded:
     shared Sprite_Zero_XYZ_Velocity:
 {
-    STZ $0F80, X
+    STZ.w $0F80, X
     
     ; $034F5D ALTERNATE ENTRY POINT
     shared Sprite_Zero_XY_Velocity:
     
-    STZ $0D50, X
-    STZ $0D40, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
     
     RTS
 }

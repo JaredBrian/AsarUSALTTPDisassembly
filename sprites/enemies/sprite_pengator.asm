@@ -13,23 +13,23 @@ Pool_Sprite_Pengator:
 ; $0F2196-$0F21E9 JUMP LOCATION
 Sprite_Pengator:
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0D90, X : CLC : ADC .animation_states, Y : STA $0DC0, X
+    LDA.w $0D90, X : CLC : ADC .animation_states, Y : STA.w $0DC0, X
     
     JSR Pengator_Draw
     
-    LDA $0EA0, X : BNE .recoiling
+    LDA.w $0EA0, X : BNE .recoiling
     
-    LDA $0E70, X : AND.b #$0F : BEQ .no_tile_collision
+    LDA.w $0E70, X : AND.b #$0F : BEQ .no_tile_collision
     
     .recoiling
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    STZ $0D50, X
+    STZ.w $0D50, X
     
-    STZ $0D40, X
+    STZ.w $0D40, X
     
     .no_tile_collision
     
@@ -39,19 +39,19 @@ Sprite_Pengator:
     JSR Sprite3_MoveXyz
     
     ; Apply gravity
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .hasnt_landed
+    LDA.w $0F70, X : BPL .hasnt_landed
     
-    STZ $0F80, X
+    STZ.w $0F80, X
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
     .hasnt_landed
     
     JSR Sprite3_CheckTileCollision
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -68,9 +68,9 @@ Pengator_FacePlayer:
 {
     JSR Sprite3_DirectionToFacePlayer
     
-    TYA : STA $0DE0, X
+    TYA : STA.w $0DE0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     RTS
 }
@@ -95,19 +95,19 @@ Pengator_SpeedUp:
     
     STZ $00
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0D50, X : CMP Sprite3_Shake.x_speeds, Y : BEQ .x_speed_at_target
+    LDA.w $0D50, X : CMP Sprite3_Shake.x_speeds, Y : BEQ .x_speed_at_target
     
-    CLC : ADC .x_speeds, Y : STA $0D50, X
+    CLC : ADC .x_speeds, Y : STA.w $0D50, X
     
     INC $00
     
     .x_speed_at_target
     
-    LDA $0D40, X : CMP Sprite3_Shake.y_speeds, Y : BEQ .y_speed_at_target
+    LDA.w $0D40, X : CMP Sprite3_Shake.y_speeds, Y : BEQ .y_speed_at_target
     
-    CLC : ADC .y_speeds, Y : STA $0D40, X
+    CLC : ADC .y_speeds, Y : STA.w $0D40, X
     
     INC $00
     
@@ -115,14 +115,14 @@ Pengator_SpeedUp:
     
     LDA $00 : BNE .added_speed_this_frame
     
-    LDA.b #$0F : STA $0DF0, X
+    LDA.b #$0F : STA.w $0DF0, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .added_speed_this_frame
     .delay
     
-    LDA $1A : AND.b #$04 : LSR #2 : TAY : STA $0D90, X
+    LDA $1A : AND.b #$04 : LSR #2 : TAY : STA.w $0D90, X
     
     RTS
 }
@@ -141,9 +141,9 @@ Pool_Pengator_Jump:
 ; $0F2244-$0F2260 JUMP LOCATION
 Pengator_Jump:
 {
-    LDA $0DF0, X : BNE .state_transition_delay
+    LDA.w $0DF0, X : BNE .state_transition_delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .state_transition_delay
     
@@ -151,7 +151,7 @@ Pengator_Jump:
     
     PHA
     
-    LDA.b #$18 : STA $0F80, X
+    LDA.b #$18 : STA.w $0F80, X
     
     PLA
     
@@ -159,7 +159,7 @@ Pengator_Jump:
     
     LSR #2 : TAY
     
-    LDA .animation_states, Y : STA $0D90, X
+    LDA .animation_states, Y : STA.w $0D90, X
     
     RTS
 }
@@ -183,9 +183,9 @@ Pool_Pengator_SlideAndSparkle:
 ; $0F2271-$0F22B4 JUMP LOCATION
 Pengator_SlideAndSparkle:
 {
-    TXA : EOR $1A : AND.b #$07 : ORA $0F70, X : BNE .still_falling
+    TXA : EOR $1A : AND.b #$07 : ORA.w $0F70, X : BNE .still_falling
     
-    LDA $0DE0, X : STA $06
+    LDA.w $0DE0, X : STA $06
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
@@ -276,7 +276,7 @@ Pool_Pengator_Draw:
 Pengator_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     
@@ -285,7 +285,7 @@ Pengator_Draw:
     LDY.b #$00
     
     LDA.b #$00   : XBA
-    LDA $0DC0, X : CMP.b #$0E : BEQ .draw_more_sprites
+    LDA.w $0DC0, X : CMP.b #$0E : BEQ .draw_more_sprites
     
     INY
     

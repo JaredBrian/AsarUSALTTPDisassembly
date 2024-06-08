@@ -13,18 +13,18 @@ Pool_Sprite_SnapDragon:
 ; $031C24-$031C4A JUMP LOCATION
 Sprite_SnapDragon:
 {
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0DA0, X : CLC : ADC .animation_state_bases, Y : STA $0DC0, X
+    LDA.w $0DA0, X : CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
     JSR SnapDragon_Draw
     JSR Sprite_CheckIfActive
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_CheckDamage
     
-    STZ $0DA0, X
+    STZ.w $0DA0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -60,21 +60,21 @@ Pool_SnapDragon_Resting:
 ; $031C5F-$031CA8 JUMP LOCATION
 SnapDragon_Resting:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     JSL GetRandomInt : AND.b #$0C : LSR #2 : TAY
     
-    LDA .timers, Y : STA $0DF0, X
+    LDA .timers, Y : STA.w $0DF0, X
     
-    DEC $0D90, X : BPL .pick_random_direction
+    DEC.w $0D90, X : BPL .pick_random_direction
     
-    LDA.b #$03 : STA $0D90, X
+    LDA.b #$03 : STA.w $0D90, X
     
-    LDA.b #$60 : STA $0DF0, X
+    LDA.b #$60 : STA.w $0DF0, X
     
-    INC $0DB0, X
+    INC.w $0DB0, X
     
     JSR Sprite_IsBelowPlayer
     
@@ -92,7 +92,7 @@ SnapDragon_Resting:
     
     .set_direction
     
-    STA $0DE0, X
+    STA.w $0DE0, X
     
     RTS
     
@@ -100,7 +100,7 @@ SnapDragon_Resting:
     
     AND.b #$18 : BEQ .dont_use_alternate_animation_state
     
-    INC $0DA0, X
+    INC.w $0DA0, X
     
     .dont_use_alternate_animation_state
     
@@ -113,51 +113,51 @@ SnapDragon_Resting:
 SnapDragon_Attack:
 {
     ; Always has mouth open while in this state?
-    INC $0DA0, X
+    INC.w $0DA0, X
     
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
-    LDA $0DE0, X : EOR.b #$03 : STA $0DE0, X
+    LDA.w $0DE0, X : EOR.b #$03 : STA.w $0DE0, X
     
     .no_tile_collision
     
-    LDY $0DE0, X
+    LDY.w $0DE0, X
     
-    LDA $0DB0, X : BEQ .use_slower_speeds
+    LDA.w $0DB0, X : BEQ .use_slower_speeds
     
     INY #4
     
     .use_slower_speeds
     
-    LDA .x_speeds, Y : STA $0D50, X
+    LDA .x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA $0D40, X
+    LDA .y_speeds, Y : STA.w $0D40, X
     
     JSR Sprite_MoveAltitude
     
-    LDA $0F80, X : SEC : SBC.b #$04 : STA $0F80, X
+    LDA.w $0F80, X : SEC : SBC.b #$04 : STA.w $0F80, X
     
-    LDA $0F70, X : BPL .not_grounded
+    LDA.w $0F70, X : BPL .not_grounded
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA $0DF0, X : BNE .keep_bouncin_dude
+    LDA.w $0DF0, X : BNE .keep_bouncin_dude
     
     ; When timer expires, it's time to go back to resting.
-    STZ $0D80, X
+    STZ.w $0D80, X
     
-    STZ $0DB0, X
+    STZ.w $0DB0, X
     
-    LDA.b #$3F : STA $0DF0, X
+    LDA.b #$3F : STA.w $0DF0, X
     
     RTS
     
     .keep_bouncin_dude
     
-    LDA.b #$14 : STA $0F80, X
+    LDA.b #$14 : STA.w $0F80, X
     
     .not_grounded
     
@@ -218,7 +218,7 @@ SnapDragon_Draw:
 {
     LDA #$00 : XBA
     
-    LDA $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
     
     SEP #$20
     

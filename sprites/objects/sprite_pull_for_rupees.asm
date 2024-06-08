@@ -26,7 +26,7 @@ Sprite_PullForRupees:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .didnt_pull
     
-    LDA.b #$01 : STA $03F8 : STA $0D90, X
+    LDA.b #$01 : STA.w $03F8 : STA.w $0D90, X
     
     RTS
     
@@ -34,13 +34,13 @@ Sprite_PullForRupees:
     
     ; Task, figure out how the pulling triggering works. Doesn't seem
     ; to be handled here directly...
-    LDA $0D90, X : BEQ .cant_pull
+    LDA.w $0D90, X : BEQ .cant_pull
     
-    STZ $03F8
+    STZ.w $03F8
     
-    LDA $0308 : AND.b #$01 : BEQ .cant_pull
+    LDA.w $0308 : AND.b #$01 : BEQ .cant_pull
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     JSL PullForRupees_SpawnRupees
     JSL Sprite_SpawnPoofGarnish

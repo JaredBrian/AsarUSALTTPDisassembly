@@ -9,9 +9,9 @@ Sprite_Bubble:
     
     JSR Sprite_CheckDamageToPlayer : BCC .anodrain_player_mp
     
-    LDA $0DF0, X : BNE .anodrain_player_mp
+    LDA.w $0DF0, X : BNE .anodrain_player_mp
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     ; \item
     ; Subtract off 8 points of mp.
@@ -24,7 +24,7 @@ Sprite_Bubble:
     .player_has_at_least_eight_mp
     
     ; Play the magic draining sound.
-    LDY.b #$1D : STY $012F
+    LDY.b #$1D : STY.w $012F
     
     .anoplay_drain_sfx
     

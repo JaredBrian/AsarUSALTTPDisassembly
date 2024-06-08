@@ -8,14 +8,14 @@ Sprite_BlindMaiden:
     JSR Sprite3_CheckIfActive
     JSL Sprite_MakeBodyTrackHeadDirection
     
-    JSR Sprite3_DirectionToFacePlayer : TYA : EOR.b #$03 : STA $0EB0, X
+    JSR Sprite3_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
-    LDA $0D80, X : BNE .switch_to_tagalong
+    LDA.w $0D80, X : BNE .switch_to_tagalong
         LDA.b #$22
         LDY.b #$01
         
         JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-            INC $0D80, X
+            INC.w $0D80, X
         
         .didnt_speak
         
@@ -23,7 +23,7 @@ Sprite_BlindMaiden:
     
     .switch_to_tagalong
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     ; Set "Blind the Thief (maiden)" as the tagalong
     LDA.b #$06 : STA.l $7EF3CC

@@ -6,7 +6,7 @@ Sprite_MetalBall:
 {
     ; Metal Balls in Eastern Palace (needs official name)
     
-    LDA $0D80, X : BNE .is_larger_ball
+    LDA.w $0D80, X : BNE .is_larger_ball
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -20,14 +20,14 @@ Sprite_MetalBall:
     
     JSR Sprite2_CheckIfActive
     
-    INC $0E80, X : LDA $0E80, X : LSR #2 : AND.b #$01 : STA $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     JSR Sprite2_Move
     
-    LDA $0DF0, X : BEQ .termination_timer_not_running
+    LDA.w $0DF0, X : BEQ .termination_timer_not_running
     DEC A        : BNE .dont_self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .dont_self_terminate
     
@@ -37,11 +37,11 @@ Sprite_MetalBall:
     
     JSR Sprite2_CheckDamage
     
-    LDA $0E10, X : BNE .dont_start_timer
+    LDA.w $0E10, X : BNE .dont_start_timer
     
     JSR Sprite2_CheckTileCollision : BEQ .dont_start_timer
     
-    LDA.b #$10 : STA $0DF0, X
+    LDA.b #$10 : STA.w $0DF0, X
     
     .dont_start_timer
     
@@ -74,7 +74,7 @@ MetalBall_DrawLargerVariety:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA $06
     
     PHX
     

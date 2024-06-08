@@ -79,28 +79,28 @@ Blind_SpawnFromMaidenTagalong:
 {
     LDX.b #$00
     
-    LDA.b #$09 : STA $0DD0, X
+    LDA.b #$09 : STA.w $0DD0, X
     
-    LDA #$CE : STA $0E20, X
+    LDA #$CE : STA.w $0E20, X
     
-    LDA $00 : STA $0D10, X
-    LDA $01 : STA $0D30, X
+    LDA $00 : STA.w $0D10, X
+    LDA $01 : STA.w $0D30, X
     
-    LDA $02 : SEC : SBC.b #$10 : STA $0D00, X
-    LDA $03              : STA $0D20, X
+    LDA $02 : SEC : SBC.b #$10 : STA.w $0D00, X
+    LDA $03              : STA.w $0D20, X
     
     JSL Sprite_LoadProperties
     
     LDA.b #$C0 : STA !timer_2, X
     
-    LDA.b #$15 : STA $0DC0, X
+    LDA.b #$15 : STA.w $0DC0, X
     
     LDA.b #$02 : STA !blind_direction, X
-                 STA $0BA0, X
+                 STA.w $0BA0, X
     
-    LDA $0403 : ORA.b #$20 : STA $0403
+    LDA.w $0403 : ORA.b #$20 : STA.w $0403
     
-    STZ $0B69
+    STZ.w $0B69
     
     RTL
 }
@@ -114,7 +114,7 @@ Blind_Initialize:
     
     ; Check if the floor above this room has been bombed out.
     ; \hardcoded
-    LDA $0403 : AND.b #$20 : BEQ .self_terminate
+    LDA.w $0403 : AND.b #$20 : BEQ .self_terminate
     
     LDA.b #$60 : STA !timer_2, X
     
@@ -124,15 +124,15 @@ Blind_Initialize:
     
     LDA.b #$04 : STA !head_angle, X
     
-    LDA.b #$07 : STA $0DC0, X
+    LDA.b #$07 : STA.w $0DC0, X
     
-    STZ $0B69
+    STZ.w $0B69
     
     RTL
     
     .self_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     RTL
 }
@@ -156,28 +156,28 @@ BlindLaser_SpawnTrailGarnish:
     
     DEX : BPL .next_slot
     
-    DEC $0FF8 : BPL .no_garnish_slot_underflow
+    DEC.w $0FF8 : BPL .no_garnish_slot_underflow
     
-    LDA.b #$1D : STA $0FF8
+    LDA.b #$1D : STA.w $0FF8
     
     .no_garnish_slot_underflow
     
-    LDX $0FF8
+    LDX.w $0FF8
     
     .empty_slot
     
     ; \task Name this value with an enumeration when it becomes available.
-    LDA.b #$0F : STA.l $7FF800, X : STA $0FB4
+    LDA.b #$0F : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA $0DC0, Y : STA.l $7FF9FE, X
+    LDA.w $0DC0, Y : STA.l $7FF9FE, X
     
     TYA : STA.l $7FF92C, X
     
-    LDA $0D10, Y : STA.l $7FF83C, X
-    LDA $0D30, Y : STA.l $7FF878, X
+    LDA.w $0D10, Y : STA.l $7FF83C, X
+    LDA.w $0D30, Y : STA.l $7FF878, X
     
-    LDA $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
-    LDA $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$0A : STA.l $7FF90E, X
     
@@ -213,7 +213,7 @@ Pool_Sprite_BlindHead:
 ; $0EA118-$0EA1EC LOCAL JUMP LOCATION
 Sprite_BlindHead:
 {
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
@@ -225,16 +225,16 @@ Sprite_BlindHead:
     
     LDA.w $AC4C, X : STA ($90), Y : INY
     
-    LDA ($90), Y : AND.b #$3F : ORA $AC5C, X : STA ($90), Y
+    LDA ($90), Y : AND.b #$3F : ORA.w $AC5C, X : STA ($90), Y
     
     PLX
     
     JSR Sprite4_CheckIfActive
     
-    LDA $0EA0, X : CMP.b #$0E : BNE .anospeed_up_recoil
+    LDA.w $0EA0, X : CMP.b #$0E : BNE .anospeed_up_recoil
     
     ; Slightly speed up the recoil process? Seems hacky. \hardcoded
-    LDA.b #$08 : STA $0EA0, X
+    LDA.b #$08 : STA.w $0EA0, X
     
     .anospeed_up_recoil
     
@@ -280,8 +280,8 @@ Sprite_BlindHead:
     
     PLY
     
-    LDA $00 : STA $0D40, Y
-    LDA $01 : STA $0D50, Y
+    LDA $00 : STA.w $0D40, Y
+    LDA $01 : STA.w $0D50, Y
     
     .not_aimed_at_player
     .spawn_failed
@@ -291,14 +291,14 @@ Sprite_BlindHead:
     
     LDA !head_x_accel_polarity, X : AND.b #$01 : TAY
     
-    LDA $0D50, X : CMP .x_speed_limits, Y : BEQ .anoalter_x_speed
+    LDA.w $0D50, X : CMP .x_speed_limits, Y : BEQ .anoalter_x_speed
     
-    CLC : ADC $8000, Y : STA $0D50, X
+    CLC : ADC.w $8000, Y : STA.w $0D50, X
     
     .anoalter_x_speed
     .never
     
-    LDA $0D10, X : AND.b #$FE
+    LDA.w $0D10, X : AND.b #$FE
     
     ; \hardcoded Using specific screen offsets seems kind of like cheating.
     CMP .x_pos_limits, Y : BNE .anoinvert_x_acceleration
@@ -311,14 +311,14 @@ Sprite_BlindHead:
     
     LDA !head_y_accel_polarity, X : AND.b #$01 : TAY
     
-    LDA $0D40, X : CMP .y_speeds, Y : BEQ .anoalter_y_speed
+    LDA.w $0D40, X : CMP .y_speeds, Y : BEQ .anoalter_y_speed
     
-    CLC : ADC $8000, Y : STA $0D40, X
+    CLC : ADC.w $8000, Y : STA.w $0D40, X
     
     .anoalter_y_speed
     .never_2
     
-    LDA $0D00, X : AND.b #$FE
+    LDA.w $0D00, X : AND.b #$FE
     
     ; \hardcoded Same as above comment.
     CMP .y_pos_limits, Y : BNE .anoinvert_y_accleration
@@ -327,7 +327,7 @@ Sprite_BlindHead:
     
     .anoinvert_y_accleration
     
-    LDA $0EA0, X : BNE .dont_move
+    LDA.w $0EA0, X : BNE .dont_move
     
     JSR Sprite4_Move
     
@@ -347,21 +347,21 @@ Blind_SpawnExtraHead:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA.b #$5B : STA $0E60, Y
+    LDA.b #$5B : STA.w $0E60, Y
     
-    AND.b #$0F : STA $0F50, Y
+    AND.b #$0F : STA.w $0F50, Y
     
-    LDA.b #$04 : STA $0CAA, Y
+    LDA.b #$04 : STA.w $0CAA, Y
     
     LDA.b #$02 : STA !blind_subtype, Y
     
-    LDA.b #$01 : STA $0E40, Y
+    LDA.b #$01 : STA.w $0E40, Y
     
-    DEC A : STA $0F60, Y : STA $0B6B, Y
+    DEC A : STA.w $0F60, Y : STA.w $0B6B, Y
     
-    LDA.b #$17 : STA $0F70, Y
+    LDA.b #$17 : STA.w $0F70, Y
     
-    CLC : ADC $02 : STA $0D00, Y
+    CLC : ADC $02 : STA.w $0D00, Y
     
     LDA $00 : ASL A : ROL A : AND.b #$01 : STA !head_x_accel_polarity, Y
     LDA $02 : ASL A : ROL A : AND.b #$01 : STA !head_y_accel_polarity, Y
@@ -409,9 +409,9 @@ Sprite_BlindEntities:
     
     LDY !head_angle, X
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA .vh_flip, Y : ORA.b #$03 : STA $0F50, X
+    LDA .vh_flip, Y : ORA.b #$03 : STA.w $0F50, X
     
     JSL Sprite_PrepOamCoordLong
     JSR Sprite4_CheckIfActive
@@ -419,7 +419,7 @@ Sprite_BlindEntities:
     LDA !timer_0, X : BEQ .termination_timer_not_set
     CMP.b #$01      : BNE .anoself_terminate
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .anoself_terminate
     
@@ -433,27 +433,27 @@ Sprite_BlindEntities:
     
     ; \note This usage of a speed deviates from most sprites in that it is
     ; expressed in pixels rather than 16ths of a pixel.
-    LDA $0D50, X : BPL .sign_extend_x_speed
+    LDA.w $0D50, X : BPL .sign_extend_x_speed
     
     DEY
     
     .sign_extend_x_speed
     
     ; Effectively this is Sprite_MoveHoriz but not in 16ths of a pixel.
-          CLC : ADC $0D10, X : STA $0D10, X
-    TYA : ADC $0D30, X : STA $0D30, X
+          CLC : ADC.w $0D10, X : STA.w $0D10, X
+    TYA : ADC.w $0D30, X : STA.w $0D30, X
     
     LDY.b #$00
     
-    LDA $0D40, X : BPL .sign_extend_y_speed
+    LDA.w $0D40, X : BPL .sign_extend_y_speed
     
     DEY
     
     .sign_extend_y_speed
     
     ; Same goes for the y speed (Sprite_MoveVert).
-          CLC : ADC $0D00, X : STA $0D00, X
-    TYA : ADC $0D20, X : STA $0D20, X
+          CLC : ADC.w $0D00, X : STA.w $0D00, X
+    TYA : ADC.w $0D20, X : STA.w $0D20, X
     
     JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision
     
@@ -477,36 +477,36 @@ Sprite_Blind:
     
     .not_independent_head
     
-    LDA $0B89, X : ORA.b #$30 : STA $0B89, X
+    LDA.w $0B89, X : ORA.b #$30 : STA.w $0B89, X
     
     JSR Blind_Draw
     
-    LDA.b #$01 : STA $0F50, X
+    LDA.b #$01 : STA.w $0F50, X
     
     JSR Sprite4_CheckIfActive
     
     ; \note Blind wasn't designed so that his HP depletes normally. 
-    LDA $0EA0, X : BEQ .not_counterattacking
+    LDA.w $0EA0, X : BEQ .not_counterattacking
     
-    DEC $0EA0, X
+    DEC.w $0EA0, X
     
     CMP.b #$0B : BNE .skip_damage_logic
     
-    STZ $0EF0, X
-    STZ $0E70, X
+    STZ.w $0EF0, X
+    STZ.w $0E70, X
     
     LDA !timer_4, X : BNE .skip_damage_logic
     
-    LDA.b #$80 : STA $0E50, X
+    LDA.b #$80 : STA.w $0E50, X
     LDA.b #$30 : STA !timer_4, X
     
-    LDA $0F50, X : AND.b #$01 : STA $0F50, X
+    LDA.w $0F50, X : AND.b #$01 : STA.w $0F50, X
     
     INC !hit_counter, X
     
     LDA !hit_counter, X : CMP.b #$03 : BCS .hit_counter_maxed
     
-    LDA.b #$60 : STA $0E70, X
+    LDA.b #$60 : STA.w $0E70, X
     
     LDA.b #$01 : STA !head_rotate_delay, X
     
@@ -528,9 +528,9 @@ Sprite_Blind:
     JSR Sprite_ScheduleBossForDeath
     
     LDA.b #$FF : STA !timer_0, X
-                 STA $0EF0, X
+                 STA.w $0EF0, X
     
-    INC $0FFC
+    INC.w $0FFC
     
     LDA.b #$22 : JSL Sound_SetSfx3PanLong
     
@@ -543,7 +543,7 @@ Sprite_Blind:
     LDA.b #$06 : STA !blind_ai_state, X
     
     LDA.b #$FF : STA !timer_2, X
-                 STA $0BA0, X
+                 STA.w $0BA0, X
     
     JSR Blind_SpawnExtraHead
     
@@ -554,13 +554,13 @@ Sprite_Blind:
     
     LDA !timer_0, X : BNE .delay_self_termination
     
-    STZ $0DD0, X
+    STZ.w $0DD0, X
     
     .delay_self_termination
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
@@ -594,7 +594,7 @@ Sprite_Blind:
     .skip_damage_to_player_logic
     
     ; \note Every time the laser can fire, this increments.
-    INC $0B69
+    INC.w $0B69
     
     LDA !laser_inhibit, X : BNE .cant_fire
     
@@ -620,8 +620,8 @@ Sprite_Blind:
     
     .dont_fire
     
-    LDA $23 : STA $0D30, X
-    LDA $21 : STA $0D20, X
+    LDA $23 : STA.w $0D30, X
+    LDA $21 : STA.w $0D20, X
     
     LDA !blind_ai_state, X
     
@@ -653,7 +653,7 @@ Blind_BehindTheCurtain:
 {
     ; Prevent death from occurring since Blind can still spawn another
     ; head.
-    STZ $0EF0, X
+    STZ.w $0EF0, X
     
     LDA.b #$0C : STA !head_angle, X
     
@@ -675,13 +675,13 @@ Blind_BehindTheCurtain:
     
     SBC.b #$E0 : LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
     
     .delay_desheeting
     
-    LDA.b #$0E : STA $0DC0, X
+    LDA.b #$0E : STA.w $0DC0, X
     
     RTS
 }
@@ -708,16 +708,16 @@ Blind_Rerobe:
     
     ; \hardcoded It depends upon Blind being in a 1 screen room in a corner.
     ; Set direction based on current Y position (sensible).
-    LDA $0D00, X : ASL A
+    LDA.w $0D00, X : ASL A
                    ROL A : AND.b #$01 : INC #2 : STA !blind_direction, X
     
     ; \hardcoded Also.
     ; Set head orientation based on current X position?
-    LDA $0D10, X : ASL A : ROL A : STA !x_accel_polarity, X
+    LDA.w $0D10, X : ASL A : ROL A : STA !x_accel_polarity, X
     
     JSR Sprite4_Zero_XY_Velocity
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     RTS
     
@@ -725,7 +725,7 @@ Blind_Rerobe:
     
     LSR #3 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -749,11 +749,11 @@ Pool_Blind_FireballReprisal:
 ; $0EA465-$0EA4C5 JUMP LOCATION
 Blind_FireballReprisal:
 {
-    DEC $0E70, X
+    DEC.w $0E70, X
     
     PHA
     
-    AND.b #$07 : SEC : ROL A : STA $0F50, X
+    AND.b #$07 : SEC : ROL A : STA.w $0F50, X
     
     ; \optimize Zero length branch. I wonder what was originally inside?
     PLA : BNE .zero_length_branch
@@ -796,9 +796,9 @@ Blind_FireballReprisal:
     
     LDA !head_angle, X : TAX
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     JSR Medusa_ConfigFireballProperties
     
@@ -817,9 +817,9 @@ Blind_BlindedByTheLight:
 {
     ; Wrapped up like a douche and the somethin something something?
     
-    LDA.b #$00 : STA $0AE8
+    LDA.b #$00 : STA.w $0AE8
     
-    LDA.b #$A0 : STA $0AEA
+    LDA.b #$A0 : STA.w $0AEA
     
     LDA !timer_2, X : BNE .anoadvance_ai_state
     
@@ -834,8 +834,8 @@ Blind_BlindedByTheLight:
     PHA
     
     ; "Gyaaa! Too bright!"
-    LDA.b #$23 : STA $1CF0
-    LDA.b #$01 : STA $1CF1
+    LDA.b #$23 : STA.w $1CF0
+    LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
@@ -857,23 +857,23 @@ Blind_BlindedByTheLight:
 ; $0EA4F9-$0EA539 LOCAL JUMP LOCATION
 Blind_SpawnPoof:
 {
-    LDA.b #$0C : STA $012E
+    LDA.b #$0C : STA.w $012E
     
     LDA.b #$CE : JSL Sprite_SpawnDynamically
     
-    LDA $00 : CLC : ADC.b #$10 : STA $0D10, Y
-    LDA $01 : ADC.b #$00 : STA $0D30, Y
+    LDA $00 : CLC : ADC.b #$10 : STA.w $0D10, Y
+    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$28 : STA $0D00, Y
-    LDA $03 : ADC.b #$00 : STA $0D20, Y
+    LDA $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
+    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
     
-    LDA.b #$0F : STA $0DC0, Y
+    LDA.b #$0F : STA.w $0DC0, Y
     
     LDA.b #$01 : STA !blind_subtype, Y
     
     LDA.b #$2F : STA !timer_0, Y
     
-    LDA.b #$09 : STA $0E40, Y : STA $0BA0, Y
+    LDA.b #$09 : STA.w $0E40, Y : STA.w $0BA0, Y
     
     RTS
 }
@@ -885,7 +885,7 @@ Blind_RetreatToBackWall:
 {
     JSR Blind_CheckBumpDamage
     
-    LDA.b #$09 : STA $0DC0, X
+    LDA.b #$09 : STA.w $0DC0, X
     
     LDA !timer_2, X : BNE .anoadvance_ai_state
     
@@ -893,13 +893,13 @@ Blind_RetreatToBackWall:
     
     LDA.b #$FF : STA !timer_0, X
     
-    STZ $0BA0, X
+    STZ.w $0BA0, X
     
     .anoadvance_ai_state
     
     CMP.b #$40 : BCS .delay_upward_migration
     
-    LDA.b #-8 : STA $0D40, X
+    LDA.b #-8 : STA.w $0D40, X
     
     JSR Sprite4_MoveVert
     
@@ -950,14 +950,14 @@ Blind_OscillateAlongWall:
     
     .player_got_behind_us
     
-    LDA $0D10, X : CMP.b #$78 : BCS .delay_ai_state_transition
+    LDA.w $0D10, X : CMP.b #$78 : BCS .delay_ai_state_transition
     
     INC !blind_ai_state, X
     
     ; \wtf Why... do this exactly?
-    LDA $0D40, X : AND.b #$FE : STA $0D40, X
+    LDA.w $0D40, X : AND.b #$FE : STA.w $0D40, X
     
-    LDA $0D50, X : AND.b #$FE : STA $0D50, X
+    LDA.w $0D50, X : AND.b #$FE : STA.w $0D50, X
     
     LDA.b #$30 : STA !timer_2, X
     
@@ -967,9 +967,9 @@ Blind_OscillateAlongWall:
     
     LDA !y_accel_polarity, X : AND.b #$01 : TAY
     
-    LDA $0D40, X : CLC : ADC $8000, Y : STA $0D40, X
+    LDA.w $0D40, X : CLC : ADC.w $8000, Y : STA.w $0D40, X
     
-    CMP $A567, Y : BNE .anoinvert_y_acceleration
+    CMP.w $A567, Y : BNE .anoinvert_y_acceleration
     
     INC !y_accel_polarity, X
     
@@ -977,14 +977,14 @@ Blind_OscillateAlongWall:
     
     LDA !x_accel_polarity, X : AND.b #$01 : TAY
     
-    LDA $0D50, X : CMP .x_speed_limits, Y : BEQ .x_speed_maxed
+    LDA.w $0D50, X : CMP .x_speed_limits, Y : BEQ .x_speed_maxed
     
-    CLC : ADC $8000, Y : STA $0D50, X
+    CLC : ADC.w $8000, Y : STA.w $0D50, X
     
     .x_speed_maxed
     
     ; Again... why snap to a grid?
-    LDA $0D10, X : AND.b #$FE
+    LDA.w $0D10, X : AND.b #$FE
     
     CMP .x_coord_limits, Y : BNE .anoinvert_x_acceleration
     
@@ -994,7 +994,7 @@ Blind_OscillateAlongWall:
     
     JSR Sprite4_Move
     
-    LDA $0E70, X : BEQ .no_tile_bump
+    LDA.w $0E70, X : BEQ .no_tile_bump
     
     JMP Blind_FireballReprisal
     
@@ -1047,13 +1047,13 @@ Blind_SwitchWalls:
     
     LDA !blind_direction, X : DEC #2 : TAY
     
-    LDA $0D40, X : CMP .y_speed_limits, Y : BEQ .y_speed_maxed
+    LDA.w $0D40, X : CMP .y_speed_limits, Y : BEQ .y_speed_maxed
     
-    CLC : ADC .y_accelerations, Y : STA $0D40, X
+    CLC : ADC .y_accelerations, Y : STA.w $0D40, X
     
     .y_speed_maxed
     
-    LDA $0D00, X : AND.b #$FC
+    LDA.w $0D00, X : AND.b #$FC
     
     CMP .y_pos_limits, Y : BNE .delay_whirl_around
     
@@ -1068,20 +1068,20 @@ Blind_SwitchWalls:
     ; $0EA647 ALTERNATE ENTRY POINT
     shared Blind_Decelerate_X:
     
-    LDA $0D50, X : BEQ .fully_decelerated_x
+    LDA.w $0D50, X : BEQ .fully_decelerated_x
                    BPL .positive_speed_x
     
     CLC : ADC.b #$04
     
     .positive_speed_x
     
-    SEC : SBC.b #$02 : STA $0D50, X
+    SEC : SBC.b #$02 : STA.w $0D50, X
     
     .fully_decelerated_x
     
     JSR Blind_AnimateBody
     
-    LDA $0E70, X : BEQ .inactive
+    LDA.w $0E70, X : BEQ .inactive
     
     JMP Blind_FireballReprisal
     
@@ -1113,7 +1113,7 @@ Blind_WhirlAround:
     
     LDA !blind_direction, X : DEC #2 : TAY
     
-    LDA $0DC0, X : CMP .animation_limits, Y : BNE .not_yet_in_position
+    LDA.w $0DC0, X : CMP .animation_limits, Y : BNE .not_yet_in_position
     
     LDA.b #$FE : STA !timer_0, X
     
@@ -1121,13 +1121,13 @@ Blind_WhirlAround:
     
     LDA !blind_direction, X : EOR.b #$01 : STA !blind_direction, X
     
-    LDA $0D10, X : ASL A : ROL A : AND.b #$01 : STA !x_accel_polarity, X
+    LDA.w $0D10, X : ASL A : ROL A : AND.b #$01 : STA !x_accel_polarity, X
     
     BRA .animation_logic_done
     
     .not_yet_in_position
     
-    CLC : ADC .animation_step_directions, Y : STA $0DC0, X
+    CLC : ADC .animation_step_directions, Y : STA.w $0DC0, X
     
     .animation_logic_done
     .delay_animation_adjustment
@@ -1135,20 +1135,20 @@ Blind_WhirlAround:
     ; $0EA6A4 ALTERNATE ENTRY POINT
     shared Blind_Decelerate_Y:
     
-    LDA $0D40, X : BEQ .fully_decelerated_y
+    LDA.w $0D40, X : BEQ .fully_decelerated_y
                    BPL .positive_y_speed
     
     CLC : ADC.b #$08
     
     .positive_y_speed
     
-    SEC : SBC.b #$04 : STA $0D40, X
+    SEC : SBC.b #$04 : STA.w $0D40, X
     
     .fully_decelerated_y
     
     JSR Sprite4_MoveVert
     
-    LDA $0E70, X : BEQ .inactive
+    LDA.w $0E70, X : BEQ .inactive
     
     JMP Blind_FireballReprisal
     
@@ -1162,7 +1162,7 @@ Blind_WhirlAround:
 ; $0EA6C0-$0EA6CE LOCAL JUMP LOCATION
 Blind_CheckBumpDamage:
 {
-    LDA !timer_4, X : ORA $0EA0, X : BNE .temporarily_intouchable
+    LDA !timer_4, X : ORA.w $0EA0, X : BNE .temporarily_intouchable
     
     JSR Sprite4_CheckDamage
     
@@ -1198,7 +1198,7 @@ Blind_Animate:
     ; the player? Update: it seems to roughly try to track where the
     ; player is, but Blind has bad eyesight so he still kind of haphazardly
     ; looks for the player.
-    LDA $0E70, X : BNE .counterattacking
+    LDA.w $0E70, X : BNE .counterattacking
     
     ; This logic animates the head loosely based on the player's
     ; X coordinate.
@@ -1218,7 +1218,7 @@ Blind_Animate:
     TYA : DEC #2 : ASL #3 : STA $00
     
     ; Pad in this .... value that comes from somewhere? A probe?
-    LDA $0B69 : LSR #3 : AND.b #$07 : ADC $00 : TAY
+    LDA.w $0B69 : LSR #3 : AND.b #$07 : ADC $00 : TAY
     
     ; Now offset it by another small amount we calculated earlier and...
     ; fire the laser?
@@ -1235,7 +1235,7 @@ Blind_Animate:
     
     LDA !forward_timer, X : LSR #3 : AND.b #$03 : CLC : ADC $00 : TAY
     
-    LDA .animation_states, Y : STA $0DC0, X
+    LDA .animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
@@ -1261,11 +1261,11 @@ Blind_SpawnLaser:
 {
     LDA.b #$CE : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL Sound_SetSfxPan : ORA.b #$26 : STA $012F
+    JSL Sound_SetSfxPan : ORA.b #$26 : STA.w $012F
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$04 : STA $0D10, Y
+    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
     
     LDA !head_angle, X : STA !head_angle, Y
     
@@ -1273,18 +1273,18 @@ Blind_SpawnLaser:
     
     TAX
     
-    LDA .x_speeds, X : STA $0D50, Y
+    LDA .x_speeds, X : STA.w $0D50, Y
     
-    LDA .y_speeds, X : STA $0D40, Y
+    LDA .y_speeds, X : STA.w $0D40, Y
     
     PLX
     
     LDA.b #$80 : STA !blind_subtype, Y
-                 STA $0BA0, Y
+                 STA.w $0BA0, Y
     
-    LDA.b #$40 : STA $0E40, Y
+    LDA.b #$40 : STA.w $0E40, Y
     
-    LDA.b #$14 : STA $0F60, Y
+    LDA.b #$14 : STA.w $0F60, Y
     
     .spawn_failed
     
@@ -1358,7 +1358,7 @@ Pool_Blind_Draw:
 Blind_Draw:
 {
     LDA.b #$00   : XBA
-    LDA $0DC0, X : CMP.b #$0F : BCS BlindPoof_Draw
+    LDA.w $0DC0, X : CMP.b #$0F : BCS BlindPoof_Draw
     
     REP #$20
     
@@ -1370,14 +1370,14 @@ Blind_Draw:
     
     LDA.b #$07 : JSR Sprite4_DrawMultiple
     
-    LDA $0E70, X : BNE .using_fireball_counterattack
+    LDA.w $0E70, X : BNE .using_fireball_counterattack
     
     LDA !blind_ai_state, X : CMP.b #$06 : BEQ .sheet_is_down
                              CMP.b #$04 : BEQ .dont_draw_head
     
     .using_fireball_counterattack
     
-    LDY $0DC0, X : CPY.b #$0A : BCS .dont_draw_head
+    LDY.w $0DC0, X : CPY.b #$0A : BCS .dont_draw_head
     
     ; These are for patching the head's chr as it 'rotates' as it moves
     ; left or right.
@@ -1415,19 +1415,19 @@ Blind_BumpDamageFromBody:
 {
     REP #$20
     
-    LDA $22 : SEC : SBC $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
+    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
     
-    LDA $20 : SEC : SBC $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
+    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
     
     SEP #$20
     
-    LDA $031F : ORA $037B : BNE .dont_damage
+    LDA.w $031F : ORA.w $037B : BNE .dont_damage
     
     LDA.b #$01 : STA $4D
     
     ; Damage player by one heart.
     ; \hardcoded Ignores armor value.
-    LDA.b #$08 : STA $0373
+    LDA.b #$08 : STA.w $0373
     
     LDA.b #$10 : STA $46
     

@@ -9,9 +9,9 @@ Sprite_Ropa:
     JSR Sprite_CheckIfRecoiling
     JSR Sprite_CheckDamage
     
-    INC $0E80, X : LDA $0E80, X : LSR #3 : AND.b #$03 : STA $0DC0, X
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.w $0DC0, X
     
-    LDA $0D80, X
+    LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -24,15 +24,15 @@ Sprite_Ropa:
 ; $031E44-$031E5C JUMP LOCATION
 Ropa_Stationary:
 {
-    LDA $0DF0, X : BNE .delay
+    LDA.w $0DF0, X : BNE .delay
     
     LDA.b #$10
     
     JSR Sprite_ApplySpeedTowardsPlayer
     
-    JSL GetRandomInt : AND.b #$0F : ADC.b #$14 : STA $0F80, X
+    JSL GetRandomInt : AND.b #$0F : ADC.b #$14 : STA.w $0F80, X
     
-    INC $0D80, X
+    INC.w $0D80, X
     
     .delay
     
@@ -47,7 +47,7 @@ Ropa_Pounce:
     JSR Sprite_Move
     JSR Sprite_CheckTileCollision
     
-    LDA $0E70, X : BEQ .no_tile_collision
+    LDA.w $0E70, X : BEQ .no_tile_collision
     
     JSR Sprite_Zero_XY_Velocity
     
@@ -55,15 +55,15 @@ Ropa_Pounce:
     
     JSR Sprite_MoveAltitude
     
-    DEC $0F80, X : DEC $0F80, X
+    DEC.w $0F80, X : DEC.w $0F80, X
     
-    LDA $0F70, X : BPL .not_grounded
+    LDA.w $0F70, X : BPL .not_grounded
     
-    STZ $0F70, X
+    STZ.w $0F70, X
     
-    LDA.b #$30 : STA $0DF0, X
+    LDA.b #$30 : STA.w $0DF0, X
     
-    STZ $0D80, X
+    STZ.w $0D80, X
     
     .not_grounded
     
@@ -100,7 +100,7 @@ Ropa_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA $0DC0, X
+    LDA.w $0DC0, X
     
     REP #$20
     
