@@ -59,11 +59,11 @@ Hover_Stopped:
     ; once, but also restricts it to diagonal movement.
     JSR Sprite3_IsToRightOfPlayer
     
-    STY $0C
+    STY.b $0C
     
     JSR Sprite3_IsBelowPlayer
     
-    TYA : ASL A : ORA $0C : STA.w $0DE0, X : TAY
+    TYA : ASL A : ORA.b $0C : STA.w $0DE0, X : TAY
     
     LDA.w $0F50, X : AND.b #$BF : ORA .vh_flip, Y : STA.w $0F50, X
     

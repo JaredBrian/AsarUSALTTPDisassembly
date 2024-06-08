@@ -20,9 +20,9 @@ Sprite_DebirandoPit:
     
     JSR Sprite2_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
+    LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
     
-    LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
+    LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .ignore_player
     
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
@@ -55,7 +55,7 @@ Sprite_DebirandoPit:
     ; Cheat code is a tentative name, though probably a well qualified one
     ; as well. This stanza would seem to indicate that tapping the R button
     ; can help you escape from the pits.
-    LDA $F6 : AND.b #$10 : BNE .cheat_code
+    LDA.b $F6 : AND.b #$10 : BNE .cheat_code
     
     ; Without tapping that, you're stuck. 
     LDA.b #$01 : STA.w $0B7B
@@ -68,7 +68,7 @@ Sprite_DebirandoPit:
     
     LDY.b #$00
     
-    LDA $00 : BPL .epsilon
+    LDA.b $00 : BPL .epsilon
     
     EOR.b #$FF : INC A
     
@@ -85,7 +85,7 @@ Sprite_DebirandoPit:
     
     LDY.b #$00
     
-    LDA $01 : BPL .theta
+    LDA.b $01 : BPL .theta
     
     EOR.b #$FF : INC A
     
@@ -166,7 +166,7 @@ DebirandoPit_Opening:
 ; $02860F-$02862F JUMP LOCATION
 DebirandoPit_Open:
 {
-    LDA $1A : AND.b #$0F : BNE .skip_frame
+    LDA.b $1A : AND.b #$0F : BNE .skip_frame
     
     INC.w $0DC0, X : LDA.w $0DC0, X : CMP.b #$03 : BCC .no_modulus
     
@@ -260,9 +260,9 @@ DebirandoPit_Draw:
     
     TAX
     
-    LDA .oam_sizes, X : STA $0D
+    LDA .oam_sizes, X : STA.b $0D
     
-    TXA : ASL #2 : STA $06
+    TXA : ASL #2 : STA.b $06
     
     LDX.b #$03
     
@@ -270,17 +270,17 @@ DebirandoPit_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -291,11 +291,11 @@ DebirandoPit_Draw:
     PLX
     
     LDA .chr, X               : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0D : ORA $0F : STA ($92), Y
+    LDA.b $0D : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

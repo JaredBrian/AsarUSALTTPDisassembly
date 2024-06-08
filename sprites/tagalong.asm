@@ -17,32 +17,32 @@ Tagalong_CheckBlindTriggerRegion:
     
     LDX.w $02CF
     
-    LDA.w $1A00, X : STA $00
-    LDA.w $1A14, X : STA $01
+    LDA.w $1A00, X : STA.b $00
+    LDA.w $1A14, X : STA.b $01
     
-    LDA.w $1A28, X : STA $02
-    LDA.w $1A3C, X : STA $03
+    LDA.w $1A28, X : STA.b $02
+    LDA.w $1A3C, X : STA.b $03
     
-    STZ $0B
+    STZ.b $0B
     
-    LDA.w $1A50, X : STA $0A : BPL .non_negative_altitude
-        LDA.b #$FF : STA $0B
+    LDA.w $1A50, X : STA.b $0A : BPL .non_negative_altitude
+        LDA.b #$FF : STA.b $0B
 
     .non_negative_altitude
     
     REP #$20
     
-    LDA $00 : CLC : ADC $0A : CLC : ADC.w #$000C : STA $00
-    LDA $02 : CLC : ADC.w #$0008 : STA $02
+    LDA.b $00 : CLC : ADC.b $0A : CLC : ADC.w #$000C : STA.b $00
+    LDA.b $02 : CLC : ADC.w #$0008 : STA.b $02
     
-    LDA.w #$1568 : SEC : SBC $00 : BPL .non_negative_delta_x
+    LDA.w #$1568 : SEC : SBC.b $00 : BPL .non_negative_delta_x
         EOR.w #$FFFF : INC A
 
     .non_negative_delta_x
     
     CMP.w #$0018 : BCS .out_of_range
     
-    LDA.w #$1980 : SEC : SBC $02 : BPL .non_negative_delta_y
+    LDA.w #$1980 : SEC : SBC.b $02 : BPL .non_negative_delta_y
         EOR.w #$FFFF : INC A
 
     .non_negative_delta_y
@@ -79,18 +79,18 @@ Tagalong_Init:
     PHB : PHK : PLB
     
     ; Load Link's x and y coordinates byte by byte
-    LDA $20 : STA.w $1A00
-    LDA $21 : STA.w $1A14
-    LDA $22 : STA.w $1A28
-    LDA $23 : STA.w $1A3C
+    LDA.b $20 : STA.w $1A00
+    LDA.b $21 : STA.w $1A14
+    LDA.b $22 : STA.w $1A28
+    LDA.b $23 : STA.w $1A3C
     
     ; $00 = Link's direction
-    LDA $2F : LSR A : STA $00
+    LDA.b $2F : LSR A : STA.b $00
     
-    LDY $EE
+    LDY.b $EE
     
     ; Link's sprite priority?
-    LDA Tagalong_Priorities, Y : LSR #2 : ORA $00 : STA.w $1A64
+    LDA Tagalong_Priorities, Y : LSR #2 : ORA.b $00 : STA.w $1A64
     
     LDA.b #$40 : STA.w $02D2
     
@@ -99,7 +99,7 @@ Tagalong_Init:
     STZ.w $02D0 ; Follower hookshot flag 
     STZ.w $02D6 ; Free follower ram
     
-    STZ $5E
+    STZ.b $5E
     
     PLB
     
@@ -121,7 +121,7 @@ Tagalong_SpawnFromSprite:
     LDA.w $0D10, X : CLC : ADC.b #$01 : STA.w $1A28
     LDA.w $0D30, X : ADC.b #$00 : STA.w $1A3C
     
-    LDY $EE
+    LDY.b $EE
     
     LDA Tagalong_Priorities, Y : LSR #2 : ORA.b #$01 : STA.w $1A64
     
@@ -132,7 +132,7 @@ Tagalong_SpawnFromSprite:
     STZ.w $02D0
     STZ.w $02D6
     
-    STZ $5E
+    STZ.b $5E
     STZ.w $02F9
     
     ; Super bomb is no longer going off?
@@ -234,10 +234,10 @@ Tagalong_Main:
         .tagalong_with_timer
         
         ; Check if not in the default standard submodule
-        LDA $11 : BNE Tagalong_Telepathy
+        LDA.b $11 : BNE Tagalong_Telepathy
             ; Special case for kiki
             CPY.b #$02 : BNE .not_kiki
-                LDA $8A : AND.b #$40 : BNE Tagalong_Telepathy
+                LDA.b $8A : AND.b #$40 : BNE Tagalong_Telepathy
                 
             .not_kiki
             
@@ -292,7 +292,7 @@ Tagalong_NoTimedMessage:
     
     ; Is if the thief's chest tagalong?
     LDA.l $7EF3CC : CMP.b #$0C : BNE .not_thief_chest
-        LDA $4D : BNE .not_default_game_mode
+        LDA.b $4D : BNE .not_default_game_mode
             BRA .continue_a
 
     .not_thief_chest
@@ -304,13 +304,13 @@ Tagalong_NoTimedMessage:
 
     .not_super_bomb_a
     
-    LDA $4D : CMP.b #$02 : BEQ .recoiling_or_falling
-    LDA $5B : CMP.b #$02 : BEQ .recoiling_or_falling
+    LDA.b $4D : CMP.b #$02 : BEQ .recoiling_or_falling
+    LDA.b $5B : CMP.b #$02 : BEQ .recoiling_or_falling
         .continue_a
         
-        LDA $11 : BNE .not_default_game_mode
+        LDA.b $11 : BNE .not_default_game_mode
         
-        LDA $4D : CMP.b #$01 : BEQ Tagalong_CheckGameMode
+        LDA.b $4D : CMP.b #$01 : BEQ Tagalong_CheckGameMode
                 BIT.w $0308 : BMI Tagalong_CheckGameMode
                 LDA.w $02F9 : BNE Tagalong_CheckGameMode
                 LDA.w $02D0 : BNE Tagalong_CheckGameMode
@@ -322,13 +322,13 @@ Tagalong_NoTimedMessage:
         
         .zero_altitude
         
-        LDA $F6 : AND.b #$80 : BEQ Tagalong_CheckGameMode
+        LDA.b $F6 : AND.b #$80 : BEQ Tagalong_CheckGameMode
     
     .recoiling_or_falling
     
     LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb_outdoors
-        LDA $1B : BNE .not_superbomb_outdoors
-            LDA $5D
+        LDA.b $1B : BNE .not_superbomb_outdoors
+            LDA.b $5D
         
             CMP.b #$08 : BEQ Tagalong_CheckGameMode
             CMP.b #$09 : BEQ Tagalong_CheckGameMode
@@ -352,9 +352,9 @@ Tagalong_NoTimedMessage:
     LDA.w $1A28, X : STA.l $7EF3CF
     LDA.w $1A3C, X : STA.l $7EF3D0
     
-    LDA $EE : STA.l $7EF3D2
+    LDA.b $EE : STA.l $7EF3D2
     
-    LDA $1B : STA.l $7EF3D1
+    LDA.b $1B : STA.l $7EF3D1
     
     .not_following_bounce
     
@@ -369,8 +369,8 @@ Tagalong_CheckGameMode:
     SEP #$20
     
     LDA.w $02E4 : BNE .dont_do_anything
-        LDX $10
-        LDY $11 : CPY.b #$0A : BEQ .dont_do_anything
+        LDX.b $10
+        LDY.b $11 : CPY.b #$0A : BEQ .dont_do_anything
             CPX.b #$09 : BNE .not_overworld
                 CPY.b #$23 : BEQ .dont_do_anything
 
@@ -385,7 +385,7 @@ Tagalong_CheckGameMode:
     BRL Tagalong_ExecuteAI
         .not_text_mode
         
-        LDA $30 : ORA $31 : BEQ Tagalong_ExecuteAI
+        LDA.b $30 : ORA.b $31 : BEQ Tagalong_ExecuteAI
             LDX.w $02D3 : INX : CPX.b #$14 : BNE .dont_reset_movement_index
                 LDX.b #$00
 
@@ -393,33 +393,33 @@ Tagalong_CheckGameMode:
             
             STX.w $02D3
             
-            LDA $24 : CMP.b #$F0 : BCC .use_links_altitude
+            LDA.b $24 : CMP.b #$F0 : BCC .use_links_altitude
                 LDA.b #$00
 
             .use_links_altitude
             
-            STA $00
-            STZ $01
+            STA.b $00
+            STZ.b $01
             
-            LDA $00 : STA.w $1A50, X
+            LDA.b $00 : STA.w $1A50, X
             
             REP #$20
             
-            LDA $20 : SEC : SBC $00 : STA $00
+            LDA.b $20 : SEC : SBC.b $00 : STA.b $00
             
             SEP #$20
             
-            LDA $00 : STA.w $1A00, X
-            LDA $01 : STA.w $1A14, X
-            LDA $22 : STA.w $1A28, X
-            LDA $23 : STA.w $1A3C, X
+            LDA.b $00 : STA.w $1A00, X
+            LDA.b $01 : STA.w $1A14, X
+            LDA.b $22 : STA.w $1A28, X
+            LDA.b $23 : STA.w $1A3C, X
             
-            LDA $2F : LSR A : STA.w $1A64, X
+            LDA.b $2F : LSR A : STA.w $1A64, X
             
-            LDY $EE
+            LDY.b $EE
             LDA Tagalong_Priorities, Y : LSR #2 : ORA.w $1A64, X : STA.w $1A64, X
             
-            LDA $5D : CMP.b #$04 : BNE .not_swimming
+            LDA.b $5D : CMP.b #$04 : BNE .not_swimming
                 LDY.b #$20
                 BRA .set_priority
 
@@ -460,8 +460,8 @@ Tagalong_ExecuteAI:
 Tagalong_BasicMover:
 {
     LDA.w $02E4 : BNE .not_in_cutscene
-        LDX $10
-        LDY $11 : CPY.b #$0A : BEQ .not_in_cutscene
+        LDX.b $10
+        LDY.b $11 : CPY.b #$0A : BEQ .not_in_cutscene
             CPX.b #$09 : BNE .not_overworld
                 CPY.b #$23 : BEQ .not_in_cutscene
 
@@ -480,7 +480,7 @@ Tagalong_BasicMover:
     JSR Tagalong_HandleTrigger ; $04A59E IN ROM
     
     LDA.l $7EF3CC : CMP.b #$0A : BNE .dont_scare_kiki
-        LDA $4D : BEQ .dont_scare_kiki
+        LDA.b $4D : BEQ .dont_scare_kiki
             LDA.w $031F : BEQ .dont_scare_kiki
                 LDA.w $02CF : INC A : CMP.b #$14 : BNE .no_index_wrap
                     LDA.b #$00
@@ -499,7 +499,7 @@ Tagalong_BasicMover:
         REP #$20
         
         ; Check if it's Blind's boss room.
-        LDA $A0 : CMP.w #$00AC : BNE .blind_not_triggered
+        LDA.b $A0 : CMP.w #$00AC : BNE .blind_not_triggered
             ; Check if the hole in the floor in the room above has been bombed 
             ; out in order to let light in from the window.
             LDA.l $7EF0CA : AND.w #$0100 : BEQ .blind_not_triggered
@@ -509,11 +509,11 @@ Tagalong_BasicMover:
                     .blind_transform
                         LDX.w $02CF
                         
-                        LDA.w $1A28, X : STA $00
-                        LDA.w $1A3C, X : STA $01
+                        LDA.w $1A28, X : STA.b $00
+                        LDA.w $1A3C, X : STA.b $01
                         
-                        LDA.w $1A00, X : STA $02
-                        LDA.w $1A14, X : STA $03
+                        LDA.w $1A00, X : STA.b $02
+                        LDA.w $1A14, X : STA.b $03
                         
                         LDA.b #$00 : STA.l $7EF3CC
                         
@@ -524,7 +524,7 @@ Tagalong_BasicMover:
                         STZ.w $068E
                         STZ.w $0690
                         
-                        LDA.b #$05 : STA $11
+                        LDA.b #$05 : STA.b $11
                         
                         LDA.b #$15 : STA.w $012C ; SONG 15
                         
@@ -534,7 +534,7 @@ Tagalong_BasicMover:
     
     SEP #$20
     
-    LDY $5D
+    LDY.b $5D
     
     LDA.w $02D0 : BNE .ignore_hook
         CPY.b #$13 : BNE .no_hookshot_dragging
@@ -557,14 +557,14 @@ Tagalong_BasicMover:
             LDA.w $02D3 : CMP.w $02CF : BNE .advance_movement_index
                 STZ.w $1A50, X
                 
-                LDA $20 : STA.w $1A00, X
-                LDA $21 : STA.w $1A14, X
-                LDA $22 : STA.w $1A28, X
-                LDA $23 : STA.w $1A3C, X
+                LDA.b $20 : STA.w $1A00, X
+                LDA.b $21 : STA.w $1A14, X
+                LDA.b $22 : STA.w $1A28, X
+                LDA.b $23 : STA.w $1A3C, X
             
         .not_default_game_mode
 
-        LDA $30 : ORA $31 : BEQ .proceed_to_draw
+        LDA.b $30 : ORA.b $31 : BEQ .proceed_to_draw
     
     .continue_from_hook
     
@@ -605,7 +605,7 @@ Tagalong_NotFollowing:
         JSR Tagalong_CheckPlayerProximity : BCS .dont_reset_self
             JSL Tagalong_Init
             
-            LDA $1B : STA.l $7EF3D1
+            LDA.b $1B : STA.l $7EF3D1
             
             LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb
                 LDA.b #$FE : STA.w $04B4
@@ -621,7 +621,7 @@ Tagalong_NotFollowing:
     ; Is it a super bomb?
     LDA.l $7EF3CC : CMP.b #$0D : BNE .not_superbomb_exploding
         ; Are we indoors?
-        LDA $1B : BNE .not_superbomb_exploding
+        LDA.b $1B : BNE .not_superbomb_exploding
         LDA.w $04B4 : BNE .not_superbomb_exploding
             ; Yes, get out of here.
             LDY.b #$00
@@ -654,9 +654,9 @@ Tagalong_OldMountainMan:
     ; Can Link move?
     LDA.w $02E4 : BNE .proceed_to_just_draw
         ; Is Link coming out of a door into the overworld?
-        LDX $10
+        LDX.b $10
         
-        LDY $11 : CPY.b #$0A : BEQ .proceed_to_just_draw
+        LDY.b $11 : CPY.b #$0A : BEQ .proceed_to_just_draw
             CPX.b #$09 : BNE .not_overworld
                 ; Is the magic mirror being used?
                 CPY.b #$23 : BEQ .proceed_to_just_draw
@@ -676,8 +676,8 @@ Tagalong_OldMountainMan:
     
     ; Make an exception for movement speeds. It's not dashing speed, so
     ; I'm not sure what speed type this is.
-    LDA $5E : CMP.b #$04 : BEQ .dont_reset_link_speed
-        LDA.b #$0C : STA $5E
+    LDA.b $5E : CMP.b #$04 : BEQ .dont_reset_link_speed
+        LDA.b #$0C : STA.b $5E
 
     .dont_reset_link_speed
     
@@ -704,16 +704,16 @@ Tagalong_OldMountainMan:
     
     .not_normal_old_man
     
-    LDA $4D : AND.b #$01 : BEQ .check_for_recoiling
+    LDA.b $4D : AND.b #$01 : BEQ .check_for_recoiling
         ; Is Link in a recoil state? If not, then branch away.
-        LDA $5D : CMP.b #$06 : BNE .check_for_recoiling
+        LDA.b $5D : CMP.b #$06 : BNE .check_for_recoiling
             LDA.w $02D3 : CMP.w $02CF : BNE .replace_that_tagalong
                   DEX : STX.w $02CF : BPL .replace_that_tagalong
                 LDA.b #$13 : STA.w $02CF
     
     .check_for_recoiling
     
-    LDA $4D : AND.b #$02 : BEQ .check_link_velocity
+    LDA.b $4D : AND.b #$02 : BEQ .check_link_velocity
         .replace_that_tagalong
         
         LDA.l $7EF3CC : TAX
@@ -730,14 +730,14 @@ Tagalong_OldMountainMan:
         LDA.w $1A28, X : STA.l $7EF3CF
         LDA.w $1A3C, X : STA.l $7EF3D0
             
-        LDA $EE : STA.l $7EF3D2
+        LDA.b $EE : STA.l $7EF3D2
             
         BRA Tagalong_UnusedOldMan
     
     .check_link_velocity
     
-    LDA $30 : ORA $31 : BNE .link_moving
-        LDA $1A : AND.b #$03 : BNE .just_draw
+    LDA.b $30 : ORA.b $31 : BNE .link_moving
+        LDA.b $1A : AND.b #$03 : BNE .just_draw
         LDA.w $02D3 : CMP.w $02CF : BEQ .just_draw
         
         SEC : SBC.b #$09 : BPL .no_back_wrap_a
@@ -802,17 +802,17 @@ Tagalong_ReplacementTagalongIds:
 Tagalong_UnusedOldMan:
 {
     ; Slow down the player...
-    LDA.b #$10 : STA $5E
+    LDA.b #$10 : STA.b $5E
     
     ; Is Link dashing?
     LDA.w $0372 : BNE Tagalong_DoLayers
-        LDA $4D : BNE Tagalong_DoLayers
+        LDA.b $4D : BNE Tagalong_DoLayers
             ; Is player swimming?
-            LDA $5D : CMP.b #$04 : BEQ Tagalong_DoLayers
-                STZ $5E
+            LDA.b $5D : CMP.b #$04 : BEQ Tagalong_DoLayers
+                STZ.b $5E
 
                 ; Is player in hookshot mode?
-                LDA $5D : CMP.b #$13 : BEQ Tagalong_DoLayers
+                LDA.b $5D : CMP.b #$13 : BEQ Tagalong_DoLayers
                 JSR Tagalong_CheckPlayerProximity : BCS Tagalong_DoLayers
                     JSL Tagalong_Init
 
@@ -827,19 +827,19 @@ Tagalong_UnusedOldMan:
 ; $04A450-$04A48D JUMP LOCATION
 Tagalong_DoLayers:
 {
-    LDA.l $7EF3D2 : TAX : CPX $EE : BNE .layer_mismatch
-        LDX $EE
+    LDA.l $7EF3D2 : TAX : CPX.b $EE : BNE .layer_mismatch
+        LDX.b $EE
 
     .layer_mismatch
     
     LDA Tagalong_Priorities, X 
-    STA $65 : STZ $64
+    STA.b $65 : STZ.b $64
     
-    LDA.l $7EF3CD : STA $00
-    LDA.l $7EF3CE : STA $01
+    LDA.l $7EF3CD : STA.b $00
+    LDA.l $7EF3CE : STA.b $01
     
-    LDA.l $7EF3CF : STA $02
-    LDA.l $7EF3D0 : STA $03
+    LDA.l $7EF3CF : STA.b $02
+    LDA.l $7EF3D0 : STA.b $03
     
     LDX.b #$02
     
@@ -946,14 +946,14 @@ Tagalong_TriggerData:
 ; $04A59E-$04A6CC LOCAL JUMP LOCATION
 Tagalong_HandleTrigger:
 {
-    LDA $11 : BNE .no_text_message
+    LDA.b $11 : BNE .no_text_message
         REP #$30
         LDY #$0000
 
-        LDA $1B : AND.w #$00FF : BEQ .check_overworld_triggers
+        LDA.b $1B : AND.w #$00FF : BEQ .check_overworld_triggers
             INY
             LDX.w #$000C
-            LDA $A0
+            LDA.b $A0
 
             .check_next_room
 
@@ -981,21 +981,21 @@ Tagalong_HandleTrigger:
     
     .room_match
     
-    LDA.w Tagalong_TriggerData_room_data_boundaries_1+2, X : STA $08
+    LDA.w Tagalong_TriggerData_room_data_boundaries_1+2, X : STA.b $08
     
     LDA.w Tagalong_TriggerData_room_data_boundaries_1, X : TAX
     
     .next_room_data_block
     
-        STX $0C
+        STX.b $0C
         
-        STZ $0A
+        STZ.b $0A
         
         LDA.l $7EF3CC : AND.w #$00FF : CMP.w $A4DE, X : BNE .not_room_data_match
-            LDA.w Tagalong_TriggerData_dungeon_coordinates, X   : STA $00
-            LDA.w Tagalong_TriggerData_dungeon_coordinates+2, X : STA $02
-            LDA.w Tagalong_TriggerData_dungeon_coordinates+4, X : STA $06
-            LDA.w Tagalong_TriggerData_dungeon_coordinates+8, X : STA $04
+            LDA.w Tagalong_TriggerData_dungeon_coordinates, X   : STA.b $00
+            LDA.w Tagalong_TriggerData_dungeon_coordinates+2, X : STA.b $02
+            LDA.w Tagalong_TriggerData_dungeon_coordinates+4, X : STA.b $06
+            LDA.w Tagalong_TriggerData_dungeon_coordinates+8, X : STA.b $04
         
             SEP #$30
         
@@ -1004,26 +1004,26 @@ Tagalong_HandleTrigger:
         
         .not_room_data_match
         
-        LDA $0C : CLC : ADC.w #$000A : TAX
-    CPX $08 : BNE .next_room_data_block
+        LDA.b $0C : CLC : ADC.w #$000A : TAX
+    CPX.b $08 : BNE .next_room_data_block
     
     BRL .return
     
     .area_match
     
-    LDA.w Tagalong_TriggerData_area_data_boundaries_1+2, X : STA $08
+    LDA.w Tagalong_TriggerData_area_data_boundaries_1+2, X : STA.b $08
     LDA.w Tagalong_TriggerData_area_data_boundaries_1, X   : TAX
     
     .next_area_data_block
     
-        STX $0C
-        STZ $0A
+        STX.b $0C
+        STZ.b $0A
         
         LDA.l $7EF3CC : AND.w #$00FF : CMP.w $A55C, X : BNE .not_area_data_match
-            LDA.w Tagalong_TriggerData_area_data_1, X   : STA $00
-            LDA.w Tagalong_TriggerData_area_data_1+2, X : STA $02
-            LDA.w Tagalong_TriggerData_area_data_1+4, X : STA $06
-            LDA.w Tagalong_TriggerData_area_data_1+6, X : STA $04
+            LDA.w Tagalong_TriggerData_area_data_1, X   : STA.b $00
+            LDA.w Tagalong_TriggerData_area_data_1+2, X : STA.b $02
+            LDA.w Tagalong_TriggerData_area_data_1+4, X : STA.b $06
+            LDA.w Tagalong_TriggerData_area_data_1+6, X : STA.b $04
             
             SEP #$30
             
@@ -1032,8 +1032,8 @@ Tagalong_HandleTrigger:
             
                 .not_area_data_match
             
-                LDA $0C : CLC : ADC.w #$000A : TAX
-    CPX $08 : BNE .next_area_data_block
+                LDA.b $0C : CLC : ADC.w #$000A : TAX
+    CPX.b $08 : BNE .next_area_data_block
     
     BRA .return
     
@@ -1044,11 +1044,11 @@ Tagalong_HandleTrigger:
     
     ; Message has already triggered once during this instance of being
     ; in this room or area.
-    LDA.w $02F2 : AND $06 : BNE .return
-        LDA $06 : TSB.w $02F2
+    LDA.w $02F2 : AND.b $06 : BNE .return
+        LDA.b $06 : TSB.w $02F2
         
         ; Configure the text message index.
-        LDA $04 : STA.w $1CF0
+        LDA.b $04 : STA.w $1CF0
         
         CMP.w #$FFFF : BEQ .no_text_message
             CMP.w #$009D : BEQ .certain_kiki_message
@@ -1089,7 +1089,7 @@ Tagalong_HandleTrigger:
         
         PHA
         
-        LDA $06 : AND.b #$03 : BNE .kiki_first_begging_sequence
+        LDA.b $06 : AND.b #$03 : BNE .kiki_first_begging_sequence
             PLA
             
             JSL Kiki_InitiatePalaceOpeningProposal
@@ -1098,12 +1098,12 @@ Tagalong_HandleTrigger:
         
         .kiki_first_begging_sequence
         
-        PLA : STA $00
+        PLA : STA.b $00
         
-        LDX $8A
+        LDX.b $8A
         
         LDA.l $7EF280, X : AND.b #$01 : BNE .return
-            LDA $00
+            LDA.b $00
             
             JSL Kiki_InitiateFirstBeggingSequence
     
@@ -1269,14 +1269,14 @@ Tagalong_Draw:
     LDX.w $02CF
     
     LDA.w $1A50, X : BEQ .not_floating_outdoors
-        LDA $1B : BNE .not_floating_outdoors
+        LDA.b $1B : BNE .not_floating_outdoors
             LDA.b #$20
             BRA .continue
 
     .not_floating_outdoors
 
-    LDA $11 : CMP.b #$0E : BNE .dont_copy_priority
-        LDY $EE : LDA Tagalong_Priorities, Y
+    LDA.b $11 : CMP.b #$0E : BNE .dont_copy_priority
+        LDY.b $EE : LDA Tagalong_Priorities, Y
         BRA .continue
 
     .dont_copy_priority
@@ -1285,18 +1285,18 @@ Tagalong_Draw:
 
     .continue
 
-    STA $65 : STZ $64
+    STA.b $65 : STZ.b $64
 
     LDX.w $02CF : BPL .no_back_wrap
         LDX.b #$00
 
     .no_back_wrap
 
-    LDA.w $1A00, X : STA $00
-    LDA.w $1A14, X : STA $01
+    LDA.w $1A00, X : STA.b $00
+    LDA.w $1A14, X : STA.b $01
     
-    LDA.w $1A28, X : STA $02
-    LDA.w $1A3C, X : STA $03
+    LDA.w $1A28, X : STA.b $02
+    LDA.w $1A3C, X : STA.b $03
     
     LDA.w $1A64, X
     
@@ -1314,11 +1314,11 @@ Tagalong_AnimateMovement_Preserved:
 ; $04A959-$04A9FF LOCAL JUMP LOCATION
 Tagalong_AnimateMovement:
 {
-    STA $05 : AND.b #$20 : LSR #2 : TAY
+    STA.b $05 : AND.b #$20 : LSR #2 : TAY
     
-    LDA $05 : AND.b #$03 : STA $04
+    LDA.b $05 : AND.b #$03 : STA.b $04
     
-    STZ $72
+    STZ.b $72
     
     CPY.b #$08 : BNE .low_priority
         LDY.b #$00
@@ -1330,17 +1330,17 @@ Tagalong_AnimateMovement:
         LDY.b #$08
         
         LDA.w $033C : ORA.w $033D : ORA.w $033E : ORA.w $033F : BEQ .no_collision
-            LDA $1A : AND.b #$08 : LSR A
+            LDA.b $1A : AND.b #$08 : LSR A
             BRA TagalongDraw_Drawing
 
         .no_collision
 
-        LDA $1A : AND.b #$10 : LSR #2
+        LDA.b $1A : AND.b #$10 : LSR #2
         BRA TagalongDraw_Drawing
 
       .low_priority
 
-    LDA $11
+    LDA.b $11
     CMP.b #$0E : BEQ .check_dashing
     CMP.b #$08 : BEQ .check_dashing
     CMP.b #$10 : BEQ .check_dashing
@@ -1354,36 +1354,36 @@ Tagalong_AnimateMovement:
                 .not_purple_chest
 
                 LDA.w $02E4 : BNE .immobile
-                LDA $11 : CMP.b #$0A : BEQ .immobile
-                    LDA $10 : CMP.b #$09 : BNE .not_overworld
-                        LDA $11 : CMP.b #$23 : BEQ .immobile
+                LDA.b $11 : CMP.b #$0A : BEQ .immobile
+                    LDA.b $10 : CMP.b #$09 : BNE .not_overworld
+                        LDA.b $11 : CMP.b #$23 : BEQ .immobile
                             .not_overworld
 
-                        LDA $10 : CMP.b #$0E : BNE .not_interface
-                            LDA $11
+                        LDA.b $10 : CMP.b #$0E : BNE .not_interface
+                            LDA.b $11
                             
                             CMP.b #$01 : BEQ .immobile
                             CMP.b #$02 : BEQ .immobile
 
                         .not_interface
 
-                        LDA $30 : ORA $31 : BNE .check_dashing
+                        LDA.b $30 : ORA.b $31 : BNE .check_dashing
 
                 .immobile
 
-            LDA.b #$04 : STA $72
+            LDA.b #$04 : STA.b $72
             
             BRA TagalongDraw_Drawing
 
         .check_dashing
 
         LDA.w $0372 : BEQ .not_dashing
-            LDA $1A : AND.b #$04
+            LDA.b $1A : AND.b #$04
             BRA TagalongDraw_Drawing
 
     .not_dashing
 
-    LDA $1A : AND.b #$08 : LSR A
+    LDA.b $1A : AND.b #$08 : LSR A
 
     ; Bleeds into the next function.
 }
@@ -1391,19 +1391,19 @@ Tagalong_AnimateMovement:
 ; $04AA00-$04ABF8 LOCAL JUMP LOCATION
 TagalongDraw_Drawing:
 {
-    CLC : ADC $04 : STA $04
-    TYA : CLC : ADC $04 : STA $04
+    CLC : ADC.b $04 : STA.b $04
+    TYA : CLC : ADC.b $04 : STA.b $04
     
     REP #$20
     LDA.w $0FB3 : AND.w #$00FF : ASL A : TAY
 
-    LDA $20 : CMP $00 : BEQ .check_priority_for_region
+    LDA.b $20 : CMP $00 : BEQ .check_priority_for_region
                         BCS .use_region_b
             BRA .use_region_a
 
     .check_priority_for_region
 
-    LDA $05 : AND.w #$0003 : BNE .use_region_b
+    LDA.b $05 : AND.w #$0003 : BNE .use_region_b
         .use_region_a
 
         LDA.w .oam_region_offsets_a, Y
@@ -1417,13 +1417,13 @@ TagalongDraw_Drawing:
 
     PHA
     
-    LSR #2 : CLC : ADC.w #$0A20 : STA $92
+    LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
     
-    PLA : CLC : ADC.w #$0800 : STA $90
+    PLA : CLC : ADC.w #$0800 : STA.b $90
     
-    LDA $00 : SEC : SBC $E8 : STA $06
+    LDA.b $00 : SEC : SBC.b $E8 : STA.b $06
     
-    LDA $02 : SEC : SBC $E2 : STA $08
+    LDA.b $02 : SEC : SBC.b $E2 : STA.b $08
     
     SEP #$20
     
@@ -1434,25 +1434,25 @@ TagalongDraw_Drawing:
     
     CMP.b #$01 : BEQ .girly_tagalong
         CMP.b #$06 : BEQ .girly_tagalong
-            LDA $05 : AND.b #$20 : BEQ .girly_tagalong
+            LDA.b $05 : AND.b #$20 : BEQ .girly_tagalong
                 BRA .not_girly_tagalong
 
     .girly_tagalong
 
-    LDA $05 : AND.b #$C0 : BNE .some_flip
+    LDA.b $05 : AND.b #$C0 : BNE .some_flip
         BRL .do_chars
 
     .some_flip
 
-    LDA $05 : AND.b #$80 : BNE .not_girly_tagalong
+    LDA.b $05 : AND.b #$80 : BNE .not_girly_tagalong
         LDX.b #$0C
-        LDA $72 : BEQ .not_girly_tagalong
+        LDA.b $72 : BEQ .not_girly_tagalong
             LDA.b #$00
             BRA .set_repri
 
     .not_girly_tagalong
 
-    LDA $1A : AND.b #$07 : BNE .dont_shimmy
+    LDA.b $1A : AND.b #$07 : BNE .dont_shimmy
         LDA.w $02D7 : INC A : CMP.b #$03 : BNE .set_repri
             LDA.b #$00
 
@@ -1462,17 +1462,17 @@ TagalongDraw_Drawing:
 
     .dont_shimmy
 
-    LDA.w $02D7 : ASL #2 : STA $05
+    LDA.w $02D7 : ASL #2 : STA.b $05
     
-    TXA : CLC : ADC $05 : TAX
+    TXA : CLC : ADC.b $05 : TAX
     
     REP #$20
     
-    LDA $06 : CLC : ADC.w #$0010 : STA $00
+    LDA.b $06 : CLC : ADC.w #$0010 : STA.b $00
     
-    LDA $08 : STA $02
+    LDA.b $08 : STA.b $02
     
-    STZ $74
+    STZ.b $74
     
     SEP #$20
     
@@ -1485,15 +1485,15 @@ TagalongDraw_Drawing:
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA.b #$00 : ORA $75 : STA ($92), Y
+    LDA.b #$00 : ORA.b $75 : STA ($92), Y
     
     PLY
     
     REP #$20
     
-    LDA $02 : CLC : ADC.w #$0008 : STA $02
+    LDA.b $02 : CLC : ADC.w #$0008 : STA.b $02
     
-    STZ $74
+    STZ.b $74
     
     SEP #$20
     
@@ -1506,7 +1506,7 @@ TagalongDraw_Drawing:
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA.b #$00 : ORA $75 : STA ($92), Y
+    LDA.b #$00 : ORA.b $75 : STA ($92), Y
     
     PLY
 
@@ -1525,11 +1525,11 @@ TagalongDraw_Drawing:
 
     .not_link_palette_a
 
-    ASL A : STA $72
+    ASL A : STA.b $72
     
     LDA.l $7EF3CC : CMP.b #$0D : BNE .not_exploding_superbomb
         LDA.w $04B4 : CMP.b #$01 : BNE .not_exploding_superbomb
-            LDA $1A : AND.b #$07 : ASL A : STA $72
+            LDA.b $1A : AND.b #$07 : ASL A : STA.b $72
 
     .not_exploding_superbomb
 
@@ -1541,14 +1541,14 @@ TagalongDraw_Drawing:
         
         PHY
         
-        LDA $04 : AND.w #$00FF : ASL #3 : TAY
+        LDA.b $04 : AND.w #$00FF : ASL #3 : TAY
         
         LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
         
         TYA : CLC : ADC.w $A8BD, X : TAX
         
-        LDA.w $A6FD, X : CLC : ADC $06 : STA $00
-        LDA.w $A6FF, X : CLC : ADC $08 : STA $02
+        LDA.w $A6FD, X : CLC : ADC.b $06 : STA.b $00
+        LDA.w $A6FF, X : CLC : ADC.b $08 : STA.b $02
         
         PLY
         
@@ -1560,17 +1560,17 @@ TagalongDraw_Drawing:
         
         INY
         
-        LDA $04 : ASL A : CLC : ADC $04 : TAX
+        LDA.b $04 : ASL A : CLC : ADC.b $04 : TAX
         
         LDA.w $A6CD, X : STA.w $0AE8
         
-        LDA.w $A6CF, X : AND.b #$F0 : ORA $72 : ORA $65 : STA ($90), Y
+        LDA.w $A6CF, X : AND.b #$F0 : ORA.b $72 : ORA.b $65 : STA ($90), Y
         
         INY : PHY
         
         TYA : SEC : SBC.b #$04 : LSR #2 : TAY
         
-        LDA #$02 : ORA $75 : STA ($92), Y
+        LDA #$02 : ORA.b $75 : STA ($92), Y
         
         PLY
 
@@ -1580,15 +1580,15 @@ TagalongDraw_Drawing:
     
     PHY
     
-    LDA $04 : AND.w #$00FF : ASL #3 : TAY
+    LDA.b $04 : AND.w #$00FF : ASL #3 : TAY
     
     LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
     
     TYA : CLC : ADC.w $A8BD, X : TAX
     
-    LDA.w $A701, X : CLC : ADC $06 : CLC : ADC.w #$0008 : STA $00
+    LDA.w $A701, X : CLC : ADC.b $06 : CLC : ADC.w #$0008 : STA.b $00
     
-    LDA.w $A703, X : CLC : ADC $08 : STA $02
+    LDA.w $A703, X : CLC : ADC.b $08 : STA.b $02
     
     PLY
     
@@ -1600,15 +1600,15 @@ TagalongDraw_Drawing:
     
     INY
     
-    LDA $04 : ASL A : CLC : ADC $04 : TAX
+    LDA.b $04 : ASL A : CLC : ADC.b $04 : TAX
     
     LDA.w $A6CE, X : STA.w $0AEA
     
-    LDA.w $A6CF, X : AND.b #$0F : ASL #4 : ORA $72 : ORA $65 : STA ($90), Y
+    LDA.w $A6CF, X : AND.b #$0F : ASL #4 : ORA.b $72 : ORA.b $65 : STA ($90), Y
     
     INY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $75 : STA ($92), Y
+    LDA.b #$02 : ORA.b $75 : STA ($92), Y
     
     PLY : PLX
     
@@ -1622,14 +1622,14 @@ Tagalong_SetOam_XY:
 {
     REP #$20
     
-    LDA $02 : STA ($90), Y
+    LDA.b $02 : STA ($90), Y
     
     INY
     
     CLC : ADC.w #$0080 : CMP.w #$0180 : BCS .off_screen_x
-        LDA $02 : AND.w #$0100 : STA $74
+        LDA.b $02 : AND.w #$0100 : STA.b $74
         
-        LDA $00 : STA ($90), Y
+        LDA.b $00 : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
@@ -1653,17 +1653,17 @@ Tagalong_CheckTextTriggerProximity:
 {
     REP #$20
     
-    LDA $00 : CLC : ADC $0A : CLC : ADC.w #$0008 : STA $00
-    LDA $02 : CLC : ADC.w #$0008 : STA $02
+    LDA.b $00 : CLC : ADC.b $0A : CLC : ADC.w #$0008 : STA.b $00
+    LDA.b $02 : CLC : ADC.w #$0008 : STA.b $02
     
-    LDA $20 : CLC : ADC.w #$000C : SEC : SBC $00 : BPL .positive_delta_y
+    LDA.b $20 : CLC : ADC.w #$000C : SEC : SBC.b $00 : BPL .positive_delta_y
         EOR.w #$FFFF : INC A
 
     .positive_delta_y
     
     CMP.w #$001C : BCS .not_in_trigger
     
-        LDA $22 : CLC : ADC.w #$000C : SEC : SBC $02 : BPL .positive_delta_x
+        LDA.b $22 : CLC : ADC.w #$000C : SEC : SBC.b $02 : BPL .positive_delta_x
             EOR.w #$FFFF : INC A
 
         .positive_delta_x

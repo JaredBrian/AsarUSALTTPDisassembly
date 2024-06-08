@@ -78,7 +78,7 @@ Sprite_Mushroom:
     
     .no_player_collision
     
-    LDA $1A : AND.b #$1F : BNE .dont_toggle_h_flip
+    LDA.b $1A : AND.b #$1F : BNE .dont_toggle_h_flip
     
     LDA.w $0F50, X : EOR.b #$40 : STA.w $0F50, X
     

@@ -86,7 +86,7 @@ Debirando_ShootFireball:
     ; Blue debirando have $0ED0 set nonzero, so they can't shoot fireballs.
     AND.b #$1F
     ORA.w $0ED0, X
-    ORA $11
+    ORA.b $11
     ORA.w $0F00, X
     ORA.w $0FC1
     
@@ -172,7 +172,7 @@ Debirando_Draw:
     
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA.b $06
     
     PHX
     
@@ -180,13 +180,13 @@ Debirando_Draw:
     
     .next_subsprite
     
-    PHX : TXA : CLC : ADC $06 : PHA : ASL A : TAX
+    PHX : TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X  : STA ($90), Y : AND.w #$0100 : STA $0E
+    LDA.b $00 : CLC : ADC .x_offsets, X  : STA ($90), Y : AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -199,7 +199,7 @@ Debirando_Draw:
     LDA .chr, X : INY : STA ($90), Y
     
     LDA .properties, X : PHA : AND.b #$0F : CMP.b #$01
-                         PLA : EOR $05    : BCS .dont_override_palette
+                         PLA : EOR.b $05    : BCS .dont_override_palette
     
     AND.b #$F0
     
@@ -209,7 +209,7 @@ Debirando_Draw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.w $8847, X : ORA $0F : STA ($92), Y
+    LDA.w $8847, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

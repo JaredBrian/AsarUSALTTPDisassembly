@@ -141,7 +141,7 @@ Moldorm_Meander:
 ; $0318B2-$0318DF JUMP LOCATION
 Moldorm_SeekPlayer:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .delay
     
     LDA.b #$1F : JSR Sprite_ApplySpeedTowardsPlayer
     

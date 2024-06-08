@@ -212,8 +212,8 @@ Hokbok_Draw:
 {
     JSR Sprite4_PrepOamCoord
     
-    LDA.w $0DA0, X : STA $06
-                   STZ $07
+    LDA.w $0DA0, X : STA.b $06
+                   STZ.b $07
     
     PHX
     
@@ -225,13 +225,13 @@ Hokbok_Draw:
     
     REP #$20
     
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
     INY
     
-    LDA $02 : PHA : SEC : SBC $06 : STA $02
+    LDA.b $02 : PHA : SEC : SBC.b $06 : STA.b $02
               PLA           : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
@@ -250,7 +250,7 @@ Hokbok_Draw:
     
     PHX
     
-    LDX $06 : CPX.b #$07 : BCS .dont_use_squished_alternate
+    LDX.b $06 : CPX.b #$07 : BCS .dont_use_squished_alternate
     
     SEC : SBC.b #$20
     
@@ -259,11 +259,11 @@ Hokbok_Draw:
     PLX
     
               INY : STA ($90), Y
-    LDA $05 : INY : STA ($90), Y
+    LDA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLA : SEC : SBC.b #$07 : TAY
     

@@ -73,7 +73,7 @@ Sprite_Goriya:
     
     LDY.w $0E20, X
     
-    LDA $F0 : AND.b #$0F : BEQ Goriya_StayStill
+    LDA.b $F0 : AND.b #$0F : BEQ Goriya_StayStill
     
     CPY.b #$84 : BNE .not_faster_goriya
     
@@ -106,8 +106,8 @@ Sprite_Goriya:
     
     JSR Sprite3_DirectionToFacePlayer
     
-    LDA $0F : CLC : ADC.b #$08 : CMP.b #$10 : BCC .in_firing_line
-    LDA $0E : CLC : ADC.b #$08 : CMP.b #$10 : BCS .not_in_firing_line
+    LDA.b $0F : CLC : ADC.b #$08 : CMP.b #$10 : BCC .in_firing_line
+    LDA.b $0E : CLC : ADC.b #$08 : CMP.b #$10 : BCS .not_in_firing_line
     
     .in_firing_line
     
@@ -173,9 +173,9 @@ Eyegore_WaitUntilPlayerNearby:
     
     JSR Sprite3_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
+    LDA.b $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
     
-    LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
+    LDA.b $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
     
     INC.w $0D80, X
     
@@ -257,7 +257,7 @@ Eyegore_ChasePlayer:
     
     .close_eye_delay
     
-    TXA : EOR $1A : AND.b #$1F : BNE .face_player_delay
+    TXA : EOR.b $1A : AND.b #$1F : BNE .face_player_delay
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -390,7 +390,7 @@ Pool_Eyegore_Draw:
 Eyegore_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     

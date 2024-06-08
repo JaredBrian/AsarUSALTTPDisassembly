@@ -17,7 +17,7 @@ Sprite_Bumper:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckTileCollision
     
-    LDA $55 : BNE .using_magic_cape
+    LDA.b $55 : BNE .using_magic_cape
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
@@ -27,15 +27,15 @@ Sprite_Bumper:
     
     LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $F0 : LSR #2 : AND.b #$03 : TAY
+    LDA.b $F0 : LSR #2 : AND.b #$03 : TAY
     
-    LDA $00 : CLC : ADC .player_recoil_speeds, Y : STA $27
+    LDA.b $00 : CLC : ADC .player_recoil_speeds, Y : STA.b $27
     
-    LDA $F0 : AND.b #$03 : TAY
+    LDA.b $F0 : AND.b #$03 : TAY
     
-    LDA $01 : CLC : ADC .player_recoil_speeds, Y : STA $28
+    LDA.b $01 : CLC : ADC .player_recoil_speeds, Y : STA.b $28
     
-    LDA.b #$14 : STA $46
+    LDA.b #$14 : STA.b $46
     
     PHX
     
@@ -52,24 +52,24 @@ Sprite_Bumper:
     
     .next_sprite
     
-    TYA : EOR $1A : AND.b #$03 : ORA.w $0F70, Y : BNE .no_sprite_collision
+    TYA : EOR.b $1A : AND.b #$03 : ORA.w $0F70, Y : BNE .no_sprite_collision
     
     LDA.w $0DD0, Y : CMP.b #$09 : BCC .no_sprite_collision
     
     LDA.w $0E60, Y : ORA.w $0F60, Y : AND.b #$40 : BNE .no_sprite_collision
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0010
+    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0010
     
     CMP.w #$0020 : BCS .no_sprite_collision
     
-    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0010
+    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0010
     
     CMP.w #$0020 : BCS .no_sprite_collision
     
@@ -85,8 +85,8 @@ Sprite_Bumper:
     
     PLY
     
-    LDA $00 : STA.w $0F30, Y
-    LDA $01 : STA.w $0F40, Y
+    LDA.b $00 : STA.w $0F30, Y
+    LDA.b $01 : STA.w $0F40, Y
     
     LDA #$20 : STA.w $0DF0, X
     
@@ -126,7 +126,7 @@ Bumper_Draw:
     LDA.b #$00   : XBA
     LDA.w $0DF0, X : LSR A : AND.b #$01 : REP #$20 : ASL #5
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     

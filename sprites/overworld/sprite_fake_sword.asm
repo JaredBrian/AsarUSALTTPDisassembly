@@ -70,11 +70,11 @@ Pool_FakeSword_Draw:
 ; $02EEE6-$02EEF8 LOCAL JUMP LOCATION
 FakeSword_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #(.animation_states >> 0) : STA $08
-    LDA.b #(.animation_states >> 8) : STA $09
+    LDA.b #(.animation_states >> 0) : STA.b $08
+    LDA.b #(.animation_states >> 8) : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     

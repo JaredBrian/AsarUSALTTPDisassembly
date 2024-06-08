@@ -22,13 +22,13 @@ Sprite_Keese:
     
     LDA.w $0D80, X : BNE Keese_Agitated
     
-    TXA : EOR $1A : AND.b #$03 : ORA.w $0DF0, X : BNE .delay
+    TXA : EOR.b $1A : AND.b #$03 : ORA.w $0DF0, X : BNE .delay
     
     JSR Sprite2_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
+    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     
-    LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
+    LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     
     LDA.b #$1E : JSL Sound_SetSfx3PanLong
     
@@ -103,7 +103,7 @@ Keese_Agitated:
     
     LDA .random_y_speeds, Y : STA.w $0D40, X
     
-    LDA $1A : LSR #2 : AND.b #$01 : INC A : STA.w $0DC0, X
+    LDA.b $1A : LSR #2 : AND.b #$01 : INC A : STA.w $0DC0, X
     
     RTS
 }

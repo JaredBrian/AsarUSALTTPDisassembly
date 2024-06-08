@@ -215,7 +215,7 @@ Babusu_ScurryAcross:
     JSR Sprite3_CheckDamage
     JSR Sprite3_Move
     
-    LDA $1A : LSR A : AND.b #$01
+    LDA.b $1A : LSR A : AND.b #$01
     
     LDY.w $0DE0, X
     

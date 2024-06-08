@@ -42,7 +42,7 @@ Kiki_Fleeing:
     
     LDA.w $0FDA : SEC : SBC.w #$06A5 : CMP.w #$00D0 : BCS .too_far_away
     
-    LDA.w #$FFFF : STA $01
+    LDA.w #$FFFF : STA.b $01
     
     .too_far_away
     .in_air
@@ -50,7 +50,7 @@ Kiki_Fleeing:
     SEP #$30
     
     ; \bug How is $03 relevant here? This seems well... not good.
-    LDA $01 : ORA $03 : BEQ .dont_self_terminate_yet
+    LDA.b $01 : ORA.b $03 : BEQ .dont_self_terminate_yet
     
     STZ.w $0DD0, X
     
@@ -68,27 +68,27 @@ Kiki_Fleeing:
     
     .no_ground_bounce
     
-    LDA.b #$F5 : STA $04
-    LDA.b #$0C : STA $05
+    LDA.b #$F5 : STA.b $04
+    LDA.b #$0C : STA.b $05
     
-    LDA.b #$FE : STA $06
-    LDA.b #$06 : STA $07
+    LDA.b #$FE : STA.b $06
+    LDA.b #$06 : STA.b $07
     
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : ASL A : STA.w $0D40, X
+    LDA.b $00 : ASL A : STA.w $0D40, X
     
-    LDA $01 : ASL A : STA.w $0D50, X
+    LDA.b $01 : ASL A : STA.w $0D50, X
     
     LDA.w $02F2 : AND.b #$FC : STA.w $02F2
     
-    LDA $00 : BPL .x_speed_positive
+    LDA.b $00 : BPL .x_speed_positive
     
-    EOR.b #$FF : INC A : STA $00
+    EOR.b #$FF : INC A : STA.b $00
     
     .x_speed_positive
     
-    LDA $01 : BPL .y_speed_positive
+    LDA.b $01 : BPL .y_speed_positive
     
     EOR.b #$FF : INC A
     
@@ -108,7 +108,7 @@ Kiki_Fleeing:
     
     STA.w $0DE0, X
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -135,7 +135,7 @@ Kiki_Fleeing:
     
     .BRANCH_BETA
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0D80, X
     
@@ -206,17 +206,17 @@ Kiki_Fleeing:
 {
     INC.w $0D80, X
     
-    LDA.b #$F5 : STA $04
-    LDA.b #$0C : STA $05
+    LDA.b #$F5 : STA.b $04
+    LDA.b #$0C : STA.b $05
     
-    LDA.b #$FE : STA $06
-    LDA.b #$06 : STA $07
+    LDA.b #$FE : STA.b $06
+    LDA.b #$06 : STA.b $07
     
     LDA.b #$09 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     ASL A : ROL A : AND.b #$01 : EOR.b #$03 : STA.w $0DE0, X
     
@@ -273,7 +273,7 @@ Kiki_LyingInWait:
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     ; If the Dark Palace has already been opened, then also do nothing.
     LDA.l $7EF280, X : PLX : AND.b #$20 : BNE .dont_appear
@@ -409,7 +409,7 @@ Kiki_LyingInWait:
     
     LDA.w $0D80, X : LSR A : AND.b #$01 : ORA.b #$06 : STA.w $0DE0, X
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -429,7 +429,7 @@ Kiki_LyingInWait:
 
 ; $0F6582-$0F65E8 JUMP LOCATION
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0D80, X : SEC : SBC.b #$02 : TAY
     
@@ -450,17 +450,17 @@ Kiki_LyingInWait:
     
     .BRANCH_ALPHA
     
-    LDA.w $E57C, Y : STA $04
-    LDA.w $E57D, Y : STA $05
+    LDA.w $E57C, Y : STA.b $04
+    LDA.w $E57D, Y : STA.b $05
     
-    LDA.w $E576, Y : STA $06
-    LDA.w $E577, Y : STA $07
+    LDA.w $E576, Y : STA.b $06
+    LDA.w $E577, Y : STA.b $07
     
     LDA.b #$09 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     RTS
 }
@@ -481,7 +481,7 @@ Kiki_LyingInWait:
 
 ; $0F65EE-$0F663F JUMP LOCATION
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0F70, X : BNE .BRANCH_ALPHA
     
@@ -516,8 +516,8 @@ Kiki_LyingInWait:
     
     LDA.b #$01 : STA.w $04C6
     
-    STZ $B0
-    STZ $C8
+    STZ.b $B0
+    STZ.b $C8
     
     STZ.w $0DE0, X
     
@@ -591,12 +591,12 @@ Kiki_TransitionFromTagalong:
     LDA.w $1A28, X : CLC : ADC.b #$02 : STA.w $0D10, Y
     LDA.w $1A3C, X : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $EE    : STA.w $0F20, Y
+    LDA.b $EE    : STA.w $0F20, Y
     
     LDA.b #$01 : STA.w $0BA0, Y
     INC A      : STA.w $0F20, Y
     
-    STZ $5E
+    STZ.b $5E
     
     PLX
     
@@ -711,8 +711,8 @@ Kiki_Draw:
     
     TYA : ASL #3
     
-    ADC.b #(.oam_groups >> 8)               : STA $08
-    LDA.b #(.oam_groups >> 8)  : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 8)               : STA.b $08
+    LDA.b #(.oam_groups >> 8)  : ADC.b #$00 : STA.b $09
     
     LDA.b #$02 : JSR Sprite3_DrawMultiple
     
@@ -728,8 +728,8 @@ Kiki_Draw:
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups_2 >> 0)              : STA $08
-    LDA.b #(.oam_groups_2 >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups_2 >> 0)              : STA.b $08
+    LDA.b #(.oam_groups_2 >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$06
     

@@ -133,9 +133,9 @@ Arrghus_JumpWayUp:
     STZ.w $0F80, X
     
     ; Try to plop down on the player by matching their coordinates.
-    LDA $22 : STA.w $0D10, X
+    LDA.b $22 : STA.w $0D10, X
     
-    LDA $20 : STA.w $0D00, X
+    LDA.b $20 : STA.w $0D00, X
     
     .continue_rising
     
@@ -196,7 +196,7 @@ Arrghus_SwimFrantically:
     JSR Sprite3_Move
     JSL Sprite_CheckDamageFromPlayerLong
     
-    LDA $1A : AND.b #$07  BNE .garnish_delay
+    LDA.b $1A : AND.b #$07  BNE .garnish_delay
     
     LDA.b #$28 : JSL Sound_SetSfx2PanLong
     
@@ -328,8 +328,8 @@ Arrghus_Decelerate:
     
     AND.b #$03 : ADC.b #$08 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : STA.w $0DE0, X
-    LDA $01 : STA.w $0EB0, X
+    LDA.b $00 : STA.w $0DE0, X
+    LDA.b $01 : STA.w $0EB0, X
     
     RTS
     
@@ -443,7 +443,7 @@ Arrghus_Decelerate:
     LDA.w $0B08 : CLC : ADC.w $0B0C  : STA.w $0B08
     LDA.w $0B09 : ADC.b #$00 : STA.w $0B09
     
-    LDA $1A : AND.b #$03 : BNE .increment_delay
+    LDA.b $1A : AND.b #$03 : BNE .increment_delay
     
     INC.w $0D90, X : LDA.w $0D90, X : CMP.b #$0D : BNE .anoreset_counter
     
@@ -452,7 +452,7 @@ Arrghus_Decelerate:
     .increment_delay
     .anoreset_counter
     
-    LDA $1A : AND.b #$07 : BNE .increment_delay_2
+    LDA.b $1A : AND.b #$07 : BNE .increment_delay_2
     
     INC.w $0DA0, X : LDA.w $0DA0, X : CMP.b #$0D : BNE .anoreset_counter_2
     
@@ -469,46 +469,46 @@ Arrghus_Decelerate:
     
     REP #$20
     
-    LDA.w $0B08 : CLC : ADC.w $B674, Y : EOR.w $B68E, Y : STA $00
+    LDA.w $0B08 : CLC : ADC.w $B674, Y : EOR.w $B68E, Y : STA.b $00
     
     SEP #$20
     
     PLY
     
-    LDA.w $0B0A : CLC : ADC.w $B6A8, Y : STA $0E
-                               STA $0F
+    LDA.w $0B0A : CLC : ADC.w $B6A8, Y : STA.b $0E
+                               STA.b $0F
     
-    LDA.w $0FB5 : STA $02
+    LDA.w $0FB5 : STA.b $02
     
-    LDA.w $0D90, X : CLC : ADC $02 : TAY
+    LDA.w $0D90, X : CLC : ADC.b $02 : TAY
     
-    LDA $0F : CLC : ADC.w $B6B5, Y : STA $0F
+    LDA.b $0F : CLC : ADC.w $B6B5, Y : STA.b $0F
     
-    LDA.w $0DA0, X : CLC : ADC $02 : TAY
+    LDA.w $0DA0, X : CLC : ADC.b $02 : TAY
     
-    LDA $0E : CLC : ADC.w $B6B5, Y : STA $0E
+    LDA.b $0E : CLC : ADC.w $B6B5, Y : STA.b $0E
     
     PHX
     
     REP #$30
     
-    LDA $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $04
+    LDA.l $04E800, X : STA.b $04
     
-    LDA $00 : CLC : ADC.w #$0080 : STA $02 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $06
+    LDA.l $04E800, X : STA.b $06
     
     SEP #$30
     
     PLX
     
-    LDA $04 : STA.w $4202
+    LDA.b $04 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $05 : BNE .BRANCH_GAMMA
+    LDY.b $05 : BNE .BRANCH_GAMMA
     
     STA.w $4203
     
@@ -520,28 +520,28 @@ Arrghus_Decelerate:
     
     .BRANCH_GAMMA
     
-    LSR $01 : BCC .BRANCH_DELTA
+    LSR.b $01 : BCC .BRANCH_DELTA
     
     EOR.b #$FF : INC A
     
     .BRANCH_DELTA
     
-    STZ $0A
+    STZ.b $0A
     
     CMP.b #$00 : BPL .x_adjustment_positive
     
-    DEC $0A
+    DEC.b $0A
     
     .x_adjustment_positive
     
     CLC : ADC.w $0D10, X : LDY.w $0FB5 : STA.w $0B10, Y
-    LDA.w $0D30, X : ADC $0A   : STA.w $0B20, Y
+    LDA.w $0D30, X : ADC.b $0A   : STA.w $0B20, Y
     
-    LDA $06 : STA.w $4202
+    LDA.b $06 : STA.w $4202
     
-    LDA $0E
+    LDA.b $0E
     
-    LDY $07 : BNE .BRANCH_ZETA
+    LDY.b $07 : BNE .BRANCH_ZETA
     
     STA.w $4203
     
@@ -553,22 +553,22 @@ Arrghus_Decelerate:
     
     .BRANCH_ZETA
     
-    LSR $03 : BCC .BRANCH_THETA
+    LSR.b $03 : BCC .BRANCH_THETA
     
     EOR.b #$FF : INC A
     
     .BRANCH_THETA
     
-    STZ $0A
+    STZ.b $0A
     
     CMP.b #$00 : BPL .y_adjustment_positive
     
-    DEC $0A
+    DEC.b $0A
     
     .y_adjustment_positive
     
     CLC : ADC.w $0D00, X : PHP : SEC : SBC.b #$10 : LDY.w $0FB5     : STA.w $0B30, Y
-    LDA.w $0D20, X       : SBC.b #$00 : PLP : ADC $0A : STA.w $0B40, Y
+    LDA.w $0D20, X       : SBC.b #$00 : PLP : ADC.b $0A : STA.w $0B40, Y
     
     ; \task More of a note, but if our new assembler can handle meta branch
     ; instructions (that can dynamically resize at assembly time), we could
@@ -602,19 +602,19 @@ Arrghus_Draw:
 {
     REP #$20
     
-    LDA.w #(.oam_groups) : STA $08
+    LDA.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
     LDA.b #$05 : JSR Sprite3_DrawMultiple
     
-    LDA.w $0DC0, X : ASL A : STA $00
+    LDA.w $0DC0, X : ASL A : STA.b $00
     
     LDY.b #$02
     
     .adjust_upper_chr
     
-    LDA ($90), Y : CLC : ADC $00 : STA ($90), Y
+    LDA ($90), Y : CLC : ADC.b $00 : STA ($90), Y
     
     INY #4 : CPY.b #$12 : BCC .adjust_upper_chr
     
@@ -635,9 +635,9 @@ Arrghus_Draw:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     SEP #$20
     

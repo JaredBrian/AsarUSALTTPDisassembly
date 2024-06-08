@@ -78,11 +78,11 @@ SnapDragon_Resting:
     
     JSR Sprite_IsBelowPlayer
     
-    TYA : ASL A : STA $00
+    TYA : ASL A : STA.b $00
     
     JSR Sprite_IsToRightOfPlayer
     
-    TYA : ORA $00
+    TYA : ORA.b $00
     
     BRA .set_direction
     
@@ -218,7 +218,7 @@ SnapDragon_Draw:
 {
     LDA #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

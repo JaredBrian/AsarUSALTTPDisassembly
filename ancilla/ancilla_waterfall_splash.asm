@@ -37,7 +37,7 @@ Ancilla_WaterfallSplash:
     ; Waterfall in the swamp palace
     LDY.b #$00
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     ; Waterfall of wishing entrance. There are no other doors / entrances
     ; under falling water in the game.
@@ -53,9 +53,9 @@ Ancilla_WaterfallSplash:
     
     .do_splash_sequence
     
-    LDA $11 : BNE .no_sound_effect
+    LDA.b $11 : BNE .no_sound_effect
     
-    LDA $1A : AND.b #$07 : BNE .no_sound_effect
+    LDA.b $1A : AND.b #$07 : BNE .no_sound_effect
     
     LDA.b #$1C : JSR Ancilla_DoSfx2_NearPlayer
     
@@ -64,9 +64,9 @@ Ancilla_WaterfallSplash:
     LDA.b #$01 : STA.w $0351
     
     ; \wtf .... why would this be necessary?
-    LDA $2E : SEC : SBC.b #$06 : BMI .dont_reset_player_animation
+    LDA.b $2E : SEC : SBC.b #$06 : BMI .dont_reset_player_animation
     
-    STA $2E
+    STA.b $2E
     
     .dont_reset_player_animation
     
@@ -78,9 +78,9 @@ Ancilla_WaterfallSplash:
     
     .animation_delay
     
-    LDA $1B : BEQ .set_y_coord
+    LDA.b $1B : BEQ .set_y_coord
     
-    LDA $20 : CMP.b #$38 : BCS .set_y_coord
+    LDA.b $20 : CMP.b #$38 : BCS .set_y_coord
     
     LDA.b #$38 : STA.w $0BFA, X
     LDA.b #$0D : STA.w $0C0E, X
@@ -89,17 +89,17 @@ Ancilla_WaterfallSplash:
     
     .set_y_coord
     
-    LDA $20 : STA.w $0BFA, X
-    LDA $21 : STA.w $0C0E, X
+    LDA.b $20 : STA.w $0BFA, X
+    LDA.b $21 : STA.w $0C0E, X
     
     .set_x_coord
     
-    LDA $22 : STA.w $0C04, X
-    LDA $23 : STA.w $0C18, X
+    LDA.b $22 : STA.w $0C04, X
+    LDA.b $23 : STA.w $0C18, X
     
     JSR Ancilla_PrepAdjustedOamCoord
     
-    LDA $24 : BPL .positive_z_player_coord
+    LDA.b $24 : BPL .positive_z_player_coord
     
     LDA.b #$00
     
@@ -107,7 +107,7 @@ Ancilla_WaterfallSplash:
     
     REP #$20
     
-    AND.w #$00FF : EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00 : STA $06
+    AND.w #$00FF : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00 : STA.b $06
     
     SEP #$20
     
@@ -119,11 +119,11 @@ Ancilla_WaterfallSplash:
     
     LDA .chr, X : CMP.b #$FF : BEQ .skip_oam_entry
     
-    LDA .y_offsets_low,  X : CLC : ADC $06 : STA $00
-    LDA .y_offsets_high, X : ADC $07 : STA $01
+    LDA .y_offsets_low,  X : CLC : ADC.b $06 : STA.b $00
+    LDA .y_offsets_high, X : ADC.b $07 : STA.b $01
     
-    LDA .x_offsets_low,  X : CLC : ADC $04 : STA $02
-    LDA .x_offsets_high, X : ADC $05 : STA $03
+    LDA .x_offsets_low,  X : CLC : ADC.b $04 : STA.b $02
+    LDA .x_offsets_high, X : ADC.b $05 : STA.b $03
     
     JSR Ancilla_SetOam_XY
     

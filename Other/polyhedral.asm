@@ -51,8 +51,8 @@ Polyhedral_InitThread:
     
     .wait
     
-    LDA $00 : BEQ .wait
-    LDA $0C : BNE .wait
+    LDA.b $00 : BEQ .wait
+    LDA.b $0C : BNE .wait
     
     JSL.l $09FD04 ; $04FD04 in ROM
     
@@ -61,9 +61,9 @@ Polyhedral_InitThread:
     JSR.w $F8FB ; $04F8FB in Rom.
     JSR.w $FA4F ; $04FA4F in Rom.
     
-    STZ $00
+    STZ.b $00
     
-    LDA.b #$FF : STA $0C
+    LDA.b #$FF : STA.b $0C
     
     BRA .wait
 }
@@ -72,13 +72,13 @@ Polyhedral_InitThread:
 {
     REP #$30
     
-    LDA $02 : AND.w #$00FF : ASL A : ADC.w #$0080 : STA $08
+    LDA.b $02 : AND.w #$00FF : ASL A : ADC.w #$0080 : STA.b $08
     
-    LDA.w $1F03 : AND.w #$00FF : ASL A : STA $B0
+    LDA.w $1F03 : AND.w #$00FF : ASL A : STA.b $B0
     
     ; X = ( 0xFF8C + ($1F03 * 6) ).
     ; Note that $1F03 seems to always be 0 or 1
-    ASL A : ADC $B0 : ADC.w #$FF8C : TAX
+    ASL A : ADC.b $B0 : ADC.w #$FF8C : TAX
     
     LDY.w #$1F3F
     LDA.w #$0005
@@ -92,53 +92,53 @@ Polyhedral_InitThread:
 {
     SEP #$30
     
-    LDY $04
+    LDY.b $04
     
-    LDA.w $FB6D, Y : STA $50
+    LDA.w $FB6D, Y : STA.b $50
     
-    CMP.b #$80 : SBC $50 : EOR.b #$FF : STA $51
+    CMP.b #$80 : SBC.b $50 : EOR.b #$FF : STA.b $51
     
-    LDA.w $FBAD, Y : STA $52
+    LDA.w $FBAD, Y : STA.b $52
     
-    CMP.b #$80 : SBC $52 : EOR.b #$FF : STA $53
+    CMP.b #$80 : SBC.b $52 : EOR.b #$FF : STA.b $53
     
-    LDY $05
+    LDY.b $05
     
-    LDA.w $FB6D, Y : STA $54
+    LDA.w $FB6D, Y : STA.b $54
     
-    CMP.b #$80 : SBC $54 : EOR.b #$FF : STA $55
+    CMP.b #$80 : SBC.b $54 : EOR.b #$FF : STA.b $55
     
-    LDA.w $FBAD, Y : STA $56
+    LDA.w $FBAD, Y : STA.b $56
     
-    CMP.b #$80 : SBC $56 : EOR.b #$FF : STA $57
+    CMP.b #$80 : SBC.b $56 : EOR.b #$FF : STA.b $57
     
     REP #$20
     
     SEI
     
-    LDX $54 : STX.w $211B
-    LDX $55 : STX.w $211B
-    LDX $50 : STX.w $211C
+    LDX.b $54 : STX.w $211B
+    LDX.b $55 : STX.w $211B
+    LDX.b $50 : STX.w $211C
     
-    LDA.w $2135 : ASL #2 : STA $58
+    LDA.w $2135 : ASL #2 : STA.b $58
     
-    LDX $56 : STX.w $211B
-    LDX $57 : STX.w $211B
-    LDX $52 : STX.w $211C
+    LDX.b $56 : STX.w $211B
+    LDX.b $57 : STX.w $211B
+    LDX.b $52 : STX.w $211C
     
-    LDA.w $2135 : ASL #2 : STA $5E
+    LDA.w $2135 : ASL #2 : STA.b $5E
     
-    LDX $56 : STX.w $211B
-    LDX $57 : STX.w $211B
-    LDX $50 : STX.w $211C
+    LDX.b $56 : STX.w $211B
+    LDX.b $57 : STX.w $211B
+    LDX.b $50 : STX.w $211C
     
-    LDA.w $2135 : ASL #2 : STA $5A
+    LDA.w $2135 : ASL #2 : STA.b $5A
     
-    LDX $54 : STX.w $211B
-    LDX $55 : STX.w $211B
-    LDX $52 : STX.w $211C
+    LDX.b $54 : STX.w $211B
+    LDX.b $55 : STX.w $211B
+    LDX.b $52 : STX.w $211C
     
-    LDA.w $2135 : ASL #2 : STA $5C
+    LDA.w $2135 : ASL #2 : STA.b $5C
     
     CLI
     
@@ -149,10 +149,10 @@ Polyhedral_InitThread:
 {
     SEP #$30
     
-    LDA $3F : TAX
+    LDA.b $3F : TAX
     
     ; Y = 3 * $3F
-    ASL A : ADC $3F : TAY
+    ASL A : ADC.b $3F : TAY
     
     .alpha
     
@@ -160,15 +160,15 @@ Polyhedral_InitThread:
     
     DEY
     
-    LDA ($41), Y : STA $47
+    LDA ($41), Y : STA.b $47
     
     DEY
     
-    LDA ($41), Y : STA $46
+    LDA ($41), Y : STA.b $46
     
     DEY
     
-    LDA ($41), Y : STA $45
+    LDA ($41), Y : STA.b $45
     
     PHY
     
@@ -179,8 +179,8 @@ Polyhedral_InitThread:
     
     SEP #$20
     
-    CLC : LDA $06 : ADC $48 : STA $60, X
-    SEC : LDA $07 : SBC $4A : STA $88, X
+    CLC : LDA.b $06 : ADC.b $48 : STA.b $60, X
+    SEC : LDA.b $07 : SBC.b $4A : STA.b $88, X
     
     PLY : BNE .alpha
     
@@ -189,100 +189,100 @@ Polyhedral_InitThread:
     
 ; $04F931-$04F9D5
 {
-    LDY $56
+    LDY.b $56
     
     SEI
     
               STY.w $211B
-    LDY $57 : STY.w $211B
-    LDY $45 : STY.w $211C
+    LDY.b $57 : STY.w $211B
+    LDY.b $45 : STY.w $211C
     
     LDA.w $2134
     
-    LDY $54 : STY.w $211B
-    LDY $55 : STY.w $211B
-    LDY $47 : STY.w $211C
+    LDY.b $54 : STY.w $211B
+    LDY.b $55 : STY.w $211B
+    LDY.b $47 : STY.w $211C
     
     SEC : SBC.w $2134
     
     CLI
     
-    STA $48
+    STA.b $48
     
-    LDY $58
+    LDY.b $58
     
     SEI
     
               STY.w $211B
-    LDY $59 : STY.w $211B
-    LDY $45 : STY.w $211C
+    LDY.b $59 : STY.w $211B
+    LDY.b $45 : STY.w $211C
     
     LDA.w $2134
     
-    LDY $52 : STY.w $211B
-    LDY $53 : STY.w $211B
-    LDY $46 : STY.w $211C
+    LDY.b $52 : STY.w $211B
+    LDY.b $53 : STY.w $211B
+    LDY.b $46 : STY.w $211C
     
     CLC : ADC.w $2134
     
-    LDY $5A : STY.w $211B
-    LDY $5B : STY.w $211B
-    LDY $47 : STY.w $211C
+    LDY.b $5A : STY.w $211B
+    LDY.b $5B : STY.w $211B
+    LDY.b $47 : STY.w $211C
     
     CLC : ADC.w $2134
     
     CLI
     
-    STA $4A
+    STA.b $4A
     
-    LDY $5C
+    LDY.b $5C
     
     SEI
     
               STY.w $211B
-    LDY $5D : STY.w $211B
-    LDY $45 : STY.w $211C
+    LDY.b $5D : STY.w $211B
+    LDY.b $45 : STY.w $211C
     
     LDA.w $2135
     
-    LDY $50 : STY.w $211B
-    LDY $51 : STY.w $211B
-    LDY $46 : STY.w $211C
+    LDY.b $50 : STY.w $211B
+    LDY.b $51 : STY.w $211B
+    LDY.b $46 : STY.w $211C
     
     SEC : SBC.w $2135
     
-    LDY $5E : STY.w $211B
-    LDY $5F : STY.w $211B
-    LDY $47 : STY.w $211C
+    LDY.b $5E : STY.w $211B
+    LDY.b $5F : STY.w $211B
+    LDY.b $47 : STY.w $211C
     
     CLC : ADC.w $2135
     
     ; Note that this combines a CLC with a CLI
     REP #$05
     
-    ADC $08 : STA $4C
+    ADC.b $08 : STA.b $4C
     
     RTS
 }
 
 ; $04F9D6-$04FA4E
 {
-    LDA $48 : BPL .alpha
+    LDA.b $48 : BPL .alpha
     
     EOR.w #$FFFF : INC A
     
     .alpha
     
-    STA $B2
+    STA.b $B2
     
-    LDA $4C : STA $B0
+    LDA.b $4C : STA.b $B0
     
     XBA : AND.w #$00FF : BEQ .gamma
     
     .beta
     
-    LSR $B2
-    LSR $B0
+    LSR.b $B2
+    LSR.b $B0
     
     LSR A : BNE .beta
     
@@ -290,14 +290,14 @@ Polyhedral_InitThread:
     
     SEI
     
-    LDA $B2 : STA.w $4204
-    LDY $B0 : STY.w $4206
+    LDA.b $B2 : STA.w $4204
+    LDY.b $B0 : STY.w $4206
     
     NOP #2
     
     LDA.w #$0000
     
-    LDY $49
+    LDY.b $49
     
     SEC
     
@@ -317,26 +317,26 @@ Polyhedral_InitThread:
     
     CLI
     
-    STA $48
+    STA.b $48
     
     ; $4FA12
     
-    LDA $4A : BPL .zeta
+    LDA.b $4A : BPL .zeta
     
     EOR.w #$FFFF : INC A
     
     .zeta
     
-    STA $B2
+    STA.b $B2
     
-    LDA $4C : STA $B0
+    LDA.b $4C : STA.b $B0
     
     XBA : AND.w #$00FF : BEQ .iota
     
     .theta
     
-    LSR $B2
-    LSR $B0
+    LSR.b $B2
+    LSR.b $B0
     
     LSR A : BNE .theta
     
@@ -344,14 +344,14 @@ Polyhedral_InitThread:
     
     SEI
     
-    LDA $B2 : STA.w $4204
-    LDY $B0 : STY.w $4206
+    LDA.b $B2 : STA.w $4204
+    LDY.b $B0 : STY.w $4206
     
     NOP #2
     
     LDA.w #$0000
     
-    LDY $4B
+    LDY.b $4B
     
     SEC
     
@@ -371,7 +371,7 @@ Polyhedral_InitThread:
     
     CLI
     
-    STA $4A
+    STA.b $4A
     
     RTS
 }
@@ -384,11 +384,11 @@ Polyhedral_InitThread:
     
     .delta
     
-    LDA ($43), Y : STA $4E
+    LDA ($43), Y : STA.b $4E
     
-    AND.b #$7F : STA $B0
+    AND.b #$7F : STA.b $B0
     
-    ASL A : STA $C0
+    ASL A : STA.b $C0
     
     INY
     
@@ -400,27 +400,27 @@ Polyhedral_InitThread:
     
     LDA ($43), Y : TAY
     
-    LDA.w $1F60, Y : STA $C0, X
+    LDA.w $1F60, Y : STA.b $C0, X
     
     INX
     
-    LDA.w $1F88, Y : STA $C0, X
+    LDA.w $1F88, Y : STA.b $C0, X
     
     INX
     
     PLY : INY
     
-    DEC $B0 : BNE .alpha
+    DEC.b $B0 : BNE .alpha
     
     LDA ($43), Y
     
     INY
     
-    STA $4F
+    STA.b $4F
     
     PHY
     
-    LDA $C0 : CMP.b #$06 : BCC .beta
+    LDA.b $C0 : CMP.b #$06 : BCC .beta
     
     JSR.w $FB24 : BMI .gamma : BEQ .beta
     
@@ -431,29 +431,29 @@ Polyhedral_InitThread:
     
     PLY
     
-    DEC $40 : BNE .delta
+    DEC.b $40 : BNE .delta
     
     RTS
     
     .gamma
     
-    LDA $4E : BPL .beta
+    LDA.b $4E : BPL .beta
     
     REP #$20
     
-    LDA $C0 : AND.w #$00FF : TAY
+    LDA.b $C0 : AND.w #$00FF : TAY
     
     DEY
     
     LDX.b #$01
     
-    LSR #2 : STA $B0
+    LSR #2 : STA.b $B0
     
     .epsilon
     
-    LDA $C0, X : PHA
+    LDA.b $C0, X : PHA
     
-    LDA.w $1FC0, Y : STA $C0, X
+    LDA.w $1FC0, Y : STA.b $C0, X
     
     PLA
     
@@ -463,7 +463,7 @@ Polyhedral_InitThread:
     
     DEY #2
     
-    DEC $B0 : BNE .epsilon
+    DEC.b $B0 : BNE .epsilon
     
     SEP #$20
     
@@ -475,9 +475,9 @@ Polyhedral_InitThread:
 
 ; $04FACA-$04FAD6 LOCAL JUMP LOCATION
 {
-    LDA $01 : BNE .BRANCH_4FAD7_external_1
+    LDA.b $01 : BNE .BRANCH_4FAD7_external_1
     
-    LDA $4F : AND.b #$07
+    LDA.b $4F : AND.b #$07
     
     JSL.l $09FCAE ; $04FCAE in ROM.
     
@@ -486,9 +486,9 @@ Polyhedral_InitThread:
 
 ; $04FAD7-$04FB23
 {
-    LDA $01 : BNE .alpha
+    LDA.b $01 : BNE .alpha
     
-    LDA $4F : LSR #4 : AND.b #$07
+    LDA.b $4F : LSR #4 : AND.b #$07
     
     JSL.l $09FCAE ; $04FCAE in ROM.
     
@@ -498,7 +498,7 @@ Polyhedral_InitThread:
     
     REP #$20
     
-    LDA $B0 : EOR.w #$FFFF : INC A
+    LDA.b $B0 : EOR.w #$FFFF : INC A
     
     BRA .beta
     
@@ -506,7 +506,7 @@ Polyhedral_InitThread:
     
     REP #$20
     
-    LDA $B0
+    LDA.b $B0
     
     .beta
     
@@ -554,27 +554,27 @@ Polyhedral_InitThread:
     ; (set I and C flags)
     SEP #$05
     
-    LDA $C3 : SBC $C1 : STA.w $211B
+    LDA.b $C3 : SBC.b $C1 : STA.w $211B
     
     LDA.b #$00 : SBC.b #$00 : STA.w $211B
     
-    SEC : LDA $C6 : SBC $C4 : STA.w $211C
+    SEC : LDA.b $C6 : SBC.b $C4 : STA.w $211C
     
     ; apparently it's super important to keep the I flag low
     ; for as little time as possible.
-    LDA.w $2134       : STA $B0
-    LDA.w $2135 : CLI : STA $B1
+    LDA.w $2134       : STA.b $B0
+    LDA.w $2135 : CLI : STA.b $B1
     
     SEP #$05
     
-    LDA $C5    : SBC $C3    : STA.w $211B
+    LDA.b $C5    : SBC.b $C3    : STA.w $211B
     LDA.b #$00 : SBC.b #$00 : STA.w $211B
     
-    SEC : LDA $C4 : SBC $C2 : STA.w $211C
+    SEC : LDA.b $C4 : SBC.b $C2 : STA.w $211C
     
     REP #$20
     
-    SEC : LDA $B0 : SBC.w $2134 : STA $B0
+    SEC : LDA.b $B0 : SBC.w $2134 : STA.b $B0
     
     SEP #$20
     CLI
@@ -597,8 +597,8 @@ Polyhedral_InitThread:
     
     REP #$20
     
-    LDA.l $09FCC4, X : STA $B5
-    LDA.l $09FCC6, X : STA $B7
+    LDA.l $09FCC4, X : STA.b $B5
+    LDA.l $09FCC6, X : STA.b $B7
     
     PLP
     
@@ -653,9 +653,9 @@ Polyhedral_InitThread:
     
     LDA.b #$7E : PHA : PLB
     
-    LDY $C0 : TYX
+    LDY.b $C0 : TYX
     
-    LDA $C0, X
+    LDA.b $C0, X
     
     .alpha
     
@@ -666,13 +666,13 @@ Polyhedral_InitThread:
     
     TXY
     
-    LDA $C0, X
+    LDA.b $C0, X
     
     BRA .alpha
     
     .beta
     
-    AND.b #$07 : ASL A : STA $B9
+    AND.b #$07 : ASL A : STA.b $B9
     
     LDA.w $1FC0, Y : AND.b #$38 : BIT.b #$20 : BEQ .gamma
     
@@ -680,14 +680,14 @@ Polyhedral_InitThread:
     
     .gamma
     
-    LSR #2 : ADC.b #$E8 : STA $BA
+    LSR #2 : ADC.b #$E8 : STA.b $BA
     
-    STY $E9 : STY $F2
+    STY.b $E9 : STY.b $F2
     
-    LDA $C0 : LSR A : STA $E0
+    LDA.b $C0 : LSR A : STA.b $E0
     
-    LDA.w $1FC0, Y : STA $E2 : STA $EB
-    LDA.w $1FBF, Y : STA $E1 : STA $EA
+    LDA.w $1FC0, Y : STA.b $E2 : STA.b $EB
+    LDA.w $1FBF, Y : STA.b $E1 : STA.b $EA
     
     JSR.w $FEB4 : BCS .delta
     JSR.w $FF1E : BCC .epsilon
@@ -702,52 +702,52 @@ Polyhedral_InitThread:
     
     JSR.w $FDCF ; $04FDCF in Rom.
     
-    LDA $B9 : INC #2 : CMP.b #$10 : BEQ .zeta
+    LDA.b $B9 : INC #2 : CMP.b #$10 : BEQ .zeta
     
-    STA $B9
+    STA.b $B9
     
     BRA .iota
     
     .zeta
     
-    LDA $BA : INC #2 : BIT.b #$08 : BNE .theta
+    LDA.b $BA : INC #2 : BIT.b #$08 : BNE .theta
     
     EOR.b #$19
     
     .theta
     
-    STA $BA : STZ $B9
+    STA.b $BA : STZ.b $B9
     
     .iota
     
-    LDX $E2 : CPX $E4 : BNE .kappa
+    LDX.b $E2 : CPX.b $E4 : BNE .kappa
     
-    LDX $E3 : STX $E1
+    LDX.b $E3 : STX.b $E1
     
     JSR.w $FEB4 : BCS .delta
     
-    LDX $E2
+    LDX.b $E2
     
     .kappa
     
-    INX : STX $E2
+    INX : STX.b $E2
     
-    LDX $EB : CPX $ED : BNE .lambda
+    LDX.b $EB : CPX.b $ED : BNE .lambda
     
-    LDX $EC : STX $EA
+    LDX.b $EC : STX.b $EA
     
     JSR.w $FF1E : BCS .delta
     
-    LDX $EB
+    LDX.b $EB
     
     .lambda
     
-    INX : STX $EB
+    INX : STX.b $EB
     
     REP #$21
     
-          LDA $E5 : ADC $E7 : STA $E5
-    CLC : LDA $EE : ADC $F0 : STA $EE
+          LDA.b $E5 : ADC.b $E7 : STA.b $E5
+    CLC : LDA.b $EE : ADC.b $F0 : STA.b $EE
     
     SEP #$20
     
@@ -762,22 +762,22 @@ Polyhedral_InitThread:
 
 ; $04FDCF-$04FE93 LOCAL JUMP LOCATION
 {
-    LDA $E6 : AND.b #$07 : ASL A : TAY
+    LDA.b $E6 : AND.b #$07 : ASL A : TAY
     
-    LDA $EF : AND.b #$07 : ASL A : TAX
+    LDA.b $EF : AND.b #$07 : ASL A : TAX
     
-    LDA $E6 : AND.b #$38 : STA $BC
+    LDA.b $E6 : AND.b #$38 : STA.b $BC
     
-    LDA $EF : AND.b #$38 : SEC : SBC $BC : BNE .alpha
+    LDA.b $EF : AND.b #$38 : SEC : SBC.b $BC : BNE .alpha
     
     REP #$30
     
-    LDA.l $09FEA4, X : TYX : AND.l $09FE94, X : STA $B2
+    LDA.l $09FEA4, X : TYX : AND.l $09FE94, X : STA.b $B2
     
-    LDA $EF : AND.w #$0038 : ASL #2 : ORA $B9 : TAY
+    LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
     
-    LDA $B5 : EOR.w $0000, Y : AND $B2 : EOR.w $0000, Y : STA.w $0000, Y
-    LDA $B7 : EOR.w $0010, Y : AND $B2 : EOR.w $0010, Y : STA.w $0010, Y
+    LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
+    LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
     
     .return
     
@@ -789,38 +789,38 @@ Polyhedral_InitThread:
     
     BCC .return
     
-    LSR #3 : STA $FA : STZ $FB
+    LSR #3 : STA.b $FA : STZ.b $FB
     
     REP #$30
     
-    LDA.l $09FEA4, X : STA $B2
+    LDA.l $09FEA4, X : STA.b $B2
     
     TYX
     
-    LDA $EF : AND.w #$0038 : ASL #2 : ORA $B9 : TAY
+    LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
     
-    LDA $B5 : EOR.w $0000, Y : AND $B2 : EOR.w $0000, Y : STA.w $0000, Y
-    LDA $B7 : EOR.w $0010, Y : AND $B2 : EOR.w $0010, Y : STA.w $0010, Y
+    LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
+    LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
     
     SEC : TYA : SBC.w #$0020 : TAY
     
-    DEC $FA : BEQ .beta
+    DEC.b $FA : BEQ .beta
     
     .gamma
     
-    LDA $B5 : STA.w $0000, Y
-    LDA $B7 : STA.w $0010, Y
+    LDA.b $B5 : STA.w $0000, Y
+    LDA.b $B7 : STA.w $0010, Y
     
     TYA : SBC.w #$0020 : TAY
     
-    DEC $FA : BNE .gamma
+    DEC.b $FA : BNE .gamma
     
     .beta
     
-    LDA.l $09FE94, X : STA $B2
+    LDA.l $09FE94, X : STA.b $B2
     
-    LDA $B5 : EOR.w $0000, Y : AND $B2 : EOR.w $0000, Y : STA.w $0000, Y
-    LDA $B7 : EOR.w $0010, Y : AND $B2 : EOR.w $0010, Y : STA.w $0010, Y
+    LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
+    LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
     
     SEP #$30
     
@@ -840,7 +840,7 @@ Polyhedral_InitThread:
 {
     .loop
     
-    DEC $E0 : BPL .alpha
+    DEC.b $E0 : BPL .alpha
     
     .gamma
     
@@ -850,31 +850,31 @@ Polyhedral_InitThread:
     
     .alpha
     
-    LDX $E9 : DEX #2 : BNE .beta
+    LDX.b $E9 : DEX #2 : BNE .beta
     
-    LDX $C0
+    LDX.b $C0
     
     .beta
     
-    STA $C0, X : CMP $E2 : BCC .gamma : BNE .delta
+    STA.b $C0, X : CMP $E2 : BCC .gamma : BNE .delta
     
-    LDA $BF, X : STA $E1
+    LDA.b $BF, X : STA.b $E1
     
-    STX $E9
+    STX.b $E9
     
     BRA .loop
     
     .delta
     
-    STA $E4
+    STA.b $E4
     
-    LDA $BF, X : STA $E3
+    LDA.b $BF, X : STA.b $E3
     
-    STX $E9
+    STX.b $E9
     
     LDX.b #$00
     
-    SBC $E1 : BCS .epsilon
+    SBC.b $E1 : BCS .epsilon
     
     DEX
     
@@ -887,11 +887,11 @@ Polyhedral_InitThread:
                  STA.l $004205
     LDA.b #$00 : STA.l $004204
     
-    SEC : LDA $E4 : SBC $E2 : STA.l $004206
+    SEC : LDA.b $E4 : SBC.b $E2 : STA.l $004206
     
     REP #$20
     
-    LDA $E0 : AND.w #$FF00 : ORA.w #$0080 : STA $E5
+    LDA.b $E0 : AND.w #$FF00 : ORA.w #$0080 : STA.b $E5
     
     LDA.w #$0000
     
@@ -909,7 +909,7 @@ Polyhedral_InitThread:
     
     CLI
     
-    STA $E7
+    STA.b $E7
     
     SEP #$20
     
@@ -922,7 +922,7 @@ Polyhedral_InitThread:
 {
     .loop
     
-    DEC $E0 : BPL .alpha
+    DEC.b $E0 : BPL .alpha
     
     .delta
     
@@ -932,7 +932,7 @@ Polyhedral_InitThread:
     
     .alpha
     
-    LDX $F2 : CPX $C0 : BNE .beta
+    LDX.b $F2 : CPX.b $C0 : BNE .beta
     
     LDX.b #$02
     
@@ -944,25 +944,25 @@ Polyhedral_InitThread:
     
     .gamma
     
-    LDA $C0, X : CMP $EB : BCC .delta : BNE .epsilon
+    LDA.b $C0, X : CMP $EB : BCC .delta : BNE .epsilon
     
-    LDA $BF, X : STA $EA
+    LDA.b $BF, X : STA.b $EA
     
-    STX $F2
+    STX.b $F2
     
     BRA .loop
     
     .epsilon
     
-    STA $ED
+    STA.b $ED
     
-    LDA $BF, X : STA $EC
+    LDA.b $BF, X : STA.b $EC
     
-    STX $F2
+    STX.b $F2
     
     LDX.b #$00
     
-    SEC : SBC $EA : BCS .zeta
+    SEC : SBC.b $EA : BCS .zeta
     
     DEX
     
@@ -975,11 +975,11 @@ Polyhedral_InitThread:
                  STA.l $004205
     LDA.b #$00 : STA.l $004204
     
-    SEC : LDA $ED : SBC $EB : STA.l $004206
+    SEC : LDA.b $ED : SBC.b $EB : STA.l $004206
     
     REP #$20
     
-    LDA $E9 : AND.w #$FF00 : ORA #$0080 : STA $EE
+    LDA.b $E9 : AND.w #$FF00 : ORA #$0080 : STA.b $EE
     
     LDA.w #$0000
     
@@ -997,7 +997,7 @@ Polyhedral_InitThread:
     
     CLI
     
-    STA $F0
+    STA.b $F0
     
     SEP #$20
     

@@ -6,9 +6,9 @@ Ganon_CheckEntityProximity:
 {
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
-    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
     .BRANCH_ALPHA
     
@@ -54,7 +54,7 @@ Ganon_Initialize:
     
     REP #$20
     
-    LDA.w $0B08 : CLC : ADC.w $8D40, Y : AND.w #$01FF : STA $00 : LSR #5 : TAY
+    LDA.w $0B08 : CLC : ADC.w $8D40, Y : AND.w #$01FF : STA.b $00 : LSR #5 : TAY
     
     SEP #$20
     
@@ -72,31 +72,31 @@ Ganon_Initialize:
     
     .BRANCH_ALPHA
     
-    LDA.w $0B0A : STA $0F
+    LDA.w $0B0A : STA.b $0F
     
     PHX
     
     REP #$30
     
-    LDA $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $04
+    LDA.l $04E800, X : STA.b $04
     
-    LDA $00 : CLC : ADC.w #$0080 : STA $02
+    LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
     
     AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $06
+    LDA.l $04E800, X : STA.b $06
     
     SEP #$30
     
     PLX
     
-    LDA $04 : STA.w $4202
+    LDA.b $04 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $05 : BNE .BRANCH_BETA
+    LDY.b $05 : BNE .BRANCH_BETA
     
     STA.w $4203
     
@@ -108,28 +108,28 @@ Ganon_Initialize:
     
     .BRANCH_BETA
     
-    LSR $01 : BCC .BRANCH_GAMMA
+    LSR.b $01 : BCC .BRANCH_GAMMA
     
     EOR.b #$FF : INC A
     
     .BRANCH_GAMMA
     
-    STZ $0A
+    STZ.b $0A
     
     CMP.b #$00 : BPL .BRANCH_DELTA
     
-    DEC $0A
+    DEC.b $0A
     
     .BRANCH_DELTA
     
     CLC : ADC.w $0D10 : STA.w $0B11, X
-    LDA.w $0D30 : ADC $0A : STA.w $0B21, X
+    LDA.w $0D30 : ADC.b $0A : STA.w $0B21, X
     
-    LDA $06 : STA.w $4202
+    LDA.b $06 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $07 : BNE .BRANCH_EPSILON
+    LDY.b $07 : BNE .BRANCH_EPSILON
     
     STA.w $4203
     
@@ -141,22 +141,22 @@ Ganon_Initialize:
     
     .BRANCH_EPSILON
     
-    LSR $03 : BCC .BRANCH_ZETA
+    LSR.b $03 : BCC .BRANCH_ZETA
     
     EOR.b #$FF : INC A
     
     .BRANCH_ZETA
     
-    STZ $0A
+    STZ.b $0A
     
     CMP.b #$00 : BPL .BRANCH_THETA
     
-    DEC $0A
+    DEC.b $0A
     
     .BRANCH_THETA
     
     CLC : ADC.w $0D00           : STA.w $0B31, X
-     LDA.w $0D20 : ADC $0A : STA.w $0B41, X
+     LDA.w $0D20 : ADC.b $0A : STA.w $0B41, X
     
     INC.w $0FB5 : LDA.w $0FB5 : CMP.b #$08 : BEQ .BRANCH_IOTA
     
@@ -300,7 +300,7 @@ Sprite_Ganon:
     
     JSR Sprite4_IsToRightOfPlayer
     
-    LDA $0F : ADC.b #$20 : CMP.b #$40 : LDA.b #$01 : BCC .BRANCH_ZETA
+    LDA.b $0F : ADC.b #$20 : CMP.b #$40 : LDA.b #$01 : BCC .BRANCH_ZETA
     
     LDA.w $8ECB, Y
     
@@ -625,10 +625,10 @@ Sprite_Ganon:
     LDA.w $90C4, X : STA.w $0B00, Y
     LDA.w $90C8, X : STA.w $0B08, Y
     
-    LDA $23      : STA.w $0B10, Y
+    LDA.b $23      : STA.w $0B10, Y
     LDA.w $90CC, X : STA.w $0B18, Y
     
-    LDA $21    : STA.w $0B20, Y
+    LDA.b $21    : STA.w $0B20, Y
     LDA.b #$00 : STA.w $0B28, Y : STA.w $0B30, Y
     
     PLX
@@ -741,9 +741,9 @@ Sprite_Ganon:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $02 : CLC : ADC.w $9158, X : STA.w $0D00, Y
+    LDA.b $02 : CLC : ADC.w $9158, X : STA.w $0D00, Y
     
-    LDA $03 : ADC.w $915A, X : STA.w $0D20, Y
+    LDA.b $03 : ADC.w $915A, X : STA.w $0D20, Y
     
     TYX
     
@@ -999,11 +999,11 @@ Sprite_Ganon:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC.w $9317, X : STA.w $0D10, Y
-    LDA $01 : ADC.w $9319, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.w $9317, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.w $9319, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.w $931B, X : STA.w $0D00, Y
-    LDA $03 : ADC.w $931D, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.w $931B, X : STA.w $0D00, Y
+    LDA.b $03 : ADC.w $931D, X : STA.w $0D20, Y
     
     PLX
     
@@ -1150,11 +1150,11 @@ Sprite_Ganon:
     
     ; $0E947F ALTERNATE ENTRY POINT ; spawn firebat?
     
-    STA $00
+    STA.b $00
     
-    LDA.w $0E30, X : ASL #2 : STA $01
+    LDA.w $0E30, X : ASL #2 : STA.b $01
     
-    JSL GetRandomInt : AND.b #$03 : ORA $01 : TAY
+    JSL GetRandomInt : AND.b #$03 : ORA.b $01 : TAY
     
     LDA.w $94D5, Y
     
@@ -1195,11 +1195,11 @@ Sprite_Ganon:
     
     INC.w $0BA0, X
     
-    LDA.l $7FFD5C  : STA $04
-    LDA.w $0D30, X : STA $05
+    LDA.l $7FFD5C  : STA.b $04
+    LDA.w $0D30, X : STA.b $05
     
-    LDA.l $7FFD68  : STA $06
-    LDA.w $0D20, X : STA $07
+    LDA.l $7FFD68  : STA.b $06
+    LDA.w $0D20, X : STA.b $07
     
     JSR Ganon_CheckEntityProximity : BCS .BRANCH_E955F
     
@@ -1258,7 +1258,7 @@ Sprite_Ganon:
     
     LDA.w $0DF0, X : BEQ .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$01 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
     JSR.w $944C   ; $0E944C IN ROM
     
@@ -1272,7 +1272,7 @@ Sprite_Ganon:
     
     .BRANCH_BETA
     
-    LDA $1A : AND.b #$07 : BNE .BRANCH_GAMMA
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_GAMMA
     
     LDA.b #$D6
     
@@ -1354,7 +1354,7 @@ Sprite_Ganon:
     ; multiplication by 12, guys...
     LDA.w $0DC0, X : ASL #3
     
-    ADC.w $0DC0, X : ADC.w $0DC0, X : ADC.w $0DC0, X : ADC.w $0DC0, X : STA $06
+    ADC.w $0DC0, X : ADC.w $0DC0, X : ADC.w $0DC0, X : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -1365,19 +1365,19 @@ Sprite_Ganon:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00      : CLC : ADC.w $95CE, X       : STA ($90), Y
-    LDA $02      : CLC : ADC.w $969A, X : INY : STA ($90), Y
+    LDA.b $00      : CLC : ADC.w $95CE, X       : STA ($90), Y
+    LDA.b $02      : CLC : ADC.w $969A, X : INY : STA ($90), Y
     LDA.w $9766, X                 : INY : STA ($90), Y
     
-    LDA $05 : AND.b #$0F : CMP.b #$05 : LDA.w $9843, X : BCC .BRANCH_BETA
+    LDA.b $05 : AND.b #$0F : CMP.b #$05 : LDA.w $9843, X : BCC .BRANCH_BETA
     
     AND.b #$F0
     
     .BRANCH_BETA
     
-    ORA $05 : INY : STA ($90), Y
+    ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -1425,7 +1425,7 @@ Sprite_Ganon:
     
     .BRANCH_DELTA
     
-    LDA $11 : BEQ .BRANCH_ZETA
+    LDA.b $11 : BEQ .BRANCH_ZETA
     
     LDY.b #$FF
     LDA.b #$09
@@ -1438,11 +1438,11 @@ Sprite_Ganon:
     
     REP #$20
     
-    LDA.w #$9ACB : STA $08
+    LDA.w #$9ACB : STA.b $08
     
-    LDA.w #$0828 : STA $90
+    LDA.w #$0828 : STA.b $90
     
-    LDA.w #$0A2A : STA $92
+    LDA.w #$0A2A : STA.b $92
     
     SEP #$20
     
@@ -1452,8 +1452,8 @@ Sprite_Ganon:
     
     .BRANCH_THETA
     
-    LDA.w $0F70, X : SEC : SBC.b #$01 : STA $0E
-    LDA.b #$00   : SBC.b #$00 : STA $0F
+    LDA.w $0F70, X : SEC : SBC.b #$01 : STA.b $0E
+    LDA.b #$00   : SBC.b #$00 : STA.b $0F
     
     LSR #3 : TAY : CPY.b #$04 : BCC .BRANCH_IOTA
     
@@ -1461,17 +1461,17 @@ Sprite_Ganon:
     
     .BRANCH_IOTA
     
-    LDA.w $D180, Y : STA $00 : STZ $01
+    LDA.w $D180, Y : STA.b $00 : STZ.b $01
     
     REP #$20
     
-    LDA.w $0FDA : CLC : ADC $0E : STA.w $0FDA
+    LDA.w $0FDA : CLC : ADC.b $0E : STA.w $0FDA
     
-    LDA.w #$09F4 : STA $90
+    LDA.w #$09F4 : STA.b $90
     
-    LDA.w #$0A9D : STA $92
+    LDA.w #$0A9D : STA.b $92
     
-    LDA.w #$D108 : CLC : ADC $00 : STA $08
+    LDA.w #$D108 : CLC : ADC.b $00 : STA.b $08
     
     SEP #$20
     
@@ -1501,9 +1501,9 @@ Trident_Draw:
     
     LDA.w $0ED0, X : BEQ .dont_draw
     
-    DEC A : REP #$20 : ASL #3 : STA $00
+    DEC A : REP #$20 : ASL #3 : STA.b $00
     
-    ASL #2 : CLC : ADC $00 : CLC : ADC.w #$990F : STA $08
+    ASL #2 : CLC : ADC.b $00 : CLC : ADC.w #$990F : STA.b $08
     
     SEP #$20
     

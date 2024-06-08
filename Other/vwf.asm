@@ -73,7 +73,7 @@ Text_Initialize:
     ; Module 0x0E.0x02.0x00
     
     ; Are we in History mode?
-    LDA $10 : CMP.b #$14 : BNE .notInAtractMode
+    LDA.b $10 : CMP.b #$14 : BNE .notInAtractMode
     
     JSL Attract_ResetHudPalettes_4_and_5
     
@@ -116,7 +116,7 @@ Text_Initialize:
     SEP #$30
     
     ; Lets NMI routine know to copy $7F0000[0x7E0] to the BG2 tilemap
-    LDA.b #$02 : STA $17 : STA.w $0710
+    LDA.b #$02 : STA.b $17 : STA.w $0710
     
     RTS
 }
@@ -149,8 +149,8 @@ Text_LoadCharacterBuffer:
     LDA.w $1CF0 : ASL A : ADC.w $1CF0 : TAX
     
     ; Load the address for the text's data from WRAM.
-    LDA.l $7F71C0, X : STA $04
-    LDA.l $7F71C2, X : STA $06
+    LDA.l $7F71C0, X : STA.b $04
+    LDA.l $7F71C2, X : STA.b $06
     
     ; Initialize the beginning of the character buffer to the "terminate"
     ; message, in case we load no actual characters
@@ -350,12 +350,12 @@ Text_WritePlayerName:
     SEP #$20
     
     ; Write player name to the text buffer
-    LDA $08 : STA.l $7F11FA, X
-    LDA $09 : STA.l $7F11FB, X
-    LDA $0A : STA.l $7F11FC, X
-    LDA $0B : STA.l $7F11FD, X
-    LDA $0C : STA.l $7F11FE, X
-    LDA $0D : STA.l $7F11FF, X
+    LDA.b $08 : STA.l $7F11FA, X
+    LDA.b $09 : STA.l $7F11FB, X
+    LDA.b $0A : STA.l $7F11FC, X
+    LDA.b $0B : STA.l $7F11FD, X
+    LDA.b $0C : STA.l $7F11FE, X
+    LDA.b $0D : STA.l $7F11FF, X
     
     LDY.w #$0005
     
@@ -526,13 +526,13 @@ Text_SetColor:
     ; could specify the priority bit, but the code below begs otherwise, unless it was something
     ; that was determined at compile time. Either way, the parameter is probably only good from 0 to 7,
     ; but feel free to use 8 to 0x0f if you like wasting bits *grumble*...
-    LDA [$04], Y : ASL #2 : AND.w #$3C00 : STA $00
+    LDA [$04], Y : ASL #2 : AND.w #$3C00 : STA.b $00
     
     ; This just preserves the priority bit i.e., A = 0x2000
     ; then provides it with a starting CHR of 0x0180, with palette, hflip, and vflip all zero.
     ; The palette provided by [Color XX] here XX ranges from 0 to 7, is then inserted
     ; $1CE2 is therefore the template tilemap entry for all text characters
-    LDA.w #$387F : AND.w #$E300 : ORA.w #$0180 : ORA $00 : STA.w $1CE2
+    LDA.w #$387F : AND.w #$E300 : ORA.w #$0180 : ORA.b $00 : STA.w $1CE2
     
     INY #2 : STY.w $1CDD
     
@@ -556,7 +556,7 @@ Text_DictionarySequence:
     
     LDX.w $1CD9 : ASL A : AND.w #$00FF : TAY
     
-    LDA Text_DictionaryPointers+2, Y : STA $00
+    LDA Text_DictionaryPointers+2, Y : STA.b $00
     LDA Text_DictionaryPointers, Y   : TAY
     
     SEP #$20
@@ -567,7 +567,7 @@ Text_DictionarySequence:
     
     INX
     
-    INY : CPY $00 : BCC .nextCharacter
+    INY : CPY.b $00 : BCC .nextCharacter
     
     STX.w $1CD9
     
@@ -1006,7 +1006,7 @@ Text_DrawBorder:
     
     REP #$30
     
-    LDA.w #$0006 : STA $00
+    LDA.w #$0006 : STA.b $00
     
     .nextRow
     
@@ -1015,7 +1015,7 @@ Text_DrawBorder:
     
     JSR Text_DrawBorderRow
     
-    DEC $00 : BNE .nextRow
+    DEC.b $00 : BNE .nextRow
     
     LDY.w #$000C
     
@@ -1026,7 +1026,7 @@ Text_DrawBorder:
     SEP #$30
     
     ; Indicates to update the tilemap using the array at $7E1000[0x???] (I'm not sure how long it can get)
-    LDA.b #$01 : STA $14
+    LDA.b #$01 : STA.b $14
     
     ; Skip the second routine and begin drawing the text. (Then what does $1CD4 = 0x01 mean?)
     LDA.b #$02 : STA.w $1CD4
@@ -1043,7 +1043,7 @@ Text_DrawBorderIncremenal:
     ; drawing one row per frame.
     
     ; Use $1000[???] to update the tilemap(s)
-    LDA.b #$01 : STA $14
+    LDA.b #$01 : STA.b $14
     
     ; they wanted to save 12 bytes by not including extra entries in the jump table for the 6 middle rows, (just one row).
     ; The irony here is that the code they added to do this completely negated to a
@@ -1218,7 +1218,7 @@ Text_MessageHandler:
     
     JSR VWF_CharacterOrCommand
     
-    LDA.b #$02 : STA $17 : STA.w $0710
+    LDA.b #$02 : STA.b $17 : STA.w $0710
     
     RTS
 }
@@ -1281,13 +1281,13 @@ Text_Close:
     
     SEP #$30
     
-    LDA.b #$01 : STA $14
+    LDA.b #$01 : STA.b $14
     
     STZ.w $1CD8
-    STZ $11
+    STZ.b $11
     
     ; Restore us to whatever mode we came from.
-    LDA.w $010C : STA $10
+    LDA.w $010C : STA.b $10
     
     RTS
 }
@@ -1486,8 +1486,8 @@ VWF_RenderCharacter:
     INX : STX !cumulativePosIndex
     
     ; Multiply the character value's upper nybble by 2 (0x62 -> 0xE2, etc)
-    TYA : AND.b #$F0 : ASL A   : STA $00
-    TYA : AND.b #$0F : ORA $00 : STA !fontTileOffset : STZ !fontTileOffset+1
+    TYA : AND.b #$F0 : ASL A   : STA.b $00
+    TYA : AND.b #$0F : ORA.b $00 : STA !fontTileOffset : STZ !fontTileOffset+1
     
     REP #$20
     
@@ -1497,7 +1497,7 @@ VWF_RenderCharacter:
     REP #$10
     
     ; $00[2] = the byte position in the vwfBuffer, I think
-    LDA.l $7EC22F, X : AND.w #$00FF : ASL A : STA $00
+    LDA.l $7EC22F, X : AND.w #$00FF : ASL A : STA.b $00
     
     LDX.w #$0000
     
@@ -1518,7 +1518,7 @@ VWF_RenderCharacter:
     STX !charLinePos
     
     ; $00[2] is the width we have remaining for this particular CHR?
-    LDA $00 : CLC : ADC !renderBase : TAY
+    LDA.b $00 : CLC : ADC !renderBase : TAY
     
     ; This AND operation tells us which tile in the vwfBuffer to draw to
     AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
@@ -1586,7 +1586,7 @@ VWF_RenderCharacter:
     LDX !charLinePos : INX #2 : CPX.w #$0010 : BNE .topHalf_nextSourceRow
     
     ; Positions us on the lower half of the text line
-    LDA !renderBase : CLC : ADC.w #$0150 : STA $08
+    LDA !renderBase : CLC : ADC.w #$0150 : STA.b $08
     
     LDX.w #$0000
     
@@ -1603,7 +1603,7 @@ VWF_RenderCharacter:
     
     STX !charLinePos
     
-    LDX !cumulativePosIndex : LDA.l $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC $08 : TAY
+    LDX !cumulativePosIndex : LDA.l $7EC22F, X : AND.w #$00FF : ASL A : CLC : ADC.b $08 : TAY
     
     AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
     
@@ -1719,7 +1719,7 @@ VWF_NextPicture:
     
     ; Is it history mode?
     ; If it's not history module, just move to the next character >_>
-    LDA $10 : CMP.b #$14 : BNE .notInAttractMode
+    LDA.b $10 : CMP.b #$14 : BNE .notInAttractMode
     
     JSL PaletteFilterHistory
     
@@ -1762,7 +1762,7 @@ VWF_Select2Or3_Indented_messages:
     
     .readyForInput
     
-    LDA $F4 : TAY : ORA $F6
+    LDA.b $F4 : TAY : ORA.b $F6
     
     ; Player has chosen if the A, B, X, or Y buttons are pressed
     AND.b #$C0       : BNE .playerHasChosen
@@ -1831,9 +1831,9 @@ VWF_SelectItem:
     
     .readyForInput
     
-    LDA $F4 : ORA $F6 : AND.b #$C0 : BNE .playerHasChosen
+    LDA.b $F4 : ORA.b $F6 : AND.b #$C0 : BNE .playerHasChosen
     
-    LDA $F4 : AND.b #$05 : BEQ .noDownOrLeftInput
+    LDA.b $F4 : AND.b #$05 : BEQ .noDownOrLeftInput
     
     INC.w $1CE8
     
@@ -1841,7 +1841,7 @@ VWF_SelectItem:
     
     .noDownOrLeftInput
     
-    LDA $F4 : AND.b #$0A : BEQ .noDownOrRightInput
+    LDA.b $F4 : AND.b #$0A : BEQ .noDownOrRightInput
     
     DEC.w $1CE8
     
@@ -1932,9 +1932,9 @@ VWF_ChangeItemTiles:
     ; Y = X, Y = X << 1, A is destroyed
     TXY : TXA : ASL A : TAX
     
-    LDA.l $0DFA93, X : STA $00
-    LDA.l $0DFA94, X : STA $01
-    LDA.b #$0D     : STA $02
+    LDA.l $0DFA93, X : STA.b $00
+    LDA.l $0DFA94, X : STA.b $01
+    LDA.b #$0D     : STA.b $02
     
     TYX
     
@@ -2016,7 +2016,7 @@ VWF_Select2Or3:
     .readyForInput
     
     ; Player has chosen if the A, B, X, or Y buttons are pressed
-    LDA $F4 : TAY : ORA $F6
+    LDA.b $F4 : TAY : ORA.b $F6
     
     AND.b #$C0       : BNE .playerHasChosen
     TYA : AND.b #$08 : BNE .upPushed
@@ -2095,7 +2095,7 @@ VWF_Choose3:
     
     .readyForInput
     
-    LDA $F6 : AND.b #$C0 : ORA $F4 : TAY
+    LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : TAY
     
     AND.b #$D0       : BNE .playerHasChosen
     TYA : AND.b #$08 : BNE .upPushed
@@ -2184,7 +2184,7 @@ VWF_Choose1Or2:
     
     .readyForInput
     
-    LDA $F6 : AND.b #$C0 : ORA $F4 : TAY
+    LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : TAY
     
     ; Player has chosen if the A, B, X, Y, or Start buttons are pressed
           AND.b #$D0 : BNE .playerHasChosen
@@ -2246,7 +2246,7 @@ VWF_Scroll:
     PHB : LDA.b #$7F : PHA : PLB ; data bank = 0x7F
     
     ; (note this is unfiltered joypad 1 input) Look for A button presses
-    LDA $F2 : AND.b #$80 : BEQ .A_ButtonNotHeld
+    LDA.b $F2 : AND.b #$80 : BEQ .A_ButtonNotHeld
     
     LDA.l $001CEA ; Holding A down doesn't make any real difference
     
@@ -2258,19 +2258,19 @@ VWF_Scroll:
     
     .fuckingUselessAdditionalLogic
     
-    STA $02
+    STA.b $02
     
     .nextLine
     
     REP #$30
     
-    STZ $00
+    STZ.b $00
     
     .moveTileUpOnePixel
     
     ; This loop modifies graphical tile data by making it appear to scroll up
     
-    LDX $00
+    LDX.b $00
     
     LDA.w $0002, X : STA.w $0000, X ; Line 0 = the old Line 1
     LDA.w $0004, X : STA.w $0002, X ; Line 1 = the old Line 2, and so on
@@ -2283,7 +2283,7 @@ VWF_Scroll:
     
     ; hence the scrolling effect
     
-    LDA $00 : CLC : ADC.w #$0010 : STA $00
+    LDA.b $00 : CLC : ADC.w #$0010 : STA.b $00
     
     CMP.w #$07E0 : BCC .moveTileUpOnePixel
     
@@ -2335,11 +2335,11 @@ VWF_Scroll:
     
     LDA.b #$00 : STA.l $001CE6
     
-    STZ $02
+    STZ.b $02
     
     .lineFinished
     
-    DEC $02 : BMI .doneScrolling
+    DEC.b $02 : BMI .doneScrolling
     
     JMP .nextLine
     
@@ -2427,7 +2427,7 @@ VWF_Wait:
     ; Check for input from the player
     ; note that in history mode the game does not record input other than the start button
     ; specifically, NMI does record it and then later history mode deletes the input
-    LDA $F2 : AND.b #$80 : BEQ .A_ButtonNotHeld
+    LDA.b $F2 : AND.b #$80 : BEQ .A_ButtonNotHeld
     
     ; A button has been held down down, so break out of this wait loop prematurely
     LDA.b #$01
@@ -2580,7 +2580,7 @@ VWF_Command7C:
     
     LDA.l $7F1200, X : AND.w #$007F : ASL #3 : TAX
     
-    LDA.w #$0002 : STA $00
+    LDA.w #$0002 : STA.b $00
 
     LDY.w $1CDD
     
@@ -2596,7 +2596,7 @@ VWF_Command7C:
     
     INY #2
     
-    DEC $00 : BNE .alpha
+    DEC.b $00 : BNE .alpha
     
     STY.w $1CDD
     
@@ -2702,7 +2702,7 @@ VWF_EndMessage:
     
     ; This command will take any joypad input as the signal to continue,
     ; unlike [WaitKey]
-    LDA $F4 : ORA $F6 : BEQ .return
+    LDA.b $F4 : ORA.b $F6 : BEQ .return
     
     ; Exit Text mode
     LDA.b #$04 : STA.w $1CD4
@@ -2725,7 +2725,7 @@ Text_SetDefaultWindowPos:
     
     ; Get Link's Y coordinate, Subtract Y coordinate of scroll register
     ; This is a nifty trick, an alternative to branching to load one of two values
-    LDA $20 : SEC : SBC $E8 : CMP.w #$0078 : ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
+    LDA.b $20 : SEC : SBC.b $E8 : CMP.w #$0078 : ROL A : EOR.w #$0001 : AND.w #$0001 : ASL A : TAX
     
     ; Ultimately, a vram address gets stored here, so the system knows where to draw the tiles
     LDA Text_Positions, X : STA.w $1CD2
@@ -2773,7 +2773,7 @@ Text_DrawBorderRow:
     
     INY #2
     
-    LDA.w #$0016 : STA $0E
+    LDA.w #$0016 : STA.b $0E
     
     LDA Text_BorderTiles, Y
     
@@ -2783,7 +2783,7 @@ Text_DrawBorderRow:
     
     INX #2
     
-    DEC $0E : BNE .repeatTile
+    DEC.b $0E : BNE .repeatTile
     
     INY #2
     
@@ -2882,7 +2882,7 @@ Text_DrawCharacterTilemap:
     
     SEP #$30
     
-    LDA.b #$01 : STA $14
+    LDA.b #$01 : STA.b $14
     
     RTS
 }
@@ -3023,21 +3023,21 @@ Text_GenerateMessagePointers:
     
     ; Would indicate that memory accesses at $00 will have
     ; Bank 1C/2 = 8 + 6 = E IN ROM
-    LDA.b #$1C : STA $02
+    LDA.b #$1C : STA.b $02
     
     REP #$30
     
     ; $00[3]: $1C8000, which is rom address $E0000
-    LDA.w #$8000 : STA $00
+    LDA.w #$8000 : STA.b $00
     
     LDX.w #$0000
     
     .nextPointer
     
-    LDA $00 : STA.l $7F71C0, X
+    LDA.b $00 : STA.l $7F71C0, X
     
     ; $7F71C0[3] = #$1C8000 on the first iteration
-    LDA $01 : STA.l $7F71C1, X
+    LDA.b $01 : STA.l $7F71C1, X
     
     INX #3
     
@@ -3060,7 +3060,7 @@ Text_GenerateMessagePointers:
     .isCommand
     
     ; Increment our position in the pointer table by one.
-    CLC : ADC $00 : STA $00
+    CLC : ADC.b $00 : STA.b $00
     
     ; Is it the terminator byte? If so, load the next pointer
     CPY.w #$007F : BEQ .nextPointer
@@ -3071,9 +3071,9 @@ Text_GenerateMessagePointers:
     ; A byte of 0x80 indicates the end of all text
     DEX #3
     
-    LDA.w #$DF40 : STA $00
+    LDA.w #$DF40 : STA.b $00
     
-    LDA.w #$000E : STA $02
+    LDA.w #$000E : STA.b $02
     
     BRA .nextPointer
     

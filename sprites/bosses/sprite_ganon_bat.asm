@@ -30,7 +30,7 @@ Sprite_GanonBat:
     
     JSR Sprite4_CheckIfActive
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
@@ -66,19 +66,19 @@ Sprite_GanonBat:
     
     .BRANCH_GAMMA
     
-    LDA.b #$78 : STA $04
+    LDA.b #$78 : STA.b $04
     
-    LDA.b #$50 : STA $06
+    LDA.b #$50 : STA.b $06
     
-    LDA $23 : STA $05
+    LDA.b $23 : STA.b $05
     
-    LDA $21 : STA $07
+    LDA.b $21 : STA.b $07
     
     LDA.b #$05 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA.w $0D50, X : PHA : CLC : ADC $01 : STA.w $0D50, X
+    LDA.w $0D50, X : PHA : CLC : ADC.b $01 : STA.w $0D50, X
     
-    LDA.w $0D40, X : PHA : CLC : ADC $00 : STA.w $0D40, X
+    LDA.w $0D40, X : PHA : CLC : ADC.b $00 : STA.w $0D40, X
     
     JSR Sprite4_Move
     
@@ -125,7 +125,7 @@ GanonBat_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : CLC : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

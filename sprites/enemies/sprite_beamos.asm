@@ -78,10 +78,10 @@ Sprite_Beamos:
     
     ; X denotes which enemy in the list it is. Generally 0x0 - 0xF
     ; This code helps us decide whether or not to make the eyeball rotate this frame
-    TXA : EOR $1A : AND.b #$03 : BNE .no_rotation_this_frame
+    TXA : EOR.b $1A : AND.b #$03 : BNE .no_rotation_this_frame
     
     ; What angular state are we rotated to (0x00 - 0x3F)?
-    LDA.w $0DE0, X : STA $0F
+    LDA.w $0DE0, X : STA.b $0F
     
     JSR Sprite_SpawnProbeAlways
     
@@ -119,8 +119,8 @@ Beamos_FireBeam:
     
     .positive_x
     
-          CLC : ADC $00 : STA.w $0D10, Y
-    TXA : ADC $01 : STA.w $0D30, Y
+          CLC : ADC.b $00 : STA.w $0D10, Y
+    TXA : ADC.b $01 : STA.w $0D30, Y
     
     LDX.b #$00
     
@@ -130,8 +130,8 @@ Beamos_FireBeam:
     
     .positive_y
     
-          CLC : ADC $02 : STA.w $0D00, Y
-    TXA : ADC $03 : STA.w $0D20, Y
+          CLC : ADC.b $02 : STA.w $0D00, Y
+    TXA : ADC.b $03 : STA.w $0D20, Y
     
     TYX
     
@@ -153,7 +153,7 @@ Beamos_FireBeam:
     
     INC.w $0B6A
     
-    LDA.b #$1F : STA $00
+    LDA.b #$1F : STA.b $00
                  LDX.w $0DC0, Y : CLC : ADC Sprite_BeamosLaser.slots, X : TAX
     
     .init_subsprite_positions
@@ -166,7 +166,7 @@ Beamos_FireBeam:
     
     DEX
     
-    DEC $00 : BPL .init_subsprite_positions
+    DEC.b $00 : BPL .init_subsprite_positions
     
     PLX
     
@@ -227,9 +227,9 @@ Beamos_Draw:
     REP #$20
     
     ; (X = 0 OR 2), hence A = -16 OR 0
-    LDA $00                            : STA ($90), Y
-    AND.w #$0100 : STA $0E
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $00                            : STA ($90), Y
+    AND.w #$0100 : STA.b $0E
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -240,11 +240,11 @@ Beamos_Draw:
     PLX
     
     LDA .chr, X : INY : STA ($90), Y
-    LDA $05     : INY : STA ($90), Y
+    LDA.b $05     : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -305,10 +305,10 @@ Beamos_DrawEyeball:
     .in_upper_quadrants
     
     ; Store the sprite's index at $0e
-    STX $0E : STZ $0F
+    STX.b $0E : STZ.b $0F
     
     ; Divide the rotation counter in half store it at $06
-    LSR A : STA $06
+    LSR A : STA.b $06
     
     PHX
     
@@ -317,23 +317,23 @@ Beamos_DrawEyeball:
     ; Load the eyeball's relative x position
     LDA .x_offsets, X : SEC : SBC.b #$03 : STA.w $0FA8
     
-    CLC : ADC $00 : STA ($90), Y
+    CLC : ADC.b $00 : STA ($90), Y
     
     ; Load the eyeball's relative y position
     ; $29111, X THAT IS. Tells us which eyeball graphic to use.
     ; $29131, X THAT IS. Tells us which way to flip the eyeball.
     LDA .y_offsets, X : SEC : SBC.b #$12 : STA.w $0FA9
-    CLC : ADC $02                                          : INY : STA ($90), Y
+    CLC : ADC.b $02                                          : INY : STA ($90), Y
     LDA .chr, X                                       : INY : STA ($90), Y
-    LDA $05 : AND.b #$31 : ORA .hflip, X : ORA.b #$0A : INY : STA ($90), Y
+    LDA.b $05 : AND.b #$31 : ORA .hflip, X : ORA.b #$0A : INY : STA ($90), Y
     
     PLX
     
     REP #$20
     
-    LDA $0E : CLC : ADC $90 : STA $90
+    LDA.b $0E : CLC : ADC.b $90 : STA.b $90
     
-    LDA $0E : LSR #2 : CLC : ADC $92 : STA $92
+    LDA.b $0E : LSR #2 : CLC : ADC.b $92 : STA.b $92
     
     SEP #$20
     
@@ -482,22 +482,22 @@ BeamosLaser_Draw:
     
     PHX
     
-    LDA.b #$1F : STA $0D
+    LDA.b #$1F : STA.b $0D
                  LDY.w $0DC0, X : CLC : ADC Sprite_BeamosLaser_slots, Y : TAX
     
     LDY.b #$00
     
     .next_subsprite
     
-    LDA.l $7FFD80, X : STA $00
-    LDA.l $7FFE00, X : STA $01
-    LDA.l $7FFE80, X : STA $02
-    LDA.l $7FFF00, X : STA $03
+    LDA.l $7FFD80, X : STA.b $00
+    LDA.l $7FFE00, X : STA.b $01
+    LDA.l $7FFE80, X : STA.b $02
+    LDA.l $7FFF00, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : SEC : SBC $E2       : STA ($90), Y : AND.w #$0100 : STA $0E
-    LDA $02 : SEC : SBC $E8 : INY : STA ($90), Y
+    LDA.b $00 : SEC : SBC.b $E2       : STA ($90), Y : AND.w #$0100 : STA.b $0E
+    LDA.b $02 : SEC : SBC.b $E8 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen    ; added missing #
     
@@ -506,17 +506,17 @@ BeamosLaser_Draw:
     .on_screen
     
     LDA.b #$5C : INY : STA ($90), Y
-    LDA $05    : INY : STA ($90), Y
+    LDA.b $05    : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     
     DEX
     
-    DEC $0D : BPL .next_subsprite
+    DEC.b $0D : BPL .next_subsprite
     
     PLX
     
@@ -566,9 +566,9 @@ Sprite_BeamosLaserHit:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
-                                       : AND.w #$0100 : STA $0E
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+                                       : AND.w #$0100 : STA.b $0E
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen
     
@@ -579,11 +579,11 @@ Sprite_BeamosLaserHit:
     PLX
     
     LDA.b #$D6                                   : INY : STA ($90), Y
-    LDA $05    : AND.b #$30 : ORA .properties, X : INY : STA ($90), Y
+    LDA.b $05    : AND.b #$30 : ORA .properties, X : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     

@@ -64,11 +64,11 @@ Sprite_Vitreolus:
 ; $0EE7C4-$0EE7D8 BRANCH LOCATION
 Vitreolus_TargetPlayerPosition:
 {
-    LDA $22 : STA.w $0ED0, X
-    LDA $23 : STA.w $0EB0, X
+    LDA.b $22 : STA.w $0ED0, X
+    LDA.b $23 : STA.w $0EB0, X
     
-    LDA $20 : STA.w $0EC0, X
-    LDA $21 : STA.w $0E30, X
+    LDA.b $20 : STA.w $0EC0, X
+    LDA.b $21 : STA.w $0E30, X
     
     RTS
 }
@@ -80,19 +80,19 @@ Vitreolus_PursueTargetPosition:
 {
     JSR Sprite4_CheckIfRecoiling
     
-    TXA : EOR $1A : AND.b #$01 : BNE .stagger_retargeting
+    TXA : EOR.b $1A : AND.b #$01 : BNE .stagger_retargeting
     
-    LDA.w $0ED0, X : STA $04
-    LDA.w $0EB0, X : STA $05
+    LDA.w $0ED0, X : STA.b $04
+    LDA.w $0EB0, X : STA.b $05
     
-    LDA.w $0EC0, X : STA $06
-    LDA.w $0E30, X : STA $07
+    LDA.w $0EC0, X : STA.b $06
+    LDA.w $0E30, X : STA.b $07
     
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     .stagger_retargeting
     
@@ -118,19 +118,19 @@ Vitreolus_ReturnToOrigin:
 {
     JSR Sprite4_CheckIfRecoiling
     
-    TXA : EOR $1A : AND.b #$01 : BNE .stagger_retargeting
+    TXA : EOR.b $1A : AND.b #$01 : BNE .stagger_retargeting
     
-    LDA.w $0D90, X : STA $04
-    LDA.w $0DA0, X : STA $05
+    LDA.w $0D90, X : STA.b $04
+    LDA.w $0DA0, X : STA.b $05
     
-    LDA.w $0DB0, X : STA $06
-    LDA.w $0DE0, X : STA $07
+    LDA.w $0DB0, X : STA.b $06
+    LDA.w $0DE0, X : STA.b $07
     
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     .stagger_retargeting
     

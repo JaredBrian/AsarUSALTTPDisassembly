@@ -66,7 +66,7 @@ Pool_Vulture_Circling:
 ; $0EDCB9-$0EDD1D JUMP LOCATION
 Vulture_Circling:
 {
-    LDA $1A : LSR A : AND.b #$03 : TAY
+    LDA.b $1A : LSR A : AND.b #$03 : TAY
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
@@ -78,19 +78,19 @@ Vulture_Circling:
     
     .finished_ascending
     
-    TXA : EOR $1A : AND.b #$01 : BNE .dont_adjust_xy_speeds
+    TXA : EOR.b $1A : AND.b #$01 : BNE .dont_adjust_xy_speeds
     
     TXA : AND.b #$0F : CLC : ADC.b #$18
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $01 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D40, X
     
-    LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
+    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
     
-    LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
+    LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .too_far_from_player
     
     .dont_adjust_xy_speeds
     
@@ -100,9 +100,9 @@ Vulture_Circling:
     
     ; This mess o' logic keep the vulture from going too far from the
     ; player by apparently reversing somewhat...
-    LDA $00 : ASL $00 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
+    LDA.b $00 : ASL.b $00 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
-    LDA $01 : ASL $01 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
+    LDA.b $01 : ASL.b $01 : PHP : ROR A : PLP : ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
 }
@@ -133,7 +133,7 @@ Vulture_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

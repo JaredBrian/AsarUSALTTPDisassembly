@@ -101,9 +101,9 @@ TrinexxHead_Initialize:
 
 ; $0EADB5-$0EAE64 LOCAL JUMP LOCATION
 {
-    LDA.w $0D40, X : STA $00
+    LDA.w $0D40, X : STA.b $00
     
-    LDA.w $0D50, X : STA $01
+    LDA.w $0D50, X : STA.b $01
     
     JSL Sprite_ConvertVelocityToAngle : LSR A : TAY
     
@@ -146,7 +146,7 @@ TrinexxHead_Initialize:
     
     .BRANCH_BETA
     
-    LDA $1A : AND.b #$07 : BNE .BRANCH_EPSILON
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_EPSILON
     
     LDA.b #$31 : JSL Sound_SetSfx3PanLong
     
@@ -232,22 +232,22 @@ TrinexxHead_Initialize:
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D50, X
     
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
+    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
     
-    LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
+    LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .beta
     
     RTS
     
     .beta
     
-    LDA $00 : ASL $00 : PHP : ROR A
+    LDA.b $00 : ASL.b $00 : PHP : ROR A
                         PLP : ROR A : CLC : ADC.w $0D40, X : STA.w $0D40, X
     
-    LDA $01 : ASL $01 : PHP : ROR A
+    LDA.b $01 : ASL.b $01 : PHP : ROR A
                         PLP : ROR A : CLC : ADC.w $0D50, X : STA.w $0D50, X
     
     RTS
@@ -257,7 +257,7 @@ TrinexxHead_Initialize:
 
 ; $0EAEF5-$0EAF23 JUMP LOCATION
 {
-    LDA $1A : AND.b #$01 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
     LDA.b #$1F
     
@@ -323,34 +323,34 @@ TrinexxHead_Initialize:
     
     REP #$20
     
-    LDA $22                 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0008
+    LDA.b $22                 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0008
                                         CMP.w #$0010 : BCS .BRANCH_BETA
     
-    LDA $20 : CLC : ADC.w #$0008 : SEC : SBC.w $0FDA : CLC : ADC.w #$0008
+    LDA.b $20 : CLC : ADC.w #$0008 : SEC : SBC.w $0FDA : CLC : ADC.w #$0008
                                         CMP.w #$0010 : BCS .BRANCH_BETA
     
     SEP #$20
     
     LDA.w $0D80, X : BMI .BRANCH_BETA
     
-    LDA.w $031F : ORA.w $037B : ORA $11 : ORA.w $0FC1 : BNE .BRANCH_BETA
+    LDA.w $031F : ORA.w $037B : ORA.b $11 : ORA.w $0FC1 : BNE .BRANCH_BETA
 
-    LDA.b #$01 : STA $4D
+    LDA.b #$01 : STA.b $4D
     
     LDA.b #$08 : STA.w $0373
     
-    LDA.b #$10 : STA $46
+    LDA.b #$10 : STA.b $46
     
-    LDA $28 : EOR.b #$FF : STA $28
-    LDA $27 : EOR.b #$FF : STA $27
+    LDA.b $28 : EOR.b #$FF : STA.b $28
+    LDA.b $27 : EOR.b #$FF : STA.b $27
     
     REP #$20
 
 .BRANCH_BETA
 
-    LDA $90 : CLC : ADC.w $AF54, Y : STA $90
+    LDA.b $90 : CLC : ADC.w $AF54, Y : STA.b $90
     
-    LDA.w $AF54, Y : LSR #2 : CLC : ADC $92 : STA $92
+    LDA.w $AF54, Y : LSR #2 : CLC : ADC.b $92 : STA.b $92
     
     SEP #$20
     
@@ -446,8 +446,8 @@ Sprite_Trinexx:
     
     .BRANCH_ALPHA
     
-    LDA.b #$17 : STA $1C
-                 STZ $1D
+    LDA.b #$17 : STA.b $1C
+                 STZ.b $1D
     
     JSR.w $B587   ; $0EB587 IN ROM
     JSR Sprite4_CheckIfActive
@@ -566,11 +566,11 @@ Sprite_Trinexx:
     JSR.w $B3E6 ; $0EB3E6 IN ROM
     JSR Sprite4_CheckDamage
     
-    LDA $1A : AND.b #$3F : BNE .BRANCH_BETA
+    LDA.b $1A : AND.b #$3F : BNE .BRANCH_BETA
     
     JSR Sprite4_IsToRightOfPlayer
     
-    LDA $0F : CLC : ADC.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC .BRANCH_GAMMA
+    LDA.b $0F : CLC : ADC.b #$18 : CMP.b #$30 : LDA.b #$00 : BCC .BRANCH_GAMMA
     
     LDA.w $B0C8, Y
     
@@ -582,7 +582,7 @@ Sprite_Trinexx:
     
     LDA.w $0B0E : BEQ .BRANCH_DELTA
     
-    LDA $1A : AND.b #$01 : BNE .BRANCH_EPSILON
+    LDA.b $1A : AND.b #$01 : BNE .BRANCH_EPSILON
     
     DEC.w $0B0E
     
@@ -636,7 +636,7 @@ Sprite_Trinexx:
 {
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA.w $0E30, X : AND.b #$7F : STA $00
+    LDA.w $0E30, X : AND.b #$7F : STA.b $00
     
     JSL GetRandomInt : AND.b #$03 : TAY : CMP $00 : BEQ .BRANCH_ALPHA
     
@@ -689,11 +689,11 @@ Sprite_Trinexx:
     
     .BRANCH_ALPHA
     
-    LDA.w $0B08    : STA $04
-    LDA.w $0D30, X : STA $05
+    LDA.w $0B08    : STA.b $04
+    LDA.w $0D30, X : STA.b $05
     
-    LDA.w $0B09    : STA $06
-    LDA.w $0D20, X : STA $07
+    LDA.w $0B09    : STA.b $06
+    LDA.w $0D20, X : STA.b $07
     
     LDA.b #$08
     
@@ -705,9 +705,9 @@ Sprite_Trinexx:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D5050, X
+    LDA.b $01 : STA.w $0D5050, X
     
     LDA.w $0D10, X : PHA
     LDA.w $0D00, X : PHA
@@ -865,33 +865,33 @@ Sprite_Trinexx:
 
 ; $0EB3E6-$0EB43F LOCAL JUMP LOCATION
 {
-    LDA.w $0D90, X : STA $04
-    LDA.w $0DA0, X : STA $05
-    LDA.w $0DB0, X : STA $06
-    LDA.w $0ED0, X : STA $07
+    LDA.w $0D90, X : STA.b $04
+    LDA.w $0DA0, X : STA.b $05
+    LDA.w $0DB0, X : STA.b $06
+    LDA.w $0ED0, X : STA.b $07
     
     REP #$20
     
-    LDA $04 : SEC : SBC $22 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .BRANCH_ALPHA
+    LDA.b $04 : SEC : SBC.b $22 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .BRANCH_ALPHA
     
-    LDA $06 : SEC : SBC $20 : CLC : ADC.w #$0010 : CMP.w #$0040 : BCS .BRANCH_ALPHA
+    LDA.b $06 : SEC : SBC.b $20 : CLC : ADC.w #$0010 : CMP.w #$0040 : BCS .BRANCH_ALPHA
     
     SEP #$20
     
     LDA.w $031F : ORA.w $037B : BNE .BRANCH_ALPHA
     
-    LDA.b #$01 : STA $4D
+    LDA.b #$01 : STA.b $4D
     
     LDA.b #$08 : STA.w $0373
     
-    LDA.b #$10 : STA $46
+    LDA.b #$10 : STA.b $46
     
     LDA #$20
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : STA $27
-    LDA $01 : STA $28
+    LDA.b $00 : STA.b $27
+    LDA.b $01 : STA.b $28
     
     .BRANCH_ALPHA
     
@@ -929,7 +929,7 @@ TrinexxHeadAndSnakeDraw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$B440 : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$B440 : STA.b $08
     
     SEP #$20
     
@@ -952,7 +952,7 @@ TrinexxHeadAndSnakeDraw:
     
     JSR TrinexxHeadAndSnakeDraw ; $B560 ; $0EB560 IN ROM
     
-    LDA $05 : AND.b #$EF : STA $05
+    LDA.b $05 : AND.b #$EF : STA.b $05
     
     LDA.w $0D80, X : CMP.b #$03 : BEQ .BRANCH_ALPHA
     
@@ -960,21 +960,21 @@ TrinexxHeadAndSnakeDraw:
 
     .BRANCH_ALPHA
 
-    LDA.w $0D90, X : SEC : SBC.w $0D10, X : STA $08 : BPL .BRANCH_BETA
+    LDA.w $0D90, X : SEC : SBC.w $0D10, X : STA.b $08 : BPL .BRANCH_BETA
     
     EOR.b #$FF : INC A
 
     .BRANCH_BETA
 
-    STA $0A
+    STA.b $0A
     
-    LDA.w $0DB0, X : SEC : SBC.w $0D00, X : STA $09 : BPL .BRANCH_GAMMA
+    LDA.w $0DB0, X : SEC : SBC.w $0D00, X : STA.b $09 : BPL .BRANCH_GAMMA
     
     EOR.b #$FF : INC A
 
     .BRANCH_GAMMA
 
-    STA $0B
+    STA.b $0B
     
     LDA.b #$07 : STA.w $0FB5
     
@@ -984,7 +984,7 @@ TrinexxHeadAndSnakeDraw:
 
     LDY.w $0FB5
     
-    LDA $0A : STA.w $4202
+    LDA.b $0A : STA.w $4202
     
     LDA.w $B804, Y : STA.w $4203
     
@@ -994,13 +994,13 @@ TrinexxHeadAndSnakeDraw:
     
     LDA.w $4217 : ADC.b #$00
     
-    LDY $08 : BPL .BRANCH_DELTA
+    LDY.b $08 : BPL .BRANCH_DELTA
     
     EOR.b #$FF : INC A
 
     .BRANCH_DELTA
 
-    CLC : ADC $00
+    CLC : ADC.b $00
     
     LDY.w $0FB6
     
@@ -1008,7 +1008,7 @@ TrinexxHeadAndSnakeDraw:
     
     LDY.w $0FB5
     
-    LDA $0B : STA.w $4202
+    LDA.b $0B : STA.w $4202
     
     LDA.w $B804, Y : STA.w $4203
     
@@ -1020,15 +1020,15 @@ TrinexxHeadAndSnakeDraw:
     
     ADC.b #$00
     
-    LDY $09 : BPL .BRANCH_EPSILON
+    LDY.b $09 : BPL .BRANCH_EPSILON
     
     EOR.b #$FF : INC A
 
     .BRANCH_EPSILON
 
-    CLC : ADC $02   : LDY.w $0FB6 : INY : STA ($90), Y
+    CLC : ADC.b $02   : LDY.w $0FB6 : INY : STA ($90), Y
     LDA.b #$28 :             INY : STA ($90), Y
-    LDA $05    :             INY : STA ($90), Y
+    LDA.b $05    :             INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -1042,16 +1042,16 @@ TrinexxHeadAndSnakeDraw:
 
     REP #$20
     
-    LDA.w #$09F0 : STA $90
+    LDA.w #$09F0 : STA.b $90
     
-    LDA.w #$0A9C : STA $92
+    LDA.w #$0A9C : STA.b $92
     
     SEP #$20
     
-    LDA.w $0D90, X : SEC : SBC $E2 : STA $00
+    LDA.w $0D90, X : SEC : SBC.b $E2 : STA.b $00
     
-    LDA.w $0DB0, X : SEC : SBC $E8 : STA $02
-    LDA.w $0D20, X : SBC $E9 : STA $03
+    LDA.w $0DB0, X : SEC : SBC.b $E8 : STA.b $02
+    LDA.w $0D20, X : SBC.b $E9 : STA.b $03
     
     LDA.b #$01 : STA.w $0FB5
     
@@ -1061,12 +1061,12 @@ TrinexxHeadAndSnakeDraw:
 
     .BRANCH_THETA
 
-    STA $06
+    STA.b $06
     
-    CLC : ADC.b #$08 : AND.b #$0F : STA $07
+    CLC : ADC.b #$08 : AND.b #$0F : STA.b $07
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$0F : STA $08
-    CLC : ADC.b #$08           : AND.b #$0F : STA $09
+    LDA.w $0E80, X : LSR #2 : AND.b #$0F : STA.b $08
+    CLC : ADC.b #$08           : AND.b #$0F : STA.b $09
     
     LDY.b #$00
     
@@ -1074,18 +1074,18 @@ TrinexxHeadAndSnakeDraw:
 
     .BRANCH_IOTA
 
-    LDA $00 : CLC : ADC.w $B80C, X : PHA
+    LDA.b $00 : CLC : ADC.w $B80C, X : PHA
     
-    LDA $06, X : TAX
+    LDA.b $06, X : TAX
     
     PLA : CLC : ADC.w $B810, X          : STA ($90), Y
                           INY #4 : STA ($90), Y
     
-    LDA $02 : CLC : ADC.b #$F8 : PHA
+    LDA.b $02 : CLC : ADC.b #$F8 : PHA
     
     LDX.w $0FB5
     
-    LDA $08, X : TAX
+    LDA.b $08, X : TAX
     
     PLA : CLC : ADC.w $B820, X
     
@@ -1103,7 +1103,7 @@ TrinexxHeadAndSnakeDraw:
     
     LDX.w $0FB5
     
-    LDA $05 : ORA.w $B80E, X : STA ($90), Y
+    LDA.b $05 : ORA.w $B80E, X : STA ($90), Y
     
     INY #4 : STA ($90), Y
     
@@ -1118,7 +1118,7 @@ TrinexxHeadAndSnakeDraw:
     
     DEC.w $0FB5 : BPL .BRANCH_IOTA
     
-    LDA.w $0B0A : ASL #2 : ADC.w $0B0A : STA $06
+    LDA.w $0B0A : ASL #2 : ADC.w $0B0A : STA.b $06
     
     LDY.b #$00
     LDX.b #$00
@@ -1127,13 +1127,13 @@ TrinexxHeadAndSnakeDraw:
 
     PHX
     
-    TXA : CLC : ADC $06 : ASL A : TAX
+    TXA : CLC : ADC.b $06 : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC.w $B773, X : STA.w $096C, Y
+    LDA.b $00 : CLC : ADC.w $B773, X : STA.w $096C, Y
     
-    LDA $02 : SEC : SBC.w $B7B9, X : SBC.w #$0020 : CLC : ADC.w $0B0F : INY : STA.w $096C, Y
+    LDA.b $02 : SEC : SBC.w $B7B9, X : SBC.w #$0020 : CLC : ADC.w $0B0F : INY : STA.w $096C, Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_KAPPA
     
@@ -1144,7 +1144,7 @@ TrinexxHeadAndSnakeDraw:
     PLX
     
     LDA.w $B7FF, X : INY : STA.w $096C, Y
-    LDA $05      : INY : STA.w $096C, Y
+    LDA.b $05      : INY : STA.w $096C, Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -1156,7 +1156,7 @@ TrinexxHeadAndSnakeDraw:
     
     PLX
     
-    LDA $11 : BEQ .BRANCH_MU
+    LDA.b $11 : BEQ .BRANCH_MU
     
     LDY.b #$02
     LDA.b #$03

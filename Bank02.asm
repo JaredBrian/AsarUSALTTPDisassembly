@@ -3243,7 +3243,7 @@ RepositionLinkAfterSpiralStairs:
     .BRANCH_DELTA
 
     LDA.w $048A : CMP.b #$02 : BEQ .BRANCH_EPSILON
-        LDA.b #$10 : TSB $1C
+        LDA.b #$10 : TSB.b $1C
 
         LDA.b $1D : AND.b #$0F : STA .b$0F
 
@@ -6240,10 +6240,10 @@ Module_OverworldTable:
     dw Module09_19                          ; 0x19 Loads map data for module B?
     dw Overworld_LoadTransGfx               ; 0x1A Starts loading new gfx on a module B scrolling transition ; Run when entering a special area.
     dw Overworld_FinishTransGfx             ; 0x1B Finishes loading new gfx.
-    dw Module09_1C                          ; 0x1C.w $013150
-    dw Module09_1D                          ; 0x1D.w $012ECE
-    dw Module09_1E                          ; 0x1E.w $012EEA
-    dw Module09_1F                          ; 0x1F.w $0142A4 Coming out of Lost woods.
+    dw Module09_1C                          ; 0x1C $013150
+    dw Module09_1D                          ; 0x1D $012ECE
+    dw Module09_1E                          ; 0x1E $012EEA
+    dw Module09_1F                          ; 0x1F $0142A4 Coming out of Lost woods.
     dw Overworld_ReloadSubscreenOverlay     ; 0x20 Coming back from Overworld Map.... reloads subscreen overlay to wram?
     dw Overworld_LoadAmbientOverlay         ; 0x21 Coming back from Overworld Map.... sends command to reupload subscreen overlay to vram?
     dw Overworld_BrightenScreen             ; 0x22 $0131BB - Brightens screen.
@@ -6259,7 +6259,7 @@ Module_OverworldTable:
     dw Overworld_MirrorWarp                 ; 0x2C Magic Mirror routine (warping back from a failed warp).
     dw Overworld_WeathervaneExplosion       ; 0x2D Used for breaking open the weather vane (RTS!).
     dw Overworld_Whirlpool                  ; 0x2E 0x2E and 0x2F are used for the whirlpool teleporters.
-    dw Module09_2F                          ; 0x2F.w $013521 Is jumped to from the previous submodule.
+    dw Module09_2F                          ; 0x2F $013521 Is jumped to from the previous submodule.
 }
 
 ; $01246D-$012474 DATA TABLE
@@ -8547,7 +8547,7 @@ Dungeon_AdjustForRoomLayout:
     LDA.w $0452 : BNE .blastWallOpenHoriz
         LDX.b $A8
 
-        LDA.w $B5AC, X : AND $00 : BNE .gamma
+        LDA.w $B5AC, X : AND.b $00 : BNE .gamma
 
     .blastWallOpenHoriz
 
@@ -8572,7 +8572,7 @@ Dungeon_AdjustForRoomLayout:
     LDA.w $0453 : BNE .blastWallOpenVert
         LDX.b $A8
 
-        LDA.w $B5AC, X : AND $00 : BNE .zeta
+        LDA.w $B5AC, X : AND.b $00 : BNE .zeta
 
     .blastWallOpenVert
 
@@ -8690,7 +8690,7 @@ HandleEdgeTransitionMovementEast_RightBy8:
     LDA.w $0453 : BNE .BRANCH_IOTA
         LDX.b $A8
 
-        LDA.w $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
+        LDA.w $B5AC, X : AND.b $00 : BNE .BRANCH_KAPPA
 
     .BRANCH_IOTA
 
@@ -8794,7 +8794,7 @@ HandleEdgeTransitionMovementWest_LeftBy8:
     LDA.w $0453 : BNE .BRANCH_IOTA
         LDX.b $A8
 
-        LDA.w $B5AC, X : AND $00 : BNE .BRANCH_KAPPA
+        LDA.w $B5AC, X : AND.b $00 : BNE .BRANCH_KAPPA
 
     .BRANCH_IOTA
 
@@ -8912,7 +8912,7 @@ HandleEdgeTransitionMovementSouth:
     LDA.w $0452 : BNE .BRANCH_ZETA
         LDX.b $A8
 
-        LDA.w $B5AC, X : AND $00 : BNE .BRANCH_THETA
+        LDA.w $B5AC, X : AND.b $00 : BNE .BRANCH_THETA
 
     .BRANCH_ZETA
 
@@ -9019,7 +9019,7 @@ HandleEdgeTransitionMovementNorth:
     LDA.w $0452 : BNE .iota
         LDX.b $A8
 
-        LDA.w $B5AC, X : AND $00 : BNE .kappa
+        LDA.w $B5AC, X : AND.b $00 : BNE .kappa
 
     .iota
 
@@ -9355,7 +9355,7 @@ Underworld_HandleCamera:
 
                             STZ.b $04
 
-                            LSR A : ROR $04 : CMP.w #$7000 : BCC .BRANCH_THETA
+                            LSR A : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_THETA
                                 ORA.w #$F000
 
                             .BRANCH_THETA
@@ -9410,7 +9410,7 @@ Underworld_HandleCamera:
                     CLC : ADC.b $00 : STA.b $E2
 
                     LDA.b $A0 : CMP.w #$FFFF : BEQ .BRANCH_XI
-                        LDA.b $00 : STZ.b $04 : LSR A : ROR $04 : CMP.w #$7000 : BCC .BRANCH_OMICRON
+                        LDA.b $00 : STZ.b $04 : LSR A : ROR.b $04 : CMP.w #$7000 : BCC .BRANCH_OMICRON
                             ORA.w #$F000
 
                         .BRANCH_OMICRON
@@ -9534,7 +9534,7 @@ Overworld_OperateCameraScroll:
 
         STZ.b $00
 
-        LSR A : ROR $00
+        LSR A : ROR.b $00
 
         LDX.b $8C
 
@@ -9542,7 +9542,7 @@ Overworld_OperateCameraScroll:
             CPX.b #$BE : BNE .BRANCH_LAMBDA
                 .BRANCH_KAPPA
 
-                LSR A : ROR $00 : CMP.w #$3000 : BCC .BRANCH_MU
+                LSR A : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_MU
                     ORA.w #$F000
 
                     BRA .BRANCH_MU
@@ -9623,7 +9623,7 @@ Overworld_OperateCameraScroll:
     CPX.b #$97 : BEQ .BRANCH_UPSILON
     CPX.b #$9D : BEQ .BRANCH_UPSILON
         LDA.b $04 : BEQ .BRANCH_UPSILON
-            STZ.b $00 : LSR A : ROR $00
+            STZ.b $00 : LSR A : ROR.b $00
 
             LDX.b $8C
 
@@ -9631,7 +9631,7 @@ Overworld_OperateCameraScroll:
                 CPX.b #$9E : BNE .BRANCH_CHI
                     .BRANCH_PHI
 
-                    LSR A : ROR $00 : CMP.w #$3000 : BCC .BRANCH_PSI
+                    LSR A : ROR.b $00 : CMP.w #$3000 : BCC .BRANCH_PSI
                         ORA.w #$F000
 
                         BRA .BRANCH_PSI
@@ -13022,10 +13022,10 @@ LoadSpecialOverworld:
     ; Direction
     LDA.l Pool_LoadSpecialOverworld_direction, X : STA.b $2F : STZ.w $0412
 
-    ; GFX.w $0AA3
+    ; GFX $0AA3
     LDA.l Pool_LoadSpecialOverworld_gfx_0AA3, X : STA.w $0AA3
 
-    ; GFX.w $0AA2
+    ; GFX $0AA2
     LDA.l Pool_LoadSpecialOverworld_gfx_0AA2, X : STA.w $0AA2 : PHX
 
     ; Palette property b
@@ -14075,7 +14075,7 @@ Overworld_ScrollTable:
     dw Overworld_TransError  ; 0x07 impossible (up + left + right)
     dw Overworld_ScrollDown  ; 0x08 moving down
     dw $F2CF                 ; 0x09 $0172CF ; Moving down + right
-    dw $F2CF                 ; 0x0A.w $0172CF ; Moving down + left
+    dw $F2CF                 ; 0x0A $0172CF ; Moving down + left
     dw Overworld_TransError  ; 0x0B impossible (down + left + right)
     dw Overworld_TransError  ; 0x0C impossible (down + up)
     dw Overworld_TransError  ; 0x0D impossible (down + up + right)

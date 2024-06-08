@@ -108,11 +108,11 @@ Kyameron_Coagulate:
     
     JSR Sprite3_IsBelowPlayer
     
-    TYA : ASL A : STA $00
+    TYA : ASL A : STA.b $00
     
     JSR Sprite3_IsToRightOfPlayer
     
-    TYA : ORA $00 : TAY
+    TYA : ORA.b $00 : TAY
     
     LDA .x_speeds, Y : STA.w $0D50, X
     
@@ -195,13 +195,13 @@ Kyameron_Moving:
     
     LDA.w $9F55, Y : STA.w $0DC0, X
     
-    TXA : EOR $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
+    TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_shiny_garnish
     
-    JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA $00
+    JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $00
     
     SEP #$20
     
-    JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA $02
+    JSL GetRandomInt : REP #$20 : AND.w #$000F : SEC : SBC.w #$0004 : STA.b $02
     
     SEP #$20
     
@@ -270,7 +270,7 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
     
     DEX : BPL .next_slot
     
-    STX $0F
+    STX.b $0F
     
     PLX
     
@@ -278,16 +278,16 @@ Sprite_SpawnSimpleSparkleGarnish_SlotRestricted:
     
     .empty_slot
     
-    STX $0F
+    STX.b $0F
     
     LDA.b #$05 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA.w $0D10, Y : CLC : ADC $00 : STA.l $7FF83C, X
-    LDA.w $0D30, Y : ADC $01 : STA.l $7FF878, X
+    LDA.w $0D10, Y : CLC : ADC.b $00 : STA.l $7FF83C, X
+    LDA.w $0D30, Y : ADC.b $01 : STA.l $7FF878, X
     
     ; WTF is this math here? Will take some sorting out with the PHP / PLPs...
-    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC $02    : STA.l $7FF81E, X
-    LDA.w $0D20, Y : ADC $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA.l $7FF85A, X
+    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : PHP : CLC : ADC.b #$10 : PHP : CLC : ADC.b $02    : STA.l $7FF81E, X
+    LDA.w $0D20, Y : ADC.b $03      : PLP : ADC.b #$00 : PLP : SBC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$1F : STA.l $7FF90E, X
     
@@ -371,7 +371,7 @@ Kyameron_Draw:
     
     LDA.b #$00 : XBA
     
-    TYA : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    TYA : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

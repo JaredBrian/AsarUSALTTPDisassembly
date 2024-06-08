@@ -42,7 +42,7 @@ Ancilla_ReceiveItem:
     
     ; Usually induced by an instance of this object that is a crystal
     LDA.w $02E4 : CMP.b #$02 : BEQ .justDoGraphics
-    LDA $11    : BEQ .allowedSubmodule
+    LDA.b $11    : BEQ .allowedSubmodule
     CMP.b #$2B : BEQ .allowedSubmodule
     CMP.b #$09 : BEQ .allowedSubmodule
     CMP.b #$02 : BNE .justDoGraphics
@@ -129,7 +129,7 @@ Ancilla_ReceiveItem:
     
     .notInWater
     
-    STY $5D
+    STY.b $5D
     
     STZ.w $02D8
     STZ.w $02DA
@@ -182,16 +182,16 @@ Ancilla_ReceiveItem:
     
     .heartContainerInChest
     
-    LDA.l $7EF36D : STA $00
+    LDA.l $7EF36D : STA.b $00
     
     LDA.l $7EF36C : CMP.b #$A0 : BEQ .already20Hearts
         ; Give Link an additional heart
         CLC : ADC.b #$08 : STA.l $7EF36C
         
         ; Put Link's actual health at maximum
-        SEC : SBC $00 : STA $00
+        SEC : SBC.b $00 : STA.b $00
         
-        LDA.l $7EF372 : CLC : ADC $00 : STA.l $7EF372
+        LDA.l $7EF372 : CLC : ADC.b $00 : STA.l $7EF372
     
         .playHeartContainerSfx
     
@@ -288,10 +288,10 @@ Ancilla_ReceiveItem:
     
     .timesUp
     
-    LDA $1B : BEQ .outdoors
+    LDA.b $1B : BEQ .outdoors
     REP #$20
     
-    LDA $A0
+    LDA.b $A0
     
     CMP.w #$00FF : BEQ .shop
     CMP.w #$010F : BEQ .shop
@@ -463,7 +463,7 @@ Ancilla_ReceiveItem:
     REP #$20
     
     ; $08 = $00 + 0x08
-    LDA $00 : CLC : ADC.b #$0008 : STA $08
+    LDA.b $00 : CLC : ADC.b #$0008 : STA.b $08
     
     SEP #$20
     
@@ -472,7 +472,7 @@ Ancilla_ReceiveItem:
     
     PHX
     
-    LDA.w $0BF0, X : STA $74
+    LDA.w $0BF0, X : STA.b $74
     
     LDA.w $0C5E, X : TAX
     
@@ -485,7 +485,7 @@ Ancilla_ReceiveItem:
     LDA.b #$24 : STA ($90), Y : INY
     
     LDA AddReceiveItem.properties, X : BPL .valid_upper_properties
-    LDA $74
+    LDA.b $74
     
     .valid_upper_properties
     
@@ -505,7 +505,7 @@ Ancilla_ReceiveItem:
     REP #$20
     
     ; Shift Y coordinate 8 pixels down
-    LDA $08 : STA $00
+    LDA.b $08 : STA.b $00
     
     SEP #$20
     
@@ -515,7 +515,7 @@ Ancilla_ReceiveItem:
     LDA.b #$34 : STA ($90), Y : INY
     
     LDA AddReceiveItem.properties, X : BPL .valid_lower_properties
-        LDA $74
+        LDA.b $74
     
     .valid_lower_properties
     

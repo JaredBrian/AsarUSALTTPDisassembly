@@ -34,9 +34,9 @@ Sprite_ThrowableScenery:
     
     REP #$20
     
-    LDA .main_oam_table_offsets, Y : STA $90
+    LDA .main_oam_table_offsets, Y : STA.b $90
     
-    LDA .high_oam_table_offsets, Y : STA $92
+    LDA .high_oam_table_offsets, Y : STA.b $92
     
     SEP #$20
     
@@ -58,7 +58,7 @@ Sprite_ThrowableScenery:
     PHX
     
     ; (checks to see if you're indoors in the dark world)
-    LDA $1B : CLC : ADC.w $0FFF : CMP.b #$02
+    LDA.b $1B : CLC : ADC.w $0FFF : CMP.b #$02
     
     LDA.w $0DB0, X : PHA : BCC .not_indoors_in_dark_world
     
@@ -74,9 +74,9 @@ Sprite_ThrowableScenery:
     
     PLX
     
-    AND.b #$0F : STA $00
+    AND.b #$0F : STA.b $00
     
-    LDA.w $0F50, X : AND.b #$C0 : ORA $00 : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$C0 : ORA.b $00 : STA.w $0F50, X
     
     .done_drawing
     .cant_draw
@@ -137,11 +137,11 @@ ThrowableScenery_DrawLarge:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -152,13 +152,13 @@ ThrowableScenery_DrawLarge:
     PLX
     
     LDA.b #$4A      : INY           : STA ($90), Y
-    LDA .vh_flip, X : INY : ORA $05 : STA ($90), Y
+    LDA .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -170,8 +170,8 @@ ThrowableScenery_DrawLarge:
     
     LDY.b #$00
     
-    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
-    LDA.w $0D20, X : SBC $E9 : STA $03
+    LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
+    LDA.w $0D20, X : SBC.b $E9 : STA.b $03
     
     PHX
     
@@ -185,11 +185,11 @@ ThrowableScenery_DrawLarge:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC.w #$000C : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$000C : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .shadow_on_screen_y
     
@@ -206,7 +206,7 @@ ThrowableScenery_DrawLarge:
     
     TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -243,7 +243,7 @@ ThrowableScenery_ScatterIntoDebris:
     LDA.w $0DB0, X : BMI .smaller_scenery
     CMP.b #$06   : BCC .smaller_scenery
     
-    LDA.b #$03 : STA $0D
+    LDA.b #$03 : STA.b $0D
     
     .spawn_next_smaller_scenery
     
@@ -253,13 +253,13 @@ ThrowableScenery_ScatterIntoDebris:
     
     PHX
     
-    LDX $0D
+    LDX.b $0D
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0DB0, Y
     
@@ -280,7 +280,7 @@ ThrowableScenery_ScatterIntoDebris:
     
     .spawn_failed
     
-    DEC $0D : BPL .spawn_next_smaller_scenery
+    DEC.b $0D : BPL .spawn_next_smaller_scenery
     
     STZ.w $0DD0, X
     
@@ -323,7 +323,7 @@ ThrowableScenery_ScatterIntoDebris:
     
     SBC.b #$00 : STA.l $7FF85A, X
     
-    LDA $05 : STA.l $7FF9FE, X
+    LDA.b $05 : STA.l $7FF9FE, X
     
     LDA.w $0F20, Y : STA.l $7FF968, X
     

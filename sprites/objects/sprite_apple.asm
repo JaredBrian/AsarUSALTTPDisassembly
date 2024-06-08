@@ -49,16 +49,16 @@ Apple_SpawnTangibleApple:
     
     LDA.b #$16 : STA.w $0F80, Y
     
-    JSL GetRandomInt : STA $04
-    LDA $01          : STA $05
+    JSL GetRandomInt : STA.b $04
+    LDA.b $01          : STA.b $05
     
-    JSL GetRandomInt : STA $06
-    LDA $03          : STA $07
+    JSL GetRandomInt : STA.b $06
+    LDA.b $03          : STA.b $07
     
     LDA.b #$0A : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, Y
-    LDA $01 : STA.w $0D50, Y
+    LDA.b $00 : STA.w $0D40, Y
+    LDA.b $01 : STA.w $0D50, Y
     
     .spawn_failed
     
@@ -81,7 +81,7 @@ Sprite_Apple:
 {
     LDA.w $0D90, X : CMP.b #$10 : BCS .dont_blink
     
-    LDA $1A : AND.b #$02 : BEQ .blink
+    LDA.b $1A : AND.b #$02 : BEQ .blink
     
     .dont_blink
     
@@ -112,7 +112,7 @@ Sprite_Apple:
     
     .no_player_collision
     
-    LDA $1A : AND.b #$01 : BNE .delay_expiration_timer_tick
+    LDA.b $1A : AND.b #$01 : BNE .delay_expiration_timer_tick
     
     DEC.w $0D90, X
     

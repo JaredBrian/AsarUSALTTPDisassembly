@@ -81,7 +81,7 @@ Crab_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA.b $06
     
     PHX
     
@@ -91,15 +91,15 @@ Crab_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA : ASL A : TAX
+    TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : INY : STA ($90), Y
+    LDA.b $02 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .alpha
     
@@ -110,11 +110,11 @@ Crab_Draw:
     PLX
     
     LDA .chr, X               : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

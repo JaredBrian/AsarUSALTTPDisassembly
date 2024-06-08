@@ -137,31 +137,31 @@ OAM_GetBufferPosition:
     ; Y : Even value taken from { 0x00, ..., 0x0A }. Represents the region in the table to allocate from.
     ; Hidden argument? (Not sure?) It is either 0 or 1, based on input from $0FB3 (sort sprites variable)
     
-    STA $0E
+    STA.b $0E
     STZ.w $000F
     
     REP #$20
     
     ; ($0FE0[0x10] is some kind of OAM allocator table)
-    LDA.w $0FE0, Y : STA $90 : CLC : ADC $0E : CMP .limits, Y : BCC .within_limit
+    LDA.w $0FE0, Y : STA.b $90 : CLC : ADC.b $0E : CMP .limits, Y : BCC .within_limit
     ; (Sprite overflow, doesn't happen very often)
     ; (I think what happens is it resets the OAM buffer)
-    STY $0C
-    STZ $0D
+    STY.b $0C
+    STZ.b $0D
     
     ; wtf...
     LDA.w $0FEC, Y : PHA : INC A : STA.w $0FEC, Y
     
-    PLA : AND.w #$0007 : ASL A : STA $0E
+    PLA : AND.w #$0007 : ASL A : STA.b $0E
     
     ; Y = (sprite field * 8) + $0E... whatever that is
-    LDA $0C : ASL #3 : ADC $0E : TAY
+    LDA.b $0C : ASL #3 : ADC.b $0E : TAY
     
     ; Reset the OAM Position (effectively ignores existing sprites)
     ; \note I find it fairly interesting that there are set fallback points
     ; that increment state whenever this happens. This is kind of what
     ; induces the famous 'flicker' effect in video games, I imagine.
-    LDA .fallback_points, Y : STA $90
+    LDA .fallback_points, Y : STA.b $90
     
     SEC
     
@@ -173,13 +173,13 @@ OAM_GetBufferPosition:
     
     .moving_on
     
-    LDA $90 : PHA : LSR #2 : CLC : ADC.w #$0A20 : STA $92
+    LDA.b $90 : PHA : LSR #2 : CLC : ADC.w #$0A20 : STA.b $92
     
-    PLA : CLC : ADC.w #$0800 : STA $90
+    PLA : CLC : ADC.w #$0800 : STA.b $90
     
     SEP #$20
     
-    LDY $90
+    LDY.b $90
     
     RTS
 }

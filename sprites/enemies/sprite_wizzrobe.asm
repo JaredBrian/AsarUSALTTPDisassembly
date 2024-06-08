@@ -249,11 +249,11 @@ Wizzrobe_SpawnBeam:
     LDA.b #$01 : STA.w $0DB0, Y
                  STA.w $0BA0, Y
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$00 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$00 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     PHX
     

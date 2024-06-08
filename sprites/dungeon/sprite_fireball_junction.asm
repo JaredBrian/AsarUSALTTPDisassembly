@@ -63,7 +63,7 @@ Sprite_FireballJunction:
     
     .check_for_player_sword_usage
     
-    LDA $3C : BEQ .dont_initiate_spawn
+    LDA.b $3C : BEQ .dont_initiate_spawn
     
     LDA.w $0F20, X : CMP $EE : BNE .dont_initiate_spawn
     

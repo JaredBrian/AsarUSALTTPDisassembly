@@ -25,7 +25,7 @@ ChimneySmoke_Draw:
     
     LDA.w $0DC0, X : AND.b #$01 : REP #$20 : ASL #5
     
-    ADC.w #.oam_groups : STA $08
+    ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -91,7 +91,7 @@ Sprite_ChimneySmoke:
 Sprite_ChimneyAndRabbitBeam:
     shared Sprite_Chimney: ; \note This is only put here to indicate an alias.
 {
-    LDA $1B : BNE Sprite_RabbitBeam
+    LDA.b $1B : BNE Sprite_RabbitBeam
     
     LDA.b #$40 : STA.w $0E60, X : STA.w $0BA0, X
     
@@ -107,9 +107,9 @@ Sprite_ChimneyAndRabbitBeam:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
+    LDA.b $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
     
-    LDA $02 : ADC.b #$04 : STA.w $0D00, Y
+    LDA.b $02 : ADC.b #$04 : STA.w $0D00, Y
     
     LDA.b #$04 : STA.w $0F50, Y : STA.w $0D80, Y
     
@@ -166,7 +166,7 @@ RabbitBeam_Active:
     
     LDY.w $0DC0, X
     
-    LDA .chr, Y : STA $00
+    LDA .chr, Y : STA.b $00
     
     LDY.b #$00
     
@@ -174,7 +174,7 @@ RabbitBeam_Active:
     
     ; Force the chr to a certain value, and the palette of each entry
     ; to palette 1 (name table is also forced to 0 here).
-    INY #2 : LDA $00                                : STA ($90), Y
+    INY #2 : LDA.b $00                                : STA ($90), Y
     INY    : LDA ($90), Y : AND.b #$F0 : ORA.b #$02 : STA ($90), Y
     
     INY : CPY.b #$14 : BCC .next_oam_entry
@@ -204,7 +204,7 @@ RabbitBeam_Active:
     .no_player_collision
     
     ; Only adjust trajectory if player is on the same layer.
-    LDA $EE : CMP.w $0F20, X : BNE .cant_track_player
+    LDA.b $EE : CMP.w $0F20, X : BNE .cant_track_player
     
     LDA.b #$10
     

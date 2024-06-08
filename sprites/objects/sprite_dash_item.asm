@@ -84,9 +84,9 @@ DashKey_WaitForDashAttack:
     ; If the player gets close enough while the screen is shaking (from
     ; a dash attack), make the sprite drop.
     
-    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
+    LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0010 : CMP.w #$0021 : BCS .not_close
     
-    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
+    LDA.w $0FDA : SEC : SBC.b $20 : CLC : ADC.w #$0018 : CMP.w #$0029 : BCS .not_close
     
     LDA.w $011A : ORA.w $011C : BEQ .screen_not_shaking
     
@@ -180,9 +180,9 @@ DashBookOfMudora_WaitForDashAttack:
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
+    LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0027 : CMP.w #$002F : BCS .not_close
     
-    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
+    LDA.w $0FDA : SEC : SBC.b $20 : CLC : ADC.w #$0028 : CMP.w #$002E : BCS .not_close
     
     LDA.w $011A : ORA.w $011C : BEQ .screen_not_shaking
     
@@ -268,7 +268,7 @@ Sprite_DashTreetop:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Sprite_RepelDashAttackLong
     
@@ -308,9 +308,9 @@ DashTreeTop_WaitForDashAttack:
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
+    LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0018 : CMP.w #$0041 : BCS .not_close
     
-    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
+    LDA.w $0FDA : SEC : SBC.b $20 : CLC : ADC.w #$0020 : CMP.w #$0051 : BCS .not_close
     
     SEP #$30
     
@@ -399,28 +399,28 @@ DashTreeTop_Draw:
     
     REP #$10
     
-    LDX $90
+    LDX.b $90
     
-    LDA.b #$03 : STA $00
+    LDA.b #$03 : STA.b $00
     
     LDA.w $0FA8
     
     .beta
     
-    STA $00, X : STA $10, X : STA $20, X : STA $30, X
+    STA.b $00, X : STA.b $10, X : STA.b $20, X : STA.b $30, X
     
     CLC : ADC.b #$10
     
     INX #4
     
-    DEC $00 : BPL .beta
+    DEC.b $00 : BPL .beta
     
-    LDX $90
+    LDX.b $90
     
-    LDA.w $0FA9  : STA $01, X : STA $05, X : STA $09, X : STA $0D, X
-    CLC : ADC.b #$10 : STA $11, X : STA $15, X : STA $19, X : STA $1D, X
-    CLC : ADC.b #$10 : STA $21, X : STA $25, X : STA $29, X : STA $2D, X
-    CLC : ADC.b #$10 : STA $31, X : STA $35, X : STA $39, X : STA $3D, X
+    LDA.w $0FA9  : STA.b $01, X : STA.b $05, X : STA.b $09, X : STA.b $0D, X
+    CLC : ADC.b #$10 : STA.b $11, X : STA.b $15, X : STA.b $19, X : STA.b $1D, X
+    CLC : ADC.b #$10 : STA.b $21, X : STA.b $25, X : STA.b $29, X : STA.b $2D, X
+    CLC : ADC.b #$10 : STA.b $31, X : STA.b $35, X : STA.b $39, X : STA.b $3D, X
     
     REP #$30
     
@@ -428,7 +428,7 @@ DashTreeTop_Draw:
     
     .gamma
     
-    LDA.w $FE23, Y : STA $02, X
+    LDA.w $FE23, Y : STA.b $02, X
     
     INX #4
     
@@ -447,33 +447,33 @@ DashTreeTop_Draw:
     
     .alpha
     
-    LDA.w $0E80, X : DEC A : STA $00 : STZ $01
+    LDA.w $0E80, X : DEC A : STA.b $00 : STZ.b $01
     
     REP #$10
     
-    LDX $90
+    LDX.b $90
     
     LDY.w #$000F
     
     .delta
     
-    LDA.w $0FA8 : CLC : ADC.w $FE43, Y : STA $00, X
+    LDA.w $0FA8 : CLC : ADC.w $FE43, Y : STA.b $00, X
     
     INX
     
-    LDA.w $0FA9 : CLC : ADC.w $FE53, Y : STA $00, X
+    LDA.w $0FA9 : CLC : ADC.w $FE53, Y : STA.b $00, X
     
     INX
     
     PHY
     
-    LDY $00
+    LDY.b $00
     
-    LDA.w $FE63, Y : STA $00, X
+    LDA.w $FE63, Y : STA.b $00, X
     
     INX
     
-    LDA.w $FE69, Y : STA $00, X
+    LDA.w $FE69, Y : STA.b $00, X
     
     INX
     

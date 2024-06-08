@@ -96,11 +96,11 @@ Pool_PhantomGanon_Draw:
 PhantomGanon_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #6 : CLC : ADC.w #(.oam_groups) : STA.b $08
     
-    LDA.w #$0950 : STA $90
+    LDA.w #$0950 : STA.b $90
     
-    LDA.w #$0A74 : STA $92
+    LDA.w #$0A74 : STA.b $92
     
     SEP #$20
     
@@ -109,7 +109,7 @@ PhantomGanon_Draw:
     ; $0E8AA9 ALTERNATE ENTRY POINT
     shared Sprite_PeriodicWhirringSfx:
     
-    LDA $1A : AND.b #$0F : BNE .shadow_flicker
+    LDA.b $1A : AND.b #$0F : BNE .shadow_flicker
     
     LDA.b #$06 : JSL Sound_SetSfx3PanLong
     

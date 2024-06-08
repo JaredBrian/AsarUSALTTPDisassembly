@@ -20,7 +20,7 @@ Sprite_Spark:
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite2_CheckIfActive
     
-    LDA $1A : AND.b #$01 : BNE .dont_toggle_palette
+    LDA.b $1A : AND.b #$01 : BNE .dont_toggle_palette
     
     LDA.w $0F50, X : EOR.b #$06 : STA.w $0F50, X
     
@@ -73,7 +73,7 @@ Sprite_Spark:
     
     .direction_initialized
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     ; interesting.... its v and h flip settings are cyclical?
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X

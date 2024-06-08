@@ -46,43 +46,43 @@ GuruguruBar_Main:
 {
     JSR Sprite3_PrepOamCoord
     
-    LDA $05 : STA.w $0FB6
+    LDA.b $05 : STA.w $0FB6
     
-    LDA $00 : STA.w $0FA8
+    LDA.b $00 : STA.w $0FA8
     
-    LDA $02 : STA.w $0FA9
+    LDA.b $02 : STA.w $0FA9
     
-    LDA.w $0D90, X : STA $00
+    LDA.w $0D90, X : STA.b $00
     
-    LDA.w $0DA0, X : STA $01
+    LDA.w $0DA0, X : STA.b $01
     
-    LDA.b #$40 : STA $0F
+    LDA.b #$40 : STA.b $0F
     
     PHX
     
     REP #$30
     
-    LDA $00 : AND.w #$01FF : LSR #6 : STA $0A
+    LDA.b $00 : AND.w #$01FF : LSR #6 : STA.b $0A
     
-    LDA $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA $02
+    LDA.b $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA.b $02
     
-    LDA $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $04
+    LDA.l $04E800, X : STA.b $04
     
-    LDA $02 : AND.w #$00FF : ASL A : TAX
+    LDA.b $02 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $06
+    LDA.l $04E800, X : STA.b $06
     
     SEP #$30
     
     PLX
     
-    LDA $04 : STA.w $4202
+    LDA.b $04 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $05 : BNE .BRANCH_ALPHA
+    LDY.b $05 : BNE .BRANCH_ALPHA
     
     STA.w $4203
     
@@ -94,21 +94,21 @@ GuruguruBar_Main:
     
     .BRANCH_ALPHA
     
-    STA $0E
+    STA.b $0E
     
-    LSR $01 : BCC .BRANCH_BETA
+    LSR.b $01 : BCC .BRANCH_BETA
     
     EOR.b #$FF : INC A
     
     .BRANCH_BETA
     
-    STA $04
+    STA.b $04
     
-    LDA $06 : STA.w $4202
+    LDA.b $06 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $07 : BNE .BRANCH_GAMMA
+    LDY.b $07 : BNE .BRANCH_GAMMA
     
     STA.w $4203
     
@@ -120,25 +120,25 @@ GuruguruBar_Main:
     
     .BRANCH_GAMMA
     
-    STA $0F
+    STA.b $0F
     
-    LSR $03 : BCC .BRANCH_DELTA
+    LSR.b $03 : BCC .BRANCH_DELTA
     
     EOR.b #$FF : INC A
     
     .BRANCH_DELTA
     
-    STA $06
+    STA.b $06
     
-    LDA.w $0E80, X : ASL #4 : AND.b #$C0 : ORA.w $0FB6 : STA $0D
+    LDA.w $0E80, X : ASL #4 : AND.b #$C0 : ORA.w $0FB6 : STA.b $0D
     
     LDY.b #$00
     
     ; Draw base segment.
-    LDA $04    : CLC : ADC.w $0FA8       : STA ($90), Y
-    LDA $06    : CLC : ADC.w $0FA9 : INY : STA ($90), Y
+    LDA.b $04    : CLC : ADC.w $0FA8       : STA ($90), Y
+    LDA.b $06    : CLC : ADC.w $0FA9 : INY : STA ($90), Y
     LDA.b #$28             : INY : STA ($90), Y
-    LDA $0D                : INY : STA ($90), Y
+    LDA.b $0D                : INY : STA ($90), Y
     
     LDA.b #$02 : STA ($92)
     
@@ -150,12 +150,12 @@ GuruguruBar_Main:
     
     .draw_segments_loop
     
-    LDA $0E             : STA.w $4202
+    LDA.b $0E             : STA.w $4202
     LDA .multipliers, X : STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    LDA $04 : ASL A : LDA.w $4217 : BCC .BRANCH_EPSILON
+    LDA.b $04 : ASL A : LDA.w $4217 : BCC .BRANCH_EPSILON
     
     EOR.b #$FF : INC A
     
@@ -163,12 +163,12 @@ GuruguruBar_Main:
     
     CLC : ADC.w $0FA8 : STA ($90), Y
     
-    LDA $0F             : STA.w $4202
+    LDA.b $0F             : STA.w $4202
     LDA .multipliers, X : STA.w $4203
     
     JSR Sprite3_DivisionDelay
     
-    LDA $06 : ASL A : LDA.w $4217 : BCC .BRANCH_ZETA
+    LDA.b $06 : ASL A : LDA.w $4217 : BCC .BRANCH_ZETA
     
     EOR.b #$FF : INC A
     
@@ -176,7 +176,7 @@ GuruguruBar_Main:
     
     CLC : ADC.w $0FA9  : INY : STA ($90), Y
     LDA.b #$28 : INY : STA ($90), Y
-    LDA $0D    : INY : STA ($90), Y
+    LDA.b $0D    : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -193,7 +193,7 @@ GuruguruBar_Main:
     
     JSL Sprite_CorrectOamEntriesLong
     
-    TXA : EOR $1A : AND.b #$03 : ORA $11
+    TXA : EOR.b $1A : AND.b #$03 : ORA.b $11
                                  ORA.w $0FC1 : BNE .damage_to_player_inhibit
     
     LDY.b #$00
@@ -205,7 +205,7 @@ GuruguruBar_Main:
     ; Check if offscreen per x coordinate.
     LDA ($92), Y : PLY : AND.b #$01 : BNE .no_player_collision
     
-    LDA ($90), Y : CLC : ADC $E2 : SEC : SBC $22
+    LDA ($90), Y : CLC : ADC.b $E2 : SEC : SBC.b $22
     
     CLC : ADC.b #$0C : CMP.b #$18 : BCS .no_player_collision
     
@@ -214,7 +214,7 @@ GuruguruBar_Main:
     ; Check if offscreen per y coordinate.
     LDA ($90), Y : DEY : CMP.b #$F0 : BCS .no_player_collision
     
-    CLC : ADC $E8 : SEC : SBC $20 : CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision
+    CLC : ADC.b $E8 : SEC : SBC.b $20 : CLC : ADC.b #$04 : CMP.b #$10 : BCS .no_player_collision
     
     PHY
     

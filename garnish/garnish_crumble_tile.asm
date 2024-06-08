@@ -31,15 +31,15 @@ Garnish_CrumbleTile:
     ; frame that this garnish is active.
     LDA.l $7FF90E, X : CMP.B #$1E : BNE .dont_place_pit_tile
     
-    LDA $11 : ORA.w $0FC1 : BNE .just_draw
+    LDA.b $11 : ORA.w $0FC1 : BNE .just_draw
     
     PHA
     
-    LDA.l $7FF83C, X : STA $00
-    LDA.l $7FF878, X : STA $01
+    LDA.l $7FF83C, X : STA.b $00
+    LDA.l $7FF878, X : STA.b $01
     
-    LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA $02
-    LDA.l $7FF85A, X : SEC : SBC.b #$00 : STA $03
+    LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA.b $02
+    LDA.l $7FF85A, X : SEC : SBC.b #$00 : STA.b $03
     
     PHX
     
@@ -53,17 +53,17 @@ Garnish_CrumbleTile:
     
     LSR #3 : TAY
     
-    LDA .chr, Y        : STA $03
-    LDA .properties, Y : STA $05
-    LDA .oam_sizes, Y  : STA $06
+    LDA .chr, Y        : STA.b $03
+    LDA .properties, Y : STA.b $05
+    LDA .oam_sizes, Y  : STA.b $06
     
-    LDA.l $7FF83C, X : SEC : SBC $E2    : PHP : CLC : ADC .xy_offsets, Y : STA $00
-    LDA.l $7FF878, X : ADC.b #$00 : PLP : SBC $E3
+    LDA.l $7FF83C, X : SEC : SBC.b $E2    : PHP : CLC : ADC .xy_offsets, Y : STA.b $00
+    LDA.l $7FF878, X : ADC.b #$00 : PLP : SBC.b $E3
     
     BNE .off_screen
     
-    LDA.l $7FF81E, X : SEC : SBC $E8    : PHP : CLC : ADC .xy_offsets, Y : STA $02
-    LDA.l $7FF85A, X : ADC.b #$00 : PLP : SBC $E9
+    LDA.l $7FF81E, X : SEC : SBC.b $E8    : PHP : CLC : ADC .xy_offsets, Y : STA.b $02
+    LDA.l $7FF85A, X : ADC.b #$00 : PLP : SBC.b $E9
     
     BEQ .on_screen
     
@@ -75,12 +75,12 @@ Garnish_CrumbleTile:
     
     LDY.b #$00
     
-          LDA $00                    : STA ($90), Y
-          LDA $02 : SEC : SBC.b #$10 : INY : STA ($90), Y
-    INY : LDA $03                    : STA ($90), Y
-    INY : LDA $05                    : STA ($90), Y
+          LDA.b $00                    : STA ($90), Y
+          LDA.b $02 : SEC : SBC.b #$10 : INY : STA ($90), Y
+    INY : LDA.b $03                    : STA ($90), Y
+    INY : LDA.b $05                    : STA ($90), Y
     
-    LDA $06 : STA ($92)
+    LDA.b $06 : STA ($92)
     
     RTS
 }

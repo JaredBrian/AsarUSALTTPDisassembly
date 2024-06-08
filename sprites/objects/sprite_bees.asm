@@ -99,13 +99,13 @@ PlayerItem_ReleaseBee:
     
     LDA.b #$B2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $EE : STA.w $0F20, Y
+    LDA.b $EE : STA.w $0F20, Y
     
-    LDA $22 : CLC : ADC.b #$08 : STA.w $0D10, X
-    LDA $23 : CLC : ADC.b #$00 : STA.w $0D30, X
+    LDA.b $22 : CLC : ADC.b #$08 : STA.w $0D10, X
+    LDA.b $23 : CLC : ADC.b #$00 : STA.w $0D30, X
     
-    LDA $20 : CLC : ADC.b #$10 : STA.w $0D00, X
-    LDA $21 : CLC : ADC.b #$00 : STA.w $0D20, X
+    LDA.b $20 : CLC : ADC.b #$10 : STA.w $0D00, X
+    LDA.b $21 : CLC : ADC.b #$00 : STA.w $0D20, X
     
     PHX
     
@@ -178,7 +178,7 @@ Bee_Normal:
     JSR Bee_Buzz
     JSR Sprite3_Move
     
-    TXA : EOR $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0F10, X : BNE .anointeract_with_player
     
@@ -200,7 +200,7 @@ Bee_Normal:
     
     .anointeract_with_player
     
-    LDA $1A : BNE .dont_adjust_timer_supplement
+    LDA.b $1A : BNE .dont_adjust_timer_supplement
     
     LDA.w $0D90, X : CMP.b #$10 : BEQ .dont_adjust_timer_supplement
     
@@ -212,19 +212,19 @@ Bee_Normal:
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $22 : CLC : ADC .box_sizes, Y : STA $04
-    LDA $23 : ADC.b #$00        : STA $05
+    LDA.b $22 : CLC : ADC .box_sizes, Y : STA.b $04
+    LDA.b $23 : ADC.b #$00        : STA.b $05
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $20 : CLC : ADC .box_sizes, Y : STA $06
-    LDA $21 : ADC.b #$00        : STA $07
+    LDA.b $20 : CLC : ADC .box_sizes, Y : STA.b $06
+    LDA.b $21 : ADC.b #$00        : STA.b $07
     
     LDA.b #$14 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X : BPL .set_h_flip_on
+    LDA.b $01 : STA.w $0D50, X : BPL .set_h_flip_on
     
     LDA.w $0F50, X : AND.b #$BF
     
@@ -257,13 +257,13 @@ Bee_PutInbottle:
     
     JSL Sprite_GetEmptyBottleIndex : BMI .no_empty_bottle
     
-    LDA.w $0EB0, X : STA $00
+    LDA.w $0EB0, X : STA.b $00
     
     PHX
     
     TYX
     
-    LDA.b #$07 : CLC : ADC $00 : STA.l $7EF35C, X
+    LDA.b #$07 : CLC : ADC.b $00 : STA.l $7EF35C, X
     
     JSL HUD.RefreshIconLong
     
@@ -322,7 +322,7 @@ Sprite_GetEmptyBottleIndex:
 ; $0F5E44-$0F5E62 LOCAL JUMP LOCATION
 Bee_DetermineInteractionStatus:
 {
-    LDA $11 : CMP.b #$02 : BNE .not_in_text_mode
+    LDA.b $11 : CMP.b #$02 : BNE .not_in_text_mode
     
     REP #$20
     
@@ -444,7 +444,7 @@ GoodBee_Activated:
     JSR Bee_Buzz
     JSR Sprite3_Move
     
-    TXA : EOR $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     ; \wtf It's almost like the devs hadn't decided that only a good bee
     ; could appear in this fashion (as a single bee) from dashing.
@@ -481,33 +481,33 @@ GoodBee_Activated:
     
     .not_caught_by_player
     
-    TXA : EOR $1A : AND.b #$03 : BNE .return
+    TXA : EOR.b $1A : AND.b #$03 : BNE .return
     
     JSR GoodBee_ScanForTargetableSprites : BCS .pursuing_sprite
     
-    TXA : EOR $1A : AND.b #$03 : BNE .return
+    TXA : EOR.b $1A : AND.b #$03 : BNE .return
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $22 : CLC : ADC .box_sizes, Y : STA $04
-    LDA $23 : ADC.b #$00        : STA $05
+    LDA.b $22 : CLC : ADC .box_sizes, Y : STA.b $04
+    LDA.b $23 : ADC.b #$00        : STA.b $05
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $20 : CLC : ADC .box_sizes, Y : STA $06
-    LDA $21 : ADC.b #$00        : STA $07
+    LDA.b $20 : CLC : ADC .box_sizes, Y : STA.b $06
+    LDA.b $21 : ADC.b #$00        : STA.b $07
     
     .pursuing_sprite
     
-    TXA : EOR $1A : AND.b #$07 : BNE .return
+    TXA : EOR.b $1A : AND.b #$07 : BNE .return
     
     LDA.b #$20
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X : BPL .pursuing_rightward
+    LDA.b $01 : STA.w $0D50, X : BPL .pursuing_rightward
     
     LDA.w $0F50, X : AND.b #$BF
     
@@ -537,9 +537,9 @@ Bee_SetAltitude:
     
     ; \note Now this is interesting... It seems to set the bee's properties
     ; byte using some magic formula... \wtf Is this?
-    LDA.w $0F50, X : AND.b #$F1 : STA $00
+    LDA.w $0F50, X : AND.b #$F1 : STA.b $00
     
-    LDA $1A : LSR #4 : AND.b #$03 : INC A : ASL A : ORA $00 : STA.w $0F50, X
+    LDA.b $1A : LSR #4 : AND.b #$03 : INC A : ASL A : ORA.b $00 : STA.w $0F50, X
     
     .not_good_bee
     
@@ -551,7 +551,7 @@ Bee_SetAltitude:
 ; $0F5FAB-$0F602D LOCAL JUMP LOCATION
 GoodBee_ScanForTargetableSprites:
 {
-    LDA.b #$0F : STA $00
+    LDA.b #$0F : STA.b $00
     
     TXA : ASL #2 : AND.b #$0F : TAY
     
@@ -585,7 +585,7 @@ GoodBee_ScanForTargetableSprites:
     
     DEY : TYA : AND.b #$0F : TAY
     
-    DEC $00 : BPL .next_sprite
+    DEC.b $00 : BPL .next_sprite
     
     CLC
     
@@ -599,13 +599,13 @@ GoodBee_ScanForTargetableSprites:
     
     JSL GetRandomInt : AND.b #$03 : TAX
     
-    LDA.w $0D10, Y : CLC : ADC .box_sizes, X : STA $04
-    LDA.w $0D30, Y : ADC.b #$00        : STA $05
+    LDA.w $0D10, Y : CLC : ADC .box_sizes, X : STA.b $04
+    LDA.w $0D30, Y : ADC.b #$00        : STA.b $05
     
     JSL GetRandomInt : AND.b #$03 : TAX
     
-    LDA.w $0D00, Y : CLC : ADC .box_sizes, X : STA $06
-    LDA.w $0D20, Y : ADC.b #$00        : STA $07
+    LDA.w $0D00, Y : CLC : ADC .box_sizes, X : STA.b $06
+    LDA.w $0D20, Y : ADC.b #$00        : STA.b $07
     
     PLX
     
@@ -619,7 +619,7 @@ GoodBee_ScanForTargetableSprites:
 ; $0F602E-$0F603B LOCAL JUMP LOCATION
 Bee_Buzz:
 {
-    TXA : EOR $1A : AND.b #$1F : BNE .delay
+    TXA : EOR.b $1A : AND.b #$1F : BNE .delay
     
     LDA.b #$2C : JSL Sound_SetSfx3PanLong
     

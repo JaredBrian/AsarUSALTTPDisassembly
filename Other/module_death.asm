@@ -31,11 +31,11 @@ Module_Death:
     ; Beginning of Module 0x12, Death Mode
     
     ; $11 index for death module
-    LDA $11 : ASL A : TAX
+    LDA.b $11 : ASL A : TAX
     
     JSR (.states, X)
     
-    LDA $11 : CMP.b #$09 : BEQ .dont_show_player
+    LDA.b $11 : CMP.b #$09 : BEQ .dont_show_player
     
     JSL PlayerOam_Main
     
@@ -48,7 +48,7 @@ Module_Death:
 
 ; $04F2A2-$04F33A LOCAL JUMP LOCATION
 {
-    INC $11
+    INC.b $11
     
     ; $04F2A4 ALTERNATE ENTRY POINT
     
@@ -66,7 +66,7 @@ Module_Death:
     STA.w $0200
     
     ; turn off cape ($55), and two other things that I don't understand
-    STZ.w $03F3 : STZ.w $0322 : STZ $55
+    STZ.w $03F3 : STZ.w $0322 : STZ.b $55
     
     REP #$20
     
@@ -93,40 +93,40 @@ Module_Death:
     
     STZ.w $011A : STZ.w $011C
     
-    LDA $99 : STA.l $7EC225
+    LDA.b $99 : STA.l $7EC225
     
     SEP #$20
     
     ; Set a timer for 32 frames
-    LDA.b #$20 : STA $C8
+    LDA.b #$20 : STA.b $C8
     
     STZ.w $04A0
     
     ; Setting $04A0 to 0 turns off the display of the floor level indicator on bg3
     JSL.l $0AFD0C ; $57D0C
     
-    INC $16
+    INC.b $16
     
     ; silences the sound effect on first channel    
     LDA #$05 : STA.w $012D
     
-    INC $11
+    INC.b $11
     
     RTS
 } 
 
 ; $04F33B-$04F34F LOCAL JUMP LOCATION
 {
-    DEC $C8 : BNE .alpha
+    DEC.b $C8 : BNE .alpha
     
     ; Initializes "death ancillae" for death mode.
     JSL Death_InitializeGameOverLetters
     JSL Spotlight.close
     
-    LDA.b #$30 : STA $98
-                 STZ $97
+    LDA.b #$30 : STA.b $98
+                 STZ.b $97
     
-    INC $11
+    INC.b $11
     
     .alpha
     
@@ -142,15 +142,15 @@ Module_Death:
     LDA.l $7EC540 : STA.l $7EC500
     LDA.l $7EC541 : STA.l $7EC501
     
-    LDA $10 : PHA
+    LDA.b $10 : PHA
     
     JSL ConfigureSpotlightTable
     
-    PLA : STA $10
+    PLA : STA.b $10
     
     ; \wtf Shouldn't $11 always be nonzero here? Or does that subroutine
     ; call set it to zero?
-    LDA $11 : BNE .return
+    LDA.b $11 : BNE .return
     
     REP #$20
     
@@ -170,26 +170,26 @@ Module_Death:
     
     JSL ResetSpotlightTable
     
-    LDA.b #$20 : STA $9C
-    LDA.b #$40 : STA $9D
-    LDA.b #$80 : STA $9E
+    LDA.b #$20 : STA.b $9C
+    LDA.b #$40 : STA.b $9D
+    LDA.b #$80 : STA.b $9E
     
-    STZ $96
-    STZ $97
-    STZ $98
+    STZ.b $96
+    STZ.b $97
+    STZ.b $98
     
-    LDA.b #$04 : STA $11
+    LDA.b #$04 : STA.b $11
     
-    INC $15
+    INC.b $15
     
-    LDA.b #$0F : STA $13
+    LDA.b #$0F : STA.b $13
     
-    LDA.b #$14 : STA $1C
+    LDA.b #$14 : STA.b $1C
     
-    STZ $1D
+    STZ.b $1D
     
-    LDA.b #$20 : STA $9A
-    LDA.b #$40 : STA $C8
+    LDA.b #$20 : STA.b $9A
+    LDA.b #$40 : STA.b $C8
     
     LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
     
@@ -204,7 +204,7 @@ Module_Death:
 
 ; $04F3DE-$04F457 LOCAL JUMP LOCATION
 {
-    LDA $C8 : BNE .delay
+    LDA.b $C8 : BNE .delay
     
     JSL PaletteFilter_Restore_Strictly_Bg_Subtractive
     
@@ -216,7 +216,7 @@ Module_Death:
     LDA.b #$00 : STA.l $7EC011
                  STA.w $0647
     
-    LDA.b #$03 : STA $95
+    LDA.b #$03 : STA.b $95
     
     LDX.b #$00
     
@@ -237,9 +237,9 @@ Module_Death:
     ; has no bottled fairy
     STZ.w $05FC : STZ.w $05FD
     
-    LDA.b #$16 : STA $17 : STA.w $0710
+    LDA.b #$16 : STA.b $17 : STA.w $0710
     
-    INC $11
+    INC.b $11
     
     .BRANCH_BETA
     
@@ -247,7 +247,7 @@ Module_Death:
     
     .delay
     
-    DEC $C8
+    DEC.b $C8
     
     RTS
     
@@ -257,7 +257,7 @@ Module_Death:
     LDA.b #$02 : STA.l $7EF35C, X
     
     ; Switch to a different fricken submode of this module?
-    LDA.b #$0C : STA $C8
+    LDA.b #$0C : STA.b $C8
     
     LDA.b #$0F : STA.w $0AAA
     
@@ -266,14 +266,14 @@ Module_Death:
     
     STZ.w $0AAA
     
-    LDA.b #$0A : STA $11
+    LDA.b #$0A : STA.b $11
     
     RTS
 }
 
 ; $04F458-$04F482 LOCAL JUMP LOCATION
 {
-    LDA.b #$0C : STA $C8
+    LDA.b #$0C : STA.b $C8
     LDA.b #$0F : STA.w $0AAA
     
     JSL Graphics_LoadChrHalfSlot
@@ -286,7 +286,7 @@ Module_Death:
     JSL Palette_MiscSpr.justSP6
     JSL Palette_MainSpr
     
-    INC $15 : INC $11
+    INC.b $15 : INC.b $11
     
     ; $04F47E ALTERNATE ENTRY POINT
     
@@ -307,18 +307,18 @@ Death_ShowSaveOptionsMenu:
 {
     JSL Ancilla_GameOverTextLong
     
-    LDA $10 : PHA
-    LDA $11 : PHA
+    LDA.b $10 : PHA
+    LDA.b $11 : PHA
     
     LDA.b #$02 : STA.w $1CD8
     
     JSL Messaging_Text
     
-    PLA : INC A : STA $11
+    PLA : INC A : STA.b $11
     
-    PLA : STA $10
+    PLA : STA.b $10
     
-    LDA.b #$02 : STA $C8
+    LDA.b #$02 : STA.b $C8
     
     ; Play the fountain music?
     LDA.b #$0B : STA.w $012C
@@ -348,40 +348,40 @@ Death_ShowSaveOptionsMenu:
     
     .alpha
     
-    LDA $F4 : AND.b #$20 : BNE .selectButtonPressed
+    LDA.b $F4 : AND.b #$20 : BNE .selectButtonPressed
     
-    DEC $C8 : BNE .BRANCH_GAMMA
+    DEC.b $C8 : BNE .BRANCH_GAMMA
     
-    INC $C8
+    INC.b $C8
     
-    LDA $F0
+    LDA.b $F0
     
     AND.b #$0C : BEQ .BRANCH_GAMMA
     AND.b #$04 : BEQ .BRANCH_DELTA
     
     .selectButtonPressed
     
-    INC $B0 : LDA $B0 : CMP.b #$03 : BMI .BRANCH_EPSILON
+    INC.b $B0 : LDA.b $B0 : CMP.b #$03 : BMI .BRANCH_EPSILON
     
-    STZ $B0
+    STZ.b $B0
     
     BRA .BRANCH_EPSILON
     
     .BRANCH_DELTA
     
-    DEC $B0 : BPL .BRANCH_EPSILON
+    DEC.b $B0 : BPL .BRANCH_EPSILON
     
-    LDA.b #$02 : STA $B0
+    LDA.b #$02 : STA.b $B0
     
     .BRANCH_EPSILON
     
-    LDA.b #$0C : STA $C8
+    LDA.b #$0C : STA.b $C8
     
     LDA.b #$20 : STA.w $012F
     
     .BRANCH_GAMMA
     
-    LDA $F6 : AND.b #$C0 : ORA $F4 : AND.b #$D0 : BEQ .BRANCH_$4F4AB ; (RTS)
+    LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .BRANCH_$4F4AB ; (RTS)
     
     LDA.b #$2C : STA.w $012E
     
@@ -389,7 +389,7 @@ Death_ShowSaveOptionsMenu:
     
     LDA.b #$F1 : STA.w $012C
     
-    LDA $1B : BEQ .BRANCH_ZETA
+    LDA.b $1B : BEQ .BRANCH_ZETA
     
     JSL Dungeon_SaveRoomQuadrantData
     
@@ -407,9 +407,9 @@ Death_ShowSaveOptionsMenu:
     
     .BRANCH_THETA
     
-    LDA $A0 : ORA $A1 : BNE .BRANCH_IOTA
+    LDA.b $A0 : ORA.b $A1 : BNE .BRANCH_IOTA
     
-    STZ $1B
+    STZ.b $1B
     
     .BRANCH_IOTA
     
@@ -461,9 +461,9 @@ Death_ShowSaveOptionsMenu:
     
     INC.w $010A
     
-    LDA $B0 : CMP.b #$01 : BEQ .handleSram
+    LDA.b $B0 : CMP.b #$01 : BEQ .handleSram
     
-    LDA $1B : BEQ .BRANCH_PI
+    LDA.b $1B : BEQ .BRANCH_PI
     
     LDA.l $7EF3CC : CMP.b #$01 : BEQ .BRANCH_RHO
     
@@ -476,7 +476,7 @@ Death_ShowSaveOptionsMenu:
     .BRANCH_SIGMA
     
     STZ.w $0132
-    STZ $1B
+    STZ.b $1B
     
     .BRANCH_PI
     
@@ -484,21 +484,21 @@ Death_ShowSaveOptionsMenu:
     LDA.l $7EF3CA : BEQ .BRANCH_RHO
     
     ; Otherwise, make it so the dungeon room we were last in was Agahnim's first room.
-    LDA.b #$20 : STA $A0 : STZ $A1
+    LDA.b #$20 : STA.b $A0 : STZ.b $A1
     
     .BRANCH_RHO
     
     LDA.l $7EF3C5 : BEQ .BRANCH_TAU
     
-    LDA $B0 : BNE .BRANCH_UPSILON
+    LDA.b $B0 : BNE .BRANCH_UPSILON
     
     JSL Main_SaveGameFile
     
     .BRANCH_UPSILON
     
-    LDA #$05 : STA $10
+    LDA #$05 : STA.b $10
     
-    STZ $11 : STZ $14
+    STZ.b $11 : STZ.b $14
     
     RTS
     
@@ -508,7 +508,7 @@ Death_ShowSaveOptionsMenu:
     
     LDA.l $701FFE : TAX : DEX #2
     
-    LDA.l $00848C, X : STA $00
+    LDA.l $00848C, X : STA.b $00
     
     SEP #$20
     
@@ -526,9 +526,9 @@ Death_ShowSaveOptionsMenu:
     
     .dontSave
     
-    LDA.b #$10 : STA $1C
+    LDA.b #$10 : STA.b $1C
     
-    STZ $1B
+    STZ.b $1B
     
     JSL.l $0CF0E2 ; $0670E2 IN ROM
     
@@ -540,7 +540,7 @@ Death_ShowSaveOptionsMenu:
     
     REP #$30
     
-    STZ $E0 : STZ $E2 : STZ $E4 : STZ $E6 : STZ $E8 : STZ $EA
+    STZ.b $E0 : STZ.b $E2 : STZ.b $E4 : STZ.b $E6 : STZ.b $E8 : STZ.b $EA
     
     STZ.w $0120 : STZ.w $011E : STZ.w $0124 : STZ.w $0122
     
@@ -584,13 +584,13 @@ Death_ShowSaveOptionsMenu:
 {
     PHB : PHK : PLB
     
-    LDX $B0
+    LDX.b $B0
     
     LDA.b #$34 : STA.w $0850
     
     LDA.w $F677, X : STA.w $0851
     
-    LDA $1A : AND.b #$08 : LSR #3 : TAX
+    LDA.b $1A : AND.b #$08 : LSR #3 : TAX
     
     LDA.w $F675, X : STA.w $0852
     
@@ -613,7 +613,7 @@ Death_ShowSaveOptionsMenu:
     ; Restore the player's health by 7 hearts.
     LDA.b #$38 : STA.l $7EF372
     
-    INC $11
+    INC.b $11
     
     STZ.w $0200
     
@@ -652,13 +652,13 @@ Death_ShowSaveOptionsMenu:
     LDA.w #$0000 : STA.l $7EC007
     LDA.w #$0002 : STA.l $7EC009
     
-    LDA.l $7EC225 : STA $99
+    LDA.l $7EC225 : STA.b $99
     
     SEP #$20
     
     ; $04F712 ALTERNATE ENTRY POINT
     
-    INC $11
+    INC.b $11
     
     ; $04F714 ALTERNATE ENTRY POINT
     
@@ -689,9 +689,9 @@ Death_ShowSaveOptionsMenu:
 {
     JSL Graphics_LoadChrHalfSlot
     
-    LDA.l $7EC212 : STA $1D
+    LDA.l $7EC212 : STA.b $1D
     
-    INC $11
+    INC.b $11
     
     RTS
 }
@@ -707,16 +707,16 @@ Death_RestoreScreenPostRevival:
     LDA.l $7EC541 : STA.l $7EC501
     
     LDA.l $7EC007 : CMP.b #$20 : BNE .not_done
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
         JSL Overworld_SetFixedColorAndScroll
     
     .indoors
     
-    LDA.l $7EC212 : STA $1D
+    LDA.l $7EC212 : STA.b $1D
     
-    LDA.w $010C : STA $10
+    LDA.w $010C : STA.b $10
     
-    STZ $11
+    STZ.b $11
     
     LDA.b #$90 : STA.w $031F
     

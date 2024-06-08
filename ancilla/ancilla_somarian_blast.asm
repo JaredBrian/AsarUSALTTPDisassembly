@@ -15,12 +15,12 @@ Ancilla_SomarianBlast:
 {
     ; Special Effect 0x01: Not sure what this is in the game
     
-    LDA $11 : BNE .just_draw
+    LDA.b $11 : BNE .just_draw
     
     LDY.w $0C54, X
     
     ; For the first three states, this will slow the object down.
-    LDA $1A : AND .delay_masks, Y : BNE .movement_delay
+    LDA.b $1A : AND .delay_masks, Y : BNE .movement_delay
     
     JSR Ancilla_MoveHoriz
     JSR Ancilla_MoveVert
@@ -139,21 +139,21 @@ Ancilla_BoundsCheck:
     ; Load a value based on which floor the special object is on.
     LDY.w $0C7C, X
     
-    LDA .unknown, Y : STA $04
+    LDA .unknown, Y : STA.b $04
     
     LDY.w $0C86, X
     
     ; If the object is close to the edge of the screen, make it
     ; self-terminate.
-    LDA.w $0C04, X : SEC : SBC $E2 : CMP.b #$F4 : BCS .self_terminate
+    LDA.w $0C04, X : SEC : SBC.b $E2 : CMP.b #$F4 : BCS .self_terminate
     
     ; Get the x coordinate for OAM
-    STA $00
+    STA.b $00
     
-    LDA.w $0BFA, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
+    LDA.w $0BFA, X : SEC : SBC.b $E8 : CMP.b #$F0 : BCS .self_terminate
     
     ; Get the y coordinate for OAM
-    STA $01
+    STA.b $01
     
     RTS
 }
@@ -179,11 +179,11 @@ SomarianBlast_Draw:
     
     LDY.w $0C5E, X
     
-    LDA $04 : ORA .palettes, Y : STA $04
+    LDA.b $04 : ORA .palettes, Y : STA.b $04
     
     LDA.w $0280, X : BEQ .normal_priority
     
-    LDA.b #$30 : TSB $04
+    LDA.b #$30 : TSB.b $04
     
     .normal_priority
     
@@ -192,8 +192,8 @@ SomarianBlast_Draw:
     ; X = (direction * 6) + state_index
     LDA.w $0C72, X : ASL #2 : ADC.w $0C72, X : ADC.w $0C72, X : ADC.w $0C54, X : TAX
     
-    LDA .x_offsets_a, X : CLC : ADC $00              : STA ($90), Y
-    LDA .x_offsets_b, X : CLC : ADC $00 : LDY.b #$04 : STA ($90), Y
+    LDA .x_offsets_a, X : CLC : ADC.b $00              : STA ($90), Y
+    LDA .x_offsets_b, X : CLC : ADC.b $00 : LDY.b #$04 : STA ($90), Y
     
     ; The sprite consists of two oam entries, and we're calling them
     ; "part a" and "part b" here. Since this object encompasses both the
@@ -202,20 +202,20 @@ SomarianBlast_Draw:
     ; oam entries.
     LDA .y_offsets_a, X : BMI .hide_part_a
     
-    CLC : ADC $01 : LDY.b #$01 : STA ($90), Y
+    CLC : ADC.b $01 : LDY.b #$01 : STA ($90), Y
     
     .hide_part_a
     
     LDA .y_offsets_b, X : BMI .hide_part_b
     
-    CLC : ADC $01 : LDY.b #$05 : STA ($90), Y
+    CLC : ADC.b $01 : LDY.b #$05 : STA ($90), Y
     
     .hide_part_b
     
     LDA .chr_a, X        : CLC : ADC.b #$82 : LDY.b #$02 : STA ($90), Y
     LDA .chr_b, X        : CLC : ADC.b #$82 : LDY.b #$06 : STA ($90), Y
-    LDA .properties_a, X : ORA $04    : LDY.b #$03 : STA ($90), Y
-    LDA .properties_b, X : ORA $04    : LDY.b #$07 : STA ($90), Y
+    LDA .properties_a, X : ORA.b $04    : LDY.b #$03 : STA ($90), Y
+    LDA .properties_b, X : ORA.b $04    : LDY.b #$07 : STA ($90), Y
     
     ; Designate both of these sprites as small.
     ; \bug Not a serious bug, but if it's true, it might mean that its

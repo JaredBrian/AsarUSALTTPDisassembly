@@ -23,13 +23,13 @@ Ancilla_SomarianPlatformPoof:
     
     STZ.w $0C4A, X
     
-    LDA.w $0BFA, X : STA $72
-    LDA.w $0C0E, X : STA $73
+    LDA.w $0BFA, X : STA.b $72
+    LDA.w $0C0E, X : STA.b $73
     
-    LDA.w $0C04, X : STA $74
-    LDA.w $0C18, X : STA $75
+    LDA.w $0C04, X : STA.b $74
+    LDA.w $0C18, X : STA.b $75
     
-    LDA.w $0C7C, X : STA $BD
+    LDA.w $0C7C, X : STA.b $BD
     
     PHX
     
@@ -42,41 +42,41 @@ Ancilla_SomarianPlatformPoof:
     
     STZ.w $02F5
     
-    LDA $72 : AND.b #$F8 : ORA.b #$04 : STA.w $0D00, Y : STA $72
-    LDA $73                           : STA.w $0D20, Y
+    LDA.b $72 : AND.b #$F8 : ORA.b #$04 : STA.w $0D00, Y : STA.b $72
+    LDA.b $73                           : STA.w $0D20, Y
     
-    LDA $74 : AND.b #$F8 : ORA.b #$04 : STA.w $0D10, Y : STA $74
-    LDA $75                           : STA.w $0D30, Y
+    LDA.b $74 : AND.b #$F8 : ORA.b #$04 : STA.w $0D10, Y : STA.b $74
+    LDA.b $75                           : STA.w $0D30, Y
     
-    LDA $BD : CMP.b #$01 : REP #$30 : STZ $06 : BCC .on_bg2
+    LDA.b $BD : CMP.b #$01 : REP #$30 : STZ.b $06 : BCC .on_bg2
     
-    LDA.w #$1000 : STA $06
+    LDA.w #$1000 : STA.b $06
     
     .on_bg2
     
-    LDA $74 : AND.w #$01FF : LSR #3 : STA $04
+    LDA.b $74 : AND.w #$01FF : LSR #3 : STA.b $04
     
-    LDA $72 : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $06 : TAX
+    LDA.b $72 : AND.w #$01F8 : ASL #3 : CLC : ADC.b $04 : CLC : ADC.b $06 : TAX
     
-    STZ $06
+    STZ.b $06
     
     LDA.l $7F1FC0, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
     
-    INC $06
+    INC.b $06
     
     LDA.l $7F2040, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
     
-    INC $06
+    INC.b $06
     
     LDA.l $7F1FFF, X : AND.w #$00F0 : CMP.w #$00B0 : BEQ .attribute_match
     
-    INC $06
+    INC.b $06
     
     .attribute_match
     
     SEP #$30
     
-    LDX $06
+    LDX.b $06
     
     LDA .directions, X : STA.w $0DE0, Y
     

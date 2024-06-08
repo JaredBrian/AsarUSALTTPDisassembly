@@ -352,7 +352,7 @@ Sprite_HaltSpecialPlayerMovement:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E ; Set Link's speed to zero...
+    STZ.b $5E ; Set Link's speed to zero...
     
     JSL Player_HaltDashAttackLong
     
@@ -415,7 +415,7 @@ Sprite3_CheckIfActive:
         .permissive
     
         LDA.w $0FC1 : BNE .inactive
-        LDA $11 : BNE .inactive
+        LDA.b $11 : BNE .inactive
             LDA.w $0CAA, X : BMI .active
             LDA.w $0F00, X : BEQ .active
     
@@ -461,7 +461,7 @@ Sprite3_CheckIfRecoiling:
             LDA.w $0EA0, X : BMI .halted
                 LSR #2 : TAY
                 
-                LDA $1A : AND .frame_counter_masks, Y : BNE .halted
+                LDA.b $1A : AND .frame_counter_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
                     LDA.w $0F40, X : STA.w $0D50, X
                     

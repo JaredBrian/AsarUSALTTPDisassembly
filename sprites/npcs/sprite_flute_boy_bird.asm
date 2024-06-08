@@ -16,9 +16,9 @@ Sprite_FluteBoyBird:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     SEP #$20
     
@@ -46,7 +46,7 @@ FluteBoyBird_Chillin:
 {
     LDY.b #$00
     
-    LDA $1A : AND.b #$18 : BNE .other_animation_state
+    LDA.b $1A : AND.b #$18 : BNE .other_animation_state
     
     LDY.b #$03
     
@@ -132,10 +132,10 @@ FluteBoyBird_DrawBlink:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets, X                    : STA ($90), Y
-    LDA $02                                  : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X                    : STA ($90), Y
+    LDA.b $02                                  : INY : STA ($90), Y
     LDA.b #$AE                               : INY : STA ($90), Y
-    LDA $05 : ORA FluteBoyAnimal.vh_flip, X  : INY : STA ($90), Y
+    LDA.b $05 : ORA FluteBoyAnimal.vh_flip, X  : INY : STA ($90), Y
     
     PLX
     

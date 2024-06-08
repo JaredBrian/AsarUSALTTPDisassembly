@@ -87,7 +87,7 @@ Sprite_GiantMoldorm:
     
     INC.w $0E80, X
     
-    AND $1A : BNE .skip_sound_effect_this_frame
+    AND.b $1A : BNE .skip_sound_effect_this_frame
     
     LDA.b #$31 : JSL Sound_SetSfx3PanLong
     
@@ -97,7 +97,7 @@ Sprite_GiantMoldorm:
     
     LDA.b #$40 : STA !timer_2, X
     
-    LDA $1A : AND.b #$03 : BNE .stun_timer_delay
+    LDA.b $1A : AND.b #$03 : BNE .stun_timer_delay
     
     DEC.w $0EA0, X
     
@@ -107,7 +107,7 @@ Sprite_GiantMoldorm:
     
     .not_stunned_from_damage
     
-    LDA $46 : BNE .dont_repulse_player
+    LDA.b $46 : BNE .dont_repulse_player
     
     JSL Sprite_CheckDamageToPlayerLong : BCC .dont_repulse_player
     
@@ -115,11 +115,11 @@ Sprite_GiantMoldorm:
     
     LDA.b #$28 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : STA $27
+    LDA.b $00 : STA.b $27
     
-    LDA $01 : STA $28
+    LDA.b $01 : STA.b $28
     
-    LDA.b #$18 : STA $46
+    LDA.b #$18 : STA.b $46
     
     LDA.b #$30 : STA !timer_1, X
     
@@ -221,7 +221,7 @@ GiantMoldorm_SpinningMeander:
 ; $0ED852-$0ED880 JUMP LOCATION
 GiantMoldorm_LungeAtPlayer:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .frame_delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .frame_delay
     
     LDA.b #$1F : JSL Sprite_ApplySpeedTowardsPlayerLong
     
@@ -265,9 +265,9 @@ GiantMoldorm_Draw:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0008 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     
-    INC $92 : INC $92
+    INC.b $92 : INC.b $92
     
     SEP #$20
     
@@ -319,7 +319,7 @@ GiantMoldorm_IncrementalSegmentExplosion:
     LDA !timer_4, X : BEQ .delay_explosion
     CMP.b #$50      : BCS .delay_explosion
     
-    AND.b #$0F : ORA $11 : ORA.w $0FC1 : BNE .delay_explosion
+    AND.b #$0F : ORA.b $11 : ORA.w $0FC1 : BNE .delay_explosion
     
     ; Move on to the next segment.
     INC.w $0DA0, X
@@ -366,13 +366,13 @@ GiantMoldorm_DrawHead:
 {
     LDA.b #$00 : XBA
     
-    LDA !timer_1, X : AND.b #$02 : STA $00
+    LDA !timer_1, X : AND.b #$02 : STA.b $00
     
-    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA $00
+    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA.b $00
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA $08
+    ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -427,13 +427,13 @@ GiantMoldorm_DrawSegment_A:
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA $08
+    ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0010 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0010 : STA.b $90
     
-    LDA $92 : CLC : ADC.w #$0004 : STA $92
+    LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
     SEP #$20
     
@@ -476,9 +476,9 @@ GiantMoldorm_DrawSegment_C:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0010 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0010 : STA.b $90
     
-    LDA $92 : CLC : ADC.w #$0004 : STA $92
+    LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
     SEP #$20
     
@@ -565,9 +565,9 @@ GiantMoldorm_DrawTail:
 {
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    LDA $92 : CLC : ADC.w #$0001 : STA $92
+    LDA.b $92 : CLC : ADC.w #$0001 : STA.b $92
     
     SEP #$20
     
@@ -610,15 +610,15 @@ Pool_GiantMoldorm_DrawEyeballs:
 ; $0EDB9E-$0EDC10 LOCAL JUMP LOCATION
 GiantMoldorm_DrawEyeballs:
 {
-    STZ $07
+    STZ.b $07
     
     LDA.w $0EA0, X : BEQ .dont_accelerate_eyerolling
     
-    LDA $1A : STA $07
+    LDA.b $1A : STA.b $07
     
     .dont_accelerate_eyerolling
     
-    LDA.w $0DE0, X : CLC : ADC.b #$FF : STA $06
+    LDA.w $0DE0, X : CLC : ADC.b #$FF : STA.b $06
     
     PHX
     
@@ -626,15 +626,15 @@ GiantMoldorm_DrawEyeballs:
     
     .draw_eyes_loop
     
-    LDA $06 : AND.b #$0F : ASL A : PHX : TAX
+    LDA.b $06 : AND.b #$0F : ASL A : PHX : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -642,17 +642,17 @@ GiantMoldorm_DrawEyeballs:
     
     .on_screen_y
     
-    LDA $06 : CLC : ADC $07 : AND.b #$0F : TAX
+    LDA.b $06 : CLC : ADC.b $07 : AND.b #$0F : TAX
     
     LDA .chr, X : INY : STA ($90), Y
     
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : ORA.b #$02 : STA ($92), Y
+    LDA.b $0F : ORA.b #$02 : STA ($92), Y
     
-    LDA $06 : CLC : ADC.b #$02 : STA $06
+    LDA.b $06 : CLC : ADC.b #$02 : STA.b $06
     
     PLY : INY
     

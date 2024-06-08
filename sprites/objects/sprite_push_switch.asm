@@ -44,7 +44,7 @@ PushSwitch_Inert:
     
     .BRANCH_BETA
     
-    LDA $1A : AND.b #$03 : BNE .BRANCH_GAMMA
+    LDA.b $1A : AND.b #$03 : BNE .BRANCH_GAMMA
     
     LDA.b #$22 : JSL Sound_SetSfx2PanLong
     
@@ -105,9 +105,9 @@ PushSwitch_Inert:
     
     .BRANCH_BETA
     
-    STA.w $0F50, X : STA $02
+    STA.w $0F50, X : STA.b $02
     
-    LDA.w $0DA0, X : LSR #2 : AND.b #$03 : STA $01
+    LDA.w $0DA0, X : LSR #2 : AND.b #$03 : STA.b $01
     
     LDA.b #$00 : XBA
     
@@ -123,21 +123,21 @@ PushSwitch_Inert:
     
     LDX.w $BB12, Y
     
-    LDA $90 : ADC.w #$0004 : STA $90 : TAY
+    LDA.b $90 : ADC.w #$0004 : STA.b $90 : TAY
     
-    INC $92
+    INC.b $92
     
     LDA.w #$0013
     
-    MVN $06, $00
+    MVN.b $06, $00
     
     PLB
     
     SEP #$20
     
-    LDY $90
+    LDY.b $90
     
-    LDA $01 : EOR.b #$FF : INC A : CLC : ADC.w $0FA8A8 : TAX
+    LDA.b $01 : EOR.b #$FF : INC A : CLC : ADC.w $0FA8A8 : TAX
     
           CLC : ADC.w $000000, Y : STA.w $000000, Y
     TXA : CLC : ADC.w $000404, Y : STA.w $000404, Y
@@ -146,9 +146,9 @@ PushSwitch_Inert:
     
     LDA.w $0FA8 : CLC : ADC.w $0010, Y : STA.w $0010, Y
     
-    LSR $01
+    LSR.b $01
     
-    LDA.w $0FA9 : SEC : SBC $01 : TAX
+    LDA.w $0FA9 : SEC : SBC.b $01 : TAX
     
           CLC : ADC.w $0001, Y : STA.w $0001, Y
     TXA : CLC : ADC.w $0005, Y : STA.w $0005, Y
@@ -157,11 +157,11 @@ PushSwitch_Inert:
     
     LDA.w $0FA9 : CLC : ADC.w $0011, Y : STA.w $0011, Y
     
-    LDA $02 : ORA.w $0003, Y : STA.w $0003, Y
-    LDA $02 : ORA.w $0007, Y : STA.w $0007, Y
-    LDA $02 : ORA.w $000B, Y : STA.w $000B, Y
-    LDA $02 : ORA.w $000F, Y : STA.w $000F, Y
-    LDA $02 : ORA.w $0013, Y : STA.w $0013, Y
+    LDA.b $02 : ORA.w $0003, Y : STA.w $0003, Y
+    LDA.b $02 : ORA.w $0007, Y : STA.w $0007, Y
+    LDA.b $02 : ORA.w $000B, Y : STA.w $000B, Y
+    LDA.b $02 : ORA.w $000F, Y : STA.w $000F, Y
+    LDA.b $02 : ORA.w $0013, Y : STA.w $0013, Y
     
     REP #$31
     
@@ -192,34 +192,34 @@ PushSwitch_Inert:
     
     LDA.w $0DE0, X : ASL #4 : TAY
     
-    LDA.w $BA62, Y : CLC : ADC.w $0D10, X : STA $04
+    LDA.w $BA62, Y : CLC : ADC.w $0D10, X : STA.b $04
     
-    STZ $0A
+    STZ.b $0A
     
     LDA.w $BA62, Y : BPL .BRANCH_DELTA
     
-    DEC $0A
+    DEC.b $0A
     
     .BRANCH_DELTA
     
-    LDA $0A : ADC.w $0D30, X : STA $0A
+    LDA.b $0A : ADC.w $0D30, X : STA.b $0A
     
-    LDA.w $BA63, Y : CLC : ADC.w $0D00, X : STA $05
+    LDA.w $BA63, Y : CLC : ADC.w $0D00, X : STA.b $05
     
-    STZ $0B
+    STZ.b $0B
     
     LDA.w $BA63, Y : BPL .BRANCH_EPSILON
     
-    DEC $0B
+    DEC.b $0B
     
     .BRANCH_EPSILON
     
-    LDA $0B : ADC.w $0D20, X : STA $0B
+    LDA.b $0B : ADC.w $0D20, X : STA.b $0B
     
     LDA.w $0DE0, X : ASL A : TAY
     
-    LDA.w $BB02, Y : STA $06
-    LDA.w $BB03, Y : STA $07
+    LDA.w $BB02, Y : STA.b $06
+    LDA.w $BB03, Y : STA.b $07
     
     JSR.w $F70A   ; $03770A IN ROM
     
@@ -235,7 +235,7 @@ PushSwitch_Inert:
     
     CPY.b #$00 : BNE .BRANCH_THETA
     
-    LDA $2F : CMP.b #$04 : BNE .BRANCH_THETA
+    LDA.b $2F : CMP.b #$04 : BNE .BRANCH_THETA
     
     INC.w $0DB0, X
     
@@ -249,7 +249,7 @@ PushSwitch_Inert:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Sprite_RepelDashAttackLong
     

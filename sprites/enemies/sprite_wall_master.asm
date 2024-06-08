@@ -21,33 +21,33 @@ Sprite_WallMaster:
     
     LDA.w $0D90, X : BEQ .player_not_ensnared
     
-    LDA.w $0D10, X : STA $22
-    LDA.w $0D30, X : STA $23
+    LDA.w $0D10, X : STA.b $22
+    LDA.w $0D30, X : STA.b $23
     
     LDA.w $0D00, X : SEC : SBC.w $0F70, X
     
     PHP
     
-    CLC : ADC.b #$03 : STA $20
+    CLC : ADC.b #$03 : STA.b $20
     
     LDA.w $0D20, X : ADC.b #$00
     
     PLP
     
-    SBC.b #$00 : STA $21
+    SBC.b #$00 : STA.b $21
     
     LDA.b #$01 : STA.w $02E4
                  STA.w $037B
     
-    STZ $46
-    STZ $28
-    STZ $27
-    STZ $30
-    STZ $31
+    STZ.b $46
+    STZ.b $28
+    STZ.b $27
+    STZ.b $30
+    STZ.b $31
     
     REP #$20
     
-    LDA $20 : SEC : SBC $E8 : SEC : SBC.w #$0010
+    LDA.b $20 : SEC : SBC.b $E8 : SEC : SBC.w #$0010
     
     CMP.w #$0100 : SEP #$20 : BCC .delay_sending_player_to_entrance
     
@@ -187,7 +187,7 @@ WallMaster_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$AFA4 : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$AFA4 : STA.b $08
     
     SEP #$20
     

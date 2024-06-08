@@ -9,7 +9,7 @@ Sprite_Medusa:
 {
     JSL Sprite_PrepOamCoordLong
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     ; \note These are apparently triggers for Poes on the overworld. When
     ; a gravestone is pushed into them, they appear as if from inside the

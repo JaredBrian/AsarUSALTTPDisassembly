@@ -52,11 +52,11 @@ Thief_Loitering:
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050
     
     CMP.w #$00A0 : BCS .player_not_close
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050
     
     CMP.w #$00A0 : BCS .player_not_close
     
@@ -99,7 +99,7 @@ Thief_WatchPlayer:
     ; $0EC966 ALTERNATE ENTRY POINT
     shared Thief_BodyTracksHead:
     
-    LDA $1A : AND.b #$1F : BNE .dont_adjust_body
+    LDA.b $1A : AND.b #$1F : BNE .dont_adjust_body
     
     LDA.w $0EB0, X : STA.w $0DE0, X
     
@@ -134,11 +134,11 @@ Thief_ChasePlayer:
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0050
     
     CMP.w #$00A0 : BCS .player_not_close
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0050
     
     CMP.w #$00A0 : BCC .player_still_close
     
@@ -199,13 +199,13 @@ Thief_StealShit:
     
     PLY
     
-    TXA : EOR $1A : AND.b #$03 : BNE .delay_facing_towards_booty
+    TXA : EOR.b $1A : AND.b #$03 : BNE .delay_facing_towards_booty
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     JSL Sprite_DirectionToFaceEntity
     
@@ -259,18 +259,18 @@ Thief_ScanForBooty:
 ; $0ECA4C-$0ECA9D LOCAL JUMP LOCATION
 Thief_TrackDownBooty:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .speed_adjustment_delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .speed_adjustment_delay
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     LDA.b #$13 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
-    LDA $01 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D50, X
     
     .speed_adjustment_delay
     
@@ -278,7 +278,7 @@ Thief_TrackDownBooty:
     
     .next_sprite_slot
     
-    TYA : EOR $1A : AND.b #$03 : ORA.w $0F10, Y : BNE .delay_grab_attempt
+    TYA : EOR.b $1A : AND.b #$03 : ORA.w $0F10, Y : BNE .delay_grab_attempt
     
     LDA.w $0DD0, Y : BEQ .inactive_sprite_slot
     
@@ -306,17 +306,17 @@ Thief_TrackDownBooty:
 ; $0ECA9E-$0ECAF1 LOCAL JUMP LOCATION
 Thief_AttemptBootyGrab:
 {
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     REP #$20
     
-    LDA $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .out_of_reach
+    LDA.b $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .out_of_reach
     
-    LDA $06 : SEC : SBC.w $0FDA : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .out_of_reach
+    LDA.b $06 : SEC : SBC.w $0FDA : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .out_of_reach
     
     SEP #$20
     
@@ -348,15 +348,15 @@ Thief_CheckPlayerCollision:
     
     LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00    : STA $27
+    LDA.b $00    : STA.b $27
     EOR.b #$FF : STA.w $0F30, X
     
-    LDA $01    : STA $28
+    LDA.b $01    : STA.b $28
     EOR.b #$FF : STA.w $0F40, X
     
     ; \task Figure out if this has any bearing on the player using a cape
     ; when being bumped into.
-    LDA.b #$04 : STA $46
+    LDA.b #$04 : STA.b $46
     
     LDA.b #$0C : STA.w $0EA0, X
     
@@ -452,11 +452,11 @@ Thief_DislodgePlayerItems:
     
     .spawn_extracted_item
     
-    LDA $22 : STA.w $0D10, Y
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $22 : STA.w $0D10, Y
+    LDA.b $23 : STA.w $0D30, Y
     
-    LDA $20 : STA.w $0D00, Y
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $20 : STA.w $0D00, Y
+    LDA.b $21 : STA.w $0D20, Y
     
     LDA.b #$18 : STA.w $0F80, Y
     
@@ -531,7 +531,7 @@ Thief_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

@@ -40,7 +40,7 @@ Sprite_MovableMantle:
     LDA.w $0ED0, X : CMP.b #$90 : BEQ .return
     
     ; Recoil can't induce mantle movement.
-    LDA $28 : CMP.b #$18 : BMI .return
+    LDA.b $28 : CMP.b #$18 : BMI .return
     
     ; Set a game state (numerical, not bitwise).
     LDA.b #$04 : STA.l $7EF3C8
@@ -92,8 +92,8 @@ MovableMantle_Draw:
     
     .next_subsprite
     
-    LDA $00      : CLC : ADC.w $FC9B, X       : STA ($90), Y
-    LDA $02      : CLC : ADC.w $FCA1, X : INY : STA ($90), Y
+    LDA.b $00      : CLC : ADC.w $FC9B, X       : STA ($90), Y
+    LDA.b $02      : CLC : ADC.w $FCA1, X : INY : STA ($90), Y
     LDA.w $FCA7, X                : INY : STA ($90), Y
     LDA.w $FCAD, X                : INY : STA ($90), Y : INY
     

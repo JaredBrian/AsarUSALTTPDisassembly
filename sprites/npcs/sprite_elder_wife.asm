@@ -54,7 +54,7 @@ ElderWife_Initial:
     ; $02F49F ALTERNATE ENTRY POINT
     shared ElderWife_UpdateAnimationState:
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
     
@@ -146,13 +146,13 @@ Pool_ElderWife_Draw:
 ; $02F505-$02F520 LOCAL JUMP LOCATION
 ElderWife_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b ( (.oam_groups >> 0 & $FF) )              : STA $08
-    LDA.b ( (.oam_groups >> 8 & $FF) ) : ADC.b #$00 : STA $09
+    ADC.b ( (.oam_groups >> 0 & $FF) )              : STA.b $08
+    LDA.b ( (.oam_groups >> 8 & $FF) ) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     

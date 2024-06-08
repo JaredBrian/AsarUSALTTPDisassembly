@@ -163,9 +163,9 @@ DeadRock_Walk:
     
     .no_wall_collision
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA $00
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA $00 : STA.w $0D90, X
+    LDA.w $0DE0, X : ASL A : ORA.b $00 : STA.w $0D90, X
     
     RTS
 }
@@ -181,7 +181,7 @@ DeadRock_Petrified:
     
     LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
-    LDA $1A : AND.b #$01 : BNE .skip
+    LDA.b $1A : AND.b #$01 : BNE .skip
     
     LDA.w $0E00, X : BNE .dont_revert
     

@@ -72,9 +72,9 @@ Gibo_Main:
     
     .nucleus_not_dying
     
-    LDA $1A : LSR #3 : AND.b #$03 : STA.w $0E80, X
+    LDA.b $1A : LSR #3 : AND.b #$03 : STA.w $0E80, X
     
-    LDA $1A : AND.b #$3F : BNE .dont_pursue_player
+    LDA.b $1A : AND.b #$3F : BNE .dont_pursue_player
     
     JSR Sprite4_IsToRightOfPlayer
     
@@ -202,21 +202,21 @@ Gibo_DelayPursuit:
 ; $0ECDEB-$0ECE5D JUMP LOCATION
 Gibo_PursueNucleus:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .stagger_retargeting
+    TXA : EOR.b $1A : AND.b #$03 : BNE .stagger_retargeting
     
     ; \note Y was preloaded with the index of the nucleus before calling
     ; this.
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
     
-    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
+    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : BCS .dont_recombine
     
     SEP #$20
     
@@ -243,9 +243,9 @@ Gibo_PursueNucleus:
     ; Go towards the nucleus.
     LDA.b #$10 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     .stagger_retargeting
     
@@ -312,7 +312,7 @@ Gibo_Draw:
     
     LDA.b #$01 : STA.w $0E40, X
     
-    LDA !timer_1, X : AND.b #$04 : LSR #2 : STA $00
+    LDA !timer_1, X : AND.b #$04 : LSR #2 : STA.b $00
     
     LDA.w $0EC0, X : LSR #2 : AND.b #$03 : TAY
     
@@ -320,7 +320,7 @@ Gibo_Draw:
     
     LDA Sprite_GiboNucleus.vh_flip, Y
     
-    LDY $00
+    LDY.b $00
     
     ORA .palettes, Y : STA.w $0F50, X
     
@@ -337,13 +337,13 @@ Gibo_Draw:
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA $08
+    ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0008 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     
-    INC $92 : INC $92
+    INC.b $92 : INC.b $92
     
     SEP #$20
     

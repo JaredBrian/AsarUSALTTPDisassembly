@@ -36,17 +36,17 @@ Sprite_Cukeman:
     
     LDA.w $0DD0, X : CMP.b #$09 : BNE .dont_speak
     
-    LDA $11 : ORA.w $0FC1 : BNE .dont_speak
+    LDA.b $11 : ORA.w $0FC1 : BNE .dont_speak
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
+    LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .dont_speak
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0020 : CMP.w #$0030 : BCS .dont_speak
     
     SEP #$20
     
-    LDA $F6 : BPL .dont_speak
+    LDA.b $F6 : BPL .dont_speak
     
     LDA.w $0E30, X : INC.w $0E30, X : AND.b #$01
     
@@ -117,9 +117,9 @@ Cukeman_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL A : ADC $00 : ADC.w #.oam_groups : STA $08
+    ASL A : ADC.b $00 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

@@ -58,7 +58,7 @@ Sprite_BlindHideoutGuy:
 ; $06C308-$06C342 JUMP LOCATION
 Sprite_ThiefHideoutGuy:
 {
-    LDA $1A : AND.b #$03 : BNE .delay_head_direction_change
+    LDA.b $1A : AND.b #$03 : BNE .delay_head_direction_change
     
     LDA.b #$02 : STA.w $0DC0, X
     
@@ -99,7 +99,7 @@ Sprite_FluteBoyFather:
     JSR Sprite5_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $1A : CMP.b #$30 : BCS .dozing
+    LDA.b $1A : CMP.b #$30 : BCS .dozing
     
     LDA.b #$02
     
@@ -141,7 +141,7 @@ Sprite_FluteBoyFather:
     
     LDA.w $0202 : CMP.b #$0D : BNE .flute_usage_undetected
     
-    BIT $F0 : BVC .flute_usage_not_detected
+    BIT.b $F0 : BVC .flute_usage_not_detected
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong
     
@@ -195,13 +195,13 @@ Pool_FluteBoyFather_Draw:
 ; $06C3E1-$06C400 LOCAL JUMP LOCATION
 FluteBoyFather_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong
@@ -245,13 +245,13 @@ Pool_BlindHideoutGuy_Draw:
 ; $06C481-$06C4A4 LOCAL JUMP LOCATION
 BlindHideoutGuy_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

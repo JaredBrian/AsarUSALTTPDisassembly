@@ -74,13 +74,13 @@ Pool_TroughBoy_Draw:
 ; $02FFDF-$02FFFE LOCAL JUMP LOCATION
 TroughBoy_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DE0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

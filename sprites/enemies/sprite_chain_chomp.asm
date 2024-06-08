@@ -54,11 +54,11 @@ Sprite_ChainChomp:
     JSR Sprite4_CheckDamage
     JSR.w $C0F2 ; $0EC0F2 IN ROM
     
-    TXA : EOR $1A : AND.b #$03 : BNE .BRANCH_ALPHA
+    TXA : EOR.b $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
-    LDA.w $0D50, X : STA $01
+    LDA.w $0D50, X : STA.b $01
     
-    LDA.w $0D40, X : STA $00 : ORA $01 : BEQ .BRANCH_ALPHA
+    LDA.w $0D40, X : STA.b $00 : ORA.b $01 : BEQ .BRANCH_ALPHA
     
     JSL Sprite_ConvertVelocityToAngle : AND.b #$0F : STA.w $0DE0, X
     
@@ -77,21 +77,21 @@ Sprite_ChainChomp:
     
     JSL Sprite_Get_16_bit_CoordsLong
     
-    LDA.w $0D90, X : STA $00
-    LDA.w $0DA0, X : STA $01
+    LDA.w $0D90, X : STA.b $00
+    LDA.w $0DA0, X : STA.b $01
     
-    LDA.w $0DB0, X : STA $02
-    LDA.w $0ED0, X : STA $03
+    LDA.w $0DB0, X : STA.b $02
+    LDA.w $0ED0, X : STA.b $03
     
     STZ.w $0EC0, X
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0030
+    LDA.w $0FD8 : SEC : SBC.b $00 : CLC : ADC.w #$0030
     
     CMP.w #$0060 : BCS .too_far_from_origin
     
-    LDA.w $0FDA : SEC : SBC $02 : CLC : ADC.w #$0030
+    LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$0030
     
     CMP.w #$0060 : BCS .too_far_from_origin
     
@@ -187,18 +187,18 @@ Sprite_ChainChomp:
     
     LDA.w $0EC0, X : BNE .BRANCH_DELTA
     
-    LDA.w $0D90, X : STA $04
-    LDA.w $0DA0, X : STA $05
-    LDA.w $0DB0, X : STA $06
-    LDA.w $0ED0, X : STA $07
+    LDA.w $0D90, X : STA.b $04
+    LDA.w $0DA0, X : STA.b $05
+    LDA.w $0DB0, X : STA.b $06
+    LDA.w $0ED0, X : STA.b $07
     
     LDA.b #$10
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     JSR Sprite4_Move
     
@@ -256,26 +256,26 @@ Sprite_ChainChomp:
 
 ; $0EC02A-$0EC0F1 LOCAL JUMP LOCATION
 {
-    LDA.w $0D90, X : STA $00
-    LDA.w $0DA0, X : STA $01
+    LDA.w $0D90, X : STA.b $00
+    LDA.w $0DA0, X : STA.b $01
     
-    LDA.w $0DB0, X : STA $02
-    LDA.w $0ED0, X : STA $03
+    LDA.w $0DB0, X : STA.b $02
+    LDA.w $0ED0, X : STA.b $03
     
     PHX
     
-    LDA.b #$05 : STA $0D
+    LDA.b #$05 : STA.b $0D
     
     LDA.w $BE3C, X : TAX
     
-    LDA.l $7FFC00, X : SEC : SBC $00 : STA $04
-    LDA.l $7FFD00, X : SEC : SBC $02 : STA $05
+    LDA.l $7FFC00, X : SEC : SBC.b $00 : STA.b $04
+    LDA.l $7FFD00, X : SEC : SBC.b $02 : STA.b $05
     
     INX #2
 
     ; $0EC05B ALTERNATE ENTRY POINT
 
-    LDA $04
+    LDA.b $04
     
     ; .... okay...?
     PHP
@@ -308,10 +308,10 @@ Sprite_ChainChomp:
 
     .BRANCH_BETA
 
-          CLC : ADC $00 : STA $08
-    TYA : ADC $01 : STA $09
+          CLC : ADC.b $00 : STA.b $08
+    TYA : ADC.b $01 : STA.b $09
     
-    LDA $05
+    LDA.b $05
     
     PHP
     
@@ -345,8 +345,8 @@ Sprite_ChainChomp:
 
     .BRANCH_DELTA
 
-          CLC : ADC $02 : STA $0A
-    TYA : ADC $03 : STA $0B
+          CLC : ADC.b $02 : STA.b $0A
+    TYA : ADC.b $03 : STA.b $0B
     
     REP #$20
     
@@ -374,7 +374,7 @@ Sprite_ChainChomp:
     
     INX #2
     
-    DEC $0D : BMI .BRANCH_KAPPA
+    DEC.b $0D : BMI .BRANCH_KAPPA
     
     JMP.w $C05B ; $0EC05B IN ROM
 
@@ -393,7 +393,7 @@ Sprite_ChainChomp:
     
     REP #$20
     
-    STZ $00
+    STZ.b $00
     
     LDA.w $0FD8 : STA.l $7FFC00, X
     LDA.w $0FDA : STA.l $7FFD00, X
@@ -432,7 +432,7 @@ Sprite_ChainChomp:
     
     INX #2
     
-    INC $00 : LDA $00 : CMP.w #$0006 : BCC .BRANCH_EPSILON
+    INC.b $00 : LDA.b $00 : CMP.w #$0006 : BCC .BRANCH_EPSILON
     
     PLX
     
@@ -466,9 +466,9 @@ Sprite_ChainChomp:
     
     JSL Sprite_PrepAndDrawSingleLargeLong
     
-    LDA.w $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA $08 : STZ $09
+    LDA.w $0E00, X : AND.b #$01 : CLC : ADC.b #$04 : STA.b $08 : STZ.b $09
     
-    LDA.b #$05 : STA $0D
+    LDA.b #$05 : STA.b $0D
     
     PHX
     
@@ -480,11 +480,11 @@ Sprite_ChainChomp:
     
     REP #$20
     
-    LDA.l $7FFC00, X : CLC : ADC $08 : SEC : SBC $E2 : STA ($90), Y
+    LDA.l $7FFC00, X : CLC : ADC.b $08 : SEC : SBC.b $E2 : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA.l $7FFD00, X : CLC : ADC $08 : SEC : SBC $E8 : INY : STA ($90), Y
+    LDA.l $7FFD00, X : CLC : ADC.b $08 : SEC : SBC.b $E8 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .BRANCH_ALPHA
     
@@ -494,17 +494,17 @@ Sprite_ChainChomp:
     
     LDA.b #$8B : INY : STA ($90), Y
     
-    LDA $05 : AND.b #$F0 : ORA.b #$0D : INY : STA ($90), Y
+    LDA.b $05 : AND.b #$F0 : ORA.b #$0D : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     
     INX #2
     
-    DEC $0D : BPL .BRANCH_BETA
+    DEC.b $0D : BPL .BRANCH_BETA
     
     PLX
     

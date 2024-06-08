@@ -162,9 +162,9 @@ Sprite_ArmosKnight:
     
     REP #$20
     
-    LDA $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
+    LDA.b $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
     
-    LDA $06 : SEC : SBC.w $0FDA : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
+    LDA.b $06 : SEC : SBC.w $0FDA : CLC : ADC.w #2 : CMP.w #4 : BCS .pi
     
     SEP #$20
     
@@ -198,18 +198,18 @@ Sprite_ArmosKnight:
 ; $02A18F-$02A1B3 LOCAL JUMP LOCATION
 ArmosKnight_ProjectSpeedTowardsTarget:
 {
-    LDA.w $0B10, X : STA $04
-    LDA.w $0B20, X : STA $05
+    LDA.w $0B10, X : STA.b $04
+    LDA.w $0B20, X : STA.b $05
     
-    LDA.w $0B30, X : STA $06
-    LDA.w $0B40, X : STA $07
+    LDA.w $0B30, X : STA.b $06
+    LDA.w $0B40, X : STA.b $07
     
     LDA.b #$10
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
-    LDA $01 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D50, X
     
     RTS
 }
@@ -280,7 +280,7 @@ ArmosKnight_Draw:
     LDA.w $0D90, X : BNE .not_first
     
     ; Yeah.... what????
-    LDA $11 : CMP.b #$07 : BEQ .in_downward_floor_transition
+    LDA.b $11 : CMP.b #$07 : BEQ .in_downward_floor_transition
     
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
@@ -289,7 +289,7 @@ ArmosKnight_Draw:
     .not_first
     .in_downward_floor_transition
     
-    LDA.w $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA.b $06
     
     PHX
     
@@ -299,15 +299,15 @@ ArmosKnight_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA : ASL A : TAX
+    TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -318,13 +318,13 @@ ArmosKnight_Draw:
     PLX
     
     LDA .chr, X                  : INY : STA ($90), Y
-    LDA .properties, X : ORA $05 : INY : STA ($90), Y
+    LDA .properties, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA .sizes, X : ORA $0F : STA ($92), Y
+    LDA .sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -344,8 +344,8 @@ ArmosKnight_Draw:
     
     REP #$20
     
-    LDA.w $A25C, Y : STA $90
-    LDA.w $A268, Y : STA $92
+    LDA.w $A25C, Y : STA.b $90
+    LDA.w $A268, Y : STA.b $92
     
     SEP #$20
     
@@ -357,21 +357,21 @@ ArmosKnight_Draw:
     
     .low_altitude
     
-    LSR #3 : STA $07
+    LSR #3 : STA.b $07
     
-    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
-    LDA.w $0D20, X : SBC $E9 : STA $03
+    LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
+    LDA.w $0D20, X : SBC.b $E9 : STA.b $03
     
     LDY.b #$10
     
-    LDA $00 : SEC : SBC.b #$08
+    LDA.b $00 : SEC : SBC.b #$08
     
-    PHA              : CLC : ADC $07               : STA ($90), Y
-    PLA : CLC : ADC.b #$10 : SEC : SBC $07 : LDY.b #$14 : STA ($90), Y
+    PHA              : CLC : ADC.b $07               : STA ($90), Y
+    PLA : CLC : ADC.b #$10 : SEC : SBC.b $07 : LDY.b #$14 : STA ($90), Y
     
     REP #$20
     
-    LDA $02 : CLC : ADC.w #$000C : LDY.b #$11 : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$000C : LDY.b #$11 : STA ($90), Y
                              LDY.b #$15 : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2

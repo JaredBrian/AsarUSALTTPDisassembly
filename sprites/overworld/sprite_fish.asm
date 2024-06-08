@@ -16,7 +16,7 @@ Sprite_Fish:
     ; Can only wriggle while being held.
     LDA.b #$04 : STA.w $0D80, X
     
-    LDA $1A : LSR #3 : AND.b #$02 : LSR A : ADC.b #$03 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$02 : LSR A : ADC.b #$03 : STA.w $0DC0, X
     
     .not_held_by_player
     
@@ -123,8 +123,8 @@ Fish_Leaping:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
     LDA.b #$FF : STA.w $0B5858, Y
     
@@ -250,7 +250,7 @@ Fish_FlopAround:
     .at_boundary_already
     .delay_animation_base_adjustment
     
-    LDA $1A : LSR #3 : AND.b #$01 : LDY.w $0D90, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : LDY.w $0D90, X
     
     CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
@@ -319,7 +319,7 @@ Fish_Draw:
     
     REP #$20
     
-    ASL #4 : ADC.w #(.oam_groups) : STA $08
+    ASL #4 : ADC.w #(.oam_groups) : STA.b $08
     
     LDA.w $0FD8 : CLC : ADC.w #$0004 : STA.w $0FD8
     
@@ -339,13 +339,13 @@ Fish_Draw:
     
     .shadow_oam_groups
     
-    REP #$20 : ASL #3 : STA $00 : ASL A : ADC $00
+    REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
     
-    ADC.w #(.unknown) : STA $08
+    ADC.w #(.unknown) : STA.b $08
     
-    LDA $90 : CLC : ADC.w #$0008 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     
-    INC $92 : INC $92
+    INC.b $92 : INC.b $92
     
     SEP #$20
     

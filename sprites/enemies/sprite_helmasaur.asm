@@ -15,15 +15,15 @@ Sprite_Helmasaur:
 ; $032409-$0324D1 JUMP LOCATION
 Sprite_Helmasaur:
 {
-    LDA.w $0DE0, X : ASL A : STA $00
+    LDA.w $0DE0, X : ASL A : STA.b $00
     
-    LDA.w $0E80, X : LSR #2 : AND.b #$01 : ORA $00 : TAY
+    LDA.w $0E80, X : LSR #2 : AND.b #$01 : ORA.b $00 : TAY
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
     LDA.w $0F50, X : AND.b #$BF : ORA .h_flip, Y : STA.w $0F50, X
     
-    TXA : EOR $1A : AND.b #$0F : BNE .delay_direction_selection_logic
+    TXA : EOR.b $1A : AND.b #$0F : BNE .delay_direction_selection_logic
     
     LDA.w $0D50, X : BPL .abs_x_speed
     
@@ -31,7 +31,7 @@ Sprite_Helmasaur:
 
     .abs_x_speed
 
-    STA $00
+    STA.b $00
     
     LDA.w $0D40, X : BPL .abs_y_speed
     
@@ -39,9 +39,9 @@ Sprite_Helmasaur:
 
     .abs_y_speed
 
-    STA $01
+    STA.b $01
     
-    LDA $00 : CMP $01
+    LDA.b $00 : CMP $01
     
     LDA.b #$00
     
@@ -107,19 +107,19 @@ Sprite_Helmasaur:
     
     JSR Sprite_CheckTileCollision
     
-    TXA : EOR $1A : AND.b #$1F : BNE .project_speed_delay
+    TXA : EOR.b $1A : AND.b #$1F : BNE .project_speed_delay
     
     LDA.w $0D90, X
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : STA.w $0DA0, X
+    LDA.b $00 : STA.w $0DA0, X
     
-    LDA $01 : STA.w $0DB0, X
+    LDA.b $01 : STA.w $0DB0, X
     
     .project_speed_delay
     
-    TXA : EOR $1A : AND.w $0D80, X : BNE .acceleration_delay
+    TXA : EOR.b $1A : AND.w $0D80, X : BNE .acceleration_delay
     
     LDA.w $0D40, X : CMP.w $0DA0, X : BPL .y_speed_maxed
     
@@ -168,8 +168,8 @@ HardHatBeetle_Draw:
 {
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #.oam_groups                 : STA $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                 : STA.b $08
+    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$02 : JSL Sprite_DrawMultiple
     

@@ -227,11 +227,11 @@ CannonTrooper_SpawnCannonBall:
     
     LDA.w $0DE0, X : PHX : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -332,7 +332,7 @@ CannonTrooper_SpawnCannonBall:
     
     JSR Sprite2_Move
     
-    LDA $1A : LSR #2 : AND.b #$01 : STA.w $0D90, X
+    LDA.b $1A : LSR #2 : AND.b #$01 : STA.w $0D90, X
     
     RTS
 }
@@ -353,9 +353,9 @@ CannonTrooper_Draw:
     
     LDY.w $0DE0, X
     
-    LDA.w $AEF5, Y : CLC : ADC.w $0D90, X : STA $06
+    LDA.w $AEF5, Y : CLC : ADC.w $0D90, X : STA.b $06
     
-    ASL #2 : ADC $06 : STA $06
+    ASL #2 : ADC.b $06 : STA.b $06
     
     PHX
     
@@ -366,15 +366,15 @@ CannonTrooper_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA : ASL A : TAX
+    TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC.w $AD51, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $AD51, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC.w $ADC9, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $ADC9, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
     
@@ -390,7 +390,7 @@ CannonTrooper_Draw:
     
     SEC : SBC.b #$24 : CMP.b #$05
     
-    LDA.w $AE7D, X : ORA $05
+    LDA.w $AE7D, X : ORA.b $05
     
     BCS .beta
     
@@ -402,7 +402,7 @@ CannonTrooper_Draw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.w $AEB9, X : ORA $0F : STA ($92), Y
+    LDA.w $AEB9, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

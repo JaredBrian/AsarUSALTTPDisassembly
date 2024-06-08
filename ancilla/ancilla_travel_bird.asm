@@ -39,7 +39,7 @@ Pool_Ancilla_TravelBird:
 ; $045DE8-$046067 JUMP LOCATION
 Ancilla_TravelBird:
 {
-    LDA $11 : BEQ .execute
+    LDA.b $11 : BEQ .execute
     
     BRL .draw_logic
     
@@ -54,17 +54,17 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    LDA $20 : SEC : SBC.w #8 : STA $00
+    LDA.b $20 : SEC : SBC.w #8 : STA.b $00
     
-    LDA.w #-16 : CLC : ADC $E2 : STA $02
+    LDA.w #-16 : CLC : ADC.b $E2 : STA.b $02
     
     SEP #$20
     
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
+    LDA.b $00 : STA.w $0BFA, X
+    LDA.b $01 : STA.w $0C0E, X
     
-    LDA $02 : STA.w $0C04, X
-    LDA $03 : STA.w $0C18, X
+    LDA.b $02 : STA.w $0C04, X
+    LDA.b $03 : STA.w $0C18, X
     
     RTS
     
@@ -109,17 +109,17 @@ Ancilla_TravelBird:
     
     JSR Ancilla_CheckPlayerCollision : BCC .dont_pick_up_player
     
-    LDA $10 : CMP.b #$0F : BEQ .dont_pick_up_player
+    LDA.b $10 : CMP.b #$0F : BEQ .dont_pick_up_player
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
-    LDA $5D
+    LDA.b $5D
     
     CMP.b #$0A : BEQ .dont_pick_up_player
     CMP.b #$09 : BEQ .dont_pick_up_player
     CMP.b #$08 : BEQ .dont_pick_up_player
     
-    LDA $5B : CMP.b #$02 : BEQ .dont_pick_up_player
+    LDA.b $5B : CMP.b #$02 : BEQ .dont_pick_up_player
     
     LDA.w $02DA : ORA.w $037E
                 ORA.w $03EF
@@ -173,9 +173,9 @@ Ancilla_TravelBird:
     STZ.w $0345
     STZ.w $03F8
     
-    LDA.b #$0C : STA $4B
+    LDA.b #$0C : STA.b $4B
     
-    LDA.b #$00 : STA $5D
+    LDA.b #$00 : STA.b $5D
     
     INC A : STA.w $02DA
             STA.w $02E4
@@ -189,7 +189,7 @@ Ancilla_TravelBird:
     
     STZ.w $0373
     
-    LDA $1B : BEQ .dont_forbid_lifting_objects
+    LDA.b $1B : BEQ .dont_forbid_lifting_objects
     
     STA.w $03FD
     
@@ -200,8 +200,8 @@ Ancilla_TravelBird:
     
     .drop_off_logic
     
-    LDA.w $0C04, X : STA $00
-    LDA.w $0C18, X : STA $01
+    LDA.w $0C04, X : STA.b $00
+    LDA.w $0C18, X : STA.b $01
     
     LDA.w $0C54, X : BEQ .dont_freeze_sprites
     
@@ -211,7 +211,7 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    LDA $00 : BMI .drop_off_player_delay
+    LDA.b $00 : BMI .drop_off_player_delay
     CMP $22 : BCC .drop_off_player_delay
     
     SEP #$20
@@ -219,7 +219,7 @@ Ancilla_TravelBird:
     LDA.w $0C54, X : BEQ .draw_logic
     
     STZ.w $0C54, X
-    STZ $4B
+    STZ.b $4B
     STZ.w $02F9
     STZ.w $02DA
     
@@ -248,7 +248,7 @@ Ancilla_TravelBird:
     
     .drop_off_player_delay
     
-    LDA $22 : SEC : SBC $00 : CMP.w #$0030 : BCS .draw_logic
+    LDA.b $22 : SEC : SBC.b $00 : CMP.w #$0030 : BCS .draw_logic
     
     ; Use the pulling up tiles for the bird since it's trying to
     ; not crash as it lands the player.
@@ -295,19 +295,19 @@ Ancilla_TravelBird:
     
     .treat_altitude_as_negative
     
-    STA $04
-    STA $72
+    STA.b $04
+    STA.b $72
     
-    LDA $00 : STA $0A
-    CLC : ADC $04 : STA $04
+    LDA.b $00 : STA.b $0A
+    CLC : ADC.b $04 : STA.b $04
     
-    LDA $02 : STA $06
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
     PHX
     
-    LDA.w $0C54, X : INC A : STA $08
+    LDA.w $0C54, X : INC A : STA.b $08
     
     LDY.b #$00 : TYX
     
@@ -323,7 +323,7 @@ Ancilla_TravelBird:
     
     .sign_ext_y_offset
     
-    CLC : ADC $04 : STA $00
+    CLC : ADC.b $04 : STA.b $00
     
     LDA .x_offsets, X : AND.w #$00FF
     
@@ -333,7 +333,7 @@ Ancilla_TravelBird:
     
     .sign_ext_x_offset
     
-    CLC : ADC $06 : STA $02
+    CLC : ADC.b $06 : STA.b $02
     
     SEP #$20
     
@@ -353,17 +353,17 @@ Ancilla_TravelBird:
     
     INX
     
-    CPY $08 : BNE .next_oam_entry
+    CPY.b $08 : BNE .next_oam_entry
     
     REP #$20
     
-    LDA $0A : CLC : ADC.w #$001C : STA $00
+    LDA.b $0A : CLC : ADC.w #$001C : STA.b $00
     
-    LDA $06 : STA $02
+    LDA.b $06 : STA.b $02
     
     SEP #$20
     
-    LDA.b #$30 : STA $04
+    LDA.b #$30 : STA.b $04
     
     LDX.b #$01 : JSR Ancilla_DrawShadow
     
@@ -373,13 +373,13 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    LDA $0A : CLC : ADC.w #28 : STA $00
+    LDA.b $0A : CLC : ADC.w #28 : STA.b $00
     
-    LDA $06 : CLC : ADC.w #-7 : STA $02
+    LDA.b $06 : CLC : ADC.w #-7 : STA.b $02
     
     SEP #$20
     
-    LDA.b #$30 : STA $04
+    LDA.b #$30 : STA.b $04
     
     LDX.b #$01 : JSR Ancilla_DrawShadow
     
@@ -389,7 +389,7 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    LDA $06      : BMI .not_far_enough_right
+    LDA.b $06      : BMI .not_far_enough_right
     CMP.w #$0130 : BCC .not_far_enough_right
     
     SEP #$20
@@ -401,11 +401,11 @@ Ancilla_TravelBird:
     LDA.w $0C54, X : BEQ .dont_transition_to_bird_travel_submodule
     
     ; Enter the BirdTravel submodule of Messaging module.
-    LDA.b #$0A : STA $11
+    LDA.b #$0A : STA.b $11
     
-    LDA $10 : STA.w $010C
+    LDA.b $10 : STA.w $010C
     
-    LDA.b #$0E : STA $10
+    LDA.b #$0E : STA.b $10
     
     .not_far_enough_right
     .dont_transition_to_bird_travel_submodule

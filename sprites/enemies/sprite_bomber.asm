@@ -53,7 +53,7 @@ BomberPellet_Exploding:
     JSL BomberPellet_DrawExplosion
     JSR Sprite3_CheckIfActive
     
-    LDA $1A : AND.b #$03 : BNE .dont_rewind_timer
+    LDA.b $1A : AND.b #$03 : BNE .dont_rewind_timer
     
     INC.w $0DF0, X
     
@@ -106,7 +106,7 @@ Bomber_Main:
     
     JSR Sprite3_CheckDamage
     
-    LDA $1A : AND.b #$01 : BNE .delay
+    LDA.b $1A : AND.b #$01 : BNE .delay
     
     LDA.w $0ED0, X : AND.b #$01 : TAY
     
@@ -123,23 +123,23 @@ Bomber_Main:
     JSR Sprite3_MoveAltitude
     JSR Sprite3_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
+    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     
-    LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
+    LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .player_not_close
     
-    LDA $44 : CMP.b #$80 : BEQ .player_not_attacking
+    LDA.b $44 : CMP.b #$80 : BEQ .player_not_attacking
     
     LDA.w $0372 : BNE .dodge_player_attack
     
-    LDA $3C : CMP.b #$09 : BPL .player_not_attacking
+    LDA.b $3C : CMP.b #$09 : BPL .player_not_attacking
     
     .dodge_player_attack
     
     LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
     LDA.b #$08 : STA.w $0DF0, X
     
@@ -264,9 +264,9 @@ Bomber_Hovering:
     
     JSR Sprite3_DirectionToFacePlayer : TYA : STA.w $0DE0, X
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA $00
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #3 : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA $00 : STA.w $0DC0, X
+    LDA.w $0DE0, X : ASL A : ORA.b $00 : STA.w $0DC0, X
     
     RTS
 }
@@ -298,17 +298,17 @@ Bomber_SpawnPellet:
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
-    LDA $04 : STA.w $0F70, Y
+    LDA.b $04 : STA.w $0F70, Y
     
     PHX
     
     LDX.w $0DE0, Y
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_hiwh, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_hiwh, X : STA.w $0D20, Y
     
     LDA Sprite3_Shake.x_speeds, X : STA.w $0D50, Y
     

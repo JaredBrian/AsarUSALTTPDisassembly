@@ -91,7 +91,7 @@ Landmine_Draw:
     
     REP #$20
     
-    LDA.w #.oam_groups : STA $08
+    LDA.w #.oam_groups : STA.b $08
     
     SEP #$20
     

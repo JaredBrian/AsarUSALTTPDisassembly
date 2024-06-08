@@ -78,10 +78,10 @@ Sprite_Agahnim:
     ; If Timer > #$10, branch
     LDA.w $0DF0, X : CMP.b #$10 : BCS .BRANCH_BETA
     
-    LDA.b #$7F : STA $9A
+    LDA.b #$7F : STA.b $9A
     
-    LDA.b #$06 : STA $1C
-    LDA.b #$10 : STA $1D
+    LDA.b #$06 : STA.b $1C
+    LDA.b #$10 : STA.b $1D
     
     PHX
     
@@ -151,17 +151,17 @@ Sprite_Agahnim:
 {
     STZ.w $0EB0, X
     
-    LDA.w $0D10 : STA $04
-    LDA.w $0D30 : STA $05
+    LDA.w $0D10 : STA.b $04
+    LDA.w $0D30 : STA.b $05
     
-    LDA.w $0D00 : STA $06
-    LDA.w $0D20 : STA $07
+    LDA.w $0D00 : STA.b $06
+    LDA.w $0D20 : STA.b $07
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
-    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
+    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0004 : CMP.w #$0008 : BCS .BRANCH_ALPHA
     
     SEP #$20
     
@@ -175,9 +175,9 @@ Sprite_Agahnim:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     JSR Sprite3_Move
     JSL Sprite_SpawnAgahnimAfterImage
@@ -450,11 +450,11 @@ AttachThenFadeToBlack:
         
     JSL Sprite_ApplySpeedTowardsPlayerLong
         
-    LDY $01
+    LDY.b $01
         
-    LDA $00 : CLC : ADC.b #$02 : STA $02
+    LDA.b $00 : CLC : ADC.b #$02 : STA.b $02
         
-    ASL #2 : ADC $02 : ADC.b #$02 : CLC : ADC $01 : TAY
+    ASL #2 : ADC.b $02 : ADC.b #$02 : CLC : ADC.b $01 : TAY
         
     LDA.w $D310, Y : STA.w $0DE0, X
         
@@ -607,11 +607,11 @@ DoLightningAttack:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
-    LDA $03 : ADC.b #$FF   : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$FF   : STA.w $0D20, Y
                              STA.w $0BA0, Y
     
     PLX
@@ -637,21 +637,21 @@ ShadowSneak:
 {
     LDA.b #$01 : STA.w $0BA0, X
     
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
-               STA $05
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
+               STA.b $05
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
-               STA $07
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
+               STA.b $07
     
-    LDA.w $0DB0, X : STA $04
-    LDA.w $0E90, X : STA $06
+    LDA.w $0DB0, X : STA.b $04
+    LDA.w $0E90, X : STA.b $06
     
     REP #$20
     
-    LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
-    LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
+    LDA.b $00 : SEC : SBC.b $04 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
+    LDA.b $02 : SEC : SBC.b $06 : CLC : ADC.w #$0007 : CMP.w #$000E : BCS .BRANCH_ALPHA
         SEP #$20
     
         LDA.w $0DB0, X : STA.w $0D10, X
@@ -667,9 +667,9 @@ ShadowSneak:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     LDA.w $0ED0, X : CMP.b #$40 : BCS .BRANCH_BETA
     INC.w $0ED0, X
@@ -696,7 +696,7 @@ AgahDraw:
 {
     JSR Sprite3_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA.b $06
     
     PHX
     
@@ -706,12 +706,12 @@ AgahDraw:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00      : CLC : ADC.w $D77F, X       : STA ($90), Y
-    LDA $02      : CLC : ADC.w $D7C7, X : INY : STA ($90), Y
+    LDA.b $00      : CLC : ADC.w $D77F, X       : STA ($90), Y
+    LDA.b $02      : CLC : ADC.w $D7C7, X : INY : STA ($90), Y
     LDA.w $D80F, X                : INY : STA ($90), Y
-    LDA.w $D857, X : ORA $05      : INY : STA ($90), Y
+    LDA.w $D857, X : ORA.b $05      : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -740,7 +740,7 @@ AgahDraw:
     
     .BRANCH_GAMMA
     
-    LDA $11 : BEQ .BRANCH_DELTA
+    LDA.b $11 : BEQ .BRANCH_DELTA
     
     LDY.b #$FF
     LDA.b #$03
@@ -769,11 +769,11 @@ AgahDraw:
     
     LDA.w $0EB0, X : BEQ .BRANCH_THETA
     
-    DEC A : STA $0C
+    DEC A : STA.b $0C
     
-    ASL A : STA $06
+    ASL A : STA.b $06
     
-    LDA $1A : LSR A : AND.b #$02 : INC #2 : ORA.b #$31 : STA $0D
+    LDA.b $1A : LSR A : AND.b #$02 : INC #2 : ORA.b #$31 : STA.b $0D
     
     PHX
     
@@ -783,18 +783,18 @@ AgahDraw:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00 : CLC : ADC.w $D89F, X       : STA ($90), Y
-    LDA $02 : CLC : ADC.w $D8E7, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $D89F, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $D8E7, X : INY : STA ($90), Y
     
-    LDX $0C
+    LDX.b $0C
     
     LDA.w $D92F, X : INY : STA ($90), Y
     
     INY
     
-    LDA $0D : STA ($90), Y
+    LDA.b $0D : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     

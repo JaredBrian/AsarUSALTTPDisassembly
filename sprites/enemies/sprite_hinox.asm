@@ -81,11 +81,11 @@ Hinox_ThrowBomb:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
-    LDA $03 : ADC.b #-1             : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #-1             : STA.w $0D20, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -250,11 +250,11 @@ Hinox_Walk:
     
     .no_tile_collision
     
-    LDA.w $0E80, X : AND.b #$01 : STA $00
+    LDA.w $0E80, X : AND.b #$01 : STA.b $00
     
     LDY.w $0DE0, X
     
-    LDA .animation_state_bases, Y : CLC : ADC $00 : STA.w $0DC0, X
+    LDA .animation_state_bases, Y : CLC : ADC.b $00 : STA.w $0DC0, X
     
     RTS
 }
@@ -343,7 +343,7 @@ Hinox_Draw:
     
     REP #$20
     
-    LDA .oam_group_pointers, Y : STA $08
+    LDA .oam_group_pointers, Y : STA.b $08
     
     SEP #$20
     

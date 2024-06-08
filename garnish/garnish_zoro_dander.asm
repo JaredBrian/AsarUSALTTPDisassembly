@@ -10,8 +10,8 @@ Garnish_ZoroDander:
     
     JSR Garnish_PrepOamCoord
     
-    LDA $00          : STA ($90), Y
-    LDA $02    : INY : STA ($90), Y
+    LDA.b $00          : STA ($90), Y
+    LDA.b $02    : INY : STA ($90), Y
     LDA.w #$75 : INY : STA ($90), Y
     
     PHY

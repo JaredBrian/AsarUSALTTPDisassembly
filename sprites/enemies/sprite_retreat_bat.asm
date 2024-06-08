@@ -90,7 +90,7 @@ Sprite_RetreatBat:
     ; $0D7660 ALTERNATE ENTRY POINT
     .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$07 : BNE .BRANCH_GAMMA
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_GAMMA
     
     REP #$20
     
@@ -106,7 +106,7 @@ Sprite_RetreatBat:
     
     .BRANCH_GAMMA
     
-    LDA $1A : AND.b #$0F : BNE .BRANCH_EPSILON
+    LDA.b $1A : AND.b #$0F : BNE .BRANCH_EPSILON
     
     INC.w $0D50, X
     
@@ -139,7 +139,7 @@ Sprite_RetreatBat:
     
     .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$03 : BNE .BRANCH_BETA
+    LDA.b $1A : AND.b #$03 : BNE .BRANCH_BETA
     
     DEC.w $0D50, X
     
@@ -286,11 +286,11 @@ RetreatBat_SpawnPyramidDebris:
     
     .spawn_another
     
-    LDA.w $F76D, Y : STA $00
-    LDA.w $F78B, Y : STA $01
+    LDA.w $F76D, Y : STA.b $00
+    LDA.w $F78B, Y : STA.b $01
     
-    LDA.w $F7A9, Y : STA $02
-    LDA.w $F7C7, Y : STA $03
+    LDA.w $F7A9, Y : STA.b $02
+    LDA.w $F7C7, Y : STA.b $03
     
     PHY
     
@@ -329,15 +329,15 @@ RetreatBat_Draw:
 {
     REP #$20
     
-    LDA.w #$0960 : STA $90
-    LDA.w #$0A78 : STA $92
+    LDA.w #$0960 : STA.b $90
+    LDA.w #$0A78 : STA.b $92
     
     SEP #$20
     
     LDA.w $0DE0, X : ASL #2 : ADC.w $0DC0, X : TAY
     
-    LDA .ptr_low_bytes, Y : STA $08
-    LDA .ptr_high_byte    : STA $09
+    LDA .ptr_low_bytes, Y : STA.b $08
+    LDA .ptr_high_byte    : STA.b $09
     
     LDA .num_oam_entries, Y : JSL Sprite_DrawMultiple
     

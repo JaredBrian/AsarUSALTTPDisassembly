@@ -74,7 +74,7 @@ MetalBall_DrawLargerVariety:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA.b $06
     
     PHX
     
@@ -88,11 +88,11 @@ MetalBall_DrawLargerVariety:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -100,17 +100,17 @@ MetalBall_DrawLargerVariety:
     
     .on_screen_y
     
-    PLA : CLC : ADC $06 : TAX
+    PLA : CLC : ADC.b $06 : TAX
     
     LDA .properties, X : INY : STA ($90), Y
     
     PLX
     
-    LDA .vh_flip, X : INY : ORA $05 : STA ($90), Y
+    LDA .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : ORA.b #$02 : STA ($92), Y
+    LDA.b $0F : ORA.b #$02 : STA ($92), Y
     
     PLY : INY
     

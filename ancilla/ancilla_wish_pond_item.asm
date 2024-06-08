@@ -9,7 +9,7 @@ Ancilla_WishPondItem:
     
     JSR Ancilla_AllocateOam
     
-    LDA $11 : BEQ .execute
+    LDA.b $11 : BEQ .execute
               BRL .draw
     
     .execute
@@ -37,7 +37,7 @@ Ancilla_WishPondItem:
     LDA.w $0BFA, X : CLC : ADC.b #$12 : STA.w $0BFA, X
     LDA.w $0C0E, X : ADC.b #$00 : STA.w $0C0E, X
     
-    LDA.b #$08 : STA $00
+    LDA.b #$08 : STA.b $00
     
     ; \bug(confirmed) This is suposed to be a long address mode, not
     ; local. Looks like even the Z3 programmers and their fancy assembler
@@ -46,11 +46,11 @@ Ancilla_WishPondItem:
     ; "ice shot sparkle" ancilla, if you belee dat.
     LDA.w $8450, Y : BNE .dont_use_4_pixel_offset
     
-    LDA.b #$04 : STA $00
+    LDA.b #$04 : STA.b $00
     
     .dont_use_4_pixel_offset
     
-    LDA.w $0C04, X : CLC : ADC $00    : STA.w $0C04, X
+    LDA.w $0C04, X : CLC : ADC.b $00    : STA.w $0C04, X
     LDA.w $0C18, X : ADC.b #$00 : STA.w $0C18, X
     
     BRL Ancilla_TransmuteToObjectSplash
@@ -78,11 +78,11 @@ Ancilla_WishPondItem:
     
     .sign_ext_z_coord
     
-    STA $04
+    STA.b $04
     
-    EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00 : STA $06
+    EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00 : STA.b $06
     
-    CLC : ADC.w #$0008 : STA $08
+    CLC : ADC.w #$0008 : STA.b $08
     
     SEP #$20
     
@@ -105,11 +105,11 @@ Ancilla_WishPondItem:
     
     REP #$20
     
-    LDA $06 : CLC : ADC $04 : CLC : ADC.w #$0028 : STA $00
+    LDA.b $06 : CLC : ADC.b $04 : CLC : ADC.w #$0028 : STA.b $00
     
     CPX.b #$02 : BEQ .wide_sprite
     
-    LDA $02 : CLC : ADC.w #-4 : STA $02
+    LDA.b $02 : CLC : ADC.w #-4 : STA.b $02
     
     .wide_sprite
     
@@ -125,7 +125,7 @@ Ancilla_WishPondItem:
     
     TAX
     
-    LDA $65 : STA $04
+    LDA.b $65 : STA.b $04
     
     JSR Ancilla_DrawShadow
     

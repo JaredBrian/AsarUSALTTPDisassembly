@@ -24,16 +24,16 @@ Garnish_Sparkle:
     
     .set_chr_index
     
-    LSR #2 : STA $0F
+    LSR #2 : STA.b $0F
     
     JSR Garnish_PrepOamCoord
     
-    LDA $00       : STA ($90), Y
-    LDA $02 : INY : STA ($90), Y
+    LDA.b $00       : STA ($90), Y
+    LDA.b $02 : INY : STA ($90), Y
     
     PHX
     
-    LDX $0F
+    LDX.b $0F
     
     LDA .chr, X : PLX : INY : STA ($90), Y
     

@@ -18,7 +18,7 @@ Sprite_Flame:
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
@@ -114,7 +114,7 @@ Flame_Draw:
     PHB : PHK : PLB
     
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     

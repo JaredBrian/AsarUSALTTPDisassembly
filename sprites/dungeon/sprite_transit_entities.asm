@@ -152,7 +152,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_ALPHA
     
-    LDA $5B : DEC #2 : BPL .BRANCH_BETA
+    LDA.b $5B : DEC #2 : BPL .BRANCH_BETA
     
     JSL Sprite_CheckDamageToPlayerIgnoreLayerLong : BCC .BRANCH_GAMMA
     
@@ -160,7 +160,7 @@ Sprite_SomariaPlatform:
     
     JSL Player_HaltDashAttackLong
     
-    LDA $5D
+    LDA.b $5D
     
     CMP.b #$13 : BEQ .BRANCH_GAMMA
     CMP.b #$03 : BEQ .BRANCH_GAMMA
@@ -186,7 +186,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_EPSILON
     
-    LDA $A0 : CMP.b #$24 : BEQ .BRANCH_ZETA
+    LDA.b $A0 : CMP.b #$24 : BEQ .BRANCH_ZETA
     
     LDY.w $0DE0, X
     
@@ -233,11 +233,11 @@ Sprite_SomariaPlatform:
 
 ; $0F77C2-$0F77DF LOCAL JUMP LOCATION
 {
-    LDA.w $0D00, X : STA $00
-    LDA.w $0D20, X : STA $01
+    LDA.w $0D00, X : STA.b $00
+    LDA.w $0D20, X : STA.b $01
     
-    LDA.w $0D10, X : STA $02
-    LDA.w $0D30, X : STA $03
+    LDA.w $0D10, X : STA.b $02
+    LDA.w $0D30, X : STA.b $03
     
     ; Forced to check on bg2 (the main bg).
     LDA.b #$00 : JSL Entity_GetTileAttr
@@ -282,8 +282,8 @@ Sprite_SomariaPlatform:
     
     LDA.w $0F10, X : AND.b #$0C : ASL #3
     
-    ADC.b #.oam_groups                 : STA $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                 : STA.b $08
+    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$04 : JMP Sprite3_DrawMultiple
 }
@@ -327,7 +327,7 @@ Sprite_SomariaPlatform:
 {
     LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
-    LDA.w $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
+    LDA.w $0D10, X : AND.b #$F8 : CLC : ADC.b #$04 : STA.b $00
     
     SEC : SBC.w $0D10, X : BEQ .BRANCH_ALPHA
     
@@ -337,7 +337,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_BETA
     
-    LDA $00 : STA.w $0D10, X
+    LDA.b $00 : STA.w $0D10, X
     
     .BRANCH_ALPHA
     
@@ -348,7 +348,7 @@ Sprite_SomariaPlatform:
 {
     LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BEQ .BRANCH_ALPHA
     
-    LDA.w $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA $00
+    LDA.w $0D00, X : AND.b #$F8 : CLC : ADC.b #$04 : STA.b $00
     
     SEC : SBC.w $0D00, X : BEQ .BRANCH_ALPHA
     
@@ -358,7 +358,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_BETA
     
-    LDA $00 : STA.w $0D00, X
+    LDA.b $00 : STA.w $0D00, X
     
     .BRANCH_ALPHA
     
@@ -405,11 +405,11 @@ Sprite_SomariaPlatform:
     
     LDA.b #$01 : STA.w $0D80, X
     
-    LDA $4D : BNE .BRANCH_ALPHA
+    LDA.b $4D : BNE .BRANCH_ALPHA
     
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $F91B, Y : BEQ .BRANCH_ALPHA
+    LDA.b $F0 : AND.w $F91B, Y : BEQ .BRANCH_ALPHA
     
     STZ.w $0D80, X
     
@@ -417,7 +417,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_ALPHA
     
-    STZ $4B
+    STZ.b $4B
     
     JMP.w $FB34 ; $0F7B34 IN ROM
 }
@@ -437,7 +437,7 @@ Sprite_SomariaPlatform:
     
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $F942, Y : STA $00 : AND.b #$08 : BEQ .always
+    LDA.b $F0 : AND.w $F942, Y : STA.b $00 : AND.b #$08 : BEQ .always
     
     LDA.b #$00 : STA.w $0DE0, X
     
@@ -447,7 +447,7 @@ Sprite_SomariaPlatform:
     
     .always
     
-    LDA $00 : AND.b #$04 : BEQ .no_pressing_down
+    LDA.b $00 : AND.b #$04 : BEQ .no_pressing_down
     
     LDA.b #$01 : STA.w $0DE0, X
     
@@ -457,7 +457,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_down
     
-    LDA $00 : AND.b #$02 : BEQ .not_pressing_left
+    LDA.b $00 : AND.b #$02 : BEQ .not_pressing_left
     
     LDA.b #$02 : STA.w $0DE0, X
     
@@ -467,7 +467,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_left
     
-    LDA $00 : AND.b #$01 : BEQ .not_pressing_right
+    LDA.b $00 : AND.b #$01 : BEQ .not_pressing_right
     
     LDA.b #$03 : STA.w $0DE0, X
     
@@ -505,7 +505,7 @@ Sprite_SomariaPlatform:
     
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $F99F, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    LDA.b $F0 : AND.w $F99F, Y : STA.b $00 : AND.b #$08 : BEQ .not_pressing_up
     
     LDA.b #$00 : STA.w $0DE0, X
     
@@ -515,7 +515,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_up
     
-    LDA $00 : AND.b #$04 : BEQ .always
+    LDA.b $00 : AND.b #$04 : BEQ .always
     
     LDA.b #$01 : STA.w $0DE0, X
     
@@ -525,7 +525,7 @@ Sprite_SomariaPlatform:
     
     .always
     
-    LDA $00 : AND.b #$02 : BEQ .not_pressing_left
+    LDA.b $00 : AND.b #$02 : BEQ .not_pressing_left
     
     LDA.b #$02 : STA.w $0DE0, X
     
@@ -535,7 +535,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_left
     
-    LDA $00 : AND.b #$01 : BEQ .not_pressing_right
+    LDA.b $00 : AND.b #$01 : BEQ .not_pressing_right
     
     LDA.b #$03 : STA.w $0DE0, X
     
@@ -572,7 +572,7 @@ Sprite_SomariaPlatform:
     
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $F9FE, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    LDA.b $F0 : AND.w $F9FE, Y : STA.b $00 : AND.b #$08 : BEQ .not_pressing_up
     
     LDA.b #$00 : STA.w $0DE0, X
     
@@ -582,7 +582,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_up
     
-    LDA $00 : AND.b #$04 : BEQ .not_pressing_up
+    LDA.b $00 : AND.b #$04 : BEQ .not_pressing_up
     
     LDA.b #$01 : STA.w $0DE0, X
     
@@ -592,7 +592,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_up
     
-    LDA $00 : AND.b #$02 : BEQ .always
+    LDA.b $00 : AND.b #$02 : BEQ .always
     
     LDA.b #$02 : STA.w $0DE0, X
     
@@ -602,7 +602,7 @@ Sprite_SomariaPlatform:
     
     .always
     
-    LDA $00 : AND.b #$01 : BEQ .not_pressing_right
+    LDA.b $00 : AND.b #$01 : BEQ .not_pressing_right
     
     LDA.b #$03 : STA.w $0DE0, X
     
@@ -639,7 +639,7 @@ Sprite_SomariaPlatform:
     
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $FA5D, Y : STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    LDA.b $F0 : AND.w $FA5D, Y : STA.b $00 : AND.b #$08 : BEQ .not_pressing_up
     
     LDA.b #$00 : STA.w $0DE0, X
     
@@ -649,7 +649,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_up:
     
-    LDA $00 : AND.b #$04 : BEQ .not_pressing_down
+    LDA.b $00 : AND.b #$04 : BEQ .not_pressing_down
     
     LDA.b #$01 : STA.w $0DE0, X
     
@@ -659,7 +659,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_down
     
-    LDA $00 : AND.b #$02 : BEQ .not_pressing_left
+    LDA.b $00 : AND.b #$02 : BEQ .not_pressing_left
     
     LDA.b #$02 : STA.w $0DE0, X
     
@@ -669,7 +669,7 @@ Sprite_SomariaPlatform:
     
     .not_pressing_left
     
-    LDA $00 : AND.b #$01 : BEQ .always
+    LDA.b $00 : AND.b #$01 : BEQ .always
     
     LDA.b #$03 : STA.w $0DE0, X
     
@@ -704,7 +704,7 @@ Sprite_SomariaPlatform:
 {
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $FABC, Y : STA $00 : AND.b #$08 : BEQ .BRANCH_ALPHA
+    LDA.b $F0 : AND.w $FABC, Y : STA.b $00 : AND.b #$08 : BEQ .BRANCH_ALPHA
     
     LDA.b #$00 : STA.w $0DE0, X
     
@@ -712,7 +712,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_ALPHA
     
-    LDA $00 : AND.b #$04 : BEQ .BRANCH_GAMMA
+    LDA.b $00 : AND.b #$04 : BEQ .BRANCH_GAMMA
     
     LDA.b #$01 : STA.w $0DE0, X
     
@@ -720,7 +720,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_GAMMA
     
-    LDA $00 : AND.b #$02 : BEQ .BRANCH_DELTA
+    LDA.b $00 : AND.b #$02 : BEQ .BRANCH_DELTA
     
     LDA.b #$02 : STA.w $0DE0, X
     
@@ -728,7 +728,7 @@ Sprite_SomariaPlatform:
     
     .BRANCH_DELTA
     
-    LDA $00 : AND.b #$01 : BEQ .BRANCH_BETA
+    LDA.b $00 : AND.b #$01 : BEQ .BRANCH_BETA
     
     LDA.b #$03 : STA.w $0DE0, X
     
@@ -752,21 +752,21 @@ Sprite_SomariaPlatform:
     
     LDY.w $0DE0, X
     
-    LDA $F0 : AND.w $FAFB, Y : BEQ .not_pressing_any_directions
+    LDA.b $F0 : AND.w $FAFB, Y : BEQ .not_pressing_any_directions
     
-    STA $00 : AND.b #$08 : BEQ .not_pressing_up
+    STA.b $00 : AND.b #$08 : BEQ .not_pressing_up
     
     LDA.b #$00 : BRA .set_direction
     
     .not_pressing_up
     
-    LDA $00 : AND.b #$04 : BEQ .not_pressing_down
+    LDA.b $00 : AND.b #$04 : BEQ .not_pressing_down
     
     LDA.b #$01 : BRA .set_direction
     
     .not_pressing_down
     
-    LDA $00 : AND.b #$02 : BEQ .not_pressing_left
+    LDA.b $00 : AND.b #$02 : BEQ .not_pressing_left
     
     LDA.b #$02 : BRA .set_direction
     
@@ -795,7 +795,7 @@ Sprite_SomariaPlatform:
     
     LDA.w $0DE0, X : EOR.b #$01 : STA.w $0DE0, X
     
-    STZ $4B
+    STZ.b $4B
     
     BRA .BRANCH_$F7B34
 }
@@ -963,7 +963,7 @@ Pipe_DrawPlayerInward:
     INC.w $0DC0, X
     
     ; Makes the player invisible.
-    LDA.b #$0C : STA $4B
+    LDA.b #$0C : STA.b $4B
     
     RTS
     
@@ -988,11 +988,11 @@ Pipe_DragPlayerAlong:
 {
     LDA.b #$03 : STA.w $0E80, X
     
-    LDA $22 : STA $3F
-    LDA $23 : STA $41
+    LDA.b $22 : STA.b $3F
+    LDA.b $23 : STA.b $41
     
-    LDA $20 : STA $3E
-    LDA $21 : STA $40
+    LDA.b $20 : STA.b $3E
+    LDA.b $21 : STA.b $40
     
     .lambda
     
@@ -1028,35 +1028,35 @@ Pipe_DragPlayerAlong:
     
     JSR Sprite3_Move
     
-    LDA.w $0D10, X : SEC : SBC.b #$08 : STA $00
-    LDA.w $0D30, X : SBC.b #$00 : STA $01
+    LDA.w $0D10, X : SEC : SBC.b #$08 : STA.b $00
+    LDA.w $0D30, X : SBC.b #$00 : STA.b $01
     
-    LDA.w $0D00, X : SEC : SBC.b #$0E : STA $02
-    LDA.w $0D20, X : SBC.b #$00 : STA $03
+    LDA.w $0D00, X : SEC : SBC.b #$0E : STA.b $02
+    LDA.w $0D20, X : SBC.b #$00 : STA.b $03
     
     REP #$20
     
-    LDA $00 : CMP $22 : BEQ .BRANCH_DELTA  BCS .BRANCH_EPSILON
+    LDA.b $00 : CMP $22 : BEQ .BRANCH_DELTA  BCS .BRANCH_EPSILON
     
-    DEC $22
+    DEC.b $22
     
     BRA .BRANCH_DELTA
     
     .BRANCH_EPSILON
     
-    INC $22
+    INC.b $22
     
     .BRANCH_DELTA
     
-    LDA $02 : CMP $20 : BEQ .BRANCH_ZETA  BCS .BRANCH_THETA
+    LDA.b $02 : CMP $20 : BEQ .BRANCH_ZETA  BCS .BRANCH_THETA
     
-    DEC $20
+    DEC.b $20
     
     BRA .BRANCH_ZETA
     
     .BRANCH_THETA
     
-    INC $20
+    INC.b $20
     
     .BRANCH_ZETA
     
@@ -1068,12 +1068,12 @@ Pipe_DragPlayerAlong:
     
     .BRANCH_IOTA
     
-    LDA $22 : SEC : SBC $3F : STA $31
-    LDA $20 : SEC : SBC $3E : STA $30
+    LDA.b $22 : SEC : SBC.b $3F : STA.b $31
+    LDA.b $20 : SEC : SBC.b $3E : STA.b $30
 
     LDY.w $0DE0, X
     
-    LDA Pipe.player_direction, Y : STA $26
+    LDA Pipe.player_direction, Y : STA.b $26
     
     PHX
     
@@ -1093,9 +1093,9 @@ Pipe_DragPlayerAlong:
     STZ.w $02E4
     STZ.w $02F5
     STZ.w $037B
-    STZ $4B
-    STZ $31
-    STZ $30
+    STZ.b $4B
+    STZ.b $31
+    STZ.b $30
     
     LDA.b #$FF : STA.w $1DE0
     
@@ -1121,7 +1121,7 @@ Pipe_DragPlayerAlong:
     ; is acting as a surrogate of the player sprite, so to speak.
     PHX
     
-    STA $67 : STA $26
+    STA.b $67 : STA.b $26
     
     JSL.l $07E245 ; $03E245 IN ROM
     JSL.l $07E6A6 ; $03E6A6 IN ROM

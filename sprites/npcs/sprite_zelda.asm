@@ -40,7 +40,7 @@ SpritePrep_Zelda:
     
     PLA : STA.l $7EF3CC
     
-    LDA $A0 : CMP.b #$12 : BNE .notInSanctuary
+    LDA.b $A0 : CMP.b #$12 : BNE .notInSanctuary
     
     LDA.b #$02 : STA.w $0E80, X
     
@@ -96,11 +96,11 @@ Zelda_TransitionFromTagalong:
     
     LDA.w $1A64, X : AND.b #$03 : STA.w $0EB0, Y : STA.w $0DE0, Y
     
-    LDA $20 : STA.w $0D00, Y
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $20 : STA.w $0D00, Y
+    LDA.b $21 : STA.w $0D20, Y
     
-    LDA $22 : STA.w $0D10, Y
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $22 : STA.w $0D10, Y
+    LDA.b $23 : STA.w $0D30, Y
     
     LDA.b #$01 : STA.w $0E80, Y
     
@@ -233,7 +233,7 @@ Zelda_ApproachingPlayer:
     
     .still_approaching
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -367,7 +367,7 @@ Zelda_WalkTowardsPriest:
     
     .walking
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }

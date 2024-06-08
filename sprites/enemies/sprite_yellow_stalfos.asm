@@ -399,11 +399,11 @@ Pool_YellowStalfos_Draw:
 YellowStalfos_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     SEP #$20
     
@@ -411,9 +411,9 @@ YellowStalfos_Draw:
     
     REP #$20
     
-    LDA $90 : SEC : SBC.w #$0004 : STA $90
+    LDA.b $90 : SEC : SBC.w #$0004 : STA.b $90
     
-    DEC $92
+    DEC.b $92
     
     SEP #$20
     
@@ -447,16 +447,16 @@ YellowStalfos_DrawHead:
     LDA.w $0DC0, X : CMP.b #$0A : BEQ .return
     
     ; This constant means don't draw the head this frame.
-    LDA !head_x_offset, X : STZ $0D : CMP.b #$80 : BEQ .return
+    LDA !head_x_offset, X : STZ.b $0D : CMP.b #$80 : BEQ .return
     
-    STA $0C : CMP.b #$00 : BPL .sign_extend
+    STA.b $0C : CMP.b #$00 : BPL .sign_extend
     
-    DEC $0D
+    DEC.b $0D
     
     .sign_extend
     
-    LDA !head_y_offset, X : STA $0A
-                            STZ $0B
+    LDA !head_y_offset, X : STA.b $0A
+                            STZ.b $0B
     
     LDY.b #$00
     
@@ -466,11 +466,11 @@ YellowStalfos_DrawHead:
     
     REP #$20
     
-    LDA $00 : CLC : ADC $0C : STA ($90), Y
+    LDA.b $00 : CLC : ADC.b $0C : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : SEC : SBC $0A : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.b $0A : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     
@@ -481,11 +481,11 @@ YellowStalfos_DrawHead:
     SEP #$20
     
     LDA .chr, X        : INY           : STA ($90), Y
-    LDA .properties, X : INY : ORA $05 : STA ($90), Y
+    LDA .properties, X : INY : ORA.b $05 : STA ($90), Y
     
     TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLX
     

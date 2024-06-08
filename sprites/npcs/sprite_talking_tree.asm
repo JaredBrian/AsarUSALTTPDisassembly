@@ -55,14 +55,14 @@ Sprite_TalkingTree:
     
     JSL Player_HaltDashAttackLong
     
-    LDA.b #$10 : STA $46
+    LDA.b #$10 : STA.b $46
     
     LDA.b #$30
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : STA $27
-    LDA $01 : STA $28
+    LDA.b $00 : STA.b $27
+    LDA.b $01 : STA.b $28
     
     LDA.b #$32 : JSL Sound_SetSfx3PanLong
     
@@ -205,7 +205,7 @@ Sprite_TalkingTree:
 {
     LDY.b #$00
     
-    LDA $8A
+    LDA.b $8A
     
     .BRANCH_BETA
     
@@ -237,8 +237,8 @@ Sprite_TalkingTree:
     JSL Sprite_TransmuteToEnemyBomb
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : CLC : ADC.b #$28 : STA $08
-    LDA $03 : ADC.b #$00 : STA $03
+    LDA.b $02 : CLC : ADC.b #$28 : STA.b $08
+    LDA.b $03 : ADC.b #$00 : STA.b $03
     
     LDA.b #$40 : STA.w $0E00, Y
     
@@ -257,11 +257,11 @@ Sprite_TalkingTree:
 {
     LDA.w $0DC0, X : DEC A : BMI .BRANCH_ALPHA
     
-    ASL #5     : ADC.b #$7B : STA $08
-    LDA.b #$FA : ADC.b #$00 : STA $09
+    ASL #5     : ADC.b #$7B : STA.b $08
+    LDA.b #$FA : ADC.b #$00 : STA.b $09
     
-    LDA.b #$04 : STA $06
-                 STZ $07
+    LDA.b #$04 : STA.b $06
+                 STZ.b $07
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -301,9 +301,9 @@ Sprite_TalkingTree:
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : BMI .BRANCH_ALPHA
+    LDA.b $00 : BMI .BRANCH_ALPHA
     
-    LDA $01 : CLC : ADC.b #$02 : STA.w $0DE0, X
+    LDA.b $01 : CLC : ADC.b #$02 : STA.w $0DE0, X
     
     BRA .BRANCH_BETA
     
@@ -353,11 +353,11 @@ TalkingTree_SpawnEyes:
     
     PLA : STA.w $0EB0, Y : TAX
     
-    LDA $00 : CLC : ADC.l .x_offsets_low, X  : STA.w $0D10, Y : STA.w $0D90, Y
-    LDA $01 : ADC.l .x_offsets_high, X : STA.w $0D30, Y : STA.w $0DA0, Y
+    LDA.b $00 : CLC : ADC.l .x_offsets_low, X  : STA.w $0D10, Y : STA.w $0D90, Y
+    LDA.b $01 : ADC.l .x_offsets_high, X : STA.w $0D30, Y : STA.w $0DA0, Y
     
-    LDA $02 : CLC : ADC.b #$F5 : STA.w $0D00, Y : STA.w $0DB0, Y
-    LDA $03 : ADC.b #$FF : STA.w $0D20, Y : STA.w $0E90, Y
+    LDA.b $02 : CLC : ADC.b #$F5 : STA.w $0D00, Y : STA.w $0DB0, Y
+    LDA.b $03 : ADC.b #$FF : STA.w $0D20, Y : STA.w $0E90, Y
     
     LDA.b #$01 : STA.w $0E80, Y
     

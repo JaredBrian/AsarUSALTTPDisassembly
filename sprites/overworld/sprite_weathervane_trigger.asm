@@ -7,7 +7,7 @@ Sprite_WeathervaneTrigger:
     JSR Sprite_PrepOamCoordSafeWrapper
     JSR Sprite_CheckIfActive
     
-    LDA $8A : CMP.b #$18 : BNE .outside_village
+    LDA.b $8A : CMP.b #$18 : BNE .outside_village
     
     ; \item
     LDA.l $7EF34C : CMP.b #$03 : BNE .player_lacks_bird_enabled_flute

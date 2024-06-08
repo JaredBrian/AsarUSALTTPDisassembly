@@ -281,7 +281,7 @@ Leever_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA.w $0DC0, X : TAY : ASL #2 : STA $06
+    LDA.w $0DC0, X : TAY : ASL #2 : STA.b $06
     
     PHX
     
@@ -293,17 +293,17 @@ Leever_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -313,7 +313,7 @@ Leever_Draw:
     
     PLX
     
-    LDA $05 : PHA
+    LDA.b $05 : PHA
     
     LDA .chr, X : INY : STA ($90), Y
     
@@ -324,19 +324,19 @@ Leever_Draw:
     .mask_off_palette_and_nametable_bit
     
     ; \task (and \wtf) What purpose does this serve exactly?
-    LDA $05 : AND.b #$F0 : STA $05
+    LDA.b $05 : AND.b #$F0 : STA.b $05
     
     .dont_do_that
     
-    LDA .properties, X : ORA $05 : INY : STA ($90), Y
+    LDA .properties, X : ORA.b $05 : INY : STA ($90), Y
     
-    PLA : STA $05
+    PLA : STA.b $05
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA .oam_sizes, X : ORA $0F : STA ($92), Y
+    LDA .oam_sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

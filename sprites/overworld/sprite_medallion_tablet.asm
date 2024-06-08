@@ -22,7 +22,7 @@ SpritePrep_MedallionTablet:
 {
     INC.w $0BA0, X
     
-    LDA $8A : CMP.b #$03 : BEQ .ether_location
+    LDA.b $8A : CMP.b #$03 : BEQ .ether_location
     
     LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
@@ -120,13 +120,13 @@ MedallionTablet_SpawnDustCloud:
 {
     LDA.b #$F2 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL GetRandomInt : STA $0F
+    JSL GetRandomInt : STA.b $0F
     
     JSL GetRandomInt : REP #$20 : AND.w #$000F
     
-    SEC : SBC.w #$0008 : CLC : ADC $00 : STA $00
+    SEC : SBC.w #$0008 : CLC : ADC.b $00 : STA.b $00
     
-    LDA $0F : AND.w #$000F : CLC : ADC $02 : STA $02
+    LDA.b $0F : AND.w #$000F : CLC : ADC.b $02 : STA.b $02
     
     SEP #$30
     
@@ -156,7 +156,7 @@ MedallionTablet_Main:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Sprite_RepelDashAttackLong
     
@@ -185,9 +185,9 @@ MedallionTablet_Main:
 ; $02F34F-$02F3C3 JUMP LOCATION
 MedallionTablet_WaitForMudoraReader:
 {
-    LDA $8A : CMP.b #$03 : BEQ MedallionTablet_WaitForEther
+    LDA.b $8A : CMP.b #$03 : BEQ MedallionTablet_WaitForEther
     
-    LDA $2F : BNE .beta
+    LDA.b $2F : BNE .beta
     
     JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .beta
     
@@ -195,7 +195,7 @@ MedallionTablet_WaitForMudoraReader:
     
     LDA.w $0FDA : CLC : ADC.w #$0010 : CMP $20 : SEP #$30 : BCC .beta
     
-    LDA $F4 : BPL .gamma
+    LDA.b $F4 : BPL .gamma
     
     ; \tcrf (verified)
     ; My, what a corner case bit of logic this is. So if the
@@ -218,11 +218,11 @@ MedallionTablet_WaitForMudoraReader:
     
     LDY.b #$01
     
-    LDA $F4 : AND.b #$40 : BNE .epsilon
+    LDA.b $F4 : AND.b #$40 : BNE .epsilon
     
     .delta
     
-    LDA $F6 : BPL .beta
+    LDA.b $F6 : BPL .beta
     
     LDY.b #$00
     
@@ -262,13 +262,13 @@ MedallionTablet_WaitForMudoraReader:
 ; $02F3C4-$02F42D BRANCH LOCATION
 MedallionTablet_WaitForEther:
 {
-    LDA $2F : BNE .return
+    LDA.b $2F : BNE .return
     
     JSR Sprite2_DirectionToFacePlayer : CPY.b #$02 : BNE .return
     
     LDA.w $0D00, X : CLC : ADC.b #$10 : CMP $20 : BCC .return
     
-    LDA $F4 : BPL .b_button_not_pressed
+    LDA.b $F4 : BPL .b_button_not_pressed
     
     LDA.l $7EF359 : CMP.b #$02 : BNE .not_exactly_master_sword
     
@@ -281,11 +281,11 @@ MedallionTablet_WaitForEther:
     
     LDY.b #$01
     
-    LDA $F4 : AND.b #$40 : BNE .y_button_pressed
+    LDA.b $F4 : AND.b #$40 : BNE .y_button_pressed
     
     .book_of_mudora_not_equipped
     
-    LDA $F6 : BPL .return
+    LDA.b $F6 : BPL .return
     
     LDY.b #$00
     
@@ -361,7 +361,7 @@ MedallionTablet_Crumbling:
     
     .do_not
     
-    LDA $1A : AND.b #$07 : BNE .dont_spawn_dust_cloud
+    LDA.b $1A : AND.b #$07 : BNE .dont_spawn_dust_cloud
     
     JSR MedallionTablet_SpawnDustCloud
     

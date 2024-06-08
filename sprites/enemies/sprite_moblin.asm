@@ -105,9 +105,9 @@ Moblin_Walk:
     
     STA.w $0DF0, X
     
-    JSL GetRandomInt : AND.b #$01 : STA $00
+    JSL GetRandomInt : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
     
     LDA.w $9930, Y : STA.w $0EB0, X
     
@@ -225,11 +225,11 @@ Moblin_SpawnThrownSpear:
     ; \note Using data from another sprite is legal, but seems kind of
     ; dumb considering all the other space saving measures they could have
     ; done.
-    LDA $00 : CLC : ADC .x_offsets_low, X       : STA.w $0D10, Y
-    LDA $01 : ADC Hinox.x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low, X       : STA.w $0D10, Y
+    LDA.b $01 : ADC Hinox.x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -330,7 +330,7 @@ Moblin_Draw:
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA $08
+    ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

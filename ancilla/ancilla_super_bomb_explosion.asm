@@ -16,7 +16,7 @@ Pool_Ancilla_SuperBombExplosion:
 ; $04718D-$04727B JUMP LOCATION
 Ancilla_SuperBombExplosion:
 {
-    LDA $11 : BNE .draw
+    LDA.b $11 : BNE .draw
     
     DEC.w $039F, X : LDA.w $039F, X : BNE .draw
     
@@ -40,24 +40,24 @@ Ancilla_SuperBombExplosion:
     
     .draw
     
-    LDA.b #$08 : STA $09
+    LDA.b #$08 : STA.b $09
     
-    LDA.b #$30 : STA $65 : STZ $64
+    LDA.b #$30 : STA.b $65 : STZ.b $64
     
-    STZ $0A
+    STZ.b $0A
     
-    LDA.b #$32 : STA $0B
+    LDA.b #$32 : STA.b $0B
     
     LDA.w $0C5E, X : TAY
     
-    LDA Bomb_Draw.num_oam_entries, Y : STA $08
+    LDA Bomb_Draw.num_oam_entries, Y : STA.b $08
     
     LDA Ancilla_Bomb.chr_groups, Y : TAY
     
     LDA Bomb_Draw.chr_start_offset, Y : ASL A : TAY
     
-    ASL A : STA $04
-            STZ $05
+    ASL A : STA.b $04
+            STZ.b $05
     
     TYA : STA.w $0C54, X
     
@@ -67,18 +67,18 @@ Ancilla_SuperBombExplosion:
     
     PHX : PHY
     
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
+    LDA.w $0C04, X : STA.b $02
+    LDA.w $0C18, X : STA.b $03
     
-    LDA $09 : ASL A : TAY
+    LDA.b $09 : ASL A : TAY
     
     REP #$20
     
-    LDA $00 : CLC : ADC .y_offsets, Y : SEC : SBC $E8 : STA $00
-    LDA $02 : CLC : ADC .x_offsets, Y : SEC : SBC $E2 : STA $02
+    LDA.b $00 : CLC : ADC .y_offsets, Y : SEC : SBC.b $E8 : STA.b $00
+    LDA.b $02 : CLC : ADC .x_offsets, Y : SEC : SBC.b $E2 : STA.b $02
     
     SEP #$20
     
@@ -86,9 +86,9 @@ Ancilla_SuperBombExplosion:
     
     LDA.w $0C54, X : TAX
     
-    LDA $01 : BNE .off_screen
+    LDA.b $01 : BNE .off_screen
     
-    LDA $03 : BNE .off_screen
+    LDA.b $03 : BNE .off_screen
     
     PHX : PHY
     
@@ -98,14 +98,14 @@ Ancilla_SuperBombExplosion:
     
     PLY : PLX
     
-    LDA $00 : STA $0C
-    LDA $01 : STA $0D
+    LDA.b $00 : STA.b $0C
+    LDA.b $01 : STA.b $0D
     
-    LDA $02 : STA $0E
-    LDA $03 : STA $0F
+    LDA.b $02 : STA.b $0E
+    LDA.b $03 : STA.b $0F
     
-    STZ $06
-    STZ $07
+    STZ.b $06
+    STZ.b $07
     
     JSR Bomb_DrawExplosion
     
@@ -113,17 +113,17 @@ Ancilla_SuperBombExplosion:
     
     PLX
     
-    DEC $09 : BPL .next_blast
+    DEC.b $09 : BPL .next_blast
     
     LDA.w $0C5E, X : CMP.b #$03 : BNE .anomute_vulnerable_tiles
     
     LDA.w $039F, X : CMP.b #$01 : BNE .anomute_vulnerable_tiles
     
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
+    LDA.w $0C04, X : STA.b $02
+    LDA.w $0C18, X : STA.b $03
     
     PHX
     

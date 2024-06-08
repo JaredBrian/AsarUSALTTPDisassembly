@@ -50,13 +50,13 @@ Sprite_Armos:
     
     .delta
     
-    TXA : EOR $1A : AND.b #$03 : BNE .epsilon
+    TXA : EOR.b $1A : AND.b #$03 : BNE .epsilon
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$001F : CMP.w #$003E : BCS .epsilon
     
-    LDA $20 : CLC : ADC.w #$0008 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
+    LDA.b $20 : CLC : ADC.w #$0008 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0058 : BCS .epsilon
     
     SEP #$20
     
@@ -130,7 +130,7 @@ Armos_Draw:
     
     REP #$20
     
-    LDA.w #.oam_groups : STA $08
+    LDA.w #.oam_groups : STA.b $08
     
     SEP #$20
     

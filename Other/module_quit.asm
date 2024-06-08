@@ -16,7 +16,7 @@ Module_Quit:
 {
     ; Beginning of Module 0x17, Restart Mode
     
-    LDA $11 : ASL A : TAX
+    LDA.b $11 : ASL A : TAX
     
     JSR (.submodules, X)
     
@@ -31,18 +31,18 @@ Module_Quit:
 ; $04F7AF-$04F7BF LOCAL JUMP LOCATION
 Quit_IndicateHaltedState:
 {
-    INC $11
+    INC.b $11
     
     ; $04F7B1 ALTERNATE ENTRY POINT
     shared Quit_FadeOut:
     
-    DEC $13 : BNE Death_RestoreScreenPostRevival.return
+    DEC.b $13 : BNE Death_RestoreScreenPostRevival.return
     
     ; Once the screen fades out it's time to save game state and restart,
     ; essentially.
-    LDA.b #$0F : STA $95
+    LDA.b #$0F : STA.b $95
     
-    LDA.b #$01 : STA $B0
+    LDA.b #$01 : STA.b $B0
     
     JMP.w $F50F ; $04F50F IN ROM
 }

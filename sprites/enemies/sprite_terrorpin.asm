@@ -81,7 +81,7 @@ Terrorpin_Upright:
     
     .in_air
     
-    LDA $1A
+    LDA.b $1A
     
     LDY.w $0ED0, X : BNE .moving_faster
     
@@ -190,7 +190,7 @@ Terrorpin_CheckHammerHitNearby:
 {
     LDA.w $0F70, X : ORA.w $0E10, X : BNE .cant_overturn
     
-    LDA $EE : CMP.w $0F20, X : BNE .cant_overturn
+    LDA.b $EE : CMP.w $0F20, X : BNE .cant_overturn
     
     LDA.w $0044 : CMP.b #$80 : BEQ .cant_overturn
     LDA.w $0301 : AND.b #$0A : BEQ .cant_overturn
@@ -233,14 +233,14 @@ Terrorpin_CheckHammerHitNearby:
 ; $0F3405-$0F3429 LOCAL JUMP LOCATION
 Terrorpin_FormHammerHitBox:
 {
-    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $04
-    LDA.w $0D30, X : SBC.b #$00 : STA $0A
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA.b $04
+    LDA.w $0D30, X : SBC.b #$00 : STA.b $0A
     
-    LDA.w $0D00, X : SEC : SBC.b #$10 : STA $05
-    LDA.w $0D20, X : SBC.b #$00 : STA $0B
+    LDA.w $0D00, X : SEC : SBC.b #$10 : STA.b $05
+    LDA.w $0D20, X : SBC.b #$00 : STA.b $0B
     
-    LDA.b #$30 : STA $06
-                 STA $07
+    LDA.b #$30 : STA.b $06
+                 STA.b $07
     
     RTS
 }

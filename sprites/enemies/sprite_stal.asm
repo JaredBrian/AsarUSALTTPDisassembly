@@ -106,7 +106,7 @@ Stal_Active:
     
     .not_grounded
     
-    LDA $1A : AND.b #$03 : BNE .anotick_animation_timer
+    LDA.b $1A : AND.b #$03 : BNE .anotick_animation_timer
     
     INC.w $0E80, X
     
@@ -147,7 +147,7 @@ Stal_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #$81DC : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #$81DC : STA.b $08
     
     SEP #$20
     

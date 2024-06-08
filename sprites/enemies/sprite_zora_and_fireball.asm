@@ -65,11 +65,11 @@ Sprite_ZoraAndFireball:
     
     JSR Sprite2_Move
     
-    LDA $1B : BEQ .ignore_tile_collision
+    LDA.b $1B : BEQ .ignore_tile_collision
     
     LDA.w $0E00, X : BNE .ignore_tile_collision
     
-    TXA : EOR $1A : AND.b #$03 : BNE .ignore_tile_collision
+    TXA : EOR.b $1A : AND.b #$03 : BNE .ignore_tile_collision
     
     JSR Sprite2_CheckTileCollision : BNE .self_terminate
     
@@ -89,7 +89,7 @@ Sprite_ZoraAndFireball:
     ; Otherwise, the fireball might get blocked by the shield
     ; Are Link and the sprite on the same level?
     ; No... so don�t hurt him.
-    LDA $EE : CMP.w $0F20, X : BNE .ignore_shield_collision
+    LDA.b $EE : CMP.w $0F20, X : BNE .ignore_shield_collision
     
     JSL Sprite_SetupHitBoxLong
     
@@ -100,23 +100,23 @@ Sprite_ZoraAndFireball:
     ; and thus it must be duplicated here in a slightly altered fashion.
     
     ; Which direction is Link facing?
-    LDA $2F : LSR A : TAY
+    LDA.b $2F : LSR A : TAY
     
-    LDA $3C : BEQ .shield_not_to_the_side
+    LDA.b $3C : BEQ .shield_not_to_the_side
     
     LDA .shield_to_the_side_indices, Y : TAY
     
     .shield_not_to_the_side
     
-    LDA $22 : CLC : ADC .shield_x_offsets_low, Y  : STA $00
-    LDA $23 : CLC : ADC .shield_x_offsets_high, Y : STA $08
+    LDA.b $22 : CLC : ADC .shield_x_offsets_low, Y  : STA.b $00
+    LDA.b $23 : CLC : ADC .shield_x_offsets_high, Y : STA.b $08
     
-    LDA .shield_hit_box_size_x, Y : STA $02
+    LDA .shield_hit_box_size_x, Y : STA.b $02
     
-    LDA $20 : CLC : ADC .shield_y_offsets_low, Y : STA $01
-    LDA $21 : ADC.b #$00    : STA $09
+    LDA.b $20 : CLC : ADC .shield_y_offsets_low, Y : STA.b $01
+    LDA.b $21 : ADC.b #$00    : STA.b $09
     
-    LDA .shield_hit_box_size_y, Y : STA $03
+    LDA .shield_hit_box_size_y, Y : STA.b $03
     
     JSL Utility_CheckIfHitBoxesOverlapLong : BCC .no_shield_collision
     
@@ -372,7 +372,7 @@ Zora_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA.b $06
     
     PHX
     
@@ -382,17 +382,17 @@ Zora_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -404,11 +404,11 @@ Zora_Draw:
     
     LDA .chr, X : INY : STA ($90), Y
     
-    LDA.b #$0F : STA $0D
+    LDA.b #$0F : STA.b $0D
     
-    LDA .properties, X : BIT $0D : BNE .override_intended_palette
+    LDA .properties, X : BIT.b $0D : BNE .override_intended_palette
     
-    ORA $05
+    ORA.b $05
     
     .override_intended_palette
     
@@ -416,7 +416,7 @@ Zora_Draw:
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA .size_bit, X : ORA $0F : STA ($92), Y
+    LDA .size_bit, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

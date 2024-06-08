@@ -18,7 +18,7 @@ ChattyAgahnim_SpawnZeldaOnAltar:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
+    LDA.b $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
     
     LDA.b #$00 : STA.w $0E40, Y
     
@@ -296,7 +296,7 @@ Sprite_SpawnAgahnimAfterImage:
 {
     LDY.b #$FF
     
-    LDA $1A : AND.b #$03 : BNE .spawn_delay
+    LDA.b $1A : AND.b #$03 : BNE .spawn_delay
     
     LDA.b #$C1 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
@@ -370,20 +370,20 @@ ChattyAgahnim_Draw:
 {
     LDA.w $0F10, X : AND.b #$01 : BNE .dont_draw
     
-    LDA.w $0DB0, X : STA $00
-                   STZ $01
+    LDA.w $0DB0, X : STA.b $00
+                   STZ.b $01
     
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
     
-    LDA $00 : BNE .typical_oam_positioning
+    LDA.b $00 : BNE .typical_oam_positioning
     
     ; Use special position for OAM (for after image version of the guy).
     ; \hardcoded Assumes these oam slots are unoccupied.
-    LDA.w #$0900 : STA $90
+    LDA.w #$0900 : STA.b $90
     
-    LDA.w #$0A60 : STA $92
+    LDA.w #$0A60 : STA.b $92
     
     .typical_oam_positioning
     
@@ -459,15 +459,15 @@ ChattyAgahnim_DrawTelewarpSpell:
 {
     LDA.b #$38 : JSL OAM_AllocateFromRegionA
     
-    LDA $1A : LSR #2 : REP #$20 : LDA.w #$D48D : BCS .use_first_oam_group
+    LDA.b $1A : LSR #2 : REP #$20 : LDA.w #$D48D : BCS .use_first_oam_group
     
     ADC.w #$0038
     
     .use_first_oam_group
     
-    STA $08
+    STA.b $08
     
-    LDA.w #$D4FD : STA $0A
+    LDA.w #$D4FD : STA.b $0A
     
     SEP #$20
     
@@ -475,7 +475,7 @@ ChattyAgahnim_DrawTelewarpSpell:
     
     LDY.w $0E30, X
     
-    STY $0D
+    STY.b $0D
     
     PHX
     
@@ -487,9 +487,9 @@ ChattyAgahnim_DrawTelewarpSpell:
     
     .next_oam_entry
     
-    LDA $00 : CLC : ADC ($08), Y : STA ($90), Y
+    LDA.b $00 : CLC : ADC ($08), Y : STA ($90), Y
     
-    LDA $02 : CLC : ADC.b #$F8   : CLC
+    LDA.b $02 : CLC : ADC.b #$F8   : CLC
     INY     : ADC ($08), Y              : STA ($90), Y
     INY     : LDA ($08), Y              : STA ($90), Y
     INY     : LDA ($08), Y : ORA.b #$31 : STA ($90), Y
@@ -511,7 +511,7 @@ ChattyAgahnim_DrawTelewarpSpell:
     
     PLY : INY
     
-    DEX : CPX $0D : BNE .next_oam_entry
+    DEX : CPX.b $0D : BNE .next_oam_entry
     
     PLX
     
@@ -572,7 +572,7 @@ AltarZelda_Main:
     
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -610,20 +610,20 @@ AltarZelda_DrawBody:
     
     LSR A : TAY
     
-    LDA .xy_offsets, Y : STA $07
+    LDA .xy_offsets, Y : STA.b $07
     
     ; Get 16-bit Y coordinate.
-    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
-    LDA.w $0D20, X : SBC $E9 : STA $03
+    LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
+    LDA.w $0D20, X : SBC.b $E9 : STA.b $03
     
     LDY.b #$00
     
-    LDA $00 : PHA : CLC : ADC $07              : STA ($90), Y
-              PLA : SEC : SBC $07 : LDY.b #$04 : STA ($90), Y
+    LDA.b $00 : PHA : CLC : ADC.b $07              : STA ($90), Y
+              PLA : SEC : SBC.b $07 : LDY.b #$04 : STA ($90), Y
     
     REP #$20
     
-    LDA $02 : CLC : ADC.w #$0007 : LDY.b #$01 : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$0007 : LDY.b #$01 : STA ($90), Y
                              LDY.b #$05 : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
@@ -679,7 +679,7 @@ AltarZelda_DrawWarpEffect:
     
     LDA !timer_0, X : LSR #2 : REP #$20 : ASL #4
     
-    ADC.w #.oam_groups : STA $08
+    ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

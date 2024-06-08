@@ -65,9 +65,9 @@ Raven_InWait:
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : ADC.w #$0050 : CMP.w #$00A0 : BCS .player_too_far
+    LDA.b $22 : SEC : SBC.w $0FD8 : ADC.w #$0050 : CMP.w #$00A0 : BCS .player_too_far
     
-    LDA $20 : SEC : SBC.w $0FDA : ADC.w #$0058 : CMP.w #$00A0 : BCS .player_too_far
+    LDA.b $20 : SEC : SBC.w $0FDA : ADC.w #$0058 : CMP.w #$00A0 : BCS .player_too_far
     
     SEP #$20
     
@@ -105,7 +105,7 @@ Raven_Ascend:
     
     INC.w $0F70, X
     
-    LDA $1A : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
+    LDA.b $1A : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
     
     RTS
 }
@@ -130,7 +130,7 @@ Raven_Attack:
     .is_fearless
     .delay_fleeing
     
-    TXA : EOR $1A : LSR A : BCS .delay_speed_analysis
+    TXA : EOR.b $1A : LSR A : BCS .delay_speed_analysis
     
     LDA #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
@@ -169,7 +169,7 @@ Raven_AccelerateToTargetSpeed:
     ; $0EDE49 ALTERNATE ENTRY POINT
     shared Raven_Animate:
     
-    LDA $1A : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
+    LDA.b $1A : LSR A : AND.b #$01 : INC A : STA.w $0DC0, X
     
     LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : TAY
     
@@ -186,13 +186,13 @@ Raven_AccelerateToTargetSpeed:
 ; $0EDE66-$0EDE81 JUMP LOCATION
 Raven_FleePlayer:
 {
-    TXA : EOR $1A : LSR A : BCS Raven_Animate
+    TXA : EOR.b $1A : LSR A : BCS Raven_Animate
     
     LDA.b #$30 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : EOR.b #$FF : INC A : STA $00
+    LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
     
-    LDA $01 : EOR.b #$FF : INC A : STA $01
+    LDA.b $01 : EOR.b #$FF : INC A : STA.b $01
     
     BRA Raven_AccelerateToTargetSpeed
 }

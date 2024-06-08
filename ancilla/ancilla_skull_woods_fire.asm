@@ -101,7 +101,7 @@ Ancilla_SkullWoodsFire:
     
     CMP.w #$00C8 : BCS .dont_play_thud_sfx
     
-    LDA.w #$0098 : SEC : SBC $E2 : STA $00
+    LDA.w #$0098 : SEC : SBC.b $E2 : STA.b $00
     
     SEP #$20
     
@@ -110,7 +110,7 @@ Ancilla_SkullWoodsFire:
     ; Activate the blast component of this object.
     LDA.b #$01 : STA.l $7F0010
     
-    LDA $00 : JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
+    LDA.b $00 : JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$0C : STA.w $012E
     
     .dont_play_thud_sfx
     
@@ -133,7 +133,7 @@ Ancilla_SkullWoodsFire:
     
     LDA.w $012E : BNE .sfx2_already_set
     
-    LDA.l $7F001A : SEC : SBC $E2
+    LDA.l $7F001A : SEC : SBC.b $E2
     
     JSR Ancilla_SetSfxPan_NearEntity : ORA.b #$2A : STA.w $012E
     
@@ -154,20 +154,20 @@ Ancilla_SkullWoodsFire:
     
     TAY
     
-    LDA .flame_y_offsets_low,  Y : STA $04
-    LDA .flame_y_offsets_high, Y : STA $05
-    LDA .flame_chr, Y            : STA $06
-    LDA .flame_properties, Y     : STA $07
+    LDA .flame_y_offsets_low,  Y : STA.b $04
+    LDA .flame_y_offsets_high, Y : STA.b $05
+    LDA .flame_chr, Y            : STA.b $06
+    LDA .flame_properties, Y     : STA.b $07
     
     TXA : ASL A : TAX
     
     REP #$20
     
-    LDA.l $7F0020, X : SEC : SBC $E8 : CLC : ADC $04 : STA $00
+    LDA.l $7F0020, X : SEC : SBC.b $E8 : CLC : ADC.b $04 : STA.b $00
     
-    LDA.l $7F0030, X : SEC : SBC $E2 : STA $02
+    LDA.l $7F0030, X : SEC : SBC.b $E2 : STA.b $02
     
-    CLC : ADC.w #$0008 : STA $08
+    CLC : ADC.w #$0008 : STA.b $08
     
     SEP #$20
     
@@ -175,14 +175,14 @@ Ancilla_SkullWoodsFire:
     
     JSR Ancilla_SetOam_XY
     
-    LDA $06    : STA ($90), Y : INY
+    LDA.b $06    : STA ($90), Y : INY
     LDA.b #$32 : STA ($90), Y : INY
     
     PHY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA $07 : STA ($92), Y
+    LDA.b $07 : STA ($92), Y
     
     PLY
     
@@ -190,13 +190,13 @@ Ancilla_SkullWoodsFire:
     
     REP #$20
     
-    LDA $08 : STA $02
+    LDA.b $08 : STA.b $02
     
     SEP #$20
     
     JSR Ancilla_SetOam_XY
     
-    LDA $06 : INC A : STA ($90), Y
+    LDA.b $06 : INC A : STA ($90), Y
     
     INY
     
@@ -206,7 +206,7 @@ Ancilla_SkullWoodsFire:
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    LDA $07 : STA ($92), Y
+    LDA.b $07 : STA ($92), Y
     
     PLY
     
@@ -245,7 +245,7 @@ Ancilla_SkullWoodsFire:
     
     LDA .blast_data_offsets, X : TAX
     
-    STZ $08
+    STZ.b $08
     
     .next_blast_oam_entry
     
@@ -257,8 +257,8 @@ Ancilla_SkullWoodsFire:
     
     REP #$20
     
-    LDA.w #$00C8 : SEC : SBC $E8 : CLC : ADC .blast_y_offsets, X : STA $00
-    LDA.w #$00A8 : SEC : SBC $E2 : CLC : ADC .blast_x_offsets, X : STA $02
+    LDA.w #$00C8 : SEC : SBC.b $E8 : CLC : ADC .blast_y_offsets, X : STA.b $00
+    LDA.w #$00A8 : SEC : SBC.b $E2 : CLC : ADC .blast_x_offsets, X : STA.b $02
     
     SEP #$20
     
@@ -282,9 +282,9 @@ Ancilla_SkullWoodsFire:
     
     INX
     
-    INC $08
+    INC.b $08
     
-    LDA $08 : CMP.b #$06 : BNE .next_blast_oam_entry
+    LDA.b $08 : CMP.b #$06 : BNE .next_blast_oam_entry
     
     .blast_logic_inactive
     

@@ -50,10 +50,10 @@ SpritePrep_ArcheryGameGuy:
     
     JSL Sprite_LoadProperties
     
-    LDA $23           : STA.w $0D30, X
+    LDA.b $23           : STA.w $0D30, X
     LDA .x_offsets, X : STA.w $0D10, X
     
-    LDA $21           : STA.w $0D20, X
+    LDA.b $21           : STA.w $0D20, X
     LDA .y_offsets, X : STA.w $0D00, X
     
     LDA .subtypes, X : STA.w $0D90, X
@@ -66,7 +66,7 @@ SpritePrep_ArcheryGameGuy:
     
     LDA.b #$0D : STA.w $0F50, X
     
-    LDA $EE : STA.w $0F20, X
+    LDA.b $EE : STA.w $0F20, X
     
     JSL GetRandomInt : STA.w $0E80, X
     
@@ -131,7 +131,7 @@ ArcheryGameGuy_Main:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Player_HaltDashAttackLong
     
@@ -151,7 +151,7 @@ ArcheryGameGuy_Main:
     LDA.w $0D80, X : BEQ .in_ground_state
     
     ; I think this is what animtes the proprietor when you hit a target.
-    LDA $1A : LSR #5 : AND.b #$03
+    LDA.b $1A : LSR #5 : AND.b #$03
     
     .in_ground_state
     
@@ -181,7 +181,7 @@ ArcheryGameGuy_Main:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_contact_2
     
-    LDA $F6 : BPL .a_button_not_pressed
+    LDA.b $F6 : BPL .a_button_not_pressed
     
     LDA.b #$85
     
@@ -270,19 +270,19 @@ ArcheryGameGuy_RunGame:
     
     JSR Sprite2_PrepOamCoord
     
-    LDY.w $0B99 : STY $0D
+    LDY.w $0B99 : STY.b $0D
     
     LDA.w $0E00, X : BEQ .arrow_stagger_finished
     
     ; This code is in play when the arrows on the counter are being
     ; populated one by one.
-    LSR #3 : TAY : LDA .override_num_arrows_displayed, Y : STA $0D
+    LSR #3 : TAY : LDA .override_num_arrows_displayed, Y : STA.b $0D
     
     .arrow_stagger_finished
     
     PHX
     
-    LDA $0D : ASL A : CLC : ADC.b #$07 : TAX
+    LDA.b $0D : ASL A : CLC : ADC.b #$07 : TAX
     
     ; This loop draws the boundary of the arrows on the counter and the
     ; arrows themselves. If you cheat and 
@@ -291,8 +291,8 @@ ArcheryGameGuy_RunGame:
     
     .next_subsprite
     
-    LDA $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA ($90), Y
-    LDA $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC.b #$EC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC.b #$D0 : ADC .y_offsets, X : INY : STA ($90), Y
     
     LDA .chr, X        : INY : STA ($90), Y
     LDA .properties, X : INY : STA ($90), Y
@@ -323,7 +323,7 @@ ArcheryGameGuy_RunGame:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_retry_minigame
     
-    LDA $F6 : BPL .no_retry_minigame
+    LDA.b $F6 : BPL .no_retry_minigame
     
     ; "Want to shoot again? > Continue > Quit"
     LDA.b #$88
@@ -393,9 +393,9 @@ Sprite_GoodArcheryTarget:
     
     .arrow_sticking_out
     
-    AND.b #$04 : ASL #4 : STA $00
+    AND.b #$04 : ASL #4 : STA.b $00
     
-    LDA.w $0F50, X : AND.b #$BF : ORA $00 : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.b $00 : STA.w $0F50, X
     
     LDA.w $0FDA : SEC : SBC.b #$03 : STA.w $0FDA
     
@@ -409,7 +409,7 @@ Sprite_GoodArcheryTarget:
     
     PLA : CMP.b #$60 : BNE .dont_grant_rupees_this_frame
     
-    LDA $11 : BNE .dont_grant_rupees_this_frame
+    LDA.b $11 : BNE .dont_grant_rupees_this_frame
     
     ; Make the proprietor go nuts and start banging a drum, or some other
     ; type of noise making thing.
@@ -481,7 +481,7 @@ Sprite_GoodArcheryTarget:
     LDY.w $0DC0, X
     
     LDA .respawn_values, Y : STA.w $0D10, X
-    LDA $23                : STA.w $0D30, X
+    LDA.b $23                : STA.w $0D30, X
     
     LDA.b #$20 : STA.w $0E00, X
     
@@ -530,7 +530,7 @@ GoodArcheryTarget_DrawPrize:
     
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DA0, X : STA $06
+    LDA.w $0DA0, X : STA.b $06
     
     PHX
     
@@ -539,14 +539,14 @@ GoodArcheryTarget_DrawPrize:
     
     .next_subsprite
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CPX.b #$04 : BNE .not_second_digit
     
     PHX
     
-    LDX $06
+    LDX.b $06
     
     LDA (.second_digit_chr-1), X
     
@@ -560,7 +560,7 @@ GoodArcheryTarget_DrawPrize:
     
     PHX
     
-    LDX $06
+    LDX.b $06
     
     LDA (.first_digit_chr-1), X
     

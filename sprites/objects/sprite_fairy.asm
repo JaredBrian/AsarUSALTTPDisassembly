@@ -46,7 +46,7 @@ Sprite_Fairy:
     
     LDA.w $0D80, X : BNE .being_captured
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     LDA.b #$30 : STA.w $0B89, X
     
@@ -151,7 +151,7 @@ Fairy_HandleCapture:
 ; $035011-$03502F LOCAL JUMP LOCATION
 Fairy_CheckForTemporaryUntouchability:
 {
-    LDA $11 : CMP.b #$02 : BNE .not_in_text_mode
+    LDA.b $11 : CMP.b #$02 : BNE .not_in_text_mode
     
     REP #$20
     

@@ -29,9 +29,9 @@ Sprite_WishPond:
     
     JSR FairyQueen_Draw
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
-    LDA $1A : AND.b #$0F : BNE .BRANCH_GAMMA
+    LDA.b $1A : AND.b #$0F : BNE .BRANCH_GAMMA
     
     LDA.b #$72 : JSL Sprite_SpawnDynamically : BMI .BRANCH_GAMMA
     
@@ -39,13 +39,13 @@ Sprite_WishPond:
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00        : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00        : STA.w $0D30, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA $02 : CLC : ADC .y_offsets, X : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00        : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00        : STA.w $0D20, Y
     
     LDA.b #$1F : STA.w $0DB0, Y
                  STA.w $0D90, Y
@@ -159,25 +159,25 @@ FairyPondTriggerMain:
     JSR.w $C4B5 ; $0344B5 IN ROM
     JSR Sprite_CheckIfActive
     
-    LDA $A0 : CMP.b #$15 : BEQ Sprite_HappinessPond
+    LDA.b $A0 : CMP.b #$15 : BEQ Sprite_HappinessPond
     LDA.w $0D80, X
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw WaitingForPlayerContact ; 0x00 $C7A1 ; = $347A1*
-    dw DecideToThrowItemOrNot  ; 0x01 $C7C6 ; = $347C6*
-    dw SpawnThrownItem         ; 0x02 $C7ED ; = $347ED*
-    dw WaitToSpawnGreatFairy   ; 0x03 $C83C ; = $3483C*
-    dw FairyFadeIn             ; 0x04 $C88B ; = $3488B*
-    dw DecideToDrop            ; 0x05 $C8B7 ; = $348B7*
-    dw YesIThrewIt             ; 0x06 $C8C6 ; = $348C6*
-    dw SetupFadeOut            ; 0x07 $C952 ; = $34952*
-    dw FairyFadeOut            ; 0x08 $C97A ; = $3497A*
-    dw GiveItemBack            ; 0x09 $C9A1 ; = $349A1*
-    dw ShowNewItemMessage      ; 0x0A $C9C8 ; = $349C8*
-    dw NopeNotMine             ; 0x0B $C9E5 ; = $349E5*
-    dw OkayYeahItIsMine        ; 0x0C $C9F1 ; = $349F1*
-    dw StillNotMine            ; 0x0D $CA00 ; = $34A00*
+    dw WaitingForPlayerContact ; 0x00 $C7A1 ; = $0347A1
+    dw DecideToThrowItemOrNot  ; 0x01 $C7C6 ; = $0347C6
+    dw SpawnThrownItem         ; 0x02 $C7ED ; = $0347ED
+    dw WaitToSpawnGreatFairy   ; 0x03 $C83C ; = $03483C
+    dw FairyFadeIn             ; 0x04 $C88B ; = $03488B
+    dw DecideToDrop            ; 0x05 $C8B7 ; = $0348B7
+    dw YesIThrewIt             ; 0x06 $C8C6 ; = $0348C6
+    dw SetupFadeOut            ; 0x07 $C952 ; = $034952
+    dw FairyFadeOut            ; 0x08 $C97A ; = $03497A
+    dw GiveItemBack            ; 0x09 $C9A1 ; = $0349A1
+    dw ShowNewItemMessage      ; 0x0A $C9C8 ; = $0349C8
+    dw NopeNotMine             ; 0x0B $C9E5 ; = $0349E5
+    dw OkayYeahItIsMine        ; 0x0C $C9F1 ; = $0349F1
+    dw StillNotMine            ; 0x0D $CA00 ; = $034A00
 }
 
 ; ==============================================================================
@@ -190,20 +190,20 @@ Sprite_HappinessPond:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $C4FD ; = $344FD*
-    dw $C52B ; = $3452B*
-    dw $C570 ; = $34570*
-    dw $C59F ; = $3459F*
-    dw $C603 ; = $34603*
-    dw $C616 ; = $34616*
-    dw $C665 ; = $34665*
-    dw $C691 ; = $34691*
-    dw $C6A0 ; = $346A0*
-    dw $C6D2 ; = $346D2*
-    dw $C6E7 ; = $346E7*
-    dw $C70E ; = $3470E*
-    dw $C721 ; = $34721*
-    dw $C763 ; = $34763*
+    dw $C4FD ; = $0344FD
+    dw $C52B ; = $03452B
+    dw $C570 ; = $034570
+    dw $C59F ; = $03459F
+    dw $C603 ; = $034603
+    dw $C616 ; = $034616
+    dw $C665 ; = $034665
+    dw $C691 ; = $034691
+    dw $C6A0 ; = $0346A0
+    dw $C6D2 ; = $0346D2
+    dw $C6E7 ; = $0346E7
+    dw $C70E ; = $03470E
+    dw $C721 ; = $034721
+    dw $C763 ; = $034763
     dw HappinessPond_GrantLuckStatus
 }
 
@@ -232,7 +232,7 @@ Sprite_HappinessPond:
 ; $0344B5-$0344FC LOCAL JUMP LOCATION
 {
     ; No items returned at happiness pond.
-    LDA $A0 : CMP.b #$15 : BEQ .return
+    LDA.b $A0 : CMP.b #$15 : BEQ .return
     
     LDA.w $0D80, X
     
@@ -264,8 +264,8 @@ Sprite_HappinessPond:
     
     LDA AddReceiveItem.wide_item_flag, X : TAY
     
-    LDA.w $C4B1, Y : STA $08
-    LDA.w $C4B2, Y : STA $09
+    LDA.w $C4B1, Y : STA.b $08
+    LDA.w $C4B2, Y : STA.b $09
     
     LDA.b #$04
     
@@ -298,7 +298,7 @@ Sprite_HappinessPond:
     JSL Player_ResetState
     JSL Ancilla_TerminateSparkleObjects
     
-    STZ $2F
+    STZ.b $2F
 
     .BRANCH_ALPHA
 
@@ -374,13 +374,13 @@ Sprite_HappinessPond:
     
     REP #$20
     
-    LDA.w $C523, Y : AND.w #$00FF : STA $00
+    LDA.w $C523, Y : AND.w #$00FF : STA.b $00
     
     LDA.l $7EF360 : CMP $00 : BCC .BRANCH_$3455D
     
     SEP #$30
     
-    LDA $00 : STA.w $0DE0, X
+    LDA.b $00 : STA.w $0DE0, X
     
     TYA : STA.w $0EB0, X
     
@@ -393,15 +393,15 @@ Sprite_HappinessPond:
 {
     LDA.b #$50 : STA.w $0DF0, X
     
-    LDA.w $0DE0, X : STA $00 : STZ $01
+    LDA.w $0DE0, X : STA.b $00 : STZ.b $01
     
     REP #$20
     
-    LDA.l $7EF360 : SEC : SBC $00 : STA.l $7EF360
+    LDA.l $7EF360 : SEC : SBC.b $00 : STA.l $7EF360
     
     SEP #$30
     
-    LDA.l $7EF36A : CLC : ADC $00 : STA.l $7EF36A
+    LDA.l $7EF36A : CLC : ADC.b $00 : STA.l $7EF36A
     
     PHX
     
@@ -423,7 +423,7 @@ Sprite_HappinessPond:
     
     LDA.l $7EF36A
     
-    STZ $02
+    STZ.b $02
     
     .BRANCH_GAMMA
     
@@ -431,15 +431,15 @@ Sprite_HappinessPond:
     
     SBC.b #$0A
     
-    INC $02
+    INC.b $02
     
     BRA .BRANCH_GAMMA
     
     .BRANCH_BETA
     
-    ASL $02 : ASL $02 : ASL $02 : ASL $02
+    ASL.b $02 : ASL.b $02 : ASL.b $02 : ASL.b $02
     
-    ORA $02 : STA.w $1CF2 : INC.w $0D80, X
+    ORA.b $02 : STA.w $1CF2 : INC.w $0D80, X
     
     RTS
 }
@@ -472,11 +472,11 @@ Sprite_HappinessPond:
     
     STZ.w $0133
     
-    LDA $00 : SEC : SBC.w $C83A  : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.w $C83A  : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.w $C83B  : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : SEC : SBC.w $C83B  : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0DA0, Y
     
@@ -500,7 +500,7 @@ Sprite_HappinessPond:
 
 ; $034665-$034690 JUMP LOCATION
 {
-    LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     
     PHX
     
@@ -521,11 +521,11 @@ Sprite_HappinessPond:
     
     JSL Palette_RevertTranslucencySwap
     
-    STZ $1D
+    STZ.b $1D
     
-    LDA,b #$20 : STA $9A
+    LDA,b #$20 : STA.b $9A
     
-    INC $15
+    INC.b $15
     
     PLX
     
@@ -589,9 +589,9 @@ Sprite_HappinessPond:
     
     JSL Palette_AssertTranslucencySwap
     
-    LDA.b #$02 : STA $1D
+    LDA.b #$02 : STA.b $1D
     
-    LDA.b #$30 : STA $9A
+    LDA.b #$30 : STA.b $9A
     
     INC.w $0015
     
@@ -602,7 +602,7 @@ Sprite_HappinessPond:
 
 ; $0346E7-$03470D JUMP LOCATION
 {
-    LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     
     PHX
     
@@ -756,7 +756,7 @@ WaitingForPlayerContact:
         
         JSL Player_ResetState
         
-        STZ $2F
+        STZ.b $2F
         STZ.w $0EB0, X
     
     .BRANCH_ALPHA
@@ -806,8 +806,8 @@ SpawnThrownItem:
     LDA.w $1CE8 : STA.w $0DB0, X : TAX
     ASL A : TAY
     
-    LDA .ItemPointer, Y   : STA $00 ; $C3DD
-    LDA .ItemPointer+1, Y : STA $01 ; $C3DE
+    LDA .ItemPointer, Y   : STA.b $00 ; $C3DD
+    LDA .ItemPointer+1, Y : STA.b $01 ; $C3DE
     
     ; Save the state of the selected item.
     LDA.l $7EF340, X : PHA
@@ -871,11 +871,11 @@ WaitToSpawnGreatFairy:
     
     STZ.w $0133
     
-    LDA $00 : SEC : SBC.w $C83A  : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.w $C83A  : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.w $C83B  : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : SEC : SBC.w $C83B  : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0DA0A0, Y
     
@@ -901,7 +901,7 @@ WaitToSpawnGreatFairy:
 FairyFadeIn:
 {
     ; Every 8th frame fade in.
-    LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     PHX
     
     JSL Palette_Filter_SP5F
@@ -922,11 +922,11 @@ FairyFadeIn:
         
         JSL Palette_RevertTranslucencySwap
         
-        STZ $1D
+        STZ.b $1D
         
-        LDA.b #$20 : STA $9A
+        LDA.b #$20 : STA.b $9A
         
-        INC $15
+        INC.b $15
     
     PLX
     
@@ -1093,9 +1093,9 @@ SetupFadeOut:
     
     JSL Palette_AssertTranslucencySwap
     
-    LDA.b #$02 : STA $1D
+    LDA.b #$02 : STA.b $1D
     
-    LDA.b #$30 : STA $9A
+    LDA.b #$30 : STA.b $9A
     
     INC.w $0015
     
@@ -1107,7 +1107,7 @@ SetupFadeOut:
 ; $03497A-$0349A0 JUMP LOCATION
 FairyFadeOut:
 {
-    LDA $1A : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$07 : BNE .BRANCH_ALPHA
     PHX
     
     JSL Palette_Filter_SP5F
@@ -1310,9 +1310,9 @@ FairyQueen_Draw:
     
     JSR Sprite_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #2 : STA $0D
+    LDA.w $0DC0, X : ASL #2 : STA.b $0D
     
-    LDA.w $0DC0, X : ASL #3 : ADC $0D : STA $06
+    LDA.w $0DC0, X : ASL #3 : ADC.b $0D : STA.b $06
     
     PHX
     
@@ -1322,13 +1322,13 @@ FairyQueen_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00 : CLC : ADC.w $CA0E, X       : STA ($90), Y
-    LDA $02 : CLC : ADC.w $CA26, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $CA0E, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $CA26, X : INY : STA ($90), Y
     
     LDA.w $CA3E, X            : INY : STA ($90), Y
-    LDA.w $CA56, X : ORA $05  : INY : STA ($90), Y
+    LDA.w $CA56, X : ORA.b $05  : INY : STA ($90), Y
     
     PHY
     
@@ -1351,14 +1351,14 @@ FairyQueen_Draw:
     
     .in_dark_world
     
-    LDA.b #$0A : STA $06
-                 STZ $07
+    LDA.b #$0A : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL #4
     
     ; references $34A86
-    ADC.b #.oam_groups                 : STA $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                 : STA.b $08
+    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.quantity_preset
     

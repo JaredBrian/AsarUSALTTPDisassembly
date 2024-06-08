@@ -28,13 +28,13 @@ BottleVendor_DetectFish:
     
     .isFishOutOfWater
     
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $08
-    LDA.b #$10   : STA $02
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $08
+    LDA.b #$10   : STA.b $0202
     
-    LDA.w $0D00, X : STA $01
-    LDA.w $0D20, X : STA $09
-    LDA.b #$10   : STA $03
+    LDA.w $0D00, X : STA.b $010101
+    LDA.w $0D20, X : STA.b $0909090909
+    LDA.b #$10   : STA.b $0303030303
     
     PHX : TYX
     
@@ -90,7 +90,7 @@ BottleVendor_SpawnFishRewards:
     LDA .item_types, Y : JSL Sprite_SpawnDynamically : BMI .spawnFailed
         JSL Sprite_SetSpawnedCoords
         
-        LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+        LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
         
         LDA.b #$FF : STA.w $0B58, Y
         
@@ -129,17 +129,17 @@ BottleVendor_SpawnFishRewards:
 ; $03009F-$0300E5 LONG JUMP LOCATION
 Boomerang_CheatWhenNoOnesLooking:
 {
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
+    LDA.w $0C04, X : STA.b $02
+    LDA.w $0C18, X : STA.b $03
     
-    LDA.w $0BFA, X : STA $04
-    LDA.w $0C0E, X : STA $05
+    LDA.w $0BFA, X : STA.b $04
+    LDA.w $0C0E, X : STA.b $05
     
     REP #$20
     
     LDY.b #$70
     
-    LDA $22 : SEC : SBC $02 : CLC : ADC.w #$00F0 : CMP.w #$01E0 : BPL .too_far_x
+    LDA.b $22 : SEC : SBC.b $02 : CLC : ADC.w #$00F0 : CMP.w #$01E0 : BPL .too_far_x
     
     ; Note: this is the negative version of 0x70
     LDY.b #$90
@@ -148,7 +148,7 @@ Boomerang_CheatWhenNoOnesLooking:
     
     BCC .close_enough_x
     
-    STY $01
+    STY.b $01
     
     BRA .return
     
@@ -156,7 +156,7 @@ Boomerang_CheatWhenNoOnesLooking:
     
     LDY.b #$70
     
-    LDA $20 : SEC : SBC $04 : CLC : ADC.w #$00F0 : CMP.w #$01E0 : BPL .too_far_y
+    LDA.b $20 : SEC : SBC.b $04 : CLC : ADC.w #$00F0 : CMP.w #$01E0 : BPL .too_far_y
     
     LDY.b #$90
     
@@ -164,7 +164,7 @@ Boomerang_CheatWhenNoOnesLooking:
     
     BCC .close_enough_y
     
-    STY $00
+    STY.b $00
     
     .close_enough_y
     .return
@@ -209,16 +209,16 @@ Player_ApplyRumbleToSprites:
     
     PHB : PHK : PLB
     
-    LDA $2F : LSR A : TAY
+    LDA.b $2F : LSR A : TAY
     
-    LDA $22 : CLC : ADC .x_offsets_low,  Y : STA $00
-    LDA $23 : ADC .x_offsets_high, Y : STA $08
+    LDA.b $22 : CLC : ADC .x_offsets_low,  Y : STA.b $00
+    LDA.b $23 : ADC .x_offsets_high, Y : STA.b $08
     
-    LDA $20 : ADC .y_offsets_low,  Y : STA $01
-    LDA $21 : ADC .y_offsets_high, Y : STA $09
+    LDA.b $20 : ADC .y_offsets_low,  Y : STA.b $01
+    LDA.b $21 : ADC .y_offsets_high, Y : STA.b $09
     
-    LDA.w $80F4, Y : STA $02
-    LDA.w $80F6, Y : STA $03
+    LDA.w $80F4, Y : STA.b $02
+    LDA.w $80F6, Y : STA.b $03
     
     JSR Entity_ApplyRumbleToSprites
     
@@ -299,16 +299,16 @@ Sprite_SpawnThrowableTerrain:
     ; Make a bush/pot/etc. sprite appear
     LDA.b #$EC : STA.w $0E20, X
     
-    LDA $00 : STA.w $0D10, X
-    LDA $01 : STA.w $0D30, X
+    LDA.b $00 : STA.w $0D10, X
+    LDA.b $01 : STA.w $0D30, X
     
-    LDA $02 : STA.w $0D0000, X
-    LDA $03 : STA.w $0D20, X
+    LDA.b $02 : STA.w $0D0000, X
+    LDA.b $03 : STA.w $0D20, X
     
     JSL Sprite_LoadProperties
     
     ; Set the floor level to whichever the player is on.
-    LDA $EE : STA.w $0F20, X
+    LDA.b $EE : STA.w $0F20, X
     
     PLA : STA.w $0DB0, X : CMP.b #$06 : BCC .not_heavy_object
     
@@ -322,7 +322,7 @@ Sprite_SpawnThrowableTerrain:
     
     CMP.b #$02 : BNE .notBushOrPot
     
-    LDA $1B : BEQ .outdoors
+    LDA.b $1B : BEQ .outdoors
     
     ; This doesn't seem to do anything because it gets overwritten just
     ; a few lines down anyways!
@@ -345,13 +345,13 @@ Sprite_SpawnThrowableTerrain:
     
     LDA.b #$10 : STA.w $0DF0, X
     
-    LDA $EE : STA.w $0F20, X
+    LDA.b $EE : STA.w $0F20, X
     
     STZ.w $0DC0, X
     
     LDA.w $0B9C : CMP.b #$FF : BEQ .invalid_secret
     
-    ORA $1B : BNE .dont_substitute
+    ORA.b $1B : BNE .dont_substitute
     
     LDA.w $0DB0, X : DEC #2 : CMP.b #$02 : BCC .dont_substitute
     
@@ -390,7 +390,7 @@ Pool_Sprite_SpawnSecret:
     ; $030264 MAIN ENTRY POINT
 Sprite_SpawnSecret:
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     JSL GetRandomInt : AND.b #$08 : BNE .easy_out
     
@@ -403,7 +403,7 @@ Sprite_SpawnSecret:
     
     .not_random
     
-    STY $0D
+    STY.b $0D
     
     ; List of sprites that can be spawned by secrets
     LDA.w $81F3, Y : BEQ .easy_out
@@ -412,19 +412,19 @@ Sprite_SpawnSecret:
     
     PHX
     
-    LDX $0D
+    LDX.b $0D
     
     LDA.w $8209, X : STA.w $0D80, Y
     LDA.w $8235, X : STA.w $0BA0, Y
     LDA.w $824B, X : STA.w $0F80, Y
     
-    LDA $00 : CLC : ADC.w $821F, X : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00   : STA.w $0D3030, Y
+    LDA.b $00 : CLC : ADC.w $821F, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00   : STA.w $0D3030, Y
     
-    LDA $02 : STA.w $0D00, Y
-    LDA $03 : STA.w $0D20, Y
+    LDA.b $02 : STA.w $0D00, Y
+    LDA.b $03 : STA.w $0D20, Y
     
-    LDA $04 : STA.w $0F70, Y
+    LDA.b $04 : STA.w $0F70, Y
     
     LDA.b #$00 : STA.w $0DC0, Y
     LDA.b #$20 : STA.w $0F10, Y
@@ -498,7 +498,7 @@ Sprite_SpawnSecret:
 Sprite_Main:
 {
     ; ARE WE INDOORS
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     STZ.w $0C7C : STZ.w $0C7D : STZ.w $0C7E : STZ.w $0C7F
     STZ.w $0C80
@@ -523,7 +523,7 @@ Sprite_Main:
     ; Darkworld/Lightworld indicator
     STY.w $0FFF
     
-    LDA $11 : BNE .dont_reset_player_dragging
+    LDA.b $11 : BNE .dont_reset_player_dragging
     
     ; \wtf Wait, so the dragging of the player is reset under normal
     ; circumstances, but not in another submodule? Does not compute.
@@ -546,15 +546,15 @@ Sprite_Main:
     LDA.b #$80 : STA.w $0FAB
     
     ; Is this a delay counter between repulse sparks for sprites?
-    LDA $47 : AND.b #$7F : BEQ .done_counting
+    LDA.b $47 : AND.b #$7F : BEQ .done_counting
     
-    DEC $47
+    DEC.b $47
     
     BRA .still_counting
     
     .done_counting
     
-    STZ $47
+    STZ.b $47
     
     .still_counting
     
@@ -701,7 +701,7 @@ Sprite_SetupHitBoxLong:
     ; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     ; checking for oddball modes
     ; typically branches along this path
-    LDA $11 : ORA.w $0FC1 : BEQ .normalGameMode
+    LDA.b $11 : ORA.w $0FC1 : BEQ .normalGameMode
     
     JMP.w $84A4 ; $0304A4 IN ROM
     
@@ -799,7 +799,7 @@ Sprite_SetupHitBoxLong:
     
     ; \wtf Interesting.... if player priority is super priority, all sprites
     ; follow? \task Investigate this.
-    LDY $EE : CPY.b #$03 : BEQ .player_using_super_priority
+    LDY.b $EE : CPY.b #$03 : BEQ .player_using_super_priority
     
     LDY.w $0F20, X
     
@@ -897,7 +897,7 @@ Sprite_ExecuteSingle:
     ; $030510 ALTERNATE ENTRY POINT
     .inactiveSprite
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     TXA : ASL A
     
@@ -1017,7 +1017,7 @@ SpriteDrown_Main:
     LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
     
     ; Load hflip and vflip settings
-    LDA .vh_flip, Y : STA $05
+    LDA .vh_flip, Y : STA.b $05
     
     LDA.w $0DF0, X : CMP.b #$01 : BNE .notLastTimerTick
     
@@ -1031,7 +1031,7 @@ SpriteDrown_Main:
     
     LDA.w $0DF0, X : LSR A : TAX
     
-    STZ $05
+    STZ.b $05
     
     ; Get address of first tile of the sprite.
     LDA .chr, X
@@ -1039,7 +1039,7 @@ SpriteDrown_Main:
     .timerExpired
     
     LDY.b #$02           : STA ($90), Y : INY
-    LDA.b #$24 : ORA $05 : STA ($90), Y
+    LDA.b #$24 : ORA.b $05 : STA ($90), Y
     
     PLX
     
@@ -1072,7 +1072,7 @@ SpriteDrown_Main:
     
     JSR Sprite_CheckIfActive.permissive
     
-    LDA $1A : AND.b #$01 : BNE .BRANCH_ZETA
+    LDA.b $1A : AND.b #$01 : BNE .BRANCH_ZETA
     
     INC.w $0DF0, X
     
@@ -1092,7 +1092,7 @@ SpriteDrown_Main:
     
     REP #$20
     
-    ASL A : AND.w #$00F8 : ASL A : ADC.w #.oam_groups : STA $08
+    ASL A : AND.w #$00F8 : ASL A : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -1113,7 +1113,7 @@ SpriteActive_Table:
     ; SPRITE ROUTINES 1
     
     ; This is the table for all sprite objects used in the game
-    ; PARAMETER.w $0E20, X
+    ; PARAMETER $0E20, X
     
     ; This is an unusual jump table. The jump values were fed onto the stack, and an RTS was used to jump there. In the above routine you will notice that the accumulator was decremented (DEC A). That was intentional, since after an RTS, the processor pulls an address off the stack and increments it by one, thereby allowing it to travel to the addresses you see.
     
@@ -2084,7 +2084,7 @@ Sprite_CheckIfActive:
         .permissive
     
         LDA.w $0FC1 : BNE .inactive
-        LDA $11 : BNE .inactive
+        LDA.b $11 : BNE .inactive
             LDA.w $0CAA, X : BMI .active
             LDA.w $0F00, X : BEQ .active
     
@@ -2249,15 +2249,15 @@ Sprite_PrepAndDrawSingleLarge:
     ; $035C13 ALTERNATE ENTRY POINT
     .just_draw
     
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    LDA $01 : CMP.b #$01
+    LDA.b $01 : CMP.b #$01
     
     LDA.b #$01 : ROL A : STA ($92)
     
     REP #$20
     
-    LDA $02 : INY
+    LDA.b $02 : INY
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .out_of_bounds_y
     SBC.b #$0F : STA ($90), Y
@@ -2269,7 +2269,7 @@ Sprite_PrepAndDrawSingleLarge:
     LDA.w $DB04, Y : CLC : ADC.w $0DC0, X : TAY
     
     LDA.w $DA09, Y : PLY : INY : STA ($90), Y
-    LDA $05            : INY : STA ($90), Y
+    LDA.b $05            : INY : STA ($90), Y
     
     .out_of_bounds_y
 
@@ -2324,8 +2324,8 @@ Sprite_DrawShadow:
     ; $035C66 ALTERNATE ENTRY POINT
     .variable
     
-               CLC : ADC.w $0D00, X : STA $02
-    LDA.w $0D20, X : ADC.b #$00   : STA $03
+               CLC : ADC.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : ADC.b #$00   : STA.b $03
     
     ; Is the sprite disabled ("paused", you might say)
     LDA.w $0F00, X : BNE .dontDrawShadow
@@ -2336,12 +2336,12 @@ Sprite_DrawShadow:
     
     REP #$20
     
-    LDA $02 : SEC : SBC $E8 : STA $02
+    LDA.b $02 : SEC : SBC.b $E8 : STA.b $02
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .offScreenY
         LDA.w $0E40, X : AND.b #$1F : ASL #2 : TAY
         
-        LDA $00 : STA ($90), Y
+        LDA.b $00 : STA ($90), Y
         
         LDA.w $0E60, X : AND.b #$20 : BEQ .delta
             INY
@@ -2351,15 +2351,15 @@ Sprite_DrawShadow:
             ; \optimize Simply by taking it out, saves space and time.
             LDA ($90), Y
             
-                LDA $02    : INC A : STA ($90), Y
+                LDA.b $02    : INC A : STA ($90), Y
             INY : LDA.b #$38         : STA ($90), Y
             
-            LDA $05 : AND.b #$30 : ORA.b #$08 : INY : STA ($90), Y
+            LDA.b $05 : AND.b #$30 : ORA.b #$08 : INY : STA ($90), Y
             
             TYA : LSR #2 : TAY
             
             ; Ensures the lowest priority for the shadow
-            LDA $01 : AND.b #$01 : STA ($92), Y
+            LDA.b $01 : AND.b #$01 : STA ($92), Y
     
     .dontDrawShadow
     
@@ -2367,16 +2367,16 @@ Sprite_DrawShadow:
     
     .delta
     
-    LDA $02    : INY : STA ($90), Y
+    LDA.b $02    : INY : STA ($90), Y
     LDA.b #$6C : INY : STA ($90), Y
     
-    LDA $05 : AND.b #$30 : ORA.b #$08
+    LDA.b $05 : AND.b #$30 : ORA.b #$08
     
     INY : STA ($90), Y
     
     TYA : LSR #2 : TAY
     
-    LDA $01 : AND.b #$01 : ORA.b #$02 : STA ($92), Y
+    LDA.b $01 : AND.b #$01 : ORA.b #$02 : STA ($92), Y
     
     .offScreenY
     
@@ -2390,15 +2390,15 @@ Sprite_PrepAndDrawSingleSmall:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    LDA $01 : CMP.b #$01
+    LDA.b $01 : CMP.b #$01
     
     LDA.b #$00 : ROL A : STA ($92)
     
     REP #$20
     
-    LDA $02 : INY
+    LDA.b $02 : INY
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCS .BRANCH_ALPHA
     
@@ -2411,7 +2411,7 @@ Sprite_PrepAndDrawSingleSmall:
     LDA.w $DB04, Y : CLC : ADC.w $0DC0, X : TAY
     
     LDA.w $DA09, Y : PLY : INY : STA ($90), Y
-    LDA $05            : INY : STA ($90), Y
+    LDA.b $05            : INY : STA ($90), Y
     
     .BRANCH_ALPHA
     
@@ -2448,11 +2448,11 @@ Sprite_DrawKey:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA $00    : STA ($90), Y
+    LDA.b $00    : STA ($90), Y
     LDY.b #$04 : STA ($90), Y
     
     ; Get bit 8 of X coordinate, and force size to 8x8.
-    LDA $01 : CMP.b #$01
+    LDA.b $01 : CMP.b #$01
     
     LDA.b #$00 : ROL A
     
@@ -2461,7 +2461,7 @@ Sprite_DrawKey:
     
     REP #$20
     
-    LDA $02 : LDY.b #$01 : STA ($90), Y
+    LDA.b $02 : LDY.b #$01 : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_upper_half_y
     
@@ -2469,7 +2469,7 @@ Sprite_DrawKey:
     
     .on_screen_upper_half_y
     
-    LDA $02 : CLC : ADC.w #$0008
+    LDA.b $02 : CLC : ADC.w #$0008
     
     LDY.b #$05 : STA ($90), Y
     
@@ -2487,7 +2487,7 @@ Sprite_DrawKey:
     
     LDA.w $DA09, Y : LDY.b #$02 : STA ($90), Y
     CLC : ADC.b #$10   : LDY.b #$06 : STA ($90), Y
-    LDA $05      : LDY.b #$03 : STA ($90), Y
+    LDA.b $05      : LDY.b #$03 : STA ($90), Y
                    LDY.b #$07 : STA ($90), Y
     
     JMP Sprite_DrawShadowRedundant
@@ -2776,7 +2776,7 @@ ThrownSprite_CheckDamageToPeers:
     
     LDA.w $0DD0, Y : CMP.b #$09 : BCC .cant_damage
     
-    TYA : EOR $1A : AND.b #$03 : ORA.w $0BA0, Y
+    TYA : EOR.b $1A : AND.b #$03 : ORA.w $0BA0, Y
                                  ORA.w $0EF0, Y : BNE .cant_damage
     
     LDA.w $0F20, X : CMP.w $0F20, Y : BNE .cant_damage
@@ -2799,15 +2799,15 @@ ThrownSprite_CheckDamageToPeers:
 ; $0361B2-$03626D LOCAL JUMP LOCATION
 ThrownSprite_CheckDamageToSinglePeer:
 {
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $08
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $08
     
-    LDA.b #$0F : STA $02
+    LDA.b #$0F : STA.b $02
     
-    LDA.w $0D00, X : SEC : SBC.w $0F70, X : PHP : CLC : ADC.b #$08 : STA $01
-    LDA.w $0D2020, X : ADC.b #$00   : PLP : SBC.b #$00 : STA $09
+    LDA.w $0D00, X : SEC : SBC.w $0F70, X : PHP : CLC : ADC.b #$08 : STA.b $01
+    LDA.w $0D2020, X : ADC.b #$00   : PLP : SBC.b #$00 : STA.b $09
     
-    LDA.b #$08 : STA $03
+    LDA.b #$08 : STA.b $03
     
     PHX
     
@@ -2833,7 +2833,7 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     LDA.w $0DB0, X : CMP.b #$02 : BNE .BRANCH_GAMMA
     
-    LDA $1B : BNE .BRANCH_GAMMA
+    LDA.b $1B : BNE .BRANCH_GAMMA
     
     PLA
     
@@ -2883,7 +2883,7 @@ ThrownSprite_CheckDamageToSinglePeer:
     
     LDY.w $0DB0, X
     
-    LDA $1B : BEQ .BRANCH_ZETA
+    LDA.b $1B : BEQ .BRANCH_ZETA
     
     LDY.b #$00
     
@@ -2980,17 +2980,17 @@ Fish_SpawnLeapingFish:
     
     LDA.w $0DF0, X : LSR #4 : TAY
     
-    TXA : ASL #4 : EOR $1A : ORA $11 : AND.w $E2AF, Y : BNE .BRANCH_GAMMA
+    TXA : ASL #4 : EOR.b $1A : ORA.b $11 : AND.w $E2AF, Y : BNE .BRANCH_GAMMA
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA.w $E2A7, Y : STA $00
-    LDA.w $E2AB, Y : STA $01
+    LDA.w $E2A7, Y : STA.b $00
+    LDA.w $E2AB, Y : STA.b $01
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA.w $E2A7, Y : STA $02
-    LDA.w $E2AB, Y : STA $03
+    LDA.w $E2A7, Y : STA.b $02
+    LDA.w $E2AB, Y : STA.b $03
     
     JSL Sprite_SpawnSimpleSparkleGarnish
     
@@ -3000,7 +3000,7 @@ Fish_SpawnLeapingFish:
     
     .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$01 : ORA $11 : ORA.w $0FC1 : BNE .BRANCH_DELTA
+    LDA.b $1A : AND.b #$01 : ORA.b $11 : ORA.w $0FC1 : BNE .BRANCH_DELTA
     
     LDA.w $0B58, X              : BEQ .BRANCH_EPSILON
     DEC.w $0B58, X : CMP.b #$38 : BCS .BRANCH_DELTA
@@ -3109,7 +3109,7 @@ SpritePoof_Main:
     
     JSR Sprite_PrepOamCoord
     
-    LDA.w $0DF0, X : LSR A : AND.b #$FC : STA $00
+    LDA.w $0DF0, X : LSR A : AND.b #$FC : STA.b $00
     
     PHX
     
@@ -3119,7 +3119,7 @@ SpritePoof_Main:
     
     PHX
     
-    TXA : CLC : ADC $00 : TAX
+    TXA : CLC : ADC.b $00 : TAX
     
     LDA.w $0FA8 : CLC : ADC .x_offsets, X        : STA ($90), Y
     LDA.w $0FA9 : CLC : ADC .y_offsets, X  : INY : STA ($90), Y
@@ -3182,23 +3182,23 @@ Sprite_PrepOamCoord:
     REP #$20
     
     ; X coordinate for the sprite
-    LDA.w $0FD8 : SEC : SBC $E2 : STA $00
+    LDA.w $0FD8 : SEC : SBC.b $E2 : STA.b $00
     
     ; A = (Sprite's X coord - far left of screen X coord) + 0x40
     ; Y coordinate is at most 255, so make 8 bit.
     ; If A >= 0x170 don't display at all
     CLC : ADC.w #$0040 : CMP.w #$0170 : SEP #$20 : BCS .x_out_of_bounds
     ; How high off the ground is the object?
-    LDA.w $0F70, X : STA $04
-    STZ $05
+    LDA.w $0F70, X : STA.b $04
+    STZ.b $05
     
     REP #$20
     
     ; Link's Y coord. Subtract the Y coordinate of the camera.
-    LDA.w $0FDA : SEC : SBC $E8 : PHA
+    LDA.w $0FDA : SEC : SBC.b $E8 : PHA
     
     ; Offset by how far the object is off the ground, to be fair.
-    SEC : SBC $04 : STA $02
+    SEC : SBC.b $04 : STA.b $02
     
     ; Grab the non height adjusted value.
     ; Add in 0x40 and see if it's >= 0x0170
@@ -3216,11 +3216,11 @@ Sprite_PrepOamCoord:
     
     ; What palette is the sprite using?
     ; Xor it with sprite priority
-    LDA.w $0F50, X : EOR.w $0B89, X : STA $05
-                                  STZ $04
+    LDA.w $0F50, X : EOR.w $0B89, X : STA.b $05
+                                  STZ.b $04
     
-    LDA $00 : STA.w $0FA8
-    LDA $02 : STA.w $0FA9
+    LDA.b $00 : STA.w $0FA8
+    LDA.b $02 : STA.w $0FA9
     
     LDY.b #$00
     
@@ -3230,7 +3230,7 @@ Sprite_PrepOamCoord:
     
     REP #$20
     
-    LDA.w $0FDA : SEC : SBC $E8 : SEC : SBC $04 : STA $02
+    LDA.w $0FDA : SEC : SBC.b $E8 : SEC : SBC.b $04 : STA.b $02
     
     SEP #$20
     
@@ -3412,7 +3412,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA.w $0B6B, X : AND.b #$01 : BEQ .BRANCH_RHO
     
-    LDA $1B : BNE .BRANCH_SIGMA
+    LDA.b $1B : BNE .BRANCH_SIGMA
     
     JMP.w $E0AB ; $0360AB IN ROM
     
@@ -3585,25 +3585,25 @@ Sprite_CheckTileCollisionSingleLayer:
 {
     ; Seems that $08 is a value from 0 to 3 indicating the direction
     ; to check collision in... Pretty sure anyways.
-    STY $08
+    STY.b $08
     
-    LDA.w $0B6B, X : AND.b #$F0 : LSR #2 : ADC $08 : ASL A : TAY
+    LDA.w $0B6B, X : AND.b #$F0 : LSR #2 : ADC.b $08 : ASL A : TAY
     
     ; $03673C ALTERNATE ENTRY POINT
     
-    LDA $1B : BEQ .outdoors
+    LDA.b $1B : BEQ .outdoors
     
     REP #$20
     
     ; Load Y coordinate of sprite
     LDA.w $0FDA : CLC : ADC.w #8 : AND.w #$01FF : CLC : ADC.w $E6B7, Y
     
-    SEC : SBC.w #8 : STA $00 : CMP.w #$0200 : BCS .out_of_bounds
+    SEC : SBC.w #8 : STA.b $00 : CMP.w #$0200 : BCS .out_of_bounds
     
     ; Load X coordinate of sprite
     LDA.w $0FD8 : ADC.w #8 : AND.w #$01FF : CLC : ADC.w $E64B, Y
     
-    SEC : SBC.w #8 : STA $02 : CMP.w #$0200
+    SEC : SBC.w #8 : STA.b $02 : CMP.w #$0200
     
     BRA .check_if_inbounds
     
@@ -3612,11 +3612,11 @@ Sprite_CheckTileCollisionSingleLayer:
     ; Overworld handling of collision (against perimeter?)
     REP #$20
     
-    LDA.w $0FDA : CLC : ADC.w $E6B7, Y : STA $00
+    LDA.w $0FDA : CLC : ADC.w $E6B7, Y : STA.b $00
     
     SEC : SBC.w $0FBE : CMP.w $0FBA : BCS .out_of_bounds
     
-    LDA.w $0FD8 : CLC : ADC.w $E64B, Y : STA $02
+    LDA.w $0FD8 : CLC : ADC.w $E64B, Y : STA.b $02
     
     SEC : SBC.w $0FBC : CMP.w $0FB8
     
@@ -3639,7 +3639,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     TYX
     
-    LDY $08
+    LDY.b $08
     
     LDA Sprite_SimplifiedTileAttr, X
     
@@ -3662,7 +3662,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     .BRANCH_EPSILON
     
-    LDY $1B : BNE .BRANCH_ZETA
+    LDY.b $1B : BNE .BRANCH_ZETA
     
     STA.w $0E90, X
     
@@ -3717,7 +3717,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     PLX
     
-    LDY $08
+    LDY.b $08
     
     CMP.b #$00 : BEQ .BRANCH_OMICRON
     
@@ -3795,7 +3795,7 @@ Sprite_CheckTileCollisionSingleLayer:
     ; $036878 ALTERNATE ENTRY POINT
     .BRANCH_SIGMA
     
-    LDY $08
+    LDY.b $08
     
     RTS
 }
@@ -3828,19 +3828,19 @@ Sprite_GetTileAttrLocal:
     ; $036886 ALTERNATE ENTRY POINT
     shared Entity_GetTileAttrLocal:
     
-    CMP.b #$01 : REP #$30 : STZ $05 : BCC .on_bg2
+    CMP.b #$01 : REP #$30 : STZ.b $05 : BCC .on_bg2
     
-    LDA.w #$1000 : STA $05
+    LDA.w #$1000 : STA.b $05
     
     .on_bg2
     
-    LDA $1B : AND.w #$00FF : BEQ .outdoors
+    LDA.b $1B : AND.w #$00FF : BEQ .outdoors
     
     ; Horizontal Position
-    LDA $02 : AND.w #$01FF : LSR #3 : STA $04
+    LDA.b $02 : AND.w #$01FF : LSR #3 : STA.b $04
     
     ; Vertical position
-    LDA $00 : AND.w #$01F8 : ASL #3 : CLC : ADC $04 : CLC : ADC $05
+    LDA.b $00 : AND.w #$01F8 : ASL #3 : CLC : ADC.b $04 : CLC : ADC.b $05
     
     PHX
     
@@ -3853,7 +3853,7 @@ Sprite_GetTileAttrLocal:
     
     .outdoors
     
-    LDA $02 : LSR #3 : STA $02
+    LDA.b $02 : LSR #3 : STA.b $02
     
     SEP #$10
     
@@ -3903,23 +3903,23 @@ Entity_CheckSlopedTileCollision:
 {
     ; Not sure what this routine does
     
-    LDA $00 : AND.b #$07 : STA $04 ; $04 = ($00 & 0x07)
-    LDA $02 : AND.b #$07 : STA $05 ; $05 = ($02 & 0x07)
+    LDA.b $00 : AND.b #$07 : STA.b $04 ; $04 = ($00 & 0x07)
+    LDA.b $02 : AND.b #$07 : STA.b $05 ; $05 = ($02 & 0x07)
     
     ; tile type that was detected in the previous routine ($36883 most likely)
     ; $06 = ($0FA5 - 0x10)
     ; \bug Maybe a bug.... what tile attributes are supposed to be used
     ; with this routine? Inspection suggests 0x18 through 0x1b, but this
     ; routine seems designed for 0x10 through 0x13. Hardly comforting...
-    LDA.w $0FA5 : SEC : SBC.b #$10 : STA $06
+    LDA.w $0FA5 : SEC : SBC.b #$10 : STA.b $06
     
     ; Y = ($06 << 3) + $05
-    ASL #3 : CLC : ADC $05 : TAY
+    ASL #3 : CLC : ADC.b $05 : TAY
     
     ; If original attribute was between 0x10 and 0x12
-    LDA $06 : CMP.b #$02 : BCC .alpha
+    LDA.b $06 : CMP.b #$02 : BCC .alpha
     
-    LDA $04 : CMP .subtile_boundaries, Y
+    LDA.b $04 : CMP .subtile_boundaries, Y
     
     BRA .beta
     
@@ -4008,7 +4008,7 @@ Sprite_MoveAltitude:
 ; $03698E-$036990 BRANCH LOCATION
 Sprite_ProjectSpeedTowardsPlayer_return:
 {
-    STZ $00
+    STZ.b $00
     
     RTS
 }
@@ -4027,14 +4027,14 @@ Sprite_ProjectSpeedTowardsPlayer:
     ; look up technical definitions of words like trajectory one of these
     ; days...
     
-    STA $01 : CMP.b #$00 : BEQ Sprite_ProjectSpeedTowardsPlayer_return
+    STA.b $01 : CMP.b #$00 : BEQ Sprite_ProjectSpeedTowardsPlayer_return
     
     PHX : PHY
     
-    JSR Sprite_IsBelowPlayer : STY $02
+    JSR Sprite_IsBelowPlayer : STY.b $02
     
     ; Difference in the low Y coordinate bytes.
-    LDA $0E : BPL .positive_1
+    LDA.b $0E : BPL .positive_1
     
     EOR.b #$FF : INC A
     ; Essentially, multiply by negative one, or in this context, absolute value.
@@ -4042,78 +4042,78 @@ Sprite_ProjectSpeedTowardsPlayer:
     .positive_1
     
     ; $0C = |$0E| = |dY|
-    STA $0C
+    STA.b $0C
     
-    JSR Sprite_IsToRightOfPlayer : STY $03
+    JSR Sprite_IsToRightOfPlayer : STY.b $03
     
     ; The difference in the low X coordinate bytes.
-    LDA $0F : BPL .positive_2
+    LDA.b $0F : BPL .positive_2
     
     EOR.b #$FF : INC A
     
     .positive_2
     
     ; $0D = |$0F| = |dX|
-    STA $0D
+    STA.b $0D
     
     LDY.b #$00
     
     ; If |dX| > |dY|
-    LDA $0D : CMP $0C : BCS .dx_is_bigger
+    LDA.b $0D : CMP $0C : BCS .dx_is_bigger
     
     ; Flag indicating |dY| >= |dX|
     INY
     
     ; |dX| -> Stack; |dY| -> $0D ; |dX| -> $0C.
     ; Either way, the larger value will end up at $0D
-    PHA : LDA $0C : STA $0D
-    PLA           : STA $0C
+    PHA : LDA.b $0C : STA.b $0D
+    PLA           : STA.b $0C
     
     .dx_is_bigger
     
-    STZ $0B
-    STZ $00
+    STZ.b $0B
+    STZ.b $00
     
-    LDX $01
+    LDX.b $01
     
     .still_have_velocity_to_apply 
     
     ; If ($0B + $0C) <= ($0D)
-    LDA $0B : CLC : ADC $0C : CMP $0D : BCC .not_accumulated_yet
+    LDA.b $0B : CLC : ADC.b $0C : CMP $0D : BCC .not_accumulated_yet
     
     ; Otherwise, just subtract the larger value and increment $00.
-    SBC $0D
+    SBC.b $0D
     
     ; Apportion velocity to the direction that has less magnitude for once.
-    INC $00
+    INC.b $00
     
     .not_accumulated_yet
     
-    STA $0B
+    STA.b $0B
     
     DEX : BNE .still_have_velocity_to_apply
     
     TYA : BEQ .dx_is_bigger_2
     
-    LDA $00 : PHA
-    LDA $01 : STA $00
-    PLA     : STA $01
+    LDA.b $00 : PHA
+    LDA.b $01 : STA.b $00
+    PLA     : STA.b $01
     
     .dx_is_bigger_2
     
-    LDA $00
+    LDA.b $00
     
-    LDY $02 : BEQ .polarity_already_correct_1
+    LDY.b $02 : BEQ .polarity_already_correct_1
     
-    EOR.b #$FF : INC A : STA $00
+    EOR.b #$FF : INC A : STA.b $00
     
     .polarity_already_correct_1
     
-    LDA $01
+    LDA.b $01
     
-    LDY $03 : BEQ .polarity_already_correct_2
+    LDY.b $03 : BEQ .polarity_already_correct_2
     
-    EOR.b #$FF : INC A : STA $01
+    EOR.b #$FF : INC A : STA.b $01
     
     .polarity_already_correct_2
     
@@ -4129,8 +4129,8 @@ Sprite_ApplySpeedTowardsPlayer:
 {
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : STA.w $0D40, X
-    LDA $01 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D50, X
     
     RTS
 }
@@ -4183,7 +4183,7 @@ Sprite_ProjectSpeedTowardsEntityLong:
 Pool_Sprite_ProjectSpeedTowardsEntity:
 {
     .return
-    STZ $00
+    STZ.b $00
     
     RTS
 }
@@ -4193,87 +4193,87 @@ Pool_Sprite_ProjectSpeedTowardsEntity:
 ; $036A2D-$036A9F LOCAL JUMP LOCATION
 Sprite_ProjectSpeedTowardsEntity:
 {
-    STA $01 : CMP.b #$00 : BEQ .return
+    STA.b $01 : CMP.b #$00 : BEQ .return
     
     PHX : PHY
     
-    JSR Sprite_IsBelowEntity : STY $02
+    JSR Sprite_IsBelowEntity : STY.b $02
     
-    LDA $0E : BPL .positive_1
+    LDA.b $0E : BPL .positive_1
     
     EOR.b #$FF : INC A
     
     .positive_1
     
-    STA $0C
+    STA.b $0C
     
-    JSR Sprite_IsToRightOfEntity : STY $03
+    JSR Sprite_IsToRightOfEntity : STY.b $03
     
-    LDA $0F : BPL .positive_2
+    LDA.b $0F : BPL .positive_2
     
     EOR.b #$FF : INC A
     
     .positive_2
     
-    STA $0D
+    STA.b $0D
     
     LDY.b #$00
     
-    LDA $0D : CMP $0C : BCS .dx_is_bigger
+    LDA.b $0D : CMP $0C : BCS .dx_is_bigger
     
     INY
     
     PHA
     
-    LDA $0C : STA $0D
+    LDA.b $0C : STA.b $0D
     
-    PLA : STA $0C
+    PLA : STA.b $0C
     
     .dx_is_bigger
     
-    STZ $0B
-    STZ $00
+    STZ.b $0B
+    STZ.b $00
     
-    LDX $01
+    LDX.b $01
     
     .still_have_velocity_to_apply
     
     ; If ($0B + $0C) <= ($0D)
-    LDA $0B : CLC : ADC $0C : CMP $0D : BCC .not_accumulated_yet
+    LDA.b $0B : CLC : ADC.b $0C : CMP $0D : BCC .not_accumulated_yet
     
     ; Otherwise, just subtract the larger value and increment $00.
-    SBC $0D
+    SBC.b $0D
     
     ; Apportion velocity to the direction that has less magnitude for once.
-    INC $00
+    INC.b $00
     
     .not_accumulated_yet
     
-    STA $0B
+    STA.b $0B
     
     DEX : BNE .still_have_velocity_to_apply
     
     TYA : BEQ .dx_is_bigger_2
     
-    LDA $00 : PHA
-    LDA $01 : STA $00
-    PLA     : STA $01
+    LDA.b $00 : PHA
+    LDA.b $01 : STA.b $00
+    PLA     : STA.b $01
     
     .dx_is_bigger_2
     
-    LDA $00
+    LDA.b $00
     
-    LDY $02 : BEQ .polarity_already_correct_1
+    LDY.b $02 : BEQ .polarity_already_correct_1
     
-    EOR.b #$FF : INC A : STA $00
+    EOR.b #$FF : INC A : STA.b $00
     
     .polarity_already_correct_1
     
-    LDA $01
+    LDA.b $01
     
-    LDY $03 : BEQ .polarity_already_correct_2
+    LDY.b $03 : BEQ .polarity_already_correct_2
     
-    EOR.b #$FF : INC A : STA $01
+    EOR.b #$FF : INC A : STA.b $01
     
     .polarity_already_correct_2
     
@@ -4299,10 +4299,10 @@ Sprite_DirectionToFacePlayerLong:
     ; \return       $0F is low byte of player_x_pos - sprite_x_pos
 Sprite_DirectionToFacePlayer:
 {
-    JSR Sprite_IsToRightOfPlayer : STY $00
-    JSR Sprite_IsBelowPlayer     : STY $01
+    JSR Sprite_IsToRightOfPlayer : STY.b $00
+    JSR Sprite_IsBelowPlayer     : STY.b $01
     
-    LDA $0E : BPL .positive_1
+    LDA.b $0E : BPL .positive_1
     
     EOR.b #$FF : INC A
     
@@ -4310,7 +4310,7 @@ Sprite_DirectionToFacePlayer:
     
     STA.w $0FB5
     
-    LDA $0F : BPL .positive_2
+    LDA.b $0F : BPL .positive_2
     
     EOR.b #$FF : INC A
     
@@ -4319,13 +4319,13 @@ Sprite_DirectionToFacePlayer:
     ; Compares absolute values of dx and dy
     CMP.w $0FB5 : BCC .dy_is_bigger
     
-    LDY $00
+    LDY.b $00
     
     RTS
     
     .dy_is_bigger
     
-    LDA $01 : INC #2 : TAY
+    LDA.b $01 : INC #2 : TAY
     
     RTS
 }
@@ -4348,8 +4348,8 @@ Sprite_IsToRightOfPlayer:
     LDY.b #$00
     
     ; Link X - Sprite X
-    LDA $22 : SEC : SBC.w $0D10, X : STA $0F
-    LDA $23 : SBC.w $0D30, X : BPL .same_or_to_left
+    LDA.b $22 : SEC : SBC.w $0D10, X : STA.b $0F
+    LDA.b $23 : SBC.w $0D30, X : BPL .same_or_to_left
     
     ; If Link is to the left of the sprite, Y = 1, otherwise Y = 0.
     INY
@@ -4380,14 +4380,14 @@ Sprite_IsBelowPlayer:
     
     ; The additional 8 pixels I'm sure is to help simulate relative
     ; perspective. The altitude of the sprite is also factored in.
-    LDA $20 : CLC : ADC.b #$08   : PHP 
+    LDA.b $20 : CLC : ADC.b #$08   : PHP 
               CLC : ADC.w $0F70, X : PHP
-              SEC : SBC.w $0D00, X : STA $0E
+              SEC : SBC.w $0D00, X : STA.b $0E
     
     ; The higher byte of Link's Y coordinate
     ; The difference in their higher bytes. 
     ; Offset if Link is crossing a 0x0100 pixel boundary.
-    LDA $21 : SBC.w $0D20, X
+    LDA.b $21 : SBC.w $0D20, X
     PLP     : ADC.b #$00
     PLP     : ADC.b #$00   : BPL .same_or_above
     
@@ -4409,8 +4409,8 @@ Sprite_IsToRightOfEntity:
     
     LDY.b #$00
     
-    LDA $04 : SEC : SBC.w $0D10, X : STA $0F
-    LDA $05 : SBC.w $0D30, X : BPL .same_or_to_left
+    LDA.b $04 : SEC : SBC.w $0D10, X : STA.b $0F
+    LDA.b $05 : SBC.w $0D30, X : BPL .same_or_to_left
     
     INY
     
@@ -4428,8 +4428,8 @@ Sprite_IsBelowEntity:
     
     LDY.b #$00
     
-    LDA $06 : SEC : SBC.w $0D00, X : STA $0E
-    LDA $07 : SBC.w $0D20, X : BPL .entityIsBelow
+    LDA.b $06 : SEC : SBC.w $0D00, X : STA.b $0E
+    LDA.b $07 : SBC.w $0D20, X : BPL .entityIsBelow
     
     INY
     
@@ -4445,10 +4445,10 @@ Sprite_DirectionToFaceEntity:
 {
     PHB : PHK : PLB
     
-    JSR Sprite_IsToRightOfEntity : STY $00
-    JSR Sprite_IsBelowEntity     : STY $01
+    JSR Sprite_IsToRightOfEntity : STY.b $00
+    JSR Sprite_IsBelowEntity     : STY.b $01
     
-    LDA $0E : BPL .positive_1
+    LDA.b $0E : BPL .positive_1
     
     EOR.b #$FF : INC A
     
@@ -4456,7 +4456,7 @@ Sprite_DirectionToFaceEntity:
     
     STA.w $0FB5
     
-    LDA $0F : BPL .positive_2
+    LDA.b $0F : BPL .positive_2
     
     EOR.b #$FF : INC A
     
@@ -4465,7 +4465,7 @@ Sprite_DirectionToFaceEntity:
     ; Compares absolute values of dx and dy
     CMP.w $0FB5 : BCC .dy_is_bigger
     
-    LDY $00
+    LDY.b $00
     
     PLB
     
@@ -4473,7 +4473,7 @@ Sprite_DirectionToFaceEntity:
     
     .dy_is_bigger
     
-    LDA $01 : INC #2 : TAY
+    LDA.b $01 : INC #2 : TAY
     
     PLB
     
@@ -4501,9 +4501,9 @@ Sprite_DirectionToFaceEntity:
 {
     ; Exclusively called by soldier like enemies... but not sure why...?
     
-    LDA $EE : CMP.w $0F20, X : BNE .not_on_player_layer
+    LDA.b $EE : CMP.w $0F20, X : BNE .not_on_player_layer
     
-    LDA $46 : ORA $4D
+    LDA.b $46 : ORA.b $4D
     
     .not_on_player_layer
     
@@ -4514,11 +4514,11 @@ Sprite_DirectionToFaceEntity:
     
     LDA.w $037A : AND.b #$10 : BNE .BRANCH_GAMMA
     
-    LDA $44 : CMP.b #$80 : BEQ .BRANCH_GAMMA
+    LDA.b $44 : CMP.b #$80 : BEQ .BRANCH_GAMMA
     
     JSR Player_SetupActionHitBox
     
-    LDA $3C : BMI .BRANCH_DELTA
+    LDA.b $3C : BMI .BRANCH_DELTA
     
     JSR Utility_CheckIfHitBoxesOverlap : BCC .BRANCH_DELTA
     
@@ -4533,11 +4533,11 @@ Sprite_DirectionToFaceEntity:
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA.w $EB6E, Y : STA $46
+    LDA.w $EB6E, Y : STA.b $46
     
     LDA.b #$18
     
-    LDY $3C : CPY.b #$09 : BPL .BRANCH_ZETA
+    LDY.b $3C : CPY.b #$09 : BPL .BRANCH_ZETA
     
     LDA.b #$20
     
@@ -4545,12 +4545,12 @@ Sprite_DirectionToFaceEntity:
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0F30, X
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0F40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
     
     LDA.b #$10
     
-    LDY $3C : CPY.b #$09 : BPL .BRANCH_THETA
+    LDY.b $3C : CPY.b #$09 : BPL .BRANCH_THETA
     
     LDA.b #$08
     
@@ -4559,7 +4559,7 @@ Sprite_DirectionToFaceEntity:
     JSR Sprite_ApplyRecoilToPlayer
     JSR Player_PlaceRepulseSpark
     
-    LDA.b #$90 : STA $47
+    LDA.b #$90 : STA.b $47
     
     .return
     
@@ -4617,7 +4617,7 @@ Sprite_DirectionToFaceEntity:
     
     LDA.b #$50
     
-    LDY $3C : CPY.b #$09 : BMI .BRANCH_OMICRON ; not spin attack
+    LDY.b $3C : CPY.b #$09 : BMI .BRANCH_OMICRON ; not spin attack
     
     LDA.b #$40
     
@@ -4625,8 +4625,8 @@ Sprite_DirectionToFaceEntity:
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0F30, X
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0F40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
     
     JSL.l $06ED3F ; $036D3F IN ROM
     
@@ -4748,7 +4748,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.w $0BFA, Y : STA.w $0FAE
     
-    LDA $EE : STA.w $0B68
+    LDA.b $EE : STA.w $0B68
     
     STZ.w $012E
     
@@ -4814,7 +4814,7 @@ Ancilla_CheckSpriteDamage:
     .checkSwordCharging
     
     ; How long has Link's sword been stuck out?
-    LDX $3C    : BMI .doingSpinAttack       ; If negative, he's doing a spin attack.
+    LDX.b $3C    : BMI .doingSpinAttack       ; If negative, he's doing a spin attack.
     CPX.b #$09 : BMI .notStabbingDamageType ; Branch if less than 9.
     
     ORA.b #$08 ; Otherwise it gets a stabbing indicator.
@@ -4838,13 +4838,13 @@ Ancilla_CheckSpriteDamage:
     
     PLX
     
-    LDA.b #$10 : STA $47
+    LDA.b #$10 : STA.b $47
     
     LDA.b #$9D
     
     ; $036D89 ALTERNATE ENTRY POINT
     
-    STA $00
+    STA.b $00
     
     STZ.w $0CF3 ; THIS IS NOT USELESS!!! removing this line makes it impossible to hit anything with your sword.
     
@@ -4864,12 +4864,12 @@ Ancilla_CheckSpriteDamage:
     
     SEP #$20
     
-    LDA.l $7F6000, X : STA $02                        ; loads Selected Sprite Damage in Advanced Damage Editor
+    LDA.l $7F6000, X : STA.b $02                        ; loads Selected Sprite Damage in Advanced Damage Editor
     
     SEP #$10
     
     ; (Damage class << 3) | monster
-    LDA.w $0CF2 : ASL #3 : ORA $02 : TAX              ;
+    LDA.w $0CF2 : ASL #3 : ORA.b $02 : TAX              ;
     
     ; Get the damage value for that monster for that damage class... bah...
     LDA.l $0DB8F1, X                                  ; loads Selected Damage Table in Advanced Damage Editor located in sprite_properties.asm
@@ -4983,7 +4983,7 @@ Ancilla_CheckSpriteDamage:
     
     PHA
     
-    LDA $00 : STA.w $0EF0, X
+    LDA.b $00 : STA.w $0EF0, X
     
     PLA : CMP.b #$92 : BNE .not_helmasaur_king
     
@@ -5004,7 +5004,7 @@ Ancilla_CheckSpriteDamage:
     .minor_damage_sound
     .boss_damage_sound
     
-    STY $01 : JSL Sound_SetSfxPan : ORA $01 : STA.w $012F
+    STY.b $01 : JSL Sound_SetSfxPan : ORA.b $01 : STA.w $012F
     
     .no_sound_effect
     
@@ -5070,7 +5070,7 @@ Ancilla_CheckSpriteDamage:
     
     STZ.w $0CE2, X
     
-    STA $00
+    STA.b $00
     
     LDY.w $0DD0, X : CPY.b #$0B : BEQ .BRANCH_ALPHA
     
@@ -5101,7 +5101,7 @@ Ancilla_CheckSpriteDamage:
     LDA.b #$0B : STA.w $0DD0, X
     LDA.b #$40 : STA.w $0DF0, X
     
-    LDA $00 : CLC : ADC.b #$05 : TAY
+    LDA.b $00 : CLC : ADC.b #$05 : TAY
     
     ; \bug(unconfirmed) This seems destined for failure, unless I'm missing
     ; something.
@@ -5125,7 +5125,7 @@ Ancilla_CheckSpriteDamage:
 
 ; $036F61-$0370AB BRANCH LOCATION
 {
-    LDA.w $0E50, X : STA $00
+    LDA.w $0E50, X : STA.b $00
     
     ; Subtract off an amount from the enemies HP.
     SEC : SBC.w $0CE2, X : STA.w $0E50, X
@@ -5162,7 +5162,7 @@ Ancilla_CheckSpriteDamage:
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
     
@@ -5488,7 +5488,7 @@ Sprite_CheckDamageToPlayer:
     .stagger
     
     ; No he's not, he's vulnerable
-    TXA : EOR $1A : AND.b #$03
+    TXA : EOR.b $1A : AND.b #$03
     
     ; Since for a sentry it's usually 0
     ; It wasn't the right frame to hit on?
@@ -5523,7 +5523,7 @@ Sprite_CheckDamageToPlayer:
     LDA.w $0E40, X : BMI .BRANCH_EPSILON
                    BCC .BRANCH_BETA
     
-    LDA $4D : BNE .BRANCH_BETA
+    LDA.b $4D : BNE .BRANCH_BETA
     
     LDA.w $02E0 : BNE .BRANCH_ZETA
     
@@ -5536,9 +5536,9 @@ Sprite_CheckDamageToPlayer:
     
     STZ.w $0DD0, X
     
-    LDA $2F
+    LDA.b $2F
     
-    LDY $3C : BEQ .BRANCH_THETA
+    LDY.b $3C : BEQ .BRANCH_THETA
     
     LSR A : TAY
     
@@ -5624,15 +5624,15 @@ Sprite_CheckDamageToPlayer:
 ; $0371F6-$037227 LOCAL JUMP LOCATION
 {
     ; Load the sprite's Z component
-    LDA.w $0F70, X : STA $0C
-                   STZ $0D
+    LDA.w $0F70, X : STA.b $0C
+                   STZ.b $0D
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$000B
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$000B
                             CMP.w #$0017 : BCS .no_collision
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC $0C : CLC : ADC.w #$0010
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.b $0C : CLC : ADC.w #$0010
                             CMP.w #$0018 : BCS .no_collision
     
     SEP #$20
@@ -5655,8 +5655,8 @@ Sprite_CheckDamageToPlayer:
 ; $037228-$0372A9 LOCAL JUMP LOCATION
 Sprite_CheckIfLifted:
 {
-    LDA $11 : ORA $3C : ORA.w $0FC1 : BNE .return
-    LDA $EE : CMP.w $0F20, X : BNE .return
+    LDA.b $11 : ORA.b $3C : ORA.w $0FC1 : BNE .return
+    LDA.b $EE : CMP.w $0F20, X : BNE .return
         LDY.b #$0F
     
     .next_sprite
@@ -5693,7 +5693,7 @@ Sprite_CheckIfLifted:
     
         .player_picks_up_sprite
     
-        STZ $F6
+        STZ.b $F6
         
         STZ.w $0E90, X
         
@@ -5709,7 +5709,7 @@ Sprite_CheckIfLifted:
         
         JSR Sprite_DirectionToFacePlayer
         
-        LDA.w $F139, Y : STA $2F
+        LDA.w $F139, Y : STA.b $2F
         
         PLA : PLA
     
@@ -5743,14 +5743,14 @@ Sprite_CheckDamageFromPlayer:
 {
     LDA.w $0EF0, X : AND.b #$80 : BNE .just_began_death_sequence
     
-    LDA $EE : CMP.w $0F20, X
+    LDA.b $EE : CMP.w $0F20, X
     
     ; (no there is nothing missing here)
     .just_began_death_sequence
     
     BNE .no_collision
     
-    LDA $44 : CMP.b #$80 : BEQ .no_collision
+    LDA.b $44 : CMP.b #$80 : BEQ .no_collision
     
     JSR Player_SetupActionHitBox
     JSR Sprite_SetupHitBox
@@ -5794,7 +5794,7 @@ Sprite_CheckDamageFromPlayer:
     ; Is it an Agahnim energy blast? (not a dud)
     LDA.w $0E20, X : CMP.b #$7B : BNE .not_agahnim_energy_ball
     
-    LDA $3C : CMP.b #$09 : BMI .spin_attack_charging
+    LDA.b $3C : CMP.b #$09 : BMI .spin_attack_charging
     
     .no_collision
     
@@ -5808,7 +5808,7 @@ Sprite_CheckDamageFromPlayer:
     
     LDY.w $0DE0, X
     
-    LDA $2F : CMP.w $F141, Y : BNE .direction_mismatch
+    LDA.b $2F : CMP.w $F141, Y : BNE .direction_mismatch
     
     .is_flying_stalfos_head
     
@@ -5827,7 +5827,7 @@ Sprite_CheckDamageFromPlayer:
     
     LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
     
-    LDA.b #$10 : STA $47 : STA $46
+    LDA.b #$10 : STA.b $47 : STA.b $46
     
     JMP.w $F3C7 ; $0373C7 IN ROM
     
@@ -5868,8 +5868,8 @@ Sprite_CheckDamageFromPlayer:
     
     LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
     
-    LDA.b #$90 : STA $47
-    LDA.b #$10 : STA $46
+    LDA.b #$90 : STA.b $47
+    LDA.b #$10 : STA.b $46
     
     ; $0373A2 ALTERNATE ENTRY POINT
     .sorry_youre_not_special
@@ -5891,12 +5891,12 @@ Sprite_CheckDamageFromPlayer:
     ; $0373B2 ALTERNATE ENTRY POINT
     .okay_maybe_you_are
     
-    LDA $47 : BNE .BRANCH_RHO
+    LDA.b $47 : BNE .BRANCH_RHO
     
     LDA.b #$04 : JSR Sprite_ApplyRecoilToPlayer
     
-    LDA.b #$10 : STA $46
-    LDA.b #$10 : STA $47
+    LDA.b #$10 : STA.b $46
+    LDA.b #$10 : STA.b $47
     
     ; $0373C2 ALTERNATE ENTRY POINT
     .BRANCH_RHO
@@ -5918,7 +5918,7 @@ Sprite_CheckDamageFromPlayer:
 ; $0373CA-$03741E JUMP LOCATION
 Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
 {
-    TXA : EOR $1A : LSR A : BCS .delay_player_damage
+    TXA : EOR.b $1A : LSR A : BCS .delay_player_damage
     
     JSR.w $F645 ; $037645 IN ROM
     JSR Player_SetupHitBox ; $F705 ; $037705 IN ROM
@@ -5930,14 +5930,14 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
     
     LDA.w $031F : ORA.w $037B : BNE .dont_damage_player
     
-    LDA.b #$13 : STA $46
+    LDA.b #$13 : STA.b $46
     
     LDA.b #$18 : JSR Sprite_ApplyRecoilToPlayer
     
-    LDA.b #$01 : STA $4D
+    LDA.b #$01 : STA.b $4D
     
     ; determine damage for Link based on his armor value
-    LDA.w $0CD2, X : AND.b #$0F : STA $00 : ASL A : ADC $00 : CLC : ADC.l $7EF35B : TAY
+    LDA.w $0CD2, X : AND.b #$0F : STA.b $00 : ASL A : ADC.b $00 : CLC : ADC.l $7EF35B : TAY
     
     LDA Bump_Damage_Table, Y : STA.w $0373
     
@@ -5946,9 +5946,9 @@ Sprite_StaggeredCheckDamageToPlayerPlusRecoil:
     LDA.w $0DB0, X : BEQ .not_beamos_laser
     
     ; Double the recoil amount to the player for the beamos laser beam.
-    LDA.w $0D50, X : ASL A : STA $28
+    LDA.w $0D50, X : ASL A : STA.b $28
     
-    LDA.w $0D40, X : ASL A : STA $27
+    LDA.w $0D40, X : ASL A : STA.b $27
     
     .not_beamos_laser
     .dont_damage_player
@@ -5995,8 +5995,8 @@ Bump_Damage_Table:
 {
     LDA.b #$30 : JSR Sprite_ApplyRecoilToPlayer
     
-    LDA.b #$90 : STA $47
-    LDA.b #$10 : STA $46
+    LDA.b #$90 : STA.b $47
+    LDA.b #$10 : STA.b $46
     
     LDA.b #$21 : JSL Sound_SetSfx2PanLong
     
@@ -6043,14 +6043,14 @@ Pool_Player_SetupActionHitBox:
 {
     .spin_attack_hit_box
     
-    LDA $22 : SEC : SBC.b #$0E : STA $00
-    LDA $23 : SBC.b #$00 : STA $08
+    LDA.b $22 : SEC : SBC.b #$0E : STA.b $00
+    LDA.b $23 : SBC.b #$00 : STA.b $08
     
-    LDA $20 : SEC : SBC.b #$0A : STA $01
-    LDA $21 : SBC.b #$00 : STA $09
+    LDA.b $20 : SEC : SBC.b #$0A : STA.b $01
+    LDA.b $21 : SBC.b #$00 : STA.b $09
     
-    LDA.b #$2C : STA $02
-    INC A      : STA $03
+    LDA.b #$2C : STA.b $02
+    INC A      : STA.b $03
     
     PLX
     
@@ -6058,15 +6058,15 @@ Pool_Player_SetupActionHitBox:
     
     .dash_hit_box
     
-    LDA $2F : LSR A : TAY
+    LDA.b $2F : LSR A : TAY
     
-    LDA $22 : CLC : ADC.w $F588, Y : STA $00
-    LDA $23 : ADC.w $F58C, Y : STA $08
+    LDA.b $22 : CLC : ADC.w $F588, Y : STA.b $00
+    LDA.b $23 : ADC.w $F58C, Y : STA.b $08
     
-    LDA $20 : CLC : ADC.w $F590, Y : STA $01
-    LDA $21 : ADC.w $F586, Y : STA $09
+    LDA.b $20 : CLC : ADC.w $F590, Y : STA.b $01
+    LDA.b $21 : ADC.w $F586, Y : STA.b $09
     
-    LDA.b #$10 : STA $02 : STA $03
+    LDA.b #$10 : STA.b $02 : STA.b $03
     
     RTS
 }
@@ -6086,41 +6086,41 @@ Player_SetupActionHitBox:
     
     LDA.w $037A : AND.b #$10 : BNE .special_pose
     
-    LDY $3C : BMI .spin_attack_hit_box
+    LDY.b $3C : BMI .spin_attack_hit_box
     
     LDA.w $F571, Y : BNE .return
     
     ; Adding $3C seems to be for the pokey player hit box with the swordy.
-    LDA $2F : ASL #3 : CLC : ADC $3C : TAX : INX
+    LDA.b $2F : ASL #3 : CLC : ADC.b $3C : TAX : INX
     
     .special_pose
     
     LDY.b #$00
     
-    LDA $45 : CLC : ADC.w $F46D, X : BPL .positive
+    LDA.b $45 : CLC : ADC.w $F46D, X : BPL .positive
     
     DEY
     
     .positive
     
-          CLC : ADC $22 : STA $00
-    TYA : ADC $23 : STA $08
+          CLC : ADC.b $22 : STA.b $00
+    TYA : ADC.b $23 : STA.b $08
     
     LDY.b #$00
     
-    LDA $44 : CLC : ADC.w $F4EF, X : BPL .positive_2
+    LDA.b $44 : CLC : ADC.w $F4EF, X : BPL .positive_2
     
     DEY
     
     .positive_2
     
-          ADC $20 : STA $01
-    TYA : ADC $21 : STA $09
+          ADC.b $20 : STA.b $01
+    TYA : ADC.b $21 : STA.b $09
     
     ; Widths of the colision boxes for player? Update: yep (Nov. 2012 haha)
-    LDA.w $F4AE, X : STA $02
+    LDA.w $F4AE, X : STA.b $02
     
-    LDA.w $F530, X : STA $03
+    LDA.w $F530, X : STA.b $03
     
     PLX
     
@@ -6128,7 +6128,7 @@ Player_SetupActionHitBox:
     
     .return
     
-    LDA.b #$80 : STA $08
+    LDA.b #$80 : STA.b $08
     
     PLX
     
@@ -6148,8 +6148,8 @@ Player_SetupActionHitBox:
     
     .BRANCH_BETA
     
-          CLC : ADC.w $0D10, X : STA $04
-    TYA : ADC.w $0D30, X : STA $0A
+          CLC : ADC.w $0D10, X : STA.b $04
+    TYA : ADC.w $0D30, X : STA.b $0A
     
     LDY.b #$00
     
@@ -6159,8 +6159,8 @@ Player_SetupActionHitBox:
     
     .BRANCH_GAMMA
     
-          CLC : ADC.w $0D00, X : STA $05
-    TYA : ADC.w $0D20, X : STA $0B
+          CLC : ADC.w $0D00, X : STA.b $05
+    TYA : ADC.w $0D20, X : STA.b $0B
     
     LDA.b #$03
     
@@ -6170,13 +6170,13 @@ Player_SetupActionHitBox:
     
     .BRANCH_DELTA
     
-    STA $06 : STA $07
+    STA.b $06 : STA.b $07
     
     RTS
     
     .BRANCH_ALPHA
     
-    LDA.b #$80 : STA $0A
+    LDA.b #$80 : STA.b $0A
     
     RTS
 }
@@ -6190,13 +6190,13 @@ Sprite_ApplyRecoilToPlayer:
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : STA $27
-    LDA $01 : STA $28
+    LDA.b $00 : STA.b $27
+    LDA.b $01 : STA.b $28
     
-    PLA : LSR A : STA $29 : STA $C7
+    PLA : LSR A : STA.b $29 : STA.b $C7
     
-    STZ $24
-    STZ $25
+    STZ.b $24
+    STZ.b $25
     
     RTS
 }
@@ -6213,7 +6213,7 @@ Player_PlaceRepulseSpark:
     LDA.w $0022 : ADC.w $0045 : STA.w $0FAD
     LDA.w $0020 : ADC.w $0044 : STA.w $0FAE
     
-    LDA $EE : STA.w $0B68
+    LDA.b $EE : STA.w $0B68
     
     JSL Sound_SetSfxPanWithPlayerCoords
     
@@ -6240,10 +6240,10 @@ Sprite_PlaceRupulseSpark:
     .coerce
     
     LDA.w $0D10, X : CMP $E2
-    LDA.w $0D30, X : SBC $E3 : BNE .off_screen
+    LDA.w $0D30, X : SBC.b $E3 : BNE .off_screen
     
     LDA.w $0D00, X : CMP $E8
-    LDA.w $0D20, X : SBC $E9 : BNE .off_screen
+    LDA.w $0D20, X : SBC.b $E9 : BNE .off_screen
     
     LDA.w $0D10, X : STA.w $0FAD
     LDA.w $0D00, X : STA.w $0FAE
@@ -6268,14 +6268,14 @@ Player_SetupHitBox:
     ; $03770A ALTERNATE ENTRY POINT
     .ignoreImmunity
     
-    LDA.b #$08 : STA $02
-                 STA $03
+    LDA.b #$08 : STA.b $02
+                 STA.b $03
     
-    LDA $22 : CLC : ADC.b #$04 : STA $00
-    LDA $23 : ADC.b #$00 : STA $08
+    LDA.b $22 : CLC : ADC.b #$04 : STA.b $00
+    LDA.b $23 : ADC.b #$00 : STA.b $08
     
-    LDA $20 : ADC.b #$08 : STA $01
-    LDA $21 : ADC.b #$00 : STA $09
+    LDA.b $20 : ADC.b #$08 : STA.b $01
+    LDA.b $21 : ADC.b #$00 : STA.b $09
     
     RTS
     
@@ -6285,7 +6285,7 @@ Player_SetupHitBox:
     ; box is so out of range of whatever we're going to compare with so that
     ; the hit boxes can't possibly overlap.
     ; (with a Y coordinate of 0x8000 to 0x80ff, it's highly unlikely).
-    LDA.b #$80 : STA $09
+    LDA.b #$80 : STA.b $09
     
     RTS
 }
@@ -6352,16 +6352,16 @@ Sprite_SetupHitBox:
     
     ; Add an offset to the sprites X pos (lower byte)
     ; Store an offset X pos (high byte) to $0A.
-    LDA.w $0D10, X : CLC : ADC .x_offsets_low,  Y : STA $04
-    LDA.w $0D30, X : ADC .x_offsets_high, Y : STA $0A
+    LDA.w $0D10, X : CLC : ADC .x_offsets_low,  Y : STA.b $04
+    LDA.w $0D30, X : ADC .x_offsets_high, Y : STA.b $0A
     
-    LDA.w $0D00, X : CLC : ADC .y_offsets_low, Y : PHP : SEC : SBC.w $0F70, X  : STA $05
-    LDA.w $0D20, X : SBC.b #$00   : PLP : ADC .y_offsets_high, Y : STA $0B
+    LDA.w $0D00, X : CLC : ADC .y_offsets_low, Y : PHP : SEC : SBC.w $0F70, X  : STA.b $05
+    LDA.w $0D20, X : SBC.b #$00   : PLP : ADC .y_offsets_high, Y : STA.b $0B
     
     ; Box... widths? right? ; yes it is the width
-    LDA .unknown_0, Y : STA $06
+    LDA .unknown_0, Y : STA.b $06
     ; yes it is the height
-    LDA .unknown_1, Y : STA $07
+    LDA .unknown_1, Y : STA.b $07
     
     PLY
     
@@ -6369,7 +6369,7 @@ Sprite_SetupHitBox:
     
     .out_of_view
     
-    LDA.b #$80 : STA $0A
+    LDA.b #$80 : STA.b $0A
     
     RTS
 }
@@ -6402,8 +6402,8 @@ Utility_CheckIfHitBoxesOverlap:
     ; delta p + width of p2 goes to $0F...
     ; delta p low + 0x80
           LDA !pos2_low, X  : SEC : SBC !pos1_low, X  : PHA
-    PHP                     : CLC : ADC !pos2_size, X : STA $0F
-    PLP : LDA !pos2_high, X : SBC !pos1_high, X : STA $0C
+    PHP                     : CLC : ADC !pos2_size, X : STA.b $0F
+    PLP : LDA !pos2_high, X : SBC !pos1_high, X : STA.b $0C
     
     ; wasn't clear at first, but the the purpose of this is to filter out
     ; delta p's [in 16-bit] that are smaller than -0x0080, and larger then
@@ -6411,7 +6411,7 @@ Utility_CheckIfHitBoxesOverlap:
     ; as 8-bit, perhaps that's the reason for this restriction.
     PLA                     : CLC : ADC.b #$80
     
-    LDA $0C : ADC.b #$00 : BNE .out_of_range
+    LDA.b $0C : ADC.b #$00 : BNE .out_of_range
     
     LDA !pos1_size, X : CLC : ADC !pos2_size, X : CMP $0F : BCC .not_overlapping
     
@@ -6456,12 +6456,12 @@ OAM_AllocateDeferToPlayer:
     
     ; Proceed only if the difference between the sprite's X coordinate
     ; and player's satisfies : [ -16 <= dX < 16 ]
-    LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .return
+    LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .return
         JSR Sprite_IsBelowPlayer
         
         ; Proceed if the difference in the Y coordinates satisfies:
         ; [ -32 <= dY < 40 ]
-        LDA $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
+        LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$48 : BCS .return
             LDA.w $0E40, X : AND.b #$1F : INC A : ASL #2
             
             ; The sprite will request a different OAM range
@@ -6512,7 +6512,7 @@ SpriteDeath_Main:
     
     LDA.w $0E60, X : BMI .draw_normally
     
-    LDA $1A : AND.b #$03 : ORA $11 : ORA.w $0FC1 : BNE .delay_finality
+    LDA.b $1A : AND.b #$03 : ORA.b $11 : ORA.w $0FC1 : BNE .delay_finality
     
     INC.w $0DF0, X
     
@@ -6528,9 +6528,9 @@ SpriteDeath_Main:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0010 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0010 : STA.b $90
     
-    LDA $92 : CLC : ADC.w #$0004 : STA $92
+    LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
     SEP #$20
     
@@ -6821,13 +6821,13 @@ SpriteDeath_DrawPerishingOverlay:
     
     JSR Sprite_PrepOamCoord
     
-    LDA.w $0E60, X : AND.b #$20 : LSR #3 : STA $0C
+    LDA.w $0E60, X : AND.b #$20 : LSR #3 : STA.b $0C
     
     PHX
     
-    LDA.b #$03 : STA $00
+    LDA.b #$03 : STA.b $00
     
-    LDA.w $0DF0, X : AND.b #$1C : EOR.b #$1C : CLC : ADC $00 : TAX
+    LDA.w $0DF0, X : AND.b #$1C : EOR.b #$1C : CLC : ADC.b $00 : TAX
     
     .next_oam_entry
     
@@ -6836,9 +6836,9 @@ SpriteDeath_DrawPerishingOverlay:
     LDA.w $FAEA, X : BEQ .skip_entry
     
                                             INY #2 : STA ($90), Y
-    LDA.w $0FA9 : SEC : SBC $0C    : CLC : ADC.w $FACA, X : DEY    : STA ($90), Y
-    LDA.w $0FA8 : SEC : SBC $0C    : CLC : ADC.w $FAAA, X : DEY    : STA ($90), Y
-    LDA $05   : AND.b #$30 : ORA.w $FB0A, X : INY #3 : STA ($90), Y
+    LDA.w $0FA9 : SEC : SBC.b $0C    : CLC : ADC.w $FACA, X : DEY    : STA ($90), Y
+    LDA.w $0FA8 : SEC : SBC.b $0C    : CLC : ADC.w $FAAA, X : DEY    : STA ($90), Y
+    LDA.b $05   : AND.b #$30 : ORA.w $FB0A, X : INY #3 : STA ($90), Y
     
     .skip_entry
     
@@ -6846,7 +6846,7 @@ SpriteDeath_DrawPerishingOverlay:
     
     DEX
     
-    DEC $00 : BPL .next_oam_entry
+    DEC.b $00 : BPL .next_oam_entry
     
     PLX
     
@@ -6883,7 +6883,7 @@ SpriteCustomFall_Main:
     
     .BRANCH_GAMMA
     
-    LDA.w $0DF0, X : AND.b #$07 : ORA $11 : ORA.w $0FC1 : BNE .BRANCH_LAMBDA
+    LDA.w $0DF0, X : AND.b #$07 : ORA.b $11 : ORA.w $0FC1 : BNE .BRANCH_LAMBDA
     
     LDA.b #$31 : JSL Sound_SetSfx3PanLong
     
@@ -6892,10 +6892,10 @@ SpriteCustomFall_Main:
     JSR SpriteActive_Main
     JSR Sprite_PrepOamCoord
     
-    LDA $02 : SEC : SBC.b #$08 : STA $02
-    LDA $03 : SEC : SBC.b #$00 : STA $03
+    LDA.b $02 : SEC : SBC.b #$08 : STA.b $02
+    LDA.b $03 : SEC : SBC.b #$00 : STA.b $03
     
-    LDA.w $0DF0, X : CLC : ADC.b #$14 : STA $06
+    LDA.w $0DF0, X : CLC : ADC.b #$14 : STA.b $06
     
     JSL Sprite_CustomTimedDrawDistressMarker
     
@@ -6946,7 +6946,7 @@ SpriteCustomFall_Main:
     
     LDA.w $0DF0, X : LSR #3 : TAY
     
-    LDA $1A : AND.w $FBD6, Y : ORA $11 : BNE .BRANCH_IOTA
+    LDA.b $1A : AND.w $FBD6, Y : ORA.b $11 : BNE .BRANCH_IOTA
     
     LDY.b #$68
     
@@ -6978,13 +6978,13 @@ SpriteCustomFall_Main:
 {
     LDA.w $0E20, X : CMP.b #$13 : BEQ .BRANCH_ALPHA
     
-    LDA.w $0DC0, X : ASL #3 : ADC.b #$B7 : STA $08
+    LDA.w $0DC0, X : ASL #3 : ADC.b #$B7 : STA.b $08
     
     LDA.b #$FC
     
     .BRANCH_BETA
     
-    ADC.b #$00 : STA $09
+    ADC.b #$00 : STA.b $09
     
     LDA.b #$01 : JSL Sprite_DrawMultiple
     
@@ -6992,7 +6992,7 @@ SpriteCustomFall_Main:
     
     .BRANCH_ALPHA
     
-    LDA.w $0DC0, X : ASL #3 : ADC.b #$E7 : STA $08
+    LDA.w $0DC0, X : ASL #3 : ADC.b #$E7 : STA.b $08
     
     LDA.b #$FC
     
@@ -7014,7 +7014,7 @@ SpriteCustomFall_Main:
     
     LDA.w $0DC0, X : PHA
     
-    ASL #2 : STA $06
+    ASL #2 : STA.b $06
     
     PLA
     
@@ -7029,18 +7029,18 @@ SpriteCustomFall_Main:
     
     .BRANCH_ALPHA
     
-    STX $07
+    STX.b $07
     
     .BRANCH_BETA
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00      : CLC : ADC.w $FD43, X       : STA ($90), Y
-    LDA $02      : CLC : ADC.w $FD7B, X : INY : STA ($90), Y
+    LDA.b $00      : CLC : ADC.w $FD43, X       : STA ($90), Y
+    LDA.b $02      : CLC : ADC.w $FD7B, X : INY : STA ($90), Y
     LDA.w $FDB3, X                : INY : STA ($90), Y
-    LDA.w $FDEB, X : EOR $05      : INY : STA ($90), Y
+    LDA.w $FDEB, X : EOR.b $05      : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
@@ -7054,7 +7054,7 @@ SpriteCustomFall_Main:
     
     LDY.b #$FF
     
-    LDA $07
+    LDA.b $07
     
     JSR Sprite_CorrectOamEntries
     
@@ -7095,71 +7095,71 @@ Sprite_CorrectOamEntries:
     
     REP #$10
     
-    LDX $90 : STX $0C
+    LDX.b $90 : STX.b $0C
     
-    LDX $92 : STX $0E
+    LDX.b $92 : STX.b $0E
     
     .next_oam_entry
     
-    LDX $0E
+    LDX.b $0E
     
-    LDA $0B : BPL .override_size_and_upper_x_bit
+    LDA.b $0B : BPL .override_size_and_upper_x_bit
     
     ; Otherwise, just preserve the size but but zero out the most sig X bit.
-    LDA $00, X : AND.b #$02
+    LDA.b $00, X : AND.b #$02
     
     .override_size_and_upper_x_bit
     
-    STA $00, X
+    STA.b $00, X
     
     LDY.w #$0000
     
-    LDX $0C
+    LDX.b $0C
     
-    LDA $00, X : SEC : SBC $07 : BPL .sign_extension_x
+    LDA.b $00, X : SEC : SBC.b $07 : BPL .sign_extension_x
     
     DEY
     
     .sign_extension_x
     
-          CLC : ADC $02 : STA $04
-    TYA : ADC $03 : STA $05
+          CLC : ADC.b $02 : STA.b $04
+    TYA : ADC.b $03 : STA.b $05
     
     JSR Sprite_CheckIfOnScreenX : BCC .on_screen_x
     
-    LDX $0E
+    LDX.b $0E
     
     ; Restore the X bit, as it's been show to be in exceess of 0x100...
     ; This whole routine is kind of wonky and I have to wonder if it's
     ; buggy as well? (Compared to other oam handler code I've seen.)
-    INC $00, X
+    INC.b $00, X
     
     .on_screen_x
     
     LDY.w #$0000
     
-    LDX $0C : INX
+    LDX.b $0C : INX
     
-    LDA $00, X : SEC : SBC $06 : BPL .sign_extension_y
+    LDA.b $00, X : SEC : SBC.b $06 : BPL .sign_extension_y
     
     DEY
     
     .sign_extension_y
     
-          CLC : ADC $00 : STA $09
-    TYA : ADC $01 : STA $0A
+          CLC : ADC.b $00 : STA.b $09
+    TYA : ADC.b $01 : STA.b $0A
     
     JSR Sprite_CheckIfOnScreenY : BCC .on_screen_y
     
-    LDA.b #$F0 : STA $00, X
+    LDA.b #$F0 : STA.b $00, X
     
     .on_screen_y
     
-    INX #3 : STX $0C
+    INX #3 : STX.b $0C
     
-    INC $0E
+    INC.b $0E
     
-    DEC $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_oam_entry
     
     SEP #$10
     
@@ -7173,17 +7173,17 @@ Sprite_CorrectOamEntries:
 ; $037F26-$037F48 LOCAL JUMP LOCATION
 Sprite_GetScreenRelativeCoords:
 {
-    STY $0B
+    STY.b $0B
     
-    STA $08
+    STA.b $08
     
-    LDA.w $0D00, X : STA $00
-    SEC : SBC $E8      : STA $06
-    LDA.w $0D20, X : STA $01
+    LDA.w $0D00, X : STA.b $00
+    SEC : SBC.b $E8      : STA.b $06
+    LDA.w $0D20, X : STA.b $01
     
-    LDA.w $0D10, X : STA $02
-    SEC : SBC $E2      : STA $07
-    LDA.w $0D30, X : STA $03
+    LDA.w $0D10, X : STA.b $02
+    SEC : SBC.b $E2      : STA.b $07
+    LDA.w $0D30, X : STA.b $03
     
     RTS
 }
@@ -7195,7 +7195,7 @@ Sprite_CheckIfOnScreenX:
 {
     REP #$20
     
-    LDA $04 : SEC : SBC $E2 : CMP.w #$0100
+    LDA.b $04 : SEC : SBC.b $E2 : CMP.w #$0100
     
     SEP #$20
     
@@ -7212,9 +7212,9 @@ Sprite_CheckIfOnScreenY:
     ; Is there any point to this the push and pull of A? Not really certain
     ; of that. (Not to mention the first storing of $09.)
     
-    LDA $09 : PHA : CLC : ADC.w #$0010 : STA $09
+    LDA.b $09 : PHA : CLC : ADC.w #$0010 : STA.b $09
     
-    SEC : SBC $E8 : CMP.w #$0100 : PLA : STA $09
+    SEC : SBC.b $E8 : CMP.w #$0100 : PLA : STA.b $09
     
     SEP #$20
     
@@ -7268,7 +7268,7 @@ Sprite_CheckIfRecoiling:
     
     LSR #2 : TAY
     
-    LDA $1A : AND .frame_counter_masks, Y : BNE .halted
+    LDA.b $1A : AND .frame_counter_masks, Y : BNE .halted
     
     LDA.w $0F30, X : STA.w $0D40, X
     LDA.w $0F40, X : STA.w $0D50, X

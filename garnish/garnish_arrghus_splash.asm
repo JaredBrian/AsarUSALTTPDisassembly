@@ -27,19 +27,19 @@ Garnish_ArrghusSplash:
 {
     JSR Garnish_PrepOamCoord
     
-    LDA.l $7FF90E, X : LSR A : AND.b #$06 : STA $06
+    LDA.l $7FF90E, X : LSR A : AND.b #$06 : STA.b $06
     
     ; Number of sprites to draw (2)
-    LDA.b #$01 : STA $07
+    LDA.b #$01 : STA.b $07
     
     PHX
     
     .next_oam_entry
     
-    LDA $06 : ORA $07 : TAX
+    LDA.b $06 : ORA.b $07 : TAX
     
-    LDA $00 : CLC : ADC .y_offsets, X       : STA ($90), Y
-    LDA $02 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .y_offsets, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
     
     LDA .chr, X        : INY : STA ($90), Y
     LDA .properties, X : INY : STA ($90), Y
@@ -52,7 +52,7 @@ Garnish_ArrghusSplash:
     
     PLY : INY
     
-    DEC $07 : BPL .next_oam_entry
+    DEC.b $07 : BPL .next_oam_entry
     
     PLX
     

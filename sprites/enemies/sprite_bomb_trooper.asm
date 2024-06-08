@@ -24,7 +24,7 @@ Sprite_BombTrooper:
     
     CPY.w $0FA0                                 : BEQ .dont_damage
     LDA.w $0DD0, Y : CMP.b #$09                 : BCC .dont_damage
-    TYA : EOR $1A : AND.b #$07 : ORA.w $0EF0, Y : BNE .dont_damage
+    TYA : EOR.b $1A : AND.b #$07 : ORA.w $0EF0, Y : BNE .dont_damage
     
     JSR EnemyBomb_CheckDamageToSprite
     
@@ -52,13 +52,13 @@ Sprite_BombTrooper:
 ; $02BE49-$02BED2 LOCAL JUMP LOCATION
 EnemyBomb_CheckDamageToSprite:
 {
-    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $00
-    LDA.w $0D30, X : SBC.b #$00 : STA $08
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA.b $00
+    LDA.w $0D30, X : SBC.b #$00 : STA.b $08
     
-    LDA.b #$30 : STA $02 : STA $03
+    LDA.b #$30 : STA.b $02 : STA.b $03
     
-    LDA.w $0D00, X : SEC : SBC.b #$10 : STA $01
-    LDA.w $0D20, X : SBC.b #$00 : STA $09
+    LDA.w $0D00, X : SEC : SBC.b #$10 : STA.b $01
+    LDA.w $0D20, X : SBC.b #$00 : STA.b $09
     
     PHX
     
@@ -80,17 +80,17 @@ EnemyBomb_CheckDamageToSprite:
     
     PLY : PLX
     
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
     
-    LDA.w $0D00, X : SEC : SBC.w $0F70, X : STA $02
-    LDA.w $0D20, X : SBC.b #$00 : STA $03
+    LDA.w $0D00, X : SEC : SBC.w $0F70, X : STA.b $02
+    LDA.w $0D20, X : SBC.b #$00 : STA.b $03
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : STA $06
-    LDA.w $0D20, Y : SBC.b #$00 : STA $07
+    LDA.w $0D00, Y : SEC : SBC.w $0F70, Y : STA.b $06
+    LDA.w $0D20, Y : SBC.b #$00 : STA.b $07
     
     PHY
     
@@ -98,8 +98,8 @@ EnemyBomb_CheckDamageToSprite:
     
     PLY
     
-    LDA $00 : STA.w $0F30, Y
-    LDA $01 : STA.w $0F40, Y
+    LDA.b $00 : STA.w $0F30, Y
+    LDA.b $01 : STA.w $0F40, Y
     
     .dont_damage
     
@@ -150,9 +150,9 @@ EnemyBomb_ExplosionImminent:
     
     .mu
     
-    LSR A : AND.b #$0E : STA $00
+    LSR A : AND.b #$0E : STA.b $00
     
-    LDA.w $0F50, X : AND.b #$F1 : ORA $00 : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$F1 : ORA.b $00 : STA.w $0F50, X
     
     .lambda
     
@@ -166,7 +166,7 @@ EnemyBomb_ExplosionImminent:
     
     JSR Sprite2_Move
     
-    LDA $1B : BEQ .omicron
+    LDA.b $1B : BEQ .omicron
     
     JSR Sprite2_CheckTileCollision
     
@@ -230,9 +230,9 @@ BombTrooper_Main:
 
     .upsilon
 
-    LSR #4 : STA $00
+    LSR #4 : STA.b $00
     
-    LDA.w $0DE0, X : ASL #3 : ORA $00 : CLC : ADC.b #$20 : TAY
+    LDA.w $0DE0, X : ASL #3 : ORA.b $00 : CLC : ADC.b #$20 : TAY
     
     LDA.w $D001, Y : STA.w $0DC0, X
     
@@ -270,11 +270,11 @@ BombTrooper_SpawnAndThrowBomb:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     TYX
     
@@ -284,21 +284,21 @@ BombTrooper_SpawnAndThrowBomb:
     
     JSR Sprite2_DirectionToFacePlayer
     
-    LDA $0F : BPL .positive_dx
+    LDA.b $0F : BPL .positive_dx
     
     EOR.b #$FF : INC A
     
     .positive_dx
     
-    STA $0F
+    STA.b $0F
     
-    LDA $0E : BPL .positive_dy
+    LDA.b $0E : BPL .positive_dy
     
     EOR.b #$FF : INC A
     
     .positive_dy
     
-    ORA $0F : LSR #4 : TAY
+    ORA.b $0F : LSR #4 : TAY
     
     LDA .initial_z_velocities, Y : STA.w $0F80, X
     
@@ -364,10 +364,10 @@ BombTrooper_DrawArm:
     
     REP #$20
     
-    LDA $00      : CLC : ADC.w $C069, X : LDY.b #$00 : STA ($90), Y
-    AND.w #$0100 : STA $0E
+    LDA.b $00      : CLC : ADC.w $C069, X : LDY.b #$00 : STA ($90), Y
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC.w $C079, X      : INY        : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $C079, X      : INY        : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     
@@ -378,9 +378,9 @@ BombTrooper_DrawArm:
     SEP #$20
     
     LDA.b #$6E : INY                     : STA ($90), Y : INY
-    LDA $05    : AND.b #$30 : ORA.b #$08 : STA ($90), Y
+    LDA.b $05    : AND.b #$30 : ORA.b #$08 : STA ($90), Y
     
-    LDA.b #$02 : ORA $0F : STA ($92)
+    LDA.b #$02 : ORA.b $0F : STA ($92)
     
     PLX
     
@@ -420,7 +420,7 @@ EnemyBomb_DrawExplosion:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0E00, X : LSR A : AND.b #$0C : STA $06
+    LDA.w $0E00, X : LSR A : AND.b #$0C : STA.b $06
     
     PHX
     
@@ -430,12 +430,12 @@ EnemyBomb_DrawExplosion:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     LDA .chr, X                 : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA $05   : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05   : INY : STA ($90), Y
     
     INY
     

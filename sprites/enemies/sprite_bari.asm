@@ -115,7 +115,7 @@ Sprite_RedBari:
     
     STA.w $0BA0, X
     
-    LDA $1A : LSR A : AND.b #$01 : TAY
+    LDA.b $1A : LSR A : AND.b #$01 : TAY
     
     ; wiggle wiggle wiggle wiggle, yeah!
     LDA .wiggle_x_speeds, Y : STA.w $0D50, X
@@ -136,7 +136,7 @@ Sprite_RedBari:
     
     JSR Sprite_CheckDamage
     
-    TXA : EOR $1A : AND.b #$0F : BNE .rotation_increment_delay
+    TXA : EOR.b $1A : AND.b #$0F : BNE .rotation_increment_delay
     
     LDA.w $0DA0, X : AND.b #$01 : TAY
     
@@ -155,7 +155,7 @@ Sprite_RedBari:
     
     LDA .drift_y_speeds, Y : STA.w $0D40, X
     
-    TXA : EOR $1A : AND.b #$03 : ORA.w $0DF0, X
+    TXA : EOR.b $1A : AND.b #$03 : ORA.w $0DF0, X
     
     BNE .electrification_prevents_movement
     
@@ -173,7 +173,7 @@ Sprite_RedBari:
     
     LDY !bari_substate, X
     
-    LDA $1A : LSR #3 : AND.b #$01
+    LDA.b $1A : LSR #3 : AND.b #$01
     
     CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
@@ -187,7 +187,7 @@ Sprite_RedBari:
     
     .delay_nonelectrified_transition
     
-    LDA $1A : LSR A : AND.b #$02
+    LDA.b $1A : LSR A : AND.b #$02
     
     CLC : ADC .animation_state_bases, Y : STA.w $0DC0, X
     
@@ -239,8 +239,8 @@ RedBari_Split:
     
     LDX.w $0FB5
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00        : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00        : STA.w $0D30, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -281,7 +281,7 @@ RedBari_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

@@ -52,14 +52,14 @@ Ancilla_SwordCeremony:
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
     PHX
     
-    STZ $08
+    STZ.b $08
     
     LDA.w $0C5E, X : BEQ .nothing_to_draw
     
@@ -73,8 +73,8 @@ Ancilla_SwordCeremony:
     
     REP #$20
     
-    LDA $04 : CLC : ADC .y_offsets, X : STA $00
-    LDA $06 : CLC : ADC .x_offsets, X : STA $02
+    LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
+    LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
     
     SEP #$20
     
@@ -86,7 +86,7 @@ Ancilla_SwordCeremony:
     
     LDA .properties, X : AND.b #$CF
     
-    ORA.b #$04 : ORA $65 : STA ($90), Y : INY
+    ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
     
     PHY
     
@@ -98,7 +98,7 @@ Ancilla_SwordCeremony:
     
     INX
     
-    INC $08 : LDA $08 : CMP.b #$04 : BNE .next_oam_entry
+    INC.b $08 : LDA.b $08 : CMP.b #$04 : BNE .next_oam_entry
     
     .nothing_to_draw
     

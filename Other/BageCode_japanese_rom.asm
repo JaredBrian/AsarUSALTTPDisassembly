@@ -1,7 +1,7 @@
 
 ; $01EA1D-$01EAE0 LONG JUMP LOCATION
 {
-    LDA $F2 : AND.b #$10 : BNE .r_button_held
+    LDA.b $F2 : AND.b #$10 : BNE .r_button_held
     
     JMP .fail
     
@@ -19,7 +19,7 @@
     ; \wtf 0x0A to this variable seems... bad. More research needed.
     STA.l $7EF37B
     
-    LDA $F6
+    LDA.b $F6
     
     JSL .check_button_press
     
@@ -30,13 +30,13 @@
     
     .not_golden_sword
     
-    LDA $F4 : BPL .b_button_not_pressed
+    LDA.b $F4 : BPL .b_button_not_pressed
     
     LDA.w $037F : EOR.b #$01 : STA.w $037F
     
     .b_button_not_pressed
     
-    BIT $F4 : .y_button_not_pressed
+    BIT.b $F4 : .y_button_not_pressed
     
     ; refill all hearts, magic, bombs, and arrows
     LDA.w #$FF : STA.l $7EF372
@@ -58,9 +58,9 @@
     
     SEP #$20
     
-    LDA $F3 : AND.b #$10 : BEQ .return
+    LDA.b $F3 : AND.b #$10 : BEQ .return
     
-    LDA $F7 : BPL .return
+    LDA.b $F7 : BPL .return
     
     LDA.l $7EF359 : INC A : CMP.b #$05 : BCC .valid_sword
     

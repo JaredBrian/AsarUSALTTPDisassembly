@@ -39,7 +39,7 @@ Vitreous_Dormant:
     ; Impervious to everything in this state.
     LDA.w $0E60, X : ORA.b #$40 : STA.w $0E60, X
     
-    LDA $1A : AND.b #$01 : BNE .dont_prep_lightning
+    LDA.b $1A : AND.b #$01 : BNE .dont_prep_lightning
     
     DEC.w $0D90, X : BNE .dont_prep_lightning
     
@@ -68,7 +68,7 @@ Vitreous_Dormant:
     
     LDY.b #$04
     
-    LDA $1A : AND.b #$30 : BNE .pulsate_in_slime
+    LDA.b $1A : AND.b #$30 : BNE .pulsate_in_slime
     
     INY
     
@@ -130,7 +130,7 @@ Vitreous_SpewLightning:
     
     JSR Sprite4_IsToRightOfPlayer
     
-    LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCC .set_animation_state
+    LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCC .set_animation_state
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
@@ -255,10 +255,10 @@ Sprite_SpawnLightning:
     
     TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : ADC.b #$0C : STA.w $0D00, Y
+    LDA.b $02 : ADC.b #$0C : STA.w $0D00, Y
     
     PLX
     
@@ -288,16 +288,16 @@ Vitreous_Draw:
 {
     LDA.b #$00 : XBA
     
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$E656 : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #$E656 : STA.b $08
     
     LDA.w $0D80, X : AND.w #$00FF : CMP.w #2 : BNE .use_standard_oam_region
     
     LDA.w $0DD0, X : AND.w #$00FF : CMP.w #9 : BNE .use_standard_oam_region
     
     ; This is a high priority oam region (start of oam is like that!).
-    LDA.w #$0800 : STA $90
+    LDA.w #$0800 : STA.b $90
     
-    LDA.w #$0A20 : STA $92
+    LDA.w #$0A20 : STA.b $92
     
     .use_standard_oam_region
     

@@ -12,18 +12,18 @@ Sprite_SpiralFireBat:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
-    LDA $01 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D50, X
     
     LDA.b #$50
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA.w $0D50, X : EOR.b #$FF : INC A : CLC : ADC $00 : STA.w $0D50, X
+    LDA.w $0D50, X : EOR.b #$FF : INC A : CLC : ADC.b $00 : STA.w $0D50, X
     
-    LDA.w $0D40, X : EOR.b #$FF : INC A : STA $00
+    LDA.w $0D40, X : EOR.b #$FF : INC A : STA.b $00
     
-    LDA $01 : EOR.b #$FF : INC A : CLC : ADC $00 : STA.w $0D40, X
+    LDA.b $01 : EOR.b #$FF : INC A : CLC : ADC.b $00 : STA.w $0D40, X
     
     ; $0E8B90 ALTERNATE ENTRY POINT
     
@@ -40,7 +40,7 @@ Sprite_SpiralFireBat:
     
     PHX
     
-    LDX $00
+    LDX.b $00
     
     LDA.b #$10 : STA.l $7FF800, X
     
@@ -69,11 +69,11 @@ Sprite_SpiralFireBat:
 ; $0E8BBC-$0E8BD0 LOCAL JUMP LOCATION
 Sprite4_Load_16bit_AuxCoord:
 {
-    LDA.w $0D90, X : STA $04
-    LDA.w $0DA0, X : STA $05
+    LDA.w $0D90, X : STA.b $04
+    LDA.w $0DA0, X : STA.b $05
     
-    LDA.w $0DB0, X : STA $06
-    LDA.w $0E90, X : STA $07
+    LDA.w $0DB0, X : STA.b $06
+    LDA.w $0E90, X : STA.b $07
     
     RTS
 }

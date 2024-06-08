@@ -37,7 +37,7 @@ Sprite_UnusedTelepath:
     JSL Sprite_ShowSolicitedMessageIfPlayerFacing
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $1A : LSR A : ORA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR A : ORA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -62,13 +62,13 @@ Pool_UnusedTelepath_Draw:
 ; $06C737-$06C759 LOCAL JUMP LOCATION
 UnusedTelepath_Draw:
 {
-    LDA.b #$03 : STA $06
-                 STZ $07
+    LDA.b #$03 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

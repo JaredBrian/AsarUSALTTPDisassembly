@@ -6,8 +6,8 @@ Garnish_MothulaBeamTrail:
 {
     LDY.b #$00
     
-    LDA.l $7FF83C, X : SEC : SBC $E2                    : STA ($90), Y
-    LDA.l $7FF81E, X : SEC : SBC $E8 : INY              : STA ($90), Y
+    LDA.l $7FF83C, X : SEC : SBC.b $E2                    : STA ($90), Y
+    LDA.l $7FF81E, X : SEC : SBC.b $E8 : INY              : STA ($90), Y
                                INY : LDA.b #$AA : STA ($90), Y
     
     LDA.l $7FF92C, X

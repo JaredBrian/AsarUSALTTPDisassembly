@@ -23,7 +23,7 @@ Sprite_Trident:
     
     ; $0E8AE4 ALTERNATE ENTRY POINT
     
-    LDA $00 : CMP.w $0D40, X : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
+    LDA.b $00 : CMP.w $0D40, X : BEQ .BRANCH_BETA  BPL .BRANCH_GAMMA
     
     DEC.w $0D40, X
     
@@ -35,7 +35,7 @@ Sprite_Trident:
     
     .BRANCH_BETA
     
-    LDA $01 : CMP.w $0D50, X : BEQ .BRANCH_ALPHA  BPL .BRANCH_DELTA
+    LDA.b $01 : CMP.w $0D50, X : BEQ .BRANCH_ALPHA  BPL .BRANCH_DELTA
     
     DEC.w $0D50, X
     
@@ -66,11 +66,11 @@ Trident_AimForParentPosition:
 {
     LDY.w $0DE0
     
-    LDA.w $0D10 : CLC : ADC.w $8B07, Y : STA $04
-    LDA.w $0D30 : ADC.w $8B09, Y : STA $05
+    LDA.w $0D10 : CLC : ADC.w $8B07, Y : STA.b $04
+    LDA.w $0D30 : ADC.w $8B09, Y : STA.b $05
     
-    LDA.w $0D00 : CLC : ADC.b #$F0 : STA $06
-    LDA.w $0D20 : ADC.b #$FF : STA $07
+    LDA.w $0D00 : CLC : ADC.b #$F0 : STA.b $06
+    LDA.w $0D20 : ADC.b #$FF : STA.b $07
     
     JSR Ganon_CheckEntityProximity : BCS .BRANCH_ALPHA
     

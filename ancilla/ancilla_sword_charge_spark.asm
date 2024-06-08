@@ -16,7 +16,7 @@ Pool_Ancilla_SwordChargeSpark:
 ; $0441EA-$04422E JUMP LOCATION
 Ancilla_SwordChargeSpark:
 {
-    LDA $11 : BNE .draw
+    LDA.b $11 : BNE .draw
     
     LDA.w $0C68, X : BNE .draw
     
@@ -48,7 +48,7 @@ Ancilla_SwordChargeSpark:
     JSR Ancilla_SetOam_XY
     
     LDA .chr, X                  : STA ($90), Y : INY
-    LDA .properties, X : ORA $65 : STA ($90), Y
+    LDA .properties, X : ORA.b $65 : STA ($90), Y
     
     LDA.b #$00 : STA ($92)
     

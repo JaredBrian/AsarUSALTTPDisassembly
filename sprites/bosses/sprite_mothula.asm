@@ -302,7 +302,7 @@ Mothula_SpawnBeams:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : SEC : SBC $04 : CLC : ADC.b #$03 : STA.w $0D00, Y
+    LDA.b $02 : SEC : SBC.b $04 : CLC : ADC.b #$03 : STA.w $0D00, Y
     
     LDA.b #$10 : STA.w $0DF0, Y
                  STA.w $0BA0, Y
@@ -311,7 +311,7 @@ Mothula_SpawnBeams:
     
     LDX.w $0FB5
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     

@@ -32,22 +32,22 @@ Ancilla_TransmuteToRisingCrystal:
     
     JSR Ancilla_MoveVert
     
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
     REP #$20
     
-    LDA $00 : SEC : SBC.w $0122 : CMP.w #$0049 : BCS .below_target_y_position
+    LDA.b $00 : SEC : SBC.w $0122 : CMP.w #$0049 : BCS .below_target_y_position
     
     ; Keep position fixed at 0x0049
-    LDA.w #$0049 : CLC : ADC.w $0122 : STA $00
+    LDA.w #$0049 : CLC : ADC.w $0122 : STA.b $00
     
     SEP #$20
     
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
+    LDA.b $00 : STA.w $0BFA, X
+    LDA.b $01 : STA.w $0C0E, X
     
-    LDA $11 : BNE .delay_giving_crystal
+    LDA.b $11 : BNE .delay_giving_crystal
     
     PHX
     
@@ -56,9 +56,9 @@ Ancilla_TransmuteToRisingCrystal:
     ; Give player the crystal associated with this dungeon
     LDA.l $7EF37A : ORA.l MilestoneItem_Flags, X : STA.l $7EF37A
     
-    LDA.b #$18 : STA $11
+    LDA.b #$18 : STA.b $11
     
-    STZ $B0
+    STZ.b $B0
     
     REP #$20
     
@@ -87,7 +87,7 @@ Ancilla_TransmuteToRisingCrystal:
     
     REP #$20
     
-    LDA $00 : STA $06
+    LDA.b $00 : STA.b $06
     
     SEP #$20
     

@@ -16,7 +16,7 @@ CrystalMaiden_Configure:
     ; USED DURING THE CRYSTAL SEQUENCE
     
     ; Enable color addition on backdrop/obj/bg1/bg2
-    LDA.b #$33 : STA $9A
+    LDA.b #$33 : STA.b $9A
     
     LDA.b #$00 : STA.l $7EC007
                  STA.l $7EC009
@@ -41,7 +41,7 @@ CrystalMaiden_Configure:
     
     SEP #$30
     
-    INC $15
+    INC.b $15
     
     JSR CrystalMaiden_SpawnAndConfigMaiden
     JSR CrystalMaiden_InitPolyhedral
@@ -68,9 +68,9 @@ CrystalMaiden_SpawnAndConfigMaiden:
     LDA.b #$AB : JSL Sprite_SpawnDynamically
     
     ; Give the maiden the same upper byte coordinates as Link.
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $23 : STA.w $0D30, Y
     
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $21 : STA.w $0D20, Y
     
     LDA.b #$78 : STA.w $0D10, Y
     
@@ -127,11 +127,11 @@ CrystalMaiden_SpawnAndConfigMaiden:
     ; the normal way to get the negative of a number in 2's complement
     ; is to xor all the bits (0xffff) and then add 1. This is just doing it
     ; by way of the addition. So it is in fact a pure add of 0x0079, really.
-    LDA $22 : SEC : SBC $E2 : EOR.w #$FFFF : SEC : ADC.w #$0079 : STA.w $0422
+    LDA.b $22 : SEC : SBC.b $E2 : EOR.w #$FFFF : SEC : ADC.w #$0079 : STA.w $0422
     
-    LDA $E6 : AND.w #$00FF : STA $00
+    LDA.b $E6 : AND.w #$00FF : STA.b $00
     
-    LDA.w #$0030 : SEC : SBC $00 : STA.w $0424
+    LDA.w #$0030 : SEC : SBC.b $00 : STA.w $0424
     
     SEP #$30
     
@@ -159,9 +159,9 @@ CrystalMaiden_InitPolyhedral:
     
     LDA.b #$10 : STA.w $1F04
     
-    STZ $1D
+    STZ.b $1D
     
-    LDA.b #$16 : STA $1C
+    LDA.b #$16 : STA.b $1C
     
     RTS
 }
@@ -208,7 +208,7 @@ CrystalMaiden_Main:
     
     LDA.w $1F05 : CLC : ADC.b #$06 : STA.w $1F05
     
-    LDA $11 : BEQ .basic_submodule
+    LDA.b $11 : BEQ .basic_submodule
     
     RTS
     
@@ -234,7 +234,7 @@ CrystalMaiden_Main:
 ; $0F4E63-$0F4E68 JUMP LOCATION
 CrystalMaiden_DisableSubscreen:
 {
-    STZ $1D
+    STZ.b $1D
     
     INC.w $0D80, X
     
@@ -246,7 +246,7 @@ CrystalMaiden_DisableSubscreen:
 ; $0F4E69-$0F4E70 JUMP LOCATION
 CrystalMaiden_EnableSubscreen:
 {
-    LDA.b #$01 : STA $1D
+    LDA.b #$01 : STA.b $1D
     
     INC.w $0D80, X
     
@@ -310,8 +310,8 @@ CrystalMaiden_FilterPalette:
     
     STZ.w $02D8
     STZ.w $02DA
-    STZ $2E
-    STZ $2F
+    STZ.b $2E
+    STZ.b $2F
     
     .filtering_not_finished
     .delay
@@ -421,7 +421,7 @@ CrystalMaiden_MayTheWayOfTheHero:
 ; $0F4F3B-$0F4F46 JUMP LOCATION
 CrystalMaiden_InitiateDungeonExit:
 {
-    STZ $1D
+    STZ.b $1D
     
     PHX
     

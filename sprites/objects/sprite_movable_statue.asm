@@ -28,9 +28,9 @@ Sprite_MovableStatue:
     
     STZ.w $0DE0, X
     
-    STZ $5E
+    STZ.b $5E
     
-    STZ $48
+    STZ.b $48
     
     .BRANCH_ALPHA
     
@@ -38,9 +38,9 @@ Sprite_MovableStatue:
     
     LDA.b #$01 : STA.w $0DE0, X
     
-    LDA.b #$81 : STA $48
+    LDA.b #$81 : STA.b $48
     
-    LDA.b #$08 : STA $5E
+    LDA.b #$08 : STA.b $5E
     
     .BRANCH_BETA
     
@@ -111,14 +111,14 @@ Sprite_MovableStatue:
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS .BRANCH_KAPPA
-    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_KAPPA
+    LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0010 : CMP.w #$0023 : BCS .BRANCH_KAPPA
+    LDA.w $0FDA : SEC : SBC.b $20 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_KAPPA
     
     SEP #$30
     
     JSR Sprite_DirectionToFacePlayer
     
-    LDA $2F : CMP .directions, Y : BNE .BRANCH_KAPPA
+    LDA.b $2F : CMP .directions, Y : BNE .BRANCH_KAPPA
     
     LDA.w $0372 : BNE .BRANCH_KAPPA
     
@@ -129,9 +129,9 @@ Sprite_MovableStatue:
     
     LDA.w $0376 : AND.b #$02 : BEQ .BRANCH_LAMBDA
     
-    LDA $F0 : AND .button_masks, Y : BEQ .BRANCH_LAMBDA
+    LDA.b $F0 : AND .button_masks, Y : BEQ .BRANCH_LAMBDA
     
-    LDA $30 : ORA $31 : BEQ .BRANCH_LAMBDA
+    LDA.b $30 : ORA.b $31 : BEQ .BRANCH_LAMBDA
     
     TYA : EOR.b #$01 : TAY
     
@@ -148,11 +148,11 @@ Sprite_MovableStatue:
     LDA.w $0D90, X : BEQ .BRANCH_LAMBDA
     
     STZ.w $0D90, X
-    STZ $5E
+    STZ.b $5E
     STZ.w $0376
     STZ.w $02FA
     
-    LDA $50 : AND.b #$FE : STA $50
+    LDA.b $50 : AND.b #$FE : STA.b $50
     
     .BRANCH_LAMBDA
     
@@ -184,11 +184,11 @@ MovableStatue_CheckFullSwitchCovering:
     
     .next_tile
     
-    LDA.w $0D00, X : CLC : ADC.w $C1FB, Y : STA $00
-    LDA.w $0D20, X : ADC.b #$00   : STA $01
+    LDA.w $0D00, X : CLC : ADC.w $C1FB, Y : STA.b $00
+    LDA.w $0D20, X : ADC.b #$00   : STA.b $01
        
-    LDA.w $0D10, X : CLC : ADC.w $C1F7, Y : STA $02
-    LDA.w $0D30, X : ADC.b #$00   : STA $03
+    LDA.w $0D10, X : CLC : ADC.w $C1F7, Y : STA.b $02
+    LDA.w $0D30, X : ADC.b #$00   : STA.b $03
     
     LDA.w $0F20, X
     
@@ -238,9 +238,9 @@ MovableStatue_Draw:
 {
     REP #$20
     
-    LDA.w #.oam_groups : STA $08
+    LDA.w #.oam_groups : STA.b $08
     
-    LDA.w #$0003 : STA $06
+    LDA.w #$0003 : STA.b $06
     
     SEP #$30
     
@@ -261,21 +261,21 @@ MovableStatue_Draw:
       
     CPY.w $0FA0 : BEQ .BRANCH_ALPHA
     
-    TYA : EOR $1A : AND.b #$01 : BNE .BRANCH_ALPHA
+    TYA : EOR.b $1A : AND.b #$01 : BNE .BRANCH_ALPHA
     
     LDA.w $0DD0, Y : CMP.b #$09 : BCC .BRANCH_ALPHA
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .BRANCH_ALPHA
+    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .BRANCH_ALPHA
     
-    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_ALPHA
+    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$000C : CMP.w #$0024 : BCS .BRANCH_ALPHA
     
     SEP #$20
     
@@ -289,8 +289,8 @@ MovableStatue_Draw:
     
     PLY
     
-    LDA $00 : STA.w $0F30, Y
-    LDA $01 : STA.w $0F40, Y
+    LDA.b $00 : STA.w $0F30, Y
+    LDA.b $01 : STA.w $0F40, Y
     
     .BRANCH_ALPHA
     

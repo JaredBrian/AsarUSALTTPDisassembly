@@ -33,9 +33,9 @@ ZoraKing_WaitingForPlayer:
 {
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .out_of_range
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .out_of_range
     
     SEP #$20
     
@@ -384,7 +384,7 @@ Sprite_SpawnSplashRing:
     
     NOP
     
-    LDA.b #$07 : STA $0D
+    LDA.b #$07 : STA.b $0D
     
     .next_attempt
     
@@ -396,13 +396,13 @@ Sprite_SpawnSplashRing:
     
     PHX
     
-    LDX $0D
+    LDX.b $0D
     
-    LDA .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $00   : STA.w $0D10, Y
-    LDA $01               : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA .x_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC.b $00   : STA.w $0D10, Y
+    LDA.b $01               : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC $02   : STA.w $0D00, Y
-    LDA $03               : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA .y_offsets_low, X : SEC : SBC.b #$04 : CLC : ADC.b $02   : STA.w $0D00, Y
+    LDA.b $03               : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -421,7 +421,7 @@ Sprite_SpawnSplashRing:
     
     .spawn_failed
     
-    DEC $0D : BPL .next_attempt
+    DEC.b $0D : BPL .next_attempt
     
     RTS
 }
@@ -501,7 +501,7 @@ ZoraKing_Draw:
     
     LDA.w $0D80, X : CMP.b #$02 : BCC .draw_whirlpool_instead
     
-    LDA.w $0DC0, X : ASL #2 : STA $06
+    LDA.w $0DC0, X : ASL #2 : STA.b $06
     
     PHX
     
@@ -509,20 +509,20 @@ ZoraKing_Draw:
     
     .next_subsprite
     
-    PHX : TXA : CLC : ADC $06 : TAX
+    PHX : TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
     INY
     
-    LDA .y_offsets, X : CLC : ADC $02        : STA ($90), Y
+    LDA .y_offsets, X : CLC : ADC.b $02        : STA ($90), Y
     LDA .chr, X                  : INY : STA ($90), Y
     
-    LDA.b #$0F : STA $0F
+    LDA.b #$0F : STA.b $0F
     
-    LDA .properties, X : BIT $0F : BNE .palette_override
+    LDA .properties, X : BIT.b $0F : BNE .palette_override
     
-    ORA $05
+    ORA.b $05
     
     .palette_override
     
@@ -544,7 +544,7 @@ ZoraKing_Draw:
     
     LDA.w $0E10, X : BEQ .return
     
-    LSR A : AND.b #$04 : STA $06
+    LSR A : AND.b #$04 : STA.b $06
     
     LDA.b #$10 : JSL OAM_AllocateFromRegionC
     
@@ -558,10 +558,10 @@ ZoraKing_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00 : CLC : ADC .whirlpool_x_offsets, X           : STA ($90), Y
-    LDA $02 : CLC : ADC .whirlpool_y_offsets, X     : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .whirlpool_x_offsets, X           : STA ($90), Y
+    LDA.b $02 : CLC : ADC .whirlpool_y_offsets, X     : INY : STA ($90), Y
     LDA .whirlpool_chr, X                     : INY : STA ($90), Y
     LDA .whirlpool_properties, X : ORA.b #$24 : INY : STA ($90), Y
     

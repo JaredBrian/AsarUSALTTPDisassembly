@@ -84,20 +84,20 @@ Sprite_Arrgi:
     
     JSL Sprite_CheckDamageFromPlayerLong
     
-    TXA : EOR $1A : AND.b #$03 : BNE .BRANCH_EPSILON
+    TXA : EOR.b $1A : AND.b #$03 : BNE .BRANCH_EPSILON
     
-    LDA.w $0B0F, X : STA $04
-    LDA.w $0B1F, X : STA $05
-    LDA.w $0B2F, X : STA $06
-    LDA.w $0B3F, X : STA $07
+    LDA.w $0B0F, X : STA.b $04
+    LDA.w $0B1F, X : STA.b $05
+    LDA.w $0B2F, X : STA.b $06
+    LDA.w $0B3F, X : STA.b $07
     
     LDA.b #$04
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     LDA.w $0D10, X : SEC : SBC.w $0B0F, X : CLC : ADC.b #$08 : CMP.b #$10 : BCS .BRANCH_EPSILON
     

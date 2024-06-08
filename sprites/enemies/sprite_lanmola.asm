@@ -175,7 +175,7 @@ Lanmola_Fly: ; 0x03
     .alpha
     
     ; Use the Y speed to bob up and down
-    LDA $1A : AND.b #$01 : BNE .dontSwitchDirections ; Every other frame.
+    LDA.b $1A : AND.b #$01 : BNE .dontSwitchDirections ; Every other frame.
     
     LDA.w $0ED0, X : AND.b #$01 : TAY
     
@@ -185,20 +185,20 @@ Lanmola_Fly: ; 0x03
     
     .dontSwitchDirections
     
-    LDA.w $0DA0, X : STA $04
-    LDA.w $0D30, X : STA $05
-    LDA.w $0DB0, X : STA $06
-    LDA.w $0D20, X : STA $07
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0DA0, X : STA.b $04
+    LDA.w $0D30, X : STA.b $05
+    LDA.w $0DB0, X : STA.b $06
+    LDA.w $0D20, X : STA.b $07
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
     REP #$20
     
     ; If our position is 0x0002 away from the random X and Y pos we chose earlier go to the next stage.
-    LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
-    LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
+    LDA.b $00 : SEC : SBC.b $04 : CLC : ADC.w #$0002 : CMP.w #$0004            : BCS .notCloseEnough
+    LDA.b $02 : SEC : SBC.b $06 : CLC : ADC.w #$0002 : CMP.w #$0004 : SEP #$20 : BCS .notCloseEnough
     
     INC.w $0D80, X
     
@@ -210,8 +210,8 @@ Lanmola_Fly: ; 0x03
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
-    LDA $01 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D50, X
     
     JSR Sprite2_Move
     
@@ -328,8 +328,8 @@ Lanmola_Death: ; 0x05
     
     LDA.w $0E80, X : SEC : SBC.w $A515, Y : AND.b #$3F : CLC : ADC .sprite_regions, X : PHX : TAX ; $A5DA
     
-    LDA.l $7FFC00, X : SEC : SBC $E2                  : STA $0A
-    LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC $E8 : STA $0B
+    LDA.l $7FFC00, X : SEC : SBC.b $E2                  : STA.b $0A
+    LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC.b $E8 : STA.b $0B
     
     PLX
     
@@ -342,10 +342,10 @@ Lanmola_Death: ; 0x05
     
     LDA.b #$1F : STA.w $0DF0, Y : STA.w $0D90, Y
     
-    LDA $0A : CLC : ADC $E2    : STA.w $0D10, Y
-    LDA $E3 : ADC.b #$00 : STA.w $0D30, Y
-    LDA $0B : CLC : ADC $E8    : STA.w $0D00, Y
-    LDA $E9 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $0A : CLC : ADC.b $E2    : STA.w $0D10, Y
+    LDA.b $E3 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $0B : CLC : ADC.b $E8    : STA.w $0D00, Y
+    LDA.b $E9 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$03 : STA.w $0E40, Y
     
@@ -435,17 +435,17 @@ Lanmola_Draw:
     
     REP #$20
     
-    LDA .oamCoord90, Y : STA $90 ; $A63A
-    LDA .oamCoord92, Y : STA $92 ; $A642
+    LDA .oamCoord90, Y : STA.b $90 ; $A63A
+    LDA .oamCoord92, Y : STA.b $92 ; $A642
     
     SEP #$20
     
-    LDA.w $0D40, X : SEC : SBC.w $0F80, X : STA $00
-    LDA.w $0D50, X                : STA $01
+    LDA.w $0D40, X : SEC : SBC.w $0F80, X : STA.b $00
+    LDA.w $0D50, X                : STA.b $01
     
     JSL Sprite_ConvertVelocityToAngle : STA.w $0DC0, X
     
-    LDA Lanmola_FinishInitialization_sprite_regions, X : STA $04 ; $A5DA
+    LDA Lanmola_FinishInitialization_sprite_regions, X : STA.b $04 ; $A5DA
     
     PHX
     
@@ -454,9 +454,9 @@ Lanmola_Draw:
     LDA.w $0F70, X : PHA
     LDA.w $0DC0, X : PHA
     
-    LDA.w $0E80, X : STA $02 : STA $05
+    LDA.w $0E80, X : STA.b $02 : STA.b $05
     
-    CLC : ADC $04 : TAX
+    CLC : ADC.b $04 : TAX
     
     PLA : STA.l $7FFF00, X
     PLA : STA.l $7FFE00, X
@@ -467,13 +467,13 @@ Lanmola_Draw:
     
     LDA.w $0DD0, X : CMP.b #$09 : BNE .notActive
     
-    LDA $11 : ORA.w $0FC1 : BNE .notActive
+    LDA.b $11 : ORA.w $0FC1 : BNE .notActive
     
     LDA.w $0E80, X : INC A : AND.b #$3F : STA.w $0E80, X
     
     .notActive
     
-    LDA.w $0F50, X : ORA.w $0B89, X : STA $03
+    LDA.w $0F50, X : ORA.w $0B89, X : STA.b $03
     
     LDA.l $7FF81E, X : BPL .beta
     
@@ -483,31 +483,31 @@ Lanmola_Draw:
     
     PHX
     
-    PHA : STA $0E
+    PHA : STA.b $0E
     
     LDA.w $0D40, X : ASL A : ROL A : AND.b #$01 : TAX
     
-    LDA .data2, X : STA $0C ; $A5E0
+    LDA .data2, X : STA.b $0C ; $A5E0
     
     LDY .data1, X ; $A5DE
     
     PLX
     
-    STX $0B
+    STX.b $0B
     
     .theta
     
-    PHX : STX $0D
+    PHX : STX.b $0D
     
-    LDA $02 : CLC : ADC $04 : TAX
+    LDA.b $02 : CLC : ADC.b $04 : TAX
     
-    LDA $02 : SEC : SBC.b #$08 : AND.b #$3F : STA $02
+    LDA.b $02 : SEC : SBC.b #$08 : AND.b #$3F : STA.b $02
     
-    LDA.l $7FFC00, X : SEC : SBC $E2 : STA ($90), Y : INY
+    LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA ($90), Y : INY
     
     LDA.l $7FFE00, X : BMI .gamma
     
-    LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC $E8 : STA ($90), Y
+    LDA.l $7FFD00, X : SEC : SBC.l $7FFE00, X : SEC : SBC.b $E8 : STA ($90), Y
     
     .gamma
     
@@ -515,9 +515,9 @@ Lanmola_Draw:
     
     LDA.l $7FFF00, X : TAX
     
-    LDY $0D
+    LDY.b $0D
     
-    LDA $0B : CMP.b #$07 : BNE .delta
+    LDA.b $0B : CMP.b #$07 : BNE .delta
     
     CPY.b #$00 : BEQ .epsilon
     
@@ -525,7 +525,7 @@ Lanmola_Draw:
     
     LDA.b #$C6
     
-    CPY $0B : BNE .zeta
+    CPY.b $0B : BNE .zeta
     
     LDA .chr1, X ; $A5E2
     
@@ -538,17 +538,17 @@ Lanmola_Draw:
     .zeta
     
     PLY                          : INY : STA ($90), Y
-    LDA .properties, X : ORA $03 : INY : STA ($90), Y ; $A602
+    LDA .properties, X : ORA.b $03 : INY : STA ($90), Y ; $A602
     
     TYA : PHY : LSR #2 : TAY
     
     LDA.b #$02 : STA ($92), Y
     
-    PLA : CLC : ADC $0C : TAY
+    PLA : CLC : ADC.b $0C : TAY
     
     PLX : DEX : BPL .theta
     
-    LDX $0E
+    LDX.b $0E
     
     LDY.b #$20
     
@@ -556,17 +556,17 @@ Lanmola_Draw:
     
     PHX
     
-    LDA $05 : CLC : ADC $04 : TAX
+    LDA.b $05 : CLC : ADC.b $04 : TAX
     
-    LDA $05 : SEC : SBC.b #$08 : AND.b #$3F : STA $05
+    LDA.b $05 : SEC : SBC.b #$08 : AND.b #$3F : STA.b $05
     
-    LDA.l $7FFC00, X : SEC : SBC $E2 : STA ($90), Y
+    LDA.l $7FFC00, X : SEC : SBC.b $E2 : STA ($90), Y
     
     INY
     
     LDA.l $7FFE00, X : BMI .iota
     
-    LDA.l $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC $E8 : STA ($90), Y
+    LDA.l $7FFD00, X : CLC : ADC.b #$0A : SEC : SBC.b $E8 : STA ($90), Y
     
     .iota
     
@@ -609,10 +609,10 @@ Lanmola_Draw:
     
     LDY.b #$00
     
-    PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL A : STA $06
+    PLA : LSR #2 : AND.b #$03 : EOR.b #$03 : ASL A : STA.b $06
     
-    LDA.w $0DE0, X : SEC : SBC $E2 : STA $00
-    LDA.w $0E70, X : SEC : SBC $E8 : STA $02
+    LDA.w $0DE0, X : SEC : SBC.b $E2 : STA.b $00
+    LDA.w $0E70, X : SEC : SBC.b $E8 : STA.b $02
     
     PHX
     
@@ -622,10 +622,10 @@ Lanmola_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : TAX
+    TXA : CLC : ADC.b $06 : TAX
     
-    LDA $00 : CLC : ADC .xDirt, X                    : STA ($90), Y ; $A612
-    LDA $02 : CLC : ADC .yDirt, X              : INY : STA ($90), Y ; $A61A
+    LDA.b $00 : CLC : ADC .xDirt, X                    : STA ($90), Y ; $A612
+    LDA.b $02 : CLC : ADC .yDirt, X              : INY : STA ($90), Y ; $A61A
     LDA .chrDirt, X                      : INY : STA ($90), Y ; $A622
     LDA .propertiesDirt,  X : ORA.b #$31 : INY : STA ($90), Y ; $A62A
     
@@ -650,8 +650,8 @@ Lanmola_DrawMound:
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
     
-    LDA.w $0D10, X : SEC : SBC $E2 : STA $00
-    LDA.w $0D00, X : SEC : SBC $E8 : STA $02
+    LDA.w $0D10, X : SEC : SBC.b $E2 : STA.b $00
+    LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $02
     
     LDA.w $0DF0, X : LSR #3 : TAY
     
@@ -661,8 +661,8 @@ Lanmola_DrawMound:
     
     LDY.b #$00
     
-    LDA $00                          : STA ($90), Y
-    LDA $02                    : INY : STA ($90), Y
+    LDA.b $00                          : STA ($90), Y
+    LDA.b $02                    : INY : STA ($90), Y
     LDA .properties, X         : INY : STA ($90), Y ; $A864
     LDA .sizes, X : ORA.b #$31 : INY : STA ($90), Y ; $A86A
     

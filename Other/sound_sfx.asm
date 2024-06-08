@@ -24,8 +24,8 @@ Sound_SfxPanObjectCoords:
 ; $06BB67-$06BB6D LONG JUMP LOCATION
 Sound_SetSfxPanWithPlayerCoords:
 {
-    LDA $23 : XBA
-    LDA $22
+    LDA.b $23 : XBA
+    LDA.b $22
     
     BRA Sound_SetSfxPan.useArbitraryCoords
 }
@@ -98,7 +98,7 @@ Sound_SetSfx3PanLong:
 Sound_AddSfxPan:
 {
     ; Store the sound effect index here temporarily.
-    STA $0D : JSL Sound_SetSfxPan : ORA $0D
+    STA.b $0D : JSL Sound_SetSfxPan : ORA.b $0D
     
     RTS
 }
@@ -126,7 +126,7 @@ Sound_SetSfxPan:
     
     ; A = Sprites X position minus the X coordinate of the scroll register for Layer 2.
     ; If A (unsigned) is less than #$50. A will be #$0.
-    SEC : SBC $E2 : SEC : SBC.w #$0050 : CMP.w #$0050 : BCC .panSelected
+    SEC : SBC.b $E2 : SEC : SBC.w #$0050 : CMP.w #$0050 : BCC .panSelected
     
     INX
     
@@ -159,7 +159,7 @@ Pool_Sound_GetFineSfxPan:
 ; $06BBD0-$06BBDF LONG JUMP LOCATION
 Sound_GetFineSfxPan:
 {
-    SEC : SBC $E2 : LSR #5 : PHX : TAX
+    SEC : SBC.b $E2 : LSR #5 : PHX : TAX
     
     LDA .settings, X
     

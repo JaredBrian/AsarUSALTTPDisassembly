@@ -90,30 +90,30 @@ Tektite_Stationary:
 {
     JSR Sprite4_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
+    LDA.b $0E : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
     
-    LDA $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
+    LDA.b $0F : CLC : ADC.b #$28 : CMP.b #$50 : BCS .dont_dodge
     
     ; Is this checking for a sword attack? Maybe.
-    LDA $44 : CMP.b #$80 : BEQ .dont_dodge
+    LDA.b $44 : CMP.b #$80 : BEQ .dont_dodge
     
     LDA.w $0F70, X : ORA.w $0F00, X : BNE .dont_dodge
     
-    LDA $EE : CMP.w $0F20, X : BNE .dont_dodge
+    LDA.b $EE : CMP.w $0F20, X : BNE .dont_dodge
     
-    STY $00
+    STY.b $00
     
-    LDA $2F : LSR A : TAY
+    LDA.b $2F : LSR A : TAY
     
     ; \wtf Weird directions to check against? Either a bug or intentionally
     ; quirky logic.
-    LDA $00 : CMP .comparison_directions, Y : BEQ .dont_dodge
+    LDA.b $00 : CMP .comparison_directions, Y : BEQ .dont_dodge
     
     LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
     LDA.b #$10 : STA.w $0F80, X
     
@@ -142,11 +142,11 @@ Tektite_Stationary:
     
     JSR Sprite4_IsBelowPlayer
     
-    TYA : ASL A : STA $00
+    TYA : ASL A : STA.b $00
     
     JSR Sprite4_IsToRightOfPlayer
     
-    TYA : ORA $00
+    TYA : ORA.b $00
     
     BRA .set_xy_speeds
     
@@ -243,7 +243,7 @@ Pool_Tektite_Draw:
 Tektite_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

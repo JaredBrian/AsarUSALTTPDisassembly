@@ -26,7 +26,7 @@ Sprite_Octostone:
     JSR Sprite_CheckDamageToPlayer
     JSR Sprite_Move
     
-    TXA : EOR $1A : AND.b #$03 : BNE .tile_collision_logic_delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .tile_collision_logic_delay
     
     JSR Sprite_CheckTileCollision
     
@@ -67,9 +67,9 @@ Octostone_DrawCrumbling:
     
     PHX
     
-    LDA.b #$03 : STA $06
+    LDA.b #$03 : STA.b $06
     
-    LDA.w $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : CLC : ADC $06 : TAX
+    LDA.w $0DF0, X : LSR A : AND.b #$0C : EOR.b #$0C : CLC : ADC.b $06 : TAX
     
     .next_oam_entry
     
@@ -79,11 +79,11 @@ Octostone_DrawCrumbling:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -101,13 +101,13 @@ Octostone_DrawCrumbling:
     
     TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     
     DEX
     
-    DEC $06 : BPL .next_oam_entry
+    DEC.b $06 : BPL .next_oam_entry
     
     PLX
     

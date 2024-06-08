@@ -28,7 +28,7 @@ Sprite_Hobo:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Player_HaltDashAttackLong
     
@@ -53,7 +53,7 @@ Hobo_Sleeping:
     
     JSR Sprite_CheckDamageToPlayer.same_layer : BCC .dont_wake_up
     
-    LDA $F6 : BPL .dont_wake_up
+    LDA.b $F6 : BPL .dont_wake_up
     
     INC.w $0D80, X
     
@@ -135,7 +135,7 @@ Hobo_GrantBottle:
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     ; \event
     LDA.l $7EF280, X : ORA.b #$20 : STA.l $7EF280, X
@@ -215,7 +215,7 @@ Sprite_HoboBubble:
     JSR Sprite_PrepAndDrawSingleSmall
     JSR Sprite_CheckIfActive
     
-    LDA $1A : LSR #4 : AND.b #$01 : INC #2 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : INC #2 : STA.w $0DC0, X
     
     LDA.w $0E00, X : BNE .ascend_delay
     
@@ -281,14 +281,14 @@ Sprite_HoboFire:
     JSR Sprite_PrepAndDrawSingleSmall
     JSR Sprite_CheckIfActive
     
-    LDA $1A : LSR #3 : AND.b #$03 : STA $00
+    LDA.b $1A : LSR #3 : AND.b #$03 : STA.b $00
     
     AND.b #$01 : STA.w $0DC0, X
     
-    LDA $00 : ASL #4 : AND.b #$40 : STA $00
+    LDA.b $00 : ASL #4 : AND.b #$40 : STA.b $00
     
     ; Toggle... hflip? what? \wtf
-    LDA.w $0F50, X : AND.b #$BF : ORA $00 : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$BF : ORA.b $00 : STA.w $0F50, X
     
     LDA.w $0DF0, X : BNE .delay_smoke_spawn
     
@@ -350,7 +350,7 @@ Sprite_HoboSmoke:
     JSR Sprite_Move
     JSR Sprite_MoveAltitude
     
-    LDA $1A : LSR #4 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #4 : AND.b #$03 : TAY
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
@@ -374,8 +374,8 @@ HoboFire_SpawnSmoke:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $02 : SEC : SBC.b #$04 : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : SEC : SBC.b #$04 : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$03 : STA.w $0E80, Y
     

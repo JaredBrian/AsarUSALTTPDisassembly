@@ -21,15 +21,15 @@ Garnish_TrinexxIce:
     
     LDA.l $7FF90E, X : CMP.b #$50 : BNE .dont_update_tiles
     
-    LDA $11 : ORA.w $0FC1 : BNE .dont_update_tiles
+    LDA.b $11 : ORA.w $0FC1 : BNE .dont_update_tiles
     
     PHA
     
-    LDA.l $7FF83C, X : STA $00
-    LDA.l $7FF878, X : STA $01
+    LDA.l $7FF83C, X : STA.b $00
+    LDA.l $7FF878, X : STA.b $01
     
-    LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA $02
-    LDA.l $7FF85A, X : SBC.b #$00 : STA $03
+    LDA.l $7FF81E, X : SEC : SBC.b #$10 : STA.b $02
+    LDA.l $7FF85A, X : SBC.b #$00 : STA.b $03
     
     LDY.b #$12 : JSL Dungeon_SpriteInducedTilemapUpdate
     
@@ -39,19 +39,19 @@ Garnish_TrinexxIce:
     
     LDA.l $7FF90E, X : LSR #2 : AND.b #$03 : TAY
     
-    LDA .properties, Y : STA $04
+    LDA .properties, Y : STA.b $04
     
     JSR Garnish_PrepOamCoord
     
-    LDA $00       : STA ($90), Y
-    LDA $02 : INY : STA ($90), Y
+    LDA.b $00       : STA ($90), Y
+    LDA.b $02 : INY : STA ($90), Y
     
     ; \wtf NOP? hrm...
     LDA.l $7FF90E, X : LSR #4 : NOP : PHX : TAX
     
     LDA .chr, X : INY : STA ($90), Y
     
-    LDA.b #$35 : ORA $04 : PLX
+    LDA.b #$35 : ORA.b $04 : PLX
     
     JMP Garnish_SetOamPropsAndLargeSize
     

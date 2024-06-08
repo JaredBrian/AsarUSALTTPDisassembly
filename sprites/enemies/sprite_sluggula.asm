@@ -16,9 +16,9 @@ Pool_Sprite_Sluggula:
 ; $0315D9-$031614 JUMP LOCATION
 Sprite_Sluggula:
 {
-    LDA.w $0E80, X : AND.b #$08 : LSR #3 : STA $00
+    LDA.w $0E80, X : AND.b #$08 : LSR #3 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
     
     LDA .animation_states, Y : STA.w $0DC0, X
     

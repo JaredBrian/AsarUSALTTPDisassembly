@@ -88,9 +88,9 @@ Pikit_FinishJumpThenAttack:
     
     JSR Sprite3_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
+    LDA.b $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
     
-    LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
+    LDA.b $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .dont_activate_tongue
     
     INC.w $0D80, X
     
@@ -172,12 +172,12 @@ Pikit_AttemptItemGrab:
     
     CLC : ADC.w $8CD2, Y : TAY
     
-    LDA.w $8C8A, Y : STA.w $0D90, X : STA $04
-                                  STZ $05
+    LDA.w $8C8A, Y : STA.w $0D90, X : STA.b $04
+                                  STZ.b $05
     
     BPL .sign_extend_x_offset
     
-    DEC $05
+    DEC.b $05
     
     .sign_extend_x_offset
     
@@ -186,13 +186,13 @@ Pikit_AttemptItemGrab:
     PLA : CLC : ADC.w $8CDA, Y : TAY
     
     ; Two STZs in a row?
-    LDA.w $8C8A, Y : STA.w $0DA0, X : STA $06
-                                  STZ $07
-                                  STZ $07
+    LDA.w $8C8A, Y : STA.w $0DA0, X : STA.b $06
+                                  STZ.b $07
+                                  STZ.b $07
     
     BPL .sign_extend_y_offset
     
-    DEC $07
+    DEC.b $07
     
     .sign_extend_y_offset
     
@@ -200,9 +200,9 @@ Pikit_AttemptItemGrab:
     
     REP #$20
     
-    LDA.w $0FD8 : CLC : ADC $04 : SEC : SBC $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
+    LDA.w $0FD8 : CLC : ADC.b $04 : SEC : SBC.b $22 : CLC : ADC.w #$000C : CMP.w #$0018 : BCS .return
     
-    LDA.w $0FDA : CLC : ADC $06 : SEC : SBC $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
+    LDA.w $0FDA : CLC : ADC.b $06 : SEC : SBC.b $20 : CLC : ADC.w #$000C : CMP.w #$0020 : BCS .return
     
     SEP #$20
     

@@ -206,7 +206,7 @@ Sprite_BombShopSnoutPuff:
     
     LDA.w $0F50, X : AND.b #$30 : STA.w $0F50, X
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA.w $0F50, X : ORA .properties, Y : STA.w $0F50, X
     
@@ -235,11 +235,11 @@ BombShopGuy_SpawnSnoutPuff:
     
     LDA.b #$03 : STA.w $0E80, Y : STA.w $0BA0, Y
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
-    LDA $01              : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $01              : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$10 : STA.w $0D00, Y
-    LDA $03              : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$10 : STA.w $0D00, Y
+    LDA.b $03              : STA.w $0D20, Y
     
     LDA.b #$04 : STA.w $0F70, Y
     
@@ -280,13 +280,13 @@ Pool_BombShopEntity_Draw:
 ; $0F62C6-$0F62E8 LOCAL JUMP LOCATION
 BombShopEntity_Draw:
 {
-    LDA.b #$01 : STA $06
-                 STZ $07
+    LDA.b #$01 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

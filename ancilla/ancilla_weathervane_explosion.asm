@@ -116,11 +116,11 @@ Ancilla_WeathervaneExplosion:
     JSR Ancilla_MoveHoriz
     JSR Ancilla_MoveAltitude
     
-    STZ $74
+    STZ.b $74
     
     LDA.w $029E, X : CMP.b #$F0 : BCC .not_below_ground_enough
     
-    LDA.b #$FF : STA $74
+    LDA.b #$FF : STA.b $74
     
     .not_below_ground_enough
     
@@ -128,7 +128,7 @@ Ancilla_WeathervaneExplosion:
     
     PLX
     
-    LDA $74 : BPL .dont_deactivate_yet
+    LDA.b $74 : BPL .dont_deactivate_yet
     
     STA.l $7F586C, X
     
@@ -197,11 +197,11 @@ WeathervaneExplosion_DrawWoodChunk:
     
     .sign_ext_z_coord
     
-    EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00
+    EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00
     
     SEP #$20
     
-    LDA.w $0C5E, X : STA $72 : BMI .inactive_component
+    LDA.w $0C5E, X : STA.b $72 : BMI .inactive_component
     
     PHX
     
@@ -209,7 +209,7 @@ WeathervaneExplosion_DrawWoodChunk:
     
     JSR Ancilla_SetOam_XY
     
-    LDX $72
+    LDX.b $72
     
     LDA .chr, X  : STA ($90), Y : INY
     LDA.b #$3C   : STA ($90), Y : INY

@@ -119,11 +119,11 @@ WalkingZora_Ambulating:
     STZ.w $0F70, X
     STZ.w $0F80, X
     
-    TXA : EOR $1A : AND.b #$0F : BNE .delay
+    TXA : EOR.b $1A : AND.b #$0F : BNE .delay
     
     JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
     
-    TXA : EOR $1A : AND.b #$1F : BNE .delay
+    TXA : EOR.b $1A : AND.b #$1F : BNE .delay
     
     TYA : STA.w $0DE0, X
     
@@ -169,7 +169,7 @@ WalkingZora_Depressed:
 {
     JSL Sprite_CheckDamageFromPlayerLong
     
-    LDA $1A : AND.b #$03 : BNE .delay
+    LDA.b $1A : AND.b #$03 : BNE .delay
     
     ; Decrement the depression timer...
     DEC.w $0ED0, X : BNE .delay
@@ -190,9 +190,9 @@ WalkingZora_Depressed:
     
     LDA.w $0ED0, X : CMP.b #$30 : BCS .beta
     
-    LDA $1A : AND.b #$01 : BNE .beta
+    LDA.b $1A : AND.b #$01 : BNE .beta
     
-    LDA $1A : LSR A : AND.b #$01 : TAY
+    LDA.b $1A : LSR A : AND.b #$01 : TAY
     
     ; Kind of a bit incestual data referencing there, amirite? >8^/
     LDA ZoraKing_RumblingGround.offsets_low, Y : CLC : ADC.w $0D10, X : STA.w $0D10, X
@@ -267,13 +267,13 @@ WalkingZora_Draw:
     
     LDY.b #$00
     
-    LDA.w $0DC0, X : STA $06 : CMP.b #$04 : BCS .certain_animation_frame
+    LDA.w $0DC0, X : STA.b $06 : CMP.b #$04 : BCS .certain_animation_frame
     
     LSR A
     
     REP #$20
     
-    LDA $02 : SBC.w #$0000 : STA $02
+    LDA.b $02 : SBC.w #$0000 : STA.b $02
     
     SEP #$20
     
@@ -285,9 +285,9 @@ WalkingZora_Draw:
     
     REP #$20
     
-    LDA $00 : STA ($90), Y : AND.w #$0100 : STA $0E
+    LDA.b $00 : STA ($90), Y : AND.w #$0100 : STA.b $0E
     
-    LDA $02 : SEC : SBC.w #$0006 : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.w #$0006 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .head_on_screen_y
     
@@ -298,21 +298,21 @@ WalkingZora_Draw:
     SEP #$20
     
     LDA .head_chr, X        : INY           : STA ($90), Y
-    LDA .head_properties, X : INY : ORA $05 : STA ($90), Y
+    LDA .head_properties, X : INY : ORA.b $05 : STA ($90), Y
     
-    LDA.b #$02 : ORA $0F : STA ($92)
+    LDA.b #$02 : ORA.b $0F : STA ($92)
     
-    LDA $06 : PHA
+    LDA.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : INY : STA ($90), Y
+    LDA.b $00 : INY : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : INC #2 : INY : STA ($90), Y
+    LDA.b $02 : INC #2 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .body_on_screen_y
     
@@ -325,9 +325,9 @@ WalkingZora_Draw:
     PLX
     
     LDA .body_chr, X                  : INY : STA ($90), Y
-    LDA .body_properties, X : ORA $05 : INY : STA ($90), Y
+    LDA .body_properties, X : ORA.b $05 : INY : STA ($90), Y
     
-    LDY.b #$01 : LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDY.b #$01 : LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLX
     
@@ -378,9 +378,9 @@ WalkingZora_DrawWaterRipple:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0008 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     
-    INC $92 : INC $92
+    INC.b $92 : INC.b $92
     
     SEP #$20
     
@@ -396,12 +396,12 @@ Sprite_DrawWaterRipple:
 {
     PHB : PHK : PLB
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA .animatiom_states, Y
     
-    CLC : ADC.b ((.oam_groups >> 0) & $FF)              : STA $08
-    LDA.b ((.oam_groups >> 8) & $FF) : ADC.b #$00 : STA $09
+    CLC : ADC.b ((.oam_groups >> 0) & $FF)              : STA.b $08
+    LDA.b ((.oam_groups >> 8) & $FF) : ADC.b #$00 : STA.b $09
     
     LDA.b #$02
     

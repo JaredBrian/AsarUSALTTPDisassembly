@@ -20,7 +20,7 @@ SpritePrep_OldMountainMan:
 {
     INC.w $0BA0, X
     
-    LDA $A0 : CMP.b #$E4 : BNE .not_at_home
+    LDA.b $A0 : CMP.b #$E4 : BNE .not_at_home
     
     LDA.b #$02 : STA.w $0E80, X
     
@@ -83,7 +83,7 @@ OldMountainMan_TransitionFromTagalong:
     LDA.w $1A28, X : CLC : ADC.b #$02 : STA.w $0D10, Y
     LDA.w $1A3C, X : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $EE : STA.w $0F20, Y
+    LDA.b $EE : STA.w $0F20, Y
     
     LDA.b #$01 : STA.w $0BA0, Y
                  STA.w $0E80, Y
@@ -94,7 +94,7 @@ OldMountainMan_TransitionFromTagalong:
     
     LDA.b #$00 : STA.l $7EF3CC
     
-    STZ $5E
+    STZ.b $5E
     
     RTL
 }
@@ -247,7 +247,7 @@ OldMountainMan_ShuffleAway:
     
     .delay
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -262,15 +262,15 @@ OldMountainMan_ApproachDoor:
     
     LDY.w $0FDE
     
-    LDA.w $0B18, Y : STA $00
-    LDA.w $0B20, Y : STA $01
+    LDA.w $0B18, Y : STA.b $00
+    LDA.w $0B20, Y : STA.b $01
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : CMP $02 : SEP #$30 : BCC .not_north_enough_yet
+    LDA.b $00 : CMP $02 : SEP #$30 : BCC .not_north_enough_yet
     
     INC.w $0D80, X
     
@@ -281,19 +281,19 @@ OldMountainMan_ApproachDoor:
     
     .not_north_enough_yet
     
-    LDA.w $0B08, Y : STA $04
-    LDA.w $0B10, Y : STA $05
+    LDA.w $0B08, Y : STA.b $04
+    LDA.w $0B10, Y : STA.b $05
     
-    LDA.w $0B18, Y : STA $06
-    LDA.w $0B20, Y : STA $07
+    LDA.w $0B18, Y : STA.b $06
+    LDA.w $0B20, Y : STA.b $07
     
     LDA.b #$08 : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     JSR OldMountainMan_FreezePlayer
     

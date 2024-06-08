@@ -18,7 +18,7 @@ Sprite_Winder:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckIfRecoiling
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip, Y : STA.w $0F50, X
     
@@ -86,7 +86,7 @@ Winder_DefaultState:
 ; $0F5239-$0F528C LOCAL JUMP LOCATION
 Winder_SpawnFireballGarnish:
 {
-    TXA : EOR $1A : AND.b #$07 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$07 : BNE .delay
     
     PHX : TXY
     

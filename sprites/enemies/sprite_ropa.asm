@@ -104,7 +104,7 @@ Ropa_Draw:
     
     REP #$20
     
-    ASL #3 : STA $00 : ASL A : ADC $00 : ADC.w #.oam_groups : STA $08
+    ASL #3 : STA.b $00 : ASL A : ADC.b $00 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

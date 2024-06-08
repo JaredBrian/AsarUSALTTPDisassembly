@@ -57,11 +57,11 @@ SpritePrep_BubbleGroup:
     
     LDX.w $0FB5
     
-    LDA $00 : CLC : ADC.l .x_offsets_low, X  : STA.w $0D10, Y
-    LDA $01 : ADC.l .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.l .x_offsets_low, X  : STA.w $0D10, Y
+    LDA.b $01 : ADC.l .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.l .y_offsets_low, X  : STA.w $0D00, Y
-    LDA $03 : ADC.l .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.l .y_offsets_low, X  : STA.w $0D00, Y
+    LDA.b $03 : ADC.l .y_offsets_high, X : STA.w $0D20, Y
     
     LDA.l .x_speeds, X : STA.w $0D50, Y
     

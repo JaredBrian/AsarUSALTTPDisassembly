@@ -58,8 +58,8 @@ Sprite_Recruit:
     
     LDY.w $0DE0, X : CMP.w $0DE0, X : BNE .not_facing_player
     
-    LDA $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .close_to_player
-    LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_to_player
+    LDA.b $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .close_to_player
+    LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_to_player
     
     .close_to_player
     
@@ -107,9 +107,9 @@ Recruit_Moving:
     
     JSR Sprite2_ZeroVelocity
     
-    JSL GetRandomInt : AND.b #$01 : STA $00
+    JSL GetRandomInt : AND.b #$01 : STA.b $00
     
-    LDA.w $0DE0, X : ASL A : ORA $00 : TAY
+    LDA.w $0DE0, X : ASL A : ORA.b $00 : TAY
     
     LDA .next_head_direction, Y : STA.w $0EB0, X
     
@@ -152,7 +152,7 @@ Recruit_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : STA $06
+    LDA.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -163,14 +163,14 @@ Recruit_Draw:
     
     ; This is the base OAM X coordinate
     ; Store it into the OAM buffer (X position)
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
     ; This is the base OAM Y coordinate
     ; Since this is the head sprite, lift it up a bit.
     ; Store to the OAM buffer (Y position)
-    LDA $02 : SEC : SBC.w #$000B : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.w #$000B : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
@@ -182,21 +182,21 @@ Recruit_Draw:
     SEP #$20
     
     LDA.w $C6A2, X : INY           : STA ($90), Y
-    LDA.w $C6A6, X : INY : ORA $05 : STA ($90), Y
+    LDA.w $C6A6, X : INY : ORA.b $05 : STA ($90), Y
     
     ; Set extended X coordinate and priority settings
-    LDA.b #$02 : ORA $0F : STA ($92)
+    LDA.b #$02 : ORA.b $0F : STA ($92)
     
-    LDA $06 : PHA : ASL A : TAX
+    LDA.b $06 : PHA : ASL A : TAX
     
     REP #$20
     
     ; Now start setting up the sprites for the body portion
-    LDA $00 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : INY : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : INY : STA ($90), Y
+    LDA.b $02 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_2
     
@@ -209,11 +209,11 @@ Recruit_Draw:
     PLX
     
     LDA .chr, X               : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     LDY.b #$01
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLX
     

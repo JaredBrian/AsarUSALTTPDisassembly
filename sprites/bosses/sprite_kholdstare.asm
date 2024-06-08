@@ -7,9 +7,9 @@ Sprite_KholdstareShell:
     JSR Sprite3_CheckIfActive.permissive
     JSR Sprite3_DirectionToFacePlayer
     
-    LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .player_not_close
+    LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .player_not_close
     
-    LDA $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .player_not_close
+    LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .player_not_close
     
     JSL Sprite_NullifyHookshotDrag
     JSL Sprite_RepelDashAttackLong
@@ -119,11 +119,11 @@ IceBallGenerator_DoYourOnlyJob:
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $22 : STA.w $0D10, Y
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $22 : STA.w $0D10, Y
+    LDA.b $23 : STA.w $0D30, Y
     
-    LDA $20 : STA.w $0D00, Y
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $20 : STA.w $0D00, Y
+    LDA.b $21 : STA.w $0D20, Y
     
     LDA.b #$E0 : STA.w $0F70, Y
                  STA.w $0DB0, Y
@@ -157,7 +157,7 @@ Sprite_Kholdstare:
     
     JSR Kholdstare_SpawnNebuleGarnish
     
-    LDA $1A : AND.b #$07 : BNE .garnish_delay
+    LDA.b $1A : AND.b #$07 : BNE .garnish_delay
     
     LDA.b #$02 : STA.w $012E
     
@@ -174,7 +174,7 @@ Sprite_Kholdstare:
     
     .animation_cycle_delay
     
-    LDA $1A : AND.b #$03 : BNE .dont_adjust_eye_direction
+    LDA.b $1A : AND.b #$03 : BNE .dont_adjust_eye_direction
     
     LDA.b #$1F : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
@@ -298,8 +298,8 @@ Kholdstare_Decelerate:
     
     JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $00 : STA.w $0F90, X
-    LDA $01 : STA.w $0F80, X
+    LDA.b $00 : STA.w $0F90, X
+    LDA.b $01 : STA.w $0F80, X
     
     .stick_with_random_direction
     
@@ -424,7 +424,7 @@ Pool_Kholdstare_SpawnNebuleGarnish:
 ; $0F16A5-$0F170F LOCAL JUMP LOCATION
 Kholdstare_SpawnNebuleGarnish:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .delay
     
     PHX
     
@@ -598,7 +598,7 @@ IceBall_Quadruplicate:
 {
     LDA.b #$1F : JSL Sound_SetSfx2PanLong
     
-    JSL GetRandomInt : AND.b #$04 : STA $0D
+    JSL GetRandomInt : AND.b #$04 : STA.b $0D
     
     LDA.b #$03 : STA.w $0FB5
     
@@ -615,7 +615,7 @@ IceBall_Quadruplicate:
     
     PHX
     
-    LDA.w $0FB5 : ORA $0D : TAX
+    LDA.w $0FB5 : ORA.b $0D : TAX
     
     LDA .x_speeds, X : STA.w $0D50, Y
     

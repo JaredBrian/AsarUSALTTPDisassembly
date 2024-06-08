@@ -208,7 +208,7 @@ Sahasrahla_Dialogue:
     
     .advance_animation_state
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -285,13 +285,13 @@ Elder_Draw:
 {
     ; Sahasralah / Aginah graphics selector
     
-    LDA.b #$02 : STA $06 : STZ $07
+    LDA.b #$02 : STA.b $06 : STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
     
     ; $2F21A
-    ADC.b #$1A              : STA $08
-    LDA.b #$F2 : ADC.b #$00 : STA $09
+    ADC.b #$1A              : STA.b $08
+    LDA.b #$F2 : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

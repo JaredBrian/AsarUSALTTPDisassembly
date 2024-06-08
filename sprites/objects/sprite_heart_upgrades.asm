@@ -32,9 +32,9 @@ SpritePrep_HeartContainerLong:
 ; $02EF09-$02EF3E LOCAL JUMP LOCATION
 HeartUpdgrade_CheckIfAlreadyObtained:
 {
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
-    LDA $8A : CMP.b #$3B : BNE .not_watergate_area
+    LDA.b $8A : CMP.b #$3B : BNE .not_watergate_area
     
     LDA.l $7EF2BB : AND.b #$20 : BEQ .self_terminate
     
@@ -42,7 +42,7 @@ HeartUpdgrade_CheckIfAlreadyObtained:
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     LDA.l $7EF280, X : AND.b #$40 : BEQ .dont_self_terminate
     
@@ -203,14 +203,14 @@ HeartContainer_Grant:
     PLX
     
     ; \item
-    LDA $1B : BNE HeartUpgrade_SetIndoorAcquiredFlag
+    LDA.b $1B : BNE HeartUpgrade_SetIndoorAcquiredFlag
     
     ; $02EFF7 ALTERNATE ENTRY POINT
     shared HeartUpgrade_SetOutdoorAcquiredFlag:
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
     
@@ -351,7 +351,7 @@ Sprite_HeartPiece:
     
     STZ.w $0DD0, X
     
-    LDA $1B : BEQ .outdoors
+    LDA.b $1B : BEQ .outdoors
     
     JMP HeartUpgrade_SetIndoorAcquiredFlag
     

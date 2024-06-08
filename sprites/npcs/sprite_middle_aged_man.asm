@@ -206,11 +206,11 @@ Pool_MiddleAgedMan_Draw:
 ; $033DAC-$033DC0 LOCAL JUMP LOCATION
 MiddleAgedMan_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #.oam_groups    : STA $08
-    LDA.b #.oam_groups>>8 : STA $09
+    LDA.b #.oam_groups    : STA.b $08
+    LDA.b #.oam_groups>>8 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JMP Sprite_DrawShadow

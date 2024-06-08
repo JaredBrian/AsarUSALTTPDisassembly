@@ -27,11 +27,11 @@ Garnish_SpawnPyramidDebris:
     
     LDA.b #$13 : STA.l $7FF800, X : STA.w $0FB4
     
-    LDA.b #$E8 : CLC : ADC $00 : STA.l $7FF83C, X
-    LDA.b #$60 : CLC : ADC $01 : STA.l $7FF81E, X
+    LDA.b #$E8 : CLC : ADC.b $00 : STA.l $7FF83C, X
+    LDA.b #$60 : CLC : ADC.b $01 : STA.l $7FF81E, X
     
-    LDA $02 : STA.l $7FF8B4, X
-    LDA $03 : STA.l $7FF896, X
+    LDA.b $02 : STA.l $7FF8B4, X
+    LDA.b $03 : STA.l $7FF896, X
     
     JSL GetRandomInt : AND.b #$1F : ADC.b #$30 : STA.l $7FF90E, X
     
@@ -66,17 +66,17 @@ Garnish_PyramidDebris:
     LDY.b #$00
     
     ; Check if off screen (X)
-    LDA.l $7FF83C, X : SEC : SBC $E2 : CMP.b #$F8 : BCS .self_terminate
+    LDA.l $7FF83C, X : SEC : SBC.b $E2 : CMP.b #$F8 : BCS .self_terminate
     
     STA ($90), Y
     
     ; Check if off screen (Y)
-    LDA.l $7FF81E, X : SEC : SBC $E8 : CMP.b #$F0 : BCS .self_terminate
+    LDA.l $7FF81E, X : SEC : SBC.b $E8 : CMP.b #$F0 : BCS .self_terminate
     
                  INY : STA ($90), Y
     LDA.b #$5C : INY : STA ($90), Y
     
-    LDA $1A : ASL #3 : AND.b #$C0 : ORA.b #$34
+    LDA.b $1A : ASL #3 : AND.b #$C0 : ORA.b #$34
     
     JMP Garnish_SetOamPropsAndSmallSize
 }

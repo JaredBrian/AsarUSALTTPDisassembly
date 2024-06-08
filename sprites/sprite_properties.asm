@@ -320,7 +320,7 @@ Sprite_LoadProperties:
     ; Load the outdoor area number.
     LDA.w $040A
     
-    LDY $1B : BEQ .outdoors
+    LDY.b $1B : BEQ .outdoors
         ; If indoors, instead load the room number. (in this case, the lower byte)
         LDA.w $048E
     

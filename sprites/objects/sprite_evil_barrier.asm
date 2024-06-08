@@ -22,7 +22,7 @@ Sprite_EvilBarrier:
     
     LDA.w $0DC0, X : CMP.b #$04 : BEQ .zap_attempt_inhibit
     
-    LDA $1A : LSR A : AND.b #$03 : STA.w $0DC0, X
+    LDA.b $1A : LSR A : AND.b #$03 : STA.w $0DC0, X
     
     JSR Sprite4_CheckIfActive
     
@@ -44,29 +44,29 @@ Sprite_EvilBarrier:
     
     REP #$20
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0008
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0008
     
     CMP.w #$0018 : BCS .anozap_from_player_contact
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0020
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0020
     
     CMP.w #$0040 : BCS .anozap_from_player_contact
     
     SEP #$20
     
-    LDA $27 : DEC A : BPL .anozap_from_player_contact
+    LDA.b $27 : DEC A : BPL .anozap_from_player_contact
     
     LDA.b #$40 : STA.w $0360
     
-    LDA.b #$0C : STA $46
+    LDA.b #$0C : STA.b $46
     
-    LDA.b #$01 : STA $4D
+    LDA.b #$01 : STA.b $4D
     
     LDA.b #$02 : STA.w $0373
     
-    STZ $28
+    STZ.b $28
     
-    LDA.b #$30 : STA $27
+    LDA.b #$30 : STA.b $27
     
     .anozap_from_player_contact
     .zap_attempt_inhibit
@@ -139,9 +139,9 @@ Pool_EvilBarrier_Draw:
 EvilBarrier_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00
     
-    ASL #3 : CLC : ADC $00 : ADC.w #.oam_groups : STA $08
+    ASL #3 : CLC : ADC.b $00 : ADC.w #.oam_groups : STA.b $08
     
     LDA.w $0FDA : CLC : ADC.w #$0008 : STA.w $0FDA
     

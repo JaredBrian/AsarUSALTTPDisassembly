@@ -51,7 +51,7 @@ Sprite_Octoballoon:
     
     INC.w $0E80, X
     
-    TXA : EOR $1A : AND.b #$0F : BNE .skip_speed_check_logic
+    TXA : EOR.b $1A : AND.b #$0F : BNE .skip_speed_check_logic
     
     LDA.b #$04 : JSR Sprite_ProjectSpeedTowardsPlayer
     
@@ -106,9 +106,9 @@ Sprite_Octoballoon:
 ; $03572B-$03573B LOCAL JUMP LOCATION
 Octoballoon_ApplyRecoilToPlayer:
 {
-    LDA $46 : BNE .player_invulnerable_right_now
+    LDA.b $46 : BNE .player_invulnerable_right_now
     
-    LDA.b #$04 : STA $46
+    LDA.b #$04 : STA.b $46
     
     LDA.b #$10 : JSR Sprite_ApplyRecoilToPlayer
     
@@ -132,19 +132,19 @@ Pool_Octoballoon_Draw:
 ; $035784-$035801 LOCAL JUMP LOCATION
 Octoballoon_Draw:
 {
-    STZ $0A
+    STZ.b $0A
     
     LDA.w $0DD0, X : CMP.b #$06 : BNE .not_dying
     
     LDA.w $0DF0, X : CMP.b #$06 : BNE .dont_spawn_babies
     
-    LDA $11 : BNE .dont_spawn_babies
+    LDA.b $11 : BNE .dont_spawn_babies
     
     JSR Octoballoon_SpawnTheSpawn
     
     .dont_spawn_babies
     
-    LDA.w $0DF0, X : LSR A : AND.b #$04 : CLC : ADC.b #$04 : STA $0A
+    LDA.w $0DF0, X : LSR A : AND.b #$04 : CLC : ADC.b #$04 : STA.b $0A
     
     .not_dying
     
@@ -152,9 +152,9 @@ Octoballoon_Draw:
     
     PHX
     
-    LDA.b #$03 : STA $0B
+    LDA.b #$03 : STA.b $0B
     
-    CLC : ADC $0A : TAX
+    CLC : ADC.b $0A : TAX
     
     .next_oam_entry
     
@@ -164,11 +164,11 @@ Octoballoon_Draw:
     
     REP #$20
     
-    LDA $00 : CLC : ADC.w $D73C, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $D73C, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC.w $D754, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $D754, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -179,19 +179,19 @@ Octoballoon_Draw:
     PLX
     
     LDA.w $D76C, X           : INY : STA ($90), Y
-    LDA.w $D778, X : ORA $05 : INY : STA ($90), Y
+    LDA.w $D778, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
     DEX
     
-    DEC $0B : BPL .next_oam_entry
+    DEC.b $0B : BPL .next_oam_entry
     
     PLX
     
@@ -217,7 +217,7 @@ Octoballoon_SpawnTheSpawn:
 {
     LDA.b #$0C : JSL Sound_SetSfx2PanLong
     
-    LDA.b #$05 : STA $0D
+    LDA.b #$05 : STA.b $0D
     
     .spawn_loop
     
@@ -229,7 +229,7 @@ Octoballoon_SpawnTheSpawn:
     
     PHX
     
-    LDX $0D
+    LDX.b $0D
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -243,7 +243,7 @@ Octoballoon_SpawnTheSpawn:
     
     .spawn_failed
     
-    DEC $0D : BPL .spawn_loop
+    DEC.b $0D : BPL .spawn_loop
     
     RTS
 }

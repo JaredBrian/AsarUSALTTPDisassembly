@@ -31,7 +31,7 @@ Sprite_Witch:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Player_HaltDashAttackLong
     
@@ -41,22 +41,22 @@ Sprite_Witch:
     
     PLA : STA.w $0F60, X
     
-    LDA $1A : BNE .dont_change_stir_speed
+    LDA.b $1A : BNE .dont_change_stir_speed
     
     JSL GetRandomInt : AND.b #$01 : CLC : ADC.b #$02 : STA.w $0D90, X
     
     .dont_change_stir_speed
     
-    LDA.w $0D90, X : STA $00
+    LDA.w $0D90, X : STA.b $00
     
-    LDA $1A
+    LDA.b $1A
     
     ; \note (n refers to the value of $0D90, X)
     .shift_right_n_times
     
     LSR A
     
-    DEC $00 : BPL .shift_right_n_times
+    DEC.b $00 : BPL .shift_right_n_times
     
     AND.b #$07 : STA.w $0DC0, X
     
@@ -102,15 +102,15 @@ Witch_GrantCaneOfByrna:
 ; $02E460-$02E47B JUMP LOCATION
 Witch_Main:
 {
-    STZ $00
+    STZ.b $00
     
     LDA.l $7EF344 : CMP.b #$01 : BNE .dont_have_mushroom
     
-    INC $00
+    INC.b $00
     
     .dont_have_mushroom
     
-    LDA $00
+    LDA.b $00
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
@@ -172,7 +172,7 @@ Witch_Main:
 ; $02E4A7-$02E4CE JUMP LOCATION
 Witch_PlayerHasMushroom:
 {
-    LDA $F0 : AND.b #$40 : BEQ .y_button_not_down
+    LDA.b $F0 : AND.b #$40 : BEQ .y_button_not_down
     
     ; Check if the player is giving the mushroom to the Witch.
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_mushroom
@@ -296,8 +296,8 @@ Witch_Draw:
     JSR Sprite2_PrepOamCoord
     JSL Sprite_OAM_AllocateDeferToPlayerLong
     
-    LDA.w $0DC0, X : STA $00
-                   STZ $01
+    LDA.w $0DC0, X : STA.b $00
+                   STZ.b $01
     
     PHX
     
@@ -305,23 +305,23 @@ Witch_Draw:
     
     ASL #3 : AND.w #$00FF : TAX
     
-    LDY $90
+    LDY.b $90
     
     LDA .stirring_oam_groups+0, X : CLC : ADC.w $0FA8 : STA.w $0000, Y
     
     LDA .stirring_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0001, Y
     
-    LDA .stirring_oam_groups+2, X : ORA $04 : STA.w $0002, Y
+    LDA .stirring_oam_groups+2, X : ORA.b $04 : STA.w $0002, Y
     
     LDA .stirring_oam_groups+4, X : CLC : ADC.w $0FA8 : STA.w $0004, Y
     
     LDA .stirring_oam_groups+5, X : CLC : ADC.w $0FA9 : STA.w $0005, Y
     
-    LDA .stirring_oam_groups+6, X : ORA $04 : STA.w $0006, Y
+    LDA .stirring_oam_groups+6, X : ORA.b $04 : STA.w $0006, Y
     
     LDX.w #$0000
     
-    LDA.w #$0002 : STA $0E
+    LDA.w #$0002 : STA.b $0E
     
     .draw_body_and_cauldron
     
@@ -329,15 +329,15 @@ Witch_Draw:
     
     LDA .body_and_cauldron_oam_groups+1, X : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA .body_and_cauldron_oam_groups+2, X : EOR $04 : STA.w $000A, Y
+    LDA .body_and_cauldron_oam_groups+2, X : EOR.b $04 : STA.w $000A, Y
     
     INX #4
     
     INY #4
     
-    DEC $0E : BPL .draw_body_and_cauldron
+    DEC.b $0E : BPL .draw_body_and_cauldron
     
-    LDA $00 : SEC : SBC.w #$0003 : CMP.w #$0003 : BCC .other_cloak_frame
+    LDA.b $00 : SEC : SBC.w #$0003 : CMP.w #$0003 : BCC .other_cloak_frame
     
     LDX.w #$0000
     
@@ -353,9 +353,9 @@ Witch_Draw:
     
     LDA .cloak_oam_groups+1, X : CLC : ADC.w $0FA9 : STA.w $0009, Y
     
-    LDA .cloak_oam_groups+2, X : ORA $04 : STA.w $000A, Y
+    LDA .cloak_oam_groups+2, X : ORA.b $04 : STA.w $000A, Y
     
-    LDY $92
+    LDY.b $92
     
     ; Set oam sizes (8x8 vs. 16x16)
     LDA.w #$0000 : STA.w $0000, Y

@@ -37,7 +37,7 @@ Waterfall_Main:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
-    LDA $8A : CMP.b #$43 : BEQ .ganons_tower_area
+    LDA.b $8A : CMP.b #$43 : BEQ .ganons_tower_area
     
     PHX
     

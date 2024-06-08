@@ -43,12 +43,12 @@ Ancilla_SleepIcon:
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
     REP #$20
     
-    LDA $20 : SEC : SBC.w #$0018 : CMP $00 : BCC .still_close_enough_to_player
+    LDA.b $20 : SEC : SBC.w #$0018 : CMP $00 : BCC .still_close_enough_to_player
     
     SEP #$20
     

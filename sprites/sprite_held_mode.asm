@@ -46,7 +46,7 @@ SpriteHeld_Main:
     ; unused feature where a sprite can 'wake up' and leap out of the
     ; player's hands if $0F10, X is set to a nonzero value. See the tcrf
     ; note below.
-    STZ $00
+    STZ.b $00
     
     ; \optimize Use of the bit instruction and not decrementing, plus
     ; changing the order the branches are presented in would save
@@ -54,30 +54,30 @@ SpriteHeld_Main:
     LDA.w $0F10, X : DEC A : CMP.b #$3F : BCS .dont_x_wobble
     AND.b #$02                        : BEQ .dont_x_wobble
     
-    INC $00
+    INC.b $00
     
     .dont_x_wobble
     
-    LDA $2F : ASL A : CLC : ADC.l $7FFA1C, X : TAY
+    LDA.b $2F : ASL A : CLC : ADC.l $7FFA1C, X : TAY
     
-    LDA $22 : CLC : ADC.w $DE4D, Y : PHP : ADC $00      : STA.w $0D10, X
-    LDA $23 : ADC.b #$00   : PLP : ADC.w $DE5D, Y : STA.w $0D30, X
+    LDA.b $22 : CLC : ADC.w $DE4D, Y : PHP : ADC.b $00      : STA.w $0D10, X
+    LDA.b $23 : ADC.b #$00   : PLP : ADC.w $DE5D, Y : STA.w $0D30, X
     
     LDA.w $DE6D, Y : STA.w $0F70, X
     
-    LDY $2E : CPY.b #$06 : BCC .not_last_animation_step
+    LDY.b $2E : CPY.b #$06 : BCC .not_last_animation_step
     
     LDY.b #$00
     
     .not_last_animation_step
     
-    LDA $24 : CLC : ADC.b #$01 : PHP : CLC : ADC.w $DE7D, Y : STA $00
-    LDA $25 : ADC.b #$00 : PLP : ADC.b #$00   : STA $0E
+    LDA.b $24 : CLC : ADC.b #$01 : PHP : CLC : ADC.w $DE7D, Y : STA.b $00
+    LDA.b $25 : ADC.b #$00 : PLP : ADC.b #$00   : STA.b $0E
     
-    LDA $20 : SEC : SBC $00    : PHP : CLC : ADC.b #$08 : STA.w $0D00, X
-    LDA $21 : ADC.b #$00 : PLP : SBC $0E    : STA.w $0D20, X
+    LDA.b $20 : SEC : SBC.b $00    : PHP : CLC : ADC.b #$08 : STA.w $0D00, X
+    LDA.b $21 : ADC.b #$00 : PLP : SBC.b $0E    : STA.w $0D20, X
     
-    LDA $EE : AND.b #$01 : STA.w $0F20, X
+    LDA.b $EE : AND.b #$01 : STA.w $0F20, X
     
     JSR SpriteHeld_ThrowQuery
     JSR Sprite_Get_16_bit_Coords
@@ -145,9 +145,9 @@ SpriteHeld_ThrowQuery:
     ; in text mode, so do nothing...
     LDA.w $0010 : CMP.b #$0E : BEQ .easy_out
     
-    LDA $5B : CMP.b #$02 : BEQ .coerced_throw
+    LDA.b $5B : CMP.b #$02 : BEQ .coerced_throw
     
-    LDA $4D : AND.b #$01
+    LDA.b $4D : AND.b #$01
     
     LDY.w $037B : BNE .player_ignores_sprite_collisions
     
@@ -160,11 +160,11 @@ SpriteHeld_ThrowQuery:
     
     LDA.l $7FFA1C, X : CMP.b #$03 : BNE .dont_throw
     
-    LDA $F4 : ORA $F6 : BPL .dont_throw
+    LDA.b $F4 : ORA.b $F6 : BPL .dont_throw
     
     ; Erase these inputs as they've been used up.
     ; \optimize Why not just use TRB here with 0x80 mask?
-    ASL $F6 : LSR $F6
+    ASL.b $F6 : LSR.b $F6
     
     .coerced_throw
     
@@ -184,11 +184,11 @@ SpriteHeld_ThrowQuery:
     
     LDA.w $0E20, X : TAX
     
-    LDA.l $0DB359, X : PLX : AND.b #$10 : STA $00
+    LDA.l $0DB359, X : PLX : AND.b #$10 : STA.b $00
     
-    LDA.w $0E60, X : AND.b #$EF : ORA $00 : STA.w $0E60, X
+    LDA.w $0E60, X : AND.b #$EF : ORA.b $00 : STA.w $0E60, X
     
-    LDA $2F : LSR A : TAY
+    LDA.b $2F : LSR A : TAY
     
     LDA .x_speeds, Y : STA.w $0D50, X
     

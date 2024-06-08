@@ -91,9 +91,9 @@ Pool_Pengator_SpeedUp:
 ; $0F21FB-$0F223F JUMP LOCATION
 Pengator_SpeedUp:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .delay
     
-    STZ $00
+    STZ.b $00
     
     LDY.w $0DE0, X
     
@@ -101,7 +101,7 @@ Pengator_SpeedUp:
     
     CLC : ADC .x_speeds, Y : STA.w $0D50, X
     
-    INC $00
+    INC.b $00
     
     .x_speed_at_target
     
@@ -109,11 +109,11 @@ Pengator_SpeedUp:
     
     CLC : ADC .y_speeds, Y : STA.w $0D40, X
     
-    INC $00
+    INC.b $00
     
     .y_speed_at_target
     
-    LDA $00 : BNE .added_speed_this_frame
+    LDA.b $00 : BNE .added_speed_this_frame
     
     LDA.b #$0F : STA.w $0DF0, X
     
@@ -122,7 +122,7 @@ Pengator_SpeedUp:
     .added_speed_this_frame
     .delay
     
-    LDA $1A : AND.b #$04 : LSR #2 : TAY : STA.w $0D90, X
+    LDA.b $1A : AND.b #$04 : LSR #2 : TAY : STA.w $0D90, X
     
     RTS
 }
@@ -183,31 +183,31 @@ Pool_Pengator_SlideAndSparkle:
 ; $0F2271-$0F22B4 JUMP LOCATION
 Pengator_SlideAndSparkle:
 {
-    TXA : EOR $1A : AND.b #$07 : ORA.w $0F70, X : BNE .still_falling
+    TXA : EOR.b $1A : AND.b #$07 : ORA.w $0F70, X : BNE .still_falling
     
-    LDA.w $0DE0, X : STA $06
+    LDA.w $0DE0, X : STA.b $06
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $06 : CMP.b #$02 : BCC .vertical_orientation
+    LDA.b $06 : CMP.b #$02 : BCC .vertical_orientation
     
     INY #4
     
     .vertical_orientation
     
-    LDA .random_y_offsets, Y : STA $00
-                               STZ $01
+    LDA .random_y_offsets, Y : STA.b $00
+                               STZ.b $01
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA $06 : CMP.b #$02 : BCC .vertical_orientation_2
+    LDA.b $06 : CMP.b #$02 : BCC .vertical_orientation_2
     
     INY #4
     
     .vertical_orientation_2
     
-    LDA .random_y_offsets, Y : STA $02
-                               STZ $03
+    LDA .random_y_offsets, Y : STA.b $02
+                               STZ.b $03
     
     JSL Sprite_SpawnSimpleSparkleGarnish_SlotRestricted
     
@@ -276,7 +276,7 @@ Pool_Pengator_Draw:
 Pengator_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -298,11 +298,11 @@ Pengator_Draw:
     
     REP #$20
     
-    ASL #4 : ADC.w #.oam_groups_2 : STA $08
+    ASL #4 : ADC.w #.oam_groups_2 : STA.b $08
     
-    LDA $90 : CLC : ADC.w #$0008 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0008 : STA.b $90
     
-    INC $92 : INC $92
+    INC.b $92 : INC.b $92
     
     SEP #$20
     

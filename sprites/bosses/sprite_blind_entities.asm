@@ -83,11 +83,11 @@ Blind_SpawnFromMaidenTagalong:
     
     LDA #$CE : STA.w $0E20, X
     
-    LDA $00 : STA.w $0D10, X
-    LDA $01 : STA.w $0D30, X
+    LDA.b $00 : STA.w $0D10, X
+    LDA.b $01 : STA.w $0D30, X
     
-    LDA $02 : SEC : SBC.b #$10 : STA.w $0D00, X
-    LDA $03              : STA.w $0D20, X
+    LDA.b $02 : SEC : SBC.b #$10 : STA.w $0D00, X
+    LDA.b $03              : STA.w $0D20, X
     
     JSL Sprite_LoadProperties
     
@@ -280,8 +280,8 @@ Sprite_BlindHead:
     
     PLY
     
-    LDA $00 : STA.w $0D40, Y
-    LDA $01 : STA.w $0D50, Y
+    LDA.b $00 : STA.w $0D40, Y
+    LDA.b $01 : STA.w $0D50, Y
     
     .not_aimed_at_player
     .spawn_failed
@@ -361,10 +361,10 @@ Blind_SpawnExtraHead:
     
     LDA.b #$17 : STA.w $0F70, Y
     
-    CLC : ADC $02 : STA.w $0D00, Y
+    CLC : ADC.b $02 : STA.w $0D00, Y
     
-    LDA $00 : ASL A : ROL A : AND.b #$01 : STA !head_x_accel_polarity, Y
-    LDA $02 : ASL A : ROL A : AND.b #$01 : STA !head_y_accel_polarity, Y
+    LDA.b $00 : ASL A : ROL A : AND.b #$01 : STA !head_x_accel_polarity, Y
+    LDA.b $02 : ASL A : ROL A : AND.b #$01 : STA !head_y_accel_polarity, Y
     
     LDA.b #$30 : STA !timer_0, Y
     
@@ -620,8 +620,8 @@ Sprite_Blind:
     
     .dont_fire
     
-    LDA $23 : STA.w $0D30, X
-    LDA $21 : STA.w $0D20, X
+    LDA.b $23 : STA.w $0D30, X
+    LDA.b $21 : STA.w $0D20, X
     
     LDA !blind_ai_state, X
     
@@ -861,11 +861,11 @@ Blind_SpawnPoof:
     
     LDA.b #$CE : JSL Sprite_SpawnDynamically
     
-    LDA $00 : CLC : ADC.b #$10 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$10 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$28 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$0F : STA.w $0DC0, Y
     
@@ -1003,7 +1003,7 @@ Blind_OscillateAlongWall:
     ; \optimize Learn the BIT instruction. Sheesh guys.
     LDA !forward_timer, X : AND.b #$07 : BNE .anospawn_probe
     
-    LDA !head_angle, X : ASL #2 : STA $0F
+    LDA !head_angle, X : ASL #2 : STA.b $0F
     
     JSL Sprite_SpawnProbeAlwaysLong
     
@@ -1202,7 +1202,7 @@ Blind_Animate:
     
     ; This logic animates the head loosely based on the player's
     ; X coordinate.
-    LDA $22 : LSR #5 : TAY
+    LDA.b $22 : LSR #5 : TAY
     
     LDA.w $A6E7, Y
     
@@ -1212,17 +1212,17 @@ Blind_Animate:
     
     .facing_down
     
-    STA $01
+    STA.b $01
     
     ; Results in either 0 or 8.
-    TYA : DEC #2 : ASL #3 : STA $00
+    TYA : DEC #2 : ASL #3 : STA.b $00
     
     ; Pad in this .... value that comes from somewhere? A probe?
-    LDA.w $0B69 : LSR #3 : AND.b #$07 : ADC $00 : TAY
+    LDA.w $0B69 : LSR #3 : AND.b #$07 : ADC.b $00 : TAY
     
     ; Now offset it by another small amount we calculated earlier and...
     ; fire the laser?
-    LDA.w $A6D7, Y : CLC : ADC $01 : AND.b #$0F : STA !head_angle, X
+    LDA.w $A6D7, Y : CLC : ADC.b $01 : AND.b #$0F : STA !head_angle, X
     
     .counterattacking
     
@@ -1231,9 +1231,9 @@ Blind_Animate:
     ; functions named.
     shared Blind_AnimateBody:
     
-    LDA !blind_direction, X : DEC #2 : ASL #4 : STA $00
+    LDA !blind_direction, X : DEC #2 : ASL #4 : STA.b $00
     
-    LDA !forward_timer, X : LSR #3 : AND.b #$03 : CLC : ADC $00 : TAY
+    LDA !forward_timer, X : LSR #3 : AND.b #$03 : CLC : ADC.b $00 : TAY
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
@@ -1265,7 +1265,7 @@ Blind_SpawnLaser:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
     
     LDA !head_angle, X : STA !head_angle, Y
     
@@ -1325,7 +1325,7 @@ BlindPoof_Draw:
     
     REP #$20
     
-    LDA .oam_groups, Y : STA $08
+    LDA .oam_groups, Y : STA.b $08
     
     SEP #$20
     
@@ -1362,9 +1362,9 @@ Blind_Draw:
     
     REP #$20
     
-    ASL #3 : STA $00
+    ASL #3 : STA.b $00
     
-    ASL #3 : SEC : SBC $00 : CLC : ADC.w #BlindPoof_Draw.body_oam_groups : STA $08
+    ASL #3 : SEC : SBC.b $00 : CLC : ADC.w #BlindPoof_Draw.body_oam_groups : STA.b $08
     
     SEP #$20
     
@@ -1415,24 +1415,24 @@ Blind_BumpDamageFromBody:
 {
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$000E : CMP.w #$001C : BCS .dont_damage
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0000 : CMP.w #$001C : BCS .dont_damage
     
     SEP #$20
     
     LDA.w $031F : ORA.w $037B : BNE .dont_damage
     
-    LDA.b #$01 : STA $4D
+    LDA.b #$01 : STA.b $4D
     
     ; Damage player by one heart.
     ; \hardcoded Ignores armor value.
     LDA.b #$08 : STA.w $0373
     
-    LDA.b #$10 : STA $46
+    LDA.b #$10 : STA.b $46
     
-    LDA $28 : EOR.b #$FF : STA $28
-    LDA $27 : EOR.b #$FF : STA $27
+    LDA.b $28 : EOR.b #$FF : STA.b $28
+    LDA.b $27 : EOR.b #$FF : STA.b $27
     
     .dont_damage
     

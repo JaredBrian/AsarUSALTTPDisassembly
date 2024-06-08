@@ -79,12 +79,12 @@ WallHit_Draw:
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
-    LDA.b #$03 : STA $08
+    LDA.b #$03 : STA.b $08
     
     PHX
     
@@ -102,8 +102,8 @@ WallHit_Draw:
     
     REP #$20
     
-    LDA .y_offsets, X : CLC : ADC $04 : STA $00
-    LDA .x_offsets, X : CLC : ADC $06 : STA $02
+    LDA .y_offsets, X : CLC : ADC.b $04 : STA.b $00
+    LDA .x_offsets, X : CLC : ADC.b $06 : STA.b $02
     
     SEP #$20
     
@@ -114,7 +114,7 @@ WallHit_Draw:
     LDA .chr, X : STA ($90), Y
     INY
     
-    LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y
+    LDA .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y
     INY : PHY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
@@ -129,7 +129,7 @@ WallHit_Draw:
     
     INX
     
-    DEC $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_oam_entry
     
     PLX
     

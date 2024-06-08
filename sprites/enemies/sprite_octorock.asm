@@ -47,7 +47,7 @@ Sprite_Octorock:
     
     .timer_1_elapsed
     
-    STZ $00
+    STZ.b $00
     
     LDA !graphic, X : CMP.b #$07 : BNE .no_forced_hflip
     
@@ -283,11 +283,11 @@ Octorock_SpitOutRock:
     ; direction that the Octorok is currently facing.
     LDA !direction, X : TAX
     
-    LDA $00 : CLC : ADC.w $D4B5, X : STA.w $0D10, Y
-    LDA $01 : ADC.w $D4B9, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.w $D4B5, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.w $D4B9, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.w $D4BD, X : STA.w $0D00, Y
-    LDA $03 : ADC.w $D4C1, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.w $D4BD, X : STA.w $0D00, Y
+    LDA.b $03 : ADC.w $D4C1, X : STA.w $0D20, Y
     
     LDA !direction, Y : TAX
     
@@ -333,7 +333,7 @@ Octorock_Draw:
     LDA !direction, X : CMP.b #$03 : BEQ .dont_draw_this_part
     
     ; $07 = [3 * $0DB0, X] + !direction
-    LDA.w $0DB0, X : ASL A : ADC.w $0DB0, X : ADC !direction, X : STA $07
+    LDA.w $0DB0, X : ASL A : ADC.w $0DB0, X : ADC !direction, X : STA.b $07
     
     PHX : PHA
     
@@ -341,11 +341,11 @@ Octorock_Draw:
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
     AND.w #$0100 : STA !top_x_bit_low
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .not_off_screen
     
@@ -357,7 +357,7 @@ Octorock_Draw:
     
     LDA .chr, X : INY : STA ($90), Y
     
-    LDA .properties, X : INY : ORA $05 : STA ($90), Y
+    LDA .properties, X : INY : ORA.b $05 : STA ($90), Y
     
     LDA !top_x_bit_high : STA ($92)
     
@@ -367,9 +367,9 @@ Octorock_Draw:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     SEP #$20
     

@@ -39,17 +39,17 @@ Sprite_DesertBarrier:
     
     BCC .no_collision_2
     
-    LDA $46 : BNE .no_collision_2
+    LDA.b $46 : BNE .no_collision_2
     
-    LDA.b #$10 : STA $46
+    LDA.b #$10 : STA.b $46
     
     LDA.b #$20
     
     JSL Sprite_ApplySpeedTowardsPlayerLong
     
-    LDA $01 : STA $28
+    LDA.b $01 : STA.b $28
     
-    LDA $00 : STA $27
+    LDA.b $00 : STA.b $27
     
     .no_collision_2
     
@@ -143,9 +143,9 @@ DesertBarrier_Draw:
     
     JSR Sprite2_DirectionToFacePlayer
     
-    LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
+    LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
     
-    LDA $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
+    LDA.b $0E : CLC : ADC.b #$20 : CMP.b #$40 : BCS .beta
     
     LDA.b #$10 : JSL OAM_AllocateFromRegionB
     
@@ -153,7 +153,7 @@ DesertBarrier_Draw:
     
     REP #$20
     
-    LDA.w #.subsprites : STA $08
+    LDA.w #.subsprites : STA.b $08
     
     SEP #$20
     

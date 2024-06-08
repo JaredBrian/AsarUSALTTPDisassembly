@@ -14,13 +14,13 @@ Sprite_SpikeTrap:
     
     TYA : STA.w $0DE0, X
     
-    LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_enough
+    LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_enough
     
     BRA .move_towards_player
     
     .not_close_enough:
     
-    LDA $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_enough
+    LDA.b $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCS .not_close_enough
     
     .move_towards_player
     
@@ -119,9 +119,9 @@ SpikeTrap_Draw:
 {
     REP #$20
     
-    LDA.w #(.oam_groups) : STA $08
+    LDA.w #(.oam_groups) : STA.b $08
     
-    LDA.w #$0004 : STA $06
+    LDA.w #$0004 : STA.b $06
     
     SEP #$30
     

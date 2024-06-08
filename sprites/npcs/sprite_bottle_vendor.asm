@@ -26,7 +26,7 @@ Sprite_BottleVendor:
     
     JSR BottleVendor_Draw
     
-    LDA $03 : ORA $01 : STA.w $0D90, X
+    LDA.b $03 : ORA.b $01 : STA.w $0D90, X
     
     JSR Sprite2_CheckIfActive
     JSL BottleVendor_DetectFish
@@ -255,14 +255,14 @@ Pool_BottleVendor_Draw:
 ; $02EBA7-$02EBC6 LOCAL JUMP LOCATION
 BottleVendor_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
     
     ; $02EB87 = .animation_states
-    ADC.b #$87              : STA $08
-    LDA.b #$EB : ADC.b #$00 : STA $09
+    ADC.b #$87              : STA.b $08
+    LDA.b #$EB : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

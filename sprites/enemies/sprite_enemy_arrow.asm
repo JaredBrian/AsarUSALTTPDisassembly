@@ -36,7 +36,7 @@ Sprite_EnemyArrow:
     CMP.b #$20 : BCC .BRANCH_GAMMA
     AND.b #$01 : BNE .BRANCH_GAMMA
     
-    LDA $1A : ASL A : AND.b #$04 : ORA.w $0DE0, X : TAY
+    LDA.b $1A : ASL A : AND.b #$04 : ORA.w $0DE0, X : TAY
     
     LDA .x_speeds, Y : STA.w $0D50, X
     
@@ -196,9 +196,9 @@ EnemyArrow_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA.w $0DE0, X : ASL A : STA $06
+    LDA.w $0DE0, X : ASL A : STA.b $06
     
-    LDA.w $0D90, X : ASL #3 : STA $07
+    LDA.w $0D90, X : ASL #3 : STA.b $07
     
     PHX
     
@@ -208,17 +208,17 @@ EnemyArrow_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .inRangeY
     
@@ -226,16 +226,16 @@ EnemyArrow_Draw:
     
     .inRangeY
     
-    PLA : CLC : ADC $07 : TAX
+    PLA : CLC : ADC.b $07 : TAX
     
     LDA .chr, X                  : INY : STA ($90), Y
-    LDA .properties, X : ORA $05 : INY : STA ($90), Y ; $338B5
+    LDA .properties, X : ORA.b $05 : INY : STA ($90), Y ; $338B5
     
     PHY
     
     TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     

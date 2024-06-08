@@ -63,11 +63,11 @@ ArmosCrusher_RetargetPlayer:
     
     INC.w $0ED0, X
     
-    LDA $22 : STA.w $0DA0, X
-    LDA $23 : STA.w $0DB0, X
+    LDA.b $22 : STA.w $0DA0, X
+    LDA.b $23 : STA.w $0DB0, X
     
-    LDA $20 : STA.w $0E90, X
-    LDA $21 : STA.w $0EB0, X
+    LDA.b $20 : STA.w $0E90, X
+    LDA.b $21 : STA.w $0EB0, X
     
     LDA.b #$20 : JSL Sound_SetSfx2PanLong
     
@@ -87,19 +87,19 @@ ArmosCrusher_ApproachTargetCoords:
     
     JSL Sprite_Get_16_bit_CoordsLong
     
-    LDA.w $0DA0, X : STA $00
-    LDA.w $0DB0, X : STA $01
+    LDA.w $0DA0, X : STA.b $00
+    LDA.w $0DB0, X : STA.b $01
     
-    LDA.w $0E90, X : STA $02
-    LDA.w $0EB0, X : STA $03
+    LDA.w $0E90, X : STA.b $02
+    LDA.w $0EB0, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0010
+    LDA.b $00 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0010
     
     CMP.w #$0020 : BCS .not_close_enough_to_player
     
-    LDA $02 : SEC : SBC.w $0FDA : CLC : ADC.w #$0010
+    LDA.b $02 : SEC : SBC.w $0FDA : CLC : ADC.w #$0010
     
     CMP.w #$0020 : BCS .not_close_enough_to_player
     

@@ -1623,7 +1623,7 @@ Palette_SpriteAux3:
     ; Palette 1
     LDX.w $0AAC
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D39E : STA $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D39E : STA.b $00
     
     REP #$10
     
@@ -1660,7 +1660,7 @@ Palette_MainSpr:
     LDX.b #$00
     
     ; - ZS Custom Overworld? not sure, needs investigation.
-    LDA $8A : AND.w #$0040 : BEQ .lightWorld
+    LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
         ; X = 0x02 for dark world
         INX #2
     
@@ -1668,7 +1668,7 @@ Palette_MainSpr:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D218 refers to the address of PaletteData.
-    LDA PaletteWorldIDtoOffset, X : ADC.w #$D218 : STA $00
+    LDA PaletteWorldIDtoOffset, X : ADC.w #$D218 : STA.b $00
     
     REP #$10
     
@@ -1696,7 +1696,7 @@ Palette_SpriteAux1:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA $00
+    LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA.b $00
     
     LDA.w #$01A2 ; Target SP-5 (first half)
     LDX.w #$0006 ; Palette has 7 colors
@@ -1720,7 +1720,7 @@ Palette_SpriteAux2:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA $00
+    LDA PaletteIDtoOffset, X : ADC.w #$D4E0 : STA.b $00
     
     LDA.w $01C2    ; Target SP-6 (first half)
     LDX.w #$0006 ; Palette has 7 colors
@@ -1746,7 +1746,7 @@ Palette_Sword:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D630 is the address for PaletteData_sword.
-    LDA SwordPaletteOffsets, X : AND.w #$00FF : ADC.w #$D630 : STA $00
+    LDA SwordPaletteOffsets, X : AND.w #$00FF : ADC.w #$D630 : STA.b $00
     
     REP #$10
     
@@ -1757,7 +1757,7 @@ Palette_Sword:
     
     SEP #$30
     
-    INC $15
+    INC.b $15
     
     RTL
 }
@@ -1774,7 +1774,7 @@ Palette_Shield:
     ; Figure out what kind of shield Link has.
     LDA.l $7EF35A : AND.w #$00FF : TAX
     
-    LDA ShieldPaletteOffsets, X : AND.w #$00FF : ADC.w #$D648 : STA $00
+    LDA ShieldPaletteOffsets, X : AND.w #$00FF : ADC.w #$D648 : STA.b $00
     
     REP #$10
     
@@ -1787,7 +1787,7 @@ Palette_Shield:
     SEP #$30
     
     ; Set the palette update flag
-    INC $15
+    INC.b $15
     
     RTL
 }
@@ -1803,7 +1803,7 @@ Palette_Unused:
     
     LDX.w $0AB0
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA.b $00
     
     REP #$10
     
@@ -1824,7 +1824,7 @@ Palette_Unused:
 Palette_MiscSpr:
 {
     ; If we're outdoors do something else...
-    LDA $1B : BEQ .outdoors
+    LDA.b $1B : BEQ .outdoors
         ; $0DED72 ALTERNATE ENTRY POINT 
         .justSP6
         
@@ -1834,7 +1834,7 @@ Palette_MiscSpr:
         
         LDA PaletteIDtoOffset, X : AND.w #$00FF
         
-        ADC.w #$D446 : STA $00
+        ADC.w #$D446 : STA.b $00
         
         REP #$10
         
@@ -1856,7 +1856,7 @@ Palette_MiscSpr:
     
     ; See if we're in the dark world.
     ; - ZS Custom Overworld? not sure, needs investigation.
-    LDA $8A : AND.w #$0040 : BEQ .lightWorld
+    LDA.b $8A : AND.w #$0040 : BEQ .lightWorld
         INX #2
     
     .lightWorld
@@ -1864,7 +1864,7 @@ Palette_MiscSpr:
     PHX
     
     ; X = 0x07 or 0x09
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$D446 : STA.b $00
     
     REP #$10
     
@@ -1885,7 +1885,7 @@ Palette_MiscSpr:
     
     PLX : DEX
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : CLC : ADC.w #$D446 : STA $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF : CLC : ADC.w #$D446 : STA.b $00
     
     REP #$10
     
@@ -1909,7 +1909,7 @@ Palette_PalaceMapSpr:
     REP #$21
     
     ; Load palettes from $1BD70A
-    LDA.w #$D70A : STA $00
+    LDA.w #$D70A : STA.b $00
     
     REP #$10
     
@@ -1944,7 +1944,7 @@ Palette_ArmorAndGloves:
     ; Check what Link's armor value is.
     LDA.l $7EF35B : AND.w #$00FF : TAX
     
-    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL A : ADC.w #$D308 : STA $00
+    LDA PaletteIDtoOffset_16bit, X : AND.w #$00FF : ASL A : ADC.w #$D308 : STA.b $00
     
     REP #$10
     
@@ -1969,7 +1969,7 @@ Palette_ArmorAndGloves:
     
     SEP #$30
     
-    INC $15
+    INC.b $15
     
     RTL
 }
@@ -1986,7 +1986,7 @@ Palette_PalaceMapBg:
     
     ; Sets source address to $1BE544 (cpu address)
     ; The bank of 0x1B is plugged in by Palette_MultiLoad
-    LDA.w #$E544 : STA $00
+    LDA.w #$E544 : STA.b $00
     
     REP #$10
     
@@ -2010,7 +2010,7 @@ Palette_Hud:
     
     LDX.w $0AB2
     
-    LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF : ADC.w #$D660 : STA $00
+    LDA PaletteIDtoOffset_HUD, X : AND.w #$00FF : ADC.w #$D660 : STA.b $00
     
     ; X/Y registers are 8-bit
     REP #$10
@@ -2040,7 +2040,7 @@ Palette_DungBgMain:
     ; This is the palette index for a certain background
     LDX.w $0AB6
     
-    LDA PaletteIDtoOffset_UW, X : ADC.w #$D734 : STA $00 : PHA
+    LDA PaletteIDtoOffset_UW, X : ADC.w #$D734 : STA.b $00 : PHA
     
     REP #$10
     
@@ -2054,7 +2054,7 @@ Palette_DungBgMain:
     PLA
     
     ; Reload it to $00.
-    STA $00
+    STA.b $00
     
     ; Target SP-0 (second half)
     LDA.w #$0112
@@ -2084,7 +2084,7 @@ Palette_OverworldBgAux3:
     
     LDX.w $0AB8
     
-    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$E604 : STA $00
+    LDA PaletteIDtoOffset, X : AND.w #$00FF : ADC.w #$E604 : STA.b $00
     
     REP #$10
     
@@ -2107,7 +2107,7 @@ Palette_OverworldBgMain:
     
     LDA.w $0AB3 : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW2, X : ADC.w #$E6C8 : STA $00
+    LDA PaletteIDtoOffset_OW2, X : ADC.w #$E6C8 : STA.b $00
     
     REP #$10
     
@@ -2134,7 +2134,7 @@ Palette_OverworldBgAux1:
     
     LDA.w $0AB4 : AND.w #$00FF : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA $00
+    LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA.b $00
     
     REP #$10
     
@@ -2158,7 +2158,7 @@ Palette_OverworldBgAux2:
     
     LDA.w $0AB5 : AND.w #$00FF : ASL A : TAX
     
-    LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA $00
+    LDA PaletteIDtoOffset_OW, X : ADC.w #$E86C : STA.b $00
     
     REP #$10
     
@@ -2189,14 +2189,14 @@ Palette_SingleLoad:
     TXY : CLC : ADC.w $0AA8 : TAX
     
     ; Ensure the data bank being drawn from is 1B = #$D in Rom
-    LDA.w #$001B : STA $02
+    LDA.w #$001B : STA.b $02
 
     .copyPalette
 
         ; Since this is a long indirect, that's why #$1B was put in $02.
         LDA [$00] : STA.l $7EC300, X
         
-        INC $00 : INC $00
+        INC.b $00 : INC.b $00
         
         INX #2
     DEY : BPL .copyPalette
@@ -2217,20 +2217,20 @@ Palette_MultiLoad:
     ;             in palette memory.
     ;             Y = (number of palettes to load - 1)
     
-    STA $04 ; Save the values for future reference.
-    STX $06
-    STY $08
+    STA.b $04 ; Save the values for future reference.
+    STX.b $06
+    STY.b $08
     
     ; The absolute address at $00 was planted in the calling function. This
     ; value is the bank #$1B ( => D in Rom) The address is found from $0AB6.
     LDA.w #$001B
-    STA $02 ; And of course, store it at $02
+    STA.b $02 ; And of course, store it at $02
     
     .nextPalette
     ; $0AA8 + A parameter will be the X value.
-    LDA.w $0AA8 : CLC : ADC $04 : TAX
+    LDA.w $0AA8 : CLC : ADC.b $04 : TAX
     
-    LDY $06 ; Tell me how long the palette is.
+    LDY.b $06 ; Tell me how long the palette is.
     
     .copyColors
         ; We're loading A from the address set up in the calling function.
@@ -2238,7 +2238,7 @@ Palette_MultiLoad:
         
         ; Increment the absolute portion of the address by two, and decrease
         ; the color count by one.
-        INC $00 : INC $00
+        INC.b $00 : INC.b $00
         
         INX #2
     
@@ -2246,10 +2246,10 @@ Palette_MultiLoad:
     DEY : BPL .copyColors
     
     ; This technique bumps us up to the next 4bpp (16 color) palette.
-    LDA $04 : CLC : ADC.w #$0020 : STA $04
+    LDA.b $04 : CLC : ADC.w #$0020 : STA.b $04
     
     ; Decrease the number of palettes we have to load.
-    DEC $08
+    DEC.b $08
     
     BPL .nextPalette
     
@@ -2269,13 +2269,13 @@ Palette_ArbitraryLoad:
     
     TXY : TAX
     
-    LDA.w #$001B : STA $02
+    LDA.w #$001B : STA.b $02
     
     .loop
 
         LDA [$00] : STA.l $7EC300, X : STA.l $7EC500, X
         
-        INC $00 : INC $00
+        INC.b $00 : INC.b $00
         
         INX #2
     DEY : BPL .loop
@@ -2301,7 +2301,7 @@ Palette_SelectScreen:
     LDX.w #$0000
     
     ; This tells us what kind of gloves link has.
-    LDA.l $700354 : STA $0C
+    LDA.l $700354 : STA.b $0C
     
     ; The value for your armor.
     LDA.l $70035B
@@ -2325,7 +2325,7 @@ Palette_SelectScreen:
     LDX.w #$0040
     
     ; Again we need the palette for his gloves.
-    LDA.l $700854 : STA $0C
+    LDA.l $700854 : STA.b $0C
     
     ; The value for the armor.
     LDA.l $70085B
@@ -2349,7 +2349,7 @@ Palette_SelectScreen:
     LDX.w #$0080
     
     ; Again we need the palette for his gloves.
-    LDA.l $700D54 : STA $0C
+    LDA.l $700D54 : STA.b $0C
     
     LDA.l $700D5B
     
@@ -2405,7 +2405,7 @@ Palette_SelectScreenArmor:
     LDA.w PaletteIDtoOffset_16bit, Y : AND.w #$00FF : CLC : ADC.w #$00F0 : TAY
     
     ; Length of the palette in Words
-    LDA.w #$000F : STA $0E
+    LDA.w #$000F : STA.b $0E
     
     .loadArmorPalette
     
@@ -2415,12 +2415,12 @@ Palette_SelectScreenArmor:
         INY #2
         
         INX #2 ; Hence we will be writing #$F * 2 bytes = #$1E
-    DEC $0E : BNE .loadArmorPalette
+    DEC.b $0E : BNE .loadArmorPalette
     
     PLX
     
     ; This had $700354 (or 834 or D34)'s value.
-    LDA $0C : AND.w #$00FF : BEQ .defaultGloveColor
+    LDA.b $0C : AND.w #$00FF : BEQ .defaultGloveColor
         ; We're here if $0C was nonzero.
         ; Y = 2*(A - 1)
         DEC A : ASL A : TAY
@@ -2446,7 +2446,7 @@ Palette_SelectScreenSword:
     LDA.w SwordPaletteOffsets, Y : AND.w #$00FF : CLC : ADC.w #$0418 : TAY
     
     ; The length of the palette in Word Length
-    LDA.w #$0003 : STA $0E
+    LDA.w #$0003 : STA.b $0E
     
     .copyPalette
     
@@ -2457,7 +2457,7 @@ Palette_SelectScreenSword:
         INX #2
         
         ; Branch 3 times, write 6 bytes, go home...
-    DEC $0E : BNE .copyPalette
+    DEC.b $0E : BNE .copyPalette
     
     RTS
 }
@@ -2476,7 +2476,7 @@ Palette_SelectScreenShield:
     LDA.w ShieldPaletteOffsets, Y : AND.w #$00FF : CLC : ADC.w #$0430 : TAY
     
     ; Length of the palette in Word Length. (8 bytes)
-    LDA.w #$0004 : STA $0E
+    LDA.w #$0004 : STA.b $0E
     
     .copyPalette
     
@@ -2485,7 +2485,7 @@ Palette_SelectScreenShield:
         INY #2
         
         INX #2
-    DEC $0E : BNE .copyPalette
+    DEC.b $0E : BNE .copyPalette
     
     RTS
 }
@@ -2505,7 +2505,7 @@ Palettes_LoadAgahnim:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA PaletteIDtoOffset_16bit_agah : ADC.w #$D4E0 : STA $00
+    LDA PaletteIDtoOffset_16bit_agah : ADC.w #$D4E0 : STA.b $00
     
     PHA
     
@@ -2514,7 +2514,7 @@ Palettes_LoadAgahnim:
     
     JSR Palette_ArbitraryLoad
     
-    PLA : STA $00
+    PLA : STA.b $00
     
     PHA
     
@@ -2523,7 +2523,7 @@ Palettes_LoadAgahnim:
     
     JSR Palette_ArbitraryLoad
     
-    PLA : STA $00
+    PLA : STA.b $00
     
     LDA.w #$01A2
     LDX.w #$0006
@@ -2532,7 +2532,7 @@ Palettes_LoadAgahnim:
     
     ; TODO: See if there is a way to reference the address directly here.
     ; #$D4E0 is the address for PaletteData_spriteaux_00.
-    LDA.l $1BEC00 : CLC : ADC.w #$D4E0 : STA $00
+    LDA.l $1BEC00 : CLC : ADC.w #$D4E0 : STA.b $00
     
     LDA.w #$01C2
     LDX.w #$0006
@@ -2541,7 +2541,7 @@ Palettes_LoadAgahnim:
     
     SEP #$30
     
-    INC $15
+    INC.b $15
     
     RTL
 }

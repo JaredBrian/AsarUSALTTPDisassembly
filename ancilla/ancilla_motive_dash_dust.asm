@@ -26,7 +26,7 @@ Ancilla_MotiveDashDust:
     
     .delay:
     
-    LDA $2F : CMP.b #$02 : BNE .not_behind_player
+    LDA.b $2F : CMP.b #$02 : BNE .not_behind_player
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
     
@@ -43,7 +43,7 @@ Ancilla_MotiveDashDust:
     JSL Ancilla_SetOam_XY_Long
     
     LDA .chr, X          : STA ($90), Y : INY
-    LDA.b #$04 : ORA $65 : STA ($90), Y
+    LDA.b #$04 : ORA.b $65 : STA ($90), Y
     
     LDA.b #$00 : STA ($92)
     

@@ -114,23 +114,23 @@ Ancilla_SwordSwingSparkle:
     
     PHX
     
-    LDA $20 : STA.w $0BFA, X
-    LDA $21 : STA.w $0C0E, X
+    LDA.b $20 : STA.w $0BFA, X
+    LDA.b $21 : STA.w $0C0E, X
     
-    LDA $22 : STA.w $0C04, X
-    LDA $23 : STA.w $0C18, X
+    LDA.b $22 : STA.w $0C04, X
+    LDA.b $23 : STA.w $0C18, X
     
     JSR Ancilla_PrepOamCoord
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
     ; Number of sprites to draw
-    LDA.b #$02 : STA $08
+    LDA.b #$02 : STA.b $08
     
     LDY.w $0C72, X
     
@@ -150,7 +150,7 @@ Ancilla_SwordSwingSparkle:
     
     .positive_y_offset
     
-    CLC : ADC $04 : STA $00
+    CLC : ADC.b $04 : STA.b $00
     
     LDA .x_offsets, X : AND.w #$00FF : CMP.w #$0080 : BCC .positive_x_offset
     
@@ -158,14 +158,14 @@ Ancilla_SwordSwingSparkle:
     
     .positive_x_offset
     
-    CLC : ADC $06 : STA $02
+    CLC : ADC.b $06 : STA.b $02
     
     SEP #$20
     
     JSR Ancilla_SetOam_XY
     
     LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY
+    LDA .properties, X : ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -177,7 +177,7 @@ Ancilla_SwordSwingSparkle:
     
     INX
     
-    DEC $08 : BPL .next_oam_entry
+    DEC.b $08 : BPL .next_oam_entry
     
     PLX
     

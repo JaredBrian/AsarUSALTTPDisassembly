@@ -88,7 +88,7 @@ Sprite_OldSnitchLady:
     
     LDA.w $0D80, X : CMP.b #$03 : BCS .gamma
     
-    LDA $1B : BEQ .outdoors
+    LDA.b $1B : BEQ .outdoors
     
     JSL Sprite_MakeBodyTrackHeadDirection
     
@@ -189,7 +189,7 @@ Snitch_FacePlayer:
     
     .alpha
     
-    TXA : EOR $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0F60, X : PHA
     
@@ -222,15 +222,15 @@ Snitch_FacePlayer:
     
     LDY.w $0FDE
     
-    LDA.w $0B18, Y : STA $00
-    LDA.w $0B20, Y : STA $01
+    LDA.w $0B18, Y : STA.b $00
+    LDA.w $0B20, Y : STA.b $01
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : CMP $02 : SEP #$30 : BCC .alpha
+    LDA.b $00 : CMP $02 : SEP #$30 : BCC .alpha
     
     INC.w $0D80, X
     
@@ -239,16 +239,16 @@ Snitch_FacePlayer:
     
     LDA.b #$02 : STA.w $0F60, X
     
-    LDA.w $0B08, Y : STA $02
-    LDA.w $0B10, Y : STA $03
+    LDA.w $0B08, Y : STA.b $02
+    LDA.w $0B10, Y : STA.b $03
     
     PHX
     
     REP #$30
     
-    LDA $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA $04
+    LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3 : STA.b $04
     
-    LDA $02 : LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC $04 : TAX
+    LDA.b $02 : LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $04 : TAX
     
     CLC
     
@@ -264,23 +264,23 @@ Snitch_FacePlayer:
     
     LDA.b #$01 : STA.w $02E4
     
-    LDA.w $0B08, Y : STA $04
-    LDA.w $0B10, Y : STA $05
+    LDA.w $0B08, Y : STA.b $04
+    LDA.w $0B10, Y : STA.b $05
     
-    LDA.w $0B18, Y : STA $06
-    LDA.w $0B20, Y : STA $07
+    LDA.w $0B18, Y : STA.b $06
+    LDA.w $0B20, Y : STA.b $07
     
     LDA.b #$40
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
-    LDA $01 : STA.w $0D50, X
+    LDA.b $00 : STA.w $0D40, X
+    LDA.b $01 : STA.w $0D50, X
     
     STZ.w $0DE0, X
     STZ.w $0EB0, X
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -291,19 +291,19 @@ Snitch_FacePlayer:
     
     LDY.w $0FDE
     
-    LDA.w $0B18, Y : STA.w $0D00, X : STA $00
-    LDA.w $0B20, Y : STA.w $0D20, X : STA $01
+    LDA.w $0B18, Y : STA.w $0D00, X : STA.b $00
+    LDA.w $0B20, Y : STA.w $0D20, X : STA.b $01
     
-    LDA.w $0B08, Y : STA.w $0D10, X : STA $02
-    LDA.w $0B10, Y : STA.w $0D30, X : STA $03
+    LDA.w $0B08, Y : STA.w $0D10, X : STA.b $02
+    LDA.w $0B10, Y : STA.w $0D30, X : STA.b $03
     
     PHX
     
     REP #$30
     
-    LDA $00          : SEC : SBC.w $0708 : AND.w $070A : ASL #3  : STA $04
+    LDA.b $00          : SEC : SBC.w $0708 : AND.w $070A : ASL #3  : STA.b $04
     
-    LDA $02 : LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC $04 : TAX
+    LDA.b $02 : LSR #3 : SEC : SBC.w $070C : AND.w $070E : CLC : ADC.b $04 : TAX
     
     SEC
     

@@ -47,7 +47,7 @@ Freezor_Stasis:
     
     JSR Sprite3_IsToRightOfPlayer
     
-    LDA $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .player_not_in_horiz_range
+    LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .player_not_in_horiz_range
     
     INC.w $0D80, X
     
@@ -67,11 +67,11 @@ Freezor_Awakening:
     
     INC.w $0D80, X
     
-    LDA.w $0D10, X : SEC : SBC.b #$05 : STA $00
-    LDA.w $0D30, X : SEC : SBC.b #$00 : STA $01
+    LDA.w $0D10, X : SEC : SBC.b #$05 : STA.b $00
+    LDA.w $0D30, X : SEC : SBC.b #$00 : STA.b $01
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
     LDY.b #$08 : JSL Dungeon_SpriteInducedTilemapUpdate
     
@@ -131,15 +131,15 @@ Freezor_Moving:
     
     LDA.w $0E00, X : BEQ .dont_spawn_sparkle
     
-    TXA : EOR $1A : AND.b #$07 : BNE .dont_spawn_sparkle
+    TXA : EOR.b $1A : AND.b #$07 : BNE .dont_spawn_sparkle
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
-    LDA .sparkle_x_offsets_low, Y  : STA $00
-    LDA .sparkle_x_offsets_high, Y : STA $01
+    LDA .sparkle_x_offsets_low, Y  : STA.b $00
+    LDA .sparkle_x_offsets_high, Y : STA.b $01
     
-    LDA.b #$FC : STA $02
-    LDA.b #$FF : STA $03
+    LDA.b #$FC : STA.b $02
+    LDA.b #$FF : STA.b $03
     
     JSL Sprite_SpawnSimpleSparkleGarnish
     
@@ -166,7 +166,7 @@ Freezor_Moving:
     
     JSR Sprite3_CheckTileCollision
     
-    TXA : EOR $1A : LSR #2 : AND.b #$03 : TAY
+    TXA : EOR.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA .animation_states, Y : STA.w $0DC0, X
     

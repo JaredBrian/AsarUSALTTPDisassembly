@@ -27,11 +27,11 @@ Sprite_FlyingTile:
 ; $0F3BDB-$0F3C00 JUMP LOCATION
 FlyingTile_EraseTilemapEntries:
 {
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
     
-    LDA.w $0D00, X : CLC : ADC.b #$08 : STA $02
-    LDA.w $0D20, X              : STA $03
+    LDA.w $0D00, X : CLC : ADC.b #$08 : STA.b $02
+    LDA.w $0D20, X              : STA.b $03
     
     LDY.b #$06 : JSL Dungeon_SpriteInducedTilemapUpdate
     
@@ -126,7 +126,7 @@ FlyingTile_RiseUp:
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
-    TXA : EOR $1A : AND.b #$07 : BNE .delay_sfx
+    TXA : EOR.b $1A : AND.b #$07 : BNE .delay_sfx
     
     LDA.b #$07 : JSL Sound_SetSfx2PanLong
     
@@ -158,7 +158,7 @@ Pool_FlyingTile_Draw:
 FlyingTile_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     

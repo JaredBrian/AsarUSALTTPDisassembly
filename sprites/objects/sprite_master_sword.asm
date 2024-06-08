@@ -20,11 +20,11 @@ Sprite_MasterSword:
 ; $0288D6-$028907 JUMP LOCATION
 MasterSword_Main:
 {
-    LDA $10 : CMP.b #$1A : BEQ .in_end_sequence
+    LDA.b $10 : CMP.b #$1A : BEQ .in_end_sequence
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .hasnt_been_taken
     
@@ -62,10 +62,10 @@ MasterSword_ReadyAndWaiting:
     ; (Not in contact with the sprite => fail)
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .cant_pull
     
-    LDA $2F : CMP.b #$02 : BNE .cant_pull
+    LDA.b $2F : CMP.b #$02 : BNE .cant_pull
     
     ; (The 'A' button hasn't been pressed => fail)
-    LDA $F6 : BPL .cant_pull
+    LDA.b $F6 : BPL .cant_pull
     
     ; (Don't have three pendants => fail)
     LDA.l $7EF374 : AND.b #$07 : CMP.b #$07 : BNE .cant_pull
@@ -171,7 +171,7 @@ MasterSword_GrantToPlayer:
     
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     ; Make it so the Master Sword won't show up again here.
     LDA.l $7EF280, X : ORA.b #$40 : STA.l $7EF280, X
@@ -309,8 +309,8 @@ MasterSword_DrawLightBall:
     
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DE0, X : ASL #3 
     
-    ADC.b #((.animation_states >> 0) & $FF)              : STA $08
-    LDA.b #((.animation_states >> 8) & $FF) : ADC.b #$00 : STA $09
+    ADC.b #((.animation_states >> 0) & $FF)              : STA.b $08
+    LDA.b #((.animation_states >> 8) & $FF) : ADC.b #$00 : STA.b $09
     
     LDA.b #$01
     
@@ -371,7 +371,7 @@ Sprite_MasterLightBeam:
     
     JSR Sprite2_Move
     
-    LDA $1A : AND.b #$03 : BNE .beta
+    LDA.b $1A : AND.b #$03 : BNE .beta
     
     JSR MasterLightBeam_SpawnAnotherBeam
     
@@ -440,11 +440,11 @@ MasterLightBeam_SpawnAnotherBeam:
     
     JSL Sprite_SpawnDynamically : BMI .alpha
     
-    LDA $00 : CLC : ADC.b #$00 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$00 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$00 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$00 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$02 : STA.w $0E80, Y
     
@@ -476,11 +476,11 @@ MasterSword_SpawnLightBeams:
     
     .success_1
     
-    LDA $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D2020, Y
+    LDA.b $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D2020, Y
     
     LDA.b #$02 : STA.w $0E80, Y : STA.w $0D90, Y
     
@@ -504,11 +504,11 @@ MasterSword_SpawnLightBeams:
     
     PLX
     
-    STA $00
+    STA.b $00
     
     PLA : STA.w $0DA0, Y : PHA
     
-    LDA $00 : PHA
+    LDA.b $00 : PHA
     
     LDA.b #$62
     
@@ -518,11 +518,11 @@ MasterSword_SpawnLightBeams:
     
     .success_2
     
-    LDA $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$02 : STA.w $0E8080, Y : STA.w $0D9090, Y
     
@@ -546,11 +546,11 @@ MasterSword_SpawnLightBeams:
     
     PLX
     
-    STA $00
+    STA.b $00
     
     PLA : STA.w $0DA0A0, Y : PHA
     
-    LDA $00 : PHA
+    LDA.b $00 : PHA
     
     LDA.b #$62
     
@@ -560,11 +560,11 @@ MasterSword_SpawnLightBeams:
     
     .success_3
     
-    LDA $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D3030, Y
+    LDA.b $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D3030, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA.w $0D0000, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$04 : STA.w $0D0000, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$02 : STA.w $0E80, Y : STA.w $0D90, Y
     
@@ -588,23 +588,23 @@ MasterSword_SpawnLightBeams:
     
     PLX
     
-    STA $00
+    STA.b $00
     
     PLA : STA.w $0DA0, Y
     
     PHA
     
-    LDA $00 : PHA
+    LDA.b $00 : PHA
     
     LDA.b #$62
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$02 : STA.w $0E80, Y : STA.w $0D90, Y
     
@@ -653,11 +653,11 @@ MasterSword_SpawnPendant:
     
     PLA : STA.w $0F50, Y
     
-    LDA $22 : STA.w $0D10, Y
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $22 : STA.w $0D10, Y
+    LDA.b $23 : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC.b #$08 : STA.w $0D00, Y
-    LDA $21 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $20 : CLC : ADC.b #$08 : STA.w $0D00, Y
+    LDA.b $21 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$04 : STA.w $0DC0, Y
     
@@ -731,7 +731,7 @@ MasterSwordPendant_Flashing:
 {
     LDA.w $0F50, X : AND.b #$F1 : STA.w $0F50, X
     
-    TXA : ASL A : EOR $1A : AND.b #$0E : ORA.w $0F50, X : STA.w $0F50, X
+    TXA : ASL A : EOR.b $1A : AND.b #$0E : ORA.w $0F50, X : STA.w $0F50, X
     
     LDA.w $0DF0, X : BNE .wait
     
@@ -806,13 +806,13 @@ MasterSword_Draw:
     
     .alpha
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     LDA .chr, X                  : INY : STA ($90), Y
     
     INY
     
-    LDA $05 : STA ($90), Y
+    LDA.b $05 : STA ($90), Y
     
     INY
     

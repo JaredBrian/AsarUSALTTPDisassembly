@@ -34,7 +34,7 @@ Sprite_ChainBallTrooper:
     JSR Sprite2_Move
     JSL Sprite_CheckDamageToPlayerLong
     
-    TXA : EOR $1A : AND.b #$0F : BNE .no_head_direction_change
+    TXA : EOR.b $1A : AND.b #$0F : BNE .no_head_direction_change
     
     JSR Sprite2_DirectionToFacePlayer : TYA : STA.w $0EB0, X
     
@@ -61,14 +61,14 @@ Sprite_ChainBallTrooper:
 ; $02B07D-$02B0C6 JUMP LOCATION
 FlailTrooper_ApproachPlayer:
 {
-    TXA : EOR $1A : AND.b #$0F : BNE .delay
+    TXA : EOR.b $1A : AND.b #$0F : BNE .delay
     
     ; Make body match head direction
     LDA.w $0EB0, X : STA.w $0DE0, X
     
-    LDA $0E : CLC : ADC.b #$40 : CMP.b #$68 : BCS .player_not_close
+    LDA.b $0E : CLC : ADC.b #$40 : CMP.b #$68 : BCS .player_not_close
     
-    LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
+    LDA.b $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_not_close
     
     ; Start swinging the ball and chain.
     INC.w $0D80, X
@@ -85,9 +85,9 @@ FlailTrooper_ApproachPlayer:
     
     shared FlailTrooper_Animate:
     
-    LDA.w $0DE0, X : ASL #3 : STA $00
+    LDA.w $0DE0, X : ASL #3 : STA.b $00
     
-    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$07 : ORA $00 : TAY
+    INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$07 : ORA.b $00 : TAY
     
     LDA.w .animation_states, Y : STA.w $0DC0, X
     
@@ -158,7 +158,7 @@ FlailTrooper_Attack:
     
     JSR FlailTrooper_Animate
     
-    TXA : EOR $1A : AND.b #$0F : BNE .return
+    TXA : EOR.b $1A : AND.b #$0F : BNE .return
     
     LDA.b #$06 : JSL Sound_SetSfx3PanLong
     
@@ -228,10 +228,10 @@ ChainBallTrooper_DrawHead:
     
     REP #$20
     
-    LDA $00                       : STA ($90), Y
-                                    AND.w #$0100 : STA $0E
+    LDA.b $00                       : STA ($90), Y
+                                    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : SEC : SBC.w #$0009 : INY : STA ($90), Y
+    LDA.b $02 : SEC : SBC.w #$0009 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     
@@ -243,11 +243,11 @@ ChainBallTrooper_DrawHead:
     
     LDA .chr, X : INY : STA ($90), Y
     
-    LDA .properties, X : INY : ORA $05 : STA ($90), Y
+    LDA .properties, X : INY : ORA.b $05 : STA ($90), Y
     
     TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLX
     
@@ -369,7 +369,7 @@ FlailTrooper_DrawBody:
     
     ; $02B3CD ALTERNATE ENTRY POINT
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -383,15 +383,15 @@ FlailTrooper_DrawBody:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA : ASL A : TAX
+    TXA : CLC : ADC.b $06 : PHA : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .alpha
     
@@ -404,11 +404,11 @@ FlailTrooper_DrawBody:
     PLX
     
     LDA .chr, X               : INY : STA ($90), Y
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA .sizes, X : ORA $0F : STA ($92), Y
+    LDA .sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -445,11 +445,11 @@ FlailTrooper_DrawBody:
 
 ; $02B468-$02B5BD LOCAL JUMP LOCATION
 {
-    LDA $00 : STA.w $0FA8
-    LDA $02 : STA.w $0FA9
+    LDA.b $00 : STA.w $0FA8
+    LDA.b $02 : STA.w $0FA9
     
-    LDA.w $0D90, X : STA $00
-    LDA.w $0DA0, X : STA $01
+    LDA.w $0D90, X : STA.b $00
+    LDA.w $0DA0, X : STA.b $01
     
     LDA.b #$00
     
@@ -461,38 +461,38 @@ FlailTrooper_DrawBody:
     
     .alpha
     
-    STA $0F
+    STA.b $0F
     
     LDY.w $0DE0, X
     
-    LDA.w $B460, Y : STA $0C
-    LDA.w $B464, Y : STA $0D
+    LDA.w $B460, Y : STA.b $0C
+    LDA.w $B464, Y : STA.b $0D
     
     PHX
     
     REP #$30
     
-    LDA $00 : AND.w #$01FF : LSR #6 : STA $0A
+    LDA.b $00 : AND.w #$01FF : LSR #6 : STA.b $0A
     
-    LDA $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA $02
+    LDA.b $00 : CLC : ADC.w #$0080 : AND.w #$01FF : STA.b $02
     
-    LDA $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $04
+    LDA.l $04E800, X : STA.b $04
     
-    LDA $02 : AND.w #$00FF : ASL A : TAX
+    LDA.b $02 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $06
+    LDA.l $04E800, X : STA.b $06
     
     SEP #$30
     
     PLX
     
-    LDA $04 : STA.w $4202
+    LDA.b $04 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $05 : BNE .beta
+    LDY.b $05 : BNE .beta
     
     STA.w $4203
     
@@ -504,21 +504,21 @@ FlailTrooper_DrawBody:
     
     .beta
     
-    STA $0E
+    STA.b $0E
     
-    LSR $01 : BCC .gamma
+    LSR.b $01 : BCC .gamma
     
     EOR.b #$FF : INC A
     
     .gamma
     
-    STA $04
+    STA.b $04
     
-    LDA $06 : STA.w $4202
+    LDA.b $06 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $07 : BNE .delta
+    LDY.b $07 : BNE .delta
     
     STA.w $4203
     
@@ -530,23 +530,23 @@ FlailTrooper_DrawBody:
     
     .delta
     
-    STA $0F
+    STA.b $0F
     
-    LSR $03 : BCC .epsilon
+    LSR.b $03 : BCC .epsilon
     
     EOR.b #$FF : INC A
     
     .epsilon
     
-    STA $06
+    STA.b $06
     
     LDY.b #$00
     
-    LDA $04 : SEC : SBC.b #$04 : CLC : ADC $0C : STA.w $0FAB
+    LDA.b $04 : SEC : SBC.b #$04 : CLC : ADC.b $0C : STA.w $0FAB
     
     CLC : ADC.w $0FA8 : STA ($90), Y
     
-    LDA $06 : SEC : SBC.b #$04 : CLC : ADC $0D : STA.w $0FAA
+    LDA.b $06 : SEC : SBC.b #$04 : CLC : ADC.b $0D : STA.w $0FAA
     
     CLC : ADC.w $0FA9  : INY : STA ($90), Y
     LDA.b #$2A : INY : STA ($90), Y
@@ -562,12 +562,12 @@ FlailTrooper_DrawBody:
     
     .iota
     
-    LDA $0E      : STA.w $4202
+    LDA.b $0E      : STA.w $4202
     LDA.w $B5BA, X : STA.w $4203
     
     JSR.w $B5BE ; $02B5BE IN ROM
     
-    LDA $04 : ASL A
+    LDA.b $04 : ASL A
     
     LDA.w $4217 : BCC .zeta
     
@@ -575,15 +575,15 @@ FlailTrooper_DrawBody:
     
     .zeta
     
-    CLC : ADC.w $0FA8 : CLC : ADC $0C : STA ($90), Y
+    CLC : ADC.w $0FA8 : CLC : ADC.b $0C : STA ($90), Y
     
-    LDA $0F : STA.w $4202
+    LDA.b $0F : STA.w $4202
     
     LDA .multiplicands, X : STA.w $4203
     
     JSR.w $B5BE ; $02B5BE IN ROM
     
-    LDA $06 : ASL A
+    LDA.b $06 : ASL A
     
     LDA.w $4217 : BCC .theta
     
@@ -591,7 +591,7 @@ FlailTrooper_DrawBody:
     
     .theta
     
-    CLC : ADC.w $0FA9 : CLC : ADC $0D : INY : STA ($90), Y
+    CLC : ADC.w $0FA9 : CLC : ADC.b $0D : INY : STA ($90), Y
     LDA.b #$3F          : INY : STA ($90), Y
     LDA.b #$2D          : INY : STA ($90), Y
     

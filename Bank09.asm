@@ -34,10 +34,10 @@ Ancilla_TerminateSelectInteractives:
     
     STZ.w $0646
     
-    LDA $48 : AND.b #$80 : BEQ .checkIfCarryingObject
+    LDA.b $48 : AND.b #$80 : BEQ .checkIfCarryingObject
     
     ; reset Link's grabby status
-    STZ $48 : STZ $5E
+    STZ.b $48 : STZ.b $5E
     
     .checkIfCarryingObject
     
@@ -63,7 +63,7 @@ Ancilla_TerminateSelectInteractives:
     
     LDA.w $037A : AND.b #$10 : BEQ .theta
     
-    STZ $46
+    STZ.b $46
     STZ.w $037A
     
     .theta
@@ -83,12 +83,12 @@ Ancilla_TerminateSelectInteractives:
     STZ.w $03FD
     STZ.w $0360
     
-    LDA $5D : CMP.b #$13 : BNE .notUsingHookshot
+    LDA.b $5D : CMP.b #$13 : BNE .notUsingHookshot
     
-    LDA.b #$00 : STA $5D
+    LDA.b #$00 : STA.b $5D
     
-    LDA $3A   : AND.b #$BF : STA $3A
-    LDA $50   : AND.b #$FE : STA $50
+    LDA.b $3A   : AND.b #$BF : STA.b $3A
+    LDA.b $50   : AND.b #$FE : STA.b $50
     LDA.w $037A : AND.b #$FB : STA.w $037A
     
     STZ.w $037E
@@ -126,11 +126,11 @@ Tagalong_Disable:
 ; $04AD06-$04AD1A LOCAL JUMP LOCATION
 Ancilla_SetCoords:
 {
-    LDA $00 : STA.w $0BFA, X
-    LDA $01 : STA.w $0C0E, X
+    LDA.b $00 : STA.w $0BFA, X
+    LDA.b $01 : STA.w $0C0E, X
     
-    LDA $02 : STA.w $0C04, X
-    LDA $03 : STA.w $0C18, X
+    LDA.b $02 : STA.w $0C04, X
+    LDA.b $03 : STA.w $0C18, X
     
     RTS
 }
@@ -140,11 +140,11 @@ Ancilla_SetCoords:
 ; $04AD1B-$04AD2F LOCAL JUMP LOCATION
 Ancilla_GetCoords:
 {
-    LDA.w $0BFA, X : STA $00
-    LDA.w $0C0E, X : STA $01
+    LDA.w $0BFA, X : STA.b $00
+    LDA.w $0C0E, X : STA.b $01
     
-    LDA.w $0C04, X : STA $02
-    LDA.w $0C18, X : STA $03
+    LDA.w $0C04, X : STA.b $02
+    LDA.w $0C18, X : STA.b $03
     
     RTS
 }
@@ -222,10 +222,10 @@ GiveRupeeGift:
     ; Perhaps it uses a different graphic
     CMP.b #$47 : BEQ .setGiftIndex
     
-    LDA.b #$2C : STA $00
+    LDA.b #$2C : STA.b $00
     
     ; Gives me 300 rupees.
-    LDA.b #$01 : STA $01
+    LDA.b #$01 : STA.b $01
     
     BRA .giveRupees
     
@@ -242,14 +242,14 @@ GiveRupeeGift:
     
     .setGiftIndex
     
-    LDA .gift_amounts, Y : STA $00 : STZ $01
+    LDA .gift_amounts, Y : STA.b $00 : STZ.b $01
     
     .giveRupees
     
     REP #$20
     
     ; Add this amount to my rupee collection.
-    LDA.l $7EF360 : CLC : ADC $00 : STA.l $7EF360
+    LDA.l $7EF360 : CLC : ADC.b $00 : STA.l $7EF360
     
     SEP #$20
     
@@ -338,13 +338,13 @@ Sprite_SpawnSuperficialBombBlast:
     ; $04AE64 ALTERNATE ENTRY POINT
     shared Sprite_SetSpawnedCoords:
     
-    LDA $00 : STA.w $0D10, Y
-    LDA $01 : STA.w $0D30, Y
+    LDA.b $00 : STA.w $0D10, Y
+    LDA.b $01 : STA.w $0D30, Y
     
-    LDA $02 : STA.w $0D00, Y
-    LDA $03 : STA.w $0D20, Y
+    LDA.b $02 : STA.w $0D00, Y
+    LDA.b $03 : STA.w $0D20, Y
     
-    LDA $04 : STA.w $0F70, Y
+    LDA.b $04 : STA.w $0F70, Y
     
     .spawn_failed
     
@@ -408,11 +408,11 @@ Sprite_SpawnMadBatterBolts:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$0C : PHP : SEC : SBC.w $0F70, X : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : PLP : ADC.b #$00   : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$0C : PHP : SEC : SBC.w $0F70, X : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : PLP : ADC.b #$00   : STA.w $0D20, Y
     
     LDA.b #$00 : STA.w $0F70, Y
     
@@ -465,11 +465,11 @@ Sprite_VerifyAllOnScreenDefeated:
     
     ; In these cases Dead apparently means offscreen.
     LDA.w $0D10, X : CMP $E2
-    LDA.w $0D30, X : SBC $E3 : BNE .dead
+    LDA.w $0D30, X : SBC.b $E3 : BNE .dead
     
     ; In these cases Dead apparently means offscreen.
     LDA.w $0D00, X : CMP $E8
-    LDA.w $0D20, X : SBC $E9 : BNE .dead
+    LDA.w $0D20, X : SBC.b $E9 : BNE .dead
     
     PLX
     
@@ -752,39 +752,39 @@ Pool_Overlord_CheckInRangeStatus:
 ; $04C08D-$04C113 LOCAL JUMP LOCATION
 Overlord_CheckInRangeStatus:
 {
-    LDA $1B : BNE .easy_out
+    LDA.b $1B : BNE .easy_out
     
-    LDA $1A : AND.b #$01 : STA $01
-                           STA $02
+    LDA.b $1A : AND.b #$01 : STA.b $01
+                           STA.b $02
                            TAY
     
     ; \optimize This would be so much faster in 16-bit code, even if
     ; this code isn't used very often, if at all.
-    LDA $E2 : CLC : ADC .offsets_low, Y : ROL $00 : CMP.w $0B08, X         : PHP
-    LDA $E3                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC.w $0B10, X : STA $00
+    LDA.b $E2 : CLC : ADC .offsets_low, Y : ROL.b $00 : CMP.w $0B08, X         : PHP
+    LDA.b $E3                       : LSR.b $00 : ADC .offsets_high, Y : PLP : SBC.w $0B10, X : STA.b $00
     
     ; We want the upper byte of the absolute difference between the
     ; offset from the scroll value to the overlord. Since that offset
     ; is negative on odd frames, we only negate the result on those frames.
-    LSR $01 : BCC .sign_normalize_dx
+    LSR.b $01 : BCC .sign_normalize_dx
     
-    EOR.b #$80 : STA $00
+    EOR.b #$80 : STA.b $00
     
     .sign_normalize_dx
     
-    LDA $00 : BMI .terminate
+    LDA.b $00 : BMI .terminate
     
-    LDA $E8 : CLC : ADC .offsets_low, Y : ROL $00 : CMP.w $0B18, X         : PHP
-    LDA $E9                       : LSR $00 : ADC .offsets_high, Y : PLP : SBC.w $0B20, X : STA $00
+    LDA.b $E8 : CLC : ADC .offsets_low, Y : ROL.b $00 : CMP.w $0B18, X         : PHP
+    LDA.b $E9                       : LSR.b $00 : ADC .offsets_high, Y : PLP : SBC.w $0B20, X : STA.b $00
     
     ; See previous comment regarding sign normalization.
-    LSR $02 : BCC .sign_normalize_dy
+    LSR.b $02 : BCC .sign_normalize_dy
     
-    EOR.b #$80 : STA $00
+    EOR.b #$80 : STA.b $00
     
     .sign_normalize_dy
     
-    LDA $00 : BPL .in_range_xy
+    LDA.b $00 : BPL .in_range_xy
     
     .terminate
     
@@ -795,16 +795,16 @@ Overlord_CheckInRangeStatus:
     
     REP #$20
     
-    LDA.w $0B48, Y : STA $00 : CMP.w #$FFFF : PHP
+    LDA.w $0B48, Y : STA.b $00 : CMP.w #$FFFF : PHP
     
-    LSR #3 : CLC : ADC.w #$EF80 : STA $01
+    LSR #3 : CLC : ADC.w #$EF80 : STA.b $01
     
     ; Why it wouldn't participate, I don't really know.
     PLP : SEP #$20 : BCS .not_participating_in_death_buffer
     
-    LDA.b #$7F : STA $03
+    LDA.b #$7F : STA.b $03
     
-    LDA $00 : AND.b #$07 : TAY
+    LDA.b $00 : AND.b #$07 : TAY
     
     LDA [$01] : AND.w $F24B, Y : STA [$01]
     
@@ -846,7 +846,7 @@ Dungeon_ResetSprites:
     
     INX #2 : CPX.b #$07 : BCC .updateRecentRoomsList
     
-    LDA.w $0B86 : STA $00
+    LDA.w $0B86 : STA.b $00
     LDA.w $0B84 : STA.w $0B86
     LDA.w $0B82 : STA.w $0B84
     LDA.w $0B80 : STA.w $0B82
@@ -854,7 +854,7 @@ Dungeon_ResetSprites:
     
     REP #$10
     
-    LDA $00 : CMP.w #$FFFF : BEQ .nullEntry
+    LDA.b $00 : CMP.w #$FFFF : BEQ .nullEntry
     
     ASL A : TAX
     
@@ -887,7 +887,7 @@ Pool_Dungeon_CacheTransSprites:
 Dungeon_CacheTransSprites:
 {
     ; Don't do this routine if we're outside.
-    LDA $1B : BEQ .easy_out
+    LDA.b $1B : BEQ .easy_out
     
     ; Use $0FFA as a place holder.
     STA.w $0FFA
@@ -960,7 +960,7 @@ Sprite_DisableAll:
     LDA.w $0DD0, X : BEQ .ignoreSprite
     
     ; Are we indoors?
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     ; Is it a warp vortex? (created my mirror)
     LDA.w $0E20, X : CMP.b #$6C : BEQ .ignoreSprite
@@ -1098,14 +1098,14 @@ Dungeon_ManuallySetSpriteDeathFlag:
 {
     PHB : PHK : PLB
     
-    LDA $1B : BEQ .return
+    LDA.b $1B : BEQ .return
     
     LDA.w $0CAA, X : LSR A : BCS .return
     
     LDA.w $0BC0, X : BMI .return
     
-    STA $02
-    STZ $03
+    STA.b $02
+    STZ.b $03
     
     REP #$30
     
@@ -1113,7 +1113,7 @@ Dungeon_ManuallySetSpriteDeathFlag:
     
     LDA.w $048E : ASL A : TAX
     
-    LDA $02 : ASL A : TAY
+    LDA.b $02 : ASL A : TAY
     
     ; Keep this fucker from respawning
     LDA.l $7FDF80, X : ORA .flags, Y : STA.l $7FDF80, X
@@ -1263,7 +1263,7 @@ Dungeon_LoadSprite:
     ORA.w $0FB5 : STA.w $0E30, X
     
     ; Store slot information into this array.
-    LDA $02 : STA.w $0BC0, X
+    LDA.b $02 : STA.w $0BC0, X
     
     ; Zero out the sprite drop variable (what it drops when killed).
     STZ.w $0CBA, X
@@ -1444,7 +1444,7 @@ LoadOverworldSprites:
     CMP.b #$02 : BEQ .firstPart
     
     ; Load the "Beginning" sprites for the Overworld.
-    LDA.w $C881, Y : STA $00
+    LDA.w $C881, Y : STA.b $00
     LDA.w $C882, Y
     
     BRA .loadData
@@ -1452,7 +1452,7 @@ LoadOverworldSprites:
     .secondPart
     
     ; Load the "Second part" sprites for the Overworld.
-    LDA.w $CA21, Y : STA $00
+    LDA.w $CA21, Y : STA.b $00
     LDA.w $CA22, Y
     
     BRA .loadData
@@ -1460,12 +1460,12 @@ LoadOverworldSprites:
     .firstPart
     
     ; Load the "First Part" sprites for the Overworld.
-    LDA.w $C901, Y : STA $00
+    LDA.w $C901, Y : STA.b $00
     LDA.w $C902, Y
     
     .loadData
     
-    STA $01
+    STA.b $01
     
     LDY.w #$0000
     
@@ -1488,17 +1488,17 @@ LoadOverworldSprites:
     
     .notFallingRocks ; Anything other than falling rocks.
     
-    LDA ($00), Y : PHA : LSR #4 : ASL #2 : STA $02 : INY
+    LDA ($00), Y : PHA : LSR #4 : ASL #2 : STA.b $02 : INY
     
-    LDA ($00), Y : LSR #4 : CLC : ADC $02 : STA $06
+    LDA ($00), Y : LSR #4 : CLC : ADC.b $02 : STA.b $06
     
-    PLA : ASL #4 : STA $07
+    PLA : ASL #4 : STA.b $07
     
     ; All this is to tell us where to put the sprite in the sprite map.
-    LDA ($00), Y : AND.b #$0F : ORA $07 : STA $05
+    LDA ($00), Y : AND.b #$0F : ORA.b $07 : STA.b $05
     
     ; The sprite / overlord index as stored as one plus it's normal index. Don't ask me why yet.
-    INY : LDA ($00), Y : LDX $05 : INC A : STA.l $7FDF80, X ; Load them into what I guess you might call a sprite map.
+    INY : LDA ($00), Y : LDX.b $05 : INC A : STA.l $7FDF80, X ; Load them into what I guess you might call a sprite map.
     
     ; Move on to the next sprite / overlord.
     INY
@@ -1516,8 +1516,8 @@ LoadOverworldSprites:
     
 ; $04C55E-$04C58E LOCAL JUMP LOCATION
 {
-    LDA $E2 : PHA
-    LDA $E3 : PHA
+    LDA.b $E2 : PHA
+    LDA.b $E3 : PHA
     
     LDA.w $069F : PHA
     
@@ -1534,15 +1534,15 @@ LoadOverworldSprites:
     PLY
     
     ; Move the scanning location right by 16 pixels each loop
-    LDA $E2 : CLC : ADC.b #$10 : STA $E2
-    LDA $E3 : ADC.b #$00 : STA $E3
+    LDA.b $E2 : CLC : ADC.b #$10 : STA.b $E2
+    LDA.b $E3 : ADC.b #$00 : STA.b $E3
     
     DEY : BPL .loop
     
     PLA : STA.w $069F
     
-    PLA : STA $E3
-    PLA : STA $E2
+    PLA : STA.b $E3
+    PLA : STA.b $E2
     
     RTS
 }
@@ -1554,7 +1554,7 @@ Sprite_RangeBasedActivation:
 {
     PHB : PHK : PLB
     
-    LDA $11 : BEQ .alpha
+    LDA.b $11 : BEQ .alpha
     
     JSR.w $C5BB ; $04C5BB IN ROM
     JSR.w $C5FA ; $04C5FA IN ROM
@@ -1609,12 +1609,12 @@ Sprite_RangeBasedActivation:
     .beta
     
     ; If $069F is negative, this subtracts 0x0010, otherwise it adds 0x0110
-    LDA $E2 : CLC : ADC.w $C5B7, Y : STA $0E
-    LDA $E3 : ADC.w $C5B9, Y : STA $0F
+    LDA.b $E2 : CLC : ADC.w $C5B7, Y : STA.b $0E
+    LDA.b $E3 : ADC.w $C5B9, Y : STA.b $0F
     
     ; $0C[0x2] = BG2VOFS - 0x30
-    LDA $E8 : SEC : SBC.b #$30 : STA $0C
-    LDA $E9 : SBC.b #$00 : STA $0D
+    LDA.b $E8 : SEC : SBC.b #$30 : STA.b $0C
+    LDA.b $E9 : SBC.b #$00 : STA.b $0D
     
     LDX.b #$15
     
@@ -1625,7 +1625,7 @@ Sprite_RangeBasedActivation:
     REP #$20
     
     ; Each loop, move 16 pixels down on the map
-    LDA $0C : CLC : ADC.w #$0010 : STA $0C
+    LDA.b $0C : CLC : ADC.w #$0010 : STA.b $0C
     
     SEP #$20
     
@@ -1659,11 +1659,11 @@ Sprite_RangeBasedActivation:
     
     .beta
     
-    LDA $E8 : CLC : ADC.w $C5F6, Y : STA $0C
-    LDA $E9 : ADC.w $C5F8, Y : STA $0D
+    LDA.b $E8 : CLC : ADC.w $C5F6, Y : STA.b $0C
+    LDA.b $E9 : ADC.w $C5F8, Y : STA.b $0D
     
-    LDA $E2 : SEC : SBC.b #$30 : STA $0E
-    LDA $E3 : SBC.b #$00 : STA $0F
+    LDA.b $E2 : SEC : SBC.b #$30 : STA.b $0E
+    LDA.b $E3 : SBC.b #$00 : STA.b $0F
     
     LDX.b #$15
     
@@ -1674,7 +1674,7 @@ Sprite_RangeBasedActivation:
     REP #$20
     
     ; Each loop, move 16 pixels to the right on the map
-    LDA $0E : CLC : ADC.w #$0010 : STA $0E
+    LDA.b $0E : CLC : ADC.w #$0010 : STA.b $0E
     
     SEP #$20
     
@@ -1725,21 +1725,21 @@ Sprite_RangeBasedActivation:
 {
     REP #$20
     
-    LDA $0E : SEC : SBC.w $0FBC : CMP.w $0FB8 : BCS .outOfRange
+    LDA.b $0E : SEC : SBC.w $0FBC : CMP.w $0FB8 : BCS .outOfRange
     
-    XBA : STA $00
+    XBA : STA.b $00
     
-    LDA $0C : SEC : SBC.w $0FBE : CMP.w $0FBA : BCS .outOfRange
+    LDA.b $0C : SEC : SBC.w $0FBE : CMP.w $0FBA : BCS .outOfRange
     
     SEP #$20
     
-    XBA : ASL #2 : ORA $00 : STA $01
+    XBA : ASL #2 : ORA.b $00 : STA.b $01
     
     ; $00 = $0C & 0xF0
-    LDA $0C : AND.b #$F0 : STA $00
+    LDA.b $0C : AND.b #$F0 : STA.b $00
     
     ; $00 |= ($0E >> 4)
-    LDA $0E : LSR #4 : ORA $00 : STA $00
+    LDA.b $0E : LSR #4 : ORA.b $00 : STA.b $00
     
     PHX
     
@@ -1768,24 +1768,24 @@ Sprite_RangeBasedActivation:
 {
     REP #$20
     
-    LDA $00 : CLC : ADC.w #$DF80 : STA $05
+    LDA.b $00 : CLC : ADC.w #$DF80 : STA.b $05
     
     SEP #$20
     
     ; $05 = $7FDF80 + offset.
-    LDA.b #$7F : STA $07
+    LDA.b #$7F : STA.b $07
     
     LDA [$05] : BEQ .alpha
     
     REP #$20
     
-    LDA $00 : LSR #3 : CLC : ADC.w #$EF80 : STA $02
+    LDA.b $00 : LSR #3 : CLC : ADC.w #$EF80 : STA.b $02
     
     SEP #$20
     
-    LDA.b #$7F : STA $04 ; $07 = $7FEF80 + offset
+    LDA.b #$7F : STA.b $04 ; $07 = $7FEF80 + offset
     
-    LDA $00 : AND.b #$07 : TAY
+    LDA.b $00 : AND.b #$07 : TAY
     
     LDA [$02] : AND.w $C731, Y : BNE .alpha
     
@@ -1855,7 +1855,7 @@ Overworld_LoadSprite:
     
     REP #$20
     
-    LDA $00 : STA.w $0BC0, X
+    LDA.b $00 : STA.w $0BC0, X
     
     SEP #$20
     
@@ -1863,12 +1863,12 @@ Overworld_LoadSprite:
     
     LDA.b #$08 : STA.w $0DD0, X
     
-    LDA $00 : ASL #4 : STA.w $0D10, X
+    LDA.b $00 : ASL #4 : STA.w $0D10, X
     
-    LDA $00 : AND.b #$F0 : STA.w $0D00, X
-    LDA $01 : AND.b #$03 : STA.w $0D30, X
+    LDA.b $00 : AND.b #$F0 : STA.w $0D00, X
+    LDA.b $01 : AND.b #$03 : STA.w $0D30, X
     
-    LDA $01 : LSR #2 : STA.w $0D20, X
+    LDA.b $01 : LSR #2 : STA.w $0D20, X
     
     LDA.w $0D30, X : CLC : ADC.w $0FBD : STA.w $0D30, X
     LDA.w $0D20, X : CLC : ADC.w $0FBF : STA.w $0D20, X
@@ -1907,7 +1907,7 @@ Overworld_LoadOverlord:
     REP #$20
     
     ; Store the offset into $7FDF80 that this overlord uses
-    LDA $00 : STA.w $0B48, X
+    LDA.b $00 : STA.w $0B48, X
     
     SEP #$20
     
@@ -1916,7 +1916,7 @@ Overworld_LoadOverlord:
     ; Overlord's type number = the original data value - 0xF3
     LDA [$05] : SEC : SBC.b #$F3 : STA.w $0B00, X : PHA
     
-    LDA $00 : ASL #4
+    LDA.b $00 : ASL #4
     
     PLY : CPY.b #$01 : BNE .gamma
     
@@ -1926,10 +1926,10 @@ Overworld_LoadOverlord:
     
     STA.w $0B08, X
     
-    LDA $00 : AND.b #$F0 : STA.w $0B18, X
-    LDA $01 : AND.b #$03 : STA.w $0B10, X
+    LDA.b $00 : AND.b #$F0 : STA.w $0B18, X
+    LDA.b $01 : AND.b #$03 : STA.w $0B10, X
     
-    LDA $01 : LSR #2 : STA.w $0B20, X
+    LDA.b $01 : LSR #2 : STA.w $0B20, X
     
     LDA.w $0B10, X : CLC : ADC.w $0FBD : STA.w $0B10, X
     LDA.w $0B20, X : CLC : ADC.w $0FBF : STA.w $0B20, X
@@ -2052,15 +2052,15 @@ SpriteExplode_Execute:
     
     .draw
     
-    LSR #2 : EOR.b #$07 : STA $00
+    LSR #2 : EOR.b #$07 : STA.b $00
     
     LDA.b #$00 : XBA
     
-    LDA $00
+    LDA.b $00
     
     REP #$20
     
-    ASL #5 : ADC.w #.oam_groups : STA $08
+    ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -2100,7 +2100,7 @@ SpriteExplode_Execute:
     
     STZ.w $02E4
     
-    LDA $5B : CMP.b #$02 : BEQ .cant_spawn_heart_container
+    LDA.b $5B : CMP.b #$02 : BEQ .cant_spawn_heart_container
     
     JSL Sprite_VerifyAllOnScreenDefeated : BCC .cant_spawn_heart_container
     
@@ -2140,7 +2140,7 @@ SpriteExplode_Execute:
     
     LDA.b #$20 : STA.w $0F80, Y
     
-    LDA $EE : STA.w $0F20, Y
+    LDA.b $EE : STA.w $0F20, Y
     
     LDA.b #$02
     
@@ -2152,13 +2152,13 @@ SpriteExplode_Execute:
     
     STA.w $0D90, Y
     
-    LDA $02 : CLC : ADC.b #$03 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$03 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.w $0FB5 : CMP.b #$CE : BNE .wasnt_blind_the_thief
     
-    LDA $02 : CLC : ADC.b #$10 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$10 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     RTS
     
@@ -2171,8 +2171,8 @@ SpriteExplode_Execute:
     LDA.b #$78 : STA.w $0D10, Y
                  STA.w $0D00, Y
     
-    LDA $23 : STA.w $0D30, Y
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $23 : STA.w $0D30, Y
+    LDA.b $21 : STA.w $0D20, Y
     
     .wasnt_trinexx
     
@@ -2193,11 +2193,11 @@ SpriteExplode_Execute:
     
     .skip_standard_sprite_proccessing
     
-    LDA.b #$07 : STA $0E
+    LDA.b #$07 : STA.b $0E
     
-    LDA.w $0E20, X : STA $0F : CMP.b #$92 : BNE .not_helmasaur_king
+    LDA.w $0E20, X : STA.b $0F : CMP.b #$92 : BNE .not_helmasaur_king
     
-    LSR $0E
+    LSR.b $0E
     
     .not_helmasaur_king
     
@@ -2215,7 +2215,7 @@ SpriteExplode_Execute:
     
     .explosion_sfx_delay
     
-    PLA : AND $0E : BNE .anospawn_explosion_sprite
+    PLA : AND.b $0E : BNE .anospawn_explosion_sprite
     
     LDA.b #$1C
     
@@ -2233,30 +2233,30 @@ SpriteExplode_Execute:
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA $0F : CMP.b #$92 : BNE .use_normal_x_offsets
+    LDA.b $0F : CMP.b #$92 : BNE .use_normal_x_offsets
     
     TXA : ORA.b #$08 : TAX
     
     .use_normal_x_offsets
     
-    LDA $00 : CLC : ADC.w $EDEF, X : STA.w $0D10, Y
-    LDA $01 : ADC.w $EDFF, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.w $EDEF, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.w $EDFF, X : STA.w $0D30, Y
     
     JSL GetRandomInt : AND.b #$07 : TAX
     
-    LDA $0F : CMP.b #$92 : BNE .use_normal_y_offsets
+    LDA.b $0F : CMP.b #$92 : BNE .use_normal_y_offsets
     
     TXA : ORA.b #$08 : TAX
     
     .use_normal_y_offsets
     
-    LDA $02 : CLC : ADC.w $EDEF, X
+    LDA.b $02 : CLC : ADC.w $EDEF, X
     
     PHP
     
-    SEC : SBC $04 : STA.w $0D00, Y
+    SEC : SBC.b $04 : STA.w $0D00, Y
     
-    LDA $03 : SBC.b #$00
+    LDA.b $03 : SBC.b #$00
     
     PLP
     
@@ -2362,7 +2362,7 @@ Garnish_ScatterDebris:
     
     JSR Garnish_PrepOamCoord
     
-    LDA.l $7FF9FE, X : STA $05
+    LDA.l $7FF9FE, X : STA.b $05
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .BRANCH_ALPHA
     
@@ -2385,7 +2385,7 @@ Garnish_ScatterDebris:
     CPY.b #$04 : BEQ .BRANCH_GAMMA
     CPY.b #$02 : BNE .BRANCH_DELTA
     
-    LDY $1B : BNE .BRANCH_DELTA
+    LDY.b $1B : BNE .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
@@ -2393,7 +2393,7 @@ Garnish_ScatterDebris:
     
     .BRANCH_DELTA
     
-    STA $06
+    STA.b $06
     
     LDY.b #$00
     
@@ -2405,21 +2405,21 @@ Garnish_ScatterDebris:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC.w $EF8B, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $EF8B, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
     SEP #$20
     
     PLX
     
-    LDA $02 : CLC : ADC.w $F00B, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $F00B, X : INY : STA ($90), Y
     
     LDA.w $0FB5 : BNE .BRANCH_EPSILON
     
@@ -2438,11 +2438,11 @@ Garnish_ScatterDebris:
     .BRANCH_ZETA
     
                    INY           : STA ($90), Y
-    LDA.w $F08B, X : INY : ORA $05 : STA ($90), Y
+    LDA.w $F08B, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -2487,9 +2487,9 @@ ScatterDebris_Draw:
     
     .termination_delay
     
-    AND.b #$0F : LSR #2 : STA $06
+    AND.b #$0F : LSR #2 : STA.b $06
     
-    ASL A : ADC $06 : STA $06
+    ASL A : ADC.b $06 : STA.b $06
     
     LDY.b #$00
     
@@ -2501,27 +2501,27 @@ ScatterDebris_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
     SEP #$20
     
     PLX
     
-    LDA $02      : CLC : ADC .y_offsets, X : INY              : STA ($90), Y
+    LDA.b $02      : CLC : ADC .y_offsets, X : INY              : STA ($90), Y
     LDA .chr, X                      : INY              : STA ($90), Y
     LDA .properties, X               : INY : ORA.b #$22 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA $0F : STA ($92), Y
+    LDA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -2541,7 +2541,7 @@ Sprite_SelfTerminate:
     LDA.w $0CAA, X : AND.b #$40 : BNE .erase_sprite
     
     ; Are we in a dungeon? sprites leaving the screen are handled differently
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     .erase_sprite
     
@@ -2554,11 +2554,11 @@ Sprite_SelfTerminate:
     
     ; basically the BCS later on is a BEQ in effect
     ; checks if($0BC0, Y == 0xFFFF) 
-    LDA.w $0BC0, Y : STA $00 : CMP.w #$FFFF
+    LDA.w $0BC0, Y : STA.b $00 : CMP.w #$FFFF
     
     PHP
     
-    LSR #3 : CLC : ADC.w #$EF80 : STA $01
+    LSR #3 : CLC : ADC.w #$EF80 : STA.b $01
     
     PLP
     
@@ -2567,11 +2567,11 @@ Sprite_SelfTerminate:
     SEP #$20 : BCS .invalid_address
     
     ; use $7F as the bank of the address
-    LDA.b #$7F : STA $03
+    LDA.b #$7F : STA.b $03
     
     PHX
     
-    LDA $00 : AND.b #$07 : TAX
+    LDA.b $00 : AND.b #$07 : TAX
     
     LDA [$01] : AND.l $09F24B, X : STA [$01]
     
@@ -2579,7 +2579,7 @@ Sprite_SelfTerminate:
     
     .invalid_address
     
-    LDA $1B : BNE .indoors_2
+    LDA.b $1B : BNE .indoors_2
     
     TXA : ASL A : TAY
     

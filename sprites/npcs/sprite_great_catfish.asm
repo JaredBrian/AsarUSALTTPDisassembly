@@ -32,7 +32,7 @@ Sprite_GreatCatfish:
     
     JSL Sprite_AutoIncDrawWaterRippleLong
     
-    LDA $11 : BNE .dont_grant_item
+    LDA.b $11 : BNE .dont_grant_item
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_grant_item
     
@@ -132,18 +132,18 @@ GreatCatfish_AwaitSpriteThrownInCircle:
     
     LDA.w $0DD0, Y : CMP.b #$03 : BNE .next_sprite
     
-    LDA.w $0D10, Y : STA $00
-    LDA.w $0D30, Y : STA $01
+    LDA.w $0D10, Y : STA.b $00
+    LDA.w $0D30, Y : STA.b $01
     
-    LDA.w $0D00, Y : STA $02
-    LDA.w $0D20, Y : STA $03
+    LDA.w $0D00, Y : STA.b $02
+    LDA.w $0D20, Y : STA.b $03
     
     REP #$20
     
     ; Check proximity of drowning sprite to the catfish.
-    LDA.w $0FD8 : SEC : SBC $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+    LDA.w $0FD8 : SEC : SBC.b $00 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
     
-    LDA.w $0FDA : SEC : SBC $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
+    LDA.w $0FDA : SEC : SBC.b $02 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .next_sprite
     
     SEP #$20
     
@@ -608,7 +608,7 @@ GreatCatfish_Draw:
     
     LDA.w $0DC0, X : BEQ .dont_draw
     
-    DEC A : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    DEC A : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -651,7 +651,7 @@ Sprite_WaterSplash:
     
     .self_termination_delay
     
-    LSR #3 : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA $08
+    LSR #3 : REP #$20 : ASL #4 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

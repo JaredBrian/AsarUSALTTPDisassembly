@@ -25,9 +25,9 @@ Ancilla_SpinSpark:
     PHX
     
     ; Normally use palette 1 for the sparks.
-    LDA.b #$02 : STA $73
+    LDA.b #$02 : STA.b $73
     
-    LDA $11 : BNE .skip_state_logic
+    LDA.b $11 : BNE .skip_state_logic
     
     ; By default, only draw the lead spark.
     LDY.b #$00
@@ -75,7 +75,7 @@ Ancilla_SpinSpark:
     DEC.w $03B1, X : BPL .not_alternate_palette
     
     ; Use palette 2 for the sparks on this frame.
-    LDA.b #$04 : STA $73
+    LDA.b #$04 : STA.b $73
     
     LDA.b #$02 : STA.w $03B1, X
     
@@ -88,9 +88,9 @@ Ancilla_SpinSpark:
     
     .next_spark
     
-    STX $72
+    STX.b $72
     
-    LDA $11 : BNE .dont_advance_spark_rotation
+    LDA.b $11 : BNE .dont_advance_spark_rotation
     
     LDA.l $7F5800, X : CLC : ADC.b #$04 : AND.b #$3F : STA.l $7F5800, X
     
@@ -98,7 +98,7 @@ Ancilla_SpinSpark:
     
     PHX : PHY
     
-    LDA.l $7F5808 : STA $08
+    LDA.l $7F5808 : STA.b $08
     
     LDA.l $7F5800, X
     
@@ -109,10 +109,10 @@ Ancilla_SpinSpark:
     
     JSR Ancilla_SetOam_XY
     
-    LDX $72
+    LDX.b $72
     
     LDA .spark_chr, X           : STA ($90), Y : INY
-    LDA $73           : ORA $65 : STA ($90), Y : INY
+    LDA.b $73           : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -124,7 +124,7 @@ Ancilla_SpinSpark:
     
     PLX : PHX
     
-    LDA $11 : BNE .skip_extra_spark_logic
+    LDA.b $11 : BNE .skip_extra_spark_logic
     
     DEC.w $039F, X : BPL .extra_spark_delay
     
@@ -139,11 +139,11 @@ Ancilla_SpinSpark:
     .skip_extra_spark_logic
     .extra_spark_rotation_delay
     
-    LDA.w $03A4, X : STA $72 : CMP.b #$03 : BEQ .anodraw_extra_spark
+    LDA.w $03A4, X : STA.b $72 : CMP.b #$03 : BEQ .anodraw_extra_spark
     
     PHY
     
-    LDA.l $7F5808 : STA $08
+    LDA.l $7F5808 : STA.b $08
     
     LDA.l $7F5804
     
@@ -154,10 +154,10 @@ Ancilla_SpinSpark:
     
     JSR Ancilla_SetOam_XY
     
-    LDX $72
+    LDX.b $72
     
     LDA .extra_spark_chr, X           : STA ($90), Y : INY
-    LDA.b #$04              : ORA $65 : STA ($90), Y : INY
+    LDA.b #$04              : ORA.b $65 : STA ($90), Y : INY
     
     TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -191,25 +191,25 @@ Sparkle_PrepOamCoordsFromRadialProjection:
 {
     REP #$20
     
-    LDA $00
+    LDA.b $00
     
-    LDY $02 : BEQ .positive_y_projection
+    LDY.b $02 : BEQ .positive_y_projection
     
     EOR.w #$FFFF : INC A
     
     .positive_y_projection
     
-    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFFC : SEC : SBC $E8 : STA $00
+    CLC : ADC.l $7F5810 : CLC : ADC.w #$FFFC : SEC : SBC.b $E8 : STA.b $00
     
-    LDA $04
+    LDA.b $04
     
-    LDY $06 : BEQ .positive_x_projection
+    LDY.b $06 : BEQ .positive_x_projection
     
     EOR.w #$FFFF : INC A
     
     .positive_x_projection
     
-    CLC : ADC.l $7F580E : CLC : ADC.w #$FFFC : SEC : SBC $E2 : STA $02
+    CLC : ADC.l $7F580E : CLC : ADC.w #$FFFC : SEC : SBC.b $E2 : STA.b $02
     
     SEP #$20
     
@@ -238,14 +238,14 @@ SpinSpark_ExecuteClosingSpark:
     
     REP #$20
     
-    LDA $00 : STA $06
-    LDA $02 : STA $08
+    LDA.b $00 : STA.b $06
+    LDA.b $02 : STA.b $08
     
     SEP #$20
     
     PHX
     
-    LDY.b #$00 : STY $04
+    LDY.b #$00 : STY.b $04
     
     LDA.w $0C5E, X : CLC : ADC.b #$04 : ASL #2 : TAX
     

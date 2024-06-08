@@ -79,7 +79,7 @@ Sprite_BallGuy:
     
     JSR BallGuy_DrawDistressMarker
     
-    TXA : EOR $1A : PHA
+    TXA : EOR.b $1A : PHA
     
     LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
@@ -88,19 +88,19 @@ Sprite_BallGuy:
     ; Put Ball Guy's new position somewhere in the vicinity of the player.
     ; That said, the low bytes are totally random, so it may not appear
     ; that way.
-    JSL GetRandomInt : STA $04
-    LDA $23          : STA $05
+    JSL GetRandomInt : STA.b $04
+    LDA.b $23          : STA.b $05
     
-    JSL GetRandomInt : STA $06
-    LDA $21          : STA $07
+    JSL GetRandomInt : STA.b $06
+    LDA.b $21          : STA.b $07
     
     LDA.b #$08
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $01 : STA.w $0DA0, X
+    LDA.b $01 : STA.w $0DA0, X
     
-    LDA $00 : STA.w $0D90, X : BEQ .target_location_vertical
+    LDA.b $00 : STA.w $0D90, X : BEQ .target_location_vertical
     
     LDA.w $0F50, X : ORA.b #$40 : STA.w $0F50, X
     
@@ -125,7 +125,7 @@ Sprite_BallGuy:
     
     .not_at_full_stop_yet
     
-    TXA : EOR $1A : PHA : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : PHA : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     PLA : ASL #2 : AND.b #$80 : STA.w $0EB0, X
     
@@ -139,7 +139,7 @@ BallGuy_UpsideDown:
 {
     JSR BallGuy_DrawDistressMarker
     
-    TXA : EOR $1A : BEQ .turn_right_side_up
+    TXA : EOR.b $1A : BEQ .turn_right_side_up
     
     LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
@@ -239,24 +239,24 @@ Bully_ChaseBallGuy:
 {
     ; Bully State 0
     
-    TXA : EOR $1A : PHA : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : PHA : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     PLA : AND.b #$1F : BNE .delay
     
     LDA.w $0EB0, X : TAY
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     ; Makes the Bully go towards the Ball Guy
     LDA.b #$0E : JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X : BEQ .dont_change_orientation
+    LDA.b $01 : STA.w $0D50, X : BEQ .dont_change_orientation
     
     LDA.w $0D50, X : ASL A : ROL A : AND.b #$01 : STA.w $0DE0, X
     
@@ -345,13 +345,13 @@ Pool_Bully_Draw:
 ; $0F6D9E-$0F6DC1 LOCAL JUMP LOCATION
 Bully_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

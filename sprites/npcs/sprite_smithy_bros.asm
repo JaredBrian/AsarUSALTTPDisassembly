@@ -66,7 +66,7 @@ ReturningSmithy_ApproachTheBench:
 {
     JSR Sprite_Move
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BNE .direction_change_delay
     
@@ -205,8 +205,8 @@ Pool_ReturningSmithy_Draw:
 ; $033308-$033330 JUMP LOCATION
 ReturningSmithy_Draw:
 {
-    LDA.b #$01 : STA $06
-                 STZ $07
+    LDA.b #$01 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : TAY
     
@@ -216,8 +216,8 @@ ReturningSmithy_Draw:
     
     TYA : ASL #3
     
-    ADC.b #.oam_groups                   : STA $08
-    LDA.b #.oam_groups>>8   : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                   : STA.b $08
+    LDA.b #.oam_groups>>8   : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JMP Sprite_DrawShadow
@@ -237,11 +237,11 @@ Pool_SmithyFrog_Draw:
 ; $033339-$03334D LOCAL JUMP LOCATION
 SmithyFrog_Draw:
 {
-    LDA.b #$01 : STA $06
-                 STZ $07
+    LDA.b #$01 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #.oam_groups    : STA $08
-    LDA.b #.oam_groups>>8 : STA $09
+    LDA.b #.oam_groups    : STA.b $08
+    LDA.b #.oam_groups>>8 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JMP Sprite_DrawShadow
@@ -386,7 +386,7 @@ Smithy_ConversationStart:
     
     .no_returning_smithy_tagalong
     
-    LDA $20 : CMP.b #$C2 : BCS .await_closer_player
+    LDA.b $20 : CMP.b #$C2 : BCS .await_closer_player
     
     ; "Oh! Happy days are here again! You found my partner!..."
     LDA.b #$E0
@@ -659,11 +659,11 @@ Smithy_SpawnReturningSmithy:
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $22 : STA.w $0D10, Y
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $22 : STA.w $0D10, Y
+    LDA.b $23 : STA.w $0D30, Y
     
-    LDA $20 : STA.w $0D00, Y
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $20 : STA.w $0D00, Y
+    LDA.b $21 : STA.w $0D20, Y
     
     LDA.b #$03 : STA.w $0E80, Y : STA.w $0BA0, Y
     
@@ -701,11 +701,11 @@ Smithy_SpawnOtherSmithy:
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : CLC : ADC.b #$2C : STA.w $0D10, Y
-    LDA $01              : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$2C : STA.w $0D10, Y
+    LDA.b $01              : STA.w $0D30, Y
     
-    LDA $02 : STA.w $0D00, Y
-    LDA $03 : STA.w $0D20, Y
+    LDA.b $02 : STA.w $0D00, Y
+    LDA.b $03 : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0DE0, Y
     
@@ -758,13 +758,13 @@ Pool_Smithy_Draw:
 ; $033673-$033695 LOCAL JUMP LOCATION
 Smithy_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL A : ADC.w $0DE0, X : ASL #4
     
-    ADC.b #$D3              : STA $08
-    LDA.b #$B5 : ADC.b #$00 : STA $09
+    ADC.b #$D3              : STA.b $08
+    LDA.b #$B5 : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSR Sprite_DrawShadow
@@ -837,11 +837,11 @@ SmithyBros_SpawnSmithySpark:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
-    LDA $01                    : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA.w $0D10, Y
+    LDA.b $01                    : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$02 : STA.w $0D00, Y
-    LDA $03              : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$02 : STA.w $0D00, Y
+    LDA.b $03              : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0E80, Y
     
@@ -877,8 +877,8 @@ SmithySpark_Draw:
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #.oam_groups                 : STA $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                 : STA.b $08
+    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
     LDA.b #$02 : JSL Sprite_DrawMultiple
     

@@ -24,7 +24,7 @@ Sprite_QuarrelBros:
     
     JSR Sprite2_DirectionToFacePlayer : TYA : EOR.b #$03 : STA.w $0EB0, X
     
-    LDA $A0 : AND.b #$01 : BNE .is_right_hand_brother
+    LDA.b $A0 : AND.b #$01 : BNE .is_right_hand_brother
     
     ; Hey [Name], did you come from my older brother's room?..."
     LDA.b #$31
@@ -101,7 +101,7 @@ Orphan1_State1:
     
     ; Picks a sort of new random direction that will be different from
     ; the previous direction.
-    LDA $1A : AND.b #$01 : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
+    LDA.b $1A : AND.b #$01 : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     .delay
     
@@ -113,7 +113,7 @@ Orphan1_State1:
     
     .no_wall_collision
     
-    TXA : EOR $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    TXA : EOR.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     LDY.w $0DE0, X
     
@@ -139,7 +139,7 @@ Orphan1_State2:
     
     ; Picks a sort of new random direction that will be different from
     ; the previous direction.
-    LDA $1A : AND.b #$01 : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
+    LDA.b $1A : AND.b #$01 : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     .delay
     
@@ -147,11 +147,11 @@ Orphan1_State2:
     
     STZ.w $0D40, X
     
-    TXA : EOR $1A : LSR #5 : AND.b #03 : STA $00
+    TXA : EOR.b $1A : LSR #5 : AND.b #03 : STA.b $00
     
     AND.b #$01 : BNE .skip
     
-    LDA $00 : LSR A : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
+    LDA.b $00 : LSR A : ORA.b #$02 : EOR.w $0DE0, X : STA.w $0DE0, X
     
     RTS
     
@@ -191,13 +191,13 @@ Pool_QuarrelBros_Draw:
 ; $02E17F-$02E1A2 LOCAL JUMP LOCATION
 QuarrelBros_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     ; This is using the table at $E0FF / $2E0FF, just in case I get
     ; distracted and have to come back to this.
-    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4 : ADC.b #$FF : STA $08
-    LDA.b #$E0                                   : ADC.b #$00 : STA $09
+    LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4 : ADC.b #$FF : STA.b $08
+    LDA.b #$E0                                   : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

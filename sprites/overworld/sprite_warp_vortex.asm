@@ -16,13 +16,13 @@ Sprite_WarpVortex:
     
     LDA.l $7EF3CA : BNE .self_terminate
     
-    LDA $8A : CMP.b #$80 : BCC .in_normal_area
+    LDA.b $8A : CMP.b #$80 : BCC .in_normal_area
     
     RTS
     
     .in_normal_area
     
-    LDA $11 : CMP.b #$23 : BEQ .gamma
+    LDA.b $11 : CMP.b #$23 : BEQ .gamma
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .gamma
     
@@ -32,7 +32,7 @@ Sprite_WarpVortex:
     
     JSR Sprite2_CheckIfActive
     
-    LDA $1A : LSR #2 : AND.b #$03 : TAY
+    LDA.b $1A : LSR #2 : AND.b #$03 : TAY
     
     LDA.w $0F50, X : AND.b #$3F : ORA .vh_flip_states, Y : STA.w $0F50, X
     
@@ -46,17 +46,17 @@ Sprite_WarpVortex:
     
     LDA.w $02E4 : BNE .zeta
     
-    LDA.b #$23 : STA $11
+    LDA.b #$23 : STA.b $11
     
     LDA.b #$01 : STA.w $02DB
     
-    STZ $B0
-    STZ $27
-    STZ $28
+    STZ.b $B0
+    STZ.b $27
+    STZ.b $28
     
-    LDA.b #$14 : STA $5D
+    LDA.b #$14 : STA.b $5D
     
-    LDA $8A : AND.b #$40 : STA $7B
+    LDA.b $8A : AND.b #$40 : STA.b $7B
     
     .self_terminate
     

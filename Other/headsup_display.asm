@@ -80,7 +80,7 @@ RefreshIconLong:
     LDA.l $7EF36E : INC A : STA.l $7EF36E
     
     ; if((frame_counter % 4) != 0) don't refill this frame
-    LDA $1A : AND.b #$03 : BNE .doneWithMagicRefill
+    LDA.b $1A : AND.b #$03 : BNE .doneWithMagicRefill
     
     ; Is this sound channel in use?
     LDA.w $012E : BNE .doneWithMagicRefill
@@ -291,14 +291,14 @@ RefreshIconLong:
     
     REP #$30
     
-    LDA.w #$FFFF : STA $0E
+    LDA.w #$FFFF : STA.b $0E
     
     JSR Update_ignoreHealth
     JSR AnimateHeartRefill
     
     SEP #$30
     
-    INC $16
+    INC.b $16
     
     PLB
     
@@ -308,13 +308,13 @@ RefreshIconLong:
 
     REP #$30
     
-    LDA.w #$FFFF : STA $0E
+    LDA.w #$FFFF : STA.b $0E
     
     JSR Update_ignoreItemBox
     
     SEP #$30
     
-    INC $16
+    INC.b $16
     
     PLB
     
@@ -357,7 +357,7 @@ HexToDecimal:
     ; Otherwise take off another 100 objects from the total and increment $03
     ; $6F9F9, Y THAT IS, 100, 10
     SEC : SBC.w $F9F9, Y
-    INC $03, X
+    INC.b $03, X
     
     BRA .nextDigit
     
@@ -369,7 +369,7 @@ HexToDecimal:
     BPL .nextDigit
     
     ; Whatever is left is obviously less than 10, so store the digit at $05.
-    STA $05
+    STA.b $05
     
     SEP #$30
     
@@ -380,7 +380,7 @@ HexToDecimal:
     .setNextDigitTile
     
     ; Load each digit's computed value
-    LDA $03, X : CMP.b #$7F
+    LDA.b $03, X : CMP.b #$7F
     
     BEQ .blankDigit
     
@@ -390,7 +390,7 @@ HexToDecimal:
     .blankDigit
     
     ; A blank digit.
-    STA $03, X
+    STA.b $03, X
     
     DEX : BPL .setNextDigitTile
     
@@ -437,9 +437,9 @@ AnimateHeartRefill:
     SEP #$30
     
     ; $00[3] = $7EC768 (wram address of first row of hearts in tilemap buffer)
-    LDA.b #$68 : STA $00
-    LDA.b #$C7 : STA $01
-    LDA.b #$7E : STA $02
+    LDA.b #$68 : STA.b $00
+    LDA.b #$C7 : STA.b $01
+    LDA.b #$7E : STA.b $02
     
     DEC.w $0208 : BNE .return
     
@@ -453,7 +453,7 @@ AnimateHeartRefill:
     SBC.w #$0014 : TAY
     
     ; $00[3] = $7EC7A8 (wram address of second row of hearts)
-    LDA $00 : CLC : ADC.w #$0040 : STA $00
+    LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00
 
     .halfHealthOrless
 
@@ -697,7 +697,7 @@ RestoreTorchBackground:
     
     LDA.w $0414 : CMP.b #$02 : BEQ .doNothing
     
-    LDA.b #$01 : STA $1D
+    LDA.b #$01 : STA.b $1D
     
     .doNothing
     
@@ -760,7 +760,7 @@ Rebuild:
     LDX.w #.hud_tilemap
     LDY.w #$C700
     
-    MVN $0D, $7E ; $Transfer 0x014A bytes from $6FE77 -> $7EC700
+    MVN.b $0D, $7E ; $Transfer 0x014A bytes from $6FE77 -> $7EC700
     
     PLB ; The above sets up a template for the status bar.
     
@@ -783,7 +783,7 @@ Rebuild:
     
     SEP #$30
     
-    INC $16 ; Indicate this shit needs drawing.
+    INC.b $16 ; Indicate this shit needs drawing.
     
     RTS
 }
@@ -871,14 +871,14 @@ UpdateItemBox:
     
     .bottleNotEquipped
     
-    STA $02
+    STA.b $02
                 ; insert jump here check for 0x15 in X then branch off, interject gfx, and return to .noEquippedItem,
                 ; otherwise insert the next line again and return to LDA.w $FA93
     TXA : DEC A : ASL A : TAX ; (x-1)*2
     
-    LDA.w $FA93, X : STA $04 ; for fire rod (05), loads F6A1
+    LDA.w $FA93, X : STA.b $04 ; for fire rod (05), loads F6A1
     
-    LDA $02 : ASL #3 : TAY ; loads 08
+    LDA.b $02 : ASL #3 : TAY ; loads 08
     
     ; These addresses form the item box graphics. ; fire rod loads: 24B0, 24B1, 24C0, 24C1 ; ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1 
     LDA ($04), Y : STA.l $7EC74A : INY #2
@@ -905,31 +905,31 @@ Update:
     
     ; the hook for optimization was placed here...
     ; need to draw partial heart still though. update: optimization complete with great results
-    LDA.b #$FD : STA $0A
-    LDA.b #$F9 : STA $0B
-    LDA.b #$0D : STA $0C
+    LDA.b #$FD : STA.b $0A
+    LDA.b #$F9 : STA.b $0B
+    LDA.b #$0D : STA.b $0C
     
-    LDA.b #$68 : STA $07
-    LDA.b #$C7 : STA $08
-    LDA.b #$7E : STA $09
+    LDA.b #$68 : STA.b $07
+    LDA.b #$C7 : STA.b $08
+    LDA.b #$7E : STA.b $09
     
     REP #$30
     
     ; Load Capacity health.
-    LDA.l $7EF36C : AND.w #$00FF : STA $00 : STA $02 : STA $04
+    LDA.l $7EF36C : AND.w #$00FF : STA.b $00 : STA.b $02 : STA.b $04
     
     ; First, just draw all the empty hearts (capacity health)
     JSR UpdateHearts
     
     SEP #$30
     
-    LDA.b #$03 : STA $0A
-    LDA.b #$FA : STA $0B
-    LDA.b #$0D : STA $0C
+    LDA.b #$03 : STA.b $0A
+    LDA.b #$FA : STA.b $0B
+    LDA.b #$0D : STA.b $0C
     
-    LDA.b #$68 : STA $07
-    LDA.b #$C7 : STA $08
-    LDA.b #$7E : STA $09
+    LDA.b #$68 : STA.b $07
+    LDA.b #$C7 : STA.b $08
+    LDA.b #$7E : STA.b $09
     
     ; Branch if at full health
     LDA.l $7EF36C : CMP.l $7EF36D : BEQ .healthUpdated
@@ -944,9 +944,9 @@ Update:
     
     REP #$30
     
-    AND.w #$00FC : STA $00 : STA $04
+    AND.w #$00FC : STA.b $00 : STA.b $04
     
-    LDA.l $7EF36C : AND.w #$00FF : STA $02
+    LDA.l $7EF36C : AND.w #$00FF : STA.b $02
     
     ; this time we're filling in the full and partially filled hearts (actual health)
     JSR UpdateHearts
@@ -985,13 +985,13 @@ Update:
     REP #$30
     
     ; The tile index for the first rupee digit
-    LDA $03 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC750
+    LDA.b $03 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC750
     
     ; The tile index for the second rupee digit
-    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC752
+    LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC752
     
     ; The tile index for the third rupee digit
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC754
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC754
     
     ; Number of bombs Link has.
     LDA.l $7EF343 : AND.w #$00FF
@@ -1001,10 +1001,10 @@ Update:
     REP #$30
     
     ; The tile index for the first bomb digit
-    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC758
+    LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC758
     
     ; The tile index for the second bomb digit
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75A
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75A
     
     ; Number of Arrows Link has.
     LDA.l $7EF377 : AND.w #$00FF
@@ -1015,12 +1015,12 @@ Update:
     REP #$30
     
     ; The tile index for the first arrow digit    
-    LDA $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75E
+    LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75E
     
     ; The tile index for the second arrow digit   
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC760
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC760
     
-    LDA.w #$007F : STA $05
+    LDA.w #$007F : STA.b $05
     
     ; Load number of Keys Link has
     LDA.l $7EF36F : AND.w #$00FF : CMP.w #$00FF : BEQ .noKeys
@@ -1033,7 +1033,7 @@ Update:
     
     ; The key digit, which is optionally drawn.
     ; Also check to see if the key spot is blank
-    LDA $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC764
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC764
     
     CMP.w #$247F : BNE .dontBlankKeyIcon
     
@@ -1060,10 +1060,10 @@ UpdateHearts:
     
     .nextHeart
     
-    LDA $00 : CMP.w #$0008 : BCC .lessThanOneHeart
+    LDA.b $00 : CMP.w #$0008 : BCC .lessThanOneHeart
     
     ; Notice no SEC was needed since carry is assumedly set.
-    SBC.w #$0008 : STA $00
+    SBC.w #$0008 : STA.b $00
     
     LDY.w #$0004
     
@@ -1101,7 +1101,7 @@ UpdateHearts:
     ; if not, we have to move down one tile in the tilemap
     LDX.w #$0000
     
-    LDA $07 : CLC : ADC.w #$0040 : STA $07
+    LDA.b $07 : CLC : ADC.w #$0040 : STA.b $07
     
     .noLineChange
     

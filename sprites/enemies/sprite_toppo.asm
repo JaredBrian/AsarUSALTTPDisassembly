@@ -183,11 +183,11 @@ Toppo_FlusteredTrampoline:
 ; $02BB72-$02BB95 LOCAL JUMP LOCATION
 Toppo_CheckLandingSiteForGrass:
 {
-    LDA.w $0D00, X : STA $00
-    LDA.w $0D20, X : STA $01
+    LDA.w $0D00, X : STA.b $00
+    LDA.w $0D20, X : STA.b $01
     
-    LDA.w $0D10, X : STA $02
-    LDA.w $0D30, X : STA $03
+    LDA.w $0D10, X : STA.b $02
+    LDA.w $0D30, X : STA.b $03
     
     LDA.b #$00 : JSL Entity_GetTileAttr : CMP.b #$40 : BEQ .is_thick_grass
     
@@ -213,10 +213,10 @@ Toppo_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0D00, X : SEC : SBC $E8 : STA $06
-    LDA.w $0D20, X : SEC : SBC $E9 : STA $07
+    LDA.w $0D00, X : SEC : SBC.b $E8 : STA.b $06
+    LDA.w $0D20, X : SEC : SBC.b $E9 : STA.b $07
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA $08
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $08
     
     PHX
     
@@ -224,27 +224,27 @@ Toppo_Draw:
     
     .next_oam_entry
     
-    PHX : TXA : CLC : ADC $08 : PHA : TAX
+    PHX : TXA : CLC : ADC.b $08 : PHA : TAX
     
-    LDA.w $BBF0, X : STA $0C
+    LDA.w $BBF0, X : STA.b $0C
     
     TXA : ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC.w $BB96, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $BB96, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
     PHX
     
-    LDX $0C : CPX.b #$01
+    LDX.b $0C : CPX.b #$01
     
     PLX
     
-    LDA $02 : BCS .alpha
+    LDA.b $02 : BCS .alpha
     
-    LDA $06
+    LDA.b $06
     
     .alpha
     
@@ -260,7 +260,7 @@ Toppo_Draw:
     
     LDA.w $BBD2, X : INY : STA ($90), Y
     
-    LDA $0C : CMP.b #$01 : LDA.w $BBE1, X : ORA $05 : BCS .gamma
+    LDA.b $0C : CMP.b #$01 : LDA.w $BBE1, X : ORA.b $05 : BCS .gamma
     
     AND.b #$F0 : ORA #$02
     
@@ -272,7 +272,7 @@ Toppo_Draw:
     
     TYA : LSR #2 : TAY
     
-    LDA $0C : ORA $0F : STA ($92), Y
+    LDA.b $0C : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

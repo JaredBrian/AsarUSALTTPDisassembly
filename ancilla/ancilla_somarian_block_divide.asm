@@ -30,7 +30,7 @@ Ancilla_SomarianBlockDivide:
     ; object?
     LDA.w $0380, X : CMP.b #$03 : BNE .unsigned_player_altitude
     
-    LDA $24 : CMP.b #$FF : BNE .positive_player_altitude
+    LDA.b $24 : CMP.b #$FF : BNE .positive_player_altitude
     
     .unsigned_player_altitude
     
@@ -38,19 +38,19 @@ Ancilla_SomarianBlockDivide:
     
     .positive_player_altitude
     
-    CLC : ADC.w $029E, X : STA $04 : BPL .positive_object_altitude
+    CLC : ADC.w $029E, X : STA.b $04 : BPL .positive_object_altitude
     
     LDY.b #$FF
     
     .positive_object_altitude
     
-    STY $05
+    STY.b $05
     
     REP #$20
     
-    LDA $04 : EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $04
+    LDA.b $04 : EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $04
     
-    LDA $02 : STA $06
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
@@ -58,7 +58,7 @@ Ancilla_SomarianBlockDivide:
     
     LDA.w $0C5E, X : ASL #3 : TAX
     
-    LDY.b #$00 : STY $08
+    LDY.b #$00 : STY.b $08
     
     .next_oam_entry
     
@@ -66,8 +66,8 @@ Ancilla_SomarianBlockDivide:
     
     PHX : TXA : ASL A : TAX
     
-    LDA $04 : CLC : ADC .y_offsets, X : STA $00
-    LDA $06 : CLC : ADC .x_offsets, X : STA $02
+    LDA.b $04 : CLC : ADC .y_offsets, X : STA.b $00
+    LDA.b $06 : CLC : ADC .x_offsets, X : STA.b $02
     
     PLX
     
@@ -76,7 +76,7 @@ Ancilla_SomarianBlockDivide:
     JSR Ancilla_SetOam_XY
     
     LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
+    LDA .properties, X : AND.b #$CF : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -84,7 +84,7 @@ Ancilla_SomarianBlockDivide:
     
     PLY : INX
     
-    INC $08 : LDA $08 : CMP.b #$08 : BNE .next_oam_entry
+    INC.b $08 : LDA.b $08 : CMP.b #$08 : BNE .next_oam_entry
     
     PLX
     

@@ -53,7 +53,7 @@ StalfosBone_Draw:
     
     LDA.w $0E80, X : LSR #2 : AND.b #$03 : REP #$20 : ASL #4
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
@@ -138,41 +138,41 @@ Stalfos_Visible:
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .dont_dodge
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0028 : CMP.w #$0050 : BCS .dont_dodge
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0050 : BCS .dont_dodge
     
     SEP #$20
     
-    LDA $44 : CMP.b #$80 : BEQ .dont_dodge
+    LDA.b $44 : CMP.b #$80 : BEQ .dont_dodge
     
     LDA.w $0F70, X : ORA.w $0F00, X : BNE .dont_dodge
     
-    LDA $EE : CMP.w $0F20, X : BNE .dont_dodge
+    LDA.b $EE : CMP.w $0F20, X : BNE .dont_dodge
     
     JSR Sprite3_DirectionToFacePlayer
     
-    STY $00
+    STY.b $00
     
     LDA.w $0372 : BNE .dodge
     
-    LDA $3C : CMP.b #$90 : BCS .face_player_then_dodge
+    LDA.b $3C : CMP.b #$90 : BCS .face_player_then_dodge
     CMP.b #$09           : BPL .dont_dodge
     
     .dodge
     
-    LDA $2F : LSR A : TAY
+    LDA.b $2F : LSR A : TAY
     
-    LDA $00 : CMP.w $90B1, Y : BEQ .dont_dodge
+    LDA.b $00 : CMP.w $90B1, Y : BEQ .dont_dodge
     
     .face_player_then_dodge
     
-    LDA $00 : STA.w $0DE0, X
+    LDA.b $00 : STA.w $0DE0, X
     
     LDA.b #$20 : JSL Sprite_ProjectSpeedTowardsPlayerLong
     
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
     LDA.b #$20 : STA.w $0F80, X
     
@@ -251,7 +251,7 @@ Stalfos_Visible:
     JSR FirePhlegm_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     JSR Sprite3_CheckDamageToPlayer
     JSR Sprite3_Move
@@ -380,7 +380,7 @@ Zazak_HaltAndPickNextDirection:
     
     TYA : CMP.w $0DE0, X : BNE .dont_shoot_player
     
-    LDA $EE : CMP.w $0F20, X : BNE .dont_shoot_player
+    LDA.b $EE : CMP.w $0F20, X : BNE .dont_shoot_player
     
     INC.w $0D80, X
     
@@ -477,11 +477,11 @@ Sprite_SpawnFirePhlegm:
     
     LDA.w $0DE0, X : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA .x_speeds, X : STA.w $0D50, Y
     
@@ -615,7 +615,7 @@ FirePhlegm_Draw:
     LDA.b #$00   : XBA
     LDA.w $0DE0, X : ASL A : CLC : ADC.w $0DC0, X : REP #$20 : ASL #4
     
-    ADC.w #.oam_entries : STA $08
+    ADC.w #.oam_entries : STA.b $08
     
     SEP #$20
     

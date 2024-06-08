@@ -38,7 +38,7 @@ FluteBoy_HumanForm:
     JSL FluteBoy_Draw
     
     ; what exactly is going on here...?
-    LDA $01 : ORA $03 : STA.w $0DB0, X
+    LDA.b $01 : ORA.b $03 : STA.w $0DB0, X
     
     .invisible
     
@@ -53,7 +53,7 @@ FluteBoy_HumanForm:
     
     .delay_playing_flute_ditty
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0D80, X
     
@@ -110,9 +110,9 @@ FltueBoy_PrepPhaseOut:
     
     LDA.w $0DF0, X : BNE .delay
     
-    LDA.b #$02 : STA $1D
+    LDA.b #$02 : STA.b $1D
     
-    LDA.b #$30 : STA $9A
+    LDA.b #$30 : STA.b $9A
     
     LDA.b #$00 : STA.l $7EC007 : STA.l $7EC009
     
@@ -139,7 +139,7 @@ FltueBoy_PrepPhaseOut:
 ; $032FF2-$033007 JUMP LOCATION
 FluteBoy_PhaseOut:
 {
-    LDA $1A : AND.b #$0F : BNE .onlyEvery16Frames
+    LDA.b $1A : AND.b #$0F : BNE .onlyEvery16Frames
     
     PHX
     
@@ -351,7 +351,7 @@ FluteAardvark_WaitForPlayerMusic:
 {
     LDA.w $0202 : CMP.b #$0D : BNE .flute_not_equipped
     
-    BIT $F0 : BVC .y_button_not_held
+    BIT.b $F0 : BVC .y_button_not_held
     
     INC.w $0D80, X
     
@@ -424,35 +424,35 @@ FluteAardvark_FullyArborated:
 ; $03312E-$033170 LOCAL JUMP LOCATION
 FluteBoy_CheckIfPlayerTooClose:
 {
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
     REP #$30
     
-    LDA $02 : SEC : SBC.w #$0010 : STA $02
+    LDA.b $02 : SEC : SBC.w #$0010 : STA.b $02
     
-    LDA $22 : SBC $00 : BPL .positive_dx
+    LDA.b $22 : SBC.b $00 : BPL .positive_dx
     
     EOR.w #$FFFF
     
     .positive_dx
     
-    STA $00
+    STA.b $00
     
-    LDA $20 : SBC $02 : BPL .positive_dy
+    LDA.b $20 : SBC.b $02 : BPL .positive_dy
     
     EOR.w #$FFFF
     
     .positive_dy
     
-    STA $02
+    STA.b $02
     
-    LDA $00 : CMP.w #$0030 : BCS .far_enough_out
+    LDA.b $00 : CMP.w #$0030 : BCS .far_enough_out
     
-    LDA $02 : CMP.w #$0030
+    LDA.b $02 : CMP.w #$0030
     
     .far_enough_out
     
@@ -486,9 +486,9 @@ Sprite_FluteNote:
     
     .delay
     
-    LDA $1A : AND.b #$01 : BNE .odd_frame
+    LDA.b $1A : AND.b #$01 : BNE .odd_frame
     
-    LDA $1A : LSR #5 : EOR.w $0FA0 : AND.b #$01 : TAY
+    LDA.b $1A : LSR #5 : EOR.w $0FA0 : AND.b #$01 : TAY
     
     LDA.w $0D50, X : CLC : ADC .directions, Y : STA.w $0D50, X
     
@@ -504,11 +504,11 @@ FluteBoy_SpawnFluteNote:
 {
     LDA.b #$2E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.b #$04 : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : SEC : SBC.b #$04 : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0EB0, Y
     

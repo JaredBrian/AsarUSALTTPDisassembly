@@ -4,26 +4,26 @@
 ; $04B714-$04B772 LOCAL JUMP LOCATION
 Overlord_SpawnBoulder:
 {
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     LDA.w $0FFD : BEQ .cant_spawn
     
-    LDA $11 : ORA.w $0FC1 : BNE .cant_spawn
+    LDA.b $11 : ORA.w $0FC1 : BNE .cant_spawn
     
     INC.w $0FFE : LDA.w $0FFE : AND.b #$3F : BNE .cant_spawn
     
-    LDA $E9 : SEC : SBC.w $0FBF : CMP.b #$02 : BMI .cant_spawn
+    LDA.b $E9 : SEC : SBC.w $0FBF : CMP.b #$02 : BMI .cant_spawn
     
     LDA.b #$C2
     LDY.b #$0D
     
     JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    JSL GetRandomInt : AND.b #$7F : CLC : ADC.b #$40 : CLC : ADC $E2 : STA.w $0D10, Y
-                       LDA $E3    : ADC.b #$00           : STA.w $0D30, Y
+    JSL GetRandomInt : AND.b #$7F : CLC : ADC.b #$40 : CLC : ADC.b $E2 : STA.w $0D10, Y
+                       LDA.b $E3    : ADC.b #$00           : STA.w $0D30, Y
     
-    LDA $E8 : SEC : SBC.b #$30 : STA.w $0D00, Y
-    LDA $E9 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $E8 : SEC : SBC.b #$30 : STA.w $0D00, Y
+    LDA.b $E9 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$00 : STA.w $0F20, Y : STA.w $0DE0, Y : STA.w $0F70, Y
     
@@ -54,7 +54,7 @@ Overlord_Main:
 ; $04B77E-$04B792 LOCAL JUMP LOCATION
 Overlord_ExecuteAll:
 {
-    LDA $11 : ORA.w $0FC1 : BNE .pause_execution
+    LDA.b $11 : ORA.w $0FC1 : BNE .pause_execution
     
     LDX.b #$07
     
@@ -158,16 +158,16 @@ Pool_Overlord_RedStalfosTrap:
 ; $04B7F5-$04B883 JUMP LOCATION
 Overlord_RedStalfosTrap:
 {
-    LDA.w $0B08, X : STA $00
-    LDA.w $0B10, X : STA $01
+    LDA.w $0B08, X : STA.b $00
+    LDA.w $0B10, X : STA.b $01
     
-    LDA.w $0B18, X : STA $02
-    LDA.w $0B20, X : STA $03
+    LDA.w $0B18, X : STA.b $02
+    LDA.w $0B20, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : SEC : SBC $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
-    LDA $02 : SEC : SBC $20 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
+    LDA.b $00 : SEC : SBC.b $22 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
+    LDA.b $02 : SEC : SBC.b $20 : CLC : ADC.w #$0018 : CMP.w #$0030 : BCS .not_triggered
     
     SEP #$20
     
@@ -186,11 +186,11 @@ Overlord_RedStalfosTrap:
     
     LDX.w $0FB5
     
-    LDA $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $23 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $23 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC .y_offsets_low , X : STA.w $0D00, Y
-    LDA $21 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $20 : CLC : ADC .y_offsets_low , X : STA.w $0D00, Y
+    LDA.b $21 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA .stalfos_delay_timers, X : STA.w $0DF0, Y
     
@@ -220,16 +220,16 @@ Overlord_RedStalfosTrap:
 ; $04B884-$04B8C0 JUMP LOCATION
 Overlord_StalfosTrapTriggerWindow:
 {
-    LDA.w $0B08, X : STA $00
-    LDA.w $0B10, X : STA $01
+    LDA.w $0B08, X : STA.b $00
+    LDA.w $0B10, X : STA.b $01
     
-    LDA.w $0B18, X : STA $02
-    LDA.w $0B20, X : STA $03
+    LDA.w $0B18, X : STA.b $02
+    LDA.w $0B20, X : STA.b $03
     
     REP #$20
     
-    LDA $00 : SEC : SBC $22 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
-    LDA $02 : SEC : SBC $20 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+    LDA.b $00 : SEC : SBC.b $22 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
+    LDA.b $02 : SEC : SBC.b $20 : CLC : ADC.w #$0020 : CMP.w #$0040 : BCS .outOfRange
     
     SEP #$20
     
@@ -263,11 +263,11 @@ Overlord_ZoroFactory:
 {
     DEC.w $0B30, X
     
-    LDA.w $0B18, X : CLC : ADC.b #$08 : STA $00
-    LDA.w $0B20, X : ADC.b #$00 : STA $01
+    LDA.w $0B18, X : CLC : ADC.b #$08 : STA.b $00
+    LDA.w $0B20, X : ADC.b #$00 : STA.b $01
     
-    LDA.w $0B08, X : CLC : ADC.b #$08 : STA $02
-    LDA.w $0B10, X : ADC.b #$00 : STA $03
+    LDA.w $0B08, X : CLC : ADC.b #$08 : STA.b $02
+    LDA.w $0B10, X : ADC.b #$00 : STA.b $03
     
     LDA.w $0B40, X
     
@@ -291,13 +291,13 @@ Overlord_ZoroFactory:
     
     ; \task Just out of curiosity, figure out if this paradigm of PHP
     ; PLP is really required in these scenarios...
-    LDA $05 : CLC : ADC .x_offsets_low, X  : PHP
+    LDA.b $05 : CLC : ADC .x_offsets_low, X  : PHP
               CLC : ADC.b #$08             : STA.w $0D10, Y
-    LDA $06 : ADC.b #$00             : PLP
+    LDA.b $06 : ADC.b #$00             : PLP
               ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $07 : CLC : ADC.b #$08 : STA.w $0D00, Y
-    LDA $08              : STA.w $0D20, Y
+    LDA.b $07 : CLC : ADC.b #$08 : STA.w $0D00, Y
+    LDA.b $08              : STA.w $0D20, Y
     
     PLX
     
@@ -350,7 +350,7 @@ Overlord_WizzrobeFactory:
 {
     LDA.w $0B30, X : CMP.b #$80 : BEQ .spawn
     
-    LDA $1A : LSR A : BCC .delay
+    LDA.b $1A : LSR A : BCC .delay
     
     DEC.w $0B30, X
     
@@ -375,11 +375,11 @@ Overlord_WizzrobeFactory:
     
     LDX.w $0FB5
     
-    LDA $22 : CLC : ADC.w $B972, X : STA.w $0D10, Y
-    LDA $23 : ADC.w $B976, X : STA.w $0D30, Y
+    LDA.b $22 : CLC : ADC.w $B972, X : STA.w $0D10, Y
+    LDA.b $23 : ADC.w $B976, X : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC.w $B97A, X : STA.w $0D00, Y
-    LDA $21 : ADC.w $B97E, X : STA.w $0D20, Y
+    LDA.b $20 : CLC : ADC.w $B97A, X : STA.w $0D00, Y
+    LDA.b $21 : ADC.w $B97E, X : STA.w $0D20, Y
     
     ; \task Figure out what this really does and if there's a better
     ; name out there for this sublabel.
@@ -404,10 +404,10 @@ Overlord_WizzrobeFactory:
 Overlord_FlyingTileFactory:
 {
 	LDA.w $0B08, X : CMP $E2
-	LDA.w $0B10, X : SBC $E3 : BNE .out_of_range
+	LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
 
 	LDA.w $0B18, X : CMP $E8
-	LDA.w $0B20, X : SBC $E9 : BNE .out_of_range
+	LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
 
 	DEC.w $0B30, X
 
@@ -529,7 +529,7 @@ PirogusuFactory_Main:
     JSL GetRandomInt : AND.b #$1F
                        CLC : ADC.b #$60 : STA.w $0B30, X
     
-    STZ $00
+    STZ.b $00
     
     LDY.b #$0F
     
@@ -541,25 +541,25 @@ PirogusuFactory_Main:
     
     LDA.w $0E20, Y : CMP.b #$10 : BNE .not_octospawn
     
-    INC $00
+    INC.b $00
     
     .not_octospawn
     .skip_slot
     
     DEY : BPL .count_octospawn
     
-    LDA $00 : CMP.b #$05 : BCS .octospawn_maxed_out
+    LDA.b $00 : CMP.b #$05 : BCS .octospawn_maxed_out
     
     LDY.b #$0C
     LDA.b #$94
     
     JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
     
-    LDA $05 : STA.w $0D10, Y
-    LDA $06 : STA.w $0D30, Y
+    LDA.b $05 : STA.w $0D10, Y
+    LDA.b $06 : STA.w $0D30, Y
     
-    LDA $07 : STA.w $0D00, Y
-    LDA $08 : STA.w $0D20, Y
+    LDA.b $07 : STA.w $0D00, Y
+    LDA.b $08 : STA.w $0D20, Y
     
     LDA.w $0B40, X : STA.w $0F20, Y
     
@@ -678,10 +678,10 @@ Overlord_CrumbleTilePath:
     .check_on_screen
     
     LDA.w $0B08, X : CMP $E2
-    LDA.w $0B10, X : SBC $E3 : BNE .off_screen
+    LDA.w $0B10, X : SBC.b $E3 : BNE .off_screen
     
     LDA.w $0B18, X : CMP $E8
-    LDA.w $0B20, X : SBC $E9 : BNE .off_screen
+    LDA.w $0B20, X : SBC.b $E9 : BNE .off_screen
     
     ; If on screen even once in this logic, the overlord will continue
     ; crumbling tiles.
@@ -701,8 +701,8 @@ Overlord_CrumbleTilePath:
     
     LDA.w $0B00, X : SEC : SBC.b #$0A : TAY
     
-    LDA .pointers_low, Y  : STA $00
-    LDA .pointers_high, Y : STA $01
+    LDA .pointers_low, Y  : STA.b $00
+    LDA .pointers_high, Y : STA.b $01
     
     LDA .crumble_tile_limit, Y : CMP.w $0B28, X : BNE .crumble_tiles_not_maxed
     
@@ -772,7 +772,7 @@ Overlord_WallMasterFactory:
 {
     LDA.w $0B30, X : CMP.b #$80 : BEQ .timer_expired
     
-    LDA $1A : AND.b #$01 : BNE .anotick_timer
+    LDA.b $1A : AND.b #$01 : BNE .anotick_timer
     
     DEC.w $0B30, X
     
@@ -789,11 +789,11 @@ Overlord_WallMasterFactory:
     
     JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
     
-    LDA $22 : STA.w $0D10, Y
-    LDA $23 : STA.w $0D30, Y
+    LDA.b $22 : STA.w $0D10, Y
+    LDA.b $23 : STA.w $0D30, Y
     
-    LDA $20 : STA.w $0D00, Y
-    LDA $21 : STA.w $0D20, Y
+    LDA.b $20 : STA.w $0D00, Y
+    LDA.b $21 : STA.w $0D20, Y
     
     LDA.b #$D0 : STA.w $0F70, Y
     
@@ -805,7 +805,7 @@ Overlord_WallMasterFactory:
     
     PLX
     
-    LDA $EE : STA.w $0F20, Y
+    LDA.b $EE : STA.w $0F20, Y
     
     .spawn_failed
     
@@ -828,7 +828,7 @@ Overlord_ZolFactory:
     ; And promptly reset it...
     LDA.b #$A0 : STA.w $0B30, X
     
-    STZ $00
+    STZ.b $00
     
     LDY.b #$0F
     
@@ -838,14 +838,14 @@ Overlord_ZolFactory:
     
     LDA.w $0E20, Y : CMP.b #$8F : BNE .not_zol
     
-    INC $00
+    INC.b $00
     
     .skip_slot
     .not_zol
     
     DEY : BPL .count_current_zols
     
-    LDA $00 : CMP.b #$05 : BCS .zols_currently_maxed_out
+    LDA.b $00 : CMP.b #$05 : BCS .zols_currently_maxed_out
     
     LDA.b #$8F
     LDY.b #$0C
@@ -854,19 +854,19 @@ Overlord_ZolFactory:
     
     PHX
     
-    LDA $2F : LSR A : TAX
+    LDA.b $2F : LSR A : TAX
     
-    LDA $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $23 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $23 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-    LDA $21 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+    LDA.b $21 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     PLX
     
     LDA.b #$C0 : STA.w $0F70, Y
     
-    LDA $EE : STA.w $0F20, Y
+    LDA.b $EE : STA.w $0F20, Y
     
     LDA.b #$02 : STA.w $0D80, Y
                  STA.w $0E90, Y
@@ -971,7 +971,7 @@ Overlord_StalfosFactory:
 {
     LDA.w $0B30, X : BEQ .spawn
     
-    LDA $1A : AND.b #$01 : BNE .anodecrement_timer
+    LDA.b $1A : AND.b #$01 : BNE .anodecrement_timer
     
     DEC.w $0B30, X
     
@@ -1002,19 +1002,19 @@ Overlord_StalfosFactory:
     
     PHX
     
-    LDA $2F : LSR A : TAX
+    LDA.b $2F : LSR A : TAX
     
-    LDA $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
-    LDA $23 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $22 : CLC : ADC .x_offsets_low,  X : STA.w $0D10, Y
+    LDA.b $23 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
-    LDA $21 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $20 : CLC : ADC .y_offsets_low,  X : STA.w $0D00, Y
+    LDA.b $21 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     PLX
     
     LDA.b #$90 : STA.w $0F70, Y
     
-    LDA $EE : STA.w $0F20, Y
+    LDA.b $EE : STA.w $0F20, Y
     
     RTS
 }
@@ -1051,10 +1051,10 @@ Pool_Overlord_StalfosTrap:
 Overlord_StalfosTrap:
 {
     LDA.w $0B08, X : CMP $E2
-    LDA.w $0B10, X : SBC $E3 : BNE .out_of_range
+    LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
     
     LDA.w $0B18, X : CMP $E8
-    LDA.w $0B20, X : SBC $E9 : BNE .out_of_range
+    LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
     
     LDA.w $0B28, X : BNE .spawning_active
     
@@ -1082,11 +1082,11 @@ Overlord_StalfosTrap:
     
     JSL Sprite_SpawnDynamically.arbitrary : BMI .spawn_failed
     
-    LDA $05 : STA.w $0D10, Y
-    LDA $06 : STA.w $0D30, Y
+    LDA.b $05 : STA.w $0D10, Y
+    LDA.b $06 : STA.w $0D30, Y
     
-    LDA $07 : STA.w $0D00, Y
-    LDA $08 : STA.w $0D20, Y
+    LDA.b $07 : STA.w $0D00, Y
+    LDA.b $08 : STA.w $0D20, Y
     
     LDA.b #$E0 : STA.w $0F70, Y
     
@@ -1137,11 +1137,11 @@ Overlord_SnakeTrap:
     ; Spawn a snake
     LDA.b #$6E : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $05 : STA.w $0D10, Y
-    LDA $06 : STA.w $0D30, Y
+    LDA.b $05 : STA.w $0D10, Y
+    LDA.b $06 : STA.w $0D30, Y
     
-    LDA $07 : STA.w $0D00, Y
-    LDA $08 : STA.w $0D20, Y
+    LDA.b $07 : STA.w $0D00, Y
+    LDA.b $08 : STA.w $0D20, Y
     
     LDA.b #$C0 : STA.w $0F70, Y
                  STA.w $0E90, Y
@@ -1191,14 +1191,14 @@ Pool_Overlord_AllDirectionMetalBallFactory:
 Overlord_AllDirectionMetalBallFactory:
 {
     LDA.w $0B08, X : CMP $E2
-    LDA.w $0B10, X : SBC $E3 : BNE .out_of_range
+    LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
     
     LDA.w $0B18, X : CMP $E8
-    LDA.w $0B20, X : SBC $E9 : BNE .out_of_range
+    LDA.w $0B20, X : SBC.b $E9 : BNE .out_of_range
     
-    LDA $1A : AND.b #$0F : BNE .delay
+    LDA.b $1A : AND.b #$0F : BNE .delay
     
-    STZ $0E
+    STZ.b $0E
     
     STZ.w $0FB6
     
@@ -1227,9 +1227,9 @@ Overlord_AllDirectionMetalBallFactory:
 Overlord_CascadeMetalBallFactory:
 {
     LDA.w $0B08, X : CMP $E2
-    LDA.w $0B10, X : SBC $E3 : BNE .out_of_range
+    LDA.w $0B10, X : SBC.b $E3 : BNE .out_of_range
     
-    LDA $1A : AND.b #$01 : BNE .delay
+    LDA.b $1A : AND.b #$01 : BNE .delay
     
     LDA.w $0B30, X : BEQ .delay_timer_expired
     
@@ -1256,13 +1256,13 @@ Overlord_CascadeMetalBallFactory:
     LDA.b #$A0 : STA.w $0B30, X
                  STA.w $0FB6
     
-    LDA.b #$08 : STA $0E
+    LDA.b #$08 : STA.b $0E
     
     BRA .spawn_ball
     
     .spawn_small_ball
     
-    JSL GetRandomInt : AND.b #$02 : ASL #3 : STA $0E
+    JSL GetRandomInt : AND.b #$02 : ASL #3 : STA.b $0E
     
     .spawn_ball
     
@@ -1289,11 +1289,11 @@ Overlord_SpawnMetalBall:
     
     PHX
     
-    LDA $05 : CLC : ADC $0E    : STA.w $0D10, Y
-    LDA $06 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $05 : CLC : ADC.b $0E    : STA.w $0D10, Y
+    LDA.b $06 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $07 : SEC : SBC.b #$01 : STA.w $0D00, Y
-    LDA $08 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $07 : SEC : SBC.b #$01 : STA.w $0D00, Y
+    LDA.b $08 : SBC.b #$00 : STA.w $0D20, Y
     
     LDX.w $0FB5
     

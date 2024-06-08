@@ -51,11 +51,11 @@ Lynel_TargetPlayer:
     
     LDY.w $0DE0, X
     
-    LDA .x_offsets_low,  Y : CLC : ADC $22 : STA.w $0D90, X
-    LDA .x_offsets_high, Y : ADC $23 : STA.w $0DA0, X
+    LDA .x_offsets_low,  Y : CLC : ADC.b $22 : STA.w $0D90, X
+    LDA .x_offsets_high, Y : ADC.b $23 : STA.w $0DA0, X
     
-    LDA .y_offsets_low,  Y : CLC : ADC $20 : STA.w $0DB0, X
-    LDA .y_offsets_high, Y : ADC $21 : STA.w $0E90, X
+    LDA .y_offsets_low,  Y : CLC : ADC.b $20 : STA.w $0DB0, X
+    LDA .y_offsets_high, Y : ADC.b $21 : STA.w $0E90, X
     
     INC.w $0D80, X
     
@@ -82,15 +82,15 @@ Lynel_ApproachPlayer:
 {
     LDA.w $0DF0, X : BEQ .prepare_attack
     
-    TXA : EOR $1A : AND.b #$03 : BNE .anoadjust_direction
+    TXA : EOR.b $1A : AND.b #$03 : BNE .anoadjust_direction
     
     JSR Sprite4_Load_16bit_AuxCoord
     
     REP #$20
     
-    LDA $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
+    LDA.b $04 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
     
-    LDA $06 : SEC : SBC.w $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
+    LDA.b $06 : SEC : SBC.w $0FDA : CLC : ADC.w #$0005 : CMP.w #$000A : BCS .not_in_range
     
     .prepare_attack
     
@@ -110,9 +110,9 @@ Lynel_ApproachPlayer:
     
     JSL Sprite_ProjectSpeedTowardsEntityLong
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     .anoadjust_direction
     
@@ -234,9 +234,9 @@ Pool_Lynel_Draw:
 Lynel_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL A : ADC $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL A : ADC.b $00
     
-    ADC.w #.oam_groups : STA $08
+    ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

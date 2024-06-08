@@ -10,7 +10,7 @@ Sprite_StoryTeller_1:
     
     LDA.w $0DF0, X : BNE .countingDown
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     .countingDown
     
@@ -164,7 +164,7 @@ Sprite_StoryTeller_1:
 {
     LDA.w $0DF0, X : BNE .BRANCH_ALPHA
     
-    LDA $1A : AND.b #$3F : BNE .BRANCH_BETA
+    LDA.b $1A : AND.b #$3F : BNE .BRANCH_BETA
     
     LDA.w $0F50, X : EOR.b #$40 : STA.w $0F50, X
     
@@ -186,7 +186,7 @@ Sprite_StoryTeller_1:
 
 ; $032E5B-$032E8D JUMP LOCATION
 {
-    LDA $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR A : AND.b #$01 : STA.w $0DC0, X
     
     JSR Sprite_MoveAltitude
     
@@ -280,11 +280,11 @@ StoryTeller_1_Draw:
 {
     LDA.w $0E80, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #.oam_groups                 : STA $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                 : STA.b $08
+    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
-    LDA.b #$01 : STA $06
-                 STZ $07
+    LDA.b #$01 : STA.b $06
+                 STZ.b $07
     
     JSL Sprite_DrawMultiple.player_deferred
     JMP Sprite_DrawShadow

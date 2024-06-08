@@ -108,9 +108,9 @@ Ancilla_RevivalFairy:
     
     .float_descending
     
-    STY $00
+    STY.b $00
     
-    LDA.w $0294, X : CLC : ADC $00 : STA.w $0294, X : BPL .positive_z_velocity
+    LDA.w $0294, X : CLC : ADC.b $00 : STA.w $0294, X : BPL .positive_z_velocity
     
     ; Basically, don't allow the velocity to become negative?
     ; \wtf Does this logic actually work properly in the game?
@@ -155,13 +155,13 @@ Ancilla_RevivalFairy:
     
     PHX
     
-    STZ $0A
+    STZ.b $0A
     
     LDA.w $0C54, X : CMP.b #$01 : BNE .not_sprinkling_dust
     
     LDA.w $0385, X : BEQ .not_sprinkling_dust
     
-    LDA.w $0C5E, X : INC A : STA $0A
+    LDA.w $0C5E, X : INC A : STA.b $0A
     
     .not_sprinkling_dust
     
@@ -175,13 +175,13 @@ Ancilla_RevivalFairy:
     
     .positive_altitude
     
-    EOR.w #$FFFF : INC A : CLC : ADC $00 : STA $00
+    EOR.w #$FFFF : INC A : CLC : ADC.b $00 : STA.b $00
     
     SEP #$20
     
     JSR Ancilla_SetOam_XY
     
-    LDA $0A : BEQ .fairy_just_flapping
+    LDA.b $0A : BEQ .fairy_just_flapping
     
     DEC A : CLC : ADC.b #$02 : TAX
     
@@ -190,7 +190,7 @@ Ancilla_RevivalFairy:
     .fairy_not_sprinkling_dust
     
     ; Just alternate the fairy's chr every 4 frames
-    LDA $1A : AND.b #$04 : LSR #2 : TAX
+    LDA.b $1A : AND.b #$04 : LSR #2 : TAX
     
     .commit_fairy_chr
     
@@ -209,9 +209,9 @@ Ancilla_RevivalFairy:
     
     LDA.b #$03 : STA.w $0C54, X
     
-    INC $11
+    INC.b $11
     
-    LDA.l $7EC211 : STA $1C
+    LDA.l $7EC211 : STA.b $1C
     
     .return
     .fairy_not_off_screen
@@ -265,7 +265,7 @@ RevivalFairy_Dust:
     LDY.b #$03
     
     ; probably chr or a grouping state?
-    LDA Ancilla_MagicPowder.animation_group_offsets, Y : STA $00
+    LDA Ancilla_MagicPowder.animation_group_offsets, Y : STA.b $00
     
     LDA.w $0C5E, X : INC A : CMP.b #$0A : BNE .powder_not_fully_dispersed
     
@@ -281,7 +281,7 @@ RevivalFairy_Dust:
     
     STA.w $0C5E, X
     
-    CLC : ADC $00 : TAY
+    CLC : ADC.b $00 : TAY
     
     ; oam group? or something else...
     LDA.w $B8F4, Y : STA.w $03C2, X
@@ -300,7 +300,7 @@ RevivalFairy_Dust:
 ; $047430-$0474C9 LOCAL JUMP LOCATION
 RevivalFairy_MonitorPlayerRecovery:
 {
-    LDA.l $7EF36C : STA $00
+    LDA.l $7EF36C : STA.b $00
     LDA.l $7EF36D : CMP $00 : BEQ .health_at_capacity
     
     CMP.b #$38 : BNE .below_seven_hearts
@@ -321,7 +321,7 @@ RevivalFairy_MonitorPlayerRecovery:
     
     .not_swimming
     
-    LDA $56 : BEQ .not_bunny
+    LDA.b $56 : BEQ .not_bunny
     
     LDY.b #$17
     
@@ -330,14 +330,14 @@ RevivalFairy_MonitorPlayerRecovery:
     .not_bunny
     .set_player_state
     
-    STY $5D
+    STY.b $5D
     
-    STZ $4D
+    STZ.b $4D
     STZ.w $036B
     STZ.w $030D
     STZ.w $030A
-    STZ $24
-    STZ $46
+    STZ.b $24
+    STZ.b $46
     STZ.w $0C4A
     STZ.w $0C4B
     STZ.w $0C4C
@@ -386,7 +386,7 @@ RevivalFairy_MonitorPlayerRecovery:
     
     .set_player_altitude
     
-    LDA.w $029E, X : STA $24
+    LDA.w $029E, X : STA.b $24
     
     RTS
 }

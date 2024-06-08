@@ -64,7 +64,7 @@ Sprite_Bot:
     
     .epsilon
     
-    TXA : EOR $1A : AND.w $0DA0, X : BNE .zeta
+    TXA : EOR.b $1A : AND.w $0DA0, X : BNE .zeta
     
     JSR Sprite2_Move
     

@@ -69,11 +69,11 @@ Zol_HidingUnseen:
     ; Clear untouchable bit.
     ASL.w $0E40, X : LSR.w $0E40, X
     
-    LDA $22 : STA.w $0D10, X
-    LDA $23 : STA.w $0D30, X
+    LDA.b $22 : STA.w $0D10, X
+    LDA.b $23 : STA.w $0D30, X
     
-    LDA $20 : CLC : ADC.b #$08 : STA.w $0D00, X
-    LDA $21 : ADC.b #$00 : STA.w $0D20, X
+    LDA.b $20 : CLC : ADC.b #$08 : STA.w $0D00, X
+    LDA.b $21 : ADC.b #$00 : STA.w $0D20, X
     
     LDA.b #$30 : STA.w $0F10, X
     
@@ -152,7 +152,7 @@ Zol_Falling:
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $1A : LSR A : AND.b #$01 : TAY
+    LDA.b $1A : LSR A : AND.b #$01 : TAY
     
     LDA .x_speeds, Y : STA.w $0D50, X
     
@@ -330,7 +330,7 @@ Zol_DrawMultiple:
     LDA.b #$00 : XBA
     LDA.w $0DC0, X : SEC : SBC.b #$04 : REP #$20 : ASL #4
     
-    ADC.w #Pool_Zol_DrawMultiple_oam_groups : STA $08
+    ADC.w #Pool_Zol_DrawMultiple_oam_groups : STA.b $08
     
     SEP #$20
     

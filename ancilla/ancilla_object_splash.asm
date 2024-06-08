@@ -35,7 +35,7 @@ Ancilla_TransmuteToObjectSplash:
     
     JSR Ancilla_AllocateOam
     
-    LDA $11 : BNE .draw
+    LDA.b $11 : BNE .draw
     
     LDA.w $0C68, X : BNE .draw
     
@@ -54,8 +54,8 @@ Ancilla_TransmuteToObjectSplash:
     
     REP #$20
     
-    LDA $00 : STA $04
-    LDA $02 : STA $06
+    LDA.b $00 : STA.b $04
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
@@ -63,7 +63,7 @@ Ancilla_TransmuteToObjectSplash:
     
     LDY.b #$00
     
-    STZ $0C
+    STZ.b $0C
     
     LDA.w $0C5E, X : ASL A : TAX
     
@@ -75,8 +75,8 @@ Ancilla_TransmuteToObjectSplash:
     
     REP #$20
     
-    LDA.w $C99B, X : CLC : ADC $04 : STA $00
-    LDA.w $C9AF, X : CLC : ADC $06 : STA $02
+    LDA.w $C99B, X : CLC : ADC.b $04 : STA.b $00
+    LDA.w $C9AF, X : CLC : ADC.b $06 : STA.b $02
     
     SEP #$20
     
@@ -97,7 +97,7 @@ Ancilla_TransmuteToObjectSplash:
     
     INX
     
-    INC $0C : LDA $0C : CMP.b #$02 : BNE .next_oam_entry
+    INC.b $0C : LDA.b $0C : CMP.b #$02 : BNE .next_oam_entry
     
     PLX
     

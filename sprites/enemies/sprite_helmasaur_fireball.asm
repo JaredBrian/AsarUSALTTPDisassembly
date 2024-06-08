@@ -34,11 +34,11 @@ Sprite_HelmasaurFireball:
     
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : TAY
     
-    LDA .properties, Y : STA $05
+    LDA .properties, Y : STA.b $05
     
     LDY.b #$00
     
-    LDA.w $0D10, X : SEC : SBC $E2 : STA ($90), Y
+    LDA.w $0D10, X : SEC : SBC.b $E2 : STA ($90), Y
     
     ; \note These two branches check if the fireball is with in 32 pixels
     ; of the edge of the screen horizontally, and 16 pixels of the top of
@@ -48,7 +48,7 @@ Sprite_HelmasaurFireball:
     ; screen.
     CLC : ADC.b #$20 : CMP.b #$40 : BCC .too_close_to_screen_edge
     
-    LDA.w $0D00, X : SEC : SBC $E8 : INY : STA ($90), Y
+    LDA.w $0D00, X : SEC : SBC.b $E8 : INY : STA ($90), Y
     
     CLC : ADC.b #$10 : CMP.b #$20 : BCS .in_range
     
@@ -68,20 +68,20 @@ Sprite_HelmasaurFireball:
     
     PLX
               INY : STA ($90), Y
-    LDA $05 : INY : STA ($90), Y
+    LDA.b $05 : INY : STA ($90), Y
     
     LDA.b #$02 : STA ($92)
     
     JSR Sprite4_CheckIfActive
     
-    TXA : EOR $1A : AND.b #$03 : BNE .anodamage_player
+    TXA : EOR.b $1A : AND.b #$03 : BNE .anodamage_player
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8
+    LDA.b $22 : SEC : SBC.w $0FD8
               CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .anodamage_player
     
-    LDA $20 : SEC : SBC.w $0FDA
+    LDA.b $20 : SEC : SBC.w $0FDA
               CLC : ADC.w #$0010 : CMP.w #$0010 : BCS .anodamage_player
     
     SEP #$20

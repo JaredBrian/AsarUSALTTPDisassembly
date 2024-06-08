@@ -18,7 +18,7 @@ Sprite_StalfosHead:
 {
     ; Force the sprite's layer to be that of the player's.
     ; \note This is somewhat unusual.
-    LDA $EE : STA.w $0F20, X
+    LDA.b $EE : STA.w $0F20, X
     
     LDA.w $0E00, X : BEQ .use_typical_oam_region
     
@@ -89,14 +89,14 @@ Sprite_StalfosHead:
     
     .flee_from_player
     
-    TXA : EOR $1A : AND.b #$03 : BNE .return
+    TXA : EOR.b $1A : AND.b #$03 : BNE .return
     
     LDA.b #$10
     
     JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA $00
-    LDA $01 : EOR.b #$FF : INC A : STA $01
+    LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
+    LDA.b $01 : EOR.b #$FF : INC A : STA.b $01
     
     BRA .approach_target_speed
 }

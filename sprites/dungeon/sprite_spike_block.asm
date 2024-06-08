@@ -125,7 +125,7 @@ TransientSpikeBlock_InMotion:
     
     ; \note This branch will never be taken. But with an actual nonzero
     ; mask this could have been used to slow down the acceleration.
-    LDA $1A : AND.b #$00 : BNE .acceleration_delay
+    LDA.b $1A : AND.b #$00 : BNE .acceleration_delay
     
     LDY.w $0DE0, X
     
@@ -209,11 +209,11 @@ TransientSpikeBlock_Retract:
 ; $0F3E00-$0F3E18 LOCAL JUMP LOCATION
 SpikeBlock_InduceTilemapUpdate:
 {
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
     JSL Dungeon_SpriteInducedTilemapUpdate
     
@@ -232,29 +232,29 @@ SpikeBlock_CheckStatueSpriteCollision:
     
     .next_sprite_slot
     
-    TYA : EOR $1A : AND.b #$01 : BNE .delay
+    TYA : EOR.b $1A : AND.b #$01 : BNE .delay
     
     LDA.w $0DD0, Y : BEQ .inactive_sprite
     
     LDA.w $0E20, Y : CMP.b #$1C : BNE .not_movable_statue
     
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $01
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $01
     
-    LDA.w $0D00, X : STA $02
-    LDA.w $0D20, X : STA $03
+    LDA.w $0D00, X : STA.b $02
+    LDA.w $0D20, X : STA.b $03
     
-    LDA.w $0D10, Y : STA $04
-    LDA.w $0D30, Y : STA $05
+    LDA.w $0D10, Y : STA.b $04
+    LDA.w $0D30, Y : STA.b $05
     
-    LDA.w $0D00, Y : STA $06
-    LDA.w $0D20, Y : STA $07
+    LDA.w $0D00, Y : STA.b $06
+    LDA.w $0D20, Y : STA.b $07
     
     REP #$20
     
-    LDA $00 : SEC : SBC $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .no_collision
+    LDA.b $00 : SEC : SBC.b $04 : CLC : ADC.w #$0010 : CMP.w #$0020 : BCS .no_collision
     
-    LDA $02 : SEC : SBC $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .no_collision
+    LDA.b $02 : SEC : SBC.b $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .no_collision
     
     SEP #$20
     

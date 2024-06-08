@@ -187,7 +187,7 @@ MadBatter_DoublePlayerMagicPower:
     JSL Palette_Restore_BG_And_HUD
     
     ; \note Redundant to do this, the subroutine does this.
-    INC $15
+    INC.b $15
     
     PLX
     

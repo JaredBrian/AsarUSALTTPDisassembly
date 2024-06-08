@@ -114,7 +114,7 @@ Sprite_Key:
     ; Is the sprite an item or other upper echelon sprite?
     LDA.w $0E20, X : CMP.b #$E4 : BCC .dont_play_clink_sfx
     
-    LDA $1B : BEQ .dont_play_clink_sfx
+    LDA.b $1B : BEQ .dont_play_clink_sfx
     
     LDA.b #$05 : JSL Sound_SetSfx2PanLong
     
@@ -135,9 +135,9 @@ Sprite_HandleBlinkingPhaseOut:
 {
     LDA.w $0B58, X : BEQ .phase_out_not_scheduled
     
-    LDA $11 : ORA.w $0FC1 : BNE .dont_blink_at_all
+    LDA.b $11 : ORA.w $0FC1 : BNE .dont_blink_at_all
     
-    LDA $1A : LSR A : BCS .decrement_blink_timer_delay
+    LDA.b $1A : LSR A : BCS .decrement_blink_timer_delay
     
     DEC.w $0B58, X
     
@@ -438,7 +438,7 @@ Sprite_DrawTransientAbsorbable:
     
     LDA.w $0FB3 : BNE .dont_use_super_priority
     
-    LDA $1B : BEQ .dont_use_super_priority
+    LDA.b $1B : BEQ .dont_use_super_priority
     
     LDA.b #$30 : STA.w $0B89, X
     
@@ -544,12 +544,12 @@ Pool_Sprite_DrawNumberedAbsorbable:
 ; $0352FA-$035362 LOCAL JUMP LOCATION
 Sprite_DrawNumberedAbsorbable:
 {
-    DEC A : STA $06
+    DEC A : STA.b $06
     
     JSR Sprite_PrepOamCoord
     
     ; $06 *= 3;
-    LDA $06 : ASL A : ADC $06 : STA $06
+    LDA.b $06 : ASL A : ADC.b $06 : STA.b $06
     
     PHX
     
@@ -565,17 +565,17 @@ Sprite_DrawNumberedAbsorbable:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -586,13 +586,13 @@ Sprite_DrawNumberedAbsorbable:
     PLX
     
     LDA .chr, X : INY           : STA ($90), Y
-                  INY : LDA $05 : STA ($90), Y
+                  INY : LDA.b $05 : STA ($90), Y
     
     PHY
     
     TYA : LSR A : LSR A : TAY
     
-    LDA .oam_sizes, X : ORA $0F : STA ($92), Y
+    LDA .oam_sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

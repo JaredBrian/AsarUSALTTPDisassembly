@@ -144,7 +144,7 @@ RunningMan_Chillin:
 ; $02E938-$02E945 BRANCH LOCATION
 RunningMan_AnimateAndRun:
 {
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     JSR Sprite2_Move
     
@@ -258,7 +258,7 @@ RunningMan_AnimateAndMakeDust:
 {
     JSL RunningMan_SpawnDashDustGarnish
     
-    LDA $1A : LSR #2 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #2 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -316,13 +316,13 @@ Pool_RunningMan_Draw:
 ; $02EA4D-$02EA70 LOCAL JUMP LOCATION
 RunningMan_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

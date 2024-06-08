@@ -66,8 +66,8 @@ Ancilla_VictorySparkle:
     
     PHX : TXA : ASL A : TAX
     
-    LDA $20 : CLC : ADC .y_offsets, X : SEC : SBC $E8 : STA $00
-    LDA $22 : CLC : ADC .x_offsets, X : SEC : SBC $E2 : STA $02
+    LDA.b $20 : CLC : ADC .y_offsets, X : SEC : SBC.b $E8 : STA.b $00
+    LDA.b $22 : CLC : ADC .x_offsets, X : SEC : SBC.b $E2 : STA.b $02
     
     PLX
     
@@ -76,7 +76,7 @@ Ancilla_VictorySparkle:
     JSR Ancilla_SetOam_XY
     
     LDA .chr, X                               : STA ($90), Y : INY
-    LDA .properties, X : ORA.b #$04 : ORA $65 : STA ($90), Y : INY
+    LDA .properties, X : ORA.b #$04 : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     

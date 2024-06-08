@@ -50,7 +50,7 @@ Sprite_WallCannon:
     
     JSR Sprite2_Move
     
-    TXA : ASL #2 : CLC : ADC $1A : AND.b #$1F : BNE .dont_reset_firing_delay
+    TXA : ASL #2 : CLC : ADC.b $1A : AND.b #$1F : BNE .dont_reset_firing_delay
     
     LDA.b #$10 : STA.w $0E10, X
     
@@ -76,11 +76,11 @@ Sprite_WallCannon:
     
     LDA.w $0DE0, X : PHX : TAX
     
-    LDA $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
-    LDA $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC .x_offsets_low, X  : STA.w $0D10, Y
+    LDA.b $01 : ADC .x_offsets_high, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
-    LDA $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC .y_offsets_low, X  : STA.w $0D00, Y
+    LDA.b $03 : ADC .y_offsets_high, X : STA.w $0D20, Y
     
     LDA .cannonball_x_speeds, X : STA.w $0D50, Y
     

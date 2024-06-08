@@ -52,12 +52,12 @@ Sprite_Chicken:
     
     LDA.w $0DD0, X : CMP.b #$0A : BNE .not_being_held_by_player
     LDA.b #$03 : STA.w $0D80, X
-        LDA $11 : BNE .inactive_game_submodule
+        LDA.b $11 : BNE .inactive_game_submodule
         
         JSR Chicken_SlowAnimate
         JSR Chicken_DrawDistressMarker
         
-        LDA $1A : AND.b #$0F : BNE .no_bawk_bawk
+        LDA.b $1A : AND.b #$0F : BNE .no_bawk_bawk
             JSR Chicken_BawkBawk
         
         .no_bawk_bawk
@@ -73,7 +73,7 @@ Sprite_Chicken:
     
     LDA.b #$0C : STA.w $0F7070, X : STA.w $0BA0A0, X
     
-    TXA : EOR $1A : AND.b #$07 : BNE .horde_damage_delay
+    TXA : EOR.b $1A : AND.b #$07 : BNE .horde_damage_delay
         JSR Sprite_CheckDamageToPlayer
     
     .horde_damage_delay
@@ -154,7 +154,7 @@ Chicken_CheckIfLifted:
 ; $0326B1-$0326FB BRANCH LOCATION
 Chicken_Hopping:
 {
-    TXA : EOR $1A : LSR A : BCC .skip_tile_collision_logic
+    TXA : EOR.b $1A : LSR A : BCC .skip_tile_collision_logic
     JSR Chicken_Move_XY_AndCheckTileCollision : BEQ .no_tile_collision
         STZ.w $0D80, X
     
@@ -204,14 +204,14 @@ Chicken_FleeingPlayer:
     
     STZ.w $0F70, X
     
-    TXA : EOR $1A : AND.b #$1F : BNE .flee_delay
+    TXA : EOR.b $1A : AND.b #$1F : BNE .flee_delay
     ; $03270C ALTERNATE ENTRY POINT
     Chicken_SetFleePlayerSpeeds:
     
     LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
     .flee_delay
     
@@ -235,7 +235,7 @@ Chicken_DrawDistressMarker:
 ; Each dot is 1 8x8 oam tile for a total of 4.
 Sprite_DrawDistressMarker:
 {
-    LDA $1A : STA $06
+    LDA.b $1A : STA.b $06
     
     ; $032733 ALTERNATE ENTRY POINT
 Sprite_CustomTimedDrawDistressMarker:
@@ -243,7 +243,7 @@ Sprite_CustomTimedDrawDistressMarker:
     ; Allocate some oam space...
     LDA.b #$10 : JSL OAM_AllocateFromRegionA
     
-    LDA $06 : AND.b #$18 : BEQ .return
+    LDA.b $06 : AND.b #$18 : BEQ .return
     PHX
     
     LDX.b #$03
@@ -257,11 +257,11 @@ Sprite_CustomTimedDrawDistressMarker:
         
         REP #$20
         
-        LDA $00 : CLC : ADC.l .x_offsets, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC.l .x_offsets, X : STA ($90), Y
         
-        AND.w #$0100 : STA $0E
+        AND.w #$0100 : STA.b $0E
         
-        LDA $02 : CLC : ADC.l .y_offsets, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.l .y_offsets, X : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA ($90), Y
@@ -275,7 +275,7 @@ Sprite_CustomTimedDrawDistressMarker:
         
         PHY : TYA : LSR #2 : TAY
         
-        LDA $0F : STA ($92), Y
+        LDA.b $0F : STA ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_oam_entry
@@ -350,7 +350,7 @@ Pool_Sprite_DrawDistressMarker:
 ; $0327D3-$032852 LOCAL JUMP LOCATION
 Chicken_SpawnAvengerChicken:
 {
-    TXA : EOR $1A : AND.b #$0F : ORA $1B : BNE .spawn_delay
+    TXA : EOR.b $1A : AND.b #$0F : ORA.b $1B : BNE .spawn_delay
     LDA.b #$0B
     LDY.b #$0A
     
@@ -367,26 +367,26 @@ Chicken_SpawnAvengerChicken:
         
         PHX
         
-        JSL GetRandomInt : STA $0F : AND.b #$02 : BEQ .vertical_entry_point
-            LDA $0F : ADC $E2    : STA.w $0D10, Y
-            LDA $E3 : ADC.b #$00 : STA.w $0D30, Y
+        JSL GetRandomInt : STA.b $0F : AND.b #$02 : BEQ .vertical_entry_point
+            LDA.b $0F : ADC.b $E2    : STA.w $0D10, Y
+            LDA.b $E3 : ADC.b #$00 : STA.w $0D30, Y
             
-            LDA $0F : AND.b #$01 : TAX
+            LDA.b $0F : AND.b #$01 : TAX
             
-            LDA.w $9F3C, X : ADC $E8    : STA.w $0D00, Y
-            LDA $E9      : ADC.b #$00 : STA.w $0D20, Y
+            LDA.w $9F3C, X : ADC.b $E8    : STA.w $0D00, Y
+            LDA.b $E9      : ADC.b #$00 : STA.w $0D20, Y
             
             BRA .set_velocity
     
         .vertical_entry_point
     
-        LDA $0F : ADC $E8    : STA.w $0D00, Y
-        LDA $E9 : ADC.b #$00 : STA.w $0D20, Y
+        LDA.b $0F : ADC.b $E8    : STA.w $0D00, Y
+        LDA.b $E9 : ADC.b #$00 : STA.w $0D20, Y
         
-        LDA $0F : AND.b #$01 : TAX
+        LDA.b $0F : AND.b #$01 : TAX
         
-        LDA.w $9F3C, X : ADC $E2    : STA.w $0D10, Y
-        LDA $E3      : ADC.b #$00 : STA.w $0D30, Y
+        LDA.w $9F3C, X : ADC.b $E2    : STA.w $0D10, Y
+        LDA.b $E3      : ADC.b #$00 : STA.w $0D30, Y
     
         .set_velocity
     

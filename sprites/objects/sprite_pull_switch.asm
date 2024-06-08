@@ -41,11 +41,11 @@ Sprite_BadPullSwitch:
     
     LDA.w $D738, Y : STA.w $0377
     
-    LDA.w $0D00, X : SEC : SBC.b #$13 : STA $20
-    LDA.w $0D20, X : SBC.b #$00 : STA $21
+    LDA.w $0D00, X : SEC : SBC.b #$13 : STA.b $20
+    LDA.w $0D20, X : SBC.b #$00 : STA.b $21
     
-    LDA.w $0D10, X : STA $22
-    LDA.w $0D30, X : STA $23
+    LDA.w $0D10, X : STA.b $22
+    LDA.w $0D30, X : STA.b $23
     
     LDA.w $0DF0, X : BNE .alpha
     
@@ -89,12 +89,12 @@ Sprite_BadPullSwitch:
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .alpha
     
-    STZ $27
-    STZ $28
+    STZ.b $27
+    STZ.b $28
     
     JSL Sprite_RepelDashAttackLong
     
-    STZ $48
+    STZ.b $48
     
     LDA.w $0020 : SEC : SBC.w $0D00, X : CMP.b #$02 : BPL .beta
     
@@ -102,15 +102,15 @@ Sprite_BadPullSwitch:
     
     LDA.w $0022 : CMP.w $0D10, X : BPL .delta
     
-    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $22
-    LDA.w $0D30, X : SBC.b #$00 : STA $23
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA.b $22
+    LDA.w $0D30, X : SBC.b #$00 : STA.b $23
 
     RTS
     
     .delta
     
-    LDA.w $0D10, X : CLC : ADC.b #$0E : STA $22
-    LDA.w $0D30, X : ADC.b #$00 : STA $23
+    LDA.w $0D10, X : CLC : ADC.b #$0E : STA.b $22
+    LDA.w $0D30, X : ADC.b #$00 : STA.b $23
     
     .alpha
     
@@ -120,9 +120,9 @@ Sprite_BadPullSwitch:
     
     INC.w $037979
     
-    LDA $F2 : BPL .epsilon
+    LDA.b $F2 : BPL .epsilon
     
-    LDA $F0 : AND.b #$03 : BNE .epsilon
+    LDA.b $F0 : AND.b #$03 : BNE .epsilon
     
     LDA.w $0DC0C0, X : BNE .epsilon
     
@@ -134,15 +134,15 @@ Sprite_BadPullSwitch:
     
     .epsilon
     
-    LDA.w $0D0000, X : SEC : SBC.b #$15 : STA $20
-    LDA.w $0D2020, X : SBC.b #$00 : STA $21
+    LDA.w $0D0000, X : SEC : SBC.b #$15 : STA.b $20
+    LDA.w $0D2020, X : SBC.b #$00 : STA.b $21
     
     RTS
     
     .beta
     
-    LDA.w $0D00, X : CLC : ADC.b #$09 : STA $20
-    LDA.w $0D20, X : ADC.b #$00 : STA $21
+    LDA.w $0D00, X : CLC : ADC.b #$09 : STA.b $20
+    LDA.w $0D20, X : ADC.b #$00 : STA.b $21
     
     RTS
 } 
@@ -191,7 +191,7 @@ BadPullDownSwitch_Draw:
     
     LDA .additional_handle_y_indices, Y : TAY
     
-    LDA .additional_handle_y_offsets, Y : STA $06
+    LDA .additional_handle_y_offsets, Y : STA.b $06
     
     PHX
     
@@ -200,8 +200,8 @@ BadPullDownSwitch_Draw:
     
     .next_oam_entry
     
-    LDA $00 : CLC : ADC.w $D7CA, X          : STA ($90), Y
-    LDA $02 : CLC : ADC.w $D7D0, X    : INY : STA ($90), Y
+    LDA.b $00 : CLC : ADC.w $D7CA, X          : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w $D7D0, X    : INY : STA ($90), Y
     LDA .chr, X                 : INY : STA ($90), Y
     LDA .h_flip, X : ORA.b #$21 : INY : STA ($90), Y
     
@@ -211,7 +211,7 @@ BadPullDownSwitch_Draw:
     
     DEY #2
     
-    LDA ($90), Y : SEC : SBC $06 : STA ($90), Y
+    LDA ($90), Y : SEC : SBC.b $06 : STA ($90), Y
     
     .alpha
     
@@ -254,8 +254,8 @@ BadPullUpSwitch_Draw:
     
     LDA .additional_handle_y_indices, Y : TAY
     
-    LDA .additional_handle_y_offsets, Y : STA $06
-                                          STZ $07
+    LDA .additional_handle_y_offsets, Y : STA.b $06
+                                          STZ.b $07
     
     PHX
     
@@ -266,15 +266,15 @@ BadPullUpSwitch_Draw:
     
     REP #$20
     
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02
+    LDA.b $02
     
     CPX.b #$00 : BNE .alpha
     
-    SEC : SBC $06
+    SEC : SBC.b $06
     
     .alpha
     
@@ -287,11 +287,11 @@ BadPullUpSwitch_Draw:
     .on_screen_y
     
     LDA .chr, X : INY : STA ($90), Y
-    LDA $05      : INY : STA ($90), Y
+    LDA.b $05      : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     
@@ -314,11 +314,11 @@ Sprite_GoodPullSwitch:
     
     LDA .player_pull_poses-1, Y : STA.w $0377
     
-    LDA.w $0D00, X : CLC : ADC .player_y_offsets-1, Y : STA $20
-    LDA.w $0D20, X : ADC.b #$00                 : STA $21
+    LDA.w $0D00, X : CLC : ADC .player_y_offsets-1, Y : STA.b $20
+    LDA.w $0D20, X : ADC.b #$00                 : STA.b $21
     
-    LDA.w $0D10, X : STA $22
-    LDA.w $0D30, X : STA $23
+    LDA.w $0D10, X : STA.b $22
+    LDA.w $0D30, X : STA.b $23
     
     LDA.w $0DF0, X : BNE .alpha
     
@@ -395,17 +395,17 @@ GoodPUllSwitch_Draw:
     
     LDY.w $0DC0, X
     
-    LDA .y_offsets, Y : STA $06
+    LDA .y_offsets, Y : STA.b $06
     
     LDY.b #$04
     
-    LDA $00                      : STA ($90), Y
+    LDA.b $00                      : STA ($90), Y
                       LDY.b #$00 : STA ($90), Y
-    LDA $02 : DEC A : LDY.b #$01 : STA ($90), Y
-    CLC : ADC $06         : LDY.b #$05 : STA ($90), Y
+    LDA.b $02 : DEC A : LDY.b #$01 : STA ($90), Y
+    CLC : ADC.b $06         : LDY.b #$05 : STA ($90), Y
     LDA.b #$CE      : LDY.b #$06 : STA ($90), Y
     LDA.b #$EE      : LDY.b #$02 : STA ($90), Y
-    LDA $05         : LDY.b #$03 : STA ($90), Y
+    LDA.b $05         : LDY.b #$03 : STA ($90), Y
                       LDY.b #$07 : STA ($90), Y
     
     LDY.b #$02
@@ -422,12 +422,12 @@ GoodPUllSwitch_Draw:
 {
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_player_collision
     
-    STZ $27
-    STZ $28
+    STZ.b $27
+    STZ.b $28
     
     JSL Sprite_RepelDashAttackLong
     
-    STZ $48
+    STZ.b $48
     
     LDA.w $0020 : SEC : SBC.w $0D00, X : CMP.b #$02 : BPL .beta
     
@@ -435,8 +435,8 @@ GoodPUllSwitch_Draw:
     
     LDA.w $0022 : CMP.w $0D10, X : BPL .delta
     
-    LDA.w $0D10, X : SEC : SBC.b #$10 : STA $22
-    LDA.w $0D30, X : SBC.b #$00 : STA $23
+    LDA.w $0D10, X : SEC : SBC.b #$10 : STA.b $22
+    LDA.w $0D30, X : SBC.b #$00 : STA.b $23
     
     .no_player_collision
     
@@ -444,15 +444,15 @@ GoodPUllSwitch_Draw:
     
     .delta
     
-    LDA.w $0D10, X : CLC : ADC.b #$0E : STA $22
-    LDA.w $0D30, X : ADC.b #$00 : STA $23
+    LDA.w $0D10, X : CLC : ADC.b #$0E : STA.b $22
+    LDA.w $0D30, X : ADC.b #$00 : STA.b $23
     
     RTS
     
     .A_button_held
     
-    LDA.w $0D00, X : SEC : SBC.b #$15 : STA $20
-    LDA.w $0D20, X : SBC.b #$00 : STA $21
+    LDA.w $0D00, X : SEC : SBC.b #$15 : STA.b $20
+    LDA.w $0D20, X : SBC.b #$00 : STA.b $21
     
     RTS
     
@@ -460,13 +460,13 @@ GoodPUllSwitch_Draw:
     
     INC.w $0379
     
-    LDA $F2 : BPL .epsilon
+    LDA.b $F2 : BPL .epsilon
     
-    LDA $F0 : AND.b #$03 : BNE .epsilon
+    LDA.b $F0 : AND.b #$03 : BNE .epsilon
     
     INC.w $0377
     
-    LDA $F0 : AND.b #$04 : BEQ .epsilon
+    LDA.b $F0 : AND.b #$04 : BEQ .epsilon
     
     LDA.w $0DC0, X : BNE .epsilon
     
@@ -478,8 +478,8 @@ GoodPUllSwitch_Draw:
     
     .epsilon
     
-    LDA.w $0D00, X : CLC : ADC.b #$09 : STA $20
-    LDA.w $0D20, X : ADC.b #$00 : STA $21
+    LDA.w $0D00, X : CLC : ADC.b #$09 : STA.b $20
+    LDA.w $0D20, X : ADC.b #$00 : STA.b $21
     
     RTS
 }

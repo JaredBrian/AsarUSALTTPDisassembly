@@ -93,9 +93,9 @@ Pirogusu_Emerge:
     
     .delay
     
-    LDA.w $0DE0, X : ASL A : STA $00
+    LDA.w $0DE0, X : ASL A : STA.b $00
     
-    LDA.w $0DF0, X : LSR #3 : AND.b #$01 : ORA $00 : TAY
+    LDA.w $0DF0, X : LSR #3 : AND.b #$01 : ORA.b $00 : TAY
     
     LDA .animation_states, Y : STA.w $0D90, X
     
@@ -152,9 +152,9 @@ Pirogusu_SplashIntoPlay:
     ; $0F280A ALTERNATE ENTRY POINT
     shared Pirogusu_Animate:
     
-    LDA.w $0DE0, X : ASL A : STA $00
+    LDA.w $0DE0, X : ASL A : STA.b $00
     
-    LDA $1A : AND.b #$04 : LSR #2 : ORA $00 : TAY
+    LDA.b $1A : AND.b #$04 : LSR #2 : ORA.b $00 : TAY
     
     LDA .animation_states, Y : STA.w $0D90, X
     
@@ -252,15 +252,15 @@ Pool_Pirogusu_SpawnSplashGarnish:
 ; $0F2897-$0F2902 LOCAL JUMP LOCATION
 Pirogusu_SpawnSplashGarnish:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .garnish_delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .garnish_delay
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .displacements, Y : STA $00
+    LDA .displacements, Y : STA.b $00
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .displacements, Y : STA $01
+    LDA .displacements, Y : STA.b $01
     
     PHX : TXY
     
@@ -283,10 +283,10 @@ Pirogusu_SpawnSplashGarnish:
     LDA.b #$0B : STA.l $7FF800, X
                  STA.w $0FB4
     
-    LDA.w $0D10, Y : CLC : ADC $00    : STA.l $7FF83C, X
+    LDA.w $0D10, Y : CLC : ADC.b $00    : STA.l $7FF83C, X
     LDA.w $0D30, Y : ADC.b #$00 : STA.l $7FF878, X
     
-    LDA.w $0D00, Y : CLC : ADC.b #$10 : PHP : CLC : ADC $01    : STA.l $7FF81E, X
+    LDA.w $0D00, Y : CLC : ADC.b #$10 : PHP : CLC : ADC.b $01    : STA.l $7FF81E, X
     LDA.w $0D20, Y : ADC.b #$00 : PLP : ADC.b #$00 : STA.l $7FF85A, X
     
     LDA.b #$0F : STA.l $7FF90E, X

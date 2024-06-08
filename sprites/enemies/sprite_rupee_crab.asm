@@ -46,8 +46,8 @@ Sprite_CoveredRupeeCrab:
     
     LDA.w $0DF0, X : BNE .BRANCH_BETA
     
-    LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .BRANCH_GAMMA
-    LDA $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .BRANCH_GAMMA
+    LDA.b $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .BRANCH_GAMMA
+    LDA.b $0F : CLC : ADC.b #$20 : CMP.b #$40 : BCS .BRANCH_GAMMA
     
     LDA.b #$20 : STA.w $0DF0, X
     
@@ -162,17 +162,17 @@ Sprite_RupeeCrab:
     
     LDA.w $0F10, X : BNE .BRANCH_DELTA
     
-    TXA : EOR $1A : AND.b #$1F : BNE .BRANCH_DELTA
+    TXA : EOR.b $1A : AND.b #$1F : BNE .BRANCH_DELTA
     
     LDA.b #$10 : JSR Sprite_ProjectSpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
     .BRANCH_DELTA
     
-    LDA $1A : AND.b #$01 : BNE .BRANCH_EPSILON
+    LDA.b $1A : AND.b #$01 : BNE .BRANCH_EPSILON
     
     INC.w $0ED0, X
     
@@ -206,8 +206,8 @@ Sprite_RupeeCrab:
     
     JSL Sprite_SetSpawnedCoords
     
-    LDA $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$08 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
     LDA.b #$20 : STA.w $0F80, Y
     
@@ -219,9 +219,9 @@ Sprite_RupeeCrab:
     
     LDA.b #$10 : JSR Sprite_ApplySpeedTowardsPlayer
     
-    LDA $00 : EOR.b #$FF : STA.w $0D40, X
+    LDA.b $00 : EOR.b #$FF : STA.w $0D40, X
     
-    LDA $01 : EOR.b #$FF : STA.w $0D50, X
+    LDA.b $01 : EOR.b #$FF : STA.w $0D50, X
     
     PLX
     
@@ -290,15 +290,15 @@ CoveredRupeeCrab_Draw:
     
     LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
     
-    STZ $07
+    STZ.b $07
     
     LDA.w $0E20, X : CMP.b #$17 : BNE .under_rock
     
-    LDA.b #$02 : STA $07
+    LDA.b #$02 : STA.b $07
     
     .under_rock
     
-    LDA.w $0DC0, X : ASL A : STA $06
+    LDA.w $0DC0, X : ASL A : STA.b $06
     
     PHX
     
@@ -308,17 +308,17 @@ CoveredRupeeCrab_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
 
@@ -330,16 +330,16 @@ CoveredRupeeCrab_Draw:
     
     LDA .chr, X : CMP.b #$44 : BNE .chr_mismatch
     
-    CLC : ADC $07
+    CLC : ADC.b $07
     
     .chr_mismatch
     
                                                 INY : STA ($90), Y
-    LDA $05 : AND.b #$FE : ORA .properties, X : INY : STA ($90), Y
+    LDA.b $05 : AND.b #$FE : ORA .properties, X : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

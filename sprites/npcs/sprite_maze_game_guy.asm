@@ -26,7 +26,7 @@ Sprite_MazeGameGuy:
     
     JSL Sprite_PlayerCantPassThrough
     
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     ; Check if the event has been initialized.
     LDA.w $0ABF : BNE .yous_a_cheater
@@ -62,10 +62,10 @@ MazeGameGuy_ParseElapsedTime:
     LDA.l $7FFE00 : STA.l $7FFE04
     LDA.l $7FFE02 : STA.l $7FFE06
     
-    STZ $00
-    STZ $02
-    STZ $04
-    STZ $06
+    STZ.b $00
+    STZ.b $02
+    STZ.b $04
+    STZ.b $06
     
     ; \note This series of loops extracts the number of minutes (up to 599 
     ; minutes) and seconds it took to complete the maze. Interestingly
@@ -91,7 +91,7 @@ MazeGameGuy_ParseElapsedTime:
     
     SBC.w #600
     
-    INC $06
+    INC.b $06
     
     BRA .modulo_600_loop
     
@@ -103,7 +103,7 @@ MazeGameGuy_ParseElapsedTime:
     
     SBC.w #60
     
-    INC $04
+    INC.b $04
     
     BRA .modulo_60_loop
     
@@ -115,19 +115,19 @@ MazeGameGuy_ParseElapsedTime:
     
     SBC.w #10
     
-    INC $02
+    INC.b $02
     
     BRA .modulo_10_loop
     
     .exhausted_modulo_10
     
     ; The last digit is a number from 0 to 9.
-    STA $00
+    STA.b $00
     
     SEP #$30
     
-    LDA $02 : ASL #4 : ORA $00 : STA.w $1CF2
-    LDA $06 : ASL #4 : ORA $04 : STA.w $1CF3
+    LDA.b $02 : ASL #4 : ORA.b $00 : STA.w $1CF2
+    LDA.b $06 : ASL #4 : ORA.b $04 : STA.w $1CF3
     
     LDA.b #$CB
     LDY.b #$00
@@ -152,7 +152,7 @@ MazeGameGuy_CheckPlayerQualification:
     
     TXY
     
-    LDX $8A
+    LDX.b $8A
     
     LDA.l $7EF280, X : TYX : AND.b #$40 : BEQ .heart_piece_not_acquired
     
@@ -288,13 +288,13 @@ MazeGameGuy_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

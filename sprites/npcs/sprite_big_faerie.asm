@@ -60,9 +60,9 @@ FairyCloud_SeekPlayer:
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0003 : CMP.w #$0006 : BCS .player_too_far
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$000B : CMP.w #$0006 : BCS .player_too_far
     
     ; Add 20 hearts to the heart refill variable. This should fully heal
     ; the player no matter how many heart containers they have.
@@ -187,9 +187,9 @@ BigFairy_AwaitClosePlayer:
     
     JSR Sprite4_DirectionToFacePlayer
     
-    LDA $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
+    LDA.b $0F : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
     
-    LDA $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
+    LDA.b $0E : CLC : ADC.b #$30 : CMP.b #$60 : BCS .player_too_far
     
     JSL Player_HaltDashAttackLong
     
@@ -261,7 +261,7 @@ Pool_BigFairy_Draw:
 BigFairy_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -318,16 +318,16 @@ FairyCloud_Draw:
     LDA .offset_indices, Y : TAY
     
     ; Randomly picking an X or Y coordinate offset
-    LDA .xy_offsets_low, Y  : STA $00
-    LDA .xy_offsets_high, Y : STA $01
+    LDA .xy_offsets_low, Y  : STA.b $00
+    LDA .xy_offsets_high, Y : STA.b $01
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
     LDA .offset_indices, Y : TAY
     
     ; Same here... not sure which is X and which is Y
-    LDA .xy_offsets_low, Y  : STA $02
-    LDA .xy_offsets_high, Y : STA $03
+    LDA .xy_offsets_low, Y  : STA.b $02
+    LDA .xy_offsets_high, Y : STA.b $03
     
     JSL Sprite_SpawnSimpleSparkleGarnish
 

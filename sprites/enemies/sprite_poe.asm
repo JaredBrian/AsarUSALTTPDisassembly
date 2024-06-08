@@ -30,9 +30,9 @@ Sprite_Poe:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     SEP #$20
     
@@ -67,7 +67,7 @@ Sprite_Poe:
     
     JSR Sprite_Move
     
-    LDA $1A : LSR A : BCS .z_speed_adjustment_delay
+    LDA.b $1A : LSR A : BCS .z_speed_adjustment_delay
     
     LDA.w $0ED0, X : AND.b #$01 : TAY
     
@@ -199,17 +199,17 @@ Poe_Draw:
 {
     JSR Sprite_PrepOamCoord
     
-    LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA $06
+    LDA.w $0E80, X : LSR #3 : AND.b #$03 : STA.b $06
     
     LDA.w $0DE0, X : ASL A : PHX : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X : STA ($90), Y
     
-    CLC : ADC.w #$0100 : STA $0E
+    CLC : ADC.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC.w #$0009 : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.w #$0009 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -217,12 +217,12 @@ Poe_Draw:
     
     .on_screen_y
     
-    LDX $06
+    LDX.b $06
     
     LDA .chr, X                       : INY : STA ($90), Y
-    LDA $05 : AND.b #$F0 : ORA.b #$02 : INY : STA ($90), Y
+    LDA.b $05 : AND.b #$F0 : ORA.b #$02 : INY : STA ($90), Y
     
-    LDA $0F : STA ($92)
+    LDA.b $0F : STA ($92)
     
     PLX
     

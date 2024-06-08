@@ -36,7 +36,7 @@ Sprite_GreenStalfos:
     
     LDA .facing_direction, Y : CMP.w $002F : BEQ .player_is_facing
     
-    TXA : EOR $1A : AND.b #$07 : BNE .delay_for_speedup
+    TXA : EOR.b $1A : AND.b #$07 : BNE .delay_for_speedup
     
     JSR Sprite3_DirectionToFacePlayer
     
@@ -63,7 +63,7 @@ Sprite_GreenStalfos:
     
     INC.w $0D90, X
     
-    TXA : EOR $1A : AND.b #$0F : BNE .delay_for_slowdown
+    TXA : EOR.b $1A : AND.b #$0F : BNE .delay_for_slowdown
     
     LDA.w $0DA0, X : BEQ .finished_decelerating
     

@@ -42,7 +42,7 @@ Sprite_Lumberjacks:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Player_HaltDashAttackLong
     
@@ -57,17 +57,17 @@ Sprite_Lumberjacks:
     
     JSR Lumberjacks_CheckProximity : BCS .dont_speak
     
-    LDA $F6 : AND.b #$80 : BEQ .dont_speak
+    LDA.b $F6 : AND.b #$80 : BEQ .dont_speak
     
-    LDA $22 : CMP.w $0D10, X : ROL A : AND.b #$01 : STA $00 : STZ $01
+    LDA.b $22 : CMP.w $0D10, X : ROL A : AND.b #$01 : STA.b $00 : STZ.b $01
     
     LDA.l $7EF359 : CMP.b #$02 : BCC .player_doesnt_have_master_sword
     
-    LDA.b #$02 : STA $01
+    LDA.b #$02 : STA.b $01
     
     .player_doesnt_have_master_sword
     
-    LDA $01 : CLC : ADC $00 : TAY
+    LDA.b $01 : CLC : ADC.b $00 : TAY
     
     LDA .messages_low, Y        : XBA
     LDA .messages_high, Y : TAY : XBA
@@ -76,7 +76,7 @@ Sprite_Lumberjacks:
     
     .dont_speak
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }
@@ -106,11 +106,11 @@ Lumberjacks_CheckProximity:
 {
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $22
+    LDA.w $0FD8 : SEC : SBC.b $22
     
     CLC : ADC .x_lower_ranges, Y : CMP .x_upper_ranges, Y : BCS .not_close_enough
     
-    LDA.w $0FDA : SEC : SBC $20
+    LDA.w $0FDA : SEC : SBC.b $20
     
     CLC : ADC .y_lower_ranges, Y : CMP .y_upper_ranges, Y : BCS .not_close_enough
     
@@ -172,13 +172,13 @@ Pool_Lumberjacks_Draw:
 ; $06C6BA-$06C6DD LOCAL JUMP LOCATION
 Lumberjacks_Draw:
 {
-    LDA.b #$0B : STA $06
-                 STZ $07
+    LDA.b #$0B : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.quantity_preset
     

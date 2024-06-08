@@ -6098,7 +6098,7 @@ Upon starting this routine, inspect the 8-bit value at the long address [$00], Y
 If it is positive, that value is stored at $04, Y is incremented, and the next value is stored at $03. Y increments.
 If the next value at [$00], Y is negative (AND 0x80 tells us this) then A will end up as 0x1, and 0x0 is the value was positive.
 This is stored at $07.
-The very same value is read in but this time we AND with 0x40, STA $05, and LSR A three times.
+The very same value is read in but this time we AND with 0x40, STA.b $05, and LSR A three times.
 The AND left a nonzero result, we will have A = 0x80, and if not, A = 0x00.
 Ultimately either are ORed with 0x01 so we have A = 0x81 or 0x01.
 The 0x01 tells us data will be being transferred in Mode 2 (a la register $4310).

@@ -258,37 +258,37 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     REP #$20
     
-    LDA !coordinator_angle : CLC : ADC.w $ECC0, Y : STA $00
+    LDA !coordinator_angle : CLC : ADC.w $ECC0, Y : STA.b $00
     
     SEP #$20
     
     PLY
     
-    LDA !radius : STA $0F
+    LDA !radius : STA.b $0F
     
     PHX
     
     REP #$30
     
-    LDA $00 : AND.w #$00FF : ASL A : TAX
+    LDA.b $00 : AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $04
+    LDA.l $04E800, X : STA.b $04
     
-    LDA $00 : CLC : ADC.w #$0080 : STA $02
+    LDA.b $00 : CLC : ADC.w #$0080 : STA.b $02
     
     AND.w #$00FF : ASL A : TAX
     
-    LDA.l $04E800, X : STA $06
+    LDA.l $04E800, X : STA.b $06
     
     SEP #$30
     
     PLX
     
-    LDA $04 : STA.w $4202
+    LDA.b $04 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $05 : BNE .BRANCH_GAMMA
+    LDY.b $05 : BNE .BRANCH_GAMMA
     
     STA.w $4203
     
@@ -303,28 +303,28 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     .BRANCH_GAMMA
     
-    LSR $01 : BCC .BRANCH_DELTA
+    LSR.b $01 : BCC .BRANCH_DELTA
     
     EOR.b #$FF : INC A
     
     .BRANCH_DELTA
     
-    STZ $0A
+    STZ.b $0A
     
     CMP.b #$00 : BPL .BRANCH_EPSILON
     
-    DEC $0A
+    DEC.b $0A
     
     .BRANCH_EPSILON
     
     CLC : ADC !overlord_x_low,  X : LDY.w $0FB5 : STA !puppet_x_low,  Y
-    LDA !overlord_x_high, X : ADC $0A   : STA !pupper_x_high, Y
+    LDA !overlord_x_high, X : ADC.b $0A   : STA !pupper_x_high, Y
     
-    LDA $06 : STA.w $4202
+    LDA.b $06 : STA.w $4202
     
-    LDA $0F
+    LDA.b $0F
     
-    LDY $07 : BNE .BRANCH_ZETA
+    LDY.b $07 : BNE .BRANCH_ZETA
     
     STA.w $4203
     
@@ -337,22 +337,22 @@ ArmosCoordinator_TimedRotateThenTransition:
     
     .BRANCH_ZETA
     
-    LSR $03 : BCC .BRANCH_THETA
+    LSR.b $03 : BCC .BRANCH_THETA
     
     EOR.b #$FF : INC A
     
     .BRANCH_THETA
     
-    STZ $0A
+    STZ.b $0A
     
     CMP.b #$00 : BPL .BRANCH_IOTA
     
-    DEC $0A
+    DEC.b $0A
     
     .BRANCH_IOTA
     
     CLC : ADC !overlord_y_low, X  : LDY.w $0FB5 : STA !puppet_y_low,  Y
-    LDA !overlord_y_high, X : ADC $0A   : STA !puppet_y_high, Y
+    LDA !overlord_y_high, X : ADC.b $0A   : STA !puppet_y_high, Y
     
     INC.w $0FB5
     

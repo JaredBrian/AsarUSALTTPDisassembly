@@ -19,7 +19,7 @@ Pool_Ancilla_TravelBirdIntro:
 Ancilla_TravelBirdIntro:
 {
     ; Check the frame index.
-    LDA $1A : AND.b #$1F : BNE .no_flutter_sfx
+    LDA.b $1A : AND.b #$1F : BNE .no_flutter_sfx
     
     LDA.b #$1E : JSR Ancilla_DoSfx3
     
@@ -126,10 +126,10 @@ Ancilla_TravelBirdIntro:
     ; \wtf(confirmed) Um, you know you could just fucking xor with 0x03
     ; directly, then store it back and you'd do it in 3 instructions instead
     ; of 8?
-    ; \optimize See above. (lda addr : eor.b #constant : sta addr)
-    LDA.w $0C54, X : AND.b #$03 : EOR.b #$03 : STA $00
+    ; \optimize See above. (LDA addr : EOR.b #constant : STA addr)
+    LDA.w $0C54, X : AND.b #$03 : EOR.b #$03 : STA.b $00
     
-    LDA.w $0C54, X : AND.b #$FC : ORA $00 : STA.w $0C54, X
+    LDA.w $0C54, X : AND.b #$FC : ORA.b $00 : STA.w $0C54, X
     
     .x_speed_not_maxed
     
@@ -143,7 +143,7 @@ Ancilla_TravelBirdIntro:
     
     .abs_x_speed_2
     
-    STA $00
+    STA.b $00
     
     ; Set the direction the bird is facing.
     TYA : STA.w $0C72, X
@@ -153,16 +153,16 @@ Ancilla_TravelBirdIntro:
     ; \note Seems that the actual z speed determined is actually affected
     ; by the current x speed. Perhaps that's where this ellipsoid behavior
     ; originates from.
-    LDA .swirl_speeds, Y : SEC : SBC $00 : LSR A : STA $00
+    LDA .swirl_speeds, Y : SEC : SBC.b $00 : LSR A : STA.b $00
     
     LDA.w $0C54, X : AND.b #$02 : BEQ .lowering
     
     ; (Or rising, in this case.)
-    LDA $00 : EOR.b #$FF : INC A : STA $00
+    LDA.b $00 : EOR.b #$FF : INC A : STA.b $00
     
     .lowering
     
-    LDA $00 : STA.w $0294, X
+    LDA.b $00 : STA.w $0294, X
     
     .update_position_and_draw
     
@@ -179,7 +179,7 @@ Ancilla_TravelBirdIntro:
     
     LDA.w $0C72, X : AND.b #$01 : TAY
     
-    LDA .hflip_settings, Y : STA $08
+    LDA .hflip_settings, Y : STA.b $08
     
     REP #$20
     
@@ -189,12 +189,12 @@ Ancilla_TravelBirdIntro:
     
     .sign_ext_z_coord
     
-    EOR.w #$FFFF : INC A : STA $04
+    EOR.w #$FFFF : INC A : STA.b $04
     
-    LDA $00 : STA $0A
-    SEC : SBC $04 : STA $04
+    LDA.b $00 : STA.b $0A
+    SEC : SBC.b $04 : STA.b $04
     
-    LDA $02 : STA $06
+    LDA.b $02 : STA.b $06
     
     SEP #$20
     
@@ -205,15 +205,15 @@ Ancilla_TravelBirdIntro:
     REP #$20
     
     ; Check up on this to work on the bird (Paul)
-    LDA.w $DDDE : AND.w #$00FF : CLC : ADC $04 : STA $00
-    LDA.w $DDE1 : AND.w #$00FF : CLC : ADC $06 : STA $02
+    LDA.w $DDDE : AND.w #$00FF : CLC : ADC.b $04 : STA.b $00
+    LDA.w $DDE1 : AND.w #$00FF : CLC : ADC.b $06 : STA.b $02
     
     SEP #$20
     
     JSR Ancilla_SetOam_XY
     
     LDA.w $DDD8                        : STA ($90), Y : INY
-    LDA.w $DDDB : ORA.b #$30 : ORA $08 : STA ($90), Y : INY
+    LDA.w $DDDB : ORA.b #$30 : ORA.b $08 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -223,13 +223,13 @@ Ancilla_TravelBirdIntro:
     
     REP #$20
     
-    LDA $0A : CLC : ADC.w #$0030 : STA $00
+    LDA.b $0A : CLC : ADC.w #$0030 : STA.b $00
     
-    LDA $06 : STA $02
+    LDA.b $06 : STA.b $02
     
     SEP #$20
     
-    LDA.b #$30 : STA $04
+    LDA.b #$30 : STA.b $04
     
     LDX.b #$01 : JSR Ancilla_DrawShadow
     
@@ -237,7 +237,7 @@ Ancilla_TravelBirdIntro:
     
     REP #$20
     
-    LDA $06      : BMI .bird_on_screen_x
+    LDA.b $06      : BMI .bird_on_screen_x
     CMP.w #$00F8 : BCC .bird_on_screen_x
     
     SEP #$20
@@ -246,7 +246,7 @@ Ancilla_TravelBirdIntro:
     STZ.w $0C4A, X
     
     ; Return to normal mode.
-    STZ $11
+    STZ.b $11
     
     ; Give player the Flute 3 item.
     LDA.b #$03 : STA.l $7EF34C

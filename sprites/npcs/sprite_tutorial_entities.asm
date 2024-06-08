@@ -102,7 +102,7 @@ Sprite_TutorialEntities:
     
     JSR Sprite2_CheckDamage
     
-    TXA : EOR $1A : AND.b #$1F : BNE .delay_facing
+    TXA : EOR.b $1A : AND.b #$1F : BNE .delay_facing
     
     JSR Trooper_FacePlayer
     
@@ -150,7 +150,7 @@ TutorialSoldier_Draw:
     JSR Sprite2_PrepOamCoord
     
     ; $06 = ($0DC0, X * 5)
-    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL #2 : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -160,16 +160,16 @@ TutorialSoldier_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA.w $D5BF, X : CLC : ADC $00       : STA ($90), Y
-                                   AND.w #$0100 : STA $0E
+    LDA.w $D5BF, X : CLC : ADC.b $00       : STA ($90), Y
+                                   AND.w #$0100 : STA.b $0E
     
-    LDA.w $D5E7, X : CLC : ADC $02 : INY : STA ($90), Y
+    LDA.w $D5E7, X : CLC : ADC.b $02 : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     
@@ -184,7 +184,7 @@ TutorialSoldier_Draw:
     
     LDA .chr, X : INY : STA ($90), Y : CMP.b #$40
     
-    LDA .vh_flip, X : ORA $05 : BCS .no_palette_override
+    LDA .vh_flip, X : ORA.b $05 : BCS .no_palette_override
     
     AND.b #$F1 : ORA.b #$08
     
@@ -198,7 +198,7 @@ TutorialSoldier_Draw:
     
     TYA : LSR A : LSR A : TAY
     
-    LDA .sizes, X : ORA $0F : STA ($92), Y
+    LDA .sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

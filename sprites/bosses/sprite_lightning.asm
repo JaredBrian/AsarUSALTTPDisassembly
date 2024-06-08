@@ -6,11 +6,11 @@ Sprite_Lightning:
 {
     ; VITREOUS EYEBALL? (Sprite 0xBF)
     
-    LDA $1A : ASL A : AND.b #$0E : STA $00
+    LDA.b $1A : ASL A : AND.b #$0E : STA.b $00
     
     LDY.w $0D90, X
     
-    LDA.w $0F50, X : AND.b #$B1 : ORA.w $E3A5, Y : ORA $00 : STA.w $0F50, X
+    LDA.w $0F50, X : AND.b #$B1 : ORA.w $E3A5, Y : ORA.b $00 : STA.w $0F50, X
     
     LDA.w $E39D, Y
     
@@ -34,7 +34,7 @@ Sprite_Lightning:
     LDA.w $0D00, X : CLC : ADC.b #$10 : STA.w $0D00, X : PHA
     LDA.w $0D20, X : ADC.b #$00 : STA.w $0D20, X
     
-    PLA : SEC : SBC $E8 : CMP.b #$D0 : BCC .BRANCH_GAMMA
+    PLA : SEC : SBC.b $E8 : CMP.b #$D0 : BCC .BRANCH_GAMMA
     
     STZ.w $0DD0, X
     
@@ -42,22 +42,22 @@ Sprite_Lightning:
     
     .BRANCH_GAMMA
     
-    JSL GetRandomInt : AND.b #$07 : STA $00
+    JSL GetRandomInt : AND.b #$07 : STA.b $00
     
-    LDA.w $0D90, X : ASL #3 : ORA $00 : TAY
+    LDA.w $0D90, X : ASL #3 : ORA.b $00 : TAY
     
-    STZ $01
+    STZ.b $01
     
     LDA.w $E3AD, Y : BPL .BRANCH_DELTA
     
-    DEC $01
+    DEC.b $01
     
     .BRANCH_DELTA
     
     CLC : ADC.w $0D10, X           : STA.w $0D10, X
-    LDA.w $0D30, X : ADC $01 : STA.w $0D30, X
+    LDA.w $0D30, X : ADC.b $01 : STA.w $0D30, X
     
-    LDA $00 : STA.w $0D90, X
+    LDA.b $00 : STA.w $0D90, X
     
     .BRANCH_BETA
     

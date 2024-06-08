@@ -33,7 +33,7 @@ Pool_SpritePrep_UncleAndSage:
 ; $02DA3D-$02DB22 LOCAL JUMP LOCATION
 SpritePrep_UncleAndSage:
 {
-    LDA $A0 : CMP.b #$12 : BEQ .in_sanctuary
+    LDA.b $A0 : CMP.b #$12 : BEQ .in_sanctuary
     
     JMP .not_sage
     
@@ -183,12 +183,12 @@ Sage_SpawnMantle:
     
     LDA.b #$01 : STA.w $0E80, Y
     
-    LDA.w $0D00, Y : STA $00
-    LDA.w $0D20, Y : STA $01
+    LDA.w $0D00, Y : STA.b $00
+    LDA.w $0D20, Y : STA.b $01
     
     REP #$30
     
-    LDA $20 : CMP $00 : SEP #$30 : BCS .player_below_mantle
+    LDA.b $20 : CMP $00 : SEP #$30 : BCS .player_below_mantle
     
     ; Otherwise initialize it as moving to the right (opening up).
     LDA.b #$01 : STA.w $0DB0, Y
@@ -244,7 +244,7 @@ Sprite_SageMantle:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Sprite_RepelDashAttackLong
     
@@ -255,9 +255,9 @@ Sprite_SageMantle:
     
     STZ.w $0E80, X
     
-    LDA.b #$81 : STA $48
+    LDA.b #$81 : STA.b $48
     
-    LDA.b #$08 : STA $5E
+    LDA.b #$08 : STA.b $5E
     
     LDA.w $0D80, X
     
@@ -307,9 +307,9 @@ SageMantle_SlidingRight:
 {
     STZ.w $0D90, X
     
-    STZ $48
+    STZ.b $48
     
-    STZ $5E
+    STZ.b $5E
     
     INC.w $0E80, X
     
@@ -406,8 +406,8 @@ Pool_SageMantle_Draw:
 SageMantle_Draw:
 {
     ; $2DC6A
-    LDA.b (.animation_states >> 0) : STA $08
-    LDA.b (.animation_states >> 8) : STA $09
+    LDA.b (.animation_states >> 0) : STA.b $08
+    LDA.b (.animation_states >> 8) : STA.b $09
     
     LDA.w $0DB0, X : BNE .moving
     
@@ -427,14 +427,14 @@ Sprite_MakeBodyTrackHeadDirection:
 {
     LDA.w $0DE0, X : CMP.w $0EB0, X : BEQ .set_body_to_head_dir
     
-    LDA $1A : AND.b #$1F : BNE .frame_not_multiple_of_32
+    LDA.b $1A : AND.b #$1F : BNE .frame_not_multiple_of_32
     
     ; If only one of them is facing left or right, make the body match.
     LDA.w $0DE0, X : EOR.w $0EB0, X : AND.b #$02 : BNE .set_body_to_head_dir
     
     ; This seems like an attempt to semi-randomly set the body orientation
     ; to left or right, possibly to recover from an unusual state?
-    TXA : EOR $1A : LSR #5 : ORA.b #$02 : AND.b #$03 : STA.w $0DE0, X
+    TXA : EOR.b $1A : LSR #5 : ORA.b #$02 : AND.b #$03 : STA.w $0DE0, X
     
     ; If the head is facing up or down, this has no effect.
     ; Otherwise, it will force the body to a direction perpendicular to
@@ -552,7 +552,7 @@ Sage_DeathFlash:
     .wait
     
     ; Only draw the sprite every other frame (b/c he's dying).
-    LDA $1A : AND.b #$02 : STA.w $0D90, X
+    LDA.b $1A : AND.b #$02 : STA.w $0D90, X
     
     LDA.w $0E10, X : AND.b #$07 : BNE .dont_play_sound
     
@@ -802,12 +802,12 @@ Uncle_WakeUpPlayer:
 {
     ; Lighten the screen gradually and then wake Link up partially
     
-    LDA $1A : AND.b #$03 : BNE .delay
+    LDA.b $1A : AND.b #$03 : BNE .delay
     
-    LDA $9C : CMP.b #$20 : BEQ .colorTargetReached
+    LDA.b $9C : CMP.b #$20 : BEQ .colorTargetReached
     
-    DEC $9C
-    DEC $9D
+    DEC.b $9C
+    DEC.b $9D
     
     .delay
     
@@ -820,8 +820,8 @@ Uncle_WakeUpPlayer:
     INC.w $037D
     INC.w $037C
     
-    LDA.b #$57 : STA $20
-    LDA.b #$21 : STA $21
+    LDA.b #$57 : STA.b $20
+    LDA.b #$21 : STA.b $21
     
     LDA.b #$01 : STA.w $02E4
     
@@ -898,7 +898,7 @@ Uncle_LeavingHouse:
     .hasnt_fully_left_yet
     
     ; Change animation state every 8 frames...
-    LDA $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #3 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
 }

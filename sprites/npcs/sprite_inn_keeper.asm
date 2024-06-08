@@ -63,11 +63,11 @@ Pool_InnKeeper_Draw:
 ; $02E3DC-$02E3F2 LOCAL JUMP LOCATION
 InnKeeper_Draw:
 {
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #(.animation_states >> 0) : STA $08
-    LDA.b #(.animation_states >> 8) : STA $09
+    LDA.b #(.animation_states >> 0) : STA.b $08
+    LDA.b #(.animation_states >> 8) : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

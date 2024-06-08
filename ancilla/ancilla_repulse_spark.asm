@@ -57,18 +57,18 @@ Ancilla_RepulseSpark:
     
     LDA.w $0FAD : SEC : SBC.w $00E2 : CMP.b #$F8 : BCS .off_screen
     
-    STA $00
+    STA.b $00
     
     LDA.w $0FAE : SEC : SBC.w $00E8 : CMP.b #$F0 : BCS .off_screen
     
-    STA $01
+    STA.b $01
     
     LDA.w $0FAC : CMP.b #$03 : BCC .later_states
     
     LDY.b #$00
     
-    LDA $00       : STA ($90), Y
-    LDA $01 : INY : STA ($90), Y
+    LDA.b $00       : STA ($90), Y
+    LDA.b $01 : INY : STA ($90), Y
     
     LDA.b #$80
     
@@ -102,11 +102,11 @@ Ancilla_RepulseSpark:
     ; The last three states of this object use more oam entries than the
     ; earlier ones.
     
-    LDA $00 : SEC : SBC.b #$04 : LDY.b #$00 : STA ($90), Y
+    LDA.b $00 : SEC : SBC.b #$04 : LDY.b #$00 : STA ($90), Y
                            LDY.b #$08 : STA ($90), Y
     CLC : ADC.b #$08           : LDY.b #$04 : STA ($90), Y
                            LDY.b #$0C : STA ($90), Y
-    LDA $01 : SEC : SBC.b #$04 : LDY.b #$01 : STA ($90), Y
+    LDA.b $01 : SEC : SBC.b #$04 : LDY.b #$01 : STA ($90), Y
                            LDY.b #$05 : STA ($90), Y
     CLC : ADC.b #$08           : LDY.b #$09 : STA ($90), Y
                            LDY.b #$0D : STA ($90), Y

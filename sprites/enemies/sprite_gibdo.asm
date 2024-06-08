@@ -38,7 +38,7 @@ Gibdo_ApproachTargetDirection:
     
     LDA .animation_states, Y : STA.w $0DC0, X
     
-    LDA $1A : AND.b #$07 : BNE .delay
+    LDA.b $1A : AND.b #$07 : BNE .delay
     
     LDY.w $0D90, X
     
@@ -184,7 +184,7 @@ Pool_Gibdo_Draw:
 Gibdo_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w .oam_groups : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #4 : ADC.w .oam_groups : STA.b $08
     
     SEP #$20
     

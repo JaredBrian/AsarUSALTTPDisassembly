@@ -89,9 +89,9 @@ Sprite_Rope:
     
     JSR Sprite2_DirectionToFacePlayer
     
-    LDA $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .player_on_sightline
+    LDA.b $0E : CLC : ADC.b #$10 : CMP.b #$20 : BCC .player_on_sightline
     
-    LDA $0F : CLC : ADC.b #$18 : CMP.b #$20 : BCS .player_not_on_sightline
+    LDA.b $0F : CLC : ADC.b #$18 : CMP.b #$20 : BCS .player_not_on_sightline
     
     .player_on_sightline
     
@@ -102,7 +102,7 @@ Sprite_Rope:
     .player_not_on_sightline
     .delay
     
-    LDA $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
+    LDA.b $1A : LSR #4 : LDA.w $0DE0, X : ROL A : TAY
     
     LDA .animation_control, Y : STA.w $0D90, X
     
@@ -153,7 +153,7 @@ Rope_Moving:
     
     LDA .y_speeds, Y : STA.w $0D40, X
     
-    LDA $1A
+    LDA.b $1A
     
     CPY.b #$04 : BCS .moving_fast
     

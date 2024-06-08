@@ -4,7 +4,7 @@
 ; $04B020-$04B06D LONG JUMP LOCATION
 ZoraFireball_SpawnTailGarnish:
 {
-    TXA : EOR $1A : AND.b #$03 : BNE .skip_frame
+    TXA : EOR.b $1A : AND.b #$03 : BNE .skip_frame
     
     PHX
     
@@ -133,7 +133,7 @@ Garnish_ExecuteSingle:
     LDA.l $7FF800, X : BEQ .return
     CMP.b #$05     : BEQ .ignore_submodule
     
-    LDA $11 : ORA.w $0FC1 : BNE .dont_self_terminate
+    LDA.b $11 : ORA.w $0FC1 : BNE .dont_self_terminate
     
     .ignore_submodule
     
@@ -274,13 +274,13 @@ incsrc "garnish_laser_beam_trail.asm"
 ; $04B5DE-$04B612 LOCAL JUMP LOCATION
 Garnish_PrepOamCoord:
 {
-    LDA.l $7FF83C, X : SEC : SBC $E2 : STA $00
-    LDA.l $7FF878, X : SBC $E3 : STA $01
+    LDA.l $7FF83C, X : SEC : SBC.b $E2 : STA.b $00
+    LDA.l $7FF878, X : SBC.b $E3 : STA.b $01
     
     BNE .off_screen
     
-    LDA.l $7FF81E, X : SEC : SBC $E8 : PHA
-    LDA.l $7FF85A, X : SBC $E9
+    LDA.l $7FF81E, X : SEC : SBC.b $E8 : PHA
+    LDA.l $7FF85A, X : SBC.b $E9
     
     BEQ .on_screen
     
@@ -297,7 +297,7 @@ Garnish_PrepOamCoord:
     
     .on_screen
     
-    PLA : SBC.b #$10 : STA $02
+    PLA : SBC.b #$10 : STA.b $02
     
     LDY.b #$00
     

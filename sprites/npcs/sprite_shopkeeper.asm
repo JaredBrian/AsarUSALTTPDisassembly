@@ -32,9 +32,9 @@ Sprite_ShopKeeper:
     JSL Sprite_PrepAndDrawSingleLargeLong
     JSR Sprite3_CheckIfActive
     
-    LDA.w $0F50, X : AND.b #$3F : STA $00
+    LDA.w $0F50, X : AND.b #$3F : STA.b $00
     
-    LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA.w $0F50, X
+    LDA.b $1A : ASL #3 : AND.b #$40 : ORA.b $00 : STA.w $0F50, X
     
     .BRANCH_BETA
     
@@ -58,7 +58,7 @@ Sprite_ShopKeeper:
     JSL Shopkeeper_Draw
     JSR Sprite3_CheckIfActive
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0C0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0C0, X
     
     BRA .BRANCH_BETA
     
@@ -98,9 +98,9 @@ Sprite_ShopKeeper:
     JSR Sprite3_CheckIfActive
     JSL Sprite_PlayerCantPassThrough
     
-    LDA.w $0F5050, X : AND.b #$3F : STA $00
+    LDA.w $0F5050, X : AND.b #$3F : STA.b $00
     
-    LDA $1A : ASL #3 : AND.b #$40 : ORA $00 : STA.w $0F50, X
+    LDA.b $1A : ASL #3 : AND.b #$40 : ORA.b $00 : STA.w $0F50, X
     
     LDA.w $0D80, X
     
@@ -182,7 +182,7 @@ Sprite_ShopKeeper:
 
 ; $0F7017-$0F7037 LOCAL JUMP LOCATION
 {
-    LDA $1A : AND.b #$03 : BNE .BRANCH_ALPHA
+    LDA.b $1A : AND.b #$03 : BNE .BRANCH_ALPHA
     
     LDA.b #$02 : STA.w $0DC0, X
     
@@ -512,11 +512,11 @@ ShopKeeper_SpawnInventoryItem:
     
     PLA : PHX : ASL A : TAX
     
-    LDA $00 : CLC : ADC.l .x_offsets + 0, X : STA.w $0D10, Y
-    LDA $01 : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.l .x_offsets + 0, X : STA.w $0D10, Y
+    LDA.b $01 : ADC.l .x_offsets + 1, X : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$27 : STA.w $0D00, Y
-    LDA $03              : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$27 : STA.w $0D00, Y
+    LDA.b $03              : STA.w $0D20, Y
     
     LDA.w $0E40, Y : ORA.b #$04 : STA.w $0E40, Y
     
@@ -823,7 +823,7 @@ ShopKeeper_SpawnInventoryItem:
 ; $0F7391-$0F739D LOCAL JUMP LOCATION
 ShopKeeper_CheckPlayerSolicitedDamage:
 {
-    LDA $F6 : BPL .the_a_button_not_pressed
+    LDA.b $F6 : BPL .the_a_button_not_pressed
     
     ; \note The bcc branch seems kind of .... useless. Maybe there was
     ; some other code dummied out?
@@ -844,14 +844,14 @@ ShopKeeper_CheckPlayerSolicitedDamage:
 ; $0F739E-$0F73B5 LOCAL JUMP LOCATION
 ShopKeeper_TryToGetPaid:
 {
-    STA $00
-    STY $01
+    STA.b $00
+    STY.b $01
     
     REP #$20
     
     LDA.l $7EF360 : CMP $00 : BCC .player_cant_afford
     
-    SBC $00 : STA.l $7EF360
+    SBC.b $00 : STA.l $7EF360
     
     SEC
     
@@ -916,12 +916,12 @@ Pool_ShopKeeper_DrawItemWithPrice:
 ; $0F74CE-$0F74F2 LOCAL JUMP LOCATION
 ShopKeeper_DrawItemWithPrice:
 {
-    LDA.w $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA $00
-                                           ASL #2       : ADC $00 : ASL #3
+    LDA.w $0E80, X : SEC : SBC.b #$07 : REP #$20 : AND.w #$00FF : STA.b $00
+                                           ASL #2       : ADC.b $00 : ASL #3
     
-    ADC.w #.oam_groups : STA $08
+    ADC.w #.oam_groups : STA.b $08
     
-    LDA.w #$0005 : STA $06
+    LDA.w #$0005 : STA.b $06
     
     SEP #$30
     

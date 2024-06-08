@@ -45,7 +45,7 @@ Sprite_DwarfSolidity:
     
     JSL Sprite_NullifyHookshotDrag
     
-    STZ $5E
+    STZ.b $5E
     
     JSL Player_HaltDashAttackLong
     
@@ -172,7 +172,7 @@ LW_FortuneTeller_ReactToPlayerResponse:
     
     .delay_and_animate
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     RTS
     
@@ -214,12 +214,12 @@ FortuneTeller_GiveReading:
     
     INC.w $0D80, X
     
-    STZ $03
+    STZ.b $03
     
     LDA.l $7EF3C7 : CMP.b #$03 : BCS .three_pendant_map_icons_or_better
     
-    STZ $00
-    STZ $01
+    STZ.b $00
+    STZ.b $01
     
     JMP .show_message
     
@@ -372,7 +372,7 @@ FortuneTeller_GiveReading:
 ; $06C953-$06C95F LOCAL JUMP LOCATION
 FortuneTeller_PopulateNextMessageSlot:
 {
-    LDY $03
+    LDY.b $03
     
     ; Note that with subsequent calls we can always overwrite the second
     ; slot, but never the first. However, the above logic pretty much
@@ -382,7 +382,7 @@ FortuneTeller_PopulateNextMessageSlot:
     
     INY : CPY.b #$02 : BCS .both_slots_filled
     
-    STY $03
+    STY.b $03
     
     .both_slots_filled
     
@@ -398,10 +398,10 @@ LW_FortuneTeller_ShowCostMessage:
     
     REP #$20
     
-    STZ $00
-    STZ $02
-    STZ $04
-    STZ $06
+    STZ.b $00
+    STZ.b $02
+    STZ.b $04
+    STZ.b $06
     
     LDY.w $0D90, X
     
@@ -521,7 +521,7 @@ DW_FortuneTeller_ReactToPlayerResponse:
 {
     LDA.w $1CE8 : BNE .player_said_no
     
-    LDA $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #4 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.w $0DF0, X : BNE .delay
     
@@ -553,10 +553,10 @@ DW_FortuneTeller_ShowCostMessage:
 {
     REP #$20
     
-    STZ $00
-    STZ $02
-    STZ $04
-    STZ $06
+    STZ.b $00
+    STZ.b $02
+    STZ.b $04
+    STZ.b $06
     
     LDY.w $0D90, X
     
@@ -584,7 +584,7 @@ DW_FortuneTeller_ShowCostMessage:
     ; longer.
     SBC.w #100
     
-    INC $06
+    INC.b $06
     
     BRA .modulus_1000
     
@@ -595,7 +595,7 @@ DW_FortuneTeller_ShowCostMessage:
     CMP.w #100 : BCC .below_100
     
     SBC.w #100
-    INC $04
+    INC.b $04
     
     BRA .modulus_100
     
@@ -606,19 +606,19 @@ DW_FortuneTeller_ShowCostMessage:
     
     SBC.w #10
     
-    INC $02
+    INC.b $02
     
     BRA .modulus_10
     
     .below_10
     
-    STA $00
+    STA.b $00
     
     SEP #$30
     
-    LDA $00 : ASL #4 : ORA $02 : STA.w $1CF2
+    LDA.b $00 : ASL #4 : ORA.b $02 : STA.w $1CF2
     
-    LDA $06 : ASL #4 : ORA $04 : STA.w $1CF3
+    LDA.b $06 : ASL #4 : ORA.b $04 : STA.w $1CF3
     
     ; "Now I will take (amount) Rupees. (...) Yeehah ha hah!"
     LDA.b #$F4
@@ -684,13 +684,13 @@ Pool_FortuneTeller_Draw:
 ; $06CB01-$06CB29 LOCAL JUMP LOCATION
 FortuneTeller_Draw:
 {
-    LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA $00
+    LDA.l $7EF3CA : ASL A : ROL #2 : AND.b #$01 : STA.b $00
     
-    ASL A : ADC $00 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
+    ASL A : ADC.b $00 : ADC.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
     ; $6CAA1
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     LDA.b #$03 : JSL Sprite_DrawMultiple
     
@@ -704,11 +704,11 @@ Dwarf_SpawnDwarfSolidity:
 {
     LDA.b #$31 : JSL Sprite_SpawnDynamically
     
-    LDA $00 : STA.w $0D10, Y
-    LDA $01 : STA.w $0D30, Y
+    LDA.b $00 : STA.w $0D10, Y
+    LDA.b $01 : STA.w $0D30, Y
     
-    LDA $02 : STA.w $0D00, Y
-    LDA $03 : STA.w $0D20, Y
+    LDA.b $02 : STA.w $0D00, Y
+    LDA.b $03 : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0E80, Y
     

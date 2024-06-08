@@ -69,13 +69,13 @@ GerudoMan_ReturnToOrigin:
 ; $02B90B-$02B93E JUMP LOCATION
 GerudoMan_AwaitPlayer:
 {
-    TXA : EOR $1A : AND.b #$07 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$07 : BNE .delay
     
     REP #$20
     
-    LDA $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
+    LDA.b $22 : SEC : SBC.w $0FD8 : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
     
-    LDA $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
+    LDA.b $20 : SEC : SBC.w $0FDA : CLC : ADC.w #$0030 : CMP.w #$0060 : BCS .not_close
     
     SEP #$20
     
@@ -236,7 +236,7 @@ GerudoMan_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA $06
+    LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
     
     PHX
     
@@ -246,17 +246,17 @@ GerudoMan_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
+    LDA.b $00 : CLC : ADC .x_offsets, X       : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -267,11 +267,11 @@ GerudoMan_Draw:
     PLX
     
     LDA .chr, X     : INY           : STA ($90), Y
-    LDA .vh_flip, X : INY : ORA $05 : STA ($90), Y
+    LDA .vh_flip, X : INY : ORA.b $05 : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA .sizes, X : ORA $0F : STA ($92), Y
+    LDA .sizes, X : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

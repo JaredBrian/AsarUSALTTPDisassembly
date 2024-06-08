@@ -41,20 +41,20 @@ PotionShop_SpawnMagicPowder:
     
     PHX
     
-    STZ $00
+    STZ.b $00
     
     REP #$10
     
     ; Hardcoded check for the potion shop room's flags (room 0x109)
     LDX.w #$0212
     
-    LDA.l $7EF000, X : AND.b #$80 : STA $00
+    LDA.l $7EF000, X : AND.b #$80 : STA.b $00
     
     SEP #$30
     
     PLX
     
-    LDA $00 : BEQ .already_obtained
+    LDA.b $00 : BEQ .already_obtained
     
     LDA.b #$E9 : JSL Sprite_SpawnDynamically
     
@@ -189,7 +189,7 @@ Sprite_MagicPowderItem:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_give_item
     
-    LDA $F6 : BPL .dont_give_item
+    LDA.b $F6 : BPL .dont_give_item
     
     PHX
     
@@ -227,11 +227,11 @@ MagicPowderItem_Draw:
 {
     ; Interesting thing to note: This will end up drawing the same sprite
     ; twice (in the same location), for whatever reason.
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA $08
-    LDA.b #(.oam_groups >> 8) : STA $09
+    LDA.b #(.oam_groups >> 0) : STA.b $08
+    LDA.b #(.oam_groups >> 8) : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -267,7 +267,7 @@ Sprite_GreenPotionItem:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
     
-    LDA $F6 : BPL .gamma
+    LDA.b $F6 : BPL .gamma
     
     REP #$20
     
@@ -325,11 +325,11 @@ Pool_GreenPotionItem_Draw:
 ; $02F718-$02F72A LOCAL JUMP LOCATION
 GreenPotionItem_Draw:
 {
-    LDA.b #$03 : STA $06
-                 STZ $07
+    LDA.b #$03 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA $08
-    LDA.b #(.oam_groups >> 8) : STA $09
+    LDA.b #(.oam_groups >> 0) : STA.b $08
+    LDA.b #(.oam_groups >> 8) : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -364,7 +364,7 @@ Sprite_BluePotionItem:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
     
-    LDA $F6 : BPL .gamma
+    LDA.b $F6 : BPL .gamma
     
     REP #$20
     
@@ -423,11 +423,11 @@ Pool_BluePotionItem_Draw:
 ; $02F7BD-$02F7CF LOCAL JUMP LOCATION
 BluePotionItem_Draw:
 {
-    LDA.b #$04 : STA $06
-                 STZ $07
+    LDA.b #$04 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA $08
-    LDA.b #(.oam_groups >> 8) : STA $09
+    LDA.b #(.oam_groups >> 0) : STA.b $08
+    LDA.b #(.oam_groups >> 8) : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -462,7 +462,7 @@ Sprite_RedPotionItem:
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .gamma
     
-    LDA $F6 : BPL .gamma
+    LDA.b $F6 : BPL .gamma
     
     REP #$20
     
@@ -537,11 +537,11 @@ Pool_RedPotionItem_Draw:
 ; $02F86D-$02F87F LOCAL JUMP LOCATION
 RedPotionItem_Draw:
 {
-    LDA.b #$04 : STA $06
-                 STZ $07
+    LDA.b #$04 : STA.b $06
+                 STZ.b $07
     
-    LDA.b #(.oam_groups >> 0) : STA $08
-    LDA.b #(.oam_groups >> 8) : STA $09
+    LDA.b #(.oam_groups >> 0) : STA.b $08
+    LDA.b #(.oam_groups >> 8) : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     
@@ -580,7 +580,7 @@ Sprite_WitchAssistant:
     
     .beta
     
-    LDA $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
+    LDA.b $1A : LSR #5 : AND.b #$01 : STA.w $0DC0, X
     
     LDA.l $7EF35C : CMP.b #$02 : BCS .gamma
     
@@ -638,13 +638,13 @@ Shopkeeper_Draw:
 {
     PHB : PHK : PLB
     
-    LDA.b #$02 : STA $06
-                 STZ $07
+    LDA.b #$02 : STA.b $06
+                 STZ.b $07
     
     LDA.w $0DC0, X : ASL #4
     
-    ADC.b #(.oam_groups >> 0)              : STA $08
-    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA $09
+    ADC.b #(.oam_groups >> 0)              : STA.b $08
+    LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

@@ -18,7 +18,7 @@ Sprite_EnergyBall:
     
     .repulsable_energy_ball
     
-    LDA $1A : LSR A : AND.b #$02 : INC #2 : ORA.b #$01
+    LDA.b $1A : LSR A : AND.b #$02 : INC #2 : ORA.b #$01
     
     .set_palette
     
@@ -60,13 +60,13 @@ Sprite_EnergyBall:
     
     LDA.w $0BA0 : BNE .BRANCH_KAPPA
     
-    LDA.w $0D10, X : STA $00
-    LDA.w $0D30, X : STA $08
+    LDA.w $0D10, X : STA.b $00
+    LDA.w $0D30, X : STA.b $08
     
-    LDA.b #$0F : STA $02 : STA $03
+    LDA.b #$0F : STA.b $02 : STA.b $03
     
-    LDA.w $0D00, X : STA $01
-    LDA.w $0D20, X : STA $09
+    LDA.w $0D00, X : STA.b $01
+    LDA.w $0D20, X : STA.b $09
     
     PHX
     
@@ -80,7 +80,7 @@ Sprite_EnergyBall:
     
     PHX
     
-    LDA.b #$A0 : STA $00
+    LDA.b #$A0 : STA.b $00
 
     LDA.b #$10
     LDX.b #$00
@@ -127,15 +127,15 @@ Sprite_EnergyBall:
     
     ; Because the sword hits it, invert the speed and make it faster,
     ; hopefully sending it into Agahnim's dumb face.
-    LDA $01 : EOR.b #$FF : INC A : STA.w $0D50, X
+    LDA.b $01 : EOR.b #$FF : INC A : STA.w $0D50, X
     
-    LDA $00 : EOR.b #$FF : INC A : STA.w $0D40, X
+    LDA.b $00 : EOR.b #$FF : INC A : STA.w $0D40, X
     
     INC.w $0D90, X
     
     .no_player_damage
     
-    TXA : EOR $1A : AND.b #$03 : ORA.w $0DA0, X : BNE .BRANCH_NU ; --
+    TXA : EOR.b $1A : AND.b #$03 : ORA.w $0DA0, X : BNE .BRANCH_NU ; --
     
     LDA.b #$7B : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
@@ -234,11 +234,11 @@ SeekerEnergyBall_SplitIntoSixSmaller:
     
     LDA.b #$55 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
-    LDA $01 : ADC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : CLC : ADC.b #$04 : STA.w $0D10, Y
+    LDA.b $01 : ADC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
-    LDA $03 : ADC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : CLC : ADC.b #$04 : STA.w $0D00, Y
+    LDA.b $03 : ADC.b #$00 : STA.w $0D20, Y
     
     LDA.w $0E60, Y : AND.b #$FE : ORA.b #$40 : STA.w $0E60, Y
     
@@ -286,7 +286,7 @@ SeekerEnergyBall_Draw:
     LDA.b #$00   : XBA
     LDA.w $0E80, X : LSR #2 : AND.b #$01 : REP #$20 : ASL #5
     
-    ADC.w #.oam_groups : STA $08
+    ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     

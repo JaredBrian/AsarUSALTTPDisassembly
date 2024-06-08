@@ -28,7 +28,7 @@ Sprite_Boulder:
     shared Sprite_Shrapnel:
 {
     ; This sprite manifests as a boulder outdoors, and as shrapnel indoors.
-    LDA $1B : BEQ Boulder_Main
+    LDA.b $1B : BEQ Boulder_Main
     
     ; Check if we can draw.
     LDA.w $0FC6 : CMP.b #$03 : BCS .invalid_gfx_loaded
@@ -39,19 +39,19 @@ Sprite_Boulder:
     
     JSR Sprite4_CheckIfActive ; $E8A2
     
-    LDA $1A : ASL #2 : AND.b #$C0 : ORA.b #$00 : STA.w $0F50, X
+    LDA.b $1A : ASL #2 : AND.b #$C0 : ORA.b #$00 : STA.w $0F50, X
     
     JSR Sprite4_MoveXyz ; $E948
     
-    TXA : EOR $1A : AND.b #$03 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .delay
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $22 : CLC : ADC.w #$0004
+    LDA.w $0FD8 : SEC : SBC.b $22 : CLC : ADC.w #$0004
     
     CMP.w #$0010 : BCS .player_not_close
     
-    LDA.w $0FDA : SEC : SBC $20 : CLC : ADC.w #$FFFC
+    LDA.w $0FDA : SEC : SBC.b $20 : CLC : ADC.w #$FFFC
     
     CMP.w #$000C : BCS .player_not_close
     
@@ -63,7 +63,7 @@ Sprite_Boulder:
     
     SEP #$20
     
-    TXA : EOR $1A : AND.b #$03 : BNE .delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .delay
     
     JSR Sprite4_CheckTileCollision : BEQ .no_tile_collision ; $8094
     
@@ -199,7 +199,7 @@ Boulder_Draw:
     LDA.b #$00   : XBA
     LDA.w $0E80, X : LSR #3 : AND.b #$03 : REP #$20 : ASL #5
     
-    ADC.w #(.oam_groups) : STA $08
+    ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     
@@ -233,21 +233,21 @@ Sprite_DrawLargeShadow:
     
     .dont_use_smallest
     
-    LDA.w $0F70, X : STA $0E
-                   STZ $0F
+    LDA.w $0F70, X : STA.b $0E
+                   STZ.b $0F
     
-    LDA .multiples_of_24, Y : STA $00
-                              STZ $01
+    LDA .multiples_of_24, Y : STA.b $00
+                              STZ.b $01
     
     REP #$20
     
-    LDA.w $0FDA : CLC : ADC $0E : STA.w $0FDA
+    LDA.w $0FDA : CLC : ADC.b $0E : STA.w $0FDA
     
-    LDA $90 : CLC : ADC.w #$0010 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0010 : STA.b $90
     
-    LDA $92 : CLC : ADC.w #$0004 : STA $92
+    LDA.b $92 : CLC : ADC.w #$0004 : STA.b $92
     
-    LDA.w #(.oam_groups) : CLC : ADC.w $00 : STA $08
+    LDA.w #(.oam_groups) : CLC : ADC.w $00 : STA.b $08
     
     SEP #$20
     

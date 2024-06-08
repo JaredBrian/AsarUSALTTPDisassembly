@@ -4,7 +4,7 @@
 ; $04366A-$0436F6 JUMP LOCATION
 Ancilla_QuakeSpell:
 {
-    LDA $11 : BNE .just_draw
+    LDA.b $11 : BNE .just_draw
     
     LDA.w $0C54, X : CMP.b #$02 : BEQ .wrap_up_state
     
@@ -48,15 +48,15 @@ Ancilla_QuakeSpell:
     
     STZ.w $0C4A, X
     
-    LDA.b #$00 : STA $5D
+    LDA.b #$00 : STA.b $5D
     
     LDA.b #$01 : STA.w $0AAA
     
     STZ.w $0324
     STZ.w $031C
     STZ.w $031D
-    STZ $50
-    STZ $3D
+    STZ.b $50
+    STZ.b $3D
     
     STZ.w $0FC1
     STZ.w $011A

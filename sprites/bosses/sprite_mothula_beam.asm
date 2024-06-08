@@ -8,7 +8,7 @@ Sprite_MothulaBeam:
     JSR Sprite3_CheckIfActive
     JSR Sprite3_CheckDamageToPlayer
     
-    LDA $1A : AND.b #$01 : BNE .dont_toggle_vflip
+    LDA.b $1A : AND.b #$01 : BNE .dont_toggle_vflip
     
     LDA.w $0F50, X : EOR.b #$80 : STA.w $0F50, X
     
@@ -24,7 +24,7 @@ Sprite_MothulaBeam:
     
     .no_tile_collision
     
-    TXA : EOR $1A : AND.b #$03 : BNE .stagger_delay
+    TXA : EOR.b $1A : AND.b #$03 : BNE .stagger_delay
     
     PHX : TXY
     

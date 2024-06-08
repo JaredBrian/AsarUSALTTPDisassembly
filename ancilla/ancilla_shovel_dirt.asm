@@ -34,41 +34,41 @@ Ancilla_ShovelDirt:
     
     .delay
     
-    LDA.w $0C5E, X : STA $0A
+    LDA.w $0C5E, X : STA.b $0A
     
-    ASL #2 : STA $08
+    ASL #2 : STA.b $08
     
     LDY.b #$00
     
-    LDA $2F : CMP.b #$04 : BEQ .player_facing_left
+    LDA.b $2F : CMP.b #$04 : BEQ .player_facing_left
     
     LDY.b #$08
     
     .player_facing_left
     
-    TYA : CLC : ADC $08 : TAY
+    TYA : CLC : ADC.b $08 : TAY
     
     REP #$20
     
-    LDA .xy_offsets+0, Y : CLC : ADC $00 : STA $00
+    LDA .xy_offsets+0, Y : CLC : ADC.b $00 : STA.b $00
     
-    LDA .xy_offsets+2, Y : CLC : ADC $02 : STA $02
-    CLC : ADC.w #$0008         : STA $04
+    LDA .xy_offsets+2, Y : CLC : ADC.b $02 : STA.b $02
+    CLC : ADC.w #$0008         : STA.b $04
     
     SEP #$20
     
     PHX
     
-    LDY.b #$00 : STY $72
+    LDY.b #$00 : STY.b $72
     
     .next_oam_entry
     
     JSR Ancilla_SetOam_XY
     
-    LDX $0A
+    LDX.b $0A
     
-    LDA.w $A9A7, X : CLC : ADC $72 : STA ($90), Y : INY
-    LDA.b #$04   : ORA $65 : STA ($90), Y : INY
+    LDA.w $A9A7, X : CLC : ADC.b $72 : STA ($90), Y : INY
+    LDA.b #$04   : ORA.b $65 : STA ($90), Y : INY
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
@@ -76,10 +76,10 @@ Ancilla_ShovelDirt:
     
     PLY : JSR Ancilla_CustomAllocateOam
     
-    LDA $04 : STA $02
-    LDA $05 : STA $03
+    LDA.b $04 : STA.b $02
+    LDA.b $05 : STA.b $03
     
-    INC $72 : LDA $72 : CMP.b #$02 : BNE .next_oam_entry
+    INC.b $72 : LDA.b $72 : CMP.b #$02 : BNE .next_oam_entry
     
     PLX
     

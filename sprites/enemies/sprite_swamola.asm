@@ -19,7 +19,7 @@ Swamola_InitSegments:
     ; is called.
     LDA .ram_offsets, X : TAX
     
-    LDA.b #$1F : STA $00
+    LDA.b #$1F : STA.b $00
     
     .next_segment
     
@@ -31,7 +31,7 @@ Swamola_InitSegments:
     
     INX
     
-    DEC $00 : BPL .next_segment
+    DEC.b $00 : BPL .next_segment
     
     PLX
     
@@ -231,17 +231,17 @@ Swamola_WiggleTowardsTarget:
     .anotoggle_wiggle_direction
     .never
     
-    LDA.l $7FFD5C, X : STA $04
-    LDA.l $7FFD62, X : STA $05
+    LDA.l $7FFD5C, X : STA.b $04
+    LDA.l $7FFD62, X : STA.b $05
     
-    LDA.l $7FFD68, X : STA $06
-    LDA.l $7FFD6E, X : STA $07
+    LDA.l $7FFD68, X : STA.b $06
+    LDA.l $7FFD6E, X : STA.b $07
     
     REP #$20
     
-    LDA.w $0FD8 : SEC : SBC $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+    LDA.w $0FD8 : SEC : SBC.b $04 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
     
-    LDA.w $0FDA : SEC : SBC $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
+    LDA.w $0FDA : SEC : SBC.b $06 : CLC : ADC.w #$0008 : CMP.w #$0010 : BCS .not_at_target
     
     SEP #$20
     
@@ -253,9 +253,9 @@ Swamola_WiggleTowardsTarget:
     
     JSR Swamola_PursueTargetCoord
     
-    LDA $00 : STA.w $0D40, X
+    LDA.b $00 : STA.w $0D40, X
     
-    LDA $01 : STA.w $0D50, X
+    LDA.b $01 : STA.w $0D50, X
     
     RTS
 }
@@ -265,11 +265,11 @@ Swamola_WiggleTowardsTarget:
 ; $0E9E13-$0E9E31 LOCAL JUMP LOCATION
 Swamola_PursueTargetCoord:
 {
-    LDA.l $7FFD5C, X : STA $04
-    LDA.l $7FFD62, X : STA $05
+    LDA.l $7FFD5C, X : STA.b $04
+    LDA.l $7FFD62, X : STA.b $05
     
-    LDA.l $7FFD68, X : STA $06
-    LDA.l $7FFD6E, X : STA $07
+    LDA.l $7FFD68, X : STA.b $06
+    LDA.l $7FFD6E, X : STA.b $07
     
     LDA.b #$0F : JSL Sprite_ProjectSpeedTowardsEntityLong
     
@@ -299,8 +299,8 @@ Swamola_Descending:
     
     LDA.w $0E80, X : AND.b #$03 : BNE .delay_speed_adjustment
     
-    STZ $00
-    STZ $01
+    STZ.b $00
+    STZ.b $01
     
     JSR Swamola_ApproachPursuitSpeed
     
@@ -408,7 +408,7 @@ SwamolaRipples_Draw:
     LDA.b #$00   : XBA
     LDA.w $0DF0, X : AND.b #$0C : REP #$20 : ASL #2
     
-    CLC : ADC.w #.oam_groups : STA $08
+    CLC : ADC.w #.oam_groups : STA.b $08
     
     SEP #$20
     
@@ -441,9 +441,9 @@ Pool_Swamola_Draw:
 ; $0E9F64-$0EA03B LOCAL JUMP LOCATION
 Swamola_Draw:
 {
-    LDA.w $0D50, X : STA $01
+    LDA.w $0D50, X : STA.b $01
     
-    LDA.w $0D40, X : CLC : ADC.w $0F80, X : STA $00
+    LDA.w $0D40, X : CLC : ADC.w $0F80, X : STA.b $00
     
     JSL Sprite_ConvertVelocityToAngle : TAY
     
@@ -476,9 +476,9 @@ Swamola_Draw:
     
     .moving_downward
     
-    PHA : CLC : ADC $90 : STA $90
+    PHA : CLC : ADC.b $90 : STA.b $90
     
-    PLA : LSR #2 : CLC : ADC $92 : STA $92
+    PLA : LSR #2 : CLC : ADC.b $92 : STA.b $92
     
     SEP #$20
     
@@ -507,9 +507,9 @@ Swamola_Draw:
     REP #$20
     
     ; \task Subtraction? What the hell is going on here?
-    LDA $90 : SEC : SBC.w #$0004 : STA $90
+    LDA.b $90 : SEC : SBC.w #$0004 : STA.b $90
     
-    DEC $92
+    DEC.b $92
     
     BRA .draw_segment
     
@@ -517,9 +517,9 @@ Swamola_Draw:
     
     REP #$20
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     .draw_segment
     

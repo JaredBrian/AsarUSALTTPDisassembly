@@ -19,10 +19,10 @@ Sprite_SpikeRoller:
 {
     ; These things are surprisingly simple...
     
-    LDA.w $0DE0, X : AND.b #$02 : STA $00
+    LDA.w $0DE0, X : AND.b #$02 : STA.b $00
     
     ; Animation logic
-    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA $00 : STA.w $0DC0, X
+    LDA.w $0E80, X : LSR A : AND.b #$01 : ORA.b $00 : STA.w $0DC0, X
     
     JSR SpikeRoller_Draw
     JSR Sprite2_CheckIfActive
@@ -88,9 +88,9 @@ SpikeRoller_Draw:
 {
     JSR Sprite2_PrepOamCoord
     
-    LDA.w $0DC0, X : ASL #3 : STA $06 : TAY
+    LDA.w $0DC0, X : ASL #3 : STA.b $06 : TAY
     
-    LDA .chr, Y : STA $08
+    LDA .chr, Y : STA.b $08
     
     PHX
     
@@ -105,16 +105,16 @@ SpikeRoller_Draw:
     
     PHX
     
-    TXA : CLC : ADC $06 : PHA
+    TXA : CLC : ADC.b $06 : PHA
     
     ASL A : TAX
     
     REP #$20
     
-    LDA $00 : CLC : ADC .x_spacing, X       : STA ($90), Y
-                                         AND.w #$0100 : STA $0E
+    LDA.b $00 : CLC : ADC .x_spacing, X       : STA ($90), Y
+                                         AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC .y_spacing, X : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC .y_spacing, X : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
     
@@ -125,21 +125,21 @@ SpikeRoller_Draw:
     PLX
     
     ; After the first segment, the chr progession is specified by a table.
-    LDA $08 : BNE .use_initial_segment_chr
+    LDA.b $08 : BNE .use_initial_segment_chr
     
     LDA .chr, X
     
     .use_initial_segment_chr
     
-    STZ $08
+    STZ.b $08
     
     INY : STA ($90), Y
     
-    LDA .vh_flip, X : ORA $05 : INY : STA ($90), Y
+    LDA .vh_flip, X : ORA.b $05 : INY : STA ($90), Y
     
     PHY : TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLY : INY
     

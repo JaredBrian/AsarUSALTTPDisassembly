@@ -233,7 +233,7 @@ DiggingGameGuy_AttemptPrizeSpawn:
 {
     REP #$20
     
-    LDA $20 : CMP.w #$0B18 : SEP #$30 : BCS DiggingGameGuy_GiveItem_nothing
+    LDA.b $20 : CMP.w #$0B18 : SEP #$30 : BCS DiggingGameGuy_GiveItem_nothing
     
     JSL GetRandomInt : AND.b #$07 : TAY
     
@@ -308,7 +308,7 @@ DiggingGameGuy_GiveItem:
     
     LDX.b #$00
     
-    LDA $2F : CMP.b #$04 : BEQ .player_facing_left
+    LDA.b $2F : CMP.b #$04 : BEQ .player_facing_left
     
     INX
     
@@ -321,12 +321,12 @@ DiggingGameGuy_GiveItem:
     LDA.b #$FF : STA.w $0B58, Y
     LDA.b #$30 : STA.w $0F10, Y
     
-    LDA $22 : CLC : ADC .x_offsets, X
+    LDA.b $22 : CLC : ADC .x_offsets, X
                               AND.b #$F0 : STA.w $0D10, Y
-    LDA $23 : ADC.b #$00                : STA.w $0D30, Y
+    LDA.b $23 : ADC.b #$00                : STA.w $0D30, Y
     
-    LDA $20 : CLC : ADC.b #$16 : AND.b #$F0 : STA.w $0D00, Y
-    LDA $21 : ADC.b #$00              : STA.w $0D20, Y
+    LDA.b $20 : CLC : ADC.b #$16 : AND.b #$F0 : STA.w $0D00, Y
+    LDA.b $21 : ADC.b #$00              : STA.w $0D20, Y
     
     LDA.b #$00 : STA.w $0F20, Y
     
@@ -361,14 +361,14 @@ Pool_DiggingGameGuy_Draw:
 ; $0EFE4B-$0EFE6D LOCAL JUMP LOCATION
 DiggingGameGuy_Draw:
 {
-    LDA.b #$03 : STA $06
-                 STZ $07
+    LDA.b #$03 : STA.b $06
+                 STZ.b $07
     
     ; ptr = 0xFE03 + (i*24);
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #3
     
-    ADC.b #.oam_groups                 : STA $08
-    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA $09
+    ADC.b #.oam_groups                 : STA.b $08
+    LDA.b #.oam_groups>>8 : ADC.b #$00 : STA.b $09
     
     JSL Sprite_DrawMultiple.player_deferred
     JSL Sprite_DrawShadowLong

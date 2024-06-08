@@ -6053,7 +6053,7 @@ PalaceMap_RestoreGraphics:
     
     SEP #$20
     
-    LDA.l $7EC017 : TSB $9C : TSB $9D : TSB $9E
+    LDA.l $7EC017 : TSB.b $9C : TSB.b $9D : TSB.b $9E
     
     ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA.w $012F

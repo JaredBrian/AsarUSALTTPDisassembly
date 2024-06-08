@@ -22,7 +22,7 @@ FluteBoyOstrich_Chillin:
 {
     LDY.b #$00
     
-    LDA $1A : AND.b #$18 : BEQ .default_animation_state
+    LDA.b $1A : AND.b #$18 : BEQ .default_animation_state
     
     LDY.b #$03
     
@@ -123,7 +123,7 @@ Pool_FluteBoyOstrich_Draw:
 FluteBoyOstrich_Draw:
 {
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA $08
+    LDA.w $0DC0, X : REP #$20 : ASL #5 : ADC.w #(.oam_groups) : STA.b $08
     
     SEP #$20
     

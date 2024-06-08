@@ -433,13 +433,13 @@ StalfosKnight_Draw:
     JSR.w $AE4E ; $0F2E4E IN ROM
     
     LDA.b #$00   : XBA
-    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA $00 : ASL #2 : ADC $00
+    LDA.w $0DC0, X : REP #$20 : ASL #3 : STA.b $00 : ASL #2 : ADC.b $00
     
-    ADC.w #.oam_groups : STA $08
+    ADC.w #.oam_groups : STA.b $08
     
-    LDA $90 : CLC : ADC.w #$0004 : STA $90
+    LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
-    INC $92
+    INC.b $92
     
     SEP #$20
     
@@ -447,9 +447,9 @@ StalfosKnight_Draw:
     
     REP #$20
     
-    LDA $90 : SEC : SBC.w #$0004 : STA $90
+    LDA.b $90 : SEC : SBC.w #$0004 : STA.b $90
     
-    DEC $92
+    DEC.b $92
     
     SEP #$20
     
@@ -477,8 +477,8 @@ StalfosKnight_Draw:
 {
     LDA.w $0DC0, X : CMP.b #$02 : BEQ .dont_draw
     
-    LDA.w $0DB0, X : STA $06
-                   STZ $07
+    LDA.w $0DB0, X : STA.b $06
+                   STZ.b $07
     
     LDY.b #$00
     
@@ -488,11 +488,11 @@ StalfosKnight_Draw:
     
     REP #$20
     
-    LDA $00 : STA ($90), Y
+    LDA.b $00 : STA ($90), Y
     
-    AND.w #$0100 : STA $0E
+    AND.w #$0100 : STA.b $0E
     
-    LDA $02 : CLC : ADC $06 : SEC : SBC.w #$000C : INY : STA ($90), Y
+    LDA.b $02 : CLC : ADC.b $06 : SEC : SBC.w #$000C : INY : STA ($90), Y
     
     CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen_y
     
@@ -503,11 +503,11 @@ StalfosKnight_Draw:
     SEP #$20
     
     LDA .chr, X        : INY           : STA ($90), Y
-    LDA .properties, X : INY : ORA $05 : STA ($90), Y
+    LDA .properties, X : INY : ORA.b $05 : STA ($90), Y
     
     TYA : LSR #2 : TAY
     
-    LDA.b #$02 : ORA $0F : STA ($92), Y
+    LDA.b #$02 : ORA.b $0F : STA ($92), Y
     
     PLX
     

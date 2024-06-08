@@ -528,7 +528,7 @@ SpritePrep_EvilBarrier:
 {
     PHX
     
-    LDX $8A
+    LDX.b $8A
     
     LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .not_dead
     
@@ -694,11 +694,11 @@ SpritePrep_BombShopEntity:
     ; spawn a normal set of bombs for sale
     LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .spawn_failed
     
-    LDA $00 : SEC : SBC.b #$18 : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.b #$18 : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$01 : STA.w $0E80, Y : STA.w $0BA0, Y
     
@@ -713,11 +713,11 @@ SpritePrep_BombShopEntity:
     ; spawn the super bomb
     LDA.b #$B5 : JSL Sprite_SpawnDynamically : BMI .super_bomb_spawn_failed
     
-    LDA $00 : SEC : SBC.b #$38 : STA.w $0D10, Y
-    LDA $01 : SBC.b #$00 : STA.w $0D30, Y
+    LDA.b $00 : SEC : SBC.b #$38 : STA.w $0D10, Y
+    LDA.b $01 : SBC.b #$00 : STA.w $0D30, Y
     
-    LDA $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
-    LDA $03 : SBC.b #$00 : STA.w $0D20, Y
+    LDA.b $02 : SEC : SBC.b #$18 : STA.w $0D00, Y
+    LDA.b $03 : SBC.b #$00 : STA.w $0D20, Y
     
     LDA.b #$02 : STA.w $0E80, Y : STA.w $0BA0, Y
     
@@ -1123,7 +1123,7 @@ SpritePrep_ShopKeeper:
     
     LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
     
-    LDA $A0 
+    LDA.b $A0 
     
     LDY.b #$00
     
@@ -1271,7 +1271,7 @@ SpritePrep_StoryTeller_1:
 {
     INC.w $0BA0, X
     
-    LDA $A0
+    LDA.b $A0
     
     LDY.b #$00
     
@@ -1311,7 +1311,7 @@ SpritePrep_HumanMulti_1:
 {
     INC.w $0BA0, X
     
-    LDA $A0
+    LDA.b $A0
     
     LDY.b #$00
     
@@ -1347,7 +1347,7 @@ SpritePrep_Elder:
 {
     INC.w $0BA0, X
     
-    LDA $A0 : CMP.b #$0A : BNE .notAginah
+    LDA.b $A0 : CMP.b #$0A : BNE .notAginah
     
     INC.w $0E80, X
     
@@ -1377,15 +1377,15 @@ SpritePrep_DashItem:
     ; E.g. book of mudora and keys (also the fake tree on the OW)
     
     ; If no, make it a dashable treetop.
-    LDA $1B : BEQ .fake_tree_top
+    LDA.b $1B : BEQ .fake_tree_top
     
     LDA.b #$02 : STA.w $0F20, X
     
-    LDA $A0 : CMP.b #$07 : BNE .key
+    LDA.b $A0 : CMP.b #$07 : BNE .key
     
     ; Hardcoded check to see if this is the library
     ; If not, probably a key?
-    LDA $A1 : CMP.b #$01 : BNE .key
+    LDA.b $A1 : CMP.b #$01 : BNE .key
     
     ; If in the library, do we already have the BoM?
     LDA.l $7EF34E : BEQ .book_of_mudora
@@ -1446,7 +1446,7 @@ SpritePrep_Kiki:
     
     PHX
     
-    LDX $8A : LDA.l $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
+    LDX.b $8A : LDA.l $7EF280, X : PLX : AND.b #$20 : BEQ .entranceNotOpen
     
     ; Suicide if the entrance to the Dark Palace is opened.
     STZ.w $0DD0, X
@@ -2054,7 +2054,7 @@ SpritePrep_Soldier:
     
     .BRANCH_ALPHA
     
-    LDA $1B : BNE .BRANCH_30FCF
+    LDA.b $1B : BNE .BRANCH_30FCF
     
     LDA.b #$01 : STA.w $0D80, X
     
@@ -2077,9 +2077,9 @@ SpritePrep_Soldier:
     
     .BRANCH_DELTA
     
-    LDA.w $0E30, X : LSR #3 : AND.b #$03 : STA $00
+    LDA.w $0E30, X : LSR #3 : AND.b #$03 : STA.b $00
     
-    TYA : ORA $00 : TAY
+    TYA : ORA.b $00 : TAY
     
     LDA .unknown, Y : STA.w $0DA0, X
     
@@ -2087,9 +2087,9 @@ SpritePrep_Soldier:
     
     .BRANCH_GAMMA
     
-    LDA $11 : PHA
+    LDA.b $11 : PHA
     
-    STZ $11
+    STZ.b $11
     
     SEC : ROR.w $0CAA, X
     
@@ -2098,7 +2098,7 @@ SpritePrep_Soldier:
     
     ASL.w $0CAA, X
     
-    PLA : STA $11
+    PLA : STA.b $11
     
     RTS
     
@@ -2219,7 +2219,7 @@ SpritePrep_HylianPlaque:
 {
     INC.w $0BA0, X
     
-    LDA $8A : CMP.b #$30 : BEQ SpritePrep_MoveRightSevenPixels
+    LDA.b $8A : CMP.b #$30 : BEQ SpritePrep_MoveRightSevenPixels
     
     RTS
 }
@@ -2373,7 +2373,7 @@ SpritePrep_Fairy:
     shared SpritePrep_FiveArrowRefill:
     shared SpritePrep_TenArrowRefill:
     
-    LDA $1B : BNE .indoors
+    LDA.b $1B : BNE .indoors
     
     ; $03116E ALTERNATE ENTRY POINT
     shared SpritePrep_DashTriggeredSprite:

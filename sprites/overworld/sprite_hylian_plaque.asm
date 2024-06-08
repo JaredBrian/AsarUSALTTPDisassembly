@@ -42,9 +42,9 @@ Sprite_HylianPlaque:
     ; Get rid of whatever pose the player was in...
     LDA.w $037A : AND.b #$DF : STA.w $037A
     
-    LDA $8A : CMP.b #$30 : BEQ HylianPlaque_Desert
+    LDA.b $8A : CMP.b #$30 : BEQ HylianPlaque_Desert
     
-    LDA $2F : BNE .not_facing_up
+    LDA.b $2F : BNE .not_facing_up
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show_message
     
@@ -52,11 +52,11 @@ Sprite_HylianPlaque:
     
     LDY.b #$01
     
-    BIT $F4 : BVS .y_button_pressed
+    BIT.b $F4 : BVS .y_button_pressed
     
     .book_of_mudora_not_equipped
     
-    LDA $F6 : BPL .dont_show_message
+    LDA.b $F6 : BPL .dont_show_message
     
     LDY.b #$00
     
@@ -88,7 +88,7 @@ Sprite_HylianPlaque:
 ; $0F609F-$0F60DC JUMP LOCATION
 HylianPlaque_Desert:
 {
-    LDA $2F : BNE .not_facing_up
+    LDA.b $2F : BNE .not_facing_up
     
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .dont_show_message
     
@@ -96,11 +96,11 @@ HylianPlaque_Desert:
     
     LDY.b #$01
     
-    BIT $F4 : BVS .y_button_pressed
+    BIT.b $F4 : BVS .y_button_pressed
 
     .book_of_mudora_not_equipped
 
-    LDA $F6 : BPL .dont_show_message
+    LDA.b $F6 : BPL .dont_show_message
     
     LDY.b #$00
     
