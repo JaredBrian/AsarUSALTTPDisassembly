@@ -21,3 +21,5 @@ $1.
 Get rid of kan address formatting:
 #_......: 
 
+Find any mistakenly place .b in comments:
+(?<=; ).+\.b

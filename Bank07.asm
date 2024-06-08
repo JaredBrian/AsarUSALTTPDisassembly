@@ -8071,8 +8071,10 @@ Link_Lift:
     STZ $6B
         
     LDA.l $7EF3CC : TAX ; Get the follower ID in X
-                                                ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
-    CMP $8F68, X : BNE .tagalong_not_enabled_for_this ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
+    
+    ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
+    ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
+    CMP $8F68, X : BNE .tagalong_not_enabled_for_this
         
     ; Basically, only the old man makes it through here (tagalong 0x02)
     STZ $5E ; set walking speed to normal
