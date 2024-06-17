@@ -256,7 +256,7 @@ LinkState_Default:
     ; Is Link in a ground state? Yes...
     LDA.b $4D : BEQ .BRANCH_DELTA
         ; $038130 ALTERNATE ENTRY POINT
-        HandleLink_From1D:
+        .HandleLink_From1D
 
         STZ.w $0301 ; Link is in some other submode.
         STZ.w $037A
@@ -6489,7 +6489,6 @@ LinkState_CrossingWorlds:
         .inLightWorld
     .playerHasMoonPearl
     
-    
     STY.b $5D
     
     .BRANCH_MU
@@ -7034,6 +7033,7 @@ Link_ForceUnequipCape:
     STZ.b $55
     STZ.w $0360
     
+    ; $03AE61 ALTERNATE ENTRY POINT
     .return
     
     RTS
@@ -7661,181 +7661,184 @@ Link_APress_LiftCarryThrow:
 {
     LDA.w $0308 : BEQ Link_Lift_return
     
-    ; Is Link throwing an item?
-    LDA.w $0309 : AND.b #$02 : BEQ .alpha
-    
-    LDA.w $030B : CMP.b #$05 : BCC .alpha
-    
-    LDA.w $B19C : STA.w $030B
-    
-    .alpha
-    
-    ; Is Link picking up an item?
-    ; No...
-    LDA.w $0309 : BEQ .notPickingSomethingUp
-    
-    JSR.w HaltLinkWhenUsingItems ; Link is picking up an item, handle it.
-    
-    .notPickingSomethingUp
-    
-    ; Is Link still picking up something?
-    LDA.w $0309 : AND.b #$01 : BEQ .notPickingUpInProgress
-    
-    STZ.b $2E
-    STZ.b $2D
-    
-    ; Make it so Link does not appear to be walking
-    LDA.b $67 : AND.b #$F0 : STA.b $67
-    
-    .notPickingUpInProgress
-    
-    ; Timer used for picking up the item and throwing it
-    DEC.w $030B : LDA.w $030B : BNE Link_Lift_return
-    
-    LDA.w $0309 : AND.b #$02 : BEQ .delta
-    
-    STZ.w $0308
-    STZ.b $48
-    STZ.b $5E
-    
-    LDA.b $5D : CMP.b #$18 : BNE .BRANCH_EPSILON
-    
-    LDA.b #$00 : STA.b $5D
-    
-    BRL .BRANCH_EPSILON
-    
-    .delta
-    
-    LDA.w $0300 : BEQ .BRANCH_ZETA
-    
-    INC A : CMP.b #$09 : BEQ .BRANCH_EPSILON
-    
-    STA.w $0300 : TAX
-    
-    LDA.w $B1B6, X : STA.w $030B
-    
-    LDA.w $B1C0, X : STA.w $030A
-    
-    CPX.b #$06 : BNE .return
-    
-    STZ.w $0B9C
-    
-    LDA.b $1B : BEQ .outdoors
-    
-    JSL Dungeon_RevealCoveredTiles
-    
-    BRA .BRANCH_KAPPA
-    
-    .outdoors
-    
-    JSL Overworld_LiftableTiles
-    
-    .BRANCH_KAPPA
-    
-    AND.b #$0F : INC A : PHA
-    
-    ; Put Link into the "under a heavy rock" mode.
-    LDA.b #$18 : STA.b $5D
-    
-    LDA.b #$01 : STA.w $0314
-    
-    PLA
-    
-    JSL Sprite_SpawnThrowableTerrain
-    
-    ASL.b $F6 : LSR.b $F6
-    
-    BRA .return
-    
-    .BRANCH_ZETA
-    
-    LDX.w $030A : INX
-    
-    LDA.w $B199, X : STA.w $030B
-    
-    STX.w $030A : CPX.b #$03 : BNE .return
-    
-    .BRANCH_EPSILON
-    
-    STZ.w $0309
-    
-    LDA.b $50 : AND.b #$FE : STA.b $50
-    
-    ; $03B280 ALTERNATE ENTRY POINT
-    .return
-    
-    RTS
+        ; Is Link throwing an item?
+        LDA.w $0309 : AND.b #$02 : BEQ .alpha
+            LDA.w $030B : CMP.b #$05 : BCC .alpha
+                LDA.w $B19C : STA.w $030B
+        
+        .alpha
+        
+        ; Is Link picking up an item?
+        ; No...
+        LDA.w $0309 : BEQ .notPickingSomethingUp
+            JSR.w HaltLinkWhenUsingItems ; Link is picking up an item, handle it.
+        
+        .notPickingSomethingUp
+        
+        ; Is Link still picking up something?
+        LDA.w $0309 : AND.b #$01 : BEQ .notPickingUpInProgress
+            STZ.b $2E
+            STZ.b $2D
+            
+            ; Make it so Link does not appear to be walking
+            LDA.b $67 : AND.b #$F0 : STA.b $67
+        
+        .notPickingUpInProgress
+        
+        ; Timer used for picking up the item and throwing it
+        DEC.w $030B : LDA.w $030B : BNE Link_Lift_return
+            LDA.w $0309 : AND.b #$02 : BEQ .delta
+                STZ.w $0308
+                STZ.b $48
+                STZ.b $5E
+                
+                LDA.b $5D : CMP.b #$18 : BNE .BRANCH_EPSILON
+                    LDA.b #$00 : STA.b $5D
+                    
+                    BRL .BRANCH_EPSILON
+            
+            .delta
+            
+            LDA.w $0300 : BEQ .BRANCH_ZETA
+                INC A : CMP.b #$09 : BEQ .BRANCH_EPSILON
+                    STA.w $0300 : TAX
+                    
+                    LDA.w $B1B6, X : STA.w $030B
+                    
+                    LDA.w $B1C0, X : STA.w $030A
+                    
+                    CPX.b #$06 : BNE .return
+                        STZ.w $0B9C
+                        
+                        LDA.b $1B : BEQ .outdoors
+                            JSL Dungeon_RevealCoveredTiles
+                            
+                            BRA .BRANCH_KAPPA
+                        
+                        .outdoors
+                        
+                        JSL Overworld_LiftableTiles
+                        
+                        .BRANCH_KAPPA
+                        
+                        AND.b #$0F : INC A : PHA
+                        
+                        ; Put Link into the "under a heavy rock" mode.
+                        LDA.b #$18 : STA.b $5D
+                        
+                        LDA.b #$01 : STA.w $0314
+                        
+                        PLA
+                        
+                        JSL Sprite_SpawnThrowableTerrain
+                        
+                        ASL.b $F6 : LSR.b $F6
+                        
+                        BRA .return
+            
+            .BRANCH_ZETA
+            
+            LDX.w $030A : INX
+            
+            LDA.w $B199, X : STA.w $030B
+            
+            STX.w $030A : CPX.b #$03 : BNE .return
+                .BRANCH_EPSILON
+                
+                STZ.w $0309
+                
+                LDA.b $50 : AND.b #$FE : STA.b $50
+            
+            ; $03B280 ALTERNATE ENTRY POINT
+            .return
+            
+            RTS
 }
 
 ; ==============================================================================
 
-; $03B281-$03B2ED LOCAL JUMP LOCATION ; Commented by zarby
+; $03B281-$03B2ED LOCAL JUMP LOCATION ; Commented by Zarby89
+Link_PerformDash:
 {
-    LDA.w $02F5 : BNE .BRANCH_$3B1CA_THETA ; on somaria platform?
-    
-    LDA.w $0314 : ORA.w $02EC : BNE .BRANCH_$3B1CA_THETA ; touching a sprite?
-        
-    BIT.w $0308 : BMI .BRANCH_$3B1CA_THETA ; holding an object?
-        
-    LDA.b $1B : BNE .BRANCH_ALPHA ; are we inside..... ... ....
-    
-    .BRANCH_ALPHA
-    
-    STZ.b $3B ; Reset A button
-        
-    LDA.b #$1D : STA.w $0374 ; dash timer
-        
-    LDA.b #$40 : STA.w $02F1 ; dash timer related
-        
-    LDA.b #$11 : STA.b $5D ; Set player in falling state...
-        
-    LDA.b #$01 : STA.w $0372 ; will bounce if touch (bonk)
-        
-    LDA.b $3A : AND.b #$80 : STA.b $3A ; B button has been held for more than 1 frame
-    ; Clear a bunch of variables related to player
-    STZ.w $0308
-    STZ.w $0301
-    STZ.b $48
-    STZ.b $6B
-        
-    LDA.l $7EF3CC : TAX ; Get the follower ID in X
+    ; Are we on a somaria platform?
+    LDA.w $02F5 : BNE Link_APress_LiftCarryThrow_return
+        ; Touching a sprite?
+        LDA.w $0314 : ORA.w $02EC : BNE Link_APress_LiftCarryThrow_return
+            BIT.w $0308 : BMI Link_APress_LiftCarryThrow_return; holding an object?
+            
+                ; Are we inside?
+                LDA.b $1B : BNE .BRANCH_ALPHA 
+                    ; OPTIMIZE: Useless branch.
 
-    ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
-    ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
-    CMP.w $8F68, X : BNE .tagalong_not_enabled_for_this
-        
-    ; Basically, only the old man makes it through here (tagalong 0x02)
-    STZ.b $5E ; set walking speed to normal
-        
-    LDX.w $02CF ; Tagalong state
-    
-    ; \bug This is not cool, bro. Writing to bank 0x07?
-    ; \tcrf Perhaps mentionable enough that maybe they wanted the player to
-    ; lose the old man here?
-    ; This is a mistake and was ment to write to SRM. ex: STA.l $7EF3CD.
-    ; See tagalong.asm line 363.
-    LDA.w $1A00, X : STA.w $F3CD ; Grabbing Y Position (position to grab it back)
-    LDA.w $1A14, X : STA.w $F3CE
-        
-    LDA.w $1A28, X : STA.w $F3CF ; Grabbing X Position (position to grab it back)
-    LDA.w $1A3C, X : STA.w $F3D0
-        
-    LDA.b $EE : STA.w $F3D2 ; Dungeon Layer  
-        
-    LDA.b #$40 : STA.w $02D2 ; Timer to reaquire big bomb
-    .tagalong_not_enabled_for_this
-    
-    RTS
+                .BRANCH_ALPHA
+                
+                STZ.b $3B ; Reset A button
+                    
+                LDA.b #$1D : STA.w $0374 ; dash timer
+                    
+                LDA.b #$40 : STA.w $02F1 ; dash timer related
+                    
+                LDA.b #$11 : STA.b $5D ; Set player in falling state...
+                    
+                LDA.b #$01 : STA.w $0372 ; will bounce if touch (bonk)
+                    
+                ; B button has been held for more than 1 frame
+                LDA.b $3A : AND.b #$80 : STA.b $3A
+
+                ; Clear a bunch of variables related to player
+                STZ.w $0308
+                STZ.w $0301
+                STZ.b $48
+                STZ.b $6B
+                    
+                LDA.l $7EF3CC : TAX ; Get the follower ID in X
+
+                ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
+                ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
+                CMP.w $8F68, X : BNE .tagalong_not_enabled_for_this
+                    ; Basically, only the old man makes it through here (tagalong
+                    ; 0x02)
+
+                    ; set walking speed to normal
+                    STZ.b $5E
+                        
+                    ; Tagalong state
+                    LDX.w $02CF
+                    
+                    ; BUG: This is not cool, bro. Writing to bank 0x07?
+                    ; Perhaps mentionable enough that maybe they wanted the player
+                    ; to lose the old man here? This is a mistake and was ment to
+                    ; write to SRM. ex: STA.l $7EF3CD. See the latter half of the
+                    ; function Tagalong_NoTimedMessage in tagalong.asm.
+
+                    ; Grabbing Y Position (position to grab it back)
+                    LDA.w $1A00, X : STA.w $F3CD
+                    LDA.w $1A14, X : STA.w $F3CE
+                        
+                    ; Grabbing X Position (position to grab it back)
+                    LDA.w $1A28, X : STA.w $F3CF
+                    LDA.w $1A3C, X : STA.w $F3D0
+                        
+                    LDA.b $EE : STA.w $F3D2 ; Dungeon Layer  
+                        
+                    LDA.b #$40 : STA.w $02D2 ; Timer to reaquire big bomb
+
+                .tagalong_not_enabled_for_this
+
+                ; $03B2ED ALTERNATE ENTRY POINT
+                .return
+                
+                RTS
 }
 
 ; ==============================================================================
 
 ; $03B2EE-$03B30F JUMP LOCATION
+Link_PerformGrab:
 {
     ; Link grabs a wall action
     LDA.b $3A : AND.b #$80 : BEQ .noCurrentAction
-    
-    LDA.b $3C : CMP.b #$09 : BCS .BRANCH_$3B2ED
+        LDA.b $3C : CMP.b #$09 : BCS Link_PerformDash_return
     
     .noCurrentAction
     
@@ -7853,17 +7856,16 @@ Link_APress_LiftCarryThrow:
 
 ; ==============================================================================
 
+; Pre grabbing a wall?
 ; $03B322-$03B372 JUMP LOCATION
+Link_APress_PullObject:
 {
-    ; Pre grabbing a wall?
-    
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
     LDA.b $2F : LSR A : TAX
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_ALPHA
-    
-    AND.w $B310, X : BNE .BRANCH_BETA
+        AND.w $B310, X : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
@@ -7874,30 +7876,27 @@ Link_APress_LiftCarryThrow:
     .BRANCH_BETA
     
     DEC.w $030B : BPL .BRANCH_DELTA
-    
-    LDA.w $030D
-    
-    INX : CPX.b #$07 : BNE .BRANCH_GAMMA
-    
-    LDX.b #$01
-    
-    .BRANCH_GAMMA
-    
-    STX.w $030D
-    
-    LDA.w $B31B, X : STA.w $030A
-    LDA.w $B314, X : STA.w $030B
+        LDA.w $030D
+        
+        INX : CPX.b #$07 : BNE .BRANCH_GAMMA
+            LDX.b #$01
+        
+        .BRANCH_GAMMA
+        
+        STX.w $030D
+        
+        LDA.w $B31B, X : STA.w $030A
+        LDA.w $B314, X : STA.w $030B
     
     .BRANCH_DELTA
     
     LDA.b $F2 : AND.b #$80 : BNE .BRANCH_EPSILON
-    
-    STZ.w $030D
-    STZ.w $030A
-    STZ.w $0376
-    STZ.b $3B
-    
-    LDA.b $50 : AND.b #$FE : STA.b $50
+        STZ.w $030D
+        STZ.w $030A
+        STZ.w $0376
+        STZ.b $3B
+        
+        LDA.b $50 : AND.b #$FE : STA.b $50
     
     .BRANCH_EPSILON
     
@@ -7926,14 +7925,14 @@ Link_MovableStatue:
 ; ==============================================================================
 
 ; $03B389-$03B3E4 JUMP LOCATION
+Link_APress_StatueDrag:
 {
     LDA.b #$14 : STA.b $5E
     
     LDA.b $2F : LSR A : TAX
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_ALPHA
-    
-    AND.w $B310, X : BNE .BRANCH_BETA
+        AND.w $B310, X : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
@@ -7951,31 +7950,28 @@ Link_MovableStatue:
     STA.b $67
     
     DEC.w $030B : BPL .BRANCH_DELTA
-    
-    LDX.w $030D : INX : CPX.b #$07 : BNE .BRANCH_GAMMA
-    
-    LDX.b #$01
-    
-    .BRANCH_GAMMA
-    
-    STX.w $030D
-    
-    LDA.w $B31B, X : STA.w $030A
-    
-    LDA.w $B314, X : STA.w $030B
+        LDX.w $030D : INX : CPX.b #$07 : BNE .BRANCH_GAMMA
+            LDX.b #$01
+        
+        .BRANCH_GAMMA
+        
+        STX.w $030D
+        
+        LDA.w $B31B, X : STA.w $030A
+        
+        LDA.w $B314, X : STA.w $030B
     
     .BRANCH_DELTA
     
     LDA.b $F2 : AND.b #$80 : BNE .BRANCH_EPSILON
-    
-    STZ.b $5E
-    STZ.w $02FA
-    STZ.w $030D
-    STZ.w $030A
-    STZ.w $0376
-    STZ.b $3B
-    
-    LDA.b $50 : AND.b #$FE : STA.b $50
+        STZ.b $5E
+        STZ.w $02FA
+        STZ.w $030D
+        STZ.w $030A
+        STZ.w $0376
+        STZ.b $3B
+        
+        LDA.b $50 : AND.b #$FE : STA.b $50
     
     .BRANCH_EPSILON
     
@@ -7985,27 +7981,27 @@ Link_MovableStatue:
 ; ==============================================================================
 
 ; $03B3E5-$03B40C JUMP LOCATION
+Link_PerformRupeePull:
 {
-    ; must be facing in the up direction in order to go rolling backwards
+    ; Must be facing in the up direction in order to go rolling backwards
     LDA.b $2F : BNE .notFacingUp
-    
-    JSL Player_ResetState
-    
-    LDA.b #$02 : STA.w $0376 : TSB.b $50
-    
-    STZ.b $2E
-    STZ.w $030A
-    
-    LDA.w $B314 : STA.w $030B
-    
-    STZ.w $030D
-    
-    ; Rolling backwards mode for Link.
-    LDA.b #$1D : STA.b $5D
-    
-    STZ.b $27
-    STZ.b $28
-    STZ.b $3A
+        JSL Player_ResetState
+        
+        LDA.b #$02 : STA.w $0376 : TSB.b $50
+        
+        STZ.b $2E
+        STZ.w $030A
+        
+        LDA.w $B314 : STA.w $030B
+        
+        STZ.w $030D
+        
+        ; Rolling backwards mode for Link.
+        LDA.b #$1D : STA.b $5D
+        
+        STZ.b $27
+        STZ.b $28
+        STZ.b $3A
     
     ; $03B40C ALTERNATE ENTRY POINT
     .notFacingUp
@@ -8016,98 +8012,88 @@ Link_MovableStatue:
 ; ==============================================================================
 
 ; $03B416-$03B4F1 JUMP LOCATION
+LinkState_TreePull:
 {
     JSR.w $F514 ; $03F514 IN ROM
     
     LDA.b $4D : BEQ .durp
-    
-    BRL .BRANCH_$38130
+        BRL LinkState_Default_HandleLink_From1D
     
     .durp
     
     LDA.w $0376 : BEQ .BRANCH_ALPHA
-    
-    LDA.b $3A : BNE .BRANCH_BETA
-    
-    BIT.b $F2 : BPL .BRANCH_GAMMA
-    
-    LDA.b $F0 : AND.b #$04 : BEQ .BRANCH_DELTA
-    
-    STA.b $3A
-    
-    LDA.b #$22 : JSR Player_DoSfx2
-    
-    BRA .BRANCH_BETA
-    
-    .BRANCH_GAMMA
-    
-    STZ.w $0376
-    STZ.w $030D
-    
-    LDA.b #$02 : STA.w $030B : STZ.w $030A
-    
-    STZ.b $50
-    
-    LDA.b #$00 : STA.b $5D
-    
-    BRA .BRANCH_EPSILON
-    
-    .BRANCH_BETA
-    
-    DEC.w $030B : BPL .BRANCH_DELTA
-    
-    INC.w $030D : LDX.w $030D
-    
-    LDA.w $B31B, X : STA.w $030A
-    LDA.w $B314, X : STA.w $030B
-    
-    CPX.b #$07 : BNE .BRANCH_DELTA
-    
-    STZ.w $0376
-    STZ.w $030D
-    
-    LDA.b #$02 : STA.w $030B : STZ.w $030A
-    
-    LDA.b #$01 : STA.w $0308 : STZ.w $0309
-    
-    BRA .BRANCH_ALPHA
-    
-    .BRANCH_DELTA
-    
-    BRA .BRANCH_ZETA
+        LDA.b $3A : BNE .BRANCH_BETA
+            BIT.b $F2 : BPL .BRANCH_GAMMA
+                LDA.b $F0 : AND.b #$04 : BEQ .BRANCH_DELTA
+                    STA.b $3A
+                    
+                    LDA.b #$22 : JSR Player_DoSfx2
+                    
+                    BRA .BRANCH_BETA
+            
+            .BRANCH_GAMMA
+            
+            STZ.w $0376
+            STZ.w $030D
+            
+            LDA.b #$02 : STA.w $030B : STZ.w $030A
+            
+            STZ.b $50
+            
+            LDA.b #$00 : STA.b $5D
+            
+            BRA .BRANCH_EPSILON
+        
+        .BRANCH_BETA
+        
+        DEC.w $030B : BPL .BRANCH_DELTA
+            INC.w $030D : LDX.w $030D
+            
+            LDA.w $B31B, X : STA.w $030A
+            LDA.w $B314, X : STA.w $030B
+            
+            CPX.b #$07 : BNE .BRANCH_DELTA
+                STZ.w $0376
+                STZ.w $030D
+                
+                LDA.b #$02 : STA.w $030B : STZ.w $030A
+                
+                LDA.b #$01 : STA.w $0308 : STZ.w $0309
+                
+                BRA .BRANCH_ALPHA
+        
+        .BRANCH_DELTA
+        
+        BRA .BRANCH_ZETA
     
     .BRANCH_ALPHA
     
     LDA.b $48 : AND.b #$09 : BNE .BRANCH_THETA
-    
-    LDA.w $030D : CMP.b #$09 : BNE .BRANCH_IOTA
-    
-    LDA.b $F4 : AND.b #$0F : BEQ .BRANCH_KAPPA
-    
-    .BRANCH_EPSILON
-    
-    LDA.b #$00 : STA.b $5D
-    
-    BRL LinkState_Default ; GO TO NORMAL MODE
-    
-    .BRANCH_IOTA
-    
-    LDY.b #$00
-    LDA.b #$1E
-    
-    JSL AddDashingDust.notYetMoving
-    
-    DEC.w $030B : BPL .BRANCH_LAMBDA
-    
-    INC.w $030D : LDX.w $030D
-    
-    LDA.b #$02 : STA.w $030B
-    
-    LDA.w $B400D, X : STA.w $030A
-    
-    LDA.b #$30 : STA.b $27
-    
-    CPX.b #$09 : BNE .BRANCH_LAMBDA
+        LDA.w $030D : CMP.b #$09 : BNE .BRANCH_IOTA
+            LDA.b $F4 : AND.b #$0F : BEQ .BRANCH_KAPPA
+                .BRANCH_EPSILON
+                
+                LDA.b #$00 : STA.b $5D
+                
+                BRL LinkState_Default ; GO TO NORMAL MODE
+        
+        .BRANCH_IOTA
+        
+        LDY.b #$00
+        LDA.b #$1E
+        
+        JSL AddDashingDust.notYetMoving
+        
+        DEC.w $030B : BPL .BRANCH_LAMBDA
+            INC.w $030D : LDX.w $030D
+            
+            LDA.b #$02 : STA.w $030B
+            
+            LDA.w $B400D, X : STA.w $030A
+            
+            LDA.b #$30 : STA.b $27
+            
+            CPX.b #$09 : BNE .BRANCH_LAMBDA
     
     .BRANCH_THETA
     
@@ -8124,14 +8110,12 @@ Link_MovableStatue:
     JSR.w $92A0 ; $0392A0 IN ROM
     
     LDA.b $67 : AND.b #$03 : BNE .BRANCH_NU
-    
-    STZ.b $28
+        STZ.b $28
     
     .BRANCH_NU
     
     LDA.b $67 : AND.b #$0C : BNE .BRANCH_ZETA
-    
-    STZ.b $27
+        STZ.b $27
     
     .BRANCH_ZETA
     
@@ -8149,28 +8133,26 @@ Link_MovableStatue:
 
 ; ==============================================================================
 
-; $03B4F2-$03B527 JUMP LOCATION
+; $03B4F2-$03B527 LOCAL JUMP LOCATION
 Link_Read:
 {
     REP #$30
     
     LDA.b $1B : AND.w #$00FF : BEQ .outdoors
-    
-    LDA.b $A0 : ASL A : TAY
-    
-    LDA Dungeon_SignText, Y
-    
-    BRA .showMessage
+        LDA.b $A0 : ASL A : TAY
+        
+        LDA Dungeon_SignText, Y
+        
+        BRA .showMessage
     
     .outdoors
     
     LDA.l $7EF3C5 : AND.w #$00FF : CMP.w #$0002 : BCS .savedZeldaOnce
-    
-    ; Only use one message for all "beginning" signs.
-    ; That is, "The King will give 100 Rupees to..." message
-    LDA.w #$003A
-    
-    BRA .showMessage
+        ; Only use one message for all "beginning" signs.
+        ; That is, "The King will give 100 Rupees to..." message
+        LDA.w #$003A
+        
+        BRA .showMessage
     
     .savedZeldaOnce
     
@@ -8188,7 +8170,7 @@ Link_Read:
     
     STZ.b $3B
     
-    ; ALTERNATE ENTRY POINT
+    ; $03B527 ALTERNATE ENTRY POINT
     .return
     
     RTS
@@ -8272,8 +8254,8 @@ Link_Chest:
                 ; set item method to... from text?
                 STZ.w $02E9
     
-    .return
     .cantAttempt
+    .return
     
     RTS
 }
@@ -8281,24 +8263,22 @@ Link_Chest:
 ; ==============================================================================
 
 ; $03B5C0-$03B5D5 LOCAL JUMP LOCATION
+Link_CheckNewAPress:
 {
     ; Is the A button already down?
     LDA.b $3B : AND.b #$80 : BNE .failure
-    
-    ; Can Link move?
-    LDA.b $46 : BNE .failure
-    
-    ; Did the A button just go down this frame?
-    ; No it was not pushed this frame
-    LDA.b $F6 : AND.b #$80 : BEQ .failure
-    
-    ; Well, it was pushed this frame, so communicate that to $3B
-    TSB.b $3B
-    
-    SEC
-    
-    RTS
-    
+        ; Can Link move?
+        LDA.b $46 : BNE .failure
+            ; Did the A button just go down this frame?
+            ; No it was not pushed this frame
+            LDA.b $F6 : AND.b #$80 : BEQ .failure
+                ; Well, it was pushed this frame, so communicate that to $3B
+                TSB.b $3B
+                
+                SEC
+                
+                RTS
+        
     .failure
     
     ; Yep, it's down already.
@@ -8308,33 +8288,30 @@ Link_Chest:
 }
 
 ; $03B5D6-$03B608 LONG JUMP LOCATION
+Link_HandleToss:
 {
     LDA.b $3B : AND.b #$80 : BEQ .aButtonNotDown
-    
-    ; axlr----, bystudlr's distant cousin
-    LDA.b $F6 : AND.b #$80 : BEQ .aButtonNotDown
-    
-    LDA.w $0309 : AND.b #$01 : BNE .aButtonNotDown
-    
-    STZ.w $030D
-    STZ.w $030E
-    STZ.w $030A
-    
-    STZ.b $3B
-    
-    LDA.b $50 : AND.b #$FE : STA.b $50
-    
-    ; appears to be a debug variable, so it should always be zero.
-    LDA.w $0305 : CMP.b #$01 : BNE .dontDisableMasks
-    
-    STZ.b $1E
-    STZ.b $1F
-    
-    .dontDisableMasks
-    
-    SEC
-    
-    RTS
+        ; axlr----, bystudlr's distant cousin
+        LDA.b $F6 : AND.b #$80 : BEQ .aButtonNotDown
+            LDA.w $0309 : AND.b #$01 : BNE .aButtonNotDown
+                STZ.w $030D
+                STZ.w $030E
+                STZ.w $030A
+                
+                STZ.b $3B
+                
+                LDA.b $50 : AND.b #$FE : STA.b $50
+                
+                ; Appears to be a debug variable, so it should always be zero.
+                LDA.w $0305 : CMP.b #$01 : BNE .dontDisableMasks
+                    STZ.b $1E
+                    STZ.b $1F
+                    
+                .dontDisableMasks
+                
+                SEC
+                
+                RTS
     
     .aButtonNotDown
     
@@ -8343,20 +8320,24 @@ Link_Chest:
     RTS
 }
 
-; $03B64F-$03B7C2 LOCAL JUMP LOCATION
+; $03B64F-$03B65F LOCAL JUMP LOCATION
+Link_HandleDiagonalCollision:
 {
     ; $03B97C IN ROM
     JSR.w $B97C : BCC .onlyOneBg
-
-    JSR.w $B660 ; $03B660 IN ROM
-    JSR.w $B9B3 ; $03B9B3 IN ROM
+        JSR.w $B660 ; $03B660 IN ROM
+        JSR.w $B9B3 ; $03B9B3 IN ROM
 
     .onlyOneBg
 
     LDA.b $67 : AND.b #$0F : STA.b $67
 
-; $03B660 ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
 
+; $03B660-$03B7C2 LOCAL JUMP LOCATION
+FlagObstructions:
+{
     LDA.b #$0F : STA.b $42 : STA.b $43
     
     STZ.b $6A
@@ -8364,9 +8345,8 @@ Link_Chest:
     ; Checking to see if either up or down was pressed.
     ; Yeah, one of them was.
     LDA.b $67 : AND.b #$0C : BNE .verticalWalking
-    
-    ; Neither up nor down was pressed.
-    BRL .BRANCH_ULTIMA
+        ; Neither up nor down was pressed.
+        BRL .BRANCH_ULTIMA
 
     .verticalWalking
 
@@ -8376,9 +8356,8 @@ Link_Chest:
     
     ; Walking in the up direction?
     AND.b #$08 : BNE .walkingUp
-    
-    ; Walking in the down direction
-    LDY.b #$02
+        ; Walking in the down direction
+        LDY.b #$02
 
     .walkingUp
 
@@ -8388,75 +8367,62 @@ Link_Chest:
     JSR.w $CE85 ; $03CE85 IN ROM
     
     LDA.b $0E : AND.b #$30 : BEQ .BRANCH_DELTA
-    
-    LDA.b $62 : AND.b #$02 : BNE .BRANCH_DELTA
-    
-    LDA.b $0E : AND.b #$30 : LSR #4 : AND.b $67 : BNE .BRANCH_DELTA
-    
-    LDY.b #$02
-    
-    LDA.b $67
-    
-    AND.b #$03 : BEQ .BRANCH_DELTA
-    AND.b #$02 : BNE .BRANCH_EPSILON
-    
-    LDY.b #$03
-    
-    BRA .BRANCH_EPSILON
+        LDA.b $62 : AND.b #$02 : BNE .BRANCH_DELTA
+            LDA.b $0E : AND.b #$30 : LSR #4 : AND.b $67 : BNE .BRANCH_DELTA
+                LDY.b #$02
+                
+                LDA.b $67
+                
+                AND.b #$03 : BEQ .BRANCH_DELTA
+                    AND.b #$02 : BNE .BRANCH_EPSILON
+                        LDY.b #$03
+                        
+                        BRA .BRANCH_EPSILON
 
     .BRANCH_DELTA
 
     LDA.w $046C : BEQ .BRANCH_ZETA
-    
-    LDA.b $0E : AND.b #$03 : BNE .BRANCH_THETA
-    
-    BRA .BRANCH_IOTA
+        LDA.b $0E : AND.b #$03 : BNE .BRANCH_THETA
+            BRA .BRANCH_IOTA
 
     .BRANCH_ZETA
 
     ; If Link is in the ground state, then branch.
     LDA.b $4D : BEQ .BRANCH_THETA
-    
-    LDA.b $0C : AND.b #$03 : BEQ .BRANCH_THETA
-    
-    BRA .BRANCH_MU
+        LDA.b $0C : AND.b #$03 : BEQ .BRANCH_THETA
+            BRA .BRANCH_MU
 
     .BRANCH_THETA
 
     LDA.b $0E : AND.b #$03 : BEQ .BRANCH_IOTA
-    
-    STZ.b $6B
-    
-    LDA.w $034A : BEQ .BRANCH_MU
-    
-    LDA.w $02E8 : AND.b #$03 : BNE .BRANCH_MU
-    
-    LDA.b $67 : AND.b #$03 : BEQ .BRANCH_MU
-    
-    STZ.w $033C
-    STZ.w $033D
-    STZ.w $032F
-    STZ.w $0330
-    STZ.w $032B
-    STZ.w $032C
-    STZ.w $0334
-    STZ.w $0335
+        STZ.b $6B
+        
+        LDA.w $034A : BEQ .BRANCH_MU
+            LDA.w $02E8 : AND.b #$03 : BNE .BRANCH_MU
+                LDA.b $67 : AND.b #$03 : BEQ .BRANCH_MU
+                    STZ.w $033C
+                    STZ.w $033D
+                    STZ.w $032F
+                    STZ.w $0330
+                    STZ.w $032B
+                    STZ.w $032C
+                    STZ.w $0334
+                    STZ.w $0335
 
-    .BRANCH_MU
+        .BRANCH_MU
 
-    LDA.b #$01 : STA.w $0302
-    
-    LDY.b $66
+        LDA.b #$01 : STA.w $0302
+        
+        LDY.b $66
 
-    .BRANCH_EPSILON
+        .BRANCH_EPSILON
 
-    LDA.w $B64B, Y : STA.b $42
+        LDA.w $B64B, Y : STA.b $42
 
     .BRANCH_IOTA
 
     LDA.b $67 : AND.b #$03 : BNE .BRANCH_LAMBDA
-    
-    BRL .BRANCH_ULTIMA
+        BRL .BRANCH_ULTIMA
 
     .BRANCH_LAMBDA
 
@@ -8465,8 +8431,7 @@ Link_Chest:
     LDY.b #$04
     
     AND.b #$02 : BNE .BRANCH_NU
-    
-    LDY.b #$06
+        LDY.b #$06
 
     .BRANCH_NU
 
@@ -8475,70 +8440,58 @@ Link_Chest:
     JSR.w $CEC9 ; $03CEC9 IN ROM
     
     LDA.b $0E : AND.b #$30 : BEQ .BRANCH_XI
-    
-    LDA.b $62 : AND.b #$02 : BEQ .BRANCH_XI
-    
-    LDA.b $0E : AND.b #$30 : LSR #2 : AND.b $67 : BNE .BRANCH_XI
-    
-    LDY.b #$00
-    
-    LDA.b $67
-    
-    AND.b #$0C : BEQ .BRANCH_XI
-    AND.b #$08 : BNE .BRANCH_OMICRON
-    
-    LDY.b #$01
-    
-    BRA .BRANCH_OMICRON
+        LDA.b $62 : AND.b #$02 : BEQ .BRANCH_XI
+            LDA.b $0E : AND.b #$30 : LSR #2 : AND.b $67 : BNE .BRANCH_XI
+                LDY.b #$00
+                
+                LDA.b $67
+                
+                AND.b #$0C : BEQ .BRANCH_XI
+                    AND.b #$08 : BNE .BRANCH_OMICRON
+                        LDY.b #$01
+                        
+                        BRA .BRANCH_OMICRON
 
     .BRANCH_XI
 
     ; One BG collision
     LDA.w $046C : BEQ .BRANCH_PI
-    
-    LDA.b $0E : AND.b #$03 : BNE .BRANCH_RHO
-    
-    BRA .BRANCH_SIGMA
+        LDA.b $0E : AND.b #$03 : BNE .BRANCH_RHO
+            BRA .BRANCH_SIGMA
 
     .BRANCH_PI
 
     LDA.b $4D : BEQ .BRANCH_RHO
-    
-    LDA.b $0C : AND.b #$03 : BEQ .BRANCH_RHO
-
-    BRA .BRANCH_UPSILON
+        LDA.b $0C : AND.b #$03 : BEQ .BRANCH_RHO
+            BRA .BRANCH_UPSILON
 
     .BRANCH_RHO
 
     LDA.b $0E : AND.b #$03 : BEQ .BRANCH_SIGMA
-    
-    STZ.b $6B
-    
-    LDA.w $034A : BEQ .BRANCH_UPSILON
-    
-    LDA.w $02E8 : AND.b #$03 : BNE .BRANCH_UPSILON
-    
-    ; Check if Link is walking in an vertical direction
-    LDA.b $67 : AND.b #$0C : BEQ .BRANCH_UPSILON
-    
-    STZ.w $033E
-    STZ.w $033F
-    STZ.w $0331
-    STZ.w $0332
-    STZ.w $032D
-    STZ.w $032E
-    STZ.w $0336
-    STZ.w $0337
+        STZ.b $6B
+        
+        LDA.w $034A : BEQ .BRANCH_UPSILON
+            LDA.w $02E8 : AND.b #$03 : BNE .BRANCH_UPSILON
+                ; Check if Link is walking in an vertical direction.
+                LDA.b $67 : AND.b #$0C : BEQ .BRANCH_UPSILON
+                    STZ.w $033E
+                    STZ.w $033F
+                    STZ.w $0331
+                    STZ.w $0332
+                    STZ.w $032D
+                    STZ.w $032E
+                    STZ.w $0336
+                    STZ.w $0337
 
-    .BRANCH_UPSILON
+        .BRANCH_UPSILON
 
-    LDA.b #$01 : STA.w $0302
-    
-    LDY.b $66
+        LDA.b #$01 : STA.w $0302
+        
+        LDY.b $66
 
-    .BRANCH_OMICRON
+        .BRANCH_OMICRON
 
-    LDA.w $B64B, Y : STA.b $43
+        LDA.w $B64B, Y : STA.b $43
 
     .BRANCH_SIGMA
 
@@ -8547,25 +8500,21 @@ Link_Chest:
     .BRANCH_ULTIMA
 
     LDA.b $67 : AND.b #$0F : BEQ .BRANCH_PHI
-    
-    LDA.b $6B : AND.b #$0F : BEQ .BRANCH_PHI
-    
-    STA.b $67
+        LDA.b $6B : AND.b #$0F : BEQ .BRANCH_PHI
+            STA.b $67
 
     .BRANCH_PHI
 
     ; Is this checking if Link is moving diagonally?
     LDA.b $6A : STZ.b $6A : CMP.b #$02 : BNE .BRANCH_OMEGA
-    
-    LDY.b #$01
-    
-    LDA.b $2F : AND.b #$04 : BEQ .BRANCH_ALIF
-    
-    LDY.b #$02
+        LDY.b #$01
+        
+        LDA.b $2F : AND.b #$04 : BEQ .BRANCH_ALIF
+            LDY.b #$02
 
-    .BRANCH_ALIF
+        .BRANCH_ALIF
 
-    STY.b $6A
+        STY.b $6A
 
     .BRANCH_OMEGA
 
@@ -8575,6 +8524,7 @@ Link_Chest:
 ; ==============================================================================
 
 ; $03B7C3-$03B7C6 DATA
+AutoMove49Directions:
 {
     ; \task Label this pool / routine.
     db 8, 4, 2, 1
@@ -8594,76 +8544,67 @@ Link_HandleCardinalCollision:
     ; Detects forced diagonal movement, as when walking against a diagonal wall
     ; Branch if there is [forced] diagonal movement
     LDA.b $6B : AND.b #$30 : BNE .BRANCH_ALPHA
-    
-    ; $03CCAB IN ROM; Handles left/right tiles and maybe up/down too
-    JSR.w $CCAB
-    
-    LDA.b $6D : BEQ .BRANCH_ALPHA
-    
-    BRL .BRANCH_BETA
+        ; $03CCAB IN ROM; Handles left/right tiles and maybe up/down too
+        JSR.w $CCAB
+        
+        LDA.b $6D : BEQ .BRANCH_ALPHA
+            BRL .BRANCH_BETA
     
     .BRANCH_ALPHA
     
     ; $03B97C IN ROM
     JSR.w $B97C : BCC .BRANCH_BETA
-    
-    ; "Check collision" as named in Hyrule Magic
-    ; Keep in mind that outdoors, collisions are always 0, i.e. "normal"
-    ; Why load it twice, homes?
-    LDA.w $046C : CMP.b #$02 : BCC .BRANCH_GAMMA
-    LDA.w $046C : CMP.b #$03 : BEQ .BRANCH_GAMMA
-    
-    LDA.b #$02 : STA.w $0315
-    
-    REP #$20
-    
-    JSR Player_TileDetectNearby
-    
-    SEP #$20
-    
-    LDA.b $0E : STA.w $0316 : BEQ .BRANCH_GAMMA
-    
-    LDA.b $30 : STA.b $00
-    
-    ADC.w $0310 : STA.b $30
-    
-    LDA.b $31 : STA.b $01
-    
-    CLC : ADC.w $0312 : STA.b $31
-    
-    LDA.b $0E
-    
-    CMP.b #$0C : BEQ .BRANCH_GAMMA
-    CMP.b #$03 : BEQ .BRANCH_GAMMA
-    CMP.b #$0A : BEQ .BRANCH_DELTA
-    CMP.b #$05 : BEQ .BRANCH_DELTA
-    AND.b #$0C : BNE .BRANCH_EPSILON
-    
-    LDA.b $0E : AND.b #$03 : BNE .BRANCH_EPSILON
-    
-    BRA .BRANCH_GAMMA
-    
-    .BRANCH_EPSILON
-    
-    LDA.b $00 : BNE .BRANCH_DELTA
-    
-    LDA.b $01 : BEQ .BRANCH_GAMMA
-    
-    LDA.w $0301 : BPL .BRANCH_DELTA
-    
-    .BRANCH_GAMMA
-    
-    JSR.w $B956 ; $03B956 IN ROM
-    
-    BRA .BRANCH_ZETA
-    
-    .BRANCH_DELTA
-    
-    JSR.w $B969   ; $03B969 IN ROM
-    
-    .BRANCH_ZETA
-    
-    JSR.w $B9B3 ; $03B9B3 IN ROM
+        ; "Check collision" as named in Hyrule Magic
+        ; Keep in mind that outdoors, collisions are always 0, i.e. "normal"
+        ; Why load it twice, homes?
+        LDA.w $046C : CMP.b #$02 : BCC .BRANCH_GAMMA
+            LDA.w $046C : CMP.b #$03 : BEQ .BRANCH_GAMMA
+                LDA.b #$02 : STA.w $0315
+                
+                REP #$20
+                
+                JSR Player_TileDetectNearby
+                
+                SEP #$20
+                
+                LDA.b $0E : STA.w $0316 : BEQ .BRANCH_GAMMA
+                    LDA.b $30 : STA.b $00
+                    
+                    ADC.w $0310 : STA.b $30
+                    
+                    LDA.b $31 : STA.b $01
+                    
+                    CLC : ADC.w $0312 : STA.b $31
+                    
+                    LDA.b $0E
+                    
+                    CMP.b #$0C : BEQ .BRANCH_GAMMA
+                    CMP.b #$03 : BEQ .BRANCH_GAMMA
+                        CMP.b #$0A : BEQ .BRANCH_DELTA
+                        CMP.b #$05 : BEQ .BRANCH_DELTA
+                        AND.b #$0C : BNE .BRANCH_EPSILON
+                            LDA.b $0E : AND.b #$03 : BNE .BRANCH_EPSILON
+                                BRA .BRANCH_GAMMA
+                        
+                        .BRANCH_EPSILON
+                        
+                        LDA.b $00 : BNE .BRANCH_DELTA
+                            LDA.b $01 : BEQ .BRANCH_GAMMA
+                                LDA.w $0301 : BPL .BRANCH_DELTA
+        
+        .BRANCH_GAMMA
+        
+        JSR.w $B956 ; $03B956 IN ROM
+        
+        BRA .BRANCH_ZETA
+        
+        .BRANCH_DELTA
+        
+        JSR.w $B969 ; $03B969 IN ROM
+        
+        .BRANCH_ZETA
+        
+        JSR.w $B9B3 ; $03B9B3 IN ROM
     
     .BRANCH_BETA
     
@@ -8671,57 +8612,47 @@ Link_HandleCardinalCollision:
     LDA.w $046C
     
     CMP.b #$02 : BEQ .BRANCH_THETA
-    CMP.b #$03 : BEQ .BRANCH_IOTA
-    CMP.b #$04 : BEQ .BRANCH_KAPPA
-    
-    ; Is there horizontal or vertical scrolling happening?
-    LDA.b $30 : ORA.b $31 : BNE .BRANCH_KAPPA
-    
-    LDA.b $5D
-    
-    CMP.b #$13 : BEQ .BRANCH_LAMBDA
-    CMP.b #$08 : BEQ .BRANCH_LAMBDA
-    CMP.b #$09 : BEQ .BRANCH_LAMBDA
-    CMP.b #$0A : BEQ .BRANCH_LAMBDA
-    CMP.b #$03 : BEQ .BRANCH_LAMBDA
-    
-    JSR Player_TileDetectNearby
-    
-    LDA.b $59 : AND.b #$0F : BEQ .BRANCH_LAMBDA
-    
-    LDA.b #$01 : STA.b $5D
-    
-    LDA.w $0372 : BNE .BRANCH_LAMBDA
-    
-    LDA.b #$04 : STA.b $5E
-    
-    .BRANCH_LAMBDA
-    
-    BRL .BRANCH_XI
+        CMP.b #$03 : BEQ .BRANCH_IOTA
+            CMP.b #$04 : BEQ .BRANCH_KAPPA
+                ; Is there horizontal or vertical scrolling happening?
+                LDA.b $30 : ORA.b $31 : BNE .BRANCH_KAPPA
+                    LDA.b $5D
+                    
+                    CMP.b #$13 : BEQ .BRANCH_LAMBDA
+                    CMP.b #$08 : BEQ .BRANCH_LAMBDA
+                    CMP.b #$09 : BEQ .BRANCH_LAMBDA
+                    CMP.b #$0A : BEQ .BRANCH_LAMBDA
+                    CMP.b #$03 : BEQ .BRANCH_LAMBDA
+                        JSR Player_TileDetectNearby
+                        
+                        LDA.b $59 : AND.b #$0F : BEQ .BRANCH_LAMBDA
+                            LDA.b #$01 : STA.b $5D
+                            
+                            LDA.w $0372 : BNE .BRANCH_LAMBDA
+                                LDA.b #$04 : STA.b $5E
+                    
+                    .BRANCH_LAMBDA
+                    
+                    BRL .BRANCH_XI
     
     .BRANCH_THETA
     
     JSR Player_TileDetectNearby
     
     LDA.b $0E : ORA.w $0316 : CMP.b #$0F : BNE .BRANCH_KAPPA
-    
-    LDA.w $031F : BNE .BRANCH_MU
-    
-    LDA.b #$3A : STA.w $031F
-    
-    .BRANCH_MU
-    
-    LDA.b $67 : BNE .BRANCH_KAPPA
-    
-    LDA.w $0310 : BEQ .BRANCH_NU
-    
-    LDA.b $30 : EOR.b #$FF : INC A : STA.b $30
-    
-    .BRANCH_NU
-    
-    LDA.w $0312 : BEQ .BRANCH_KAPPA
-    
-    LDA.b $31 : EOR.b #$FF : INC A : STA.b $31
+        LDA.w $031F : BNE .BRANCH_MU
+            LDA.b #$3A : STA.w $031F
+        
+        .BRANCH_MU
+        
+        LDA.b $67 : BNE .BRANCH_KAPPA
+            LDA.w $0310 : BEQ .BRANCH_NU
+                LDA.b $30 : EOR.b #$FF : INC A : STA.b $30
+            
+            .BRANCH_NU
+            
+            LDA.w $0312 : BEQ .BRANCH_KAPPA
+                LDA.b $31 : EOR.b #$FF : INC A : STA.b $31
     
     .BRANCH_KAPPA
     
@@ -8744,73 +8675,64 @@ Link_HandleCardinalCollision:
     JSR.w $D077 ; $03D077 IN ROM
     
     LDA.b $6A : BEQ .BRANCH_OMICRON
-    
-    STZ.b $6B
+        STZ.b $6B
     
     .BRANCH_OMICRON
     
     LDA.b $5D : CMP.b #$0B : BEQ .BRANCH_PI
-    
-    LDY.b #$08
-    
-    LDA.b $20 : SEC : SBC.b $3E : STA.b $30 : BEQ .BRANCH_PI  BMI .BRANCH_RHO
-    
-    LDY.b #$04
-    
-    .BRANCH_RHO
-    
-    LDA.b $67 : AND.b #$03 : STA.b $67
-    
-    TYA : TSB.b $67
+        LDY.b #$08
+        
+        LDA.b $20 : SEC : SBC.b $3E : STA.b $30 : BEQ .BRANCH_PI  BMI .BRANCH_RHO
+            LDY.b #$04
+        
+        .BRANCH_RHO
+        
+        LDA.b $67 : AND.b #$03 : STA.b $67
+        
+        TYA : TSB.b $67
     
     .BRANCH_PI
     
     ; Two LDA's in a row?
     LDA.b #$02
     
-    LDA.b $22 : SEC : SBC.b $3F : STA.b $31 : BEQ .BRANCH_SIGMA  BMI .BRANCH_TAU
-    
-    LDY.b #$01
-    
-    .BRANCH_TAU
-    
-    LDA.b $67 : AND.b #$0C : STA.b $67
-    
-    TYA : TSB.b $67
-    
+    LDA.b $22 : SEC : SBC.b $3F : STA.b $31 : BEQ .BRANCH_SIGMA
+                                              BMI .BRANCH_TAU
+            LDY.b #$01
+        
+        .BRANCH_TAU
+        
+        LDA.b $67 : AND.b #$0C : STA.b $67
+        
+        TYA : TSB.b $67
+        
     .BRANCH_SIGMA
     
     LDA.b $1B : BEQ .BRANCH_UPSILON
-    
-    LDA.w $046C : CMP.b #$04 : BNE .BRANCH_UPSILON
-    
-    LDA.b $5D : CMP.b #$04 : BNE .BRANCH_UPSILON
-    
-    LDY.b #$F7
-    
-    LDA.w $0310 : BEQ .BRANCH_PHI  BMI .BRANCH_CHI
-    
-    LDY.b #$FB
-    
-    .BRANCH_CHI
-    
-    EOR.b #$FF : INC A : CLC : ADC.b $30 : BNE .BRANCH_PHI
-    
-    TYA : AND.b $67 : STA.b $67
-    
-    .BRANCH_PHI
-    
-    LDY.b #$FD
-    
-    LDA.w $0312 : BEQ .BRANCH_UPSILON  BMI .BRANCH_PSI
-    
-    LDY.b #$FE
-    
-    .BRANCH_PSI
-    
-    EOR.b #$FF : INC A : CLC : ADC.b $31 : BNE .BRANCH_UPSILON
-    
-    TYA : AND.b $67 : STA.b $67
+        LDA.w $046C : CMP.b #$04 : BNE .BRANCH_UPSILON
+            LDA.b $5D : CMP.b #$04 : BNE .BRANCH_UPSILON
+                LDY.b #$F7
+                
+                LDA.w $0310 : BEQ .BRANCH_PHI  BMI .BRANCH_CHI
+                    LDY.b #$FB
+                
+                .BRANCH_CHI
+                
+                EOR.b #$FF : INC A : CLC : ADC.b $30 : BNE .BRANCH_PHI
+                    TYA : AND.b $67 : STA.b $67
+                
+                .BRANCH_PHI
+                
+                LDY.b #$FD
+                
+                LDA.w $0312 : BEQ .BRANCH_UPSILON
+                    BMI .BRANCH_PSI
+                        LDY.b #$FE
+                        
+                    .BRANCH_PSI
+                        
+                    EOR.b #$FF : INC A : CLC : ADC.b $31 : BNE .BRANCH_UPSILON
+                        TYA : AND.b $67 : STA.b $67
     
     .BRANCH_UPSILON
     
@@ -8818,16 +8740,15 @@ Link_HandleCardinalCollision:
 }
 
 ; $03B956-$03B968 LOCAL JUMP LOCATION
+RunSlopeCollisionChecks_VerticalFirst:
 {
     LDA.b $6B : AND.b #$20 : BNE .BRANCH_ALPHA
-    
-    JSR.w $BA0A ; $03BA0A IN ROM
+        JSR.w $BA0A ; $03BA0A IN ROM
     
     .BRANCH_ALPHA
     
     LDA.b $6B : AND.b #$10 : BNE .BRANCH_BETA
-    
-    JSR.w $C4D4 ; $03C4D4 IN ROM
+        JSR.w $C4D4 ; $03C4D4 IN ROM
     
     .BRANCH_BETA
     
@@ -8835,16 +8756,15 @@ Link_HandleCardinalCollision:
 }
 
 ; $03B969-$03B97B LOCAL JUMP LOCATION
+RunSlopeCollisionChecks_HorizontalFirst:
 {
     LDA.b $6B : AND.b #$10 : BNE .BRANCH_ALPHA
-    
-    JSR.w $C4D4   ; $03C4D4 IN ROM
+        JSR.w $C4D4   ; $03C4D4 IN ROM
     
     .BRANCH_ALPHA
     
     LDA.b $6B : AND.b #$20 : BNE .BRANCH_BETA
-    
-    JSR.w $BA0A   ; $03BA0A IN ROM
+        JSR.w $BA0A   ; $03BA0A IN ROM
     
     .BRANCH_BETA
     
@@ -8852,31 +8772,31 @@ Link_HandleCardinalCollision:
 }
 
 ; $03B97C-$03B9B2 LOCAL JUMP LOCATION
+CheckIfRoomNeedsDoubleLayerCheck:
 {
     ; Collision settings
     LDA.w $046C  : BEQ .oneBg
     CMP.b #$04 : BEQ .oneBg       ; moving water collision setting
-    CMP.b #$02 : BCC .twoBgs
-    CMP.b #$03 : BNE .uselessBranch
-    
-    ; No code here, just us mice!
-    
-    .uselessBranch
-    
-    REP #$20
-    
-    LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.b $20 : STA.b $20 : STA.w $0318
-    LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.b $22 : STA.b $22 : STA.w $031A
-    
-    SEP #$20
-    
-    .twoBgs
-    
-    LDA.b #$01 : STA.b $EE
-    
-    SEC
-    
-    RTS
+        CMP.b #$02 : BCC .twoBgs
+            CMP.b #$03 : BNE .uselessBranch
+                ; OPTIMIZE: Useless branch.
+            
+            .uselessBranch
+            
+            REP #$20
+            
+            LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.b $20 : STA.b $20 : STA.w $0318
+            LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.b $22 : STA.b $22 : STA.w $031A
+            
+            SEP #$20
+        
+        .twoBgs
+        
+        LDA.b #$01 : STA.b $EE
+        
+        SEC
+        
+        RTS
     
     .oneBg
     
@@ -8886,24 +8806,23 @@ Link_HandleCardinalCollision:
 }
 
 ; $03B9B3-$03B9F6 LOCAL JUMP LOCATION
+CreateVelocityFromMovingBackground:
 {
     LDA.w $046C : CMP.b #$01 : BEQ .BRANCH_ALPHA
-    
-    REP #$20
-    
-    LDA.b $20 : SEC : SBC.w $0318 : STA.b $00
-    LDA.b $22 : SEC : SBC.w $031A : STA.b $02
-    
-    LDA.b $E8 : SEC : SBC.b $E6 : CLC : ADC.b $20 : STA.b $20
-    LDA.b $E2 : SEC : SBC.b $E0 : CLC : ADC.b $22 : STA.b $22
-    
-    SEP #$20
-    
-    LDA.b $67 : BEQ .BRANCH_ALPHA
-    
-    LDA.b $30 : CLC : ADC.b $00 : STA.b $30
-    LDA.b $31 : CLC : ADC.b $02 : STA.b $31
-    
+        REP #$20
+        
+        LDA.b $20 : SEC : SBC.w $0318 : STA.b $00
+        LDA.b $22 : SEC : SBC.w $031A : STA.b $02
+        
+        LDA.b $E8 : SEC : SBC.b $E6 : CLC : ADC.b $20 : STA.b $20
+        LDA.b $E2 : SEC : SBC.b $E0 : CLC : ADC.b $22 : STA.b $22
+        
+        SEP #$20
+        
+        LDA.b $67 : BEQ .BRANCH_ALPHA
+            LDA.b $30 : CLC : ADC.b $00 : STA.b $30
+            LDA.b $31 : CLC : ADC.b $02 : STA.b $31
+        
     .BRANCH_ALPHA
     
     STZ.b $EE
@@ -8912,21 +8831,19 @@ Link_HandleCardinalCollision:
 }
 
 ; $03BA0A-$03BEAE LOCAL JUMP LOCATION
+StartMovementCollisionChecks_Vertical:
 {
     LDA.b $30 : BNE .changeInYCoord
-    
-    RTS
+        RTS
 
     .changeInYCoord
 
     LDA.b $6C : CMP.b #$01 : BNE .notInDoorway
-    
-    LDY.b #$00
-    
-    ; basically branch if it's a north facing door
-    LDA.b $20 : CMP.b #$80 : BCC .setLastDirection
-    
-    BRA .lowerDoor
+        LDY.b #$00
+        
+        ; Basically branch if it's a north facing door
+        LDA.b $20 : CMP.b #$80 : BCC .setLastDirection
+            BRA .lowerDoor
 
     .notInDoorway
 
@@ -8934,11 +8851,10 @@ Link_HandleCardinalCollision:
     LDY.b #$00
     
     LDA.b $30 : BMI .setLastDirection
+        .lowerDoor
 
-    .lowerDoor
-
-    ; Since the change in Y coord was positive, it means we moved down
-    LDY.b #$02
+        ; Since the change in Y coord was positive, it means we moved down
+        LDY.b #$02
 
     .setLastDirection
 
@@ -8947,14 +8863,12 @@ Link_HandleCardinalCollision:
     JSR.w $CDCB ; $03CDCB IN ROM
     
     LDA.b $1B : BNE .indoors
-    
-    BRL .BRANCH_$3BEAF
+        BRL StartMovementCollisionChecks_Vertical_HandleOutdoors
 
     .indoors
 
     LDA.w $0308 : BMI .carryingSomething
-    
-    LDA.b $46 : BEQ .notInRecoilState
+        LDA.b $46 : BEQ .notInRecoilState
 
     .carryingSomething
 
@@ -8965,201 +8879,172 @@ Link_HandleCardinalCollision:
     .notInRecoilState
 
     LDA.b $6C : CMP.b #$02 : BNE .BRANCH_IOTA
-    
-    LDA.b $6A : BNE .BRANCH_KAPPA
-    
-    LDA.w $046C : CMP.b #$03 : BNE .BRANCH_LAMBDA
-    
-    LDA.b $EE : BEQ .BRANCH_LAMBDA
-    
-    BRL .BRANCH_TAU
+        LDA.b $6A : BNE .BRANCH_KAPPA
+            LDA.w $046C : CMP.b #$03 : BNE .BRANCH_LAMBDA
+                LDA.b $EE : BEQ .BRANCH_LAMBDA
+                    BRL .BRANCH_TAU
 
-    .BRANCH_LAMBDA
+            .BRANCH_LAMBDA
 
-    JSR.w $C29F ; $03C29F IN ROM
-    
-    BRL .BRANCH_$3C23D
+            JSR.w $C29F ; $03C29F IN ROM
+            
+            BRL ChangeAxisOfPerpendicularDoorMovement_Vertical
 
-    .BRANCH_KAPPA
+        .BRANCH_KAPPA
 
-    LDA.b $62 : BEQ .BRANCH_IOTA
-    
-    JSR.w $C29F ; $03C29F IN ROM
-    
-    BRA .BRANCH_MU
+        LDA.b $62 : BEQ .BRANCH_IOTA
+            JSR.w $C29F ; $03C29F IN ROM
+            
+            BRA .BRANCH_MU
 
     .BRANCH_IOTA
 
     LDA.b $0E : AND.b #$70 : BEQ .BRANCH_NU
-    
-    STZ.b $05
-    
-    LDA.b $0F : AND.b #$07 : BEQ .BRANCH_XI
-    
-    LDY.b #$00
-    
-    LDA.b $30 : BMI .BRANCH_OMICRON
-    
-    LDY.b #$01
+        STZ.b $05
+        
+        LDA.b $0F : AND.b #$07 : BEQ .BRANCH_XI
+            LDY.b #$00
+            
+            LDA.b $30 : BMI .BRANCH_OMICRON
+                LDY.b #$01
 
-    .BRANCH_OMICRON
+            .BRANCH_OMICRON
 
-    LDA.w $B7C3, Y : STA.b $49
+            LDA.w $B7C3, Y : STA.b $49
 
-    .BRANCH_XI
+        .BRANCH_XI
 
-    LDA.b #$01 : STA.b $6C
-    
-    STZ.w $03F3
-    
-    LDA.b $0E : AND.b #$70 : CMP.b #$70 : BEQ .BRANCH_PI
-    
-    LDA.b $0E : AND.b #$05 : BNE .BRANCH_RHO
-    
-    LDA.b $0E : AND.b #$20 : BNE .BRANCH_PI
-    
-    BRA .BRANCH_NU
+        LDA.b #$01 : STA.b $6C
+        
+        STZ.w $03F3
+        
+        LDA.b $0E : AND.b #$70 : CMP.b #$70 : BEQ .BRANCH_PI
+            LDA.b $0E : AND.b #$05 : BNE .BRANCH_RHO
+                LDA.b $0E : AND.b #$20 : BNE .BRANCH_PI
+                    BRA .BRANCH_NU
 
-    .BRANCH_RHO
+            .BRANCH_RHO
 
-    STZ.b $6B
-    
-    JSR.w $C1E4 ; $03C1E4 IN ROM
-    JSR.w $C1FF ; $03C1FF IN ROM
-    
-    STZ.b $6C
-    
-    LDA.b $0E : AND.b #$20 : BEQ .BRANCH_PI
-    
-    LDA.b $0E : AND.b #$01 : BNE .BRANCH_PI
-    
-    LDA.b $22 : AND.b #$07 : CMP.b #$01 : BNE .BRANCH_PI
-    
-    LDA.b $22 : AND.b #$F8 : STA.b $22
+            STZ.b $6B
+            
+            JSR.w $C1E4 ; $03C1E4 IN ROM
+            JSR.w $C1FF ; $03C1FF IN ROM
+            
+            STZ.b $6C
+            
+            LDA.b $0E : AND.b #$20 : BEQ .BRANCH_PI
+            
+                LDA.b $0E : AND.b #$01 : BNE .BRANCH_PI
+                    LDA.b $22 : AND.b #$07 : CMP.b #$01 : BNE .BRANCH_PI
+                        LDA.b $22 : AND.b #$F8 : STA.b $22
 
-    .BRANCH_PI
+        .BRANCH_PI
 
-    LDA.w $0315 : AND.b #$02 : BNE .BRANCH_SIGMA
-    
-    LDA.b $50 : AND.b #$FD : STA.b $50
+        LDA.w $0315 : AND.b #$02 : BNE .BRANCH_SIGMA
+            LDA.b $50 : AND.b #$FD : STA.b $50
 
-    .BRANCH_SIGMA
+        .BRANCH_SIGMA
 
-    RTS
+        RTS
 
     .BRANCH_NU
 
     LDA.w $0315 : AND.b #$02 : BNE .BRANCH_MU
-    
-    STZ.b $6C
+        STZ.b $6C
 
     .BRANCH_MU
 
     LDA.w $0315 : AND.b #$02 : BNE .BRANCH_TAU
-    
-    LDA.b $50 : AND.b #$FD : STA.b $50
-    
-    STZ.b $49
-    STZ.b $EF
+        LDA.b $50 : AND.b #$FD : STA.b $50
+        
+        STZ.b $49
+        STZ.b $EF
 
     .BRANCH_TAU
 
     LDA.b $0E : AND.b #$07 : BNE .BRANCH_UPSILON
-    
-    LDA.b $0C : AND.b #$05 : BEQ .BRANCH_UPSILON
-    
-    STZ.w $03F3
-    
-    JSR.w $E076 ; $03E076 IN ROM
-    
-    LDA.b $6B : AND.b #$0F : BEQ .BRANCH_UPSILON
-    
-    RTS
+        LDA.b $0C : AND.b #$05 : BEQ .BRANCH_UPSILON
+            STZ.w $03F3
+            
+            JSR.w $E076 ; $03E076 IN ROM
+            
+            LDA.b $6B : AND.b #$0F : BEQ .BRANCH_UPSILON
+                RTS
 
     .BRANCH_UPSILON
 
     STZ.b $6B
     
     LDA.w $02E7 : AND.b #$20 : BEQ .dontOpenBigKeyLock
-    
-    LDA.b $0E : PHA
-    LDA.b $0F : PHA
-    
-    LDA.w $02EA
-    
-    JSL Dungeon_OpenKeyedObject
-    
-    STZ.w $02EA
-    
-    PLA : STA.b $0F
-    PLA : STA.b $0E
+        LDA.b $0E : PHA
+        LDA.b $0F : PHA
+        
+        LDA.w $02EA
+        
+        JSL Dungeon_OpenKeyedObject
+        
+        STZ.w $02EA
+        
+        PLA : STA.b $0F
+        PLA : STA.b $0E
 
     .dontOpenBigKeyLock
 
     LDA.b $EE : BNE .BRANCH_CHI
-    
-    LDA.w $034C : AND.b #$07 : BEQ .BRANCH_PSI
-    
-    LDA.b #$01 : TSB.w $0322
-    
-    BRA .BRANCH_OMEGA
+        LDA.w $034C : AND.b #$07 : BEQ .BRANCH_PSI
+            LDA.b #$01 : TSB.w $0322
+            
+            BRA .BRANCH_OMEGA
 
-    .BRANCH_PSI
+        .BRANCH_PSI
 
-    LDA.w $02E8 : AND.b #$07 : BNE .BRANCH_OMEGA
-    
-    LDA.b $0E : AND.b #$02 : BNE .BRANCH_OMEGA
-    
-    LDA.w $0322 : AND.b #$FE : STA.w $0322
-    
-    BRA .BRANCH_OMEGA
+        LDA.w $02E8 : AND.b #$07 : BNE .BRANCH_OMEGA
+            LDA.b $0E : AND.b #$02 : BNE .BRANCH_OMEGA
+                LDA.w $0322 : AND.b #$FE : STA.w $0322
+                
+                BRA .BRANCH_OMEGA
 
     .BRANCH_CHI
 
-    LDA.w $0320 : AND.b #$07
-    
-    BEQ .BRANCH_ULTIMA
-    
-    LDA.b #$02 : TSB.w $0322
-    
-    BRA .BRANCH_OMEGA
+    LDA.w $0320 : AND.b #$07 : BEQ .BRANCH_ULTIMA
+        LDA.b #$02 : TSB.w $0322
+            
+        BRA .BRANCH_OMEGA
 
-BRANCH_ULTIMA
+    .BRANCH_ULTIMA
 
     LDA.w $0322 : AND.b #$FD : STA.w $0322
 
     .BRANCH_OMEGA
 
     LDA.w $02F7 : AND.b #$22 : BEQ .no_blue_rupee_touch
-    
-    LDX.b #$00
-    
-    AND.b #$20 : BEQ .touched_upper_rupee_half
-    
-    LDX.b #$08
+        LDX.b #$00
+        
+        AND.b #$20 : BEQ .touched_upper_rupee_half
+            LDX.b #$08
 
-    .touched_upper_rupee_half
+        .touched_upper_rupee_half
 
-    STX.b $00
-    STZ.b $01
-    
-    LDA.b $66 : ASL A : TAY
-    
-    REP #$20
-    
-    ; Link gets 5 rupees... probably from rupee tiles in special rooms.
-    LDA.l $7EF360 : CLC : ADC.w #$0005 : STA.l $7EF360
-    
-    ; This is intended to help calculate where to do the clearing update.
-    LDA.b $20 : CLC : ADC.w $B9F7, Y : SEC : SBC.b $00 : STA.b $00
-    
-    LDA.b $22 : CLC : ADC.w $B9FF, Y : STA.b $02
-    
-    SEP #$20
-    
-    JSL Dungeon_ClearRupeeTile
-    
-    LDA.b #$0A : JSR Player_DoSfx3
+        STX.b $00
+        STZ.b $01
+        
+        LDA.b $66 : ASL A : TAY
+        
+        REP #$20
+        
+        ; Link gets 5 rupees... probably from rupee tiles in special rooms.
+        LDA.l $7EF360 : CLC : ADC.w #$0005 : STA.l $7EF360
+        
+        ; This is intended to help calculate where to do the clearing update.
+        LDA.b $20 : CLC : ADC.w $B9F7, Y : SEC : SBC.b $00 : STA.b $00
+        
+        LDA.b $22 : CLC : ADC.w $B9FF, Y : STA.b $02
+        
+        SEP #$20
+        
+        JSL Dungeon_ClearRupeeTile
+        
+        LDA.b #$0A : JSR Player_DoSfx3
 
     .no_blue_rupee_touch
 
@@ -9168,15 +9053,14 @@ BRANCH_ULTIMA
     LDA.w $03F1
     
     AND.b #$22 : BEQ .BRANCH_BETA2
-    AND.b #$20 : BEQ .BRANCH_GAMMA2
-    
-    LDY.b #$02
+        AND.b #$20 : BEQ .BRANCH_GAMMA2
+            LDY.b #$02
 
-    .BRANCH_GAMMA2
+        .BRANCH_GAMMA2
 
-    STY.w $03F3
-    
-    BRA .BRANCH_DELTA2
+        STY.w $03F3
+        
+        BRA .BRANCH_DELTA2
 
     .BRANCH_BETA2
 
@@ -9185,90 +9069,80 @@ BRANCH_ULTIMA
     LDA.w $03F2
     
     AND.b #$22 : BEQ .BRANCH_EPSILON2
-    AND.b #$20 : BEQ .BRANCH_ZETA2
-    
-    LDY.b #$04
+        AND.b #$20 : BEQ .BRANCH_ZETA2
+            LDY.b #$04
 
-    .BRANCH_ZETA2
+        .BRANCH_ZETA2
 
-    STY.w $03F3
-    
-    BRA .BRANCH_DELTA2
+        STY.w $03F3
+        
+        BRA .BRANCH_DELTA2
 
     .BRANCH_EPSILON2
 
     LDA.w $02E8 : AND.b #$07 : BNE .BRANCH_DELTA2
-    
-    LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA2
-    
-    STZ.w $03F3
+        LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA2
+            STZ.w $03F3
 
     .BRANCH_DELTA2
 
     LDA.w $036D : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_THETA2
-    
-    ; $03C16D IN ROM
-    JSR.w $C16D : BCC .BRANCH_THETA2
-    
-    JSR Player_HaltDashAttack
-    
-    INC.w $047A ; This increments when Link is ready to jump down from a ledge.
-    
-    LDA.b #$01 : STA.w $037B
-    
-    LDA.b #$02 : STA.b $4D
-    
-    LDA.b #$20 : JSR Player_DoSfx2
-    
-    BRA .BRANCH_IOTA2
+        ; $03C16D IN ROM
+        JSR.w $C16D : BCC .BRANCH_THETA2
+            JSR Player_HaltDashAttack
+            
+            ; This increments when Link is ready to jump down from a ledge.
+            INC.w $047A
+            
+            LDA.b #$01 : STA.w $037B
+            
+            LDA.b #$02 : STA.b $4D
+            
+            LDA.b #$20 : JSR Player_DoSfx2
+            
+            BRA .BRANCH_IOTA2
 
     .BRANCH_THETA2
 
     LDA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_KAPPA2
-    
-    LDA.w $0345 : BNE .BRANCH_KAPPA2
-    
-    JSR Player_HaltDashAttack
-    
-    LDA.b $1D : BNE .BRANCH_LAMBDA2
-    
-    JSL Player_LedgeJumpInducedLayerChange
-    
-    BRA .BRANCH_IOTA2
+        LDA.w $0345 : BNE .BRANCH_KAPPA2
+            JSR Player_HaltDashAttack
+            
+            LDA.b $1D : BNE .BRANCH_LAMBDA2
+                JSL Player_LedgeJumpInducedLayerChange
+                
+                BRA .BRANCH_IOTA2
 
-    .BRANCH_LAMBDA2
+            .BRANCH_LAMBDA2
 
-    LDA.b $01 : STA.w $0345
-    
-    LDA.b $26 : STA.w $0340
-    
-    STZ.w $0308
-    STZ.w $0309
-    STZ.w $0376
-    STZ.b $5E
-    
-    JSL Player_ResetSwimState
-    
-    LDA.b #$20 : JSR Player_DoSfx2
+            LDA.b $01 : STA.w $0345
+            
+            LDA.b $26 : STA.w $0340
+            
+            STZ.w $0308
+            STZ.w $0309
+            STZ.w $0376
+            STZ.b $5E
+            
+            JSL Player_ResetSwimState
+            
+            LDA.b #$20 : JSR Player_DoSfx2
 
-    .BRANCH_IOTA2
+            .BRANCH_IOTA2
 
-    LDA.b #$01 : STA.w $037B
-    
-    JSR.w $C2C3; $03C2C3 IN ROM
-    
-    BRA .BRANCH_MU2
+            LDA.b #$01 : STA.w $037B
+            
+            JSR.w Link_HopInOrOutOfWater_Vertical
+            
+            BRA .BRANCH_MU2
 
     .BRANCH_KAPPA2
 
     LDA.w $0343 : AND.b #$02 : BEQ .BRANCH_MU2
-    
-    LDA.w $0345 : BEQ .BRANCH_MU2
-    
-    LDA.b $4D : BEQ .BRANCH_NU2
-    
-    LDA.b #$06 : STA.b $0E
-    
+        LDA.w $0345 : BEQ .BRANCH_MU2
+            LDA.b $4D : BEQ .BRANCH_NU2
+                LDA.b #$06 : STA.b $0E
+        
     BRA .BRANCH_MU2
 
     .BRANCH_NU2
@@ -9284,12 +9158,11 @@ BRANCH_ULTIMA
     
     ; $0498FC IN ROM
     JSL AddTransitionSplash : BCC .BRANCH_XI2
-    
-    LDA.b #$01 : STA.w $0345
-    
-    LDA.b #$07 : STA.b $0E
-    
-    BRA .BRANCH_MU2
+        LDA.b #$01 : STA.w $0345
+        
+        LDA.b #$07 : STA.b $0E
+        
+        BRA .BRANCH_MU2
 
     .BRANCH_XI2
 
@@ -9297,233 +9170,201 @@ BRANCH_ULTIMA
 
     .BRANCH_MU2
 
-    JSR.w $C2C3 ; $03C2C3 IN ROM
+    JSR.w Link_HopInOrOutOfWater_Vertical
     
     LDA.b $58 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_OMICRON2
-    
-    LDA.b $46 : BEQ .BRANCH_PI2
-    
-    LDA.b $58 : AND.b #$07 : STA.b $0E
-    
-    BRL .BRANCH_THEL
+        LDA.b $46 : BEQ .BRANCH_PI2
+            LDA.b $58 : AND.b #$07 : STA.b $0E
+            
+            BRL .BRANCH_THEL
 
-    .BRANCH_PI2
+        .BRANCH_PI2
 
-    LDA.w $02C0 : AND.b #$77 : BEQ .BRANCH_RHO2
-    
-    ; Link is going up a inter-floor staircase so far
-    LDY.b #$08
-    
-    AND.b #$70 : BEQ .BRANCH_SIGMA2
-    
-    ; bits in the upper nybble were set, link is going down an inter-floor staircase
-    LDY.b #$10
+        LDA.w $02C0 : AND.b #$77 : BEQ .BRANCH_RHO2
+            ; Link is going up a inter-floor staircase so far
+            LDY.b #$08
+            
+            AND.b #$70 : BEQ .BRANCH_SIGMA2
+                ; Bits in the upper nybble were set, link is going down an
+                ; inter-floor staircase.
+                LDY.b #$10
 
-    .BRANCH_SIGMA2
+            .BRANCH_SIGMA2
 
-    STY.b $11
-    
-    LDA.b #$07 : STA.b $10
-    
-    JSR Player_HaltDashAttack
+            STY.b $11
+            
+            LDA.b #$07 : STA.b $10
+            
+            JSR Player_HaltDashAttack
 
-    .BRANCH_RHO2
+        .BRANCH_RHO2
 
-    LDA.b $66 : AND.b #$02 : BNE .BRANCH_OMICRON2
-    
-    LDA.b #$02 : STA.b $5E
-    
-    LDA.b #$01 : STA.b $57
-    
-    RTS
+        LDA.b $66 : AND.b #$02 : BNE .BRANCH_OMICRON2
+            LDA.b #$02 : STA.b $5E
+            
+            LDA.b #$01 : STA.b $57
+            
+            RTS
 
     .BRANCH_OMICRON2
 
     LDA.b $5E : CMP.b #$02 : BNE .BRANCH_TAU2
-    
-    LDX.b #$10
-    
-    LDA.w $0372 : BNE .BRANCH_UPSILON2
-    
-    LDX.b #$00
+        LDX.b #$10
+        
+        LDA.w $0372 : BNE .BRANCH_UPSILON2
+            LDX.b #$00
 
-    .BRANCH_UPSILON2
+        .BRANCH_UPSILON2
 
-    STX.b $5E
+        STX.b $5E
 
     .BRANCH_TAU2
 
-    LDA.b $57 : CMP.b #$01
-    
-    BNE .BRANCH_PHI2
-    
-    LDX.b #$02 : STX.b $57
+    LDA.b $57 : CMP.b #$01 : BNE .BRANCH_PHI2
+        LDX.b #$02 : STX.b $57
 
     .BRANCH_PHI2
 
     LDA.b $59 : AND.b #$05 : BEQ .BRANCH_CHI2
-    
-    LDA.b $0E : AND.b #$02 : BNE .BRANCH_CHI2
-    
-    LDA.b $5D
-    
-    CMP.b #$05 : BEQ .BRANCH_PSI2
-    CMP.b #$02 : BEQ .BRANCH_PSI2
-    
-    LDA.b #$09 : STA.b $5C
-    
-    STZ.b $5A
-    
-    LDA.b #$01 : STA.b $5B
-    
-    LDA.b #$01 : STA.b $5D
+        LDA.b $0E : AND.b #$02 : BNE .BRANCH_CHI2
+            LDA.b $5D
+            
+            CMP.b #$05 : BEQ .BRANCH_PSI2
+            CMP.b #$02 : BEQ .BRANCH_PSI2
+                LDA.b #$09 : STA.b $5C
+                
+                STZ.b $5A
+                
+                LDA.b #$01 : STA.b $5B
+                
+                LDA.b #$01 : STA.b $5D
 
-    .BRANCH_PSI2
+            .BRANCH_PSI2
 
-    RTS
+            RTS
 
     .BRANCH_CHI2
 
     STZ.b $5A
     
     LDA.w $02E8 : AND.b #$07 : BEQ .BRANCH_OMEGA2
-    
-    LDA.b $46 : ORA.w $031F : ORA.b $55 : BNE .BRANCH_ALIF
-    
-    LDA.b $20
-    
-    LDY.b $66 : BNE .BRANCH_BET
-    
-    AND.b #$04 : BEQ .BRANCH_KAF
-    
-    BRA .BRANCH_OMEGA2
+        LDA.b $46 : ORA.w $031F : ORA.b $55 : BNE .BRANCH_ALIF
+            LDA.b $20
+            
+            LDY.b $66 : BNE .BRANCH_BET
+                AND.b #$04 : BEQ .BRANCH_KAF
+                    BRA .BRANCH_OMEGA2
 
-    .BRANCH_BET
+            .BRANCH_BET
 
-    AND.b #$04 : BEQ .BRANCH_OMEGA2
+            AND.b #$04 : BEQ .BRANCH_OMEGA2
+                .BRANCH_KAF
 
-    .BRANCH_KAF
+                LDA.w $031F : BNE .BRANCH_OMEGA2
+                    LDA.l $7EF35B : TAY
+                    
+                    LDA.w $BA07, Y : STA.w $0373
+                    
+                    JSR Player_HaltDashAttack
+                    JSR.w Link_ForceUnequipCape_quietly
+                    
+                    BRL LinkApplyTileRebound
 
-    LDA.w $031F : BNE .BRANCH_OMEGA2
-    
-    LDA.l $7EF35B : TAY
-    
-    LDA.w $BA07, Y : STA.w $0373
-    
-    JSR Player_HaltDashAttack
-    JSR.w Link_ForceUnequipCape_quietly
-    
-    BRL LinkApplyTileRebound
+        .BRANCH_ALIF
 
-    .BRANCH_ALIF
-
-    LDA.w $02E8 : AND.b #$07 : STA.b $0E
+        LDA.w $02E8 : AND.b #$07 : STA.b $0E
 
     .BRANCH_OMEGA2
 
-    LDA.w $046C  : BEQ .BRANCH_DEL
+    LDA.w $046C : BEQ .BRANCH_DEL
     CMP.b #$04 : BEQ .BRANCH_DEL
-    
-    LDA.b $EE : BNE .BRANCH_THEL
+        LDA.b $EE : BNE .BRANCH_THEL
 
     .BRANCH_DEL
 
     LDA.b $5F : ORA.b $60 : BEQ .BRANCH_SOD
-    
-    LDA.b $6A : BNE .BRANCH_SOD
-    
-    LDA.b $5F : STA.w $02C2
-    
-    DEC.b $61 : BPL .BRANCH_THEL
-    
-    REP #$20
-    
-    LDY.b #$0F
-    
-    LDA.b $5F
+        LDA.b $6A : BNE .BRANCH_SOD
+            LDA.b $5F : STA.w $02C2
+            
+            DEC.b $61 : BPL .BRANCH_THEL
+                REP #$20
+                
+                LDY.b #$0F
+                
+                LDA.b $5F
 
-    .BRANCH_SIN
+                .BRANCH_SIN
 
-    ASL A : BCC .BRANCH_DOD
-    
-    PHA : PHY
-    
-    SEP #$20
-    
-    ; $03ED2C IN ROM
-    JSR.w $ED2C : BCS .BRANCH_TOD
-    
-    STX.b $0E
-    
-    TYA : ASL A : TAX
-    
-    ; $03ED3F IN ROM
-    JSR.w $ED3F : BCS .BRANCH_TOD
-    
-    LDA.b $0E : ASL A : TAY
-    
-    JSR.w $F0D9   ; $03F0D9 IN ROM
-    
-    TYX
-    
-    LDY.b $66
-    
-    TYA : ASL A : STA.w $05F8, X : STA.w $0478
-    
-    LDA.w $05F0, X
-    
-    CPY.b #$01 : BNE .BRANCH_ZOD
-    
-    DEC A
+                    ASL A : BCC .BRANCH_DOD
+                        PHA : PHY
+                        
+                        SEP #$20
+                        
+                        ; $03ED2C IN ROM
+                        JSR.w $ED2C : BCS .BRANCH_TOD
+                            STX.b $0E
+                            
+                            TYA : ASL A : TAX
+                            
+                            ; $03ED3F IN ROM
+                            JSR.w $ED3F : BCS .BRANCH_TOD
+                                LDA.b $0E : ASL A : TAY
+                                
+                                JSR.w $F0D9 ; $03F0D9 IN ROM
+                                
+                                TYX
+                                
+                                LDY.b $66
+                                
+                                TYA : ASL A : STA.w $05F8, X : STA.w $0478
+                                
+                                LDA.w $05F0, X
+                                
+                                CPY.b #$01 : BNE .BRANCH_ZOD
+                                    DEC A
 
-    .BRANCH_ZOD
+                                .BRANCH_ZOD
 
-    AND.b #$0F : STA.w $05E8, X
+                                AND.b #$0F : STA.w $05E8, X
 
-    .BRANCH_TOD
+                        .BRANCH_TOD
 
-    REP #$20
+                        REP #$20
 
-    .BRANCH_DOD
+                    .BRANCH_DOD
 
-    PLY : PLA
-    
-    DEY : BPL .BRANCH_SIN
-    
-    SEP #$20
+                    PLY : PLA
+                DEY : BPL .BRANCH_SIN
+                
+                SEP #$20
 
     .BRANCH_SOD
 
     LDA.b #$15 : STA.b $61
 
-; $03BDB1 LONG BRANCH LOCATION
+    ; $03BDB1 LONG BRANCH LOCATION
     .BRANCH_THEL
 
     LDA.b $0E : AND.b #$07 : BNE .BRANCH_RHA
-    
-    BRL .BRANCH_NU3
+        BRL .BRANCH_NU3
 
     .BRANCH_RHA
 
     LDA.b $5D : CMP.b #$04 : BNE .BRANCH_ZHA
-    
-    LDA.w $0310 : BNE .BRANCH_SHIN
-    
-    JSR Player_ResetSwimCollision
+        LDA.w $0310 : BNE .BRANCH_SHIN
+            JSR Player_ResetSwimCollision
 
-    .BRANCH_SHIN
+        .BRANCH_SHIN
 
-    LDA.b $6A : BEQ .BRANCH_ZHA
-    
-    JSR.w $C1E4   ; $03C1E4 IN ROM
-    
-    BRA .BRANCH_FATHA
+        LDA.b $6A : BEQ .BRANCH_ZHA
+            JSR.w $C1E4 ; $03C1E4 IN ROM
+            
+            BRA .BRANCH_FATHA
 
     .BRANCH_ZHA
 
     LDA.b $0E : AND.b #$02 : BNE .BRANCH_KESRA
-    
-    LDA.b $0E : AND.b #$05 : CMP.b #$05 : BNE .BRANCH_DUMMA
+        LDA.b $0E : AND.b #$05 : CMP.b #$05 : BNE .BRANCH_DUMMA
 
     .BRANCH_KESRA
 
@@ -9537,121 +9378,105 @@ BRANCH_ULTIMA
     LDA.b #$01 : STA.w $0302
     
     LDA.b $0E : AND.b #$02 : CMP.b #$02 : BNE .BRANCH_YEH
-    
-    JSR.w $C1E4   ; $03C1E4 IN ROM
-    
-    BRA .BRANCH_FATHA
+        JSR.w $C1E4 ; $03C1E4 IN ROM
+        
+        BRA .BRANCH_FATHA
 
     .BRANCH_YEH
 
     LDA.b $6A : CMP.b #$01 : BNE .BRANCH_EIN
+        .BRANCH_GHEIN
 
-    .BRANCH_GHEIN
-
-    BRL .BRANCH_IOTA3
+        BRL .BRANCH_IOTA3
 
     .BRANCH_EIN
 
-    JSR.w $C1E4   ; $03C1E4 IN ROM
+    JSR.w $C1E4 ; $03C1E4 IN ROM
     
     LDA.b $6A : CMP.b #$02 : BEQ .BRANCH_GHEIN
+        .BRANCH_FATHA
 
-    .BRANCH_FATHA
+        LDA.b $0E : AND.b #$05 : CMP.b #$05 : BEQ .BRANCH_JIIM
+            AND.b #$04 : BEQ .BRANCH_ALPHA3
+                LDY.b #$01
+                
+                LDA.b $30 : BMI .BRANCH_BETA3
+                    EOR.b #$FF : INC A
 
-    LDA.b $0E : AND.b #$05 : CMP.b #$05 : BEQ .BRANCH_JIIM
-    
-    AND.b #$04 : BEQ .BRANCH_ALPHA3
-    
-    LDY.b #$01
-    
-    LDA.b $30 : BMI .BRANCH_BETA3
-    
-    EOR.b #$FF : INC A
+                .BRANCH_BETA3
 
-    .BRANCH_BETA3
+                BPL .BRANCH_GAMMA3
+                    LDY.b #$FF
 
-    BPL .BRANCH_GAMMA3
-    
-    LDY.b #$FF
+                .BRANCH_GAMMA3
 
-    .BRANCH_GAMMA3
+                STY.b $00 : STZ.b $01
+                
+                LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA3
+                    LDA.b $22 : AND.b #$07 : BNE .BRANCH_EPSILON3
+                        JSR.w $C1A1 ; $03C1A1 IN ROM
+                        JSR.w $91F1 ; $0391F1 IN ROM
+                        
+                        BRA .BRANCH_DELTA3
 
-    STY.b $00 : STZ.b $01
-    
-    LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA3
-    
-    LDA.b $22 : AND.b #$07 : BNE .BRANCH_EPSILON3
-    
-    JSR.w $C1A1   ; $03C1A1 IN ROM
-    JSR.w $91F1   ; $0391F1 IN ROM
-    
-    BRA .BRANCH_DELTA3
+            .BRANCH_ALPHA3
 
-    .BRANCH_ALPHA3
+            LDY.b #$01
+            
+            LDA.b $30 : BPL .BRANCH_ZETA3
+                EOR.b #$FF : INC A
 
-    LDY.b #$01
-    
-    LDA.b $30 : BPL .BRANCH_ZETA3
-    
-    EOR.b #$FF : INC A
+            .BRANCH_ZETA3
 
-    .BRANCH_ZETA3
+            BPL .BRANCH_THETA3
+                LDY.b #$FF
 
-    BPL .BRANCH_THETA3
-    
-    LDY.b #$FF
+            .BRANCH_THETA3
 
-    .BRANCH_THETA3
+            STY.b $00 : STZ.b $01
+            
+            LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA3
+                LDA.b $22 : AND.b #$07
+                
+                BNE .BRANCH_EPSILON3
 
-    STY.b $00 : STZ.b $01
-    
-    LDA.b $0E : AND.b #$02 : BNE .BRANCH_DELTA3
-    
-    LDA.b $22 : AND.b #$07
-    
-    BNE .BRANCH_EPSILON3
+        .BRANCH_JIIM
 
-    .BRANCH_JIIM
+        JSR.w $C1A1 ; $03C1A1 IN ROM
+        JSR.w $91F1 ; $0391F1 IN ROM
+        
+        BRA .BRANCH_DELTA3
 
-    JSR.w $C1A1 ; $03C1A1 IN ROM
-    JSR.w $91F1 ; $0391F1 IN ROM
-    
-    BRA .BRANCH_DELTA3
+        .BRANCH_EPSILON3
 
-    .BRANCH_EPSILON3
+        JSR.w $C229 ; $03C229 IN ROM
+        JMP.w $D485 ; $03D485 IN ROM
 
-    JSR.w $C229 ; $03C229 IN ROM
-    JMP.w $D485 ; $03D485 IN ROM
+        .BRANCH_DELTA3
 
-    .BRANCH_DELTA3
+        LDA.b $66 : ASL A : CMP.b $2F : BNE .BRANCH_IOTA3
+            LDA.w $0315 : AND.b #$01 : ASL A : TSB.b $48
+            
+            LDA.b $3C : BNE .BRANCH_KAPPA3
+                DEC.w $0371 : BPL .BRANCH_LAMBDA3
 
-    LDA.b $66 : ASL A : CMP.b $2F : BNE .BRANCH_IOTA3
-    
-    LDA.w $0315 : AND.b #$01 : ASL A : TSB.b $48
-    
-    LDA.b $3C : BNE .BRANCH_KAPPA3
-    
-    DEC.w $0371 : BPL .BRANCH_LAMBDA3
+            .BRANCH_KAPPA3
 
-    .BRANCH_KAPPA3
+            LDY.w $0315
+            
+            LDA.w $02F6 : AND.b #$20 : BEQ .BRANCH_MU3
+                LDA.w $0315 : ASL #3 : TAY
 
-    LDY.w $0315
-    
-    LDA.w $02F6 : AND.b #$20 : BEQ .BRANCH_MU3
-    
-    LDA.w $0315 : ASL #3 : TAY
+            .BRANCH_MU3
 
-    .BRANCH_MU3
+            TYA : TSB.b $48
+            
+            BRA .BRANCH_IOTA3
 
-    TYA : TSB.b $48
-    
-    BRA .BRANCH_IOTA3
+            .BRANCH_NU3
 
-    .BRANCH_NU3
-
-    LDA.b $EE : BNE .BRANCH_LAMBDA3
-    
-    LDA.b $48 : AND.b #$F6 : STA.b $48
+            LDA.b $EE : BNE .BRANCH_LAMBDA3
+                LDA.b $48 : AND.b #$F6 : STA.b $48
 
     .BRANCH_IOTA3
 
@@ -9664,55 +9489,49 @@ BRANCH_ULTIMA
     RTS
 }
 
+; This routine seems to occur whenever Link moves up or down one pixel.
 ; $03BEAF-$03C16C LONG BRANCH LOCATION
+StartMovementCollisionChecks_Vertical_HandleOutdoors:
 {
-    ; This routine seems to occur whenever Link moves up or down one pixel
-    
     LDA.b $5E : CMP.b #$02 : BNE .notOnStairs
-    
-    LDX.b #$10
-    
-    LDA.w $0372 : BNE .dashing
-    
-    LDX.b #$00
+        LDX.b #$10
+        
+        LDA.w $0372 : BNE .dashing
+            LDX.b #$00
 
-    .dashing
+        .dashing
 
-    ; Set speed to either walking or dashing speed (probably in anticipation of us being off those stairs)
-    STX.b $5E
+        ; Set speed to either walking or dashing speed (probably in anticipation of
+        ; us being off those stairs)
+        STX.b $5E
 
     .notOnStairs
 
     LDA.b $59 : AND.b #$05 : BEQ .safeFromHoles
-    
-    LDA.b $0E : AND.b #$02 : BNE .safeFromHoles
-    
-    ; Is Link on a turtle rock platform
-    LDA.b $5D : CMP.b #$05 : BEQ .return
-    
-    ; Is Link in a recoil state?
-    CMP.b #$02 : BEQ .return
-    
-    LDA.b #$09 : STA.b $5C
-    
-    STZ.b $5A
-    
-    LDA.b #$01 : STA.b $5B
-    
-    ; Put Link into the near a hole / falling into a hole state
-    LDA.b #$01 : STA.b $5D
+        LDA.b $0E : AND.b #$02 : BNE .safeFromHoles
+            ; Is Link on a turtle rock platform
+            LDA.b $5D : CMP.b #$05 : BEQ .return
+                ; Is Link in a recoil state?
+                CMP.b #$02 : BEQ .return
+                    LDA.b #$09 : STA.b $5C
+                    
+                    STZ.b $5A
+                    
+                    LDA.b #$01 : STA.b $5B
+                    
+                    ; Put Link into the near a hole / falling into a hole state
+                    LDA.b #$01 : STA.b $5D
 
-    .return
+            .return
 
-    RTS
+            RTS
 
     .safeFromHoles
 
     LDA.w $0366 : AND.b #$02 : BEQ .notNearReadableTile
-    
-    LDA.w $036A : LSR A : STA.w $0368
-    
-    BRA .nearReadableTile
+        LDA.w $036A : LSR A : STA.w $0368
+        
+        BRA .nearReadableTile
 
     .notNearReadableTile
 
@@ -9722,374 +9541,338 @@ BRANCH_ULTIMA
 
     ; See if Link is touching deep water tiles
     LDA.w $0341 : AND.b #$02 : BEQ .notTouchingWater
-    
-    BRA .BRANCH_IOTA
-    
-    ; This location is currently considered to be unreachable unless we connect some more dots...
-    
-    LDA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_THETA
+        BRA .BRANCH_IOTA
+        
+        ; This location is unreachable.
+        .UNREACHABLE_07BF01
+        LDA.w $0341 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_THETA
 
-    .BRANCH_IOTA
+        .BRANCH_IOTA
 
-    LDA.w $0345 : BNE .BRANCH_THETA
-    
-    LDA.b $4D : BNE .BRANCH_THETA
-    
-    JSR.w $9D84 ; $039D84 IN ROM
-    JSR Player_HaltDashAttack
-    
-    LDA.b #$01 : STA.w $0345
-    
-    LDA.b $26 : STA.w $0340
-    
-    STZ.w $0376
-    STZ.b $5E
-    
-    JSL Player_ResetSwimState
-    
-    LDA.w $0351 : CMP.b #$01 : BNE .BRANCH_KAPPA
-    
-    JSR.w Link_ForceUnequipCape_quietly
-    
-    ; Do we have the flippers?
-    LDA.l $7EF356 : BEQ .BRANCH_KAPPA
-    
-    LDA.w $02E0 : BNE .BRANCH_THETA
-    
-    LDA.b #$04 : STA.b $5D
-    
-    BRA .BRANCH_THETA
+        LDA.w $0345 : BNE .BRANCH_THETA
+            LDA.b $4D : BNE .BRANCH_THETA
+                JSR.w $9D84 ; $039D84 IN ROM
+                JSR Player_HaltDashAttack
+                
+                LDA.b #$01 : STA.w $0345
+                
+                LDA.b $26 : STA.w $0340
+                
+                STZ.w $0376
+                STZ.b $5E
+                
+                JSL Player_ResetSwimState
+                
+                LDA.w $0351 : CMP.b #$01 : BNE .BRANCH_KAPPA
+                    JSR.w Link_ForceUnequipCape_quietly
+                    
+                    ; Do we have the flippers?
+                    LDA.l $7EF356 : BEQ .BRANCH_KAPPA
+                        LDA.w $02E0 : BNE .BRANCH_THETA
+                            LDA.b #$04 : STA.b $5D
+                            
+                            BRA .BRANCH_THETA
 
-    .BRANCH_KAPPA
+                .BRANCH_KAPPA
 
-    LDA.b #$20 : JSR Player_DoSfx2
-    
-    LDA.b $3E : STA.b $20
-    LDA.b $40 : STA.b $21
-    LDA.b $3F : STA.b $22
-    LDA.b $41 : STA.b $23
-    
-    LDA.b #$01 : STA.w $037B
-    
-    JSR.w $C2C3 ; $03C2C3 IN ROM
+                LDA.b #$20 : JSR Player_DoSfx2
+                
+                LDA.b $3E : STA.b $20
+                LDA.b $40 : STA.b $21
+                LDA.b $3F : STA.b $22
+                LDA.b $41 : STA.b $23
+                
+                LDA.b #$01 : STA.w $037B
+                
+                JSR.w Link_HopInOrOutOfWater_Vertical
 
-    .theta
+        .BRANCH_THETA
     .notTouchingWater
 
+    ; Bleeds into the next function.
+}
+
+; $03BF64- LOCAL JUMP LOCATION
+Link_HandleEnteringWater_Vertical:
+{
     LDA.w $0345 : BEQ .BRANCH_LAMBDA
-    
-    LDA.w $036D : AND.b #$07 : BEQ .BRANCH_MU
-    
-    STA.b $0E
-    
-    BRL .BRANCH_$3BDB1
+        LDA.w $036D : AND.b #$07 : BEQ .BRANCH_MU
+            STA.b $0E
+            
+            BRL StartMovementCollisionChecks_Vertical_BRANCH_THEL
 
-    .BRANCH_MU
+        .BRANCH_MU
 
-    LDA.b $58 : AND.b #$07 : CMP.b #$07 : BEQ .BRANCH_NU
-    
-    LDA.w $0343 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_LAMBDA
+        LDA.b $58 : AND.b #$07 : CMP.b #$07 : BEQ .BRANCH_NU
+            LDA.w $0343 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_LAMBDA
 
-    .BRANCH_NU
+        .BRANCH_NU
 
-    JSR Player_HaltDashAttack
-    
-    STZ.w $0345
-    
-    LDA.b $4D : BNE .BRANCH_LAMBDA
-    
-    ; This section of code is what causes us to jump out of the water
-    ; at a dock
-    LDA.w $0340 : STA.b $26
-    
-    LDA.b #$01 : STA.w $037B
-    
-    LDA.b #$15
-    LDY.b #$00
-    
-    ; Jump out of the water onto a docking area
-    JSL AddTransitionSplash     ; $0498FC IN ROM
-    
-    BRL .BRANCH_$3C2C3
+        JSR Player_HaltDashAttack
+        
+        STZ.w $0345
+        
+        LDA.b $4D : BNE .BRANCH_LAMBDA
+            ; This section of code is what causes us to jump out of the water
+            ; at a dock
+            LDA.w $0340 : STA.b $26
+            
+            LDA.b #$01 : STA.w $037B
+            
+            LDA.b #$15
+            LDY.b #$00
+            
+            ; Jump out of the water onto a docking area
+            JSL AddTransitionSplash ; $0498FC IN ROM
+            
+            BRL Link_HopInOrOutOfWater_Vertical
 
     .BRANCH_LAMBDA
 
     LDA.w $036E : AND.b #$02 : BNE .BRANCH_XI
-    
-    LDA.w $0370 : AND.b #$22 : BEQ .BRANCH_OMICRON
+        LDA.w $0370 : AND.b #$22 : BEQ .BRANCH_OMICRON
 
     .BRANCH_XI
 
     LDA.b #$07 : STA.b $0E
     
-    BRL .BRANCH_$3BDB1
+    BRL StartMovementCollisionChecks_Vertical_BRANCH_THEL
+        .BRANCH_OMICRON
 
-    .BRANCH_OMICRON
+        LDA.w $036D : AND.b #$70 : BEQ .BRANCH_PI
+            ; $03C16D IN ROM
+            JSR.w $C16D : BCC .BRANCH_PI
+                JSR Player_HaltDashAttack
+                
+                LDA.b #$01 : STA.w $037B : STA.b $78
+                
+                LDA.b #$0B : STA.b $5D
+                
+                STZ.b $46
+                
+                LDA.b #$FF : STA.w $0364 : STA.w $0365
+                
+                STZ.b $48
+                STZ.b $5E
+                
+                LDY.b #$02
+                LDX.b #$14
+                
+                LDA.w $0345 : BEQ .BRANCH_RHO
+                    LDY.b #$04
+                    LDX.b #$0E
 
-    LDA.w $036D : AND.b #$70 : BEQ .BRANCH_PI
-    
-    ; $03C16D IN ROM
-    JSR.w $C16D : BCC .BRANCH_PI
-    
-    JSR Player_HaltDashAttack
-    
-    LDA.b #$01 : STA.w $037B : STA.b $78
-    
-    LDA.b #$0B : STA.b $5D
-    
-    STZ.b $46
-    
-    LDA.b #$FF : STA.w $0364 : STA.w $0365
-    
-    STZ.b $48
-    STZ.b $5E
-    
-    LDY.b #$02
-    LDX.b #$14
-    
-    LDA.w $0345 : BEQ .BRANCH_RHO
-    
-    LDY.b #$04
-    LDX.b #$0E
+                .BRANCH_RHO
 
-    .BRANCH_RHO
+                STX.w $0362
+                STX.w $0363
+                STY.b $4D
+                
+                RTS
 
-    STX.w $0362
-    STX.w $0363
-    STY.b $4D
-    
-    RTS
+        .BRANCH_PI
 
-    .BRANCH_PI
+        LDA.w $036D : AND.b #$07 : BEQ .BRANCH_SIGMA
+            ; $03C16D IN ROM
+            JSR.w $C16D : BCC .BRANCH_SIGMA
+                LDA.b #$20 : JSR Player_DoSfx2
+                
+                LDA.b #$01 : STA.w $037B
+                
+                JSR Player_HaltDashAttack
+                
+                STZ.b $48
+                STZ.b $4E
+                
+                BRL Link_FindValidLandingTile_North
 
-    LDA.w $036D : AND.b #$07 : BEQ .BRANCH_SIGMA
-    
-    ; $03C16D IN ROM
-    JSR.w $C16D : BCC .BRANCH_SIGMA
-    
-    LDA.b #$20 : JSR Player_DoSfx2
-    
-    LDA.b #$01 : STA.w $037B
-    
-    JSR Player_HaltDashAttack
-    
-    STZ.b $48
-    STZ.b $4E
-    
-    BRL .BRANCH_$3C36C
+        .BRANCH_SIGMA
 
-    .BRANCH_SIGMA
+        LDA.w $0345 : BEQ .BRANCH_TAU
+            BRL .BRANCH_PSI
 
-    LDA.w $0345 : BEQ .BRANCH_TAU
-    
-    BRL .BRANCH_PSI
+        .BRANCH_TAU
 
-    .BRANCH_TAU
+        LDA.w $036F : AND.b #$07 : BEQ .BRANCH_UPSILON
+            LDA.w $036D : AND.b #$77 : BNE .BRANCH_UPSILON
+                LDX.b #$04
+                
+                LDA.b $76 : CMP.b #$2F : BEQ .BRANCH_PHI
+                    LDX.b #$01
 
-    LDA.w $036F : AND.b #$07 : BEQ .BRANCH_UPSILON
-    
-    LDA.w $036D : AND.b #$77 : BNE .BRANCH_UPSILON
-    
-    LDX.b #$04
-    
-    LDA.b $76 : CMP.b #$2F : BEQ .BRANCH_PHI
-    
-    LDX.b #$01
+                .BRANCH_PHI
 
-    .BRANCH_PHI
+                TXA : AND.w $036F : BEQ .BRANCH_UPSILON
+                    ; $03C16D IN ROM
+                    JSR.w $C16D : BCC .BRANCH_UPSILON
+                        JSR Player_HaltDashAttack
+                        
+                        LDX.b #$10
+                        
+                        LDA.w $036F : AND.b #$04 : BNE .BRANCH_CHI
+                            TXA : EOR.b #$FF : INC A : TAX
 
-    TXA : AND.w $036F : BEQ .BRANCH_UPSILON
-    
-    ; $03C16D IN ROM
-    JSR.w $C16D : BCC .BRANCH_UPSILON
-    
-    JSR Player_HaltDashAttack
-    
-    LDX.b #$10
-    
-    LDA.w $036F : AND.b #$04 : BNE .BRANCH_CHI
-    
-    TXA : EOR.b #$FF : INC A : TAX
+                        .BRANCH_CHI
 
-    .BRANCH_CHI
+                        LDA.b #$01 : STA.w $037B
+                        
+                        STX.b $28
+                        
+                        STZ.b $48
+                        STZ.b $5E
 
-    LDA.b #$01 : STA.w $037B
-    
-    STX.b $28
-    
-    STZ.b $48
-    STZ.b $5E
+                        LDA.b #$01 : STA.w $037B : STA.b $78
+                        
+                        LDA.b #$02 : STA.b $4D
+                        
+                        LDA.b #$14 : STA.w $0362 : STA.w $0363
+                        
+                        LDA.b #$FF : STA.w $0364
+                        
+                        STZ.b $46
+                        
+                        LDA.b #$0E : STA.b $5D
+                        
+                        RTS
 
-    LDA.b #$01 : STA.w $037B : STA.b $78
-    
-    LDA.b #$02 : STA.b $4D
-    
-    LDA.b #$14 : STA.w $0362 : STA.w $0363
-    
-    LDA.b #$FF : STA.w $0364
-    
-    STZ.b $46
-    
-    LDA.b #$0E : STA.b $5D
-    
-    RTS
+        .BRANCH_UPSILON
 
-    .BRANCH_UPSILON
+        LDA.w $036E : AND.b #$70 : BEQ .BRANCH_PSI
+            LDA.w $036D : AND.b #$77 : BNE .BRANCH_PSI
+                ; $03C16D IN ROM
+                JSR.w $C16D : BCC .BRANCH_PSI
+                    JSR Player_HaltDashAttack
+                    
+                    LDA.b #$20 : JSR Player_DoSfx2
+                    
+                    LDY.b #$03
+                    
+                    LDA.w $036E : AND.b #$40 : BNE .BRANCH_OMEGA
+                        LDY.b #$02
 
-    LDA.w $036E : AND.b #$70 : BEQ .BRANCH_PSI
-    
-    LDA.w $036D : AND.b #$77 : BNE .BRANCH_PSI
-    
-    ; $03C16D IN ROM
-    JSR.w $C16D : BCC .BRANCH_PSI
-    
-    JSR Player_HaltDashAttack
-    
-    LDA.b #$20 : JSR Player_DoSfx2
-    
-    LDY.b #$03
-    
-    LDA.w $036E : AND.b #$40 : BNE .BRANCH_OMEGA
-    
-    LDY.b #$02
+                    .BRANCH_OMEGA
 
-    .BRANCH_OMEGA
+                    STY.b $66
+                    
+                    LDA.b #$01 : STA.w $037B
+                    
+                    STZ.b $48
+                    STZ.b $5E
+                    
+                    BRL Link_FindValidLandingTile_DiagonalNorth
 
-    STY.b $66
-    
-    LDA.b #$01 : STA.w $037B
-    
-    STZ.b $48
-    STZ.b $5E
-    
-    BRL .BRANCH_$3C64D
+        .BRANCH_PSI
 
-    .BRANCH_PSI
+        LDA.b $58 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALIF
+            LDA.b $46 : BEQ .BRANCH_BET
+                LDA.b $58 : AND.b #$07
+                
+                STA.b $0E
+                
+                BRL StartMovementCollisionChecks_Vertical_BRANCH_THEL
 
-    LDA.b $58 : AND.b #$07 : CMP.b #$07 : BNE .BRANCH_ALIF
-    
-    LDA.b $46 : BEQ .BRANCH_BET
-    
-    LDA.b $58 : AND.b #$07
-    
-    STA.b $0E
-    
-    BRL .BRANCH_$3BDB1
+            .BRANCH_BET
 
-    .BRANCH_BET
+            LDA.b $66 : AND.b #$02 : BNE .BRANCH_ALIF
+                LDA.b #$02 : STA.b $5E
+                
+                ; Walking on basic stairs (near Eastern Palace)
+                LDA.b #$01 : STA.b $57
+                
+                RTS
 
-    LDA.b $66 : AND.b #$02 : BNE .BRANCH_ALIF
-    
-    LDA.b #$02 : STA.b $5E
-    
-    ; Walking on basic stairs (near Eastern Palace)
-    LDA.b #$01 : STA.b $57
-    
-    RTS
+        .BRANCH_ALIF
 
-    .BRANCH_ALIF
+        LDA.b $5E : CMP.b #$02 : BNE .BRANCH_DEL
+            LDX.b #$10
+            
+            LDA.w $0372 : BNE .dashing
+                LDX.b #$00
 
-    LDA.b $5E : CMP.b #$02 : BNE .BRANCH_DEL
-    
-    LDX.b #$10
-    
-    LDA.w $0372 : BNE .dashing
-    
-    LDX.b #$00
+            .dashing
 
-    .dashing
+            STX.b $5E
 
-    STX.b $5E
+        .BRANCH_DEL
 
-    .BRANCH_DEL
+        LDA.b $57 : CMP.b #$01 : BNE .BRANCH_SIN
+            LDX.b #$02 : STX.b $57
 
-    LDA.b $57 : CMP.b #$01 : BNE .BRANCH_SIN
-    
-    LDX.b #$02 : STX.b $57
+        .BRANCH_SIN
 
-    .BRANCH_SIN
+        LDA.b $0C : AND.b #$05 : BEQ .BRANCH_SHIN
+            LDA.b $0E : AND.b #$07 : BNE .BRANCH_SHIN
+                JSR.w $E076 ; $03E076 IN ROM
+                
+                LDA.b $6B : AND.b #$0F : BEQ .BRANCH_SHIN
+                    RTS
 
-    LDA.b $0C : AND.b #$05 : BEQ .BRANCH_SHIN
-    
-    LDA.b $0E : AND.b #$07 : BNE .BRANCH_SHIN
-    
-    JSR.w $E076 ; $03E076 IN ROM
-    
-    LDA.b $6B : AND.b #$0F : BEQ .BRANCH_SHIN
-    
-    RTS
+        .BRANCH_SHIN
 
-    .BRANCH_SHIN
+        STZ.b $6B
+        
+        ; The AND with 0x02 ensures that it's a centered push against the
+        ; gravestone.
+        LDA.w $02E7 : AND.b #$02 : BEQ .resetGravestoneCounter
+            ; If the last direction Link moved was any direction other than up, we
+            ; reset the counter.
+            LDA.b $66 : BNE .resetGravestoneCounter
+                ; dashing?
+                LDA.w $0372 : BNE .moveGravestone
+                    DEC.b $61 : BPL .dontMoveGravestone
 
-    STZ.b $6B
-    
-    ; the AND with 0x02 ensures that it's a centered push against the gravestone.
-    LDA.w $02E7 : AND.b #$02 : BEQ .resetGravestoneCounter
-    
-    ; If the last direction Link moved was any direction other than up, we reset the counter
-    LDA.b $66 : BNE .resetGravestoneCounter
-    
-    ; dashing?
-    LDA.w $0372 : BNE .moveGravestone
-    
-    DEC.b $61 : BPL .dontMoveGravestone
+                .moveGravestone
 
-    .moveGravestone
+                LDA.b $0E : PHA
+                
+                LDY.b #$04
+                LDA.b #$24
+                
+                JSL AddGravestone
+                
+                PLA : STA.b $0E
 
-    LDA.b $0E : PHA
-    
-    LDY.b #$04
-    LDA.b #$24
-    
-    JSL AddGravestone
-    
-    PLA : STA.b $0E
+        .resetGravestoneCounter
 
-    .resetGravestoneCounter
+        LDA.b #$34 : STA.b $61
 
-    LDA.b #$34 : STA.b $61
+        .dontMoveGravestone
 
-    .dontMoveGravestone
+        LDA.w $02E8 : AND.b #$07 : BEQ .BRANCH_ZOD
+            LDA.b $46 : ORA.w $031F : ORA.b $55 : BNE .BRANCH_HEH
+                LDA.b $20
+                
+                LDY.b $66 : BNE .BRANCH_JIIM
+                    AND.b #$04 : BEQ .BRANCH_EIN
+                        BRA .BRANCH_ZOD
 
-    LDA.w $02E8 : AND.b #$07 : BEQ .BRANCH_ZOD
-    
-    LDA.b $46 : ORA.w $031F : ORA.b $55 : BNE .BRANCH_HEH
-    
-    LDA.b $20
-    
-    LDY.b $66 : BNE .BRANCH_JIIM
-    
-    AND.b #$04 : BEQ .BRANCH_EIN
-    
-    BRA .BRANCH_ZOD
+                .BRANCH_JIIM
 
-    .BRANCH_JIIM
+                AND.b #$04 : BEQ .BRANCH_ZOD
+                    .BRANCH_EIN
 
-    AND.b #$04 : BEQ .BRANCH_ZOD
+                    LDA.l $7EF35B : TAY
+                    
+                    LDA.w $BA07, Y : STA.w $0373
+                    
+                    JSR Player_HaltDashAttack
+                    JSR.w Link_ForceUnequipCape_quietly
+                    
+                    BRL LinkApplyTileRebound
 
-    .BRANCH_EIN
+            .BRANCH_HEH
 
-    LDA.l $7EF35B : TAY
-    
-    LDA.w $BA07, Y : STA.w $0373
-    
-    JSR Player_HaltDashAttack
-    JSR.w Link_ForceUnequipCape_quietly
-    
-    BRL LinkApplyTileRebound
+            LDA.w $02E8 : AND.b #$07 : STA.b $0E
 
-    .BRANCH_HEH
+        .BRANCH_ZOD
 
-    LDA.w $02E8 : AND.b #$07 : STA.b $0E
-
-    .BRANCH_ZOD
-
-    BRL .BRANCH_$3BDB1
+        BRL StartMovementCollisionChecks_Vertical_BRANCH_THEL
 }
 
 ; ==============================================================================
 
-; $03C16D-$03C1A0 LOCAL 
+; $03C16D-$03C1A0 LOCAL
+RunLedgeHopTimer:
 {
     ; Check the sub sub mode we're in.
     LDA.b $4D : CMP.b #$01 : BEQ .BRANCH_ALPHA ; 3C171 Change from F0 to 80 to stop players from jumping off ledges all together
@@ -10282,6 +10065,7 @@ BRANCH_ULTIMA
 }
 
 ; $03C23D-$03C29E LONG BRANCH LOCATION
+ChangeAxisOfPerpendicularDoorMovement_Vertical:
 {
     LDA.b #$02 : TSB.b $50
     
@@ -10382,6 +10166,7 @@ BRANCH_ULTIMA
 }
 
 ; $03C2C3-$03C30B LOCAL JUMP LOCATION
+Link_HopInOrOutOfWater_Vertical:
 {
     LDA.b $1B : BNE .BRANCH_ALPHA
     
@@ -10436,6 +10221,7 @@ BRANCH_ULTIMA
 }
 
 ; $03C36C-$03C408 LONG BRANCH LOCATION
+Link_FindValidLandingTile_North:
 {
     LDA.b $20 : STA.b $32 : PHA
     LDA.b $21 : STA.b $33 : PHA
@@ -10511,6 +10297,7 @@ BRANCH_ULTIMA
 }
 
 ; $03C46D-$03C4D3 LOCAL JUMP LOCATION
+Link_FindValidLandingTile_DiagonalNorth:
 {
     LDA.b $3E : PHA
     LDA.b $22 : PHA
@@ -10806,7 +10593,8 @@ BRANCH_ULTIMA
 
     STY.w $03F3
 
-; $03C64D LONG BRANCH LOCATION
+    ; $03C64D LONG BRANCH LOCATION
+    ; TODO: Confirm this.
 
     BRA .BRANCH_SIN
 
