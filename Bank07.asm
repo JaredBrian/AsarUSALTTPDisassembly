@@ -9,6 +9,8 @@ org $078000
 ; Tile interaction
 ; Desert circle HDMA code
 ; Push block code
+; Overworld sign text table
+; Dungeon telepathic tile text table
 
 ; ==============================================================================
 
@@ -16532,8 +16534,8 @@ PushBlock_ApplyVelocity:
                     
                     ; Push the sprite because a pushable block is colliding
                     ; with it?
-                    LDA.w $EF61, Y : STA.w $0F40, X
-                    LDA.w $EF65, Y : STA.w $0F30, X
+                    LDA.w Pool_PushBlock_ApplyVelocity_recoil_x, Y : STA.w $0F40, X
+                    LDA.w Pool_PushBlock_ApplyVelocity_recoil_y, Y : STA.w $0F30, X
                     
                     PLY
             
@@ -16547,94 +16549,103 @@ PushBlock_ApplyVelocity:
     RTS
 }
 
-; ==============================================================================
 
 ; $03EF61-$03EFB8 DATA
+Pool_PushBlock_ApplyVelocity:
 {
+    ; $03EF61
     .recoil_x
-    #_07EF61: db   0 ; up
-    #_07EF62: db   0 ; down
-    #_07EF63: db -32 ; left
-    #_07EF64: db  32 ; right
+    db   0 ; up
+    db   0 ; down
+    db -32 ; left
+    db  32 ; right
 
+    ; $03EF65
     .recoil_y
-    #_07EF65: db -32 ; up
-    #_07EF66: db  32 ; down
-    #_07EF67: db   0 ; left
-    #_07EF68: db   0 ; right
-
-    ;===================================================================================================
-
-    pool PushBlock_HandleCollision
-
-    .link_offset_on_axis
-    #_07EF69: dw $0008 ; up
-    #_07EF6B: dw $0018 ; down
-    #_07EF6D: dw $0000 ; left
-    #_07EF6F: dw $0010 ; right
-
-    .link_offset_perpendicular_bottom
-    #_07EF71: dw $0000 ; up
-    #_07EF73: dw $0000 ; down
-    #_07EF75: dw $0008 ; left
-    #_07EF77: dw $0008 ; right
-
-    .link_offset_perpendicular_top
-    #_07EF79: dw $000F ; up
-    #_07EF7B: dw $000F ; down
-    #_07EF7D: dw $0017 ; left
-    #_07EF7F: dw $0017 ; right
-
-    .block_offset_on_axis
-    #_07EF81: dw $000F ; up
-    #_07EF83: dw $0000 ; down
-    #_07EF85: dw $000F ; left
-    #_07EF87: dw $0000 ; right
-
-    .block_offset_perpendicular_bottom
-    #_07EF89: dw $0000 ; up
-    #_07EF8B: dw $0000 ; down
-    #_07EF8D: dw $0000 ; left
-    #_07EF8F: dw $0000 ; right
-
-    .block_offset_perpendicular_top
-    #_07EF91: dw $000F ; up
-    #_07EF93: dw $000F ; down
-    #_07EF95: dw $000F ; left
-    #_07EF97: dw $000F ; right
-
-    ;---------------------------------------------------------------------------------------------------
-
-    .link_coord_address_on_axis
-    #_07EF99: dw $0020 ; up
-    #_07EF9B: dw $0020 ; down
-    #_07EF9D: dw $0022 ; left
-    #_07EF9F: dw $0022 ; right
-
-    .link_coord_address_perpendicular
-    #_07EFA1: dw $0022 ; up
-    #_07EFA3: dw $0022 ; down
-    #_07EFA5: dw $0020 ; left
-    #_07EFA7: dw $0020 ; right
-
-    ;---------------------------------------------------------------------------------------------------
-
-    .block_coords_address_on_axis
-    #_07EFA9: dw $0072 ; up
-    #_07EFAB: dw $0072 ; down
-    #_07EFAD: dw $0074 ; left
-    #_07EFAF: dw $0074 ; right
-
-    .block_coords_address_perpendicular
-    #_07EFB1: dw $0074 ; up
-    #_07EFB3: dw $0074 ; down
-    #_07EFB5: dw $0072 ; left
-    #_07EFB7: dw $0072 ; right
+    db -32 ; up
+    db  32 ; down
+    db   0 ; left
+    db   0 ; right
 }
 
 ; ==============================================================================
 
+; $03EF69-$03EFB9 DATA
+Pool_PushBlock_HandleCollision:
+{
+    ; $03EF69
+    .link_offset_on_axis
+    dw $0008 ; up
+    dw $0018 ; down
+    dw $0000 ; left
+    dw $0010 ; right
+
+    ; $03EF71
+    .link_offset_perpendicular_bottom
+    dw $0000 ; up
+    dw $0000 ; down
+    dw $0008 ; left
+    dw $0008 ; right
+
+    ; $03EF79
+    .link_offset_perpendicular_top
+    dw $000F ; up
+    dw $000F ; down
+    dw $0017 ; left
+    dw $0017 ; right
+
+    ; $03EF81
+    .block_offset_on_axis
+    dw $000F ; up
+    dw $0000 ; down
+    dw $000F ; left
+    dw $0000 ; right
+
+    ; $03EF89
+    .block_offset_perpendicular_bottom
+    dw $0000 ; up
+    dw $0000 ; down
+    dw $0000 ; left
+    dw $0000 ; right
+
+    ; $03EF91
+    .block_offset_perpendicular_top
+    dw $000F ; up
+    dw $000F ; down
+    dw $000F ; left
+    dw $000F ; right
+
+    ; $03EF99
+    .link_coord_address_on_axis
+    dw $0020 ; up
+    dw $0020 ; down
+    dw $0022 ; left
+    dw $0022 ; right
+
+    ; $03EFA1
+    .link_coord_address_perpendicular
+    dw $0022 ; up
+    dw $0022 ; down
+    dw $0020 ; left
+    dw $0020 ; right
+
+    ; $03EFA9
+    .block_coords_address_on_axis
+    dw $0072 ; up
+    dw $0072 ; down
+    dw $0074 ; left
+    dw $0074 ; right
+
+    ; $03EFB1
+    .block_coords_address_perpendicular
+    dw $0074 ; up
+    dw $0074 ; down
+    dw $0072 ; left
+    dw $0072 ; right
+}
+
 ; $03EFB9-$03F0AB LOCAL JUMP LOCATION
+PushBlock_HandleCollision:
 {
     PHY
     
@@ -16653,8 +16664,7 @@ PushBlock_ApplyVelocity:
     
     .BRANCH_BETA
     
-    LSR A : BCS .BRANCH_ALPHA
-    
+        LSR A : BCS .BRANCH_ALPHA
     DEY #2 : BPL .BRANCH_BETA
     
     BRL .BRANCH_GAMMA
@@ -16684,7 +16694,7 @@ PushBlock_ApplyVelocity:
     LDA.b $00
     
     CMP.b $04 : BCC .BRANCH_DELTA
-    CMP.b $06 : BCC .BRANCH_EPSILON
+        CMP.b $06 : BCC .BRANCH_EPSILON
 
     .BRANCH_DELTA
 
@@ -16692,65 +16702,58 @@ PushBlock_ApplyVelocity:
     
     CMP.b $04 : BCC .BRANCH_GAMMA
     CMP.b $06 : BCS .BRANCH_GAMMA
+        .BRANCH_EPSILON
 
-    .BRANCH_EPSILON
+        PHY : PHX
+        
+        LDX.b $0E
+        
+        LDA.b $2F : AND.w #$00FF : CMP.w $05F8, X : BNE .BRANCH_ZETA
+            LDY.b #$01
+            
+            TXA : LSR A : TAX
+            
+            LDA.w $05FC, X : BEQ .BRANCH_THETA
+                LDY.b #$04
+            
+            .BRANCH_THETA
+            
+            TYA : AND.w #$00FF : TSB.b $48
+        
+        .BRANCH_ZETA
+        
+        PLX : PLY
+        
+        TYA : AND.w #$0002 : BEQ .BRANCH_IOTA
+            LDA.b $08
+            
+            SEC : SBC.b $0A : BCC .BRANCH_GAMMA
+            CMP.w #$0008 : BCS .BRANCH_GAMMA
+                EOR.w #$FFFF : INC A : STA.b $00
+                
+                CLC : ADC ($0C) : STA ($0C)
+                
+                BRA .BRANCH_KAPPA
 
-    PHY : PHX
-    
-    LDX.b $0E
-    
-    LDA.b $2F : AND.w #$00FF : CMP.w $05F8, X : BNE .BRANCH_ZETA
-    
-    LDY.b #$01
-    
-    TXA : LSR A : TAX
-    
-    LDA.w $05FC, X : BEQ .BRANCH_THETA
-    
-    LDY.b #$04
-    
-    .BRANCH_THETA
-    
-    TYA : AND.w #$00FF : TSB.b $48
-    
-    .BRANCH_ZETA
-    
-    PLX : PLY
-    
-    TYA : AND.w #$0002 : BEQ .BRANCH_IOTA
-    
-    LDA.b $08
-    
-    SEC : SBC.b $0A     : BCC .BRANCH_GAMMA
-    CMP.w #$0008 : BCS .BRANCH_GAMMA
-    
-    EOR.w #$FFFF : INC A : STA.b $00
-    
-    CLC : ADC ($0C) : STA ($0C)
-    
-    BRA .BRANCH_KAPPA
+        .BRANCH_IOTA
 
-    .BRANCH_IOTA
-
-    LDA.b $08 : SEC : SBC.b $0A : CMP.w #$FFF8 : BCC .BRANCH_GAMMA
-    
-    EOR.w #$FFFF : INC A : STA.b $00
-    
-    CLC : ADC ($0C) : STA ($0C)
-    
-    .BRANCH_KAPPA
-    
-    SEP #$20
-    
-    LDX.b #$00
-    
-    TYA : AND.b #$04 : BEQ .BRANCH_LAMBDA
-    
-    INX
-    
-    .BRANCH_LAMBDA
-    
-    LDA.b $30, X : CLC : ADC.b $00 : STA.b $30, X
+        LDA.b $08 : SEC : SBC.b $0A : CMP.w #$FFF8 : BCC .BRANCH_GAMMA
+            EOR.w #$FFFF : INC A : STA.b $00
+            
+            CLC : ADC ($0C) : STA ($0C)
+            
+            .BRANCH_KAPPA
+            
+            SEP #$20
+            
+            LDX.b #$00
+            
+            TYA : AND.b #$04 : BEQ .BRANCH_LAMBDA
+                INX
+            
+            .BRANCH_LAMBDA
+            
+            LDA.b $30, X : CLC : ADC.b $00 : STA.b $30, X
     
     .BRANCH_GAMMA
     
@@ -16765,31 +16768,28 @@ PushBlock_ApplyVelocity:
 
 ; ==============================================================================
 
+; Handles animation of moveable blocks and such.
 ; $03F0AC-$03F0CA LONG JUMP LOCATION
+Underworld_DrawAllPushBlocks:
 {
-    ; Handles animation of moveable blocks and such?
-    
     PHB : PHK : PLB
     
     LDA.w $05FC : ORA.w $05FD : BEQ .return
-    
-    LDX.b #$01
-    
-    .next_slot
-    
-    LDA.w $05FC, X : BEQ .empty_slot
-    
-    TXA : ASL A : TAY
-    
-    PHX
-    
-    JSR.w $F0D9 ; $03F0D9 IN ROM
-    
-    PLX
-    
-    .empty_slot
-    
-    DEX : BPL .next_slot
+        LDX.b #$01
+        
+        .next_slot
+        
+            LDA.w $05FC, X : BEQ .empty_slot
+                TXA : ASL A : TAY
+                
+                PHX
+                
+                JSR.w $F0D9 ; $03F0D9 IN ROM
+                
+                PLX
+            
+            .empty_slot
+        DEX : BPL .next_slot
     
     .return
     
@@ -16801,23 +16801,27 @@ PushBlock_ApplyVelocity:
 ; ==============================================================================
 
 ; $03F0CB-$03F0D8
-    Pool_
+Pool_Underworld_DrawSinglePushBlock
 {
-    ; Unused data?
-    
-    db $0C, $0C, $0C, $0C, $FF
-    
-    ; $3F0D0
-    db $00, $01, $02, $03, $04, $00, $00, $00, $00
+    ; $03F0CB
+    .unreachable
+    db $0C
+
+    ; $03F0CC
+    .step
+    db  12,  12,  12, $FF
+
+    ; $03F0D0
+    .index
+    db   0,   1,   2,   3
+    db   4,   0,   0,   0
+    db   0
 }
 
-; ==============================================================================
-
+; Appears to draw moving blocks or falling moving blocks or both.
 ; $03F0D9-$03F13B LOCAL JUMP LOCATION
+Underworld_DrawSinglePushBlock:
 {
-    ; Appears to draw moving blocks or falling moving blocks or both.
-    ; \task Name this routine.
-    
     PHY
     
     LDA.b #$04 : JSL OAM_AllocateFromRegionB
@@ -16847,8 +16851,7 @@ PushBlock_ApplyVelocity:
     LDY.b #$00
     
     LDA.w $F0CC, X : CMP.b #$FF : BNE .alpha
-    
-    BRA .beta
+        BRA .beta
     
     .alpha
     
@@ -16890,7 +16893,7 @@ Init_Player:
     ; Make Link face down initially
     LDA.b #$02 : STA.b $2F
     
-    STZ.b $26     ; Link has no push state.
+    STZ.b $26   ; Link has no push state.
     STZ.w $0301
     STZ.w $037A
     STZ.w $020B
@@ -16899,7 +16902,7 @@ Init_Player:
     STZ.w $030E
     STZ.w $030A
     STZ.w $02E1
-    STZ.b $3B ; No A button.
+    STZ.b $3B   ; No A button.
     
     ; Zero out all except for the B button.
     LDA.b $3A : AND.b #$BF : STA.b $3A
@@ -16920,8 +16923,8 @@ Init_Player:
     STZ.w $02DA
     STZ.b $55
     
-    JSR.w $Link_ForceUnequipCape_quietly ; more init...
-    JSR.w $9D84   ; $039D84 IN ROM
+    JSR.w Link_ForceUnequipCape_quietly ; More init...
+    JSR.w $9D84 ; $039D84 IN ROM
     
     STZ.w $037B
     STZ.w $0300
@@ -16938,7 +16941,7 @@ Init_Player:
 
 ; ==============================================================================
 
-; $03F1A3-$03F259 LONG JUMP LOCATION
+; $03F1A3-$03F1E5 LONG JUMP LOCATION
 Player_ResetState:
 {
     STZ.b $26
@@ -16966,10 +16969,14 @@ Player_ResetState:
     STZ.w $02FA
     STZ.w $02E9
     STZ.w $02DB
-    
-    ; $03F1E6 ALTERNATE ENTRY POINT
-    ; called by mirror warping.
-    
+
+    ; Bleeds into the next function.
+}
+
+; Called by mirror warping.
+; $03F1E6-$03F1F9 LONG JUMP LOCATION
+Link_ResetProperties_B:
+{
     STZ.w $02F5
     STZ.w $0079
     STZ.w $0302
@@ -16981,10 +16988,14 @@ Player_ResetState:
     ; \wtf Why zeroed twice? probably a typo on the programmer's end.
     ; Or maybe it was aliased to two different names...
     STZ.b $5B
-    
-    ; $03F1FA ALTERNATE ENTRY POINT
-    ; called by some odd balls.
-    
+
+    ; Bleeds into the next function.
+}
+
+; Called by some odd balls.
+; $03F1FA-$03F259 LONG JUMP LOCATION
+Link_ResetProperties_C:
+{
     STZ.w $036C
     STZ.w $031C
     STZ.w $031D
@@ -17028,28 +17039,23 @@ Player_ResetState:
 ; ==============================================================================
 
 ; $03F25A-$03F2C0 LONG JUMP LOCATION
-{
-    ; \task Name this routine. Seems to be important to straight inter room
-    ; staircases.
-    
+Link_AnimateIntraStairClimbAndSFX:
+{ 
     PHB : PHK : PLB
     
     LDX.b #$09
     
     .next_slot
     
-    ; Search for Master sword charged sparkle?
-    LDA.w $0C4A, X : CMP.b #$0D : BNE .not_fully_charged_sword_spark
-    
-    STZ.w $0C4A, X
-    
-    .not_fully_charged_sword_spark
-    
+        ; Search for Master sword charged sparkle?
+        LDA.w $0C4A, X : CMP.b #$0D : BNE .not_fully_charged_sword_spark
+            STZ.w $0C4A, X
+        
+        .not_fully_charged_sword_spark
     DEX : BPL .next_slot
     
     LDA.b $2E : CMP.b #$05 : BCC .dont_reset_counter
-    
-    STZ.b $2E
+        STZ.b $2E
     
     .dont_reset_counter
     
@@ -17066,10 +17072,9 @@ Player_ResetState:
     LDA.b #$01 : STA.w $037B
     
     LDA.w $0462 : AND.b #$04 : BEQ .delta
-    
-    LDA.b #$18 : JSR Player_DoSfx2
-    
-    BRA .epsilon
+        LDA.b #$18 : JSR Player_DoSfx2
+        
+        BRA .epsilon
     
     .delta
     
@@ -17082,9 +17087,8 @@ Player_ResetState:
     LDX.b #16
     
     LDA.w $0462 : AND.b #$04 : BEQ .zeta
-    
-    LDX.b #-15
-    LDA.b #-1  : STA.b $01
+        LDX.b #$F1
+        LDA.b #$FF : STA.b $01
     
     .zeta
     
@@ -17107,9 +17111,8 @@ Player_ResetState:
 ; ==============================================================================
 
 ; $03F2C1-$03F390 LONG JUMP LOCATION
+HandleLinkOnSpiralStairs:
 {
-    ; \task Name this routine. Seems pretty important to spiral staircases.
-    
     REP #$20
     
     LDA.b $22 : STA.w $0FC2
@@ -17118,8 +17121,7 @@ Player_ResetState:
     SEP #$20
     
     LDA.w $030A : BEQ .BRANCH_ALPHA
-    
-    RTL
+        RTL
     
     .BRANCH_ALPHA
     
@@ -17130,32 +17132,29 @@ Player_ResetState:
     PHB : PHK : PLB
     
     LDA.w $0462 : AND.b #$04 : BEQ .BRANCH_GAMMA
-    
-    LDA.b #$FE : STA.b $27
-    
-    DEC.w $0371 : BPL .BRANCH_BETA
-    
-    STZ.w $0371
-    
-    LDA.b #0 : STA.b $27
-    
-    LDA.b #-2 : STA.b $28
-    
-    .BRANCH_BETA
-    
-    BRA .BRANCH_DELTA
+        LDA.b #$FE : STA.b $27
+        
+        DEC.w $0371 : BPL .BRANCH_BETA
+            STZ.w $0371
+            
+            LDA.b #0 : STA.b $27
+            
+            LDA.b #-2 : STA.b $28
+        
+        .BRANCH_BETA
+        
+        BRA .BRANCH_DELTA
     
     .BRANCH_GAMMA
     
     LDA.b #-2 : STA.b $27
     
     DEC.w $0371 : BPL .BRANCH_DELTA
-    
-    STZ.w $0371
-    
-    LDA.b #-2 : STA.b $27
-    
-    LDA.b #2 : STA.b $28
+        STZ.w $0371
+        
+        LDA.b #-2 : STA.b $27
+        
+        LDA.b #2 : STA.b $28
     
     .BRANCH_DELTA
     
@@ -17163,26 +17162,22 @@ Player_ResetState:
     JSL.l $07E704 ; $03E704 IN ROM
     
     LDA.w $0371 : BNE .BRANCH_ZETA
-    
-    DEC.w $0378 : BPL .BRANCH_ZETA
-    
-    STZ.w $0378
-    
-    LDX.b #$04
-    
-    LDA.w $0462 : AND.b #$04 : BNE .BRANCH_EPSILON
-    
-    LDX.b #$06
-    
-    .BRANCH_EPSILON
-    
-    STX.b $2F
+        DEC.w $0378 : BPL .BRANCH_ZETA
+            STZ.w $0378
+            
+            LDX.b #$04
+            
+            LDA.w $0462 : AND.b #$04 : BNE .BRANCH_EPSILON
+                LDX.b #$06
+            
+            .BRANCH_EPSILON
+            
+            STX.b $2F
     
     .BRANCH_ZETA
     
     LDA.b $22 : SEC : SBC.b $53 : BPL .BRANCH_THETA
-    
-    EOR.b #$FF : INC A
+        EOR.b #$FF : INC A
     
     .BRANCH_THETA
     
@@ -17195,8 +17190,7 @@ Player_ResetState:
     SEP #$20
     
     LDA.l $7EF3CC : BEQ .BRANCH_IOTA
-    
-    JSL Tagalong_Init
+        JSL Tagalong_Init
     
     .BRANCH_IOTA
     
@@ -17204,9 +17198,8 @@ Player_ResetState:
     LDA.b #-1 : STA.b $01
     
     LDA.w $0462 : AND.b #$04 : BNE .BRANCH_KAPPA
-    
-    LDA.b #$0C : STA.b $00
-                 STZ.b $01
+        LDA.b #$0C : STA.b $00
+                     STZ.b $01
     
     .BRANCH_KAPPA
     
@@ -17222,13 +17215,13 @@ Player_ResetState:
     
     ; See if this is a downward staircase
     LDA.w $0462 : AND.b #$04 : BNE .BRANCH_LAMBDA
-    ; Yes...
-    
-    LDA.b #$17 ; Play the up staircase sound.
-    
-    JSR.w $8028 ; Play a sound. (maybe the staircase steps sound?)
-    
-    BRA .BRANCH_MU
+        ; Yes...
+        
+        LDA.b #$17 ; Play the up staircase sound.
+        
+        JSR.w $8028 ; Play a sound. (maybe the staircase steps sound?)
+        
+        BRA .BRANCH_MU
     
     .BRANCH_LAMBDA ; Yep, downward staircase
     
@@ -17248,9 +17241,8 @@ Player_ResetState:
 ; ==============================================================================
 
 ; $03F391-$03F3F2 LONG JUMP LOCATION
+SpiralStairs_FindLandingSpot:
 {
-    ; \task Name this routine. Used by spiral staircases.
-    
     PHB : PHK : PLB
     
     STZ.w $0373
@@ -17266,11 +17258,10 @@ Player_ResetState:
     SEP #$20
     
     DEC.w $0378 : BPL .BRANCH_ALPHA
-    
-    STZ.w $0378
-    
-    ; Force player to look down after an amount of time?
-    LDA.b #$02 : STA.b $2F
+        STZ.w $0378
+        
+        ; Force player to look down after an amount of time?
+        LDA.b #$02 : STA.b $2F
     
     .BRANCH_ALPHA
     
@@ -17279,27 +17270,24 @@ Player_ResetState:
     LDA.b #4 : STA.b $28
     
     LDA.w $0462 : AND.b #$04 : BEQ .BRANCH_BETA
-    
-    LDA.b #2 : STA.b $27
-    
-    LDA.b #-4 : STA.b $28
+        LDA.b #2 : STA.b $27
+        
+        LDA.b #-4 : STA.b $28
     
     .BRANCH_BETA
     
     LDA.w $030A : CMP.b #$02 : BNE .BRANCH_GAMMA
-    
-    LDA.b #16 : STA.b $27
-    
-    STZ.b $28
-    
+        LDA.b #16 : STA.b $27
+        
+        STZ.b $28
+        
     .BRANCH_GAMMA
     
     JSL.l $07E370 ; $03E370 IN ROM
     JSL.l $07E704 ; $03E704 IN ROM
     
     LDA.b $22 : CMP.b $53 : BNE .BRANCH_DELTA
-    
-    LDA.b #$02 : STA.w $030A
+        LDA.b #$02 : STA.w $030A
     
     .BRANCH_DELTA
     
@@ -17313,11 +17301,12 @@ Player_ResetState:
 ; ==============================================================================
 
 ; $03F3F3-$03F3FC LONG JUMP LOCATION
+LinkResetPushTimer:
 {
-    ; \task Name this routine. It apparently has something to do with
-    ; staircases, possibly spiral staircases in particular.
+    ; It apparently has something to do with staircases, possibly spiral
+    ; staircases in particular.
     
-    ; \optimize Setting B register unnecessary. In fact, this whole call
+    ; OPTIMIZE: Setting B register unnecessary. In fact, this whole call
     ; could probably just be inlined at the call site, unless they can't
     ; spare an extra byte at the site.
     PHB : PHK : PLB
@@ -17332,9 +17321,9 @@ Player_ResetState:
 ; ==============================================================================
 
 ; $03F3FD-$03F42E LONG JUMP LOCATION
+UNREACHABLE_07F3FD:
 {
-    ; \unused Pretty certain this is unused
-    ; \task What would it be for, though? Looks like staircases. Hard to say
+    ; TODO: What would it be for, though? Looks like staircases. Hard to say
     ; if it's just unfinished / broken or if uninteresting...
     
     PHB : PHK : PLB
@@ -17351,12 +17340,10 @@ Player_ResetState:
     LDY.b #$08
     
     LDA.b $11 : CMP.b #$12 : BNE .alpha
-    
-    LDY.b #$FE
-    
-    LDA.w $0462 : AND.b #$04 : BEQ .alpha
-    
-    LDY.b #$FA
+        LDY.b #$FE
+        
+        LDA.w $0462 : AND.b #$04 : BEQ .alpha
+            LDY.b #$FA
     
     .alpha
     
@@ -17373,12 +17360,13 @@ Player_ResetState:
 ; ==============================================================================
 
 ; $03F42F-$03F438 LONG JUMP LOCATION
+HandleIndoorCameraAndDoors_long:
 {
     PHB : PHK : PLB
     
     PHX
     
-    JSR.w $E8F0 ;  $3E8F0 IN ROM
+    JSR.w $E8F0 ; $3E8F0 IN ROM
     
     PLX : PLB
     
@@ -17398,9 +17386,8 @@ Player_IsScreenTransitionPermitted:
     CMP.b #$08 : BEQ .takeNoAction
     CMP.b #$09 : BEQ .takeNoAction
     CMP.b #$0A : BEQ .takeNoAction
-    
-    ; Is Link recovering from being damaged / bounced back?
-    LDA.b $46 : BEQ .actionIsPermitted
+        ; Is Link recovering from being damaged / bounced back?
+        LDA.b $46 : BEQ .actionIsPermitted
     
     .takeNoAction
     
@@ -17441,7 +17428,7 @@ Tagalong_CanWeDisplayMessage:
     
     CMP.b #$00 : BEQ .affirmative
     CMP.b #$04 : BEQ .affirmative
-    CMP.b #$11 : BNE .negative
+        CMP.b #$11 : BNE .negative
     
     .affirmative
     
@@ -17457,10 +17444,9 @@ Tagalong_CanWeDisplayMessage:
     ORA.w $0376 ; Bit 0: Holding a wall. Bit 1: ????
     
     BNE .negative
-    
-    SEC ; Indicates TRUE
-    
-    RTL
+        SEC ; Indicates TRUE
+        
+        RTL
     
     .negative
     
@@ -17478,22 +17464,21 @@ Player_ApproachTriforce:
     PHB : PHK : PLB
     
     LDA.b $20 : CMP.b #$98 : BCC .at_triforce_position
-              CMP.b #$A9 : BCS .not_on_stairs
-    
-    ; Use slower movement for player because they're moving on stairs.
-    ; Or rather, this simulates moving on stairs.
-    LDA.b #$14 : STA.b $5E
-    
-    .not_on_stairs
-    
-    LDA.b #$08 : STA.b $67
-                 STA.b $26
-    
-    STZ.b $2F
-    
-    LDA.b #$40 : STA.b $3D
-    
-    BRA .return
+        CMP.b #$A9 : BCS .not_on_stairs
+            ; Use slower movement for player because they're moving on stairs.
+            ; Or rather, this simulates moving on stairs.
+            LDA.b #$14 : STA.b $5E
+        
+        .not_on_stairs
+        
+        LDA.b #$08 : STA.b $67
+                    STA.b $26
+        
+        STZ.b $2F
+        
+        LDA.b #$40 : STA.b $3D
+        
+        BRA .return
     
     .at_triforce_position
     
@@ -17503,13 +17488,12 @@ Player_ApproachTriforce:
     
     DEC.b $3D
     
-    ; \optimize The decrement instruction above already sets flags, so
+    ; OPTIMIZE: The decrement instruction above already sets flags, so
     ; no need to load this var here.
     LDA.b $3D : BNE .delay_triforce_hold
-    
-    LDA.b #$02 : STA.w $02DA
-    
-    INC.b $B0
+        LDA.b #$02 : STA.w $02DA
+        
+        INC.b $B0
     
     .delay_triforce_hold
     .return
@@ -17527,24 +17511,22 @@ Sprite_CheckIfPlayerPreoccupied:
     PHX
     
     LDA.b $4D : ORA.w $02DA : BNE .fail
-    
-    LDA.w $0308 : AND.b #$80 : BNE .fail
-    
-    LDX.b #$04
-    
-    .next_object
-    
-    ; Check to see if a the flute bird is in play. If it is, return failure
-    LDA.w $0C4A, X : CMP.b #$27 : BEQ .fail
-    
-    DEX : BPL .next_object
-    
-    ; Success
-    PLX
-    
-    CLC
-    
-    RTL
+        LDA.w $0308 : AND.b #$80 : BNE .fail
+            LDX.b #$04
+            
+            .next_object
+            
+                ; Check to see if a the flute bird is in play. If it is, return
+                ; failure.
+                LDA.w $0C4A, X : CMP.b #$27 : BEQ .fail
+            DEX : BPL .next_object
+            
+            ; Success
+            PLX
+            
+            CLC
+            
+            RTL
     
     .fail
     
@@ -17592,15 +17574,14 @@ Player_IsPipeEnterable:
 ; ==============================================================================
 
 ; $03F514-$03F51C LOCAL JUMP LOCATION
+CacheCameraPropertiesIfOutdoors:
 {
     LDA.b $1B : BNE .indoors
-    
-    ; \task Find out why you'd only do this when outdoors...
-    
-    ; Caches a bunch of gameplay vars. I don't know why this is necessary
-    ; during gameplay because this routine is surely time consuming.
-    
-    JSL Player_CacheStatePriorToHandler
+        ; TODO: Find out why you'd only do this when outdoors...
+        
+        ; Caches a bunch of gameplay vars. I don't know why this is necessary
+        ; during gameplay because this routine is surely time consuming.
+        JSL Player_CacheStatePriorToHandler
     
     .indoors
     
@@ -17620,6 +17601,7 @@ Overworld_SignText:
     dw $00A7, $00A7, $00A7, $00A7, $00A7, $0041, $00A7, $00A7
     dw $00A7, $00A7, $00A7, $0042, $00A7, $0046, $0046, $00A7
     dw $00A7, $00A7, $0047, $0043, $00A7, $0046, $0046, $00A7
+
     dw $00A7, $00A7, $00A7, $00A7, $00A7, $00A7, $00A7, $00A7
     dw $00A7, $00A7, $00A8, $00A7, $00A7, $00A7, $00A7, $00A9
     dw $00A7, $00AA, $00AB, $00A7, $00A7, $00A7, $00A7, $00B1
@@ -17680,10 +17662,245 @@ Dungeon_SignText:
 ; ==============================================================================
 
 ; $03F89D-$03FFFF NULL (Can be used for expansion)
+NULL_07F89D:
 {
-    fillbyte $FF
-    
-    fill $763
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF
 }
     
 ; ==============================================================================
