@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-    !null_ptr = $0000
+!null_ptr = $0000
 
 ; $03064D-$030840 JUMP LOCATION
 SpritePrep_Main:
@@ -19,7 +19,7 @@ SpritePrep_Main:
     dw SpritePrep_Raven                    ; 0x00 - Raven
     dw SpritePrep_Vulture                  ; 0x01 - Vulture
     dw SpritePrep_DoNothing                ; 0x02 - Flying Stalfos Head
-    dw !null_ptr                           ; 0x03 - Defunct Sprite, DO NOT USE!!!!
+    dw !null_ptr                           ; 0x03 - Null sprite
     dw SpritePrep_GoodSwitch               ; 0x04 - Good Switch
     dw SpritePrep_DoNothing                ; 0x05 - Switch?
     dw SpritePrep_GoodSwitch               ; 0x06 - Bad Switch
@@ -65,7 +65,7 @@ SpritePrep_Main:
     dw SpritePrep_FluteBoy                 ; 0x2E - Flute Boy's Notes
     dw SpritePrep_IgnoresProjectiles       ; 0x2F - Race Game Couple
     dw SpritePrep_IgnoresProjectiles       ; 0x30 - Person? (HM Name)
-    dw SpritePrep_FortuneTeller            ; 0x31 - Fortune Teller / Smithy ... thing?
+    dw SpritePrep_FortuneTeller            ; 0x31 - Fortune Teller / Smithy, etc.
     dw SpritePrep_IgnoresProjectiles       ; 0x32 - Quarrel Bros.
     dw SpritePrep_PullForRupees            ; 0x33 - Pull For Rupees
     dw SpritePrep_YoungSnitchGirl          ; 0x34 - Young Snitch Girl
@@ -80,7 +80,7 @@ SpritePrep_Main:
     dw SpritePrep_OldSnitchLady            ; 0x3D - Old Snitch Lady
     dw SpritePrep_DoNothing                ; 0x3E - Rupee Crab under rock
     dw SpritePrep_DoNothing                ; 0x3F - Tutorial Soldier
-    dw SpritePrep_EvilBarrier              ; 0x40 - Evil barrier to Hyrule Castle 2
+    dw SpritePrep_EvilBarrier              ; 0x40 - Evil barrier to Hyrule tower
     dw SpritePrep_Soldier                  ; 0x41 - Green Soldier
     dw SpritePrep_Soldier                  ; 0x42 - Blue Soldier
     dw SpritePrep_Soldier                  ; 0x43 - Red Spear Soldier
@@ -114,7 +114,7 @@ SpritePrep_Main:
     dw SpritePrep_RollerRightLeft          ; 0x5F - Roller (????)
     dw SpritePrep_RollerLeftRight          ; 0x60 - Roller (????)
     dw SpritePrep_DoNothing                ; 0x61 - Beamos
-    dw SpritePrep_MasterSword              ; 0x62 - Master Sword and beams of light.
+    dw SpritePrep_MasterSword              ; 0x62 - Master Sword and light beams
     dw SpritePrep_Debirando                ; 0x63 - Debirando Pit
     dw SpritePrep_FireDebirando            ; 0x64 - Debirando
     dw SpritePrep_ArcheryGameGuyTrampoline ; 0x65 - Archery Game Guy
@@ -131,7 +131,7 @@ SpritePrep_Main:
     dw SpritePrep_DoNothing_2              ; 0x70 - Helmasaur King Fireball
     dw SpritePrep_Leever                   ; 0x71 - Leever
     dw SpritePrep_IgnoresProjectiles       ; 0x72 - Pond Activator / Script
-    dw SpritePrep_UncleAndSageTrampoline   ; 0x73 - Link's Uncle / Sage / Watergate Barrier (weird I know) <-- where is the evidence for the watergate part????!!!
+    dw SpritePrep_UncleAndSageTrampoline   ; 0x73 - Link's Uncle / Sage / Watergate Barrier (weird I know) TODO: Verify this.
     dw SpritePrep_RunningManTrampoline     ; 0x74 - Red Hat Wussy
     dw SpritePrep_IgnoresProjectiles       ; 0x75 - Bottle Vendor
     dw SpritePrep_ZeldaTrampoline          ; 0x76 - Princess Zelda
@@ -216,7 +216,7 @@ SpritePrep_Main:
     dw SpritePrep_IgnoresProjectiles       ; 0xC5 - Evil Fireball Spitters
     dw SpritePrep_IgnoresProjectiles       ; 0xC6 - Fourway Fireball Spitters
     dw SpritePrep_Hokbok                   ; 0xC7 - Hokbok
-    dw SpritePrep_BigFairy                ; 0xC8 - Big Fairy 
+    dw SpritePrep_BigFairy                 ; 0xC8 - Big Fairy 
     dw SpritePrep_GanonHelpers             ; 0xC9 - Ganon Helpers + Tektite
     dw SpritePrep_ChainChompTrampoline     ; 0xCA - Chain Chomp
     dw SpritePrep_TrinexxComponents        ; 0xCB - Trinexx Part 1
@@ -243,7 +243,7 @@ SpritePrep_Main:
     dw SpritePrep_FullMagicRefill          ; 0xE0 - Full Magic Refill
     dw SpritePrep_FiveArrowRefill          ; 0xE1 - 5 Arrow Refill
     dw SpritePrep_TenArrowRefill           ; 0xE2 - 10 Arrow Refill
-    dw SpritePrep_Fairy                   ; 0xE3 - Fairy
+    dw SpritePrep_Fairy                    ; 0xE3 - Fairy
     dw SpritePrep_Key                      ; 0xE4 - Key
     dw SpritePrep_BigKey                   ; 0xE5 - Big Key
     dw SpritePrep_ShieldPickup             ; 0xE6 - Shield Pickup
@@ -263,14 +263,17 @@ SpritePrep_Main:
 
 ; ==============================================================================
 
-; $030841-$030853 JUMP LOCATION
+; $030841-$030849 LOCAL JUMP LOCATION
 SpritePrep_MovableMantle:
 {
     LDA.w $0D00, X : CLC : ADC.b #$03 : STA.w $0D00, X
+
+    ; Bleeds into the next function.
+}
     
-    ; $03084A ALTERNATE ENTRY POINT
-    shared SpritePrep_MoveRightOneTile:
-    
+; $03084A-$030853 LOCAL JUMP LOCATION
+SpritePrep_MoveRightOneTile:
+{
     LDA.w $0D10, X : CLC : ADC.b #$08 : STA.w $0D10, X
     
     RTS
@@ -288,7 +291,7 @@ SpritePrep_MedallionTableTrampoline:
 
 ; ==============================================================================
 
-; $030859-$03086D JUMP LOCATION
+; $030859-$03086C LOCAL JUMP LOCATION
 SpritePrep_GoodSwitch:
 {
     LDA.w $048E
@@ -297,22 +300,26 @@ SpritePrep_GoodSwitch:
     
     CMP.b #$CE : BEQ .BRANCH_ALPHA
     CMP.b #$04 : BEQ .BRANCH_ALPHA
-    CMP.b #$3F : BNE .BRANCH_BETA
+        CMP.b #$3F : BNE .BRANCH_BETA
     
     .BRANCH_ALPHA
     
     LDA.b #$0D : STA.w $0F50, X
-    
-    ; $03086D ALTERNATE ENTRY POINT
-    shared SpritePrep_SwitchFacingUp:
+
     .BRANCH_BETA
     
+    ; Bleeds into the next function.
+}
+
+; $03086D-$03086D LOCAL JUMP LOCATION
+SpritePrep_SwitchFacingUp:
+{
     RTS
 }
 
 ; ==============================================================================
 
-; $03086E-$030872 JUMP LOCATION
+; $03086E-$030872 LOCAL JUMP LOCATION
 SpritePrep_OldSnitchLady:
 {
     JSL SpritePrep_SnitchesLong
@@ -322,7 +329,7 @@ SpritePrep_OldSnitchLady:
 
 ; ==============================================================================
 
-; $030873-$030873 JUMP LOCATION
+; $030873-$030873 LOCAL JUMP LOCATION
 SpritePrep_DoNothing:
 {
     RTS
@@ -330,24 +337,26 @@ SpritePrep_DoNothing:
     
 ; ==============================================================================
 
-; $030874-$030877
+; $030874-$030877 DATA
 Pool_SpritePrep_Rat:
 {
+    ; $030874
+    .1
     db $00, $05
     
+    ; $030876
+    .2
     db $02, $08
 }
-
-; ==============================================================================
 
 ; $030878-$030887 JUMP LOCATION
 SpritePrep_Rat:
 {
     LDY.w $0FFF
     
-    LDA.w $8874, Y : STA.w $0CD2, X
+    LDA.w Pool_SpritePrep_Rat_1, Y : STA.w $0CD2, X
     
-    LDA.w $8876, Y : STA.w $0E50, X
+    LDA.w Pool_SpritePrep_Rat_2, Y : STA.w $0E50, X
     
     RTS
 }
@@ -367,8 +376,6 @@ Pool_SpritePrep_Keese:
     db 0, 7
 }
 
-; ==============================================================================
-
 ; $03088E-$0308A3 JUMP LOCATION
 SpritePrep_Keese:
 {
@@ -376,9 +383,9 @@ SpritePrep_Keese:
     
     LDA .damage_class, Y : STA.w $0CD2, X
     
-    LDA .hp, Y : STA.w $0E50, X
+    LDA .hp, Y           : STA.w $0E50, X
     
-    LDA .prize_pack, Y : STA.w $0BE0, X
+    LDA .prize_pack, Y   : STA.w $0BE0, X
     
     RTS
 }
@@ -398,18 +405,16 @@ Pool_SpritePrep_Rope:
     db 1, 7
 }
 
-; ==============================================================================
-
 ; $0308AA-$0308BF JUMP LOCATION
 SpritePrep_Rope:
 {
     LDY.w $0FFF
     
-    LDA .damage_class, Y : STA.w $0CD2, X
+    LDA Pool_SpritePrep_Rope_damage_class, Y : STA.w $0CD2, X
     
-    LDA .hp, Y : STA.w $0E50, X
+    LDA Pool_SpritePrep_Rope_hp, Y           : STA.w $0E50, X
     
-    LDA .prize_pack, Y : STA.w $0BE0, X
+    LDA Pool_SpritePrep_Rope_prize_pack, Y   : STA.w $0BE0, X
     
     RTS
 }
@@ -457,8 +462,6 @@ Pool_SpritePep_HokBok:
     db 16,  16, -16, -16
 }
 
-; ==============================================================================
-
 ; $0308DF-$0308FC JUMP LOCATION
 SpritePrep_Hokbok:
 {
@@ -468,9 +471,9 @@ SpritePrep_Hokbok:
     
     JSL GetRandomInt : AND.b #$03 : TAY
     
-    LDA .x_speeds, Y : STA.w $0D50, X
+    LDA Pool_SpritePep_HokBok_x_speeds, Y : STA.w $0D50, X
     
-    LDA .y_speeds, Y : STA.w $0D40, X
+    LDA Pool_SpritePep_HokBok_y_speeds, Y : STA.w $0D40, X
     
     RTS
 }
@@ -509,21 +512,19 @@ Pool_SpritePrep_Octoballoon:
     db $C0, $D0, $E0, $F0
 }
 
-; ==============================================================================
-
-; $030910-$03091A JUMP LOCATION
+; $030910-$03091A LOCAL JUMP LOCATION
 SpritePrep_Octoballoon:
 {
     TXA : AND.b #$03 : TAY
     
-    LDA .timers, Y : STA.w $0DF0, X
+    LDA Pool_SpritePrep_Octoballoon_timers, Y : STA.w $0DF0, X
     
     RTS
 }
 
 ; ==============================================================================
 
-; $03091B-$03093A JUMP LOCATION
+; $03091B-$03092C LOCAL JUMP LOCATION
 SpritePrep_EvilBarrier:
 {
     PHX
@@ -531,14 +532,16 @@ SpritePrep_EvilBarrier:
     LDX.b $8A
     
     LDA.l $7EF280, X : PLX : AND.b #$40 : BEQ .not_dead
-    
-    LDA.b #$04 : STA.w $0DC0, X
-    
-    ; $03092C ALTERNATE ENTRY POINT
-    shared SpritePrep_GreatCatfish:
-    
+        LDA.b #$04 : STA.w $0DC0, X
+
     .not_dead
+
+    ; Bleeds into the next function.
+}
     
+; $03092C-$03093A ALTERNATE ENTRY POINT
+SpritePrep_GreatCatfish:
+{
     JSR SpritePrep_MoveDownOneRightTwoTiles
     
     LDA.w $0D00, X : SEC : SBC.b #$0C : STA.w $0D00, X
@@ -552,10 +555,9 @@ SpritePrep_EvilBarrier:
 SpritePrep_ChattyAgahnim:
 {
     LDA.w $0403 : AND.b #$40 : BEQ .not_triggered
-    
-    STZ.w $0DD0, X
-    
-    RTS
+        STZ.w $0DD0, X
+        
+        RTS
     
     .not_triggered
     
@@ -591,8 +593,6 @@ Pool_SpritePrep_Raven:
     .prize_pack
     db 6, 2
 }
-
-; ==============================================================================
 
 ; $030969-$03099B JUMP LOCATION
 SpritePrep_Raven:

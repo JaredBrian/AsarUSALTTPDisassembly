@@ -1,11 +1,10 @@
 
 ; ==============================================================================
 
+; Monologue Testing sprite (appears to be a debug artifact)
 ; $0F6AE7-$0F6B02 JUMP LOCATION
 Sprite_DialogueTester:
 {
-    ; Monologue Testing sprite (appears to be a debug artifact)
-    
     ; Mess with graphics
     
     ; \tcrf (verified, submitted)
@@ -34,7 +33,7 @@ Sprite_DialogueTester:
 
 ; ==============================================================================
 
-; $0F6B03-$0F6B1B JUMP LOCATION
+; $0F6B03-$0F6B0B JUMP LOCATION
 DialogueTester_Initialize:
 {
     ; Set it to the 0th text message
@@ -42,16 +41,18 @@ DialogueTester_Initialize:
     STZ.w $0DA0, X
     
     INC.w $0D80, X
+
+    ; Bleeds into the next function.
+}
     
-    ; $0F6B0C ALTERNATE ENTRY POINT
-    shared DialogueTester_ShowMessage:
-    
+; $0F6B0C-$0F6B1B ALTERNATE ENTRY POINT
+DialogueTester_ShowMessage:
+{
     LDA.w $0D90, X
     LDY.w $0DA0, X
     
     JSL Sprite_ShowMessageFromPlayerContact : BCC .didnt_speak
-    
-    INC.w $0D80, X
+        INC.w $0D80, X
     
     .didnt_speak
     

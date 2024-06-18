@@ -1,49 +1,58 @@
 
 ; ==============================================================================
 
-; $06BA80-$06BA9D LONG JUMP LOCATION
+; $06BA80-$06BA83 LONG JUMP LOCATION
 OAM_AllocateFromRegionA:
 {
     LDY.b #$00
     
-    BRA .allocate
-    
-    ; $06BA84 ALTERNATE ENTRY POINT
-    shared OAM_AllocateFromRegionB:
-    
+    BRA OAM_Allocate
+}
+
+; $06BA84-$06BA87 LONG JUMP LOCATION
+OAM_AllocateFromRegionB:
+{
     LDY.b #$02
     
-    BRA .allocate
-    
-    ; $06BA88 ALTERNATE ENTRY POINT
-    shared OAM_AllocateFromRegionC:
-    
+    BRA OAM_Allocate
+}
+
+; $06BA88-$06BA8B LONG JUMP LOCATION
+OAM_AllocateFromRegionC:
+{
     LDY.b #$04
     
-    BRA .allocate
-    
-    ; $06BA8C ALTERNATE ENTRY POINT
-    shared OAM_AllocateFromRegionD:
-    
+    BRA OAM_Allocate
+}
+
+; $06BA8C-$06BA8F LONG JUMP LOCATION
+OAM_AllocateFromRegionD:
+{
     LDY.b #$06
     
-    BRA .allocate
-    
-    ; $06BA90 ALTERNATE ENTRY POINT
-    shared OAM_AllocateFromRegionE:
-    
+    BRA OAM_Allocate
+}
+
+; $06BA90-$06BA93 LONG JUMP LOCATION
+OAM_AllocateFromRegionE:
+{  
     LDY.b #$08
     
-    BRA .allocate
-    
-    ; \note Seems to be for sorted, bg1 sprites
-    ; $06BA94 ALTERNATE ENTRY POINT
-    shared OAM_AllocateFromRegionF:
-    
+    BRA OAM_Allocate
+}
+
+; Note: Seems to be for sorted, bg1 sprites
+; $06BA94-$06BA95 LONG JUMP LOCATION
+OAM_AllocateFromRegionF:
+{
     LDY.b #$0A
-    
-    .allocate
-    
+
+    ; Bleeds into the next function.
+}
+
+; $06BA96-$06BA9D LONG JUMP LOCATION
+OAM_Allocate:
+{
     PHB : PHK : PLB
     
     JSR OAM_GetBufferPosition
@@ -58,7 +67,7 @@ OAM_AllocateFromRegionA:
 ; $06BA9E-$06BB09 DATA TABLE
 Pool_OAM_GetBufferPosition:
 {
-    ; upper limits for each OAM region
+    ; Upper limits for each OAM region
     .limits
     dw $0171 ; 0x0030 - 0x016F? (For now calling this region A)
     dw $0201 ; 0x01D0 - 0x01FF? (For now calling this region B)
@@ -133,9 +142,12 @@ Pool_OAM_GetBufferPosition:
 OAM_GetBufferPosition:
 {
     ; Inputs:
-    ; A : Number of bytes requested for use in the OAM table. (number of subsprites * 4)
-    ; Y : Even value taken from { 0x00, ..., 0x0A }. Represents the region in the table to allocate from.
-    ; Hidden argument? (Not sure?) It is either 0 or 1, based on input from $0FB3 (sort sprites variable)
+    ; A : Number of bytes requested for use in the OAM table. (number of
+    ;     subsprites * 4)
+    ; Y : Even value taken from { 0x00, ..., 0x0A }. Represents the region in the
+    ;     table to allocate from.
+    ; Hidden argument? (Not sure?) It is either 0 or 1, based on input from $0FB3
+    ; (sort sprites variable)
     
     STA.b $0E
     STZ.w $000F
@@ -144,28 +156,28 @@ OAM_GetBufferPosition:
     
     ; ($0FE0[0x10] is some kind of OAM allocator table)
     LDA.w $0FE0, Y : STA.b $90 : CLC : ADC.b $0E : CMP .limits, Y : BCC .within_limit
-    ; (Sprite overflow, doesn't happen very often)
-    ; (I think what happens is it resets the OAM buffer)
-    STY.b $0C
-    STZ.b $0D
-    
-    ; wtf...
-    LDA.w $0FEC, Y : PHA : INC A : STA.w $0FEC, Y
-    
-    PLA : AND.w #$0007 : ASL A : STA.b $0E
-    
-    ; Y = (sprite field * 8) + $0E... whatever that is
-    LDA.b $0C : ASL #3 : ADC.b $0E : TAY
-    
-    ; Reset the OAM Position (effectively ignores existing sprites)
-    ; \note I find it fairly interesting that there are set fallback points
-    ; that increment state whenever this happens. This is kind of what
-    ; induces the famous 'flicker' effect in video games, I imagine.
-    LDA .fallback_points, Y : STA.b $90
-    
-    SEC
-    
-    BRA .moving_on
+        ; (Sprite overflow, doesn't happen very often)
+        ; (I think what happens is it resets the OAM buffer)
+        STY.b $0C
+        STZ.b $0D
+        
+        ; wtf...
+        LDA.w $0FEC, Y : PHA : INC A : STA.w $0FEC, Y
+        
+        PLA : AND.w #$0007 : ASL A : STA.b $0E
+        
+        ; Y = (sprite field * 8) + $0E... whatever that is
+        LDA.b $0C : ASL #3 : ADC.b $0E : TAY
+        
+        ; Reset the OAM Position (effectively ignores existing sprites)
+        ; Note: I find it fairly interesting that there are set fallback points
+        ; that increment state whenever this happens. This is kind of what
+        ; induces the famous 'flicker' effect in video games, I imagine.
+        LDA .fallback_points, Y : STA.b $90
+        
+        SEC
+        
+        BRA .moving_on
     
     .within_limit
     
