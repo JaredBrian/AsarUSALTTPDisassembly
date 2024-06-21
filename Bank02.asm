@@ -10577,15 +10577,14 @@ Overworld_ResetMosaic:
 {
     ; if(($7EC007 & 0x01) == 0)
     LDA.l $7EC007 : LSR A : BCC CopyMosaicControl
-
-    ; Bleeds into the next function.
+        ; Bleeds into the next function.
 }
 
 ; $0142EB-$0142F5 LOCAL JUMP LOCATION
 MosaicControlIncrease:
 {
     LDA.l $7EC011 : CLC : ADC.b #$10 : STA.l $7EC011
-    
+
     ; Bleeds into the next function.
 }
 
