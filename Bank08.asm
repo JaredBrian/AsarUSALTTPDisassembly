@@ -4,14 +4,16 @@
 ; $040000-$047FFF
 org $088000
 
-; Ancilla code
+; Ancilla generic code
+; Misc ancilla
+; Quake spell draw
 
 ; ==============================================================================
 
 ; TODO: Confrim this.
-; Unused: 1. Don't think ambient sound effects do panning, and 2. this
-; is probably unused because ... probably no ancillae cause
-; ambient sound effects to play.
+; Unused: 1. Don't think ambient sound effects do panning, and 2. This is
+; probably unused because ... probably no ancillae cause ambient sound effects
+; to play.
 ; $040000-$040006 LOCAL 
 Ancilla_DoSfx1_NearPlayer:
 {
@@ -482,8 +484,8 @@ Bomb_ProjectReflexiveSpeedOntoSprite:
 ; $040287-$04032A LOCAL JUMP LOCATION
 Bomb_CheckSpriteDamage:
 {
-    ; collision detection used for telling if sprites need some ass whoopin'
-    ; (i.e. if they are damaged by the bomb)
+    ; Collision detection used for telling if sprites need some ass whoopin'
+    ; (i.e. if they are damaged by the bomb).
     
     LDY.b #$0F
     
@@ -499,9 +501,9 @@ Bomb_CheckSpriteDamage:
         .proceed_with_damage_check
         
         LDA.w $0F20, Y : CMP.w $0C7C, X : BNE .different_floors
-            ; Won't work if the sprite is not "alive"
+            ; Won't work if the sprite is not "alive".
             LDA.w $0DD0, Y : CMP.b #$09 : BCC .sprite_undamaged
-                ; Setting up variables for use with collision detection
+                ; Setting up variables for use with collision detection.
                 
                 LDA.w $0C04, X : SEC : SBC.b #$18 : STA.b $00
                 LDA.w $0C18, X : SBC.b #$00 : STA.b $08
@@ -529,7 +531,7 @@ Bomb_CheckSpriteDamage:
                 JSL Utility_CheckIfHitBoxesOverlapLong : BCC .sprite_undamaged
                     LDA.w $0E20, Y : CMP.b #$92 : BNE .not_helmasaur_king
                         ; Only certain parts of the HK are vulnerable.
-                        ; Only the stage where he still has his mask
+                        ; Only the stage where he still has his mask.
                         LDA.w $0DB0, Y : CMP.b #$03 : BCS .sprite_undamaged
                     
                     .not_helmasaur_king
@@ -553,9 +555,9 @@ Bomb_CheckSpriteDamage:
                     
                     PLY : PLX
                     
-                    ; Reverse those speeds so that we are projecting the speed away from
-                    ; the Ancilla. In other words, we are causing the sprite to recoil from
-                    ; some damage.
+                    ; Reverse those speeds so that we are projecting the speed
+                    ; away from the Ancilla. In other words, we are causing the
+                    ; sprite to recoil from some damage.
                     LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, Y
                     LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, Y
             
@@ -605,7 +607,8 @@ Ancilla_ExecuteObject:
         
         ; If "sort sprites" is in effect, things are slightly different.
         LDY.w $0FB3 : BEQ .sort_sprites
-            ; If the special effect is on a different floor use a different section of the OAM buffer (probably also changes priority)
+            ; If the special effect is on a different floor use a different
+            ; section of the OAM buffer (probably also changes priority).
             LDY.w $0C7C, X : BNE .on_bg1
                 ; Floor 1 sprites...
                 JSL OAM_AllocateFromRegionD
@@ -614,7 +617,7 @@ Ancilla_ExecuteObject:
             
             .on_bg1
             
-            ; floor 2 sprites...
+            ; Floor 2 sprites...
             JSL OAM_AllocateFromRegionF
             
             BRA .record_starting_oam_position
@@ -625,21 +628,21 @@ Ancilla_ExecuteObject:
             
             .record_starting_oam_position
             
-            ; The starting place in the OAM Buffer for the special effect
+            ; The starting place in the OAM Buffer for the special effect.
             TYA : STA.w $0C86, X
     
     .ignore_oam_allocation
     
     ; We're not in the standard submodule.
     LDY.b $11 : BNE .dont_tick_timer
-        ; I'm not seeing this as terribly useful
+        ; I'm not seeing this as terribly useful.
         LDY.w $0C68, X : BEQ .timer_at_rest
             DEC.w $0C68, X
         
         .timer_at_rest
     .dont_tick_timer
     
-    ; Note the subtraction before ASL
+    ; Note the subtraction before ASL.
     ; Load a subroutine based on the anillary object's index.
     PLA : DEC A : ASL A : TAY
     
@@ -653,10 +656,10 @@ Ancilla_ExecuteObject:
     ; NOTE: PARAMETER A IS ACTUALLY object type - 1, SINCE 0 WOULD INDICATE
     ; NO EFFECT ; SOURCE : $0C4A, X
     dw Ancilla_SomarianBlast        ; 0x01 - Both the pieces of somarian block
-                                    ;        splitting and the fireballs)
+                                    ;        splitting and the fireballs).
 
     dw Ancilla_FireShot             ; 0x02 - Fire Rod flame (both flying and
-                                    ;        after hitting something)
+                                    ;        after hitting something).
 
     dw Ancilla_Unused_03            ; 0x03 - Unimplemented object type. Won't
                                     ;        crash the game but won't ever self
@@ -669,65 +672,65 @@ Ancilla_ExecuteObject:
     dw Ancilla_Boomerang            ; 0x05 - Boomerang
     dw Ancilla_WallHit              ; 0x06 - Spark-like effect that occurs when
                                     ;        you hit a wall with a boomerang or
-                                    ;        hookshot
+                                    ;        hookshot.
 
     dw Ancilla_Bomb                 ; 0x07 - Blue player bomb
     dw Ancilla_DoorDebris           ; 0x08 - Rock fall effect (from bombing a
-                                    ;        cave)
+                                    ;        cave).
 
     dw Ancilla_Arrow                ; 0x09 - Flying arrow
     dw Ancilla_HaltedArrow          ; 0x0A - Arrow stuck in something (wall or
-                                    ;        sprite)
+                                    ;        sprite).
 
     dw Ancilla_IceShot              ; 0x0B - Ice Rod shot
     dw Ancilla_SwordBeam            ; 0x0C - Master sword beam
     dw Ancilla_SwordFullChargeSpark ; 0x0D - The sparkle at the tip of your
                                     ;        sword when you power up the spin
-                                    ;        attack
+                                    ;        attack.
 
     dw Ancilla_Unused_0E            ; 0x0E - Unimplemented object type that
                                     ;        points to the same location as the
-                                    ;        blast wall
+                                    ;        blast wall.
 
     dw Ancilla_Unused_0F            ; 0x0F - Unimplemented object type that
                                     ;        points to the same location as the
-                                    ;        blast wall
+                                    ;        blast wall.
     
     dw Ancilla_Unused_0E            ; 0x10 - Unimplemented object type that
                                     ;        points to the same location as the
-                                    ;        blast wall
+                                    ;        blast wall.
 
     dw Ancilla_IceShotSpread        ; 0x11 - Ice rod shot dissipating after
                                     ;        hitting a nontransitive tile.
 
     dw Ancilla_Unused_0E            ; 0x12 - Unimplemented object type that
                                     ;        points to the same location as the
-                                    ;        blast wall
+                                    ;        blast wall.
 
     dw Ancilla_IceShotSparkle       ; 0x13 - Ice Shot Sparkles (the only actual
-                                    ;        visible parts of the ice shot)
+                                    ;        visible parts of the ice shot).
 
     dw Ancilla_Unused_14            ; 0x14 - Unimplemented object type. Don't
                                     ;        use as it will crash the game.
 
     dw Ancilla_JumpSplash           ; 0x15 - Splash from jumping into or out of
-                                    ;        deep water
+                                    ;        deep water.
 
     dw Ancilla_HitStars             ; 0x16 - The Hammer's Stars / Stars from
-                                    ;        hitting hard ground with the shovel
+                                    ;        hitting hard ground with the shovel.
 
     dw Ancilla_ShovelDirt           ; 0x17 - Dirt from digging a hole with the
-                                    ;        shovel
+                                    ;        shovel.
     
     dw Ancilla_EtherSpell           ; 0x18 - The Ether Effect
     dw Ancilla_BombosSpell          ; 0x19 - The Bombos Effect
     dw Ancilla_MagicPowder          ; 0x1A - Magic powder
     dw Ancilla_SwordWallHit         ; 0x1B - Sparks from tapping a wall with
-                                    ;        your sword
+                                    ;        your sword.
 
     dw Ancilla_QuakeSpell           ; 0x1C - The Quake Effect
     dw Ancilla_DashTremor           ; 0x1D - Jarring effect from hitting a wall
-                                    ;        while dashing
+                                    ;        while dashing.
 
     dw Ancilla_DashDust             ; 0x1E - Pegasus boots dust flying
     dw Ancilla_Hookshot             ; 0x1F - Hookshot
@@ -738,10 +741,10 @@ Ancilla_ExecuteObject:
     dw Ancilla_MorphPoof            ; 0x23 - Bunny / Cape transformation poof
     dw Ancilla_Gravestone           ; 0x24 - Gravestone sprite when in motion
     dw Ancilla_Unused_25            ; 0x25 - Unimplemented object type. Don't
-                                    ;        use as it will crash the game
+                                    ;        use as it will crash the game.
 
     dw Ancilla_SwordSwingSparkle    ; 0x26 - Sparkles when swinging lvl 2 or
-                                    ;        higher sword
+                                    ;        higher sword.
 
     dw Ancilla_TravelBird           ; 0x27 - the bird (when called by flute)
     dw Ancilla_WishPondItem         ; 0x28 - item sprite that you throw into
@@ -752,29 +755,29 @@ Ancilla_ExecuteObject:
     dw Ancilla_SpinSpark            ; 0x2B - During Spin attack sparkles
     dw Ancilla_SomarianBlock        ; 0x2C - Cane of Somaria blocks
     dw Ancilla_SomarianBlockFizzle  ; 0x2D - Suspected of being in cahoots with
-                                    ;        the somaria objects
+                                    ;        the somaria objects.
 
     dw Ancilla_SomarianBlockDivide  ; 0x2E - Suspected of being in cahoots with
-                                    ;        the somaria objects
+                                    ;        the somaria objects.
 
     dw Ancilla_LampFlame            ; 0x2F - Torch's flame
     
     dw Ancilla_InitialCaneSpark     ; 0x30 - Initial spark for the Cane of Byrna
-                                    ;        activating
+                                    ;        activating.
 
     dw Ancilla_CaneSpark            ; 0x31 - Cane of Byrna spinning sparkle
     dw Ancilla_BlastWallFireball    ; 0x32 - Flame blob, which is an ancillary
-                                    ;        effect from the blast wall
+                                    ;        effect from the blast wall.
 
     dw Ancilla_BlastWall            ; 0x33 - Series of explosions from blowing
-                                    ;        up a wall (after pulling a switch)
+                                    ;        up a wall (after pulling a switch).
 
     dw Ancilla_SkullWoodsFire       ; 0x34 - Burning effect used to open up the
                                     ;        entrance to skull woods.
 
     dw Ancilla_SwordCeremony        ; 0x35 - Master Sword ceremony.... not sure
                                     ;        if it's the whole thing or a part
-                                    ;        of it
+                                    ;        of it.
 
     dw Ancilla_Flute                ; 0x36 - Flute that pops out of the ground
                                     ;        in the haunted grove.
@@ -786,34 +789,34 @@ Ancilla_ExecuteObject:
                                     ;        enabled flute.
 
     dw Ancilla_SomarianPlatformPoof ; 0x39 - Cane of Somaria blast which creates
-                                    ;        platforms (sprite 0xED)
+                                    ;        platforms (sprite 0xED).
 
     dw Ancilla_SuperBombExplosion   ; 0x3A - super bomb explosion (also does
-                                    ;        things normal bombs can)
+                                    ;        things normal bombs can).
 
     dw Ancilla_VictorySparkle       ; 0x3B - Victory sparkle on sword
     dw Ancilla_SwordChargeSpark     ; 0x3C - Sparkles from holding the sword out
                                     ;        charging for a spin attack.
 
     dw Ancilla_ObjectSplash         ; 0x3D - splash effect when things fall into
-                                    ;        the water
+                                    ;        the water.
 
     dw Ancilla_RisingCrystal        ; 0x3E - 3D crystal effect (or transition
-                                    ;        into 3D crystal?)
+                                    ;        into 3D crystal?).
 
     dw Ancilla_BushPoof             ; 0x3F - Disintegrating bush poof (due to
-                                    ;        magic powder)
+                                    ;        magic powder).
     
     dw Ancilla_DwarfPoof            ; 0x40 - Dwarf transformation cloud
     dw Ancilla_WaterfallSplash      ; 0x41 - Water splash from player standing
                                     ;        under waterfalls (doorways,
-                                    ;        basically)
+                                    ;        basically).
 
     dw Ancilla_HappinessPondRupees  ; 0x42 - Rupees that you throw in to the
-                                    ;        Pond of Wishing
+                                    ;        Pond of Wishing.
 
-    dw Ancilla_BreakTowerSeal       ; 0x43 - Ganon's Tower seal being broken.
-                                    ;        (not opened up though!)
+    dw Ancilla_BreakTowerSeal       ; 0x43 - Ganon's Tower seal being broken
+                                    ;        (not opened up though!).
 }
 
 ; ==============================================================================
@@ -872,14 +875,14 @@ Ancilla_CheckTileCollisionStaggered:
 ; $040981-$040A25 LOCAL JUMP LOCATION
 Ancilla_CheckTileCollision:
 {
-    ; If indoors branch here
+    ; If indoors branch here.
     LDA.b $1B : BNE .indoors
         LDA.w $0280, X : BEQ .base_priority
             STZ.w $03E4, X
             
             .skip_even_frames
             
-            ; indicate failure
+            ; Indicate failure.
             CLC
             
             RTS
@@ -887,8 +890,8 @@ Ancilla_CheckTileCollision:
         .base_priority
     .indoors
     
-    ; Check collision properties of the room
-    ; default collision with one BG ("one" in HM)
+    ; Check collision properties of the room.
+    ; Default collision with one BG ("one" in HM).
     LDA.w $046C : BEQ .check_basic_collision
         CMP.b #$03 : REP #$20 : BCC .difference_between_bg_scrolls
             STZ.b $00
@@ -932,13 +935,14 @@ Ancilla_CheckTileCollision:
         
         PHY
         
-        ; store the state of the carry flag (if set it means there was a collision on BG0)
+        ; Store the state of the carry flag (if set it means there was a
+        ; collision on BG0).
         PHP
         
         JSR .check_basic_collision
         
-        ; takes the previous carry flag state, rolls in the current carry flag
-        ; state (Has to detect on BG0 for the carry to be set)
+        ; Takes the previous carry flag state, rolls in the current carry flag
+        ; state (Has to detect on BG0 for the carry to be set).
         PLA : AND.b #$01 : ROL A : CMP.b #$01
         
         PLY
@@ -947,7 +951,7 @@ Ancilla_CheckTileCollision:
     
     .check_basic_collision
     
-    ; Normal Collision checking for just one BG
+    ; Normal Collision checking for just one BG.
     
     LDY.w $0C72, X
     
@@ -986,7 +990,7 @@ Ancilla_CheckTargetedTileCollision:
             
             .check_indoor_collision
             
-            ; Floor selector for special effects apparently :)
+            ; Floor selector for special effects apparently.
             LDA.w $0C7C, X
             
             ; Retrieves tile type that the bomb is sitting on.
@@ -998,7 +1002,7 @@ Ancilla_CheckTargetedTileCollision:
             
             LDA .collision_table, Y : STA.b $0F
             
-            ; Checks the special effect type
+            ; Checks the special effect type.
             LDA.w $0C4A, X : CMP #$02 : BNE .not_fire_rod_shot
                 ; Perhaps looking for a door type tile?
                 TYA : AND.b #$F0 : CMP.b #$C0 : BNE .not_torch_collision
@@ -1060,7 +1064,7 @@ Ancilla_CheckTargetedTileCollision:
 ; $040AB9-$040ABE LOCAL JUMP LOCATION
 Ancilla_AlertSprites:
 {
-    ; This seems to activate enemies that "listen" for sounds
+    ; This seems to activate enemies that "listen" for sounds.
     LDA.b #$03 : STA.w $0FDC
     
     RTS
@@ -1074,7 +1078,7 @@ Pool_Ancilla_CheckTileCollision_Class2:
     ; Similar to the other collision routine's behavior table, this one
     ; opts to not interact with torches or chests, but interacts more
     ; generally with doors and screen transition tiles. This may have
-    ; something to do with 
+    ; something to do with.
     .collision_table
     db 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0
     db 1, 1, 1, 1, 0, 0, 0, 0, 2, 2, 2, 2, 0, 3, 3, 3
@@ -1111,12 +1115,12 @@ Pool_Ancilla_CheckTileCollision_Class2:
 ; $040BCF-$040CD8 LOCAL JUMP LOCATION
 Ancilla_CheckTileCollision_Class2:
 {
-    ; Does collision detection for a number of entities, bombs being one of them
+    ; Does collision detection for a number of entities, bombs being one of them.
     
-    ; "Collision" in Hyrule Magic. Do only collision on BG2
+    ; "Collision" in Hyrule Magic. Do only collision on BG2.
     LDA.w $046C : BEQ .check_basic_collision
         ; Is it the "moving floor" collision type?
-        ; if it's collision with 2 BGs then branch
+        ; if it's collision with 2 BGs then branch.
         CMP.b #$03 : REP #$20 : BCC .difference_between_bg_scrolls
             STZ.b $00
             STZ.b $02
@@ -1126,7 +1130,8 @@ Ancilla_CheckTileCollision_Class2:
         .difference_between_bg_scrolls
         
         ; Calculate the differences in the scroll values between the two main BGs
-        ; This is for rooms that have a hidden wall (there's only like 3 of them in the original)
+        ; This is for rooms that have a hidden wall (there's only like 3 of them
+        ; in the original).
         
         ; $00 = BG1HOFS - BG0HOFS
         LDA.b $E0 : SEC : SBC.b $E2 : STA.b $00
@@ -1175,10 +1180,12 @@ Ancilla_CheckTileCollision_Class2:
     
     .check_basic_collision
     
-    ; Normal collision detect (for just one BG)
-    ; Next set of operations compute Ycoord + direction dependent value, as well as for the Xcoord of the object
+    ; Normal collision detect (for just one BG).
+    ; Next set of operations compute Ycoord + direction dependent value, as well
+    ; as for the Xcoord of the object.
     
-    ; direction of the bomb.... I guess... kind of a dumb way to handle this if you ask me.
+    ; Direction of the bomb.... I guess... kind of a dumb way to handle this if
+    ; you ask me.
     LDY.w $0C72, X
     
     ; $00 = Ycoord + directionValue
@@ -1215,15 +1222,16 @@ Ancilla_CheckTileCollision_Class2:
             
             .check_indoor_collision
             
-            ; Tells us what floor the bomb is on and is an input to the next function
+            ; Tells us what floor the bomb is on and is an input to the next
+            ; function.
             LDA.w $0C7C, X
             
             JSL Entity_GetTileAttr
             
             .store_queried_tile_attr
             
-            ; Store the retrieved tile value for further reference
-            ; \task Figure out when and where attribute 3 tile are actually used.
+            ; Store the retrieved tile value for further reference.
+            ; TODO: Figure out when and where attribute 3 tile are actually used.
             STA.w $03E4, X : CMP.b #$03 : BNE .not_attr_3
                 LDY.w $03CA, X : BNE .ignore_collision_on_pseudo_bg
             
@@ -1231,7 +1239,7 @@ Ancilla_CheckTileCollision_Class2:
             
             TAY
             
-            ; Collision detection table
+            ; Collision detection table:
             LDA .collision_table, Y : BEQ .no_collision
                 CMP.b #$02 : BNE .not_sloped_collision
                     ; Should be noted that like the other return points for this
@@ -1260,7 +1268,7 @@ Ancilla_CheckTileCollision_Class2:
             .ignore_collision_on_pseudo_bg
     .ignore_off_screen_collision
     
-    CLC ; failure, no tile can be detected
+    CLC ; Failure, no tile can be detected.
     
     RTS
     
@@ -1576,10 +1584,10 @@ Ancilla_ProjectSpeedTowardsPlayer:
     LDY.b #$00
     
     LDA.b $0D : CMP $0C : BCS .dx_is_bigger
-        ; y = 1 if y component is larger, 0 if x component is larger
+        ; y = 1 if y component is larger, 0 if x component is larger.
         INY
         
-        ; Swap $0C and $0D if y component is larger
+        ; Swap $0C and $0D if y component is larger.
         PHA : LDA.b $0C : STA.b $0D
         PLA : STA.b $0C
     
@@ -1643,7 +1651,7 @@ Ancilla_IsToRightOfPlayer:
     
     LDA.b $22 : SEC : SBC.w $0C04, X : STA.b $0F
     LDA.b $23 : SBC.w $0C18, X : BPL .object_leftward_of_player
-        ; Object is rightward of player
+        ; Object is rightward of player.
         INY
     
     .object_leftward_of_player
@@ -1660,7 +1668,7 @@ Ancilla_IsBelowPlayer:
     
     LDA.b $20 : SEC : SBC.w $0BFA, X : STA.b $0E
     LDA.b $21 : SBC.w $0C0E, X : BPL .object_upward_of_player
-        ; Object is downward of player
+        ; Object is downward of player.
         INY
     
     .object_upward_of_player
@@ -1679,12 +1687,12 @@ incsrc "ancilla_repulse_spark.asm"
 ; $041080-$04108A LOCAL JUMP LOCATION
 Ancilla_MoveHoriz:
 {
-    ; Increments X_reg by 0x0A so that X coordinates will be handled next
+    ; Increments X_reg by 0x0A so that X coordinates will be handled next.
     TXA : CLC : ADC.b #$0A : TAX
     
     JSR Ancilla_MoveVert
     
-    ; Reload the special object's index to X
+    ; Reload the special object's index to X.
     BRL Ancilla_RestoreIndex
 }
 
@@ -1697,18 +1705,18 @@ Ancilla_MoveVert:
     
     LDY.b #$00
     
-    ; upper 4 bits are pixels per frame. lower 4 bits are 1/16ths of a pixel per
+    ; Upper 4 bits are pixels per frame. lower 4 bits are 1/16ths of a pixel per
     ; frame. store the carry result of adding to $0C36, X check if the y pixel
-    ; change per frame is negative
+    ; change per frame is negative.
     LDA.w $0C22, X : PHP : LSR #4 : PLP : BPL .moving_down
-        ; sign extend from 4-bits to 8-bits
+        ; Sign extend from 4-bits to 8-bits.
         ORA.b #$F0
         
         DEY
     
     .moving_down
     
-    ; modifies the y coordinates of the special object
+    ; Modifies the y coordinates of the special object.
           ADC.w $0BFA, X : STA.w $0BFA, X
     TYA : ADC.w $0C0E, X : STA.w $0C0E, X
     
@@ -2306,17 +2314,17 @@ Ancilla_SetSafeOam_XY:
 {
     REP #$20
     
-    ; Store the sprite's X coordinate
+    ; Store the sprite's X coordinate.
     LDA.b $02 : STA ($90), Y : INY
     
     ; Is the sprite's X coordinate > 0x100?
     CLC : ADC.w #$0080 : CMP.w #$0180 : BCS .off_screen
-        ; If the sprite's X coordinate exceeds 0x100
+        ; If the sprite's X coordinate exceeds 0x100.
         LDA.b $02 : AND.w #$0100 : STA.b $74
         
         LDA.b $00 : STA ($90), Y
         
-        ; Same as CMP #$00F0... I don't get it
+        ; Same as CMP #$00F0... I don't get it.
         CLC : ADC.w #$0010 : CMP.w #$0100 : BCC .on_screen
     
     .off_screen
@@ -2361,7 +2369,7 @@ Pool_Ancilla_CheckPlayerCollision:
 ; $04776B-$0477DB LOCAL JUMP LOCATION
 Ancilla_CheckPlayerCollision:
 {
-    ; Y is probably a selector for different hit box sizes
+    ; Y is probably a selector for different hit box sizes.
     TYA : ASL A : TAY
     
     ; $00 = Y coordinate
@@ -2485,11 +2493,11 @@ Ancilla_CheckIfEntranceTriggered:
     
     .positive_delta_y
     
-    ; Is the distance less than or equal to this many pixels? 
+    ; Is the distance less than or equal to this many pixels?
     CMP .trigger_window_y, Y : BCS .failure
         ; Centers player's X coordinate.
         LDA.b $22 : CLC : ADC.w #$0008 : SEC : SBC .trigger_coord_x, Y : BPL .positive_delta_x
-            ; abs(x_coord)
+            ; * -1
             EOR.w #$FFFF : INC A
         
         .positive_delta_x
@@ -3059,75 +3067,77 @@ BeamHit_CheckOffscreen_Y:
 
 ; ==============================================================================
 
-; $047BED-$047EE9 lots of mysterious data. needs investigation
+; $047BED-$047EE9
 Pool_QuakeSpell_DrawFirstGroundBolts:
 {
-    ; $047BED
+    ; $047BED 0x03
     .group00_a
     db $00, $F0, $00
     
-    ;
+    ; $047BF0 0x03
     .group00_b
     db $00, $F0, $01
     
-    ;
+    ; $047BF3 0x03
     .group01_a
     db $00, $F0, $02
     
-    ;
+    ; $047BF6 0x03
     .group01_b
     db $00, $F0, $03
     
-    ;
+    ; $047BF9 0x03
     .group02_a
     db $00, $F0, $43
     
-    ; $047BFC
+    ; $047BFC 0x03
     .group02_b
     db $00, $F0, $42
     
+    ; $047BFF 0x03
     .group03_a
     db $00, $F0, $41
     
+    ; $047C02 0x03
     .group03_b
     db $00, $F0, $40
     
-    ; 6
+    ; $047C05 0x06
     .group04_a
     db $00, $F0, $40
     db $0E, $F8, $84
     
-    ; 6
+    ; $047C0B 0x06
     .group04_b
     db $1D, $F8, $44
     db $0D, $F9, $84
     
-    ; 6
+    ; $047C11 0x06
     .group05_a
     db $1F, $F9, $44
     db $2F, $FC, $84
     
-    ; 9
+    ; $047C17 0x09
     .group05_b
     db $31, $F5, $06
     db $3F, $FB, $44
     db $2F, $FC, $84
     
-    ; 12
+    ; $047C20 0x12
     .group06_a
     db $24, $EF, $08
     db $31, $F5, $06
     db $3F, $FB, $44
     db $4E, $04, $08
     
-    ; 12
+    ; $047C2C 0x12
     .group06_b
     db $16, $E1, $08
     db $24, $EF, $08
     db $4E, $04, $08
     db $5D, $14, $08
     
-    ; 15
+    ; $047C38 0x15
     .group07_a
     db $07, $D2, $08
     db $17, $D3, $48
@@ -3135,7 +3145,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     db $5D, $14, $08
     db $5D, $24, $48
      
-    ; 18
+    ; $047C47 0x18
     .group07_b
     db $F9, $C3, $08
     db $25, $C5, $48
@@ -3144,7 +3154,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     db $5D, $24, $48
     db $5D, $34, $08
     
-    ; 18
+    ; $047C59 0x18
     .group08_a
     db $EA, $B5, $08
     db $2F, $B6, $01
@@ -3153,7 +3163,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     db $5D, $34, $08
     db $6C, $43, $08
     
-    ; 18
+    ; $047C6B 0x18
     .group08_b
     db $DB, $A6, $08
     db $EA, $B5, $08
@@ -3162,7 +3172,7 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     db $6C, $43, $08
     db $79, $50, $08
     
-    ; 15
+    ; $047C7D 0x15
     .group09_a
     db $D4, $98, $C9
     db $DB, $A6, $08
@@ -3170,398 +3180,587 @@ Pool_QuakeSpell_DrawFirstGroundBolts:
     db $3B, $C2, $81
     db $79, $50, $08
     
-    ; 12
+    ; $047C8C 0x12
     .group09_b
     db $D4, $88, $09
     db $D4, $98, $C9
     db $57, $A7, $48
     db $49, $B6, $48
     
-    ; 9
+    ; $047C98 0x09
     .group0A_a
     db $D4, $88, $09
     db $66, $98, $48
     db $57, $A7, $48
     
-    ; 6
+    ; $047CA1 0x06
     .group0A_b
     db $66, $98, $48
     db $57, $A7, $48
     
-    ; 6
+    ; $047CA7 0x06
     .group0B_a
     db $70, $8C, $48
     db $66, $98, $48
     
-    ; 3
+    ; $047CAD 0x03
     .group0B_b
     db $70, $8C, $48
     
-    ; 3
+    ; $047CB0 0x03
     .group0C_a
     db $F3, $F0, $00
     
-    ; 3
+    ; $047CB3 0x03
     .group0C_b
     db $F3, $F0, $01
     
-    ; 3
+    ; $047CB6 0x03
     .group0D_a
     db $F3, $F0, $02
     
-    ; 3
+    ; $047CB9 0x03
     .group0D_b
     db $F3, $F0, $03
     
-    ; 3
+    ; $047CBC 0x03
     .group0E_a
     db $F5, $F0, $43
     
-    ; 3
+    ; $047CBF 0x03
     .group0E_b
     db $F5, $F0, $42
     
-    ; 3
+    ; $047CC2 0x03
     .group0F_a
     db $F5, $F0, $41
     
-    ; 6
+    ; $047CC5 0x06
     .group0F_b
     db $F5, $F0, $40
     db $E8, $F6, $04
 
-    ; 9
+    ; $047CCB 0x09
     .group10_a
     db $DA, $EE, $08
     db $E8, $F6, $04
     db $D8, $F9, $C4
 
-    ; 12
+    ; $047CD4 0x12
     .group10_b
     db $D3, $DF, $C9
     db $DA, $EE, $08
     db $C7, $F9, $04
     db $D8, $F9, $C4
 
-    ; 12
+    ; $047CE0 0x12
     .group11_a
     db $D0, $D3, $07
     db $D3, $DF, $C9
     db $C7, $F9, $04
     db $B9, $02, $48
 
-    ; 9
+    ; $047CEC 0x09
     .group11_b
     db $D0, $D3, $06
     db $B9, $02, $48
     db $BA, $12, $08
 
-    ; 9
+    ; $047CF5 0x09
     .group12_a
     db $D0, $D3, $05
     db $BA, $12, $08
     db $C8, $21, $08
 
-    ; 9
+    ; $047CFE 0x09
     .group12_b
     db $D0, $D3, $07
     db $CA, $22, $08
     db $CA, $31, $88
 
-    ; 9
+    ; $047D07 0x09
     .group13_a
     db $D0, $D3, $06
     db $CA, $31, $88
     db $BB, $40, $88
 
-    ; 9
+    ; $047D10 0x09
     .group13_b
     db $D0, $D3, $07
     db $BB, $40, $88
     db $AB, $49, $C4
 
-    ; 9
+    ; $047D19 0x09
     .group14_a
     db $D0, $D3, $05
     db $9B, $49, $04
     db $AB, $49, $C4
 
-    ; 12
+    ; $047D22 0x12
     .group14_b
     db $C4, $CB, $08
     db $D0, $D3, $06
     db $9B, $49, $04
     db $8C, $4D, $C4
 
-    ; 12
+    ; $047D2E 0x12
     .group15_a
     db $B5, $BD, $08
     db $C4, $CB, $08
     db $80, $4C, $04
     db $8C, $4D, $C4
 
-    ; 9
+    ; $047D3A 0x09
     .group15_b
     db $A6, $AE, $08
     db $B5, $BD, $08
     db $80, $4C, $04
 
-    ; 6
+    ; $047D43 0x06
     .group16_a
     db $97, $9F, $08
     db $A6, $AE, $08
 
-    ; 6
+    ; $047D49 0x06
     .group16_b
     db $88, $91, $08
     db $97, $9F, $08
 
-    ; 3
+    ; $047D4F 0x03
     .group17_a    
     db $88, $91, $08
 
-    ; 3
+    ; $047D52 0x03
     .group17_b
     db $00, $FB, $0A
 
-    ; 3
+    ; $047D55 0x03
     .group18_a
     db $00, $FB, $0B
 
-    ; 3
+    ; $047D58 0x03
     .group18_b
     db $02, $FD, $0C
 
-    ; 3
+    ; $047D5B 0x03
     .group19_a
     db $01, $FD, $0D
 
-    ; 3 
+    ; $047D5E 0x3 
     .group19_b
     db $00, $FD, $8D
 
-    ; 3
+    ; $047D61 0x03
     .group1A_a
     db $01, $FD, $8C
 
-    ; 3
+    ; $047D64 0x03
     .group1A_b
     db $01, $FD, $8B
 
-    ; 6
+    ; $04D67 0x06
     .group1B_a
     db $01, $FD, $8A
     db $FA, $0C, $89
 
-    ; 6
+    ; $047D6D 0x06
     .group1B_b
     db $FA, $0C, $89
     db $F6, $1C, $C9
 
-    ; 6
+    ; $047D73 0x06
     .group1C_a
     db $F6, $1C, $49
     db $F8, $2C, $89
 
-    ; 6
+    ; $047D79 0x06
     .group1C_a
     db $F8, $2C, $89
     db $F6, $38, $02
 
-    ; 9
+    ; $047D7F 0x09
     .group1D_a
     db $F6, $38, $02
     db $E9, $46, $48
     db $05, $46, $08
 
-    ; 12
+    ; $047D88 0x12
     .group1D_b
     db $E9, $46, $48
     db $05, $46, $08
     db $DA, $55, $48
     db $13, $55, $08
 
-    ; 12
+    ; $047D94 0x12
     .group1E_a
     db $DA, $55, $48
     db $13, $55, $08
     db $CC, $63, $48
     db $21, $65, $08
 
-    ; 12
+    ; $047DA0 0x12
     .group1E_b
     db $CC, $63, $48
     db $21, $65, $08
     db $BE, $71, $48
     db $2F, $73, $08
 
-    ; 6
+    ; $047DAC 0x06
     .group1F_a
     db $BE, $71, $48
     db $2F, $73, $08
 
-    ; 3
+    ; $047DB2 0x03
     .group1F_b
     .group20_a
     db $A0, $70, $20
 
-    ; 3
+    ; $047DB5 0x03
     .group20_b
     db $A0, $70, $21
 
-    ; 3
+    ; $047DB8 0x03
     .group21_a
     db $A0, $70, $66
 
-    ; 3
+    ; $047DBB 0x03
     .group21_b
     db $A0, $70, $22
 
-    ; 3
+    ; $047DBE 0x03
     .group22_a
     db $A0, $70, $23
 
-    ; 3
+    ; $047DC1 0x03
     .group22_b
     db $A0, $70, $63
 
-    
+    ; $047DC4 0x03
+    .group23_a
     db $A0, $70, $62
+
+    ; $047DC7 0x03
+    .group23_b
     db $A0, $70, $26
+
+    ; $047DCA 0x06
+    .group24_a
     db $A0, $70, $27
     db $AA, $7C, $28
+
+    ; $047DD0 0x06
+    .group24_b
     db $AA, $7C, $28
     db $B8, $8B, $28
+
+    ; $047DD6 0x06
+    .group25_a
     db $B8, $8B, $28
     db $C5, $9A, $A1
+
+    ; $047DDC 0x06
+    .group25_b
     db $C5, $9A, $A1
     db $D4, $8C, $68
+
+    ; $047DE2 0x06
+    .group26_a
     db $D4, $8C, $68
     db $E3, $7E, $68
+
+    ; $047DE8 0x03
+    .group26_b
     db $E3, $7E, $68
+
+    ; $047DEB 0x03
+    .group27_a
     db $ED, $7D, $C5
+
+    ; $047DEE 0x03
+    .group27_b
     db $90, $60, $2A
+
+    ; $047DF1 0x03 
+    .group28_a
     db $90, $60, $2B
+
+    ; $047DF4 0x03
+    .group28_b
     db $90, $60, $2C
+
+    ; $047DF7 0x03
+    .group29_a
     db $90, $60, $2D
+
+    ; $047DFA 0x06
+    .group29_b
     db $89, $52, $29
     db $90, $60, $2A
+
+    ; $047E00 0x06
+    .group2A_a
     db $85, $42, $E9
     db $89, $52, $29
+
+    ; $047E06 0x06
+    .group2A_b
     db $87, $32, $29
     db $85, $42, $E9
+
+    ; $047E0C 0x09
+    .group2B_a
     db $7E, $22, $28
     db $8D, $22, $68
     db $87, $32, $29
+
+    ; $047E15 0x12
+    .group2B_b
     db $96, $12, $A9
     db $6F, $13, $28
     db $7E, $22, $28
     db $8D, $22, $68
+
+    ; $047E21 0x12
+    .group2C_a
     db $9C, $02, $68
     db $66, $04, $E9
     db $96, $12, $A9
     db $6F, $13, $28
+
+    ; $047E2D 0x12
+    .group2C_b
     db $A5, $F2, $A9
     db $5F, $F5, $28
     db $9C, $02, $68
     db $66, $04, $E9
+
+    ; $047E39 0x03
+    .group2D_a
     db $60, $70, $60
+
+    ; $047E3C 0x03
+    .group2D_b
     db $60, $70, $61
+
+    ; $047E3F 0x03
+    .group2E_a
     db $60, $70, $26
+
+    ; $047E42 0x03
+    .group2E_b
     db $60, $70, $62
+
+    ; $047E45 0x03
+    .group2F_a
     db $60, $70, $63
+
+    ; $047E48 0x03
+    .group2F_b
     db $60, $70, $23
+
+    ; $047E4B 0x03
+    .group30_a
     db $60, $70, $22
+
+    ; $047E4E 0x03
+    .group30_b
     db $60, $70, $66
+
+    ; $047E51 0x06
+    .group31_a
     db $55, $6F, $E8
     db $60, $70, $67
+
+    ; $047E57 0x06
+    .group31_b
     db $46, $68, $24
     db $55, $6F, $E8
+
+    ; $047E5D 0x06
+    .group32_a
     db $46, $68, $24
     db $36, $6C, $E4
+
+    ; $04E637 0x09
+    .group32_b
     db $28, $64, $28
     db $26, $6B, $24
     db $36, $6C, $E4
+
+    ; $047E6C 0x12
+    .group33_a
     db $19, $55, $28
     db $28, $64, $28
     db $26, $6B, $24
     db $16, $6E, $E4
+
+    ; $047E78 0x12
+    .group33_b
     db $0B, $46, $28
     db $19, $55, $28
     db $07, $6C, $24
     db $16, $6E, $E4
+
+    ; $047E84 0x06
+    .group34_a
     db $0B, $46, $28
     db $07, $6C, $24
+
+    ; $047E8A 0x03
+    .group34_b
     db $70, $70, $2A
+
+    ; $047E8D 0x03
+    .group35_a
     db $70, $70, $2B
+
+    ; $047E90 0x03
+    .group35_b
     db $70, $70, $2C
+
+    ; $047E93 0x03
+    .group36_a
     db $70, $70, $2D
+
+    ; $047E96 0x06
+    .group36_b
     db $70, $70, $2A
     db $6C, $7D, $29
+
+    ; $047E9C 0x06
+    .group37_a
     db $6C, $7D, $29
     db $72, $8C, $28
+
+    ; $047EA2 0x06
+    .group37_b
     db $72, $8C, $28
     db $7C, $9C, $29
+
+    ; $047EA8 0x06
+    .group38_a
     db $7C, $9C, $29
     db $7B, $AC, $E9
+
+    ; $047EAE 0x09
+    .group38_b
     db $7B, $AC, $E9
     db $75, $B6, $E4
     db $84, $BB, $28
+
+    ; $047EB7 0x12
+    .group39_a
     db $75, $B6, $E4
     db $84, $BB, $28
     db $67, $BD, $68
     db $92, $CA, $28
+
+    ; $047EC3 0x12
+    .group39_a
     db $67, $BD, $68
     db $92, $CA, $28
     db $5F, $CC, $69
     db $9A, $D9, $29
+
+    ; $047ECF 0x12
+    .group3A_a
     db $5F, $CC, $69
     db $9A, $D9, $29
     db $60, $DC, $E9
     db $9A, $E8, $E9
+
+    ; $047EDB 0x06
+    .group3A_b
     db $60, $DC, $E9
     db $9A, $E8, $E9
+
+    ; $047EE1 0x09
+    .group3B_a
     db $85, $F2, $29
     db $8D, $F2, $2E
     db $31, $F4, $28
+
+    ; TODO: Figure out the size of this one or see if it is actually used.
+    ; $047EEA 0x??
+    .group3B_b
 }
 
-; ==============================================================================
-
-    ; \task Label these arrays and pointers.
-    ; Was gonna be critical, but this is ridiculous and unexpected how much
-    ; work it was going to be naming these and making sense of the pointers
-    ; and vast amount of data.
-    
-; $047EEA-$047FDA DATA
+; $047EEA-$047F69 DATA
 Pool_QuakeSpell_DrawFirstGroundBolts:
 {
     .pointers
-    dw $FBED, $FBF0, $FBF3, $FBF6, $FBF9, $FBFC, $FBFF, $FC02
-    dw $FC05, $FC0B, $FC11, $FC17, $FC20, $FC2C, $FC38, $FC47
-    dw $FC59, $FC6B, $FC7D, $FC8C, $FC98, $FCA1, $FCA7, $FCAD
-    dw $FCB0, $FCB3, $FCB6, $FCB9, $FCBC, $FCBF, $FCC2, $FCC5
-    dw $FCCB, $FCD4, $FCE0, $FCEC, $FCF5, $FCFE, $FD07, $FD10
-    dw $FD19, $FD22, $FD2E, $FD3A, $FD43, $FD49, $FD4F, $FD52
-    dw $FD55, $FD58, $FD5B, $FD5E, $FD61, $FD64, $FD67, $FD6D
-    dw $FD73, $FD79, $FD7F, $FD88, $FD94, $FDA0, $FDAC, $FDB2
+    dw QuakeDrawGFX_group00_a, QuakeDrawGFX_group00_b
+    dw QuakeDrawGFX_group01_a, QuakeDrawGFX_group01_b
+    dw QuakeDrawGFX_group02_a, QuakeDrawGFX_group02_b
+    dw QuakeDrawGFX_group03_a, QuakeDrawGFX_group03_b
+    dw QuakeDrawGFX_group04_a, QuakeDrawGFX_group04_b
+    dw QuakeDrawGFX_group05_a, QuakeDrawGFX_group05_b
+    dw QuakeDrawGFX_group06_a, QuakeDrawGFX_group06_b
+    dw QuakeDrawGFX_group07_a, QuakeDrawGFX_group07_b
+    dw QuakeDrawGFX_group08_a, QuakeDrawGFX_group08_b
+    dw QuakeDrawGFX_group09_a, QuakeDrawGFX_group09_b
+    dw QuakeDrawGFX_group0A_a, QuakeDrawGFX_group0A_b
+    dw QuakeDrawGFX_group0B_a, QuakeDrawGFX_group0B_b
+    dw QuakeDrawGFX_group0C_a, QuakeDrawGFX_group0C_b
+    dw QuakeDrawGFX_group0D_a, QuakeDrawGFX_group0D_b
+    dw QuakeDrawGFX_group0E_a, QuakeDrawGFX_group0E_b
+    dw QuakeDrawGFX_group0F_a, QuakeDrawGFX_group0F_b
+    dw QuakeDrawGFX_group10_a, QuakeDrawGFX_group10_b
+    dw QuakeDrawGFX_group11_a, QuakeDrawGFX_group11_b
+    dw QuakeDrawGFX_group12_a, QuakeDrawGFX_group12_b
+    dw QuakeDrawGFX_group13_a, QuakeDrawGFX_group13_b
+    dw QuakeDrawGFX_group14_a, QuakeDrawGFX_group14_b
+    dw QuakeDrawGFX_group15_a, QuakeDrawGFX_group15_b
+    dw QuakeDrawGFX_group16_a, QuakeDrawGFX_group16_b
+    dw QuakeDrawGFX_group17_a, QuakeDrawGFX_group17_b
+    dw QuakeDrawGFX_group18_a, QuakeDrawGFX_group18_b
+    dw QuakeDrawGFX_group19_a, QuakeDrawGFX_group19_b
+    dw QuakeDrawGFX_group1A_a, QuakeDrawGFX_group1A_b
+    dw QuakeDrawGFX_group1B_a, QuakeDrawGFX_group1B_b
+    dw QuakeDrawGFX_group1C_a, QuakeDrawGFX_group1C_b
+    dw QuakeDrawGFX_group1D_a, QuakeDrawGFX_group1D_b
+    dw QuakeDrawGFX_group1E_a, QuakeDrawGFX_group1E_b
+    dw QuakeDrawGFX_group1F_a, QuakeDrawGFX_group1F_b
 }
     
+; $047F6A-$047FD9 DATA
 Pool_QuakeSpell_DrawGroundBolts:
 {
     .pointers
-    dw $FDB2, $FDB5, $FDB8, $FDBB, $FDBE, $FDC1, $FDC4, $FDC7
-    dw $FDCA, $FDD0, $FDD6, $FDDC, $FDE2, $FDE8, $FDEB, $FDEE
-    dw $FDF1, $FDF4, $FDF7, $FDFA, $FE00, $FE06, $FE0C, $FE15
-    dw $FE21, $FE2D, $FE39, $FE3C, $FE3F, $FE42, $FE45, $FE48
-    dw $FE4B, $FE4E, $FE51, $FE57, $FE5D, $FE63, $FE6C, $FE78
-    dw $FE84, $FE8A, $FE8D, $FE90, $FE93, $FE96, $FE9C, $FEA2
-    dw $FEA8, $FEAE, $FEB7, $FEC3, $FECF, $FEDB, $FEE1, $FEEA
+    dw QuakeDrawGFX_group20_a, QuakeDrawGFX_group20_b
+    dw QuakeDrawGFX_group21_a, QuakeDrawGFX_group21_b
+    dw QuakeDrawGFX_group22_a, QuakeDrawGFX_group22_b
+    dw QuakeDrawGFX_group23_a, QuakeDrawGFX_group23_b
+    dw QuakeDrawGFX_group24_a, QuakeDrawGFX_group24_b
+    dw QuakeDrawGFX_group25_a, QuakeDrawGFX_group25_b
+    dw QuakeDrawGFX_group26_a, QuakeDrawGFX_group26_b
+    dw QuakeDrawGFX_group27_a, QuakeDrawGFX_group27_b
+    dw QuakeDrawGFX_group28_a, QuakeDrawGFX_group28_b
+    dw QuakeDrawGFX_group29_a, QuakeDrawGFX_group29_b
+    dw QuakeDrawGFX_group2A_a, QuakeDrawGFX_group2A_b
+    dw QuakeDrawGFX_group2B_a, QuakeDrawGFX_group2B_b
+    dw QuakeDrawGFX_group2C_a, QuakeDrawGFX_group2C_b
+    dw QuakeDrawGFX_group2D_a, QuakeDrawGFX_group2D_b
+    dw QuakeDrawGFX_group2E_a, QuakeDrawGFX_group2E_b
+    dw QuakeDrawGFX_group2F_a, QuakeDrawGFX_group2F_b
+    dw QuakeDrawGFX_group30_a, QuakeDrawGFX_group30_b
+    dw QuakeDrawGFX_group31_a, QuakeDrawGFX_group31_b
+    dw QuakeDrawGFX_group32_a, QuakeDrawGFX_group32_b
+    dw QuakeDrawGFX_group33_a, QuakeDrawGFX_group33_b
+    dw QuakeDrawGFX_group34_a, QuakeDrawGFX_group34_b
+    dw QuakeDrawGFX_group35_a, QuakeDrawGFX_group35_b
+    dw QuakeDrawGFX_group36_a, QuakeDrawGFX_group36_b
+    dw QuakeDrawGFX_group37_a, QuakeDrawGFX_group37_b
+    dw QuakeDrawGFX_group38_a, QuakeDrawGFX_group38_b
+    dw QuakeDrawGFX_group39_a, QuakeDrawGFX_group39_b
+    dw QuakeDrawGFX_group3A_a, QuakeDrawGFX_group3A_b
+    dw QuakeDrawGFX_group3B_a, QuakeDrawGFX_group3B_b
 }
 
 ; ==============================================================================
 
 ; $047FDA-$047FFF NULL
+NULL_08FFDA:
 {
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF

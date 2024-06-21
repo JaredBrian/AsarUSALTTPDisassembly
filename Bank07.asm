@@ -21,7 +21,7 @@ Player_Main:
     
     REP #$20
     
-    ; Mirror Link's coordinate variables
+    ; Mirror Link's coordinate variables.
     LDA.b $22 : STA.w $0FC2
     LDA.b $20 : STA.w $0FC4
     
@@ -45,8 +45,8 @@ Player_Main:
 
 ; ==============================================================================
 
-; \unused Much like the Ancilla version of this routine, seems like
-; ambient sfx gets no love.
+; UNUSED: Much like the Ancilla version of this routine, seems like ambient sfx
+; gets no love.
 ; $038021-$038027 LOCAL JUMP LOCATION
 Player_DoSfx1:
 {
@@ -82,7 +82,7 @@ Player_SetSfxPan:
 {
     STA.w $0CF8
     
-    ; A will be 0x0, 0x80, or 0x40. (ORed with this address, too.)
+    ; A will be 0x0, 0x80, or 0x40. (ORed with this address, too.).
     JSL Sound_SetSfxPanWithPlayerCoords : ORA.w $0CF8
     
     RTS
@@ -96,7 +96,9 @@ Pool_Link_ControlHandler:
     ; Indexed by $5D.
     
     dw $8109 ; $038109 0x00 - Ground state (normal mode)
-    dw $92D3 ; $0392D3 0x01 - Falling into a hole or getting close to edge of hole
+    dw $92D3 ; $0392D3 0x01 - Falling into a hole or getting close to edge of
+             ;                hole
+
     dw $86B5 ; $0386B5 0x02 - Recoil from hitting a wall (other such movement)
     dw LinkState_SpinAttack ; $A804 0x03 - Spin Attack Mode
     dw $963B ; $03963B 0x04 - Swimming Mode
@@ -111,11 +113,14 @@ Pool_Link_ControlHandler:
     dw $8B74 ; $038B74 0x0C - Falling to the left/right off a ledge
     dw $8DC6 ; $038DC6 0x0D - Jumping off a ledge diagonally up and left/right
     dw $8E15 ; $038E15 0x0E - Jumping off a ledge diagonally down and left/right
-    dw $8C69 ; $038C69 0x0F - More jumping off a ledge but with dashing maybe + some directions
+    dw $8C69 ; $038C69 0x0F - More jumping off a ledge but with dashing maybe +
+             ;                some directions
     
     dw $8C69 ; $038C69 0x10 - Same as 0x0F?
     dw LinkState_Dashing ; $8F86 0x11 - Falling off a ledge / Dashing
-    dw $915E ; $03915E 0x12 - Coming out of dash due to button press in the direction we're not going
+    dw $915E ; $03915E 0x12 - Coming out of dash due to button press in the
+             ;                direction we're not going
+
     dw $AB7C ; $03AB7C 0x13 - Hookshot
     dw $A9B1 ; $03A9B1 0x14 - Magic Mirror
     dw LinkState_ShowingOffItem ; $99AC 0x15 - Holding up an item (RTS)
@@ -187,9 +192,10 @@ Link_ControlHandler:
             
             ; This is damage from enemies/ weapons. Not falls.
             ; Subtract however much damage from Link.
-            ; If Link's health drops to zero, then he dies
+            ; If Link's health drops to zero, then he dies.
             SEC : SBC.b $00 : CMP.b #$00 : BEQ .linkIsDead
-                ; The equivalent of (A * 2 * 8) + 8 => 168 life points => 20 hearts plus another heart. If health is >= 21 hearts, Link
+                ; The equivalent of (A * 2 * 8) + 8 => 168 life points => 20
+                ; hearts plus another heart. If health is >= 21 hearts, Link
                 ; dies. Wonderful.
                 CMP.b #$A8 : BCC .linkNotDead
             
@@ -198,7 +204,8 @@ Link_ControlHandler:
             LDA.b $1C : STA.l $7EC211
             LDA.b $1D : STA.l $7EC212
             
-            ; Save the current mode so that the game knows what mode to go to after you've died
+            ; Save the current mode so that the game knows what mode to go to
+            ; after you've died.
             LDA.b $10 : STA.w $010C
             
             ; Enter death mode.
@@ -207,12 +214,12 @@ Link_ControlHandler:
             ; And in death mode, go to the second submodule.
             LDA.b #$01 : STA.b $11
             
-            ; Disable heart filling
+            ; Disable heart filling.
             LDA.b #$00 : STA.w $031F : STA.l $7EF372
             
             .linkNotDead
             
-            ; Change Link's health accordingly
+            ; Change Link's health accordingly.
             STA.l $7EF36D
     
     .linkNotDamaged
@@ -309,16 +316,16 @@ LinkState_Default:
             
             LDA.b #$2B : JSR Player_DoSfx3
             
-            ; Link got hit with the Agahnim bug zapper
+            ; Link got hit with the Agahnim bug zapper.
             LDA.b #$07 : STA.b $5D
             
-            ; GO TO ELECTROCUTION MODE
+            ; GO TO ELECTROCUTION MODE.
             BRL Player_Electrocution
 
         .BRANCH_EPSILON
 
-        ; Checking for indoors, but really \optimize Because it's doing nothing
-        ; with this information. (Take out the branch)
+        ; Checking for indoors.
+        ; OPTIMIZE: Useless branch.
         LDA.b $1B : BNE .zero_length_branch
             ; It is a secret to everybody.
 
@@ -328,7 +335,7 @@ LinkState_Default:
         
         LDA.b #$02 : STA.b $5D
         
-        BRL LinkState_Recoil ; go to recoil mode.
+        BRL LinkState_Recoil ; Go to recoil mode.
 
     ; Pretty much normal mode. Link standing there, ready to do stuff.
     .BRANCH_DELTA
@@ -438,7 +445,8 @@ LinkState_Default:
                 
                 LDX.b #$20 : STX.w $0371
                 
-                ; Ledge countdown timer resets here because of lack of directional input...
+                ; Ledge countdown timer resets here because of lack of
+                ; directional input...
                 LDX.b #$13 : STX.w $0375
                 
                 BRA .BRANCH_PHI
@@ -537,23 +545,23 @@ Link_HandleBunnyTransformation:
                 
                 LDA.b #$14 : JSR Player_DoSfx2
                 
-                ; It will take 20 frames for the transformation to finish
+                ; It will take 20 frames for the transformation to finish.
                 LDA.b #$14 : STA.w $02E2
                 
-                ; Indicate that a transformation is in progress by way of flags
+                ; Indicate that a transformation is in progress by way of flags.
                 LDA.b #$01 : STA.w $037B : STA.w $03F7
                 
-                ; Make Link invisible during the transformation
+                ; Make Link invisible during the transformation.
                 LDA.b #$0C : STA.b $4B
         
         .doTransformation
         
         ; $02E2 is a timer that counts down when Link changes shape.
         DEC.w $02E2 : BPL .return
-            ; Turn Link into a temporary bunny
+            ; Turn Link into a temporary bunny.
             LDA.b #$1C : STA.b $5D
             
-            ; Change Link's graphics to the bunny set
+            ; Change Link's graphics to the bunny set.
             LDA.b #$01 : STA.w $02E0 : STA.b $56
             
             JSL LoadGearPalettes_bunny
@@ -585,11 +593,10 @@ Link_HandleBunnyTransformation:
         RTS
 }
 
+; This is the tempbunny submodule.
 ; $038365-$0383A0 JUMP LOCATION
 LinkState_TemporaryBunny:
 {
-    ; This is the tempbunny submodule.
-    
     ; Check the bunny timer.
     LDA.w $03F5 : ORA.w $03F6 : BNE .BRANCH_ALPHA ; If it is not zero, branch.
         LDY.b #$04 ; If time is up, then...
@@ -620,7 +627,7 @@ LinkState_TemporaryBunny:
     
     REP #$20
     
-    DEC.w $03F5 ; To access the 16-bit timer, we 16-bit registers
+    DEC.w $03F5 ; To access the 16-bit timer, we 16-bit registers.
     
     SEP #$20
 
@@ -794,7 +801,7 @@ LinkState_HoldingBigRock:
         
         LDA.b #$02 : STA.b $5D
         
-        BRL LinkState_Recoil ; GO TO RECOIL MODE
+        BRL LinkState_Recoil ; GO TO RECOIL MODE.
     
     .BRANCH_ALPHA
     
@@ -971,7 +978,7 @@ Player_InitiateFirstBombosSpell:
     
     SEP #$20
     
-    ; Link is receiving Bombos medallion
+    ; Link is receiving Bombos medallion.
     LDA.b #$1A : STA.b $5D
     
     LDA.b #$01 : STA.w $037B : STA.w $0112
@@ -1058,7 +1065,7 @@ Player_BombosSpell:
 ; $03866D-$03867A LONG JUMP LOCATION
 InitiateDesertCutscene:
 {
-    ; Enters the desert palace opening mode
+    ; Enters the desert palace opening mode.
     REP #$20
     
     LDA.w #$0001 : STA.b $3C
@@ -1122,7 +1129,7 @@ HandleSomariaAndGraves:
 ; $0386B5-$038710 LONG BRANCH LOCATION
 LinkState_Recoil:
 {
-    ; RECOIL MODE (2 and 6 are both recoil mode)
+    ; RECOIL MODE (2 and 6 are both recoil mode).
 
     LDA.b $20 : STA.b $3E
     LDA.b $21 : STA.b $40
@@ -1142,7 +1149,7 @@ LinkState_Recoil:
             JSR.w $D077 ; $03D077 IN ROM
             
             LDA.w $0341 : AND.b #$01 : BEQ .BRANCH_BETA
-                ; Put Link into Swimming mode
+                ; Put Link into Swimming mode.
                 LDA.b #$04 : STA.b $5D
                 
                 JSR.w Link_SetToDeepWater
@@ -1263,7 +1270,7 @@ Link_HandleRecoilAndTimer:
         JSR.w $D077 ; $03D077 IN ROM
         
         LDA.w $0357 : AND.b #$01 : BEQ .BRANCH_UPSILON
-            ; Make grass swishy sound effect
+            ; Make grass swishy sound effect.
             LDA.b #$1A : JSR Player_DoSfx2
 
         .BRANCH_UPSILON
@@ -1333,7 +1340,7 @@ Link_HandleRecoilAndTimer:
             STZ.b $28
 
         .BRANCH_DIBETA
-            ; Loop
+            ; Loop.
         LDA.b $67 : AND.b #$0C : BNE .BRANCH_DIBETA
         
         STZ.b $27
@@ -1371,11 +1378,10 @@ Link_HandleRecoilAndTimer:
     RTS
 }
 
+; MODE 5 TURTLE ROCK PLATFORMS
 ; $038872-$038925 JUMP LOCATION
 LinkState_OnIce:
 {
-    ; MODE 5 TURTLE ROCK PLATFORMS
-    
     LDA.b $1B : BNE .BRANCH_ALPHA
         BRL .BRANCH_NU
 
@@ -1468,7 +1474,7 @@ LinkState_OnIce:
 
         JSL.l $07E6A6 ; $03E6A6 IN ROM
         
-        ; GO TO RECOIL MODE (Revision really recoil mode or just jumping?)
+        ; GO TO RECOIL MODE (Revision really recoil mode or just jumping?).
         BRL LinkState_Recoil
         
         LDY.b #$00
@@ -1538,7 +1544,7 @@ LinkState_HoppingSouthOW:
     
     LDA.b $46 : BNE .BRANCH_ALPHA
         LDA.w $0362 : BNE .BRANCH_ALPHA
-            ; Play the "something's falling" sound effect
+            ; Play the "something's falling" sound effect.
             LDA.b #$20 : JSR Player_DoSfx2
             
             JSR.w $8AD1 ; $038AD1 IN ROM ; 20 D1 8A
@@ -1665,7 +1671,7 @@ LinkState_HandlingJump:
             JSR.w Link_SetToDeepWater
             JSR.w $9D84 ; $039D84 in Rom.
             
-            ; Add transition splash
+            ; Add transition splash.
             LDA.b #$15
             LDY.b #$00
             
@@ -1743,7 +1749,7 @@ Pool_Link_HoppingHorizontally_FindTile_Vertical:
     db -8, -1, 8, 0
     
     
-    ; $38ACD
+    ; $038ACD
     .offset_y
     db -16, -1, 16, 0
 }
@@ -2337,25 +2343,25 @@ Link_SplashUponLanding:
         
         LDX.b #$17
         
-        ; Change to permabunny b/c we don't have a moon pearl
+        ; Change to permabunny because we don't have a moon pearl.
         LDA.l $7EF357 : BEQ .changeLinkMode
             LDX.b #$1C
             
-            ; otherwise assume that he's a temp bunny
+            ; Otherwise assume that he's a temp bunny.
             BRA .changeLinkMode
     
     .notBunny
     
     LDX.b #$00
     
-    ; Not a bunny and not swimming, must be in normal mode
+    ; Not a bunny and not swimming, must be in normal mode.
     LDA.w $0345 : BEQ .changeLinkMode
-        ; Check if Link is recoiling from something that hit him
+        ; Check if Link is recoiling from something that hit him.
         LDA.b $5D : CMP.b #$06 : BEQ .notRecoiling
             LDA.b #$15
             LDY.b #$00
             
-            JSL AddTransitionSplash  ; $0498FC IN ROM
+            JSL AddTransitionSplash ; $0498FC IN ROM
         
         .notRecoiling
         
@@ -2377,7 +2383,7 @@ Link_SplashUponLanding:
 ; $038F86-$03915D LONG BRANCH LOCATION
 LinkState_Dashing:
 {
-    JSR.w $F514 ; $03F514 IN ROM ; Buffers a number of important variables
+    JSR.w $F514 ; $03F514 IN ROM ; Buffers a number of important variables.
     JSR.w $82DA : BCC .BRANCH_ALPHA ; $0382DA IN ROM
         LDA.b $5D : CMP.b #$17 : BNE .BRANCH_BETA
             BRL LinkState_Bunny ; PERMABUNNY MODE
@@ -2410,7 +2416,7 @@ LinkState_Dashing:
 
     STZ.w $02CA
     
-    ; Branch if link has no special status
+    ; Branch if link has no special status.
     LDA.b $4D : BEQ .BRANCH_EPSILON
         STZ.w $037B
         STZ.w $0374
@@ -2445,14 +2451,14 @@ LinkState_Dashing:
         
         .BRANCH_ZETA
         
-        ; go to recoil mode.
+        ; Go to recoil mode.
         LDA.b #$02 : STA.b $5D
         
-        BRL LinkState_Recoil ; GO TO RECOIL MODE. 
+        BRL LinkState_Recoil ; GO TO RECOIL MODE.
     
     .BRANCH_EPSILON
     
-    ; Check the dash countdown timer
+    ; Check the dash countdown timer.
     LDA.w $0374 : LSR #4 : TAX
     
     LDA.w $0374 : BNE .BRANCH_IOTA
@@ -2460,7 +2466,7 @@ LinkState_Dashing:
     
     .BRANCH_IOTA
     
-    ; $38F65, X THAT IS
+    ; $038F65, X THAT IS
     AND.w $8F65, X : BNE .BRANCH_KAPPA
         LDA.b #$23 : JSR Player_DoSfx2
     
@@ -2592,7 +2598,7 @@ LinkState_Dashing:
     
     LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_PSI
     CMP.b $00              : BEQ .BRANCH_PSI
-        ; Come out of the dashing submode
+        ; Come out of the dashing submode.
         LDA.b #$12 : STA.b $5D
         
         LDA.b $3A : AND.b #$7F : STA.b $3A
@@ -2666,8 +2672,8 @@ LinkState_ExitingDash:
 ; $039195-$0391B8 LOCAL JUMP LOCATION
 Player_HaltDashAttack:
 {
-    ; Routine essentially stops all dashing activities, usually due to some\
-    ; specific cause, like getting too near to water or a sprite
+    ; Routine essentially stops all dashing activities, usually due to some
+    ; specific cause, like getting too near to water or a sprite.
     
     ; Is Link going to collide?
     LDA.w $0372 : BEQ .notDashing
@@ -2686,11 +2692,11 @@ Player_HaltDashAttack:
         
         PLX
         
-        STZ.w $0374 ; Reset dash timer
-        STZ.b $5E   ; Reset speed to zero
+        STZ.w $0374 ; Reset dash timer.
+        STZ.b $5E   ; Reset speed to zero.
         STZ.w $0372 ; Reset dash collision variable (means Link will bounce if
-                    ; he hits a wall)
-        STZ.b $50   ; Allow Link to change direction again
+                    ; he hits a wall).
+        STZ.b $50   ; Allow Link to change direction again.
         STZ.w $032B ; ....?
     
     .notDashing
@@ -2784,7 +2790,7 @@ LinkApplyTileRebound:
 {
     LDX.b $66
     
-    ; recoil in the opposite direction from the dash
+    ; Recoil in the opposite direction from the dash.
     LDA.w $91BD, X : STA.b $27
     
     LDA.w $91C1, X : STA.b $28
@@ -2921,7 +2927,7 @@ LinkState_Pits:
     
     LDA.w $0302 : BEQ .BRANCH_ALPHA
         INC.w $02CA : LDA.w $02CA : CMP.b #$20 : BNE .BRANCH_ALPHA
-            ; Ensures the next time around that this 
+            ; Ensures the next time around that this .
             LDA.b #$1F : STA.w $02CA
             
             BRA .BRANCH_BETA
@@ -2934,7 +2940,8 @@ LinkState_Pits:
         
         .BRANCH_DELTA
         
-                ; Check if any directional buttons are being pressed on the Joypad
+                ; Check if any directional buttons are being pressed on the
+                ; Joypad.
                 LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_BETA
                     AND.b $67 : BNE .BRANCH_BETA
                         JSR Player_HaltDashAttack
@@ -3225,10 +3232,10 @@ Link_HandleFallingInPit:
     ; Bleeds into the next funtion.
 }
 
+; Hole / teleporter plane
 ; $0394F1-$03951D LOCAL JUMP LOCATION
 HandleLayerOfDestination:
 {
-    ; Hole / teleporter plane
     LDX.w $063C
     
     LDA.l $01C31F, X : STA.w $0476
@@ -3257,7 +3264,7 @@ HandleLayerOfDestination:
 
 ; ==============================================================================
 
-; \unused Can't seem to find any reference to it.
+; UNUSED: Can't seem to find any reference to it.
 ; $03951E-$03951F DATA
 UNREACHABLE_07951E:
 {
@@ -3395,7 +3402,7 @@ HandleUnderworldLandingFromPit:
     
     .BRANCH_NU
     
-    ; Ahhhhhhh fallllllling into a hoooooole
+    ; Ahhhhhhh fallllllling into a hoooooole.
     LDA.b #$01 : STA.b $5D
     
     .BRANCH_EPSILON
@@ -3612,8 +3619,9 @@ Link_SetIceMaxAccel:
 ; $0397BF-$0397C6 DATA
 Pool_Link_SetMomentum
 {
+    ; UNUSED:
     ; $0397BF
-    .direction ; Unused
+    .direction 
     db $08, $04, $02, $01
 
     ; $0397C3
@@ -3872,7 +3880,7 @@ Player_Electrocution:
     JSR.w $F514 ; $03F514 in Rom.
     JSL Player_SetElectrocutionMosaicLevel
     
-    ; Decrease the delay counter
+    ; Decrease the delay counter.
     DEC.b $3D : BPL .return
         ; Set up a three frame delay for this next step.
         LDA.b #$02 : STA.b $3D
@@ -3891,10 +3899,10 @@ Player_Electrocution:
         
         ; On the eighth step release player (fling them back).
         LDA.w $0300 : CMP.b #$08 : BNE .return
-            ; Reset the steps of the electrocution
+            ; Reset the steps of the electrocution.
             STZ.w $0300
             
-            ; Reset player to ground state
+            ; Reset player to ground state.
             LDA.b #$00 : STA.b $5D
             
             STZ.w $037B
@@ -3921,7 +3929,7 @@ LinkState_ShowingOffItem:
 ; $0399AD-$039A28 LONG JUMP LOCATION
 Link_ReceiveItem:
 {
-    ; Grant link the item he earned, if possible
+    ; Grant link the item he earned, if possible.
     PHB : PHK : PLB
     
     ; Is Link in another type of mode besides ground state?
@@ -3964,8 +3972,8 @@ Link_ReceiveItem:
             
             ; Is the item a crystal?
             CPY.b #$20 : BNE .notCrystal
-                ; up the ante or whatever >_>
-                ; (Puts Link in a different pose holding the item up with two hands)
+                ; Up the ante or whatever >_> (Puts Link in a different pose
+                ; holding the item up with two hands).
                 INC A : STA.w $02DA
         
             .notCrystal
@@ -4014,13 +4022,13 @@ UNREACHABLE_079A29:
 ; $039A2C-$039A53 LONG JUMP LOCATION
 Link_TuckIntoBed:
 {
-    ; Puts link in bed asleep
+    ; Puts link in bed asleep.
     
     PHB : PHK : PLB
     
     REP #$20
     
-    ; Link's Y coordinate is #$215A; Link's X coordinate is #$0940
+    ; Link's Y coordinate is #$215A; Link's X coordinate is #$0940.
     LDA.w #$215A : STA.b $20
     LDA.w #$0940 : STA.b $22
     
@@ -4053,11 +4061,10 @@ Pool_LinkState_Sleeping
     dw Link_JumpingOutOfBed
 }
 
+; Link mode 0x16 (asleep in bed)
 ; $039A5A-$039A61 JUMP LOCATION
 LinkState_Sleeping:
 {
-    ; Link mode 0x16 (asleep in bed)
-    
     LDA.w $037C : ASL A : TAX
     
     JMP ($9A54, X)
@@ -4067,7 +4074,7 @@ LinkState_Sleeping:
 Link_SnoringInBed:
 {
     LDA.b $1A : AND.b #$1F : BNE .noZzzz
-        ; Generate Z sprites from Link sleeping
+        ; Generate Z sprites from Link sleeping.
         LDY.b #$01
         LDA.b #$21
         
@@ -4280,7 +4287,8 @@ Link_HandleAPress:
         LDA.w $037A : AND.b #$1F : BNE .cantDoAnyAction
             ; If the flag is set, don't read the A button.
             LDA.w $0379 : BNE .cantDoAnyAction
-                ; How long has the B - button been pressed? (Less than 9 frames?)
+                ; How long has the B - button been pressed? (Less than 9
+                ; frames?).
                 LDA.b $3C : CMP.b #$09 : BCC .swordWontInterfere
                     ; Is the B button been released this frame?
                     LDA.b $3A : AND.b #$80 : BEQ .swordWontInterfere
@@ -4298,11 +4306,11 @@ Link_HandleAPress:
         ; $03B5C0 IN ROM
         ; If the A button was down, then continue. If not, branch.
         JSR.w $B5C0 : BCC .cantDoAction
-            ; Pull for rupees flag (if near one)
+            ; Pull for rupees flag (if near one).
             LDA.w $03F8 : BEQ .notPullForRupeesAction
                 ; What direction is Link facing? If he's not facing up, then...
                 LDA.b $2F : BNE .notPullForRupeesAction
-                    ; The PullForRupees action
+                    ; The PullForRupees action.
                     LDX.b #$07
                     
                     BRL .attemptAction
@@ -4310,7 +4318,7 @@ Link_HandleAPress:
             .notPullForRupeesAction
             
             LDA.w $02FA : BEQ .notMovingStatueAction
-                ; Near a moveable statue (so pressing A will grab it)
+                ; Near a moveable statue (so pressing A will grab it).
                 LDX.b #$06
                 
                 BRL .attemptAction
@@ -4319,7 +4327,7 @@ Link_HandleAPress:
             
             ; Detection of a bomb or cane of somaria block?
             LDA.w $02EC : BNE .spriteLiftAction
-                ; Detection of a sprite object
+                ; Detection of a sprite object.
                 LDA.w $0314 : BEQ .checkOtherActions
                     LDA.w $0314 : STA.w $02F4
             
@@ -4424,17 +4432,17 @@ HandleSwordSFXAndBeam:
     LDA.b $67 : AND.b #$F0 : STA.b $67
     
     STZ.b $3C ; Initialize the the next spin attack counter.
-    STZ.b $79 ; Stop the spin attack
+    STZ.b $79 ; Stop the spin attack.
     
-    ; Checks if we need to fire a sword beam
-    ; if(actual health >= (goal health - 4))
+    ; Checks if we need to fire a sword beam.
+    ; If(actual health >= (goal health - 4))
     LDA.l $7EF36C : SEC : SBC.b #$04 : CMP.l $7EF36D : BCS .cantShootBeam
-        ; Check if we have a sword that can shoot teh beamz
+        ; Check if we have a sword that can shoot the beam.
         LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .cantShootBeam
             LDA.l $7EF359 : CMP.b #$02 : BCC .cantShootBeam
                 .nextSlot
                 
-                    ; Master Sword or better
+                    ; Master Sword or better.
                     LDX.b #$04
                     
                     ; Is the cane of byrna being used?
@@ -4447,7 +4455,7 @@ HandleSwordSFXAndBeam:
     
     .cantShootBeam
     
-    ; normal sword
+    ; Normal sword
     JSL Sound_SetSfxPanWithPlayerCoords
     
     PHA
@@ -4510,13 +4518,14 @@ Link_CheckForSwordSwing:
                 
                 .not_in_doorway
                 
-                ; Indicate that the B button is now being held down
+                ; Indicate that the B button is now being held down.
                 LDA.b #$80 : TSB.b $3A
                 
-                ; Reinitialize spin attack variables and shoot a sword beam, if applicable
+                ; Reinitialize spin attack variables and shoot a sword beam, if
+                ; applicable.
                 JSR.w HandleSwordSFXAndBeam
                 
-                ; Link can no longer change direction
+                ; Link can no longer change direction.
                 LDA.b #$01 : TSB.b $50
                 
                 STZ.b $2E
@@ -4529,15 +4538,15 @@ Link_CheckForSwordSwing:
         .b_button_wasnt_released
         
         ; Does something more related to how Link's standing / collision with
-        ; the floor
+        ; the floor.
         JSR.w HaltLinkWhenUsingItems
         
-        ; Stop any motion Link may have had
+        ; Stop any motion Link may have had.
         LDA.b $67 : AND.b #$F0 : STA.b $67
         
-        ; Count down the spin attack delay timer
+        ; Count down the spin attack delay timer.
         DEC.b $3D : BPL .BRANCH_DELTA
-            ; Count up the "frames B Button has been held" timer
+            ; Count up the "frames B Button has been held" timer.
             INC.b $3C
             
             LDA.b $3C : CMP.b #$09 : BCS .maybeDoSpinAttack
@@ -4587,7 +4596,7 @@ Link_CheckForSwordSwing:
         ; $039D72 ALTERNATE ENTRY POINT
         .maybeDoSpinAttack
         
-        ; B Button is still being held
+        ; B Button is still being held?
         BIT.b $F0 : BMI Link_ResetSwordAndItemUsage_holding_b
             LDA.b $79 : CMP.b #$30 : BCC Link_ResetSwordAndItemUsage
                 JSR.w $9D84 ; $039D84 IN ROM
@@ -4602,19 +4611,19 @@ Link_ResetSwordAndItemUsage:
 {
     .BRANCH_EPSILON
 
-        ; Bring Link to stop
+        ; Bring Link to stop.
         STZ.b $5E
         
         LDA.b $48 : AND.b #$F6 : STA.b $48
         
-        ; Stop any animations Link is doing
+        ; Stop any animations Link is doing.
         STZ.b $3D
         STZ.b $3C
         
-        ; Nullify button input on the B button
+        ; Nullify button input on the B button.
         LDA.b $3A : AND.b #$7E : STA.b $3A
         
-        ; Make it so Link can change direction if need be
+        ; Make it so Link can change direction if need be.
         LDA.b $50 : AND.b #$FE : STA.b $50
         
         BRL .return
@@ -4660,7 +4669,7 @@ Link_ResetSwordAndItemUsage:
 
                 .BRANCH_XI
 
-                ; Do sword interaction with tiles
+                ; Do sword interaction with tiles.
                 LDY.b #$01
                 
                 JSR.w $D077 ; $03D077 IN ROM
@@ -4741,31 +4750,32 @@ CalculateSwordHitbox:
             
             LDA.b $3C : STA.b $02 : STZ.b $03
             
-            CMP.b #$09 : BEQ Link_ResetSwordAndItemUsage_return  BCC .BRANCH_BETA
-                LDA.b $02 : SEC : SBC.b #$0A : STA.b $02
+            CMP.b #$09 : BEQ Link_ResetSwordAndItemUsage_return
+                BCC .BRANCH_BETA
+                    LDA.b $02 : SEC : SBC.b #$0A : STA.b $02
                 
-                LDY.b #$03
+                    LDY.b #$03
 
-            .BRANCH_BETA
+                .BRANCH_BETA
 
-            REP #$30
-            
-            LDA.b $2F : AND.w #$00FF : TAX
-            
-            LDA.l $0DA030, X : STA.b $04
-            
-            TYA : AND.w #$00FF : ASL A : CLC : ADC.b $04 : TAX
-            
-            LDA.l $0D9EF0, X : CLC : ADC.b $02 : TAX
-            
-            SEP #$20
-            
-            LDA.l $0D98F3, X : STA.b $44
-            LDA.l $0D9AF2, X : STA.b $45
-            
-            SEP #$10
-            
-            RTS
+                REP #$30
+                
+                LDA.b $2F : AND.w #$00FF : TAX
+                
+                LDA.l $0DA030, X : STA.b $04
+                
+                TYA : AND.w #$00FF : ASL A : CLC : ADC.b $04 : TAX
+                
+                LDA.l $0D9EF0, X : CLC : ADC.b $02 : TAX
+                
+                SEP #$20
+                
+                LDA.l $0D98F3, X : STA.b $44
+                LDA.l $0D9AF2, X : STA.b $45
+                
+                SEP #$10
+                
+                RTS
 
     .BRANCH_ALPHA
 
@@ -4957,7 +4967,7 @@ LinkItem_Hammer:
             
             LDY.b #$03
             
-            JSR.w $D077   ; $03D077 IN ROM
+            JSR.w $D077 ; $03D077 IN ROM
             
             LDY.b #$00
             LDA.b #$16
@@ -5034,7 +5044,7 @@ LinkItem_Bow:
             
             LDX.b $2F
             
-            ; Spawn arrow
+            ; Spawn arrow.
             LDY.b #$02
             LDA.b #$09
             
@@ -5078,10 +5088,10 @@ LinkItem_Bow:
         RTS
 }
 
+; Boomerang item use code
 ; $03A0BB-$03A137 JUMP LOCATION
 LinkItem_Boomerang:
 {
-    ; Boomerang item use code
     BIT.b $3A : BVS .BRANCH_ALPHA
         LDA.b $6C : BNE LinkItem_Bow_return
             JSR Link_CheckNewY_ButtonPress : BCC .BRANCH_BETA
@@ -5118,7 +5128,8 @@ LinkItem_Boomerang:
         
         DEC.b $3D : BPL .BRANCH_BETA
             LDA.b #$05 : STA.b $3D
-                LDA.w $0300 : INC A : STA.w $0300 : CMP.b #$02 : BNE .BRANCH_BETA
+                LDA.w $0300 : INC A : STA.w $0300
+                CMP.b #$02 : BNE .BRANCH_BETA
     
     ; $03A11F ALTERNATE ENTRY POINT
     .reset
@@ -5170,7 +5181,7 @@ LinkItem_Bottle:
     JSR Link_CheckNewY_ButtonPress : BCC LinkItem_Bombs_return
         LDA.b $3A : AND.b #$BF : STA.b $3A
         
-        ; Check if we have a bottle or not
+        ; Check if we have a bottle or not.
         LDA.l $7EF34F : DEC A : TAX
         
         LDA.l $7EF35C, X : BEQ LinkItem_Bombs_return
@@ -5227,7 +5238,7 @@ LinkItem_Bottle:
             
             LDA.b $10 : STA.w $010C
             
-            ; Go to text mode
+            ; Go to text mode.
             LDA.b #$0E : STA.b $10
             
             LDA.b #$07 : STA.w $0208
@@ -5418,11 +5429,10 @@ LinkItem_MagicPowder:
 
 ; ==============================================================================
 
+; Play flute or use the shovel
 ; $03A313-$03A31F LOCAL JUMP LOCATION
 LinkItem_ShovelAndFlute:
 {
-    ; Play flute or use the shovel
-    
     ; What is the state of the flute?
     LDA.l $7EF34C : BEQ LinkItem_MagicPowder_return
         CMP.b #$01 : BEQ LinkItem_Shovel
@@ -5469,7 +5479,7 @@ LinkItem_Shovel:
         
         PHX
         
-        JSR.w $D077   ; $03D077 IN ROM
+        JSR.w $D077 ; $03D077 IN ROM
         
         PLX
         
@@ -5506,7 +5516,7 @@ LinkItem_Shovel:
         
         PHX
         
-        ; Add shovel dirt? what? I thought these were aftermath tiles
+        ; Add shovel dirt? what? I thought these were aftermath tiles.
         LDY.b #$00
         LDA.b #$17
         
@@ -5577,20 +5587,19 @@ LinkItem_Flute:
                     LDA.l $7EF34C : CMP.b #$02 : BNE .travel_bird_already_released
                         REP #$20
                         
-                        ; check the area, is it #$18 = 30?
+                        ; Check the area, is it #$18 = 30?
                         LDA.b $8A : CMP.w #$0018 : BNE .not_weathervane_trigger
                             ; Y coordinate boundaries for setting it off.
                             LDA.b $20
                             
                             CMP.w #$0760 : BCC .not_weathervane_trigger
                             CMP.w #$07E0 : BCS .not_weathervane_trigger
-                                ; do if( (Ycoord >= 0x0760) && (Ycoord < 0x07e0
+                                ; If( (Ycoord >= 0x0760) && (Ycoord < 0x07e0)
                                 LDA.b $22
                                 
                                 CMP.w #$01CF : BCC .not_weathervane_trigger
                                 CMP.w #$0230 : BCS .not_weathervane_trigger
-                                    ; do if( (Xcoord >= 0x1cf) && (Xcoord <
-                                    ; 0x0230)
+                                    ; If( (Xcoord >= 0x1cf) && (Xcoord < 0x0230)
                                     SEP #$20
                                     
                                     ; Apparently a special Overworld mode for
@@ -5633,7 +5642,7 @@ GanonEmerges_SpawnTravelBird:
     
     LDA.b #$13 : JSR Player_DoSfx2
     
-    ; Add travel bird
+    ; Add travel bird.
     LDY.b #$04
     LDA.b #$27
     
@@ -5691,7 +5700,8 @@ LinkItem_EtherMedallion:
         .attempt_cast
         
         LDA.w $0C4A : ORA.w $0C4B : ORA.w $0C4C : BNE .cant_cast_no_sound
-            LDX.b #$01 : JSR LinkItem_EvaluateMagicCost : BCC .cant_cast_no_sound
+            LDX.b #$01
+            JSR LinkItem_EvaluateMagicCost : BCC .cant_cast_no_sound
                 LDA.b #$08 : STA.b $5D
                 
                 LDA.b #$01 : TSB.b $50
@@ -6039,7 +6049,8 @@ LinkState_UsingQuake:
         
         LDA.w $0324 : BNE .BRANCH_DELTA
         CPX.b #$0B  : BNE .BRANCH_DELTA
-            ; "Thank you, [Name], I had a feeling you were getting close" Message
+            ; "Thank you, [Name], I had a feeling you were getting close"
+            ; Message.
             LDA.b #$01 : STA.w $0324
             
             LDY.b #$00
@@ -6088,7 +6099,7 @@ Link_AnimateVictorySpin:
     
     LDA.b #$80 : STA.b $3A
     
-    BRL LinkState_SpinAttack ; GO TO SPIN ATTACK MODE
+    BRL LinkState_SpinAttack ; GO TO SPIN ATTACK MODE.
 }   
 
 ; $03A7AF-$03A7AF LOCAL JUMP LOCATION
@@ -6109,11 +6120,10 @@ Link_AnimateVictorySpin_long:
     RTL
 }
 
+; Link mode 0x03 - Spin Attack Mode
 ; $03A804-$03A8EB JUMP LOCATION
 LinkState_SpinAttack:
 {
-    ; Link mode 0x03 - Spin Attack Mode
-    
     JSR.w $F514 ; $03F514 IN ROM
     
     ; Check to see if Link is in a ground state.
@@ -6240,7 +6250,7 @@ LinkState_SpinAttack:
             
         .BRANCH_NU
         
-        ; $031E IS TYPICALLY 12, I.E. #$C
+        ; $031E IS TYPICALLY 12, I.E. #$C.
         LDA.w $031D : CLC : ADC.w $031E : TAX
         
         ; Determine which graphic to display while spinning.
@@ -6283,7 +6293,7 @@ UNREACHABLE_07A8EC:
     
     LDA.b #$01 : TSB.b $50
     
-    BRL LinkState_SpinAttack ; GO TO SPIN ATTACK MODE
+    BRL LinkState_SpinAttack ; GO TO SPIN ATTACK MODE.
 }
 
 ; Magic Mirror routine
@@ -6311,7 +6321,7 @@ LinkItem_Mirror:
     ; Erase all input except for the Y button.
     LDA.b $3A : AND.b #$BF : STA.b $3A
     
-    ; If Link's standing in a doorway he can't warp
+    ; If Link's standing in a doorway he can't warp.
     LDA.b $6C : BNE .BRANCH_BETA
         LDA.w $037F : BNE Mirror_TryToWarp
             ; Am I indoors?
@@ -6351,7 +6361,7 @@ Mirror_TryToWarp:
     LDA.b $10 : CMP.b #$0B : BEQ .inSpecialOverworld
         LDA.b $8A : AND.b #$40 : STA.b $7B : BEQ .inLightWorld
             ; If we're warping from the dark world to the light world
-            ; we generate new coordinates for the warp vortex
+            ; we generate new coordinates for the warp vortex.
             LDA.b $20 : STA.w $1ADF
             LDA.b $21 : STA.w $1AEF
             
@@ -6512,7 +6522,7 @@ Link_PerformDesertPrayer:
     
     LDA.b $10 : STA.w $010C
     
-    ; Go to text mode
+    ; Go to text mode.
     LDA.b #$0E : STA.b $10
     
     LDA.b #$01 : STA.w $0FC1
@@ -6522,7 +6532,7 @@ Link_PerformDesertPrayer:
     
     LDA.b #$02 : STA.w $0308
     
-    ; Lock Link's direction
+    ; Lock Link's direction.
     LDA.b #$01 : TSB.b $50
     
     STZ.b $2E
@@ -6639,7 +6649,7 @@ LinkItem_Hookshot:
                     
                     LDA.w $037A : AND.b #$00 : ORA.b #$04 : STA.w $037A
                     
-                    ; hoooookshot
+                    ; Hookshot
                     LDA.b #$13 : STA.b $5D
                     
                     LDA.b #$01 : STA.w $037B
@@ -6937,10 +6947,10 @@ LinkState_Hookshotting:
 ; $03ADBE-$03ADC0 DATA
 Pool_LinkItem_Cape:
 {
-    .mp_depletion_timers
-    ; \note Higher timers mean it takes longer for a point of magic power
+    ; Note: Higher timers mean it takes longer for a point of magic power
     ; to be consumed by the cape. Also note that the 1/4th magic consumption
     ; status isn't any better than 1/2 in this case.
+    .mp_depletion_timers
     db 4, 8, 8
 }
 
@@ -7000,7 +7010,7 @@ LinkItem_Cape:
         ; Load Link's magic power reserves.
         LDA.l $7EF37B : TAY
         
-        ; Load the next delay timer
+        ; Load the next delay timer.
         LDA .mp_depletion_timers, Y : STA.b $4C
         
         ; If the magic counter has totally depleted, branch.
@@ -7195,10 +7205,12 @@ Pool_PlayerItem_CaneOfByrna:
 ; $03AF3E-$03AFB4 JUMP LOCATION
 PlayerItem_CaneOfByrna:
 {
-    ; $03AFB5 IN ROM; Check to see if it's okay to do
+    ; $03AFB5 IN ROM
+    ; Check to see if it's okay to do.
     JSR.w $AFB5 : BCS LinkItem_CaneOfSomaria_return
         ; Check to see if the Y button is down.
-        BIT.b $3A : BVS .BRANCH_ALPHA ; Yes it's down
+        BIT.b $3A : BVS .BRANCH_ALPHA
+            ; Yes it's down.
             LDA.b $6C : BNE LinkItem_CaneOfSomaria_return
                 JSR Link_CheckNewY_ButtonPress : BCC LinkItem_CaneOfSomaria_return
                     LDX.b #$08
@@ -7211,6 +7223,7 @@ PlayerItem_CaneOfByrna:
                         
                         STZ.b $79
                         
+                        ; TODO: Is this supposed to have a , X or , Y?
                         LDA Pool_PlayerItem_CaneOfByrna_animation_delays : STA.b $3D
                         
                         STZ.w $030D
@@ -7301,17 +7314,17 @@ Pool_LinkItem_Net:
 {
     ; $03AFCC
     .pose_id
-    db $0B, $06, $07, $08, $01, $02, $03, $04, $05, $06 ; up
-    db $01, $02, $03, $04, $05, $06, $07, $08, $01, $02 ; down
-    db $09, $04, $05, $06, $07, $08, $01, $02, $03, $04 ; left
-    db $0A, $08, $01, $02, $03, $04, $05, $06, $07, $08 ; right
+    db $0B, $06, $07, $08, $01, $02, $03, $04, $05, $06 ; Up
+    db $01, $02, $03, $04, $05, $06, $07, $08, $01, $02 ; Down
+    db $09, $04, $05, $06, $07, $08, $01, $02, $03, $04 ; Left
+    db $0A, $08, $01, $02, $03, $04, $05, $06, $07, $08 ; Right
 
     ; $03AFF4
     .pose_offset
-    db $00 ; up
-    db $0A ; down
-    db $14 ; left
-    db $1E ; right
+    db $00 ; Up
+    db $0A ; Down
+    db $14 ; Left
+    db $1E ; Right
 }
 
 ; $03AFF8-$03B072 LOCAL JUMP LOCATION
@@ -7405,30 +7418,38 @@ Link_CheckNewY_ButtonPress:
 ; $03B087-$03B0AA DATA
 LinkItem_MagicCosts:
 {
-    .cost
     ; Fire rod and ice rod
+    ; $03B087
+    .cost
     db $10, $08, $04
     
     ; Medallion spells
+    ; $03B08A
     db $20, $10, $08
     
     ; Magic powder
+    ; $03B08D
     db $08, $04, $02
     
     ; Unused?
+    ; $03B090
     db $08, $04, $02
     
     ; Cane of Somaria
+    ; $03B093
     db $08, $04, $02
     db $10, $08, $04
     
     ; Lamp
+    ; $03B099
     db $04, $02, $02
     
     ; Unused?
+    ; $03B08C
     db $08, $04, $02
     
     ; Cane of Byrna
+    ; $03B09F
     db $10, $08, $04
 
     ; $03B0A2
@@ -7451,7 +7472,7 @@ LinkItem_EvaluateMagicCost:
 {
     STX.b $02
     
-    ; Load an index into the table below
+    ; Load an index into the table below.
     LDA LinkItem_MagicCostBaseIndices, X : CLC : ADC.l $7EF37B : TAX
     
     ; This tells us how much magic to deplete.
@@ -7464,7 +7485,7 @@ LinkItem_EvaluateMagicCost:
             ; Otherwise just take it like a man.
             STA.l $7EF36E
             
-            ; Indicates success
+            ; Indicates success.
             SEC
             
             RTS
@@ -7479,18 +7500,19 @@ LinkItem_EvaluateMagicCost:
 ; $03B0D4-$03B0E8 LOCAL JUMP LOCATION
 Link_DisplayNoMagicMessage:   
 {
-    ; You naughty boy you have no magic pwr!
+    ; You naughty boy you have no magic power!
     LDA.b #$3C : JSR Player_DoSfx2
     
     REP #$20
     
-    ; Prints that annoying message saying you're out of magic power >:(
+    ; Prints that annoying message saying you're out of magic power.
     LDA.w #$007B : STA.w $1CF0
     
     SEP #$20
     
     JSL Main_ShowTextMessage
     
+    ; $03B0E7 ALTERNATE ENTRY POINT
     .return
     
     CLC
@@ -7534,15 +7556,15 @@ Link_ItemReset_FromOverworldThings:
 
 ; ==============================================================================
 
+; Code for picking things up
 ; $03B11C-$03B198 LOCAL JUMP LOCATION
 Link_Lift:
 {
-    ; Code for picking things up
-    LDA.w $0314 ; Flag for if there's a sprite to pick up
-    ORA.w $02EC ; Flag for if there's an ancilla to pick up
-    
-    BNE .BRANCH_ALPHA
-        JSR.w $9D84 ; $039D84 IN ROM; Prep Link for picking things up
+    ; The flag for if there's a sprite to pick up or the lag for if there's an
+    ; ancilla to pick up.
+    LDA.w $0314  : ORA.w $02EC : BNE .BRANCH_ALPHA
+        ; Prep Link for picking things up.
+        JSR.w $9D84 ; $039D84 IN ROM
         
         STZ.b $3B
         
@@ -7600,7 +7622,7 @@ Link_Lift:
         
         JSL Sprite_SpawnThrowableTerrain
         
-        ; negate further A button presses
+        ; Negate further A button presses.
         ASL.b $F6 : LSR.b $F6
     
     .BRANCH_ALPHA
@@ -7611,10 +7633,10 @@ Link_Lift:
     
     STZ.b $3A
     
-    ; Set an animation timer
+    ; Set an animation timer.
     LDA.w $B199 : STA.w $030B
     
-    ; Set it so Link is kneeling down to pick up the item
+    ; Set it so Link is kneeling down to pick up the item.
     LDA.b #$01 : STA.w $0309
     
     LDA.b #$80 : STA.w $0308
@@ -7644,22 +7666,32 @@ Pool_LinkToss:
     .timer_a
     db $06, $07, $07
 
-    ; tile attributes to compare with... replacement tiles resulting from picking
-    ; shit up?
-    ; $3B1AD
-    db $54, $52, $50, $FF, $51, $53, $55, $56
+    ; Tile attributes to compare with... replacement tiles resulting from
+    ; picking stuff up?
+    ; $03B19C
+    .timer_b
+    db $05, $0A, $00, $17, $00, $12, $00, $12
+    db $00, $08, $00, $08, $00, $FE, $FF, $11
+    db $00
+        
+    ; $03B1AD
+    .liftable_tiles
+    db $54, $52, $50, $FF
+    db $51, $53, $55, $56
     db $57
     
-    ; $3B1B6
-    db $08, $18, $08, $18, $08, $20, $06, $08
-    db $0D, $0D
-    
-    ; $3B1C0
-    db $00, $01, $00, $01, $00, $01, $00, $01
+    ; $03B1B6
+    .heavy_lift_animation_timers
+    db   8,  24,   8,  24
+    db   8,  32,   6,   8
+    db  13,  13
+
+    ; $03B1C0
+    .heavy_lift_animation_steps
+    db $00, $01, $00, $01
+    db $00, $01, $00, $01
     db $02, $03
 }
-
-; ==============================================================================
 
 ; $03B1CA-$03B280 LOCAL JUMP LOCATION
 Link_APress_LiftCarryThrow:
@@ -7676,7 +7708,8 @@ Link_APress_LiftCarryThrow:
         ; Is Link picking up an item?
         ; No...
         LDA.w $0309 : BEQ .notPickingSomethingUp
-            JSR.w HaltLinkWhenUsingItems ; Link is picking up an item, handle it.
+            ; Link is picking up an item, handle it.
+            JSR.w HaltLinkWhenUsingItems
         
         .notPickingSomethingUp
         
@@ -7685,12 +7718,12 @@ Link_APress_LiftCarryThrow:
             STZ.b $2E
             STZ.b $2D
             
-            ; Make it so Link does not appear to be walking
+            ; Make it so Link does not appear to be walking.
             LDA.b $67 : AND.b #$F0 : STA.b $67
         
         .notPickingUpInProgress
         
-        ; Timer used for picking up the item and throwing it
+        ; Timer used for picking up the item and throwing it.
         DEC.w $030B : LDA.w $030B : BNE Link_Lift_return
             LDA.w $0309 : AND.b #$02 : BEQ .delta
                 STZ.w $0308
@@ -7762,14 +7795,16 @@ Link_APress_LiftCarryThrow:
 
 ; ==============================================================================
 
-; $03B281-$03B2ED LOCAL JUMP LOCATION ; Commented by Zarby89
+; Commented by Zarby89
+; $03B281-$03B2ED LOCAL JUMP LOCATION
 Link_PerformDash:
 {
     ; Are we on a somaria platform?
     LDA.w $02F5 : BNE Link_APress_LiftCarryThrow_return
         ; Touching a sprite?
         LDA.w $0314 : ORA.w $02EC : BNE Link_APress_LiftCarryThrow_return
-            BIT.w $0308 : BMI Link_APress_LiftCarryThrow_return; holding an object?
+            ; Holding an object?
+            BIT.w $0308 : BMI Link_APress_LiftCarryThrow_return
             
                 ; Are we inside?
                 LDA.b $1B : BNE .BRANCH_ALPHA 
@@ -7777,54 +7812,55 @@ Link_PerformDash:
 
                 .BRANCH_ALPHA
                 
-                STZ.b $3B ; Reset A button
+                STZ.b $3B ; Reset A button.
                     
-                LDA.b #$1D : STA.w $0374 ; dash timer
+                LDA.b #$1D : STA.w $0374 ; Dash timer
                     
-                LDA.b #$40 : STA.w $02F1 ; dash timer related
+                LDA.b #$40 : STA.w $02F1 ; Dash timer related
                     
                 LDA.b #$11 : STA.b $5D ; Set player in falling state...
                     
-                LDA.b #$01 : STA.w $0372 ; will bounce if touch (bonk)
+                LDA.b #$01 : STA.w $0372 ; Will bounce if touch (bonk)
                     
-                ; B button has been held for more than 1 frame
+                ; B button has been held for more than 1 frame.
                 LDA.b $3A : AND.b #$80 : STA.b $3A
 
-                ; Clear a bunch of variables related to player
+                ; Clear a bunch of variables related to player.
                 STZ.w $0308
                 STZ.w $0301
                 STZ.b $48
                 STZ.b $6B
                     
-                LDA.l $7EF3CC : TAX ; Get the follower ID in X
+                LDA.l $7EF3CC : TAX ; Get the follower ID in X.
 
                 ; N  Z  OM OM OM IZ BM FR DW TH KI ?? TC SB MS
                 ; FF 00 02 00 00 00 00 00 00 00 00 00 00 00 00
                 CMP.w $8F68, X : BNE .tagalong_not_enabled_for_this
-                    ; Basically, only the old man makes it through here (tagalong
-                    ; 0x02)
+                    ; Basically, only the old man makes it through here
+                    ; (tagalong  0x02).
 
-                    ; set walking speed to normal
+                    ; Set walking speed to normal.
                     STZ.b $5E
                         
-                    ; Tagalong state
+                    ; Tagalong state.
                     LDX.w $02CF
                     
                     ; BUG: This is not cool, bro. Writing to bank 0x07?
-                    ; Perhaps mentionable enough that maybe they wanted the player
-                    ; to lose the old man here? This is a mistake and was ment to
-                    ; write to SRM. ex: STA.l $7EF3CD. See the latter half of the
-                    ; function Tagalong_NoTimedMessage in tagalong.asm.
+                    ; Perhaps mentionable enough that maybe they wanted the
+                    ; player  to lose the old man here? This is a mistake and
+                    ; was ment to write to SRM. ex: STA.l $7EF3CD. See the
+                    ; latter half of thefunction Tagalong_NoTimedMessage in
+                    ; tagalong.asm.
 
-                    ; Grabbing Y Position (position to grab it back)
+                    ; Grabbing Y Position (position to grab it back).
                     LDA.w $1A00, X : STA.w $F3CD
                     LDA.w $1A14, X : STA.w $F3CE
                         
-                    ; Grabbing X Position (position to grab it back)
+                    ; Grabbing X Position (position to grab it back).
                     LDA.w $1A28, X : STA.w $F3CF
                     LDA.w $1A3C, X : STA.w $F3D0
                         
-                    LDA.b $EE : STA.w $F3D2 ; Dungeon Layer  
+                    LDA.b $EE : STA.w $F3D2 ; Dungeon Layer
                         
                     LDA.b #$40 : STA.w $02D2 ; Timer to reaquire big bomb
 
@@ -7838,10 +7874,10 @@ Link_PerformDash:
 
 ; ==============================================================================
 
+; Link grabs a wall action
 ; $03B2EE-$03B30F JUMP LOCATION
 Link_PerformGrab:
 {
-    ; Link grabs a wall action
     LDA.b $3A : AND.b #$80 : BEQ .noCurrentAction
         LDA.b $3C : CMP.b #$09 : BCS Link_PerformDash_return
     
@@ -7988,7 +8024,7 @@ Link_APress_StatueDrag:
 ; $03B3E5-$03B40C JUMP LOCATION
 Link_PerformRupeePull:
 {
-    ; Must be facing in the up direction in order to go rolling backwards
+    ; Must be facing in the up direction in order to go rolling backwards.
     LDA.b $2F : BNE .notFacingUp
         JSL Player_ResetState
         
@@ -8080,7 +8116,7 @@ LinkState_TreePull:
                 
                 LDA.b #$00 : STA.b $5D
                 
-                BRL LinkState_Default ; GO TO NORMAL MODE
+                BRL LinkState_Default ; GO TO NORMAL MODE.
         
         .BRANCH_IOTA
         
@@ -8154,7 +8190,7 @@ Link_Read:
     
     LDA.l $7EF3C5 : AND.w #$00FF : CMP.w #$0002 : BCS .savedZeldaOnce
         ; Only use one message for all "beginning" signs.
-        ; That is, "The King will give 100 Rupees to..." message
+        ; That is, "The King will give 100 Rupees to..." message.
         LDA.w #$003A
         
         BRA .showMessage
@@ -8204,18 +8240,18 @@ Link_ReceiveItemAlternates:
 
 ; ==============================================================================
 
+; Checks if we can open the chest, and sets up the transfer of the item to
+; link's inventory.
 ; $03B574-$03B5BF JUMP LOCATION
 Link_Chest:
 {
-    ; Checks if we can open the chest, and sets up the transfer of the item to link's inventory.
-    
-    ; Not facing up... (can't open the chest)
+    ; Not facing up... (can't open the chest).
     LDA.b $2F : BNE .cantAttempt
         ; Is Link already opening the chest?
         LDA.w $02E9 : BNE .cantAttempt
             ; Is Link in the auxiliary ground state?
             LDA.b $4D : BNE .cantAttempt
-                ; Clear the A button location
+                ; Clear the A button location.
                 STZ.b $3B
                 
                 LDA.b $76
@@ -8228,24 +8264,28 @@ Link_Chest:
                     ; Okay... so what item did we get?
                     ; Items don't run into the negatives, so we messed up.
                     LDY.b $0C : BMI .cantOpen
-                        ; Load an alternate item to use.
-                        ; If it's 0xFF it seems obvious it isn't an alternate b/c items can't be negative.
+                        ; Load an alternate item to use. If it's 0xFF it seems
+                        ; obvious it isn't an alternate because items can't be
+                        ; negative.
                         LDA Link_ReceiveItemAlternates, Y : STA.b $03
                         
                         CMP.b #$FF : BEQ .dontUseAlternate
                             TYA : ASL A : TAX
                             
-                            ; Determine what memory location to give this item over to.
-                            ; Effective address at [$00] is $7E:???? as determined above.
+                            ; Determine what memory location to give this item
+                            ; over to. Effective address at [$00] is $7E:????
+                            ; as determined above.
                             LDA ItemTargetAddr+0, X : STA.b $00
                             LDA ItemTargetAddr+1, X : STA.b $01
                             LDA.b #$7E              : STA.b $02
                             
-                            ; Check what's at that location. Is it empty? (i.e. zero?)
-                            ; We don't have it yet.
+                            ; Check what's at that location. Is it empty? (i.e.
+                            ; zero?).
                             LDA [$00] : BEQ .dontUseAlternate
                                 ; If we do have it, load the alternate.
                                 LDY.b $03
+
+                            ; We don't have it yet.
                         
                         .dontUseAlternate
                         
@@ -8256,7 +8296,7 @@ Link_Chest:
                 
                 .cantOpen
                 
-                ; set item method to... from text?
+                ; Set item method to... from text?
                 STZ.w $02E9
     
     .cantAttempt
@@ -8275,14 +8315,15 @@ Link_CheckNewAPress:
         ; Can Link move?
         LDA.b $46 : BNE .failure
             ; Did the A button just go down this frame?
-            ; No it was not pushed this frame
             LDA.b $F6 : AND.b #$80 : BEQ .failure
-                ; Well, it was pushed this frame, so communicate that to $3B
+                ; Well, it was pushed this frame, so communicate that to $3B.
                 TSB.b $3B
                 
                 SEC
                 
                 RTS
+
+            ; No it was not pushed this frame.
         
     .failure
     
@@ -8296,7 +8337,7 @@ Link_CheckNewAPress:
 Link_HandleToss:
 {
     LDA.b $3B : AND.b #$80 : BEQ .aButtonNotDown
-        ; axlr----, bystudlr's distant cousin
+        ; axlr----, bystudlr's distant cousin.
         LDA.b $F6 : AND.b #$80 : BEQ .aButtonNotDown
             LDA.w $0309 : AND.b #$01 : BNE .aButtonNotDown
                 STZ.w $030D
@@ -8361,7 +8402,7 @@ FlagObstructions:
     
     ; Walking in the up direction?
     AND.b #$08 : BNE .walkingUp
-        ; Walking in the down direction
+        ; Walking in the down direction.
         LDY.b #$02
 
     .walkingUp
@@ -8531,7 +8572,6 @@ FlagObstructions:
 ; $03B7C3-$03B7C6 DATA
 AutoMove49Directions:
 {
-    ; \task Label this pool / routine.
     db 8, 4, 2, 1
 }
 
@@ -8540,16 +8580,17 @@ AutoMove49Directions:
 ; $03B7C7-$03B955 LOCAL JUMP LOCATION
 Link_HandleCardinalCollision:
 {
-    ; Initialize the diagonal wall state
+    ; Initialize the diagonal wall state.
     STZ.b $6E
     
     ; ????
     STZ.b $38
     
-    ; Detects forced diagonal movement, as when walking against a diagonal wall
-    ; Branch if there is [forced] diagonal movement
+    ; Detects forced diagonal movement, as when walking against a diagonal wall.
+    ; Branch if there is [forced] diagonal movement.
     LDA.b $6B : AND.b #$30 : BNE .BRANCH_ALPHA
-        ; $03CCAB IN ROM; Handles left/right tiles and maybe up/down too
+        ; Handles left/right tiles and maybe up/down too.
+        ; $03CCAB IN ROM
         JSR.w $CCAB
         
         LDA.b $6D : BEQ .BRANCH_ALPHA
@@ -8613,7 +8654,7 @@ Link_HandleCardinalCollision:
     
     .BRANCH_BETA
     
-    ; Check the "collision" value (as in Hyrule Magic)
+    ; Check the "collision" value (as in Hyrule Magic).
     LDA.w $046C
     
     CMP.b #$02 : BEQ .BRANCH_THETA
@@ -8687,22 +8728,23 @@ Link_HandleCardinalCollision:
     LDA.b $5D : CMP.b #$0B : BEQ .BRANCH_PI
         LDY.b #$08
         
-        LDA.b $20 : SEC : SBC.b $3E : STA.b $30 : BEQ .BRANCH_PI  BMI .BRANCH_RHO
-            LDY.b #$04
+        LDA.b $20 : SEC : SBC.b $3E : STA.b $30 : BEQ .BRANCH_PI
+            BMI .BRANCH_RHO
+                LDY.b #$04
+            
+            .BRANCH_RHO
+            
+            LDA.b $67 : AND.b #$03 : STA.b $67
+            
+            TYA : TSB.b $67
         
-        .BRANCH_RHO
-        
-        LDA.b $67 : AND.b #$03 : STA.b $67
-        
-        TYA : TSB.b $67
-    
     .BRANCH_PI
     
     ; Two LDA's in a row?
     LDA.b #$02
     
     LDA.b $22 : SEC : SBC.b $3F : STA.b $31 : BEQ .BRANCH_SIGMA
-                                              BMI .BRANCH_TAU
+        BMI .BRANCH_TAU
             LDY.b #$01
         
         .BRANCH_TAU
@@ -8780,8 +8822,8 @@ RunSlopeCollisionChecks_HorizontalFirst:
 CheckIfRoomNeedsDoubleLayerCheck:
 {
     ; Collision settings
-    LDA.w $046C  : BEQ .oneBg
-    CMP.b #$04 : BEQ .oneBg       ; moving water collision setting
+    LDA.w $046C : BEQ .oneBg
+    CMP.b #$04 : BEQ .oneBg ; Moving water collision setting
         CMP.b #$02 : BCC .twoBgs
             CMP.b #$03 : BNE .uselessBranch
                 ; OPTIMIZE: Useless branch.
@@ -8790,8 +8832,11 @@ CheckIfRoomNeedsDoubleLayerCheck:
             
             REP #$20
             
-            LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.b $20 : STA.b $20 : STA.w $0318
-            LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.b $22 : STA.b $22 : STA.w $031A
+            LDA.b $E6 : SEC : SBC.b $E8 : CLC : ADC.b $20
+            STA.b $20 : STA.w $0318
+
+            LDA.b $E0 : SEC : SBC.b $E2 : CLC : ADC.b $22
+            STA.b $22 : STA.w $031A
             
             SEP #$20
         
@@ -8846,19 +8891,19 @@ StartMovementCollisionChecks_Vertical:
     LDA.b $6C : CMP.b #$01 : BNE .notInDoorway
         LDY.b #$00
         
-        ; Basically branch if it's a north facing door
+        ; Basically branch if it's a north facing door.
         LDA.b $20 : CMP.b #$80 : BCC .setLastDirection
             BRA .lowerDoor
 
     .notInDoorway
 
-    ; Will indicate that the last movement was in the up direction
+    ; Will indicate that the last movement was in the up direction.
     LDY.b #$00
     
     LDA.b $30 : BMI .setLastDirection
         .lowerDoor
 
-        ; Since the change in Y coord was positive, it means we moved down
+        ; Since the change in Y coord was positive, it means we moved down.
         LDY.b #$02
 
     .setLastDirection
@@ -8915,7 +8960,7 @@ StartMovementCollisionChecks_Vertical:
 
             .BRANCH_OMICRON
 
-            LDA.w $B7C3, Y : STA.b $49
+            LDA.w AutoMove49Directions, Y : STA.b $49
 
         .BRANCH_XI
 
@@ -9186,7 +9231,7 @@ StartMovementCollisionChecks_Vertical:
         .BRANCH_PI2
 
         LDA.w $02C0 : AND.b #$77 : BEQ .BRANCH_RHO2
-            ; Link is going up a inter-floor staircase so far
+            ; Link is going up a inter-floor staircase so far.
             LDY.b #$08
             
             AND.b #$70 : BEQ .BRANCH_SIGMA2
@@ -9506,15 +9551,15 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
 
         .dashing
 
-        ; Set speed to either walking or dashing speed (probably in anticipation of
-        ; us being off those stairs)
+        ; Set speed to either walking or dashing speed (probably in
+        ; anticipation of us being off those stairs).
         STX.b $5E
 
     .notOnStairs
 
     LDA.b $59 : AND.b #$05 : BEQ .safeFromHoles
         LDA.b $0E : AND.b #$02 : BNE .safeFromHoles
-            ; Is Link on a turtle rock platform
+            ; Is Link on a turtle rock platform?
             LDA.b $5D : CMP.b #$05 : BEQ .return
                 ; Is Link in a recoil state?
                 CMP.b #$02 : BEQ .return
@@ -9524,7 +9569,7 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
                     
                     LDA.b #$01 : STA.b $5B
                     
-                    ; Put Link into the near a hole / falling into a hole state
+                    ; Put Link into the near a hole / falling into a hole state.
                     LDA.b #$01 : STA.b $5D
 
             .return
@@ -9544,7 +9589,7 @@ StartMovementCollisionChecks_Vertical_HandleOutdoors:
 
     .nearReadableTile
 
-    ; See if Link is touching deep water tiles
+    ; See if Link is touching deep water tiles:
     LDA.w $0341 : AND.b #$02 : BEQ .notTouchingWater
         ; OPTIMIZE: Unnecessary branch and block of code.
         BRA .BRANCH_IOTA
@@ -9621,7 +9666,7 @@ Link_HandleEnteringWater_Vertical:
         
         LDA.b $4D : BNE .BRANCH_LAMBDA
             ; This section of code is what causes us to jump out of the water
-            ; at a dock
+            ; at a dock.
             LDA.w $0340 : STA.b $26
             
             LDA.b #$01 : STA.w $037B
@@ -9629,7 +9674,7 @@ Link_HandleEnteringWater_Vertical:
             LDA.b #$15
             LDY.b #$00
             
-            ; Jump out of the water onto a docking area
+            ; Jump out of the water onto a docking area.
             JSL AddTransitionSplash ; $0498FC IN ROM
             
             BRL Link_HopInOrOutOfWater_Vertical
@@ -9783,7 +9828,7 @@ Link_HandleEnteringWater_Vertical:
             LDA.b $66 : AND.b #$02 : BNE .BRANCH_ALIF
                 LDA.b #$02 : STA.b $5E
                 
-                ; Walking on basic stairs (near Eastern Palace)
+                ; Walking on basic stairs (near Eastern Palace).
                 LDA.b #$01 : STA.b $57
                 
                 RTS
@@ -9821,10 +9866,10 @@ Link_HandleEnteringWater_Vertical:
         ; The AND with 0x02 ensures that it's a centered push against the
         ; gravestone.
         LDA.w $02E7 : AND.b #$02 : BEQ .resetGravestoneCounter
-            ; If the last direction Link moved was any direction other than up, we
-            ; reset the counter.
+            ; If the last direction Link moved was any direction other than up,
+            ; we reset the counter.
             LDA.b $66 : BNE .resetGravestoneCounter
-                ; dashing?
+                ; Dashing?
                 LDA.w $0372 : BNE .moveGravestone
                     DEC.b $61 : BPL .dontMoveGravestone
 
@@ -9888,7 +9933,7 @@ RunLedgeHopTimer:
         ; Is Link running? Bypass waiting to jump off of a ledge. I think...
         LDA.w $0372 : BNE .BRANCH_BETA
             ; $03C17B Change from 10 to 80 to stop players from jumping off
-            ; ledges unless dashing
+            ; ledges unless dashing.
             
             DEC.w $0375 : BPL .BRANCH_ALPHA
                 LDA.b #$13 : STA.w $0375
@@ -9941,7 +9986,7 @@ Link_BonkAndSmash:
 {
     ; Dashing?
     LDA.w $0372 : BEQ RunLedgeHopTimer_EXIT_AND_CLC
-        ; Check if we just started dashing
+        ; Check if we just started dashing:
         LDA.w $02F1 : CMP.b #$40 : BEQ RunLedgeHopTimer_EXIT_AND_CLC
             ; Presumably this checks collision with rock piles?
             LDA.w $02EF : AND.b #$70 : BEQ RunLedgeHopTimer_EXIT_AND_CLC
@@ -10418,7 +10463,7 @@ StartMovementCollisionChecks_Horizontal:
 
                 .BRANCH_XI
 
-                LDA.w $B7C3, Y : STA.b $49
+                LDA.w AutoMove49Directions, Y : STA.b $49
 
             .BRANCH_NU
 
@@ -10495,8 +10540,8 @@ StartMovementCollisionChecks_Horizontal:
 
     .BRANCH_OMEGA
 
-    ; Apparently they knew how to use TSB but now how to use TRB >___>
-    ; LDA.b #$02 : TRB $0322 would have sooooo worked here
+    ; Apparently they knew how to use TSB but now how to use TRB.
+    ; LDA.b #$02 : TRB $0322 would have worked here.
     LDA.w $0322 : AND.b #$FD : STA.w $0322
 
     .BRANCH_PSI
@@ -11214,9 +11259,9 @@ StartMovementCollisionChecks_Horizontal_HandleOutdoors:
 
     STZ.b $6B
     
-    ; Check for spike block interactions
+    ; Check for spike block interactions.
     LDA.w $02E8 : AND.b #$07 : BEQ .noSpikeBlockInteraction
-        ; Link is flashing or otherwise invincible
+        ; Link is flashing or otherwise invincible.
         LDA.b $46 : ORA.w $031F : ORA.b $55 : BNE .ignoreSpikeBlocks
             LDA.b $22
             
@@ -11331,7 +11376,8 @@ ChangeAxisOfPerpendicularDoorMovement_Horizontal:
 {
     LDA.b #$02 : TSB.b $50
     
-    LDA.b $0E : LSR #4 : ORA.b $0E : AND.b #$0F : STA.b $00 : AND.b #$07 : BNE .BRANCH_ALPHA
+    LDA.b $0E : LSR #4 : ORA.b $0E : AND.b #$0F : STA.b $00
+    AND.b #$07 : BNE .BRANCH_ALPHA
         STZ.b $6C
         
         BRA .BRANCH_BETA
@@ -11471,7 +11517,7 @@ Link_HandleDiagonalKickback:
     .BRANCH_ALPHA
     
     ; This is executed if there is no horizontal movement (vertical doesn't
-    ; matter)
+    ; matter).
     
     BRL .BRANCH_THETA
         .BRANCH_BETA
@@ -11488,10 +11534,10 @@ Link_HandleDiagonalKickback:
         
         LDY.b #$04
         
-        ; Is Link moving to the left? If so, branch
+        ; Is Link moving to the left? If so, branch.
         LDA.b $31 : BMI .BRANCH_GAMMA
             ; This probably sets up a different hit detection box b/c he's
-            ; looking in a different direction
+            ; looking in a different direction.
             LDY.b #$06
         
         .BRANCH_GAMMA
@@ -11533,7 +11579,7 @@ Link_HandleDiagonalKickback:
                 LDA.b $6B : AND.b #$0F : BEQ .BRANCH_THETA
                     
                     ; Store the diagonal movement characteristics to $6D (but
-                    ; why?)
+                    ; why?).
                     LDA.b $6B : STA.b $6D
                     
                     REP #$20
@@ -11605,10 +11651,10 @@ Link_HandleDiagonalKickback:
     RTS
 }
 
+; This probably the up/down movement handler analagous to $03CE2A below
 ; $03CDCB-$03CE29 LOCAL JUMP LOCATION
 TileDetect_Movement_Vertical:
 {
-    ; This probably the up/down movement handler analagous to $3CE2A below
     REP #$20
     
     JSR TileDetect_ResetState
@@ -11646,8 +11692,9 @@ TileDetect_Movement_Vertical:
 ; $03CE2A-$03CE84 LOCAL JUMP LOCATION
 TileDetect_Movement_Horizontal:
 {
-    ; Note, this routine only execute when Link is moving horizontally
-    ; (Yes, it will execute if he's moving in a diagonal direction since that includes horizontal)
+    ; Note, this routine only execute when Link is moving horizontally (Yes, it
+    ; will execute if he's moving in a diagonal direction since that includes
+    ; horizontal).
     
     REP #$20
     
@@ -11890,9 +11937,9 @@ Pool_TileDetect_MainHandler:
 
     ; $03D06C
     .spike_floor_damage
-    db $08 ; green
-    db $08 ; blue
-    db $08 ; red
+    db $08 ; Green
+    db $08 ; Blue
+    db $08 ; Red
 
     ; $03D06F
     .index_offset
@@ -11953,7 +12000,7 @@ TileDetect_MainHandler:
     CMP.w #$0006 : BEQ .BRANCH_EPSILON
     CMP.w #$0007 : BEQ .BRANCH_EPSILON
     CMP.w #$0008 : BEQ .BRANCH_EPSILON
-        ; action types 0x00, 0x05, and 0x04 end up here
+        ; Action types 0x00, 0x05, and 0x04 end up here.
         PHY
         
         JSR TileDetect_Execute
@@ -12086,7 +12133,7 @@ TileDetect_MainHandler:
                 
                 ; $03D2C6 IN ROM
                 JSR.w $D2C6 : BCS .BRANCH_BET
-                    ; Dat be sum swamp o' evil
+                    ; Dat be sum swamp o' evil.
                     LDA.b $8A : CMP.b #$70 : BNE .BRANCH_DALET
                         LDA.b #$1B : JSR Player_DoSfx2
                         
@@ -12129,14 +12176,14 @@ TileDetect_MainHandler:
                     STZ.w $03F5
                     STZ.w $03F6
                     
-                    ; moon pearl
+                    ; Moon pearl
                     LDA.l $7EF357 : BEQ .doesntHaveMoonPearl
                         STZ.b $56
                         STZ.w $02E0
                     
                     .doesntHaveMoonPearl
                     
-                    ; armor level
+                    ; Armor level
                     LDA.l $7EF35B : TAY
                     
                     ; Determine how much damage the spike floor will do to Link.
@@ -12239,31 +12286,31 @@ Pool_PushBlock_AttemptToPushTheBlock:
 {
     ; $03D2E4
     .target_offset_y_a
-    dw $FFFC ; up
-    dw $0014 ; down
-    dw $0004 ; left
-    dw $0004 ; right
+    dw $FFFC ; Up
+    dw $0014 ; Down
+    dw $0004 ; Left
+    dw $0004 ; Right
 
     ; $03D2EC
     .target_offset_y_b
-    dw $FFFC ; up
-    dw $0014 ; down
-    dw $000C ; left
-    dw $000C ; right
+    dw $FFFC ; Up
+    dw $0014 ; Down
+    dw $000C ; Left
+    dw $000C ; Right
 
     ; $03D2F4
     .target_offset_x_a
-    dw $0004 ; up
-    dw $0004 ; down
-    dw $FFFC ; left
-    dw $0014 ; right
+    dw $0004 ; Up
+    dw $0004 ; Down
+    dw $FFFC ; Left
+    dw $0014 ; Right
 
     ; $03D2FC
     .target_offset_x_b
-    dw $000C ; up
-    dw $000C ; down
-    dw $FFFC ; left
-    dw $0014 ; right
+    dw $000C ; Up
+    dw $000C ; Down
+    dw $FFFC ; Left
+    dw $0014 ; Right
 }
 
 ; $03D304-$03D364 LOCAL JUMP LOCATION
@@ -12334,23 +12381,23 @@ Liftable:
 
     ; $03D375
     .GloveLevels
-    db $00 ; sign
-    db $01 ; small gray rock
-    db $00 ; bush
-    db $00 ; dark bush
-    db $02 ; small black rock
-    db $01 ; big gray rock
-    db $02 ; big black rock
+    db $00 ; Sign
+    db $01 ; Small gray rock
+    db $00 ; Bush
+    db $00 ; Dark bush
+    db $02 ; Small black rock
+    db $01 ; Big gray rock
+    db $02 ; Big black rock
 
     ; $03D37C
     .0368ID
-    db $02 ; sign
-    db $03 ; small gray rock
-    db $01 ; bush
-    db $04 ; dark bush
-    db $00 ; small black rock
-    db $05 ; big gray rock
-    db $06 ; big black rock
+    db $02 ; Sign
+    db $03 ; Small gray rock
+    db $01 ; Bush
+    db $04 ; Dark bush
+    db $00 ; Small black rock
+    db $05 ; Big gray rock
+    db $06 ; Big black rock
 }
 
 ; $03D383-$03D444 LOCAL JUMP LOCATION
@@ -12376,7 +12423,7 @@ Link_HandleLiftables:
     LDA.b $22 : CLC : ADC.w #$0008 : AND.b $EC : LSR #3 : STA.b $08
     
     ; The basic idea is that we have a RECT structure with corners $00, $04,
-    ; and corners sort of defined by using offsets at $02, $08
+    ; and corners sort of defined by using offsets at $02, $08.
     
     LDA.w #$0001 : STA.b $0A
     
@@ -12395,12 +12442,12 @@ Link_HandleLiftables:
     
     ; By default, the assumption is that the action button is going to cause us
     ; to dash (There are other actions that have priority above this elsewhere
-    ; though)
+    ; though).
     LDX.b #$02
     
     LDA.b $0E : ORA.w $036D : AND.b #$01 : BEQ .notNearWall
         ; The action will be grabbing a wall since we're close to one and
-        ; hitting the action button
+        ; hitting the action button.
         LDX.b #$03
     
     .notNearWall
@@ -12427,12 +12474,12 @@ Link_HandleLiftables:
         ; Is a readable tile in our path?
         LDA.w $0366 : AND.b #$01 : BEQ .indoorDontRead
             ; Is link facing north?
-            ; no, so don't read anything.
             LDA.b $2F : BNE .indoorDontRead
                 LDA.w $036A : BNE .indoorDontRead
                     ; Current action is reading something.
                     LDX.b #$04
         
+            ; No, so don't read anything.
         .indoorDontRead
         
         BRA .checkIfOpeningChest
@@ -12460,14 +12507,14 @@ Link_HandleLiftables:
         
         .strongEnough
         
-        ; Current action is picking something up
+        ; Current action is picking something up.
         LDX.b #$01
     
     .checkIfOpeningChest
     
     ; Check to see if we're opening a chest.
     LDA.w $02E5 : AND.b #$01 : BEQ .notOpeningChest
-        ; Current action is opening a chest
+        ; Current action is opening a chest.
         LDX.b #$05
     
     .notOpeningChest
@@ -12860,7 +12907,8 @@ TileDetect_SwordSwingDeepInDoor:
     LDA.b $20 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_y+0, Y
     AND.b $EC : STA.b $00
 
-    LDA.b $20 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_y+2, Y AND.b $EC : STA.b $08
+    LDA.b $20 : CLC : ADC.w Pool_TileDetect_SwordSwingDeepInDoor_offset_y+2, Y
+    AND.b $EC : STA.b $08
     
     REP #$10
     
@@ -12936,7 +12984,9 @@ Pool_TileDetection_Execute_underworld:
     dw $DCBC ; $03DCBC 0x0A - Tests and sets bits from $0A into $0343
     dw $DC50 ; $03DC50 0x0B - Tests and sets bits from $0A into $0E
     dw $DC98 ; $03DC98 0x0C - Tests and sets bits from $0A into $0320
-    dw $DDCA ; $03DDCA 0x0D - Tests and sets bits from $0A into $02EE (Spike floor)
+    dw $DDCA ; $03DDCA 0x0D - Tests and sets bits from $0A into $02EE (Spike
+             ;                floor)
+
     dw $DC9E ; $03DC9E 0x0E - Tests and sets bits from $0A into $0348
     dw $DCA4 ; $03DCA4 0x0F - Tests and sets bits from $0A into $0348
     
@@ -12949,7 +12999,9 @@ Pool_TileDetection_Execute_underworld:
     dw $DC54 ; $3DC54 0x16 - Do nothing. Normal tile.
     dw $DC54 ; $3DC54 0x17 - Do nothing. Normal tile.
     
-    dw $DC5D ; $03DC5D 0x18 - These are the slanted wall tiles that make you move diagonally when you move against them
+    dw $DC5D ; $03DC5D 0x18 - These are the slanted wall tiles that make you
+             ;                move diagonally when you move against them
+
     dw $DC5D ; $03DC5D 0x19 - Also a slanted wall
     dw $DC5D ; $03DC5D 0x1A - Also a slanted wall
     dw $DC5D ; $03DC5D 0x1B - Also a slanted wall
@@ -12986,10 +13038,18 @@ Pool_TileDetection_Execute_underworld:
     dw $DC86 ; $03DC86 0x37 - Down Staircase 3
     
     dw $DC54 ; $03DC54 0x38 - Do nothing. Normal tile.
-    dw $DC54 ; $03DC54 0x39 - Do nothing. Normal tile. (Straight up south staircase)
-    dw $DC54 ; $03DC54 0x3A - Do nothing. Normal tile. (Star tile behavior handled elsewhere)
-    dw $DC54 ; $03DC54 0x3B - Do nothing. Normal tile. (Star tile behavior handled elsewhere)
-    dw $DC54 ; $03DC54 0x3C - Do nothing. Normal tile. (Unknown if this has other behavior)
+    dw $DC54 ; $03DC54 0x39 - Do nothing. Normal tile. (Straight up south
+             ;                staircase)
+
+    dw $DC54 ; $03DC54 0x3A - Do nothing. Normal tile. (Star tile behavior
+             ;                handled elsewhere)
+
+    dw $DC54 ; $03DC54 0x3B - Do nothing. Normal tile. (Star tile behavior
+             ;                handled elsewhere)
+
+    dw $DC54 ; $03DC54 0x3C - Do nothing. Normal tile. (Unknown if this has
+             ;                other behavior)
+
     dw $DD9D ; $03DD9D 0x3D - (inter floor staircase?)
     dw $DDA1 ; $03DDA1 0x3E - (inter floor staircase?)
     dw $DDA1 ; $03DDA1 0x3F - (inter floor staircase?)
@@ -13005,7 +13065,9 @@ Pool_TileDetection_Execute_underworld:
     
     dw $DE67 ; $03DE67 0x48 - Aftermath tiles?
     dw $DC54 ; $03DC54 0x49 - Do nothing. Normal tile.
-    dw $DE67 ; $03DE67 0x4A - Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw $DE67 ; $03DE67 0x4A - Same as 0x48 but this tile type doesn't seem to
+             ;                be used in the game anywhere
+
     dw $DEFF ; $03DEFF 0x4B -  Warp Tile
     dw $DC54 ; $03DC54 0x4C - Do nothing. Normal tile.
     dw $DC54 ; $03DC54 0x4D - Do nothing. Normal tile.
@@ -13120,7 +13182,9 @@ Pool_TileDetection_Execute_underworld:
     dw $DCD4 ; $03DCD4 0xAE - Do nothing. Normal tile.
     dw $DCD4 ; $03DCD4 0xAF - Do nothing. Normal tile.
     
-    dw $DC8B ; $03DC8B 0xB0 - Hole tile (same as 0x20 but not sure of other differences :( )
+    dw $DC8B ; $03DC8B 0xB0 - Hole tile (same as 0x20 but not sure of other
+             ;                differences)
+
     dw $DC8B ; $03DC8B 0xB1 - Hole AI ''
     dw $DC8B ; $03DC8B 0xB2 - Hole AI ''
     dw $DC8B ; $03DC8B 0xB3 - Hole AI ''
@@ -13227,7 +13291,7 @@ TileDetect_Execute:
     
     .indoors
     
-    ; Handle dungeon tile attributes
+    ; Handle dungeon tile attributes.
     ; Some quick notes:
     ; $06[1] Is the tile type (no, not the tile type multiplied by two)
     ; $0A[2] Seems to be either 1, 2, 4, or 8. This is basically the tile's
@@ -13236,17 +13300,17 @@ TileDetect_Execute:
     REP #$20
     
     ; It's Link's movement impetus (it makes him move in a given direction each
-    ; frame)
+    ; frame).
     LDA.b $49 : AND.w #$00FF : STA.b $49
     
     LDA.b $00 : AND.w #$FFF8 : ASL #3 : STA.b $06
     
     LDA.b $02 : AND.w #$003F : CLC : ADC.b $06
     
-    ; Which part of a two level room is Link on
+    ; Which part of a two level room is Link on.
     LDX.b $EE : BEQ .lowerFloor
         ; He's on the upper floor then.
-        ; Add this offset in b/c BG0's tile attributes start at $7F3000
+        ; Add this offset in b/c BG0's tile attributes start at $7F3000.
         CLC : ADC.w #$1000
     
     .lowerFloor
@@ -13255,11 +13319,11 @@ TileDetect_Execute:
     
     TAX
     
-    ; Are we figuring out what sort of tile this is
+    ; Are we figuring out what sort of tile this is.
     LDA.l $7F2000, X : PHA
     
     LDA.w $037F : AND.w #$00FF : BEQ .playinByTheRules
-        ; $037F being nonzero is a sort of a hidden cheat code
+        ; $037F being nonzero is a sort of a hidden cheat code.
         PLA
         
         LDA.w #$0000
@@ -13273,13 +13337,13 @@ TileDetect_Execute:
     
     .walkThroughWallsCode
     
-    ; Store the tile type at $06 and mirror it at $0114
+    ; Store the tile type at $06 and mirror it at $0114.
     AND.w #$00FF : STA.b $06 : STA.w $0114
     
-    ; Save the offset for the tile (i.e. its position in $7F2000)
+    ; Save the offset for the tile (i.e. its position in $7F2000).
     STX.b $BD
     
-    ; Multiply this tile index by two and use it to run a service routine for
+    ; Multiply this tile index by two and use it to run a service routine for.
     ; that kind of tile.
     ASL A : TAX
     
@@ -13305,8 +13369,12 @@ Pool_TileDetection_Execute_overworld:
     dw $DD1B ; $03DD1B 0x09 - Shallow water
     dw $DCBC ; $03DCBC 0x0A -
     dw $DD5C ; $03DD5C 0x0B - ????
-    dw $DC98 ; $03DC98 0x0C - Moving floor (e.g. Mothula's room and the one in the Ice Palace)
-    dw $DDCA ; $03DDCA 0x0D - Spike floors, not sure if any exist in Overworld (Didn't Parallel Worlds do this with Lava?)
+    dw $DC98 ; $03DC98 0x0C - Moving floor (e.g. Mothula's room and the one in
+             ;                the Ice Palace)
+
+    dw $DDCA ; $03DDCA 0x0D - Spike floors, not sure if any exist in Overworld
+             ;                (Didn't Parallel Worlds do this with Lava?)
+
     dw $DC9E ; $03DC9E 0x0E - 
     dw $DCA4 ; $03DCA4 0x0F - 
     
@@ -13375,10 +13443,16 @@ Pool_TileDetection_Execute_overworld:
     
     dw $DE67 ; $03DE67 0x48 - aftermath tiles of picking things up?
     dw $DE5B ; $03DE5B 0x49 -
-    dw $DE67 ; $03DE67 0x4A - Same as 0x48 but this tile type doesn't seem to be used in the game anywhere
+    dw $DE67 ; $03DE67 0x4A - Same as 0x48 but this tile type doesn't seem to
+             ;                be used in the game anywhere
+
     dw $DEFF ; $03DEFF 0x4B - Warp tile
-    dw $DEE7 ; $03DEE7 0x4C - Unused, but would probably be for special mountain tiles too
-    dw $DEE7 ; $03DEE7 0x4D - Unused, but would probably be for special mountain tiles too
+    dw $DEE7 ; $03DEE7 0x4C - Unused, but would probably be for special
+             ;                mountain tiles too
+
+    dw $DEE7 ; $03DEE7 0x4D - Unused, but would probably be for special
+             ;                mountain tiles too
+
     dw $DEF1 ; $03DEF1 0x4E - Certain mountain tiles
     dw $DEF1 ; $03DEF1 0x4F - Certain mountain tiles
     
@@ -13490,7 +13564,9 @@ Pool_TileDetection_Execute_overworld:
     dw $DCD4 ; $03DCD4 0xAE -
     dw $DCD4 ; $03DCD4 0xAF -
     
-    dw $DC8B ; $03DC8B 0xB0 - hole tile (somaria transit line, more likely though)
+    dw $DC8B ; $03DC8B 0xB0 - hole tile (somaria transit line, more likely
+             ;                though)
+
     dw $DC8B ; $03DC8B 0xB1 - 
     dw $DC8B ; $03DC8B 0xB2 - 
     dw $DC8B ; $03DC8B 0xB3 - 
@@ -13620,7 +13696,7 @@ TileBehavior_HandleItemAndExecute:
 ; $03DC50-$03DC53 LOCAL JUMP LOCATION
 TileBehavior_StandardCollision:
 {
-    ; $0E is the collision bitfield
+    ; $0E is the collision bitfield.
     LDA.b $0A : TSB.b $0E
 
     ; Bleed into the next function.
@@ -13694,8 +13770,8 @@ TileBehavior_ManualStairs:
 ; $03DC8B-$03DC97 JUMP LOCATION
 TileBehavior_Pit:
 {
-    ; I think this is saying that if Link's on a Somaria platform,
-    ; we won't treat it as something he can fall into
+    ; I think this is saying that if Link's on a Somaria platform, we won't
+    ; treat it as something he can fall into.
     LDA.w $02F5 : AND.w #$00FF : BNE .cant_fall_into_pits
         LDA.b $04 : TSB.b $59
     
@@ -13762,31 +13838,31 @@ TileBehavior_OverlayMask_1C:
     RTS
 }
 
+; BG change
 ; $03DCC8-$03DCD3 LOCAL JUMP LOCATION
 TileBehavior_LayerToggleShutterDoor:
 {
-    ; BG change
     LDA.b $EF : AND.w #$FF00 : ORA.w #$0001 : STA.b $EF
     
     BRA TileBehavior_ShutterDoor
 }    
 
+; BG change and dungeon change (sewer/Hyrule Castle)
 ; $03DCD4-$03DCDF LOCAL JUMP LOCATION
 TileBehavior_LayerAndDungeonToggleShutterDoor:
 {
-    ; BG change and dungeon change (sewer/Hyrule Castle)
     LDA.b $EF : AND.w #$FF00 : ORA #$0003 : STA.b $EF
     
     BRA TileBehavior_ShutterDoor
 }
 
+; Dungeon change
 ; $03DCE0-$03DCE9 LOCAL JUMP LOCATION
 TileBehavior_DungeonToggleShutterDoor:
 {
-    ; Dungeon change
     LDA.b $EF : AND.w #$FF00 : ORA.w #$0002 : STA.b $EF
 
-    ; Bleeds into the next function.   
+    ; Bleeds into the next function.
 }
 
 ; $03DCEA-$03DCFF LOCAL JUMP LOCATION
@@ -13819,10 +13895,10 @@ TileBehavior_Door:
     RTS
 }
 
+; Shallow water tile
 ; $03DD1B-$03DD20 JUMP LOCATION
 TileBehavior_ShallowWater:
 {
-    ; Shallow water tile
     LDA.b $0A : TSB.w $0359
     
     RTS
@@ -13916,7 +13992,7 @@ TileBehavior_Chest:
     ; $03DD95 ALTERNATE ENTRY POINT
     .notBigKeyLock
     
-    ; Since it's not a big key lock, it must be a chest or big chest
+    ; Since it's not a big key lock, it must be a chest or big chest.
     LDA.b $0A : TSB.w $02E5 : TSB.b $0E
     
     RTS
@@ -13954,7 +14030,7 @@ TileBehavior_SouthAutoStairs:
 ; $03DDB1-$03DDC9 LOCAL JUMP LOCATION
 TileBehavior_Spike:
 {
-    ; (invincible b/c he just beat a boss)
+    ; (invincible because he just beat a boss):
     LDA.w $0FFC : BNE .linkInvincible
         LDA.w $0403 : AND.w #$0080 : BEQ .didntGrabHeartContainer
     
@@ -14013,11 +14089,10 @@ TileBehavior_FlaggableDoor:
     RTS
 }
 
+; Blue Rupee tile
 ; $03DDF7-$03DE16 JUMP LOCATION
 TileBehavior_RupeeTile:
 {
-    ; Blue Rupee tile
-    
     LDX.b $BD
     
     ; We need this distinction to know how to update the tilemap.
@@ -14153,7 +14228,7 @@ TileBehavior_Liftable:
     
     .nextTileType
     
-        ; Load this tile's attribute value
+        ; Load this tile's attribute value.
         LDA.b $06 
         
         CMP.w $DE70, X : BNE .noMatch
@@ -14162,8 +14237,8 @@ TileBehavior_Liftable:
             
             .specialCase
             
-            ; The special cases are the two colors of bushes, btw
-            ; The other things that set these particular bits are rockpiles
+            ; The special cases are the two colors of bushes, btw.
+            ; The other things that set these particular bits are rockpiles.
             LDA.b $0A : XBA : ASL #4 : TSB.w $02EE
             
             .notSpecialCase
@@ -14271,7 +14346,7 @@ TileBehavior_GraveStone:
 ; $03DF11-$03DF18 LOCAL JUMP LOCATION
 TileBehavior_HylianPlaque:
 {
-    ; Desert palace trigger tile? (Book o' mudora inscription?)
+    ; Desert palace trigger tile? (Book o' mudora inscription?).
     LDA.b $0A : TSB.w $02EE : TSB.b $0E
     
     RTS
@@ -14280,7 +14355,7 @@ TileBehavior_HylianPlaque:
 ; $03DF19-$03DF25 JUMP LOCATION
 TileBehavior_BonkRocks:
 {
-    ; Rock pile tile
+    ; Rock pile tile.
     LDA.b $0A : TSB.b $0E
     
     XBA : ASL #4 : TSB.w $02EE
@@ -14384,7 +14459,7 @@ FlagMovingIntoSlopes_Vertical:
     TYA : AND.b #$07 : CLC : ADC.b $01 : TAX
     
     ; Check if we've hit one of those diagonal walls... (not really the
-    ; diagonal ones but before them)
+    ; diagonal ones but before them).
     LDA.b $38 : AND.b #$05 : BEQ .BRANCH_BETA
         LDA.b $51 : AND.b #$07 : STA.b $02
         
@@ -14761,7 +14836,7 @@ Link_HandleVelocity:
     LDX.b #$00
     
     ; Filter out Up and down data.
-    ; i.e. one of the left or right directions is down.
+    ; I.e. one of the left or right directions is down.
     LDA.b $67 : TAY : AND.b #$0C : BEQ .BRANCH_NU
         TYA : AND.b #$03 : BEQ .BRANCH_NU
             LDX.b #$01
@@ -14781,7 +14856,7 @@ Link_HandleVelocity:
             
             .BRANCH_PI
             
-            ; Reset it back to 0x20
+            ; Reset it back to 0x20.
             LDA.b #$20 : STA.b $57
             
             BRA .load_subvel
@@ -14843,7 +14918,7 @@ Link_HandleVelocity:
             .BRANCH_CHI
             
             ; Set Link's velocity in this direction (Y = 0 - up/down, 1 -
-            ; left/right)
+            ; left/right).
             LDA.b $0A, X : STA.b $27, X
         
         .BRANCH_PHI
@@ -14892,8 +14967,8 @@ LinkHop_FindArbitraryLandingSpot:
         
     .BRANCH_KESRA
     
-        ; check velocities for different directions
-        ; ($27 is horizontal, $28 is vertical, so Y is 0 or 1)
+        ; Check velocities for different directions ($27 is horizontal, $28 is
+        ; vertical, so Y is 0 or 1).
         LDA.w $0027, Y : ASL #4
         
         CLC : ADC.w $002A, Y : STA.w $002A, Y
@@ -14905,7 +14980,7 @@ LinkHop_FindArbitraryLandingSpot:
         LDY.b #$00
         
         BCC .BRANCH_FATHA
-            ; If the velocity is negative, sign extend to 16 bit
+            ; If the velocity is negative, sign extend to 16 bit.
             ORA.b #$F0 : LDY.b #$FF
         
         .BRANCH_FATHA
@@ -14992,25 +15067,27 @@ HandleSwimStrokeAndSubpixels:
         
         .BRANCH_BETA
         
-        LDA.w $E406, Y : CLC : ADC.w $033C, X : BEQ .BRANCH_GAMMA  BPL .BRANCH_DELTA
-            .BRANCH_GAMMA
+        LDA.w $E406, Y : CLC : ADC.w $033C, X : BEQ .BRANCH_GAMMA
+            BPL .BRANCH_DELTA
+
+        .BRANCH_GAMMA
             
-            LDA.w $E41E, X : AND.b $67 : STA.b $67 : STA.b $26
+        LDA.w $E41E, X : AND.b $67 : STA.b $67 : STA.b $26
             
-            LDA.w $032B, X : CMP.w #$0002 : BNE .BRANCH_EPSILON
-                STZ.w $032B, X
+         LDA.w $032B, X : CMP.w #$0002 : BNE .BRANCH_EPSILON
+            STZ.w $032B, X
                 
-                LDA.w $9639 : STA.w $0334, X
+            LDA.w $9639 : STA.w $0334, X
                 
-                LDA.w #$0002
+            LDA.w #$0002
                 
-                BRA .BRANCH_ZETA
-            
-            .BRANCH_EPSILON
-            
-            LDA.w #$0000 : STA.w $0334, X : STA.w $033B, X
-            
             BRA .BRANCH_ZETA
+            
+        .BRANCH_EPSILON
+            
+        LDA.w #$0000 : STA.w $0334, X : STA.w $033B, X
+            
+        BRA .BRANCH_ZETA
         
         .BRANCH_DELTA
         
@@ -15254,24 +15331,24 @@ Pool_Link_ApplyConveyor:
 {
     ; $03E5E4
     .walking_direction_flags
-    db $08 ; up
-    db $04 ; down
-    db $02 ; left
-    db $01 ; right
+    db $08 ; Up
+    db $04 ; Down
+    db $02 ; Left
+    db $01 ; Right
     
     ; $03E5E8
     .y_speeds
-    db  -8 ; up
-    db   8 ; down
-    db   0 ; left
-    db   0 ; right
+    db  -8 ; Up
+    db   8 ; Down
+    db   0 ; Left
+    db   0 ; Right
 
     ; $03E5EC
     .x_speeds
-    db   0 ; up
-    db   0 ; down
-    db  -8 ; left
-    db   8 ; right
+    db   0 ; Up
+    db   0 ; Down
+    db  -8 ; Left
+    db   8 ; Right
 }
 
 ; $03E5F0-$03E670 LOCAL JUMP LOCATION
@@ -15375,16 +15452,16 @@ Link_HandleMovingAnimation_MainEntry:
     
     .isPushing
     
-    ; Store that push state
+    ; Store that push state.
     STA.b $00
     
-    ; Check the movement flag
+    ; Check the movement flag.
     LDA.w $034A : BEQ .notMoving
         LDA.w $0340 : STA.b $00
     
     .notMoving
     
-    ; Check if Link can change direction
+    ; Check if Link can change direction:
     LDA.b $50 : BNE Link_HandleMovingAnimation_StartWithDash_check_dashing
         LDA.b $6A : BEQ .BRANCH_EPSILON
             LDA.b $6C : BEQ .BRANCH_ZETA
@@ -15407,7 +15484,7 @@ Link_HandleMovingAnimation_MainEntry:
         
         .BRANCH_THETA
         
-        ; check if moving in horizontal direction
+        ; Check if moving in horizontal direction:
         CPY.b #$04 : BEQ .BRANCH_IOTA
             LDA.b $00 : AND.b #$04 : BNE .BRANCH_KAPPA
                 BRA .BRANCH_LAMBDA
@@ -15421,8 +15498,8 @@ Link_HandleMovingAnimation_MainEntry:
         
         .BRANCH_LAMBDA
         
-        ; all this shit really comes down to is setting Link's direction
-        ; but $26 and $2F have somewhat incompatible layouts, *sigh*
+        ; All this really comes down to is setting Link's direction but $26 and
+        ; $2F have somewhat incompatible layouts, *sigh*.
         STY.b $2F
         
         BRA Link_HandleMovingAnimation_StartWithDash_check_dashing
@@ -15451,7 +15528,7 @@ Link_HandleMovingAnimation_StartWithDash:
     .BRANCH_NU
     
     LDA.w $034A : BEQ .BRANCH_XI
-        ; Branch if no direction buttons are held down
+        ; Branch if no direction buttons are held down.
         LDA.b $F0 : AND.b #$0F : BEQ .BRANCH_PI
             TXA : CLC : ADC.b #$04 : TAX
     
@@ -15642,7 +15719,8 @@ Link_HandleMovingAnimation_Dash:
             
             LDA.w $E842, X : STA.b $00
             
-            LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D : CMP.b $00 : BCC .BRANCH_DELTA
+            LDA.b $2D : CLC : ADC.b #$01 : STA.b $2D
+            CMP.b $00 : BCC .BRANCH_DELTA
                 STZ.b $2D
                 
                 LDA.b $2E : INC A : CMP.b #$09 : BNE .BRANCH_EPSILON
@@ -15680,9 +15758,9 @@ Link_HandleMovingAnimation_Dash:
 ; $03E8F0-$03E900 LOCAL JUMP LOCATION
 HandleIndoorCameraAndDoors:
 {
-    ; If outdoors, ignore
+    ; If outdoors, ignore.
     LDA.b $1B : BEQ .return
-        ; I'll deal with this routine later >:(
+        ; I'll deal with this routine later.
         LDA.b $6C : BEQ .notInDoorway
             JML.l $07E901 ; $03E901 IN ROM
         
@@ -15701,12 +15779,12 @@ HandleDoorTransitions:
     STZ.b $68
     STZ.b $69
     
-    ; Check Link's push state for down/up presses
+    ; Check Link's push state for down/up presses:
     LDA.b $26 : AND.b #$0C : BEQ .BRANCH_ALPHA
-        ; See if Link's in a vertical doorway
+        ; See if Link's in a vertical doorway:
         LDX.b $6C : CPX.b #$01 : BNE .BRANCH_ALPHA
-            ; Check for down presses
-            AND.b #$04 : BEQ .BRANCH_BETA ; Not a down press
+            ; Check for down presses:
+            AND.b #$04 : BEQ .BRANCH_BETA
                 REP #$20
                 
                 LDA.b $20 : CLC : ADC.w #$001C : STA.b $00
@@ -15718,6 +15796,8 @@ HandleDoorTransitions:
                     BRA .BRANCH_ALPHA
             
             .BRANCH_BETA
+
+            ; Not a down press.
             
             REP #$20
             
@@ -15731,13 +15811,14 @@ HandleDoorTransitions:
     
     SEP #$20
     
-    ; Check Link's push state for left/right presses
+    ; Check Link's push state for left/right presses:
     LDA.b $26 : AND.b #$03 : BEQ .BRANCH_GAMMA
         LDX.b $6C : CPX.b #$02 : BNE .BRANCH_GAMMA
             AND.b #$01 : BEQ .BRANCH_DELTA
                 REP #$20
                 
-                LDA.b $22 : CLC : ADC.w #$0015 : STA.b $00 : AND.w #$00FC : BNE .BRANCH_GAMMA
+                LDA.b $22 : CLC : ADC.w #$0015 : STA.b $00
+                AND.w #$00FC : BNE .BRANCH_GAMMA
                     SEP #$20
                     
                     LDA.b $01 : SEC : SBC.b $41 : STA.b $69
@@ -15761,13 +15842,14 @@ HandleDoorTransitions:
     ; ????
     LDA.b $69 : BEQ .noHorizontalMovement
         BMI .movedLeft
-            ; NOTE! These are all intra-room transitions
+            ; NOTE! These are all intra-room transitions.
             STZ.w $030B
             STZ.w $0308
             STZ.w $0309
             STZ.w $0376
             
-            JSL.l $02B62E ; $01362E IN ROM ; Transition right
+            ; Transition right.
+            JSL.l $02B62E ; $01362E IN ROM
             
             RTS
     
@@ -15778,7 +15860,8 @@ HandleDoorTransitions:
         STZ.w $0309
         STZ.w $0376
         
-        JSL.l $02B6CD ; $0136CD IN ROM ; Transition left
+        ; Transition left.
+        JSL.l $02B6CD ; $0136CD IN ROM
         
         RTS
     
@@ -16057,7 +16140,8 @@ DesertPrayer_BuildIrisHDMATable:
         .dont_check_button_input
         
         LDA.w $067E : BEQ .dont_expand_spotlight
-            LDA.w $067C : CLC : ADC.b #$08 : STA.w $067C : CMP.b #$C0 : BCC .dont_open_barrier
+            LDA.w $067C : CLC : ADC.b #$08 : STA.w $067C
+            CMP.b #$C0 : BCC .dont_open_barrier
                 LDA.w $02F0 : EOR.b #$01 : STA.w $02F0
                 
                 ; Return music volume to full.
@@ -16296,11 +16380,10 @@ InitializePushBlock:
 
 ; ==============================================================================
 
+; Input parameters: Y
 ; $03EDB5-$03EDF3 LONG JUMP LOCATION
 PushBlock_Slide:
 {
-    ; Input parameters: Y
-    
     SEP #$30
     
     PHB : PHK : PLB
@@ -16555,17 +16638,17 @@ Pool_PushBlock_ApplyVelocity:
 {
     ; $03EF61
     .recoil_x
-    db   0 ; up
-    db   0 ; down
-    db -32 ; left
-    db  32 ; right
+    db   0 ; Up
+    db   0 ; Down
+    db -32 ; Left
+    db  32 ; Right
 
     ; $03EF65
     .recoil_y
-    db -32 ; up
-    db  32 ; down
-    db   0 ; left
-    db   0 ; right
+    db -32 ; Up
+    db  32 ; Down
+    db   0 ; Left
+    db   0 ; Right
 }
 
 ; ==============================================================================
@@ -16575,73 +16658,73 @@ Pool_PushBlock_HandleCollision:
 {
     ; $03EF69
     .link_offset_on_axis
-    dw $0008 ; up
-    dw $0018 ; down
-    dw $0000 ; left
-    dw $0010 ; right
+    dw $0008 ; Up
+    dw $0018 ; Down
+    dw $0000 ; Left
+    dw $0010 ; Right
 
     ; $03EF71
     .link_offset_perpendicular_bottom
-    dw $0000 ; up
-    dw $0000 ; down
-    dw $0008 ; left
-    dw $0008 ; right
+    dw $0000 ; Up
+    dw $0000 ; Down
+    dw $0008 ; Left
+    dw $0008 ; Right
 
     ; $03EF79
     .link_offset_perpendicular_top
-    dw $000F ; up
-    dw $000F ; down
-    dw $0017 ; left
-    dw $0017 ; right
+    dw $000F ; Up
+    dw $000F ; Down
+    dw $0017 ; Left
+    dw $0017 ; Right
 
     ; $03EF81
     .block_offset_on_axis
-    dw $000F ; up
-    dw $0000 ; down
-    dw $000F ; left
-    dw $0000 ; right
+    dw $000F ; Up
+    dw $0000 ; Down
+    dw $000F ; Left
+    dw $0000 ; Right
 
     ; $03EF89
     .block_offset_perpendicular_bottom
-    dw $0000 ; up
-    dw $0000 ; down
-    dw $0000 ; left
-    dw $0000 ; right
+    dw $0000 ; Up
+    dw $0000 ; Down
+    dw $0000 ; Left
+    dw $0000 ; Right
 
     ; $03EF91
     .block_offset_perpendicular_top
-    dw $000F ; up
-    dw $000F ; down
-    dw $000F ; left
-    dw $000F ; right
+    dw $000F ; Up
+    dw $000F ; Down
+    dw $000F ; Left
+    dw $000F ; Right
 
     ; $03EF99
     .link_coord_address_on_axis
-    dw $0020 ; up
-    dw $0020 ; down
-    dw $0022 ; left
-    dw $0022 ; right
+    dw $0020 ; Up
+    dw $0020 ; Down
+    dw $0022 ; Left
+    dw $0022 ; Right
 
     ; $03EFA1
     .link_coord_address_perpendicular
-    dw $0022 ; up
-    dw $0022 ; down
-    dw $0020 ; left
-    dw $0020 ; right
+    dw $0022 ; Up
+    dw $0022 ; Down
+    dw $0020 ; Left
+    dw $0020 ; Right
 
     ; $03EFA9
     .block_coords_address_on_axis
-    dw $0072 ; up
-    dw $0072 ; down
-    dw $0074 ; left
-    dw $0074 ; right
+    dw $0072 ; Up
+    dw $0072 ; Down
+    dw $0074 ; Left
+    dw $0074 ; Right
 
     ; $03EFB1
     .block_coords_address_perpendicular
-    dw $0074 ; up
-    dw $0074 ; down
-    dw $0072 ; left
-    dw $0072 ; right
+    dw $0074 ; Up
+    dw $0074 ; Down
+    dw $0072 ; Left
+    dw $0072 ; Right
 }
 
 ; $03EFB9-$03F0AB LOCAL JUMP LOCATION
@@ -16858,13 +16941,13 @@ Underworld_DrawSinglePushBlock:
     ; The upper accumulator holds the sprite chr.
     XBA
     
-    ; Write sprite's X coordinate
+    ; Write sprite's X coordinate.
     LDA.b $02 : STA ($90), Y : INY
     
-    ; Write sprite's Y coordinate
+    ; Write sprite's Y coordinate.
     LDA.b $00 : STA ($90), Y : INY
     
-    ; swap in the upper accumulator, write sprite's chr.
+    ; Swap in the upper accumulator, write sprite's chr.
     XBA : STA ($90), Y : INY
     
     ; Write sprite's properties.
@@ -16890,7 +16973,7 @@ Init_Player:
     PHB : PHK : PLB
     
     ; This routine basically initializes Link.
-    ; Make Link face down initially
+    ; Make Link face down initially.
     LDA.b #$02 : STA.b $2F
     
     STZ.b $26   ; Link has no push state.
@@ -17023,7 +17106,7 @@ Link_ResetProperties_C:
     STZ.w $02DA
     STZ.b $55
     
-    JSR.w $9D84  ; $039D84 IN ROM
+    JSR.w $9D84 ; $039D84 IN ROM
     
     STZ.w $037B
     STZ.w $0300
@@ -17213,21 +17296,21 @@ HandleLinkOnSpiralStairs:
     
     LDA.b #$06 : STA.w $0378
     
-    ; See if this is a downward staircase
+    ; See if this is a downward staircase.
     LDA.w $0462 : AND.b #$04 : BNE .BRANCH_LAMBDA
         ; Yes...
         
         LDA.b #$17 ; Play the up staircase sound.
         
-        JSR.w $8028 ; Play a sound. (maybe the staircase steps sound?)
+        JSR.w $8028 ; Play a sound (maybe the staircase steps sound?)
         
         BRA .BRANCH_MU
     
-    .BRANCH_LAMBDA ; Yep, downward staircase
+    .BRANCH_LAMBDA ; Yep, downward staircase.
     
     LDA.b #$19
     
-    JSR.w $8028 ; Play a sound. (also a staircase step sound presumably)
+    JSR.w $8028 ; Play a sound (also a staircase step sound presumably).
     
     .BRANCH_MU
     
@@ -17460,7 +17543,7 @@ Tagalong_CanWeDisplayMessage:
 ; $03F49C-$03F4CF LONG JUMP LOCATION
 Player_ApproachTriforce:
 {
-    ; \optimize No local data is used, so we don't have to do this.
+    ; OPTIMIZE: No local data is used, so we don't have to do this.
     PHB : PHK : PLB
     
     LDA.b $20 : CMP.b #$98 : BCC .at_triforce_position
@@ -17521,7 +17604,7 @@ Sprite_CheckIfPlayerPreoccupied:
                 LDA.w $0C4A, X : CMP.b #$27 : BEQ .fail
             DEX : BPL .next_object
             
-            ; Success
+            ; Success.
             PLX
             
             CLC
@@ -17530,7 +17613,7 @@ Sprite_CheckIfPlayerPreoccupied:
     
     .fail
     
-    ; Failure
+    ; Failure.
     PLX
     
     SEC

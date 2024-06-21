@@ -867,6 +867,7 @@ Main_PrepSpritesForNmi:
 
         STA.l $7EC00D
         
+        ; Increment the animated tiles counter. $0400 for each frame.
         LDA.l $7EC00F : CLC : ADC.w #$0400 : CMP.w #$0C00 : BNE .BRANCH_1C
             LDA.w #$0000
         
@@ -1378,7 +1379,7 @@ NMI_DoUpdates:
     
     ; Flag used to indicate that special screen updates need to happen.
     LDA.w $0710 : BEQ .doCoreAnimatedSpriteUpdates
-        JMP .skipCoreAnimatedSpriteUpdates
+        JMP .skipCoreAnimatedTilesUpdate
 
     .doCoreAnimatedSpriteUpdates
 
@@ -9032,11 +9033,10 @@ DecompShieldGfx:
 
 ; ==============================================================================
 
+; Decompress Animated Tiles for Dungeons.
 ; $005337-$005393 LONG JUMP LOCATION
 DecompDungAnimatedTiles:
 {
-    ; Decompress Animated Tiles for Dungeons.
-    
     PHB : PHK : PLB
     
     JSR Decomp_bg_low
@@ -9090,12 +9090,11 @@ DecompDungAnimatedTiles:
 
 ; ==============================================================================
 
+; Decompress Animated Tiles for Overworld.
+; Parameters: Y
 ; $005394-$0053C5 LONG JUMP LOCATION
 DecompOwAnimatedTiles:
 {
-    ; Decompress Animated Tiles for Overworld.
-    ; Parameters: Y
-    
     PHB : PHK : PLB
     
     PHY
@@ -9996,9 +9995,9 @@ AnimateMirrorWarp_TriggerBGChar0:
 
 ; ==============================================================================
 
-; $0058D5-$0058ED JUMP LOCATION (LONG)
 ; Updates animated tiles durring mirror warp. May have other uses.
 ; ZS replaces this whole function. - ZS Custom Overworld
+; $0058D5-$0058ED JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressAnimatedTiles:
 {
     LDY.b #$58
@@ -15231,7 +15230,7 @@ Mirror_InitHdmaSettings:
 
 ; ==============================================================================
 
-; $007E5E-$007F2E LONG JUMP LOCATION
+; $007E5E-$007E63 LONG JUMP LOCATION
 MirrorHDMA:
 {
     INC.b $B0
@@ -15239,8 +15238,12 @@ MirrorHDMA:
     ; Enable hdma (though I thought it already would be at this point).
     LDA.b #$C0 : STA.b $9B
 
-    ; $007E64 ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
 
+; $007E64-$007F2E LONG JUMP LOCATION
+MirrorWarp_BuildWavingHDMATable:
+{
     JSL.l $00EEE7 ; $006EE7 IN ROM
     
     ; Only do something every other frame.
@@ -15332,8 +15335,8 @@ MirrorHDMA:
     RTL
 }
 
-; $007F2F-$007FB6 JUMP LOCATION (LONG)
 ; ZS rewrites part of this function. - ZS Custom Overworld
+; $007F2F-$007FB6 JUMP LOCATION (LONG)
 MirrorWarp_BuildDewavingHDMATable:
 {
     JSL.l $00EEE7 ; $006EE7 IN ROM

@@ -3250,6 +3250,7 @@ $0ADA[0x02] -   Also a ROM Address for DMA transfers, usually is 0x100 higher th
 $0ADC[0x02] -   ROM Address for certain DMA transfers from bank $7E.
                 The value stored here is determined like this: the value at
                 $7EC00F + the fixed value 0xA680.
+                Used in transfering the animated OW tiles.
 
 $0ADE[0x02] -   free ram
 
