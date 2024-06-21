@@ -123,7 +123,7 @@ CrystalMaiden_SpawnAndConfigMaiden:
     
     REP #$20
     
-    ; what? sec : adc ? ohhhhhhhh. it's being all clever and shit.
+    ; what? sec : adc ? ohhhhhhhh. it's being all clever.
     ; the normal way to get the negative of a number in 2's complement
     ; is to xor all the bits (0xffff) and then add 1. This is just doing it
     ; by way of the addition. So it is in fact a pure add of 0x0079, really.

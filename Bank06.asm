@@ -742,24 +742,24 @@ Sprite_SetupHitBoxLong:
     PHA
     
     ; Is the sprite Agahnim?
-    LDA.w $0E20, X : CMP.b #$7A : BNE .not_agahnim_bitching
+    LDA.w $0E20, X : CMP.b #$7A : BNE .not_agahnim_complaining
     
     ; branch if in the dark world
-    LDA.w $0FFF : BNE .not_agahnim_bitching
+    LDA.w $0FFF : BNE .not_agahnim_complaining
     
     ; subtract off damage from agahnim
-    LDA.w $0E50, X : SEC : SBC.w $0CE2, X : BEQ .agahnim_bitches
-                                  BCS .not_agahnim_bitching
+    LDA.w $0E50, X : SEC : SBC.w $0CE2, X : BEQ .agahnim_complains
+                                  BCS .not_agahnim_complaining
     
-    .agahnim_bitches
+    .agahnim_complains
     
-    ; Agahnim bitching about you beating him in the Light world
+    ; Agahnim complaining about you beating him in the Light world
     LDA.b #$40 : STA.w $1CF0
     LDA.b #$01 : STA.w $1CF1
     
     JSL Sprite_ShowMessageMinimal
     
-    .not_agahnim_bitching
+    .not_agahnim_complaining
     
     PLA
     
@@ -890,8 +890,7 @@ Sprite_ExecuteSingle:
     ; 3050F ALTERNATE ENTRY POINT
     shared SpritePrep_ThrowableScenery:
     
-    ; Why the hell *this* is used as an alternate entry point is beyond
-    ; me.
+    ; Why *this* is used as an alternate entry point is beyond me.
     RTS
     
     ; $030510 ALTERNATE ENTRY POINT
@@ -3492,7 +3491,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA.w $0EA0, X : BEQ .BRANCH_BETA
     
-    ; \optimize If this code is reached, it's bound to be pretty damn slow.
+    ; \optimize If this code is reached, it's bound to be pretty slow.
     ; Mainly, it's calling the same code 3 times to do 3 additions, so
     ; why not just adjust the amounts in the table by a factor of 3?
     JSR .add_offset
@@ -3519,7 +3518,7 @@ Sprite_CheckTileCollisionSingleLayer:
     
     LDA.w $0EA0, X : BEQ .add_offset
     
-    ; \optimize If this code is reached, it's bound to be pretty damn slow.
+    ; \optimize If this code is reached, it's bound to be pretty slow.
     ; Mainly, it's calling the same code 3 times to do 3 additions, so
     ; why not just adjust the amounts in the table by a factor of 3?
     JSR .add_offset
@@ -4018,10 +4017,9 @@ Sprite_ProjectSpeedTowardsPlayer_return:
 ; $036991-$036A03 LOCAL JUMP LOCATION
 Sprite_ProjectSpeedTowardsPlayer:
 {
-    ; Calculates a trajectory with a given magnitude.... but there's some
-    ; broke ass trigonometry going on up in this bitch. Replacing
-    ; this with the lookup tables in the dark prophecy hack could be
-    ; a good idea.
+    ; Calculates a trajectory with a given magnitude.... but there's some broken
+    ; trigonometry going on. Replacing this with the lookup tables in the dark
+    ; prophecy hack could be a good idea.
     
     ; $01 is the magnitude or force of the trajectory. i should probably
     ; look up technical definitions of words like trajectory one of these
@@ -5109,7 +5107,7 @@ Ancilla_CheckSpriteDamage:
     
     LDA.w $0E20, X : CMP.b #$23 : BNE .BRANCH_EPSILON
     
-    ; \task Figure out what the hell this means? Stunning a blue onoff makes
+    ; \task Figure out what this means? Stunning a blue onoff makes
     ; them turn into a red one? What?
     INC A : STA.w $0E20, X
     

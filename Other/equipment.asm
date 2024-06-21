@@ -464,7 +464,7 @@ NormalMenu:
     LDA.w $0202 : STA.b $00
     
     ; Joypad 2.... interesting. It's checking the R button.
-    LDA.b $F7 : AND.b #$10 : BEQ .dontBeAJackass
+    LDA.b $F7 : AND.b #$10 : BEQ .dontBeAJerk
     
     ; Apparently pressing R on Joypad 2 (if it's enabled) deletes your currently selected item.
     ; Imagine playing the game with your friend constantly trying to delete your items
@@ -476,7 +476,7 @@ NormalMenu:
     ; unlike .movingOut, Anthony's Song.
     BRA .movingOn
     
-    .dontBeAJackass
+    .dontBeAJerk
     
     ; BYSTudlr says that we're checking if the up direction is pressed!!!!!! RAWWWWWWWRRRHHGHGH!!!!!
     ; BYSTudrl sounds like a name, like Baiyst Yudler, a German superbrute that hacks roms by breaking them in two!!!!

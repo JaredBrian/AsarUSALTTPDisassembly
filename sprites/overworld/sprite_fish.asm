@@ -235,14 +235,14 @@ Fish_FlopAround:
     
     INC.w $0E80, X
     
-    ; \note The way they simulate a flopping fish is quite impressive.
+    ; Note: The way they simulate a flopping fish is quite impressive.
     ; Just kind of... awed by it. It could be more detailed but it's
-    ; pretty damn good the way it is.
+    ; pretty good the way it is.
     LDA.w $0E80, X : AND.b #$07 : BNE .delay_animation_base_adjustment
     
     LDA.w $0DE0, X : AND.b #$01 : TAY
     
-    ; \note The index for the animation fluctates between 0 and 2 inclusive.
+    ; Note: The index for the animation fluctates between 0 and 2 inclusive.
     LDA.w $0D90, X : CMP .boundary_limits, Y : BEQ .at_boundary_already
     
     CLC : ADC Sprite_ApplyConveyorAdjustment.x_shake_values, Y : STA.w $0D90, X

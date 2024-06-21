@@ -1194,7 +1194,7 @@ Pool_Blind_Animate:
 ; $0EA6EF-$0EA744 LOCAL JUMP LOCATION
 Blind_Animate:
 {
-    ; \task What the hell is this routine doing? Targeting the laser on
+    ; \task What is this routine doing? Targeting the laser on
     ; the player? Update: it seems to roughly try to track where the
     ; player is, but Blind has bad eyesight so he still kind of haphazardly
     ; looks for the player.

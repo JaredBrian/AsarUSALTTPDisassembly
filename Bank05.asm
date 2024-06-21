@@ -2490,8 +2490,7 @@ Sprite_DrawMultiple:
     
     PHX
     
-    ; Routine is definitely used in drawing maidens. (<-- No shit sherlock,
-    ; and lots of other stuff!)
+    ; Routine is definitely used in drawing maidens.
     REP #$30
     
     LDY.w #$0000

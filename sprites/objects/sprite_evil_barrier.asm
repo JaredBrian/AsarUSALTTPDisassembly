@@ -31,7 +31,7 @@ Sprite_EvilBarrier:
     ; got master sword?
     LDA.l $7EF359 : CMP.b #$02 : BCS .anozap_from_player_attack
     
-    ; no? yo' ass be gettin electrocuted, son
+    ; no? you gettin electrocuted, son
     STZ.w $0EF0, X
     
     JSL Sprite_AttemptDamageToPlayerPlusRecoilLong

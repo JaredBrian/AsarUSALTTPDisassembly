@@ -1553,7 +1553,7 @@ Sprite_ActivateWhenProximal_Horizontal:
 {
     LDY.b #$00
     
-    ; Related to bombs? (i.e. no fucking clue).
+    ; Related to bombs? (i.e. no clue).
     LDA.w $069F : BEQ .return
         BPL .beta
             INY

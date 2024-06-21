@@ -1223,7 +1223,7 @@ $012F[0x01] -   (Sound)
     0x1C:   doing minor damage to enemy
     0x1D:   taking magic power damage from enemy
     0x1E:   keese flitting around
-    0x1F:   Link squealing like a bitch when he falls into a hole
+    0x1F:   Link screaming when he falls into a hole
     
     0x20:   switch menu item
     0x21:   boss taking damage
@@ -1308,7 +1308,7 @@ $020A[0x01] -   (HUD)
 
 $020B[0x01] -   Seems to be a debug value for Module 0x0E.0x01
 
-$020C[0x01] -   oh hells naw
+$020C[0x01] -   oh naw
 
 $020D[0x01] -   Used in some submodule of module 0x0E in Bank 0A
 
@@ -5502,7 +5502,7 @@ $7F2000[0x1000] -   (Dungeon)
     0x00 - normal?
     0x01 - collide
     0x02 - ???
-    0x03 - ???? what the hell is this?
+    0x03 - ???? what is this?
     
     0x08 - swim / deep water
     0x09 - shallow water (not swimmable)

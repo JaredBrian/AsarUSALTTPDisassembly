@@ -103,7 +103,7 @@ Ancilla_BlastWall:
     
     LDA $06 : AND.b #$02 : BEQ .first_two_adjustments
     
-    ; Invert the sign of the variable. (Couldn't we just do this shit in
+    ; Invert the sign of the variable. (Couldn't we just do this stuff in
     ; 16-bit? Anyways, it looks like the point of this is to allow the
     ; explosions to diverge out in opposing directions.
     ; \optimize Maybe do this in 16-bit logic.

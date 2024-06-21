@@ -144,7 +144,7 @@ Ancilla_Bomb:
     
     .at_rest_x
     
-    ; \wtf I don't know what else to call this label, what the fuck are we
+    ; \wtf I don't know what else to call this label, what are we
     ; doing here? I realize that the perspective of this game is
     ; messed up, but what makes the downward physics handling so
     ; special that it needs all this adjustment?
@@ -874,7 +874,7 @@ Ancilla_LiftableObjectLogic:
     
     JSR Ancilla_MoveAltitude
     
-    ; Ugh, what a clusterfuck!
+    ; Ugh, what a mess!
     LDA.w $0BF0, X : BEQ .dont_add_altitude_back_to_y_coord
     
     LDA.w $0C72, X : CMP.b #$01 : BNE .dont_add_altitude_back_to_y_coord

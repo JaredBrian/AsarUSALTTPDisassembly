@@ -226,7 +226,7 @@ FluteAardvark_InitialStateFromFluteState:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     dw FluteAardvark_Supplicate
-    dw FluteAardvark_GetMeMyDamnFlute
+    dw FluteAardvark_GetMeMyFlute
     dw FluteAardvark_ThanksButYouKeepIt
     dw FluteAardvark_AlreadyArborated
 }
@@ -252,7 +252,7 @@ FluteAardvark_Supplicate:
 ; ==============================================================================
 
 ; $03307A-$033082 JUMP LOCATION
-FluteAardvark_GetMeMyDamnFlute:
+FluteAardvark_GetMeMyFlute:
 {
     ; "Did you find my flute? Please keep looking for it!"
     LDA.b #$E8

@@ -189,7 +189,7 @@ EnergyBall_DrawTrail:
     
     TAY : CMP.b #$06 : BNE .dont_move
     
-    ; \task Figure out what the hell is going on here. Is this
+    ; TODO: Figure out what is going on here. Is this
     ; a quick and dirty way to get the trail off screen?
     LDA.b #$40 : STA.w $0D50, X
                  STA.w $0D40, X

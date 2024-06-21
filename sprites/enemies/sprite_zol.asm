@@ -266,7 +266,7 @@ Pool_Zol_Draw:
 Zol_Draw:
 {
     LDA.w $0F50, X : LSR A : BCS .skip_unknown_check
-    ; \task What the hell are this and the branch instruction above for?
+    ; TODO: What are this and the branch instruction above for?
     LDA.w $0FC6 : CMP.b #$03 : BCS .return
 
     .skip_unknown_check

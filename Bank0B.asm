@@ -1321,7 +1321,7 @@ Overworld_SetFixedColorAndScroll:
 
 ; ==============================================================================
 
-; $05FFA8-$05FFF5 LONG JUMP LOCATION
+; $05FFA8-$05FFBE LONG JUMP LOCATION
 WallMaster_SendPlayerToLastEntrance:
 {
     JSL Dungeon_SaveRoomData.justKeys
@@ -1337,11 +1337,16 @@ WallMaster_SendPlayerToLastEntrance:
     STZ.b $11
     STZ.b $14
 
-    ; $05FFBF ALTERNATE ENTRY POINT
-    ; TODO: Make a label for the entry point.
+    ; Bleeds into the next function.
+}
+
+; $05FFBF-$05FFED LONG JUMP LOCATION
+ResetSomeThingsAfterDeath:
+{
     STZ.w $0345
     
-    ; TODO: \wtf 0x11? Written here? I thought these were all even.
+    ; TODO: Investigate this:
+    ; \wtf 0x11? Written here? I thought these were all even.
     STA.w $005E
     
     STZ.w $03F3
@@ -1365,9 +1370,11 @@ WallMaster_SendPlayerToLastEntrance:
     LDA.b #$00 : STA.b $5D
     
     STZ.b $4B
+}
 
-    ; $05FFEE ALTERNATE ENTRY POINT
-
+; $05FFEE-$05FFF5 LONG JUMP LOCATION
+ResetAncillaAndLink:
+{
     JSL Ancilla_TerminateSelectInteractives
     JML Player_ResetState
 }

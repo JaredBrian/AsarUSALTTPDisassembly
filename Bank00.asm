@@ -15124,7 +15124,7 @@ OverworldPalettesScreenToSet:
 ; $007DA4-$007DED LONG JUMP LOCATION
 Dungeon_InitStarTileChr:
 {
-    ; Swaps star tiles, bitches!
+    ; Swaps star tiles.
     STZ.w $04BC
 
     ; $007DA7 ALTERNATE ENTRY POINT
@@ -15154,7 +15154,7 @@ Dungeon_InitStarTileChr:
     LDY.w #$0000
 
     ; These two loops are for swapping the star tiles in VRAM
-    ; tricky shit, took me a while to figure out what the offset
+    ; tricky stuff, took me a while to figure out what the offset
     ; $7EBDC0 was for!
     .swapTile1
 

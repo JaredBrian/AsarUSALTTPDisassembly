@@ -44,7 +44,7 @@ Sprite_MadBatter:
     dw MadBatter_RisingUp
     dw MadBatter_PseudoAttackPlayer
     dw MadBatter_DoublePlayerMagicPower
-    dw MadBatter_LaterBitches
+    dw MadBatter_LaterComplains
 }
 
 ; ==============================================================================
@@ -213,7 +213,7 @@ MadBatter_DoublePlayerMagicPower:
 ; ==============================================================================
 
 ; $02FBE4-$02FBEE JUMP LOCATION
-MadBatter_LaterBitches:
+MadBatter_LaterComplains:
 {
     JSL Sprite_SpawnDummyDeathAnimation
     

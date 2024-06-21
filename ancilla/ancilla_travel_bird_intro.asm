@@ -123,7 +123,7 @@ Ancilla_TravelBirdIntro:
     
     CMP .swirl_speeds, Y : BCC .x_speed_not_maxed
     
-    ; \wtf(confirmed) Um, you know you could just fucking xor with 0x03
+    ; \wtf(confirmed) Um, you know you could just xor with 0x03
     ; directly, then store it back and you'd do it in 3 instructions instead
     ; of 8?
     ; \optimize See above. (LDA addr : EOR.b #constant : STA addr)

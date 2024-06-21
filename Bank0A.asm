@@ -7179,7 +7179,7 @@ FloorIndicator:
 ; ==============================================================================
 
 ; $057DA8-$057E17 LONG JUMP LOCATION
-HUD.SuperBombIndicator:
+HUD_SuperBombIndicator:
 {
     LDA.w $04B5 : BNE .BRANCH_ALPHA
         LDA.w $04B4 : BMI .BRANCH_BETA

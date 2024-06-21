@@ -187,7 +187,7 @@ MasterSword_GrantToPlayer:
     ; Change Overworld map icon set
     LDA.b #$05 : STA.l $7EF3C7
     
-    ; Disable this shit, whatever it was (probably player oam related).
+    ; Disable this, whatever it was (probably player oam related).
     STZ.w $0377
     
     INC.w $0D80, X

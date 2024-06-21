@@ -64,14 +64,13 @@ Ancilla_ReceiveItem:
     
     LDA.w $0C5E, X : CMP.b #$01 : BNE .notMasterSword
     ; This should never happen, the way this is coded so far... >_<'''''''
-    ; Fuck spaghetti code in the anushole
     LDA.w $0C54, X : CMP.b #$02 : BEQ .masterSwordFromSprite
         LDA.w $0C68, X : BEQ .timerFinished
             CMP.b #$11 : BNE .timerWait
                 REP #$20
                 
-                ; Begin a timer.... presumably to activate Sahsralah telling you good
-                ; job and shit.
+                ; Begin a timer.... presumably to activate Sahsralah telling you
+                ; good job and stuff.
                 LDA.w #$0DF3 : STA.w $02CD
                 
                 SEP #$20

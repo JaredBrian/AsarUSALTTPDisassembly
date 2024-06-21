@@ -155,7 +155,7 @@ WalkingZora_Ambulating:
     .not_in_deep_water
     .in_air_2
     
-    ; How the FUCK is this a good use of time? Incrementing the variable
+    ; How is this a good use of time? Incrementing the variable
     ; inplace would be 3x faster!
     JSR Recruit_Moving.tick_animation_clock
     

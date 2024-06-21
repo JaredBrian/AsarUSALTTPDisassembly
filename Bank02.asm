@@ -492,7 +492,7 @@ Module_PreDungeon:
 
     .darkTransition
 
-    LDA.l $02A1E5, X : STA.l $7EC017
+    LDA.l RoomEffectFixedColors, X : STA.l $7EC017
 
     JSL Dungeon_ApproachFixedColor_variable
 
@@ -722,7 +722,7 @@ PreOverworld_LoadProperties:
                 ; Use the normal overworld (light world) music.
                 LDX.b #$02
 
-                ; Check phase        ; In phase >= 2.
+                ; Check phase. In phase >= 2.
                 LDA.l $7EF3C5 : CMP.b #$02 : BCS .setCustomSong
                     ; If phase < 2, play the legend music.
                     LDX.b #$03
@@ -898,26 +898,29 @@ PreOverworld_LoadProperties:
 
 ; ==============================================================================
 
-; $01056A-$010582 LONG JUMP LOCATION
+; $01056A-$01056F LONG JUMP LOCATION
 AdjustBunnyLinkStatus:
 {
     ; Do we have the Moon pearl?
-    LDA.l $7EF357 : BEQ .noMoonPearl
-        ; $010570 ALTERNATE ENTRY POINT
-        ForceNonBunnyStatus:
+    LDA.l $7EF357 : BEQ ForceNonBunnyStatus_noMoonPearl
+        ; Bleeds into the next function.
+}
 
-        ; Set Link's initial state.
-        LDA.b #$00 : STA.b $5D
+; $010570-$010582 LONG JUMP LOCATION
+ForceNonBunnyStatus:
+{
+    ; Set Link's initial state.
+    LDA.b #$00 : STA.b $5D
 
-        ; Link is not a bunny, so reset variables relating to his bunny
-        ; transformation state.
-        STZ.w $03F5
-        STZ.w $03F6
-        STZ.w $03F7
+    ; Link is not a bunny, so reset variables relating to his bunny
+    ; transformation state.
+    STZ.w $03F5
+    STZ.w $03F6
+    STZ.w $03F7
 
-        ; Link's graphics are his normal ones, not bunny.
-        STZ.b $56
-        STZ.w $02E0
+    ; Link's graphics are his normal ones, not bunny.
+    STZ.b $56
+    STZ.w $02E0
 
 	.noMoonPearl
 
@@ -1718,11 +1721,10 @@ Dungeon_IntraRoomTransFilter:
 
 ; ==============================================================================
 
+; Make any applicable trap doors shut.
 ; $0109F0-$010A05 LOCAL JUMP LOCATION
 Dungeon_IntraRoomTransOpenDoors:
 {
-    ; Make any applicable trap doors shut.
-
     JSR.w ResetThenCacheRoomEntryProperties
 
     LDA.w $0468 : BNE .alpha
@@ -2049,7 +2051,7 @@ UnderworldTransition_RunFiltering:
 
         .currentRoomNotDarkTransition
 
-        LDA.l $02A1E5, X : STA.l $7EC017
+        LDA.l RoomEffectFixedColors, X : STA.l $7EC017
 
         JSL Dungeon_ApproachFixedColor_variable
 
@@ -2647,7 +2649,7 @@ Dungeon_FallingTransition_FallingFadeIn:
 ; $010EE0-$010EF9 LOCAL JUMP LOCATION
 Dungeon_FallingTransition_LandLinkFromFalling:
 {
-    JSL.l $079520 ; $039520 IN ROM
+    JSL.l HandleUnderworldLandingFromPit
 
     LDA.b $11 : BNE .BRANCH_ALPHA
         LDA.b #$07 : STA.b $11
@@ -4416,8 +4418,8 @@ Module0D_Unused:
 
     .BRANCH_ALPHA
 
-    JSR.w $C2F6 ; $0142F6 IN ROM
-    JSR.w $9951 ; $011951 IN ROM
+    JSR.w CopyMosaicControl
+    JSR.w Module0D_RunSubmodule
 
     RTL
 }
@@ -4464,8 +4466,8 @@ Pool_Module0F_SpotlightClose
 ; $01197E-$011981 LOCAL JUMP TABLE
 Module_CloseSpotlightTable:
 {
-    dw Dungeon_PrepExitWithSpotlight      ; $99CA
-    dw Spotlight_ConfigureTableAndControl ; $9A19
+    dw Dungeon_PrepExitWithSpotlight      ; 0x00 - $99CA
+    dw Spotlight_ConfigureTableAndControl ; 0x01 - $9A19
 }
 
 ; ==============================================================================
@@ -4556,7 +4558,7 @@ Dungeon_PrepExitWithSpotlight:
 
     STZ.w $04A0
 
-    JSL.l $0AFD0C ; $057D0C IN ROM
+    JSL FloorIndicator
 
     INC.b $16
 
@@ -4581,7 +4583,7 @@ Spotlight_ConfigureTableAndControl:
 
     LDA.b $11 : BNE Dungeon_PrepExitWithSpotlight_return
 
-    LDA.b $10 : CMP.b #$06 : BNE .BRANCH_ALPHA
+    LDA.b $10 : CMP.b #$06 : BNE .dont_restore_y_coord
         REP #$20
 
         LDA.l $7EC148 : STA.b $20
@@ -4589,13 +4591,13 @@ Spotlight_ConfigureTableAndControl:
         SEP #$20
 
     ; $011A37 ALTERNATE ENTRY POINT
-    .BRANCH_ALPHA
+    .dont_restore_y_coord
 
     LDA.b $10 : CMP.b #$09 : BEQ .BRANCH_BETA
         ; Force V-blank in preperation for Dungeon mode.
         JSL EnableForceBlank
 
-        JSL.l $07B107 ; $03B107 IN ROM
+        JSL.l Link_ItemReset_FromOverworldThings
 
     .BRANCH_BETA
 
@@ -4685,29 +4687,27 @@ Module_OpenSpotlightTable:
     dw Spotlight_ConfigureTableAndControl ; 0x01 - $9A19
 }
 
-; ==============================================================================
-
+; Module 0x10
 ; $011AD7-$011AE5 LONG JUMP LOCATION
 Module_OpenSpotlight:
 {
-    ; Module 0x10
+    
 
     JSL Sprite_Main
 
     LDA.b $11 : ASL A : TAX
 
-    JSR ($9AD3, X) ; $011AD3 IN ROM
+    JSR (Module_OpenSpotlightTable, X)
 
     JML PlayerOam_Main
 }
 
 ; ==============================================================================
 
+; Module 0x10.0x00
 ; $011AE6-$011AEC LOCAL JUMP LOCATION
 Module_OpenSpotlight_Iris:
 {
-    ; Module 0x10.0x00
-
     JSL Spotlight_open
 
     ; Move to the next submodule.
@@ -4721,36 +4721,34 @@ Module_OpenSpotlight_Iris:
 ; $011AED-$011AF8 LOCAL JUMP TABLE
 Pool_Module_HoleToDungeon:
 {
-.submodules
-    dw HoleToDungeon_FadeMusic
-    dw HoleToDungeon_PaletteFilter
-    dw HoleToDungeon_LoadDungeon
-    dw DungeonTransition_LoadSpriteGFX ; $8D10
-    dw $9C0F ; = $011C0F
-    dw $9C1C ; = $011C1C
+    .submodules
+    dw HoleToDungeon_FadeMusic                         ; 0x00 - $9B01
+    dw HoleToDungeon_PaletteFilter                     ; 0x01 - $A29B
+    dw HoleToDungeon_LoadDungeon                       ; 0x02 - $9B1C
+    dw DungeonTransition_LoadSpriteGFX                 ; 0x03 - $8D10
+    dw Module11_04_FadeAndLoadQuadrants                ; 0x04 - $9C0F
+    dw Module11_04_FadeAndLoadQuadrants_notFullyBright ; 0x05 - $9C1C
 }
 
 ; ==============================================================================
 
+; Module 0x11
 ; $011AF9-$011B00 LONG JUMP LOCATION
 Module_HoleToDungeon:
 {
-    ; Module 0x11
-
     LDA.b $B0 : ASL A : TAX
 
-    JSR (.submodules, X)
+    JSR (Pool_Module_HoleToDungeon_submodules, X)
 
     RTL
 }
 
 ; ==============================================================================
 
+; Module 0x11.0x00
 ; $011B01-$011B1B LOCAL JUMP LOCATION
 HoleToDungeon_FadeMusic:
 {
-    ; Module 0x11.0x00
-
     LDX.w $010E
 
     LDA.l $02D82E, X : CMP.b #$03 : BNE .not_legend_theme
@@ -4762,16 +4760,15 @@ HoleToDungeon_FadeMusic:
 
     .dont_fade
 
-    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface
 }
 
 ; ==============================================================================
 
-; $011B1C-$011C0E LOCAL JUMP LOCATION
+; Module 0x11.0x02 (falling into a hole).
+; $011B1C-$011BD6 LOCAL JUMP LOCATION
 HoleToDungeon_LoadDungeon:
 {
-    ; Module 0x11.0x02 (falling into a hole).
-
     JSL EnableForceBlank
 
     LDA.b #$02 : STA.b $99
@@ -4845,7 +4842,7 @@ HoleToDungeon_LoadDungeon:
     LDA.b #$0A : STA.w $0AB1
 
     JSR.w Dungeon_LoadPalettes
-    JSL HUD.RestoreTorchBackground
+    JSL HUD_RestoreTorchBackground
 
     STZ.b $3A
     STZ.b $3C
@@ -4864,9 +4861,12 @@ HoleToDungeon_LoadDungeon:
 
     LDA.b #$07 : STA.b $11
 
-    ; $011BD7 ALTERNATE ENTRY POINT
-    Dungeon_LoadSongBankIfNeeded:
+    ; Bleeds into the next function.
+}
 
+; $011BD7-$011C0E LOCAL JUMP LOCATION
+Dungeon_LoadSongBankIfNeeded:
+{
     ; Is there no music loading?
     LDA.w $0132
 
@@ -4912,7 +4912,7 @@ Module11_04_FadeAndLoadQuadrants:
     ; $011C1C ALTERNATE ENTRY POINT
     .notFullyBright
 
-    JSL.l $079520 ; $039520 IN ROM
+    JSL HandleUnderworldLandingFromPit
 
     LDA.b $11 : BNE .notDefaultSubmodule
         LDA.b #$07 : STA.b $10
@@ -4920,7 +4920,7 @@ Module11_04_FadeAndLoadQuadrants:
         ; Disable tag routines while Link is still falling.
         INC.w $04C7
 
-        JSR.w Dungeon_PlayBlipAndCacheQuadrantVisits ; $010EC9 IN ROM
+        JSR.w Dungeon_PlayBlipAndCacheQuadrantVisits
         JSR.w ResetThenCacheRoomEntryProperties
 
         LDA.w $0132 : STA.w $012C
@@ -4937,24 +4937,21 @@ Module11_04_FadeAndLoadQuadrants:
 ; $011C3E-$011C49 LOCAL JUMP TABLE
 Module_BossVictoryTable:
 {
-    dw Module_BossVictory_Heal ; = $011C59
-    dw Module_BossVictory_StartSpinAnimation ; = $011C93
-    dw Module_BossVictory_RunSpinAnimation ; = $011CAD
-    dw Module_BossVictory_EndSpinAnimation ; = $011CD1
-    dw Dungeon_PrepExitWithSpotlight ; = $0119CA
-    dw Spotlight_ConfigureTableAndControl ; $9A19
+    dw Module_BossVictory_Heal               ; 0x00 - $9C59
+    dw Module_BossVictory_StartSpinAnimation ; 0x01 - $9C93
+    dw Module_BossVictory_RunSpinAnimation   ; 0x02 - $9CAD
+    dw Module_BossVictory_EndSpinAnimation   ; 0x03 - $9CD1
+    dw Dungeon_PrepExitWithSpotlight         ; 0x04 - $99CA
+    dw Spotlight_ConfigureTableAndControl    ; 0x05 - $9A19
 }
 
-; ==============================================================================
-
+; Beginning of Module 0x13, Boss Victory and Refill Mode.
 ; $011C4A-$011C58 LONG JUMP LOCATION
 Module_BossVictory:
 {
-    ; Beginning of Module 0x13, Boss Victory and Refill Mode.
-
     LDA.b $11 : ASL A : TAX
 
-    JSR ($9C3E, X)  ; $011C3E IN ROM
+    JSR (Module_BossVictoryTable, X)
 
     JSL Sprite_Main
     JML PlayerOam_Main
@@ -4995,7 +4992,7 @@ Module_BossVictory_Heal:
 
     STZ.w $0200
 
-    JSL HUD.RefillLogicLong
+    JSL HUD_RefillLogicLong
 
     RTS
 }
@@ -5010,7 +5007,7 @@ Module_BossVictory_StartSpinAnimation:
 
         LDA.b #$02 : STA.b $2F
 
-        JSL Link_AnimateVictorySpin_long ; $03A7B0 IN ROM
+        JSL Link_AnimateVictorySpin_long
         JSL Ancilla_TerminateSelectInteractives
         JSL addVictorySpinEffect
 
@@ -5029,9 +5026,9 @@ Module_BossVictory_RunSpinAnimation:
     JSL Player_Main
 
     LDA.b $5D : CMP.b #$00 : BNE .return
-        ; What the deuce... are we supposed to be able to get.
-        ; the master sword without having the original sword?
-        ; The sound effect only triggers if you have the fighter sword, or the tempered sword.
+        ; What the deuce... are we supposed to be able to get. the master sword
+        ; without having the original sword? The sound effect only triggers if
+        ; you have the fighter sword, or the tempered sword.
         LDA.l $7EF359 : INC A : AND.b #$FE : BEQ .noSound
             ; Play "pulling master sword out" sound.
             LDA.b #$2C : STA.w $012E
@@ -5052,7 +5049,7 @@ Module_BossVictory_RunSpinAnimation:
 ; ==============================================================================
 
 ; $011CD1-$011CE1 LOCAL JUMP LOCATION
-Module_BossVictory_EndSpinAnimation
+Module_BossVictory_EndSpinAnimation:
 {
     DEC.b $B0 : BNE .exit
         INC.b $11
@@ -5073,32 +5070,30 @@ Module_BossVictory_EndSpinAnimation
 ; $011CE2-$011CFB LOCAL JUMP TABLE
 Module_MirrorTable:
 {
+    ; TODO: Come up with better names for some of these.
     .states
-    dw Mirror_LoadMusic  ; 0x00
-    dw Mirror_Init       ; 0x01
-    dw $9E06 ; = $011E06 ; 0x02
-    dw $9E0F ; = $011E0F ; 0x03
-    dw $9E15 ; = $011E15 ; 0x04
-    dw $9D5D ; = $011D5D ; 0x05
-    dw $9DB6 ; = $011DB6 ; 0x06
-    dw $9DC2 ; = $011DC2 ; 0x07
-    dw $9DF5 ; = $011DF5 ; 0x08
-    dw $9C59 ; = $011C59 ; 0x09
-    dw $9C93 ; = $011C93 ; 0x0A
-    dw $9CAD ; = $011CAD ; 0x0B
-    dw $9E22 ; = $011E22 ; 0x0C
+    dw Mirror_LoadMusic                      ; 0x00 - $9D16
+    dw Mirror_Init                           ; 0x01 - $9D22
+    dw Module15_02_RunMirrorWarp_Part1       ; 0x02 - $9E06
+    dw Module15_03_RunMirrorWarp_Part2       ; 0x03 - $9E0F
+    dw Module15_04_RunMirrorWarp_Part3       ; 0x04 - $9E15
+    dw Module15_05                           ; 0x05 - $9D5D
+    dw Module15_06                           ; 0x06 - $9DB6
+    dw Module15_07                           ; 0x07 - $9DC2
+    dw Module15_08                           ; 0x08 - $9DF5
+    dw Module_BossVictory_Heal               ; 0x09 - $9C59
+    dw Module_BossVictory_StartSpinAnimation ; 0x0A - $9C93
+    dw Module_BossVictory_RunSpinAnimation   ; 0x0B - $9CAD
+    dw Module15_0C                           ; 0x0C - $9E22
 }
 
-; ==============================================================================
-
+; Beginning of Module 0x15, Magic Mirror?
 ; $011CFC-$011D15 LONG JUMP LOCATION
 Module_Mirror:
 {
-    ; Beginning of Module 0x15, Magic Mirror?
-
     LDA.b $11 : ASL A : TAX
 
-    JSR (.states, X)
+    JSR (Module_MirrorTable_states, X)
 
     LDA.b $11
 
@@ -5162,7 +5157,7 @@ Mirror_Init:
 
     SEP #$20
 
-    JSL.l $0BFFEE ; $05FFEE IN ROM
+    JSL ResetAncillaAndLink
 
     RTS
 }
@@ -5195,7 +5190,7 @@ Module15_05:
 
     JSL Main_ShowTextMessage
     JSL ReloadPreviouslyLoadedSheets
-    JSL HUD.RebuildIndoor
+    JSL HUD_RebuildIndoor
 
     LDA.b #$80 : STA.b $9B
 
@@ -5212,10 +5207,9 @@ Module15_05:
 Module15_06:
 {
     DEC.b $B0 : BNE .BRANCH_ALPHA
+        INC.b $11
 
-    INC.b $11
-
-    LDA.b #$09 : STA.w $012D
+        LDA.b #$09 : STA.w $012D
 
     .BRANCH_ALPHA
 
@@ -5277,7 +5271,7 @@ Module15_08:
 ; $011E06-$011E0E LOCAL JUMP LOCATION
 Module15_02_RunMirrorWarp_Part1:
 {
-    JSL.l $00FE5E ; $007E5E IN ROM
+    JSL MirrorHDMA
 
     INC.b $11
 
@@ -5286,17 +5280,20 @@ Module15_02_RunMirrorWarp_Part1:
     RTS
 }
 
-; $011E0F-$011E21 LOCAL JUMP LOCATION
+; $011E0F-$011E14 LOCAL JUMP LOCATION
 Module15_03_RunMirrorWarp_Part2:
 {
-    JSL.l MirrorWarp_BuildWavingHDMATable
+    JSL MirrorWarp_BuildWavingHDMATable
 
-    BRA .BRANCH_ALPHA
+    BRA Module15_04_RunMirrorWarp_Part3_check_subsub
+}
 
-    ; $011E15 ALTERNATE ENTRY POINT
-    JSL.l $00FF2F ; $007F2F IN ROM
+; $011E15-$011E21 LOCAL JUMP LOCATION
+Module15_04_RunMirrorWarp_Part3:
+{
+    JSL MirrorWarp_BuildDewavingHDMATable
 
-    .BRANCH_ALPHA
+    .check_subsub
 
     LDA.b $B0 : BEQ .BRANCH_BETA
         STZ.b $B0
@@ -5312,7 +5309,7 @@ Module15_03_RunMirrorWarp_Part2:
 Module15_0C:
 {
     DEC.b $B0 : BNE .stillCountingDown
-        JSL.l $029E6E ; $011E6E IN ROM
+        JSL.l SetTargetOverworldWarpToPyramid_ResetAncillaAndCutscene
         JSL Overworld_SetSongList
 
         LDA.l $7EF29B : ORA.b #$20 : STA.l $7EF29B
@@ -5381,23 +5378,20 @@ SetTargetOverworldWarpToPyramid:
 Pool_Module_Victory:
 {
     .states
-    dw $9C59 ; = $011C59
-    dw $9C93 ; = $011C93
-    dw $9CAD ; = $011CAD
-    dw $9CD1 ; = $011CD1
-    dw $9E9A ; = $011E9A
+    dw Module_BossVictory_Heal               ; 0x00 - $9C59
+    dw Module_BossVictory_StartSpinAnimation ; 0x01 - $9C93
+    dw Module_BossVictory_RunSpinAnimation   ; 0x02 - $9CAD
+    dw Module_BossVictory_EndSpinAnimation   ; 0x03 - $9CD1
+    dw Module16_04_FadeAndEnd                ; 0x04 - $9E9A
 }
 
-; ==============================================================================
-
+; Beginning of Module 0x16 (refilling stats after boss fight).
 ; $011E8A-$011E98 LONG JUMP LOCATION
 Module_Victory:
 {
-    ; Beginning of Module 0x16 (refilling stats after boss fight).
-
     LDA.b $11 : ASL A : TAX
 
-    JSR (.states, X)
+    JSR (Pool_Module_Victory_states, X)
 
     JSL Sprite_Main
     JML PlayerOam_Main
@@ -5405,7 +5399,7 @@ Module_Victory:
 
 ; ==============================================================================
 
-; $11E99
+; $011E99-$011E99 LOCAL BRANCH LOCATION
 EXIT_029E99:
 {
     RTS
@@ -5433,7 +5427,7 @@ Module16_04_FadeAndEnd:
 
         STZ.b $11 : STZ.b $B0
 
-        JMP.w $9A37 ; $011A37 IN ROM
+        JMP.w Spotlight_ConfigureTableAndControl_dont_restore_y_coord
 }
 
 ; ==============================================================================
@@ -5442,18 +5436,16 @@ Module16_04_FadeAndEnd:
 Pool_Module_GanonEmerges:
 {
     .submodules
-    dw GanonEmerges_GetBirdForPursuit
-    dw GanonEmerges_PrepForPyramidLocation
-    dw GanonEmerges_FadeOutDungeonScreen
-    dw GanonEmerges_LOadPyramidArea
-    dw GanonEmerges_LoadAmbientOverlay
-    dw GanonEmerges_BrightenScreenThenSpawnBat
-    dw GanonEmerges_DelayForBatSmashIntoPyramid
-    dw GanonEmerges_DelayPlayerDropOff
-    dw GanonEmerges_DropOffPlayerAtPyramid
+    dw GanonEmerges_GetBirdForPursuit           ; 0x00 - $9F2F
+    dw GanonEmerges_PrepForPyramidLocation      ; 0x01 - $9F42
+    dw GanonEmerges_FadeOutDungeonScreen        ; 0x02 - $9F5E
+    dw GanonEmerges_LOadPyramidArea             ; 0x03 - $9F76
+    dw GanonEmerges_LoadAmbientOverlay          ; 0x04 - $9F8B
+    dw GanonEmerges_BrightenScreenThenSpawnBat  ; 0x05 - $9F94
+    dw GanonEmerges_DelayForBatSmashIntoPyramid ; 0x06 - $9FC0
+    dw GanonEmerges_DelayPlayerDropOff          ; 0x07 - $9FC1
+    dw GanonEmerges_DropOffPlayerAtPyramid      ; 0x08 - $9FC9
 }
-
-; ==============================================================================
 
 ; $011EDC-$011F2E LONG JUMP LOCATION
 Module_GanonEmerges:
@@ -5480,7 +5472,7 @@ Module_GanonEmerges:
 
     LDA.w $0200 : ASL A : TAX
 
-    JSR (.submodules, X)
+    JSR (Pool_Module_GanonEmerges_submodules, X)
 
     JML PlayerOam_Main
 }
@@ -5535,7 +5527,7 @@ GanonEmerges_FadeOutDungeonScreen:
 
         INC.w $0200
 
-        JSL HUD.RebuildIndoor
+        JSL HUD_RebuildIndoor
 
         STZ.b $30 : STZ.b $31
 
@@ -5577,11 +5569,10 @@ GanonEmerges_LoadAmbientOverlay:
 
 ; ==============================================================================
 
-; $011F94-$011FC0 LOCAL JUMP LOCATION
+; Module 0x18, submodule 0x05
+; $011F94-$011FBF LOCAL JUMP LOCATION
 GanonEmerges_BrightenScreenThenSpawnBat:
 {
-    ; Module 0x18, submodule 0x05
-
     INC.b $13
 
     ; Wait until screen reaches full brightness.
@@ -5598,18 +5589,21 @@ GanonEmerges_BrightenScreenThenSpawnBat:
 
         STZ.b $1B
 
-        INC.w $0200 ; Go to the next submodule.
+        ; Go to the next submodule.
+        INC.w $0200
 
         LDA.b #$80 : STA.b $B0
 
         LDA.b #$FF : STA.w $040C
 
-        ; $011FC0 ALTERNATE ENTRY POINT
-        GanonEmerges_DelayForBatSmashIntoPyramid:
-
     .still_brightening
-    .return
 
+    ; Bleeds into the next function.
+}
+
+; $011FC0-$011FC0 LOCAL JUMP LOCATION
+GanonEmerges_DelayForBatSmashIntoPyramid:
+{
     RTS
 }
 
@@ -5618,9 +5612,8 @@ GanonEmerges_BrightenScreenThenSpawnBat:
 ; $011FC1-$011FC8 LOCAL JUMP LOCATION
 GanonEmerges_DelayPlayerDropOff:
 {
-    ; \wtf Why not juse branch to this routine's return instruction?!!
-    ; *rolls eyes*
-    DEC.b $B0 : BNE GanonEmerges_DelayForBatSmashIntoPyramid_return
+    ; Why not just branch to this routine's return instruction?
+    DEC.b $B0 : BNE GanonEmerges_DelayForBatSmashIntoPyramid
         INC.w $0200
 
         RTS
@@ -5632,7 +5625,7 @@ GanonEmerges_DelayPlayerDropOff:
 GanonEmerges_DropOffPlayerAtPyramid:
 {
     ; \wtf Wasn't the previous module dungeon?
-    JSL BirdTravel_Finish.restore_prev_module
+    JSL BirdTravel_Finish_restore_prev_module
 
     RTS
 }
@@ -5643,21 +5636,21 @@ GanonEmerges_DropOffPlayerAtPyramid:
 Pool_Module_TriforceRoom:
 {
     .submodules
-    dw TriforceRoom_Step0      ; = $012021 0x00
-    dw TriforceRoom_Step1      ; = $01202F 0x01
-    dw TriforceRoom_Step2      ; = $012035 0x02
-    dw TriforceRoom_Step3      ; = $012065 0x03
-    dw TriforceRoom_Step4      ; = $012089 0x04
-    dw TriforceRoom_Step5      ; = $0120CD 0x05
-    dw TriforceRoom_Step6      ; = $0120E4 0x06
-    dw TriforceRoom_Step7      ; = $012100 0x07
-    dw TriforceRoom_Step8And10 ; = $012137 0x08
-    dw TriforceRoom_Step9      ; = $012121 0x09
-    dw TriforceRoom_Step8And10 ; = $012137 0x0A
-    dw TriforceRoom_Step11     ; = $012151 0x0B
-    dw TriforceRoom_Step12     ; = $012164 0x0C
-    dw TriforceRoom_Step13     ; = $012173 0x0D
-    dw TriforceRoom_Step14     ; = $012186 0x0E
+    dw TriforceRoom_Step0      ; 0x00 - $A021
+    dw TriforceRoom_Step1      ; 0x01 - $A02F
+    dw TriforceRoom_Step2      ; 0x02 - $A035
+    dw TriforceRoom_Step3      ; 0x03 - $A065
+    dw TriforceRoom_Step4      ; 0x04 - $A089
+    dw TriforceRoom_Step5      ; 0x05 - $A0CD
+    dw TriforceRoom_Step6      ; 0x06 - $A0E4
+    dw TriforceRoom_Step7      ; 0x07 - $A100
+    dw TriforceRoom_Step8And10 ; 0x08 - $A137
+    dw TriforceRoom_Step9      ; 0x09 - $A121
+    dw TriforceRoom_Step8And10 ; 0x0A - $A137
+    dw TriforceRoom_Step11     ; 0x0B - $A151
+    dw TriforceRoom_Step12     ; 0x0C - $A164
+    dw TriforceRoom_Step13     ; 0x0D - $A173
+    dw TriforceRoom_Step14     ; 0x0E - $A186
 }
 
 ; ==============================================================================
@@ -5667,7 +5660,7 @@ Module_TriforceRoom:
 {
     LDA.b $B0 : ASL A : TAX
 
-    JSR (.submodules, X)
+    JSR (Pool_Module_TriforceRoom_submodules, X)
 
     REP #$20
 
@@ -5686,8 +5679,8 @@ Module_TriforceRoom:
 
     .BRANCH_ALPHA
 
-    JSL Link_HandleVelocity ; $03E245 IN ROM
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
+    JSL Link_HandleVelocity
+    JSL Link_HandleMovingAnimation_FullLongEntry
 
     .BRANCH_BETA
 
@@ -5706,20 +5699,20 @@ TriforceRoom_Step0:
     ; Make music fade out.
     LDA.b #$F1 : STA.w $012C
 
-    JMP ResetTransitionPropsAndAdvance_ResetInterface ; $010CA9 IN ROM
+    JMP ResetTransitionPropsAndAdvance_ResetInterface
 }
 
 ; $01202F-$012034 LOCAL JUMP LOCATION
 TriforceRoom_Step1:
 {
     JSR.w Overworld_ResetMosaic
-    JMP ApplyPaletteFilter_bounce ; $0122A0 IN ROM
+    JMP ApplyPaletteFilter_bounce
 }
 
 ; $012035-$012064 LOCAL JUMP LOCATION
 TriforceRoom_Step2:
 {
-    JSL EnableForceBlank ; $00093D IN ROM
+    JSL EnableForceBlank
 
     SEI
 
@@ -5740,11 +5733,11 @@ TriforceRoom_Step2:
     JSL Vram_EraseTilemaps.normal
     JSL Palette_RevertTranslucencySwap
     JSR.w LoadSpecialOverworld
-    JSR.w Overworld_ReloadSubscreenOverlay ; $012F1E IN ROM
+    JSR.w Overworld_ReloadSubscreenOverlay
 
     INC.b $B0
 
-    BRA .BRANCH_$120C6
+    BRA RefreshTriforceModule
 }
 
 ; ZS overwrites part of this function. - ZS Custom Overworld
@@ -5774,7 +5767,7 @@ TriforceRoom_Step3:
     RTS
 }
 
-; $012089-$0120CC LOCAL JUMP LOCATION
+; $012089-$0120C5 LOCAL JUMP LOCATION
 TriforceRoom_Step4:
 {
     LDA.b $B0 : PHA
@@ -5802,7 +5795,12 @@ TriforceRoom_Step4:
 
     LDA.b #$20 : STA.w $012C
 
-    ; $0120C6 ALTERNATE ENTRY POINT
+    ; Bleeds into the next function.
+}
+
+; $0120C6-$0120CC LOCAL JUMP LOCATION
+RefreshTriforceModule:
+{
     LDA.b #$19 : STA.b $10
 
     STZ.b $11
@@ -5838,7 +5836,7 @@ TriforceRoom_Step6:
 
     .BRANCH_ALPHA
 
-    JSR.w $C2F6 ; $0142F6 IN ROM
+    JSR.w CopyMosaicControl
     JSL PaletteFilter.doFiltering
 
     RTS
@@ -5847,7 +5845,7 @@ TriforceRoom_Step6:
 ; $012100-$012120 LOCAL JUMP LOCATION
 TriforceRoom_Step7:
 {
-    JSL.l $0CCA54 ; $064A54 IN ROM
+    JSL.l TriforceRoom_PrepGFXSlotForPoly
 
     REP #$20
 
@@ -5869,7 +5867,7 @@ TriforceRoom_Step7:
 ; $012121-$012136 LOCAL JUMP LOCATION
 TriforceRoom_Step9:
 {
-    JSL.l $0CCAB1 ; $064AB1 IN ROM
+    JSL AdvancePolyhedral
     JSL Messaging_Text
 
     LDA.b $11 : BNE .waitForTextToEnd
@@ -5887,7 +5885,7 @@ TriforceRoom_Step9:
 ; $012137-$012150 LOCAL JUMP LOCATION
 TriforceRoom_Step8And10:
 {
-    JSL.l $0CCAB1 ; $064AB1 IN ROM
+    JSL AdvancePolyhedral
 
     LDA.b $B0 : CMP.b #$0B : BNE .BRANCH_ALPHA
         LDA.b #$21 : STA.w $012C
@@ -5909,7 +5907,7 @@ TriforceRoom_Step8And10:
 ; $012151-$012163 LOCAL JUMP LOCATION
 TriforceRoom_Step11:
 {
-    JSL.l $0CCAB1 ; $064AB1 IN ROM
+    JSL AdvancePolyhedral
     JSL Player_ApproachTriforce
 
     LDA.b $B0 : CMP.b #$0C : BNE .alpha
@@ -5923,15 +5921,14 @@ TriforceRoom_Step11:
 
 ; ==============================================================================
 
+; Submodule ??? of triforce room scene (fades screen to white after a time).
 ; $012164-$012172 LOCAL JUMP LOCATION
 TriforceRoom_Step12:
 {
-    ; Submodule ??? of triforce room scene (fades screen to white after a time).
-
-    JSL.l $0CCAB1 ; $064AB1 IN ROM
+    JSL AdvancePolyhedral
 
     DEC.b $C8 : BNE .alpha ; $C8 used as a timer here?
-        JSL.l $0EF404 ; $077404 IN ROM
+        JSL PaletteBlackAndWhiteSomething_NonConditional
 
         INC.b $11
 
@@ -5942,12 +5939,13 @@ TriforceRoom_Step12:
 
 ; ==============================================================================
 
+; Totally brighten the screen (manipulate almost all palettes to be fully
+; white).
 ; $012173-$012185 LOCAL JUMP LOCATION
 TriforceRoom_Step13:
 {
-    ; Totally brighten the screen (manipulate almost all palettes to be fully white).
-    JSL.l $0CCAB1 ; $064AB1 IN ROM
-    JSL.l $00EF8A ; $006F8A IN ROM
+    JSL AdvancePolyhedral
+    JSL PaletteFilter_BlindingWhiteTriforce
 
     LDA.l $7EC009 : CMP.b #$FF : BNE .alpha
         INC.b $B0
@@ -5983,7 +5981,7 @@ TriforceRoom_Step14:
 
 ; ==============================================================================
 
-; \note Crystals and pendant bitfiels indicating status.
+; Note: Crystals and pendant bitfiels indicating status.
 ; $0121A4-$0121B0 DATA
 Pool_MilestoneItem_Flags:
 {
@@ -6040,11 +6038,8 @@ Dungeon_SaveRoomData:
 ; $0121E5-$0121E8 DATA
 RoomEffectFixedColors:
 {
-    ; \task Name this pool / apply to routines that use it.
     db 31,  8,  4,  0
 }
-
-; ==============================================================================
 
 ; $0121E9-$012280 LOCAL JUMP LOCATION
 Dungeon_HandleTranslucencyAndPalettes:
@@ -6101,7 +6096,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 
     .darkTransition
 
-    LDA.l $02A1E5, X : STA.l $7EC017
+    LDA.l RoomEffectFixedColors, X : STA.l $7EC017
 
     LDA.b #$1F : STA.l $7EC007
     LDA.b #$00 : STA.l $7EC00B
@@ -6124,7 +6119,7 @@ Dungeon_HandleTranslucencyAndPalettes:
 ; $012281-$01229A LOCAL JUMP LOCATION
 UnusedInterfacePaletteRecovery:
 {
-    JSL PaletteFilter.doFiltering
+    JSL PaletteFilter_doFiltering
 
     LDA.l $7EC007 : BNE .stillFiltering
         ; Turn off the dark transition.
@@ -6154,7 +6149,7 @@ HoleToDungeon_PaletteFilter:
 ; $0122A0-$0122A4 LOCAL JUMP LOCATION
 ApplyPaletteFilter_bounce:
 {
-    JSL PaletteFilter.doFiltering
+    JSL PaletteFilter_doFiltering
 
     RTS
 }
@@ -6171,11 +6166,11 @@ ResetTransitionPropsAndAdvance_ResetInterface_long:
 
 ; ==============================================================================
 
+; Only known reference is from a seemingly unused submodule of module 0x0E
+; (submodule 0x06).
 ; $0122A9-$0122AC LONG JUMP LOCATION 
 Underworld_HandleTranslucencyAndPalettes_long:
 {
-    ; Only known reference is from a seemingly unused submodule of module 0x0E
-    ; (submodule 0x06).
     JSR.w Dungeon_HandleTranslucencyAndPalettes
 
     RTL
@@ -6274,7 +6269,8 @@ Dungeon_AdjustCoordsForLinkedRoom:
 ; OVERWORLD MODULE
 ; ==============================================================================
 
-; $01240D-$01246C LOCAL JUMP TABLE FOR MODULE 0x09
+; Module 0x09
+; $01240D-$01246C LOCAL JUMP TABLE
 Module_OverworldTable:
 {
     ; (Indexed by $11)
@@ -6340,12 +6336,11 @@ OWOverlay:
     db  0, 17,  0, 17
 }
 
-; $012475-$01252C LONG JUMP LOCATION
 ; ZS overwrites the latter half of this function. - ZS Custom Overworld
+; Module 0x09 - Beginning of Module 9 and Module B: Overworld Module.
+; $012475-$01252C LONG JUMP LOCATION
 Module_Overworld:
 {
-    ; Module 0x09 - Beginning of Module 9 and Module B: Overworld Module.
-
     REP #$30
 
     ; Submodule index
@@ -6374,7 +6369,7 @@ Module_Overworld:
     SEP #$20
 
     JSL PlayerOam_Main
-    JSL HUD.RefillLogicLong
+    JSL HUD_RefillLogicLong
 
     ; $0124CD ALTERNATE ENTRY POINT - ZS Custom Overworld
     ; ZS only overwrites the rest of this function.
@@ -6390,12 +6385,18 @@ Module_Overworld:
                 ; On the third frame do a flash of lightning.
                 LDA.b $1A
 
-                CMP.b #$03 : BEQ .lightning ; On the 0x03rd frame, cue the lightning.
-                    CMP.b #$05 : BEQ .normalLight ; On the 0x05th frame, normal light level.
-                        CMP.b #$24 : BEQ .thunder ; On the 0x24th frame, cue the thunder.
-                            CMP.b #$2C : BEQ .normalLight ; On the 0x2Cth frame, normal light level.
-                                CMP.b #$58 : BEQ .lightning ; On the 0x58th frame, cue the lightning.
-                                    CMP.b #$5A : BNE .moveOverlay ; On the 0x5Ath frame, normal light level.
+                ; On the 0x03rd frame, cue the lightning.
+                CMP.b #$03 : BEQ .lightning
+                    ; On the 0x05th frame, normal light level.
+                    CMP.b #$05 : BEQ .normalLight
+                        ; On the 0x24th frame, cue the thunder.
+                        CMP.b #$24 : BEQ .thunder
+                            ; On the 0x2Cth frame, normal light level.
+                            CMP.b #$2C : BEQ .normalLight
+                                ; On the 0x58th frame, cue the lightning.
+                                CMP.b #$58 : BEQ .lightning
+                                    ; On the 0x5Ath frame, normal light level.
+                                    CMP.b #$5A : BNE .moveOverlay
 
                 .normalLight
 
@@ -6431,7 +6432,9 @@ Module_Overworld:
     RTL
 }
 
-; $01252D-$01253B DATA (unused?)
+; ==============================================================================
+
+; $01252D-$01253B DATA
 UNREACHABLE_02A52D:
 {
     db $08, $09, $02, $04, $02, $02, $02, $02
@@ -6440,14 +6443,14 @@ UNREACHABLE_02A52D:
 
 ; ==============================================================================
 
+; Main overworld submodule - Module 0x09.0x00, Module 0x0B.0x00.
 ; $01253C-$0125EB LONG JUMP LOCATION
 Overworld_PlayerControl:
 {
-    ; Main overworld submodule - Module 0x09.0x00, Module 0x0B.0x00.
-
-    LDA.w $0121 : ORA.w $02E4                         ; Stop everything flag.
-                  ORA.w $0FFC                         ; Link's can't bring up menu flag.
-                  ORA.w $04C6 : BEQ .checkButtonInput ; Special animation trigger.
+    LDA.w $0121 : ORA.w $02E4 ; Stop everything flag.
+                  ORA.w $0FFC ; Link's can't bring up menu flag.
+                  ORA.w $04C6 ; Special animation trigger.
+                  BEQ .checkButtonInput
 
     JMP .skipButtonInput
 
@@ -6459,7 +6462,8 @@ Overworld_PlayerControl:
 
         LDA.b #$01
 
-        BRA .changeSubmodule    ; Go to menu submodule of module 0x0E.
+        ; Go to menu submodule of module 0x0E.
+        BRA .changeSubmodule
 
     .startButtonNotDown
 
@@ -6521,7 +6525,8 @@ Overworld_PlayerControl:
     JSL Player_Main
 
     LDA.w $04B4 : CMP.b #$FF : BEQ .noSuperBombIndicator
-        JSL.l $0AFDA8 ; $057DA8 IN ROM Handles Super bomb countdown indicator on HUD.
+        ; Handles Super bomb countdown indicator on HUD.
+        JSL.l HUD_SuperBombIndicator
 
     .noSuperBombIndicator
 
@@ -6533,19 +6538,19 @@ Overworld_PlayerControl:
     SEP #$20
 
     JSL Graphics_LoadChrHalfSlot
-    JSR.w Overworld_OperateCameraScroll   ; $013B90 IN ROM
+    JSR.w Overworld_OperateCameraScroll
 
     ; If special outdoors mode skip this part.
     LDA.b $10 : CMP.b #$0B : BEQ .specialOverworld
         JSL Overworld_Entrance
         JSL Overworld_DwDeathMountainPaletteAnimation
-        JSR.w OverworldHandleTransitions  ; $0129C4 IN ROM
+        JSR.w OverworldHandleTransitions
 
         BRA .return
 
     .specialOverworld
 
-    JSR.w ScrollAndCheckForSOWExit   ; $012B7B IN ROM
+    JSR.w ScrollAndCheckForSOWExit
 
     .return
 
@@ -6556,10 +6561,12 @@ Overworld_PlayerControl:
 
 ; ==============================================================================
 
-;$125EC-$12632 LOCAL DATA Table
-; Has something to do with how the lightworld moving from one area to another works.
+; Has something to do with how the lightworld moving from one area to another
+; works.
+; $0125EC-$012632 LOCAL DATA
 Overworld_ActualScreenID:
 {
+    ; $0125EC
     db $00, $00, $02, $03, $03, $05, $05, $07
     db $00, $00, $0A, $03, $03, $05, $05, $0F
     db $10, $11, $12, $13, $14, $15, $16, $17
@@ -6670,13 +6677,13 @@ Overworld_ActualScreenID:
 
 ; ==============================================================================
 
-; $0129C4-$012B07 LOCAL JUMP LOCATION
 ; ZS modifies part of this function. - ZS Custom Overworld
+; $0129C4-$012B07 LOCAL JUMP LOCATION
 OverworldHandleTransitions:
 {
     ; Tells us which direction we're scrolling in.
     LDA.w $0416 : BEQ .noScroll
-        JSR.w Overworld_ScrollMap ; $017273 IN ROM
+        JSR.w Overworld_ScrollMap
 
     .noScroll
 
@@ -6686,7 +6693,7 @@ OverworldHandleTransitions:
         ; Check if link is moving up/down.
         LDA.b $67 : AND.w #$000C : STA.b $00
 
-        LDX.w $0700 : LDA.b $20 : SEC : SBC .overworldTransitionPositionY, X ; $02A8C4
+        LDX.w $0700 : LDA.b $20 : SEC : SBC .overworldTransitionPositionY, X
 
         LDY.b #$06 : LDX.b #$08
 
@@ -6702,7 +6709,7 @@ OverworldHandleTransitions:
 
         LDA.b $67 : AND.w #$0003 : STA.b $00
 
-        LDX.w $0700 : LDA.b $22 : SEC : SBC .overworldTransitionPositionX, X ; $02A944
+        LDX.w $0700 : LDA.b $22 : SEC : SBC .overworldTransitionPositionX, X
 
         LDY.b #$02 : LDX.b #$02 : CMP.w #$0006 : BCC .BRANCH_GAMMA
 
@@ -6714,109 +6721,109 @@ OverworldHandleTransitions:
         .BRANCH_DELTA
         .noDeltaX
 
-        JSL.l $0EDE49 ; $075E49 IN ROM
+        JSL Overworld_CheckForSpecialOverworldTrigger
 
         RTS
 
+    ; Triggers when Link finally reaches the edge of the screen.
     ; $012A33
-    .BRANCH_EPSILON ; Triggers when Link finally reaches the edge of the screen.
+    .BRANCH_EPSILON
 
     SEP #$20
 
     ; Just makes sure we're not using a medallion or input is disabled.
     JSL Player_IsScreenTransitionPermitted : BCS .BRANCH_DELTA
+        STY.b $02 : STZ.b $03
 
-    STY.b $02 : STZ.b $03
+        JSR.w DeleteCertainAncillaeStopDashing
 
-    JSR.w DeleteCertainAncillaeStopDashing
+        REP #$31
 
-    REP #$31
+        ; Remove potential large world offest.
+        LDX.b $02 : LDA.b $84 : AND.l $02A62C, X : STA.b $84 ; $01262C IN ROM
 
-    ; Remove potential large world offest.
-    LDX.b $02 : LDA.b $84 : AND.l $02A62C, X : STA.b $84 ; $01262C IN ROM
+        LDA.w $0700 : CLC : ADC.w $02A834, X : PHA : STA.b $04 ; $012834 IN ROM
 
-    LDA.w $0700 : CLC : ADC.w $02A834, X : PHA : STA.b $04 ; $012834 IN ROM
+        TXA : ASL #6 : ORA.b $04 : TAX
 
-    TXA : ASL #6 : ORA.b $04 : TAX
+        LDA.b $84 : CLC : ADC.w $02A634, X : STA.b $84 ; $012634 IN ROM
 
-    LDA.b $84 : CLC : ADC.w $02A634, X : STA.b $84 ; $012634 IN ROM
+        PLA : LSR A : TAX
 
-    PLA : LSR A : TAX
+        SEP #$30
 
-    SEP #$30
+        LDA.b $8A : PHA : CMP.b #$2A : BNE .notFluteBoyGrove
+            ; Flute boy area has special flute sound effect (surprise?).
+            LDA.b #$80 : STA.w $012D
 
-    LDA.b $8A : PHA : CMP.b #$2A : BNE .notFluteBoyGrove
-        ; Flute boy area has special flute sound effect (surprise?).
-        LDA.b #$80 : STA.w $012D
+        .notFluteBoyGrove
 
-    .notFluteBoyGrove
+        ; The "custom lost woods" asm hooks in right here.
+        ; $012A7D Sets the OW area number
+        LDA.l $02A5EC, X : ORA.l $7EF3CA : STA.b $8A : STA.w $040A : TAX
 
-    ; The "custom lost woods" asm hooks in right here.
-    ; $012A7D Sets the OW area number
-    LDA.l $02A5EC, X : ORA.l $7EF3CA : STA.b $8A : STA.w $040A : TAX
+        LDA.l $7EF3CA : BEQ .lightWorld
+            ; Check for moon pearl.
+            LDA.l $7EF357 : BEQ .BRANCH_IOTA
 
-    LDA.l $7EF3CA : BEQ .lightWorld
-        ; Check for moon pearl.
-        LDA.l $7EF357 : BEQ .BRANCH_IOTA
+        .lightWorld
 
-    .lightWorld
+        ; Extract the ambient sound from this array.
+        LDA.l $7F5B00, X : LSR #4 : BNE .ambientSound
+            LDA.b #$05 : STA.w $012D ; No ambient sound.
 
-    ; Extract the ambient sound from this array.
-    LDA.l $7F5B00, X : LSR #4 : BNE .ambientSound
-        LDA.b #$05 : STA.w $012D ; No ambient sound.
+        .ambientSound
 
-    .ambientSound
+        LDA.l $7F5B00, X : AND.b #$0F : CMP.w $0130 : BEQ .noMusicChange
+            LDA.b #$F1 : STA.w $012C
 
-    LDA.l $7F5B00, X : AND.b #$0F : CMP.w $0130 : BEQ .noMusicChange
-        LDA.b #$F1 : STA.w $012C
+        .noMusicChange ; BANCH_IOTA
 
-    .noMusicChange ; BANCH_IOTA
+        JSR.w Overworld_LoadMapProperties
 
-    JSR.w Overworld_LoadMapProperties
+        LDA.b #$01 : STA.b $11
 
-    LDA.b #$01 : STA.b $11
+        LDA.b $00 : STA.w $0410 : STA.w $0416
 
-    LDA.b $00 : STA.w $0410 : STA.w $0416
+        LDX.b #$04
 
-    LDX.b #$04
+        .BRANCH_LAMBDA
+            ; Doing a weird math loop here.
+        DEX : LSR A : BCC .BRANCH_LAMBDA
 
-    .BRANCH_LAMBDA
-        ; Doing a weird math loop here.
-    DEX : LSR A : BCC .BRANCH_LAMBDA
+        STX.w $0418 : STX.w $069C : STZ.w $0696 : STZ.w $0698 : STZ.w $0126
 
-    STX.w $0418 : STX.w $069C : STZ.w $0696 : STZ.w $0698 : STZ.w $0126
+        PLA
 
-    PLA
+        ; ZS writes a jump here. - ZS Custom Overworld
+        ; $012ADB
+        AND.b #$3F : BEQ .BRANCH_MU ; Area it was
+            LDA.b $8A : AND.b #$BF : BNE .BRANCH_NU ; Area it is.
 
-    ; ZS writes a jump here. - ZS Custom Overworld
-    ; $012ADB
-    AND.b #$3F : BEQ .BRANCH_MU ; Area it was
-        LDA.b $8A : AND.b #$BF : BNE .BRANCH_NU ; Area it is.
+        .BRANCH_MU
 
-    .BRANCH_MU
+        ; Probably only for areas 0x00 and 0x40.
 
-    ; Probably only for areas 0x00 and 0x40.
+        STZ.b $B0
 
-    STZ.b $B0
+        ; Send us to a submodule that will handle going into a forest.
+        LDA.b #$0D : STA.b $11
 
-    ; Send us to a submodule that will handle going into a forest.
-    LDA.b #$0D : STA.b $11
+        ; Reset mosaic settings.
+        LDA.b #$00 : STA.b $95 : STA.l $7EC011
 
-    ; Reset mosaic settings.
-    LDA.b #$00 : STA.b $95 : STA.l $7EC011
+        RTS
 
-    RTS
+        .BRANCH_NU
 
-    .BRANCH_NU
+        LDX.b $8A : LDA.l $7EFD40, X : STA.b $00
 
-    LDX.b $8A : LDA.l $7EFD40, X : STA.b $00
+        LDA.l $00FD1C, X
 
-    LDA.l $00FD1C, X
+        JSL Overworld_LoadPalettes
+        JSR.w Overworld_CgramAuxToMain
 
-    JSL Overworld_LoadPalettes
-    JSR.w Overworld_CgramAuxToMain
-
-    RTS
+        RTS
 }
 
 ; ==============================================================================
@@ -6844,8 +6851,8 @@ Overworld_LoadMapProperties:
     LDA.w $0712 : STA.w $0714
 
     ; Sets width and height of the OW area (512x512 or 1024x1024).
-    LDA .overworldMapSize, X         : STA.w $0712 ; $02A844
-    LDA .overworldMapSizeHighByte, X : STA.w $0717 ; $02A884
+    LDA .overworldMapSize, X         : STA.w $0712
+    LDA .overworldMapSizeHighByte, X : STA.w $0717
 
     LDY.b #$20 : LDX.b #$00
 
@@ -6868,7 +6875,7 @@ Overworld_LoadMapProperties:
     ; This is misleading as the subsequent arrays are only 0x80 bytes.
     LDA.b $8A : AND.w #$00BF : ASL A : TAX
 
-    LDA .overworldTransitionPositionY, X : STA.w $0708 ; $02A8C4
+    LDA .overworldTransitionPositionY, X : STA.w $0708
 
     LDA .overworldTransitionPositionX, X : LSR #3 : STA.w $070C
 
@@ -6895,19 +6902,18 @@ ScrollAndCheckForSOWExit:
     .alpha
 
     ; Checks for tiles that lead back to normal overworld.
-    JSL.l $0EDEE3 ; $075EE3 IN ROM
+    JSL SpecialOverworld_CheckForReturnTrigger
 
     RTS
 }
 
 ; ==============================================================================
 
+; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
+; Also referenced one other place.
 ; $012B88-$012BC5 LOCAL JUMP LOCATION
 Overworld_LoadTransGfx:
 {
-    ; Module 0x09.0x01, 0x09.0x0F, 0x09.0x1A, 0x09.0x26
-    ; Also referenced one other place.
-
     ; Reset the water outside the watergate.
     LDA.l $7EF2BB : AND.b #$DF : STA.l $7EF2BB
 
@@ -6936,13 +6942,12 @@ Overworld_LoadTransGfx:
 
 ; ==============================================================================
 
-; $012BBC-$012BC5 JUMP LOCATION
 ; ZS overwrites most of this function. - ZS Custom Overworld
+; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
+; Also referenced one other place.
+; $012BBC-$012BC5 JUMP LOCATION
 Overworld_FinishTransGfx:
 {
-    ; Module 0x09.0x02, 0x09.0x10, 0x09.0x1B, 0x09.0x27
-    ; Also referenced one other place.
-
     ; The purpose of this submodule is to finish blitting the rest of the
     ; graphics that were decompressed in the previous module to vram (from the
     ; $7F0000 buffer).
@@ -6965,12 +6970,11 @@ Overworld_FinishTransGfx:
 
 ; ==============================================================================
 
+; Module 0x09.0x03, 0x09.0x11
 ; $012BC6-$012BD9 LOCAL JUMP LOCATION
 Overworld_TransMapData:
 Overworld_LoadNewMapAndGfx:
 {
-    ; Module 0x09.0x03, 0x09.0x11
-
     ; Unknown variables
     STZ.w $04C8 : STZ.w $04C9
 
@@ -6981,10 +6985,8 @@ Overworld_LoadNewMapAndGfx:
     ; This mess all looks like it does map16 to map8 conversion, and the
     ; subsequent one sets up the system to blit it to vram during the next
     ; vblank.
-    ; $017031 IN ROM
     JSR.w Overworld_StartTransMapUpdate
 
-    ; $006031 IN ROM
     JSL LoadNewSpriteGFXSet
 
     RTL
@@ -6993,25 +6995,24 @@ Overworld_LoadNewMapAndGfx:
 ; $012BDA-$012BEC LOCAL JUMP LOCATION
 Overworld_RunScrollTransition:
 {
-    JSL Link_HandleMovingAnimation_FullLongEntry ; $03E6A6 IN ROM
+    JSL Link_HandleMovingAnimation_FullLongEntry
     JSL Graphics_IncrementalVramUpload
-    JSR.w OverworldScrollTransition ; $014001 IN ROM
+    JSR.w OverworldScrollTransition
 
     AND.b #$0F : BEQ .alpha
         RTS
 
     .alpha
 
-    JMP OverworldTranScrollSet ; $012C30
+    JMP OverworldTranScrollSet
 }
 
 ; ==============================================================================
 
+; Module 0x09.0x04, 0x09.0x12
 ; $012BED-$012C39 LOCAL JUMP LOCATION
 Overworld_LoadNewSprites:
 {
-    ; Module 0x09.0x04, 0x09.0x12
-
     LDA.w $0418 : CMP.b #$01 : BNE .notDownTransition
         REP #$20
 
@@ -7024,7 +7025,7 @@ Overworld_LoadNewSprites:
 
     .notDownTransition
 
-    JSL Sprite_OverworldReloadAll_justLoad  ; $04C49D IN ROM
+    JSL Sprite_OverworldReloadAll_justLoad
 
     ; Reset tile modification index (keeps track of modified tiles when warping
     ; between worlds).
@@ -7039,7 +7040,7 @@ Overworld_LoadNewSprites:
 
     ; What a jank branch.
     LDA.b $11 : CMP.b #$12 : BEQ .specialTransition
-        ; Load bg color and other shit.
+        ; Load bg color and other stuff.
         JSL Overworld_SetFixedColorAndScroll
 
     .skipBgColor
@@ -7749,7 +7750,7 @@ Module09_FadeBackInFromMosaic:
 
     .BRANCH_ALPHA
 
-    JSR.w $C2F6 ; $0142F6 IN ROM
+    JSR.w CopyMosaicControl
 
     LDA.b $B0
 
@@ -7827,7 +7828,7 @@ Module09_1C:
 
     .BRANCH_ALPHA
 
-    JSR.w $C2F6 ; $0142F6 IN ROM
+    JSR.w CopyMosaicControl
 
     LDA.b $B0
 
@@ -8232,7 +8233,7 @@ MirrorWarp_LoadSpritesAndColors:
 
     JSL Sprite_ResetAll
     JSL Sprite_OverworldReloadAll
-    JSL.l $07B107 ; $03B107 IN ROM
+    JSL.l Link_ItemReset_FromOverworldThings
     JSR.w DeleteCertainAncillaeStopDashing
 
     LDA.b #$14 : STA.b $5D
@@ -10565,7 +10566,7 @@ Module09_1F:
 
     .BRANCH_DELTA
 
-    JSR.w Overworld_OperateCameraScroll ; $013B90 IN ROM
+    JSR.w Overworld_OperateCameraScroll
 
     RTS
 }

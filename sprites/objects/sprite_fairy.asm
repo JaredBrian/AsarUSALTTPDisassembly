@@ -131,7 +131,7 @@ Fairy_HandleCapture:
     
     .no_empty_bottle
     
-    ; "Get an empty bottle, you derpshit."
+    ; "Get an empty bottle, you dummy."
     LDA.b #$CA
     LDY.b #$00
     

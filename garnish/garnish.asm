@@ -179,7 +179,7 @@ Garnish_ExecuteSingle:
     
     AND.w #$00FF : ASL A : TAY
     
-    ; These damn sneaky hidden jump tables, I swear...
+    ; These sneaky hidden jump tables, I swear...
     LDA .handlers, Y : DEC A : PHA
     
     SEP #$30

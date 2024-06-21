@@ -2931,7 +2931,7 @@ nothing_with_desert_cutscene
     JSR PlayerOam_GetHighestSetBit
     
     ; This comparison would seem to indicate that some other part of the code
-    ; gives a damn about bit 6 of this variable, but in truth the only relevant
+    ; gives a crap about bit 6 of this variable, but in truth the only relevant
     ; bits are 0 and 7. They could have just used a BMI instruction.
     CPX.b #$06 : BCS .keep_lift_direction
     

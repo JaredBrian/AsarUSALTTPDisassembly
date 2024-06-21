@@ -358,7 +358,7 @@ Sprite_GoodPullSwitch:
     
     .delta
     
-    ; \wtf Using the RTS as a timer element? Fucking shit...
+    ; \wtf Using the RTS as a timer element?
     .timers length 13
     
     RTS

@@ -908,7 +908,7 @@ Uncle_LeavingHouse:
 ; $02DEF8-$02DF18 JUMP LOCATION
 Uncle_AttachZeldaTelepathTagalong:
 {
-    ; Sets up Zelda to bitch at you to get into the castle.
+    ; Sets up Zelda to yell at you to get into the castle.
     LDA.b #$05 : STA.l $7EF3CC
     
     LDA.b #$F3 : STA.w $02CD
@@ -955,7 +955,7 @@ Uncle_RemoveZeldaTelepathTagalong:
     ; "Unnh... [Name], I didn't want you involved in this..."
     JSL Sprite_ShowMessageFromPlayerContact : BCC .player_not_close_2
     
-    ; Your Uncle frees you from Zelda's bitching >_<.
+    ; Your Uncle frees you from Zelda's haunting >_<.
     LDA.b #$00 : STA.l $7EF3CC
     
     INC.w $0D80, X

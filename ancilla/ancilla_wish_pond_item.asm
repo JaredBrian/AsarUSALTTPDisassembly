@@ -41,7 +41,7 @@ Ancilla_WishPondItem:
     
     ; \bug(confirmed) This is suposed to be a long address mode, not
     ; local. Looks like even the Z3 programmers and their fancy assembler
-    ; or compiler or whatever the hell they used, were also fallible.
+    ; or compiler or whatever they used, were also fallible.
     ; This particular read indexes into the code region of the
     ; "ice shot sparkle" ancilla, if you belee dat.
     LDA.w $8450, Y : BNE .dont_use_4_pixel_offset

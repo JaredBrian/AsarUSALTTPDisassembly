@@ -5544,11 +5544,10 @@ Palette_GetOwBgColor:
     RTS
 }
 
-; \unused Only the top label is unused.
+; UNUSED:
 ; $075653-$075655 LONG JUMP LOCATION
 Palette_AssertTranslucencySwap_ForcePlayerToBg1:
 {
-    ; ???
     ; these two instructions don't seem to have a reference.
     LDA.b #$01 : STA.b $EE
 
@@ -5563,7 +5562,7 @@ Palette_AssertTranslucencySwap:
     ; Bleed into the next function.
 }
 
-; $07565C-$0756B8 ALTERNATE ENTRY POINT
+; $07565C-$0756B8 LOCAL JUMP LOCAION
 Palette_PerformTranslucencySwap:
 {
     REP #$21
@@ -6571,17 +6570,13 @@ Pool_SpecialOverworld_CheckForReturnTrigger
     dw $0004, $0001, $0004
 }
 
-; ==============================================================================
-
 ; $075EE0-$075EE2
-WeirdAssPlaceForAnExit:
+Exit0EDEE0:
 {
     SEP #$30
         
     RTL
 }
-
-; ==============================================================================
 
 ; $075EE3-$075F2E LONG JUMP LOCATION
 SpecialOverworld_CheckForReturnTrigger:
@@ -6607,7 +6602,7 @@ SpecialOverworld_CheckForReturnTrigger:
             
             ; Ends the routine (Link is not going back to the normal Overworld
             ; this frame.)
-            BMI WeirdAssPlaceForAnExit
+            BMI Exit0EDEE0
         CMP.l $0EDECE, X : BNE .nextChrValue
     LDA.b $8A : CMP.l $0EDED4, X : BNE .matchFailed
         

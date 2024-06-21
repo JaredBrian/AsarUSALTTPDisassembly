@@ -486,7 +486,7 @@ Text_WritePreloadedNumber:
 Text_SetWindowPos:
 {
     ; [Position XX]
-    ; This routine is dangerous too, what the hell is with these preparation routines
+    ; This routine is dangerous too, what is with these preparation routines
     ; and them not validating their input, even when it would incur virtually no extra
     ; performance hit.
     
@@ -705,7 +705,7 @@ DictionaryEntries:
     .all_space
     db $1A, $25, $25, $59
     
-    .ain ; whatever the hell that is...
+    .ain ; whatever that is...
     db $1A, $22, $27
     
     .and_no_space
@@ -988,7 +988,7 @@ Text_Render:
     JSL UseImplicitRegIndexedLocalJumpTable
     
     dw Text_DrawBorder           ; (0x00) Set up a DMA transfer to blit the message box frame during NMI
-    dw Text_DrawBorderIncremenal ; (0x01) this appears to be unused... it might be worth investigating what the hell it does.
+    dw Text_DrawBorderIncremenal ; (0x01) this appears to be unused... it might be worth investigating what it does.
     dw Text_CharacterTilemap     ; (0x02) Sets up a template tilemap, for which actual graphical data will be loaded for in the next section (joys of VWF)
     dw Text_MessageHandler       ; (0x03) Generates the game text text and other processing
     dw Text_Close                ; (0x04) Called after player hits A, B, Y, or X
@@ -1366,7 +1366,7 @@ VWF_RenderSingle:
     ; Is it a space (as in, " ")
     LDA.l $7F1200, X : CMP.b #$59 : BEQ .blankCharacter
     
-    ; no, so make some noise bitch
+    ; no, so make some noise.
     SEP #$30
     
     LDA.b #$0C : STA.w $012F
@@ -1677,7 +1677,7 @@ VWF_RenderCharacter:
     
     .characterFinished
     
-    ; After all that bullshit... move on to the next character!
+    ; After all that... move on to the next character!
     INC.w $1CD9
     
     SEP #$30
@@ -2250,13 +2250,13 @@ VWF_Scroll:
     
     LDA.l $001CEA ; Holding A down doesn't make any real difference
     
-    BRA .fuckingUselessAdditionalLogic
+    BRA .UselessAdditionalLogic
     
     .A_ButtonNotHeld
     
     LDA.l $001CEA
     
-    .fuckingUselessAdditionalLogic
+    .UselessAdditionalLogic
     
     STA.b $02
     

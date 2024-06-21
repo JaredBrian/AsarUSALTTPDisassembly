@@ -4661,15 +4661,13 @@ Pool_BombosSpell_ExecuteBlasts:
 Pool_Ancilla_GetRadialProjection:
 {
     ; 0x100 bytes worth of data used to project a distance circularly or
-    ; some shit. (Hey, I'm tired, will document later)
+    ; some something. (Hey, I'm tired, will document later)
     
     ; These first two arrays are simplified sin() and cos() tables, but
     ; it's hard for me to tell yet which is which? It also requires further
     ; exploration to figure out whether the angle argument starts at 0
     ; degrees or radians or whatever, or whether it starts at a different
-    ; on the unit circle. \task Figure this out.
-    ; To quote a contemporary:
-    ; "Trigonometry in assembler is a fucking bitch." -Kejardon
+    ; on the unit circle. TODO: Figure this out.
     
     db $00, $19, $31, $4A, $61, $78, $8E, $A2
     db $B5, $C5, $D4, $E1, $EC, $F4, $FB, $FE

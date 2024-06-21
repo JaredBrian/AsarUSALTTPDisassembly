@@ -243,7 +243,7 @@ Tagalong_Main:
             
             REP #$20
             
-            ; Tick down the timer until Zelda bitches at you again.
+            ; Tick down the timer until Zelda yells at you again.
             DEC.w $02CD : BPL Tagalong_Telepathy
                 SEP #$20
                 JSL Tagalong_CanWeDisplayMessage : BCS .can_display

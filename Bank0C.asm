@@ -6583,7 +6583,7 @@ Pool_Attract_DrawZelda:
 ; $0679E8-$067A26 LOCAL JUMP LOCATION
 Atract_DrawZelda:
 {
-    ; Pardon me for saying so, but this routine is pretty damn silly.
+    ; Pardon me for saying so, but this routine is pretty silly.
     ; I'm guessing it was done earlier on in the development of the attract
     ; mode, as its purpose is extremely narrowly defined.
     

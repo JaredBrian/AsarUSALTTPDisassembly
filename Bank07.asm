@@ -6307,7 +6307,7 @@ LinkItem_Mirror:
             LDA.l $7EF3CC : CMP.b #$0A : BNE .BRANCH_ALPHA
                 REP #$20
                 
-                ; Probably Kiki bitching at you not to warp.
+                ; Probably Kiki yelling at you not to warp.
                 LDA.w #$0121 : STA.w $1CF0
                 
                 SEP #$20

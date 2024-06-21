@@ -38,7 +38,7 @@ Sprite_Thief:
     dw Thief_Loitering
     dw Thief_WatchPlayer
     dw Thief_ChasePlayer
-    dw Thief_StealShit
+    dw Thief_StealStuff
 }
 
 ; ==============================================================================
@@ -162,7 +162,7 @@ Thief_ChasePlayer:
     LDA.b #$20 : STA.w $0DF0, X
     
     JSR Thief_DislodgePlayerItems
-    JSR Thief_MakeStealingShitNoise
+    JSR Thief_MakeStealingStuffNoise
     
     .didnt_touch_player
     
@@ -174,7 +174,7 @@ Thief_ChasePlayer:
 ; ==============================================================================
 
 ; $0EC9DF-$0ECA23 JUMP LOCATION
-Thief_StealShit:
+Thief_StealStuff:
 {
     JSR Thief_CheckPlayerCollision
     JSR Thief_ScanForBooty
@@ -361,7 +361,7 @@ Thief_CheckPlayerCollision:
     LDA.b #$0C : STA.w $0EA0, X
     
     ; $0ECB19 ALTERNATE ENTRY POINT
-    shared Thief_MakeStealingShitNoise:
+    shared Thief_MakeStealingStuffNoise:
     
     LDA.b #$0B : JSL Sound_SetSfx2PanLong
     

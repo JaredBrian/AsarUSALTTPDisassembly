@@ -1397,7 +1397,8 @@ AddWishPondItem:
     ; Put Link's hands up like he's going to throw the item (which he will)
     LDA.b #$80 : STA.w $0308
     
-    ; Set Link facing forward and his animation index to 0. Also force his picking shit up index to 0.
+    ; Set Link facing forward and his animation index to 0. Also force his
+    ; picking stuff up index to 0.
     STZ.w $0309 : STZ $2F : STZ $2E
     
     LDA.b #$14 : STA.w $0294, X
@@ -1485,7 +1486,8 @@ AddHappinessPondRupees:
     ; Put Link's hands up
     LDA.b #$80 : STA.w $0308
     
-    ; Initialize his picking up shit index, make him face up, and reset his animation index to zero.
+    ; Initialize his picking up stuff index, make him face up, and reset his
+    ; animation index to zero.
     STZ.w $0309
     
     STZ $2F
@@ -1751,7 +1753,7 @@ AddChargedSpinAttackSparkle:
     
     LDA.w $0C4A, X : BEQ .emptySlot
     
-    ; if there's a sword sparkle in the way, fucking kill it and put 
+    ; if there's a sword sparkle in the way, kill it and put 
     CMP.b #$3C : BEQ .emptySlot
     
     DEX : BPL .checkNextSlot

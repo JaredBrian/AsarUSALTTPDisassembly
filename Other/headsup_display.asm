@@ -783,7 +783,7 @@ Rebuild:
     
     SEP #$30
     
-    INC.b $16 ; Indicate this shit needs drawing.
+    INC.b $16 ; Indicate this needs drawing.
     
     RTS
 }

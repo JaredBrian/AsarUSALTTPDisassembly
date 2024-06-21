@@ -481,12 +481,11 @@ Bomb_ProjectReflexiveSpeedOntoSprite:
 
 ; ==============================================================================
 
+; Collision detection used for telling if sprites need some beatings (i.e. if
+; they are damaged by the bomb).
 ; $040287-$04032A LOCAL JUMP LOCATION
 Bomb_CheckSpriteDamage:
 {
-    ; Collision detection used for telling if sprites need some ass whoopin'
-    ; (i.e. if they are damaged by the bomb).
-    
     LDY.b #$0F
     
     .check_sprite_damage_loop

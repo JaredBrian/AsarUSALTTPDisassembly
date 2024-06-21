@@ -3693,7 +3693,7 @@ Object_Chest:
     ; Normal Chest Object ( Type 0x01.0x03.0x19 )
     
     ; Are we in the ending sequence?
-    ; If so, don't bother with this shit.
+    ; If so, don't bother with this stuff.
     LDA.b $10 : AND.w #$00FF : CMP.w #$001A : BEQ Object_BigKeyLock_easyOut
         LDX.w $0496
         
@@ -8965,7 +8965,7 @@ Dungeon_LoadDoorAttr:
     INY #2 : CPY.w #$0020 : BNE .nextDoor
     
     JSR.w $D51F ; $00D51F IN ROM; Load door tile attributes
-    JSR.w $C1BA ; $00C1BA IN ROM; Random ass routine for an unfinished object
+    JSR.w $C1BA ; $00C1BA IN ROM; Random routine for an unfinished object
     
     INC.w $0200
     
@@ -10399,7 +10399,7 @@ RoomTag_GanonDoor:
             STZ.b $3A
             STZ.b $3C
             
-            ; Set a timer preventing Link from doing jackshit until the fanfare
+            ; Set a timer preventing Link from doing anything until the fanfare
             ; is over.
             LDA.b #$64 : STA.b $C8
             LDA.b #$03 : STA.b $C9

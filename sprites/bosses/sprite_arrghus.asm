@@ -297,7 +297,7 @@ Arrghus_Decelerate:
     ; Checks to see if all his bebehs are ded.
     JSL Sprite_VerifyAllOnScreenDefeated : BCS .arrgi_all_dead
     
-    ; \note What the hell Arrghus... why you dipping into Overlord memory
+    ; Note: Wtf Arrghus... why you dipping into Overlord memory
     ; regions?
     INC.w $0B0B : LDA.w $0B0B : CMP.b #$04 : BNE .arrgi_attack_delay
     

@@ -42,7 +42,7 @@ what it needs, you will have to make sure your memory is initialized to what you
 on startup of the machine. The three major emulators even differ on what they put there by default. (Sleuth, Zsnes, and Snes9x)
 
 Take into consideration if you want a permanent stat to be added in, you should probably index it in such a way that you have copies
-for all three save files. Note, the game for some odd reason uses address $701FFF on a temporary basis. Annoyed the hell out of me when
+for all three save files. Note, the game for some odd reason uses address $701FFF on a temporary basis. Annoyed me when
 a romhack I was doing conflicted with that location. I thought the game didn't use anything past $1DFF at that time. Just be aware of that
 one. You can use it probably, but don't save permanent data to it, like a game timer ;).
 
@@ -514,7 +514,7 @@ $3CC[0x01] - (Tagalong)
     0x02 - ???
     0x03 - ???
     0x04 - Old Man?
-    0x05 - Zelda (invisible) bitching at you about coming to rescue her.
+    0x05 - Zelda (invisible) yelling at you about coming to rescue her.
     0x06 - Blind masquerading as a Maiden
     0x07 - Missing Dwarf (smithyfrog as I call him) in DW
     0x08 - Missing Dwarf in LW

@@ -793,7 +793,7 @@ SpritePrep_Dwarf:
     
     ; \note The dwarves need this in order to not be passed through by
     ; the player. Questionable technique, but I guess they did what they
-    ; had to do to ship the damn game, right?
+    ; had to do to ship the game, right?
     JSL Dwarf_SpawnDwarfSolidity
     
     ; in light world he can either be one or two dwarves?

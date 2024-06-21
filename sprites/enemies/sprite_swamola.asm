@@ -506,7 +506,7 @@ Swamola_Draw:
     
     REP #$20
     
-    ; \task Subtraction? What the hell is going on here?
+    ; TODO: Subtraction? What is going on here?
     LDA.b $90 : SEC : SBC.w #$0004 : STA.b $90
     
     DEC.b $92
