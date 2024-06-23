@@ -234,7 +234,7 @@ Ancilla_Bomb:
     
     .deep_water_tile
     
-    ; Kills the bomb b/c it fell in water; then it makes a splash
+    ; Kills the bomb because it fell in water; then it makes a splash
     
     TXA : INC A : CMP.w $02EC : BNE .water_tile_reset_player_proximity
     
@@ -1025,7 +1025,7 @@ Ancilla_LiftableObjectLogic:
     ; Link's animation status
     LDA $2E : ASL A : TAY
     
-    ; Slow player down b/c they're carrying something
+    ; Slow player down because they're carrying something
     LDA.b #$0C : STA $5E
     
     ; Make the floor the player is on the floor that the bomb is on.

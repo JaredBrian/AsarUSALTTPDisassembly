@@ -1442,7 +1442,7 @@ $02D8[0x01] -   (ReceiveItem)
 
 $02D9[0x01] -   
     
-    Related to $02D8, haven't worked out the details b/c it wasn't necessary yet.
+    Related to $02D8, haven't worked out the details because it wasn't necessary yet.
 
 $02DA[0x01] -   (Player)
     
@@ -3007,7 +3007,7 @@ $06D0[0x10] -   Slots for palace toggle door properties (type 0x14 "doors").
 $06E0[0x0C] -   Stores tilemap positions of chests, big key chests,
                 and big key locks. The array is 12 bytes long, and you can
                 only have 6 chests in one room. 
-                (B/c of the layout of save game ram and associated code)
+                (because of the layout of save game ram and associated code)
                 
                 Note: If the top bit is set, it's a Big Key lock, otherwise it's one of the chest types.
 
@@ -5303,7 +5303,7 @@ $7EC500[0x200] -    Main palette buffer (512 bytes)
                     Extra Info:
                     (BP-<number> means background palette <number> and SP-<number> means sprite palette <number>.
                     "first half" indicates the first 8 colors of a 4bpp palete, and "second half" indicates the latter 8 colors.
-                    Note, however, that the first color of the "first half" palettes are never actually displayed b/c the hardware treats them as transparent.
+                    Note, however, that the first color of the "first half" palettes are never actually displayed because the hardware treats them as transparent.
                     HUD-<number> indicates a 4 color palette used with the 2bpp heads up display graphics. <number> ranges from 0 to 7.
                     Again, only the last 3 colors are displayed as the first color in each HUD palette is considered transparent.
                     Palettes are listed in order of appearance.)

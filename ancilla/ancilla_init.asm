@@ -2302,7 +2302,7 @@ AddDashingDust:
     
     REP #$20
     
-    ; Set Y and X coordinates relative to Link's direction (b/c he's moving)
+    ; Set Y and X coordinates relative to Link's direction (because he's moving)
     LDA $20 : CLC : ADC .y_offsets, Y : STA $00
     
     LDA $22 : CLC : ADC .x_offsets, Y : STA $02
@@ -3652,7 +3652,7 @@ AddIceRodShot:
     
     LDA $05 : ORA $07 : BEQ .on_screen
     
-    ; Terminate the object b/c it's going to initialize off screen
+    ; Terminate the object because it's going to initialize off screen
     STZ.w $0C4A, X
     
     BRA .return

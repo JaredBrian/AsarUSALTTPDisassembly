@@ -28,7 +28,7 @@ size = Ah
 1 word each.
 
 offsets for reading from SRAM. Based on an index stored at $70:1FFE, it will load the value
-$0000, $0500, $0A00, or (possibly) $0F00. The last value seems sketchy b/c that is an offset for the mirror of the first save slot.
+$0000, $0500, $0A00, or (possibly) $0F00. The last value seems sketchy because that is an offset for the mirror of the first save slot.
 
 ***********************************
 
@@ -1127,7 +1127,7 @@ actually here's complete list of spells, i haven't manage to find out what the o
 3B299 - torch
 3B29C - 
 3B29F - Blue Staff (start using)
-Euclid™ says:
+Euclidï¿½ says:
 they're 3 bytes each, first one for normal, second one for 1/ 2 magic third for 1/4 magic
 
 ***********************************
@@ -1142,7 +1142,7 @@ $484E8-$4857F - Memory locations to write to when a chest is opened.
                 e.g. When you get a tempered sword, the game has to know to write to $7EF359.
                 So sword chests are mapped in such a way to write to that location.
 
-                There are $4C => 76 entries in this array, but obviously some are repeated locations b/c there is more than one type of boomerang, more than one type of sword, etc...
+                There are $4C => 76 entries in this array, but obviously some are repeated locations because there is more than one type of boomerang, more than one type of sword, etc...
 
 $48580-$????? - Byte values to write to the locations described in $484E8, X above. e.g. a chest containing the golden sword would point to a value of 4 somewhere in this array. 
 
@@ -1589,7 +1589,7 @@ Type 2 Object Structure: (2 bytes)
 			The d bits are unused.
 
 			Next I'll go into the nitty gritty of the various types (the value of $04). Again note that
-			we'll only be dealing with even values b/c that's what you'll see in the code. To convert
+			we'll only be dealing with even values because that's what you'll see in the code. To convert
 			between here [as well as the code] and Hyrule Magic, take the hex value here and divide by two.
 			Convert to decimal and that's your Hyrule Magic "type."
 

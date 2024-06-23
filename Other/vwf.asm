@@ -426,7 +426,7 @@ Text_SetWindowType:
     ; 5 or more, and.... this makes my head hurt, honestly. Probably could use a rewrite to be more safe!!!
     LDA [$04], Y : STA.w $1CD4
     
-    ; $1CDD is incremented by two bytes b/c this command has an argument
+    ; $1CDD is incremented by two bytes because this command has an argument
     INY : STY.w $1CDD
     
     RTS
@@ -1523,7 +1523,7 @@ VWF_RenderCharacter:
     ; This AND operation tells us which tile in the vwfBuffer to draw to
     AND.w #$0FF0 : CLC : ADC !charLinePos : TAX
     
-    ; A = pixel position in the vwfBuffer (mod 8 b/c we're only concerned about the current tile)
+    ; A = pixel position in the vwfBuffer (mod 8 because we're only concerned about the current tile)
     TYA : LSR A : AND.w #$0007 : TAY
     
     SEP #$20

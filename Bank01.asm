@@ -134,7 +134,7 @@ Pool_Dungeon_LoadType1Object:
     dw $9136 ; = $009136 ; 34
     dw $913F ; = $00913F ; 35? (HM says unused)
     dw $92FB ; = $0092FB ; Curtains in Agahnim's room (horizontal)
-    dw $92FB ; = $0092FB ; Curtains in Agahnim's room (vertical, but not really useful b/c it tiles horizontally)
+    dw $92FB ; = $0092FB ; Curtains in Agahnim's room (vertical, but not really useful because it tiles horizontally)
     
     ; 0x38
     dw $9323 ; = $009323
@@ -8938,7 +8938,7 @@ Dungeon_SetChestAttr:
         
         .getNextChestAttr
         
-        ; Add #$0101, makes sense b/c the next chest is 0x5959 etc.
+        ; Add #$0101, makes sense because the next chest is 0x5959 etc.
         LDA.b $00 : CLC : ADC.w #$0101 : STA.b $00
     INY #2 : CPY.w $0496 : BNE .nextChest
     
@@ -10945,7 +10945,7 @@ Tag_Watergate:
 {
     ; Routine 0x1A - watergate room
     
-    ; Ignore this routine b/c the water is already present
+    ; Ignore this routine because the water is already present
     LDA.w $0403 : AND.l $0098C9 : BNE Tag_TurnOnWater_return
         ; Ignore this routine until the player pulls the lever to let water
         ; enter the room.
@@ -11601,7 +11601,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
             
             LDA.w $19C0, X : AND.b #$03 : TAX
             
-            ; Play a sound effect b/c the door opened.
+            ; Play a sound effect because the door opened.
             LDA.l $01CE6C, X : ORA.b $00 : STA.w $012F
             
             RTL

@@ -551,7 +551,7 @@ Sage_DeathFlash:
     
     .wait
     
-    ; Only draw the sprite every other frame (b/c he's dying).
+    ; Only draw the sprite every other frame (because he's dying).
     LDA.b $1A : AND.b #$02 : STA.w $0D90, X
     
     LDA.w $0E10, X : AND.b #$07 : BNE .dont_play_sound

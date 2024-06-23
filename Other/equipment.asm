@@ -1391,7 +1391,7 @@ DrawSelectedItemBox:
     LDX.w #$0000
     LDY.w #$0007
     
-    ; I say horizontal b/c the lines the sides make are horizontal
+    ; I say horizontal because the lines the sides make are horizontal
     .drawBoxHorizontalSides
     
         LDA.w #$3CF9 : AND.b $00 : STA.w $116C, X

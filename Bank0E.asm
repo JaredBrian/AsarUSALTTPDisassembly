@@ -6500,7 +6500,7 @@ Overworld_CheckForSpecialOverworldTrigger:
         ; Compare map8 CHR number to see if the scroll to the next area has
         ; triggered.
         CMP.l $0EDE29, X : BNE .nextChrValue
-    ; Compare the area number, b/c only specific locations lead to the special
+    ; Compare the area number, because only specific locations lead to the special
     ; OW areas.
     ; The CHR value and the area number must match for a warp to occur. (this
     ; is bizarre, I know.)

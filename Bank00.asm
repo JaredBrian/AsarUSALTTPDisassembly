@@ -672,7 +672,7 @@ ClearOamBuffer:
     RTS
 }
 
-; $00048A-$00048C DATA  0005FB
+; $00048A-$00048B DATA  0005FB
 SaveFileOffsets:
 {
     dw $0000
@@ -12305,7 +12305,7 @@ Decomp:
     LDX.b $C8 : INX : BNE .no_bank_wrap
         LDX.w #$8000 ; LoROM banks range from 0x8000 to 0xFFFF.
         
-        INC.b $CA ; Roll the bank number b/c we've gone past the end of the last bank.
+        INC.b $CA ; Roll the bank number because we've gone past the end of the last bank.
     
     .no_bank_wrap
     
@@ -13829,7 +13829,7 @@ Spotlight:
     STZ.w $420C
     
     ; Target dma register is $2126 (WH0), Window 1 Left Position. $2127 (WH1)
-    ; will also be written b/c of the mode. Indirect HDMA is being used as
+    ; will also be written because of the mode. Indirect HDMA is being used as
     ; well. transfer mode is write two registers once, ($2126 / $2127).
     LDX.w #$2641 : STX.w $4360 : STX.w $4370
     

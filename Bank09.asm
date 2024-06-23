@@ -605,7 +605,7 @@ InitSpriteSlots:
     
         ; There's no overlord loaded in that slot to begin with.
         LDA.w $0B00, X : BEQ .noOverlord
-            ; Ignore the overlord b/c it matches the area we're already in.
+            ; Ignore the overlord because it matches the area we're already in.
             LDA.w $0CCA, X : CMP.w $040A : BEQ .ignoreOverlord
                 STZ.w $0B00, X
 

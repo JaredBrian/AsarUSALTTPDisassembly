@@ -4019,11 +4019,10 @@ UNREACHABLE_079A29:
 
 ; ==============================================================================
 
+; Puts link in bed asleep.
 ; $039A2C-$039A53 LONG JUMP LOCATION
 Link_TuckIntoBed:
 {
-    ; Puts link in bed asleep.
-    
     PHB : PHK : PLB
     
     REP #$20
@@ -11536,7 +11535,7 @@ Link_HandleDiagonalKickback:
         
         ; Is Link moving to the left? If so, branch.
         LDA.b $31 : BMI .BRANCH_GAMMA
-            ; This probably sets up a different hit detection box b/c he's
+            ; This probably sets up a different hit detection box because he's
             ; looking in a different direction.
             LDY.b #$06
         
@@ -13310,7 +13309,7 @@ TileDetect_Execute:
     ; Which part of a two level room is Link on.
     LDX.b $EE : BEQ .lowerFloor
         ; He's on the upper floor then.
-        ; Add this offset in b/c BG0's tile attributes start at $7F3000.
+        ; Add this offset in because BG0's tile attributes start at $7F3000.
         CLC : ADC.w #$1000
     
     .lowerFloor
