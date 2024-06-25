@@ -98,12 +98,10 @@ Vector_Reset:
 Pool_Module_MainRouting: 
 {
     ; TODO: Reference jpdisasm for interleaved long pointers.
-    interleave
-    {
     ; Note: there are 28 distinct modes here (0x1C).
 
     .modules
-    dl Module_Intro          ; 0x00 - Triforce / Zelda startup screens
+    dl Module_Intro          ; 0x00 - $0CC120
     dl Module_SelectFile     ; 0x01 - File Select screen
     dl Module_CopyFile       ; 0x02 - Copy Player Mode
     dl Module_EraseFile      ; 0x03 - Erase Player Mode
@@ -131,11 +129,6 @@ Pool_Module_MainRouting:
     dl Module_TriforceRoom   ; 0x19 - Triforce Room scene
     dl Module_EndSequence    ; 0x1A - End sequence
     dl Module_LocationMenu   ; 0x1B - Screen to select where to start from (House, sanctuary, etc.)
-
-    { modules long i } => { lowers  byte i       },
-                          { middles byte i >> 8  },
-                          { banks   byte i >> 16 }
-    }
 }
 
 ; ==============================================================================
@@ -1623,12 +1616,13 @@ NMI_DoUpdates:
     
     ; Another graphics flag... not sure what it does.
     LDY.b $14 : BEQ .BRANCH_6
-        ; $137A, Y in Rom
-        LDA.w $937A, Y : STA.b $00
-        LDA.w $9383, Y : STA.b $01
-        LDA.w $938C, Y : STA.b $02
+        ; $00137A, Y in Rom which is the Stripes14_SourceAddress data block -1
+        ; for each table.
+        LDA.w Stripes14_SourceAddress_low-1, Y :  STA.b $00
+        LDA.w Stripes14_SourceAddress_high-1, Y : STA.b $01
+        LDA.w Stripes14_SourceAddress_bank-1, Y : STA.b $02
         
-        JSR.w $92A1 ; $12A1 in Rom
+        JSR.w HandleStripes14
         
         LDA.b $14 : CMP.b #$01 : BNE .BRANCH_5
             STZ.w $1000 : STZ.w $1001
@@ -2120,9 +2114,9 @@ NMI_LightWorldMode7Tilemap:
             ; (0x100 bytes).
             CLC : ADC.w #$0080 : STA.b $00
             
-            ; Mode 7 tilemap data is based at $0AC727 ($054727 in ROM)
+            ; Mode 7 tilemap data is based at $054727 in ROM.
             ; This data fills in the tilemap data that isn't "blank".
-            LDA.b $02 : CLC : ADC.w #$C727 : STA.w $4302
+            LDA.b $02 : CLC : ADC.w #WorldMap_LightWorldTilemap : STA.w $4302
             
             ; Number of bytes to transfer is 0x0020.
             LDA.w #$0020 : STA.w $4305
@@ -2610,7 +2604,7 @@ NMI_UpdateOWScroll_long:
 {
     ; Unused???
     
-    JSR.w $8D13 ; $000D13 IN ROM
+    JSR.w NMI_UpdateScrollingOwMap
     
     RTL
 }
@@ -2626,7 +2620,7 @@ UNREACHABLE_0090EB:
     LDA.w $9383, Y : STA.b $01
     LDA.w $938C, Y : STA.b $02
     
-    JSR.w $92A1 ; $0012A1 in Rom
+    JSR.w HandleStripes14
     
     LDA.b $14 : CMP.b #$01 : BNE .alpha
         STZ.w $1000 : STZ.w $1001
@@ -8824,48 +8818,48 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     ; Load ice rod tiles?
     LDA.b #$07
     
-    JSR.w $D537 ; $005537 IN ROM
+    JSR.w LoadItemGFX
     
     ; Load fire rod tiles?
     LDA.b #$07
     
-    JSR.w $D537 ; $005537 in Rom.
+    JSR.w LoadItemGFX
     
     ; Load hammer tiles?
     LDA.b #$03
     
-    JSR.w $D537 ; $005537 in Rom.
+    JSR.w LoadItemGFX
     
     LDY.b #$5F
     LDA.b #$04
     
-    JSR.w $D54E ; $00554E IN ROM
+    JSR.w LoadItemGFX_arbitrary_sheet
     
     LDA.b #$03
     
-    JSR.w $D553 ; $005553 IN ROM
+    JSR.w LoadItemGFX_current_sheet
     
     LDA.b #$01
     
-    JSR.w $D553 ; $005553 in Rom.
+    JSR.w LoadItemGFX_current_sheet
     
     LDA.b #$04
     
-    JSR.w $D537 ; $005537 in Rom.
+    JSR.w LoadItemGFX
     
     LDY.b #$60
     LDA.b #$0E
     
-    JSR.w $D54E ; $00554E in Rom.
+    JSR.w LoadItemGFX_arbitrary_sheet
     
     LDA.b #$07
     
-    JSR.w $D553 ; $005553 in Rom.
+    JSR.w LoadItemGFX_current_sheet
     
     LDY.b #$5F
     LDA.b #$02
     
-    JSR.w $D54E ; $00554E in Rom.
+    JSR.w LoadItemGFX_arbitrary_sheet
     
     LDY.b #$54
     
@@ -9395,7 +9389,7 @@ LoadItemGFX:
     PLA
 
     ; $005553 ALTERNATE ENTRY POINT
-    .current_sheet:
+    .current_sheet
 
     STA.b $0A
     
@@ -9762,25 +9756,25 @@ ReloadPreviouslyLoadedSheets:
     LDA.b #$7E : STA.b $02
     LDA   $7EC2F8 : TAY
     
-    JSR.w $E78F ; $00678F in Rom.
+    JSR.w Decomp_bg_variable
     
     ; Target decompression address = $7E6600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2F9 : TAY
     
-    JSR.w $E78F ; $00678F in Rom.
+    JSR.w Decomp_bg_variable
     
     ; Target decompression address = $7E6C00.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FA : TAY
     
-    JSR.w $E78F ; $00678F in Rom.
+    JSR.w Decomp_bg_variable
     
     ; Target decompression address = $7E7200.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FB : TAY
     
-    JSR.w $E78F ; $00678F in Rom.
+    JSR.w Decomp_bg_variable
     
     ; Target decompression address = $7E7800.
     STZ.b $00
@@ -9940,7 +9934,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
 AnimateMirrorWarp_TriggerOverlayA_2:
 {
-    JSL.l $02B2D4 ; $0132D4 IN ROM
+    JSL.l MirrorWarp_HandleCastlePyramidSubscreen
     
     DEC.b $11
     
@@ -9954,7 +9948,7 @@ AnimateMirrorWarp_TriggerOverlayA_2:
 ; $0058B3-$0058BA JUMP LOCATION (LONG)
 AnimateMirrorWarp_DrawDestinationScreen:
 {
-    JSL.l $02B2E6 ; $0132E6 IN ROM
+    JSL.l Overworld_DrawScreenAtCurrentMirrorPosition
     
     INC.w $0710
     
@@ -9966,7 +9960,7 @@ AnimateMirrorWarp_DrawDestinationScreen:
 ; $0058BB-$0058C6 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DoSpritesPalettes:
 {
-    JSL.l $02B334 ; $013334 IN ROM
+    JSL.l MirrorWarp_LoadSpritesAndColors
     
     LDA.b #$0C : STA.b $17 : STA.w $0710
     
@@ -10471,7 +10465,7 @@ AnimateMirrorWarp_DecompressSpritesB:
     
     SEP #$30
     
-    JSL.l $07AAA2 ; $03AAA2 IN ROM
+    JSL.l HandleFollowersAfterMirroring
     
     RTL
 }
@@ -11352,15 +11346,15 @@ LoadDefaultGfx:
     ; The final slot will be occupied by textbox tiles.
     LDY.b #$6A
 
-    JSR DecompAndDirectCopy ; $00633B IN ROM
+    JSR.w DecompAndDirectCopy
 
     LDY.b #$6B
 
-    JSR DecompAndDirectCopy ; $00633B IN ROM
+    JSR.w DecompAndDirectCopy
     
     LDY.b #$69
 
-    JSR DecompAndDirectCopy ; $00633B IN ROM
+    JSR.w DecompAndDirectCopy
     
     PLB
 
@@ -11435,7 +11429,7 @@ Graphics_LoadCommonSprLong:
     ; Set initial VRAM target address to 0x4400 (word).
     STZ.w $2116 : LDA.b #$44 : STA.w $2117
     
-    JSR LoadCommonSprGfx ; $0066B7 in ROM
+    JSR.w LoadCommonSprGfx
     
     PLB
     
@@ -11563,7 +11557,7 @@ Graphics_LoadChrHalfSlot:
             
             LDA.b #$02 : STA.w $0AA9
             
-            JSL Palette_MiscSprite ; $0DED6E IN ROM
+            JSL Palette_MiscSprite
             
             ; Signal to update CGRAM this frame.
             INC.b $15
@@ -12050,7 +12044,6 @@ LoadCommonSprGfx:
         ; Indicates that it contains 0x80 tiles.
         LDY.b #$7F
         
-        ; $00663C in ROM
         JMP Do3To4Low
 
     .triforceMode
@@ -12062,14 +12055,14 @@ LoadCommonSprGfx:
     LDA.b #$7F : STA.b $02
     LDX.b #$40
     
-    JSR LoadSprGfx ; $006583 in ROM
+    JSR LoadSprGfx
     
     ; I don't quite understand the significant of writing to $06...
     LDY.b #$5F : STY.b $06
     
     LDX.b #$40
         
-    JSR LoadSprGfx ; $006583 in ROM
+    JSR LoadSprGfx
 }
 
 ; ==============================================================================
@@ -12980,10 +12973,10 @@ PaletteFilter_Agahnim:
     
     REP #$10
     
-    JSR.w $ED19 ; $006D19 IN ROM
+    JSR.w AgahnimWarpShadowFilter_filter_one
     
     LDA.l $7EC007 : BEQ .done_filtering
-        JSR.w $ED19 ; $006D19 IN ROM
+        JSR.w AgahnimWarpShadowFilter_filter_one
 
     .done_filtering
 
@@ -13344,7 +13337,7 @@ PaletteFilter_BlindingWhite:
                     
                 LDX.b #$3E : LDA.w #$0778
                     
-                JSL.l $00FE3E ; $007E3E IN ROM
+                JSL Mirror_InitHdmaSettings_init_hdma_table
                     
                 INC.b $15
 
@@ -13925,6 +13918,7 @@ ConfigureSpotlightTable:
     LDA.b $0E : SEC : SBC.b $0A : STA.b $04
 
     ; $007361 ALTERNATE ENTRY POINT
+    .next_check
 
     LDA.w #$00FF : STA.b $08
     
@@ -13935,7 +13929,7 @@ ConfigureSpotlightTable:
 
         .BRANCH_GAMMA
 
-        JSR.w $F4CC ; $0074CC IN ROM
+        JSR.w IrisSpotlight_CalculateCircleValue
 
     .BRANCH_BETA
 
@@ -13957,7 +13951,7 @@ ConfigureSpotlightTable:
         INC.b $04
         DEC.b $06
         
-        JMP.w $F361 ; $007361 IN ROM
+        JMP.w ConfigureSpotlightTable_next_check
 
     .BRANCH_ZETA
 
@@ -14016,7 +14010,7 @@ ConfigureSpotlightTable:
 
         ; Restore the current module.
         LDA.w $010C : STA.b $10 : CMP.b #$06 : BNE .notPreDungeon
-            JSL Sprite_ResetAll ; $04C44E IN ROM
+            JSL Sprite_ResetAll
 
         .notPreDungeon
     .return
@@ -14513,7 +14507,7 @@ Module_Messaging:
         JSL PlayerOam_Main
         
         LDA.b $1B : BNE .indoors
-            JSL.l $02A4CD ; $0124CD IN ROM
+            JSL.l Module_Overworld_rainAnimation
 
         .indoors
 
@@ -14552,28 +14546,26 @@ Messaging_MainJumpTable:
     ; TODO: figure out interleaving syntax for tables like this.
     ; Parameterized by X:
     
-    dl Module_Messaging_doNothing ; X=0: RTL (do nothing).
-    dl Messaging_Equipment        ; X=1: Link's item submenu (press start).
-    dl Messaging_Text             ; X=2: Dialogue Mode.
-    dl Messaging_PalaceMap        ; X=3: Dungeon Map Mode.
-    dl RefillHeathFromRedPotion   ; X=4: Fills life (red potion).
-    dl Messaging_PrayingPlayer    ; X=5: Praying at desert palace before it opens.
-    dl Module0E_06_Unused         ; X=6: unused? Agahnim 2 related code?
-    dl Messaging_OverworldMap     ; X=7: Overworld Map Mode.
-    dl Module0E_08_GreenPotion    ; X=8: Fill up all magic (green potion).
-    dl Module0E_09_BluePotion     ; X=9: Fill up magic and life (blue potion).
-    dl Messaging_BirdTravel       ; X=A: The bird (duck?) that flies you around.
-    dl Module0E_0B_SaveMenu       ; X=B: Continue/Save & Quit Mode.
+    dl Module_Messaging_doNothing ; 0x00 - RTL (do nothing).
+    dl Messaging_Equipment        ; 0x01 - Link's item submenu (press start).
+    dl Messaging_Text             ; 0x02 - Dialogue Mode.
+    dl Messaging_PalaceMap        ; 0x03 - Dungeon Map Mode.
+    dl RefillHeathFromRedPotion   ; 0x04 - Fills life (red potion).
+    dl Messaging_PrayingPlayer    ; 0x05 - Praying at desert palace before it opens.
+    dl Module0E_06_Unused         ; 0x06 - unused? Agahnim 2 related code?
+    dl Messaging_OverworldMap     ; 0x07 - Overworld Map Mode.
+    dl Module0E_08_GreenPotion    ; 0x08 - Fill up all magic (green potion).
+    dl Module0E_09_BluePotion     ; 0x09 - Fill up magic and life (blue potion).
+    dl Messaging_BirdTravel       ; 0x0A - The flute bird that flies you around.
+    dl Module0E_0B_SaveMenu       ; 0x0B - Continue/Save & Quit Mode.
 }
-
-; ==============================================================================
 
 ; $00789A-$0078B0 LONG JUMP LOCATION
 Messaging_Main:
 {
     LDX.b $11
     
-    LDA Messaging_MainJumpTable, X : STA.b $00 ; $00F876 or $007876 in ROM
+    LDA Messaging_MainJumpTable, X : STA.b $00
     LDA.l $00F882, X : STA.b $01
     LDA.l $00F88E, X : STA.b $02
     
@@ -14616,16 +14608,19 @@ PrayingPlayer_InitScene:
 
 ; ==============================================================================
 
-; $0078E0-$0078E8 LONG JUMP LOCATION
+; $0078E0-$0078E3 LONG JUMP LOCATION
 PrayingPlayer_FadeInScene:
 {
     ; Lightens scene until fully illuminated.
-    JSL PaletteFilter.doFiltering
+    JSL PaletteFilter_doFiltering
 
-    ; $0078E4 ALTERNATE ENTRY POINT
-    PrayingPlayer_AwaitButtonInput:
+    ; Bleeds into the next function.
+}
 
-    JSL.l $07EA27 ; $03EA27 IN ROM
+; $0078E4-$0078E8 ALTERNATE ENTRY POINT
+PrayingPlayer_AwaitButtonInput:
+{
+    JSL DesertPrayer_BuildIrisHDMATable
     
     RTL
 }
@@ -14737,13 +14732,14 @@ PrepDungeonExit:
 {
     JSL SavePalaceDeaths
 
-    ; $0121C7 IN ROM ; Save current dungeon keys to proper slots.
+    ; Save current dungeon keys to proper slots.
     JSL Dungeon_SaveRoomData_justKeys
     
     ; Indicate a boss has been killed in this room.
     LDA.w $0403 : ORA.b #$80 : STA.w $0403
     
-    JSL.l $02B929 ; $013929 IN ROM ; Save the room data as we exit.
+    ; Save the room data as we exit.
+    JSL Dungeon_SaveRoomQuadrantData
     
     LDX.b #$0C
     
@@ -15244,7 +15240,7 @@ MirrorHDMA:
 ; $007E64-$007F2E LONG JUMP LOCATION
 MirrorWarp_BuildWavingHDMATable:
 {
-    JSL.l $00EEE7 ; $006EE7 IN ROM
+    JSL MirrorWarp_RunAnimationSubmodules
     
     ; Only do something every other frame.
     LDA.b $1A : LSR A : BCS Mirror_InitHdmaSettings.easy_out
@@ -15339,7 +15335,7 @@ MirrorWarp_BuildWavingHDMATable:
 ; $007F2F-$007FB6 JUMP LOCATION (LONG)
 MirrorWarp_BuildDewavingHDMATable:
 {
-    JSL.l $00EEE7 ; $006EE7 IN ROM
+    JSL MirrorWarp_RunAnimationSubmodules
         
     LDA.b $1A : LSR A : BCS MirrorHDMA_return
         REP #$30

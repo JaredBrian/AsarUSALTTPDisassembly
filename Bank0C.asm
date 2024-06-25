@@ -612,19 +612,17 @@ NULL_0CC10C:
 
 ; ==============================================================================
 
+; Beginning of Module 0x00: Triforce / Zelda startup screens
 ; $064120-$06415C JUMP LOCATION
 Module_Intro:
 {
-    ; Beginning of Module 0x00, Startup Screen:
-    
     LDA.b $11 : CMP.b #$08 : BCC .dontCheckInput
-    
-    LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .noPressedButtons
-        ; If ABXY, or Start is pressed, then go to the file selection menu
-        ; module.
-        JMP.w $C2F0
-    
-    .noPressedButtons
+        LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .noPressedButtons
+            ; If ABXY, or Start is pressed, then go to the file selection menu
+            ; module.
+            JMP.w $C2F0
+        
+        .noPressedButtons
     .dontCheckInput
     
     ; Otherwise, branch to the appropriate part of the intro.

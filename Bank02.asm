@@ -9297,11 +9297,10 @@ AdjustQuadrantAndCamera_up:
     BRA SetAndSaveVisitedQuadrantFlags
 }
 
+; Figures out which Quadrants Link has visited in a room.
 ; $013929-$013946 LONG JUMP LOCATION
 Dungeon_SaveRoomQuadrantData:
 {
-    ; Figures out which Quadrants Link has visited in a room.
-
     ; Mapped to bit 3.
     LDA.b $A7 : ASL #2 : STA.b $00
 

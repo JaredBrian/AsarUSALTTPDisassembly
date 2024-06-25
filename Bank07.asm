@@ -15954,7 +15954,7 @@ Player_InitPrayingScene_HDMA:
     
     STZ.w $067E
     
-    JSL.l $07EA27 ; $03EA27 IN ROM
+    JSL.l DesertPrayer_BuildIrisHDMATable
     
     INC.b $B0
     
