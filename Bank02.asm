@@ -219,7 +219,7 @@ AnimatedTileSheets:
 
 ; ==============================================================================
 
-; Beginning of Module 5, Loading Game Mode.
+; Beginning of Module 5: Loading Game Mode.
 ; $010136-$010207 LONG JUMP LOCATION
 Module_LoadFile:
 {
@@ -366,11 +366,10 @@ LoadDungeonRoomRebuildHUD:
     ; Bleed into the next function.
 }
 
+; Beginning of Module 6: Pre-Dungeon Mode
 ; $01021E-$0103B4 LONG JUMP LOCATION
 Module_PreDungeon:
 {
-    ; Beginning of Module 6: Predungeon Mode.
-
     REP #$20
 
     ; Play an ambient sound effect. (This one is probably silence).
@@ -1329,7 +1328,7 @@ Module_DungeonTable:
 
 ; ==============================================================================
 
-; Module 0x07 - Dungeon Mode.
+; Module 0x07: Dungeon Mode
 ; $0107A2-$01085D LONG JUMP LOCATION
 Module_Dungeon:
 {

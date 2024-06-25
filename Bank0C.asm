@@ -631,7 +631,7 @@ Module_Intro:
     JSL UseImplicitRegIndexedLongJumpTable
     
     dl Intro_Init          ; $06415D Blank Screen
-    dl Intro_Init.justLogo ; $064170 -Nintendo presents-
+    dl Intro_Init_justLogo ; $064170 -Nintendo presents-
     dl Intro_InitGfx       ; $06433C Sets up myriad graphics settings
     dl $0CC404             ; $064404 Copyright Nintendo 1992
     dl $0CC404             ; $064404 Triforces swooping in.
@@ -2350,10 +2350,10 @@ FileSelect_FairyY:
 
 ; ==============================================================================
 
+; Beginning of Module 1: File Select Screen:
 ; $064D7D-$0064D9C JUMP LOCATION
 Module_SelectFile:
 {
-    ; Beginning of Module 1, Game Select Screen:
     STZ.b $E4
     STZ.b $E5
     STZ.b $EA
@@ -2859,11 +2859,10 @@ FileSelect_HandleInput:
 
 ; ==============================================================================
 
+; Beginning of Module 0x02: Copy File Mode
 ; $065053-$06506D JUMP LOCATION
 Module_CopyFile:
 {
-    ; Beginning of Module 0x02, Copy Game
-    
     STZ.w $0B9D
     
     LDA.b $11
@@ -2877,8 +2876,6 @@ Module_CopyFile:
     dl $0CD0A2 ; = $0650A2
     dl $0CD0B9 ; = $0650B9
 }
-
-; ==============================================================================
 
 ; $06506E-$065086 JUMP LOCATION
 CopyFile_FindFileIndices:
@@ -3470,11 +3467,10 @@ CopyFile_CopyData:
 
 ; ==============================================================================
 
+; Beginning of Module 3: Erase File Mode
 ; $065485-$065499 JUMP LOCATION
 Module_EraseFile:
 {
-    ; Beginning of Module 3, Erase Mode:
-    
     LDA.b $11
     
     JSL UseImplicitRegIndexedLongJumpTable
@@ -4147,11 +4143,10 @@ FileSelect_DrawDeaths:
 
 ; ==============================================================================
 
+; Beginning of Module 0x04: Name Player Mode
 ; $06588A-$06589B JUMP LOCATION
 Module_NamePlayer:
 {
-    ; Beginning of Module 0x04 - Name Player
-    
     LDA.b $11
     
     JSL UseImplicitRegIndexedLongJumpTable
@@ -4161,8 +4156,6 @@ Module_NamePlayer:
     dl $0CD928 ; = $065928
     dl $0CDA4D ; = $065A4D
 }
-
-; ==============================================================================
 
 ; $06589C-$065910 JUMP LOCATION
 NameFile_EraseSave:

@@ -102,13 +102,13 @@ Pool_Module_MainRouting:
 
     .modules
     dl Module_Intro          ; 0x00 - $0CC120
-    dl Module_SelectFile     ; 0x01 - File Select screen
-    dl Module_CopyFile       ; 0x02 - Copy Player Mode
-    dl Module_EraseFile      ; 0x03 - Erase Player Mode
-    dl Module_NamePlayer     ; 0x04 - Name Player Mode
-    dl Module_LoadFile       ; 0x05 - Loading Game Mode
-    dl Module_PreDungeon     ; 0x06 - Pre Dungeon Mode
-    dl Module_Dungeon        ; 0x07 - Dungeon Mode
+    dl Module_SelectFile     ; 0x01 - $0CCD7D
+    dl Module_CopyFile       ; 0x02 - $0CD053
+    dl Module_EraseFile      ; 0x03 - $0CD485
+    dl Module_NamePlayer     ; 0x04 - $0CD88A
+    dl Module_LoadFile       ; 0x05 - $028136
+    dl Module_PreDungeon     ; 0x06 - $02821E
+    dl Module_Dungeon        ; 0x07 - $0287A2
     dl Module_PreOverworld   ; 0x08 - Pre Overworld Mode
     dl Module_Overworld      ; 0x09 - Overworld Mode
     dl Module_PreOverworld   ; 0x0A - Pre Overworld Mode (special overworld)
