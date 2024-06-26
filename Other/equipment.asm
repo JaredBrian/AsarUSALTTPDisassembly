@@ -2,11 +2,10 @@
 
 ; ==============================================================================
 
+; Module E submodule 1 (Item submenu)
 ; $06DD2A-$06DD31 JUMP LOCATION
 Messaging_Equipment:
 {
-    ; Module E submodule 1 (Item submenu)
-    
     PHB : PHK : PLB
     
     JSR Equipment_Local
@@ -16,13 +15,10 @@ Messaging_Equipment:
     RTL
 }
 
-    ; start of namespace
-    namespace "Equipment_"
-
 ; ==============================================================================
 
 ; $06DD32-$06DD35 LONG JUMP LOCATION
-UpdateEquippedItemLong:
+Equipment_UpdateEquippedItemLong:
 {
     JSR UpdateHUD_updateEquippedItem
     
@@ -31,89 +27,87 @@ UpdateEquippedItemLong:
 
 ; ==============================================================================
     
+; Appears to be a simple debug frame counter (8-bit) for this submodule
+; of course, it loops back every 256 frames.
 ; $06DD36-$06DD59 LOCAL JUMP LOCATION
-Local:
+Equipment_Local:
 {
-    ; Appears to be a simple debug frame counter (8-bit) for this submodule
-    ; Of course, it loops back every 256 frames
     INC.w $0206
     
     LDA.w $0200
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw ClearTilemap       ; $DD5A = $6DD5A* 0
-    dw Init               ; $DDAB = $6DDAB* 1 
-    dw BringMenuDown      ; $DE59 = $6DE59* 2 
-    dw ChooseNextMode     ; $DE6E = $6DE6E* 3
-    dw NormalMenu         ; $DF15 = $6DF15* 4
-    dw UpdateHUD          ; $DFA9 = $6DFA9* 5
-    dw CloseMenu          ; $DFBA = $6DFBA* 6
-    dw GotoBottleMenu     ; $DFFB = $6DFFB* 7
-    dw InitBottleMenu     ; $E002 = $6E002* 8
-    dw ExpandBottleMenu   ; $E08C = $6E08C* 9
-    dw BottleMenu         ; $E0DF = $6E0DF* A
-    dw EraseBottleMenu    ; $E2FD = $6E2FD* B
-    dw RestoreNormalMenu  ; $E346 = $6E346* C
+    dw ClearTilemap       ; 0x00 - $DD5A
+    dw Init               ; 0x01 - $DDAB 
+    dw BringMenuDown      ; 0x02 - $DE59 
+    dw ChooseNextMode     ; 0x03 - $DE6E
+    dw NormalMenu         ; 0x04 - $DF15
+    dw UpdateHUD          ; 0x05 - $DFA9
+    dw CloseMenu          ; 0x06 - $DFBA
+    dw GotoBottleMenu     ; 0x07 - $DFFB
+    dw InitBottleMenu     ; 0x08 - $E002
+    dw ExpandBottleMenu   ; 0x09 - $E08C
+    dw BottleMenu         ; 0x0A - $E0DF
+    dw EraseBottleMenu    ; 0x0B - $E2FD
+    dw RestoreNormalMenu  ; 0x0C - $E346
 }
 
 ; ==============================================================================
 
+; This routine sets up a DMA transfer from $7E1000 to $6800 (word address) in
+; VRAM basically clears out. Also plays the menu coming down sound, then moves
+; to the next step.
 ; $06DD5A-$06DDAA JUMP LOCATION
-ClearTilemap:
+Equipment_ClearTilemap:
 {
-    ; This routine sets up a DMA transfer from
-    ; $7E1000 to $6800 (word address) in VRAM
-    ; Basically clears out
-    ; Also plays the menu coming down sound, then moves to the next step
-    
     REP #$20
     
     LDX.b #$00
     
-    ; value of a transparent tile
+    ; Value of a transparent tile.
     LDA.b #$207F
     
     .clearVramBuffer
     
-    STA.w $1000, X : STA.w $1080, X
-    STA.w $1100, X : STA.w $1180, X
-    STA.w $1200, X : STA.w $1280, X
-    STA.w $1300, X : STA.w $1380, X
-    STA.w $1400, X : STA.w $1480, X
-    STA.w $1500, X : STA.w $1580, X
-    STA.w $1600, X : STA.w $1680, X
-    STA.w $1700, X : STA.w $1780, X
-    
-    INX #2 : CPX.b #$80
-    
+        STA.w $1000, X : STA.w $1080, X
+        STA.w $1100, X : STA.w $1180, X
+        STA.w $1200, X : STA.w $1280, X
+        STA.w $1300, X : STA.w $1380, X
+        STA.w $1400, X : STA.w $1480, X
+        STA.w $1500, X : STA.w $1580, X
+        STA.w $1600, X : STA.w $1680, X
+        STA.w $1700, X : STA.w $1780, X
+        
+        INX #2 : CPX.b #$80
     BNE .clearVramBuffer
     
     SEP #$20
     
-    ; play sound effect for opening item menu
+    ; Play sound effect for opening item menu.
     LDA.b #$11 : STA.w $012F
-    
-    ; tell NMI to update tilemap
+
+    ; Tell NMI to update tilemap.
     LDA.b #$01 : STA.b $17
     
-    ; the region of tilemap to update is word address $6800 (this value 0x22 indexes into a table in NMI)
+    ; The region of tilemap to update is word address $6800 (this value 0x22
+    ; indexes into a table in NMI).
     LDA.b #$22 : STA.w $0116
     
-    ; move to next step of the submodule
+    ; Move to next step of the submodule.
     INC.w $0200
     
     RTS
 }
 
 ; ==============================================================================
-    
+
+; Module 0x0E.0x01.0x01
 ; $06DDAB-$06DE58 JUMP LOCATION
-Init:
+Equipment_Init:
 {
-    ; Module 0x0E.0x01.0x01
-    
-    JSR CheckEquippedItem ; $06E399 IN ROM; Handles which item to equip (if none is equipped)
+    ; Handles which item to equip (if none is equipped)
+    JSR CheckEquippedItem
     
     LDA.b #$01
     
@@ -123,7 +117,9 @@ Init:
     LDA.b #$01
     
     JSR GetPaletteMask
-    JSR DrawSelectedItemBox ; $06E647 IN ROM; Construct a portion of the menu.
+
+    ; Construct a portion of the menu.
+    JSR DrawSelectedItemBox
     
     LDA.b #$01
     
@@ -147,81 +143,58 @@ Init:
     
     LDA.l $7EF340
     
-    ; check if we have any equippable items available
+    ; Check if we have any equippable items available.
     .itemCheck
     
-    ORA.l $7EF341, X : DEX
-    
+        ORA.l $7EF341, X : DEX
     BPL .itemCheck
     
-    CMP.b #$00
+    CMP.b #$00 : BEQ .noEquipableItems
     
-    BEQ .noEquipableItems
-    
-    LDA.l $7EF35C : ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F
-    
-    BNE .haveBottleItems
-    
-    BRA .haveNoBottles
-    
-    .haveBottleItems
-    
-    LDA.l $7EF34F
-    
-    ; There is a difference between having bottled items and having 
-    ; at least one bottle to put them in. $7EF34F acts as a flag for that.
-    BNE .hasBottleFlag
-    
-    TAY
-    
-    INY
-    LDA.l $7EF35C
-    
-    BNE .selectThisBottle
-    
-    INY
-    LDA.l $7EF35D
-    
-    BNE .selectThisBottle
-    
-    INY
-    LDA.l $7EF35E
-    
-    BNE .selectThisBottle
-    
-    INY
-    
-    .selectThisBottle
-    
-    TYA
-    
-    .haveNoBottles
-    
-    STA.l $7EF34F
-    
-    .hasBottleFlag
-    
-    JSR DoWeHaveThisItem
-    
-    BCS .weHaveIt
-    
-    JSR TryEquipNextItem
-    
-    .weHaveIt
-    
-    JSR DrawSelectedYButtonItem
-    
-    ; Does the player have a bottle equipped currently?
-    LDA.w $0202 : CMP.b #$10                 ; initial draw
-    
-    BNE .equippedItemIsntBottle
-    
-    LDA.b #$01
-    
-    JSR GetPaletteMask
-    JSR DrawBottleMenu
-    
-    .equippedItemIsntBottle
+        LDA.l $7EF35C
+        ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F : BNE .haveBottleItems
+            BRA .haveNoBottles
+        
+        .haveBottleItems
+        
+        ; There is a difference between having bottled items and having 
+        ; at least one bottle to put them in. $7EF34F acts as a flag for that.
+        LDA.l $7EF34F : BNE .hasBottleFlag
+            TAY
+            
+            INY
+            LDA.l $7EF35C : BNE .selectThisBottle
+                INY
+                LDA.l $7EF35D : BNE .selectThisBottle
+                    INY
+                    LDA.l $7EF35E : BNE .selectThisBottle
+                        INY
+                
+            .selectThisBottle
+            
+            TYA
+            
+            .haveNoBottles
+            
+            STA.l $7EF34F
+        
+        .hasBottleFlag
+        
+        JSR DoWeHaveThisItem : BCS .weHaveIt
+            JSR TryEquipNextItem
+        
+        .weHaveIt
+        
+        JSR DrawSelectedYButtonItem
+        
+        ; Does the player have a bottle equipped currently? Initial draw.
+        LDA.w $0202 : CMP.b #$10 : BNE .equippedItemIsntBottle
+            LDA.b #$01
+            
+            JSR GetPaletteMask
+            JSR DrawBottleMenu
+            
+        .equippedItemIsntBottle
     .noEquipableItems
     
     ; Start a timer
@@ -242,7 +215,7 @@ Init:
 ; ==============================================================================
 
 ; $06DE59-$06DE6D JUMP LOCATION
-BringMenuDown:
+Equipment_BringMenuDown:
 {
     REP #$20
     
@@ -251,8 +224,7 @@ BringMenuDown:
     SEP #$20
     
     BNE .notDoneScrolling 
-    
-    INC.w $0200
+        INC.w $0200
     
     .notDoneScrolling
     
@@ -261,56 +233,53 @@ BringMenuDown:
     
 ; ==============================================================================
 
+; Makes a determination whether to go to the normal menu handling mode or the
+; bottle submenu handling mode. there's also mode 0x05... which appears to be
+; hidden at this point.
 ; $06DE6E-$06DEAF JUMP LOCATION
-ChooseNextMode:
+Equipment_ChooseNextMode:
 {
-    ; Makes a determination whether to go to the normal menu handling mode
-    ; or the bottle submenu handling mode.
-    ; there's also mode 0x05... which appears to be hidden at this point.
-    
     LDX.b #$12
     
     LDA.l $7EF340
     
     .haveAnyEquippable
-    
+
+        ; Loop.
     ORA.l $7EF341, X : DEX : BPL .haveAnyEquippable
-    
-    CMP.b #$00 : BEQ .haveNone
-    
-    ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
-    LDA.b #$01 : STA.b $17
-    LDA.b #$22 : STA.w $0116
-    
-    JSR DoWeHaveThisItem : BCS .weHaveIt
-    
-    JSR TryEquipNextItem
-    
-    .weHaveIt
-    
-    JSR DrawSelectedYButtonItem
-    
-    ; Move to the next step of the submodule
-    LDA.b #$04 : STA.w $0200
-    
-    LDA.w $0202 : CMP.b #$10 : BNE .notOnBottleMenu
-    
-    ; switch to the step of this submodule that handles when the
-    ; bottle submenu is up
-    LDA.b #$0A : STA.w $0200
-    
-    .notOnBottleMenu
-    
-    RTS
+        CMP.b #$00 : BEQ .haveNone
+        
+        ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+        ; (word) in vram.
+        LDA.b #$01 : STA.b $17
+        LDA.b #$22 : STA.w $0116
+        
+        JSR DoWeHaveThisItem : BCS .weHaveIt
+            JSR TryEquipNextItem
+        
+        .weHaveIt
+        
+        JSR DrawSelectedYButtonItem
+        
+        ; Move to the next step of the submodule.
+        LDA.b #$04 : STA.w $0200
+        
+        LDA.w $0202 : CMP.b #$10 : BNE .notOnBottleMenu
+            ; switch to the step of this submodule that handles when the
+            ; bottle submenu is up.
+            LDA.b #$0A : STA.w $0200
+        
+        .notOnBottleMenu
+        
+        RTS
     
     .haveNone
     
     ; BYSTudlr
     LDA.b $F4 : BEQ .noButtonPress
-    
-    LDA.b #$05 : STA.w $0200
-    
-    RTS
+        LDA.b #$05 : STA.w $0200
+        
+        RTS
     
     .noButtonPress
     
@@ -320,7 +289,7 @@ ChooseNextMode:
 ; ==============================================================================
 
 ; $06DEB0-$06DEBC LOCAL JUMP LOCATION
-DoWeHaveThisItem:
+Equipment_DoWeHaveThisItem:
 {
     LDX.w $0202
     
@@ -340,7 +309,7 @@ DoWeHaveThisItem:
 ; ==============================================================================
     
 ; $06DEBD-$06DECA LOCAL JUMP LOCATION
-GoToPrevItem:
+Equipment_GoToPrevItem:
 {
     LDA.w $0202 : DEC A : CMP.b #$01 : BCS .dontReset
         LDA.b #$14
@@ -355,7 +324,7 @@ GoToPrevItem:
 ; ==============================================================================
     
 ; $06DECB-$06DED8 LOCAL JUMP LOCATION
-GotoNextItem:
+Equipment_GotoNextItem:
 {
     ; Load our currently equipped item, and move to the next one
     ; If we reach our limit (21), set it back to the bow and arrow slot.
@@ -373,7 +342,7 @@ GotoNextItem:
 ; ==============================================================================
     
 ; $06DED9-$06DEE1 LOCAL JUMP LOCATION
-TryEquipPrevItem:
+Equipment_TryEquipPrevItem:
 {
     .keepLooking
     
@@ -386,7 +355,7 @@ TryEquipPrevItem:
 ; ==============================================================================
     
 ; $06DEE2-$06DEEA JUMP LOCATION
-TryEquipNextItem:
+Equipment_TryEquipNextItem:
 {
     .keepLooking
     
@@ -399,7 +368,7 @@ TryEquipNextItem:
 ; ==============================================================================
     
 ; $06DEEB-$06DEFF LOCAL JUMP LOCATION
-TryEquipItemAbove:
+Equipment_TryEquipItemAbove:
 {
     .keepLooking
     
@@ -416,7 +385,7 @@ TryEquipItemAbove:
 ; ==============================================================================
 
 ; $06DF00-$06DF14 LOCAL JUMP LOCATION
-TryEquipItemBelow:
+Equipment_TryEquipItemBelow:
 {
     .keepLooking
     
@@ -433,7 +402,7 @@ TryEquipItemBelow:
 ; ==============================================================================
 
 ; $06DF15-$06DFA8 JUMP LOCATION
-NormalMenu:
+Equipment_NormalMenu:
 {
     INC.w $0207
     
@@ -552,7 +521,7 @@ NormalMenu:
 ; ==============================================================================
 
 ; $06DFA9-$06DFB9 LOCAL JUMP LOCATION
-UpdateHUD:
+Equipment_UpdateHUD:
 {
     ; Move on to next step.
     INC.w $0200
@@ -575,7 +544,7 @@ UpdateHUD:
 ; ==============================================================================
 
 ; $06DFBA-$06DFFA JUMP LOCATION
-CloseMenu:
+Equipment_CloseMenu:
 {
     .scroll_up_additional_8_pixels
     
@@ -634,7 +603,7 @@ CloseMenu:
 ; ==============================================================================
 
 ; $06DFFB-$06E001 JUMP LOCATION
-GotoBottleMenu:
+Equipment_GotoBottleMenu:
 {
     STZ.w $0205
     INC.w $0200
@@ -645,7 +614,7 @@ GotoBottleMenu:
 ; ==============================================================================
 
 ; $06E002-$06E04F JUMP LOCATION
-InitBottleMenu:
+Equipment_InitBottleMenu:
 {
     REP #$30
     
@@ -678,6 +647,7 @@ InitBottleMenu:
 ; ==============================================================================
 
 ; $06E050-$06E08B DATA
+Equipment_
 {
     ; $06E050
     dw $28FB, $28F9, $28F9, $28F9, $28F9
@@ -695,7 +665,7 @@ InitBottleMenu:
 ; ==============================================================================
 
 ; $06E08C-$06E0DE JUMP LOCATION
-ExpandBottleMenu:
+Equipment_ExpandBottleMenu:
 {
     ; each frame of this causes the bottle menu frame
     ; to expand upward by by one tile
@@ -754,7 +724,7 @@ ExpandBottleMenu:
 ; ==============================================================================
 
 ; $06E0DF-$06E176 JUMP LOCATION
-BottleMenu:
+Equipment_BottleMenu:
 {
     INC.w $0207
     
@@ -856,12 +826,13 @@ BottleMenu:
 ; ==============================================================================
 
 ; $06E177-$06E17E DATA
+Equipment_
     dw $0088, $0188, $0288, $0388 
 
 ; ==============================================================================
 
 ; $06E17F-$06E2FC LOCAL JUMP LOCATION
-UpdateBottleMenu:
+Equipment_UpdateBottleMenu:
 {
     REP #$30
     
@@ -995,30 +966,32 @@ UpdateBottleMenu:
 ; ==============================================================================
 
 ; $06E2FD-$06E345 JUMP LOCATION
-EraseBottleMenu:
+Equipment_EraseBottleMenu:
 {
     REP #$30
     
-    ; erase the bottle menu
+    ; Erase the bottle menu.
     LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX
     
     LDA.w #$207F
-    STA.w $12EA, X : A.w $12ECEC, X A.w $12EE12EE, A.w $12F0 $12F0, X
-    STA.w $12F2, X : A.w $12F4F4, X A.w $12F612F6, A.w $12F8 $12F8, X
-    STA.w $12FA, X : A.w $12FCFC, X
+    STA.w $12EA, X : STA.w $12EC, X
+    STA.w $12EE, X : STA.w $12F0, X
+    STA.w $12F2, X : STA.w $12F4, X
+    STA.w $12F6, X : STA.w $12F8, X
+    STA.w $12FA, X : STA.w $12FC, X
     
     SEP #$30
     
     INC.w $0205
     
     LDA.w $0205 : CMP.b #$13 : BNE .notDoneErasing
-    
-    ; move on to the next step of the submodule
-    INC.w $0200
+        ; Move on to the next step of the submodule.
+        INC.w $0200
     
     .notDoneErasing
     
-    ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -1027,12 +1000,10 @@ EraseBottleMenu:
 
 ; ==============================================================================
 
+; Updates just the portions of the screen that the bottle menu screws with.
 ; $06E346-$06E371 JUMP LOCATION
-RestoreNormalMenu:
+Equipment_RestoreNormalMenu:
 {
-    ; Updates just the portions of the screen that the bottle menu
-    ; screws with.
-    
     JSR DrawProgressIcons
     JSR DrawMoonPearl
     JSR UnfinishedRoutine
@@ -1049,7 +1020,8 @@ RestoreNormalMenu:
     ; Switch to the normal menu submode.
     LDA.b #$04 : STA.w $0200
     
-    ; Tell NMI to update BG3 tilemap next from by writing to address $6800 (word) in vram
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
     LDA.b #$01 : STA.b $17
     LDA.b #$22 : STA.w $0116
     
@@ -1059,7 +1031,7 @@ RestoreNormalMenu:
 ; ==============================================================================
 
 ; $06E372-$06E394 LOCAL JUMP LOCATION
-DrawItem:
+Equipment_DrawItem:
 {
     LDA.b $02 : ASL #3 : TAY
     
@@ -1077,7 +1049,7 @@ DrawItem:
 
 ; $06E395-$06E398 LONG JUMP LOCATION
 ; TODO: Unused? Investigate.
-SearchForEquippedItemLong:
+Equipment_SearchForEquippedItemLong:
 {
     JSR SearchForEquippedItem
     
@@ -1087,7 +1059,7 @@ SearchForEquippedItemLong:
 ; ==============================================================================
 
 ; $06E399-$06E3C7 LOCAL JUMP LOCATION
-SearchForEquippedItem:
+Equipment_SearchForEquippedItem:
 {
     SEP #$30
     
@@ -1127,7 +1099,7 @@ SearchForEquippedItem:
 ; ==============================================================================
 
 ; $06E3C8-$06E3D8 LOCAL JUMP LOCATION
-GetPaletteMask:
+Equipment_GetPaletteMask:
 {
     ; basically if(A == 0) $00 = 0xE3FF; else $00 = 0xFFFF;
     ; if A was zero, this would be used to force a tilemap entry's palette to the 0th palette.
@@ -1150,8 +1122,8 @@ GetPaletteMask:
 
 ; ==============================================================================
 
-    ; $06E3D9-$06E646 LOCAL JUMP LOCATION
-DrawYButtonItems:
+; $06E3D9-$06E646 LOCAL JUMP LOCATION
+Equipment_DrawYButtonItems:
 {
     REP #$30
     
@@ -1366,7 +1338,7 @@ DrawYButtonItems:
 ; ==============================================================================
 
 ; $06E647-$06E6B5 LOCAL JUMP LOCATION
-DrawSelectedItemBox:
+Equipment_DrawSelectedItemBox:
 {
     REP #$30
     
@@ -1419,7 +1391,7 @@ DrawSelectedItemBox:
 ; ==============================================================================
     
 ; $06E6B6-$06E7B6 LOCAL JUMP LOCATION
-DrawAbilityText:
+Equipment_DrawAbilityText:
 {
     REP #$30
     
@@ -1515,7 +1487,7 @@ DrawAbilityText:
 ; ==============================================================================
 
 ; $06E7B7-$06E819 LOCAL JUMP LOCATION
-DrawAbilityIcons:
+Equipment_DrawAbilityIcons:
 {
     REP #$30
     
@@ -1565,7 +1537,7 @@ DrawAbilityIcons:
 ; ==============================================================================
     
 ; $06E81A-$06E85F LOCAL JUMP LOCATION
-DrawGloveAbility:
+Equipment_DrawGloveAbility:
 {
     STA.b $00 
     ASL #2 : ADC.b $00 : ASL #2 : TAX
@@ -1587,6 +1559,7 @@ DrawGloveAbility:
 ; ==============================================================================
     
 ; $06E860-$06E9C7 DATA
+Equipment_
     ; Progress box data
 
     ; Pendants
@@ -1632,7 +1605,7 @@ DrawGloveAbility:
 ; ==============================================================================
 
 ; $06E9C8-$06EB39 LOCAL JUMP LOCATION
-DrawProgressIcons:
+Equipment_DrawProgressIcons:
 {
     LDA.l $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
         JMP .drawCrystals
@@ -1760,7 +1733,7 @@ DrawProgressIcons:
 ; ==============================================================================
     
 ; $06EB3A-$06ECE8 LOCAL JUMP LOCATION
-DrawSelectedYButtonItem:
+Equipment_DrawSelectedYButtonItem:
 {
     REP #$30
     
@@ -1909,7 +1882,7 @@ DrawSelectedYButtonItem:
 ; ==============================================================================
  
 ; $06ECE9-$06ED03 LOCAL JUMP LOCATION
-DrawMoonPearl:
+Equipment_DrawMoonPearl:
 {
     REP #$30
     
@@ -1927,7 +1900,7 @@ DrawMoonPearl:
 ; ==============================================================================
     
 ; $06ED04-$06ED08 LOCAL JUMP LOCATION
-UnfinishedRoutine:
+Equipment_UnfinishedRoutine:
 {
     ; MOST WORTHLESS ROUTINE EVAR
     REP #$30
@@ -1940,7 +1913,7 @@ UnfinishedRoutine:
 ; ==============================================================================
     
 ; $06ED09-$06ED28 DATA ; Equipment box text
-
+Equipment_
 ; $06ED09 - "EQUIPMENT"
     .equipmentChars
     dw $2479, $247A, $247B, $247C, $248C, $24F5, $24F5, $24F5
@@ -1952,7 +1925,7 @@ UnfinishedRoutine:
 ; ==============================================================================
 
 ; $06ED29-$06EE20 LOCAL JUMP LOCATION
-DrawEquipment:
+Equipment_DrawEquipment:
 {
     REP #$30
     
@@ -2057,7 +2030,7 @@ DrawEquipment:
 ; ==============================================================================
 
 ; $06EE21-$06EE3B LOCAL JUMP LOCATION
-DrawShield:
+Equipment_DrawShield:
 {
     REP #$30
     
@@ -2075,7 +2048,7 @@ DrawShield:
 ; ==============================================================================
 
 ; $06EE3C-$06EE56 LOCAL JUMP LOCATION
-DrawArmor:
+Equipment_DrawArmor:
 {
     REP #$30
     
@@ -2093,7 +2066,7 @@ DrawArmor:
 ; ==============================================================================
 
 ; $06EE57-$06EEB5 LOCAL JUMP LOCATION
-DrawMapAndBigKey:
+Equipment_DrawMapAndBigKey:
 {
     REP #$30
     
@@ -2150,7 +2123,7 @@ DrawMapAndBigKey:
 ; ==============================================================================
 
 ; $06EEB6-$06EEDB LOCAL JUMP LOCATION
-CheckPalaceItemPossession:
+Equipment_CheckPalaceItemPossession:
 {
     SEP #$30
     
@@ -2177,7 +2150,7 @@ CheckPalaceItemPossession:
 ; ==============================================================================
 
 ; $06EEDC-$06EEE0 JUMP LOCATION
-Pool_CheckPalaceItemPossession:
+Pool_Equipment_CheckPalaceItemPossession:
 {
     .failure
     
@@ -2256,7 +2229,7 @@ Pool_CheckPalaceItemPossession:
 ; ==============================================================================
 
 ; $06EF39-$06EF66 LOCAL JUMP LOCATION
-DrawCompass:
+Equipment_DrawCompass:
 {
     REP #$30
     
@@ -2288,14 +2261,14 @@ DrawCompass:
 ; ==============================================================================
 
 ; $06EF67-$06F0F6 LOCAL JUMP LOCATION
-DrawBottleMenu:
+Equipment_DrawBottleMenu:
 {
     REP #$30
     
     LDA.w #$28FB : AND.b $00 : STA.w $12EA
-    ORA.w #$8000           : STA.w $176A
-    ORA.w #$4000           : STA.w $177C
-    EOR.w #$8000           : STA.w $12FC
+    ORA.w #$8000             : STA.w $176A
+    ORA.w #$4000             : STA.w $177C
+    EOR.w #$8000             : STA.w $12FC
     
     LDX.w #$0000
     LDY.w #$0010
@@ -2303,7 +2276,7 @@ DrawBottleMenu:
     .drawVerticalEdges
     
     LDA.w #$28FC : AND.b $00 : STA.w $132A, X
-    ORA.w #$4000           : STA.w $133C, X
+    ORA.w #$4000             : STA.w $133C, X
     
     TXA : CLC : ADC.w #$0040 : TAX
     
@@ -2315,7 +2288,7 @@ DrawBottleMenu:
     .drawHorizontalEdges
     
     LDA.w #$28F9 : AND.b $00 : STA.w $12EC, X
-    ORA.w #$8000           : STA.w $176C, X
+    ORA.w #$8000             : STA.w $176C, X
     
     INX #2
     
@@ -2341,30 +2314,30 @@ DrawBottleMenu:
     REP #$30
     
     ; Draw bottle 0
-    LDA.w #$1372               : STA.b $00
+    LDA.w #$1372                 : STA.b $00
     LDA.l $7EF35C : AND.w #$00FF : STA.b $02
-    LDA.w #$F751               : STA.b $04
+    LDA.w #$F751                 : STA.b $04
     
     JSR DrawItem
     
     ; Draw bottle 1
-    LDA.w #$1472               : STA.b $00
+    LDA.w #$1472                 : STA.b $00
     LDA.l $7EF35D : AND.w #$00FF : STA.b $02
-    LDA.w #$F751               : STA.b $04
+    LDA.w #$F751                 : STA.b $04
     
     JSR DrawItem
     
     ; Draw bottle 2
-    LDA.w #$1572               : STA.b $00
+    LDA.w #$1572                 : STA.b $00
     LDA.l $7EF35E : AND.w #$00FF : STA.b $02
-    LDA.w #$F751               : STA.b $04
+    LDA.w #$F751                 : STA.b $04
     
     JSR DrawItem
     
     ; Draw bottle 3
-    LDA.w #$1672               : STA.b $00
+    LDA.w #$1672                 : STA.b $00
     LDA.l $7EF35F : AND.w #$00FF : STA.b $02
-    LDA.w #$F751               : STA.b $04
+    LDA.w #$F751                 : STA.b $04
     
     JSR DrawItem
     
@@ -2374,11 +2347,14 @@ DrawBottleMenu:
     LDA.l $7EF34F : AND.w #$00FF : TAX
     
     LDA.l $7EF35B, X : AND.w #$00FF : STA.b $02
-    LDA.w #$F751                  : STA.b $04 ; loads $2837, $2838, $2CC3, $2CD3
+
+    ; loads $2837, $2838, $2CC3, $2CD3
+    LDA.w #$F751 : STA.b $04
     
     JSR DrawItem
     
-    ; Take the currently selected item, and draw something with it, perhaps on the main menu region
+    ; Take the currently selected item, and draw something with it, perhaps on
+    ; the main menu region.
     LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
     LDY.w $FAD5, X 
@@ -2392,8 +2368,8 @@ DrawBottleMenu:
     
     LDA.w $E177, Y : TAY
     
-    ; appears to be an extraneous load, perhaps something that was unfinished
-    ; or meant to be taken out but it just never happened
+    ; Appears to be an extraneous load, perhaps something that was unfinished
+    ; or meant to be taken out but it just never happened.
     LDA.w $0207
     
     LDA.w #$3C61 : STA.w $12AA, Y
@@ -2408,7 +2384,7 @@ DrawBottleMenu:
     LDA.w #$BC61 : STA.w $136A, Y
     ORA.w #$4000 : STA.w $136C, Y
     
-    ; Draw the corners of the bottle submenu
+    ; Draw the corners of the bottle submenu.
     LDA.w #$3C60 : STA.w $12A8, Y
     ORA.w #$4000 : STA.w $12AE, Y
     ORA.w #$8000 : STA.w $136E, Y
@@ -2422,5 +2398,3 @@ DrawBottleMenu:
 }
 
 ; ==============================================================================
-
-    namespace off
