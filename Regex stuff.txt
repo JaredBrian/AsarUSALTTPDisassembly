@@ -23,3 +23,6 @@ Get rid of kan address formatting:
 
 Find any mistakenly place .b in comments:
 (?<=; ).+\.b
+
+Find op codes that are using ROM addresses:
+...\.. \$[89A-F][0-9A-F][0-9A-F][0-9A-F]

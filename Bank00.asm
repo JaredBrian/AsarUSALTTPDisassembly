@@ -44,8 +44,8 @@ Vector_Reset:
 
     SEP #$30 ; M and X are 8 bit.
 
-    JSR Sound_LoadIntroSongBank
-    JSR Startup_InitializeMemory
+    JSR.w Sound_LoadIntroSongBank
+    JSR.w Startup_InitializeMemory
 
     ; Bit 7 enables NMI interrupt.
     ; This register tracks whether NMI is enabled.
@@ -80,12 +80,12 @@ Vector_Reset:
                 ; Frame counter. See ZeldaRAM.rtf for more variable listings.
                 INC.b $1A
 
-                JSR ClearOamBuffer
+                JSR.w ClearOamBuffer
                 JSL Module_MainRouting
 
                 .skip_frame
 
-                JSR Main_PrepSpritesForNmi
+                JSR.w Main_PrepSpritesForNmi
 
                 ; Start the NMI Wait loop again.
                 STZ.b $12
@@ -100,7 +100,10 @@ Pool_Module_MainRouting:
     ; TODO: Reference jpdisasm for interleaved long pointers.
     ; Note: there are 28 distinct modes here (0x1C).
 
-    .modules
+    .low  ; $000061
+    .high ; $00007D
+    .bank ; $000099
+
     dl Module_Intro          ; 0x00 - $0CC120
     dl Module_SelectFile     ; 0x01 - $0CCD7D
     dl Module_CopyFile       ; 0x02 - $0CD053
@@ -109,29 +112,27 @@ Pool_Module_MainRouting:
     dl Module_LoadFile       ; 0x05 - $028136
     dl Module_PreDungeon     ; 0x06 - $02821E
     dl Module_Dungeon        ; 0x07 - $0287A2
-    dl Module_PreOverworld   ; 0x08 - Pre Overworld Mode
-    dl Module_Overworld      ; 0x09 - Overworld Mode
-    dl Module_PreOverworld   ; 0x0A - Pre Overworld Mode (special overworld)
-    dl Module_Overworld      ; 0x0B - Overworld Mode (special overworld)
-    dl Module0C_Unused       ; 0x0C - ???? I think we can declare this one unused, almost with complete certainty.
-    dl Module0D_Unused       ; 0x0D - Blank Screen
-    dl Module_Messaging      ; 0x0E - Text Mode/Item Screen/Map
-    dl Module_CloseSpotlight ; 0x0F - Closing Spotlight
-    dl Module_OpenSpotlight  ; 0x10 - Opening Spotlight
-    dl Module_HoleToDungeon  ; 0x11 - Happens when you fall into a hole from the OW.
-    dl Module_Death          ; 0x12 - Death Mode
-    dl Module_BossVictory    ; 0x13 - Boss Victory Mode (refills stats)
-    dl Module_Attract        ; 0x14 - Attract Mode
-    dl Module_Mirror         ; 0x15 - Module for Magic Mirror
-    dl Module_Victory        ; 0x16 - Module for refilling stats after boss.
-    dl Module_Quit           ; 0x17 - Quitting mode (save and quit)
-    dl Module_GanonEmerges   ; 0x18 - Ganon exits from Agahnim's body. Chase Mode.
-    dl Module_TriforceRoom   ; 0x19 - Triforce Room scene
-    dl Module_EndSequence    ; 0x1A - End sequence
-    dl Module_LocationMenu   ; 0x1B - Screen to select where to start from (House, sanctuary, etc.)
+    dl Module_PreOverworld   ; 0x08 - $0283BF
+    dl Module_Overworld      ; 0x09 - $02A475
+    dl Module_PreOverworld   ; 0x0A - $0283BF (special overworld)
+    dl Module_Overworld      ; 0x0B - $02A475 (special overworld)
+    dl Module0C_Unused       ; 0x0C - $02991B
+    dl Module0D_Unused       ; 0x0D - $029938
+    dl Module_Messaging      ; 0x0E - $00F800
+    dl Module_CloseSpotlight ; 0x0F - $029982
+    dl Module_OpenSpotlight  ; 0x10 - $029AD7
+    dl Module_HoleToDungeon  ; 0x11 - $029AF9
+    dl Module_Death          ; 0x12 - $09F290
+    dl Module_BossVictory    ; 0x13 - $029C4A
+    dl Module_Attract        ; 0x14 - $0CEDAD 
+    dl Module_Mirror         ; 0x15 - $029CFC
+    dl Module_Victory        ; 0x16 - $029E8A
+    dl Module_Quit           ; 0x17 - $09F79F
+    dl Module_GanonEmerges   ; 0x18 - $029EDC
+    dl Module_TriforceRoom   ; 0x19 - $029FEC
+    dl Module_EndSequence    ; 0x1A - $0E986E
+    dl Module_LocationMenu   ; 0x1B - $028586
 }
-
-; ==============================================================================
 
 ; $0000B5-$0000C8 LONG JUMP LOCATION
 Module_MainRouting:
@@ -139,9 +140,9 @@ Module_MainRouting:
     ; This variable determines which module we're in.
     LDY.b $10
     
-    LDA .lowers, Y  : STA.b $03
-    LDA .middles, Y : STA.b $04
-    LDA .banks, Y   : STA.b $05
+    LDA .low, Y  : STA.b $03
+    LDA .high, Y : STA.b $04
+    LDA .bank, Y : STA.b $05
     
     ; Jump to a main module depending on addr $7E0010 in RAM.
     JMP [$0003]
@@ -229,8 +230,8 @@ Vector_NMI:
         ; This would happen if NMI had been called from the wait loop.
         INC.b $12
         
-        JSR NMI_DoUpdates
-        JSR NMI_ReadJoypads
+        JSR.w NMI_DoUpdates
+        JSR.w NMI_ReadJoypads
 
     .normalFrameNotFinished
 
@@ -239,7 +240,7 @@ Vector_NMI:
 
     .helperThreadInactive
 
-    ; Sets background clipping... .
+    ; Sets background clipping...
     LDA.b $96 : STA.w $2123
     LDA.b $97 : STA.w $2124
     LDA.b $98 : STA.w $2125
@@ -332,7 +333,7 @@ Vector_NMI:
 ; $00022D-$0002D7 JUMP LOCATION
 NMI_SwitchThread:
 {
-    JSR NMI_UpdateIrqGfx
+    JSR.w NMI_UpdateIrqGfx
     
     LDA.b $FF : STA.w $4209 : STZ.w $420A
     
@@ -405,33 +406,33 @@ Vector_IRQ:
     
     LDA.w $012A : BNE .BRANCH_3
         ; Only d7 is significant in this register. If set, h/v counter has
-        ; latched.
-        LDA.w $4211 : BPL .BRANCH_2 ; So in other words, branch if the timer has NOT counted down.
+        ; latched. So in other words, branch if the timer has NOT counted down.
+        LDA.w $4211 : BPL .BRANCH_2
             ; Not sure what this does...
             LDA.w $0128 : BEQ .BRANCH_2
+                .BRANCH_1
 
-            .BRANCH_1
+                    ; Wait for hBlank.
+                BIT.w $4212 : BVC .BRANCH_1
+                        
+                LDA.w $0630 : STA.w $2111
+                LDA.w $0631 : STA.w $2111
+                        
+                STZ.w $2112 : STZ.w $2112
+                        
+                LDA.w $0128 : BPL .BRANCH_2
+                    STZ.w $0128
+                            
+                    LDA.b #$81 : STA.w $4200
 
-            BIT.w $4212 : BVC .BRANCH_1 ; Wait for hBlank.
-            
-            LDA.w $0630 : STA.w $2111
-            LDA.w $0631 : STA.w $2111
-            
-            STZ.w $2112 : STZ.w $2112
-            
-            LDA.w $0128 : BPL .BRANCH_2
-                STZ.w $0128
-                
-                LDA.b #$81 : STA.w $4200
-
-            .BRANCH_2
+        .BRANCH_2
 
         ; h/v timer didn't count down yet, so we do NOTHING :).
-        
+            
         REP #$30
-        
+            
         PLB : PLD : PLY : PLX : PLA
-        
+            
         RTI
 
     .BRANCH_3
@@ -454,7 +455,7 @@ Vector_IRQ:
 ; $000333-$0003D0 LONG JUMP LOCATION
 Vram_EraseTilemaps:
 {
-    ; This routine might be optimizable.
+    ; OPTIMIZE: This routine might be optimizable.
 
     .triforce ; For use with the title screen and the credits sequence.
 
@@ -634,14 +635,13 @@ NMI_ReadJoypads:
 
 ; ==============================================================================
 
+; Gets rid of old sprites by moving them off screen, basically. E.g., when you
+; kill a soldier, his sprite has to disappear, right? Any sprites that are
+; still in the game engine will be moved back on screen before VRAM is written
+; to again.
 ; $00041E-$000489 LOCAL JUMP LOCATION
 ClearOamBuffer:
 {
-    ; Gets rid of old sprites by moving them off screen, basically.
-    ; E.g., when you kill a soldier, his sprite has to disappear, right?
-    ; Any sprites that are still in the game engine will be moved back on screen
-    ; before VRAM is written to again.
-    
     LDX.b #$60
 
     .loop
@@ -659,13 +659,14 @@ ClearOamBuffer:
         
         STA.w $0981, X : STA.w $0985, X : STA.w $0989, X : STA.w $098D, X
         STA.w $0991, X : STA.w $0995, X : STA.w $0999, X : STA.w $099D, X
-    ; X -= 0x20
+
+        ; X -= 0x20
     TXA : SEC : SBC.b #$20 : TAX : BPL .loop
     
     RTS
 }
 
-; $00048A-$00048B DATA  0005FB
+; $00048A-$00048B DATA
 SaveFileOffsets:
 {
     dw $0000
@@ -703,45 +704,45 @@ LinkOAM_ShieldAddresses:
 ; $0004B2-$0005D1 DATA
 DynamicOAM_LinkItemAddresses:
 {
-    dw $7E9480, $7E94C0, $7E94E0, $7E95C0 ; rod
-    dw $7E9500, $7E9520, $7E9540, $7E9480 ; rod
-    dw $7E9640, $7E9680, $7E96A0, $7E9780 ; hammer
-    dw $7E96C0, $7E96E0, $7E9700, $7E9480 ; hammer
+    dw $7E9480, $7E94C0, $7E94E0, $7E95C0 ; Rod
+    dw $7E9500, $7E9520, $7E9540, $7E9480 ; Rod
+    dw $7E9640, $7E9680, $7E96A0, $7E9780 ; Hammer
+    dw $7E96C0, $7E96E0, $7E9700, $7E9480 ; Hammer
 
-    dw $7E9800, $7E9840, $7E98A0, $7E9480 ; bow
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9AC0, $7E9B00, $7E9480, $7E9480 ; hookshot tip
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
+    dw $7E9800, $7E9840, $7E98A0, $7E9480 ; Bow
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9AC0, $7E9B00, $7E9480, $7E9480 ; Hookshot tip
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
 
-    dw $7E9BC0, $7E9C00, $7E9C40, $7E9C80 ; net
-    dw $7E9CC0, $7E9D00, $7E9D40, $7E9480 ; net
-    dw $7E9F40, $7E9F80, $7E9FC0, $7E9FE0 ; cane
-    dw $7EA000, $7E9480, $7E9480, $7E9480 ; cane
+    dw $7E9BC0, $7E9C00, $7E9C40, $7E9C80 ; Net
+    dw $7E9CC0, $7E9D00, $7E9D40, $7E9480 ; Net
+    dw $7E9F40, $7E9F80, $7E9FC0, $7E9FE0 ; Cane
+    dw $7EA000, $7E9480, $7E9480, $7E9480 ; Cane
 
-    dw $7EA100, $7E9480, $7E9480, $7E9480 ; book
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
+    dw $7EA100, $7E9480, $7E9480, $7E9480 ; Book
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
 
-    dw $7E98C0, $7E9900, $7E99C0, $7E99E0 ; shovel, ZZzzzz
+    dw $7E98C0, $7E9900, $7E99C0, $7E99E0 ; Shovel, ZZzzzz
     dw $7E9A00, $7E9A20, $7E9A40, $7E9A60 ; Zzzzz, ♪
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
 
-    dw $7E9A80, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
+    dw $7E9A80, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
 
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
 
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
-    dw $7E9480, $7E9480, $7E9480, $7E9480 ; null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
+    dw $7E9480, $7E9480, $7E9480, $7E9480 ; Null
 
     .offsets
     dw $00E0, $00E0, $0060, $0080
@@ -779,13 +780,12 @@ StarTileOffset:
 
 ; ==============================================================================
 
+; Writes some extra data for the OAM memory. The data is written to $0A00 to
+; $0A1F, and the data that is written is formed from the addresses $0A20
+; through $0A9F.
 ; $0005FC-$000780 LOCAL JUMP LOCATION
 Main_PrepSpritesForNmi:
 {
-    ; Writes some extra data for the OAM memory. The data is written to $0A00 to
-    ; $0A1F, and the data that is written is formed from the addresses $0A20
-    ; through $0A9F.
-        
     LDY.b #$1C
 
     .buildHighOamTable
@@ -828,10 +828,11 @@ Main_PrepSpritesForNmi:
         
     SEP #$10
         
-    LDX.w $0107 : LDA.w $849C, X : STA.w $0AC0
-    CLC : ADC.w #$0180 : STA.w $0AC2
-    LDX.w $0108 : LDA.w $84AC, X : STA.w $0AC4
-    CLC : ADC.w #$00C0 : STA.w $0AC6
+    LDX.w $0107
+    LDA.w $849C, X : STA.w $0AC0 : CLC : ADC.w #$0180 : STA.w $0AC2
+
+    LDX.w $0108
+    LDA.w $84AC, X : STA.w $0AC4 : CLC : ADC.w #$00C0 : STA.w $0AC6
         
     LDA.w $0109 : AND.w #$00F8 : LSR #2 : TAY
         
@@ -909,11 +910,10 @@ Main_PrepSpritesForNmi:
 
 ; ==============================================================================
 
+; Parameters: Stack, A
 ; $000781-$00079B LONG JUMP LOCATION
 UseImplicitRegIndexedLocalJumpTable:
 {
-    ; Parameters: Stack, A
-    
     ; Save current Y.
     STY.b $03
     
@@ -983,11 +983,10 @@ UseImplicitRegIndexedLongJumpTable:
 
 ; ==============================================================================
 
+; Zeroes out $7E0000-$7E1FFF, and checks some values in SRAM.
 ; $0007C0-$00082D LOCAL JUMP LOCATION
 Startup_InitializeMemory:
 {
-    ; Zeroes out $7E0000-$7E1FFF, and checks some values in SRAM.
-    
     REP #$30
     
     ; Save the return location of this subroutine.
@@ -1049,14 +1048,13 @@ Startup_InitializeMemory:
 
 ; ==============================================================================
 
+; Inputs:
+; $00 - full 16-bit Y coordinate of an object.
+; $02 - full 16-bit X coordinate of an object.
+; $
 ; $00082E-$000887 LONG JUMP LOCATION
 Overworld_GetTileAttrAtLocation:
 {
-    ; Inputs:
-    ; $00 - full 16-bit Y coordinate of an object.
-    ; $02 - full 16-bit X coordinate of an object.
-    ; $
-    
     REP #$30
     
     LDA.b $00 : SEC : SBC.w $0708 : AND.w $070A : ASL #3  : STA.b $06
@@ -1087,11 +1085,10 @@ Overworld_GetTileAttrAtLocation:
 
 ; ==============================================================================
 
+; Loads SPC with data.
 ; $000888-$000900 LOCAL JUMP LOCATION
 Sound_LoadSongBank:
 {
-    ; Loads SPC with data.
-    
     PHP
     
     REP #$30
@@ -1129,9 +1126,10 @@ Sound_LoadSongBank:
             
             INY
             
-            ; Are we at the end of a bank?
-            CPY.w #$8000 : BNE .BRANCH_NOT_BANK_END ; If not, then branch forward.
-                LDY.w #$0000 ; Otherwise, increment the bank of the address at [$00].
+            ; Are we at the end of a bank? If not, then branch forward.
+            CPY.w #$8000 : BNE .BRANCH_NOT_BANK_END 
+                ; Otherwise, increment the bank of the address at [$00].
+                LDY.w #$0000
                 
                 INC.b $02
 
@@ -1216,7 +1214,7 @@ Sound_LoadIntroSongBank:
     
     SEI
     
-    JSR Sound_LoadSongBank
+    JSR.w Sound_LoadSongBank
     
     CLI
     
@@ -1239,7 +1237,7 @@ Sound_LoadLightWorldSongBank:
     
     SEI
     
-    JSR Sound_LoadSongBank
+    JSR.w Sound_LoadSongBank
     
     CLI
     
@@ -2592,7 +2590,7 @@ NMI_UpdateStarTiles:
 ; $0010E3-$0010E6 LONG JUMP LOCATION
 NMI_UploadTilemap_long:
 {
-    JSR NMI_UploadTilemap
+    JSR.w NMI_UploadTilemap
     
     RTL
 }
@@ -8753,7 +8751,7 @@ DoorAnimGFXDataOffset_East:
 
 ; ==============================================================================
 
-; $004F46-$004FF2 DATA
+; $004F46-$004F7F DATA
 NULL_00CF46:
 {
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
@@ -8768,20 +8766,695 @@ NULL_00CF46:
 
 ; ==============================================================================
 
-; $004FF3-$00521C DATA
+; $004F80-$00521C DATA
 GFXSheetPointers:
 {
-    ; TODO: Add .bin here.
-    ; One set of locations for compressed 2bpp graphics.
+    ; $004F80
+    .background_bank
+    db GFX_00>>16
+    db GFX_01>>16
+    db GFX_02>>16
+    db GFX_03>>16
+    db GFX_04>>16
+    db GFX_05>>16
+    db GFX_06>>16
+    db GFX_07>>16
+    db GFX_08>>16
+    db GFX_09>>16
+    db GFX_0A>>16
+    db GFX_0B>>16
+    db GFX_0C>>16
+    db GFX_0D>>16
+    db GFX_0E>>16
+    db GFX_0F>>16
+    db GFX_10>>16
+    db GFX_11>>16
+    db GFX_12>>16
+    db GFX_13>>16
+    db GFX_14>>16
+    db GFX_15>>16
+    db GFX_16>>16
+    db GFX_17>>16
+    db GFX_18>>16
+    db GFX_19>>16
+    db GFX_1A>>16
+    db GFX_1B>>16
+    db GFX_1C>>16
+    db GFX_1D>>16
+    db GFX_1E>>16
+    db GFX_1F>>16
+    db GFX_20>>16
+    db GFX_21>>16
+    db GFX_22>>16
+    db GFX_23>>16
+    db GFX_24>>16
+    db GFX_25>>16
+    db GFX_26>>16
+    db GFX_27>>16
+    db GFX_28>>16
+    db GFX_29>>16
+    db GFX_2A>>16
+    db GFX_2B>>16
+    db GFX_2C>>16
+    db GFX_2D>>16
+    db GFX_2E>>16
+    db GFX_2F>>16
+    db GFX_30>>16
+    db GFX_31>>16
+    db GFX_32>>16
+    db GFX_33>>16
+    db GFX_34>>16
+    db GFX_35>>16
+    db GFX_36>>16
+    db GFX_37>>16
+    db GFX_38>>16
+    db GFX_39>>16
+    db GFX_3A>>16
+    db GFX_3B>>16
+    db GFX_3C>>16
+    db GFX_3D>>16
+    db GFX_3E>>16
+    db GFX_3F>>16
+    db GFX_40>>16
+    db GFX_41>>16
+    db GFX_42>>16
+    db GFX_43>>16
+    db GFX_44>>16
+    db GFX_45>>16
+    db GFX_46>>16
+    db GFX_47>>16
+    db GFX_48>>16
+    db GFX_49>>16
+    db GFX_4A>>16
+    db GFX_4B>>16
+    db GFX_4C>>16
+    db GFX_4D>>16
+    db GFX_4E>>16
+    db GFX_4F>>16
+    db GFX_50>>16
+    db GFX_51>>16
+    db GFX_52>>16
+    db GFX_53>>16
+    db GFX_54>>16
+    db GFX_55>>16
+    db GFX_56>>16
+    db GFX_57>>16
+    db GFX_58>>16
+    db GFX_59>>16
+    db GFX_5A>>16
+    db GFX_5B>>16
+    db GFX_5C>>16
+    db GFX_5D>>16
+    db GFX_5E>>16
+    db GFX_5F>>16
+    db GFX_60>>16
+    db GFX_61>>16
+    db GFX_62>>16
+    db GFX_63>>16
+    db GFX_64>>16
+    db GFX_65>>16
+    db GFX_66>>16
+    db GFX_67>>16
+    db GFX_68>>16
+    db GFX_69>>16
+    db GFX_6A>>16
+    db GFX_6B>>16
+    db GFX_6C>>16
+    db GFX_6D>>16
+    db GFX_6E>>16
+    db GFX_6F>>16
+    db GFX_70>>16
+    db GFX_DD>>16
+    db GFX_DE>>16
     
-    ; $004FF3 DATA LENGTH #$DF
+    ; $004FF3
     .sprite_bank
+    db GFX_73>>16 ; 0x00
+    db GFX_74>>16 ; 0x01
+    db GFX_75>>16 ; 0x02
+    db GFX_76>>16 ; 0x03
+    db GFX_77>>16 ; 0x04
+    db GFX_78>>16 ; 0x05
+    db GFX_79>>16 ; 0x06
+    db GFX_7A>>16 ; 0x07
+    db GFX_7B>>16 ; 0x08
+    db GFX_7C>>16 ; 0x09
+    db GFX_7D>>16 ; 0x0A
+    db GFX_7E>>16 ; 0x0B
+    db GFX_7F>>16 ; 0x0C
+    db GFX_80>>16 ; 0x0D
+    db GFX_81>>16 ; 0x0E
+    db GFX_82>>16 ; 0x0F
+    db GFX_83>>16 ; 0x10
+    db GFX_84>>16 ; 0x11
+    db GFX_85>>16 ; 0x12
+    db GFX_86>>16 ; 0x13
+    db GFX_87>>16 ; 0x14
+    db GFX_88>>16 ; 0x15
+    db GFX_89>>16 ; 0x16
+    db GFX_8A>>16 ; 0x17
+    db GFX_8B>>16 ; 0x18
+    db GFX_8C>>16 ; 0x19
+    db GFX_8D>>16 ; 0x1A
+    db GFX_8E>>16 ; 0x1B
+    db GFX_8F>>16 ; 0x1C
+    db GFX_90>>16 ; 0x1D
+    db GFX_91>>16 ; 0x1E
+    db GFX_92>>16 ; 0x1F
+    db GFX_93>>16 ; 0x20
+    db GFX_94>>16 ; 0x21
+    db GFX_95>>16 ; 0x22
+    db GFX_96>>16 ; 0x23
+    db GFX_97>>16 ; 0x24
+    db GFX_98>>16 ; 0x25
+    db GFX_99>>16 ; 0x26
+    db GFX_9A>>16 ; 0x27
+    db GFX_9B>>16 ; 0x28
+    db GFX_9C>>16 ; 0x29
+    db GFX_9D>>16 ; 0x2A
+    db GFX_9E>>16 ; 0x2B
+    db GFX_9F>>16 ; 0x2C
+    db GFX_A0>>16 ; 0x2D
+    db GFX_A1>>16 ; 0x2E
+    db GFX_A2>>16 ; 0x2F
+    db GFX_A3>>16 ; 0x30
+    db GFX_A4>>16 ; 0x31
+    db GFX_A5>>16 ; 0x32
+    db GFX_A6>>16 ; 0x33
+    db GFX_A7>>16 ; 0x34
+    db GFX_A8>>16 ; 0x35
+    db GFX_A9>>16 ; 0x36
+    db GFX_AA>>16 ; 0x37
+    db GFX_AB>>16 ; 0x38
+    db GFX_AC>>16 ; 0x39
+    db GFX_AD>>16 ; 0x3A
+    db GFX_AE>>16 ; 0x3B
+    db GFX_AF>>16 ; 0x3C
+    db GFX_B0>>16 ; 0x3D
+    db GFX_B1>>16 ; 0x3E
+    db GFX_B2>>16 ; 0x3F
+    db GFX_B3>>16 ; 0x40
+    db GFX_B4>>16 ; 0x41
+    db GFX_B5>>16 ; 0x42
+    db GFX_B6>>16 ; 0x43
+    db GFX_B7>>16 ; 0x44
+    db GFX_B8>>16 ; 0x45
+    db GFX_B9>>16 ; 0x46
+    db GFX_BA>>16 ; 0x47
+    db GFX_BB>>16 ; 0x48
+    db GFX_BC>>16 ; 0x49
+    db GFX_BD>>16 ; 0x4A
+    db GFX_BE>>16 ; 0x4B
+    db GFX_BF>>16 ; 0x4C
+    db GFX_C0>>16 ; 0x4D
+    db GFX_C1>>16 ; 0x4E
+    db GFX_C2>>16 ; 0x4F
+    db GFX_C3>>16 ; 0x50
+    db GFX_C4>>16 ; 0x51
+    db GFX_C5>>16 ; 0x52
+    db GFX_C6>>16 ; 0x53
+    db GFX_C7>>16 ; 0x54
+    db GFX_C8>>16 ; 0x55
+    db GFX_C9>>16 ; 0x56
+    db GFX_CA>>16 ; 0x57
+    db GFX_CB>>16 ; 0x58
+    db GFX_CC>>16 ; 0x59
+    db GFX_CD>>16 ; 0x5A
+    db GFX_CE>>16 ; 0x5B
+    db GFX_CF>>16 ; 0x5C
+    db GFX_D0>>16 ; 0x5D
+    db GFX_D1>>16 ; 0x5E
+    db GFX_D2>>16 ; 0x5F
+    db GFX_D3>>16 ; 0x60
+    db GFX_D4>>16 ; 0x61
+    db GFX_D5>>16 ; 0x62
+    db GFX_D6>>16 ; 0x63
+    db GFX_D7>>16 ; 0x64
+    db GFX_D8>>16 ; 0x65
+    db GFX_D9>>16 ; 0x66
+    db GFX_DA>>16 ; 0x67
+    db GFX_DB>>16 ; 0x68
+    db GFX_DC>>16 ; 0x69
+    db GFX_DD>>16 ; 0x6A
+    db GFX_DE>>16 ; 0x6B
 
-    ; $0050D2 DATA LENGTH #$DF
+    ; $00505F
+    .background_high
+    db GFX_00>>8
+    db GFX_01>>8
+    db GFX_02>>8
+    db GFX_03>>8
+    db GFX_04>>8
+    db GFX_05>>8
+    db GFX_06>>8
+    db GFX_07>>8
+    db GFX_08>>8
+    db GFX_09>>8
+    db GFX_0A>>8
+    db GFX_0B>>8
+    db GFX_0C>>8
+    db GFX_0D>>8
+    db GFX_0E>>8
+    db GFX_0F>>8
+    db GFX_10>>8
+    db GFX_11>>8
+    db GFX_12>>8
+    db GFX_13>>8
+    db GFX_14>>8
+    db GFX_15>>8
+    db GFX_16>>8
+    db GFX_17>>8
+    db GFX_18>>8
+    db GFX_19>>8
+    db GFX_1A>>8
+    db GFX_1B>>8
+    db GFX_1C>>8
+    db GFX_1D>>8
+    db GFX_1E>>8
+    db GFX_1F>>8
+    db GFX_20>>8
+    db GFX_21>>8
+    db GFX_22>>8
+    db GFX_23>>8
+    db GFX_24>>8
+    db GFX_25>>8
+    db GFX_26>>8
+    db GFX_27>>8
+    db GFX_28>>8
+    db GFX_29>>8
+    db GFX_2A>>8
+    db GFX_2B>>8
+    db GFX_2C>>8
+    db GFX_2D>>8
+    db GFX_2E>>8
+    db GFX_2F>>8
+    db GFX_30>>8
+    db GFX_31>>8
+    db GFX_32>>8
+    db GFX_33>>8
+    db GFX_34>>8
+    db GFX_35>>8
+    db GFX_36>>8
+    db GFX_37>>8
+    db GFX_38>>8
+    db GFX_39>>8
+    db GFX_3A>>8
+    db GFX_3B>>8
+    db GFX_3C>>8
+    db GFX_3D>>8
+    db GFX_3E>>8
+    db GFX_3F>>8
+    db GFX_40>>8
+    db GFX_41>>8
+    db GFX_42>>8
+    db GFX_43>>8
+    db GFX_44>>8
+    db GFX_45>>8
+    db GFX_46>>8
+    db GFX_47>>8
+    db GFX_48>>8
+    db GFX_49>>8
+    db GFX_4A>>8
+    db GFX_4B>>8
+    db GFX_4C>>8
+    db GFX_4D>>8
+    db GFX_4E>>8
+    db GFX_4F>>8
+    db GFX_50>>8
+    db GFX_51>>8
+    db GFX_52>>8
+    db GFX_53>>8
+    db GFX_54>>8
+    db GFX_55>>8
+    db GFX_56>>8
+    db GFX_57>>8
+    db GFX_58>>8
+    db GFX_59>>8
+    db GFX_5A>>8
+    db GFX_5B>>8
+    db GFX_5C>>8
+    db GFX_5D>>8
+    db GFX_5E>>8
+    db GFX_5F>>8
+    db GFX_60>>8
+    db GFX_61>>8
+    db GFX_62>>8
+    db GFX_63>>8
+    db GFX_64>>8
+    db GFX_65>>8
+    db GFX_66>>8
+    db GFX_67>>8
+    db GFX_68>>8
+    db GFX_69>>8
+    db GFX_6A>>8
+    db GFX_6B>>8
+    db GFX_6C>>8
+    db GFX_6D>>8
+    db GFX_6E>>8
+    db GFX_6F>>8
+    db GFX_70>>8
+    db GFX_DD>>8
+    db GFX_DE>>8
+
+    ; $0050D2
     .sprite_high
+    db GFX_73>>8 ; 0x00
+    db GFX_74>>8 ; 0x01
+    db GFX_75>>8 ; 0x02
+    db GFX_76>>8 ; 0x03
+    db GFX_77>>8 ; 0x04
+    db GFX_78>>8 ; 0x05
+    db GFX_79>>8 ; 0x06
+    db GFX_7A>>8 ; 0x07
+    db GFX_7B>>8 ; 0x08
+    db GFX_7C>>8 ; 0x09
+    db GFX_7D>>8 ; 0x0A
+    db GFX_7E>>8 ; 0x0B
+    db GFX_7F>>8 ; 0x0C
+    db GFX_80>>8 ; 0x0D
+    db GFX_81>>8 ; 0x0E
+    db GFX_82>>8 ; 0x0F
+    db GFX_83>>8 ; 0x10
+    db GFX_84>>8 ; 0x11
+    db GFX_85>>8 ; 0x12
+    db GFX_86>>8 ; 0x13
+    db GFX_87>>8 ; 0x14
+    db GFX_88>>8 ; 0x15
+    db GFX_89>>8 ; 0x16
+    db GFX_8A>>8 ; 0x17
+    db GFX_8B>>8 ; 0x18
+    db GFX_8C>>8 ; 0x19
+    db GFX_8D>>8 ; 0x1A
+    db GFX_8E>>8 ; 0x1B
+    db GFX_8F>>8 ; 0x1C
+    db GFX_90>>8 ; 0x1D
+    db GFX_91>>8 ; 0x1E
+    db GFX_92>>8 ; 0x1F
+    db GFX_93>>8 ; 0x20
+    db GFX_94>>8 ; 0x21
+    db GFX_95>>8 ; 0x22
+    db GFX_96>>8 ; 0x23
+    db GFX_97>>8 ; 0x24
+    db GFX_98>>8 ; 0x25
+    db GFX_99>>8 ; 0x26
+    db GFX_9A>>8 ; 0x27
+    db GFX_9B>>8 ; 0x28
+    db GFX_9C>>8 ; 0x29
+    db GFX_9D>>8 ; 0x2A
+    db GFX_9E>>8 ; 0x2B
+    db GFX_9F>>8 ; 0x2C
+    db GFX_A0>>8 ; 0x2D
+    db GFX_A1>>8 ; 0x2E
+    db GFX_A2>>8 ; 0x2F
+    db GFX_A3>>8 ; 0x30
+    db GFX_A4>>8 ; 0x31
+    db GFX_A5>>8 ; 0x32
+    db GFX_A6>>8 ; 0x33
+    db GFX_A7>>8 ; 0x34
+    db GFX_A8>>8 ; 0x35
+    db GFX_A9>>8 ; 0x36
+    db GFX_AA>>8 ; 0x37
+    db GFX_AB>>8 ; 0x38
+    db GFX_AC>>8 ; 0x39
+    db GFX_AD>>8 ; 0x3A
+    db GFX_AE>>8 ; 0x3B
+    db GFX_AF>>8 ; 0x3C
+    db GFX_B0>>8 ; 0x3D
+    db GFX_B1>>8 ; 0x3E
+    db GFX_B2>>8 ; 0x3F
+    db GFX_B3>>8 ; 0x40
+    db GFX_B4>>8 ; 0x41
+    db GFX_B5>>8 ; 0x42
+    db GFX_B6>>8 ; 0x43
+    db GFX_B7>>8 ; 0x44
+    db GFX_B8>>8 ; 0x45
+    db GFX_B9>>8 ; 0x46
+    db GFX_BA>>8 ; 0x47
+    db GFX_BB>>8 ; 0x48
+    db GFX_BC>>8 ; 0x49
+    db GFX_BD>>8 ; 0x4A
+    db GFX_BE>>8 ; 0x4B
+    db GFX_BF>>8 ; 0x4C
+    db GFX_C0>>8 ; 0x4D
+    db GFX_C1>>8 ; 0x4E
+    db GFX_C2>>8 ; 0x4F
+    db GFX_C3>>8 ; 0x50
+    db GFX_C4>>8 ; 0x51
+    db GFX_C5>>8 ; 0x52
+    db GFX_C6>>8 ; 0x53
+    db GFX_C7>>8 ; 0x54
+    db GFX_C8>>8 ; 0x55
+    db GFX_C9>>8 ; 0x56
+    db GFX_CA>>8 ; 0x57
+    db GFX_CB>>8 ; 0x58
+    db GFX_CC>>8 ; 0x59
+    db GFX_CD>>8 ; 0x5A
+    db GFX_CE>>8 ; 0x5B
+    db GFX_CF>>8 ; 0x5C
+    db GFX_D0>>8 ; 0x5D
+    db GFX_D1>>8 ; 0x5E
+    db GFX_D2>>8 ; 0x5F
+    db GFX_D3>>8 ; 0x60
+    db GFX_D4>>8 ; 0x61
+    db GFX_D5>>8 ; 0x62
+    db GFX_D6>>8 ; 0x63
+    db GFX_D7>>8 ; 0x64
+    db GFX_D8>>8 ; 0x65
+    db GFX_D9>>8 ; 0x66
+    db GFX_DA>>8 ; 0x67
+    db GFX_DB>>8 ; 0x68
+    db GFX_DC>>8 ; 0x69
+    db GFX_DD>>8 ; 0x6A
+    db GFX_DE>>8 ; 0x6B
 
-    ; $0051B1 DATA LENGTH #$DF
+    ; $00513E 
+    .background_low
+    db GFX_00>>0
+    db GFX_01>>0
+    db GFX_02>>0
+    db GFX_03>>0
+    db GFX_04>>0
+    db GFX_05>>0
+    db GFX_06>>0
+    db GFX_07>>0
+    db GFX_08>>0
+    db GFX_09>>0
+    db GFX_0A>>0
+    db GFX_0B>>0
+    db GFX_0C>>0
+    db GFX_0D>>0
+    db GFX_0E>>0
+    db GFX_0F>>0
+    db GFX_10>>0
+    db GFX_11>>0
+    db GFX_12>>0
+    db GFX_13>>0
+    db GFX_14>>0
+    db GFX_15>>0
+    db GFX_16>>0
+    db GFX_17>>0
+    db GFX_18>>0
+    db GFX_19>>0
+    db GFX_1A>>0
+    db GFX_1B>>0
+    db GFX_1C>>0
+    db GFX_1D>>0
+    db GFX_1E>>0
+    db GFX_1F>>0
+    db GFX_20>>0
+    db GFX_21>>0
+    db GFX_22>>0
+    db GFX_23>>0
+    db GFX_24>>0
+    db GFX_25>>0
+    db GFX_26>>0
+    db GFX_27>>0
+    db GFX_28>>0
+    db GFX_29>>0
+    db GFX_2A>>0
+    db GFX_2B>>0
+    db GFX_2C>>0
+    db GFX_2D>>0
+    db GFX_2E>>0
+    db GFX_2F>>0
+    db GFX_30>>0
+    db GFX_31>>0
+    db GFX_32>>0
+    db GFX_33>>0
+    db GFX_34>>0
+    db GFX_35>>0
+    db GFX_36>>0
+    db GFX_37>>0
+    db GFX_38>>0
+    db GFX_39>>0
+    db GFX_3A>>0
+    db GFX_3B>>0
+    db GFX_3C>>0
+    db GFX_3D>>0
+    db GFX_3E>>0
+    db GFX_3F>>0
+    db GFX_40>>0
+    db GFX_41>>0
+    db GFX_42>>0
+    db GFX_43>>0
+    db GFX_44>>0
+    db GFX_45>>0
+    db GFX_46>>0
+    db GFX_47>>0
+    db GFX_48>>0
+    db GFX_49>>0
+    db GFX_4A>>0
+    db GFX_4B>>0
+    db GFX_4C>>0
+    db GFX_4D>>0
+    db GFX_4E>>0
+    db GFX_4F>>0
+    db GFX_50>>0
+    db GFX_51>>0
+    db GFX_52>>0
+    db GFX_53>>0
+    db GFX_54>>0
+    db GFX_55>>0
+    db GFX_56>>0
+    db GFX_57>>0
+    db GFX_58>>0
+    db GFX_59>>0
+    db GFX_5A>>0
+    db GFX_5B>>0
+    db GFX_5C>>0
+    db GFX_5D>>0
+    db GFX_5E>>0
+    db GFX_5F>>0
+    db GFX_60>>0
+    db GFX_61>>0
+    db GFX_62>>0
+    db GFX_63>>0
+    db GFX_64>>0
+    db GFX_65>>0
+    db GFX_66>>0
+    db GFX_67>>0
+    db GFX_68>>0
+    db GFX_69>>0
+    db GFX_6A>>0
+    db GFX_6B>>0
+    db GFX_6C>>0
+    db GFX_6D>>0
+    db GFX_6E>>0
+    db GFX_6F>>0
+    db GFX_70>>0
+    db GFX_DD>>0
+    db GFX_DE>>0
+
+    ; $0051B1 DATA LENGTH 0xDF
     .sprite_low
+    db GFX_73>>0 ; 0x00
+    db GFX_74>>0 ; 0x01
+    db GFX_75>>0 ; 0x02
+    db GFX_76>>0 ; 0x03
+    db GFX_77>>0 ; 0x04
+    db GFX_78>>0 ; 0x05
+    db GFX_79>>0 ; 0x06
+    db GFX_7A>>0 ; 0x07
+    db GFX_7B>>0 ; 0x08
+    db GFX_7C>>0 ; 0x09
+    db GFX_7D>>0 ; 0x0A
+    db GFX_7E>>0 ; 0x0B
+    db GFX_7F>>0 ; 0x0C
+    db GFX_80>>0 ; 0x0D
+    db GFX_81>>0 ; 0x0E
+    db GFX_82>>0 ; 0x0F
+    db GFX_83>>0 ; 0x10
+    db GFX_84>>0 ; 0x11
+    db GFX_85>>0 ; 0x12
+    db GFX_86>>0 ; 0x13
+    db GFX_87>>0 ; 0x14
+    db GFX_88>>0 ; 0x15
+    db GFX_89>>0 ; 0x16
+    db GFX_8A>>0 ; 0x17
+    db GFX_8B>>0 ; 0x18
+    db GFX_8C>>0 ; 0x19
+    db GFX_8D>>0 ; 0x1A
+    db GFX_8E>>0 ; 0x1B
+    db GFX_8F>>0 ; 0x1C
+    db GFX_90>>0 ; 0x1D
+    db GFX_91>>0 ; 0x1E
+    db GFX_92>>0 ; 0x1F
+    db GFX_93>>0 ; 0x20
+    db GFX_94>>0 ; 0x21
+    db GFX_95>>0 ; 0x22
+    db GFX_96>>0 ; 0x23
+    db GFX_97>>0 ; 0x24
+    db GFX_98>>0 ; 0x25
+    db GFX_99>>0 ; 0x26
+    db GFX_9A>>0 ; 0x27
+    db GFX_9B>>0 ; 0x28
+    db GFX_9C>>0 ; 0x29
+    db GFX_9D>>0 ; 0x2A
+    db GFX_9E>>0 ; 0x2B
+    db GFX_9F>>0 ; 0x2C
+    db GFX_A0>>0 ; 0x2D
+    db GFX_A1>>0 ; 0x2E
+    db GFX_A2>>0 ; 0x2F
+    db GFX_A3>>0 ; 0x30
+    db GFX_A4>>0 ; 0x31
+    db GFX_A5>>0 ; 0x32
+    db GFX_A6>>0 ; 0x33
+    db GFX_A7>>0 ; 0x34
+    db GFX_A8>>0 ; 0x35
+    db GFX_A9>>0 ; 0x36
+    db GFX_AA>>0 ; 0x37
+    db GFX_AB>>0 ; 0x38
+    db GFX_AC>>0 ; 0x39
+    db GFX_AD>>0 ; 0x3A
+    db GFX_AE>>0 ; 0x3B
+    db GFX_AF>>0 ; 0x3C
+    db GFX_B0>>0 ; 0x3D
+    db GFX_B1>>0 ; 0x3E
+    db GFX_B2>>0 ; 0x3F
+    db GFX_B3>>0 ; 0x40
+    db GFX_B4>>0 ; 0x41
+    db GFX_B5>>0 ; 0x42
+    db GFX_B6>>0 ; 0x43
+    db GFX_B7>>0 ; 0x44
+    db GFX_B8>>0 ; 0x45
+    db GFX_B9>>0 ; 0x46
+    db GFX_BA>>0 ; 0x47
+    db GFX_BB>>0 ; 0x48
+    db GFX_BC>>0 ; 0x49
+    db GFX_BD>>0 ; 0x4A
+    db GFX_BE>>0 ; 0x4B
+    db GFX_BF>>0 ; 0x4C
+    db GFX_C0>>0 ; 0x4D
+    db GFX_C1>>0 ; 0x4E
+    db GFX_C2>>0 ; 0x4F
+    db GFX_C3>>0 ; 0x50
+    db GFX_C4>>0 ; 0x51
+    db GFX_C5>>0 ; 0x52
+    db GFX_C6>>0 ; 0x53
+    db GFX_C7>>0 ; 0x54
+    db GFX_C8>>0 ; 0x55
+    db GFX_C9>>0 ; 0x56
+    db GFX_CA>>0 ; 0x57
+    db GFX_CB>>0 ; 0x58
+    db GFX_CC>>0 ; 0x59
+    db GFX_CD>>0 ; 0x5A
+    db GFX_CE>>0 ; 0x5B
+    db GFX_CF>>0 ; 0x5C
+    db GFX_D0>>0 ; 0x5D
+    db GFX_D1>>0 ; 0x5E
+    db GFX_D2>>0 ; 0x5F
+    db GFX_D3>>0 ; 0x60
+    db GFX_D4>>0 ; 0x61
+    db GFX_D5>>0 ; 0x62
+    db GFX_D6>>0 ; 0x63
+    db GFX_D7>>0 ; 0x64
+    db GFX_D8>>0 ; 0x65
+    db GFX_D9>>0 ; 0x66
+    db GFX_DA>>0 ; 0x67
+    db GFX_DB>>0 ; 0x68
+    db GFX_DC>>0 ; 0x69
+    db GFX_DD>>0 ; 0x6A
+    db GFX_DE>>0 ; 0x6B
 }
 
 ; ==============================================================================
@@ -8863,7 +9536,7 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     LDY.b #$54
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$30
     
@@ -8876,13 +9549,13 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     LDY.w #$0008
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     PLA : CLC : ADC.w #$0180
     
     LDY.w #$0008
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     SEP #$30
     
@@ -8900,18 +9573,18 @@ LoadItemGFXIntoWRAM4BPPBuffer:
     
     PHA
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     PLA : CLC : ADC.w #$0180
     
     ; Convert 3 tiles again (lower halves of animated rupee tiles).
     LDY.w #$0003
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     SEP #$30
     
-    JSR.w $D3C6 ; $0053C6
+    JSR.w LoadItemGFX_Auxiliary
     
     PLB
     
@@ -8937,11 +9610,11 @@ DecompSwordGfx:
     
     LDY.b #$5F
     
-    JSR Decomp_spr_high
+    JSR.w Decomp_spr_high
     
     LDY.b #$5E
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$21
     
@@ -8956,13 +9629,13 @@ DecompSwordGfx:
     LDY.w #$000C
     PHA
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     PLA : CLC : ADC.w : #$0180
     
     LDY.w #$000C
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     SEP #$30
     
@@ -8992,11 +9665,11 @@ DecompShieldGfx:
     
     LDY.b #$5F
     
-    JSR Decomp_spr_high
+    JSR.w Decomp_spr_high
     
     LDY.b #$5E
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$21
     
@@ -9012,11 +9685,11 @@ DecompShieldGfx:
     
     PHA
     
-    JSR Do3To4HighAnimated
+    JSR.w Do3To4HighAnimated
     
     PLA : CLC : ADC.w #$0180
     
-    JSR Do3To4HighAnimated
+    JSR.w Do3To4HighAnimated
     
     SEP #$30
     
@@ -9033,7 +9706,7 @@ DecompDungAnimatedTiles:
 {
     PHB : PHK : PLB
     
-    JSR Decomp_bg_low
+    JSR.w Decomp_bg_low
     
     REP #$30
     
@@ -9042,13 +9715,13 @@ DecompDungAnimatedTiles:
     LDY.w #$0030
     LDX.w #$1680
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
     
     LDY.b #$5C
     
-    JSR Decomp_bg_low
+    JSR.w Decomp_bg_low
     
     REP #$30
     
@@ -9057,7 +9730,7 @@ DecompDungAnimatedTiles:
     LDY.w #$0030
     LDX.w #$1C80
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     LDX.w #$0000
 
@@ -9093,7 +9766,7 @@ DecompOwAnimatedTiles:
     
     PHY
     
-    JSR Decomp_bg_low
+    JSR.w Decomp_bg_low
     
     REP #$30
     
@@ -9101,14 +9774,14 @@ DecompOwAnimatedTiles:
     LDY.w #$0040
     LDX.w #$1680
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
     
     ; Decompress the next consecutive bg graphics pack (e.g. 0x44 -> 0x45).
     PLY : INY
     
-    JSR Decomp_bg_low
+    JSR.w Decomp_bg_low
     
     REP #$30
     
@@ -9116,7 +9789,7 @@ DecompOwAnimatedTiles:
     LDY.w #$0020
     LDX.w #$1E80
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     ; Set offset of animated tiles in VRAM to $3C00 (word).
     LDA.w #$3C00 : STA.w $0134
@@ -9137,7 +9810,7 @@ LoadItemGFX_Auxiliary:
     ; (in that order).
     LDY.b #$0F
     
-    JSR Decomp_bg_low
+    JSR.w Decomp_bg_low
     
     REP #$30
     
@@ -9145,13 +9818,13 @@ LoadItemGFX_Auxiliary:
     LDY.w #$0010
     LDX.w #$2340
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
     
     LDY.b #$58
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$30
     
@@ -9159,13 +9832,13 @@ LoadItemGFX_Auxiliary:
     LDY.w #$0020
     LDX.w #$2540
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
     
     LDY.b #$05
     
-    JSR Decomp_bg_low
+    JSR.w Decomp_bg_low
     
     REP #$30
     
@@ -9174,7 +9847,7 @@ LoadItemGFX_Auxiliary:
     LDY.w #$0002
     LDX.w #$2DC0
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
     
@@ -9231,11 +9904,11 @@ Tagalong_LoadGfx:
 
     ; Zelda and anything else less than 0x0C.
     
-    JSR Decomp_spr_high
+    JSR.w Decomp_spr_high
     
     LDY.b #$65 ; Loads up graphics for the old man and maiden gfx.
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$30
     
@@ -9246,7 +9919,7 @@ Tagalong_LoadGfx:
     LDY.w #$0020
     LDX.w #$2940
     
-    JSR Do3To4LowAnimated_variable
+    JSR.w Do3To4LowAnimated_variable
     
     SEP #$30
     
@@ -9315,12 +9988,12 @@ GetAnimatedSpriteTile:
         .secondSet
     .firstSet
 
-    JSR Decomp_spr_high
+    JSR.w Decomp_spr_high
     
     ; Always decompress spr graphics pack 0x5A into the low part of $7E4000.
     LDY.b #$5A
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
 
     .copyToBuffer
 
@@ -9343,7 +10016,7 @@ GetAnimatedSpriteTile:
     LDY.w #$0002
     PHA
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     ; Go to the next line.
     PLA : CLC : ADC.w #$0180
@@ -9351,7 +10024,7 @@ GetAnimatedSpriteTile:
     ; Convert 2 tiles again.
     LDY.w #$0002
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     SEP #$30
     
@@ -9384,7 +10057,7 @@ LoadItemGFX:
 
     PHA
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     PLA
 
@@ -9411,13 +10084,13 @@ LoadItemGFX:
     
     PHA
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     PLA : CLC : ADC.w #$0180
     
     LDY.b $0A
     
-    JSR Do3To4HighAnimated_variable
+    JSR.w Do3To4HighAnimated_variable
     
     INC.b $0C : INC.b $0C
     
@@ -9584,7 +10257,7 @@ LoadTransAuxGFX:
         
         TAY
         
-        JSR Decomp_bg_variable
+        JSR.w Decomp_bg_variable
 
     .noBgGfxChange0
 
@@ -9602,7 +10275,7 @@ LoadTransAuxGFX:
         
         TAY
         
-        JSR Decomp_bg_variable
+        JSR.w Decomp_bg_variable
 
     .noBgGfxChange1
 
@@ -9620,7 +10293,7 @@ LoadTransAuxGFX:
         
         TAY
         
-        JSR Decomp_bg_variable
+        JSR.w Decomp_bg_variable
 
     .noBgGfxChange2
 
@@ -9638,7 +10311,7 @@ LoadTransAuxGFX:
         
         TAY
         
-        JSR Decomp_bg_variable
+        JSR.w Decomp_bg_variable
 
     .noBgGfxChange3
 
@@ -9679,7 +10352,7 @@ LoadTransAuxGFX_sprite:
     
     LDA.l $7EC2FC : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
@@ -9697,7 +10370,7 @@ LoadTransAuxGFX_sprite:
     
     LDA.l $7EC2FD : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
@@ -9715,7 +10388,7 @@ LoadTransAuxGFX_sprite:
     
     LDA.l $7EC2FE : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     ; Increment buffer address by 0x0600.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
@@ -9733,7 +10406,7 @@ LoadTransAuxGFX_sprite:
     
     LDA.l $7EC2FF : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     STZ.w $0412
     
@@ -9782,25 +10455,25 @@ ReloadPreviouslyLoadedSheets:
     LDA.b #$7E : STA.b $02
     LDA.l $7EC2FC : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     ; Target decompression address = $7E7E00.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FD : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     ; Target decompression address = $7E8400.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FE : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     ; Target decompression address = $7E8A00.
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDA.l $7EC2FF : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     STZ.w $0412
     
@@ -9837,7 +10510,7 @@ Attract_DecompressStoryGfx:
 
         LDY.b $0E
         
-        JSR Decomp_spr_variable
+        JSR.w Decomp_spr_variable
         
         ; $00[3] = 0x7F4800; Set up the next transfer.
         LDA.b $01 : CLC : ADC.b #$08 : STA.b $01
@@ -9934,7 +10607,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
 AnimateMirrorWarp_TriggerOverlayA_2:
 {
-    JSL.l MirrorWarp_HandleCastlePyramidSubscreen
+    JSL MirrorWarp_HandleCastlePyramidSubscreen
     
     DEC.b $11
     
@@ -9948,7 +10621,7 @@ AnimateMirrorWarp_TriggerOverlayA_2:
 ; $0058B3-$0058BA JUMP LOCATION (LONG)
 AnimateMirrorWarp_DrawDestinationScreen:
 {
-    JSL.l Overworld_DrawScreenAtCurrentMirrorPosition
+    JSL Overworld_DrawScreenAtCurrentMirrorPosition
     
     INC.w $0710
     
@@ -9960,7 +10633,7 @@ AnimateMirrorWarp_DrawDestinationScreen:
 ; $0058BB-$0058C6 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DoSpritesPalettes:
 {
-    JSL.l MirrorWarp_LoadSpritesAndColors
+    JSL MirrorWarp_LoadSpritesAndColors
     
     LDA.b #$0C : STA.b $17 : STA.w $0710
     
@@ -10157,13 +10830,13 @@ AnimateMirrorWarp_DecompressNewTileSets:
     ; Apparently the low 16 bits of the source address are found elsewhere...
     LDA.b #$7F
     
-    JSR Decomp_bg_variable_bank
+    JSR.w Decomp_bg_variable_bank
     
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     
     LDY.b $08
     
-    JSR Decomp_bg_variable
+    JSR.w Decomp_bg_variable
     
     PLB
     
@@ -10177,12 +10850,12 @@ AnimateMirrorWarp_DecompressNewTileSets:
     LDY.w #$0040
     LDA.w #$4000
     
-    JSR Do3To4High16Bit
+    JSR.w Do3To4High16Bit
     
     LDY.w #$0040
     LDA.b $03
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     SEP #$30
     
@@ -10203,12 +10876,12 @@ AnimateMirrorWarp_DecompressBackgroundsA:
     
     LDA.b #$7F
     
-    JSR Decomp_bg_variable_bank
+    JSR.w Decomp_bg_variable_bank
     
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDY.b $08
     
-    JSR Decomp_bg_variable
+    JSR.w Decomp_bg_variable
     
     PLB
     
@@ -10222,13 +10895,13 @@ AnimateMirrorWarp_DecompressBackgroundsA:
     LDY.w #$0040
     LDA.w #$4000
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     LDY.w #$0040
     
     LDA.b $03
     
-    JSR Do3To4High16Bit
+    JSR.w Do3To4High16Bit
     
     SEP #$30
     
@@ -10246,13 +10919,13 @@ AnimateMirrorWarp_DecompressBackgroundsB:
     
     LDA.b #$7F
     
-    JSR Decomp_bg_variable_bank
+    JSR.w Decomp_bg_variable_bank
     
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     
     LDA.l $7EC2FA : TAY
     
-    JSR Decomp_bg_variable
+    JSR.w Decomp_bg_variable
     
     PLB
     
@@ -10266,7 +10939,7 @@ AnimateMirrorWarp_DecompressBackgroundsB:
     LDY.w #$0080
     LDA.w #$4000
     
-    JSR Do3To4High16Bit
+    JSR.w Do3To4High16Bit
     
     SEP #$30
     
@@ -10287,12 +10960,12 @@ AnimateMirrorWarp_DecompressBackgroundsC:
     
     LDA.b #$7F
     
-    JSR Decomp_bg_variable_bank
+    JSR.w Decomp_bg_variable_bank
     
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     LDY.b $08
     
-    JSR Decomp_bg_variable
+    JSR.w Decomp_bg_variable
     
     PLB
     
@@ -10306,7 +10979,7 @@ AnimateMirrorWarp_DecompressBackgroundsC:
     LDY.w #$0080
     LDA.w #$4000
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     SEP #$30
     
@@ -10364,7 +11037,7 @@ AnimateMirrorWarp_LoadSubscreen:
     LDA.b $00
         
     ; Convert the gfx to 4bpp.
-    JSR Do3To4High16Bit
+    JSR.w Do3To4High16Bit
         
     SEP #$30
         
@@ -10382,13 +11055,13 @@ AnimateMirrorWarp_DecompressSpritesA:
     
     LDA.b #$7F : STA.b $02 : STA.b $05
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     
     LDA.l $7EC2FD : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     PLB
     
@@ -10409,7 +11082,7 @@ AnimateMirrorWarp_DecompressSpritesA:
 
         LDA.w #$4000
         
-        JSR Do3To4High16Bit
+        JSR.w Do3To4High16Bit
         
         BRA .lastGfxPack
 
@@ -10417,7 +11090,7 @@ AnimateMirrorWarp_DecompressSpritesA:
 
     LDA.w #$4000
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
 
     .lastGfxPack
 
@@ -10425,7 +11098,7 @@ AnimateMirrorWarp_DecompressSpritesA:
     
     LDA.b $03
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     SEP #$30
     
@@ -10443,13 +11116,13 @@ AnimateMirrorWarp_DecompressSpritesB:
     
     LDA.b #$7F : STA.b $02 : STA.b $05
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     LDA.b $01 : CLC : ADC.b #$06 : STA.b $01
     
     LDA.l $7EC2FF : TAY
     
-    JSR Decomp_spr_variable
+    JSR.w Decomp_spr_variable
     
     PLB
     
@@ -10461,11 +11134,11 @@ AnimateMirrorWarp_DecompressSpritesB:
     LDY.w #$0080
     LDA.w #$4000
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     SEP #$30
     
-    JSL.l HandleFollowersAfterMirroring
+    JSL HandleFollowersAfterMirroring
     
     RTL
 }
@@ -10831,7 +11504,7 @@ PrepTransAuxGFX:
     LDA.w #$6000
     
     ; The first graphics pack always uses the higher 8 palette values.
-    JSR Do3To4High16Bit
+    JSR.w Do3To4High16Bit
     
     ; Number of tiles for next set is 0xC0.
     LDY.w #$00C0
@@ -10845,7 +11518,7 @@ PrepTransAuxGFX:
         
         LDA.b $03
         
-        JSR Do3To4High16Bit
+        JSR.w Do3To4High16Bit
         
         ; The last set will use the lower 8 palette values in this case.
         LDY.w #$0040
@@ -10854,7 +11527,7 @@ PrepTransAuxGFX:
 
     LDA.b $03
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     SEP #$30
     
@@ -10976,7 +11649,7 @@ LoadNewSpriteGFXSet:
     LDA.w #$7800
     LDY.w #$00C0
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     LDY.w #$0040
     
@@ -10993,7 +11666,7 @@ LoadNewSpriteGFXSet:
 
         LDA.b $03
         
-        JSR Do3To4High16Bit
+        JSR.w Do3To4High16Bit
         
         SEP #$30
         
@@ -11003,7 +11676,7 @@ LoadNewSpriteGFXSet:
 
     LDA.b $03
     
-    JSR Do3To4Low16Bit
+    JSR.w Do3To4Low16Bit
     
     SEP #$30
     
@@ -11114,7 +11787,7 @@ InitTilesets:
     STZ.w $2116
     LDA.b #$44 : STA.w $2117
     
-    JSR LoadCommonSprGfx
+    JSR.w LoadCommonSprGfx
     
     REP #$30
     
@@ -11163,19 +11836,19 @@ InitTilesets:
     
     LDX.b #$78
     
-    JSR LoadSprGfx
+    JSR.w LoadSprGfx
     
     LDY.b $08 : LDX.b #$7E
     
-    JSR LoadSprGfx
+    JSR.w LoadSprGfx
     
     LDY.b $07 : LDX.b #$84
     
-    JSR LoadSprGfx
+    JSR.w LoadSprGfx
     
     LDY.b $06 : LDX.b #$8A
     
-    JSR LoadSprGfx
+    JSR.w LoadSprGfx
     
     REP #$30
     
@@ -11234,49 +11907,49 @@ InitTilesets:
     
     LDY.b $0D
     
-    JSR LoadBgGFX
+    JSR.w LoadBgGFX
     
     DEC.b $0F
     
     LDY.b $0C
     
-    JSR LoadBgGFX
+    JSR.w LoadBgGFX
     
     DEC.b $0F
     
     LDY.b $0B
     
-    JSR LoadBgGFX
+    JSR.w LoadBgGFX
     
     DEC.b $0F
     
     LDY.b $0A : LDA.b #$7E : LDX.b #$60
     
-    JSR LoadBgGFX_variable
+    JSR.w LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $09 : LDA.b #$7E : LDX.b #$66
     
-    JSR LoadBgGFX_variable
+    JSR.w LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $08 : LDA.b #$7E : LDX.b #$6C
     
-    JSR LoadBgGFX_variable
+    JSR.w LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $07 : LDA.b #$7E : LDX.b #$72
     
-    JSR LoadBgGFX_variable
+    JSR.w LoadBgGFX_variable
     
     DEC.b $0F
     
     LDY.b $06
     
-    JSR LoadBgGFX
+    JSR.w LoadBgGFX
     
     PLB
     
@@ -11371,7 +12044,7 @@ DecompAndDirectCopy:
     ; Target VRAM address is determined by calling functions,
     ; decompresses a sprite gfx pack and directly copies it to VRAM.
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$30
     
@@ -11409,7 +12082,7 @@ Attract_LoadBG3GFX:
     
     LDY.b #$67
     
-    JSR DecompAndDirectCopy
+    JSR.w DecompAndDirectCopy
     
     PLB
     
@@ -11705,25 +12378,25 @@ LoadSelectScreenGfx:
     ; from 3bpp to 4bpp (high).
     LDY.b #$5E
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$20
     
     LDY.b #$3F
     
-    JSR Do3To4High
+    JSR.w Do3To4High
     
     ; Decompress sprite gfx pack 0x5F, which contains 0x40 tiles, and convert
     ; from 3bpp to 4bpp (high).
     LDY.b #$5F
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$20
     
     LDY.b #$3F
     
-    JSR Do3To4High
+    JSR.w Do3To4High
     
     ; Restore data bank.
     PLB
@@ -11761,7 +12434,7 @@ LoadSelectScreenGfx:
     ; 0x7800 (word).
     LDY.b #$6B
     
-    JSR Decomp_spr_low
+    JSR.w Decomp_spr_low
     
     REP #$30
     
@@ -11837,7 +12510,7 @@ LoadSprGfx:
     
     PHY
     
-    JSR Decomp_spr_variable 
+    JSR.w Decomp_spr_variable 
     
     REP #$20
     
@@ -11920,7 +12593,7 @@ LoadBgGFX:
     STX.b $01
     STA.b $02
     
-    JSR Decomp_bg_variable
+    JSR.w Decomp_bg_variable
     
     REP #$20
     
@@ -12055,14 +12728,14 @@ LoadCommonSprGfx:
     LDA.b #$7F : STA.b $02
     LDX.b #$40
     
-    JSR LoadSprGfx
+    JSR.w LoadSprGfx
     
     ; I don't quite understand the significant of writing to $06...
     LDY.b #$5F : STY.b $06
     
     LDX.b #$40
         
-    JSR LoadSprGfx
+    JSR.w LoadSprGfx
 }
 
 ; ==============================================================================
@@ -12136,7 +12809,7 @@ Decomp:
 
     .next_code
 
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     ; #$FF signals to terminate the decompression.
     CMP.b #$FF : BNE .continue
@@ -12174,7 +12847,7 @@ Decomp:
     ; Shift this value to the upper byte of the Acc.
     LDA.b $CD : AND.b #$03 : XBA
     
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     REP #$20
 
@@ -12193,7 +12866,7 @@ Decomp:
                 ; CODE [010].
                 ASL A : BPL .repeating_word
                     ; This counts as CODE [003].
-                    JSR .get_next_byte
+                    JSR.w .get_next_byte
                     
                     LDX.b $CB
 
@@ -12211,7 +12884,7 @@ Decomp:
     ; CODE [000]
     .nonrepeating
 
-        JSR .get_next_byte
+        JSR.w .get_next_byte
         
         STA [$00], Y
         
@@ -12223,7 +12896,7 @@ Decomp:
     ; CODE [001]
     .repeating
 
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     LDX.b $CB
 
@@ -12238,11 +12911,11 @@ Decomp:
 
     .repeating_word
 
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     XBA
     
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     LDX.b $CB
 
@@ -12265,11 +12938,11 @@ Decomp:
     ; CODES [101], [110], [100]
     .copy
 
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     XBA
     
-    JSR .get_next_byte
+    JSR.w .get_next_byte
     
     XBA : TAX
 
@@ -12399,7 +13072,7 @@ PaletteFilter:
     LDX.w #$0040
     
     ; Perform filtering on BP2-BP7, SP0-SP4, and SP6.
-    JSR FilterColors
+    JSR.w FilterColors
     
     ; At this point filter the background color the same way the subroutine
     ; does.
@@ -12564,7 +13237,7 @@ PaletteFilterUnused:
     LDX.w #$0040
     LDA.w #$0200
     
-    JSR FilterColorsEndpoint
+    JSR.w FilterColorsEndpoint
     
     PLB
     
@@ -12718,7 +13391,7 @@ PaletteFilterHistory:
     ; $006B98 ALTERNATE ENTRY POINT
     .doFiltering
 
-    JSR FilterColorsEndpoint
+    JSR.w FilterColorsEndpoint
     
     PLB
     
@@ -12823,7 +13496,7 @@ Palette_Restore_SP5F:
 ; $006C0D-$006C53 LONG JUMP LOCATION
 Palette_Filter_SP5F:
 {
-    JSR .filter
+    JSR.w .filter
     
     ; Now filter again!
     LDA.l $7EC007 : BEQ Palette_Restore_SP5F_return
@@ -13032,7 +13705,7 @@ AgahnimWarpShadowFilter_filter_one:
     
     LDA.b $02 : PHA
     
-    JSR FilterColorsEndpoint
+    JSR.w FilterColorsEndpoint
     
     PLA : STA.b $02
     
@@ -13061,7 +13734,7 @@ IntroLogoPaletteFadeIn:
     LDX.w #$0100
     LDA.w #$01A0
     
-    JSR RestorePaletteAdditive
+    JSR.w RestorePaletteAdditive
     
     LDX.w #$00C0
     LDA.w #$0100
@@ -13075,14 +13748,14 @@ IntroLogoPaletteFadeIn:
     LDX.w #$0040
     LDA.w #$00C0
     
-    JSR RestorePaletteAdditive
+    JSR.w RestorePaletteAdditive
     
     LDX.w #$0040
     LDA.w #$00C0
 
     .BRANCH_1
 
-    JSR RestorePaletteAdditive
+    JSR.w RestorePaletteAdditive
     
     SEP #$30
     
@@ -13103,12 +13776,12 @@ PaletteFilter_Restore:
     LDX.w #$00B0
     LDA.w #$00C0
     
-    JSR RestorePaletteAdditive
+    JSR.w RestorePaletteAdditive
     
     LDX.w #$00D0
     LDA.w #$00E0
     
-    JSR RestorePaletteSubtractive
+    JSR.w RestorePaletteSubtractive
     
     SEP #$30
     
@@ -13281,12 +13954,12 @@ PaletteFilter_BlindingWhite:
             
             LDX.w #$0040 : LDA.w #$01B0
                 
-            JSR RestorePaletteAdditive
+            JSR.w RestorePaletteAdditive
                 
             LDX.w #$01C0
             LDA.w #$01E0
                 
-            JSR RestorePaletteAdditive
+            JSR.w RestorePaletteAdditive
                 
             BRA .PaletteFilter_StartBlindingWhite
 
@@ -13295,12 +13968,12 @@ PaletteFilter_BlindingWhite:
         LDX.w #$0040
         LDA.w #$01B0
             
-        JSR RestorePaletteSubtractive
+        JSR.w RestorePaletteSubtractive
             
         LDX.w #$01C0
         LDA.w #$01E0
             
-        JSR RestorePaletteSubtractive
+        JSR.w RestorePaletteSubtractive
 
         ; $006F27 ALTERNATE ENTRY POINT
         .PaletteFilter_StartBlindingWhite
@@ -13356,7 +14029,7 @@ PaletteFilter_BlindingWhiteTriforce:
     LDX.w #$0040
     LDA.w #$0200
     
-    JSR RestorePaletteAdditive
+    JSR.w RestorePaletteAdditive
     
     BRA .BRANCH_$6F27
 }
@@ -13596,7 +14269,7 @@ PaletteFilter_Restore_Strictly_Bg_Subtractive:
         LDX.w #$0040
         LDA.w #$0100
         
-        JSR RestorePaletteSubtractive
+        JSR.w RestorePaletteSubtractive
         
         PLB
         
@@ -13629,7 +14302,7 @@ PaletteFilter_Restore_Strictly_Bg_Additive:
     LDX.w #$0040
     LDA.w #$0100
     
-    JSR RestorePaletteAdditive
+    JSR.w RestorePaletteAdditive
     
     PLB
     
@@ -14474,11 +15147,10 @@ FloodDam_PrepFloodHDMA:
 
 ; ==============================================================================
 
+; Beginning of Module 0x0E - Messaging Mode, Item Screen, Map
 ; $007800-$007875 JUMP LOCATION
 Module_Messaging:
 {
-    ; Beginning of Module 0x0E - Messaging mode
-    
     LDA.b $1B : BEQ .outdoors
         LDA.b $11 : CMP.b #$03 : BNE .notDungeonMapMode
             LDA.w $0200  : BEQ .processCoreTasks
@@ -14507,7 +15179,7 @@ Module_Messaging:
         JSL PlayerOam_Main
         
         LDA.b $1B : BNE .indoors
-            JSL.l Module_Overworld_rainAnimation
+            JSL Module_Overworld_rainAnimation
 
         .indoors
 

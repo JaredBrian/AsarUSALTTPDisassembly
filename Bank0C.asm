@@ -4819,11 +4819,11 @@ Intro_DisplayNintendoLogo:
 
 ; ==============================================================================
 
+; TODO: Confirm what this does
+; Beginning of Module 0x14 - History Mode? Attract Mode
 ; $066DAD-$066DD1 LONG JUMP LOCATION
 Module_Attract:
 {
-    ; Beginning of Module 0x14, History Mode
-    
     ; Check the screen brightness.
     LDA.b $13 : BEQ .ignoreInput
         ; If screen is force blanked.

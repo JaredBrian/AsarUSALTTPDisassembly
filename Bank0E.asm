@@ -369,11 +369,10 @@ Pool_Module_EndSequence:
 
 ; ==============================================================================
 
+; Module 0x1A - Ending Sequence Mode
 ; $07186E-$071888 JUMP LOCATION
 Module_EndSequence:
-{
-    ; Beginning of Module 1A, Ending Sequence Mode.
-        
+{   
     REP #$20
         
     LDA.w #$0030 : STA.w $0FE0

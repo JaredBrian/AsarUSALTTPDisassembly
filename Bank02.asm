@@ -599,7 +599,8 @@ PreOverworld_JumpTable:
     dw PreOverworld_LoadAndAdvance           ; 0x02 - $EDB9
 }
 
-; Module 0x08, 0x0A - AKA Pre-Overworld 1 and 2
+; Module 0x08, 0x0A - Pre Overworld Mode (0x08) and Pre Overworld Mode for
+; special overworlds (0x0A).
 ; $0103BF-$0103C6 LONG JUMP LOCATION
 Module_PreOverworld:
 {
@@ -937,7 +938,8 @@ Pool_Module_LocationMenu:
     db $06 ; Mountain Cave
 }
 
-; Beginning of Module 0x1B, Start Location Select.
+; Beginning of Module 0x1B - Start Location Select, screen to select where to
+; start from (House, sanctuary, etc.)
 ; $010586-$0105B3 LONG JUMP LOCATION
 Module_LocationMenu:
 {
@@ -4398,7 +4400,8 @@ Dungeon_OpenGanonDoor:
     RTS
 }
 
-; Beginning of Module #$C, ???? Mode.
+; Beginning of Module 0x0C, ???? Mode. I think we can declare this one unused,
+; almost with complete certainty.
 ; $01191B-$011921 LOCAL JUMP LOCATION
 Module0C_Unused:
 {
@@ -4431,7 +4434,7 @@ Module0C_RestoreSubmodule:
     RTS
 }
 
-; Beginning of Module 0x0D.
+; Beginning of Module 0x0D - Unused? Blank Screen
 ; $011938-$011950 LONG JUMP LOCATION
 Module0D_Unused:
 {
@@ -4494,11 +4497,10 @@ Module_CloseSpotlightTable:
     dw Spotlight_ConfigureTableAndControl ; 0x01 - $9A19
 }
 
+; Beginning of Module 0x0F - HDMA spotlights closing
 ; $011982-$0119C9 LONG JUMP LOCATION
 Module_CloseSpotlight:
 {
-    ; Beginning of Module 0x0F, "HDMA spotlights closing".
-
     JSL Sprite_Main
 
     LDA.b $11 : ASL A : TAX
@@ -4711,7 +4713,7 @@ Module_OpenSpotlightTable:
     dw Spotlight_ConfigureTableAndControl ; 0x01 - $9A19
 }
 
-; Module 0x10
+; Module 0x10 - Opening Spotlight
 ; $011AD7-$011AE5 LONG JUMP LOCATION
 Module_OpenSpotlight:
 {
@@ -4754,7 +4756,7 @@ Pool_Module_HoleToDungeon:
 
 ; ==============================================================================
 
-; Module 0x11
+; Module 0x11 - Happens when you fall into a hole from the OW
 ; $011AF9-$011B00 LONG JUMP LOCATION
 Module_HoleToDungeon:
 {
@@ -4967,7 +4969,7 @@ Module_BossVictoryTable:
     dw Spotlight_ConfigureTableAndControl    ; 0x05 - $9A19
 }
 
-; Beginning of Module 0x13, Boss Victory and Refill Mode.
+; Beginning of Module 0x13 - Boss Victory and Refill Mode
 ; $011C4A-$011C58 LONG JUMP LOCATION
 Module_BossVictory:
 {
@@ -5109,7 +5111,7 @@ Module_MirrorTable:
     dw Module15_0C                           ; 0x0C - $9E22
 }
 
-; Beginning of Module 0x15, Magic Mirror?
+; Beginning of Module 0x15 - Magic Mirror
 ; $011CFC-$011D15 LONG JUMP LOCATION
 Module_Mirror:
 {
@@ -5407,7 +5409,7 @@ Pool_Module_Victory:
     dw Module16_04_FadeAndEnd                ; 0x04 - $9E9A
 }
 
-; Beginning of Module 0x16 (refilling stats after boss fight).
+; Module 0x16 - Module for refilling stats after boss
 ; $011E8A-$011E98 LONG JUMP LOCATION
 Module_Victory:
 {
@@ -5469,6 +5471,7 @@ Pool_Module_GanonEmerges:
     dw GanonEmerges_DropOffPlayerAtPyramid      ; 0x08 - $9FC9
 }
 
+; Module 0x18 - Ganon exits from Agahnim's body, Chase Mode
 ; $011EDC-$011F2E LONG JUMP LOCATION
 Module_GanonEmerges:
 {
@@ -5677,6 +5680,7 @@ Pool_Module_TriforceRoom:
 
 ; ==============================================================================
 
+; Module 0x19 - Triforce Room scene
 ; $011FEC-$012020 LONG JUMP LOCATION
 Module_TriforceRoom:
 {
@@ -6363,7 +6367,8 @@ OWOverlay:
 }
 
 ; ZS overwrites the latter half of this function. - ZS Custom Overworld
-; Module 0x09 - Beginning of Module 9 and Module B: Overworld Module.
+; Module 0x09, 0x0B - Overworld Module (0x09) and Overworld Module for special
+; overworlds (0x0B).
 ; $012475-$01252C LONG JUMP LOCATION
 Module_Overworld:
 {
