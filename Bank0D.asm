@@ -9,7 +9,7 @@ org $0D8000
 ; Misc sprite code
 ; HUD code
 ; Item menu code
-s
+
 ; ==============================================================================
 ; Player OAM Data
 ; ==============================================================================
@@ -341,7 +341,7 @@ PlayerOam_AuxFlip:
 
 ; ==============================================================================
 ; These are OAM props and characters for 3 separate positions for the sword,
-; and other weapons. $FFFF - do not draw
+; and other weapons. $FFFF - do not draw.
 ; ==============================================================================
 
 ; $06839B-$068562 DATA
@@ -433,10 +433,10 @@ PlayerOam_WeaponTiles:
 ; $068563-$0685CE DATA
 PlayerOam_ShieldTiles:
 {
-    dw $2A07, $FFFF, $FFFF ; down
-    dw $2A07, $FFFF, $FFFF ; up
-    dw $2A07, $FFFF, $FFFF ; right
-    dw $6A07, $FFFF, $FFFF ; left
+    dw $2A07, $FFFF, $FFFF ; Down
+    dw $2A07, $FFFF, $FFFF ; Up
+    dw $2A07, $FFFF, $FFFF ; Right
+    dw $6A07, $FFFF, $FFFF ; Left
 
     dw $2A07, $FFFF, $FFFF ; The rest of these seem to be unused/garbage
     dw $6A07, $FFFF, $FFFF
@@ -458,8 +458,7 @@ PlayerOam_ShieldTiles:
 }
 
 ; ==============================================================================
-; OAM props and tiles for shadows
-; appears to be: formatted as:
+; OAM props and tiles for shadows appears to be: formatted as:
 ;   ABCC
 ;   A - OAM props of left tile
 ;   B - OAM props of right tile
@@ -471,17 +470,17 @@ PlayerOam_ShieldTiles:
 ; $0685CF-$0685FA DATA
 PlayerOam_ShadowTiles:
 {
-    dw $286C, $686C ; normal shadow
-    dw $2828, $6828 ; small shadow
-    dw $2838, $FFFF ; used while falling
-    dw $286E, $686E ; unused and buggy
-    dw $287E, $687E ; unused and buggy
-    dw $24D8, $64D8 ; shallow water step 1
-    dw $24D9, $64D9 ; shallow water step 2
-    dw $24DA, $64DA ; shallow water step 3
-    dw $22C8, $62C8 ; grass step 1
-    dw $22C9, $62C9 ; grass step 2
-    dw $22CA, $62CA ; grass step 3
+    dw $286C, $686C ; Normal shadow
+    dw $2828, $6828 ; Small shadow
+    dw $2838, $FFFF ; Used while falling
+    dw $286E, $686E ; Unused and buggy
+    dw $287E, $687E ; Unused and buggy
+    dw $24D8, $64D8 ; Shallow water step 1
+    dw $24D9, $64D9 ; Shallow water step 2
+    dw $24DA, $64DA ; Shallow water step 3
+    dw $22C8, $62C8 ; Grass step 1
+    dw $22C9, $62C9 ; Grass step 2
+    dw $22CA, $62CA ; Grass step 3
 }
 
 ; ==============================================================================
@@ -491,220 +490,220 @@ PlayerOam_ShadowTiles:
 ; $0685FB-0689F8 DATA
 PlayerOam_AnimationSteps:
 {
-    ; walking
-    ; charging dash
-    ; index 0 used for standing still
-    dw $0000, $00AE, $00AF, $00B0, $00B1, $00B2, $00B3, $00B4, $00B5 ; up
-    dw $0005, $00B6, $00B7, $00B8, $00B9, $00B6, $00BA, $00BB, $00BC ; down
-    dw $000A, $000A, $00BD, $00BE, $00BF, $00C0, $00C1, $00C2, $00C3 ; left
-    dw $000D, $000D, $00C4, $00C5, $00C6, $00C7, $00C8, $00C9, $00CA ; right
+    ; Walking
+    ; Charging dash
+    ; Index 0 used for standing still
+    dw $0000, $00AE, $00AF, $00B0, $00B1, $00B2, $00B3, $00B4, $00B5 ; Up
+    dw $0005, $00B6, $00B7, $00B8, $00B9, $00B6, $00BA, $00BB, $00BC ; Down
+    dw $000A, $000A, $00BD, $00BE, $00BF, $00C0, $00C1, $00C2, $00C3 ; Left
+    dw $000D, $000D, $00C4, $00C5, $00C6, $00C7, $00C8, $00C9, $00CA ; Right
 
-    ; powder
-    dw $0010, $0010, $0011, $0011, $0012, $0012, $0013, $0013, $0013 ; up
-    dw $0014, $0014, $0015, $0015, $0016, $0016, $0017, $0017, $0017 ; down
-    dw $0018, $0018, $0019, $0019, $001A, $001A, $001B, $001B, $001B ; left
-    dw $001C, $001C, $001D, $001D, $001E, $001E, $001F, $001F, $001F ; right
+    ; Powder
+    dw $0010, $0010, $0011, $0011, $0012, $0012, $0013, $0013, $0013 ; Up
+    dw $0014, $0014, $0015, $0015, $0016, $0016, $0017, $0017, $0017 ; Down
+    dw $0018, $0018, $0019, $0019, $001A, $001A, $001B, $001B, $001B ; Left
+    dw $001C, $001C, $001D, $001D, $001E, $001E, $001F, $001F, $001F ; Right
 
-    ; walking with sword out
-    dw $0020, $0021, $0022, $0020, $0023, $0024 ; up
-    dw $0025, $0026, $0027, $0025, $0028, $0029 ; down
-    dw $002A, $002B, $002C, $002A, $002B, $002C ; left
-    dw $002D, $002E, $002F, $002D, $002E, $002F ; right
+    ; Walking with sword out
+    dw $0020, $0021, $0022, $0020, $0023, $0024 ; Up
+    dw $0025, $0026, $0027, $0025, $0028, $0029 ; Down
+    dw $002A, $002B, $002C, $002A, $002B, $002C ; Left
+    dw $002D, $002E, $002F, $002D, $002E, $002F ; Right
 
-    ; poking with sword
-    dw $0031, $0030, $0032 ; up
-    dw $0034, $0033, $0034 ; down
-    dw $0036, $0035, $0037 ; left
-    dw $0039, $0038, $003A ; right
+    ; Poking with sword
+    dw $0031, $0030, $0032 ; Up
+    dw $0034, $0033, $0034 ; Down
+    dw $0036, $0035, $0037 ; Left
+    dw $0039, $0038, $003A ; Right
 
-    ; falling
+    ; Falling
     dw $003B, $003C, $003D, $003E, $003E, $003E
 
-    ; landing in underworld
+    ; Landing in underworld
     dw $0000, $000D, $0005, $000A
 
-    ; bonk
-    dw $003F ; up
-    dw $0040 ; down
-    dw $0041 ; left
-    dw $0042 ; right
+    ; Bonk
+    dw $003F ; Up
+    dw $0040 ; Down
+    dw $0041 ; Left
+    dw $0042 ; Right
 
-    ; hammer
-    ; rods
-    dw $0043, $0044, $0045 ; up
-    dw $0046, $0047, $0048 ; down
-    dw $0049, $004A, $004B ; left
-    dw $004C, $004D, $004E ; right
+    ; Hammer
+    ; Rods
+    dw $0043, $0044, $0045 ; Up
+    dw $0046, $0047, $0048 ; Down
+    dw $0049, $004A, $004B ; Left
+    dw $004C, $004D, $004E ; Right
 
-    ; bow
-    dw $0000, $0021, $0074 ; up
-    dw $0005, $0075, $0076 ; down
-    dw $002A, $001A, $0077 ; left
-    dw $002D, $001E, $0078 ; right
+    ; Bow
+    dw $0000, $0021, $0074 ; Up
+    dw $0005, $0075, $0076 ; Down
+    dw $002A, $001A, $0077 ; Left
+    dw $002D, $001E, $0078 ; Right
 
-    ; boomerang
-    dw $00A3, $00A4 ; up
-    dw $00A5, $00A6 ; down
-    dw $00A7, $001A ; left
-    dw $00A8, $001E ; right
+    ; Boomerang
+    dw $00A3, $00A4 ; Up
+    dw $00A5, $00A6 ; Down
+    dw $00A7, $001A ; Left
+    dw $00A8, $001E ; Right
 
-    ; tall grass
-    dw $0000, $00CE, $00CF, $0000, $00A2, $0024 ; up
-    dw $0005, $00D0, $00D1, $0005, $00D2, $00D3 ; down
-    dw $000A, $00D4, $00D5, $000A, $00D4, $00D5 ; left
-    dw $000D, $00D6, $00D7, $000D, $00D6, $00D7 ; right
+    ; Tall grass
+    dw $0000, $00CE, $00CF, $0000, $00A2, $0024 ; Up
+    dw $0005, $00D0, $00D1, $0005, $00D2, $00D3 ; Down
+    dw $000A, $00D4, $00D5, $000A, $00D4, $00D5 ; Left
+    dw $000D, $00D6, $00D7, $000D, $00D6, $00D7 ; Right
 
-    ; desert prayer
+    ; Desert prayer
     dw $007D, $007E, $007F, $0080
 
-    ; shovel
-    dw $0053, $0054, $0055 ; left
-    dw $0056, $0057, $0058 ; right
+    ; Shovel
+    dw $0053, $0054, $0055 ; Left
+    dw $0056, $0057, $0058 ; Right
 
-    ; walk carrying item
-    dw $0059, $005A, $005B, $0059, $005C, $005D ; up
-    dw $005E, $005F, $0060, $005E, $0061, $0062 ; down
-    dw $0063, $0064, $0065, $0063, $0064, $0065 ; left
-    dw $0066, $0067, $0068, $0066, $0067, $0068 ; right
+    ; Walk carrying item
+    dw $0059, $005A, $005B, $0059, $005C, $005D ; Up
+    dw $005E, $005F, $0060, $005E, $0061, $0062 ; Down
+    dw $0063, $0064, $0065, $0063, $0064, $0065 ; Left
+    dw $0066, $0067, $0068, $0066, $0067, $0068 ; Right
 
-    ; throwing item
-    ; seems walk cycle based too
-    dw $0020, $0021, $0022, $0020, $0023, $0024 ; up
-    dw $0025, $0026, $0027, $0025, $0028, $0029 ; down
-    dw $002A, $002B, $002C, $002A, $002B, $002C ; left
-    dw $002D, $002E, $002F, $002D, $002E, $002F ; right
+    ; Throwing item
+    ; Seems walk cycle based too
+    dw $0020, $0021, $0022, $0020, $0023, $0024 ; Up
+    dw $0025, $0026, $0027, $0025, $0028, $0029 ; Down
+    dw $002A, $002B, $002C, $002A, $002B, $002C ; Left
+    dw $002D, $002E, $002F, $002D, $002E, $002F ; Right
 
-    ; spin attack
+    ; Spin attack
     dw $0069, $006A, $006B, $006B, $006C, $006C, $006D, $006D
     dw $000D, $000D, $006E, $006F, $0070, $0071, $0072, $0073
 
-    ; lifting item
-    dw $00D8, $00D9, $00D9 ; up
-    dw $00DA, $00DB, $00DB ; down
-    dw $00DC, $00DD, $00DD ; left
-    dw $00DE, $00DF, $00DF ; right
+    ; Lifting item
+    dw $00D8, $00D9, $00D9 ; Up
+    dw $00DA, $00DB, $00DB ; Down
+    dw $00DC, $00DD, $00DD ; Left
+    dw $00DE, $00DF, $00DF ; Right
 
-    ; treading water
-    dw $008E, $008F ; up
-    dw $0090, $0091 ; down
-    dw $0092, $0093 ; left
-    dw $0094, $0095 ; right
+    ; Treading water
+    dw $008E, $008F ; Up
+    dw $0090, $0091 ; Down
+    dw $0092, $0093 ; Left
+    dw $0094, $0095 ; Right
 
-    ; fast swim
-    dw $0098, $0096, $0097, $0096 ; up
-    dw $009B, $0099, $009A, $0099 ; down
-    dw $009E, $009C, $009D, $009C ; left
-    dw $00A1, $009F, $00A0, $009F ; right
+    ; Fast swim
+    dw $0098, $0096, $0097, $0096 ; Up
+    dw $009B, $0099, $009A, $0099 ; Down
+    dw $009E, $009C, $009D, $009C ; Left
+    dw $00A1, $009F, $00A0, $009F ; Right
 
-    ; slow swim
-    dw $0096, $0097, $0098 ; up
-    dw $0099, $009A, $009B ; down
-    dw $009C, $009D, $009E ; left
-    dw $009F, $00A0, $00A1 ; right
+    ; Slow swim
+    dw $0096, $0097, $0098 ; Up
+    dw $0099, $009A, $009B ; Down
+    dw $009C, $009D, $009E ; Left
+    dw $009F, $00A0, $00A1 ; Right
 
-    ; zap
-    dw $00AB, $00AB, $00AC, $00AC ; up
-    dw $00A9, $00A9, $00AA, $00AA ; down
-    dw $00AB, $00AB, $00AC, $00AC ; left
-    dw $00A9, $00A9, $00AA, $00AA ; right
+    ; Zap
+    dw $00AB, $00AB, $00AC, $00AC ; Up
+    dw $00A9, $00A9, $00AA, $00AA ; Down
+    dw $00AB, $00AB, $00AC, $00AC ; Left
+    dw $00A9, $00A9, $00AA, $00AA ; Right
 
-    ; medallion spin
+    ; Medallion spin
     dw $0025, $002A, $0020, $002D
 
-    ; ether
+    ; Ether
     dw $006B, $00AD, $00AD, $00AD
 
-    ; bombos
+    ; Bombos
     dw $006B, $00CB, $00CB, $00CB, $00CB
     dw $00CC, $00CC, $00CC, $00A6, $00A6
 
-    ; quake
+    ; Quake
     dw $006B, $00CB, $005E, $00CD, $00CD
 
-    ; pushing
-    ; last item seems unused?
-    dw $00E0, $00E1, $00E2, $00E0, $00E3, $00E4 ; up
-    dw $00E5, $00E6, $00E7, $00E5, $00E8, $00E9 ; down
-    dw $00EA, $00EB, $00EC, $00EA, $00EB, $00EC ; left
-    dw $00ED, $00EE, $00EF, $00ED, $00EE, $00EF ; right
+    ; Pushing
+    ; Last item seems unused?
+    dw $00E0, $00E1, $00E2, $00E0, $00E3, $00E4 ; Up
+    dw $00E5, $00E6, $00E7, $00E5, $00E8, $00E9 ; Down
+    dw $00EA, $00EB, $00EC, $00EA, $00EB, $00EC ; Left
+    dw $00ED, $00EE, $00EF, $00ED, $00EE, $00EF ; Right
 
-    ; pull switch down
+    ; Pull switch down
     dw $0101, $0117, $0117, $0117, $0117
 
-    ; pull switch up
+    ; Pull switch up
     dw $00F0, $00F1, $00FF, $005E
 
-    ; ped pull
+    ; Ped pull
     dw $00DB, $00FF
 
-    ; grabbing
-    dw $0101, $0117, $0117, $0117 ; up
-    dw $0104, $0118, $0118, $0118 ; down
-    dw $0107, $0119, $0119, $0119 ; left
-    dw $010A, $011A, $011A, $011A ; right
+    ; Grabbing
+    dw $0101, $0117, $0117, $0117 ; Up
+    dw $0104, $0118, $0118, $0118 ; Down
+    dw $0107, $0119, $0119, $0119 ; Left
+    dw $010A, $011A, $011A, $011A ; Right
 
-    ; walking up spiral stairs
-    dw $00F5, $00F6, $00F7 ; lower
-    dw $00F2, $00F3, $00F4 ; higher
+    ; Walking up spiral stairs
+    dw $00F5, $00F6, $00F7 ; Lower
+    dw $00F2, $00F3, $00F4 ; Higher
 
-    ; walking down spiral stairs
-    dw $00FB, $00FC, $00FD ; higher
-    dw $00F8, $00F9, $00FA ; lower
+    ; Walking down spiral stairs
+    dw $00FB, $00FC, $00FD ; Higher
+    dw $00F8, $00F9, $00FA ; Lower
 
-    ; death
+    ; Death
     dw $0005, $000A, $0000, $000D, $0110, $0111
 
-    ; unused? arm swing
-    dw $0000, $0021, $0074 ; up
-    dw $0005, $0075, $0076 ; down
-    dw $002A, $001A, $0077 ; left
-    dw $002D, $001E, $0078 ; right
+    ; Unused? arm swing
+    dw $0000, $0021, $0074 ; Up
+    dw $0005, $0075, $0076 ; Down
+    dw $002A, $001A, $0077 ; Left
+    dw $002D, $001E, $0078 ; Right
 
-    ; item gets
-    dw $0112 ; normal
-    dw $0113 ; crystal/triforce
+    ; Item gets
+    dw $0112 ; Normal
+    dw $0113 ; Crystal/triforce
 
-    ; sleep
+    ; Sleep
     dw $0114, $0115
 
-    ; hookshot
-    dw $0012 ; up
-    dw $0016 ; down
-    dw $001A ; left
-    dw $001E ; right
+    ; Hookshot
+    dw $0012 ; Up
+    dw $0016 ; Down
+    dw $001A ; Left
+    dw $001E ; Right
 
-    ; bunny walk
-    ; first frame used for standing still
-    dw $011B, $011C, $011B, $011D ; up
-    dw $011E, $011F, $011E, $0120 ; down
-    dw $0121, $0122, $0121, $0122 ; left
-    dw $0123, $0124, $0123, $0124 ; right
+    ; Bunny walk
+    ; First frame used for standing still
+    dw $011B, $011C, $011B, $011D ; Up
+    dw $011E, $011F, $011E, $0120 ; Down
+    dw $0121, $0122, $0121, $0122 ; Left
+    dw $0123, $0124, $0123, $0124 ; Right
 
-    ; cane
-    dw $006F, $0125, $0126 ; up
-    dw $006A, $00CB, $0048 ; down
-    dw $0071, $0063, $001A ; left
-    dw $0127, $0066, $001E ; right
+    ; Cane
+    dw $006F, $0125, $0126 ; Up
+    dw $006A, $00CB, $0048 ; Down
+    dw $0071, $0063, $001A ; Left
+    dw $0127, $0066, $001E ; Right
 
-    ; net
-    dw $0069 ; this first pose is unreachable
+    ; Net
+    dw $0069 ; This first pose is unreachable
     dw $00CB, $006B, $000A, $000A, $006D
     dw $006D, $000D, $000D, $0070, $0072, $006E
 
-    ; sword up
+    ; Sword up
     dw $00CB
 
-    ; book
+    ; Book
     dw $0129
 
-    ; tree pull
+    ; Tree pull
     dw $012B, $012C, $012D, $012E, $003F
 
-    ; sword slash
-    dw $0010, $0010, $004F, $004F, $0126, $0050, $0126, $0013, $0013 ; up
-    dw $0014, $0014, $0015, $0015, $0051, $0052, $0051, $0017, $0017 ; down
-    dw $0018, $0018, $0019, $0082, $0083, $0084, $0085, $0086, $0086 ; left
-    dw $001C, $001C, $001D, $0079, $007A, $007B, $007C, $0081, $0081 ; right
+    ; Sword slash
+    dw $0010, $0010, $004F, $004F, $0126, $0050, $0126, $0013, $0013 ; Up
+    dw $0014, $0014, $0015, $0015, $0051, $0052, $0051, $0017, $0017 ; Down
+    dw $0018, $0018, $0019, $0082, $0083, $0084, $0085, $0086, $0086 ; Left
+    dw $001C, $001C, $001D, $0079, $007A, $007B, $007C, $0081, $0081 ; Right
 }
 
 ; ==============================================================================
@@ -712,57 +711,57 @@ PlayerOam_AnimationSteps:
 ; $0689F9-$0D8A74 DATA
 PlayerOam_Aux1GFXIndex:
 {
-    ; falling
+    ; Falling
     db $00, $FF, $FF, $02, $03, $04, $FF
 
-    ; landing in underworld
+    ; Landing in underworld
     db $FF, $FF, $FF
 
-    ; lifting item
-    db $FF, $15, $17 ; up
-    db $FF, $15, $17 ; down
-    db $FF, $16, $18 ; left
-    db $FF, $15, $17 ; right
+    ; Lifting item
+    db $FF, $15, $17 ; Up
+    db $FF, $15, $17 ; Down
+    db $FF, $16, $18 ; Left
+    db $FF, $15, $17 ; Right
 
-    ; fast swim
-    db $13, $0B, $0F, $FF ; up
-    db $11, $09, $0D, $FF ; down
-    db $09, $12, $0D, $FF ; left
-    db $0A, $11, $0F, $FF ; right
+    ; Fast swim
+    db $13, $0B, $0F, $FF ; Up
+    db $11, $09, $0D, $FF ; Down
+    db $09, $12, $0D, $FF ; Left
+    db $0A, $11, $0F, $FF ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db $FF, $FF, $FF, $FF
 
-    ; ether
+    ; Ether
     db $FF, $FF, $FF, $FF
 
-    ; bombos
+    ; Bombos
     db $FF, $FF, $FF, $04, $03
     db $FF, $FF, $FF, $FF, $FF
 
-    ; quake
+    ; Quake
     db $FF, $FF, $FF, $FF, $FF
 
-    ; pull switch down
+    ; Pull switch down
     db $FF, $17, $17, $FF, $FF
 
-    ; pull switch up
+    ; Pull switch up
     db $FF, $FF, $FF, $FF
 
-    ; ped pull
+    ; Ped pull
     db $FF, $FF
 
-    ; grabbing
-    db $FF, $17, $17, $FF ; up
-    db $FF, $15, $15, $FF ; down
-    db $FF, $18, $18, $FF ; left
-    db $FF, $17, $17, $FF ; right
+    ; Grabbing
+    db $FF, $17, $17, $FF ; Up
+    db $FF, $15, $15, $FF ; Down
+    db $FF, $18, $18, $FF ; Left
+    db $FF, $17, $17, $FF ; Right
 
-    ; sword slash
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $1A, $1A, $1A, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $19, $19, $19, $FF, $FF ; right
+    ; Sword slash
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $1A, $1A, $1A, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $19, $19, $19, $FF, $FF ; Right
 }
 
 ; ==============================================================================
@@ -770,57 +769,57 @@ PlayerOam_Aux1GFXIndex:
 ; $0D8A75-$068AF0 DATA
 PlayerOam_Aux2GFXIndex:
 {
-    ; falling
+    ; Falling
     db $01, $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; landing in underworld
+    ; Landing in underworld
     db $FF, $FF, $FF
 
-    ; lifting item
-    db $FF, $16, $18 ; up
-    db $FF, $16, $18 ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Lifting item
+    db $FF, $16, $18 ; Up
+    db $FF, $16, $18 ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; fast swim
-    db $14, $0C, $10, $FF ; up
-    db $12, $0A, $0E, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Fast swim
+    db $14, $0C, $10, $FF ; Up
+    db $12, $0A, $0E, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db $FF, $FF, $FF, $FF
 
-    ; ether
+    ; Ether
     db $FF, $FF, $FF, $FF
 
-    ; bombos
+    ; Bombos
     db $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF
 
-    ; quake
+    ; Quake
     db $FF, $FF, $FF, $FF, $FF
 
-    ; pull switch down
+    ; Pull switch down
     db $FF, $18, $18, $FF, $FF
 
-    ; pull switch up
+    ; Pull switch up
     db $FF, $FF, $FF, $FF
 
-    ; ped pull
+    ; Ped pull
     db $FF, $FF
 
-    ; grabbing
-    db $FF, $18, $18, $FF ; up
-    db $FF, $16, $16, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Grabbing
+    db $FF, $18, $18, $FF ; Up
+    db $FF, $16, $16, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; sword slash
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Sword slash
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Right
 }
 
 ; ==============================================================================
@@ -828,218 +827,218 @@ PlayerOam_Aux2GFXIndex:
 ; $068AF1-$068CEF DATA
 PlayerOam_WeaponGFXIndex:
 {
-    ; walking
-    ; charging dash
-    ; index 0 used for standing still
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Walking
+    ; Charging dash
+    ; Index 0 used for standing still
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; powder
-    db $01, $05, $0E, $1A, $06, $08, $10, $14, $00 ; up
-    db $00, $02, $0D, $19, $07, $0B, $13, $17, $01 ; down
-    db $06, $08, $10, $14, $00, $02, $0D, $19, $07 ; left
-    db $06, $0A, $12, $16, $01, $04, $0F, $1B, $07 ; right
+    ; Powder
+    db $01, $05, $0E, $1A, $06, $08, $10, $14, $00 ; Up
+    db $00, $02, $0D, $19, $07, $0B, $13, $17, $01 ; Down
+    db $06, $08, $10, $14, $00, $02, $0D, $19, $07 ; Left
+    db $06, $0A, $12, $16, $01, $04, $0F, $1B, $07 ; Right
 
-    ; walking with sword out
-    db $0A, $0A, $0A, $0A, $0A, $0A ; up
-    db $09, $09, $09, $09, $09, $09 ; down
-    db $00, $00, $00, $00, $00, $00 ; left
-    db $01, $01, $01, $01, $01, $01 ; right
+    ; Walking with sword out
+    db $0A, $0A, $0A, $0A, $0A, $0A ; Up
+    db $09, $09, $09, $09, $09, $09 ; Down
+    db $00, $00, $00, $00, $00, $00 ; Left
+    db $01, $01, $01, $01, $01, $01 ; Right
 
-    ; poking with sword
-    db $06, $0A, $06 ; up
-    db $07, $09, $07 ; down
-    db $00, $00, $00 ; left
-    db $01, $01, $01 ; right
+    ; Poking with sword
+    db $06, $0A, $06 ; Up
+    db $07, $09, $07 ; Down
+    db $00, $00, $00 ; Left
+    db $01, $01, $01 ; Right
 
-    ; falling
+    ; Falling
     db $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; landing in underworld
+    ; Landing in underworld
     db $FF, $FF, $FF, $FF
 
-    ; bonk
-    db $08 ; up
-    db $0A ; down
-    db $0A ; left
-    db $08 ; right
+    ; Bonk
+    db $08 ; Up
+    db $0A ; Down
+    db $0A ; Left
+    db $08 ; Right
 
-    ; hammer
-    ; rods
-    db $20, $1D, $21 ; up
-    db $1D, $22, $1E ; down
-    db $1F, $25, $26 ; left
-    db $1F, $23, $24 ; right
+    ; Hammer
+    ; Rods
+    db $20, $1D, $21 ; Up
+    db $1D, $22, $1E ; Down
+    db $1F, $25, $26 ; Left
+    db $1F, $23, $24 ; Right
 
-    ; bow
-    db $2A, $27, $27 ; up
-    db $29, $28, $28 ; down
-    db $2C, $2A, $2A ; left
-    db $2D, $29, $29 ; right
+    ; Bow
+    db $2A, $27, $27 ; Up
+    db $29, $28, $28 ; Down
+    db $2C, $2A, $2A ; Left
+    db $2D, $29, $29 ; Right
 
-    ; boomerang
-    db $FF, $FF ; up
-    db $FF, $FF ; down
-    db $FF, $FF ; left
-    db $FF, $FF ; right
+    ; Boomerang
+    db $FF, $FF ; Up
+    db $FF, $FF ; Down
+    db $FF, $FF ; Left
+    db $FF, $FF ; Right
 
-    ; tall grass
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Tall grass
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; desert prayer
+    ; Desert prayer
     db $FF, $FF, $FF, $FF
 
-    ; shovel
-    db $31, $31, $32 ; left
-    db $2F, $2F, $30 ; right
+    ; Shovel
+    db $31, $31, $32 ; Left
+    db $2F, $2F, $30 ; Right
 
-    ; walk carrying item
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Walk carrying item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; throwing item
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Throwing item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; spin attack
+    ; Spin attack
     db $0A, $08, $05, $04, $0B, $09, $02, $03
     db $08, $0A, $09, $0B, $04, $05, $03, $02
 
-    ; lifting item
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Lifting item
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; treading water
-    db $FF, $FF ; up
-    db $FF, $FF ; down
-    db $FF, $FF ; left
-    db $FF, $FF ; right
+    ; Treading water
+    db $FF, $FF ; Up
+    db $FF, $FF ; Down
+    db $FF, $FF ; Left
+    db $FF, $FF ; Right
 
-    ; fast swim
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Fast swim
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; slow swim
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Slow swim
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; zap
-    db $FF, $00, $03, $03 ; up
-    db $FF, $01, $05, $05 ; down
-    db $FF, $00, $03, $03 ; left
-    db $FF, $01, $05, $05 ; right
+    ; Zap
+    db $FF, $00, $03, $03 ; Up
+    db $FF, $01, $05, $05 ; Down
+    db $FF, $00, $03, $03 ; Left
+    db $FF, $01, $05, $05 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db $09, $02, $06, $04
 
-    ; ether
+    ; Ether
     db $04, $0A, $06, $06
 
-    ; bombos
+    ; Bombos
     db $0A, $06, $08, $08, $08
     db $01, $04, $0F, $0B, $07
 
-    ; quake
+    ; Quake
     db $04, $0A, $06, $07, $1C
 
-    ; pushing
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Pushing
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; pull switch down
+    ; Pull switch down
     db $FF, $FF, $FF, $FF, $FF
 
-    ; pull switch up
+    ; Pull switch up
     db $FF, $FF, $FF, $FF
 
-    ; ped pull
+    ; Ped pull
     db $FF, $FF
 
-    ; grabbing
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Grabbing
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; walking up spiral stairs
-    db $FF, $FF, $FF ; lower
-    db $FF, $FF, $FF ; higher
+    ; Walking up spiral stairs
+    db $FF, $FF, $FF ; Lower
+    db $FF, $FF, $FF ; Higher
 
-    ; walking down spiral stairs
-    db $FF, $FF, $FF ; higher
-    db $FF, $FF, $FF ; lower
+    ; Walking down spiral stairs
+    db $FF, $FF, $FF ; Higher
+    db $FF, $FF, $FF ; Lower
 
-    ; death
+    ; Death
     db $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; unused? arm swing
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Unused? arm swing
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; item gets
-    db $FF ; normal
-    db $FF ; crystal/triforce
+    ; Item gets
+    db $FF ; Normal
+    db $FF ; Crystal/triforce
 
-    ; sleep
+    ; Sleep
     db $FF, $FF
 
-    ; hookshot
-    db $33 ; up
-    db $34 ; down
-    db $35 ; left
-    db $36 ; right
+    ; Hookshot
+    db $33 ; Up
+    db $34 ; Down
+    db $35 ; Left
+    db $36 ; Right
 
-    ; bunny walk
-    ; first frame used for standing still
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Bunny walk
+    ; First frame used for standing still
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; cane
-    db $44, $44, $46 ; up
-    db $44, $44, $43 ; down
-    db $47, $44, $4A ; left
-    db $49, $45, $48 ; right
+    ; Cane
+    db $44, $44, $46 ; Up
+    db $44, $44, $43 ; Down
+    db $47, $44, $4A ; Left
+    db $49, $45, $48 ; Right
 
-    ; net
+    ; Net
     db $37
     db $37, $38, $39, $3A, $3B
     db $3C, $3D, $3E, $3F, $40, $41
 
-    ; sword up
+    ; Sword up
     db $06
 
-    ; book
+    ; Book
     db $4B
 
-    ; tree pull
+    ; Tree pull
     db $FF, $FF, $FF, $FF, $FF
 
-    ; sword slash
-    db $01, $05, $0E, $1A, $0A, $06, $08, $10, $14 ; up
-    db $00, $02, $0D, $19, $09, $07, $0B, $13, $17 ; down
-    db $06, $08, $10, $14, $03, $00, $02, $0D, $19 ; left
-    db $06, $0A, $12, $16, $05, $01, $04, $0F, $1B ; right
+    ; Sword slash
+    db $01, $05, $0E, $1A, $0A, $06, $08, $10, $14 ; Up
+    db $00, $02, $0D, $19, $09, $07, $0B, $13, $17 ; Down
+    db $06, $08, $10, $14, $03, $00, $02, $0D, $19 ; Left
+    db $06, $0A, $12, $16, $05, $01, $04, $0F, $1B ; Right
 }
 
 ; ==============================================================================
@@ -1047,218 +1046,218 @@ PlayerOam_WeaponGFXIndex:
 ; $068CF0-$068EEE DATA
 PlayerOam_ShieldGFXIndex:
 {
-    ; walking
-    ; charging dash
-    ; index 0 used for standing still
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; up
-    db $00, $00, $00, $00, $00, $00, $00, $00, $00 ; down
-    db $03, $03, $03, $03, $03, $03, $03, $03, $03 ; left
-    db $02, $02, $02, $02, $02, $02, $02, $02, $02 ; right
+    ; Walking
+    ; Charging dash
+    ; Index 0 used for standing still
+    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; Up
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00 ; Down
+    db $03, $03, $03, $03, $03, $03, $03, $03, $03 ; Left
+    db $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Right
 
-    ; powder
-    db $00, $00, $00, $00, $02, $02, $02, $02, $02 ; up
-    db $01, $01, $01, $01, $03, $03, $03, $03, $03 ; down
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; left
-    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; right
+    ; Powder
+    db $00, $00, $00, $00, $02, $02, $02, $02, $02 ; Up
+    db $01, $01, $01, $01, $03, $03, $03, $03, $03 ; Down
+    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; Left
+    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; Right
 
-    ; walking with sword out
-    db $02, $02, $02, $02, $02, $02 ; up
-    db $03, $03, $03, $03, $03, $03 ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Walking with sword out
+    db $02, $02, $02, $02, $02, $02 ; Up
+    db $03, $03, $03, $03, $03, $03 ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; poking with sword
-    db $02, $02, $02 ; up
-    db $03, $03, $03 ; down
-    db $01, $01, $01 ; left
-    db $01, $01, $01 ; right
+    ; Poking with sword
+    db $02, $02, $02 ; Up
+    db $03, $03, $03 ; Down
+    db $01, $01, $01 ; Left
+    db $01, $01, $01 ; Right
 
-    ; falling
+    ; Falling
     db $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; landing in underworld
+    ; Landing in underworld
     db $FF, $FF, $FF, $FF
 
-    ; bonk
-    db $01 ; up
-    db $00 ; down
-    db $01 ; left
-    db $01 ; right
+    ; Bonk
+    db $01 ; Up
+    db $00 ; Down
+    db $01 ; Left
+    db $01 ; Right
 
-    ; hammer
-    ; rods
-    db $02, $02, $02 ; up
-    db $03, $03, $03 ; down
-    db $01, $01, $01 ; left
-    db $01, $01, $01 ; right
+    ; Hammer
+    ; Rods
+    db $02, $02, $02 ; Up
+    db $03, $03, $03 ; Down
+    db $01, $01, $01 ; Left
+    db $01, $01, $01 ; Right
 
-    ; bow
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Bow
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; boomerang
-    db $01, $02 ; up
-    db $00, $03 ; down
-    db $03, $01 ; left
-    db $02, $01 ; right
+    ; Boomerang
+    db $01, $02 ; Up
+    db $00, $03 ; Down
+    db $03, $01 ; Left
+    db $02, $01 ; Right
 
-    ; tall grass
-    db $01, $01, $01, $01, $01, $01 ; up
-    db $00, $00, $00, $00, $00, $00 ; down
-    db $03, $03, $03, $03, $03, $03 ; left
-    db $02, $02, $02, $02, $02, $02 ; right
+    ; Tall grass
+    db $01, $01, $01, $01, $01, $01 ; Up
+    db $00, $00, $00, $00, $00, $00 ; Down
+    db $03, $03, $03, $03, $03, $03 ; Left
+    db $02, $02, $02, $02, $02, $02 ; Right
 
-    ; desert prayer
+    ; Desert prayer
     db $FF, $FF, $FF, $FF
 
-    ; shovel
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Shovel
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; walk carrying item
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Walk carrying item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; throwing item
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Throwing item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; spin attack
+    ; Spin attack
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; lifting item
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Lifting item
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; treading water
-    db $FF, $FF ; up
-    db $FF, $FF ; down
-    db $FF, $FF ; left
-    db $FF, $FF ; right
+    ; Treading water
+    db $FF, $FF ; Up
+    db $FF, $FF ; Down
+    db $FF, $FF ; Left
+    db $FF, $FF ; Right
 
-    ; fast swim
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Fast swim
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; slow swim
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Slow swim
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; zap
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Zap
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db $00, $03, $01, $02
 
-    ; ether
+    ; Ether
     db $00, $00, $00, $00
 
-    ; bombos
+    ; Bombos
     db $00, $00, $00, $00, $00
     db $03, $03, $03, $03, $03
 
-    ; quake
+    ; Quake
     db $00, $00, $03, $00, $00
 
-    ; pushing
-    db $FF, $FF, $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Pushing
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; Right
 
-    ; pull switch down
+    ; Pull switch down
     db $FF, $FF, $FF, $FF, $FF
 
-    ; pull switch up
+    ; Pull switch up
     db $FF, $FF, $FF, $FF
 
-    ; ped pull
+    ; Ped pull
     db $FF, $FF
 
-    ; grabbing
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Grabbing
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; walking up spiral stairs
-    db $FF, $FF, $FF ; lower
-    db $FF, $FF, $FF ; higher
+    ; Walking up spiral stairs
+    db $FF, $FF, $FF ; Lower
+    db $FF, $FF, $FF ; Higher
 
-    ; walking down spiral stairs
-    db $FF, $FF, $FF ; higher
-    db $FF, $FF, $FF ; lower
+    ; Walking down spiral stairs
+    db $FF, $FF, $FF ; Higher
+    db $FF, $FF, $FF ; Lower
 
-    ; death
+    ; Death
     db $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; unused? arm swing
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Unused? arm swing
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; item gets
-    db $03 ; normal
-    db $FF ; crystal/triforce
+    ; Item gets
+    db $03 ; Normal
+    db $FF ; Crystal/triforce
 
-    ; sleep
+    ; Sleep
     db $FF, $FF
 
-    ; hookshot
-    db $02 ; up
-    db $03 ; down
-    db $FF ; left
-    db $FF ; right
+    ; Hookshot
+    db $02 ; Up
+    db $03 ; Down
+    db $FF ; Left
+    db $FF ; Right
 
-    ; bunny walk
-    ; first frame used for standing still
-    db $FF, $FF, $FF, $FF ; up
-    db $FF, $FF, $FF, $FF ; down
-    db $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF ; right
+    ; Bunny walk
+    ; First frame used for standing still
+    db $FF, $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF ; Right
 
-    ; cane
-    db $FF, $FF, $FF ; up
-    db $FF, $FF, $FF ; down
-    db $FF, $FF, $FF ; left
-    db $FF, $FF, $FF ; right
+    ; Cane
+    db $FF, $FF, $FF ; Up
+    db $FF, $FF, $FF ; Down
+    db $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF ; Right
 
-    ; net
+    ; Net
     db $FF
     db $FF, $FF, $FF, $FF, $FF
     db $FF, $FF, $FF, $FF, $FF, $FF
 
-    ; sword up
+    ; Sword up
     db $FF
 
-    ; book
+    ; Book
     db $FF
 
-    ; tree pull
+    ; Tree pull
     db $FF, $FF, $FF, $FF, $FF
 
-    ; sword slash
-    db $02, $02, $02, $02, $02, $02, $02, $02, $02 ; up
-    db $03, $03, $03, $03, $03, $03, $03, $03, $03 ; down
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; left
-    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; right
+    ; Sword slash
+    db $02, $02, $02, $02, $02, $02, $02, $02, $02 ; Up
+    db $03, $03, $03, $03, $03, $03, $03, $03, $03 ; Down
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Left
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; Right
 }
 
 ; ==============================================================================
@@ -1266,97 +1265,97 @@ PlayerOam_ShieldGFXIndex:
 ; $068EEF-$0690ED DATA
 LinkOAM_SwordOffsetY:
 {
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    db   9,   5,  -2,  -6,  -8,  -5,  -3,  -1,   9 ; up
-    db  11,  15,  13,  17,  19,  17,  15,  13,  11 ; down
-    db  -2,   2,   3,   4,  12,  15,  14,  19,  19 ; left
-    db  -2,   2,   3,   4,  12,  15,  14,  19,  19 ; right
+    db   9,   5,  -2,  -6,  -8,  -5,  -3,  -1,   9 ; Up
+    db  11,  15,  13,  17,  19,  17,  15,  13,  11 ; Down
+    db  -2,   2,   3,   4,  12,  15,  14,  19,  19 ; Left
+    db  -2,   2,   3,   4,  12,  15,  14,  19,  19 ; Right
 
-    db  -5,  -4,  -3,  -5,  -4,  -3 ; up
-    db  16,  17,  18,  16,  17,  18 ; down
-    db  13,  14,  15,  13,  14,  15 ; left
-    db  13,  14,  15,  13,  14,  15 ; right
+    db  -5,  -4,  -3,  -5,  -4,  -3 ; Up
+    db  16,  17,  18,  16,  17,  18 ; Down
+    db  13,  14,  15,  13,  14,  15 ; Left
+    db  13,  14,  15,  13,  14,  15 ; Right
 
-    db  -3,  -7,   2 ; up
-    db  12,  18,  16 ; down
-    db  15,  13,  10 ; left
-    db  15,  13,  10 ; right
+    db  -3,  -7,   2 ; Up
+    db  12,  18,  16 ; Down
+    db  15,  13,  10 ; Left
+    db  15,  13,  10 ; Right
 
     db  -1,  -1,  -1,  -1,  -1,  -1
 
     db  -1,  -1,  -1,  -1
 
-    db   2 ; up
-    db   3 ; down
-    db   6 ; left
-    db   6 ; right
+    db   2 ; Up
+    db   3 ; Down
+    db   6 ; Left
+    db   6 ; Right
 
-    db  -8,  -3,  -3 ; up
-    db  -3,  10,  18 ; down
-    db  -2,   2,  14 ; left
-    db  -2,   2,  14 ; right
+    db  -8,  -3,  -3 ; Up
+    db  -3,  10,  18 ; Down
+    db  -2,   2,  14 ; Left
+    db  -2,   2,  14 ; Right
 
-    db   5,   9,   9 ; up
-    db   9,  13,  13 ; down
-    db  10,   7,   7 ; left
-    db  10,   7,   7 ; right
+    db   5,   9,   9 ; Up
+    db   9,  13,  13 ; Down
+    db  10,   7,   7 ; Left
+    db  10,   7,   7 ; Right
 
-    db  -1,  -1 ; up
-    db  -1,  -1 ; down
-    db  -1,  -1 ; left
-    db  -1,  -1 ; right
+    db  -1,  -1 ; Up
+    db  -1,  -1 ; Down
+    db  -1,  -1 ; Left
+    db  -1,  -1 ; Right
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
     db  -1,  -1,  -1,  -1
 
-    db  10,  11,  -4 ; left
-    db  10,  11,  -4 ; right
+    db  10,  11,  -4 ; Left
+    db  10,  11,  -4 ; Right
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
     db  -4,  -8,   6,  15,  18,  18,  14,   6
     db  -7,  -7,  14,  17,  16,   8,   5,  12
 
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    db  -1,  -1 ; up
-    db  -1,  -1 ; down
-    db  -1,  -1 ; left
-    db  -1,  -1 ; right
+    db  -1,  -1 ; Up
+    db  -1,  -1 ; Down
+    db  -1,  -1 ; Left
+    db  -1,  -1 ; Right
 
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    db  -1,   8,   6,  10 ; up
-    db  -1,   8,   6,  10 ; down
-    db  -1,   8,   6,  10 ; left
-    db  -1,   8,   6,  10 ; right
+    db  -1,   8,   6,  10 ; Up
+    db  -1,   8,   6,  10 ; Down
+    db  -1,   8,   6,  10 ; Left
+    db  -1,   8,   6,  10 ; Right
 
     db  16,  16,  -5,  16
 
@@ -1367,10 +1366,10 @@ LinkOAM_SwordOffsetY:
 
     db  13,  -3,  -7,  18,  18
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
     db  -1,  -1,  -1,  -1,  -1
 
@@ -1378,43 +1377,43 @@ LinkOAM_SwordOffsetY:
 
     db  -1,  -1
 
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -1,  -1 ; lower
-    db  -1,  -1,  -1 ; higher
+    db  -1,  -1,  -1 ; Lower
+    db  -1,  -1,  -1 ; Higher
 
-    db  -1,  -1,  -1 ; higher
-    db  -1,  -1,  -1 ; lower
+    db  -1,  -1,  -1 ; Higher
+    db  -1,  -1,  -1 ; Lower
 
     db  -1,  -1,  -1,  -1,  -1,  -1
 
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    db  -1 ; normal
-    db  -1 ; crystal/triforce
+    db  -1 ; Normal
+    db  -1 ; Crystal/triforce
 
     db  -1,  -1
 
-    db   2 ; up
-    db  17 ; down
-    db  12 ; left
-    db  12 ; right
+    db   2 ; Up
+    db  17 ; Down
+    db  12 ; Left
+    db  12 ; Right
 
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    db   5,  -2,  -9 ; up
-    db  -7,  -2,  16 ; down
-    db   2,  -2,  12 ; left
-    db   2,  -2,  12 ; right
+    db   5,  -2,  -9 ; Up
+    db  -7,  -2,  16 ; Down
+    db   2,  -2,  12 ; Left
+    db   2,  -2,  12 ; Right
 
     db  -4
     db  -5,   4,  14,  20,  15
@@ -1426,10 +1425,10 @@ LinkOAM_SwordOffsetY:
 
     db  -1,  -1,  -1,  -1,  -1
 
-    db   9,   5,  -3,  -9, -11, -15,  -9,  -4,   0 ; up
-    db  11,  14,  12,  17,  19,  23,  17,  15,  13 ; down
-    db  -2,  -1,   0,   0,   9,  12,  16,  16,  19 ; left
-    db  -2,  -1,   0,   0,   9,  12,  16,  16,  19 ; right
+    db   9,   5,  -3,  -9, -11, -15,  -9,  -4,   0 ; Up
+    db  11,  14,  12,  17,  19,  23,  17,  15,  13 ; Down
+    db  -2,  -1,   0,   0,   9,  12,  16,  16,  19 ; Left
+    db  -2,  -1,   0,   0,   9,  12,  16,  16,  19 ; Right
 }
 
 ; ==============================================================================
@@ -1437,97 +1436,97 @@ LinkOAM_SwordOffsetY:
 ; $0690EE-$0692ED DATA
 LinkOAM_SwordOffsetX:
 {
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    db  11,  10,   6,   2,   0,  -4, -10, -13, -15 ; up
-    db  -8,  -6,  -5,  -3,   8,  12,  10,  14,  15 ; down
-    db   3,  -2,  -7, -11, -14, -11,  -9,  -7,   3 ; left
-    db   5,  10,   7,  11,  14,  11,   9,   7,   5 ; right
+    db  11,  10,   6,   2,   0,  -4, -10, -13, -15 ; Up
+    db  -8,  -6,  -5,  -3,   8,  12,  10,  14,  15 ; Down
+    db   3,  -2,  -7, -11, -14, -11,  -9,  -7,   3 ; Left
+    db   5,  10,   7,  11,  14,  11,   9,   7,   5 ; Right
 
-    db   0,   0,   0,   0,   0,   0 ; up
-    db   7,   7,   7,   7,   7,   7 ; down
-    db -10, -10, -10, -10, -10, -10 ; left
-    db  10,  10,  10,  10,  10,  10 ; right
+    db   0,   0,   0,   0,   0,   0 ; Up
+    db   7,   7,   7,   7,   7,   7 ; Down
+    db -10, -10, -10, -10, -10, -10 ; Left
+    db  10,  10,  10,  10,  10,  10 ; Right
 
-    db  -3,   2,  -3 ; up
-    db  10,   7,  10 ; down
-    db -12, -16,  -8 ; left
-    db  12,  16,   8 ; right
+    db  -3,   2,  -3 ; Up
+    db  10,   7,  10 ; Down
+    db -12, -16,  -8 ; Left
+    db  12,  16,   8 ; Right
 
     db  -1,  -1,  -1,  -1,  -1,  -1
 
     db  -1,  -1,  -1,  -1
 
-    db  -4 ; up
-    db  12 ; down
-    db   8 ; left
-    db   0 ; right
+    db  -4 ; Up
+    db  12 ; Down
+    db   8 ; Left
+    db   0 ; Right
 
-    db  -2,  -2,  -2 ; up
-    db  10,  10,   9 ; down
-    db   1, -10, -11 ; left
-    db   7,  10,  11 ; right
+    db  -2,  -2,  -2 ; Up
+    db  10,  10,   9 ; Down
+    db   1, -10, -11 ; Left
+    db   7,  10,  11 ; Right
 
-    db  -2,  -5,  -5 ; up
-    db   9,   2,   2 ; down
-    db  -2,  -3,  -3 ; left
-    db   2,  11,  11 ; right
+    db  -2,  -5,  -5 ; Up
+    db   9,   2,   2 ; Down
+    db  -2,  -3,  -3 ; Left
+    db   2,  11,  11 ; Right
 
-    db  -1,  -1 ; up
-    db  -1,  -1 ; down
-    db  -1,  -1 ; left
-    db  -1,  -1 ; right
+    db  -1,  -1 ; Up
+    db  -1,  -1 ; Down
+    db  -1,  -1 ; Left
+    db  -1,  -1 ; Right
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
     db  -1,  -1,  -1,  -1
 
-    db  -3,  -7,   8 ; left
-    db   3,   7,   0 ; right
+    db  -3,  -7,   8 ; Left
+    db   3,   7,   0 ; Right
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
     db  13,   6,  14,  14,   8,  -1, -14, -14
     db  -1,   9,  -5,   3,  10,  13, -11, -12
 
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    db  -1,  -1 ; up
-    db  -1,  -1 ; down
-    db  -1,  -1 ; left
-    db  -1,  -1 ; right
+    db  -1,  -1 ; Up
+    db  -1,  -1 ; Down
+    db  -1,  -1 ; Left
+    db  -1,  -1 ; Right
 
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    db  -1, -14, -13, -12 ; up
-    db  -1,  14,  13,  12 ; down
-    db  -1, -14, -13, -12 ; left
-    db  -1,  14,  13,  12 ; right
+    db  -1, -14, -13, -12 ; Up
+    db  -1,  14,  13,  12 ; Down
+    db  -1, -14, -13, -12 ; Left
+    db  -1,  14,  13,  12 ; Right
 
     db   7,  -9,   0,   9
 
@@ -1538,10 +1537,10 @@ LinkOAM_SwordOffsetX:
 
     db  15,  14,  10,   4,   4
 
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
     db  -1,  -1,  -1,  -1,  -1
 
@@ -1549,43 +1548,43 @@ LinkOAM_SwordOffsetX:
 
     db  -1,  -1
 
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -1,  -1 ; lower
-    db  -1,  -1,  -1 ; higher
+    db  -1,  -1,  -1 ; Lower
+    db  -1,  -1,  -1 ; Higher
 
-    db  -1,  -1,  -1 ; higher
-    db  -1,  -1,  -1 ; lower
+    db  -1,  -1,  -1 ; Higher
+    db  -1,  -1,  -1 ; Lower
 
     db  -1,  -1,  -1,  -1,  -1,  -1
 
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    db  -1 ; normal
-    db  -1 ; crystal/triforce
+    db  -1 ; Normal
+    db  -1 ; Crystal/triforce
 
     db  -1,  -1
 
-    db   4 ; up
-    db   4 ; down
-    db  -7 ; left
-    db  15 ; right
+    db   4 ; Up
+    db   4 ; Down
+    db  -7 ; Left
+    db  15 ; Right
 
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    db  -1,  -3,  -3 ; up
-    db   9,  12,   8 ; down
-    db  10,   3, -13 ; left
-    db -10,   5,  13 ; right
+    db  -1,  -3,  -3 ; Up
+    db   9,  12,   8 ; Down
+    db  10,   3, -13 ; Left
+    db -10,   5,  13 ; Right
 
     db  13
     db  13,  16,  11,   2, -11
@@ -1597,10 +1596,10 @@ LinkOAM_SwordOffsetX:
 
     db  -1,  -1,  -1,  -1,  -1
 
-    db  11,   9,   7,   6,   3,  -1,  -5, -11, -14 ; up
-    db  -8,  -7,  -6,  -5,   5,   8,  12,  10,  14 ; down
-    db   3,  -2,  -8, -13, -16, -20, -15, -12,  -7 ; left
-    db   5,  10,   8,  13,  16,  20,  15,  12,   7 ; right
+    db  11,   9,   7,   6,   3,  -1,  -5, -11, -14 ; Up
+    db  -8,  -7,  -6,  -5,   5,   8,  12,  10,  14 ; Down
+    db   3,  -2,  -8, -13, -16, -20, -15, -12,  -7 ; Left
+    db   5,  10,   8,  13,  16,  20,  15,  12,   7 ; Right
 }
 
 ; ==============================================================================
@@ -1608,57 +1607,57 @@ LinkOAM_SwordOffsetX:
 ; $0692ED-$069368 DATA
 PlayerOam_Aux1Offset_Y:
 {
-    ; falling
+    ; Falling
     db   0,  -1,  -1,   8,   8,   8,  -1
 
-    ; landing in underworld
+    ; Landing in underworld
     db  -1,  -1,  -1
 
-    ; lifting item
-    db  -1,   7,  10 ; up
-    db  -1,   5,   8 ; down
-    db  -1,   8,  12 ; left
-    db  -1,   8,  12 ; right
+    ; Lifting item
+    db  -1,   7,  10 ; Up
+    db  -1,   5,   8 ; Down
+    db  -1,   8,  12 ; Left
+    db  -1,   8,  12 ; Right
 
-    ; fast swim
-    db   2,   7,  13,  -1 ; up
-    db  20,  14,   7,  -1 ; down
-    db  20,  21,  20,  -1 ; left
-    db  20,  21,  20,  -1 ; right
+    ; Fast swim
+    db   2,   7,  13,  -1 ; Up
+    db  20,  14,   7,  -1 ; Down
+    db  20,  21,  20,  -1 ; Left
+    db  20,  21,  20,  -1 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db  -1,  -1,  -1,  -1
 
-    ; ether
+    ; Ether
     db  -1,  -1,  -1,  -1
 
-    ; bombos
+    ; Bombos
     db  -1,  -1,  -1,  -8,  -8
     db  -1,  -1,  -1,  -1,  -1
 
-    ; quake
+    ; Quake
     db  -1,  -1,  -1,  -1,  -1
 
-    ; pull switch down
+    ; Pull switch down
     db  -1,   5,  11,  -1,  -1
 
-    ; pull switch up
+    ; Pull switch up
     db  -1,  -1,  -1,  -1
 
-    ; ped pull
+    ; Ped pull
     db  -1,  -1
 
-    ; grabbing
-    db  -1,   5,  11,  -1 ; up
-    db  -1,   6,   1,  -1 ; down
-    db  -1,  13,  15,  -1 ; left
-    db  -1,  13,  15,  -1 ; right
+    ; Grabbing
+    db  -1,   5,  11,  -1 ; Up
+    db  -1,   6,   1,  -1 ; Down
+    db  -1,  13,  15,  -1 ; Left
+    db  -1,  13,  15,  -1 ; Right
 
-    ; sword slash
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  12,  12,  12,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  12,  12,  12,  -1,  -1 ; right
+    ; Sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  12,  12,  12,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  12,  12,  12,  -1,  -1 ; Right
 }
 
 ; ==============================================================================
@@ -1666,57 +1665,57 @@ PlayerOam_Aux1Offset_Y:
 ; $069369-$0693E4 DATA
 PlayerOam_Aux1Offset_X:
 {
-    ; falling
+    ; Falling
     db   8,  -1,  -1,   4,   4,   4,  -1
 
-    ; landing in underworld
+    ; Landing in underworld
     db  -1,  -1,  -1
 
-    ; lifting item
-    db  -1,  -7,  -9 ; up
-    db  -1,  -8, -10 ; down
-    db  -1,  13,  16 ; left
-    db  -1,  -5,  -8 ; right
+    ; Lifting item
+    db  -1,  -7,  -9 ; Up
+    db  -1,  -8, -10 ; Down
+    db  -1,  13,  16 ; Left
+    db  -1,  -5,  -8 ; Right
 
-    ; fast swim
-    db  -2,  -6,  -5,  -1 ; up
-    db  -1,  -5,  -6,  -1 ; down
-    db  -3,   4,   9,  -1 ; left
-    db  11,   4,  -1,  -1 ; right
+    ; Fast swim
+    db  -2,  -6,  -5,  -1 ; Up
+    db  -1,  -5,  -6,  -1 ; Down
+    db  -3,   4,   9,  -1 ; Left
+    db  11,   4,  -1,  -1 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db  -1,  -1,  -1,  -1
 
-    ; ether
+    ; Ether
     db  -1,  -1,  -1,  -1
 
-    ; bombos
+    ; Bombos
     db  -1,  -1,  -1,   4,   4
     db  -1,  -1,  -1,  -1,  -1
 
-    ; quake
+    ; Quake
     db  -1,  -1,  -1,  -1,  -1
 
-    ; pull switch down
+    ; Pull switch down
     db  -1,  -5,  -8,  -1,  -1
 
-    ; pull switch up
+    ; Pull switch up
     db  -1,  -1,  -1,  -1
 
-    ; ped pull
+    ; Ped pull
     db  -1,  -1
 
-    ; grabbing
-    db  -1,  -5,  -8,  -1 ; up
-    db  -1,  -5,  -8,  -1 ; down
-    db  -1,  15,  17,  -1 ; left
-    db  -1,  -7,  -9,  -1 ; right
+    ; Grabbing
+    db  -1,  -5,  -8,  -1 ; Up
+    db  -1,  -5,  -8,  -1 ; Down
+    db  -1,  15,  17,  -1 ; Left
+    db  -1,  -7,  -9,  -1 ; Right
 
-    ; sword slash
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -3,  -7,  -3,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  11,  15,  11,  -1,  -1 ; right
+    ; Sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -3,  -7,  -3,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  11,  15,  11,  -1,  -1 ; Right
 }
 
 ; ==============================================================================
@@ -1724,57 +1723,57 @@ PlayerOam_Aux1Offset_X:
 ; $0693E5-$069460 DATA
 PlayerOam_Aux2Offset_Y:
 {
-    ; falling
+    ; Falling
     db  16,  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; landing in underworld
+    ; Landing in underworld
     db  -1,  -1,  -1
 
-    ; lifting item
-    db  -1,   7,  10 ; up
-    db  -1,   5,   8 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Lifting item
+    db  -1,   7,  10 ; Up
+    db  -1,   5,   8 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; fast swim
-    db   2,   7,  13,  -1 ; up
-    db  20,  14,   7,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Fast swim
+    db   2,   7,  13,  -1 ; Up
+    db  20,  14,   7,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db  -1,  -1,  -1,  -1
 
-    ; ether
+    ; Ether
     db  -1,  -1,  -1,  -1
 
-    ; bombos
+    ; Bombos
     db  -1,  -1,  -1,  -1,  -1
     db  -1,  -1,  -1,  -1,  -1
 
-    ; quake
+    ; Quake
     db  -1,  -1,  -1,  -1,  -1
 
-    ; pull switch down
+    ; Pull switch down
     db  -1,   5,  11,  -1,  -1
 
-    ; pull switch up
+    ; Pull switch up
     db  -1,  -1,  -1,  -1
 
-    ; ped pull
+    ; Ped pull
     db  -1,  -1
 
-    ; grabbing
-    db  -1,   5,  11,  -1 ; up
-    db  -1,   6,   1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Grabbing
+    db  -1,   5,  11,  -1 ; Up
+    db  -1,   6,   1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; sword slash
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 }
 
 ; ==============================================================================
@@ -1782,57 +1781,57 @@ PlayerOam_Aux2Offset_Y:
 ; $069461-$0694DC DATA
 PlayerOam_Aux2Offset_X:
 {
-    ; falling
+    ; Falling
     db  -8,  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; landing in underworld
+    ; Landing in underworld
     db  -1,  -1,  -1
 
-    ; lifting item
-    db  -1,  15,  17 ; up
-    db  -1,  16,  18 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Lifting item
+    db  -1,  15,  17 ; Up
+    db  -1,  16,  18 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; fast swim
-    db  10,  14,  13,  -1 ; up
-    db   9,  14,  14,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Fast swim
+    db  10,  14,  13,  -1 ; Up
+    db   9,  14,  14,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db  -1,  -1,  -1,  -1
 
-    ; ether
+    ; Ether
     db  -1,  -1,  -1,  -1
 
-    ; bombos
+    ; Bombos
     db  -1,  -1,  -1,  -1,  -1
     db  -1,  -1,  -1,  -1,  -1
 
-    ; quake
+    ; Quake
     db  -1,  -1,  -1,  -1,  -1
 
-    ; pull switch down
+    ; Pull switch down
     db  -1,  13,  16,  -1,  -1
 
-    ; pull switch up
+    ; Pull switch up
     db  -1,  -1,  -1,  -1
 
-    ; ped pull
+    ; Ped pull
     db  -1,  -1
 
-    ; grabbing
-    db  -1,  13,  16,  -1 ; up
-    db  -1,  13,  16,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Grabbing
+    db  -1,  13,  16,  -1 ; Up
+    db  -1,  13,  16,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; sword slash
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 }
 
 ; ==============================================================================
@@ -1840,218 +1839,218 @@ PlayerOam_Aux2Offset_X:
 ; $0694DD-$0696DB DATA
 PlayerOam_ShieldOffsetY:
 {
-    ; walking
-    ; charging dash
-    ; index 0 used for standing still
-    db   5,   5,   4,   3,   5,   5,   4,   3,   5 ; up
-    db   9,  10,   9,   7,   8,  10,   9,   7,   8 ; down
-    db   5,   5,   4,   3,   4,   5,   4,   3,   4 ; left
-    db   5,   5,   4,   3,   4,   5,   4,   3,   4 ; right
+    ; Walking
+    ; Charging dash
+    ; Index 0 used for standing still
+    db   5,   5,   4,   3,   5,   5,   4,   3,   5 ; Up
+    db   9,  10,   9,   7,   8,  10,   9,   7,   8 ; Down
+    db   5,   5,   4,   3,   4,   5,   4,   3,   4 ; Left
+    db   5,   5,   4,   3,   4,   5,   4,   3,   4 ; Right
 
-    ; powder
-    db  12,  12,   8,   8,   6,   6,   6,   6,   6 ; up
-    db   1,   1,   3,   3,   7,   7,   7,   7,   7 ; down
-    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; left
-    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; right
+    ; Powder
+    db  12,  12,   8,   8,   6,   6,   6,   6,   6 ; Up
+    db   1,   1,   3,   3,   7,   7,   7,   7,   7 ; Down
+    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; Left
+    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; Right
 
-    ; walking with sword out
-    db   5,   6,   7,   5,   6,   7 ; up
-    db   6,   7,   8,   6,   7,   8 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Walking with sword out
+    db   5,   6,   7,   5,   6,   7 ; Up
+    db   6,   7,   8,   6,   7,   8 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; poking with sword
-    db   7,   5,   7 ; up
-    db   7,   8,   7 ; down
-    db   5,   5,   5 ; left
-    db   5,   5,   5 ; right
+    ; Poking with sword
+    db   7,   5,   7 ; Up
+    db   7,   8,   7 ; Down
+    db   5,   5,   5 ; Left
+    db   5,   5,   5 ; Right
 
-    ; falling
+    ; Falling
     db  16,  -1,  -1,  -1,  -1,  -1
 
-    ; landing in underworld
+    ; Landing in underworld
     db  -1,  -1,  -1,  -1
 
-    ; bonk
-    db   5 ; up
-    db   8 ; down
-    db   7 ; left
-    db   7 ; right
+    ; Bonk
+    db   5 ; Up
+    db   8 ; Down
+    db   7 ; Left
+    db   7 ; Right
 
-    ; hammer
-    ; rods
-    db   6,   5,   5 ; up
-    db   7,   7,   7 ; down
-    db   5,   5,   5 ; left
-    db   5,   5,   5 ; right
+    ; Hammer
+    ; Rods
+    db   6,   5,   5 ; Up
+    db   7,   7,   7 ; Down
+    db   5,   5,   5 ; Left
+    db   5,   5,   5 ; Right
 
-    ; bow
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Bow
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; boomerang
-    db   6,   6 ; up
-    db  11,   7 ; down
-    db   4,   8 ; left
-    db   4,   8 ; right
+    ; Boomerang
+    db   6,   6 ; Up
+    db  11,   7 ; Down
+    db   4,   8 ; Left
+    db   4,   8 ; Right
 
-    ; tall grass
-    db   4,   5,   6,   4,   5,   6 ; up
-    db  10,  11,  12,  10,  11,  12 ; down
-    db   5,   6,   7,   5,   6,   7 ; left
-    db   5,   6,   7,   5,   6,   7 ; right
+    ; Tall grass
+    db   4,   5,   6,   4,   5,   6 ; Up
+    db  10,  11,  12,  10,  11,  12 ; Down
+    db   5,   6,   7,   5,   6,   7 ; Left
+    db   5,   6,   7,   5,   6,   7 ; Right
 
-    ; desert prayer
+    ; Desert prayer
     db  -1,  -1,  -1,  -1
 
-    ; shovel
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Shovel
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; walk carrying item
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Walk carrying item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; throwing item
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Throwing item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; spin attack
+    ; Spin attack
     db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
     db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; lifting item
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Lifting item
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; treading water
-    db  -1,  -1 ; up
-    db  -1,  -1 ; down
-    db  -1,  -1 ; left
-    db  -1,  -1 ; right
+    ; Treading water
+    db  -1,  -1 ; Up
+    db  -1,  -1 ; Down
+    db  -1,  -1 ; Left
+    db  -1,  -1 ; Right
 
-    ; fast swim
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Fast swim
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; slow swim
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Slow swim
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; zap
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Zap
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db  10,   5,   4,   5
 
-    ; ether
+    ; Ether
     db  10,  10,  10,  10
 
-    ; bombos
+    ; Bombos
     db  10,  10,  10,  10,  10
     db   7,   7,   7,   7,   7
 
-    ; quake
+    ; Quake
     db  10,  10,   1,  10,  10
 
-    ; pushing
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Pushing
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; pull switch down
+    ; Pull switch down
     db  -1,  -1,  -1,  -1,  -1
 
-    ; pull switch up
+    ; Pull switch up
     db  -1,  -1,  -1,  -1
 
-    ; ped pull
+    ; Ped pull
     db  -1,  -1
 
-    ; grabbing
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Grabbing
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; walking up spiral stairs
-    db  -1,  -1,  -1 ; lower
-    db  -1,  -1,  -1 ; higher
+    ; Walking up spiral stairs
+    db  -1,  -1,  -1 ; Lower
+    db  -1,  -1,  -1 ; Higher
 
-    ; walking down spiral stairs
-    db  -1,  -1,  -1 ; higher
-    db  -1,  -1,  -1 ; lower
+    ; Walking down spiral stairs
+    db  -1,  -1,  -1 ; Higher
+    db  -1,  -1,  -1 ; Lower
 
-    ; death
+    ; Death
     db  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; unused? arm swing
-    db   5,   5,   5 ; up
-    db   7,   7,   7 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Unused? arm swing
+    db   5,   5,   5 ; Up
+    db   7,   7,   7 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; item gets
-    db   9 ; normal
-    db  -1 ; crystal/triforce
+    ; Item gets
+    db   9 ; Normal
+    db  -1 ; Crystal/triforce
 
-    ; sleep
+    ; Sleep
     db  -1,  -1
 
-    ; hookshot
-    db   5 ; up
-    db   7 ; down
-    db  -1 ; left
-    db  -1 ; right
+    ; Hookshot
+    db   5 ; Up
+    db   7 ; Down
+    db  -1 ; Left
+    db  -1 ; Right
 
-    ; bunny walk
-    ; first frame used for standing still
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Bunny walk
+    ; First frame used for standing still
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; cane
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Cane
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; net
+    ; Net
     db  -1
     db  -1,  -1,  -1,  -1,  -1
     db  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; sword up
+    ; Sword up
     db  -1
 
-    ; book
+    ; Book
     db  -1
 
-    ; tree pull
+    ; Tree pull
     db  -1,  -1,  -1,  -1,  -1
 
-    ; sword slash
-    db   8,   8,   6,   6,   4,   2,   5,   6,   6 ; up
-    db   1,   1,   4,   4,   6,   8,   6,   6,   6 ; down
-    db   4,   4,   4,   4,   4,   4,   4,   4,   4 ; left
-    db   4,   4,   4,   4,   4,   4,   4,   4,   4 ; right
+    ; Sword slash
+    db   8,   8,   6,   6,   4,   2,   5,   6,   6 ; Up
+    db   1,   1,   4,   4,   6,   8,   6,   6,   6 ; Down
+    db   4,   4,   4,   4,   4,   4,   4,   4,   4 ; Left
+    db   4,   4,   4,   4,   4,   4,   4,   4,   4 ; Right
 }
 
 ; ==============================================================================
@@ -2059,218 +2058,218 @@ PlayerOam_ShieldOffsetY:
 ; $0696DC-$0698DB DATA
 PlayerOam_ShieldOffsetX:
 {
-    ; walking
-    ; charging dash
-    ; index 0 used for standing still
-    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; up
-    db  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4 ; down
-    db  -8,  -8,  -8,  -8,  -8,  -8,  -8,  -8,  -8 ; left
-    db   8,   8,   8,   8,   8,   8,   8,   8,   8 ; right
+    ; Walking
+    ; Charging dash
+    ; Index 0 used for standing still
+    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; Up
+    db  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4 ; Down
+    db  -8,  -8,  -8,  -8,  -8,  -8,  -8,  -8,  -8 ; Left
+    db   8,   8,   8,   8,   8,   8,   8,   8,   8 ; Right
 
-    ; powder
-    db   6,   6,   8,   8,  10,  10,  10,  10,  10 ; up
-    db  -5,  -5,  -7,  -7, -10, -10, -10, -10, -10 ; down
-    db   1,   1,   1,   1,   0,   0,   0,   0,   0 ; left
-    db  -1,  -1,  -1,  -1,   0,   0,   0,   0,   0 ; right
+    ; Powder
+    db   6,   6,   8,   8,  10,  10,  10,  10,  10 ; Up
+    db  -5,  -5,  -7,  -7, -10, -10, -10, -10, -10 ; Down
+    db   1,   1,   1,   1,   0,   0,   0,   0,   0 ; Left
+    db  -1,  -1,  -1,  -1,   0,   0,   0,   0,   0 ; Right
 
-    ; walking with sword out
-    db   9,   9,   9,   9,   9,   9 ; up
-    db  -9,  -9,  -9,  -9,  -9,  -9 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Walking with sword out
+    db   9,   9,   9,   9,   9,   9 ; Up
+    db  -9,  -9,  -9,  -9,  -9,  -9 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; poking with sword
-    db  10,  10,  10 ; up
-    db -10, -10, -10 ; down
-    db   0,  -1,   0 ; left
-    db   0,   1,   0 ; right
+    ; Poking with sword
+    db  10,  10,  10 ; Up
+    db -10, -10, -10 ; Down
+    db   0,  -1,   0 ; Left
+    db   0,   1,   0 ; Right
 
-    ; falling
+    ; Falling
     db  -4,  -1,  -1,  -1,  -1,  -1
 
-    ; landing in underworld
+    ; Landing in underworld
     db  -1,  -1,  -1,  -1
 
-    ; bonk
-    db   8 ; up
-    db  -4 ; down
-    db   2 ; left
-    db  -3 ; right
+    ; Bonk
+    db   8 ; Up
+    db  -4 ; Down
+    db   2 ; Left
+    db  -3 ; Right
 
-    ; hammer
-    ; rods
-    db   9,   9,   9 ; up
-    db -10, -10, -10 ; down
-    db   0,   0,   0 ; left
-    db   0,   0,   0 ; right
+    ; Hammer
+    ; Rods
+    db   9,   9,   9 ; Up
+    db -10, -10, -10 ; Down
+    db   0,   0,   0 ; Left
+    db   0,   0,   0 ; Right
 
-    ; bow
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Bow
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; boomerang
-    db   5,   9 ; up
-    db  -4, -10 ; down
-    db   0,   0 ; left
-    db   8,   0 ; right
+    ; Boomerang
+    db   5,   9 ; Up
+    db  -4, -10 ; Down
+    db   0,   0 ; Left
+    db   8,   0 ; Right
 
-    ; tall grass
-    db   5,   5,   5,   5,   5,   5 ; up
-    db  -4,  -4,  -4,  -4,  -4,  -4 ; down
-    db  -8,  -8,  -8,  -8,  -8,  -8 ; left
-    db   8,   8,   8,   8,   8,   8 ; right
+    ; Tall grass
+    db   5,   5,   5,   5,   5,   5 ; Up
+    db  -4,  -4,  -4,  -4,  -4,  -4 ; Down
+    db  -8,  -8,  -8,  -8,  -8,  -8 ; Left
+    db   8,   8,   8,   8,   8,   8 ; Right
 
-    ; desert prayer
+    ; Desert prayer
     db  -1,  -1,  -1,  -1
 
-    ; shovel
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Shovel
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; walk carrying item
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Walk carrying item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; throwing item
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Throwing item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; spin attack
+    ; Spin attack
     db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
     db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; lifting item
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Lifting item
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; treading water
-    db  -1,  -1 ; up
-    db  -1,  -1 ; down
-    db  -1,  -1 ; left
-    db  -1,  -1 ; right
+    ; Treading water
+    db  -1,  -1 ; Up
+    db  -1,  -1 ; Down
+    db  -1,  -1 ; Left
+    db  -1,  -1 ; Right
 
-    ; fast swim
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Fast swim
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; slow swim
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Slow swim
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; zap
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Zap
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; medallion spin
+    ; Medallion spin
     db  -4,  -8,   5,   8
 
-    ; ether
+    ; Ether
     db  -4,  -4,  -4,  -4
 
-    ; bombos
+    ; Bombos
     db  -5,  -5,  -5,  -5,  -5
     db -10, -10, -10, -10, -10
 
-    ; quake
+    ; Quake
     db  -5,  -5,  -7,  -4,  -4
 
-    ; pushing
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+    ; Pushing
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; Right
 
-    ; pull switch down
+    ; Pull switch down
     db  -1,  -1,  -1,  -1,  -1
 
-    ; pull switch up
+    ; Pull switch up
     db  -1,  -1,  -1,  -1
 
-    ; ped pull
+    ; Ped pull
     db  -1,  -1
 
-    ; grabbing
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Grabbing
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; walking up spiral stairs
-    db  -1,  -1,  -1 ; lower
-    db  -1,  -1,  -1 ; higher
+    ; Walking up spiral stairs
+    db  -1,  -1,  -1 ; Lower
+    db  -1,  -1,  -1 ; Higher
 
-    ; walking down spiral stairs
-    db  -1,  -1,  -1 ; higher
-    db  -1,  -1,  -1 ; lower
+    ; Walking down spiral stairs
+    db  -1,  -1,  -1 ; Higher
+    db  -1,  -1,  -1 ; Lower
 
-    ; death
+    ; Death
     db  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; unused? arm swing
-    db   9,   9,   9 ; up
-    db -10, -10, -10 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Unused? arm swing
+    db   9,   9,   9 ; Up
+    db -10, -10, -10 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; item gets
-    db  -6 ; normal
-    db  -1 ; crystal/triforce
+    ; Item gets
+    db  -6 ; Normal
+    db  -1 ; Crystal/triforce
 
-    ; sleep
+    ; Sleep
     db  -1,  -1
 
-    ; hookshot
-    db  10 ; up
-    db -10 ; down
-    db  -1 ; left
-    db  -1 ; right
+    ; Hookshot
+    db  10 ; Up
+    db -10 ; Down
+    db  -1 ; Left
+    db  -1 ; Right
 
-    ; bunny walk
-    ; first frame used for standing still
-    db  -1,  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1,  -1 ; right
+    ; Bunny walk
+    ; First frame used for standing still
+    db  -1,  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1,  -1 ; Right
 
-    ; cane
-    db  -1,  -1,  -1 ; up
-    db  -1,  -1,  -1 ; down
-    db  -1,  -1,  -1 ; left
-    db  -1,  -1,  -1 ; right
+    ; Cane
+    db  -1,  -1,  -1 ; Up
+    db  -1,  -1,  -1 ; Down
+    db  -1,  -1,  -1 ; Left
+    db  -1,  -1,  -1 ; Right
 
-    ; net
+    ; Net
     db  -1
     db  -1,  -1,  -1,  -1,  -1
     db  -1,  -1,  -1,  -1,  -1,  -1
 
-    ; sword up
+    ; Sword up
     db  -1
 
-    ; book
+    ; Book
     db  -1
 
-    ; tree pull
+    ; Tree pull
     db  -1,  -1,  -1,  -1,  -1
 
-    ; sword slash
-    db  10,  10,  10,  10,  10,  10,  10,  10,  10 ; up
-    db  -9,  -9,  -9,  -9, -10, -10, -10, -10, -10 ; down
-    db   1,   1,   1,   2,   2,   2,   1,   2,   2 ; left
-    db  -1,  -1,  -1,  -2,  -2,  -2,  -1,  -2,  -2 ; right
+    ; Sword slash
+    db  10,  10,  10,  10,  10,  10,  10,  10,  10 ; Up
+    db  -9,  -9,  -9,  -9, -10, -10, -10, -10, -10 ; Down
+    db   1,   1,   1,   2,   2,   2,   1,   2,   2 ; Left
+    db  -1,  -1,  -1,  -2,  -2,  -2,  -1,  -2,  -2 ; Right
 }
 
 ; ==============================================================================
@@ -2496,9 +2495,9 @@ AttackHitboxOffset_X:
 }
 
 
-; walking
-; charging dash
-; index 0 used for standing still
+; Walking
+; Charging dash
+; Index 0 used for standing still
 ; $069CF1-$069EEF DATA
 PlayerOam_Priority:
 {
@@ -2602,7 +2601,7 @@ PlayerOam_Priority:
 ; $069EF0-$06A02F DATA
 PlayerOam_AnimationStepDataOffsets:
 {
-    ; up
+    ; Up
     dw $0000 ; 0x00 - Walking
     dw $0024 ; 0x01 - Powder duplicate unused?
     dw $0048 ; 0x02 - Sword out/Dashing
@@ -2644,7 +2643,7 @@ PlayerOam_AnimationStepDataOffsets:
     dw $01D6 ; 0x26 - Tree pull
     dw $01DB ; 0x27 - Sword slash
 
-    ; down
+    ; Down
     dw $0009 ; 0x00 - Walking
     dw $002D ; 0x01 - Powder duplicate unused?
     dw $004E ; 0x02 - Sword out/Dashing
@@ -2686,7 +2685,7 @@ PlayerOam_AnimationStepDataOffsets:
     dw $01D6 ; 0x26 - Tree pull
     dw $01E4 ; 0x27 - Sword slash
 
-    ; left
+    ; Left
     dw $0012 ; 0x00 - Walking
     dw $0036 ; 0x01 - Powder duplicate unused?
     dw $0054 ; 0x02 - Sword out/Dashing
@@ -2728,7 +2727,7 @@ PlayerOam_AnimationStepDataOffsets:
     dw $01D6 ; 0x26 - Tree pull
     dw $01ED ; 0x27 - Sword slash
 
-    ; right
+    ; Right
     dw $001B ; 0x00 - Walking
     dw $003F ; 0x01 - Powder duplicate unused?
     dw $005A ; 0x02 - Sword out/Dashing
@@ -2774,21 +2773,21 @@ PlayerOam_AnimationStepDataOffsets:
 ; $06A030-$06A037 DATA
 PlayerOam_AnimationDirectionalStepIndexOffset:
 { 
-    ; up, down, left, right 
+    ; Up, down, left, right 
     dw $0000, $0050, $00A0, $00F0
 }
 
+; Falling, lifting item, swim, medallions, pull switch, grabbing, sword slashQ
 ; $06A038-$06A045 DATA
-; falling, lifting item, swim, medallions, pull switch, grabbing, sword slashQ
 PlayerOam_AuxAnimationStepDataOffset:
 {
-    dw $0000, $000A, $0016, $0026, $003D, $0048, $0058 ; up 
+    dw $0000, $000A, $0016, $0026, $003D, $0048, $0058 ; Up 
 
-    dw $0000, $000D, $001A, $0026, $003D, $004C, $0061 ; down 
+    dw $0000, $000D, $001A, $0026, $003D, $004C, $0061 ; Down 
     
-    dw $0000, $0010, $001E, $0026, $003D, $0050, $006A ; left 
+    dw $0000, $0010, $001E, $0026, $003D, $0050, $006A ; Left 
     
-    dw $0000, $0013, $0022, $0026, $003D, $0054, $0073 ; right 
+    dw $0000, $0013, $0022, $0026, $003D, $0054, $0073 ; Right 
 }
 
 ; $06A070-$06A077 DATA
@@ -2950,14 +2949,14 @@ PlayerOam_StairsSomething:
 ; $06A13A-$06A141 DATA
 PlayerOam_ItemsAUseIndex:
 {
-    ; rod, hammer, n/a, n/a, bow, n/a, powder, boomerang
+    ; Rod, hammer, n/a, n/a, bow, n/a, powder, boomerang
     db $06, $06, $06, $06, $07, $07, $08, $09
 }
 
 ; $06A142-$06A147 DATA
 PlayerOam_ItemsBUseIndex:
 {
-    ; shovel, unused prayer, hookshot, cane, net, book
+    ; Shovel, unused prayer, hookshot, cane, net, book
     db $0C, $0B, $20, $22, $23, $25
 }
 
@@ -3060,10 +3059,10 @@ PlayerOam_Main:
     
     ; Determine OAM priority from floor level the player is on (BG2 -> 0x2000,
     ; BG1 -> 0x1000, there's two other settings but not clear what they're used
-    ; for.)
+    ; for).
     LDA.w PlayerOam_ObjectPriority, X : STA.b $64
     
-    ; Check "sort sprites" setting (HM name)
+    ; Check "sort sprites" setting (HM name).
     LDA.w $0FB3 : ASL A : TAY
     
     ; "sort sprites" here serves as a selector for where in the OAM buffer we
@@ -3124,7 +3123,7 @@ PlayerOam_Main:
                 CPX.b #$06 : BEQ .facing_left_or_right
                     LDX.b $2E
                     
-                    LDA.w $A131, X : STA.b $02
+                    LDA.w PlayerOam_StairsSomething, X : STA.b $02
                     
                     LDY.b #$19
                     
@@ -3172,7 +3171,7 @@ PlayerOam_Main:
         LDA.b $02 : AND.b #$01 : STA.b $02
         
         LDA.b $11 : BNE .skip_stroke_check
-            ; Check previous button presses
+            ; Check previous button presses.
             LDA.b $F0 : AND.b #$0F : BNE .swim_strokes
 
         .skip_stroke_check
@@ -3298,7 +3297,7 @@ PlayerOam_Main:
 
         .keep_lift_direction
 
-        LDY.w $A148, X : CPY.b #$0D : BCC .check_desert_step_counter
+        LDY.w PlayerOam_WeirdGrabIndices, X : CPY.b #$0D : BCC .check_desert_step_counter
             LDA.w $0309 : AND.b #$02 : BEQ .not_throwing_object
                 INY
 
@@ -3398,7 +3397,7 @@ PlayerOam_Main:
 
         LDY.b #$27
         
-        ; B button has been pressed less than 9 frames
+        ; B button has been pressed less than 9 frames.
         LDA.b $3C : STA.b $02
         CMP.b #$09 : BCC .PlayerOam_ContinueWithAnimation
             LDA.b $02 : SEC : SBC.b #$0A : STA.b $02
@@ -3509,7 +3508,7 @@ PlayerOam_Main:
     
     LSR A : TAY
     
-    LDA.w $838C, Y : TAY
+    LDA.w PlayerOam_AuxFlip-1, Y : TAY
     
     LDA.b $06 : AND.w #$0001 : BEQ .dont_shift_aux1
         TYA : ASL #4 : TAY
@@ -3587,7 +3586,7 @@ PlayerOam_Main:
     .PlayerOam_NoAux
 
     LDA.w $0309 : AND.w #$0004 : BEQ .always_taken
-        JSR PlayerOam_UnusedWeaponSettings ; $06ADB6 IN ROM
+        JSR PlayerOam_UnusedWeaponSettings
         
         BRA .skip_sword_vram
 
@@ -3848,7 +3847,7 @@ PlayerOam_Main:
         
         STZ.b $74
         
-        LDA.w $8563, Y : CMP.w #$FFFF : BEQ .no_shield_to_draw
+        LDA.w PlayerOam_ShieldTiles, Y : CMP.w #$FFFF : BEQ .no_shield_to_draw
             AND.w #$C1FF : ORA.b $0E : ORA.b $64 : STA.w $0802, X
             
             LDA.b $0A : STA.w $0800, X
@@ -3859,7 +3858,7 @@ PlayerOam_Main:
             
             SEP #$20
             
-            ; Or in the 9th bit of the X coordinate
+            ; Or in the 9th bit of the X coordinate.
             LDA.b $0C : ORA.w $03FA : STA.w $0A20, X
             
             PLX : INX #4
@@ -4133,7 +4132,7 @@ PlayerOam_Main:
     CMP.b #$12 : BEQ .on_straight_interroom_staircase_z
         CMP.b #$13 : BNE .not_on_straight_interroom_staircase_z
 
-    ; Restore position 
+    ; Restore position.
     .on_straight_interroom_staircase_z
 
     PLA : STA.b $21
@@ -4169,7 +4168,7 @@ PlayerOam_GetHighestSetBit:
 ; ==============================================================================
 
 ; TODO: analyze, format, annotate.
-; $06AACC-$0???? DATA
+; $06AACC-$06AB17 DATA
 PlayerOam_WeaponOffsetID:
 {
     db $06
@@ -4252,6 +4251,7 @@ PlayerOam_WeaponOffsetID:
 
 ; ==============================================================================
 
+; $06AB18-$06AB22 DATA
 PlayerOam_RodOffsetID:
 {
     db $01, $04, $01, $04, $06, $02, $00, $05
@@ -4260,6 +4260,7 @@ PlayerOam_RodOffsetID:
 
 ; ==============================================================================
 
+; $06AB22-06AB6D DATA
 PlayerOam_WeaponSize:
 {
     db $00
@@ -4670,6 +4671,40 @@ PlayerOam_DrawSwordSwingTip:
     RTS
 }
 
+; $06AD82-$06ADB5 DATA
+Pool_LinkOAM_UnusedWeaponSettings:
+{
+    ; $06AD82
+    .props
+    dw $2609
+
+    ; $06AD84
+    .index
+    db $FF, $FF, $FF, $FF
+    db $00, $FF, $FF, $FF
+    db $00, $00, $FF, $FF
+    db $00, $00, $00, $FF
+
+    ; $06AD94
+    .offset_x
+    db $FF, $FF, $FF, $FF
+    db   8, $FF, $FF, $FF
+    db   8,   5, $FF, $FF
+    db   8,   5,   2, $FF
+
+    ; $06ADA4
+    .offset_y
+    db $FF, $FF, $FF, $FF
+    db  14, $FF, $FF, $FF
+    db  14,  22, $FF, $FF
+    db  14,  22,  30, $FF
+
+    ; $06ADB4
+    .offset
+    db $00
+    db $04
+}
+
 ; $06ADB6-$06AE37 LOCAL JUMP LOCATION
 PlayerOam_UnusedWeaponSettings:
 {
@@ -4679,7 +4714,8 @@ PlayerOam_UnusedWeaponSettings:
     
     JSR PlayerOam_GetHighestSetBit
     
-    LDA.w $ADB4, X : CLC : ADC.w $030E : ASL #2 : STA.b $06 : STZ.b $07
+    LDA.w Pool_LinkOAM_UnusedWeaponSettings_index, X
+    CLC : ADC.w $030E : ASL #2 : STA.b $06 : STZ.b $07
     
     LDA.b #$42 : STA.w $0109
     
@@ -4687,7 +4723,7 @@ PlayerOam_UnusedWeaponSettings:
     
     LDX.b $72
     
-    LDA.w $A110, X : STA.b $74
+    LDA.w PlayerOam_WeaponBufferOffsetPointers, X : STA.b $74
     
     LDA.b $04 : AND.w #$00FF : TAY
     
@@ -4701,17 +4737,18 @@ PlayerOam_UnusedWeaponSettings:
 
             SEP #$20
             
-            LDA.b $01 : CLC : ADC.w $AD94, Y : STA.b $0B
-            LDA.b $00 : CLC : ADC.w $ADA4, Y : STA.b $0A
+            LDA.b $01 : CLC : ADC.w Pool_LinkOAM_UnusedWeaponSettings_offset_x, Y : STA.b $0B
+
+            LDA.b $00 : CLC : ADC.w Pool_LinkOAM_UnusedWeaponSettings_offset_y, Y : STA.b $0A
             
             PHY
             
-            LDA.w $AD84, Y : CMP.b #$FF : BEQ .BRANCH_ALPHA
+            LDA.w Pool_LinkOAM_UnusedWeaponSettings_index, Y : CMP.b #$FF : BEQ .BRANCH_ALPHA
                 REP #$20
                 
                 AND.w #$00FF : TAY
                 
-                LDA.w $AD82, Y : AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
+                LDA.w Pool_LinkOAM_UnusedWeaponSettings_props, Y : AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
                 
                 LDA.b $0A : STA.w $0800, X
                 
@@ -4837,10 +4874,10 @@ FootObject:
 
     ; $06AECD
     .shield_direction
-    db $04 ; up
-    db $04 ; down
-    db $08 ; left
-    db $08 ; right
+    db $04 ; Up
+    db $04 ; Down
+    db $08 ; Left
+    db $08 ; Right
 }
 
 ; ==============================================================================
@@ -4850,7 +4887,7 @@ FootObject:
 PlayerOam_DrawFootObject:
 {
     ; Seems like a timer to control how often to change the sprite's frame
-    ; If frame counter < 9
+    ; If frame counter < 9.
     LDA.w $0356 : INC A : AND.b #$0F : STA.w $0356
     
     CMP.b #$09 : BCC .dont_reset_foot_object
@@ -4864,7 +4901,7 @@ PlayerOam_DrawFootObject:
 
     .dont_reset_foot_object
 
-    ; See if Link has a shield
+    ; See if Link has a shield.
     LDA.l $7EF35A : TAY
     
     ; See which direction Link is facing.
@@ -4874,7 +4911,7 @@ PlayerOam_DrawFootObject:
     LDA.b $01 : CLC : ADC PlayerOam_ShadowOffset_Y, Y : STA.b $07
     LDA.b $00 : CLC : ADC PlayerOam_ShadowOffset_X, Y : STA.b $06
     
-    ; $8D = secondary timer * 4
+    ; $8D = secondary timer * 4.
     LDA.w $0355 : ASL #2 : STA.b $8D
     
     PHY
@@ -4891,8 +4928,8 @@ PlayerOam_DrawFootObject:
     
     PLY
     
-    ; See if Link is standing in grass
-    ; Nope... standing in water
+    ; See if Link is standing in grass.
+    ; Nope... standing in water.
     LDA.w $0351 : CMP.b #$02 : BNE .not_tall_grass
         LDY.b #$06
 
@@ -4973,8 +5010,6 @@ Pool_PlayerOam_Unused_0:
     db $00
 }
 
-; ==============================================================================
-
 ; $06AFA6-$06AFBF LOCAL JUMP LOCATION
 PlayerOam_Unused_0:
 {
@@ -4983,11 +5018,11 @@ PlayerOam_Unused_0:
     LDX.b $2E
     
     LDA.w $0354 : CMP.b #$19 : BNE .alpha
-        LDA.w $A131, X : TAX
+        LDA.w PlayerOam_StairsSomething, X : TAX
 
     .alpha
 
-    LDA .offsets, X : CLC : ADC.b $01 : STA.b $01
+    LDA Pool_PlayerOam_Unused_0_offsets, X : CLC : ADC.b $01 : STA.b $01
     
     REP #$30
     
@@ -5055,9 +5090,8 @@ incsrc "sprite_properties.asm"
 GetRandomInt:
 {
     ; Interesting to note two consecutive reads from differing locations.
-    ; What this first read does is latch a hardware register
-    ; (v or hcount, I can't remember)
-    ; Reading this "latch" places a value in $213C. 
+    ; What this first read does is latch a hardware register (v or hcount, I
+    ; can't remember) Reading this "latch" places a value in $213C.
     
     LDA.w $2137
     
@@ -5279,6 +5313,7 @@ Wizzbeam_Draw:
 ; $06BE86-$06BFA5 DATA
 Pool_Freezor_Draw:
 {
+    ; $06BE86
     .death_oam_groups
     dw -8,  0 : db $A6, $00, $00, $02
     dw  8,  0 : db $A6, $40, $00, $02
@@ -5594,7 +5629,7 @@ Probe_CheckTileSolidity:
     
     JSL Overworld_ReadTileAttr
     
-    ; (It will later be translated into something dungeon oriented)
+    ; (It will later be translated into something dungeon oriented).
     REP #$10
     
     PLY : PLX
@@ -5730,11 +5765,10 @@ Pool_Priest_Draw:
 
 ; ==============================================================================
 
+; Called by two routines.
 ; $06CF31-$06CF58 LONG JUMP LOCATION
 Priest_Draw:
 {
-    ; called by two routines
-    
     PHB : PHK : PLB
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : ASL #4
@@ -6044,7 +6078,7 @@ Uncle_Draw:
     
     LDA.w $0DE0, X : ASL A : ADC.w $0DC0, X : TAY
     
-    ; \bug Don't have proof yet, but something tells me that if Link's uncle
+    ; BUG: Don't have proof yet, but something tells me that if Link's uncle
     ; were ever facing to the right, it would not look correct. These tables
     ; are only 7 elements long and should be 8 elements long...
     LDA .source_for_vram_1, Y : STA.w $0107
@@ -6102,10 +6136,10 @@ BugNetKid_Draw:
     LDA.b #$06 : STA.b $06
                  STZ.b $07
     
-    ; Multiples of 0x30
+    ; Multiples of 0x30.
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : ASL #4
     
-    ; $2D3EB
+    ; $02D3EB
     ADC.b #(.oam_groups >> 0)              : STA.b $08
     LDA.b #(.oam_groups >> 8) : ADC.b #$00 : STA.b $09
     
@@ -6118,11 +6152,10 @@ BugNetKid_Draw:
 
 ; ==============================================================================
 
+; Deactivates the sprite in certain situations.
 ; $06D49F-$06D4BB LOCAL JUMP LOCATION
 Sprite5_CheckIfActive:
 {
-    ; Deactivates the sprite in certain situations
-
     LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
     LDA.w $0FC1 : BNE .inactive
     LDA.b $11 : BNE .inactive
@@ -6239,7 +6272,7 @@ BomberPellet_DrawExplosion:
     
     .still_exploding
     
-    ; multiply by 24 and add 0xD58E...
+    ; Multiply by 24 and add 0xD58E...
     LSR #2 : PHA : LDA.b #$00 : XBA : PLA : REP #$20 : ASL #3 : STA.b $00
     
     ASL A : ADC.b $00 : ADC.w #(.oam_groups) : STA.b $08
@@ -6435,7 +6468,7 @@ Pikit_DrawTongue:
                 LDA.b $0C           : STA.w $4202
                 LDA .multipliers, X : STA.w $4203
                 
-                ; burn a few cycles...
+                ; Burn a few cycles...
                 JSR Pikit_MultiplicationDelay
                 
                 LDA.b $0E : ASL A
@@ -6489,7 +6522,7 @@ Pikit_DrawTongue:
     
     .multipliers
     
-    ; multiples of 51.... okay then... 51 = 1/5 of 255, mind you.
+    ; Multiples of 51.... okay then... 51 = 1/5 of 255, mind you.
     ; Don't yet know the significance, however.
     db $33, $66, $99, $CC        
 }
@@ -6499,7 +6532,7 @@ Pikit_DrawTongue:
 ; $06D813-$06D816 LOCAL JUMP LOCATION
 Pikit_MultiplicationDelay:
 {
-    ; delay for multiplication
+    ; Delay for multiplication.
     NOP #3
     
     RTS
@@ -6832,19 +6865,24 @@ NULL_0DDB17:
 ; $06DB40-$06DB74 DATA
 HUD_CapacityUpgrades:
 {
+    ; $06DB40
     .bombs_bcd
     db $10, $15, $20, $25, $30, $35, $40, $50
 
+    ; $06DB48
     .bombs_hex
     db  10,  15,  20,  25,  30,  35,  40,  50
 
+    ; $06DB50
     .arrows_bcd
     db $30, $35, $40, $45, $50, $55, $60, $70
 
+    ; $06DB58
     .arrows_hex
     db  30,  35,  40,  45,  50,  55,  60,  70
 }
 
+; $06DB60-$06DB74 DATA
 HeartBeepThresholds:
 {
     db $09, $09, $09, $09, $09, $09, $09, $09
@@ -6976,7 +7014,7 @@ HUD_RefillLogic:
         LDA.l $7EF370 : TAY
 
         ; If it matches the max, you can't have any more bombs.
-        LDA.l $7EF343 : CMP.w $DB48, Y : BEQ .doneRefillingBombs
+        LDA.l $7EF343 : CMP.w HUD_CapacityUpgrades_bombs_hex, Y : BEQ .doneRefillingBombs
             ; You like bombs? I got lotsa bombs!
             INC A : STA.l $7EF343
 
@@ -6991,7 +7029,7 @@ HUD_RefillLogic:
         LDA.l $7EF371 : TAY 
         
         ; I reckon you get no more arrows, pardner.
-        LDA.l $7EF377 : CMP.w $DB58, Y : BEQ .arrowsAtMax
+        LDA.l $7EF377 : CMP.w HUD_CapacityUpgrades_arrows_hex, Y : BEQ .arrowsAtMax
             INC A : STA.l $7EF377
 
         .arrowsAtMax
@@ -7015,7 +7053,7 @@ HUD_RefillLogic:
             
             ; Checking current health against capacity health to see
             ; if we need to put on that annoying beeping noise.
-            LDA.l $7EF36D : CMP.w $DB60, X : BCS .doneWithWarningBeep
+            LDA.l $7EF36D : CMP.w HeartBeepThresholds, X : BCS .doneWithWarningBeep
                 LDA.w $04CA : BNE .decrementBeepTimer
                     ; Beep incessantly when life is low.
                     LDA.w $012E : BNE .doneWithWarningBeep
@@ -7266,7 +7304,7 @@ Equipment_Init:
         
         .haveBottleItems
         
-        ; There is a difference between having bottled items and having 
+        ; There is a difference between having bottled items and having
         ; at least one bottle to put them in. $7EF34F acts as a flag for that.
         LDA.l $7EF34F : BNE .hasBottleFlag
             TAY
@@ -7998,7 +8036,7 @@ Equipment_UpdateBottleMenu:
     
     LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
-    LDY.w $FAD5, X
+    LDY.w ItemMenu_CursorPositions, X
     
     LDA.w $0000, Y : A.w $11B2B2
     LDA.w $0002, Y : A.w $11B4B4
@@ -8007,7 +8045,7 @@ Equipment_UpdateBottleMenu:
     
     LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
-    LDA.w $E177, Y : TAY
+    LDA.w Equipment_BottleMenuCursorPosition, Y : TAY
     
     LDA.w $0207 : AND.w #$0010 : BEQ .return
         LDA.w #$3C61 : STA.w $12AA, Y
@@ -8035,8 +8073,8 @@ Equipment_UpdateBottleMenu:
             LDY.w #$0000
             
             .writeBottleDescription
-                LDA.w $F449, X : STA.w $122C, Y
-                LDA.w $F459, X : STA.w $126C, Y
+                LDA.w ItemMenuNameText_Bottles_0, X : STA.w $122C, Y
+                LDA.w ItemMenuNameText_Bottles_1, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeBottleDescription
@@ -8499,16 +8537,16 @@ Equipment_DrawAbilityText:
             ASL.b $02 : BCC .lacksAbility
                 ; Draws the ability strings if Link has the ability
                 ; (2 x 5 tile rectangle for each ability).
-                LDA.w $F959, X : STA.w $1588, Y
-                LDA.w $F95B, X : STA.w $158A, Y
-                LDA.w $F95D, X : STA.w $158C, Y
-                LDA.w $F95F, X : STA.w $158E, Y
-                LDA.w $F961, X : STA.w $1590, Y
-                LDA.w $F963, X : STA.w $15C8, Y
-                LDA.w $F965, X : STA.w $15CA, Y
-                LDA.w $F967, X : STA.w $15CC, Y
-                LDA.w $F969, X : STA.w $15CE, Y
-                LDA.w $F96B, X : STA.w $15D0, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+00, X : STA.w $1588, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+02, X : STA.w $158A, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+04, X : STA.w $158C, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+06, X : STA.w $158E, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+08, X : STA.w $1590, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+10, X : STA.w $15C8, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+12, X : STA.w $15CA, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+14, X : STA.w $15CC, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+16, X : STA.w $15CE, Y
+                LDA.w ItemMenu_AbilityText_main_jumble+18, X : STA.w $15D0, Y
             
             .lacksAbility
             
@@ -9814,7 +9852,11 @@ ItemMenuNameText_YItems:
 ItemMenuNameText_Bottles:
 {
     ; $06F449
-    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    .0
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ;
+
+    ; $06F459
+    .1
     dw $255C, $2564, $2562, $2557, $2561, $255E, $255E, $255C ; Mushroom
 
     ; $06F469
@@ -10461,13 +10503,13 @@ HUD_UpdateItemBox:
         ; Insert jump here check for 0x15 in X then branch off, interject gfx,
         ; and return to .noEquippedItem, otherwise insert the next line again 
         ; and return to LDA.w $FA93.
-        TXA : DEC A : ASL A : TAX ; (x-1)*2
+        TXA : DEC A : ASL A : TAX ; (x-1)*2.
         
-        LDA.w $FA93, X : STA.b $04 ; For fire rod (05), loads F6A1
+        LDA.w $FA93, X : STA.b $04 ; For fire rod (05), loads F6A1.
         
-        LDA.b $02 : ASL #3 : TAY ; Loads 08
+        LDA.b $02 : ASL #3 : TAY ; Loads 08.
         
-        ; These addresses form the item box graphics. ; Fire rod loads: 24B0,
+        ; These addresses form the item box graphics. Fire rod loads: 24B0,
         ; 24B1, 24C0, 24C1 ; Ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1.
         LDA ($04), Y : STA.l $7EC74A : INY #2
         LDA ($04), Y : STA.l $7EC74C : INY #2
@@ -10492,8 +10534,8 @@ HUD_Update:
     SEP #$30
     
     ; The hook for optimization was placed here...
-    ; need to draw partial heart still though. update: optimization complete
-    ; with great results
+    ; Need to draw partial heart still though. update: optimization complete
+    ; with great results.
     LDA.b #$FD : STA.b $0A
     LDA.b #$F9 : STA.b $0B
     LDA.b #$0D : STA.b $0C
@@ -10603,10 +10645,10 @@ HUD_Update:
     
     REP #$30
     
-    ; The tile index for the first arrow digit.  
+    ; The tile index for the first arrow digit.
     LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75E
     
-    ; The tile index for the second arrow digit   
+    ; The tile index for the second arrow digit.
     LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC760
     
     LDA.w #$007F : STA.b $05
