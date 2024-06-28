@@ -21,7 +21,7 @@ $1.
 Get rid of kan address formatting:
 #_......: 
 
-Find any mistakenly place .b in comments:
+Find any mistakenly placed .b in comments:
 (?<=; ).+\.b
 
 Find op codes that are using ROM addresses:

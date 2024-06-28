@@ -7,11 +7,5015 @@ org $0D8000
 ; Player OAM
 ; Sound effects code
 ; Misc sprite code
-; HUD control
+; HUD code
+; Item menu code
+s
+; ==============================================================================
+; Player OAM Data
+; ==============================================================================
+; This holds data for Link's primary poses
+; y, x, ab
+;   y - y offset of head
+;   x - x offset of head
+;   a - head oam props high nibble
+;   b - body oam props high nibble
+;   F - don't draw
+; ==============================================================================
+
+; $068000-$06838C DATA
+PlayerOam_PoseData:
+{
+    db  0,  0, $00 ; 0x0000
+    db  1,  0, $00 ; 0x0001
+    db  2,  0, $00 ; 0x0002
+    db  1,  0, $04 ; 0x0003
+    db  2,  0, $04 ; 0x0004
+    db  0,  0, $00 ; 0x0005
+    db  1,  0, $00 ; 0x0006
+    db  2,  0, $00 ; 0x0007
+    db  1,  0, $04 ; 0x0008
+    db  2,  0, $04 ; 0x0009
+    db  0,  1, $44 ; 0x000A
+    db  1,  1, $44 ; 0x000B
+    db  2,  2, $44 ; 0x000C
+    db  0, -1, $00 ; 0x000D
+    db  1, -1, $00 ; 0x000E
+    db  2, -2, $00 ; 0x000F
+    db  0,  0, $00 ; 0x0010
+    db  0,  0, $00 ; 0x0011
+    db -1,  0, $00 ; 0x0012
+    db  0,  0, $00 ; 0x0013
+    db  0,  0, $00 ; 0x0014
+    db  1,  0, $00 ; 0x0015
+    db  1,  0, $00 ; 0x0016
+    db  1,  0, $00 ; 0x0017
+    db  1,  1, $44 ; 0x0018
+    db  1,  1, $44 ; 0x0019
+    db  1,  0, $44 ; 0x001A
+    db  1,  1, $44 ; 0x001B
+    db  1, -1, $00 ; 0x001C
+    db  1, -1, $00 ; 0x001D
+    db  1,  0, $00 ; 0x001E
+    db  1, -1, $00 ; 0x001F
+    db  0,  0, $00 ; 0x0020
+    db  1,  0, $00 ; 0x0021
+    db  2,  0, $00 ; 0x0022
+    db  1,  0, $04 ; 0x0023
+    db  2,  0, $04 ; 0x0024
+    db  0,  0, $00 ; 0x0025
+    db  1,  0, $00 ; 0x0026
+    db  2,  0, $00 ; 0x0027
+    db  1,  0, $00 ; 0x0028
+    db  2,  0, $00 ; 0x0029
+    db  0,  1, $44 ; 0x002A
+    db  1,  1, $44 ; 0x002B
+    db  2,  1, $44 ; 0x002C
+    db  0, -1, $00 ; 0x002D
+    db  1, -1, $00 ; 0x002E
+    db  2, -1, $00 ; 0x002F
+    db -1,  0, $00 ; 0x0030
+    db  0,  0, $00 ; 0x0031
+    db  0,  0, $00 ; 0x0032
+    db  2,  0, $00 ; 0x0033
+    db  1,  0, $00 ; 0x0034
+    db  2, -1, $44 ; 0x0035
+    db  1,  1, $44 ; 0x0036
+    db  1,  1, $44 ; 0x0037
+    db  2,  1, $00 ; 0x0038
+    db  1, -1, $00 ; 0x0039
+    db  1, -1, $00 ; 0x003A
+    db  0, -8, $00 ; 0x003B
+    db  4,  0, $0F ; 0x003C
+    db  4,  0, $0F ; 0x003D
+    db  0,  0, $FF ; 0x003E
+    db  0,  0, $00 ; 0x003F
+    db  0,  0, $00 ; 0x0040
+    db  0,  0, $44 ; 0x0041
+    db  0,  0, $00 ; 0x0042
+    db  0,  0, $00 ; 0x0043
+    db -1,  0, $00 ; 0x0044
+    db -1,  0, $00 ; 0x0045
+    db  0,  0, $00 ; 0x0046
+    db  1,  0, $00 ; 0x0047
+    db  2,  0, $00 ; 0x0048
+    db  0,  0, $44 ; 0x0049
+    db  1,  0, $44 ; 0x004A
+    db  1,  0, $44 ; 0x004B
+    db  0,  0, $00 ; 0x004C
+    db  1,  0, $00 ; 0x004D
+    db  1,  0, $00 ; 0x004E
+    db -1,  0, $00 ; 0x004F
+    db -5,  0, $00 ; 0x0050
+    db  2,  0, $00 ; 0x0051
+    db  5,  0, $00 ; 0x0052
+    db -1,  0, $44 ; 0x0053
+    db  0,  0, $44 ; 0x0054
+    db  0,  1, $44 ; 0x0055
+    db -1,  0, $00 ; 0x0056
+    db  0,  0, $00 ; 0x0057
+    db  0, -1, $00 ; 0x0058
+    db  0,  0, $00 ; 0x0059
+    db  1,  0, $00 ; 0x005A
+    db  2,  0, $00 ; 0x005B
+    db  1,  0, $04 ; 0x005C
+    db  2,  0, $04 ; 0x005D
+    db  0,  0, $00 ; 0x005E
+    db  1,  0, $00 ; 0x005F
+    db  2,  0, $00 ; 0x0060
+    db  1,  0, $04 ; 0x0061
+    db  2,  0, $04 ; 0x0062
+    db  0,  1, $44 ; 0x0063
+    db  1,  1, $44 ; 0x0064
+    db  2,  1, $44 ; 0x0065
+    db  0, -1, $00 ; 0x0066
+    db  1, -1, $00 ; 0x0067
+    db  2, -1, $00 ; 0x0068
+    db  1,  0, $04 ; 0x0069
+    db  0,  0, $44 ; 0x006A
+    db  0,  0, $00 ; 0x006B
+    db  0,  1, $44 ; 0x006C
+    db  0,  0, $00 ; 0x006D
+    db  0,  0, $04 ; 0x006E
+    db  0,  0, $44 ; 0x006F
+    db  0,  1, $40 ; 0x0070
+    db  0,  2, $40 ; 0x0071
+    db  0, -1, $00 ; 0x0072
+    db  0, -2, $00 ; 0x0073
+    db  0,  0, $00 ; 0x0074
+    db  1,  0, $00 ; 0x0075
+    db  0,  0, $00 ; 0x0076
+    db  0,  1, $44 ; 0x0077
+    db  0, -1, $00 ; 0x0078
+    db  1,  1, $00 ; 0x0079
+    db  2,  1, $00 ; 0x007A
+    db  2,  4, $00 ; 0x007B
+    db  2,  1, $00 ; 0x007C
+    db  0,  0, $00 ; 0x007D
+    db  1,  0, $00 ; 0x007E
+    db  1,  0, $00 ; 0x007F
+    db  0,  0, $00 ; 0x0080
+    db  1,  0, $00 ; 0x0081
+    db  1, -1, $44 ; 0x0082
+    db  2, -1, $44 ; 0x0083
+    db  2, -4, $44 ; 0x0084
+    db  2, -1, $44 ; 0x0085
+    db  1,  0, $44 ; 0x0086
+    db  0,  0, $00 ; 0x0087
+    db  0,  0, $40 ; 0x0088
+    db  0,  0, $04 ; 0x0089
+    db  0,  0, $04 ; 0x008A
+    db  0,  0, $00 ; 0x008B
+    db  0,  0, $00 ; 0x008C
+    db  0,  0, $00 ; 0x008D
+    db  1,  0, $00 ; 0x008E
+    db  2,  0, $04 ; 0x008F
+    db  1,  0, $00 ; 0x0090
+    db  2,  0, $04 ; 0x0091
+    db  5,  1, $40 ; 0x0092
+    db  6,  1, $44 ; 0x0093
+    db  5, -1, $04 ; 0x0094
+    db  6, -1, $00 ; 0x0095
+    db  0,  0, $00 ; 0x0096
+    db  0,  0, $04 ; 0x0097
+    db  0,  0, $00 ; 0x0098
+    db  0,  0, $00 ; 0x0099
+    db  0,  0, $44 ; 0x009A
+    db  0,  0, $00 ; 0x009B
+    db 13,  3, $44 ; 0x009C
+    db 12,  5, $44 ; 0x009D
+    db 12,  5, $44 ; 0x009E
+    db 13, -3, $00 ; 0x009F
+    db 12, -5, $00 ; 0x00A0
+    db 12, -5, $00 ; 0x00A1
+    db  1,  0, $00 ; 0x00A2
+    db  0,  0, $00 ; 0x00A3
+    db  0,  0, $00 ; 0x00A4
+    db  1,  0, $00 ; 0x00A5
+    db  2,  0, $00 ; 0x00A6
+    db  0,  0, $44 ; 0x00A7
+    db  0,  0, $00 ; 0x00A8
+    db  0,  0, $00 ; 0x00A9
+    db  0,  0, $00 ; 0x00AA
+    db  0,  0, $44 ; 0x00AB
+    db  0,  0, $44 ; 0x00AC
+    db -1,  0, $04 ; 0x00AD
+    db  0,  0, $00 ; 0x00AE
+    db -1,  0, $00 ; 0x00AF
+    db -2,  0, $00 ; 0x00B0
+    db  0,  0, $00 ; 0x00B1
+    db  0,  0, $00 ; 0x00B2
+    db -1,  0, $00 ; 0x00B3
+    db -2,  0, $00 ; 0x00B4
+    db  0,  0, $00 ; 0x00B5
+    db  0,  0, $04 ; 0x00B6
+    db -1,  0, $00 ; 0x00B7
+    db -2,  0, $00 ; 0x00B8
+    db  0,  0, $00 ; 0x00B9
+    db -1,  0, $04 ; 0x00BA
+    db -2,  0, $04 ; 0x00BB
+    db  0,  0, $04 ; 0x00BC
+    db -1,  1, $44 ; 0x00BD
+    db -1,  0, $44 ; 0x00BE
+    db  0,  1, $44 ; 0x00BF
+    db  0,  1, $44 ; 0x00C0
+    db -1,  1, $44 ; 0x00C1
+    db -1,  0, $44 ; 0x00C2
+    db  0,  0, $44 ; 0x00C3
+    db -1, -1, $00 ; 0x00C4
+    db -1,  0, $00 ; 0x00C5
+    db  0, -1, $00 ; 0x00C6
+    db  0, -1, $00 ; 0x00C7
+    db -1, -1, $00 ; 0x00C8
+    db -1,  0, $00 ; 0x00C9
+    db  0,  0, $00 ; 0x00CA
+    db  0,  0, $04 ; 0x00CB
+    db  1,  0, $00 ; 0x00CC
+    db  2,  0, $00 ; 0x00CD
+    db  1,  0, $00 ; 0x00CE
+    db  2,  0, $00 ; 0x00CF
+    db  1,  0, $00 ; 0x00D0
+    db  2,  0, $00 ; 0x00D1
+    db  1,  0, $04 ; 0x00D2
+    db  2,  0, $04 ; 0x00D3
+    db  1,  1, $44 ; 0x00D4
+    db  2,  1, $44 ; 0x00D5
+    db  1, -1, $00 ; 0x00D6
+    db  2, -1, $00 ; 0x00D7
+    db  2,  0, $00 ; 0x00D8
+    db  2,  0, $00 ; 0x00D9
+    db  3,  0, $00 ; 0x00DA
+    db  3,  0, $00 ; 0x00DB
+    db  2, -2, $44 ; 0x00DC
+    db  2,  1, $44 ; 0x00DD
+    db  2,  2, $00 ; 0x00DE
+    db  2, -1, $00 ; 0x00DF
+    db  0,  0, $00 ; 0x00E0
+    db  1,  0, $00 ; 0x00E1
+    db  2,  0, $00 ; 0x00E2
+    db  1,  0, $04 ; 0x00E3
+    db  2,  0, $04 ; 0x00E4
+    db  2,  0, $00 ; 0x00E5
+    db  3,  0, $00 ; 0x00E6
+    db  4,  0, $00 ; 0x00E7
+    db  3,  0, $04 ; 0x00E8
+    db  4,  0, $04 ; 0x00E9
+    db  0,  0, $44 ; 0x00EA
+    db  1,  0, $44 ; 0x00EB
+    db  2,  0, $44 ; 0x00EC
+    db  0,  0, $00 ; 0x00ED
+    db  1,  0, $00 ; 0x00EE
+    db  2,  0, $00 ; 0x00EF
+    db  3,  0, $00 ; 0x00F0
+    db  2,  0, $00 ; 0x00F1
+    db -1,  0, $00 ; 0x00F2
+    db  0,  0, $00 ; 0x00F3
+    db  1,  0, $00 ; 0x00F4
+    db -1,  0, $00 ; 0x00F5
+    db  0,  0, $00 ; 0x00F6
+    db  1,  0, $00 ; 0x00F7
+    db -1,  0, $44 ; 0x00F8
+    db  0,  0, $44 ; 0x00F9
+    db  1,  0, $44 ; 0x00FA
+    db -1,  0, $44 ; 0x00FB
+    db  0,  0, $44 ; 0x00FC
+    db  1,  0, $44 ; 0x00FD
+    db  0,  0, $00 ; 0x00FE
+    db  1,  0, $00 ; 0x00FF
+    db  2,  0, $00 ; 0x0100
+    db  1,  0, $00 ; 0x0101
+    db  2,  0, $00 ; 0x0102
+    db  0,  0, $00 ; 0x0103
+    db  3,  0, $00 ; 0x0104
+    db  4,  0, $00 ; 0x0105
+    db  2,  0, $00 ; 0x0106
+    db  0, -1, $44 ; 0x0107
+    db  1,  1, $44 ; 0x0108
+    db  0,  1, $44 ; 0x0109
+    db  0,  1, $00 ; 0x010A
+    db  1,  1, $00 ; 0x010B
+    db  0, -1, $00 ; 0x010C
+    db  3,  0, $00 ; 0x010D
+    db  2,  0, $04 ; 0x010E
+    db  3,  0, $04 ; 0x010F
+    db  0,  2, $00 ; 0x0110
+    db  8,  8, $00 ; 0x0111
+    db  0,  0, $00 ; 0x0112
+    db  0,  0, $00 ; 0x0113
+    db -1,  0, $0F ; 0x0114
+    db  1,  0, $00 ; 0x0115
+    db  0,  0, $04 ; 0x0116
+    db  0,  0, $00 ; 0x0117
+    db  2,  0, $00 ; 0x0118
+    db  1,  4, $44 ; 0x0119
+    db  1, -4, $00 ; 0x011A
+    db  0,  0, $00 ; 0x011B
+    db  1,  0, $00 ; 0x011C
+    db  1,  0, $04 ; 0x011D
+    db  0,  0, $00 ; 0x011E
+    db  1,  0, $00 ; 0x011F
+    db  1,  0, $04 ; 0x0120
+    db  0,  1, $44 ; 0x0121
+    db  1,  1, $44 ; 0x0122
+    db  0, -1, $00 ; 0x0123
+    db  1, -1, $00 ; 0x0124
+    db  0,  0, $44 ; 0x0125
+    db -2,  0, $00 ; 0x0126
+    db  0, -2, $04 ; 0x0127
+    db  0,  0, $00 ; 0x0128
+    db  0,  1, $00 ; 0x0129
+    db  0,  0, $04 ; 0x012A
+    db 12,  0, $08 ; 0x012B
+    db 14,  0, $80 ; 0x012C
+    db 12,  0, $00 ; 0x012D
+    db 11,  0, $00 ; 0x012E
+}
 
 ; ==============================================================================
 
-incsrc "player_oam.asm"
+; $06838D-$06839A DATA
+PlayerOam_AuxFlip:
+{
+    db $00, $00, $00, $40, $40, $48, $C0
+    db $48, $C0, $48, $C0, $48, $C0, $40
+}
+
+; ==============================================================================
+; These are OAM props and characters for 3 separate positions for the sword,
+; and other weapons. $FFFF - do not draw
+; ==============================================================================
+
+; $06839B-$068562 DATA
+PlayerOam_WeaponTiles:
+{
+    dw $2A05, $2A06, $FFFF
+    dw $6A06, $6A05, $FFFF
+    dw $AA05, $AA06, $FFFF
+    dw $2A05, $2A06, $FFFF
+    dw $EA06, $EA05, $FFFF
+    dw $6A06, $6A05, $FFFF
+    dw $2A05, $FFFF, $2A15
+    dw $AA15, $FFFF, $AA05
+    dw $2A05, $FFFF, $2A15
+    dw $AA15, $FFFF, $AA05
+    dw $6A05, $FFFF, $6A15
+    dw $EA15, $FFFF, $EA05
+    dw $2A05, $FFFF, $FFFF
+    dw $AA05, $FFFF, $FFFF
+    dw $6A05, $FFFF, $FFFF
+    dw $EA05, $FFFF, $FFFF
+    dw $2A05, $FFFF, $FFFF
+    dw $AA05, $FFFF, $FFFF
+    dw $6A05, $FFFF, $FFFF
+    dw $EA05, $FFFF, $FFFF
+    dw $2A05, $FFFF, $FFFF
+    dw $AA05, $FFFF, $FFFF
+    dw $6A05, $FFFF, $FFFF
+    dw $EA05, $FFFF, $FFFF
+    dw $2A05, $FFFF, $FFFF
+    dw $AA05, $FFFF, $FFFF
+    dw $6A05, $FFFF, $FFFF
+    dw $EA05, $FFFF, $FFFF
+    dw $AA15, $FFFF, $FFFF
+    dw $2209, $FFFF, $2219
+    dw $2209, $FFFF, $2219
+    dw $221A, $FFFF, $2219
+    dw $A219, $FFFF, $A209
+    dw $2209, $FFFF, $2219
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2219, $2209, $FFFF
+    dw $6209, $FFFF, $FFFF
+    dw $6209, $6219, $FFFF
+    dw $A209, $E209, $FFFF
+    dw $2209, $6209, $FFFF
+    dw $6209, $FFFF, $E209
+    dw $2209, $FFFF, $A209
+    dw $A209, $FFFF, $FFFF
+    dw $6209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $E209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $6209, $FFFF, $FFFF
+    dw $6209, $FFFF, $FFFF
+    dw $221A, $FFFF, $FFFF
+    dw $221A, $FFFF, $FFFF
+    dw $221A, $FFFF, $FFFF
+    dw $221A, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $E209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $FFFF
+    dw $2209, $FFFF, $2219
+    dw $2209, $FFFF, $2219
+    dw $2209, $FFFF, $2219
+    dw $6209, $FFFF, $6219
+    dw $2209, $FFFF, $2219
+    dw $2209, $FFFF, $FFFF
+    dw $A219, $A209, $FFFF
+    dw $6209, $FFFF, $FFFF
+    dw $E209, $E219, $FFFF
+    dw $2809, $FFFF, $FFFF
+}
+
+; ==============================================================================
+; These are OAM props and characters for 3 separate positions for the shield.
+; $FFFF - do not draw
+; ==============================================================================
+
+; $068563-$0685CE DATA
+PlayerOam_ShieldTiles:
+{
+    dw $2A07, $FFFF, $FFFF ; down
+    dw $2A07, $FFFF, $FFFF ; up
+    dw $2A07, $FFFF, $FFFF ; right
+    dw $6A07, $FFFF, $FFFF ; left
+
+    dw $2A07, $FFFF, $FFFF ; The rest of these seem to be unused/garbage
+    dw $6A07, $FFFF, $FFFF
+    dw $2A07, $FFFF, $FFFF
+    dw $6A07, $FFFF, $FFFF
+
+    dw $2809, $FFFF, $2819
+    dw $2809, $FFFF, $2819
+    dw $281A, $FFFF, $2819
+    dw $A819, $FFFF, $A809
+
+    dw $2809, $FFFF, $2819
+    dw $2809, $FFFF, $FFFF
+    dw $2809, $FFFF, $FFFF
+    dw $2819, $2809, $FFFF
+
+    dw $6809, $FFFF, $FFFF
+    dw $6809, $6819, $FFFF
+}
+
+; ==============================================================================
+; OAM props and tiles for shadows
+; appears to be: formatted as:
+;   ABCC
+;   A - OAM props of left tile
+;   B - OAM props of right tile
+;   C - OAM char of both tiles
+;
+;  FFFF - no tile
+; ==============================================================================
+
+; $0685CF-$0685FA DATA
+PlayerOam_ShadowTiles:
+{
+    dw $286C, $686C ; normal shadow
+    dw $2828, $6828 ; small shadow
+    dw $2838, $FFFF ; used while falling
+    dw $286E, $686E ; unused and buggy
+    dw $287E, $687E ; unused and buggy
+    dw $24D8, $64D8 ; shallow water step 1
+    dw $24D9, $64D9 ; shallow water step 2
+    dw $24DA, $64DA ; shallow water step 3
+    dw $22C8, $62C8 ; grass step 1
+    dw $22C9, $62C9 ; grass step 2
+    dw $22CA, $62CA ; grass step 3
+}
+
+; ==============================================================================
+; These animation steps point to an index in PlayerOam_PoseData
+; ==============================================================================
+
+; $0685FB-0689F8 DATA
+PlayerOam_AnimationSteps:
+{
+    ; walking
+    ; charging dash
+    ; index 0 used for standing still
+    dw $0000, $00AE, $00AF, $00B0, $00B1, $00B2, $00B3, $00B4, $00B5 ; up
+    dw $0005, $00B6, $00B7, $00B8, $00B9, $00B6, $00BA, $00BB, $00BC ; down
+    dw $000A, $000A, $00BD, $00BE, $00BF, $00C0, $00C1, $00C2, $00C3 ; left
+    dw $000D, $000D, $00C4, $00C5, $00C6, $00C7, $00C8, $00C9, $00CA ; right
+
+    ; powder
+    dw $0010, $0010, $0011, $0011, $0012, $0012, $0013, $0013, $0013 ; up
+    dw $0014, $0014, $0015, $0015, $0016, $0016, $0017, $0017, $0017 ; down
+    dw $0018, $0018, $0019, $0019, $001A, $001A, $001B, $001B, $001B ; left
+    dw $001C, $001C, $001D, $001D, $001E, $001E, $001F, $001F, $001F ; right
+
+    ; walking with sword out
+    dw $0020, $0021, $0022, $0020, $0023, $0024 ; up
+    dw $0025, $0026, $0027, $0025, $0028, $0029 ; down
+    dw $002A, $002B, $002C, $002A, $002B, $002C ; left
+    dw $002D, $002E, $002F, $002D, $002E, $002F ; right
+
+    ; poking with sword
+    dw $0031, $0030, $0032 ; up
+    dw $0034, $0033, $0034 ; down
+    dw $0036, $0035, $0037 ; left
+    dw $0039, $0038, $003A ; right
+
+    ; falling
+    dw $003B, $003C, $003D, $003E, $003E, $003E
+
+    ; landing in underworld
+    dw $0000, $000D, $0005, $000A
+
+    ; bonk
+    dw $003F ; up
+    dw $0040 ; down
+    dw $0041 ; left
+    dw $0042 ; right
+
+    ; hammer
+    ; rods
+    dw $0043, $0044, $0045 ; up
+    dw $0046, $0047, $0048 ; down
+    dw $0049, $004A, $004B ; left
+    dw $004C, $004D, $004E ; right
+
+    ; bow
+    dw $0000, $0021, $0074 ; up
+    dw $0005, $0075, $0076 ; down
+    dw $002A, $001A, $0077 ; left
+    dw $002D, $001E, $0078 ; right
+
+    ; boomerang
+    dw $00A3, $00A4 ; up
+    dw $00A5, $00A6 ; down
+    dw $00A7, $001A ; left
+    dw $00A8, $001E ; right
+
+    ; tall grass
+    dw $0000, $00CE, $00CF, $0000, $00A2, $0024 ; up
+    dw $0005, $00D0, $00D1, $0005, $00D2, $00D3 ; down
+    dw $000A, $00D4, $00D5, $000A, $00D4, $00D5 ; left
+    dw $000D, $00D6, $00D7, $000D, $00D6, $00D7 ; right
+
+    ; desert prayer
+    dw $007D, $007E, $007F, $0080
+
+    ; shovel
+    dw $0053, $0054, $0055 ; left
+    dw $0056, $0057, $0058 ; right
+
+    ; walk carrying item
+    dw $0059, $005A, $005B, $0059, $005C, $005D ; up
+    dw $005E, $005F, $0060, $005E, $0061, $0062 ; down
+    dw $0063, $0064, $0065, $0063, $0064, $0065 ; left
+    dw $0066, $0067, $0068, $0066, $0067, $0068 ; right
+
+    ; throwing item
+    ; seems walk cycle based too
+    dw $0020, $0021, $0022, $0020, $0023, $0024 ; up
+    dw $0025, $0026, $0027, $0025, $0028, $0029 ; down
+    dw $002A, $002B, $002C, $002A, $002B, $002C ; left
+    dw $002D, $002E, $002F, $002D, $002E, $002F ; right
+
+    ; spin attack
+    dw $0069, $006A, $006B, $006B, $006C, $006C, $006D, $006D
+    dw $000D, $000D, $006E, $006F, $0070, $0071, $0072, $0073
+
+    ; lifting item
+    dw $00D8, $00D9, $00D9 ; up
+    dw $00DA, $00DB, $00DB ; down
+    dw $00DC, $00DD, $00DD ; left
+    dw $00DE, $00DF, $00DF ; right
+
+    ; treading water
+    dw $008E, $008F ; up
+    dw $0090, $0091 ; down
+    dw $0092, $0093 ; left
+    dw $0094, $0095 ; right
+
+    ; fast swim
+    dw $0098, $0096, $0097, $0096 ; up
+    dw $009B, $0099, $009A, $0099 ; down
+    dw $009E, $009C, $009D, $009C ; left
+    dw $00A1, $009F, $00A0, $009F ; right
+
+    ; slow swim
+    dw $0096, $0097, $0098 ; up
+    dw $0099, $009A, $009B ; down
+    dw $009C, $009D, $009E ; left
+    dw $009F, $00A0, $00A1 ; right
+
+    ; zap
+    dw $00AB, $00AB, $00AC, $00AC ; up
+    dw $00A9, $00A9, $00AA, $00AA ; down
+    dw $00AB, $00AB, $00AC, $00AC ; left
+    dw $00A9, $00A9, $00AA, $00AA ; right
+
+    ; medallion spin
+    dw $0025, $002A, $0020, $002D
+
+    ; ether
+    dw $006B, $00AD, $00AD, $00AD
+
+    ; bombos
+    dw $006B, $00CB, $00CB, $00CB, $00CB
+    dw $00CC, $00CC, $00CC, $00A6, $00A6
+
+    ; quake
+    dw $006B, $00CB, $005E, $00CD, $00CD
+
+    ; pushing
+    ; last item seems unused?
+    dw $00E0, $00E1, $00E2, $00E0, $00E3, $00E4 ; up
+    dw $00E5, $00E6, $00E7, $00E5, $00E8, $00E9 ; down
+    dw $00EA, $00EB, $00EC, $00EA, $00EB, $00EC ; left
+    dw $00ED, $00EE, $00EF, $00ED, $00EE, $00EF ; right
+
+    ; pull switch down
+    dw $0101, $0117, $0117, $0117, $0117
+
+    ; pull switch up
+    dw $00F0, $00F1, $00FF, $005E
+
+    ; ped pull
+    dw $00DB, $00FF
+
+    ; grabbing
+    dw $0101, $0117, $0117, $0117 ; up
+    dw $0104, $0118, $0118, $0118 ; down
+    dw $0107, $0119, $0119, $0119 ; left
+    dw $010A, $011A, $011A, $011A ; right
+
+    ; walking up spiral stairs
+    dw $00F5, $00F6, $00F7 ; lower
+    dw $00F2, $00F3, $00F4 ; higher
+
+    ; walking down spiral stairs
+    dw $00FB, $00FC, $00FD ; higher
+    dw $00F8, $00F9, $00FA ; lower
+
+    ; death
+    dw $0005, $000A, $0000, $000D, $0110, $0111
+
+    ; unused? arm swing
+    dw $0000, $0021, $0074 ; up
+    dw $0005, $0075, $0076 ; down
+    dw $002A, $001A, $0077 ; left
+    dw $002D, $001E, $0078 ; right
+
+    ; item gets
+    dw $0112 ; normal
+    dw $0113 ; crystal/triforce
+
+    ; sleep
+    dw $0114, $0115
+
+    ; hookshot
+    dw $0012 ; up
+    dw $0016 ; down
+    dw $001A ; left
+    dw $001E ; right
+
+    ; bunny walk
+    ; first frame used for standing still
+    dw $011B, $011C, $011B, $011D ; up
+    dw $011E, $011F, $011E, $0120 ; down
+    dw $0121, $0122, $0121, $0122 ; left
+    dw $0123, $0124, $0123, $0124 ; right
+
+    ; cane
+    dw $006F, $0125, $0126 ; up
+    dw $006A, $00CB, $0048 ; down
+    dw $0071, $0063, $001A ; left
+    dw $0127, $0066, $001E ; right
+
+    ; net
+    dw $0069 ; this first pose is unreachable
+    dw $00CB, $006B, $000A, $000A, $006D
+    dw $006D, $000D, $000D, $0070, $0072, $006E
+
+    ; sword up
+    dw $00CB
+
+    ; book
+    dw $0129
+
+    ; tree pull
+    dw $012B, $012C, $012D, $012E, $003F
+
+    ; sword slash
+    dw $0010, $0010, $004F, $004F, $0126, $0050, $0126, $0013, $0013 ; up
+    dw $0014, $0014, $0015, $0015, $0051, $0052, $0051, $0017, $0017 ; down
+    dw $0018, $0018, $0019, $0082, $0083, $0084, $0085, $0086, $0086 ; left
+    dw $001C, $001C, $001D, $0079, $007A, $007B, $007C, $0081, $0081 ; right
+}
+
+; ==============================================================================
+
+; $0689F9-$0D8A74 DATA
+PlayerOam_Aux1GFXIndex:
+{
+    ; falling
+    db $00, $FF, $FF, $02, $03, $04, $FF
+
+    ; landing in underworld
+    db $FF, $FF, $FF
+
+    ; lifting item
+    db $FF, $15, $17 ; up
+    db $FF, $15, $17 ; down
+    db $FF, $16, $18 ; left
+    db $FF, $15, $17 ; right
+
+    ; fast swim
+    db $13, $0B, $0F, $FF ; up
+    db $11, $09, $0D, $FF ; down
+    db $09, $12, $0D, $FF ; left
+    db $0A, $11, $0F, $FF ; right
+
+    ; medallion spin
+    db $FF, $FF, $FF, $FF
+
+    ; ether
+    db $FF, $FF, $FF, $FF
+
+    ; bombos
+    db $FF, $FF, $FF, $04, $03
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; quake
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; pull switch down
+    db $FF, $17, $17, $FF, $FF
+
+    ; pull switch up
+    db $FF, $FF, $FF, $FF
+
+    ; ped pull
+    db $FF, $FF
+
+    ; grabbing
+    db $FF, $17, $17, $FF ; up
+    db $FF, $15, $15, $FF ; down
+    db $FF, $18, $18, $FF ; left
+    db $FF, $17, $17, $FF ; right
+
+    ; sword slash
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $1A, $1A, $1A, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $19, $19, $19, $FF, $FF ; right
+}
+
+; ==============================================================================
+
+; $0D8A75-$068AF0 DATA
+PlayerOam_Aux2GFXIndex:
+{
+    ; falling
+    db $01, $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; landing in underworld
+    db $FF, $FF, $FF
+
+    ; lifting item
+    db $FF, $16, $18 ; up
+    db $FF, $16, $18 ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; fast swim
+    db $14, $0C, $10, $FF ; up
+    db $12, $0A, $0E, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; medallion spin
+    db $FF, $FF, $FF, $FF
+
+    ; ether
+    db $FF, $FF, $FF, $FF
+
+    ; bombos
+    db $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; quake
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; pull switch down
+    db $FF, $18, $18, $FF, $FF
+
+    ; pull switch up
+    db $FF, $FF, $FF, $FF
+
+    ; ped pull
+    db $FF, $FF
+
+    ; grabbing
+    db $FF, $18, $18, $FF ; up
+    db $FF, $16, $16, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; sword slash
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; right
+}
+
+; ==============================================================================
+
+; $068AF1-$068CEF DATA
+PlayerOam_WeaponGFXIndex:
+{
+    ; walking
+    ; charging dash
+    ; index 0 used for standing still
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; powder
+    db $01, $05, $0E, $1A, $06, $08, $10, $14, $00 ; up
+    db $00, $02, $0D, $19, $07, $0B, $13, $17, $01 ; down
+    db $06, $08, $10, $14, $00, $02, $0D, $19, $07 ; left
+    db $06, $0A, $12, $16, $01, $04, $0F, $1B, $07 ; right
+
+    ; walking with sword out
+    db $0A, $0A, $0A, $0A, $0A, $0A ; up
+    db $09, $09, $09, $09, $09, $09 ; down
+    db $00, $00, $00, $00, $00, $00 ; left
+    db $01, $01, $01, $01, $01, $01 ; right
+
+    ; poking with sword
+    db $06, $0A, $06 ; up
+    db $07, $09, $07 ; down
+    db $00, $00, $00 ; left
+    db $01, $01, $01 ; right
+
+    ; falling
+    db $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; landing in underworld
+    db $FF, $FF, $FF, $FF
+
+    ; bonk
+    db $08 ; up
+    db $0A ; down
+    db $0A ; left
+    db $08 ; right
+
+    ; hammer
+    ; rods
+    db $20, $1D, $21 ; up
+    db $1D, $22, $1E ; down
+    db $1F, $25, $26 ; left
+    db $1F, $23, $24 ; right
+
+    ; bow
+    db $2A, $27, $27 ; up
+    db $29, $28, $28 ; down
+    db $2C, $2A, $2A ; left
+    db $2D, $29, $29 ; right
+
+    ; boomerang
+    db $FF, $FF ; up
+    db $FF, $FF ; down
+    db $FF, $FF ; left
+    db $FF, $FF ; right
+
+    ; tall grass
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; desert prayer
+    db $FF, $FF, $FF, $FF
+
+    ; shovel
+    db $31, $31, $32 ; left
+    db $2F, $2F, $30 ; right
+
+    ; walk carrying item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; throwing item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; spin attack
+    db $0A, $08, $05, $04, $0B, $09, $02, $03
+    db $08, $0A, $09, $0B, $04, $05, $03, $02
+
+    ; lifting item
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; treading water
+    db $FF, $FF ; up
+    db $FF, $FF ; down
+    db $FF, $FF ; left
+    db $FF, $FF ; right
+
+    ; fast swim
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; slow swim
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; zap
+    db $FF, $00, $03, $03 ; up
+    db $FF, $01, $05, $05 ; down
+    db $FF, $00, $03, $03 ; left
+    db $FF, $01, $05, $05 ; right
+
+    ; medallion spin
+    db $09, $02, $06, $04
+
+    ; ether
+    db $04, $0A, $06, $06
+
+    ; bombos
+    db $0A, $06, $08, $08, $08
+    db $01, $04, $0F, $0B, $07
+
+    ; quake
+    db $04, $0A, $06, $07, $1C
+
+    ; pushing
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; pull switch down
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; pull switch up
+    db $FF, $FF, $FF, $FF
+
+    ; ped pull
+    db $FF, $FF
+
+    ; grabbing
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; walking up spiral stairs
+    db $FF, $FF, $FF ; lower
+    db $FF, $FF, $FF ; higher
+
+    ; walking down spiral stairs
+    db $FF, $FF, $FF ; higher
+    db $FF, $FF, $FF ; lower
+
+    ; death
+    db $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; unused? arm swing
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; item gets
+    db $FF ; normal
+    db $FF ; crystal/triforce
+
+    ; sleep
+    db $FF, $FF
+
+    ; hookshot
+    db $33 ; up
+    db $34 ; down
+    db $35 ; left
+    db $36 ; right
+
+    ; bunny walk
+    ; first frame used for standing still
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; cane
+    db $44, $44, $46 ; up
+    db $44, $44, $43 ; down
+    db $47, $44, $4A ; left
+    db $49, $45, $48 ; right
+
+    ; net
+    db $37
+    db $37, $38, $39, $3A, $3B
+    db $3C, $3D, $3E, $3F, $40, $41
+
+    ; sword up
+    db $06
+
+    ; book
+    db $4B
+
+    ; tree pull
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; sword slash
+    db $01, $05, $0E, $1A, $0A, $06, $08, $10, $14 ; up
+    db $00, $02, $0D, $19, $09, $07, $0B, $13, $17 ; down
+    db $06, $08, $10, $14, $03, $00, $02, $0D, $19 ; left
+    db $06, $0A, $12, $16, $05, $01, $04, $0F, $1B ; right
+}
+
+; ==============================================================================
+
+; $068CF0-$068EEE DATA
+PlayerOam_ShieldGFXIndex:
+{
+    ; walking
+    ; charging dash
+    ; index 0 used for standing still
+    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; up
+    db $00, $00, $00, $00, $00, $00, $00, $00, $00 ; down
+    db $03, $03, $03, $03, $03, $03, $03, $03, $03 ; left
+    db $02, $02, $02, $02, $02, $02, $02, $02, $02 ; right
+
+    ; powder
+    db $00, $00, $00, $00, $02, $02, $02, $02, $02 ; up
+    db $01, $01, $01, $01, $03, $03, $03, $03, $03 ; down
+    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; left
+    db $01, $01, $01, $01, $01, $01, $01, $01, $01 ; right
+
+    ; walking with sword out
+    db $02, $02, $02, $02, $02, $02 ; up
+    db $03, $03, $03, $03, $03, $03 ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; poking with sword
+    db $02, $02, $02 ; up
+    db $03, $03, $03 ; down
+    db $01, $01, $01 ; left
+    db $01, $01, $01 ; right
+
+    ; falling
+    db $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; landing in underworld
+    db $FF, $FF, $FF, $FF
+
+    ; bonk
+    db $01 ; up
+    db $00 ; down
+    db $01 ; left
+    db $01 ; right
+
+    ; hammer
+    ; rods
+    db $02, $02, $02 ; up
+    db $03, $03, $03 ; down
+    db $01, $01, $01 ; left
+    db $01, $01, $01 ; right
+
+    ; bow
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; boomerang
+    db $01, $02 ; up
+    db $00, $03 ; down
+    db $03, $01 ; left
+    db $02, $01 ; right
+
+    ; tall grass
+    db $01, $01, $01, $01, $01, $01 ; up
+    db $00, $00, $00, $00, $00, $00 ; down
+    db $03, $03, $03, $03, $03, $03 ; left
+    db $02, $02, $02, $02, $02, $02 ; right
+
+    ; desert prayer
+    db $FF, $FF, $FF, $FF
+
+    ; shovel
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; walk carrying item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; throwing item
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; spin attack
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; lifting item
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; treading water
+    db $FF, $FF ; up
+    db $FF, $FF ; down
+    db $FF, $FF ; left
+    db $FF, $FF ; right
+
+    ; fast swim
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; slow swim
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; zap
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; medallion spin
+    db $00, $03, $01, $02
+
+    ; ether
+    db $00, $00, $00, $00
+
+    ; bombos
+    db $00, $00, $00, $00, $00
+    db $03, $03, $03, $03, $03
+
+    ; quake
+    db $00, $00, $03, $00, $00
+
+    ; pushing
+    db $FF, $FF, $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF ; right
+
+    ; pull switch down
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; pull switch up
+    db $FF, $FF, $FF, $FF
+
+    ; ped pull
+    db $FF, $FF
+
+    ; grabbing
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; walking up spiral stairs
+    db $FF, $FF, $FF ; lower
+    db $FF, $FF, $FF ; higher
+
+    ; walking down spiral stairs
+    db $FF, $FF, $FF ; higher
+    db $FF, $FF, $FF ; lower
+
+    ; death
+    db $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; unused? arm swing
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; item gets
+    db $03 ; normal
+    db $FF ; crystal/triforce
+
+    ; sleep
+    db $FF, $FF
+
+    ; hookshot
+    db $02 ; up
+    db $03 ; down
+    db $FF ; left
+    db $FF ; right
+
+    ; bunny walk
+    ; first frame used for standing still
+    db $FF, $FF, $FF, $FF ; up
+    db $FF, $FF, $FF, $FF ; down
+    db $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF ; right
+
+    ; cane
+    db $FF, $FF, $FF ; up
+    db $FF, $FF, $FF ; down
+    db $FF, $FF, $FF ; left
+    db $FF, $FF, $FF ; right
+
+    ; net
+    db $FF
+    db $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF
+
+    ; sword up
+    db $FF
+
+    ; book
+    db $FF
+
+    ; tree pull
+    db $FF, $FF, $FF, $FF, $FF
+
+    ; sword slash
+    db $02, $02, $02, $02, $02, $02, $02, $02, $02 ; up
+    db $03, $03, $03, $03, $03, $03, $03, $03, $03 ; down
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; left
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF ; right
+}
+
+; ==============================================================================
+
+; $068EEF-$0690ED DATA
+LinkOAM_SwordOffsetY:
+{
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db   9,   5,  -2,  -6,  -8,  -5,  -3,  -1,   9 ; up
+    db  11,  15,  13,  17,  19,  17,  15,  13,  11 ; down
+    db  -2,   2,   3,   4,  12,  15,  14,  19,  19 ; left
+    db  -2,   2,   3,   4,  12,  15,  14,  19,  19 ; right
+
+    db  -5,  -4,  -3,  -5,  -4,  -3 ; up
+    db  16,  17,  18,  16,  17,  18 ; down
+    db  13,  14,  15,  13,  14,  15 ; left
+    db  13,  14,  15,  13,  14,  15 ; right
+
+    db  -3,  -7,   2 ; up
+    db  12,  18,  16 ; down
+    db  15,  13,  10 ; left
+    db  15,  13,  10 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    db  -1,  -1,  -1,  -1
+
+    db   2 ; up
+    db   3 ; down
+    db   6 ; left
+    db   6 ; right
+
+    db  -8,  -3,  -3 ; up
+    db  -3,  10,  18 ; down
+    db  -2,   2,  14 ; left
+    db  -2,   2,  14 ; right
+
+    db   5,   9,   9 ; up
+    db   9,  13,  13 ; down
+    db  10,   7,   7 ; left
+    db  10,   7,   7 ; right
+
+    db  -1,  -1 ; up
+    db  -1,  -1 ; down
+    db  -1,  -1 ; left
+    db  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1
+
+    db  10,  11,  -4 ; left
+    db  10,  11,  -4 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -4,  -8,   6,  15,  18,  18,  14,   6
+    db  -7,  -7,  14,  17,  16,   8,   5,  12
+
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    db  -1,  -1 ; up
+    db  -1,  -1 ; down
+    db  -1,  -1 ; left
+    db  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    db  -1,   8,   6,  10 ; up
+    db  -1,   8,   6,  10 ; down
+    db  -1,   8,   6,  10 ; left
+    db  -1,   8,   6,  10 ; right
+
+    db  16,  16,  -5,  16
+
+    db  13,  -4,  -5,  -5
+
+    db  -1,  -5,  -5,  -5,  -5
+    db  11,  15,  13,  17,  19
+
+    db  13,  -3,  -7,  18,  18
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1,  -1
+
+    db  -1,  -1,  -1,  -1
+
+    db  -1,  -1
+
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1 ; lower
+    db  -1,  -1,  -1 ; higher
+
+    db  -1,  -1,  -1 ; higher
+    db  -1,  -1,  -1 ; lower
+
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    db  -1 ; normal
+    db  -1 ; crystal/triforce
+
+    db  -1,  -1
+
+    db   2 ; up
+    db  17 ; down
+    db  12 ; left
+    db  12 ; right
+
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    db   5,  -2,  -9 ; up
+    db  -7,  -2,  16 ; down
+    db   2,  -2,  12 ; left
+    db   2,  -2,  12 ; right
+
+    db  -4
+    db  -5,   4,  14,  20,  15
+    db   8,  -3,  -8,  14,  -3,  15
+
+    db  -5
+
+    db   0
+
+    db  -1,  -1,  -1,  -1,  -1
+
+    db   9,   5,  -3,  -9, -11, -15,  -9,  -4,   0 ; up
+    db  11,  14,  12,  17,  19,  23,  17,  15,  13 ; down
+    db  -2,  -1,   0,   0,   9,  12,  16,  16,  19 ; left
+    db  -2,  -1,   0,   0,   9,  12,  16,  16,  19 ; right
+}
+
+; ==============================================================================
+
+; $0690EE-$0692ED DATA
+LinkOAM_SwordOffsetX:
+{
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  11,  10,   6,   2,   0,  -4, -10, -13, -15 ; up
+    db  -8,  -6,  -5,  -3,   8,  12,  10,  14,  15 ; down
+    db   3,  -2,  -7, -11, -14, -11,  -9,  -7,   3 ; left
+    db   5,  10,   7,  11,  14,  11,   9,   7,   5 ; right
+
+    db   0,   0,   0,   0,   0,   0 ; up
+    db   7,   7,   7,   7,   7,   7 ; down
+    db -10, -10, -10, -10, -10, -10 ; left
+    db  10,  10,  10,  10,  10,  10 ; right
+
+    db  -3,   2,  -3 ; up
+    db  10,   7,  10 ; down
+    db -12, -16,  -8 ; left
+    db  12,  16,   8 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    db  -1,  -1,  -1,  -1
+
+    db  -4 ; up
+    db  12 ; down
+    db   8 ; left
+    db   0 ; right
+
+    db  -2,  -2,  -2 ; up
+    db  10,  10,   9 ; down
+    db   1, -10, -11 ; left
+    db   7,  10,  11 ; right
+
+    db  -2,  -5,  -5 ; up
+    db   9,   2,   2 ; down
+    db  -2,  -3,  -3 ; left
+    db   2,  11,  11 ; right
+
+    db  -1,  -1 ; up
+    db  -1,  -1 ; down
+    db  -1,  -1 ; left
+    db  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1
+
+    db  -3,  -7,   8 ; left
+    db   3,   7,   0 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  13,   6,  14,  14,   8,  -1, -14, -14
+    db  -1,   9,  -5,   3,  10,  13, -11, -12
+
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    db  -1,  -1 ; up
+    db  -1,  -1 ; down
+    db  -1,  -1 ; left
+    db  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    db  -1, -14, -13, -12 ; up
+    db  -1,  14,  13,  12 ; down
+    db  -1, -14, -13, -12 ; left
+    db  -1,  14,  13,  12 ; right
+
+    db   7,  -9,   0,   9
+
+    db  14,  14,  10,  10
+
+    db  14,  11,   8,   8,   8
+    db  15,  14,  12,  12,   8
+
+    db  15,  14,  10,   4,   4
+
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1,  -1,  -1
+
+    db  -1,  -1,  -1,  -1
+
+    db  -1,  -1
+
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -1,  -1 ; lower
+    db  -1,  -1,  -1 ; higher
+
+    db  -1,  -1,  -1 ; higher
+    db  -1,  -1,  -1 ; lower
+
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    db  -1 ; normal
+    db  -1 ; crystal/triforce
+
+    db  -1,  -1
+
+    db   4 ; up
+    db   4 ; down
+    db  -7 ; left
+    db  15 ; right
+
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    db  -1,  -3,  -3 ; up
+    db   9,  12,   8 ; down
+    db  10,   3, -13 ; left
+    db -10,   5,  13 ; right
+
+    db  13
+    db  13,  16,  11,   2, -11
+    db -16,  -9,   0,   8,  -9, -11
+
+    db  12
+
+    db  -7
+
+    db  -1,  -1,  -1,  -1,  -1
+
+    db  11,   9,   7,   6,   3,  -1,  -5, -11, -14 ; up
+    db  -8,  -7,  -6,  -5,   5,   8,  12,  10,  14 ; down
+    db   3,  -2,  -8, -13, -16, -20, -15, -12,  -7 ; left
+    db   5,  10,   8,  13,  16,  20,  15,  12,   7 ; right
+}
+
+; ==============================================================================
+
+; $0692ED-$069368 DATA
+PlayerOam_Aux1Offset_Y:
+{
+    ; falling
+    db   0,  -1,  -1,   8,   8,   8,  -1
+
+    ; landing in underworld
+    db  -1,  -1,  -1
+
+    ; lifting item
+    db  -1,   7,  10 ; up
+    db  -1,   5,   8 ; down
+    db  -1,   8,  12 ; left
+    db  -1,   8,  12 ; right
+
+    ; fast swim
+    db   2,   7,  13,  -1 ; up
+    db  20,  14,   7,  -1 ; down
+    db  20,  21,  20,  -1 ; left
+    db  20,  21,  20,  -1 ; right
+
+    ; medallion spin
+    db  -1,  -1,  -1,  -1
+
+    ; ether
+    db  -1,  -1,  -1,  -1
+
+    ; bombos
+    db  -1,  -1,  -1,  -8,  -8
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; quake
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; pull switch down
+    db  -1,   5,  11,  -1,  -1
+
+    ; pull switch up
+    db  -1,  -1,  -1,  -1
+
+    ; ped pull
+    db  -1,  -1
+
+    ; grabbing
+    db  -1,   5,  11,  -1 ; up
+    db  -1,   6,   1,  -1 ; down
+    db  -1,  13,  15,  -1 ; left
+    db  -1,  13,  15,  -1 ; right
+
+    ; sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  12,  12,  12,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  12,  12,  12,  -1,  -1 ; right
+}
+
+; ==============================================================================
+
+; $069369-$0693E4 DATA
+PlayerOam_Aux1Offset_X:
+{
+    ; falling
+    db   8,  -1,  -1,   4,   4,   4,  -1
+
+    ; landing in underworld
+    db  -1,  -1,  -1
+
+    ; lifting item
+    db  -1,  -7,  -9 ; up
+    db  -1,  -8, -10 ; down
+    db  -1,  13,  16 ; left
+    db  -1,  -5,  -8 ; right
+
+    ; fast swim
+    db  -2,  -6,  -5,  -1 ; up
+    db  -1,  -5,  -6,  -1 ; down
+    db  -3,   4,   9,  -1 ; left
+    db  11,   4,  -1,  -1 ; right
+
+    ; medallion spin
+    db  -1,  -1,  -1,  -1
+
+    ; ether
+    db  -1,  -1,  -1,  -1
+
+    ; bombos
+    db  -1,  -1,  -1,   4,   4
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; quake
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; pull switch down
+    db  -1,  -5,  -8,  -1,  -1
+
+    ; pull switch up
+    db  -1,  -1,  -1,  -1
+
+    ; ped pull
+    db  -1,  -1
+
+    ; grabbing
+    db  -1,  -5,  -8,  -1 ; up
+    db  -1,  -5,  -8,  -1 ; down
+    db  -1,  15,  17,  -1 ; left
+    db  -1,  -7,  -9,  -1 ; right
+
+    ; sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -3,  -7,  -3,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  11,  15,  11,  -1,  -1 ; right
+}
+
+; ==============================================================================
+
+; $0693E5-$069460 DATA
+PlayerOam_Aux2Offset_Y:
+{
+    ; falling
+    db  16,  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; landing in underworld
+    db  -1,  -1,  -1
+
+    ; lifting item
+    db  -1,   7,  10 ; up
+    db  -1,   5,   8 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; fast swim
+    db   2,   7,  13,  -1 ; up
+    db  20,  14,   7,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; medallion spin
+    db  -1,  -1,  -1,  -1
+
+    ; ether
+    db  -1,  -1,  -1,  -1
+
+    ; bombos
+    db  -1,  -1,  -1,  -1,  -1
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; quake
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; pull switch down
+    db  -1,   5,  11,  -1,  -1
+
+    ; pull switch up
+    db  -1,  -1,  -1,  -1
+
+    ; ped pull
+    db  -1,  -1
+
+    ; grabbing
+    db  -1,   5,  11,  -1 ; up
+    db  -1,   6,   1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+}
+
+; ==============================================================================
+
+; $069461-$0694DC DATA
+PlayerOam_Aux2Offset_X:
+{
+    ; falling
+    db  -8,  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; landing in underworld
+    db  -1,  -1,  -1
+
+    ; lifting item
+    db  -1,  15,  17 ; up
+    db  -1,  16,  18 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; fast swim
+    db  10,  14,  13,  -1 ; up
+    db   9,  14,  14,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; medallion spin
+    db  -1,  -1,  -1,  -1
+
+    ; ether
+    db  -1,  -1,  -1,  -1
+
+    ; bombos
+    db  -1,  -1,  -1,  -1,  -1
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; quake
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; pull switch down
+    db  -1,  13,  16,  -1,  -1
+
+    ; pull switch up
+    db  -1,  -1,  -1,  -1
+
+    ; ped pull
+    db  -1,  -1
+
+    ; grabbing
+    db  -1,  13,  16,  -1 ; up
+    db  -1,  13,  16,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; sword slash
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1 ; right
+}
+
+; ==============================================================================
+
+; $0694DD-$0696DB DATA
+PlayerOam_ShieldOffsetY:
+{
+    ; walking
+    ; charging dash
+    ; index 0 used for standing still
+    db   5,   5,   4,   3,   5,   5,   4,   3,   5 ; up
+    db   9,  10,   9,   7,   8,  10,   9,   7,   8 ; down
+    db   5,   5,   4,   3,   4,   5,   4,   3,   4 ; left
+    db   5,   5,   4,   3,   4,   5,   4,   3,   4 ; right
+
+    ; powder
+    db  12,  12,   8,   8,   6,   6,   6,   6,   6 ; up
+    db   1,   1,   3,   3,   7,   7,   7,   7,   7 ; down
+    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; left
+    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; right
+
+    ; walking with sword out
+    db   5,   6,   7,   5,   6,   7 ; up
+    db   6,   7,   8,   6,   7,   8 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; poking with sword
+    db   7,   5,   7 ; up
+    db   7,   8,   7 ; down
+    db   5,   5,   5 ; left
+    db   5,   5,   5 ; right
+
+    ; falling
+    db  16,  -1,  -1,  -1,  -1,  -1
+
+    ; landing in underworld
+    db  -1,  -1,  -1,  -1
+
+    ; bonk
+    db   5 ; up
+    db   8 ; down
+    db   7 ; left
+    db   7 ; right
+
+    ; hammer
+    ; rods
+    db   6,   5,   5 ; up
+    db   7,   7,   7 ; down
+    db   5,   5,   5 ; left
+    db   5,   5,   5 ; right
+
+    ; bow
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; boomerang
+    db   6,   6 ; up
+    db  11,   7 ; down
+    db   4,   8 ; left
+    db   4,   8 ; right
+
+    ; tall grass
+    db   4,   5,   6,   4,   5,   6 ; up
+    db  10,  11,  12,  10,  11,  12 ; down
+    db   5,   6,   7,   5,   6,   7 ; left
+    db   5,   6,   7,   5,   6,   7 ; right
+
+    ; desert prayer
+    db  -1,  -1,  -1,  -1
+
+    ; shovel
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; walk carrying item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; throwing item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; spin attack
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; lifting item
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; treading water
+    db  -1,  -1 ; up
+    db  -1,  -1 ; down
+    db  -1,  -1 ; left
+    db  -1,  -1 ; right
+
+    ; fast swim
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; slow swim
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; zap
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; medallion spin
+    db  10,   5,   4,   5
+
+    ; ether
+    db  10,  10,  10,  10
+
+    ; bombos
+    db  10,  10,  10,  10,  10
+    db   7,   7,   7,   7,   7
+
+    ; quake
+    db  10,  10,   1,  10,  10
+
+    ; pushing
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; pull switch down
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; pull switch up
+    db  -1,  -1,  -1,  -1
+
+    ; ped pull
+    db  -1,  -1
+
+    ; grabbing
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; walking up spiral stairs
+    db  -1,  -1,  -1 ; lower
+    db  -1,  -1,  -1 ; higher
+
+    ; walking down spiral stairs
+    db  -1,  -1,  -1 ; higher
+    db  -1,  -1,  -1 ; lower
+
+    ; death
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; unused? arm swing
+    db   5,   5,   5 ; up
+    db   7,   7,   7 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; item gets
+    db   9 ; normal
+    db  -1 ; crystal/triforce
+
+    ; sleep
+    db  -1,  -1
+
+    ; hookshot
+    db   5 ; up
+    db   7 ; down
+    db  -1 ; left
+    db  -1 ; right
+
+    ; bunny walk
+    ; first frame used for standing still
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; cane
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; net
+    db  -1
+    db  -1,  -1,  -1,  -1,  -1
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; sword up
+    db  -1
+
+    ; book
+    db  -1
+
+    ; tree pull
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; sword slash
+    db   8,   8,   6,   6,   4,   2,   5,   6,   6 ; up
+    db   1,   1,   4,   4,   6,   8,   6,   6,   6 ; down
+    db   4,   4,   4,   4,   4,   4,   4,   4,   4 ; left
+    db   4,   4,   4,   4,   4,   4,   4,   4,   4 ; right
+}
+
+; ==============================================================================
+
+; $0696DC-$0698DB DATA
+PlayerOam_ShieldOffsetX:
+{
+    ; walking
+    ; charging dash
+    ; index 0 used for standing still
+    db   5,   5,   5,   5,   5,   5,   5,   5,   5 ; up
+    db  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4,  -4 ; down
+    db  -8,  -8,  -8,  -8,  -8,  -8,  -8,  -8,  -8 ; left
+    db   8,   8,   8,   8,   8,   8,   8,   8,   8 ; right
+
+    ; powder
+    db   6,   6,   8,   8,  10,  10,  10,  10,  10 ; up
+    db  -5,  -5,  -7,  -7, -10, -10, -10, -10, -10 ; down
+    db   1,   1,   1,   1,   0,   0,   0,   0,   0 ; left
+    db  -1,  -1,  -1,  -1,   0,   0,   0,   0,   0 ; right
+
+    ; walking with sword out
+    db   9,   9,   9,   9,   9,   9 ; up
+    db  -9,  -9,  -9,  -9,  -9,  -9 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; poking with sword
+    db  10,  10,  10 ; up
+    db -10, -10, -10 ; down
+    db   0,  -1,   0 ; left
+    db   0,   1,   0 ; right
+
+    ; falling
+    db  -4,  -1,  -1,  -1,  -1,  -1
+
+    ; landing in underworld
+    db  -1,  -1,  -1,  -1
+
+    ; bonk
+    db   8 ; up
+    db  -4 ; down
+    db   2 ; left
+    db  -3 ; right
+
+    ; hammer
+    ; rods
+    db   9,   9,   9 ; up
+    db -10, -10, -10 ; down
+    db   0,   0,   0 ; left
+    db   0,   0,   0 ; right
+
+    ; bow
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; boomerang
+    db   5,   9 ; up
+    db  -4, -10 ; down
+    db   0,   0 ; left
+    db   8,   0 ; right
+
+    ; tall grass
+    db   5,   5,   5,   5,   5,   5 ; up
+    db  -4,  -4,  -4,  -4,  -4,  -4 ; down
+    db  -8,  -8,  -8,  -8,  -8,  -8 ; left
+    db   8,   8,   8,   8,   8,   8 ; right
+
+    ; desert prayer
+    db  -1,  -1,  -1,  -1
+
+    ; shovel
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; walk carrying item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; throwing item
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; spin attack
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
+    db  -1,  -1,  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; lifting item
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; treading water
+    db  -1,  -1 ; up
+    db  -1,  -1 ; down
+    db  -1,  -1 ; left
+    db  -1,  -1 ; right
+
+    ; fast swim
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; slow swim
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; zap
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; medallion spin
+    db  -4,  -8,   5,   8
+
+    ; ether
+    db  -4,  -4,  -4,  -4
+
+    ; bombos
+    db  -5,  -5,  -5,  -5,  -5
+    db -10, -10, -10, -10, -10
+
+    ; quake
+    db  -5,  -5,  -7,  -4,  -4
+
+    ; pushing
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1,  -1,  -1 ; right
+
+    ; pull switch down
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; pull switch up
+    db  -1,  -1,  -1,  -1
+
+    ; ped pull
+    db  -1,  -1
+
+    ; grabbing
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; walking up spiral stairs
+    db  -1,  -1,  -1 ; lower
+    db  -1,  -1,  -1 ; higher
+
+    ; walking down spiral stairs
+    db  -1,  -1,  -1 ; higher
+    db  -1,  -1,  -1 ; lower
+
+    ; death
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; unused? arm swing
+    db   9,   9,   9 ; up
+    db -10, -10, -10 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; item gets
+    db  -6 ; normal
+    db  -1 ; crystal/triforce
+
+    ; sleep
+    db  -1,  -1
+
+    ; hookshot
+    db  10 ; up
+    db -10 ; down
+    db  -1 ; left
+    db  -1 ; right
+
+    ; bunny walk
+    ; first frame used for standing still
+    db  -1,  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1,  -1 ; right
+
+    ; cane
+    db  -1,  -1,  -1 ; up
+    db  -1,  -1,  -1 ; down
+    db  -1,  -1,  -1 ; left
+    db  -1,  -1,  -1 ; right
+
+    ; net
+    db  -1
+    db  -1,  -1,  -1,  -1,  -1
+    db  -1,  -1,  -1,  -1,  -1,  -1
+
+    ; sword up
+    db  -1
+
+    ; book
+    db  -1
+
+    ; tree pull
+    db  -1,  -1,  -1,  -1,  -1
+
+    ; sword slash
+    db  10,  10,  10,  10,  10,  10,  10,  10,  10 ; up
+    db  -9,  -9,  -9,  -9, -10, -10, -10, -10, -10 ; down
+    db   1,   1,   1,   2,   2,   2,   1,   2,   2 ; left
+    db  -1,  -1,  -1,  -2,  -2,  -2,  -1,  -2,  -2 ; right
+}
+
+; ==============================================================================
+
+; $0698DB-$0698E6 DATA
+PlayerOam_ShadowOffset_Y:
+{
+    db  16,  16,  17,  17
+    db  16,  16,  16,  16
+    db  18,  18,  18,  18
+}
+
+; ==============================================================================
+
+; $0698E7-$0698F2 DATA
+PlayerOam_ShadowOffset_X:
+{
+    db   0,   0,  -1,   1
+    db   0,   0,   0,   0
+    db   0,   0,   0,   0
+}
+
+; ==============================================================================
+    
+; $0698F3-$069AF1
+AttackHitboxOffset_Y:
+{
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $09, $05, $FE, $FA
+    db $F8, $FB, $FD, $07, $09, $0B, $0F, $15
+    
+    db $19, $1B, $19, $17, $0D, $0B, $FE, $02
+    db $03, $0C, $0C, $0F, $16, $1B, $1B, $FE
+    
+    db $02, $03, $0C, $0C, $0F, $16, $1B, $1B
+    db $FB, $FC, $FD, $FB, $FC, $FD, $18, $19
+    
+    db $1A, $18, $19, $1A, $0D, $0E, $0F, $0D
+    db $0E, $0F, $0D, $0E, $0F, $0D, $0E, $0F
+    
+    db $FD, $F9, $02, $14, $1A, $18, $0A, $0D
+    db $0F, $0A, $0D, $0F, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $F9, $FF, $FE, $FD, $0A, $1A
+    
+    db $FE, $03, $0E, $FE, $03, $0E, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $FC, $F8, $06, $0F
+    
+    db $1A, $1A, $0E, $06, $F9, $F9, $16, $1A
+    db $10, $08, $05, $0C, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $18, $10, $FB, $10
+    
+    db $0D, $FC, $FB, $FB, $FF, $FB, $FB, $FB
+    db $FB, $0B, $0F, $15, $19, $1B, $0D, $FD
+    
+    db $F9, $1A, $12, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $FC, $FB, $04, $0E, $14, $0F, $08, $FD
+    
+    db $F8, $0E, $FD, $0F, $80, $80, $80, $80
+    db $80, $80, $80, $09, $05, $FD, $F7, $F5
+    
+    db $F1, $F7, $FC, $08, $0B, $0E, $14, $19
+    db $1B, $1F, $19, $17, $0D, $FE, $FF, $00
+    
+    db $08, $09, $0C, $10, $18, $1E, $FE, $FF
+    db $00, $08, $09, $0C, $10, $18, $1E
+}
+
+; $069AF2-$069CF0 DATA
+AttackHitboxOffset_X:
+{
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $13, $12, $0E, $0A
+    db $00, $FC, $F6, $F3, $F1, $F8, $FA, $FB
+    
+    db $05, $08, $0C, $12, $16, $17, $03, $FE
+    db $F9, $F5, $F2, $F5, $F7, $01, $03, $05
+    
+    db $0A, $0F, $13, $16, $13, $11, $07, $05
+    db $00, $00, $00, $00, $00, $00, $07, $07
+    
+    db $07, $07, $07, $07, $F6, $F6, $F6, $F6
+    db $F6, $F6, $12, $12, $12, $12, $12, $12
+    
+    db $FD, $02, $FD, $0A, $07, $0A, $F0, $E8
+    db $EC, $10, $18, $14, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $FE, $FE, $FE, $0A, $0A, $0A
+    
+    db $01, $F6, $F5, $07, $12, $13, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $0D, $06, $16, $16
+    
+    db $08, $FF, $F2, $F2, $FF, $09, $FB, $03
+    db $12, $15, $F5, $F4, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $07, $F7, $00, $11
+    
+    db $16, $0E, $0A, $0A, $0E, $0B, $08, $08
+    db $08, $17, $16, $14, $0C, $08, $17, $0E
+    
+    db $0A, $0C, $0C, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    
+    db $80, $80, $80, $80, $80, $80, $80, $80
+    db $0D, $0D, $10, $0B, $02, $F5, $F0, $F7
+    
+    db $00, $0B, $F7, $F5, $80, $80, $80, $80
+    db $80, $80, $80, $13, $11, $0F, $0E, $03
+    
+    db $FF, $FB, $F5, $F2, $F8, $F9, $FA, $03
+    db $05, $08, $0C, $12, $16, $03, $FE, $F8
+    
+    db $F3, $F0, $EC, $F1, $F4, $01, $05, $0A
+    db $10, $15, $18, $1C, $17, $14, $07
+}
+
+
+; walking
+; charging dash
+; index 0 used for standing still
+; $069CF1-$069EEF DATA
+PlayerOam_Priority:
+{
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $0A, $0A, $0A, $0A, $0A, $0A, $0A
+    
+    db $0A, $0A, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $03, $03, $03, $03
+    db $03, $03, $03, $03, $01, $00, $00, $00
+    
+    db $00, $0B, $0B, $0B, $0B, $0B, $02, $02
+    db $02, $02, $02, $02, $00, $00, $00, $02
+    
+    db $02, $02, $02, $02, $02, $00, $00, $00
+    db $02, $02, $02, $02, $02, $02, $01, $01
+    
+    db $01, $01, $01, $01, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    
+    db $03, $03, $03, $06, $06, $06, $05, $05
+    db $05, $05, $05, $05, $01, $01, $01, $01
+    
+    db $01, $01, $01, $01, $01, $01, $02, $03
+    db $00, $00, $00, $03, $03, $06, $06, $06
+    
+    db $00, $00, $00, $00, $00, $00, $02, $02
+    db $02, $00, $00, $00, $00, $00, $00, $00
+    
+    db $00, $00, $00, $03, $03, $03, $02, $00
+    db $02, $00, $02, $02, $02, $02, $02, $02
+    
+    db $0A, $0A, $0A, $0A, $0A, $0A, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    
+    db $02, $02, $03, $03, $03, $03, $01, $01
+    db $02, $01, $01, $02, $04, $04, $04, $04
+    
+    db $04, $04, $03, $03, $03, $03, $03, $03
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $04, $04, $04, $04
+    db $04, $04, $03, $03, $03, $03, $03, $03
+    
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $05, $05
+    
+    db $05, $05, $05, $05, $02, $02, $05, $05
+    db $05, $05, $02, $05, $00, $00, $00, $00
+    
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    
+    db $07, $07, $07, $07, $08, $08, $08, $08
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    
+    db $00, $00, $00, $07, $07, $07, $07, $07
+    db $07, $07, $07, $07, $00, $00, $00, $00
+    
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $01, $01, $02, $01
+    
+    db $01, $01, $01, $01, $01, $03, $03, $0A
+    db $0A, $01, $01, $01, $01, $01, $01, $01
+    
+    db $01, $01, $01, $00, $00, $00, $00, $00
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $00, $00, $00, $02, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $01, $01, $02, $02
+    db $03, $06, $05, $05, $02, $02, $02, $02
+    
+    db $02, $02, $02, $02, $02, $02, $02, $02
+    db $02, $02, $02, $02, $00, $00, $02, $02
+    
+    db $00, $00, $00, $00, $00, $00, $00, $00
+    db $02, $02, $00, $00, $00, $00, $00, $02
+    
+    db $02, $00, $02, $00, $05, $02, $00, $00
+    db $00, $00, $00, $03, $03, $03, $03, $03
+    
+    db $03, $03, $03, $03, $00, $0B, $0B, $0B
+    db $0B, $0B, $0B, $0B, $0B, $02, $02, $02
+    
+    db $02, $02, $00, $00, $00, $00, $02, $02
+    db $02, $02, $02, $00, $00, $00, $00
+}
+
+; $069EF0-$06A02F DATA
+PlayerOam_AnimationStepDataOffsets:
+{
+    ; up
+    dw $0000 ; 0x00 - Walking
+    dw $0024 ; 0x01 - Powder duplicate unused?
+    dw $0048 ; 0x02 - Sword out/Dashing
+    dw $0060 ; 0x03 - Sword poke
+    dw $006C ; 0x04 - Falling
+    dw $0076 ; 0x05 - Bonking/Recoil
+    dw $007A ; 0x06 - Rods/Hammer
+    dw $0086 ; 0x07 - Bow
+    dw $0024 ; 0x08 - Powder
+    dw $0092 ; 0x09 - Boom
+    dw $009A ; 0x0A - Sloshing/Stairs
+    dw $00B2 ; 0x0B - Prayer
+    dw $00B9 ; 0x0C - Shovel
+    dw $00BC ; 0x0D - Carrying
+    dw $00D4 ; 0x0E - Throwing
+    dw $00EC ; 0x0F - Spin attack
+    dw $00FC ; 0x10 - Lifting
+    dw $0108 ; 0x11 - Treading water
+    dw $0110 ; 0x12 - Stroked swimming
+    dw $0120 ; 0x13 - Swimming
+    dw $012C ; 0x14 - Zapped
+    dw $013C ; 0x15 - Medallions
+    dw $0153 ; 0x16 - Pushing
+    dw $016B ; 0x17 - Switch pull
+    dw $0176 ; 0x18 - Grabbing/Pulling
+    dw $0186 ; 0x19 - Diagonally up stairs
+    dw $018C ; 0x1A - Diagonally down stairs
+    dw $0192 ; 0x1B - Spin and die
+    dw $0198 ; 0x1C - Arm swing (unused?)
+    dw $01A4 ; 0x1D - Item get
+    dw $01A5 ; 0x1E - 2 handed item get
+    dw $01A6 ; 0x1F - Sleeping
+    dw $01A8 ; 0x20 - Hookshot
+    dw $01AC ; 0x21 - Bunny
+    dw $01BC ; 0x22 - Cane
+    dw $01C8 ; 0x23 - Bug net
+    dw $01D4 ; 0x24 - Sword up
+    dw $01D5 ; 0x25 - Book
+    dw $01D6 ; 0x26 - Tree pull
+    dw $01DB ; 0x27 - Sword slash
+
+    ; down
+    dw $0009 ; 0x00 - Walking
+    dw $002D ; 0x01 - Powder duplicate unused?
+    dw $004E ; 0x02 - Sword out/Dashing
+    dw $0063 ; 0x03 - Sword poke
+    dw $006C ; 0x04 - Falling
+    dw $0077 ; 0x05 - Bonking/Recoil
+    dw $007D ; 0x06 - Rods/Hammer
+    dw $0089 ; 0x07 - Bow
+    dw $002D ; 0x08 - Powder
+    dw $0094 ; 0x09 - Boom
+    dw $00A0 ; 0x0A - Sloshing/Stairs
+    dw $00B2 ; 0x0B - Prayer
+    dw $00B9 ; 0x0C - Shovel
+    dw $00C2 ; 0x0D - Carrying
+    dw $00DA ; 0x0E - Throwing
+    dw $00EC ; 0x0F - Spin attack
+    dw $00FF ; 0x10 - Lifting
+    dw $010A ; 0x11 - Treading water
+    dw $0114 ; 0x12 - Stroked swimming
+    dw $0123 ; 0x13 - Swimming
+    dw $0130 ; 0x14 - Zapped
+    dw $013C ; 0x15 - Medallions
+    dw $0159 ; 0x16 - Pushing
+    dw $016B ; 0x17 - Switch pull
+    dw $017A ; 0x18 - Grabbing/Pulling
+    dw $0189 ; 0x19 - Diagonally up stairs
+    dw $018F ; 0x1A - Diagonally down stairs
+    dw $0192 ; 0x1B - Spin and die
+    dw $019B ; 0x1C - Arm swing (unused?)
+    dw $01A4 ; 0x1D - Item get
+    dw $01A5 ; 0x1E - 2 handed item get
+    dw $01A6 ; 0x1F - Sleeping
+    dw $01A9 ; 0x20 - Hookshot
+    dw $01B0 ; 0x21 - Bunny
+    dw $01BF ; 0x22 - Cane
+    dw $01C8 ; 0x23 - Bug net
+    dw $01D4 ; 0x24 - Sword up
+    dw $01D5 ; 0x25 - Book
+    dw $01D6 ; 0x26 - Tree pull
+    dw $01E4 ; 0x27 - Sword slash
+
+    ; left
+    dw $0012 ; 0x00 - Walking
+    dw $0036 ; 0x01 - Powder duplicate unused?
+    dw $0054 ; 0x02 - Sword out/Dashing
+    dw $0066 ; 0x03 - Sword poke
+    dw $006C ; 0x04 - Falling
+    dw $0078 ; 0x05 - Bonking/Recoil
+    dw $0080 ; 0x06 - Rods/Hammer
+    dw $008C ; 0x07 - Bow
+    dw $0036 ; 0x08 - Powder
+    dw $0096 ; 0x09 - Boom
+    dw $00A6 ; 0x0A - Sloshing/Stairs
+    dw $00B2 ; 0x0B - Prayer
+    dw $00B6 ; 0x0C - Shovel
+    dw $00C8 ; 0x0D - Carrying
+    dw $00E0 ; 0x0E - Throwing
+    dw $00EC ; 0x0F - Spin attack
+    dw $0102 ; 0x10 - Lifting
+    dw $010C ; 0x11 - Treading water
+    dw $0118 ; 0x12 - Stroked swimming
+    dw $0126 ; 0x13 - Swimming
+    dw $0134 ; 0x14 - Zapped
+    dw $013C ; 0x15 - Medallions
+    dw $015F ; 0x16 - Pushing
+    dw $016B ; 0x17 - Switch pull
+    dw $017E ; 0x18 - Grabbing/Pulling
+    dw $0186 ; 0x19 - Diagonally up stairs
+    dw $018C ; 0x1A - Diagonally down stairs
+    dw $0192 ; 0x1B - Spin and die
+    dw $019E ; 0x1C - Arm swing (unused?)
+    dw $01A4 ; 0x1D - Item get
+    dw $01A5 ; 0x1E - 2 handed item get
+    dw $01A6 ; 0x1F - Sleeping
+    dw $01AA ; 0x20 - Hookshot
+    dw $01B4 ; 0x21 - Bunny
+    dw $01C2 ; 0x22 - Cane
+    dw $01C8 ; 0x23 - Bug net
+    dw $01D4 ; 0x24 - Sword up
+    dw $01D5 ; 0x25 - Book
+    dw $01D6 ; 0x26 - Tree pull
+    dw $01ED ; 0x27 - Sword slash
+
+    ; right
+    dw $001B ; 0x00 - Walking
+    dw $003F ; 0x01 - Powder duplicate unused?
+    dw $005A ; 0x02 - Sword out/Dashing
+    dw $0069 ; 0x03 - Sword poke
+    dw $006C ; 0x04 - Falling
+    dw $0079 ; 0x05 - Bonking/Recoil
+    dw $0083 ; 0x06 - Rods/Hammer
+    dw $008F ; 0x07 - Bow
+    dw $003F ; 0x08 - Powder
+    dw $0098 ; 0x09 - Boom
+    dw $00AC ; 0x0A - Sloshing/Stairs
+    dw $00B2 ; 0x0B - Prayer
+    dw $00B9 ; 0x0C - Shovel
+    dw $00CE ; 0x0D - Carrying
+    dw $00E6 ; 0x0E - Throwing
+    dw $00EC ; 0x0F - Spin attack
+    dw $0105 ; 0x10 - Lifting
+    dw $010E ; 0x11 - Treading water
+    dw $011C ; 0x12 - Stroked swimming
+    dw $0129 ; 0x13 - Swimming
+    dw $0138 ; 0x14 - Zapped
+    dw $013C ; 0x15 - Medallions
+    dw $0165 ; 0x16 - Pushing
+    dw $016B ; 0x17 - Switch pull
+    dw $0182 ; 0x18 - Grabbing/Pulling
+    dw $0189 ; 0x19 - Diagonally up stairs
+    dw $018F ; 0x1A - Diagonally down stairs
+    dw $0192 ; 0x1B - Spin and die
+    dw $01A1 ; 0x1C - Arm swing (unused?)
+    dw $01A4 ; 0x1D - Item get
+    dw $01A5 ; 0x1E - 2 handed item get
+    dw $01A6 ; 0x1F - Sleeping
+    dw $01AB ; 0x20 - Hookshot
+    dw $01B8 ; 0x21 - Bunny
+    dw $01C5 ; 0x22 - Cane
+    dw $01C8 ; 0x23 - Bug net
+    dw $01D4 ; 0x24 - Sword up
+    dw $01D5 ; 0x25 - Book
+    dw $01D6 ; 0x26 - Tree pull
+    dw $01F6 ; 0x27 - Sword slash
+}
+
+; $06A030-$06A037 DATA
+PlayerOam_AnimationDirectionalStepIndexOffset:
+{ 
+    ; up, down, left, right 
+    dw $0000, $0050, $00A0, $00F0
+}
+
+; $06A038-$06A045 DATA
+; falling, lifting item, swim, medallions, pull switch, grabbing, sword slashQ
+PlayerOam_AuxAnimationStepDataOffset:
+{
+    dw $0000, $000A, $0016, $0026, $003D, $0048, $0058 ; up 
+
+    dw $0000, $000D, $001A, $0026, $003D, $004C, $0061 ; down 
+    
+    dw $0000, $0010, $001E, $0026, $003D, $0050, $006A ; left 
+    
+    dw $0000, $0013, $0022, $0026, $003D, $0054, $0073 ; right 
+}
+
+; $06A070-$06A077 DATA
+PlayerOam_AuxAnimationDirectionalStepIndexOffset:
+{
+    dw $0000, $000E, $001C, $002A
+}
+    
+; $06A078-$06A083 DATA
+PlayerOam_Aux1BufferOffsets_SetA:
+{
+    db $00, $08, $00, $08, $08, $0C, $14, $08
+    db $08, $00, $00, $00
+}
+
+; $06A084-$06A08F DATA
+PlayerOam_Aux2BufferOffsets_SetA:
+{
+    db $04, $0C, $04, $0C, $0C, $10, $18, $0C
+    db $0C, $0C, $04, $04
+}
+
+; $06A090-$06A09B DATA
+PlayerOam_WeaponBufferOffsets_SetA:
+{
+    db $08, $10, $10, $18, $10, $00, $00, $10
+    db $18, $10, $18, $10
+}
+
+; $06A09C-$06A0A7 DATA
+PlayerOam_ElfBufferOffsets_SetA:
+{
+    db $14, $1C, $08, $10, $00, $14, $18, $00
+    db $10, $04, $10, $1C
+}
+
+; $06A0A8-$06A0B3 DATA
+PlayerOam_ShieldBufferOffsets_SetA:
+{
+    db $1C, $00, $1C, $00, $18, $1C, $0C, $1C
+    db $24, $1C, $08, $08
+}
+
+; $06A0B4-$06A0BF
+PlayerOam_ShadowBufferOffsets_SetA:
+{
+    db $28, $28, $28, $28, $28, $28, $28, $28
+    db $00, $28, $28, $28
+}
+
+; $06A0C0-$06A0CC
+PlayerOam_Aux1BufferOffsets_SetB:
+{
+    db $14, $1C, $08, $10, $10, $14, $1C, $10
+    db $08, $08, $08, $14
+}
+
+; $06A0CC-$06A0D7
+PlayerOam_Aux2BufferOffsets_SetB:
+{
+    db $18, $20, $0C, $14, $14, $18, $20, $14
+    db $0C, $14, $0C, $18
+}
+
+; $06A0D8-$06A0E3
+PlayerOam_WeaponBufferOffsets_SetB:
+{
+    db $00, $00, $18, $20, $18, $00, $00, $18
+    db $18, $18, $20, $00
+}
+
+; $06A0E4-$060AEF
+PlayerOam_ElfBufferOffsets_SetB:
+{
+    db $1C, $24, $10, $18, $08, $1C, $24, $08
+    db $10, $0C, $18, $24
+}
+
+; $060AF0-$06A0FB
+PlayerOam_ShieldBufferOffsets_SetB:
+{
+    db $24, $14, $24, $08, $20, $24, $14, $24
+    db $24, $24, $10, $1C
+}
+
+; $06A0FC-$06A107
+PlayerOam_ShadowBufferOffsets_SetB:
+{
+    db $0C, $0C, $00, $00, $00, $0C, $0C, $00
+    db $00, $00, $00, $00
+}
+
+; $06A108-$06A11F DATA
+PlayerOam_PlayerOam_Aux1BufferOffsetPointers:
+{
+    dw PlayerOam_Aux1BufferOffsets_SetA
+    dw PlayerOam_Aux1BufferOffsets_SetB
+}
+    
+; $06A10C-$06A10F DATA
+PlayerOam_Aux2BufferOffsetPointers:
+{
+    dw $A084, $A0CC
+}
+
+; $06A110-$06A113 DATA
+PlayerOam_WeaponBufferOffsetPointers:
+{
+    dw $A090, $A0D8
+}
+
+; $06A114-$06A117 DATA
+PlayerOam_ElfBufferOffsetPointers:
+{
+    dw $A09C, $A0E4
+}
+    
+; $06A118-$06A11B DATA
+PlayerOam_ShieldBufferOffsetPointers:
+{
+    dw $A0A8, $A0F0
+}
+    
+; $06A11C-$06A11F DATA
+PlayerOam_ShadowBufferOffsetPointers:
+{
+    dw $A0B4, $A0FC
+}
+
+; $06A120-$06A125 DATA
+LinkOAM_OAMBufferOffset:
+{
+    ; Two possible offsets into OAM buffer for player sprite.
+    dw $0190, $00E0
+    
+    ; Another optional offset into the OAM buffer for the player sprite.
+    dw $0000
+}
+
+; $06A126-$06A12D DATA
+LinkOAM_ObjectPriority:
+{
+    dw $2000, $1000, $3000, $2000
+}
+
+; $06A12E-$06A130 DATA
+PlayerOam_RodTypeID:
+{
+    ; Has to do with fire rod and ice rod oam handling...
+    db $02, $04, $04
+}
+
+; $06A131-$06A139 DATA
+PlayerOam_StairsSomething:
+{
+    db $00, $01, $02, $00, $01, $02, $00, $01, $02
+}
+
+; $06A13A-$06A141 DATA
+PlayerOam_ItemsAUseIndex:
+{
+    ; rod, hammer, n/a, n/a, bow, n/a, powder, boomerang
+    db $06, $06, $06, $06, $07, $07, $08, $09
+}
+
+; $06A142-$06A147 DATA
+PlayerOam_ItemsBUseIndex:
+{
+    ; shovel, unused prayer, hookshot, cane, net, book
+    db $0C, $0B, $20, $22, $23, $25
+}
+
+; $06A148-$06A14F DATA
+PlayerOam_WeirdGrabIndices:
+{
+    ; Methinks the 0x26 belongs to the previous array...?
+    db $26, $0B, $0B, $0C, $0B, $0B, $0B, $0D
+}
+
+; $06A150-$06A15D DATA
+PlayerOam_AnimationsWithAuxParts:
+{
+    ; Special poses to check for?
+    dw $0004, $0010, $0012, $0015, $0017, $0018, $0027
+}
+
+; $06A15E-$06A18D
+PlayerOam_StraightStairsYOffset:
+{
+    dw  0, -2, -3,  0, -2, -3
+    dw  0,  0,  0,  0,  0,  0
+    
+    ; $06A176
+    dw  0, -2, -3,  0, -2, -3
+    dw  0,  0,  0,  0,  0,  0
+}
+    
+; $72 = 0x00 if not standing in water or grass, 0x02 otherwise
+; $06A18E-$06AAC2 LONG JUMP LOCATION
+PlayerOam_Main:
+{
+    PHB : PHK : PLB
+    
+    LDY.b #$00
+    
+    LDA.b $11 : CMP.b #$12 : BEQ .on_straight_interroom_staircase   
+        LDY.b #$18
+        
+        ; Checks for submodules 0x12 and 0x13
+        CMP.b #$13 : BNE .not_on_straight_interroom_staircase
+
+    .on_straight_interroom_staircase
+
+    STY.b $00
+    
+    LDA.b $20 : PHA
+    LDA.b $21 : PHA
+    
+    LDY.b #$00
+    
+    LDA.w $0462 : AND.b #$04 : BEQ .is_straight_up_staircase
+        LDY.b #$0C
+
+    .is_straight_up_staircase
+
+    TYA : CLC : ADC.b $00 : STA.b $00
+    
+    ; Link's frame index shouldn't be more than 5 on this kind of staircase.
+    LDA.b $2E : CMP.b #$06 : BCC .frame_index_in_range
+        LDA.b #$00
+
+    .frame_index_in_range
+
+    ASL A : CLC : ADC.b $00 : TAY
+    
+    REP #$20
+    
+    ; Ultimately, we have determined an offset to be applied to the player's
+    ; Y coordinate, just for the sake of sprite display. The value of the Y
+    ; coordinate will be restored near the end of this routine.
+    LDA PlayerOam_StraightStairsYOffset, Y : CLC : ADC.b $20 : STA.b $20
+    
+    SEP #$20
+
+    .not_on_straight_interroom_staircase
+
+    ; Assumes this is not submodule 0x12 or 0x13
+    
+    LDA.b $20 : SEC : SBC.b $E8 : STA.b $01
+    LDA.b $22 : SEC : SBC.b $E2 : STA.b $00
+    
+    LDA.b #$80 : STA.b $45 : STA.b $44
+    
+    LDX.b #$00
+    
+    ; Check if we need to draw grass or water around Link (he'd be standing in
+    ; one of those).
+    LDA.w $0351 : BEQ .not_in_water_or_grass
+        LDX.b #$01
+
+    .not_in_water_or_grass
+
+    ; 0 or 1, eh?...
+    TXA : ASL A : STA.b $72 : STZ.b $73
+    
+    REP #$20
+    
+    LDA.b $EE : AND.w #$00FF : ASL A : TAX
+    
+    ; Determine OAM priority from floor level the player is on (BG2 -> 0x2000,
+    ; BG1 -> 0x1000, there's two other settings but not clear what they're used
+    ; for.)
+    LDA.w PlayerOam_ObjectPriority, X : STA.b $64
+    
+    ; Check "sort sprites" setting (HM name)
+    LDA.w $0FB3 : ASL A : TAY
+    
+    ; "sort sprites" here serves as a selector for where in the OAM buffer we
+    ; want to start entering in sprite data for the player. (0x0190 or 0x00E0)
+    LDA.w PlayerOam_OAMBufferOffset, Y : STA.w $0352
+    
+    SEP #$20
+    
+    ; Is Link asleep in bed (starting sequence)?
+    LDA.b $5D : CMP.b #$16 : BNE .notInBed
+        LDY.b #$1F
+        
+        LDA.w $037D : CMP.b #$02 : BEQ .notInBed
+            STA.b $02
+            
+            BRL .PlayerOam_ContinueWithAnimation
+
+    .notInBed
+
+    LDA.w $03EF : BEQ .notHoldingUpSword
+        LDY.b #$24
+        
+        STZ.b $02
+        
+        LDA.b $2F : STA.w $0323
+        
+        BRL .PlayerOam_ContinueWithAnimation
+
+    .notHoldingUpSword
+
+    LDA.w $02E0 : BEQ .not_transforming
+        LDY.b #$21
+        
+        LDA.b $2E : AND.b #$03 : STA.b $02
+        
+        LDA.b $2F : STA.w $0323
+        
+        BRL .PlayerOam_ContinueWithAnimation
+
+    .not_transforming
+
+    LDY.b #$00
+    
+    LDA.w $0351 : BEQ .not_in_water_or_grass_2
+        LDY.b #$0A
+
+    .not_in_water_or_grass_2
+
+    LDA.b $11 : CMP.b #$0E : BNE .BRANCH_MU
+        ; Is the player dead / dying?
+        LDA.b $10 : CMP.b #$12 : BEQ .BRANCH_MU
+            LDY.b #$0A
+            
+            LDA.b $28 : BEQ .BRANCH_MU
+                LDX.b $2F
+                
+                CPX.b #$04 : BEQ .facing_left_or_right
+                CPX.b #$06 : BEQ .facing_left_or_right
+                    LDX.b $2E
+                    
+                    LDA.w $A131, X : STA.b $02
+                    
+                    LDY.b #$19
+                    
+                    LDA.w $0462 : AND.b #$04 : BEQ .is_up_spiral_staircase
+                        LDY.b #$1A
+                        
+                        BRA .BRANCH_XI
+
+    .BRANCH_MU
+
+    LDA.w $0376 : AND.b #$03 : BEQ .notGrabbingWall
+        LDY.b #$18
+        
+        LDA.w $030A : STA.b $02
+        
+        BRA .BRANCH_XI
+
+    .notGrabbingWall
+
+    LDA.b $48 : AND.b #$0D : BEQ .not_feeling_grabby
+        LDY.b #$16
+        
+        LDA.b $2E : CMP.b #$05 : BCC .not_feeling_grabby
+            STZ.b $2E
+
+    .not_feeling_grabby
+    .facing_left_or_right
+
+    LDA.b $2E : STA.b $02
+
+    .is_up_spiral_staircase
+    .BRANCH_XI
+
+    LDA.b $2F : STA.w $0323
+    
+    LDA.w $0345 : BEQ .not_in_deep_water
+        ; Force to priority level 2 if we're in deep water.
+        LDA.b #$20 : STA.b $65 : STZ.b $64
+
+    .not_in_deep_water
+
+    LDA.b $5D : CMP.b #$04 : BNE .not_swimming
+        LDY.b #$11
+        
+        LDA.b $02 : AND.b #$01 : STA.b $02
+        
+        LDA.b $11 : BNE .skip_stroke_check
+            ; Check previous button presses
+            LDA.b $F0 : AND.b #$0F : BNE .swim_strokes
+
+        .skip_stroke_check
+
+        LDA.w $033C : ORA.w $033D : ORA.w $033E : ORA.w $033F : BEQ .no_swim_accel
+            .swim_strokes
+
+            LDY.b #$13
+            
+            LDA.w $02CC : STA.b $02
+
+        .no_swim_accel
+
+        LDA.w $032A : BEQ .not_stroking_hard
+            DEC A : STA.b $02
+            
+            LDY.b #$12
+
+        .not_stroking_hard
+
+        BRL .PlayerOam_ContinueWithAnimation
+
+    .not_swimming
+
+    LDA.w $02DA : BEQ .not_in_hold_item_pose
+        STZ.b $02
+        
+        LDY.b #$1E
+        
+        CMP.b #$02 : BEQ .two_hand_hold_item_pose
+            LDY.b #$1D
+
+        .two_hand_hold_item_pose
+
+        BRA not_stroking_hard
+
+    .not_in_hold_item_pose
+
+    ; Has something to do with the death module. Perhaps the player sprite
+    ; lying down?
+    LDA.w $036B : AND.b #$01 : BEQ .nothing_with_desert_cutscene
+        LDA.w $030A : STA.b $02
+        
+        LDY.b #$1B
+        
+        BRA .not_stroking_hard
+
+    .nothing_with_desert_cutscene
+
+    LDA.b $4D  : BEQ .nothing_with_swim
+        CMP.b #$01 : BEQ .check_if_som_platform
+            CMP.b #$04 : BNE .nothing_with_swim
+                LDY.b #$13
+                
+                LDA.b $1A : AND.b #$18 : LSR #3 : TAX
+                
+                LDA.l $079635, X : STA.b $02
+                
+                BRL .PlayerOam_ContinueWithAnimation
+
+        .check_if_som_platform
+
+        LDA.b $5D : CMP.b #$05 : BNE .notOnSomariaPlatform
+            LDA.w $034E : BNE .dont_somaria_priority
+                LDA.b #$30 : STA.b $65 : STZ.b $64
+
+            .dont_somaria_priority
+
+            BRL .check_if_grabbing
+
+        .notOnSomariaPlatform
+
+        ; Is the player using the hookshot?
+        LDA.b $5D : CMP.b #$13 : BEQ .nothing_with_swim
+            LDA.b $55 : BNE .nothing_with_swim
+                LDY.b #$05
+                
+                LDA.w $0360 : BEQ .no_electroction_flag
+                
+                LDY.b #$14
+                
+                LDA.w $0300 : AND.b #$03
+
+                .no_electroction_flag
+
+                STA.b $02
+                
+                BRL .PlayerOam_ContinueWithAnimation
+
+    .nothing_with_swim
+
+    LDA.b $5B  : BEQ .no_slip_drawing
+    CMP.b #$01 : BEQ .no_slip_drawing
+        CMP.b #$03 : BNE .not_fully_falling
+            ; Use an offset of 0x0000 in the OAM buffer when the player is
+            ; falling into a hole or to the floor below?
+            LDA PlayerOam_OAMBufferOffset+4 : STA.w $0352
+            LDA PlayerOam_OAMBufferOffset+5 : STA.w $0353
+
+        .not_fully_falling
+
+        LDA.b $5A : STA.b $02 : CMP.b #$06 : BCC .not_max_fall_priority
+            LDA.b $65 : ORA.b #$30 : STA.b $65
+
+        .not_max_fall_priority
+
+        LDY.b #$04
+        
+        BRL .PlayerOam_ContinueWithAnimation
+
+    .no_slip_drawing
+
+    LDA.w $0308 : BEQ .not_carrying_something
+        JSR PlayerOam_GetHighestSetBit
+        
+        ; This comparison would seem to indicate that some other part of the
+        ; code gives a crap about bit 6 of this variable, but in truth the only
+        ; relevant bits are 0 and 7. They could have just used a BMI
+        ; instruction.
+        CPX.b #$06 : BCS .keep_lift_direction
+            ; Force player to face down...? Why?
+            LDA.b #$02 : STA.w $0323
+
+        .keep_lift_direction
+
+        LDY.w $A148, X : CPY.b #$0D : BCC .check_desert_step_counter
+            LDA.w $0309 : AND.b #$02 : BEQ .not_throwing_object
+                INY
+
+            .not_throwing_object
+
+            LDA.w $0309 : AND.b #$01 : BEQ .not_lifting_object
+                LDY.b #$10
+                
+                BRA .check_desert_step_counter
+
+            .not_lifting_object
+
+            LDA.w $0308 : AND.b #$80 : BEQ .check_desert_step_counter
+                BRL .PlayerOam_ContinueWithAnimation
+
+        .check_desert_step_counter
+
+        LDA.w $030A
+        
+        BRA .set_item_use_anim
+
+    .not_carrying_something
+
+    LDA.w $0377 : BEQ .not_grabbing_at_all
+        DEC A
+        
+        LDY.b #$17
+        
+        BRA .set_item_use_anim
+
+    .not_grabbing_at_all
+
+    LDA.w $0301 : BEQ .not_using_items_a
+        JSR PlayerOam_GetHighestSetBit
+        
+        LDY.w PlayerOam_ItemsAUseIndex, X
+        
+        BRA .continue_with_items_a
+
+    .not_using_items_a
+
+    LDA.w $037A : BEQ .not_using_items_b
+        JSR PlayerOam_GetHighestSetBit
+        
+        LDY.w PlayerOam_ItemsBUseIndex, X
+
+        .continue_with_items_a
+
+        LDA.w $0300
+
+        .set_item_use_anim
+
+        STA.b $02
+        
+        BRA .PlayerOam_ContinueWithAnimation
+
+    .not_using_items_b
+
+    LDA.b $5D : CMP.b #$0A : BEQ .using_medallion
+                CMP.b #$08 : BEQ .using_medallion
+        CMP.b #$09 : BNE .not_using_medallion
+
+    .using_medallion
+
+    LDY.b #$15
+    
+    BRA .continue_with_medallion
+
+    .not_using_medallion
+
+    CMP.b #$1E : BEQ .using_spin_attack
+        CMP.b #$03 : BNE .not_spinning
+
+    .using_spin_attack
+
+    LDY.b #$0F
+
+    .continue_with_medallion
+
+    LDA.w $031C : STA.b $02
+    
+    BRA .PlayerOam_ContinueWithAnimation
+
+    .not_spinning
+
+    ; Check B button status:
+    ; B button not down
+    LDA.b $3A : AND.b #$80 : BEQ .PlayerOam_ContinueWithAnimation
+        ; Check how long the B button has been pressed:
+        ; Not nine frames.
+        LDA.b $3C : CMP.b #$09 : BNE .not_fully_primed_sword
+            LDY.b #$02
+            
+            BRA .PlayerOam_ContinueWithAnimation
+
+        .not_fully_primed_sword
+
+        LDY.b #$27
+        
+        ; B button has been pressed less than 9 frames
+        LDA.b $3C : STA.b $02
+        CMP.b #$09 : BCC .PlayerOam_ContinueWithAnimation
+            LDA.b $02 : SEC : SBC.b #$0A : STA.b $02
+            
+            LDY.b #$03
+
+    .PlayerOam_ContinueWithAnimation
+
+    STY.w $0354 : CPY.b #$05 : BEQ .not_recoiling
+        LDA.b $64 : STA.w $035D
+        LDA.b $65 : STA.w $035E
+
+    .not_recoiling
+
+    STZ.b $03
+    
+    LDA.b $02 : STA.b $76
+    
+    REP #$30
+    
+    LDA.b $2F : AND.w #$00FF : TAX
+    
+    LDA PlayerOam_AuxAnimationDirectionalStepIndexOffset, X
+    STA.b $74
+
+    LDA PlayerOam_AnimationDirectionalStepIndexOffset, X
+    STA.b $04 ; Multiples of 0x50...
+    
+    ; I think Y is the "pose" for the particular direction we're facing.
+    TYA : AND.w #$00FF : ASL A : CLC : ADC.b $04 : TAY
+    
+    ; $02 is probably a subpose index...
+    LDA PlayerOam_AnimationStepDataOffsets, Y
+    CLC : ADC.b $02 : STA.b $02 : TAY
+    
+    LDA PlayerOam_Priority, Y : AND.w #$00FF : STA.b $04
+    
+    LDA.w #$0E00 : STA.w $0346
+    
+    LDA.w $0ABD : BEQ .not_alternate_palette
+        ; Use palette SP0 instead of SP7.
+        STZ.w $0346
+
+    .not_alternate_palette
+
+    STZ.w $0102
+    STZ.w $0104
+    
+    LDX.w #$000C
+
+    .check_next
+
+        LDA.w $0354 : AND.w #$00FF : CMP PlayerOam_AnimationsWithAuxParts, X : BEQ .match
+    DEX #2 : BPL  .check_next
+    
+    BRL .PlayerOam_NoAux
+
+    .match
+
+    TXA : AND.w #$00FF : CLC : ADC.b $74 : TAX
+    
+    LDA.b $76 : AND.w #$00FF : CLC : ADC PlayerOam_AuxAnimationStepDataOffset, X : STA.b $74
+    
+    LDY.b $74
+    
+    LDA PlayerOam_Aux1GFXIndex, Y : AND.w #$00FF : CMP.w #$00FF : BNE .continue_aux1
+        BRL .no_aux1
+
+    .continue_aux1
+
+    ASL A : STA.w $0102
+    
+    LDX.b $72
+    
+    LDA PlayerOam_PlayerOam_Aux1BufferOffsetPointers, X : STA.b $0A
+    
+    LDY.b $04
+    
+    LDA ($0A), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    LDY.b $74
+    
+    SEP #$20
+    
+    LDA.b $25 : BMI .aux1_z_negative
+        LDA.b $24
+        
+        BRA .aux1_z_continue
+
+    .aux1_z_negative
+
+    LDA.b $24 : CMP.b #$F0 : BCC .aux1_z_continue
+        LDA.b #$00
+
+    .aux1_z_continue
+
+    STA.b $0F : STZ.b $0E
+    
+    LDA.w PlayerOam_Aux1Offset_Y, Y
+    CLC : ADC.b $01 : SEC : SBC.b $0F : STA.w $0801, X
+
+    LDA.w PlayerOam_Aux1Offset_X, Y
+    CLC : ADC.b $00 : STA.w $0800, X
+    
+    REP #$20
+    
+    LDA PlayerOam_Aux1GFXIndex, Y : AND.w #$00FF : STA.b $06
+    
+    LSR A : TAY
+    
+    LDA.w $838C, Y : TAY
+    
+    LDA.b $06 : AND.w #$0001 : BEQ .dont_shift_aux1
+        TYA : ASL #4 : TAY
+
+    .dont_shift_aux1
+
+    TYA : AND.w #$C000 : ORA.b $64 : ORA.w $0346 : ORA.w #$0004 : STA.w $0802, X
+    
+    TXA : LSR #2 : TAX
+    
+    LDA.w $0A20, X : AND.w #$FF00 : STA.w $0A20, X
+
+    .no_aux1
+
+    LDY.b $74
+    
+    LDA.w PlayerOam_Aux2GFXIndex, Y : AND.w #$00FF : CMP.w #$00FF : BNE .continue_aux2
+        .BRL PlayerOam_NoAux
+
+    .continue_aux2
+
+    ASL A : STA.w $0104
+    
+    LDX.b $72
+    
+    LDA.w PlayerOam_Aux2BufferOffsetPointers, X : STA.b $0A
+    
+    LDY.b $04
+    
+    LDA ($0A), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    LDY.b $74
+    
+    SEP #$20
+    
+    LDA.b $25 : BMI .aux_2_z_negative
+        LDA.b $24
+        
+        BRA .aux_2_z_continue
+
+    .aux_2_z_negative
+
+    LDA.b $24 : CMP.w #$F0 : BCC .aux_2_z_continue
+        LDA.w #$00
+
+    .aux_2_z_continue
+
+    STA.b $0F : STZ.b $0E
+    
+    LDA PlayerOam_Aux2Offset_Y, Y
+    CLC : ADC.b $01 : SEC : SBC.b $0F : STA.w $0801, X
+    
+    LDA PlayerOam_Aux2Offset_X, Y
+    CLC : ADC.b $00 : STA.w $0800, X
+    
+    REP #$20
+    
+    LDA PlayerOam_Aux2GFXIndex, Y : AND.w #$00FF : STA.b $06
+    
+    LSR A : TAY
+    
+    LDA PlayerOam_AuxFlip-1, Y : TAY
+    
+    LDA.b $06 : AND.w #$0001 : BEQ .dont_shift_aux2
+        TYA : ASL #4 : TAY
+
+    .dont_shift_aux2
+
+    TYA : AND.w #$C000 : ORA.b $64 : ORA.w $0346 : ORA.w #$0014 : STA.w $0802, X
+    
+    TXA : LSR #2 : TAX
+    
+    LDA.w $0A20, X : AND.w #$FF00 : STA.w $0A20, X
+
+    .PlayerOam_NoAux
+
+    LDA.w $0309 : AND.w #$0004 : BEQ .always_taken
+        JSR PlayerOam_UnusedWeaponSettings ; $06ADB6 IN ROM
+        
+        BRA .skip_sword_vram
+
+    .always_taken
+
+    LDA.b $5D : AND.w #$00FF
+    
+    CMP.w #$0008 : BEQ .is_spinning_mode
+    CMP.w #$0009 : BEQ .is_spinning_mode
+    CMP.w #$000A : BEQ .is_spinning_mode
+    CMP.w #$0003 : BEQ .is_spinning_mode
+    CMP.w #$001E : BEQ .is_spinning_mode
+        LDA.w $0308 : AND.w #$00FF : BNE .holding_hands_up
+            LDA.w $03EF : ORA.w $0360 : AND.w #$00FF : BNE .holding_hands_up
+                LDA.w $0301 : AND.w #$0040 : BNE .skip_sword_vram
+                    LDA.w $037A : AND.w #$003D : BNE .using_some_item
+                        LDA.w $0301 : AND.w #$0093 : BNE .using_some_item
+                            LDA.b $3A : AND.w #$0080 : BEQ .skip_sword_vram
+
+        .holding_hands_up
+    .is_spinning_mode
+
+    LDA.l $7EF359 : INC A : AND.w #$00FE : BEQ .skip_sword_vram
+        .using_some_item
+
+        JSR PlayerOam_SetWeaponVRAMOffsets : BCC .continue_with_weapon
+
+    .skip_sword_vram
+
+    BRL .PlayerOam_DrawShield
+
+    .continue_with_weapon
+
+    LDY.b $02
+    
+    SEP #$20
+    
+    LDA.b $25 : BMI .possible_grounded
+        LDA.b $24
+        
+        BRA .airborne
+
+    .possible_grounded
+
+    LDA.b $24 : CMP.b #$F0 : BCC .airborne
+        LDA.b #$00
+
+    .airborne
+
+    STA.b $0B
+    
+    LDA.b $01 : CLC : ADC PlayerOam_SwordOffsetY, Y : SEC : SBC.b $0B : STA.b $0B
+    
+    LDA.b $00 : CLC : ADC PlayerOam_SwordOffsetX, Y : STA.b $0A : STA.b $08
+    
+    LDA.w $0301 : AND.b #$02 : BEQ .not_hammer
+        LDA.w $0300 : CMP.b #$02 : BNE .skip_hitbox
+            LDA.b $3D : CMP.b #$0F : BNE .skip_hitbox
+                BRA .set_hitbox_offset
+
+    .not_hammer
+
+    LDA.w $0301 : AND.b #$05 : BNE .skip_hitbox
+        .set_hitbox_offset
+
+        LDA AttackHitboxOffset_Y, Y : STA.b $44
+        LDA AttackHitboxOffset_X, Y : STA.b $45
+
+    .skip_hitbox
+
+    STZ.b $0E
+    STZ.b $0F
+    
+    LDA.w $0301 : AND.b #$05 : BEQ .rodding
+        LDY.w $0307 : DEY
+        
+        LDA PlayerOam_RodTypeID, Y : STA.b $0F
+
+    .rodding
+
+    LDA.w $037A : AND.b #$08 : BEQ .not_caning
+        LDA.w $0303 : CMP.b #$0D : BNE .not_caning
+            LDA.b #$04 : STA.b $0F
+
+    .not_caning
+
+    REP #$20
+    
+    LDA.b $06 : ASL A : CLC : ADC.b $06 : ASL A : TAY
+    
+    STZ.b $06
+    
+    PHY
+    
+    LDX.b $72
+    
+    LDA PlayerOam_WeaponBufferOffsetPointers, X : STA.b $74
+    
+    LDA.b $04 : AND.w #$00FF : TAY
+    
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    PLY
+    
+    LDA.b $0E : PHA
+    
+    JSR PlayerOam_DrawSwordSwingTip
+    
+    PLA : STA.b $0E
+
+    .next_weapon_object
+
+        REP #$20
+        
+        LDA PlayerOam_WeaponTiles, Y : CMP.w #$FFFF : BEQ .no_weapons
+            AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
+            
+            AND.w #$0E00 : CMP.w #$0200 : BEQ .ignore_palette_adjustments
+                LDA.w $0346 : BNE .ignore_palette_adjustments
+                    LDA.w $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0802, X
+
+            .ignore_palette_adjustments
+
+            LDA.b $0E : BEQ .ignore_palette_adjustments_2
+                LDA.w $0802, X : AND.w #$F1FF : ORA.b $0E : STA.w $0802, X
+
+            .ignore_palette_adjustments_2
+
+            LDA.b $0A : STA.w $0800, X
+            
+            AND.w #$00FF : STA.b $74
+            
+            LDA.b $00 : AND.w #$00FF : SEC : SBC.b $74 : BPL .positive_a
+                EOR.w #$FFFF : INC A
+
+            .positive_a
+
+            CMP.w #$0080 : BCC .positive_b
+                LDA.w #$0001 : TSB.b $0C
+
+            .positive_b
+
+            PHY : PHX
+            
+            TXA : LSR #2 : TAX
+            
+            SEP #$20
+            
+            LDA.b $0C : STA.w $0A20, X
+            
+            AND.b #$FE : STA.b $0C
+            
+            PLX : PLY
+            
+            INX #4
+
+        .no_weapons
+
+        SEP #$20
+        
+        LDA.b $0A : CLC : ADC.b #$08 : STA.b $0A
+        
+        INY #2
+        
+        LDA.b $06 : INC A : STA.b $06 : AND.b #$01 : BNE .no_offset
+            LDA.b $0B : CLC : ADC.b #$08 : STA.b $0B
+            
+            LDA.b $08 : STA.b $0A
+
+        .no_offset
+
+        LDA.b $06 : CMP.b #$03 : BEQ .weapon_loop_done
+    
+    BRL .next_weapon_object
+
+    .weapon_loop_done
+
+    SEP #$10
+
+    .PlayerOam_DrawShield
+
+    REP #$30
+    
+    ; Shield
+    LDA.l $7EF35A : AND.w #$00FF : BEQ .dontShowShield
+        ; Check out progress indicator to see if Link's gotten the shield from
+        ; his uncle yet. In other words, if Link has entered phase 1.
+        LDA.l $7EF3C5 : AND.w #$00FF : BEQ .dontShowShield
+            ; Affects graphics when carrying things?
+            JSR PlayerOam_SetEquipmentVRAMOffsets : BCC .showShield
+
+    .dontShowShield
+
+    BRL .PlayerOam_DrawShadow
+
+    ; Pretty sure this label is accurate, would require in game tesing.
+    .showShield
+
+    LDY.b $02
+    
+    SEP #$20
+    
+    LDA.b $25 : BMI .not_necessarily_airborne
+        LDA.b $24
+        
+        BRA .airborne
+
+    .not_necessarily_airborne
+
+    LDA.b $24 : CMP.b #$F0 : BCC .airborne
+        LDA.b #$00
+
+    .airborne
+
+    STA.b $0B
+    
+    LDA.b $01 : CLC : ADC.w PlayerOam_ShieldOffsetY, Y
+    DEC A : SEC : SBC.b $0B : STA.b $0B
+    
+    LDA.b $00 : CLC : ADC.w PlayerOam_ShieldOffsetX, Y
+    STA.b $0A : STA.b $08
+    
+    LDA PlayerOam_ShieldOffsetX, Y
+    
+    JSR PlayerOam_GetRelativeHighBit
+    
+    STZ.b $0E
+    
+    LDA.b #$0A : STA.b $0F
+    
+    ; Branch if the player sprite is using palette 7, which is typical.
+    LDA.w $0347 : BNE .leave_shield_palette
+        LDA.b #$06 : STA.b $0F
+
+    .leave_shield_palette
+
+    REP #$30
+    
+    LDA.b $06 : ASL A : CLC : ADC.b $06 : ASL A : TAY
+    
+    STZ.b $06
+    
+    PHY
+    
+    LDX.b $72
+    
+    LDA.w PlayerOam_ShieldBufferOffsetPointers, X : STA.b $74
+    
+    LDA.b $04 : AND.w #$00FF : TAY
+    
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    PLY
+
+    .next_shield_object
+
+        REP #$20
+        
+        STZ.b $74
+        
+        LDA.w $8563, Y : CMP.w #$FFFF : BEQ .no_shield_to_draw
+            AND.w #$C1FF : ORA.b $0E : ORA.b $64 : STA.w $0802, X
+            
+            LDA.b $0A : STA.w $0800, X
+            
+            PHX
+            
+            TXA : LSR #2 : TAX
+            
+            SEP #$20
+            
+            ; Or in the 9th bit of the X coordinate
+            LDA.b $0C : ORA.w $03FA : STA.w $0A20, X
+            
+            PLX : INX #4
+
+        .no_shield_to_draw
+
+        SEP #$20
+        
+        LDA.b $0A : CLC : ADC.b #$08 : STA.b $0A
+        
+        INY #2
+        
+        INC.b $06
+        
+        LDA.b $06 : AND.b #$01 : BNE .no_offset_2
+            LDA.b $0B : CLC : ADC.b #$08 : STA.b $0B
+            
+            LDA.b $08 : STA.b $0A
+
+        .no_offset_2
+    LDA.b $06 : CMP.b #$03 : BNE .next_shield_object
+    
+    SEP #$10
+
+    .PlayerOam_DrawShadow
+
+    SEP #$30
+    
+    LDA.b $4B : CMP.b #$0C : BNE .player_is_visible
+        BRL PlayerOam_DrawPose
+
+    .player_is_visible
+
+    LDA.b $5D : CMP.b #$16 : BEQ .proceed_to_pose
+        LDA.w $0354 : CMP.b #$05 : BEQ .recoil_check
+            ; See if Link is standing in water.
+            LDA.w $0351 : BEQ .recoil_check
+                ; Draws water/grass sprites around Link.
+                JSR PlayerOam_DrawFootObject
+                
+                BRA .proceed_to_pose
+
+        .recoil_check:
+
+        LDA.b $4D : CMP.b #$04 : BEQ .proceed_to_pose
+            LDA.b $5D : CMP.b #$04 : BEQ .proceed_to_pose
+                LDY.b #$00
+                
+                LDA.b $5B  : BEQ .weak_slip
+                CMP.b #$01 : BEQ .weak_slip
+                    LDA.b $5A : CMP.b #$06 : BCC .proceed_to_pose
+                        JSR PlayerOam_DungeonFallShadow
+
+    .proceed_to_pose
+
+        BRL .PlayerOam_DrawPose
+            .weak_slip
+
+            LDA.b $4D : BEQ .big_shadow
+                CMP.b #$01 : BNE .tiny_shadow
+                    LDA.b $55 : BNE .big_shadow
+
+                .tiny_shadow
+
+                LDY.b #$01
+
+            .big_shadow
+
+            STY.b $0A
+            STZ.b $0B
+            
+            LDA.w $0323 : LSR A : TAY
+            
+            REP #$20
+            
+            LDA.b $20 : SEC : SBC.b $E8 : STA.b $06
+            
+            LDA PlayerOam_ShadowOffset_Y, Y
+            AND.w #$00FF : CMP.w #$0080 : BCC .positive_y
+                ORA.w #$FF00
+
+            .positive_y
+
+            CLC : ADC.b $06 : STA.b $06
+            
+            SEP #$20
+    LDA.b $07 : BNE .proceed_to_pose
+    
+    LDA.b $01 : CLC : ADC PlayerOam_ShadowOffset_Y, Y : STA.b $07
+    LDA.b $00 : CLC : ADC PlayerOam_ShadowOffset_X, Y : STA.b $06
+    
+    REP #$30
+    
+    LDX.b $72
+    
+    LDA PlayerOam_ShadowBufferOffsetPointers, X : STA.b $74
+    
+    LDA.b $04 : AND.w #$00FF : TAY
+    
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    LDA.b $0A : ASL #2 : TAY
+    
+    LDA PlayerOam_ShadowTiles, Y : AND.w #$CFFF : ORA.w $035D : STA.w $0802, X
+    
+    AND.w #$3FFF : ORA.w #$4000 : STA.w $0806, X
+    
+    LDA.b $06 : STA.w $0800, X
+    
+    XBA : CLC : ADC.w #$0800 : XBA : STA.w $0804, X
+    
+    LDA.w $0346 : BNE .no_palette_adjustment
+        LDA.w $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0802, X
+        
+        LDA.w $0806, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0806, X
+
+    .no_palette_adjustment
+
+    TXA : LSR #2 : TAX
+    
+    STZ.w $0A20, X
+    
+    SEP #$30
+
+    .PlayerOam_DrawPose
+
+    REP #$30
+    
+    LDX.b $72
+    
+    LDA PlayerOam_ElfBufferOffsetPointers, X : STA.b $74
+    
+    LDY.b $04
+    
+    ; Determine the finalized offset into the OAM buffer?
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    LDA.b $02 : ASL A : TAY
+    
+    LDA PlayerOam_AnimationSteps, Y : STA.b $0E
+    
+    ASL A : STA.w $0100
+    
+    CLC : ADC.b $0E : TAY
+    
+    SEP #$20
+    
+    LDA.b $4B : CMP.b #$0C : BNE .not_invisible
+        BRL .PlayerOam_RunFinalAdjustments
+
+    .not_invisible
+
+    LDA.b $25 : BMI .possibly_grounded
+        LDA.b $24
+        
+        BRA .airborne
+
+    .possibly_grounded
+
+    LDA.b $24 : CMP.b #$F0 : BCC .airborne
+        LDA.b #$00
+
+    .airborne
+
+    STA.b $0F
+    STZ.b $0E
+    
+    LDA.b $01 : CLC : ADC PlayerOam_PoseData, Y : SEC : SBC.b $0F : STA.b $0B
+    LDA.b $00 : CLC : ADC PlayerOam_PoseData+1, Y                 : STA.b $0A
+    
+    REP #$20
+    
+    LDA PlayerOam_PoseData+2, Y : XBA : STA.b $06
+    
+    AND.w #$F000 : CMP.w #$F000 : BEQ .no_draw
+        ORA.b $64 : ORA.w $0346 : STA.w $0802, X
+        
+        STZ.b $02
+        
+        LDA.b $0A : STA.w $0800, X
+        
+        AND.w #$00FF : CMP.w #$00F8 : BCC .on_screen_x
+            LDA.w #$0001 : STA.b $02
+
+        .on_screen_x
+
+        PHX
+        
+        TXA : LSR #2 : TAX
+        
+        LDA.w $0A20, X : AND.w #$FF00 : ORA.b $02 : ORA.w #$0002 : STA.w $0A20, X
+        
+        PLX
+
+    .no_draw
+
+    LDA.b $06 : AND.w #$0F00 : CMP.w #$0F00 : BEQ .PlayerOam_RunFinalAdjustments
+        ASL #4 : ORA.b $64 : ORA.w $0346 : ORA.w #$0002 : STA.w $0806, X
+        
+        LDA.b $00 : SEC : SBC.b $0E : CLC : ADC.w #$0800 : STA.w $0804, X
+        
+        TXA : LSR #2 : TAX
+        
+        LDA.w $0A21, X : AND.w #$FF00 : ORA.w #$0002 : STA.w $0A21, X
+
+    .PlayerOam_RunFinalAdjustments
+
+    SEP #$30
+    
+    LDA.b #$01 : STA.b $0E
+    
+    LDA.b $6C : BEQ .not_in_doorway
+        REP #$20
+        
+        LDA.b $22 : SEC : SBC.b $E2
+        
+        CMP.w #$0004 : BCC .looks_invisible
+        CMP.w #$00FC : BCS .looks_invisible
+            LDA.b $20 : SEC : SBC.b $E8
+            
+            CMP.w #$0004 : BCC .looks_invisible
+            CMP.w #$00E0 : BCS .looks_invisible
+                SEP #$20
+
+    .not_in_doorway
+
+    STZ.b $0E
+    
+    LDA.b $11 : BNE .check_stair_visibility
+        LDA.w $031F : BEQ .check_stair_visibility
+            DEC A : STA.w $031F
+            
+            CMP.b #$04 : BCC .check_stair_visibility
+                AND.b #$01 : BEQ .looks_invisible
+
+    .check_stair_visibility
+
+    LDA.b $4B : CMP.b #$0C : BEQ .looks_invisible
+        LDA.b $55 : BEQ .cape_inactive_z
+
+    .looks_invisible
+
+    REP #$30
+    
+    LDA.w $0352 : LSR #2 : TAX
+    
+    LDA.w #$0101 : STA.w $0A20, X : STA.w $0A22, X : STA.w $0A24, X
+                   STA.w $0A26, X : STA.w $0A28, X : STA.w $0A2A, X
+    
+    LDA.b $4B : AND.w #$00FF : CMP.w #$000C : BEQ .check_position_restoration
+        LDA.b $0E : AND.w #$00FF : BNE .check_position_restoration
+            LDX.b $72
+            
+            LDA PlayerOam_ShadowBufferOffsetPointers, X : STA.b $74
+            
+            LDA.b $04 : AND.w #$00FF : TAY
+            
+            LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : LSR #2 : TAX
+            
+            STZ.w $0A20, X
+
+    .check_position_restoration
+
+    SEP #$30
+
+    .cape_inactive_z
+
+    LDA.b $11
+    
+    ; Z is a placeholder until we figure out how many there are like this.
+    CMP.b #$12 : BEQ .on_straight_interroom_staircase_z
+        CMP.b #$13 : BNE .not_on_straight_interroom_staircase_z
+
+    ; Restore position 
+    .on_straight_interroom_staircase_z
+
+    PLA : STA.b $21
+    PLA : STA.b $20
+
+    .not_on_straight_interroom_staircase_z
+
+    PLB
+    
+    RTL
+}
+
+; ==============================================================================
+
+; This routine returns the highest bit set in whatever variable is the
+; accumulator. Note: you wouldn't want to call this with a 16-bit accumulator
+; enabled.
+; $06AAC3-$06AACB LOCAL JUMP LOCATION
+PlayerOam_GetHighestSetBit:
+{
+    LDX.b #$07
+
+    .next_bit
+
+        ASL A : BCS .bit_was_set
+    DEX : BPL .next_bit
+
+    .bit_was_set
+
+    RTS
+}
+
+; ==============================================================================
+
+; TODO: analyze, format, annotate.
+; $06AACC-$0???? DATA
+PlayerOam_WeaponOffsetID:
+{
+    db $06
+    db $06
+    db $04
+    db $04
+    db $04
+    db $04
+    db $00
+    db $00
+    db $08
+    db $08
+    db $08
+    db $08
+    db $02
+    db $02
+    db $02
+    db $02
+    db $0A
+    db $0A
+    db $0A
+    db $0A
+    db $0C
+    db $0C
+    db $0C
+    db $0C
+    db $0E
+    db $0E
+    db $0E
+    db $0E
+    db $00
+    db $09
+    db $0C
+    db $09
+    db $0C
+    db $0E
+    db $0A
+    db $08
+    db $0D
+    db $08
+    db $0D
+    db $12
+    db $12
+    db $11
+    db $11
+    db $10
+    db $10
+    db $10
+    db $10
+    db $40
+    db $41
+    db $40
+    db $41
+    db $18
+    db $18
+    db $19
+    db $19
+    db $24
+    db $21
+    db $25
+    db $23
+    db $22
+    db $20
+    db $26
+    db $23
+    db $25
+    db $26
+    db $22
+    db $28
+    db $2A
+    db $29
+    db $29
+    db $2C
+    db $28
+    db $2B
+    db $28
+    db $2B
+    db $30
+}
+
+; ==============================================================================
+
+PlayerOam_RodOffsetID:
+{
+    db $01, $04, $01, $04, $06, $02, $00, $05
+    db $00, $05
+}
+
+; ==============================================================================
+
+PlayerOam_WeaponSize:
+{
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $02
+    db $00
+    db $02
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $00
+    db $02
+    db $00
+    db $00
+    db $00
+    db $00
+    db $00
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $02
+    db $00
+    db $00
+    db $00
+    db $00
+    db $02
+    db $00
+    db $02
+    db $00
+    db $02
+}
+
+; $06AB6E-$06ABC9 LOCAL JUMP LOCATION
+PlayerOam_SetWeaponVRAMOffsets:
+{
+    REP #$30
+    
+    LDY.b $02
+    
+    LDA.w PlayerOam_WeaponGFXIndex, Y : AND.w #$00FF : CMP.w #$00FF : BEQ .fail
+        STA.b $06 : TAX
+        
+        LDA.w PlayerOam_WeaponSize, X : AND.w #$00FF : STA.b $0C
+        
+        TXA
+        
+        LDY.w PlayerOam_WeaponOffsetID, X : CMP.w #$001D : BCC .is_sword
+            LDA.w $0301 : AND.w #$0005 : BEQ .not_rod
+                TXA : SEC : SBC.w #$001D : TAX
+                
+                LDY.w PlayerOam_RodOffsetID, X
+
+            .not_rod
+
+            TYA : AND.w #$00FF : STA.b $0A
+            
+            LDA.w $0109 : AND.w #$FF00 : ORA.b $0A : STA.w $0109
+            
+            BRA .succeed
+
+        .is_sword
+
+        TYA : AND.w #$00FF : STA.b $0A
+        
+        LDA.w $0107 : AND.w #$FF00 : ORA.b $0A : STA.w $0107
+
+        .succeed
+
+        CLC
+        
+        RTS
+
+    .fail
+
+    SEC
+    
+    RTS
+}
+
+; TODO: Analyze.
+; $06ABCA-06ABE7 DATA
+EquipmentVRAMOffsets:
+{
+    .shield_id
+    db $00, $02, $04, $04, $04, $04, $04, $04
+    db $09, $0C, $09, $0C, $0E, $0A, $08, $0D
+    db $08, $0D
+
+    .rod_id
+    db $01, $04, $01, $04, $06, $02, $00, $05
+    db $00, $05
+}
+
+; $06ABE6-$06AC44 LOCAL JUMP LOCATION
+PlayerOam_SetEquipmentVRAMOffsets:
+{
+    REP #$30
+    
+    STZ.b $0C
+    
+    LDY.b $02
+    
+    ; Appears to only range from 0xFF to 0x03.
+    LDA PlayerOam_ShieldGFXIndex, Y : AND.w #$00FF : CMP.w #$00FF : BEQ .fail
+        STA.b $06 : TAX
+        LDY.w EquipmentVRAMOffsets_shield_id, X : AND.w #$00F8 : BEQ .is_shield
+            LDA.w $0301 : AND.w #$0005 : BEQ .not_rod
+                TXA : SEC : SBC.w #$0008 : TAX
+                
+                LDY.w EquipmentVRAMOffsets_rod_id, X
+
+            .not_rod
+
+            TYA         : AND.w #$00FF             : STA.b $0A
+            LDA.w $0109 : AND.w #$FF00 : ORA.b $0A : STA.w $0109
+            
+            AND.w #$0007 : BEQ .dont_invert
+                BRA .succeed
+
+        .is_shield
+
+        TYA : AND.w #$00FF : STA.b $0A
+        
+        LDA.w $0108 : AND.w #$FF00 : ORA.b $0A : STA.w $0108
+
+        .dont_invert
+
+        LDA.w #$0002 : STA.b $0C
+
+        .succeed
+
+        CLC
+        
+        RTS
+
+    .fail
+
+    SEC
+    
+    RTS
+}
+
+; $06AC45-06AC8C DATA
+PlayerOam_SwordSwingTipTile:
+{
+    .up
+     dw $FFFF
+     dw $FFFF
+     dw $6A3E
+     dw $6A2F
+     dw $6A2F
+     dw $2A05
+     dw $2A2F
+     dw $2A3E
+     dw $FFFF
+
+    .down
+     dw $FFFF
+     dw $FFFF
+     dw $AA3E
+     dw $AA2F
+     dw $AA2F
+     dw $AA05
+     dw $EA2F
+     dw $EA3E
+     dw $FFFF
+
+    .left
+     dw $FFFF
+     dw $FFFF
+     dw $2A3E
+     dw $2A3F
+     dw $2A3F
+     dw $2A05
+     dw $AA3F
+     dw $AA3E
+     dw $FFFF
+
+    .right
+     dw $FFFF
+     dw $FFFF
+     dw $6A3E
+     dw $6A3F
+     dw $6A3F
+     dw $6A05
+     dw $EA3F
+     dw $EA3E
+     dw $FFFF
+}
+
+; ==============================================================================
+
+; 06AC8D-06ACB0 DATA
+PlayerOam_SwordSwingTipOffsetY:
+{
+    .up
+     db $FF
+     db $FF
+     db $FB
+     db $F3
+     db $F1
+     db $EB
+     db $F3
+     db $FB
+     db $FF
+
+    .down
+     db $FF
+     db $FF
+     db $16
+     db $1B
+     db $1D
+     db $23
+     db $1B
+     db $18
+     db $FF
+
+    .left
+     db $FF
+     db $FF
+     db $FF
+     db $02
+     db $05
+     db $0C
+     db $14
+     db $1A
+     db $FF
+
+    .right
+     db $FF
+     db $FF
+     db $FF
+     db $02
+     db $05
+     db $0C
+     db $14
+     db $1A
+     db $FF
+}
+; ==============================================================================
+
+; $06ACB1-$06ACD4 DATA
+PlayerOam_SwordSwingTipOffsetX:
+{
+    .up
+     db $FF
+     db $FF
+     db $0F
+     db $0D
+     db $08
+     db $FF
+     db $F6
+     db $F2
+     db $FF
+
+    .down
+     db $FF
+     db $FF
+     db $FA
+     db $FD
+     db $01
+     db $08
+     db $10
+     db $15
+     db $FF
+
+    .left
+     db $FF
+     db $FF
+     db $F5
+     db $F1
+     db $EE
+     db $E8
+     db $EF
+     db $F4
+     db $FF
+
+    .right
+     db $FF
+     db $FF
+     db $13
+     db $17
+     db $1A
+     db $20
+     db $19
+     db $14
+     db $FF
+}
+
+; $06ACD5-$06AD81 LOCAL JUMP LOCATION
+PlayerOam_DrawSwordSwingTip:
+{
+    LDA.b $0A : PHA
+    
+    PHY
+    
+    LDA.b $5D : BEQ .base_link_state
+        .give_up
+
+        BRL .reset_and_exit
+
+    .base_link_state
+
+    LDA.l $7EF359
+    
+    AND.w #$00FF : BEQ .give_up
+    CMP.w #$00FF : BEQ .give_up
+    CMP.w #$0001 : BEQ .give_up
+        LDA.b $3A : AND.w #$0080 : BEQ .give_up
+            LDA.b $3C : AND.w #$00FF : CMP.w #$0009 : BCS .give_up
+                ASL A : STA.b $0A
+                
+                LDA.b $2F : AND.w #$00FF : LSR A : STA.b $0E
+                
+                ASL #3 : CLC : ADC.b $0E : ASL A : CLC : ADC.b $0A : TAY
+                
+                LDA PlayerOam_SwordSwingTipTile, Y : CMP.w #$FFFF : BEQ .reset_and_exit
+                    AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
+                    
+                    LDA.w $0346 : BNE .no_palette_adjust
+                        LDA.w $0802, X : AND.w #$F1FF : ORA.w #$0600 : STA.w $0802, X
+
+                    .no_palette_adjust
+
+                    TYA : LSR A : TAY
+                    
+                    SEP #$20
+                    
+                    LDA PlayerOam_SwordSwingTipOffsetY, Y : CLC : ADC.b $01 : STA.b $0B
+                    LDA PlayerOam_SwordSwingTipOffsetX, Y : CLC : ADC.b $00 : STA.b $0A
+                    
+                    LDA PlayerOam_SwordSwingTipOffsetY, Y : STA.b $44
+                    LDA PlayerOam_SwordSwingTipOffsetX, Y : STA.b $45
+                    
+                    JSR PlayerOam_GetRelativeHighBit
+                    
+                    REP #$20
+                    
+                    LDA.b $0A : STA.w $0800, X
+                    
+                    INX #4
+                    
+                    PHX
+                    
+                    TXA : SEC : SBC.w #$0004 : LSR #2 : TAX
+                    
+                    ; Or in the 9th bit of the X coordinate.
+                    LDA.w #$0000 : ORA.w $03FA : STA.w $0A20, X
+                    
+                    PLX
+
+    .reset_and_exit
+
+    STZ.b $0E
+    
+    PLY
+    
+    PLA : STA.b $0A
+    
+    RTS
+}
+
+; $06ADB6-$06AE37 LOCAL JUMP LOCATION
+PlayerOam_UnusedWeaponSettings:
+{
+    SEP #$30
+    
+    LSR #2
+    
+    JSR PlayerOam_GetHighestSetBit
+    
+    LDA.w $ADB4, X : CLC : ADC.w $030E : ASL #2 : STA.b $06 : STZ.b $07
+    
+    LDA.b #$42 : STA.w $0109
+    
+    REP #$30
+    
+    LDX.b $72
+    
+    LDA.w $A110, X : STA.b $74
+    
+    LDA.b $04 : AND.w #$00FF : TAY
+    
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    LDY.b $06
+    
+    STZ.b $06
+
+    .BRANCH_BETA
+
+            SEP #$20
+            
+            LDA.b $01 : CLC : ADC.w $AD94, Y : STA.b $0B
+            LDA.b $00 : CLC : ADC.w $ADA4, Y : STA.b $0A
+            
+            PHY
+            
+            LDA.w $AD84, Y : CMP.b #$FF : BEQ .BRANCH_ALPHA
+                REP #$20
+                
+                AND.w #$00FF : TAY
+                
+                LDA.w $AD82, Y : AND.w #$CFFF : ORA.b $64 : STA.w $0802, X
+                
+                LDA.b $0A : STA.w $0800, X
+                
+                PHX
+                
+                TXA : LSR #2 : TAX
+                
+                SEP #$20
+                
+                STZ.w $0A20, X
+                
+                PLX : INX #4
+
+            .BRANCH_ALPHA
+
+            PLY : INY
+        INC.b $06 : LDA.b $06 : CMP.b #$04 : BNE .BRANCH_BETA
+    LDA.b $06 : CMP.b #$04 : BNE .BRANCH_BETA
+    
+    REP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06AE38-$06AE3A DATA
+DungeonFallShadow:
+{
+    .offset_x
+    db $00, $00, $04
+}
+
+; ==============================================================================
+
+; $06AE3B-$06AEC9 LOCAL JUMP LOCATION
+PlayerOam_DungeonFallShadow:
+{
+    LDY.b #$00
+    
+    LDA.b $51 : SEC : SBC.b #$0C : SEC : SBC.b $20
+    
+    CMP.b #$F0 : BCS .shadow_size_chosen
+        CMP.b #$30 : BCC .not_medium_shadow
+            LDY.b #$04
+
+        .not_medium_shadow
+
+        CMP.b #$60 : BCC .shadow_size_chosen
+            LDY.b #$08
+
+    .shadow_size_chosen
+
+    TYA : LSR A : LSR A : TAX
+    
+    LDA DungeonFallShadow_offset_x, X : STA.b $06
+    
+    LDA.b $51 : SEC : SBC.b #$0C : SEC : SBC.b $E8 : CLC : ADC.b #$1D : STA.b $07
+    
+    LDA.b $00 : CLC : ADC.b $06 : STA.b $06
+    
+    STZ.b $04
+    
+    REP #$30
+    
+    PHY
+    
+    LDX.b $72
+    
+    LDA PlayerOam_ShadowBufferOffsetPointers, X : STA.b $74
+    
+    LDA.b $03 : AND.w #$00FF : TAY
+    
+    LDA ($74), Y : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+    
+    PLY
+
+    .next_object
+
+        REP #$20
+        
+        LDA PlayerOam_ShadowTiles, Y : CMP.w #$FFFF : BEQ .give_up
+            AND.w #$CFFF : ORA.w $035D : STA.w $0802, X
+            
+            LDA.b $06 : STA.w $0800, X
+
+        .give_up
+
+        PHX
+        
+        TXA : LSR #2 : TAX
+        
+        SEP #$20
+        
+        STZ.w $0A20, X
+        
+        PLX
+        
+        LDA.b $06 : CLC : ADC.b #$08 : STA.b $06
+        
+        INY #2
+        
+        INX #4
+        
+        INC.b $04
+    LDA.b $04 : CMP.b #$02 : BNE .next_object
+    
+    SEP #$10
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06AECA-$06AED0 DATA
+FootObject:
+{
+    ; $06AECA
+    .aux_check
+    db $0A
+    db $02
+    db $0E
+
+    ; $06AECD
+    .shield_direction
+    db $04 ; up
+    db $04 ; down
+    db $08 ; left
+    db $08 ; right
+}
+
+; ==============================================================================
+
+; Seems to draw the ripples around Link while standing in shallow water.
+; $06AED1-$06AF9C LOCAL JUMP LOCATION
+PlayerOam_DrawFootObject:
+{
+    ; Seems like a timer to control how often to change the sprite's frame
+    ; If frame counter < 9
+    LDA.w $0356 : INC A : AND.b #$0F : STA.w $0356
+    
+    CMP.b #$09 : BCC .dont_reset_foot_object
+
+        STZ.w $0356
+        
+        LDA.w $0355 : INC A : AND.b #$03 : STA.w $0355
+        
+        CMP.b #$03 : BNE .dont_reset_foot_object
+            STZ.w $0355
+
+    .dont_reset_foot_object
+
+    ; See if Link has a shield
+    LDA.l $7EF35A : TAY
+    
+    ; See which direction Link is facing.
+    ; Probably positions the water/grass sprite appropriately.
+    LDA.w $0323 : LSR A : CLC : ADC FootObject_shield_direction, Y : TAY
+    
+    LDA.b $01 : CLC : ADC PlayerOam_ShadowOffset_Y, Y : STA.b $07
+    LDA.b $00 : CLC : ADC PlayerOam_ShadowOffset_X, Y : STA.b $06
+    
+    ; $8D = secondary timer * 4
+    LDA.w $0355 : ASL #2 : STA.b $8D
+    
+    PHY
+    
+    ; ???? $72 apparently is assumed to be even at all times.
+    LDX.b $72
+    
+    LDA PlayerOam_ShadowBufferOffsetPointers, X : STA.b $74
+    LDA PlayerOam_ShadowBufferOffsetPointers+1, X : STA.b $75
+    
+    LDY.b $04
+    
+    LDA ($74), Y : TAX
+    
+    PLY
+    
+    ; See if Link is standing in grass
+    ; Nope... standing in water
+    LDA.w $0351 : CMP.b #$02 : BNE .not_tall_grass
+        LDY.b #$06
+
+        .check_next
+
+            LDA .aux_check, Y : CMP.w $0354 : BNE .wrong
+                STZ.b $8D
+                
+                BRA .check_step
+
+            .wrong
+        DEY : BPL .check_next
+
+        .check_step
+
+        LDA.b $2E : CMP.b #$03 : BCC .dont_reset_step
+            SEC : SBC.b #$03
+
+        .dont_reset_step
+
+        ASL #2 : STA.b $8D
+        
+        LDA.b #$08 : ASL #2 : CLC : ADC.b $8D : TAY
+        
+        BRA .continue
+
+    .not_tall_grass
+
+    LDA.b #$05 : ASL #2 : CLC : ADC.b $8D : TAY
+
+    .continue
+
+    ; This is where the actual draw starts, it draws both tiles at the same
+    ; time but in 2 completly different ways. Wtf Nintendo.
+    REP #$30
+    
+    ; Get the starting address for the frame of either the water or grass
+    ; animation we are on.
+    TYA : AND.w #$00FF : TAY
+
+    ; Get the offset of where to put the OAM.
+    TXA : AND.w #$00FF : CLC : ADC.w $0352 : TAX
+        
+    ; Char and property bytes for the left half of the grass/splash.
+    LDA PlayerOam_ShadowTiles+0, Y : AND.w #$CFFF : ORA.w $035D : STA.w $0802, X
+        
+    ; Char and property bytes for the right half of the grass/splash.
+    ; Because this is separate from the other half this leads to a stupid bug
+    ; in vanilla where if you have water under a bridge in a dungeon, the right
+    ; half will appear incorrectly on top of the bridge.
+    LDA PlayerOam_ShadowTiles+2, Y : ORA.w $035D : STA.w $0806, X
+        
+    ; X and Y pos for left half.
+    LDA.b $06 : STA.w $0800, X
+    
+    ; X and Y pos for right half by just adding 8 to the x pos.
+    ; Why tf are you switching bytes and then adding #$0800? why not just add
+    ; #$0080 and skip flipping A and B??
+    XBA : CLC : ADC.w #$0800 : XBA : STA.w $0804, X
+        
+    TXA : LSR #2 : TAX
+    
+    ; Write the size and extra x bytes.
+    STZ.w $0A20, X
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06AF9D-$06AFA5 DATA
+Pool_PlayerOam_Unused_0:
+{
+    .offsets
+    db $00, $00, $00, $01, $00, $01, $01, $01
+    db $00
+}
+
+; ==============================================================================
+
+; $06AFA6-$06AFBF LOCAL JUMP LOCATION
+PlayerOam_Unused_0:
+{
+    SEP #$30
+    
+    LDX.b $2E
+    
+    LDA.w $0354 : CMP.b #$19 : BNE .alpha
+        LDA.w $A131, X : TAX
+
+    .alpha
+
+    LDA .offsets, X : CLC : ADC.b $01 : STA.b $01
+    
+    REP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; In general this seems to take an offset for a sprite and figure out if its
+; position relative to Link and the screen will require the 9th bit of the X
+; coordinate to be set.
+; $06AFC0-$06AFDC LOCAL JUMP LOCATION
+PlayerOam_GetRelativeHighBit:
+{
+    REP #$20
+    
+    ; Sign extend the value in the accumulator to 16-bits.
+    AND.w #$00FF : CMP.w #$0080 : BCC .positive
+        ORA.w #$FF00
+
+    .positive
+
+    CLC : ADC.b $22 : SEC : SBC.b $E2 : XBA : AND.w #$0001 : STA.w $03FA
+    
+    SEP #$20
+    
+    RTS
+}
 
 ; ==============================================================================
 
@@ -1822,8 +6826,3963 @@ NULL_0DDB17:
 }
 
 ; ==============================================================================
+; Start of Heads Up Display:
+; ==============================================================================
 
-incsrc "headsup_display.asm"
+; $06DB40-$06DB74 DATA
+HUD_CapacityUpgrades:
+{
+    .bombs_bcd
+    db $10, $15, $20, $25, $30, $35, $40, $50
+
+    .bombs_hex
+    db  10,  15,  20,  25,  30,  35,  40,  50
+
+    .arrows_bcd
+    db $30, $35, $40, $45, $50, $55, $60, $70
+
+    .arrows_hex
+    db  30,  35,  40,  45,  50,  55,  60,  70
+}
+
+HeartBeepThresholds:
+{
+    db $09, $09, $09, $09, $09, $09, $09, $09
+    db $11, $11, $11, $11, $11, $11, $11, $19
+    db $19, $19, $19, $19, $19
+}
+
+; ==============================================================================
+    
+; $06DB75-$06DB7E LONG JUMP LOCATION
+HUD_RefillLogicLong:
+{
+    PHB : PHK : PLB
+
+    LDA.w $0200 : BEQ HUD_RefillLogic
+        PLB
+
+        RTL
+}
+    
+; ==============================================================================
+
+; Similar to RebuildLong but it checks to see if our equipped item has changed
+; state first.
+; $06DB7F-$06DB91 LONG JUMP LOCATION
+HUD_RefreshIconLong:
+{
+    PHB : PHK : PLB
+
+    JSR SearchForEquippedItem
+    JSR Equipment_UpdateHUD
+    JSR Rebuild
+
+    SEP #$30
+
+    STZ.w $0200
+
+    PLB
+
+    RTL
+}
+
+; ==============================================================================
+
+; $06DB92-$06DD29 BRANCH LOCATION
+HUD_RefillLogic:    
+{
+    ; Check the refill magic indicator.
+    LDA.l $7EF373
+
+    BEQ .doneWithMagicRefill
+
+    ; Check the current magic power level we have.
+    ; Is it full?
+    LDA.l $7EF36E : CMP.b #$80 : BCC .magicNotFull
+        ; If it is full, freeze it at 128 magic pts.
+        ; And stop this refilling nonsense.
+        LDA.b #$80 : STA.l $7EF36E
+        LDA.b #$00 : STA.l $7EF373
+        
+        BRA .doneWithMagicRefill
+    
+    .magicNotFull
+    
+    LDA.l $7EF373 : DEC A : STA.l $7EF373
+    LDA.l $7EF36E : INC A : STA.l $7EF36E
+    
+    ; If((frame_counter % 4) != 0) don't refill this frame.
+    LDA.b $1A : AND.b #$03 : BNE .doneWithMagicRefill
+        ; Is this sound channel in use?
+        LDA.w $012E : BNE .doneWithMagicRefill
+            ; Play the magic refill sound effect.
+            LDA.b #$2D : STA.w $012E
+    
+    .doneWithMagicRefill
+    
+    REP #$30
+    
+    ; Check current rupees (362) against goal rupees (360) goal refers to how
+    ; many we really have and current refers to the number currently being
+    ; displayed. When you buy something, goal rupees are decreased by, say,
+    ; 100, but it takes a while for the current rupees indicator to catch up.
+    ; When you get a gift of 300 rupees, the goal increases, and current has to
+    ; catch up in the other direction.
+    LDA.l $7EF362
+    
+    CMP.l $7EF360 : BEQ .doneWithRupeesRefill
+        BMI .addRupees
+            DEC A : BPL .subtractRupees
+                LDA.w #$0000 : STA.l $7EF360
+                
+                BRA .subtractRupees
+        
+        .addRupees
+        
+        ; If current rupees <= 1000 (decimal).
+        INC A : CMP.w #1000 : BCC .subtractRupees
+            ; Otherwise just store 999 to the rupee amount.
+            LDA.w #999 : STA.l $7EF360
+        
+        .subtractRupees
+        
+        STA.l $7EF362
+        
+        SEP #$30
+        
+        LDA.w $012E : BNE .doneWithRupeesRefill
+            ; Looks like a delay counter of some sort between invocations of
+            ; the rupee fill sound effect.
+            LDA.w $0CFD : INC.w $0CFD : AND.b #$07 : BNE .skipRupeeSound
+                LDA.b #$29 : STA.w $012E
+                
+                BRA .skipRupeeSound
+        
+    .doneWithRupeesRefill
+    
+    SEP #$30
+    
+    STZ.w $0CFD
+    
+    .skipRupeeSound
+    
+    LDA.l $7EF375 : BEQ .doneRefillingBombs
+        ; Decrease the bomb refill counter.
+        LDA.l $7EF375 : DEC A : STA.l $7EF375
+
+        ; Use the bomb upgrade index to know what max number of bombs Link can
+        ; carry is.
+        LDA.l $7EF370 : TAY
+
+        ; If it matches the max, you can't have any more bombs.
+        LDA.l $7EF343 : CMP.w $DB48, Y : BEQ .doneRefillingBombs
+            ; You like bombs? I got lotsa bombs!
+            INC A : STA.l $7EF343
+
+    .doneRefillingBombs
+
+    ; Check arrow refill counter
+    LDA.l $7EF376 : BEQ .doneRefillingArrows
+        LDA.l $7EF376 : DEC A : STA.l $7EF376
+        
+        ; Check arrow upgrade index to see how our max limit on arrows, just
+        ; like bombs.
+        LDA.l $7EF371 : TAY 
+        
+        ; I reckon you get no more arrows, pardner.
+        LDA.l $7EF377 : CMP.w $DB58, Y : BEQ .arrowsAtMax
+            INC A : STA.l $7EF377
+
+        .arrowsAtMax
+
+        ; See if we even have the bow.
+        LDA.l $7EF340 : BEQ .doneRefillingArrows
+            AND.b #$01 : CMP.b #$01 : BNE .doneRefillingArrows
+                ; Changes the icon from a bow without arrows to a bow with
+                ; arrows.
+                LDA.l $7EF340 : INC A : STA.l $7EF340
+                
+                JSL RefreshIconLong
+
+    .doneRefillingArrows
+
+    ; A frozen Link is an impervious Link, so don't beep.
+    LDA.w $02E4 : BNE .doneWithWarningBeep
+        ; If heart refill is in process, we don't beep.
+        LDA.l $7EF372 : BNE .doneWithWarningBeep
+            LDA.l $7EF36C : LSR #3 : TAX
+            
+            ; Checking current health against capacity health to see
+            ; if we need to put on that annoying beeping noise.
+            LDA.l $7EF36D : CMP.w $DB60, X : BCS .doneWithWarningBeep
+                LDA.w $04CA : BNE .decrementBeepTimer
+                    ; Beep incessantly when life is low.
+                    LDA.w $012E : BNE .doneWithWarningBeep
+                        LDA.b #$20 : STA.w $04CA
+                        LDA.b #$2B : STA.w $012E
+                
+                .decrementBeepTimer
+                
+                ; Timer for the low life beep sound.
+                DEC.w $04CA
+
+    .doneWithWarningBeep
+
+    ; If nonzero, indicates that a heart is being "flipped" over
+    ; as in, filling up, currently.
+    LDA.w $020A : BNE .waitForHeartFillAnimation
+        ; If no hearts need to be filled, branch.
+        LDA.l $7EF372 : BEQ .doneRefillingHearts
+            ; Check if actual health matches capacity health.
+            LDA.l $7EF36D : CMP.l $7EF36C : BCC .notAtFullHealth
+                ; Just set health to full in the event it overflowed past 0xA0
+                ; (20 hearts).
+                LDA.l $7EF36C : STA.l $7EF36D
+                
+                ; Done refilling health so deactivate the health refill
+                ; variable.
+                LDA.b #$00 : STA.l $7EF372
+                
+                BRA .doneRefillingHearts
+
+            .notAtFullHealth
+
+            ; Refill health by one heart
+            LDA.l $7EF36D : CLC : ADC.b #$08 : STA.l $7EF36D
+            
+            LDA.w $012F : BNE .soundChannelInUse
+                ; Play heart refill sound effect
+                LDA.b #$0D : STA.w $012F
+
+            .soundChannelInUse
+
+            ; Repeat the same logic from earlier, checking if health's at max
+            ; and setting it to max if it overflowed.
+            LDA.l $7EF36D : CMP.l $7EF36C : BCC .healthDidntOverflow
+                LDA.l $7EF36C : STA.l $7EF36D
+
+            .healthDidntOverflow
+
+            ; Subtract a heart from the refill variable.
+            LDA.l $7EF372 : SEC : SBC.b #$08 : STA.l $7EF372
+            
+            ; Activate heart refill animation (which will cause a small delay\
+            ; for the next heart if we still need to fill some up).
+            INC.w $020A
+            
+            LDA.b #$07 : STA.w $0208
+
+    .waitForHeartFillAnimation
+    
+    REP #$30
+    
+    LDA.w #$FFFF : STA.b $0E
+    
+    JSR Update_ignoreHealth
+    JSR AnimateHeartRefill
+    
+    SEP #$30
+    
+    INC.b $16
+    
+    PLB
+    
+    RTL
+
+    .doneRefillingHearts
+
+    REP #$30
+    
+    LDA.w #$FFFF : STA.b $0E
+    
+    JSR Update_ignoreItemBox
+    
+    SEP #$30
+    
+    INC.b $16
+    
+    PLB
+    
+    RTL
+} 
+
+; ==============================================================================
+; Start of Equpiment:
+; ==============================================================================
+
+; Module E submodule 1 - Item submenu
+; $06DD2A-$06DD31 JUMP LOCATION
+Messaging_Equipment:
+{
+    PHB : PHK : PLB
+    
+    JSR.w Equipment_Local
+    
+    PLB
+    
+    RTL
+}
+
+; ==============================================================================
+
+; $06DD32-$06DD35 LONG JUMP LOCATION
+Equipment_UpdateEquippedItemLong:
+{
+    JSR.w UpdateHUD_updateEquippedItem
+    
+    RTL
+}
+
+; ==============================================================================
+    
+; Appears to be a simple debug frame counter (8-bit) for this submodule
+; of course, it loops back every 256 frames.
+; $06DD36-$06DD59 LOCAL JUMP LOCATION
+Equipment_Local:
+{
+    INC.w $0206
+    
+    LDA.w $0200
+    
+    JSL UseImplicitRegIndexedLocalJumpTable
+    
+    dw ClearTilemap       ; 0x00 - $DD5A
+    dw Init               ; 0x01 - $DDAB
+    dw BringMenuDown      ; 0x02 - $DE59
+    dw ChooseNextMode     ; 0x03 - $DE6E
+    dw NormalMenu         ; 0x04 - $DF15
+    dw UpdateHUD          ; 0x05 - $DFA9
+    dw CloseMenu          ; 0x06 - $DFBA
+    dw GotoBottleMenu     ; 0x07 - $DFFB
+    dw InitBottleMenu     ; 0x08 - $E002
+    dw ExpandBottleMenu   ; 0x09 - $E08C
+    dw BottleMenu         ; 0x0A - $E0DF
+    dw EraseBottleMenu    ; 0x0B - $E2FD
+    dw RestoreNormalMenu  ; 0x0C - $E346
+}
+
+; ==============================================================================
+
+; This routine sets up a DMA transfer from $7E1000 to $6800 (word address) in
+; VRAM basically clears out. Also plays the menu coming down sound, then moves
+; to the next step.
+; $06DD5A-$06DDAA JUMP LOCATION
+Equipment_ClearTilemap:
+{
+    REP #$20
+    
+    LDX.b #$00
+    
+    ; Value of a transparent tile.
+    LDA.b #$207F
+    
+    .clearVramBuffer
+    
+        STA.w $1000, X : STA.w $1080, X
+        STA.w $1100, X : STA.w $1180, X
+        STA.w $1200, X : STA.w $1280, X
+        STA.w $1300, X : STA.w $1380, X
+        STA.w $1400, X : STA.w $1480, X
+        STA.w $1500, X : STA.w $1580, X
+        STA.w $1600, X : STA.w $1680, X
+        STA.w $1700, X : STA.w $1780, X
+        
+        INX #2 : CPX.b #$80
+    BNE .clearVramBuffer
+    
+    SEP #$20
+    
+    ; Play sound effect for opening item menu.
+    LDA.b #$11 : STA.w $012F
+
+    ; Tell NMI to update tilemap.
+    LDA.b #$01 : STA.b $17
+    
+    ; The region of tilemap to update is word address $6800 (this value 0x22
+    ; indexes into a table in NMI).
+    LDA.b #$22 : STA.w $0116
+    
+    ; Move to next step of the submodule.
+    INC.w $0200
+    
+    RTS
+}
+
+; ==============================================================================
+
+; Module 0x0E.0x01.0x01
+; $06DDAB-$06DE58 JUMP LOCATION
+Equipment_Init:
+{
+    ; Handles which item to equip (if none is equipped).
+    JSR.w CheckEquippedItem
+    
+    LDA.b #$01
+    
+    JSR.w GetPaletteMask ; $00[2] = 0xFFFF
+    JSR.w DrawYButtonItems
+    
+    LDA.b #$01
+    
+    JSR.w GetPaletteMask
+
+    ; Construct a portion of the menu.
+    JSR.w DrawSelectedItemBox
+    
+    LDA.b #$01
+    
+    JSR.w GetPaletteMask
+    JSR.w DrawAbilityText 
+    JSR.w DrawAbilityIcons 
+    JSR.w DrawProgressIcons
+    JSR.w DrawMoonPearl
+    JSR.w UnfinishedRoutine
+    
+    LDA.b #$01
+    
+    JSR.w GetPaletteMask
+    JSR.w DrawEquipment
+    JSR.w DrawShield
+    JSR.w DrawArmor
+    JSR.w DrawMapAndBigKey
+    JSR.w DrawCompass
+    
+    LDX.b #$12
+    
+    LDA.l $7EF340
+    
+    ; Check if we have any equippable items available.
+    .itemCheck
+    
+        ORA.l $7EF341, X : DEX
+    BPL .itemCheck
+    
+    CMP.b #$00 : BEQ .noEquipableItems
+    
+        LDA.l $7EF35C
+        ORA.l $7EF35D : ORA.l $7EF35E : ORA.l $7EF35F : BNE .haveBottleItems
+            BRA .haveNoBottles
+        
+        .haveBottleItems
+        
+        ; There is a difference between having bottled items and having 
+        ; at least one bottle to put them in. $7EF34F acts as a flag for that.
+        LDA.l $7EF34F : BNE .hasBottleFlag
+            TAY
+            
+            INY
+            LDA.l $7EF35C : BNE .selectThisBottle
+                INY
+                LDA.l $7EF35D : BNE .selectThisBottle
+                    INY
+                    LDA.l $7EF35E : BNE .selectThisBottle
+                        INY
+                
+            .selectThisBottle
+            
+            TYA
+            
+            .haveNoBottles
+            
+            STA.l $7EF34F
+        
+        .hasBottleFlag
+        
+        JSR.w DoWeHaveThisItem : BCS .weHaveIt
+            JSR.w TryEquipNextItem
+        
+        .weHaveIt
+        
+        JSR.w DrawSelectedYButtonItem
+        
+        ; Does the player have a bottle equipped currently? Initial draw.
+        LDA.w $0202 : CMP.b #$10 : BNE .equippedItemIsntBottle
+            LDA.b #$01
+            
+            JSR.w GetPaletteMask
+            JSR.w DrawBottleMenu
+            
+        .equippedItemIsntBottle
+    .noEquipableItems
+    
+    ; Start a timer.
+    LDA.b #$10 : STA.w $0207
+    
+    ; Make NMI update BG3 tilemap.
+    LDA.b #$01 : STA.b $17
+    
+    ; Update vram address $6800 (word).
+    LDA.b #$22 : STA.w $0116
+    
+    ; Move on to next step of the submodule.
+    INC.w $0200
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06DE59-$06DE6D JUMP LOCATION
+Equipment_BringMenuDown:
+{
+    REP #$20
+    
+    LDA.b $EA : SEC : SBC.w #$0008 : STA.b $EA : CMP.w #$FF18
+    
+    SEP #$20
+    
+    BNE .notDoneScrolling 
+        INC.w $0200
+    
+    .notDoneScrolling
+    
+    RTS
+}
+    
+; ==============================================================================
+
+; Makes a determination whether to go to the normal menu handling mode or the
+; bottle submenu handling mode. There's also mode 0x05... which appears to be
+; hidden at this point.
+; $06DE6E-$06DEAF JUMP LOCATION
+Equipment_ChooseNextMode:
+{
+    LDX.b #$12
+    
+    LDA.l $7EF340
+    
+    .haveAnyEquippable
+
+        ; Loop.
+    ORA.l $7EF341, X : DEX : BPL .haveAnyEquippable
+        CMP.b #$00 : BEQ .haveNone
+        
+        ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+        ; (word) in vram.
+        LDA.b #$01 : STA.b $17
+        LDA.b #$22 : STA.w $0116
+        
+        JSR.w DoWeHaveThisItem : BCS .weHaveIt
+            JSR.w TryEquipNextItem
+        
+        .weHaveIt
+        
+        JSR.w DrawSelectedYButtonItem
+        
+        ; Move to the next step of the submodule.
+        LDA.b #$04 : STA.w $0200
+        
+        LDA.w $0202 : CMP.b #$10 : BNE .notOnBottleMenu
+            ; Switch to the step of this submodule that handles when the
+            ; bottle submenu is up.
+            LDA.b #$0A : STA.w $0200
+        
+        .notOnBottleMenu
+        
+        RTS
+    
+    .haveNone
+    
+    ; BYSTudlr
+    LDA.b $F4 : BEQ .noButtonPress
+        LDA.b #$05 : STA.w $0200
+        
+        RTS
+    
+    .noButtonPress
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06DEB0-$06DEBC LOCAL JUMP LOCATION
+Equipment_DoWeHaveThisItem:
+{
+    LDX.w $0202
+    
+    ; Check to see if we have this item:
+    LDA.l $7EF33F, X : BNE .haveThisItem
+        CLC
+        
+        RTS
+    
+    .haveThisItem
+    
+    SEC
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; $06DEBD-$06DECA LOCAL JUMP LOCATION
+Equipment_GoToPrevItem:
+{
+    LDA.w $0202 : DEC A : CMP.b #$01 : BCS .dontReset
+        LDA.b #$14
+    
+    .dontReset
+    
+    STA.w $0202
+    
+    RTS
+} 
+
+; ==============================================================================
+    
+; $06DECB-$06DED8 LOCAL JUMP LOCATION
+Equipment_GotoNextItem:
+{
+    ; Load our currently equipped item, and move to the next one If we reach
+    ; our limit (21), set it back to the bow and arrow slot.
+    LDA.w $0202 : INC A : CMP.b #$15 : BCC .dontReset
+        LDA.b #$01
+    
+    .dontReset
+    
+    ; Otherwise try to equip the item in the next slot.
+    STA.w $0202
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; $06DED9-$06DEE1 LOCAL JUMP LOCATION
+Equipment_TryEquipPrevItem:
+{
+    .keepLooking
+    
+        JSR.w GoToPrevItem
+    JSR.w DoWeHaveThisItem : BCC .keepLooking
+    
+    RTS
+} 
+
+; ==============================================================================
+    
+; $06DEE2-$06DEEA JUMP LOCATION
+Equipment_TryEquipNextItem:
+{
+    .keepLooking
+    
+        JSR.w GoToNextItem
+    JSR.w DoWeHaveThisItem : BCC .keepLooking
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; $06DEEB-$06DEFF LOCAL JUMP LOCATION
+Equipment_TryEquipItemAbove:
+{
+    .keepLooking
+    
+        JSR.w GoToPrevItem
+        JSR.w GoToPrevItem
+        JSR.w GoToPrevItem
+        JSR.w GoToPrevItem
+        JSR.w GoToPrevItem
+    JSR.w DoWeHaveThisItem : BCC .keepLooking
+    
+    RTS
+} 
+
+; ==============================================================================
+
+; $06DF00-$06DF14 LOCAL JUMP LOCATION
+Equipment_TryEquipItemBelow:
+{
+    .keepLooking
+    
+        JSR.w GoToNextItem
+        JSR.w GoToNextItem
+        JSR.w GoToNextItem
+        JSR.w GoToNextItem
+        JSR.w GoToNextItem
+    JSR.w DoWeHaveThisItem : BCC .keepLooking
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06DF15-$06DFA8 JUMP LOCATION
+Equipment_NormalMenu:
+{
+    INC.w $0207
+    
+    ; BYSTudlr
+    LDA.b $F0 : BNE .inputReceived
+        ; Reset the ability to select a new item.
+        STZ.b $BD
+    
+    .inputReceived
+    
+    ; Check if the start button was pressed this frame.
+    LDA.b $F4 : AND.b #$10 : BEQ .dontLeaveMenu
+        ; Bring the menu back up and play the vvvvoooop sound as it comes up.
+        LDA.b #$05 : STA.w $0200
+        LDA.b #$12 : STA.w $012F
+        
+        RTS
+    
+    .dontLeaveMenu
+    
+    ; After selecting a new item, you have to release all of the BYSTudlr inputs
+    ; before you can select a new item. Notice how $BD gets set back low if you
+    ; aren't holding any of those buttons.
+    LDA.b $BD : BNE .didntChange
+        LDA.w $0202 : STA.b $00
+        
+        ; Joypad 2.... interesting. It's checking the R button.
+        LDA.b $F7 : AND.b #$10 : BEQ .dontBeAJerk
+            ; Apparently pressing R on Joypad 2 (if it's enabled) deletes your
+            ; currently selected item. Imagine playing the game with your friend
+            ; constantly trying to delete your items lots of punching would
+            ; ensue.
+            LDX.w $0202 
+            
+            LDA.b #$00 : STA.l $7EF33F, X
+            
+            ; Unlike .movingOut, Anthony's Song.
+            BRA .movingOn
+        
+        .dontBeAJerk
+        
+        ; BYSTudlr says that we're checking if the up direction is pressed!
+        ; RAWWWWWWWRRRHHGHGH! BYSTudrl sounds like a name, like Baiyst Yudler,
+        ; a] German superbrute that hacks roms by breaking them in two! And
+        ; then he breaks them into many other numbers bigger than two!
+        LDA.b $F4 : AND.b #$08 : BEQ .notPressingUp
+            JSR.w TryEquipItemAbove
+            
+            BRA .movingOn
+        
+        .notPressingUp
+        
+        ; Don't piss off BYSTudlr - he likes playing Mr. Potato Head. The
+        ; problem is he skips the potato part and goes straight for the head.
+        ; (In spite of this, I find most of his work quite artistic and
+        ; tasteful.)
+        LDA.b $F4 : AND.b #$04 : BEQ .notPressingDown
+            JSR.w TryEquipItemBelow
+            
+            BRA .movingOut
+        
+        .notPressingDown
+        
+        ; BYSTudlr is not going to pump you up, girly man. His sensibilities
+        ; are far more refined than that.
+        LDA.b $F4 : AND.b #$02 : BEQ .notPressingLeft
+            JSR.w TryEquipPrevItem
+            
+            BRA .movingOn
+        
+        .notPressingLeft
+        
+        ; When BYSTudlr gets really hungry he makes chicken soup. Recipe
+        ; (translated from German): Fill bathtub with chicken broth. Put
+        ; chickens in tub. Eat.
+        LDA.b $F4 : AND.b #$01 : BEQ .notPressingRight
+            JSR.w TryEquipNextItem
+        
+        .notPressingRight
+        
+        LDA.b $F4 : STA.b $BD
+        
+        ; Check if the currently equipped item changed.
+        LDA.w $0202 : CMP.b $00 : BEQ .didntChange
+            ; Reset a timer and play a sound effect.
+            LDA.b #$10 : STA.w $0207
+            LDA.b #$20 : STA.w $012F
+    
+    .didntChange
+    
+    LDA.b #$01
+    
+    JSR.w GetPaletteMask
+    JSR.w DrawYButtonItems
+    JSR.w DrawSelectedYButtonItem
+    
+    ; Check if we ended up selecting a bottle this frame.
+    LDA.w $0202 : CMP.b #$10 : BNE .didntSelectBottle
+    
+    ; Switch to the bottle submenu handler.
+    LDA.b #$07 : STA.w $0200
+    
+    .didntSelectBottle
+    
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
+    LDA.b #$01 : STA.b $17
+    LDA.b #$22 : STA.w $0116
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06DFA9-$06DFB9 LOCAL JUMP LOCATION
+Equipment_UpdateHUD:
+{
+    ; Move on to next step.
+    INC.w $0200
+    
+    JSR.w HUD_Rebuild_updateOnly
+    
+    ; $06DFAF ALTERNATE ENTRY POINT
+    .updateEquippedItem
+    
+    ; Using the item selected in the item menu, set a value that tells us what
+    ; item to use during actual gameplay. (Y button items, btw).
+    LDX.w $0202 
+    
+    LDA.l $0DFA15, X : STA.w $0303
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06DFBA-$06DFFA JUMP LOCATION
+Equipment_CloseMenu:
+{
+    .scroll_up_additional_8_pixels
+    
+    REP #$20
+    
+    ; Scroll the menu back up so it's off screen (8 pixels at a time).
+    LDA.b $EA : CLC : ADC.w #$0008 : STA.b $EA
+    SEP #$20 : BNE .notDoneScrolling
+        JSR.w HUD_Rebuild
+        
+        ; Reset submodule and subsubmodule indices.
+        STZ.w $0200
+        STZ.b $11
+        
+        ; Go back to the module we came from.
+        LDA.w $010C : STA.b $10
+        
+        ; Why this is checked, I dunno. notice the huge whopping STZ.b $11 up
+        ; above? Yeah, I thought so.
+        LDA.b $11 : BEQ .noSpecialSubmode
+            ; This seems random and out of place. There's not even a check to
+            ; make sure we're indoors. Unless that LDA.b $11 up above was meant
+            ; to be LDA.b $1B.
+            
+            JSL RestoreTorchBackground
+        
+        .noSpecialSubmode
+        
+        LDA.w $0303 : CMP.b #$05 : BEQ .fireRod
+            CMP.b #$06 : BEQ .iceRod
+                LDA.b #$02 : STA.w $034B
+                
+                STZ.w $020B
+                
+                BRA .return
+
+            .iceRod
+        .fireRod
+
+        ; Okay, so contrary to what I thought this did previously in the
+        ; abstract, it actually positions the HUD up by 8 pixels higher than
+        ; it would normally be if you select one of the rods and this variable
+        ; $020B is also set. That's it.
+        LDA.w $020B : BNE .scroll_up_additional_8_pixels
+            STZ.w $034B
+    
+    .notDoneScrolling
+
+    .return
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06DFFB-$06E001 JUMP LOCATION
+Equipment_GotoBottleMenu:
+{
+    STZ.w $0205
+    INC.w $0200
+    
+    RTS
+} 
+
+; ==============================================================================
+
+; $06E002-$06E04F JUMP LOCATION
+Equipment_InitBottleMenu:
+{
+    REP #$30
+    
+    LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX
+    
+    LDA.w #$207F 
+    STA.w $12EA, X : STA.w $12EC, X : STA.w $12EE, X : STA.w $12F0, X
+    STA.w $12F2, X : STA.w $12F4, X : STA.w $12F6, X : STA.w $12F8, X
+    STA.w $12FA, X : STA.w $12FC, X
+    
+    SEP #$30
+    
+    INC.w $0205
+    
+    LDA.w $0205 : CMP.b #$13 : BNE .notDoneErasing
+        INC.w $0200
+        
+        LDA.b #$11 : STA.w $0205
+    
+    .notDoneErasing
+    
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
+    LDA.b #$01 : STA.b $17
+    LDA.b #$22 : STA.w $0116
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E050-$06E08B DATA
+Pool_BottleMenu_Open:
+{
+    ; $06E050
+    .border_tile_top
+    dw $28FB, $28F9, $28F9, $28F9, $28F9
+    dw $28F9, $28F9, $28F9, $28F9, $68FB
+    
+    ; $06E064
+    .border_tile_row
+    dw $28FC, $24F5, $24F5, $24F5, $24F5
+    dw $24F5, $24F5, $24F5, $24F5, $68FC
+    
+    ; $06E078
+    .border_tile_bottom
+    dw $A8FB, $A8F9, $A8F9, $A8F9, $A8F9
+    dw $A8F9, $A8F9, $A8F9, $A8F9, $E8FB
+}
+
+; ==============================================================================
+
+; Each frame of this causes the bottle menu frame to expand upward by by one
+; tile.
+; $06E08C-$06E0DE JUMP LOCATION
+Equipment_ExpandBottleMenu:
+{
+    REP #$30
+    
+    LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX : PHX
+    
+    LDY.w #$0012
+    
+    .drawBottleMenuTop
+    
+        LDA.w Pool_BottleMenu_Open_border_tile_top, Y : STA.w $12FC, X
+    DEX #2 : DEY #2 : BPL .drawBottleMenuTop
+    
+    PLX 
+    
+    LDY.w #$0012
+    
+    ; Each subsequent frame, this will overwrite the top of the menu
+    ; from the previous frame until fully expanded.
+    .eraseOldTop
+    
+        LDA.w Pool_BottleMenu_Open_border_tile_row, Y : STA.w $133C, X
+        
+        DEX #2
+    DEY #2 : BPL .eraseOldTop
+    
+    LDX.w #$0012
+
+    ; Probably only really needs to be done during the first frame of this
+    ; step of the submodule.
+    .drawBottleMenuBottom
+    
+        LDA.w Pool_BottleMenu_Open_border_tile_bottom, X : STA.w $176A, X
+    DEX #2 : BPL .drawBottleMenuBottom
+    
+    SEP #$30
+    
+    DEC.w $0205 : LDA.w $0205 : BPL .notDoneDrawing
+        INC.w $0200
+    
+    .notDoneDrawing
+    
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
+    LDA.b #$01 : STA.b $17
+    LDA.b #$22 : STA.w $0116
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E0DF-$06E176 JUMP LOCATION
+Equipment_BottleMenu:
+{
+    INC.w $0207
+    
+    ; Check if the start button was pressed this frame.
+    LDA.b $F4 : AND.b #$10 : BEQ .dontCloseMenu
+        ; Close the item menu and play the vvvoooop sound as it goes up.
+        LDA.b #$12 : STA.w $012F
+        LDA.b #$05 : STA.w $0200
+        
+        BRA .lookAtUpDownInput
+    
+    .dontCloseMenu
+    
+    LDA.b $F4 : AND.b #$03 : BEQ .noLeftRightInput
+        LDA.b $F4 : AND.b #$02 : BEQ .noLeftInput
+            JSR.w TryEquipPrevItem
+            
+            BRA .movingOn
+        
+        .noLeftInput
+        
+        LDA.b $F4 : AND.b #$01 : BEQ .noRightInput
+            JSR.w TryEquipNextItem
+        
+        .noRightInput
+        .movingOn
+        
+        ; Play sound effect and start a timer to keep us from switching items
+        ; for 16 frames.
+        LDA.b #$10 : STA.w $0207
+        LDA.b #$20 : STA.w $012F
+        
+        LDA.b #$01
+        
+        JSR.w GetPaletteMask
+        JSR.w DrawYButtonItems
+        JSR.w DrawSelectedYButtonItem
+        
+        ; Since left or right was pressed, we're exiting the bottle menu
+        ; and going back to the normal menu.
+        INC.w $0200
+        
+        STZ.w $0205
+        
+        RTS
+    
+    .noLeftRightInput
+    .lookAtUpDownInput
+    
+    JSR.w UpdateBottleMenu
+    
+    LDA.b $F4 : AND.b #$0C : BNE .haveUpDownInput 
+        ; There's no input, so nothing happens.
+        RTS
+    
+    .haveUpDownInput
+    
+    LDA.l $7EF34F : DEC A : STA.b $00 : STA.b $02
+    
+    LDA.b $F4 : AND.b #$08 : BEQ .haveUpInput
+        .selectPrevBottle
+        
+            LDA.b $00 : DEC A : AND.b #$03 : STA.b $00 : TAX
+        LDA.l $7EF35C, X : BEQ .selectPrevBottle
+        
+        BRA .bottleIsSelected
+    
+    .haveUpInput
+
+    .selectNextBottle
+    
+        LDA.b $00 : INC A : AND.b #$03 : STA.b $00 : TAX
+    LDA.l $7EF35C, X : BEQ .selectNextBottle
+    
+    .bottleIsSelected
+    
+    LDA.b $00 : CMP $02 : BEQ .sameBottleWhoCares
+        ; Record which bottle was just selected.
+        INC A : STA.l $7EF34F
+        
+        ; If it's not the same bottle we play the obligatory item switch sound
+        ; effect.
+        LDA.b #$10 : STA.w $0207
+        LDA.b #$20 : STA.w $012F
+        
+    .sameBottleWhoCares
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E177-$06E17E DATA
+BottleMenuCursorPosition:
+{
+    dw $0088, $0188, $0288, $0388 
+}
+
+; ==============================================================================
+
+; $06E17F-$06E2FC LOCAL JUMP LOCATION
+Equipment_UpdateBottleMenu:
+{
+    REP #$30
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    LDA.w #$24F5
+    
+    .erase
+    
+        STA.w $132C, X : A.w $136C6C, X
+        STA.w $13AC, X : A.w $13ECEC, X
+        STA.w $142C, X : A.w $146C6C, X
+        STA.w $14AC, X : A.w $14ECEC, X
+        STA.w $152C, X : A.w $156C6C, X
+        STA.w $15AC, X : A.w $15ECEC, X
+        STA.w $162C, X : A.w $166C6C, X
+        STA.w $16AC, X : A.w $16ECEC, X
+        STA.w $172C, X 
+        
+        INX #2
+    DEY : BPL .erase
+    
+    ; Draw the 4 bottle icons (if we don't have that bottle it just draws
+    ; blanks).
+    LDA.w #$1372 :                 STA.b $00
+    LDA.l $7EF35C : AND.w #$00FF : STA.b $02
+    LDA.w #$F751 :                 STA.b $04
+    
+    JSR.w DrawItem
+    
+    LDA.w #$1472 :                 STA.b $00
+    LDA.l $7EF35D : AND.w #$00FF : STA.b $02
+    LDA.w #$F751 :                 STA.b $04
+    
+    JSR.w DrawItem
+    
+    LDA.w #$1572 :                 STA.b $00
+    LDA.l $7EF35E : AND.w #$00FF : STA.b $02
+    LDA.w #$F751 :                 STA.b $04
+    
+    JSR.w DrawItem
+    
+    LDA.w #$1672 :                 STA.b $00
+    LDA.l $7EF35F : AND.w #$00FF : STA.b $02
+    LDA.w #$F751 :                 STA.b $04
+    
+    JSR.w DrawItem
+    
+    LDA.w #$1408 : STA.b $00
+    
+    LDA.l $7EF34F : AND.w #$00FF : TAX : BNE .haveBottleEquipped
+        LDA.w #$0000
+        
+        BRA .drawEquippedBottle
+    
+    .haveBottleEquipped
+    
+    LDA.l $7EF35B, X : AND.w #$00FF
+    
+    .drawEquippedBottle
+    
+    STA.b $02
+    
+    LDA.w #$F751 : STA.b $04
+    
+    JSR.w DrawItem
+    
+    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    
+    LDY.w $FAD5, X
+    
+    LDA.w $0000, Y : A.w $11B2B2
+    LDA.w $0002, Y : A.w $11B4B4
+    LDA.w $0040, Y : A.w $11F2F2
+    LDA.w $0042, Y : A.w $11F4F4
+    
+    LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
+    
+    LDA.w $E177, Y : TAY
+    
+    LDA.w $0207 : AND.w #$0010 : BEQ .return
+        LDA.w #$3C61 : STA.w $12AA, Y
+        ORA.w #$4000 : STA.w $12AC, Y
+        
+        LDA.w #$3C70 : STA.w $12E8, Y
+        ORA.w #$4000 : STA.w $12EE, Y
+        
+        LDA.w #$BC70 : STA.w $1328, Y
+        ORA.w #$4000 : STA.w $132E, Y
+        
+        LDA.w #$BC61 : STA.w $136A, Y
+        ORA.w #$4000 : STA.w $136C, Y
+        
+        LDA.w #$3C60 : STA.w $12A8, Y
+        ORA.w #$4000 : STA.w $12AE, Y
+        ORA.w #$8000 : STA.w $136E, Y
+        EOR.w #$4000 : STA.w $1368, Y
+        
+        LDA.l $7EF34F : AND.w #$00FF : BEQ .noSelectedBottle
+            TAX
+            
+            LDA.l $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeBottleDescription
+                LDA.w $F449, X : STA.w $122C, Y
+                LDA.w $F459, X : STA.w $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeBottleDescription
+
+        .noSelectedBottle
+    
+    .return
+    
+    SEP #$30
+    
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
+    LDA.b #$01 : STA.b $17
+    LDA.b #$22 : STA.w $0116
+    
+    RTS
+} 
+
+; ==============================================================================
+
+; $06E2FD-$06E345 JUMP LOCATION
+Equipment_EraseBottleMenu:
+{
+    REP #$30
+    
+    ; Erase the bottle menu.
+    LDA.w $0205 : AND.w #$00FF : ASL #6 : TAX
+    
+    LDA.w #$207F
+    STA.w $12EA, X : STA.w $12EC, X
+    STA.w $12EE, X : STA.w $12F0, X
+    STA.w $12F2, X : STA.w $12F4, X
+    STA.w $12F6, X : STA.w $12F8, X
+    STA.w $12FA, X : STA.w $12FC, X
+    
+    SEP #$30
+    
+    INC.w $0205
+    
+    LDA.w $0205 : CMP.b #$13 : BNE .notDoneErasing
+        ; Move on to the next step of the submodule.
+        INC.w $0200
+    
+    .notDoneErasing
+    
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
+    LDA.b #$01 : STA.b $17
+    LDA.b #$22 : STA.w $0116
+    
+    RTS
+}
+
+; ==============================================================================
+
+; Updates just the portions of the screen that the bottle menu screws with.
+; $06E346-$06E371 JUMP LOCATION
+Equipment_RestoreNormalMenu:
+{
+    JSR.w DrawProgressIcons
+    JSR.w DrawMoonPearl
+    JSR.w UnfinishedRoutine
+    
+    LDA.b #$01
+    
+    JSR.w GetPaletteMask
+    JSR.w DrawEquipment
+    JSR.w DrawShield
+    JSR.w DrawArmor
+    JSR.w DrawMapAndBigKey
+    JSR.w DrawCompass
+    
+    ; Switch to the normal menu submode.
+    LDA.b #$04 : STA.w $0200
+    
+    ; Tell NMI to update BG3 tilemap next from by writing to address $6800
+    ; (word) in vram.
+    LDA.b #$01 : STA.b $17
+    LDA.b #$22 : STA.w $0116
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E372-$06E394 LOCAL JUMP LOCATION
+Equipment_DrawItem:
+{
+    LDA.b $02 : ASL #3 : TAY
+    
+    LDX.b $00 : LDA ($04), Y : STA.w $0000, X
+    INY #2 :    LDA ($04), Y : STA.w $0002, X 
+    INY #2 :    LDA ($04), Y : STA.w $0040, X 
+    INY #2 :    LDA ($04), Y : STA.w $0042, X
+    
+    RTS
+} 
+
+; ==============================================================================
+
+; $06E395-$06E398 LONG JUMP LOCATION
+; TODO: Unused? Investigate.
+Equipment_SearchForEquippedItemLong:
+{
+    JSR.w SearchForEquippedItem
+    
+    RTL
+}
+
+; ==============================================================================
+
+; $06E399-$06E3C7 LOCAL JUMP LOCATION
+Equipment_SearchForEquippedItem:
+{
+    SEP #$30
+    
+    LDX.b #$12
+    
+    LDA.l $7EF340
+    
+    ; Go through all our equipable items, hoping to find at least one available.
+    .itemCheck
+
+        ; Loop.
+    ORA.l $7EF341, X : DEX : BPL .itemCheck                     
+    
+    CMP.b #$00 : BNE .equippableItemAvailable
+        ; In this case we have no equippable items.
+        STZ.w $0202 : Z.w $020303 Z.w $02040204
+        
+        .weHaveThatItem
+        
+        RTS
+    
+    .equippableItemAvailable
+    
+    ; Is there an item currently equipped (in the HUD slot)?
+    LDA.w $0202 : BNE .alreadyEquipped
+        ; If not, set the equipped item to the Bow and Arrow (even if we don't
+        ; actually have it).
+        LDA.b #$01 : STA.w $0202
+    
+    .alreadyEquipped
+    
+    ; Checks to see if we actually have that item, we're done if we have that
+    ; item.
+    JSR.w DoWeHaveThisItem : BCS .weHaveThatItem
+        JMP TryEquipNextItem
+}
+
+; ==============================================================================
+
+; $06E3C8-$06E3D8 LOCAL JUMP LOCATION
+Equipment_GetPaletteMask:
+{
+    ; Basically if(A == 0) $00 = 0xE3FF else $00 = 0xFFFF; If A was zero, this
+    ; would be used to force a tilemap entry's palette to the 0th palette.
+    
+    SEP #$30
+    
+    LDX.b #$E3
+    
+    CMP.b #$00 : BEQ .alpha
+        LDX.b #$FF
+    
+    .alpha
+    
+    STX.b $01
+    
+    LDA.b #$FF : STA.b $00
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E3D9-$06E646 LOCAL JUMP LOCATION
+Equipment_DrawYButtonItems:
+{
+    REP #$30
+    
+    ; Draw 4 corners of a box (for the equippable item section).
+    LDA.w #$3CFB : AND.b $00 : STA.w $1142
+    ORA.w #$8000 : STA.w $14C2
+    ORA.w #$4000 : STA.w $14E6
+    EOR.w #$8000 : STA.w $1166
+    
+    LDX.w #$0000
+    LDY.w #$000C
+    
+    .drawVerticalEdges
+    
+        LDA.w #$3CFC : AND.b $00 : STA.w $1182, X
+        ORA.w #$4000 : STA.w $11A6, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
+    DEY : BPL .drawVerticalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0010
+    
+    .drawHorizontalEdges
+    
+        LDA.w #$3CF9 : AND.b $00 : STA.w $1144, X
+        ORA.w #$8000 : STA.w $14C4, X
+        
+        INX #2
+    DEY : BPL .drawHorizontalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0010
+    LDA.w #$24F5
+    
+    .drawBoxInterior
+    
+        STA.w $1184, X : A.w $11C4C4, X A.w $12041204, A.w $1244 $1244, X
+        STA.w $1284, X : A.w $12C4C4, X A.w $13041304, A.w $1344 $1344, X
+        STA.w $1384, X : A.w $13C4C4, X A.w $14041404, A.w $1444 $1444, X
+        STA.w $1484, X
+        
+        INX #2
+    DEY : BPL .drawBoxInterior
+    
+    ; Draw 'Y' button Icon.
+    LDA.w #$3CF0 : STA.w $1184
+    LDA.w #$3CF1 : STA.w $11C4
+
+    ; The "ITEM" at the top.
+    LDA.w #$246E : STA.w $1146
+    LDA.w #$246F : STA.w $1148
+    
+    ; Draw Bow and Arrow.
+    LDA.w #$11C8                 : STA.b $00
+    LDA.l $7EF340 : AND.w #$00FF : STA.b $02
+    LDA.w #$F629                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Boomerang.
+    LDA.w #$11CE                 : STA.b $00
+    LDA.l $7EF341 : AND.w #$00FF : STA.b $02
+    LDA.w #$F651                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Hookshot.
+    LDA.w #$11D4                 : STA.b $00
+    LDA.l $7EF342 : AND.w #$00FF : STA.b $02
+    LDA.w #$F669                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Bombs.
+    LDA.w #$11DA : STA.b $00
+    LDA.l $7EF343 : AND.w #$00FF : BEQ .gotNoBombs
+        LDA.w #$0001
+    
+    .gotNoBombs
+    
+    STA.b $02
+    LDA.w #$F679 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw mushroom or magic powder.
+    LDA.w #$11E0 :                 STA.b $00
+    LDA.l $7EF344 : AND.w #$00FF : STA.b $02
+    LDA.w #$F689 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Fire Rod.
+    LDA.w #$1288 :                 STA.b $00
+    LDA.l $7EF345 : AND.w #$00FF : STA.b $02
+    LDA.w #$F6A1 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Ice Rod.
+    LDA.w #$128E :                 STA.b $00
+    LDA.l $7EF346 : AND.w #$00FF : STA.b $02
+    LDA.w #$F6B1 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Bombos Medallion.
+    LDA.w #$1294 :                 STA.b $00
+    LDA.l $7EF347 : AND.w #$00FF : STA.b $02
+    LDA.w #$F6C1 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Ether Medallion.
+    LDA.w #$129A :                 STA.b $00
+    LDA.l $7EF348 : AND.w #$00FF : STA.b $02
+    LDA.w #$F6D1 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Quake Medallion.
+    LDA.w #$12A0 :                 STA.b $00
+    LDA.l $7EF349 : AND.w #$00FF : STA.b $02
+    LDA.w #$F6E1 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Lamp.
+    LDA.w #$1348 :                 STA.b $00
+    LDA.l $7EF34A : AND.w #$00FF : STA.b $02
+    LDA.w #$F6F1 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Hammer.
+    LDA.w #$134E :                 STA.b $00
+    LDA.l $7EF34B : AND.w #$00FF : STA.b $02
+    LDA.w #$F701 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Flute.
+    LDA.w #$1354 :                 STA.b $00
+    LDA.l $7EF34C : AND.w #$00FF : STA.b $02
+    LDA.w #$F711 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Bug Catching Net.
+    LDA.w #$135A :                 STA.b $00
+    LDA.l $7EF34D : AND.w #$00FF : STA.b $02
+    LDA.w #$F731 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Book Of Mudora.
+    LDA.w #$1360 :                 STA.b $00
+    LDA.l $7EF34E : AND.w #$00FF : STA.b $02
+    LDA.w #$F741 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; There is an active bottle.
+    LDA.w #$1408 : STA.b $00
+    LDA.l $7EF34F : AND.w #$00FF : TAX : BNE .haveSelectedBottle
+        LDA.w #$0000
+        
+        BRA .noSelectedBottle
+    
+    .haveSelectedBottle
+    
+    LDA.l $7EF35B, X : AND.w #$00FF
+    
+    .noSelectedBottle
+    
+    STA.b $02
+    LDA.w #$F751 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Cane of Somaria.
+    LDA.w #$140E :                 STA.b $00
+    LDA.l $7EF350 : AND.w #$00FF : STA.b $02
+    LDA.w #$F799 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Cane of Byrna.
+    LDA.w #$1414 :                 STA.b $00
+    LDA.l $7EF351 : AND.w #$00FF : STA.b $02
+    LDA.w #$F7A9 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Magic Cape.
+    LDA.w #$141A :                 STA.b $00
+    LDA.l $7EF352 : AND.w #$00FF : STA.b $02
+    LDA.w #$F7B9 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Magic Mirror.
+    LDA.w #$1420 :                 STA.b $00
+    LDA.l $7EF353 : AND.w #$00FF : STA.b $02
+    LDA.w #$F7C9 :                 STA.b $04
+    JSR.w DrawItem
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E647-$06E6B5 LOCAL JUMP LOCATION
+Equipment_DrawSelectedItemBox:
+{
+    REP #$30
+    
+    ; Draw 4 corners of a box.
+    LDA.w #$3CFB : AND.b $00 : STA.w $116A
+    ORA.w #$8000 :             STA.w $12AA
+    ORA.w #$4000 :             STA.w $12BC
+    EOR.w #$8000 :             STA.w $117C
+    
+    LDX.w #$0000 
+    LDY.w #$0003
+    
+    ; The lines these tiles make are vertical.
+    .drawBoxVerticalSides
+    
+        LDA.w #$3CFC : AND.b $00 :    STA.w $11AA, X
+                       ORA.w #$4000 : STA.w $11BC, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
+    DEY : BPL .drawBoxVerticalSides
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    
+    ; I say horizontal because the lines the sides make are horizontal.
+    .drawBoxHorizontalSides
+    
+        LDA.w #$3CF9 : AND.b $00 : STA.w $116C, X
+        ORA.w #$8000 : STA.w $12AC, X
+        
+        INX #2
+    DEY : BPL .drawBoxHorizontalSides
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    LDA.w #$24F5
+    
+    .drawBoxInterior
+    
+        ; Init description draw.
+        STA.w $11AC, X : A.w $11ECEC, X A.w $122C122C, A.w $126C.w $126C, X
+        
+        INX #2
+    DEY : BPL .drawBoxInterior
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; $06E6B6-$06E7B6 LOCAL JUMP LOCATION
+Equipment_DrawAbilityText:
+{
+    REP #$30
+    
+    LDX.w #$0000
+    LDY.w #$0010
+    LDA.w #$24F5
+    
+    .drawBoxInterior
+    
+        STA.w $1584, X : A.w $15C4C4, X
+        STA.w $1604, X : A.w $164444, X
+        STA.w $1684, X : A.w $16C4C4, X
+        
+        STA.w $1704, X : INX #2
+    DEY : BPL .drawBoxInterior
+    
+    ; Get data from ability variable (set of flags for each ability).
+    LDA.l $7EF378 : AND.w #$FF00 : STA.b $02
+    
+    LDA.w #$0003 : STA.b $04
+    
+    LDY.w #$0000 : TYX
+    
+    .nextLine
+    
+        LDA.w #$0004 : STA.b $06
+        
+        .nextAbility
+        
+            ASL.b $02 : BCC .lacksAbility
+                ; Draws the ability strings if Link has the ability
+                ; (2 x 5 tile rectangle for each ability).
+                LDA.w $F959, X : STA.w $1588, Y
+                LDA.w $F95B, X : STA.w $158A, Y
+                LDA.w $F95D, X : STA.w $158C, Y
+                LDA.w $F95F, X : STA.w $158E, Y
+                LDA.w $F961, X : STA.w $1590, Y
+                LDA.w $F963, X : STA.w $15C8, Y
+                LDA.w $F965, X : STA.w $15CA, Y
+                LDA.w $F967, X : STA.w $15CC, Y
+                LDA.w $F969, X : STA.w $15CE, Y
+                LDA.w $F96B, X : STA.w $15D0, Y
+            
+            .lacksAbility
+            
+            TXA : CLC : ADC.w #$0014 : TAX
+            TYA : CLC : ADC.w #$000A : TAY
+        DEC.b $06 : BNE .nextAbility
+        
+        TYA : CLC : ADC.w #$0058 : TAY
+    DEC.b $04 : BNE .nextLine
+    
+    ; Draw the 4 corners of the box containing the ability tiles.
+    LDA.w #$24FB : AND.b $00 : STA.w $1542
+    ORA.w #$8000 : STA.w $1742
+    ORA.w #$4000 : STA.w $1766
+    EOR.w #$8000 : STA.w $1566
+    
+    LDX.w #$0000
+    LDY.w #$0006
+    
+    .drawVerticalEdges
+    
+        LDA.w #$24FC : AND.b $00 : STA.w $1582, X
+        ORA.w #$4000 : STA.w $15A6, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
+    DEY : BPL .drawVerticalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0010
+    
+    .drawHorizontalEdges
+    
+        LDA.w #$24F9 : AND.b $00 : STA.w $1544, X
+        ORA.w #$8000 : STA.w $1744, X
+        
+        INX #2
+    DEY : BPL .drawHorizontalEdges
+    
+    ; Draw 'A' button icon.
+    LDA.w #$A4F0 : STA.w $1584
+    LDA.w #$24F2 : STA.w $15C4
+    LDA.w #$2482 : STA.w $1546
+    LDA.w #$2483 : STA.w $1548
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06E7B7-$06E819 LOCAL JUMP LOCATION
+Equipment_DrawAbilityIcons:
+{
+    REP #$30
+    
+    ; Draw Gloves.
+    LDA.w #$16D0 :                 STA.b $00
+    LDA.l $7EF354 : AND.w #$00FF : STA.b $02
+    LDA.w #$F7E9 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Boots.
+    LDA.w #$16C8 :                 STA.b $00
+    LDA.l $7EF355 : AND.w #$00FF : STA.b $02
+    LDA.w #$F801 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Flippers.
+    LDA.w #$16D8 :                 STA.b $00
+    LDA.l $7EF356 : AND.w #$00FF : STA.b $02
+    LDA.w #$F811 :                 STA.b $04
+    JSR.w DrawItem
+    
+    ; Modify the lift ability text if you have a glove item.
+    LDA.l $7EF354 : AND.w #$00FF : BEQ .finished
+        CMP.w #$0001 : BNE .titansMitt
+            LDA.w #$0000
+            
+            JSR.w DrawGloveAbility
+            
+            BRA .finished
+        
+        .titansMitt
+        
+        LDA.w #$0001
+        
+        JSR.w DrawGloveAbility
+    
+    .finished
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; $06E81A-$06E85F LOCAL JUMP LOCATION
+Equipment_DrawGloveAbility:
+{
+    STA.b $00 
+    ASL #2 : ADC.b $00 : ASL #2 : TAX
+    
+    LDA.w $F931, X : STA.w $1588
+    LDA.w $F933, X : STA.w $158A
+    LDA.w $F935, X : STA.w $158C
+    LDA.w $F937, X : STA.w $158E
+    LDA.w $F939, X : STA.w $1590
+    LDA.w $F93B, X : STA.w $15C8
+    LDA.w $F93D, X : STA.w $15CA
+    LDA.w $F93F, X : STA.w $15CC
+    LDA.w $F941, X : STA.w $15CE
+    LDA.w $F943, X : STA.w $15D0
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; Progress box data
+; $06E860-$06E913 DATA
+ItemMenuIcons_PendantWindow:
+{
+    ; $6E860
+    .row0
+    db $28FB, $28F9, $28F9, $28F9, $28F9, $28F9, $28F9, $28F9, $28F9, $68FB
+
+    ; $6E874
+    .row1
+    db $28FC, $2521, $2522, $2523, $2524, $253F, $24F5, $24F5, $24F5, $68FC
+
+    ; $6E888
+    .row2
+    db $28FC, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $68FC
+
+    ; $6E89C
+    .row3
+    db $28FC, $24F5, $24F5, $24F5, $213B, $213C, $24F5, $24F5, $24F5, $68FC
+
+    ; $6E8B0
+    .row4
+    db $28FC, $24F5, $24F5, $24F5, $213D, $213E, $24F5, $24F5, $24F5, $68FC
+
+    ; $6E8C4
+    .row5
+    db $28FC, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $68FC
+
+    ; $6E8D8
+    .row6
+    db $28FC, $24F5, $213B, $213C, $24F5, $24F5, $213B, $213C, $24F5, $68FC
+
+    ; $6E8EC
+    .row7
+    db $28FC, $24F5, $213D, $213E, $24F5, $24F5, $213D, $213E, $24F5, $68FC
+
+    ; $06E900
+    .row8
+    db $A8FB, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $E8FB
+}
+
+; $06E914-$06E9C7 DATA
+ItemMenuIcons_CrystalWindow:
+{
+    ; $06E914
+    .row0
+    db $28FB, $28F9, $28F9, $28F9, $28F9, $28F9, $28F9, $28F9, $28F9, $68FB
+
+    ; $06E928
+    .row1
+    db $28FC, $252F, $2534, $2535, $2536, $2537, $24F5, $24F5, $24F5, $68FC
+
+    ; $06E93C
+    .row2
+    db $28FC, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $68FC
+
+    ; $06E950
+    .row3
+    db $28FC, $24F5, $24F5, $3146, $3147, $3146, $3147, $24F5, $24F5, $68FC
+
+    ; $06E964
+    .row4
+    db $28FC, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $68FC
+
+    ; $06E978
+    .row5
+    db $28FC, $24F5, $3146, $3147, $3146, $3147, $3146, $3147, $24F5, $68FC
+
+    ; $06E98C
+    .row6
+    db $28FC, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $68FC
+
+    ; $06E9A0
+    .row7
+    db $28FC, $24F5, $24F5, $3146, $3147, $3146, $3147, $24F5, $24F5, $68FC
+
+    ; $06E9B4
+    .row8
+    db $A8FB, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $A8F9, $E8FB
+}
+
+; ==============================================================================
+
+; $06E9C8-$06EB39 LOCAL JUMP LOCATION
+Equipment_DrawProgressIcons:
+{
+    LDA.l $7EF3C5 : CMP.b #$03 : BCC .beforeAgahnim
+        JMP .drawCrystals
+    
+    .beforeAgahnim
+    
+    REP #$30
+    
+    LDX.w #$0000
+    
+    .initPendantDiagram
+    
+        LDA.w $E860, X : STA.w $12EA, X
+        LDA.w $E874, X : STA.w $132A, X
+        LDA.w $E888, X : STA.w $136A, X
+        LDA.w $E89C, X : STA.w $13AA, X
+        LDA.w $E8B0, X : STA.w $13EA, X
+        LDA.w $E8C4, X : STA.w $142A, X
+        LDA.w $E8D8, X : STA.w $146A, X
+        LDA.w $E8EC, X : STA.w $14AA, X
+        LDA.w $E900, X : STA.w $14EA, X
+    INX #2 : CPX.w #$0014 : BCC .initPendantDiagram
+    
+    ; Draw Green Pendant.
+    LDA.w #$13B2                 : STA.b $00
+    LDA.l $7EF374 : AND.w #$0001 : STA.b $02
+    LDA.w #$F8D1                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Blue Pendant.
+    LDA.w #$146E : STA.b $00
+                   STZ.b $02
+    LDA.l $7EF374 : AND.w #$0002 : BEQ .needWisdomPendant
+        INC.b $02
+    
+    .needWisdomPendant
+    
+    LDA.w #$F8E1 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw Red Pendant.
+    LDA.w #$1476 : STA.b $00
+                   STZ.b $02
+    LDA.l $7EF374 : AND.w #$0004 : BEQ .needPowerPendant
+        INC.b $02
+    
+    .needPowerPendant
+    
+    LDA.w #$F8F1 : STA.b $04
+    JSR.w DrawItem
+    
+    SEP #$30
+    
+    RTS
+    
+    ; $06EA62 ALTERNATE ENTRY POINT
+    .drawCrystals
+    
+    REP #$30
+    
+    LDX.w #$0000
+    
+    .initCrystalDiagram
+    
+        LDA.w $E914, X : STA.w $12EA, X
+        LDA.w $E928, X : STA.w $132A, X
+        LDA.w $E93C, X : STA.w $136A, X
+        LDA.w $E950, X : STA.w $13AA, X
+        LDA.w $E964, X : STA.w $13EA, X
+        LDA.w $E978, X : STA.w $142A, X
+        LDA.w $E98C, X : STA.w $146A, X
+        LDA.w $E9A0, X : STA.w $14AA, X
+        LDA.w $E9B4, X : STA.w $14EA, X
+    INX #2 : CPX.w #$0014 : BCC .initCrystalDiagram
+    
+    ; Draw Crystal 1.
+    LDA.l $7EF37A : AND.w #$0001 : BEQ .miseryMireNotDone
+        LDA.w #$2D44 : STA.w $13B0
+        LDA.w #$2D45 : STA.w $13B2
+    
+    .miseryMireNotDone
+    
+    ; Draw Crystal 2.
+    LDA.l $7EF37A : AND.w #$0002 : BEQ .darkPalaceNotDone
+        LDA.w #$2D44 : STA.w $13B4
+        LDA.w #$2D45 : STA.w $13B6
+    
+    .darkPalaceNotDone
+    
+    ; Draw Crystal 3.
+    LDA.l $7EF37A : AND.w #$0004 : BEQ .icePalaceNotDone
+        LDA.w #$2D44 : STA.w $142E
+        LDA.w #$2D45 : STA.w $1430
+    
+    .icePalaceNotDone
+    
+    ; Draw Crystal 4.
+    LDA.l $7EF37A : AND.w #$0008 : BEQ .turtleRockNotDone
+        LDA.w #$2D44 : STA.w $1432
+        LDA.w #$2D45 : STA.w $1434
+    
+    .turtleRockNotDone
+    
+    ; Draw Crystal 5.
+    LDA.l $7EF37A : AND.w #$0010 : BEQ .swampPalaceNotDone
+        LDA.w #$2D44 : STA.w $1436
+        LDA.w #$2D45 : STA.w $1438
+    
+    .swampPalaceNotDone
+    
+    ; Draw Crystal 6.
+    LDA.l $7EF37A : AND.w #$0020 : BEQ .blindHideoutNotDone
+        LDA.w #$2D44 : STA.w $14B0
+        LDA.w #$2D45 : STA.w $14B2
+    
+    .blindHideoutNotDone
+    
+    ; Draw Crystal 7.
+    LDA.l $7EF37A : AND.w #$0040 : BEQ .skullWoodsNotDone
+        LDA.w #$2D44 : STA.w $14B4
+        LDA.w #$2D45 : STA.w $14B6
+    
+    .skullWoodsNotDone
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; $06EB3A-$06ECE8 LOCAL JUMP LOCATION
+Equipment_DrawSelectedYButtonItem:
+{
+    REP #$30
+    
+    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    
+    LDY.w $FAD5, X
+    LDA.w $0000, Y : A.w $11B2B2
+    LDA.w $0002, Y : A.w $11B4B4
+    LDA.w $0040, Y : A.w $11F2F2
+    LDA.w $0042, Y : A.w $11F4F4
+    
+    LDA.w $0207 : AND.w #$0010 : BEQ .dontUpdate
+        LDA.w #$3C61 : STA.w $FFC0, Y
+        ORA.w #$4000 : STA.w $FFC2, Y
+        
+        LDA.w #$3C70 : STA.w $FFFE, Y
+        ORA.w #$4000 : STA.w $0004, Y
+        
+        LDA.w #$BC70 : STA.w $003E, Y
+        ORA.w #$4000 : STA.w $0044, Y
+        
+        LDA.w #$BC61 : STA.w $0080, Y
+        ORA.w #$4000 : STA.w $0082, Y
+        
+        LDA.w #$3C60 : STA.w $FFBE, Y
+        ORA.w #$4000 : STA.w $FFC4, Y
+        ORA.w #$8000 : STA.w $0084, Y
+        EOR.w #$4000 : STA.w $007E, Y
+    
+    .dontUpdate
+
+    ; Draw the item description:
+    ; The Bottles, Magic Powder, Magic Mirror, and Flute's descriptions can
+    ; change depending on their SRM value because of their alternate items
+    ; (potions/faires, mushroom, unused map item, and shovel).
+    
+    ; Check if we need to write a Bottle description.
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0010 : BNE .bottleNotSelected
+        LDA.l $7EF34F : AND.w #$00FF : BEQ .bottleNotSelected
+            TAX
+            
+            LDA.l $7EF35B, X : AND.w #$00FF : DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .drawBottleDescription
+            
+                ; Loads 24F5, 
+                LDA.w $F449, X : STA.w $122C, Y
+
+                ; Loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,
+                LDA.w $F459, X : STA.w $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .drawBottleDescription
+            
+            JMP .finished
+    
+    .bottleNotSelected
+
+    ; Check if we need to write the Magic Powder description.
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0005 : BNE .powderNotSelected
+        LDA.l $7EF344 : AND.w #$00FF : DEC A : BEQ .powderNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writePowderDescription
+            
+                LDA.w $F549, X : STA.w $122C, Y
+                LDA.w $F559, X : STA.w $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writePowderDescription
+            
+            JMP .finished
+    
+    .powderNotSelected
+    
+    ; Check if we need to write the Magic Mirror description.
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0014 : BNE .mirrorNotSelected
+        LDA.l $7EF353 : AND.w #$00FF : DEC A : BEQ .mirrorNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeMirrorDescription
+            
+                LDA.w $F5A9, X : STA.w $122C, Y
+                LDA.w $F5B9, X : STA.w $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeMirrorDescription
+            
+            JMP .finished
+    
+    .mirrorNotSelected
+    
+    ; Check if we need to write the Flute description.
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$000D : BNE .fluteNotSelected
+        LDA.l $7EF34C : AND.w #$00FF : DEC A : BEQ .fluteNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeFluteDescription
+            
+                LDA.w $F569, X : STA.w $122C, Y
+                LDA.w $F579, X : STA.w $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeFluteDescription
+            
+            BRA .finished
+        
+    .fluteNotSelected
+    
+    ; Check if we need to write the Bow description.
+    LDA.w $0202 : AND.w #$00FF : CMP.w #$0001 : BNE .bowNotSelected
+        LDA.l $7EF340 : AND.w #$00FF : DEC A : BEQ .bowNotSelected
+            DEC A : ASL #5 : TAX
+            
+            LDY.w #$0000
+            
+            .writeBowDescription
+            
+                LDA.w $F5C9, X : STA.w $122C, Y
+                LDA.w $F5D9, X : STA.w $126C, Y
+                
+                INX #2
+            INY #2 : CPY.w #$0010 : BCC .writeBowDescription
+            
+            BRA .finished
+    
+    .bowNotSelected
+    
+    TXA : ASL #4 : TAX
+    
+    LDY.w #$0000                                                
+    
+    ; If we the item was not a bottle, the Magic Powder, Magic Mirror, or the
+    ; Bow, write the defaul description.
+    .writeDefaultDescription
+    
+        LDA.w $F1C9, X : STA.w $122C, Y
+        LDA.w $F1D9, X : STA.w $126C, Y
+        
+        INX #2
+    INY #2 : CPY.w #$0010 : BCC .writeDefaultDescription
+    
+    .finished
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+ 
+; $06ECE9-$06ED03 LOCAL JUMP LOCATION
+Equipment_DrawMoonPearl:
+{
+    REP #$30
+    
+    LDA.w #$16E0                 : STA.b $00
+    LDA.l $7EF357 : AND.w #$00FF : STA.b $02
+    LDA.w #$F821                 : STA.b $04
+    JSR.w DrawItem
+    
+    SEP #$30
+    
+    RTS
+} 
+
+; ==============================================================================
+    
+; $06ED04-$06ED08 LOCAL JUMP LOCATION
+Equipment_UnfinishedRoutine:
+{
+    ; MOST WORTHLESS ROUTINE EVAR!
+    REP #$30
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+    
+; Equipment box text:
+; $06ED09-$06ED18 DATA
+ItemMenu_EQUIPMENT:
+{
+    ; "EQUIPMENT"
+    dw $2479, $247A, $247B, $247C, $248C, $24F5, $24F5, $24F5
+}
+
+; $06ED19-$06ED28 DATA
+ItemMenu_DUNGEONITEM:
+{
+    ; "DUNGEON ITEM"
+    dw $2469, $246A, $246B, $246C, $246D, $246E, $246F, $24F5
+}
+
+; ==============================================================================
+
+; $06ED29-$06EE20 LOCAL JUMP LOCATION
+Equipment_DrawEquipment:
+{
+    REP #$30
+    
+    ; Draw the 4 corners of the border for this section.
+    LDA.w #$28FB : AND.b $00 : STA.w $156A
+    ORA.w #$8000 :             STA.w $176A
+    ORA.w #$4000 :             STA.w $177C
+    EOR.w #$8000 :             STA.w $157C
+    
+    LDX.w #$0000
+    LDY.w #$0006
+    
+    .drawVerticalEdges
+
+        LDA.w #$28FC : AND.b $00 : STA.w $15AA, X
+        ORA.w #$4000 :             STA.w $15BC, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
+    DEY : BPL .drawVerticalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    
+    .drawHorizontalEdges
+
+        LDA.w #$28F9 : AND.b $00 : STA.w $156C, X
+        ORA.w #$8000 :             STA.w $176C, X
+    INX #2 : DEY : BPL .drawHorizontalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    LDA.w #$24F5
+    
+    .drawBoxInterior
+
+        STA.w $15AC, X : STA.w $15EC, X
+        STA.w $162C, X : STA.w $166C, X
+        STA.w $16AC, X : STA.w $16EC, X
+        STA.w $172C, X
+    INX #2 : DEY : BPL .drawBoxInterior
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    
+    LDA.w #$28D7 : AND.b $00
+    
+    .drawDashedSeparator
+
+        STA.w $166C, X
+    INX #2 : DEY : BPL .drawDashedSeparator
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    
+    .drawBoxTitle
+
+        ; Draw the "EQUIPMENT" text.
+        LDA ItemMenu_EQUIPMENT, X : AND.b $00 : STA.w $15AC, X
+
+        ; Draw the "DUNGEON ITEM" text.
+        LDA ItemMenu_DUNGEONITEM, X : AND.b $00 : STA.w $16AC, X
+    INX #2 : DEY : BPL .drawBoxTitle
+    
+    ; Check if we're in a real dungeon (palace) as opposed to just some
+    ; house or cave.
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BNE .inSpecificDungeon
+        LDX.w #$0000
+        LDY.w #$0007
+        LDA.w #$24F5
+        
+        .delete_dungeon_item_letters
+            STA.w $16AC, X
+        
+        INX #2 : DEY : BPL .delete_dungeon_item_letters
+        
+        ; Draw Heart Pieces.
+        LDA.w #$16F2 :                 STA.b $00
+        LDA.l $7EF36B : AND.w #$00FF : STA.b $02
+        LDA.w #$F911 :                 STA.b $04
+        JSR.w DrawItem
+    
+    .inSpecificDungeon
+    
+    REP #$30
+    
+    ; Draw Sword.
+    LDA.w #$15EC : STA.b $00
+    LDA.l $7EF359 : AND.w #$00FF : CMP.w #$00FF : BNE .hasSword
+        LDA.w #$0000
+    
+    .hasSword
+    
+                   STA.b $02
+    LDA.w #$F839 : STA.b $04
+    JSR.w DrawItem
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06EE21-$06EE3B LOCAL JUMP LOCATION
+Equipment_DrawShield:
+{
+    REP #$30
+    
+    LDA.w #$15F2                  : STA.b $00
+    LDA.l $7EF35A  : AND.w #$00FF : STA.b $02
+    LDA.w #$F861                  : STA.b $04
+    JSR.w DrawItem
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06EE3C-$06EE56 LOCAL JUMP LOCATION
+Equipment_DrawArmor:
+{
+    REP #$30
+    
+    LDA.w #$15F8                  : STA.b $00
+    LDA.l $7EF35B  : AND.w #$00FF : STA.b $02
+    LDA.w #$F881                  : STA.b $04
+    JSR.w DrawItem
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06EE57-$06EEB5 LOCAL JUMP LOCATION
+Equipment_DrawMapAndBigKey:
+{
+    REP #$30
+    
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
+        LSR A : TAX
+        
+        ; Check if we have the big key in this palace
+        LDA.l $7EF366
+        
+        .locateBigKeyFlag
+
+            ; Loop.
+        ASL A : DEX : BPL .locateBigKeyFlag
+
+        BCC .dontHaveBigKey
+            JSR.w ItemMenu_CheckForDungeonPrize
+            
+            REP #$30
+            
+            ; Draw the big key (or big key with chest if we've gotten the
+            ; treasure) icon.
+            LDA.w #$16F8                   : STA.b $00
+            LDA.w #$0001 : CLC : ADC.b $02 : STA.b $02
+            LDA.w #$F8A9                   : STA.b $04
+            JSR.w DrawItem
+        
+        .dontHaveBigKey
+    .notInPalace
+    
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalaceAgain
+        LSR A : TAX
+        
+        ; Check if we have the map in this dungeon.
+        LDA.l $7EF368
+        
+        .locateMapFlag
+        
+            ; Loop.
+        ASL A : DEX : BPL .locateMapFlag
+        
+        BCC .dontHaveMap
+            ; Draw Map.
+            LDA.w #$16EC : STA.b $00
+            LDA.w #$0001 : STA.b $02
+            LDA.w #$F8C1 : STA.b $04
+            
+            JSR.w DrawItem
+        
+        .dontHaveMap
+    .notInPalaceAgain
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06EEB6-$06EEDB LOCAL JUMP LOCATION
+Equipment_CheckPalaceItemPossession:
+ItemMenu_CheckForDungeonPrize:
+{
+    SEP #$30
+    
+    LDA.w $040C : LSR A
+    JSL UseImplicitRegIndexedLocalJumpTable
+    
+    dw ItemMenu_NoPrizeHad           ; Sewers
+    dw ItemMenu_NoPrizeHad           ; Hyrule Castle
+    dw ItemMenu_CheckForBow          ; Eastern Palace
+    dw ItemMenu_CheckForGloves       ; Desert Palace
+    dw ItemMenu_NoPrizeHad           ; Agahnim's Tower
+    dw ItemMenu_CheckForHookshot     ; Swamp Palace
+    dw ItemMenu_CheckForHammer       ; Palace of Darkness
+    dw ItemMenu_CheckForSomaria      ; Misery Mire
+    dw ItemMenu_CheckForFireRod      ; Skull Woods
+    dw ItemMenu_CheckForBlueMail     ; Ice Palace
+    dw ItemMenu_CheckForMoonPearl    ; Tower of Hera
+    dw ItemMenu_CheckForTitansMitt   ; Thieves' Town
+    dw ItemMenu_CheckForMirrorShield ; Turtle Rock
+    dw ItemMenu_CheckForRedMail      ; Ganon's Tower
+}
+
+; $06EEDC-$06EEE0 LOCAL JUMP LOCATION
+ItemMenu_NoPrizeHad:
+{
+    STZ.b $02
+    STZ.b $03
+    
+    RTS
+}
+    
+; $06EEE1-$06EEE4 LOCAL JUMP LOCATION
+ItemMenu_CheckForBow:
+{
+    LDA.l $7EF340
+
+    ; Bleeds into the next function.
+}
+    
+; $06EEE5-$06EEE6 LOCAL JUMP LOCATION
+ItemMenu_CheckThePrize:
+{
+    BEQ ItemMenu_NoPrizeHad
+        ; Bleeds into the next function.
+}
+
+; $06EEE7-$06EEED LOCAL JUMP LOCATION
+ItemMenu_HaveThePrize:
+{
+    LDA.b #$01 : STA.b $02
+                 STZ.b $03
+    
+    RTS
+}
+    
+; $06EEEE-$06EEF3 LOCAL JUMP LOCATION
+ItemMenu_CheckForGloves:
+{
+    LDA.l $7EF354
+
+    BRA ItemMenu_CheckThePrize
+}
+    
+; $06EEF4-$06EEF9 LOCAL JUMP LOCATION
+ItemMenu_CheckForHookshot:
+{
+    LDA.l $7EF342
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EEFA-$06EEFF LOCAL JUMP LOCATION
+ItemMenu_CheckForHammer:
+{
+    LDA.l $7EF34B
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EF00-$06EF05 LOCAL JUMP LOCATION
+ItemMenu_CheckForSomaria:
+{
+    LDA.l $7EF350
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EF06-$06EF0B LOCAL JUMP LOCATION
+ItemMenu_CheckForFireRod:
+{
+    LDA.l $7EF345
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EF0C-$06EF11 LOCAL JUMP LOCATION
+ItemMenu_CheckForBlueMail:
+{
+    LDA.l $7EF35B
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EF12-$06EF17 LOCAL JUMP LOCATION
+ItemMenu_CheckForMoonPearl:
+{
+    LDA.l $7EF357
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EF18-$06EF1E LOCAL JUMP LOCATION
+ItemMenu_CheckForTitansMitt:
+{
+    LDA.l $7EF354 : DEC A
+    
+    BRA ItemMenu_CheckThePrize
+}
+
+; $06EF1F-$06EF2B LOCAL JUMP LOCATION
+ItemMenu_CheckForMirrorShield:
+{
+    LDA.l $7EF35A : CMP.b #$03 : BEQ ItemMenu_HaveThePrize
+        STZ.b $02
+        STZ.b $03
+        
+        RTS
+}
+
+; $06EF2C-$06EF38 LOCAL JUMP LOCATION
+ItemMenu_CheckForRedMail:
+{
+    LDA.l $7EF35B : CMP.b #$02 : BEQ ItemMenu_HaveThePrize
+        STZ.b $02
+        STZ.b $03
+        
+        RTS
+}
+
+; ==============================================================================
+
+; $06EF39-$06EF66 LOCAL JUMP LOCATION
+Equipment_DrawCompass:
+{
+    REP #$30
+    
+    LDA.w $040C : AND.w #$00FF : CMP.w #$00FF : BEQ .notInPalace
+        LSR A : TAX
+        
+        LDA.l $7EF364
+        
+        .locateCompassFlag
+
+            ; Loop.
+        ASL A : DEX : BPL .locateCompassFlag
+
+        BCC .dontHaveCompass
+            LDA.w #$16F2 : STA.b $00
+            LDA.w #$0001 : STA.b $02
+            LDA.w #$F899 : STA.b $04
+            
+            JSR.w DrawItem
+            
+        .dontHaveCompass
+    .notInPalace
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06EF67-$06F0F6 LOCAL JUMP LOCATION
+Equipment_DrawBottleMenu:
+{
+    REP #$30
+    
+    LDA.w #$28FB : AND.b $00 : STA.w $12EA
+    ORA.w #$8000             : STA.w $176A
+    ORA.w #$4000             : STA.w $177C
+    EOR.w #$8000             : STA.w $12FC
+    
+    LDX.w #$0000
+    LDY.w #$0010
+    
+    .drawVerticalEdges
+    
+        LDA.w #$28FC : AND.b $00 : STA.w $132A, X
+        ORA.w #$4000             : STA.w $133C, X
+        
+        TXA : CLC : ADC.w #$0040 : TAX
+    DEY : BPL .drawVerticalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    
+    .drawHorizontalEdges
+    
+        LDA.w #$28F9 : AND.b $00 : STA.w $12EC, X
+        ORA.w #$8000             : STA.w $176C, X
+        
+        INX #2
+    DEY : BPL .drawHorizontalEdges
+    
+    LDX.w #$0000
+    LDY.w #$0007
+    LDA.w #$24F5
+    
+    ; Fills in a region of 0x11 by 0x07 tiles with one tilemap value.
+    .drawBoxInterior
+    
+        STA.w $132C, X : STA.w $136C, X : STA.w $13AC, X : STA.w $13EC, X
+        STA.w $142C, X : STA.w $146C, X : STA.w $14AC, X : STA.w $14EC, X
+        STA.w $152C, X : STA.w $156C, X : STA.w $15AC, X : STA.w $15EC, X
+        STA.w $162C, X : STA.w $166C, X : STA.w $16AC, X : STA.w $16EC, X
+        STA.w $172C, X
+        
+        INX #2
+    DEY : BPL .drawBoxInterior
+    
+    REP #$30
+    
+    ; Draw bottle 0.
+    LDA.w #$1372                 : STA.b $00
+    LDA.l $7EF35C : AND.w #$00FF : STA.b $02
+    LDA.w #$F751                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw bottle 1.
+    LDA.w #$1472                 : STA.b $00
+    LDA.l $7EF35D : AND.w #$00FF : STA.b $02
+    LDA.w #$F751                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw bottle 2.
+    LDA.w #$1572                 : STA.b $00
+    LDA.l $7EF35E : AND.w #$00FF : STA.b $02
+    LDA.w #$F751                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw bottle 3.
+    LDA.w #$1672                 : STA.b $00
+    LDA.l $7EF35F : AND.w #$00FF : STA.b $02
+    LDA.w #$F751                 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Draw the currently selected bottle.
+    LDA.w #$1408 : STA.b $00
+    LDA.l $7EF34F : AND.w #$00FF : TAX
+    LDA.l $7EF35B, X : AND.w #$00FF : STA.b $02
+
+    ; Loads $2837, $2838, $2CC3, $2CD3
+    LDA.w #$F751 : STA.b $04
+    JSR.w DrawItem
+    
+    ; Take the currently selected item, and draw something with it, perhaps on
+    ; the main menu region.
+    LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
+    
+    LDY.w $FAD5, X 
+    
+    LDA.w $0000, Y : STA.w $11B2
+    LDA.w $0002, Y : STA.w $11B4
+    LDA.w $0040, Y : STA.w $11F2
+    LDA.w $0042, Y : STA.w $11F4
+    
+    LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
+    
+    LDA.w $E177, Y : TAY
+    
+    ; Appears to be an extraneous load, perhaps something that was unfinished
+    ; or meant to be taken out but it just never happened.
+    LDA.w $0207
+    
+    LDA.w #$3C61 : STA.w $12AA, Y
+    ORA.w #$4000 : STA.w $12AC, Y
+    
+    LDA.w #$3C70 : STA.w $12E8, Y
+    ORA.w #$4000 : STA.w $12EE, Y
+    
+    LDA.w #$BC70 : STA.w $1328, Y
+    ORA.w #$4000 : STA.w $132E, Y
+    
+    LDA.w #$BC61 : STA.w $136A, Y
+    ORA.w #$4000 : STA.w $136C, Y
+    
+    ; Draw the corners of the bottle submenu.
+    LDA.w #$3C60 : STA.w $12A8, Y
+    ORA.w #$4000 : STA.w $12AE, Y
+    ORA.w #$8000 : STA.w $136E, Y
+    EOR.w #$4000 : STA.w $1368, Y
+    
+    SEP #$30
+    
+    LDA.b #$10 : STA.w $0207
+    
+    RTS
+}
+
+; ==============================================================================
+; End of Equipment:    
+; ==============================================================================
+
+
+; This apparently is a hex to decimal converter for use with displaying numbers
+; It's obviously slower with larger numbers... should find a way to speed it
+; up. (already done)
+; $06F0F7-$06F127 LOCAL JUMP LOCATION
+HUD_HexToDecimal:
+{
+    REP #$30
+    
+    STZ.w $0003
+    
+    ; The objects mentioned could be rupees, arrows, bombs, or keys.
+    LDX.w #$0000
+    LDY.w #$0002
+    
+    .nextDigit
+    
+        ; If number of objects left < 100, 10
+        CMP.w $F9F9, Y : BCC .nextLowest10sPlace
+            ; Otherwise take off another 100 objects from the total and
+            ; increment $03.
+            ; $6F9F9, Y THAT IS, 100, 10
+            SEC : SBC.w $F9F9, Y
+            INC.b $03, X
+            
+            BRA .nextDigit
+        
+        .nextLowest10sPlace
+        
+        INX : DEY #2
+        ; Move on to next digit (to the right).
+    BPL .nextDigit
+    
+    ; Whatever is left is obviously less than 10, so store the digit at $05.
+    STA.b $05
+    
+    SEP #$30
+    
+    ; Go through at most three digits.
+    LDX.b #$02
+    
+    ; Repeat for all three digits.
+    .setNextDigitTile
+    
+        ; Load each digit's computed value
+        LDA.b $03, X : CMP.b #$7F : BEQ .blankDigit
+            ; #$0-9 -> #$90-#$99
+            ORA.b #$90
+        
+        .blankDigit
+        
+        ; A blank digit.
+        STA.b $03, X
+    DEX : BPL .setNextDigitTile
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06F128-$06F14E LONG JUMP LOCATION
+HUD_RefillHealth:
+{
+    ; Check goal health versus actual health.
+    ; If(actual < goal) then branch.
+    LDA.l $7EF36D : CMP.l $7EF36C : BCC .refillAllHealth
+        LDA.l $7EF36C : STA.l $7EF36D
+        
+        LDA.b #$00 : STA.l $7EF372
+        
+        ; ??? not sure what purpose this branch serves.
+        LDA.w $020A : BNE .beta
+        
+        SEC
+        
+        RTL
+    
+    .refillAllHealth
+    
+    ; Fill up the health.
+    LDA.b #$A0 : STA.l $7EF372
+    
+    .beta
+    
+    CLC
+    
+    RTL
+}
+
+; ==============================================================================
+
+; $06F14F-$06F1B2 LOCAL JUMP LOCATION
+HUD_AnimateHeartRefill:
+{
+    SEP #$30
+    
+    ; $00[3] = $7EC768 (wram address of first row of hearts in tilemap buffer)
+    LDA.b #$68 : STA.b $00
+    LDA.b #$C7 : STA.b $01
+    LDA.b #$7E : STA.b $02
+    
+    DEC.w $0208 : BNE .return
+        REP #$30
+        
+        ; Y = ( ( ( (current_health & 0x00F8) - 1) / 8 ) * 2)
+        LDA.l $7EF36D : AND.w #$00F8 : DEC A : LSR #3 : ASL A : TAY
+        CMP.w #$0014 : BCC .halfHealthOrLess
+            SBC.w #$0014 : TAY
+            
+            ; $00[3] = $7EC7A8 (wram address of second row of hearts)
+            LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00
+
+        .halfHealthOrless
+
+        SEP #$30
+        
+        LDX.w $0209 : LDA.l $0DFA11, X : STA.w $0208
+        
+        TXA : ASL A : TAX
+        
+        LDA.l $0DFA09, X : STA [$00], Y
+        
+        INY : LDA.l $0DFA0A, X : STA [$00], Y
+        
+        LDA.w $0209 : INC A : AND.b #$03 : STA.w $0209
+        BNE .return
+            SEP #$30
+            
+            JSR Rebuild
+            
+            STZ.w $020A
+
+    .return
+
+    CLC
+    
+    RTS
+} 
+
+; ==============================================================================
+
+; $06F1B3-$06F1C8 LONG JUMP LOCATION
+HUD_RefillMagicPower:
+{
+    SEP #$30
+    
+    ; Check if Link's magic meter is full.
+    LDA.l $7EF36E : CMP.b #$80 : BCS .itsFull
+        ; Tell the magic meter to fill up until it's full.
+        LDA.b #$80 : STA.l $7EF373
+        
+        SEP #$30
+        
+        RTL
+    
+    .itsFull
+    
+    ; Set the carry, signifying we're done filling it.
+    SEP #$31
+    
+    RTL
+}
+
+; ==============================================================================
+
+; $06F1C9-$06F448 DATA
+ItemMenuNameText_YItems:
+{
+    ; $06F1C9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $256B, $256C, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; Bow
+
+    ; $06F1E9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2570, $2571, $2572, $2573, $2574, $2575, $2576, $2577 ; Boomerang
+
+    ; $06F209
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2557, $255E, $255E, $255A, $2562, $2557, $255E, $2563 ; Hookshot
+
+    ; $06F229
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2551, $255E, $255C, $2551, $24F5, $24F5, $24F5, $24F5 ; Bombs
+
+    ; $06F269
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $255C, $2564, $2562, $2557, $2561, $255E, $255E, $255C ; Mushroom
+
+    ; $06F269
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2555, $2558, $2561, $2554, $2561, $255E, $2553, $24F5 ; Fire rod
+
+    ; $06F289
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2558, $2552, $2554, $2561, $255E, $2553, $24F5, $24F5 ; Ice rod
+
+    ; $06F2A9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2551, $255E, $255C, $2551, $255E, $2562, $24F5, $24F5 ; Bombos
+
+    ; $06F2C9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2554, $2563, $2557, $2554, $2561, $24F5, $24F5, $24F5 ; Ether
+
+    ; $06F2E9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2560, $2564, $2550, $255A, $2554, $24F5, $24F5, $24F5 ; Quake
+
+    ; $06F309
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $255B, $2550, $255C, $255F, $24F5, $24F5, $24F5, $24F5 ; Lamp
+
+    ; $06F329
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    dw $24F5, $24F5, $2557, $2550, $255C, $255C, $2554, $2561 ; Magic hammer
+
+    ; $06F349
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2562, $2557, $255E, $2565, $2554, $255B, $24F5, $24F5 ; Shovel
+
+    ; $06F369
+    dw $2400, $2401, $2402, $2403, $2404, $2405, $2406, $2407 ; 
+    dw $2408, $2409, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; Bug net
+
+    ; $06F389
+    dw $2551, $255E, $255E, $255A, $24F5, $255E, $2555, $24F5 ; 
+    dw $255C, $2564, $2553, $255E, $2561, $2550, $24F5, $24F5 ; Book of mudora
+
+    ; $06F3A9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $255C, $2564, $2562, $2557, $2561, $255E, $255E, $255C ; Mushroom
+
+    ; $06F3C9
+    dw $2552, $2550, $255D, $2554, $24F5, $255E, $2555, $24F5 ; 
+    dw $24F5, $2562, $255E, $255C, $2550, $2561, $2558, $2550 ; Cane of somaria
+
+    ; $06F3E9
+    dw $2552, $2550, $255D, $2554, $24F5, $255E, $2555, $24F5 ; 
+    dw $24F5, $24F5, $24F5, $2551, $2568, $2561, $255D, $2550 ; Cane of byrna
+
+    ; $06F409
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    dw $24F5, $24F5, $24F5, $2552, $2550, $255F, $2554, $24F5 ; Magic cape
+
+    ; $06F429
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; Letter
+}
+
+; ==============================================================================
+
+; $06F449-$06F548 DATA
+ItemMenuNameText_Bottles:
+{
+    ; $06F449
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $255C, $2564, $2562, $2557, $2561, $255E, $255E, $255C ; Mushroom
+
+    ; $06F469
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2551, $255E, $2563, $2563, $255B, $2554, $24F5, $24F5 ; Bottle
+
+    ; $06F489
+    dw $255B, $2558, $2555, $2554, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $255C, $2554, $2553, $2558, $2552, $2558, $255D, $2554 ; Life potion
+
+    ; $06F4A9
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    dw $255C, $2554, $2553, $2558, $2552, $2558, $255D, $2554 ; Magic potion
+
+    ; $06F4C9
+    dw $2552, $2564, $2561, $2554, $256A, $2550, $255B, $255B ; 
+    dw $255C, $2554, $2553, $2558, $2552, $2558, $255D, $2554 ; Life and magic
+
+    ; $06F4E9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2555, $2550, $2554, $2561, $2558, $2554, $24F5, $24F5 ; Fairy
+
+    ; $06F509
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2551, $2554, $2554, $24F5, $24F5, $24F5, $24F5, $24F5 ; Bee
+
+    ; $06F529
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2556, $255E, $255E, $2553, $24F5, $2551, $2554, $2554 ; Golden bee
+}
+
+; ==============================================================================
+
+; $06F549-$06F568 DATA
+ItemMenuNameText_Powder:
+{
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    dw $24F5, $255F, $255E, $2566, $2553, $2554, $2561, $24F5 ; Magic powder
+}
+
+; ==============================================================================
+
+; $06F569-$06F5A8 DATA
+ItemMenuNameText_Flute:
+{
+    ; $06F569
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2555, $255B, $2564, $2563, $2554, $24F5, $24F5, $24F5 ; Ocarina
+
+    ; $06F589
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $2555, $255B, $2564, $2563, $2554, $24F5, $24F5, $24F5 ; Ocarina
+}
+
+; ==============================================================================
+
+; $06F5A9-$06F5C8 DATA
+ItemMenuNameText_Mirror:
+{
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    dw $24F5, $24F5, $255C, $2558, $2561, $2561, $255E, $2561 ; Magic mirror
+}
+
+; ==============================================================================
+
+; $06F5C9-$06F628
+ItemMenuNameText_Bow:
+{
+    ; $06F5C9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $256B, $256C, $256E, $256F, $257C, $257D, $257E, $257F ; Bow and arrows
+
+    ; $06F5E9
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    dw $256B, $256C, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; Bow
+
+    ; $06F609
+    dw $256B, $256C, $24F5, $256E, $256F, $24F5, $24F5, $24F5 ; 
+    dw $2578, $2579, $257A, $257B, $257C, $257D, $257E, $257F ; Bow and silver arrows
+}
+
+; ==============================================================================
+
+; $06F629-$06F930 DATA
+ItemMenuIcons:
+{
+    ; $06F629
+    .bows
+    dw $20F5, $20F5, $20F5, $20F5 ; No bow
+    dw $28BA, $28E9, $28E8, $28CB ; Empty bow
+    dw $28BA, $284A, $2849, $28CB ; Bow and arrows
+    dw $28BA, $28E9, $28E8, $28CB ; Empty silvers bow
+    dw $28BA, $28BB, $24CA, $28CB ; Silver bow and arrows
+
+    ; $06F651
+    .booms
+    dw $20F5, $20F5, $20F5, $20F5 ; No boomerang
+    dw $2CB8, $2CB9, $2CF5, $2CC9 ; Blue boomerang
+    dw $24B8, $24B9, $24F5, $24C9 ; Red boomerang
+
+    ; $06F669
+    .hook
+    dw $20F5, $20F5, $20F5, $20F5 ; No hookshot
+    dw $24F5, $24F6, $24C0, $24F5 ; Hookshot
+
+    ; $06F679
+    .bombs
+    dw $20F5, $20F5, $20F5, $20F5 ; No bombs
+    dw $2CB2, $2CB3, $2CC2, $6CC2 ; Bombs
+
+    ; $06F689
+    .powder
+    dw $20F5, $20F5, $20F5, $20F5 ; No powder
+    dw $2444, $2445, $2446, $2447 ; Mushroom
+    dw $203B, $203C, $203D, $203E ; Powder
+
+    ; $06F6A1
+    .fire_rod
+    dw $20F5, $20F5, $20F5, $20F5 ; No fire rod
+    dw $24B0, $24B1, $24C0, $24C1 ; Fire rod
+
+    ; $06F6B1
+    .ice_rod
+    dw $20F5, $20F5, $20F5, $20F5 ; No ice rod
+    dw $2CB0, $2CBE, $2CC0, $2CC1 ; Ice rod
+
+    ; $06F6C1
+    .bombos
+    dw $20F5, $20F5, $20F5, $20F5 ; No bombos
+    dw $287D, $287E, $E87E, $E87D ; Bombos
+
+    ; $06F6D9
+    .ether
+    dw $20F5, $20F5, $20F5, $20F5 ; No ether
+    dw $2876, $2877, $E877, $E876 ; Ether
+
+    ; $06F6E1
+    .quake
+    dw $20F5, $20F5, $20F5, $20F5 ; No quake
+    dw $2866, $2867, $E867, $E866 ; Quake
+
+    ; $06F6F1
+    .lamp
+    dw $20F5, $20F5, $20F5, $20F5 ; No lamp
+    dw $24BC, $24BD, $24CC, $24CD ; Lamp
+
+    ; $06F701
+    .hammer
+    dw $20F5, $20F5, $20F5, $20F5 ; No hammer
+    dw $20B6, $20B7, $20C6, $20C7 ; Hammer
+
+    ; $06F711
+    .flute
+    dw $20F5, $20F5, $20F5, $20F5 ; No flute
+    dw $20D0, $20D1, $20E0, $20E1 ; Shovel
+    dw $2CD4, $2CD5, $2CE4, $2CE5 ; Flute (inactive)
+    dw $2CD4, $2CD5, $2CE4, $2CE5 ; Flute (active)
+
+    ; $06F731
+    .net
+    dw $20F5, $20F5, $20F5, $20F5 ; No net
+    dw $3C40, $3C41, $2842, $3C43 ; Net
+
+    ; $06F741
+    .book
+    dw $20F5, $20F5, $20F5, $20F5 ; No book
+    dw $3CA5, $3CA6, $3CD8, $3CD9 ; Book of Mudora
+
+    ; $06F701
+    .bottles
+    dw $20F5, $20F5, $20F5, $20F5 ; No bottle
+    dw $2044, $2045, $2046, $2047 ; Mushroom
+    dw $2837, $2838, $2CC3, $2CD3 ; Empty bottle
+    dw $24D2, $64D2, $24E2, $24E3 ; Red potion
+    dw $3CD2, $7CD2, $3CE2, $3CE3 ; Green potion
+    dw $2CD2, $6CD2, $2CE2, $2CE3 ; Blue potion
+    dw $2855, $6855, $2C57, $2C5A ; Fairy
+    dw $2837, $2838, $2839, $283A ; Bee
+    dw $2837, $2838, $2839, $283A ; Good bee
+
+    ; $06F799
+    .somaria
+    dw $20F5, $20F5, $20F5, $20F5 ; No somaria
+    dw $24DC, $24DD, $24EC, $24ED ; Cane of Somaria
+
+    ; $06F7A9
+    .byrna
+    dw $20F5, $20F5, $20F5, $20F5 ; No byrna
+    dw $2CDC, $2CDD, $2CEC, $2CED ; Cane of Byrna
+
+    ; $06F7B9
+    .cape
+    dw $20F5, $20F5, $20F5, $20F5 ; No cape
+    dw $24B4, $24B5, $24C4, $24C5 ; Cape
+
+    ; $06F7C9
+    .mirror
+    dw $20F5, $20F5, $20F5, $20F5 ; No mirror
+    dw $28DE, $28DF, $28EE, $28EF ; Map
+    dw $2C62, $2C63, $2C72, $2C73 ; Mirror
+    dw $2886, $2887, $2888, $2889 ; Triforce (displays as arrows and bombs)
+
+    ; $06F7E9
+    .gloves
+    dw $20F5, $20F5, $20F5, $20F5 ; No glove
+    dw $2130, $2131, $2140, $2141 ; Power glove
+    dw $28DA, $28DB, $28EA, $28EB ; Titan's mitt
+
+    ; $06F801
+    .boots
+    dw $20F5, $20F5, $20F5, $20F5 ; No boots
+    dw $3429, $342A, $342B, $342C ; Pegasus boots
+
+    ; $06F811
+    .flippers
+    dw $20F5, $20F5, $20F5, $20F5 ; No flippers
+    dw $2C9A, $2C9B, $2C9D, $2C9E ; Flippers
+
+    ; $06F821
+    .pearl
+    dw $20F5, $20F5, $20F5, $20F5 ; No pearl
+    dw $2433, $2434, $2435, $2436 ; Moon pearl
+
+    ; $06F831
+    .unused_nothing
+    dw $20F5, $20F5, $20F5, $20F5 ; Nothing
+
+    ; $06F839
+    .sword
+    dw $20F5, $20F5, $20F5, $20F5 ; No sword
+    dw $2C64, $2CCE, $2C75, $3D25 ; Fighter sword
+    dw $2C8A, $2C65, $2474, $3D26 ; Master sword
+    dw $248A, $2465, $3C74, $2D48 ; Tempered sword
+    dw $288A, $2865, $2C74, $2D39 ; Gold sword
+
+    ; $06F861
+    .shield
+    dw $24F5, $24F5, $24F5, $24F5 ; No shield
+    dw $2CFD, $6CFD, $2CFE, $6CFE ; Fighter shield
+    dw $34FF, $74FF, $349F, $749F ; Fire shield
+    dw $2880, $2881, $288D, $288E ; Mirror shield
+
+    ; $06F881
+    .mail
+    dw $3C68, $7C68, $3C78, $7C78 ; Green mail
+    dw $2C68, $6C68, $2C78, $6C78 ; Blue mail
+    dw $2468, $6468, $2478, $6478 ; Red mail
+
+    ; $06F899
+    .compass
+    dw $20F5, $20F5, $20F5, $20F5 ; No compass
+    dw $24BF, $64BF, $2CCF, $6CCF ; Compass
+
+    ; $06F8A9
+    .big_key
+    dw $20F5, $20F5, $20F5, $20F5 ; No big key
+    dw $28D6, $68D6, $28E6, $28E7 ; Big key
+    dw $354B, $354C, $354D, $354E ; Big key and chest
+
+    ; $06F8C1
+    .map
+    dw $20F5, $20F5, $20F5, $20F5 ; No map
+    dw $28DE, $28DF, $28EE, $28EF ; Map
+
+    ; $06F8D1
+    .pendant_red
+    dw $313B, $313C, $313D, $313E ; No red pendant
+    dw $252B, $252C, $252D, $252E ; Red pendant
+
+    ; $06F8E1
+    .pendant_blue
+    dw $313B, $313C, $313D, $313E ; No blue pendant
+    dw $2D2B, $2D2C, $2D2D, $2D2E ; Blue pendant
+
+    ; $06F8F1
+    .pendant_green
+    dw $313B, $313C, $313D, $313E ; No green pendant
+    dw $3D2B, $3D2C, $3D2D, $3D2E ; Green pendant
+
+    ; $06F901
+    .white_glove
+    dw $20F5, $20F5, $20F5, $20F5 ; No white glove?
+    dw $3D30, $3D31, $3D40, $3D41 ; White glove?
+
+    ; $06F911
+    .heart_pieces
+    dw $2484, $6484, $2485, $6485 ; 0 heart pieces
+    dw $24AD, $6484, $2485, $6485 ; 1 heart piece
+    dw $24AD, $6484, $24AE, $6485 ; 2 heart pieces
+    dw $24AD, $64AD, $24AE, $6485 ; 3 heart pieces
+}
+
+; ==============================================================================
+
+; $06F931-06F9F8 DATA
+ItemMenu_AbilityText:
+{
+    ; $06F931
+    .lifts
+    .lift2
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2D5B, $2D58, $2D55, $2D63, $2D28 ; Lift 2
+
+    ; $06F945
+    .lift3
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2D5B, $2D58, $2D55, $2D63, $2D29 ; Lift 3
+
+    ; $06F959
+    .main_jumble
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2D5B, $2D58, $2D55, $2D63, $2D27 ; Lift 1
+
+    ; $06F96D
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2CF5, $2D61, $2D54, $2D50, $2D53 ; Read
+
+    ; $06F981
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2CF5, $2D63, $2D50, $2D5B, $2D5A ; Talk
+
+    ; $06F995
+    dw $207F, $207F, $207F, $207F, $207F ; Nothing
+    dw $207F, $207F, $207F, $207F, $207F ; Nothing
+
+    ; $06F9A9
+    dw $2CF5, $2CF5, $2C2E, $2CF5, $2CF5 ; 
+    dw $2D5F, $2D64, $2D5B, $2D5B, $2CF5 ; Pull
+
+    ; $06F9BD
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2CF5, $2D61, $2D64, $2D5D, $2CF5 ; Run
+
+    ; $06F9D1
+    dw $2CF5, $2CF5, $2CF5, $2CF5, $2CF5 ; 
+    dw $2CF5, $2D62, $2D66, $2D58, $2D5C ; Swim
+
+    ; $06F9E5
+    dw $2CF5, $2CF5, $2CF5, $207F, $207F ; 
+    dw $2C01, $2C18, $2C28, $207F, $207F ; Pray
+}
+
+; ==============================================================================
+
+; $06F9F9-$06F9FC DATA
+HUD_HEXtoDEC_PowersOf10:
+{
+    dw  10
+    dw 100
+}
+
+; $06F9FD-$06FA02 DATA
+HUD_HeartGFXTiles:
+{
+    dw $24A2, $24A2, $24A2
+}
+
+; $06FA03-$06FA08 DATA
+HUD_HeartTiles:
+{
+    dw $24A2, $24A1, $24A0
+}
+
+; $06FA09-$06FA10 DATA
+HUD_HeartDisplayFrames:
+{
+    dw $24A3, $24A4, $24A3, $24A0
+}
+
+; $06FA11-$06FA14 DATA
+HUD_AllOnes:
+{
+    db $01, $01, $01, $01
+}
+
+; Used to determine what item to have link use, based on the position of the
+; selected item in the Item Menu see $0303.
+; $06FA15-$06FA32 DATA
+MenuID_to_EquipID:
+{
+    ; $06FA15
+    db $00 ; 0x00 - Nothing
+    db $03 ; 0x01 - Bow
+    db $02 ; 0x02 - Boomerang
+    db $0E ; 0x03 - Hookshot
+    db $01 ; 0x04 - Bombs
+    db $0A ; 0x05 - Mushroom/Powder
+    db $05 ; 0x06 - Fire rod
+    db $06 ; 0x07 - Ice rod
+    db $0F ; 0x08 - Bombos
+    db $10 ; 0x09 - Ether
+    db $11 ; 0x0A - Quake
+    db $09 ; 0x0B - Lamp
+    db $04 ; 0x0C - Hammer
+    db $08 ; 0x0D - Shovel/Flute
+    db $07 ; 0x0E - Net
+    db $0C ; 0x0F - Book
+    db $0B ; 0x10 - Bottle
+    db $12 ; 0x11 - Somaria
+    db $0D ; 0x12 - Byrna
+    db $13 ; 0x13 - Cape
+    db $14 ; 0x14 - Mirror
+
+    ; $06FA2A
+    db $00 ; 0x15 - Nothing
+    db $01 ; 0x16 - Bombs
+    db $06 ; 0x17 - Ice rod
+    db $02 ; 0x18 - Boomerang
+    db $07 ; 0x19 - Net
+    db $03 ; 0x1A - Bow
+    db $05 ; 0x1B - Fire rod
+    db $04 ; 0x1C - Hammer
+    db $08 ; 0x1D - Shovel/Flute
+}
+
+; ==============================================================================
+
+; $06FA33-$06FA57 LONG JUMP LOCATION
+RestoreTorchBackground:
+{
+    ; See if we have the lamp:
+    LDA.l $7EF34A : BEQ .doNothing
+        ; See if this room has the 'lights out' property.
+        LDA.l $7EC005 : BEQ .doNothing
+            ; The rest of these variables, I'm not too sure about. Probably
+            ; indicate that a lamp bg object was place in the dungeon room.
+            LDA.w $0458 : BNE .doNothing
+                LDA.w $045A : BNE .doNothing
+                    INC.w $0458
+                    
+                    LDA.w $0414 : CMP.b #$02 : BEQ .doNothing                 
+                        LDA.b #$01 : STA.b $1D
+    
+    .doNothing
+    
+    RTL
+}
+    
+; ==============================================================================
+
+; $06FA58-$06FA5F LONG JUMP LOCATION
+HUD_RebuildLong:
+{
+    PHB : PHK : PLB
+
+    JSR Rebuild
+
+    PLB
+
+    RTL
+}
+
+; ==============================================================================
+
+; $06FA60-$06FA67 LONG JUMP LOCATION
+HUD_RebuildIndoor:
+{
+    LDA.b #$00 : STA.l $7EC017
+    
+    LDA.b #$FF
+
+    ; Bleeds into the next function.
+}
+    
+; $06FA68-$06FA6B LONG JUMP LOCATION
+RebuildHUD_Keys:
+{
+    ; When the dungeon loads, tells us how many keys we have.
+    STA.l $7EF36F
+
+    ; Bleeds into the next function.
+}
+
+; $06FA6C-$06FA6F LONG JUMP LOCATION
+RebuildLong2:
+{
+    JSR Rebuild
+    
+    RTL
+}
+
+; ==============================================================================
+
+; When the screen finishes transitioning from the menu to the main game screen
+; this is called to refresh the HUD by drawing a template (some tiles are
+; dynamic though).
+; $06FA70-$06FA92 LOCAL JUMP LOCATION
+HUD_Rebuild:
+{
+    REP #$30
+    
+    PHB
+    
+    ; Preparing for the MVN transfer:
+    LDA.w #$0149
+    LDX.w #.hud_tilemap
+    LDY.w #$C700
+    
+    ; $Transfer 0x014A bytes from $6FE77 -> $7EC700
+    MVN.b $0D, $7E
+    
+    ; The above sets up a template for the status bar.
+    PLB
+    
+    PHB : PHK : PLB
+    
+    BRA .alpha
+    
+    ; $06FA85 ALTERNATE ENTRY POINT
+    .updateOnly
+    
+    REP #$30
+    
+    PHB : PHK : PLB
+    
+    .alpha
+    
+    JSR Update
+    
+    PLB
+    
+    SEP #$30
+    
+    INC.b $16 ; Indicate this needs drawing.
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06FA93-$06FAD4 DATA
+ItemMenu_ItemGFXPointers:
+{
+    dw ItemMenuIcons_bows
+    dw ItemMenuIcons_booms
+    dw ItemMenuIcons_hook
+    dw ItemMenuIcons_bombs
+    dw ItemMenuIcons_powder
+
+    dw ItemMenuIcons_fire_rod
+    dw ItemMenuIcons_ice_rod
+    dw ItemMenuIcons_bombos
+    dw ItemMenuIcons_ether
+    dw ItemMenuIcons_quake
+
+    dw ItemMenuIcons_lamp
+    dw ItemMenuIcons_hammer
+    dw ItemMenuIcons_flute
+    dw ItemMenuIcons_net
+    dw ItemMenuIcons_book
+
+    dw ItemMenuIcons_bottles
+    dw ItemMenuIcons_somaria
+    dw ItemMenuIcons_byrna
+    dw ItemMenuIcons_cape
+    dw ItemMenuIcons_mirror
+
+    dw ItemMenuIcons_gloves
+    dw ItemMenuIcons_boots
+    dw ItemMenuIcons_flippers
+    dw ItemMenuIcons_pearl
+
+    dw ItemMenuIcons_unused_nothing
+
+    dw ItemMenuIcons_sword
+    dw ItemMenuIcons_shield
+    dw ItemMenuIcons_mail
+
+    dw ItemMenuIcons_bottles
+    dw ItemMenuIcons_bottles
+    dw ItemMenuIcons_bottles
+    dw ItemMenuIcons_bottles
+
+    dw ItemMenuIcons_white_glove 
+}
+
+; $06FAD5-$06FAFC DATA
+ItemMenu_CursorPositions:
+{
+    dw $11C8, $11CE, $11D4, $11DA, $11E0
+    dw $1288, $128E, $1294, $129A, $12A0
+    dw $1348, $134E, $1354, $135A, $1360
+    dw $1408, $140E, $1414, $141A, $1420
+}
+
+; ==============================================================================
+
+; $06FAFD-$06FB90 LOCAL JUMP LOCATION
+HUD_UpdateItemBox:
+{
+    SEP #$30
+    
+    ; Dost thou haveth the the bow?
+    LDA.l $7EF340 : BEQ .havethNoBow
+        ; Dost thou haveth the silver arrows?
+        CMP.b #$03 : BCC .havethNoSilverArrows 
+            ; Draw the arrow guage icon as silver rather than normal wood
+            ; arrows.
+            LDA.b #$86 : STA.l $7EC71E
+            LDA.b #$24 : STA.l $7EC71F
+            LDA.b #$87 : STA.l $7EC720
+            LDA.b #$24 : STA.l $7EC721
+            
+            LDX.b #$04
+            
+            ; Check how many arrows the player has.
+            LDA.l $7EF377 : BNE .drawBowItemIcon
+                LDX.b #$03
+                
+                BRA .drawBowItemIcon
+        
+        .havethNoSilverArrows
+        
+        LDX.b #$02
+        
+        LDA.l $7EF377 : BNE .drawBowItemIcon
+            LDX.b #$01
+        
+        .drawBowItemIcon
+        
+        ; Values of X correspond to how the icon will end up drawn:
+        ; 0x01 - normal bow with no arrows
+        ; 0x02 - normal bow with arrows
+        ; 0x03 - silver bow with no silver arrows
+        ; 0x04 - silver bow with silver arrows
+        TXA : STA.l $7EF340
+    
+    .havethNoBow
+    
+    REP #$30
+    
+    LDX.w $0202 : BEQ .noEquippedItem
+        LDA.l $7EF33F, X : AND.w #$00FF : CPX.w #$0004 : BNE .bombsNotEquipped
+            LDA.w #$0001
+        
+        .bombsNotEquipped
+        
+        CPX.w #$0010 : BNE .bottleNotEquipped
+            TXY : TAX : LDA.l $7EF35B, X : AND.w #$00FF : TYX
+        
+        .bottleNotEquipped
+        
+        STA.b $02
+        ; Insert jump here check for 0x15 in X then branch off, interject gfx,
+        ; and return to .noEquippedItem, otherwise insert the next line again 
+        ; and return to LDA.w $FA93.
+        TXA : DEC A : ASL A : TAX ; (x-1)*2
+        
+        LDA.w $FA93, X : STA.b $04 ; For fire rod (05), loads F6A1
+        
+        LDA.b $02 : ASL #3 : TAY ; Loads 08
+        
+        ; These addresses form the item box graphics. ; Fire rod loads: 24B0,
+        ; 24B1, 24C0, 24C1 ; Ice rod loads: 2CB0, 2CBE, 2CC0, 2CC1.
+        LDA ($04), Y : STA.l $7EC74A : INY #2
+        LDA ($04), Y : STA.l $7EC74C : INY #2
+        LDA ($04), Y : STA.l $7EC78A : INY #2
+        LDA ($04), Y : STA.l $7EC78C : INY #2
+    
+    .noEquippedItem
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06FB91-$06FCF9 LOCAL JUMP LOCATION
+HUD_Update:
+{
+    JSR UpdateItemBox
+    
+    ; $06FB94 ALTERNATE ENTRY POINT
+    .ignoreItemBox
+    
+    SEP #$30
+    
+    ; The hook for optimization was placed here...
+    ; need to draw partial heart still though. update: optimization complete
+    ; with great results
+    LDA.b #$FD : STA.b $0A
+    LDA.b #$F9 : STA.b $0B
+    LDA.b #$0D : STA.b $0C
+    
+    LDA.b #$68 : STA.b $07
+    LDA.b #$C7 : STA.b $08
+    LDA.b #$7E : STA.b $09
+    
+    REP #$30
+    
+    ; Load Capacity health.
+    LDA.l $7EF36C : AND.w #$00FF : STA.b $00 : STA.b $02 : STA.b $04
+    
+    ; First, just draw all the empty hearts (capacity health).
+    JSR UpdateHearts
+    
+    SEP #$30
+    
+    LDA.b #$03 : STA.b $0A
+    LDA.b #$FA : STA.b $0B
+    LDA.b #$0D : STA.b $0C
+    
+    LDA.b #$68 : STA.b $07
+    LDA.b #$C7 : STA.b $08
+    LDA.b #$7E : STA.b $09
+    
+    ; Branch if at full health:
+    LDA.l $7EF36C : CMP.l $7EF36D : BEQ .healthUpdated
+        ; Seems absurd to have a branch of zero bytes, right?
+        SEC : SBC.b #$04 : CMP.l $7EF36D : BCS .healthUpdated
+    
+    .healthUpdated
+    
+    ; A = actual health + 0x03;
+    LDA.l $7EF36D : CLC : ADC.b #$03
+    
+    REP #$30
+    
+    AND.w #$00FC : STA.b $00 : STA.b $04
+    
+    LDA.l $7EF36C : AND.w #$00FF : STA.b $02
+    
+    ; This time we're filling in the full and partially filled hearts (actual
+    ; health).
+    JSR UpdateHearts
+    
+    ; $06FC09 ALTERNATE ENTRY POINT ; Reentry hook.
+    .ignoreHealth
+    
+    REP #$30
+    
+    ; Magic amount indicator (normal, 1/2, or 1/4).
+    LDA.l $7EF37B : AND.w #$00FF : CMP.w #$0001 : BCC .normalMagicMeter
+        ; Draws a 1/2 magic meter (note, we could add in the 1/4 magic meter
+        ; here if we really cared about that >_>).
+        LDA.w #$28F7 : STA.l $7EC704
+        LDA.w #$2851 : STA.l $7EC706
+        LDA.w #$28FA : STA.l $7EC708
+    
+    .normalMagicMeter
+    
+    ; Check how much magic power the player has at the moment (ranges from 0 to
+    ; 0x7F) X = ((MP & 0xFF)) + 7) & 0xFFF8).
+    LDA.l $7EF36E : AND.w #$00FF : CLC : ADC.w #$0007 : AND.w #$FFF8 : TAX
+    
+    ; These four writes draw the magic power bar based on how much MP you
+    ; have.
+    LDA .mp_tilemap+0, X : STA.l $7EC746
+    LDA .mp_tilemap+2, X : STA.l $7EC786
+    LDA .mp_tilemap+4, X : STA.l $7EC7C6
+    LDA .mp_tilemap+6, X : STA.l $7EC806
+    
+    ; Load how many rupees the player has.
+    LDA.l $7EF362
+    
+    JSR HexToDecimal
+    
+    REP #$30
+    
+    ; The tile index for the first rupee digit.
+    LDA.b $03 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC750
+    
+    ; The tile index for the second rupee digit.
+    LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC752
+    
+    ; The tile index for the third rupee digit.
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC754
+    
+    ; Number of bombs Link has.
+    LDA.l $7EF343 : AND.w #$00FF
+    
+    JSR HexToDecimal
+    
+    REP #$30
+    
+    ; The tile index for the first bomb digit.
+    LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC758
+    
+    ; The tile index for the second bomb digit.
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75A
+    
+    ; Number of Arrows Link has.
+    LDA.l $7EF377 : AND.w #$00FF
+    
+    ; Converts hex to up to 3 decimal digits.
+    JSR HexToDecimal
+    
+    REP #$30
+    
+    ; The tile index for the first arrow digit.  
+    LDA.b $04 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC75E
+    
+    ; The tile index for the second arrow digit   
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC760
+    
+    LDA.w #$007F : STA.b $05
+    
+    ; Load number of Keys Link has.
+    LDA.l $7EF36F : AND.w #$00FF : CMP.w #$00FF : BEQ .noKeys
+        JSR HexToDecimal
+    
+    .noKeys
+    
+    REP #$30
+    
+    ; The key digit, which is optionally drawn.
+    ; Also check to see if the key spot is blank.
+    LDA.b $05 : AND.w #$00FF : ORA.w #$2400 : STA.l $7EC764
+    
+    CMP.w #$247F : BNE .dontBlankKeyIcon
+        ; If the key digit is blank, also blank out the key icon.
+        STA.l $7EC724
+    
+    .dontBlankKeyIcon
+    
+    SEP #$30
+    
+    RTS
+}
+
+; ==============================================================================
+
+; Draws hearts in a painfully slow loop. I used DMA to speed it up in my custom
+; code (but still needs fixing to work on 1/1/1 hardware).
+; $06FDAB-006FDD8 LOCAL JUMP LOCATION
+HUD_UpdateHearts:
+{
+    LDX.w #$0000
+    
+    .nextHeart
+    
+        LDA.b $00 : CMP.w #$0008 : BCC .lessThanOneHeart
+            ; Notice no SEC was needed since carry is assumedly set.
+            SBC.w #$0008 : STA.b $00
+            
+            LDY.w #$0004
+            
+            JSR UpdateHUDBuffer_DrawSingleHeart
+            
+            INX #2
+    BRA .nextHeart
+    
+    .lessThanOneHeart
+    
+    CMP.w #$0005 : BCC .halfHeartOrLess
+        LDY.w #$0004
+        
+        BRA UpdateHUDBuffer_DrawSingleHeart
+    
+    .halfHeartOrLess
+    
+    CMP.w #$0001 : BCC .emptyHeart
+        LDY.w #$0002
+        
+        BRA UpdateHUDBuffer_DrawSingleHeart
+    
+    .emptyHeart
+    
+    RTS
+}
+
+; $06FDD9-$06FDEE LOCAL JUMP LOCATION
+UpdateHUDBuffer_DrawSingleHeart:
+{
+    ; Compare number of hearts so far on current line to 10.
+    CPX.w #$0014 : BCC .noLineChange
+        ; If not, we have to move down one tile in the tilemap.
+        LDX.w #$0000
+        
+        LDA.b $07 : CLC : ADC.w #$0040 : STA.b $07
+    
+    .noLineChange
+    
+    LDA [$0A], Y : TXY : STA [$07], Y
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $06FDEF-$06FE76 DATA
+Pool_HUD_Update:
+{
+    .mp_tilemap
+    dw $3CF5, $3CF5, $3CF5, $3CF5
+    dw $3CF5, $3CF5, $3CF5, $3C5F
+    dw $3CF5, $3CF5, $3CF5, $3C4C
+    dw $3CF5, $3CF5, $3CF5, $3C4D
+    dw $3CF5, $3CF5, $3CF5, $3C4E
+    dw $3CF5, $3CF5, $3C5F, $3C5E
+    dw $3CF5, $3CF5, $3C4C, $3C5E
+    dw $3CF5, $3CF5, $3C4D, $3C5E
+    dw $3CF5, $3CF5, $3C4E, $3C5E
+    dw $3CF5, $3C5F, $3C5E, $3C5E
+    dw $3CF5, $3C4C, $3C5E, $3C5E
+    dw $3CF5, $3C4D, $3C5E, $3C5E
+    dw $3CF5, $3C4E, $3C5E, $3C5E
+    dw $3C5F, $3C5E, $3C5E, $3C5E
+    dw $3C4C, $3C5E, $3C5E, $3C5E
+    dw $3C4D, $3C5E, $3C5E, $3C5E
+    dw $3C4E, $3C5E, $3C5E, $3C5E    
+}
+
+; ==============================================================================
+
+; $06FE77-$06FFC0
+Pool_HUD_Rebuild:
+{
+    .hud_tilemap
+    dw $207F, $207F, $2850, $A856
+    dw $2852, $285B, $285B, $285C
+    dw $207F, $3CA8, $207F, $207F
+    dw $2C88, $2C89, $207F, $20A7
+    dw $20A9, $207F, $2871, $207F
+    dw $207F, $207F, $288B, $288F
+    dw $24AB, $24AC, $688F, $688B
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $2854, $2871
+    dw $2858, $207F, $207F, $285D
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $2854, $304E
+    dw $2858, $207F, $207F, $285D
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $2854, $305E
+    dw $2859, $A85B, $A85B, $A85C
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $2854, $305E
+    dw $6854, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $207F, $207F
+    dw $207F, $207F, $A850, $2856
+    dw $E850
+}
+
+; ==============================================================================
+; End of Heads Up Display:
+; ==============================================================================
+
+; $06FFC1-$06FFFF NULL
+NULL_0DFFC1:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF
+}
 
 ; ==============================================================================
 

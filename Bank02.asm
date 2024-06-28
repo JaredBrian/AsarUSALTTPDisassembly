@@ -410,7 +410,7 @@ Module_PreDungeon:
 
     .notPalace
 
-    JSL HUD.RebuildIndoor_palace
+    JSL RebuildHUD_Keys
 
     STZ.w $045A
     STZ.w $0458
