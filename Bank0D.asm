@@ -8651,16 +8651,16 @@ Equipment_DrawGloveAbility:
     STA.b $00 
     ASL #2 : ADC.b $00 : ASL #2 : TAX
     
-    LDA.w $F931, X : STA.w $1588
-    LDA.w $F933, X : STA.w $158A
-    LDA.w $F935, X : STA.w $158C
-    LDA.w $F937, X : STA.w $158E
-    LDA.w $F939, X : STA.w $1590
-    LDA.w $F93B, X : STA.w $15C8
-    LDA.w $F93D, X : STA.w $15CA
-    LDA.w $F93F, X : STA.w $15CC
-    LDA.w $F941, X : STA.w $15CE
-    LDA.w $F943, X : STA.w $15D0
+    LDA.w ItemMenu_AbilityText_lifts+00, X : STA.w $1588
+    LDA.w ItemMenu_AbilityText_lifts+02, X : STA.w $158A
+    LDA.w ItemMenu_AbilityText_lifts+04, X : STA.w $158C
+    LDA.w ItemMenu_AbilityText_lifts+06, X : STA.w $158E
+    LDA.w ItemMenu_AbilityText_lifts+08, X : STA.w $1590
+    LDA.w ItemMenu_AbilityText_lifts+10, X : STA.w $15C8
+    LDA.w ItemMenu_AbilityText_lifts+12, X : STA.w $15CA
+    LDA.w ItemMenu_AbilityText_lifts+14, X : STA.w $15CC
+    LDA.w ItemMenu_AbilityText_lifts+16, X : STA.w $15CE
+    LDA.w ItemMenu_AbilityText_lifts+18, X : STA.w $15D0
     
     RTS
 }
@@ -8764,15 +8764,15 @@ Equipment_DrawProgressIcons:
     
     .initPendantDiagram
     
-        LDA.w $E860, X : STA.w $12EA, X
-        LDA.w $E874, X : STA.w $132A, X
-        LDA.w $E888, X : STA.w $136A, X
-        LDA.w $E89C, X : STA.w $13AA, X
-        LDA.w $E8B0, X : STA.w $13EA, X
-        LDA.w $E8C4, X : STA.w $142A, X
-        LDA.w $E8D8, X : STA.w $146A, X
-        LDA.w $E8EC, X : STA.w $14AA, X
-        LDA.w $E900, X : STA.w $14EA, X
+        LDA.w ItemMenuIcons_PendantWindow_row0, X : STA.w $12EA, X
+        LDA.w ItemMenuIcons_PendantWindow_row1, X : STA.w $132A, X
+        LDA.w ItemMenuIcons_PendantWindow_row2, X : STA.w $136A, X
+        LDA.w ItemMenuIcons_PendantWindow_row3, X : STA.w $13AA, X
+        LDA.w ItemMenuIcons_PendantWindow_row4, X : STA.w $13EA, X
+        LDA.w ItemMenuIcons_PendantWindow_row5, X : STA.w $142A, X
+        LDA.w ItemMenuIcons_PendantWindow_row6, X : STA.w $146A, X
+        LDA.w ItemMenuIcons_PendantWindow_row7, X : STA.w $14AA, X
+        LDA.w ItemMenuIcons_PendantWindow_row8, X : STA.w $14EA, X
     INX #2 : CPX.w #$0014 : BCC .initPendantDiagram
     
     ; Draw Green Pendant.
@@ -8816,15 +8816,15 @@ Equipment_DrawProgressIcons:
     
     .initCrystalDiagram
     
-        LDA.w $E914, X : STA.w $12EA, X
-        LDA.w $E928, X : STA.w $132A, X
-        LDA.w $E93C, X : STA.w $136A, X
-        LDA.w $E950, X : STA.w $13AA, X
-        LDA.w $E964, X : STA.w $13EA, X
-        LDA.w $E978, X : STA.w $142A, X
-        LDA.w $E98C, X : STA.w $146A, X
-        LDA.w $E9A0, X : STA.w $14AA, X
-        LDA.w $E9B4, X : STA.w $14EA, X
+        LDA.w ItemMenuIcons_CrystalWindow_row0, X : STA.w $12EA, X
+        LDA.w ItemMenuIcons_CrystalWindow_row1, X : STA.w $132A, X
+        LDA.w ItemMenuIcons_CrystalWindow_row2, X : STA.w $136A, X
+        LDA.w ItemMenuIcons_CrystalWindow_row3, X : STA.w $13AA, X
+        LDA.w ItemMenuIcons_CrystalWindow_row4, X : STA.w $13EA, X
+        LDA.w ItemMenuIcons_CrystalWindow_row5, X : STA.w $142A, X
+        LDA.w ItemMenuIcons_CrystalWindow_row6, X : STA.w $146A, X
+        LDA.w ItemMenuIcons_CrystalWindow_row7, X : STA.w $14AA, X
+        LDA.w ItemMenuIcons_CrystalWindow_row8, X : STA.w $14EA, X
     INX #2 : CPX.w #$0014 : BCC .initCrystalDiagram
     
     ; Draw Crystal 1.
@@ -8890,16 +8890,18 @@ Equipment_DrawSelectedYButtonItem:
     
     LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
-    LDY.w $FAD5, X
-    LDA.w $0000, Y : A.w $11B2B2
-    LDA.w $0002, Y : A.w $11B4B4
-    LDA.w $0040, Y : A.w $11F2F2
-    LDA.w $0042, Y : A.w $11F4F4
+    LDY.w ItemMenu_CursorPosition, X
+    LDA.w $0000, Y : STA.w $11B2
+    LDA.w $0002, Y : STA.w $11B4
+    LDA.w $0040, Y : STA.w $11F2
+    LDA.w $0042, Y : STA.w $11F4
     
     LDA.w $0207 : AND.w #$0010 : BEQ .dontUpdate
+        ; BUG: Wtf? Are we storing into ROM here?
         LDA.w #$3C61 : STA.w $FFC0, Y
         ORA.w #$4000 : STA.w $FFC2, Y
         
+        ; BUG: Wtf? Are we storing into ROM here?
         LDA.w #$3C70 : STA.w $FFFE, Y
         ORA.w #$4000 : STA.w $0004, Y
         
@@ -8909,6 +8911,7 @@ Equipment_DrawSelectedYButtonItem:
         LDA.w #$BC61 : STA.w $0080, Y
         ORA.w #$4000 : STA.w $0082, Y
         
+        ; BUG: Wtf? Are we storing into ROM here?
         LDA.w #$3C60 : STA.w $FFBE, Y
         ORA.w #$4000 : STA.w $FFC4, Y
         ORA.w #$8000 : STA.w $0084, Y
@@ -8933,10 +8936,10 @@ Equipment_DrawSelectedYButtonItem:
             .drawBottleDescription
             
                 ; Loads 24F5, 
-                LDA.w $F449, X : STA.w $122C, Y
+                LDA.w ItemMenuNameText_Bottles_0, X : STA.w $122C, Y
 
                 ; Loads 2551, 255E, 2563, 2563, 255B, 2554, 24F5, 24F5,
-                LDA.w $F459, X : STA.w $126C, Y
+                LDA.w ItemMenuNameText_Bottles_1, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .drawBottleDescription
@@ -8954,8 +8957,8 @@ Equipment_DrawSelectedYButtonItem:
             
             .writePowderDescription
             
-                LDA.w $F549, X : STA.w $122C, Y
-                LDA.w $F559, X : STA.w $126C, Y
+                LDA.w ItemMenuNameText_Powder_0, X : STA.w $122C, Y
+                LDA.w ItemMenuNameText_Powder_1, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writePowderDescription
@@ -8973,8 +8976,8 @@ Equipment_DrawSelectedYButtonItem:
             
             .writeMirrorDescription
             
-                LDA.w $F5A9, X : STA.w $122C, Y
-                LDA.w $F5B9, X : STA.w $126C, Y
+                LDA.w ItemMenuNameText_Mirror_0, X : STA.w $122C, Y
+                LDA.w ItemMenuNameText_Mirror_1, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeMirrorDescription
@@ -8992,8 +8995,8 @@ Equipment_DrawSelectedYButtonItem:
             
             .writeFluteDescription
             
-                LDA.w $F569, X : STA.w $122C, Y
-                LDA.w $F579, X : STA.w $126C, Y
+                LDA.w ItemMenuNameText_Flute_0, X : STA.w $122C, Y
+                LDA.w ItemMenuNameText_Flute_1, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeFluteDescription
@@ -9011,8 +9014,8 @@ Equipment_DrawSelectedYButtonItem:
             
             .writeBowDescription
             
-                LDA.w $F5C9, X : STA.w $122C, Y
-                LDA.w $F5D9, X : STA.w $126C, Y
+                LDA.w ItemMenuNameText_Bow_0, X : STA.w $122C, Y
+                LDA.w ItemMenuNameText_Bow_1, X : STA.w $126C, Y
                 
                 INX #2
             INY #2 : CPY.w #$0010 : BCC .writeBowDescription
@@ -9029,8 +9032,8 @@ Equipment_DrawSelectedYButtonItem:
     ; Bow, write the defaul description.
     .writeDefaultDescription
     
-        LDA.w $F1C9, X : STA.w $122C, Y
-        LDA.w $F1D9, X : STA.w $126C, Y
+        LDA.w ItemMenuNameText_YItems_0, X : STA.w $122C, Y
+        LDA.w ItemMenuNameText_YItems_1, X : STA.w $126C, Y
         
         INX #2
     INY #2 : CPY.w #$0010 : BCC .writeDefaultDescription
@@ -9553,7 +9556,7 @@ Equipment_DrawBottleMenu:
     ; the main menu region.
     LDA.w $0202 : AND.w #$00FF : DEC A : ASL A : TAX
     
-    LDY.w $FAD5, X 
+    LDY.w ItemMenu_CursorPositions, X 
     
     LDA.w $0000, Y : STA.w $11B2
     LDA.w $0002, Y : STA.w $11B4
@@ -9562,7 +9565,7 @@ Equipment_DrawBottleMenu:
     
     LDA.l $7EF34F : DEC A : AND.w #$00FF : ASL A : TAY
     
-    LDA.w $E177, Y : TAY
+    LDA.w BottleMenuCursorPosition, Y : TAY
     
     ; Appears to be an extraneous load, perhaps something that was unfinished
     ; or meant to be taken out but it just never happened.
@@ -9615,11 +9618,11 @@ HUD_HexToDecimal:
     .nextDigit
     
         ; If number of objects left < 100, 10
-        CMP.w $F9F9, Y : BCC .nextLowest10sPlace
+        CMP.w HUD_HEXtoDEC_PowersOf10, Y : BCC .nextLowest10sPlace
             ; Otherwise take off another 100 objects from the total and
             ; increment $03.
-            ; $6F9F9, Y THAT IS, 100, 10
-            SEC : SBC.w $F9F9, Y
+            ; $06F9F9, Y THAT IS, 100, 10
+            SEC : SBC.w HUD_HEXtoDEC_PowersOf10, Y
             INC.b $03, X
             
             BRA .nextDigit
@@ -9766,7 +9769,11 @@ HUD_RefillMagicPower:
 ItemMenuNameText_YItems:
 {
     ; $06F1C9
-    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    .0
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ;
+
+    ; $06F1D9
+    .1
     dw $256B, $256C, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; Bow
 
     ; $06F1E9
@@ -9893,7 +9900,12 @@ ItemMenuNameText_Bottles:
 ; $06F549-$06F568 DATA
 ItemMenuNameText_Powder:
 {
-    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    ; $06F549
+    .0
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ;
+
+    ; $06F559
+    .1
     dw $24F5, $255F, $255E, $2566, $2553, $2554, $2561, $24F5 ; Magic powder
 }
 
@@ -9903,7 +9915,11 @@ ItemMenuNameText_Powder:
 ItemMenuNameText_Flute:
 {
     ; $06F569
-    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+    .0
+    dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ;
+
+    ; $06F579
+    .1
     dw $2555, $255B, $2564, $2563, $2554, $24F5, $24F5, $24F5 ; Ocarina
 
     ; $06F589
@@ -9916,7 +9932,12 @@ ItemMenuNameText_Flute:
 ; $06F5A9-$06F5C8 DATA
 ItemMenuNameText_Mirror:
 {
-    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ; 
+    ; $06F5A9
+    .0
+    dw $255C, $2550, $2556, $2558, $2552, $24F5, $24F5, $24F5 ;
+
+    ; $06F5B9
+    .1
     dw $24F5, $24F5, $255C, $2558, $2561, $2561, $255E, $2561 ; Magic mirror
 }
 
@@ -9926,7 +9947,11 @@ ItemMenuNameText_Mirror:
 ItemMenuNameText_Bow:
 {
     ; $06F5C9
+    .0
     dw $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5, $24F5 ; 
+
+    ; $06F5D9
+    .1
     dw $256B, $256C, $256E, $256F, $257C, $257D, $257E, $257F ; Bow and arrows
 
     ; $06F5E9
@@ -10502,10 +10527,11 @@ HUD_UpdateItemBox:
         STA.b $02
         ; Insert jump here check for 0x15 in X then branch off, interject gfx,
         ; and return to .noEquippedItem, otherwise insert the next line again 
-        ; and return to LDA.w $FA93.
+        ; and return to LDA.w ItemMenu_ItemGFXPointers.
         TXA : DEC A : ASL A : TAX ; (x-1)*2.
         
-        LDA.w $FA93, X : STA.b $04 ; For fire rod (05), loads F6A1.
+        ; For fire rod (05), loads F6A1.
+        LDA.w ItemMenu_ItemGFXPointers, X : STA.b $04
         
         LDA.b $02 : ASL #3 : TAY ; Loads 08.
         
