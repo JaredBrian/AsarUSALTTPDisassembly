@@ -129,7 +129,7 @@ PushSwitch_Inert:
     
     LDA.w #$0013
     
-    MVN.b $06, $00
+    MVN $06, $00
     
     PLB
     

@@ -779,7 +779,7 @@ Overlord_CheckInRangeStatus:
             
             LDA.b $00 : AND.b #$07 : TAY
             
-            LDA [$01] : AND.w $F24B, Y : STA [$01]
+            LDA [$01] : AND.w SpriteDeathMasks, Y : STA [$01]
         
         .not_participating_in_death_buffer
         .in_range_xy
@@ -3724,8 +3724,1062 @@ NULL_09F7C0:
     
 ; ==============================================================================
 
-; $04F7DE-$04FF97
-incsrc "polyhedral.asm"
+
+; ==============================================================================
+
+; $04F7DE-$04F81C LONG JUMP LOCATION
+Polyhedral_InitThread:
+{
+    PHP : PHB
+    
+    REP #$30
+    
+    PHA : PHX : PHY
+    
+    LDA.w #$0000 : STA.l $001F00
+    LDX.w #$1F00
+    LDY.w #$1F02
+    
+    ; Initialization.
+    LDA.w #$00FD
+    
+    MVN $00, $00
+    
+    LDA.w #$1F31 : STA.w $1F0A
+    
+    LDA.w #$000C
+    LDX.w #.thread_init_state
+    LDY.w #$1F32
+    
+    MVN $09, $00
+    
+    PLY : PLX : PLA 
+    
+    PLB : PLP
+    
+    RTL
+    
+    .thread_init_state
+    db $09     ; For B register
+    dw $1F00   ; For D register
+    dw $0000   ; For Y register
+    dw $0000   ; For X register
+    dw $0000   ; For A register
+    db $30     ; Status register at return addres location.
+    dl $09F81D ; Return address in helper thread
+}
+    
+; ==============================================================================
+
+; Polyhedral thread entry point.
+; $04F81D-$04F83C
+Polyhedral_RunThread:
+{
+    .wait
+            ; Loop.
+        LDA.b $00 : BEQ .wait
+    LDA.b $0C : BNE .wait
+    
+    JSL Polyhedral_EmptyBitMapBuffer
+    
+    JSR.w Polyhedral_SetShapePointer
+    JSR.w Polyhedral_SetRotationMatrix
+    JSR.w Polyhedral_OperateRotation
+    JSR.w Polyhedral_DrawPolyhedron
+    
+    STZ.b $00
+    
+    LDA.b #$FF : STA.b $0C
+    
+    BRA .wait
+}
+
+; $04F83D-$04F863 LOCAL JUMP LOCATION
+Polyhedral_SetShapePointer:
+{
+    REP #$30
+    
+    LDA.b $02 : AND.w #$00FF : ASL A : ADC.w #$0080 : STA.b $08
+    
+    LDA.w $1F03 : AND.w #$00FF : ASL A : STA.b $B0
+    
+    ; X = ( 0xFF8C + ($1F03 * 6) ).
+    ; Note that $1F03 seems to always be 0 or 1.
+    ASL A : ADC.b $B0 : ADC.w #$FF8C : TAX
+    
+    LDY.w #$1F3F
+    LDA.w #$0005
+    
+    MVN $09, $09
+    
+    RTS
+}
+
+; $04F864-$04F8FA LOCAL JUMP LOCATION
+Polyhedral_SetRotationMatrix:
+{
+    SEP #$30
+    
+    LDY.b $04
+    LDA.w Polyhedral_SineFunction, Y : STA.b $50
+    
+    CMP.b #$80 : SBC.b $50 : EOR.b #$FF : STA.b $51
+    
+    LDA.w Polyhedral_CosineFunction, Y : STA.b $52
+    
+    CMP.b #$80 : SBC.b $52 : EOR.b #$FF : STA.b $53
+    
+    LDY.b $05
+    LDA.w Polyhedral_SineFunction, Y : STA.b $54
+    
+    CMP.b #$80 : SBC.b $54 : EOR.b #$FF : STA.b $55
+    
+    LDA.w Polyhedral_CosineFunction, Y : STA.b $56
+    
+    CMP.b #$80 : SBC.b $56 : EOR.b #$FF : STA.b $57
+    
+    REP #$20
+    
+    SEI
+    
+    LDX.b $54 : STX.w $211B
+    LDX.b $55 : STX.w $211B
+    LDX.b $50 : STX.w $211C
+    
+    LDA.w $2135 : ASL #2 : STA.b $58
+    
+    LDX.b $56 : STX.w $211B
+    LDX.b $57 : STX.w $211B
+    LDX.b $52 : STX.w $211C
+    
+    LDA.w $2135 : ASL #2 : STA.b $5E
+    
+    LDX.b $56 : STX.w $211B
+    LDX.b $57 : STX.w $211B
+    LDX.b $50 : STX.w $211C
+    
+    LDA.w $2135 : ASL #2 : STA.b $5A
+    
+    LDX.b $54 : STX.w $211B
+    LDX.b $55 : STX.w $211B
+    LDX.b $52 : STX.w $211C
+    
+    LDA.w $2135 : ASL #2 : STA.b $5C
+    
+    CLI
+    
+    RTS
+}
+
+; $04F8FB-$04F930
+Polyhedral_OperateRotation:
+{
+    SEP #$30
+    
+    LDA.b $3F : TAX
+    
+    ; Y = 3 * $3F.
+    ASL A : ADC.b $3F : TAY
+    
+    .alpha
+    
+        DEX
+        
+        DEY
+        LDA ($41), Y : STA.b $47
+        
+        DEY
+        LDA ($41), Y : STA.b $46
+        
+        DEY
+        LDA ($41), Y : STA.b $45
+        
+        PHY
+        
+        REP #$20
+        
+        JSR.w Polyhedral_RotatePoint
+        JSR.w Polyhedral_ProjectPoint
+        
+        SEP #$20
+        
+        CLC : LDA.b $06 : ADC.b $48 : STA.b $60, X
+        SEC : LDA.b $07 : SBC.b $4A : STA.b $88, X
+    PLY : BNE .alpha
+    
+    RTS
+}
+    
+; $04F931-$04F9D5
+Polyhedral_RotatePoint:
+{
+    LDY.b $56
+    
+    SEI
+    
+                STY.w $211B
+    LDY.b $57 : STY.w $211B
+    LDY.b $45 : STY.w $211C
+    
+    LDA.w $2134
+    
+    LDY.b $54 : STY.w $211B
+    LDY.b $55 : STY.w $211B
+    LDY.b $47 : STY.w $211C
+    
+    SEC : SBC.w $2134
+    
+    CLI
+    
+    STA.b $48
+    
+    LDY.b $58
+    
+    SEI
+    
+                STY.w $211B
+    LDY.b $59 : STY.w $211B
+    LDY.b $45 : STY.w $211C
+    
+    LDA.w $2134
+    
+    LDY.b $52 : STY.w $211B
+    LDY.b $53 : STY.w $211B
+    LDY.b $46 : STY.w $211C
+    
+    CLC : ADC.w $2134
+    
+    LDY.b $5A : STY.w $211B
+    LDY.b $5B : STY.w $211B
+    LDY.b $47 : STY.w $211C
+    
+    CLC : ADC.w $2134
+    
+    CLI
+    
+    STA.b $4A
+    
+    LDY.b $5C
+    
+    SEI
+    
+                STY.w $211B
+    LDY.b $5D : STY.w $211B
+    LDY.b $45 : STY.w $211C
+    
+    LDA.w $2135
+    
+    LDY.b $50 : STY.w $211B
+    LDY.b $51 : STY.w $211B
+    LDY.b $46 : STY.w $211C
+    
+    SEC : SBC.w $2135
+    
+    LDY.b $5E : STY.w $211B
+    LDY.b $5F : STY.w $211B
+    LDY.b $47 : STY.w $211C
+    
+    CLC : ADC.w $2135
+    
+    ; Note that this combines a CLC with a CLI.
+    REP #$05
+    
+    ADC.b $08 : STA.b $4C
+    
+    RTS
+}
+
+; $04F9D6-$04FA4E
+Polyhedral_ProjectPoint:
+{
+    LDA.b $48 : BPL .alpha
+        EOR.w #$FFFF : INC A
+    
+    .alpha
+    
+    STA.b $B2
+    
+    LDA.b $4C : STA.b $B0
+    
+    XBA : AND.w #$00FF : BEQ .gamma
+        .beta
+        
+            LSR.b $B2
+            LSR.b $B0
+        LSR A : BNE .beta
+    
+    .gamma
+    
+    SEI
+    
+    LDA.b $B2 : STA.w $4204
+    LDY.b $B0 : STY.w $4206
+    
+    NOP #2
+    
+    LDA.w #$0000
+    
+    LDY.b $49
+    
+    SEC
+    
+    BMI .delta
+        NOP
+        
+        LDA.w $4214
+        
+        BRA .epsilon
+    
+    .delta
+    
+    SBC.w $4214
+    
+    .epsilon
+    
+    CLI
+    
+    STA.b $48
+    
+    ; $04FA12
+    
+    LDA.b $4A : BPL .zeta
+        EOR.w #$FFFF : INC A
+    
+    .zeta
+    
+    STA.b $B2
+    
+    LDA.b $4C : STA.b $B0
+    
+    XBA : AND.w #$00FF : BEQ .iota
+        .theta
+        
+            LSR.b $B2
+            LSR.b $B0
+        LSR A : BNE .theta
+    
+    .iota
+    
+    SEI
+    
+    LDA.b $B2 : STA.w $4204
+    LDY.b $B0 : STY.w $4206
+    
+    NOP #2
+    
+    LDA.w #$0000
+    
+    LDY.b $4B
+    
+    SEC
+    
+    BMI .kappa
+        NOP
+        
+        LDA.w $4214
+        
+        BRA .lamba
+    
+    .kappa
+    
+    SBC.w $4214
+    
+    .lambda
+    
+    CLI
+    
+    STA.b $4A
+    
+    RTS
+}
+
+; $04FA4F-$04FAC9
+Polyhedral_DrawPolyhedron:
+{
+    SEP #$30
+    
+    LDY.b #$00
+    
+    .delta
+    
+        LDA ($43), Y : STA.b $4E
+        
+        AND.b #$7F : STA.b $B0
+        
+        ASL A : STA.b $C0
+        
+        INY
+        
+        LDX.b #$01
+        
+        .alpha
+        
+            PHY
+            
+            LDA ($43), Y : TAY
+            
+            LDA.w $1F60, Y : STA.b $C0, X
+            
+            INX
+            
+            LDA.w $1F88, Y : STA.b $C0, X
+            
+            INX
+            
+            PLY : INY
+        DEC.b $B0 : BNE .alpha
+        
+        LDA ($43), Y
+        
+        INY
+        
+        STA.b $4F
+        
+        PHY
+        
+        LDA.b $C0 : CMP.b #$06 : BCC .beta
+            JSR.w Polyhedral_CalculateCrossProduct : BMI .gamma
+                BEQ .beta
+                    JSR.w Polyhedral_SetForegroundColor
+                    JSL Polyhedral_DrawFace
+        
+        .beta
+        
+        PLY
+    DEC.b $40 : BNE .delta
+    
+    RTS
+    
+    .gamma
+    
+    LDA.b $4E : BPL .beta
+        REP #$20
+        
+        LDA.b $C0 : AND.w #$00FF : TAY
+        
+        DEY
+        
+        LDX.b #$01
+        
+        LSR #2 : STA.b $B0
+        
+        .epsilon
+        
+            LDA.b $C0, X : PHA
+            
+            LDA.w $1FC0, Y : STA.b $C0, X
+            
+            PLA
+            
+            STA.w $1FC0, Y
+            
+            INX #2
+            
+            DEY #2
+        DEC.b $B0 : BNE .epsilon
+        
+        SEP #$20
+        
+        JSR.w Polyhedral_SetBackgroundColor
+        JSL Polyhedral_DrawFace
+        
+        JMP .beta
+}
+
+; $04FACA-$04FAD6 LOCAL JUMP LOCATION
+Polyhedral_SetForegroundColor:
+{
+    LDA.b $01 : BNE Polyhedral_SetFGShadeColor
+        LDA.b $4F : AND.b #$07
+        
+        JSL Polyhedral_SetColorMask
+        
+        RTS
+}
+
+; $04FAD7-$04FAE7
+Polyhedral_SetBackgroundColor:
+{
+    LDA.b $01 : BNE Polyhedral_SetBGShadeColor
+        LDA.b $4F : LSR #4 : AND.b #$07
+        
+        JSL Polyhedral_SetColorMask
+        
+        RTS
+}
+
+; $04FAE8-$04FAF1
+Polyhedral_SetBGShadeColor:
+{
+    REP #$20
+    
+    LDA.b $B0 : EOR.w #$FFFF : INC A
+    
+    BRA Polyhedral_SetShadeColor
+}
+
+; $04FAF2-$04FAF5
+Polyhedral_SetFGShadeColor:
+{   
+    REP #$20
+    
+    LDA.b $B0
+    
+    ; Bleeds into the next function.
+}
+
+; $04FAF6-$04FB23
+Polyhedral_SetShadeColor:
+{
+    PHA
+    
+    LDA.w $1F03 : AND.w #$00FF : BEQ .gamma
+        LDA.w $1F02 : AND.w #$00FF : LSR #5
+    
+    .gamma
+    
+    TAX
+    
+    PLA
+    
+    .shift
+    
+        ASL A
+    DEX : BPL .shift
+    
+    SEP #$20
+    
+    XBA : BNE .delta
+        LDA.b #$01
+        
+        BRA .epsilon
+    
+    .delta
+    
+    CMP.b #$08 : BCC .epsilon
+        LDA.b #$07
+    
+    .epsilon
+    
+    JSL Polyhedral_SetColorMask
+    
+    RTS
+}
+
+; $04FB24-$04FB6C
+Polyhedral_CalculateCrossProduct:
+{
+    ; (Set I and C flags)
+    SEP #$05
+    
+    LDA.b $C3 : SBC.b $C1 : STA.w $211B
+    
+    LDA.b #$00 : SBC.b #$00 : STA.w $211B
+    
+    SEC : LDA.b $C6 : SBC.b $C4 : STA.w $211C
+    
+    ; Apparently it's super important to keep the I flag low
+    ; for as little time as possible.
+    LDA.w $2134       : STA.b $B0
+    LDA.w $2135 : CLI : STA.b $B1
+    
+    SEP #$05
+    
+    LDA.b $C5  : SBC.b $C3  : STA.w $211B
+    LDA.b #$00 : SBC.b #$00 : STA.w $211B
+    
+    SEC : LDA.b $C4 : SBC.b $C2 : STA.w $211C
+    
+    REP #$20
+    
+    SEC : LDA.b $B0 : SBC.w $2134 : STA.b $B0
+    
+    SEP #$20
+    CLI
+    
+    RTS
+}
+
+; $04FB6D-$04FBAC DATA
+Polyhedral_SineFunction:
+{
+    db $00, $02, $03, $05, $06, $08, $09, $0B
+    db $0C, $0E, $10, $11, $13, $14, $16, $17
+    db $18, $1A, $1B, $1D, $1E, $20, $21, $22
+    db $24, $25, $26, $27, $29, $2A, $2B, $2C
+    db $2D, $2E, $2F, $30, $31, $32, $33, $34
+    db $35, $36, $37, $38, $38, $39, $3A, $3B
+    db $3B, $3C, $3C, $3D, $3D, $3E, $3E, $3E
+    db $3F, $3F, $3F, $40, $40, $40, $40, $40
+}
+
+; $04FBAD-04FCAC DATA
+Polyhedral_CosineFunction:
+{
+    db $40, $40, $40, $40, $40, $40, $3F, $3F
+    db $3F, $3E, $3E, $3E, $3D, $3D, $3C, $3C
+    db $3B, $3B, $3A, $39, $38, $38, $37, $36
+    db $35, $34, $33, $32, $31, $30, $2F, $2E
+    db $2D, $2C, $2B, $2A, $29, $27, $26, $25
+    db $24, $22, $21, $20, $1E, $1D, $1B, $1A
+    db $18, $17, $16, $14, $13, $11, $10, $0E
+    db $0C, $0B, $09, $08, $06, $05, $03, $02
+    db $00, $FE, $FD, $FB, $FA, $F8, $F7, $F5
+    db $F4, $F2, $F0, $EF, $ED, $EC, $EA, $E9
+    db $E8, $E6, $E5, $E3, $E2, $E0, $DF, $DE
+    db $DC, $DB, $DA, $D9, $D7, $D6, $D5, $D4
+    db $D3, $D2, $D1, $D0, $CF, $CE, $CD, $CC
+    db $CB, $CA, $C9, $C8, $C8, $C7, $C6, $C5
+    db $C5, $C4, $C4, $C3, $C3, $C2, $C2, $C2
+    db $C1, $C1, $C1, $C0, $C0, $C0, $C0, $C0
+    db $C0, $C0, $C0, $C0, $C0, $C0, $C1, $C1
+    db $C1, $C2, $C2, $C2, $C3, $C3, $C4, $C4
+    db $C5, $C5, $C6, $C7, $C8, $C8, $C9, $CA
+    db $CB, $CC, $CD, $CE, $CF, $D0, $D1, $D2
+    db $D3, $D4, $D5, $D6, $D7, $D9, $DA, $DB
+    db $DC, $DE, $DF, $E0, $E2, $E3, $E5, $E6
+    db $E8, $E9, $EA, $EC, $ED, $EF, $F0, $F2
+    db $F4, $F5, $F7, $F8, $FA, $FB, $FD, $FE
+    db $00, $02, $03, $05, $06, $08, $09, $0B
+    db $0C, $0E, $10, $11, $13, $14, $16, $17
+    db $18, $1A, $1B, $1D, $1E, $20, $21, $22
+    db $24, $25, $26, $27, $29, $2A, $2B, $2C
+    db $2D, $2E, $2F, $30, $31, $32, $33, $34
+    db $35, $36, $37, $38, $38, $39, $3A, $3B
+    db $3B, $3C, $3C, $3D, $3D, $3E, $3E, $3E
+    db $3F, $3F, $3F, $40, $40, $40, $40, $40
+}
+
+; $04FCAD-$04FCAD DATA
+NULL_09FCAD:
+{
+    db $FF
+}
+
+; $04FCAE-$04FCC3 LONG JUMP LOCATION
+Polyhedral_SetColorMask:
+{
+    PHP
+    
+    SEP #$30
+    
+    ASL #2 : TAX
+    
+    REP #$20
+    
+    LDA.l .mask+0, X : STA.b $B5
+    LDA.l .mask+2, X : STA.b $B7
+    
+    PLP
+    
+    RTL
+
+    ; Masks for different bitplanes (0 - 3)?
+    ; $04FCC4
+    .mask
+    dd $00000000
+    dd $000000FF
+    dd $0000FF00
+    dd $0000FFFF
+    dd $00FF0000
+    dd $00FF00FF
+    dd $00FFFF00
+    dd $00FFFFFF
+    dd $FF000000
+    dd $FF0000FF
+    dd $FF00FF00
+    dd $FF00FFFF
+    dd $FFFF0000
+    dd $FFFF00FF
+    dd $FFFFFF00
+    dd $FFFFFFFF
+}
+
+; $04FD04-$04FD1D LONG JUMP LOCATION
+Polyhedral_EmptyBitMapBuffer:
+{
+    PHP : PHB
+    
+    REP #$30
+    
+    LDA.w #$0000 : STA.l $7EE800
+    
+    LDX.w #$E800
+    LDY.w #$E802
+    LDA.w #$07FD
+    
+    MVN $7E7E
+    
+    PLB : PLP
+    
+    RTL
+}
+
+; $04FD1E-$04FDCB LONG JUMP LOCATION
+Polyhedral_DrawFace:
+{
+    PHP : PHB
+    
+    SEP #$30
+    
+    LDA.b #$7E : PHA : PLB
+    
+    LDY.b $C0 : TYX
+    
+    LDA.b $C0, X
+    
+    .alpha
+    
+            DEX #2 : BEQ .beta
+                ; (<= comparison)
+        CMP $C0, X : BCC .alpha
+    BEQ .alpha
+    
+    TXY
+    
+    LDA.b $C0, X
+    
+    BRA .alpha
+    
+    .beta
+    
+    AND.b #$07 : ASL A : STA.b $B9
+    
+    LDA.w $1FC0, Y : AND.b #$38 : BIT.b #$20 : BEQ .gamma
+        EOR.b #$24
+    
+    .gamma
+    
+    LSR #2 : ADC.b #$E8 : STA.b $BA
+    
+    STY.b $E9 : STY.b $F2
+    
+    LDA.b $C0 : LSR A : STA.b $E0
+    
+    LDA.w $1FC0, Y : STA.b $E2 : STA.b $EB
+    LDA.w $1FBF, Y : STA.b $E1 : STA.b $EA
+    
+    JSR.w Polyhedral_SetLeft : BCS .delta
+        JSR.w Polyhedral_SetRight : BCC .epsilon
+    
+    .delta
+    
+    PLB : PLP
+    
+    RTL
+    
+    .epsilon
+    
+    JSR.w Polyhedral_FillLine
+    
+    LDA.b $B9 : INC #2 : CMP.b #$10 : BEQ .zeta
+        STA.b $B9
+        
+        BRA .iota
+        
+    .zeta
+    
+    LDA.b $BA : INC #2 : BIT.b #$08 : BNE .theta
+        EOR.b #$19
+    
+    .theta
+    
+    STA.b $BA : STZ.b $B9
+    
+    .iota
+    
+    LDX.b $E2 : CPX.b $E4 : BNE .kappa
+        LDX.b $E3 : STX.b $E1
+        
+        JSR.w Polyhedral_SetLeft : BCS .delta
+            LDX.b $E2
+    
+    .kappa
+    
+    INX : STX.b $E2
+    
+    LDX.b $EB : CPX.b $ED : BNE .lambda
+        LDX.b $EC : STX.b $EA
+        
+        JSR.w Polyhedral_SetRight : BCS .delta
+            LDX.b $EB
+    
+    .lambda
+    
+    INX : STX.b $EB
+    
+    REP #$21
+    
+          LDA.b $E5 : ADC.b $E7 : STA.b $E5
+    CLC : LDA.b $EE : ADC.b $F0 : STA.b $EE
+    
+    SEP #$20
+    
+    BRA .epsilon
+}
+
+; $04FDCC-$04FDCE LONG JUMP LOCATION
+UNREACHABLE_09FDCC:
+{
+    PLB : PLP
+    
+    RTL
+}
+
+; $04FDCF-$04FE93 LOCAL JUMP LOCATION
+Polyhedral_FillLine:
+{
+    LDA.b $E6 : AND.b #$07 : ASL A : TAY
+    
+    LDA.b $EF : AND.b #$07 : ASL A : TAX
+    
+    LDA.b $E6 : AND.b #$38 : STA.b $BC
+    
+    LDA.b $EF : AND.b #$38 : SEC : SBC.b $BC : BNE .alpha
+        REP #$30
+        
+        LDA.l $09FEA4, X : TYX : AND.l $09FE94, X : STA.b $B2
+        
+        LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
+        
+        LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
+        LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
+        
+        .return
+        
+        SEP #$30
+        
+        RTS
+    
+    .alpha
+    
+    BCC .return
+        LSR #3 : STA.b $FA : STZ.b $FB
+        
+        REP #$30
+        
+        LDA.l $09FEA4, X : STA.b $B2
+        
+        TYX
+        
+        LDA.b $EF : AND.w #$0038 : ASL #2 : ORA.b $B9 : TAY
+        
+        LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
+        LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
+        
+        SEC : TYA : SBC.w #$0020 : TAY
+        
+        DEC.b $FA : BEQ .beta
+            .gamma
+            
+                LDA.b $B5 : STA.w $0000, Y
+                LDA.b $B7 : STA.w $0010, Y
+                
+                TYA : SBC.w #$0020 : TAY
+            DEC.b $FA : BNE .gamma
+        
+        .beta
+        
+        LDA.l $09FE94, X : STA.b $B2
+        
+        LDA.b $B5 : EOR.w $0000, Y : AND.b $B2 : EOR.w $0000, Y : STA.w $0000, Y
+        LDA.b $B7 : EOR.w $0010, Y : AND.b $B2 : EOR.w $0010, Y : STA.w $0010, Y
+        
+        SEP #$30
+        
+        RTS
+}
+
+; $04FE94-$04FEB3 DATA
+Polyhedral_LineFillMask:
+{
+    ; $04FE94
+    .left
+    dw $FFFF, $7F7F, $3F3F, $1F1F, $0F0F, $0707, $0303, $0101
+    
+    ; $04FEA4
+    .right
+    dw $8080, $C0C0, $E0E0, $F0F0, $F8F8, $FCFC, $FEFE, $FFFF
+}
+
+; $04FEB4-$04FF1D LOCAL JUMP LOCATION
+Polyhedral_SetLeft:
+{
+    .loop
+    
+        DEC.b $E0 : BPL .alpha
+            .gamma
+            
+            SEC
+            
+            RTS
+            
+        .alpha
+        
+        LDX.b $E9 : DEX #2 : BNE .beta
+            LDX.b $C0
+        
+        .beta
+        
+        STA.b $C0, X : CMP $E2 : BCC .gamma
+            BNE .delta
+                LDA.b $BF, X : STA.b $E1
+                
+                STX.b $E9
+    BRA .loop
+    
+    .delta
+    
+    STA.b $E4
+    
+    LDA.b $BF, X : STA.b $E3
+    
+    STX.b $E9
+    
+    LDX.b #$00
+    
+    SBC.b $E1 : BCS .epsilon
+        DEX
+        
+        EOR.b #$FF : INC A
+    
+    .epsilon
+    
+    SEI
+    
+                 STA.l $004205
+    LDA.b #$00 : STA.l $004204
+    
+    SEC : LDA.b $E4 : SBC.b $E2 : STA.l $004206
+    
+    REP #$20
+    
+    LDA.b $E0 : AND.w #$FF00 : ORA.w #$0080 : STA.b $E5
+    
+    LDA.w #$0000
+    
+    CPX.b #$00 : BNE .zeta
+        LDA.l $004214
+        
+        BRA .theta
+        
+    .zeta
+    
+    SEC : SBC.l $004214
+    
+    .theta
+    
+    CLI
+    
+    STA.b $E7
+    
+    SEP #$20
+    
+    CLC
+    
+    RTS
+}
+
+; $04FF1E-$04FF8B LOCAL JUMP LOCATION
+Polyhedral_SetRight:
+{
+    .loop
+    
+        DEC.b $E0 : BPL .alpha
+            .delta
+            
+            SEC
+            
+            RTS
+        
+        .alpha
+        
+        LDX.b $F2 : CPX.b $C0 : BNE .beta
+            LDX.b #$02
+            
+            BRA .gamma
+        
+        .beta
+        
+        INX #2
+        
+        .gamma
+        
+        LDA.b $C0, X : CMP $EB : BCC .delta : BNE .epsilon
+            LDA.b $BF, X : STA.b $EA
+            
+            STX.b $F2
+    BRA .loop
+    
+    .epsilon
+    
+    STA.b $ED
+    
+    LDA.b $BF, X : STA.b $EC
+    
+    STX.b $F2
+    
+    LDX.b #$00
+    
+    SEC : SBC.b $EA : BCS .zeta
+        DEX
+        
+        EOR.b #$FF : INC A
+    
+    .zeta
+    
+    SEI
+    
+                 STA.l $004205
+    LDA.b #$00 : STA.l $004204
+    
+    SEC : LDA.b $ED : SBC.b $EB : STA.l $004206
+    
+    REP #$20
+    
+    LDA.b $E9 : AND.w #$FF00 : ORA #$0080 : STA.b $EE
+    
+    LDA.w #$0000
+    
+    CPX.b #$00 : BNE .theta
+        LDA.l $004214
+        
+        BRA .iota
+    
+    .theta
+    
+    SEC : SBC.l $004214
+    
+    .iota
+    
+    CLI
+    
+    STA.b $F0
+    
+    SEP #$20
+    
+    CLC
+    
+    RTS
+}
+
+; ==============================================================================
+
+; $04FF8C-$04FF97 DATA
+PolyhedralPropertyTable:
+{
+    .crystal
+    db $06 ; vertices
+    db $08 ; faces
+    dw CrystalVertices
+    dw CrystalFaces
+
+    .triforce
+    db $06 ; vertices
+    db $05 ; faces
+    dw TriforceVertices
+    dw TriforceFaces
+}
 
 ; $04FF98-$04FFA9 DATA
 CrystalVertices:
@@ -3763,7 +4817,7 @@ TriforceVertices:
     db  40, -40, -10
 }
 
-; $04FFE4-$04FFFF DATA
+; $04FFE4-04FFFF DATA
 TriforceFaces:
 {
     db   3,   0,   1,   2,   7

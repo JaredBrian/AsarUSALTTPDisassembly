@@ -10381,7 +10381,7 @@ HUD_Rebuild:
     LDY.w #$C700
     
     ; $Transfer 0x014A bytes from $6FE77 -> $7EC700
-    MVN.b $0D, $7E
+    MVN $0D, $7E
     
     ; The above sets up a template for the status bar.
     PLB
