@@ -620,7 +620,7 @@ Module_Intro:
         LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .noPressedButtons
             ; If ABXY, or Start is pressed, then go to the file selection menu
             ; module.
-            JMP.w $C2F0
+            JMP.w FadeMusicAndResetSRAMMirror
         
         .noPressedButtons
     .dontCheckInput
@@ -633,15 +633,15 @@ Module_Intro:
     dl Intro_Init          ; $06415D Blank Screen
     dl Intro_Init_justLogo ; $064170 -Nintendo presents-
     dl Intro_InitGfx       ; $06433C Sets up myriad graphics settings
-    dl $0CC404             ; $064404 Copyright Nintendo 1992
-    dl $0CC404             ; $064404 Triforces swooping in.
+    dl Intro_HandleAllTriforceAnimations ; $0CC404 Copyright Nintendo 1992
+    dl Intro_HandleAllTriforceAnimations ; $0CC404 Triforces swooping in.
     dl $0CC25C             ; $06425C "Zelda" logo fade in.
     dl $0CC2AE             ; $0642AE Sword coming down...
     dl $0CC284             ; $064284 Fades in bg, Zelda Symbol is sparkling, looking pretty.
     dl $0CC2D4             ; $0642D4 Wait to see if the player does anything.
-    dl $0CC404             ; $064404 This one and the next 2 are unused.
+    dl Intro_HandleAllTriforceAnimations ; $0CC404 This one and the next 2 are unused.
     dl Intro_InitGfx       ; $06433C
-    dl $0CC404             ; $064404
+    dl Intro_HandleAllTriforceAnimations ; $0CC404
 }
 
 ; ==============================================================================
@@ -760,7 +760,7 @@ Intro_LoadTitleGraphics:
         ; that InitTileSets would overwrite any graphics this routine would
         ; decompress.
         JSL LoadDefaultGfx ; $0062D0
-        JSL InitTileSets   ; $00619B
+        JSL InitTileSets
         
         LDY.b #$5D
         
@@ -798,17 +798,17 @@ Intro_LoadTitleGraphics:
 ; $06425C-$064283 JUMP LOCATION
 Intro_FadeLogoIn:
 {
-    JSL.l $0CC404 ; $064404
+    JSL Intro_HandleAllTriforceAnimations
     
     LDA.b $1A : LSR A : BCC .evenFrame
-        JSL.l $00ED7C ; $006D7C
+        JSL $00ED7C ; $006D7C
         
         LDA.l $7EC007 : BNE .BRANCH_2
             LDA.b #$2A : STA.b $B0
             
             INC.b $11
             
-            JSR.w $FE45 ; $067E45
+            JSR.w Intro_InitLogoSword
     
     .evenFrame
     
@@ -831,17 +831,17 @@ Intro_FadeLogoIn:
 ; $064284-$0642AD JUMP LOCATION
 Intro_PopSubtitleCard:
 {
-    JSR.w $FE56   ; $067E56
-    JSL.l $0CC404 ; $064404
+    JSR.w Intro_InitLogoSword_HandleLogoSword
+    JSL Intro_HandleAllTriforceAnimations
     
     LDA.l $7EC007 : BEQ .alpha
         LDA.b $1A : LSR A : BCC .dontAdvanceYet
-            JML.l $00ED8F ; $006D8F
+            JML IntroLogoPaletteFadeIn_IntroTitleCardPaletteFadeIn
     
     .alpha
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$D0 : BEQ .waitForButtonPress
-        JMP.w $C2F0 ; $0642F0
+        JMP.w FadeMusicAndResetSRAMMirror
     
     .waitForButtonPress
     
@@ -858,12 +858,12 @@ Intro_PopSubtitleCard:
 ; $0642AE-$0642D3 JUMP LOCATION
 Intro_SwordStab:
 {
-    JSL.l $0CC404 ; $064404
+    JSL Intro_HandleAllTriforceAnimations
     
     STZ.w $1F00
     STZ.w $012A
     
-    JSR.w $FE56 ; $067E56
+    JSR.w Intro_InitLogoSword_HandleLogoSword
     
     DEC.b $B0 : BNE .BRANCH_1
         INC.b $11
@@ -885,12 +885,12 @@ Intro_SwordStab:
 ; $0642D4-$0642EF JUMP LOCATION 
 Intro_TrianglesBeforeAttract:
 {
-    JSL.l $0CC404 ; $064404
+    JSL Intro_HandleAllTriforceAnimations
     
     STZ.w $1F00
     STZ.w $012A
     
-    JSR.w $FE56 ; $067E56
+    JSR.w Intro_InitLogoSword_HandleLogoSword
     
     DEC.b $B0 : BNE .BRANCH_1
         ; Note that this instruction does nothing since
@@ -964,16 +964,15 @@ FadeMusicAndResetSRAMMirror:
 
 ; ==============================================================================
 
+; Module 0x00.0x02, 0x00.0x0A
 ; $06433C-$06436E JUMP LOCATION
 Intro_InitGfx:
 {
-    ; Module 0x00.0x02, 0x00.0x0A
-    
     ; Set misc. sprite graphics.
     LDA.b #$08 : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong ; $006384
-    JSR.w $C36F ; $06436F
+    JSL Graphics_LoadCommonSprLong
+    JSR.w TriforceInitializePolyhedralModul
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
     LDA.b #$00 : STA.w $1E18 : STA.w $1E19 : STA.w $1E1A
@@ -995,7 +994,7 @@ Intro_InitGfx:
 TriforceInitializePolyhedralModule:
 {
     JSL Polyhedral_InitThread
-    JSR.w $C3BD ; $0643BD
+    JSR.w LoadTriforceSpritePalette
     
     ; Set vertical IRQ trigger scanline.
     LDA.b #$90 : STA.b $FF
@@ -1021,13 +1020,12 @@ TriforceInitializePolyhedralModule:
 
 ; ==============================================================================
 
+; The guy who wrote this routine had never heard of MVN or MVP apparently or
+; DMA, for that matter. This routine writes a fixed set of colors to SP-6
+; (first half).
 ; $0643BD-$064403 LOCAL
 LoadTriforceSpritePalette:
 {
-    ; The guy who wrote this routine had never heard of MVN or MVP apparently
-    ; or DMA, for that matter.
-    ; This routine writes a fixed set of colors to SP-6 (first half).
-    
     REP #$20
     
     LDA.l $0CC425 : STA.l $7EC6A0
@@ -1056,8 +1054,8 @@ Intro_HandleAllTriforceAnimations:
     
     INC.w $1E0A
     
-    JSR.w $C435 ; $064435
-    JSR.w $C412 ; $064412
+    JSR.w Intro_AnimateTriforce
+    JSR.w Scene_AnimateEverySprite
     
     PLB
     
@@ -1076,7 +1074,7 @@ Scene_AnimateEverySprite:
     
     .loop
     
-        JSR.w $C534 ; $064534
+        JSR.w Scene_AnimateSingleSprite
     DEX : BPL .loop
     
     RTS
@@ -1101,7 +1099,7 @@ Intro_AnimateTriforce:
     
     ; Is this some sort of "IRQ busy" flag?
     LDA.w $1F00 : BNE .waitForTriforceThread
-        JSR.w $C448 ; $064448
+        JSR.w Intro_AnimateTriforceDanceMoves
         
         LDA.b #$01 : STA.w $1F00
     
@@ -1327,13 +1325,13 @@ InitializeSceneSprite_Triangle:
 {
     TXA : ASL : TAY
     
-    LDA.w $C572, Y : STA.w $1E30, X
-    LDA.w $C573, Y : STA.w $1E38, X
-    LDA.w $C578, Y : STA.w $1E48, X
-    LDA.w $C579, Y : STA.w $1E50, X
+    LDA.w Pool_InitializeSceneSprite_Triangle_pos_x_start+0, Y : STA.w $1E30, X
+    LDA.w Pool_InitializeSceneSprite_Triangle_pos_x_start+1, Y : STA.w $1E38, X
+    LDA.w Pool_InitializeSceneSprite_Triangle_pos_y_start+0, Y : STA.w $1E48, X
+    LDA.w Pool_InitializeSceneSprite_Triangle_pos_y_start+1, Y : STA.w $1E50, X
     
-    LDA.w $C5CA, X : CLC : ADC.w $1E58, X : STA.w $1E58, X
-    LDA.w $C5CD, X : CLC : ADC.w $1E60, X : STA.w $1E60, X
+    LDA.w IntroTriangleSpeedX, X : CLC : ADC.w $1E58, X : STA.w $1E58, X
+    LDA.w IntroTriangleSpeedY, X : CLC : ADC.w $1E60, X : STA.w $1E60, X
     
     INC.w $1E10, X
     
@@ -1343,49 +1341,69 @@ InitializeSceneSprite_Triangle:
 ; $0645B1-$0645C9 JUMP LOCATION
 AnimateSceneSprite_Triangle:
 {
-    JSR.w $C70F ; $06470F
-    JSR.w $C9F1 ; $0649F1
+    JSR.w AnimateSceneSprite_DrawTriangle
+    JSR.w AnimateSceneSprite_MoveTriangle
     
     LDA.w $1E00
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $C5D6 ; $0645D6
-    dw $C5D6 ; $0645D6
-    dw $C5D6 ; $0645D6
-    dw $C5D6 ; $0645D6
-    dw $C5D6 ; $0645D6
-    dw $C608 ; $064608
+    dw IntroTriangle_MoveIntoPlace ; 0x00 - $C5D6
+    dw IntroTriangle_MoveIntoPlace ; 0x01 - $C5D6
+    dw IntroTriangle_MoveIntoPlace ; 0x02 - $C5D6
+    dw IntroTriangle_MoveIntoPlace ; 0x03 - $C5D6
+    dw IntroTriangle_MoveIntoPlace ; 0x04 - $C5D6
+    dw IntroTriangle_StopMoving    ; 0x05 - $C608
 }
 
 ; $0645CA-$0645CC DATA
 IntroTriangleSpeedX:
 {
     ; USED WITH $0645D6
-    dw $0001, $FFFF, $FF01
+    db   1
+    db   0
+    db  -1
 }
 
-; $0645CD-$0645D5 DATA
+; $0645CD-$0645CF DATA
 IntroTriangleSpeedY:
 {
-    dw $5F4B, $5875, $5830
+    db  -1
+    db   1
+    db  -1
+}
+
+; $0645D0-$0645D5 DATA
+Pool_IntroTriangle_MoveIntoPlace:
+{
+    ; $0645D0
+    .target_x
+    db $4B
+    db $5F
+    db $75
+
+    ; $0645D3
+    .target_y
+    db $58
+    db $30
+    db $58
 }
 
 ; $0645D6-$064607 JUMP LOCATION
 IntroTriangle_MoveIntoPlace:
 {
     LDA.w $1E0A : AND.b #$1F : BNE .BRANCH_1
-        LDA.w $C5CA, X : CLC : ADC.w $1E58, X : STA.w $1E58, X
-        LDA.w $C5CD, X : CLC : ADC.w $1E60, X : STA.w $1E60, X
+        LDA.w IntroTriangleSpeedX, X : CLC : ADC.w $1E58, X : STA.w $1E58, X
+        LDA.w IntroTriangleSpeedY, X : CLC : ADC.w $1E60, X : STA.w $1E60, X
         
     .BRANCH_1
     
-    LDA.w $C5D0, X : CMP.w $1E30, X : BNE .BRANCH_2
+    LDA.w Pool_IntroTriangle_MoveIntoPlace_target_x, X : CMP.w $1E30, X : BNE .BRANCH_2
         STZ.w $1E58, X
     
     .BRANCH_2
     
-    LDA.w $C5D3, X : CMP.w $1E48, X : BNE .BRANCH_3
+    LDA.w Pool_IntroTriangle_MoveIntoPlace_target_y, X : CMP.w $1E48, X : BNE .BRANCH_3
         STZ.w $1E60, X
     
     .BRANCH_3
@@ -1462,7 +1480,7 @@ AnimateSceneSprite_DrawTriangle:
     
     .BRANCH_2
     
-    JSR.w $C972 ; $064972
+    JSR.w AnimateSceneSprite_AddObjectsToOAMBuffer
     
     RTS
 }
@@ -1486,7 +1504,7 @@ AnimateSceneSprite_DrawTriforceRoomTriangle:
     
     .BRANCH_2
     
-    JSR.w $C972 ; $064972
+    JSR.w AnimateSceneSprite_AddObjectsToOAMBuffer
     
     RTS
 }
@@ -1516,7 +1534,7 @@ InitializeSceneSprite_Copyright:
 ; $064864-$064867 JUMP LOCATION
 AnimateSceneSprite_Copyright:
 {
-    JSR.w $C8D0 ; $0648D0
+    JSR.w AnimateSceneSprite_DrawCopyright
     
     RTS
 }
@@ -1547,7 +1565,7 @@ AnimateSceneSprite_DrawCopyright:
     LDA.b #$68 : STA.b $08
     LDA.b #$C8 : STA.b $09
     
-    JSR.w $C972 ; $064972
+    JSR.w AnimateSceneSprite_AddObjectsToOAMBuffer
     
     RTS
 }
@@ -1557,8 +1575,8 @@ InitializeSceneSprite_Sparkle:
 {
     LDA.w $1E0A : LSR #5 : AND.b #$03 : TAY
     
-    LDA.w $C8FD, Y : STA.w $1E30, X
-    LDA.w $C901, Y : STA.w $1E48, X
+    LDA.w Pool_AnimateSceneSprite_Sparkle_position_x, Y : STA.w $1E30, X
+    LDA.w Pool_AnimateSceneSprite_Sparkle_position_y, Y : STA.w $1E48, X
     
     INC.w $1E10, X
     
@@ -1584,12 +1602,12 @@ Pool_AnimateSceneSprite_Sparkle:
 ; $06490D-$064935 JUMP LOCATION
 AnimateSceneSprite_Sparkle:
 {
-    JSR.w $C956 ; $064956
+    JSR.w AnimateSceneSprite_DrawSparkle
     
     LDA.w $1E0A : LSR #2 : AND.b #$03 : TAY
     
-    LDA.w $C8FD, Y : STA.w $1E30, X
-    LDA.w $C901, Y : STA.w $1E48, X
+    LDA.w Pool_AnimateSceneSprite_Sparkle_position_x, Y : STA.w $1E30, X
+    LDA.w Pool_AnimateSceneSprite_Sparkle_position_y, Y : STA.w $1E48, X
     
     RTS
 }
@@ -1614,7 +1632,7 @@ AnimateSceneSprite_DrawSparkle:
         
         LDA.b #$C9 : ADC.b #$00 : STA.b $09
         
-        JSR.w $C972 ; $064972
+        JSR.w AnimateSceneSprite_AddObjectsToOAMBuffer
     
     .BRANCH_1
     
@@ -1744,7 +1762,7 @@ AnimateSceneSprite_TerminateTriangle:
 {
     LDA.w $1E02 : BEQ .BRANCH_1
         ; Note that this maneuver will pull the return address from this Sub
-        ;off the stack and we will end up at the sub that called this Sub's
+        ; off the stack and we will end up at the sub that called this Sub's
         ; caller.
         PLA : PLA
     
@@ -1761,7 +1779,7 @@ TriforceRoom_PrepGFXSlotForPoly:
     LDA.b #$08 : STA.w $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $006384
-    JSR.w $C36F   ; $06436F
+    JSR.w TriforceInitializePolyhedralModul
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
     LDA.b #$04 : STA.w $1E18
@@ -1783,7 +1801,9 @@ Credits_InitializePolyhedral:
     LDA.b #$08 : STA.w $0AA4
     
     JSL Graphics_LoadCommonSprLong ; $006384
-    JSR.w $C36F ; $06436F MAKES SURE THE TRIFORCES ARE SET UP.
+
+    ; MAKES SURE THE TRIFORCES ARE SET UP.
+    JSR.w TriforceInitializePolyhedralModul
     
     STZ.w $1F02
     
@@ -1806,8 +1826,8 @@ AdvancePolyhedral:
 {
     PHB : PHK : PLB
     
-    JSR.w $CABC ; $064ABC
-    JSR.w $C412 ; $064412
+    JSR.w AdvancePolyhedral_do_advance
+    JSR.w Scene_AnimateEverySprite
     
     PLB
     
@@ -1823,7 +1843,7 @@ AdvancePolyhedral_do_advance:
                  STA.w $1E02
     
     LDA.w $1F00 : BNE .alpha
-        JSR.w $CAD8 ; $064AD8
+        JSR.w AdvancePolyhedral_run_sub
         
         LDA.b #$01 : STA.w $1F00
         
@@ -1963,8 +1983,8 @@ Credits_AnimateTheTriangles:
     
     INC.w $1E0A
     
-    JSR.w $CBB0 ; $064BB0
-    JSR.w $C412 ; $064412
+    JSR.w CreditsTriangle_HandleRotation
+    JSR.w Scene_AnimateEverySprite
     
     PLB
     
@@ -1979,7 +1999,7 @@ CreditsTriangle_HandleRotation:
     LDA.b #$01 : STA.w $012A
     
     LDA.w $1F00 : BNE .BRANCH_ALPHA
-        JSR.w $CBC3 ; $04CBC3
+        JSR.w CreditsTriangle_ApplyRotation
         
         LDA.b #$01 : STA.w $1F00
     
@@ -2034,12 +2054,23 @@ InitializeSceneSprite_TriforceRoomTriangle:
 {
     TXA : ASL A : TAY
     
-    LDA.w $CBD6, Y : STA.w $1E30, X
-    LDA.w $CBD7, Y : STA.w $1E38, Y
-    LDA.w $CBDC, Y : STA.w $1E48, X
-    LDA.w $CBDD, Y : STA.w $1E50, X
-    LDA.w $CBE2, X : STA.w $1E58, X
-    LDA.w $CBE5, X : STA.w $1E60, X
+    LDA.w Pool_InitializeSceneSprite_TriforceRoomTriangle_position_x+0, Y
+    STA.w $1E30, X
+
+    LDA.w Pool_InitializeSceneSprite_TriforceRoomTriangle_position_x+1, Y
+    STA.w $1E38, Y
+
+    LDA.w Pool_InitializeSceneSprite_TriforceRoomTriangle_position_y+0, Y
+    STA.w $1E48, X
+
+    LDA.w Pool_InitializeSceneSprite_TriforceRoomTriangle_position_y+1, Y
+    STA.w $1E50, X
+
+    LDA.w Pool_InitializeSceneSprite_TriforceRoomTriangle_speed_x, X
+    STA.w $1E58, X
+
+    LDA.w Pool_InitializeSceneSprite_TriforceRoomTriangle_speed_y, X
+    STA.w $1E60, X
     
     INC.w $1E10, X
     
@@ -2051,19 +2082,19 @@ InitializeSceneSprite_TriforceRoomTriangle:
 ; $064C13-$064C2C JUMP LOCATION
 AnimateSceneSprite_TriforceRoomTriangle:
 {
-    JSR.w $C82F ; $06482F
-    JSR.w $CA4C ; $064A4C
-    JSR.w $C9F1 ; $0649F1
+    JSR.w AnimateSceneSprite_DrawTriforceRoomTriangle
+    JSR.w AnimateSceneSprite_TerminateTriangle
+    JSR.w AnimateSceneSprite_MoveTriangle
     
     LDA.w $1E00
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $CC33 ; = $064C33
-    dw $CC56 ; = $064C56
-    dw $CC6B ; = $064C6B
-    dw $CC8F ; = $064C8F
-    dw $CC8F ; = $064C8F
+    dw AnimateTriforceRoomTriangle_Expand        ; 0x00 - $CC33
+    dw AnimateTriforceRoomTriangle_RotateInPlace ; 0x01 - $CC56
+    dw AnimateTriforceRoomTriangle_Contract      ; 0x02 - $CC6B
+    dw AnimateTriforceRoomTriangle_Stopped       ; 0x03 - $CC8F
+    dw AnimateTriforceRoomTriangle_Stopped       ; 0x04 - $CC8F
 }
 
 ; ==============================================================================
@@ -2071,9 +2102,11 @@ AnimateSceneSprite_TriforceRoomTriangle:
 ; $064C2D-$064C32 DATA
 Pool_AnimateTriforceRoomTriangle_Expand:
 {
+    ; $064C2D
     .speed_x
     db $FF, $00, $01
 
+    ; $064C30
     .speed_y
     db $FF, $FF, $FF
 }
@@ -2082,12 +2115,14 @@ Pool_AnimateTriforceRoomTriangle_Expand:
 AnimateTriforceRoomTriangle_Expand:
 {
     LDA.w $1E0A : AND.b #$07 : BNE .BRANCH_1
-        LDA.w $CC2D, X : CLC : ADC.w $1E58, X : STA.w $1E58, X
+        LDA.w Pool_AnimateTriforceRoomTriangle_Expand_speed_x, X
+        CLC : ADC.w $1E58, X : STA.w $1E58, X
     
     .BRANCH_1
     
     LDA.w $1E0A : AND.b #$03 : BNE .BRANCH_2
-        LDA.w $CC30, X : CLC : ADC.w $1E60, X : STA.w $1E60, X
+        LDA.w Pool_AnimateTriforceRoomTriangle_Expand_speed_y, X
+        CLC : ADC.w $1E60, X : STA.w $1E60, X
     
     .BRANCH_2
     
@@ -2143,22 +2178,22 @@ Pool_AnimateTriforceRoomTriangle_Contract:
     db $74
 }
 
-; ==============================================================================
-
 ; $064C6B-$064C8B JUMP LOCATION
 AnimateTriforceRoomTriangle_Contract:
 {
     LDA.w $1E0A : AND.b #$03 : BNE .BRANCH_1
-        JSR.w $CCB0 ; $064CB0
+        JSR.w AnimateTriforceRoomTriangle_HandleContracting
     
     .BRANCH_1
     
-    LDA.w $CC65, X : CMP.w $1E30, X : BNE .BRANCH_2
+    LDA.w Pool_AnimateTriforceRoomTriangle_Contract_target_x, X
+    CMP.w $1E30, X : BNE .BRANCH_2
         STZ.w $1E58, X
     
     .BRANCH_2
     
-    LDA.w $CC68, X : CMP.w $1E48, X : BNE .BRANCH_3
+    LDA.w Pool_AnimateTriforceRoomTriangle_Contract_target_y, X
+    CMP.w $1E48, X : BNE .BRANCH_3
         STZ.w $1E60, X
     
     .BRANCH_3
@@ -2174,13 +2209,11 @@ Pool_AnimateTriforceRoomTriangle_Stopped:
     db $72, $66, $72
 }
 
-; ==============================================================================
-
 ; $064C8F-$064CAF JUMP LOCATION
 AnimateTriforceRoomTriangle_Stopped:
 {
     LDA.w $1E0C : ORA.w $1E0D : BNE .BRANCH_1
-        LDA.w $CC8C, X : STA.w $1E48, X
+        LDA.w Pool_AnimateTriforceRoomTriangle_Stopped, X : STA.w $1E48, X
         
         RTS
     
@@ -2197,26 +2230,28 @@ AnimateTriforceRoomTriangle_Stopped:
 ; $064CB0-$064D0C LOCAL JUMP LOCATION
 AnimateTriforceRoomTriangle_HandleContracting:
 {
-    LDA.w $CC65, X : CMP.w $1E30, X : BCC .BRANCH_1
-        LDA.w $CC60, X
+    LDA.w Pool_AnimateTriforceRoomTriangle_Contract_target_x, X
+    CMP.w $1E30, X : BCC .BRANCH_1
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_speed_y, X
         
         BRA .BRANCH_2
     
     .BRANCH_1
     
-    LDA.w $CC5D, X
+    LDA.w Pool_AnimateTriforceRoomTriangle_Contract_speed_x, X
     
     .BRANCH_2
     
-    CLC : ADC.w $1E58, X : STA.w $1E58, X : CMP.w $CC63 : BNE .BRANCH_3
-        LDA.w $CC63 : INC A
+    CLC : ADC.w $1E58, X : STA.w $1E58, X
+    CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : BNE .BRANCH_3
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : INC A
         
         BRA .BRANCH_4
     
     .BRANCH_3
     
-    CMP.w $CC64 : BNE .BRANCH_5
-        LDA.w $CC64 : INC A
+    CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : BNE .BRANCH_5
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : INC A
         
         .BRANCH_4
         
@@ -2224,26 +2259,28 @@ AnimateTriforceRoomTriangle_HandleContracting:
     
     .BRANCH_5
     
-    LDA.w $CC68, X : CMP.w $1E48, X : BCC .BRANCH_6
-        LDA.w $CC60, X
+    LDA.w Pool_AnimateTriforceRoomTriangle_Contract_target_y, X
+    CMP.w $1E48, X : BCC .BRANCH_6
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_speed_y, X
         
         BRA .BRANCH_7
     
     .BRANCH_6
     
-    LDA.w $CC5D, X
+    LDA.w Pool_AnimateTriforceRoomTriangle_Contract_speed_x, X
     
     .BRANCH_7
     
-    CLC : ADC.w $1E60, X : STA.w $1E60, X : CMP.w $CC63 : BNE .BRANCH_8
-        LDA.w $CC63 : INC A
+    CLC : ADC.w $1E60, X : STA.w $1E60, X
+    CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : BNE .BRANCH_8
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_x : INC A
         
         BRA .BRANCH_9
     
     .BRANCH_8
     
-    CMP.w $CC64 : BNE .BRANCH_10
-        LDA.w $CC64 : DEC A
+    CMP.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : BNE .BRANCH_10
+        LDA.w Pool_AnimateTriforceRoomTriangle_Contract_limit_y : DEC A
         
         .BRANCH_9
         
@@ -2277,10 +2314,17 @@ InitializeSceneSprite_CreditsTriangle:
 {
     TXA : ASL A : TAY
     
-    LDA.w $CD0D, Y : STA.w $1E30, X
-    LDA.w $CD0E, Y : STA.w $1E38, X
-    LDA.w $CD13, Y : STA.w $1E48, X
-    LDA.w $CD14, Y : STA.w $1E50, X
+    LDA.w Pool_InitializeSceneSprite_CreditsTriangle_position_x+0, Y
+    STA.w $1E30, X
+
+    LDA.w Pool_InitializeSceneSprite_CreditsTriangle_position_x+1, Y
+    STA.w $1E38, X
+
+    LDA.w Pool_InitializeSceneSprite_CreditsTriangle_position_y+0, Y
+    STA.w $1E48, X
+
+    LDA.w Pool_InitializeSceneSprite_CreditsTriangle_position_y+1, Y
+    STA.w $1E50, X
     
     INC.w $1E10, X
     
@@ -2308,16 +2352,19 @@ Pool_AnimateSceneSprite_CreditsTriangle:
 ; $064D3E-$064D6F JUMP LOCATION
 AnimateSceneSprite_CreditsTriangle:
 {
-    JSR.w $C3BD ; $0643BD
-    JSR.w $C82F ; $06482F
-    JSR.w $C9F1 ; $0649F1
+    JSR.w LoadTriforceSpritePalette
+    JSR.w AnimateSceneSprite_DrawTriforceRoomTriangle
+    JSR.w AnimateSceneSprite_MoveTriangle
     
     LDA.b $11 : CMP.b #$24 : BNE .BRANCH_2
         LDA.w $1E20, X : CMP.b #$50 : BEQ .BRANCH_1
             INC.w $1E20, X
             
-            LDA.w $CD38, X : CLC : ADC.w $1E58, X : STA.w $1E58, X
-            LDA.w $CD3B, X : CLC : ADC.w $1E60, X : STA.w $1E60, X
+            LDA.w Pool_AnimateSceneSprite_CreditsTriangle_speed_x, X
+            CLC : ADC.w $1E58, X : STA.w $1E58, X
+            
+            LDA.w Pool_AnimateSceneSprite_CreditsTriangle_speed_y, X
+            CLC : ADC.w $1E60, X : STA.w $1E60, X
         
         .BRANCH_1
         
@@ -2363,12 +2410,12 @@ Module_SelectFile:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl $0CCD9D ; = $064D9D
-    dl $0CCDF2 ; = $064DF2
-    dl $0CCE53 ; = $064E53
-    dl $0CCEA5 ; = $064EA5
-    dl $0CCEB1 ; = $064EB1
-    dl $0CCEBD ; = $064EBD
+    dl FileSelect_InitializeGFX                   ; 0x00 - $0CCD9D
+    dl FileSelect_UploadFancyBackground           ; 0x01 - $0CCDF2
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce ; 0x02 - $0CCE53
+    dl FileSelect_TriggerStripesAndAdvance        ; 0x03 - $0CCEA5
+    dl FileSelect_TriggerNameStripesAndAdvance    ; 0x04 - $0CCEB1
+    dl FileSelect_Main                            ; 0x05 - $0CCEBD
 }
 
 ; ==============================================================================
@@ -2376,7 +2423,7 @@ Module_SelectFile:
 ; $064D9D-$064DF1 JUMP LOCATION
 FileSelect_InitializeGFX:
 {
-    JSL EnableForceBlank ; $00093D
+    JSL EnableForceBlank
     
     STZ.w $012A
     STZ.w $1F0C
@@ -2395,7 +2442,7 @@ FileSelect_InitializeGFX:
     
     LDA.b #$00 : STA.w $0AB2
     
-    JSL Palette_Hud ; $0DEE52
+    JSL Palette_Hud
     
     STZ.w $0202
     
@@ -2419,8 +2466,7 @@ FileSelect_ReInitSaveFlagsAndEraseTriforce:
     
     .zeroLoop
     
-    STZ.b $BF, X ; Zero out $BF - $C4.
-    
+        STZ.b $BF, X ; Zero out $BF - $C4.
     DEX : BPL .zeroLoop
     
     ; $064DF9 ALTERNATE ENTRY POINT
@@ -2479,7 +2525,7 @@ FileSelect_UploadLinoleum:
         LDA.b $00 : PHA : AND.w #$0020 : LSR #4; TAY; 
         
         ; $064E17, A = 0xCE0F OR 0xCE13
-        LDA.w $CE17, Y : STA.b $02
+        LDA.w Pool_FileSelect_UploadLinoleum_pointers, Y : STA.b $02
         
         ; A is Odd or Even?
         ; i.e. 0x00 if even or 0x02 if odd.
@@ -2508,7 +2554,7 @@ FileSelect_UploadFancyBackground:
     
     REP #$30
     
-    JSR.w $CE1B ; $064E1B
+    JSR.w FileSelect_UploadLinoleum
     
     LDY.w #$00DE ; Y's usage is an index in what follows (for a loop).
     
@@ -2870,7 +2916,7 @@ Module_CopyFile:
     JSL UseImplicitRegIndexedLongJumpTable
     
     dl $0CCDF9 ; = $064DF9 ; Sets up palettes and other things.
-    dl $0CCE53 ; = $064E53 ; 
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce ; $0CCE53
     dl $0CD06E ; = $06506E
     dl $0CD087 ; = $065087
     dl $0CD0A2 ; = $0650A2
@@ -3476,7 +3522,7 @@ Module_EraseFile:
     JSL UseImplicitRegIndexedLongJumpTable
     
     dl $0CCDF9 ; = $064DF9
-    dl $0CCE53 ; = $064E53
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce ; $0CCE53
     dl $0CD49A ; = $06549A
     dl $0CD49F ; = $06549F
     dl $0CD4B1 ; = $0654B1
@@ -4225,7 +4271,7 @@ NameFile_FillBackground:
     
     REP #$30
     
-    JSR.w $CE1B ; $064E1B
+    JSR.w FileSelect_UploadLinoleum
     
     LDA.w #$FFFF : STA.w $1006, X
     
@@ -4866,18 +4912,17 @@ Attract_Submodules:
 
 ; ==============================================================================
 
+; Module 0x14.0x00
+; Keeps the title screen status quo running while we darken the screen.
 ; $066DE6-$066E0B LONG JUMP LOCATION
 Attract_Fade:
 {
-    ; Module 0x14.0x00
-    ; Keeps the title screen status quo running while we darken the screen.
-    
-    JSL.l $0CC404 ; $064404
+    JSL Intro_HandleAllTriforceAnimations
     
     STZ.w $1F00
     STZ.w $012A
     
-    JSR.w $FE56 ; $067E56
+    JSR.w Intro_InitLogoSword_HandleLogoSword
     
     LDA.b $13 : BEQ .fullyDark
         ; Decrease screen brightness.
@@ -6291,7 +6336,7 @@ Attract_Exit:
         
         SEP #$20
         
-        JMP.w $C2F0 ; $0642F0
+        JMP.w FadeMusicAndResetSRAMMirror
     
     .stillDarkening
     

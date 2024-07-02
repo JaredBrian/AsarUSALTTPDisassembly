@@ -20,11 +20,11 @@ RoomDataBank0A:
 
     ; $050000
     RoomDataTiles_0104:
-    incbin "bin/rooms/room0104.bin" ; size: 0x0047
+    incbin "bin/rooms/room0104.bin" ; Size: 0x0047
 
     ; $050047
     RoomDataTiles_0055:
-    incbin "bin/rooms/room0055.bin" ; size: 0x0127
+    incbin "bin/rooms/room0055.bin" ; Size: 0x0127
 
     ; ==========================================================================
     ; Some caves
@@ -32,15 +32,15 @@ RoomDataBank0A:
 
     ; $0509A9
     RoomDataTiles_00E1:
-    incbin "bin/rooms/room00E1.bin" ; size: 0x00D4
+    incbin "bin/rooms/room00E1.bin" ; Size: 0x00D4
 
     ; $050242
     RoomDataTiles_00E3:
-    incbin "bin/rooms/room00E3.bin" ; size: 0x00F1
+    incbin "bin/rooms/room00E3.bin" ; Size: 0x00F1
 
     ; $050333
     RoomDataTiles_00E2:
-    incbin "bin/rooms/room00E2.bin" ; size: 0x0137
+    incbin "bin/rooms/room00E2.bin" ; Size: 0x0137
 
     ; ==========================================================================
     ; Ganon
@@ -48,11 +48,11 @@ RoomDataBank0A:
 
     ; $05046A
     RoomDataTiles_0000:
-    incbin "bin/rooms/room0000.bin" ; size: 0x004F
+    incbin "bin/rooms/room0000.bin" ; Size: 0x004F
 
     ; $0504B9
     RoomDataTiles_0010:
-    incbin "bin/rooms/room0010.bin" ; size: 0x00E3
+    incbin "bin/rooms/room0010.bin" ; Size: 0x00E3
 
     ; ==========================================================================
     ; More caves
@@ -60,27 +60,27 @@ RoomDataBank0A:
 
     ; $05059C
     RoomDataTiles_0008:
-    incbin "bin/rooms/room0008.bin" ; size: 0x00BD
+    incbin "bin/rooms/room0008.bin" ; Size: 0x00BD
 
     ; $050659
     RoomDataTiles_0018:
-    incbin "bin/rooms/room0018.bin" ; size: 0x0092
+    incbin "bin/rooms/room0018.bin" ; Size: 0x0092
 
     ; $0506EB
     RoomDataTiles_002F:
-    incbin "bin/rooms/room002F.bin" ; size: 0x00EC
+    incbin "bin/rooms/room002F.bin" ; Size: 0x00EC
 
     ; $0507D7
     RoomDataTiles_002C:
-    incbin "bin/rooms/room002C.bin" ; size: 0x0104
+    incbin "bin/rooms/room002C.bin" ; Size: 0x0104
 
     ; $0508DB
     RoomDataTiles_003C:
-    incbin "bin/rooms/room003C.bin" ; size: 0x00CE
+    incbin "bin/rooms/room003C.bin" ; Size: 0x00CE
 
     ; $0509A9
     RoomDataTiles_0003:
-    incbin "bin/rooms/room0003.bin" ; size: 0x002A
+    incbin "bin/rooms/room0003.bin" ; Size: 0x002A
 
     ; ==========================================================================
     ; Sewers and Sanctuary
@@ -88,35 +88,35 @@ RoomDataBank0A:
 
     ; $0509D3
     RoomDataTiles_0012:
-    incbin "bin/rooms/room0012.bin" ; size: 0x00D2
+    incbin "bin/rooms/room0012.bin" ; Size: 0x00D2
 
     ; $050AA5
     RoomDataTiles_0002:
-    incbin "bin/rooms/room0002.bin" ; size: 0x00FA
+    incbin "bin/rooms/room0002.bin" ; Size: 0x00FA
 
     ; $050F19
     RoomDataTiles_0011:
-    incbin "bin/rooms/room0011.bin" ; size: 0x00BB
+    incbin "bin/rooms/room0011.bin" ; Size: 0x00BB
 
     ; $050C5A
     RoomDataTiles_0021:
-    incbin "bin/rooms/room0021.bin" ; size: 0x00DC
+    incbin "bin/rooms/room0021.bin" ; Size: 0x00DC
 
     ; $050D36
     RoomDataTiles_0022:
-    incbin "bin/rooms/room0022.bin" ; size: 0x00A1
+    incbin "bin/rooms/room0022.bin" ; Size: 0x00A1
 
     ; $050DD7
     RoomDataTiles_0032:
-    incbin "bin/rooms/room0032.bin" ; size: 0x0078
+    incbin "bin/rooms/room0032.bin" ; Size: 0x0078
 
     ; $050E4F
     RoomDataTiles_0042:
-    incbin "bin/rooms/room0042.bin" ; size: 0x0046
+    incbin "bin/rooms/room0042.bin" ; Size: 0x0046
 
     ; $050E95
     RoomDataTiles_0041:
-    incbin "bin/rooms/room0041.bin" ; size: 0x0084
+    incbin "bin/rooms/room0041.bin" ; Size: 0x0084
 
     ; ==========================================================================
     ; Hyrule Castle
@@ -124,31 +124,31 @@ RoomDataBank0A:
 
     ; $050F19
     RoomDataTiles_0051:
-    incbin "bin/rooms/room0051.bin" ; size: 0x0116
+    incbin "bin/rooms/room0051.bin" ; Size: 0x0116
 
     ; $0516A1
     RoomDataTiles_0050:
-    incbin "bin/rooms/room0050.bin" ; size: 0x00B3
+    incbin "bin/rooms/room0050.bin" ; Size: 0x00B3
 
     ; $0510E2
     RoomDataTiles_0001:
-    incbin "bin/rooms/room0001.bin" ; size: 0x008C
+    incbin "bin/rooms/room0001.bin" ; Size: 0x008C
 
     ; $05116E
     RoomDataTiles_0052:
-    incbin "bin/rooms/room0052.bin" ; size: 0x00CA
+    incbin "bin/rooms/room0052.bin" ; Size: 0x00CA
 
     ; $051238
     RoomDataTiles_0060:
-    incbin "bin/rooms/room0060.bin" ; size: 0x00DF
+    incbin "bin/rooms/room0060.bin" ; Size: 0x00DF
 
     ; $051317
     RoomDataTiles_0061:
-    incbin "bin/rooms/room0061.bin" ; size: 0x014D
+    incbin "bin/rooms/room0061.bin" ; Size: 0x014D
 
     ; $051464
     RoomDataTiles_0062:
-    incbin "bin/rooms/room0062.bin" ; size: 0x0121
+    incbin "bin/rooms/room0062.bin" ; Size: 0x0121
 
     ; ==========================================================================
     ; Eastern Palace
@@ -156,55 +156,55 @@ RoomDataBank0A:
 
     ; $051585
     RoomDataTiles_00C8:
-    incbin "bin/rooms/room00C8.bin" ; size: 0x0015
+    incbin "bin/rooms/room00C8.bin" ; Size: 0x0015
 
     ; $05159A
     RoomDataTiles_00D8:
-    incbin "bin/rooms/room00D8.bin" ; size: 0x005B
+    incbin "bin/rooms/room00D8.bin" ; Size: 0x005B
 
     ; $0515F5
     RoomDataTiles_00D9:
-    incbin "bin/rooms/room00D9.bin" ; size: 0x0082
+    incbin "bin/rooms/room00D9.bin" ; Size: 0x0082
 
     ; $051677
     RoomDataTiles_00DA:
-    incbin "bin/rooms/room00DA.bin" ; size: 0x002A
+    incbin "bin/rooms/room00DA.bin" ; Size: 0x002A
 
     ; $0516A1
     RoomDataTiles_0099:
-    incbin "bin/rooms/room0099.bin" ; size: 0x0091
+    incbin "bin/rooms/room0099.bin" ; Size: 0x0091
 
     ; $051732
     RoomDataTiles_00A8:
-    incbin "bin/rooms/room00A8.bin" ; size: 0x0163
+    incbin "bin/rooms/room00A8.bin" ; Size: 0x0163
 
     ; $051895
     RoomDataTiles_00A9:
-    incbin "bin/rooms/room00A9.bin" ; size: 0x0142
+    incbin "bin/rooms/room00A9.bin" ; Size: 0x0142
 
     ; $0519D7
     RoomDataTiles_00AA:
-    incbin "bin/rooms/room00AA.bin" ; size: 0x0160
+    incbin "bin/rooms/room00AA.bin" ; Size: 0x0160
 
     ; $051B37
     RoomDataTiles_00B8:
-    incbin "bin/rooms/room00B8.bin" ; size: 0x0044
+    incbin "bin/rooms/room00B8.bin" ; Size: 0x0044
 
     ; $051B7B
     RoomDataTiles_00B9:
-    incbin "bin/rooms/room00B9.bin" ; size: 0x0198
+    incbin "bin/rooms/room00B9.bin" ; Size: 0x0198
 
     ; $051D13
     RoomDataTiles_00BA:
-    incbin "bin/rooms/room00BA.bin" ; size: 0x004C
+    incbin "bin/rooms/room00BA.bin" ; Size: 0x004C
 
     ; $051D5F
     RoomDataTiles_00C9:
-    incbin "bin/rooms/room00C9.bin" ; size: 0x0107
+    incbin "bin/rooms/room00C9.bin" ; Size: 0x0107
 
     ; $051E66
     RoomDataTiles_0089:
-    incbin "bin/rooms/room0089.bin" ; size: 0x0067
+    incbin "bin/rooms/room0089.bin" ; Size: 0x0067
 
     ; ==========================================================================
     ; Hyrule Castle Dungeon
@@ -212,27 +212,27 @@ RoomDataBank0A:
 
     ; $051ECD
     RoomDataTiles_0072:
-    incbin "bin/rooms/room0072.bin" ; size: 0x0111
+    incbin "bin/rooms/room0072.bin" ; Size: 0x0111
 
     ; $051FDE
     RoomDataTiles_0082:
-    incbin "bin/rooms/room0082.bin" ; size: 0x0142
+    incbin "bin/rooms/room0082.bin" ; Size: 0x0142
 
     ; $052120
     RoomDataTiles_0081:
-    incbin "bin/rooms/room0081.bin" ; size: 0x012F
+    incbin "bin/rooms/room0081.bin" ; Size: 0x012F
 
     ; $05224F
     RoomDataTiles_0071:
-    incbin "bin/rooms/room0071.bin" ; size: 0x00FA
+    incbin "bin/rooms/room0071.bin" ; Size: 0x00FA
 
     ; $052349
     RoomDataTiles_0070:
-    incbin "bin/rooms/room0070.bin" ; size: 0x0034
+    incbin "bin/rooms/room0070.bin" ; Size: 0x0034
 
     ; $05237D
     RoomDataTiles_0080:
-    incbin "bin/rooms/room0080.bin" ; size: 0x009D
+    incbin "bin/rooms/room0080.bin" ; Size: 0x009D
 
     ; ==========================================================================
     ; Caves and houses
@@ -240,99 +240,99 @@ RoomDataBank0A:
 
     ; $05241A
     RoomDataTiles_00F0:
-    incbin "bin/rooms/room00F0.bin" ; size: 0x0176
+    incbin "bin/rooms/room00F0.bin" ; Size: 0x0176
 
     ; $052590
     RoomDataTiles_00F1:
-    incbin "bin/rooms/room00F1.bin" ; size: 0x0179
+    incbin "bin/rooms/room00F1.bin" ; Size: 0x0179
 
     ; $052709
     RoomDataTiles_00F2:
-    incbin "bin/rooms/room00F2.bin" ; size: 0x0049
+    incbin "bin/rooms/room00F2.bin" ; Size: 0x0049
 
     ; $052752
     RoomDataTiles_00F3:
-    incbin "bin/rooms/room00F3.bin" ; size: 0x004F
+    incbin "bin/rooms/room00F3.bin" ; Size: 0x004F
 
     ; $0527A1
     RoomDataTiles_00F4:
-    incbin "bin/rooms/room00F4.bin" ; size: 0x003A
+    incbin "bin/rooms/room00F4.bin" ; Size: 0x003A
 
     ; $0527DB
     RoomDataTiles_00F5:
-    incbin "bin/rooms/room00F5.bin" ; size: 0x0040
+    incbin "bin/rooms/room00F5.bin" ; Size: 0x0040
 
     ; $05281B
     RoomDataTiles_00F8:
-    incbin "bin/rooms/room00F8.bin" ; size: 0x00E7
+    incbin "bin/rooms/room00F8.bin" ; Size: 0x00E7
 
     ; $052902
     RoomDataTiles_00E8:
-    incbin "bin/rooms/room00E8.bin" ; size: 0x00D5
+    incbin "bin/rooms/room00E8.bin" ; Size: 0x00D5
 
     ; $0529D7
     RoomDataTiles_00FD:
-    incbin "bin/rooms/room00FD.bin" ; size: 0x00DE
+    incbin "bin/rooms/room00FD.bin" ; Size: 0x00DE
 
     ; $052AB5
     RoomDataTiles_00ED:
-    incbin "bin/rooms/room00ED.bin" ; size: 0x013B
+    incbin "bin/rooms/room00ED.bin" ; Size: 0x013B
 
     ; $052BF0
     RoomDataTiles_00FF:
-    incbin "bin/rooms/room00FF.bin" ; size: 0x00B2
+    incbin "bin/rooms/room00FF.bin" ; Size: 0x00B2
 
     ; $052CA2
     RoomDataTiles_00EF:
-    incbin "bin/rooms/room00EF.bin" ; size: 0x009B
+    incbin "bin/rooms/room00EF.bin" ; Size: 0x009B
 
     ; $052D3D
     RoomDataTiles_00DF:
-    incbin "bin/rooms/room00DF.bin" ; size: 0x007B
+    incbin "bin/rooms/room00DF.bin" ; Size: 0x007B
 
     ; $052DB8
     RoomDataTiles_00EB:
-    incbin "bin/rooms/room00EB.bin" ; size: 0x0066
+    incbin "bin/rooms/room00EB.bin" ; Size: 0x0066
 
     ; $052E1E
     RoomDataTiles_00FB:
-    incbin "bin/rooms/room00FB.bin" ; size: 0x008A
+    incbin "bin/rooms/room00FB.bin" ; Size: 0x008A
 
     ; $052EA8
     RoomDataTiles_00EE:
-    incbin "bin/rooms/room00EE.bin" ; size: 0x00D2
+    incbin "bin/rooms/room00EE.bin" ; Size: 0x00D2
 
     ; $052F7A
     RoomDataTiles_00FE:
-    incbin "bin/rooms/room00FE.bin" ; size: 0x007B
+    incbin "bin/rooms/room00FE.bin" ; Size: 0x007B
 
     ; $053FF5
     RoomDataTiles_00F9:
-    incbin "bin/rooms/room00F9.bin" ; size: 0x0069
+    incbin "bin/rooms/room00F9.bin" ; Size: 0x0069
 
     ; $05305E
     RoomDataTiles_00FA:
-    incbin "bin/rooms/room00FA.bin" ; size: 0x010B
+    incbin "bin/rooms/room00FA.bin" ; Size: 0x010B
 
     ; $053169
     RoomDataTiles_00EA:
-    incbin "bin/rooms/room00EA.bin" ; size: 0x0090
+    incbin "bin/rooms/room00EA.bin" ; Size: 0x0090
 
     ; $0531F9
     RoomDataTiles_00E6:
-    incbin "bin/rooms/room00E6.bin" ; size: 0x00FB
+    incbin "bin/rooms/room00E6.bin" ; Size: 0x00FB
 
     ; $0532F4
     RoomDataTiles_00E7:
-    incbin "bin/rooms/room00E7.bin" ; size: 0x00E0
+    incbin "bin/rooms/room00E7.bin" ; Size: 0x00E0
 
     ; $0533D4
     RoomDataTiles_00E4:
-    incbin "bin/rooms/room00E4.bin" ; size: 0x00E5
+    incbin "bin/rooms/room00E4.bin" ; Size: 0x00E5
 
     ; $0534B9
     RoomDataTiles_00E5:
-    incbin "bin/rooms/room00E5.bin" ; size: 0x0107
+    incbin "bin/rooms/room00E5.bin" ; Size: 0x0107
 
     ; ==========================================================================
     ; Caves
@@ -340,19 +340,19 @@ RoomDataBank0A:
 
     ; $0535C0
     RoomDataTiles_0124:
-    incbin "bin/rooms/room0124.bin" ; size: 0x003E
+    incbin "bin/rooms/room0124.bin" ; Size: 0x003E
 
     ; $0535FE
     RoomDataTiles_0125:
-    incbin "bin/rooms/room0125.bin" ; size: 0x0053
+    incbin "bin/rooms/room0125.bin" ; Size: 0x0053
 
     ; $053651
     RoomDataTiles_0126:
-    incbin "bin/rooms/room0126.bin" ; size: 0x0080
+    incbin "bin/rooms/room0126.bin" ; Size: 0x0080
 
     ; $0536D1
     RoomDataTiles_0123:
-    incbin "bin/rooms/room0123.bin" ; size: 0x0059
+    incbin "bin/rooms/room0123.bin" ; Size: 0x0059
 }
 
 ; ==============================================================================
@@ -372,16 +372,16 @@ Messaging_BirdTravel:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw OverworldMap_Backup           ; 0x00 ; Also handles fading to black
-    dw BirdTravel_InitGfx            ; 0x01 ; On the last frame of fading load the map gfx
-    dw OverworldMap_LoadSprGfx       ; 0x02
-    dw OverworldMap_BrightenScreen   ; 0x03
-    dw BirdTravel_InitCounter        ; 0x04
-    dw BirdTravel_Main               ; 0x05 ; Player selection
-    dw OverworldMap_PrepExit         ; 0x06 ; Darken screen
-    dw BirdTravel_LoadTargetArea     ; 0x07
-    dw BirdTravel_LoadAmbientOverlay ; 0x08
-    dw BirdTravel_Finish             ; 0x09
+    dw OverworldMap_Backup           ; 0x00 - $B9A3 Also handles fading to black
+    dw BirdTravel_InitGfx            ; 0x01 - $B74B On the last frame of fading load the map gfx
+    dw OverworldMap_LoadSprGfx       ; 0x02 - $BA9
+    dw OverworldMap_BrightenScreen   ; 0x03 - $BAAA
+    dw BirdTravel_InitCounter        ; 0x04 - $B753
+    dw BirdTravel_Main               ; 0x05 - $B78B Player selection
+    dw OverworldMap_PrepExit         ; 0x06 - $BBD6 Darken screen
+    dw BirdTravel_LoadTargetArea     ; 0x07 - $B8C5
+    dw BirdTravel_LoadAmbientOverlay ; 0x08 - $B948
+    dw BirdTravel_Finish             ; 0x09 - $B964
 }
 
 ; ==============================================================================
@@ -438,14 +438,12 @@ Pool_BirdTravel_Main:
     db $80, $40, $20, $10, $08, $04, $02, $01
 }
 
-; ==============================================================================
-
 ; $05378B-$0538C4 LONG JUMP LOCATION
 BirdTravel_Main:
 {
     LDA.b $C8 : BNE .waitForCounter
     
-    ; Check A, X, B, and Y buttons (BYSTudlr and AXLR----)
+    ; Check A, X, B, and Y buttons (BYSTudlr and AXLR----).
     LDA.b $F2 : ORA.b $F0 : AND.b #$C0 : BEQ .noButtonInput
         ; These buttons cause us to exit bird travel and end up at the
         ; selected destination.
@@ -492,8 +490,7 @@ BirdTravel_Main:
     LDA.w $1AF0 : AND.b #$07 : STA.w $1AF0
     
     LDA.b $1A : AND.b #$10 : BEQ .BRANCH_ZETA
-        ; $05439F IN ROM
-        JSR.w $C39F : BCC .BRANCH_ZETA
+        JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_ZETA
             LDA.b $0E : SEC : SBC.b #$04 : STA.b $0E
             LDA.b $0F : SEC : SBC.b #$04 : STA.b $0F
             
@@ -503,7 +500,7 @@ BirdTravel_Main:
             
             LDX.b #$10
             
-            JSR.w $C51C ; $05451C IN ROM
+            JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_ZETA
 
@@ -515,6 +512,8 @@ BirdTravel_Main:
     LDX.b #$07
 
     ; $053813 ALTERNATE ENTRY POINT
+    .next_numeral
+
     CPX.w $1AF0 : BNE .BRANCH_THETA
         LDA.l $0AB763, X : STA.w $1AB0, X : STA.l $7EC10A
         LDA.l $0AB76B, X : STA.w $1AC0, X : STA.l $7EC10B
@@ -523,7 +522,7 @@ BirdTravel_Main:
         
         PHX
         
-        JSR.w $C39F ; $05439F IN ROM
+        JSR.w WorldMap_CalculateOAMCoordinates
         
         PLX
         
@@ -536,7 +535,7 @@ BirdTravel_Main:
             
             PHX
             
-            JSR.w $C51C ; $05451C IN ROM
+            JSR.w WorldMap_HandleSpriteBlink
             
             PLX
             
@@ -551,7 +550,7 @@ BirdTravel_Main:
     
     PHX
     
-    JSR.w $C39F ; $05439F IN ROM
+    JSR.w WorldMap_CalculateOAMCoordinates
     
     PLX
     
@@ -563,14 +562,14 @@ BirdTravel_Main:
         
         PHX
         
-        JSR.w $C51C ; $05451C IN ROM
+        JSR.w WorldMap_HandleSpriteBlink
         
         PLX
 
     .BRANCH_IOTA
 
     DEX : BMI .BRANCH_KAPPA
-        JMP.w $B813 ; $053813 IN ROM
+        JMP.w BirdTravel_Main_next_numeral
 
     .BRANCH_KAPPA
 
@@ -584,8 +583,8 @@ BirdTravel_Main:
 
 ; ==============================================================================
 
-; $0538C5-$053947 LONG JUMP LOCATION
 ; ZS replaces most of this function.
+; $0538C5-$053947 LONG JUMP LOCATION
 BirdTravel_LoadTargetArea:
 {
     ; Reset the overlay flags for the swamp palace and its light world
@@ -614,7 +613,7 @@ BirdTravel_LoadTargetArea:
     
     .death_mountain
     
-    JSL DecompOwAnimatedTiles ; $005394 IN ROM
+    JSL DecompOwAnimatedTiles
     JSL Overworld_SetFixedColorAndScroll
         
     STZ.w $0AA9
@@ -626,7 +625,7 @@ BirdTravel_LoadTargetArea:
         
     STZ.b $B2
         
-    JSL.l $02B1F4 ; $0131F4 IN ROM
+    JSL Overworld_ReloadSubscreenOverlayAndAdvance_long
         
     ; Play sound effect indicating we're coming out of map mode.
     LDA.b #$10 : STA.w $012F
@@ -661,7 +660,7 @@ BirdTravel_LoadAmbientOverlay:
     SEP #$20
     
     ; Loads overworld map32 data (and subsequently map16, etc etc).
-    JSL.l $02B1F0 ; $0131F0 IN ROM
+    JSL Overworld_LoadAndBuildScreen_long
     
     REP #$20
     
@@ -716,14 +715,14 @@ Messaging_OverworldMap:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw OverworldMap_Backup           ; 0x00
-    dw OverworldMap_InitGfx          ; 0x01
-    dw OverworldMap_DarkWorldTilemap ; 0x02
-    dw OverworldMap_LoadSprGfx       ; 0x03
-    dw OverworldMap_BrightenScreen   ; 0x04
-    dw OverworldMap_Main             ; 0x05
-    dw OverworldMap_PrepExit         ; 0x06
-    dw OverworldMap_RestoreGfx       ; 0x07
+    dw OverworldMap_Backup           ; 0x00 - $B9A3
+    dw OverworldMap_InitGfx          ; 0x01 - $BA30
+    dw OverworldMap_DarkWorldTilemap ; 0x02 - $BA7A
+    dw OverworldMap_LoadSprGfx       ; 0x03 - $BA9A
+    dw OverworldMap_BrightenScreen   ; 0x04 - $BAAA
+    dw OverworldMap_Main             ; 0x05 - $BAE6
+    dw OverworldMap_PrepExit         ; 0x06 - $BBD6
+    dw OverworldMap_RestoreGfx       ; 0x07 - $BC54
 }
 
 ; ==============================================================================
@@ -744,7 +743,7 @@ OverworldMap_Backup:
         ; Cache hdma settings.
         LDA.b $9B : STA.l $7EC229
         
-        JSL EnableForceBlank ; $00093D IN ROM
+        JSL EnableForceBlank
         
         ; Set mosaic to disabled on BG1 and BG2.
         LDA.b #$03 : STA.b $95
@@ -822,8 +821,8 @@ OverworldMap_InitGfx:
     LDA.b #$11 : STA.b $1C
                  STZ.b $1D
     
-    JSL WriteMode7Chr ; $006399 IN ROM
-    JSR.w $BC96         ; $053C96 IN ROM (configures hdma for map mode)
+    JSL WriteMode7Chr
+    JSR.w WorldMap_SetUpHDMA
     
     ; Set data bank to 0x0A
     PHB : LDA.b #$0A : PHA : PLB
@@ -841,7 +840,7 @@ OverworldMap_InitGfx:
 
     .copyFullCgramBuffer
 
-        LDA.w $DB27, Y : STA.l $7EC500, X
+        LDA.w Palettes_OWMAP, Y : STA.l $7EC500, X
         
         DEY #2
     DEX #2 : BPL .copyFullCgramBuffer
@@ -850,7 +849,7 @@ OverworldMap_InitGfx:
     
     PLB
     
-    JSL LoadActualGearPalettes ; $0756C0 IN ROM
+    JSL LoadActualGearPalettes
     
     ; Tell NMI to update CGRAM this frame.
     INC.b $15
@@ -868,12 +867,11 @@ OverworldMap_InitGfx:
 
 ; ==============================================================================
 
+; Performs the necessary mods to the light world tilemap to produce
+; the dark world tilemap.
 ; $053A7A-$053A99 LONG JUMP LOCATION
 OverworldMap_DarkWorldTilemap:
 {
-    ; Performs the necessary mods to the light world tilemap to produce
-    ; the dark world tilemap.
-    
     LDA.b $8A : AND.b #$40 : BEQ .lightWorld
         REP #$30
         
@@ -940,28 +938,28 @@ Pool_OverworldMap_Main:
 
     ; $053AC4
     .WorldMap_BaseZoom
-    db $21 ; zoomed out
-    db $0C ; zoomed in
+    db $21 ; Zoomed out
+    db $0C ; Zoomed in
 
     ; $053AC6
     .WorldMap_PanMovements
-    dw $0000 ; none
-    dw $0000 ; none
-    dw $0001 ; down
-    dw $0002 ; right
-    dw $FFFF ; up
-    dw $FFFE ; left
-    dw $0001 ; never used, but handles UD
-    dw $0002 ; never used, but handles LR
+    dw $0000 ; None
+    dw $0000 ; None
+    dw $0001 ; Down
+    dw $0002 ; Right
+    dw $FFFF ; Up
+    dw $FFFE ; Left
+    dw $0001 ; Never used, but handles UD
+    dw $0002 ; Never used, but handles LR
 
     ; $053AD6
     .WorldMap_PanBoundaries
-    db $00, $00 ; none
-    db $00, $00 ; none
-    db $E0, $00 ; down
-    db $E0, $01 ; right
-    db $B8, $FF ; up
-    db $20, $FF ; left
+    db $00, $00 ; None
+    db $00, $00 ; None
+    db $E0, $00 ; Down
+    db $E0, $01 ; Right
+    db $B8, $FF ; Up
+    db $20, $FF ; Left
 
     ; $053AE2
     .WorldMapHDMA_ZoomPointers
@@ -1089,7 +1087,7 @@ OverworldMap_Main:
 
     .BRANCH_KAPPA
 
-    JSR.w $BF66 ; $053F66 IN ROM
+    JSR.w WorldMap_HandleSprites
 
     .easyOut
 
@@ -1098,78 +1096,74 @@ OverworldMap_Main:
 
 ; ==============================================================================
 
+; 0x0E.0x07.0x06 (coming out of overworld map).
 ; $053BD6-$053C53 JUMP LOCATION
 OverworldMap_PrepExit:
 {
-    ; 0x0E.0x07.0x06 (coming out of overworld map).
-    
     ; Darken screen gradually until fully dark.
     DEC.b $13 : BNE OverworldMap_Main_easyOut ; (RTL)
-    
-    JSL EnableForceBlank ; $00093D IN ROM
-    
-    INC.w $0200
-    
-    REP #$20
-    
-    LDX.b #$00
+        JSL EnableForceBlank
+        
+        INC.w $0200
+        
+        REP #$20
+        
+        LDX.b #$00
 
-    .restore_palette
+        .restore_palette
 
-        ; This restores the palette to the original state before the map
-        ; was brought up.
-        LDA.l $7EC300, X : STA.l $7EC500, X
-        LDA.l $7EC380, X : STA.l $7EC580, X
-        LDA.l $7EC400, X : STA.l $7EC600, X
-        LDA.l $7EC480, X : STA.l $7EC680, X
-    INX #2 : CPX.b #$80 : BNE .restore_palette
-    
-    ; Next we restore other screen settings (needs some research).
-    
-    LDA.l $7EC225 : STA.b $99
-    
-    STZ.b $E4 : STZ.b $EA
-    
-    LDA.l $7EC200 : STA.b $E0
-    LDA.l $7EC202 : STA.b $E2
-    LDA.l $7EC204 : STA.b $E6
-    LDA.l $7EC206 : STA.b $E8
-    LDA.l $7EC211 : STA.b $1C
+            ; This restores the palette to the original state before the map
+            ; was brought up.
+            LDA.l $7EC300, X : STA.l $7EC500, X
+            LDA.l $7EC380, X : STA.l $7EC580, X
+            LDA.l $7EC400, X : STA.l $7EC600, X
+            LDA.l $7EC480, X : STA.l $7EC680, X
+        INX #2 : CPX.b #$80 : BNE .restore_palette
+        
+        ; Next we restore other screen settings (needs some research).
+        
+        LDA.l $7EC225 : STA.b $99
+        
+        STZ.b $E4 : STZ.b $EA
+        
+        LDA.l $7EC200 : STA.b $E0
+        LDA.l $7EC202 : STA.b $E2
+        LDA.l $7EC204 : STA.b $E6
+        LDA.l $7EC206 : STA.b $E8
+        LDA.l $7EC211 : STA.b $1C
 
-    ; TODO: Find this exact Address.
-    ; $XXXXXX ALTERNATE ENTRY POINT
-    .restoreHdmaSettings
+        ; $053C33 ALTERNATE ENTRY POINT
+        .restoreHdmaSettings
 
-    ; Restore HDMA settings on channel 7
-    
-    LDA.w #$BDDD : STA.w $4372
-    
-    LDX.b #$0A : STX.w $4374
-    LDX.b #$00 : STX.w $4377
-    
-    SEP #$30
-    
-    ; Enable hdma only on channel 7 (for spotlight effect).
-    LDA.b #$80 : STA.b $9B
-    
-    ; Return to screen mode 1 (with priority bit enabled).
-    LDA.b #$09 : STA.w $2105
-    
-    STA.b $94
-    
-    STZ.w $0710
-    
-    RTL
+        ; Restore HDMA settings on channel 7.
+        
+        LDA.w #$BDDD : STA.w $4372
+        
+        LDX.b #$0A : STX.w $4374
+        LDX.b #$00 : STX.w $4377
+        
+        SEP #$30
+        
+        ; Enable hdma only on channel 7 (for spotlight effect).
+        LDA.b #$80 : STA.b $9B
+        
+        ; Return to screen mode 1 (with priority bit enabled).
+        LDA.b #$09 : STA.w $2105
+        
+        STA.b $94
+        
+        STZ.w $0710
+        
+        RTL
 }
 
 ; ==============================================================================
 
-; $053C54-$053C95 LONG JUMP LOCATION
 ; ZS makes a jump in this function.
+; 0x0E.0x07.0x07 (restoring graphics?)
+; $053C54-$053C95 LONG JUMP LOCATION
 OverworldMap_RestoreGfx:
-{
-    ; 0x0E.0x07.0x07 (restoring graphics?)
-        
+{ 
     ; Indicate that special palette values are no longer in use.
     STZ.w $0AA9
     STZ.w $0AB2
@@ -1177,7 +1171,7 @@ OverworldMap_RestoreGfx:
     ; ZS writes here.
     ; $053C5A
 
-    JSL InitTilesets ; $00619B IN ROM.
+    JSL InitTilesets
         
     ; Update CGRAM this frame.
     INC.b $15
@@ -1243,7 +1237,7 @@ WorldMap_SetUpHDMA:
     
     LDA.b $10 : CMP.b #$14 : BEQ .attractMode
         LDA.b $11 : CMP.b #$0A : BNE .beta
-            JMP .flute_map ; $053D76 IN ROM
+            JMP .flute_map
 
         .beta
 
@@ -1724,8 +1718,7 @@ WorldMap_PortalProps:
 WorldMap_HandleSprites:
 {
     LDA.b $1A : AND.b #$10 : BEQ .BRANCH_ALPHA
-        ; $05439F IN ROM
-        JSR.w $C39F : BCC .BRANCH_ALPHA
+        JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_ALPHA
             LDA.b $0E : SEC : SBC.b #$04 : STA.b $0E
             LDA.b $0F : SEC : SBC.b #$04 : STA.b $0F
             
@@ -1735,7 +1728,7 @@ WorldMap_HandleSprites:
             
             LDX.b #$00
             
-            JSR.w $C51C ; $05451C IN ROM
+            JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_ALPHA
 
@@ -1758,8 +1751,7 @@ WorldMap_HandleSprites:
             LDA.w $1AD0, X : STA.l $7EC108
             LDA.w $1AE0, X : STA.l $7EC109
             
-            ; $05439F IN ROM
-            JSR.w $C39F : BCC .BRANCH_BETA
+            JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_BETA
                 LDA.b #$6A : STA.b $0D
                 
                 LDA.b $1A : LSR A : AND.b #$03 : TAX
@@ -1770,7 +1762,7 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$0F
                 
-                JSR.w $C51C ; $05451C IN ROM
+                JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_BETA
 
@@ -1780,16 +1772,14 @@ WorldMap_HandleSprites:
 
     .BRANCH_DELTA
 
-    JMP.w $C38A ; $05438A IN ROM
+    JMP.w WorldMap_HandleSprites_restore_coords_and_exit
 
     .lightWorldSprites
 
-    ; Checking pendant 0 (courage)
+    ; Checking pendant 0 (courage).
     LDX.b #$00
     
-    ; $0545A9 IN ROM
     JSR OverworldMap_CheckPendant : BCS .BRANCH_ZETA
-        ; $0545C6 IN ROM
         JSR OverworldMap_CheckCrystal : BCS .BRANCH_ZETA
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
@@ -1806,14 +1796,13 @@ WorldMap_HandleSprites:
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZETA
                             .BRANCH_IOTA
 
-                            JSR.w $C589 ; $054589 IN ROM
+                            JSR.w WorldMapIcon_AdjustCoordinate
 
                 .BRANCH_THETA
 
                 LDX.b #$0E
                 
-                ; $05439F IN ROM
-                JSR.w $C39F : BCC .BRANCH_ZETA
+                JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_ZETA
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                     
@@ -1840,16 +1829,14 @@ WorldMap_HandleSprites:
                     
                     LDX.b #$0E
                     
-                    JSR.w $C51C ; $05451C IN ROM
+                    JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_ZETA
 
     LDX.b #$01
     
-    ; $0545A9 IN ROM
-    JSR.w $C5A9 : BCS .BRANCH_MU
-        ; $0545C6 IN ROM
-        JSR.w $C5C6 : BCS .BRANCH_MU
+    JSR.w Overworldmap_CheckPendant : BCS .BRANCH_MU
+        JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_MU
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
@@ -1866,12 +1853,11 @@ WorldMap_HandleSprites:
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_MU
                             .BRANCH_XI
 
-                            JSR.w $C589 ; $054589 IN ROM
+                            JSR.w WorldMapIcon_AdjustCoordinate
 
                 .BRANCH_NU
 
-                ; $05439F IN ROM
-                JSR.w $C39F : BCC .BRANCH_MU
+                JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_MU
                     ; X = (map sprites indicator << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                             
@@ -1898,16 +1884,14 @@ WorldMap_HandleSprites:
                             
                     LDX.b #$0D
                             
-                    JSR.w $C51C ; $05451C IN ROM
+                    JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_MU
 
     LDX.b #$02
     
-    ; $0545A9 IN ROM
-    JSR.w $C5A9 : BCS .BRANCH_RHO
-        ; $0545C6 IN ROM
-        JSR.w $C5C6 : BCS .BRANCH_RHO
+    JSR.w Overworldmap_CheckPendant : BCS .BRANCH_RHO
+        JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_RHO
             ; X = (map sprites indicator << 1)
             LDA.l $7EF3C7 : ASL A : TAX
             
@@ -1923,14 +1907,13 @@ WorldMap_HandleSprites:
                         LDA.b $1A : AND.b #$10 : BNE .BRANCH_RHO
                             .BRANCH_TAU
 
-                            JSR.w $C589 ; $054589 IN ROM
+                            JSR.w WorldMapIcon_AdjustCoordinate
 
                 .BRANCH_SIGMA
 
                 LDX.b #$0C
                             
-                ; $05439F IN ROM
-                JSR.w $C39F : BCC .BRANCH_RHO
+                JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_RHO
                      ; X = (map sprites indictaor << 1)
                     LDA.l $7EF3C7 : ASL A : TAX
                                 
@@ -1959,14 +1942,13 @@ WorldMap_HandleSprites:
                                 
                     LDX.b #$0C
                                 
-                    JSR.w $C51C ; $05451C IN ROM
+                    JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_RHO
 
     LDX.b #$03
     
-    ; $0545C6 IN ROM
-    JSR.w $C5C6 : BCS .BRANCH_CHI
+    JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_CHI
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL A : TAX
         
@@ -1982,14 +1964,13 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_CHI
                         .BRANCH_OMEGA
 
-                        JSR.w $C589 ; $054589 IN ROM
+                        JSR.w WorldMapIcon_AdjustCoordinate
 
             .BRANCH_PSI
 
             LDX.b #$0B
             
-            ; $05439F IN ROM
-            JSR.w $C39F : BCC .BRANCH_CHI
+            JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_CHI
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
@@ -2016,14 +1997,13 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$0B
                 
-                JSR.w $C51C ; $05451C IN ROM
+                JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_CHI
 
     LDX.b #$04
     
-    ; $0545C6 IN ROM
-    JSR.w $C5C6 : BCS .BRANCH_OPTIMUS
+    JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_OPTIMUS
         ; X = (map sprites indicator << 1)
         LDA.l $7EF3C7 : ASL A : TAX
         
@@ -2039,14 +2019,13 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_OPTIMUS
                         .BRANCH_BET
 
-                        JSR.w $C589 ; $054589 IN ROM
+                        JSR.w WorldMapIcon_AdjustCoordinate
 
             .BRANCH_ALIF
 
             LDX.b #$0A
             
-            ; $05439F IN ROM
-            JSR.w $C39F : BCC .BRANCH_OPTIMUS
+            JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_OPTIMUS
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
@@ -2074,14 +2053,13 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$0A
                 
-                JSR.w $C51C ; $05451C IN ROM
+                JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_OPTIMUS
 
     LDX.b #$05
     
-    ; $0545C6 IN ROM
-    JSR.w $C5C6 : BCS .BRANCH_SIN
+    JSR.w OverworldMap_CheckCrystal : BCS .BRANCH_SIN
         LDA.l $7EF3C7 : ASL A : TAX
         
         LDA.l $0ABE99, X : BMI .BRANCH_SIN
@@ -2096,14 +2074,13 @@ WorldMap_HandleSprites:
                     LDA.b $1A : AND.b #$10 : BNE .BRANCH_SIN
                         .BRANCH_SOD
 
-                        JSR.w $C589 ; $054589 IN ROM
+                        JSR.w WorldMapIcon_AdjustCoordinate
 
             .BRANCH_SHIN
 
             LDX.b #$09
             
-            ; $05439F IN ROM
-            JSR.w $C39F : BCC .BRANCH_SIN
+            JSR.w WorldMap_CalculateOAMCoordinates : BCC .BRANCH_SIN
                 LDA.l $7EF3C7 : ASL A : TAX
                 
                 LDA.l $0ABF3B, X : BEQ .BRANCH_DOD
@@ -2130,17 +2107,16 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$09
                 
-                JSR.w $C51C ; $05451C IN ROM
+                JSR.w WorldMap_HandleSpriteBlink
 
     .BRANCH_SIN
 
     LDX.b #$06
     
-    ; $0545C6 IN ROM
-    JSR.w $C5C6 : BCS .BRANCH_ZOD
+    JSR.w OverworldMap_CheckCrystal : BCS .restore_coords_and_exit
         LDA.l $7EF3C7 : ASL A : TAX
         
-        LDA.l $0ABEBD, X : BMI .BRANCH_ZOD
+        LDA.l $0ABEBD, X : BMI .restore_coords_and_exit
             STA.l $7EC10B
             
             LDA.l $0ABEBC, X : STA.l $7EC10A
@@ -2149,17 +2125,16 @@ WorldMap_HandleSprites:
             
             LDA.l $0ABF4D, X : BEQ .BRANCH_FATHA
                 CMP.b #$64 : BEQ .BRANCH_KESRA
-                    LDA.b $1A : AND.b #$10 : BNE .BRANCH_ZOD
+                    LDA.b $1A : AND.b #$10 : BNE .restore_coords_and_exit
                         .BRANCH_KESRA
 
-                        JSR.w $C589 ; $054589 IN ROM
+                        JSR.w WorldMapIcon_AdjustCoordinate
 
             .BRANCH_FATHA
 
             LDX.b #$08
             
-            ; $05439F IN ROM
-            JSR.w $C39F : BCC .BRANCH_ZOD
+            JSR.w WorldMap_CalculateOAMCoordinates : BCC .restore_coords_and_exit
                 ; X = (map sprites indicator << 1)
                 LDA.l $7EF3C7 : ASL A : TAX
                 
@@ -2187,10 +2162,10 @@ WorldMap_HandleSprites:
                 
                 LDX.b #$08
                 
-                JSR.w $C51C ; $05451C IN ROM
+                JSR.w WorldMap_HandleSpriteBlink
 
     ; $05438A ALTERNATE ENTRY POINT
-    .BRANCH_ZOD
+    .restore_coords_and_exit
 
     PLA : STA.l $7EC10B
     PLA : STA.l $7EC10A
@@ -2220,8 +2195,8 @@ WorldMap_CalculateOAMCoordinates:
         
         LDA.b #$0D
         
-        JSR.w $C56D ; $05456D IN ROM
-        JSR.w $C580 ; $054580 IN ROM
+        JSR.w WorldMap_MultiplyAxB
+        JSR.w WorldMap_ShiftNibblesRight
         
         STA.b $0F
         
@@ -2249,13 +2224,13 @@ WorldMap_CalculateOAMCoordinates:
         
         LDA.b #$54
         
-        JSR.w $C56D ; $05456D
+        JSR.w WorldMap_MultiplyAxB
         
         XBA : CLC : ADC.b #$B2 : XBA
         
         PLA
         
-        JSR.w $C56D ; $05456D IN ROM
+        JSR.w WorldMap_MultiplyAxB
         
         XBA
         
@@ -2277,7 +2252,7 @@ WorldMap_CalculateOAMCoordinates:
         LDA.b $0E : CLC : ADC.b #$80 : STA.b $0E
         LDA.b $0F : CLC : ADC.b #$0C : STA.b $0F
         
-        JMP.w $C50D ; $05450D IN ROM
+        JMP.w WorldMap_CalculateOAMCoordinates_exit_successfully
 
     .BRANCH_ALPHA
 
@@ -2286,7 +2261,7 @@ WorldMap_CalculateOAMCoordinates:
     LDA.l $7EC108 : LSR #4
     EOR.w #$FFFF : INC A
     CLC : ADC.w $063A : SEC : SBC.w #$0080 : CMP.w #$0100 : BCC .BRANCH_ZETA
-        JMP.w $C511 ; $054511 IN ROM
+        JMP.w WorldMap_CalculateOAMCoordinates_exit_fail
 
     .BRANCH_ZETA
 
@@ -2296,13 +2271,13 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.b #$25
     
-    JSR.w $C56D ; $05456D IN ROM
-    JSR.w $C580 ; $054580 IN ROM
+    JSR.w WorldMap_MultiplyAxB
+    JSR.w WorldMap_ShiftNibblesRight
     
     REP #$10
     
     TAX : CPX.w #$014D : BCC .BRANCH_THETA
-        JMP.w $C511 ; $054511 IN ROM
+        JMP.w WorldMap_CalculateOAMCoordinates_exit_fail
 
     .BRANCH_THETA
 
@@ -2312,7 +2287,7 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.l $7EC10A : SEC : SBC.w #$07F8
     
-    ; Supposed to be PLP? (check rom).
+    ; TODO: Supposed to be PLP? (check rom).
     PHP
 
     BPL .BRANCH_IOTA
@@ -2333,13 +2308,13 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.b #$54
     
-    JSR.w $C56D ; $05456D IN ROM
+    JSR.w WorldMap_MultiplyAxB
     
     XBA : CLC : ADC.b #$B2 : STA.b $00 : XBA
     
     PLA
     
-    JSR.w $C56D ; $05456D IN ROM
+    JSR.w WorldMap_MultiplyAxB
     
     XBA : STA.b $01
     
@@ -2347,7 +2322,7 @@ WorldMap_CalculateOAMCoordinates:
     
     LDA.b $00
     
-    JSR.w $C56D ; $05456D IN ROM
+    JSR.w WorldMap_MultiplyAxB
     
     CLC : ADC.b $01 : XBA : ADC.b #$00 : XBA
     
@@ -2377,7 +2352,7 @@ WorldMap_CalculateOAMCoordinates:
 
     LDA.b #$2D
 
-    JSR.w $C56D ; $05456D IN ROM
+    JSR.w WorldMap_MultiplyAxB
 
     XBA : STA.b $00
 
@@ -2385,7 +2360,7 @@ WorldMap_CalculateOAMCoordinates:
 
     LDA.b #$2D
 
-    JSR.w $C56D ; $05456D IN ROM
+    JSR.w WorldMap_MultiplyAxB
 
     CLC : ADC.b $00 : XBA : ADC.b #$00 : XBA
 
@@ -2415,12 +2390,12 @@ WorldMap_CalculateOAMCoordinates:
     
     SEP #$30
     
-    XBA : BNE .BRANCH_PI
+    XBA : BNE .exit_fail
         LDA.b $0E : CLC : ADC.b #$81 : STA.b $0E
         LDA.b $0F : CLC : ADC.b #$10 : STA.b $0F
 
         ; $05450D ALTERNATE ENTRY POINT
-        ; TODO: Give this entry point a label.
+        .exit_successfully
 
         SEP #$30
         
@@ -2429,7 +2404,7 @@ WorldMap_CalculateOAMCoordinates:
         RTS
 
     ; $054511 ALTERNATE ENTRY POINT
-    .BRANCH_PI
+    .exit_fail
 
     SEP #$30
     
@@ -2571,7 +2546,7 @@ Overworldmap_CheckPendant:
 ; ==============================================================================
     
 ; $0545BF-$0545C5 DATA
-OverworldMap_CheckForCrystal
+OverworldMap_CheckForCrystal:
 {
     .bit
     db $02, $40, $08, $20, $01, $04, $10
@@ -3300,55 +3275,50 @@ WorldMap_DarkWorldTilemap:
 
 ; ==============================================================================
 
-; $055B27-$055C26 DATA
+; $055B27-$055D26 DATA
 Palettes_OWMAP:
 {
-    ; Shared the same as the next block.
-}
+    ; $055B27-$055C26 DATA
+    Palettes_LWMAP:
+    {
+        dw  $0000,  $094B,  $1563,  $1203,  $2995,  $5BDF,  $2191,  $2E37
+        dw  $7C1F,  $6F37,  $7359,  $777A,  $7B9B,  $7FBD,  $0000,  $0000
+        dw  $0000,  $0100,  $0000,  $0000,  $7B9B,  $11B6,  $1A9B,  $5FFF
+        dw  $2995,  $6E94,  $76D6,  $7F39,  $7F7B,  $7FBD,  $0000,  $0000
+        dw  $0000,  $0100,  $1D74,  $67F9,  $1EE9,  $338E,  $6144,  $7E6A
+        dw  $0A44,  $7C1F,  $6144,  $22EB,  $3DCA,  $5ED2,  $7FDA,  $316A
+        dw  $0000,  $0100,  $14CC,  $1910,  $2995,  $3E3A,  $1963,  $15E3
+        dw  $25F5,  $2E37,  $15E3,  $22EB,  $6144,  $7E33,  $5D99,  $771D
+        dw  $0000,  $0CEC,  $22EB,  $2FB1,  $1D70,  $2E37,  $25F5,  $3E77
+        dw  $473A,  $6144,  $7E6A,  $15E3,  $2E0B,  $5354,  $7FFF,  $16A6
+        dw  $0000,  $0100,  $15C5,  $16A6,  $1EE9,  $2F4D,  $25F5,  $3E77
+        dw  $473A,  $5354,  $15E3,  $22EB,  $2918,  $4A1F,  $3F7F,  $7C1F
+        dw  $0000,  $0100,  $1563,  $1203,  $1EE9,  $2FB0,  $1D70,  $2E37
+        dw  $473A,  $6144,  $15E3,  $22EB,  $1D70,  $2E37,  $4F3F,  $7FBD
+        dw  $0000,  $0000,  $0000,  $0000,  $0000,  $0000,  $0000,  $25F5
+        dw  $316A,  $5ED2,  $7FFF,  $15E3,  $473A,  $2918,  $771D,  $0000
+    }
 
-; $055B27-$055C26 DATA
-Palettes_LWMAP:
-{
-    dw  $0000,  $094B,  $1563,  $1203,  $2995,  $5BDF,  $2191,  $2E37
-    dw  $7C1F,  $6F37,  $7359,  $777A,  $7B9B,  $7FBD,  $0000,  $0000
-    dw  $0000,  $0100,  $0000,  $0000,  $7B9B,  $11B6,  $1A9B,  $5FFF
-    dw  $2995,  $6E94,  $76D6,  $7F39,  $7F7B,  $7FBD,  $0000,  $0000
-    dw  $0000,  $0100,  $1D74,  $67F9,  $1EE9,  $338E,  $6144,  $7E6A
-    dw  $0A44,  $7C1F,  $6144,  $22EB,  $3DCA,  $5ED2,  $7FDA,  $316A
-    dw  $0000,  $0100,  $14CC,  $1910,  $2995,  $3E3A,  $1963,  $15E3
-    dw  $25F5,  $2E37,  $15E3,  $22EB,  $6144,  $7E33,  $5D99,  $771D
-    dw  $0000,  $0CEC,  $22EB,  $2FB1,  $1D70,  $2E37,  $25F5,  $3E77
-    dw  $473A,  $6144,  $7E6A,  $15E3,  $2E0B,  $5354,  $7FFF,  $16A6
-    dw  $0000,  $0100,  $15C5,  $16A6,  $1EE9,  $2F4D,  $25F5,  $3E77
-    dw  $473A,  $5354,  $15E3,  $22EB,  $2918,  $4A1F,  $3F7F,  $7C1F
-    dw  $0000,  $0100,  $1563,  $1203,  $1EE9,  $2FB0,  $1D70,  $2E37
-    dw  $473A,  $6144,  $15E3,  $22EB,  $1D70,  $2E37,  $4F3F,  $7FBD
-    dw  $0000,  $0000,  $0000,  $0000,  $0000,  $0000,  $0000,  $25F5
-    dw  $316A,  $5ED2,  $7FFF,  $15E3,  $473A,  $2918,  $771D,  $0000
-}
-
-; ==============================================================================
-
-; $055C27-$055D26 DATA
-Palettes_DWMAP:
-{
-    dw  $0000,  $18C6,  $0948,  $118A,  $25CF,  $57BF,  $1971,  $2A18
-    dw  $7C1F,  $52D8,  $5AF9,  $5F1A,  $633B,  $6B5C,  $0000,  $0000
-    dw  $0000,  $18C6,  $0005,  $45FC,  $633B,  $1DCE,  $3694,  $4718
-    dw  $25CF,  $1D40,  $34EA,  $616F,  $771B,  $26D6,  $2B18,  $2F5A
-    dw  $0000,  $18C6,  $2571,  $63DA,  $2A32,  $3A94,  $1D40,  $2580
-    dw  $7C1F,  $7C1F,  $0CC0,  $1ECC,  $3135,  $1DCE,  $4718,  $3694
-    dw  $0000,  $18C6,  $14E7,  $216C,  $25D0,  $3A75,  $2169,  $2E0E
-    dw  $21D6,  $2A18,  $1971,  $2A32,  $1D40,  $2580,  $597A,  $72FE
-    dw  $0000,  $18C6,  $2A32,  $3A94,  $2171,  $3238,  $29F6,  $4278
-    dw  $4EDB,  $1D40,  $35CD,  $15AB,  $198E,  $3254,  $731F,  $1ED4
-    dw  $0000,  $18C6,  $016A,  $21CE,  $2A32,  $3A94,  $29F6,  $4278
-    dw  $4EDB,  $1D40,  $1971,  $2A32,  $496C,  $5A10,  $3B5F,  $7C1F
-    dw  $0000,  $18C6,  $0948,  $118A,  $222E,  $32F2,  $1951,  $2A18
-    dw  $431B,  $1D40,  $1971,  $2A32,  $21D4,  $2A18,  $4B1F,  $7B9D
-    dw  $0000,  $7C1F,  $7C1F,  $7C1F,  $7C1F,  $2E31,  $00E4,  $2169
-    dw  $2E0E,  $42F1,  $7C1F,  $7C1F,  $7C1F,  $4A1D,  $4E3F,  $5A5F
-
+    ; $055C27-$055D26 DATA
+    Palettes_DWMAP:
+    {
+        dw  $0000,  $18C6,  $0948,  $118A,  $25CF,  $57BF,  $1971,  $2A18
+        dw  $7C1F,  $52D8,  $5AF9,  $5F1A,  $633B,  $6B5C,  $0000,  $0000
+        dw  $0000,  $18C6,  $0005,  $45FC,  $633B,  $1DCE,  $3694,  $4718
+        dw  $25CF,  $1D40,  $34EA,  $616F,  $771B,  $26D6,  $2B18,  $2F5A
+        dw  $0000,  $18C6,  $2571,  $63DA,  $2A32,  $3A94,  $1D40,  $2580
+        dw  $7C1F,  $7C1F,  $0CC0,  $1ECC,  $3135,  $1DCE,  $4718,  $3694
+        dw  $0000,  $18C6,  $14E7,  $216C,  $25D0,  $3A75,  $2169,  $2E0E
+        dw  $21D6,  $2A18,  $1971,  $2A32,  $1D40,  $2580,  $597A,  $72FE
+        dw  $0000,  $18C6,  $2A32,  $3A94,  $2171,  $3238,  $29F6,  $4278
+        dw  $4EDB,  $1D40,  $35CD,  $15AB,  $198E,  $3254,  $731F,  $1ED4
+        dw  $0000,  $18C6,  $016A,  $21CE,  $2A32,  $3A94,  $29F6,  $4278
+        dw  $4EDB,  $1D40,  $1971,  $2A32,  $496C,  $5A10,  $3B5F,  $7C1F
+        dw  $0000,  $18C6,  $0948,  $118A,  $222E,  $32F2,  $1951,  $2A18
+        dw  $431B,  $1D40,  $1971,  $2A32,  $21D4,  $2A18,  $4B1F,  $7B9D
+        dw  $0000,  $7C1F,  $7C1F,  $7C1F,  $7C1F,  $2E31,  $00E4,  $2169
+        dw  $2E0E,  $42F1,  $7C1F,  $7C1F,  $7C1F,  $4A1D,  $4E3F,  $5A5F
+    }
 }
 ; ==============================================================================
 
@@ -3844,15 +3814,15 @@ Messaging_PalaceMap:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl PalaceMap_Backup               ; 0x00 Fade to full darkness (amidst other things)
-    dl PalaceMap_Init                 ; 0x01 Loading Dungeon Map
-    dl PalaceMap_LightenUpMap         ; 0x02 Fade to full brightness
-    dl PalaceMap_3                    ; 0x03 Dungeon map Mode
-    dl PalaceMap_4                    ; 0x04  
-    dl PalaceMap_FadeMapToBlack       ; 0x05
-    dl PalaceMap_RestoreGraphics      ; 0x06
-    dl PalaceMap_RestoreStarTileState ; 0x07
-    dl PalaceMap_LightenUpDungeon     ; 0x08
+    dl PalaceMap_Backup               ; 0x00 - $0ED94C Fade to full darkness (amidst other things)
+    dl PalaceMap_Init                 ; 0x01 - $0AE0DC Loading Dungeon Map
+    dl PalaceMap_LightenUpMap         ; 0x02 - $0ED940 Fade to full brightness
+    dl PalaceMap_3                    ; 0x03 - $0AE954 Dungeon map Mode
+    dl PalaceMap_4                    ; 0x04 - $0AEEF6  
+    dl PalaceMap_FadeMapToBlack       ; 0x05 - $0EDA37
+    dl PalaceMap_RestoreGraphics      ; 0x06 - $0AEF19
+    dl PalaceMap_RestoreStarTileState ; 0x07 - $0AEFC9
+    dl PalaceMap_LightenUpDungeon     ; 0x08 - $0EDA79
 }
 
 ; ==============================================================================
@@ -3860,11 +3830,11 @@ Messaging_PalaceMap:
 ; $0560D2-$0560DB Jump Table
 PalaceMap_InitJumpTable:
 {
-    dw PalaceMap_SetupGraphics     ; 0x00
-    dw PalaceMap_OptionalGraphic   ; 0x01
-    dw $E1F3                       ; 0x02 = $0561F3
-    dw Module0E_03_01_03_DrawRooms ; 0x03 = $056384
-    dw $E823                       ; 0x04 = $056823
+    dw PalaceMap_SetupGraphics              ; 0x00 - $E0E4
+    dw PalaceMap_OptionalGraphic            ; 0x01 - $E1A4
+    dw Module0E_03_01_02_DrawFloorsBackdrop ; 0x02 - $E1F3
+    dw Module0E_03_01_03_DrawRooms          ; 0x03 - $E384
+    dw DungeonMap_DrawRoomMarkers           ; 0x04 - $E823
 }
 
 ; $0560DC-$0560E3 JUMP LOCATION (LONG)
@@ -3872,7 +3842,7 @@ PalaceMap_Init:
 {
     LDA.w $020D : ASL A : TAX
     
-    JMP (PalaceMap_InitJumpTable, X) ; $0560D2 IN ROM
+    JMP (PalaceMap_InitJumpTable, X)
 }
 
 ; ==============================================================================
@@ -3906,25 +3876,24 @@ PalaceMap_SetupGraphics:
     LDA.b #$01 : STA.b $1D
     
     ; Writes blanks to $0000-$01FFF (byte addr) in vram. Clears BG2 tilemap.
-    JSL Vram_EraseTilemaps_palace ; $00033F IN ROM
+    JSL Vram_EraseTilemaps_palace
     
     ; Perform the standard graphics decompression routine.
-    JSL InitTilesets ; $00619B IN ROM
+    JSL InitTilesets
     
     ; Set special palette index.
     LDA.b #$02 : STA.w $0AA9
     
-    ; Load palettes
-    JSL Palette_PalaceMapBg  ; $0DEE3A IN ROM
-    JSL Palette_PalaceMapSpr ; $0DEDDD IN ROM
+    ; Load palettes.
+    JSL Palette_PalaceMapBg
+    JSL Palette_PalaceMapSpr
     
     ; Set another palette index.
     LDA.b #$01 : STA.w $0AB2
     
     ; Load palettes for BG3 (2bpp) graphics.
-    JSL Palette_Hud ; $0DEE52 IN ROM
+    JSL Palette_Hud
     
-    ; $0756C0 IN ROM
     JSL LoadActualGearPalettes
     
     INC.b $15
@@ -3942,26 +3911,31 @@ PalaceMap_SetupGraphics:
     
 ; ==============================================================================
 
-; $05615A-$0561A3 DATA
 ; Module0E_03_01_01_DrawLEVEL
+; $05615A-$0561A3 DATA
 Pool_PalaceMap_OptionalGraphic:
 {
+    ; $05615A
     .LEVEL_top
     dw $8460, $0B00 ; VRAM $C108 | 12 bytes | Horizontal
     dw $2132, $2133, $2138, $213A, $207F
 
+    ; $056168
     .LEVEL_bottom
     dw $A460, $0B00 ; VRAM $C148 | 12 bytes | Horizontal
     dw $2142, $2143, $2149, $214A, $207F
 
+    ; $056176
     .numerals_top
     dw $2108, $2109, $2109, $210A
     dw $210B, $210C, $210D, $211D
 
+    ; $056186
     .numerals_bottom
     dw $2118, $2119, $A109, $211A
     dw $211B, $211C, $2118, $A11D
 
+    ; $056196
     .dungeon_level
     db $FF ; Sewers
     db $FF ; Hyrule Castle
@@ -3981,13 +3955,13 @@ Pool_PalaceMap_OptionalGraphic:
 
 ; ==============================================================================
 
-; $0561A4-$0561E0 JUMP LOCATION (LONG)
 ; Module0E_03_01_01_DrawLEVEL
+; $0561A4-$0561E0 JUMP LOCATION (LONG)
 PalaceMap_OptionalGraphic:
 {
     PHB : PHK : PLB
     
-    ; Load palace index
+    ; Load palace index.
     LDA.w $040C : LSR A : TAX
     
     ; Guessing this means that there's no special graphic for this palace.
@@ -3998,8 +3972,8 @@ PalaceMap_OptionalGraphic:
         
         REP #$20
         
-        LDA.w $E176, Y : STA.w $1002, X
-        LDA.w $E186, Y : STA.w $1012, X
+        LDA.w Pool_PalaceMap_OptionalGraphic_numerals_top, Y    : STA.w $1002, X
+        LDA.w Pool_PalaceMap_OptionalGraphic_numerals_bottom, Y : STA.w $1012, X
         
         SEP #$20
         
@@ -4007,8 +3981,11 @@ PalaceMap_OptionalGraphic:
 
         .copyTiles
 
-            LDA.w $E15A, X : STA.w $1002, X
-            LDA.w $E168, X : STA.w $1012, X
+            LDA.w Pool_PalaceMap_OptionalGraphic_LEVEL_top, X
+            STA.w $1002, X
+
+            LDA.w Pool_PalaceMap_OptionalGraphic_LEVEL_bottom, X
+            STA.w $1012, X
         DEX : BPL .copyTiles
         
         LDA.b #$01 : STA.b $14
@@ -4052,8 +4029,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     STZ.w $1000
     
     LDX.w $040C : PHX
-    
-    LDA.w $F5D9, X
+    LDA.w DungeonMapFloorCountData, X
     
     AND.w #$0300 : BEQ .skipTileCopy
     AND.w #$0100 : BEQ .skipTileCopy
@@ -4061,7 +4037,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
 
         .copyTiles
 
-            LDA.w $EFDD, X : STA.w $1000, X   
+            LDA.w DungeonMap_MountainStripes-2, X : STA.w $1000, X   
         DEX #2 : BNE .copyTiles
         
         PLX
@@ -4088,9 +4064,10 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     STZ.b $00
     STZ.b $02
     
-    LDX.w $040C : LDA.w $F5D9, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : AND.w #$00FF : CMP.w #$0050 : BCC .notTower
         ; Seems to be looking for tower style levels (tower of hera, hyrule
-        ; castle 2, ganon's tower)
+        ; castle 2, ganon's tower).
         LSR #4 : SEC : SBC.w #$0004 : ASL A : STA.b $00
         
         BRA .setupVramTarget
@@ -4106,7 +4083,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     LDY.w $1000
     
-    LDA.w $E1E1, X : STA.b $00 : STA.b $0E
+    LDA.w DungeonMap_BackdropFloorPosition, X : STA.b $00 : STA.b $0E
 
     .limitNotReached
 
@@ -4122,10 +4099,11 @@ Module0E_03_01_02_DrawFloorsBackdrop:
         
         LDX.b $02
         
-        LDA.w $EFD1, X : STA.b $04
+        LDA.w DungeonMap_BackdropFloorGradientTiles, X : STA.b $04
         
         ; Check bit 13 in palace properties word.
-        LDX.w $040C : LDA.w $F5D9, X : AND.w #$0200 : BEQ .noOffset
+        LDX.w $040C
+        LDA.w DungeonMapFloorCountData, X : AND.w #$0200 : BEQ .noOffset
             LDA.b $04 : CLC : ADC.w #$0400 : STA.b $04
 
         .noOffset
@@ -4139,7 +4117,9 @@ Module0E_03_01_02_DrawFloorsBackdrop:
             INC.b $02 : INC.b $02
 
         .stopIncrementing
-    LDA.b $00 : CLC : ADC.w #$0020 : STA.b $00 : CMP.w #$1360 : BCC .limitNotReached
+
+        LDA.b $00 : CLC : ADC.w #$0020 : STA.b $00
+    CMP.w #$1360 : BCC .limitNotReached
     
     ; Tell NMI how large the buffer is as of now.
     STY.w $1000
@@ -4148,7 +4128,7 @@ Module0E_03_01_02_DrawFloorsBackdrop:
     
     PLX
     
-    JSR.w $E2F5 ; $0562F5 IN ROM
+    JSR.w DungeonMap_BuildFloorListBoxes
     
     REP #$10
     
@@ -4177,14 +4157,12 @@ Pool_DungeonMap_BuildFloorListBoxes:
     dw $8F26, $8F27, $CF27, $CF26
 }
 
-; ==============================================================================
-
 ; $0562F5-$056383 LOCAL JUMP LOCATION
 DungeonMap_BuildFloorListBoxes:
 {
     REP #$20
     
-    LDA.w $F5D9, X : AND.w #$00FF : STA.b $02
+    LDA.w DungeonMapFloorCountData, X : AND.w #$00FF : STA.b $02
     AND.w #$000F : STA.b $00
     
     LDA.b $02 : LSR #4 : CLC : ADC.b $00 : STA.b $02
@@ -4229,7 +4207,7 @@ DungeonMap_BuildFloorListBoxes:
 
         .BRANCH_GAMMA
 
-            LDA.w $E2E5, X : STA.w $1002, Y
+            LDA.w Pool_DungeonMap_BuildFloorListBoxes, X : STA.w $1002, Y
             
             INY #2
         INX #2 : CPX.w #$0008 : BCC .BRANCH_GAMMA : BEQ .BRANCH_DELTA
@@ -4272,7 +4250,7 @@ Module0E_03_01_03_DrawRooms:
     
     LDX.w $040C
     
-    LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC A : AND.w #$00FF : CMP.b $A4 : BEQ .BRANCH_ALPHA
         LDA.b $A4 : AND.w #$00FF : STA.w $020E
         
         BRA .BRANCH_BETA
@@ -4296,9 +4274,9 @@ Module0E_03_01_03_DrawRooms:
 
     .BRANCH_DELTA
 
-    JSR.w $E4F9 ; $0564F9 IN ROM
-    JSR.w $E449 ; $056449 IN ROM
-    JSR.w $E579 ; $056579 IN ROM
+    JSR.w DungeonMap_DrawFloorNumbersByRoom
+    JSR.w DungeonMap_DrawBorderForRooms
+    JSR.w DungeonMap_DrawDungeonLayout
     
     DEC.w $020E
     
@@ -4322,9 +4300,9 @@ Module0E_03_01_03_DrawRooms:
 
     .BRANCH_THETA
 
-    JSR.w $E4F9 ; $0564F9 IN ROM
-    JSR.w $E449 ; $056449 IN ROM
-    JSR.w $E579 ; $056579 IN ROM
+    JSR.w DungeonMap_DrawFloorNumbersByRoom
+    JSR.w DungeonMap_DrawBorderForRooms
+    JSR.w DungeonMap_DrawDungeonLayout
     
     REP #$30
     
@@ -4350,21 +4328,27 @@ Module0E_03_01_03_DrawRooms:
 ; $056429-$056448 DATA
 Pool_DungeonMap_DrawBorderForRooms:
 {
+    ; $056429
     .tiles_corner
     dw $1F19, $5F19, $9F19, $DF19
 
+    ; $056431
     .tiles_corner_address
     dw $00E2, $00F8, $03A2, $03B8
 
+    ; $056439
     .tiles_vertical_border
     dw $1F1A, $9F1A
 
+    ; $05643D
     .tiles_vertical_border_address
     dw $00E4, $03A4
 
+    ; $056441
     .tiles_horizontal_border
     dw $1F1B, $5F1B
 
+    ; $056445
     .tiles_horizontal_border_address
     dw $0122, $0138
 }
@@ -4378,11 +4362,13 @@ DungeonMap_DrawBorderForRooms:
 
     .BRANCH_ALPHA
 
-        LDY.b $02 : LDA.w $E431, Y : CLC : ADC.b $06 : AND.w #$0FFF : TAX
+        LDY.b $02
+        LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_corner_address, Y
+        CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
         LDA.w #$0F00 : STA.l $7F0000, X
         
-        LDA.w $E429, Y : AND.b $08 : STA.l $7F0000, X
+        LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_corner, Y : AND.b $08 : STA.l $7F0000, X
         
         INC.b $02 : INC.b $02
     LDA.b $02 : CMP.w #$0008 : BNE .BRANCH_ALPHA
@@ -4393,7 +4379,7 @@ DungeonMap_DrawBorderForRooms:
 
         STZ.b $02
         
-        LDA.w $E43D, Y : CLC : ADC.b $06 : STA.b $04
+        LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_vertical_border_address, Y : CLC : ADC.b $06 : STA.b $04
 
         .BRANCH_BETA
 
@@ -4401,7 +4387,8 @@ DungeonMap_DrawBorderForRooms:
             
             LDA.w #$0F00 : STA.l $7F0000, X
             
-            LDA.w $E439, Y : AND.b $08 : STA.l $7F0000, X
+            LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_vertical_border, Y
+            AND.b $08 : STA.l $7F0000, X
         INC.b $02 : INC.b $02 : LDA.b $02 : CMP.w #$0014 : BNE .BRANCH_BETA
     INY #2 : CPY.w #$0004 : BNE .BRANCH_GAMMA
     
@@ -4411,7 +4398,8 @@ DungeonMap_DrawBorderForRooms:
 
         STZ.b $02
         
-        LDA.w $E445, Y : CLC : ADC.b $06 : STA.b $04
+        LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_horizontal_border_address, Y
+        CLC : ADC.b $06 : STA.b $04
 
         .BRANCH_DELTA
 
@@ -4419,7 +4407,8 @@ DungeonMap_DrawBorderForRooms:
             
             LDA.w #$0F00 : STA.l $7F0000, X
             
-            LDA.w $E441, Y : AND.b $08 : STA.l $7F0000, X
+            LDA.w Pool_DungeonMap_DrawBorderForRooms_tiles_horizontal_border, Y
+            AND.b $08 : STA.l $7F0000, X
         LDA.b $02 : CLC : ADC.w #$0040 : STA.b $02 : CMP.w #$0280 : BNE .BRANCH_DELTA
     INY #2 : CPY.w #$0004 : BNE .BRANCH_EPSILON
     
@@ -4431,7 +4420,7 @@ DungeonMap_DrawBorderForRooms:
 ; ==============================================================================
 
 ; $0564E9-$0564F8 DATA
-Pool_DungeonMap_DrawFloorNumbersByRoom
+Pool_DungeonMap_DrawFloorNumbersByRoom:
 {
     .floor_numbers
     dw $1F1E ; 1
@@ -4456,7 +4445,8 @@ DungeonMap_DrawFloorNumbersByRoom:
         LDA.b $00 : CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
         LDA.w #$0F00 : STA.l $7F0000, X : STA.l $7F0002, X
-    LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00 : CMP.w #$039E : BNE .BRANCH_ALPHA
+    LDA.b $00 : CLC : ADC.w #$0040 : STA.b $00
+    CMP.w #$039E : BNE .BRANCH_ALPHA
     
     LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_BETA
         LDA.w #$1F1C
@@ -4467,7 +4457,7 @@ DungeonMap_DrawFloorNumbersByRoom:
 
     LDA.w $020E : AND.w #$000F : ASL A : TAY
     
-    LDA.w $E4E9, Y
+    LDA.w Pool_DungeonMap_DrawFloorNumbersByRoom_floor_numbers, Y
 
     .BRANCH_GAMMA
 
@@ -4480,7 +4470,7 @@ DungeonMap_DrawFloorNumbersByRoom:
     LDA.w $020E : AND.w #$0080 : BEQ .BRANCH_DELTA
         LDA.w $020E : AND.w #$00FF : EOR.w #$00FF : ASL A : TAY
         
-        LDA.w $E4E9, Y
+        LDA.w Pool_DungeonMap_DrawFloorNumbersByRoom_floor_numbers, Y
         
         BRA .BRANCH_EPSILON
 
@@ -4506,11 +4496,10 @@ Pool_DungeonMap_DrawDungeonLayout:
     dw $0124, $01A4, $0224, $02A4, $0324
 }
 
+; Draws a 5x5 floor grid for the map?
 ; $056579-$056599 LOCAL JUMP LOCATION
 DungeonMap_DrawDungeonLayout:
 {
-    ; Draws a 5x5 floor grid for the map?
-    
     REP #$30
     
     STZ.b $00
@@ -4519,9 +4508,10 @@ DungeonMap_DrawDungeonLayout:
 
         LDA.b $00 : ASL A : TAX
         
-        LDA.w $E56F, X : CLC : ADC.b $06 : AND.w #$0FFF : TAX
+        LDA.w Pool_DungeonMap_DrawDungeonLayout_row_offset, X 
+        CLC : ADC.b $06 : AND.w #$0FFF : TAX
         
-        JSR.w $E5BC ; $0565BC IN ROM
+        JSR.w DungeonMap_DrawSingleRowOfRooms
         
         INC.b $00
     LDA.b $00 : CMP.w #$0005 : BNE .nextRow
@@ -4536,9 +4526,11 @@ DungeonMap_DrawDungeonLayout:
 ; $05659A-$0565BB DATA
 Pool_DungeonMap_DrawSingleRowOfRooms
 {
+    ; $05659A
     .row_draw_offset
     dw $0000, $0005, $000A, $000F, $0014
     
+    ; $0565A4
     .unused
     dw $0000, $0032, $0064, $0096
     dw $00C8, $00FA, $012C, $015E
@@ -4560,8 +4552,8 @@ DungeonMap_DrawSingleRowOfRooms:
         
         LDA.b $00 : ASL A : TAX
         
-        ; $04 = column * 5;
-        LDA.b $02 : ADC.w $E59A, X : STA.b $04
+        ; $04 = column * 5.
+        LDA.b $02 : ADC.w Pool_DungeonMap_DrawSingleRowOfRooms_row_draw_offset, X : STA.b $04
         
         SEP #$20
         
@@ -4569,15 +4561,15 @@ DungeonMap_DrawSingleRowOfRooms:
         
         ; I think this is trying to figure out the current floor against
         ; the deepest depth of the current palace.
-        LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.w $020E : ASL A : STA.b $0E
+        LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.w $020E : ASL A : STA.b $0E
         TAY
         
         REP #$20
         
-        LDA.w $F605, X : STA.b $0C
+        LDA.w DungeonMapRoomPointers, X : STA.b $0C
         
-        ; Y = (???? * 0x19) + $04;
-        LDA.w $F5F5, Y : CLC : ADC.b $04 : TAY
+        ; Y = (???? * 0x19) + $04.
+        LDA.w DungeonMapFloorToDataOffset, Y : CLC : ADC.b $04 : TAY
         
         SEP #$20
         
@@ -4618,7 +4610,7 @@ DungeonMap_DrawSingleRowOfRooms:
         
         LDY.w #$0000
         
-        LDX.w $040C : LDA.w $F605, X : STA.b $0C
+        LDX.w $040C : LDA.w DungeonMapRoomPointers, X : STA.b $0C
 
         .BRANCH_ALIF
 
@@ -4642,7 +4634,7 @@ DungeonMap_DrawSingleRowOfRooms:
 
         REP #$20
         
-        LDA.w $FBE4, X : STA.b $0C
+        LDA.w DungeonMapRoomLayoutPointers, X : STA.b $0C
         
         LDA.b $C8 : TAY
         
@@ -4658,7 +4650,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         PLX
         
-        LDA.w $F009, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_DELTA
+        LDA.w DungeonMap_RoomTemplates, Y : STA.b $0C : PHA
+        CMP.w #$0B00 : BEQ .BRANCH_DELTA
             ; Check if top left quadrant has been seen.
             LDA.b $0E : AND.w #$0008 : BNE .BRANCH_DELTA
                 LDA.b $0C : AND.w #$1000 : BNE .BRANCH_EPSILON
@@ -4713,7 +4706,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         STA.l $7F0000, X
         
-        LDA.w $F00B, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_KAPPA
+        LDA.w DungeonMap_RoomTemplates+2, Y : STA.b $0C : PHA
+        CMP.w #$0B00 : BEQ .BRANCH_KAPPA
             ; Check if top right quadrant has been seen.
             LDA.b $0E : AND.w #$0004 : BNE .BRANCH_KAPPA
                 LDA.b $0C : AND.w #$1000 : BNE .BRANCH_LAMBDA
@@ -4769,7 +4763,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         STA.l $7F0002, X
         
-        LDA.w $F00D, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_OMICRON
+        LDA.w DungeonMap_RoomTemplates+4, Y : STA.b $0C : PHA
+        CMP.w #$0B00 : BEQ .BRANCH_OMICRON
             LDA.b $0E : AND.w #$0002 : BNE .BRANCH_OMICRON
                 LDA.b $0C : AND.w #$1000 : BNE .BRANCH_PI
                     LDA.w #$0400 : STA.b $0C
@@ -4822,7 +4817,8 @@ DungeonMap_DrawSingleRowOfRooms:
 
         STA.l $7F0040, X
         
-        LDA.w $F00F, Y : STA.b $0C : PHA : CMP.w #$0B00 : BEQ .BRANCH_UPSILON
+        LDA.w DungeonMap_RoomTemplates+6, Y : STA.b $0C : PHA
+        CMP.w #$0B00 : BEQ .BRANCH_UPSILON
             LDA.b $0E : AND.w #$0001 : BNE .BRANCH_UPSILON
                 LDA.b $0C : AND.w #$1000 : BNE .BRANCH_PHI
                     LDA.w #$0400 : STA.b $0C
@@ -4897,21 +4893,25 @@ DungeonMapRoomMarkerYBase:
 }
 
 ; $0567F7-$056806 DATA
-Pool_DungeonMap_DrawRoomMarkers
+Pool_DungeonMap_DrawRoomMarkers:
 {
+    ; $0567F7
     .offset_x_base
     dw $0090
 
+    ; $0567F9
     .fairy_rooms
     dw $0089 ; ROOM 0089 - Eastern fairy room
     dw $00A7 ; ROOM 00A7 - Hera fairy room
     dw $004F ; ROOM 004F - Ice Palace fairy room
 
+    ; $0567FF
     .fairy_room_replacements
     dw $00A9 ; ROOM 00A9 - Eastern big chest room
     dw $0077 ; ROOM 0077 - Hera lobby
     dw $00BE ; ROOM 00BE - Ice Palace block switch room
 
+    ; $056805
     .floor_threshold
     dw $0004
 }
@@ -4945,7 +4945,7 @@ DungeonMap_DrawRoomMarkers:
     LDA.b #$00 : XBA
     
     LDX.w $040C
-    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.b $A4 : ASL A : TAY : STY.b $0C
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.b $A4 : ASL A : TAY : STY.b $0C
     
     REP #$20
     
@@ -4953,7 +4953,7 @@ DungeonMap_DrawRoomMarkers:
     
     PHY
     
-    LDY.w $E805
+    LDY.w Pool_DungeonMap_DrawRoomMarkers_floor_threshold
     
     ; This loop is searching for rooms that you can fall into that are out
     ; of the way (secret locations you can get to by falling through
@@ -4962,7 +4962,7 @@ DungeonMap_DrawRoomMarkers:
 
     .secretRoomLoop
 
-        CMP.w $E7F9, Y : BEQ .isSecretRoom
+        CMP.w Pool_DungeonMap_DrawRoomMarkers_fairy_rooms, Y : BEQ .isSecretRoom
     DEY #2 : BPL .secretRoomLoop
     
     BRA .notSecretRoom
@@ -4971,7 +4971,7 @@ DungeonMap_DrawRoomMarkers:
 
     ; Substitute a different room to use in the case that we're in a secret
     ; room.
-    LDA.w $E7FF, Y
+    LDA.w Pool_DungeonMap_DrawRoomMarkers_fairy_room_replacements, Y
 
     .notSecretRoom
 
@@ -4979,9 +4979,9 @@ DungeonMap_DrawRoomMarkers:
     
     PLY
     
-    LDA.w $F605, X : STA.b $04
+    LDA.w DungeonMapRoomPointers, X : STA.b $04
     
-    LDA.w $F5F5, Y : TAY
+    LDA.w DungeonMapFloorToDataOffset, Y : TAY
     
     SEP #$20
 
@@ -5007,14 +5007,14 @@ DungeonMap_DrawRoomMarkers:
 
     REP #$20
     
-    LDA.b $00 : CLC : ADC.w $E7F7 : STA.w $0215
+    LDA.b $00 : CLC : ADC.w Pool_DungeonMap_DrawRoomMarkers_offset_x_base : STA.w $0215
     
     LDA.b $22 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC.w $0215 : STA.w $0215
     
     LDY.w $0211
     
     LDA.b $02 : STA.w $0CF5
-    CLC : ADC.w $E7F3, Y : STA.w $0217
+    CLC : ADC.w DungeonMapRoomMarkerYBase, Y : STA.w $0217
     
     LDA.b $20 : AND.w #$01E0 : ASL #3 : XBA : CLC : ADC.w $0217 : STA.w $0217
         
@@ -5022,13 +5022,13 @@ DungeonMap_DrawRoomMarkers:
     
     LDA.b #$00 : XBA
     
-    LDA.w $F5D9, X : AND.b #$0F : CLC : ADC.w $EE79, X
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : CLC : ADC.w DungeonMap_BossRoomFloor, X
     
     REP #$20
     
     ASL A : TAY
     
-    LDA.w $F605, X : CLC : ADC.w $F5F5, Y : STA.b $0E
+    LDA.w DungeonMapRoomPointers, X : CLC : ADC.w DungeonMapFloorToDataOffset, Y : STA.b $0E
     
     SEP #$20
     
@@ -5040,7 +5040,7 @@ DungeonMap_DrawRoomMarkers:
     .BRANCH_LAMBDA
 
         LDA ($0E), Y : CMP.b #$0F : BEQ .BRANCH_THETA
-            CMP.w $E807, X : BEQ .BRANCH_IOTA
+            CMP.w DungeonMapBossRooms, X : BEQ .BRANCH_IOTA
 
         .BRANCH_THETA
 
@@ -5057,7 +5057,8 @@ DungeonMap_DrawRoomMarkers:
     STZ.b $02
     STZ.b $0F
     
-    LDA.w $020E : SEC : SBC.w $EE79, X : STA.b $0E : BPL .BRANCH_MU
+    LDA.w $020E : SEC : SBC.w DungeonMap_BossRoomFloor, X : STA.b $0E
+    BPL .BRANCH_MU
         EOR.b #$FF : INC A : STA.b $0E
         
         INC.b $02 : INC.b $02
@@ -5073,13 +5074,13 @@ DungeonMap_DrawRoomMarkers:
     .BRANCH_XI
 
     DEC.b $0E : BMI .BRANCH_NU
-        LDA.w $0FAA : CLC : ADC.w $E975, Y : STA.w $0FAA
+        LDA.w $0FAA : CLC : ADC.w DungeonMap_PanValues, Y : STA.w $0FAA
         
         BRA .BRANCH_XI
 
     .BRANCH_NU
 
-    LDA.w $0FAA : CLC : ADC.w $E7F3 : STA.w $0FAA
+    LDA.w $0FAA : CLC : ADC.w DungeonMapRoomMarkerYBase : STA.w $0FAA
     
     SEP #$20
     
@@ -5098,8 +5099,8 @@ DungeonMap_DrawRoomMarkers:
 ; $056954-$05695A JUMP LOCATION
 PalaceMap_3:
 {
-    JSL.l $0AE95B ; $05695B IN ROM
-    JMP.w $EAB2   ; $056AB2 IN ROM
+    JSL DungeonMap_HandleInput
+    JMP.w DungeonMap_DrawSprites
 }
 
 ; ==============================================================================
@@ -5111,7 +5112,7 @@ DungeonMap_HandleInput:
     
     ; Unless the depressed button is X, continue.
     LDA.b $F6 : AND.b #$40 : BNE .exitPalaceMapMode
-        JSL.l $0AE979 ; $056979 IN ROM
+        JSL DungeonMap_HandleMovementInput
         
         PLB
         
@@ -5141,7 +5142,7 @@ DungeonMap_PanValues:
 ; $056979-$056985 LONG JUMP LOCATION
 DungeonMap_HandleMovementInput:
 {
-    JSL.l $0AE986 ; $056986 IN ROM
+    JSL DungeonMap_HandleFloorSelect
     
     LDA.w $0210 : BEQ .notScrolling
         JMP PalaceMap_Scroll
@@ -5158,9 +5159,10 @@ DungeonMap_HandleFloorSelect:
 {
     REP #$30
     
-    LDX.w $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : STA.b $00
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : STA.b $00
     
-    LDA.w $F5D9, X : AND.w #$000F : CLC : ADC.b $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : CLC : ADC.b $00 : CMP.w #$0003 : BMI .BRANCH_ALPHA
         SEP #$30
         
         LDA.w $0210 : BNE .BRANCH_ALPHA
@@ -5169,7 +5171,7 @@ DungeonMap_HandleFloorSelect:
 
     .BRANCH_ALPHA
 
-    JMP.w $EA75 ; $056A75 IN ROM
+    JMP.w DungeonMap_HandleFloorSelect_proceed_to_exit
 
     .BRANCH_BETA
 
@@ -5180,8 +5182,9 @@ DungeonMap_HandleFloorSelect:
     AND.b #$08 : BEQ .BRANCH_GAMMA
         REP #$30
         
-        LDX.w $040C : LDA.w $F5D9, X : AND.w #$00F0 : LSR #4 : DEC A : CMP.w $020E : BNE .BRANCH_DELTA
-            JMP.w $EA75 ; $056A75 IN ROM
+        LDX.w $040C
+        LDA.w DungeonMapFloorCountData, X : AND.w #$00F0 : LSR #4 : DEC A : CMP.w $020E : BNE .BRANCH_DELTA
+            JMP.w DungeonMap_HandleFloorSelect_proceed_to_exit
 
         .BRANCH_DELTA
 
@@ -5195,7 +5198,8 @@ DungeonMap_HandleFloorSelect:
 
     REP #$30
     
-    LDX.w $040C : LDA.w $F5D9, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP.w $020E : BEQ .BRANCH_MU
+    LDX.w $040C
+    LDA.w DungeonMapFloorCountData, X : AND.w #$000F : EOR.w #$00FF : INC #2 : AND.w #$00FF : CMP.w $020E : BEQ .proceed_to_exit
         DEC.w $020E : DEC.w $020E
         
         LDA.b $06 : CLC : ADC.w #$0600 : AND.w #$0FFF : STA.b $06
@@ -5235,9 +5239,9 @@ DungeonMap_HandleFloorSelect:
 
         SEP #$20
         
-        JSR.w $E4F9 ; $0564F9 IN ROM
-        JSR.w $E449 ; $056449 IN ROM
-        JSR.w $E579 ; $056579 IN ROM
+        JSR.w DungeonMap_DrawFloorNumbersByRoom
+        JSR.w DungeonMap_DrawBorderForRooms
+        JSR.w DungeonMap_DrawDungeonLayout
         
         SEP #$20
         
@@ -5247,7 +5251,7 @@ DungeonMap_HandleFloorSelect:
         
         REP #$30
         
-        LDA.b $E8 : CLC : ADC.w $E975, X : STA.w $0213
+        LDA.b $E8 : CLC : ADC.w DungeonMap_PanValues, X : STA.w $0213
         
         LDA.b $0A : AND.w #$0008 : BNE .BRANCH_LAMBDA
             LDA.b $06 : SEC : SBC.w #$0300 : AND.w #$0FFF : STA.b $06
@@ -5261,7 +5265,7 @@ DungeonMap_HandleFloorSelect:
         LDA.b #$08 : STA.b $17
     
     ; $056A75 ALTERNATE ENTRY POINT
-    .BRANCH_MU
+    .proceed_to_exit
     
     BRA PalaceMap_Scroll_easyOut
 }
@@ -5273,13 +5277,13 @@ Pool_DungeonMap_ScrollFloors:
 Pool_PalaceMap_Scroll:
 {
     .speed_bg
-    dw   4 ; down
-    dw  -4 ; up
+    dw   4 ; Down
+    dw  -4 ; Up
     
     ; $056A7B
     .speed_sprites
-    dw  -4 ; down
-    dw   4 ; up
+    dw  -4 ; Down
+    dw   4 ; Up
 }
 
 ; ==============================================================================
@@ -5295,7 +5299,8 @@ PalaceMap_Scroll:
     LDA.w $0217 : CLC : ADC .speed_sprites, X : STA.w $0217
     LDA.w $0FAA : CLC : ADC .speed_sprites, X : STA.w $0FAA
     
-    LDA.b $E8 : CLC : ADC .speed_bg, X : STA.b $E8 : CMP.w $0213 : BNE .notDoneScrolling
+    LDA.b $E8 : CLC : ADC .speed_bg, X : STA.b $E8
+    CMP.w $0213 : BNE .notDoneScrolling
         SEP #$20
         
         STZ.w $0210
@@ -5319,7 +5324,7 @@ DungeonMap_DrawSprites:
     
     REP #$10
     
-    LDX.w $040C : LDA.w $F5D9, X : AND.b #$0F : STA.b $02
+    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $02
     
     CLC : ADC.b $A4 : STA.b $01 : STA.b $03
     
@@ -5334,18 +5339,18 @@ DungeonMap_DrawSprites:
 
     .BRANCH_ALPHA
 
-        JSR.w $EBA8 ; $056BA8 IN ROM
+        JSR.w DungeonMap_DrawLocationMarker
         
         INC.b $0E
     LDA.b $00 : CMP.b #$09 : BNE .BRANCH_ALPHA
     
-    JSR.w $EB50 ; $056B50 IN ROM
+    JSR.w DungeonMap_DrawBlinkingIndicator
     
     INC.b $00
     
-    JSR.w $EDE4 ; $056DE4 IN ROM
-    JSR.w $EC0A ; $056C0A IN ROM
-    JSR.w $ECCF ; $056CCF IN ROM
+    JSR.w DungeonMap_DrawBossIcon
+    JSR.w DungeonMap_DrawFloorNumberObjects
+    JSR.w DungeonMap_DrawFloorBlinker
     
     PLB
     
@@ -5380,7 +5385,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     LDA.b #$04 : SEC : SBC.b $02 : BMI .BRANCH_ALPHA
         CLC : ADC.b $03 : STA.b $03
         
-        LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
+        LDA.w DungeonMapFloorCountData, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
             SEC : SBC.b $03 : EOR.b #$FF : INC A : STA.b $03
 
     .BRANCH_ALPHA
@@ -5397,7 +5402,7 @@ PalaceMap_DrawPlayerFloorIndicator:
     
     LDY.b $03
     
-    LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA.w $0801, X
+    LDA.w FloorIconOffsetY, Y : SEC : SBC.b #$04 : STA.w $0801, X
     STZ.w $0802, X
     
     LDA.b #$3E
@@ -5415,7 +5420,7 @@ PalaceMap_DrawPlayerFloorIndicator:
 ; ==============================================================================
 
 ; $056B40-$056B4F DATA
-Pool_DungeonMap_DrawBlinkingIndicator
+Pool_DungeonMap_DrawBlinkingIndicator:
 {
     ; $056B40
     .tile
@@ -5427,8 +5432,6 @@ Pool_DungeonMap_DrawBlinkingIndicator
     db $39, $3B, $3D, $3B
     db $3B, $3B, $3B, $3B
 }
-
-; ==============================================================================
 
 ; $056B50-$056B89 LOCAL JUMP LOCATION
 DungeonMap_DrawBlinkingIndicator:
@@ -5454,35 +5457,37 @@ DungeonMap_DrawBlinkingIndicator:
     
     LDA.b $1A : AND.b #$0C : LSR #2 : TAY
     
-    LDA.w $EB40    : STA.w $0802, X
-    LDA.w $EB48, Y : STA.w $0803, X
+    LDA.w Pool_DungeonMap_DrawBlinkingIndicator_tile    : STA.w $0802, X
+    LDA.w Pool_DungeonMap_DrawBlinkingIndicator_prop, Y : STA.w $0803, X
     
     RTS
 }
+
+; ==============================================================================
 
 ; $056B8A-$056BA7 DATA
 Pool_DungeonMap_DrawLocationMarker:
 {
     ; $056B8A
     .offset_x
-    db  -9 ; top left
-    db   8 ; top right
-    db  -9 ; bottom left
-    db   8 ; bottom right
+    db  -9 ; Top left
+    db   8 ; Top right
+    db  -9 ; Bottom left
+    db   8 ; Bottom right
 
     ; $056B8E
     .offset_y
-    db  -8 ; top left
-    db  -8 ; top right
-    db   9 ; bottom left
-    db   9 ; bottom right
+    db  -8 ; Top left
+    db  -8 ; Top right
+    db   9 ; Bottom left
+    db   9 ; Bottom right
 
     ; $056B92
     .props
-    db $F1 ; top left
-    db $B1 ; top right
-    db $71 ; bottom left
-    db $31 ; bottom right
+    db $F1 ; Top left
+    db $B1 ; Top right
+    db $71 ; Bottom left
+    db $31 ; Bottom right
 
     ; $056B96
     .palette_flash
@@ -5508,21 +5513,21 @@ DungeonMap_DrawLocationMarker:
         
         TXA : ASL #2 : TAX
         
-        LDA.w $0215 : AND.b #$F0 : CLC : ADC.w $EB8A, Y : STA.w $0800, X
+        LDA.w $0215 : AND.b #$F0 : CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_x, Y : STA.w $0800, X
         
         PHY
         
         LDA.b $0E : ASL A : TAY
         
-        LDA.w $0CF5 : CLC : ADC.w $E7F3, Y : STA.b $0F
+        LDA.w $0CF5 : CLC : ADC.w DungeonMapRoomMarkerYBase, Y : STA.b $0F
         
         PLY
         
-        CLC : ADC.w $EB8E, Y : STA.w $0801, X
+        CLC : ADC.w Pool_DungeonMap_DrawLocationMarker_offset_y, Y : STA.w $0801, X
         
         STZ.w $0802, X
         
-        LDA.w $EB92, Y : STA.b $0C 
+        LDA.w Pool_DungeonMap_DrawLocationMarker_props, Y : STA.b $0C 
         
         PHY
         
@@ -5536,7 +5541,7 @@ DungeonMap_DrawLocationMarker:
 
         .BRANCH_ALPHA
 
-        LDA.b $0C : ORA.w $EB96, Y : STA.w $0803, X
+        LDA.b $0C : ORA.w Pool_DungeonMap_DrawLocationMarker_palette_flash, Y : STA.w $0803, X
         
         PLY
         
@@ -5551,7 +5556,7 @@ DungeonMap_DrawFloorNumberObjects:
 {
     REP #$10
     
-    LDX.w $040C : LDA.w $F5D9, X : PHA : LSR #4 : STA.b $02
+    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : PHA : LSR #4 : STA.b $02
     
     PLA : AND.b #$0F : STA.b $03
     
@@ -5587,7 +5592,7 @@ DungeonMap_DrawFloorNumberObjects:
 
     .BRANCH_ALPHA
 
-    LDA.w $ECBE, Y : INC A : STA.b $04
+    LDA.w FloorIconOffsetY, Y : INC A : STA.b $04
     
     DEC.b $02
     
@@ -5613,7 +5618,7 @@ DungeonMap_DrawFloorNumberObjects:
         LDA.b #$1D : STA.w $0806, X
         
         LDY.b $02 : BMI .BRANCH_EPSILON
-            LDA.w $ECC6, Y : STA.w $0802, X
+            LDA.w FloorNumberOAMChar, Y : STA.w $0802, X
             
             BRA .BRANCH_ZETA
 
@@ -5621,7 +5626,7 @@ DungeonMap_DrawFloorNumberObjects:
 
         TYA : EOR.b #$FF : TAY
         
-        LDA.w $ECC6, Y : STA.w $0806, X
+        LDA.w FloorNumberOAMChar, Y : STA.w $0806, X
 
         .BRANCH_ZETA
 
@@ -5678,9 +5683,9 @@ DungeonMap_DrawFloorBlinker:
     
     REP #$10
     
-    LDX.w $040C : LDA.w $F5D9, X : LSR #4 : STA.b $02
+    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : LSR #4 : STA.b $02
     
-    LDA.w $F5D9, X : AND.b #$0F
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F
     
     SEP #$10
     
@@ -5696,17 +5701,17 @@ DungeonMap_DrawFloorBlinker:
 
     .BRANCH_DELTA
 
-        LDX.b $02 : LDA.w $ECCE : STA.b $0E, X
+        LDX.b $02 : LDA.w FloorNumberBlinkProps : STA.b $0E, X
         
         REP #$10
         
-        LDX.w $040C : LDA.w $F5D9, X : AND.b #$0F : STA.b $01
+        LDX.w $040C : LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $01
         CLC : ADC.b $03 : STA.b $00
         
         LDA.b #$04 : SEC : SBC.b $01 : BMI .BRANCH_BETA
             CLC : ADC.b $00 : STA.b $00
             
-            LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
+            LDA.w DungeonMapFloorCountData, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_BETA
                 SEC : SBC.b $00 : EOR.b #$FF : INC A : STA.b $00
 
         .BRANCH_BETA
@@ -5736,16 +5741,16 @@ DungeonMap_DrawFloorBlinker:
     ; $056D54-$056DE3 BRANCH LOCATION
     .blink_on
 
-    LDY.b $00 : LDA.w $ECBE, Y : SEC : SBC.b #$04 : STA.b $02
+    LDY.b $00 : LDA.w FloorIconOffsetY, Y : SEC : SBC.b #$04 : STA.b $02
     CLC : ADC.b #$10 : STA.b $03
     
     LDY.b #$00
     
     REP #$10
     
-    LDX.w $040C : LDA.w $F5D9, X : LSR #4 : STA.b $0D
+    LDX.w $040C : LDA.w DungeonMapFloorCountData, X : LSR #4 : STA.b $0D
     
-    LDA.w $F5D9, X : AND.b #$0F 
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F 
     
     SEP #$10
     
@@ -5761,7 +5766,8 @@ DungeonMap_DrawFloorBlinker:
         LDA.b #$28 : STA.b $01
         LDA.b #$03 : STA.b $0C
         
-        LDX.b $0D : LDA.w $ED4E, X : TAY
+        LDX.b $0D
+        LDA.w DungeonMap_DrawFloorBlinker_oam_data_offset, X : TAY
 
         .BRANCH_GAMMA
 
@@ -5776,7 +5782,9 @@ DungeonMap_DrawFloorBlinker:
             
             PHX
             
-            LDX.b $0C : LDA.w $ED50, X : STA.w $0902, Y : STA.w $0912, Y
+            LDX.b $0C
+            LDA.w DungeonMap_DrawFloorBlinker_char, X
+            STA.w $0902, Y : STA.w $0912, Y
             
             PLX : PHY
             
@@ -5817,7 +5825,7 @@ DungeonMap_DrawBossIcon:
     PHX
     
     ; X = boss room of the palace.
-    LDA.w $E807, X : ASL A : TAX
+    LDA.w DungeonMapBossRooms, X : ASL A : TAX
     
     SEP #$20
     
@@ -5827,7 +5835,7 @@ DungeonMap_DrawBossIcon:
         
         ; Check if we have the compass for this palace.
         LDA.l $7EF364 : AND.l $0098C0, X : SEP #$20 : BEQ .dontShowBossIcon
-            LDA.w $EE7A, X : BPL .palaceHasBoss
+            LDA.w DungeonMap_BossRoomFloor+1, X : BPL .palaceHasBoss
 
     .dontShowBossIcon
 
@@ -5852,7 +5860,8 @@ DungeonMap_DrawBossIcon:
         
         TYA : ASL #2 : TAY
         
-        LDA.w $EE5E, X : CLC : ADC.w $0FA8 : CLC : ADC.b #$90 : STA.w $0800, Y
+        LDA.w DungeonMap_BossSkull_offsets+1, X
+        CLC : ADC.w $0FA8 : CLC : ADC.b #$90 : STA.w $0800, Y
         
         LDA.w $0FAB : BEQ .BRANCH_DELTA
             LDA.b #$F0
@@ -5861,13 +5870,13 @@ DungeonMap_DrawBossIcon:
 
         .BRANCH_DELTA
 
-        LDA.w $EE5D, X : CLC : ADC.w $0FAA
+        LDA.w DungeonMap_BossSkull_offsets+0, X : CLC : ADC.w $0FAA
 
         .BRANCH_EPSILON
 
                       STA.w $0801, Y
-        LDA.w $EE5B : STA.w $0802, Y
-        LDA.w $EE5C : STA.w $0803, Y
+        LDA.w DungeonMap_BossSkull_char : STA.w $0802, Y
+        LDA.w DungeonMap_BossSkull_prop : STA.w $0803, Y
         
         INC.b $00
 
@@ -5877,7 +5886,7 @@ DungeonMap_DrawBossIcon:
 }
 
 ; $056E5B-$056E94 DATA
-DungeonMap_BossSkull_char:
+DungeonMap_BossSkull:
 {
     ; $056E5B
     .char
@@ -5930,12 +5939,13 @@ DungeonMap_BossRoomFloor:
 ; $056E95-$056EF5 LOCAL JUMP LOCATION
 PalaceMap_DrawBossFloorIndicator:
 {
-    LDA.w $F5D9, X : AND.b #$0F : STA.b $02 : CLC : ADC.w $EE79, X : STA.b $03
+    LDA.w DungeonMapFloorCountData, X : AND.b #$0F : STA.b $02
+    CLC : ADC.w DungeonMap_BossRoomFloor, X : STA.b $03
     
     LDA.b #$04 : SEC : SBC.b $02 : BMI .BRANCH_ALPHA
         CLC : ADC.b $03 : STA.b $03
         
-        LDA.w $F5D9, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
+        LDA.w DungeonMapFloorCountData, X : LSR #4 : SEC : SBC.b #$04 : BMI .BRANCH_ALPHA
             SEC : SBC.b $03 : EOR.b #$FF : INC A : STA.b $03
 
     .BRANCH_ALPHA
@@ -5951,10 +5961,10 @@ PalaceMap_DrawBossFloorIndicator:
         
         LDY.b $03
         
-        LDA.w $ECBE, Y : STA.w $0801, X
+        LDA.w FloorIconOffsetY, Y : STA.w $0801, X
         
-        LDA.w $EE5B : STA.w $0802, X
-        LDA.w $EE5C : STA.w $0803, X
+        LDA.w DungeonMap_BossSkull_char : STA.w $0802, X
+        LDA.w DungeonMap_BossSkull_prop : STA.w $0803, X
         
         INC.b $00
 
@@ -5967,12 +5977,10 @@ PalaceMap_DrawBossFloorIndicator:
 
 ; ==============================================================================
 
+; UNUSED:
 ; $056EF6-$056F18 JUMP LOCATION (LONG)
 PalaceMap_4:
 {
-    ; Is this ever used?
-    ; The Kan dissasembly confirms that this is unused.
-    
     REP #$30
     
     LDA.w $0213 : CLC : ADC.b $E8 : STA.b $E8
@@ -6015,7 +6023,7 @@ PalaceMap_RestoreGraphics:
     LDA.l $7EC210 : STA.w $0AA2
     
     ; Restore graphic from the mode we came from.
-    JSL InitTilesets ; $00619B IN ROM
+    JSL InitTilesets
     
     ; Begin ignoring any special palette loads.
     STZ.w $0AA9
@@ -6028,10 +6036,10 @@ PalaceMap_RestoreGraphics:
 
     .drawQuadrants
 
-        JSL.l $0091C4 ; $0011C4 IN ROM
-        JSL.l $0090E3 ; $0010E3 IN ROM
-        JSL.l $00913F ; $00113F IN ROM
-        JSL.l $0090E3 ; $0010E3 IN ROM
+        JSL WaterFlood_BuildOneQuadrantForVRAM
+        JSL NMI_UploadTilemap_long
+        JSL Underworld_PrepareNextRoomQuadrantUpload
+        JSL NMI_UploadTilemap_long
     LDA.w $045C : CMP.b #$10 : BNE .drawQuadrants
     
     STZ.b $17
@@ -6061,7 +6069,7 @@ PalaceMap_RestoreGraphics:
     ; Bring volume back to full
     LDA.b #$F3 : STA.w $012C
     
-    JSL.l $0297B2 ; $0117B2 IN ROM
+    JSL RecoverPegGFXFromMapping
     
     ; Refresh cgram this frame.
     INC.b $15
@@ -6365,415 +6373,416 @@ DungeonMapRoomPointers:
 ; $057621-$05766B DATA
 DungeonMapRoomData_Sewers:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $11, $0F, $0F ; row 1
-    db $0F, $0F, $21, $22, $0F ; row 2
-    db $0F, $0F, $0F, $32, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $11, $0F, $0F ; Row 1
+    db $0F, $0F, $21, $22, $0F ; Row 2
+    db $0F, $0F, $0F, $32, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $02, $0F, $0F ; row 1
-    db $0F, $0F, $12, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $42, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $02, $0F, $0F ; Row 1
+    db $0F, $0F, $12, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $42, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $41, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $41, $0F ; Row 4
 }
 
 ; $05766C-$0576E8 DATA
 DungeonMapRoomData_HyruleCastle:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $80, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $80, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $70, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $70, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $71, $72, $0F, $0F ; row 2
-    db $0F, $81, $82, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $71, $72, $0F, $0F ; Row 2
+    db $0F, $81, $82, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $50, $01, $52, $0F ; row 2
-    db $0F, $60, $61, $62, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $50, $01, $52, $0F ; Row 2
+    db $0F, $60, $61, $62, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $51, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $51, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
     
 ; $0576E9-$05771A DATA
 DungeonMapRoomData_EasternPalace:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $99, $0F, $0F ; row 1
-    db $0F, $A8, $A9, $AA, $0F ; row 2
-    db $0F, $B8, $B9, $BA, $0F ; row 3
-    db $0F, $0F, $C9, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $99, $0F, $0F ; Row 1
+    db $0F, $A8, $A9, $AA, $0F ; Row 2
+    db $0F, $B8, $B9, $BA, $0F ; Row 3
+    db $0F, $0F, $C9, $0F, $0F ; Row 4
 
-    db $C8, $0F, $0F, $0F, $0F ; row 0
-    db $D8, $D9, $DA, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $C8, $0F, $0F, $0F, $0F ; Row 0
+    db $D8, $D9, $DA, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
 
 ; $05771B-$057765 DATA
 DungeonMapRoomData_DesertPalace:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $73, $74, $75, $0F ; row 3
-    db $0F, $83, $84, $85, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $73, $74, $75, $0F ; Row 3
+    db $0F, $83, $84, $85, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $63, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $63, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $33, $0F, $0F ; row 0
-    db $0F, $0F, $43, $0F, $0F ; row 1
-    db $0F, $0F, $53, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $33, $0F, $0F ; Row 0
+    db $0F, $0F, $43, $0F, $0F ; Row 1
+    db $0F, $0F, $53, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
 
 ; $057766-$057814 DATA
 DungeonMapRoomData_AgahnimsTower:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $E0, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $E0, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $D0, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $D0, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $C0, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $C0, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $B0, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $B0, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $40, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $40, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $20, $0F, $0F ; row 1
-    db $0F, $0F, $30, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $20, $0F, $0F ; Row 1
+    db $0F, $0F, $30, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
     
 ; $057815-$05785F DATA
 DungeonMapRoomData_SwampPalace:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $66, $0F, $0F ; row 1
-    db $0F, $0F, $76, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $66, $0F, $0F ; Row 1
+    db $0F, $0F, $76, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $06, $0F, $0F ; row 0
-    db $0F, $0F, $16, $0F, $0F ; row 1
-    db $0F, $0F, $26, $0F, $0F ; row 2
-    db $34, $35, $36, $37, $38 ; row 3
-    db $0F, $0F, $46, $0F, $0F ; row 4
+    db $0F, $0F, $06, $0F, $0F ; Row 0
+    db $0F, $0F, $16, $0F, $0F ; Row 1
+    db $0F, $0F, $26, $0F, $0F ; Row 2
+    db $34, $35, $36, $37, $38 ; Row 3
+    db $0F, $0F, $46, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $54, $0F, $0F, $0F, $28 ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $54, $0F, $0F, $0F, $28 ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
     
 ; $057860-$057891 DATA
 DungeonMapRoomData_PalaceofDarkness:
 {
-    db $0F, $0F, $5A, $0F, $0F ; row 0
-    db $0F, $0F, $6A, $0B, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0A, $3B, $0F ; row 3
-    db $0F, $0F, $09, $4B, $0F ; row 4
+    db $0F, $0F, $5A, $0F, $0F ; Row 0
+    db $0F, $0F, $6A, $0B, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0A, $3B, $0F ; Row 3
+    db $0F, $0F, $09, $4B, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $19, $1A, $1B, $0F ; row 1
-    db $0F, $0F, $2A, $2B, $0F ; row 2
-    db $0F, $0F, $3A, $0F, $0F ; row 3
-    db $0F, $0F, $4A, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $19, $1A, $1B, $0F ; Row 1
+    db $0F, $0F, $2A, $2B, $0F ; Row 2
+    db $0F, $0F, $3A, $0F, $0F ; Row 3
+    db $0F, $0F, $4A, $0F, $0F ; Row 4
 }
     
 ; $057892-$0578DC DATA
 DungeonMapRoomData_MiseryMire:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $91, $92, $93, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $91, $92, $93, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $90, $0F, $0F, $0F ; row 0
-    db $0F, $A0, $A1, $A2, $A3 ; row 1
-    db $0F, $0F, $B1, $B2, $B3 ; row 2
-    db $0F, $0F, $C1, $C2, $C3 ; row 3
-    db $0F, $0F, $D1, $D2, $0F ; row 4
+    db $0F, $90, $0F, $0F, $0F ; Row 0
+    db $0F, $A0, $A1, $A2, $A3 ; Row 1
+    db $0F, $0F, $B1, $B2, $B3 ; Row 2
+    db $0F, $0F, $C1, $C2, $C3 ; Row 3
+    db $0F, $0F, $D1, $D2, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $97, $98, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $97, $98, $0F ; Row 4
 }
     
 ; $0578DD-$05790E DATA
 DungeonMapRoomData_SkullWoods:
 {
-    db $29, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $29, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $39, $0F, $0F, $0F, $0F ; row 0
-    db $49, $0F, $0F, $0F, $0F ; row 1
-    db $59, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $56, $57, $58, $0F ; row 3
-    db $0F, $0F, $67, $68, $0F ; row 4
+    db $39, $0F, $0F, $0F, $0F ; Row 0
+    db $49, $0F, $0F, $0F, $0F ; Row 1
+    db $59, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $56, $57, $58, $0F ; Row 3
+    db $0F, $0F, $67, $68, $0F ; Row 4
 }
         
 ; $05790F-$0579D6 DATA
 DungeonMapRoomData_IcePalace:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $DE, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $DE, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $BE, $BF, $0F ; row 2
-    db $0F, $0F, $CE, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $BE, $BF, $0F ; Row 2
+    db $0F, $0F, $CE, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $9E, $9F, $0F ; row 2
-    db $0F, $0F, $AE, $AF, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $9E, $9F, $0F ; Row 2
+    db $0F, $0F, $AE, $AF, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $7E, $7F, $0F ; row 2
-    db $0F, $0F, $8E, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $7E, $7F, $0F ; Row 2
+    db $0F, $0F, $8E, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $5E, $5F, $0F ; row 2
-    db $0F, $0F, $6E, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $5E, $5F, $0F ; Row 2
+    db $0F, $0F, $6E, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $3E, $3F, $0F ; row 2
-    db $0F, $0F, $4E, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $3E, $3F, $0F ; Row 2
+    db $0F, $0F, $4E, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $1E, $1F, $0F ; row 2
-    db $0F, $0F, $2E, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $1E, $1F, $0F ; Row 2
+    db $0F, $0F, $2E, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0E, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0E, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
 
 ; $0579D7-$057A6C DATA
 DungeonMapRoomData_TowerofHera:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $87, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $87, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $77, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $77, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $31, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $31, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $27, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $27, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $17, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $17, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $07, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $07, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
 
 ; $057A6D-$057AB7 DATA
 DungeonMapRoomData_ThievesTown:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $44, $45, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $44, $45, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $AB, $AC, $0F, $0F ; row 1
-    db $0F, $BB, $BC, $0F, $0F ; row 2
-    db $0F, $CB, $CC, $0F, $0F ; row 3
-    db $0F, $DB, $DC, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $AB, $AC, $0F, $0F ; Row 1
+    db $0F, $BB, $BC, $0F, $0F ; Row 2
+    db $0F, $CB, $CC, $0F, $0F ; Row 3
+    db $0F, $DB, $DC, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $64, $65, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $64, $65, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
         
 ; $057AB8-$057B1B DATA
 DungeonMapRoomData_TurtleRock:
 {
-    db $0F, $A4, $0F, $0F, $0F ; row 0
-    db $0F, $B4, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $A4, $0F, $0F, $0F ; Row 0
+    db $0F, $B4, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $B5, $0F, $0F ; row 1
-    db $0F, $C4, $C5, $0F, $0F ; row 2
-    db $0F, $0F, $D5, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $B5, $0F, $0F ; Row 1
+    db $0F, $C4, $C5, $0F, $0F ; Row 2
+    db $0F, $0F, $D5, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $04, $0F, $0F ; row 1
-    db $0F, $13, $14, $15, $0F ; row 2
-    db $0F, $23, $24, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $04, $0F, $0F ; Row 1
+    db $0F, $13, $14, $15, $0F ; Row 2
+    db $0F, $23, $24, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0F, $B6, $B7 ; row 2
-    db $0F, $0F, $0F, $C6, $C7 ; row 3
-    db $0F, $0F, $0F, $D6, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0F, $B6, $B7 ; Row 2
+    db $0F, $0F, $0F, $C6, $C7 ; Row 3
+    db $0F, $0F, $0F, $D6, $0F ; Row 4
 }
         
 ; $057B1C-$057BE3 DATA
 DungeonMapRoomData_GanonsTower:
 {
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $1C, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $1C, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $7B, $7C, $7D, $0F ; row 1
-    db $0F, $8B, $8C, $8D, $0F ; row 2
-    db $0F, $9B, $9C, $9D, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $7B, $7C, $7D, $0F ; Row 1
+    db $0F, $8B, $8C, $8D, $0F ; Row 2
+    db $0F, $9B, $9C, $9D, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $0F, $0F ; row 1
-    db $0F, $0F, $0C, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $0F, $0F ; Row 1
+    db $0F, $0F, $0C, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $5B, $5C, $0F ; row 1
-    db $0F, $0F, $6B, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $5B, $5C, $0F ; Row 1
+    db $0F, $0F, $6B, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $5D, $0F ; row 1
-    db $0F, $0F, $6C, $6D, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $5D, $0F ; Row 1
+    db $0F, $0F, $6C, $6D, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $95, $96, $0F ; row 1
-    db $0F, $0F, $A5, $A6, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $95, $96, $0F ; Row 1
+    db $0F, $0F, $A5, $A6, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0F, $3D, $0F ; row 1
-    db $0F, $0F, $4C, $4D, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0F, $3D, $0F ; Row 1
+    db $0F, $0F, $4C, $4D, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 
-    db $0F, $0F, $0F, $0F, $0F ; row 0
-    db $0F, $0F, $0D, $0F, $0F ; row 1
-    db $0F, $0F, $1D, $0F, $0F ; row 2
-    db $0F, $0F, $0F, $0F, $0F ; row 3
-    db $0F, $0F, $0F, $0F, $0F ; row 4
+    db $0F, $0F, $0F, $0F, $0F ; Row 0
+    db $0F, $0F, $0D, $0F, $0F ; Row 1
+    db $0F, $0F, $1D, $0F, $0F ; Row 2
+    db $0F, $0F, $0F, $0F, $0F ; Row 3
+    db $0F, $0F, $0F, $0F, $0F ; Row 4
 }
 
 ; ==============================================================================
 
+; TODO: What data was this referning to?
 ; I'm tentatively assuming this is chest data for the maps (i.e. a listing of
 ; references to chest numbers), but so far it's inconclusive.
 
@@ -7067,14 +7076,14 @@ NULL_0AFCBA:
 ; ==============================================================================
 
 ; $057CE0-$057CF5 DATA
-HUD.FloorIndicatorNumberHigh:
+HUD_FloorIndicatorNumberHigh:
 {
     dw $2508, $2509, $2509, $250A, $250B, $250C, $250D, $251D
     dw $E51C, $250E, $007F
 }
 
 ; $057CF6-$057D0B DATA
-HUD.FloorIndicatorNumberLow:
+HUD_FloorIndicatorNumberLow:
 {
     dw $2518, $2519, $A509, $251A, $251B, $251C, $2518, $A51D
     dw $E50C, $A50E, $007F
@@ -7082,11 +7091,10 @@ HUD.FloorIndicatorNumberLow:
 
 ; ==============================================================================
 
+; Handles display of the Floor indicator on BG3 (1F, B1, etc).
 ; $057D0C-$057DA7 JUMP LOCATION (LONG)
 FloorIndicator:
 {
-    ; Handles display of the Floor indicator on BG3 (1F, B1, etc)
-    
     REP #$30
     
     LDA.w $04A0 : AND.w #$00FF : BEQ .hideIndicator
@@ -7229,8 +7237,8 @@ HUD_SuperBombIndicator:
 
         .BRANCH_DELTA
 
-        LDA.w $FCE0, Y : STA.l $7EC7F2, X
-        LDA.w $FCF6, Y : STA.l $7EC832, X
+        LDA.w HUD_FloorIndicatorNumberHigh, Y : STA.l $7EC7F2, X
+        LDA.w HUD_FloorIndicatorNumberLow, Y : STA.l $7EC832, X
     DEX #2 : BPL .BRANCH_EPSILON
     
     SEP #$20
@@ -7299,25 +7307,22 @@ NULL_0AFE65:
 ; $057E70-$057E7F DATA
 Pool_Effect_Handler:
 {
-    .handlers
-    dw Effect_DoNothing
-    dw Effect_DoNothing
-    dw Effect_MovingFloor
-    dw Effect_MovingWater
-    dw Effect_MovingFloor2     ; Not sure if this is used anywhere
-    dw Effect_RedFlashes       ; (Agahnim's room in Ganon's tower)
-    dw Effect_TorchHiddenTiles
-    dw Effect_TorchGanonRoom
+    dw Effect_DoNothing        ; 0x00 - $FE87
+    dw Effect_DoNothing        ; 0x01 - $FE87
+    dw Effect_MovingFloor      ; 0x02 - $FE88
+    dw Effect_MovingWater      ; 0x03 - $FFDE
+    dw Effect_MovingFloor2     ; 0x04 - $FEEE Not sure if this is used anywhere
+    dw Effect_RedFlashes       ; 0x05 - $FF0D (Agahnim's room in Ganon's tower)
+    dw Effect_TorchHiddenTiles ; 0x06 - $FF5D
+    dw Effect_TorchGanonRoom   ; 0x07 - $FFA4
 }
     
-; ==============================================================================
-
 ; $057E80-$057E86 LONG JUMP LOCATION
 Effect_Handler:
 {
     LDA.b $AD : ASL A : TAX
     
-    JMP (.handlers, X)
+    JMP (Pool_Effect_Handler, X)
 }
 
 ; ==============================================================================
@@ -7343,11 +7348,11 @@ Effect_MovingFloor:
 
     REP #$30
     
-    ; Set moving floor speeds to zero, both X and Y velocities.    
+    ; Set moving floor speeds to zero, both X and Y velocities.
     STZ.w $0312 : STZ.w $0310
     
-    ; Test the low bit of $041A[2]
-    ; The low bit of that variable disables floor movement
+    ; Test the low bit of $041A[2].
+    ; The low bit of that variable disables floor movement.
     LDA.w $041A : LSR A : BCS .return
         ; X = the bit 1 of $041A[2]
         ASL A : AND.w #$0002 : TAX
@@ -7356,11 +7361,11 @@ Effect_MovingFloor:
         LDA.w $041C : CLC : ADC.w #$8000 : STA.w $041C
         
         ; If $041C[2] was negative before the addition, then A = 1, otherwise
-        ; A = 0
+        ; A = 0.
         ROL A : AND.w #$0001
         
         CPX.w #$0002 : BNE .notInverted
-            ; Invert the accumulator, thus A = A *-1
+            ; Invert the accumulator, thus A = A *-1.
             EOR.w #$FFFF : INC A
 
         .notInverted
@@ -7379,7 +7384,7 @@ Effect_MovingFloor:
 
         .vertical
 
-        ; Tells the floor to move in a Y direction instead. 
+        ; Tells the floor to move in a Y direction instead.
         ; Set the vertical floor movement speed.
         STA.w $0310
             
@@ -7445,7 +7450,7 @@ Effect_RedFlashes:
 
                 .noChange
 
-                ; Put bg2 on the subscreen
+                ; Put bg2 on the subscreen.
                 LDA.b #$02 : STA.b $1D
                 
                 RTL
@@ -7465,11 +7470,10 @@ Effect_RedFlashes:
 
 ; ==============================================================================
 
+; Light torch to see floor?
 ; $057F5D-$057FA3 JUMP LOCATION
 Effect_TorchHiddenTiles:
 {
-    ; Light torch to see floor?
-    
     REP #$30
     
     LDX.w #$0000 : STX.b $00
@@ -7508,7 +7512,7 @@ Effect_TorchHiddenTiles:
 
     SEP #$30
     
-    ; Enable bg2 on the subscreen 
+    ; Enable bg2 on the subscreen.
     LDA.b #$02 : STA.b $1D
     
     RTL
@@ -7519,7 +7523,7 @@ Effect_TorchHiddenTiles:
 ; $057FA4-$057FDD JUMP LOCATION
 Effect_TorchGanonRoom:
 {
-    ; Initialize number of lit torches to zero
+    ; Initialize number of lit torches to zero.
     STZ.w $04C5
     
     REP #$30

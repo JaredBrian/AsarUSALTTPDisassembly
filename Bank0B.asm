@@ -1159,12 +1159,20 @@ OverworldMap32_Screen61_Low:
 
 ; ==============================================================================
 
-; TODO: Find the missing data here.
+; TODO: confirm this address. It conflicts with the end address of
+; OverworldMap32_Screen61_Low.
+; $05FE5E-$05FE6F DATA
+NULL_0BFE5E:
+{
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF
+}
 
 ; ==============================================================================
 
-; $05FE70-$05FFA7 LONG JUMP LOCATION
 ; ZS replaces the latter half of this function.
+; $05FE70-$05FFA7 LONG JUMP LOCATION
 Overworld_SetFixedColorAndScroll:
 {
     ; Turn the subscreen off for the moment.
@@ -1174,11 +1182,10 @@ Overworld_SetFixedColorAndScroll:
         
     LDX.w #$19C6
         LDA.b $8A : CMP.w #$0080 : BNE .notMasterSwordArea
-        
-        LDA.b $A0 : CMP.w #$0181 : BNE .setBgColor
-            INC.b $1D
-        
-            BRA .useDefaultGreen
+            LDA.b $A0 : CMP.w #$0181 : BNE .setBgColor
+                INC.b $1D
+            
+                BRA .useDefaultGreen
     
         .notMasterSwordArea
     
@@ -1190,16 +1197,14 @@ Overworld_SetFixedColorAndScroll:
             AND.w #$00BF : CMP.w #$0003 : BEQ .setBgColor
             CMP.w #$0005                : BEQ .setBgColor
             CMP.w #$0007                : BEQ .setBgColor
-    
-        .useDefaultGreen
-    
-        LDX.w #$2669
-        
-        LDA.b $8A : AND.w #$0040 : BEQ .setBgColor
-        
-        ; Default tan color for the dark world.
-        LDX.w #$2A32
-    
+                .useDefaultGreen
+            
+                LDX.w #$2669
+                
+                LDA.b $8A : AND.w #$0040 : BEQ .setBgColor
+                    ; Default tan color for the dark world.
+                    LDX.w #$2A32
+            
     .setBgColor
     
     TXA
@@ -1257,7 +1262,8 @@ Overworld_SetFixedColorAndScroll:
             
         ; Are we at Hyrule Castle or Pyramid of Power?
         CMP.w #$001B : BNE .subscreenOnAndReturn
-            LDA.b $E2 : SEC : SBC.w #$0778 : LSR A : TAY : AND.w #$4000 : BEQ .BRANCH_7
+            LDA.b $E2 : SEC : SBC.w #$0778 : LSR A : TAY
+            AND.w #$4000 : BEQ .BRANCH_7
                 TYA : ORA.w #$8000 : TAY
             
             .BRANCH_7

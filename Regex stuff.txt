@@ -6,23 +6,23 @@ Find all missing .b #$
 ([A-Z]) (#\$[0-9A-F][^\s])
 $1.b $2
 
+Find any mistakenly placed .b in comments:
+(?<=; ).+\.b
+
 Find comments without a leading space and replace with one.
 (;)([^ ])
 ; $2
+
+Get rid of kan address formatting:
+#_......: 
+
+Find op codes that are using ROM addresses:
+...\.. \$[89A-F][0-9A-F][0-9A-F][0-9A-F]
 
 Find comments with a lower case starting letter and replace with upper case:
 ; ([a-z])
 ; \U$1
 
 Find comments that don't end in a period and replace with a period:
-(; .*[^=?:!\.]$)
+(; .*[^=?:,!\.]$)
 $1.
-
-Get rid of kan address formatting:
-#_......: 
-
-Find any mistakenly placed .b in comments:
-(?<=; ).+\.b
-
-Find op codes that are using ROM addresses:
-...\.. \$[89A-F][0-9A-F][0-9A-F][0-9A-F]
