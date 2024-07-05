@@ -9,6 +9,9 @@ org $0C8000
 ; Intro cutscene sequence
 ; 3D Triforce control
 ; File select menu control
+; File select tilemap
+; Copy menu control
+; Copy menu tilemap
 
 ; ==============================================================================
 
@@ -16,588 +19,588 @@ org $0C8000
 ;org $0C8000
 OverworldMap32_Screen62_High:
 {
-    incbin "bin/ow/screen62-h.bin" ; size: 0x00D2
+    incbin "bin/ow/screen62-h.bin" ; Size: 0x00D2
 }
 
 ; $0600D2-$0601C3 DATA
 ;org $0C80D2
 OverworldMap32_Screen62_Low: 
 {
-    incbin "bin/ow/screen62-l.bin" ; size: 0x00F2
+    incbin "bin/ow/screen62-l.bin" ; Size: 0x00F2
 }
 
 ; $0601C4-$060264 DATA
 ;org $0C81C4
 OverworldMap32_Screen63_High:
 {
-    incbin "bin/ow/screen63-h.bin" ; size: 0x00A1
+    incbin "bin/ow/screen63-h.bin" ; Size: 0x00A1
 }
 
 ; $060265-$060320 DATA
 ;org $0C8265
 OverworldMap32_Screen63_Low: 
 {
-    incbin "bin/ow/screen63-l.bin" ; size: 0x00BC
+    incbin "bin/ow/screen63-l.bin" ; Size: 0x00BC
 }
 
 ; $060321-$0603E5 DATA
 ;org $0C8321
 OverworldMap32_Screen64_High:
 {
-    incbin "bin/ow/screen64-h.bin" ; size: 0x00C5
+    incbin "bin/ow/screen64-h.bin" ; Size: 0x00C5
 }
 
 ; $0603E6-$0604BC DATA
 ;org $0C83E6
 OverworldMap32_Screen64_Low: 
 {
-    incbin "bin/ow/screen64-l.bin" ; size: 0x00D7
+    incbin "bin/ow/screen64-l.bin" ; Size: 0x00D7
 }
 
 ; $0604BD-$060597 DATA
 ;org $0C84BD
 OverworldMap32_Screen25_High:
 {
-    incbin "bin/ow/screen25-h.bin" ; size: 0x00DB
+    incbin "bin/ow/screen25-h.bin" ; Size: 0x00DB
 }
 
 ; $060598-$060687 DATA
 ;org $0C8598
 OverworldMap32_Screen25_Low: 
 {
-    incbin "bin/ow/screen25-l.bin" ; size: 0x00F0
+    incbin "bin/ow/screen25-l.bin" ; Size: 0x00F0
 }
 
 ; $060688-$060733 DATA
 ;org $0C8688
 OverworldMap32_Screen66_High:
 {
-    incbin "bin/ow/screen66-h.bin" ; size: 0x00AC
+    incbin "bin/ow/screen66-h.bin" ; Size: 0x00AC
 }
 
 ; $060734-$06080C DATA
 ;org $0C8734
 OverworldMap32_Screen66_Low: 
 {
-    incbin "bin/ow/screen66-l.bin" ; size: 0x00D9
+    incbin "bin/ow/screen66-l.bin" ; Size: 0x00D9
 }
 
 ; $06080D-$0608DC DATA
 ;org $0C880D
 OverworldMap32_Screen67_High:
 {
-    incbin "bin/ow/screen67-h.bin" ; size: 0x00D0
+    incbin "bin/ow/screen67-h.bin" ; Size: 0x00D0
 }
 
 ; $0608DD-$0609CB DATA
 ;org $0C88DD
 OverworldMap32_Screen67_Low: 
 {
-    incbin "bin/ow/screen67-l.bin" ; size: 0x00EF
+    incbin "bin/ow/screen67-l.bin" ; Size: 0x00EF
 }
 
 ; $0609CC-$060AA3 DATA
 ;org $0C89CC
 OverworldMap32_Screen68_High:
 {
-    incbin "bin/ow/screen68-h.bin" ; size: 0x00D8
+    incbin "bin/ow/screen68-h.bin" ; Size: 0x00D8
 }
 
 ; $060AA4-$060B99 DATA
 ;org $0C8AA4
 OverworldMap32_Screen68_Low: 
 {
-    incbin "bin/ow/screen68-l.bin" ; size: 0x00F6
+    incbin "bin/ow/screen68-l.bin" ; Size: 0x00F6
 }
 
 ; $060B9A-$060C72 DATA
 ;org $0C8B9A
 OverworldMap32_Screen69_High:
 {
-    incbin "bin/ow/screen69-h.bin" ; size: 0x00D9
+    incbin "bin/ow/screen69-h.bin" ; Size: 0x00D9
 }
 
 ; $060C73-$060D6B DATA
 ;org $0C8C73
 OverworldMap32_Screen69_Low: 
 {
-    incbin "bin/ow/screen69-l.bin" ; size: 0x00F9
+    incbin "bin/ow/screen69-l.bin" ; Size: 0x00F9
 }
 
 ; $060D6C-$060E3A DATA
 ;org $0C8D6C
 OverworldMap32_Screen2A_High:
 {
-    incbin "bin/ow/screen2A-h.bin" ; size: 0x00CF
+    incbin "bin/ow/screen2A-h.bin" ; Size: 0x00CF
 }
 
 ; $060E3B-$060F2A DATA
 ;org $0C8E3B
 OverworldMap32_Screen2A_Low: 
 {
-    incbin "bin/ow/screen2A-l.bin" ; size: 0x00F0
+    incbin "bin/ow/screen2A-l.bin" ; Size: 0x00F0
 }
 
 ; $060F2B-$06100B DATA
 ;org $0C8F2B
 OverworldMap32_Screen2B_High:
 {
-    incbin "bin/ow/screen2B-h.bin" ; size: 0x00E1
+    incbin "bin/ow/screen2B-h.bin" ; Size: 0x00E1
 }
 
 ; $06100C-$061105 DATA
 ;org $0C900C
 OverworldMap32_Screen2B_Low: 
 {
-    incbin "bin/ow/screen2B-l.bin" ; size: 0x00FA
+    incbin "bin/ow/screen2B-l.bin" ; Size: 0x00FA
 }
 
 ; $061106-$0611F0 DATA
 ;org $0C9106
 OverworldMap32_Screen2C_High:
 {
-    incbin "bin/ow/screen2C-h.bin" ; size: 0x00EB
+    incbin "bin/ow/screen2C-h.bin" ; Size: 0x00EB
 }
 
 ; $0611F1-$0612E7 DATA
 ;org $0C91F1
 OverworldMap32_Screen2C_Low: 
 {
-    incbin "bin/ow/screen2C-l.bin" ; size: 0x00F7
+    incbin "bin/ow/screen2C-l.bin" ; Size: 0x00F7
 }
 
 ; $0612E8-$0613D3 DATA
 ;org $0C92E8
 OverworldMap32_Screen6D_High:
 {
-    incbin "bin/ow/screen6D-h.bin" ; size: 0x00EC
+    incbin "bin/ow/screen6D-h.bin" ; Size: 0x00EC
 }
 
 ; $0613D4-$0614CF DATA
 ;org $0C93D4
 OverworldMap32_Screen6D_Low: 
 {
-    incbin "bin/ow/screen6D-l.bin" ; size: 0x00FC
+    incbin "bin/ow/screen6D-l.bin" ; Size: 0x00FC
 }
 
 ; $0614D0-$0615C3 DATA
 ;org $0C94D0
 OverworldMap32_Screen2E_High:
 {
-    incbin "bin/ow/screen2E-h.bin" ; size: 0x00F4
+    incbin "bin/ow/screen2E-h.bin" ; Size: 0x00F4
 }
 
 ; $0615C4-$0616BE DATA
 ;org $0C95C4
 OverworldMap32_Screen2E_Low: 
 {
-    incbin "bin/ow/screen2E-l.bin" ; size: 0x00FB
+    incbin "bin/ow/screen2E-l.bin" ; Size: 0x00FB
 }
 
 ; $0616BF-$0617B2 DATA
 ;org $0C96BF
 OverworldMap32_Screen2F_High:
 {
-    incbin "bin/ow/screen2F-h.bin" ; size: 0x00F4
+    incbin "bin/ow/screen2F-h.bin" ; Size: 0x00F4
 }
 
 ; $0617B3-$0618AF DATA
 ;org $0C97B3
 OverworldMap32_Screen2F_Low: 
 {
-    incbin "bin/ow/screen2F-l.bin" ; size: 0x00FD
+    incbin "bin/ow/screen2F-l.bin" ; Size: 0x00FD
 }
 
 ; $0618B0-$06196D DATA
 ;org $0C98B0
 OverworldMap32_Screen70_High:
 {
-    incbin "bin/ow/screen70-h.bin" ; size: 0x00BE
+    incbin "bin/ow/screen70-h.bin" ; Size: 0x00BE
 }
 
 ; $06196E-$061A47 DATA
 ;org $0C996E
 OverworldMap32_Screen70_Low: 
 {
-    incbin "bin/ow/screen70-l.bin" ; size: 0x00DA
+    incbin "bin/ow/screen70-l.bin" ; Size: 0x00DA
 }
 
 ; $061A48-$061AF3 DATA
 ;org $0C9A48
 OverworldMap32_Screen71_High:
 {
-    incbin "bin/ow/screen71-h.bin" ; size: 0x00AC
+    incbin "bin/ow/screen71-h.bin" ; Size: 0x00AC
 }
 
 ; $061AF4-$061BC1 DATA
 ;org $0C9AF4
 OverworldMap32_Screen71_Low: 
 {
-    incbin "bin/ow/screen71-l.bin" ; size: 0x00CE
+    incbin "bin/ow/screen71-l.bin" ; Size: 0x00CE
 }
 
 ; $061BC2-$061CB2 DATA
 ;org $0C9BC2
 OverworldMap32_Screen72_High:
 {
-    incbin "bin/ow/screen72-h.bin" ; size: 0x00F1
+    incbin "bin/ow/screen72-h.bin" ; Size: 0x00F1
 }
 
 ; $061CB3-$061DAE DATA
 ;org $0C9CB3
 OverworldMap32_Screen72_Low: 
 {
-    incbin "bin/ow/screen72-l.bin" ; size: 0x00FC
+    incbin "bin/ow/screen72-l.bin" ; Size: 0x00FC
 }
 
 ; $061DAF-$061E81 DATA
 ;org $0C9DAF
 OverworldMap32_Screen33_High:
 {
-    incbin "bin/ow/screen33-h.bin" ; size: 0x00D3
+    incbin "bin/ow/screen33-h.bin" ; Size: 0x00D3
 }
 
 ; $061E82-$061F72 DATA
 ;org $0C9E82
 OverworldMap32_Screen33_Low: 
 {
-    incbin "bin/ow/screen33-l.bin" ; size: 0x00F1
+    incbin "bin/ow/screen33-l.bin" ; Size: 0x00F1
 }
 
 ; $061F73-$062048 DATA
 ;org $0C9F73
 OverworldMap32_Screen34_High:
 {
-    incbin "bin/ow/screen34-h.bin" ; size: 0x00D6
+    incbin "bin/ow/screen34-h.bin" ; Size: 0x00D6
 }
 
 ; $062049-$062131 DATA
 ;org $0CA049
 OverworldMap32_Screen34_Low: 
 {
-    incbin "bin/ow/screen34-l.bin" ; size: 0x00E9
+    incbin "bin/ow/screen34-l.bin" ; Size: 0x00E9
 }
 
 ; $062132-$062225 DATA
 ;org $0CA132
 OverworldMap32_Screen75_High:
 {
-    incbin "bin/ow/screen75-h.bin" ; size: 0x00F4
+    incbin "bin/ow/screen75-h.bin" ; Size: 0x00F4
 }
 
 ; $062226-$062328 DATA
 ;org $0CA226
 OverworldMap32_Screen75_Low: 
 {
-    incbin "bin/ow/screen75-l.bin" ; size: 0x0103
+    incbin "bin/ow/screen75-l.bin" ; Size: 0x0103
 }
 
 ; $062329-$0623DB DATA
 ;org $0CA329
 OverworldMap32_Screen76_High:
 {
-    incbin "bin/ow/screen76-h.bin" ; size: 0x00B3
+    incbin "bin/ow/screen76-h.bin" ; Size: 0x00B3
 }
 
 ; $0623DC-$0624B9 DATA
 ;org $0CA3DC
 OverworldMap32_Screen76_Low: 
 {
-    incbin "bin/ow/screen76-l.bin" ; size: 0x00DE
+    incbin "bin/ow/screen76-l.bin" ; Size: 0x00DE
 }
 
 ; $0624BA-$0625B2 DATA
 ;org $0CA4BA
 OverworldMap32_Screen37_High:
 {
-    incbin "bin/ow/screen37-h.bin" ; size: 0x00F9
+    incbin "bin/ow/screen37-h.bin" ; Size: 0x00F9
 }
 
 ; $0625B3-$0626B1 DATA
 ;org $0CA5B3
 OverworldMap32_Screen37_Low: 
 {
-    incbin "bin/ow/screen37-l.bin" ; size: 0x00FF
+    incbin "bin/ow/screen37-l.bin" ; Size: 0x00FF
 }
 
 ; $0626B2-$062798 DATA
 ;org $0CA6B2
 OverworldMap32_Screen78_High:
 {
-    incbin "bin/ow/screen78-h.bin" ; size: 0x00E7
+    incbin "bin/ow/screen78-h.bin" ; Size: 0x00E7
 }
 
 ; $062799-$062897 DATA
 ;org $0CA799
 OverworldMap32_Screen78_Low: 
 {
-    incbin "bin/ow/screen78-l.bin" ; size: 0x00FF
+    incbin "bin/ow/screen78-l.bin" ; Size: 0x00FF
 }
 
 ; $062898-$062970 DATA
 ;org $0CA898
 OverworldMap32_Screen79_High:
 {
-    incbin "bin/ow/screen79-h.bin" ; size: 0x00D9
+    incbin "bin/ow/screen79-h.bin" ; Size: 0x00D9
 }
 
 ; $062971-$062A6C DATA
 ;org $0CA971
 OverworldMap32_Screen79_Low: 
 {
-    incbin "bin/ow/screen79-l.bin" ; size: 0x00FC
+    incbin "bin/ow/screen79-l.bin" ; Size: 0x00FC
 }
 
 ; $062A6D-$062B63 DATA
 ;org $0CAA6D
 OverworldMap32_Screen7A_High:
 {
-    incbin "bin/ow/screen7A-h.bin" ; size: 0x00F7
+    incbin "bin/ow/screen7A-h.bin" ; Size: 0x00F7
 }
 
 ; $062B64-$062C5E DATA
 ;org $0CAB64
 OverworldMap32_Screen7A_Low: 
 {
-    incbin "bin/ow/screen7A-l.bin" ; size: 0x00FB
+    incbin "bin/ow/screen7A-l.bin" ; Size: 0x00FB
 }
 
 ; $062C5F-$062D49 DATA
 ;org $0CAC5F
 OverworldMap32_Screen3B_High:
 {
-    incbin "bin/ow/screen3B-h.bin" ; size: 0x00EB
+    incbin "bin/ow/screen3B-h.bin" ; Size: 0x00EB
 }
 
 ; $062D4A-$062E36 DATA
 ;org $0CAD4A
 OverworldMap32_Screen3B_Low: 
 {
-    incbin "bin/ow/screen3B-l.bin" ; size: 0x00ED
+    incbin "bin/ow/screen3B-l.bin" ; Size: 0x00ED
 }
 
 ; $062E37-$062F23 DATA
 ;org $0CAE37
 OverworldMap32_Screen3C_High:
 {
-    incbin "bin/ow/screen3C-h.bin" ; size: 0x00ED
+    incbin "bin/ow/screen3C-h.bin" ; Size: 0x00ED
 }
 
 ; $062F24-$063015 DATA
 ;org $0CAF24
 OverworldMap32_Screen3C_Low: 
 {
-    incbin "bin/ow/screen3C-l.bin" ; size: 0x00F2
+    incbin "bin/ow/screen3C-l.bin" ; Size: 0x00F2
 }
 
 ; $063016-$06310B DATA
 ;org $0CB016
 OverworldMap32_Screen7D_High:
 {
-    incbin "bin/ow/screen7D-h.bin" ; size: 0x00F6
+    incbin "bin/ow/screen7D-h.bin" ; Size: 0x00F6
 }
 
 ; $06310C-$06320A DATA
 ;org $0CB10C
 OverworldMap32_Screen7D_Low: 
 {
-    incbin "bin/ow/screen7D-l.bin" ; size: 0x00FF
+    incbin "bin/ow/screen7D-l.bin" ; Size: 0x00FF
 }
 
 ; $06320B-$0632E5 DATA
 ;org $0CB20B
 OverworldMap32_Screen7E_High:
 {
-    incbin "bin/ow/screen7E-h.bin" ; size: 0x00DB
+    incbin "bin/ow/screen7E-h.bin" ; Size: 0x00DB
 }
 
 ; $0632E6-$0633D1 DATA
 ;org $0CB2E6
 OverworldMap32_Screen7E_Low: 
 {
-    incbin "bin/ow/screen7E-l.bin" ; size: 0x00EC
+    incbin "bin/ow/screen7E-l.bin" ; Size: 0x00EC
 }
 
 ; $0633D2-$0634C7 DATA
 ;org $0CB3D2
 OverworldMap32_Screen3F_High:
 {
-    incbin "bin/ow/screen3F-h.bin" ; size: 0x00F6
+    incbin "bin/ow/screen3F-h.bin" ; Size: 0x00F6
 }
 
 ; $0634C8-$0635C7 DATA
 ;org $0CB4C8
 OverworldMap32_Screen3F_Low: 
 {
-    incbin "bin/ow/screen3F-l.bin" ; size: 0x0100
+    incbin "bin/ow/screen3F-l.bin" ; Size: 0x0100
 }
 
 ; $0635C8-$0635CB DATA
 ;org $0CB5C8
 OverworldMap32_Screen9E_High:
 {
-    incbin "bin/ow/screen9E-h.bin" ; size: 0x0004
+    incbin "bin/ow/screen9E-h.bin" ; Size: 0x0004
 }
 
 ; $0635CC-$06367A DATA
 ;org $0CB5CC
 OverworldMap32_Screen9E_Low: 
 {
-    incbin "bin/ow/screen9E-l.bin" ; size: 0x00AF
+    incbin "bin/ow/screen9E-l.bin" ; Size: 0x00AF
 }
 
 ; $06367B-$06367E DATA
 ;org $0CB67B
 OverworldMap32_Screen97_High:
 {
-    incbin "bin/ow/screen97-h.bin" ; size: 0x0004
+    incbin "bin/ow/screen97-h.bin" ; Size: 0x0004
 }
 
 ; $06367F-$0636BD DATA
 ;org $0CB67F
 OverworldMap32_Screen97_Low: 
 {
-    incbin "bin/ow/screen97-l.bin" ; size: 0x003F
+    incbin "bin/ow/screen97-l.bin" ; Size: 0x003F
 }
 
 ; $0636BE-$063742 DATA
 ;org $0CB6BE
 OverworldMap32_Screen9F_High:
 {
-    incbin "bin/ow/screen9F-h.bin" ; size: 0x0085
+    incbin "bin/ow/screen9F-h.bin" ; Size: 0x0085
 }
 
 ; $063743-$06383B DATA
 ;org $0CB743
 OverworldMap32_Screen9F_Low: 
 {
-    incbin "bin/ow/screen9F-l.bin" ; size: 0x00F9
+    incbin "bin/ow/screen9F-l.bin" ; Size: 0x00F9
 }
 
 ; $06383C-$0638AB DATA
 ;org $0CB83C
 OverworldMap32_Screen80_High:
 {
-    incbin "bin/ow/screen80-h.bin" ; size: 0x0070
+    incbin "bin/ow/screen80-h.bin" ; Size: 0x0070
 }
 
 ; $0638AC-$06397B DATA
 ;org $0CB8AC
 OverworldMap32_Screen80_Low: 
 {
-    incbin "bin/ow/screen80-l.bin" ; size: 0x00D0
+    incbin "bin/ow/screen80-l.bin" ; Size: 0x00D0
 }
 
 ; $06397C-$063A15 DATA
 ;org $0CB97C
 OverworldMap32_Screen81_High:
 {
-    incbin "bin/ow/screen81-h.bin" ; size: 0x009A
+    incbin "bin/ow/screen81-h.bin" ; Size: 0x009A
 }
 
 ; $063A16-$063AF1 DATA
 ;org $0CBA16
 OverworldMap32_Screen81_Low: 
 {
-    incbin "bin/ow/screen81-l.bin" ; size: 0x00DC
+    incbin "bin/ow/screen81-l.bin" ; Size: 0x00DC
 }
 
 ; $063AF2-$063BB8 DATA
 ;org $0CBAF2
 OverworldMap32_Screen82_High:
 {
-    incbin "bin/ow/screen82-h.bin" ; size: 0x00C7
+    incbin "bin/ow/screen82-h.bin" ; Size: 0x00C7
 }
 
 ; $063BB9-$063CAD DATA
 ;org $0CBBB9
 OverworldMap32_Screen82_Low: 
 {
-    incbin "bin/ow/screen82-l.bin" ; size: 0x00F5
+    incbin "bin/ow/screen82-l.bin" ; Size: 0x00F5
 }
 
 ; $063CAE-$063D5D DATA
 ;org $0CBCAE
 OverworldMap32_Screen89_High:
 {
-    incbin "bin/ow/screen89-h.bin" ; size: 0x00B0
+    incbin "bin/ow/screen89-h.bin" ; Size: 0x00B0
 }
 
 ; $063D5E-$063E4A DATA
 ;org $0CBD5E
 OverworldMap32_Screen89_Low: 
 {
-    incbin "bin/ow/screen89-l.bin" ; size: 0x00ED
+    incbin "bin/ow/screen89-l.bin" ; Size: 0x00ED
 }
 
 ; $063E4B-$063F04 DATA
 ;org $0CBE4B
 OverworldMap32_Screen8A_High:
 {
-    incbin "bin/ow/screen8A-h.bin" ; size: 0x00BA
+    incbin "bin/ow/screen8A-h.bin" ; Size: 0x00BA
 }
 
 ; $063F05-$063FD6 DATA
 ;org $0CBF05
 OverworldMap32_Screen8A_Low: 
 {
-    incbin "bin/ow/screen8A-l.bin" ; size: 0x00D2
+    incbin "bin/ow/screen8A-l.bin" ; Size: 0x00D2
 }
 
 ; $063FD7-$063FDD DATA
 ;org $0CBFD7
 OverworldMap32_Screen96_High:
 {
-    incbin "bin/ow/screen96-h.bin" ; size: 0x0007
+    incbin "bin/ow/screen96-h.bin" ; Size: 0x0007
 }
 
 ; $063FDE-$063FF9 DATA
 ;org $0CBFDE
 OverworldMap32_Screen96_Low: 
 {
-    incbin "bin/ow/screen96-l.bin" ; size: 0x001C
+    incbin "bin/ow/screen96-l.bin" ; Size: 0x001C
 }
 
 ; $063FFA-$064043 DATA
 ;org $0CBFFA
 OverworldMap32_Screen95_High:
 {
-    incbin "bin/ow/screen95-h.bin" ; size: 0x004A
+    incbin "bin/ow/screen95-h.bin" ; Size: 0x004A
 }
 
 ; $064044-$0640AB DATA
 ;org $0CC044
 OverworldMap32_Screen95_Low: 
 {
-    incbin "bin/ow/screen95-l.bin" ; size: 0x0068
+    incbin "bin/ow/screen95-l.bin" ; Size: 0x0068
 }
 
 ; $0640AC-$0640AF DATA
 ;org $0CC0AC
 OverworldMap32_Screen9C_High:
 {
-    incbin "bin/ow/screen9C-h.bin" ; size: 0x0004
+    incbin "bin/ow/screen9C-h.bin" ; Size: 0x0004
 }
 
 ; $0640B0-$0640B3 DATA
 ;org $0CC0B0
 OverworldMap32_Screen9C_Low: 
 {
-    incbin "bin/ow/screen9C-l.bin" ; size: 0x0004
+    incbin "bin/ow/screen9C-l.bin" ; Size: 0x0004
 }
 
 ; $0640B4-$0640B7 DATA
 ;org $0CC0B4
 OverworldMap32_Screen88_High:
 {
-    incbin "bin/ow/screen88-h.bin" ; size: 0x0004
+    incbin "bin/ow/screen88-h.bin" ; Size: 0x0004
 }
 
 ; $0640B8-$06410A DATA
 ;org $0CC0B8
 OverworldMap32_Screen88_Low: 
 {
-    incbin "bin/ow/screen88-l.bin" ; size: 0x0054
+    incbin "bin/ow/screen88-l.bin" ; Size: 0x0054
 }
 
 ; ==============================================================================
@@ -630,18 +633,18 @@ Module_Intro:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl Intro_Init          ; $06415D Blank Screen
-    dl Intro_Init_justLogo ; $064170 -Nintendo presents-
-    dl Intro_InitGfx       ; $06433C Sets up myriad graphics settings
-    dl Intro_HandleAllTriforceAnimations ; $0CC404 Copyright Nintendo 1992
-    dl Intro_HandleAllTriforceAnimations ; $0CC404 Triforces swooping in.
-    dl $0CC25C             ; $06425C "Zelda" logo fade in.
-    dl $0CC2AE             ; $0642AE Sword coming down...
-    dl $0CC284             ; $064284 Fades in bg, Zelda Symbol is sparkling, looking pretty.
-    dl $0CC2D4             ; $0642D4 Wait to see if the player does anything.
-    dl Intro_HandleAllTriforceAnimations ; $0CC404 This one and the next 2 are unused.
-    dl Intro_InitGfx       ; $06433C
-    dl Intro_HandleAllTriforceAnimations ; $0CC404
+    dl Intro_Init                        ; 0x00 - $0CC15D Blank Screen
+    dl Intro_Init_justLogo               ; 0x01 - $0CC170 -Nintendo presents-
+    dl Intro_InitGfx                     ; 0x02 - $0CC33C Sets up myriad graphics settings
+    dl Intro_HandleAllTriforceAnimations ; 0x03 - $0CC404 Copyright Nintendo 1992
+    dl Intro_HandleAllTriforceAnimations ; 0x04 - $0CC404 Triforces swooping in.
+    dl Intro_FadeLogoIn                  ; 0x05 - $0CC25C "Zelda" logo fade in.
+    dl Intro_SwordStab                   ; 0x06 - $0CC2AE Sword coming down...
+    dl Intro_PopSubtitleCard             ; 0x07 - $0CC284 Fades in bg, Zelda Symbol is sparkling, looking pretty.
+    dl Intro_TrianglesBeforeAttract      ; 0x08 - $0CC2D4 Wait to see if the player does anything.
+    dl Intro_HandleAllTriforceAnimations ; 0x09 - $0CC404 This one and the next 2 are unused.
+    dl Intro_InitGfx                     ; 0x0A - $0CC33C
+    dl Intro_HandleAllTriforceAnimations ; 0x0B - $0CC404
 }
 
 ; ==============================================================================
@@ -670,7 +673,7 @@ Intro_Init:
     .justLogo
     
     ; $066D82, sets up sprite information for the N-logo.
-    ; (OAM buffer is refreshed every frame, so this must be repeatedly called)
+    ; (OAM buffer is refreshed every frame, so this must be repeatedly called.)
     JSR Intro_DisplayNintendoLogo
     
     ; As long as $B0 is less than 0xB, no branch occurs.
@@ -678,26 +681,25 @@ Intro_Init:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_InitWram
-    dl Intro_LoadTextPointersAndPalettes
-    dl $00D231 ; = $005231
-    dl Tagalong_LoadGfx
+    dl Intro_InitWram                    ; 0x00 - $0CC1A0
+    dl Intro_InitWram                    ; 0x01 - $0CC1A0
+    dl Intro_InitWram                    ; 0x02 - $0CC1A0
+    dl Intro_InitWram                    ; 0x03 - $0CC1A0
+    dl Intro_InitWram                    ; 0x04 - $0CC1A0
+    dl Intro_InitWram                    ; 0x05 - $0CC1A0
+    dl Intro_InitWram                    ; 0x06 - $0CC1A0
+    dl Intro_InitWram                    ; 0x07 - $0CC1A0
+    dl Intro_LoadTextPointersAndPalettes ; 0x08 - $028116
+    dl LoadItemGFXIntoWRAM4BPPBuffer     ; 0x09 - $00D231
+    dl Tagalong_LoadGfx                  ; 0x0A - $00D423
 }
 
 ; ==============================================================================
 
+; Zerores out a 0x400 byte chunk of wram.
 ; $0641A0-$0641F4 JUMP LOCATION
 Intro_InitWram:
 {
-    ; Zerores out a 0x400 byte chunk of wram.
-    
     REP #$30
     
     ; $C8 is the Upper Bound, $CA stores the Lower Bound.
@@ -707,7 +709,7 @@ Intro_InitWram:
     
     .zeroLoop
     
-        ; Erases $7E0000-$7FFFF (all work ram)
+        ; Erases $7E0000-$7FFFF (all work ram).
         STA.l $7E2000, X : STA.l $7E4000, X
         STA.l $7E6000, X : STA.l $7E8000, X
         STA.l $7EA000, X : STA.l $7EC000, X
@@ -893,8 +895,8 @@ Intro_TrianglesBeforeAttract:
     JSR.w Intro_InitLogoSword_HandleLogoSword
     
     DEC.b $B0 : BNE .BRANCH_1
-        ; Note that this instruction does nothing since
-        ; $11 is zeroed out a few lines down. programmers aren't perfect!
+        ; Note that this instruction does nothing since $11 is zeroed out a few
+        ; lines down. programmers aren't perfect!
         INC.b $11
         
         ; Change to mode 0x14.
@@ -1117,12 +1119,12 @@ Intro_AnimateTriforceDanceMoves:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $C45B ; = $06445B
-    dw $C47B ; = $06447B
-    dw $C4BA ; = $0644BA
-    dw $C4D6 ; = $0644D6
-    dw $C500 ; = $064500
-    dw $C533 ; = $064533 (Empty unimplemented step - RTS)
+    dw Intro_TriforceTinyDancers   ; 0x00 - $C45B
+    dw Intro_TriforceSpinInwards   ; 0x01 - $C47B
+    dw Intro_TriforceNearingMerge  ; 0x02 - $C4BA
+    dw Intro_MergeTriforceSpin     ; 0x03 - $C4D6
+    dw Intro_TriforceTerminateSpin ; 0x04 - $C500
+    dw Intro_TriforceDoNothing     ; 0x05 - $C533
 }
 
 ; $06445B-$06447A JUMP LOCATION
@@ -1248,9 +1250,6 @@ Intro_TriforceTerminateSpin:
 ; $064533-$064533 JUMP LOCATION
 Intro_TriforceDoNothing:
 {
-    ; Empty step ... put here for a purpose probably though
-    ; from what I can tell. I think this does get executed,
-    ; contrary to what one might think by looking at the previous step.
     RTS
 }
 
@@ -1261,10 +1260,11 @@ Scene_AnimateSingleSprite:
         JSL UseImplicitRegIndexedLocalJumpTable
         
         ; Jump table
-        dw .exit ; = $064543
-        dw $C544 ; = $064544
-        dw $C55B ; = $06455B
+        dw .exit                 ; 0x00 - $C543
+        dw InitializeSceneSprite ; 0x01 - $C544
+        dw AnimateSceneSprite    ; 0x02 - $C55B
     
+    ; $064543 ALTERNATE ENTRY POINT
     .exit
     
     RTS
@@ -1277,14 +1277,14 @@ InitializeSceneSprite:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $C57E ; = $06457E
-    dw $C84F ; = $06484F
-    dw $C850 ; = $064850
-    dw $C8E2 ; = $0648E2
-    dw $CBE8 ; = $064BE8
-    dw $CBE8 ; = $064BE8
-    dw $CBE8 ; = $064BE8
-    dw $CD19 ; = $064D19
+    dw InitializeSceneSprite_Triangle             ; 0x00 - $C57E
+    dw SceneSprite_TitleCard                      ; 0x01 - $C84F
+    dw InitializeSceneSprite_Copyright            ; 0x02 - $C850
+    dw InitializeSceneSprite_Sparkle              ; 0x03 - $C8E2
+    dw InitializeSceneSprite_TriforceRoomTriangle ; 0x04 - $CBE8
+    dw InitializeSceneSprite_TriforceRoomTriangle ; 0x05 - $CBE8
+    dw InitializeSceneSprite_TriforceRoomTriangle ; 0x06 - $CBE8
+    dw InitializeSceneSprite_CreditsTriangle      ; 0x07 - $CD19
 }
 
 ; $06455B-$064571 JUMP LOCATION
@@ -1294,14 +1294,14 @@ AnimateSceneSprite:
     
     JSR UseImplicitRegIndexedLocalJumpTable
     
-    dw $C5B1 ; = $0645B1
-    dw $C84F ; = $06484F
-    dw $C864 ; = $064864
-    dw $C90D ; = $06490D
-    dw $CC13 ; = $064C13
-    dw $CC13 ; = $064C13
-    dw $CC13 ; = $064C13
-    dw $CD3E ; = $064D3E
+    dw AnimateSceneSprite_Triangle             ; 0x00 - $C5B1
+    dw SceneSprite_TitleCard                   ; 0x01 - $C84F
+    dw AnimateSceneSprite_Copyright            ; 0x02 - $C864
+    dw AnimateSceneSprite_Sparkle              ; 0x03 - $C90D
+    dw AnimateSceneSprite_TriforceRoomTriangle ; 0x04 - $CC13
+    dw AnimateSceneSprite_TriforceRoomTriangle ; 0x05 - $CC13
+    dw AnimateSceneSprite_TriforceRoomTriangle ; 0x06 - $CC13
+    dw AnimateSceneSprite_CreditsTriangle      ; 0x07 - $CD3E
 }
 
 ; $064572-$06457D DATA
@@ -1778,7 +1778,7 @@ TriforceRoom_PrepGFXSlotForPoly:
 {
     LDA.b #$08 : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong ; $006384
+    JSL Graphics_LoadCommonSprLong
     JSR.w TriforceInitializePolyhedralModul
     
     LDA.b #$01 : STA.w $1E10 : STA.w $1E11 : STA.w $1E12
@@ -1800,7 +1800,7 @@ Credits_InitializePolyhedral:
 {
     LDA.b #$08 : STA.w $0AA4
     
-    JSL Graphics_LoadCommonSprLong ; $006384
+    JSL Graphics_LoadCommonSprLong
 
     ; MAKES SURE THE TRIFORCES ARE SET UP.
     JSR.w TriforceInitializePolyhedralModul
@@ -1865,11 +1865,11 @@ AdvancePolyhedral_run_sub:
     
     JSL UseImplicitRegIndexedLocalJumpTable
     
-    dw $CAE9 ; $064AE9
-    dw $CAFE ; $064AFE
-    dw $CB1F ; $064B1F
-    dw $CB84 ; $064B84
-    dw $CBA1 ; $064BA1
+    dw IntroPolyhedral_StartUp                ; 0x00 - $CAE9
+    dw IntroPolyhedral_StartUp_MoveGrowRotate ; 0x01 - $CAFE
+    dw IntroPolyhedral_MoveRotate             ; 0x02 - $CB1F
+    dw IntroPolyhedral_LockIntoPlace          ; 0x03 - $CB84
+    dw IntroPolyhedral_LockIntoPlace_exit     ; 0x04 - $CBA1
 }
 
 ; ==============================================================================
@@ -1959,18 +1959,17 @@ IntroPolyhedral_LockIntoPlace:
 {
     DEC.w $1E01
     
-    LDA.w $1E01 : BNE .alpha
+    LDA.w $1E01 : BNE .exit
         LDA.l $0CC433 : STA.l $7EC6AE
         LDA.l $0CC434 : STA.l $7EC6AF
         
         INC.b $15
         
         INC.w $1E00
-    
-    .alpha
-    
+
     ; $064BA1 ALTERNATE ENTRY POINT
-    
+    .exit
+
     RTS
 }
 
@@ -2379,7 +2378,7 @@ AnimateSceneSprite_CreditsTriangle:
 
 ; ==============================================================================
 
-; $064D70-$064D787 DATA
+; $064D70-$064D77 DATA
 UNREACHABLE_0CCD70:
 {
     ; Unused
@@ -2469,6 +2468,7 @@ FileSelect_ReInitSaveFlagsAndEraseTriforce:
         STZ.b $BF, X ; Zero out $BF - $C4.
     DEX : BPL .zeroLoop
     
+    ; Sets up palettes and other things.
     ; $064DF9 ALTERNATE ENTRY POINT
     .EraseTriforce
     
@@ -2522,13 +2522,13 @@ FileSelect_UploadLinoleum:
     
         ; This will be zero when the loop begins.
         ; Y can end up as 0x00 or 0x02.
-        LDA.b $00 : PHA : AND.w #$0020 : LSR #4; TAY; 
+        LDA.b $00 : PHA : AND.w #$0020 : LSR #4 ; TAY
         
         ; $064E17, A = 0xCE0F OR 0xCE13
         LDA.w Pool_FileSelect_UploadLinoleum_pointers, Y : STA.b $02
         
         ; A is Odd or Even?
-        ; i.e. 0x00 if even or 0x02 if odd.
+        ; I.e. 0x00 if even or 0x02 if odd.
         PLA : AND.w #$0001 : ASL A : TAY
         
         ; Notice in this function that $00 ranges over 0x0 - 0x3FF.
@@ -2561,7 +2561,7 @@ FileSelect_UploadFancyBackground:
     .loop
     
         ; Addresses $1806 - $18E5 are written.
-        LDA.w $E1C8, Y : STA.w $1806, Y
+        LDA.w FancyBackgroundTileMap, Y : STA.w $1806, Y
         
         ; Notice that X is increasing but has nothing to do with the loop.
         INX #2
@@ -2606,7 +2606,7 @@ FileSelect_UploadFancyBackground:
     
     INC.b $11 ; Increment the submodule index.
     
-    JMP.w $D09C ; $06509C
+    JMP.w FileSelect_TriggerTheStripes
 }
 
 ; ==============================================================================
@@ -2628,7 +2628,7 @@ FileSelect_TriggerStripesAndAdvance:
 ; $064EB1-$064EBC
 FileSelect_TriggerNameStripesAndAdvance:
 {
-    JSR.w $CEC7 ; $064EC7
+    JSR.w FileSelect_SetUpNamesStripes
         
     LDA.b #$0F : STA.b $13
         
@@ -2639,15 +2639,17 @@ FileSelect_TriggerNameStripesAndAdvance:
 
 ; ==============================================================================
 
+; Module 0x01.0x05
 ; $064EBD-$064EC6 JUMP LOCATION
 FileSelect_Main:
 {
-    ; Module 0x01.0x05
-    
     PHB : PHK : PLB
     
-    JSL.l $0CCEDC ; ($064EDC) Main logic for the select screen.
-    JMP.w $D09C   ; ($06509C) Sets the tile map update flag and exits.
+    ; Main logic for the select screen.
+    JSL $0CCEDC ; ($064EDC)
+
+    ; Sets the tile map update flag and exits.
+    JMP.w FileSelect_TriggerTheStripes
 }
 
 ; ==============================================================================
@@ -2664,7 +2666,7 @@ FileSelect_SetUpNamesStripes:
     .BRANCH_1
     
         ; Write from $1001 to $10FE.
-        LDA.w $E358, X : STA.w $1001, X
+        LDA.w FileSelectNamesTilemap-1, X : STA.w $1001, X
     DEX : BNE .BRANCH_1
     
     SEP #$10
@@ -2676,12 +2678,10 @@ FileSelect_SetUpNamesStripes:
 
 ; ==============================================================================
 
+; This routine handles input on the select screen, changing it appropriately.
 ; $064EDC-$065052 JUMP LOCATION
 FileSelect_HandleInput:
 {
-    ; This routine handles input on the select screen, changing it
-    ; appropriately.
-    
     ; The menu index on the select screen (0-2 save files,
     ; 3 - copy player, 4 - erase player).
     LDA.b $C8 : CMP.b #$03 : BCS .notSaveFile
@@ -2697,7 +2697,7 @@ FileSelect_HandleInput:
     
         STX.b $00
         
-        ; $048C, X; It holds the SRAM offsets. 
+        ; $048C, X; It holds the SRAM offsets.
         ; X = #$0, #$500, #$A00
         LDA.l $00848C, X : TAX
         
@@ -2717,15 +2717,15 @@ FileSelect_HandleInput:
         PHX ; Save the SRAM offset.
         
         ; Set OAM for Link's shield and sword (mainly).
-        JSR.w $D6AF ; $0656AF
+        JSR.w FileSelect_DrawLink
         
         ; Set number of deaths OAM.
-        JSR.w $D7DB ; $0657DB
+        JSR.w FileSelect_DrawDeaths
         
         PLX ; Restore the SRAM offset.
         
         ; Draw hearts and player's name for this file.
-        JSR.w $D63C ; $06563C
+        JSR.w FileSelect_CopyNameToStripes
         
         .invalidSaveFile
     ; If there's more files to look at, go back to .BRANCH_2.
@@ -2739,7 +2739,7 @@ FileSelect_HandleInput:
     LDA.b #$1C : STA.b $00
     
     ; Tells us what height the "fairy" selector should be at.
-    LDA.w $CD78, X : STA.b $01
+    LDA.w FileSelect_FairyY, X : STA.b $01
     
     ; Animates the fairy icon.
     JSR SelectFile_DrawFairy
@@ -2862,6 +2862,8 @@ FileSelect_HandleInput:
     LDA.b #$00 : STA.l $001AC0, X : STA.l $001AE0, X
     LDA.b #$00 : STA.l $001AB0, X : STA.l $001AD0, X : STA.l $001AF0, X
     
+    ; Change the bank to $7E so that we can use "STA.w ZZ, Y" and so we don't
+    ; have to make a bunch of long SRM writes later.
     PHB : LDA.b #$7E : PHA : PLB
     
     REP #$30
@@ -2880,7 +2882,8 @@ FileSelect_HandleInput:
         
         INX #2
     INY #2 : CPY.w #$0100 : BNE .sramLoadLoop
-    
+
+    ; Restore the previous bank.
     PLB
     
     LDA.w #$0007 : STA.l $7EC00D : STA.l $7EC013
@@ -2915,23 +2918,26 @@ Module_CopyFile:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl $0CCDF9 ; = $064DF9 ; Sets up palettes and other things.
-    dl FileSelect_ReInitSaveFlagsAndEraseTriforce ; $0CCE53
-    dl $0CD06E ; = $06506E
-    dl $0CD087 ; = $065087
-    dl $0CD0A2 ; = $0650A2
-    dl $0CD0B9 ; = $0650B9
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce ; 0x00 - $0CCDF9
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce               ; 0x01 - $0CCE53
+    dl CopyFile_FindFileIndices                                 ; 0x02 - $0CD06E
+    dl CopyFile_ChooseSelection                                 ; 0x03 - $0CD087
+    dl CopyFile_ChooseTarget                                    ; 0x04 - $0CD0A2
+    dl CopyFile_ConfirmSelection                                ; 0x05 - $0CD0B9
 }
 
-; $06506E-$065086 JUMP LOCATION
+; $06506E-$06506F JUMP LOCATION
 CopyFile_FindFileIndices:
 {
     LDA.b #$07
+
+    ; Bleeds into the next function.
+}
     
-    ; $065070 ALTERNATE ENTRY POINT
-    .KILLFile_FindFileIndices
-    
-    JSR.w $C52E ; $06452E
+; $065070-$065086 JUMP LOCATION
+KILLFile_FindFileIndices:
+{
+    JSR.w Intro_TriforceTerminateSpin_doTilemapUpdate
     
     LDA.b #$0F : STA.b $13
     
@@ -2951,39 +2957,43 @@ CopyFile_FindFileIndices:
 
 ; ==============================================================================
 
-; $065087-$0650B8 JUMP LOCATION
+; $065087-$06509B JUMP LOCATION
 CopyFile_ChooseSelection:
 {
     PHB : PHK : PLB
     
-    JSR.w $D13F ; $06513F
+    JSR.w CopyFile_SelectionAndBlinker
     
     LDA.b $11 : CMP.b #$03 : BNE .BRANCH_1
         LDA.b $1A : AND.b #$30 : BNE .BRANCH_1
-            JSR.w $D0C6 ; $0650C6
+            JSR.w FilePicker_DeleteHeaderStripe
     
     .BRANCH_1
 
-    ; $06509C ALTERNATE ENTRY POINT
-    .FileSelect_TriggerTheStripes
-    
+    ; Bleeds into the next function
+}
+
+; $06509C-$0650A1 JUMP LOCATION
+FileSelect_TriggerTheStripes:
+{
     ; Indicates to the NMI routine that the tilemap needs updating.
     LDA.b #$01 : STA.b $14
     
     PLB
     
     RTL
-    
-    ; $0650A2 ALTERNATE ENTRY POINT
-    .CopyFile_ChooseTarget
-    
+}
+
+; $0650A2-$0650B8 JUMP LOCATION
+CopyFile_ChooseTarget:
+{
     PHB : PHK : PLB
     
-    JSR.w $D27B ; $06527B
+    JSR.w CopyFile_TargetSelectionAndBlink
     
     LDA.b $11 : CMP.b #$04 : BNE .BRANCH_2
         LDA.b $1A : AND.b #$30 : BNE .BRANCH_1
-            JSR.w $D0C6 ; $0650C6
+            JSR.w FilePicker_DeleteHeaderStripe
     
     .BRANCH_2
     
@@ -2997,8 +3007,8 @@ CopyFile_ConfirmSelection:
 {
     PHB : PHK : PLB
     
-    JSR.w $D371 ; $065371
-    JMP.w $D09C ; $06509C
+    JSR.w CopyFile_HandleConfirmation
+    JMP.w FileSelect_TriggerTheStripes
 }
 
 ; ==============================================================================
@@ -3023,7 +3033,7 @@ FilePicker_DeleteHeaderStripe:
     
         LDY.w #$000B : STY.b $00
         
-        LDY.w $D0C2, X
+        LDY.w Pool_FilePicker_DeleteHeaderStripe_offsets, X
         
         .BRANCH_2
         
@@ -3097,7 +3107,7 @@ CopyFile_CopyToMenuStripe:
     dw $5C12, $0100 ; VRAM $24B8 | 2 bytes | Horizontal
     dw $3594
 
-    db $FF ; end of stripes data
+    db $FF ; End of stripes data
 }
 
 ; $065137-$065138 DATA
@@ -3117,7 +3127,7 @@ CopyFile_NameStripeBufferOffset:
 
 ; ==============================================================================
 
-; $06513F-$065239 LOCAL JUMP LOCATION
+; $06513F-$06522C LOCAL JUMP LOCATION
 CopyFile_SelectionAndBlinker:
 {
     REP #$10
@@ -3126,7 +3136,7 @@ CopyFile_SelectionAndBlinker:
     
     .BRANCH_1
     
-        LDA.w $E68D, X : STA.w $1002, X
+        LDA.w CopyFile_HeaderStripe, X : STA.w $1002, X
     DEX : BPL .BRANCH_1
     
     REP #$20
@@ -3144,7 +3154,7 @@ CopyFile_SelectionAndBlinker:
             
             TAX
             
-            LDA.w $D139, Y : TAY
+            LDA.w CopyFile_NameStripeBufferOffset, Y : TAY
             
             LDA.w #$0006 : STA.b $02
             
@@ -3165,13 +3175,13 @@ CopyFile_SelectionAndBlinker:
     
     LDX.b $C8
     
-    LDA.w $D0E6, X : STA.b $00
-    LDA.w $D0EA, X : STA.b $01
+    LDA.w CopyFile_FairyIndent, X : STA.b $00
+    LDA.w CopyFile_FairyHeight, X : STA.b $01
     
     JSR SelectFile_DrawFairy
     
     LDA.b $F6 : AND.b #$C0 : ORA.b $F4 : AND.b #$FC : BNE .BRANCH_5
-        BRL .BRANCH_17
+        BRL ReturnToFileSelect_exit
     
     .BRANCH_5
     
@@ -3215,7 +3225,7 @@ CopyFile_SelectionAndBlinker:
         
         STX.b $C8
         
-        BRA .BRANCH_17
+        BRA ReturnToFileSelect_exit
     
     .BRANCH_12
     
@@ -3223,7 +3233,7 @@ CopyFile_SelectionAndBlinker:
     LDA.b #$2C : STA.w $012E
     
     ; $C8 Indexes your selection so far.
-    ; i.e. They chose the quit option. #$0-2 are the save games.
+    ; I.e. They chose the quit option. #$0-2 are the save games.
     LDA.b $C8 : CPX.b #$03 : BEQ .BRANCH_15
     
         ; So if they didn't choose to quit... they must have chosen a game
@@ -3237,14 +3247,13 @@ CopyFile_SelectionAndBlinker:
         
         .BRANCH_13
         
-            ; $0650ED
-            LDA.w $D0ED, X : STA.w $1035, X
+            LDA.w CopyFile_FairyHeight, X : STA.w $1035, X
         DEX : BNE .BRANCH_13
         
         ; Tell me what menu item they really picked...
         LDX.b $C8 : CPX.b #$02 : BEQ .BRANCH_14
             ; If not, then look up a value...
-            LDA.w $D137, X : TAX
+            LDA.w CopyFile_TargetStripeOffsetAdjuster, X : TAX
             
             LDA.b #$6C : STA.w $1036, X : STA.w $103C, X
             
@@ -3254,10 +3263,16 @@ CopyFile_SelectionAndBlinker:
         
         INC.b $11
         
-        BRA .BRANCH_16
-    ; $06522D ALTERNATE ENTRY POINT
-    .BRANCH_15
+        BRA ReturnToFileSelect_reset_cursor
     
+    .BRANCH_15
+
+    ; Bleeds into the next function.
+}
+
+; $06522D-$065239 LOCAL JUMP LOCATION
+ReturnToFileSelect:
+{
     ; This means the mode will change to select screen mode.
     LDA.b #$01 : STA.b $10
     ; And the submodule will be the second (#$01) one.
@@ -3265,13 +3280,66 @@ CopyFile_SelectionAndBlinker:
     
     STZ.b $B0 ; Reset the sub-index of the submodule as well.
     
-    .BRANCH_16
+    .reset_cursor
     
     STZ.b $C8 ; Reset the menu marker too.
     
-    .BRANCH_17
+    .exit
     
     RTS
+}
+
+; ==============================================================================
+
+; $06523A-$06526A DATA
+CopyFile_ConfirmationStripes:
+{
+    dw $B461, $0E40 ; VRAM $C368 | 16 bytes | Fixed horizontal
+    dw $00A9
+
+    dw $D461, $0E40 ; VRAM $C3A8 | 16 bytes | Fixed horizontal
+    dw $00A9
+
+    dw $C662, $0D00 ; VRAM $C58C | 14 bytes | Horizontal
+    dw $1802, $180E, $180F, $1828, $18A9, $180E, $180A
+
+    dw $E662, $0D00 ; VRAM $C5CC | 14 bytes | Horizontal
+    dw $1812, $181E, $181F, $1838, $18A9, $181E, $181A
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $06526B-$06526D DATA
+CopyFile_TargetFairyX:
+{
+    db $8C ; 1
+    db $8C ; 2
+    db $1C ; Exit
+}
+
+; $06526E-$065270 DATA
+CopyFile_TargetFairyY:
+{
+    db $67 ; 1
+    db $7F ; 2
+    db $BF ; Exit
+}
+
+; $065271-$065274 DATA
+CopyFile_BufferOffset:
+{
+    dw $0038
+    dw $0060
+}
+
+; $065275-$06527A DATA
+CopyFile_TargetNumerals:
+{
+    dw $18E7 ; 1
+    dw $18E8 ; 2
+    dw $18E9 ; 3
 }
 
 ; ==============================================================================
@@ -3296,7 +3364,7 @@ CopyFile_TargetSelectionAndBlink:
     
     .BRANCH_3
     
-        LDA.w $E73A, X : STA.w $1002, X
+        LDA.w CopyFile_TargetHeaderStripes, X : STA.w $1002, X
     DEX : BPL .BRANCH_3
     
     REP #$20
@@ -3306,11 +3374,11 @@ CopyFile_TargetSelectionAndBlink:
     .BRANCH_4
     
         STX.b $00 : CPX.b $CC : BEQ .BRANCH_6
-            LDY.b $04 : LDA.w $D271, Y : TAY
+            LDY.b $04 : LDA.w CopyFile_BufferOffset, Y : TAY
             
             INC.b $04 : INC.b $04
             
-            LDA.w $D275, X  : STA.w $1002, Y
+            LDA.w CopyFile_TargetNumerals, X  : STA.w $1002, Y
             CLC : ADC.w #$0010 : STA.w $1016, Y
             
             LDA.b $BF, X : BEQ .BRANCH_6
@@ -3336,9 +3404,9 @@ CopyFile_TargetSelectionAndBlink:
     
     SEP #$30
     
-    LDX.b $C8 : LDA.w $D26B, X : STA.b $00
+    LDX.b $C8 : LDA.w CopyFile_TargetFairyX, X : STA.b $00
     
-    LDA.w $D26E, X : STA.b $01
+    LDA.w CopyFile_TargetFairyY, X : STA.b $01
     
     JSR SelectFile_DrawFairy
     
@@ -3375,7 +3443,7 @@ CopyFile_TargetSelectionAndBlink:
             .BRANCH_10
             
                 ; Write out "copy ok?".
-                LDA.w $D23A, X : STA.w $1036, X
+                LDA.w CopyFile_ConfirmationStripes, X : STA.w $1036, X
             DEX : BPL .BRANCH_10
             
             LDA.b $C8 : BNE .BRANCH_11
@@ -3392,7 +3460,7 @@ CopyFile_TargetSelectionAndBlink:
         
         .BRANCH_12
         
-        JSR.w $D22D ; $06522D
+        JSR.w ReturnToFileSelect
         
         .BRANCH_13
         
@@ -3419,7 +3487,7 @@ CopyFile_HandleConfirmation:
     LDX.b $C8
     
     LDA.b #$1C   : STA.b $00
-    LDA.w $D36F, X : STA.b $01
+    LDA.w Pool_CopyFile_HandleConfirmation, X : STA.b $01
     
     JSR SelectFile_DrawFairy
     
@@ -3456,7 +3524,7 @@ CopyFile_HandleConfirmation:
             LDX.b $CA : LDA.l $00848C, X : TAY
             LDX.b $CC : LDA.l $00848C, X : TAX
             
-            JSR.w $D3DC ; $0653DC
+            JSR.w CopyFile_CopyData
             
             LDX.b $CA
             
@@ -3466,7 +3534,7 @@ CopyFile_HandleConfirmation:
         
         .BRANCH_3
         
-        JSR.w $D22D ; $06522D
+        JSR.w ReturnToFileSelect
         
         STZ.b $C8
     
@@ -3513,6 +3581,57 @@ CopyFile_CopyData:
 
 ; ==============================================================================
 
+; $065416-$065419 DATA
+KILLFile_FairyX:
+{
+    db $24 ; File 1
+    db $24 ; File 2
+    db $24 ; File 3
+    db $1C ; Exit
+}
+
+; $06541A-$06541D DATA
+KILLFile_FairyY:
+{
+    db $67 ; File 1
+    db $7F ; File 2
+    db $97 ; File 3
+    db $BF ; Exit
+}
+
+; ==============================================================================
+
+; $06541E-$065482 DATA
+KILL_OK_stripes:
+{
+    db $61,$A7,$40,$24,$A9,$00,$61,$C7
+    db $40,$24,$A9,$00,$62,$07,$40,$24
+    db $A9,$00,$62,$27,$40,$24,$A9,$00
+    db $62,$C6,$00,$21,$04,$18,$21,$18
+    db $00,$18,$22,$18,$04,$18,$A9,$18
+    db $23,$18,$07,$18,$AF,$18,$22,$18
+    db $A9,$18,$0F,$18,$0B,$18,$00,$18
+    db $28,$18,$04,$18,$21,$18,$62,$E6
+    db $00,$21,$14,$18,$31,$18,$10,$18
+    db $32,$18,$14,$18,$A9,$18,$33,$18
+    db $17,$18,$BF,$18,$32,$18,$A9,$18
+    db $1F,$18,$1B,$18,$10,$18,$38,$18
+    db $14,$18,$31,$18
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $065483-$065484 DATA
+KILL_OK_FileNameStripesAdjustment:
+{
+    db $00 ; File 1
+    db $0C ; File 2
+}
+
+; ==============================================================================
+
 ; Beginning of Module 3: Erase File Mode
 ; $065485-$065499 JUMP LOCATION
 Module_EraseFile:
@@ -3521,11 +3640,11 @@ Module_EraseFile:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl $0CCDF9 ; = $064DF9
-    dl FileSelect_ReInitSaveFlagsAndEraseTriforce ; $0CCE53
-    dl $0CD49A ; = $06549A
-    dl $0CD49F ; = $06549F
-    dl $0CD4B1 ; = $0654B1
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce ; 0x00 - $0CCDF9
+    dl FileSelect_ReInitSaveFlagsAndEraseTriforce               ; 0x01 - $0CD89C
+    dl KILLFile_SetUp                                           ; 0x02 - $0CD49A
+    dl KILLFile_HandleSelection                                 ; 0x03 - $0CD49F
+    dl KILLFile_HandleConfirmation                              ; 0x04 - $0CD4B1
 }
 
 ; $06549A-$06549E JUMP LOCATION
@@ -3533,7 +3652,7 @@ KILLFile_SetUp:
 {
     LDA.b #$08
     
-    JMP.w $D070 ; $065070
+    JMP.w KILLFile_FindFileIndices
 }
 
 ; $06549F-$0654B0 JUMP LOCATION
@@ -3542,13 +3661,12 @@ KILLFile_HandleSelection:
     PHB : PHK : PLB
     
     LDA.b $C8 : CMP.b #$03 : BCS .alpha
-    
-    STA.w $0B9D
+        STA.w $0B9D
     
     .alpha
     
-    JSR.w $D4BA ; $0654BA
-    JMP.w $D09C ; $06509C
+    JSR.w KILLFile_ChooseTarget
+    JMP.w FileSelect_TriggerTheStripes
 }
 
 ; ==============================================================================
@@ -3558,8 +3676,8 @@ KILLFile_HandleConfirmation:
 {
     PHB : PHK : PLB
     
-    JSR.w $D599 ; $065599
-    JMP.w $D09C ; $06509C
+    JSR.w KILLFile_VerifyDeletion
+    JMP.w FileSelect_TriggerTheStripes
 }
 
 ; ==============================================================================
@@ -3573,7 +3691,7 @@ KILLFile_ChooseTarget:
     
     .BRANCH_1
     
-        LDA.w $E53E, X : STA.w $1001, X
+        LDA.w KILLFile_BlankNameStripes-1, X : STA.w $1001, X
     DEX : BNE .BRANCH_1
     
     REP #$20
@@ -3587,7 +3705,7 @@ KILLFile_ChooseTarget:
         LDA.b $BF, X : AND.w #$0001 : BEQ .BRANCH_3
             LDA.l $00848C, X : TAX
             
-            JSR.w $D63C ; $6563C
+            JSR.w FileSelect_CopyNameToStripes
         
         .BRANCH_3
     LDX.b $00 : INX #2 : CPX.w #$0006 : BCC .BRANCH_2
@@ -3596,8 +3714,8 @@ KILLFile_ChooseTarget:
     
     LDX.b $C8
     
-    LDA.w $D416, X : STA.b $00
-    LDA.w $D41A, X : STA.b $01
+    LDA.w KILLFile_FairyX, X : STA.b $00
+    LDA.w KILLFile_FairyY, X : STA.b $01
     
     JSR SelectFile_DrawFairy
     
@@ -3659,14 +3777,14 @@ KILLFile_ChooseTarget:
             
             .BRANCH_10
             
-            LDA.w $D41E, X : STA.w $1002, X
+            LDA.w KILL_OK_stripes, X : STA.w $1002, X
             
             DEX : BPL .BRANCH_10
             
             INC.b $11
             
             LDX.b $C8 : CPX.b #$02 : BEQ .BRANCH_11
-                LDA.w $D483, X : TAX
+                LDA.w KILL_OK_FileNameStripesAdjustment, X : TAX
                 
                 LDA.b #$62 : STA.w $1002, X : STA.w $1008, X
                 
@@ -3685,7 +3803,7 @@ KILLFile_ChooseTarget:
         
         SEP #$30
         
-        JSR.w $D22D ; $06522D
+        JSR.w ReturnToFileSelect
     
     .BRANCH_13
     
@@ -3771,7 +3889,7 @@ KILLFile_VerifyDeletion:
         
         .BRANCH_5
         
-        JSR.w $D22D ; $06522D
+        JSR.w ReturnToFileSelect
         
         STZ.b $B0
     
@@ -3782,15 +3900,30 @@ KILLFile_VerifyDeletion:
 
 ; ==============================================================================
 
+; $065630-$06563C DATA
+Pool_FileSelect_CopyNameToStripes:
+{
+    ; $065630
+    .name_offset
+    dw $0008
+    dw $005C
+    dw $00B0
+
+    ; $065636
+    .hearts_offset
+    dw $0016
+    dw $006A
+    dw $00BE
+}
+
+; Draws both the Player's name and the hearts of that player to screen.
 ; $06563C-$065694 LOCAL JUMP LOCATION
 FileSelect_CopyNameToStripes:
 {
-    ; Draws both the Player's name and the hearts of that player to screen.
-    
     PHX
     
     ; Sets the position in the tilemap buffer to draw to.
-    LDY.b $00 : LDA.w $D630, Y : TAY
+    LDY.b $00 : LDA.w Pool_FileSelect_CopyNameToStripes_name_offset, Y : TAY
     
     LDA.w #$0006 : STA.b $02
     
@@ -3809,7 +3942,8 @@ FileSelect_CopyNameToStripes:
     
     LDY.w #$0001 : LDA.l $70036C, X : AND.w #$00FF : LSR #3 : STA.b $02
     
-    LDX.b $00 : LDY.w $D636, X : STY.b $04
+    LDX.b $00
+    LDY.w Pool_FileSelect_CopyNameToStripes_hearts_offset, X : STY.b $04 
     
     LDA.w #$0520 : LDX.w #$000A
     
@@ -3840,46 +3974,46 @@ Pool_FileSelect_DrawLink:
     ; $065698
     .offset_y
     db $34 ; IDK
-    db $43 ; file 1
-    db $63 ; file 2
-    db $83 ; file 3
+    db $43 ; File 1
+    db $63 ; File 2
+    db $83 ; File 3
 
     ; $06569C
     .oam_offset
-    db $28 ; file 1
-    db $3C ; file 2
-    db $50 ; file 3
+    db $28 ; File 1
+    db $3C ; File 2
+    db $50 ; File 3
 
     ; $06569F
     .sword_gfx
-    db $85 ; fighter sword
-    db $A1 ; master sword
-    db $A1 ; tempered sword
-    db $A1 ; gold sword
+    db $85 ; Fighter sword
+    db $A1 ; Master sword
+    db $A1 ; Tempered sword
+    db $A1 ; Gold sword
 
     ; $0656A3
     .shield_gfx
-    db $C4 ; fighter shield
-    db $CA ; fire shield
-    db $E0 ; mirror shield
+    db $C4 ; Fighter shield
+    db $CA ; Fire shield
+    db $E0 ; Mirror shield
 
     ; $0656A6
     .sword_props
-    db $72 ; file 1
-    db $76 ; file 2
-    db $7A ; file 3
+    db $72 ; File 1
+    db $76 ; File 2
+    db $7A ; File 3
 
     ; $0656A9
     .shield_props
-    db $32 ; file 1
-    db $36 ; file 2
-    db $3A ; file 3
+    db $32 ; File 1
+    db $36 ; File 2
+    db $3A ; File 3
 
     ; $0656AC
     .link_props
-    db $30 ; file 1
-    db $34 ; file 2
-    db $38 ; file 3
+    db $30 ; File 1
+    db $34 ; File 2
+    db $38 ; File 3
 }
 
 ; ==============================================================================
@@ -3902,15 +4036,15 @@ FileSelect_DrawLink:
     ; A = 0, 1, 2, or 3.
     LDA.b $00 : LSR A : TAY
     
-    ; $06569C that is. A -> #$28, #$3C, #$50 in Decimal 40, 60, 80.
-    LDA.w $D69C, Y : TAX
+    ; A -> #$28, #$3C, #$50 in Decimal 40, 60, 80.
+    LDA.w Pool_FileSelect_DrawLink_oam_offset, Y : TAX
     
     ; $D698 -> $65698 #$34 = 52
     ; A -> #$40 = 64
     ; Mirror to this location.
     LDA ($04) : CLC : ADC.b #$0C : STA.w $0800, X : STA.w $0804, X
     
-    ; i.e. from $D699, Y; A = 0x43, 0x63, or 0x83
+    ; I.e. from $D699, Y; A = 0x43, 0x63, or 0x83
     ; A = 0x3E, 0x5E, or 0x7E
     LDA ($02), Y : CLC : ADC.b #$FB : STA.w $0801, X
     
@@ -3919,7 +4053,8 @@ FileSelect_DrawLink:
     CLC : ADC.b #$08 : STA.w $0805, X
     
     ; A -> #$72, #$76, #$7A
-    LDA.w $D6A6, Y : STA.w $0803, X : STA.w $0807, X
+    LDA.w Pool_FileSelect_DrawLink_sword_props, Y
+    STA.w $0803, X : STA.w $0807, X
     
     PHY : PHX 
     
@@ -3948,7 +4083,7 @@ FileSelect_DrawLink:
     
     ; A -> #$85, #$A1, #$A1, #$A1 (#$85 is for the fighter sword shape).
     ; I guess this is where the sprite data for the sword is kept.
-    LDA.w $D69F, Y : STA.w $0802, X
+    LDA.w Pool_FileSelect_DrawLink_sword_gfx, Y : STA.w $0802, X
     
     ; Adding 0x10 gives you the lower part of the sword. (0x95 or 0xB1)
     ; So this is also tile data apparently.
@@ -3977,7 +4112,7 @@ FileSelect_DrawLink:
     LDA ($02), Y : CLC : ADC.b #$0A : STA.w $0801, X
     
     ; A -> #$32, #$36, #$3A
-    LDA.w $D6A9, Y : STA.w $0803, X
+    LDA.w Pool_FileSelect_DrawLink_shield_props, Y : STA.w $0803, X
     
     PHY : PHX
     
@@ -4003,7 +4138,7 @@ FileSelect_DrawLink:
     .hasShield
     
     ; Tells us which graphic to use for the shield.
-    LDA.w $D6A3, Y : STA.w $0802, X
+    LDA.w Pool_FileSelect_DrawLink_shield_gfx, Y : STA.w $0802, X
     
     ; We're back to Y = 0x0, 0x1, or 0x2.
     PLY
@@ -4021,7 +4156,7 @@ FileSelect_DrawLink:
     LDA.b #$00 : STA.w $0802, X
     LDA.b #$02 : STA.w $0806, X
     
-    LDA.w $D6AC, Y : STA.w $0803, X
+    LDA.w Pool_FileSelect_DrawLink_link_props, Y : STA.w $0803, X
     ORA.b #$40  : STA.w $0807, X
     
     LDA ($02), Y : STA.w $0801, X
@@ -4047,11 +4182,10 @@ Pool_SelectFile_DrawFairy:
 
 ; ==============================================================================
 
+; This routine animates the fairy on the select screen.
 ; $0657A5-$0657CA LOCAL JUMP LOCATION
 SelectFile_DrawFairy:
 {
-    ; This routine animates the fairy on the select screen.
-    
     LDA.b $00 : STA.w $0800
     LDA.b $01 : STA.w $0801
     
@@ -4072,11 +4206,44 @@ SelectFile_DrawFairy:
     LDA.b #$7E : STA.w $0803
     
     LDA.b #$02 : STA.w $0A20
+
+    ; TODO: Confirm this:
+    ; $0657CA ALTERNATE ENTRY POINT
+    .exit
     
     RTS
 }
 
 ; ==============================================================================
+
+; $0657CB-$0657DA DATA
+Pool_FileSelect_DrawDeaths:
+{
+    ; $0657CB
+    .digit_char
+    db $D0 ; 0
+    db $AC ; 1
+    db $AD ; 2
+    db $BC ; 3
+    db $BD ; 4
+    db $AE ; 5
+    db $AF ; 6
+    db $BE ; 7
+    db $BF ; 8
+    db $C0 ; 9
+
+    ; $0657D5
+    .buffer_offset
+    db $04 ; ..#
+    db $10 ; .#.
+    db $1C ; #..
+
+    ; $0657D8
+    .digit_position_x
+    db $0C ; ..#
+    db $04 ; .#.
+    db $FC ; #..
+}
 
 ; $0657DB-$065889 LOCAL JUMP LOCATION
 FileSelect_DrawDeaths:
@@ -4148,7 +4315,7 @@ FileSelect_DrawDeaths:
     
     LDA.b $00 : LSR A : TAY
     
-    LDA.w $D7D5, Y : TAY
+    LDA.w Pool_FileSelect_DrawDeaths_buffer_offset, Y : TAY
     
     .nextDigit
     
@@ -4157,7 +4324,7 @@ FileSelect_DrawDeaths:
         LDA.b $02, X : TAX
         
         ; Set the sprite CHR based on the digit value.
-        LDA.w $D7CB, X : STA.w $0802, Y
+        LDA.w Pool_FileSelect_DrawDeaths_digit_char, X : STA.w $0802, Y
         
         PHY
         
@@ -4167,7 +4334,7 @@ FileSelect_DrawDeaths:
         
         PLA : PHA : LSR A : TAX
         
-        LDA ($0A) : CLC : ADC.w $D7D8, X : STA.w $0800, Y
+        LDA ($0A) : CLC : ADC.w Pool_FileSelect_DrawDeaths_digit_position_x, X : STA.w $0800, Y
         LDA.b #$3C : STA.w $0803, Y
         
         PHY : TYA : LSR #2 : TAY
@@ -4197,16 +4364,16 @@ Module_NamePlayer:
     
     JSL UseImplicitRegIndexedLongJumpTable
     
-    dl $0CD89C ; = $06589C
-    dl $0CD911 ; = $065911
-    dl $0CD928 ; = $065928
-    dl $0CDA4D ; = $065A4D
+    dl NameFile_EraseSave         ; 0x00 - $0CD89C
+    dl NameFile_FillBackground    ; 0x01 - $0CD911
+    dl NameFile_MakeScreenVisible ; 0x02 - $0CD928
+    dl NameFile_DoTheNaming       ; 0x03 - $0CDA4D
 }
 
 ; $06589C-$065910 JUMP LOCATION
 NameFile_EraseSave:
 {
-    JSL.l $0CCDF9 ; $064DF9
+    JSL FileSelect_ReInitSaveFlagsAndEraseTriforce_EraseTriforce
     
     LDA.b #$01 : STA.w $0128
     
@@ -4281,7 +4448,7 @@ NameFile_FillBackground:
     
     LDA.b #$01
     
-    JSR.w $C52E ; $06452E
+    JSR.w Intro_TriforceTerminateSpin_doTilemapUpdate
     
     RTL
 }
@@ -4291,7 +4458,7 @@ NameFile_MakeScreenVisible:
 {
     LDA.b #$05
     
-    JSR.w $C52E ; $06452E
+    JSR.w Intro_TriforceTerminateSpin_doTilemapUpdate
     
     LDA.b #$0F : STA.b $13
     
@@ -4305,84 +4472,84 @@ Pool_NameFile:
 {
     ; $065935
     .CharacterLayout:
-    #_0CD935: db $06, $07, $5F, $09, $59, $59, $1A, $1B
-    #_0CD93D: db $1C, $1D, $1E, $1F, $20, $21, $60, $23
-    #_0CD945: db $59, $59, $76, $77, $78, $79, $7A, $59
-    #_0CD94D: db $59, $59, $00, $01, $02, $03, $04, $05
-    #_0CD955: db $10, $11, $12, $13, $59, $59, $24, $5F
-    #_0CD95D: db $26, $27, $28, $29, $2A, $2B, $2C, $2D
-    #_0CD965: db $59, $59, $7B, $7C, $7D, $7E, $7F, $59
-    #_0CD96D: db $59, $59, $0A, $0B, $0C, $0D, $0E, $0F
-    #_0CD975: db $40, $41, $42, $59, $59, $59, $2E, $2F
-    #_0CD97D: db $30, $31, $32, $33, $40, $41, $42, $59
-    #_0CD985: db $59, $59, $61, $3F, $45, $46, $59, $59
-    #_0CD98D: db $59, $59, $14, $15, $16, $17, $18, $19
-    #_0CD995: db $44, $59, $6F, $6F, $59, $59, $59, $59
-    #_0CD99D: db $59, $59, $59, $5A, $44, $59, $6F, $6F
-    #_0CD9A5: db $59, $59, $5A, $44, $59, $6F, $6F, $59
-    #_0CD9AD: db $59, $59, $59, $59, $59, $59, $59, $5A
+    db $06, $07, $5F, $09, $59, $59, $1A, $1B
+    db $1C, $1D, $1E, $1F, $20, $21, $60, $23
+    db $59, $59, $76, $77, $78, $79, $7A, $59
+    db $59, $59, $00, $01, $02, $03, $04, $05
+    db $10, $11, $12, $13, $59, $59, $24, $5F
+    db $26, $27, $28, $29, $2A, $2B, $2C, $2D
+    db $59, $59, $7B, $7C, $7D, $7E, $7F, $59
+    db $59, $59, $0A, $0B, $0C, $0D, $0E, $0F
+    db $40, $41, $42, $59, $59, $59, $2E, $2F
+    db $30, $31, $32, $33, $40, $41, $42, $59
+    db $59, $59, $61, $3F, $45, $46, $59, $59
+    db $59, $59, $14, $15, $16, $17, $18, $19
+    db $44, $59, $6F, $6F, $59, $59, $59, $59
+    db $59, $59, $59, $5A, $44, $59, $6F, $6F
+    db $59, $59, $5A, $44, $59, $6F, $6F, $59
+    db $59, $59, $59, $59, $59, $59, $59, $5A
 
 
     ; $0659B5
     .CursorPositionX:
-    #_0CD9B5: dw $01F0, $0000, $0010, $0020
-    #_0CD9BD: dw $0030, $0040, $0050, $0060
-    #_0CD9C5: dw $0070, $0080, $0090, $00A0
-    #_0CD9CD: dw $00B0, $00C0, $00D0, $00E0
-    #_0CD9D5: dw $00F0, $0100, $0110, $0120
-    #_0CD9DD: dw $0130, $0140, $0150, $0160
-    #_0CD9E5: dw $0170, $0180, $0190, $01A0
-    #_0CD9ED: dw $01B0, $01C0, $01D0, $01E0
+    dw $01F0, $0000, $0010, $0020
+    dw $0030, $0040, $0050, $0060
+    dw $0070, $0080, $0090, $00A0
+    dw $00B0, $00C0, $00D0, $00E0
+    dw $00F0, $0100, $0110, $0120
+    dw $0130, $0140, $0150, $0160
+    dw $0170, $0180, $0190, $01A0
+    dw $01B0, $01C0, $01D0, $01E0
 
     ; $0659F5
     .CursorIndexMovementX:
-    #_0CD9F5: dw $0001 ; Right
-    #_0CD9F7: dw $00FF ; Left
+    dw $0001 ; Right
+    dw $00FF ; Left
 
     ; $0659F9
     .CursorIndexBoundaryX:
-    #_0CD9F9: dw $0020 ; Right
-    #_0CD9FB: dw $00FF ; Left
+    dw $0020 ; Right
+    dw $00FF ; Left
 
     ; $0659FD
     .CursorIndexWrapX:
-    #_0CD9FD: dw $0000 ; Right
-    #_0CD9FF: dw $001F ; Left
+    dw $0000 ; Right
+    dw $001F ; Left
 
     ; $065A01
     .CursorPositionY:
-    #_0CDA01: db $83, $93, $A3, $B3
+    db $83, $93, $A3, $B3
 
     ; $065A05
     .CursorIndexMovementY:
-    #_0CDA05: db $01, $FF
+    db $01, $FF
 
     ; $065A07
     .CursorIndexBoundaryY:
-    #_0CDA07: db $04, $FF
+    db $04, $FF
 
     ; $065A09
     .CursorStickY:
-    #_0CDA09: db $00, $03
+    db $00, $03
 
     ; $065A0B
     .YtoXIndexOffset:
-    #_0CDA0B: dw $0000, $0020, $0040, $0060
+    dw $0000, $0020, $0040, $0060
 
 
     ; $065A13
     .HeartXPosition:
-    #_0CDA13: db $1F, $2F, $3F, $4F, $5F, $6F
+    db $1F, $2F, $3F, $4F, $5F, $6F
 
     ; $065A19
     .CursorMovement:
-    #_0CDA19: dw  -1,   1,  -1,   1
-    #_0CDA21: dw  -1,   1,  -1,   1
-    #_0CDA29: dw  -1,   1,  -1,   1
-    #_0CDA31: dw  -1,   1,  -1,   1
-    #_0CDA39: dw  -2,   2,  -2,   2
-    #_0CDA41: dw  -2,   2,  -2,   2
-    #_0CDA49: dw  -4,   4
+    dw  -1,   1,  -1,   1
+    dw  -1,   1,  -1,   1
+    dw  -1,   1,  -1,   1
+    dw  -1,   1,  -1,   1
+    dw  -2,   2,  -2,   2
+    dw  -2,   2,  -2,   2
+    dw  -4,   4
 }
 
 ; $065A4D-$065C8B JUMP LOCATION
@@ -4412,7 +4579,7 @@ NameFile_DoTheNaming:
         
             .BRANCH_3
         
-            JSR.w $DC8C ; $065C8C
+            JSR.w NameFile_CheckForScrollInputX
             
             BRA .BRANCH_1
         
@@ -4437,7 +4604,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_6
     
-    JSR.w $DC8C ; $065C8C
+    JSR.w NameFile_CheckForScrollInputX
     
     .BRANCH_7
     
@@ -4449,7 +4616,7 @@ NameFile_DoTheNaming:
         LDA.w $0B11 : CMP.l $0CDA01, X : BNE .BRANCH_8
             STZ.w $0B14
             
-            JSR.w $DCBF ; $065CBF
+            JSR.w NameFile_CheckForScrollInputY
             
             BRA .BRANCH_7
         
@@ -4466,7 +4633,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_10
     
-    JSR.w $DCBF ; $065CBF.
+    JSR.w NameFile_CheckForScrollInputY
     
     .BRANCH_11
     
@@ -4508,7 +4675,7 @@ NameFile_DoTheNaming:
     
     LDA.w $0B13 : ORA.w $0B14 : BNE .BRANCH_14
         LDA.b $F4 : AND.b #$10 : BEQ .BRANCH_13
-            JMP.w $DBB1 ; $065BB1
+            JMP.w NameFile_DoTheNaming_confirm_name
         
         .BRANCH_13
         
@@ -4517,7 +4684,7 @@ NameFile_DoTheNaming:
     
     .BRANCH_14
     
-    JMP.w $DBD9 ; $065BB9
+    JMP.w .exit
     
     .BRANCH_15
     
@@ -4578,7 +4745,7 @@ NameFile_DoTheNaming:
     
     LDA.b $00 : AND.w #$FFF0 : ASL A : ORA.b $02 : STA.l $7003D9, X
     
-    JSR.w $DD30 ; $065D30
+    JSR.w NameFile_DrawSelectedCharacter
     
     BRA .BRANCH_18
     
@@ -4592,9 +4759,6 @@ NameFile_DoTheNaming:
     .BRANCH_22
     
     LDA.w $0200 : CLC
-    
-    ; $065BB9 ALTERNATE ENTRY POINT
-    ; TODO: Find label for this.
     
     ADC.b $02 : TAX
     
@@ -4645,7 +4809,8 @@ NameFile_DoTheNaming:
         ; checking the game's own code to determine if the player 2 joypad is
         ; enabled interesting manuever, I must say.
         LDA.l $0083F8 : AND.w #$00FF : CMP.w #$0060 : BEQ .loadInitialEquipment
-            ; If the first letter of the player's name is not an uppercase 'B', no cheat code for you!
+            ; If the first letter of the player's name is not an uppercase 'B',
+            ; no cheat code for you!
             LDA.l $7003D9 : CMP.w #$0001 : BNE .loadInitialEquipment
                 ; If you've reached this section of code, it's a cheat code
                 ; designed to help playtest the game by giving you a headstart
@@ -4663,7 +4828,8 @@ NameFile_DoTheNaming:
                 ; Set the game mode to after saving Zelda.
                 LDA.w #$1502 : STA.l $7003C5, X
                 
-                ; Set map indicators on overworld and put Link starting in his house.
+                ; Set map indicators on overworld and put Link starting in his
+                ; house.
                 LDA.w #$0100 : STA.l $7003C7, X
                 
                 LDY.w #$0000
@@ -4671,7 +4837,7 @@ NameFile_DoTheNaming:
     .loadInitialEquipment
 
         ; Setup initial equipment and flags values.
-        LDA.w $F48A, Y : STA.l $700340, X
+        LDA.w DefaultSaveFileItems, Y : STA.l $700340, X
             
         INX #2
         INY #2
@@ -4696,13 +4862,17 @@ NameFile_DoTheNaming:
     
     SEP #$30
     
+    ; Reset the bank.
     PLB
     
-    JSR.w $D22D ; $06522D
+    JSR.w ReturnToFileSelect
     
     LDA.b #$FF : STA.w $0128
     
     LDA.b #$2C : STA.w $012E
+
+    ; $065BD9 ALTERNATE ENTRY POINT
+    .exit
     
     SEP #$30
     
@@ -4805,12 +4975,24 @@ NameFile_CheckForScrollInputY:
 
 ; ==============================================================================
 
+; $065D24-$065D2F DATA
+Pool_NameFile_DrawSelectedCharacter:
+{
+    ; .vram_position_low
+    dw $0084
+    dw $0086
+    dw $0088
+    dw $008A
+    dw $008C
+    dw $008E
+}
+
 ; $065D30-$065D6C LOCAL JUMP LOCATION
 NameFile_DrawSelectedCharacter:
 {
     PHB : PHK : PLB
     
-    LDA.w #$6100 : ORA.w $DD24, Y : XBA : STA.w $1002
+    LDA.w #$6100 : ORA.w Pool_NameFile_DrawSelectedCharacter, Y : XBA : STA.w $1002
     
     XBA : CLC : ADC.w #$0020 : XBA : STA.w $1008
     
@@ -4831,6 +5013,689 @@ NameFile_DrawSelectedCharacter:
     RTS
 }
 
+; ==============================================================================
+
+; $065D6D-$0661C7 DATA
+IntroLogoTilemap:
+{
+    dw $0B11, $1900 ; VRAM $2216 | 26 bytes | Horizontal
+    dw $1D68, $1D69, $1D6A, $1D6B, $1D5D, $1D5E, $1C30, $1C31
+    dw $1C32, $1C33, $1C34, $1C35, $1C36
+
+    dw $2B11, $1900 ; VRAM $2256 | 26 bytes | Horizontal
+    dw $1D78, $1D79, $1D7A, $1D7B, $1C37, $1C38, $1C39, $1C3A
+    dw $1C3B, $1C3C, $1C3D, $1C3E, $1C3F
+
+    dw $4611, $2500 ; VRAM $228C | 38 bytes | Horizontal
+    dw $18F7, $1900, $1901, $1902, $1903, $1904, $1905, $1905
+    dw $1906, $1905, $1907, $5907, $1905, $1908, $1909, $190A
+    dw $190B, $190C, $1CF0
+
+    dw $6611, $2300 ; VRAM $22CC | 36 bytes | Horizontal
+    dw $190D, $190E, $18F9, $390F, $1910, $1911, $1912, $1913
+    dw $1914, $1915, $18FA, $58FA, $1916, $1917, $1918, $18FB
+    dw $1919, $191A
+
+    dw $8611, $2300 ; VRAM $230C | 36 bytes | Horizontal
+    dw $18F8, $195F, $391B, $391C, $191D, $191E, $191F, $1920
+    dw $1921, $1922, $195F, $195F, $1923, $1924, $1925, $1926
+    dw $1927, $1928
+
+    dw $A811, $1F00 ; VRAM $2350 | 32 bytes | Horizontal
+    dw $3929, $392A, $192B, $191E, $192C, $192D, $1938, $1922
+    dw $195F, $195F, $1923, $18FC, $192E, $192F, $1930, $1931
+
+    dw $C711, $2300 ; VRAM $238E | 36 bytes | Horizontal
+    dw $1932, $3933, $3934, $195F, $191E, $191F, $1936, $1937
+    dw $1922, $195F, $1939, $1923, $9924, $193A, $193B, $193C
+    dw $193D, $193E
+
+    dw $E711, $2300 ; VRAM $23CE | 36 bytes | Horizontal
+    dw $193F, $3940, $3941, $195F, $1942, $1943, $1944, $1945
+    dw $1946, $1947, $1948, $1949, $194A, $194B, $194C, $194D
+    dw $194E, $194F
+
+    dw $0612, $2500 ; VRAM $240C | 38 bytes | Horizontal
+    dw $18FD, $1950, $3951, $98F9, $1952, $1953, $1954, $1954
+    dw $1955, $1954, $1954, $1956, $1954, $1957, $1958, $1959
+    dw $195A, $195B, $195C
+
+    dw $2612, $2B00 ; VRAM $244C | 44 bytes | Horizontal
+    dw $18F1, $18F2, $18F3, $18F4, $18F5, $18F6, $1D60, $1D61
+    dw $1D62, $1D63, $1D64, $1D65, $1D66, $1D67, $1D68, $1D69
+    dw $1D6A, $1D6B, $1D6C, $1D6D, $1D6E, $1D6F
+
+    dw $4C12, $1F00 ; VRAM $2498 | 32 bytes | Horizontal
+    dw $1D70, $1D71, $1D72, $1D73, $1D74, $1D75, $1D76, $1D77
+    dw $1D78, $1D79, $1D7A, $1D7B, $1D7C, $1D7D, $1D7E, $1D7F
+
+    dw $8000, $BE41 ; VRAM $0100 | 448 bytes | Fixed horizontal
+    dw $10BD
+
+    dw $6501, $2A40 ; VRAM $02CA | 44 bytes | Fixed horizontal
+    dw $10BE
+
+    dw $8801, $2440 ; VRAM $0310 | 38 bytes | Fixed horizontal
+    dw $10BF
+
+    dw $2802, $2440 ; VRAM $0450 | 38 bytes | Fixed horizontal
+    dw $90BF
+
+    dw $4502, $2A40 ; VRAM $048A | 44 bytes | Fixed horizontal
+    dw $90BE
+
+    dw $6A02, $1A40 ; VRAM $04D4 | 28 bytes | Fixed horizontal
+    dw $90BD
+
+    dw $4001, $1300 ; VRAM $0280 | 20 bytes | Horizontal
+    dw $11B3, $11B4, $51B4, $51B3, $10BD, $10BD, $11B3, $11B4
+    dw $51B4, $51B3
+
+    dw $5801, $0500 ; VRAM $02B0 | 6 bytes | Horizontal
+    dw $11B3, $11B4, $51B4
+
+    dw $6001, $0900 ; VRAM $02C0 | 10 bytes | Horizontal
+    dw $10B0, $10B1, $10B2, $10B3, $10B4
+
+    dw $8001, $0F00 ; VRAM $0300 | 16 bytes | Horizontal
+    dw $10B5, $10B6, $10B7, $10B8, $10B9, $10BA, $10BB, $10BC
+
+    dw $A001, $3500 ; VRAM $0340 | 54 bytes | Horizontal
+    dw $09C9, $09CA, $09C9, $09CA, $09C9, $09CA, $09C9, $09CA
+    dw $09FF, $09E7, $09E8, $09E7, $09E8, $09E7, $09E8, $09E7
+    dw $09E8, $09E7, $09E8, $09E7, $09E8, $09E7, $09E8, $09E7
+    dw $09E8, $09E7, $09E8
+
+    dw $C001, $3500 ; VRAM $0380 | 54 bytes | Horizontal
+    dw $09D9, $09DA, $09D9, $09DA, $09D9, $09DA, $09D9, $09DA
+    dw $09D9, $09DA, $09D9, $09DA, $09D9, $09DA, $09D9, $09DA
+    dw $09D9, $09DA, $09D9, $09DA, $09D9, $09DA, $09D9, $09DA
+    dw $09D9, $09DA, $09D9
+
+    dw $E001, $3500 ; VRAM $03C0 | 54 bytes | Horizontal
+    dw $0DB1, $0DB2, $0DB1, $0DB2, $0DB1, $0DB2, $0DB1, $0DB2
+    dw $0DB1, $0DB2, $0DB1, $0DB2, $0DB1, $0DB2, $0DB1, $0DB2
+    dw $0DB1, $0DB2, $0DB1, $0DB2, $0DB1, $0DB2, $0DB1, $0DB2
+    dw $0DB1, $0DB2, $0DB1
+
+    dw $0002, $3500 ; VRAM $0400 | 54 bytes | Horizontal
+    dw $8DC9, $8DCA, $8DC9, $8DCA, $8DC9, $8DCA, $8DC9, $8DCA
+    dw $8DFF, $8DE7, $8DE8, $8DE7, $8DE8, $8DE7, $8DE8, $8DE7
+    dw $8DE8, $8DE7, $8DE8, $8DE7, $8DE8, $8DE7, $8DE8, $8DE7
+    dw $8DE8, $8DE7, $8DE8
+
+    dw $2002, $0F00 ; VRAM $0440 | 16 bytes | Horizontal
+    dw $90B5, $90B6, $90B7, $90B8, $90B9, $90BA, $90BB, $90BC
+
+    dw $4002, $0900 ; VRAM $0480 | 10 bytes | Horizontal
+    dw $90B0, $90B1, $90B2, $90B3, $90B4
+
+    dw $6002, $1300 ; VRAM $04C0 | 20 bytes | Horizontal
+    dw $91B3, $91B4, $D1B4, $D1B3, $90BD, $90BD, $91B3, $91B4
+    dw $D1B4, $D1B3
+
+    dw $7802, $0500 ; VRAM $04F0 | 6 bytes | Horizontal
+    dw $91B3, $91B4, $D1B4
+
+    dw $8002, $3500 ; VRAM $0500 | 54 bytes | Horizontal
+    dw $11F0, $11F1, $11F0, $11F1, $11F0, $11F1, $11F0, $11F1
+    dw $11F0, $11F1, $11F0, $11F1, $11F0, $11F1, $11F0, $11F1
+    dw $11F0, $11F1, $11F0, $11F1, $11F0, $11F1, $11F0, $11F1
+    dw $11F0, $11F1, $11F0
+
+    dw $A002, $3500 ; VRAM $0540 | 54 bytes | Horizontal
+    dw $11F2, $11F3, $11F2, $11F3, $11F2, $11F3, $11F2, $11F3
+    dw $11F2, $11F3, $11F2, $11F3, $11F2, $11F3, $11F2, $11F3
+    dw $11F2, $11F3, $11F2, $11F3, $11F2, $11F3, $11F2, $11F3
+    dw $11F2, $11F3, $11F2
+
+    dw $3B01, $1980 ; VRAM $0276 | 26 bytes | Vertical
+    dw $15F6, $15F4, $15CB, $15DB, $15DB, $15DB, $15DB, $15DB
+    dw $15EB, $15FB, $15FD, $15FD, $15FD
+
+    dw $3C01, $1980 ; VRAM $0278 | 26 bytes | Vertical
+    dw $15F7, $15F5, $15DC, $15DC, $15DC, $15DC, $15DC, $15DC
+    dw $15B0, $15FC, $15FE, $15FE, $15FE
+
+    dw $3D01, $1980 ; VRAM $027A | 26 bytes | Vertical
+    dw $15F8, $15CD, $15DD, $15DD, $15DD, $15DD, $15DD, $15DD
+    dw $15CC, $15ED, $14BD, $14BD, $15FE
+
+    dw $9E00, $2380 ; VRAM $013C | 36 bytes | Vertical
+    dw $15F6, $15F4, $15CB, $15DB, $15E9, $15F9, $15CE, $15DE
+    dw $15DE, $15DE, $15DE, $15DE, $15DE, $15CC, $15EE, $14BD
+    dw $14BD, $14BD
+
+    dw $9F00, $2380 ; VRAM $013E | 36 bytes | Vertical
+    dw $15F7, $15F5, $15DC, $15DC, $15EA, $15FA, $15CF, $15DF
+    dw $15DF, $15DF, $15DF, $15DF, $15DF, $15CC, $15EF, $14BD
+    dw $14BD, $14BD
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $0661C8-$0662A7 DATA
+FancyBackgroundTileMap:
+{
+    dw $4210, $2700 ; VRAM $2084 | 40 bytes | Horizontal
+    dw $3589, $358A, $358B, $358C, $358B, $358C, $358B, $358C
+    dw $358B, $358C, $358B, $358C, $358B, $358C, $358B, $358C
+    dw $358B, $358C, $758A, $7589
+
+    dw $6210, $0300 ; VRAM $20C4 | 4 bytes | Horizontal
+    dw $3599, $359A
+
+    dw $6410, $1E40 ; VRAM $20C8 | 32 bytes | Fixed horizontal
+    dw $347F
+
+    dw $7410, $0300 ; VRAM $20E8 | 4 bytes | Horizontal
+    dw $759A, $7599
+
+    dw $8210, $0300 ; VRAM $2104 | 4 bytes | Horizontal
+    dw $35A9, $35AA
+
+    dw $8410, $1E40 ; VRAM $2108 | 32 bytes | Fixed horizontal
+    dw $347F
+
+    dw $9410, $0300 ; VRAM $2128 | 4 bytes | Horizontal
+    dw $75AA, $75A9
+
+    dw $A210, $2700 ; VRAM $2144 | 40 bytes | Horizontal
+    dw $359D, $35AD, $359B, $359C, $359B, $359C, $359B, $359C
+    dw $359B, $359C, $359B, $359C, $359B, $359C, $359B, $359C
+    dw $359B, $359C, $75AD, $759D
+
+    dw $C210, $2700 ; VRAM $2184 | 40 bytes | Horizontal
+    dw $35AB, $35AC, $35AB, $35AC, $35AB, $35AC, $35AB, $35AC
+    dw $35AB, $35AC, $35AB, $35AC, $35AB, $35AC, $35AB, $35AC
+    dw $35AB, $35AC, $75AB, $75AC
+
+    dw $E210, $0100 ; VRAM $21C4 | 2 bytes | Horizontal
+    dw $3583
+
+    dw $E310, $3240 ; VRAM $21C6 | 52 bytes | Fixed horizontal
+    dw $3585
+
+    dw $FD10, $0100 ; VRAM $21FA | 2 bytes | Horizontal
+    dw $3584
+
+    dw $0211, $22C0 ; VRAM $2204 | 36 bytes | Fixed vertical
+    dw $3586
+
+    dw $1D11, $22C0 ; VRAM $223A | 36 bytes | Fixed vertical
+    dw $3596
+
+    dw $4213, $0100 ; VRAM $2684 | 2 bytes | Horizontal
+    dw $3593
+
+    dw $4313, $3240 ; VRAM $2686 | 52 bytes | Fixed horizontal
+    dw $3595
+
+    dw $5D13, $0100 ; VRAM $26BA | 2 bytes | Horizontal
+    dw $3594
+}
+
+; ==============================================================================
+
+; $0662A8-$066358 DATA
+FileSelectTilemap:
+{
+    dw $6560, $1B00 ; VRAM $C0CA | 28 bytes | Horizontal
+    dw $180F, $180B, $1800, $1828, $1804, $1821, $18A9, $18A9
+    dw $1822, $1804, $180B, $1804, $1802, $1823
+
+    dw $8560, $1B00 ; VRAM $C10A | 28 bytes | Horizontal
+    dw $181F, $181B, $1810, $1838, $1814, $1831, $18B9, $18B9
+    dw $1832, $1814, $181B, $1814, $1812, $1833
+
+    dw $C662, $1700 ; VRAM $C58C | 24 bytes | Horizontal
+    dw $1802, $180E, $180F, $1828, $18A9, $18A9, $180F, $180B
+    dw $1800, $1828, $1804, $1821
+
+    dw $E662, $1700 ; VRAM $C5CC | 24 bytes | Horizontal
+    dw $1812, $181E, $181F, $1838, $18A9, $18A9, $181F, $181B
+    dw $1810, $1838, $1814, $1831
+
+    dw $0663, $1700 ; VRAM $C60C | 24 bytes | Horizontal
+    dw $1804, $1821, $1800, $1822, $1804, $18A9, $180F, $180B
+    dw $1800, $1828, $1804, $1821
+
+    dw $2663, $1700 ; VRAM $C64C | 24 bytes | Horizontal
+    dw $1814, $1831, $1810, $1832, $1814, $18A9, $181F, $181B
+    dw $1810, $1838, $1814, $1831
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $066359-$066455 DATA
+FileSelectNamesTilemap:
+{
+    dw $2961, $2500 ; VRAM $C252 | 38 bytes | Horizontal
+    dw $18E7, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $4961, $2500 ; VRAM $C292 | 38 bytes | Horizontal
+    dw $18F7, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $A961, $2500 ; VRAM $C352 | 38 bytes | Horizontal
+    dw $18E8, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $C961, $2500 ; VRAM $C392 | 38 bytes | Horizontal
+    dw $18F8, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $2962, $2500 ; VRAM $C452 | 38 bytes | Horizontal
+    dw $18E9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $4962, $2500 ; VRAM $C492 | 38 bytes | Horizontal
+    dw $18F9, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $066456-$06653E DATA
+FileSelectKILLFileTilemap:
+{
+    dw $6560, $1700 ; VRAM $C0CA | 24 bytes | Horizontal
+    dw $1804, $1821, $1800, $1822, $1804, $18A9, $180F, $180B
+    dw $1800, $1828, $1804, $1821
+
+    dw $8560, $1700 ; VRAM $C10A | 24 bytes | Horizontal
+    dw $1814, $1831, $1810, $1832, $1814, $18A9, $181F, $181B
+    dw $1810, $1838, $1814, $1831
+
+    dw $0461, $2F00 ; VRAM $C208 | 48 bytes | Horizontal
+    dw $1826, $1807, $18AF, $1802, $1807, $18A9, $180F, $180B
+    dw $1800, $1828, $1804, $1821, $18A9, $1803, $180E, $18A9
+    dw $1828, $180E, $1824, $18A9, $1826, $1800, $180D, $1823
+
+    dw $2461, $2F00 ; VRAM $C248 | 48 bytes | Horizontal
+    dw $1836, $1817, $18BF, $1812, $1817, $18A9, $181F, $181B
+    dw $1810, $1838, $1814, $1831, $18A9, $1813, $181E, $18A9
+    dw $1838, $181E, $1834, $18A9, $1836, $1810, $181D, $1833
+
+    dw $4461, $1300 ; VRAM $C288 | 20 bytes | Horizontal
+    dw $1823, $180E, $18A9, $1804, $1821, $1800, $1822, $1804
+    dw $18A9, $186F
+
+    dw $6461, $1300 ; VRAM $C2C8 | 20 bytes | Horizontal
+    dw $1833, $181E, $18A9, $1814, $1831, $1810, $1832, $1814
+    dw $18A9, $187F
+
+    dw $0663, $0700 ; VRAM $C60C | 8 bytes | Horizontal
+    dw $1820, $1824, $18AF, $1823
+
+    dw $2663, $0700 ; VRAM $C64C | 8 bytes | Horizontal
+    dw $1830, $1834, $18BF, $1833
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $06653F-$06663B DATA
+KILLFile_BlankNameStripes:
+{
+    dw $A761, $2500 ; VRAM $C34E | 38 bytes | Horizontal
+    dw $18E7, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $C761, $2500 ; VRAM $C38E | 38 bytes | Horizontal
+    dw $18F7, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $0762, $2500 ; VRAM $C40E | 38 bytes | Horizontal
+    dw $18E8, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $2762, $2500 ; VRAM $C44E | 38 bytes | Horizontal
+    dw $18F8, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $6762, $2500 ; VRAM $C4CE | 38 bytes | Horizontal
+    dw $18E9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    dw $8762, $2500 ; VRAM $C50E | 38 bytes | Horizontal
+    dw $18F9, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18A9
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $06663C-$06668C DATA
+FileSelectCopyFileTilemap:
+{
+    dw $6560, $1700 ; VRAM $C0CA | 24 bytes | Horizontal
+    dw $1802, $180E, $180F, $1828, $18A9, $18A9, $180F, $180B
+    dw $1800, $1828, $1804, $1821
+
+    dw $8560, $1700 ; VRAM $C10A | 24 bytes | Horizontal
+    dw $1812, $181E, $181F, $1838, $18A9, $18A9, $181F, $181B
+    dw $1810, $1838, $1814, $1831
+
+    dw $0663, $0700 ; VRAM $C60C | 8 bytes | Horizontal
+    dw $1820, $1824, $18AF, $1823
+
+    dw $2663, $0700 ; VRAM $C64C | 8 bytes | Horizontal
+    dw $1830, $1834, $18BF, $1833
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $06668D-$066739 DATA
+CopyFile_HeaderStripe:
+{
+    dw $0461, $1500 ; VRAM $C208 | 22 bytes | Horizontal
+    dw $1885, $1826, $1807, $18AF, $1802, $1807, $186F, $1886
+    dw $18A9, $18A9, $18A9
+
+    dw $2461, $1500 ; VRAM $C248 | 22 bytes | Horizontal
+    dw $1895, $1836, $1817, $18BF, $1812, $1817, $187F, $1896
+    dw $18A9, $18A9, $18A9
+
+    dw $6761, $0F00 ; VRAM $C2CE | 16 bytes | Horizontal
+    dw $18E7, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $8761, $0F00 ; VRAM $C30E | 16 bytes | Horizontal
+    dw $18F7, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $C761, $0F00 ; VRAM $C38E | 16 bytes | Horizontal
+    dw $18E8, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $E761, $0F00 ; VRAM $C3CE | 16 bytes | Horizontal
+    dw $18F8, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $2762, $0F00 ; VRAM $C44E | 16 bytes | Horizontal
+    dw $18E9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $4762, $0F00 ; VRAM $C48E | 16 bytes | Horizontal
+    dw $18F9, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $06673A-$0667BE DATA
+CopyFile_TargetHeaderStripes:
+{
+    dw $5161, $1500 ; VRAM $C2A2 | 22 bytes | Horizontal
+    dw $1885, $1823, $180E, $18A9, $1826, $1807, $18AF, $1802
+    dw $1807, $186F, $1886
+
+    dw $7161, $1500 ; VRAM $C2E2 | 22 bytes | Horizontal
+    dw $1895, $1833, $181E, $18B9, $1836, $1817, $18BF, $1812
+    dw $1817, $187F, $1896
+
+    dw $B461, $0F00 ; VRAM $C368 | 16 bytes | Horizontal
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $D461, $0F00 ; VRAM $C3A8 | 16 bytes | Horizontal
+    dw $18A9, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $1462, $0F00 ; VRAM $C428 | 16 bytes | Horizontal
+    dw $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    dw $3462, $0F00 ; VRAM $C468 | 16 bytes | Horizontal
+    dw $18A9, $1891, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $0667BF-$066D79 DATA
+NamePlayerTilemap:
+{
+    dw $A410, $2A40 ; VRAM $2148 | 44 bytes | Fixed horizontal
+    dw $147F
+
+    dw $C410, $2A40 ; VRAM $2188 | 44 bytes | Fixed horizontal
+    dw $147F
+
+    dw $6311, $1840 ; VRAM $22C6 | 26 bytes | Fixed horizontal
+    dw $147F
+
+    dw $8311, $1840 ; VRAM $2306 | 26 bytes | Fixed horizontal
+    dw $147F
+
+    dw $A311, $1840 ; VRAM $2346 | 26 bytes | Fixed horizontal
+    dw $147F
+
+    dw $E311, $3240 ; VRAM $23C6 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $0312, $3240 ; VRAM $2406 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $2312, $3240 ; VRAM $2446 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $4312, $3240 ; VRAM $2486 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $6312, $3240 ; VRAM $24C6 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $8312, $3240 ; VRAM $2506 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $A312, $3240 ; VRAM $2546 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $C312, $3240 ; VRAM $2586 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $E312, $3240 ; VRAM $25C6 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $0313, $3240 ; VRAM $2606 | 52 bytes | Fixed horizontal
+    dw $147F
+
+    dw $8210, $3300 ; VRAM $2104 | 52 bytes | Horizontal
+    dw $1589, $158A, $158B, $158C, $158B, $158C, $158B, $158C
+    dw $158B, $158C, $158B, $158C, $158B, $158C, $158B, $158C
+    dw $158B, $158C, $158B, $158C, $158B, $158C, $158B, $158C
+    dw $558A, $5589
+
+    dw $A210, $0300 ; VRAM $2144 | 4 bytes | Horizontal
+    dw $1599, $159A
+
+    dw $BA10, $0300 ; VRAM $2174 | 4 bytes | Horizontal
+    dw $559A, $5599
+
+    dw $C210, $0300 ; VRAM $2184 | 4 bytes | Horizontal
+    dw $15A9, $15AA
+
+    dw $DA10, $0300 ; VRAM $21B4 | 4 bytes | Horizontal
+    dw $559A, $5599
+
+    dw $E210, $3300 ; VRAM $21C4 | 52 bytes | Horizontal
+    dw $159D, $15AD, $159B, $159C, $159B, $159C, $159B, $159C
+    dw $159B, $159C, $159B, $159C, $159B, $159C, $159B, $159C
+    dw $159B, $159C, $159B, $159C, $159B, $159C, $159B, $159C
+    dw $55AD, $559D
+
+    dw $0211, $3300 ; VRAM $2204 | 52 bytes | Horizontal
+    dw $15AB, $15AC, $15AB, $15AC, $15AB, $15AC, $15AB, $15AC
+    dw $15AB, $15AC, $15AB, $15AC, $15AB, $15AC, $15AB, $15AC
+    dw $15AB, $15AC, $15AB, $15AC, $15AB, $15AC, $15AB, $15AC
+    dw $15AB, $15AC
+
+    dw $4211, $1D00 ; VRAM $2284 | 30 bytes | Horizontal
+    dw $1587, $1588, $1587, $1588, $1587, $1588, $1587, $1588
+    dw $1587, $1588, $1587, $1588, $1587, $1588, $1587
+
+    dw $6211, $1B80 ; VRAM $22C4 | 28 bytes | Vertical
+    dw $15AF, $15A7, $15AF, $15A7, $15AF, $15A7, $15AF, $15A7
+    dw $15AF, $15A7, $15AF, $15A7, $15AF, $15A7
+
+    dw $7011, $0580 ; VRAM $22E0 | 6 bytes | Vertical
+    dw $15A8, $15AE, $15A8
+
+    dw $C311, $3500 ; VRAM $2386 | 54 bytes | Horizontal
+    dw $1588, $1598, $1588, $1598, $1588, $1598, $1588, $1598
+    dw $1588, $1598, $1588, $1598, $1588, $1598, $1588, $1587
+    dw $1588, $1587, $1588, $1587, $1588, $1587, $1588, $1587
+    dw $1588, $1587, $1588
+
+    dw $FD11, $1380 ; VRAM $23FA | 20 bytes | Vertical
+    dw $15A8, $15AE, $15A8, $15AE, $15A8, $15AE, $15A8, $15AE
+    dw $15A8, $15AE
+
+    dw $2213, $3700 ; VRAM $2644 | 56 bytes | Horizontal
+    dw $1597, $1598, $1597, $1598, $1597, $1598, $1597, $1598
+    dw $1597, $1598, $1597, $1598, $1597, $1598, $1597, $1598
+    dw $1597, $1598, $1597, $1598, $1597, $1598, $1597, $1598
+    dw $1597, $1598, $1597, $1598
+
+    dw $F011, $12C0 ; VRAM $23E0 | 20 bytes | Fixed vertical
+    dw $158D
+
+    dw $A460, $2B00 ; VRAM $C148 | 44 bytes | Horizontal
+    dw $18A9, $1821, $1804, $1806, $18AF, $1822, $1823, $1804
+    dw $1821, $18A9, $18A9, $1828, $180E, $1824, $1821, $18A9
+    dw $18A9, $180D, $1800, $180C, $1804, $18A9
+
+    dw $C460, $2B00 ; VRAM $C188 | 44 bytes | Horizontal
+    dw $18A9, $1831, $1814, $1816, $18BF, $1832, $1833, $1814
+    dw $1831, $18A9, $18A9, $1838, $181E, $1834, $1831, $18A9
+    dw $18A9, $181D, $1810, $181C, $1814, $18A9
+
+    dw $0262, $3900 ; VRAM $C404 | 58 bytes | Horizontal
+    dw $1800, $18A9, $1801, $18A9, $1802, $18A9, $1803, $18A9
+    dw $1804, $18A9, $1805, $18A9, $1806, $18A9, $1807, $18A9
+    dw $18AF, $18A9, $1809, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $182A, $18A9, $182B, $18A9, $182C
+
+    dw $2262, $3900 ; VRAM $C444 | 58 bytes | Horizontal
+    dw $1810, $18A9, $1811, $18A9, $1812, $18A9, $1813, $18A9
+    dw $1814, $18A9, $1815, $18A9, $1816, $18A9, $1817, $18A9
+    dw $18BF, $18A9, $1819, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $183A, $18A9, $183B, $18A9, $183C
+
+    dw $4262, $3900 ; VRAM $C484 | 58 bytes | Horizontal
+    dw $180A, $18A9, $180B, $18A9, $180C, $18A9, $180D, $18A9
+    dw $180E, $18A9, $180F, $18A9, $1820, $18A9, $1821, $18A9
+    dw $1822, $18A9, $1823, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $1844, $18A9, $18AF, $18A9, $1846
+
+    dw $6262, $3900 ; VRAM $C4C4 | 58 bytes | Horizontal
+    dw $181A, $18A9, $181B, $18A9, $181C, $18A9, $181D, $18A9
+    dw $181E, $18A9, $181F, $18A9, $1830, $18A9, $1831, $18A9
+    dw $1832, $18A9, $1833, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $1854, $18A9, $18BF, $18A9, $1856
+
+    dw $8262, $3900 ; VRAM $C504 | 58 bytes | Horizontal
+    dw $1824, $18A9, $1825, $18A9, $1826, $18A9, $1827, $18A9
+    dw $1828, $18A9, $1829, $18A9, $1880, $18A9, $1881, $18A9
+    dw $1882, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $184E, $18A9, $184F, $18A9, $1860
+
+    dw $A262, $3900 ; VRAM $C544 | 58 bytes | Horizontal
+    dw $1834, $18A9, $1835, $18A9, $1836, $18A9, $1837, $18A9
+    dw $1838, $18A9, $1839, $18A9, $1890, $18A9, $1891, $18A9
+    dw $1892, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $185E, $18A9, $185F, $18A9, $1870
+
+    dw $CC62, $1100 ; VRAM $C598 | 18 bytes | Horizontal
+    dw $18AA, $18A9, $1884, $18A9, $18A9, $18A9, $1804, $180D
+    dw $1803
+
+    dw $EC62, $1100 ; VRAM $C5D8 | 18 bytes | Horizontal
+    dw $18BA, $18A9, $1894, $18A9, $18A9, $18A9, $1814, $181D
+    dw $1813
+
+    dw $0066, $3500 ; VRAM $CC00 | 54 bytes | Horizontal
+    dw $182D, $18A9, $182E, $18A9, $182F, $18A9, $1840, $18A9
+    dw $1841, $18A9, $18C0, $18A9, $1843, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18E6, $18A9, $18E7, $18A9, $18E8, $18A9
+    dw $18E9, $18A9, $18EA
+
+    dw $2066, $3500 ; VRAM $CC40 | 54 bytes | Horizontal
+    dw $183D, $18A9, $183E, $18A9, $183F, $18A9, $1850, $18A9
+    dw $1851, $18A9, $18D0, $18A9, $1853, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18F6, $18A9, $18F7, $18A9, $18F8, $18A9
+    dw $18F9, $18A9, $18FA
+
+    dw $4066, $3500 ; VRAM $CC80 | 54 bytes | Horizontal
+    dw $1847, $18A9, $1848, $18A9, $1849, $18A9, $184A, $18A9
+    dw $184B, $18A9, $184C, $18A9, $184D, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18EB, $18A9, $18EC, $18A9, $18ED, $18A9
+    dw $18EE, $18A9, $18EF
+
+    dw $6066, $3500 ; VRAM $CCC0 | 54 bytes | Horizontal
+    dw $1857, $18A9, $1858, $18A9, $1859, $18A9, $185A, $18A9
+    dw $185B, $18A9, $185C, $18A9, $185D, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18FB, $18A9, $18FC, $18A9, $18FD, $18A9
+    dw $18FE, $18A9, $18FF
+
+    dw $8066, $3100 ; VRAM $CD00 | 50 bytes | Horizontal
+    dw $1861, $18A9, $1862, $18A9, $1863, $18A9, $1880, $18A9
+    dw $1881, $18A9, $1882, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18C1, $18A9, $186F, $18A9, $1885, $18A9
+    dw $1886
+
+    dw $A066, $3100 ; VRAM $CD40 | 50 bytes | Horizontal
+    dw $1871, $18A9, $1872, $18A9, $1873, $18A9, $1890, $18A9
+    dw $1891, $18A9, $1892, $18A9, $18A9, $18A9, $18A9, $18A9
+    dw $18A9, $18A9, $18D1, $18A9, $187F, $18A9, $1895, $18A9
+    dw $1896
+
+    dw $C466, $2D00 ; VRAM $CD88 | 46 bytes | Horizontal
+    dw $18AA, $18A9, $1884, $18A9, $18A9, $18A9, $1804, $180D
+    dw $1803, $18A9, $18A9, $18A9, $18A9, $18A9, $18AA, $18A9
+    dw $1884, $18A9, $18A9, $18A9, $1804, $180D, $1803
+
+    dw $E466, $2D00 ; VRAM $CDC8 | 46 bytes | Horizontal
+    dw $18BA, $18A9, $1894, $18A9, $18A9, $18A9, $1814, $181D
+    dw $1813, $18A9, $18A9, $18A9, $18A9, $18A9, $18BA, $18A9
+    dw $1894, $18A9, $18A9, $18A9, $1814, $181D, $1813
+
+    db $FF ; End of stripes data
+}
+
+; ==============================================================================
+
+; $066D7A-$066D7E DATA
+Pool_Intro_DisplayLogo:
+{
+    ; $066D7A
+    .object_a
+    db $60, $70, $80, $88
+
+    ; $066D7E
+    .object_b
+    db $69, $6B, $6D, $6E
+}
+
 ; $066D82-$066DAC LOCAL JUMP LOCATION
 Intro_DisplayNintendoLogo:
 {
@@ -4844,13 +5709,13 @@ Intro_DisplayNintendoLogo:
         LDA.b #$02 : STA.w $0A20, Y
         
         ; These are the X-coordinates of the Nintendo Logo Sprites.
-        LDA.w $ED7A, Y : STA.w $0800, X
+        LDA.w Pool_Intro_DisplayLogo_object_a, Y : STA.w $0800, X
         
         ; The (hardcoded) Y coordinate for the Nintendo Logo sprites.
         LDA.b #$68   : STA.w $0801, X
         
         ; The sprite index (which sprite CHR is used.
-        LDA.w $ED7E, Y : STA.w $0802, X
+        LDA.w Pool_Intro_DisplayLogo_object_b, Y : STA.w $0802, X
         
         ; Palette, priority, and flip in formation for each sprite.
         LDA.b #$32 : STA.w $0803, X
@@ -4865,7 +5730,7 @@ Intro_DisplayNintendoLogo:
 
 ; ==============================================================================
 
-; TODO: Confirm what this does
+; TODO: Confirm what this does.
 ; Beginning of Module 0x14 - History Mode? Attract Mode
 ; $066DAD-$066DD1 LONG JUMP LOCATION
 Module_Attract:
@@ -4890,24 +5755,20 @@ Module_Attract:
     
     LDA.b $22 : ASL A : TAX
     
-    JMP (Attract_Submodules, X)
-}
+    JMP (.Submodules, X)
 
-; ==============================================================================
-
-; $066DD2-$066DE5 Jump Table
-Attract_Submodules:
-{
-    dw Attract_Fade
-    dw Attract_InitGraphics
-    dw Attract_SlowFadeToBlank
-    dw Attract_PrepNextSequence
-    dw Attract_SlowBrighten
-    dw Attract_RunSequence
-    dw Attract_SlowFadeToBlank
-    dw Attract_PrepNextSequence
-    dw Attract_RunSequence
-    dw Attract_Exit
+    ; $066DD2
+    .Submodules
+    dw Attract_Fade             ; 0x00 - $EDE6
+    dw Attract_InitGraphics     ; 0x01 - $EE0C
+    dw Attract_SlowFadeToBlank  ; 0x02 - $EECB
+    dw Attract_PrepNextSequence ; 0x03 - $EEE5
+    dw Attract_SlowBrighten     ; 0x04 - $EEBA
+    dw Attract_RunSequence      ; 0x05 - $F115
+    dw Attract_SlowFadeToBlank  ; 0x06 - $EECB
+    dw Attract_PrepNextSequence ; 0x07 - $EEE5
+    dw Attract_RunSequence      ; 0x08 - $F115
+    dw Attract_Exit             ; 0x09 - $F700
 }
 
 ; ==============================================================================
@@ -4932,7 +5793,7 @@ Attract_Fade:
     
     .fullyDark
     
-    JSL EnableForceBlank ; $93D
+    JSL EnableForceBlank
     
     ; Disable all that crazy 3D triforce stuff.
     LDA.b #$FF : STA.w $0128
@@ -4981,7 +5842,7 @@ Attract_InitGraphics:
     
     LDA.b #$14 : STA.b $EA
     
-    JSR.w $F7E6 ; $0677E6
+    JSR.w Attract_BuildBackgrounds
     
     REP #$10
     
@@ -5087,7 +5948,7 @@ Attract_SlowFadeToBlank:
     
     .fullyDarkened
     
-    JSL EnableForceBlank ; $00093D
+    JSL EnableForceBlank
     JSL Vram_EraseTilemaps.normal
     
     .nextSubmodule
@@ -5112,12 +5973,12 @@ Attract_PrepNextSequence:
 ; $066EEC-$066EF7 Jump Table
 Attract_PrepRoutines:
 {
-    dw Attract_PrepLegend
-    dw Attract_PrepMapZoom
-    dw Attract_PrepThroneRoom
-    dw Attract_PrepZeldaPrison
-    dw Attract_PrepMaidenWarp
-    dw $F0DC ; = $0670DC
+    dw Attract_PrepLegend      ; 0x00 - $EEF8
+    dw Attract_PrepMapZoom     ; 0x01 - $EEFF
+    dw Attract_PrepThroneRoom  ; 0x02 - $EF4E
+    dw Attract_PrepZeldaPrison ; 0x03 - $EFE3
+    dw Attract_PrepMaidenWarp  ; 0x04 - $F058
+    dw AttractScene_EndOfStory ; 0x05 - $F0DC
 }
 
 ; ==============================================================================
@@ -5176,7 +6037,7 @@ Attract_PrepMapZoom:
 
 ; ==============================================================================
 
-; $066F4E-$066FE2 LONG JUMP LOCATION
+; $066F4E-$066FBF LONG JUMP LOCATION
 Attract_PrepThroneRoom:
 {
     STZ.w $420C
@@ -5243,9 +6104,13 @@ Attract_PrepThroneRoom:
     LDA.w #$0210 : STA.b $64
     
     SEP #$20
+
+    ; Bleeds into the next function.
+}
     
-    ; $066FC0 ALTERNATE ENTRY POINT
-    
+; $066FC0-$066FE2 LONG JUMP LOCATION
+AttractScene_AdvanceFromDungeon:
+{
     INC.b $22
     
     STZ.b $13
@@ -5331,7 +6196,7 @@ Attract_PrepZeldaPrison:
     
     SEP #$20
     
-    JMP.w $EFC0 ; $066FC0
+    JMP.w AttractScene_AdvanceFromDungeon
 }
 
 ; ==============================================================================
@@ -5386,7 +6251,7 @@ Attract_PrepMaidenWarp:
     LDA.b #$FF : STA.b $25
     
     LDA.b #$70 : STA.b $30 : STA.b $62
-    LDA.b #$70           : STA.b $63
+    LDA.b #$70             : STA.b $63
     
     LDA.b #$08 : STA.b $32
     
@@ -5403,7 +6268,7 @@ Attract_PrepMaidenWarp:
     
     SEP #$20
     
-    JMP.w $EFC0 ; $066FC0
+    JMP.w AttractScene_AdvanceFromDungeon
 }
 
 ; ==============================================================================
@@ -5457,14 +6322,14 @@ Attract_RunSequence:
 
 ; ==============================================================================
 
-; $06711C-$067125 Jump Table
+; $06711C-$067125 DATA
 Attract_SequenceRoutines:
 {
-    dw Attract_Legend
-    dw Attract_MapZoom
-    dw Attract_ThroneRoom
-    dw Attract_ZeldaPrison
-    dw Attract_MaidenWarp
+    dw Attract_Legend      ; 0x00 - $F126
+    dw Attract_MapZoom     ; 0x01 - $F176
+    dw Attract_ThroneRoom  ; 0x02 - $F1C8
+    dw Attract_ZeldaPrison ; 0x03 - $F27A
+    dw Attract_MaidenWarp  ; 0x04 - $F423
 }
 
 ; ==============================================================================
@@ -5599,18 +6464,18 @@ Pool_AttractDramatize_ThroneRoom:
     
     ; $0671C2
     .offset_x
-    db $50 ; king
-    db $68 ; mantle
+    db $50 ; King
+    db $68 ; Mantle
     
     ; $0671C4
     .offset_y
-    db $58 ; king
-    db $20 ; mantle
+    db $58 ; King
+    db $20 ; Mantle
     
     ; $0671C6
     .oam_count
-    db $03 ; king
-    db $05 ; mantle
+    db $03 ; King
+    db $05 ; Mantle
 }
 
 ; ==============================================================================
@@ -5731,7 +6596,7 @@ Pool_AttractDramatize_Prison:
 
 ; ==============================================================================
 
-; $06727A-$06731F LONG JUMP LOCATION
+; $06727A-$067318 LONG JUMP LOCATION
 Attract_ZeldaPrison:
 {
     STZ.b $2A
@@ -5746,7 +6611,7 @@ Attract_ZeldaPrison:
     JSR Atract_DrawZelda
     
     LDA.b $25 : CMP.b #$C0 : BCS .BRANCH_BETA
-        JMP.w $F319 ; $067319
+        JMP.w AttractDramatize_Agahnim
     
     .BRANCH_BETA
     
@@ -5766,7 +6631,7 @@ Attract_ZeldaPrison:
     
     .BRANCH_DELTA
     
-    JSR.w $FA30 ; $067A30
+    JSR.w Attract_DrawKidnappedMaiden
     
     LDX.b #$01
     
@@ -5817,17 +6682,22 @@ Attract_ZeldaPrison:
         
         INC.b $33
     
-    ; $067319 ALTERNATE ENTRY POINT
     .BRANCH_ZETA
-    
+
+    ; Bleeds into the next function.
+}
+
+; $067319-$067323 LONG JUMP LOCATION
+AttractDramatize_Agahnim:
+{
     LDA.b $60 : ASL A : TAX
     
-    JMP ($.vectors, X) ; $067320
+    JMP ($.vectors, X)
 
-    ; $067320-$067323 Jump Table
+    ; $067320
     .vectors
-    dw $F32B ; = $06732B
-    dw $F379 ; = $067379
+    dw Dramaghanim_WaitForCue  ; 0x00 - $F32B
+    dw Dramaghanim_MoveAndSpin ; 0x01 - $F379
 }
 
 ; ==============================================================================
@@ -5964,14 +6834,12 @@ Dramaghanim_MoveAndSpin:
 Pool_Attract_MaidenWarp:
 {
     .vectors
-    dw $F57B ; = $06757B
-    dw $F592 ; = $067592
-    dw $F613 ; = $067613
-    dw $F689 ; = $067689
-    dw $F6E2 ; = $0676E2
+    dw Dramagahnim_RaiseTheRoof            ; 0x00 - $F57B
+    dw Dramagahnim_ReadySpell              ; 0x01 - $F592
+    dw Dramagahnim_CastSpell               ; 0x02 - $F613
+    dw Dramagahnim_RealizeWhatJustHappened ; 0x03 - $F689
+    dw Dramagahnim_IdleGuiltily            ; 0x04 - $F6E2
 }
-
-; ==============================================================================
 
 ; $067423-$06754E LONG JUMP LOCATION
 Attract_MaidenWarp:
@@ -6005,7 +6873,7 @@ Attract_MaidenWarp:
     
     LDA.b $60 : ASL A : TAX
     
-    JSR (Pool_Attract_MaidenWarp_vectors, X) ; $067419
+    JSR (Pool_Attract_MaidenWarp_vectors, X)
     
     LDX.b #$05
     
@@ -6133,6 +7001,34 @@ Dramagahnim_RaiseTheRoof:
     RTS
 }
 
+; $067582-$0675F5 DATA
+DramagahnimSpellCharPointer:
+{
+    dw DramagahnimSpellOAM_char_step0
+    dw DramagahnimSpellOAM_char_step1
+}
+
+; $067586-$067589 DATA
+DramagahnimSpellPropPointer:
+{
+    dw DramagahnimSpellOAM_prop_step0
+    dw DramagahnimSpellOAM_prop_step1
+}
+
+; $06758A-$067591 DATA
+Pool_Dramagahnim_ReadySpell:
+{
+    .oam_count
+    db  1
+    db  1
+    db  1
+    db  5
+    db  5
+    db  9
+    db  9
+    db 13
+}
+
 ; $067592-$0675FA LOCAL JUMP LOCATION
 Dramagahnim_ReadySpell:
 {
@@ -6190,6 +7086,32 @@ Dramagahnim_ReadySpell:
     RTS
 }
 
+; $0675FB-$067612 DATA
+Pool_Dramagahnim_CastSpell:
+{
+    ; $0675FB
+    .oam_count
+    db  3
+    db  3
+    db  7
+    db  7
+    db 11
+    db 11
+    db 13
+    db 13
+
+    ; $067603
+    .index_offset
+    dw 10
+    dw 10
+    dw  6
+    dw  6
+    dw  2
+    dw  2
+    dw  0
+    dw  0
+}
+
 ; $067613-$067674 LOCAL JUMP LOCATION
 Dramagahnim_CastSpell:
 {
@@ -6203,12 +7125,15 @@ Dramagahnim_CastSpell:
     
     REP #$20
     
-    LDA.w #$F945 : CLC : ADC.w $F603, Y : STA.b $2D
-    LDA.w #$F953 : CLC : ADC.w $F603, Y : STA.b $02
-    LDA.w #$F961 : CLC : ADC.w $F603, Y : STA.b $04
+    LDA.w #$F945 : CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $2D
+    LDA.w #$F953 : CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $02
+    LDA.w #$F961 : CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $04
     
-    LDA.w $F582, X : CLC : ADC.w $F603, Y : STA.b $06
-    LDA.w $F586, X : CLC : ADC.w $F603, Y : STA.b $08
+    LDA.w DramagahnimSpellCharPointer, X
+    CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $06
+
+    LDA.w DramagahnimSpellPropPointer, X
+    CLC : ADC.w Pool_Dramagahnim_CastSpell_index_offset, Y : STA.b $08
     
     SEP #$20
     
@@ -6217,7 +7142,7 @@ Dramagahnim_CastSpell:
     
     LDX.b $00
     
-    LDA.w $F5FB, X : TAY
+    LDA.w Pool_Dramagahnim_CastSpell_oam_count, X : TAY
     
     JSR Attract_DrawSpriteSet
     
@@ -6490,7 +7415,7 @@ Attract_BuildBackgrounds:
     
     LDA.w #$1000 : STA.b $30
     
-    JSR.w $F879 ; $067879
+    JSR.w Attract_TriggerBGDMA
 
     REP #$30
 
@@ -6518,7 +7443,7 @@ Attract_BuildBackgrounds:
     
     LDA.w #$0000 : STA.b $30
     
-    JSR.w $F879 ; $067879
+    JSR.w Attract_TriggerBGDMA
     
     SEP #$30
     
@@ -6557,22 +7482,21 @@ Attract_TriggerBGDMA:
 
 ; ==============================================================================
 
+; Y - One less than the number of sprites to draw to OAM buffer.
+; 
+; $02 - Pointer to list of relative X coordinates for each sprite.
+; $04 - Pointer to list of relative Y coordinates for each sprite.
+; $06 - Pointer to list of character values for each sprite.
+; $08 - Pointer to list of property values for each sprites (vhoopppc).
+; 
+; $2A - index into the second half of the OAM buffer. This index gets
+; multiplied by 4 for the actual byte offset within that buffer.
+; 
+; $2D - Pointer to list of size bits and 9th X coordinate bits for each
+; sprite.
 ; $0679B5-$0679E3 LOCAL JUMP LOCATION
 Attract_DrawSpriteSet:
 {
-    ; Y - One less than the number of sprites to draw to OAM buffer.
-    ; 
-    ; $02 - Pointer to list of relative X coordinates for each sprite.
-    ; $04 - Pointer to list of relative Y coordinates for each sprite.
-    ; $06 - Pointer to list of character values for each sprite.
-    ; $08 - Pointer to list of property values for each sprites (vhoopppc).
-    ; 
-    ; $2A - index into the second half of the OAM buffer. This index gets
-    ; multiplied by 4 for the actual byte offset within that buffer.
-    ; 
-    ; $2D - Pointer to list of size bits and 9th X coordinate bits for each
-    ; sprite.
-    
     PHB : PHK : PLB
     
     .nextSprite
@@ -6654,6 +7578,34 @@ Atract_DrawZelda:
 
 ; ==============================================================================
 
+; $067A27-$067A2F DATA
+Pool_Attract_DrawKidnappedMaiden:
+{
+    ; $067A27
+    .head_char
+    db $06
+
+    ; $067A28
+    .body_char
+    db $08, $0A
+
+    ; $067A2A
+    .offset_y
+    db   0,   1
+
+    ; $067A2C
+    .body_offset_y
+    db  10,   9
+
+    ; $067A2E
+    .head_prop
+    db $3D
+
+    ; $067A2F
+    .body_prop
+    db $3D
+}
+
 ; $067A30-$067A86 LOCAL JUMP LOCATION
 Attract_DrawKidnappedMaiden:
 {
@@ -6678,13 +7630,17 @@ Attract_DrawKidnappedMaiden:
     
     LDA.b $32 : LSR #3 : AND.b #$01 : TAY
     
-    LDA.b $29 : CLC : ADC.w $FA2A, Y : STA.w $0901, X
-                CLC : ADC.w $FA2C, Y : STA.w $0905, X
+    LDA.b $29
+    CLC : ADC.w Pool_Attract_DrawKidnappedMaiden_offset_y, Y
+    STA.w $0901, X
     
-    LDA.w $FA27    : STA.w $0902, X
-    LDA.w $FA28, Y : STA.w $0906, X
-    LDA.w $FA2E    : STA.w $0903, X
-    LDA.w $FA2F    : STA.w $0907, X
+    CLC : ADC.w Pool_Attract_DrawKidnappedMaiden_body_offset_y, Y
+    STA.w $0905, X
+    
+    LDA.w Pool_Attract_DrawKidnappedMaiden_head_char    : STA.w $0902, X
+    LDA.w Pool_Attract_DrawKidnappedMaiden_body_char, Y : STA.w $0906, X
+    LDA.w Pool_Attract_DrawKidnappedMaiden_head_prop    : STA.w $0903, X
+    LDA.w Pool_Attract_DrawKidnappedMaiden_body_prop    : STA.w $0907, X
     
     INC.b $2A : INC.b $2A
     
@@ -6720,14 +7676,13 @@ Attract_WindowingHDMA:
     ; $067A9E
     db $01
     db $26
-    dl .table_a
+    dl .table_a ; $0CFA87
 }
 
+; Note: This sets up the windowing via hdma for the legend sequence.
 ; $067AA3-$067AC1 LOCAL JUMP LOCATION
 Attract_SetupHdma:
 {
-    ; Note: This sets up the windowing via hdma for the legend sequence.
-    
     LDX.b #$04
     
     .configLoop
@@ -6786,7 +7741,7 @@ AttractImage0Stripes:
     dw $B500
 
     ; $067B5E
-    db $FF ; end of stripes data
+    db $FF ; End of stripes data
 }
 
 ; ==============================================================================
@@ -6836,7 +7791,7 @@ AttractImage1Stripes:
     dw $3572, $3573, $3574, $3575, $3576
 
     ; $067C4B
-    db $FF ; end of stripes data
+    db $FF ; End of stripes data
 }
 
 ; ==============================================================================
@@ -6884,7 +7839,7 @@ AttractImage2Stripes:
     dw $7525, $7524, $7526, $7525, $7524
 
     ; $067D13
-    db $FF ; end of stripes data
+    db $FF ; End of stripes data
 }
 
 ; ==============================================================================
@@ -6935,7 +7890,7 @@ AttractImage3Stripes:
     dw $753A, $7539, $7538, $7537, $7548
 
     ; $067E1B
-    db $FF ; end of stripes data
+    db $FF ; End of stripes data
 }
 
 ; ==============================================================================
@@ -6986,7 +7941,7 @@ Pool_Intro_InitLogoSword:
     db $00
 }
     
-; $067E45-$067EE8 LOCAL JUMP LOCATION
+; $067E45-$067E55 LOCAL JUMP LOCATION
 Intro_InitLogoSword:
 {
     LDA.b #$07 : STA.b $CB
@@ -7000,11 +7955,13 @@ Intro_InitLogoSword:
     
     SEP #$20
     
-    ; $067E56 ALTERNATE ENTRY POINT
-    .HandleLogoSword
-    
-    ; Draws sword and does screen flashing in intro.
-    
+    ; Bleeds into the next functino.
+}
+
+; Draws sword and does screen flashing in intro.
+; $067E56-$067EE8 LOCAL JUMP LOCATION
+Intro_HandleLogoSword:
+{
     PHB : PHK : PLB
     
     LDA.b $CA : BEQ .BRANCH_1
@@ -7039,15 +7996,15 @@ Intro_InitLogoSword:
         
         LDA.b #$02 : STA.w $0A72, Y
         
-        LDA.w $FE1C, Y : STA.w $094A, X
-        LDA.b #$21     : STA.w $094B, X
-        LDA.w $FE26, Y : STA.w $0948, X
+        LDA.w Pool_Intro_InitLogoSword_char, Y       : STA.w $094A, X
+        LDA.b #$21                                   : STA.w $094B, X
+        LDA.w Pool_Intro_InitLogoSword_position_x, Y : STA.w $0948, X
         
         PHY : TYA : ASL A : TAY
         
         REP #$20
         
-        LDA.b $C8 : CLC : ADC.w $FE30, Y
+        LDA.b $C8 : CLC : ADC.w Pool_Intro_InitLogoSword_position_y, Y
         
         SEP #$20
         
@@ -7064,8 +8021,8 @@ Intro_InitLogoSword:
     LDA.b $C8 : CMP.w $001E : BEQ .BRANCH_8
         LDY.b #$01
         
-        CMP.w $FFBE : BEQ .BRANCH_6
-            CMP.w $000E : BNE .BRANCH_7
+        CMP.w #$FFBE : BEQ .BRANCH_6
+            CMP.w #$000E : BNE .BRANCH_7
                 STZ.b $D0
                 
                 LDX.b #$20 : STX.w $0FF9
@@ -7090,9 +8047,9 @@ Intro_InitLogoSword:
 
     ; $067EE9
     .vectors
-    dw $FEEF ; = $067EEF
-    dw $FF13 ; = $067F13
-    dw $FF51 ; = $067F51
+    dw LogoSword_IdleState    ; 0x00 - $FEEF
+    dw LogoSword_EyeTwinkle   ; 0x01 - $FF13
+    dw LogoSword_BladeShimmer ; 0x02 - $FF51
 }
 
 ; ==============================================================================
@@ -7116,9 +8073,11 @@ LogoSword_IdleState:
 ; $067F05-$067F12 DATA TABLE
 Pool_LogoSword_EyeTwinkle:
 {
+    ; $067F05
     .timer
     db $04, $04, $06, $06, $06, $04, $04
 
+    ; $067F0C
     .char
     db $28, $37, $27, $36, $27, $37, $28
 }
@@ -7140,8 +8099,7 @@ LogoSword_EyeTwinkle:
         
         .BRANCH_1
         
-        ; $067F05. SEE DATA TABLE ABOVE.
-        LDA.w $FF05, X : STA.b $CA
+        LDA.w Pool_LogoSword_EyeTwinkle_timer, X : STA.b $CA
     
     .BRANCH_2
     
@@ -7152,7 +8110,7 @@ LogoSword_EyeTwinkle:
     
     LDA.b $25 : STA.w $0943
     
-    LDA.w $FF0C, X : STA.w $0942
+    LDA.w Pool_LogoSword_EyeTwinkle_char, X : STA.w $0942
     
     .BRANCH_3
     
@@ -7193,8 +8151,8 @@ LogoSword_BladeShimmer:
         
         LDA.b #$23 : STA.w $0943 : STA.w $0947
         
-        LDA.w $FF49, X : STA.w $0942
-        LDA.w $FF4A, X : STA.w $0946
+        LDA.w Pool_LogoSword_BladeShimmer_char+0, X : STA.w $0942
+        LDA.w Pool_LogoSword_BladeShimmer_char+1, X : STA.w $0946
         
         LDA.b $CA : BNE .BRANCH_3
             LDA.b $CD : CLC : ADC.b #$04 : STA.b $CD
