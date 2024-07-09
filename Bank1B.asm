@@ -753,14 +753,14 @@ Overworld_Entrance:
     ; If player is facing a different direction than up, branch
     LDA.b $2F : AND.w #$00FF : BNE .notFacingUp
     
-    LDA.l $0F8002, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
+    LDA.l Map16Definitions_1, X : AND.w #$41FF : CMP.w #$00E9 : BEQ .BRANCH_BETA
         CMP.w #$0149 : BEQ .BRANCH_GAMMA
         CMP.w #$0169 : BEQ .BRANCH_GAMMA
             TYX
             
             LDA.l $7E2002, X : ASL #3 : TAX
             
-            LDA.l $0F8000, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
+            LDA.l Map16Definitions_0, X : AND.w #$41FF : CMP.w #$4149 : BEQ .BRANCH_DELTA
                 CMP.w #$4169 : BEQ .BRANCH_DELTA
                     CMP.w #$40E9 : BNE .BRANCH_EPSILON
                         DEY #2
@@ -1110,7 +1110,7 @@ Overworld_Map16_ToolInteraction:
     
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL A : TAX
     
-    LDA.l $0F8000, X : AND.w #$01FF : TAX
+    LDA.l Map16Definitions, X : AND.w #$01FF : TAX
     
     LDA Overworld_TileAttr, X : PHA
     
@@ -1143,7 +1143,7 @@ Overworld_HammerSfx:
 {
     ASL #3 : TAX
     
-    LDA.l $0F8000, X : AND.w #$01FF : TAX
+    LDA.l Map16Definitions, X : AND.w #$01FF : TAX
     
     LDA Overworld_TileAttr, X
     
@@ -1315,7 +1315,7 @@ Overworld_LiftableTiles:
     
     LDA.b $00 : LSR #3 : AND.w #$0001 : ORA.b $06 : ASL A : TAX
     
-    LDA.l $0F8000, X : AND.w #$01FF : TAX
+    LDA.l Map16Definitions, X : AND.w #$01FF : TAX
     
     PLA : STA.b $00
     PLA : STA.b $02
@@ -2866,10 +2866,10 @@ Overworld_DrawMap16_Anywhere
     
     LDX.b $0C
     
-    LDA.l $0F8000, X : STA.w $1006, Y
-    LDA.l $0F8002, X : STA.w $1008, Y
-    LDA.l $0F8004, X : STA.w $100E, Y
-    LDA.l $0F8006, X : STA.w $1010, Y
+    LDA.l Map16Definitions_0, X : STA.w $1006, Y
+    LDA.l Map16Definitions_1, X : STA.w $1008, Y
+    LDA.l Map16Definitions_2, X : STA.w $100E, Y
+    LDA.l Map16Definitions_3, X : STA.w $1010, Y
     
     LDA.w #$FFFF : STA.w $1012, Y
     
@@ -2926,10 +2926,10 @@ Overworld_AlterTileHardcore:
     LDX.b $0C
     
     ; Load tile indices from ROM.
-    LDA.l $0F8000, X : STA.w $1006, Y ; The top left corner of the block.
-    LDA.l $0F8002, X : STA.w $1008, Y ; The top right 8x8 tile of the block.
-    LDA.l $0F8004, X : STA.w $100E, Y ; The bottom left corner.
-    LDA.l $0F8006, X : STA.w $1010, Y ; The bottom right corner.
+    LDA.l Map16Definitions_0, X : STA.w $1006, Y ; The top left corner.
+    LDA.l Map16Definitions_1, X : STA.w $1008, Y ; The top right corner.
+    LDA.l Map16Definitions_2, X : STA.w $100E, Y ; The bottom left corner.
+    LDA.l Map16Definitions_3, X : STA.w $1010, Y ; The bottom right corner.
     
     TYA : CLC : ADC.w #$0010 : STA.w $1000
     
@@ -2944,12 +2944,10 @@ Overworld_AlterTileHardcore:
 
 ; ==============================================================================
 
+; I guess this calculates some sort of vram type address for an outdoor tile?
 ; $0DCA69-$0DCA9E LOCAL JUMP LOCATION
 Overworld_FindMap16VRAMAddress:
 {
-    ; I guess this calculates some sort of vram type address for an
-    ; outdoor tile?
-    
     STZ.b $02
     
     LDA.b $00 : AND.w #$003F : CMP.w #$0020 : BCC .BRANCH_ALPHA
@@ -5803,10 +5801,10 @@ PaletteIDtoOffset:
     db $D2 ; 0x0F*14
 }
     
-; $0DEC06-$0DEC04 DATA
+; $0DEBD6-$0DEC05 DATA
 PaletteIDtoOffset_16bit:
 {
-    ; $0DEC06
+    ; $0DEBD6
     dw $0000 ; 0x00*14
     dw $000E ; 0x01*14
     dw $001C ; 0x02*14
@@ -5836,7 +5834,7 @@ PaletteIDtoOffset_16bit:
     dw $0142 ; 0x17*14
 }
 
-; $0DEC05-$0DEC0A DATA
+; $0DEC06-$0DEC0A DATA
 LinkMailPalettesOffsets:
 {
     db (Palettes_GreenMail-PaletteData_Link)/2 ; $00

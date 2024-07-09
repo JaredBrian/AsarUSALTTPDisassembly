@@ -15435,7 +15435,7 @@ CreateMap16Stripes_Vertical:
 
         LDA.w $0500, X : INX #2 : STX.b $02 : ASL #3 : TAX
 
-        ; $078000, X Place the top left map8 tile.
+        ; Place the top left map8 tile.
         LDA.l Map16Definitions_0, X : STA.w $1100, Y
 
         ; Place the bottom left map8 tile.

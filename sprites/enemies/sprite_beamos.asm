@@ -8,13 +8,12 @@ Sprite_Beamos:
     
     ; Usually/always zero? Can't tell
     LDA.w $0DB0, X : BEQ .is_beamos_station
-    CMP.b #$01   : BNE .is_collided_laser_sprite
-    
-    JMP Sprite_BeamosLaser
-    
-    .is_collided_laser_sprite
-    
-    JMP Sprite_BeamosLaserHit
+        CMP.b #$01 : BNE .is_collided_laser_sprite
+            JMP Sprite_BeamosLaser
+        
+        .is_collided_laser_sprite
+        
+        JMP Sprite_BeamosLaserHit
     
     .is_beamos_station
     
@@ -26,51 +25,46 @@ Sprite_Beamos:
     ; Is the eyeball revolving?
     ; (I.e. the sentry is in the ground state.)
     LDA.w $0D80, X : BEQ .search_state
-    
-    ; Is the statue sentry in fire mode?
-    CMP.b #$03 : BNE .delta ; Nope, either in mode 1,2, or 4
-    
-    ; Load the inactivity timer, has it expired? (We're in firing mode btw)
-    LDA.w $0DF0, X : BNE .epsilon ; No, the timer is still going.
-    
-    INC.w $0D80, X ; basically, go to mode 4.
-    
-    LDA.b #$50 : STA.w $0DF0, X ; Wait #$50 frames or so to start up again.
-    
-    JSL Sprite_LoadPalette
-    
-    RTS
-    
-    .epsilon ; Timer is still going, and we're in firing mode.
-    
-    CMP.b #$0F : BNE .dont_fire_beam
-    
-    PHA
-    
-    ; Fire za laser! (Comment kept because I like it. Shut up!)
-    JSR Beamos_FireBeam
-    
-    PLA
-    
-    .dont_fire_beam
-    
-    ; Change the palette to the next in the cycle
-    LSR A : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
-    
-    RTS
-    
-    ; Waiting for the timer to reset after a shot was fired.
-    .delta
-    
-    ; Has the timer for the blaster counted down yet?
-    LDA.w $0DF0, X : BNE .theta ; No the timer is still going.
-    
-    ; If so, put the Statue Sentry back in ground state so it can start  moving again. (moving its eyeball anyways)
-    STZ.w $0D80, X
-    
-    .theta
-    
-    RTS
+        ; Is the statue sentry in fire mode?
+        CMP.b #$03 : BNE .delta ; Nope, either in mode 1,2, or 4
+            ; Load the inactivity timer, has it expired? (We're in firing mode btw)
+            LDA.w $0DF0, X : BNE .epsilon ; No, the timer is still going.
+                INC.w $0D80, X ; basically, go to mode 4.
+                
+                LDA.b #$50 : STA.w $0DF0, X ; Wait #$50 frames or so to start up again.
+                
+                JSL Sprite_LoadPalette
+                
+                RTS
+            
+            .epsilon ; Timer is still going, and we're in firing mode.
+            
+            CMP.b #$0F : BNE .dont_fire_beam
+                PHA
+                
+                ; Fire za laser! (Comment kept because I like it. Shut up!)
+                JSR Beamos_FireBeam
+                
+                PLA
+            
+            .dont_fire_beam
+            
+            ; Change the palette to the next in the cycle
+            LSR A : AND.b #$0E : EOR.w $0F50, X : STA.w $0F50, X
+            
+            RTS
+            
+        ; Waiting for the timer to reset after a shot was fired.
+        .delta
+        
+        ; Has the timer for the blaster counted down yet?
+        LDA.w $0DF0, X : BNE .theta ; No the timer is still going.
+            ; If so, put the Statue Sentry back in ground state so it can start  moving again. (moving its eyeball anyways)
+            STZ.w $0D80, X
+        
+        .theta
+        
+        RTS
     
     .search_state
     
@@ -79,13 +73,12 @@ Sprite_Beamos:
     ; X denotes which enemy in the list it is. Generally 0x0 - 0xF
     ; This code helps us decide whether or not to make the eyeball rotate this frame
     TXA : EOR.b $1A : AND.b #$03 : BNE .no_rotation_this_frame
-    
-    ; What angular state are we rotated to (0x00 - 0x3F)?
-    LDA.w $0DE0, X : STA.b $0F
-    
-    JSR Sprite_SpawnProbeAlways
-    
-    INC.w $0DE0, X ; Increment the Statue sentry's rotation.
+        ; What angular state are we rotated to (0x00 - 0x3F)?
+        LDA.w $0DE0, X : STA.b $0F
+        
+        JSR Sprite_SpawnProbeAlways
+        
+        INC.w $0DE0, X ; Increment the Statue sentry's rotation.
     
     .no_rotation_this_frame
     
@@ -104,73 +97,68 @@ Sprite_Beamos:
 Beamos_FireBeam:
 {
     LDA.w $0B6A : CMP.b #$04 : BCS Sprite_Beamos_easy_out
-    
-    LDA.b #$61 : JSL Sprite_SpawnDynamically : BMI Sprite_Beamos_easy_out
-    
-    LDA.b #$19 : JSL Sound_SetSfx3PanLong
-    
-    PHX
-    
-    LDX.b #$00
-    
-    LDA.w $0FA8 : BPL .positive_x
-    
-    DEX
-    
-    .positive_x
-    
-          CLC : ADC.b $00 : STA.w $0D10, Y
-    TXA : ADC.b $01 : STA.w $0D30, Y
-    
-    LDX.b #$00
-    
-    LDA.w $0FA9 : BPL .positive_y
-    
-    DEX
-    
-    .positive_y
-    
-          CLC : ADC.b $02 : STA.w $0D00, Y
-    TXA : ADC.b $03 : STA.w $0D20, Y
-    
-    TYX
-    
-    LDA.b #$20
-    
-    JSL Sprite_ApplySpeedTowardsPlayerLong
-    
-    LDA.b #$3F : STA.w $0E40, Y
-    LDA.b #$54 : STA.w $0F60, Y
-    LDA.b #$01 : STA.w $0DB0, Y
-    LDA.b #$48 : STA.w $0CAA, Y
-    
-    ; The palette for the laser beam
-    LDA.b #$03 : STA.w $0F50, Y
-    LDA.b #$04 : STA.w $0CD2, Y
-    LDA.b #$0C : STA.w $0E00, Y
-    
-    LDA.w $0B6A : STA.w $0DC0, Y
-    
-    INC.w $0B6A
-    
-    LDA.b #$1F : STA.b $00
-                 LDX.w $0DC0, Y : CLC : ADC Sprite_BeamosLaser.slots, X : TAX
-    
-    .init_subsprite_positions
-    
-    LDA.w $0D10, Y : STA.l $7FFD80, X
-    LDA.w $0D30, Y : STA.l $7FFE00, X
-    
-    LDA.w $0D00, Y : STA.l $7FFE80, X
-    LDA.w $0D20, Y : STA.l $7FFF00, X
-    
-    DEX
-    
-    DEC.b $00 : BPL .init_subsprite_positions
-    
-    PLX
-    
-    RTS
+        LDA.b #$61 : JSL Sprite_SpawnDynamically : BMI Sprite_Beamos_easy_out
+            LDA.b #$19 : JSL Sound_SetSfx3PanLong
+            
+            PHX
+            
+            LDX.b #$00
+            
+            LDA.w $0FA8 : BPL .positive_x
+                DEX
+            
+            .positive_x
+            
+                CLC : ADC.b $00 : STA.w $0D10, Y
+            TXA : ADC.b $01 : STA.w $0D30, Y
+            
+            LDX.b #$00
+            
+            LDA.w $0FA9 : BPL .positive_y
+                DEX
+            
+            .positive_y
+            
+                CLC : ADC.b $02 : STA.w $0D00, Y
+            TXA : ADC.b $03 : STA.w $0D20, Y
+            
+            TYX
+            
+            LDA.b #$20
+            
+            JSL Sprite_ApplySpeedTowardsPlayerLong
+            
+            LDA.b #$3F : STA.w $0E40, Y
+            LDA.b #$54 : STA.w $0F60, Y
+            LDA.b #$01 : STA.w $0DB0, Y
+            LDA.b #$48 : STA.w $0CAA, Y
+            
+            ; The palette for the laser beam
+            LDA.b #$03 : STA.w $0F50, Y
+            LDA.b #$04 : STA.w $0CD2, Y
+            LDA.b #$0C : STA.w $0E00, Y
+            
+            LDA.w $0B6A : STA.w $0DC0, Y
+            
+            INC.w $0B6A
+            
+            LDA.b #$1F : STA.b $00
+            LDX.w $0DC0, Y : CLC : ADC Sprite_BeamosLaser.slots, X : TAX
+            
+            .init_subsprite_positions
+            
+                LDA.w $0D10, Y : STA.l $7FFD80, X
+                LDA.w $0D30, Y : STA.l $7FFE00, X
+                
+                LDA.w $0D00, Y : STA.l $7FFE80, X
+                LDA.w $0D20, Y : STA.l $7FFF00, X
+                
+                DEX
+            DEC.b $00 : BPL .init_subsprite_positions
+            
+            PLX
+            
+            RTS
 }
 
 ; ==============================================================================
@@ -185,8 +173,6 @@ Pool_Beamos_Draw:
     db $48, $68
 }
 
-; ==============================================================================
-
 ; $029068-$0290D0 LOCAL JUMP LOCATION
 Beamos_Draw:
 {
@@ -198,11 +184,10 @@ Beamos_Draw:
     ; Is it at the far right? (rotation ranges from 0x00 to 0x3F)
     ; Nope, it's farther around (counter clockwise)
     LDA.w $0DE0, X : CMP.b #$20 : BCS .in_upper_quadrants
-    
-    ; In this case the eyeball appears on top of the statue.
-    LDA.b #$0C : JSL OAM_AllocateFromRegionB
-    
-    LDY.b #$04 : BRA .oam_has_been_allocated
+        ; In this case the eyeball appears on top of the statue.
+        LDA.b #$0C : JSL OAM_AllocateFromRegionB
+        
+        LDY.b #$04 : BRA .oam_has_been_allocated
     
     ; Since the eyeball is further around, you have to flip the sprite display priorities.
     .in_upper_quadrants 
@@ -221,33 +206,31 @@ Beamos_Draw:
     
     .next_subsprite
     
-    ; Save the loop counter.
-    PHX : TXA : ASL A : TAX
-    
-    REP #$20
-    
-    ; (X = 0 OR 2), hence A = -16 OR 0
-    LDA.b $00                            : STA ($90), Y
-    AND.w #$0100 : STA.b $0E
-    LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
-    
-    CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
-    
-    LDA.b #$F0 : STA ($90), Y
-    
-    .on_screen_y
-    
-    PLX
-    
-    LDA .chr, X : INY : STA ($90), Y
-    LDA.b $05     : INY : STA ($90), Y
-    
-    PHY : TYA : LSR #2 : TAY
-    
-    LDA.b #$02 : ORA.b $0F : STA ($92), Y
-    
-    PLY : INY
-    
+        ; Save the loop counter.
+        PHX : TXA : ASL A : TAX
+        
+        REP #$20
+        
+        ; (X = 0 OR 2), hence A = -16 OR 0
+        LDA.b $00                            : STA ($90), Y
+        AND.w #$0100 : STA.b $0E
+        LDA.b $02 : CLC : ADC .y_offsets, X : INY : STA ($90), Y
+        
+        CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
+            LDA.b #$F0 : STA ($90), Y
+        
+        .on_screen_y
+        
+        PLX
+        
+        LDA .chr, X : INY : STA ($90), Y
+        LDA.b $05     : INY : STA ($90), Y
+        
+        PHY : TYA : LSR #2 : TAY
+        
+        LDA.b #$02 : ORA.b $0F : STA ($92), Y
+        
+        PLY : INY
     DEX : BPL .next_subsprite
     
     PLX
@@ -287,8 +270,6 @@ Pool_Beamos_DrawEyeBall:
     db $00, $00, $00, $00, $00, $00, $00, $00
     
 }
-
-; ==============================================================================
 
 ; $029151-$0291B0 LOCAL JUMP LOCATION
 Beamos_DrawEyeball:
@@ -413,7 +394,7 @@ Sprite_BeamosLaser:
     PLY : DEY : BPL .move_next_subsprite
     
     LDA.w $0DF0, X : BEQ .capable_of_damage_now
-    DEC A        : BNE .wait
+    DEC A          : BNE .wait
     
     STZ.w $0DD0, X
     

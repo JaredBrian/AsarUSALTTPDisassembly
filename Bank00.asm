@@ -1069,10 +1069,8 @@ Overworld_GetTileAttrAtLocation:
     LDA.b $00 : AND.w #$0008 : LSR #2 : TSB.b $06
     LDA.b $02 : AND.w #$0001 : ORA.b $06 : ASL A : TAX
     
-    ; $078000, X THAT IS
-    LDA.l $0F8000, X : STA.b $06 : AND.w #$01FF : TAX
+    LDA.l Map16Definitions, X : STA.b $06 : AND.w #$01FF : TAX
     
-    ; $071459, X THAT IS
     LDA Overworld_TileAttr, X
     
     SEP #$30

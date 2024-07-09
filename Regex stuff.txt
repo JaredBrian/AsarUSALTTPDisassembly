@@ -19,6 +19,9 @@ Get rid of kan address formatting:
 Find op codes that are using ROM addresses:
 ...\.. \$[89A-F][0-9A-F][0-9A-F][0-9A-F]
 
+Find op codes that are using LONG ROM addresses:
+...\.. \$[0-1][0-9A-F][0-9A-F][0-9A-F][0-9A-F][0-9A-F]
+
 Find comments with a lower case starting letter and replace with upper case:
 ; ([a-z])
 ; \U$1
