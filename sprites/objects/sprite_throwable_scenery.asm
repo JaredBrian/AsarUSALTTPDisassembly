@@ -4,16 +4,20 @@
 ; $032ABE-$032ADF DATA
 Pool_Sprite_ThrowableScenery:
 {
+    ; $032ABE
     .chr
     db $42, $44, $46, $00, $46, $44, $42, $44
     db $44, $00, $46, $44
     
+    ; $032ACA
     .palettes
     db $0C, $0C, $0C, $00, $00, $00
     
+    ; $032AD0
     .main_oam_table_offsets
     dw $08B0, $08B4, $08B8, $08BC
     
+    ; $032AD8
     .high_oam_table_offsets
     dw $0A4C, $0A4D, $0A4E, $0A4F
 }
@@ -23,7 +27,7 @@ Pool_Sprite_ThrowableScenery:
 ; $032AE0-$032B59 JUMP LOCATION
 Sprite_ThrowableScenery:
 {
-		; if($0FC6 >= 0x03)
+	; if($0FC6 >= 0x03)
     LDA.w $0FC6 : CMP.b #$03 : BCS .cant_draw
     
     LDA.w $0FB3 : BEQ .dont_use_reserved_oam_slots

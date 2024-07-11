@@ -3746,7 +3746,8 @@ $0CF2[0x01] -   (Sprite)
     
     Damage type determiner
 
-$0CF3[0x01] -   free ram
+$0CF3[0x01] -   free ram TODO: actually not? A comment in bank 06 seems to
+                suggest otherwise.
 
 $0CF4[0x01] -   
     

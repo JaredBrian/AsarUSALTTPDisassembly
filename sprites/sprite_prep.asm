@@ -2613,29 +2613,33 @@ SpritePrep_CrystalMaiden:
 
 ; ==============================================================================
 
-; $03124E-$031270 JUMP LOCATION
+; $03124E-$031255 JUMP LOCATION
 SpritePrep_BigKey:
 {
     JSR SpritePrep_MoveRightOneTile
     
     LDA.b #$FF : STA.w $0E30, X
 
-    ; $031256 ALTERNATE ENTRY POINT
-    shared SpritePrep_LoadBigKeyGfx:
+    ; Bleeds into the next function.
+}
 
+; $031256-$031261 JUMP LOCATION
+SpritePrep_LoadBigKeyGfx:
+{
     PHX : PHY
     
     LDA.b #$22
     
-    JSL GetAnimatedSpriteTile.variable
+    JSL GetAnimatedSpriteTile_variable
     
     PLY : PLX
     
-    BRA .set_item_drop
-    
-    ; $031262 ALTERNATE ENTRY POINT
-    shared SpritePrep_Key:
-    
+    BRA SpritePrep_Key_set_item_drop
+}
+
+; $031262-$031270 JUMP LOCATION
+SpritePrep_Key:
+{
     LDA.b #$FF : STA.w $0E30, X
     
     ; $031267 ALTERNATE ENTRY POINT

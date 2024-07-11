@@ -1,9 +1,3 @@
-Date: 12/01/2006
-Version 5. Minor revisions.
-
-Date: 11/23/2005
-Version 4. Nearly Totally correct and complete. It remains to be proven that certain areas are unused.
-
 /\/\/\/  ||\\\\ ||     |||\\      /\       ||||||||||||       /\
     /|   ||     ||     //  \\    //\\        || || ||        //\\
    /|    ||\\   ||     //   ||  //  \\       || || ||       ///\\\
@@ -188,7 +182,7 @@ Ether Medallion:  $348: 0 - nothing. 1 - Ether Medallion.
 
 Quake Medallion:  $349: 0 - nothing. 1 - Quake Medallion.
 
-Torch:            $34A. 0 - nothing. 1 - torch.
+Lamp:            $34A. 0 - nothing. 1 - Lamp.
 
 Hammer:           $34B. 0 - nothing. 1 - magic hammer. 
 
