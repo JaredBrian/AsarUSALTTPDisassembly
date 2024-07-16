@@ -4,6 +4,9 @@
 ; $028000-$02FFFF
 org $058000
 
+; Misc Garnish code
+; Misc Sprites
+
 ; ==============================================================================
 
 ; $028000-$028007 DATA
@@ -16,63 +19,59 @@ Pool_Sprite_SpawnSparkleGarnish:
     db $FF, $00, $00, $00
 }
 
-; ==============================================================================
-
 ; $028008-$02807E LONG JUMP LOCATION
 Sprite_SpawnSparkleGarnish:
 {
-    ; Check if the frame counter is a multiple of 4
+    ; Check if the frame counter is a multiple of 4:
     LDA.b $1A : AND.b #$03 : BNE .skip_frame
-    
-    PHX
-    
-    TXY
-    
-    JSL GetRandomInt : AND.b #$03 : TAX
-    
-    LDA.l .low_offset, X  : STA.b $00
-    LDA.l .high_offset, X : STA.b $01
-    
-    JSL GetRandomInt : AND.b #$03 : TAX
-    
-    LDA.l .low_offset, X  : STA.b $02
-    LDA.l .high_offset, X : STA.b $0303
-    
-    LDX.b #$1D
-    
-    .next_slot
-    
-    LDA.l $7FF800, X : BEQ .empty_slot
-    
-    DEX : BPL .next_slot
-    
-    ; Even if we don't find an empty slot, we're still going to use slot 0
-    ; anyway.
-    INX
-    
-    .empty_slot
-    
-    ; sprite falling into a hole animation?
-    ; (update: more likely to be setting up a sparkle animation, as this
-    ; has so far only been linked to good bees and something that also seems
-    ; to be a good bee).
-    LDA.b #$12 : STA.l $7FF800, X
-                 STA.w $0FB4
-    
-    LDA.w $0D10, Y : CLC : ADC.b $00 : STA.l $7FF83C, X
-    LDA.w $0D30, Y : ADC.b $01 : STA.l $7FF878, X
-    
-    LDA.w $0D00, Y : CLC : ADC.b $0202 : STA.l $7FF81E, X
-    LDA.w $0D20, Y : ADC.b $0303 : STA.l $7FF85A, X
-    
-    ; Set the associated sprite index for the garnish sprite?
-    TYA : STA.l $7FF92C, X
-    
-    LDA.b #$0F : STA.l $7FF90E, X
-    
-    TXY
-    
-    PLX
+        PHX
+        
+        TXY
+        
+        JSL GetRandomInt : AND.b #$03 : TAX
+        
+        LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $00
+        LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $01
+        
+        JSL GetRandomInt : AND.b #$03 : TAX
+        
+        LDA.l Pool_Sprite_SpawnSparkleGarnish_low_offset, X  : STA.b $02
+        LDA.l Pool_Sprite_SpawnSparkleGarnish_high_offset, X : STA.b $0303
+        
+        LDX.b #$1D
+        
+        .next_slot
+        
+            LDA.l $7FF800, X : BEQ .empty_slot
+        DEX : BPL .next_slot
+        
+        ; Even if we don't find an empty slot, we're still going to use slot 0
+        ; anyway.
+        INX
+        
+        .empty_slot
+        
+        ; Sprite falling into a hole animation?
+        ; (update: more likely to be setting up a sparkle animation, as this
+        ; has so far only been linked to good bees and something that also seems
+        ; to be a good bee).
+        LDA.b #$12 : STA.l $7FF800, X
+                     STA.w $0FB4
+        
+        LDA.w $0D10, Y : CLC : ADC.b $00 : STA.l $7FF83C, X
+        LDA.w $0D30, Y :       ADC.b $01 : STA.l $7FF878, X
+        
+        LDA.w $0D00, Y : CLC : ADC.b $0202 : STA.l $7FF81E, X
+        LDA.w $0D20, Y :       ADC.b $0303 : STA.l $7FF85A, X
+        
+        ; Set the associated sprite index for the garnish sprite?
+        TYA : STA.l $7FF92C, X
+        
+        LDA.b #$0F : STA.l $7FF90E, X
+        
+        TXY
+        
+        PLX
     
     .skip_frame
     
@@ -91,27 +90,70 @@ Sprite_HelmasaurFireballTrampoline:
 
 ; ==============================================================================
 
+; $028084-$028175
 incsrc "sprite_wall_cannon.asm"
+
+; $028176-$02852C
 incsrc "sprite_archery_game_guy.asm"
+
+; $02852D-$02874C
 incsrc "sprite_debirando_pit.asm"
-incsrc "sprite_beamos.asm"
+
+; $02874D-$0288C4
 incsrc "sprite_debirando.asm"
+
+; $0288C5-$028DD7
 incsrc "sprite_master_sword.asm"
+
+; $028DD8-$028F53
 incsrc "sprite_spike_roller.asm"
+
+; $028F54-$029332
+incsrc "sprite_beamos.asm"
+
+; 
 incsrc "sprite_spark.asm"
+
+; 
 incsrc "sprite_lost_woods_bird.asm"
+
+; 
 incsrc "sprite_lost_woods_squirrel.asm"
+
+; 
 incsrc "sprite_crab.asm"
+
+; 
 incsrc "sprite_desert_barrier.asm"
+
+; 
 incsrc "sprite_zora_and_fireball.asm"
+
+; 
 incsrc "sprite_zora_king.asm"
+
+; 
 incsrc "sprite_walking_zora.asm"
+
+; 
 incsrc "sprite_armos_knight.asm"
+
+; 
 incsrc "sprite_lanmola.asm"
+
+; 
 incsrc "sprite_rat.asm"
+
+; 
 incsrc "sprite_rope.asm"
+
+; 
 incsrc "sprite_cannon_trooper.asm"
+
+; 
 incsrc "sprite_warp_vortex.asm"
+
+; 
 incsrc "sprite_flail_trooper.asm"
 
 ; ==============================================================================

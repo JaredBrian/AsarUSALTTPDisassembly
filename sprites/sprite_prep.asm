@@ -296,7 +296,7 @@ SpritePrep_GoodSwitch:
 {
     LDA.w $048E
     
-    ; Are there only three rooms where these switches work? 0_o.
+    ; Are there only three rooms where these switches work?
     
     CMP.b #$CE : BEQ .BRANCH_ALPHA
     CMP.b #$04 : BEQ .BRANCH_ALPHA

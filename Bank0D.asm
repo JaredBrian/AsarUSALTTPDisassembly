@@ -5082,7 +5082,2397 @@ NULL_0DAFDD:
 
 ; ==============================================================================
 
-incsrc "sprite_properties.asm"
+; $0E40 - OAM allocation and misc settings.
+; $06B080-$06B172 DATA
+SpriteData_OAMHarm:
+{
+    db $01 ; ... $01 | 0x00 - RAVEN
+    db $02 ; ... $02 | 0x01 - VULTURE
+    db $01 ; ... $01 | 0x02 - STALFOS HEAD
+    db $82 ; h.. $02 | 0x03 - NULL
+    db $81 ; h.. $01 | 0x04 - CORRECT PULL SWITCH
+    db $84 ; h.. $04 | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $84 ; h.. $04 | 0x06 - WRONG PULL SWITCH
+    db $84 ; h.. $04 | 0x07 - UNUSED WRONG PULL SWITCH
+    db $02 ; ... $02 | 0x08 - OCTOROK
+    db $0F ; ... $0F | 0x09 - MOLDORM
+    db $02 ; ... $02 | 0x0A - OCTOROK 4WAY
+    db $01 ; ... $01 | 0x0B - CUCCO
+    db $20 ; ..w $00 | 0x0C - OCTOROK STONE
+    db $03 ; ... $03 | 0x0D - BUZZBLOB
+    db $04 ; ... $04 | 0x0E - SNAPDRAGON
+    db $84 ; h.. $04 | 0x0F - OCTOBALLOON
+    db $01 ; ... $01 | 0x10 - OCTOBALLOON BABY
+    db $05 ; ... $05 | 0x11 - HINOX
+    db $04 ; ... $04 | 0x12 - MOBLIN
+    db $01 ; ... $01 | 0x13 - MINI HELMASAUR
+    db $80 ; h.. $00 | 0x14 - THIEVES TOWN GRATE
+    db $04 ; ... $04 | 0x15 - ANTIFAIRY
+    db $A2 ; h.w $02 | 0x16 - SAHASRAHLA / AGINAH
+    db $83 ; h.. $03 | 0x17 - HOARDER
+    db $04 ; ... $04 | 0x18 - MINI MOLDORM
+    db $02 ; ... $02 | 0x19 - POE
+    db $82 ; h.. $02 | 0x1A - SMITHY
+    db $62 ; .mw $02 | 0x1B - ARROW
+    db $82 ; h.. $02 | 0x1C - STATUE
+    db $80 ; h.. $00 | 0x1D - FLUTEQUEST
+    db $80 ; h.. $00 | 0x1E - CRYSTAL SWITCH
+    db $85 ; h.. $05 | 0x1F - SICK KID
+    db $01 ; ... $01 | 0x20 - SLUGGULA
+    db $A5 ; h.w $05 | 0x21 - WATER SWITCH
+    db $03 ; ... $03 | 0x22 - ROPA
+    db $04 ; ... $04 | 0x23 - RED BARI
+    db $04 ; ... $04 | 0x24 - BLUE BARI
+    db $83 ; h.. $03 | 0x25 - TALKING TREE
+    db $02 ; ... $02 | 0x26 - HARDHAT BEETLE
+    db $01 ; ... $01 | 0x27 - DEADROCK
+    db $82 ; h.. $02 | 0x28 - DARK WORLD HINT NPC
+    db $A2 ; h.w $02 | 0x29 - ADULT
+    db $A2 ; h.w $02 | 0x2A - SWEEPING LADY
+    db $A3 ; h.w $03 | 0x2B - HOBO
+    db $AA ; h.w $0A | 0x2C - LUMBERJACKS
+    db $A3 ; h.w $03 | 0x2D - NECKLESS MAN
+    db $A4 ; h.w $04 | 0x2E - FLUTE KID
+    db $82 ; h.. $02 | 0x2F - RACE GAME LADY
+    db $82 ; h.. $02 | 0x30 - RACE GAME GUY
+    db $83 ; h.. $03 | 0x31 - FORTUNE TELLER
+    db $82 ; h.. $02 | 0x32 - ARGUE BROS
+    db $80 ; h.. $00 | 0x33 - RUPEE PULL
+    db $82 ; h.. $02 | 0x34 - YOUNG SNITCH
+    db $82 ; h.. $02 | 0x35 - INNKEEPER
+    db $A5 ; h.w $05 | 0x36 - WITCH
+    db $80 ; h.. $00 | 0x37 - WATERFALL
+    db $A4 ; h.w $04 | 0x38 - EYE STATUE
+    db $82 ; h.. $02 | 0x39 - LOCKSMITH
+    db $81 ; h.. $01 | 0x3A - MAGIC BAT
+    db $82 ; h.. $02 | 0x3B - BONK ITEM
+    db $82 ; h.. $02 | 0x3C - KID IN KAK
+    db $82 ; h.. $02 | 0x3D - OLD SNITCH
+    db $81 ; h.. $01 | 0x3E - HOARDER
+    db $06 ; ... $06 | 0x3F - TUTORIAL GUARD
+    db $08 ; ... $08 | 0x40 - LIGHTNING GATE
+    db $08 ; ... $08 | 0x41 - BLUE GUARD
+    db $08 ; ... $08 | 0x42 - GREEN GUARD
+    db $08 ; ... $08 | 0x43 - RED SPEAR GUARD
+    db $06 ; ... $06 | 0x44 - BLUESAIN BOLT
+    db $08 ; ... $08 | 0x45 - USAIN BOLT
+    db $08 ; ... $08 | 0x46 - BLUE ARCHER
+    db $08 ; ... $08 | 0x47 - GREEN BUSH GUARD
+    db $06 ; ... $06 | 0x48 - RED JAVELIN GUARD
+    db $07 ; ... $07 | 0x49 - RED BUSH GUARD
+    db $07 ; ... $07 | 0x4A - BOMB GUARD
+    db $02 ; ... $02 | 0x4B - GREEN KNIFE GUARD
+    db $02 ; ... $02 | 0x4C - GELDMAN
+    db $22 ; ..w $02 | 0x4D - TOPPO
+    db $01 ; ... $01 | 0x4E - POPO
+    db $01 ; ... $01 | 0x4F - POPO
+    db $20 ; ..w $00 | 0x50 - CANNONBALL
+    db $82 ; h.. $02 | 0x51 - ARMOS STATUE
+    db $07 ; ... $07 | 0x52 - KING ZORA
+    db $85 ; h.. $05 | 0x53 - ARMOS KNIGHT
+    db $0F ; ... $0F | 0x54 - LANMOLAS
+    db $21 ; ..w $01 | 0x55 - ZORA / FIREBALL
+    db $05 ; ... $05 | 0x56 - ZORA
+    db $83 ; h.. $03 | 0x57 - DESERT STATUE
+    db $02 ; ... $02 | 0x58 - CRAB
+    db $01 ; ... $01 | 0x59 - LOST WOODS BIRD
+    db $01 ; ... $01 | 0x5A - LOST WOODS SQUIRREL
+    db $01 ; ... $01 | 0x5B - SPARK
+    db $01 ; ... $01 | 0x5C - SPARK
+    db $07 ; ... $07 | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $07 ; ... $07 | 0x5E - ROLLER VERTICAL UP FIRST
+    db $07 ; ... $07 | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $07 ; ... $07 | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $00 ; ... $00 | 0x61 - BEAMOS
+    db $85 ; h.. $05 | 0x62 - MASTERSWORD
+    db $83 ; h.. $03 | 0x63 - DEBIRANDO PIT
+    db $03 ; ... $03 | 0x64 - DEBIRANDO
+    db $A4 ; h.w $04 | 0x65 - ARCHERY GUY
+    db $00 ; ... $00 | 0x66 - WALL CANNON VERTICAL LEFT
+    db $00 ; ... $00 | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $00 ; ... $00 | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $00 ; ... $00 | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $09 ; ... $09 | 0x6A - BALL N CHAIN
+    db $04 ; ... $04 | 0x6B - CANNONBALL / CANNON TROOPER
+    db $A0 ; h.w $00 | 0x6C - MIRROR PORTAL
+    db $00 ; ... $00 | 0x6D - RAT / CRICKET
+    db $01 ; ... $01 | 0x6E - SNAKE
+    db $00 ; ... $00 | 0x6F - KEESE
+    db $00 ; ... $00 | 0x70 - KING HELMASAUR FIREBALL
+    db $03 ; ... $03 | 0x71 - LEEVER
+    db $8B ; h.. $0B | 0x72 - FAIRY POND TRIGGER
+    db $86 ; h.. $06 | 0x73 - UNCLE / PRIEST / MANTLE
+    db $C2 ; hm. $02 | 0x74 - RUNNING MAN
+    db $82 ; h.. $02 | 0x75 - BOTTLE MERCHANT
+    db $81 ; h.. $01 | 0x76 - ZELDA
+    db $04 ; ... $04 | 0x77 - ANTIFAIRY
+    db $82 ; h.. $02 | 0x78 - SAHASRAHLAS WIFE
+    db $21 ; ..w $01 | 0x79 - BEE
+    db $06 ; ... $06 | 0x7A - AGAHNIM
+    db $03 ; ... $03 | 0x7B - AGAHNIMS BALLS
+    db $01 ; ... $01 | 0x7C - GREEN STALFOS
+    db $03 ; ... $03 | 0x7D - BIG SPIKE
+    db $03 ; ... $03 | 0x7E - FIREBAR CLOCKWISE
+    db $03 ; ... $03 | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $00 ; ... $00 | 0x80 - FIRESNAKE
+    db $00 ; ... $00 | 0x81 - HOVER
+    db $04 ; ... $04 | 0x82 - ANTIFAIRY CIRCLE
+    db $05 ; ... $05 | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $05 ; ... $05 | 0x84 - RED EYEGORE / RED MIMIC
+    db $03 ; ... $03 | 0x85 - YELLOW STALFOS
+    db $01 ; ... $01 | 0x86 - KODONGO
+    db $02 ; ... $02 | 0x87 - KONDONGO FIRE
+    db $00 ; ... $00 | 0x88 - MOTHULA
+    db $00 ; ... $00 | 0x89 - MOTHULA BEAM
+    db $00 ; ... $00 | 0x8A - SPIKE BLOCK
+    db $02 ; ... $02 | 0x8B - GIBDO
+    db $07 ; ... $07 | 0x8C - ARRGHUS
+    db $00 ; ... $00 | 0x8D - ARRGHI
+    db $01 ; ... $01 | 0x8E - TERRORPIN
+    db $01 ; ... $01 | 0x8F - BLOB
+    db $87 ; h.. $07 | 0x90 - WALLMASTER
+    db $06 ; ... $06 | 0x91 - STALFOS KNIGHT
+    db $00 ; ... $00 | 0x92 - KING HELMASAUR
+    db $83 ; h.. $03 | 0x93 - BUMPER
+    db $02 ; ... $02 | 0x94 - PIROGUSU
+    db $22 ; ..w $02 | 0x95 - LASER EYE LEFT
+    db $22 ; ..w $02 | 0x96 - LASER EYE RIGHT
+    db $22 ; ..w $02 | 0x97 - LASER EYE TOP
+    db $22 ; ..w $02 | 0x98 - LASER EYE BOTTOM
+    db $04 ; ... $04 | 0x99 - PENGATOR
+    db $03 ; ... $03 | 0x9A - KYAMERON
+    db $05 ; ... $05 | 0x9B - WIZZROBE
+    db $01 ; ... $01 | 0x9C - ZORO
+    db $01 ; ... $01 | 0x9D - BABASU
+    db $04 ; ... $04 | 0x9E - HAUNTED GROVE OSTRITCH
+    db $01 ; ... $01 | 0x9F - HAUNTED GROVE RABBIT
+    db $02 ; ... $02 | 0xA0 - HAUNTED GROVE BIRD
+    db $08 ; ... $08 | 0xA1 - FREEZOR
+    db $08 ; ... $08 | 0xA2 - KHOLDSTARE
+    db $80 ; h.. $00 | 0xA3 - KHOLDSTARE SHELL
+    db $21 ; ..w $01 | 0xA4 - FALLING ICE
+    db $03 ; ... $03 | 0xA5 - BLUE ZAZAK
+    db $03 ; ... $03 | 0xA6 - RED ZAZAK
+    db $03 ; ... $03 | 0xA7 - STALFOS
+    db $02 ; ... $02 | 0xA8 - GREEN ZIRRO
+    db $02 ; ... $02 | 0xA9 - BLUE ZIRRO
+    db $08 ; ... $08 | 0xAA - PIKIT
+    db $8F ; h.. $0F | 0xAB - CRYSTAL MAIDEN
+    db $A1 ; h.w $01 | 0xAC - APPLE
+    db $81 ; h.. $01 | 0xAD - OLD MAN
+    db $80 ; h.. $00 | 0xAE - PIPE DOWN
+    db $80 ; h.. $00 | 0xAF - PIPE UP
+    db $80 ; h.. $00 | 0xB0 - PIPE RIGHT
+    db $80 ; h.. $00 | 0xB1 - PIPE LEFT
+    db $A1 ; h.w $01 | 0xB2 - GOOD BEE
+    db $80 ; h.. $00 | 0xB3 - PEDESTAL PLAQUE
+    db $81 ; h.. $01 | 0xB4 - PURPLE CHEST
+    db $81 ; h.. $01 | 0xB5 - BOMB SHOP GUY
+    db $86 ; h.. $06 | 0xB6 - KIKI
+    db $81 ; h.. $01 | 0xB7 - BLIND MAIDEN
+    db $82 ; h.. $02 | 0xB8 - DIALOGUE TESTER
+    db $82 ; h.. $02 | 0xB9 - BULLY / PINK BALL
+    db $80 ; h.. $00 | 0xBA - WHIRLPOOL
+    db $80 ; h.. $00 | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $83 ; h.. $03 | 0xBC - DRUNKARD
+    db $06 ; ... $06 | 0xBD - VITREOUS
+    db $00 ; ... $00 | 0xBE - VITREOUS SMALL EYE
+    db $00 ; ... $00 | 0xBF - LIGHTNING
+    db $05 ; ... $05 | 0xC0 - CATFISH
+    db $04 ; ... $04 | 0xC1 - CUTSCENE AGAHNIM
+    db $06 ; ... $06 | 0xC2 - BOULDER
+    db $05 ; ... $05 | 0xC3 - GIBO
+    db $02 ; ... $02 | 0xC4 - THIEF
+    db $00 ; ... $00 | 0xC5 - MEDUSA
+    db $00 ; ... $00 | 0xC6 - 4WAY SHOOTER
+    db $05 ; ... $05 | 0xC7 - POKEY
+    db $04 ; ... $04 | 0xC8 - BIG FAIRY
+    db $04 ; ... $04 | 0xC9 - TEKTITE / FIREBAT
+    db $07 ; ... $07 | 0xCA - CHAIN CHOMP
+    db $0B ; ... $0B | 0xCB - TRINEXX ROCK HEAD
+    db $0C ; ... $0C | 0xCC - TRINEXX FIRE HEAD
+    db $0C ; ... $0C | 0xCD - TRINEXX ICE HEAD
+    db $06 ; ... $06 | 0xCE - BLIND
+    db $06 ; ... $06 | 0xCF - SWAMOLA
+    db $03 ; ... $03 | 0xD0 - LYNEL
+    db $A4 ; h.w $04 | 0xD1 - BUNNYBEAM / SMOKE
+    db $04 ; ... $04 | 0xD2 - FLOPPING FISH
+    db $82 ; h.. $02 | 0xD3 - STAL
+    db $81 ; h.. $01 | 0xD4 - LANDMINE
+    db $83 ; h.. $03 | 0xD5 - DIG GAME GUY
+    db $10 ; ... $10 | 0xD6 - GANON
+    db $10 ; ... $10 | 0xD7 - GANON
+    db $81 ; h.. $01 | 0xD8 - HEART
+    db $82 ; h.. $02 | 0xD9 - GREEN RUPEE
+    db $82 ; h.. $02 | 0xDA - BLUE RUPEE
+    db $82 ; h.. $02 | 0xDB - RED RUPEE
+    db $83 ; h.. $03 | 0xDC - BOMB REFILL 1
+    db $83 ; h.. $03 | 0xDD - BOMB REFILL 4
+    db $83 ; h.. $03 | 0xDE - BOMB REFILL 8
+    db $81 ; h.. $01 | 0xDF - SMALL MAGIC DECANTER
+    db $82 ; h.. $02 | 0xE0 - LARGE MAGIC DECANTER
+    db $83 ; h.. $03 | 0xE1 - ARROW REFILL 5
+    db $83 ; h.. $03 | 0xE2 - ARROW REFILL 10
+    db $81 ; h.. $01 | 0xE3 - FAIRY
+    db $82 ; h.. $02 | 0xE4 - SMALL KEY
+    db $81 ; h.. $01 | 0xE5 - BIG KEY
+    db $82 ; h.. $02 | 0xE6 - STOLEN SHIELD
+    db $A0 ; h.w $00 | 0xE7 - MUSHROOM
+    db $A1 ; h.w $01 | 0xE8 - FAKE MASTER SWORD
+    db $A3 ; h.w $03 | 0xE9 - MAGIC SHOP ASSISTANT
+    db $A1 ; h.w $01 | 0xEA - HEART CONTAINER
+    db $A1 ; h.w $01 | 0xEB - HEART PIECE
+    db $A1 ; h.w $01 | 0xEC - THROWN ITEM
+    db $83 ; h.. $03 | 0xED - SOMARIA PLATFORM
+    db $85 ; h.. $05 | 0xEE - CASTLE MANTLE
+    db $83 ; h.. $03 | 0xEF - UNUSED SOMARIA PLATFORM
+    db $83 ; h.. $03 | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $83 ; h.. $03 | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $83 ; h.. $03 | 0xF2 - MEDALLION TABLET
+}
+    
+; $0E50 - Health
+; $06B173-$06B265 DATA
+SpriteData_Health:
+{
+    db $0C ; 0x00 - RAVEN
+    db $06 ; 0x01 - VULTURE
+    db $FF ; 0x02 - STALFOS HEAD
+    db $03 ; 0x03 - NULL
+    db $03 ; 0x04 - CORRECT PULL SWITCH
+    db $03 ; 0x05 - UNUSED CORRECT PULL SWITCH
+    db $03 ; 0x06 - WRONG PULL SWITCH
+    db $03 ; 0x07 - UNUSED WRONG PULL SWITCH
+    db $02 ; 0x08 - OCTOROK
+    db $0C ; 0x09 - MOLDORM
+    db $04 ; 0x0A - OCTOROK 4WAY
+    db $FF ; 0x0B - CUCCO
+    db $00 ; 0x0C - OCTOROK STONE
+    db $03 ; 0x0D - BUZZBLOB
+    db $0C ; 0x0E - SNAPDRAGON
+    db $02 ; 0x0F - OCTOBALLOON
+    db $00 ; 0x10 - OCTOBALLOON BABY
+    db $14 ; 0x11 - HINOX
+    db $04 ; 0x12 - MOBLIN
+    db $04 ; 0x13 - MINI HELMASAUR
+    db $00 ; 0x14 - THIEVES TOWN GRATE
+    db $FF ; 0x15 - ANTIFAIRY
+    db $00 ; 0x16 - SAHASRAHLA / AGINAH
+    db $02 ; 0x17 - HOARDER
+    db $03 ; 0x18 - MINI MOLDORM
+    db $08 ; 0x19 - POE
+    db $00 ; 0x1A - SMITHY
+    db $00 ; 0x1B - ARROW
+    db $00 ; 0x1C - STATUE
+    db $00 ; 0x1D - FLUTEQUEST
+    db $00 ; 0x1E - CRYSTAL SWITCH
+    db $00 ; 0x1F - SICK KID
+    db $08 ; 0x20 - SLUGGULA
+    db $03 ; 0x21 - WATER SWITCH
+    db $08 ; 0x22 - ROPA
+    db $02 ; 0x23 - RED BARI
+    db $02 ; 0x24 - BLUE BARI
+    db $00 ; 0x25 - TALKING TREE
+    db $03 ; 0x26 - HARDHAT BEETLE
+    db $FF ; 0x27 - DEADROCK
+    db $00 ; 0x28 - DARK WORLD HINT NPC
+    db $03 ; 0x29 - ADULT
+    db $03 ; 0x2A - SWEEPING LADY
+    db $03 ; 0x2B - HOBO
+    db $03 ; 0x2C - LUMBERJACKS
+    db $03 ; 0x2D - NECKLESS MAN
+    db $03 ; 0x2E - FLUTE KID
+    db $03 ; 0x2F - RACE GAME LADY
+    db $03 ; 0x30 - RACE GAME GUY
+    db $00 ; 0x31 - FORTUNE TELLER
+    db $03 ; 0x32 - ARGUE BROS
+    db $00 ; 0x33 - RUPEE PULL
+    db $03 ; 0x34 - YOUNG SNITCH
+    db $03 ; 0x35 - INNKEEPER
+    db $03 ; 0x36 - WITCH
+    db $00 ; 0x37 - WATERFALL
+    db $03 ; 0x38 - EYE STATUE
+    db $00 ; 0x39 - LOCKSMITH
+    db $00 ; 0x3A - MAGIC BAT
+    db $00 ; 0x3B - BONK ITEM
+    db $00 ; 0x3C - KID IN KAK
+    db $03 ; 0x3D - OLD SNITCH
+    db $02 ; 0x3E - HOARDER
+    db $FF ; 0x3F - TUTORIAL GUARD
+    db $02 ; 0x40 - LIGHTNING GATE
+    db $06 ; 0x41 - BLUE GUARD
+    db $04 ; 0x42 - GREEN GUARD
+    db $08 ; 0x43 - RED SPEAR GUARD
+    db $06 ; 0x44 - BLUESAIN BOLT
+    db $08 ; 0x45 - USAIN BOLT
+    db $06 ; 0x46 - BLUE ARCHER
+    db $04 ; 0x47 - GREEN BUSH GUARD
+    db $08 ; 0x48 - RED JAVELIN GUARD
+    db $08 ; 0x49 - RED BUSH GUARD
+    db $08 ; 0x4A - BOMB GUARD
+    db $04 ; 0x4B - GREEN KNIFE GUARD
+    db $04 ; 0x4C - GELDMAN
+    db $02 ; 0x4D - TOPPO
+    db $02 ; 0x4E - POPO
+    db $02 ; 0x4F - POPO
+    db $FF ; 0x50 - CANNONBALL
+    db $08 ; 0x51 - ARMOS STATUE
+    db $FF ; 0x52 - KING ZORA
+    db $30 ; 0x53 - ARMOS KNIGHT
+    db $10 ; 0x54 - LANMOLAS
+    db $08 ; 0x55 - ZORA / FIREBALL
+    db $08 ; 0x56 - ZORA
+    db $FF ; 0x57 - DESERT STATUE
+    db $02 ; 0x58 - CRAB
+    db $00 ; 0x59 - LOST WOODS BIRD
+    db $00 ; 0x5A - LOST WOODS SQUIRREL
+    db $FF ; 0x5B - SPARK
+    db $FF ; 0x5C - SPARK
+    db $FF ; 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $FF ; 0x5E - ROLLER VERTICAL UP FIRST
+    db $FF ; 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $FF ; 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $FF ; 0x61 - BEAMOS
+    db $FF ; 0x62 - MASTERSWORD
+    db $FF ; 0x63 - DEBIRANDO PIT
+    db $04 ; 0x64 - DEBIRANDO
+    db $04 ; 0x65 - ARCHERY GUY
+    db $FF ; 0x66 - WALL CANNON VERTICAL LEFT
+    db $FF ; 0x67 - WALL CANNON VERTICAL RIGHT
+    db $FF ; 0x68 - WALL CANNON HORIZONTAL TOP
+    db $FF ; 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $10 ; 0x6A - BALL N CHAIN
+    db $03 ; 0x6B - CANNONBALL / CANNON TROOPER
+    db $00 ; 0x6C - MIRROR PORTAL
+    db $02 ; 0x6D - RAT / CRICKET
+    db $04 ; 0x6E - SNAKE
+    db $01 ; 0x6F - KEESE
+    db $FF ; 0x70 - KING HELMASAUR FIREBALL
+    db $04 ; 0x71 - LEEVER
+    db $FF ; 0x72 - FAIRY POND TRIGGER
+    db $00 ; 0x73 - UNCLE / PRIEST / MANTLE
+    db $00 ; 0x74 - RUNNING MAN
+    db $00 ; 0x75 - BOTTLE MERCHANT
+    db $00 ; 0x76 - ZELDA
+    db $FF ; 0x77 - ANTIFAIRY
+    db $00 ; 0x78 - SAHASRAHLAS WIFE
+    db $00 ; 0x79 - BEE
+    db $60 ; 0x7A - AGAHNIM
+    db $FF ; 0x7B - AGAHNIMS BALLS
+    db $18 ; 0x7C - GREEN STALFOS
+    db $FF ; 0x7D - BIG SPIKE
+    db $FF ; 0x7E - FIREBAR CLOCKWISE
+    db $FF ; 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $03 ; 0x80 - FIRESNAKE
+    db $04 ; 0x81 - HOVER
+    db $FF ; 0x82 - ANTIFAIRY CIRCLE
+    db $10 ; 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $08 ; 0x84 - RED EYEGORE / RED MIMIC
+    db $08 ; 0x85 - YELLOW STALFOS
+    db $00 ; 0x86 - KODONGO
+    db $FF ; 0x87 - KONDONGO FIRE
+    db $20 ; 0x88 - MOTHULA
+    db $20 ; 0x89 - MOTHULA BEAM
+    db $20 ; 0x8A - SPIKE BLOCK
+    db $20 ; 0x8B - GIBDO
+    db $20 ; 0x8C - ARRGHUS
+    db $08 ; 0x8D - ARRGHI
+    db $08 ; 0x8E - TERRORPIN
+    db $04 ; 0x8F - BLOB
+    db $08 ; 0x90 - WALLMASTER
+    db $40 ; 0x91 - STALFOS KNIGHT
+    db $30 ; 0x92 - KING HELMASAUR
+    db $FF ; 0x93 - BUMPER
+    db $02 ; 0x94 - PIROGUSU
+    db $FF ; 0x95 - LASER EYE LEFT
+    db $FF ; 0x96 - LASER EYE RIGHT
+    db $FF ; 0x97 - LASER EYE TOP
+    db $FF ; 0x98 - LASER EYE BOTTOM
+    db $10 ; 0x99 - PENGATOR
+    db $04 ; 0x9A - KYAMERON
+    db $02 ; 0x9B - WIZZROBE
+    db $04 ; 0x9C - ZORO
+    db $04 ; 0x9D - BABASU
+    db $08 ; 0x9E - HAUNTED GROVE OSTRITCH
+    db $08 ; 0x9F - HAUNTED GROVE RABBIT
+    db $08 ; 0xA0 - HAUNTED GROVE BIRD
+    db $10 ; 0xA1 - FREEZOR
+    db $40 ; 0xA2 - KHOLDSTARE
+    db $40 ; 0xA3 - KHOLDSTARE SHELL
+    db $08 ; 0xA4 - FALLING ICE
+    db $04 ; 0xA5 - BLUE ZAZAK
+    db $08 ; 0xA6 - RED ZAZAK
+    db $04 ; 0xA7 - STALFOS
+    db $04 ; 0xA8 - GREEN ZIRRO
+    db $08 ; 0xA9 - BLUE ZIRRO
+    db $0C ; 0xAA - PIKIT
+    db $10 ; 0xAB - CRYSTAL MAIDEN
+    db $00 ; 0xAC - APPLE
+    db $00 ; 0xAD - OLD MAN
+    db $00 ; 0xAE - PIPE DOWN
+    db $00 ; 0xAF - PIPE UP
+    db $00 ; 0xB0 - PIPE RIGHT
+    db $00 ; 0xB1 - PIPE LEFT
+    db $00 ; 0xB2 - GOOD BEE
+    db $00 ; 0xB3 - PEDESTAL PLAQUE
+    db $00 ; 0xB4 - PURPLE CHEST
+    db $00 ; 0xB5 - BOMB SHOP GUY
+    db $00 ; 0xB6 - KIKI
+    db $00 ; 0xB7 - BLIND MAIDEN
+    db $00 ; 0xB8 - DIALOGUE TESTER
+    db $00 ; 0xB9 - BULLY / PINK BALL
+    db $00 ; 0xBA - WHIRLPOOL
+    db $00 ; 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $00 ; 0xBC - DRUNKARD
+    db $80 ; 0xBD - VITREOUS
+    db $30 ; 0xBE - VITREOUS SMALL EYE
+    db $FF ; 0xBF - LIGHTNING
+    db $FF ; 0xC0 - CATFISH
+    db $FF ; 0xC1 - CUTSCENE AGAHNIM
+    db $FF ; 0xC2 - BOULDER
+    db $08 ; 0xC3 - GIBO
+    db $00 ; 0xC4 - THIEF
+    db $00 ; 0xC5 - MEDUSA
+    db $00 ; 0xC6 - 4WAY SHOOTER
+    db $20 ; 0xC7 - POKEY
+    db $00 ; 0xC8 - BIG FAIRY
+    db $08 ; 0xC9 - TEKTITE / FIREBAT
+    db $05 ; 0xCA - CHAIN CHOMP
+    db $28 ; 0xCB - TRINEXX ROCK HEAD
+    db $28 ; 0xCC - TRINEXX FIRE HEAD
+    db $28 ; 0xCD - TRINEXX ICE HEAD
+    db $5A ; 0xCE - BLIND
+    db $10 ; 0xCF - SWAMOLA
+    db $18 ; 0xD0 - LYNEL
+    db $40 ; 0xD1 - BUNNYBEAM / SMOKE
+    db $00 ; 0xD2 - FLOPPING FISH
+    db $04 ; 0xD3 - STAL
+    db $00 ; 0xD4 - LANDMINE
+    db $00 ; 0xD5 - DIG GAME GUY
+    db $FF ; 0xD6 - GANON
+    db $FF ; 0xD7 - GANON
+    db $00 ; 0xD8 - HEART
+    db $00 ; 0xD9 - GREEN RUPEE
+    db $00 ; 0xDA - BLUE RUPEE
+    db $00 ; 0xDB - RED RUPEE
+    db $00 ; 0xDC - BOMB REFILL 1
+    db $00 ; 0xDD - BOMB REFILL 4
+    db $00 ; 0xDE - BOMB REFILL 8
+    db $00 ; 0xDF - SMALL MAGIC DECANTER
+    db $00 ; 0xE0 - LARGE MAGIC DECANTER
+    db $00 ; 0xE1 - ARROW REFILL 5
+    db $00 ; 0xE2 - ARROW REFILL 10
+    db $00 ; 0xE3 - FAIRY
+    db $00 ; 0xE4 - SMALL KEY
+    db $00 ; 0xE5 - BIG KEY
+    db $00 ; 0xE6 - STOLEN SHIELD
+    db $00 ; 0xE7 - MUSHROOM
+    db $00 ; 0xE8 - FAKE MASTER SWORD
+    db $00 ; 0xE9 - MAGIC SHOP ASSISTANT
+    db $00 ; 0xEA - HEART CONTAINER
+    db $00 ; 0xEB - HEART PIECE
+    db $00 ; 0xEC - THROWN ITEM
+    db $00 ; 0xED - SOMARIA PLATFORM
+    db $00 ; 0xEE - CASTLE MANTLE
+    db $00 ; 0xEF - UNUSED SOMARIA PLATFORM
+    db $00 ; 0xF0 - UNUSED SOMARIA PLATFORM
+    db $00 ; 0xF1 - UNUSED SOMARIA PLATFORM
+    db $00 ; 0xF2 - MEDALLION TABLET
+}    
+
+; Goes into $0CD2 - Bump damage.
+; $06B266-$06B358 DATA
+SpriteData_Bump:
+{
+    db $83 ; t... $3 | 0x00 - RAVEN
+    db $83 ; t... $3 | 0x01 - VULTURE
+    db $81 ; t... $1 | 0x02 - STALFOS HEAD
+    db $02 ; .... $2 | 0x03 - NULL
+    db $02 ; .... $2 | 0x04 - CORRECT PULL SWITCH
+    db $02 ; .... $2 | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $02 ; .... $2 | 0x06 - WRONG PULL SWITCH
+    db $02 ; .... $2 | 0x07 - UNUSED WRONG PULL SWITCH
+    db $01 ; .... $1 | 0x08 - OCTOROK
+    db $13 ; ...d $3 | 0x09 - MOLDORM
+    db $01 ; .... $1 | 0x0A - OCTOROK 4WAY
+    db $01 ; .... $1 | 0x0B - CUCCO
+    db $01 ; .... $1 | 0x0C - OCTOROK STONE
+    db $01 ; .... $1 | 0x0D - BUZZBLOB
+    db $08 ; .... $8 | 0x0E - SNAPDRAGON
+    db $01 ; .... $1 | 0x0F - OCTOBALLOON
+    db $01 ; .... $1 | 0x10 - OCTOBALLOON BABY
+    db $08 ; .... $8 | 0x11 - HINOX
+    db $05 ; .... $5 | 0x12 - MOBLIN
+    db $03 ; .... $3 | 0x13 - MINI HELMASAUR
+    db $40 ; .z.. $0 | 0x14 - THIEVES TOWN GRATE
+    db $04 ; .... $4 | 0x15 - ANTIFAIRY
+    db $00 ; .... $0 | 0x16 - SAHASRAHLA / AGINAH
+    db $02 ; .... $2 | 0x17 - HOARDER
+    db $03 ; .... $3 | 0x18 - MINI MOLDORM
+    db $85 ; t... $5 | 0x19 - POE
+    db $00 ; .... $0 | 0x1A - SMITHY
+    db $01 ; .... $1 | 0x1B - ARROW
+    db $00 ; .... $0 | 0x1C - STATUE
+    db $40 ; .z.. $0 | 0x1D - FLUTEQUEST
+    db $00 ; .... $0 | 0x1E - CRYSTAL SWITCH
+    db $00 ; .... $0 | 0x1F - SICK KID
+    db $06 ; .... $6 | 0x20 - SLUGGULA
+    db $00 ; .... $0 | 0x21 - WATER SWITCH
+    db $05 ; .... $5 | 0x22 - ROPA
+    db $03 ; .... $3 | 0x23 - RED BARI
+    db $01 ; .... $1 | 0x24 - BLUE BARI
+    db $00 ; .... $0 | 0x25 - TALKING TREE
+    db $00 ; .... $0 | 0x26 - HARDHAT BEETLE
+    db $03 ; .... $3 | 0x27 - DEADROCK
+    db $00 ; .... $0 | 0x28 - DARK WORLD HINT NPC
+    db $00 ; .... $0 | 0x29 - ADULT
+    db $00 ; .... $0 | 0x2A - SWEEPING LADY
+    db $00 ; .... $0 | 0x2B - HOBO
+    db $00 ; .... $0 | 0x2C - LUMBERJACKS
+    db $00 ; .... $0 | 0x2D - NECKLESS MAN
+    db $00 ; .... $0 | 0x2E - FLUTE KID
+    db $00 ; .... $0 | 0x2F - RACE GAME LADY
+    db $00 ; .... $0 | 0x30 - RACE GAME GUY
+    db $00 ; .... $0 | 0x31 - FORTUNE TELLER
+    db $00 ; .... $0 | 0x32 - ARGUE BROS
+    db $00 ; .... $0 | 0x33 - RUPEE PULL
+    db $00 ; .... $0 | 0x34 - YOUNG SNITCH
+    db $00 ; .... $0 | 0x35 - INNKEEPER
+    db $00 ; .... $0 | 0x36 - WITCH
+    db $40 ; .z.. $0 | 0x37 - WATERFALL
+    db $00 ; .... $0 | 0x38 - EYE STATUE
+    db $00 ; .... $0 | 0x39 - LOCKSMITH
+    db $00 ; .... $0 | 0x3A - MAGIC BAT
+    db $00 ; .... $0 | 0x3B - BONK ITEM
+    db $00 ; .... $0 | 0x3C - KID IN KAK
+    db $00 ; .... $0 | 0x3D - OLD SNITCH
+    db $02 ; .... $2 | 0x3E - HOARDER
+    db $02 ; .... $2 | 0x3F - TUTORIAL GUARD
+    db $00 ; .... $0 | 0x40 - LIGHTNING GATE
+    db $01 ; .... $1 | 0x41 - BLUE GUARD
+    db $01 ; .... $1 | 0x42 - GREEN GUARD
+    db $03 ; .... $3 | 0x43 - RED SPEAR GUARD
+    db $01 ; .... $1 | 0x44 - BLUESAIN BOLT
+    db $03 ; .... $3 | 0x45 - USAIN BOLT
+    db $01 ; .... $1 | 0x46 - BLUE ARCHER
+    db $01 ; .... $1 | 0x47 - GREEN BUSH GUARD
+    db $03 ; .... $3 | 0x48 - RED JAVELIN GUARD
+    db $03 ; .... $3 | 0x49 - RED BUSH GUARD
+    db $03 ; .... $3 | 0x4A - BOMB GUARD
+    db $01 ; .... $1 | 0x4B - GREEN KNIFE GUARD
+    db $03 ; .... $3 | 0x4C - GELDMAN
+    db $01 ; .... $1 | 0x4D - TOPPO
+    db $01 ; .... $1 | 0x4E - POPO
+    db $01 ; .... $1 | 0x4F - POPO
+    db $01 ; .... $1 | 0x50 - CANNONBALL
+    db $01 ; .... $1 | 0x51 - ARMOS STATUE
+    db $01 ; .... $1 | 0x52 - KING ZORA
+    db $11 ; ...d $1 | 0x53 - ARMOS KNIGHT
+    db $14 ; ...d $4 | 0x54 - LANMOLAS
+    db $01 ; .... $1 | 0x55 - ZORA / FIREBALL
+    db $01 ; .... $1 | 0x56 - ZORA
+    db $02 ; .... $2 | 0x57 - DESERT STATUE
+    db $05 ; .... $5 | 0x58 - CRAB
+    db $00 ; .... $0 | 0x59 - LOST WOODS BIRD
+    db $00 ; .... $0 | 0x5A - LOST WOODS SQUIRREL
+    db $04 ; .... $4 | 0x5B - SPARK
+    db $04 ; .... $4 | 0x5C - SPARK
+    db $08 ; .... $8 | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $08 ; .... $8 | 0x5E - ROLLER VERTICAL UP FIRST
+    db $08 ; .... $8 | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $08 ; .... $8 | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $04 ; .... $4 | 0x61 - BEAMOS
+    db $00 ; .... $0 | 0x62 - MASTERSWORD
+    db $04 ; .... $4 | 0x63 - DEBIRANDO PIT
+    db $03 ; .... $3 | 0x64 - DEBIRANDO
+    db $02 ; .... $2 | 0x65 - ARCHERY GUY
+    db $02 ; .... $2 | 0x66 - WALL CANNON VERTICAL LEFT
+    db $02 ; .... $2 | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $02 ; .... $2 | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $02 ; .... $2 | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $03 ; .... $3 | 0x6A - BALL N CHAIN
+    db $01 ; .... $1 | 0x6B - CANNONBALL / CANNON TROOPER
+    db $00 ; .... $0 | 0x6C - MIRROR PORTAL
+    db $00 ; .... $0 | 0x6D - RAT / CRICKET
+    db $01 ; .... $1 | 0x6E - SNAKE
+    db $80 ; t... $0 | 0x6F - KEESE
+    db $05 ; .... $5 | 0x70 - KING HELMASAUR FIREBALL
+    db $01 ; .... $1 | 0x71 - LEEVER
+    db $00 ; .... $0 | 0x72 - FAIRY POND TRIGGER
+    db $00 ; .... $0 | 0x73 - UNCLE / PRIEST / MANTLE
+    db $00 ; .... $0 | 0x74 - RUNNING MAN
+    db $40 ; .z.. $0 | 0x75 - BOTTLE MERCHANT
+    db $00 ; .... $0 | 0x76 - ZELDA
+    db $04 ; .... $4 | 0x77 - ANTIFAIRY
+    db $00 ; .... $0 | 0x78 - SAHASRAHLAS WIFE
+    db $00 ; .... $0 | 0x79 - BEE
+    db $14 ; ...d $4 | 0x7A - AGAHNIM
+    db $04 ; .... $4 | 0x7B - AGAHNIMS BALLS
+    db $06 ; .... $6 | 0x7C - GREEN STALFOS
+    db $04 ; .... $4 | 0x7D - BIG SPIKE
+    db $04 ; .... $4 | 0x7E - FIREBAR CLOCKWISE
+    db $04 ; .... $4 | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $04 ; .... $4 | 0x80 - FIRESNAKE
+    db $03 ; .... $3 | 0x81 - HOVER
+    db $04 ; .... $4 | 0x82 - ANTIFAIRY CIRCLE
+    db $04 ; .... $4 | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $04 ; .... $4 | 0x84 - RED EYEGORE / RED MIMIC
+    db $01 ; .... $1 | 0x85 - YELLOW STALFOS
+    db $04 ; .... $4 | 0x86 - KODONGO
+    db $04 ; .... $4 | 0x87 - KONDONGO FIRE
+    db $15 ; ...d $5 | 0x88 - MOTHULA
+    db $05 ; .... $5 | 0x89 - MOTHULA BEAM
+    db $04 ; .... $4 | 0x8A - SPIKE BLOCK
+    db $05 ; .... $5 | 0x8B - GIBDO
+    db $15 ; ...d $5 | 0x8C - ARRGHUS
+    db $15 ; ...d $5 | 0x8D - ARRGHI
+    db $03 ; .... $3 | 0x8E - TERRORPIN
+    db $05 ; .... $5 | 0x8F - BLOB
+    db $00 ; .... $0 | 0x90 - WALLMASTER
+    db $05 ; .... $5 | 0x91 - STALFOS KNIGHT
+    db $15 ; ...d $5 | 0x92 - KING HELMASAUR
+    db $05 ; .... $5 | 0x93 - BUMPER
+    db $05 ; .... $5 | 0x94 - PIROGUSU
+    db $06 ; .... $6 | 0x95 - LASER EYE LEFT
+    db $06 ; .... $6 | 0x96 - LASER EYE RIGHT
+    db $06 ; .... $6 | 0x97 - LASER EYE TOP
+    db $06 ; .... $6 | 0x98 - LASER EYE BOTTOM
+    db $05 ; .... $5 | 0x99 - PENGATOR
+    db $03 ; .... $3 | 0x9A - KYAMERON
+    db $06 ; .... $6 | 0x9B - WIZZROBE
+    db $05 ; .... $5 | 0x9C - ZORO
+    db $05 ; .... $5 | 0x9D - BABASU
+    db $03 ; .... $3 | 0x9E - HAUNTED GROVE OSTRITCH
+    db $03 ; .... $3 | 0x9F - HAUNTED GROVE RABBIT
+    db $03 ; .... $3 | 0xA0 - HAUNTED GROVE BIRD
+    db $06 ; .... $6 | 0xA1 - FREEZOR
+    db $17 ; ...d $7 | 0xA2 - KHOLDSTARE
+    db $15 ; ...d $5 | 0xA3 - KHOLDSTARE SHELL
+    db $15 ; ...d $5 | 0xA4 - FALLING ICE
+    db $05 ; .... $5 | 0xA5 - BLUE ZAZAK
+    db $05 ; .... $5 | 0xA6 - RED ZAZAK
+    db $01 ; .... $1 | 0xA7 - STALFOS
+    db $85 ; t... $5 | 0xA8 - GREEN ZIRRO
+    db $83 ; t... $3 | 0xA9 - BLUE ZIRRO
+    db $05 ; .... $5 | 0xAA - PIKIT
+    db $04 ; .... $4 | 0xAB - CRYSTAL MAIDEN
+    db $00 ; .... $0 | 0xAC - APPLE
+    db $00 ; .... $0 | 0xAD - OLD MAN
+    db $00 ; .... $0 | 0xAE - PIPE DOWN
+    db $00 ; .... $0 | 0xAF - PIPE UP
+    db $00 ; .... $0 | 0xB0 - PIPE RIGHT
+    db $00 ; .... $0 | 0xB1 - PIPE LEFT
+    db $00 ; .... $0 | 0xB2 - GOOD BEE
+    db $00 ; .... $0 | 0xB3 - PEDESTAL PLAQUE
+    db $00 ; .... $0 | 0xB4 - PURPLE CHEST
+    db $00 ; .... $0 | 0xB5 - BOMB SHOP GUY
+    db $00 ; .... $0 | 0xB6 - KIKI
+    db $00 ; .... $0 | 0xB7 - BLIND MAIDEN
+    db $00 ; .... $0 | 0xB8 - DIALOGUE TESTER
+    db $00 ; .... $0 | 0xB9 - BULLY / PINK BALL
+    db $00 ; .... $0 | 0xBA - WHIRLPOOL
+    db $00 ; .... $0 | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $00 ; .... $0 | 0xBC - DRUNKARD
+    db $17 ; ...d $7 | 0xBD - VITREOUS
+    db $17 ; ...d $7 | 0xBE - VITREOUS SMALL EYE
+    db $05 ; .... $5 | 0xBF - LIGHTNING
+    db $05 ; .... $5 | 0xC0 - CATFISH
+    db $05 ; .... $5 | 0xC1 - CUTSCENE AGAHNIM
+    db $04 ; .... $4 | 0xC2 - BOULDER
+    db $03 ; .... $3 | 0xC3 - GIBO
+    db $02 ; .... $2 | 0xC4 - THIEF
+    db $10 ; ...d $0 | 0xC5 - MEDUSA
+    db $00 ; .... $0 | 0xC6 - 4WAY SHOOTER
+    db $06 ; .... $6 | 0xC7 - POKEY
+    db $00 ; .... $0 | 0xC8 - BIG FAIRY
+    db $05 ; .... $5 | 0xC9 - TEKTITE / FIREBAT
+    db $07 ; .... $7 | 0xCA - CHAIN CHOMP
+    db $17 ; ...d $7 | 0xCB - TRINEXX ROCK HEAD
+    db $17 ; ...d $7 | 0xCC - TRINEXX FIRE HEAD
+    db $17 ; ...d $7 | 0xCD - TRINEXX ICE HEAD
+    db $15 ; ...d $5 | 0xCE - BLIND
+    db $07 ; .... $7 | 0xCF - SWAMOLA
+    db $06 ; .... $6 | 0xD0 - LYNEL
+    db $10 ; ...d $0 | 0xD1 - BUNNYBEAM / SMOKE
+    db $00 ; .... $0 | 0xD2 - FLOPPING FISH
+    db $03 ; .... $3 | 0xD3 - STAL
+    db $03 ; .... $3 | 0xD4 - LANDMINE
+    db $00 ; .... $0 | 0xD5 - DIG GAME GUY
+    db $19 ; ...d $9 | 0xD6 - GANON
+    db $19 ; ...d $9 | 0xD7 - GANON
+    db $00 ; .... $0 | 0xD8 - HEART
+    db $00 ; .... $0 | 0xD9 - GREEN RUPEE
+    db $00 ; .... $0 | 0xDA - BLUE RUPEE
+    db $00 ; .... $0 | 0xDB - RED RUPEE
+    db $00 ; .... $0 | 0xDC - BOMB REFILL 1
+    db $00 ; .... $0 | 0xDD - BOMB REFILL 4
+    db $00 ; .... $0 | 0xDE - BOMB REFILL 8
+    db $00 ; .... $0 | 0xDF - SMALL MAGIC DECANTER
+    db $00 ; .... $0 | 0xE0 - LARGE MAGIC DECANTER
+    db $00 ; .... $0 | 0xE1 - ARROW REFILL 5
+    db $00 ; .... $0 | 0xE2 - ARROW REFILL 10
+    db $10 ; ...d $0 | 0xE3 - FAIRY
+    db $00 ; .... $0 | 0xE4 - SMALL KEY
+    db $00 ; .... $0 | 0xE5 - BIG KEY
+    db $00 ; .... $0 | 0xE6 - STOLEN SHIELD
+    db $00 ; .... $0 | 0xE7 - MUSHROOM
+    db $00 ; .... $0 | 0xE8 - FAKE MASTER SWORD
+    db $00 ; .... $0 | 0xE9 - MAGIC SHOP ASSISTANT
+    db $00 ; .... $0 | 0xEA - HEART CONTAINER
+    db $00 ; .... $0 | 0xEB - HEART PIECE
+    db $00 ; .... $0 | 0xEC - THROWN ITEM
+    db $00 ; .... $0 | 0xED - SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xEE - CASTLE MANTLE
+    db $00 ; .... $0 | 0xEF - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF2 - MEDALLION TABLET
+}
+
+; $0E60 - Misc settings
+; $0F50 (last 4 bits )- Byte 4 $90 properties (palette, priority, H and V flip).
+; $06B359-$06B44B DATA
+SpriteData_OAMProp:
+{
+    db $19 ; ...s $1, 1 | 0x00 - RAVEN
+    db $0B ; .... $3, 1 | 0x01 - VULTURE
+    db $1B ; ...s $3, 1 | 0x02 - STALFOS HEAD
+    db $4B ; .i.. $3, 1 | 0x03 - NULL
+    db $41 ; .i.. $1, 1 | 0x04 - CORRECT PULL SWITCH
+    db $41 ; .i.. $1, 1 | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $41 ; .i.. $1, 1 | 0x06 - WRONG PULL SWITCH
+    db $4D ; .i.. $5, 1 | 0x07 - UNUSED WRONG PULL SWITCH
+    db $1D ; ...s $5, 1 | 0x08 - OCTOROK
+    db $01 ; .... $1, 1 | 0x09 - MOLDORM
+    db $1D ; ...s $5, 1 | 0x0A - OCTOROK 4WAY
+    db $19 ; ...s $1, 1 | 0x0B - CUCCO
+    db $8D ; n... $5, 1 | 0x0C - OCTOROK STONE
+    db $1B ; ...s $3, 1 | 0x0D - BUZZBLOB
+    db $09 ; .... $1, 1 | 0x0E - SNAPDRAGON
+    db $9D ; n..s $5, 1 | 0x0F - OCTOBALLOON
+    db $3D ; ..os $5, 1 | 0x10 - OCTOBALLOON BABY
+    db $01 ; .... $1, 1 | 0x11 - HINOX
+    db $09 ; .... $1, 1 | 0x12 - MOBLIN
+    db $11 ; ...s $1, 1 | 0x13 - MINI HELMASAUR
+    db $40 ; .i.. $0, 0 | 0x14 - THIEVES TOWN GRATE
+    db $01 ; .... $1, 1 | 0x15 - ANTIFAIRY
+    db $4D ; .i.. $5, 1 | 0x16 - SAHASRAHLA / AGINAH
+    db $19 ; ...s $1, 1 | 0x17 - HOARDER
+    db $07 ; .... $7, 1 | 0x18 - MINI MOLDORM
+    db $1D ; ...s $5, 1 | 0x19 - POE
+    db $59 ; .i.s $1, 1 | 0x1A - SMITHY
+    db $80 ; n... $0, 0 | 0x1B - ARROW
+    db $4D ; .i.. $5, 1 | 0x1C - STATUE
+    db $40 ; .i.. $0, 0 | 0x1D - FLUTEQUEST
+    db $01 ; .... $1, 1 | 0x1E - CRYSTAL SWITCH
+    db $49 ; .i.. $1, 1 | 0x1F - SICK KID
+    db $1B ; ...s $3, 1 | 0x20 - SLUGGULA
+    db $41 ; .i.. $1, 1 | 0x21 - WATER SWITCH
+    db $03 ; .... $3, 1 | 0x22 - ROPA
+    db $13 ; ...s $3, 1 | 0x23 - RED BARI
+    db $15 ; ...s $5, 1 | 0x24 - BLUE BARI
+    db $41 ; .i.. $1, 1 | 0x25 - TALKING TREE
+    db $18 ; ...s $0, 0 | 0x26 - HARDHAT BEETLE
+    db $1B ; ...s $3, 1 | 0x27 - DEADROCK
+    db $41 ; .i.. $1, 1 | 0x28 - DARK WORLD HINT NPC
+    db $47 ; .i.. $7, 1 | 0x29 - ADULT
+    db $0F ; .... $7, 1 | 0x2A - SWEEPING LADY
+    db $49 ; .i.. $1, 1 | 0x2B - HOBO
+    db $4B ; .i.. $3, 1 | 0x2C - LUMBERJACKS
+    db $4D ; .i.. $5, 1 | 0x2D - NECKLESS MAN
+    db $41 ; .i.. $1, 1 | 0x2E - FLUTE KID
+    db $47 ; .i.. $7, 1 | 0x2F - RACE GAME LADY
+    db $49 ; .i.. $1, 1 | 0x30 - RACE GAME GUY
+    db $4D ; .i.. $5, 1 | 0x31 - FORTUNE TELLER
+    db $49 ; .i.. $1, 1 | 0x32 - ARGUE BROS
+    db $40 ; .i.. $0, 0 | 0x33 - RUPEE PULL
+    db $4D ; .i.. $5, 1 | 0x34 - YOUNG SNITCH
+    db $47 ; .i.. $7, 1 | 0x35 - INNKEEPER
+    db $49 ; .i.. $1, 1 | 0x36 - WITCH
+    db $41 ; .i.. $1, 1 | 0x37 - WATERFALL
+    db $74 ; .ios $4, 0 | 0x38 - EYE STATUE
+    db $47 ; .i.. $7, 1 | 0x39 - LOCKSMITH
+    db $5B ; .i.s $3, 1 | 0x3A - MAGIC BAT
+    db $58 ; .i.s $0, 0 | 0x3B - BONK ITEM
+    db $51 ; .i.s $1, 1 | 0x3C - KID IN KAK
+    db $49 ; .i.. $1, 1 | 0x3D - OLD SNITCH
+    db $1D ; ...s $5, 1 | 0x3E - HOARDER
+    db $5D ; .i.s $5, 1 | 0x3F - TUTORIAL GUARD
+    db $03 ; .... $3, 1 | 0x40 - LIGHTNING GATE
+    db $19 ; ...s $1, 1 | 0x41 - BLUE GUARD
+    db $1B ; ...s $3, 1 | 0x42 - GREEN GUARD
+    db $17 ; ...s $7, 1 | 0x43 - RED SPEAR GUARD
+    db $19 ; ...s $1, 1 | 0x44 - BLUESAIN BOLT
+    db $17 ; ...s $7, 1 | 0x45 - USAIN BOLT
+    db $19 ; ...s $1, 1 | 0x46 - BLUE ARCHER
+    db $1B ; ...s $3, 1 | 0x47 - GREEN BUSH GUARD
+    db $17 ; ...s $7, 1 | 0x48 - RED JAVELIN GUARD
+    db $17 ; ...s $7, 1 | 0x49 - RED BUSH GUARD
+    db $17 ; ...s $7, 1 | 0x4A - BOMB GUARD
+    db $1B ; ...s $3, 1 | 0x4B - GREEN KNIFE GUARD
+    db $0D ; .... $5, 1 | 0x4C - GELDMAN
+    db $09 ; .... $1, 1 | 0x4D - TOPPO
+    db $19 ; ...s $1, 1 | 0x4E - POPO
+    db $19 ; ...s $1, 1 | 0x4F - POPO
+    db $49 ; .i.. $1, 1 | 0x50 - CANNONBALL
+    db $5D ; .i.s $5, 1 | 0x51 - ARMOS STATUE
+    db $5B ; .i.s $3, 1 | 0x52 - KING ZORA
+    db $49 ; .i.. $1, 1 | 0x53 - ARMOS KNIGHT
+    db $0D ; .... $5, 1 | 0x54 - LANMOLAS
+    db $03 ; .... $3, 1 | 0x55 - ZORA / FIREBALL
+    db $13 ; ...s $3, 1 | 0x56 - ZORA
+    db $41 ; .i.. $1, 1 | 0x57 - DESERT STATUE
+    db $1B ; ...s $3, 1 | 0x58 - CRAB
+    db $5B ; .i.s $3, 1 | 0x59 - LOST WOODS BIRD
+    db $5D ; .i.s $5, 1 | 0x5A - LOST WOODS SQUIRREL
+    db $43 ; .i.. $3, 1 | 0x5B - SPARK
+    db $43 ; .i.. $3, 1 | 0x5C - SPARK
+    db $4D ; .i.. $5, 1 | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $4D ; .i.. $5, 1 | 0x5E - ROLLER VERTICAL UP FIRST
+    db $4D ; .i.. $5, 1 | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $4D ; .i.. $5, 1 | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $4D ; .i.. $5, 1 | 0x61 - BEAMOS
+    db $49 ; .i.. $1, 1 | 0x62 - MASTERSWORD
+    db $01 ; .... $1, 1 | 0x63 - DEBIRANDO PIT
+    db $00 ; .... $0, 0 | 0x64 - DEBIRANDO
+    db $41 ; .i.. $1, 1 | 0x65 - ARCHERY GUY
+    db $4D ; .i.. $5, 1 | 0x66 - WALL CANNON VERTICAL LEFT
+    db $4D ; .i.. $5, 1 | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $4D ; .i.. $5, 1 | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $4D ; .i.. $5, 1 | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $1D ; ...s $5, 1 | 0x6A - BALL N CHAIN
+    db $09 ; .... $1, 1 | 0x6B - CANNONBALL / CANNON TROOPER
+    db $C4 ; ni.. $4, 0 | 0x6C - MIRROR PORTAL
+    db $0D ; .... $5, 1 | 0x6D - RAT / CRICKET
+    db $0D ; .... $5, 1 | 0x6E - SNAKE
+    db $09 ; .... $1, 1 | 0x6F - KEESE
+    db $03 ; .... $3, 1 | 0x70 - KING HELMASAUR FIREBALL
+    db $03 ; .... $3, 1 | 0x71 - LEEVER
+    db $4B ; .i.. $3, 1 | 0x72 - FAIRY POND TRIGGER
+    db $47 ; .i.. $7, 1 | 0x73 - UNCLE / PRIEST / MANTLE
+    db $47 ; .i.. $7, 1 | 0x74 - RUNNING MAN
+    db $49 ; .i.. $1, 1 | 0x75 - BOTTLE MERCHANT
+    db $49 ; .i.. $1, 1 | 0x76 - ZELDA
+    db $41 ; .i.. $1, 1 | 0x77 - ANTIFAIRY
+    db $47 ; .i.. $7, 1 | 0x78 - SAHASRAHLAS WIFE
+    db $36 ; ..os $6, 0 | 0x79 - BEE
+    db $8B ; n... $3, 1 | 0x7A - AGAHNIM
+    db $49 ; .i.. $1, 1 | 0x7B - AGAHNIMS BALLS
+    db $1D ; ...s $5, 1 | 0x7C - GREEN STALFOS
+    db $49 ; .i.. $1, 1 | 0x7D - BIG SPIKE
+    db $43 ; .i.. $3, 1 | 0x7E - FIREBAR CLOCKWISE
+    db $43 ; .i.. $3, 1 | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $43 ; .i.. $3, 1 | 0x80 - FIRESNAKE
+    db $0B ; .... $3, 1 | 0x81 - HOVER
+    db $41 ; .i.. $1, 1 | 0x82 - ANTIFAIRY CIRCLE
+    db $0D ; .... $5, 1 | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $07 ; .... $7, 1 | 0x84 - RED EYEGORE / RED MIMIC
+    db $0B ; .... $3, 1 | 0x85 - YELLOW STALFOS
+    db $1D ; ...s $5, 1 | 0x86 - KODONGO
+    db $43 ; .i.. $3, 1 | 0x87 - KONDONGO FIRE
+    db $0D ; .... $5, 1 | 0x88 - MOTHULA
+    db $43 ; .i.. $3, 1 | 0x89 - MOTHULA BEAM
+    db $0D ; .... $5, 1 | 0x8A - SPIKE BLOCK
+    db $1D ; ...s $5, 1 | 0x8B - GIBDO
+    db $4D ; .i.. $5, 1 | 0x8C - ARRGHUS
+    db $4D ; .i.. $5, 1 | 0x8D - ARRGHI
+    db $1B ; ...s $3, 1 | 0x8E - TERRORPIN
+    db $1B ; ...s $3, 1 | 0x8F - BLOB
+    db $0A ; .... $2, 0 | 0x90 - WALLMASTER
+    db $0B ; .... $3, 1 | 0x91 - STALFOS KNIGHT
+    db $00 ; .... $0, 0 | 0x92 - KING HELMASAUR
+    db $05 ; .... $5, 1 | 0x93 - BUMPER
+    db $0D ; .... $5, 1 | 0x94 - PIROGUSU
+    db $01 ; .... $1, 1 | 0x95 - LASER EYE LEFT
+    db $01 ; .... $1, 1 | 0x96 - LASER EYE RIGHT
+    db $01 ; .... $1, 1 | 0x97 - LASER EYE TOP
+    db $01 ; .... $1, 1 | 0x98 - LASER EYE BOTTOM
+    db $0B ; .... $3, 1 | 0x99 - PENGATOR
+    db $05 ; .... $5, 1 | 0x9A - KYAMERON
+    db $01 ; .... $1, 1 | 0x9B - WIZZROBE
+    db $01 ; .... $1, 1 | 0x9C - ZORO
+    db $01 ; .... $1, 1 | 0x9D - BABASU
+    db $07 ; .... $7, 1 | 0x9E - HAUNTED GROVE OSTRITCH
+    db $17 ; ...s $7, 1 | 0x9F - HAUNTED GROVE RABBIT
+    db $19 ; ...s $1, 1 | 0xA0 - HAUNTED GROVE BIRD
+    db $0D ; .... $5, 1 | 0xA1 - FREEZOR
+    db $0D ; .... $5, 1 | 0xA2 - KHOLDSTARE
+    db $80 ; n... $0, 0 | 0xA3 - KHOLDSTARE SHELL
+    db $4D ; .i.. $5, 1 | 0xA4 - FALLING ICE
+    db $19 ; ...s $1, 1 | 0xA5 - BLUE ZAZAK
+    db $17 ; ...s $7, 1 | 0xA6 - RED ZAZAK
+    db $19 ; ...s $1, 1 | 0xA7 - STALFOS
+    db $0B ; .... $3, 1 | 0xA8 - GREEN ZIRRO
+    db $09 ; .... $1, 1 | 0xA9 - BLUE ZIRRO
+    db $0D ; .... $5, 1 | 0xAA - PIKIT
+    db $4A ; .i.. $2, 0 | 0xAB - CRYSTAL MAIDEN
+    db $12 ; ...s $2, 0 | 0xAC - APPLE
+    db $49 ; .i.. $1, 1 | 0xAD - OLD MAN
+    db $C3 ; ni.. $3, 1 | 0xAE - PIPE DOWN
+    db $C3 ; ni.. $3, 1 | 0xAF - PIPE UP
+    db $C3 ; ni.. $3, 1 | 0xB0 - PIPE RIGHT
+    db $C3 ; ni.. $3, 1 | 0xB1 - PIPE LEFT
+    db $76 ; .ios $6, 0 | 0xB2 - GOOD BEE
+    db $40 ; .i.. $0, 0 | 0xB3 - PEDESTAL PLAQUE
+    db $59 ; .i.s $1, 1 | 0xB4 - PURPLE CHEST
+    db $41 ; .i.. $1, 1 | 0xB5 - BOMB SHOP GUY
+    db $58 ; .i.s $0, 0 | 0xB6 - KIKI
+    db $4F ; .i.. $7, 1 | 0xB7 - BLIND MAIDEN
+    db $73 ; .ios $3, 1 | 0xB8 - DIALOGUE TESTER
+    db $5B ; .i.s $3, 1 | 0xB9 - BULLY / PINK BALL
+    db $44 ; .i.. $4, 0 | 0xBA - WHIRLPOOL
+    db $41 ; .i.. $1, 1 | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $51 ; .i.s $1, 1 | 0xBC - DRUNKARD
+    db $0A ; .... $2, 0 | 0xBD - VITREOUS
+    db $0B ; .... $3, 1 | 0xBE - VITREOUS SMALL EYE
+    db $0B ; .... $3, 1 | 0xBF - LIGHTNING
+    db $4B ; .i.. $3, 1 | 0xC0 - CATFISH
+    db $00 ; .... $0, 0 | 0xC1 - CUTSCENE AGAHNIM
+    db $40 ; .i.. $0, 0 | 0xC2 - BOULDER
+    db $5B ; .i.s $3, 1 | 0xC3 - GIBO
+    db $0D ; .... $5, 1 | 0xC4 - THIEF
+    db $00 ; .... $0, 0 | 0xC5 - MEDUSA
+    db $00 ; .... $0, 0 | 0xC6 - 4WAY SHOOTER
+    db $0D ; .... $5, 1 | 0xC7 - POKEY
+    db $4B ; .i.. $3, 1 | 0xC8 - BIG FAIRY
+    db $0B ; .... $3, 1 | 0xC9 - TEKTITE / FIREBAT
+    db $59 ; .i.s $1, 1 | 0xCA - CHAIN CHOMP
+    db $41 ; .i.. $1, 1 | 0xCB - TRINEXX ROCK HEAD
+    db $0B ; .... $3, 1 | 0xCC - TRINEXX FIRE HEAD
+    db $0D ; .... $5, 1 | 0xCD - TRINEXX ICE HEAD
+    db $01 ; .... $1, 1 | 0xCE - BLIND
+    db $0D ; .... $5, 1 | 0xCF - SWAMOLA
+    db $0D ; .... $5, 1 | 0xD0 - LYNEL
+    db $00 ; .... $0, 0 | 0xD1 - BUNNYBEAM / SMOKE
+    db $50 ; .i.s $0, 0 | 0xD2 - FLOPPING FISH
+    db $4C ; .i.. $4, 0 | 0xD3 - STAL
+    db $44 ; .i.. $4, 0 | 0xD4 - LANDMINE
+    db $51 ; .i.s $1, 1 | 0xD5 - DIG GAME GUY
+    db $01 ; .... $1, 1 | 0xD6 - GANON
+    db $01 ; .... $1, 1 | 0xD7 - GANON
+    db $F2 ; nios $2, 0 | 0xD8 - HEART
+    db $F8 ; nios $0, 0 | 0xD9 - GREEN RUPEE
+    db $F4 ; nios $4, 0 | 0xDA - BLUE RUPEE
+    db $F2 ; nios $2, 0 | 0xDB - RED RUPEE
+    db $D4 ; ni.s $4, 0 | 0xDC - BOMB REFILL 1
+    db $D4 ; ni.s $4, 0 | 0xDD - BOMB REFILL 4
+    db $D4 ; ni.s $4, 0 | 0xDE - BOMB REFILL 8
+    db $F8 ; nios $0, 0 | 0xDF - SMALL MAGIC DECANTER
+    db $F8 ; nios $0, 0 | 0xE0 - LARGE MAGIC DECANTER
+    db $F4 ; nios $4, 0 | 0xE1 - ARROW REFILL 5
+    db $F4 ; nios $4, 0 | 0xE2 - ARROW REFILL 10
+    db $D8 ; ni.s $0, 0 | 0xE3 - FAIRY
+    db $F8 ; nios $0, 0 | 0xE4 - SMALL KEY
+    db $D8 ; ni.s $0, 0 | 0xE5 - BIG KEY
+    db $DF ; ni.s $7, 1 | 0xE6 - STOLEN SHIELD
+    db $C8 ; ni.. $0, 0 | 0xE7 - MUSHROOM
+    db $69 ; .io. $1, 1 | 0xE8 - FAKE MASTER SWORD
+    db $C1 ; ni.. $1, 1 | 0xE9 - MAGIC SHOP ASSISTANT
+    db $D2 ; ni.s $2, 0 | 0xEA - HEART CONTAINER
+    db $D2 ; ni.s $2, 0 | 0xEB - HEART PIECE
+    db $DC ; ni.s $4, 0 | 0xEC - THROWN ITEM
+    db $C7 ; ni.. $7, 1 | 0xED - SOMARIA PLATFORM
+    db $C1 ; ni.. $1, 1 | 0xEE - CASTLE MANTLE
+    db $C7 ; ni.. $7, 1 | 0xEF - UNUSED SOMARIA PLATFORM
+    db $C7 ; ni.. $7, 1 | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $C7 ; ni.. $7, 1 | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $C1 ; ni.. $1, 1 | 0xF2 - MEDALLION TABLET
+}
+
+; $0F60 - Alive / hit box properties.
+; $06B44C-$06B53E DATA
+SpriteData_HitBox:
+{
+    db $00 ; ... $00 | 0x00 - RAVEN
+    db $00 ; ... $00 | 0x01 - VULTURE
+    db $00 ; ... $00 | 0x02 - STALFOS HEAD
+    db $43 ; .s. $03 | 0x03 - NULL
+    db $43 ; .s. $03 | 0x04 - CORRECT PULL SWITCH
+    db $43 ; .s. $03 | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $43 ; .s. $03 | 0x06 - WRONG PULL SWITCH
+    db $43 ; .s. $03 | 0x07 - UNUSED WRONG PULL SWITCH
+    db $00 ; ... $00 | 0x08 - OCTOROK
+    db $00 ; ... $00 | 0x09 - MOLDORM
+    db $00 ; ... $00 | 0x0A - OCTOROK 4WAY
+    db $00 ; ... $00 | 0x0B - CUCCO
+    db $1C ; ... $1C | 0x0C - OCTOROK STONE
+    db $00 ; ... $00 | 0x0D - BUZZBLOB
+    db $00 ; ... $00 | 0x0E - SNAPDRAGON
+    db $02 ; ... $02 | 0x0F - OCTOBALLOON
+    db $01 ; ... $01 | 0x10 - OCTOBALLOON BABY
+    db $03 ; ... $03 | 0x11 - HINOX
+    db $00 ; ... $00 | 0x12 - MOBLIN
+    db $00 ; ... $00 | 0x13 - MINI HELMASAUR
+    db $03 ; ... $03 | 0x14 - THIEVES TOWN GRATE
+    db $C0 ; is. $00 | 0x15 - ANTIFAIRY
+    db $07 ; ... $07 | 0x16 - SAHASRAHLA / AGINAH
+    db $00 ; ... $00 | 0x17 - HOARDER
+    db $00 ; ... $00 | 0x18 - MINI MOLDORM
+    db $00 ; ... $00 | 0x19 - POE
+    db $07 ; ... $07 | 0x1A - SMITHY
+    db $45 ; .s. $05 | 0x1B - ARROW
+    db $43 ; .s. $03 | 0x1C - STATUE
+    db $00 ; ... $00 | 0x1D - FLUTEQUEST
+    db $40 ; .s. $00 | 0x1E - CRYSTAL SWITCH
+    db $0D ; ... $0D | 0x1F - SICK KID
+    db $00 ; ... $00 | 0x20 - SLUGGULA
+    db $00 ; ... $00 | 0x21 - WATER SWITCH
+    db $00 ; ... $00 | 0x22 - ROPA
+    db $00 ; ... $00 | 0x23 - RED BARI
+    db $00 ; ... $00 | 0x24 - BLUE BARI
+    db $00 ; ... $00 | 0x25 - TALKING TREE
+    db $00 ; ... $00 | 0x26 - HARDHAT BEETLE
+    db $00 ; ... $00 | 0x27 - DEADROCK
+    db $07 ; ... $07 | 0x28 - DARK WORLD HINT NPC
+    db $07 ; ... $07 | 0x29 - ADULT
+    db $07 ; ... $07 | 0x2A - SWEEPING LADY
+    db $07 ; ... $07 | 0x2B - HOBO
+    db $07 ; ... $07 | 0x2C - LUMBERJACKS
+    db $07 ; ... $07 | 0x2D - NECKLESS MAN
+    db $0D ; ... $0D | 0x2E - FLUTE KID
+    db $07 ; ... $07 | 0x2F - RACE GAME LADY
+    db $07 ; ... $07 | 0x30 - RACE GAME GUY
+    db $07 ; ... $07 | 0x31 - FORTUNE TELLER
+    db $07 ; ... $07 | 0x32 - ARGUE BROS
+    db $03 ; ... $03 | 0x33 - RUPEE PULL
+    db $07 ; ... $07 | 0x34 - YOUNG SNITCH
+    db $07 ; ... $07 | 0x35 - INNKEEPER
+    db $07 ; ... $07 | 0x36 - WITCH
+    db $40 ; .s. $00 | 0x37 - WATERFALL
+    db $03 ; ... $03 | 0x38 - EYE STATUE
+    db $07 ; ... $07 | 0x39 - LOCKSMITH
+    db $0D ; ... $0D | 0x3A - MAGIC BAT
+    db $00 ; ... $00 | 0x3B - BONK ITEM
+    db $07 ; ... $07 | 0x3C - KID IN KAK
+    db $07 ; ... $07 | 0x3D - OLD SNITCH
+    db $00 ; ... $00 | 0x3E - HOARDER
+    db $00 ; ... $00 | 0x3F - TUTORIAL GUARD
+    db $09 ; ... $09 | 0x40 - LIGHTNING GATE
+    db $12 ; ... $12 | 0x41 - BLUE GUARD
+    db $12 ; ... $12 | 0x42 - GREEN GUARD
+    db $12 ; ... $12 | 0x43 - RED SPEAR GUARD
+    db $12 ; ... $12 | 0x44 - BLUESAIN BOLT
+    db $12 ; ... $12 | 0x45 - USAIN BOLT
+    db $12 ; ... $12 | 0x46 - BLUE ARCHER
+    db $12 ; ... $12 | 0x47 - GREEN BUSH GUARD
+    db $12 ; ... $12 | 0x48 - RED JAVELIN GUARD
+    db $12 ; ... $12 | 0x49 - RED BUSH GUARD
+    db $12 ; ... $12 | 0x4A - BOMB GUARD
+    db $12 ; ... $12 | 0x4B - GREEN KNIFE GUARD
+    db $00 ; ... $00 | 0x4C - GELDMAN
+    db $00 ; ... $00 | 0x4D - TOPPO
+    db $00 ; ... $00 | 0x4E - POPO
+    db $00 ; ... $00 | 0x4F - POPO
+    db $80 ; i.. $00 | 0x50 - CANNONBALL
+    db $12 ; ... $12 | 0x51 - ARMOS STATUE
+    db $09 ; ... $09 | 0x52 - KING ZORA
+    db $09 ; ... $09 | 0x53 - ARMOS KNIGHT
+    db $00 ; ... $00 | 0x54 - LANMOLAS
+    db $40 ; .s. $00 | 0x55 - ZORA / FIREBALL
+    db $00 ; ... $00 | 0x56 - ZORA
+    db $0C ; ... $0C | 0x57 - DESERT STATUE
+    db $00 ; ... $00 | 0x58 - CRAB
+    db $00 ; ... $00 | 0x59 - LOST WOODS BIRD
+    db $00 ; ... $00 | 0x5A - LOST WOODS SQUIRREL
+    db $40 ; .s. $00 | 0x5B - SPARK
+    db $40 ; .s. $00 | 0x5C - SPARK
+    db $10 ; ... $10 | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $10 ; ... $10 | 0x5E - ROLLER VERTICAL UP FIRST
+    db $2E ; ..p $0E | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $2E ; ..p $0E | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $40 ; .s. $00 | 0x61 - BEAMOS
+    db $1E ; ... $1E | 0x62 - MASTERSWORD
+    db $53 ; .s. $13 | 0x63 - DEBIRANDO PIT
+    db $00 ; ... $00 | 0x64 - DEBIRANDO
+    db $0A ; ... $0A | 0x65 - ARCHERY GUY
+    db $00 ; ... $00 | 0x66 - WALL CANNON VERTICAL LEFT
+    db $00 ; ... $00 | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $00 ; ... $00 | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $00 ; ... $00 | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $12 ; ... $12 | 0x6A - BALL N CHAIN
+    db $12 ; ... $12 | 0x6B - CANNONBALL / CANNON TROOPER
+    db $40 ; .s. $00 | 0x6C - MIRROR PORTAL
+    db $00 ; ... $00 | 0x6D - RAT / CRICKET
+    db $00 ; ... $00 | 0x6E - SNAKE
+    db $40 ; .s. $00 | 0x6F - KEESE
+    db $19 ; ... $19 | 0x70 - KING HELMASAUR FIREBALL
+    db $00 ; ... $00 | 0x71 - LEEVER
+    db $00 ; ... $00 | 0x72 - FAIRY POND TRIGGER
+    db $0A ; ... $0A | 0x73 - UNCLE / PRIEST / MANTLE
+    db $0D ; ... $0D | 0x74 - RUNNING MAN
+    db $0A ; ... $0A | 0x75 - BOTTLE MERCHANT
+    db $0A ; ... $0A | 0x76 - ZELDA
+    db $80 ; i.. $00 | 0x77 - ANTIFAIRY
+    db $0A ; ... $0A | 0x78 - SAHASRAHLAS WIFE
+    db $41 ; .s. $01 | 0x79 - BEE
+    db $00 ; ... $00 | 0x7A - AGAHNIM
+    db $40 ; .s. $00 | 0x7B - AGAHNIMS BALLS
+    db $00 ; ... $00 | 0x7C - GREEN STALFOS
+    db $49 ; .s. $09 | 0x7D - BIG SPIKE
+    db $00 ; ... $00 | 0x7E - FIREBAR CLOCKWISE
+    db $00 ; ... $00 | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $C0 ; is. $00 | 0x80 - FIRESNAKE
+    db $00 ; ... $00 | 0x81 - HOVER
+    db $40 ; .s. $00 | 0x82 - ANTIFAIRY CIRCLE
+    db $00 ; ... $00 | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $00 ; ... $00 | 0x84 - RED EYEGORE / RED MIMIC
+    db $40 ; .s. $00 | 0x85 - YELLOW STALFOS
+    db $00 ; ... $00 | 0x86 - KODONGO
+    db $00 ; ... $00 | 0x87 - KONDONGO FIRE
+    db $09 ; ... $09 | 0x88 - MOTHULA
+    db $80 ; i.. $00 | 0x89 - MOTHULA BEAM
+    db $C0 ; is. $00 | 0x8A - SPIKE BLOCK
+    db $00 ; ... $00 | 0x8B - GIBDO
+    db $40 ; .s. $00 | 0x8C - ARRGHUS
+    db $00 ; ... $00 | 0x8D - ARRGHI
+    db $00 ; ... $00 | 0x8E - TERRORPIN
+    db $80 ; i.. $00 | 0x8F - BLOB
+    db $00 ; ... $00 | 0x90 - WALLMASTER
+    db $00 ; ... $00 | 0x91 - STALFOS KNIGHT
+    db $18 ; ... $18 | 0x92 - KING HELMASAUR
+    db $5A ; .s. $1A | 0x93 - BUMPER
+    db $00 ; ... $00 | 0x94 - PIROGUSU
+    db $D4 ; is. $14 | 0x95 - LASER EYE LEFT
+    db $D4 ; is. $14 | 0x96 - LASER EYE RIGHT
+    db $D4 ; is. $14 | 0x97 - LASER EYE TOP
+    db $D4 ; is. $14 | 0x98 - LASER EYE BOTTOM
+    db $00 ; ... $00 | 0x99 - PENGATOR
+    db $40 ; .s. $00 | 0x9A - KYAMERON
+    db $00 ; ... $00 | 0x9B - WIZZROBE
+    db $80 ; i.. $00 | 0x9C - ZORO
+    db $80 ; i.. $00 | 0x9D - BABASU
+    db $40 ; .s. $00 | 0x9E - HAUNTED GROVE OSTRITCH
+    db $40 ; .s. $00 | 0x9F - HAUNTED GROVE RABBIT
+    db $40 ; .s. $00 | 0xA0 - HAUNTED GROVE BIRD
+    db $00 ; ... $00 | 0xA1 - FREEZOR
+    db $09 ; ... $09 | 0xA2 - KHOLDSTARE
+    db $1D ; ... $1D | 0xA3 - KHOLDSTARE SHELL
+    db $00 ; ... $00 | 0xA4 - FALLING ICE
+    db $00 ; ... $00 | 0xA5 - BLUE ZAZAK
+    db $00 ; ... $00 | 0xA6 - RED ZAZAK
+    db $00 ; ... $00 | 0xA7 - STALFOS
+    db $00 ; ... $00 | 0xA8 - GREEN ZIRRO
+    db $00 ; ... $00 | 0xA9 - BLUE ZIRRO
+    db $00 ; ... $00 | 0xAA - PIKIT
+    db $00 ; ... $00 | 0xAB - CRYSTAL MAIDEN
+    db $00 ; ... $00 | 0xAC - APPLE
+    db $0A ; ... $0A | 0xAD - OLD MAN
+    db $1B ; ... $1B | 0xAE - PIPE DOWN
+    db $1B ; ... $1B | 0xAF - PIPE UP
+    db $1B ; ... $1B | 0xB0 - PIPE RIGHT
+    db $1B ; ... $1B | 0xB1 - PIPE LEFT
+    db $41 ; .s. $01 | 0xB2 - GOOD BEE
+    db $00 ; ... $00 | 0xB3 - PEDESTAL PLAQUE
+    db $03 ; ... $03 | 0xB4 - PURPLE CHEST
+    db $07 ; ... $07 | 0xB5 - BOMB SHOP GUY
+    db $07 ; ... $07 | 0xB6 - KIKI
+    db $03 ; ... $03 | 0xB7 - BLIND MAIDEN
+    db $0A ; ... $0A | 0xB8 - DIALOGUE TESTER
+    db $00 ; ... $00 | 0xB9 - BULLY / PINK BALL
+    db $01 ; ... $01 | 0xBA - WHIRLPOOL
+    db $0A ; ... $0A | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $0A ; ... $0A | 0xBC - DRUNKARD
+    db $09 ; ... $09 | 0xBD - VITREOUS
+    db $00 ; ... $00 | 0xBE - VITREOUS SMALL EYE
+    db $00 ; ... $00 | 0xBF - LIGHTNING
+    db $00 ; ... $00 | 0xC0 - CATFISH
+    db $00 ; ... $00 | 0xC1 - CUTSCENE AGAHNIM
+    db $09 ; ... $09 | 0xC2 - BOULDER
+    db $00 ; ... $00 | 0xC3 - GIBO
+    db $00 ; ... $00 | 0xC4 - THIEF
+    db $40 ; .s. $00 | 0xC5 - MEDUSA
+    db $40 ; .s. $00 | 0xC6 - 4WAY SHOOTER
+    db $00 ; ... $00 | 0xC7 - POKEY
+    db $00 ; ... $00 | 0xC8 - BIG FAIRY
+    db $00 ; ... $00 | 0xC9 - TEKTITE / FIREBAT
+    db $00 ; ... $00 | 0xCA - CHAIN CHOMP
+    db $89 ; i.. $09 | 0xCB - TRINEXX ROCK HEAD
+    db $80 ; i.. $00 | 0xCC - TRINEXX FIRE HEAD
+    db $80 ; i.. $00 | 0xCD - TRINEXX ICE HEAD
+    db $00 ; ... $00 | 0xCE - BLIND
+    db $1C ; ... $1C | 0xCF - SWAMOLA
+    db $00 ; ... $00 | 0xD0 - LYNEL
+    db $40 ; .s. $00 | 0xD1 - BUNNYBEAM / SMOKE
+    db $00 ; ... $00 | 0xD2 - FLOPPING FISH
+    db $00 ; ... $00 | 0xD3 - STAL
+    db $1C ; ... $1C | 0xD4 - LANDMINE
+    db $07 ; ... $07 | 0xD5 - DIG GAME GUY
+    db $03 ; ... $03 | 0xD6 - GANON
+    db $03 ; ... $03 | 0xD7 - GANON
+    db $44 ; .s. $04 | 0xD8 - HEART
+    db $44 ; .s. $04 | 0xD9 - GREEN RUPEE
+    db $44 ; .s. $04 | 0xDA - BLUE RUPEE
+    db $44 ; .s. $04 | 0xDB - RED RUPEE
+    db $44 ; .s. $04 | 0xDC - BOMB REFILL 1
+    db $44 ; .s. $04 | 0xDD - BOMB REFILL 4
+    db $44 ; .s. $04 | 0xDE - BOMB REFILL 8
+    db $44 ; .s. $04 | 0xDF - SMALL MAGIC DECANTER
+    db $44 ; .s. $04 | 0xE0 - LARGE MAGIC DECANTER
+    db $44 ; .s. $04 | 0xE1 - ARROW REFILL 5
+    db $44 ; .s. $04 | 0xE2 - ARROW REFILL 10
+    db $43 ; .s. $03 | 0xE3 - FAIRY
+    db $44 ; .s. $04 | 0xE4 - SMALL KEY
+    db $43 ; .s. $03 | 0xE5 - BIG KEY
+    db $40 ; .s. $00 | 0xE6 - STOLEN SHIELD
+    db $C0 ; is. $00 | 0xE7 - MUSHROOM
+    db $C0 ; is. $00 | 0xE8 - FAKE MASTER SWORD
+    db $C7 ; is. $07 | 0xE9 - MAGIC SHOP ASSISTANT
+    db $C3 ; is. $03 | 0xEA - HEART CONTAINER
+    db $C3 ; is. $03 | 0xEB - HEART PIECE
+    db $C0 ; is. $00 | 0xEC - THROWN ITEM
+    db $1B ; ... $1B | 0xED - SOMARIA PLATFORM
+    db $08 ; ... $08 | 0xEE - CASTLE MANTLE
+    db $1B ; ... $1B | 0xEF - UNUSED SOMARIA PLATFORM
+    db $1B ; ... $1B | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $1B ; ... $1B | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $03 ; ... $03 | 0xF2 - MEDALLION TABLET
+}
+
+; $0B6B - Tile hit box and other misc settings.
+; $06B53F-$06B631 DATA
+SpriteData_TileInteraction:
+{
+    db $00 ; .... $0 | 0x00 - RAVEN
+    db $00 ; .... $0 | 0x01 - VULTURE
+    db $00 ; .... $0 | 0x02 - STALFOS HEAD
+    db $00 ; .... $0 | 0x03 - NULL
+    db $00 ; .... $0 | 0x04 - CORRECT PULL SWITCH
+    db $00 ; .... $0 | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $00 ; .... $0 | 0x06 - WRONG PULL SWITCH
+    db $00 ; .... $0 | 0x07 - UNUSED WRONG PULL SWITCH
+    db $00 ; .... $0 | 0x08 - OCTOROK
+    db $0A ; a.b. $0 | 0x09 - MOLDORM
+    db $00 ; .... $0 | 0x0A - OCTOROK 4WAY
+    db $01 ; ...p $0 | 0x0B - CUCCO
+    db $30 ; .... $0 | 0x0C - OCTOROK STONE
+    db $00 ; .... $0 | 0x0D - BUZZBLOB
+    db $00 ; .... $0 | 0x0E - SNAPDRAGON
+    db $20 ; .... $0 | 0x0F - OCTOBALLOON
+    db $10 ; .... $0 | 0x10 - OCTOBALLOON BABY
+    db $00 ; .... $0 | 0x11 - HINOX
+    db $00 ; .... $0 | 0x12 - MOBLIN
+    db $01 ; ...p $0 | 0x13 - MINI HELMASAUR
+    db $00 ; .... $0 | 0x14 - THIEVES TOWN GRATE
+    db $00 ; .... $0 | 0x15 - ANTIFAIRY
+    db $00 ; .... $0 | 0x16 - SAHASRAHLA / AGINAH
+    db $00 ; .... $0 | 0x17 - HOARDER
+    db $00 ; .... $0 | 0x18 - MINI MOLDORM
+    db $00 ; .... $0 | 0x19 - POE
+    db $00 ; .... $0 | 0x1A - SMITHY
+    db $08 ; a... $0 | 0x1B - ARROW
+    db $20 ; .... $0 | 0x1C - STATUE
+    db $00 ; .... $0 | 0x1D - FLUTEQUEST
+    db $04 ; .s.. $0 | 0x1E - CRYSTAL SWITCH
+    db $00 ; .... $0 | 0x1F - SICK KID
+    db $00 ; .... $0 | 0x20 - SLUGGULA
+    db $00 ; .... $0 | 0x21 - WATER SWITCH
+    db $00 ; .... $0 | 0x22 - ROPA
+    db $00 ; .... $0 | 0x23 - RED BARI
+    db $00 ; .... $0 | 0x24 - BLUE BARI
+    db $00 ; .... $0 | 0x25 - TALKING TREE
+    db $01 ; ...p $0 | 0x26 - HARDHAT BEETLE
+    db $04 ; .s.. $0 | 0x27 - DEADROCK
+    db $00 ; .... $0 | 0x28 - DARK WORLD HINT NPC
+    db $00 ; .... $0 | 0x29 - ADULT
+    db $00 ; .... $0 | 0x2A - SWEEPING LADY
+    db $00 ; .... $0 | 0x2B - HOBO
+    db $00 ; .... $0 | 0x2C - LUMBERJACKS
+    db $00 ; .... $0 | 0x2D - NECKLESS MAN
+    db $00 ; .... $0 | 0x2E - FLUTE KID
+    db $00 ; .... $0 | 0x2F - RACE GAME LADY
+    db $00 ; .... $0 | 0x30 - RACE GAME GUY
+    db $00 ; .... $0 | 0x31 - FORTUNE TELLER
+    db $00 ; .... $0 | 0x32 - ARGUE BROS
+    db $00 ; .... $0 | 0x33 - RUPEE PULL
+    db $00 ; .... $0 | 0x34 - YOUNG SNITCH
+    db $00 ; .... $0 | 0x35 - INNKEEPER
+    db $00 ; .... $0 | 0x36 - WITCH
+    db $00 ; .... $0 | 0x37 - WATERFALL
+    db $00 ; .... $0 | 0x38 - EYE STATUE
+    db $00 ; .... $0 | 0x39 - LOCKSMITH
+    db $00 ; .... $0 | 0x3A - MAGIC BAT
+    db $00 ; .... $0 | 0x3B - BONK ITEM
+    db $00 ; .... $0 | 0x3C - KID IN KAK
+    db $00 ; .... $0 | 0x3D - OLD SNITCH
+    db $00 ; .... $0 | 0x3E - HOARDER
+    db $68 ; a... $0 | 0x3F - TUTORIAL GUARD
+    db $60 ; .... $0 | 0x40 - LIGHTNING GATE
+    db $61 ; ...p $0 | 0x41 - BLUE GUARD
+    db $61 ; ...p $0 | 0x42 - GREEN GUARD
+    db $61 ; ...p $0 | 0x43 - RED SPEAR GUARD
+    db $61 ; ...p $0 | 0x44 - BLUESAIN BOLT
+    db $61 ; ...p $0 | 0x45 - USAIN BOLT
+    db $61 ; ...p $0 | 0x46 - BLUE ARCHER
+    db $61 ; ...p $0 | 0x47 - GREEN BUSH GUARD
+    db $61 ; ...p $0 | 0x48 - RED JAVELIN GUARD
+    db $61 ; ...p $0 | 0x49 - RED BUSH GUARD
+    db $61 ; ...p $0 | 0x4A - BOMB GUARD
+    db $61 ; ...p $0 | 0x4B - GREEN KNIFE GUARD
+    db $00 ; .... $0 | 0x4C - GELDMAN
+    db $00 ; .... $0 | 0x4D - TOPPO
+    db $00 ; .... $0 | 0x4E - POPO
+    db $00 ; .... $0 | 0x4F - POPO
+    db $00 ; .... $0 | 0x50 - CANNONBALL
+    db $00 ; .... $0 | 0x51 - ARMOS STATUE
+    db $02 ; ..b. $0 | 0x52 - KING ZORA
+    db $02 ; ..b. $0 | 0x53 - ARMOS KNIGHT
+    db $02 ; ..b. $0 | 0x54 - LANMOLAS
+    db $00 ; .... $0 | 0x55 - ZORA / FIREBALL
+    db $00 ; .... $0 | 0x56 - ZORA
+    db $70 ; .... $0 | 0x57 - DESERT STATUE
+    db $00 ; .... $0 | 0x58 - CRAB
+    db $00 ; .... $0 | 0x59 - LOST WOODS BIRD
+    db $00 ; .... $0 | 0x5A - LOST WOODS SQUIRREL
+    db $90 ; .... $0 | 0x5B - SPARK
+    db $90 ; .... $0 | 0x5C - SPARK
+    db $00 ; .... $0 | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $00 ; .... $0 | 0x5E - ROLLER VERTICAL UP FIRST
+    db $00 ; .... $0 | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $00 ; .... $0 | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $00 ; .... $0 | 0x61 - BEAMOS
+    db $00 ; .... $0 | 0x62 - MASTERSWORD
+    db $00 ; .... $0 | 0x63 - DEBIRANDO PIT
+    db $00 ; .... $0 | 0x64 - DEBIRANDO
+    db $00 ; .... $0 | 0x65 - ARCHERY GUY
+    db $00 ; .... $0 | 0x66 - WALL CANNON VERTICAL LEFT
+    db $00 ; .... $0 | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $00 ; .... $0 | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $00 ; .... $0 | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $60 ; .... $0 | 0x6A - BALL N CHAIN
+    db $60 ; .... $0 | 0x6B - CANNONBALL / CANNON TROOPER
+    db $00 ; .... $0 | 0x6C - MIRROR PORTAL
+    db $00 ; .... $0 | 0x6D - RAT / CRICKET
+    db $00 ; .... $0 | 0x6E - SNAKE
+    db $00 ; .... $0 | 0x6F - KEESE
+    db $00 ; .... $0 | 0x70 - KING HELMASAUR FIREBALL
+    db $00 ; .... $0 | 0x71 - LEEVER
+    db $00 ; .... $0 | 0x72 - FAIRY POND TRIGGER
+    db $00 ; .... $0 | 0x73 - UNCLE / PRIEST / MANTLE
+    db $00 ; .... $0 | 0x74 - RUNNING MAN
+    db $00 ; .... $0 | 0x75 - BOTTLE MERCHANT
+    db $00 ; .... $0 | 0x76 - ZELDA
+    db $80 ; .... $0 | 0x77 - ANTIFAIRY
+    db $00 ; .... $0 | 0x78 - SAHASRAHLAS WIFE
+    db $00 ; .... $0 | 0x79 - BEE
+    db $02 ; ..b. $0 | 0x7A - AGAHNIM
+    db $00 ; .... $0 | 0x7B - AGAHNIMS BALLS
+    db $00 ; .... $0 | 0x7C - GREEN STALFOS
+    db $70 ; .... $0 | 0x7D - BIG SPIKE
+    db $00 ; .... $0 | 0x7E - FIREBAR CLOCKWISE
+    db $00 ; .... $0 | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $00 ; .... $0 | 0x80 - FIRESNAKE
+    db $00 ; .... $0 | 0x81 - HOVER
+    db $00 ; .... $0 | 0x82 - ANTIFAIRY CIRCLE
+    db $00 ; .... $0 | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $00 ; .... $0 | 0x84 - RED EYEGORE / RED MIMIC
+    db $00 ; .... $0 | 0x85 - YELLOW STALFOS
+    db $B0 ; .... $0 | 0x86 - KODONGO
+    db $00 ; .... $0 | 0x87 - KONDONGO FIRE
+    db $C2 ; ..b. $0 | 0x88 - MOTHULA
+    db $00 ; .... $0 | 0x89 - MOTHULA BEAM
+    db $20 ; .... $0 | 0x8A - SPIKE BLOCK
+    db $00 ; .... $0 | 0x8B - GIBDO
+    db $02 ; ..b. $0 | 0x8C - ARRGHUS
+    db $00 ; .... $0 | 0x8D - ARRGHI
+    db $00 ; .... $0 | 0x8E - TERRORPIN
+    db $00 ; .... $0 | 0x8F - BLOB
+    db $00 ; .... $0 | 0x90 - WALLMASTER
+    db $00 ; .... $0 | 0x91 - STALFOS KNIGHT
+    db $02 ; ..b. $0 | 0x92 - KING HELMASAUR
+    db $00 ; .... $0 | 0x93 - BUMPER
+    db $B0 ; .... $0 | 0x94 - PIROGUSU
+    db $00 ; .... $0 | 0x95 - LASER EYE LEFT
+    db $00 ; .... $0 | 0x96 - LASER EYE RIGHT
+    db $00 ; .... $0 | 0x97 - LASER EYE TOP
+    db $00 ; .... $0 | 0x98 - LASER EYE BOTTOM
+    db $00 ; .... $0 | 0x99 - PENGATOR
+    db $00 ; .... $0 | 0x9A - KYAMERON
+    db $00 ; .... $0 | 0x9B - WIZZROBE
+    db $A0 ; .... $0 | 0x9C - ZORO
+    db $A0 ; .... $0 | 0x9D - BABASU
+    db $00 ; .... $0 | 0x9E - HAUNTED GROVE OSTRITCH
+    db $00 ; .... $0 | 0x9F - HAUNTED GROVE RABBIT
+    db $00 ; .... $0 | 0xA0 - HAUNTED GROVE BIRD
+    db $04 ; .s.. $0 | 0xA1 - FREEZOR
+    db $02 ; ..b. $0 | 0xA2 - KHOLDSTARE
+    db $00 ; .... $0 | 0xA3 - KHOLDSTARE SHELL
+    db $00 ; .... $0 | 0xA4 - FALLING ICE
+    db $00 ; .... $0 | 0xA5 - BLUE ZAZAK
+    db $00 ; .... $0 | 0xA6 - RED ZAZAK
+    db $00 ; .... $0 | 0xA7 - STALFOS
+    db $00 ; .... $0 | 0xA8 - GREEN ZIRRO
+    db $00 ; .... $0 | 0xA9 - BLUE ZIRRO
+    db $00 ; .... $0 | 0xAA - PIKIT
+    db $00 ; .... $0 | 0xAB - CRYSTAL MAIDEN
+    db $00 ; .... $0 | 0xAC - APPLE
+    db $00 ; .... $0 | 0xAD - OLD MAN
+    db $00 ; .... $0 | 0xAE - PIPE DOWN
+    db $00 ; .... $0 | 0xAF - PIPE UP
+    db $00 ; .... $0 | 0xB0 - PIPE RIGHT
+    db $00 ; .... $0 | 0xB1 - PIPE LEFT
+    db $00 ; .... $0 | 0xB2 - GOOD BEE
+    db $00 ; .... $0 | 0xB3 - PEDESTAL PLAQUE
+    db $00 ; .... $0 | 0xB4 - PURPLE CHEST
+    db $00 ; .... $0 | 0xB5 - BOMB SHOP GUY
+    db $00 ; .... $0 | 0xB6 - KIKI
+    db $00 ; .... $0 | 0xB7 - BLIND MAIDEN
+    db $00 ; .... $0 | 0xB8 - DIALOGUE TESTER
+    db $00 ; .... $0 | 0xB9 - BULLY / PINK BALL
+    db $00 ; .... $0 | 0xBA - WHIRLPOOL
+    db $00 ; .... $0 | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $00 ; .... $0 | 0xBC - DRUNKARD
+    db $C2 ; ..b. $0 | 0xBD - VITREOUS
+    db $00 ; .... $0 | 0xBE - VITREOUS SMALL EYE
+    db $00 ; .... $0 | 0xBF - LIGHTNING
+    db $00 ; .... $0 | 0xC0 - CATFISH
+    db $00 ; .... $0 | 0xC1 - CUTSCENE AGAHNIM
+    db $00 ; .... $0 | 0xC2 - BOULDER
+    db $00 ; .... $0 | 0xC3 - GIBO
+    db $04 ; .s.. $0 | 0xC4 - THIEF
+    db $00 ; .... $0 | 0xC5 - MEDUSA
+    db $00 ; .... $0 | 0xC6 - 4WAY SHOOTER
+    db $00 ; .... $0 | 0xC7 - POKEY
+    db $00 ; .... $0 | 0xC8 - BIG FAIRY
+    db $00 ; .... $0 | 0xC9 - TEKTITE / FIREBAT
+    db $00 ; .... $0 | 0xCA - CHAIN CHOMP
+    db $02 ; ..b. $0 | 0xCB - TRINEXX ROCK HEAD
+    db $02 ; ..b. $0 | 0xCC - TRINEXX FIRE HEAD
+    db $02 ; ..b. $0 | 0xCD - TRINEXX ICE HEAD
+    db $02 ; ..b. $0 | 0xCE - BLIND
+    db $00 ; .... $0 | 0xCF - SWAMOLA
+    db $00 ; .... $0 | 0xD0 - LYNEL
+    db $00 ; .... $0 | 0xD1 - BUNNYBEAM / SMOKE
+    db $00 ; .... $0 | 0xD2 - FLOPPING FISH
+    db $00 ; .... $0 | 0xD3 - STAL
+    db $00 ; .... $0 | 0xD4 - LANDMINE
+    db $00 ; .... $0 | 0xD5 - DIG GAME GUY
+    db $0A ; a.b. $0 | 0xD6 - GANON
+    db $0A ; a.b. $0 | 0xD7 - GANON
+    db $10 ; .... $0 | 0xD8 - HEART
+    db $10 ; .... $0 | 0xD9 - GREEN RUPEE
+    db $10 ; .... $0 | 0xDA - BLUE RUPEE
+    db $10 ; .... $0 | 0xDB - RED RUPEE
+    db $00 ; .... $0 | 0xDC - BOMB REFILL 1
+    db $00 ; .... $0 | 0xDD - BOMB REFILL 4
+    db $00 ; .... $0 | 0xDE - BOMB REFILL 8
+    db $10 ; .... $0 | 0xDF - SMALL MAGIC DECANTER
+    db $10 ; .... $0 | 0xE0 - LARGE MAGIC DECANTER
+    db $10 ; .... $0 | 0xE1 - ARROW REFILL 5
+    db $10 ; .... $0 | 0xE2 - ARROW REFILL 10
+    db $00 ; .... $0 | 0xE3 - FAIRY
+    db $10 ; .... $0 | 0xE4 - SMALL KEY
+    db $00 ; .... $0 | 0xE5 - BIG KEY
+    db $00 ; .... $0 | 0xE6 - STOLEN SHIELD
+    db $00 ; .... $0 | 0xE7 - MUSHROOM
+    db $00 ; .... $0 | 0xE8 - FAKE MASTER SWORD
+    db $00 ; .... $0 | 0xE9 - MAGIC SHOP ASSISTANT
+    db $00 ; .... $0 | 0xEA - HEART CONTAINER
+    db $00 ; .... $0 | 0xEB - HEART PIECE
+    db $00 ; .... $0 | 0xEC - THROWN ITEM
+    db $00 ; .... $0 | 0xED - SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xEE - CASTLE MANTLE
+    db $00 ; .... $0 | 0xEF - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF2 - MEDALLION TABLET
+}
+
+; $0BE0 - Prize pack and other misc settings.
+; $06B632-$06B724 DATA
+SpriteData_PrizePack:
+{
+    db $83 ; i... $3 | 0x00 - RAVEN
+    db $96 ; i..s $6 | 0x01 - VULTURE
+    db $84 ; i... $4 | 0x02 - STALFOS HEAD
+    db $80 ; i... $0 | 0x03 - NULL
+    db $80 ; i... $0 | 0x04 - CORRECT PULL SWITCH
+    db $80 ; i... $0 | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $80 ; i... $0 | 0x06 - WRONG PULL SWITCH
+    db $80 ; i... $0 | 0x07 - UNUSED WRONG PULL SWITCH
+    db $02 ; .... $2 | 0x08 - OCTOROK
+    db $00 ; .... $0 | 0x09 - MOLDORM
+    db $02 ; .... $2 | 0x0A - OCTOROK 4WAY
+    db $80 ; i... $0 | 0x0B - CUCCO
+    db $A0 ; i.b. $0 | 0x0C - OCTOROK STONE
+    db $83 ; i... $3 | 0x0D - BUZZBLOB
+    db $97 ; i..s $7 | 0x0E - SNAPDRAGON
+    db $80 ; i... $0 | 0x0F - OCTOBALLOON
+    db $80 ; i... $0 | 0x10 - OCTOBALLOON BABY
+    db $94 ; i..s $4 | 0x11 - HINOX
+    db $91 ; i..s $1 | 0x12 - MOBLIN
+    db $07 ; .... $7 | 0x13 - MINI HELMASAUR
+    db $00 ; .... $0 | 0x14 - THIEVES TOWN GRATE
+    db $80 ; i... $0 | 0x15 - ANTIFAIRY
+    db $00 ; .... $0 | 0x16 - SAHASRAHLA / AGINAH
+    db $80 ; i... $0 | 0x17 - HOARDER
+    db $92 ; i..s $2 | 0x18 - MINI MOLDORM
+    db $96 ; i..s $6 | 0x19 - POE
+    db $80 ; i... $0 | 0x1A - SMITHY
+    db $A0 ; i.b. $0 | 0x1B - ARROW
+    db $00 ; .... $0 | 0x1C - STATUE
+    db $00 ; .... $0 | 0x1D - FLUTEQUEST
+    db $00 ; .... $0 | 0x1E - CRYSTAL SWITCH
+    db $80 ; i... $0 | 0x1F - SICK KID
+    db $04 ; .... $4 | 0x20 - SLUGGULA
+    db $80 ; i... $0 | 0x21 - WATER SWITCH
+    db $82 ; i... $2 | 0x22 - ROPA
+    db $06 ; .... $6 | 0x23 - RED BARI
+    db $06 ; .... $6 | 0x24 - BLUE BARI
+    db $00 ; .... $0 | 0x25 - TALKING TREE
+    db $00 ; .... $0 | 0x26 - HARDHAT BEETLE
+    db $80 ; i... $0 | 0x27 - DEADROCK
+    db $80 ; i... $0 | 0x28 - DARK WORLD HINT NPC
+    db $80 ; i... $0 | 0x29 - ADULT
+    db $80 ; i... $0 | 0x2A - SWEEPING LADY
+    db $80 ; i... $0 | 0x2B - HOBO
+    db $80 ; i... $0 | 0x2C - LUMBERJACKS
+    db $80 ; i... $0 | 0x2D - NECKLESS MAN
+    db $80 ; i... $0 | 0x2E - FLUTE KID
+    db $80 ; i... $0 | 0x2F - RACE GAME LADY
+    db $80 ; i... $0 | 0x30 - RACE GAME GUY
+    db $80 ; i... $0 | 0x31 - FORTUNE TELLER
+    db $80 ; i... $0 | 0x32 - ARGUE BROS
+    db $80 ; i... $0 | 0x33 - RUPEE PULL
+    db $80 ; i... $0 | 0x34 - YOUNG SNITCH
+    db $80 ; i... $0 | 0x35 - INNKEEPER
+    db $80 ; i... $0 | 0x36 - WITCH
+    db $80 ; i... $0 | 0x37 - WATERFALL
+    db $80 ; i... $0 | 0x38 - EYE STATUE
+    db $80 ; i... $0 | 0x39 - LOCKSMITH
+    db $80 ; i... $0 | 0x3A - MAGIC BAT
+    db $00 ; .... $0 | 0x3B - BONK ITEM
+    db $00 ; .... $0 | 0x3C - KID IN KAK
+    db $80 ; i... $0 | 0x3D - OLD SNITCH
+    db $80 ; i... $0 | 0x3E - HOARDER
+    db $90 ; i..s $0 | 0x3F - TUTORIAL GUARD
+    db $80 ; i... $0 | 0x40 - LIGHTNING GATE
+    db $91 ; i..s $1 | 0x41 - BLUE GUARD
+    db $91 ; i..s $1 | 0x42 - GREEN GUARD
+    db $91 ; i..s $1 | 0x43 - RED SPEAR GUARD
+    db $97 ; i..s $7 | 0x44 - BLUESAIN BOLT
+    db $91 ; i..s $1 | 0x45 - USAIN BOLT
+    db $95 ; i..s $5 | 0x46 - BLUE ARCHER
+    db $95 ; i..s $5 | 0x47 - GREEN BUSH GUARD
+    db $93 ; i..s $3 | 0x48 - RED JAVELIN GUARD
+    db $97 ; i..s $7 | 0x49 - RED BUSH GUARD
+    db $14 ; ...s $4 | 0x4A - BOMB GUARD
+    db $91 ; i..s $1 | 0x4B - GREEN KNIFE GUARD
+    db $92 ; i..s $2 | 0x4C - GELDMAN
+    db $81 ; i... $1 | 0x4D - TOPPO
+    db $82 ; i... $2 | 0x4E - POPO
+    db $82 ; i... $2 | 0x4F - POPO
+    db $80 ; i... $0 | 0x50 - CANNONBALL
+    db $85 ; i... $5 | 0x51 - ARMOS STATUE
+    db $80 ; i... $0 | 0x52 - KING ZORA
+    db $80 ; i... $0 | 0x53 - ARMOS KNIGHT
+    db $80 ; i... $0 | 0x54 - LANMOLAS
+    db $04 ; .... $4 | 0x55 - ZORA / FIREBALL
+    db $04 ; .... $4 | 0x56 - ZORA
+    db $80 ; i... $0 | 0x57 - DESERT STATUE
+    db $91 ; i..s $1 | 0x58 - CRAB
+    db $80 ; i... $0 | 0x59 - LOST WOODS BIRD
+    db $80 ; i... $0 | 0x5A - LOST WOODS SQUIRREL
+    db $80 ; i... $0 | 0x5B - SPARK
+    db $80 ; i... $0 | 0x5C - SPARK
+    db $80 ; i... $0 | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $80 ; i... $0 | 0x5E - ROLLER VERTICAL UP FIRST
+    db $80 ; i... $0 | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $80 ; i... $0 | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $00 ; .... $0 | 0x61 - BEAMOS
+    db $80 ; i... $0 | 0x62 - MASTERSWORD
+    db $80 ; i... $0 | 0x63 - DEBIRANDO PIT
+    db $82 ; i... $2 | 0x64 - DEBIRANDO
+    db $8A ; i... $A | 0x65 - ARCHERY GUY
+    db $80 ; i... $0 | 0x66 - WALL CANNON VERTICAL LEFT
+    db $80 ; i... $0 | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $80 ; i... $0 | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $80 ; i... $0 | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $92 ; i..s $2 | 0x6A - BALL N CHAIN
+    db $91 ; i..s $1 | 0x6B - CANNONBALL / CANNON TROOPER
+    db $80 ; i... $0 | 0x6C - MIRROR PORTAL
+    db $82 ; i... $2 | 0x6D - RAT / CRICKET
+    db $81 ; i... $1 | 0x6E - SNAKE
+    db $81 ; i... $1 | 0x6F - KEESE
+    db $80 ; i... $0 | 0x70 - KING HELMASAUR FIREBALL
+    db $81 ; i... $1 | 0x71 - LEEVER
+    db $80 ; i... $0 | 0x72 - FAIRY POND TRIGGER
+    db $80 ; i... $0 | 0x73 - UNCLE / PRIEST / MANTLE
+    db $80 ; i... $0 | 0x74 - RUNNING MAN
+    db $80 ; i... $0 | 0x75 - BOTTLE MERCHANT
+    db $80 ; i... $0 | 0x76 - ZELDA
+    db $80 ; i... $0 | 0x77 - ANTIFAIRY
+    db $80 ; i... $0 | 0x78 - SAHASRAHLAS WIFE
+    db $80 ; i... $0 | 0x79 - BEE
+    db $80 ; i... $0 | 0x7A - AGAHNIM
+    db $80 ; i... $0 | 0x7B - AGAHNIMS BALLS
+    db $97 ; i..s $7 | 0x7C - GREEN STALFOS
+    db $80 ; i... $0 | 0x7D - BIG SPIKE
+    db $80 ; i... $0 | 0x7E - FIREBAR CLOCKWISE
+    db $80 ; i... $0 | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $80 ; i... $0 | 0x80 - FIRESNAKE
+    db $C2 ; iw.. $2 | 0x81 - HOVER
+    db $80 ; i... $0 | 0x82 - ANTIFAIRY CIRCLE
+    db $15 ; ...s $5 | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $15 ; ...s $5 | 0x84 - RED EYEGORE / RED MIMIC
+    db $17 ; ...s $7 | 0x85 - YELLOW STALFOS
+    db $06 ; .... $6 | 0x86 - KODONGO
+    db $00 ; .... $0 | 0x87 - KONDONGO FIRE
+    db $80 ; i... $0 | 0x88 - MOTHULA
+    db $00 ; .... $0 | 0x89 - MOTHULA BEAM
+    db $C0 ; iw.. $0 | 0x8A - SPIKE BLOCK
+    db $13 ; ...s $3 | 0x8B - GIBDO
+    db $40 ; .w.. $0 | 0x8C - ARRGHUS
+    db $00 ; .... $0 | 0x8D - ARRGHI
+    db $02 ; .... $2 | 0x8E - TERRORPIN
+    db $06 ; .... $6 | 0x8F - BLOB
+    db $10 ; ...s $0 | 0x90 - WALLMASTER
+    db $14 ; ...s $4 | 0x91 - STALFOS KNIGHT
+    db $00 ; .... $0 | 0x92 - KING HELMASAUR
+    db $00 ; .... $0 | 0x93 - BUMPER
+    db $40 ; .w.. $0 | 0x94 - PIROGUSU
+    db $00 ; .... $0 | 0x95 - LASER EYE LEFT
+    db $00 ; .... $0 | 0x96 - LASER EYE RIGHT
+    db $00 ; .... $0 | 0x97 - LASER EYE TOP
+    db $00 ; .... $0 | 0x98 - LASER EYE BOTTOM
+    db $13 ; ...s $3 | 0x99 - PENGATOR
+    db $46 ; .w.. $6 | 0x9A - KYAMERON
+    db $11 ; ...s $1 | 0x9B - WIZZROBE
+    db $80 ; i... $0 | 0x9C - ZORO
+    db $80 ; i... $0 | 0x9D - BABASU
+    db $00 ; .... $0 | 0x9E - HAUNTED GROVE OSTRITCH
+    db $00 ; .... $0 | 0x9F - HAUNTED GROVE RABBIT
+    db $00 ; .... $0 | 0xA0 - HAUNTED GROVE BIRD
+    db $10 ; ...s $0 | 0xA1 - FREEZOR
+    db $00 ; .... $0 | 0xA2 - KHOLDSTARE
+    db $00 ; .... $0 | 0xA3 - KHOLDSTARE SHELL
+    db $00 ; .... $0 | 0xA4 - FALLING ICE
+    db $16 ; ...s $6 | 0xA5 - BLUE ZAZAK
+    db $16 ; ...s $6 | 0xA6 - RED ZAZAK
+    db $16 ; ...s $6 | 0xA7 - STALFOS
+    db $81 ; i... $1 | 0xA8 - GREEN ZIRRO
+    db $87 ; i... $7 | 0xA9 - BLUE ZIRRO
+    db $82 ; i... $2 | 0xAA - PIKIT
+    db $00 ; .... $0 | 0xAB - CRYSTAL MAIDEN
+    db $80 ; i... $0 | 0xAC - APPLE
+    db $80 ; i... $0 | 0xAD - OLD MAN
+    db $00 ; .... $0 | 0xAE - PIPE DOWN
+    db $00 ; .... $0 | 0xAF - PIPE UP
+    db $00 ; .... $0 | 0xB0 - PIPE RIGHT
+    db $00 ; .... $0 | 0xB1 - PIPE LEFT
+    db $80 ; i... $0 | 0xB2 - GOOD BEE
+    db $80 ; i... $0 | 0xB3 - PEDESTAL PLAQUE
+    db $00 ; .... $0 | 0xB4 - PURPLE CHEST
+    db $00 ; .... $0 | 0xB5 - BOMB SHOP GUY
+    db $00 ; .... $0 | 0xB6 - KIKI
+    db $00 ; .... $0 | 0xB7 - BLIND MAIDEN
+    db $00 ; .... $0 | 0xB8 - DIALOGUE TESTER
+    db $00 ; .... $0 | 0xB9 - BULLY / PINK BALL
+    db $00 ; .... $0 | 0xBA - WHIRLPOOL
+    db $00 ; .... $0 | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $00 ; .... $0 | 0xBC - DRUNKARD
+    db $00 ; .... $0 | 0xBD - VITREOUS
+    db $00 ; .... $0 | 0xBE - VITREOUS SMALL EYE
+    db $00 ; .... $0 | 0xBF - LIGHTNING
+    db $00 ; .... $0 | 0xC0 - CATFISH
+    db $00 ; .... $0 | 0xC1 - CUTSCENE AGAHNIM
+    db $00 ; .... $0 | 0xC2 - BOULDER
+    db $80 ; i... $0 | 0xC3 - GIBO
+    db $00 ; .... $0 | 0xC4 - THIEF
+    db $00 ; .... $0 | 0xC5 - MEDUSA
+    db $00 ; .... $0 | 0xC6 - 4WAY SHOOTER
+    db $17 ; ...s $7 | 0xC7 - POKEY
+    db $00 ; .... $0 | 0xC8 - BIG FAIRY
+    db $12 ; ...s $2 | 0xC9 - TEKTITE / FIREBAT
+    db $00 ; .... $0 | 0xCA - CHAIN CHOMP
+    db $00 ; .... $0 | 0xCB - TRINEXX ROCK HEAD
+    db $00 ; .... $0 | 0xCC - TRINEXX FIRE HEAD
+    db $00 ; .... $0 | 0xCD - TRINEXX ICE HEAD
+    db $00 ; .... $0 | 0xCE - BLIND
+    db $10 ; ...s $0 | 0xCF - SWAMOLA
+    db $17 ; ...s $7 | 0xD0 - LYNEL
+    db $00 ; .... $0 | 0xD1 - BUNNYBEAM / SMOKE
+    db $40 ; .w.. $0 | 0xD2 - FLOPPING FISH
+    db $01 ; .... $1 | 0xD3 - STAL
+    db $00 ; .... $0 | 0xD4 - LANDMINE
+    db $00 ; .... $0 | 0xD5 - DIG GAME GUY
+    db $00 ; .... $0 | 0xD6 - GANON
+    db $00 ; .... $0 | 0xD7 - GANON
+    db $00 ; .... $0 | 0xD8 - HEART
+    db $00 ; .... $0 | 0xD9 - GREEN RUPEE
+    db $00 ; .... $0 | 0xDA - BLUE RUPEE
+    db $00 ; .... $0 | 0xDB - RED RUPEE
+    db $00 ; .... $0 | 0xDC - BOMB REFILL 1
+    db $00 ; .... $0 | 0xDD - BOMB REFILL 4
+    db $00 ; .... $0 | 0xDE - BOMB REFILL 8
+    db $00 ; .... $0 | 0xDF - SMALL MAGIC DECANTER
+    db $00 ; .... $0 | 0xE0 - LARGE MAGIC DECANTER
+    db $00 ; .... $0 | 0xE1 - ARROW REFILL 5
+    db $00 ; .... $0 | 0xE2 - ARROW REFILL 10
+    db $40 ; .w.. $0 | 0xE3 - FAIRY
+    db $00 ; .... $0 | 0xE4 - SMALL KEY
+    db $00 ; .... $0 | 0xE5 - BIG KEY
+    db $00 ; .... $0 | 0xE6 - STOLEN SHIELD
+    db $00 ; .... $0 | 0xE7 - MUSHROOM
+    db $00 ; .... $0 | 0xE8 - FAKE MASTER SWORD
+    db $00 ; .... $0 | 0xE9 - MAGIC SHOP ASSISTANT
+    db $00 ; .... $0 | 0xEA - HEART CONTAINER
+    db $00 ; .... $0 | 0xEB - HEART PIECE
+    db $80 ; i... $0 | 0xEC - THROWN ITEM
+    db $00 ; .... $0 | 0xED - SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xEE - CASTLE MANTLE
+    db $00 ; .... $0 | 0xEF - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $00 ; .... $0 | 0xF2 - MEDALLION TABLET
+}
+
+; $0CAA - Deflection properties
+; $06B725-$06B817 DATA
+SpriteData_Deflection:
+{
+    db $00 ; .... .... | 0x00 - RAVEN
+    db $00 ; .... .... | 0x01 - VULTURE
+    db $44 ; .i.. .h.. | 0x02 - STALFOS HEAD
+    db $20 ; ..s. .... | 0x03 - NULL
+    db $20 ; ..s. .... | 0x04 - CORRECT PULL SWITCH
+    db $20 ; ..s. .... | 0x05 - UNUSED CORRECT PULL SWITCH
+    db $20 ; ..s. .... | 0x06 - WRONG PULL SWITCH
+    db $20 ; ..s. .... | 0x07 - UNUSED WRONG PULL SWITCH
+    db $00 ; .... .... | 0x08 - OCTOROK
+    db $81 ; a... ...x | 0x09 - MOLDORM
+    db $00 ; .... .... | 0x0A - OCTOROK 4WAY
+    db $00 ; .... .... | 0x0B - CUCCO
+    db $48 ; .i.. c... | 0x0C - OCTOROK STONE
+    db $00 ; .... .... | 0x0D - BUZZBLOB
+    db $00 ; .... .... | 0x0E - SNAPDRAGON
+    db $00 ; .... .... | 0x0F - OCTOBALLOON
+    db $00 ; .... .... | 0x10 - OCTOBALLOON BABY
+    db $00 ; .... .... | 0x11 - HINOX
+    db $00 ; .... .... | 0x12 - MOBLIN
+    db $00 ; .... .... | 0x13 - MINI HELMASAUR
+    db $00 ; .... .... | 0x14 - THIEVES TOWN GRATE
+    db $00 ; .... .... | 0x15 - ANTIFAIRY
+    db $04 ; .... .h.. | 0x16 - SAHASRAHLA / AGINAH
+    db $00 ; .... .... | 0x17 - HOARDER
+    db $00 ; .... .... | 0x18 - MINI MOLDORM
+    db $00 ; .... .... | 0x19 - POE
+    db $00 ; .... .... | 0x1A - SMITHY
+    db $48 ; .i.. c... | 0x1B - ARROW
+    db $24 ; ..s. .h.. | 0x1C - STATUE
+    db $80 ; a... .... | 0x1D - FLUTEQUEST
+    db $00 ; .... .... | 0x1E - CRYSTAL SWITCH
+    db $00 ; .... .... | 0x1F - SICK KID
+    db $00 ; .... .... | 0x20 - SLUGGULA
+    db $20 ; ..s. .... | 0x21 - WATER SWITCH
+    db $00 ; .... .... | 0x22 - ROPA
+    db $00 ; .... .... | 0x23 - RED BARI
+    db $00 ; .... .... | 0x24 - BLUE BARI
+    db $80 ; a... .... | 0x25 - TALKING TREE
+    db $00 ; .... .... | 0x26 - HARDHAT BEETLE
+    db $00 ; .... .... | 0x27 - DEADROCK
+    db $00 ; .... .... | 0x28 - DARK WORLD HINT NPC
+    db $00 ; .... .... | 0x29 - ADULT
+    db $00 ; .... .... | 0x2A - SWEEPING LADY
+    db $00 ; .... .... | 0x2B - HOBO
+    db $00 ; .... .... | 0x2C - LUMBERJACKS
+    db $00 ; .... .... | 0x2D - NECKLESS MAN
+    db $00 ; .... .... | 0x2E - FLUTE KID
+    db $80 ; a... .... | 0x2F - RACE GAME LADY
+    db $80 ; a... .... | 0x30 - RACE GAME GUY
+    db $00 ; .... .... | 0x31 - FORTUNE TELLER
+    db $00 ; .... .... | 0x32 - ARGUE BROS
+    db $00 ; .... .... | 0x33 - RUPEE PULL
+    db $00 ; .... .... | 0x34 - YOUNG SNITCH
+    db $00 ; .... .... | 0x35 - INNKEEPER
+    db $00 ; .... .... | 0x36 - WITCH
+    db $80 ; a... .... | 0x37 - WATERFALL
+    db $00 ; .... .... | 0x38 - EYE STATUE
+    db $80 ; a... .... | 0x39 - LOCKSMITH
+    db $00 ; .... .... | 0x3A - MAGIC BAT
+    db $02 ; .... ..b. | 0x3B - BONK ITEM
+    db $00 ; .... .... | 0x3C - KID IN KAK
+    db $00 ; .... .... | 0x3D - OLD SNITCH
+    db $00 ; .... .... | 0x3E - HOARDER
+    db $04 ; .... .h.. | 0x3F - TUTORIAL GUARD
+    db $80 ; a... .... | 0x40 - LIGHTNING GATE
+    db $00 ; .... .... | 0x41 - BLUE GUARD
+    db $00 ; .... .... | 0x42 - GREEN GUARD
+    db $00 ; .... .... | 0x43 - RED SPEAR GUARD
+    db $00 ; .... .... | 0x44 - BLUESAIN BOLT
+    db $00 ; .... .... | 0x45 - USAIN BOLT
+    db $00 ; .... .... | 0x46 - BLUE ARCHER
+    db $00 ; .... .... | 0x47 - GREEN BUSH GUARD
+    db $00 ; .... .... | 0x48 - RED JAVELIN GUARD
+    db $00 ; .... .... | 0x49 - RED BUSH GUARD
+    db $00 ; .... .... | 0x4A - BOMB GUARD
+    db $00 ; .... .... | 0x4B - GREEN KNIFE GUARD
+    db $00 ; .... .... | 0x4C - GELDMAN
+    db $00 ; .... .... | 0x4D - TOPPO
+    db $00 ; .... .... | 0x4E - POPO
+    db $00 ; .... .... | 0x4F - POPO
+    db $84 ; a... .h.. | 0x50 - CANNONBALL
+    db $00 ; .... .... | 0x51 - ARMOS STATUE
+    db $81 ; a... ...x | 0x52 - KING ZORA
+    db $05 ; .... .h.x | 0x53 - ARMOS KNIGHT
+    db $01 ; .... ...x | 0x54 - LANMOLAS
+    db $40 ; .i.. .... | 0x55 - ZORA / FIREBALL
+    db $08 ; .... c... | 0x56 - ZORA
+    db $A0 ; a.s. .... | 0x57 - DESERT STATUE
+    db $00 ; .... .... | 0x58 - CRAB
+    db $00 ; .... .... | 0x59 - LOST WOODS BIRD
+    db $00 ; .... .... | 0x5A - LOST WOODS SQUIRREL
+    db $00 ; .... .... | 0x5B - SPARK
+    db $00 ; .... .... | 0x5C - SPARK
+    db $84 ; a... .h.. | 0x5D - ROLLER VERTICAL DOWN FIRST
+    db $84 ; a... .h.. | 0x5E - ROLLER VERTICAL UP FIRST
+    db $84 ; a... .h.. | 0x5F - ROLLER HORIZONTAL RIGHT FIRST
+    db $84 ; a... .h.. | 0x60 - ROLLER HORIZONTAL LEFT FIRST
+    db $08 ; .... c... | 0x61 - BEAMOS
+    db $80 ; a... .... | 0x62 - MASTERSWORD
+    db $80 ; a... .... | 0x63 - DEBIRANDO PIT
+    db $80 ; a... .... | 0x64 - DEBIRANDO
+    db $00 ; .... .... | 0x65 - ARCHERY GUY
+    db $80 ; a... .... | 0x66 - WALL CANNON VERTICAL LEFT
+    db $80 ; a... .... | 0x67 - WALL CANNON VERTICAL RIGHT
+    db $80 ; a... .... | 0x68 - WALL CANNON HORIZONTAL TOP
+    db $80 ; a... .... | 0x69 - WALL CANNON HORIZONTAL BOTTOM
+    db $00 ; .... .... | 0x6A - BALL N CHAIN
+    db $08 ; .... c... | 0x6B - CANNONBALL / CANNON TROOPER
+    db $80 ; a... .... | 0x6C - MIRROR PORTAL
+    db $00 ; .... .... | 0x6D - RAT / CRICKET
+    db $00 ; .... .... | 0x6E - SNAKE
+    db $00 ; .... .... | 0x6F - KEESE
+    db $40 ; .i.. .... | 0x70 - KING HELMASAUR FIREBALL
+    db $00 ; .... .... | 0x71 - LEEVER
+    db $00 ; .... .... | 0x72 - FAIRY POND TRIGGER
+    db $00 ; .... .... | 0x73 - UNCLE / PRIEST / MANTLE
+    db $00 ; .... .... | 0x74 - RUNNING MAN
+    db $00 ; .... .... | 0x75 - BOTTLE MERCHANT
+    db $00 ; .... .... | 0x76 - ZELDA
+    db $00 ; .... .... | 0x77 - ANTIFAIRY
+    db $00 ; .... .... | 0x78 - SAHASRAHLAS WIFE
+    db $02 ; .... ..b. | 0x79 - BEE
+    db $01 ; .... ...x | 0x7A - AGAHNIM
+    db $00 ; .... .... | 0x7B - AGAHNIMS BALLS
+    db $00 ; .... .... | 0x7C - GREEN STALFOS
+    db $04 ; .... .h.. | 0x7D - BIG SPIKE
+    db $00 ; .... .... | 0x7E - FIREBAR CLOCKWISE
+    db $00 ; .... .... | 0x7F - FIREBAR COUNTERCLOCKWISE
+    db $00 ; .... .... | 0x80 - FIRESNAKE
+    db $00 ; .... .... | 0x81 - HOVER
+    db $80 ; a... .... | 0x82 - ANTIFAIRY CIRCLE
+    db $04 ; .... .h.. | 0x83 - GREEN EYEGORE / GREEN MIMIC
+    db $04 ; .... .h.. | 0x84 - RED EYEGORE / RED MIMIC
+    db $00 ; .... .... | 0x85 - YELLOW STALFOS
+    db $00 ; .... .... | 0x86 - KODONGO
+    db $48 ; .i.. c... | 0x87 - KONDONGO FIRE
+    db $00 ; .... .... | 0x88 - MOTHULA
+    db $00 ; .... .... | 0x89 - MOTHULA BEAM
+    db $04 ; .... .h.. | 0x8A - SPIKE BLOCK
+    db $00 ; .... .... | 0x8B - GIBDO
+    db $01 ; .... ...x | 0x8C - ARRGHUS
+    db $01 ; .... ...x | 0x8D - ARRGHI
+    db $00 ; .... .... | 0x8E - TERRORPIN
+    db $00 ; .... .... | 0x8F - BLOB
+    db $80 ; a... .... | 0x90 - WALLMASTER
+    db $00 ; .... .... | 0x91 - STALFOS KNIGHT
+    db $00 ; .... .... | 0x92 - KING HELMASAUR
+    db $00 ; .... .... | 0x93 - BUMPER
+    db $40 ; .i.. .... | 0x94 - PIROGUSU
+    db $08 ; .... c... | 0x95 - LASER EYE LEFT
+    db $08 ; .... c... | 0x96 - LASER EYE RIGHT
+    db $08 ; .... c... | 0x97 - LASER EYE TOP
+    db $08 ; .... c... | 0x98 - LASER EYE BOTTOM
+    db $00 ; .... .... | 0x99 - PENGATOR
+    db $00 ; .... .... | 0x9A - KYAMERON
+    db $00 ; .... .... | 0x9B - WIZZROBE
+    db $80 ; a... .... | 0x9C - ZORO
+    db $80 ; a... .... | 0x9D - BABASU
+    db $00 ; .... .... | 0x9E - HAUNTED GROVE OSTRITCH
+    db $00 ; .... .... | 0x9F - HAUNTED GROVE RABBIT
+    db $00 ; .... .... | 0xA0 - HAUNTED GROVE BIRD
+    db $04 ; .... .h.. | 0xA1 - FREEZOR
+    db $01 ; .... ...x | 0xA2 - KHOLDSTARE
+    db $05 ; .... .h.x | 0xA3 - KHOLDSTARE SHELL
+    db $00 ; .... .... | 0xA4 - FALLING ICE
+    db $00 ; .... .... | 0xA5 - BLUE ZAZAK
+    db $00 ; .... .... | 0xA6 - RED ZAZAK
+    db $00 ; .... .... | 0xA7 - STALFOS
+    db $00 ; .... .... | 0xA8 - GREEN ZIRRO
+    db $00 ; .... .... | 0xA9 - BLUE ZIRRO
+    db $00 ; .... .... | 0xAA - PIKIT
+    db $04 ; .... .h.. | 0xAB - CRYSTAL MAIDEN
+    db $02 ; .... ..b. | 0xAC - APPLE
+    db $00 ; .... .... | 0xAD - OLD MAN
+    db $80 ; a... .... | 0xAE - PIPE DOWN
+    db $80 ; a... .... | 0xAF - PIPE UP
+    db $80 ; a... .... | 0xB0 - PIPE RIGHT
+    db $80 ; a... .... | 0xB1 - PIPE LEFT
+    db $82 ; a... ..b. | 0xB2 - GOOD BEE
+    db $80 ; a... .... | 0xB3 - PEDESTAL PLAQUE
+    db $00 ; .... .... | 0xB4 - PURPLE CHEST
+    db $00 ; .... .... | 0xB5 - BOMB SHOP GUY
+    db $80 ; a... .... | 0xB6 - KIKI
+    db $00 ; .... .... | 0xB7 - BLIND MAIDEN
+    db $00 ; .... .... | 0xB8 - DIALOGUE TESTER
+    db $80 ; a... .... | 0xB9 - BULLY / PINK BALL
+    db $80 ; a... .... | 0xBA - WHIRLPOOL
+    db $00 ; .... .... | 0xBB - SHOPKEEPER / CHEST GAME GUY
+    db $00 ; .... .... | 0xBC - DRUNKARD
+    db $01 ; .... ...x | 0xBD - VITREOUS
+    db $01 ; .... ...x | 0xBE - VITREOUS SMALL EYE
+    db $40 ; .i.. .... | 0xBF - LIGHTNING
+    db $00 ; .... .... | 0xC0 - CATFISH
+    db $00 ; .... .... | 0xC1 - CUTSCENE AGAHNIM
+    db $04 ; .... .h.. | 0xC2 - BOULDER
+    db $00 ; .... .... | 0xC3 - GIBO
+    db $00 ; .... .... | 0xC4 - THIEF
+    db $00 ; .... .... | 0xC5 - MEDUSA
+    db $00 ; .... .... | 0xC6 - 4WAY SHOOTER
+    db $00 ; .... .... | 0xC7 - POKEY
+    db $00 ; .... .... | 0xC8 - BIG FAIRY
+    db $00 ; .... .... | 0xC9 - TEKTITE / FIREBAT
+    db $04 ; .... .h.. | 0xCA - CHAIN CHOMP
+    db $05 ; .... .h.x | 0xCB - TRINEXX ROCK HEAD
+    db $05 ; .... .h.x | 0xCC - TRINEXX FIRE HEAD
+    db $05 ; .... .h.x | 0xCD - TRINEXX ICE HEAD
+    db $80 ; a... .... | 0xCE - BLIND
+    db $80 ; a... .... | 0xCF - SWAMOLA
+    db $00 ; .... .... | 0xD0 - LYNEL
+    db $00 ; .... .... | 0xD1 - BUNNYBEAM / SMOKE
+    db $00 ; .... .... | 0xD2 - FLOPPING FISH
+    db $00 ; .... .... | 0xD3 - STAL
+    db $00 ; .... .... | 0xD4 - LANDMINE
+    db $00 ; .... .... | 0xD5 - DIG GAME GUY
+    db $00 ; .... .... | 0xD6 - GANON
+    db $00 ; .... .... | 0xD7 - GANON
+    db $02 ; .... ..b. | 0xD8 - HEART
+    db $02 ; .... ..b. | 0xD9 - GREEN RUPEE
+    db $02 ; .... ..b. | 0xDA - BLUE RUPEE
+    db $02 ; .... ..b. | 0xDB - RED RUPEE
+    db $02 ; .... ..b. | 0xDC - BOMB REFILL 1
+    db $02 ; .... ..b. | 0xDD - BOMB REFILL 4
+    db $02 ; .... ..b. | 0xDE - BOMB REFILL 8
+    db $02 ; .... ..b. | 0xDF - SMALL MAGIC DECANTER
+    db $02 ; .... ..b. | 0xE0 - LARGE MAGIC DECANTER
+    db $02 ; .... ..b. | 0xE1 - ARROW REFILL 5
+    db $02 ; .... ..b. | 0xE2 - ARROW REFILL 10
+    db $02 ; .... ..b. | 0xE3 - FAIRY
+    db $02 ; .... ..b. | 0xE4 - SMALL KEY
+    db $02 ; .... ..b. | 0xE5 - BIG KEY
+    db $02 ; .... ..b. | 0xE6 - STOLEN SHIELD
+    db $02 ; .... ..b. | 0xE7 - MUSHROOM
+    db $02 ; .... ..b. | 0xE8 - FAKE MASTER SWORD
+    db $00 ; .... .... | 0xE9 - MAGIC SHOP ASSISTANT
+    db $82 ; a... ..b. | 0xEA - HEART CONTAINER
+    db $82 ; a... ..b. | 0xEB - HEART PIECE
+    db $08 ; .... c... | 0xEC - THROWN ITEM
+    db $80 ; a... .... | 0xED - SOMARIA PLATFORM
+    db $20 ; ..s. .... | 0xEE - CASTLE MANTLE
+    db $80 ; a... .... | 0xEF - UNUSED SOMARIA PLATFORM
+    db $80 ; a... .... | 0xF0 - UNUSED SOMARIA PLATFORM
+    db $80 ; a... .... | 0xF1 - UNUSED SOMARIA PLATFORM
+    db $20 ; ..s. .... | 0xF2 - MEDALLION TABLET
+}
+
+; ==============================================================================
+
+; Load's sprite characteristics, such as HP.
+; $06B818-$06B85B LONG JUMP LOCATION
+Sprite_LoadProperties:
+{
+    JSL Sprite_ResetProperties
+    
+    PHY
+    
+    PHB : PHK : PLB
+    
+    LDY.w $0E20, X ; What kind of sprite is it?
+    
+    LDA.w SpriteData_OAMHarm, Y : STA.w $0E40, X
+    
+    LDA.w SpriteData_Health, Y          : STA.w $0E50, X 
+    LDA.w SpriteData_HitBox, Y          : STA.w $0F60, X
+    LDA.w SpriteData_PrizePack, Y       : STA.w $0BE0, X
+    LDA.w SpriteData_Deflection, Y      : STA.w $0CAA, X
+    LDA.w SpriteData_Bump, Y            : STA.w $0CD2, X
+    LDA.w SpriteData_TileInteraction, Y : STA.w $0B6B, X
+    
+    ; Load the outdoor area number.
+    LDA.w $040A
+    
+    LDY.b $1B : BEQ .outdoors
+        ; If indoors, instead load the room number. (in this case, the lower
+        ; byte).
+        LDA.w $048E
+    
+    .outdoors
+    
+    ; And store that index here.
+    STA.w $0C9A, X
+    
+    PLB
+    
+    PLY
+
+    ; Bleeds into the next function.
+}
+    
+; $06B85C-$06B870 LONG JUMP LOCATION
+Sprite_LoadPalette:
+{
+    PHY
+    
+    PHB : PHK : PLB
+    
+    ; Again, tell us what sprite it is.
+    LDY.w $0E20, X
+    
+    LDA.w SpriteData_OAMProp, Y : STA.w $0E60, X : AND.b #$0F : STA.w $0F50, X
+    
+    PLB
+    
+    PLY
+    
+    RTL
+}
+
+; ==============================================================================
+
+; $06B871-$06B8F0 LONG JUMP LOCATION
+Sprite_ResetProperties:
+{
+    STZ.w $0F00, X
+    STZ.w $0E90, X
+    STZ.w $0D50, X
+    STZ.w $0D40, X
+    STZ.w $0F80, X
+    STZ.w $0D70, X
+    STZ.w $0D60, X
+    STZ.w $0F90, X
+    STZ.w $0D80, X
+    STZ.w $0DC0, X
+    STZ.w $0DE0, X
+    STZ.w $0DF0, X
+    STZ.w $0E00, X
+    STZ.w $0E10, X
+    STZ.w $0F10, X
+    STZ.w $0EB0, X
+    STZ.w $0EC0, X
+    STZ.w $0ED0, X
+    STZ.w $0EF0, X
+    STZ.w $0E70, X
+    STZ.w $0F70, X
+    STZ.w $0E50, X
+    STZ.w $0EA0, X
+    STZ.w $0F40, X
+    STZ.w $0F30, X
+    STZ.w $0D90, X
+    STZ.w $0DA0, X
+    STZ.w $0DB0, X
+    STZ.w $0BB0, X
+    STZ.w $0E80, X
+    STZ.w $0BA0, X
+    STZ.w $0B89, X
+    STZ.w $0F50, X
+    STZ.w $0B58, X
+    STZ.w $0CE2, X
+    
+    LDA.b #$00 : STA.l $7FFA1C, X
+                 STA.l $7FFA2C, X
+                 STA.l $7FFA3C, X
+                 STA.l $7FFA4C, X
+                 STA.l $7FF9C2, X
+    
+    RTL
+}
+
+; ==============================================================================
+
+; (This data is used in bank 0x06, so look there).
+; $06B8F1-$06B970 DATA
+DamageSubclassValue:
+{
+    db $00, $01, $20, $FF, $FC, $FB, $00, $00 ; 0x00 - Boomerang
+    db $00, $02, $40, $04, $00, $00, $00, $00 ; 0x01 - Sword 1
+    db $00, $04, $40, $02, $03, $00, $00, $00 ; 0x02 - Sword 2
+    db $00, $08, $40, $04, $00, $00, $00, $00 ; 0x03 - Sword 3
+    db $00, $10, $40, $08, $00, $00, $00, $00 ; 0x04 - Sword 4
+    db $00, $10, $40, $08, $00, $00, $00, $00 ; 0x05 - Sword 5
+    db $00, $04, $40, $10, $00, $00, $00, $00 ; 0x06 - Arrow
+    db $00, $FF, $40, $FF, $FC, $FB, $00, $00 ; 0x07 - Hookshot
+    db $00, $04, $40, $FF, $FC, $FB, $20, $00 ; 0x08 - Bomb
+    db $00, $64, $18, $64, $00, $00, $00, $00 ; 0x09 - Silver arrow
+    db $00, $F9, $FA, $FF, $64, $00, $00, $00 ; 0x0A - Powder
+    db $00, $08, $40, $FD, $04, $10, $00, $00 ; 0x0B - Fire rod
+    db $00, $08, $40, $FE, $04, $00, $00, $00 ; 0x0C - Ice rod
+    db $00, $10, $40, $FD, $00, $00, $00, $00 ; 0x0D - Bombos
+    db $00, $FE, $40, $10, $00, $00, $00, $00 ; 0x0E - Ether
+    db $00, $20, $40, $FF, $00, $00, $00, $FA ; 0x0F - Quake
+}
+
+; ==============================================================================
+
+; $06B971-$06BA70 DATA
+Sprite_SimplifiedTileAttr:
+{
+    db $00 ; 0x00
+    db $01 ; 0x01
+    db $00 ; 0x02
+    db $00 ; 0x03
+    db $00 ; 0x04
+    db $00 ; 0x05
+    db $00 ; 0x06
+    db $00 ; 0x07
+    db $00 ; 0x08
+    db $00 ; 0x09
+    db $03 ; 0x0A
+    db $00 ; 0x0B
+    db $00 ; 0x0C
+    db $00 ; 0x0D
+    db $00 ; 0x0E
+    db $00 ; 0x0F
+    db $01 ; 0x10
+    db $01 ; 0x11
+    db $01 ; 0x12
+    db $01 ; 0x13
+    db $00 ; 0x14
+    db $00 ; 0x15
+    db $00 ; 0x16
+    db $00 ; 0x17
+    db $01 ; 0x18
+    db $01 ; 0x19
+    db $01 ; 0x1A
+    db $01 ; 0x1B
+    db $00 ; 0x1C
+    db $03 ; 0x1D
+    db $03 ; 0x1E
+    db $03 ; 0x1F
+    db $00 ; 0x20
+    db $00 ; 0x21
+    db $00 ; 0x22
+    db $00 ; 0x23
+    db $00 ; 0x24
+    db $00 ; 0x25
+    db $01 ; 0x26
+    db $01 ; 0x27
+    db $04 ; 0x28
+    db $04 ; 0x29
+    db $04 ; 0x2A
+    db $04 ; 0x2B
+    db $04 ; 0x2C
+    db $04 ; 0x2D
+    db $04 ; 0x2E
+    db $04 ; 0x2F
+    db $01 ; 0x30
+    db $01 ; 0x31
+    db $01 ; 0x32
+    db $01 ; 0x33
+    db $01 ; 0x34
+    db $01 ; 0x35
+    db $01 ; 0x36
+    db $01 ; 0x37
+    db $01 ; 0x38
+    db $01 ; 0x39
+    db $00 ; 0x3A
+    db $00 ; 0x3B
+    db $01 ; 0x3C
+    db $01 ; 0x3D
+    db $01 ; 0x3E
+    db $01 ; 0x3F
+    db $00 ; 0x40
+    db $00 ; 0x41
+    db $00 ; 0x42
+    db $00 ; 0x43
+    db $00 ; 0x44
+    db $00 ; 0x45
+    db $00 ; 0x46
+    db $00 ; 0x47
+    db $00 ; 0x48
+    db $00 ; 0x49
+    db $00 ; 0x4A
+    db $00 ; 0x4B
+    db $04 ; 0x4C
+    db $04 ; 0x4D
+    db $04 ; 0x4E
+    db $04 ; 0x4F
+    db $00 ; 0x50
+    db $00 ; 0x51
+    db $00 ; 0x52
+    db $00 ; 0x53
+    db $00 ; 0x54
+    db $00 ; 0x55
+    db $00 ; 0x56
+    db $00 ; 0x57
+    db $00 ; 0x58
+    db $00 ; 0x59
+    db $00 ; 0x5A
+    db $00 ; 0x5B
+    db $00 ; 0x5C
+    db $00 ; 0x5D
+    db $00 ; 0x5E
+    db $00 ; 0x5F
+    db $00 ; 0x60
+    db $00 ; 0x61
+    db $00 ; 0x62
+    db $00 ; 0x63
+    db $00 ; 0x64
+    db $00 ; 0x65
+    db $00 ; 0x66
+    db $00 ; 0x67
+    db $00 ; 0x68
+    db $00 ; 0x69
+    db $00 ; 0x6A
+    db $00 ; 0x6B
+    db $01 ; 0x6C
+    db $01 ; 0x6D
+    db $01 ; 0x6E
+    db $01 ; 0x6F
+    db $00 ; 0x70
+    db $00 ; 0x71
+    db $00 ; 0x72
+    db $00 ; 0x73
+    db $00 ; 0x74
+    db $00 ; 0x75
+    db $00 ; 0x76
+    db $00 ; 0x77
+    db $00 ; 0x78
+    db $00 ; 0x79
+    db $00 ; 0x7A
+    db $00 ; 0x7B
+    db $00 ; 0x7C
+    db $00 ; 0x7D
+    db $00 ; 0x7E
+    db $00 ; 0x7F
+    db $01 ; 0x80
+    db $01 ; 0x81
+    db $01 ; 0x82
+    db $01 ; 0x83
+    db $01 ; 0x84
+    db $01 ; 0x85
+    db $01 ; 0x86
+    db $01 ; 0x87
+    db $01 ; 0x88
+    db $01 ; 0x89
+    db $01 ; 0x8A
+    db $01 ; 0x8B
+    db $01 ; 0x8C
+    db $01 ; 0x8D
+    db $01 ; 0x8E
+    db $01 ; 0x8F
+    db $01 ; 0x90
+    db $01 ; 0x91
+    db $01 ; 0x92
+    db $01 ; 0x93
+    db $01 ; 0x94
+    db $01 ; 0x95
+    db $01 ; 0x96
+    db $01 ; 0x97
+    db $01 ; 0x98
+    db $01 ; 0x99
+    db $01 ; 0x9A
+    db $01 ; 0x9B
+    db $01 ; 0x9C
+    db $01 ; 0x9D
+    db $01 ; 0x9E
+    db $01 ; 0x9F
+    db $01 ; 0xA0
+    db $01 ; 0xA1
+    db $01 ; 0xA2
+    db $01 ; 0xA3
+    db $01 ; 0xA4
+    db $01 ; 0xA5
+    db $01 ; 0xA6
+    db $01 ; 0xA7
+    db $01 ; 0xA8
+    db $01 ; 0xA9
+    db $01 ; 0xAA
+    db $01 ; 0xAB
+    db $01 ; 0xAC
+    db $01 ; 0xAD
+    db $01 ; 0xAE
+    db $01 ; 0xAF
+    db $00 ; 0xB0
+    db $00 ; 0xB1
+    db $00 ; 0xB2
+    db $00 ; 0xB3
+    db $00 ; 0xB4
+    db $00 ; 0xB5
+    db $00 ; 0xB6
+    db $00 ; 0xB7
+    db $00 ; 0xB8
+    db $00 ; 0xB9
+    db $00 ; 0xBA
+    db $00 ; 0xBB
+    db $00 ; 0xBC
+    db $00 ; 0xBD
+    db $00 ; 0xBE
+    db $00 ; 0xBF
+    db $00 ; 0xC0
+    db $00 ; 0xC1
+    db $00 ; 0xC2
+    db $00 ; 0xC3
+    db $00 ; 0xC4
+    db $00 ; 0xC5
+    db $00 ; 0xC6
+    db $00 ; 0xC7
+    db $00 ; 0xC8
+    db $00 ; 0xC9
+    db $00 ; 0xCA
+    db $00 ; 0xCB
+    db $00 ; 0xCC
+    db $00 ; 0xCD
+    db $00 ; 0xCE
+    db $00 ; 0xCF
+    db $00 ; 0xD0
+    db $00 ; 0xD1
+    db $00 ; 0xD2
+    db $00 ; 0xD3
+    db $00 ; 0xD4
+    db $00 ; 0xD5
+    db $00 ; 0xD6
+    db $00 ; 0xD7
+    db $00 ; 0xD8
+    db $00 ; 0xD9
+    db $00 ; 0xDA
+    db $00 ; 0xDB
+    db $00 ; 0xDC
+    db $00 ; 0xDD
+    db $00 ; 0xDE
+    db $00 ; 0xDF
+    db $00 ; 0xE0
+    db $00 ; 0xE1
+    db $00 ; 0xE2
+    db $00 ; 0xE3
+    db $00 ; 0xE4
+    db $00 ; 0xE5
+    db $00 ; 0xE6
+    db $00 ; 0xE7
+    db $00 ; 0xE8
+    db $00 ; 0xE9
+    db $00 ; 0xEA
+    db $00 ; 0xEB
+    db $00 ; 0xEC
+    db $00 ; 0xED
+    db $00 ; 0xEE
+    db $00 ; 0xEF
+    db $01 ; 0xF0
+    db $01 ; 0xF1
+    db $01 ; 0xF2
+    db $01 ; 0xF3
+    db $01 ; 0xF4
+    db $01 ; 0xF5
+    db $01 ; 0xF6
+    db $01 ; 0xF7
+    db $01 ; 0xF8
+    db $01 ; 0xF9
+    db $01 ; 0xFA
+    db $01 ; 0xFB
+    db $01 ; 0xFC
+    db $01 ; 0xFD
+    db $01 ; 0xFE
+    db $01 ; 0xFF
+}
 
 ; ==============================================================================
 

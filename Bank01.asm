@@ -52,7 +52,7 @@ Pool_Dungeon_LoadType1Object:
     dw $02A8, $0000, $0000, $0000, $0000, $0000, $0000, $0000 ; EF
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000 ; F7
     
-    ; \unused
+    ; UNUSED:
     ; This last row is not used, because there are only 0xf8 subtype 1
     ; scripts in actuality. Hackers can use this for whatever they want.
     dw $0000, $0000, $0000, $0000, $0000, $0000, $0000, $0000 ; FF

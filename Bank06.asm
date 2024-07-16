@@ -182,7 +182,7 @@ Pool_Player_ApplyRumbleToSprites:
     db -32, 32, -24, -24
     
     ; $0300EE
-    .y_offsets_high ; bleeds into next
+    .y_offsets_high ; Bleeds into next data block.
     db -1, 0
     
     ; $0300F0
@@ -190,7 +190,7 @@ Pool_Player_ApplyRumbleToSprites:
     db -1, -1, -1, 0
     
     ; $0300F4
-    .hitbox_w ; bleeds into next
+    .hitbox_w ; Bleeds into next data block.
     db 80, 80
     
     ; $0300F6
@@ -284,11 +284,11 @@ Sprite_SpawnThrowableTerrainSilently:
     
     .next_slot
     
-        ; look for dead sprites
+        ; Look for dead sprites.
         LDY.w $0DD0, X : BEQ .empty_slot
     DEX : BPL .next_slot
     
-    ; can't find any slots so don't do any animation
+    ; Can't find any slots so don't do any animation.
     RTL
     
     .empty_slot
@@ -526,7 +526,7 @@ Sprite_SpawnSecret:
         
         STY.b $0D
         
-        ; List of sprites that can be spawned by secrets
+        ; List of sprites that can be spawned by secrets.
         LDA.w Pool_Sprite_SpawnSecret_ID-1, Y : BEQ Sprite_SpawnSecret_fastexit
             JSL Sprite_SpawnDynamically : BMI Sprite_SpawnSecret_fastexit
                 PHX
@@ -561,7 +561,7 @@ Sprite_SpawnSecret:
                 .not_key
                 
                 CPX.b #$0B : BNE .not_chicken
-                    ; Make a chicken noise
+                    ; Make a chicken noise.
                     LDA #$30 : STA.w $012E
                     
                     LDA.w $048E : CMP.b #$01 : BNE .BRANCH_DELTA
@@ -579,7 +579,7 @@ Sprite_SpawnSecret:
                 
                 .is_soldier
                 
-                ; Play the "pissed off soldier" sound effect
+                ; Play the "pissed off soldier" sound effect.
                 LDA.b #$04 : STA.w $012F
                 
                 LDA.b #$00 : STA.w $0CE2, Y
@@ -808,7 +808,7 @@ Sprite_TimersAndOAM:
     
     .normalGameMode
     
-    ; This section decrements the sprite's 4 general purpose timers (if nonzero)
+    ; This section decrements the sprite's 4 general purpose timers (if nonzero).
     LDA.w $0DF0, X : BEQ .timer_0_expired
         DEC.w $0DF0, X
     
@@ -837,15 +837,15 @@ Sprite_TimersAndOAM:
                 
                 ; Is the sprite Agahnim?
                 LDA.w $0E20, X : CMP.b #$7A : BNE .not_agahnim_complaining
-                    ; Branch if in the dark world
+                    ; Branch if in the dark world.
                     LDA.w $0FFF : BNE .not_agahnim_complaining
-                        ; Subtract off damage from agahnim
+                        ; Subtract off damage from agahnim.
                         LDA.w $0E50, X : SEC : SBC.w $0CE2, X : BEQ .agahnim_complains
                             BCS .not_agahnim_complaining
                         
                         .agahnim_complains
                         
-                        ; Agahnim complaining about you beating him in the Light world
+                        ; Agahnim complaining about you beating him in the Light world.
                         LDA.b #$40 : STA.w $1CF0
                         LDA.b #$01 : STA.w $1CF1
                         
@@ -888,7 +888,7 @@ Sprite_TimersAndOAM:
     .handle_linkhop
     
     ; \wtf Interesting.... if player priority is super priority, all sprites
-    ; follow? \task Investigate this.
+    ; follow? TODO: Investigate this.
     LDY.b $EE : CPY.b #$03 : BEQ .player_using_super_priority
         LDY.w $0F20, X
     
@@ -917,7 +917,7 @@ Sprite_Get_16_bit_CoordsLong:
 ; $0304C1-$0304D9 LOCAL JUMP LOCATION
 Sprite_Get_16_bit_Coords:
 {
-    ; $0FD8 = sprite's X coordinate, $0FDA = sprite's Y coordinate
+    ; $0FD8 = sprite's X coordinate, $0FDA = sprite's Y coordinate.
     LDA.w $0D10, X : STA.w $0FD8
     LDA.w $0D30, X : STA.w $0FD9
     
@@ -958,11 +958,11 @@ Sprite_ExecuteSingle:
             ; Index is $0DD0, X
             dw SpriteModule_Inactive ; 0x00 - $8510 Sprite is totally inactive
             dw SpriteFall_Main       ; 0x01 - $852E Sprite is falling into a hole
-            dw SpritePoof_Main       ; 0x02 - $E393 Frozen Sprite being smashed by hammer, and pooferized, perhaps into a nice magic refilling item.
+            dw SpritePoof_Main       ; 0x02 - $E393 Frozen Sprite being smashed by hammer, and pooferized, perhaps into a nice magic refilling item
             dw SpriteDrown_Main      ; 0x03 - $859C Sprite has fallen into deep water, may produce a fish
             dw SpriteExplode_Main    ; 0x04 - $8548 Explodey Mode for bosses?
             dw SpriteCustomFall_Main ; 0x05 - $FBEA Sprite falling into a hole but that has a special animation (e.g. soldiers and hard hat beetles)
-            dw SpriteDeath_Main      ; 0x06 - $F8A2 Death mode for normal creatures.
+            dw SpriteDeath_Main      ; 0x06 - $F8A2 Death mode for normal creatures
             dw SpriteBurn_Main       ; 0x07 - $8543 Being incinerated? (By Fire Rod)
             dw SpritePrep_Main       ; 0x08 - $864D A spawning sprite
             dw SpriteActive_Main     ; 0x09 - $9271 An active sprite
@@ -1099,7 +1099,7 @@ SpriteDrown_Main:
         
         LDA.w $0E80, X : LSR #2 : AND.b #$03 : TAY
         
-        ; Load hflip and vflip settings
+        ; Load hflip and vflip settings.
         LDA Pool_SpriteDrown_Main_vh_flip, Y : STA.b $05
         
         LDA.w $0DF0, X : CMP.b #$01 : BNE .notLastTimerTick
@@ -1209,7 +1209,7 @@ SpriteActive_Table:
     dw Sprite_RavenTrampoline            ; 0x00 - Raven
     dw Sprite_VultureTrampoline          ; 0x01 - Vulture
     dw Sprite_StalfosHead                ; 0x02 - Flying Stalfos head
-    dw !null_ptr                         ; 0x03 - Since this leads to null area, we presume this is unused. i tried using it, it crashed horribly.
+    dw !null_ptr                         ; 0x03 - Since this leads to null area, we presume this is unused. i tried using it, it crashed horribly
     dw Sprite_PullSwitchTrampoline       ; 0x04 - Good switch (down)
     dw Sprite_PullSwitchTrampoline       ; 0x05 - Bad Switch (down)
     dw Sprite_PullSwitchTrampoline       ; 0x06 - Good switch (up)
@@ -1232,8 +1232,8 @@ SpriteActive_Table:
     dw Sprite_CoveredRupeeCrab           ; 0x17 - Rupee Crab under bush
     dw Sprite_Moldorm                    ; 0x18 - Moldorm
     dw Sprite_Poe                        ; 0x19 - Poe
-    dw Sprite_SmithyBros                 ; 0x1A - Smithy bros.
-    dw Sprite_EnemyArrow                 ; 0x1B - Arrow in wall.
+    dw Sprite_SmithyBros                 ; 0x1A - Smithy bros
+    dw Sprite_EnemyArrow                 ; 0x1B - Arrow in wall
     dw Sprite_MovableStatue              ; 0x1C - Movable Statue
     dw Sprite_WeathervaneTrigger         ; 0x1D - Weathervane Sprite (Useless?)
     dw Sprite_CrystalSwitch              ; 0x1E - Crystal Switches for orange/blue barriers
@@ -1250,20 +1250,20 @@ SpriteActive_Table:
     dw Sprite_HumanMulti_1_Trampoline    ; 0x29 - Guy in Blind's Old Hideout / Thieves Hideout Guy / Flute Boy's Father
     dw Sprite_SweepingLadyTrampoline     ; 0x2A - Sweeping lady
     dw Sprite_HoboEntities               ; 0x2B - Hobo under bridge (and helper sprites)
-    dw Sprite_LumberjacksTrampoline      ; 0x2C - Lumberjack Bros.
+    dw Sprite_LumberjacksTrampoline      ; 0x2C - Lumberjack Bros
     dw Sprite_UnusedTelepathTrampoline   ; 0x2D - Telepathic stones? (wtf does this name mean?)
     dw Sprite_FluteBoy                   ; 0x2E - Flute boy, and his notes?
     dw Sprite_MazeGameLadyTrampoline     ; 0x2F - Heart piece race guy / girl
     dw Sprite_MazeGameGuyTrampoline      ; 0x30 - Maze Game Guy
     dw Sprite_FortuneTellerTrampoline    ; 0x31 - Fortune Teller / Dwarf Swordsmith
     dw Sprite_QuarrelBrosTrampoline      ; 0x32 - Quarreling Brothers
-    dw Sprite_PullForRupeesTrampoline    ; 0x33 - Rupee prizes hidden in walls.
+    dw Sprite_PullForRupeesTrampoline    ; 0x33 - Rupee prizes hidden in walls
     dw Sprite_YoungSnitchLadyTrampoline  ; 0x34 - Young Snitch Lady
     dw Sprite_InnKeeperTrampoline        ; 0x35 - Inn Keeper
     dw Sprite_WitchTrampoline            ; 0x36 - Witch?
     dw Sprite_WaterfallTrampoline        ; 0x37 - Waterfall sprite
     dw Sprite_ArrowTriggerTrampoline     ; 0x38 - Arrow trigger
-    dw Sprite_MiddleAgedMan              ; 0x39 - Middle aged man in the desert.
+    dw Sprite_MiddleAgedMan              ; 0x39 - Middle aged man in the desert
     dw Sprite_MadBatterTrampoline        ; 0x3A - Magic Powder bat / lightning bolt he throws
     dw Sprite_DashItemTrampoline         ; 0x3B - Dash item (book of mudora / etc)
     dw Sprite_TroughBoyTrempoline        ; 0x3C - TroughBoy
@@ -1342,7 +1342,7 @@ SpriteActive_Table:
     dw SpriteActive3_Transfer        ; 0x85 - Yellow Stalfos
     dw SpriteActive3_Transfer        ; 0x86 - 
     dw SpriteActive3_Transfer        ; 0x87 - 
-    dw SpriteActive3_Transfer        ; 0x88 -
+    dw SpriteActive3_Transfer        ; 0x88 - 
     dw SpriteActive3_Transfer        ; 0x89 - 
     dw SpriteActive3_Transfer        ; 0x8A - 
     dw SpriteActive3_Transfer        ; 0x8B - 
@@ -2982,7 +2982,7 @@ Sprite_DrawShadowLong_variable:
     RTL
 }
 
-; This draws the shadow underneath a sprite
+; This draws the shadow underneath a sprite.
 ; $035C64-$035CEE LOCAL JUMP LOCATION
 Sprite_DrawShadow:
 {
@@ -2994,7 +2994,7 @@ Sprite_DrawShadow:
                CLC : ADC.w $0D00, X : STA.b $02
     LDA.w $0D20, X : ADC.b #$00     : STA.b $03
     
-    ; Is the sprite disabled ("paused", you might say)
+    ; Is the sprite disabled ("paused", you might say).
     LDA.w $0F00, X : BNE .dontDrawShadow
         LDA.w $0DD0, X : CMP.b #$0A : BNE .notBeingCarried
             LDA.l $7FFA1C, X : CMP.b #$03 : BEQ .dontDrawShadow
@@ -3014,7 +3014,7 @@ Sprite_DrawShadow:
                 INY
                 
                 ; This instruction doesn't seem to belong here, as it doesn't
-                ; do anything (There's another LDA right after it)
+                ; do anything (There's another LDA right after it).
                 ; OPTIMIZE: Simply by taking it out, saves space and time.
                 LDA ($90), Y
                 
@@ -3025,7 +3025,7 @@ Sprite_DrawShadow:
                 
                 TYA : LSR #2 : TAY
                 
-                ; Ensures the lowest priority for the shadow
+                ; Ensures the lowest priority for the shadow.
                 LDA.b $01 : AND.b #$01 : STA ($92), Y
         
     .dontDrawShadow
@@ -3163,24 +3163,24 @@ Pool_SpriteHeld_Main:
 {
     ; $035E4D
     .offset_x_low
-    db   0,   0,   0,   0 ; up
-    db   0,   0,   0,   0 ; down
-    db -13, -10,  -5,   0 ; left
-    db  13,  10,   5,   0 ; right
+    db   0,   0,   0,   0 ; Up
+    db   0,   0,   0,   0 ; Down
+    db -13, -10,  -5,   0 ; Left
+    db  13,  10,   5,   0 ; Right
 
     ; $035E5D
     .offset_x_high
-    db   0,   0,   0,   0 ; up
-    db   0,   0,   0,   0 ; down
-    db  -1,  -1,  -1,   0 ; left
-    db   0,   0,   0,   0 ; right
+    db   0,   0,   0,   0 ; Up
+    db   0,   0,   0,   0 ; Down
+    db  -1,  -1,  -1,   0 ; Left
+    db   0,   0,   0,   0 ; Right
 
     ; $035E6D
     .offset_z
-    db  13,  14,  15,  16 ; up
-    db   0,  10,  22,  16 ; down
-    db   8,  11,  14,  16 ; left
-    db   8,  11,  14,  16 ; right
+    db  13,  14,  15,  16 ; Up
+    db   0,  10,  22,  16 ; Down
+    db   8,  11,  14,  16 ; Left
+    db   8,  11,  14,  16 ; Right
 
     ; $035E7D
     .offset_y_low
@@ -3190,7 +3190,7 @@ Pool_SpriteHeld_Main:
 ; $035E83-$035F60 JUMP LOCATION
 SpriteHeld_Main:
 {
-    ; Checks to see if the room we're in matches
+    ; Checks to see if the room we're in matches.
     LDA.w $040A : STA.w $0C9A, X
     
     LDA.l $7FFA1C, X : CMP.b #$03 : BEQ .fully_lifted
@@ -3212,7 +3212,7 @@ SpriteHeld_Main:
     
     .fully_lifted
     
-    ; unset the "draw shadow" flag for items we're holding 
+    ; Unset the "draw shadow" flag for items we're holding.
     LDA.w $0E60, X : AND.b #$EF : STA.w $0E60, X
     
     .x_wobble_logic
@@ -3341,7 +3341,7 @@ SpriteHeld_ThrowQuery:
         LDA.b #$02 : STA.w $0309
         
         ; This code gets called when some object flies out of Link's hand
-        ; when he's falling into a pit
+        ; when he's falling into a pit.
         LDA.l $7FFA2C, X : STA.w $0DD0, X
         
         STZ.w $0F80, X
@@ -3352,7 +3352,7 @@ SpriteHeld_ThrowQuery:
         
         LDA.w $0E20, X : TAX
         
-        LDA.l $0DB359, X : PLX : AND.b #$10 : STA.b $00
+        LDA.l SpriteData_OAMProp, X : PLX : AND.b #$10 : STA.b $00
         
         LDA.w $0E60, X : AND.b #$EF : ORA.b $00 : STA.w $0E60, X
         
@@ -3449,11 +3449,11 @@ ThrownSprite_PeerInteraction:
     
     LDA.w $0E20, X : TAX
     
-    LDA.l $0DB359, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
+    LDA.l SpriteData_OAMProp, X : PLX : AND.b #$10 : BEQ .BRANCH_ZETA
         LDA.w $0E60, X : ORA.b #$10 : STA.w $0E60, X
         
         LDA.w $0FA5 : CMP.b #$20 : BNE .BRANCH_ZETA
-            ; Just unsets draw shadow flag (no reason to when over a pit)
+            ; Just unsets draw shadow flag (no reason to when over a pit).
             JSR.w Sprite_DisableShadowFlag
     
     .BRANCH_ZETA
@@ -3478,7 +3478,7 @@ ThrownSprite_PeerInteraction:
             
             LDA.b #$08 : STA.w $0DF0, X
 
-            ; Bleeds into the next function.   
+            ; Bleeds into the next function.
 }
 
 ; $036095-$03609A JUMP LOCATION
@@ -3509,7 +3509,7 @@ Sprite_SetToFalling:
     ; TODO: So... 0x01 is for outdoors, and 0x05 falling state is for
     ; indoors? Double and triple check this as it alters the necessary
     ; naming scheme.
-    ; Set it so the object is falling into a pit
+    ; Set it so the object is falling into a pit.
     LDA.b #$01 : STA.w $0DD0, X
     LDA.b #$1F : STA.w $0DF0, X
     
@@ -3802,7 +3802,7 @@ Sprite_CustomTimedScheduleForBreakage:
 Sprite_Halve_XY_Speeds:
 {
     ; This sequence does an arithmetic (not logical!) shift right on
-    ; the x and y speeds, which effectively reduces them by 
+    ; the x and y speeds, which effectively reduces them by.
     LDA.w $0D50, X : ASL A
     
     ROR.w $0D50, X
@@ -3982,9 +3982,9 @@ Pool_SpritePoof_Main:
 ; $036393-$036415 JUMP LOCATION
 SpritePoof_Main:
 {
-    ; Check this timer
+    ; Check this timer.
     LDA.w $0DF0, X : BNE .just_draw
-        ; See if the enemy is a buzzblob
+        ; See if the enemy is a buzzblob.
         LDA.w $0E20, X : CMP.b #$0D : BNE .not_trans_buzzblob
             ; Thinking this is a transformed buzz blob exception.
             LDY.w $0EB0, X : BEQ .not_trans_buzzblob
@@ -4062,12 +4062,11 @@ Sprite_PrepOamCoordLong:
 
 ; ==============================================================================
 
-; This wrapper is considered 'Safe' because it negates the caller
-; termination property of 'Sprite_PrepOamCoord' by using this routine
-; as a sacrificial intermediate. Since this subroutine only does
-; one useful task, exiting from it early will not interrupt the caller
-; of this subroutine, which can potentially happen if
-; 'Sprite_PrepOamCoord' is called directly
+; This wrapper is considered 'Safe' because it negates the caller termination
+; property of 'Sprite_PrepOamCoord' by using this routine as a sacrificial
+; intermediate. Since this subroutine only does one useful task, exiting from it
+; early will not interrupt the caller of this subroutine, which can potentially
+; happen if 'Sprite_PrepOamCoord' is called directly.
 ; $03641A-$03641D LOCAL JUMP LOCATION
 Sprite_PrepOamCoordSafeWrapper:
 {
@@ -4086,12 +4085,12 @@ Sprite_PrepOamCoord:
     
     REP #$20
     
-    ; X coordinate for the sprite
+    ; X coordinate for the sprite.
     LDA.w $0FD8 : SEC : SBC.b $E2 : STA.b $00
     
     ; A = (Sprite's X coord - far left of screen X coord) + 0x40
     ; Y coordinate is at most 255, so make 8 bit.
-    ; If A >= 0x170 don't display at all
+    ; If A >= 0x170 don't display at all.
     CLC : ADC.w #$0040 : CMP.w #$0170 : SEP #$20 : BCS .x_out_of_bounds
         ; How high off the ground is the object?
         LDA.w $0F70, X : STA.b $04
@@ -4106,10 +4105,10 @@ Sprite_PrepOamCoord:
         SEC : SBC.b $04 : STA.b $02
         
         ; Grab the non height adjusted value.
-        ; Add in 0x40 and see if it's >= 0x0170
-        ; If sufficiently off screen don't render at all
+        ; Add in 0x40 and see if it's >= 0x0170.
+        ; If sufficiently off screen don't render at all.
         PLA : CLC : ADC.w #$0040 : CMP.w #$0170 : SEP #$20 : BCC .y_inbounds
-            ; Not sure what $0F60, X does yet... (room relevance?)
+            ; Not sure what $0F60, X does yet... (room relevance?).
             LDA.w $0F60, X : AND.b #$20 : BEQ .immobilize_sprite
         
         .y_inbounds
@@ -4120,7 +4119,7 @@ Sprite_PrepOamCoord:
         .finish_up
         
         ; What palette is the sprite using?
-        ; Xor it with sprite priority
+        ; Xor it with sprite priority.
         LDA.w $0F50, X : EOR.w $0B89, X : STA.b $05
                                     STZ.b $04
         
@@ -4296,7 +4295,7 @@ Sprite_CheckTileCollisionSingleLayer:
         LDY.w $0FB3 : BEQ .BRANCH_OMICRON
             ; Is the enemy frozen?
             LDY.w $0DD0, X : CPY.b #$0B : BNE .BRANCH_OMICRON
-                ; Nope
+                ; Nope.
                 LDA.b #$01 : STA.w $0F20, X
                 
                 RTS
@@ -4477,24 +4476,24 @@ Pool_Sprite_CheckForTileInDirection:
 {
     ; $036723
     .direction_flag
-    db $08 ; up
-    db $04 ; down
-    db $02 ; left
-    db $01 ; right
+    db $08 ; Up
+    db $04 ; Down
+    db $02 ; Left
+    db $01 ; Right
 
     ; $036727
     .pushback_low
-    db   1 ; up
-    db  -1 ; down
-    db   1 ; left
-    db  -1 ; right
+    db   1 ; Up
+    db  -1 ; Down
+    db   1 ; Left
+    db  -1 ; Right
 
     ; $03672B
     .pushback_high
-    db   0 ; up
-    db  -1 ; down
-    db   0 ; left
-    db  -1 ; right
+    db   0 ; Up
+    db  -1 ; Down
+    db   0 ; Left
+    db  -1 ; Right
 }
     
 ; ==============================================================================
@@ -4517,11 +4516,11 @@ Sprite_CheckTileProperty:
     LDA.b $1B : BEQ .outdoors
         REP #$20
         
-        ; Load Y coordinate of sprite
+        ; Load Y coordinate of sprite.
         LDA.w $0FDA : CLC : ADC.w #8 : AND.w #$01FF : CLC : ADC.w Pool_Sprite_CheckTileProperty_offset_y, Y
         
         SEC : SBC.w #8 : STA.b $00 : CMP.w #$0200 : BCS .out_of_bounds
-            ; Load X coordinate of sprite
+            ; Load X coordinate of sprite.
             LDA.w $0FD8 : ADC.w #8 : AND.w #$01FF : CLC : ADC.w Pool_Sprite_CheckTileProperty_offset_x, Y
             
             SEC : SBC.w #8 : STA.b $02 : CMP.w #$0200
@@ -4623,7 +4622,7 @@ Sprite_CheckTileProperty:
     
     TYX
     
-    LDA.l $1DF6CF, X
+    LDA.l GeneralizedSpriteTileInteraction, X
     
     PLX
     
@@ -4726,7 +4725,7 @@ Entity_GetTileAttr:
 ; $036883-$036885 LOCAL JUMP LOCATION
 Sprite_GetTileAttrLocal:
 {
-    LDA.w $0F20, X ; Floor selector for sprites
+    LDA.w $0F20, X ; Floor selector for sprites.
 
     ; Bleeds into the next function.
 }
@@ -4797,7 +4796,7 @@ Entity_CheckSlopedTileCollisionLong:
 ; TODO: go into more detail figuring out how this works now that we have
 ; a foothold.
 ; NOTE: Has to do with tile detection on tiles that have a slope to them
-; (digonally)
+; (digonally).
 ; $0368FE-$03692B LOCAL JUMP LOCATION
 Entity_CheckSlopedTileCollision:
 {
@@ -4805,16 +4804,16 @@ Entity_CheckSlopedTileCollision:
     LDA.b $02 : AND.b #$07 : STA.b $05 ; $05 = ($02 & 0x07)
     
     ; Tile type that was detected in the previous routine ($36883 most likely)
-    ; $06 = ($0FA5 - 0x10)
+    ; $06 = ($0FA5 - 0x10).
     ; BUG: Maybe a bug.... what tile attributes are supposed to be used
     ; with this routine? Inspection suggests 0x18 through 0x1b, but this
     ; routine seems designed for 0x10 through 0x13. Hardly comforting...
     LDA.w $0FA5 : SEC : SBC.b #$10 : STA.b $06
     
-    ; Y = ($06 << 3) + $05
+    ; Y = ($06 << 3) + $05.
     ASL #3 : CLC : ADC.b $05 : TAY
     
-    ; If original attribute was between 0x10 and 0x12
+    ; If original attribute was between 0x10 and 0x12.
     LDA.b $06 : CMP.b #$02 : BCC .alpha
         LDA.b $04 : CMP .subtile_boundaries, Y
         
@@ -4843,7 +4842,7 @@ Sprite_Move:
 ; $036932-$03693D LOCAL JUMP LOCATION
 Sprite_MoveHoriz:
 {
-    ; Do X position adjustment
+    ; Do X position adjustment.
     TXA : CLC : ADC.b #$10 : TAX
       
     JSR Sprite_MoveVert
@@ -4944,7 +4943,7 @@ Sprite_ProjectSpeedTowardsPlayer:
             INY
             
             ; |dX| -> Stack; |dY| -> $0D ; |dX| -> $0C.
-            ; Either way, the larger value will end up at $0D
+            ; Either way, the larger value will end up at $0D.
             PHA : LDA.b $0C : STA.b $0D
             PLA             : STA.b $0C
         
@@ -5245,8 +5244,8 @@ Sprite_IsBelowPlayer:
                 CLC : ADC.w $0F70, X : PHP
                 SEC : SBC.w $0D00, X : STA.b $0E
     
-    ; The higher byte of Link's Y coordinate
-    ; The difference in their higher bytes. 
+    ; The higher byte of Link's Y coordinate.
+    ; The difference in their higher bytes.
     ; Offset if Link is crossing a 0x0100 pixel boundary.
     LDA.b $21 : SBC.w $0D20, X
     PLP : ADC.b #$00 : PLP : ADC.b #$00 : BPL .same_or_above
@@ -5380,7 +5379,8 @@ Guard_ParrySwordAttacks_main:
                                 JSL GetRandomInt : AND.b #$07 : TAY
                                 
                                 ; $036B66 IN ROM
-                                LDA Pool_Guard_ParrySwordAttacks_main_recoilTimes, Y : STA.w $0EA0, X ; $EB66
+                                LDA Pool_Guard_ParrySwordAttacks_main_recoilTimes, Y 
+                                STA.w $0EA0, X
                             
                             .BRANCH_EPSILON
                             
@@ -5479,7 +5479,7 @@ Sprite_AttemptZapDamage:
     LDA.b $00 : EOR.b #$FF : INC A : STA.w $0F30, X
     LDA.b $01 : EOR.b #$FF : INC A : STA.w $0F40, X
     
-    JSL.l $06ED3F ; $036D3F IN ROM
+    JSL.l Sprite_CalculateSwordDamage
     
     RTS
 }
@@ -5511,8 +5511,8 @@ Medallion_CheckSpriteDamage:
 ; $036C7E-$036CB6 DATA
 AncillaDamageClasses:
 {
-    ; see $0C4A in ram
-    ; possible values: 0, 1, 6, 7, 8, 11, 12, 13, 14, 15
+    ; See $0C4A in ram.
+    ; Possible values: 0, 1, 6, 7, 8, 11, 12, 13, 14, 15
 
     db $06 ; NOTHING
     db $01 ; SOMARIA BULLET
@@ -5680,9 +5680,9 @@ Ancilla_CheckSpriteDamage_apply_damage:
 ; $036D33-$036D3E DATA TABLE
 Sprite_CalculateSwordDamage_damage_class:
 {
-    db 1, 2, 3, 4 ; normal strike damage indices
-    db 2, 3, 4, 5 ; spin attack damage indices
-    db 1, 1, 2, 3 ; stabbing damage indices
+    db 1, 2, 3, 4 ; Normal strike damage indices
+    db 2, 3, 4, 5 ; Spin attack damage indices
+    db 1, 1, 2, 3 ; Stabbing damage indices
 }
 
 ; $036D3F-$036EC0 LONG JUMP LOCATION
@@ -5725,13 +5725,13 @@ Sprite_CalculateSwordDamage:
     ; Set the damage class.
     LDA.l .damage_class, X : STA.w $0CF2
     
-    ; not sure which item types this indicates
+    ; Not sure which item types this indicates.
     LDA.w $0301 : AND.b #$0A : BEQ .not_poised_with_hammer
         LDA.b #$03 : STA.w $0CF2
     
     .not_poised_with_hammer
     
-    ; Set a timer
+    ; Set a timer.
     LDA.b #$04 : STA.w $02E3
     
     PLX
@@ -5767,7 +5767,7 @@ Sprite_ApplyCalculatedDamage:
     
     SEP #$20
     
-    ; loads Selected Sprite Damage in Advanced Damage Editor
+    ; Loads Selected Sprite Damage in Advanced Damage Editor.
     LDA.l $7F6000, X : STA.b $02
     
     SEP #$10
@@ -5776,7 +5776,7 @@ Sprite_ApplyCalculatedDamage:
     LDA.w $0CF2 : ASL #3 : ORA.b $02 : TAX
     
     ; Get the damage value for that monster for that damage class.
-    LDA.l $0DB8F1, X
+    LDA.l DamageSubclassValue, X
     
     PLX
     
@@ -5784,7 +5784,7 @@ Sprite_ApplyCalculatedDamage:
     .AgahnimBalls_DamageAgahnim
 
     CMP.b #$F9 : BNE .dontMakeIntoFairy
-        ; Turn something into a fairy
+        ; Turn something into a fairy.
         LDA.b #$E3
         
         ; $036DCB ALTERNATE ENTRY POINT
@@ -5803,11 +5803,11 @@ Sprite_ApplyCalculatedDamage:
     
     .dontMakeIntoFairy
     
-    ; Turn something into a 0 HP blob
+    ; Turn something into a 0 HP blob.
     CMP.b #$FA : BNE .dontMakeIntoBlob
         LDA.b #$8F
         
-        JSL.l $06EDCB ; $036DCB IN ROM
+        JSL.l .transmute_to_sprite
         
         LDA.b #$02 : STA.w $0D80, X
         
@@ -5826,7 +5826,7 @@ Sprite_ApplyCalculatedDamage:
     .dontMakeIntoBlob
     
     CMP.w $0CE2, X : BCC .ifNewDamageLessIgnore 
-        ; if(calc_dmg < base_dmg) dmg = base_dmg
+        ; If(calc_dmg < base_dmg) dmg = base_dmg
         STA.w $0CE2, X
     
     .ifNewDamageLessIgnore
@@ -5844,7 +5844,7 @@ Sprite_ApplyCalculatedDamage:
     
     ; Freeze damage type
     CMP.b #$FE : BCC .BRANCH_KAPPA
-        ; Is sprite frozen? if so, do nothing
+        ; Is sprite frozen? if so, do nothing.
         LDA.w $0DD0, X : CMP.b #$0B : BEQ .BRANCH_THETA
     
     .BRANCH_KAPPA
@@ -6012,7 +6012,7 @@ Sprite_HandleSpecialHits:
     db 32, 128,  0,  0, 255
 
     ; TODO: Double check if it actually is an alternate entry point or just a
-    ; branhc location.
+    ; branch location.
     ; $036F61 ALTERNATE ENTRY POINT
     .transmutation
 
@@ -6168,7 +6168,7 @@ Sprite_AttemptKillingOfKin:
             
             .BRANCH_PHI
             
-            ; Check if it's Kholdstare
+            ; Check if it's Kholdstare.
             LDA.w $0E20, X : CMP.b #$A2 : BEQ .BRANCH_OMEGA
                 JSL Sprite_SchedulePeersForDeath
             
@@ -6383,10 +6383,10 @@ Sprite_CheckDamageToPlayer:
         ; $03714A ALTERNATE ENTRY POINT
         .stagger
         
-        ; No he's not, he's vulnerable
+        ; No he's not, he's vulnerable.
         TXA : EOR.b $1A : AND.b #$03
         
-        ; Since for a sentry it's usually 0
+        ; Since for a sentry it's usually 0.
         ; It wasn't the right frame to hit on?
         ORA.w $0EF0, X : BNE .no_damage
             ; $037154 ALTERNATE ENTRY POINT
@@ -6457,7 +6457,7 @@ Sprite_CheckDamageToPlayer:
     
     .BRANCH_EPSILON
     
-    RTS ; End the routine
+    RTS ; End the routine.
     
     .not_laser_eye
     
@@ -6513,7 +6513,7 @@ Sprite_CheckDamageToPlayer:
 ; $0371F6-$037227 LOCAL JUMP LOCATION
 Sprite_SetupHitBox00:
 {
-    ; Load the sprite's Z component
+    ; Load the sprite's Z component.
     LDA.w $0F70, X : STA.b $0C
                      STZ.b $0D
     
@@ -6550,15 +6550,15 @@ Sprite_CheckIfLifted:
         
             .next_sprite
             
-                ; See if any enemies are in Link's hands
-                ; yes, an enemy is being held
+                ; See if any enemies are in Link's hands:
+                ; yes, an enemy is being held.
                 LDA.w $0DD0, X : CMP.b #$0A : BEQ .return 
             DEY : BPL .next_sprite
                 
             ; Ths bombs we speak of are enemy bombs, not Link's bombs.
             LDA.w $0E20, X : CMP.b #$0B : BEQ .is_chicken_or_bomb
                              CMP.b #$4A : BEQ .is_chicken_or_bomb
-                ; Return if the sprite's velocity is nonzero
+                ; Return if the sprite's velocity is nonzero.
                 LDA.w $0D50, X : ORA.w $0D40, X : BNE .return
             
             .is_chicken_or_bomb
@@ -6652,7 +6652,7 @@ Sprite_CheckDamageFromPlayer:
                     ; Is Link using the hammer or an item that's not in the
                     ; game?
                     LDA.w $0301 : AND.b #$0A : BEQ .not_frozen_kill
-                        ; Can't kill Ganon with a hammer ;)
+                        ; Can't kill Ganon with a hammer.
                         LDA.w $0E20, X : CMP.b #$D6 : BCS .no_collision
                             ; Is the enemy frozen?
                             LDA.w $0DD0, X : CMP #$0B : BNE .not_frozen_kill
@@ -6679,7 +6679,7 @@ Sprite_CheckDamageFromPlayer:
                     
                     .not_frozen_kill
                     
-                    ; Is it an Agahnim energy blast? (not a dud)
+                    ; Is it an Agahnim energy blast? (not a dud).
                     LDA.w $0E20, X : CMP.b #$7B : BNE .not_agahnim_ball
                         LDA.b $3C : CMP.b #$09 : BMI .spin_attack_charging
         
@@ -6712,7 +6712,7 @@ Sprite_CheckDamageFromPlayer:
 
     .is_hardhat_bettle
     
-    JSR.w $EC02 ; $036C02 IN ROM
+    JSR.w Sprite_AttemptZapDamage
     
     LDA.b #$20 : JSR Sprite_ApplyRecoilToPlayer
     
@@ -6724,17 +6724,17 @@ Sprite_CheckDamageFromPlayer:
     
     CMP.b #$09 : BNE .not_giant_moldorm
         LDA.w $0D90, X : BNE .sorry_youre_not_special
-            JSR.w $F445 ; $037445 IN ROM
+            JSR.w Sprite_RecoilLinkAndTHUMP
             
             ; I don't think this would play a sound at all, actually...
             LDA.b #$32 : JSL Sound_SetSfxPan : STA.w $012F
             
-            JMP.w $F3C2 ; $0373C2 IN ROM
+            JMP.w .place_tink
     
     .not_giant_moldorm
     
     CMP.b #$92 : BNE .not_helmasaur_king
-        JMP.w $F460 ; $037460 IN ROM
+        JMP.w KingHelmasaur_ApplyRecoilIfEarlyPhase
     
     .not_helmasaur_king
     
@@ -6761,7 +6761,7 @@ Sprite_CheckDamageFromPlayer:
                 .sorry_youre_not_special
                 
                 LDA.w $0CAA, X : AND.b #$04 : BNE .okay_maybe_you_are
-                    JSR.w $EC02 ; $036C02 IN ROM
+                    JSR.w Sprite_AttemptZapDamage
                     
                     SEC
                     
@@ -6821,7 +6821,7 @@ Sprite_AttemptDamageToPlayerPlusRecoil:
                 
         LDA.b #$01 : STA.b $4D
                 
-        ; Determine damage for Link based on his armor value
+        ; Determine damage for Link based on his armor value.
         LDA.w $0CD2, X : AND.b #$0F : STA.b $00
         ASL A : ADC.b $00 : CLC : ADC.l $7EF35B : TAY
                 
@@ -6860,7 +6860,7 @@ Sprite_AttemptDamageToPlayerPlusRecoilLong:
 ; ==============================================================================
 
 ; $037427-$037444 DATA
-; 1 of 3 values based on link's armour value and $0CD2, X
+; 1 of 3 values based on link's armour value and $0CD2, X.
 Bump_Damage_Table:
 {
     db $02, $01, $01
@@ -6903,296 +6903,296 @@ KingHelmasaur_ApplyRecoilIfEarlyPhase:
     JMP.w Sprite_CheckDamageFromPlayer_certain_bosses
 }
 
-; $037571-$03757D DATA
+; $03746D-$03757D DATA
 Pool_ActionHitbox:
 {
-    ; $037571
+    ; $03746D
     .offset_x
-    db   0 ; net/hammer
+    db   0 ; Net/hammer
 
-    db   2 ; up
-    db   0 ; up
-    db   0 ; up
-    db  -8 ; up
-    db   0 ; up
-    db   2 ; up
-    db   0 ; up
-    db   2 ; up
-    db   2 ; up
-    db   1 ; up
-    db   1 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
+    db   2 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db  -8 ; Up
+    db   0 ; Up
+    db   2 ; Up
+    db   0 ; Up
+    db   2 ; Up
+    db   2 ; Up
+    db   1 ; Up
+    db   1 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
 
-    db   2 ; down
-    db   4 ; down
-    db   4 ; down
-    db   0 ; down
-    db   0 ; down
-    db  -4 ; down
-    db  -4 ; down
-    db  -6 ; down
-    db   2 ; down
-    db   1 ; down
-    db   1 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
+    db   2 ; Down
+    db   4 ; Down
+    db   4 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db  -4 ; Down
+    db  -4 ; Down
+    db  -6 ; Down
+    db   2 ; Down
+    db   1 ; Down
+    db   1 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
 
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   2 ; left
-    db   2 ; left
-    db   4 ; left
-    db   4 ; left
-    db   2 ; left
-    db   2 ; left
-    db   2 ; left
-    db   2 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   2 ; Left
+    db   2 ; Left
+    db   4 ; Left
+    db   4 ; Left
+    db   2 ; Left
+    db   2 ; Left
+    db   2 ; Left
+    db   2 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
 
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db  -4 ; right
-    db  -4 ; right
-    db -10 ; right
-    db   0 ; right
-    db   2 ; right
-    db   2 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db  -4 ; Right
+    db  -4 ; Right
+    db -10 ; Right
+    db   0 ; Right
+    db   2 ; Right
+    db   2 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
 
     ; $0374AE
     .size_x
-    db  15 ; net/hammer
+    db  15 ; Net/hammer
 
-    db   4 ; up
-    db   8 ; up
-    db   8 ; up
-    db   8 ; up
-    db   8 ; up
-    db  12 ; up
-    db   8 ; up
-    db   4 ; up
-    db   4 ; up
-    db   6 ; up
-    db   6 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
+    db   4 ; Up
+    db   8 ; Up
+    db   8 ; Up
+    db   8 ; Up
+    db   8 ; Up
+    db  12 ; Up
+    db   8 ; Up
+    db   4 ; Up
+    db   4 ; Up
+    db   6 ; Up
+    db   6 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
 
-    db   4 ; down
-    db  16 ; down
-    db  12 ; down
-    db   8 ; down
-    db   8 ; down
-    db  12 ; down
-    db  11 ; down
-    db  12 ; down
-    db   4 ; down
-    db   6 ; down
-    db   6 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
+    db   4 ; Down
+    db  16 ; Down
+    db  12 ; Down
+    db   8 ; Down
+    db   8 ; Down
+    db  12 ; Down
+    db  11 ; Down
+    db  12 ; Down
+    db   4 ; Down
+    db   6 ; Down
+    db   6 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
 
-    db   8 ; left
-    db   8 ; left
-    db   8 ; left
-    db  10 ; left
-    db  14 ; left
-    db  15 ; left
-    db   4 ; left
-    db   4 ; left
-    db   4 ; left
-    db   6 ; left
-    db   6 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
+    db   8 ; Left
+    db   8 ; Left
+    db   8 ; Left
+    db  10 ; Left
+    db  14 ; Left
+    db  15 ; Left
+    db   4 ; Left
+    db   4 ; Left
+    db   4 ; Left
+    db   6 ; Left
+    db   6 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
 
-    db   8 ; right
-    db   8 ; right
-    db   8 ; right
-    db  10 ; right
-    db  14 ; right
-    db  15 ; right
-    db   4 ; right
-    db   4 ; right
-    db   4 ; right
-    db   6 ; right
-    db   6 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
+    db   8 ; Right
+    db   8 ; Right
+    db   8 ; Right
+    db  10 ; Right
+    db  14 ; Right
+    db  15 ; Right
+    db   4 ; Right
+    db   4 ; Right
+    db   4 ; Right
+    db   6 ; Right
+    db   6 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
     
     ; $0374EF
     .offset_y
-    db   0 ; net/hammer
+    db   0 ; Net/hammer
 
-    db   2 ; up
-    db   0 ; up
-    db   2 ; up
-    db   4 ; up
-    db   4 ; up
-    db   4 ; up
-    db   7 ; up
-    db   2 ; up
-    db   2 ; up
-    db   1 ; up
-    db   1 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
+    db   2 ; Up
+    db   0 ; Up
+    db   2 ; Up
+    db   4 ; Up
+    db   4 ; Up
+    db   4 ; Up
+    db   7 ; Up
+    db   2 ; Up
+    db   2 ; Up
+    db   1 ; Up
+    db   1 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
 
-    db   2 ; down
-    db   0 ; down
-    db   2 ; down
-    db  -4 ; down
-    db  -3 ; down
-    db  -8 ; down
-    db   0 ; down
-    db   0 ; down
-    db   2 ; down
-    db   1 ; down
-    db   1 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
+    db   2 ; Down
+    db   0 ; Down
+    db   2 ; Down
+    db  -4 ; Down
+    db  -3 ; Down
+    db  -8 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   2 ; Down
+    db   1 ; Down
+    db   1 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
 
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db  -2 ; left
-    db   0 ; left
-    db  -4 ; left
-    db   1 ; left
-    db   2 ; left
-    db   2 ; left
-    db   1 ; left
-    db   1 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db  -2 ; Left
+    db   0 ; Left
+    db  -4 ; Left
+    db   1 ; Left
+    db   2 ; Left
+    db   2 ; Left
+    db   1 ; Left
+    db   1 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
 
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db  -2 ; right
-    db   0 ; right
-    db  -4 ; right
-    db   1 ; right
-    db   2 ; right
-    db   2 ; right
-    db   1 ; right
-    db   1 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db  -2 ; Right
+    db   0 ; Right
+    db  -4 ; Right
+    db   1 ; Right
+    db   2 ; Right
+    db   2 ; Right
+    db   1 ; Right
+    db   1 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
 
     ; $037530
     .size_y
-    db  15 ; net/hammer
+    db  15 ; Net/hammer
 
-    db   4 ; up
-    db   8 ; up
-    db   2 ; up
-    db  12 ; up
-    db   8 ; up
-    db  12 ; up
-    db   8 ; up
-    db   4 ; up
-    db   4 ; up
-    db   6 ; up
-    db   6 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
-    db   0 ; up
+    db   4 ; Up
+    db   8 ; Up
+    db   2 ; Up
+    db  12 ; Up
+    db   8 ; Up
+    db  12 ; Up
+    db   8 ; Up
+    db   4 ; Up
+    db   4 ; Up
+    db   6 ; Up
+    db   6 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
+    db   0 ; Up
 
-    db   4 ; down
-    db   8 ; down
-    db   4 ; down
-    db  12 ; down
-    db  12 ; down
-    db  12 ; down
-    db   4 ; down
-    db   8 ; down
-    db   4 ; down
-    db   6 ; down
-    db   4 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
-    db   0 ; down
+    db   4 ; Down
+    db   8 ; Down
+    db   4 ; Down
+    db  12 ; Down
+    db  12 ; Down
+    db  12 ; Down
+    db   4 ; Down
+    db   8 ; Down
+    db   4 ; Down
+    db   6 ; Down
+    db   4 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
+    db   0 ; Down
 
-    db   8 ; left
-    db   8 ; left
-    db   8 ; left
-    db   8 ; left
-    db   8 ; left
-    db  12 ; left
-    db   4 ; left
-    db   4 ; left
-    db   4 ; left
-    db   6 ; left
-    db   6 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
-    db   0 ; left
+    db   8 ; Left
+    db   8 ; Left
+    db   8 ; Left
+    db   8 ; Left
+    db   8 ; Left
+    db  12 ; Left
+    db   4 ; Left
+    db   4 ; Left
+    db   4 ; Left
+    db   6 ; Left
+    db   6 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
+    db   0 ; Left
 
-    db   8 ; right
-    db   8 ; right
-    db   8 ; right
-    db   8 ; right
-    db   8 ; right
-    db  12 ; right
-    db   4 ; right
-    db   4 ; right
-    db   4 ; right
-    db   6 ; right
-    db   6 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
-    db   0 ; right
+    db   8 ; Right
+    db   8 ; Right
+    db   8 ; Right
+    db   8 ; Right
+    db   8 ; Right
+    db  12 ; Right
+    db   4 ; Right
+    db   4 ; Right
+    db   4 ; Right
+    db   6 ; Right
+    db   6 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
+    db   0 ; Right
 
     ; $037571
     .sword_validity
@@ -7227,6 +7227,26 @@ Player_SetupActionHitBoxLong:
 
 ; ==============================================================================
 
+; $037586-$037593 DATA
+Pool_SetupActionHitbox_dashing:
+{
+    ; $037586
+    .offset_y_high ; Bleeds into the next data block.
+    db  -1,   0
+
+    ; $037588
+    .offset_x_low
+    db   0,   0,  -8,   8
+
+    ; $03758C
+    .offset_x_high
+    db   0,   0,  -1,   0
+
+    ; $037590
+    .offset_y_low
+    db  -8,  16,   8,   8
+}
+
 ; $037594-$0375DF LOCAL JUMP LOCATION
 SetupActionHitbox_spinning:
 {
@@ -7244,16 +7264,22 @@ SetupActionHitbox_spinning:
     RTS
 }
 
-; $0375B7-$0375DF
+; $0375B7-$0375DF LOCAL JUMP LOCATION
 SetupActionHitbox_dashing:
 {
     LDA.b $2F : LSR A : TAY
     
-    LDA.b $22 : CLC : ADC.w $F588, Y : STA.b $00
-    LDA.b $23 :       ADC.w $F58C, Y : STA.b $08
+    LDA.b $22
+    CLC : ADC.w Pool_SetupActionHitbox_dashing_offset_x_low, Y  : STA.b $00
+
+    LDA.b $23
+          ADC.w Pool_SetupActionHitbox_dashing_offset_x_high, Y : STA.b $08
     
-    LDA.b $20 : CLC : ADC.w $F590, Y : STA.b $01
-    LDA.b $21 :       ADC.w $F586, Y : STA.b $09
+    LDA.b $20
+    CLC : ADC.w Pool_SetupActionHitbox_dashing_offset_y_low, Y  : STA.b $01
+
+    LDA.b $21
+          ADC.w Pool_SetupActionHitbox_dashing_offset_y_high, Y : STA.b $09
     
     LDA.b #$10 : STA.b $02 : STA.b $03
     
@@ -7273,7 +7299,7 @@ Player_SetupActionHitBox:
         LDA.w $0301 : AND.b #$0A : BNE .special_pose
             LDA.w $037A : AND.b #$10 : BNE .special_pose
                 LDY.b $3C : BMI .spin_attack_hit_box
-                    LDA.w $F571, Y : BNE .return
+                    LDA.w Pool_ActionHitbox_sword_validity, Y : BNE .return
                         ; Adding $3C seems to be for the pokey player hit box
                         ; with the swordy.
                         LDA.b $2F : ASL #3 : CLC : ADC.b $3C : TAX : INX
@@ -7282,7 +7308,7 @@ Player_SetupActionHitBox:
         
         LDY.b #$00
         
-        LDA.b $45 : CLC : ADC.w $F46D, X : BPL .positive
+        LDA.b $45 : CLC : ADC.w Pool_ActionHitbox_offset_x, X : BPL .positive
             DEY
         
         .positive
@@ -7292,7 +7318,7 @@ Player_SetupActionHitBox:
         
         LDY.b #$00
         
-        LDA.b $44 : CLC : ADC.w $F4EF, X : BPL .positive_2
+        LDA.b $44 : CLC : ADC.w Pool_ActionHitbox_offset_y, X : BPL .positive_2
             DEY
         
         .positive_2
@@ -7300,10 +7326,10 @@ Player_SetupActionHitBox:
               ADC.b $20 : STA.b $01
         TYA : ADC.b $21 : STA.b $09
         
-        ; Widths of the colision boxes for player? Update: yep (Nov. 2012 haha)
-        LDA.w $F4AE, X : STA.b $02
+        ; Widths of the colision boxes for player.
+        LDA.w Pool_ActionHitbox_size_x, X : STA.b $02
         
-        LDA.w $F530, X : STA.b $03
+        LDA.w Pool_ActionHitbox_size_y, X : STA.b $03
         
         PLX
         
@@ -7397,7 +7423,7 @@ Player_PlaceRepulseSpark:
         
         JSL Sound_SetSfxPanWithPlayerCoords
         
-        ; Make "clink" against wall noise
+        ; Make "clink" against wall noise.
         ORA.b #$05 : STA.w $012E
     
     .respulse_spark_already_active
@@ -7580,10 +7606,10 @@ Utility_CheckIfHitBoxesOverlap:
     
     .check_other_direction
     
-        ; delta p low goes to the stack...
-        ; delta p high goes to $0C...
-        ; delta p + width of p2 goes to $0F...
-        ; delta p low + 0x80
+        ; Delta p low goes to the stack...
+        ; Delta p high goes to $0C...
+        ; Delta p + width of p2 goes to $0F...
+        ; Delta p low + 0x80
               LDA.b !pos2_low, X  : SEC : SBC.b !pos1_low, X  : PHA
         PHP                       : CLC : ADC.b !pos2_size, X : STA.b $0F
         PLP : LDA.b !pos2_high, X :       SBC.b !pos1_high, X : STA.b $0C
@@ -7633,7 +7659,7 @@ OAM_AllocateDeferToPlayer:
     JSR Sprite_IsToRightOfPlayer
     
     ; Proceed only if the difference between the sprite's X coordinate
-    ; and player's satisfies : [ -16 <= dX < 16 ]
+    ; and player's satisfies : [ -16 <= dX < 16 ].
     LDA.b $0F : CLC : ADC.b #$10 : CMP.b #$20 : BCS .return
         JSR Sprite_IsBelowPlayer
         
@@ -7671,7 +7697,7 @@ SpriteDeath_Main:
     
     .notBushOrGrass
     
-    ; Armos Knight, Lanmolas, Helmasaur King
+    ; Armos Knight, Lanmolas, Helmasaur King.
     CMP.b #$53 : BEQ .draw_normally
     CMP.b #$54 : BEQ .draw_normally
     CMP.b #$92 : BEQ .draw_normally
@@ -7764,7 +7790,7 @@ Sprite_DoTheDeath:
     
     .not_small_vitreous_eyeball
     
-    ; Is it a Pikit
+    ; Is it a Pikit?
     CMP #$AA : BNE .not_a_pikit
         LDY.w $0E90, X : BEQ .BRANCH_BETA
         
@@ -7789,7 +7815,7 @@ Sprite_DoTheDeath:
     
     ; Is it a crazy red spear soldier?
     LDA.w $0E20, X : CMP.b #$45 : BNE .BRANCH_DELTA
-        ; If so, are we in the "first part" (on OW)
+        ; If so, are we in the "first part" (on OW).
         LDA.l $7EF3C5 : CMP.b #$02 : BNE .BRANCH_DELTA
             LDA.w $040A : CMP.b #$18 : BNE .BRANCH_DELTA
                 ; Resets the music in the village when the crazy green guards
@@ -7804,15 +7830,15 @@ Sprite_DoTheDeath:
         
         LDA.b #$FF : STA.w $0BC0, X
         
-        ; Small key
+        ; Small key.
         LDA.b #$E4
         
         CPY.b #$01 : BEQ PrepareEnemyDrop
-            ; Big key
+            ; Big key.
             LDA.b #$E5
             
             CPY.b #$03 : BNE PrepareEnemyDrop
-                ; Green rupee
+                ; Green rupee.
                 LDA.b #$D9
                 
                 BRA PrepareEnemyDrop
@@ -7823,8 +7849,8 @@ Sprite_DoTheDeath:
     LDA.w $0BE0, X : AND.b #$0F : BEQ .BRANCH_THETA
         DEC A : PHA
         
-        ; Check luck status
-        ; If no special luck, proceed as normal
+        ; Check luck status:
+        ; If no special luck, proceed as normal.
         LDY.w $0CF9 : BEQ .BRANCH_IOTA
             ; Increase lucky (or unlucky) drop counter
             ; Once we reach 10 drops of a type we reset luck.
@@ -7835,7 +7861,7 @@ Sprite_DoTheDeath:
             
             PLA
             
-            ; Is it great luck? If so, guarantee a prize drop
+            ; Is it great luck? If so, guarantee a prize drop.
             CPY.b #$01 : BEQ .good_drop_luck
     
     .BRANCH_THETA
@@ -7844,14 +7870,14 @@ Sprite_DoTheDeath:
     
     .BRANCH_IOTA ; How prize packs normally drop.
     
-    ; Reload the prize pack #
+    ; Reload the prize pack #.
     JSL GetRandomInt : PLY : AND.w PrizePack_Chance, Y : BNE .BRANCH_MU
         ; $0379BC ALTERNATE ENTRY POINT
         .ForcePrizeDrop
         
-        TYA ; Transfer prize number to A register
+        TYA ; Transfer prize number to A register.
         
-        .good_drop_luck ; if this is branched to, the prize is guaranteed.
+        .good_drop_luck ; If this is branched to, the prize is guaranteed.
         
         ASL #3 : ORA.w $0FC7, Y : PHA
         
@@ -7888,7 +7914,7 @@ Sprite_DoTheDeath:
         
         LDY.w $0E20, X
         
-        ; TODO: Investigate why this is -$D9
+        ; TODO: Investigate why this is -$D9.
         LDA.w ItemDropBounceProps-$D9, Y : PHA
         
         AND.b #$F0 : STA.w $0F80, X
@@ -7925,7 +7951,7 @@ Sprite_DoTheDeath:
         
         LDA.b #$04 : STA.w $0DC0, X
         
-        JMP.w $F8C9 ; $0378C9 IN ROM
+        JMP.w SpriteDeath_Main_kyameron_respawn
     
     .not_evil_barrier
     
@@ -7939,7 +7965,7 @@ ForcePrizeDrop_long:
 {
     PHB : PHK : PLB
     
-    JSR.w $F9BC ; $379BC IN ROM
+    JSR.w Sprite_DoTheDeath_ForcePrizeDrop
     
     PLB
     
@@ -7952,14 +7978,14 @@ ForcePrizeDrop_long:
 ; $037A5C-$037A63
 PrizePack_Chance:
 {
-    db $01 ; pack 1 :  50%
-    db $01 ; pack 2 :  50%
-    db $01 ; pack 3 :  50%
-    db $00 ; pack 4 : 100%
-    db $01 ; pack 5 :  50%
-    db $01 ; pack 6 :  50%
-    db $01 ; pack 7 :  50%
-    db $00 ; pack 8 : 100% - doesn't exist
+    db $01 ; Pack 1 :  50%
+    db $01 ; Pack 2 :  50%
+    db $01 ; Pack 3 :  50%
+    db $00 ; Pack 4 : 100%
+    db $01 ; Pack 5 :  50%
+    db $01 ; Pack 6 :  50%
+    db $01 ; Pack 7 :  50%
+    db $00 ; Pack 8 : 100% - doesn't exist
 }
 
 ; $037A64-$037A71
@@ -8066,7 +8092,7 @@ PrizePack_Prizes:
 
 ; ==============================================================================
 
-; $037AAA
+; $037AAA-$037B29 DATA
 Pool_SpriteDeath_DrawPoof:
 {
     ; $037AAA
@@ -8136,18 +8162,21 @@ SpriteDeath_DrawPerishingOverlay:
     
         PHY
         
-        LDA.w $FAEA, X : BEQ .skip_entry
+        LDA.w Pool_SpriteDeath_DrawPoof_char, X : BEQ .skip_entry
         
-                                                 INY #2 : STA ($90), Y
+            INY #2 : STA ($90), Y
 
             LDA.w $0FA9 : SEC : SBC.b $0C
-                          CLC : ADC.w $FACA, X : DEY    : STA ($90), Y
+            CLC : ADC.w Pool_SpriteDeath_DrawPoof_offset_y, X
+            DEY : STA ($90), Y
 
             LDA.w $0FA8 : SEC : SBC.b $0C
-                          CLC : ADC.w $FAAA, X : DEY    : STA ($90), Y
+            CLC : ADC.w Pool_SpriteDeath_DrawPoof_offset_x, X
+            DEY : STA ($90), Y
 
-            LDA.b $05         : AND.b #$30 
-                                ORA.w $FB0A, X : INY #3 : STA ($90), Y
+            LDA.b $05 : AND.b #$30 
+            ORA.w Pool_SpriteDeath_DrawPoof_prop, X
+            INY #3 : STA ($90), Y
         
         .skip_entry
         
@@ -8167,6 +8196,33 @@ SpriteDeath_DrawPerishingOverlay:
 }
 
 ; ==============================================================================
+
+; $037B96-$037BE9 DATA
+Pool_SpriteModule_Fall2:
+{
+    ; $037B96
+    .anim_step_a
+    db $0D, $0D, $0D, $0D, $0D, $0D, $0D, $0C
+    db $0C, $0C, $0C, $0C, $03, $03, $03, $03
+    db $03, $02, $02, $02, $02, $01, $01, $01
+    db $01, $00, $00, $00, $00, $00, $00, $00
+
+    ; $037BB6
+    .anim_step_b
+    db $05, $05, $05, $05, $05, $05, $05, $04
+    db $04, $04, $04, $04, $03, $03, $03, $03
+    db $03, $02, $02, $02, $02, $01, $01, $01
+    db $01, $00, $00, $00, $00, $00, $00, $00
+
+    ; $037BD6
+    .frame_mask
+    db $FF, $3F, $1F, $0F, $0F, $07, $03, $01
+    db $FF, $3F, $1F, $0F, $07, $03, $01, $00
+
+    ; $037BE6
+    .head_data_offset
+    db $00, $04, $08, $00
+}
 
 ; $037BEA-$037CB6 JUMP LOCATION
 SpriteCustomFall_Main:
@@ -8225,30 +8281,30 @@ SpriteCustomFall_Main:
     
     .BRANCH_EPSILON
     
-    LDA.w $FBB6, Y : STA.w $0DC0, X
+    LDA.w Pool_SpriteModule_Fall2_anim_step_b, Y : STA.w $0DC0, X
     
-    JSR.w $FD17 ; $037D17 IN ROM
+    JSR.w SpriteDraw_FallingHelmaBeetle
     
     BRA .BRANCH_THETA
     
     .BRANCH_ZETA
     
-    LDA.w $FB96, Y : CMP.b #$0C : BCS .BRANCH_MU
+    LDA.w Pool_SpriteModule_Fall2_anim_step_a, Y : CMP.b #$0C : BCS .BRANCH_MU
         LDY.w $0DE0, X
         
-        CLC : ADC.w $FBE6, Y
+        CLC : ADC.w Pool_SpriteModule_Fall2_head_data_offset, Y
     
     .BRANCH_MU
     
     STA.w $0DC0, X
     
-    JSR.w $FE5B ; $037E5B IN ROM
+    JSR.w SpriteDraw_FallingHumanoid
     
     .BRANCH_THETA
     
     LDA.w $0DF0, X : LSR #3 : TAY
     
-    LDA.b $1A : AND.w $FBD6, Y : ORA.b $11 : BNE .BRANCH_IOTA
+    LDA.b $1A : AND.w Pool_SpriteModule_Fall2_frame_mask, Y : ORA.b $11 : BNE .BRANCH_IOTA
         LDY.b #$68
         
         JSR.w Sprite_CheckTileProperty
@@ -8421,14 +8477,23 @@ SpriteDraw_FallingHumanoid:
         
         TXA : CLC : ADC.b $06 : TAX
         
-        LDA.b $00      : CLC : ADC.w $FD43, X       : STA ($90), Y
-        LDA.b $02      : CLC : ADC.w $FD7B, X : INY : STA ($90), Y
-        LDA.w $FDB3, X                        : INY : STA ($90), Y
-        LDA.w $FDEB, X : EOR.b $05            : INY : STA ($90), Y
+        LDA.b $00
+        CLC : ADC.w Pool_SpriteDraw_FallingHumanoid_offset_x, X
+        STA ($90), Y
+
+        LDA.b $02
+        CLC : ADC.w Pool_SpriteDraw_FallingHumanoid_offset_y, X
+        INY : STA ($90), Y
+
+        LDA.w Pool_SpriteDraw_FallingHumanoid_char, X
+        INY : STA ($90), Y
+
+        LDA.w Pool_SpriteDraw_FallingHumanoid_prop, X
+        EOR.b $05 : INY : STA ($90), Y
         
         PHY : TYA : LSR #2 : TAY
         
-        LDA.w $FE23, X : STA ($92), Y
+        LDA.w Pool_SpriteDraw_FallingHumanoid_size, X : STA ($92), Y
         
         PLY : INY
     PLX : DEX : BPL .next_oam_entry
