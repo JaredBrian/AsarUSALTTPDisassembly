@@ -11991,7 +11991,7 @@ Dungeon_LoadEntrance:
 
     CPX.w #$0000 : BEQ .linkFacesSouth
         ; One special cases where Link enters from the top. Potential for an
-        ; edit here ;).
+        ; edit here.
         CPX.w #$0043 : BEQ .linkFacesSouth
             LDA.b #$00 ; Make it so Link faces north.
 

@@ -121,7 +121,7 @@ Song1B_BigFairy:
     incbin "bin/music/song1B.bin" ; size: 0x0261
 }
 
-; $0DAB6E-$0DACC3 DATA
+; $0DAB6E-$0DACC2 DATA
 Song1C_Suspense:
 {
     incbin "bin/music/song1C.bin" ; size: 0x0155
@@ -131,8 +131,11 @@ base off
 
 ; ==============================================================================
 
+; $0DACC3-$0DACC6 DATA
 SongBank_Underworld_Auxiliary:
-#_1BACC3: dw $050C, SONG_POINTERS_AUX ; Transfer size, transfer address
+{
+    dw $050C, SONG_POINTERS_AUX ; Transfer size, transfer address
+}
 
 base SONG_POINTERS_AUX
 
@@ -2205,10 +2208,10 @@ OverworldData_HiddenItems_Screen_35:
 ; $0DC5D0-$0DC5DA DATA
 OverworldData_HiddenItems_Screen_37:
 {
-    #_1BC5D0: dw $0288 : db $86 ; Bomb door   xy:{ 0x040, 0x040 }
-    #_1BC5D3: dw $03AA : db $05 ; Bomb        xy:{ 0x150, 0x060 }
-    #_1BC5D6: dw $040C : db $84 ; Staircase   xy:{ 0x060, 0x080 }
-    #_1BC5D9: dw $FFFF
+    dw $0288 : db $86 ; Bomb door   xy:{ 0x040, 0x040 }
+    dw $03AA : db $05 ; Bomb        xy:{ 0x150, 0x060 }
+    dw $040C : db $84 ; Staircase   xy:{ 0x060, 0x080 }
+    dw $FFFF
 }
 
 ; $0DC5DB-$0DC5E5 DATA
@@ -2342,14 +2345,14 @@ OverworldData_HiddenItems_Screen_51:
 ; $0DC699-$0DC6AF DATA
 OverworldData_HiddenItems_Screen_52:
 {
-    #_1BC699: dw $04B2 : db $06 ; Heart       xy:{ 0x190, 0x080 }
-    #_1BC69C: dw $0530 : db $06 ; Heart       xy:{ 0x180, 0x0A0 }
-    #_1BC69F: dw $05AE : db $06 ; Heart       xy:{ 0x170, 0x0A0 }
-    #_1BC6A2: dw $0788 : db $01 ; Green rupee xy:{ 0x040, 0x0E0 }
-    #_1BC6A5: dw $0808 : db $01 ; Green rupee xy:{ 0x040, 0x100 }
-    #_1BC6A8: dw $0888 : db $01 ; Green rupee xy:{ 0x040, 0x100 }
-    #_1BC6AB: dw $09B2 : db $04 ; Random pack xy:{ 0x190, 0x120 }
-    #_1BC6AE: dw $FFFF
+    dw $04B2 : db $06 ; Heart       xy:{ 0x190, 0x080 }
+    dw $0530 : db $06 ; Heart       xy:{ 0x180, 0x0A0 }
+    dw $05AE : db $06 ; Heart       xy:{ 0x170, 0x0A0 }
+    dw $0788 : db $01 ; Green rupee xy:{ 0x040, 0x0E0 }
+    dw $0808 : db $01 ; Green rupee xy:{ 0x040, 0x100 }
+    dw $0888 : db $01 ; Green rupee xy:{ 0x040, 0x100 }
+    dw $09B2 : db $04 ; Random pack xy:{ 0x190, 0x120 }
+    dw $FFFF
 }
 
 ; $0DC6B0-$0DC6E1 DATA
@@ -2557,7 +2560,7 @@ OverworldData_HiddenItems_Screen_6C:
 OverworldData_HiddenItems_Screen_6D:
 OverworldData_HiddenItems_Screen_6E:
 {
-    #_1BC80B: dw $FFFF
+    dw $FFFF
 }
 
 ; $0DC80D-$0DC81A DATA
@@ -2614,9 +2617,9 @@ OverworldData_HiddenItems_Screen_74:
 ; $0DC857-$0DC85E DATA
 OverworldData_HiddenItems_Screen_75:
 {
-    #_1BC857: dw $0298 : db $06 ; Heart       xy:{ 0x0C0, 0x040 }
-    #_1BC85A: dw $0C10 : db $04 ; Random pack xy:{ 0x080, 0x180 }
-    #_1BC85D: dw $FFFF
+    dw $0298 : db $06 ; Heart       xy:{ 0x0C0, 0x040 }
+    dw $0C10 : db $04 ; Random pack xy:{ 0x080, 0x180 }
+    dw $FFFF
 }
 
 ; $0DC85F-$0DC86C DATA
@@ -2671,10 +2674,10 @@ OverworldData_HiddenItems_Screen_7F:
 ; $0DC89C-$0DC8A3 DATA
 Overworld_SecretTileType:
 {
-    #_1BC89C: dw $0DCC ; hole
-    #_1BC89E: dw $0212 ; portal
-    #_1BC8A0: dw $FFFF ; garbage
-    #_1BC8A2: dw $0DB4 ; bomb hole
+    dw $0DCC ; hole
+    dw $0212 ; portal
+    dw $FFFF ; garbage
+    dw $0DB4 ; bomb hole
 }
 
 ; ==============================================================================

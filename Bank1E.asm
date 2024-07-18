@@ -4,7 +4,7 @@
 ; $0F0000-$0F7FFF
 org $1E8000
 
-
+; Misc sprite code
 
 ; ==============================================================================
 
@@ -13,13 +13,12 @@ incsrc "sprite_helmasaur_king.asm"
     
 ; ==============================================================================
 
+; OPTIMIZE: I think this is actual overkill. Probably only need NOP #4 or NOP #3
+; really.
+; Used for division or multiplication delay with helmasaur king.
 ; $0F0A85-$0F0A8D
 Sprite3_DivisionDelay:
 {
-    ; \bug I think this is actual overkill. Probably only need NOP #4 or
-    ; NOP #3 really. Also, I named the routine wrong.
-    ; \task Fix the name?
-    ; Used for division or multiplication delay with helmasaur king...
     NOP #8
     
     RTS
@@ -71,82 +70,81 @@ Sprite3_CheckTileCollision:
 
 ; ==============================================================================
 
+; SPRITE ROUTINES 3
 ; $0F0B33-$0F0BBA Jump Table
 SpriteActive3_Table:
 {
-    ; SPRITE ROUTINES 3
-    
     ; Note that the indices in the margin are the sprite indices, not the
     ; indices into the table.
     
-    dw Sprite_DashBeeHive      ; 0x79 - Good bee / Normal bee
-    dw Sprite_Agahnim          ; 0x7A - Agahnim.
-    dw Sprite_EnergyBall       ; 0x7B - Agahnim energy blasts
-    dw Sprite_GreenStalfos     ; 0x7C - Green Stalfos
-    dw Sprite_SpikeTrap        ; 0x7D - Spike Traps
-    dw Sprite_GuruguruBar      ; 0x7E - Swinging Fireball Chains
-    dw Sprite_GuruguruBar      ; 0x7F - Swinging Fireball Chains
-    dw Sprite_Winder           ; 0x80 - Winder (wandering fireball chain0
-    dw Sprite_Hover            ; 0x81 - Hover
-    dw Sprite_BubbleGroup      ; 0x82 - Swirling Fire Fairys
-    dw Sprite_Eyegore          ; 0x83 - Green Eyegore
-    dw Sprite_Eyegore          ; 0x84 - Red Eyegore
-    dw Sprite_YellowStalfos    ; 0x85 - Yellow Stalfos
-    dw Sprite_Kodondo          ; 0x86 - Kodondo
-    dw Sprite_Flame            ; 0x87 - Flame (from Kodondo and Fire Rod)
-    dw Sprite_Mothula          ; 0x88 - Mothula
-    dw Sprite_MothulaBeam      ; 0x89 - Mothula beam
-    dw Sprite_SpikeBlock       ; 0x8A - Moving spike blocks
-    dw Sprite_Gibdo            ; 0x8B - Gibdo
-    dw Sprite_Arrghus          ; 0x8C - Arrghus
-    dw Sprite_Arrghi           ; 0x8D - Arrgi
-    dw Sprite_Terrorpin        ; 0x8E - Chair Turtles
-    dw Sprite_Zol              ; 0x8F - Zol / Blobs
-    dw Sprite_WallMaster       ; 0x90 - Wall Masters
-    dw Sprite_StalfosKnight    ; 0x91 - Stalfos Knight
-    dw Sprite_HelmasaurKing    ; 0x92 - Helmasaur King
-    dw Sprite_Bumper           ; 0x93 - Bumper
-    dw Sprite_Pirogusu         ; 0x94 - Pirogusu
-    dw Sprite_LaserEye         ; 0x95 - Laser Eye
-    dw Sprite_LaserEye         ; 0x96 - Laser Eye
-    dw Sprite_LaserEye         ; 0x97 - Laser Eye
-    dw Sprite_LaserEye         ; 0x98 - Laser Eye
-    dw Sprite_Pengator         ; 0x99 - Pengator
-    dw Sprite_Kyameron         ; 0x9A - Kyameron
-    dw Sprite_WizzrobeAndBeam  ; 0x9B - Wizzrobe
-    dw Sprite_Zoro             ; 0x9C - Zoro
-    dw Sprite_Babusu           ; 0x9D - Babusu
-    dw Sprite_FluteBoyOstrich  ; 0x9E - Ostrich seen with Flute Boy
-    dw Sprite_FluteBoyRabbit   ; 0x9F - Flute
-    dw Sprite_FluteBoyBird     ; 0xA0 - Birds with flute boy?
-    dw Sprite_Freezor          ; 0xA1 - Freezor
-    dw Sprite_Kholdstare       ; 0xA2 - Kholdstare
-    dw Sprite_KholdstareShell  ; 0xA3 - Kholdstare Shell
-    dw Sprite_IceBallGenerator ; 0xA4 - Ice Balls From Above
-    dw Sprite_Zazak            ; 0xA5 - Blue Zazak
-    dw Sprite_Zazak            ; 0xA6 - Red Zazak
-    dw Sprite_Stalfos          ; 0xA7 - Red Stalfos
-    dw Sprite_Bomber           ; 0xA8 - Green Bomber (Zirro?)
-    dw Sprite_Bomber           ; 0xA9 - Blue Bomber (Zirro?)
-    dw Sprite_Pikit            ; 0xAA - Pikit
-    dw Sprite_CrystalMaiden    ; 0xAB - Crystal maiden
-    dw Sprite_DashApple        ; 0xAC - Apple
-    dw Sprite_OldMountainMan   ; 0xAD - Old Man on the Mountain
-    dw Sprite_Pipe             ; 0xAE - Pipe sprite (down)
-    dw Sprite_Pipe             ; 0xAF - Pipe sprite (up)
-    dw Sprite_Pipe             ; 0xB0 - Pipe sprite (right)
-    dw Sprite_Pipe             ; 0xB1 - Pipe sprite (left)
-    dw Sprite_GoodBee          ; 0xB2 - Good bee again?
-    dw Sprite_HylianPlaque     ; 0xB3 - Hylian Plaque
-    dw Sprite_ThiefChest       ; 0xB4 - Thief's chest
-    dw Sprite_BombShopEntity   ; 0xB5 - Bomb Salesman / others maybe?
-    dw Sprite_Kiki             ; 0xB6 - Kiki the monkey
-    dw Sprite_BlindMaiden      ; 0xB7 - Maiden following you in Gargoyle's Domain
-    dw Sprite_DialogueTester   ; 0xB8 - debug artifact, dialogue tester
-    dw Sprite_BullyAndBallGuy  ; 0xB9 - Feuding friends on DW Death Mountain
-    dw Sprite_Whirlpool        ; 0xBA - Whirlpool
-    dw Sprite_ShopKeeper       ; 0xBB - Shopkeeper / Chest game guy
-    dw Sprite_DrinkingGuy      ; 0xBC - Drunk in the Inn
+    dw Sprite_DashBeeHive      ; 0x79 - $DC5B Good bee / Normal bee
+    dw Sprite_Agahnim          ; 0x7A - $D330 Agahnim.
+    dw Sprite_EnergyBall       ; 0x7B - $DA42 Agahnim energy blasts
+    dw Sprite_GreenStalfos     ; 0x7C - $D299 Green Stalfos
+    dw Sprite_SpikeTrap        ; 0x7D - $D01A Spike Traps
+    dw Sprite_GuruguruBar      ; 0x7E - $CF47 Swinging Fireball Chains
+    dw Sprite_GuruguruBar      ; 0x7F - $D01A Swinging Fireball Chains
+    dw Sprite_Winder           ; 0x80 - $D1D1 Winder (wandering fireball chain0
+    dw Sprite_Hover            ; 0x81 - $CC02 Hover
+    dw Sprite_BubbleGroup      ; 0x82 - $CB97 Swirling Fire Fairys
+    dw Sprite_Eyegore          ; 0x83 - $C79B Green Eyegore
+    dw Sprite_Eyegore          ; 0x84 - $C79B Red Eyegore
+    dw Sprite_YellowStalfos    ; 0x85 - $C37F Yellow Stalfos
+    dw Sprite_Kodondo          ; 0x86 - $C103 Kodondo
+    dw Sprite_Flame            ; 0x87 - $C274 Flame (from Kodondo and Fire Rod)
+    dw Sprite_Mothula          ; 0x88 - $42BE Mothula
+    dw Sprite_MothulaBeam      ; 0x89 - $BB42 Mothula beam
+    dw Sprite_SpikeBlock       ; 0x8A - $BCE8 Moving spike blocks
+    dw Sprite_Gibdo            ; 0x8B - $A9B9 Gibdo
+    dw Sprite_Arrghus          ; 0x8C - $B433 Arrghus
+    dw Sprite_Arrghi           ; 0x8D - $B8C4 Arrgi
+    dw Sprite_Terrorpin        ; 0x8E - $B26F Chair Turtles
+    dw Sprite_Zol              ; 0x8F - $B002 Zol / Blobs
+    dw Sprite_WallMaster       ; 0x90 - $AEA4 Wall Masters
+    dw Sprite_StalfosKnight    ; 0x91 - $AAA7 Stalfos Knight
+    dw Sprite_HelmasaurKing    ; 0x92 - $8039 Helmasaur King
+    dw Sprite_Bumper           ; 0x93 - $A982 Bumper
+    dw Sprite_Pirogusu         ; 0x94 - $A742 Pirogusu
+    dw Sprite_LaserEye         ; 0x95 - $A541 Laser Eye
+    dw Sprite_LaserEye         ; 0x96 - $A541 Laser Eye
+    dw Sprite_LaserEye         ; 0x97 - $A541 Laser Eye
+    dw Sprite_LaserEye         ; 0x98 - $A541 Laser Eye
+    dw Sprite_Pengator         ; 0x99 - $A196 Pengator
+    dw Sprite_Kyameron         ; 0x9A - $9E7B Kyameron
+    dw Sprite_WizzrobeAndBeam  ; 0x9B - $9D1B Wizzrobe
+    dw Sprite_Zoro             ; 0x9C - $9BC8 Zoro
+    dw Sprite_Babusu           ; 0x9D - $9BC8 Babusu
+    dw Sprite_FluteBoyOstrich  ; 0x9E - $995B Ostrich seen with Flute Boy
+    dw Sprite_FluteBoyRabbit   ; 0x9F - $9A6D Flute
+    dw Sprite_FluteBoyBird     ; 0xA0 - $9AEC Birds with flute boy?
+    dw Sprite_Freezor          ; 0xA1 - $981D Freezor
+    dw Sprite_Kholdstare       ; 0xA2 - $9518 Kholdstare
+    dw Sprite_KholdstareShell  ; 0xA3 - $9460 Kholdstare Shell
+    dw Sprite_IceBallGenerator ; 0xA4 - $9710 Ice Balls From Above
+    dw Sprite_Zazak            ; 0xA5 - $919F Blue Zazak
+    dw Sprite_Zazak            ; 0xA6 - $919F Red Zazak
+    dw Sprite_Stalfos          ; 0xA7 - $906C Red Stalfos
+    dw Sprite_Bomber           ; 0xA8 - $8DD2 Green Bomber (Zirro?)
+    dw Sprite_Bomber           ; 0xA9 - $8DD2 Blue Bomber (Zirro?)
+    dw Sprite_Pikit            ; 0xAA - $8BBF Pikit
+    dw Sprite_CrystalMaiden    ; 0xAB - $CE03 Crystal maiden
+    dw Sprite_DashApple        ; 0xAC - $F515 Apple
+    dw Sprite_OldMountainMan   ; 0xAD - $E992 Old Man on the Mountain
+    dw Sprite_Pipe             ; 0xAE - $E992 Pipe sprite (down)
+    dw Sprite_Pipe             ; 0xAF - $FB7E Pipe sprite (up)
+    dw Sprite_Pipe             ; 0xB0 - $FB7E Pipe sprite (right)
+    dw Sprite_Pipe             ; 0xB1 - $FB7E Pipe sprite (left)
+    dw Sprite_GoodBee          ; 0xB2 - $DE63 Good bee again?
+    dw Sprite_HylianPlaque     ; 0xB3 - $E044 Hylian Plaque
+    dw Sprite_ThiefChest       ; 0xB4 - $E0DD Thief's chest
+    dw Sprite_BombShopEntity   ; 0xB5 - $E111 Bomb Salesman / others maybe?
+    dw Sprite_Kiki             ; 0xB6 - $E2EF Kiki the monkey
+    dw Sprite_BlindMaiden      ; 0xB7 - $E8B6 Maiden following you in Gargoyle's Domain
+    dw Sprite_DialogueTester   ; 0xB8 - $E7EA debug artifact, dialogue tester
+    dw Sprite_BullyAndBallGuy  ; 0xB9 - $EB33 Feuding friends on DW Death Mountain
+    dw Sprite_Whirlpool        ; 0xBA - $EE5A Whirlpool
+    dw Sprite_ShopKeeper       ; 0xBB - $EEEF Shopkeeper / Chest game guy
+    dw Sprite_DrinkingGuy      ; 0xBC - $F603 Drunk in the Inn
 }
 
 ; ==============================================================================
@@ -239,14 +237,17 @@ incsrc "sprite_kodondo.asm"
 
 ; ==============================================================================
 
-; $0F4267-$0F426F LOCAL JUMP LOCATION
+; $0F4267-$0F426A LOCAL JUMP LOCATION
 Sprite3_CheckDamage:
 {
     JSL Sprite_CheckDamageFromPlayerLong
+
+    ; Bleeds into the next function.
+}
     
-    ; $0F426B ALTERNATE ENTRY POINT
-    shared Sprite3_CheckDamageToPlayer:
-    
+; $0F426B-$0F426F LOCAL JUMP LOCATION
+Sprite3_CheckDamageToPlayer:
+{
     JSL Sprite_CheckDamageToPlayerLong
     
     RTS
@@ -332,7 +333,7 @@ Sprite_PlayerCantPassThrough:
     
     STZ.w $0F60, X
     
-    ; Also, if bit 7 of $0E40, X is not set, it will hurt Link
+    ; Also, if bit 7 of $0E40, X is not set, it will hurt Link.
     JSL Sprite_CheckDamageToPlayerSameLayerLong : BCC .no_contact
         JSR Sprite_HaltSpecialPlayerMovement
     
@@ -431,9 +432,8 @@ Sprite3_CheckIfActive:
 ; ==============================================================================
 
 ; $0F7E95-$0F7E9A DATA
-Pool_Sprite3_CheckIfRecoiling:
+Sprite3_CheckIfRecoiling_frame_counter_masks:
 {
-    .frame_counter_masks
     db $03, $01, $00, $00, $0C, $03
 }
 
@@ -461,7 +461,7 @@ Sprite3_CheckIfRecoiling:
             LDA.w $0EA0, X : BMI .halted
                 LSR #2 : TAY
                 
-                LDA.b $1A : AND .frame_counter_masks, Y : BNE .halted
+                LDA.b $1A : AND Sprite3_CheckIfRecoiling_frame_counter_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
                     LDA.w $0F40, X : STA.w $0D50, X
                     

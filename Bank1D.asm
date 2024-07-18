@@ -536,7 +536,7 @@ Sprite4_MoveXyz:
 {
     JSR Sprite4_MoveAltitude
 
-    ;Bleeds into the next function.
+    ; Bleeds into the next function.
 }
     
 ; $0EE94B-$0EE951 LOCAL JUMP LOCATION

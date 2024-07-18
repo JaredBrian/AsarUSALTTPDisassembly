@@ -137,13 +137,13 @@ Flame_Speed:
 {
     ; $040068
     .x
-    #_088068: db   0,   0, -64,  64
+    db   0,   0, -64,  64
 
     ; I think this row is supposed to have one more 0 but they made it shared
     ; with the next 00 in the AncillaObjectAllocation table.
     ; $04006C
     .y
-    #_08806C: db -64,  64,   0
+    db -64,  64,   0
 }
 
 ; ==============================================================================

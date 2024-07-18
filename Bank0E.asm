@@ -11557,31 +11557,31 @@ PaletteBlackAndWhiteSomething:
 ; $0774EB-$0774F8 DATA
 Palettes_BlueThunder1:
 {
-    #_0EF4EB: dw  $0884,  $0CC7,  $150A,  $154D,  $7FF6,  $5944,  $7AD1
+    dw  $0884,  $0CC7,  $150A,  $154D,  $7FF6,  $5944,  $7AD1
 }
 
 ; $0774F9-$077506 DATA
 Palettes_BlueThunder2:
 {
-    #_0EF4F9: dw  $0884,  $0CC7,  $150A,  $154D,  $5BFF,  $7AD1,  $21AF
+    dw  $0884,  $0CC7,  $150A,  $154D,  $5BFF,  $7AD1,  $21AF
 }
 
 ; $077507-$077514 DATA
 Palettes_BlueThunder3:
 {
-    #_0EF507: dw  $1084,  $48C0,  $6186,  $7E6D,  $7FE0,  $5944,  $7E20
+    dw  $1084,  $48C0,  $6186,  $7E6D,  $7FE0,  $5944,  $7E20
 }
 
 ; $077515-$077522 DATA
 Palettes_BlueThunder4:
 {
-    #_0EF515: dw  $1084,  $000E,  $1059,  $291F,  $7FE0,  $5944,  $7E20
+    dw  $1084,  $000E,  $1059,  $291F,  $7FE0,  $5944,  $7E20
 }
 
 ; $077523-$077530 DATA
 Palettes_BlueThunder5:
 {
-    #_0EF523: dw  $1084,  $1508,  $196C,  $21AF,  $7FF6,  $1D4C,  $7AD1
+    dw  $1084,  $1508,  $196C,  $21AF,  $7FF6,  $1D4C,  $7AD1
 }
 
 ; $077531-$077580 DATA

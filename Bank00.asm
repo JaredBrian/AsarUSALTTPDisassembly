@@ -384,7 +384,7 @@ NMI_SwitchThread:
     ; $1F0A = X
     LDA.w $1F0A : TCS : STX.w $1F0A
     
-    ; Expect to end up at $09F81D after the RTI ;).
+    ; Expect to end up at $09F81D after the RTI.
     
     PLB : PLD : PLY : PLX : PLA
     
@@ -12986,12 +12986,12 @@ Decomp:
 ; $006852-$00687F DATA
 NULL_00E852:
 {
-    #_00E852: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_00E85A: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_00E862: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_00E86A: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_00E872: db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
-    #_00E87A: db $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF, $FF, $FF
+    db $FF, $FF, $FF, $FF, $FF, $FF
 }
 
 ; $006880-$00688B DATA

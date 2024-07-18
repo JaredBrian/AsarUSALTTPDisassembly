@@ -2908,15 +2908,15 @@ PitFall_Flags
 {
     ; $0392BF
     .ForAnimation:
-    #_0792BF: db $0A, $09, $06, $05, $08, $04, $02, $01
+    db $0A, $09, $06, $05, $08, $04, $02, $01
 
     ; $0392C7
     .ForDirection:
-    #_0792C7: db $05, $06, $09, $0A, $04, $08, $01, $02
+    db $05, $06, $09, $0A, $04, $08, $01, $02
 
     ; $0392CF
     .ForDetection:
-    #_0792CF: db $0C, $03, $0A, $05
+    db $0C, $03, $0A, $05
 }
 
 ; Link mode 0x01 - Link falling into a hole

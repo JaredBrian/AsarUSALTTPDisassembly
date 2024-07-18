@@ -330,10 +330,10 @@ Pool_Dungeon_LoadType1Object:
     dw $8FBC ; = $008FBC
     dw $8FA5 ; = $008FA5
     dw $8FA5 ; = $008FA5
-    dw $9298 ; = $009298
-    dw $9298 ; = $009298
-    dw $9298 ; = $009298
-    dw $9298 ; = $009298
+    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
+    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
+    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
+    dw RoomDraw_CheckIfWallIsMoved ; $9298 ; = $009298
     dw $8D9E ; = $008D9E
     
     ; 0xD8
@@ -728,11 +728,10 @@ Dungeon_DrawObjectOffsets:
 
 ; ==============================================================================
 
+; Loads dungeon room from start to finish.
 ; $00873A-$0088E3 LONG JUMP LOCATION
 Dungeon_LoadRoom:
 {
-    ; Loads dungeon room from start to finish.
-    
     JSR Dungeon_LoadHeader
     
     STZ.w $03F4
@@ -816,8 +815,8 @@ Dungeon_LoadRoom:
     LSR #2 : STA.b $00 : ASL A : CLC : ADC.b $00 : TAX
     
     ; The offset to the pointers for each layout.
-    LDA .layout_ptrs + 1, X : STA.b $B8
-    LDA .layout_ptrs + 0, X : STA.b $B7
+    LDA RoomDraw_LayoutPointers+1, X : STA.b $B8
+    LDA RoomDraw_LayoutPointers+0, X : STA.b $B7
     
     STZ.b $BA
     
@@ -1119,7 +1118,8 @@ Dungeon_DrawFloors:
     ; Y = 0 here always, Floor 2 in Hyrule Magic.
     LDA [$B7], Y : PHA : AND.w #$00F0 : STA.w $0490 : TAX
     
-    JSR.w $8A1F ; $008A1F IN ROM; Draws a 32 x 32 block of tiles to screen.
+    ; Draws a 32 x 32 block of tiles to screen.
+    JSR.w .nextQuadrant
     
     LDX.w #$001E
     
@@ -1148,7 +1148,7 @@ Dungeon_DrawFloors:
             LDA.w #$0008
             
             ; Tells the game to draw a 4 x 32 tile block across the screen.
-            JSR.w $8A44 ; $008A44 IN ROM
+            JSR.w RoomDraw_A_Many32x32Blocks
             
             ADC.w #$01C0 : TAY
         ; This loops 8 times. Thus, this draws a 32 x 32 tile block.
@@ -1163,14 +1163,13 @@ Dungeon_DrawFloors:
 
 ; ==============================================================================
 
+; $0A = How many times to perform this routine's goal.
+; The routine draws a 32x32 pixel block from right to left and then from up
+; to down. e.g. if $0A = 2 it will draw 2 32x32 pixels blocks from left to
+; right, if one were to start in the upper left corner.
 ; $008A44-$008A88 LOCAL JUMP LOCATION
 RoomDraw_A_Many32x32Blocks:
 {
-    ; $0A = How many times to perform this routine's goal.
-    ; The routine draws a 32x32 pixel block from right to left and then from up
-    ; to down. e.g. if $0A = 2 it will draw 2 32x32 pixels blocks from left to
-    ; right, if one were to start in the upper left corner.
-    
     STA.b $0A
     
     .next_block
@@ -1180,17 +1179,17 @@ RoomDraw_A_Many32x32Blocks:
         .nextRow
 
             ; These first four writes draw a 8 x 32 pixel block.
-            LDA.w $9B52, X : STA [$BF], Y
-            LDA.w $9B54, X : STA [$C2], Y
-            LDA.w $9B56, X : STA [$C5], Y
-            LDA.w $9B58, X : STA [$C8], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+            LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+            LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
+            LDA.w RoomDrawObjectData+06, X : STA [$C8], Y
             
             ; These next four draw another 8 x 32 pixel block directly below
             ; The first tiles. Thus all in all it draws a 16 x 32 pixel block.
-            LDA.w $9B5A, X : STA [$CB], Y
-            LDA.w $9B5C, X : STA [$CE], Y
-            LDA.w $9B5E, X : STA [$D1], Y
-            LDA.w $9B60, X : STA [$D4], Y
+            LDA.w RoomDrawObjectData+08, X : STA [$CB], Y
+            LDA.w RoomDrawObjectData+10, X : STA [$CE], Y
+            LDA.w RoomDrawObjectData+12, X : STA [$D1], Y
+            LDA.w RoomDrawObjectData+14, X : STA [$D4], Y
             
             ; Add enough to draw another 16 x 32 directly below the first.
             TYA : CLC : ADC.w #$0100 : TAY
@@ -1259,14 +1258,14 @@ RoomDraw_Downwards4x2_1to16_BothBG:
     
     .nextRow
     
-        LDA.w $9B52, Y : STA.l $7E4000, X : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E4002, X : STA.l $7E2002, X
-        LDA.w $9B56, Y : STA.l $7E4004, X : STA.l $7E2004, X
-        LDA.w $9B58, Y : STA.l $7E4006, X : STA.l $7E2006, X
-        LDA.w $9B5A, Y : STA.l $7E4080, X : STA.l $7E2080, X
-        LDA.w $9B5C, Y : STA.l $7E4082, X : STA.l $7E2082, X
-        LDA.w $9B5E, Y : STA.l $7E4084, X : STA.l $7E2084, X
-        LDA.w $9B60, Y : STA.l $7E4086, X : STA.l $7E2086, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4002, X : STA.l $7E2002, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4004, X : STA.l $7E2004, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4006, X : STA.l $7E2006, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E4080, X : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E4082, X : STA.l $7E2082, X
+        LDA.w RoomDrawObjectData+12, Y : STA.l $7E4084, X : STA.l $7E2084, X
+        LDA.w RoomDrawObjectData+14, Y : STA.l $7E4086, X : STA.l $7E2086, X
         
         TXA : CLC : ADC.w #$0100 : TAX
     DEC.b $B2 : BNE .nextRow
@@ -1286,14 +1285,14 @@ Object_Draw4x2s_AdvanceRight_from_1_to_16_BothBgs:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E4000, X : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E4180, X : STA.l $7E2180, X
-        LDA.w $9B5A, Y : STA.l $7E4002, X : STA.l $7E2002, X
-        LDA.w $9B5C, Y : STA.l $7E4082, X : STA.l $7E2082, X
-        LDA.w $9B5E, Y : STA.l $7E4102, X : STA.l $7E2102, X
-        LDA.w $9B60, Y : STA.l $7E4182, X : STA.l $7E2182, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4180, X : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E4002, X : STA.l $7E2002, X
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E4082, X : STA.l $7E2082, X
+        LDA.w RoomDrawObjectData+12, Y : STA.l $7E4102, X : STA.l $7E2102, X
+        LDA.w RoomDrawObjectData+14, Y : STA.l $7E4182, X : STA.l $7E2182, X
         
         INX #4
     DEC.b $B2 : BNE .nextColumn
@@ -1368,7 +1367,7 @@ Object_DrawRectOf1x1s:
         
         .nextColumnBlock
         
-            LDA.w $9B52, X
+            LDA.w RoomDrawObjectData, X
             STA [$BF], Y : STA [$C2], Y
             STA [$C5], Y : STA [$C8], Y
             STA [$CB], Y : STA [$CE], Y
@@ -1376,7 +1375,7 @@ Object_DrawRectOf1x1s:
             
             TYA : CLC : ADC.w #$0100 : TAY
             
-            LDA.w $9B52, X
+            LDA.w RoomDrawObjectData, X
             STA [$BF], Y : STA [$C2], Y
             STA [$C5], Y : STA [$C8], Y
             STA [$CB], Y : STA [$CE], Y
@@ -1402,7 +1401,7 @@ RoomDraw_DiagonalCeilingTopLeftA:
     
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         ADC.w #$0080 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1423,7 +1422,7 @@ RoomDraw_DiagonalCeilingBottomLeftA:
     
         LDA.b $B4
         
-        JSR.w $B2D0 ; $00B2D0 IN ROM
+        JSR.w RoomDraw_Repeated1x1
         
         ADC.w #$0080 : STA.b $08 : TAY
         
@@ -1442,7 +1441,7 @@ RoomDraw_DiagonalCeilingTopRightA:
     
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         ADC.w #$0082 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1459,7 +1458,7 @@ RoomDraw_DiagonalCeilingBottomRightA:
     
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         SEC : SBC.w #$007E : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1508,7 +1507,7 @@ RoomDraw_DiagonalAcute_1to16:
     
     ; In reality, the width will range from 6 to 21, because of preincrementing
     ; in this destination.
-    JMP.w $B2AA ; $00B2AA IN ROM
+    JMP.w RoomDraw_DrawDiagonalAcute_start
 }
 
 ; $008C61-$008C69 JUMP LOCATION
@@ -1521,7 +1520,7 @@ RoomDraw_DiagonalGrave_1to16:
     
     ; In reality, the width will range from 6 to 21, because of preincrementing
     ; in this destination.
-    JMP.w $B29C ; $00B29C IN ROM
+    JMP.w RoomDraw_DrawDiagonalGrave_start
 }
 
 ; $008C6A-$008CB8 JUMP LOCATION
@@ -1543,11 +1542,11 @@ RoomDraw_DiagonalAcute_1to16_BothBG:
     
     .loop
     
-        LDA.w $9B52, Y : STA.l $7E4000, X : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E4180, X : STA.l $7E2180, X
-        LDA.w $9B5A, Y : STA.l $7E4200, X : STA.l $7E2200, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4180, X : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E4200, X : STA.l $7E2200, X
         
         TXA : CLC : ADC.b $0E : TAX
     DEC.b $B2 : BNE .loop
@@ -1577,7 +1576,7 @@ RoomDraw_ClosedChestPlatform:
     
     INC.b $B4
     
-    JSR.w $8D47 ; $008D47 IN ROM
+    JSR.w RoomDraw_ChestPlatformHorizontalWallWithCorners
     
     STX.w $0006
     
@@ -1618,7 +1617,7 @@ RoomDraw_ClosedChestPlatform:
     
     LDA.b $B2 : STA.b $0A
     
-    JSR.w $8D47 ; $008D47 IN ROM
+    JSR.w RoomDraw_ChestPlatformHorizontalWallWithCorners
     
     LDA.w #$FF80
     
@@ -1641,7 +1640,7 @@ RoomDraw_ClosedChestPlatform:
 ; $008D47-$008D5C LOCAL JUMP LOCATION
 RoomDraw_ChestPlatformHorizontalWallWithCorners:
 {
-    JSR.w $9216 ; $009216 IN ROM
+    JSR.w RoomDraw_ChestPlatformCorner
     
     .next_block
     
@@ -1652,7 +1651,7 @@ RoomDraw_ChestPlatformHorizontalWallWithCorners:
         TXA : SEC : SBC.w #$000C : TAX
     DEC.b $0A : BNE .next_block
     
-    JMP.w $9211 ; $009211 IN ROM
+    JMP.w RoomDraw_ChestPlatformCorner_advance_from_A
 }
 
 ; $008D5D-$008D7F JUMP LOCATION
@@ -1686,9 +1685,9 @@ Object_Draw3xN:
     
     .next_column
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$CB], Y
-        LDA.w $9B56, X : STA [$D7], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
         
         TXA : CLC : ADC.w #$0006 : TAX
         
@@ -1710,7 +1709,7 @@ RoomDraw_3x3FloorIn4x4SuperSquare:
         
         .next_block_to_the_right
         
-            LDA.w $9B52, X
+            LDA.w RoomDrawObjectData+00, X
             
             ; Draw a 2x3 block.
             STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
@@ -1718,7 +1717,7 @@ RoomDraw_3x3FloorIn4x4SuperSquare:
             
             TYA : CLC : ADC.w #$0100 : TAY
             
-            LDA.w $9B52, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$BF], Y : STA [$C2], Y : STA [$C5], Y
             
             TYA : SEC : SBC.w #$00FA : TAY
         DEC.b $0A : BNE .next_block_to_the_right
@@ -1748,7 +1747,7 @@ Object_Hole:
     ; This loop draws the transparent portion.
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         STA.b $0C
         
@@ -1766,9 +1765,9 @@ Object_Hole:
     
         LDA.b $B2 : DEC #2 : STA.b $0A
         
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
-        LDA.w $9B54, X
+        LDA.w RoomDrawObjectData+02, X
         
         .nextColumn
         
@@ -1777,7 +1776,7 @@ Object_Hole:
             INY #2
         DEC.b $0A : BNE .nextColumn
         
-        LDA.w $9B56, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$C2], Y
         
         TXA : CLC : ADC.w #$0006 : TAX
         
@@ -1809,7 +1808,7 @@ Object_Hole:
         
         .nextRow2
         
-            LDA.w $9B52, X : STA [$BF], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
             
             TYA : CLC : ADC.w #$0080 : TAY
         DEC.b $0A : BNE .nextRow2
@@ -1833,7 +1832,7 @@ RoomDraw_DiagonalCeilingTopLeftB:
     
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         ADC.w #$0080 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1854,7 +1853,7 @@ RoomDraw_DiagonalCeilingBottomLeftB:
     
         LDA.b $B4
         
-        JSR.w $B2D0 ; $00B2D0 IN ROM
+        JSR.w RoomDraw_Repeated1x1
         
         ADC.w #$0080 : STA.b $08 : TAY
         
@@ -1873,7 +1872,7 @@ RoomDraw_DiagonalCeilingTopRightB:
     
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         ADC.w #$0082 : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1890,7 +1889,7 @@ RoomDraw_DiagonalCeilingBottomRightB:
     
     .nextRow
     
-        JSR.w $B2CE ; $00B2CE IN ROM
+        JSR.w RoomDraw_Repeated1x1_CachedCount
         
         SEC : SBC.w #$007E : STA.b $08 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -1917,9 +1916,8 @@ RoomDraw_DownwardsHasEdge1x1_1to16_plus3:
     
     LDA.w #$00E3
     
-    ; $00B191 IN ROM
-    JSR.w $B191 : BCC .dontOverwrite
-        LDA.w $9B52, X : STA [$BF], Y
+    JSR.w RoomDraw_SmallRailCorner : BCC .dontOverwrite
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
     
     .dontOverwrite
 
@@ -1927,10 +1925,10 @@ RoomDraw_DownwardsHasEdge1x1_1to16_plus3:
     
         TYA : CLC : ADC.w #$0080 : TAY
         
-        LDA.w $9B54, X : STA [$BF], Y 
+        LDA.w RoomDrawObjectData+02, X : STA [$BF], Y 
     DEC.b $B2 : BNE .nextTile
     
-    LDA.w $9B56, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$CB], Y
     
     RTS
 }
@@ -1955,16 +1953,15 @@ Object_HorizontalRail:
     
     LDA.w #$00E2
     
-    ; $00B191 IN ROM
-    JSR.w $B191 : BCC .beta
+    JSR.w RoomDraw_SmallRailCorner : BCC .beta
         ; If the current tile CHR is not equal to 0x00E2, draw this tile.
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
     
     .beta
     
-    JSR.w $B2CA ; $00B2CA IN ROM
+    JSR.w RoomDraw_Repeated1x1_AdvanceWithCachedCount
     
-    LDA.w $9B54, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$BF], Y
     
     RTS
 }
@@ -1980,8 +1977,8 @@ RoomDraw_DownwardsBigRail3x1_1to16plus5:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -2012,9 +2009,9 @@ RoomDraw_RightwardsBigRail1x3_1to16plus5:
     
     .loop
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$CB], Y
-        LDA.w $9B56, X : STA [$D7], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
         
         INY #2
     DEC.b $B2 : BNE .loop
@@ -2033,19 +2030,18 @@ RoomDraw_RightwardsHasEdge1x1_1to16_plus2:
     
     LDA.w #$01DB
     
-    ; $00B191 IN ROM
     ; If(grabbed byte == 0x01DB)
-    JSR.w $B191 : BCC .BRANCH_ALPHA
+    JSR.w RoomDraw_SmallRailCorner : BCC .BRANCH_ALPHA
         CMP.w #$01A6 : BEQ .BRANCH_ALPHA
         CMP.w #$01DD : BEQ .BRANCH_ALPHA
         CMP.w #$01FC : BEQ .BRANCH_ALPHA
-            LDA.w $9B52, X : STA [$BF], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
     
     .BRANCH_ALPHA
     
-    JSR.w $B2CA ; $00B2CA IN ROM
+    JSR.w RoomDraw_Repeated1x1_AdvanceWithCachedCount
     
-    LDA.w $9B54, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$BF], Y
     
     RTS
 }
@@ -2057,7 +2053,7 @@ RoomDraw_DownwardsEdge1x1_1to16:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -2091,7 +2087,7 @@ RoomDraw_4x4FloorIn4x4SuperSquare:
     
     LDA.b $B2
     
-        JSR.w $8A44 ; $008A44 IN ROM
+        JSR.w RoomDraw_A_Many32x32Blocks
         
         LDA.b $08 : CLC : ADC.w #$0200 : STA.b $08 : TAY
     DEC.b $B4 : BNE .next_block
@@ -2112,7 +2108,7 @@ RoomDraw_RightwardsTopCorners1x2_1to16_plus13:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA.w $9B52, X : STA.b $0E
+    LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
@@ -2125,7 +2121,7 @@ RoomDraw_RightwardsTopCorners1x2_1to16_plus13:
     
     .nextColumn
     
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
         LDA.b $0E : STA [$CB], Y
         
@@ -2136,8 +2132,8 @@ RoomDraw_RightwardsTopCorners1x2_1to16_plus13:
     
     .draw_2x2_at_endpoint
     
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
     
     LDA.b $0E : STA [$CB], Y : STA [$CE], Y
     
@@ -2153,7 +2149,7 @@ RoomDraw_RightwardsBottomCorners1x2_1to16_plus13:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA.w $9B52, X : STA.b $0E
+    LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
@@ -2167,7 +2163,7 @@ RoomDraw_RightwardsBottomCorners1x2_1to16_plus13:
     .nextColumn
     
         LDA.b $0E      : STA [$BF], Y
-        LDA.w $9B52, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$CB], Y
         
         INY #2
     DEC.b $B2 : BNE .nextColumn
@@ -2178,8 +2174,8 @@ RoomDraw_RightwardsBottomCorners1x2_1to16_plus13:
     
     LDA.b $0E      : STA [$BF], Y
                      STA [$C2], Y
-    LDA.w $9B52, X : STA [$CB], Y
-    LDA.w $9B54, X : STA [$CE], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CE], Y
     
     INY #4
     
@@ -2193,7 +2189,7 @@ RoomDraw_DownwardsLeftCorners2x1_1to16_plus12:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA.w $9B52, X : STA.b $0E
+    LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
@@ -2206,7 +2202,7 @@ RoomDraw_DownwardsLeftCorners2x1_1to16_plus12:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         LDA.b $0E      : STA [$C2], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
@@ -2216,8 +2212,8 @@ RoomDraw_DownwardsLeftCorners2x1_1to16_plus12:
     
     .draw_2x2_at_endpoint
     
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
     
     LDA.b $0E : STA [$C2], Y
                 STA [$CE], Y
@@ -2234,7 +2230,7 @@ RoomDraw_DownwardsRightCorners2x1_1to16_plus12:
     
     JSR Object_Size_N_to_N_plus_15
     
-    LDA.w $9B52, X : STA.b $0E
+    LDA.w RoomDrawObjectData+00, X : STA.b $0E
     
     INX #2
     
@@ -2248,7 +2244,7 @@ RoomDraw_DownwardsRightCorners2x1_1to16_plus12:
     .nextRow
     
         LDA.b $0E      : STA [$BF], Y
-        LDA.w $9B52, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$C2], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -2259,8 +2255,8 @@ RoomDraw_DownwardsRightCorners2x1_1to16_plus12:
     
     LDA.b $0E : STA [$BF], Y : STA [$CB], Y
     
-    LDA.w $9B52, X : STA [$C2], Y
-    LDA.w $9B54, X : STA [$CE], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CE], Y
     
     TYA : CLC : ADC.w #$0100 : TAY
     
@@ -2274,7 +2270,7 @@ RoomDraw_RightwardsEdge1x1_1to16plus7:
     
     JSR Object_Size_N_to_N_plus_15
     
-    JMP.w $B2CE ; $00B2CE IN ROM
+    JMP.w RoomDraw_Repeated1x1_CachedCount
 }
 
 ; $0090E2-$0090F7 JUMP LOCATION
@@ -2286,7 +2282,7 @@ RoomDraw_DownwardsEdge1x1_1to16plus7:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -2345,7 +2341,7 @@ RoomDraw_Downwards1x1Solid_1to16_plus3:
     
     .loop
     
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .loop
@@ -2359,7 +2355,7 @@ RoomDraw_Rightwards1x1Solid_1to16_plus3:
     LDA.w #$0004
     
     JSR Object_Size_N_to_N_plus_15
-    JMP.w $B2CE ; $00B2CE IN ROM
+    JMP.w RoomDraw_Repeated1x1_CachedCount
 }
 
 ; $00913F-$00918E JUMP LOCATION
@@ -2396,7 +2392,7 @@ RoomDraw_DoorSwitcherer:
         LDA.w #$0003 : STA.b $0E
         
         ; Draw a 4x3 region of tiles.
-        JSR.w $AC1A ; $00AC1A IN ROM
+        JSR.w DrawUnusedDoorSwitchObject
         
         ; This load of Y is also ignored.
         LDY.w #$0052
@@ -2415,7 +2411,7 @@ RoomDraw_DoorSwitcherer:
         
         ; I'm fairly certain that his is overwriting the 4x3 region
         ; we drew earlier... wtf?
-        JSR.w $AB78 ; $00AB78 IN ROM
+        JSR.w RoomDraw_DrawUnreachableDoorSwitcher
         
         RTS
     
@@ -2438,8 +2434,7 @@ Object_HiddenWallRight:
 {
     ; Hidden wall (facing right)
     
-    ; $009298 IN ROM
-    JSR.w $9298 : BCS .drawWall
+    JSR.w RoomDraw_CheckIfWallIsMoved : BCS .drawWall
         RTS
     
     .drawWall
@@ -2451,13 +2446,13 @@ Object_HiddenWallRight:
     
     LDA.b $B2 : ASL A : TAY
     
-    LDA.w $9B0A, Y : PHA
+    LDA.w RoomDraw_MovingWallDirection, Y : PHA
     
     ASL A : ADC.w #$0004 : STA.b $0E
     
     LDA.b $B4 : ASL A : STA.w $041E : TAY
     
-    LDA.w $9B12, Y : STA.b $0C : TAY
+    LDA.w MovingWallObjectCount, Y : STA.b $0C : TAY
     
     LDA.b $08
     
@@ -2476,29 +2471,29 @@ Object_HiddenWallRight:
         
         LDY.b $06
         
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
 
         .BRANCH_GAMMA
 
-            LDA.w $9B54, X : STA [$CB], Y
+            LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
             
             TYA : CLC : ADC.w #$0080 : TAY
         DEC.b $0A : BNE .BRANCH_GAMMA
         
-        LDA.w $9B56, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$CB], Y
         
         INC.b $06 : INC.b $06
     DEC.b $0C : BNE .BRANCH_DELTA
     
     PLA : DEC #2 : STA.b $06 : TAY
     
-    JSR.w $92D1 ; $0092D1 IN ROM 
+    JSR.w MovingWall_FillReplacementBuffer
     
     LDY.b $08
     
     LDX.w #$072A
     
-    JSR.w $9216 ; $009216 IN ROM
+    JSR.w RoomDraw_ChestPlatformCorner
     
     PLA : STA.b $0E
     
@@ -2514,7 +2509,7 @@ Object_HiddenWallRight:
     ; Bleeds into the next function.
 }
 
-; $009210 ALTERNATE ENTRY POINT
+; $009210-$009210 JUMP LOCATION
 RoomDraw_ChestPlatformCorner_advance_from_X:
 {
     TXA
@@ -2522,7 +2517,7 @@ RoomDraw_ChestPlatformCorner_advance_from_X:
     ; Bleeds into the next function.
 }
     
-; $009211 ALTERNATE ENTRY POINT
+; $009211-$009215 JUMP LOCATION
 RoomDraw_ChestPlatformCorner_advance_from_A:
 {   
     CLC : ADC.w #$000C : TAX
@@ -2530,7 +2525,7 @@ RoomDraw_ChestPlatformCorner_advance_from_A:
     ; Bleeds into the next function.
 }
 
-; $009216 ALTERNATE ENTRY POINT
+; $009216-$00921B JUMP LOCATION
 RoomDraw_ChestPlatformCorner:
 {
     LDA.w #$0003
@@ -2538,13 +2533,11 @@ RoomDraw_ChestPlatformCorner:
     JMP Object_Draw3xN
 }
 
+; Hidden wall (facing left)
 ; $00921C-$009297 JUMP LOCATION
 Object_HiddenWallLeft:
 {
-    ; Hidden wall (facing left)
-    
-    ; $009298 IN ROM
-    JSR.w $9298 : BCS .drawWall
+    JSR.w RoomDraw_CheckIfWallIsMoved : BCS .drawWall
         RTS
     
     .drawWall
@@ -2555,11 +2548,11 @@ Object_HiddenWallLeft:
     
     LDX.w #$075A
     
-    JSR.w $9216 ; $009216 IN ROM
+    JSR.w RoomDraw_ChestPlatformCorner
     
     LDA.b $B2 : ASL A : TAY
     
-    LDA.w $9B0A, Y : STA.b $0E : PHA
+    LDA.w RoomDraw_MovingWallDirection, Y : STA.b $0E : PHA
     
     LDA.b $08 : CLC : ADC.w #$0180 : TAY
     
@@ -2570,13 +2563,13 @@ Object_HiddenWallLeft:
         TYA : CLC : ADC.w #$0100 : TAY
     DEC.b $0E : BNE .BRANCH_BETA
     
-    JSR.w $9210 ; $009210 IN ROM
+    JSR.w RoomDraw_ChestPlatformCorner_advance_from_X
     
     PLA : ASL A : ADC.w #$0004 : STA.b $0E
     
     LDA.b $B4 : ASL A : STA.w $041E : TAY
     
-    LDA.w $9B12, Y : STA.b $0C
+    LDA.w MovingWallObjectCount, Y : STA.b $0C
     
     LDA.b $08 : CLC : ADC.w #$0006 : STA.b $06
     
@@ -2588,32 +2581,31 @@ Object_HiddenWallLeft:
         
         LDY.b $06
         
-        LDA.w $9B52, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
         .BRANCH_GAMMA
         
-            LDA.w $9B54, X : STA [$CB], Y
+            LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
             
             TYA : CLC : ADC.w #$0080 : TAY
         DEC.b $0A : BNE .BRANCH_GAMMA
         
-        LDA.w $9B56, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$CB], Y
         
         INC.b $06 : INC.b $06
     DEC.b $0C : BNE .BRANCH_DELTA
     
     LDY.b $06
     
-    JMP.w $92D1 ; $0092D1 IN ROM
+    JMP.w MovingWall_FillReplacementBuffer
 }
 
 ; ==============================================================================
 
+; Objects (1.1.0xD3, 1.1.0xD4, 1.1.0xD5, 1.1.0xD6)
 ; $009298-$0092D0 JUMP LOCATION
 RoomDraw_CheckIfWallIsMoved:
 {
-    ; Objects (1.1.0xD3, 1.1.0xD4, 1.1.0xD5, 1.1.0xD6)
-    
     STZ.w $041C
     STZ.w $041A
     
@@ -2639,7 +2631,7 @@ RoomDraw_CheckIfWallIsMoved:
     CMP.b #$20 : BCS .notHiddenWallScript
         .isHiddenWallScript
     
-        LDA.w $0403 : AND.w $98C7, Y : BEQ .notYetTriggered
+        LDA.w $0403 : AND.w DoorFlagMasks-1, Y : BEQ .notYetTriggered
             STZ.w $046C
             STZ.b $AE, X
             STZ.w $0414
@@ -2911,16 +2903,16 @@ RoomDraw_TableRock4x4_1to16:
     ; = 1 to 7
     ASL.b $B4 : INC.b $B4
     
-    JSR.w $93FF ; $0093FF IN ROM
+    JSR.w .draw_rock_segment
     
     INX #8
     
     .loop
     
-        JSR.w $93FF ; $0093FF IN ROM
+        JSR.w .draw_rock_segment
     DEC.b $B4 : BNE .loop
     
-    JSR.w $93F7 ; $0093F7 IN ROM
+    JSR.w .draw_rock_segment_with_advance
     
     ; $0093F7 ALTERNATE ENTRY POINT
     .draw_rock_segment_with_advance
@@ -2932,17 +2924,17 @@ RoomDraw_TableRock4x4_1to16:
     
     LDA.b $B2 : STA.b $0E
     
-    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
     
     .loop2
     
-        LDA.w $9B54, X : STA [$C2], Y
-        LDA.w $9B56, X : STA [$C5], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
         
         INY #4
     DEC.b $0E : BNE .loop2
     
-    LDA.w $9B58, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+06, X : STA [$C2], Y
     
     LDA.b $08 : CLC : ADC.w #$0080 : STA.b $08 : TAY
     
@@ -3055,9 +3047,9 @@ RoomDraw_Waterfall48:
     
     .nextColumn
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$CB], Y
-        LDA.w $9B56, X : STA [$D7], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
         
         INY #2
     DEC.b $B2 : BNE .nextColumn
@@ -3140,17 +3132,17 @@ Object_Water:
 {
     LDA.b $B2 : ASL A : TAX
     
-    LDA.w $9B3A, X : STA.b $B2
+    LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B2
     
-    LDA.w $9B42, X : STA.w $0686
+    LDA.w WaterOverlayHDMASize, X : STA.w $0686
     
     LDA.b $B4 : ASL A : TAX
     
-    LDA.w $9B3A, X : STA.b $B4
+    LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B4
     
     ; Looks like all these $06xx addreses are calculated for hdma of the 
     ; water (for rooms that have a script for that).
-    LDA.w $9B42, X  : STA.w $0684
+    LDA.w WaterOverlayHDMASize, X  : STA.w $0684
     SEC : SBC.w #$0018 : STA.w $0688
     
     TYA : AND.w #$007E : ASL #2 : STA.w $0680
@@ -3164,7 +3156,7 @@ Object_Water:
     SEP #$30
     
     ; (AND with 0x08)
-    LDA.w $0403 : AND.w $98C9 : BEQ RoomTag_WaterOff_AdjustWater_notTriggered
+    LDA.w $0403 : AND.w DoorFlagMasks+1 : BEQ RoomTag_WaterOff_AdjustWater_notTriggered
         STZ.b $AF
         STZ.w $0414
         
@@ -3200,10 +3192,10 @@ RoomTag_WaterOff_AdjustWater:
         
         .loop
         
-            LDA.w $9B52, Y : STA.l $7E2000, X
-            LDA.w $9B54, Y : STA.l $7E2002, X
-            LDA.w $9B56, Y : STA.l $7E2004, X
-            LDA.w $9B58, Y : STA.l $7E2006, X
+            LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X
+            LDA.w RoomDrawObjectData+04, Y : STA.l $7E2004, X
+            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2006, X
             
             TYA : CLC : ADC.w #$0008 : TAY
             
@@ -3224,7 +3216,7 @@ RoomTag_WaterOff_AdjustWater:
     
         LDA.b $B2
         
-        JSR.w $8A44 ; $008A44 IN ROM
+        JSR.w RoomDraw_A_Many32x32Blocks
         
         LDA.b $08 : CLC : ADC.w #$0200 : STA.b $08 : TAY
     DEC.b $B4 : BNE .loop2
@@ -3240,15 +3232,15 @@ RoomDraw_WaterOverlayB8x8_1to16:
     LDA.b $B2 : ASL A : TAX
     
     ; Use the initial height to index into a table to get the actual height.
-    LDA.w $9B3A, X : STA.b $B2
+    LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B2
     
-    LDA.w $9B42, X : SEC : SBC.w #$0018 : STA.w $0686
+    LDA.w WaterOverlayHDMASize, X : SEC : SBC.w #$0018 : STA.w $0686
     
     LDA.b $B4 : ASL A : TAX
     
-    LDA.w $9B3A, X : STA.b $B4
+    LDA.w WaterOverlayHDMAPositionOffset, X : STA.b $B4
     
-    LDA.w $9B42, X : SEC : SBC.w #$0008 : STA.w $0688
+    LDA.w WaterOverlayHDMASize, X : SEC : SBC.w #$0008 : STA.w $0688
     
     SEC : SBC.w #$0018 : STA.w $0684
     
@@ -3266,7 +3258,7 @@ RoomDraw_WaterOverlayB8x8_1to16:
     
     SEP #$30
     
-    LDA.w $0403 : AND.w $98C9 : BEQ .alpha
+    LDA.w $0403 : AND.w DoorFlagMasks+1 : BEQ .alpha
         STZ.b $AF
         
         BRA .BRANCH_BETA
@@ -3292,7 +3284,7 @@ RoomDraw_WaterOverlayB8x8_1to16:
     
     LDA.b $B4 : ASL A : TAX
     
-    LDA.w $9B46, X : STA.b $04
+    LDA.w WaterOverlayObjectCount, X : STA.b $04
     
     LDX.w #$0110
     
@@ -3304,14 +3296,14 @@ RoomDraw_WaterOverlayB8x8_1to16:
         
         .loop2
         
-            LDA.w $9B52, X : STA [$BF], Y
-            LDA.w $9B54, X : STA [$C2], Y
-            LDA.w $9B56, X : STA [$C5], Y
-            LDA.w $9B58, X : STA [$C8], Y
-            LDA.w $9B5A, X : STA [$CB], Y
-            LDA.w $9B5C, X : STA [$CE], Y
-            LDA.w $9B5E, X : STA [$D1], Y
-            LDA.w $9B60, X : STA [$D4], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+            LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+            LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
+            LDA.w RoomDrawObjectData+06, X : STA [$C8], Y
+            LDA.w RoomDrawObjectData+08, X : STA [$CB], Y
+            LDA.w RoomDrawObjectData+10, X : STA [$CE], Y
+            LDA.w RoomDrawObjectData+12, X : STA [$D1], Y
+            LDA.w RoomDrawObjectData+14, X : STA [$D4], Y
             
             INY #8
         DEC.b $0A : BNE .loop2
@@ -3331,7 +3323,7 @@ RoomDraw_RightwardsLine1x1_1to16plus1:
     
     INC.b $B2
     
-    JMP.w $B2CE ; $00B2CE IN ROM
+    JMP.w RoomDraw_Repeated1x1_CachedCount
 }
 
 ; ==============================================================================
@@ -3345,7 +3337,7 @@ RoomDraw_DownwardsLine1x1_1to16plus1:
     
     .next_block
     
-        LDA.w $95B2, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .next_block
@@ -3442,24 +3434,25 @@ RoomDraw_OpenChestPlatform:
     
     .BRANCH_DELTA
     
-        JSR.w $975C ; $00975C IN ROM
+        JSR.w .draw_segment
     DEC.b $B4 : BNE .BRANCH_DELTA
     
     INY #2
     
-    JSR.w $975C ; $00975C IN ROM
+    JSR.w .draw_segment
     
     INY #2
     
     ; $00975C ALTERNATE ENTRY POINT
+    .draw_segment
     
     PHX
     
     LDA.b $B2 : STA.b $0A
     
-    LDA.w $9B52, Y : STA.l $7E2000, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
     
-    LDA.w $9B58, Y
+    LDA.w RoomDrawObjectData+06, Y
     
     .BRANCH_BETA
     
@@ -3468,17 +3461,17 @@ RoomDraw_OpenChestPlatform:
         INX #2
     DEC.b $0A : BNE .BRANCH_BETA
     
-    LDA.w $9B5E, Y : STA.l $7E2002, X
+    LDA.w RoomDrawObjectData+12, Y : STA.l $7E2002, X
     
-    LDA.w $9B64, Y
+    LDA.w RoomDrawObjectData+18, Y
     STA.l $7E2004, X : STA.l $7E2006, X
     STA.l $7E2008, X : STA.l $7E200A, X
     
     LDA.b $B2 : STA.b $0A
     
-    LDA.w $9B6A, Y : STA.l $7E200C, X
+    LDA.w RoomDrawObjectData+24, Y : STA.l $7E200C, X
     
-    LDA.w $9B70, Y
+    LDA.w RoomDrawObjectData+30, Y
     
     .BRANCH_GAMMA
     
@@ -3487,7 +3480,7 @@ RoomDraw_OpenChestPlatform:
         INX #2
     DEC.b $0A : BNE .BRANCH_GAMMA
     
-    LDA.w $9B76, Y : STA.l $7E200E, X
+    LDA.w RoomDrawObjectData+36, Y : STA.l $7E200E, X
     
     PLA : CLC : ADC.w #$0080 : TAX
     
@@ -3505,13 +3498,13 @@ RoomDraw_DownwardsBar2x5_1to16:
     
     ASL.b $B2
     
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
     
     .nextRow
     
-        LDA.w $9B56, X : STA [$CB], Y
-        LDA.w $9B58, X : STA [$CE], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$CE], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $B2 : BNE .nextRow
@@ -3554,10 +3547,10 @@ Object_Draw4xN:
     
     .nextColumn
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$CB], Y
-        LDA.w $9B56, X : STA [$D7], Y
-        LDA.w $9B58, X : STA [$DA], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$DA], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -3583,10 +3576,10 @@ Object_Draw4x4_BothBgs:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E4000, X : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E4180, X : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4180, X : STA.l $7E2180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -3618,9 +3611,9 @@ Object_Draw3x4_BothBgs:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E4000, X : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X : STA.l $7E2100, X
         
         TYA : CLC : ADC.w #$0006 : TAY
         
@@ -3644,10 +3637,10 @@ RoomDraw_LitTorch:
 ; $009895 JUMP LOCATION
 Object_Draw2x2:
 {
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$CB], Y
-    LDA.w $9B56, X : STA [$C2], Y
-    LDA.w $9B58, X : STA [$CE], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+06, X : STA [$CE], Y
     
     INY #4
     
@@ -3656,18 +3649,17 @@ Object_Draw2x2:
 
 ; ==============================================================================
 
+; Big Key Lock
+; Type 1 Subtype 3 Index 0x18
+; Concern: do these not work on BG0?
 ; $0098AE-$0098CF JUMP LOCATION
 Object_BigKeyLock:
 {
-    ; Big Key Lock
-    ; Type 1 Subtype 3 Index 0x18
-    ; Concern: do these not work on BG0?
-    
     LDX.w $0498
     
     TYA : STA.w $06E0, X
     
-    LDA.w $0402 : AND.w $9900, X : BNE .alreadyOpened
+    LDA.w $0402 : AND.w $0, X : BNE .alreadyOpened
         INX #2 : STX.w $0498
         
         LDX.w #$1494
@@ -3910,13 +3902,13 @@ Object_Draw7x8:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X
-        LDA.w $9B5A, Y : STA.l $7E2200, X
-        LDA.w $9B5C, Y : STA.l $7E2280, X
-        LDA.w $9B5E, Y : STA.l $7E2300, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E2200, X
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E2280, X
+        LDA.w RoomDrawObjectData+12, Y : STA.l $7E2300, X
         
         TYA : CLC : ADC.w #$000E : TAY
         
@@ -4013,9 +4005,9 @@ Object_Rupees:
 
         .moveTwoColumnsRight
         
-            LDA.w $9B52, Y
+            LDA.w RoomDrawObjectData+00, Y
             STA.l $7E2000, X : STA.l $7E2180, X : STA.l $7E2300, X
-            LDA.w $9B54, Y
+            LDA.w RoomDrawObjectData+02, Y
             STA.l $7E2080, X : STA.l $7E2200, X : STA.l $7E2380, X
             
             INX #4
@@ -4035,10 +4027,10 @@ Object_Draw5x4:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$C2], Y
-        LDA.w $9B56, X : STA [$C5], Y
-        LDA.w $9B58, X : STA [$C8], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$C8], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -4121,7 +4113,7 @@ Object_SanctuaryMantle:
     
     .nextRow
     
-        LDA.w $9B52, Y
+        LDA.w RoomDrawObjectData+00, Y
         
         STA.l $7E2000, X : STA.l $7E2008, X
         STA.l $7E2010, X : STA.l $7E201C, X
@@ -4133,7 +4125,7 @@ Object_SanctuaryMantle:
         STA.l $7E2012, X : STA.l $7E201E, X
         STA.l $7E2026, X : STA.l $7E202E, X
         
-        LDA.w $9B5E, Y
+        LDA.w RoomDrawObjectData+12, Y
         
         STA.l $7E2004, X : STA.l $7E200C, X
         STA.l $7E2020, X : STA.l $7E2028, X
@@ -4162,12 +4154,12 @@ Object_SanctuaryMantle:
 ; $009BD9-$009BF7 LOCAL JUMP LOCATION
 Object_Draw2x3:
 {
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$C2], Y
-    LDA.w $9B56, X : STA [$C5], Y
-    LDA.w $9B58, X : STA [$CB], Y
-    LDA.w $9B5A, X : STA [$CE], Y
-    LDA.w $9B5C, X : STA [$D1], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
+    LDA.w RoomDrawObjectData+06, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+08, X : STA [$CE], Y
+    LDA.w RoomDrawObjectData+10, X : STA [$D1], Y
     
     RTS
 }
@@ -4229,7 +4221,7 @@ RoomDraw_SomariaLine_increment_count:
 ; $009C3E ALTERNATE ENTRY POINT
 Object_Draw1x1:
 {
-    LDA.w $9B52, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
     
     RTS
 }
@@ -4253,21 +4245,21 @@ Object_PrisonBars:
     
     .nextColumn
     
-        LDA.w $9B54, Y : STA.l $7E2004, X :                STA.l $7E2012, X
-        LDA.w $9B56, Y : STA.l $7E2084, X : ORA.w #$4000 : STA.l $7E2092, X
-        LDA.w $9B5A, Y : STA.l $7E2104, X : ORA.w #$4000 : STA.l $7E2112, X
-        LDA.w $9B5C, Y : STA.l $7E2184, X : ORA.w #$4000 : STA.l $7E2192, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2004, X :                STA.l $7E2012, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2084, X : ORA.w #$4000 : STA.l $7E2092, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E2104, X : ORA.w #$4000 : STA.l $7E2112, X
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E2184, X : ORA.w #$4000 : STA.l $7E2192, X
         
         INX #2
     DEC.b $0C : BNE .nextColumn
     
     PLX
     
-    LDA.w $9B52, Y : STA.l $7E2000, X : ORA.w #$4000 : STA.l $7E201E, X
-    LDA.w $9B54, Y : STA.l $7E2002, X                : STA.l $7E200E, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : ORA.w #$4000 : STA.l $7E201E, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X                : STA.l $7E200E, X
                                                        STA.l $7E2010, X
                                                        STA.l $7E201C, X
-    LDA.w $9B58, Y : STA.l $7E2102, X : ORA.w #$4000 : STA.l $7E211C, X
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2102, X : ORA.w #$4000 : STA.l $7E211C, X
     
     RTS
 }
@@ -4307,14 +4299,14 @@ RoomDraw_DownwardsCannonHole3x4_1to16:
 {
     JSR Object_Size1to16
     
-    JSR.w $9D04 ; $009D04 IN ROM
+    JSR.w .draw_segment
     
     DEC.b $B2 : BEQ .alpha
         .loop
         
             PHX
             
-            JSR.w $9D04 ; $009D04 IN ROM
+            JSR.w .draw_segment
             
             PLX
         DEC.b $B2 : BNE .loop
@@ -4330,9 +4322,9 @@ RoomDraw_DownwardsCannonHole3x4_1to16:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$C2], Y
-        LDA.w $9B56, X : STA [$C5], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
         
         INX #6
     
@@ -4405,10 +4397,10 @@ RoomDraw_TableBowl:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$C2], Y
-        LDA.w $9B56, X : STA [$C5], Y
-        LDA.w $9B58, X : STA [$C8], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$C8], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -4448,7 +4440,7 @@ Object_KholdstareShell:
             
             .nextColumn
             
-                LDA.w $9B52, Y : STA.l $7E2000, X
+                LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
                 
                 INY #2
                 INX #2
@@ -4513,7 +4505,7 @@ Object_LanternLayer:
         
         .nextColumn
         
-            LDA.w $9B52, Y : STA.l $7E4000, X
+            LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X
             
             INY #2
             INX #2
@@ -4538,7 +4530,7 @@ Object_AgahnimAltar:
     
     .nextRow
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
         ORA.w #$4000 : STA.l $7E201A, X
         
         LDA.w $9B6E, Y : STA.l $7E2002, X : STA.l $7E2004, X
@@ -4577,10 +4569,10 @@ Object_AgahnimRoomFrame:
     
     .topEdgeLoop
     
-        LDA.w $9B52, Y : STA.l $7E220E, X : STA.l $7E221A, X : STA.l $7E2226, X
-        LDA.w $9B54, Y : STA.l $7E228E, X : STA.l $7E229A, X : STA.l $7E22A6, X
-        LDA.w $9B56, Y : STA.l $7E230E, X : STA.l $7E231A, X : STA.l $7E2326, X
-        LDA.w $9B58, Y : STA.l $7E238E, X : STA.l $7E239A, X : STA.l $7E23A6, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E220E, X : STA.l $7E221A, X : STA.l $7E2226, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E228E, X : STA.l $7E229A, X : STA.l $7E22A6, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E230E, X : STA.l $7E231A, X : STA.l $7E2326, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E238E, X : STA.l $7E239A, X : STA.l $7E23A6, X
         
         INY #8
         INX #2
@@ -4594,7 +4586,7 @@ Object_AgahnimRoomFrame:
     
     .diagonalsLoop
     
-        LDA.w $9B52, Y   : STA.l $7E2504, X 
+        LDA.w RoomDrawObjectData+00, Y   : STA.l $7E2504, X 
         STA.l $7E2486, X : STA.l $7E2408, X
         STA.l $7E238A, X : STA.l $7E230C, X 
         STA.l $7E228E, X : STA.l $7E2210, X
@@ -4618,16 +4610,16 @@ Object_AgahnimRoomFrame:
     
     .sidesLoop
     
-        LDA.w $9B52, Y : STA.l $7E2584, X : STA.l $7E2884, X : STA.l $7E2B84, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2584, X : STA.l $7E2884, X : STA.l $7E2B84, X
         ORA.w #$4000   : STA.l $7E25BA, X : STA.l $7E28BA, X : STA.l $7E2BBA, X
         
-        LDA.w $9B54, Y : STA.l $7E2586, X : STA.l $7E2886, X : STA.l $7E2B86, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2586, X : STA.l $7E2886, X : STA.l $7E2B86, X
         ORA.w #$4000   : STA.l $7E25B8, X : STA.l $7E28B8, X : STA.l $7E2BB8, X
         
-        LDA.w $9B56, Y : STA.l $7E2588, X : STA.l $7E2888, X : STA.l $7E2B88, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2588, X : STA.l $7E2888, X : STA.l $7E2B88, X
         ORA.w #$4000   : STA.l $7E25B6, X : STA.l $7E28B6, X : STA.l $7E2BB6, X
         
-        LDA.w $9B58, Y : STA.l $7E258A, X : STA.l $7E288A, X : STA.l $7E2B8A, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E258A, X : STA.l $7E288A, X : STA.l $7E2B8A, X
         ORA.w #$4000   : STA.l $7E25B4, X : STA.l $7E28B4, X : STA.l $7E2BB4, X
         
         INY #8
@@ -4647,8 +4639,8 @@ Object_AgahnimRoomFrame:
     
     .horizLightLoop
     
-        LDA.w $9B52, Y : STA.l $7E2498, X : STA.l $7E24A4, X
-        LDA.w $9B5E, Y : STA.l $7E2518, X : STA.l $7E2524, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2498, X : STA.l $7E24A4, X
+        LDA.w RoomDrawObjectData+12, Y : STA.l $7E2518, X : STA.l $7E2524, X
         
         INY #2
         INX #2
@@ -4662,8 +4654,8 @@ Object_AgahnimRoomFrame:
     
     .vertLightLoop
     
-        LDA.w $9B52, Y : STA.l $7E270E, X : STA.l $7E2A0E, X
-        LDA.w $9B54, Y : STA.l $7E2710, X : STA.l $7E2A10, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E270E, X : STA.l $7E2A0E, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2710, X : STA.l $7E2A10, X
         
         INY #4
         
@@ -4678,11 +4670,11 @@ Object_AgahnimRoomFrame:
     
     .draw5x5_LightLoop
     
-        LDA.w $9B52, Y : STA.l $7E248E, X
-        LDA.w $9B54, Y : STA.l $7E250E, X
-        LDA.w $9B56, Y : STA.l $7E258E, X
-        LDA.w $9B58, Y : STA.l $7E260E, X
-        LDA.w $9B5A, Y : STA.l $7E268E, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E248E, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E250E, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E258E, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E260E, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E268E, X
         
         TYA : CLC : ADC.w #$000A : TAY
         
@@ -4717,11 +4709,11 @@ Object_FortuneTellerTemplate:
     
     .nextColumn
     
-        LDA.w $9B52, Y
+        LDA.w RoomDrawObjectData+00, Y
         STA.l $7E2002, X : STA.l $7E2004, X
         STA.l $7E2082, X : STA.l $7E2084, X
         
-        LDA.w $9B54, Y : STA.l $7E2102, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2102, X
         ORA.w #$4000 : STA.l $7E2104, X
         
         INX #4
@@ -4733,7 +4725,7 @@ Object_FortuneTellerTemplate:
     
     .nextRow
     
-        LDA.w $9B56, Y
+        LDA.w RoomDrawObjectData+04, Y
         STA.l $7E2180, X : STA.l $7E2184, X
         STA.l $7E2194, X : STA.l $7E2198, X
 
@@ -4741,7 +4733,7 @@ Object_FortuneTellerTemplate:
         STA.l $7E2182, X : STA.l $7E2186, X
         STA.l $7E2196, X : STA.l $7E219A, X
         
-        LDA.w $9B5C, Y
+        LDA.w RoomDrawObjectData+10, Y
         STA.l $7E2188, X : STA.l $7E218C, X : STA.l $7E2190, X
 
         ORA.w #$4000
@@ -4754,10 +4746,10 @@ Object_FortuneTellerTemplate:
     
     LDX.b $08
     
-    LDA.w $9B5C, Y : STA.l $7E2000, X : STA.l $7E2080, X
+    LDA.w RoomDrawObjectData+10, Y : STA.l $7E2000, X : STA.l $7E2080, X
     ORA.w #$4000   : STA.l $7E201A, X : STA.l $7E209A, X
     
-    LDA.w $9B5E, Y : STA.l $7E2100, X
+    LDA.w RoomDrawObjectData+12, Y : STA.l $7E2100, X
     ORA.w #$4000   : STA.l $7E211A, X
     
     LDA.w #$0004 : STA.b $0E
@@ -4768,7 +4760,7 @@ Object_FortuneTellerTemplate:
     
     .nextRow2
     
-        LDA.w $9B66, Y : STA.l $7E2506, X
+        LDA.w RoomDrawObjectData+20, Y : STA.l $7E2506, X
         EOR.w #$4000   : STA.l $7E2514, X
         
         LDA.w $9B6E, Y : STA.l $7E2508, X
@@ -4795,22 +4787,22 @@ RoomDraw_Utility3x5:
 {
     LDA.w #$0003 : STA.b $0E
     
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$C2], Y
-    LDA.w $9B56, X : STA [$C5], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
     
     .nextRow
     
-        LDA.w $9B58, X : STA [$CB], Y
-        LDA.w $9B5A, X : STA [$CE], Y
-        LDA.w $9B5C, X : STA [$D1], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+08, X : STA [$CE], Y
+        LDA.w RoomDrawObjectData+10, X : STA [$D1], Y
         
         TYA : CLC : ADC.w #$0080 : TAY
     DEC.b $0E : BNE .nextRow
     
-    LDA.w $9B5E, X : STA [$CB], Y
-    LDA.w $9B60, X : STA [$CE], Y
-    LDA.w $9B62, X : STA [$D1], Y
+    LDA.w RoomDrawObjectData+12, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+14, X : STA [$CE], Y
+    LDA.w RoomDrawObjectData+16, X : STA [$D1], Y
     
     RTS
 }
@@ -4829,17 +4821,17 @@ RoomDraw_VitreousGooGraphics:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E4000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X
-        LDA.w $9B58, Y : STA.l $7E4180, X
-        LDA.w $9B5A, Y : STA.l $7E4200, X
-        LDA.w $9B5C, Y : STA.l $7E4280, X
-        LDA.w $9B5E, Y : STA.l $7E4300, X
-        LDA.w $9B60, Y : STA.l $7E4380, X
-        LDA.w $9B62, Y : STA.l $7E4400, X
-        LDA.w $9B64, Y : STA.l $7E4480, X
-        LDA.w $9B66, Y : STA.l $7E4500, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4180, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E4200, X
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E4280, X
+        LDA.w RoomDrawObjectData+12, Y : STA.l $7E4300, X
+        LDA.w RoomDrawObjectData+14, Y : STA.l $7E4380, X
+        LDA.w RoomDrawObjectData+16, Y : STA.l $7E4400, X
+        LDA.w RoomDrawObjectData+18, Y : STA.l $7E4480, X
+        LDA.w RoomDrawObjectData+20, Y : STA.l $7E4500, X
         
         TYA : CLC : ADC.w #$0016 : TAY
         
@@ -4854,8 +4846,8 @@ RoomDraw_VitreousGooGraphics:
     
     .nextColumn2
     
-        LDA.w $9B52, Y : STA.l $7E4592, X
-        LDA.w $9B58, Y : STA.l $7E4612, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4592, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4612, X
         
         INY #2
         INX #2
@@ -4920,10 +4912,10 @@ RoomDraw_AutoStairs_North_MultiLayer_B:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X : STA.l $7E4000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X : STA.l $7E4080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X : STA.l $7E4100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X : STA.l $7E4180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.l $7E4000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X : STA.l $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -5033,10 +5025,10 @@ RoomDraw_AutoStairs_South_MultiLayer_B:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X : STA.l $7E4000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X : STA.l $7E4080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X : STA.l $7E4100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X : STA.l $7E4180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.l $7E4000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X : STA.l $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -5119,14 +5111,14 @@ Object_InactiveWaterLadder:
     
     LDY.w #$1108
     
-    LDA.w $9B52, Y : STA.l $7E2000, X : STA.l $7E4000, X
-    LDA.w $9B54, Y : STA.l $7E2002, X : STA.l $7E4002, X
-    LDA.w $9B56, Y : STA.l $7E2004, X : STA.l $7E4004, X
-    LDA.w $9B58, Y : STA.l $7E2006, X : STA.l $7E4006, X
-    LDA.w $9B5A, Y : STA.l $7E2080, X : STA.l $7E4080, X
-    LDA.w $9B5C, Y : STA.l $7E2082, X : STA.l $7E4082, X
-    LDA.w $9B5E, Y : STA.l $7E2084, X : STA.l $7E4084, X
-    LDA.w $9B60, Y : STA.l $7E2086, X : STA.l $7E4086, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.l $7E4000, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X : STA.l $7E4002, X
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2004, X : STA.l $7E4004, X
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2006, X : STA.l $7E4006, X
+    LDA.w RoomDrawObjectData+08, Y : STA.l $7E2080, X : STA.l $7E4080, X
+    LDA.w RoomDrawObjectData+10, Y : STA.l $7E2082, X : STA.l $7E4082, X
+    LDA.w RoomDrawObjectData+12, Y : STA.l $7E2084, X : STA.l $7E4084, X
+    LDA.w RoomDrawObjectData+14, Y : STA.l $7E2086, X : STA.l $7E4086, X
     
     RTS
 }
@@ -5460,10 +5452,10 @@ RoomDraw_StraightInterroomStairsUpper:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -5538,10 +5530,10 @@ RoomDraw_StraightInterroomStairsLower:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X : STA.l $7E4000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X
-        LDA.w $9B58, Y : STA.l $7E4180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.l $7E4000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -5619,10 +5611,10 @@ RoomDraw_StraightInterroomStairsGoingDownSouthLower:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E4000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X : STA.l $7E4180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X : STA.l $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -5723,13 +5715,13 @@ Object_Draw10x20_With4x4:
 {
     LDA.w #$0005
     
-    JSR.w $8A44 ; $008A44 IN ROM
+    JSR.w RoomDraw_A_Many32x32Blocks
     
     LDA.b $08 : CLC : ADC.w #$0200 : TAY
     
     LDA.w #$0005
     
-    JMP.w $8A44 ; $008A44 IN ROM
+    JMP.w RoomDraw_A_Many32x32Blocks
 }
 
 ; ==============================================================================
@@ -5850,9 +5842,9 @@ Door_Up:
                 .nextColumn
                 
                     ; Apparently some of these doors can only draw to BG1
-                    LDA.w $9B52, Y : STA.l $7E4000, X
-                    LDA.w $9B54, Y : STA.l $7E4080, X
-                    LDA.w $9B56, Y : STA.l $7E4100, X
+                    LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X
+                    LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X
+                    LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X
                     
                     TYA : CLC : ADC.w #$0006 : TAY
                     
@@ -5936,9 +5928,9 @@ RoomDraw_NormalRangedDoors_North:
         
         .nextColumn2
         
-            LDA.w $9B52, X : STA [$BF], Y
-            LDA.w $9B54, X : STA [$CB], Y
-            LDA.w $9B56, X : STA [$D7], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+            LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+            LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
             
             TXA : CLC : ADC.w #$0006 : TAX
             
@@ -6149,9 +6141,9 @@ RoomDraw_OneSidedShutters_South:
         
         .nextColumn
         
-            LDA.w $9B52, X : STA [$CB], Y
-            LDA.w $9B54, X : STA [$D7], Y
-            LDA.w $9B56, X : STA [$DA], Y
+            LDA.w RoomDrawObjectData+00, X : STA [$CB], Y
+            LDA.w RoomDrawObjectData+02, X : STA [$D7], Y
+            LDA.w RoomDrawObjectData+04, X : STA [$DA], Y
             
             TXA : CLC : ADC.w #$0006 : TAX
             
@@ -6274,10 +6266,10 @@ RoomDraw_DrawUnreachableDoorSwitcher:
 {
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$CB], Y
-        LDA.w $9B56, X : STA [$D7], Y
-        LDA.w $9B58, X : STA [$DA], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$DA], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -6391,10 +6383,10 @@ DrawUnusedDoorSwitchObject:
 {
     .nextColumn
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$CB], Y
-        LDA.w $9B56, X : STA [$D7], Y
-        LDA.w $9B58, X : STA [$DA], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$DA], Y
         
         TXA : CLC : ADC.w #$0008 : TAX
         
@@ -6535,8 +6527,8 @@ RoomDraw_ExplodingWallSegment:
     
     LDX.b $08
     
-    ; $9B52, Y THAT IS
-    LDA.w $9B52, Y
+    ; RoomDrawObjectData+00, Y THAT IS
+    LDA.w RoomDrawObjectData+00, Y
     
     .nextColumn
     
@@ -6563,8 +6555,8 @@ RoomDraw_ExplodingWallColumn:
     
     .nextRow
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B5E, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+12, X : STA [$C2], Y
         
         INX #2
         
@@ -6628,9 +6620,9 @@ RoomDraw_HighRangeDoor_North:
     
     .BRANCH_DELTA
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X
-        LDA.w $9B56, Y : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4100, X
         
         TYA : CLC : ADC.w #$0006 : TAY
         
@@ -6691,9 +6683,9 @@ RoomDraw_OneSidedLowerShutters_South:
     
     .nextColumn
     
-        LDA.w $9B52, X : STA.l $7E4080, X
-        LDA.w $9B54, X : STA.l $7E4100, X
-        LDA.w $9B56, X : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+00, X : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+02, X : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+04, X : STA.l $7E2180, X
         
         TYA : CLC : ADC.w #$0006 : TAY
         
@@ -6763,10 +6755,10 @@ RoomDraw_HighRangeDoor_West:
     
     LDX.b $08
     
-    LDA.w $9B52, Y : STA.l $7E2000, X
-    LDA.w $9B54, Y : STA.l $7E2080, X
-    LDA.w $9B56, Y : STA.l $7E2100, X
-    LDA.w $9B58, Y : STA.l $7E2180, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
     
     TYA : CLC : ADC.w #$0008 : TAY
     
@@ -6776,10 +6768,10 @@ RoomDraw_HighRangeDoor_West:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E4000, X
-        LDA.w $9B54, Y : STA.l $7E4080, X
-        LDA.w $9B52, Y : STA.l $7E4100, X
-        LDA.w $9B52, Y : STA.l $7E4180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4080, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4100, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -6837,20 +6829,20 @@ RoomDraw_OneSidedLowerShutters_East:
     
     .BRANCH_GAMMA
     
-        LDA.w $9B52, Y : STA.l $7E4002, X
-        LDA.w $9B54, Y : STA.l $7E4082, X
-        LDA.w $9B56, Y : STA.l $7E4102, X
-        LDA.w $9B58, Y : STA.l $7E4182, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E4002, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E4082, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E4102, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E4182, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
         INX #2
     DEC.b $0E : BNE .BRANCH_GAMMA
     
-    LDA.w $9B52, Y : STA.l $7E2002, X
-    LDA.w $9B54, Y : STA.l $7E2082, X
-    LDA.w $9B56, Y : STA.l $7E2102, X
-    LDA.w $9B58, Y : STA.l $7E2182, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2002, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2082, X
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2102, X
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2182, X
     
     LDA.b $08 : CLC : ADC.w #$0008
     
@@ -7292,14 +7284,14 @@ Object_Draw2x4s_VariableOffset:
     
     .nextColumn
     
-        LDA.w $9B52, X : STA [$BF], Y
-        LDA.w $9B54, X : STA [$C2], Y
-        LDA.w $9B56, X : STA [$C5], Y
-        LDA.w $9B58, X : STA [$C8], Y
-        LDA.w $9B5A, X : STA [$CB], Y
-        LDA.w $9B5C, X : STA [$CE], Y
-        LDA.w $9B5E, X : STA [$D1], Y
-        LDA.w $9B60, X : STA [$D4], Y
+        LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+        LDA.w RoomDrawObjectData+02, X : STA [$C2], Y
+        LDA.w RoomDrawObjectData+04, X : STA [$C5], Y
+        LDA.w RoomDrawObjectData+06, X : STA [$C8], Y
+        LDA.w RoomDrawObjectData+08, X : STA [$CB], Y
+        LDA.w RoomDrawObjectData+10, X : STA [$CE], Y
+        LDA.w RoomDrawObjectData+12, X : STA [$D1], Y
+        LDA.w RoomDrawObjectData+14, X : STA [$D4], Y
         
         TYA : CLC : ADC.w $0E : TAY
     DEC.b $B2 : BNE .nextColumn
@@ -7351,11 +7343,11 @@ UNREACHABLE_01B264:
 ; $00B279-$00B292 LOCAL JUMP LOCATION
 Object_Draw5x1:
 {
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$CB], Y
-    LDA.w $9B56, X : STA [$D7], Y
-    LDA.w $9B58, X : STA [$DA], Y
-    LDA.w $9B5A, X : STA [$DD], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
+    LDA.w RoomDrawObjectData+06, X : STA [$DA], Y
+    LDA.w RoomDrawObjectData+08, X : STA [$DD], Y
     
     RTS
 }
@@ -7399,10 +7391,10 @@ RoomDraw_DrawDiagonalAcute:
 ; $00B2AF-$00B2C9 LOCAL JUMP LOCATION
 Object_Draw2x2_AdvanceDown:
 {
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$CB], Y
-    LDA.w $9B56, X : STA [$C2], Y
-    LDA.w $9B58, X : STA [$CE], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$C2], Y
+    LDA.w RoomDrawObjectData+06, X : STA [$CE], Y
     
     TYA : CLC : ADC.w #$0100 : TAY
     
@@ -7433,7 +7425,7 @@ RoomDraw_Repeated1x1:
 {
     STA.b $0A
     
-    LDA.w $9B52, X
+    LDA.w RoomDrawObjectData+00, X
     
     .nextColumn
     
@@ -7454,10 +7446,10 @@ RoomDraw_Repeated1x1:
 ; $00B2E1-$00B2F5 JUMP LOCATION
 Object_Draw4x1:
 {
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$CB], Y
-    LDA.w $9B56, X : STA [$D7], Y
-    LDA.w $9B58, X : STA [$DA], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
+    LDA.w RoomDrawObjectData+06, X : STA [$DA], Y
     
     RTS
 }
@@ -7467,9 +7459,9 @@ Object_Draw4x1:
 ; $00B2F6-$00B305 JUMP LOCATION
 Object_Draw3x1:
 {
-    LDA.w $9B52, X : STA [$BF], Y
-    LDA.w $9B54, X : STA [$CB], Y
-    LDA.w $9B56, X : STA [$D7], Y
+    LDA.w RoomDrawObjectData+00, X : STA [$BF], Y
+    LDA.w RoomDrawObjectData+02, X : STA [$CB], Y
+    LDA.w RoomDrawObjectData+04, X : STA [$D7], Y
     
     RTS
 }
@@ -7713,10 +7705,10 @@ Object_BombableFloor:
     
     LDY.b $0E
     
-    LDA.w $9B52, Y : STA.w $0560, X
-    LDA.w $9B54, Y : STA.w $0580, X
-    LDA.w $9B56, Y : STA.w $05A0, X
-    LDA.w $9B58, Y : STA.w $05C0, X
+    LDA.w RoomDrawObjectData+00, Y : STA.w $0560, X
+    LDA.w RoomDrawObjectData+02, Y : STA.w $0580, X
+    LDA.w RoomDrawObjectData+04, Y : STA.w $05A0, X
+    LDA.w RoomDrawObjectData+06, Y : STA.w $05C0, X
     
     TYA : CLC : ADC.w #$0008 : STA.b $0E
     
@@ -10495,10 +10487,10 @@ RoomTag_OperateChestReveal:
     
     LDY.w #$149C
     
-    LDA.w $9B52, Y : STA.l $7E2000, X : STA.b $02
-    LDA.w $9B54, Y : STA.l $7E2080, X : STA.b $04
-    LDA.w $9B56, Y : STA.l $7E2002, X : STA.b $06
-    LDA.w $9B58, Y : STA.l $7E2082, X : STA.b $08
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X : STA.b $08
     
     LDY.w $0200
     
@@ -11263,14 +11255,14 @@ Object_WatergateChannelWater:
                 
                 .next2x4
                 
-                    LDA.w $9B52, Y : STA.l $7E4000, X
-                    LDA.w $9B54, Y : STA.l $7E4002, X
-                    LDA.w $9B56, Y : STA.l $7E4004, X
-                    LDA.w $9B58, Y : STA.l $7E4006, X
-                    LDA.w $9B5A, Y : STA.l $7E4080, X
-                    LDA.w $9B5C, Y : STA.l $7E4082, X
-                    LDA.w $9B5E, Y : STA.l $7E4084, X
-                    LDA.w $9B60, Y : STA.l $7E4086, X
+                    LDA.w RoomDrawObjectData+00, Y : STA.l $7E4000, X
+                    LDA.w RoomDrawObjectData+02, Y : STA.l $7E4002, X
+                    LDA.w RoomDrawObjectData+04, Y : STA.l $7E4004, X
+                    LDA.w RoomDrawObjectData+06, Y : STA.l $7E4006, X
+                    LDA.w RoomDrawObjectData+08, Y : STA.l $7E4080, X
+                    LDA.w RoomDrawObjectData+10, Y : STA.l $7E4082, X
+                    LDA.w RoomDrawObjectData+12, Y : STA.l $7E4084, X
+                    LDA.w RoomDrawObjectData+14, Y : STA.l $7E4086, X
                     
                     TXA : CLC : ADC.w #$0100 : TAX
                 DEC !num2x4s : BNE .next2x4
@@ -11807,10 +11799,10 @@ DontOpenDoor:
             
             .next_column
             
-                LDA.w $9B52, Y : STA.l $7E2000, X
-                LDA.w $9B54, Y : STA.l $7E2080, X
-                LDA.w $9B56, Y : STA.l $7E2100, X
-                LDA.w $9B58, Y : STA.l $7E2180, X
+                LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+                LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+                LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+                LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
                 
                 TYA : CLC : ADC.w #$0008 : TAY
                 
@@ -15309,7 +15301,7 @@ Dungeon_LoadSecret:
     ; Secrets pointer array (16-bit local pointer for each of the 0x140 rooms).
     LDA.l $01DB69, X : STA.b $00
     
-    ; When moving the secrets data, this will make it cake ;).
+    ; When moving the secrets data, this will make it cake.
     LDA.w #$0001 : STA.b $02
     
     LDY.w #$FFFD
@@ -15508,17 +15500,17 @@ Dungeon_PrepSpriteInducedDma:
     
     LDX.w $1000
     
-    LDA.w $9B52, Y : STA.w $1006, X
-    LDA.w $9B54, Y : STA.w $100C, X
-    LDA.w $9B56, Y : STA.w $1012, X
-    LDA.w $9B58, Y : STA.w $1018, X
+    LDA.w RoomDrawObjectData+00, Y : STA.w $1006, X
+    LDA.w RoomDrawObjectData+02, Y : STA.w $100C, X
+    LDA.w RoomDrawObjectData+04, Y : STA.w $1012, X
+    LDA.w RoomDrawObjectData+06, Y : STA.w $1018, X
     
     LDX.b $06
     
-    LDA.w $9B52, Y : STA.l $7E2000, X
-    LDA.w $9B54, Y : STA.l $7E2080, X
-    LDA.w $9B56, Y : STA.l $7E2002, X
-    LDA.w $9B58, Y : STA.l $7E2082, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X
     
     AND.w #$03FF : TAX
     
@@ -15737,10 +15729,10 @@ Dungeon_OpenKeyedObject:
         LDY.w $046A
         
         ; Draw floor tiles over the old ones (won't be permanent).
-        LDA.w $9B52, Y : STA.l $7E2000, X : STA.b $02
-        LDA.w $9B54, Y : STA.l $7E2080, X : STA.b $04
-        LDA.w $9B56, Y : STA.l $7E2002, X : STA.b $06
-        LDA.w $9B58, Y
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
+        LDA.w RoomDrawObjectData+06, Y
         
         JMP .storeTilemapChanges
         
@@ -15820,10 +15812,10 @@ Dungeon_OpenKeyedObject:
     LDY.w #$14A4
     
     ; I guess this changes the tiles of the chest.
-    LDA.w $9B52, Y : STA.l $7E2000, X : STA.b $02
-    LDA.w $9B54, Y : STA.l $7E2080, X : STA.b $04
-    LDA.w $9B56, Y : STA.l $7E2002, X : STA.b $06
-    LDA.w $9B58, Y
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
+    LDA.w RoomDrawObjectData+06, Y
     
     .storeTilemapChanges
     
@@ -15930,9 +15922,9 @@ Dungeon_OpenBigChest:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
         
         INY #6
         INX #2
@@ -16066,10 +16058,10 @@ Dungeon_OpenMiniGameChest:
             ; Set replacement tiles to be drawn.
             LDY.w #$14A4
             
-            LDA.w $9B52, Y : STA.l $7E2000, X : STA.b $02
-            LDA.w $9B54, Y : STA.l $7E2080, X : STA.b $04
-            LDA.w $9B56, Y : STA.l $7E2002, X : STA.b $06
-            LDA.w $9B58, Y : STA.l $7E2082, X : STA.b $08
+            LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X : STA.b $02
+            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X : STA.b $04
+            LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X : STA.b $06
+            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X : STA.b $08
             
             LDX.w $1000
             
@@ -16335,7 +16327,7 @@ DeleteSwampPoolWaterOverlay:
     LDX.w #$0000
     LDY.w #$01E0
 
-    LDA.w $9B52, Y
+    LDA.w RoomDrawObjectData+00, Y
 
     .BRANCH_ALPHA
 
@@ -16455,10 +16447,10 @@ Underworld_AdjustWaterVomit:
     
     .BRANCH_ALPHA
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2002, X
-        LDA.w $9B56, Y : STA.l $7E2004, X
-        LDA.w $9B58, Y : STA.l $7E2006, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2004, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2006, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         TXA : CLC : ADC.w #$0080 : TAX
@@ -16745,10 +16737,10 @@ FloodDam_Expand:
         
         .BRANCH_BETA
         
-            LDA.w $9B52, Y : STA.l $7E2000, X
-            LDA.w $9B54, Y : STA.l $7E2080, X
-            LDA.w $9B56, Y : STA.l $7E2100, X
-            LDA.w $9B58, Y : STA.l $7E2180, X
+            LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+            LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
             
             TYA : CLC : ADC.w #$0008 : TAY
             
@@ -17143,10 +17135,10 @@ Object_OpenGanonDoor:
         ; Open the door to the triforce room.
         .nextColumn
         
-            LDA.w $9B52, Y : STA.l $7E21D8, X
-            LDA.w $9B54, Y : STA.l $7E2258, X
-            LDA.w $9B56, Y : STA.l $7E22D8, X
-            LDA.w $9B58, Y : STA.l $7E2358, X
+            LDA.w RoomDrawObjectData+00, Y : STA.l $7E21D8, X
+            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2258, X
+            LDA.w RoomDrawObjectData+04, Y : STA.l $7E22D8, X
+            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2358, X
             
             TYA : CLC : ADC.w #$0008 : TAY
         INX #2 : CPX.w #$0010 : BNE .nextColumn
@@ -17270,10 +17262,10 @@ Dungeon_PrepOverlayDma:
     ; slow (inefficient) during NMI, taking on average 1 scanline per tile,
     ; which is INSANE.
     
-    LDA.w $9B52, Y : STA.l $7E2000, X
-    LDA.w $9B54, Y : STA.l $7E2080, X
-    LDA.w $9B56, Y : STA.l $7E2002, X
-    LDA.w $9B58, Y : STA.l $7E2082, X
+    LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+    LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+    LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X
+    LDA.w RoomDrawObjectData+06, Y : STA.l $7E2082, X
     
     ; $00F762 ALTERNATE ENTRY POINT
     .tilemapAlreadyUpdated
@@ -17545,7 +17537,7 @@ Dungeon_DrawChunk:
     CMP.w #$00A4 : BNE .notHole
         LDY.w #$05AA
         
-        LDA.w $9B52, Y
+        LDA.w RoomDrawObjectData+00, Y
         STA.l $7E2080, X : STA.l $7E2082, X
         STA.l $7E2084, X : STA.l $7E2086, X
         STA.l $7E2100, X : STA.l $7E2102, X
@@ -17553,13 +17545,13 @@ Dungeon_DrawChunk:
         
         LDY.w #$063C
         
-        LDA.w $9B54, Y
+        LDA.w RoomDrawObjectData+02, Y
         STA.l $7E2000, X : STA.l $7E2002, X
         STA.l $7E2004, X : STA.l $7E2006, X
         
         LDY.w #$0642
         
-        LDA.w $9B54, Y
+        LDA.w RoomDrawObjectData+02, Y
         STA.l $7E2180, X : STA.l $7E2182, X
         STA.l $7E2184, X : STA.l $7E2186, X
         
@@ -17570,19 +17562,19 @@ Dungeon_DrawChunk:
     ; Use the floor 2 pattern.
     LDY.w $046A
     
-    LDA.w $9B52, Y
+    LDA.w RoomDrawObjectData+00, Y
     STA.l $7E2000, X : STA.l $7E2004, X
     STA.l $7E2100, X : STA.l $7E2104, X
 
-    LDA.w $9B54, Y
+    LDA.w RoomDrawObjectData+02, Y
     STA.l $7E2002, X : STA.l $7E2006, X
     STA.l $7E2102, X : STA.l $7E2106, X
 
-    LDA.w $9B5A, Y
+    LDA.w RoomDrawObjectData+08, Y
     STA.l $7E2080, X : STA.l $7E2084, X
     STA.l $7E2180, X : STA.l $7E2184, X
 
-    LDA.w $9B5C, Y
+    LDA.w RoomDrawObjectData+10, Y
     STA.l $7E2082, X : STA.l $7E2086, X
     STA.l $7E2182, X : STA.l $7E2186, X
     
@@ -17685,9 +17677,9 @@ DrawDoorToTilemap_North:
     
     .BRANCH_LAMBDA
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
         
         TYA : CLC : ADC.w #$0006 : TAY
         
@@ -17789,9 +17781,9 @@ DrawDoorToTilemap_South:
         
     .next_draw
         
-        LDA.w $9B52, Y : STA.l $7E2080, X
-        LDA.w $9B54, Y : STA.l $7E2100, X
-        LDA.w $9B56, Y : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2180, X
         
         TYA : CLC : ADC.w #$0006 : TAY
         
@@ -17893,10 +17885,10 @@ DrawDoorToTilemap_West:
     
     .BRANCH_KAPPA
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -17996,10 +17988,10 @@ DrawDoorToTilemap_East:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2002, X
-        LDA.w $9B54, Y : STA.l $7E2082, X
-        LDA.w $9B56, Y : STA.l $7E2102, X
-        LDA.w $9B58, Y : STA.l $7E2182, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2002, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2082, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2102, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2182, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -18029,10 +18021,10 @@ ClearDoorCurtainsFromTilemap:
     
     .nextColumn
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
         
         TYA : CLC : ADC.w #$0008 : TAY
         
@@ -18079,7 +18071,7 @@ ClearExplodingWallFromTilemap:
     
     LDA.w $0454 : DEC A : STA.b $0E : BEQ .skip
     
-    LDA.w $9B52, Y
+    LDA.w RoomDrawObjectData+00, Y
     
     .nextColumn
     
@@ -18107,18 +18099,18 @@ ClearExplodingWallFromTilemap_ClearOnePair:
     
     .nextColumn2
     
-        LDA.w $9B52, Y : STA.l $7E2000, X
-        LDA.w $9B54, Y : STA.l $7E2080, X
-        LDA.w $9B56, Y : STA.l $7E2100, X
-        LDA.w $9B58, Y : STA.l $7E2180, X
-        LDA.w $9B5A, Y : STA.l $7E2200, X
-        LDA.w $9B5C, Y : STA.l $7E2280, X
-        LDA.w $9B5E, Y : STA.l $7E2300, X
-        LDA.w $9B60, Y : STA.l $7E2380, X
-        LDA.w $9B62, Y : STA.l $7E2400, X
-        LDA.w $9B64, Y : STA.l $7E2480, X
-        LDA.w $9B66, Y : STA.l $7E2500, X
-        LDA.w $9B68, Y : STA.l $7E2580, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2100, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2180, X
+        LDA.w RoomDrawObjectData+08, Y : STA.l $7E2200, X
+        LDA.w RoomDrawObjectData+10, Y : STA.l $7E2280, X
+        LDA.w RoomDrawObjectData+12, Y : STA.l $7E2300, X
+        LDA.w RoomDrawObjectData+14, Y : STA.l $7E2380, X
+        LDA.w RoomDrawObjectData+16, Y : STA.l $7E2400, X
+        LDA.w RoomDrawObjectData+18, Y : STA.l $7E2480, X
+        LDA.w RoomDrawObjectData+20, Y : STA.l $7E2500, X
+        LDA.w RoomDrawObjectData+22, Y : STA.l $7E2580, X
         
         INX #2
         
