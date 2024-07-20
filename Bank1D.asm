@@ -369,21 +369,21 @@ Vitreous_SpawnSmallerEyes:
         
         LDA.b #$00 : STA.w $0F21, Y
         
-        LDA.b $00 : CLC : ADC.w $DE8A, Y : STA.w $0D11, Y
-                                           STA.w $0D91, Y
+        LDA.b $00 : CLC : ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_x_low, Y
+        STA.w $0D11, Y : STA.w $0D91, Y
         
-        LDA.b $01 : ADC.w $DE97, Y : STA.w $0D31, Y
-                                     STA.w $0DA1, Y
+        LDA.b $01 : ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_x_high, Y
+        STA.w $0D31, Y : STA.w $0DA1, Y
         
-        LDA.b $02 : CLC : ADC.w $DEA4, Y : PHP
-                    CLC : ADC.b #$20     : STA.w $0D01, Y
-                                           STA.w $0DB1, Y
+        LDA.b $02 : CLC : ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_y_low, Y
+        PHP : CLC : ADC.b #$20 : STA.w $0D01, Y : STA.w $0DB1, Y
         
-        LDA.b $03 : ADC.b #$00     : PLP
-                    ADC.w $DEB1, Y : STA.w $0D21, Y
-                                     STA.w $0DE1, Y
+        LDA.b $03 : ADC.b #$00 : PLP
+        ADC.w Pool_Vitreous_SpawnSmallerEyes_offset_y_high, Y
+        STA.w $0D21, Y : STA.w $0DE1, Y
         
-        LDA.w $DEBE, Y : STA.w $0DC1, Y : STA.w $0BA1, Y
+        LDA.w Pool_Vitreous_SpawnSmallerEyes_anim_state, Y
+        STA.w $0DC1, Y : STA.w $0BA1, Y
         
         TYA : ASL #3 : STA.b $0F
         
@@ -459,6 +459,12 @@ Sprite4_CheckIfActive:
 
 ; ==============================================================================
 
+; $0EE8BF-$0EE8C4 DATA
+Sprite_CheckIfRecoiling_Bank1D_masks:
+{
+    db $03, $01, $00, $00, $0C, $03
+}
+
 ; $0EE8C5-$0EE947 LOCAL JUMP LOCATION
 Sprite4_CheckIfRecoiling:
 {
@@ -481,7 +487,7 @@ Sprite4_CheckIfRecoiling:
             LDA.w $0EA0, X : BMI .halted
                 LSR #2 : TAY
                 
-                LDA.b $1A : AND.w $E8BF, Y : BNE .halted
+                LDA.b $1A : AND.w Sprite_CheckIfRecoiling_Bank1D_masks, Y : BNE .halted
                     LDA.w $0F30, X : STA.w $0D40, X
                     LDA.w $0F40, X : STA.w $0D50, X
                     

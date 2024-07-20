@@ -89,19 +89,16 @@ FlailTrooper_ApproachPlayer:
     
     INC.w $0E80, X : LDA.w $0E80, X : LSR #2 : AND.b #$07 : ORA.b $00 : TAY
     
-    LDA.w .animation_states, Y : STA.w $0DC0, X
+    LDA.w Pool_FlailTrooper_Animate_animation_states, Y : STA.w $0DC0, X
     
     RTS
 }
     
-; ==============================================================================
-
 ; $02B0C7-$02B0E6 DATA
 Pool_FlailTrooper_Animate:
-    parallel Pool_Sprite_PsychoTrooper:
+Pool_Sprite_PsychoTrooper:
 {
     .animation_states
-    
     db $10, $11, $12, $13, $10, $11, $12, $13
     db $06, $07, $08, $09, $06, $07, $08, $09
     db $00, $01, $02, $03, $00, $01, $04, $05
@@ -192,13 +189,14 @@ FlailTrooper_WindingDown:
 ; ==============================================================================
 
 ; $02B144-$02B155 LOCAL JUMP LOCATION
+SpriteDraw_BallNChain:
 {
     JSR Sprite2_PrepOamCoord
     JSR ChainBallTrooper_DrawHead
     JSR FlailTrooper_DrawBody
-    JSR.w $B468 ; $02B468 IN ROM
+    JSR.w SpriteDraw_BNCFlail
     JSR Sprite2_PrepOamCoord
-    JMP.w $C68C ; $02C68C IN ROM
+    JMP.w Guard_DrawShadow
 } 
 
 ; ==============================================================================
@@ -215,13 +213,17 @@ Pool_ChainBallTrooper_DrawHead:
 
 ; ==============================================================================
 
-; $02B15E-$02B1A2 LOCAL JUMP LOCATION
+; $02B15E-$02B15F LOCAL JUMP LOCATION
 ChainBallTrooper_DrawHead:
 {
     LDY.b #$18
+
+    ; Bleeds into the next function.
+}
     
-    ; $02B160 ALTERNATE ENTRY POINT
-    
+; $02B160-$02B1A2 LOCAL JUMP LOCATION
+SpriteDraw_GuardHead:
+{
     PHX
     
     LDA.w $0EB0, X : TAX
@@ -359,16 +361,20 @@ Pool_FlailTrooper_DrawBody:
 
 ; ==============================================================================
 
-; $02B3CB-$02B43F LOCAL JUMP LOCATION
+; $02B3CB-$02B3CC LOCAL JUMP LOCATION
 FlailTrooper_DrawBody:
 {
     LDY.b #$14
     
     ; I am confuse, as this would certainly overwrite the head portion
     ; in most cases, right? bug?
+
+    ; Bleeds into the next function.
+}
     
-    ; $02B3CD ALTERNATE ENTRY POINT
-    
+; $02B3CD-$02B43F LOCAL JUMP LOCATION
+SpriteDraw_GuardBody:
+{
     LDA.w $0DC0, X : ASL A : ADC.w $0DC0, X : STA.b $06
     
     PHX
@@ -444,6 +450,7 @@ FlailTrooper_DrawBody:
 ; ==============================================================================
 
 ; $02B468-$02B5BD LOCAL JUMP LOCATION
+SpriteDraw_BNCFlail:
 {
     LDA.b $00 : STA.w $0FA8
     LDA.b $02 : STA.w $0FA9

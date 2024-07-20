@@ -10032,7 +10032,7 @@ UnderworldTransition_ScrollRoom:
 
     .verticalScrolling ; ???? is this name correct?
 
-    LDA.w $0126 : AND.w #$00FF : CMP.w $BDFB, Y : BCC .BRANCH_GAMMA
+    LDA.w $0126 : AND.w #$00FF : CMP.w Pool_UnderworldTransition_ScrollRoom_bounds, Y : BCC .BRANCH_GAMMA
         LDA.b $20, X
         CLC : ADC.w Pool_UnderworldTransition_ScrollRoom_camera_scroll, Y
         STA.b $20, X
@@ -10100,7 +10100,7 @@ StraightStairs_10:
 
         .beta
 
-        LDA.b $20 : CLC : ADC.w $BE6D, X : STA.b $20
+        LDA.b $20 : CLC : ADC.w Pool_Module07_11_0A_ScrollCamera_offset, X : STA.b $20
 
         SEP #$20
 
@@ -13456,7 +13456,7 @@ Overworld_LoadExitData:
         ; to infinite loops in hacked or unintentionally corrupted games.
         ; In other words, in Vanilla ALTTP, if your room has a door that exits
         ; to the overworld, it had better be in this list.
-    CMP.w $DD8A, X : BNE .findRoomExit
+    CMP.w UnderworldExitData_room_id, X : BNE .findRoomExit
 
     ; Load things like scroll data
     LDA.w UnderworldExitData_vertical_scroll, X

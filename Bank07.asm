@@ -15873,7 +15873,7 @@ HandleDoorTransitions:
             STZ.w $0309
             STZ.w $0376
             
-            JSL.l $02B81C ; $01381C IN ROM
+            JSL.l HandleEdgeTransitionMovementNorth
             
             RTS
         
@@ -16429,10 +16429,7 @@ Pool_PushBlock_HandleFalling:
     db $09, $09, $09, $09, $09
 }
 
-; ==============================================================================
-
 ; Appears to be involved with push blocks or falling push blocks.
-    
 ; $03EDF9-$03EE2F LONG JUMP LOCATION
 PushBlock_HandleFalling:
 {

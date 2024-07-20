@@ -95,7 +95,7 @@ Vector_Reset:
 ; ==============================================================================
 
 ; $000061-$0000B4 JUMP TABLE FOR SR$0085
-Pool_Module_MainRouting: 
+Pool_Module_MainRouting:
 {
     ; TODO: Reference jpdisasm for interleaved long pointers.
     ; Note: there are 28 distinct modes here (0x1C).
@@ -2704,15 +2704,14 @@ Underworld_PrepareNextRoomQuadrantUpload:
 
 ; ==============================================================================
 
+; Seems to be used to update the tiles of an room (indoors).
+; One known use is for the watergate.
 ; $0011C4-$0012A0 LONG JUMP LOCATION
 WaterFlood_BuildOneQuadrantForVRAM:
 {
-    ; Seems to be used to update the tiles of an room (indoors).
-    ; One known use is for the watergate.
-    
     ; Not a water enabled room?
     LDA.b $AE : CMP.b #$19 : BNE .noWater
-        LDA.w $0405 : AND.l $0098C1 : BEQ .skipAllThis
+        LDA.w $0405 : AND.l DungeonMask+1 : BEQ .skipAllThis
 
     ; $0011D3 ALTERNATE ENTRY POINT
     .noWater
@@ -3258,7 +3257,7 @@ DoorTilemapPositions_WestMiddle:
     dw $17CA
 }
 
-; $0199C6-$0019D1
+; $0019C6-$0019D1
 DoorTilemapPositions_EastMiddle:
 {
     dw $07B4
@@ -3298,18 +3297,21 @@ ExplodingWallTilemapPosition:
 ; $0019EA-$001A01
 DetectStaircase:
 {
+    ; $0019EA
     .offset_y
     dw $0007
     dw $0018
     dw $0008
     dw $0008
 
+    ; $0019F2
     .offset_x
     dw $0000
     dw $0000
     dw $FFFF
     dw $0011
 
+    ; $0019FA
     .index_offset
     dw $0002
     dw $0002
@@ -5653,7 +5655,7 @@ RoomDrawObjectData:
 
     ; ==========================================================================
 
-    ; $002A1C-$00AA2F DATA
+    ; $002A1C-$002A2F DATA
     Obj0ECA:
     {
         dw $0DC0, $0DC1, $4DC0, $4DC1
@@ -8492,7 +8494,7 @@ RoomDrawObjectData:
 
     ; ==========================================================================
 
-    ; $00CD9E-$004E05 DATA
+    ; $004D9E-$004E05 DATA
     DoorGFXDataOffset_North:
     {
         dw obj2716-RoomDrawObjectData ; 0x00 - Normal door
@@ -9918,7 +9920,7 @@ Tagalong_LoadGfx:
     
     LDA.l $7EF3CC : AND.w #$00FF : ASL A : TAX
     
-    LDA.b $00 : CLC : ADC.l $00D407, X
+    LDA.b $00 : CLC : ADC.l Pool_LoadFollowerGraphics_gfx_offset, X
     
     LDY.w #$0020
     LDX.w #$2940
@@ -10530,24 +10532,41 @@ Attract_DecompressStoryGfx:
 ; Overworld mirror warp gfx decompression.
 Pool_AnimateMirrorWarp:
 {
-    ; TODO: interleaved!
+    ; $005837
+    .vector_low
+    db AnimateMirrorWarp_LoadPyramidIfAga>>0        ; $92
+    db AnimateMirrorWarp_DecompressNewTileSets>>0   ; $FE
+    db AnimateMirrorWarp_DecompressBackgroundsA>>0  ; $B9
+    db AnimateMirrorWarp_DecompressBackgroundsB>>0  ; $F8
+    db AnimateMirrorWarp_DecompressBackgroundsC>>0  ; $2C
+    db AnimateMirrorWarp_TriggerOverlayA_2>>0       ; $A5
+    db AnimateMirrorWarp_TriggerOverlayB>>0         ; $C7
+    db AnimateMirrorWarp_DrawDestinationScreen>>0   ; $B3
+    db AnimateMirrorWarp_DoSpritesPalettes>>0       ; $BB
+    db AnimateMirrorWarp_TriggerOverlayB>>0         ; $C7
+    db AnimateMirrorWarp_DecompressAnimatedTiles>>0 ; $D5
+    db AnimateMirrorWarp_LoadSubscreen>>0           ; $63
+    db AnimateMirrorWarp_DecompressSpritesA>>0      ; $BB
+    db AnimateMirrorWarp_DecompressSpritesB>>0      ; $1B
+    db AnimateMirrorWarp_TriggerBGChar0>>0          ; $CF
 
-    meta .states
-    dw AnimateMirrorWarp_LoadPyramidIfAga        ; $005892
-    dw AnimateMirrorWarp_DecompressNewTileSets   ; $0058FE gets ready to decompress typical graphics...
-    dw AnimateMirrorWarp_DecompressBackgroundsA  ; $0059B9 more decompression...
-    dw AnimateMirrorWarp_DecompressBackgroundsB  ; $0059F8
-    dw AnimateMirrorWarp_DecompressBackgroundsC  ; $005A2C
-    dw AnimateMirrorWarp_TriggerOverlayA_2       ; $0058A5 load overlays and ... silence music? what?
-    dw AnimateMirrorWarp_TriggerOverlayB         ; $0058C7
-    dw AnimateMirrorWarp_DrawDestinationScreen   ; $0058B3
-    dw AnimateMirrorWarp_DoSpritesPalettes       ; $0058BB
-    dw AnimateMirrorWarp_TriggerOverlayB         ; $0058C7
-    dw AnimateMirrorWarp_DecompressAnimatedTiles ; $0058D5
-    dw AnimateMirrorWarp_LoadSubscreen           ; $005A63
-    dw AnimateMirrorWarp_DecompressSpritesA      ; $005ABB
-    dw AnimateMirrorWarp_DecompressSpritesB      ; $005B1B
-    dw AnimateMirrorWarp_TriggerBGChar0          ; $0058CF
+    ; $005846
+    .vector_high
+    db AnimateMirrorWarp_LoadPyramidIfAga>>8        ; $58
+    db AnimateMirrorWarp_DecompressNewTileSets>>8   ; $58
+    db AnimateMirrorWarp_DecompressBackgroundsA>>8  ; $59
+    db AnimateMirrorWarp_DecompressBackgroundsB>>8  ; $59
+    db AnimateMirrorWarp_DecompressBackgroundsC>>8  ; $5A
+    db AnimateMirrorWarp_TriggerOverlayA_2>>8       ; $58
+    db AnimateMirrorWarp_TriggerOverlayB>>8         ; $58
+    db AnimateMirrorWarp_DrawDestinationScreen>>8   ; $58
+    db AnimateMirrorWarp_DoSpritesPalettes>>8       ; $58
+    db AnimateMirrorWarp_TriggerOverlayB>>8         ; $58
+    db AnimateMirrorWarp_DecompressAnimatedTiles>>8 ; $58
+    db AnimateMirrorWarp_LoadSubscreen>>8           ; $5A
+    db AnimateMirrorWarp_DecompressSpritesA>>8      ; $5A
+    db AnimateMirrorWarp_DecompressSpritesB>>8      ; $5B
+    db AnimateMirrorWarp_TriggerBGChar0>>8          ; $58
 
     ; $005855-$005863 DATA
     .next_tilemap
@@ -10555,11 +10574,11 @@ Pool_AnimateMirrorWarp:
     db $00, $00, $00, $12, $13, $14, $00
 }
 
+; Sets up the two low bytes of the decompression target address (0x4000).
+; The bank is determined in the subroutine that's called below.
 ; $005864-$005891 LONG JUMP LOCATION
 AnimateMirrorWarp:
 {
-    ; Sets up the two low bytes of the decompression target address (0x4000).
-    ; The bank is determined in the subroutine that's called below.
                  STZ.b $00
     LDA.b #$40 : STA.b $01
     
@@ -10568,8 +10587,8 @@ AnimateMirrorWarp:
     LDA.l Pool_AnimateMirrorWarp_next_tilemap, X : STA.b $17 : STA.w $0710
     
     ; Determine which subroutine in the jump table to call.
-    LDA.l $00D837, X : STA.b $0E ; 5837
-    LDA.l $00D846, X : STA.b $0F ; 5846
+    LDA.l Pool_AnimateMirrorWarp_vector_low, X  : STA.b $0E
+    LDA.l Pool_AnimateMirrorWarp_vector_high, X : STA.b $0F
     
     LDX.b #$00
     
@@ -10605,6 +10624,7 @@ AnimateMirrorWarp_LoadPyramidIfAga:
 
 ; ==============================================================================
 
+; load overlays and ... silence music? what?
 ; $0058A5-$0058B2 JUMP LOCATION (LONG)
 AnimateMirrorWarp_TriggerOverlayA_2:
 {
@@ -10751,6 +10771,7 @@ SheetsTable_0AA4_2:
 ; ==============================================================================
 
 ; ZS Overwrites part of this function. - ZS Custom Overworld
+; Gets ready to decompress typical graphics...
 ; $0058FE-$0059B8 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressNewTileSets:
 {
@@ -10866,6 +10887,7 @@ AnimateMirrorWarp_DecompressNewTileSets:
 ; ==============================================================================
 
 ; ZS overwrites part of this function. - ZS Custom Overworld
+; More decompression...
 ; $0059B9-$0059F7 JUMP LOCATION (LONG)
 AnimateMirrorWarp_DecompressBackgroundsA:
 {

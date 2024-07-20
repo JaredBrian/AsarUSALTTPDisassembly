@@ -14,7 +14,7 @@ org $018000
 ; ==============================================================================
 
 ; $008000-$0081FF DATA
-Pool_Dungeon_LoadType1Object: 
+Pool_Dungeon_LoadType1Object:
 {
     .subtype_1_params
     dw $03D8, $02E8, $02F8, $0328, $0338, $0400, $0410, $0388
@@ -128,8 +128,8 @@ Pool_Dungeon_LoadType1Object:
     
     ; 0x30
     dw $9001 ; = $009001
-    dw $90F8 ; = $0090F8 ; Unused object
-    dw $90F8 ; = $0090F8 ; Unused object
+    dw $90F8 ; = $0090F8 ; UNUSED: Unused object
+    dw $90F8 ; = $0090F8 ; UNUSED: Unused object
     dw $9111 ; = $009111
     dw $9136 ; = $009136 ; 34
     dw $913F ; = $00913F ; 35? (HM says unused)
@@ -171,7 +171,7 @@ Pool_Dungeon_LoadType1Object:
     dw $9CC6 ; = $009CC6
     dw $9CC6 ; = $009CC6
     dw $8B79 ; = $008B79
-    dw $8AA3 ; = $008AA3 ; Unused object
+    dw $8AA3 ; = $008AA3 ; UNUSED: Unused object
     dw $96F9 ; = $0096F9
     dw $96F9 ; = $0096F9
     dw $971A ; = $00971A
@@ -203,8 +203,8 @@ Pool_Dungeon_LoadType1Object:
     dw $8F8A ; = $008F8A
     dw $9045 ; = $009045
     dw $908F ; = $00908F
-    dw $90F8 ; = $0090F8 ; Unused object?
-    dw $90F8 ; = $0090F8 ; Unused object?
+    dw $90F8 ; = $0090F8 ; UNUSED: Unused object?
+    dw $90F8 ; = $0090F8 ; UNUSED: Unused object?
     
     ; 0x70
     dw $90F9 ; = $0090F9
@@ -397,11 +397,10 @@ Subtype2Params:
 
 ; ==============================================================================
 
+; Subtype 2 objects (0x40 distinct object types)
 ; $008470-$0084EF JUMP TABLE
 Subtype2Routines:
 {
-    ; Subtype 2 objects (0x40 distinct object types)
-    
     ; 0x00
     dw Object_Draw4x4
     dw Object_Draw4x4
@@ -515,11 +514,10 @@ Subtype3Params:
 
 ; ==============================================================================
 
+; Subtype 3 Objects (0x80 disinct object types)
 ; $0085F0-$0086EF JUMP TABLE
 Subtype3Routines:
 {
-    ; Subtype 3 Objects (0x80 disinct object types)
-    
     ; 0x00
     dw $9D29 ; = $009D29
     dw $9D5D ; = $009D5D
@@ -703,14 +701,13 @@ DoorObjectRoutines:
 ; $0086F8-$008739 DATA
 Dungeon_DrawObjectOffsets:
 {
-    .BG2
-    
     ; $BF, $C2, $C5, $C8
     ; $CB, $CE, $D1, $D4
     ; $D7
     ; $DA
     ; $DD
     
+    .BG2
     dl $7E2000, $7E2002, $7E2004, $7E2006
     dl $7E2080, $7E2082, $7E2084, $7E2086
     dl $7E2100
@@ -718,7 +715,6 @@ Dungeon_DrawObjectOffsets:
     dl $7E2200         
     
     .BG1
-    
     dl $7E4000, $7E4002, $7E4004, $7E4006
     dl $7E4080, $7E4082, $7E4084, $7E4086
     dl $7E4100
@@ -740,9 +736,9 @@ Dungeon_LoadRoom:
     
     LDX.w $0110
     
-    ; Get pointer to object data
-    LDA.l $1F8001, X : STA.b $B8
-    LDA.l $1F8000, X : STA.b $B7
+    ; Get pointer to object data.
+    LDA.l RoomData_ObjectDataPointers+1, X : STA.b $B8
+    LDA.l RoomData_ObjectDataPointers+0, X : STA.b $B7
     
     ; Not sure.
     LDA.b $AD : STA.w $0428
@@ -815,8 +811,8 @@ Dungeon_LoadRoom:
     LSR #2 : STA.b $00 : ASL A : CLC : ADC.b $00 : TAX
     
     ; The offset to the pointers for each layout.
-    LDA RoomDraw_LayoutPointers+1, X : STA.b $B8
-    LDA RoomDraw_LayoutPointers+0, X : STA.b $B7
+    LDA.l RoomDraw_LayoutPointers+1, X : STA.b $B8
+    LDA.l RoomDraw_LayoutPointers+0, X : STA.b $B7
     
     STZ.b $BA
     
@@ -828,8 +824,8 @@ Dungeon_LoadRoom:
     ; Get room index * 3.
     LDX.w $0110
     
-    LDA.l $1F8001, X : STA.b $B8
-    LDA.l $1F8000, X : STA.b $B7
+    LDA.l RoomData_ObjectDataPointers+1, X : STA.b $B8
+    LDA.l RoomData_ObjectDataPointers+0, X : STA.b $B7
     
     ; Draw Layer 1 objects to BG2.
     JSR Dungeon_DrawObjects
@@ -929,23 +925,21 @@ Dungeon_LoadRoom:
 
 ; ==============================================================================
 
+; Loads Level data?
 ; $0088E4-$008915 LOCAL JUMP LOCATION
 Dungeon_DrawObjects:
 {
-    ; Loads Level data?
-    
     .nextType1
     
-    STZ.b $B2
-    STZ.b $B4
-    
-    LDY.b $BA
-    
-    LDA [$B7], Y : CMP.w #$FFFF : BEQ .return
-        STA.b $00 : CMP.w #$FFF0 : BEQ .enteredType2Section
-            JSR Dungeon_LoadType1Object
-            
-            BRA .nextType1
+        STZ.b $B2
+        STZ.b $B4
+        
+        LDY.b $BA
+        
+        LDA [$B7], Y : CMP.w #$FFFF : BEQ .return
+            STA.b $00 : CMP.w #$FFF0 : BEQ .enteredType2Section
+                JSR Dungeon_LoadType1Object
+    BRA .nextType1
     
     .return
     
@@ -974,12 +968,10 @@ Dungeon_DrawObjects:
 
 ; ==============================================================================
 
+; This apparently loads doors. More generally loads 2 byte objects.
 ; $008916-$00893B LOCAL JUMP LOCATION
 Dungeon_LoadType2Object:
 {
-    ; This apparently loads doors...
-    ; More generally loads 2 byte objects >_>.
-    
     AND.w #$00F0 : LSR #3 : STA.b $02
     
     LDA.b $00 : XBA : AND.w #$00FF : STA.b $0A : STA.b $04
@@ -998,11 +990,10 @@ Dungeon_LoadType2Object:
 
 ; ==============================================================================
 
+; Loads a 3 byte object into a room.
 ; $00893C-$0089DB LOCAL JUMP LOCATION
 Dungeon_LoadType1Object:
 {
-    ; Loads a 3 byte object into a room.
-    
     SEP #$20
     
     ; Basically, if object # >= 0xFC.
@@ -1107,8 +1098,8 @@ Dungeon_DrawFloors:
         ; Sets up the drawing to go to BG1 ($7E4000 and beyond)
         ; I guess we're setting up the addresses that we'll be writing to in
         ; the $BF, X array. This array extends up until $DF.
-        LDA Dungeon_DrawObjectOffsets_BG1,   X : STA.b $BF, X
-        LDA Dungeon_DrawObjectOffsets_BG1+1, X : STA.b $C0, X
+        LDA.l Dungeon_DrawObjectOffsets_BG1+0, X : STA.b $BF, X
+        LDA.l Dungeon_DrawObjectOffsets_BG1+1, X : STA.b $C0, X
     DEX #3 : BPL .nextBg1Offset
     
     LDY.b $BA : INC.b $BA
@@ -1126,7 +1117,7 @@ Dungeon_DrawFloors:
     .nextBg2Offset
     
         ; Sets up the drawing to now be to BG2 ($7E2000 and beyond).
-        LDA Dungeon_DrawObjectOffsets_BG2+1, X : STA.b $C0, X
+        LDA.l Dungeon_DrawObjectOffsets_BG2+1, X : STA.b $C0, X
     DEX #3 : BPL .nextBg2Offset
     
     STZ.b $0C
@@ -1675,7 +1666,7 @@ RoomDraw_Rightwards1x2_1to16_plus2:
     
     LDA.w #$0001
     
-    ; (this routine segues into Object_Draw3xN).
+    ; Bleeds into the next function.
 }
     
 ; $008D80-$008D9D LOCAL JUMP LOCATION
@@ -1730,12 +1721,11 @@ RoomDraw_3x3FloorIn4x4SuperSquare:
 
 ; ==============================================================================
 
+; Variable Size Hole object
+; Type 1 Subtype 1 Index 0xA4
 ; $008DDC-$008E66 JUMP LOCATION
 Object_Hole:
 {
-    ; Variable Size Hole object
-    ; Type 1 Subtype 1 Index 0xA4
-    
     LDA.w #$0004
     
     JSR Object_Size_N_to_N_plus_15
@@ -2066,7 +2056,7 @@ RoomDraw_4x4FloorTwoIn4x4SuperSquare:
 {
     LDX.w $0490
     
-    BRA RoomDraw_4x4FloorIn4x4SuperSquare ; $8FA5
+    BRA RoomDraw_4x4FloorIn4x4SuperSquare
 }
 
 ; $008FA2-$008FBB JUMP LOCATION
@@ -2358,15 +2348,13 @@ RoomDraw_Rightwards1x1Solid_1to16_plus3:
     JMP.w RoomDraw_Repeated1x1_CachedCount
 }
 
+; 1.1.0x35
+; This object seems to do something, but it shows up in no room in the ROM! (to
+; my knowledge) However, it seems to utilize code used by doors. Seems like it
+; might have something to do with Agahnim's curtains, but it's a long shot.
 ; $00913F-$00918E JUMP LOCATION
 RoomDraw_DoorSwitcherer:
 {
-    ; 1.1.0x35
-    ; This object seems to do something, but it shows up in no room in the rom!
-    ; (to my knowledge) However, it seems to utilize code used by doors....
-    ; Seems like it might have something to do with Agahnim's curtains,
-    ; but it's a long shot.
-    
     STY.w $04B0
     
     ; Check to see which BG we're on.
@@ -2422,18 +2410,17 @@ RoomDraw_DoorSwitcherer:
     RTS
 }
 
+; Undefined objects (1.1.0xCB, 1.1.0xCC).
 ; $00918F-$00918F JUMP LOCATION
 RoomDraw_Nothing_E:
 {
-    ; Undefined objects (1.1.0xCB, 1.1.0xCC).
     RTS
 }
 
+; Hidden wall (facing right)
 ; $009190-$00921B JUMP LOCATION
 Object_HiddenWallRight:
 {
-    ; Hidden wall (facing right)
-    
     JSR.w RoomDraw_CheckIfWallIsMoved : BCS .drawWall
         RTS
     
@@ -3003,13 +2990,11 @@ RoomDraw_RightwardsDecor2x2spaced12_1to16:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED: This is another unused object in the rom.
+; However it is visually something it's a thin waterfall for indoors!
 ; $009466-$009487 JUMP LOCATION
 RoomDraw_Waterfall47:
 {
-    ; This is another unused object in the rom.
-    ; However it is visually something it's a thin waterfall for indoors!
-    
     JSR Object_Size1to16
     
     ASL.b $B2
@@ -3156,7 +3141,7 @@ Object_Water:
     SEP #$30
     
     ; (AND with 0x08)
-    LDA.w $0403 : AND.w DoorFlagMasks+1 : BEQ RoomTag_WaterOff_AdjustWater_notTriggered
+    LDA.w $0403 : AND.w DoorFlagMasks+1 : BEQ RoomTag_WaterOff_notTriggered
         STZ.b $AF
         STZ.w $0414
         
@@ -3183,29 +3168,31 @@ Object_Water:
         ; Bleeds into the next function.
 }
         
-; $0095A0-$0095EE JUMP LOCATION
+; $0095A0-$0095D4 JUMP LOCATION
 RoomTag_WaterOff_AdjustWater:
 {
-        LDY.w #$1438
+    LDY.w #$1438
         
-        LDA.w #$0004 : STA.b $0E
+    LDA.w #$0004 : STA.b $0E
         
-        .loop
+    .loop
         
-            LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
-            LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X
-            LDA.w RoomDrawObjectData+04, Y : STA.l $7E2004, X
-            LDA.w RoomDrawObjectData+06, Y : STA.l $7E2006, X
+        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+02, Y : STA.l $7E2002, X
+        LDA.w RoomDrawObjectData+04, Y : STA.l $7E2004, X
+        LDA.w RoomDrawObjectData+06, Y : STA.l $7E2006, X
             
-            TYA : CLC : ADC.w #$0008 : TAY
+        TYA : CLC : ADC.w #$0008 : TAY
             
-            TXA : CLC : ADC.w #$0080 : TAX
-        DEC.b $0E : BNE .loop
+        TXA : CLC : ADC.w #$0080 : TAX
+    DEC.b $0E : BNE .loop
         
-        RTS
+    RTS
+}
     
-    .notTriggered
-    
+; $0095D5-$0095EE JUMP LOCATION
+RoomTag_WaterOff_notTriggered:
+{
     REP #$30
     
     LDX.w #$0110
@@ -3537,7 +3524,7 @@ Object_Draw4x4:
 {
     LDA.w #$0004
 
-    ; Segues into next routine.
+    ; Bleeds into the next function.
 } 
 
 ; $0097F0 JUMP LOCATION
@@ -3631,7 +3618,7 @@ RoomDraw_LitTorch:
     ; Increment number of torches in room?
     INC.w $045A
     
-    ; Segues into next routine.
+    ; Bleeds into the next function.
 }
     
 ; $009895 JUMP LOCATION
@@ -3679,11 +3666,10 @@ Object_BigKeyLock:
 
 ; ==============================================================================
 
+; Normal Chest Object ( Type 0x01.0x03.0x19 )
 ; $0098D0-$0099BA JUMP LOCATION
 Object_Chest:
 {
-    ; Normal Chest Object ( Type 0x01.0x03.0x19 )
-    
     ; Are we in the ending sequence?
     ; If so, don't bother with this stuff.
     LDA.b $10 : AND.w #$00FF : CMP.w #$001A : BEQ Object_BigKeyLock_easyOut
@@ -3700,7 +3686,7 @@ Object_Chest:
         
         ; Check to see if the chest has already been opened.
         ; It's already been opened.
-        LDA.w $0402 : AND.w $9900, X : BNE .alreadyOpened
+        LDA.w $0402 : AND.w RoomFlagMask, X : BNE .alreadyOpened
             INX #2 : STX.w $0496 : STX.w $0498
             
             LDY.w #$FF00
@@ -3712,8 +3698,9 @@ Object_Chest:
             CMP.w #$0027 : BEQ .hiddenChest
             CMP.w #$003C : BEQ .hiddenChest
             CMP.w #$003E : BEQ .hiddenChest
-            CMP.w #$0029 : BCC .checkTag2
-            CMP.w #$0033 : BCC .hiddenChest
+                CMP.w #$0029 : BCC .checkTag2
+                    CMP.w #$0033 : BCC .hiddenChest
+
                 .checkTag2
             
                 ; Load the tag2 properties.
@@ -3734,7 +3721,7 @@ Object_Chest:
             
             ; Has the chest already been opened?
             ; No, we're done and the chest will remain hidden.
-            LDA.w $0402 : AND.l $009900, X : BEQ Object_BigKeyLock_easyOut
+            LDA.w $0402 : AND.l RoomFlagMask, X : BEQ Object_BigKeyLock_easyOut
                 ; If the chest has been revealed, neutralize the tag routine
                 ; that would trigger it.
                 TYA : AND.b $AE : STA.b $AE
@@ -3812,12 +3799,12 @@ Object_BigChest:
     .onBg2
     
     ; If the chest has already been opened.
-    LDA.w $0402 : AND.w $9900, X : BNE Object_OpenedBigChest
+    LDA.w $0402 : AND.w RoomFlagMask, X : BNE Object_OpenedBigChest
         INX #2 : STX.w $0496 : STX.w $0498
         
         LDX.w #$14AC
 
-    ; Segues into next routine.
+    ; Bleeds into the next function.
 }
 
 ; $0099E6 ALTERNATE ENTRY POINT
@@ -3931,11 +3918,10 @@ Object_Draw8x6:
 
 ; ==============================================================================
 
+; Star shaped switch tiles (1.2.0x1F)
 ; $009A6F-$009A8F JUMP LOCATION
 Object_StarTile:
 {
-    ; Star shaped switch tiles (1.2.0x1F)
-    
     PHX
     
     LDX.w $0432
@@ -3951,10 +3937,9 @@ Object_StarTile:
     
     PLX
     
+    ; Disabled star shaped switch tile (1.2.0x1E)
     ; $009A8D ALTERNATE ENTRY POINT
     .disabled
-    
-    ; Dummied star shaped switch tile (1.2.0x1E)
     
     JMP Object_Draw2x2_AdvanceDown
 }
@@ -4042,7 +4027,7 @@ Object_Draw5x4:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED:
 ; $009B18-$009B1D LOCAL JUMP LOCATION
 UNREACHABLE_019B18:
 {
@@ -4053,11 +4038,10 @@ UNREACHABLE_019B18:
 
 ; ==============================================================================
 
+; Object 1.2.0x35 (Water ladders)
 ; $009B1E-$009B4F JUMP LOCATION
 Object_WaterLadder:
 {
-    ; Object 1.2.0x35 (Water ladders)?
-    
     ; Branch if not the water twin tag
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .alpha
         LDA.b $A0 : ASL A : TAX
@@ -4077,7 +4061,7 @@ Object_WaterLadder:
     
     LDX.w #$1108
 
-    ; Segues into next routine.
+    ; Bleeds into the next function.
 }
 
 ; $009B48 ALTERNATE ENTRY POINT
@@ -4166,11 +4150,10 @@ Object_Draw2x3:
 
 ; ==============================================================================
 
+; Watergate barrier object
 ; $009BF8-$009C3A JUMP LOCATION
 Object_Watergate:
 {
-    ; Watergate barrier object
-    
     LDA.w $0402 : AND.w #$0800 : BNE .hasBeenOpened
         LDA.w #$000A
         
@@ -4213,9 +4196,10 @@ Object_Watergate:
 ; $009C3B-$009C43 JUMP LOCATION
 RoomDraw_SomariaLine_increment_count:
 {
+    ; TODO: Investigate this.
     INC.w $03F4 ; WTF is this?
 
-    ; Segues into next routine.
+    ; Bleeds into the next function.
 }
 
 ; $009C3E ALTERNATE ENTRY POINT
@@ -4352,7 +4336,7 @@ RoomDraw_EmptyWaterFace:
     ; Also check for the "turn on water" tag
     LDA.w #$19 : CMP.b $AF : BNE .notTurnOnWaterTag
         ; AND with 0x0008
-        LDA.w $0403 : AND.w $98C9 : BNE RoomDraw_SpittingWaterFace
+        LDA.w $0403 : AND.w DoorFlagMasks+1 : BNE RoomDraw_SpittingWaterFace
     
     .notTurnOnWaterTag
     
@@ -4410,11 +4394,11 @@ RoomDraw_TableBowl:
     RTS
 }
 
+; Kholdstare's Shell object (1.3.0x15)
 ; $009D96-$009DD8 JUMP LOCATION
 Object_Draw8xN:
 Object_KholdstareShell:
 {
-    ; Kholdstare's Shell object (1.3.0x15)
     ; Check the 0x8000 bit if it was set, don't draw at all.
     LDA.w $0402 : ASL A : BCS .boss_defeated
         LDY.w #$1DFA
@@ -4454,10 +4438,10 @@ Object_KholdstareShell:
     RTS
 }
 
+; Trinexx Shell (1.3.0x72)
 ; $009DD9-$019DE5 JUMP LOCATION
 Object_TrinexxShell:
 {
-    ; Trinexx Shell (1.3.0x72)
     LDA.w $0402 : ASL A : BCS Object_Draw8xN_boss_defeated
         TXY
         
@@ -4530,22 +4514,22 @@ Object_AgahnimAltar:
     
     .nextRow
     
-        LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
+        LDA.w RoomDrawObjectData+000, Y : STA.l $7E2000, X
         ORA.w #$4000 : STA.l $7E201A, X
         
-        LDA.w $9B6E, Y : STA.l $7E2002, X : STA.l $7E2004, X
+        LDA.w RoomDrawObjectData+028, Y : STA.l $7E2002, X : STA.l $7E2004, X
         EOR.w #$4000 : STA.l $7E2016, X : STA.l $7E2018, X
         
-        LDA.w $9B8A, Y : STA.l $7E2006, X
+        LDA.w RoomDrawObjectData+056, Y : STA.l $7E2006, X
         EOR.w #$4000 : STA.l $7E2014, X
         
-        LDA.w $9BA6, Y : STA.l $7E2008, X
+        LDA.w RoomDrawObjectData+084, Y : STA.l $7E2008, X
         EOR.w #$4000 : STA.l $7E2012, X
         
-        LDA.w $9BC2, Y : STA.l $7E200A, X
+        LDA.w RoomDrawObjectData+112, Y : STA.l $7E200A, X
         EOR.w #$4000 : STA.l $7E2010, X
         
-        LDA.w $9BDE, Y : STA.l $7E200C, X
+        LDA.w RoomDrawObjectData+140, Y : STA.l $7E200C, X
         EOR.w #$4000 : STA.l $7E200E, X
         
         TXA : CLC : ADC.w #$0080 : TAX
@@ -4763,13 +4747,13 @@ Object_FortuneTellerTemplate:
         LDA.w RoomDrawObjectData+20, Y : STA.l $7E2506, X
         EOR.w #$4000   : STA.l $7E2514, X
         
-        LDA.w $9B6E, Y : STA.l $7E2508, X
+        LDA.w RoomDrawObjectData+28, Y : STA.l $7E2508, X
         EOR.w #$4000   : STA.l $7E2512, X
         
-        LDA.w $9B76, Y : STA.l $7E250A, X
+        LDA.w RoomDrawObjectData+36, Y : STA.l $7E250A, X
         EOR.w #$4000   : STA.l $7E2510, X
         
-        LDA.w $9B7E, Y : STA.l $7E250C, X
+        LDA.w RoomDrawObjectData+44, Y : STA.l $7E250C, X
         EOR.w #$4000   : STA.l $7E250E, X
         
         INY #2
@@ -4865,16 +4849,15 @@ Object_EntireFloorIsPit:
     
     LDX.w #$00E0
     
-    JMP.w $8A1F ; $008A1F IN ROM
+    JMP.w Dungeon_DrawFloors_nextQuadrant
 }
 
 ; ==============================================================================
 
+; In-floor in-room up-north staircase (1.2.0x30)
 ; $00A25D-$00A26C JUMP LOCATION
 RoomDraw_AutoStairs_North_MultiLayer_A:
 {
-    ; In-floor in-room up-north staircase (1.2.0x30)
-    
     PHX
     
     LDX.w $043C
@@ -4886,11 +4869,10 @@ RoomDraw_AutoStairs_North_MultiLayer_A:
     BRA RoomDraw_AutoStairs_North_MultiLayer_B_drawObject
 }
 
+; (1.2.0x31)
 ; $00A26D-$00A2C0 ALTERNATE ENTRY POINT
 RoomDraw_AutoStairs_North_MultiLayer_B:
 {
-    ; (1.2.0x31)
-    
     PHX
     
     LDX.w $043E
@@ -4936,12 +4918,11 @@ AutoStairsNorthMergedStart:
 
     ; Bleeds into the next function.
 }
-    
+
+; (1.2.0x32) inter-psuedo-bg north staircase
 ; $00A2C7-$00A2DE ALTERNATE ENTRY POINT
 RoomDraw_AutoStairs_North_MergedLayer_A:
 {
-    ; (1.2.0x32) inter-psuedo-bg north staircase
-    
     PHX
     
     LDX.w $0440
@@ -4959,11 +4940,10 @@ RoomDraw_AutoStairs_North_MergedLayer_A:
     JMP Object_Draw4x4
 }
 
+; (1.2.0x33)
 ; $00A2DF-$00A30B JUMP LOCATION
 RoomDraw_AutoStairs_North_MergedLayer_B:
 {
-    ; (1.2.0x33)
-    
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .notWaterTwin
         LDA.b $A0 : ASL A : TAX
         
@@ -4985,11 +4965,10 @@ RoomDraw_AutoStairs_North_MergedLayer_B:
     JMP Object_Draw4x4
 }
 
+; In-room up-south staircase (1.3.0x1B)
 ; $00A30C-$00A31B JUMP LOCATION
 RoomDraw_AutoStairs_South_MultiLayer_A:
 {
-    ; In-room up-south staircase (1.3.0x1B)
-    
     PHX
     
     LDX.w $049A
@@ -5001,11 +4980,10 @@ RoomDraw_AutoStairs_South_MultiLayer_A:
     BRA RoomDraw_AutoStairs_South_MultiLayer_B_drawObject
 }
 
+; In-room up-north staircase (1.3.0x1C)
 ; $00A31C-$00A369 JUMP LOCATION
 RoomDraw_AutoStairs_South_MultiLayer_B:
 {
-    ; In-room up-north staircase (1.3.0x1C)
-    
     PHX
     
     LDX.w $049C
@@ -5048,11 +5026,10 @@ South_MergedStairs_BecomeMultiC:
     ; Bleeds into the next function.
 }
 
+; In-room up-south staircase (1.3.0x1D)
 ; $00A36E-$00A380 JUMP LOCATION
 RoomDraw_AutoStairs_South_MultiLayer_C:
 {
-    ; In-room up-south staircase (1.3.0x1D)
-    
     PHX
     
     LDX.w $049E
@@ -5066,11 +5043,10 @@ RoomDraw_AutoStairs_South_MultiLayer_C:
     JMP Object_Draw4x4
 }
 
+; In room up-staircase (1.3.0x33)
 ; $00A380-$00A3AD JUMP LOCATION
 RoomDraw_AutoStairs_South_MergedLayer:
 {
-    ; In room up-staircase (1.3.0x33)
-    
     PHX
     
     LDA.b $AF : AND.w #$00FF : CMP.w #$001B : BNE .indoors
@@ -5092,12 +5068,10 @@ RoomDraw_AutoStairs_South_MergedLayer:
     JMP Object_Draw4x4
 }
 
+; 1.2.0x36 Inactive ladders in the swamp palace
 ; $00A3AE-$00A41A JUMP LOCATION
 Object_InactiveWaterLadder:
 {
-    ; Inactive ladders in the swamp palace
-    ; (1.2.0x36)
-    
     LDX.w $0446
     
     TYA : LSR A : STA.w $06B8, X
@@ -5123,12 +5097,10 @@ Object_InactiveWaterLadder:
     RTS
 }
 
+; 1.2.0x2D In-Floor up-north staircase
 ; $00A41B-$00A457 JUMP LOCATION
 RoomDraw_InterRoomFatStairsUp:
 {
-    ; In-Floor up-north staircase
-    ; (1.2.0x2D)
-    
     LDX.w $0438
     
     TYA : LSR A : STA.w $06B0, X
@@ -5156,12 +5128,10 @@ RoomDraw_InterRoomFatStairsUp:
     JMP Object_Draw4x4
 }
 
+; 1.2.0x2E In-floor inter-floor down-south staircase
 ; $00A458-$00A485 JUMP LOCATION
 RoomDraw_InterRoomFatStairsDown_A:
 {
-    ; In-floor inter-floor down-south staircase
-    ; (1.2.0x2E)
-    
     LDX.w $043A
     
     TYA : LSR A : STA.w $06B0, X
@@ -5184,12 +5154,10 @@ RoomDraw_InterRoomFatStairsDown_A:
     JMP Object_Draw4x4
 }
 
+; 1.2.0x2F In-floor inter-room down-south staircase (use with hidden wall)
 ; $00A486-$00A4B3 JUMP LOCATION
 RoomDraw_InterRoomFatStairsDown_B:
 {
-    ; In-floor inter-room down-south staircase (use with hidden wall)
-    ; (1.2.0x2F)
-    
     LDX.w $043A
     
     TYA : LSR A : STA.w $06B0, X
@@ -5212,12 +5180,10 @@ RoomDraw_InterRoomFatStairsDown_B:
     JMP Object_Draw4x4
 }
 
+; 1.2.0x38 Inter-room in-wall up-north spiral staircase
 ; $00A4B4-$00A4F4 JUMP LOCATION
 RoomDraw_SpiralStairsGoingUpUpper:
 {
-    ; Inter-room in-wall up-north spiral staircase
-    ; (1.2.0x38)
-    
     LDX.w $047E
     
     TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
@@ -5244,13 +5210,12 @@ RoomDraw_SpiralStairsGoingUpUpper:
     
     BRA .drawLayer1Obj
 }
-    
+
+; 1.2.0x3A In-wall inter-room up-north spiral staircase (alternate)
+; NOTE: this object is not actually used in the original game
 ; $00A4F5-$00A532 JUMP LOCATION
 RoomDraw_SpiralStairsGoingUpLower:
 {
-    ; In-wall inter-room up-north spiral staircase (alternate)
-    ; (1.2.0x3A) (note: this object is not actually used in the original game)
-    
     LDX.w $0482
     
     TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
@@ -5276,11 +5241,10 @@ RoomDraw_SpiralStairsGoingUpLower:
     BRA RoomDraw_SpiralStairsGoingDownLower_drawLayer2Obj
 }
 
+; 1.2.0x39 In-wall inter-floor down-north spiral staircase
 ; $00A533-$00A583 JUMP LOCATION
 RoomDraw_SpiralStairsGoingDownUpper:
 {
-    ; (1.2.0x39) In-wall inter-floor down-north spiral staircase
-    
     LDX.w $0480
     
     ; Take the tilemap address and load it into A
@@ -5304,6 +5268,7 @@ RoomDraw_SpiralStairsGoingDownUpper:
     
     LDX.w #$1160
     
+    ; TODO: Alternate entry point?
     .drawLayer1Obj
     
     LDA.w #$0004
@@ -5318,12 +5283,10 @@ RoomDraw_SpiralStairsGoingDownUpper:
     RTS
 }
 
+; 1.2.0x3B In-wall inter-room down-north spiral staircase
 ; $00A584-$00A5D1 JUMP LOCATION
 RoomDraw_SpiralStairsGoingDownLower:
 {
-    ; In-wall inter-room down-north spiral staircase
-    ; (1.2.0x3B)
-    
     LDX.w $0484
     
     TYA : SEC : SBC.w #$0080 : LSR A : STA.w $06B0, X
@@ -5357,12 +5320,10 @@ RoomDraw_SpiralStairsGoingDownLower:
     RTS
 }
 
+; 1.3.0x1E Wall up-north staircase. Similar to 1.3.0x26 but only BG2.
 ; $00A5D2-$00A5F3 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingUpNorthUpper:
 {
-    ; Wall up-north staircase (1.3.0x1E)
-    ; Similar to 1.3.0x26 but only BG2
-    
     PHX
     
     LDX.w $04A2
@@ -5382,11 +5343,10 @@ RoomDraw_StraightInterroomStairsGoingUpNorthUpper:
     BRA RoomDraw_StraightInterroomStairsUpper
 }
 
+; 1.3.0x1F In-wall inter-room down-north straight staircase (BG2 only)
 ; $00A5F4-$00A606 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingDownNorthUpper:
 {
-    ; In-wall inter-room down-north straight staircase (1.3.0x1F) (BG2 only)
-    
     PHX
     
     LDX.w $04A6
@@ -5401,11 +5361,10 @@ RoomDraw_StraightInterroomStairsGoingDownNorthUpper:
     BRA RoomDraw_StraightInterroomStairsUpper
 }
 
+; 1.3.0x20 Straight up south staircase
 ; $00A607-$00A625 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingUpSouthUpper:
 {
-    ; Straight up south staircase (1.3.0x20)
-    
     PHX
     
     LDX.w $04A4
@@ -5424,11 +5383,10 @@ RoomDraw_StraightInterroomStairsGoingUpSouthUpper:
     BRA RoomDraw_StraightInterroomStairsUpper
 }
 
+; 1.3.0x21 Object
 ; $00A626-$00A633 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingDownSouthUpper:
 {
-    ; Object (1.3.0x21)
-    
     PHX
     
     LDX.w $04A8
@@ -5465,12 +5423,10 @@ RoomDraw_StraightInterroomStairsUpper:
     RTS
 }
 
+; 1.3.0x26 Wall up-straight-staircase. Similar to 1.3.0x1E, but only BG1
 ; $00A664-$00A694 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingUpNorthLower:
 {
-    ; Wall up-straight-staircase (1.3.0x26)
-    ; Similar to 1.3.0x1E, but only BG1
-    
     PHX
     
     LDX.w $04A2
@@ -5495,11 +5451,10 @@ RoomDraw_StraightInterroomStairsGoingUpNorthLower:
     BRA RoomDraw_StraightInterroomStairsLower
 }
     
+; 1.3.0x27 In-wall inter-room down-north straight staircase (BG1 only)
 ; $00A695-$00A6B4 JUMP LOCATION
 RoomDraw_StraightInterroomStairsGoingDownNorthLower:
 {
-    ; (1.3.0x27) In-wall inter-room down-north straight staircase (BG1 only)
-    
     PHX
     
     LDX.w $04A6
@@ -5583,10 +5538,10 @@ RoomDraw_StraightInterroomStairsGoingUpSouthLower:
     BRA RoomDraw_StraightInterroomStairsGoingDownSouthLower_draw
 }
 
+; 1.3.0x29 Straight down south staircase (layer2?)
 ; $00A74A-$00A7A2 ALTERNATE ENTRY POINT
 RoomDraw_StraightInterroomStairsGoingDownSouthLower:
 {
-    ; Straight down south staircase (layer2?) (1.3.0x29)
     PHX
     
     LDX.w $04A8
@@ -5623,7 +5578,7 @@ RoomDraw_StraightInterroomStairsGoingDownSouthLower:
     
     LDA.b $08 : CLC : ADC.w #$0200
     
-    JMP.w $A6EE ; $00A6EE IN ROM
+    JMP.w RoomDraw_StraightInterroomStairsLower_increasePriority
 }
 
 ; $00A7A3-$00A7B5 JUMP LOCATION
@@ -5674,7 +5629,7 @@ Object_8x8:
         ; $00A7DC ALTERNATE ENTRY POINT
         .draw
         
-        ; Boss entrance doorways + symbol (and Blind light)
+        ; Boss entrance doorways + symbol (and Blind light).
         JSR Object_Draw4x4
         JSR Object_Draw4x4
         
@@ -5733,7 +5688,7 @@ Object_Draw10x20_With4x4:
 Door_Up:
 {
     ; Determine the position for the door from a table
-    LDY.w $997E, X : STY !tilemap_pos
+    LDY.w DoorTilemapPositions_NorthWall, X : STY !tilemap_pos
     
     CMP.w #$0030 : BNE .notBlastWall
         JMP Door_BlastWall
@@ -5754,7 +5709,7 @@ Door_Up:
     .BRANCH_GAMMA
     
     CMP.w #$0006 : BNE .BRANCH_DELTA
-        JMP.w $AF7F ; $00AF7F IN ROM
+        JMP.w RoomDraw_MakeDoorHighPriorityLowerLayer_North
     
     .BRANCH_DELTA
     
@@ -5772,7 +5727,7 @@ Door_Up:
     TYA : AND.w #$F07F
     
     JSR Door_Prioritize7x4
-    JMP.w $A90F ; $00A90F IN ROM
+    JMP.w RoomDraw_NormalRangedDoors_North
     
     .BRANCH_ZETA
     
@@ -5788,7 +5743,7 @@ Door_Up:
     .notExitDoor
     
     CMP.w #$0008 : BNE .BRANCH_IOTA
-        JSR.w $A90F ; $00A90F IN ROM
+        JSR.w RoomDraw_NormalRangedDoors_North
         
         BRA .BRANCH_KAPPA
     
@@ -5811,7 +5766,7 @@ Door_Up:
             
             TXA : AND.w #$000F : TAY
             
-            LDA.w $98C0, Y
+            LDA.w DungeonMask, Y
             
             LDY !tilemap_pos
             
@@ -5822,6 +5777,7 @@ Door_Up:
             
             .BRANCH_NU
             
+            ; TODO: missing label? Or is it supposed to be the one above.
             ; Branch here if it's a locked door and hasn't been unlocked.
             
             LDA.b $04 : CMP.w #$0024 : BCC RoomDraw_NormalRangedDoors_North_BRANCH_RHO
@@ -5833,7 +5789,7 @@ Door_Up:
                 
                 JSR Door_Register
                 
-                LDA.w $CD9E, Y : TAY
+                LDA.w DoorGFXDataOffset_North, Y : TAY
                 
                 LDX !tilemap_pos
                 
@@ -5867,7 +5823,7 @@ RoomDraw_ChangeTilemapAddressToLowerLayer:
     
     ; Branch on default and type < 0x40
     CMP.w #$0040 : BCC RoomDraw_NormalRangedDoors_North
-        JMP.w $AD41 ; $00AD41 IN ROM
+        JMP.w RoomDraw_HighRangeDoor_North
 }
     
 ; $00A90F-$00A983 JUMP LOCATION
@@ -5882,11 +5838,11 @@ RoomDraw_NormalRangedDoors_North:
         
         ORA.w #$0010 : STA.w $0460
         
-        LDY.w $998A, X
+        LDY.w DoorTilemapPositions_NorthMiddle, X
         
         LDA.b $04
         
-        JSR.w $AA66 ; $00AA66 IN ROM
+        JSR.w RoomDraw_CheckIfLowerLayerDoors_Vertical
         
         PLA : STA.w $0460
         
@@ -5920,7 +5876,7 @@ RoomDraw_NormalRangedDoors_North:
         
         .notOneSidedTrapDoor
         
-        LDX.w $CD9E, Y
+        LDX.w DoorGFXDataOffset_North, Y
         
         LDY !tilemap_pos
         
@@ -5948,7 +5904,7 @@ RoomDraw_NormalRangedDoors_North:
 Door_Down:
 {
     ; Get the position of the door
-    LDY.w $9996, X : STY.b $08
+    LDY.w DoorTilemapPositions_SouthMiddle, X : STY.b $08
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : CLC : ADC.w #$0202
@@ -5981,7 +5937,7 @@ Door_Down:
     .notExitDoor
     
     CMP.w #$0040 : BCC .notTopOnBg1Door
-        JMP.w $ADD4 ; $00ADD4 IN ROM
+        JMP.w RoomDraw_OneSidedLowerShutters_South
     
     .notTopOnBg1Door
     
@@ -6068,7 +6024,7 @@ RoomDraw_HighPriorityExitLight:
         
         ORA.w #$2000 : STA.b $08 : TAY
         
-        JSR.w $AA2F ; $00AA2F IN ROM
+        JSR.w RoomDraw_HighPriorityExitLight
         
         PHA
         
@@ -6096,8 +6052,8 @@ RoomDraw_CheckIfLowerLayerDoors_Vertical:
     .BRANCH_XI
     
     CMP.w #$0008 : BNE .notWaterfallDoor
-        JSR.w $AA80 ; $00AA80 IN ROM
-        JMP.w $A8FA ; $00A8FA IN ROM
+        JSR.w RoomDraw_OneSidedShutters_South
+        JMP.w RoomDraw_ChangeTilemapAddressToLowerLayer
 
     .notWaterfallDoor
 
@@ -6133,7 +6089,7 @@ RoomDraw_OneSidedShutters_South:
         
         .BRANCH_SIGMA
         
-        LDX.w $CE06, Y
+        LDX.w DoorGFXDataOffset_South, Y
         
         LDY.b $08
         
@@ -6161,7 +6117,7 @@ RoomDraw_OneSidedShutters_South:
 Door_Left:
 {
     ; Get the position of the door
-    LDY.w $99AE, X : STY.b $08
+    LDY.w DoorTilemapPositions_WestWall, X : STY.b $08
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : CLC : ADC.w #$007C
@@ -6171,7 +6127,7 @@ Door_Left:
     .notFloorToggleProperty
     
     CMP.w #$0006 : BNE .notPrioritizeProperty
-        JMP.w $B00D ; $00B00D IN ROM
+        JMP.w RoomDraw_MakeDoorHighPriorityLowerLayer_West
     
     .notPrioritizeProperty
     
@@ -6192,13 +6148,13 @@ Door_Left:
     .BRANCH_DELTA
     
     CMP.w #$0008 : BNE .BRANCH_ZETA
-        JSR.w $AB1F ; $00AB1F IN ROM
-        JMP.w $A8FA ; $00A8FA IN ROM
+        JSR.w RoomDraw_NormalRangedDoors_West
+        JMP.w RoomDraw_ChangeTilemapAddressToLowerLayer
     
     .BRANCH_ZETA
     
     CMP.w #$0040 : BCC .BRANCH_EPSILON
-        JMP.w $AE40 ; $00AE40 IN ROM
+        JMP.w RoomDraw_HighRangeDoor_West
     
     .BRANCH_EPSILON ; Default behavior
 }
@@ -6213,11 +6169,11 @@ RoomDraw_NormalRangedDoors_West:
         
         ORA.w #$0010 : STA.w $0460
         
-        LDY.w $99BA, X
+        LDY.w DoorTilemapPositions_WestMiddle, X
         
         LDA.b $04
         
-        JSR.w $ABC8 ; $00ABC8 IN ROM
+        JSR.w RoomDraw_NormalRangedDoors_East
         
         PLA : STA.w $0460
         
@@ -6252,7 +6208,7 @@ RoomDraw_NormalRangedDoors_West:
     
     .BRANCH_MU
     
-    LDX.w $CE66, Y
+    LDX.w DoorGFXDataOffset_West, Y
     
     LDY.b $08
     
@@ -6283,14 +6239,12 @@ RoomDraw_DrawUnreachableDoorSwitcher:
 
 ; ==============================================================================
 
+; Draws a door? Eg #$4632
 ; $00AB99-$00ABC7 JUMP LOCATION
 Door_Right:
 {
-    ; Draws a door?
-    ; Eg #$4632
-    
     ; Get the position of the door
-    LDY.w $99C6, X : STY.b $08
+    LDY.w DoorTilemapPositions_EastMiddle, X : STY.b $08
     
     CMP.w #$0016 : BNE .notFloorToggleProperty
         TYA : CLC : ADC.w #$0088
@@ -6300,7 +6254,7 @@ Door_Right:
     .notFloorToggleProperty
     
     CMP.w #$0006 : BNE .BRANCH_KAPPA
-        JMP.w $B050 ; $00B050 IN ROM
+        JMP.w RoomDraw_MakeDoorHighPriorityLowerLayer_East
     
     .BRANCH_KAPPA
     
@@ -6313,7 +6267,7 @@ Door_Right:
     
     ; If less than #$0040, branch.
     CMP.w #$0040 : BCC .BRANCH_THETA
-        JMP.w $AEF0 ; $00AEF0 IN ROM
+        JMP.w RoomDraw_OneSidedLowerShutters_East
 
     .BRANCH_THETA
 
@@ -6328,13 +6282,13 @@ RoomDraw_NormalRangedDoors_East:
         
         JSR Door_Prioritize4x5
         
-        BRA .BRANCH_ALPHA ; Bruh.
+        BRA .BRANCH_ALPHA ; OPTIMIZE: Useless branch.
     
     .BRANCH_ALPHA
     
     CMP.w #$0008 : BNE .BRANCH_BETA
-        JSR.w $ABE2 ; $00ABE2 IN ROM
-        JMP.w $A8FA ; $00A8FA IN ROM
+        JSR.w RoomDraw_OneSidedShutters_East
+        JMP.w RoomDraw_ChangeTilemapAddressToLowerLayer
     
     .BRANCH_BETA
 
@@ -6369,7 +6323,7 @@ RoomDraw_OneSidedShutters_East:
         
         .BRANCH_EPSILON
         
-        LDX.w $CEC6, Y
+        LDX.w DoorGFXDataOffset_East, Y
         
         LDY.b $08 : INY #2
         
@@ -6400,18 +6354,17 @@ DrawUnusedDoorSwitchObject:
     
 ; ==============================================================================
 
+; Agahnim's curtain covered door and vines in Skull Palace.
 ; $00AC3B-$00AC5A JUMP LOCATION
 Door_SwordActivated:
 {
-    ; (Agahnim's curtain covered door and vines in Skull Palace).
-    
     STY.b $08
     
     LDX.w $0460
     LDA.w #$0000
     
     JSR Door_Register : BCC .failedRegistration
-        LDX.w $CD9E, Y
+        LDX.w DoorGFXDataOffset_North, Y
         
         BRA .drawOtherGraphic ; Temp name
     
@@ -6452,7 +6405,7 @@ Door_UntouchedBlastWall:
 ; $00AC70-$00ACE3 JUMP LOCATION
 Door_BlastWall:
 {
-    LDY.w $99DE, X : STY.b $08
+    LDY.w ExplodingWallTilemapPosition, X : STY.b $08
     
     LDX.w $0460
     
@@ -6461,7 +6414,7 @@ Door_BlastWall:
     TXA : LSR A : XBA : ORA.w #$0030 : STA.w $1980, X
     
     TXA : AND.w #$000F : TAY
-        LDA.w $068C : AND.w $98C0, Y : BEQ Door_UntouchedBlastWall
+        LDA.w $068C : AND.w DungeonMask, Y : BEQ Door_UntouchedBlastWall
         
         ; The "door" (wall, more like it) has been opened, so we draw that
         ; instead.
@@ -6491,9 +6444,9 @@ Door_BlastWall:
         
         LDY.w #$0054
         
-        LDX.w $CE06, Y
+        LDX.w DoorGFXDataOffset_South, Y
         
-        JSR.w $ACE4 ; $00ACE4 IN ROM
+        JSR.w RoomDraw_ExplodingWallSegment
         
         PLA : CLC : ADC.w #$0300 : STA.b $08
         
@@ -6503,19 +6456,19 @@ Door_BlastWall:
         
         LDY.w #$0054
         
-        LDX.w $CD9E, Y
+        LDX.w DoorGFXDataOffset_North, Y
 
     ; Bleeds into the next function.
 }
 
-; $00ACE4- $00AD24 JUMP LOCATION
+; $00ACE4-$00AD24 JUMP LOCATION
 RoomDraw_ExplodingWallSegment:
 {
     LDA.w #$0012 : STA.b $B2
     
     LDY.b $08
     
-    JSR.w $AD25 ; $00AD25 IN ROM
+    JSR.w RoomDraw_ExplodingWallColumn
     
     LDA.b $08 : CLC : ADC.w #$0004 : STA.b $08
     
@@ -6579,9 +6532,9 @@ RoomDraw_HighRangeDoor_North:
             
             ORA.w #$0010 : STA.w $0460
             
-            LDY.w $998A, X
+            LDY.w DoorTilemapPositions_NorthMiddle, X
             
-            JSR.w $ADD4 ; $00ADD4 IN ROM
+            JSR.w RoomDraw_OneSidedLowerShutters_South
             
             PLA : STA.w $0460
     
@@ -6612,7 +6565,7 @@ RoomDraw_HighRangeDoor_North:
     
     .BRANCH_GAMMA
     
-    LDA.w $CD9E, Y : TAY
+    LDA.w DoorGFXDataOffset_North, Y : TAY
     
     LDX.b $08
     
@@ -6632,7 +6585,7 @@ RoomDraw_HighRangeDoor_North:
     LDA.b $04 : CMP.w #$0046 : BEQ .BRANCH_EPSILON
         LDA.b $08
         
-        JSR.w $AF8B ; $00AF8B IN ROM
+        JSR.w RoomDraw_MakeDoorHighPriority_North
     
     .BRANCH_EPSILON
     
@@ -6645,11 +6598,10 @@ RoomDraw_HighRangeDoor_North:
 
 ; ==============================================================================
 
+; Y = tilemap address
 ; $00ADD4-$00AE3F JUMP LOCATION
 RoomDraw_OneSidedLowerShutters_South:
 {
-    ; Y = tilemap address
-    
     STY.b $08
     
     LDX.w $0460
@@ -6675,7 +6627,7 @@ RoomDraw_OneSidedLowerShutters_South:
     
     .notOneSidedTrapDoor
     
-    LDA.w $CE06, Y : TAY
+    LDA.w DoorGFXDataOffset_South, Y : TAY
     
     LDX.b $08
     
@@ -6717,9 +6669,9 @@ RoomDraw_HighRangeDoor_West:
         
         ORA.w #$0010 : STA.w $0460
         
-        LDY.w $99BA, X
+        LDY.w DoorTilemapPositions_WestMiddle, X
         
-        JSR.w $AEF0 ; $00AEF0 IN ROM
+        JSR.w RoomDraw_OneSidedLowerShutters_East
         
         PLA : STA.w $0460
         
@@ -6751,7 +6703,7 @@ RoomDraw_HighRangeDoor_West:
     
     .BRANCH_GAMMA
     
-    LDA.w $CE66, Y : TAY
+    LDA.w DoorGFXDataOffset_West, Y : TAY
     
     LDX.b $08
     
@@ -6780,7 +6732,7 @@ RoomDraw_HighRangeDoor_West:
     
     LDA.b $08
     
-    JSR.w $B017 ; $00B017 IN ROM
+    JSR.w RoomDraw_MakeDoorHighPriority_West
     
     LDX.w $0460
     
@@ -6821,7 +6773,7 @@ RoomDraw_OneSidedLowerShutters_East:
     .BRANCH_BETA
     
     ; Offset of the start of the tiles, we're going to be writing to the buffer.
-    LDA.w $CEC6, Y : TAY
+    LDA.w DoorGFXDataOffset_East, Y : TAY
     
     LDX.b $08
     
@@ -6846,7 +6798,7 @@ RoomDraw_OneSidedLowerShutters_East:
     
     LDA.b $08 : CLC : ADC.w #$0008
     
-    JSR.w $B05C ; $00B05C IN ROM
+    JSR.w RoomDraw_MakeDoorHighPriority_East
     
     LDX.w $0460
     
@@ -7018,20 +6970,20 @@ Door_AddFloorToggleProperty:
 
 ; ==============================================================================
 
+; Used by objects needing variable width or height ranging from 0x01 to 0x10
 ; $00B0AC-$00B0AE LOCAL JUMP LOCATION
 Object_Size1to16:
 {
-    ; Used by objects needing variable width or height ranging from 0x01 to 0x10
     LDA.w #$0001
     
-    ; Segues into the next routine (Object_Size_N_to_N_plus15)
+    ; Bleeds into the next function.
 }
     
+; Alternate entry point for objects needing varaible width or height ranging
+; from A (register) to (A (register) + 0x0F).
 ; $00B0AF-$00B0BD LOCAL JUMP LOCATION
 Object_Size_N_to_N_plus_15:
 {
-    ; Alternate entry point for objects needing varaible width or height ranging
-    ; from A (register) to (A (register) + 0x0F)
     STA.b $0E
     
     LDA.b $B2 : ASL #2 : ORA.b $B4 : ADC.b $0E : STA.b $B2
@@ -7044,14 +6996,13 @@ Object_Size_N_to_N_plus_15:
 
 ; ==============================================================================
 
+; Used by objects needing variable width or height ranging from 0x01 to 0x0F
+; or 0x1A as default in the event of both arguments being zero.
 ; $00B0BE-$00B0CB JUMP LOCATION
 Object_Size_1_to_15_or_26:
 {
-    ; Used by objects needing variable width or height ranging from 0x01 to 0x0F
-    ; or 0x1A as default in the event of both arguments being zero.
     LDA.b $B2 : ASL #2 : ORA.b $B4 : BNE .notDefault
-    
-    LDA.w #$001A
+        LDA.w #$001A
     
     .notDefault
     
@@ -7062,11 +7013,11 @@ Object_Size_1_to_15_or_26:
 
 ; ==============================================================================
 
+; Used by objects needing variable width or height ranging from 0x01 to 0x0F
+; or 0x20 as default in the event of both arguments being zero.
 ; $00B0CC-$00B0D9 LOCAL JUMP LOCATION
 Object_Size_1_to_15_or_32:
 {
-    ; Used by objects needing variable width or height ranging from 0x01 to 0x0F
-    ; or 0x20 as default in the event of both arguments being zero.
     LDA.b $B2 : ASL #2 : ORA.b $B4 : BNE .notDefault
         LDA.w #$0020
     
@@ -7079,17 +7030,16 @@ Object_Size_1_to_15_or_32:
 
 ; ==============================================================================
 
+; A represents the direction (0 - up, 1 - down, 2, 3 - left, 4 -right)
+; X is the index of the next slot to add a door at
+; Y is the tilemap address of the door (doesn't differentiate BGs)
+    
+; Attempts to register a new door object
+; Carry is clear on failure
+; Carry is set on success (tentative guess)
 ; $00B0DA-$00B190 LOCAL JUMP LOCATION
 Door_Register:
 {
-    ; A represents the direction (0 - up, 1 - down, 2, 3 - left, 4 -right)
-    ; X is the index of the next slot to add a door at
-    ; Y is the tilemap address of the door (doesn't differentiate BGs)
-    
-    ; Attempts to register a new door object
-    ; Carry is clear on failure
-    ; Carry is set on success (tentative guess)
-    
     STA.w $19C0, X
     
     ; Store the tilemap address to this array.
@@ -7101,7 +7051,7 @@ Door_Register:
     ; If index >= 0x04
     TXA : AND.w #$000F : TAY : CPY.w #$0008 : BCS .BRANCH_ALPHA
         ; Check if door hasn't been opened?
-        LDA.w $068C : AND.w $98C0, Y : BEQ .BRANCH_ALPHA
+        LDA.w $068C : AND.w DungeonMask, Y : BEQ .BRANCH_ALPHA
             LDA.w $1980, X : AND.w #$00FF : CMP.w #$0018 : BEQ .triggeredTrapDoor
                 ; Both 0x18 and 0x44 are trap doors...
                 CMP.w #$0044 : BNE .notTrapDoor
@@ -7116,7 +7066,7 @@ Door_Register:
                         
                 LDX.b $04
                         
-                LDA.w $9A02, X : STA.b $0A
+                LDA.w DoorwayReplacementDoorGFX, X : STA.b $0A
                         
                 PLX
                         
@@ -7127,7 +7077,7 @@ Door_Register:
                 CMP.w #$001A : BCC .BRANCH_ALPHA ; Invisible door    
                 CMP.w #$0040 : BEQ .BRANCH_ALPHA
                 CMP.w #$0046 : BEQ .BRANCH_ALPHA
-                    LDA.w $0400 : ORA.w $98C0, X : STA.w $0400
+                    LDA.w $0400 : ORA.w DungeonMask, X : STA.w $0400
     
     .BRANCH_ALPHA
     
@@ -7159,7 +7109,7 @@ Door_Register:
             
             .BRANCH_ZETA
             
-            LDA.w $068C : ORA.w $98C0, X : STA.w $068C
+            LDA.w $068C : ORA.w DungeonMask, X : STA.w $068C
             
             LDY.w #$0000
         
@@ -7192,13 +7142,12 @@ RoomDraw_SmallRailCorner:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED:
+; Unreferenced routine (And this doesn't do anything different from
+; what Door_Prioritize7x4 would do anyways.
 ; $00B19E-$00B1A3 LOCAL JUMP LOCATION
 Door_Prioritize7x4_Unreferenced:
 {
-    ; Unreferenced routine (And this doesn't do anything different from
-    ; what Door_Prioritize7x4 would do anyways.
-    
     TAX
     
     LDA.w #$0007
@@ -7236,7 +7185,7 @@ Door_Prioritize7x4:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED:
 ; $00B1E1-$00B1E6 LOCAL JUMP LOCATION
 Door_Prioritize4x7:
 {
@@ -7301,7 +7250,7 @@ Object_Draw2x4s_VariableOffset:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED:
 ; $00B254-$00B263 LOCAL JUMP LOCATION
 UNREACHABLE_01B254:
 {
@@ -7319,7 +7268,7 @@ UNREACHABLE_01B254:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED:
 ; $00B264-$00B278 LOCAL JUMP LOCATION
 UNREACHABLE_01B264:
 {
@@ -7468,14 +7417,13 @@ Object_Draw3x1:
 
 ; ==============================================================================
 
+; Strange pot I don't recognize...
+; Although the graphics don't display correctly, this
+; pot is heavy, as in it needs at least power glove.
+; Was dropped from the original game.
 ; $00B306-$00B30A JUMP LOCATION
 RoomDraw_WeirdGloveRequiredPot:
 {
-    ; Strange pot I don't recognize...
-    ; Although the graphics don't display correctly, this
-    ; pot is heavy, as in it needs at least power glove.
-    ; Was dropped from the original game.
-    
     LDA.w #$1010
     
     BRA Object_LargeLiftableBlock_drawQuadrant
@@ -7494,11 +7442,10 @@ RoomDraw_WeirdGloveRequiredPot:
 
 ; ==============================================================================
 
+; Large liftable blocks in dungeons (requires powerglove).
 ; $00B310-$00B375 JUMP LOCATION
 Object_LargeLiftableBlock:
 {
-    ; Large liftable blocks in dungeons (requires powerglove).
-    
     STY.b $08
     
     LDX.w #$0E62
@@ -7553,11 +7500,10 @@ Object_LargeLiftableBlock:
 
 ; ==============================================================================
 
+; Horizontal row of pots or skulls (doesn't seem to be used though).
 ; $00B376-$00B380 JUMP LOCATION
 RoomDraw_RightwardsPots2x2_1to16:
 {
-    ; Horizontal row of pots or skulls (doesn't seem to be used though)
-    
     JSR Object_Size1to16
     
     .next_block
@@ -7570,11 +7516,10 @@ RoomDraw_RightwardsPots2x2_1to16:
 
 ; ==============================================================================
 
+; Vertical row of pots (also seems unused :\)
 ; $00B381-$00B394 JUMP LOCATION
 RoomDraw_DownwardsPots2x2_1to16:
 {
-    ; Vertical row of pots (also seems unused :\)
-    
     JSR Object_Size1to16
     
     .next_block
@@ -7591,10 +7536,10 @@ RoomDraw_DownwardsPots2x2_1to16:
 
 ; ==============================================================================
 
+; Normal pots / skull pots
 ; $00B395-$00B3E0 JUMP LOCATION
 Object_Pot:
 {
-    ; Normal pots / skull pots
     PHX
     
     LDX.w $042C
@@ -7632,11 +7577,10 @@ Object_Pot:
 
 ; ==============================================================================
 
+; Bombable Cracked floor object
 ; $00B3E1-$00B473 JUMP LOCATION
 Object_BombableFloor:
 {
-    ; Bombable Cracked floor object
-    
     ; Is this dungeon room number 0x65 (special room in Gargoyle's Domain)
     LDA.b $A0 : CMP.w #$0065 : BNE .notInThatOneRoom
         ; If this pit has already been bombed open, don't make it a cracked
@@ -7720,11 +7664,10 @@ Object_BombableFloor:
 
 ; ==============================================================================
 
+; 1.1.0xBD Horizontal line of moles.
 ; $00B474-$00B47E JUMP LOCATION
 RoomDraw_RightwardsHammerPegs2x2_1to16:
 {
-    ; Horizontal line of moles (1.1.0xBD)
-    
     JSR Object_Size1to16
     
     .nextMole
@@ -7737,10 +7680,10 @@ RoomDraw_RightwardsHammerPegs2x2_1to16:
 
 ; ==============================================================================
 
+; 1.1.96 Vertical line of moles.
 ; $00B47F-$00B492 JUMP LOCATION
 RoomDraw_DownwardsHammerPegs2x2_1to16:
 {
-    ; Vertical line of moles (1.1.96)
     JSR Object_Size1to16
     
     .nextMole
@@ -7757,11 +7700,10 @@ RoomDraw_DownwardsHammerPegs2x2_1to16:
 
 ; ==============================================================================
 
+; 1.3.0x16 Single Mole
 ; $00B493-$00B4D5 LOCAL JUMP LOCATION
 Object_Mole:
 {
-    ; Single Mole (1.3.0x16)
-    
     PHX
     
     LDX.w $042C : INC.w $042C : INC.w $042C
@@ -7792,11 +7734,10 @@ Object_Mole:
 
 ; ==============================================================================
 
+; Moveable block object
 ; $00B4D6-$00B508 LOCAL JUMP LOCATION
 Dungeon_LoadBlock:
 {
-    ; Moveable block object
-    
     LDX.w $042C : INC.w $042C : INC.w $042C
     
     STZ.w $0500, X
@@ -7819,11 +7760,10 @@ Dungeon_LoadBlock:
 
 ; ==============================================================================
 
+; Load special lightable torch objects
 ; $00B509-$00B53B LOCAL JUMP LOCATION
 Dungeon_LoadTorch:
 {
-    ; Load special lightable torch objects
-    
     ; Store the object's tilemap position
     LDY.w $042E
     
@@ -7946,9 +7886,8 @@ Dungeon_LoadHeader:
     ; Load the dungeon room offset.
     LDA.b $A0 : ASL A : TAX
     
-    ; The below is $27502, X in ROM
     ; Get the offset for the base header information    
-    LDA.l $04F502, X : STA.b $0D
+    LDA.l RoomHeader_RoomToPointer, X : STA.b $0D
     
     SEP #$20
     REP #$10
@@ -7981,10 +7920,10 @@ Dungeon_LoadHeader:
     SEP #$20
     
     ; Load Palette indices
-    LDA.l $0ED460, X : STA.w $0AB6  ; BG Palette index
-    LDA.l $0ED461, X : STA.w $0AAC  ; SP index 0
-    LDA.l $0ED462, X : STA.w $0AAD  ; SP index 1
-    LDA.l $0ED463, X : STA.w $0AAE  ; SP index 2
+    LDA.l UnderworldPaletteSets+0, X : STA.w $0AB6  ; BG Palette index
+    LDA.l UnderworldPaletteSets+1, X : STA.w $0AAC  ; SP index 0
+    LDA.l UnderworldPaletteSets+2, X : STA.w $0AAD  ; SP index 1
+    LDA.l UnderworldPaletteSets+3, X : STA.w $0AAE  ; SP index 2
     
     ; Move to byte 2. (Sprite graphics index)
     INY : LDA [$0D], Y : STA.w $0AA2
@@ -8047,8 +7986,8 @@ Dungeon_LoadHeader:
     ; X = $0110 = ($A0 * 3)
     LDA.b $A0 : ASL A : CLC : ADC.b $A0 : STA.w $0110 : TAX
     
-    LDA.l $1F83C1, X : STA.b $B8
-    LDA.l $1F83C0, X : STA.b $B7
+    LDA.l RoomData_DoorDataPointers+1, X : STA.b $B8
+    LDA.l RoomData_DoorDataPointers+0, X : STA.b $B7
     
     LDA.b $A0 : ASL A : TAX
     
@@ -8151,15 +8090,15 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
         
         AND.w #$00FF
         
-                 CMP.w $9AA2, X : BEQ .matchPosition
-        INX #2 : CMP.w $9AA2, X : BEQ .matchPosition
-        INX #2 : CMP.w $9AA2, X : BEQ .matchPosition
-        INX #2 : CMP.w $9AA2, X : BEQ .matchPosition
-        INX #2 : CMP.w $9AA2, X : BEQ .matchPosition
-            INX #2 : CMP.w $9AA2, X : BNE .skipDoor
+                 CMP.w RoomDraw_DoorPartnerSelfLocation, X : BEQ .matchPosition
+        INX #2 : CMP.w RoomDraw_DoorPartnerSelfLocation, X : BEQ .matchPosition
+        INX #2 : CMP.w RoomDraw_DoorPartnerSelfLocation, X : BEQ .matchPosition
+        INX #2 : CMP.w RoomDraw_DoorPartnerSelfLocation, X : BEQ .matchPosition
+        INX #2 : CMP.w RoomDraw_DoorPartnerSelfLocation, X : BEQ .matchPosition
+            INX #2 : CMP.w RoomDraw_DoorPartnerSelfLocation, X : BNE .skipDoor
                 .matchPosition
         
-                LDA.w $9AD2, X : STA.b $00
+                LDA.w RoomDraw_DoorPartnerLocation, X : STA.b $00
                 
                 LDX.w #$0000
                 
@@ -8189,12 +8128,12 @@ Dungeon_CheckAdjacentRoomOpenedDoors:
                             
                         .notTrapDoor
                 
-                        LDA.w $1100 : AND.w $98C0, Y : BEQ .skipDoor
+                        LDA.w $1100 : AND.w DungeonMask, Y : BEQ .skipDoor
                             .openDoor
                             
                             ; Open a door in this room because of a correspondin
                             ; open door in an adjacent room.
-                            LDA.w $068C : ORA.w $98C0, X : STA.w $068C
+                            LDA.w $068C : ORA.w DungeonMask, X : STA.w $068C
         
         .skipDoor
         
@@ -8216,8 +8155,8 @@ Dungeon_LoadAdjacentRoomDoors:
     ; X = the other room's index multiplied by 3.
     TXA : ASL A : CLC : ADC.b $0E : TAX
     
-    LDA.l $1F83C1, X : STA.b $B8
-    LDA.l $1F83C0, X : STA.b $B7
+    LDA.l RoomData_DoorDataPointers+1, X : STA.b $B8
+    LDA.l RoomData_DoorDataPointers+0, X : STA.b $B7
     
     LDA.b $0E : ASL A : TAX
     
@@ -8241,7 +8180,7 @@ Dungeon_LoadAdjacentRoomDoors:
                 
                 ; Or in a bit that corresponds to the door's position in the
                 ; buffer (0x8000, 0x4000, 0x2000, etc...)
-                LDA.w $1100 : ORA.w $98C0, X : STA.w $1100
+                LDA.w $1100 : ORA.w DungeonMask, X : STA.w $1100
         
         .notDefaultDoor
         
@@ -8336,7 +8275,7 @@ Dungeon_LoadAttrSelectable_jumpTable:
     dw Dungeon_LoadObjAttr
     dw Dungeon_LoadDoorAttr
     dw Dungeon_InitBarrierAttr
-    dw Dungeon_LoadBasicAttr_easyOut ; (RTS)
+    dw Dungeon_LoadBasicAttr_easyOut
 }
 
 ; ==============================================================================
@@ -8390,13 +8329,13 @@ Dungeon_LoadAttrTable:
 
 ; ==============================================================================
 
+; Notes about this routine:
+; $04 is the behavior type of the tile just to the right of the current tile
+; $02 is the behavior type of the current tile
 ; $00B8E3-$00B966 JUMP LOCATION
 Dungeon_LoadBasicAttr:
 {
     .transition
-    ; Notes about this routine:
-    ; $04 is the behavior type of the tile just to the right of the current tile
-    ; $02 is the behavior type of the current tile
     
     REP #$20
     
@@ -8416,6 +8355,7 @@ Dungeon_LoadBasicAttr:
     ; $00B8F3 ALTERNATE ENTRY POINT
     .full
     
+    ; Switch to bank $7E which is really just RAM.
     PHB : LDX.w #$7E : PHX : PLB
     
     REP #$10
@@ -8477,7 +8417,7 @@ Dungeon_LoadBasicAttr:
     
     .notEndOfTable
     
-    PLB
+    PLB ; Restore the bank.
     
     .easyOut
     
@@ -8956,8 +8896,11 @@ Dungeon_LoadDoorAttr:
         .skipDoor
     INY #2 : CPY.w #$0020 : BNE .nextDoor
     
-    JSR.w $D51F ; $00D51F IN ROM; Load door tile attributes
-    JSR.w $C1BA ; $00C1BA IN ROM; Random routine for an unfinished object
+    ; Load door tile attributes.
+    JSR.w Dungeon_LoadToggleDoorAttr_extern
+
+    ; Random routine for an unfinished object.
+    JSR.w ChangeDoorToSwitch
     
     INC.w $0200
     
@@ -8986,7 +8929,7 @@ Dungeon_LoadSingleDoorAttr:
                     CMP.w #$0008 : BNE .BRANCH_GAMMA ; Everything else...
                         .BRANCH_BETA
     
-                        JMP.w $C0B8 ; $00C0B8 IN ROM
+                        JMP.w AddFullLongDoorDoorwayProps
                     
                     .BRANCH_GAMMA
     
@@ -8996,7 +8939,7 @@ Dungeon_LoadSingleDoorAttr:
         .notBlastWall
         
         CMP.w #$0040 : BCC .BRANCH_EPSILON
-            JMP.w $C085 ; $00C085 IN ROM
+            JMP.w AddDoorwayPropsForWeirdos
         
         .BRANCH_EPSILON
         
@@ -9016,7 +8959,7 @@ Dungeon_LoadSingleDoorAttr:
         
         TAX
         
-        LDA.w $068C : AND.w $98C0, X : BNE .BRANCH_ALPHA
+        LDA.w $068C : AND.w DungeonMask, X : BNE .BRANCH_ALPHA
             SEP #$20
             
             TYA : LSR A : ORA.b #$F0 : STA.b $00 : STA.b $01
@@ -9041,7 +8984,7 @@ Dungeon_LoadSingleDoorAttr:
     .lockedStaircaseCover
     
     ; Load tile attributes to fill in for the door's passage way.
-    LDA.w $9A52, X : STA.b $00
+    LDA.w DoorwayTileProperties, X : STA.b $00
     
     ; Check if it's an up door?
     LDA.w $19C0, Y : AND.w #$0003 : BNE .notUpDoor
@@ -9135,19 +9078,18 @@ Door_LoadBlastWallAttrStub:
 
 ; ==============================================================================
 
-; Unused
+; UNUSED:
 ; $00BFB3-$00BFC0 JUMP LOCATION
 UNREACHABLE_01BFB3:
 {
     TYA : AND.w #$000F : TAX
     
-    LDA.w $068C : AND.w $98C0, X : BNE .alpha
+    LDA.w $068C : AND.w DungeonMask, X : BNE .alpha
         RTS
     
     .alpha
     
-    ; Leads into the following routine.... code seems to be unused as far as I
-    ; can tell.
+    ; Bleeds into the next function.
 }
 
 ; ==============================================================================
@@ -9221,7 +9163,7 @@ AddDoorwayPropsForWeirdos:
     CMP.w #$0046 : BEQ .alpha
         TYA : AND.w #$00FF : TAX
         
-        LDA.w $068C : AND.w $98C0, X : BNE .alpha
+        LDA.w $068C : AND.w DungeonMask, X : BNE .alpha
             SEP #$20
             
             ; The low nybble of the attribute corresponds to the door's
@@ -9250,7 +9192,7 @@ AddFullLongDoorDoorwayProps:
     LDX.b $02
     
     ; Load the tile attributes to use
-    LDA.w $9A52, X : STA.b $00
+    LDA.w DoorwayTileProperties, X : STA.b $00
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .notUpDoor
         LDA.w $19A0, Y : LSR A : AND.w #$783F : TAX
@@ -9322,11 +9264,11 @@ AddFullLongDoorDoorwayProps:
 
 ; ==============================================================================
 
+; The code in here seems experimental, and I don't think the object
+; that would use this is even used the actual game anywhere.
 ; $00C1BA-$00C21B LOCAL JUMP LOCATION
 ChangeDoorToSwitch:
 {
-    ; The code in here seems experimental, and I don't think the object
-    ; that would use this is even used the actual game anywhere.
     REP #$30
     
     LDA.w $04B0 : BEQ .return
@@ -9376,11 +9318,10 @@ ChangeDoorToSwitch:
 
 ; ==============================================================================
 
+; Initializes the tile attributes for the orange/blue barrier tiles
 ; $00C21C-$00C229 JUMP LOCATION
 Dungeon_InitBarrierAttr:
 {
-    ; Initializes the tile attributes for the orange/blue barrier tiles
-    
     INC.w $0200
     
     ; Check the orange/blue barrier state.
@@ -9452,11 +9393,10 @@ Dungeon_ToggleBarrierAttr:
 
 ; ==============================================================================
 
+; Tag routines
 ; $00C27D-$00C2FC JUMP TABLE
 Dungeon_TagRoutines:
 {
-    ; Tag routines
-    
     dw $C328 ; = $00C328 ; Routine 0x00 (RTS)
     dw $C432 ; = $00C432 ; Routine 0x01 "NW kill enemy to open"
     dw $C438 ; = $00C438 ; Routine 0x02 "NE kill enemy to open"
@@ -9490,8 +9430,8 @@ Dungeon_TagRoutines:
     dw $CBFF ; = $00CBFF ; (RTS) (water twin)
     dw $C8D4 ; = $00C8D4 ; Routine 0x1C Secret Wall (Right)
     dw $C98B ; = $00C98B ; Routine 0x1D Secret Wall (Left)
-    dw $CA17 ; = $00CA17 ; Routine 0x1E "Crash"
-    dw $CA17 ; = $00CA17 ; Routine 0x1F "Crash"
+    dw RoomTag_MovingWallTorchesCheck ; $CA17 Routine 0x1E "Crash"
+    dw RoomTag_MovingWallTorchesCheck ; $CA17 Routine 0x1F "Crash"
     
     dw $C67A ; = $00C67A ; Routine 0x20 "use switch to bomb wall"
     dw $CC00 ; = $00CC00 ; Routine 0x21 "holes(0)"
@@ -9606,8 +9546,11 @@ Dungeon_DetectStaircase:
         
         TAY
         
-        LDA.b $20 : CLC : ADC.w $99EA, Y : AND.w #$01F8 : ASL #3 : STA.b $00
-        LDA.b $22                        : AND.w #$01F8 : LSR #3 : ORA.b $00
+        LDA.b $20 : CLC : ADC.w DetectStaircase_offset_y, Y
+        AND.w #$01F8 : ASL #3 : STA.b $00
+
+        LDA.b $22
+        AND.w #$01F8 : LSR #3 : ORA.b $00
         
         LDX.b $EE : BEQ .onBg2
             ORA.w #$1000
@@ -9690,13 +9633,13 @@ Dungeon_DetectStaircase:
             CMP.b #$38 : BNE .mystery
                 ; Gets called when travelling up a straight inter-room
                 ; staircase.
-                JSL.l $02B81C ; $01381C IN ROM
+                JSL.l HandleEdgeTransitionMovementNorth
                 
                 BRA .BRANCH_ZETA
                 
             .mystery
             
-            JSL.l $02B77A ; $01377A IN ROM
+            JSL.l HandleEdgeTransitionMovementSouth
             
             .BRANCH_ZETA
             
@@ -9737,7 +9680,7 @@ Dungeon_DetectStaircase:
                     LDX.b #$13
                     
                     CMP.b #$39 : BEQ .BRANCH_KAPPA
-                        JSL.l $07F25A ; $03F25A IN ROM
+                        JSL.l Link_AnimateIntraStairClimbAndSFX
                         
                         ; Going up or down stairs mode.
                         LDX.b #$0E : STX.b $11
@@ -9748,7 +9691,7 @@ Dungeon_DetectStaircase:
                 
                 STX.b $11
                 
-                JSL.l $07F3F3 ; $03F3F3 IN ROM
+                JSL.l LinkResetPushTimer
                 
                 RTS
             
@@ -9779,11 +9722,12 @@ RoomTag_NorthWestTrigger:
 }
 
 ; RoomTag_Trigger:
+; Tag routine 0x02 (NE Kill Enemy To Open), 0x0A (NE move block to open),
+; 0x2A (NE kill enemy for chest)
 ; $00C438-$00C43D LOCAL JUMP LOCATION
 RoomTag_NorthEastTrigger:
 {
-    ; Tag routine 0x02 (NE Kill Enemy To Open), 0x0A (NE move block to open),
-    ; 0x2A (NE kill enemy for chest)
+    
     ; Branch if Link in the right two quadrants
     LDA.b $23 : LSR A : BCS RoomTag_SouthTrigge_checkIfNorth
         RTS
@@ -9845,7 +9789,7 @@ RoomTag_SouthTrigger:
             CMP.b #$29 : BCC .checkIfBlockMoved
                 ; Check if sprites are all dead.
                 JSL Sprite_VerifyAllOnScreenDefeated : BCC .dontShowChest
-                    JSR.w $C7D8 ; $00C7D8 IN ROM
+                    JSR.w RoomTag_OperateChestReveal
                 
                 .dontShowChest
                 
@@ -9913,7 +9857,7 @@ RoomTag_RoomTrigger:
         
         JSL Sprite_CheckIfAllDefeated : BCC .return
         
-        JSR.w $C7D8 ; $00C7D8 IN ROM
+        JSR.w RoomTag_OperateChestReveal
         
         .return
         
@@ -9930,11 +9874,10 @@ RoomTag_RoomTrigger:
     ; Bleeds into the next function.
 }
 
+; Tag routine 0x3F "kill boss again"
 ; $00C4DB-$00C4E6 JUMP LOCATION
 RoomTag_RekillableBoss:
 {
-    ; Tag routine 0x3F "kill boss again"
-    
     ; Carry clear = failure. Sprites are still onscreen.
     JSL Sprite_CheckIfAllDefeated : BCC RoomTag_RoomTrigger_return
         STZ.w $0FFC
@@ -9943,11 +9886,10 @@ RoomTag_RekillableBoss:
         RTS
 }
 
+; Tag routine 0x14 "pull lever to open"
 ; $00C4E7-$00C507 JUMP LOCATION
 RoomTag_PullSwitchDoor:
 {
-    ; Tag routine 0x14 "pull lever to open"
-    
     LDA.w $0642 : BEQ .stillOnTrigger
         REP #$30
         
@@ -9969,11 +9911,10 @@ RoomTag_PullSwitchDoor:
     RTS
 }
 
+; Tag routine 0x16 "clear level to open doors" "Clear_Level_to_Open"
 ; $00C508-$00C540 JUMP LOCATION
 RoomTag_PrizeTriggerDoorDoor:
 {
-    ; Tag routine 0x16 "clear level to open doors" "Clear_Level_to_Open"
-    
     ; Load the dungeon index.
     LDA.w $040C : LSR A : TAX
     
@@ -10012,11 +9953,10 @@ RoomTag_PrizeTriggerDoorDoor:
 
 ; ==============================================================================
 
+; Tag routine 0x16 - "switch opens doors (hold)"
 ; $00C541-$00C598 JUMP LOCATION
 RoomTag_SwitchTrigger_HoldDoor:
 {
-    ; Tag routine 0x16 - "switch opens doors (hold)"
-    
     REP #$30
     
     LDA.w #$0005
@@ -10034,8 +9974,8 @@ RoomTag_SwitchTrigger_HoldDoor:
         
         LDA.w $0646 : AND.w #$00FF : BNE .testAgainstDoorState
             LDA.w $0642 : AND.w #$00FF : BNE .testAgainstDoorState
-                ; $00CDCC IN ROM
-                JSR.w $CDCC : LDX.w #$0000 : BCS .testAgainstDoorState
+                JSR.w RoomTag_CheckForPressedSwitch
+                LDX.w #$0000 : BCS .testAgainstDoorState
                     INX
     
     .testAgainstDoorState
@@ -10065,16 +10005,14 @@ RoomTag_SwitchTrigger_HoldDoor:
 
 ; ==============================================================================
 
+; Dungeon Tag routine 0x17 "switch opens doors"
 ; $00C599-$00C5CE JUMP LOCATION
 RoomTag_SwitchTrigger_ToggleDoor:
 {
-    ; Dungeon Tag routine 0x17 "switch opens doors"
-    
     REP #$30
     
     LDA.w $0430 : BNE .checkIfStandingOnSwitch
-        ; $00CD39 IN ROM
-        JSR.w $CD39 : BCC .notStandingOnSwitch
+        JSR.w RoomTag_MaybeCheckShutters : BCC .notStandingOnSwitch
             STZ.w $068E
             STZ.w $0690
             
@@ -10085,7 +10023,7 @@ RoomTag_SwitchTrigger_ToggleDoor:
             LDA.b #$05
             
             ; Toggle the opened / closed status of the trap doors in the room.
-            JSR.w $C5CF ; $00C5CF IN ROM
+            JSR.w PushPressurePlate
             
             LDA.w $0468 : EOR.b #$01 : STA.w $0468
             
@@ -10097,8 +10035,7 @@ RoomTag_SwitchTrigger_ToggleDoor:
     
     ; This code is waiting for Link to step off the switch before it can be
     ; pressed again.
-    ; $00CD39 IN ROM
-    JSR.w $CD39 : BCS .stillStandingOnSwitch
+    JSR.w RoomTag_MaybeCheckShutters : BCS .stillStandingOnSwitch
         STZ.w $0430
         
     .stillStandingOnSwitch
@@ -10207,23 +10144,22 @@ ExplodingWall:
     dw $0000, $000A, $0000, $0000, $0280
 }
 
+; Tag routine 0x20 "use switch to bomb wall"
 ; $00C67A-$00C684 JUMP LOCATION
 RoomTag_Switch_ExplodingWall:
 {
-    ; Tag routine 0x20 "use switch to bomb wall"
     REP #$30
     
-    ; $00CD39 IN ROM
-    JSR.w $CD39 : BCC RoomTag_PullSwitchExplodingWall_return
+    JSR.w RoomTag_MaybeCheckShutters : BCC RoomTag_PullSwitchExplodingWall_return
         REP #$30
         
         BRA RoomTag_PullSwitchExplodingWall_checkForBombableWall
 }
 
+; Tag routine 0x28 "use lever to bomb wall"
 ; $00C685-$00C6FB JUMP LOCATION
 RoomTag_PullSwitchExplodingWall:
 {
-    ; Tag routine 0x28 "use lever to bomb wall"
     LDA.w $0642 : BEQ .return
         REP #$30
         
@@ -10247,9 +10183,9 @@ RoomTag_PullSwitchExplodingWall:
         
         .BRANCH_DELTA
         
-        LDA.l $01C666, X : STA.l $7F001C
+        LDA.l ExplodingWall_ExplosionMovement, X : STA.l $7F001C
         
-        LDA.w $19A0, Y : CLC : ADC.l $01C670, X : TAY
+        LDA.w $19A0, Y : CLC : ADC.l ExplodingWall_TilemapOffset, X : TAY
         
         AND.w #$007E : ASL #2 : CLC : ADC.w $062C : STA.l $7F001A
         
@@ -10293,11 +10229,10 @@ Pool_RoomTag_GetHeartForPrize:
     db $06 ; Turtle Rock
 }
 
+; Name: Kill enemy to clear level in hyrule magic
 ; $00C709-$00C74D JUMP LOCATION
 RoomTag_GetHeartForPrize:
 {
-    ; Name: Kill enemy to clear level in hyrule magic
-    
     ; Has this boss room already been done with? (i.e. has a heart piece been
     ; picked up in this room?)
     LDA.w $0403 : AND.b #$80 : BEQ .heartPieceStillExists
@@ -10321,7 +10256,7 @@ RoomTag_GetHeartForPrize:
             
             LDA.w $040C : LSR A : TAX
             
-            LDA.l $01C6FC, X : JSL Sprite_SpawnFallingItem
+            LDA.l Pool_RoomTag_GetHeartForPrize, X : JSL Sprite_SpawnFallingItem
             
             PLA : STA.b $0E
         
@@ -10336,11 +10271,10 @@ RoomTag_GetHeartForPrize:
     RTS
 }
 
+; Tag routine 0x38 "Agahnim's room"
 ; $00C74E-$00C766 JUMP LOCATION
 RoomTag_Agahnim:
 {
-    ; Tag routine 0x38 "Agahnim's room"
-    
     ; Look at the info for the Pyramid of power area.
     ; Has Ganon busted a nut on it yet? (broken in)
     LDA.l $7EF2DB : AND.b #$20 : BNE .return
@@ -10358,11 +10292,10 @@ RoomTag_Agahnim:
     RTS
 }
 
+; Tag routine 0x3D (Kill to open Ganon's door)
 ; $00C767-$00C7A1 JUMP LOCATION
 RoomTag_GanonDoor:
 {
-    ; Tag routine 0x3D (Kill to open Ganon's door)
-    
     LDX.b #$0F
     
     LDA.w $0DD0, X : CMP.b #$04 : BEQ .return
@@ -10401,11 +10334,10 @@ RoomTag_GanonDoor:
     RTS
 }
 
+; Routine 0x26 (SE kill enemy to move block)
 ; $00C7A2-$00C7C1 JUMP LOCATION
 RoomTag_KillRoomBlock:
 {
-    ;  routine 0x26 (SE kill enemy to move block)
-    
     LDA.b $23 : LSR A : BCC .return
         LDA.b $21 : LSR A : BCC .return
             LDA.b $0E : PHA
@@ -10435,11 +10367,10 @@ RoomTag_KillRoomBlock:
     RTS
 }
 
+; Tag routine 0x3C (Move block to get chest)
 ; $00C7C2-$00C7CB JUMP LOCATION
 RoomTag_PushBlockForChest:
 {
-    ; Tag routine 0x3C (Move block to get chest)
-    
     LDA.b $14 : BNE .already_doing_tilemap_update
         LDA.w $0641 : BNE RoomTag_OperateChestReveal
     
@@ -10448,16 +10379,15 @@ RoomTag_PushBlockForChest:
     RTS
 }
 
+; Tag routine 0x27 "trigger activated chest"
 ; $00C7CC-$00C7D7 JUMP LOCATION
 RoomTag_TriggerChest:
 {
-    ; Tag routine 0x27 "trigger activated chest"
     ; Link is flashing, so he can't do anythin.
     LDA.w $031F : BNE RoomTag_KillRoomBlock_return
         REP #$30
         
-        ; $00CD39 IN ROM
-        JSR.w $CD39 : BCC RoomTag_KillRoomBlock_exit
+        JSR.w RoomTag_MaybeCheckShutters : BCC RoomTag_KillRoomBlock_exit
 
     ; Bleeds into the next function.
 }
@@ -10556,11 +10486,10 @@ RoomTag_OperateChestReveal:
     RTS
 }
 
+; Tag routine 0x3E "light torches to get chest"
 ; $00C8AE-$00C8D3 JUMP LOCATION
 RoomTag_TorchPuzzleChest:
 {
-    ; Tag routine 0x3E "light torches to get chest"
-    
     REP #$30
     
     LDX.w #$0000 : STX.b $00
@@ -10576,7 +10505,7 @@ RoomTag_TorchPuzzleChest:
     LDX.w #$0001
     
     LDA.b $00 : CMP.w #$0004 : BCC .dontShowChest
-        JSR.w $C7D8 ; $00C7D8 IN ROM
+        JSR.w RoomTag_OperateChestReveal
     
     .dontShowChest
     
@@ -10591,7 +10520,7 @@ RoomTag_MovingWall_East:
     REP #$20
     
     LDA.w $041A : BNE .horizontalMovement
-        JSR.w $CA17 ; $00CA17 IN ROM
+        JSR.w RoomTag_MovingWallTorchesCheck
         
         BRA .beta
         
@@ -10599,11 +10528,11 @@ RoomTag_MovingWall_East:
     
     LDY.b #$01 : STY.w $0FC1
     
-    JSR.w $C969 ; $00C969 IN ROM
+    JSR.w RoomTag_MovingWallShakeItUp
     
     LDA.w #$FFFF
     
-    JSR.w $CA66 ; $00CA66 IN ROM
+    JSR.w MovingWall_MoveALittle
     
     .beta
     
@@ -10616,10 +10545,10 @@ RoomTag_MovingWall_East:
     LDA.w $0312 : BEQ .zeroHorizontalSpeed
         LDX.w $041E
         
-        LDA.w $0422 : CMP.w $9B1A, X : BCS .BRANCH_DELTA
-            JSR.w $CA75 ; $00CA75 IN ROM
+        LDA.w $0422 : CMP.w MovingWallEastBoundaries, X : BCS .BRANCH_DELTA
+            JSR.w RoomTag_AdvanceGiganticWall
             
-            LDA.w $0422 : CMP.w $9B1A, X : BCS .BRANCH_DELTA
+            LDA.w $0422 : CMP.w MovingWallEastBoundaries, X : BCS .BRANCH_DELTA
                 ; Play the puzzle solved sound.
                 LDX.b #$1B : STX.w $012F
                 
@@ -10689,7 +10618,7 @@ RoomTag_MovingWall_West:
     REP #$20
     
     LDA.w $041A : BNE .wallIsMoving
-        JSR.w $CA17 ; $00CA17 IN ROM
+        JSR.w RoomTag_MovingWallTorchesCheck
         
         BRA .BRANCH_BETA
     
@@ -10697,11 +10626,11 @@ RoomTag_MovingWall_West:
     
     LDY.b #$01 : STY.w $0FC1
     
-    JSR.w $C969 ; $00C969 IN ROM
+    JSR.w RoomTag_MovingWallShakeItUp
     
     LDA.w #$0001
     
-    JSR.w $CA66 ; $00CA66 IN ROM
+    JSR.w MovingWall_MoveALittle
     
     .BRANCH_BETA
     
@@ -10713,11 +10642,11 @@ RoomTag_MovingWall_West:
     LDA.w $0312 : BEQ .BRANCH_GAMMA
         LDX.w $041E
         
-        LDA.w $0422 : CMP.w $9B2A, X : BCC .BRANCH_DELTA
-            JSR.w $CA75 ; $00CA75 IN ROM
+        LDA.w $0422 : CMP.w MovingWallWestBoundaries, X : BCC .BRANCH_DELTA
+            JSR.w RoomTag_AdvanceGiganticWall
             
-            LDA.w $0422 : CMP.w $9B2A, X : BCC .BRANCH_DELTA
-                ; Play the puzzle solved sound
+            LDA.w $0422 : CMP.w MovingWallWestBoundaries, X : BCC .BRANCH_DELTA
+                ; Play the puzzle solved sound.
                 LDX.b #$1B : STX.w $012F
                 
                 ; "silence" ambient sfx.
@@ -10780,7 +10709,7 @@ RoomTag_MovingWallTorchesCheck:
     
     LDA.b $0E : ASL A : TAX
     
-    LDA.w $0403 : ORA.w $98C7, X : STA.w $0403
+    LDA.w $0403 : ORA.w DoorFlagMasks-1, X : STA.w $0403
     
     LDA.b #$07 : STA.w $012D
     
@@ -10838,11 +10767,10 @@ RoomTag_AdvanceGiganticWall:
 
 ; ==============================================================================
 
+; Routine 0x18 - turn off water
 ; $00CA94-$00CB19 JUMP LOCATION
 RoomTag_WaterOff:
 {
-    ; Routine 0x18 - turn off water
-    
     LDA.w $0642 : BEQ RoomTag_AdvanceGiganticWall_beta
         ; Change window mask settings...
         LDA.b #$03 : STA.b $96
@@ -10870,7 +10798,7 @@ RoomTag_WaterOff:
         
         LDA.b #$00 : STA.b $AF
         
-        LDA.w $0403 : ORA.l $0098C9 : STA.w $0403
+        LDA.w $0403 : ORA.l DoorFlagMasks+1 : STA.w $0403
         
         STZ.w $0642
         
@@ -10881,8 +10809,8 @@ RoomTag_WaterOff:
         
         LDX.b $08
         
-        JSR.w $95A0 ; $0095A0 IN ROM
-        JSR Dungeon_PrepOverlayDma.tilemapAlreadyUpdated
+        JSR.w RoomTag_WaterOff_AdjustWater
+        JSR Dungeon_PrepOverlayDma_tilemapAlreadyUpdated
         
         LDY.b $0C : LDA.w #$FFFF : STA.w $1100, Y
         
@@ -10901,11 +10829,10 @@ RoomTag_WaterOff:
 
 ; ==============================================================================
 
+; Routine 0x19 - turn on water
 ; $00CB1A-$00CB48 JUMP LOCATION
 Tag_TurnOnWater:
 {
-    ; Routine 0x19 - turn on water
-    
     LDA.w $0642 : BEQ RoomTag_WaterOff_return
         ; Play two sound effects together (some sound effects sound good
         ; together)
@@ -10921,7 +10848,7 @@ Tag_TurnOnWater:
         
         LDA.b #$00 : STA.b $AF
         
-        LDA.w $0403 : ORA.l $0098C9 : STA.w $0403
+        LDA.w $0403 : ORA.l DoorFlagMasks+1 : STA.w $0403
         
         STZ.w $0642 : STZ.w $045C
     
@@ -10932,13 +10859,12 @@ Tag_TurnOnWater:
 
 ; ==============================================================================
 
+; Routine 0x1A - watergate room
 ; $00CB49-$00CBFF JUMP LOCATION
 Tag_Watergate:
 {
-    ; Routine 0x1A - watergate room
-    
     ; Ignore this routine because the water is already present
-    LDA.w $0403 : AND.l $0098C9 : BNE Tag_TurnOnWater_return
+    LDA.w $0403 : AND.l DoorFlagMasks+1 : BNE Tag_TurnOnWater_return
         ; Ignore this routine until the player pulls the lever to let water
         ; enter the room.
         LDA.w $0642 : BEQ Tag_TurnOnWater_return
@@ -10953,7 +10879,7 @@ Tag_Watergate:
             ; still be in the channel (and the watergate opened). Note,
             ; however, that overworld code resets this flag when you transition
             ; to another area.
-            LDA.w $0403 : ORA.l $0098C9 : STA.w $0403
+            LDA.w $0403 : ORA.l DoorFlagMasks+1 : STA.w $0403
             
             ; Reset the lever trigger
             STZ.w $0642
@@ -11097,8 +11023,7 @@ RoomTag_TriggerHoles:
     
     REP #$30
     
-    ; $00CDCC IN ROM
-    JSR.w $CDCC : BCC .BRANCH_GAMMA
+    JSR.w RoomTag_CheckForPressedSwitch : BCC .BRANCH_GAMMA
         SEP #$30
         
         TYA : CLC : ADC.b $0A : CMP.w $04BA : BEQ .BRANCH_GAMMA
@@ -11188,8 +11113,7 @@ RoomTag_Holes2:
 {
     REP #$30
     
-    ; $00CDCC IN ROM
-    JSR.w $CDCC : BCC RoomTag_OperateChestHoles_chestNotOpened ; (SEP #$30, RTS)
+    JSR.w RoomTag_CheckForPressedSwitch : BCC RoomTag_OperateChestHoles_chestNotOpened
         LDY.w #$0005
         
         BRA RoomTag_OperateChestHoles_TriggerChestHoles
@@ -11282,7 +11206,7 @@ RoomTag_MaybeCheckShutters:
 {
     LDA.w $02E4 : AND.w #$00FF : BNE .matchFailed
         LDA.b $4D : AND.w #$00FF : BNE .matchFailed
-            JSR.w $CDA5 ; $00CDA5 IN ROM
+            JSR.w RoomTag_GetTilemapCoords
             
             LDA.l $7F2000, X
             
@@ -11358,7 +11282,7 @@ RoomTag_CheckForPressedSwitch:
 {
     LDA.w $02E4 : AND.w #$00FF : BNE RoomTag_MaybeCheckShutters_matchFailed
         LDA.b $4D : AND.w #$00FF : BNE RoomTag_MaybeCheckShutters_matchFailed
-            JSR.w $CDA5 ; $00CDA5 IN ROM
+            JSR.w RoomTag_GetTilemapCoords
             
             LDY.w #$0000
             
@@ -11485,7 +11409,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     .skip_torch_logic
     
     LDA.w $02E4 : BEQ .player_not_immobilized
-        JMP.w $CFEA ; $00CFEA IN ROM
+        JMP.w DontOpenDoor
     
     .player_not_immobilized
     
@@ -11495,8 +11419,8 @@ Dungeon_ProcessTorchAndDoorInteractives:
     LDA.b $2F : AND.w #$00FF : STA.b $08 : TAY
     
     ; Note, data bank here is apparently $00, not $01
-    LDA.b $20 : ADC.w $99EA, Y : AND.w #$01F8 : ASL #3 : STA.b $00
-    LDA.b $22 : CLC : ADC.w $99F2, Y : AND.w #$01F8 : LSR #3 : ORA.b $00
+    LDA.b $20 : ADC.w DetectStaircase_offset_y, Y : AND.w #$01F8 : ASL #3 : STA.b $00
+    LDA.b $22 : CLC : ADC.w DetectStaircase_offset_x, Y : AND.w #$01F8 : LSR #3 : ORA.b $00
     
     ; Based on what floor Link is on, we look at a specific tile.
     LDX.b $EE : BEQ .player_on_bg2
@@ -11512,7 +11436,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
     ; Yes...
     LDA.l $7F2000, X : AND.w #$00F0 : CMP.w #$00F0 : BEQ .is_openable_door
         ; Is the one to the right of it a locked big key door tile?
-        TXA : CLC : ADC.w $99FA, Y : TAX
+        TXA : CLC : ADC.w DetectStaircase_index_offset, Y : TAX
         
         ; No...
         LDA.l $7F2000, X : AND.w #$00F0 : CMP.w #$00F0 : BNE .not_openable_door
@@ -11537,7 +11461,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
                     ; Check which big keys we have and check it against the big
                     ; key slot for this dungeon. Branch if we find a matching
                     ; key.
-                    LDA.l $7EF366 : AND.w $98C0, Y : BNE .haveKeyToOpenDoor
+                    LDA.l $7EF366 : AND.w DungeonMask, Y : BNE .haveKeyToOpenDoor
                         ; Means the "eh..." message has activated, and we
                         ; haven't moved away from the door
                         LDA.w $04B8 : BNE .skipDoorProcessing
@@ -11555,13 +11479,13 @@ Dungeon_ProcessTorchAndDoorInteractives:
                         
                         .skipDoorProcessing
                         
-                        JMP.w $CFEA ; $00CFEA IN ROM
+                        JMP.w DontOpenDoor
                 
                 .not_openable_door
                 
                 STZ.w $04B8
                 
-                JMP.w $CFEA ; $00CFEA IN ROM
+                JMP.w DontOpenDoor
         
             .notBigKeyDoor
             
@@ -11594,7 +11518,7 @@ Dungeon_ProcessTorchAndDoorInteractives:
             LDA.w $19C0, X : AND.b #$03 : TAX
             
             ; Play a sound effect because the door opened.
-            LDA.l $01CE6C, X : ORA.b $00 : STA.w $012F
+            LDA.l DoorOpenSFXPan, X : ORA.b $00 : STA.w $012F
             
             RTL
     
@@ -11657,10 +11581,10 @@ DontOpenDoor:
                 LDY.w $0437
                 
                 LDX.w $0436 : CPX.b $2F : BEQ .BRANCH_RHO
-                    LDA.b $2F : CMP.l $01CE5C, X : BNE .BRANCH_RHO
+                    LDA.b $2F : CMP.l CorrespondingDoorOpeningDirection, X : BNE .BRANCH_RHO
                         REP #$20
                         
-                        LDA.w $068C : ORA.w $98C0, Y
+                        LDA.w $068C : ORA.w DungeonMask, Y
                         
                         BRA .BRANCH_SIGMA
                 
@@ -11668,7 +11592,7 @@ DontOpenDoor:
                 
                 REP #$20
                 
-                LDA.w $068C : AND.w $98E0, Y
+                LDA.w $068C : AND.w DungeonMaskInverted, Y
                 
                 .BRANCH_SIGMA
                 
@@ -11681,12 +11605,12 @@ DontOpenDoor:
                     
                     LDA.w $0437 : AND.w #$00FF : TAY
                     
-                    JSR.w $D33A ; $00D33A IN ROM
+                    JSR.w DrawEyeWatchDoor
                     JSR Dungeon_PrepOverlayDma_nextPrep
                     
                     LDY.w $0460
                     
-                    JSR.w $D51C ; $00D51C IN ROM
+                    JSR.w Dungeon_LoadToggleDoorAttr_from_parameter
                     
                     LDY.b $0C
                     
@@ -11791,7 +11715,7 @@ DontOpenDoor:
             
             PLA : AND.w #$0003 : ASL A : TAX
             
-            LDA.l $01CE64, X : TAY
+            LDA.l VineDoorGFXOffset, X : TAY
             
             LDX.b $08
             
@@ -11830,17 +11754,17 @@ DontOpenDoor:
                 
                 TYX
                 
-                LDA.w $068C : ORA.w $98C0, X : STA.w $068C
+                LDA.w $068C : ORA.w DungeonMask, X : STA.w $068C
                 
-                LDA.w $0400 : ORA.w $98C0, X : STA.w $0400
+                LDA.w $0400 : ORA.w DungeonMask, X : STA.w $0400
                 
                 STZ.w $0692
                 
-                JSR.w $D365 ; $00D365 IN ROM
+                JSR.w IndexAndClearCurtainDoor
                 
                 LDY.w $0460
                 
-                JSR.w $D51C ; $00D51C IN ROM
+                JSR.w Dungeon_LoadToggleDoorAttr_from_parameter
                 
                 .BRANCH_OPTIMUS
                 
@@ -11881,11 +11805,10 @@ RoomDraw_CloseStripes:
 
 ; ==============================================================================
 
+; Check for cracked floors and expose bombable floor if necessary
 ; $00D1F4-$00D2C8 LONG JUMP LOCATION
 Bomb_CheckForVulnerableTileObjects:
 {
-    ; Check for cracked floors and expose bombable floor if necessary
-
     LDA.b $10 : CMP.b #$07 : BEQ .indoors
 
         JML Overworld_ApplyBombToTiles
@@ -11926,14 +11849,15 @@ Bomb_CheckForVulnerableTileObjects:
           BMI .BRANCH_EPSILON
         .BRANCH_BETA
         
-        JMP.w $D2C9 ; $00D2C9 IN ROM
+        JMP.w BlowOpenBombableFloor
         
         .BRANCH_GAMMA
         
         LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
         
         ; This whole section is about bombable doors, so it needs to draw a door
-        ; This handles the various kinds of tiles that will get replaced in a bombing
+        ; This handles the various kinds of tiles that will get replaced in a
+        ; bombing.
         LDA.w $1980, Y : AND.w #$00FE : CMP.w #$0028 : BEQ .BRANCH_ZETA
             CMP.w #$002A : BEQ .BRANCH_ZETA
                 CMP.w #$002E : BNE .BRANCH_EPSILON
@@ -11973,7 +11897,7 @@ Bomb_CheckForVulnerableTileObjects:
 ; $00D2C9-$00D2E7 JUMP LOCATION (LONG)
 BlowOpenBombableFloor:
 {
-    ; \hardcoded Obviously.
+    ; HARDCODED: Obviously.
     LDA.b $A0 : CMP.w #$0065 : BNE .not_room_above_blind
         LDA.w $0402 : ORA.w #$1000 : STA.w $0402
     
@@ -12001,22 +11925,22 @@ DrawDoorOpening_Step1:
     STY.w $0694
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
-        JMP.w $FA54 ; $00FA54 IN ROM
+        JMP.w DoorDoorStep1_North
     
     .not_up
     
     CMP.w #$0001 : BNE .not_down
-        JMP.w $FB15 ; $00FB15 IN ROM
+        JMP.w DoorDoorStep1_South
     
     .not_down
     
     CMP.w #$0002 : BNE .not_left
-        JMP.w $FBCC ; $00FBCC IN ROM
+        JMP.w DoorDoorStep1_West
     
     .not_left
     
     ; Must be right then, directionally...
-    JMP.w $FC8A ; $00FC8A IN ROM
+    JMP.w DoorDoorStep1_East
 }
 
 ; ==============================================================================
@@ -12032,23 +11956,23 @@ DrawShutterDoorSteps:
     STY.w $0694
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
-        JMP.w $FA4A ; $00FA4A IN ROM
+        JMP.w GetDoorDrawDataIndex_North_clean_door_index
     
     .not_up
     
     CMP.w #$0001 : BNE .not_down
 
-        JMP.w $FB0B ; $00FB0B IN ROM
+        JMP.w GetDoorDrawDataIndex_South_clean_door_index
     
     .not_down
     
     CMP.w #$0002 : BNE .not_left
-        JMP.w $FBC2 ; $00FBC2 IN ROM
+        JMP.w GetDoorDrawDataIndex_West_clean_door_index
     
     .not_left
     
     ; The direction must be to the right then.
-    JMP.w $FC80 ; $00FC80 IN ROM
+    JMP.w GetDoorDrawDataIndex_East_clean_door_index
 }
 
 ; ==============================================================================
@@ -12063,21 +11987,21 @@ DrawEyeWatchDoor:
     STY.w $0694
     
     LDA.w $19C0, Y : AND.w #$0003 : BNE .not_up
-        JMP.w $FAD7 ; $00FAD7 IN ROM
+        JMP.w DrawDoorToTilemap_North
     
     .not_up
     
     CMP.w #$0001 : BNE .not_down
-        JMP.w $FB8E ; $00FB8E IN ROM
+        JMP.w DrawDoorToTilemap_South
     
     .not_down
     
     CMP.w #$0002 : BNE .not_left
-        JMP.w $FC45 ; $00FC45 IN ROM
+        JMP.w DrawDoorToTilemap_West
     
     .not_left
     
-    JMP.w $FD03 ; $00FD03 IN ROM
+    JMP.w DrawDoorToTilemap_East
 }
 
 ; ==============================================================================
@@ -12089,7 +12013,7 @@ IndexAndClearCurtainDoor:
     
     STY.w $0460 : STY.w $0694
     
-    JMP.w $FD3E ; $00FD3E IN ROM
+    JMP.w ClearDoorCurtainsFromTilemap
 }
 
 ; ==============================================================================
@@ -12109,20 +12033,18 @@ IndexAndClearExplodingWall:
     
     TXA : STA.w $19A0, Y
     
-    JMP.w $FD92 ; $00FD92 IN ROM
+    JMP.w ClearExplodingWallFromTilemap
 }
 
 ; ==============================================================================
 
+; Invoked from Module 0x07.0x05
+; Variables:
+; Y seems to be used as the animation state for the door?
+; It's selected by logic, of course.
 ; $00D38F-$00D468 LONG JUMP LOCATION
 Dungeon_AnimateTrapDoors:
 {
-    ; Invoked from Module 0x07.0x05
-    
-    ; Variables
-    ; Y seems to be used as the animation state for the door?
-    ; It's selected by logic, of course.
-    
     REP #$30
     
     STZ.b $0C
@@ -12177,7 +12099,7 @@ Dungeon_AnimateTrapDoors:
             ; TODO: I think the name of this branch has it backwards... find
             ; out.
             LDA.w $0468 : BNE .rising_trap_doors
-                LDA.w $068C : AND.w $98C0, Y : BNE .BRANCH_EPSILON
+                LDA.w $068C : AND.w DungeonMask, Y : BNE .BRANCH_EPSILON
                     LDA.w $0690 : CMP.w #$0008 : BNE .BRANCH_THETA
                         PHY
                         
@@ -12189,13 +12111,13 @@ Dungeon_AnimateTrapDoors:
                         
                         PLY
                         
-                        LDA.w $068C : ORA.w $98C0, Y
+                        LDA.w $068C : ORA.w DungeonMask, Y
                         
                         BRA .BRANCH_IOTA
                 
             .rising_trap_doors
             
-            LDA.w $068C : AND.w $98C0, Y : BEQ .BRANCH_EPSILON
+            LDA.w $068C : AND.w DungeonMask, Y : BEQ .BRANCH_EPSILON
                 LDA.w $0690 : CMP.w #$0008 : BNE .BRANCH_THETA
                     PHY
                     
@@ -12207,7 +12129,7 @@ Dungeon_AnimateTrapDoors:
                     
                     PLY
                     
-                    LDA.w $068C : AND.w $98E0, Y
+                    LDA.w $068C : AND.w DungeonMaskInverted, Y
                     
                     .BRANCH_IOTA
                     
@@ -12215,13 +12137,15 @@ Dungeon_AnimateTrapDoors:
                 
                 .BRANCH_THETA
                 
-                JSR.w $D311 ; $00D311 IN ROM; Called in opening and closing doors
-                JSR Dungeon_PrepOverlayDma_nextPrep
+                ; Called in opening and closing doors.
+                JSR.w DrawShutterDoorSteps
+
+                JSR.w Dungeon_PrepOverlayDma_nextPrep
                 
                 LDA.w $0690 : CMP.w #$0008 : BNE .BRANCH_EPSILON
                     LDY.w $068E
                     
-                    JSR.w $D51C ; $00D51C IN ROM
+                    JSR.w Dungeon_LoadToggleDoorAttr_from_parameter
             
             .BRANCH_EPSILON
     .aint_trap_door
@@ -12273,11 +12197,10 @@ Dungeon_AnimateDestroyingWeakDoor:
     BRA Dungeon_AnimateOpeningLockedDoor_set_event_flags
 }
 
+; (Door opening)
 ; $00D476-$00D50F ALTERNATE ENTRY POINT
 Dungeon_AnimateOpeningLockedDoor:
 {
-    ; (Door opening)
-    
     REP #$30
     
     LDY.w #$0002
@@ -12294,8 +12217,8 @@ Dungeon_AnimateOpeningLockedDoor:
             
             LDA.l $7F2000, X : AND.w #$0007 : ASL A : TAX
             
-            LDA.w $068C : ORA.w $98C0, X : STA.w $068C
-            LDA.w $0400 : ORA.w $98C0, X : STA.w $0400
+            LDA.w $068C : ORA.w DungeonMask, X : STA.w $068C
+            LDA.w $0400 : ORA.w DungeonMask, X : STA.w $0400
             
     .halfOpenDoor
     
@@ -12308,7 +12231,7 @@ Dungeon_AnimateOpeningLockedDoor:
     
     LDA.l $7F2000, X : AND.w #$000F : ASL A : TAY
     
-    JSR.w $D2E8 ; $00D2E8 IN ROM
+    JSR.w DrawDoorOpening_Step1
     JSR Dungeon_PrepOverlayDma_nextPrep
     
     LDY.b $0C
@@ -12326,8 +12249,8 @@ Dungeon_AnimateOpeningLockedDoor:
     .dont_set_flags_yet
     
     LDA.w $0690 : CMP.w #$0010 : BNE .notFullyOpen
-        ; $00D510 IN ROM; Blow open bombable wall, open key door
-        JSR.w $D510
+        ; Blow open bombable wall, open key door.
+        JSR.w Dungeon_LoadToggleDoorAttr
         
         LDX.w $068E
         
@@ -12536,8 +12459,8 @@ Door_BlastWallExploding:
     LDA.b #$06 : STA.w $02E4 : STA.w $0FC1 : CMP.l $7F0000 : BNE .BRANCH_ALPHA
         REP #$30
         
-        JSR.w $D373 ; $00D373 IN ROM
-        JSR.w $F811 ; $00F811 IN ROM
+        JSR.w IndexAndClearExplodingWall
+        JSR.w ClearAndStripeExplodingWall
         
         LDA.w #$FFFF : STA.w $1100, Y : STA.w $0710
         
@@ -12547,9 +12470,9 @@ Door_BlastWallExploding:
         LDA.w $0454 : CMP.w #$0015 : BNE .notDoneExploding
             LDY.w $0456
             
-            LDA.w $068C : ORA.w $98C0, Y : STA.w $068C
+            LDA.w $068C : ORA.w DungeonMask, Y : STA.w $068C
             
-            LDA.w $0400 : ORA.w $98C0, Y : STA.w $0400
+            LDA.w $0400 : ORA.w DungeonMask, Y : STA.w $0400
             
             LDX.w #$0001
             
@@ -12601,12 +12524,13 @@ Dungeon_QueryIfTileLiftable:
     ; What direction is player facing?
     LDA.b $2F : AND.w #$00FF : TAX
     
-    LDA.b $20 : CLC : ADC.l $01D9BA, X : AND.w #$01F8 : ASL #3 : STA.b $06
+    LDA.b $20 : CLC : ADC.l Pool_Dungeon_RevealCoveredTiles_y_offsets, X
+    AND.w #$01F8 : ASL #3 : STA.b $06
     
     ; All this rigamarole is to find the position of this tile's data in
     ; memory.
-    LDA.b $22 : CLC : ADC.l $01D9C2, X : AND.w #$01F8
-    LSR #3 : ORA.b $06 : STA.b $06
+    LDA.b $22 : CLC : ADC.l Pool_Dungeon_RevealCoveredTiles_x_offsets, X
+    AND.w #$01F8 : LSR #3 : ORA.b $06 : STA.b $06
     
     LDA.b $EE : AND.w #$00FF : BEQ .on_bg2
         ; If its on a higher floor (layer) just add 0x1000 to the address.
@@ -12628,7 +12552,7 @@ Dungeon_QueryIfTileLiftable:
             AND.w #$F0F0 : CMP.w #$2020 : BEQ .large_block
                 LDA.w $0500, X : AND.w #$000F : ASL A : TAX
                 
-                LDA.l $01D9E2, X : TAY
+                LDA.l Pool_Dungeon_RevealCoveredTiles_tile_01d9e0, X : TAY
             
             .large_block
             
@@ -12654,14 +12578,14 @@ Dungeon_QueryIfTileLiftable:
 
 ; ==============================================================================
 
-; $00D7C0-$00D827 DATA
+; $00D7C0-$00D7C7 DATA
 Pool_PushBlock_Main:
 {
     .move_distances
     dw -256, 256, -4, 4
 }
     
-; $00D7C8-$ JUMP LOCATION
+; $00D7C8-$00D827 JUMP LOCATION
 PushBlock_Main:
 {
     .check_for_active_block
@@ -12683,7 +12607,7 @@ PushBlock_Main:
             CMP.w #$0002 : BNE .not_block_phase_2
                 SEP #$30
                 
-                JSL.l $07EDB5 ; $03EDB5 IN ROM
+                JSL.l PushBlock_Slide
                 
                 REP #$30
                 
@@ -12699,7 +12623,7 @@ PushBlock_Main:
             CMP.w #$0004 : BNE .next_block
                 SEP #$20
                 
-                JSL.l $07EDF9 ; $03EDF9 IN ROM
+                JSL.l PushBlock_HandleFalling
                 
                 BRA .next_block
                 
@@ -12942,13 +12866,10 @@ Pool_Dungeon_RevealCoveredTiles:
     dw $2323
 }
     
-; ==============================================================================
-
+; Secrets
 ; $00D9EC-$00DA70 LONG JUMP LOCATION
 Dungeon_RevealCoveredTiles:
 {
-    ; Secrets
-    
     REP #$30
     
     LDA.b $2F : AND.w #$00FF : TAX
@@ -12997,7 +12918,7 @@ Dungeon_RevealCoveredTiles:
         
         PLA : AND.w #$000F : ASL A : TAX
         
-        LDA.l $01D9E2, X : STA.b $06
+        LDA.l Pool_Dungeon_RevealCoveredTiles_tile_01d9e0, X : STA.b $06
         
         BRA .BRANCH_GAMMA
     
@@ -13153,7 +13074,7 @@ Dungeon_GetUprootedTerrainSpawnCoords:
 
 ; ==============================================================================
 
-; $00DB69-$00E6B1 DATA
+; $00DB69-$00DDE8 DATA
 RoomData_PotItems_Pointers:
 {
     dw RoomData_PotItems_Room0000
@@ -13478,78 +13399,72 @@ RoomData_PotItems_Pointers:
     dw RoomData_PotItems_Room013F
 }
 
-RoomData_PotItems_Room0000:
-RoomData_PotItems_Room0001:
-RoomData_PotItems_Room0002:
-RoomData_PotItems_Room0003:
+; $00DDE9-$00E6B2 DATA
+RoomData_PotItems:
 {
+    ; $00DDE9
+    .Room0000
+    .Room0001
+    .Room0002
+    .Room0003
     dw $FFFF
-}
 
-RoomData_PotItems_Room0004:
-{
+    ; $00DDEB
+    .Room0004
     dw $13CC : db $0A ; Bomb        xyz:{ 0x130, 0x130, U }
     dw $13F0 : db $0A ; Bomb        xyz:{ 0x1C0, 0x130, U }
-}
 
-RoomData_PotItems_Room0005:
-RoomData_PotItems_Room0006:
-RoomData_PotItems_Room0007:
-RoomData_PotItems_Room0008:
-{
+    ; $00DDF1
+    .Room0005
+    .Room0006
+    .Room0007
+    .Room0008
     dw $FFFF
-}
 
-RoomData_PotItems_Room0009:
-{
+    ; $00DDF3
+    .Room0009
     dw $040C : db $01 ; Green rupee xyz:{ 0x030, 0x040, U }
     dw $0430 : db $0B ; Heart       xyz:{ 0x0C0, 0x040, U }
     dw $0C0C : db $88 ; Switch      xyz:{ 0x030, 0x0C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room000A:
-{
+    ; $00DDFE
+    .Room000A
     dw $0860 : db $0B ; Heart       xyz:{ 0x180, 0x080, U }
     dw $0868 : db $0B ; Heart       xyz:{ 0x1A0, 0x080, U }
     dw $0BCC : db $88 ; Switch      xyz:{ 0x130, 0x0B0, U }
     dw $119C : db $0A ; Bomb        xyz:{ 0x070, 0x110, U }
     dw $11A0 : db $09 ; 5 arrows    xyz:{ 0x080, 0x110, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room000B:
-{
+    ; $00DE0F
+    .Room000B
     dw $03CA : db $0A ; Bomb        xyz:{ 0x128, 0x030, U }
     dw $0CCA : db $0A ; Bomb        xyz:{ 0x128, 0x0C0, U }
-}
 
-RoomData_PotItems_Room000C:
-RoomData_PotItems_Room000D:
-RoomData_PotItems_Room000E:
-RoomData_PotItems_Room000F:
-RoomData_PotItems_Room0010:
-{
+    ; $00DE15
+    .Room000C
+    .Room000D
+    .Room000E
+    .Room000F
+    .Room0010
     dw $FFFF
-}
 
-RoomData_PotItems_Room0011:
-{
+    ; $00DE17
+    .Room0011
     dw $0F90 : db $0B ; Heart       xyz:{ 0x040, 0x0F0, U }
     dw $0FA0 : db $0B ; Heart       xyz:{ 0x080, 0x0F0, U }
     dw $1390 : db $0B ; Heart       xyz:{ 0x040, 0x130, U }
     dw $13A0 : db $0B ; Heart       xyz:{ 0x080, 0x130, U }
-}
 
-RoomData_PotItems_Room0012:
-RoomData_PotItems_Room0013:
-RoomData_PotItems_Room0014:
-{
+    ; $00DE23
+    .Room0012
+    .Room0013
+    .Room0014
     dw $FFFF
-}
 
-RoomData_PotItems_Room0015:
-{
+    ; $00DE25
+    .Room0015
     dw $0460 : db $0A ; Bomb        xyz:{ 0x180, 0x040, U }
     dw $0464 : db $0C ; Small magic xyz:{ 0x190, 0x040, U }
     dw $0468 : db $0B ; Heart       xyz:{ 0x1A0, 0x040, U }
@@ -13560,10 +13475,9 @@ RoomData_PotItems_Room0015:
     dw $0614 : db $07 ; Blue rupee  xyz:{ 0x050, 0x060, U }
     dw $0B46 : db $0D ; Full magic  xyz:{ 0x118, 0x0B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0016:
-{
+    ; $00DE42
+    .Room0016
     dw $03BC : db $0B ; Heart       xyz:{ 0x0F0, 0x030, U }
     dw $03C0 : db $0B ; Heart       xyz:{ 0x100, 0x030, U }
     dw $04BC : db $0C ; Small magic xyz:{ 0x0F0, 0x040, U }
@@ -13574,10 +13488,9 @@ RoomData_PotItems_Room0016:
     dw $06C0 : db $0A ; Bomb        xyz:{ 0x100, 0x060, U }
     dw $13F0 : db $08 ; Small key   xyz:{ 0x1C0, 0x130, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0017:
-{
+    ; $00DE5F
+    .Room0017
     dw $0D64 : db $0B ; Heart       xyz:{ 0x190, 0x0D0, U }
     dw $0E64 : db $0B ; Heart       xyz:{ 0x190, 0x0E0, U }
     dw $0F64 : db $0B ; Heart       xyz:{ 0x190, 0x0F0, U }
@@ -13590,121 +13503,104 @@ RoomData_PotItems_Room0017:
     dw $1068 : db $0B ; Heart       xyz:{ 0x1A0, 0x100, U }
     dw $1168 : db $0B ; Heart       xyz:{ 0x1A0, 0x110, U }
     dw $1268 : db $0B ; Heart       xyz:{ 0x1A0, 0x120, U }
-}
 
-RoomData_PotItems_Room0018:
-RoomData_PotItems_Room0019:
-{
+    ; $00DE83
+    .Room0018
+    .Room0019
     dw $FFFF
-}
 
-RoomData_PotItems_Room001A:
-{
+    ; $00DE85
+    .Room001A
     dw $051C : db $0A ; Bomb        xyz:{ 0x070, 0x050, U }
     dw $0520 : db $0A ; Bomb        xyz:{ 0x080, 0x050, U }
     dw $1B1C : db $0A ; Bomb        xyz:{ 0x070, 0x1B0, U }
     dw $1B20 : db $0A ; Bomb        xyz:{ 0x080, 0x1B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room001B:
-{
+    ; $00DE93
+    .Room001B
     dw $1714 : db $09 ; 5 arrows    xyz:{ 0x050, 0x170, U }
     dw $1728 : db $09 ; 5 arrows    xyz:{ 0x0A0, 0x170, U }
-}
 
-RoomData_PotItems_Room001C:
-RoomData_PotItems_Room001D:
-{
+    ; $00DE99
+    .Room001C
+    .Room001D
     dw $FFFF
-}
 
-RoomData_PotItems_Room001E:
-{
+    ; $00DE9B
+    .Room001E
     dw $0954 : db $0A ; Bomb        xyz:{ 0x150, 0x090, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room001F:
-{
+    ; $00DEA0
+    .Room001F
     dw $191C : db $88 ; Switch      xyz:{ 0x070, 0x190, U }
-}
 
-RoomData_PotItems_Room0020:
-{
+    ; $00DEA3
+    .Room0020
     dw $FFFF
-}
 
-RoomData_PotItems_Room0021:
-{
+    ; $00DEA5
+    .Room0021
     dw $18A8 : db $0C ; Small magic xyz:{ 0x0A0, 0x180, U }
     dw $1C30 : db $0B ; Heart       xyz:{ 0x0C0, 0x1C0, U }
     dw $1C52 : db $0C ; Small magic xyz:{ 0x148, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0022:
-{
+    ; $00DEAE
+    .Room0022
     dw $FFFF
-}
 
-RoomData_PotItems_Room0023:
-{
+    ; $00DEB0
+    .Room0023
     dw $1A56 : db $01 ; Green rupee xyz:{ 0x158, 0x1A0, U }
     dw $1A5A : db $0B ; Heart       xyz:{ 0x168, 0x1A0, U }
     dw $1A5E : db $01 ; Green rupee xyz:{ 0x178, 0x1A0, U }
     dw $1A62 : db $0A ; Bomb        xyz:{ 0x188, 0x1A0, U }
     dw $1A66 : db $01 ; Green rupee xyz:{ 0x198, 0x1A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0024:
-{
+    ; $00DEC1
+    .Room0024
     dw $040C : db $07 ; Blue rupee  xyz:{ 0x030, 0x040, U }
     dw $0430 : db $0B ; Heart       xyz:{ 0x0C0, 0x040, U }
     dw $0C0C : db $0C ; Small magic xyz:{ 0x030, 0x0C0, U }
     dw $0C30 : db $01 ; Green rupee xyz:{ 0x0C0, 0x0C0, U }
-}
 
-RoomData_PotItems_Room0025:
-{
+    ; $00DECD
+    .Room0025
     dw $FFFF
-}
 
-RoomData_PotItems_Room0026:
-{
+    ; $00DECF
+    .Room0026
     dw $041C : db $0A ; Bomb        xyz:{ 0x070, 0x040, U }
     dw $080C : db $0C ; Small magic xyz:{ 0x030, 0x080, U }
     dw $1396 : db $88 ; Switch      xyz:{ 0x058, 0x130, U }
     dw $1A16 : db $07 ; Blue rupee  xyz:{ 0x058, 0x1A0, U }
     dw $1ADC : db $09 ; 5 arrows    xyz:{ 0x170, 0x1A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0027:
-{
+    ; $00DEE0
+    .Room0027
     dw $14A6 : db $0A ; Bomb        xyz:{ 0x098, 0x140, U }
     dw $15D6 : db $0B ; Heart       xyz:{ 0x158, 0x150, U }
     dw $1C28 : db $01 ; Green rupee xyz:{ 0x0A0, 0x1C0, U }
     dw $1C2C : db $01 ; Green rupee xyz:{ 0x0B0, 0x1C0, U }
     dw $1C50 : db $07 ; Blue rupee  xyz:{ 0x140, 0x1C0, U }
     dw $1C54 : db $07 ; Blue rupee  xyz:{ 0x150, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0028:
-RoomData_PotItems_Room0029:
-{
+    ; $00DEF2
+    .Room0028
+    .Room0029
     dw $FFFF
-}
 
-RoomData_PotItems_Room002A:
-{
+    ; $00DEF4
+    .Room002A
     dw $0C50 : db $01 ; Green rupee xyz:{ 0x140, 0x0C0, U }
     dw $1350 : db $0B ; Heart       xyz:{ 0x140, 0x130, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room002B:
-{
+    ; $00DEFC
+    .Room002B
     dw $0510 : db $0B ; Heart       xyz:{ 0x040, 0x050, U }
     dw $052C : db $88 ; Switch      xyz:{ 0x0B0, 0x050, U }
     dw $0610 : db $0B ; Heart       xyz:{ 0x040, 0x060, U }
@@ -13716,22 +13612,19 @@ RoomData_PotItems_Room002B:
     dw $1692 : db $0A ; Bomb        xyz:{ 0x048, 0x160, U }
     dw $16AA : db $09 ; 5 arrows    xyz:{ 0x0A8, 0x160, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room002C:
-{
+    ; $00DF1C
+    .Room002C
     dw $186C : db $0B ; Heart       xyz:{ 0x1B0, 0x180, U }
     dw $1870 : db $0B ; Heart       xyz:{ 0x1C0, 0x180, U }
-}
 
-RoomData_PotItems_Room002D:
-RoomData_PotItems_Room002E:
-{
+    ; $00DF22
+    .Room002D
+    .Room002E
     dw $FFFF
-}
 
-RoomData_PotItems_Room002F:
-{
+    ; $00DF24
+    .Room002F
     dw $071C : db $0B ; Heart       xyz:{ 0x070, 0x070, U }
     dw $0720 : db $0B ; Heart       xyz:{ 0x080, 0x070, U }
     dw $091C : db $07 ; Blue rupee  xyz:{ 0x070, 0x090, U }
@@ -13740,38 +13633,32 @@ RoomData_PotItems_Room002F:
     dw $13B4 : db $07 ; Blue rupee  xyz:{ 0x0D0, 0x130, U }
     dw $1B68 : db $0B ; Heart       xyz:{ 0x1A0, 0x1B0, U }
     dw $1C68 : db $0B ; Heart       xyz:{ 0x1A0, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0030:
-{
+    ; $00DF3C
+    .Room0030
     dw $FFFF
-}
 
-RoomData_PotItems_Room0031:
-{
+    ; $00DF3E
+    .Room0031
     dw $1C5C : db $0A ; Bomb        xyz:{ 0x170, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0032:
-{
+    ; $00DF43
+    .Room0032
     dw $0D1C : db $0C ; Small magic xyz:{ 0x070, 0x0D0, U }
-}
 
-RoomData_PotItems_Room0033:
-{
+    ; $00DF46
+    .Room0033
     dw $FFFF
-}
 
-RoomData_PotItems_Room0034:
-{
+    ; $00DF48
+    .Room0034
     dw $084E : db $07 ; Blue rupee  xyz:{ 0x138, 0x080, U }
     dw $085C : db $07 ; Blue rupee  xyz:{ 0x170, 0x080, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0035:
-{
+    ; $00DF50
+    .Room0035
     dw $063C : db $08 ; Small key   xyz:{ 0x0F0, 0x060, U }
     dw $0814 : db $07 ; Blue rupee  xyz:{ 0x050, 0x080, U }
     dw $0818 : db $07 ; Blue rupee  xyz:{ 0x060, 0x080, U }
@@ -13782,48 +13669,42 @@ RoomData_PotItems_Room0035:
     dw $1770 : db $0B ; Heart       xyz:{ 0x1C0, 0x170, U }
     dw $1C4C : db $0B ; Heart       xyz:{ 0x130, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0036:
-{
+    ; $00DF6D
+    .Room0036
     dw $046C : db $0A ; Bomb        xyz:{ 0x1B0, 0x040, U }
     dw $0470 : db $07 ; Blue rupee  xyz:{ 0x1C0, 0x040, U }
     dw $100A : db $0B ; Heart       xyz:{ 0x028, 0x100, U }
     dw $1072 : db $08 ; Small key   xyz:{ 0x1C8, 0x100, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0037:
-{
+    ; $00DF7B
+    .Room0037
     dw $063C : db $08 ; Small key   xyz:{ 0x0F0, 0x060, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0038:
-{
+    ; $00DF80
+    .Room0038
     dw $0CA4 : db $0A ; Bomb        xyz:{ 0x090, 0x0C0, U }
     dw $0DA4 : db $07 ; Blue rupee  xyz:{ 0x090, 0x0D0, U }
     dw $12A4 : db $0A ; Bomb        xyz:{ 0x090, 0x120, U }
     dw $13A4 : db $08 ; Small key   xyz:{ 0x090, 0x130, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0039:
-{
+    ; $00DF8E
+    .Room0039
     dw $140C : db $0B ; Heart       xyz:{ 0x030, 0x140, U }
     dw $1664 : db $0C ; Small magic xyz:{ 0x190, 0x160, U }
     dw $1A64 : db $09 ; 5 arrows    xyz:{ 0x190, 0x1A0, U }
     dw $1C30 : db $09 ; 5 arrows    xyz:{ 0x0C0, 0x1C0, U }
-}
 
-RoomData_PotItems_Room003A:
-RoomData_PotItems_Room003B:
-{
+    ; $00DF9A
+    .Room003A
+    .Room003B
     dw $FFFF
-}
 
-RoomData_PotItems_Room003C:
-{
+    ; $00DF9C
+    .Room003C
     dw $0818 : db $0C ; Small magic xyz:{ 0x060, 0x080, U }
     dw $0C40 : db $07 ; Blue rupee  xyz:{ 0x100, 0x0C0, U }
     dw $0E14 : db $01 ; Green rupee xyz:{ 0x050, 0x0E0, U }
@@ -13832,10 +13713,9 @@ RoomData_PotItems_Room003C:
     dw $1440 : db $07 ; Blue rupee  xyz:{ 0x100, 0x140, U }
     dw $1A40 : db $07 ; Blue rupee  xyz:{ 0x100, 0x1A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room003D:
-{
+    ; $00DFB3
+    .Room003D
     dw $0C4C : db $0A ; Bomb        xyz:{ 0x130, 0x0C0, U }
     dw $0C70 : db $0A ; Bomb        xyz:{ 0x1C0, 0x0C0, U }
     dw $1618 : db $0B ; Heart       xyz:{ 0x060, 0x160, U }
@@ -13844,19 +13724,17 @@ RoomData_PotItems_Room003D:
     dw $1A14 : db $07 ; Blue rupee  xyz:{ 0x050, 0x1A0, U }
     dw $1A24 : db $0D ; Full magic  xyz:{ 0x090, 0x1A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room003E:
-{
+    ; $00DFCA
+    .Room003E
     dw $0660 : db $0A ; Bomb        xyz:{ 0x180, 0x060, U }
     dw $0664 : db $0C ; Small magic xyz:{ 0x190, 0x060, U }
     dw $0A58 : db $0B ; Heart       xyz:{ 0x160, 0x0A0, U }
     dw $0A5C : db $0C ; Small magic xyz:{ 0x170, 0x0A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room003F:
-{
+    ; $00DFD8
+    .Room003F
     dw $190C : db $01 ; Green rupee xyz:{ 0x030, 0x190, U }
     dw $1914 : db $01 ; Green rupee xyz:{ 0x050, 0x190, U }
     dw $1A0C : db $0A ; Bomb        xyz:{ 0x030, 0x1A0, U }
@@ -13864,64 +13742,55 @@ RoomData_PotItems_Room003F:
     dw $1B0C : db $88 ; Switch      xyz:{ 0x030, 0x1B0, U }
     dw $1B14 : db $0B ; Heart       xyz:{ 0x050, 0x1B0, U }
     dw $171C : db $08 ; Small key   xyz:{ 0x070, 0x170, U }
-}
 
-RoomData_PotItems_Room0040:
-{
+    ; $00DFED
+    .Room0040
     dw $FFFF
-}
 
-RoomData_PotItems_Room0041:
-{
+    ; $00DFEF
+    .Room0041
     dw $0A64 : db $0B ; Heart       xyz:{ 0x190, 0x0A0, U }
     dw $0F34 : db $01 ; Green rupee xyz:{ 0x0D0, 0x0F0, U }
     dw $1034 : db $0C ; Small magic xyz:{ 0x0D0, 0x100, U }
     dw $1694 : db $0C ; Small magic xyz:{ 0x050, 0x160, U }
-}
 
-RoomData_PotItems_Room0042:
-{
+    ; $00DFFB
+    .Room0042
     dw $FFFF
-}
 
-RoomData_PotItems_Room0043:
-{
+    ; $00DFFD
+    .Room0043
     dw $0442 : db $09 ; 5 arrows    xyz:{ 0x108, 0x040, U }
     dw $044E : db $0C ; Small magic xyz:{ 0x138, 0x040, U }
     dw $0942 : db $0B ; Heart       xyz:{ 0x108, 0x090, U }
     dw $094E : db $0B ; Heart       xyz:{ 0x138, 0x090, U }
     dw $1470 : db $08 ; Small key   xyz:{ 0x1C0, 0x140, U }
-}
 
-RoomData_PotItems_Room0044:
-{
+    ; $00E00C
+    .Room0044
     dw $FFFF
-}
 
-RoomData_PotItems_Room0045:
-{
+    ; $00E00E
+    .Room0045
     dw $040C : db $09 ; 5 arrows    xyz:{ 0x030, 0x040, U }
     dw $0B6C : db $0B ; Heart       xyz:{ 0x1B0, 0x0B0, U }
     dw $0C30 : db $09 ; 5 arrows    xyz:{ 0x0C0, 0x0C0, U }
     dw $10DC : db $0C ; Small magic xyz:{ 0x170, 0x100, U }
     dw $10EC : db $0B ; Heart       xyz:{ 0x1B0, 0x100, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0046:
-{
+    ; $00E01F
+    .Room0046
     dw $0560 : db $0B ; Heart       xyz:{ 0x180, 0x050, U }
     dw $1B1C : db $0B ; Heart       xyz:{ 0x070, 0x1B0, U }
-}
 
-RoomData_PotItems_Room0047:
-RoomData_PotItems_Room0048:
-{
+    ; $00E025
+    .Room0047
+    .Room0048
     dw $FFFF
-}
 
-RoomData_PotItems_Room0049:
-{
+    ; $00E027
+    .Room0049
     dw $0F68 : db $0C ; Small magic xyz:{ 0x1A0, 0x0F0, U }
     dw $1068 : db $0C ; Small magic xyz:{ 0x1A0, 0x100, U }
     dw $1390 : db $0C ; Small magic xyz:{ 0x040, 0x130, U }
@@ -13929,10 +13798,9 @@ RoomData_PotItems_Room0049:
     dw $1B90 : db $0B ; Heart       xyz:{ 0x040, 0x1B0, U }
     dw $1CAC : db $0C ; Small magic xyz:{ 0x0B0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room004A:
-{
+    ; $00E03B
+    .Room004A
     dw $050E : db $88 ; Switch      xyz:{ 0x038, 0x050, U }
     dw $0520 : db $0A ; Bomb        xyz:{ 0x080, 0x050, U }
     dw $055C : db $0A ; Bomb        xyz:{ 0x170, 0x050, U }
@@ -13944,77 +13812,66 @@ RoomData_PotItems_Room004A:
     dw $0B5C : db $01 ; Green rupee xyz:{ 0x170, 0x0B0, U }
     dw $0B6E : db $0B ; Heart       xyz:{ 0x1B8, 0x0B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room004B:
-{
+    ; $00E05B
+    .Room004B
     dw $0614 : db $09 ; 5 arrows    xyz:{ 0x050, 0x060, U }
     dw $0628 : db $0B ; Heart       xyz:{ 0x0A0, 0x060, U }
-}
 
-RoomData_PotItems_Room004C:
-RoomData_PotItems_Room004D:
-{
+    ; $00E061
+    .Room004C
+    .Room004D
     dw $FFFF
-}
 
-RoomData_PotItems_Room004E:
-{
+    ; $00E063
+    .Room004E
     dw $0B8C : db $88 ; Switch      xyz:{ 0x030, 0x0B0, U }
     dw $0C1C : db $0B ; Heart       xyz:{ 0x070, 0x0C0, U }
     dw $0C70 : db $0C ; Small magic xyz:{ 0x1C0, 0x0C0, U }
-}
 
-RoomData_PotItems_Room004F:
-{
+    ; $00E06C
+    .Room004F
     dw $FFFF
-}
 
-RoomData_PotItems_Room0050:
-{
+    ; $00E06E
+    .Room0050
     dw $2660 : db $0B ; Heart       xyz:{ 0x180, 0x060, L }
     dw $2664 : db $0B ; Heart       xyz:{ 0x190, 0x060, L }
-}
 
-RoomData_PotItems_Room0051:
-{
+    ; $00E074
+    .Room0051
     dw $FFFF
-}
 
-RoomData_PotItems_Room0052:
-{
+    ; $00E076
+    .Room0052
     dw $038A : db $0B ; Heart       xyz:{ 0x028, 0x030, U }
     dw $1AC2 : db $0B ; Heart       xyz:{ 0x108, 0x1A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0053:
-{
+    ; $00E07E
+    .Room0053
     dw $0B5C : db $0B ; Heart       xyz:{ 0x170, 0x0B0, U }
     dw $0B60 : db $0C ; Small magic xyz:{ 0x180, 0x0B0, U }
     dw $0B64 : db $08 ; Small key   xyz:{ 0x190, 0x0B0, U }
     dw $0B68 : db $0B ; Heart       xyz:{ 0x1A0, 0x0B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0054:
-{
+    ; $00E08C
+    .Room0054
     dw $19BA : db $07 ; Blue rupee  xyz:{ 0x0E8, 0x190, U }
     dw $1ABA : db $0B ; Heart       xyz:{ 0x0E8, 0x1A0, U }
     dw $1BBA : db $0B ; Heart       xyz:{ 0x0E8, 0x1B0, U }
     dw $1CBA : db $0B ; Heart       xyz:{ 0x0E8, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0055:
-{
+    ; $00E09A
+    .Room0055
     dw $18E6 : db $0C ; Small magic xyz:{ 0x198, 0x180, U }
     dw $19E6 : db $0C ; Small magic xyz:{ 0x198, 0x190, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0056:
-{
+    ; $00E0A2
+    .Room0056
     dw $0614 : db $0C ; Small magic xyz:{ 0x050, 0x060, U }
     dw $0628 : db $0C ; Small magic xyz:{ 0x0A0, 0x060, U }
     dw $0718 : db $0C ; Small magic xyz:{ 0x060, 0x070, U }
@@ -14027,10 +13884,9 @@ RoomData_PotItems_Room0056:
     dw $0A28 : db $07 ; Blue rupee  xyz:{ 0x0A0, 0x0A0, U }
     dw $140C : db $08 ; Small key   xyz:{ 0x030, 0x140, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0057:
-{
+    ; $00E0C5
+    .Room0057
     dw $075C : db $0D ; Full magic  xyz:{ 0x170, 0x070, U }
     dw $140C : db $0C ; Small magic xyz:{ 0x030, 0x140, U }
     dw $175C : db $0A ; Bomb        xyz:{ 0x170, 0x170, U }
@@ -14040,10 +13896,9 @@ RoomData_PotItems_Room0057:
     dw $1430 : db $0C ; Small magic xyz:{ 0x0C0, 0x140, U }
     dw $161E : db $88 ; Switch      xyz:{ 0x078, 0x160, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0058:
-{
+    ; $00E0DF
+    .Room0058
     dw $0560 : db $0A ; Bomb        xyz:{ 0x180, 0x050, U }
     dw $0564 : db $0C ; Small magic xyz:{ 0x190, 0x050, U }
     dw $070C : db $0C ; Small magic xyz:{ 0x030, 0x070, U }
@@ -14053,33 +13908,28 @@ RoomData_PotItems_Room0058:
     dw $0964 : db $0C ; Small magic xyz:{ 0x190, 0x090, U }
     dw $0968 : db $0A ; Bomb        xyz:{ 0x1A0, 0x090, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0059:
-{
+    ; $00E0F9
+    .Room0059
     dw $2B1A : db $0B ; Heart       xyz:{ 0x068, 0x0B0, L }
-}
 
-RoomData_PotItems_Room005A:
-{
+    ; $00E0FC
+    .Room005A
     dw $FFFF
-}
 
-RoomData_PotItems_Room005B:
-{
+    ; $00E0FE
+    .Room005B
     dw $25DE : db $88 ; Switch      xyz:{ 0x178, 0x050, L }
     dw $FFFF
-}
 
-RoomData_PotItems_Room005C:
-{
+    ; $00E103
+    .Room005C
     dw $165E : db $0A ; Bomb        xyz:{ 0x178, 0x160, U }
     dw $1A5E : db $0D ; Full magic  xyz:{ 0x178, 0x1A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room005D:
-{
+    ; $00E10B
+    .Room005D
     dw $0510 : db $0A ; Bomb        xyz:{ 0x040, 0x050, U }
     dw $052C : db $07 ; Blue rupee  xyz:{ 0x0B0, 0x050, U }
     dw $0B10 : db $01 ; Green rupee xyz:{ 0x040, 0x0B0, U }
@@ -14089,49 +13939,42 @@ RoomData_PotItems_Room005D:
     dw $1C0C : db $0C ; Small magic xyz:{ 0x030, 0x1C0, U }
     dw $1C30 : db $0A ; Bomb        xyz:{ 0x0C0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room005E:
-{
+    ; $00E125
+    .Room005E
     dw $045C : db $0C ; Small magic xyz:{ 0x170, 0x040, U }
     dw $0460 : db $0C ; Small magic xyz:{ 0x180, 0x040, U }
     dw $084C : db $0B ; Heart       xyz:{ 0x130, 0x080, U }
     dw $0870 : db $0B ; Heart       xyz:{ 0x1C0, 0x080, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room005F:
-{
+    ; $00E133
+    .Room005F
     dw $1B2C : db $88 ; Switch      xyz:{ 0x0B0, 0x1B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0060:
-{
+    ; $00E138
+    .Room0060
     dw $044C : db $0B ; Heart       xyz:{ 0x130, 0x040, U }
     dw $0470 : db $0B ; Heart       xyz:{ 0x1C0, 0x040, U }
-}
 
-RoomData_PotItems_Room0061:
-{
+    ; $00E13E
+    .Room0061
     dw $FFFF
-}
 
-RoomData_PotItems_Room0062:
-{
+    ; $00E140
+    .Room0062
     dw $15D0 : db $0B ; Heart       xyz:{ 0x140, 0x150, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0063:
-{
+    ; $00E145
+    .Room0063
     dw $0830 : db $0B ; Heart       xyz:{ 0x0C0, 0x080, U }
     dw $0C0C : db $08 ; Small key   xyz:{ 0x030, 0x0C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0064:
-{
+    ; $00E14D
+    .Room0064
     dw $160C : db $0A ; Bomb        xyz:{ 0x030, 0x160, U }
     dw $1610 : db $0A ; Bomb        xyz:{ 0x040, 0x160, U }
     dw $1614 : db $0A ; Bomb        xyz:{ 0x050, 0x160, U }
@@ -14140,17 +13983,15 @@ RoomData_PotItems_Room0064:
     dw $1C2C : db $0C ; Small magic xyz:{ 0x0B0, 0x1C0, U }
     dw $1C30 : db $88 ; Switch      xyz:{ 0x0C0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0065:
-{
+    ; $00E164
+    .Room0065
     dw $1C64 : db $0A ; Bomb        xyz:{ 0x190, 0x1C0, U }
     dw $1C68 : db $0A ; Bomb        xyz:{ 0x1A0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0066:
-{
+    ; $00E16C
+    .Room0066
     dw $2530 : db $09 ; 5 arrows    xyz:{ 0x0C0, 0x050, L }
     dw $2534 : db $0A ; Bomb        xyz:{ 0x0D0, 0x050, L }
     dw $2538 : db $07 ; Blue rupee  xyz:{ 0x0E0, 0x050, L }
@@ -14162,10 +14003,9 @@ RoomData_PotItems_Room0066:
     dw $0654 : db $0B ; Heart       xyz:{ 0x150, 0x060, U }
     dw $0668 : db $0A ; Bomb        xyz:{ 0x1A0, 0x060, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0067:
-{
+    ; $00E18C
+    .Room0067
     dw $070C : db $09 ; 5 arrows    xyz:{ 0x030, 0x070, U }
     dw $0730 : db $0C ; Small magic xyz:{ 0x0C0, 0x070, U }
     dw $1360 : db $0B ; Heart       xyz:{ 0x180, 0x130, U }
@@ -14174,60 +14014,53 @@ RoomData_PotItems_Room0067:
     dw $1A12 : db $0B ; Heart       xyz:{ 0x048, 0x1A0, U }
     dw $1C68 : db $0B ; Heart       xyz:{ 0x1A0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0068:
-{
+    ; $00E1A3
+    .Room0068
     dw $0740 : db $0B ; Heart       xyz:{ 0x100, 0x070, U }
     dw $0758 : db $0C ; Small magic xyz:{ 0x160, 0x070, U }
     dw $1040 : db $0B ; Heart       xyz:{ 0x100, 0x100, U }
     dw $1840 : db $0C ; Small magic xyz:{ 0x100, 0x180, U }
     dw $1940 : db $0B ; Heart       xyz:{ 0x100, 0x190, U }
-}
 
-RoomData_PotItems_Room0069:
-RoomData_PotItems_Room006A:
-{
+    ; $00E1B2
+    .Room0069
+    .Room006A
     dw $FFFF
-}
 
-RoomData_PotItems_Room006B:
-{
+    ; $00E1B4
+    .Room006B
     dw $051C : db $0B ; Heart       xyz:{ 0x070, 0x050, U }
     dw $082C : db $0C ; Small magic xyz:{ 0x0B0, 0x080, U }
     dw $0B1C : db $0C ; Small magic xyz:{ 0x070, 0x0B0, U }
     dw $1962 : db $09 ; 5 arrows    xyz:{ 0x188, 0x190, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room006C:
-{
+    ; $00E1C2
+    .Room006C
     dw $0614 : db $0B ; Heart       xyz:{ 0x050, 0x060, U }
     dw $0628 : db $09 ; 5 arrows    xyz:{ 0x0A0, 0x060, U }
     dw $0A14 : db $0A ; Bomb        xyz:{ 0x050, 0x0A0, U }
     dw $0A28 : db $0C ; Small magic xyz:{ 0x0A0, 0x0A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room006D:
-{
+    ; $00E1D0
+    .Room006D
     dw $1A1C : db $0B ; Heart       xyz:{ 0x070, 0x1A0, U }
     dw $1A20 : db $0B ; Heart       xyz:{ 0x080, 0x1A0, U }
     dw $1B1C : db $0C ; Small magic xyz:{ 0x070, 0x1B0, U }
     dw $1B20 : db $0C ; Small magic xyz:{ 0x080, 0x1B0, U }
-}
 
-RoomData_PotItems_Room006E:
-RoomData_PotItems_Room006F:
-RoomData_PotItems_Room0070:
-RoomData_PotItems_Room0071:
-RoomData_PotItems_Room0072:
-{
+    ; $00E1DC
+    .Room006E
+    .Room006F
+    .Room0070
+    .Room0071
+    .Room0072
     dw $FFFF
-}
 
-RoomData_PotItems_Room0073:
-{
+    ; $00E1DE
+    .Room0073
     dw $159A : db $09 ; 5 arrows    xyz:{ 0x068, 0x150, U }
     dw $159E : db $01 ; Green rupee xyz:{ 0x078, 0x150, U }
     dw $1714 : db $88 ; Switch      xyz:{ 0x050, 0x170, U }
@@ -14239,10 +14072,9 @@ RoomData_PotItems_Room0073:
     dw $1B9A : db $01 ; Green rupee xyz:{ 0x068, 0x1B0, U }
     dw $1B9E : db $07 ; Blue rupee  xyz:{ 0x078, 0x1B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0074:
-{
+    ; $00E1FE
+    .Room0074
     dw $051E : db $0C ; Small magic xyz:{ 0x078, 0x050, U }
     dw $053E : db $88 ; Switch      xyz:{ 0x0F8, 0x050, U }
     dw $055E : db $0C ; Small magic xyz:{ 0x178, 0x050, U }
@@ -14251,134 +14083,115 @@ RoomData_PotItems_Room0074:
     dw $0B4E : db $09 ; 5 arrows    xyz:{ 0x138, 0x0B0, U }
     dw $0B6E : db $0B ; Heart       xyz:{ 0x1B8, 0x0B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0075:
-{
+    ; $00E215
+    .Room0075
     dw $1694 : db $0C ; Small magic xyz:{ 0x050, 0x160, U }
     dw $16A0 : db $09 ; 5 arrows    xyz:{ 0x080, 0x160, U }
     dw $16AC : db $0B ; Heart       xyz:{ 0x0B0, 0x160, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0076:
-{
+    ; $00E220
+    .Room0076
     dw $0C70 : db $0B ; Heart       xyz:{ 0x1C0, 0x0C0, U }
     dw $1754 : db $0B ; Heart       xyz:{ 0x150, 0x170, U }
     dw $1760 : db $0B ; Heart       xyz:{ 0x180, 0x170, U }
-}
 
-RoomData_PotItems_Room0077:
-RoomData_PotItems_Room0078:
-RoomData_PotItems_Room0079:
-RoomData_PotItems_Room007A:
-{
+    ; $00E229
+    .Room0077
+    .Room0078
+    .Room0079
+    .Room007A
     dw $FFFF
-}
 
-RoomData_PotItems_Room007B:
-{
+    ; $00E22B
+    .Room007B
     dw $043C : db $0B ; Heart       xyz:{ 0x0F0, 0x040, U }
     dw $0440 : db $08 ; Small key   xyz:{ 0x100, 0x040, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room007C:
-{
+    ; $00E233
+    .Room007C
     dw $041C : db $0B ; Heart       xyz:{ 0x070, 0x040, U }
     dw $0420 : db $0B ; Heart       xyz:{ 0x080, 0x040, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room007D:
-{
+    ; $00E23B
+    .Room007D
     dw $0670 : db $0B ; Heart       xyz:{ 0x1C0, 0x060, U }
     dw $146C : db $09 ; 5 arrows    xyz:{ 0x1B0, 0x140, U }
     dw $1472 : db $0A ; Bomb        xyz:{ 0x1C8, 0x140, U }
     dw $1C4C : db $0A ; Bomb        xyz:{ 0x130, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room007E:
-{
+    ; $00E249
+    .Room007E
     dw $0F56 : db $0B ; Heart       xyz:{ 0x158, 0x0F0, U }
     dw $1A52 : db $0C ; Small magic xyz:{ 0x148, 0x1A0, U }
     dw $1A64 : db $88 ; Switch      xyz:{ 0x190, 0x1A0, U }
-}
 
-RoomData_PotItems_Room007F:
-{
+    ; $00E252
+    .Room007F
     dw $FFFF
-}
 
-RoomData_PotItems_Room0080:
-{
+    ; $00E254
+    .Room0080
     dw $0430 : db $0B ; Heart       xyz:{ 0x0C0, 0x040, U }
     dw $0434 : db $0B ; Heart       xyz:{ 0x0D0, 0x040, U }
     dw $0438 : db $0B ; Heart       xyz:{ 0x0E0, 0x040, U }
-}
 
-RoomData_PotItems_Room0081:
-{
+    ; $00E25D
+    .Room0081
     dw $FFFF
-}
 
-RoomData_PotItems_Room0082:
-{
+    ; $00E25F
+    .Room0082
     dw $324C : db $0B ; Heart       xyz:{ 0x130, 0x120, L }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0083:
-{
+    ; $00E264
+    .Room0083
     dw $044C : db $09 ; 5 arrows    xyz:{ 0x130, 0x040, U }
     dw $0450 : db $01 ; Green rupee xyz:{ 0x140, 0x040, U }
     dw $1C4C : db $07 ; Blue rupee  xyz:{ 0x130, 0x1C0, U }
     dw $1C50 : db $09 ; 5 arrows    xyz:{ 0x140, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0084:
-{
+    ; $00E272
+    .Room0084
     dw $0718 : db $09 ; 5 arrows    xyz:{ 0x060, 0x070, U }
     dw $0764 : db $09 ; 5 arrows    xyz:{ 0x190, 0x070, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0085:
-{
+    ; $00E27A
+    .Room0085
     dw $1C2C : db $0B ; Heart       xyz:{ 0x0B0, 0x1C0, U }
     dw $1C30 : db $09 ; 5 arrows    xyz:{ 0x0C0, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0086:
-{
+    ; $00E280
+    .Room0086
     dw $FFFF
-}
 
-RoomData_PotItems_Room0087:
-{
+    ; $00E282
+    .Room0087
     dw $144C : db $0C ; Small magic xyz:{ 0x130, 0x140, U }
     dw $1470 : db $0D ; Full magic  xyz:{ 0x1C0, 0x140, U }
-}
 
-RoomData_PotItems_Room0088:
-RoomData_PotItems_Room0089:
-RoomData_PotItems_Room008A:
-{
+    ; $00E288
+    .Room0088
+    .Room0089
+    .Room008A
     dw $FFFF
-}
 
-RoomData_PotItems_Room008B:
-{
+    ; $00E28A
+    .Room008B
     dw $0C70 : db $08 ; Small key   xyz:{ 0x1C0, 0x0C0, U }
     dw $0920 : db $0C ; Small magic xyz:{ 0x080, 0x090, U }
     dw $1C4C : db $0B ; Heart       xyz:{ 0x130, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room008C:
-{
+    ; $00E295
+    .Room008C
     dw $0C4C : db $88 ; Switch      xyz:{ 0x130, 0x0C0, U }
     dw $0C70 : db $0C ; Small magic xyz:{ 0x1C0, 0x0C0, U }
     dw $144C : db $0A ; Bomb        xyz:{ 0x130, 0x140, U }
@@ -14387,103 +14200,87 @@ RoomData_PotItems_Room008C:
     dw $1A68 : db $0A ; Bomb        xyz:{ 0x1A0, 0x1A0, U }
     dw $1B58 : db $0A ; Bomb        xyz:{ 0x160, 0x1B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room008D:
-{
+    ; $00E2AC
+    .Room008D
     dw $0ECC : db $0D ; Full magic  xyz:{ 0x130, 0x0E0, U }
     dw $171C : db $0B ; Heart       xyz:{ 0x070, 0x170, U }
     dw $1724 : db $0B ; Heart       xyz:{ 0x090, 0x170, U }
     dw $1820 : db $0D ; Full magic  xyz:{ 0x080, 0x180, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room008E:
-{
+    ; $00E2BA
+    .Room008E
     dw $0550 : db $09 ; 5 arrows    xyz:{ 0x140, 0x050, U }
-}
 
-RoomData_PotItems_Room008F:
-RoomData_PotItems_Room0090:
-{
+    ; $00E2BD
+    .Room008F
+    .Room0090
     dw $FFFF
-}
 
-RoomData_PotItems_Room0091:
-{
+    ; $00E2BF
+    .Room0091
     dw $0454 : db $0B ; Heart       xyz:{ 0x150, 0x040, U }
     dw $0468 : db $0C ; Small magic xyz:{ 0x1A0, 0x040, U }
-}
 
-RoomData_PotItems_Room0092:
-{
+    ; $00E2C5
+    .Room0092
     dw $FFFF
-}
 
-RoomData_PotItems_Room0093:
-{
+    ; $00E2C7
+    .Room0093
     dw $071C : db $88 ; Switch      xyz:{ 0x070, 0x070, U }
     dw $0760 : db $0B ; Heart       xyz:{ 0x180, 0x070, U }
-}
 
-RoomData_PotItems_Room0094:
-RoomData_PotItems_Room0095:
-{
+    ; $00E2CD
+    .Room0094
+    .Room0095
     dw $FFFF
-}
 
-RoomData_PotItems_Room0096:
-{
+    ; $00E2CF
+    .Room0096
     dw $1120 : db $0C ; Small magic xyz:{ 0x080, 0x110, U }
     dw $1820 : db $0C ; Small magic xyz:{ 0x080, 0x180, U }
     dw $154C : db $0B ; Heart       xyz:{ 0x130, 0x150, U }
     dw $1570 : db $0D ; Full magic  xyz:{ 0x1C0, 0x150, U }
-}
 
-RoomData_PotItems_Room0097:
-RoomData_PotItems_Room0098:
-{
+    ; $00E2DB
+    .Room0097
+    .Room0098
     dw $FFFF
-}
 
-RoomData_PotItems_Room0099:
-{
+    ; $00E2DD
+    .Room0099
     dw $1428 : db $0C ; Small magic xyz:{ 0x0A0, 0x140, U }
     dw $1454 : db $0B ; Heart       xyz:{ 0x150, 0x140, U }
-}
 
-RoomData_PotItems_Room009A:
-{
+    ; $00E2E3
+    .Room009A
     dw $FFFF
-}
 
-RoomData_PotItems_Room009B:
-{
+    ; $00E2E5
+    .Room009B
     dw $0430 : db $0C ; Small magic xyz:{ 0x0C0, 0x040, U }
     dw $0C30 : db $08 ; Small key   xyz:{ 0x0C0, 0x0C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room009C:
-{
+    ; $00E2ED
+    .Room009C
     dw $0838 : db $0C ; Small magic xyz:{ 0x0E0, 0x080, U }
     dw $0938 : db $09 ; 5 arrows    xyz:{ 0x0E0, 0x090, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room009D:
-{
+    ; $00E2F5
+    .Room009D
     dw $044C : db $0A ; Bomb        xyz:{ 0x130, 0x040, U }
     dw $0454 : db $0C ; Small magic xyz:{ 0x150, 0x040, U }
-}
 
-RoomData_PotItems_Room009E:
-{
+    ; $00E2FB
+    .Room009E
     dw $FFFF
-}
 
-RoomData_PotItems_Room009F:
-{
+    ; $00E2FD
+    .Room009F
     dw $138A : db $0B ; Heart       xyz:{ 0x028, 0x130, U }
     dw $13B2 : db $0B ; Heart       xyz:{ 0x0C8, 0x130, U }
     dw $1528 : db $88 ; Switch      xyz:{ 0x0A0, 0x150, U }
@@ -14491,15 +14288,13 @@ RoomData_PotItems_Room009F:
     dw $1B14 : db $0B ; Heart       xyz:{ 0x050, 0x1B0, U }
     dw $1B8A : db $0B ; Heart       xyz:{ 0x028, 0x1B0, U }
     dw $1CB2 : db $0B ; Heart       xyz:{ 0x0C8, 0x1C0, U }
-}
 
-RoomData_PotItems_Room00A0:
-{
+    ; $00E312
+    .Room00A0
     dw $FFFF
-}
 
-RoomData_PotItems_Room00A1:
-{
+    ; $00E314
+    .Room00A1
     dw $0696 : db $08 ; Small key   xyz:{ 0x058, 0x060, U }
     dw $0B64 : db $0C ; Small magic xyz:{ 0x190, 0x0B0, U }
     dw $0C68 : db $0B ; Heart       xyz:{ 0x1A0, 0x0C0, U }
@@ -14507,31 +14302,27 @@ RoomData_PotItems_Room00A1:
     dw $0E70 : db $0B ; Heart       xyz:{ 0x1C0, 0x0E0, U }
     dw $1760 : db $0B ; Heart       xyz:{ 0x180, 0x170, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00A2:
-{
+    ; $00E328
+    .Room00A2
     dw $1C0C : db $0D ; Full magic  xyz:{ 0x030, 0x1C0, U }
-}
 
-RoomData_PotItems_Room00A3:
-RoomData_PotItems_Room00A4:
-RoomData_PotItems_Room00A5:
-RoomData_PotItems_Room00A6:
-RoomData_PotItems_Room00A7:
-{
+    ; $00E32B
+    .Room00A3
+    .Room00A4
+    .Room00A5
+    .Room00A6
+    .Room00A7
     dw $FFFF
-}
 
-RoomData_PotItems_Room00A8:
-{
+    ; $00E32D
+    .Room00A8
     dw $138A : db $0B ; Heart       xyz:{ 0x028, 0x130, U }
     dw $181E : db $01 ; Green rupee xyz:{ 0x078, 0x180, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00A9:
-{
+    ; $00E335
+    .Room00A9
     dw $2B90 : db $09 ; 5 arrows    xyz:{ 0x040, 0x0B0, L }
     dw $2BEC : db $09 ; 5 arrows    xyz:{ 0x1B0, 0x0B0, L }
     dw $2C90 : db $09 ; 5 arrows    xyz:{ 0x040, 0x0C0, L }
@@ -14539,41 +14330,35 @@ RoomData_PotItems_Room00A9:
     dw $1410 : db $0B ; Heart       xyz:{ 0x040, 0x140, U }
     dw $146C : db $0B ; Heart       xyz:{ 0x1B0, 0x140, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00AA:
-{
+    ; $00E349
+    .Room00AA
     dw $05D4 : db $0B ; Heart       xyz:{ 0x150, 0x050, U }
     dw $085E : db $88 ; Switch      xyz:{ 0x178, 0x080, U }
     dw $376C : db $0B ; Heart       xyz:{ 0x1B0, 0x170, L }
     dw $386C : db $0B ; Heart       xyz:{ 0x1B0, 0x180, L }
     dw $396C : db $0B ; Heart       xyz:{ 0x1B0, 0x190, L }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00AB:
-{
+    ; $00E35A
+    .Room00AB
     dw $1814 : db $08 ; Small key   xyz:{ 0x050, 0x180, U }
-}
 
-RoomData_PotItems_Room00AC:
-RoomData_PotItems_Room00AD:
-{
+    ; $00E35D
+    .Room00AC
+    .Room00AD
     dw $FFFF
-}
 
-RoomData_PotItems_Room00AE:
-{
+    ; $00E35F
+    .Room00AE
     dw $0C4C : db $88 ; Switch      xyz:{ 0x130, 0x0C0, U }
-}
 
-RoomData_PotItems_Room00AF:
-{
+    ; $00E362
+    .Room00AF
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B0:
-{
+    ; $00E364
+    .Room00B0
     dw $1514 : db $0A ; Bomb        xyz:{ 0x050, 0x150, U }
     dw $151C : db $01 ; Green rupee xyz:{ 0x070, 0x150, U }
     dw $1520 : db $07 ; Blue rupee  xyz:{ 0x080, 0x150, U }
@@ -14585,40 +14370,35 @@ RoomData_PotItems_Room00B0:
     dw $1B1C : db $09 ; 5 arrows    xyz:{ 0x070, 0x1B0, U }
     dw $1B28 : db $0A ; Bomb        xyz:{ 0x0A0, 0x1B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B1:
-{
+    ; $00E384
+    .Room00B1
     dw $044C : db $0B ; Heart       xyz:{ 0x130, 0x040, U }
     dw $0470 : db $01 ; Green rupee xyz:{ 0x1C0, 0x040, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B2:
-{
+    ; $00E38C
+    .Room00B2
     dw $2830 : db $01 ; Green rupee xyz:{ 0x0C0, 0x080, L }
     dw $284C : db $01 ; Green rupee xyz:{ 0x130, 0x080, L }
     dw $294C : db $0B ; Heart       xyz:{ 0x130, 0x090, L }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B3:
-{
+    ; $00E397
+    .Room00B3
     dw $140C : db $08 ; Small key   xyz:{ 0x030, 0x140, U }
     dw $1430 : db $0C ; Small magic xyz:{ 0x0C0, 0x140, U }
     dw $1C30 : db $88 ; Switch      xyz:{ 0x0C0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B4:
-{
+    ; $00E3A2
+    .Room00B4
     dw $1C2C : db $0D ; Full magic  xyz:{ 0x0B0, 0x1C0, U }
     dw $1C30 : db $0B ; Heart       xyz:{ 0x0C0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B5:
-{
+    ; $00E3AA
+    .Room00B5
     dw $0470 : db $07 ; Blue rupee  xyz:{ 0x1C0, 0x040, U }
     dw $0F70 : db $0B ; Heart       xyz:{ 0x1C0, 0x0F0, U }
     dw $104C : db $88 ; Switch      xyz:{ 0x130, 0x100, U }
@@ -14626,54 +14406,47 @@ RoomData_PotItems_Room00B5:
     dw $1170 : db $0B ; Heart       xyz:{ 0x1C0, 0x110, U }
     dw $1C70 : db $0A ; Bomb        xyz:{ 0x1C0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B6:
-{
+    ; $00E3BE
+    .Room00B6
     dw $095E : db $0D ; Full magic  xyz:{ 0x178, 0x090, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B7:
-{
+    ; $00E3C3
+    .Room00B7
     dw $051E : db $0C ; Small magic xyz:{ 0x078, 0x050, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B8:
-{
+    ; $00E3C8
+    .Room00B8
     dw $0D60 : db $88 ; Switch      xyz:{ 0x180, 0x0D0, U }
     dw $1058 : db $0B ; Heart       xyz:{ 0x160, 0x100, U }
     dw $1068 : db $0B ; Heart       xyz:{ 0x1A0, 0x100, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00B9:
-{
+    ; $00E3D3
+    .Room00B9
     dw $125C : db $01 ; Green rupee xyz:{ 0x170, 0x120, U }
     dw $1260 : db $07 ; Blue rupee  xyz:{ 0x180, 0x120, U }
     dw $1268 : db $07 ; Blue rupee  xyz:{ 0x1A0, 0x120, U }
     dw $126C : db $01 ; Green rupee xyz:{ 0x1B0, 0x120, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00BA:
-{
+    ; $00E3E1
+    .Room00BA
     dw $045E : db $01 ; Green rupee xyz:{ 0x178, 0x040, U }
     dw $064C : db $0B ; Heart       xyz:{ 0x130, 0x060, U }
     dw $0670 : db $08 ; Small key   xyz:{ 0x1C0, 0x060, U }
     dw $0A4C : db $0B ; Heart       xyz:{ 0x130, 0x0A0, U }
     dw $0A70 : db $0C ; Small magic xyz:{ 0x1C0, 0x0A0, U }
     dw $0C5E : db $01 ; Green rupee xyz:{ 0x178, 0x0C0, U }
-}
 
-RoomData_PotItems_Room00BB:
-{
+    ; $00E3F3
+    .Room00BB
     dw $FFFF
-}
 
-RoomData_PotItems_Room00BC:
-{
+    ; $00E3F5
+    .Room00BC
     dw $038A : db $0A ; Bomb        xyz:{ 0x028, 0x030, U }
     dw $03B2 : db $88 ; Switch      xyz:{ 0x0C8, 0x030, U }
     dw $0456 : db $0B ; Heart       xyz:{ 0x158, 0x040, U }
@@ -14687,21 +14460,18 @@ RoomData_PotItems_Room00BC:
     dw $1B20 : db $07 ; Blue rupee  xyz:{ 0x080, 0x1B0, U }
     dw $1C0C : db $0A ; Bomb        xyz:{ 0x030, 0x1C0, U }
     dw $1C30 : db $0A ; Bomb        xyz:{ 0x0C0, 0x1C0, U }
-}
 
-RoomData_PotItems_Room00BD:
-{
+    ; $00E41C
+    .Room00BD
     dw $FFFF
-}
 
-RoomData_PotItems_Room00BE:
-{
+    ; $00E41E
+    .Room00BE
     dw $195C : db $88 ; Switch      xyz:{ 0x170, 0x190, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00BF:
-{
+    ; $00E423
+    .Room00BF
     dw $1428 : db $09 ; 5 arrows    xyz:{ 0x0A0, 0x140, U }
     dw $142C : db $0B ; Heart       xyz:{ 0x0B0, 0x140, U }
     dw $1430 : db $0A ; Bomb        xyz:{ 0x0C0, 0x140, U }
@@ -14709,36 +14479,31 @@ RoomData_PotItems_Room00BF:
     dw $1C2C : db $0C ; Small magic xyz:{ 0x0B0, 0x1C0, U }
     dw $1C30 : db $0C ; Small magic xyz:{ 0x0C0, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00C0:
-{
+    ; $00E437
+    .Room00C0
     dw $0A30 : db $0A ; Bomb        xyz:{ 0x0C0, 0x0A0, U }
     dw $0E0C : db $07 ; Blue rupee  xyz:{ 0x030, 0x0E0, U }
     dw $1A0C : db $0B ; Heart       xyz:{ 0x030, 0x1A0, U }
     dw $1B1C : db $01 ; Green rupee xyz:{ 0x070, 0x1B0, U }
-}
 
-RoomData_PotItems_Room00C1:
-{
+    ; $00E443
+    .Room00C1
     dw $FFFF
-}
 
-RoomData_PotItems_Room00C2:
-{
+    ; $00E445
+    .Room00C2
     dw $07B4 : db $88 ; Switch      xyz:{ 0x0D0, 0x070, U }
     dw $2E64 : db $0C ; Small magic xyz:{ 0x190, 0x0E0, L }
     dw $3044 : db $01 ; Green rupee xyz:{ 0x110, 0x100, L }
     dw $3440 : db $09 ; 5 arrows    xyz:{ 0x100, 0x140, L }
-}
 
-RoomData_PotItems_Room00C3:
-{
+    ; $00E451
+    .Room00C3
     dw $FFFF
-}
 
-RoomData_PotItems_Room00C4:
-{
+    ; $00E453
+    .Room00C4
     dw $0954 : db $0A ; Bomb        xyz:{ 0x150, 0x090, U }
     dw $0E18 : db $0B ; Heart       xyz:{ 0x060, 0x0E0, U }
     dw $1138 : db $07 ; Blue rupee  xyz:{ 0x0E0, 0x110, U }
@@ -14747,81 +14512,69 @@ RoomData_PotItems_Room00C4:
     dw $174C : db $01 ; Green rupee xyz:{ 0x130, 0x170, U }
     dw $1930 : db $0C ; Small magic xyz:{ 0x0C0, 0x190, U }
     dw $1A0C : db $0B ; Heart       xyz:{ 0x030, 0x1A0, U }
-}
 
-RoomData_PotItems_Room00C5:
-{
+    ; $00E46B
+    .Room00C5
     dw $FFFF
-}
 
-RoomData_PotItems_Room00C6:
-{
+    ; $00E46D
+    .Room00C6
     dw $070C : db $0D ; Full magic  xyz:{ 0x030, 0x070, U }
     dw $190C : db $0B ; Heart       xyz:{ 0x030, 0x190, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00C7:
-{
+    ; $00E475
+    .Room00C7
     dw $0A0C : db $0B ; Heart       xyz:{ 0x030, 0x0A0, U }
     dw $0B0C : db $0D ; Full magic  xyz:{ 0x030, 0x0B0, U }
     dw $160C : db $0C ; Small magic xyz:{ 0x030, 0x160, U }
     dw $1C0C : db $09 ; 5 arrows    xyz:{ 0x030, 0x1C0, U }
-}
 
-RoomData_PotItems_Room00C8:
-{
+    ; $00E481
+    .Room00C8
     dw $FFFF
-}
 
-RoomData_PotItems_Room00C9:
-{
+    ; $00E483
+    .Room00C9
     dw $161E : db $01 ; Green rupee xyz:{ 0x078, 0x160, U }
     dw $165E : db $01 ; Green rupee xyz:{ 0x178, 0x160, U }
     dw $163C : db $88 ; Switch      xyz:{ 0x0F0, 0x160, U }
-}
 
-RoomData_PotItems_Room00CA:
-{
+    ; $00E48C
+    .Room00CA
     dw $FFFF
-}
 
-RoomData_PotItems_Room00CB:
-{
+    ; $00E48E
+    .Room00CB
     dw $1058 : db $0B ; Heart       xyz:{ 0x160, 0x100, U }
     dw $1C58 : db $07 ; Blue rupee  xyz:{ 0x160, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00CC:
-{
+    ; $00E496
+    .Room00CC
     dw $0424 : db $07 ; Blue rupee  xyz:{ 0x090, 0x040, U }
     dw $0470 : db $0B ; Heart       xyz:{ 0x1C0, 0x040, U }
     dw $1C24 : db $07 ; Blue rupee  xyz:{ 0x090, 0x1C0, U }
     dw $1C70 : db $0A ; Bomb        xyz:{ 0x1C0, 0x1C0, U }
-}
 
-RoomData_PotItems_Room00CD:
-{
+    ; $00E4A2
+    .Room00CD
     dw $FFFF
-}
 
-RoomData_PotItems_Room00CE:
-{
+    ; $00E41A
+    .Room00CE
     dw $084C : db $0C ; Small magic xyz:{ 0x130, 0x080, U }
     dw $0850 : db $0C ; Small magic xyz:{ 0x140, 0x080, U }
     dw $0C6C : db $0A ; Bomb        xyz:{ 0x1B0, 0x0C0, U }
     dw $0C70 : db $09 ; 5 arrows    xyz:{ 0x1C0, 0x0C0, U }
     dw $0BCC : db $80 ; Hole        xyz:{ 0x130, 0x0B0, U }
-}
 
-RoomData_PotItems_Room00CF:
-{
+    ; $00E4B3
+    .Room00CF
     dw $FFFF
-}
 
-RoomData_PotItems_Room00D0:
-{
+    ; $00E4B5
+    .Room00D0
     dw $059E : db $0C ; Small magic xyz:{ 0x078, 0x050, U }
     dw $0B8C : db $01 ; Green rupee xyz:{ 0x030, 0x0B0, U }
     dw $0D2A : db $0C ; Small magic xyz:{ 0x0A8, 0x0D0, U }
@@ -14830,38 +14583,33 @@ RoomData_PotItems_Room00D0:
     dw $1792 : db $07 ; Blue rupee  xyz:{ 0x048, 0x170, U }
     dw $1C0C : db $0B ; Heart       xyz:{ 0x030, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00D1:
-{
+    ; $00E4CC
+    .Room00D1
     dw $0430 : db $0D ; Full magic  xyz:{ 0x0C0, 0x040, U }
     dw $044C : db $01 ; Green rupee xyz:{ 0x130, 0x040, U }
     dw $0470 : db $09 ; 5 arrows    xyz:{ 0x1C0, 0x040, U }
     dw $07A8 : db $01 ; Green rupee xyz:{ 0x0A0, 0x070, U }
     dw $0C70 : db $01 ; Green rupee xyz:{ 0x1C0, 0x0C0, U }
-}
 
-RoomData_PotItems_Room00D2:
-RoomData_PotItems_Room00D3:
-RoomData_PotItems_Room00D4:
-RoomData_PotItems_Room00D5:
-{
+    ; $00E4DB
+    .Room00D2
+    .Room00D3
+    .Room00D4
+    .Room00D5
     dw $FFFF
-}
 
-RoomData_PotItems_Room00D6:
-{
+    ; $00E4DD
+    .Room00D6
     dw $165C : db $0D ; Full magic  xyz:{ 0x170, 0x160, U }
     dw $1660 : db $0A ; Bomb        xyz:{ 0x180, 0x160, U }
-}
 
-RoomData_PotItems_Room00D7:
-{
+    ; $00E4E3
+    .Room00D7
     dw $FFFF
-}
 
-RoomData_PotItems_Room00D8:
-{
+    ; $00E4E5
+    .Room00D8
     dw $08CA : db $0B ; Heart       xyz:{ 0x128, 0x080, U }
     dw $08F2 : db $09 ; 5 arrows    xyz:{ 0x1C8, 0x080, U }
     dw $0ACA : db $09 ; 5 arrows    xyz:{ 0x128, 0x0A0, U }
@@ -14871,220 +14619,189 @@ RoomData_PotItems_Room00D8:
     dw $185C : db $0B ; Heart       xyz:{ 0x170, 0x180, U }
     dw $1860 : db $09 ; 5 arrows    xyz:{ 0x180, 0x180, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00D9:
-{
+    ; $00E4FF
+    .Room00D9
     dw $145C : db $09 ; 5 arrows    xyz:{ 0x170, 0x140, U }
     dw $1C5C : db $0B ; Heart       xyz:{ 0x170, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00DA:
-{
+    ; $00E507
+    .Room00DA
     dw $1718 : db $09 ; 5 arrows    xyz:{ 0x060, 0x170, U }
     dw $1724 : db $09 ; 5 arrows    xyz:{ 0x090, 0x170, U }
     dw $1918 : db $88 ; Switch      xyz:{ 0x060, 0x190, U }
     dw $1924 : db $0B ; Heart       xyz:{ 0x090, 0x190, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00DB:
-{
+    ; $00E515
+    .Room00DB
     dw $0470 : db $07 ; Blue rupee  xyz:{ 0x1C0, 0x040, U }
     dw $1058 : db $0B ; Heart       xyz:{ 0x160, 0x100, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00DC:
-{
+    ; $00E51D
+    .Room00DC
     dw $0438 : db $07 ; Blue rupee  xyz:{ 0x0E0, 0x040, U }
     dw $0470 : db $0A ; Bomb        xyz:{ 0x1C0, 0x040, U }
     dw $1044 : db $0B ; Heart       xyz:{ 0x110, 0x100, U }
     dw $1C0C : db $09 ; 5 arrows    xyz:{ 0x030, 0x1C0, U }
-}
 
-RoomData_PotItems_Room00DD:
-RoomData_PotItems_Room00DE:
-RoomData_PotItems_Room00DF:
-{
+    ; $00E529
+    .Room00DD
+    .Room00DE
+    .Room00DF
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E0:
-{
+    ; $00E52B
+    .Room00E0
     dw $0818 : db $0B ; Heart       xyz:{ 0x060, 0x080, U }
-}
 
-RoomData_PotItems_Room00E1:
-RoomData_PotItems_Room00E2:
-{
+    ; $00E52E
+    .Room00E1
+    .Room00E2
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E3:
-{
+    ; $00E530
+    .Room00E3
     dw $3964 : db $01 ; Green rupee xyz:{ 0x190, 0x190, L }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E4:
-{
+    ; $00E535
+    .Room00E4
     dw $0920 : db $07 ; Blue rupee  xyz:{ 0x080, 0x090, U }
     dw $0A70 : db $01 ; Green rupee xyz:{ 0x1C0, 0x0A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E5:
-{
+    ; $00E53D
+    .Room00E5
     dw $0430 : db $01 ; Green rupee xyz:{ 0x0C0, 0x040, U }
     dw $044C : db $01 ; Green rupee xyz:{ 0x130, 0x040, U }
     dw $1070 : db $01 ; Green rupee xyz:{ 0x1C0, 0x100, U }
     dw $1240 : db $07 ; Blue rupee  xyz:{ 0x100, 0x120, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E6:
-{
+    ; $00E54B
+    .Room00E6
     dw $0C6C : db $09 ; 5 arrows    xyz:{ 0x1B0, 0x0C0, U }
     dw $1058 : db $0B ; Heart       xyz:{ 0x160, 0x100, U }
     dw $1838 : db $01 ; Green rupee xyz:{ 0x0E0, 0x180, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E7:
-{
+    ; $00E556
+    .Room00E7
     dw $0544 : db $01 ; Green rupee xyz:{ 0x110, 0x050, U }
     dw $0548 : db $01 ; Green rupee xyz:{ 0x120, 0x050, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room00E8:
-{
+    ; $00E55E
+    .Room00E8
     dw $0460 : db $0B ; Heart       xyz:{ 0x180, 0x040, U }
-}
 
-RoomData_PotItems_Room00E9:
-RoomData_PotItems_Room00EA:
-{
+    ; $00E561
+    .Room00E9
+    .Room00EA
     dw $FFFF
-}
 
-RoomData_PotItems_Room00EB:
-{
+    ; $00E563
+    .Room00EB
     dw $08CE : db $07 ; Blue rupee  xyz:{ 0x138, 0x080, U }
     dw $08D2 : db $07 ; Blue rupee  xyz:{ 0x148, 0x080, U }
     dw $0E58 : db $0C ; Small magic xyz:{ 0x160, 0x0E0, U }
     dw $0E5C : db $0B ; Heart       xyz:{ 0x170, 0x0E0, U }
     dw $0E60 : db $0C ; Small magic xyz:{ 0x180, 0x0E0, U }
-}
 
-RoomData_PotItems_Room00EC:
-RoomData_PotItems_Room00ED:
-RoomData_PotItems_Room00EE:
-RoomData_PotItems_Room00EF:
-RoomData_PotItems_Room00F0:
-{
+    ; $00E572
+    .Room00EC
+    .Room00ED
+    .Room00EE
+    .Room00EF
+    .Room00F0
     dw $FFFF
-}
 
-RoomData_PotItems_Room00F1:
-{
+    ; $00E574
+    .Room00F1
     dw $0540 : db $0B ; Heart       xyz:{ 0x100, 0x050, U }
-}
 
-RoomData_PotItems_Room00F2:
-RoomData_PotItems_Room00F3:
-RoomData_PotItems_Room00F4:
-RoomData_PotItems_Room00F5:
-RoomData_PotItems_Room00F6:
-RoomData_PotItems_Room00F7:
-{
+    ; $00E577
+    .Room00F2
+    .Room00F3
+    .Room00F4
+    .Room00F5
+    .Room00F6
+    .Room00F7
     dw $FFFF
-}
 
-RoomData_PotItems_Room00F8:
-{
+    ; $00E579
+    .Room00F8
     dw $0DF2 : db $0D ; Full magic  xyz:{ 0x1C8, 0x0D0, U }
-}
 
-RoomData_PotItems_Room00F9:
-RoomData_PotItems_Room00FA:
-RoomData_PotItems_Room00FB:
-RoomData_PotItems_Room00FC:
-{
+    ; $00E57C
+    .Room00F9
+    .Room00FA
+    .Room00FB
+    .Room00FC
     dw $FFFF
-}
 
-RoomData_PotItems_Room00FD:
-{
+    ; $00E57E
+    .Room00FD
     dw $0658 : db $07 ; Blue rupee  xyz:{ 0x160, 0x060, U }
     dw $0664 : db $07 ; Blue rupee  xyz:{ 0x190, 0x060, U }
     dw $1754 : db $07 ; Blue rupee  xyz:{ 0x150, 0x170, U }
     dw $1854 : db $07 ; Blue rupee  xyz:{ 0x150, 0x180, U }
-}
 
-RoomData_PotItems_Room00FE:
-{
+    ; $00E58A
+    .Room00FE
     dw $FFFF
-}
 
-RoomData_PotItems_Room00FF:
-{
+    ; $00E58C
+    .Room00FF
     dw $085C : db $0B ; Heart       xyz:{ 0x170, 0x080, U }
     dw $0860 : db $0B ; Heart       xyz:{ 0x180, 0x080, U }
     dw $1C70 : db $01 ; Green rupee xyz:{ 0x1C0, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0100:
-{
+    ; $00E595
+    .Room0100
     dw $FFFF
-}
 
-RoomData_PotItems_Room0101:
-{
+    ; $00E597
+    .Room0101
     dw $140C : db $0B ; Heart       xyz:{ 0x030, 0x140, U }
     dw $13E0 : db $0E ; Cucco       xyz:{ 0x180, 0x130, U }
     dw $13E4 : db $0B ; Heart       xyz:{ 0x190, 0x130, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0102:
-{
+    ; $00E5A2
+    .Room0102
     dw $1392 : db $0B ; Heart       xyz:{ 0x048, 0x130, U }
     dw $1396 : db $0B ; Heart       xyz:{ 0x058, 0x130, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0103:
-{
+    ; $00E5AA
+    .Room0103
     dw $078C : db $0E ; Cucco       xyz:{ 0x030, 0x070, U }
     dw $0C0C : db $0B ; Heart       xyz:{ 0x030, 0x0C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0104:
-{
+    ; $00E5B2
+    .Room0104
     dw $15CA : db $0B ; Heart       xyz:{ 0x128, 0x150, U }
     dw $16CA : db $0B ; Heart       xyz:{ 0x128, 0x160, U }
     dw $17CA : db $0B ; Heart       xyz:{ 0x128, 0x170, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0105:
-{
+    ; $00E5BD
+    .Room0105
     dw $141E : db $0B ; Heart       xyz:{ 0x078, 0x140, U }
     dw $151C : db $0B ; Heart       xyz:{ 0x070, 0x150, U }
     dw $1520 : db $0B ; Heart       xyz:{ 0x080, 0x150, U }
-}
 
-RoomData_PotItems_Room0106:
-{
+    ; $00E5C6
+    .Room0106
     dw $FFFF
-}
 
-RoomData_PotItems_Room0107:
-{
+    ; $00E5C8
+    .Room0107
     dw $17D6 : db $0A ; Bomb        xyz:{ 0x158, 0x170, U }
     dw $17DE : db $09 ; 5 arrows    xyz:{ 0x178, 0x170, U }
     dw $17E6 : db $0A ; Bomb        xyz:{ 0x198, 0x170, U }
@@ -15093,54 +14810,47 @@ RoomData_PotItems_Room0107:
     dw $1BD6 : db $0A ; Bomb        xyz:{ 0x158, 0x1B0, U }
     dw $1BE6 : db $0A ; Bomb        xyz:{ 0x198, 0x1B0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0108:
-{
+    ; $00E5DF
+    .Room0108
     dw $13A6 : db $0E ; Cucco       xyz:{ 0x098, 0x130, U }
-}
 
-RoomData_PotItems_Room0109:
-RoomData_PotItems_Room010A:
-RoomData_PotItems_Room010B:
-{
+    ; $00E5E2
+    .Room0109
+    .Room010A
+    .Room010B
     dw $FFFF
-}
 
-RoomData_PotItems_Room010C:
-{
+    ; $00E5E4
+    .Room010C
     dw $0E58 : db $0B ; Heart       xyz:{ 0x160, 0x0E0, U }
-}
 
-RoomData_PotItems_Room010D:
-RoomData_PotItems_Room010E:
-RoomData_PotItems_Room010F:
-RoomData_PotItems_Room0110:
-RoomData_PotItems_Room0111:
-RoomData_PotItems_Room0112:
-RoomData_PotItems_Room0113:
-{
+    ; $00E5E7
+    .Room010D
+    .Room010E
+    .Room010F
+    .Room0110
+    .Room0111
+    .Room0112
+    .Room0113
     dw $FFFF
-}
 
-RoomData_PotItems_Room0114:
-{
+    ; $00E5E9
+    .Room0114
     dw $045C : db $0B ; Heart       xyz:{ 0x170, 0x040, U }
     dw $0460 : db $0B ; Heart       xyz:{ 0x180, 0x040, U }
     dw $055C : db $0A ; Bomb        xyz:{ 0x170, 0x050, U }
     dw $0560 : db $0A ; Bomb        xyz:{ 0x180, 0x050, U }
     dw $0A5C : db $09 ; 5 arrows    xyz:{ 0x170, 0x0A0, U }
     dw $0A60 : db $0B ; Heart       xyz:{ 0x180, 0x0A0, U }
-}
 
-RoomData_PotItems_Room0115:
-RoomData_PotItems_Room0116:
-{
+    ; $00E5FB
+    .Room0115
+    .Room0116
     dw $FFFF
-}
 
-RoomData_PotItems_Room0117:
-{
+    ; $00E5FD
+    .Room0117
     dw $038A : db $0B ; Heart       xyz:{ 0x028, 0x030, U }
     dw $038E : db $0B ; Heart       xyz:{ 0x038, 0x030, U }
     dw $03A6 : db $0B ; Heart       xyz:{ 0x098, 0x030, U }
@@ -15149,33 +14859,29 @@ RoomData_PotItems_Room0117:
     dw $048E : db $0B ; Heart       xyz:{ 0x038, 0x040, U }
     dw $04A6 : db $0B ; Heart       xyz:{ 0x098, 0x040, U }
     dw $04AA : db $0B ; Heart       xyz:{ 0x0A8, 0x040, U }
-}
 
-RoomData_PotItems_Room0118:
-{
+    ; $00E615
+    .Room0118
     dw $FFFF
-}
 
-RoomData_PotItems_Room0119:
-{
+    ; $00E617
+    .Room0119
     dw $1C2C : db $0B ; Heart       xyz:{ 0x0B0, 0x1C0, U }
     dw $1C30 : db $01 ; Green rupee xyz:{ 0x0C0, 0x1C0, U }
     dw $1C4C : db $0B ; Heart       xyz:{ 0x130, 0x1C0, U }
     dw $1C50 : db $0B ; Heart       xyz:{ 0x140, 0x1C0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room011A:
-{
+    ; $00E625
+    .Room011A
     dw $0AD6 : db $0B ; Heart       xyz:{ 0x158, 0x0A0, U }
     dw $0ADA : db $0B ; Heart       xyz:{ 0x168, 0x0A0, U }
     dw $0AE2 : db $0B ; Heart       xyz:{ 0x188, 0x0A0, U }
     dw $0AE6 : db $0B ; Heart       xyz:{ 0x198, 0x0A0, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room011B:
-{
+    ; $00E633
+    .Room011B
     dw $3618 : db $0B ; Heart       xyz:{ 0x060, 0x160, L }
     dw $3620 : db $0B ; Heart       xyz:{ 0x080, 0x160, L }
     dw $3628 : db $0B ; Heart       xyz:{ 0x0A0, 0x160, L }
@@ -15189,44 +14895,38 @@ RoomData_PotItems_Room011B:
     dw $1860 : db $0B ; Heart       xyz:{ 0x180, 0x180, U }
     dw $195C : db $0A ; Bomb        xyz:{ 0x170, 0x190, U }
     dw $1960 : db $0B ; Heart       xyz:{ 0x180, 0x190, U }
-}
 
-RoomData_PotItems_Room011C:
-{
+    ; $00E65A
+    .Room011C
     dw $FFFF
-}
 
-RoomData_PotItems_Room011D:
-{
+    ; $00E65C
+    .Room011D
     dw $063C : db $07 ; Blue rupee  xyz:{ 0x0F0, 0x060, U }
     dw $0640 : db $07 ; Blue rupee  xyz:{ 0x100, 0x060, U }
     dw $073C : db $07 ; Blue rupee  xyz:{ 0x0F0, 0x070, U }
     dw $0740 : db $07 ; Blue rupee  xyz:{ 0x100, 0x070, U }
     dw $083C : db $07 ; Blue rupee  xyz:{ 0x0F0, 0x080, U }
     dw $0840 : db $07 ; Blue rupee  xyz:{ 0x100, 0x080, U }
-}
 
-RoomData_PotItems_Room011E:
-{
+    ; $00E66E
+    .Room011E
     dw $FFFF
-}
 
-RoomData_PotItems_Room011F:
-{
+    ; $00E670
+    .Room011F
     dw $1CAE : db $0B ; Heart       xyz:{ 0x0B8, 0x1C0, U }
     dw $1CB2 : db $0B ; Heart       xyz:{ 0x0C8, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0120:
-RoomData_PotItems_Room0121:
-RoomData_PotItems_Room0122:
-RoomData_PotItems_Room0123:
-{
+    ; $00E676
+    .Room0120
+    .Room0121
+    .Room0122
+    .Room0123
     dw $FFFF
-}
 
-RoomData_PotItems_Room0124:
-{
+    ; $00E678
+    .Room0124
     dw $1414 : db $07 ; Blue rupee  xyz:{ 0x050, 0x140, U }
     dw $1428 : db $07 ; Blue rupee  xyz:{ 0x0A0, 0x140, U }
     dw $1514 : db $07 ; Blue rupee  xyz:{ 0x050, 0x150, U }
@@ -15238,10 +14938,9 @@ RoomData_PotItems_Room0124:
     dw $1820 : db $07 ; Blue rupee  xyz:{ 0x080, 0x180, U }
     dw $1824 : db $07 ; Blue rupee  xyz:{ 0x090, 0x180, U }
     dw $FFFF
-}
 
-RoomData_PotItems_Room0125:
-{
+    ; $00E698
+    .Room0125
     dw $1918 : db $07 ; Blue rupee  xyz:{ 0x060, 0x190, U }
     dw $191C : db $07 ; Blue rupee  xyz:{ 0x070, 0x190, U }
     dw $1920 : db $07 ; Blue rupee  xyz:{ 0x080, 0x190, U }
@@ -15250,46 +14949,44 @@ RoomData_PotItems_Room0125:
     dw $1664 : db $0B ; Heart       xyz:{ 0x190, 0x160, U }
     dw $1C58 : db $0B ; Heart       xyz:{ 0x160, 0x1C0, U }
     dw $1C64 : db $0B ; Heart       xyz:{ 0x190, 0x1C0, U }
-}
 
-RoomData_PotItems_Room0126:
-RoomData_PotItems_Room0127:
-RoomData_PotItems_Room0128:
-RoomData_PotItems_Room0129:
-RoomData_PotItems_Room012A:
-RoomData_PotItems_Room012B:
-RoomData_PotItems_Room012C:
-RoomData_PotItems_Room012D:
-RoomData_PotItems_Room012E:
-RoomData_PotItems_Room012F:
-RoomData_PotItems_Room0130:
-RoomData_PotItems_Room0131:
-RoomData_PotItems_Room0132:
-RoomData_PotItems_Room0133:
-RoomData_PotItems_Room0134:
-RoomData_PotItems_Room0135:
-RoomData_PotItems_Room0136:
-RoomData_PotItems_Room0137:
-RoomData_PotItems_Room0138:
-RoomData_PotItems_Room0139:
-RoomData_PotItems_Room013A:
-RoomData_PotItems_Room013B:
-RoomData_PotItems_Room013C:
-RoomData_PotItems_Room013D:
-RoomData_PotItems_Room013E:
-RoomData_PotItems_Room013F:
-{
+    ; $00E6B0
+    .Room0126
+    .Room0127
+    .Room0128
+    .Room0129
+    .Room012A
+    .Room012B
+    .Room012C
+    .Room012D
+    .Room012E
+    .Room012F
+    .Room0130
+    .Room0131
+    .Room0132
+    .Room0133
+    .Room0134
+    .Room0135
+    .Room0136
+    .Room0137
+    .Room0138
+    .Room0139
+    .Room013A
+    .Room013B
+    .Room013C
+    .Room013D
+    .Room013E
+    .Room013F
     dw $FFFF
 }
 
 ; ==============================================================================
 
+; Seems to load "secrets" data from ROM when a secret is exposed by various
+; means.
 ; $00E6B2-$00E794 LOCAL JUMP LOCATION
 Dungeon_LoadSecret:
 {
-    ; Seems to load "secrets" data from ROM when a secret is exposed
-    ; by various means.
-    
     STA.b $04
     
     ; TODO: Unknown variable.
@@ -15299,7 +14996,7 @@ Dungeon_LoadSecret:
     LDA.b $A0 : ASL A : TAX
     
     ; Secrets pointer array (16-bit local pointer for each of the 0x140 rooms).
-    LDA.l $01DB69, X : STA.b $00
+    LDA.l RoomData_PotItems_Pointers, X : STA.b $00
     
     ; When moving the secrets data, this will make it cake.
     LDA.w #$0001 : STA.b $02
@@ -15387,10 +15084,10 @@ Dungeon_LoadSecret:
         
         .drawHole
         
-            LDA.l $009B52, X : STA.w $0560, Y
-            LDA.l $009B54, X : STA.w $0580, Y
-            LDA.l $009B56, X : STA.w $05A0, Y
-            LDA.l $009B58, X : STA.w $05C0, Y
+            LDA.l RoomDrawObjectData+0, X : STA.w $0560, Y
+            LDA.l RoomDrawObjectData+2, X : STA.w $0580, Y
+            LDA.l RoomDrawObjectData+4, X : STA.w $05A0, Y
+            LDA.l RoomDrawObjectData+6, X : STA.w $05C0, Y
             
             TXA : CLC : ADC.w #$0008 : TAX
             
@@ -15429,25 +15126,23 @@ Pool_Dungeon_PrepSpriteInducedDma:
     dw $0218 ; 0x0A - ice man tile part 2
     dw $1F3A ; 0x0C - I think this one is unused. Could be interesting to know what the tiles were intended for.
     dw $0EAA ; 0x0E - Perky trigger Tile
-    
     dw $0EB2 ; 0x10 - Depressed trigger tile
     dw $0140 ; 0x12 - Trinexx ice tile (pretty sure, but not certain)
 }
 
 ; ==============================================================================
 
+; Somehow this routine is related to ice men, moving spike blocks, and
+; laser eye that can turn into doorways. Could you really pick a stranger
+; bunch? The unifying quality is that you all have tilemap entries changing
+; and sometimes turning into sprites. Other things this is related to:
+; swimmers in swamp palace that come out of walls.
+    
+; The parameter to this subroutine, the Y register, should be even when calling
+; it.
 ; $00E7A9-$00E7DE LONG JUMP LOCATION
 Dungeon_SpriteInducedTilemapUpdate:
 {
-    ; Somehow this routine is related to ice men, moving spike blocks, and
-    ; laser eye that can turn into doorways. Could you really pick a stranger
-    ; bunch? The unifying quality is that you all have tilemap entries changing
-    ; and sometimes turning into sprites. Other things this is related to:
-    ; swimmers in swamp palace that come out of walls.
-    
-    ; The parameter to this subroutine, the Y register, should be
-    ; even when calling it.
-    
     PHX
     
     STY.b $0E : STZ.b $0F
@@ -15647,11 +15342,11 @@ Dungeon_GetRelativeVramAddr:
 
 ; ==============================================================================
 
+; Top byte of each entry is the item to give, bottom 15 bits are the room.
+; if bit 15 (0x8000) is set, it's for a big chest.
 ; $00E96E-$00EB65
 Dungeon_ChestData:
 {
-    ; Top byte of each entry is the item to give, bottom 15 bits are the room.
-    ; if bit 15 (0x8000) is set, it's for a big chest.
     dl $240032, $120055, $0C0071, $2500A8, $190113, $0B80A9, $280016, $250016
     dl $330037, $0A8036, $28010B, $1B8073, $250067, $28007E, $078058, $330058
     dl $320057, $240057, $32001F, $24007E, $22809E, $330077, $280005, $4000B9
@@ -15677,11 +15372,10 @@ Dungeon_ChestData:
     
 ; ==============================================================================
 
+; SearchForChest()
 ; $00EB66-$00ED04 LONG JUMP LOCATION
 Dungeon_OpenKeyedObject:
 {
-    ; SearchForChest()
-    
     ; Data loads are coming from bank00.
     PHB : LDX.b #$00 : PHX : PLB
     
@@ -15704,7 +15398,7 @@ Dungeon_OpenKeyedObject:
         
         ; (this is the Big Key data).
         ; Branch if we have the Big Key.
-        LDA.l $7EF366 : AND.l $0098C0, X : BNE .openBigKeyLock
+        LDA.l $7EF366 : AND.l DungeonMask, X : BNE .openBigKeyLock
             ; It's the "Eh? You don't have the big key" crap text message.
             LDA.w #$007A : STA.w $1CF0
             
@@ -15719,7 +15413,7 @@ Dungeon_OpenKeyedObject:
         .openBigKeyLock
         
         ; Set it so that the chest/lock is unlocked.
-        LDA.w $0402 : ORA.w $9900, Y : STA.w $0402
+        LDA.w $0402 : ORA.w RoomFlagMask, Y : STA.w $0402
         
         ; Chest opening noise.
         LDA.w #$1529 : STA.w $012E
@@ -15779,7 +15473,7 @@ Dungeon_OpenKeyedObject:
         LDX.w $040C
         
         ; Make sure we have the key to it.
-        LDA.l $7EF366 : AND.l $0098C0, X : BEQ .cantOpenBigChest
+        LDA.l $7EF366 : AND.l DungeonMask, X : BEQ .cantOpenBigChest
             PLX : PLA
             
             JMP Dungeon_OpenBigChest
@@ -15912,7 +15606,7 @@ Dungeon_OpenKeyedObject:
 ; $00ED05-$00ED88 JUMP LOCATION
 Dungeon_OpenBigChest:
 {
-    LDA.w $0402 : ORA.w $9900, Y : STA.w $0402
+    LDA.w $0402 : ORA.w RoomFlagMask, Y : STA.w $0402
     
     STX.b $08
     
@@ -16195,26 +15889,24 @@ Dungeon_GetRupeeChestMinigamePrize:
     
 ; ==============================================================================
 
+; In-game tilemap address format for dungeons:
+;    --pvyyyy yhxxxxx-
+;
+;   p - Plane. 0 for BG2, 1 for BG1
+;   v - Selects whether to use an upper or lower tilemap
+;   y - 5-bit vertical tile offset
+;   h - Selects whether to use a left or right tilemap
+;   x - 5-bit horizontal tile offset
+;
+;    00000h00 00000000
+; || 000pv000 000xxxxx
+; || 000000yy yyy00000
+; -> 000pvhyy yyyxxxxx
+; -> yyyxxxxx 000pvhyy
 ; $00EF0F-$00EF33 LOCAL JUMP LOCATION
 Dungeon_GetKeyedObjectRelativeVramAddr:
 {
-    ; In-game tilemap address format for dungeons:
-    ;    --pvyyyy yhxxxxx-
-    ;
-    ;   p - Plane. 0 for BG2, 1 for BG1
-    ;   v - Selects whether to use an upper or lower tilemap
-    ;   y - 5-bit vertical tile offset
-    ;   h - Selects whether to use a left or right tilemap
-    ;   x - 5-bit horizontal tile offset
-    ;
-    ;    00000h00 00000000
-    ; || 000pv000 000xxxxx
-    ; || 000000yy yyy00000
-    ; -> 000pvhyy yyyxxxxx
-    ; -> yyyxxxxx 000pvhyy
-    
-    ; Note: Whole routine takes 62 cycles. Could use some optimization?
-    
+    ; OPTIMIZE: Whole routine takes 62 cycles. Could use some optimization?
     CLC : ADC.w $06E0, Y : STA.b $0E
     
                 AND.w #$0040 : LSR #4 : XBA       : STA.b $0A
@@ -16227,16 +15919,13 @@ Dungeon_GetKeyedObjectRelativeVramAddr:
 ; ==============================================================================
 
 ; $00EF34-$00EF53 DATA
-Pool_IncrementallyDrainSwampPool
+IncrementallyDrainSwampPool_window_direction:
 {
-    .window_direction
     dw -1, -1, -1,  1
     dw -1, -1, -1,  1
     dw -1, -1, -1,  1
     dw -1, -1, -1,  1
 }
-
-; ==============================================================================
 
 ; $00EF54-$00EFEB LONG JUMP LOCATION
 IncrementallyDrainSwampPool:
@@ -16247,9 +15936,9 @@ IncrementallyDrainSwampPool:
         REP #$20
         
         LDA.w $0684 : CMP.w $0688 : BEQ .BRANCH_BETA
-            CLC : ADC.l $01EF34, X : STA.w $0684
+            CLC : ADC.l .window_direction, X : STA.w $0684
             
-            LDA.w $0686 : CLC : ADC.l $01EF34, X : STA.w $0686
+            LDA.w $0686 : CLC : ADC.l .window_direction, X : STA.w $0686
             
             SEP #$30
             
@@ -16355,7 +16044,7 @@ DeleteSwampPoolWaterOverlay:
 ; $00F046-$00F062 JUMP LOCATION
 Underworld_FloodSwampWater_PrepTilemap:
 {
-    JSL.l $0091C4 ; $0011C4 IN ROM
+    JSL.l WaterFlood_BuildOneQuadrantForVRAM
     
     LDA.w $045C : CLC : ADC.b #$04 : STA.w $045C
     
@@ -16372,12 +16061,15 @@ Underworld_FloodSwampWater_PrepTilemap:
 ; $00F063-$00F07A DATA
 WaterDrainSpeed:
 {
+    ; $00F063
     .tub_fill
     dw  1,  1,  1, -1
 
+    ; $00F06B
     .floor_flood
     dw  1,  2,  1, -1
 
+    ; $00F073
     .flood_width
     dw  1, -1,  1, -1
 }
@@ -16422,7 +16114,7 @@ Dungeon_TurnOnWaterLong:
 ; $00F09B-$00F0C8 JUMP LOCATION
 Underworld_FloodSwampWater_VomitWater:
 {
-    DEC.w $0424 : BNE Dungeon_TurnOnWaterLong_exit ; (RTL)
+    DEC.w $0424 : BNE Dungeon_TurnOnWaterLong_exit
         LDA.b #$04 : STA.w $0424
         
         INC.b $B0 : LDA.b $B0 : SEC : SBC.b #$04 : STA.b $0E : STZ.b $0F
@@ -16437,7 +16129,7 @@ Underworld_FloodSwampWater_VomitWater:
         
         LDA.w #$1654 : CLC : ADC.w #$0010 : TAY
 
-    ; Bleeds into the next function.
+        ; Bleeds into the next function.
 }
 
 ; $00F0C9-$00F16C JUMP LOCATION
@@ -16522,8 +16214,8 @@ Underworld_FloodSwampWater_CoverFloor:
     
     LDA.w #$0688 : SEC : SBC.b $E8 : SEC : SBC.w #$0024 : STA.b $00
     
-    LDA.w $0686 : CLC : ADC.l $01F073, X : STA.w $0686
-    LDA.w $068A : CLC : ADC.l $01F06B, X : STA.w $068A
+    LDA.w $0686 : CLC : ADC.l WaterDrainSpeed_flood_width, X : STA.w $0686
+    LDA.w $068A : CLC : ADC.l WaterDrainSpeed_floor_flood, X : STA.w $068A
     
     CMP.b $00 : BCC .alpha
         SEP #$20
@@ -16541,7 +16233,7 @@ Underworld_FloodSwampWater_CoverFloor:
     LDA.w #$0688 : SEC : SBC.b $E8 : SEC : SBC.w $0684 : STA.w $0674
     CLC : ADC.w $068A : STA.b $0A
     
-    JSL.l $00F660 ; $007660 IN ROM
+    JSL.l AdjustWaterHDMAWindow_Horizontal
     
     RTL
 }
@@ -16557,9 +16249,9 @@ Underworld_FloodSwampWater_RiseInLevel:
         REP #$20
         
         LDA.w $0684 : CMP.w $0688 : BEQ .BRANCH_BETA
-            CLC : ADC.l $01F063, X : STA.w $0684
+            CLC : ADC.l WaterDrainSpeed_tub_fill, X : STA.w $0684
             
-            LDA.w $0686 : CLC : ADC.l $01F063, X : STA.w $0686
+            LDA.w $0686 : CLC : ADC.l WaterDrainSpeed_tub_fill, X : STA.w $0686
             
             REP #$10
             
@@ -16574,7 +16266,7 @@ Underworld_FloodSwampWater_RiseInLevel:
             
             LDA.w #$0005 : STA.b $0E
             
-            JSL.l $01F0C9 ; $00F0C9 IN ROM
+            JSL.l Underworld_AdjustWaterVomit
             
             .BRANCH_DELTA
             
@@ -16651,7 +16343,7 @@ Underworld_FloodSwampWater_RiseInLevel:
     
 ; ==============================================================================
 
-; Unreferenced data
+; UNUSED:
 ; $00F2DA-$00F2E7 DATA
 UNREACHABLE_01F2DA:
 {
@@ -16687,7 +16379,7 @@ Watergate_MainJumpTable:
 ; $00F2FE-$00F30B LONG JUMP LOCATION
 Watergate_Main:
 {
-    JSL.l $00F734 ; $007734 IN ROM
+    JSL.l FloodDam_PrepFloodHDMA
     
     LDA.b $B0 : ASL : TAX
     
@@ -16727,7 +16419,7 @@ FloodDam_Expand:
         
         LDA.w $0470 : LSR #3 : TAX
         
-        LDA.l $01F2E8, X
+        LDA.l FloodGateTileOffsets, X
         
         TAY
         
@@ -16761,12 +16453,12 @@ FloodDam_Expand:
             
             LDA.w #$0881 : STA.b $06
             
-            JSR.w $F77C ; $00F77C IN ROM
+            JSR.w Dungeon_PrepOverlayDma_nextTileGroup
             
             PLA : CLC : ADC.w #$0006 : STA.b $08
         DEC.b $0E : BNE .BRANCH_GAMMA
         
-        JMP.w $D1E3 ; $00D1E3 IN ROM
+        JMP.w RoomDraw_CloseStripes
 }
 
 ; ==============================================================================
@@ -16784,7 +16476,7 @@ FloodDam_PrepTiles:
 {
     STZ.w $0418
     
-    JSL.l $0091C4 ; $0011C4 IN ROM
+    JSL.l WaterFlood_BuildOneQuadrantForVRAM
     
     LDA.w $045C : CLC : ADC.b #$04 : STA.w $045C
     
@@ -16903,7 +16595,7 @@ Dungeon_LightTorch:
                 LDA.w $045A : INC.w $045A : CMP.b #$03 : BCS .dontDisableTorchBg
                     STZ.b $1D
                     
-                    LDX.w $045A : LDA.l $02A1E5, X : STA.l $7EC017
+                    LDX.w $045A : LDA.l RoomEffectFixedColors, X : STA.l $7EC017
                     
                     LDA.b #$0A : STA.b $11
                     
@@ -16997,7 +16689,7 @@ Dungeon_ExtinguishTorch:
 
                 LDX.w $045A
                 
-                LDA.l $02A1E5, X : STA.l $7EC017
+                LDA.l RoomEffectFixedColors, X : STA.l $7EC017
                 
                 LDA.b #$0A : STA.b $11
                 
@@ -17051,7 +16743,7 @@ Dungeon_ElevateStaircasePriority:
     JSR Dungeon_PrepOverlayDma_nextPrep
     
     ; Finalizes oam buffer...
-    JMP.w $D1E3 ; $00D1E3 IN ROM
+    JMP.w RoomDraw_CloseStripes
 }
 
 ; ==============================================================================
@@ -17081,13 +16773,13 @@ Dungeon_DecreaseStaircasePriority:
     PLA : CLC : ADC.w #$0008 : STA.b $08
     
     JSR Dungeon_PrepOverlayDma_nextPrep
-    JMP.w $D1E3 ; $00D1E3 IN ROM
+    JMP.w RoomDraw_CloseStripes
 }
 
 ; ==============================================================================
 
 ; $00F5D1-$00F5D8 DATA
-Pool_RoomDraw_OpenTriforceDoor
+Pool_RoomDraw_OpenTriforceDoor:
 {
     .tile_offset
     dw $2556, $2596, $25D6, $2616
@@ -17128,7 +16820,7 @@ Object_OpenGanonDoor:
         
         LDA.b $B0 : SEC : SBC.w #$0004 : LSR A : TAX
         
-        LDA.l $01F5D1, X : TAY
+        LDA.l Pool_RoomDraw_OpenTriforceDoor_tile_offset, X : TAY
         
         LDX.w #$0000
         
@@ -17152,7 +16844,7 @@ Object_OpenGanonDoor:
         
         LDY.b $0C
         
-        JSR.w $F77C ; $00F77C IN ROM
+        JSR.w Dungeon_PrepOverlayDma_nextTileGroup
         
         LDY.b $0C
         
@@ -17193,11 +16885,11 @@ Object_OpenGanonDoor:
 
 ; ==============================================================================
 
+; UNUSED:
+; Sets up DMA transfers for some unknown purpose.
 ; $00F6B4-$00F745 LOCAL JUMP LOCATION
 UNREACHABLE_01F6B4:
 {
-    ; Sets up DMA transfers for some unknown purpose.
-    
     LDA.w #$0004 : STA.b $0A
     
     LDY.b $0C
@@ -17254,14 +16946,13 @@ UNREACHABLE_01F6B4:
 
 ; ==============================================================================
 
+; Preps DMA transfers for updating tilemap during NMI.
+; I should mention that the method employed here is stunningly
+; slow (inefficient) during NMI, taking on average 1 scanline per tile,
+; which is INSANE.
 ; $00F746-$00F7F0 LOCAL JUMP LOCATION
 Dungeon_PrepOverlayDma:
 {
-    ; Preps DMA transfers for updating tilemap during NMI.
-    ; I should mention that the method employed here is stunningly
-    ; slow (inefficient) during NMI, taking on average 1 scanline per tile,
-    ; which is INSANE.
-    
     LDA.w RoomDrawObjectData+00, Y : STA.l $7E2000, X
     LDA.w RoomDrawObjectData+02, Y : STA.l $7E2080, X
     LDA.w RoomDrawObjectData+04, Y : STA.l $7E2002, X
@@ -17334,22 +17025,18 @@ Dungeon_PrepOverlayDma:
 ; ==============================================================================
 
 ; $00F7F1-$00F810 DATA
-Pool_ClearAndStripeExplodingWall
+ClearAndStripeExplodingWall_offset:
 {
-    .offset
     dw $0004, $0008, $000C, $0010
     dw $0014, $0018, $001C, $0020
     dw $0100, $0200, $0300, $0400
     dw $0500, $0600, $0700, $0800
 }
 
-; ==============================================================================
-
+; Routine used with blast walls to prep vram updates for nmi.
 ; $00F811-$00F907 LOCAL JUMP LOCATION
 ClearAndStripeExplodingWall:
 {
-    ; Routine used with blast walls to prep vram updates for nmi.
-    
     LDA.w #$0080 : STA.b $06
     
     STZ.b $0E
@@ -17420,7 +17107,7 @@ ClearAndStripeExplodingWall:
         
         .epsilon
         
-        LDA.l $01F7EF, X : CLC : ADC.b $08 : STA.b $08
+        LDA.l .offset-2, X : CLC : ADC.b $08 : STA.b $08
         
         LDA.w #$0003 : STA.b $0A
         
@@ -17435,14 +17122,13 @@ ClearAndStripeExplodingWall:
 
 ; ==============================================================================
 
+; This routine appears to be unused and unreferenced in the rom so far...
+; I actually only noticed it by seeing that there was a gap in addresses.
+; In any case, it's one of those routines that preps a DMA transfer for
+; later when NMI hits. Usually these update the tilemaps.
 ; $00F908-$00F966 LOCAL JUMP LOCATION
 UNREACHABLE_01F908:
 {
-    ; This routine appears to be unused and unreferenced in the rom so far...
-    ; I actually only noticed it by seeing that there was a gap in addresses.
-    ; In any case, it's one of those routines that preps a DMA transfer for
-    ; later when NMI hits. Usually these update the tilemaps.
-    
     STA.b $0C
     
     STY.b $0E : STY.b $0A
@@ -17509,12 +17195,11 @@ Dungeon_DrawOverlay:
 
 ; ==============================================================================
 
+; Dungeon overlay object "drawer".
+; Note that it doesn't apply attribute modifications.
 ; $00F980-$00FA49 LOCAL JUMP LOCATION
 Dungeon_DrawChunk:
 {
-    ; Dungeon overlay object "drawer".
-    ; Note that it doesn't apply attribute modifications.
-    
     SEP #$20
     
     LDA [$B7], Y : AND.b #$FC : STA.b $08
@@ -17598,7 +17283,7 @@ DoorDoorStep1_North:
     
     AND.w #$000F : STA.b $04
     
-    TXA : AND.w #$1FFF : CMP.w $998A : BCC .BRANCH_BETA
+    TXA : AND.w #$1FFF : CMP.w DoorTilemapPositions_NorthMiddle : BCC .BRANCH_BETA
         TXA : SEC : SBC.w #$0500 : STA.b $08
         
         PHX
@@ -17612,7 +17297,7 @@ DoorDoorStep1_North:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR.w $FB61 ; $00FB61 IN ROM
+        JSR.w GetDoorDrawDataIndex_South
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17654,20 +17339,20 @@ GetDoorDrawDataIndex_North:
                     
                 .BRANCH_IOTA
                     
-                LDY.w $CF24, X
+                LDY.w DoorAnimGFXDataOffset_North, X
                     
-                BRA .BRANCH_KAPPA
-    }
+                BRA DrawDoorToTilemap_North_continue
+}
 
-; $00FAD7-$00FB0A ALTERNATE ENTRY POINT
+; $00FAD7-$00FB0A LOCAL JUMP LOCATION
 DrawDoorToTilemap_North:
 {
-    JSR.w $FD79 ; $00FD79 IN ROM
+    JSR.w GetDoorGraphicsIndex
     
-    LDY.w $CD9E, X
+    LDY.w DoorGFXDataOffset_North, X
     
     ; $00FADD ALTERNATE ENTRY POINT
-    .BRANCH_KAPPA
+    .continue
     
     LDX.w $0460
     
@@ -17691,7 +17376,7 @@ DrawDoorToTilemap_North:
 
 ; ==============================================================================
 
-; $00FB0B-$00FB15 JUMP LOCATION
+; $00FB0B-$00FB14 JUMP LOCATION
 GetDoorDrawDataIndex_South_clean_door_index:
 {
     LDA.w $0460 : AND.w #$00FF : STA.b $04
@@ -17699,14 +17384,14 @@ GetDoorDrawDataIndex_South_clean_door_index:
     BRA GetDoorDrawDataIndex_South
 }
     
-; $00FB15-$00FB61 JUMP LOCATION
+; $00FB15-$00FB60 JUMP LOCATION
 DoorDoorStep1_South:
 {
     LDA.w $0460 : PHA
     
     AND.w #$000F : STA.b $04
     
-    TXA : AND.w #$1FFF : CMP.w $99A8 : BCS .BRANCH_BETA
+    TXA : AND.w #$1FFF : CMP.w DoorTilemapPositions_LowerLayerEntrance : BCS .BRANCH_BETA
         TXA : CLC : ADC.w #$0500 : STA.b $08
         
         PHX
@@ -17720,7 +17405,7 @@ DoorDoorStep1_South:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR.w $FAA0 ; $00FAA0 IN ROM
+        JSR.w GetDoorDrawDataIndex_North
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17759,7 +17444,7 @@ GetDoorDrawDataIndex_South:
         
         .BRANCH_THETA
         
-        LDY.w $CF2C, X
+        LDY.w DoorAnimGFXDataOffset_South, X
         
         BRA DrawDoorToTilemap_South_continue
 }
@@ -17767,9 +17452,9 @@ GetDoorDrawDataIndex_South:
 ; $00FB8E-$00FBC1 JUMP LOCATION
 DrawDoorToTilemap_South:
 {
-    JSR.w $FD79 ; $00FD79 IN ROM
+    JSR.w GetDoorGraphicsIndex
     
-    LDY.w $CE06, X
+    LDY.w DoorGFXDataOffset_South, X
     
     .continue
     
@@ -17810,7 +17495,7 @@ DoorDoorStep1_West:
     
     AND.w #$000F : STA.b $04
     
-    TXA : AND.w #$07FF : CMP.w $99BA : BCC .BRANCH_BETA
+    TXA : AND.w #$07FF : CMP.w DoorTilemapPositions_WestMiddle : BCC .BRANCH_BETA
         TXA : SEC : SBC.w #$0010 : STA.b $08
         
         PHX
@@ -17824,7 +17509,7 @@ DoorDoorStep1_West:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR.w $FCD6 ; $00FCD6 IN ROM
+        JSR.w GetDoorDrawDataIndex_East
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17863,7 +17548,7 @@ GetDoorDrawDataIndex_West:
         
         .BRANCH_THETA
         
-        LDY.w $CF34, X
+        LDY.w DoorAnimGFXDataOffset_West, X
         
         BRA .BRANCH_IOTA
 }
@@ -17871,9 +17556,9 @@ GetDoorDrawDataIndex_West:
 ; $00FC45-$00FC7F JUMP LOCATION
 DrawDoorToTilemap_West:
 {
-    JSR.w $FD79 ; $00FD79 IN ROM
+    JSR.w GetDoorGraphicsIndex
     
-    LDY.w $CE66, X
+    LDY.w DoorGFXDataOffset_West, X
     
     .BRANCH_IOTA
     
@@ -17908,12 +17593,12 @@ GetDoorDrawDataIndex_East_clean_door_index:
     BRA GetDoorDrawDataIndex_East
 }
 
-; $00FC8A-$00FCD6 JUMP LOCATION
+; $00FC8A-$00FCD5 JUMP LOCATION
 DoorDoorStep1_East:
 {
     LDA.w $0460 : PHA : AND.w #$000F : STA.b $04
     
-    TXA : AND.w #$07FF : CMP.w $99D2 : BCS .BRANCH_BETA
+    TXA : AND.w #$07FF : CMP.w DoorTilemapPositions_EastWall : BCS .BRANCH_BETA
         TXA : CLC : ADC.w #$0010 : STA.b $08
         
         PHX
@@ -17927,7 +17612,7 @@ DoorDoorStep1_East:
         
         LDA.w $0460 : EOR.w #$0010 : STA.w $0460
         
-        JSR.w $FC18 ; $00FC18 IN ROM
+        JSR.w GetDoorDrawDataIndex_West
         JSR Dungeon_PrepOverlayDma_nextPrep
         
         LDY.w $0460
@@ -17966,7 +17651,7 @@ GetDoorDrawDataIndex_East:
         
         .notTrapDoor
         
-        LDY.w $CF3C, X
+        LDY.w DoorAnimGFXDataOffset_East, X
         
         BRA .drawDoor
 }
@@ -17974,9 +17659,9 @@ GetDoorDrawDataIndex_East:
 ; $00FD03-$00FD3D JUMP LOCATION
 DrawDoorToTilemap_East:
 {
-    JSR.w $FD79 ; $00FD79 IN ROM
+    JSR.w GetDoorGraphicsIndex
     
-    LDY.w $CEC6, X
+    LDY.w DoorGFXDataOffset_East, X
     
     .drawDoor
     
@@ -18003,15 +17688,14 @@ DrawDoorToTilemap_East:
 
 ; ==============================================================================
 
+; Seems to draw a very specific door type. I can only guess what...
+; Maybe a door revealed by sword swipes like in Agahnim's first room?
 ; $00FD3E-$00FD78 JUMP LOCATION
 ClearDoorCurtainsFromTilemap:
 {
-    ; Seems to draw a very specific door type. I can only guess what...
-    ; Maybe a door revealed by sword swipes like in Agahnim's first room?
-    
     LDX.w #$0056
     
-    LDY.w $CD9E, X
+    LDY.w DoorGFXDataOffset_North, X
     
     LDX.w $0460
     
@@ -18036,21 +17720,20 @@ ClearDoorCurtainsFromTilemap:
 
 ; ==============================================================================
 
+; Used in opening doors and closing doors.... not exactly sure what
+; the point is though. Maybe it selects the offset of the tiles
+; needed to draw the door's graphical state?
 ; $00FD79-$00FD91 LOCAL JUMP LOCATION
 GetDoorGraphicsIndex:
 {
-    ; Used in opening doors and closing doors.... not exactly sure what
-    ; the point is though. Maybe it selects the offset of the tiles
-    ; needed to draw the door's graphical state?
-    
     LDY.w $0460
     
     LDA.w $1980, Y : AND.w #$00FE : TAX
     
     LDY.b $04
     
-    LDA.w $068C : AND.w $98C0, Y : BEQ .notOpen
-        LDA.w $9A02, X : TAX
+    LDA.w $068C : AND.w DungeonMask, Y : BEQ .notOpen
+        LDA.w DoorwayReplacementDoorGFX, X : TAX
     
     .notOpen
     
@@ -18059,15 +17742,14 @@ GetDoorGraphicsIndex:
 
 ; ==============================================================================
 
-; $00FD92-$00FDDB JUMP LOCATION
+; This routine is used with the exploding walls (not bomb doors! It's easy
+; to get confused about terminology).
+; $00FD92-$00FDDA JUMP LOCATION
 ClearExplodingWallFromTilemap:
 {
-    ; This routine is used with the exploding walls (not bomb doors! It's easy
-    ; to get confused about terminology).
-    
     LDY.w #$31EA
     
-    JSR.w $FDDB ; $00FDDB IN ROM
+    JSR.w ClearExplodingWallFromTilemap_ClearOnePair
     
     LDA.w $0454 : DEC A : STA.b $0E : BEQ .skip
     
@@ -18122,14 +17804,14 @@ ClearExplodingWallFromTilemap_ClearOnePair:
 
 ; ==============================================================================
 
+; This routine takes performs the modifications to the tile attribute
+; buffer resulting from dungeon overlay objects being placed.
+; The objects placed can only be either 4x4 blocks of generic floor
+; tiles or 4x4 blocks of pit tiles, so as you can see it's fairly easy
+; to deduce what tile attributes to use (0x00 or 0x20).
 ; $00FE41-$00FEAB LOCAL JUMP LOCATION
 Dungeon_ApplyOverlayAttr:
 {
-    ; This routine takes performs the modifications to the tile attribute
-    ; buffer resulting from dungeon overlay objects being placed.
-    ; The objects placed can only be either 4x4 blocks of generic floor
-    ; tiles or 4x4 blocks of pit tiles, so as you can see it's fairly easy
-    ; to deduce what tile attributes to use (0x00 or 0x20).
     STA.b $08
     
     LDA.w #$0004 : STA.b $0A
@@ -18211,12 +17893,11 @@ Dungeon_ApproachFixedColor:
 
 ; ==============================================================================
 
+; This routine's primary purpose is for the Link's electrocution
+; mode ($5D == 0x07).
 ; $00FED2-$00FF04 LONG JUMP LOCATION
 Player_SetElectrocutionMosaicLevel:
 {
-    ; This routine's primary purpose is for the Link's electrocution
-    ; mode ($5D == 0x07).
-    
     LDA.w $0647 : BNE .mosaic_decreasing
         ; Add to mosaic? seems related to electrocution (it almost certainly
         ; is).
@@ -18249,15 +17930,15 @@ Player_SetElectrocutionMosaicLevel:
 
 ; ==============================================================================
 
+; Executes when Link hits the ground after jumping off of a ledge.
 ; $00FF05-$00FF27 LONG JUMP LOCATION
 Player_LedgeJumpInducedLayerChange:
 {
-    ; Executes when Link hits the ground after jumping off of a ledge.
     ; Make it so Link is on a lower plane.
     LDA.b #$01 : STA.w $0476
     
     LDA.w $044A : BNE .no_room_change
-        ; \unused or \tcrf or \bug I have no idea. It's odd.
+        ; UNUSED: or \tcrf or BUG: I have no idea. It's odd.
         ; I think it's pretty certain this is an unused feature since it would
         ; change the current room we're in without any of the other legwork
         ; necessary.
@@ -18266,19 +17947,19 @@ Player_LedgeJumpInducedLayerChange:
     .no_room_change
     
     LDA.w $044A : CMP.b #$02 : BEQ .use_pseudo_bg
-        ; \bug I think this is where that bug (glitch) that allows you to
+        ; BUG: I think this is where that bug (glitch) that allows you to
         ; get under the floor by pressing select originates from. Not that this
         ; in particular is a bug. It has more to do with the player's
         ; layer probably isn't reset properly when you save and quit, and
         ; then reload the state. (Initializing problem).
-        ; \task Investigate and find the actual bug location.
+        ; TODO: Investigate and find the actual bug location.
         LDA.b #$01 : STA.b $EE
     
     .use_pseudo_bg
     
     STZ.w $047A
     
-    JML.l $02B8CB ; $0138CB IN ROM
+    JML.l SetAndSaveVisitedQuadrantFlags
 }
 
 ; ==============================================================================
@@ -18286,8 +17967,8 @@ Player_LedgeJumpInducedLayerChange:
 ; $00FF28-$00FFB5 LONG JUMP LOCATION
 Player_CacheStatePriorToHandler:
 {
-    ; We may be able to remove this routine...
-    ; \optimize Changing the B register would speed it up a lot >_>
+    ; OPTIMIZE: We may be able to remove this routine...
+    ; OPTIMIZE: Changing the B register would speed it up a lot.
     
     REP #$20
     
@@ -18356,14 +18037,12 @@ Link_CheckSwimCapability:
 
 ; ==============================================================================
 
+; Take a heart off of Link and put him in the submodule that brings him back to
+; where he fell off from. (Damage from pits on Overworld and only in one area,
+; at that). Maybe could be used in Dungeons too, but it's not, so... eh.
 ; $00FFD9-$00FFFC LONG JUMP LOCATION
 Overworld_PitDamage:
 {
-    ; Take a heart off of Link and put him in the submodule that brings him
-    ; back to where he fell off from. (Damage from pits on Overworld and only
-    ; in one area, at that). Maybe could be used in Dungeons too, but it's not,
-    ; so... eh.
-    
     LDA.b #$0C : STA.b $4B
     
     LDA.b #$2A

@@ -16,6 +16,9 @@ Find comments without a leading space and replace with one.
 Get rid of kan address formatting:
 #_......: 
 
+Find a Function or pool label with out a :
+[^:]\n\{
+
 Find op codes that are using ROM addresses:
 ...\.. \$[89A-F][0-9A-F][0-9A-F][0-9A-F]
 

@@ -5655,7 +5655,7 @@ SpecialUnderworldObjects_torch:
 
 ; ==============================================================================
 
-; $02748A-$027502 DATA
+; $02748A-$027501 DATA
 DefaultSaveFileItems:
 {
     .bage
