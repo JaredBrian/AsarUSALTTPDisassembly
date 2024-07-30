@@ -972,7 +972,7 @@ Module_LocationMenu:
 ; ==============================================================================
 
 ; $0105B4-$0105B9 LOCAL JUMP TABLE
-Credits_LoadScene_OverworldJumpTable
+Credits_LoadScene_OverworldJumpTable:
 {
     dw Credits_LoadScene_Overworld_PrepGFX ; 0x00 - $8604
     dw Credits_LoadScene_Overworld_Overlay ; 0x01 - $8697
@@ -3410,7 +3410,7 @@ Module07_0F_00_InitSpotlight:
 ; ==============================================================================
 
 ; $011334-$011356 LOCAL JUMP LOCATION
-Module07_0F_01_OperateSpotlight
+Module07_0F_01_OperateSpotlight:
 {
     JSL Sprite_Main
     JSL ConfigureSpotlightTable
@@ -10590,9 +10590,8 @@ CalculateTransitionLanding:
 }
 
 ; $01423E-$014241 DATA
-Pool_Overworld_FinalizeEntryOntoScreen
+Overworld_FinalizeEntryOntoScreen_song_change_directions:
 {
-    .song_change_directions
     db $E0
     db $08
     db $E0
@@ -10635,7 +10634,7 @@ Overworld_FinalizeEntryOntoScreen:
 
     LDX.w $069C
 
-    AND.b #$FE : CMP.l $02C23E, X : BNE .BRANCH_DELTA
+    AND.b #$FE : CMP.l .song_change_directions, X : BNE .BRANCH_DELTA
         ; Return to normal overworld operating mode
         STZ.b $11
         STZ.b $B0
@@ -11326,7 +11325,7 @@ CleanUpAndPrepDesertPrayerHDMA:
 
 ; UNUSED: (not totally verified yet) kan agrees though.
 ; $0147F2-$0158B2 DATA TABLE
-UNUSED_$02C7F2
+UNUSED_$02C7F2:
 {
     ; Seems to be unreferenced data, but what is interesting is it appears to
     ; be some sort of .... disabled hdma table (note the presence of $1B00 and
