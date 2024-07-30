@@ -45,7 +45,7 @@ ZoraFireball_SpawnTailGarnish:
 ; $04B06E-$04B07E LONG JUMP LOCATION
 Garnish_ExecuteUpperSlotsLong:
 {
-    ; \note Maybe I'm nitpickin', but doesn't this seem a bit out of place
+    ; NOTE: Maybe I'm nitpickin', but doesn't this seem a bit out of place
     ; here?
     JSL Filter_MajorWhitenMain
     
@@ -236,7 +236,7 @@ Garnish_Move_XY:
     
     PLX
     
-    ; \note While no one else calls this location, it mirrors the
+    ; NOTE: While no one else calls this location, it mirrors the
     ; availability of routines in other object classes.
     ; 4B25C ALTERNATE ENTRY POINT 
     shared Garnish_MoveVert:

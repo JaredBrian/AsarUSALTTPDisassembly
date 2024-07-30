@@ -19,7 +19,7 @@ Pool_Garnish_GanonBatFlame:
 
 ; ==============================================================================
 
-    ; \note The last several frames of the GanonBatFlame object will look
+    ; NOTE: The last several frames of the GanonBatFlame object will look
     ; like this and will not damage the player.
 ; $04B2B2-$04B305 JUMP LOCATION
 Garnish_GanonBatFlameout:

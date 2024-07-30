@@ -1352,7 +1352,7 @@ ResetSomeThingsAfterDeath:
     STZ.w $0345
     
     ; TODO: Investigate this:
-    ; \wtf 0x11? Written here? I thought these were all even.
+    ; WTF: 0x11? Written here? I thought these were all even.
     STA.w $005E
     
     STZ.w $03F3

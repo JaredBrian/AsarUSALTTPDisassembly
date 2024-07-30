@@ -14,34 +14,38 @@ org $1D8000
 ; $0E8000-$0E800F DATA
 Pool_Sprite_ApplyConveyorAdjustment:
 {
+    ; $0E8000
     .x_shake_values
     db  1, -1
     
+    ; $0E8002
     .y_shake_values
     db 0, -1
     
+    ; $0E8004
     .y_speeds_high length 4
     db -1,  0
     
+    ; $0E8006
     .x_speeds_low length 4
     db  0,  0
     
+    ; $0E8008
     .y_speeds_low
     db -1,  1,  0,  0
     
+    ; $0E800A
     .x_high
     db  0,  0, -1,  0
 }
 
 ; ==============================================================================
 
+; Seems like this handles the velocity adjustment that a conveyor belt provides.
+; The input for Y only allows for tile types 0x68 to 0x6B.
 ; $0E8010-$0E803F LONG JUMP LOCATION
 Sprite_ApplyConveyorAdjustment:
 {
-    ; Seems like this handles the velocity adjustment that a conveyor
-    ; belt provides. The input for Y only allows for tile types 0x68 to
-    ; 0x6B.
-    
     LDA.b $1A : LSR A : BCC .return
         PHB : PHK : PLB
         
@@ -63,12 +67,11 @@ Sprite_ApplyConveyorAdjustment:
 
 ; ==============================================================================
 
+; Creates a ... arrow that has been deflected (as in, now it's falling)
+; This is the opposite of the arrow ending up stuck in an enemy or wall.
 ; $0E8040-$0E808B LONG JUMP LOCATION
 Sprite_CreateDeflectedArrow:
 {
-    ; Creates a ... arrow that has been deflected (as in, now it's falling)
-    ; This is the opposite of the arrow ending up stuck in an enemy or wall.
-    
     PHB : PHK : PLB
     
     PHY
@@ -230,33 +233,33 @@ SpriteActive4_Main:
     ; Numbers in the index are actual sprite values, not the indexed values
     ; for the table itself in rom.
     
-    dw Sprite_Vitreous             ; 0xBD Vitreous
-    dw Sprite_Vitreolus            ; 0xBE "???" in hyrule magic 
-    dw Sprite_Lightning            ; 0xBF Vitreous' Lightning (also Agahnim)
-    dw Sprite_GreatCatfish         ; 0xC0 Lake of Ill Omen Monster
-    dw Sprite_ChattyAgahnim        ; 0xC1 Agahnim teleporting Zelda to darkworld
-    dw Sprite_Boulder              ; 0xC2 Boulders / Lanmola Shrapnel
-    dw Sprite_Gibo                 ; 0xC3 Symbion 2
-    dw Sprite_Thief                ; 0xC4 Thief
-    dw Sprite_Medusa               ; 0xC5 Evil fireball spitting faces!
-    dw Sprite_FireballJunction     ; 0xC6 Four way fireball spitters
-    dw Sprite_Hokbok               ; 0xC7 Hokbok and its segments (I call them Ricochet)
-    dw Sprite_BigFairy             ; 0xC8 Big Fairy / Fairy Dust Cloud
-    dw Sprite_GanonHelpers         ; 0xC9 Ganon's Firebat, Tektite and friends
-    dw Sprite_ChainChomp           ; 0xCA Chain Chomp
-    dw Sprite_Trinexx              ; 0xCB Trinexx 1
-    dw $B897 ; = $0EB897           ; 0xCC Trinexx 2
-    dw $B89F ; = $0EB89F           ; 0xCD Trinexx 3
-    dw Sprite_BlindEntities        ; 0xCE Blind the Thief
-    dw Sprite_Swamola              ; 0xCF Swamola
-    dw Sprite_Lynel                ; 0xD0 Lynel
-    dw Sprite_ChimneyAndRabbitBeam ; 0xD1 Yellow Hunter pointer
-    dw Sprite_Fish                 ; 0xD2 flopping fish
-    dw Sprite_Stal                 ; 0xD3 Stal
-    dw Sprite_Landmine             ; 0xD4 Landmine
-    dw Sprite_DiggingGameGuy       ; 0xD5 Digging game guy
-    dw Sprite_Ganon                ; 0xD6 Pointer for Ganon.
-    dw Sprite_Ganon                ; 0xD7 Pointer for Ganon when he's invincible (blue mode)
+    dw Sprite_Vitreous                 ; 0xBD - $E4C8 Vitreous
+    dw Sprite_Vitreolus                ; 0xBE - $E773 Vitreolus (small eyes)
+    dw Sprite_Lightning                ; 0xBF - $E3ED Vitreous' Lightning (also Agahnim)
+    dw Sprite_GreatCatfish             ; 0xC0 - $DF49 Lake of Ill Omen Monster
+    dw Sprite_ChattyAgahnim            ; 0xC1 - $D234 Agahnim teleporting Zelda to darkworld
+    dw Sprite_Boulder                  ; 0xC2 - $CFCB Boulders / Lanmola Shrapnel
+    dw Sprite_Gibo                     ; 0xC3 - $CCE1 Symbion 2
+    dw Sprite_Thief                    ; 0xC4 - $C8D8 Thief
+    dw Sprite_Medusa                   ; 0xC5 - $C7EB Evil fireball spitting faces!
+    dw Sprite_FireballJunction         ; 0xC6 - $C869 Four way fireball spitters
+    dw Sprite_Hokbok                   ; 0xC7 - $C64F Hokbok and its segments (I call them Ricochet)
+    dw Sprite_BigFairy                 ; 0xC8 - $C414 Big Fairy / Fairy Dust Cloud
+    dw Sprite_GanonHelpers             ; 0xC9 - $C275 Ganon's Firebat, Tektite and friends
+    dw Sprite_ChainChomp               ; 0xCA - $BE7D Chain Chomp
+    dw Sprite_Trinexx                  ; 0xCB - $B0CA Trinexx 1
+    dw Sprite_Sidenexx_Breath_FireHead ; 0xCC - $B897 Trinexx 2
+    dw Sprite_Sidenexx_Breath_IceHead  ; 0xCD - $B89F Trinexx 3
+    dw Sprite_BlindEntities            ; 0xCE - $A263 Blind the Thief
+    dw Sprite_Swamola                  ; 0xCF - $9CB0 Swamola
+    dw Sprite_Lynel                    ; 0xD0 - $866A Lynel
+    dw Sprite_ChimneyAndRabbitBeam     ; 0xD1 - $858B Yellow Hunter pointer
+    dw Sprite_Fish                     ; 0xD2 - $8235 flopping fish
+    dw Sprite_Stal                     ; 0xD3 - $8129 Stal
+    dw Sprite_Landmine                 ; 0xD4 - $8099 Landmine
+    dw Sprite_DiggingGameGuy           ; 0xD5 - $FC38 Digging game guy
+    dw Sprite_Ganon                    ; 0xD6 - $8EB4 Pointer for Ganon.
+    dw Sprite_Ganon                    ; 0xD7 - $8EB4 Pointer for Ganon when he's invincible (blue mode)
 }
 
 ; ==============================================================================
@@ -443,10 +446,10 @@ Sprite4_IsBelowPlayer:
 Sprite4_CheckIfActive:
 {
     LDA.w $0DD0, X : CMP.b #$09 : BNE .inactive
-    LDA.w $0FC1 : BNE .inactive
-    LDA.b $11 : BNE .inactive
-        LDA.w $0CAA, X : BMI .active
-        LDA.w $0F00, X : BEQ .active
+        LDA.w $0FC1 : BNE .inactive
+            LDA.b $11 : BNE .inactive
+                LDA.w $0CAA, X : BMI .active
+                    LDA.w $0F00, X : BEQ .active
     
     .inactive
     
@@ -519,8 +522,8 @@ Sprite4_CheckIfRecoiling:
             PLA : STA.w $0D50, X
             PLA : STA.w $0D40, X
             
-            ; Blind the thief. \task Apply enumerated value here when it becomes
-            ; available.
+            ; TODO: Apply enumerated value here when it becomes available.
+            ; Blind the thief.
             LDA.w $0E20, X : CMP.b #$CE : BEQ .return
                 PLA : PLA
     
@@ -661,13 +664,12 @@ Filter_MajorWhitenMain:
 
 ; ==============================================================================
 
+; Some kind of special enemy "switch out".
+; It's used on certain room transitions where the enemies from both rooms
+; are supposed to remain visible (excludes spiral staircases).
 ; $0EE9DA-$0EE9FF LONG JUMP LOCATION
 CacheSprite_ExecuteAll:
 {
-    ; Some kind of special enemy "switch out".
-    ; It's used on certain room transitions where the enemies from both rooms
-    ; are supposed to remain visible (excludes spiral staircases).
-    
     ; Don't do this outdoors.
     LDA.b $1B : BEQ .return
         ; Don't use if in "normal" submode.
@@ -815,8 +817,6 @@ Pool_Sprite_SimulateSoldier:
     dw $0A20, $0A28, $0A30, $0A38, $0A40, $0A48
 }
 
-; ==============================================================================
-
 ; $0EEB84-$0EEBEA LONG JUMP LOCATION
 Sprite_SimulateSoldier:
 {
@@ -834,7 +834,7 @@ Sprite_SimulateSoldier:
     
     LDA.b $04 : STA.w $0DE0, X : STA.w $0EB0, X : TAY
     
-    LDA.w $EB68, Y : CLC : ADC.b $06 : STA.w $0DC0, X
+    LDA.w Pool_Sprite_SimulateSoldier_step, Y : CLC : ADC.b $06 : STA.w $0DC0, X
     
     LDA.b #$10 : STA.w $0E60, X
     
@@ -858,8 +858,8 @@ Sprite_SimulateSoldier:
     
     REP #$20
     
-    LDA.w $EB6C, Y : STA.b $90
-    LDA.w $EB78, Y : STA.b $92
+    LDA.w Pool_Sprite_SimulateSoldier_oam_a, Y : STA.b $90
+    LDA.w Pool_Sprite_SimulateSoldier_oam_b, Y : STA.b $92
     
     SEP #$20
     
@@ -893,7 +893,7 @@ Moldorm_Initialize:
     
     TXY
     
-    LDA.l $1DF7CF, X : TAX
+    LDA.l SpriteSlotToSegmentOffset, X : TAX
     
     LDA.b #$1F : STA.b $00
     
@@ -1035,7 +1035,7 @@ Toppo_Flustered:
                 PHX : TYX : LDY.b #$06
                 
                 ; Transmute this thing to a prize?
-                JSL.l $06FA54 ; $37A54 IN ROM
+                JSL.l ForcePrizeDrop_long
                 
                 PLX
     
@@ -1159,16 +1159,16 @@ Pool_Goriya_Draw:
 
     ; $0EF57F
     .group_size
-    db $04 ; group00
-    db $04 ; group01
-    db $04 ; group02
-    db $04 ; group03
-    db $04 ; group04
-    db $04 ; group05
-    db $02 ; group06
-    db $02 ; group07
-    db $02 ; group08
-    db $02 ; group09
+    db $04 ; Group00
+    db $04 ; Group01
+    db $04 ; Group02
+    db $04 ; Group03
+    db $04 ; Group04
+    db $04 ; Group05
+    db $02 ; Group06
+    db $02 ; Group07
+    db $02 ; Group08
+    db $02 ; Group09
 }
 
 ; $0EF589-$0EF5D3 LONG JUMP LOCATION
@@ -1182,7 +1182,7 @@ Goriya_Draw:
             
             REP #$20
             
-            LDA.w $F565, Y : STA.b $08
+            LDA.w Pool_Goriya_Draw_mouth_group_pointer, Y : STA.b $08
             
             SEP #$20
             
@@ -1195,7 +1195,7 @@ Goriya_Draw:
     
     REP #$20
     
-    LDA.w $F56B, Y : STA.b $08
+    LDA.w Pool_Goriya_Draw_group_pointer, Y : STA.b $08
     
     LDA.b $90 : CLC : ADC.w #$0004 : STA.b $90
     
@@ -1205,7 +1205,8 @@ Goriya_Draw:
     
     PLY
     
-    LDA.w $F57F, Y : JSR Sprite4_DrawMultiple
+    LDA.w Pool_Goriya_Draw_group_size, Y
+    JSR Sprite4_DrawMultiple
     
     DEC.w $0E40, X
     
@@ -1223,12 +1224,14 @@ Goriya_Draw:
 ; $0EF5D4-$0EF613 DATA
 Pool_Sprite_ConvertVelocityToAngle:
 {
+    ; $0EF5D4
     .x_angles
     db  0,  0,  1,  1,  1,  2,  2,  2
     db  0,  0, 15, 15, 15, 14, 14, 14
     db  8,  8,  7,  7,  7,  6,  6,  6
     db  8,  8,  9,  9,  9, 10, 10, 10
     
+    ; $0EF5F4
     .y_angles
     db  4,  4,  3,  3,  3,  2,  2,  2
     db 12, 12, 13, 13, 13, 14, 14, 14
@@ -1238,6 +1241,8 @@ Pool_Sprite_ConvertVelocityToAngle:
 
 ; ==============================================================================
 
+; This routine's purpose is unknown, but its clients are generally
+; "segmented" enemies and bosses like the Giant Moldorm and Trinexx.
 ; $0EF614-$0EF65C LONG JUMP LOCATION
 Sprite_ConvertVelocityToAngle:
 {
@@ -1246,9 +1251,6 @@ Sprite_ConvertVelocityToAngle:
     !sign_bits   = $0A
     
     ; ------------------------------
-    
-    ; This routine's purpose is unknown, but its clients are generally
-    ; "segmented" enemies and bosses like the Giant Moldorm and Trinexx.
     
     PHB : PHK : PLB
     
@@ -1276,12 +1278,11 @@ Sprite_ConvertVelocityToAngle:
     STA !y_magnitude
     
     LDA !x_magnitude : CMP !y_magnitude : BCC .y_speed_magnitude_larger
-    
-    LDA !y_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
+        LDA !y_magnitude : LSR #2 : CLC : ADC !sign_bits : TAY
         ; I don't think these tables are large enough (do we have a verified
-        ; \bug on our hands?) for all possible combinations of velocities.
+        ; BUG: on our hands?) for all possible combinations of velocities.
         LDA .x_angles, Y
-        
+
         BRA .return
     
     .y_speed_magnitude_larger
@@ -1643,7 +1644,7 @@ SpriteSlotToSegmentOffset:
 ; ==============================================================================
     
 ; $0EF7D3-$0EF821 DATA
-Pool_Moldorm_Draw
+Pool_Moldorm_Draw:
 {
     ; $0EF7D3
     .char
@@ -1660,8 +1661,7 @@ Pool_Moldorm_Draw
     ; $0EF7DF
     .segment_index
     db $15, $1A, $00
-    
-    
+ 
     ; $0EF7E2
     .offset_main_x
     db 11,  0, 10,  0,  9,  0,  6,  0
@@ -1703,11 +1703,11 @@ Moldorm_Draw:
         
         REP #$20
         
-        LDA.b $00 : CLC : ADC.w $F7E2, X : STA ($90), Y
+        LDA.b $00 : CLC : ADC.w Pool_Moldorm_Draw_offset_main_x, X : STA ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : CLC : ADC.w $F802, X : INY : STA ($90), Y
+        LDA.b $02 : CLC : ADC.w Pool_Moldorm_Draw_offset_main_y, X : INY : STA ($90), Y
         
         ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y
             LDA.b #$F0 : STA ($90), Y
@@ -1740,7 +1740,7 @@ Moldorm_Draw:
     
     TXY
     
-    LDA.w $0E80, X : AND.b #$1F : CLC : ADC.w $F7CF, X : TAX
+    LDA.w $0E80, X : AND.b #$1F : CLC : ADC.w SpriteSlotToSegmentOffset, X : TAX
     
     LDA.w $0D10, Y : STA.l $7FFC00, X
     LDA.w $0D30, Y : STA.l $7FFC80, X
@@ -1760,7 +1760,8 @@ Moldorm_Draw:
         
         LDX.w $0FA0
         
-        LDA.w $0E80, X : CLC : ADC.w $F7DF, Y : AND.b #$1F : CLC : ADC.w $F7CF, X : TAX
+        LDA.w $0E80, X : CLC : ADC.w Pool_Moldorm_Draw_segment_index, Y
+        AND.b #$1F     : CLC : ADC.w SpriteSlotToSegmentOffset, X       : TAX
         
         LDA.l $7FFC00, X : STA.b $00
         LDA.l $7FFC80, X : STA.b $01
@@ -1778,11 +1779,13 @@ Moldorm_Draw:
         
         REP #$20
         
-        LDA.b $00 : SEC : SBC.b $E2 : CLC : ADC.w $F7D6, X : STA ($90), Y
+        LDA.b $00 : SEC : SBC.b $E2
+        CLC : ADC.w Pool_Moldorm_Draw_offset_segment, X : STA ($90), Y
         
         AND.w #$0100 : STA.b $0E
         
-        LDA.b $02 : SEC : SBC.b $E8 : CLC : ADC.w $F7D6, X : INY : STA ($90), Y
+        LDA.b $02 : SEC : SBC.b $E8
+        CLC : ADC.w Pool_Moldorm_Draw_offset_segment, X : INY : STA ($90), Y
         
         CLC : ADC.w #$0010 : CMP.w #$0100 : SEP #$20 : BCC .on_screen_y_2
             LDA.b #$F0 : STA ($90), Y
@@ -1791,14 +1794,14 @@ Moldorm_Draw:
         
         PLX
         
-        LDA.w $F7D3, X : INY : STA ($90), Y
+        LDA.w Pool_Moldorm_Draw_char, X : INY : STA ($90), Y
         LDA.b $05      : INY : STA ($90), Y
         
         PHY
         
         TYA : LSR #2 : TAY
         
-        LDA.w $F7DC, X : ORA.b $0F : STA ($92), Y
+        LDA.w Pool_Moldorm_Draw_prop, X : ORA.b $0F : STA ($92), Y
         
         PLY : INY
     DEC.b $06 : BPL .next_oam_entry_2
@@ -1906,10 +1909,12 @@ incsrc "sprite_digging_game_guy.asm"
 ; $0EFE6E-$0EFF0D DATA
 Pool_OldMountainMan_Draw:
 {
+    ; $0EFE6E
     .static_pose
     dw  0, 0 : db $AC, $00, $00, $02
     dw  0, 8 : db $AE, $00, $00, $02
     
+    ; $0EFE7E
     .dynamic_poses
     dw  0, 0 : db $20, $01, $00, $02
     dw  0, 8 : db $22, $01, $00, $02
@@ -1935,7 +1940,9 @@ Pool_OldMountainMan_Draw:
     dw  2, 1 : db $20, $41, $00, $02
     dw  0, 9 : db $22, $41, $00, $02        
     
+    ; $0EFEFE
     .dma_config
+    .follower_gfx_offset
     dw $20, $C0, $20, $C0, $00, $A0, $00, $A0
     db $40, $80, $40, $60, $40, $80, $40, $60
 
@@ -1994,7 +2001,7 @@ SpriteBurn_Execute:
     
     LDA.w $0DF0, X : DEC A : BNE .delay
         ; Do this when the timer is at 0x01.
-        JSL.l $06F917 ; $037917 IN ROM
+        JSL.l Sprite_DoTheDeath_long
         
         PLB
         
@@ -2008,7 +2015,7 @@ SpriteBurn_Execute:
     
     PHX : TAX
     
-    LDA.l $1EC2B4, X : PLX : STA.w $0DC0, X
+    LDA.l Flame_Halted_animation_states, X : PLX : STA.w $0DC0, X
     
     LDA.w $0F50, X : PHA
     
@@ -2049,13 +2056,10 @@ SpriteBurn_Execute:
 ; ==============================================================================
 
 ; $0EFFBD-$0EFFC4 DATA
-Pool_SpriteFall_Draw:
+SpriteFall_Draw_chr:
 {
-    .chr
     db $83, $83, $83, $80, $80, $80, $B7, $B7
 }
-
-; ==============================================================================
 
 ; $0EFFC5-$0EFFF7 LONG JUMP LOCATION
 SpriteFall_Draw:

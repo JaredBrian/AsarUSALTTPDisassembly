@@ -4812,7 +4812,7 @@ Sprite_DrawLargeWaterTurbulence:
     
     LDA .properties, Y : STA.w $0F50, X
     
-    ; \bug Why is this load not used?
+    ; BUG: Why is this load not used?
     LDA.b #$18
     
     LDA.w $0B89, X : AND.b #$F0 : STA.w $0B89, X

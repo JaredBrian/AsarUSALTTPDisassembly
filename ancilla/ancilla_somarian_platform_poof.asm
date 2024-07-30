@@ -86,9 +86,9 @@ Ancilla_SomarianPlatformPoof:
     
     .spawn_failed
     
-    ; \wtf What actually happens in the macroscopic game scale if we cannot
+    ; WTF: What actually happens in the macroscopic game scale if we cannot
     ; spawn a sprite for the platform? Would be good to check this out.
-    ; \task durp, check it out!
+    ; TODO: durp, check it out!
     JSR SomarianBlock_Draw
     
     .return

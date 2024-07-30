@@ -5649,7 +5649,7 @@ GanonEmerges_DelayPlayerDropOff:
 ; $011FC9-$011FCD LOCAL JUMP LOCATION
 GanonEmerges_DropOffPlayerAtPyramid:
 {
-    ; \wtf Wasn't the previous module dungeon?
+    ; WTF: Wasn't the previous module dungeon?
     JSL BirdTravel_Finish_restore_prev_module
 
     RTS
@@ -14458,13 +14458,13 @@ Overworld_LoadMapData:
         ; differ by this (one rock) so they hardcoded it in. What a stupid
         ; place toput this though, if you ask me. all that unused overlay flag
         ; space and they didn't use it for this.
-        STA.l $7E22A8 ; HARDCODED ROCK
+        STA.l $7E22A8 ; HARDCODED: ROCK
 
     .noRock
 
     ; Same for this other area.
     CPX.w #$002F : BNE .noRock2
-        STA.l $7E2BB2 ; HARDCODED ROCK
+        STA.l $7E2BB2 ; HARDCODED: ROCK
 
     .noRock2
 

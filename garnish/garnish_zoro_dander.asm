@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-    ; \note Called simple sparkle because it has no animation frames. It's
+    ; NOTE: Called simple sparkle because it has no animation frames. It's
     ; either on the screen or it isn't - nothing more to it.
 ; $04B4FB-$04B51B JUMP LOCATION
 Garnish_ZoroDander:

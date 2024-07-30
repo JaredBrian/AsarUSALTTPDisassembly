@@ -46,7 +46,7 @@ Garnish_TrinexxIce:
     LDA.b $00       : STA ($90), Y
     LDA.b $02 : INY : STA ($90), Y
     
-    ; \wtf NOP? hrm...
+    ; WTF: NOP? hrm...
     LDA.l $7FF90E, X : LSR #4 : NOP : PHX : TAX
     
     LDA .chr, X : INY : STA ($90), Y

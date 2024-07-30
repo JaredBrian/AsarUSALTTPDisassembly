@@ -29,7 +29,7 @@ Garnish_LightningTrail:
     
     LDX.w $048E : CPX.b #$20 : BNE .not_agahnim_1_room
     
-    ; \wtf Is this a kludge having to do with the tileset being loaded into
+    ; WTF: Is this a kludge having to do with the tileset being loaded into
     ; a different slot in Agahnim's room?
     SEC : SBC.b #$80
     

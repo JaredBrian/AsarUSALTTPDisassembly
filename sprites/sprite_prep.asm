@@ -791,7 +791,7 @@ SpritePrep_Dwarf:
     
     .light_world
     
-    ; \note The dwarves need this in order to not be passed through by
+    ; NOTE: The dwarves need this in order to not be passed through by
     ; the player. Questionable technique, but I guess they did what they
     ; had to do to ship the game, right?
     JSL Dwarf_SpawnDwarfSolidity
@@ -849,7 +849,7 @@ SpritePrep_Babusu:
 ; ==============================================================================
 
 ; $030B01-$030B02 DATA
-    ; \unused Was it at one point intended that the speed of the laser beam
+    ; UNUSED: Was it at one point intended that the speed of the laser beam
     ; be variable or configured here?
     Pool_SpritePrep_LaserEyeTrampoline
 {
@@ -907,7 +907,7 @@ SpritePrep_Bari:
     ; Height starts out at 6.
     LDA.b #$06 : STA.w $0F70, X
     
-    ; \hardcoded In this room the bari are confined until a large block
+    ; HARDCODED: In this room the bari are confined until a large block
     ; is lifted.
     LDA.w $048E : CMP.b #$CE : BNE .not_that_one_ice_palace_room
     
@@ -949,7 +949,7 @@ SpritePrep_FireDebirando:
     
     DEC.w $0ED0, X
     
-    ; \note Hyrule magic was telling the truth. 0x63 is blue, 0x64 is red.
+    ; NOTE: Hyrule magic was telling the truth. 0x63 is blue, 0x64 is red.
     ; 0x63 is really the pit, but both of end up with a 0x63 (pit) and a 0x64
     ; (debirando) and $0ED0, X decides whether the debirando itself is a red
     ; (fire) debirando or a normal one that doesn't shoot fireballs.
@@ -1615,7 +1615,7 @@ SpritePrep_Leever:
 ; $030DFD-$030E2F JUMP LOCATION
 SpritePrep_HoboEntities:
 {
-    ; \wtf Is this test code? It spawns a bunch of normal bums...
+    ; WTF: Is this test code? It spawns a bunch of normal bums...
     LDY.b #$0F
     
     .spawn_next_hobo
@@ -1626,7 +1626,7 @@ SpritePrep_HoboEntities:
     
     PLY : DEY : BNE .spawn_next_hobo
     
-    ; \wtf Then does another loop to kill them all?
+    ; WTF: Then does another loop to kill them all?
     LDY #$0F
     
     .terminate_next_hobo
@@ -2111,7 +2111,7 @@ SpritePrep_Soldier:
 ; $03103B-$031042 DATA
 Pool_SpritePrep_TalkingTree:
 {
-    ; \unused Not confirmed yet, but strongly suspected.
+    ; UNUSED: Not confirmed yet, but strongly suspected.
     .unknown_0
     db 0, 2, 1, 3, 6, 4, 5, 7
 }
@@ -2645,7 +2645,7 @@ SpritePrep_Key:
     ; $031267 ALTERNATE ENTRY POINT
     .set_item_drop
     
-    ; \wtf Why is this necessary? Big keys and keys shouldn't drop anything
+    ; WTF: Why is this necessary? Big keys and keys shouldn't drop anything
     ; after they die. Maybe we'll know some day.
     LDA.w $0B9B : STA.w $0CBA, X
     

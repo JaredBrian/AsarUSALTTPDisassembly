@@ -356,7 +356,7 @@ LinkState_Default:
                 LDA.b $5D : CMP.b #$11 : BEQ .BRANCH_IOTA
                     JSR.w $9B0E ; $039B0E IN ROM ; Handle Y button items?
                     
-                    ; \hardcoded This is pretty unfair.
+                    ; HARDCODED: This is pretty unfair.
                     ; \item Relates to ability to use the sword if you have one.
                     LDA.l $7EF3C5 : BEQ .cant_use_sword
                         JSR Player_Sword
@@ -16067,7 +16067,7 @@ DesertPrayer_BuildIrisHDMATable:
         LDA.b $02 : TAY
         
         AND.w #$FF00 : BEQ .BRANCH_MU
-            AND.w #$FF00 : BEQ .BRANCH_NU ; \wtf what...?
+            AND.w #$FF00 : BEQ .BRANCH_NU ; WTF: what...?
                 LDY.w #$00FF
                 
                 BRA .BRANCH_MU
@@ -17064,7 +17064,7 @@ Link_ResetProperties_B:
     STZ.b $5A
     STZ.b $5B
     
-    ; \wtf Why zeroed twice? probably a typo on the programmer's end.
+    ; WTF: Why zeroed twice? probably a typo on the programmer's end.
     ; Or maybe it was aliased to two different names...
     STZ.b $5B
 

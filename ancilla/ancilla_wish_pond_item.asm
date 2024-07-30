@@ -39,7 +39,7 @@ Ancilla_WishPondItem:
     
     LDA.b #$08 : STA.b $00
     
-    ; \bug(confirmed) This is suposed to be a long address mode, not
+    ; BUG:(confirmed) This is suposed to be a long address mode, not
     ; local. Looks like even the Z3 programmers and their fancy assembler
     ; or compiler or whatever they used, were also fallible.
     ; This particular read indexes into the code region of the
@@ -60,7 +60,7 @@ Ancilla_WishPondItem:
     
     JSR Ancilla_PrepAdjustedOamCoord
     
-    ; \wtf
+    ; WTF:
     ; Looks like this is making a special exception for the master sword
     ; (level 2 only), but I can't say for sure what the purpose of this
     ; is...
@@ -100,7 +100,7 @@ Ancilla_WishPondItem:
     
     LDA.w $0C5E, X : TAX
     
-    ; \bug(confirmed) Same bug, different part of the routine.
+    ; BUG:(confirmed) Same bug, different part of the routine.
     LDA.w $8450, X : TAX
     
     REP #$20

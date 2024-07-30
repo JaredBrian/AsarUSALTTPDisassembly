@@ -1,5 +1,5 @@
 
-    ; \note This file makes use of three sort of 'pseduo'-ancilla objects,
+    ; NOTE: This file makes use of three sort of 'pseduo'-ancilla objects,
     ; in that they make use of the Ancilla API, but don't really fit into
     ; the normal framework of Ancillae. One of these is a fairy object,
     ; the second is an invisible object that controls the player's altitude
@@ -14,7 +14,7 @@
 ; $04727C-$047282 DATA
 Pool_Ancilla_RevivalFairy:
 {
-    ; \note The first one probably isn't even used as it's the start state
+    ; NOTE: The first one probably isn't even used as it's the start state
     .timers
     db $00, $90
     
@@ -24,7 +24,7 @@ Pool_Ancilla_RevivalFairy:
 
 ; ==============================================================================
 
-; \note Looks like this animated the fairies during death mode.
+; NOTE: Looks like this animated the fairies during death mode.
 ; $047283-$0473CE LONG JUMP LOCATION
 Ancilla_RevivalFairy:
 {
@@ -113,7 +113,7 @@ Ancilla_RevivalFairy:
     LDA.w $0294, X : CLC : ADC.b $00 : STA.w $0294, X : BPL .positive_z_velocity
     
     ; Basically, don't allow the velocity to become negative?
-    ; \wtf Does this logic actually work properly in the game?
+    ; WTF: Does this logic actually work properly in the game?
     EOR.b #$FF : INC A
     
     .positive_z_velocity

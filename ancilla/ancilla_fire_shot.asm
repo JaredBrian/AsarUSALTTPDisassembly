@@ -146,7 +146,7 @@ FireShot_Draw:
     
     RTS
     
-    ; \unused Like it says...
+    ; UNUSED: Like it says...
     .unused
     
     RTS

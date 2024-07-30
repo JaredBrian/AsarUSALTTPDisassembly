@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-    ; \note Performs movement and player interaction of the gravestone.
+    ; NOTE: Performs movement and player interaction of the gravestone.
 ; $046D89-$046DF8 LONG JUMP LOCATION
 Gravestone_Move:
 {
@@ -89,7 +89,7 @@ Pool_Ancilla_Gravestone:
 
 ; ==============================================================================
 
-    ; \note Unlike many Ancilla handlers, this guy only handles drawing
+    ; NOTE: Unlike many Ancilla handlers, this guy only handles drawing
     ; of the object. The actual movement and other logic of the gravestone
     ; is driven by the player engine, called from a routine found above
     ; (Gravestone_Move).

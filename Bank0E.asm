@@ -1586,7 +1586,7 @@ CreditsOAMGroup1:
     dw  0,   7 : db $4E, $0A, $00, $02
         
     ; TODO: Investigate this comment. Its not marked in Kan's.
-    ; \wtf Why the leftovers? Is this a mess up or intentional?
+    ; WTF: Why the leftovers? Is this a mess up or intentional?
     dw  0,   0 : db $80, $08, $00, $02
     dw  0,   7 : db $4E, $0A, $00, $02
     
@@ -8968,7 +8968,7 @@ Palette_PerformTranslucencySwap:
         ; At the same time, it also copies this info in the Main palette 
         ; buffer and the Auxiliary palette buffer.
         
-        ; \optimize This could, at the very least, utilize a data bank value of
+        ; OPTIMIZE: This could, at the very least, utilize a data bank value of
         ; 0x7E to speed things up and save space.
         
         ; Swap SP0_L with SP7_L.
@@ -9008,7 +9008,7 @@ Palette_PerformTranslucencySwap:
 
 ; ==============================================================================
     
-; \unused Again, only the top label is unused.
+; UNUSED: Again, only the top label is unused.
 ; $0756B9-$0756BA LONG JUMP LOCATION
 Palette_RevertTranslucencySwap_ForcePlayerBg2:
 {

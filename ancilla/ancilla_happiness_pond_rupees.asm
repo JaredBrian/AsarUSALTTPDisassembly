@@ -46,7 +46,7 @@ Ancilla_HappinessPondRupees:
     
     .not_all_inactive
     
-    ; \wtf Could be wrong, but this is probably not necessary since
+    ; WTF: Could be wrong, but this is probably not necessary since
     ; we're done and we'll be moving on to the next Ancilla anyways, so
     ; restoring the index is not useful at all.
     BRL Ancilla_RestoreIndex
@@ -57,7 +57,7 @@ Ancilla_HappinessPondRupees:
 ; $044819-$0448BD LOCAL JUMP LOCATION
 HappinessPondRupees_ExecuteRupee:
 {
-    ; \wtf Wait, why does this need 4 oam slots exactly?
+    ; WTF: Wait, why does this need 4 oam slots exactly?
     LDA.b #$10 : JSR Ancilla_AllocateOam
     
     PHX
@@ -144,7 +144,7 @@ HappinessPondRupees_ExecuteRupee:
 ; $0448BE-$044923 LOCAL JUMP LOCATION
 HappinessPondRupees_LoadRupeeeState:
 {
-    ; \wtf All of these arrays appear to have been allocated 0x0C bytes
+    ; WTF: All of these arrays appear to have been allocated 0x0C bytes
     ; apart, except there's a 2 byte gap between the arrays starting at
     ; $7F586C and $7F587A. Why?
     

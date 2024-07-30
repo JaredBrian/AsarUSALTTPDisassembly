@@ -38,7 +38,7 @@ Ancilla_BlastWall:
     
     .anoreset_component_state
     
-    ; \wtf This instruction doesn't appear to serve any useful purpose.
+    ; WTF: This instruction doesn't appear to serve any useful purpose.
     TAY
     
     LDA.b #$03 : STA.l $7F0008, X
@@ -56,7 +56,7 @@ Ancilla_BlastWall:
     
     LDA.l $7F0008, X : CMP.b #$02 : BNE .state_logic_finished
     
-    ; \wtf(confirmed) Was the blast wall designed to have more than one
+    ; WTF:(confirmed) Was the blast wall designed to have more than one
     ; spawn point? Multiple blast wall objects working at once?
     LDX.w $0380
     
@@ -89,7 +89,7 @@ Ancilla_BlastWall:
     
     ; What was the index into the blast wall data tables that was used
     ; to set this up?
-    ; \task Check if this branch ever is taken. How many blast walls are
+    ; TODO: Check if this branch ever is taken. How many blast walls are
     ; in the game? Skull Woods and Ganon's Tower are all I can think of
     ; at the moment.
     LDA.l $7F001C : CMP.b #$04 : BCS .diverge_vertically
@@ -106,7 +106,7 @@ Ancilla_BlastWall:
     ; Invert the sign of the variable. (Couldn't we just do this stuff in
     ; 16-bit? Anyways, it looks like the point of this is to allow the
     ; explosions to diverge out in opposing directions.
-    ; \optimize Maybe do this in 16-bit logic.
+    ; OPTIMIZE: Maybe do this in 16-bit logic.
     LDA $00, X : EOR.b #$FF : INC A : STA $00, X
                  LDA.b #$FF         : STA $01, X
     

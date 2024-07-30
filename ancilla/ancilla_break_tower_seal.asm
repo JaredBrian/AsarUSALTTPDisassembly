@@ -332,7 +332,7 @@ BreakTowerSeal_ActivateSingleSparkle:
     ; seems more like sloppy deadline heavy coding. Either that or I missed
     ; something else that prevents X from being 7 here (which would be
     ; the 8th crystal counting from zero, which doesn't exist).
-    ; \bug Is the aforementioned a bug? Could be fun to test in debugger.
+    ; BUG: Is the aforementioned a bug? Could be fun to test in debugger.
     TXA : AND.b #$07 : TAX
     
     LDA.l $7F5817, X : CLC : ADC $08    : STA $00

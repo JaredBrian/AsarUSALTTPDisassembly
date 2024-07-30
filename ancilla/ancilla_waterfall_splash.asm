@@ -63,7 +63,7 @@ Ancilla_WaterfallSplash:
     
     LDA.b #$01 : STA.w $0351
     
-    ; \wtf .... why would this be necessary?
+    ; WTF: .... why would this be necessary?
     LDA.b $2E : SEC : SBC.b #$06 : BMI .dont_reset_player_animation
     
     STA.b $2E

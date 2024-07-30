@@ -108,7 +108,7 @@ Ancilla_Hookshot:
     
     LDA.w $0385, X : BNE .ignore_sprite_collision
     
-    ; \wtf why all these checks of the protracting state? We already
+    ; WTF: why all these checks of the protracting state? We already
     ; know if we're here that it can't be retracting.
     LDA.w $0C54, X : BNE .ignore_sprite_collision
     
@@ -125,7 +125,7 @@ Ancilla_Hookshot:
     
     .unused
     
-    ; \unused Interesting... was this put in here for debugging or
+    ; UNUSED: Interesting... was this put in here for debugging or
     ; something? Requires investigation.
     BRL .unused_2
     
@@ -174,7 +174,7 @@ Ancilla_Hookshot:
     ; (As opposed to an outdoor ledge)
     LDA $00 : AND.b #$03 : BNE .hit_indoor_ledge_tile
     
-    ; \note The tile detection api is supposed to set this variable.
+    ; NOTE: The tile detection api is supposed to set this variable.
     CPY $76 : BEQ .last_tile_interaction_passable
     
     .hit_indoor_ledge_tile
@@ -226,7 +226,7 @@ Ancilla_Hookshot:
     LDA.w $0C22, X : EOR.b #$FF : INC A : STA.w $0C22, X
     LDA.w $0C2C, X : EOR.b #$FF : INC A : STA.w $0C2C, X
     
-    ; \note I really like this typo 'grabblable', it sounds ridiculous.
+    ; NOTE: I really like this typo 'grabblable', it sounds ridiculous.
     ; Not a tile collision in this case, but it hit something grabblable.
     LDA.w $02F6 : AND.b #$03 : BNE .no_extra_tile_collision
     
@@ -254,7 +254,7 @@ Ancilla_Hookshot:
     
     LDA.w $02F6 : AND.b #$03 : BEQ .draw
     
-    ; \note Though this label says unused, it just means that the branch
+    ; NOTE: Though this label says unused, it just means that the branch
     ; origin is unreachable in this case.
     .unused_2
     

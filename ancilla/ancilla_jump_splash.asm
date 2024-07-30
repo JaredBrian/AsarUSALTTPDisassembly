@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-    ; \note This first label indicates that they probably had one here in the
+    ; NOTE: This first label indicates that they probably had one here in the
     ; original source but never filled anything in. Which would be why the
     ; pointer table would point to this location is obviously just data,
     ; instead of the code it's supposed to be.
@@ -119,7 +119,7 @@ Ancilla_JumpSplash:
     
     LDA.b #$02 : STA ($92), Y
     
-    ; \bug(maybe) 
+    ; BUG:(maybe) 
     LDA $0A : CMP.b #$01 : BNE .top_x_bit_zero
     
     STA ($92), Y

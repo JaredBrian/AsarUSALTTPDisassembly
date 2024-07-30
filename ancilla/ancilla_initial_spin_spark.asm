@@ -62,7 +62,7 @@ Ancilla_InitialSpinSpark:
     
     CPY.b #$05 : BNE .draw
     
-    ; \wtf When is this branch ever taken? Perhaps this was test code,
+    ; WTF: When is this branch ever taken? Perhaps this was test code,
     ; as the sword beam graphics are similar if not identical a spin attack.
     LDA.w $0C54, X : BNE .spawn_sword_beam
     

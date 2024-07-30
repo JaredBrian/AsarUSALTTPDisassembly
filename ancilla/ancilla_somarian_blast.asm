@@ -218,7 +218,7 @@ SomarianBlast_Draw:
     LDA .properties_b, X : ORA.b $04    : LDY.b #$07 : STA ($90), Y
     
     ; Designate both of these sprites as small.
-    ; \bug Not a serious bug, but if it's true, it might mean that its
+    ; BUG: Not a serious bug, but if it's true, it might mean that its
     ; calculations near screen edges are not quite accurate, because it's
     ; assuming that the 9th X bit is always zero.
     ; aka shoddy oam offset calculation. However, there might be other safe

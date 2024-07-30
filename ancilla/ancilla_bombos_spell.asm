@@ -69,9 +69,9 @@ AddBombosSpell:
     LDA $21 : STA.l $7F5956
     LDA $23 : STA.l $7F59D6
     
-    ; \wtf this points to a nonexistent data table. Is this on purpose?
+    ; WTF: this points to a nonexistent data table. Is this on purpose?
     ; (It points to the beginning of the boomerang ancilla code.
-    ; \bug Could be considered a bug, hard to say.
+    ; BUG: Could be considered a bug, hard to say.
     LDA.w $90FC, Y : CMP.b #$E0 : BCC .wtf
     
     AND.b #$7F
@@ -248,7 +248,7 @@ Bombos_ExecuteFlameColumns:
     CMP.b #$0D : BEQ .inactive_column
     CMP.b #$02 : BNE .dont_activate_another_column
     
-    ; \wtf I don't think this branch is ever taken.
+    ; WTF: I don't think this branch is ever taken.
     LDA $73 : BNE .done_activating_columns
     
     PHX
@@ -338,7 +338,7 @@ Bombos_ExecuteFlameColumns:
     LDA $04 : STA.l $7F58A4, X
     LDA $05 : STA.l $7F58E4, X
     
-    ; \wtf Okay.... seriously I think that either the Bombos person was
+    ; WTF: Okay.... seriously I think that either the Bombos person was
     ; smoking crack rock or there was some earlier version of this
     ; spell that employed more sprites. Or it was differently implemented
     ; maybe. With a limit of 10 blasts, we're certainly never going to
@@ -464,7 +464,7 @@ Pool_BombosSpell_DrawFireColumn:
 ; $043373-$04340C LOCAL JUMP LOCATION
 BombosSpell_DrawFireColumn:
 {
-    ; \note Why add 0? Seems like some testing code here wasn't completely
+    ; NOTE: Why add 0? Seems like some testing code here wasn't completely
     ; weeded out. See note near the end of this subroutine.
     TXA : CLC : ADC.b #$00 : STA $75
     
@@ -532,7 +532,7 @@ BombosSpell_DrawFireColumn:
     
     PLX
     
-    ; \wtf When would this ever evalute to >= 0?
+    ; WTF: When would this ever evalute to >= 0?
     ; Debugger testing points to the game always branching here, thus
     ; backing me up on this.
     LDA $75 : SEC : SBC.b #$10 : STA $75 : BMI .always

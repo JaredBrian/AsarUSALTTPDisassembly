@@ -10174,7 +10174,7 @@ RoomTag_PullSwitchExplodingWall:
         
         STY.w $0456
         
-        ; \wtf Based on this logic, wouldn't index 6 never get used in the
+        ; WTF: Based on this logic, wouldn't index 6 never get used in the
         ; tables below?
         LDA.b $21 : AND.w #$0001 : INC A : ASL #2 : TAX
         
@@ -11571,12 +11571,12 @@ DontOpenDoor:
 {    
     SEP #$30
     
-    ; No... invisible door? Trap door? What? \task Part of another task
+    ; No... invisible door? Trap door? What? TODO: Part of another task
     ; Once $0436 is documented, we should know what logic would be
     ; skipped. Eye doors? wtf is this?
     LDA.w $0436 : BMI .BRANCH_PI
         LDA.b $6C : BNE .BRANCH_PI
-            ; \hardcoded Checking by room? wtf man.
+            ; HARDCODED: Checking by room? wtf man.
             LDA.b $23 : CMP.b #$0C : BNE .BRANCH_PI
                 LDY.w $0437
                 
@@ -11633,7 +11633,7 @@ DontOpenDoor:
         LDA.b $3C : CMP.b #$04 : BNE Dungeon_ProcessTorchAndDoorInteractives_BRANCH_TAU
         
             ; I think.... this is checking for a sword slashable door?
-            ; \task Find out how we get in here.
+            ; TODO: Find out how we get in here.
             REP #$31
             
             LDA.b $44 : AND.w #$00FF : CMP.w #$0080 : BCC .BRANCH_UPSILON
@@ -12851,7 +12851,7 @@ Pool_Dungeon_RevealCoveredTiles:
     dw  16 ; Right
     
     ; $00D9CA
-    ; Seems to be \unused ...
+    ; Seems to be UNUSED: ...
     .unused
     dw $0000, $FFFE, $FF80, $FF7E
     dw $0000, $0000, $FF80, $FF80

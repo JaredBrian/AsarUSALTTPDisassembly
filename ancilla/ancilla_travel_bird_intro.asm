@@ -7,7 +7,7 @@ Pool_Ancilla_TravelBirdIntro:
     .hflip_settings
     db $40, $00
     
-    ; \note These are sensitively calibrated values that can look funky or
+    ; NOTE: These are sensitively calibrated values that can look funky or
     ; keep the bird on screen indefinitely if set to other values.
     .swirl_speeds
     db $1c, $3C
@@ -123,10 +123,10 @@ Ancilla_TravelBirdIntro:
     
     CMP .swirl_speeds, Y : BCC .x_speed_not_maxed
     
-    ; \wtf(confirmed) Um, you know you could just xor with 0x03
+    ; WTF:(confirmed) Um, you know you could just xor with 0x03
     ; directly, then store it back and you'd do it in 3 instructions instead
     ; of 8?
-    ; \optimize See above. (LDA addr : EOR.b #constant : STA addr)
+    ; OPTIMIZE: See above. (LDA addr : EOR.b #constant : STA addr)
     LDA.w $0C54, X : AND.b #$03 : EOR.b #$03 : STA.b $00
     
     LDA.w $0C54, X : AND.b #$FC : ORA.b $00 : STA.w $0C54, X
@@ -150,7 +150,7 @@ Ancilla_TravelBirdIntro:
     
     LDY.w $03A9, X
     
-    ; \note Seems that the actual z speed determined is actually affected
+    ; NOTE: Seems that the actual z speed determined is actually affected
     ; by the current x speed. Perhaps that's where this ellipsoid behavior
     ; originates from.
     LDA .swirl_speeds, Y : SEC : SBC.b $00 : LSR A : STA.b $00

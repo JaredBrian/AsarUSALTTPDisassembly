@@ -2,7 +2,7 @@
 
 ; Bank 0F
 ; $078000-$07FFFF
-org $0E8000
+org $0F8000
 
 ; Tile16 data
 ; Player death control
@@ -3937,7 +3937,7 @@ Death_PlayerSwoon:
     PHB : PHK : PLB
     
     DEC.w $030B : BPL .delay
-        ; \wtf Um, if this actually ends up as 0x0F, how do we advance in
+        ; WTF: Um, if this actually ends up as 0x0F, how do we advance in
         ; death mode?
         LDX.w $030D : INX : CPX.b #$0F : BEQ .return
             CPX.b #$0E : BNE .swoon_in_progress
@@ -4017,7 +4017,7 @@ Pool_AddSwordBeam:
 ; $07F67B-$07F74C LONG JUMP LOCATION
 AddSwordBeam:
 {
-    ; \note SHOOT TEH BEAMZ
+    ; NOTE: SHOOT TEH BEAMZ
     
     PHB : PHK : PLB
     
@@ -4609,7 +4609,7 @@ DashTremor_TwiddleOffset:
         CPY.b #$02 : BNE .horizontal_shake
             REP #$20
             
-            ; \note It appears that these are screen boundaries of some sort.
+            ; NOTE: It appears that these are screen boundaries of some sort.
             LDA.w $0600 : CLC : ADC.w #$0001 : STA.b $02
             LDA.w $0602 : CLC : ADC.w #$FFFF : STA.b $04
             
@@ -4626,7 +4626,7 @@ DashTremor_TwiddleOffset:
         
         REP #$20
         
-        ; \note It appears that these are screen boundaries of some sort.
+        ; NOTE: It appears that these are screen boundaries of some sort.
         LDA.w $0604 : CLC : ADC.w #$0001 : STA.b $02
         LDA.w $0606 : CLC : ADC.w #$FFFF : STA.b $04
         
@@ -4666,7 +4666,7 @@ Pool_BombosSpell_ExecuteBlasts:
     db $7E, $CB, $12, $D0, $70, $A6, $46, $BF
     db $40, $50, $7E, $8C, $2D, $61, $AC, $88
     
-    ; \wtf Is this used for anything?
+    ; WTF: Is this used for anything?
     .unknown
     db $20, $6A, $72, $5F, $D2, $28, $52, $80        
 }
@@ -4776,7 +4776,7 @@ Link_CheckBunnyStatus:
 ; $07FD3C-$07FD51 LONG JUMP LOCATION
 Ancilla_TerminateWaterfallSplashes:
 {
-    ; \hardcoded
+    ; HARDCODED
     LDA.b $8A : CMP.b #$0F : BNE .not_area_below_zora_falls
         LDX.b #$04
         
@@ -4796,7 +4796,7 @@ Ancilla_TerminateWaterfallSplashes:
 
 ; ==============================================================================
 
-    ; \note I think this routine is redundant, there are probably routines
+    ; NOTE: I think this routine is redundant, there are probably routines
     ; in bank 0x08 that can already handle this.
 ; $07FD52-$07FD85 LONG JUMP LOCATION
 Ancilla_TerminateIfOffscreen:
@@ -4906,7 +4906,7 @@ Sprite_SpawnSparkleAncilla:
 
 ; ==============================================================================
 
-    ; \note Determines whether to use a shadow, a water ripple, or grass
+    ; NOTE: Determines whether to use a shadow, a water ripple, or grass
     ; sprite under the bomb. It also detects situations where none of these
     ; are necessary or appropriate, and returns a carry flag state of clear
     ; to indicate that no 'underside' sprite should be drawn.
@@ -4979,7 +4979,7 @@ Bomb_CheckUndersideSpriteStatus:
     
     .not_nearest_to_player
     
-    ; \wtf What's the point of this?
+    ; WTF: What's the point of this?
     CPY.b #$04 : BEQ .oam_slot_is_four_yeah_ok_whatever
         LDY.b #$00
     

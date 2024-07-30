@@ -18,7 +18,7 @@ Ancilla_GameOverTextLong:
 ; $0474D2-$0474D7 Jump Table
 Pool_Ancilla_GameOverText:
 {
-    ; \task interleaved!
+    ; TODO: interleaved!
     
     dw GameOverText_SweepLeft
     dw GameOverText_UnfurlRight
@@ -72,7 +72,7 @@ GameOverText_SweepLeft:
 {
     LDX.w $035F : STX.w $0FA0
     
-    ; \wtf(odd, but not really a big deal)
+    ; WTF:(odd, but not really a big deal)
     ; The result is the same regardless for the value of Y.
     LDY.b #$80
     

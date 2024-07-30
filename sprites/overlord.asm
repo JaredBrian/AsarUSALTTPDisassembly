@@ -305,7 +305,7 @@ Overlord_ZoroFactory:
                     
                     JSL GetRandomInt : AND.b #$07 : TAX
                     
-                    ; \task Just out of curiosity, figure out if this paradigm of PHP
+                    ; TODO: Just out of curiosity, figure out if this paradigm of PHP
                     ; PLP is really required in these scenarios...
                     LDA.b $05 : CLC : ADC .x_offsets_low, X  : PHP
                                 CLC : ADC.b #$08             : STA.w $0D10, Y
@@ -546,8 +546,8 @@ PirogusuFactory_Main:
     
     LDY.b #$0F
     
-    ; \wtf ... Why octospawn instead of pirogusu here? This makes no sense.
-    ; Quite possibly \bug !
+    ; WTF: ... Why octospawn instead of pirogusu here? This makes no sense.
+    ; Quite possibly BUG: !
     .count_octospawn
     
         LDA.w $0DD0, Y : BEQ .skip_slot
@@ -991,7 +991,7 @@ Overlord_StalfosFactory:
     LDA.b #$85
     LDY.b #$0C
     
-    ; \wtf Why not just return in this routine? It's not like it's
+    ; WTF: Why not just return in this routine? It's not like it's
     ; too far away.
     JSL Sprite_SpawnDynamically.arbitrary : BMI Overlord_PlayDropSfx_return
         PHX

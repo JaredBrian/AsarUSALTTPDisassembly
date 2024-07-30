@@ -186,7 +186,7 @@ Pool_AddBlueBomb:
 
 ; ==============================================================================
     
-; \note Special Effect 0x07 (Link's blue bombs) Initializer
+; NOTE: Special Effect 0x07 (Link's blue bombs) Initializer
 ; $04811F-$0481B2 LONG JUMP LOCATION
 AddBlueBomb:
 {
@@ -476,7 +476,7 @@ AddBoomerang:
     
     .spin_attack_not_charged
     
-    ; \wtf this seems like a lapse of logic.... lumping in the magic
+    ; WTF: this seems like a lapse of logic.... lumping in the magic
     ; boomerang
     ; with diagonal throwing
     LDA $72 : BNE .diagonal_or_magic_throw
@@ -493,7 +493,7 @@ AddBoomerang:
     
     LDA.w $03B1, X : BEQ .not_thrown_while_spin_attack_charged
     
-    ; \note This section calculates the starting position of the boomerang
+    ; NOTE: This section calculates the starting position of the boomerang
     ; differently since the player has a charged spin attack, and the
     ; throwing animation will not be done.
     REP #$20
@@ -1325,14 +1325,14 @@ Pool_AddWishPondItem:
     db -12, -12, -12, -12, -12, -12, -12, -12
     db -12, -12, -12, -13, -12, -12
     
-    ; $0489E6 \unused
+    ; $0489E6 UNUSED:
     db  4,  4,  4,  4,  4,  0,  0,  4
     db  4,  4,  4,  4,  5,  0,  0,  0
     db  0,  0,  0,  4,  0,  4,  0,  0
     db  4,  0,  0,  0,  0,  0,  0,  0
     db  0,  0,  0,  0, 11,  0
     
-    ; $048A0C \unused
+    ; $048A0C UNUSED:
     db  0,  0,  2,  0,  5,  0,  0,  0
     db  0,  0,  0,  0,  0,  0,  4,  4
     db  4,  0,  0,  0,  0,  0,  0,  0
@@ -2183,7 +2183,7 @@ AddShovelDirt:
 {
     PHB : PHK : PLB
     
-    ; \note A = 0x17;
+    ; NOTE: A = 0x17;
     JSR AddAncilla : BCS .no_open_slots
     
     STZ.w $0C5E, X
@@ -2401,7 +2401,7 @@ Pool_AddArrow:
     .x_speeds
     db   0,   0, -30,  30
     
-    ; $049090 \unused Afaik.
+    ; $049090 UNUSED: Afaik.
     .unknown_0 
     db 8, 4, 2, 1
     
@@ -3031,7 +3031,7 @@ AddBoomerangWallHit:
     ; Based on the directional components of the boomerang, supply an
     ; index into a list of offsets that indicate where to place the wall
     ; hit object.
-    ; Also \bug Do the boomerang and hookshot interfere with one another?
+    ; Also BUG: Do the boomerang and hookshot interfere with one another?
     ; Since they use this same global variable I'd be inclined to say yes,
     ; but it should be investigated. Perhaps one is deactivated if the
     ; other becomes active.
@@ -3099,7 +3099,7 @@ AddHookshotWallHit:
 ; $0494FE-$049588 LONG JUMP LOCATION
 AddTravelBird:
 {
-    ; \note Convenience label. Not necessary to invoke it, as it's the same
+    ; NOTE: Convenience label. Not necessary to invoke it, as it's the same
     ; as the main entry point.
     .pick_up
     
@@ -3274,7 +3274,7 @@ AddSpinAttackStartSparkle:
     
     LDA $72 : STA.w $0C54, X : BEQ .never
     
-    ; \wtf(confirmed) No difference in the logic here. What's the point?
+    ; WTF:(confirmed) No difference in the logic here. What's the point?
     LDY.b #$04
     
     .never
@@ -3376,7 +3376,7 @@ AddBlastWall:
     
     LDY.b #$00
     
-    ; \task Figure out what's going on here.
+    ; TODO: Figure out what's going on here.
     LDA.l $7F001C : CMP.b #$04 : BCS .unknown
     
     LDY.b #$10
@@ -3770,7 +3770,7 @@ Pool_AddGravestone:
     ; 0x1c
     dw $0840
     
-    ; \task I'm punting on this. Fill in the rest of the data later.
+    ; TODO: I'm punting on this. Fill in the rest of the data later.
     ; $49968
     .yPosition
     dw $0540, $0350, $0530, $0530, $0520, $0520, $0510, $0510
@@ -4372,7 +4372,7 @@ Ancilla_CheckIfAlreadyExists:
 
 ; ==============================================================================
 
-    ; \unused
+    ; UNUSED:
 ; $049D2E-$049D35 DATA
 Ancilla_CheckIfAlreadyExistsLong:
 {
@@ -4498,9 +4498,9 @@ Pool_Ancilla_CheckInitialTileCollision_Class_1:
 
 ; ==============================================================================
 
-    ; \task Rename this sucker, maybe.
+    ; TODO: Rename this sucker, maybe.
     
-    ; \note Class 1 and Class 2 indicates that we have two very similar routines
+    ; NOTE: Class 1 and Class 2 indicates that we have two very similar routines
     ; for checking this kind of situation, but that the ... eh explain it later.
     ; Basically there's one for boomerangs and junk and one for bombs and
     ; blocks. We'd need to come up with nammes for the two classes.
@@ -4584,7 +4584,7 @@ Pool_Ancilla_CheckInitialTileCollision_Class2:
 
 ; ==============================================================================
 
-    ; \task Maybe rename this big lug later on.
+    ; TODO: Maybe rename this big lug later on.
 ; $049E44-$049E8F LONG JUMP LOCATION
 Ancilla_CheckInitialTileCollision_Class2:
 {
@@ -4592,7 +4592,7 @@ Ancilla_CheckInitialTileCollision_Class2:
     
     PHY
     
-    ; \bug Potential for this to cause buffer overflows of the pooled
+    ; BUG: Potential for this to cause buffer overflows of the pooled
     ; arrays above?
     LDA.b #$02 : STA $72
     

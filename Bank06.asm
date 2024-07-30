@@ -636,7 +636,7 @@ Sprite_Main:
     STY.w $0FFF
     
     LDA.b $11 : BNE .dont_reset_player_dragging
-        ; \wtf Wait, so the dragging of the player is reset under normal
+        ; WTF: Wait, so the dragging of the player is reset under normal
         ; circumstances, but not in another submodule? Does not compute.
         STZ.w $0B7C
         STZ.w $0B7D
@@ -887,7 +887,7 @@ Sprite_TimersAndOAM:
     ; $0304A4 ALTERNATE ENTRY POINT
     .handle_linkhop
     
-    ; \wtf Interesting.... if player priority is super priority, all sprites
+    ; WTF: Interesting.... if player priority is super priority, all sprites
     ; follow? TODO: Investigate this.
     LDY.b $EE : CPY.b #$03 : BEQ .player_using_super_priority
         LDY.w $0F20, X
@@ -5441,7 +5441,7 @@ Sprite_AttemptZapDamage:
         
         .not_buzzblob
         
-        ; \bug If we reach here from the comparison with the sword value,
+        ; BUG: If we reach here from the comparison with the sword value,
         ; well.... we're not comparing apples to apples.
         CMP.b #$24 : BEQ .is_bari_or_biri
             CMP.b #$23 : BNE .not_bari_or_biri
@@ -7484,7 +7484,7 @@ Player_SetupHitBox:
     
     .no_player_interaction_with_sprites
     
-    ; \wtf Kind of .... lazy if you ask me. This ensures that the player hit
+    ; WTF: Kind of .... lazy if you ask me. This ensures that the player hit
     ; box is so out of range of whatever we're going to compare with so that
     ; the hit boxes can't possibly overlap.
     ; (with a Y coordinate of 0x8000 to 0x80ff, it's highly unlikely).

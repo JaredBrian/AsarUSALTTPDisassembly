@@ -21,7 +21,7 @@ Pool_Ancilla_SomarianBlock:
     .properties
     db $00, $40, $00, $C0
     
-    ; \task check if these are ever used.
+    ; TODO: check if these are ever used.
     db $00, $40, $00, $C0
     db $00, $40, $00, $C0
     
@@ -111,7 +111,7 @@ Ancilla_SomarianBlock:
     
     .trigger_logic
     
-    ; \wtf What this indicates to me is that using a somarian block
+    ; WTF: What this indicates to me is that using a somarian block
     ; as a platform generator and as a tile trigger cover is mutually
     ; exclusive in a given room.
     LDA.w $03F4 : BEQ .no_tranit_tiles_available
@@ -164,7 +164,7 @@ Ancilla_SomarianBlock:
     
     .no_tranit_tiles_available
     
-    ; \wtf Does this routine check against star tiles? Could I use this
+    ; WTF: Does this routine check against star tiles? Could I use this
     ; to trigger doors in dungeon by putting a block on a star tile?
     ; (or whatever 0x3b is?)
     JSR SomarianBlock_CheckCoveredTileTrigger : BCS .tile_collision_logic
@@ -304,7 +304,7 @@ Ancilla_SomarianBlock:
     CMP.b #$B6 : BEQ .transit_tiles
     CMP.b #$BC : BEQ .transit_tiles
     
-    ; \wtf... is this accurate disassembly?
+    ; WTF:... is this accurate disassembly?
     AND.b #$F0 : CMP.b #$B0 : BNE .transit_tiles
     
     .pit_tiles
@@ -481,10 +481,10 @@ Ancilla_SomarianBlock:
     
     CMP.w #$FFFF : BEQ .anoset_max_priority
     
-    ; \optimize Use bit instruction instead?
+    ; OPTIMIZE: Use bit instruction instead?
     LDA.w $0380, X : AND.w #$00FF : CMP.w #$0003 : BEQ .anoset_max_priority
     
-    ; \optimize Use bit instruction instead?
+    ; OPTIMIZE: Use bit instruction instead?
     LDA.w $0280, X : AND.w #$00FF : BEQ .anoset_max_priority
     
     LDA.w #$3000 : STA.b $64
@@ -524,7 +524,7 @@ Ancilla_SomarianBlock:
     
     JSR Ancilla_SetSafeOam_XY
     
-    ; \note Really? This is made out of 4 little sprites and not 1 big one?
+    ; NOTE: Really? This is made out of 4 little sprites and not 1 big one?
     ; I doesn't computer this amdfpaiosdfjadsofja. (Maybe it was a space
     ; limitation, but still...)
     LDA.b #$E9                                          : STA ($90), Y : INY
@@ -532,7 +532,7 @@ Ancilla_SomarianBlock:
     
     PHY : TYA : SEC : SBC.b #$04 : LSR #2 : TAY
     
-    ; \wtf(unconfirmed) .... compile time constant?
+    ; WTF:(unconfirmed) .... compile time constant?
     LDA.b #$00 : ORA.b $75 : STA ($92), Y
     
     PLY
@@ -671,7 +671,7 @@ Pool_SomarianBlock_PlayerInteraction:
     .launch_y_speeds
     db -40,  40,   0,   0
     
-    ; $0467c6 to $467d1 \unused
+    ; $0467c6 to $467d1 UNUSED:
     .unused_y_speeds
     db -32,  32,   0,   0
     db -16,  16,   0,   0
@@ -680,7 +680,7 @@ Pool_SomarianBlock_PlayerInteraction:
     .launch_x_speeds
     db  0,   0, -40,  40
     
-    ; $0467d6 to $467e1 \unused
+    ; $0467d6 to $467e1 UNUSED:
     .unused_y_speeds
     db  0,   0, -32,  32
     db  0,   0, -16,  16
@@ -829,7 +829,7 @@ SomarianBlock_PlayerInteraction:
     
     TYA : STA.w $0C72, X
     
-    ; \task Or does this mean movement in general?
+    ; TODO: Or does this mean movement in general?
     LDA.b $27 : BEQ .no_player_recoil
     
     LDA.b $28 : BNE .player_recoiling
@@ -841,9 +841,9 @@ SomarianBlock_PlayerInteraction:
     JSR Ancilla_MoveVert
     JSR Ancilla_MoveHoriz
     
-    ; \task Does this like.... mean if you walk up to a somarian block
+    ; TODO: Does this like.... mean if you walk up to a somarian block
     ; while you're holding something else it makes no noise?
-    ; \task Also, investigate why throwing a block and then dashing before
+    ; TODO: Also, investigate why throwing a block and then dashing before
     ; it stops bouncing slows down the player's dash speed to that of
     ; holding a block and walking.)
     LDA.w $0308 : AND.b #$80 : BNE .no_push_sfx
@@ -874,7 +874,7 @@ SomarianBlock_PlayerInteraction:
 ; $0468F3-$04698D BRANCH LOCATION
 SomarianBlock_InitDashBounce:
 {
-    ; \note Send the Somarian block flying from the impact of the dash
+    ; NOTE: Send the Somarian block flying from the impact of the dash
     ; attack.
     
     LDA.b $2F : LSR A : STA.w $0C72, X : TAY

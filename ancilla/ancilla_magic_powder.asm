@@ -141,7 +141,7 @@ Ancilla_MagicPowder:
     ASL A : STA $04
     
     ; Committing 4 sprite entries.
-    ; \optimize use direct page instead.
+    ; OPTIMIZE: use direct page instead.
     LDA.b #$03 : STA.w $0072
     
     LDY.b #$00
@@ -165,7 +165,7 @@ Ancilla_MagicPowder:
     
     LDX $0A
     
-    ; \bug(maybe) Is it possible that the game will read past the end of
+    ; BUG:(maybe) Is it possible that the game will read past the end of
     ; this array into the proceeding code?
     LDA .properties, X : AND.b #$CF : ORA $65 : STA ($90), Y : INY
     

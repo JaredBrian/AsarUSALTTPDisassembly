@@ -13322,7 +13322,7 @@ FilterColorsEndpoint:
         LDA.l $7EC500, X : STA !color
         
         LDA.l $7EC300, X : BEQ .color_is_pure_black
-            ; \note Makes it a multiple of 4... hrm...
+            ; NOTE: Makes it a multiple of 4... hrm...
             AND.w #$001F : ASL #2 : TAY
             
             LDA ($B7), Y : AND !bitFilter : BNE .noRedFilter
@@ -13331,7 +13331,7 @@ FilterColorsEndpoint:
 
             .noRedFilter
 
-            ; \note Also a multiple of 4.
+            ; NOTE: Also a multiple of 4.
             LDA.l $7EC300, X : AND.w #$03E0 : LSR #3 : TAY
             
             LDA ($B7), Y : AND !bitFilter : BNE .noGreenFilter

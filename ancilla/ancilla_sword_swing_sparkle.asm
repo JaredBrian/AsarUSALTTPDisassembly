@@ -1,7 +1,7 @@
 
 ; ==============================================================================
 
-    ; \note Each of these groupings corresponds to a different direction.
+    ; NOTE: Each of these groupings corresponds to a different direction.
     ; Interestingly enough, I think the chr and properties are identical
     ; for all 3 directions. No surprise there, I guess.
 ; $045596-$045659 DATA

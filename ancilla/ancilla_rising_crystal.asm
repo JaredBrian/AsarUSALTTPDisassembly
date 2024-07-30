@@ -1,5 +1,5 @@
 
-    ; \note This object doesn't self terminate. It must be that the
+    ; NOTE: This object doesn't self terminate. It must be that the
     ; polyhedral cyrstal submodule in the Dungoen module terminates it
     ; or related code does when gearing up to the leave the dungeon.
     

@@ -102,7 +102,7 @@ Ancilla_Boomerang:
     
     REP #$20
     
-    ; \bug While probably mostly harmless... this writes a 16-bit value
+    ; BUG: While probably mostly harmless... this writes a 16-bit value
     ; to an 8-bit location. Not a great thing to do!
     ; Cache the player's Y coordinate in a temporary variable.
     LDA $20 : STA.w $038A, X
@@ -169,7 +169,7 @@ Ancilla_Boomerang:
     
     LDY.b #$06
     
-    ; \wtf So only makes a different noise for the first key door? What
+    ; WTF: So only makes a different noise for the first key door? What
     ; happens when there are 2+ key doors in a room?
     LDA.w $03E4, X : CMP.b #$F0 : BEQ .not_key_door
     
@@ -191,7 +191,7 @@ Ancilla_Boomerang:
     
     CMP.b #$05 : BCS .draw
     
-    ; \wtf Is this an incomplete feature? Why is it necessary to speed
+    ; WTF: Is this an incomplete feature? Why is it necessary to speed
     ; up on certain frames, and the variable that controls this
     ; is not bounds checked in any way.
     DEC.w $0380, X

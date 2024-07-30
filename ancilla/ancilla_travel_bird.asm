@@ -286,7 +286,7 @@ Ancilla_TravelBird:
     
     REP #$20
     
-    ; \wtf(confirmed) Why does this object have to be a special snowflake?
+    ; WTF:(confirmed) Why does this object have to be a special snowflake?
     ; Why can't it just use altitude the way pretty much all other objects
     ; in the game do? >8^(
     LDA.w $029E, X : AND.w #$00FF : BEQ .treat_altitude_as_negative

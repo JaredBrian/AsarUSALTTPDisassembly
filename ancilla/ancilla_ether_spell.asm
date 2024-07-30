@@ -130,7 +130,7 @@ Ancilla_EtherSpell:
 
 ; ==============================================================================
 
-    ; \unused Doesn't seem referenced in the rom...
+    ; UNUSED: Doesn't seem referenced in the rom...
 ; $042B5B-$042B62 DATA
 Pool_EtherSpell_LightningDescends:
 {
@@ -159,7 +159,7 @@ EtherSpell_LightningDescends:
     
     REP #$20
     
-    ; \wtf What's so special about 0xE000? Is this a cheat code
+    ; WTF: What's so special about 0xE000? Is this a cheat code
     ; or something to prematurely end the spell?
     LDA $00 : CMP.w #$E000 : BCS .delay
     
@@ -406,7 +406,7 @@ Pool_EtherSpell_DrawBlitzBall:
 
 ; ==============================================================================
 
-    ; \note Draws the circular 
+    ; NOTE: Draws the circular 
 ; $042CED-$042D48 LOCAL JUMP LOCATION
 EtherSpell_DrawBlitzBall:
 {
@@ -637,7 +637,7 @@ Pool_EtherSpell_DrawBlitzSegments:
 
 ; ==============================================================================
 
-    ; \note 'Blitz' is German for lightning, and its shorter in characters,
+    ; NOTE: 'Blitz' is German for lightning, and its shorter in characters,
     ; and I thought it sounded semi-cool to use as a name for the component.
 ; $042E87-$042EDC LONG BRANCH LOCATION
 EtherSpell_DrawBlitzSegments:

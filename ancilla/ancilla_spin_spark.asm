@@ -170,7 +170,7 @@ Ancilla_SpinSpark:
     
     LDA.w $0C5E, X : TAX : CPX.b #$07 : BNE .never
     
-    ; \wtf(confirmed that this never seems to execute)
+    ; WTF:(confirmed that this never seems to execute)
     ; Possibly debug code or a dev dicking around that was never taken
     ; out.
     LDY.b #$03 : LDA.b #$01 : STA ($92), Y
@@ -184,7 +184,7 @@ Ancilla_SpinSpark:
 
 ; ==============================================================================
 
-; \note Takes the calculated radial projection and converts the values
+; NOTE: Takes the calculated radial projection and converts the values
 ; to screen relative coordinates (oam coordinates)
 ; $045A17-$045A4B LONG JUMP LOCATION
 Sparkle_PrepOamCoordsFromRadialProjection:

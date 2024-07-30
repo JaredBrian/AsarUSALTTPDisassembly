@@ -26,7 +26,7 @@ Ancilla_SomarianBlockDivide:
     
     LDY.b #$00
     
-    ; \wtf Where is this variable actually initialized or  set for this
+    ; WTF: Where is this variable actually initialized or  set for this
     ; object?
     LDA.w $0380, X : CMP.b #$03 : BNE .unsigned_player_altitude
     

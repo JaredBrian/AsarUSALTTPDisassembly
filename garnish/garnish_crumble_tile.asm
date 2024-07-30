@@ -13,7 +13,7 @@ Pool_Garnish_CrumbleTile:
     .oam_sizes
     db $00, $02, $02, $02, $02
     
-    ; \note The x and y offset is considered the same for this object, no
+    ; NOTE: The x and y offset is considered the same for this object, no
     ; fancy stuff going on here.
     .xy_offsets
     db 4, 0, 0, 0, 0

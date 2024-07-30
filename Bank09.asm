@@ -3063,7 +3063,7 @@ GameOver_IrisWipe:
     
     PLA : STA.b $10
     
-    ; \wtf Shouldn't $11 always be nonzero here? Or does that subroutine
+    ; WTF: Shouldn't $11 always be nonzero here? Or does that subroutine
     ; call set it to zero?
     LDA.b $11 : BNE .return
         REP #$20

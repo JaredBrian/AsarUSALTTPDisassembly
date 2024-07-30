@@ -5,7 +5,7 @@
 Pool_Garnish_LaserBeamTrail:
 {
     .chr
-    ; \note One is horizontal, the other is vertical.
+    ; NOTE: One is horizontal, the other is vertical.
     db $D2, $F3
 }
 

@@ -144,7 +144,7 @@ Ancilla_Bomb:
     
     .at_rest_x
     
-    ; \wtf I don't know what else to call this label, what are we
+    ; WTF: I don't know what else to call this label, what are we
     ; doing here? I realize that the perspective of this game is
     ; messed up, but what makes the downward physics handling so
     ; special that it needs all this adjustment?
@@ -607,13 +607,13 @@ Pool_Ancilla_LiftableObjectLogic:
     db   0,   0, -32,  32
     
     ; $04195A to $41961
-    ; \unused Presumably for testing throws and bounces
+    ; UNUSED: Presumably for testing throws and bounces
     .unused_throw_y_speeds
     db   8,   8,   0,   0
     db   4,   4,   0,   0
     
     ; $041962 to $41969
-    ; \unused Presumably for testing throws and bounces
+    ; UNUSED: Presumably for testing throws and bounces
     .unused_throw_x_speeds
     db   0,   0,   8,   8
     db   0,   0,   4,   4
@@ -622,7 +622,7 @@ Pool_Ancilla_LiftableObjectLogic:
     db 16, 16
     
     ; $04196c to $41971
-    ; \unused Presumably for testing throws and bounces
+    ; UNUSED: Presumably for testing throws and bounces
     .unused_postbounce_z_speeds
     db 16, 16, 8,  8,  8,  8
     
@@ -1103,7 +1103,7 @@ Ancilla_LiftableObjectLogic:
 
 ; ==============================================================================
 
-    ; \wtf Wait, so the bombs and somarian blocks simulate gravity by adjusting
+    ; WTF: Wait, so the bombs and somarian blocks simulate gravity by adjusting
     ; the Y coordinate? What?
     
 ; $041C7F-$041CC2 LOCAL JUMP LOCATION
@@ -1158,7 +1158,7 @@ Ancilla_Set_Y_Coord:
 
 ; ==============================================================================
 
-    ; \note I'd call this an absolute distance or a euclidean distance, but that
+    ; NOTE: I'd call this an absolute distance or a euclidean distance, but that
     ; would be totally wrong. This gets the sum of the difference of delta x 
     ; and delta y of the player and bomb coordinates.
     
@@ -1351,7 +1351,7 @@ Pool_Bomb_Draw:
     dw   1, -16
     dw   5,  -2
     
-    ; \note For future reference, this is used, somehow.
+    ; NOTE: For future reference, this is used, somehow.
     dw -20,   4
     dw -12, -19
     dw  -9,  16
@@ -1361,7 +1361,7 @@ Pool_Bomb_Draw:
     
     .oam_sizes
     
-    ; \note The entries that are '1' are designed to push the sprite
+    ; NOTE: The entries that are '1' are designed to push the sprite
     ; off screen, as in disable it from being viewed.
     db 2, 1, 1, 1, 1, 1
     db 0, 0, 0, 0, 1, 1
@@ -1485,7 +1485,7 @@ Bomb_Draw:
     
     REP #$20
     
-    ; \optimize Use constant folding to reduce by two instructions.
+    ; OPTIMIZE: Use constant folding to reduce by two instructions.
     LDA.w #$00D0 : CLC : ADC.w #$0800 : STA $90
     LDA.w #$0034 : CLC : ADC.w #$0A20 : STA $92
     

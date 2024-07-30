@@ -72,7 +72,7 @@ MorphPoof_Draw:
     
     LDA.w $0C7C, X : BEQ .use_default_oam_region
     
-    ; \wtf Why would we care if the boomerang is in play?
+    ; WTF: Why would we care if the boomerang is in play?
     LDA.w $035F : BEQ .no_boomerang_in_play
     
     LDA $1A : AND.b #$01 : BNE .use_default_oam_region
